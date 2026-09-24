@@ -620,3 +620,7 @@ end EFX
 #print axioms EFX.LB.BadCase.rot_NA
 #print axioms EFX.LB.BadCase.rot_exposed
 #print axioms EFX.LB.theoremB
+#print axioms EFX.LB.BadCase.rot_valid
+#print axioms EFX.LB.BadCase.rot_term
+#print axioms EFX.LB.BadCase.rot_pair
+#print axioms EFX.LB.BadCase.rot_count

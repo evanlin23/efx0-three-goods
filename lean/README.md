@@ -21,7 +21,7 @@ standard ones, if the number of certificates differs from the number of `#print 
 declaration of the library (certified or not; `CheckAxioms.lean`) depends on another axiom. On success the last
 line is
 
-    CHECK PASSED: 28 audited statements, 94 theorems, standard axioms only
+    CHECK PASSED: 56 audited statements, 228 theorems, standard axioms only
 
 CI runs it on every pull request (job `lean` in `.github/workflows/verify.yml`). In Claude Code on the web the
 session-start hook installs the toolchain (from GitHub when `release.lean-lang.org` is unreachable).
@@ -89,6 +89,9 @@ each agent's values by a common denominator.
   goods).
 - `scripts/lb_crosscheck.py`: evidence, not proof, that `EFX.LB.lb` computes what `src/construct.py` computes
   (runs both on every ranking profile of the given connected cores, with Python's Phase 1 order, and compares).
+- `EFX/PreAlloc.lean`, `EFX/Blocks.lean`, `EFX/OwnerR.lean`, `EFX/Rotation.lean`, `EFX/LBPlus.lean`,
+  `EFX/CorollaryD.lean`, `EFX/Target.lean`: construction LB⁺, conjecture D and TARGET
+  (`proofs/lb_last_step.md`); see the section below.
 - `CheckAxioms.lean`: the all-declarations axiom check.
 
 ## Correspondence with the ledger
@@ -111,6 +114,13 @@ name in the ledger's Lean column has one.
 | L8 | The balance hypothesis is necessary: a top-heavy agent holding two of its goods can be unsafe | TwoOwnGoods : `EFX.balance_needed` |
 | S2.S | Theorem 1, abstract form: an allocation built from picks satisfying (I1), with upgraded, frozen and slot-filled bundles and an owner bundle satisfying the owner constraint (`EFX.LB.Hyp`), is EFX₀ for every additive valuation consistent with the rankings, and every bundle but the owner's has at most two goods | LBSound : `EFX.LB.Hyp.efx0`, `EFX.LB.Hyp.length_le_two` (over lists), `EFX.LB.sound` (model) |
 | S2.S | Theorem 1: every allocation construction LB returns (Phase 1 in any processing order) is EFX₀ for every additive valuation consistent with the rankings, and at most one of its bundles has more than two goods | LBRun : `EFX.LB.lb_sound` (over lists), `EFX.LB.lb_sound_model` (model); `EFX.LB.lb_hyp` (LB's output satisfies `Hyp`), `EFX.LB.phase1_spec` (Phase 1 satisfies (I1)) |
+| S2.R | Theorem A: after Phase 1 (any order with R1 priority) and LB's upgrades, the last agent not upgraded, `r`, is a valid owner (Lemma 1 applies, with `H = hitSet`) unless the bad case holds | OwnerR : `EFX.LB.theoremA`; `EFX.LB.lastOut_terminal` (A1), `EFX.LB.exposed_lead` (A3), `EFX.LB.chainEnd_spec` (A4) |
+| S2.LB+ | Theorem 1′: every completion of a valid pre-allocation satisfying the owner constraint is EFX₀ for every consistent valuation, and only the owner's bundle can exceed two goods | PreAlloc : `EFX.LB.Valid.sound` (via `EFX.LB.HypNA.efx0`); Lemma 1: `EFX.LB.complete_some`, `EFX.LB.complete_none` |
+| S2.LB+ | Theorem B: in the bad case, the rotation along the need chain from `k*` to `r` gives a valid pre-allocation of which `k*` is a valid owner | Rotation : `EFX.LB.theoremB` |
+| S2.LB+ | Theorem C: for every processing order of Phase 1 with R1 priority, LB⁺ returns a complete allocation, EFX₀ for every consistent valuation, with at most one bundle of more than two goods | LBPlus : `EFX.LB.lbPlus_sound` (over lists), `EFX.LB.lbPlus_sound_model` (model); Blocks : `EFX.LB.phase1_run`, `EFX.LB.lbState_valid` |
+| D | Corollary D: every instance in which every agent values exactly three goods and is balanced has an EFX₀ allocation with at most one bundle of more than two goods | CorollaryD : `EFX.LB.corollaryD` (model), `EFX.LB.corollaryD_lists` (over lists) |
+| T | CORE: if every core with at most `N` agents has an EFX₀ allocation, so does every instance with at most `N` agents and `\|R_i\| ≤ 3` (L3, R1, R2 by induction) | Target : `EFX.core_reduction` (over lists) |
+| T | TARGET (Corollary T): every instance with `\|R_i\| ≤ 3` for every agent has a complete EFX₀ allocation | Target : `EFX.target` (model), `EFX.target_lists` (over lists) |
 | — | The list layer agrees with the model | Bridge : `EFX.Inst.efx0_iff` |
 
 mrd-efx proves a stronger form of L2c (`MRD.main_theorem_L`: in addition, all bundles but one have at most one
@@ -121,7 +131,7 @@ good), and extends it to monotone valuations.
 - The second half of L8: that a β = 1 core has an allocation giving every agent two of its own goods (its private
   good and the next shared good around the cycle). The graph structure of cores (L4, L6, L7, L11) is not
   formalized.
-- L1, L4–L7 and L9–L11, and the reduction to cores (CORE: iterate L2 and L3 until nothing applies).
+- L1, L4–L7 and L9–L11. (The reduction to cores, CORE, is formalized: `EFX.core_reduction`.)
 - The peeling theorems are stated over lists: removing an agent and its goods changes the index types `Fin n`, `Fin m`,
   so a model-level statement needs sub-instances. `EFX.Inst.efx0_iff` connects the two for the full instance.
 - Real-valued utilities (natural numbers in Lean, as in mrd-efx).
@@ -131,3 +141,47 @@ good), and extends it to monotone valuations.
   large bundle) is not formalized. `EFX.LB.lb_sound` reads its conclusion through the definitions of
   `EFX/LBRun.lean` (what `lb` computes) and `EFX.LB.Profile.Consistent`, which a reader must accept along with the
   trusted base; `EFX.LB.sound` needs only `Profile.Consistent`, `Profile.NA` and `Hyp`.
+- LB⁺ (`proofs/lb_last_step.md` §7 and Remark 1): the size of the large bundle (`ω + 2` goods), that the rotation
+  does not enlarge it, and S2.LB (LB's own lookahead never reaches the bad case, a conjecture). That `EFX.LB.lbPlus`
+  computes what `src/lbplus.py` computes is checked only on the two `decide` examples in `EFX/LBPlus.lean`.
+
+## LB⁺, conjecture D and TARGET (`proofs/lb_last_step.md`)
+
+Where each part of `proofs/lb_last_step.md` (PR #13) is formalized. Every statement below holds for every
+processing order of Phase 1 with R1 priority, so for every insertion rule, tie-break and labelling.
+
+| `lb_last_step.md` | Lean (file : name) |
+|---|---|
+| §1 Phase 1: R1 steps, insertion steps, any choices | Blocks : `EFX.LB.R1Prio` (an order with R1 priority), `EFX.LB.phase1` (from `EFX/LBRun.lean`) |
+| §1 (I1), (B2); (I3); blocks and leaders | Blocks : `EFX.LB.Run` (`b2`, `i3`, `lead_unique`, `first`), `EFX.LB.phase1_run`; `blkAux`, `leadB`. (I2) and (B1) are used only through (B2) |
+| §2 pre-allocations, (V1), (V2), completions, (OC) | PreAlloc : `EFX.LB.Valid`, `EFX.LB.Completion` |
+| §2 Theorem 1′ | PreAlloc : `EFX.LB.Valid.sound`; `EFX.LB.HypNA` generalizes `EFX.LB.Hyp` ((I1) weakened to "every NA good is picked"), `EFX.LB.Hyp.toHypNA` |
+| §2 Lemma 1 (owner criterion); completion without owner | PreAlloc : `EFX.LB.complete_some`, `EFX.LB.complete_none` (the completion `EFX.LB.complete`); OwnerR : `EFX.LB.OwnerOK` bundles Lemma 1's hypotheses |
+| §3 LB's state is a valid pre-allocation; (UT) | Blocks : `EFX.LB.lbState_valid`, `EFX.LB.upgrades_fix` |
+| §4 (A1), (A3), (A4) | OwnerR : `EFX.LB.lastOut_terminal`, `EFX.LB.exposed_lead` and `EFX.LB.exposed_blk_inj`, `EFX.LB.chainEnd_spec` |
+| §4 Theorem A, the bad case | OwnerR : `EFX.LB.theoremA`, `EFX.LB.Bad`, `EFX.LB.kstar_spec` |
+| §5 Theorem B, (a)–(g) | Rotation : `EFX.LB.theoremB`; `BadCase.rot_valid` (a, c), `BadCase.rot_NA` (b), `BadCase.rot_term` (d), `BadCase.rot_exposed` (e), `BadCase.rot_pair` (f), `BadCase.rot_count` (g) |
+| §6 LB⁺, Theorem C | LBPlus : `EFX.LB.lbPlus`, `EFX.LB.lbPlus_sound`, `EFX.LB.lbPlus_sound_model` |
+| §6 Corollary D | CorollaryD : `EFX.LB.corollaryD`, `EFX.LB.corollaryD_lists` |
+| §6 Corollary T, with the CORE theorem of `proofs/lemmas.md` | Target : `EFX.target`, `EFX.target_lists`, `EFX.core_reduction` |
+
+The final statements use only the trusted base: `EFX.target` assumes `0 < I.n` and `numRelevant I i ≤ 3` for every
+agent and concludes `∃ X, I.EFX0 X`; `EFX.LB.corollaryD` assumes `0 < I.n`, `numRelevant I i = 3` and balance
+`2 * I.v i g ≤ finSum I.m (I.v i)` for every agent and good, and concludes an EFX₀ `X` and an agent `o` such that
+every other bundle has at most two goods (counted with `finSum`). `EFX.LB.lbPlus_sound_model` also needs the
+definitions of `EFX/LBPlus.lean` (what LB⁺ computes), `EFX.LB.R1Prio` and `EFX.LB.Profile.Consistent`.
+
+Differences from the written text, all deliberate:
+- Phase 1's choices are an argument: a processing order with `R1Prio`. Every run of §1 is one, and conversely.
+- `B*` is defined as `r`'s block; (A2), which says it is the last block, is not needed.
+- The bad case (`EFX.LB.Bad`) uses one need chain, the one `EFX.LB.chainEnd` follows (at each step the first agent,
+  in processing order, that needs the current pick; the chain `src/lbplus.py` rotates along). The written bad case
+  asks that *every* need chain from `k*` end at `r`, so the Lean Theorem A is (weakly) stronger.
+- LB⁺ decides between owner `r` and the rotation by the bad-case condition itself, and builds `H` by
+  `EFX.LB.hitSet` (one good per exposed pair; one shared good for one pair of meeting pairs, found by
+  `EFX.LB.meet`). `src/lbplus.py` instead tests `|H| ≤ S − cap(r)` for a greedy `H`, so the two may rotate on
+  different runs; both are covered by the written Theorem C, and the Lean one by `EFX.LB.lbPlus_sound`.
+- Balance with ties: valuations consistent with the rankings have `a ≥ b ≥ c > 0` and `a ≤ b + c`
+  (`Profile.Consistent`), and Corollary D assumes `2 v_i(g) ≤ v_i(M)`, which core agents satisfy strictly.
+- TARGET assumes at least one agent: with no agent, an allocation exists only when there is no good.
+- The CORE theorem is stated over lists (removing agents and goods changes the index types of the model).

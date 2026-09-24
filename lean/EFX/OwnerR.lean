@@ -748,3 +748,5 @@ end EFX
 #print axioms EFX.LB.chainEnd_spec
 #print axioms EFX.LB.exposed_lead
 #print axioms EFX.LB.theoremA
+#print axioms EFX.LB.exposed_blk_inj
+#print axioms EFX.LB.kstar_spec

@@ -538,3 +538,4 @@ end EFX
 
 #print axioms EFX.LB.phase1_run
 #print axioms EFX.LB.lbState_valid
+#print axioms EFX.LB.upgrades_fix
