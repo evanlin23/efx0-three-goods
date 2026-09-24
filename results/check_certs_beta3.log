@@ -1,0 +1,28 @@
+$ python tools/check_certs.py results/certs_beta3_3.json.gz --expect 3:4:2 --require-d
+checked 2 hypergraphs {(3, 4): 2}, models {'beta3-construction': 2}; problems: 0
+exit=0  [0s]
+
+$ python tools/check_certs.py results/certs_beta3_4.json.gz --expect 4:6:16 --require-d
+checked 16 hypergraphs {(4, 6): 16}, models {'beta3-construction': 16}; problems: 0
+exit=0  [0s]
+
+$ python tools/check_certs.py results/certs_beta3_5.json.gz --expect 5:8:62 --require-d
+checked 62 hypergraphs {(5, 8): 62}, models {'beta3-construction': 62}; problems: 0
+exit=0  [1s]
+
+$ python tools/check_certs.py results/certs_beta3_6.json.gz --expect 6:10:211 --require-d
+checked 211 hypergraphs {(6, 10): 211}, models {'beta3-construction': 211}; problems: 0
+exit=0  [1s]
+
+$ python tools/check_certs.py results/certs_beta3_7.json.gz --expect 7:12:541 --require-d
+checked 541 hypergraphs {(7, 12): 541}, models {'beta3-construction': 541}; problems: 0
+exit=0  [15s]
+
+$ python tools/check_enum.py results/certs_beta3_{3..7}.json.gz
+results/certs_beta3_3.json.gz: (n,m)=(3,4): 2 hypergraphs, orbit sum 60, labeled connected cores 60 -> complete
+results/certs_beta3_4.json.gz: (n,m)=(4,6): 16 hypergraphs, orbit sum 89280, labeled connected cores 89280 -> complete
+results/certs_beta3_5.json.gz: (n,m)=(5,8): 62 hypergraphs, orbit sum 128217600, labeled connected cores 128217600 -> complete
+results/certs_beta3_6.json.gz: (n,m)=(6,10): 211 hypergraphs, orbit sum 235146240000, labeled connected cores 235146240000 -> complete
+results/certs_beta3_7.json.gz: (n,m)=(7,12): 541 hypergraphs, orbit sum 578394432000000, labeled connected cores 578394432000000 -> complete
+problems: 0
+exit=0  [3s]

@@ -28,8 +28,9 @@ what those cases need. (Among the β = 3 cores with n = 6, 143 of 211 have q ≤
 **Cross-check of the whole construction** (evidence, not part of the proof): `src/beta3.py` runs the construction
 step by step (Q-plan, orientations, multi-collector switching) and asserts every intermediate claim;
 `src/verify_beta3.py` runs it on every connected β = 3 core with n = 3, …, 7 (2, 16, 62, 211, 541 cores) and every
-ranking profile, and checks each output against the raw EFX₀ definition and the one-large-bundle condition
-(`results/verify_beta3.log`). The distinct allocations are saved as `results/certs_beta3_{3..7}.json.gz` and accepted
+ranking profile, 161,793,072 core–profile pairs, and checks each output against the raw EFX₀ definition and the
+one-large-bundle condition: 0 failures, no claim of the proof violated (`results/verify_beta3.log`, 27 minutes on
+4 CPUs). The distinct allocations are saved as `results/certs_beta3_{3..7}.json.gz` and accepted
 by the SAT-free checker `tools/check_certs.py --require-d` (`results/check_certs_beta3.log`).
 
 ## 0. Conventions
@@ -344,8 +345,10 @@ Cores without Q-agents are covered by Corollary 3. This proves Lemma 7.
   (4,0,1), (2,4,3), (2,4,3): Q-plan Y = {0}, {2}, {4} for agents 1, 2, 3 (a b-pin, an a-pin, a b-pin whose top 2 is
   held by agent 2), spare 3, no active component, dump target {1}, the head of agent 0: allocation {1, 3, 5}, {0},
   {2}, {4}).
-- **How much the pieces are used**: see the per-q tallies (kind of large bundle, largest size, collector switches) in
-  `results/verify_beta3.log`.
+- **How much the pieces are used** (n = 7, all 151,445,376 core–profile pairs): the large bundle is the main
+  collector's in 58% of them, a dump target's in 22% (a Q-agent's in 0.4%), and in 20% every bundle has at most two
+  goods. The largest bundle has 6 goods (a collector's; dump targets: at most 4). The multi-collector switching
+  needs up to 5 switches; 81% of the pairs need none. Per-q tallies are in `results/verify_beta3.log`.
 
 ## 7. Scope and what is open
 
