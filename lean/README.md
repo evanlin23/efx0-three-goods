@@ -58,7 +58,7 @@ In `EFX/Model.lean` the docstring of `numRelevant` reads "The counting form of 2
 `|R_i| ≤ 2`": it is inherited verbatim from mrd-efx, whose theorem is about two goods. The definition counts the
 goods `g` with `0 < v i g` and has nothing to do with the bound 2 (`Model.lean` is left untouched, as copied).
 
-Values are natural numbers. EFX₀ only compares sums of values, so rational instances reduce to these by scaling
+Values are natural numbers (nonnegative real values reduce to them by L12, `proofs/real_values.md`). EFX₀ only compares sums of values, so rational instances reduce to these by scaling
 each agent's values by a common denominator.
 
 ## Contents
@@ -124,7 +124,7 @@ name in the ledger's Lean column has one.
 | S2.LB+ | Theorem C: for every processing order of Phase 1 with R1 priority, every upgrade order, every need chain and every completion satisfying (OC), LB⁺'s output is a complete allocation, EFX₀ for every consistent valuation, with at most one bundle of more than two goods; an output always exists, and in the rotation branch every need chain from `k*` to `r` gives one | LBPlus : `EFX.LB.lbPlusRun_sound`, `EFX.LB.lbPlusOut_exists`, `EFX.LB.lbPlusOut_exists_chain`, `EFX.LB.lbPlus_sound` (the computable LB⁺, over lists), `EFX.LB.lbPlus_sound_model` (model); Blocks : `EFX.LB.phase1_run`, `EFX.LB.upFinal_valid` |
 | D | Corollary D: every instance in which every agent values exactly three goods and is balanced has an EFX₀ allocation with at most one bundle of more than two goods | CorollaryD : `EFX.LB.corollaryD` (model), `EFX.LB.corollaryD_lists` (over lists) |
 | T | CORE: if every core with at most `N` agents has an EFX₀ allocation, so does every instance with at most `N` agents and `\|R_i\| ≤ 3` (L3, R1, R2 by induction) | Target : `EFX.core_reduction` (over lists) |
-| T | TARGET (Corollary T): every instance with `\|R_i\| ≤ 3` for every agent has a complete EFX₀ allocation; values in ℕ (ℚ by scaling; ℝ by the standard reduction, written, not formalized: see "Not formalized") | Target : `EFX.target` (model), `EFX.target_lists` (over lists) |
+| T | TARGET (Corollary T): every instance with `\|R_i\| ≤ 3` for every agent has a complete EFX₀ allocation; values in ℕ, real values by L12 (`proofs/real_values.md`, written) | Target : `EFX.target` (model), `EFX.target_lists` (over lists) |
 | — | The list layer agrees with the model | Bridge : `EFX.Inst.efx0_iff` |
 
 mrd-efx proves a stronger form of L2c (`MRD.main_theorem_L`: in addition, all bundles but one have at most one
@@ -138,15 +138,8 @@ good), and extends it to monotone valuations.
 - L1, L4–L7 and L9–L11. (The reduction to cores, CORE, is formalized: `EFX.core_reduction`.)
 - The peeling theorems are stated over lists: removing an agent and its goods changes the index types `Fin n`, `Fin m`,
   so a model-level statement needs sub-instances. `EFX.Inst.efx0_iff` connects the two for the full instance.
-- Real-valued utilities. Values are natural numbers in Lean, as in mrd-efx; rational values reduce to them by
-  scaling each agent's values by a common denominator. Real values reduce to rational ones by a standard argument,
-  written here and not formalized. For a fixed allocation, EFX₀ and `numRelevant` depend only on the signs of
-  finitely many linear forms in the values: the comparisons `v_i(S) − v_i(T)` for bundles `S`, `T` (with a good
-  removed) and the values `v_i(g)`. Given a real instance, the set of valuations with the same sign pattern on all
-  these forms (for all allocations) is a nonempty polyhedron, cut out by strict and weak linear inequalities with
-  rational (integer) coefficients, so it contains a rational point; scaled to natural numbers, it is an instance
-  with the same relevant goods, to which `EFX.target` applies. The allocation it returns is EFX₀ for the rational
-  point, hence, having the same sign pattern, for the real instance.
+- Real-valued utilities: values are natural numbers in Lean, as in mrd-efx; nonnegative real values reduce to them by
+  L12 (`proofs/real_values.md`, written, not formalized).
 - S2.S: LB's rule for choosing Phase 1's processing order (R1 keys, insertion lookahead); the theorems hold for
   every order. That `EFX.LB.lb` is the algorithm of `src/construct.py` is checked by running both
   (`scripts/lb_crosscheck.py`), not proved. That LB never fails (S2.LB) is a conjecture. Lemma 2 (the size of the
