@@ -5,14 +5,14 @@ The single source of truth. A status changes only in a pull request that adds th
 | ID | Claim | Status | Artifact | Lean | Notes |
 |---|---|---|---|---|---|
 | L1 | For fixed (n, m): EFX₀ for all additive instances ⟺ EFX for all positive additive instances | PROVED | `proofs/lemmas.md` | | sketch; expand in Step 0 |
-| L2 | Peeling rules R1 and R2 | PROVED | `proofs/lemmas.md` | `EFX.peel` | Lean: R1 only (over lists). `src/lemmas.py`: 1,500 random instances through the pipeline, 0 failures |
+| L2 | Peeling rules R1 and R2 | PROVED | `proofs/lemmas.md` | `EFX.peel`, `EFX.peelEmpty`, `EFX.peelR2`, `EFX.peelBundle` | Lean (over lists): R1, R1 with P = ∅, R2 (without its unused hypothesis that P has ≥ 2 goods), and the general peeling step that R2 and R1 with P = ∅ instantiate. `src/lemmas.py`: 1,500 random instances through the pipeline, 0 failures |
 | L2c | ≤ 2 relevant goods per agent ⟹ EFX₀ (serial dictatorship; the HW1 theorem) | PROVED | `proofs/lemmas.md` | `EFX.exists_efx0_of_count` | stronger form (all bundles but one have ≤ 1 good) machine-checked in evanlin23/mrd-efx: `MRD.main_theorem_L` |
-| L3 | Worthless goods go to an envy-graph source | PROVED | `proofs/lemmas.md` | | same pipeline test |
+| L3 | Worthless goods go to an envy-graph source | PROVED | `proofs/lemmas.md` | `EFX.junk`, `EFX.Inst.exists_efx0_of_junk`, `EFX.rotate_efx0`, `EFX.exists_unenvied` | same pipeline test. Lean: over lists and in the model; rotation preserves EFX₀, and rotating envy cycles reaches an allocation with an unenvied agent |
 | L4 | Core counting: 3n = 2m − π + Σ(deg − 2), so m ≤ 2n | PROVED | `proofs/lemmas.md` | | |
 | L5 | In a core, EFX₀ is ordinal and equals cases T/P/B/C/E | PROVED | `proofs/lemmas.md` | | `src/coreG.py`: 896,400 allocations vs. the definition, 0 mismatches |
 | L6 | Disconnected cores are solved component by component | PROVED | `proofs/lemmas.md` | | |
 | L7 | β = 2n − m + 1; alone-goods identity | PROVED | `proofs/lemmas.md` | | |
-| L8 | Two own goods ⟹ safe; β = 1 cores solved by orientation | PROVED | `proofs/lemmas.md` | | |
+| L8 | Two own goods ⟹ safe; β = 1 cores solved by orientation | PROVED | `proofs/lemmas.md` | `EFX.Inst.safe_of_two_own`, `EFX.envyFree_of_two_own`, `EFX.Inst.efx0_of_two_own`, `EFX.balance_needed` | Lean: the first half, for agents with a ≤ b + c (all core agents), and "every agent holds two own goods ⟹ EFX₀". Balance is necessary (`EFX.balance_needed`: a top-heavy counterexample). Not formalized: that a β = 1 core admits such an allocation |
 | L9 | Bundles ≤ 2: EFX₀ ⟺ every good in another's 2-good bundle is worth ≤ own bundle | PROVED | `proofs/lemmas.md` | | basis of `src/verify_fail.py` |
 | L10 | Insertion lemma | PROVED | `proofs/lemmas.md` | | |
 | L11 | Cores are subdivisions of finitely many shapes per β; β = 2: theta, dumbbell, figure-eight | PROVED | `proofs/lemmas.md` | | |
