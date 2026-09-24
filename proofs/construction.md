@@ -88,6 +88,17 @@ Results (LB never fails; "large" = outputs with a bundle of ≥ 3 goods, by its 
 
 Logs: `results/construct_2_5.log`, `results/construct_6.log` (with the Python comparison), `results/construct_6_cert.log`, `results/construct_disconnected_4_6.log`.
 
+Reproduce (from `src/`; `construct_run.py` compiles `construct.c` with gcc; times on 4 CPUs):
+```
+python construct_run.py 5 --python=1                      # n = 5, every m, C vs Python: ~2 min
+python construct_run.py 6 --python=10                     # n = 6, every m, Python on every 10th core: ~15 min
+python construct_run.py 6 --cert=certs.json.gz            # C only, with a certificate: ~2 min
+python ../tools/check_certs.py certs.json.gz --require-d  # SAT-free re-check
+python construct_run.py 6 --disconnected --python=1       # disconnected cores: ~10 min
+python construct_run.py 7 11                              # one n = 7 level: ~15 min
+python large_bundle.py structure 5 7 8 9                  # §5; also c2, relate, canon, margin
+```
+
 **Theorem 3 (certified; ledger S2.N6).** Construction LB never fails on a core with at most 6 agents, connected or not, with any number of goods. With Theorem 1, every such core has an EFX₀ allocation in which at most one bundle has more than two goods. This is a second, constructive certification of R3 (Step 0 certified it with SAT-found allocations), and it again gives R1 without Mahara's m ≤ n + 3 theorem.
 
 **Beyond n = 6 (exhaustive, not certified).** LB never fails on any connected core with n = 7 and m ∈ {10, …, 14} (12,251 cores, 3,429,495,936 core–profile pairs), nor with n = 8 and m ∈ {15, 16} (53 cores, 89,019,648 pairs) (`results/construct_7.log`, `results/construct_8.log`). Every output is checked by the raw check in `construct.c`, but no certificate file is stored, so these are not CERTIFIED in the ledger's sense.
