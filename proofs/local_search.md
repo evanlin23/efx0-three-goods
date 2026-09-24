@@ -1,10 +1,11 @@
-# EFX₀ in cores by local search (Theorem C: every core has an EFX₀ allocation, hence TARGET)
+# EFX₀ in cores by local search (Theorem C: every core has an EFX₀ allocation with at most one bundle of more than two goods; hence TARGET and conjecture D)
 
 Workstream `proof/local-search`. This route to TARGET does not go through conjecture D. It keeps a partial EFX₀ allocation of a core and applies moves that raise a potential, like the existence proofs for identical valuations, three agents, multigraphs and hypergraphs of girth ≥ 4 listed in `proofs/citations.md`. None of those papers was read for this work; their methods are known here only from the summaries in `proofs/citations.md`, and nothing below depends on them.
 
 **Main result.**
-- **Theorem C (§4).** For every core and every balanced ranking profile, Algorithm LS2 computes a complete EFX₀ allocation within 7n Phase-1 steps.
-- With the reduction to cores (`proofs/lemmas.md`, CORE), this proves **TARGET**: every additive instance in which each agent values at most three goods positively has an EFX₀ allocation.
+- **Theorem C (§4).** For every core and every balanced ranking profile, Algorithm LS2 computes a complete EFX₀ allocation within 7n Phase-1 steps. In it, at most one bundle has more than two goods.
+- This proves **conjecture D** for every core, connected or not.
+- With the reduction to cores (`proofs/lemmas.md`, CORE), it also proves **TARGET**: every additive instance in which each agent values at most three goods positively has an EFX₀ allocation.
 
 Algorithm LS2 has two phases.
 - **Phase 1** keeps a *junk-free* partial EFX₀ allocation: every allocated good is valued by its holder. It applies seven kinds of Pareto improvement, and the sum of levels (a potential ≤ 7n) rises at every step.
@@ -134,7 +135,7 @@ If none applies, Phase 1 stops.
   - Take a one-good source s* that M leaves unmatched, and let T consist of s* and the one-good sources reachable from s* by M-alternating paths s → u → M(u) with u ∈ D(s).
   - Add each u ∈ D(T) to Y_{M(u)}, and add every other good of U to Y_{s*}.
 
-**Theorem C.** Algorithm LS2 terminates after at most 7n steps of Phase 1 and outputs a complete allocation that is EFX₀ for every balanced additive valuation consistent with the profile. Hence every core has an EFX₀ allocation, including cores with ties (by L5 (iv)).
+**Theorem C.** Algorithm LS2 terminates after at most 7n steps of Phase 1. It outputs a complete allocation that is EFX₀ for every balanced additive valuation consistent with the profile, and in which at most one bundle has more than two goods. Hence every core has such an allocation, including cores with ties (by L5 (iv)).
 
 *Proof.* Throughout, Y is junk-free and EFX₀. This holds at the start (the empty allocation). Its decisions use only the ranking profile (Lemma 1, levels), so it suffices to argue for one valuation.
 
@@ -204,15 +205,30 @@ It remains to check that case (b) is well defined.
 - M(u) ∈ T, since the alternating path continues through M(u).
 - s* is unmatched, so M(u) ≠ s*. ∎
 
-Claims 1–4 prove Theorem C. ∎
+**Claim 5 (shape).** Every bundle of Y has at most two goods throughout Phase 1, and the output has at most one bundle of more than two goods.
 
-**Corollary (TARGET).** Every additive instance in which every agent values at most three goods positively has an EFX₀ allocation.
+*Proof.* Every Phase-1 step creates only bundles of the following kinds:
+- singletons (step 1);
+- sets of two goods (steps 3, 4, 5, and the sets {u, y} of steps 6 and 7);
+- subsets of existing bundles (steps 2, 6, 7).
+
+So by induction every bundle of Y has at most two goods. Phase 2 (a) adds goods to one bundle only. Phase 2 (b) adds exactly one good to each of the sources M(u), u ∈ D(T), which had one good each, and all remaining goods to Y_{s*}. So every bundle other than X_e (case (a)) or X_{s*} (case (b)) has at most two goods. ∎
+
+Claims 1–5 prove Theorem C. ∎
+
+**Corollary 1 (conjecture D).** Every core, connected or not, has an EFX₀ allocation in which at most one bundle has more than two goods.
+
+*Proof.* Theorem C, with L5 (iv) for cores whose values have ties. ∎
+
+**Corollary 2 (TARGET).** Every additive instance in which every agent values at most three goods positively has an EFX₀ allocation.
 
 *Proof.* By the CORE reduction (`proofs/lemmas.md`, "CORE: reduction of TARGET to cores"), it suffices that every core has an EFX₀ allocation. That is Theorem C. Connectivity is not needed, so L6 is not used. ∎
 
 *Remarks.*
 1. LS2 runs in polynomial time. There are at most 7n Phase-1 steps. Each step needs the envy graph, its reachability relation, the dirty triples (O(n²m)) and one bipartite matching. The reduction to cores is polynomial as well.
-2. Theorem C gives no bound on bundle sizes. LS2 can put many goods into s* or into an empty bundle, so it says nothing about conjecture D's shape (at most one bundle of more than two goods). The certificates of §5 happen to satisfy D's shape only in part (see the logs).
+2. The large bundle is X_{s*}, consisting of s*'s single good plus junk, or in case (a) the formerly empty agent's bundle, which is junk only. Either way, every good of U in it is worthless to its holder (Claim 2 (e); Claim 4 for case (a)).
+3. D for disconnected cores was open beyond n ≤ 6 (ledger R3; `proofs/lemmas.md`, note after L6). Theorem C does not use connectivity, so it settles that case too.
+4. The CORE reduction peels agents (L2) and gives junk to a source (L3). So for a general instance with |R_i| ≤ 3 the final allocation can have further large bundles: the junk bundle of L3, and the peeled bundles P of rule R2. D is a statement about cores only.
 
 ## 5. Computational corroboration of Theorem C (not part of the proof)
 
@@ -220,8 +236,9 @@ Claims 1–4 prove Theorem C. ∎
   - After every Phase-1 step it asserts that Y is EFX₀ (Lemma 1), that Σℓ increased, and that there is no junk.
   - It aborts if Claim 2 (h) or the Hall step ever fails.
   - It checks the output against the RAW definition with two balanced realizations.
+  - It also asserts that every Phase-1 bundle has at most two goods, and that every output has at most one bundle of more than two goods (Claim 5).
   - Result: 146,640,096 runs (n = 2, …, 6), with no failure (`results/ls_alg_2_6.log`). Step 7, the augmented envy cycle, is used: 24 times at n = 4, 1,160 at n = 5, and 59,700 at n = 6; the champion step 6 is used 14,384,250 times at n = 6, and no run needs more than 22 Phase-1 steps (the bound is 7n = 42).
-- **Certificates.** The distinct outputs per core are saved as `results/certs_ls2_2_5.json.gz` and `results/certs_ls2_6.json.gz`. The SAT-free checker `tools/check_certs.py`, written independently of this work, confirms from the raw EFX₀ definition that they cover every profile of every core (`results/check_certs_ls2.log`).
+- **Certificates.** The distinct outputs per core are saved as `results/certs_ls2_2_5.json.gz` and `results/certs_ls2_6.json.gz`: 372,378 allocations over 3,436 cores. The SAT-free checker `tools/check_certs.py`, written independently of this work, confirms from the raw EFX₀ definition that they cover every profile of every core. With `--require-d` it also confirms that every stored allocation has at most one bundle of more than two goods (`results/check_certs_ls2.log`). The largest bundle has 5 goods for n ≤ 5 and 6 goods for n = 6.
 - **Independent Python implementation.** `python src/local_search.py pyalg n` and `pyrandom` (function `ls2_numeric`) implement LS2 again from numeric valuations. Every decision (envy, steps, matching) uses the numbers, not the ordinal rule, and every step is checked by the raw definition and for being a Pareto improvement.
   - Exhaustive: every profile of every connected core with n ≤ 5 (realization (4, 3, 2)); 0 failures (`results/ls_alg_py.log`).
   - Random: 39,150 random cores, not necessarily connected (1,000 for each n = 2, …, 40, 100 for n = 50, 50 for n = 100), with independent random real balanced values; 0 failures, at most 124 Phase-1 steps (`results/ls_alg_py.log`).
@@ -268,7 +285,7 @@ Every move is a Pareto improvement with some agent strictly better, so Σℓ str
 
 **Phase 2** places U as junk: each u ∈ U goes to an agent that does not value it.
 
-**Placement conjecture TP.** For every connected core, every ranking profile and every stable junk-free EFX₀ partial allocation Y with U ≠ ∅, U can be placed as junk so that the complete allocation is EFX₀.
+**Placement statement TP** (formerly a conjecture; it follows from Claims 2–4 of §4, see the introduction of §6). For every connected core, every ranking profile and every stable junk-free EFX₀ partial allocation Y with U ≠ ∅, U can be placed as junk so that the complete allocation is EFX₀.
 
 **Theorem B.** If TP holds for all connected cores with at most N agents, then every instance with at most N agents and |R_i| ≤ 3 for all i has an EFX₀ allocation. In particular TP implies TARGET.
 
@@ -304,7 +321,7 @@ The agent receiving u is safe as before: its own goods and the goods it envies a
 
 *Proof.* (a) The empty agent's own goods are all free (Lemma 1, S = ∅) and not in U (Lemma 5 (a)), so they are alone. Every bundle except the dump has at most its Y-goods. Pairs {u, u′} ⊆ U are never bottom pairs, by Lemma 5 (b). So Lemma 7 holds with no dirty placement, and the dump is a source because nobody envies an empty bundle. Also, no good of U is valued by the empty agent (Lemma 5 (a)), so all placements are junk. (b) Every final bundle has at most 2 goods, so (Q) cannot fail and Lemma 7 holds. A good u valued by the receiving agent does not occur: such a source would have a valid M1 adding u, by Lemma 4 (b). ∎
 
-**What TP needs.** By Lemma 7, TP asks for an assignment of the goods of U to sources in which a good whose chosen source is dirty sits alone next to that source's single good. Corollary 8 covers the easy cases. The hard case has more goods in U than one-good sources, with some good dirty at every source; the n = 6 example below is of that kind.
+**What TP needs.** By Lemma 7, TP asks for an assignment of the goods of U to sources in which a good whose chosen source is dirty sits alone next to that source's single good. Corollary 8 covers the easy cases. The hard case has more goods in U than one-good sources, with some good dirty at every source; the n = 6 example below is of that kind. Claims 3 and 4 of §4 settle this case: if the dirty sets of the one-good sources have a system of distinct representatives, an augmented envy cycle improves Y (step 7); otherwise Hall's theorem gives the placement.
 
 **Evidence 6.3.** The C checker `src/ls_twophase.c` (`-x` adds M3) enumerates every junk-free partial allocation of every connected core, every profile, and every stable state, and searches all placements of U into source bundles. The independent Python implementation (`python src/local_search.py py n`) decides EFX₀, envy and every move from the raw definition with two numeric realizations, and searches placements over all agents, not just sources.
 - n ≤ 5, with M1 and M2 only: 5,814,204 stable states (8, 640, 62,058 and 5,751,498 for n = 2, 3, 4, 5) over 2 + 7 + 41 + 293 cores, 0 failures. With M1–M3: 5,810,840 stable states, 0 failures (`results/ls_twophase_2_5.log`).
@@ -334,11 +351,12 @@ For general additive valuations, junk placement faces constraints on arbitrary s
 
 - **PROVED:**
   - Lemmas 1–4 and Theorem A (§1–§3).
-  - Theorem C (§4): every core has an EFX₀ allocation, computed by Algorithm LS2.
-  - The Corollary: **TARGET**.
+  - Theorem C (§4): every core has an EFX₀ allocation with at most one bundle of more than two goods, computed by Algorithm LS2.
+  - Corollary 1: **conjecture D**, for every core.
+  - Corollary 2: **TARGET**.
   - The lemmas of §6.2 (Lemmas 5–7, Corollary 8, Theorem B).
 - **Corroborated computationally** (§5), exhaustively for n ≤ 6 and randomly up to n = 100, with certificates accepted by `tools/check_certs.py`.
 - **REFUTED** (§6):
   - The one-phase local search with moves E, S, R, A, U, C, X and potential (Σℓ, number of allocated goods) never gets stuck: false at n = 6 (Refutation 6.2).
   - Phase 1 with moves M1 and M2 only always ends in a state that junk placement completes: false at n = 6 (core 687).
-- **Not addressed:** conjecture D (at most one bundle with more than two goods). Theorem C allows several large bundles.
+- **Also settled:** conjecture D, for every core, connected or not (Corollary 1).

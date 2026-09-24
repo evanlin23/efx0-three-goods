@@ -17,8 +17,10 @@
    Phase 2 (none of 1-7 applies): an agent with an empty bundle takes all of U; otherwise a maximum matching of
    one-good sources to their dirty goods leaves a source s* unmatched; with T the sources reachable from s* by
    alternating paths, every good of D(T) goes alone to its matched source and every other good of U goes to s*.
-   Checks: after every Phase-1 step, Y is EFX0 (ordinal rule) and the sum of levels increased; the final allocation is
-   complete and EFX0 under the RAW definition for two balanced realizations of every ranking. Any failure aborts.
+   Checks: after every Phase-1 step, Y is EFX0 (ordinal rule), junk-free, has no bundle of more than two goods, and
+   the sum of levels increased; the final allocation is complete, EFX0 under the RAW definition for two balanced
+   realizations of every ranking, and has at most one bundle of more than two goods (conjecture D's shape, Claim 5).
+   Any failure aborts.
    Usage: ls_alg [-c] < cores     (-c: print the certificate lines "CERT {json}") */
 #include <stdio.h>
 #include <stdlib.h>
@@ -266,10 +268,13 @@ static void run(void) {
         if (!efx0()) die("Phase-1 step broke EFX0");
         if (sumlev() <= L0) die("Phase-1 step did not raise the sum of levels");
         for (int g = 0; g < m; g++) if (o[g] >= 0 && !(Rm[o[g]] >> g & 1)) die("junk in Phase 1");
+        for (int j = 0; j < n; j++) if (popc(bm[j]) > 2) die("Phase-1 bundle with more than two goods");
     }
     if (it > max_iter) max_iter = it;
     if (pool) phase2();
     if (!raw_efx0_complete()) die("final allocation not EFX0 (raw definition) or not complete");
+    { int big = 0; for (int j = 0; j < n; j++) big += popc(bm[j]) > 2;
+      if (big > 1) die("two bundles with more than two goods (conjecture D shape violated)"); }
     cnt_runs++;
 }
 
@@ -309,7 +314,8 @@ int main(int argc, char **argv) {
         }
         core_id++;
     }
-    printf("TOTAL cores %d, runs %lld (every one ends in a complete EFX0 allocation, raw definition), max Phase-1 steps %lld; "
+    printf("TOTAL cores %d, runs %lld (every one ends in a complete EFX0 allocation, raw definition, with at most one "
+           "bundle of more than two goods), max Phase-1 steps %lld; "
            "steps: 1=%lld 2=%lld 3=%lld 4=%lld 5=%lld 6=%lld 7=%lld; phase 2: empty-bundle=%lld matching=%lld\n",
            core_id, cnt_runs, max_iter, cnt_step[1], cnt_step[2], cnt_step[3], cnt_step[4], cnt_step[5], cnt_step[6],
            cnt_step[7], cnt_step[8], cnt_step[9]);

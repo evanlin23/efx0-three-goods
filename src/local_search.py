@@ -503,6 +503,7 @@ def ls2_numeric(vals, m):
         if any(a < b - 1e-9 for a, b in zip(after, before)) or not any(a > b + 1e-9 for a, b in zip(after, before)):
             raise LS2Failure(f"step {k} is not a Pareto improvement")
         if any(g not in vals[i] for i in range(n) for g in Y[i]): raise LS2Failure("junk in Phase 1")
+        if any(len(Y[i]) > 2 for i in range(n)): raise LS2Failure("Phase-1 bundle with more than two goods")
     u_set = U()
     if u_set:                                                                                # Phase 2
         E, indeg, R = graph()
@@ -533,6 +534,7 @@ def ls2_numeric(vals, m):
         for g in Y[j]: owner[g] = j
     if None in owner: raise LS2Failure("incomplete")
     if not raw_ok(): raise LS2Failure("final allocation not EFX0")
+    if sum(len(Y[i]) > 2 for i in range(n)) > 1: raise LS2Failure("two bundles with more than two goods (D shape)")
     return owner, steps
 
 
@@ -570,7 +572,7 @@ def pyalg_random(n_lo, n_hi, trials, seed):
             except LS2Failure as e:
                 print("FAILURE", e, "n", n, "m", m, "vals", vals); return 1
             runs += 1; steps_max = max(steps_max, st)
-        print(f"n={n}: {trials} random cores with random balanced values: all complete EFX0 (raw), max Phase-1 steps "
+        print(f"n={n}: {trials} random cores with random balanced values: all complete EFX0 (raw), <= 1 bundle of > 2 goods, max Phase-1 steps "
               f"{steps_max}", flush=True)
     print(f"PYALG RANDOM: {runs} runs, 0 failures (seed {seed})")
     return 0
