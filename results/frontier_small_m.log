@@ -1,0 +1,64 @@
+# run7.py over connected cores with 2 <= n <= 6, 3 <= m <= min(n + 3, 2n); 4 CPUs; 2026-09-24T16:12:37Z
+## n=2: python run7.py 4 3 --n=2 --fresh
+[     0s] n=2 m=4 beta=1: 1 connected cores (generated in 0.0s, 4 jobs)
+[     0s] n=2 m=4 DONE: {'C3': 1}
+[     0s] n=2 m=3 beta=2: 1 connected cores (generated in 0.0s, 4 jobs)
+[     0s] n=2 m=3 DONE: {'C3': 1}
+[     0s] ALL DONE
+## n=3: python run7.py 6 5 4 3 --n=3 --fresh
+[     0s] n=3 m=6 beta=1: 1 connected cores (generated in 0.0s, 4 jobs)
+[     0s] n=3 m=6 DONE: {'C3': 1}
+[     0s] n=3 m=5 beta=2: 3 connected cores (generated in 0.0s, 4 jobs)
+[     0s] n=3 m=5 DONE: {'C3': 3}
+[     0s] n=3 m=4 beta=3: 2 connected cores (generated in 0.0s, 4 jobs)
+[     0s] n=3 m=4 DONE: {'C3': 2}
+[     0s] n=3 m=3 beta=4: 1 connected cores (generated in 0.0s, 4 jobs)
+[     0s] n=3 m=3 DONE: {'C3': 1}
+[     0s] ALL DONE
+## n=4: python run7.py 7 6 5 4 3 --n=4 --fresh
+[     0s] n=4 m=7 beta=2: 8 connected cores (generated in 0.0s, 4 jobs)
+[     0s] n=4 m=7 DONE: {'C3': 8}
+[     0s] n=4 m=6 beta=3: 16 connected cores (generated in 0.0s, 4 jobs)
+[     0s] n=4 m=6 DONE: {'C3': 16}
+[     0s] n=4 m=5 beta=4: 11 connected cores (generated in 0.0s, 4 jobs)
+[     0s] n=4 m=5 DONE: {'C3': 11}
+[     0s] n=4 m=4 beta=5: 4 connected cores (generated in 0.0s, 4 jobs)
+[     0s] n=4 m=4 DONE: {'C3': 4}
+[     0s] n=4 m=3 beta=6: 1 connected cores (generated in 0.0s, 4 jobs)
+[     0s] n=4 m=3 DONE: {'C3': 1}
+[     0s] ALL DONE
+## n=5: python run7.py 8 7 6 5 4 3 --n=5 --fresh
+[     0s] n=5 m=8 beta=3: 62 connected cores (generated in 0.0s, 4 jobs)
+[     0s] n=5 m=8 DONE: {'C3': 62}
+[     0s] n=5 m=7 beta=4: 105 connected cores (generated in 0.0s, 4 jobs)
+[     1s] n=5 m=7 DONE: {'C3': 105}
+[     1s] n=5 m=6 beta=5: 76 connected cores (generated in 0.0s, 4 jobs)
+[     1s] n=5 m=6 DONE: {'C3': 76}
+[     2s] n=5 m=5 beta=6: 28 connected cores (generated in 0.0s, 4 jobs)
+[     2s] n=5 m=5 DONE: {'C3': 28}
+[     2s] n=5 m=4 beta=7: 5 connected cores (generated in 0.0s, 4 jobs)
+[     2s] n=5 m=4 DONE: {'C3': 5}
+[     2s] n=5 m=3 beta=8: 1 connected cores (generated in 0.0s, 4 jobs)
+[     2s] n=5 m=3 DONE: {'C3': 1}
+[     2s] ALL DONE
+## n=6: python run7.py 9 8 7 6 5 4 3 --n=6 --fresh
+[     0s] n=6 m=9 beta=4: 670 connected cores (generated in 0.2s, 4 jobs)
+[    11s]    500/670 {'C3': 500}
+[    16s] n=6 m=9 DONE: {'C3': 670}
+[    18s] n=6 m=8 beta=5: 1013 connected cores (generated in 0.2s, 4 jobs)
+[    26s]    500/1013 {'C3': 500}
+[    38s]    1000/1013 {'C3': 1000}
+[    38s] n=6 m=8 DONE: {'C3': 1013}
+[    42s] n=6 m=7 beta=6: 781 connected cores (generated in 0.1s, 4 jobs)
+[    45s]    500/781 {'C3': 500}
+[    48s] n=6 m=7 DONE: {'C3': 781}
+[    53s] n=6 m=6 beta=7: 317 connected cores (generated in 0.0s, 4 jobs)
+[    53s] n=6 m=6 DONE: {'C3': 317}
+[    57s] n=6 m=5 beta=8: 66 connected cores (generated in 0.0s, 4 jobs)
+[    57s] n=6 m=5 DONE: {'C3': 66}
+[    61s] n=6 m=4 beta=9: 8 connected cores (generated in 0.0s, 4 jobs)
+[    61s] n=6 m=4 DONE: {'C3': 8}
+[    65s] n=6 m=3 beta=10: 1 connected cores (generated in 0.0s, 4 jobs)
+[    65s] n=6 m=3 DONE: {'C3': 1}
+[    69s] ALL DONE
+# finished 2026-09-24T16:13:51Z
