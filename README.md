@@ -4,16 +4,16 @@ Open question (CS 580 course project, Fall 2026): does every additive fair-divis
 
 **Status** (details and evidence in [LEDGER.md](LEDGER.md)):
 - Reduced to "cores" (agents with exactly three goods, balanced, at most one private good), where EFX₀ is a purely combinatorial condition.
-- Certified: EFX₀ exists for every such instance with at most 6 agents, conditional on Mahara's m ≤ n + 3 theorem.
+- Certified: EFX₀ exists for every such instance with at most 7 agents, conditional on Mahara's m ≤ n + 3 theorem.
 - Refuted: "bundles of at most two goods always suffice" (n = 5), and its weaker form for m ≤ 2n − 2 (n = 6).
-- Main conjecture D: some EFX₀ allocation has at most one bundle with more than two goods. Certified for n ≤ 6 and for n = 7, m = 13.
+- Main conjecture D: some EFX₀ allocation has at most one bundle with more than two goods. Certified for connected cores with n ≤ 7 and m ≥ n + 4, and with n = 8, m ≥ 14 (no counterexample so far).
 
 ## Layout
 - `AGENTS.md`: how an AI agent gets oriented, sets up, branches, checks and opens a pull request (`CLAUDE.md` loads it for Claude Code)
 - `PROMPT.md`: the research brief every agent works from (problem, results, plan, rules, repository workflow)
 - `LEDGER.md`: every claim, its status, and the artifact behind it; the single source of truth
 - `src/`: tools; `frontier.py` is the main one (enumerate connected cores with `cores_nauty.py`, CEGAR over ranking profiles, save certificates)
-- `tools/`: checkers run by CI: `check_certs.py` (SAT-free certificate checker), `check_ledger.py` (status ⇒ artifact)
+- `tools/`: checkers run by CI: `check_certs.py` (SAT-free certificate checker), `check_enum.py` (a certificate lists every connected core, by orbit counting), `check_ledger.py` (status ⇒ artifact)
 - `results/`: logs, result summaries, certificate files
 - `proofs/`: written proofs; `attempts/`: failed approaches with their smallest failing configuration
 - `lean/`: Lean formalization of ledger items (core Lean only, no `sorry`, standard axioms only; see `lean/README.md`)
