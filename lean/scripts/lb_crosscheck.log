@@ -1,0 +1,23 @@
+# lean/scripts/lb_crosscheck.py: the Lean EFX.LB.lb (lean/EFX/LBRun.lean), run with construct.phase1's processing
+# order, against src/construct.py, on ranking profiles of connected cores (cores_nauty.py, every m).
+# Evidence that the Lean definition is LB, not a proof. One process, 2026-09-24; Lean definitions as of commit
+# 70d8737 (unchanged since: later commits touch only comments).
+
+$ python lean/scripts/lb_crosscheck.py 2 3 4
+n = [2, 3, 4], every 1-th profile: 54720 (core, profile) pairs, 153 with a bundle of >= 3 goods, 0 where construct.py fails
+54720 cases, 0 mismatches
+(29 s)
+
+$ python lean/scripts/lb_crosscheck.py 5 --every=7
+n = [5], every 7-th profile: 325523 (core, profile) pairs, 300 with a bundle of >= 3 goods, 0 where construct.py fails
+325523 cases, 0 mismatches
+(4 min 46 s)
+
+$ python lean/scripts/lb_crosscheck.py 6 --every=101
+n = [6], every 101-th profile: 1428966 (core, profile) pairs, 572 with a bundle of >= 3 goods, 0 where construct.py fails
+1428966 cases, 0 mismatches
+(32 min 29 s)
+
+# Total: 1,809,209 (core, profile) pairs, 1,025 of them with a bundle of >= 3 goods (the owner search), 0 mismatches.
+# n <= 4: every profile (153 = 14 + 139 large outputs, as in proofs/construction.md §4).
+# Self-test: a corrupted expected allocation for core H3 is reported as a mismatch (exit 1).

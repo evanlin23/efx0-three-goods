@@ -9,7 +9,8 @@ Open question (CS 580 course project, Fall 2026): does every additive fair-divis
 - From the literature (read in full, [proofs/citations.md](proofs/citations.md)): EFX₀ exists, for every n, for cores with m ≤ n + 3 and for cores in which every good is relevant to at most two agents (ledger T3). No published result implies TARGET or conjecture D.
 - Refuted: "bundles of at most two goods always suffice" (smallest counterexample n = 3), and its weaker form for m ≤ 2n − 2 (smallest n = 4).
 - Main conjecture D: some EFX₀ allocation has at most one bundle with more than two goods. Certified for every core with n ≤ 6, and for every connected core with n = 7, m ≥ 11 or n = 8, m ≥ 14.
-- Proved: conjecture D for every core with m = 2n − 1 (cyclomatic number β = 2), for all n ([proofs/beta2.md](proofs/beta2.md)).
+- Proved: conjecture D for every core with m = 2n − 1 (cyclomatic number β = 2), for all n ([proofs/beta2.md](proofs/beta2.md)); for every connected core in which every agent has a private good, for every β; and for every connected core with m = 2n − 2 (β = 3) and at most two agents without a private good ([proofs/beta3.md](proofs/beta3.md)).
+- Certified: conjecture D for every connected core with m = 2n − 2 (β = 3), for all n: a proved reduction to 394 small "reduced" cores (n ≤ 10), checked exhaustively with an independent checker ([proofs/beta3.md](proofs/beta3.md)).
 - Step 2 ([proofs/construction.md](proofs/construction.md)): an explicit construction, LB, whose output is always EFX₀ with at most one large bundle (proved). It never fails on any core with n ≤ 6 (certified) or with n = 7, m ≥ 10 (exhaustive search, no stored certificate). The open gap is its last step. When a large bundle is needed (n ≤ 6), it can always go to an agent holding only its bottom good, together with goods private to agents that don't need them (conjecture K).
 
 ## Layout
