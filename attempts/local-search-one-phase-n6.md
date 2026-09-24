@@ -10,7 +10,7 @@ Workstream `proof/local-search` (`proofs/local_search.md` §6.1, Refutation 6.2)
 
 With E, S, R, A, U, C alone, no EFX₀ partial state of any connected core with n ≤ 5 is stuck (`results/ls_allstates_2_5.log`).
 
-**Where it breaks (n = 6, m = 9).** Core 687 of genbg's list: goods (1,6,7) (4,5,8) (0,1,5) (0,3,6) (2,3,5) (2,4,6); goods 7, 8 are private.
+**Where it breaks (n = 6, m = 9).** The core K with agent sets (1,6,7) (4,5,8) (0,1,5) (0,3,6) (2,3,5) (2,4,6), entry 562 of the (6, 9) list of `cores_nauty.py` (file names call it core687); goods 7, 8 are private.
 
 Profile, as rankings (a, b, c): (1,6,7) (4,5,8) (1,5,0) (6,0,3) (5,2,3) (4,6,2).
 
@@ -43,4 +43,4 @@ A complete EFX₀ allocation with the same levels exists: {1} {4} {0, 3} {6} {5}
 
 Reproduce:
 - `python src/local_search.py stuck6` (independent Python replay: every move valid and raising the potential, final state stuck)
-- `python src/local_search.py allstates 6 9 --flags="-O -m ESRAUCX -l 5"` restricted to core 687: `echo "6 9 1 6 7 4 5 8 0 1 5 0 3 6 2 3 5 2 4 6" | ls_check -O -m ESRAUCX`
+- `python src/local_search.py allstates 6 9 --flags="-O -m ESRAUCX -l 5"` restricted to core K: `echo "6 9 1 6 7 4 5 8 0 1 5 0 3 6 2 3 5 2 4 6" | ls_check -O -m ESRAUCX`

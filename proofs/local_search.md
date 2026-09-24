@@ -3,7 +3,7 @@
 Workstream `proof/local-search`. This route to TARGET does not go through conjecture D. It keeps a partial EFX₀ allocation of a core and applies moves that raise a potential, like the existence proofs for identical valuations, three agents, multigraphs and hypergraphs of girth ≥ 4 listed in `proofs/citations.md`. None of those papers was read for this work; their methods are known here only from the summaries in `proofs/citations.md`, and nothing below depends on them.
 
 **Main result.** Status: a written proof, independent of the one in `proofs/lb_last_step.md`. It is not claimed in the ledger until it has been reviewed and formalized (owner's policy; ledger rows LS3, D, T).
-- **Theorem C (§4).** For every core and every balanced ranking profile, Algorithm LS2 computes a complete EFX₀ allocation within 7n Phase-1 steps. In it, at most one bundle has more than two goods.
+- **Theorem C (§4).** For every core and every balanced valuation (ties broken first into a strict ranking profile), Algorithm LS2 computes a complete EFX₀ allocation within 7n Phase-1 steps. In it, at most one bundle has more than two goods.
 - If correct, this proves **conjecture D** for every core, connected or not.
 - With the reduction to cores (`proofs/lemmas.md`, CORE), it then also proves **TARGET**: every additive instance in which each agent values at most three goods positively has an EFX₀ allocation.
 
@@ -108,7 +108,7 @@ E and A can create junk: the good may be worthless to the agent receiving it. Th
 
 ## 4. Algorithm LS2 and Theorem C
 
-Fix a core with a strict ranking profile (a_i, b_i, c_i) and balanced additive valuations consistent with it. Y denotes a junk-free partial allocation and U its set of unallocated goods.
+Fix a core with a strict ranking profile (a_i, b_i, c_i) and balanced additive valuations consistent with it. LS2 runs on the strict profile: if values are tied, break the ties first (L5 (iv)). Deciding directly on tied numbers can fail. The smallest case is n = 3, m = 5, sets {0,2,4}, {1,3,4}, {2,3,4}, each with values (2, 2, 1): the swaps 0→2, 1→3, 2→4 and then Phase 2 (b) give {2} {3} {0,1,4}, where agent 0 has 2 while {0, 4} is worth 3 to it. Y denotes a junk-free partial allocation and U its set of unallocated goods.
 - A *one-good source* is a source s with |Y_s| = 1.
 - A *dirty triple* (i, u, s) consists of a one-good source s with Y_s = {y}, an a-holder i and a good u ∈ U with {b_i, c_i} = {u, y}.
 - For a one-good source s, D(s) is the set of goods u such that some dirty triple (i, u, s) exists. For a set T of one-good sources, D(T) is the union of the D(s), s ∈ T.
@@ -122,7 +122,7 @@ Fix a core with a strict ranking profile (a_i, b_i, c_i) and balanced additive v
 4. *(add a bottom good)* Some a-holder i has exactly one of b_i, c_i in U, say u, and nobody envies i. Then Y_i := {a_i, u}.
 5. *(source adds)* Some one-good source s values a good u ∈ U. Then Y_s := Y_s ∪ {u}.
 
-   If some bundle is empty, Phase 1 stops here.
+   If steps 1–5 do not apply and some bundle is empty, Phase 1 stops here. This test comes only after steps 1–5 fail; at the top of the loop it would stop at the empty start.
 6. *(champion)* There are a dirty triple (i, u, s), with Y_s = {y}, and an envy path s = t_0 → t_1 → … → t_r = i. Each t_q (q < r) takes Y_{t_{q+1}} ∩ R_{t_q}, and i takes {u, y}. The other goods of these agents' bundles go to U.
 7. *(augmented envy cycle)* The family (D(s))_s, over the one-good sources s, has a system of distinct representatives. Apply the move constructed in Claim 3 below.
 
@@ -131,7 +131,7 @@ If none applies, Phase 1 stops.
 *Choice points.* Any choice works at every one of them; the proof below holds for each.
 - The order of steps 1–7 matters only through the preconditions the proof uses: steps 3–7 are applied only when step 1 does not apply, and steps 6–7 only when steps 1–5 do not apply and no bundle is empty.
 - Within a step, any applicable instance may be taken: the agent and the good in steps 1, 3, 4 and 5, the cycle in step 2, and the triple and the path in step 6.
-- In step 7: any system of distinct representatives, any dirty triple (i_s, ℓ(s), s) for each s, any f(s) and path P_s, any cycle of f, and any shortest repeated segment of the walk.
+- In step 7: any system of distinct representatives, any dirty triple (i_s, ℓ(s), s) for each s (that is, any a-holder i_s), any f(s) and path P_s, any cycle of f and any starting source s_1 on it, and any shortest closed sub-walk C of W. W may be read linearly, from s_1 to s_1, or cyclically; both work.
 - In Phase 2: any empty bundle in (a); any maximum matching M and any unmatched s* in (b).
 
 `src/ls_alg.c` takes the first instance in index order. `src/local_search.py` (`ls2_numeric`) makes its own choices and decides everything from numeric values. Both check every output against the raw EFX₀ definition.
@@ -208,7 +208,7 @@ Y stays junk-free, and Σℓ strictly increases. ∎
   - Otherwise j = M(u′) for some u′ ∈ D(T), and M(u′) receives only u′. The matching map is injective on D(T), and the goods outside D(T) go to s*. So u = u′ and X_j = {y, u} has two goods, and (Q) holds.
 
 It remains to check that case (b) is well defined.
-- A one-good source exists by Claim 2 (g). It is unmatched in some maximum matching, because otherwise M would be a system of distinct representatives and step 7 would apply.
+- One-good sources exist by Claim 2 (g). M leaves some one-good source unmatched; otherwise M would be a system of distinct representatives and step 7 would apply.
 - Every u ∈ D(T) is matched: otherwise the alternating path to u would augment M.
 - M(u) ∈ T, since the alternating path continues through M(u).
 - s* is unmatched, so M(u) ≠ s*. ∎
@@ -265,7 +265,7 @@ The cases of Lemma 4 settle all but a few states. For n = 4, 24 states need a *j
 - a source takes a good it values from another agent's junk and drops its own junk.
 Every one of these states contains junk.
 
-**Refutation 6.2 (the one-phase search can get stuck at n = 6).** Core 687 of genbg's list for (n, m) = (6, 9), under the profile with rankings (a, b, c)
+**Refutation 6.2 (the one-phase search can get stuck at n = 6).** Take the core K with n = 6, m = 9 and agent sets {1,6,7}, {4,5,8}, {0,1,5}, {0,3,6}, {2,3,5}, {2,4,6} (goods 7, 8 private). File names call it core687; it is entry 562 of the 670 cores that `cores_nauty.py` lists for (6, 9), and it is identified by its sets, not by an index. Take the profile with rankings (a, b, c)
   (1,6,7) (4,5,8) (1,5,0) (6,0,3) (5,2,3) (4,6,2):
 The moves E (goods 1, 4, 0, 6, 5, 2 to agents 0, …, 5 in turn), then A (good 8 to agent 2), then A (good 7 to agent 5) each raise Φ and keep EFX₀. They reach the EFX₀ state
   {1} {4} {0,8} {6} {5} {2,7}, pool {3},
@@ -333,11 +333,11 @@ The agent receiving u is safe as before: its own goods and the goods it envies a
 
 **Evidence 6.3.** The C checker `src/ls_twophase.c` (`-x` adds M3) enumerates every junk-free partial allocation of every connected core, every profile, and every stable state, and searches all placements of U into source bundles. The independent Python implementation (`python src/local_search.py py n`) decides EFX₀, envy and every move from the raw definition with two numeric realizations, and searches placements over all agents, not just sources.
 - n ≤ 5, with M1 and M2 only: 5,814,204 stable states (8, 640, 62,058 and 5,751,498 for n = 2, 3, 4, 5) over 2 + 7 + 41 + 293 cores, 0 failures. With M1–M3: 5,810,840 stable states, 0 failures (`results/ls_twophase_2_5.log`).
-- n = 6, with M1 and M2 only: 707,475,902 stable states over 3,093 cores. It fails in exactly one core, core 687 (the core of Refutation 6.2), in 64 profiles (`results/ls_twophase_6_m1m2.log`; attempt file `attempts/local-search-twophase-m1m2.md`).
+- n = 6, with M1 and M2 only: 707,475,902 stable states over 3,093 cores. It fails in exactly one core, core K (the core of Refutation 6.2), in 64 profiles (`results/ls_twophase_6_m1m2.log`; attempt file `attempts/local-search-twophase-m1m2.md`).
 - n = 6, with M1–M3: 707,008,494 stable states over 3,093 cores, 0 failures (`results/ls_twophase_6.log`).
 - Python and C agree for n ≤ 4 (with M1–M3): the same numbers of stable states (8, 640 and 62,034 for n = 2, 3, 4) and 0 failures (`results/ls_twophase_py_2_4.log`).
 
-**The n = 6 failure without M3.** Core 687 under the profile (1,6,7) (4,5,8) (0,1,5) (0,3,6) (2,3,5) (2,4,6).
+**The n = 6 failure without M3.** Core K under the profile (1,6,7) (4,5,8) (0,1,5) (0,3,6) (2,3,5) (2,4,6).
 - Y = {1} {4} {5} {0} {2} {6}, U = {3, 7, 8}; the sources are agents 2 ({5}) and 5 ({6}).
 - Good 7 is dirty at agent 5 (bottom pair {6, 7} of agent 0), and good 8 is dirty at agent 2 (bottom pair {5, 8} of agent 1). Good 3 is dirty at both sources (bottom pairs {3, 6} of agent 3 and {3, 5} of agent 4), so it must sit alone at one of them, and then 7 or 8 has nowhere to go.
 - Y is stable under M1 and M2. The augmented envy cycle 0 → 5 → 1 → 2 → 0 improves it: agent 0 takes {6, 7}, agent 5 takes {4}, agent 1 takes {5, 8}, agent 2 takes {1}. Afterwards good 3 fits with agent 2: {6,7} {5,8} {1,3} {0} {2} {4} is EFX₀.
@@ -365,5 +365,5 @@ For general additive valuations, junk placement faces constraints on arbitrary s
 - **Corroborated computationally** (§5), exhaustively for n ≤ 6 and randomly up to n = 100, with certificates accepted by `tools/check_certs.py`.
 - **REFUTED** (§6):
   - The one-phase local search with moves E, S, R, A, U, C, X and potential (Σℓ, number of allocated goods) never gets stuck: false at n = 6 (Refutation 6.2).
-  - Phase 1 with moves M1 and M2 only always ends in a state that junk placement completes: false at n = 6 (core 687).
+  - Phase 1 with moves M1 and M2 only always ends in a state that junk placement completes: false at n = 6 (core K).
 - **Conjecture D:** Corollary 1 gives it for every core, connected or not, subject to the same review.
