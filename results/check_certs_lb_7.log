@@ -1,0 +1,3 @@
+# SAT-free re-checks of the construction LB certificates for n = 7, m <= 10 (D shape included), their orbit counts, and construct_run.py's own certificate check; run alongside the LB searches on 4 CPUs, 2026-09-24T20:04:37Z
+
+$ python tools/check_certs.py results/certs_lb_7_10.json.gz --expect 7:10:8569 --require-d --jobs 2
