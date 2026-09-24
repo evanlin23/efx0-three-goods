@@ -78,6 +78,12 @@ def R1Prio (P : Profile A G) : List A → List G → Prop
   | i :: order, pool => (full P pool i = true → ∀ j ∈ order, full P pool j = true) ∧
       R1Prio P order (removePick pool (fav P pool i))
 
+instance decR1Prio (P : Profile A G) : (order : List A) → (pool : List G) → Decidable (R1Prio P order pool)
+  | [], _ => isTrue trivial
+  | i :: order, pool =>
+    have := decR1Prio P order (removePick pool (fav P pool i))
+    inferInstanceAs (Decidable ((full P pool i = true → ∀ j ∈ order, full P pool j = true) ∧ _))
+
 /-- The block of each agent: the number of insertion steps up to and including its turn, plus `n`. -/
 def blkAux (P : Profile A G) : List A → List G → Nat → A → Nat
   | [], _, _, _ => 0
