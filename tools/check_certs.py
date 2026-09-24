@@ -3,9 +3,11 @@
   2. for each stored allocation, decides from the raw EFX0 definition which rankings keep each agent safe, under three
      balanced realizations of a > b > c (they must agree, since EFX0 in a core is ordinal);
   3. checks that every one of the 6^n ranking profiles is covered by some stored allocation;
-  4. checks that every stored allocation has the shape of the model its record names (C2: all bundles <= 2 goods;
-     C3s3: at most one bundle of more than 2 goods, and it has 3; C3: at most one bundle of more than 2 goods; G: any).
---require-d also fails any record whose model is not C2, C3s3 or C3, so an accepted file certifies conjecture D.
+  4. if the record names one of frontier.py's models, checks that every stored allocation has its shape (C2: all
+     bundles <= 2 goods; C3s3: at most one bundle of more than 2 goods, and it has 3; C3: at most one bundle of more
+     than 2 goods; G: any). Other labels (e.g. from a construction) impose no shape.
+--require-d: also checks that every stored allocation has at most one bundle of more than 2 goods, whatever its label,
+so an accepted file certifies conjecture D for its hypergraphs.
 Usage: check_certs.py certs.json.gz [--expect n:m:count ...] [--jobs N] [--require-d]
 Hypergraphs are checked in parallel (--jobs, default: all CPUs). Earlier versions: archive/v1-python-enumeration/,
 archive/v2-certs-without-shape-check/."""
@@ -14,11 +16,9 @@ import numpy as np
 PERMS = list(itertools.permutations(range(3)))
 REAL = [(2.0, 1.5, 1.0), (10.0, 9.0, 2.0), (5.0, 3.0, 2.5)]
 SHAPE = {'C2': (0, 2), 'C3s3': (1, 3), 'C3': (1, None), 'G': (None, None)}  # (max bundles of > 2 goods, max bundle size)
-D_MODELS = ('C2', 'C3s3', 'C3')
 
-def fits(mode, X):
-    if mode not in SHAPE: return False
-    nbig, cap = SHAPE[mode]; size = collections.Counter(X).values()
+def fits(shape, X):
+    nbig, cap = shape; size = collections.Counter(X).values()
     return (nbig is None or sum(s > 2 for s in size) <= nbig) and (cap is None or max(size) <= cap)
 
 def safe(val, bundles, i):
@@ -74,9 +74,10 @@ if __name__ == '__main__':
             count[(r['n'], r['m'])] += 1; md = r.get('mode'); models[md] += 1
             if not valid: print("not a valid connected core:", r['sets']); problems += 1
             if u: print(f"UNCOVERED profiles: {u} for {r['sets']}"); problems += 1
-            bad = sum(not fits(md, X) for X in r['allocations'])
+            bad = sum(not fits(SHAPE[md], X) for X in r['allocations']) if md in SHAPE else 0
             if bad: print(f"{bad} allocations outside model {md} for {r['sets']}"); problems += 1
-            if require_d and md not in D_MODELS: print(f"model {md} is not within conjecture D for {r['sets']}"); problems += 1
+            bad = sum(not fits(SHAPE['C3'], X) for X in r['allocations']) if require_d else 0
+            if bad: print(f"{bad} allocations with two bundles of more than 2 goods (not D) for {r['sets']}"); problems += 1
     for k, v in expect.items():
         if count[k] != v: print(f"expected {v} hypergraphs at (n,m)={k}, found {count[k]}"); problems += 1
     print(f"checked {len(recs)} hypergraphs {dict(count)}, models {dict(models)}; problems: {problems}")
