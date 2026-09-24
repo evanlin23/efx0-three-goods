@@ -1,0 +1,2 @@
+# src/construct_run.py 8 13 --part=k/4 --cert: construction LB on every connected core with n = 8, m = 13 (in four slices of the core list), every ranking profile, with certificates. Every output checked against the raw EFX0 definition in src/construct.c. 4 CPUs.
+$ python src/construct_run.py 8 13 --part=1/4 --cert=/home/user/efx0-three-goods/src/certs_lb_8_13_part1.json.gz   # 2026-09-24T21:43:11Z

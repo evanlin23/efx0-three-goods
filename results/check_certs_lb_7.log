@@ -30,3 +30,16 @@ $ python tools/check_enum.py results/certs_lb_7_8.json.gz
 results/certs_lb_7_8.json.gz: (n,m)=(7,8): 10343 hypergraphs, orbit sum 1178956961280, labeled connected cores 1178956961280 -> complete
 problems: 0
 exit=0  [23s]
+
+$ python tools/check_certs.py results/certs_lb_7_3_7.json.gz --expect 7:3:1 7:4:10 7:5:137 7:6:1097 7:7:4632 --require-d --jobs 2
+checked 5877 hypergraphs {(7, 3): 1, (7, 4): 10, (7, 5): 137, (7, 6): 1097, (7, 7): 4632}, models {'LB': 5877}; problems: 0
+exit=0  [15s]
+
+$ python tools/check_enum.py results/certs_lb_7_3_7.json.gz
+results/certs_lb_7_3_7.json.gz: (n,m)=(7,3): 1 hypergraphs, orbit sum 1, labeled connected cores 1 -> complete
+results/certs_lb_7_3_7.json.gz: (n,m)=(7,4): 10 hypergraphs, orbit sum 16380, labeled connected cores 16380 -> complete
+results/certs_lb_7_3_7.json.gz: (n,m)=(7,5): 137 hypergraphs, orbit sum 9917880, labeled connected cores 9917880 -> complete
+results/certs_lb_7_3_7.json.gz: (n,m)=(7,6): 1097 hypergraphs, orbit sum 1218525840, labeled connected cores 1218525840 -> complete
+results/certs_lb_7_3_7.json.gz: (n,m)=(7,7): 4632 hypergraphs, orbit sum 54866665350, labeled connected cores 54866665350 -> complete
+problems: 0
+exit=0  [17s]
