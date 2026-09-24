@@ -163,6 +163,12 @@ agent 1 is upgraded to `{1, 4}`, and the junk good 3 fits agent 2's slot. The re
 example : [0, 1, 2, 3, 4].map (lbPlus exampleP3 [0, 1, 2] [0, 1, 2, 3, 4] [1, 0, 2] 0) = [0, 1, 2, 2, 1] := by
   decide
 
+/-- The need chain LB⁺ rotates along in the run above: `1 → 2`. -/
+example :
+    let Y := phase1 exampleP3 [1, 0, 2] [0, 1, 2, 3, 4]
+    chainFrom exampleP3 [0, 1, 2] (lbUp exampleP3 [0, 1, 2] [0, 1, 2, 3, 4] Y) Y 1 (after [1, 0, 2] 1) = [2] := by
+  decide
+
 /-- A connected core with `n = 5`, `m = 8`: rankings `(0, 2, 5)`, `(4, 1, 6)`, `(4, 3, 7)`, `(0, 1, 4)`,
 `(4, 2, 3)`. -/
 def exampleP5 : Profile Nat Nat :=
@@ -175,6 +181,13 @@ example : R1Prio exampleP5 [1, 3, 0, 2, 4] [0, 1, 2, 3, 4, 5, 6, 7] := by decide
 `proof/lb-last-step`). -/
 example : [0, 1, 2, 3, 4, 5, 6, 7].map
     (lbPlus exampleP5 [0, 1, 2, 3, 4] [0, 1, 2, 3, 4, 5, 6, 7] [1, 3, 0, 2, 4] 0) = [3, 1, 0, 4, 2, 4, 1, 1] := by
+  decide
+
+/-- The need chain of that run: `1 → 2 → 4`. -/
+example :
+    let Y := phase1 exampleP5 [1, 3, 0, 2, 4] [0, 1, 2, 3, 4, 5, 6, 7]
+    chainFrom exampleP5 [0, 1, 2, 3, 4] (lbUp exampleP5 [0, 1, 2, 3, 4] [0, 1, 2, 3, 4, 5, 6, 7] Y) Y 1
+      (after [1, 3, 0, 2, 4] 1) = [2, 4] := by
   decide
 
 end LB
