@@ -246,6 +246,8 @@ Root p resents q_1..q_k (sorted by v_p(a_{p,q_i})), q := q_k, the others are r_1
 
 ## 4. Where "each good is valued by at most two agents" is used
 
+*Follow-up:* `proofs/multigraph_extension.md` re-proves the theorem for cores (Theorem M), extends it to goods with three or more valuers when each of them is the top of all its valuers and a popular matching exists (Theorem X), and gives the smallest configurations where items 3 and 5 below break the argument (§5 there).
+
 **What the objects become in our cores (inference).** Core agents value exactly 3 goods positively and are balanced (top < the sum of the other two).
 - A pair class (the goods valued by exactly i and j) has ≤ 2 goods; 3 would isolate {i, j}. For 2 goods, the only EFX₀-feasible 2-partition is the singleton split, so **both cuts coincide and every unit bundle is one good** (or ∅).
 - A class of goods valued by exactly three agents has 1–2 goods (3 would isolate them) and also splits into singletons.
