@@ -6,14 +6,16 @@ Everything in §1–§3 is proved here by hand. The computations behind §4–§
 
 ## 1. The smallest core that needs a large bundle: n = 3, m = 5
 
-Three agents value goods 0 and 1, and each has one private good p_0, p_1, p_2. All three rank (0, 1, own private good). This is the core `[[0, 1, 2], [0, 1, 3], [0, 1, 4]]` with profile (0, 0, 0).
+This is core H3 of `proofs/counterexamples.md` (X1), found independently in Step 0 (`src/c2_small.py`). It is repeated here with the large-bundle allocation, because its shape recurs in §5. Three agents value goods 0 and 1, and each has one private good p_0, p_1, p_2. All three rank (0, 1, own private good). This is the core `[[0, 1, 2], [0, 1, 3], [0, 1, 4]]` with profile (0, 0, 0).
 
 **Claim.** No EFX₀ allocation has all bundles of at most two goods. The allocation {0}, {1}, {p_0, p_1, p_2} (to agents A, B, C in any order) is EFX₀.
 
 *Proof.* Five goods in three bundles of at most two goods means bundle sizes 2, 2, 1, so exactly one good is alone. Apply L5 to each agent that does not hold good 0: case T is impossible, and case C needs both 0 and 1 alone, and so does E. So such an agent is safe only by P (it holds 1 and its private good) or by B (it holds 1, and 0 is alone). Two agents do not hold 0, and each of them must hold good 1. That is impossible.
 For the allocation: agent A holds its top 0, and its b = 1 and c = p_A are not together in a bundle of three or more goods (case T). Agent B holds 1 with 0 alone (case B). Agent C holds its c with 0 and 1 alone (case C). ∎
 
-Brute force over every allocation (no SAT; `src/large_bundle.py c2 ... --brute`) and the CEGAR/SAT computation agree on every connected core with n ≤ 4, at every m. No core with n = 2 needs a large bundle. At n = 3 exactly this core does, for 14 of its 216 profiles. At n = 4, 5 profiles need one at m = 6 and 102 at m = 7, and none at m ≤ 5 or m = 8 (`results/large_bundle_c2.log`). This is a smaller counterexample to X1 than the n = 5 one in the ledger.
+Brute force over every allocation (no SAT; `src/large_bundle.py c2 ... --brute`) and the CEGAR/SAT computation agree on every connected core with n ≤ 4, at every m. No core with n = 2 needs a large bundle. At n = 3 exactly this core does, for 14 of its 216 profiles. At n = 4, 5 profiles need one at m = 6 and 102 at m = 7, and none at m ≤ 5 or m = 8 (`results/large_bundle_c2.log`; Step 0's `results/c2_small.log` has the same counts).
+
+**A core that needs a large bundle of four goods (n = 4, m = 7; X4).** Take the agents (0, 2, 3), (0, 2, 4), (1, 2, 5), (1, 2, 6): goods 3–6 are private, good 2 is every agent's b, and tops 0 and 1 are each claimed twice. Each top has a loser. A loser is safe only by P or B, which need it to hold 2, or by C or E, which need 2 alone. Only one agent holds 2, so 2 is alone, and then no agent can use case P through 2. So the loser holding {2} (if any) is in case B and needs its top alone, and the other loser (C or E) needs its top and 2 alone. Hence 0, 1 and 2 are singletons, and the fourth agent takes all four remaining goods. The allocation {0}, {1}, {2}, {3, 4, 5, 6} (the claimants of 0 and 1 holding their tops, a loser holding 2, the other loser holding the rest) is EFX₀. Brute force over all 4⁷ allocations with the raw definition confirms that every EFX₀ allocation with at most one bundle of ≥ 3 goods has bundle sizes (4, 1, 1, 1). This is a smaller and hand-checkable counterexample to "one bundle of 3 goods always suffices" than the n = 6, m = 11 cores of X4.
 
 ## 2. A necessary condition for C2: contested tops, P-capacity, slack
 
@@ -86,7 +88,7 @@ Results (LB never fails; "large" = outputs with a bundle of ≥ 3 goods, by its 
 
 Logs: `results/construct_2_5.log`, `results/construct_6.log` (with the Python comparison), `results/construct_6_cert.log`, `results/construct_disconnected_4_6.log`.
 
-**Theorem 3 (certified).** Every core with at most 6 agents, connected or not and with any number of goods, has an EFX₀ allocation in which at most one bundle has more than two goods (construction LB outputs one). With L2, L3 and L6, every instance with at most three relevant goods per agent and n ≤ 6 has an EFX₀ allocation. This no longer depends on Mahara's m ≤ n + 3 theorem, which R1 needed for the cores with m ≤ n + 3.
+**Theorem 3 (certified; ledger S2.N6).** Construction LB never fails on a core with at most 6 agents, connected or not, with any number of goods. With Theorem 1, every such core has an EFX₀ allocation in which at most one bundle has more than two goods. This is a second, constructive certification of R3 (Step 0 certified it with SAT-found allocations), and it again gives R1 without Mahara's m ≤ n + 3 theorem.
 
 n = 7 and n = 8 runs are in `results/construct_7.log` and `results/construct_8.log`. There every output is checked by the raw check in `construct.c`, but no certificate file is stored.
 

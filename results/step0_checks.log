@@ -1,0 +1,19 @@
+[OK] L5 order: subset sums of all 95 strict balanced triples with a <= 12 are ordered 0 < c < b < a < b+c < a+c < a+b < a+b+c
+[OK] L5 cases: 4096 allocations x 6 rankings x 95 strict realizations, 47 distinct local configurations per ranking: 0 mismatches with the raw definition
+[OK] L5 ties: 48 tied balanced realizations: cases hold but raw unsafe 0 times (sufficiency); raw safe but no case 93672 times (necessity fails with ties, as expected)  [11s]
+[OK] L5 coverage: local configurations realized: 47, possible: 47
+[OK] L2: n=3 m=4 values (0, 1, 2), every instance with |R_i| <= 3: {'R1': 1762392, 'R2': 59616} (peel, EFX0 allocation of the rest) pairs, 0 not EFX0
+[OK] L3: same grid: 506617 EFX0 allocations of the relevant goods, 139548 rotations, junk to a source; 0 not EFX0  [122s]
+[OK] L2: n=2 m=4 values (0, 1, 2, 3), every instance with |R_i| <= 3: {'R1': 40250, 'R2': 10080} (peel, EFX0 allocation of the rest) pairs, 0 not EFX0
+[OK] L3: same grid: 41713 EFX0 allocations of the relevant goods, 2832 rotations, junk to a source; 0 not EFX0  [5s]
+[OK] L8: genbg: exactly one connected core with m = 2n (n=2: 1 core, n=3: 1 core, n=4: 1 core, n=5: 1 core, n=6: 1 core, n=7: 1 core); the orientation allocation is safe for every agent under every ranking, n = 2..8
+[OK] L4 L7 L11: 7118 connected cores (n = 2..6 all m; n = 7, m = 11..14): counting identity, beta = 2n - m + 1, min degree >= 2 after deleting private goods, kernel min degree >= 3 with V <= 2beta - 2 and E = V + beta - 1  [5s]
+[OK] L11 beta=2: shapes: n=2 theta: 1, n=3 theta: 3, n=4 dumbbell: 2, n=4 figure-eight: 1, n=4 theta: 5, n=5 dumbbell: 6, n=5 figure-eight: 1, n=5 theta: 8, n=6 dumbbell: 12, n=6 figure-eight: 2, n=6 theta: 11, n=7 dumbbell: 20, n=7 figure-eight: 2, n=7 theta: 15
+[OK] X2 allocation: [[0, 6], [1, 7, 8, 9], [2], [3], [4], [5]] is EFX0 under all 95 balanced realizations (one bundle of 4)
+[OK] X2 size<=2: 4082400 allocations with all bundles <= 2, EFX0: 0; L7 alone-goods identity violated in 0 partitions  [5s]
+[OK] L9: size-2 criterion vs raw definition for every agent and bundle of those allocations: 0 disagreements
+[OK] X2 control: profile with agent 5 = (3, 5, 4): 12 of 4082400 size-<=2 allocations are EFX0 (the brute force is not vacuous)  [9s]
+[OK] X3: 4^6 allocations: 24 EFX0, 0 of them with all bundles <= 2; {x}, {y}, {z}, {w1, w2, w3} is EFX0: True
+[OK] D shape: certs_5_6.json.gz: 251 hypergraphs, 12701 allocations, by number of bundles with > 2 goods {0: 9362, 1: 3339}; certs_7_13.json.gz: 37 hypergraphs, 1991 allocations, by number of bundles with > 2 goods {0: 177, 1: 1814}; certs_c2_2_3_4.json.gz: 43 hypergraphs, 568 allocations, by number of bundles with > 2 goods {0: 568}; certs_disconnected_6_10.json.gz: 1 hypergraphs, 93 allocations, by number of bundles with > 2 goods {0: 14, 1: 79}; certs_small_m.json.gz: 3182 hypergraphs, 154155 allocations, by number of bundles with > 2 goods {0: 101050, 1: 53105}
+step0_checks: 0 failures []  [153s]
+exit=0

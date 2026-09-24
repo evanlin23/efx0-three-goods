@@ -1,0 +1,15 @@
+[     0s] n=2 m=3: 1 connected cores, 36 profiles each
+[     0s] n=2 DONE: 36 (core, profile) pairs; cases {'lemma-O(pi=n-2)': 36}; largest bundle by case {'lemma-O(pi=n-2)': 2}; collector switches {'switches=0': 36}; problems so far 0
+[     0s] n=3 m=5: 3 connected cores, 216 profiles each
+[     0s] n=3 DONE: 648 (core, profile) pairs; cases {'pi=n': 216, 'lemma-O(pi=n-1)': 216, 'lemma-O(pi=n-2)': 216}; largest bundle by case {'pi=n': 3, 'lemma-O(pi=n-1)': 2, 'lemma-O(pi=n-2)': 2}; collector switches {'switches=0': 552, 'switches=1': 84, 'switches=2': 12}; problems so far 0
+[     0s] n=4 m=7: 8 connected cores, 1296 profiles each
+[     0s] n=4 DONE: 10368 (core, profile) pairs; cases {'pi=n': 2592, 'lemma-O(pi=n-1)': 3456, 'H1': 432, 'lemma-O(pi=n-2)': 3744, "H2'": 144}; largest bundle by case {'pi=n': 4, 'lemma-O(pi=n-1)': 2, 'H1': 3, 'lemma-O(pi=n-2)': 2, "H2'": 2}; collector switches {'switches=0': 9054, 'switches=1': 1128, 'switches=2': 174, 'switches=3': 12}; problems so far 0
+[     0s] n=5 m=9: 15 connected cores, 7776 profiles each
+[     1s] n=5 DONE: 116640 (core, profile) pairs; cases {'pi=n': 31104, 'lemma-O(pi=n-1)': 38880, 'H1': 7776, 'lemma-O(pi=n-2)': 37152, "H2'": 864, 'H2': 864}; largest bundle by case {'pi=n': 5, 'lemma-O(pi=n-1)': 2, 'H1': 4, 'lemma-O(pi=n-2)': 2, "H2'": 2, 'H2': 3}; collector switches {'switches=0': 99414, 'switches=1': 14430, 'switches=2': 2430, 'switches=3': 354, 'switches=4': 12}; problems so far 0
+[     1s] n=6 m=11: 25 connected cores, 46656 profiles each
+[     7s] n=6 DONE: 1166400 (core, profile) pairs; cases {'pi=n': 326592, 'lemma-O(pi=n-1)': 373248, 'H1': 93312, 'lemma-O(pi=n-2)': 352512, "H2'": 10368, 'H2': 10368}; largest bundle by case {'pi=n': 6, 'lemma-O(pi=n-1)': 2, 'H1': 5, 'lemma-O(pi=n-2)': 2, "H2'": 2, 'H2': 4}; collector switches {'switches=0': 978288, 'switches=1': 155352, 'switches=2': 27474, 'switches=3': 4746, 'switches=4': 528, 'switches=5': 12}; problems so far 0
+[     7s] n=7 m=13: 37 connected cores, 279936 profiles each
+[    72s] n=7 DONE: 10357632 (core, profile) pairs; cases {'pi=n': 2799360, 'lemma-O(pi=n-1)': 3545856, 'H1': 933120, 'lemma-O(pi=n-2)': 2892672, "H2'": 62208, 'H2': 124416}; largest bundle by case {'pi=n': 7, 'lemma-O(pi=n-1)': 2, 'H1': 6, 'lemma-O(pi=n-2)': 2, "H2'": 2, 'H2': 5}; collector switches {'switches=0': 8685798, 'switches=1': 1368654, 'switches=2': 252003, 'switches=3': 44349, 'switches=4': 6282, 'switches=5': 546}; problems so far 0
+[    73s] n=8 m=15: 52 connected cores, 1679616 profiles each
+[   687s] n=8 DONE: 87340032 (core, profile) pairs; cases {'pi=n': 23514624, 'lemma-O(pi=n-1)': 28553472, 'H1': 8398080, 'lemma-O(pi=n-2)': 25194240, "H2'": 559872, 'H2': 1119744}; largest bundle by case {'pi=n': 8, 'lemma-O(pi=n-1)': 2, 'H1': 7, 'lemma-O(pi=n-2)': 2, "H2'": 2, 'H2': 6}; collector switches {'switches=0': 73036560, 'switches=1': 11639055, 'switches=2': 2192628, 'switches=3': 399867, 'switches=4': 64032, 'switches=5': 7470, 'switches=6': 420}; problems so far 0
+[   687s] ALL DONE; problems: 0
