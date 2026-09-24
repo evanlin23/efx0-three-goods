@@ -18,8 +18,8 @@ Reformulation: toward a bundle B containing a good outside R_i, agent i needs fu
 
 - Viswanathan–Mehta (AAMAS 2024): ordinary EFX exists when every agent positively values at most four goods. Ordinary EFX only; check how their proof handles zero-valued goods, since that is exactly what EFX₀ constrains.
 - Christodoulou–Fiat–Koutsoupias–Sgouritsa (EC 2023): EFX₀ on graphs, general monotone valuations.
-- Afshinmehr–Ashuri–Mahmoudkhan–Mehlhorn–Shahrezaei, arXiv 2606.18665: EFX on multigraphs for cancelable valuations, including additive. Not needed for the results below (multigraph cores are included in our exhaustive checks), but a likely source of proof ideas.
-- Mahara (cited as [Mah23] by Alkassar–Fouz–Mehlhorn): complete EFX exists whenever m ≤ n + 3. Result R1 below depends on it; verify the exact reference.
+- Afshinmehr–Ashuri–Mahmoudkhan–Mehlhorn–Shahrezaei, arXiv 2606.18665: EFX on multigraphs for cancelable valuations, including additive. Not needed for the results below (multigraph cores are included in our exhaustive checks), but a likely source of proof ideas. Read (`proofs/citations.md`): the notion is EFX₀, so it covers every core in which each good is relevant to at most two agents, for every n (ledger T3).
+- Mahara (cited as [Mah23] by Alkassar–Fouz–Mehlhorn): complete EFX exists whenever m ≤ n + 3. Verified: arXiv 2107.09901, Theorem 3, for general monotone valuations and in EFX₀ form (`proofs/citations.md`). R1 no longer depends on it; ledger T3 uses it.
 - Chaudhury–Garg–Mehlhorn (JACM 2024): EFX for three additive agents.
 - Alkassar–Fouz–Mehlhorn, arXiv 2608.08590: EFX₀ for four additive agents with m ≤ 9, via hand-proven reductions plus machine-checked certificates. A model for the methodology.
 - Akrami et al., arXiv 2604.18216; Mackenzie–Suzuki, arXiv 2605.06451: EFX fails for general monotone and for submodular valuations. Additive EFX is open.
