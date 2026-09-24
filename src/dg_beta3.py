@@ -5,7 +5,10 @@ Lemma 9 reduced beta = 3 cores have at most 10 agents. This script enumerates al
 the given n (nauty genbg), marks the reduced ones, and stores a Q-plan (beta3.find_plan) for each reduced core and
 each of the 6^q profiles of its Q-agents. The file lists every core (reduced or not) so that tools/check_enum.py can
 certify that the list is complete; tools/check_qplans.py re-checks reducedness and every plan independently.
-Usage: dg_beta3.py n [n ...] [--out=qplans_beta3.json.gz] [--jobs=N]"""
+Usage: dg_beta3.py n [n ...] [--out=qplans_beta3.json.gz] [--jobs=N]
+       dg_beta3.py n [n ...] --hand    checks the Q-plans written down in the hand proof of Lemma 6 (q = 1, 2) on
+                                       every beta = 3 core with q in {1, 2}, with beta3.check_plan and
+                                       tools/check_qplans.check_plan"""
 import sys, os, json, gzip, time, itertools, collections, multiprocessing
 from frontier import PERMS, options
 from cores_nauty import gen_cores_nauty
@@ -40,6 +43,39 @@ def is_reduced(sets, priv):
     return all(k <= (2 if (x == y and x[0] == 'g') else 1) for x, y, k in threads(sets, priv))
 
 
+def hand_plan(core, qrank):
+    """The Q-plan of the proof of Lemma 6 (q = 1 or 2), step by step."""
+    Q, comp = core.Q, core.comp
+    if len(Q) == 1:
+        z, = Q; a, b, c = qrank[z]; Y = {z: (a,)}
+        needy = [k for k, e in enumerate(beta3.plan_eps(core, Y, ())) if e == -1]
+        return Y, ((b,) if needy else ()), None               # the needy component contains b_z and c_z
+    u, v = Q
+    if qrank[u][0] != qrank[v][0]: Y = {u: (qrank[u][0],), v: (qrank[v][0],)}          # two a-pins
+    else: Y = {u: (qrank[u][0],), v: (qrank[v][1],)}                                    # a-pin and b-pin
+    needy = [k for k, e in enumerate(beta3.plan_eps(core, Y, ())) if e == -1]
+    if len(needy) <= 1: return Y, tuple(core.comps[k][0] for k in needy), None
+    beta3.claim(len(needy) == 2 and qrank[u][0] != qrank[v][0], "Lemma 6: two needy components")
+    bu, cu = qrank[u][1], qrank[u][2]
+    if comp[bu] != comp[cu]: return {u: (bu, cu), v: (qrank[v][0],)}, (), None         # u holds b_u, c_u
+    return Y, (bu, qrank[v][1]), None                         # b_u, c_u in one thread, b_v, c_v in the other
+
+
+def hand_check(task):
+    n, m, pi, sets = task
+    sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'tools'))
+    import check_qplans
+    core = beta3.Core(n, m, sets)
+    bad = 0
+    for qp in itertools.product(range(6), repeat=len(core.Q)):
+        qrank = {z: tuple(sets[z][k] for k in PERMS[p]) for z, p in zip(core.Q, qp)}
+        Y, Z, T = hand_plan(core, qrank)
+        e1 = beta3.check_plan(core, qrank, (Y, Z, T))
+        e2 = check_qplans.check_plan(n, m, sets, core.Q, qrank, [[list(Y[z]) for z in core.Q], list(Z), T])
+        if e1 or e2: bad += 1; print("HAND PLAN FAILS:", sets, qp, (Y, Z, T), e1, e2, flush=True)
+    return 6 ** len(core.Q), bad
+
+
 def plans_for(task):
     n, m, pi, sets = task
     core = beta3.Core(n, m, sets)
@@ -63,6 +99,18 @@ if __name__ == '__main__':
     jobs = int(opts.get('jobs', os.cpu_count()))
     out = opts.get('out', 'qplans_beta3.json.gz')
     t0 = time.time(); log = lambda s: print(f"[{time.time()-t0:6.0f}s] {s}", flush=True)
+    if 'hand' in opts:
+        fails = 0
+        with multiprocessing.Pool(jobs) as pool:
+            for n in levels:
+                m = 2 * n - 2
+                tasks = [(n, m, pi, s) for pi, s in gen_cores_nauty(n, m) if n - pi in (1, 2)]
+                res = pool.map(hand_check, tasks, chunksize=8)
+                fails += sum(b for _, b in res)
+                byq = collections.Counter(n - t[2] for t in tasks)
+                log(f"n={n} m={m}: {dict(sorted(byq.items()))} cores with q = 1, 2; {sum(c for c, _ in res)} Q-profiles; "
+                    f"hand plans failing: {sum(b for _, b in res)}")
+        log(f"ALL DONE; failing: {fails}"); sys.exit(1 if fails else 0)
     recs, missing = [], 0
     with multiprocessing.Pool(jobs) as pool:
         for n in levels:

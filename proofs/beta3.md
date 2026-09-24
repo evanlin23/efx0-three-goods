@@ -11,7 +11,7 @@ allocation in which at most one bundle has more than two goods.
   soon as the rankings of its *Q-agents* (agents without a private good) admit a *Q-plan*, a combinatorial object
   defined in §3 that ignores the P-agents' rankings. Two consequences are proved by hand:
   - **Corollary 3.** D holds for every connected core in which every agent has a private good, for every β.
-  - **Theorem D3 for q ≤ 1.** D holds for every β = 3 core with at most one Q-agent (Lemma 6).
+  - **Theorem D3 for q ≤ 2.** D holds for every β = 3 core with at most two Q-agents (Lemma 6).
 - A finite part, Lemma 7: every β = 3 core has a Q-plan for every ranking of its Q-agents. Lemma 8 (proved)
   shows that it suffices to check the *reduced* β = 3 cores, those in which every path of degree-2 vertices carries
   at most one agent, and Lemma 9 (proved) shows that reduced β = 3 cores with a Q-agent have at most 10 agents. The
@@ -20,10 +20,10 @@ allocation in which at most one bundle has more than two goods.
   6^q rankings of its Q-agents. An independent checker (`tools/check_qplans.py`, written without the search code)
   re-derives reducedness and re-checks every plan (`results/qplans_beta3.log`, `results/check_qplans.log`).
 
-So Theorem D3 is PROVED for cores with q ≤ 1 and, for all β = 3 cores, it rests on one finite computation
-(Lemma 7): CERTIFIED in the ledger's sense (an exhaustive check over a finite set that a proved lemma shows is
-enough, with independently checked certificates). A hand proof of Lemma 7 for q ≥ 2 is open. §7 lists what each
-kind of core needs.
+So Theorem D3 is PROVED for cores with q ≤ 2 and, for all β = 3 cores, it rests on one finite computation
+(Lemma 7 for q = 3, 4): CERTIFIED in the ledger's sense (an exhaustive check over a finite set that a proved lemma
+shows is enough, with independently checked certificates). A hand proof of Lemma 7 for q = 3, 4 is open; §6 says
+what those cases need. (Among the β = 3 cores with n = 6, 143 of 211 have q ≤ 2; with n = 7, 385 of 541.)
 
 **Cross-check of the whole construction** (evidence, not part of the proof): `src/beta3.py` runs the construction
 step by step (Q-plan, orientations, multi-collector switching) and asserts every intermediate claim;
@@ -206,26 +206,64 @@ base(K) = β − 1 ≥ 0 (β ≥ 1 because m ≤ 2n: 3n = π + Σ_{g ∈ V} deg(
 empty. Apply Theorem 5. (For β = 1 this is L8; for β = 2 it is Case 1 of `proofs/beta2.md`; for β ≥ 2 the large bundle
 belongs to one of the β − 1 collectors.) ∎
 
-## 4. Q-plans for β = 3 with at most one Q-agent (by hand)
+## 4. Q-plans for β = 3 with at most two Q-agents (by hand)
 
-**Lemma 6.** Let C be a connected core with β = 3 and q ≤ 1. Every order of its Q-agent admits a Q-plan.
+For a component D of K let r(D) be the number of pairs (z, g) with z a Q-agent and g ∈ R_z ∩ V(D), and
+S(D) = Σ_{g ∈ V(D)} (deg(g) − 2) ≥ 0. Counting the edges of H at the goods of D (each P-agent of D contributes two,
+each pair (z, g) one) gives Σ_{g ∈ V(D)} deg(g) = 2|E(D)| + r(D), so
 
-*Proof.* q = 0: Corollary 3. Let q = 1, Q = {z}; by Lemma 2, Σ base = 0. Every component D of K contains a good of z
-(H is connected and K is H − z with its P-agents replaced by edges). If D contains exactly one good g of z, then
-base(D) ≥ 0: every other good h of D is valued by at least two agents, all of them P-agents with an edge in D, so
-it has degree ≥ 2 in D; if D were a tree it would have two leaves or be the single vertex g, but g is valued by at
-least one agent besides z, a P-agent with an edge at g. So the goods of z lie in one, two or three components:
-- one component D: base(D) = 0; Y_z = {a_z} makes ε(D) = 1 (active), Z = ∅;
-- three components, one good each: all have base ≥ 0 and sum 0, so all are 0; Y_z = {a_z}, Z = ∅;
-- two components D₂ (two goods of z) and D₁ (one good): base(D₁) ≥ 0, base(D₂) ≥ −1, sum 0. Take Y_z = {a_z}.
-  If base(D₂) = 0, or if a_z ∈ D₂, all components are balanced or active with Z = ∅. Otherwise base(D₂) = −1,
-  base(D₁) = 1, a_z ∈ D₁ and b_z, c_z ∈ D₂: take Z = {b_z}. Then ε(D₁) = 2, ε(D₂) = 0, L = {b_z}.
-In every case (Q0), (P1)–(P4) hold (there are no 2-holders, the spare lies in a balanced component, and at most one of
-b_z, c_z is in L). ∎
+  base(D) = (S(D) − r(D)) / 2.   (†)
 
-With Theorem 5, **D holds for every connected β = 3 core with at most one Q-agent**, by hand. The two-component case
-with a spare is Case 3a of `proofs/beta2.md` one level up; with base(D₁) = 1 the collector theorem now needs two
-collectors.
+If q ≥ 1, every component D has r(D) ≥ 1: K is H minus the Q-agents, with each P-agent replaced by an edge, and H is
+connected. Summing, Σ_D r(D) = 3q and Σ_D S(D) = 4 − q (§1). Since base(D) ≥ −1, (†) gives r(D) ≤ S(D) + 2, and
+r(D) ≡ S(D) (mod 2). A component with S(D) = 0 therefore has r(D) = 2 and base −1; call it a *thread component*
+(it is a path of degree-2 goods and P-agents between two goods of Q-agents, or a single good valued by two Q-agents).
+
+In the plans below, a component with ε(C) = −1 before spares are added is *needy*; each needy component receives
+exactly one spare, which makes it balanced. If all Q-agents are 1-holders, Σ_C ε(C) = Σ base + q = 2 − q before the
+spares (Lemma 2), so for q = 2 the needy components are exactly balanced by the active ones:
+#needy = Σ_{C active} ε(C). Hence (P3) holds with T = ∅ (spares come with an active component), (P2) holds (active
+components contain only 1-holders' goods, and spares go to needy components), and (P4) can only fail if two spares
+are the goods b_z, c_z of one a-pin z.
+
+**Lemma 6.** Let C be a connected core with β = 3 and q ≤ 2. Every order of its Q-agents admits a Q-plan.
+
+*Proof.* **q = 0**: Corollary 3.
+
+**q = 1**, Q = {z}: Σ S = 3, Σ r = 3, Σ base = 0. By (†) a component with r(D) = 1 has S(D) odd, so base(D) ≥ 0,
+and a component with r(D) = 2 has base ≥ −1. Take Y_z = {a_z}.
+- If z's three goods lie in one component, or in three, all bases are 0 (they are ≥ 0 and sum to 0): the component of
+  a_z is active, the others balanced; Z = ∅.
+- If they lie in two components D₂ (two goods) and D₁ (one good), then (base(D₂), base(D₁)) is (0, 0) or (−1, 1). In
+  the first case, or if a_z ∈ D₂, no component is needy; Z = ∅. Otherwise D₂ is needy and contains b_z and c_z:
+  take Z = {b_z}. Then L = {b_z} and (P4) holds.
+
+**q = 2**, Q = {u, v}: Σ S = 2, Σ r = 6, Σ base = −2. By (†), a component has (S, r, base) equal to (0, 2, −1) (a
+thread component), (1, 1, 0), (1, 3, −1), (2, 2, 0) or (2, 4, −1); in particular every base is 0 or −1.
+
+*(i) a_u ≠ a_v.* Take Y_u = {a_u}, Y_v = {a_v}, and one spare in each needy component. By the remark above, only (P4)
+needs checking, and only when there are two needy components. Then Σ_{C active} ε(C) = 2. An active component has
+ε(C) = base(C) + (number of the goods a_u, a_v in C), and base(C) ≤ 0, so both tops lie in active components of base
+0: either in one, which by (†) has S = r ≥ 2, hence S = r = 2, so it contains no pair (z, g) other than (u, a_u) and
+(v, a_v); or in two, each with S = r ≥ 1, hence S = r = 1. Either way all of Σ S = 2 is used up, so every other component is a thread component, and the four remaining pairs
+(u, b_u), (u, c_u), (v, b_v), (v, c_v) lie in exactly two thread components T₁, T₂ (the two needy ones).
+- If b_u and c_u lie in different thread components, change the plan to Y_u = {b_u, c_u} (a 2-holder),
+  Y_v = {a_v}, Z = ∅: T₁ and T₂ get one good of u each and are balanced; the component of a_v gets excess 1 and holds
+  no good of u, so it is active and satisfies (P2); the component of a_u, if different, has base 0 and no marked good.
+  All components are balanced or active, Z = ∅, and (P3), (P4) are empty.
+- Otherwise b_u, c_u ∈ T₁, so b_v, c_v ∈ T₂ (each thread component has r = 2). The two spares, one in T₁ and one in T₂,
+  are never both goods of u or both goods of v: (P4) holds.
+
+*(ii) a_u = a_v = g.* Take Y_u = {g} and Y_v = {b_v} (a b-pin: g is the only good of the 1-holder u, so (Q0) holds),
+and one spare in each needy component. As in (i), two needy components would force the goods g and b_v into active
+components of base 0, where S = r by (†). The component of g has r ≥ 2 (u and v both value g), so r ≥ 3 if it also
+contains b_v, and otherwise the two components have S ≥ 2 and S ≥ 1: either way Σ S ≥ 3 > 2. So at most one
+component is needy, at most one spare is used, and (P4) holds. ∎
+
+With Theorem 5, **D holds for every connected β = 3 core with at most two Q-agents**, by hand. The q = 1 case with a
+spare is Case 3a of `proofs/beta2.md` one level up (the collector theorem now needs two collectors when
+base(D₁) = 1). `src/dg_beta3.py --hand` builds exactly these plans and checks them with both plan checkers on every
+β = 3 core with q ∈ {1, 2} and 3 ≤ n ≤ 10 (`results/hand_plans_beta3.log`; evidence only).
 
 ## 5. Q-plans for β = 3 in general: reduction to finitely many cores
 
@@ -307,9 +345,10 @@ list; cores without Q-agents are covered by Corollary 3. This proves Lemma 7.
 ## 7. Scope and what is open
 
 - **Proved by hand:** Theorem 2 and Theorem 5 for every β; Corollary 3 (D for every connected core in which every
-  agent has a private good, any β); D for β = 3 cores with q ≤ 1 (Lemma 6).
-- **Certified (finite computation behind a proved reduction):** Lemma 7, hence Theorem D3 for all β = 3 cores.
-- **Open:** a hand proof of Lemma 7 for q = 2, 3, 4 (§6 lists which roles each q needs). Beyond β = 3: Theorem 5
+  agent has a private good, any β); D for β = 3 cores with q ≤ 2 (Lemma 6).
+- **Certified (finite computation behind a proved reduction):** Lemma 7 for q = 3, 4, hence Theorem D3 for all
+  β = 3 cores.
+- **Open:** a hand proof of Lemma 7 for q = 3, 4 (§6 lists which roles these need; in particular dump targets). Beyond β = 3: Theorem 5
   holds for every β, and so do Lemma 8 (its proof only uses that H is not a cycle) and the proof of Lemma 9, which
   in general gives n ≤ q + (3β − 3) + (2β − 2 − q) = 5(β − 1) for reduced cores with a Q-agent (Γ has at most
   3β − 3 threads, and Σ_{g ∈ V} (deg(g) − 2) = 2β − 2 − q). So D for any fixed β reduces to Q-plans for finitely
