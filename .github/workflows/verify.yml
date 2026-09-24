@@ -66,6 +66,13 @@ jobs:
       - name: Construction LB from scratch for n <= 5 (C and Python implementations must agree)
         working-directory: src
         run: for n in 2 3 4 5; do python construct_run.py $n --python=1 || exit 1; done
+      - name: Minimal counterexample (proofs/min_counterexample.md) - reduction certificates, and the cores of T4
+        # certs_min_cex_10_18 (about 10 min) and check_enum on cores_9_16_10_18 are re-checked locally:
+        # results/check_certs_min_cex.log, results/check_enum_min_cex.log
+        run: |
+          python tools/check_reductions.py results/min_cex_reductions.json.gz --cover
+          python tools/check_certs.py results/certs_min_cex_9_16.json.gz --expect 9:16:15 --require-d
+          python tools/check_min_cex_cores.py results/cores_9_16_10_18.json.gz results/certs_min_cex_9_16.json.gz results/certs_min_cex_10_18.json.gz
       - uses: actions/upload-artifact@v4
         if: always()
         with:
