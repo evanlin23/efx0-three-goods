@@ -13,8 +13,8 @@ allocation in which at most one bundle has more than two goods.
   - **Corollary 3.** D holds for every connected core in which every agent has a private good, for every β.
   - **Theorem D3 for q ≤ 2.** D holds for every β = 3 core with at most two Q-agents (Lemma 6).
 - A finite part, Lemma 7: every β = 3 core has a Q-plan for every ranking of its Q-agents. Lemma 8 (proved)
-  shows that it suffices to check the *reduced* β = 3 cores, those in which every path of degree-2 vertices carries
-  at most one agent, and Lemma 9 (proved) shows that reduced β = 3 cores with a Q-agent have at most 10 agents. The
+  shows that it suffices to check the *reduced* β = 3 cores, those in which every thread (path of degree-2 vertices
+  between branch vertices) carries at most one P-agent, or at most two if it is a loop at a good (§5), and Lemma 9 (proved) shows that reduced β = 3 cores with a Q-agent have at most 10 agents. The
   finite check was done by computer: all connected β = 3 cores with 3 ≤ n ≤ 10 were enumerated with nauty (list
   certified complete by orbit counting, `tools/check_enum.py`), and every reduced one has a Q-plan for each of the
   6^q rankings of its Q-agents. An independent checker (`tools/check_qplans.py`, written without the search code)
@@ -159,7 +159,8 @@ from ⋃Y := ⋃_z Y_z; and a *dump target* T ⊆ V, such that the following hol
 and C is *active* if ε(C) ≥ 1, *balanced* if ε(C) = 0.
 - (Q0) If Y_z = {b_z}, then {a_z} = Y_{z′} for some 1-holder z′ ≠ z.
 - (P1) ε(C) ≥ 0 for every component C of K.
-- (P2) An active component contains no good of a 2-holder and no spare.
+- (P2) An active component contains no good of Y_z for a 2-holder z, and no spare. (Other goods of R_z may lie in
+  it.)
 - (P3) If Z ≠ ∅ and no component is active, then T = Y_z for a 2-holder z, or T = {v} for a good v ∈ V ∖ (⋃Y ∪ Z).
   Otherwise T = ∅. Let L = Z ∪ T.
 - (P4) If Y_z = {a_z}, then b_z and c_z are not both in L.
@@ -181,7 +182,7 @@ Q-agents admit a Q-plan, then C has an EFX₀ allocation in which at most one bu
    state for (E, V′, Π) with k = Σ_{C active} ε(C) = |E| + |Π| − |V′| ≥ 1. Take the spares Z as the set Z of the
    setting. The setting of Theorem 2 holds: agents of E value only V′ and their private goods; Z ∩ V′ = ∅ by (P2), and
    spares are shared goods outside V′, so not valued by agents of E; apart from the pins, the bundles of steps 1–2
-   contain only private goods of agents outside E and shared goods outside V′ (a 2-holder's goods and the goods of
+   contain only private goods of agents outside E and shared goods outside V′ (the goods Y_z of 2-holders and the goods of
    balanced components lie outside V′ by (P2)), so no good of V′ and no good valued by an agent of E. Theorem 2 gives
    a cover state and J; allocate X(W, h, J, w*) for any w* ∈ W.
 4. *No active component.* Then no agent is served in step 3. If Z ≠ ∅, add Z to the bundle of the owner of T: the
@@ -225,8 +226,8 @@ r(D) ≡ S(D) (mod 2). A component with S(D) = 0 therefore has r(D) = 2 and base
 In the plans below, a component with ε(C) = −1 before spares are added is *needy*; each needy component receives
 exactly one spare, which makes it balanced. If all Q-agents are 1-holders, Σ_C ε(C) = Σ base + q = 2 − q before the
 spares (Lemma 2), so for q = 2 the needy components are exactly balanced by the active ones:
-#needy = Σ_{C active} ε(C). Hence (P3) holds with T = ∅ (spares come with an active component), (P2) holds (active
-components contain only 1-holders' goods, and spares go to needy components), and (P4) can only fail if two spares
+#needy = Σ_{C active} ε(C). Hence (P3) holds with T = ∅ (spares come with an active component), (P2) holds (the
+marked goods of active components are 1-holders' goods, and spares go to needy components), and (P4) can only fail if two spares
 are the goods b_z, c_z of one a-pin z.
 
 **Lemma 6.** Let C be a connected core with β = 3 and q ≤ 2. Every order of its Q-agents admits a Q-plan.
@@ -251,8 +252,8 @@ needs checking, and only when there are two needy components. Then Σ_{C active}
 (v, a_v); or in two, each with S = r ≥ 1, hence S = r = 1. Either way all of Σ S = 2 is used up, so every other component is a
 thread component, and the four remaining pairs (u, b_u), (u, c_u), (v, b_v), (v, c_v) lie in exactly two thread components T₁, T₂ (the two needy ones).
 - If b_u and c_u lie in different thread components, change the plan to Y_u = {b_u, c_u} (a 2-holder),
-  Y_v = {a_v}, Z = ∅: T₁ and T₂ get one good of u each and are balanced; the component of a_v gets excess 1 and holds
-  no good of u, so it is active and satisfies (P2); the component of a_u, if different, has base 0 and no marked good.
+  Y_v = {a_v}, Z = ∅: T₁ and T₂ get one good of u each and are balanced; the component of a_v gets excess 1 and contains
+  neither b_u nor c_u (the goods in Y_u; it may contain a_u), so it is active and satisfies (P2); the component of a_u, if different, has base 0 and no marked good.
   All components are balanced or active, Z = ∅, and (P3), (P4) are empty.
 - Otherwise b_u, c_u ∈ T₁, so b_v, c_v ∈ T₂ (each thread component has r = 2). The two spares, one in T₁ and one in T₂,
   are never both goods of u or both goods of v: (P4) holds.
@@ -335,7 +336,7 @@ Cores without Q-agents are covered by Corollary 3. This proves Lemma 7.
   hold their top (case T of L5) or their b with their top alone (case B), and the spares), or a dump target's
   (a P-agent holding its private good and one shared good, or a 2-holder, plus the spares), or there is none.
   Spares are shared goods, valued only by agents that are safe regardless (P-agents of balanced components, 2-holders,
-  a-pins for which (P4) holds). This is close to, but not the same as, the canonical shape of conjecture S2.K
+  a-pins for which (P4) holds, and b-pins, whose top is held by a 1-holder and so is never a spare). This is close to, but not the same as, the canonical shape of conjecture S2.K
   (`proofs/construction.md` §5.2: owner in case C, bundle = its c plus private goods of agents in cases T or B):
   here the main collector may be in case T, B or C, and spares are shared goods. D3 is proved directly; it does not
   go through construction LB (S2.LB) or S2.K.
