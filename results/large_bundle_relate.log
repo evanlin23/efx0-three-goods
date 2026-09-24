@@ -1,0 +1,147 @@
+# src/large_bundle.py relate: every profile of every connected core (n = 3..5 at every m with C2 failures or beta = 1, n = 6 at m = 10..12): delta - sigma (Lemma A), C2 failure, construction LB's large bundle, and LB's goods needed alone split into tops and lower goods
+n=3 m=5 (sigma = 1), all 648 (core, profile) pairs  [0s]
+  delta - sigma | pairs | C2 fails | LB uses a large bundle | of those, C2 fails
+             -1 |       632 |       12 |       12 |       12
+              0 |        16 |        2 |        2 |        2
+  LB's needed-alone goods: tops T and lower goods L; T - sigma | L | pairs | C2 fails
+          -1 |   0 |       576 |        0
+           0 |   0 |        58 |        0
+           0 |   1 |        14 |       14
+  C2 fails but LB uses no large bundle (impossible): 0
+  LB's large bundle, owner's case: {'C': 14}
+  LB's large bundle minus the owner's goods: {'private goods of agents holding their tops': 12, 'private goods, some agent not holding its top': 2}
+n=4 m=6 (sigma = 2), all 20736 (core, profile) pairs  [4s]
+  delta - sigma | pairs | C2 fails | LB uses a large bundle | of those, C2 fails
+             -2 |     20080 |        0 |       13 |        0
+             -1 |       656 |        5 |        5 |        5
+  LB's needed-alone goods: tops T and lower goods L; T - sigma | L | pairs | C2 fails
+          -2 |   0 |     15125 |        0
+          -1 |   0 |      4593 |        0
+          -1 |   1 |       797 |        0
+          -1 |   2 |         3 |        0
+           0 |   0 |       203 |        0
+           0 |   1 |        15 |        5
+  C2 fails but LB uses no large bundle (impossible): 0
+  LB's large bundle, owner's case: {'C': 15, 'E': 3}
+  LB's large bundle minus the owner's goods: {'private goods of agents holding their tops': 4, 'private goods, some agent not holding its top': 14}
+n=4 m=7 (sigma = 1), all 10368 (core, profile) pairs  [5s]
+  delta - sigma | pairs | C2 fails | LB uses a large bundle | of those, C2 fails
+             -1 |     10336 |      100 |      103 |      100
+              0 |        32 |        2 |        2 |        2
+  LB's needed-alone goods: tops T and lower goods L; T - sigma | L | pairs | C2 fails
+          -1 |   0 |      9405 |        0
+           0 |   0 |       858 |        0
+           0 |   1 |        89 |       86
+           1 |   0 |        13 |       13
+           1 |   1 |         3 |        3
+  C2 fails but LB uses no large bundle (impossible): 0
+  LB's large bundle, owner's case: {'B': 6, 'C': 10, 'P': 18, 'T': 71}
+  LB's large bundle minus the owner's goods: {'private goods of agents holding their tops': 79, 'private goods, some agent not holding its top': 26}
+n=4 m=8 (sigma = 0), all 1296 (core, profile) pairs  [6s]
+  delta - sigma | pairs | C2 fails | LB uses a large bundle | of those, C2 fails
+              0 |      1296 |        0 |       16 |        0
+  LB's needed-alone goods: tops T and lower goods L; T - sigma | L | pairs | C2 fails
+           0 |   0 |      1280 |        0
+           1 |   0 |        16 |        0
+  C2 fails but LB uses no large bundle (impossible): 0
+  LB's large bundle, owner's case: {'B': 4, 'T': 12}
+  LB's large bundle minus the owner's goods: {'contains a shared good': 4, 'private goods of agents holding their tops': 12}
+n=5 m=7 (sigma = 3), all 816480 (core, profile) pairs  [200s]
+  delta - sigma | pairs | C2 fails | LB uses a large bundle | of those, C2 fails
+             -3 |    774144 |        0 |       38 |        0
+             -2 |     42336 |        1 |       18 |        1
+  LB's needed-alone goods: tops T and lower goods L; T - sigma | L | pairs | C2 fails
+          -3 |   0 |    403440 |        0
+          -2 |   0 |    308009 |        0
+          -2 |   1 |     63721 |        0
+          -2 |   2 |      1709 |        0
+          -2 |   3 |         1 |        0
+          -1 |   0 |     34004 |        0
+          -1 |   1 |      5312 |        0
+          -1 |   2 |        40 |        1
+           0 |   0 |       229 |        0
+           0 |   1 |        15 |        0
+  C2 fails but LB uses no large bundle (impossible): 0
+  LB's large bundle, owner's case: {'C': 25, 'E': 31}
+  LB's large bundle minus the owner's goods: {'contains a shared good': 5, 'private goods of agents holding their tops': 14, 'private goods, some agent not holding its top': 37}
+n=5 m=8 (sigma = 2), all 482112 (core, profile) pairs  [320s]
+  delta - sigma | pairs | C2 fails | LB uses a large bundle | of those, C2 fails
+             -2 |    474976 |      139 |      595 |      139
+             -1 |      7136 |      122 |      159 |      122
+  LB's needed-alone goods: tops T and lower goods L; T - sigma | L | pairs | C2 fails
+          -2 |   0 |    360246 |        0
+          -1 |   0 |    102151 |        0
+          -1 |   1 |     13167 |        0
+          -1 |   2 |         9 |        1
+           0 |   0 |      5794 |        0
+           0 |   1 |       702 |      230
+           1 |   0 |        40 |       30
+           1 |   1 |         3 |        0
+  C2 fails but LB uses no large bundle (impossible): 0
+  LB's large bundle, owner's case: {'B': 197, 'C': 265, 'P': 32, 'T': 260}
+  LB's large bundle minus the owner's goods: {'contains a shared good': 15, 'private goods of agents holding their tops': 469, 'private goods, some agent not holding its top': 270}
+n=5 m=9 (sigma = 1), all 116640 (core, profile) pairs  [349s]
+  delta - sigma | pairs | C2 fails | LB uses a large bundle | of those, C2 fails
+             -1 |    116480 |      718 |      932 |      718
+              0 |       160 |        4 |        4 |        4
+  LB's needed-alone goods: tops T and lower goods L; T - sigma | L | pairs | C2 fails
+          -1 |   0 |    105845 |        0
+           0 |   0 |      9859 |        0
+           0 |   1 |       716 |      570
+           1 |   0 |       213 |      145
+           1 |   1 |         7 |        7
+  C2 fails but LB uses no large bundle (impossible): 0
+  LB's large bundle, owner's case: {'B': 39, 'C': 63, 'P': 77, 'T': 757}
+  LB's large bundle minus the owner's goods: {'contains a shared good': 16, 'private goods of agents holding their tops': 739, 'private goods, some agent not holding its top': 181}
+n=5 m=10 (sigma = 0), all 7776 (core, profile) pairs  [351s]
+  delta - sigma | pairs | C2 fails | LB uses a large bundle | of those, C2 fails
+              0 |      7776 |        0 |      176 |        0
+  LB's needed-alone goods: tops T and lower goods L; T - sigma | L | pairs | C2 fails
+           0 |   0 |      7600 |        0
+           1 |   0 |       176 |        0
+  C2 fails but LB uses no large bundle (impossible): 0
+  LB's large bundle, owner's case: {'B': 40, 'P': 4, 'T': 132}
+  LB's large bundle minus the owner's goods: {'contains a shared good': 88, 'private goods of agents holding their tops': 88}
+n=6 m=12 (sigma = 0), all 46656 (core, profile) pairs  [17s]
+  delta - sigma | pairs | C2 fails | LB uses a large bundle | of those, C2 fails
+              0 |     46656 |        0 |     1492 |        0
+  LB's needed-alone goods: tops T and lower goods L; T - sigma | L | pairs | C2 fails
+           0 |   0 |     45164 |        0
+           1 |   0 |      1468 |        0
+           2 |   0 |        24 |        0
+  C2 fails but LB uses no large bundle (impossible): 0
+  LB's large bundle, owner's case: {'B': 288, 'P': 34, 'T': 1170}
+  LB's large bundle minus the owner's goods: {'contains a shared good': 902, 'private goods of agents holding their tops': 582, 'private goods, some agent not holding its top': 8}
+n=6 m=11 (sigma = 1), all 1166400 (core, profile) pairs  [465s]
+  delta - sigma | pairs | C2 fails | LB uses a large bundle | of those, C2 fails
+             -1 |   1165888 |     4263 |     8111 |     4263
+              0 |       512 |        6 |        6 |        6
+  LB's needed-alone goods: tops T and lower goods L; T - sigma | L | pairs | C2 fails
+          -1 |   0 |   1059003 |        0
+           0 |   0 |     99280 |        0
+           0 |   1 |      4967 |     2959
+           1 |   0 |      3022 |     1210
+           1 |   1 |       125 |       97
+           2 |   1 |         3 |        3
+  C2 fails but LB uses no large bundle (impossible): 0
+  LB's large bundle, owner's case: {'B': 611, 'C': 244, 'P': 643, 'T': 6619}
+  LB's large bundle minus the owner's goods: {'contains a shared good': 988, 'private goods of agents holding their tops': 5997, 'private goods, some agent not holding its top': 1132}
+n=6 m=10 (sigma = 2), all 9844416 (core, profile) pairs  [4242s]
+  delta - sigma | pairs | C2 fails | LB uses a large bundle | of those, C2 fails
+             -2 |   9762240 |     5398 |    16556 |     5398
+             -1 |     82112 |     1669 |     2276 |     1669
+              0 |        64 |       10 |       10 |       10
+  LB's needed-alone goods: tops T and lower goods L; T - sigma | L | pairs | C2 fails
+          -2 |   0 |   7532393 |        0
+          -1 |   0 |   1961528 |        0
+          -1 |   1 |    193522 |        0
+          -1 |   2 |       891 |      259
+           0 |   0 |    138131 |        0
+           0 |   1 |     15783 |     5880
+           0 |   2 |       206 |       94
+           1 |   0 |      1557 |      670
+           1 |   1 |       404 |      174
+           2 |   0 |         1 |        0
+  C2 fails but LB uses no large bundle (impossible): 0
+  LB's large bundle, owner's case: {'B': 3728, 'C': 1761, 'P': 2457, 'T': 10896}
+  LB's large bundle minus the owner's goods: {'contains a shared good': 1355, 'private goods of agents holding their tops': 13497, 'private goods, some agent not holding its top': 3990}

@@ -102,5 +102,79 @@ Tool: `src/large_bundle.py`.
 - `c2` lists the profiles with no C2 allocation. For n ≤ 4 it also computes them a second way, by brute force over all allocations without SAT, and the two agree.
 - `structure` enumerates, for every such (core, profile), *all* EFX₀ allocations with exactly one bundle of ≥ 3 goods. It uses an encoding written independently of `frontier.build`, and re-checks every solution against the raw definition.
 - `relate` tabulates every profile by δ − σ (§2).
+- `margin` counts, for every profile where LB needs its overflow bundle, the agents that could own it.
 
-Logs: `results/large_bundle_c2.log`, `results/large_bundle_structure.log`, `results/large_bundle_relate.log`.
+Logs: `results/large_bundle_c2.log`, `results/large_bundle_structure.log`, `results/large_bundle_relate.log`, `results/large_bundle_margin.log`.
+
+### 5.1 When a large bundle is needed
+
+C2-failing (core, profile) pairs among all connected cores. Every (n, m) with n ≤ 6 not listed has none; in particular β = 1 (m = 2n, L8) never needs one.
+
+| n | m | σ | cores with a failing profile | failing pairs |
+|---|---|---|---|---|
+| 3 | 5 | 1 | 1 of 3 | 14 of 648 |
+| 4 | 6 | 2 | 3 of 16 | 5 of 20,736 |
+| 4 | 7 | 1 | 3 of 8 | 102 of 10,368 |
+| 5 | 7 | 3 | 1 of 105 | 1 of 816,480 |
+| 5 | 8 | 2 | 11 of 62 | 261 of 482,112 |
+| 5 | 9 | 1 | 7 of 15 | 722 of 116,640 |
+| 6 | 9 | 3 | 57 of 670 | 1,153 of 31,259,520 |
+| 6 | 10 | 2 | 57 of 211 | 7,077 of 9,844,416 |
+| 6 | 11 | 1 | 14 of 25 | 4,269 of 1,166,400 |
+
+In the smallest failing cores, the losers of a contested top also lose their b, either to another loser or to another agent's top (§5.3). Examples are H3 (three agents sharing top and b) and the n = 4, m = 7 core of §1 (two pairs sharing b).
+
+### 5.2 Who holds it, what goes in it, and each agent's case
+
+For every C2-failing pair, `structure` enumerates all EFX₀ allocations with exactly one large bundle L (owner o). Summary (`results/large_bundle_structure.log`):
+
+| n | m | pairs | min \|L\| (pairs) | owner can hold its top | owner can be in case C | L = c_o + private goods of agents in case T or B, owner in case C |
+|---|---|---|---|---|---|---|
+| 3 | 5 | 14 | 3 (14) | 0 | 14 | 14 |
+| 4 | 6 | 5 | 3 (5) | 0 | 5 | 5 |
+| 4 | 7 | 102 | 3 (101), 4 (1) | 82 | 102 | 102 |
+| 5 | 7 | 1 | 3 (1) | 0 | 1 | 1 |
+| 5 | 8 | 261 | 3 (261) | 50 | 261 | 261 |
+| 5 | 9 | 722 | 3 (722) | 720 | 722 | 722 |
+| 6 | 9 | 1,153 | 3 (1,153) | 1 | 1,153 | 1,153 |
+| 6 | 10 | 7,077 | 3 (6,999), 4 (78) | 6,354 | 7,077 | 7,077 |
+| 6 | 11 | 4,269 | 3 (4,265), 4 (4) | 4,268 | 4,269 | 4,269 |
+
+Findings, for every C2-failing (core, profile) with n ≤ 6:
+1. **Who holds it.** An agent in case C (it holds its c, with its a and b alone) can always be the owner. An agent holding its own top can be the owner in most pairs at m = 2n − 1 (and at n = 6, m = 10), but in few or none at smaller m (n = 6, m = 9: 1 of 1,153). So the natural owner is a *loser*: an agent that has already lost its top and its b to others, for which the extra goods cost nothing.
+2. **What goes in it.** Some solution's large bundle is c_o together with goods that are private to other agents in case T (they hold their top) or case B (they hold b, with a alone). For such an agent its private good is its b or c, worth less than what it holds, so dumping it anywhere is harmless. Apart from c_o, no shared good is ever needed in the large bundle.
+3. **Each agent's case.** In the canonical solution with the most agents holding their tops, almost every other agent holds its top (case T), with a few in P or B. The most common case profiles are TTC and TBC (n = 3); TTTC and TTPC (n = 4, m = 7); TTTTC and TTTPC (n = 5, m = 9); TTTTCC (n = 6, m = 9, where often two agents are in case C); TTTTCC and TTTTBC (n = 6, m = 10); TTTTTC and TTTTPC (n = 6, m = 11). Full histograms are in the log.
+4. **Size.** Three goods suffice except in one pair at n = 4, m = 7 (§1), 78 pairs in 7 cores at n = 6, m = 10, and 4 pairs in 3 cores at n = 6, m = 11 (X4). All of these need exactly four. The frontier search tested "one bundle of three" only at m = 2n − 1, so the m = 10 cores are new. The canonical shape often costs size: the allocations `canon` finds have canonical bundles of up to six goods (`results/large_bundle_canon.log`).
+
+This is exactly the shape of the *collector* in the proof of D for β = 2 (`proofs/beta2.md` §4, D2.C). The collector holds its private good together with the private goods of happy agents (case T) and transparent agents (case B). The data say that the same shape suffices beyond β = 2 for every core with n ≤ 6, and that the collector can always be chosen in case C.
+
+**Conjecture K (canonical large bundle; ledger S2.K).** If a core has no EFX₀ allocation with all bundles of at most two goods, it has one whose only large bundle belongs to an agent o in case C and consists of c_o and goods private to agents in case T or B. Exhaustive evidence: every C2-failing (core, profile) with n ≤ 6, by full enumeration (`structure`) and by a direct SAT query with the shape imposed (`canon`, `results/large_bundle_canon.log`, which also covers n = 7, m = 13: all 20,328 C2-failing profiles). With D2.C this suggests a route to D: choose the loser o, and show that the rest admits bundles of at most two goods in which a_o and b_o are alone and the T/B agents' private goods are free.
+
+### 5.3 What forces the large bundle: collisions, P-capacity, slack
+
+Lemma A (§2) is necessary but never the binding reason in the data. Every profile at the levels in `results/large_bundle_relate.log` has δ ≤ σ. These are every level where C2 fails for n ≤ 5, plus n = 4, m = 8, n = 5, m = 10, and n = 6, m ∈ {10, 11, 12}; n = 6, m = 9 was not tabulated. So all C2-failing profiles with n ≤ 5, and those with n = 6 and m ∈ {10, 11}, have δ ≤ σ. The P-capacity bound is far from tight.
+
+What binds is second-order, and LB's accounting shows it. Split LB's goods needed alone (after its upgrades) into tops T (goods that are the top of an agent that needs them alone) and lower goods L (goods that some agent needs alone only as its b or c). By Lemma 2, LB needs a large bundle iff T + L > σ, and a C2-failing profile forces this. Among the C2-failing profiles:
+
+| n | m | σ | T = σ, L ≥ 1 | T > σ, L = 0 | T > σ, L ≥ 1 | T < σ |
+|---|---|---|---|---|---|---|
+| 3 | 5 | 1 | 14 | 0 | 0 | 0 |
+| 4 | 6 | 2 | 5 | 0 | 0 | 0 |
+| 4 | 7 | 1 | 86 | 13 | 3 | 0 |
+| 5 | 7 | 3 | 0 | 0 | 0 | 1 |
+| 5 | 8 | 2 | 230 | 30 | 0 | 1 |
+| 5 | 9 | 1 | 570 | 145 | 7 | 0 |
+| 6 | 10 | 2 | 5,974 | 670 | 174 | 259 |
+| 6 | 11 | 1 | 2,959 | 1,210 | 100 | 0 |
+
+In most failing profiles the tops that must stay alone exactly use up the slack, and one more good must stay alone because some loser has also lost its b. That b is either held by another loser (two losers of the same top share b, as in H3) or it is another agent's top. That loser can only use case C, which needs its a and its b alone. T can exceed σ on its own even though δ ≤ σ, because LB does not minimise the number of tops that must stay alone. In every case the large bundle absorbs the excess: each good it takes beyond two frees one more good to be alone (L7, Lemma 2), and the goods it takes are private goods of agents that do not need them (§5.2).
+
+## 6. How close LB comes to failing, and what remains open
+
+**Margin.** For every profile where LB needs its overflow bundle, `margin` counts the agents that are not frozen (candidate owners) and those that admit an overflow set passing the owner constraint (`results/large_bundle_margin.log`). Often there is exactly one candidate (n = 3: all 14 profiles; n = 5, m = 7: all 56). Sometimes the owner constraint rules out candidates: 2 profiles at n = 4, m = 7 and 11 at n = 5, m = 8 have two candidates of which only one works, and 4 profiles at n = 6, m = 10 have three candidates of which only one works (e.g. the core [[2,4,6], [2,5,7], [3,4,8], [3,5,9], [0,1,4], [0,1,5]] with profile (0,0,0,0,4,4)). A proof that LB never fails must identify this owner.
+
+**Open.**
+1. S2.LB: LB never fails. Theorem 1 reduces this to the existence of an owner in the last step. Certified for every core with n ≤ 6 (S2.N6). For n = 7 and n = 8, see `results/construct_7.log`, `results/construct_8.log` (exhaustive, raw check in `construct.c`, no stored certificate).
+2. S2.K (Conjecture K above), and whether LB can be changed to output the canonical shape.
+3. LB depends on labels through its tie-breaks. Random relabellings (`construct_run.py --relabel`) are evidence only (`results/construct_relabel.log`).
+

@@ -1,0 +1,11 @@
+# src/large_bundle.py canon: for every C2-failing (core, profile), is there an EFX0 allocation of Conjecture K's shape (one SAT call with the shape imposed; witnesses re-checked against the raw definition and the shape)? n = 7: m = 13 only (m = 12, 11 not run: hours per level in Python)
+n=3 m=5: 14 C2-failing (core, profile) pairs; with an allocation of Conjecture K's shape: 14 (its large bundle's size: {3: 14})  [0s]
+n=4 m=6: 5 C2-failing (core, profile) pairs; with an allocation of Conjecture K's shape: 5 (its large bundle's size: {3: 5})  [0s]
+n=4 m=7: 102 C2-failing (core, profile) pairs; with an allocation of Conjecture K's shape: 102 (its large bundle's size: {3: 78, 4: 24})  [0s]
+n=5 m=7: 1 C2-failing (core, profile) pairs; with an allocation of Conjecture K's shape: 1 (its large bundle's size: {3: 1})  [2s]
+n=5 m=8: 261 C2-failing (core, profile) pairs; with an allocation of Conjecture K's shape: 261 (its large bundle's size: {3: 114, 4: 147})  [4s]
+n=5 m=9: 722 C2-failing (core, profile) pairs; with an allocation of Conjecture K's shape: 722 (its large bundle's size: {3: 328, 4: 281, 5: 113})  [7s]
+n=6 m=9: 1153 C2-failing (core, profile) pairs; with an allocation of Conjecture K's shape: 1153 (its large bundle's size: {3: 490, 4: 663})  [97s]
+n=6 m=10: 7077 C2-failing (core, profile) pairs; with an allocation of Conjecture K's shape: 7077 (its large bundle's size: {3: 2672, 4: 3086, 5: 1319})  [214s]
+n=6 m=11: 4269 C2-failing (core, profile) pairs; with an allocation of Conjecture K's shape: 4269 (its large bundle's size: {3: 2426, 4: 1089, 5: 574, 6: 180})  [268s]
+n=7 m=13: 20328 C2-failing (core, profile) pairs; with an allocation of Conjecture K's shape: 20328 (its large bundle's size: {3: 7774, 4: 4138, 5: 4218, 6: 3437, 7: 761})  [2391s]
