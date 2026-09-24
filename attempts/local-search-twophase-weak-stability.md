@@ -1,6 +1,6 @@
 # Two-phase local search with weak stability (no rebundles or champion moves in Phase 1)
 
-Workstream `proof/local-search` (`proofs/local_search.md` §5).
+Workstream `proof/local-search` (`proofs/local_search.md` §6.2).
 
 **Approach.** Phase 1 stops at a junk-free EFX₀ partial allocation Y that is only *weakly stable*:
 - (s1) Y is EFX₀;

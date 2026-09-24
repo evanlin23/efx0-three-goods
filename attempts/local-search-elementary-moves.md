@@ -1,6 +1,6 @@
 # Local search with the four elementary moves only
 
-Workstream `proof/local-search` (`proofs/local_search.md` §2–§4).
+Workstream `proof/local-search` (`proofs/local_search.md` §2, §3, §6.1).
 
 **Approach.** Keep an EFX₀ partial allocation of a core and use only the moves E (fill an empty bundle), S (swap for an envied pool good), R (rotate an envy cycle) and A (add a pool good to a bundle). The potential is (sum of levels, number of allocated goods). Theorem A shows that these moves never get stuck on a *junk-free* state, i.e. one where every allocated good is valued by its holder. E and A create junk, however, and junk is where the search stops.
 

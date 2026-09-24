@@ -1,16 +1,24 @@
-# EFX₀ in cores by local search: moves, potential, and where the argument stops
+# EFX₀ in cores by local search (Theorem C: every core has an EFX₀ allocation, hence TARGET)
 
-Workstream `proof/local-search`. This is a route to TARGET that does not go through conjecture D. The route keeps a partial EFX₀ allocation of a core and applies moves that raise a potential, as in the existence proofs for identical valuations, three agents, multigraphs and hypergraphs of girth ≥ 4 listed in `proofs/citations.md`. None of those papers was read for this work; their methods are known here only from the summaries in `proofs/citations.md`, and nothing below depends on them.
+Workstream `proof/local-search`. This route to TARGET does not go through conjecture D. It keeps a partial EFX₀ allocation of a core and applies moves that raise a potential, like the existence proofs for identical valuations, three agents, multigraphs and hypergraphs of girth ≥ 4 listed in `proofs/citations.md`. None of those papers was read for this work; their methods are known here only from the summaries in `proofs/citations.md`, and nothing below depends on them.
 
-**Summary.**
-- Proved: in a core, partial EFX₀ is ordinal and local (Lemma 1). Envy between bundles has a rigid form (Lemma 2). A single threat bound covers all the moves used (Lemma 3).
-- Proved (Theorem A): if every allocated good is held by an agent that values it, the four elementary moves (fill an empty bundle, swap for an unallocated good, rotate an envy cycle, add an unallocated good to an unenvied singleton) never get stuck.
-- So the only obstruction is *junk*: goods held by agents that do not value them. Two ways of dealing with junk were tested exhaustively.
-  - **One phase** (§4): junk is part of the state, with the potential (sum of levels, number of allocated goods). With seven move types, no partial EFX₀ state of any connected core with n ≤ 5 is stuck. At n = 6 the search can get stuck: a run of 8 potential-raising moves from the empty allocation ends in a stuck state (core 687, m = 9; replayed by an independent Python implementation). So this move set and this potential do not prove TARGET.
-  - **Two phases** (§5): Phase 1 moves junk-free partial allocations by Pareto improvements and provably terminates. Phase 2 places the remaining goods as junk. TARGET follows from one statement, the *placement conjecture* TP (Theorem B). §5 reduces TP to a per-good condition on source bundles (Lemmas 5–7). TP holds for every connected core with n ≤ 6 (exhaustive; C, cross-checked in Python for n ≤ 4). With only single-agent and champion-path moves it fails at n = 6, again on core 687; augmented envy cycles repair it.
-- Open: TP for general n. §6 lists where the three-goods restriction enters, and §7 lists the exact remaining gap.
+**Main result.**
+- **Theorem C (§4).** For every core and every balanced ranking profile, Algorithm LS2 computes a complete EFX₀ allocation within 7n Phase-1 steps.
+- With the reduction to cores (`proofs/lemmas.md`, CORE), this proves **TARGET**: every additive instance in which each agent values at most three goods positively has an EFX₀ allocation.
 
-Everything in §1–§3 and the lemmas of §5 are proved here and were re-read. Computations are evidence for the conjectures and are listed with their logs; they are not part of any proof (PROMPT.md §5 rule 3).
+Algorithm LS2 has two phases.
+- **Phase 1** keeps a *junk-free* partial EFX₀ allocation: every allocated good is valued by its holder. It applies seven kinds of Pareto improvement, and the sum of levels (a potential ≤ 7n) rises at every step.
+- **Phase 2** places the unallocated goods as *junk*, that is, with agents that do not value them. The placement is read off a maximum matching between one-good source bundles and the goods that are "dirty" for them (Hall's theorem).
+- The key step (step 7) is an *augmented envy cycle*. Whenever the matching saturates every one-good source, such a cycle exists.
+
+**Structure and status.**
+- §1–§3 are lemmas: partial EFX₀ in a core is ordinal and local (Lemma 1), envy has a rigid form (Lemma 2), one threat bound covers every move (Lemma 3), plus move validity (Lemma 4) and Theorem A, which shows that junk-free states never block the elementary moves.
+- §4 is the algorithm and the proof of Theorem C. Everything in §1–§4 is proved here and was re-read; the proof of Theorem C uses only Lemmas 1–3, F1, L4 and L5 (iv) of `proofs/lemmas.md`.
+- §5 is computational corroboration, which is not part of the proof (PROMPT.md §5 rule 3):
+  - Algorithm LS2 was run on every ranking profile of every connected core with n ≤ 6: 146,640,096 runs, each checked. The distinct outputs were saved as certificates, which the SAT-free checker `tools/check_certs.py` accepts.
+  - An independent Python implementation that works from numeric valuations was run exhaustively for n ≤ 5, and on random cores with random real balanced values up to n = 100.
+- §6 records how the moves were found. It includes two refutations: a one-phase local search, where junk is part of the state, can get stuck at n = 6; and Phase 1 without augmented envy cycles can end in a state that no junk placement completes, again at n = 6.
+- §7 says where the three-goods restriction is used.
 
 ## 0. Notation
 
@@ -93,13 +101,138 @@ U, C and X are Pareto improvements (some agent strictly better), so they raise �
 
 *Proof.* Suppose that no agent envies a pool good, that the envy graph is acyclic and that no bundle is empty. Suppose, for contradiction, that every source has at least two goods. X is junk-free, so every source holds at least two of its own goods, is rich, and by Lemma 2 (a) envies nobody. Let v be any agent that is not a source. It has an in-neighbour u, and u envies someone, so u is not a source either. Repeating, we get an infinite backward walk through non-sources. The graph is finite, so the walk repeats a vertex, and the envy graph has a cycle, which is a contradiction. So every agent is a source with at least two goods, and at least 2n ≥ m goods are allocated (L4). This contradicts P ≠ ∅. Hence some source s has |X_s| ≤ 1. X_s ≠ ∅ by assumption, so |X_s| = 1, and Lemma 4 (b) applies. Lemma 4 (a) covers S, R and E. ∎
 
-E and A can create junk: the good may be worthless to the agent receiving it. Theorem A is where the three-goods restriction enters most directly (§6). The corresponding statement fails for general additive valuations, where a source with two goods can still envy.
+E and A can create junk: the good may be worthless to the agent receiving it. Theorem A is where the three-goods restriction enters most directly (§7). The corresponding statement fails for general additive valuations, where a source with two goods can still envy.
 
 `src/ls_check.c -P` classifies every partial EFX₀ state by the first case that applies: E, S, R, A (at a source), (f) or (e). For n ≤ 5 every *junk-free* state is settled by E, S, R or A, as Theorem A says (column "junkless-uncovered" = 0 in `results/ls_allstates_2_5.log`).
 
-## 4. One phase: junk inside the state
+## 4. Algorithm LS2 and Theorem C
 
-**Result 4.1 (exhaustive, one implementation).** Take every connected core with n ≤ 5 (all m), every ranking profile, and every EFX₀ partial allocation with P ≠ ∅. Then one of the moves E, S, R, A, U, C raises Φ and gives an EFX₀ allocation. For n ≤ 4 every such state was examined (64,183,056 states for n = 4). For n = 5 the checker examined every state whose bundles are all nonempty and in which no agent envies a pool good: 243,021,230 (state, profile) pairs. The remaining states are settled by E and S (Lemma 4 (a)). Log: `results/ls_allstates_2_5.log`.
+Fix a core with a strict ranking profile (a_i, b_i, c_i) and balanced additive valuations consistent with it. Y denotes a junk-free partial allocation and U its set of unallocated goods.
+- A *one-good source* is a source s with |Y_s| = 1.
+- A *dirty triple* (i, u, s) consists of a one-good source s with Y_s = {y}, an a-holder i and a good u ∈ U with {b_i, c_i} = {u, y}.
+- For a one-good source s, D(s) is the set of goods u such that some dirty triple (i, u, s) exists. For a set T of one-good sources, D(T) is the union of the D(s), s ∈ T.
+
+**Algorithm LS2.**
+
+*Phase 1.* Start with Y_i = ∅ for all i and U = M. While U ≠ ∅, apply the first of the following steps that applies:
+1. *(swap)* Some agent i envies a good u ∈ U. The goods of Y_i go to U, and Y_i := {u}.
+2. *(rotation)* The envy graph has a cycle i_0 → i_1 → … → i_{L−1} → i_0. Each i_t takes Y_{i_{t+1}} ∩ R_{i_t}; the other goods of these bundles go to U.
+3. *(bottom pair)* Some a-holder i has b_i, c_i ∈ U. Then Y_i := {b_i, c_i}, and a_i goes to U.
+4. *(add a bottom good)* Some a-holder i has exactly one of b_i, c_i in U, say u, and nobody envies i. Then Y_i := {a_i, u}.
+5. *(source adds)* Some one-good source s values a good u ∈ U. Then Y_s := Y_s ∪ {u}.
+
+   If some bundle is empty, Phase 1 stops here.
+6. *(champion)* There are a dirty triple (i, u, s), with Y_s = {y}, and an envy path s = t_0 → t_1 → … → t_r = i. Each t_q (q < r) takes Y_{t_{q+1}} ∩ R_{t_q}, and i takes {u, y}. The other goods of these agents' bundles go to U.
+7. *(augmented envy cycle)* The family (D(s))_s, over the one-good sources s, has a system of distinct representatives. Apply the move constructed in Claim 3 below.
+
+If none applies, Phase 1 stops.
+
+*Phase 2.* If U ≠ ∅ when Phase 1 stops, do one of the following.
+- (a) If some bundle Y_e is empty, add all of U to it.
+- (b) Otherwise:
+  - Take a maximum matching M between the one-good sources and the goods, where s may be matched to u iff u ∈ D(s).
+  - Take a one-good source s* that M leaves unmatched, and let T consist of s* and the one-good sources reachable from s* by M-alternating paths s → u → M(u) with u ∈ D(s).
+  - Add each u ∈ D(T) to Y_{M(u)}, and add every other good of U to Y_{s*}.
+
+**Theorem C.** Algorithm LS2 terminates after at most 7n steps of Phase 1 and outputs a complete allocation that is EFX₀ for every balanced additive valuation consistent with the profile. Hence every core has an EFX₀ allocation, including cores with ties (by L5 (iv)).
+
+*Proof.* Throughout, Y is junk-free and EFX₀. This holds at the start (the empty allocation). Its decisions use only the ranking profile (Lemma 1, levels), so it suffices to argue for one valuation.
+
+**Claim 1 (steps 1–6).** If one of steps 1–6 applies, the result is junk-free and EFX₀, and Σℓ strictly increases.
+
+Every taker receives only goods it values, so Y stays junk-free. We apply Lemma 3 with X = Y. Condition (i) holds because every agent that receives a new bundle strictly improves (below), and the others keep their bundles.
+- Step 1: the new bundle is the singleton {u}.
+- Step 2: every agent on the cycle strictly improves, since it envied the bundle it takes. The new bundles are subsets of old bundles.
+- Step 3: i gets value v_i(b_i) + v_i(c_i) > v_i(a_i) by balance. The new bundle {b_i, c_i} consists of two goods of U. Step 1 does not apply, so nobody envies them, and (ii) of Lemma 3 holds.
+- Step 4: i improves. The new bundle {a_i, u} consists of u, which nobody envies (step 1 does not apply), and a_i, which nobody envies because nobody envies i and Y_i = {a_i}.
+- Step 5: s improves. The new bundle {y, u} consists of u, envied by nobody, and s's good y, envied by nobody because s is a source.
+- Step 6: every t_q improves (envy), and i improves by balance. The new bundles are subsets of old bundles, plus {u, y}, whose goods nobody envies (u ∈ U; y is the single good of the source s).
+
+In each case Lemma 3 gives EFX₀. Since the value of a set of own goods determines its level, Σℓ strictly increases. ∎
+
+**Claim 2.** Suppose U ≠ ∅, steps 1–6 do not apply and no bundle is empty. Then:
+- (a) nobody envies a good of U;
+- (b) the envy graph is acyclic;
+- (c) no a-holder has both b_i and c_i in U;
+- (d) if an a-holder i has one of b_i, c_i in U, some agent envies i;
+- (e) no one-good source values a good of U;
+- (f) every source that envies somebody is a one-good source;
+- (g) there is a one-good source;
+- (h) for every dirty triple (i, u, s), some one-good source s′ ≠ s has an envy path to i.
+
+*Proof.* (a)–(e) say that steps 1–5 do not apply.
+- (f) A source is nonempty. If it has ≥ 2 goods, it holds ≥ 2 of its own goods (Y is junk-free), so by Lemma 2 (a) it envies nobody.
+- (g) If some agent is not a source, walk backwards along envy edges from it. By (b) the walk ends, at a source that envies somebody, which is a one-good source by (f). If every agent is a source and none has exactly one good, then every bundle has ≥ 2 goods and ≥ 2n goods are allocated. But at most m − 1 ≤ 2n − 1 are (L4). So some source has one good.
+- (h) By (d), i is not a source, and walking backwards from i as in (g) reaches a one-good source with an envy path to i. If s were the only such source, step 6 would apply to (i, u, s). ∎
+
+**Claim 3 (step 7).** Suppose U ≠ ∅, steps 1–6 do not apply, no bundle is empty, and the family (D(s))_s over the one-good sources has a system of distinct representatives ℓ(s) ∈ D(s). Then there is a move that keeps Y junk-free and EFX₀ and strictly raises Σℓ.
+
+*Proof.* The construction goes in four parts.
+
+*Choosing a successor for each source.* For each one-good source s, fix a dirty triple (i_s, ℓ(s), s). By Claim 2 (h), fix a one-good source f(s) ≠ s and an envy path P_s from f(s) to i_s. The map f has no fixed point, so it has a cycle s_1, …, s_k with k ≥ 2 and f(s_j) = s_{j+1} (indices mod k).
+
+*The closed walk.* Consider the closed walk W that starts at s_1 and, for j = k, k − 1, …, 1 in turn, follows P_{s_j} (from s_{j+1} to i_{s_j}) and then the *dirty edge* i_{s_j} → s_j. Every vertex of W has its successor on W. Two facts about the vertices of W:
+- A one-good source has no in-coming envy edge, so it occurs on W only as the target of a dirty edge and as the start of an envy path.
+- An a-holder i_s envies nobody: its bottom pair contains a good of U, so no bundle equals {b_i, c_i} (Lemma 2). So it occurs only as the end of an envy path and the tail of a dirty edge.
+
+*A simple cycle with distinct goods.* Let C be a shortest closed sub-walk of W between two occurrences of the same agent. C is a simple cycle. It contains a dirty edge, because otherwise it would be an envy cycle, contradicting Claim 2 (b). Its dirty edges enter distinct sources s, so they carry distinct goods ℓ(s).
+
+*The move.* Every agent t of C whose successor on C is t′ via an envy edge takes Y_{t′} ∩ R_t. Every agent i_s whose successor is s via a dirty edge takes {ℓ(s)} ∪ Y_s. All other goods of the bundles of C's agents go to U.
+- The taken sets are disjoint: they lie in the bundles of distinct successors, plus distinct goods of U.
+- Every agent of C strictly improves. For envy edges this holds by definition. For dirty edges, i_s's value rises from v(a) to v(b) + v(c) > v(a) by balance, since {ℓ(s)} ∪ Y_s = {b_{i_s}, c_{i_s}}.
+- The new bundles are subsets of old bundles, or sets {ℓ(s), y_s}. Nobody envies ℓ(s) ∈ U (Claim 2 (a)), and nobody envies y_s, the single good of a source. So Lemma 3 gives EFX₀.
+
+Y stays junk-free, and Σℓ strictly increases. ∎
+
+*Termination.* Claims 1 and 3 show that every Phase-1 step is well defined, keeps Y junk-free and EFX₀, and raises Σℓ by at least 1. Since Σℓ ≤ 7n, Phase 1 stops after at most 7n steps. When it stops with U ≠ ∅, either some bundle is empty (after step 5), or steps 1–6 do not apply and no SDR exists (so step 7 does not apply).
+
+**Claim 4 (Phase 2).** The output X is complete and EFX₀.
+
+*Proof.* Every good of U is added somewhere, so X is complete. In both cases every receiver is an agent that values no good of U: in case (a) because an empty agent would envy any good of U it valued, contradicting (a) of Claim 2 (which holds as soon as step 1 does not apply); in case (b) by Claim 2 (e). So levels, and the goods each agent envies, are the same in X as in Y. We check Lemma 1 for every agent h.
+
+*(F).* The goods h envies are free in Y and not in U (step 1 does not apply), so each is alone in Y, in a bundle whose holder is envied by h. That holder is not a source. In case (a) the receiver's bundle was empty, and in case (b) receivers are sources. So these bundles receive nothing and the goods stay alone.
+
+*(Q)* for an a-holder h, with lower goods b_h, c_h. Step 3 does not apply, so they are not both in U. Two cases remain.
+- *Both in Y.* If they lie in different Y-bundles they stay apart, since Phase 2 only adds goods of U to bundles. If they lie in one Y-bundle B, then B = {b_h, c_h} by (Q) in Y. Then h envies B's holder (v(b) + v(c) > v(a)), so that holder is not a source and B receives nothing.
+- *One in U, say u, and the other, y, in a bundle Y_j.* They share a bundle in X only if u is added to Y_j. In case (a), Y_j = ∅ cannot contain y. In case (b), j is a receiver, hence a one-good source with Y_j = {y}, and (h, u, j) is a dirty triple, so u ∈ D(j).
+  - If j = s*, then u ∈ D(T) and u was sent to M(u) ≠ s* instead.
+  - Otherwise j = M(u′) for some u′ ∈ D(T), and M(u′) receives only u′. The matching map is injective on D(T), and the goods outside D(T) go to s*. So u = u′ and X_j = {y, u} has two goods, and (Q) holds.
+
+It remains to check that case (b) is well defined.
+- A one-good source exists by Claim 2 (g). It is unmatched in some maximum matching, because otherwise M would be a system of distinct representatives and step 7 would apply.
+- Every u ∈ D(T) is matched: otherwise the alternating path to u would augment M.
+- M(u) ∈ T, since the alternating path continues through M(u).
+- s* is unmatched, so M(u) ≠ s*. ∎
+
+Claims 1–4 prove Theorem C. ∎
+
+**Corollary (TARGET).** Every additive instance in which every agent values at most three goods positively has an EFX₀ allocation.
+
+*Proof.* By the CORE reduction (`proofs/lemmas.md`, "CORE: reduction of TARGET to cores"), it suffices that every core has an EFX₀ allocation. That is Theorem C. Connectivity is not needed, so L6 is not used. ∎
+
+*Remarks.*
+1. LS2 runs in polynomial time. There are at most 7n Phase-1 steps. Each step needs the envy graph, its reachability relation, the dirty triples (O(n²m)) and one bipartite matching. The reduction to cores is polynomial as well.
+2. Theorem C gives no bound on bundle sizes. LS2 can put many goods into s* or into an empty bundle, so it says nothing about conjecture D's shape (at most one bundle of more than two goods). The certificates of §5 happen to satisfy D's shape only in part (see the logs).
+
+## 5. Computational corroboration of Theorem C (not part of the proof)
+
+- **C implementation, exhaustive.** `src/ls_alg.c` runs LS2 exactly as in §4 on every ranking profile of every connected core with n ≤ 6 (all m; nauty genbg via `src/cores_nauty.py`).
+  - After every Phase-1 step it asserts that Y is EFX₀ (Lemma 1), that Σℓ increased, and that there is no junk.
+  - It aborts if Claim 2 (h) or the Hall step ever fails.
+  - It checks the output against the RAW definition with two balanced realizations.
+  - Result: 146,640,096 runs (n = 2, …, 6), with no failure (`results/ls_alg_2_6.log`). Step 7, the augmented envy cycle, is used: 24 times at n = 4, 1,160 at n = 5, and 59,700 at n = 6; the champion step 6 is used 14,384,250 times at n = 6, and no run needs more than 22 Phase-1 steps (the bound is 7n = 42).
+- **Certificates.** The distinct outputs per core are saved as `results/certs_ls2_2_5.json.gz` and `results/certs_ls2_6.json.gz`. The SAT-free checker `tools/check_certs.py`, written independently of this work, confirms from the raw EFX₀ definition that they cover every profile of every core (`results/check_certs_ls2.log`).
+- **Independent Python implementation.** `python src/local_search.py pyalg n` and `pyrandom` (function `ls2_numeric`) implement LS2 again from numeric valuations. Every decision (envy, steps, matching) uses the numbers, not the ordinal rule, and every step is checked by the raw definition and for being a Pareto improvement.
+  - Exhaustive: every profile of every connected core with n ≤ 5 (realization (4, 3, 2)); 0 failures (`results/ls_alg_py.log`).
+  - Random: PYRANDOM_SUMMARY random cores, not necessarily connected, n = 2, …, 40, 50 and 100, with independent random real balanced values; 0 failures (`results/ls_alg_py.log`).
+
+## 6. How the moves were found
+
+This section keeps the development that led to Theorem C. It explains why LS2 has two phases and why step 7 is needed. Its conjecture TP is now a consequence of the proof of Theorem C: a junk-free state that no M1–M3 move improves is in particular stable under steps 1–7, which are instances of M1–M3. So Phase 2 applies to it, by Claims 2 and 4.
+
+### 6.1 One phase: junk inside the state
+
+**Result 6.1 (exhaustive, one implementation).** Take every connected core with n ≤ 5 (all m), every ranking profile, and every EFX₀ partial allocation with P ≠ ∅. Then one of the moves E, S, R, A, U, C raises Φ and gives an EFX₀ allocation. For n ≤ 4 every such state was examined (64,183,056 states for n = 4). For n = 5 the checker examined every state whose bundles are all nonempty and in which no agent envies a pool good: 243,021,230 (state, profile) pairs. The remaining states are settled by E and S (Lemma 4 (a)). Log: `results/ls_allstates_2_5.log`.
 
 The cases of Lemma 4 settle all but a few states. For n = 4, 24 states need a *junk grab*, where an agent takes a good that its holder does not value. For n = 5, 1,296 states need a single-agent rebundle U in one of three patterns (`results/ls_allstates_2_5.log`):
 - a source holding one own good and junk takes a pool good it values and drops the junk;
@@ -107,7 +240,7 @@ The cases of Lemma 4 settle all but a few states. For n = 4, 24 states need a *j
 - a source takes a good it values from another agent's junk and drops its own junk.
 Every one of these states contains junk.
 
-**Refutation 4.2 (the one-phase search can get stuck at n = 6).** Core 687 of genbg's list for (n, m) = (6, 9), under the profile with rankings (a, b, c)
+**Refutation 6.2 (the one-phase search can get stuck at n = 6).** Core 687 of genbg's list for (n, m) = (6, 9), under the profile with rankings (a, b, c)
   (1,6,7) (4,5,8) (1,5,0) (6,0,3) (5,2,3) (4,6,2):
 The moves E (goods 1, 4, 0, 6, 5, 2 to agents 0, …, 5 in turn), then A (good 8 to agent 2), then A (good 7 to agent 5) each raise Φ and keep EFX₀. They reach the EFX₀ state
   {1} {4} {0,8} {6} {5} {2,7}, pool {3},
@@ -122,7 +255,7 @@ from which no move E, S, R, A, U, C or X gives an EFX₀ allocation with larger 
 
 So this move set with this potential does not prove TARGET. The failure is entirely about where junk sits, which leads to the two-phase version: drop all junk, improve the valued part, and place the junk afresh.
 
-## 5. Two phases: Pareto moves on junk-free states, then junk placement
+### 6.2 Two phases with general Pareto moves (before Theorem C)
 
 Dropping all junk from any EFX₀ partial allocation keeps it EFX₀ and keeps every level (Lemma 4 (d)). So every state has a junk-free *valued part* with the same Σℓ.
 
@@ -173,28 +306,39 @@ The agent receiving u is safe as before: its own goods and the goods it envies a
 
 **What TP needs.** By Lemma 7, TP asks for an assignment of the goods of U to sources in which a good whose chosen source is dirty sits alone next to that source's single good. Corollary 8 covers the easy cases. The hard case has more goods in U than one-good sources, with some good dirty at every source; the n = 6 example below is of that kind.
 
-**Evidence 5.1.** The C checker `src/ls_twophase.c` (`-x` adds M3) enumerates every junk-free partial allocation of every connected core, every profile, and every stable state, and searches all placements of U into source bundles. The independent Python implementation (`python src/local_search.py py n`) decides EFX₀, envy and every move from the raw definition with two numeric realizations, and searches placements over all agents, not just sources.
-- n ≤ 5, with M1 and M2 only: 5,751,498 stable states over 293 + 41 + 7 + 2 cores, 0 failures (`results/ls_twophase_2_5.log`).
-- n = 6, with M1 and M2 only: 707,475,902 stable states over 3,093 cores. It fails in exactly one core, core 687 (the core of Refutation 4.2), in 64 profiles (`results/ls_twophase_6_m1m2.log`; attempt file `attempts/local-search-twophase-m1m2.md`).
-- n = 6, with M1–M3: SEE_N6_RESULT (`results/ls_twophase_6.log`).
-- Python and C agree on n ≤ 4 (with M1–M3): the same number of stable states per core and 0 failures (`results/ls_twophase_py_2_4.log`).
+**Evidence 6.3.** The C checker `src/ls_twophase.c` (`-x` adds M3) enumerates every junk-free partial allocation of every connected core, every profile, and every stable state, and searches all placements of U into source bundles. The independent Python implementation (`python src/local_search.py py n`) decides EFX₀, envy and every move from the raw definition with two numeric realizations, and searches placements over all agents, not just sources.
+- n ≤ 5, with M1 and M2 only: 5,814,204 stable states (8, 640, 62,058 and 5,751,498 for n = 2, 3, 4, 5) over 2 + 7 + 41 + 293 cores, 0 failures. With M1–M3: 5,810,840 stable states, 0 failures (`results/ls_twophase_2_5.log`).
+- n = 6, with M1 and M2 only: 707,475,902 stable states over 3,093 cores. It fails in exactly one core, core 687 (the core of Refutation 6.2), in 64 profiles (`results/ls_twophase_6_m1m2.log`; attempt file `attempts/local-search-twophase-m1m2.md`).
+- n = 6, with M1–M3: 707,008,494 stable states over 3,093 cores, 0 failures (`results/ls_twophase_6.log`).
+- Python and C agree for n ≤ 4 (with M1–M3): the same numbers of stable states (8, 640 and 62,034 for n = 2, 3, 4) and 0 failures (`results/ls_twophase_py_2_4.log`).
 
 **The n = 6 failure without M3.** Core 687 under the profile (1,6,7) (4,5,8) (0,1,5) (0,3,6) (2,3,5) (2,4,6).
 - Y = {1} {4} {5} {0} {2} {6}, U = {3, 7, 8}; the sources are agents 2 ({5}) and 5 ({6}).
 - Good 7 is dirty at agent 5 (bottom pair {6, 7} of agent 0), and good 8 is dirty at agent 2 (bottom pair {5, 8} of agent 1). Good 3 is dirty at both sources (bottom pairs {3, 6} of agent 3 and {3, 5} of agent 4), so it must sit alone at one of them, and then 7 or 8 has nowhere to go.
 - Y is stable under M1 and M2. The augmented envy cycle 0 → 5 → 1 → 2 → 0 improves it: agent 0 takes {6, 7}, agent 5 takes {4}, agent 1 takes {5, 8}, agent 2 takes {1}. Afterwards good 3 fits with agent 2: {6,7} {5,8} {1,3} {0} {2} {4} is EFX₀.
 
-## 6. Where the three-goods restriction is used
 
-1. **Lemma 1.** Safety is local: envied goods must be free, plus one pair condition (Q). This uses the total order of the 8 subset sums, which holds for three goods with a < b + c (L5 (i)). With more relevant goods, envy toward multi-good bundles appears, and threats are not decided by single goods.
-2. **Lemma 2.** An agent envies only singletons and, if it is an a-holder, the exact bundle {b, c}. Rich agents envy nobody. This is what makes sources rigid in Theorem A (a source with ≥ 2 own goods is a sink) and what closes envied bundles to junk (Lemma 6).
-3. **Theorem A** also uses m ≤ 2n (L4: three goods per agent, at most one private good), to rule out "every agent is a source with two goods".
-4. **Lemma 5 (b).** A top holder with both lower goods unallocated takes them, which uses b + c > a, i.e. balance. So (Q) never involves two unallocated goods, and the placement condition is per good (Lemma 7). For general additive valuations the junk-placement constraints involve arbitrary subsets. This is exactly where "EFX with charity" arguments stop: a pool nobody envies, which cannot be handed out.
+## 7. Where the three-goods restriction is used
 
-## 7. Status and the remaining gap
+1. **Lemma 1.** Safety is local: envied goods must be free, plus the single pair condition (Q). This rests on the total order of the eight subset sums, which holds for three goods with a < b + c (L5 (i)). With more relevant goods, threats of multi-good bundles are not decided by single goods.
+2. **Lemma 2.** An agent envies only singletons and, as an a-holder, the exact bundle {b, c}. A rich agent envies nobody. Hence:
+   - sources with two own goods are isolated (Claim 2 (f)), so backward envy walks end at one-good sources (Claim 2 (g), (h));
+   - envied bundles never receive junk (Claim 4);
+   - a-holders whose bottom pair touches U are sinks, which fixes the shape of the closed walk in Claim 3.
+3. **Balance** (b + c > a) makes the dirty edge i → s an improvement for i (Claims 1 and 3), and forbids an a-holder from having both lower goods unallocated in a stable state (step 3). So the pair condition (Q) never involves two unallocated goods, and the Phase-2 constraints are per good: a dirty good must sit alone next to the source's single good. This is what reduces junk placement to a bipartite matching.
+4. **m ≤ 2n** (L4: three goods per agent, at most one private good) guarantees a one-good source (Claim 2 (g)).
 
-- PROVED: Lemma 1; Lemmas 2–4; Theorem A; Theorem B (TP ⟹ TARGET); Lemmas 5–7 and Corollary 8.
-- EVIDENCE (exhaustive, one implementation): Result 4.1, the one-phase search never stuck for n ≤ 5. TP for n ≤ 6 (M1–M3), with C and Python agreeing for n ≤ 4.
-- REFUTED: "the one-phase local search with moves E, S, R, A, U, C, X and potential (Σℓ, allocated goods) never gets stuck", at n = 6 (Refutation 4.2). And "TP with Phase 1 moves M1, M2 only", at n = 6 (core 687).
-- CONJECTURE: TP for all n (with M1–M3). It implies TARGET.
-- **Gap.** TP beyond Corollary 8: a stable Y whose unallocated goods outnumber the one-good sources and include a good that is dirty at every source. A proof would take a Hall violator of the placement problem (Lemma 7) and build an augmented envy cycle (M3) from it, as in the n = 6 example: dirty edges from a-holders to sources, closed by envy edges from sources to the holders of the a-holders' tops. The difficulty is that the cycle must use distinct unallocated goods on its dirty edges, and the n = 6 example shows that the good dirty everywhere (good 3) need not be one of them.
+For general additive valuations, junk placement faces constraints on arbitrary sets of unallocated goods. That is where "EFX with charity" arguments stop: a pool nobody envies, which cannot be handed out.
+
+## 8. Status
+
+- **PROVED:**
+  - Lemmas 1–4 and Theorem A (§1–§3).
+  - Theorem C (§4): every core has an EFX₀ allocation, computed by Algorithm LS2.
+  - The Corollary: **TARGET**.
+  - The lemmas of §6.2 (Lemmas 5–7, Corollary 8, Theorem B).
+- **Corroborated computationally** (§5), exhaustively for n ≤ 6 and randomly up to n = 100, with certificates accepted by `tools/check_certs.py`.
+- **REFUTED** (§6):
+  - The one-phase local search with moves E, S, R, A, U, C, X and potential (Σℓ, number of allocated goods) never gets stuck: false at n = 6 (Refutation 6.2).
+  - Phase 1 with moves M1 and M2 only always ends in a state that junk placement completes: false at n = 6 (core 687).
+- **Not addressed:** conjecture D (at most one bundle with more than two goods). Theorem C allows several large bundles.

@@ -1,6 +1,6 @@
 # One-phase local search with seven move types: stuck at n = 6
 
-Workstream `proof/local-search` (`proofs/local_search.md` §4, Refutation 4.2).
+Workstream `proof/local-search` (`proofs/local_search.md` §6.1, Refutation 6.2).
 
 **Approach.** Keep an arbitrary EFX₀ partial allocation of a core; junk (goods held by agents that do not value them) is part of the state. The potential is (sum of levels, number of allocated goods). Seven move types:
 - E fill, S swap, R rotate, A add;
@@ -39,7 +39,7 @@ A complete EFX₀ allocation with the same levels exists: {1} {4} {0, 3} {6} {5}
 - All 128 are reachable from the empty allocation under E, S, R, A, U, C, X (`results/ls_reach_core687.log`).
 - Other n = 6 cores were not searched in this mode (40 million partial allocations per core at m = 9).
 
-**Lesson.** Junk placement has to be revisable. Hence the two-phase version (`proofs/local_search.md` §5): drop all junk, improve the valued part, and place the junk afresh at the end.
+**Lesson.** Junk placement has to be revisable. Hence the two-phase version: drop all junk, improve the valued part, and place the junk afresh at the end. That version is Algorithm LS2 (`proofs/local_search.md` §4), which never gets stuck (Theorem C).
 
 Reproduce:
 - `python src/local_search.py stuck6` (independent Python replay: every move valid and raising the potential, final state stuck)

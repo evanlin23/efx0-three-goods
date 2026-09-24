@@ -1,6 +1,6 @@
 # Local search with elementary moves and single-agent rebundles, without champion moves
 
-Workstream `proof/local-search` (`proofs/local_search.md` §2, §4).
+Workstream `proof/local-search` (`proofs/local_search.md` §2, §6.1).
 
 **Approach.** Moves E, S, R, A, plus U: one agent takes a new bundle made of its own bundle, pool goods and goods that other agents hold without valuing them (junk). The potential is (sum of levels, number of allocated goods). U repairs the n = 2 failure of `local-search-elementary-moves.md`.
 
@@ -16,6 +16,6 @@ What works is a champion move along the envy path 2 → 0 → 1. Agent 2 takes {
 
 28 stuck states at n = 3, m = 5 (28 profiles, core above); none at m = 3, 4, 6.
 
-Adding the champion move C removes every stuck state for n ≤ 5 (Result 4.1). The next failure is at n = 6: `local-search-one-phase-n6.md`.
+Adding the champion move C removes every stuck state for n ≤ 5 (Result 6.1). The next failure is at n = 6: `local-search-one-phase-n6.md`.
 
 Reproduce: `python src/local_search.py allstates 3 --flags="-m ESRAU -l 2" --jobs=1`

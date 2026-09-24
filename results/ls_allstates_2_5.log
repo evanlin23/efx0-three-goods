@@ -1,0 +1,51 @@
+# One-phase local search, moves E S R A U C, potential (sum of levels, allocated goods): proofs/local_search.md §6.1, Result 6.1; Theorem A (LS2): junkless-uncovered = 0.
+# Part 1: every partial EFX0 state with a nonempty pool, every profile, n = 2, 3, 4 (all m): python src/local_search.py allstates n --flags='-l 5'
+TOTAL cores 1, partial EFX0 (pool nonempty) states examined 468, stuck 0; first applicable move: E=252 S=162 R=6 A=48 U=0 C=0
+TOTAL cores 1, partial EFX0 (pool nonempty) states examined 1044, stuck 0; first applicable move: E=324 S=506 R=10 A=196 U=8 C=0
+[allstates n=2 m=[3, 4]: 2 cores, 0s]
+TOTAL cores 2, partial EFX0 (pool nonempty) states examined 40584, stuck 0; first applicable move: E=23472 S=15012 R=204 A=1808 U=60 C=28
+TOTAL cores 2, partial EFX0 (pool nonempty) states examined 49776, stuck 0; first applicable move: E=27720 S=19332 R=332 A=2320 U=72 C=0
+TOTAL cores 2, partial EFX0 (pool nonempty) states examined 90396, stuck 0; first applicable move: E=37152 S=44218 R=148 A=8746 U=132 C=0
+TOTAL cores 1, partial EFX0 (pool nonempty) states examined 35064, stuck 0; first applicable move: E=17712 S=15184 R=180 A=1988 U=0 C=0
+[allstates n=3 m=[3, 4, 5, 6]: 7 cores, 0s]
+TOTAL cores 11, partial EFX0 (pool nonempty) states examined 20965404, stuck 0; first applicable move: E=11193264 S=9007906 R=31744 A=728426 U=3736 C=328
+TOTAL cores 10, partial EFX0 (pool nonempty) states examined 14518248, stuck 0; first applicable move: E=8818740 S=5382400 R=44898 A=269842 U=2116 C=252
+TOTAL cores 10, partial EFX0 (pool nonempty) states examined 14355744, stuck 0; first applicable move: E=8734176 S=5308646 R=39726 A=269100 U=3900 C=196
+TOTAL cores 10, partial EFX0 (pool nonempty) states examined 14343660, stuck 0; first applicable move: E=8720784 S=5314612 R=38264 A=266016 U=3616 C=368
+[allstates n=4 m=[3, 4, 5, 6, 7, 8]: 41 cores, 64s]
+# Part 2: states with all bundles nonempty and no envied pool good (others are settled by moves E and S, Lemma 4 (a)),
+# classified by the first case of the hand analysis that applies (E S R A, (f) = 5a, (e) = 5b, J = junk grab);
+# 'outside' states are settled by the move search; 'junkless-uncovered' = junk-free states not settled by E S R A (Theorem A: 0).
+# python src/local_search.py allstates n --flags='-O -l 0'
+TOTAL cores 1, partial EFX0 (pool nonempty) states examined 54, stuck 0; first applicable move: E=0 S=0 R=0 A=0 U=0 C=0
+proof cases: outside=0 E=0 S=0 R=6 A=48 5a=0 5b=0 J=0 junkless-uncovered=0
+TOTAL cores 1, partial EFX0 (pool nonempty) states examined 214, stuck 0; first applicable move: E=0 S=0 R=0 A=0 U=0 C=0
+proof cases: outside=0 E=0 S=0 R=10 A=196 5a=8 5b=0 J=0 junkless-uncovered=0
+[allstates n=2 m=[3, 4]: 2 cores, 0s]
+TOTAL cores 2, partial EFX0 (pool nonempty) states examined 2100, stuck 0; first applicable move: E=0 S=0 R=0 A=0 U=0 C=0
+proof cases: outside=0 E=0 S=0 R=204 A=1808 5a=60 5b=28 J=0 junkless-uncovered=0
+TOTAL cores 2, partial EFX0 (pool nonempty) states examined 2724, stuck 0; first applicable move: E=0 S=0 R=0 A=0 U=0 C=0
+proof cases: outside=0 E=0 S=0 R=332 A=2320 5a=64 5b=8 J=0 junkless-uncovered=0
+TOTAL cores 2, partial EFX0 (pool nonempty) states examined 9026, stuck 0; first applicable move: E=0 S=0 R=0 A=0 U=0 C=0
+proof cases: outside=0 E=0 S=0 R=148 A=8746 5a=108 5b=24 J=0 junkless-uncovered=0
+TOTAL cores 1, partial EFX0 (pool nonempty) states examined 2168, stuck 0; first applicable move: E=0 S=0 R=0 A=0 U=0 C=0
+proof cases: outside=0 E=0 S=0 R=180 A=1988 5a=0 5b=0 J=0 junkless-uncovered=0
+[allstates n=3 m=[3, 4, 5, 6]: 7 cores, 0s]
+TOTAL cores 11, partial EFX0 (pool nonempty) states examined 764234, stuck 0; first applicable move: E=0 S=0 R=0 A=0 U=0 C=0
+proof cases: outside=0 E=0 S=0 R=31744 A=728426 5a=3480 5b=584 J=0 junkless-uncovered=0
+TOTAL cores 10, partial EFX0 (pool nonempty) states examined 317108, stuck 0; first applicable move: E=0 S=0 R=0 A=0 U=0 C=0
+proof cases: outside=0 E=0 S=0 R=44898 A=269842 5a=1924 5b=444 J=0 junkless-uncovered=0
+TOTAL cores 10, partial EFX0 (pool nonempty) states examined 312922, stuck 0; first applicable move: E=0 S=0 R=0 A=0 U=0 C=0
+proof cases: outside=0 E=0 S=0 R=39726 A=269100 5a=3564 5b=524 J=8 junkless-uncovered=0
+TOTAL cores 10, partial EFX0 (pool nonempty) states examined 308264, stuck 0; first applicable move: E=0 S=0 R=0 A=0 U=0 C=0
+proof cases: outside=0 E=0 S=0 R=38264 A=266016 5a=3432 5b=536 J=16 junkless-uncovered=0
+[allstates n=4 m=[3, 4, 5, 6, 7, 8]: 41 cores, 0s]
+TOTAL cores 74, partial EFX0 (pool nonempty) states examined 81530340, stuck 0; first applicable move: E=0 S=0 R=0 A=0 U=288 C=0
+proof cases: outside=288 E=0 S=0 R=9764126 A=71501458 5a=225244 5b=39096 J=128 junkless-uncovered=0
+TOTAL cores 73, partial EFX0 (pool nonempty) states examined 53380550, stuck 0; first applicable move: E=0 S=0 R=0 A=0 U=480 C=0
+proof cases: outside=480 E=0 S=0 R=9155100 A=43961382 5a=222752 5b=40748 J=88 junkless-uncovered=0
+TOTAL cores 73, partial EFX0 (pool nonempty) states examined 53837410, stuck 0; first applicable move: E=0 S=0 R=0 A=0 U=304 C=0
+proof cases: outside=304 E=0 S=0 R=9648992 A=43932862 5a=220972 5b=34112 J=168 junkless-uncovered=0
+TOTAL cores 73, partial EFX0 (pool nonempty) states examined 54272930, stuck 0; first applicable move: E=0 S=0 R=0 A=0 U=224 C=0
+proof cases: outside=224 E=0 S=0 R=9645714 A=44370220 5a=216340 5b=40152 J=280 junkless-uncovered=0
+[allstates n=5 m=[3, 4, 5, 6, 7, 8, 9, 10]: 293 cores, 75s]

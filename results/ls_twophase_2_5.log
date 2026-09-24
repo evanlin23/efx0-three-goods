@@ -1,0 +1,45 @@
+# Two-phase check (proofs/local_search.md §6.2), all connected cores n = 2..5, every profile, every stable junk-free state.
+## python src/local_search.py twophase 2 --flags='-l 5'
+TOTAL cores 1, stable junk-free states 0, junk placement fails 0
+TOTAL cores 1, stable junk-free states 8, junk placement fails 0
+[twophase n=2 m=[3, 4]: 2 cores, 0s]
+## python src/local_search.py twophase 3 --flags='-l 5'
+TOTAL cores 2, stable junk-free states 80, junk placement fails 0
+TOTAL cores 2, stable junk-free states 200, junk placement fails 0
+TOTAL cores 2, stable junk-free states 72, junk placement fails 0
+TOTAL cores 1, stable junk-free states 288, junk placement fails 0
+[twophase n=3 m=[3, 4, 5, 6]: 7 cores, 0s]
+## python src/local_search.py twophase 4 --flags='-l 5'
+TOTAL cores 11, stable junk-free states 15544, junk placement fails 0
+TOTAL cores 10, stable junk-free states 21190, junk placement fails 0
+TOTAL cores 10, stable junk-free states 14872, junk placement fails 0
+TOTAL cores 10, stable junk-free states 10452, junk placement fails 0
+[twophase n=4 m=[3, 4, 5, 6, 7, 8]: 41 cores, 0s]
+## python src/local_search.py twophase 5 --flags='-l 5'
+TOTAL cores 74, stable junk-free states 1410348, junk placement fails 0
+TOTAL cores 73, stable junk-free states 1444080, junk placement fails 0
+TOTAL cores 73, stable junk-free states 1441820, junk placement fails 0
+TOTAL cores 73, stable junk-free states 1455250, junk placement fails 0
+[twophase n=5 m=[3, 4, 5, 6, 7, 8, 9, 10]: 293 cores, 8s]
+## python src/local_search.py twophase 2 --flags='-x -l 5'
+TOTAL cores 1, stable junk-free states 0, junk placement fails 0
+TOTAL cores 1, stable junk-free states 8, junk placement fails 0
+[twophase n=2 m=[3, 4]: 2 cores, 0s]
+## python src/local_search.py twophase 3 --flags='-x -l 5'
+TOTAL cores 2, stable junk-free states 80, junk placement fails 0
+TOTAL cores 2, stable junk-free states 200, junk placement fails 0
+TOTAL cores 2, stable junk-free states 72, junk placement fails 0
+TOTAL cores 1, stable junk-free states 288, junk placement fails 0
+[twophase n=3 m=[3, 4, 5, 6]: 7 cores, 0s]
+## python src/local_search.py twophase 4 --flags='-x -l 5'
+TOTAL cores 11, stable junk-free states 15536, junk placement fails 0
+TOTAL cores 10, stable junk-free states 21190, junk placement fails 0
+TOTAL cores 10, stable junk-free states 14872, junk placement fails 0
+TOTAL cores 10, stable junk-free states 10436, junk placement fails 0
+[twophase n=4 m=[3, 4, 5, 6, 7, 8]: 41 cores, 0s]
+## python src/local_search.py twophase 5 --flags='-x -l 5'
+TOTAL cores 74, stable junk-free states 1409376, junk placement fails 0
+TOTAL cores 73, stable junk-free states 1442976, junk placement fails 0
+TOTAL cores 73, stable junk-free states 1441212, junk placement fails 0
+TOTAL cores 73, stable junk-free states 1454594, junk placement fails 0
+[twophase n=5 m=[3, 4, 5, 6, 7, 8, 9, 10]: 293 cores, 12s]

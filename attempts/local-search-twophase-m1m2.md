@@ -1,6 +1,6 @@
 # Two-phase local search whose Phase 1 has only rebundles and champion paths (no augmented cycles)
 
-Workstream `proof/local-search` (`proofs/local_search.md` §5, "The n = 6 failure without M3").
+Workstream `proof/local-search` (`proofs/local_search.md` §6.2, "The n = 6 failure without M3").
 
 **Approach.** Phase 1 applies valued single-agent rebundles (M1) and champion paths (M2) to junk-free EFX₀ partial allocations until none applies. Phase 2 places the unallocated goods as junk into source bundles.
 

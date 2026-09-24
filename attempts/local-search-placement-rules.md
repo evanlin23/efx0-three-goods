@@ -1,6 +1,6 @@
 # Simple rules for Phase 2 (junk placement) that fail
 
-Workstream `proof/local-search` (`proofs/local_search.md` §5). Each rule below is a candidate for proving the placement conjecture TP in a simple form. Each one fails already at n = 4. A general placement, allowing a different source per good (Lemma 7), exists in every tested case up to n = 6.
+Workstream `proof/local-search` (`proofs/local_search.md` §6.2). Each rule below is a candidate for proving the placement conjecture TP in a simple form. Each one fails already at n = 4. What works is a placement read off a maximum matching, with a different source for each dirty good; it always exists once Phase 1 includes augmented envy cycles (Theorem C, Claim 4).
 
 1. **All junk into one source** (the shape of conjecture D's large bundle). Fails at n = 4: 24 of 62,058 stable states; n = 5: 2,464.
    Example (n = 4, m = 6): rankings (a, b, c) (0,1,4) (2,3,5) (0,3,2) (2,1,3); Y = {0} {2} {3} {1}; U = {4, 5}.

@@ -15,7 +15,10 @@ Two things live here:
 Usage:
   local_search.py twophase n [m ...] [--jobs=N] [--flags=-x]    C two-phase check (ls_twophase)
   local_search.py allstates n [m ...] [--jobs=N] [--flags=-O]   C all-states local search check (ls_check)
+  local_search.py alg n [m ...] [--jobs=N] [--cert=FILE.json.gz] Algorithm LS2 (Theorem C) on every profile; certificate
   local_search.py py n [m ...] [--jobs=N]                        Python two-phase check (independent, slow: n <= 4)
+  local_search.py pyalg n [m ...]                                Algorithm LS2 in Python (numeric) on every profile
+  local_search.py pyrandom N_LO N_HI TRIALS [--seed=S]           Algorithm LS2 in Python on random cores and values
   local_search.py stuck6                                         replay the n = 6 stuck run of the one-phase search
   local_search.py lemma1                                         Lemma 1 (partial safety rule) vs the raw definition
   local_search.py twophase687                                    the n = 6 counterexample to TP with moves M1, M2 only
@@ -345,6 +348,249 @@ def verify_twophase687():
     return 0 if (r12 == (True, False) and not r123[0] and ok) else 1
 
 
+def run_alg(core_list, jobs, cert_path=None):
+    """run ls_alg (Algorithm LS2) on every profile of every core; optionally write a certificate for check_certs.py"""
+    import gzip, json
+    exe = compile_c('ls_alg')
+    lines = [f"{n} {m} " + ' '.join(str(g) for S in sets for g in S) for n, m, sets in core_list]
+    chunks = [lines[k::jobs] for k in range(jobs)]
+    flags = ['-c'] if cert_path else []
+    procs = [subprocess.Popen([exe] + flags, stdin=subprocess.PIPE, stdout=subprocess.PIPE, text=True)
+             for c in chunks if c]
+    for p, c in zip(procs, chunks):
+        p.stdin.write('\n'.join(c) + '\n'); p.stdin.close()
+    import threading
+    outs = [[] for _ in procs]
+    def drain(k):                      # read every process concurrently (a full pipe would stall a checker)
+        outs[k] = procs[k].stdout.readlines()
+    threads = [threading.Thread(target=drain, args=(k,)) for k in range(len(procs))]
+    for t in threads: t.start()
+    for t in threads: t.join()
+    recs, rc = [], 0
+    for p, lines_k in zip(procs, outs):
+        p.wait(); rc |= p.returncode
+        for line in lines_k:
+            if line.startswith('CERT '): recs.append(json.loads(line[5:]))
+            else: sys.stdout.write(line)
+    if cert_path:
+        with gzip.open(cert_path, 'wt') as f: json.dump(recs, f)
+        print(f"wrote {cert_path}: {len(recs)} cores, {sum(len(r['allocations']) for r in recs)} allocations")
+    return rc
+
+
+# ------------------------------------------ Algorithm LS2 in Python, from numeric valuations (independent of ls_alg.c)
+class LS2Failure(Exception):
+    pass
+
+
+def ls2_numeric(vals, m):
+    """vals[i] = {good: value > 0} with exactly three goods, balanced. Returns a complete allocation (owner list).
+    Every decision uses the numeric values; every step is checked (EFX0 by the raw definition, Pareto improvement)."""
+    n = len(vals)
+    V = lambda i, S: sum(vals[i].get(g, 0.0) for g in S)
+    top = [max(vals[i], key=vals[i].get) for i in range(n)]
+    bottom = [set(vals[i]) - {top[i]} for i in range(n)]
+    Y = [set() for _ in range(n)]
+    def U(): return set(range(m)) - set().union(*Y)
+    def raw_ok():
+        for i in range(n):
+            for j in range(n):
+                if i != j and len(Y[j]) >= 2 and V(i, Y[j]) - min(vals[i].get(g, 0.0) for g in Y[j]) > V(i, Y[i]) + 1e-9:
+                    return False
+        return True
+    def envy(i, j): return i != j and V(i, Y[j]) > V(i, Y[i]) + 1e-12
+    def graph():
+        E = [[envy(i, j) for j in range(n)] for i in range(n)]
+        indeg = [sum(E[i][j] for i in range(n)) for j in range(n)]
+        R = [row[:] for row in E]
+        for k in range(n):
+            for i in range(n):
+                if R[i][k]:
+                    for j in range(n):
+                        if R[k][j]: R[i][j] = True
+        return E, indeg, R
+    def path(E, s, t):
+        prev = {s: None}; q = [s]
+        for v in q:
+            for w in range(n):
+                if E[v][w] and w not in prev: prev[w] = v; q.append(w)
+        if t not in prev: return None
+        p = [t]
+        while prev[p[-1]] is not None: p.append(prev[p[-1]])
+        return p[::-1]
+    def takes(pairs):   # pairs: list of (agent, new bundle); every other good of these agents' bundles goes to U
+        taken = set().union(*[Z for _, Z in pairs])
+        assert all(len(Z1 & Z2) == 0 for k, (_, Z1) in enumerate(pairs) for _, Z2 in pairs[k + 1:])
+        for a, _ in pairs: Y[a] = set()
+        for j in range(n): Y[j] -= taken
+        for a, Z in pairs: Y[a] = set(Z)
+    def is_a_holder(i): return Y[i] == {top[i]}
+    def step():
+        E, indeg, R = graph(); u_set = U()
+        for i in range(n):                                                                   # 1
+            for u in u_set:
+                if vals[i].get(u, 0.0) > V(i, Y[i]) + 1e-12: takes([(i, {u})]); return 1
+        for s in range(n):                                                                   # 2
+            if R[s][s]:
+                cyc, v, seen = [], s, set()
+                while v not in seen:
+                    seen.add(v); cyc.append(v)
+                    v = next(w for w in range(n) if E[v][w] and (w == s or R[w][s]))
+                cyc = cyc[cyc.index(v):]
+                takes([(a, Y[cyc[(k + 1) % len(cyc)]] & set(vals[a])) for k, a in enumerate(cyc)]); return 2
+        for i in range(n):                                                                   # 3, 4
+            if is_a_holder(i):
+                inU = bottom[i] & u_set
+                if len(inU) == 2: takes([(i, set(bottom[i]))]); return 3
+                if inU and not any(E[k][i] for k in range(n)): takes([(i, Y[i] | inU)]); return 4
+        one = [s for s in range(n) if indeg[s] == 0 and len(Y[s]) == 1]
+        for s in one:                                                                        # 5
+            w = set(vals[s]) & u_set
+            if w: takes([(s, Y[s] | {min(w)})]); return 5
+        if any(not Y[j] for j in range(n)): return 0
+        trip = [(i, u, s) for s in one for i in range(n) if is_a_holder(i)
+                for u in u_set if bottom[i] == {u} | Y[s]]
+        for i, u, s in trip:                                                                 # 6
+            if R[s][i]:
+                p = path(E, s, i)
+                takes([(p[k], Y[p[k + 1]] & set(vals[p[k]])) for k in range(len(p) - 1)] + [(i, {u} | Y[s])]); return 6
+        # 7: system of distinct representatives of the dirty sets (bipartite matching)
+        D = {s: [t for t in trip if t[2] == s] for s in one}
+        match = {}
+        def aug(s, seen):
+            for t in D[s]:
+                u = t[1]
+                if u in seen: continue
+                seen.add(u)
+                if u not in match or aug(match[u][2], seen): match[u] = t; return True
+            return False
+        if not all(aug(s, set()) for s in one): return 0
+        rep = {t[2]: t for t in match.values()}
+        f = {}
+        for s in one:
+            i = rep[s][0]
+            s2 = [s1 for s1 in one if s1 != s and R[s1][i]]
+            if not s2: raise LS2Failure("dirty a-holder not reachable from another one-good source")
+            f[s] = s2[0]
+        v, seen = one[0], set()
+        while v not in seen: seen.add(v); v = f[v]
+        fc = [v]
+        while f[fc[-1]] != v: fc.append(f[fc[-1]])
+        walk = []                     # list of (agent, next agent, kind, triple)
+        cur = fc[0]
+        for _ in fc:
+            sj = next(x for x in fc if f[x] == cur)
+            i, u, _s = rep[sj]
+            p = path(E, cur, i)
+            walk += [(p[k], p[k + 1], 'envy', None) for k in range(len(p) - 1)] + [(i, sj, 'dirty', rep[sj])]
+            cur = sj
+        verts = [e[0] for e in walk] + [cur]
+        pos = {}
+        for k, x in enumerate(verts):
+            if x in pos: seg = walk[pos[x]:k]; break
+            pos[x] = k
+        pairs = [(a, (Y[b] & set(vals[a])) if kind == 'envy' else ({t[1]} | Y[b])) for a, b, kind, t in seg]
+        if not any(kind == 'dirty' for _, _, kind, _ in seg): raise LS2Failure("cycle without dirty edge")
+        takes(pairs); return 7
+    steps = 0
+    while U():
+        before = [V(i, Y[i]) for i in range(n)]
+        k = step()
+        if not k: break
+        steps += 1
+        after = [V(i, Y[i]) for i in range(n)]
+        if not raw_ok(): raise LS2Failure(f"step {k} broke EFX0")
+        if any(a < b - 1e-9 for a, b in zip(after, before)) or not any(a > b + 1e-9 for a, b in zip(after, before)):
+            raise LS2Failure(f"step {k} is not a Pareto improvement")
+        if any(g not in vals[i] for i in range(n) for g in Y[i]): raise LS2Failure("junk in Phase 1")
+    u_set = U()
+    if u_set:                                                                                # Phase 2
+        E, indeg, R = graph()
+        empty = [j for j in range(n) if not Y[j]]
+        if empty: Y[empty[0]] |= u_set
+        else:
+            one = [s for s in range(n) if indeg[s] == 0 and len(Y[s]) == 1]
+            trip = [(i, u, s) for s in one for i in range(n) if is_a_holder(i) for u in u_set if bottom[i] == {u} | Y[s]]
+            match = {}
+            def aug2(s, seen):
+                for i, u, s_ in trip:
+                    if s_ != s or u in seen: continue
+                    seen.add(u)
+                    if u not in match or aug2(match[u], seen): match[u] = s; return True
+                return False
+            unmatched = [s for s in one if not aug2(s, set())]
+            if not unmatched: raise LS2Failure("Phase 2 with a saturating matching")
+            star = unmatched[0]; T, q, DT = {star}, [star], set()
+            for s in q:
+                for i, u, s_ in trip:
+                    if s_ == s:
+                        DT.add(u)
+                        if u not in match: raise LS2Failure("Hall: unmatched dirty good")
+                        if match[u] not in T: T.add(match[u]); q.append(match[u])
+            for u in u_set: Y[match[u] if u in DT else star].add(u)
+    owner = [None] * m
+    for j in range(n):
+        for g in Y[j]: owner[g] = j
+    if None in owner: raise LS2Failure("incomplete")
+    if not raw_ok(): raise LS2Failure("final allocation not EFX0")
+    return owner, steps
+
+
+def random_core(n, rng):
+    """a random core with n agents (not necessarily connected): 3 goods each, every good used, <= 1 private good
+    per agent; m is drawn so that the counting identity of L4 can hold (n + 1 <= m <= 2n)"""
+    while True:
+        m = rng.randint(max(3, n // 2 + 2), 2 * n)
+        sets = [rng.sample(range(m), 3) for _ in range(n)]
+        deg = [0] * m
+        for S in sets:
+            for g in S: deg[g] += 1
+        if min(deg) == 0 or any(sum(deg[g] == 1 for g in S) > 1 for S in sets): continue
+        return m, sets
+
+
+def random_balanced(rng):
+    while True:
+        a, b, c = sorted((rng.uniform(1, 10) for _ in range(3)), reverse=True)
+        if a < b + c and a > b > c: return a, b, c
+
+
+def pyalg_random(n_lo, n_hi, trials, seed):
+    import random
+    rng = random.Random(seed); runs = 0; steps_max = 0
+    for n in range(n_lo, n_hi + 1):
+        for _ in range(trials):
+            m, sets = random_core(n, rng)
+            vals = []
+            for S in sets:
+                a, b, c = random_balanced(rng); order = rng.sample(S, 3)
+                vals.append({order[0]: a, order[1]: b, order[2]: c})
+            try:
+                _, st = ls2_numeric(vals, m)
+            except LS2Failure as e:
+                print("FAILURE", e, "n", n, "m", m, "vals", vals); return 1
+            runs += 1; steps_max = max(steps_max, st)
+        print(f"n={n}: {trials} random cores with random balanced values: all complete EFX0 (raw), max Phase-1 steps "
+              f"{steps_max}", flush=True)
+    print(f"PYALG RANDOM: {runs} runs, 0 failures (seed {seed})")
+    return 0
+
+
+def pyalg_exhaustive(core_list):
+    """every profile of every listed core, realization (4, 3, 2) per ranking"""
+    runs = 0
+    for n, m, sets in core_list:
+        for prof in itertools.product(range(6), repeat=n):
+            vals = [dict(zip([sets[i][p] for p in PERMS[prof[i]]], (4.0, 3.0, 2.0))) for i in range(n)]
+            try:
+                ls2_numeric(vals, m)
+            except LS2Failure as e:
+                print("FAILURE", e, sets, prof); return 1
+            runs += 1
+    print(f"PYALG EXHAUSTIVE: {len(core_list)} cores, {runs} (core, profile) runs, 0 failures")
+    return 0
+
+
 def main():
     args = [a for a in sys.argv[1:] if not a.startswith('--')]
     opts = dict(a[2:].split('=', 1) for a in sys.argv[1:] if a.startswith('--') and '=' in a)
@@ -352,6 +598,9 @@ def main():
     if args and args[0] == 'reach687':
         profs = [int(x) for x in open(args[1]).read().split()]
         reach("6 9 1 6 7 4 5 8 0 1 5 0 3 6 2 3 5 2 4 6", profs, opts.get('moves', 'ESRAUCX')); sys.exit(0)
+    if args and args[0] == 'pyrandom':
+        lo, hi, trials = int(args[1]), int(args[2]), int(args[3])
+        sys.exit(pyalg_random(lo, hi, trials, int(opts.get('seed', 1))))
     if args and args[0] == 'twophase687':
         sys.exit(verify_twophase687())
     if args and args[0] == 'lemma1':
@@ -368,6 +617,10 @@ def main():
     elif mode == 'allstates':
         flags = opts.get('flags', '-O').split()
         rc = run_c('ls_check', flags, core_list, jobs)
+    elif mode == 'alg':
+        rc = run_alg(core_list, jobs, opts.get('cert'))
+    elif mode == 'pyalg':
+        rc = pyalg_exhaustive(core_list)
     elif mode == 'py':
         tot_s = tot_f = 0
         with multiprocessing.Pool(jobs) as pool:
