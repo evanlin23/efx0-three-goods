@@ -1,0 +1,5 @@
+#!/bin/sh
+# Adds the repository owner as co-author of every commit made in an agent session (installed by
+# .claude/hooks/session-start.sh with `git config core.hooksPath .githooks`). Skips a commit that already names them.
+trailer='Co-Authored-By: Evan Lin <113861384+evanlin23@users.noreply.github.com>'
+grep -qiF "$trailer" "$1" || git interpret-trailers --in-place --trailer "$trailer" "$1"
