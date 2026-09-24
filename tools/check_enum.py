@@ -8,7 +8,9 @@ Then every labeled core lies in the orbit of exactly one listed H, i.e. the list
 Labeled count: T(a, g) counts a x g 0/1 matrices with row sums 3, no zero column, at most one column of sum 1 in each
 row (choose the p private columns and their distinct owner rows, then fill the rest with every column sum >= 2, a DP
 over columns on how many rows still need 1, 2 or 3 goods); connected counts come from the component of agent 1.
-Usage: check_enum.py certs.json.gz [certs.json.gz ...]
+Usage: check_enum.py certs.json.gz [certs.json.gz ...]      each file on its own
+       check_enum.py --union part1.json.gz part2.json.gz ...  the records of all files together (a level split
+                                                             into parts, e.g. construct_run.py --part)
        check_enum.py --selftest     compares the labeled counts with brute force over all small matrices (about 1 min)"""
 import sys, json, gzip, collections, itertools
 from functools import lru_cache
@@ -84,10 +86,12 @@ def selftest(limit=4e6):
 if __name__ == '__main__':
     if sys.argv[1:] == ['--selftest']:
         bad = selftest(); print(f"problems: {bad}"); sys.exit(1 if bad else 0)
-    problems = 0
-    for path in sys.argv[1:]:
-        by = collections.defaultdict(list)
-        for r in json.load(gzip.open(path, 'rt')): by[(r['n'], r['m'])].append(r['sets'])
+    problems, args = 0, sys.argv[1:]
+    groups = [args[1:]] if args[:1] == ['--union'] else [[p] for p in args]  # --union: pool all files' records
+    for paths in groups:
+        by, path = collections.defaultdict(list), "+".join(paths)
+        for q in paths:
+            for r in json.load(gzip.open(q, 'rt')): by[(r['n'], r['m'])].append(r['sets'])
         for (n, m), hs in sorted(by.items()):
             p, orbits, total = check(n, m, hs); problems += p
             print(f"{path}: (n,m)=({n},{m}): {len(hs)} hypergraphs, orbit sum {orbits}, labeled connected cores {total}"
