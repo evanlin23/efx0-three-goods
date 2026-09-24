@@ -1,2 +1,7 @@
 # src/construct_run.py 7 <m> --cert: construction LB on every connected core with n = 7 and m <= 10, every ranking profile, with certificates (LB's own outputs covering all 6^7 profiles per core). Every output checked against the raw EFX0 definition in src/construct.c. 4 CPUs.
 $ python src/construct_run.py 7 10 --cert=../results/certs_lb_7_10.json.gz   # 2026-09-24T19:38:41Z
+[   1489s] n=7 m=10: 8569 cores, 2398771584 hypergraph-profile pairs, construction fails on 0; outputs with a large bundle: 72580 (by size {3: 72556, 4: 24})
+[   1515s] certificate: ../results/certs_lb_7_10.json.gz (8569 hypergraphs)
+[   1515s] ALL DONE; failures: 0
+exit=0
+$ python src/construct_run.py 7 9 --cert=../results/certs_lb_7_9.json.gz   # 2026-09-24T20:03:57Z
