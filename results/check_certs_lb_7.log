@@ -43,3 +43,5 @@ results/certs_lb_7_3_7.json.gz: (n,m)=(7,6): 1097 hypergraphs, orbit sum 1218525
 results/certs_lb_7_3_7.json.gz: (n,m)=(7,7): 4632 hypergraphs, orbit sum 54866665350, labeled connected cores 54866665350 -> complete
 problems: 0
 exit=0  [17s]
+
+$ python tools/check_certs.py results/certs_lb_7_11_14.json.gz --expect 7:11:3103 7:12:541 7:13:37 7:14:1 --require-d --jobs 2
