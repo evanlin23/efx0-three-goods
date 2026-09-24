@@ -3,8 +3,9 @@
 Workstream `proof/lb-last-step`, ledger items S2.R, S2.LB+, S2.LB, D, T; open item 8. Construction LB and its
 soundness theorem are in `proofs/construction.md` §3 (workstream `compute/large-bundle`, PR #9); notation as there.
 
-**Status.** This is a written proof. Two independent reviews found no error, and its Lean formalization is in progress
-(workstream `formal/lbplus`). The ledger does not claim S2.R, S2.LB+, D or T until the formalization lands.
+**Status.** This is a written proof. Two independent reviews found no error. Machine-checked in Lean (PR #18:
+`EFX.target`, `EFX.LB.corollaryD`, `lean/EFX/{PreAlloc,Blocks,OwnerR,Rotation,LBPlus,CorollaryD,Target}.lean`); the
+ledger claims S2.R, S2.LB+, D and T.
 
 **Change of target (PROMPT.md §5 rule 5).** The task was S2.LB: LB's Phase 2 always finds an owner for the overflow
 bundle. This file proves a slightly different statement that serves the same purpose. §4 identifies an owner that
