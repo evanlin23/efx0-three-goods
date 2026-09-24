@@ -20,11 +20,15 @@ LB's upgrades produce (`EFX.LB.lbState_valid`). This file proves Theorem A.
 - `OwnerOK w H`: the hypotheses of Lemma 1 (`EFX.LB.complete_some`) for owner `w` and set `H`.
 - `Bad`: the bad case. The agent `k` exposed for `r` in `r`'s block (if any) has its need chain ending at `r`,
   and the sets `π_x` are pairwise disjoint.
-- **Theorem A** (`theoremA`): unless `Bad`, `r` is a valid owner with `H = hitSet`. `bad_spec` records the
-  structure of the bad case that Theorem B uses.
-
-The written Theorem A allows the bad case whenever *every* need chain from `k` ends at `r`; here the chain
-is the one `chainEnd` follows, so the bad case is (weakly) rarer and Theorem A (weakly) stronger.
+- **Theorem A** (`theoremA`): unless `Bad`, `r` is a valid owner with `H = hitSet`; `kstar_spec` records the
+  structure of `k*`.
+- `ValidOwner w`: `w` is a valid owner, i.e. Lemma 1's condition holds for *some* set `H` (the reading of
+  `proofs/lb_last_step.md`: a hitting set of the exposed pairs' junk parts that fits the free slots).
+  `validOwner_iff`: `r` is a valid owner exactly when `hitSet` fits (when the sets `π_x` are disjoint,
+  `hitSet` is a smallest hitting set; otherwise `hitSet` fits by Theorem A's counting).
+- **Theorem A, as written** (`theoremA_invalid`): if `r` is not a valid owner, then `k*` exists and is
+  frozen, the sets `π_x` are pairwise disjoint, and *every* need chain from `k*` that ends at a terminal ends
+  at `r`.
 -/
 
 set_option autoImplicit false
@@ -328,6 +332,13 @@ theorem chainEnd_spec (hrun : Run P agents goods order Y blk lead) {x : A} (hx :
     rfl
 
 end chains
+
+omit [DecidableEq A] in
+theorem getLastD_mem' : ∀ (l : List A) (cur : A), l.getLastD cur ∈ cur :: l
+  | [], cur => by simp
+  | j :: l, cur => by
+    rw [List.getLastD_cons]
+    exact List.mem_cons_of_mem _ (getLastD_mem' l j)
 
 /-! ## Exposed agents, the hitting set, and the owner criterion -/
 
@@ -691,51 +702,187 @@ theorem exposed_split (hS : State P agents goods order Y blk lead up) {r : A}
       simpa using kstar_none hk x hx
     omega
 
-/-- **Theorem A (the owner r).** After a run of Phase 1 with R1 priority and LB's upgrades, `r` (the last
-agent not upgraded) is a valid owner, with `H = hitSet`, unless the bad case holds. -/
-theorem theoremA (hS : State P agents goods order Y blk lead up) {r : A}
-    (hr : lastOut up order = some r) (hnb : ¬ Bad P agents up Y goods order blk r) :
+/-- The counting of Theorem A: `H = hitSet` fits the slots of the terminals other than `r` when two sets `π`
+meet, or no agent exposed for `r` lies in `r`'s block, or that agent `k*` comes with a terminal in `r`'s block
+other than `r` (the end of a need chain from `k*`). -/
+theorem hitSet_fits (hS : State P agents goods order Y blk lead up) {r : A} (hr : lastOut up order = some r)
+    (hno : meet P (junkList P agents up Y goods) (exposedL P agents up Y goods r) ≠ none ∨
+      kstar P agents up Y goods blk r = none ∨
+      ∃ k t, kstar P agents up Y goods blk r = some k ∧ IsTerm P agents up Y t ∧ blk t = blk r ∧ t ≠ r) :
+    (hitSet P (junkList P agents up Y goods) (exposedL P agents up Y goods r)).length ≤
+      (agents.map (slotsExcept (cap P agents up Y) (some r))).sum := by
+  have hEnd : (exposedL P agents up Y goods r).Nodup := hS.agents_nodup.sublist List.filter_sublist
+  obtain ⟨hLnd, hLlen, hLt⟩ := outside_terminals hS hr
+  obtain ⟨hs1, hs2, hs3⟩ := exposed_split hS hr
+  obtain ⟨hl1, hl2⟩ := hitSet_length (P := P) (J := junkList P agents up Y goods)
+    (E := exposedL P agents up Y goods r)
+  have hout := slots_le hLnd (w := r) (fun t ht => ⟨(hLt t ht).1, (hLt t ht).2.1⟩)
+  rcases hno with hm | hk | ⟨k, t, hk, ht, htb, htr⟩
+  · have := hl2 hm hEnd
+    omega
+  · have := hs3 hk
+    omega
+  · have hLnd' : (((exposedL P agents up Y goods r).filter (fun x => decide (blk x ≠ blk r))).map
+        (chainEnd P agents up Y order) ++ [t]).Nodup := by
+      rw [List.nodup_append]
+      refine ⟨hLnd, by simp, fun a ha b hb e => ?_⟩
+      simp only [List.mem_singleton] at hb
+      subst hb
+      exact (hLt a ha).2.2 (e ▸ htb)
+    have := slots_le hLnd' (w := r) (fun t' ht' => by
+      rcases List.mem_append.mp ht' with ht' | ht'
+      · exact ⟨(hLt t' ht').1, (hLt t' ht').2.1⟩
+      · simp only [List.mem_singleton] at ht'; subst ht'; exact ⟨ht, htr⟩)
+    simp only [List.length_append, List.length_singleton] at this
+    have := hs2 (by simp [hk])
+    omega
+
+/-- Lemma 1 applies to `r` with `H = hitSet` as soon as `hitSet` fits. -/
+theorem ownerOK_of_fits (hS : State P agents goods order Y blk lead up) {r : A}
+    (hr : lastOut up order = some r)
+    (hfit : (hitSet P (junkList P agents up Y goods) (exposedL P agents up Y goods r)).length ≤
+      (agents.map (slotsExcept (cap P agents up Y) (some r))).sum) :
     OwnerOK P agents up Y goods r
       (hitSet P (junkList P agents up Y goods) (exposedL P agents up Y goods r)) := by
   obtain ⟨hra, hru, hrt⟩ := lastOut_terminal hS hr
   have hEj : ∀ x ∈ exposedL P agents up Y goods r,
       P.b x ∈ junkList P agents up Y goods ∨ P.c x ∈ junkList P agents up Y goods :=
     fun x hx => (exposed_r hS hr hx).2.2
-  have hEnd : (exposedL P agents up Y goods r).Nodup := hS.agents_nodup.sublist List.filter_sublist
-  refine ⟨hra, Or.inr hrt, hitSet_sub hEj, ?_, fun x hx hxe => ?_⟩
-  · obtain ⟨hLnd, hLlen, hLt⟩ := outside_terminals hS hr
-    obtain ⟨hs1, hs2, hs3⟩ := exposed_split hS hr
-    obtain ⟨hl1, hl2⟩ := hitSet_length (P := P) (J := junkList P agents up Y goods)
-      (E := exposedL P agents up Y goods r)
-    have hout := slots_le hLnd (w := r) (fun t ht => ⟨(hLt t ht).1, (hLt t ht).2.1⟩)
+  exact ⟨hra, Or.inr hrt, hitSet_sub hEj, hfit,
+    fun x hx hxe => hitSet_hit x (List.mem_filter.mpr ⟨hx, decide_eq_true hxe⟩)⟩
+
+/-- **Theorem A (the owner r).** After a run of Phase 1 with R1 priority and LB's upgrades, `r` (the last
+agent not upgraded) is a valid owner, with `H = hitSet`, unless the bad case holds. -/
+theorem theoremA (hS : State P agents goods order Y blk lead up) {r : A}
+    (hr : lastOut up order = some r) (hnb : ¬ Bad P agents up Y goods order blk r) :
+    OwnerOK P agents up Y goods r
+      (hitSet P (junkList P agents up Y goods) (exposedL P agents up Y goods r)) := by
+  refine ownerOK_of_fits hS hr (hitSet_fits hS hr ?_)
+  by_cases hm : meet P (junkList P agents up Y goods) (exposedL P agents up Y goods r) = none
+  · cases hk : kstar P agents up Y goods blk r with
+    | none => exact Or.inr (Or.inl rfl)
+    | some k =>
+      -- not the bad case: the chain from `k*` ends at a terminal other than `r`
+      have hkr : chainEnd P agents up Y order k ≠ r := fun e => hnb ⟨k, hk, e, hm⟩
+      obtain ⟨hkE, hkb, -⟩ := kstar_spec hS hr hk
+      obtain ⟨hka, ⟨-, hku, -⟩, -⟩ := exposed_r hS hr hkE
+      obtain ⟨hτt, hτb, -⟩ := chainEnd_spec (up := up) hS.run hka hku
+      exact Or.inr (Or.inr ⟨k, _, rfl, hτt, hτb.trans hkb, hkr⟩)
+  · exact Or.inl hm
+
+/-! ### Theorem A with "valid owner" meaning exactly Lemma 1's condition -/
+
+/-- `w` is a valid owner: Lemma 1 applies to `w` with some set `H` of junk goods (it fits the slots of the
+other terminals and meets every pair exposed for `w`). -/
+def ValidOwner (P : Profile A G) (agents up : List A) (Y : A → Option G) (goods : List G) (w : A) : Prop :=
+  ∃ H, OwnerOK P agents up Y goods w H
+
+/-- If the sets `π_x` are pairwise disjoint, a set of goods meeting each of them in `J` has at least as
+many goods as there are sets. -/
+theorem length_le_of_hits {J H : List G} {E : List A} (hm : meet P J E = none) (hE : E.Nodup)
+    (hhit : ∀ x ∈ E, (P.b x ∈ H ∧ P.b x ∈ J) ∨ (P.c x ∈ H ∧ P.c x ∈ J)) : E.length ≤ H.length := by
+  let f : A → G := fun x => if P.b x ∈ H ∧ P.b x ∈ J then P.b x else P.c x
+  have hf : ∀ x ∈ E, f x ∈ H ∧ f x ∈ J ∧ (f x = P.b x ∨ f x = P.c x) := by
+    intro x hx
+    by_cases hb : P.b x ∈ H ∧ P.b x ∈ J
+    · have e : f x = P.b x := by simp [f, hb]
+      rw [e]; exact ⟨hb.1, hb.2, Or.inl rfl⟩
+    · have e : f x = P.c x := by simp only [f]; split <;> simp_all
+      rw [e]
+      obtain ⟨h1, h2⟩ := (hhit x hx).resolve_left hb
+      exact ⟨h1, h2, Or.inr rfl⟩
+  have hnd : (E.map f).Nodup := nodup_map_of_inj hE (fun x hx y hy he => by
+    refine Classical.byContradiction fun hxy => ?_
+    obtain ⟨-, hJ, hx'⟩ := hf x hx
+    obtain ⟨-, -, hy'⟩ := hf y hy
+    exact meet_none hm x hx y hy hxy (f x) hJ hx' (he ▸ hy'))
+  have := length_le_of_subset hnd (fun g hg => by
+    obtain ⟨x, hx, rfl⟩ := List.mem_map.mp hg
+    exact (hf x hx).1)
+  simpa using this
+
+/-- `r` is a valid owner (Lemma 1's condition, for some `H`) exactly when `H = hitSet` fits. -/
+theorem validOwner_iff (hS : State P agents goods order Y blk lead up) {r : A}
+    (hr : lastOut up order = some r) :
+    ValidOwner P agents up Y goods r ↔
+      (hitSet P (junkList P agents up Y goods) (exposedL P agents up Y goods r)).length ≤
+        (agents.map (slotsExcept (cap P agents up Y) (some r))).sum := by
+  constructor
+  · rintro ⟨H, hH⟩
     by_cases hm : meet P (junkList P agents up Y goods) (exposedL P agents up Y goods r) = none
-    · cases hk : kstar P agents up Y goods blk r with
-      | none =>
-        have := hs3 hk
-        omega
-      | some k =>
-        -- not the bad case: the chain from `k*` ends at a terminal other than `r`
-        have hkr : chainEnd P agents up Y order k ≠ r := fun e => hnb ⟨k, hk, e, hm⟩
-        obtain ⟨hkE, hkb, -⟩ := kstar_spec hS hr hk
-        obtain ⟨hka, ⟨-, hku, -⟩, -⟩ := exposed_r hS hr hkE
-        obtain ⟨hτt, hτb, -⟩ := chainEnd_spec (up := up) hS.run hka hku
-        have hLnd' : (((exposedL P agents up Y goods r).filter (fun x => decide (blk x ≠ blk r))).map
-            (chainEnd P agents up Y order) ++ [chainEnd P agents up Y order k]).Nodup := by
-          rw [List.nodup_append]
-          refine ⟨hLnd, by simp, fun a ha b hb e => ?_⟩
-          simp only [List.mem_singleton] at hb
-          subst hb
-          exact (hLt a ha).2.2 (e ▸ hτb.trans hkb)
-        have := slots_le hLnd' (w := r) (fun t ht => by
-          rcases List.mem_append.mp ht with ht | ht
-          · exact ⟨(hLt t ht).1, (hLt t ht).2.1⟩
-          · simp only [List.mem_singleton] at ht; subst ht; exact ⟨hτt, hkr⟩)
-        simp only [List.length_append, List.length_singleton] at this
-        have := hs2 (by simp [hk])
-        omega
-    · have := hl2 hm hEnd
-      omega
-  · exact hitSet_hit x (List.mem_filter.mpr ⟨hx, decide_eq_true hxe⟩)
+    · -- the sets `π_x` are disjoint: `hitSet` has one good per exposed agent, the least possible
+      have hlen : (hitSet P (junkList P agents up Y goods) (exposedL P agents up Y goods r)).length =
+          (exposedL P agents up Y goods r).length := by
+        unfold hitSet; rw [hm]; simp
+      rw [hlen]
+      refine Nat.le_trans (length_le_of_hits hm (hS.agents_nodup.sublist List.filter_sublist)
+        (fun x hx => ?_)) hH.fit
+      obtain ⟨hxa, hxe, -⟩ := exposed_r hS hr hx
+      rcases hH.hit x hxa hxe with h | h
+      · exact Or.inl ⟨h, hH.sub _ h⟩
+      · exact Or.inr ⟨h, hH.sub _ h⟩
+    · exact hitSet_fits hS hr (Or.inl hm)
+  · intro hfit
+    exact ⟨_, ownerOK_of_fits hS hr hfit⟩
+
+/-- The agents of a need chain of listed agents are not upgraded, lie in the block of its first agent, and
+are processed after it. -/
+theorem isChain_props (hS : State P agents goods order Y blk lead up) :
+    ∀ {cur : A} {l : List A}, IsChain P agents up Y cur l → (∀ j ∈ l, j ∈ agents) →
+      ∀ j ∈ l, j ∉ up ∧ blk j = blk cur ∧ idx order cur < idx order j
+  | _, [], _, _, j, hj => by simp at hj
+  | cur, i :: l, ⟨hnx, hc⟩, ha, j, hj => by
+    have hi := isNext_run hS.run (ha i (by simp)) hnx
+    rcases List.mem_cons.mp hj with rfl | hj
+    · exact ⟨(isNext_spec hnx).1, hi.2, hi.1⟩
+    · obtain ⟨h1, h2, h3⟩ := isChain_props hS hc (fun x hx => ha x (by simp [hx])) j hj
+      exact ⟨h1, h2.trans hi.2, Nat.lt_trans hi.1 h3⟩
+
+/-- A need chain of listed agents has no repeated agent. -/
+theorem isChain_nodup (hS : State P agents goods order Y blk lead up) :
+    ∀ {cur : A} {l : List A}, IsChain P agents up Y cur l → (∀ j ∈ l, j ∈ agents) → (cur :: l).Nodup
+  | cur, [], _, _ => by simp
+  | cur, i :: l, hc, ha => by
+    have hp := isChain_props hS hc ha
+    refine List.nodup_cons.mpr ⟨fun h => ?_, isChain_nodup hS hc.2 (fun x hx => ha x (by simp [hx]))⟩
+    have := (hp cur h).2.2
+    omega
+
+/-- **Theorem A, as written** (`proofs/lb_last_step.md` §4). If `r` is not a valid owner (no set `H`
+satisfies Lemma 1's condition), the bad case holds: `k*` exists and is frozen, the sets `π_x` are pairwise
+disjoint, and *every* need chain from `k*` that ends at a terminal ends at `r`. -/
+theorem theoremA_invalid (hS : State P agents goods order Y blk lead up) {r : A}
+    (hr : lastOut up order = some r) (hinv : ¬ ValidOwner P agents up Y goods r) :
+    ∃ k, kstar P agents up Y goods blk r = some k ∧ frozenB P agents up Y k = true ∧
+      meet P (junkList P agents up Y goods) (exposedL P agents up Y goods r) = none ∧
+      ∀ ch, IsChain P agents up Y k ch → (∀ j ∈ ch, j ∈ agents) →
+        frozenB P agents up Y (ch.getLastD k) = false → ch.getLastD k = r := by
+  have hnf := fun h => hinv ((validOwner_iff hS hr).mpr (hitSet_fits hS hr h))
+  have hm : meet P (junkList P agents up Y goods) (exposedL P agents up Y goods r) = none :=
+    Classical.byContradiction fun h => hnf (Or.inl h)
+  cases hk : kstar P agents up Y goods blk r with
+  | none => exact absurd (Or.inr (Or.inl hk)) hnf
+  | some k =>
+    obtain ⟨hkE, hkb, -⟩ := kstar_spec hS hr hk
+    obtain ⟨hka, ⟨hkr, hku, -⟩, -⟩ := exposed_r hS hr hkE
+    -- the end of any complete need chain from `k` is a terminal in `r`'s block, so it must be `r`
+    have hall : ∀ ch, IsChain P agents up Y k ch → (∀ j ∈ ch, j ∈ agents) →
+        frozenB P agents up Y (ch.getLastD k) = false → ch.getLastD k = r := by
+      intro ch hch ha hf
+      refine Classical.byContradiction fun hne => hnf (Or.inr (Or.inr ⟨k, ch.getLastD k, hk, ?_, ?_, hne⟩))
+      · rcases List.mem_cons.mp (getLastD_mem' ch k) with h | h
+        · rw [h]; exact ⟨hka, hku, h ▸ hf⟩
+        · exact ⟨ha _ h, (isChain_props hS hch ha _ h).1, hf⟩
+      · rcases List.mem_cons.mp (getLastD_mem' ch k) with h | h
+        · rw [h]; exact hkb
+        · exact (isChain_props hS hch ha _ h).2.1.trans hkb
+    refine ⟨k, rfl, ?_, hm, hall⟩
+    -- `k` is frozen: otherwise its need chain is empty and ends at `k ≠ r`
+    cases hf : frozenB P agents up Y k with
+    | true => rfl
+    | false =>
+      have := hall [] trivial (by simp) (by simpa using hf)
+      exact (hkr (by simpa using this)).elim
 
 end theoremA
 
@@ -748,5 +895,7 @@ end EFX
 #print axioms EFX.LB.chainEnd_spec
 #print axioms EFX.LB.exposed_lead
 #print axioms EFX.LB.theoremA
+#print axioms EFX.LB.validOwner_iff
+#print axioms EFX.LB.theoremA_invalid
 #print axioms EFX.LB.exposed_blk_inj
 #print axioms EFX.LB.kstar_spec

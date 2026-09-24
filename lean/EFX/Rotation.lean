@@ -3,13 +3,15 @@ import EFX.OwnerR
 /-!
 # Theorem B: the rotation (`proofs/lb_last_step.md` §5)
 
-In the bad case of Theorem A (`EFX.LB.Bad`), let `k = k*` and let `k = x₀, x₁, …, x_t = r` be its need
-chain (`k :: chainFrom k (after order k)`, which ends at `r`). The rotation moves every agent of the chain
-one step up: `x_i` takes `Y x_{i-1}` (`rotY`), `k` gives up `a k` and takes `b k`, and `k` is upgraded, so
-it also holds `c k` (`rotPicks`, `k :: up`). `r`'s pick, if any, is released.
+In the bad case of Theorem A, let `k = k*` and let `k = x₀, x₁, …, x_t = r` be a need chain from `k` to `r`
+(any one: `BadCase` takes it as an argument; LB⁺ uses `k :: chainFrom k (after order k)`). The rotation moves
+every agent of the chain one step up: `x_i` takes `Y x_{i-1}` (`rotY`), `k` gives up `a k` and takes
+`b k`, and `k` is upgraded, so it also holds `c k` (`rotPicks`, `k :: up`). `r`'s pick, if any, is released.
 
 - `Adj cur l p x`: `p` immediately precedes `x` in `cur :: l`; the lemmas `adj_*` and `rotY_adj` describe
   the rotation along any duplicate-free chain.
+- `BadCase`: the bad case (`k*` exists, the sets `π_x` are pairwise disjoint) with a need chain from `k*` to
+  `r`; `EFX.LB.theoremA_invalid` shows that it holds, for every such chain, whenever `r` is not a valid owner.
 - **Theorem B** (`theoremB`): the rotated pre-allocation is valid, and `k` is a valid owner of it (Lemma 1
   applies with `H = hitSet`). Along the way: (b) `NA` only shrinks (`rot_NA`), (d) terminals outside `r`'s
   block survive, (e) the agents exposed for `k` after the rotation were exposed for `r` before, and are not
@@ -170,19 +172,22 @@ theorem mem_junkList_iff {P : Profile A G} {agents up : List A} {Y : A → Optio
 
 /-! ## The bad case -/
 
-/-- The bad case of Theorem A, with `r` and `k = k*`. -/
+/-- The bad case of Theorem A, with `r`, `k = k*`, and a need chain `k :: ch` from `k` to `r` (of listed
+agents): the sets `π_x` of the agents exposed for `r` are pairwise disjoint. -/
 structure BadCase (P : Profile A G) (agents : List A) (goods : List G) (order : List A)
-    (Y : A → Option G) (blk : A → Nat) (lead : A → Prop) (up : List A) (r k : A) : Prop where
+    (Y : A → Option G) (blk : A → Nat) (lead : A → Prop) (up : List A) (r k : A) (ch : List A) : Prop where
   state : State P agents goods order Y blk lead up
   hr : lastOut up order = some r
   hk : kstar P agents up Y goods blk r = some k
-  hkr : chainEnd P agents up Y order k = r
   hm : meet P (junkList P agents up Y goods) (exposedL P agents up Y goods r) = none
+  hch : IsChain P agents up Y k ch
+  hcha : ∀ j ∈ ch, j ∈ agents
+  hend : ch.getLastD k = r
 
 namespace BadCase
 variable {P : Profile A G} {agents : List A} {goods : List G} {order : List A} {Y : A → Option G}
-  {blk : A → Nat} {lead : A → Prop} {up : List A} {r k : A}
-  (hB : BadCase P agents goods order Y blk lead up r k)
+  {blk : A → Nat} {lead : A → Prop} {up : List A} {r k : A} {ch : List A}
+  (hB : BadCase P agents goods order Y blk lead up r k ch)
 
 include hB
 
@@ -200,26 +205,17 @@ theorem k_facts : k ∈ agents ∧ k ∉ up ∧ Y k = some (P.a k) ∧ k ≠ r �
   rw [inBase_of_not_up hru] at hb hc
   exact ⟨hka, hku, hkt, hkr, hkb, hb, hc, hbc⟩
 
-/-- The chain `k :: c` (`c = chainFrom k (after order k)`): duplicate-free, a need chain of listed agents
-outside `up` in `k`'s block, ending at `r`. -/
+/-- The chain `k :: ch`: duplicate-free, a need chain of listed agents outside `up` in `k`'s block, ending at
+`r`. -/
 theorem chain :
-    (k :: chainFrom P agents up Y k (after order k)).Nodup ∧
-    IsChain P agents up Y k (chainFrom P agents up Y k (after order k)) ∧
-    (∀ j ∈ chainFrom P agents up Y k (after order k), j ∈ agents ∧ j ∉ up ∧ blk j = blk k) ∧
-    (chainFrom P agents up Y k (after order k)).getLastD k = r ∧
-    r ∈ chainFrom P agents up Y k (after order k) := by
-  obtain ⟨hka, -, -, hkr, -⟩ := hB.k_facts
-  obtain ⟨pre, hpre⟩ := eq_after ((hB.state.run.mem_order k).mpr hka)
-  have hnd : (k :: after order k).Nodup := by
-    have := hB.state.run.order_nodup
-    rw [hpre] at this
-    exact (List.nodup_append.mp this).2.1
-  have hsub := chainFrom_sublist (P := P) (agents := agents) (up := up) (Y := Y) k (after order k)
-  have hnd' : (k :: chainFrom P agents up Y k (after order k)).Nodup := hnd.sublist (hsub.cons_cons k)
-  have hlast : (chainFrom P agents up Y k (after order k)).getLastD k = r := hB.hkr
-  refine ⟨hnd', chainFrom_isChain k _, chainFrom_mem hB.state.run k _ (after_mem hB.state.run), hlast, ?_⟩
-  have := getLastD_mem (chainFrom P agents up Y k (after order k)) k
-  rw [hlast] at this
+    (k :: ch).Nodup ∧ IsChain P agents up Y k ch ∧
+    (∀ j ∈ ch, j ∈ agents ∧ j ∉ up ∧ blk j = blk k) ∧ ch.getLastD k = r ∧ r ∈ ch := by
+  obtain ⟨-, -, -, hkr, -⟩ := hB.k_facts
+  have hp := isChain_props hB.state hB.hch hB.hcha
+  refine ⟨isChain_nodup hB.state hB.hch hB.hcha, hB.hch,
+    fun j hj => ⟨hB.hcha j hj, (hp j hj).1, (hp j hj).2.1⟩, hB.hend, ?_⟩
+  have := getLastD_mem ch k
+  rw [hB.hend] at this
   rcases List.mem_cons.mp this with h | h
   · exact absurd h.symm hkr
   · exact h
@@ -241,19 +237,19 @@ theorem W_not_NA {g : G} (hg : g ∈ junkList P agents up Y goods ∨ Y r = some
 
 /-! ### The rotated picks -/
 
-omit hB in
-theorem rot_k : rotPicks P Y k (chainFrom P agents up Y k (after order k)) k = some (P.b k) := by
+omit hB [DecidableEq G] in
+theorem rot_k : rotPicks P Y k (ch) k = some (P.b k) := by
   simp [rotPicks]
 
-omit hB in
-theorem rot_out {x : A} (hxk : x ≠ k) (hxc : x ∉ chainFrom P agents up Y k (after order k)) :
-    rotPicks P Y k (chainFrom P agents up Y k (after order k)) x = Y x := by
+omit hB [DecidableEq G] in
+theorem rot_out {x : A} (hxk : x ≠ k) (hxc : x ∉ ch) :
+    rotPicks P Y k (ch) x = Y x := by
   simp only [rotPicks, hxk, ↓reduceIte]
   exact rotY_not_mem hxc
 
-theorem rot_in {x : A} (hxc : x ∈ chainFrom P agents up Y k (after order k)) :
-    ∃ p, Adj k (chainFrom P agents up Y k (after order k)) p x ∧
-      rotPicks P Y k (chainFrom P agents up Y k (after order k)) x = Y p ∧
+theorem rot_in {x : A} (hxc : x ∈ ch) :
+    ∃ p, Adj k (ch) p x ∧
+      rotPicks P Y k (ch) x = Y p ∧
       isNext P agents up Y p x = true ∧ p ≠ r := by
   obtain ⟨hnd, hch, -, hlast, -⟩ := hB.chain
   obtain ⟨p, hp⟩ := adj_exists_pred (cur := k) hxc
@@ -264,9 +260,9 @@ theorem rot_in {x : A} (hxc : x ∈ chainFrom P agents up Y k (after order k)) :
 
 /-- Every rotated pick other than `k`'s is a pick of `Y` by an agent other than `r`. -/
 theorem rot_src {x : A} {y : G} (hxk : x ≠ k)
-    (h : rotPicks P Y k (chainFrom P agents up Y k (after order k)) x = some y) :
+    (h : rotPicks P Y k (ch) x = some y) :
     ∃ p, Y p = some y ∧ p ≠ r := by
-  by_cases hxc : x ∈ chainFrom P agents up Y k (after order k)
+  by_cases hxc : x ∈ ch
   · obtain ⟨p, -, hrot, -, hpr⟩ := hB.rot_in hxc
     exact ⟨p, hrot ▸ h, hpr⟩
   · rw [rot_out hxk hxc] at h
@@ -274,9 +270,9 @@ theorem rot_src {x : A} {y : G} (hxk : x ≠ k)
 
 /-- Every pick of `Y` other than `r`'s is still a pick after the rotation. -/
 theorem rot_keep {p : A} {y : G} (hp : Y p = some y) (hpr : p ≠ r) :
-    ∃ x, x ≠ k ∧ rotPicks P Y k (chainFrom P agents up Y k (after order k)) x = some y := by
+    ∃ x, x ≠ k ∧ rotPicks P Y k (ch) x = some y := by
   obtain ⟨hnd, -, -, hlast, -⟩ := hB.chain
-  by_cases hpc : p = k ∨ p ∈ chainFrom P agents up Y k (after order k)
+  by_cases hpc : p = k ∨ p ∈ ch
   · obtain ⟨x, hx⟩ := adj_exists_succ hpc (fun e => hpr (e.trans hlast))
     have hxc := (adj_mem hx).1
     have hxk : x ≠ k := fun e => (List.nodup_cons.mp hnd).1 (e ▸ hxc)
@@ -284,18 +280,18 @@ theorem rot_keep {p : A} {y : G} (hp : Y p = some y) (hpr : p ≠ r) :
     simp only [rotPicks, hxk, ↓reduceIte]
     rw [rotY_adj hnd hx, hp]
   · have hpk : p ≠ k := fun e => hpc (Or.inl e)
-    have hpc' : p ∉ chainFrom P agents up Y k (after order k) := fun h => hpc (Or.inr h)
+    have hpc' : p ∉ ch := fun h => hpc (Or.inr h)
     exact ⟨p, hpk, by rw [rot_out hpk hpc', hp]⟩
 
 /-- **(b)** `NA` only shrinks. -/
 theorem rot_NA {g : G}
-    (h : P.NA agents (· ∈ k :: up) (rotPicks P Y k (chainFrom P agents up Y k (after order k))) g) :
+    (h : P.NA agents (· ∈ k :: up) (rotPicks P Y k (ch)) g) :
     P.NA agents (· ∈ up) Y g := by
   obtain ⟨i, hi, hiu, hp⟩ := h
   have hik : i ≠ k := fun e => hiu (by simp [e])
   have hiu' : i ∉ up := fun h => hiu (List.mem_cons_of_mem _ h)
   refine ⟨i, hi, hiu', ?_⟩
-  by_cases hic : i ∈ chainFrom P agents up Y k (after order k)
+  by_cases hic : i ∈ ch
   · obtain ⟨p, -, hrot, hnx, -⟩ := hB.rot_in hic
     obtain ⟨-, y, hy, -, hpy⟩ := isNext_spec hnx
     unfold Profile.Prefers Profile.pickRank at hp hpy ⊢
@@ -307,12 +303,12 @@ theorem rot_NA {g : G}
     exact hp
 
 theorem rot_pick_inj {x x' : A} {y : G}
-    (h : rotPicks P Y k (chainFrom P agents up Y k (after order k)) x = some y)
-    (h' : rotPicks P Y k (chainFrom P agents up Y k (after order k)) x' = some y) : x = x' := by
+    (h : rotPicks P Y k (ch) x = some y)
+    (h' : rotPicks P Y k (ch) x' = some y) : x = x' := by
   obtain ⟨hnd, -, -, -, -⟩ := hB.chain
   obtain ⟨-, -, -, -, -, hbW, -, -⟩ := hB.k_facts
   -- `b k` is in `W`, so it is not a pick of `Y` by an agent other than `r`
-  have hkb : ∀ z, z ≠ k → rotPicks P Y k (chainFrom P agents up Y k (after order k)) z ≠ some (P.b k) := by
+  have hkb : ∀ z, z ≠ k → rotPicks P Y k (ch) z ≠ some (P.b k) := by
     intro z hzk hz
     obtain ⟨p, hp, hpr⟩ := hB.rot_src hzk hz
     exact hB.picked_not_W hp hpr hbW
@@ -320,8 +316,8 @@ theorem rot_pick_inj {x x' : A} {y : G}
   · rw [hxk, hx'k]
   · subst hxk; rw [rot_k] at h; cases h; exact absurd h' (hkb x' hx'k)
   · subst hx'k; rw [rot_k] at h'; cases h'; exact absurd h (hkb x hxk)
-  · by_cases hxc : x ∈ chainFrom P agents up Y k (after order k) <;>
-      by_cases hx'c : x' ∈ chainFrom P agents up Y k (after order k)
+  · by_cases hxc : x ∈ ch <;>
+      by_cases hx'c : x' ∈ ch
     · obtain ⟨p, hp, hrot, -⟩ := hB.rot_in hxc
       obtain ⟨p', hp', hrot', -⟩ := hB.rot_in hx'c
       have := hB.state.run.pick_inj p p' y (hrot ▸ h) (hrot' ▸ h')
@@ -347,7 +343,7 @@ theorem rot_pick_inj {x x' : A} {y : G}
 
 /-- A junk good after the rotation was in `W` before. -/
 theorem rot_junk_W {g : G} (hg : g ∈ goods)
-    (hn : ∀ x, rotPicks P Y k (chainFrom P agents up Y k (after order k)) x ≠ some g)
+    (hn : ∀ x, rotPicks P Y k (ch) x ≠ some g)
     (hu : ∀ u ∈ up, P.c u ≠ g) : g ∈ junkList P agents up Y goods ∨ Y r = some g := by
   by_cases hr : Y r = some g
   · exact Or.inr hr
@@ -359,7 +355,7 @@ theorem rot_junk_W {g : G} (hg : g ∈ goods)
 
 /-- **(a), (c)** The rotated pre-allocation is valid. -/
 theorem rot_valid :
-    Valid P agents goods (rotPicks P Y k (chainFrom P agents up Y k (after order k))) (k :: up) := by
+    Valid P agents goods (rotPicks P Y k (ch)) (k :: up) := by
   obtain ⟨hnd, -, hcm, -, -⟩ := hB.chain
   obtain ⟨hka, hku, -, -, -, hbW, hcW, -⟩ := hB.k_facts
   have hV := hB.state.valid
@@ -376,7 +372,7 @@ theorem rot_valid :
     · subst hxk
       rw [rot_k] at hx; cases hx
       exact ⟨hka, hwf.2.1, rank_b_lt P x⟩
-    by_cases hxc : x ∈ chainFrom P agents up Y k (after order k)
+    by_cases hxc : x ∈ ch
     · obtain ⟨p, -, hrot, hnx, -⟩ := hB.rot_in hxc
       obtain ⟨-, y', hy', -, hpy⟩ := isNext_spec hnx
       rw [hrot, hy'] at hx
@@ -392,7 +388,7 @@ theorem rot_valid :
     rcases List.mem_cons.mp hu with rfl | hu
     · exact rot_k
     · have huk : u ≠ k := fun e => hku (e ▸ hu)
-      have huc : u ∉ chainFrom P agents up Y k (after order k) := fun h => (hcm u h).2.1 hu
+      have huc : u ∉ ch := fun h => (hcm u h).2.1 hu
       rw [rot_out huk huc]
       exact hV.up_b u hu
   · -- `up_c`
@@ -425,19 +421,19 @@ theorem rot_valid :
 
 /-- **(d)** A terminal outside `r`'s block is still a terminal after the rotation, with the same slots. -/
 theorem rot_term {t : A} (ht : IsTerm P agents up Y t) (hb : blk t ≠ blk r) :
-    IsTerm P agents (k :: up) (rotPicks P Y k (chainFrom P agents up Y k (after order k))) t := by
+    IsTerm P agents (k :: up) (rotPicks P Y k (ch)) t := by
   obtain ⟨hta, htu, htf⟩ := ht
   obtain ⟨-, -, hcm, -, -⟩ := hB.chain
   obtain ⟨-, -, -, -, hkb, -⟩ := hB.k_facts
   have htk : t ≠ k := fun e => hb (e ▸ hkb)
-  have htc : t ∉ chainFrom P agents up Y k (after order k) := fun h => hb ((hcm t h).2.2.trans hkb)
+  have htc : t ∉ ch := fun h => hb ((hcm t h).2.2.trans hkb)
   refine ⟨hta, fun h => (List.mem_cons.mp h).elim htk htu, not_frozen_iff.mpr fun y hy hna => ?_⟩
   rw [rot_out htk htc] at hy
   exact not_frozen_iff.mp htf y hy (hB.rot_NA hna)
 
 /-- **(e)** An agent exposed for `k` after the rotation was exposed for `r` before, and is not `k`. -/
 theorem rot_exposed {x : A} (hx : x ∈ agents)
-    (h : Exposed P agents (k :: up) (rotPicks P Y k (chainFrom P agents up Y k (after order k))) goods k x) :
+    (h : Exposed P agents (k :: up) (rotPicks P Y k (ch)) goods k x) :
     x ∈ exposedL P agents up Y goods r ∧ x ≠ k := by
   obtain ⟨hxk, hxu, hxa, hb, hc⟩ := h
   have hxu' : x ∉ up := fun h => hxu (List.mem_cons_of_mem _ h)
@@ -445,12 +441,12 @@ theorem rot_exposed {x : A} (hx : x ∈ agents)
   obtain ⟨hra, hru, hrt⟩ := hB.r_facts
   obtain ⟨-, -, -, -, -, hbW, hcW, -⟩ := hB.k_facts
   have hpick : ∀ k y, Y k = some y → k ∈ agents := fun k y hk => (hB.state.run.pick k y hk).1
-  have hpick' : ∀ k' y, rotPicks P Y k (chainFrom P agents up Y k (after order k)) k' = some y →
+  have hpick' : ∀ k' y, rotPicks P Y k (ch) k' = some y →
       k' ∈ agents := fun k' y hk' => (hB.rot_valid.pick k' y hk').1
   -- `b x` and `c x` lie in `W`
   have toW : ∀ g, (g ∈ junkList P agents (k :: up)
-        (rotPicks P Y k (chainFrom P agents up Y k (after order k))) goods ∨
-      InBase P (k :: up) (rotPicks P Y k (chainFrom P agents up Y k (after order k))) k g) →
+        (rotPicks P Y k (ch)) goods ∨
+      InBase P (k :: up) (rotPicks P Y k (ch)) k g) →
       (g ∈ junkList P agents up Y goods ∨ Y r = some g) := by
     intro g hg
     rcases hg with hg | hg
@@ -463,7 +459,7 @@ theorem rot_exposed {x : A} (hx : x ∈ agents)
   have hcx := toW _ hc
   obtain ⟨-, -, -, hab, hac, hbc⟩ := hB.state.wf x hx
   refine ⟨List.mem_filter.mpr ⟨hx, decide_eq_true ?_⟩, hxk⟩
-  by_cases hxc : x ∈ chainFrom P agents up Y k (after order k)
+  by_cases hxc : x ∈ ch
   · exfalso
     obtain ⟨p, -, hrot, hnx, -⟩ := hB.rot_in hxc
     obtain ⟨-, y, hy, -, hpy⟩ := isNext_spec hnx
@@ -528,16 +524,16 @@ theorem rot_exposed {x : A} (hx : x ∈ agents)
 /-- **(f)** No agent exposed for `k` after the rotation has both `b x` and `c x` in `k`'s new base
 `{b k, c k}`: one of them is junk. -/
 theorem rot_pair {x : A} (hx : x ∈ agents)
-    (h : Exposed P agents (k :: up) (rotPicks P Y k (chainFrom P agents up Y k (after order k))) goods k x) :
-    P.b x ∈ junkList P agents (k :: up) (rotPicks P Y k (chainFrom P agents up Y k (after order k))) goods ∨
-    P.c x ∈ junkList P agents (k :: up) (rotPicks P Y k (chainFrom P agents up Y k (after order k))) goods := by
+    (h : Exposed P agents (k :: up) (rotPicks P Y k (ch)) goods k x) :
+    P.b x ∈ junkList P agents (k :: up) (rotPicks P Y k (ch)) goods ∨
+    P.c x ∈ junkList P agents (k :: up) (rotPicks P Y k (ch)) goods := by
   obtain ⟨hxE, hxk⟩ := hB.rot_exposed hx h
   obtain ⟨-, -, -, hb, hc⟩ := h
   refine Classical.byContradiction fun hno => ?_
   have hbase : ∀ g, (g ∈ junkList P agents (k :: up)
-        (rotPicks P Y k (chainFrom P agents up Y k (after order k))) goods ∨
-      InBase P (k :: up) (rotPicks P Y k (chainFrom P agents up Y k (after order k))) k g) →
-      g ∉ junkList P agents (k :: up) (rotPicks P Y k (chainFrom P agents up Y k (after order k))) goods →
+        (rotPicks P Y k (ch)) goods ∨
+      InBase P (k :: up) (rotPicks P Y k (ch)) k g) →
+      g ∉ junkList P agents (k :: up) (rotPicks P Y k (ch)) goods →
       g = P.b k ∨ g = P.c k := by
     intro g hg hgj
     rcases hg with hg | hg | ⟨-, hg⟩
@@ -563,13 +559,13 @@ theorem rot_pair {x : A} (hx : x ∈ agents)
 
 /-- **(g)** The agents exposed for `k` after the rotation fit the slots of the terminals other than `k`. -/
 theorem rot_count :
-    (exposedL P agents (k :: up) (rotPicks P Y k (chainFrom P agents up Y k (after order k))) goods k).length ≤
+    (exposedL P agents (k :: up) (rotPicks P Y k (ch)) goods k).length ≤
       (agents.map (slotsExcept (cap P agents (k :: up)
-        (rotPicks P Y k (chainFrom P agents up Y k (after order k)))) (some k))).sum := by
+        (rotPicks P Y k (ch))) (some k))).sum := by
   obtain ⟨hLnd, hLlen, hLt⟩ := outside_terminals hB.state hB.hr
   obtain ⟨hkE, hkb, huniq⟩ := kstar_spec hB.state hB.hr hB.hk
   -- `E'_k ⊆ E_r ∖ {k}`, and `E_r ∖ {k}` is `E_r` outside `r`'s block
-  have h1 : (exposedL P agents (k :: up) (rotPicks P Y k (chainFrom P agents up Y k (after order k)))
+  have h1 : (exposedL P agents (k :: up) (rotPicks P Y k (ch))
       goods k).length ≤ ((exposedL P agents up Y goods r).filter (fun x => decide (x ≠ k))).length := by
     unfold exposedL
     rw [List.filter_filter, ← List.countP_eq_length_filter, ← List.countP_eq_length_filter]
@@ -588,7 +584,7 @@ theorem rot_count :
       simp [hxk, this]
   -- the terminals `τ(x)` outside `r`'s block survive and are not `k`
   have h3 := slots_le (P := P) (agents := agents) (up := k :: up)
-    (Y := rotPicks P Y k (chainFrom P agents up Y k (after order k))) hLnd (w := k) (fun t ht =>
+    (Y := rotPicks P Y k (ch)) hLnd (w := k) (fun t ht =>
       ⟨hB.rot_term (hLt t ht).1 (hLt t ht).2.2, fun e => (hLt t ht).2.2 (e ▸ hkb)⟩)
   rw [h2] at h1
   rw [List.length_map] at h3
@@ -600,12 +596,12 @@ end BadCase
 valid pre-allocation (`k` upgraded, each agent of the chain taking its predecessor's pick), and `k` is a
 valid owner of it: Lemma 1 applies with `H = hitSet`. -/
 theorem theoremB {P : Profile A G} {agents : List A} {goods : List G} {order : List A}
-    {Y : A → Option G} {blk : A → Nat} {lead : A → Prop} {up : List A} {r k : A}
-    (hB : BadCase P agents goods order Y blk lead up r k) :
-    Valid P agents goods (rotPicks P Y k (chainFrom P agents up Y k (after order k))) (k :: up) ∧
-    OwnerOK P agents (k :: up) (rotPicks P Y k (chainFrom P agents up Y k (after order k))) goods k
-      (hitSet P (junkList P agents (k :: up) (rotPicks P Y k (chainFrom P agents up Y k (after order k))) goods)
-        (exposedL P agents (k :: up) (rotPicks P Y k (chainFrom P agents up Y k (after order k))) goods k)) := by
+    {Y : A → Option G} {blk : A → Nat} {lead : A → Prop} {up : List A} {r k : A} {ch : List A}
+    (hB : BadCase P agents goods order Y blk lead up r k ch) :
+    Valid P agents goods (rotPicks P Y k (ch)) (k :: up) ∧
+    OwnerOK P agents (k :: up) (rotPicks P Y k (ch)) goods k
+      (hitSet P (junkList P agents (k :: up) (rotPicks P Y k (ch)) goods)
+        (exposedL P agents (k :: up) (rotPicks P Y k (ch)) goods k)) := by
   refine ⟨hB.rot_valid, hB.k_facts.1, Or.inl (List.mem_cons_self), hitSet_sub (fun x hx => ?_), ?_,
     fun x hx hxe => hitSet_hit x (List.mem_filter.mpr ⟨hx, decide_eq_true hxe⟩)⟩
   · obtain ⟨hxa, hxe⟩ := List.mem_filter.mp hx

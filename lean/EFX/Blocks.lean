@@ -21,7 +21,9 @@ sense of §1 (any choice at every R1 step and every insertion step) is `phase1` 
 `phase1_run`: Phase 1 in any order with R1 priority satisfies `Run`.
 
 LB's upgrades (`EFX.LB.upgrades`) run to a fixpoint (`upgrades_fix`, which gives (UT)), and LB's state after
-them is a valid pre-allocation (`lbState_valid`, §3).
+them is a valid pre-allocation (`lbState_valid`, §3). The upgrade order does not matter: `UpReach` makes the
+upgrade steps in any order, `UpFinal` is any end state (no agent can be upgraded any more), and every end state
+is a valid pre-allocation with (UT) (`upFinal_valid`); LB's is one (`lbUp_final`).
 -/
 
 set_option autoImplicit false
@@ -476,27 +478,18 @@ def junk0 (agents : List A) (Y : A → Option G) (goods : List G) : List G :=
 def lbUp (P : Profile A G) (agents : List A) (goods : List G) (Y : A → Option G) : List A :=
   (upgrades P agents Y agents.length [] (junk0 agents Y goods)).1
 
-/-- **LB's state after the upgrades is a valid pre-allocation** (`proofs/lb_last_step.md` §3), and (UT)
-holds: no agent outside `U` with pick `b k`, `c k` junk and `b k ∉ NA` remains. -/
-theorem lbState_valid {P : Profile A G} {agents : List A} {goods : List G} {order : List A}
+/-- The state of the upgrade loop, if its invariant holds and no agent can be upgraded any more, is a valid
+pre-allocation, and (UT) holds. -/
+theorem valid_of_inv {P : Profile A G} {agents : List A} {goods : List G} {order : List A}
     {Y : A → Option G} {blk : A → Nat} {lead : A → Prop}
-    (hrun : Run P agents goods order Y blk lead) (hWF : WF P agents goods) (hgd : goods.Nodup) :
-    Valid P agents goods Y (lbUp P agents goods Y) ∧
-    ∀ k ∈ agents, k ∉ lbUp P agents goods Y → Y k = some (P.b k) →
-      P.c k ∈ junkList P agents (lbUp P agents goods Y) Y goods →
-      P.NA agents (· ∈ lbUp P agents goods Y) Y (P.b k) := by
+    (hrun : Run P agents goods order Y blk lead) (hWF : WF P agents goods) {up : List A} {J : List G}
+    (hinv : UpInv P agents Y (junk0 agents Y goods) up J) (hmem : ∀ u ∈ up, u ∈ agents)
+    (hfix : ∀ k ∈ agents, canUp P agents up Y J k = false) :
+    Valid P agents goods Y up ∧
+    ∀ k ∈ agents, k ∉ up → Y k = some (P.b k) → P.c k ∈ junkList P agents up Y goods →
+      P.NA agents (· ∈ up) Y (P.b k) := by
   have hpick : ∀ k y, Y k = some y → k ∈ agents := fun k y hk => (hrun.pick k y hk).1
-  have hinv := upInv_upgrades P agents Y (junk0 agents Y goods) agents.length [] _
-    (upInv_init P agents Y (hgd.sublist List.filter_sublist))
-  have hmem := upgrades_mem P agents Y agents.length [] (junk0 agents Y goods)
-    (fun u hu => by simp at hu)
-  have hfix := upgrades_fix P agents Y agents.length [] (junk0 agents Y goods)
-    (Nat.le_trans (List.length_filter_le _ _) (Nat.le_refl _))
-  unfold lbUp
-  generalize upgrades P agents Y agents.length [] (junk0 agents Y goods) = r at hinv hmem hfix ⊢
-  obtain ⟨up, J⟩ := r
   obtain ⟨hJnd, hJ0, hcov, hup⟩ := hinv
-  simp only at hmem hfix hJnd hJ0 hcov hup ⊢
   -- an unpicked good is in no `N_i`, by (B2)
   have hunp : ∀ g ∈ goods, (∀ k, Y k ≠ some g) → ¬ P.NA agents (· ∈ up) Y g := by
     intro g hg hn hna
@@ -531,6 +524,117 @@ theorem lbState_valid {P : Profile A G} {agents : List A} {goods : List G} {orde
   · exact absurd hcJ (by simpa using h)
   · exact naB_iff.mp h
 
+/-- **LB's state after the upgrades is a valid pre-allocation** (`proofs/lb_last_step.md` §3), and (UT)
+holds: no agent outside `U` with pick `b k`, `c k` junk and `b k ∉ NA` remains. -/
+theorem lbState_valid {P : Profile A G} {agents : List A} {goods : List G} {order : List A}
+    {Y : A → Option G} {blk : A → Nat} {lead : A → Prop}
+    (hrun : Run P agents goods order Y blk lead) (hWF : WF P agents goods) (hgd : goods.Nodup) :
+    Valid P agents goods Y (lbUp P agents goods Y) ∧
+    ∀ k ∈ agents, k ∉ lbUp P agents goods Y → Y k = some (P.b k) →
+      P.c k ∈ junkList P agents (lbUp P agents goods Y) Y goods →
+      P.NA agents (· ∈ lbUp P agents goods Y) Y (P.b k) :=
+  valid_of_inv hrun hWF
+    (upInv_upgrades P agents Y (junk0 agents Y goods) agents.length [] _
+      (upInv_init P agents Y (hgd.sublist List.filter_sublist)))
+    (upgrades_mem P agents Y agents.length [] (junk0 agents Y goods) (fun u hu => by simp at hu))
+    (upgrades_fix P agents Y agents.length [] (junk0 agents Y goods)
+      (Nat.le_trans (List.length_filter_le _ _) (Nat.le_refl _)))
+
+/-! ## The upgrades in any order -/
+
+/-- Upgrade steps in any order: from `(up, J)`, upgrading one listed agent at a time, each passing LB's test
+(`canUp`) at its turn, reaches `(up', J')`. -/
+inductive UpReach (P : Profile A G) (agents : List A) (Y : A → Option G) :
+    List A → List G → List A → List G → Prop
+  | refl (up : List A) (J : List G) : UpReach P agents Y up J up J
+  | step {up : List A} {J : List G} {up' : List A} {J' : List G} (k : A) :
+      k ∈ agents → canUp P agents up Y J k = true →
+      UpReach P agents Y (k :: up) (J.erase (P.c k)) up' J' → UpReach P agents Y up J up' J'
+
+/-- An end state of the upgrades, in any order: reached from `U = ∅` and `J = J₀`, and no agent can be
+upgraded any more. -/
+def UpFinal (P : Profile A G) (agents : List A) (Y : A → Option G) (goods : List G) (up : List A) : Prop :=
+  ∃ J, UpReach P agents Y [] (junk0 agents Y goods) up J ∧ ∀ k ∈ agents, canUp P agents up Y J k = false
+
+theorem upInv_step {P : Profile A G} {agents : List A} {Y : A → Option G} {J0 : List G} {up : List A}
+    {J : List G} {k : A} (h : UpInv P agents Y J0 up J) (hc : canUp P agents up Y J k = true) :
+    UpInv P agents Y J0 (k :: up) (J.erase (P.c k)) := by
+  simp only [canUp, Bool.and_eq_true, Bool.not_eq_true', List.contains_iff_mem, beq_iff_eq] at hc
+  obtain ⟨⟨⟨hku, hr⟩, hcJ⟩, hna⟩ := hc
+  have hku : k ∉ up := by simpa using hku
+  have hna : ¬ P.NA agents (· ∈ up) Y (P.b k) := fun h' => by
+    rw [← naB_iff] at h'; rw [h'] at hna; cases hna
+  obtain ⟨hJnd, hJ0, hcov, hup⟩ := h
+  have hmono : ∀ {g}, P.NA agents (· ∈ k :: up) Y g → P.NA agents (· ∈ up) Y g :=
+    NA_mono (fun x hx => List.mem_cons_of_mem k hx)
+  refine ⟨hJnd.erase _, fun g hg => hJ0 g (List.mem_of_mem_erase hg), fun g hg hgn => ?_,
+    fun k' hk' => ?_⟩
+  · by_cases hgc : g = P.c k
+    · exact ⟨k, by simp, hgc.symm⟩
+    · have : g ∉ J := fun hgJ => hgn ((List.Nodup.mem_erase_iff hJnd).mpr ⟨hgc, hgJ⟩)
+      obtain ⟨k'', hk'', he⟩ := hcov g hg this
+      exact ⟨k'', List.mem_cons_of_mem k hk'', he⟩
+  · rcases List.mem_cons.mp hk' with rfl | hk'
+    · refine ⟨hr, fun h' => hna (hmono h'), hJ0 _ hcJ, fun h' => ?_, fun k'' hk'' he => ?_⟩
+      · exact absurd rfl ((List.Nodup.mem_erase_iff hJnd).mp h').1
+      · rcases List.mem_cons.mp hk'' with rfl | hk''
+        · rfl
+        · exact absurd (he ▸ hcJ) (hup k'' hk'').2.2.2.1
+    · obtain ⟨h1, h2, h3, h4, h5⟩ := hup k' hk'
+      refine ⟨h1, fun h' => h2 (hmono h'), h3, fun h' => h4 (List.mem_of_mem_erase h'),
+        fun k'' hk'' he => ?_⟩
+      rcases List.mem_cons.mp hk'' with rfl | hk''
+      · exact absurd (he ▸ hcJ) h4
+      · exact h5 k'' hk'' he
+
+/-- Upgrade steps in any order keep the loop's invariant, and upgrade only listed agents. -/
+theorem upReach_inv {P : Profile A G} {agents : List A} {Y : A → Option G} {J0 : List G}
+    {up : List A} {J : List G} {up' : List A} {J' : List G} (h : UpReach P agents Y up J up' J') :
+    UpInv P agents Y J0 up J → (∀ u ∈ up, u ∈ agents) →
+      UpInv P agents Y J0 up' J' ∧ ∀ u ∈ up', u ∈ agents := by
+  induction h with
+  | refl => exact fun hi hm => ⟨hi, hm⟩
+  | step k hk hc _ ih =>
+    intro hi hm
+    exact ih (upInv_step hi hc) (fun u hu => by
+      rcases List.mem_cons.mp hu with rfl | hu
+      · exact hk
+      · exact hm u hu)
+
+/-- LB's loop is one order of the upgrades. -/
+theorem upgrades_reach (P : Profile A G) (agents : List A) (Y : A → Option G) :
+    ∀ (fuel : Nat) (up : List A) (J : List G),
+      UpReach P agents Y up J (upgrades P agents Y fuel up J).1 (upgrades P agents Y fuel up J).2
+  | 0, up, J => UpReach.refl up J
+  | fuel + 1, up, J => by
+    unfold upgrades
+    cases hf : agents.find? (canUp P agents up Y J) with
+    | none => exact UpReach.refl up J
+    | some k =>
+      exact UpReach.step k (List.mem_of_find?_eq_some hf) (List.find?_some hf)
+        (upgrades_reach P agents Y fuel (k :: up) (J.erase (P.c k)))
+
+/-- LB's upgraded agents are an end state of the upgrades. -/
+theorem lbUp_final (P : Profile A G) (agents : List A) (Y : A → Option G) (goods : List G) :
+    UpFinal P agents Y goods (lbUp P agents goods Y) :=
+  ⟨_, upgrades_reach P agents Y agents.length [] (junk0 agents Y goods),
+    upgrades_fix P agents Y agents.length [] (junk0 agents Y goods)
+      (Nat.le_trans (List.length_filter_le _ _) (Nat.le_refl _))⟩
+
+/-- **The upgrades in any order** (`proofs/lb_last_step.md` §3). Every end state of the upgrades, whatever
+order they are made in, is a valid pre-allocation, and (UT) holds. -/
+theorem upFinal_valid {P : Profile A G} {agents : List A} {goods : List G} {order : List A}
+    {Y : A → Option G} {blk : A → Nat} {lead : A → Prop}
+    (hrun : Run P agents goods order Y blk lead) (hWF : WF P agents goods) (hgd : goods.Nodup)
+    {up : List A} (hup : UpFinal P agents Y goods up) :
+    Valid P agents goods Y up ∧
+    ∀ k ∈ agents, k ∉ up → Y k = some (P.b k) → P.c k ∈ junkList P agents up Y goods →
+      P.NA agents (· ∈ up) Y (P.b k) := by
+  obtain ⟨J, hreach, hfix⟩ := hup
+  obtain ⟨hinv, hmem⟩ := upReach_inv hreach (upInv_init P agents Y (hgd.sublist List.filter_sublist))
+    (fun u hu => by simp at hu)
+  exact valid_of_inv hrun hWF hinv hmem hfix
+
 end LB
 end EFX
 
@@ -539,3 +643,5 @@ end EFX
 #print axioms EFX.LB.phase1_run
 #print axioms EFX.LB.lbState_valid
 #print axioms EFX.LB.upgrades_fix
+#print axioms EFX.LB.upFinal_valid
+#print axioms EFX.LB.lbUp_final
