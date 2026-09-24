@@ -28,7 +28,7 @@ jobs:
       - name: Committed certificates list every connected core (orbit counting, independent of nauty)
         run: |
           python tools/check_enum.py results/certs_5_6.json.gz results/certs_7_13.json.gz results/certs_7_12.json.gz \
-            results/certs_7_11.json.gz results/certs_8_15.json.gz
+            results/certs_7_11.json.gz results/certs_8_15.json.gz results/certs_8_14.json.gz
       - name: Re-run the n <= 6 search from scratch
         working-directory: src
         run: python frontier.py 5 6
