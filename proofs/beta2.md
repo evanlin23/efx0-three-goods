@@ -13,9 +13,12 @@ branch agents at once, and the cores with branch agents reduce to it or to a mat
 
 Computational cross-check (evidence for the proof, not part of it): `src/beta2.py` runs the construction of this
 proof step by step and asserts every intermediate claim; `src/verify_beta2.py` runs it on every connected β = 2 core
-and every ranking profile for n = 2, …, 8 and checks each output against the raw EFX₀ definition; log in
-`results/verify_beta2.log`, certificates in `results/certs_beta2_*.json.gz` (re-checked by `tools/check_certs.py`).
-`src/test_collector.py` tests the collector theorem in its general form on random multigraphs.
+(1, 3, 8, 15, 25, 37, 52 cores for n = 2, …, 8, from nauty genbg) and every ranking profile, 98,991,756 pairs in all,
+and checks each output against the raw EFX₀ definition and the one-large-bundle condition: 0 failures, every case of
+§5 exercised (`results/verify_beta2.log`, about 12 minutes on 4 CPUs). The distinct allocations it produced, saved
+as `results/certs_beta2_{2..8}.json.gz`, cover every profile according to the SAT-free checker `tools/check_certs.py`
+(`results/check_certs_beta2.log`). `src/test_collector.py` tests the collector theorem in its general form on random
+multigraphs with pins, beyond β = 2 cores: 164,861 instances, 0 failures (`results/test_collector.log`).
 
 ## 0. Conventions
 
@@ -92,7 +95,7 @@ If g = a_z, this allocation is EFX₀ and all its bundles have at most two goods
 and 3n − 2 vertices; if it has c components then β(G − z) = c − 1. Each component K is joined to z by at least one
 of z's three edges. If K is joined to z by exactly one edge, at the good g_K, then K contains a cycle: the part K_H of
 K in H (K minus its private goods) is connected, every vertex of K_H other than g_K has all its H-neighbours in K_H
-and so K_H-degree at least 2, and g_K has K_H-degree deg(g_K) − 1 ≥ 1; a tree with at least two vertices has two
+(agents are not adjacent to z, and g_K is the only good of K adjacent to z) and so K_H-degree at least 2, and g_K has K_H-degree deg(g_K) − 1 ≥ 1; a tree with at least two vertices has two
 leaves, and a single vertex g_K would have H-degree 1; so K_H is not a tree. If c = 3, each component is joined to z
 by exactly one edge and contains a cycle, so β(G − z) ≥ 3 > c − 1: impossible. Hence c ≤ 2 and β(G − z) ≤ 1.
 
@@ -246,8 +249,9 @@ u, g₀, e₁, g₁, …, e_k, g_k, v with k ≥ 1, so a_u = u_P = g₀ and a_v 
 X_u = {g₀}, X_v = {g_k}. Then |E| + |Π| = k + 2 = |V| + 1, and w₀ = e₁ with h(e_i) = g_{i−1} for 2 ≤ i ≤ k is a
 cover state. Allocate the loops at u and at v by (L), with spare goods s_u and s_v, and apply Theorem 5 with
 Z = {s_u, s_v}. As in Case 3a, the goods valued by the e_i are their private goods and V, held outside E only by the
-pin holders u and v; so every e_i is safe; the loop agents are safe by (L); u and v are safe by (B). Only the
-collector's bundle can have more than two goods.
+pin holders u and v; so every e_i is safe; the loop agents are safe by (L); u and v are safe by (B). All goods are
+allocated: the goods of the two loops by (L) and Z, the goods of P by the cover state and the pins, all private goods
+to their owners or the collector. Only the collector's bundle can have more than two goods.
 
 *Case 3c: two Q-agents u, v, and P is the single good g (u, g, v).* Then a_u = a_v = g, and b_v, c_v are the two
 neighbours of v on C_v. Let X_u = {g} and allocate the loop at u by (L), with spare good s_u. Allocate the loop at v by
@@ -274,5 +278,6 @@ agents). In every case the allocation is EFX₀ and has at most one bundle with 
 - **Not covered: β ≥ 3.** The collector theorem needs (★), one deficit unit; a β = 3 core without Q-agents has
   |E| = |V| + 2. Whether one collector can absorb two deficit units (conjecture D for β = 3) is open; Theorem 5 applies
   verbatim to any core component where (★) and a cover state can be arranged.
-- **The failed intermediate schemes** (collector restricted to P-agents; deficient agent restricted to collect only
-  private goods) are recorded in `attempts/beta2-collector-schemes.md`.
+- **The failed intermediate schemes** (collector restricted to P-agents; every shared good held by an agent that
+  values it) are recorded in `attempts/beta2-pc-scheme.md` and `attempts/beta2-gpc-scheme.md`, with their smallest
+  failing configurations; they are why Lemma O and Case 3c are needed.

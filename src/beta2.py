@@ -1,10 +1,12 @@
 """Conjecture D for beta = 2 (connected cores with m = 2n - 1): the constructive proof of proofs/beta2.md as an algorithm.
-construct(n, m, sets, rank) returns an allocation (X[g] = agent holding good g) following the proof's case analysis
-step by step, asserting each claim the proof makes along the way:
-  pi = n       collector theorem (Theorem 1) on the multigraph K: shared goods = vertices, agents = edges;
-  pi < n       Lemma O (a branch agent holds its top alone, everyone else two own goods), when its top lies in a tree
-               component of G - z; otherwise the dumbbell cases H1 (pi = n - 1), H2 and H2' (pi = n - 2).
-Nothing here decides EFX0: check.py-style verification is done separately with the raw definition (verify_beta2.py).
+construct(n, m, sets, rank) returns an allocation (X[g] = agent holding good g) following the case analysis of the
+proof (section 5) step by step, and raises ProofError if any claim the proof makes along the way fails:
+  'pi=n'       Case 1: collector theorem (Theorem 5, class Collector) on the multigraph of shared goods and agents;
+  'lemma-O'    Case 2: a Q-agent holds its top good alone, everyone else two own goods (Lemma 4);
+  'H1'         Case 3a: one Q-agent, dumbbell, top on the bridge side (Theorem 5 with one pin);
+  'H2'         Case 3b: two Q-agents, bridge with agents (Theorem 5 with two pins);
+  "H2'"        Case 3c: two Q-agents joined by a single good.
+EFX0 is not decided here: verify_beta2.py checks every output with the raw definition.
 rank[i] = (a, b, c): agent i's goods from best to worst."""
 import collections
 import networkx as nx
