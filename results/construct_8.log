@@ -1,0 +1,4 @@
+# src/construct_run.py 8 <m>: construction LB on every connected core with n = 8 at the given m, every ranking profile; every output checked against the raw EFX0 definition in src/construct.c (no stored certificate).
+[      6s] n=8 m=16: 1 cores, 1679616 hypergraph-profile pairs, construction fails on 0; outputs with a large bundle: 74213 (by size {3: 71891, 4: 2290, 5: 32})
+[     90s] n=8 m=15: 52 cores, 87340032 hypergraph-profile pairs, construction fails on 0; outputs with a large bundle: 575196 (by size {3: 554945, 4: 19877, 5: 370, 6: 4})
+[     90s] ALL DONE; failures: 0

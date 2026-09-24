@@ -1,11 +1,11 @@
-# EFX₀ in cores by local search (Theorem C: every core has an EFX₀ allocation with at most one bundle of more than two goods; hence TARGET and conjecture D)
+# EFX₀ in cores by local search (Theorem C: a written proof of conjecture D and TARGET)
 
 Workstream `proof/local-search`. This route to TARGET does not go through conjecture D. It keeps a partial EFX₀ allocation of a core and applies moves that raise a potential, like the existence proofs for identical valuations, three agents, multigraphs and hypergraphs of girth ≥ 4 listed in `proofs/citations.md`. None of those papers was read for this work; their methods are known here only from the summaries in `proofs/citations.md`, and nothing below depends on them.
 
-**Main result.**
+**Main result.** Status: a written proof, independent of the one in `proofs/lb_last_step.md`. It is not claimed in the ledger until it has been reviewed and formalized (owner's policy; ledger rows LS3, D, T).
 - **Theorem C (§4).** For every core and every balanced ranking profile, Algorithm LS2 computes a complete EFX₀ allocation within 7n Phase-1 steps. In it, at most one bundle has more than two goods.
-- This proves **conjecture D** for every core, connected or not.
-- With the reduction to cores (`proofs/lemmas.md`, CORE), it also proves **TARGET**: every additive instance in which each agent values at most three goods positively has an EFX₀ allocation.
+- If correct, this proves **conjecture D** for every core, connected or not.
+- With the reduction to cores (`proofs/lemmas.md`, CORE), it then also proves **TARGET**: every additive instance in which each agent values at most three goods positively has an EFX₀ allocation.
 
 Algorithm LS2 has two phases.
 - **Phase 1** keeps a *junk-free* partial EFX₀ allocation: every allocated good is valued by its holder. It applies seven kinds of Pareto improvement, and the sum of levels (a potential ≤ 7n) rises at every step.
@@ -127,6 +127,14 @@ Fix a core with a strict ranking profile (a_i, b_i, c_i) and balanced additive v
 7. *(augmented envy cycle)* The family (D(s))_s, over the one-good sources s, has a system of distinct representatives. Apply the move constructed in Claim 3 below.
 
 If none applies, Phase 1 stops.
+
+*Choice points.* Any choice works at every one of them; the proof below holds for each.
+- The order of steps 1–7 matters only through the preconditions the proof uses: steps 3–7 are applied only when step 1 does not apply, and steps 6–7 only when steps 1–5 do not apply and no bundle is empty.
+- Within a step, any applicable instance may be taken: the agent and the good in steps 1, 3, 4 and 5, the cycle in step 2, and the triple and the path in step 6.
+- In step 7: any system of distinct representatives, any dirty triple (i_s, ℓ(s), s) for each s, any f(s) and path P_s, any cycle of f, and any shortest repeated segment of the walk.
+- In Phase 2: any empty bundle in (a); any maximum matching M and any unmatched s* in (b).
+
+`src/ls_alg.c` takes the first instance in index order. `src/local_search.py` (`ls2_numeric`) makes its own choices and decides everything from numeric values. Both check every output against the raw EFX₀ definition.
 
 *Phase 2.* If U ≠ ∅ when Phase 1 stops, do one of the following.
 - (a) If some bundle Y_e is empty, add all of U to it.
@@ -349,14 +357,13 @@ For general additive valuations, junk placement faces constraints on arbitrary s
 
 ## 8. Status
 
-- **PROVED:**
+- **Proved in writing:**
   - Lemmas 1–4 and Theorem A (§1–§3).
-  - Theorem C (§4): every core has an EFX₀ allocation with at most one bundle of more than two goods, computed by Algorithm LS2.
-  - Corollary 1: **conjecture D**, for every core.
-  - Corollary 2: **TARGET**.
+  - Theorem C (§4) and Corollaries 1 (D) and 2 (TARGET) have a complete written proof here, re-read by its author. In the ledger they are **CONJECTURE** (LS3, D) and **OPEN** (T) until independently reviewed and formalized in Lean.
   - The lemmas of §6.2 (Lemmas 5–7, Corollary 8, Theorem B).
+  - In the ledger, Lemmas 1–3 (LS1) and Theorem A (LS2) are PROVED, pending review.
 - **Corroborated computationally** (§5), exhaustively for n ≤ 6 and randomly up to n = 100, with certificates accepted by `tools/check_certs.py`.
 - **REFUTED** (§6):
   - The one-phase local search with moves E, S, R, A, U, C, X and potential (Σℓ, number of allocated goods) never gets stuck: false at n = 6 (Refutation 6.2).
   - Phase 1 with moves M1 and M2 only always ends in a state that junk placement completes: false at n = 6 (core 687).
-- **Also settled:** conjecture D, for every core, connected or not (Corollary 1).
+- **Conjecture D:** Corollary 1 gives it for every core, connected or not, subject to the same review.
