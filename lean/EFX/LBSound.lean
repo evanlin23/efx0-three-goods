@@ -189,26 +189,29 @@ structure Hyp (P : Profile A G) (agents : List A) (goods : List G) (X : G → A)
   slots : ∀ j ∈ agents, j ≠ o → ¬ U j → (∀ y, Y j = some y → ¬ P.NA agents U Y y) →
     ((bundle goods X j).filter (fun g => Y j ≠ some g)).length ≤ (if Y j = none then 2 else 1)
   owner : 2 < (bundle goods X o).length → ∀ k ∈ agents, k ≠ o → ¬ U k → Y k = some (P.a k) →
-    ¬ (X (P.b k) = o ∧ X (P.c k) = o)
+    ¬ (P.b k ∈ bundle goods X o ∧ P.c k ∈ bundle goods X o)
 
 variable {P : Profile A G} {agents : List A} {goods : List G} {X : G → A} {Y : A → Option G}
   {U : A → Prop} {o : A}
 
-/-- Every bundle except the owner's has at most two goods. -/
-theorem Hyp.length_le_two (h : Hyp P agents goods X Y U o) (hg : goods.Nodup) :
-    ∀ j ∈ agents, j ≠ o → (bundle goods X j).length ≤ 2 := by
-  intro j hj hjo
+/-- A bundle has at most two goods if its holder, when upgraded, holds only its `b` and `c`; when
+frozen, only its pick; and otherwise at most its slots beyond its pick. -/
+theorem bundle_length_le_two (hg : goods.Nodup) {j : A}
+    (hup : U j → ∀ g ∈ goods, X g = j → g = P.b j ∨ g = P.c j)
+    (hfz : ¬ U j → ∀ y, Y j = some y → P.NA agents U Y y → ∀ g ∈ goods, X g = j → g = y)
+    (hsl : ¬ U j → (∀ y, Y j = some y → ¬ P.NA agents U Y y) →
+      ((bundle goods X j).filter (fun g => Y j ≠ some g)).length ≤ (if Y j = none then 2 else 1)) :
+    (bundle goods X j).length ≤ 2 := by
   have hnd := nodup_bundle hg X j
   by_cases hU : U j
-  · obtain ⟨-, -, -, -, hsub⟩ := h.upgraded j hj hU
-    exact EFX.LB.length_le_two hnd
-      (fun g hg' => hsub hjo g (mem_bundle.mp hg').1 (mem_bundle.mp hg').2)
-  by_cases hfz : ∃ y, Y j = some y ∧ P.NA agents U Y y
-  · obtain ⟨y, hy, hna⟩ := hfz
+  · exact EFX.LB.length_le_two hnd
+      (fun g hg' => hup hU g (mem_bundle.mp hg').1 (mem_bundle.mp hg').2)
+  by_cases hfz' : ∃ y, Y j = some y ∧ P.NA agents U Y y
+  · obtain ⟨y, hy, hna⟩ := hfz'
     have := length_le_one hnd (y := y)
-      (fun g hg' => h.frozen j hj hU y hy hna g (mem_bundle.mp hg').1 (mem_bundle.mp hg').2)
+      (fun g hg' => hfz hU y hy hna g (mem_bundle.mp hg').1 (mem_bundle.mp hg').2)
     omega
-  have hsl := h.slots j hj hjo hU (fun y hy hna => hfz ⟨y, hy, hna⟩)
+  have hsl := hsl hU (fun y hy hna => hfz' ⟨y, hy, hna⟩)
   rw [length_filter_add (bundle goods X j) (fun g => decide (Y j ≠ some g))]
   cases hY : Y j with
   | none =>
@@ -219,7 +222,7 @@ theorem Hyp.length_le_two (h : Hyp P agents goods X Y U o) (hg : goods.Nodup) :
     rw [h0]; simp only [List.length_nil]; omega
   | some y =>
     rw [hY] at hsl
-    have h1 := length_le_one ((nodup_bundle hg X j).sublist List.filter_sublist) (y := y)
+    have h1 := length_le_one (hnd.sublist List.filter_sublist) (y := y)
       (S := (bundle goods X j).filter (fun g => !decide (some y ≠ some g)))
       (fun g hg' => by
         have := (List.mem_filter.mp hg').2
@@ -227,6 +230,12 @@ theorem Hyp.length_le_two (h : Hyp P agents goods X Y U o) (hg : goods.Nodup) :
         exact this.symm)
     have h2 : (if some y = none then 2 else 1) = 1 := by simp
     omega
+
+/-- Every bundle except the owner's has at most two goods. -/
+theorem Hyp.length_le_two (h : Hyp P agents goods X Y U o) (hg : goods.Nodup) :
+    ∀ j ∈ agents, j ≠ o → (bundle goods X j).length ≤ 2 := fun j hj hjo =>
+  bundle_length_le_two hg (fun hU => ((h.upgraded j hj hU).2.2.2.2 hjo)) (h.frozen j hj)
+    (h.slots j hj hjo)
 
 /-- A good in a bundle of at least two goods is not in `NA`: it is the holder's pick, which is not in
 `NA` since the holder is neither frozen nor (being upgraded) has its pick in `NA`, or it is junk, and
@@ -316,8 +325,7 @@ theorem Hyp.efx0 (h : Hyp P agents goods X Y U o) (hg : goods.Nodup) {v : A → 
             have := h.length_le_two hg j hj hjo
             omega
           subst hjo
-          exact absurd ⟨(mem_bundle.mp hboth.1).2, (mem_bundle.mp hboth.2).2⟩
-            (h.owner hbig i hi hij hUi hY)
+          exact absurd hboth (h.owner hbig i hi hij hUi hY)
         · -- `X_j = {b i, c i}`: without `g` it is one good, worth at most `a i`
           have hl1 : ((bundle goods X j).erase g).length = 1 := by
             rw [List.length_erase_of_mem hgj]; omega
