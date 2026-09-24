@@ -13,6 +13,8 @@ Options:
   --cert=FILE      write a certificate (gzip JSON, the format of frontier.py; mode 'LB'): per core, allocations
                    output by the construction that cover every profile; check it with tools/check_certs.py and
                    construct_run.py --check-cert=FILE (every allocation has at most one bundle of >= 3 goods)
+  --part=k/K       only the k-th of K contiguous slices of each core list (k = 1..K), so a long level can run in
+                   pieces; the slices of one level partition its cores (merge their certificates for check_enum.py)
 Usage: construct_run.py n [m ...] [options]"""
 import sys, os, subprocess, time, json, gzip, itertools, multiprocessing, collections
 from frontier import options
@@ -24,7 +26,7 @@ BIN = os.path.join(HERE, 'construct')
 def compile_c():
     src = os.path.join(HERE, 'construct.c')
     if not os.path.exists(BIN) or os.path.getmtime(BIN) < os.path.getmtime(src):
-        subprocess.run(['gcc', '-O2', '-o', BIN, src], check=True)
+        subprocess.run(['gcc', '-O3', '-march=native', '-o', BIN, src], check=True)
 
 def run_chunk(task):
     n, m, chunk, cert = task
@@ -102,6 +104,9 @@ if __name__ == '__main__':
             dis = disconnected_cores(n); ms = sorted({m for m, _, _ in dis})
         for m in ms:
             cores = gen_cores_nauty(n, m) if 'disconnected' not in opts else [(pi, s) for mm, pi, s in dis if mm == m]
+            if 'part' in opts:
+                k, K = map(int, opts['part'].split('/')); L = len(cores)
+                cores = cores[(k - 1) * L // K:k * L // K]
             if 'relabel' in opts:
                 import random
                 rng = random.Random(f"{opts['relabel']}:{n}:{m}")
@@ -118,7 +123,8 @@ if __name__ == '__main__':
                 for d, c in enumerate(r['D'], 3):
                     if c: D[d] += c
             first = [(sets, r['fails'], r['first']) for (_, sets), r in zip(cores, res) if r['fails']]
-            msg = (f"n={n} m={m}: {len(cores)} {'disconnected ' if 'disconnected' in opts else ''}cores, {len(cores) * 6 ** n} hypergraph-profile pairs, construction fails on"
+            part = f" (part {opts['part']})" if 'part' in opts else ''
+            msg = (f"n={n} m={m}: {len(cores)} {'disconnected ' if 'disconnected' in opts else ''}cores{part}, {len(cores) * 6 ** n} hypergraph-profile pairs, construction fails on"
                    f" {fails}; outputs with a large bundle: {large} (by size {dict(sorted(D.items()))})")
             if pyk:
                 idx = list(range(0, len(cores), pyk))
