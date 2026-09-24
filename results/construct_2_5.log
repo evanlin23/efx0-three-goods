@@ -1,0 +1,28 @@
+[      0s] n=2 m=3: 1 cores, 36 hypergraph-profile pairs, construction fails on 0; outputs with a large bundle: 0 (by size {}); Python reference on 1 cores: identical outputs on 1
+[      0s] n=2 m=4: 1 cores, 36 hypergraph-profile pairs, construction fails on 0; outputs with a large bundle: 0 (by size {}); Python reference on 1 cores: identical outputs on 1
+[      0s] certificate: /tmp/claude-0/-home-user-efx0-three-goods/8e821542-4702-5068-a14d-61479e02e74e/scratchpad/cert_lb_2.json.gz (2 hypergraphs)
+[      0s] ALL DONE; failures: 0
+[      0s] n=3 m=3: 1 cores, 216 hypergraph-profile pairs, construction fails on 0; outputs with a large bundle: 0 (by size {}); Python reference on 1 cores: identical outputs on 1
+[      0s] n=3 m=4: 2 cores, 432 hypergraph-profile pairs, construction fails on 0; outputs with a large bundle: 0 (by size {}); Python reference on 2 cores: identical outputs on 2
+[      0s] n=3 m=5: 3 cores, 648 hypergraph-profile pairs, construction fails on 0; outputs with a large bundle: 14 (by size {3: 14}); Python reference on 3 cores: identical outputs on 3
+[      0s] n=3 m=6: 1 cores, 216 hypergraph-profile pairs, construction fails on 0; outputs with a large bundle: 0 (by size {}); Python reference on 1 cores: identical outputs on 1
+[      0s] certificate: /tmp/claude-0/-home-user-efx0-three-goods/8e821542-4702-5068-a14d-61479e02e74e/scratchpad/cert_lb_3.json.gz (7 hypergraphs)
+[      0s] ALL DONE; failures: 0
+[      0s] n=4 m=3: 1 cores, 1296 hypergraph-profile pairs, construction fails on 0; outputs with a large bundle: 0 (by size {}); Python reference on 1 cores: identical outputs on 1
+[      0s] n=4 m=4: 4 cores, 5184 hypergraph-profile pairs, construction fails on 0; outputs with a large bundle: 0 (by size {}); Python reference on 4 cores: identical outputs on 4
+[      1s] n=4 m=5: 11 cores, 14256 hypergraph-profile pairs, construction fails on 0; outputs with a large bundle: 0 (by size {}); Python reference on 11 cores: identical outputs on 11
+[      2s] n=4 m=6: 16 cores, 20736 hypergraph-profile pairs, construction fails on 0; outputs with a large bundle: 18 (by size {3: 18}); Python reference on 16 cores: identical outputs on 16
+[      2s] n=4 m=7: 8 cores, 10368 hypergraph-profile pairs, construction fails on 0; outputs with a large bundle: 105 (by size {3: 102, 4: 3}); Python reference on 8 cores: identical outputs on 8
+[      2s] n=4 m=8: 1 cores, 1296 hypergraph-profile pairs, construction fails on 0; outputs with a large bundle: 16 (by size {3: 16}); Python reference on 1 cores: identical outputs on 1
+[      2s] certificate: /tmp/claude-0/-home-user-efx0-three-goods/8e821542-4702-5068-a14d-61479e02e74e/scratchpad/cert_lb_4.json.gz (41 hypergraphs)
+[      2s] ALL DONE; failures: 0
+[      1s] n=5 m=3: 1 cores, 7776 hypergraph-profile pairs, construction fails on 0; outputs with a large bundle: 0 (by size {}); Python reference on 1 cores: identical outputs on 1
+[      3s] n=5 m=4: 5 cores, 38880 hypergraph-profile pairs, construction fails on 0; outputs with a large bundle: 0 (by size {}); Python reference on 5 cores: identical outputs on 5
+[     14s] n=5 m=5: 28 cores, 217728 hypergraph-profile pairs, construction fails on 0; outputs with a large bundle: 0 (by size {}); Python reference on 28 cores: identical outputs on 28
+[     48s] n=5 m=6: 76 cores, 590976 hypergraph-profile pairs, construction fails on 0; outputs with a large bundle: 0 (by size {}); Python reference on 76 cores: identical outputs on 76
+[     96s] n=5 m=7: 105 cores, 816480 hypergraph-profile pairs, construction fails on 0; outputs with a large bundle: 56 (by size {3: 56}); Python reference on 105 cores: identical outputs on 105
+[    127s] n=5 m=8: 62 cores, 482112 hypergraph-profile pairs, construction fails on 0; outputs with a large bundle: 754 (by size {3: 751, 4: 3}); Python reference on 62 cores: identical outputs on 62
+[    134s] n=5 m=9: 15 cores, 116640 hypergraph-profile pairs, construction fails on 0; outputs with a large bundle: 936 (by size {3: 929, 4: 7}); Python reference on 15 cores: identical outputs on 15
+[    135s] n=5 m=10: 1 cores, 7776 hypergraph-profile pairs, construction fails on 0; outputs with a large bundle: 176 (by size {3: 176}); Python reference on 1 cores: identical outputs on 1
+[    135s] certificate: /tmp/claude-0/-home-user-efx0-three-goods/8e821542-4702-5068-a14d-61479e02e74e/scratchpad/cert_lb_5.json.gz (293 hypergraphs)
+[    135s] ALL DONE; failures: 0

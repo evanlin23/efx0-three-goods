@@ -20,7 +20,7 @@ from pysat.card import CardEnc, EncType
 from pysat.formula import IDPool
 from frontier import build, raw_masks, options
 from cores_nauty import gen_cores_nauty
-from construct import raw_ok, construct
+from construct import raw_ok, construct, phase1, phase2
 PERMS = list(itertools.permutations(range(3)))
 
 def ranked(sets, prof):
@@ -145,12 +145,27 @@ def p_capacity(trip):
                 if len(set().union(*pairs)) == 2 * len(pairs): return len(C), n - len(claim), F
     return len(C), n - len(claim), best
 
+def na_split(n, m, trip):
+    """LB's goods needed alone after its upgrades, split into tops (a_k of some needing agent k) and the rest."""
+    Y, J = phase1(n, m, trip); res = phase2(n, m, trip, Y, J); up = res[2]
+    rank = [{g: r for r, g in enumerate(t)} for t in trip]
+    need = [(k, r) for k in range(n) if k not in up for r in range(rank[k][Y[k]] if Y[k] is not None else 3)]
+    tops = {trip[k][0] for k, r in need}
+    return len(tops), len({trip[k][r] for k, r in need} - tops)
+
 def relate(task):
     n, m, sets = task; fails = set(c2_failing(n, m, sets)); tab = collections.Counter()
     for prof in itertools.product(range(6), repeat=n):
         trip = ranked(sets, prof); nc, kappa, p = p_capacity(trip)
         X = construct(n, m, trip); big = max(collections.Counter(X).values()) >= 3
         tab[(nc - p - (2 * n - m), prof in fails, big)] += 1
+        nt, nl = na_split(n, m, trip)
+        tab[('NA', nt - (2 * n - m), nl, prof in fails)] += 1
+        if big:
+            f = features(n, m, sets, trip, X)
+            tab[('LB owner case', f['owner_case'])] += 1
+            tab[('LB rest', 'private goods of agents holding their tops' if f['private'] and f['holders_top'] else
+                 'private goods, some agent not holding its top' if f['private'] else 'contains a shared good')] += 1
     return tab
 
 if __name__ == '__main__':
@@ -171,17 +186,22 @@ if __name__ == '__main__':
                     if F and 'list' in opts: print(f"   {sets}: {len(F)} profiles, first {F[0]}: (a, b, c) {ranked(sets, F[0])}")
             elif mode == 'structure':
                 npairs = 0; minD = collections.Counter(); cases = collections.Counter(); some = collections.Counter()
-                nsol = []; exc = []
+                nsol = []; exc = []; big4 = []
                 for sets, out in pool.imap_unordered(structure, cores, chunksize=1):
                     for prof, fs in out:
                         npairs += 1; nsol.append(len(fs)); minD[min(f['D'] for f in fs)] += 1
+                        if min(f['D'] for f in fs) >= 4: big4.append((sets, prof))
                         for c in {f['owner_case'] for f in fs}: cases[c] += 1
                         tests = {'owner holds its top': lambda f: f['owner_top'],
                                  'L minus owner goods all private': lambda f: f['private'],
                                  '... and their agents hold their tops': lambda f: f['private'] and f['holders_top'],
                                  'owner holds top, rest private, their agents hold tops':
                                      lambda f: f['owner_top'] and f['private'] and f['holders_top'],
-                                 'rest private, their agents in case T or B': lambda f: f['private'] and f['holders_TB']}
+                                 'rest private, their agents in case T or B': lambda f: f['private'] and f['holders_TB'],
+                                 'owner in case C, rest private, their agents in case T or B':
+                                     lambda f: f['owner_case'] == 'C' and f['private'] and f['holders_TB'],
+                                 'L = owner\'s c + private goods of agents in case T or B':
+                                     lambda f: f['own'] == 'c' and f['private'] and f['holders_TB']}
                         for k, t in tests.items():
                             if any(t(f) for f in fs): some[k] += 1
                         if not any(tests['owner holds top, rest private, their agents hold tops'](f) for f in fs):
@@ -190,17 +210,26 @@ if __name__ == '__main__':
                       f"min {min(nsol, default=0)}, max {max(nsol, default=0)}  [{time.time() - t0:.0f}s]")
                 print(f"  minimum size of the large bundle: {dict(sorted(minD.items()))}")
                 print(f"  pairs where the owner can use case: {dict(sorted(cases.items()))}")
+                if big4: print(f"  pairs needing a large bundle of >= 4 goods: {len(big4)}, in {len({str(s) for s, _ in big4})} cores")
+                for sets, prof in big4: print(f"    {sets} profile {prof}: (a, b, c) {ranked(sets, prof)}")
                 for k, v in some.items(): print(f"  some solution has [{k}]: {v} of {npairs}")
-                for sets, prof, trip in exc: print(f"  exception: {sets} profile {prof}, (a, b, c): {trip}")
+                print(f"  pairs where no solution has [owner holds top, rest private, their agents hold tops]: {len(exc)}")
+                for sets, prof, trip in exc[:5]: print(f"    e.g. {sets} profile {prof}, (a, b, c): {trip}")
             elif mode == 'relate':
                 tab = collections.Counter()
                 for t in pool.imap_unordered(relate, cores, chunksize=1): tab.update(t)
                 print(f"n={n} m={m} (sigma = {2 * n - m}), all {len(cores) * 6 ** n} (core, profile) pairs  [{time.time() - t0:.0f}s]")
                 print("  delta - sigma | pairs | C2 fails | LB uses a large bundle | of those, C2 fails")
-                for d in sorted({k[0] for k in tab}):
+                for d in sorted({k[0] for k in tab if isinstance(k[0], int)}):
                     tot = sum(v for k, v in tab.items() if k[0] == d)
                     f = sum(v for k, v in tab.items() if k[0] == d and k[1])
                     b = sum(v for k, v in tab.items() if k[0] == d and k[2])
                     bf = sum(v for k, v in tab.items() if k[0] == d and k[1] and k[2])
                     print(f"  {d:13d} | {tot:9d} | {f:8d} | {b:8d} | {bf:8d}")
-                print(f"  C2 fails but LB uses no large bundle (impossible): {sum(v for k, v in tab.items() if k[1] and not k[2])}")
+                print("  LB's needed-alone goods: tops T and lower goods L; T - sigma | L | pairs | C2 fails")
+                for t_, l_ in sorted({k[1:3] for k in tab if k[0] == 'NA'}):
+                    tot = tab[('NA', t_, l_, False)] + tab[('NA', t_, l_, True)]
+                    print(f"  {t_:10d} | {l_:3d} | {tot:9d} | {tab[('NA', t_, l_, True)]:8d}")
+                print(f"  C2 fails but LB uses no large bundle (impossible): {sum(v for k, v in tab.items() if isinstance(k[0], int) and k[1] and not k[2])}")
+                print(f"  LB's large bundle, owner's case: {dict(sorted((k[1], v) for k, v in tab.items() if k[0] == 'LB owner case'))}")
+                print(f"  LB's large bundle minus the owner's goods: {dict(sorted((k[1], v) for k, v in tab.items() if k[0] == 'LB rest'))}")
