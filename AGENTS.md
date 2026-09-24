@@ -13,6 +13,7 @@ If the person who started your session named a workstream or task, do that. Othe
 
 ## 2. Environment
 - Python 3.11+, with `pip install -r requirements.txt` (python-sat, networkx, numpy). In Claude Code on the web, `.claude/hooks/session-start.sh` installs these when the session starts.
+- Claude Code sessions default to Claude Opus 5.5 at xhigh effort (`.claude/settings.json`); a model or effort chosen when starting a session overrides this.
 - No other services, credentials or network access are needed.
 
 ## 3. Branches, commits, pull requests
