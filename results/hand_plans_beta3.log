@@ -1,0 +1,11 @@
+$ python dg_beta3.py 3 4 5 6 7 8 9 10 --hand --jobs=2
+[     0s] n=3 m=4: {2: 1} cores with q = 1, 2; 36 Q-profiles; hand plans failing: 0
+[     0s] n=4 m=6: {1: 2, 2: 7} cores with q = 1, 2; 264 Q-profiles; hand plans failing: 0
+[     0s] n=5 m=8: {1: 11, 2: 27} cores with q = 1, 2; 1038 Q-profiles; hand plans failing: 0
+[     0s] n=6 m=10: {1: 42, 2: 89} cores with q = 1, 2; 3456 Q-profiles; hand plans failing: 0
+[     1s] n=7 m=12: {1: 119, 2: 224} cores with q = 1, 2; 8778 Q-profiles; hand plans failing: 0
+[     5s] n=8 m=14: {1: 278, 2: 506} cores with q = 1, 2; 19884 Q-profiles; hand plans failing: 0
+[    26s] n=9 m=16: {1: 576, 2: 1005} cores with q = 1, 2; 39636 Q-profiles; hand plans failing: 0
+[   158s] n=10 m=18: {1: 1089, 2: 1863} cores with q = 1, 2; 73602 Q-profiles; hand plans failing: 0
+[   158s] ALL DONE; failing: 0
+exit=0
