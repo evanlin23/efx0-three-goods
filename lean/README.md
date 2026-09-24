@@ -21,7 +21,7 @@ standard ones, if the number of certificates differs from the number of `#print 
 declaration of the library (certified or not; `CheckAxioms.lean`) depends on another axiom. On success the last
 line is
 
-    CHECK PASSED: 21 audited statements, 54 theorems, standard axioms only
+    CHECK PASSED: 28 audited statements, 94 theorems, standard axioms only
 
 CI runs it on every pull request (job `lean` in `.github/workflows/verify.yml`). In Claude Code on the web the
 session-start hook installs the toolchain (from GitHub when `release.lean-lang.org` is unreachable).
@@ -77,6 +77,18 @@ each agent's values by a common denominator.
 - `EFX/TwoOwnGoods.lean`: L8. `EFX.envyFree_of_two_own` and `EFX.safe_of_two_own` over lists,
   `EFX.Inst.safe_of_two_own` in the model's terms, `EFX.Inst.efx0_of_two_own` (every agent holds two own goods ⟹
   EFX₀), and `EFX.balance_needed` (a top-heavy agent holding two own goods can be unsafe).
+- `EFX/LBSound.lean`: S2.S, abstract form. `EFX.LB.Profile` (rankings `a i`, `b i`, `c i`; consistent values `a ≥ b ≥ c > 0`, ties allowed), `Profile.Consistent`
+  (additive valuations consistent with them, balanced), `Profile.NA`, and `EFX.LB.Hyp`, the properties of LB's
+  output that the proof of Theorem 1 uses (picks, invariant (I1), upgraded, frozen and slot-filled bundles, the
+  owner constraint). `EFX.LB.Hyp.efx0` (EFX₀ for every consistent valuation), `EFX.LB.Hyp.length_le_two` (every
+  bundle but the owner's has at most two goods), `EFX.LB.sound` (both, in the model's terms).
+- `EFX/LBRun.lean`: S2.S for construction LB itself. `EFX.LB.lb` defines LB as `src/construct.py` does, with
+  Phase 1's processing order as an argument (LB's adaptive order is one choice); `EFX.LB.phase1_spec` (Phase 1
+  satisfies (I1)); `EFX.LB.lb_hyp` (every output satisfies `Hyp`); `EFX.LB.lb_sound`, `EFX.LB.lb_sound_model`
+  (Theorem 1: every output is EFX₀ for every consistent valuation and has at most one bundle of more than two
+  goods).
+- `scripts/lb_crosscheck.py`: evidence, not proof, that `EFX.LB.lb` computes what `src/construct.py` computes
+  (runs both on every ranking profile of the given connected cores, with Python's Phase 1 order, and compares).
 - `CheckAxioms.lean`: the all-declarations axiom check.
 
 ## Correspondence with the ledger
@@ -97,6 +109,8 @@ name in the ledger's Lean column has one.
 | L8 | An agent with at most three relevant goods, `2 v_i(g) ≤ v_i(M)` for all `g` (i.e. `a ≤ b + c`; core agents have `a < b + c`), holding at least two of them, envies nobody and so is safe | TwoOwnGoods : `EFX.Inst.safe_of_two_own` (model), `EFX.envyFree_of_two_own` (over lists) |
 | L8 | If every agent is as above, the allocation is EFX₀ (how L8 solves β = 1 cores) | TwoOwnGoods : `EFX.Inst.efx0_of_two_own` |
 | L8 | The balance hypothesis is necessary: a top-heavy agent holding two of its goods can be unsafe | TwoOwnGoods : `EFX.balance_needed` |
+| S2.S | Theorem 1, abstract form: an allocation built from picks satisfying (I1), with upgraded, frozen and slot-filled bundles and an owner bundle satisfying the owner constraint (`EFX.LB.Hyp`), is EFX₀ for every additive valuation consistent with the rankings, and every bundle but the owner's has at most two goods | LBSound : `EFX.LB.Hyp.efx0`, `EFX.LB.Hyp.length_le_two` (over lists), `EFX.LB.sound` (model) |
+| S2.S | Theorem 1: every allocation construction LB returns (Phase 1 in any processing order) is EFX₀ for every additive valuation consistent with the rankings, and at most one of its bundles has more than two goods | LBRun : `EFX.LB.lb_sound` (over lists), `EFX.LB.lb_sound_model` (model); `EFX.LB.lb_hyp` (LB's output satisfies `Hyp`), `EFX.LB.phase1_spec` (Phase 1 satisfies (I1)) |
 | — | The list layer agrees with the model | Bridge : `EFX.Inst.efx0_iff` |
 
 mrd-efx proves a stronger form of L2c (`MRD.main_theorem_L`: in addition, all bundles but one have at most one
@@ -111,3 +125,9 @@ good), and extends it to monotone valuations.
 - The peeling theorems are stated over lists: removing an agent and its goods changes the index types `Fin n`, `Fin m`,
   so a model-level statement needs sub-instances. `EFX.Inst.efx0_iff` connects the two for the full instance.
 - Real-valued utilities (natural numbers in Lean, as in mrd-efx).
+- S2.S: LB's rule for choosing Phase 1's processing order (R1 keys, insertion lookahead); the theorems hold for
+  every order. That `EFX.LB.lb` is the algorithm of `src/construct.py` is checked by running both
+  (`scripts/lb_crosscheck.py`), not proved. That LB never fails (S2.LB) is a conjecture. Lemma 2 (the size of the
+  large bundle) is not formalized. `EFX.LB.lb_sound` reads its conclusion through the definitions of
+  `EFX/LBRun.lean` (what `lb` computes) and `EFX.LB.Profile.Consistent`, which a reader must accept along with the
+  trusted base; `EFX.LB.sound` needs only `Profile.Consistent`, `Profile.NA` and `Hyp`.

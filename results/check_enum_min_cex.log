@@ -1,0 +1,5 @@
+$ python tools/check_enum.py results/cores_9_16_10_18.json.gz
+results/cores_9_16_10_18.json.gz: (n,m)=(9,16): 2477 hypergraphs, orbit sum 8308684242710691840000, labeled connected cores 8308684242710691840000 -> complete
+results/cores_9_16_10_18.json.gz: (n,m)=(10,18): 4619 hypergraphs, orbit sum 47023457815571831193600000, labeled connected cores 47023457815571831193600000 -> complete
+problems: 0
+exit=0
