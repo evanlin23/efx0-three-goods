@@ -28,7 +28,7 @@ Fast (under 10 s each; run on every change):
 python tools/check_ledger.py                     # every PROVED/CERTIFIED/REFUTED row has an existing artifact
 python tools/check_certs.py results/certs_5_6.json.gz --expect 5:9:15 6:10:211 6:11:25
 ```
-Full CI (`.github/workflows/verify.yml`, about 5 min; run when you touch `src/`, `tools/` or `results/`):
+Full CI (`.github/workflows/verify.yml`, about 5 min; it runs only on pull requests, so a branch without a PR gets no CI; run when you touch `src/`, `tools/` or `results/`):
 ```
 cd src
 python frontier.py 5 6                           # ~4 min; writes src/certs_5_6.json.gz and src/frontier_results_5_6.json (gitignored)
