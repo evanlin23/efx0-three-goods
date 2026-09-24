@@ -5,3 +5,4 @@ src/frontier_results_*.json
 lean/.lake/
 lean/build.log
 src/checkpoint_*.jsonl
+src/construct

@@ -1,0 +1,12 @@
+[      0s] n=6 m=3: 1 cores, 46656 hypergraph-profile pairs, construction fails on 0; outputs with a large bundle: 0 (by size {})
+[      0s] n=6 m=4: 8 cores, 373248 hypergraph-profile pairs, construction fails on 0; outputs with a large bundle: 0 (by size {})
+[      3s] n=6 m=5: 66 cores, 3079296 hypergraph-profile pairs, construction fails on 0; outputs with a large bundle: 0 (by size {})
+[     16s] n=6 m=6: 317 cores, 14789952 hypergraph-profile pairs, construction fails on 0; outputs with a large bundle: 0 (by size {})
+[     50s] n=6 m=7: 781 cores, 36438336 hypergraph-profile pairs, construction fails on 0; outputs with a large bundle: 0 (by size {})
+[     95s] n=6 m=8: 1013 cores, 47262528 hypergraph-profile pairs, construction fails on 0; outputs with a large bundle: 135 (by size {3: 135})
+[    124s] n=6 m=9: 670 cores, 31259520 hypergraph-profile pairs, construction fails on 0; outputs with a large bundle: 8243 (by size {3: 8229, 4: 14})
+[    133s] n=6 m=10: 211 cores, 9844416 hypergraph-profile pairs, construction fails on 0; outputs with a large bundle: 18842 (by size {3: 18231, 4: 611})
+[    134s] n=6 m=11: 25 cores, 1166400 hypergraph-profile pairs, construction fails on 0; outputs with a large bundle: 8117 (by size {3: 7989, 4: 125, 5: 3})
+[    134s] n=6 m=12: 1 cores, 46656 hypergraph-profile pairs, construction fails on 0; outputs with a large bundle: 1492 (by size {3: 1468, 4: 24})
+[    137s] certificate: /tmp/claude-0/-home-user-efx0-three-goods/8e821542-4702-5068-a14d-61479e02e74e/scratchpad/cert_lb_6.json.gz (3093 hypergraphs)
+[    137s] ALL DONE; failures: 0
