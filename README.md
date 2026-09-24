@@ -9,6 +9,7 @@ Open question (CS 580 course project, Fall 2026): does every additive fair-divis
 - Refuted: "bundles of at most two goods always suffice" (smallest counterexample n = 3), and its weaker form for m ≤ 2n − 2 (smallest n = 4).
 - Main conjecture D: some EFX₀ allocation has at most one bundle with more than two goods. Certified for every core with n ≤ 6, and for every connected core with n = 7, m ≥ 11 or n = 8, m ≥ 14.
 - Proved: conjecture D for every core with m = 2n − 1 (cyclomatic number β = 2), for all n ([proofs/beta2.md](proofs/beta2.md)).
+- Proved ([proofs/multigraph_extension.md](proofs/multigraph_extension.md), ledger T4): the multigraph theorem for cores, re-proved without the paper, and extended to goods with three or more valuers when each such good is the top of all its valuers and the ranking profile has a popular matching. The paper's allocation shape cannot survive a single good with three valuers (n = 3 example).
 - Step 2 ([proofs/construction.md](proofs/construction.md)): an explicit construction, LB, whose output is always EFX₀ with at most one large bundle (proved). It never fails on any core with n ≤ 6 (certified) or with n = 7, m ≥ 10 (exhaustive search, no stored certificate). The open gap is its last step. When a large bundle is needed (n ≤ 6), it can always go to an agent holding only its bottom good, together with goods private to agents that don't need them (conjecture K).
 
 ## Layout
