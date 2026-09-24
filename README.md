@@ -9,6 +9,7 @@ Open question (CS 580 course project, Fall 2026): does every additive fair-divis
 - Main conjecture D: some EFX₀ allocation has at most one bundle with more than two goods. Certified for n ≤ 6 and for n = 7, m = 13.
 
 ## Layout
+- `AGENTS.md`: how an AI agent gets oriented, sets up, branches, checks and opens a pull request (`CLAUDE.md` loads it for Claude Code)
 - `PROMPT.md`: the research brief every agent works from (problem, results, plan, rules, repository workflow)
 - `LEDGER.md`: every claim, its status, and the artifact behind it; the single source of truth
 - `src/`: tools; `frontier.py` is the main one (enumerate connected cores, CEGAR over ranking profiles, save certificates)
@@ -18,7 +19,7 @@ Open question (CS 580 course project, Fall 2026): does every additive fair-divis
 
 ## Reproduce
 ```
-pip install python-sat networkx numpy
+pip install -r requirements.txt
 cd src
 python frontier.py 5 6        # about 4 min: enumerate cores, search, certify; writes certs_5_6.json.gz
 python ../tools/check_certs.py certs_5_6.json.gz --expect 5:9:15 6:10:211 6:11:25   # re-check without SAT
@@ -28,8 +29,8 @@ python verify_fail.py         # independent confirmation of the 57 refutations o
 ## Working here
 Humans and agents follow PROMPT.md §7: one branch per workstream (`compute/...`, `proof/...`), pull requests into `main`, CI green, and a ledger status change only with its artifact. Protect `main` (Settings → Branches: require a pull request and passing checks).
 
-Kickoff message for a new agent:
-> You're joining an open research project in fair division. Clone REPO_URL, read PROMPT.md and LEDGER.md, and take the WORKSTREAM workstream (compute: Steps 1–2 of the plan; proof: Step 3). The repository, not this chat, is the record: work on your own branch and open pull requests.
+Kickoff message for a new agent (for Claude Code on the web, start a session on this repository and paste it; the repository is already cloned and dependencies are installed):
+> You're joining an open research project in fair division. Read AGENTS.md and follow it: read README.md, PROMPT.md and LEDGER.md, then take the WORKSTREAM workstream (compute: Steps 1–2 of the plan; proof: Step 3). The repository, not this chat, is the record: work on your own branch, push, and open a pull request into main when a unit of work is done.
 
 ## AI use
 Most code and text here were produced with AI assistants (Claude) under human direction; commit messages are tagged with the workstream that produced them. Cite accordingly in course submissions.

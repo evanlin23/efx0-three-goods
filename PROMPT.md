@@ -127,7 +127,7 @@ If code files are attached (frontier.py is the main tool), run them, but do Step
 The repository is the record; your chat is not. Assume other agents and humans are working in parallel.
 
 - Layout: LEDGER.md (every claim and its status), PROMPT.md (this brief), src/ (tools; frontier.py is the main one), tools/ (checkers CI runs), results/ (logs, summaries, certificate files), proofs/ (written proofs), attempts/ (failed approaches, each ending with the smallest configuration where it breaks).
-- At the start of every session: clone or pull, then read LEDGER.md and the open pull requests. Work on your own branch named after your workstream (compute/..., proof/...). Never commit to main.
+- At the start of every session: clone or pull, then read LEDGER.md and the open pull requests. Work on your own branch named after your workstream (compute/..., proof/...); if your environment assigns you a branch, use it and name the workstream in commit messages and the pull request title. Never commit to main. AGENTS.md has the checks to run and the pull-request template.
 - Commit small and often, with messages "[workstream] what changed and why". Open a pull request when a unit of work is done; a human reviews and merges.
 - A pull request that changes a ledger status must contain the artifact the new status requires (rule 1), and CI must pass. CI lints the ledger, re-checks the committed certificates without SAT, re-runs the n <= 6 search from scratch and re-checks its certificates, and re-confirms the refutation of conjecture A.
 - New certified results: commit the certificate file (gzip JSON of hypergraphs and allocations, as written by frontier.py or run7.py) under results/, and make sure tools/check_certs.py accepts it.
