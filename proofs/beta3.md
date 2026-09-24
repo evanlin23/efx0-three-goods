@@ -23,7 +23,7 @@ allocation in which at most one bundle has more than two goods.
 So Theorem D3 is PROVED for cores with q ≤ 2 and, for all β = 3 cores, it rests on one finite computation
 (Lemma 7 for q = 3, 4): CERTIFIED in the ledger's sense (an exhaustive check over a finite set that a proved lemma
 shows is enough, with independently checked certificates). A hand proof of Lemma 7 for q = 3, 4 is open; §6 says
-what those cases need. (Among the β = 3 cores with n = 6, 143 of 211 have q ≤ 2; with n = 7, 385 of 541.)
+what those cases need. (Among the β = 3 cores with n = 6, 143 of 211 have q ≤ 2; with n = 7, 370 of 541.)
 
 **Cross-check of the whole construction** (evidence, not part of the proof): `src/beta3.py` runs the construction
 step by step (Q-plan, orientations, multi-collector switching) and asserts every intermediate claim;
