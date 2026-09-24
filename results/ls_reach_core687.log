@@ -1,0 +1,27 @@
+# ls_check -r -m ESRAUCX -p P: closure of all one-phase moves from the empty allocation, core 687 (n = 6, m = 9),
+# for 4 of the 64 profiles with stuck states (results/ls_stuck_profiles_core687.txt). All 128 stuck states are
+# reachable by the general argument in proofs/local_search.md, Refutation 4.2; python src/local_search.py stuck6 replays one.
+## profile 29484
+  STUCK (reachable)
+   rankings(a,b,c): (1,6,7) (4,5,8) (1,5,0) (6,0,3) (5,2,3) (4,6,2)
+   bundles: {1} {4} {0,8} {6} {5} {2,7}  pool {3}
+core 0 n=6 m=9 goods (1,6,7) (4,5,8) (0,1,5) (0,3,6) (2,3,5) (2,4,6): stuck states 2 in 1 profiles
+TOTAL cores 1, reachable states examined 226837, stuck 2; first applicable move: E=157725 S=68520 R=88 A=336 U=6 C=2 X=0
+## profile 29485
+  STUCK (reachable)
+   rankings(a,b,c): (1,7,6) (4,5,8) (1,5,0) (6,0,3) (5,2,3) (4,6,2)
+   bundles: {1} {4} {0,8} {6} {5} {2,7}  pool {3}
+core 0 n=6 m=9 goods (1,6,7) (4,5,8) (0,1,5) (0,3,6) (2,3,5) (2,4,6): stuck states 2 in 1 profiles
+TOTAL cores 1, reachable states examined 223410, stuck 2; first applicable move: E=155737 S=67128 R=71 A=310 U=4 C=2 X=0
+## profile 29490
+  STUCK (reachable)
+   rankings(a,b,c): (1,6,7) (4,8,5) (1,5,0) (6,0,3) (5,2,3) (4,6,2)
+   bundles: {1} {4} {0,8} {6} {5} {2,7}  pool {3}
+core 0 n=6 m=9 goods (1,6,7) (4,5,8) (0,1,5) (0,3,6) (2,3,5) (2,4,6): stuck states 2 in 1 profiles
+TOTAL cores 1, reachable states examined 223410, stuck 2; first applicable move: E=155737 S=67128 R=71 A=310 U=4 C=2 X=0
+## profile 29491
+  STUCK (reachable)
+   rankings(a,b,c): (1,7,6) (4,8,5) (1,5,0) (6,0,3) (5,2,3) (4,6,2)
+   bundles: {1} {4} {0,8} {6} {5} {2,7}  pool {3}
+core 0 n=6 m=9 goods (1,6,7) (4,5,8) (0,1,5) (0,3,6) (2,3,5) (2,4,6): stuck states 2 in 1 profiles
+TOTAL cores 1, reachable states examined 220503, stuck 2; first applicable move: E=154055 S=65972 R=53 A=269 U=4 C=2 X=0

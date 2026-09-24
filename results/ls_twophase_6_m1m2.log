@@ -1,0 +1,68 @@
+# Two-phase check without augmented envy cycles (Phase-1 stability s1-s6 = moves M1, M2): proofs/local_search.md §6.2.
+# ls_twophase -l 20 on all 3,093 connected cores with n = 6 (4 chunks, genbg order); only core 687 fails (64 profiles).
+# Reproduce: python src/local_search.py twophase 6 --flags='-l 20'
+  FAIL (no junk placement)
+   rankings(a,b,c): (1,6,7) (4,5,8) (0,1,5) (0,3,6) (2,3,5) (2,4,6)
+   bundles: {1} {4} {5} {0} {2} {6}  unallocated {3,7,8}
+  FAIL (no junk placement)
+   rankings(a,b,c): (1,6,7) (4,5,8) (0,1,5) (0,3,6) (2,3,5) (4,2,6)
+   bundles: {1} {4} {5} {0} {2} {6}  unallocated {3,7,8}
+  FAIL (no junk placement)
+   rankings(a,b,c): (1,6,7) (4,5,8) (0,1,5) (0,3,6) (2,5,3) (2,4,6)
+   bundles: {1} {4} {5} {0} {2} {6}  unallocated {3,7,8}
+  FAIL (no junk placement)
+   rankings(a,b,c): (1,6,7) (4,5,8) (0,1,5) (0,3,6) (2,5,3) (4,2,6)
+   bundles: {1} {4} {5} {0} {2} {6}  unallocated {3,7,8}
+  FAIL (no junk placement)
+   rankings(a,b,c): (1,6,7) (4,5,8) (0,1,5) (0,6,3) (2,3,5) (2,4,6)
+   bundles: {1} {4} {5} {0} {2} {6}  unallocated {3,7,8}
+  FAIL (no junk placement)
+   rankings(a,b,c): (1,6,7) (4,5,8) (0,1,5) (0,6,3) (2,3,5) (4,2,6)
+   bundles: {1} {4} {5} {0} {2} {6}  unallocated {3,7,8}
+  FAIL (no junk placement)
+   rankings(a,b,c): (1,6,7) (4,5,8) (0,1,5) (0,6,3) (2,5,3) (2,4,6)
+   bundles: {1} {4} {5} {0} {2} {6}  unallocated {3,7,8}
+  FAIL (no junk placement)
+   rankings(a,b,c): (1,6,7) (4,5,8) (0,1,5) (0,6,3) (2,5,3) (4,2,6)
+   bundles: {1} {4} {5} {0} {2} {6}  unallocated {3,7,8}
+  FAIL (no junk placement)
+   rankings(a,b,c): (1,6,7) (4,5,8) (1,0,5) (0,3,6) (2,3,5) (2,4,6)
+   bundles: {1} {4} {5} {0} {2} {6}  unallocated {3,7,8}
+  FAIL (no junk placement)
+   rankings(a,b,c): (1,6,7) (4,5,8) (1,0,5) (0,3,6) (2,3,5) (4,2,6)
+   bundles: {1} {4} {5} {0} {2} {6}  unallocated {3,7,8}
+  FAIL (no junk placement)
+   rankings(a,b,c): (1,6,7) (4,5,8) (1,0,5) (0,3,6) (2,5,3) (2,4,6)
+   bundles: {1} {4} {5} {0} {2} {6}  unallocated {3,7,8}
+  FAIL (no junk placement)
+   rankings(a,b,c): (1,6,7) (4,5,8) (1,0,5) (0,3,6) (2,5,3) (4,2,6)
+   bundles: {1} {4} {5} {0} {2} {6}  unallocated {3,7,8}
+  FAIL (no junk placement)
+   rankings(a,b,c): (1,6,7) (4,5,8) (1,0,5) (0,6,3) (2,3,5) (2,4,6)
+   bundles: {1} {4} {5} {0} {2} {6}  unallocated {3,7,8}
+  FAIL (no junk placement)
+   rankings(a,b,c): (1,6,7) (4,5,8) (1,0,5) (0,6,3) (2,3,5) (4,2,6)
+   bundles: {1} {4} {5} {0} {2} {6}  unallocated {3,7,8}
+  FAIL (no junk placement)
+   rankings(a,b,c): (1,6,7) (4,5,8) (1,0,5) (0,6,3) (2,5,3) (2,4,6)
+   bundles: {1} {4} {5} {0} {2} {6}  unallocated {3,7,8}
+  FAIL (no junk placement)
+   rankings(a,b,c): (1,6,7) (4,5,8) (1,0,5) (0,6,3) (2,5,3) (4,2,6)
+   bundles: {1} {4} {5} {0} {2} {6}  unallocated {3,7,8}
+  FAIL (no junk placement)
+   rankings(a,b,c): (1,6,7) (4,8,5) (0,1,5) (0,3,6) (2,3,5) (2,4,6)
+   bundles: {1} {4} {5} {0} {2} {6}  unallocated {3,7,8}
+  FAIL (no junk placement)
+   rankings(a,b,c): (1,6,7) (4,8,5) (0,1,5) (0,3,6) (2,3,5) (4,2,6)
+   bundles: {1} {4} {5} {0} {2} {6}  unallocated {3,7,8}
+  FAIL (no junk placement)
+   rankings(a,b,c): (1,6,7) (4,8,5) (0,1,5) (0,3,6) (2,5,3) (2,4,6)
+   bundles: {1} {4} {5} {0} {2} {6}  unallocated {3,7,8}
+  FAIL (no junk placement)
+   rankings(a,b,c): (1,6,7) (4,8,5) (0,1,5) (0,3,6) (2,5,3) (4,2,6)
+   bundles: {1} {4} {5} {0} {2} {6}  unallocated {3,7,8}
+core 687 n=6 m=9 goods (1,6,7) (4,5,8) (0,1,5) (0,3,6) (2,3,5) (2,4,6): stable 149896, fail 64
+TOTAL cores 774, stable junk-free states 176009640, junk placement fails 64
+TOTAL cores 773, stable junk-free states 177074016, junk placement fails 0
+TOTAL cores 773, stable junk-free states 177551888, junk placement fails 0
+TOTAL cores 773, stable junk-free states 176840358, junk placement fails 0

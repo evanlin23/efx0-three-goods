@@ -1,0 +1,36 @@
+# Algorithm LS2 (src/ls_alg.c) on every ranking profile of every connected core, n = 2..6 (all m). Every Phase-1 step is
+# checked (EFX0, junk-free, bundles <= 2 goods, sum of levels up); every output is checked (complete, EFX0 by the raw
+# definition with two realizations, at most one bundle of more than two goods). One TOTAL line per chunk of cores.
+## python src/local_search.py alg 2 --cert=certs_ls2_n2.json.gz
+TOTAL cores 1, runs 36 (every one ends in a complete EFX0 allocation, raw definition, with at most one bundle of more than two goods), max Phase-1 steps 6; steps: 1=120 2=0 3=0 4=24 5=12 6=0 7=0; phase 2: empty-bundle=0 matching=0
+TOTAL cores 1, runs 36 (every one ends in a complete EFX0 allocation, raw definition, with at most one bundle of more than two goods), max Phase-1 steps 7; steps: 1=128 2=0 3=16 4=48 5=4 6=0 7=0; phase 2: empty-bundle=0 matching=4
+wrote certs_ls2_n2.json.gz (merged into results/certs_ls2_2_5.json.gz): 2 cores, 9 allocations
+[alg n=2 m=[3, 4]: 2 cores, 0s]
+## python src/local_search.py alg 3 --cert=certs_ls2_n3.json.gz
+TOTAL cores 2, runs 432 (every one ends in a complete EFX0 allocation, raw definition, with at most one bundle of more than two goods), max Phase-1 steps 11; steps: 1=2012 2=2 3=50 4=268 5=10 6=76 7=0; phase 2: empty-bundle=0 matching=28
+TOTAL cores 2, runs 432 (every one ends in a complete EFX0 allocation, raw definition, with at most one bundle of more than two goods), max Phase-1 steps 9; steps: 1=2112 2=0 3=116 4=340 5=44 6=60 7=0; phase 2: empty-bundle=0 matching=88
+TOTAL cores 2, runs 432 (every one ends in a complete EFX0 allocation, raw definition, with at most one bundle of more than two goods), max Phase-1 steps 11; steps: 1=2182 2=0 3=194 4=522 5=54 6=30 7=0; phase 2: empty-bundle=0 matching=60
+TOTAL cores 1, runs 216 (every one ends in a complete EFX0 allocation, raw definition, with at most one bundle of more than two goods), max Phase-1 steps 10; steps: 1=1060 2=0 3=44 4=248 5=32 6=0 7=0; phase 2: empty-bundle=0 matching=80
+wrote certs_ls2_n3.json.gz (merged into results/certs_ls2_2_5.json.gz): 7 cores, 72 allocations
+[alg n=3 m=[3, 4, 5, 6]: 7 cores, 0s]
+## python src/local_search.py alg 4 --cert=certs_ls2_n4.json.gz
+TOTAL cores 11, runs 14256 (every one ends in a complete EFX0 allocation, raw definition, with at most one bundle of more than two goods), max Phase-1 steps 15; steps: 1=88560 2=8 3=4422 4=14586 5=1402 6=808 7=8; phase 2: empty-bundle=180 matching=3796
+TOTAL cores 10, runs 12960 (every one ends in a complete EFX0 allocation, raw definition, with at most one bundle of more than two goods), max Phase-1 steps 14; steps: 1=80232 2=26 3=3036 4=11762 5=832 6=1958 7=0; phase 2: empty-bundle=1620 matching=3100
+TOTAL cores 10, runs 12960 (every one ends in a complete EFX0 allocation, raw definition, with at most one bundle of more than two goods), max Phase-1 steps 14; steps: 1=81402 2=16 3=3934 4=11468 5=772 6=1892 7=0; phase 2: empty-bundle=1296 matching=2686
+TOTAL cores 10, runs 12960 (every one ends in a complete EFX0 allocation, raw definition, with at most one bundle of more than two goods), max Phase-1 steps 14; steps: 1=82594 2=4 3=4552 4=12660 5=770 6=1300 7=16; phase 2: empty-bundle=504 matching=2608
+wrote certs_ls2_n4.json.gz (merged into results/certs_ls2_2_5.json.gz): 41 cores, 1049 allocations
+[alg n=4 m=[3, 4, 5, 6, 7, 8]: 41 cores, 0s]
+## python src/local_search.py alg 5 --cert=certs_ls2_n5.json.gz
+TOTAL cores 74, runs 575424 (every one ends in a complete EFX0 allocation, raw definition, with at most one bundle of more than two goods), max Phase-1 steps 19; steps: 1=4361972 2=320 3=192864 4=543358 5=33384 6=66548 7=232; phase 2: empty-bundle=88440 matching=148732
+TOTAL cores 73, runs 567648 (every one ends in a complete EFX0 allocation, raw definition, with at most one bundle of more than two goods), max Phase-1 steps 18; steps: 1=4311158 2=650 3=189176 4=537704 5=38748 6=62108 7=316; phase 2: empty-bundle=91584 matching=138772
+TOTAL cores 73, runs 567648 (every one ends in a complete EFX0 allocation, raw definition, with at most one bundle of more than two goods), max Phase-1 steps 18; steps: 1=4319328 2=628 3=188774 4=552834 5=34604 6=62122 7=324; phase 2: empty-bundle=94164 matching=142752
+TOTAL cores 73, runs 567648 (every one ends in a complete EFX0 allocation, raw definition, with at most one bundle of more than two goods), max Phase-1 steps 18; steps: 1=4322106 2=592 3=180746 4=564040 5=32642 6=64382 7=288; phase 2: empty-bundle=94428 matching=145964
+wrote certs_ls2_n5.json.gz (merged into results/certs_ls2_2_5.json.gz): 293 cores, 16523 allocations
+[alg n=5 m=[3, 4, 5, 6, 7, 8, 9, 10]: 293 cores, 3s]
+## python src/local_search.py alg 6 --cert=certs_ls2_n6.json.gz
+TOTAL cores 774, runs 36111744 (every one ends in a complete EFX0 allocation, raw definition, with at most one bundle of more than two goods), max Phase-1 steps 22; steps: 1=320773016 2=30618 3=12621230 4=35719512 5=2020716 6=3681856 7=10972; phase 2: empty-bundle=9244236 matching=8884858
+TOTAL cores 773, runs 36065088 (every one ends in a complete EFX0 allocation, raw definition, with at most one bundle of more than two goods), max Phase-1 steps 22; steps: 1=320351398 2=30442 3=12557080 4=35541864 5=2054306 6=3559188 7=16860; phase 2: empty-bundle=9278436 matching=8854930
+TOTAL cores 773, runs 36065088 (every one ends in a complete EFX0 allocation, raw definition, with at most one bundle of more than two goods), max Phase-1 steps 22; steps: 1=320512986 2=33112 3=12476642 4=35660026 5=2092420 6=3635962 7=16740; phase 2: empty-bundle=9265692 matching=8833482
+TOTAL cores 773, runs 36065088 (every one ends in a complete EFX0 allocation, raw definition, with at most one bundle of more than two goods), max Phase-1 steps 22; steps: 1=320649950 2=30764 3=12589014 4=35833838 5=2114780 6=3507244 7=15128; phase 2: empty-bundle=9312432 matching=8812824
+wrote certs_ls2_n6.json.gz (same records as results/certs_ls2_6.json.gz): 3093 cores, 354725 allocations
+[alg n=6 m=[3, 4, 5, 6, 7, 8, 9, 10, 11, 12]: 3093 cores, 261s]
