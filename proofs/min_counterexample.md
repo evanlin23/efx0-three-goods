@@ -189,7 +189,8 @@ together all 36; loop profiles by RPT-e 12, RPT-f 12, DEL 23, GAD 23, together a
 configuration is reducible under every profile, so it does not occur in a minimal counterexample. The statement "every
 admissible local state has an extension" is a finite check per reduction: `src/reduce.py` enumerates the local states
 of Y and finds the extensions, and `src/min_cex.py` writes them all as a certificate (`results/min_cex_reductions.json.gz`:
-169 reductions, 8,274 local states with their extensions). `tools/check_reductions.py`, written separately, enumerates
+169 reductions for pair and loop, 183 with configuration pq of §8, 10,066 local states in all, each with its
+extension). `tools/check_reductions.py`, written separately, enumerates
 the local states again in a different way, judges agents of S by the case table of L5 instead of the raw definition,
 re-checks every extension against the rules of M1 and M1(b), and re-derives the coverage of the 72 profiles from the
 agents' rankings in the certificate (`results/check_reductions.log`: 0 problems, all 36 + 36 profiles covered). ∎
@@ -270,10 +271,11 @@ What fails, with the smallest failing configurations and reproducing scripts:
   (`attempts/min-cex-pq-reductions.md`). This is the obstacle to pushing M3 through Q-agents.
 - Contracting the middle agent of three consecutive P-agents (path shortening, plan Step 3.1) misses 16 of 216
   profiles; M3's two-agent reductions made it unnecessary (`attempts/min-cex-window-contraction.md`).
-- Reductions around a single P-agent between two goods of degree ≥ 3, or around a Q-agent alone, were not found; M1
-  treats the rest of the instance adversarially, and every such configuration has a local state (all its boundary goods
-  in one outside bundle with outside goods) in which one of its agents has at most one own good left and is unsafe.
-  Any reduction there needs a gadget that constrains the boundary, as GAD does for loops.
+- No reduction was found for a single P-agent between two goods of degree ≥ 3, nor for a Q-agent; gadgets for them were
+  not searched systematically. Without a gadget none can work: M1 lets the rest of the instance put all boundary goods
+  into one outside bundle with outside goods, and then the single P-agent (which can only keep its private good) or the
+  Q-agent (which keeps nothing) faces two of its goods together and is unsafe. A reduction there needs a gadget that
+  constrains the boundary, as GAD does for loops.
 
 ## 9. Status and what remains
 
