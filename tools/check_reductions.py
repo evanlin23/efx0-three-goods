@@ -1,0 +1,133 @@
+"""Independent re-check of reducibility certificates written by src/reduce.py (proofs/min_counterexample.md, Lemma M1).
+
+Written separately from src/reduce.py, sharing no code with it:
+  1. local states of Y are enumerated differently: every map from the local goods to labels (agents of S' or outside
+     bundle numbers 0..k-1) is generated with itertools.product, then canonicalized and deduplicated;
+  2. agents of S (ranked, balanced, three goods) are judged by the case table T/P/B/C/E of L5, not by the raw
+     definition; agents of S' (explicit additive valuations, possibly not balanced) by the raw EFX0 definition written
+     as v(own) >= v(B - {g}) for every other bundle B and every g in B;
+  3. every admissible state must have a stored extension, and each extension is checked against the rules of Lemma M1:
+     goods conserved, outside bundles keep their goods outside I', moved items go to agents of S or to outside bundles
+     worth 0 to their owner, all agents of S safe, every new or modified bundle dominated by a bundle of Y.
+Certificate: gzip JSON list of records {name, S, I, D, Ddel, Sp, Ip, states: [[Ykey, X], ...]}; Ykey and X as written
+by reduce.canon_state and reduce.export_ext.
+Usage: check_reductions.py certs.json.gz [--jobs N]"""
+import sys, json, gzip, itertools, os, multiprocessing
+
+MARK = ('w:', 'W:')
+
+
+def is_marker(x):
+    return x.startswith(MARK[0]) or x.startswith(MARK[1])
+
+
+def safe_L5(rank, own, bundles):
+    """rank = (a, b, c); own = set of goods held; bundles = the other bundles (lists). Case table of L5."""
+    a, b, c = rank
+    home = {}
+    for k, B in enumerate(bundles):
+        for g in B: home[g] = k
+    def alone(g): return g in home and len(bundles[home[g]]) == 1
+    def together_big(g, h): return g in home and h in home and home[g] == home[h] and len(bundles[home[g]]) >= 3
+    if a in own and (b in own or c in own or not together_big(b, c)): return True      # T
+    if b in own and c in own: return True                                               # P
+    if b in own and alone(a): return True                                               # B
+    if c in own and alone(a) and alone(b): return True                                  # C
+    return alone(a) and alone(b) and alone(c)                                           # E
+
+
+def safe_raw(val, own, bundles):
+    mine = sum(val.get(g, 0) for g in own)
+    for B in bundles:
+        tot = sum(val.get(g, 0) for g in B)
+        for g in B:
+            if tot - val.get(g, 0) > mine + 1e-9: return False
+    return True
+
+
+def key_of(spb, blocks):
+    """Canonical key: S' bundles in agent order, outside blocks sorted; markers renamed by canonical position."""
+    blocks = sorted(tuple(sorted(b)) for b in blocks)
+    return json.dumps([[sorted(spb[s]) for s in sorted(spb)], [list(b) for b in blocks]])
+
+
+def states(rec):
+    """All local states: labels for each local good, then marker flags."""
+    sp = sorted(rec['Sp'])
+    L = sorted(set(rec['Ip']) | (set(rec['D']) - set(rec['Ddel'])))
+    seen = set()
+    nlab = len(sp) + len(L)
+    for lab in itertools.product(range(nlab), repeat=len(L)):
+        # outside labels must be used in order of first appearance (restricted growth), to skip relabelings
+        nxt, ok = len(sp), True
+        for x in lab:
+            if x >= len(sp):
+                if x > nxt: ok = False; break
+                if x == nxt: nxt += 1
+        if not ok: continue
+        spb = {s: [g for g, x in zip(L, lab) if x == i] for i, s in enumerate(sp)}
+        raw = [[g for g, x in zip(L, lab) if x == k] for k in range(len(sp), nxt)]
+        for wf in itertools.product((0, 1), repeat=len(sp)):
+            for Wf in itertools.product((0, 1), repeat=len(raw)):
+                sb = {s: spb[s] + (['w:' + s] if wf[i] else []) for i, s in enumerate(sp)}
+                blk = [b + (['W'] if Wf[k] else []) for k, b in enumerate(raw)]
+                # canonical order of blocks, then name each W marker by its block's position
+                blk = sorted(tuple(sorted(b)) for b in blk)
+                blk = [[('W:%d' % k if g == 'W' else g) for g in b] for k, b in enumerate(blk)]
+                key = key_of(sb, blk)
+                if key in seen: continue
+                seen.add(key)
+                yield key, sb, blk
+
+
+def check_record(rec):
+    S, Sp = rec['S'], rec['Sp']
+    I, D, Ddel, Ip = set(rec['I']), set(rec['D']), set(rec['Ddel']), set(rec['Ip'])
+    wit = dict((k, x) for k, x in rec['states'])
+    U = lambda B: frozenset(x for x in B if x in D or is_marker(x))
+    inner = lambda B: any(x in I or x in Ip for x in B)
+    problems, n_adm = [], 0
+    for key, sb, blk in states(rec):
+        Ybund = [sb[s] for s in sorted(sb)] + blk
+        if not all(safe_raw(Sp[s], sb[s], [sb[t] for t in sorted(sb) if t != s] + blk) for s in sorted(sb)):
+            continue
+        n_adm += 1
+        if key not in wit: problems.append('no extension for state ' + key); continue
+        X = wit[key]
+        Xs, Xo = X['S'], X['O']
+        if sorted(Xs) != sorted(S) or len(Xo) != len(blk): problems.append('malformed extension ' + key); continue
+        moved = sorted([x for s in sb for x in sb[s] if x not in Ip] + sorted(Ddel))
+        placed = [x for s in Xs for x in Xs[s]]
+        extra = []
+        for k, (b, nb) in enumerate(zip(blk, Xo)):
+            keep = [x for x in b if x not in Ip]
+            if sorted(x for x in nb if x in keep) != sorted(keep): problems.append('outside bundle changed ' + key)
+            add = [x for x in nb if x not in keep]
+            free = all(x in Ip for x in b)
+            if any(not (x in I or (free and x in moved)) for x in add): problems.append('illegal addition ' + key)
+            extra += add
+        placed += extra
+        if sorted(placed) != sorted(list(I) + moved): problems.append('goods not conserved ' + key); continue
+        others = lambda s: [Xs[t] for t in sorted(Xs) if t != s] + Xo
+        for s in sorted(S):
+            if not safe_L5(tuple(S[s]), set(Xs[s]), others(s)): problems.append('agent %s unsafe in extension %s' % (s, key))
+        changed = [Xs[s] for s in sorted(Xs)] + [nb for b, nb in zip(blk, Xo) if sorted(b) != sorted(nb)]
+        for B in changed:
+            if len(B) <= 1 or not U(B): continue
+            if not any(U(B) <= U(B2) and (not inner(B) or inner(B2) or U(B) != U(B2)) for B2 in Ybund):
+                problems.append('bundle %s not dominated in %s' % (B, key))
+    return rec['name'], n_adm, problems
+
+
+if __name__ == '__main__':
+    args = sys.argv[1:]; jobs = os.cpu_count()
+    if '--jobs' in args: k = args.index('--jobs'); jobs = int(args[k + 1]); del args[k:k + 2]
+    recs = json.load(gzip.open(args[0], 'rt'))
+    total, bad = 0, 0
+    with multiprocessing.Pool(jobs) as pool:
+        for name, n_adm, probs in pool.imap(check_record, recs, chunksize=2):
+            total += n_adm
+            if probs:
+                bad += 1; print(name, 'PROBLEMS:', len(probs)); [print('  ', p) for p in probs[:5]]
+    print('checked %d reductions, %d admissible local states; reductions with problems: %d' % (len(recs), total, bad))
+    sys.exit(1 if bad else 0)

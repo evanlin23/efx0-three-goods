@@ -64,8 +64,9 @@ the set Y_j ∩ L′ and whether Y_j contains a good outside L′ (these bundles
 to no agent of S′, so every agent of S′ is safe or not according to the local state alone.
 
 *Extension.* From the local state, build an allocation X of H: every outside agent keeps its bundle, minus the goods of
-I′, plus possibly some goods of I; each agent of S gets a bundle made of goods of I, of the boundary goods that agents of
-S′ held in Y, and of the goods outside L′ that agents of S′ held (each such set moved as a whole). For a bundle B write
+I′, plus possibly some goods of I; the *moved items* (the boundary goods that agents of S′ held in Y, and, for each
+s′ ∈ S′, the set of goods outside L′ that s′ held, moved as a whole) go to agents of S, or to outside agents whose bundle
+in Y consisted of goods of I′ only; each agent of S also gets some goods of I. For a bundle B write
 U(B) for its goods valued by some outside agent (goods of ∂, and goods outside L′ ∪ I), and say B is *inner* if it
 contains a good of I or I′. Say B is *dominated* by a bundle B′ if |B| ≤ 1, or U(B) = ∅, or U(B) ⊆ U(B′) and
 (B is not inner, or B′ is inner, or U(B) ≠ U(B′)).
@@ -80,7 +81,8 @@ stay in outside bundles or move with an agent of S′'s bundle to an agent of S,
 the goods of I are placed by the extension.
 - Agents of S value only goods of I ∪ ∂. For s ∈ S and any bundle B, θ_s(B) depends only on B ∩ R_s and on whether B
   contains a good outside R_s, which X's description determines; (i) is exactly the statement that s is safe.
-- Let j be an outside agent. It values no good of I or I′, so v_j(X_j) = v_j(Y_j). Bundles of X that are bundles of Y
+- Let j be an outside agent. It values no good of I or I′, so v_j(X_j) ≥ v_j(Y_j): either X_j and Y_j have the same
+  goods outside I ∪ I′, or Y_j ⊆ I′ and v_j(Y_j) = 0. Bundles of X that are bundles of Y
   (the other outside bundles unchanged) threaten j exactly as in Y. For any other bundle B of X, take B′ from (ii).
   *Claim: θ_j(B) ≤ θ_j(B′).* If |B| ≤ 1 or U(B) = ∅, θ_j(B) = 0 (j values nothing in B other than goods of U(B)).
   Otherwise U(B) ⊆ U(B′). Note that θ_j is monotone under inclusion: for B₁ ⊆ B₂, θ_j(B₂) = v_j(B₁) + v_j(B₂ ∖ B₁) −
@@ -89,8 +91,34 @@ the goods of I are placed by the extension.
   is inner, it contains a good worthless to j, so θ_j(B) = v_j(U(B)); if B′ is inner too, θ_j(B′) = v_j(U(B′)) ≥
   v_j(U(B)); if not, U(B) ⊊ U(B′) = B′ and θ_j(B′) = v_j(B′) − min_{B′} v_j ≥ v_j(U(B)), since B′ ∖ U(B) contains a
   good worth at least the minimum.
-  Now θ_j(B′) ≤ v_j(Y_j): if B′ ≠ Y_j because j is safe in Y, and if B′ = Y_j by F1. So θ_j(B) ≤ v_j(X_j). ∎
+  Now θ_j(B′) ≤ v_j(Y_j): if B′ ≠ Y_j because j is safe in Y, and if B′ = Y_j by F1. So θ_j(B) ≤ v_j(Y_j) ≤
+  v_j(X_j). ∎
 
 The lemma is deliberately conservative: it keeps every outside bundle's outside-visible part, and it asks for one
 dominating bundle that works for all outside agents at once. A configuration that fails it may still be reducible by
 an argument that uses more of Y.
+
+**Deleted boundary goods.** A reduction may also delete some boundary goods from H′ altogether (outside agents that
+valued them simply lose them). The extension must then place each deleted good g in a bundle of an agent of S, and
+the domination condition forces that bundle to be exactly {g} (no bundle of Y contains g). The proof of M1 is
+unchanged: j's value and every bundle not containing g are as before, and {g} threatens nobody.
+
+## 3. Peeling pairs: private tops
+
+A *P-agent* is an agent with a private good (p_e for agent e); a *Q-agent* has none.
+
+**Lemma M2 (private top next to a P-agent).** In a minimal counterexample there is no agent e whose most valuable
+good is its private good p_e and that has another good b valued by exactly one other agent f, where f is a P-agent.
+
+*Proof.* Let c be e's third good and d, p_f the other goods of f (c = d is allowed). Let H′ be H minus the agents e, f
+and the goods p_e, p_f, b. No agent of H′ values p_e, p_f or b, and H′ has fewer agents, so it has an EFX₀ allocation Y
+by M0(a). Let X be Y together with X_e = {p_e} and X_f = {p_f, b}.
+- e holds its top good p_e. Every other bundle meets R_e = {p_e, b, c} in at most one good (b lies in X_f, which does
+  not contain c), so its threat to e is at most max(v_e(b), v_e(c)) < v_e(p_e).
+- f holds two of its goods; every other bundle meets R_f in at most d, and v_f(d) < v_f(p_f) + v_f(b) by balance (L8).
+- An outside agent j keeps Y_j; X_e is a singleton, and X_f consists of goods j does not value, so neither threatens
+  j; the other bundles are those of Y. So X is EFX₀, a contradiction. ∎
+
+This is Lemma M1 with S = {e, f}, I = {p_e, p_f, b} and no gadget; `src/reduce.py` confirms it for all 12 rankings of
+e with p_e on top and of f (log below). Its content in terms of shapes: on a thread (a maximal path of P-agents joined
+by goods of degree 2, L11) with at least two agents, no agent ranks its private good first.
