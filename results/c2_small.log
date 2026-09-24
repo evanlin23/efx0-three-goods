@@ -1,0 +1,27 @@
+n=2 m=3: {'C2 ok': 1}
+n=2 m=4: {'C2 ok': 1}
+n=3 m=3: {'C2 ok': 1}
+n=3 m=4: {'C2 ok': 2}
+  n=3 m=5 [[0, 1, 2], [0, 1, 3], [0, 1, 4]]: 14 of 216 profiles have no size-<=2 EFX0 allocation (brute force); e.g. (agent: a > b > c) [(0, 1, 2), (0, 1, 3), (0, 1, 4)]; SAT search: FAIL at [(0, 1, 2), (0, 1, 3), (0, 1, 4)]
+n=3 m=5: {'C2 fails': 1, 'C2 ok': 2}
+n=3 m=6: {'C2 ok': 1}
+n=4 m=3: {'C2 ok': 1}
+n=4 m=4: {'C2 ok': 4}
+n=4 m=5: {'C2 ok': 11}
+  n=4 m=6 [[0, 2, 3], [1, 2, 4], [1, 2, 5], [0, 1, 2]]: 2 of 1296 profiles have no size-<=2 EFX0 allocation (brute force); e.g. (agent: a > b > c) [(0, 2, 3), (1, 2, 4), (1, 2, 5), (0, 1, 2)]; SAT search: FAIL at [(0, 2, 3), (1, 2, 4), (1, 2, 5), (0, 1, 2)]
+  n=4 m=6 [[0, 3, 4], [2, 3, 5], [0, 1, 3], [1, 2, 3]]: 1 of 1296 profiles have no size-<=2 EFX0 allocation (brute force); e.g. (agent: a > b > c) [(0, 3, 4), (2, 3, 5), (0, 3, 1), (2, 3, 1)]; SAT search: FAIL at [(0, 3, 4), (2, 3, 5), (0, 3, 1), (2, 3, 1)]
+  n=4 m=6 [[2, 3, 4], [2, 3, 5], [0, 1, 3], [0, 1, 3]]: 2 of 1296 profiles have no size-<=2 EFX0 allocation (brute force); e.g. (agent: a > b > c) [(2, 3, 4), (2, 3, 5), (0, 3, 1), (0, 3, 1)]; SAT search: FAIL at [(2, 3, 4), (2, 3, 5), (0, 3, 1), (0, 3, 1)]
+n=4 m=6: {'C2 ok': 13, 'C2 fails': 3}
+  n=4 m=7 [[0, 2, 3], [0, 2, 4], [1, 2, 5], [1, 2, 6]]: 50 of 1296 profiles have no size-<=2 EFX0 allocation (brute force); e.g. (agent: a > b > c) [(0, 2, 3), (0, 2, 4), (1, 2, 5), (1, 2, 6)]; SAT search: FAIL at [(0, 2, 3), (0, 2, 4), (1, 2, 5), (1, 2, 6)]
+  n=4 m=7 [[0, 1, 3], [0, 2, 4], [1, 2, 5], [1, 2, 6]]: 44 of 1296 profiles have no size-<=2 EFX0 allocation (brute force); e.g. (agent: a > b > c) [(0, 1, 3), (0, 2, 4), (1, 2, 5), (1, 2, 6)]; SAT search: FAIL at [(0, 1, 3), (0, 2, 4), (1, 2, 5), (1, 2, 6)]
+  n=4 m=7 [[0, 1, 4], [2, 3, 5], [2, 3, 6], [0, 1, 3]]: 8 of 1296 profiles have no size-<=2 EFX0 allocation (brute force); e.g. (agent: a > b > c) [(0, 1, 4), (2, 3, 5), (2, 3, 6), (3, 0, 1)]; SAT search: FAIL at [(0, 1, 4), (2, 3, 5), (2, 3, 6), (3, 0, 1)]
+n=4 m=7: {'C2 fails': 3, 'C2 ok': 5}
+n=4 m=8: {'C2 ok': 1}
+connected cores with 2 <= n <= 4: 43 pass C2 under every profile, 7 do not; SAT search and brute force agree on which: YES
+H3 + H3 (disconnected, n = 6, m = 10), model C3 over all 46656 profiles: OK, 93 allocations, uncovered profiles 0 (masks from the search) / 0 (tools/check_certs.py raw masks), max number of bundles with > 2 goods: 1
+X2 + X2 (n = 12, m = 20), X2's profile on both copies: EFX0 allocation with at most one bundle of > 2 goods (raw definition re-checked): [[1], [0], [2, 8], [9], [4, 5], [3], [11, 16], [10, 17], [12], [13], [14], [6, 7, 15, 18, 19]]
+
+real	0m3.687s
+user	0m3.747s
+sys	0m0.059s
+exit=0
