@@ -8,7 +8,9 @@
        but facts (i) and (ii) behind its case analysis can fail. Searches every class-T profile with n <= 5 for a
        terminal state where they fail (first at n = 5), then prints the first one and an EFX0 assignment of its free
        goods found by search.
-Usage (from the repository root): python attempts/multigraph_limits.py u1 | dump"""
+  dump6 the first class-T profile (n = 6) where Lemma 4.2's case analysis fails, with an admissible assignment found by
+       search.
+Usage (from the repository root): python attempts/multigraph_limits.py u1 | dump | dump6"""
 import itertools, os, sys, collections
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'src'))
 from cores_nauty import gen_cores_nauty
@@ -106,5 +108,29 @@ def cmd_dump():
         if efx0_raw(n, m, trip, Xc):
             print('an EFX0 assignment of the free goods (owner of goods 0..6):', Xc); break
 
+def show(n, m, sets, trip):
+    print(f'core {sets}, rankings (a, b, c) {trip}; valuers {dict(sorted(valuers(n, trip).items()))}')
+    Y = popular_matching(n, trip); st = State(n, m, trip, Y); cnt = moves(st, 'T')
+    print(f'popular matching {Y}; moves {dict(cnt)}; terminal picks {st.pick}, doubled {st.Z}')
+    H, env, E, F, O, opn, closed, W, Hf = terminal_data(st)
+    print(f'envied {sorted(E)}, enviers O = {O}, open {opn}, closed {sorted(closed)}, free goods {F}')
+    for f in F: print(f'  free good {f}: envied valuers W_f = {W[f]}, H_f = {sorted(Hf[f])}')
+    X, case = dump(st)
+    print('Lemma 4.2 case analysis:', 'does not apply' if X is None else case)
+    held = collections.Counter(H.values())
+    for choice in itertools.product(opn, repeat=len(F)):
+        recv = collections.defaultdict(list)
+        for f, s in zip(F, choice): recv[s].append(f)
+        if all(all(s not in Hf[f] for f in fs) or (len(fs) == 1 and held[s] == 1) for s, fs in recv.items()):
+            Xc = [H.get(g, -1) for g in range(m)]
+            for f, s in zip(F, choice): Xc[f] = s
+            print(f'an admissible assignment (owner of goods 0..{m - 1}): {Xc}; EFX0 by the raw definition: '
+                  f'{efx0_raw(n, m, trip, Xc)}'); break
+
+def cmd_dump6():
+    """The first profiles where Lemma 4.2's case analysis fails in class T (n = 6; none with n <= 5, results/mgx_T.log)."""
+    show(6, 7, [[0, 3, 6], [0, 4, 5], [1, 3, 5], [1, 4, 6], [2, 3, 4], [2, 5, 6]],
+         [(0, 3, 6), (0, 4, 5), (1, 3, 5), (1, 6, 4), (2, 4, 3), (2, 5, 6)])
+
 if __name__ == '__main__':
-    {'u1': cmd_u1, 'dump': cmd_dump}[sys.argv[1]]()
+    {'u1': cmd_u1, 'dump': cmd_dump, 'dump6': cmd_dump6}[sys.argv[1]]()

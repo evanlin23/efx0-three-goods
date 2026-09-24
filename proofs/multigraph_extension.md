@@ -16,12 +16,12 @@ Workstream `proof/multigraph-extension`. Source: Afshinmehr, Ashuri, Mahmoudkhan
 
 **Checked by computer** (`src/mgx.py`, logs `results/mgx_mg.log`, `results/mgx_U.log`, `results/mgx_T.log`, `results/mgx_obstructions.log`). The construction was run on every profile of the classes below, for every connected core with the given n, all m. Every step asserts the invariants of Lemmas 3.1 and 3.2, and every output is checked against the raw EFX₀ definition (three balanced realizations, no use of L5). Theorems M and X are proofs; the runs cross-check them.
 - Multigraph cores, n ≤ 7, and class 𝒰, n ≤ 6: every profile succeeds (every 𝒰 profile with a popular matching).
-- Class 𝒯 (no good with three or more valuers is anyone's top), n ≤ 6: the moves keep every invariant. The dump's case analysis, whose proof needs class 𝒰, also succeeds on every profile with a popular matching (conjecture MX-C below).
+- Class 𝒯 (no good with three or more valuers is anyone's top), n ≤ 6: the moves keep every invariant, and every profile with a popular matching ends in a state with an admissible assignment, so an EFX₀ output (conjecture MX-C below). The case analysis of the dump lemma, whose proof needs class 𝒰, fails on 194 profiles with n = 6; an admissible assignment exists there too (search).
 
 **Open.**
 - Profiles with no popular matching (O1).
 - Profiles in which a good with three or more valuers is the top of some valuers but not of others: the move U1 can then break the invariant I3; the smallest such profile has n = 4, m = 5 (`attempts/multigraph_u1_mixed_top.md`).
-- The dump in class 𝒯: proved only in class 𝒰; conjecture MX-C.
+- The dump in class 𝒯: proved only in class 𝒰; conjecture MX-C (the case analysis first fails at n = 6, `attempts/multigraph_dump_class_T.md`).
 
 What this leaves for TARGET: Theorem X adds, to ledger T3, every core whose components have a profile in 𝒰 with a popular matching.
 
@@ -204,7 +204,7 @@ If there is no free good, there is nothing to assign. Otherwise consider three c
 
 **Remarks.**
 1. *Which parts of the paper survive, in core form (inference).* U1 does. Greedy and Reduce Trees are replaced by the popular matching of Lemma 1.2. The support pairs, the budgets, the main cases A–H and their dumping rules are replaced by Lemma 4.2's admissible assignment. The part of the dumping that the paper needs budgets for is here the single condition (β\*), because in a core EFX₀ is ordinal (L5) and every unit bundle is one good.
-2. *Bundle sizes.* In the runs, case (b) applied to every multigraph profile and every 𝒰 profile. Then all free goods go to one agent, and every other bundle has at most two goods: the output has at most one bundle of more than two goods (conjecture D's shape). Cases (a) and (c) can spread the free goods over several agents; that case (b) always applies in class 𝒰 is not proved.
+2. *Bundle sizes.* In case (b) all free goods go to one agent, and every other bundle has at most two goods: the output has at most one bundle of more than two goods (conjecture D's shape). Cases (a) and (c) can spread the free goods over several agents. In the runs, case (b) applied to every multigraph profile with n ≤ 7, and to all but 102 class-𝒰 profiles with n ≤ 6. Every output of every run, in all three classes, had at most one bundle of more than two goods. Neither observation is proved.
 
 ## 5. Obstructions: where the multigraph structure stops
 
@@ -232,7 +232,7 @@ So the paper's final shape (unenvied recipients; children envied only by their p
 **Where each step of the proof uses the class, and what breaks** (the paper-level list is digest §4):
 - *Lemma 1.2* needs every good to be the top or s-good of at most two agents. H3 has no popular matching. At n = 3 every profile without one has at least two goods with three valuers; with one such good a popular matching always exists at n = 3 (`results/mgx_obstructions.log`, the per-core table).
 - *Lemma 3.1 (U1 keeps I3)* needs the receiver k of a_w to rank a_w first whenever a_w has a third valuer. This fails when such a good is the top of some valuers but not others: after U1 a third valuer envies k, which does not hold its top. This is the core form of "moving a good drags a third agent's envy along" (digest §4 item 5). Smallest case: n = 4, m = 5, `attempts/multigraph_u1_mixed_top.md`.
-- *Lemma 4.2* needs (F4): |W_f| ≤ 2, so that three open agents suffice, and at most one bad good per open agent. In class 𝒯 both can fail, since a b or c good may have three or more valuers. The case analysis still succeeded on every profile checked (§6); `attempts/multigraph_dump_class_T.md` shows the smallest profile (n = 5) where an open agent is bad for two goods and case (b) is what saves it.
+- *Lemma 4.2* needs (F4): |W_f| ≤ 2, so that three open agents suffice, and at most one bad good per open agent. In class 𝒯 both can fail, since a b or c good may have three or more valuers. `attempts/multigraph_dump_class_T.md` shows the first failures of these facts (n = 5, where case (b) still applies) and the first failures of the case analysis itself (n = 6, 194 profiles). There, one free good is the b or c of three envied agents whose partners are held by all three open agents. An admissible assignment exists in all of them: the good goes alone to an open agent holding one good.
 - *Not needed here:* the paper's per-pair dumping accounting and "give j all of A_j" (digest §4 items 7, 8 and 10). U1 hands w exactly its own b and c, and Lemma 2.1 replaces the accounting.
 
 ## 6. Computations and the conjecture for class 𝒯
@@ -240,12 +240,12 @@ So the paper's final shape (unenvied recipients; children envied only by their p
 `src/mgx.py n MODE` runs the construction on every profile of the class for every connected core with n agents (all m; cores from `src/cores_nauty.py`). It reports how many profiles have no popular matching and which dump case was used. It asserts I1–I3 after every move, and (F1), (F2) and the class-𝒰 facts at the terminal state. Every output is checked with `efx0_raw`, the raw definition under the realizations (4, 3, 2), (10, 9, 2) and (10, 6, 5). The exit status is 1 if any output is not EFX₀, or if a multigraph or 𝒰 profile with a popular matching falls outside Lemma 4.2's cases.
 
 Results (full counts in the logs):
-- Multigraph cores, n = 2, …, 7, every profile: every output is EFX₀; case (b) every time.
-- Class 𝒰, n = 2, …, 6: every profile with a popular matching gives an EFX₀ output (the ones without are counted).
-- Class 𝒯, n = 3, …, 6: every profile with a popular matching goes through the moves with I1–I3 intact, and through one of the cases (b), (a), (c) of Lemma 4.2, although the proof of Lemma 4.2 does not cover 𝒯. Every output is EFX₀.
+- Multigraph cores, n = 2, …, 7, every profile (19,354,968 profiles): every output is EFX₀; case (b) every time.
+- Class 𝒰, n = 2, …, 6: every profile with a popular matching gives an EFX₀ output (2,681 of the 1,681,672 class-𝒰 profiles have no popular matching).
+- Class 𝒯, n = 3, …, 6: every profile with a popular matching goes through the moves with I1–I3 and (F1)–(F2) intact. The cases (b), (a), (c) of Lemma 4.2 apply to all of them except 194 profiles with n = 6 (none with n ≤ 5); in each of those, a search finds an admissible assignment. Every output is EFX₀.
 
 (The per-n counts are in `results/mgx_mg.log`, `results/mgx_U.log`, `results/mgx_T.log`, `results/mgx_obstructions.log`.)
 
 **Conjecture MX-C.** In class 𝒯, the terminal state of every profile with a popular matching has an admissible assignment. With Lemmas 3.1, 3.2 and 4.1 this would extend Theorem X to 𝒰 ∪ 𝒯 (profiles with a popular matching).
 
-What a proof must handle: in 𝒯 a free good can have three or more envied valuers, so |H_f| can exceed 2; and an open agent can be bad for several free goods (its pick is then the partner of each). Evidence: the runs above, which are exhaustive over the class for n ≤ 6. For n ≤ 7 EFX₀ existence itself is already certified (R1, R5); the runs test the construction, not existence.
+What a proof must handle: in 𝒯 a free good can have three or more envied valuers, so |H_f| can exceed 2 and even cover every open agent (the n = 6 profiles above). An open agent can also be bad for several free goods (its pick is then the partner of each). Evidence: the runs above, which are exhaustive over the class for n ≤ 6, with a search for an admissible assignment wherever the case analysis fails. For n ≤ 7 EFX₀ existence itself is already certified (R1, R5); the runs test the construction, not existence.

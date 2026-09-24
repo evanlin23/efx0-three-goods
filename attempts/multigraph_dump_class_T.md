@@ -18,6 +18,22 @@ Good 4 has four valuers (0, 1, 3, 4), and good 3 has three (2, 3, 4); neither is
 - Envied agents: 0, 1, 4. Open agents: 2 and 3. Free goods: 5 and 6.
 - Agent 3 holds good 4, which is the partner of free good 5 for agent 0 and of free good 6 for agent 1, so agent 3 is bad for both.
 
-The construction does not fail here. Agent 2 lies in no H_f, so case (b) sends both free goods to agent 2: owners of goods 0..6 = (0, 1, 4, 2, 3, 2, 2), EFX₀ by the raw definition. On every class-𝒯 profile with a popular matching and n ≤ 6 the case analysis (b), (a), (c) succeeded (`results/mgx_T.log`), so the conjecture MX-C (the case analysis always succeeds in 𝒯) stands; what fails is only its proof.
+The construction does not fail here. Agent 2 lies in no H_f, so case (b) sends both free goods to agent 2: owners of goods 0..6 = (0, 1, 4, 2, 3, 2, 2), EFX₀ by the raw definition.
 
-Reproduce: `python attempts/multigraph_limits.py dump` (the search over n ≤ 5, then this profile; about 10 s). For the exhaustive class-𝒯 runs: `cd src && python mgx.py 5 T --search` (8 s on 4 CPUs; `--search` also searches all assignments whenever the case analysis does not apply).
+**Where the case analysis itself fails.** The case analysis (b), (a), (c) fails first at n = 6: on 194 class-𝒯 profiles with a popular matching, out of 5,241,408 class-𝒯 profiles with n = 6. There are none with n ≤ 5 (`results/mgx_T.log`). The first: core [[0, 3, 6], [0, 4, 5], [1, 3, 5], [1, 4, 6], [2, 3, 4], [2, 5, 6]] (m = 7), rankings (a, b, c):
+- agent 0: 0, 3, 6;
+- agent 1: 0, 4, 5;
+- agent 2: 1, 3, 5;
+- agent 3: 1, 6, 4;
+- agent 4: 2, 4, 3;
+- agent 5: 2, 5, 6.
+
+Goods 3, 4, 5 and 6 have three valuers each.
+- The popular matching is already terminal (no move applies): picks 3, 0, 1, 6, 4, 2.
+- Envied agents: 1, 2, 5. Open agents: 0, 3, 4. The one free good is 5.
+- Good 5 is the b or c of the three envied agents 1, 2 and 5, and their partners (goods 4, 3, 6) are held by the three open agents 3, 0 and 4. So H_5 = {0, 3, 4} is the whole open set, and case (a) fails: fact (i), |H_f| ≤ 2, is false.
+- An admissible assignment exists anyway: good 5 alone to an open agent holding one good, e.g. agent 0, whose bundle becomes {3, 5}. Owners of goods 0..6: (1, 2, 5, 0, 4, 0, 3), EFX₀ by the raw definition.
+
+In every one of the 194 profiles an admissible assignment exists (search over all assignments to open agents, `src/mgx.py 6 T --search`). So conjecture MX-C holds for every class-𝒯 profile with a popular matching and n ≤ 6; what fails is the proof of Lemma 4.2, which needs one more case. That case is a free good that is bad at every open agent: it can go alone to an open agent holding one good, as long as the other free goods avoid that agent.
+
+Reproduce: `python attempts/multigraph_limits.py dump` (the search over n ≤ 5, then the n = 5 profile; about 10 s) and `python attempts/multigraph_limits.py dump6` (the n = 6 profile). For the exhaustive class-𝒯 runs: `cd src && python mgx.py 6 T --search` (about 4 min on 4 CPUs; `--search` also searches all assignments whenever the case analysis does not apply).

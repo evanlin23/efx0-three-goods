@@ -46,3 +46,13 @@ n = 6, class MG: 3093 connected cores (all m), 62 s
   moves Up: 756120
   profiles: 1353024
 exit status 0
+n = 7, class MG: 41170 connected cores (all m), 970 s
+  EFX0: (b) an open agent lies in no H_f: 6576860
+  EFX0: no free good: 11339044
+  large bundles 0: 12126824
+  large bundles 1: 5789080
+  moves R1: 63841956
+  moves U1: 4810960
+  moves Up: 11822824
+  profiles: 17915904
+exit status 0

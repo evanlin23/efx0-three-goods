@@ -24,7 +24,8 @@ Theorems M and X: the construction succeeds on every MG profile and on every U p
 Usage: mgx.py n MODE    MODE in {mg, U, T}: every connected core with n agents (all m, enumerated by cores_nauty),
                         every profile of the class; MG = all profiles of multigraph cores. Prints counts per dump case.
        mgx.py n T --search   for T profiles on which Lemma 4.2's case analysis does not apply, also search every
-                        assignment of the free goods to unenvied agents (evidence for the conjecture of section 6)."""
+                        assignment of the free goods to unenvied agents for an EFX0 one, and every assignment to open
+                        agents for an admissible one (evidence for conjecture MX-C, section 6)."""
 import itertools, sys, collections, multiprocessing as mp, time
 from cores_nauty import gen_cores_nauty
 PERMS = list(itertools.permutations(range(3)))
@@ -231,6 +232,19 @@ def class_profiles(sets, cls):
         choices.append(ks)
     return itertools.product(*choices)
 
+def admissible_exists(st):
+    """Evidence only: does some assignment of the free goods to open agents satisfy the admissibility condition of
+    section 4 (every open agent receives only goods f with it outside H_f, or exactly one good while holding one)?"""
+    n, m, trip = st.n, st.m, st.trip
+    H, env, E, F, O, opn, closed, W, Hf = terminal_data(st)
+    held = collections.Counter(H.values())
+    for choice in itertools.product(opn, repeat=len(F)):
+        recv = collections.defaultdict(list)
+        for f, s_ in zip(F, choice): recv[s_].append(f)
+        if all(all(s_ not in Hf[f] for f in fs) or (len(fs) == 1 and held[s_] == 1) for s_, fs in recv.items()):
+            return True
+    return False
+
 def exhaustive_assignment(st):
     """Evidence only: is there any assignment of the free goods to unenvied agents that is EFX0 (raw check)?"""
     n, m, trip = st.n, st.m, st.trip
@@ -254,7 +268,10 @@ def work(task):
         if X is None:
             tot['Lemma 4.2 case analysis does not apply'] += 1
             if search:
-                tot['  ...but some assignment is EFX0' if exhaustive_assignment(info[0]) else '  ...and no assignment is EFX0'] += 1
+                tot['  ...but some assignment to unenvied agents is EFX0' if exhaustive_assignment(info[0])
+                    else '  ...and no assignment to unenvied agents is EFX0'] += 1
+                tot['  ...and an admissible assignment exists' if admissible_exists(info[0])
+                    else '  ...and no admissible assignment exists'] += 1
             if len(ex) < 3: ex.append((sets, trip))
             continue
         if not efx0_raw(n, m, trip, X):
