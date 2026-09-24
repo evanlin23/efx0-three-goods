@@ -2,24 +2,13 @@
   1. checks it is a valid connected core (3 distinct goods per agent, every good used, <= 1 private good per agent);
   2. for each stored allocation, decides from the raw EFX0 definition which rankings keep each agent safe, under three
      balanced realizations of a > b > c (they must agree, since EFX0 in a core is ordinal);
-  3. checks that every one of the 6^n ranking profiles is covered by some stored allocation;
-  4. checks that every stored allocation has the shape of the model its record names (C2: all bundles <= 2 goods;
-     C3s3: at most one bundle of more than 2 goods, and it has 3; C3: at most one bundle of more than 2 goods; G: any).
---require-d also fails any record whose model is not C2, C3s3 or C3, so an accepted file certifies conjecture D.
-Usage: check_certs.py certs.json.gz [--expect n:m:count ...] [--jobs N] [--require-d]
-Hypergraphs are checked in parallel (--jobs, default: all CPUs). Earlier versions: archive/v1-python-enumeration/,
-archive/v2-certs-without-shape-check/."""
+  3. checks that every one of the 6^n ranking profiles is covered by some stored allocation.
+Usage: check_certs.py certs.json.gz [--expect n:m:count ...] [--jobs N]
+Hypergraphs are checked in parallel (--jobs, default: all CPUs). The v1 version is in archive/v1-python-enumeration/."""
 import sys, json, gzip, itertools, collections, os, multiprocessing
 import numpy as np
 PERMS = list(itertools.permutations(range(3)))
 REAL = [(2.0, 1.5, 1.0), (10.0, 9.0, 2.0), (5.0, 3.0, 2.5)]
-SHAPE = {'C2': (0, 2), 'C3s3': (1, 3), 'C3': (1, None), 'G': (None, None)}  # (max bundles of > 2 goods, max bundle size)
-D_MODELS = ('C2', 'C3s3', 'C3')
-
-def fits(mode, X):
-    if mode not in SHAPE: return False
-    nbig, cap = SHAPE[mode]; size = collections.Counter(X).values()
-    return (nbig is None or sum(s > 2 for s in size) <= nbig) and (cap is None or max(size) <= cap)
 
 def safe(val, bundles, i):
     own = sum(val.get(g, 0.0) for g in bundles[i])
@@ -65,19 +54,14 @@ def check(r):
 if __name__ == '__main__':
     args = sys.argv[1:]; jobs = os.cpu_count()
     if '--jobs' in args: k = args.index('--jobs'); jobs = int(args[k + 1]); del args[k:k + 2]
-    require_d = '--require-d' in args; args = [a for a in args if a != '--require-d']
     recs = json.load(gzip.open(args[0], 'rt'))
     expect = {tuple(map(int, e.split(':')[:2])): int(e.split(':')[2]) for e in args[2:]} if '--expect' in args else {}
-    count, models, problems = collections.Counter(), collections.Counter(), 0
+    count, problems = collections.Counter(), 0
     with multiprocessing.Pool(jobs) as pool:
         for r, (valid, u) in zip(recs, pool.imap(check, recs, chunksize=4)):
-            count[(r['n'], r['m'])] += 1; md = r.get('mode'); models[md] += 1
+            count[(r['n'], r['m'])] += 1
             if not valid: print("not a valid connected core:", r['sets']); problems += 1
             if u: print(f"UNCOVERED profiles: {u} for {r['sets']}"); problems += 1
-            bad = sum(not fits(md, X) for X in r['allocations'])
-            if bad: print(f"{bad} allocations outside model {md} for {r['sets']}"); problems += 1
-            if require_d and md not in D_MODELS: print(f"model {md} is not within conjecture D for {r['sets']}"); problems += 1
     for k, v in expect.items():
         if count[k] != v: print(f"expected {v} hypergraphs at (n,m)={k}, found {count[k]}"); problems += 1
-    print(f"checked {len(recs)} hypergraphs {dict(count)}, models {dict(models)}; problems: {problems}")
-    sys.exit(1 if problems else 0)
+    print(f"checked {len(recs)} hypergraphs {dict(count)}; problems: {problems}"); sys.exit(1 if problems else 0)
