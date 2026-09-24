@@ -4,7 +4,8 @@ Open question (CS 580 course project, Fall 2026): does every additive fair-divis
 
 **Status** (details and evidence in [LEDGER.md](LEDGER.md)):
 - Reduced to "cores" (agents with exactly three goods, balanced, at most one private good), where EFX₀ is a purely combinatorial condition.
-- Certified: EFX₀ exists for every such instance with at most 6 agents. Every connected core is covered, including those with m ≤ n + 3, which were first left to Mahara's theorem; nothing external is needed. With at most 7 agents it is certified too, conditional on Mahara's theorem for cores with 7 agents and at most 10 goods (the only ones not searched).
+- Certified: EFX₀ exists for every such instance with at most 6 agents. Every connected core is covered, including those with m ≤ n + 3, which were first left to Mahara's theorem; nothing external is needed. With at most 7 agents it is certified too, using Mahara's theorem (m ≤ n + 3, verified from the paper) for cores with 7 agents and at most 10 goods, the only ones not searched.
+- From the literature (read in full, [proofs/citations.md](proofs/citations.md)): EFX₀ exists, for every n, for cores with m ≤ n + 3 and for cores in which every good is relevant to at most two agents (ledger T3). No published result implies TARGET or conjecture D.
 - Refuted: "bundles of at most two goods always suffice" (smallest counterexample n = 3), and its weaker form for m ≤ 2n − 2 (smallest n = 4).
 - Main conjecture D: some EFX₀ allocation has at most one bundle with more than two goods. Certified for every core with n ≤ 6, and for every connected core with n = 7, m ≥ 11 or n = 8, m ≥ 14.
 - Proved: conjecture D for every core with m = 2n − 1 (cyclomatic number β = 2), for all n ([proofs/beta2.md](proofs/beta2.md)).
