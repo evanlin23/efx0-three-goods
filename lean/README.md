@@ -21,7 +21,7 @@ standard ones, if the number of certificates differs from the number of `#print 
 declaration of the library (certified or not; `CheckAxioms.lean`) depends on another axiom. On success the last
 line is
 
-    CHECK PASSED: 8 audited statements, 21 theorems, standard axioms only
+    CHECK PASSED: 11 audited statements, 28 theorems, standard axioms only
 
 CI runs it on every pull request (job `lean` in `.github/workflows/verify.yml`). In Claude Code on the web the
 session-start hook installs the toolchain (from GitHub when `release.lean-lang.org` is unreachable).
@@ -63,6 +63,9 @@ each agent's values by a common denominator.
 - `EFX/Lists.lean`: the same notions over explicit lists of agents and goods (`value`, `bundle`, `EFX0L`), which
   suit arguments that remove agents or goods; list lemmas; `favorite`, an agent's most valued remaining good.
 - `EFX/Peeling.lean`: `EFX.peel`, peeling rule R1.
+- `EFX/PeelingR2.lean`: `EFX.peelBundle`, the general peeling step (agent `i` leaves with a bundle `P` it values at
+  least as much as all remaining goods, and `P` minus any one good is worthless to everyone else); its instances
+  `EFX.peelR2`, peeling rule R2, and `EFX.peelEmpty`, rule R1 when nothing relevant to `i` remains (`P = ∅`).
 - `EFX/SerialDictatorship.lean`: `EFX.serialDictatorship`, L2c over lists.
 - `EFX/Bridge.lean`: over `List.finRange` the list notions equal the model's (`finSum_eq_sum`, `bundleVal_none`,
   `bundleVal_some`, `efx0_iff`, `numRelevant_eq`); `EFX.exists_efx0_of_count`, L2c in the model's terms.
@@ -76,6 +79,9 @@ name in the ledger's Lean column has one.
 | Ledger | Statement | Lean (file : name) |
 |---|---|---|
 | L2 | Peeling rule R1: `i` takes its favorite remaining good `p` with `v_i(p) ≥ v_i(remaining goods)`; the rest has an EFX₀ allocation ⟹ so does everything | Peeling : `EFX.peel` (over lists) |
+| L2 | Peeling rule R1 with `P = ∅`: no remaining good is relevant to `i`; `i` leaves with nothing | PeelingR2 : `EFX.peelEmpty` (over lists) |
+| L2 | Peeling rule R2: `i` takes `P`, the goods relevant to `i` and to no other remaining agent, with `v_i(P) ≥ v_i(R_i \ P)`; the rest has an EFX₀ allocation ⟹ so does everything. The written hypothesis `\|P\| ≥ 2` is not needed and not assumed | PeelingR2 : `EFX.peelR2` (over lists) |
+| L2 | The proof of L2: `v_i(P) ≥ v_i(remaining goods)` and `P` minus any one good worthless to every other agent ⟹ peeling `(i, P)` preserves EFX₀ | PeelingR2 : `EFX.peelBundle` (over lists) |
 | L2c | `\|R_i\| ≤ 2` for all `i` ⟹ an EFX₀ allocation exists (serial dictatorship) | Bridge : `EFX.exists_efx0_of_count`; SerialDictatorship : `EFX.serialDictatorship` |
 | — | The list layer agrees with the model | Bridge : `EFX.Inst.efx0_iff` |
 
@@ -84,7 +90,7 @@ good), and extends it to monotone valuations.
 
 ## Not formalized
 
-- Peeling rule R2 (a bundle of private goods), L3 (junk goods and envy cycles), and everything from L4 on.
-- `EFX.peel` is stated over lists: removing an agent and a good changes the index types `Fin n`, `Fin m`, so a
-  model-level statement needs sub-instances. `EFX.Inst.efx0_iff` connects the two for the full instance.
+- L3 (junk goods and envy cycles), and everything from L4 on.
+- The peeling theorems are stated over lists: removing an agent and its goods changes the index types `Fin n`, `Fin m`,
+  so a model-level statement needs sub-instances. `EFX.Inst.efx0_iff` connects the two for the full instance.
 - Real-valued utilities (natural numbers in Lean, as in mrd-efx).

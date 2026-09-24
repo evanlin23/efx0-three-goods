@@ -5,7 +5,7 @@ The single source of truth. A status changes only in a pull request that adds th
 | ID | Claim | Status | Artifact | Lean | Notes |
 |---|---|---|---|---|---|
 | L1 | For fixed (n, m): EFX₀ for all additive instances ⟺ EFX for all positive additive instances | PROVED | `proofs/lemmas.md` | | sketch; expand in Step 0 |
-| L2 | Peeling rules R1 and R2 | PROVED | `proofs/lemmas.md` | `EFX.peel` | Lean: R1 only (over lists). `src/lemmas.py`: 1,500 random instances through the pipeline, 0 failures |
+| L2 | Peeling rules R1 and R2 | PROVED | `proofs/lemmas.md` | `EFX.peel`, `EFX.peelEmpty`, `EFX.peelR2`, `EFX.peelBundle` | Lean (over lists): R1, R1 with P = ∅, R2 (without its unused hypothesis that P has ≥ 2 goods), and the general peeling step that R2 and R1 with P = ∅ instantiate. `src/lemmas.py`: 1,500 random instances through the pipeline, 0 failures |
 | L2c | ≤ 2 relevant goods per agent ⟹ EFX₀ (serial dictatorship; the HW1 theorem) | PROVED | `proofs/lemmas.md` | `EFX.exists_efx0_of_count` | stronger form (all bundles but one have ≤ 1 good) machine-checked in evanlin23/mrd-efx: `MRD.main_theorem_L` |
 | L3 | Worthless goods go to an envy-graph source | PROVED | `proofs/lemmas.md` | | same pipeline test |
 | L4 | Core counting: 3n = 2m − π + Σ(deg − 2), so m ≤ 2n | PROVED | `proofs/lemmas.md` | | |
