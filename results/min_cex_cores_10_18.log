@@ -1,0 +1,4 @@
+[   159s] n=10 m=18 beta=3: 4619 connected cores, 5 with no degree-2 good shared by two P-agents; (P-agents, degrees >= 3): {(6, ()): 5}
+[   821s] n=10 m=18 done: {'C3': 5}
+[   821s] wrote 5 certificates to certs_min_cex_10_18.json.gz; problems: 0
+exit 0
