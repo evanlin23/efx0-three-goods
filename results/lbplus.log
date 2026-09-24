@@ -1,0 +1,29 @@
+# Construction LB+ (proofs/lb_last_step.md) run by src/lbplus.c through src/lb_owner.py --bin=lbplus. Every run: LB+ exactly as in the proof, every lemma asserted (assert_fail), every output checked against the raw EFX0 definition in construct.c (raw_fail). Columns: runs; c2 = no owner needed; owner_r = owner r (Theorem A); rotated = the bad case, repaired by one rotation (Theorem B), then rot_c2 (no owner needed) or rot_owner_k (owner k); r_E_nonempty = runs with an exposed agent w.r.t. r; rot_len_ge2 = rotations along a chain of >= 2 steps; max_large = largest bundle. Modes: 0 = LB's own Phase 1; 1 = every sequence of insertion choices (LB's R1 order); 2 = random insertion and R1 choices (--seed, --reps runs per profile). --random=COUNT:SEED = random non-core instances (every agent a uniformly random 3-set of the m goods) instead of the cores.
+# PRELIMINARY: runs completed so far; the remaining sections are appended when they finish.
+
+## mode 1, every core n = 6 (python lb_owner.py 6 --bin=lbplus --mode=1), then mode 0 n = 6, then mode 0 n = 7
+[      0s] n=6 m=3: 1 cores; runs 279936, c2 279936, owner_r 0, rotated 0, rot_c2 0, rot_owner_k 0, raw_fail 0, assert_fail 0, profiles 46656, r_E_nonempty 0, rot_len_ge2 0, max_large 0
+[      1s] n=6 m=4: 8 cores; runs 2301696, c2 2301696, owner_r 0, rotated 0, rot_c2 0, rot_owner_k 0, raw_fail 0, assert_fail 0, profiles 373248, r_E_nonempty 0, rot_len_ge2 0, max_large 0
+[      6s] n=6 m=5: 66 cores; runs 20046528, c2 20046528, owner_r 0, rotated 0, rot_c2 0, rot_owner_k 0, raw_fail 0, assert_fail 0, profiles 3079296, r_E_nonempty 0, rot_len_ge2 0, max_large 0
+[     21s] n=6 m=6: 317 cores; runs 108933768, c2 108933768, owner_r 0, rotated 0, rot_c2 0, rot_owner_k 0, raw_fail 0, assert_fail 0, profiles 14789952, r_E_nonempty 0, rot_len_ge2 0, max_large 0
+[     70s] n=6 m=7: 781 cores; runs 342830808, c2 342830808, owner_r 0, rotated 0, rot_c2 0, rot_owner_k 0, raw_fail 0, assert_fail 0, profiles 36438336, r_E_nonempty 0, rot_len_ge2 0, max_large 0
+[    172s] n=6 m=8: 1013 cores; runs 675493560, c2 674563458, owner_r 734868, rotated 195234, rot_c2 195234, rot_owner_k 0, raw_fail 0, assert_fail 0, profiles 47262528, r_E_nonempty 195234, rot_len_ge2 164986, max_large 3
+[    294s] n=6 m=9: 670 cores; runs 772883784, c2 769765446, owner_r 2986110, rotated 132228, rot_c2 132058, rot_owner_k 170, raw_fail 0, assert_fail 0, profiles 31259520, r_E_nonempty 1183012, rot_len_ge2 107352, max_large 4
+[    364s] n=6 m=10: 211 cores; runs 434281392, c2 431642090, owner_r 2613504, rotated 25798, rot_c2 24452, rot_owner_k 1346, raw_fail 0, assert_fail 0, profiles 9844416, r_E_nonempty 1590450, rot_len_ge2 20526, max_large 5
+[    380s] n=6 m=11: 25 cores; runs 87231240, c2 86256114, owner_r 974362, rotated 764, rot_c2 692, rot_owner_k 72, raw_fail 0, assert_fail 0, profiles 1166400, r_E_nonempty 874048, rot_len_ge2 732, max_large 6
+[    383s] n=6 m=12: 1 cores; runs 5592672, c2 5257680, owner_r 334992, rotated 0, rot_c2 0, rot_owner_k 0, raw_fail 0, assert_fail 0, profiles 46656, r_E_nonempty 334992, rot_len_ge2 0, max_large 6
+[    383s] done
+[      0s] n=6 m=3: 1 cores; runs 46656, c2 46656, owner_r 0, rotated 0, rot_c2 0, rot_owner_k 0, raw_fail 0, assert_fail 0, profiles 46656, r_E_nonempty 0, rot_len_ge2 0, max_large 0
+[      0s] n=6 m=4: 8 cores; runs 373248, c2 373248, owner_r 0, rotated 0, rot_c2 0, rot_owner_k 0, raw_fail 0, assert_fail 0, profiles 373248, r_E_nonempty 0, rot_len_ge2 0, max_large 0
+[      2s] n=6 m=5: 66 cores; runs 3079296, c2 3079296, owner_r 0, rotated 0, rot_c2 0, rot_owner_k 0, raw_fail 0, assert_fail 0, profiles 3079296, r_E_nonempty 0, rot_len_ge2 0, max_large 0
+[      8s] n=6 m=6: 317 cores; runs 14789952, c2 14789952, owner_r 0, rotated 0, rot_c2 0, rot_owner_k 0, raw_fail 0, assert_fail 0, profiles 14789952, r_E_nonempty 0, rot_len_ge2 0, max_large 0
+[     24s] n=6 m=7: 781 cores; runs 36438336, c2 36438336, owner_r 0, rotated 0, rot_c2 0, rot_owner_k 0, raw_fail 0, assert_fail 0, profiles 36438336, r_E_nonempty 0, rot_len_ge2 0, max_large 0
+[     45s] n=6 m=8: 1013 cores; runs 47262528, c2 47262393, owner_r 135, rotated 0, rot_c2 0, rot_owner_k 0, raw_fail 0, assert_fail 0, profiles 47262528, r_E_nonempty 0, rot_len_ge2 0, max_large 3
+[     62s] n=6 m=9: 670 cores; runs 31259520, c2 31251277, owner_r 8243, rotated 0, rot_c2 0, rot_owner_k 0, raw_fail 0, assert_fail 0, profiles 31259520, r_E_nonempty 1037, rot_len_ge2 0, max_large 4
+[     68s] n=6 m=10: 211 cores; runs 9844416, c2 9825574, owner_r 18842, rotated 0, rot_c2 0, rot_owner_k 0, raw_fail 0, assert_fail 0, profiles 9844416, r_E_nonempty 5202, rot_len_ge2 0, max_large 4
+[     69s] n=6 m=11: 25 cores; runs 1166400, c2 1158283, owner_r 8117, rotated 0, rot_c2 0, rot_owner_k 0, raw_fail 0, assert_fail 0, profiles 1166400, r_E_nonempty 4522, rot_len_ge2 0, max_large 5
+[     69s] n=6 m=12: 1 cores; runs 46656, c2 45164, owner_r 1492, rotated 0, rot_c2 0, rot_owner_k 0, raw_fail 0, assert_fail 0, profiles 46656, r_E_nonempty 1492, rot_len_ge2 0, max_large 4
+[     69s] done
+[      1s] n=7 m=14: 1 cores; runs 279936, c2 269140, owner_r 10796, rotated 0, rot_c2 0, rot_owner_k 0, raw_fail 0, assert_fail 0, profiles 279936, r_E_nonempty 10796, rot_len_ge2 0, max_large 4
+[     10s] n=7 m=13: 37 cores; runs 10357632, c2 10289484, owner_r 68148, rotated 0, rot_c2 0, rot_owner_k 0, raw_fail 0, assert_fail 0, profiles 10357632, r_E_nonempty 50743, rot_len_ge2 0, max_large 5
+[    137s] n=7 m=12: 541 cores; runs 151445376, c2 151163897, owner_r 281479, rotated 0, rot_c2 0, rot_owner_k 0, raw_fail 0, assert_fail 0, profiles 151445376, r_E_nonempty 133269, rot_len_ge2 0, max_large 5
