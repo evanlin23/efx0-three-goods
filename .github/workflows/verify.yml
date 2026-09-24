@@ -19,7 +19,9 @@ jobs:
       - name: Ledger lint (every PROVED/CERTIFIED/REFUTED row has an existing artifact)
         run: python tools/check_ledger.py
       - name: Committed certificates, re-checked without SAT
-        run: python tools/check_certs.py results/certs_5_6.json.gz --expect 5:9:15 6:10:211 6:11:25
+        run: |
+          python tools/check_certs.py results/certs_5_6.json.gz --expect 5:9:15 6:10:211 6:11:25
+          python tools/check_certs.py results/certs_7_13.json.gz --expect 7:13:37
       - name: Re-run the n <= 6 search from scratch
         working-directory: src
         run: python frontier.py 5 6
