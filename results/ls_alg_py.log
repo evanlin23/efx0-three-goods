@@ -1,0 +1,60 @@
+# Algorithm LS2 re-implemented in Python from numeric valuations (src/local_search.py, function ls2_numeric): every
+# decision uses the numbers; every Phase-1 step is checked (Pareto improvement, EFX0 by the raw definition, junk-free,
+# bundles <= 2 goods) and every output is complete, EFX0 (raw definition) with at most one bundle of > 2 goods.
+## exhaustive: python src/local_search.py pyalg n (every profile of every connected core, realization (4, 3, 2))
+PYALG EXHAUSTIVE: 2 cores, 72 (core, profile) runs, 0 failures
+[pyalg n=2 m=[3, 4]: 2 cores, 0s]
+PYALG EXHAUSTIVE: 7 cores, 1512 (core, profile) runs, 0 failures
+[pyalg n=3 m=[3, 4, 5, 6]: 7 cores, 0s]
+PYALG EXHAUSTIVE: 41 cores, 53136 (core, profile) runs, 0 failures
+[pyalg n=4 m=[3, 4, 5, 6, 7, 8]: 41 cores, 26s]
+PYALG EXHAUSTIVE: 293 cores, 2278368 (core, profile) runs, 0 failures
+[pyalg n=5 m=[3, 4, 5, 6, 7, 8, 9, 10]: 293 cores, 1189s]
+## random cores (not necessarily connected) with random real balanced values
+## python src/local_search.py pyrandom 2 40 1000 --seed=7
+n=2: 1000 random cores with random balanced values: all complete EFX0 (raw), <= 1 bundle of > 2 goods, max Phase-1 steps 8
+n=3: 1000 random cores with random balanced values: all complete EFX0 (raw), <= 1 bundle of > 2 goods, max Phase-1 steps 11
+n=4: 1000 random cores with random balanced values: all complete EFX0 (raw), <= 1 bundle of > 2 goods, max Phase-1 steps 12
+n=5: 1000 random cores with random balanced values: all complete EFX0 (raw), <= 1 bundle of > 2 goods, max Phase-1 steps 16
+n=6: 1000 random cores with random balanced values: all complete EFX0 (raw), <= 1 bundle of > 2 goods, max Phase-1 steps 18
+n=7: 1000 random cores with random balanced values: all complete EFX0 (raw), <= 1 bundle of > 2 goods, max Phase-1 steps 22
+n=8: 1000 random cores with random balanced values: all complete EFX0 (raw), <= 1 bundle of > 2 goods, max Phase-1 steps 24
+n=9: 1000 random cores with random balanced values: all complete EFX0 (raw), <= 1 bundle of > 2 goods, max Phase-1 steps 24
+n=10: 1000 random cores with random balanced values: all complete EFX0 (raw), <= 1 bundle of > 2 goods, max Phase-1 steps 26
+n=11: 1000 random cores with random balanced values: all complete EFX0 (raw), <= 1 bundle of > 2 goods, max Phase-1 steps 30
+n=12: 1000 random cores with random balanced values: all complete EFX0 (raw), <= 1 bundle of > 2 goods, max Phase-1 steps 30
+n=13: 1000 random cores with random balanced values: all complete EFX0 (raw), <= 1 bundle of > 2 goods, max Phase-1 steps 30
+n=14: 1000 random cores with random balanced values: all complete EFX0 (raw), <= 1 bundle of > 2 goods, max Phase-1 steps 30
+n=15: 1000 random cores with random balanced values: all complete EFX0 (raw), <= 1 bundle of > 2 goods, max Phase-1 steps 32
+n=16: 1000 random cores with random balanced values: all complete EFX0 (raw), <= 1 bundle of > 2 goods, max Phase-1 steps 35
+n=17: 1000 random cores with random balanced values: all complete EFX0 (raw), <= 1 bundle of > 2 goods, max Phase-1 steps 35
+n=18: 1000 random cores with random balanced values: all complete EFX0 (raw), <= 1 bundle of > 2 goods, max Phase-1 steps 37
+n=19: 1000 random cores with random balanced values: all complete EFX0 (raw), <= 1 bundle of > 2 goods, max Phase-1 steps 37
+n=20: 1000 random cores with random balanced values: all complete EFX0 (raw), <= 1 bundle of > 2 goods, max Phase-1 steps 45
+n=21: 1000 random cores with random balanced values: all complete EFX0 (raw), <= 1 bundle of > 2 goods, max Phase-1 steps 46
+n=22: 1000 random cores with random balanced values: all complete EFX0 (raw), <= 1 bundle of > 2 goods, max Phase-1 steps 46
+n=23: 1000 random cores with random balanced values: all complete EFX0 (raw), <= 1 bundle of > 2 goods, max Phase-1 steps 46
+n=24: 1000 random cores with random balanced values: all complete EFX0 (raw), <= 1 bundle of > 2 goods, max Phase-1 steps 46
+n=25: 1000 random cores with random balanced values: all complete EFX0 (raw), <= 1 bundle of > 2 goods, max Phase-1 steps 47
+n=26: 1000 random cores with random balanced values: all complete EFX0 (raw), <= 1 bundle of > 2 goods, max Phase-1 steps 47
+n=27: 1000 random cores with random balanced values: all complete EFX0 (raw), <= 1 bundle of > 2 goods, max Phase-1 steps 51
+n=28: 1000 random cores with random balanced values: all complete EFX0 (raw), <= 1 bundle of > 2 goods, max Phase-1 steps 51
+n=29: 1000 random cores with random balanced values: all complete EFX0 (raw), <= 1 bundle of > 2 goods, max Phase-1 steps 51
+n=30: 1000 random cores with random balanced values: all complete EFX0 (raw), <= 1 bundle of > 2 goods, max Phase-1 steps 53
+n=31: 1000 random cores with random balanced values: all complete EFX0 (raw), <= 1 bundle of > 2 goods, max Phase-1 steps 59
+n=32: 1000 random cores with random balanced values: all complete EFX0 (raw), <= 1 bundle of > 2 goods, max Phase-1 steps 59
+n=33: 1000 random cores with random balanced values: all complete EFX0 (raw), <= 1 bundle of > 2 goods, max Phase-1 steps 59
+n=34: 1000 random cores with random balanced values: all complete EFX0 (raw), <= 1 bundle of > 2 goods, max Phase-1 steps 59
+n=35: 1000 random cores with random balanced values: all complete EFX0 (raw), <= 1 bundle of > 2 goods, max Phase-1 steps 62
+n=36: 1000 random cores with random balanced values: all complete EFX0 (raw), <= 1 bundle of > 2 goods, max Phase-1 steps 62
+n=37: 1000 random cores with random balanced values: all complete EFX0 (raw), <= 1 bundle of > 2 goods, max Phase-1 steps 62
+n=38: 1000 random cores with random balanced values: all complete EFX0 (raw), <= 1 bundle of > 2 goods, max Phase-1 steps 63
+n=39: 1000 random cores with random balanced values: all complete EFX0 (raw), <= 1 bundle of > 2 goods, max Phase-1 steps 63
+n=40: 1000 random cores with random balanced values: all complete EFX0 (raw), <= 1 bundle of > 2 goods, max Phase-1 steps 68
+PYALG RANDOM: 39000 runs, 0 failures (seed 7)
+## python src/local_search.py pyrandom 50 50 100 --seed=8
+n=50: 100 random cores with random balanced values: all complete EFX0 (raw), <= 1 bundle of > 2 goods, max Phase-1 steps 73
+PYALG RANDOM: 100 runs, 0 failures (seed 8)
+## python src/local_search.py pyrandom 100 100 50 --seed=10
+n=100: 50 random cores with random balanced values: all complete EFX0 (raw), <= 1 bundle of > 2 goods, max Phase-1 steps 124
+PYALG RANDOM: 50 runs, 0 failures (seed 10)
