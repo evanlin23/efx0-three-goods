@@ -1,8 +1,8 @@
 # Citations in PROMPT.md §2: verification status (Step 0)
 
-**Read from the full text (2026-09-24):** the arXiv versions of Mahara 2107.09901v2, Afshinmehr et al. 2606.18665v1, Lianeas–Sgouritsa–Sotiriou 2608.03171v1, Wang 2608.30203v1, Alkassar–Fouz–Mehlhorn 2608.08590v1, Akrami et al. 2604.18216v3 and Mackenzie–Suzuki 2605.06451v1. The repository owner pasted the texts into a session because no scholarly host is reachable from the cloud container (list below). Statements below marked "read" are quoted or paraphrased from those texts. Anything not read is still [unverified].
+**Read from the full text (2026-09-24):** Viswanathan–Mehta (AAMAS 2024 extended abstract, PDF) and the arXiv versions of Mahara 2107.09901v2, Afshinmehr et al. 2606.18665v1, Lianeas–Sgouritsa–Sotiriou 2608.03171v1, Wang 2608.30203v1, Alkassar–Fouz–Mehlhorn 2608.08590v1, Akrami et al. 2604.18216v3 and Mackenzie–Suzuki 2605.06451v1. The repository owner pasted the texts into a session because no scholarly host is reachable from the cloud container (list below). Statements below marked "read" are quoted or paraphrased from those texts. Anything not read is still [unverified].
 
-**Result: none of these papers implies TARGET or conjecture D.** Two of them cover parts of TARGET for every n (ledger row T3): Mahara's theorem covers cores with m ≤ n + 3, and the multigraph theorem covers cores in which every good is relevant to at most two agents. Neither says anything about D's shape (at most one bundle of more than two goods).
+**Result: none of these papers implies TARGET or conjecture D.** Viswanathan–Mehta (at most 4 relevant goods) proves ordinary EFX only and gives worthless goods to an arbitrary agent, so it does not settle TARGET. Two of them cover parts of TARGET for every n (ledger row T3): Mahara's theorem covers cores with m ≤ n + 3, and the multigraph theorem covers cores in which every good is relevant to at most two agents. Neither says anything about D's shape (at most one bundle of more than two goods).
 
 ## Per citation
 
@@ -12,7 +12,13 @@
    - EFX notion: agent i "EFX envies" a set S "if there exists some h ∈ S such that i envies S ∖ h"; an allocation is EFX if no agent EFX envies another. Every good counts, including goods worth 0 to i, so this is EFX₀. L1 is not needed to transfer it.
    - Journal version: *Mathematics of Operations Research* 49(2), cited that way by 2608.08590 and 2606.18665 [journal text not read]. PROMPT.md's [Mah23] is this paper.
    - Use here: every core with m ≤ n + 3 has an EFX₀ allocation, for every n. R1 already certifies this range for n ≤ 6 without the citation. It gives existence only, not D's shape.
-2. **Viswanathan–Mehta, "On the existence of EFX under picky or non-differentiative agents", AAMAS 2024.** [unverified] Only the title was supplied. Still to check: whether it proves EFX when every agent positively values at most four goods, and how it treats zero-valued goods. Lead: https://dl.acm.org/doi/10.5555/3635637.3663218.
+2. **Viswanathan–Mehta, "On the existence of EFX under picky or non-differentiative agents", Proc. AAMAS 2024, pp. 2534–2536 (Extended Abstract, 3 pages).** Read (PDF supplied by the repository owner).
+   - Results: EFX exists, via a polynomial-time algorithm, (1) when every agent values at most 4 goods positively ("4-limited"), and (2) for ternary values {0, a, b} with 0 < a < b ≤ 2a.
+   - EFX notion: **ordinary EFX, not EFX₀.** Agent i EFX-envies i′ if v_i(X_i) < v_i(X_i′ ∖ {j}) "for some j ∈ X_i′ with v_i(j) > 0". Footnote 2 names the stronger version, in which the removed good may be worth zero to i, as a different notion.
+   - Zero-valued goods: the 4-limited algorithm ends by giving the remaining goods, "which must be valued zero by all agents, to an arbitrary agent". That step is harmless for EFX but can break EFX₀, which is exactly what TARGET is about (compare L3: worthless goods must go to an envy-graph source).
+   - The abstract gives a proof sketch only (phases of maximum matchings in the "k-th value graphs", then an "EFX graph" source argument); no full proof is in the text.
+   - Use here: none for TARGET or D. It does not imply TARGET, and L1 does not transfer it, because it is a statement about few relevant goods, not about a class of (n, m) (Note (scope) under L1 in `proofs/lemmas.md`). It confirms that PROMPT.md's description ("ordinary EFX only") is right.
+   - Its reference [14] is the conference version of Mahara's paper: ESA 2021, LIPIcs 204, 66:1–66:15.
 3. **Christodoulou–Fiat–Koutsoupias–Sgouritsa (EC 2023).** [unverified] Not supplied. 2606.18665 summarizes it as proving EFX for graphical valuations on simple graphs, where each good is an edge valued positively only by its endpoints. Subsumed for additive valuations by item 4.
 4. **Afshinmehr–Ashuri–Mahmoudkhan–Mehlhorn–Shahrezaei, "EFX Allocations Exist on Multi-Graphs", arXiv:2606.18665v1 (17 Jun 2026).** Read.
    - Main result (abstract): EFX allocations exist for multigraph instances under cancelable valuations, a strict superclass of additive valuations, and can be computed in polynomial time.
