@@ -1,0 +1,10 @@
+rankings (a,b,c): [(1, 6, 7), (4, 5, 8), (1, 5, 0), (6, 0, 3), (5, 2, 3), (4, 6, 2)]
+  move E: good 1 to agent 0 -> [[1], [], [], [], [], []], potential (3, 1)
+  move E: good 4 to agent 1 -> [[1], [4], [], [], [], []], potential (6, 2)
+  move E: good 0 to agent 2 -> [[1], [4], [0], [], [], []], potential (7, 3)
+  move E: good 6 to agent 3 -> [[1], [4], [0], [6], [], []], potential (10, 4)
+  move E: good 5 to agent 4 -> [[1], [4], [0], [6], [5], []], potential (13, 5)
+  move E: good 2 to agent 5 -> [[1], [4], [0], [6], [5], [2]], potential (14, 6)
+  move A: good 8 to agent 2 -> [[1], [4], [0, 8], [6], [5], [2]], potential (14, 7)
+  move A: good 7 to agent 5 -> [[1], [4], [0, 8], [6], [5], [2, 7]], potential (14, 8)
+final state [[1], [4], [0, 8], [6], [5], [2, 7]] unallocated [3] EFX0: True - improving moves (E,S,R,A,U,C,X): 0

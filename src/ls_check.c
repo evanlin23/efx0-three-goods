@@ -31,10 +31,14 @@ static const int PERM[6][3] = {{0,1,2},{0,2,1},{1,0,2},{1,2,0},{2,0,1},{2,1,0}};
 static char moves_on[16] = "ESRAUC";
 static int use[128];
 static long long cnt_move[128], cnt_hard, cnt_states, cnt_stuck;
-static int verbose = 0, reach_only = 0;
+static long long only_profile = -1;
+static int verbose = 0, reach_only = 0, print_hard = 0, proof_mode = 0, outer_mode = 0;
 static long long stuck_print_limit = 20;
 
 typedef struct { int o[MAXM]; } State;
+static void print_state(const State *s);
+static int proof_case(const State *s);
+static int find_moves(const State *s);
 
 static inline int popc(unsigned x) { return __builtin_popcount(x); }
 
@@ -142,6 +146,43 @@ static int dfs_R(const State *s, const unsigned *bm, int adj[MAXN][MAXN], int us
     return found;
 }
 
+
+/* X: augmented envy cycle i_0 -> i_1 -> ... -> i_{k-1} -> i_0 (k >= 2): agent i_t's new bundle is a set Z_t of its own
+   goods taken from X_{i_{t+1}}, the pool and goods held by agents that do not value them (junk), with v(Z_t) > v(X_{i_t});
+   the Z_t are disjoint; every other good of the cycle's bundles returns to the pool. */
+static int xcyc[MAXN], xlen; static unsigned xZ[MAXN];
+static int try_X_assign(const State *s, const unsigned *bm, unsigned pool, unsigned junk, int t, unsigned used) {
+    if (t == xlen) {
+        State u = *s;
+        for (int q = 0; q < xlen; q++) for (int g = 0; g < m; g++) if (bm[xcyc[q]] >> g & 1) u.o[g] = -1;
+        for (int q = 0; q < xlen; q++) for (int g = 0; g < m; g++) if (xZ[q] >> g & 1) u.o[g] = xcyc[q];
+        return push(&u, s);
+    }
+    int i = xcyc[t], nx = xcyc[(t + 1) % xlen];
+    unsigned Ri = (1u << ra[i]) | (1u << rb[i]) | (1u << rc[i]);
+    unsigned avail = (bm[nx] | pool | (junk & ~bm[i])) & Ri & ~used;
+    if (!(avail & bm[nx])) return 0;
+    int L = levm(i, bm[i]); int found = 0;
+    for (unsigned Z = avail; Z; Z = (Z - 1) & avail) {
+        if (!(Z & bm[nx]) || levm(i, Z) <= L) continue;   /* must take something from the next bundle */
+        xZ[t] = Z;
+        if (try_X_assign(s, bm, pool, junk, t + 1, used | Z)) { found = 1; if (!collect_all) return 1; }
+    }
+    return found;
+}
+static int dfs_X(const State *s, const unsigned *bm, unsigned pool, unsigned junk, int used) {
+    int found = 0, v = xcyc[xlen - 1];
+    for (int w = 0; w < n; w++) if (w != v) {
+        if (w == xcyc[0] && xlen >= 2) {
+            if (try_X_assign(s, bm, pool, junk, 0, 0)) { found = 1; if (!collect_all) return 1; }
+        } else if (w > xcyc[0] && !(used >> w & 1)) {
+            xcyc[xlen++] = w; int f = dfs_X(s, bm, pool, junk, used | 1 << w); xlen--;
+            if (f) { found = 1; if (!collect_all) return 1; }
+        }
+    }
+    return found;
+}
+
 /* returns the letter of the first move type that applies, or 0 if stuck; with collect_all, fills succ[] */
 static int find_moves(const State *s) {
     unsigned bm[MAXN], pool; masks(s, bm, &pool);
@@ -174,9 +215,106 @@ static int find_moves(const State *s) {
     }
     if (use['C']) for (int v = 0; v < n; v++) { path[0] = v; plen = 1;
         if (dfs_C(s, bm, pool, adj, 1 << v, 0, junk)) { if (!first) first = 'C'; if (!collect_all) return first; } }
+    if (use['X']) for (int v = 0; v < n; v++) { xcyc[0] = v; xlen = 1;
+        if (dfs_X(s, bm, pool, junk, 1 << v)) { if (!first) first = 'X'; if (!collect_all) return first; } }
     if (use['K']) for (int v = 0; v < n; v++) { path[0] = v; plen = 1;
         if (dfs_C(s, bm, pool, adj, 1 << v, 1, junk)) { if (!first) first = 'K'; if (!collect_all) return first; } }
     return first;
+}
+
+
+/* ---- proof mode: the case analysis of proofs/local_search.md ---- */
+static long long pcase[16];
+static int proof_case(const State *s) {
+    unsigned bm[MAXN], pool; masks(s, bm, &pool);
+    for (int j = 0; j < n; j++) if (!bm[j]) return 1;                         /* E */
+    for (int i = 0; i < n; i++) { int L = levm(i, bm[i]);
+        for (int g = 0; g < m; g++) if ((pool >> g & 1) && bitv[i][g] && levm(i, 1u << g) > L) return 2; } /* S */
+    int adj[MAXN][MAXN]; envy(bm, adj);
+    /* cycle? reach[i][j] by Floyd-Warshall */
+    int reach[MAXN][MAXN];
+    for (int i = 0; i < n; i++) for (int j = 0; j < n; j++) reach[i][j] = adj[i][j];
+    for (int k = 0; k < n; k++) for (int i = 0; i < n; i++) for (int j = 0; j < n; j++)
+        if (reach[i][k] && reach[k][j]) reach[i][j] = 1;
+    for (int i = 0; i < n; i++) if (reach[i][i]) return 3;                    /* R */
+    int best = 0;
+    if (proof_mode >= 1) {   /* J: agent k grabs a good x that its holder j does not value, X_k := X_k + x */
+        for (int x = 0; x < m; x++) { int j = s->o[x]; if (j < 0 || bitv[j][x]) continue;
+            for (int k = 0; k < n; k++) if (k != j && bitv[k][x]) {
+                State t = *s; t.o[x] = k; if (efx0(&t)) { best = 7; } } }
+    }
+    for (int sidx = 0; sidx < n; sidx++) {
+        int src = 1; for (int k = 0; k < n; k++) if (adj[k][sidx]) src = 0;
+        if (!src) continue;
+        if (popc(bm[sidx]) == 1) return 4;                                     /* A: singleton source */
+        for (int g = 0; g < m; g++) if (pool >> g & 1) {
+            /* blockers: a-holders i != s with {b_i,c_i} = {g, y}, y in X_s */
+            int blocked = 0, allok = 1;
+            for (int i = 0; i < n; i++) if (i != sidx && ownbits(i, bm[i]) == 4) {
+                int y = -1;
+                if (rb[i] == g) y = rc[i]; else if (rc[i] == g) y = rb[i]; else continue;
+                if (!(bm[sidx] >> y & 1)) continue;
+                blocked = 1;
+                if (!bitv[sidx][y]) { if (!best || best > 5) best = 5; continue; }   /* 5a */
+                if (reach[sidx][i]) { if (!best || best > 6) best = 6; continue; }  /* 5b */
+                allok = 0;
+            }
+            if (!blocked) return 4;                                             /* A */
+            (void)allok;
+        }
+    }
+    if (best == 7 || best == 0) {   /* not settled by E, S, R, A, 5a, 5b: count those without any junk */
+        int hasjunk = 0; for (int g = 0; g < m; g++) if (s->o[g] >= 0 && !bitv[s->o[g]][g]) hasjunk = 1;
+        if (!hasjunk) { pcase[9]++; if (pcase[9] <= 5) { printf("  NOJUNK-UNCOVERED\n"); print_state(s); } }
+    }
+    if (best == 7) return 7;
+    return best;   /* 0: outside the case analysis */
+}
+
+
+/* ---- state-outer mode (-O): states with every bundle nonempty and a nonempty pool, then only the profiles in
+   which every agent is safe and envies no pool good (the other states are settled by moves E and S). ---- */
+static long long outer_outside, outer_stuck;
+static int prof_of[MAXN];
+static void set_rank(int i, int p) {
+    for (int g = 0; g < m; g++) bitv[i][g] = 0;
+    ra[i] = G[i][PERM[p][0]]; rb[i] = G[i][PERM[p][1]]; rc[i] = G[i][PERM[p][2]];
+    bitv[i][ra[i]] = 4; bitv[i][rb[i]] = 2; bitv[i][rc[i]] = 1; prof_of[i] = p;
+}
+static void outer_profiles(const State *s, const unsigned *bm, unsigned pool, int ok[MAXN][6], int i) {
+    if (i == n) {
+        cnt_states++;
+        int c = proof_case(s); pcase[c]++;
+        if (c == 0) {
+            outer_outside++;
+            if (outer_outside <= stuck_print_limit) { printf("  OUTSIDE\n"); print_state(s); }
+            collect_all = 0; int f = find_moves(s);
+            if (f) cnt_move[f]++;
+            else { outer_stuck++; long long code = 0; for (int q = n - 1; q >= 0; q--) code = code * 6 + prof_of[q];
+                   printf("  STUCK profile %lld\n", code); print_state(s); }
+        }
+        return;
+    }
+    for (int p = 0; p < 6; p++) if (ok[i][p]) { set_rank(i, p); outer_profiles(s, bm, pool, ok, i + 1); }
+}
+static void run_core_outer(void) {
+    State s; long long total = 1; for (int g = 0; g < m; g++) total *= n + 1;
+    for (long long code = 0; code < total; code++) {
+        long long c = code; unsigned bm[MAXN] = {0}, pool = 0;
+        for (int g = 0; g < m; g++) { s.o[g] = (int)(c % (n + 1)) - 1; c /= n + 1;
+            if (s.o[g] < 0) pool |= 1u << g; else bm[s.o[g]] |= 1u << g; }
+        if (!pool) continue;
+        int bad = 0; for (int j = 0; j < n; j++) if (!bm[j]) bad = 1;
+        if (bad) continue;
+        int ok[MAXN][6], any = 1;
+        for (int i = 0; i < n && any; i++) { any = 0;
+            for (int p = 0; p < 6; p++) { set_rank(i, p);
+                int good = safe_i(&s, bm, i); int L = levm(i, bm[i]);
+                for (int g = 0; g < m && good; g++) if ((pool >> g & 1) && bitv[i][g] && levm(i, 1u << g) > L) good = 0;
+                ok[i][p] = good; any |= good; } }
+        if (!any) continue;
+        outer_profiles(&s, bm, pool, ok, 0);
+    }
 }
 
 static void print_state(const State *s) {
@@ -185,7 +323,8 @@ static void print_state(const State *s) {
     for (int i = 0; i < n; i++) printf(" (%d,%d,%d)", ra[i], rb[i], rc[i]);
     printf("\n   bundles:");
     for (int j = 0; j < n; j++) { printf(" {"); int f = 1;
-        for (int g = 0; g < m; g++) if (bm[j] >> g & 1) { printf(f ? "%d" : ",%d", g); f = 0; } printf("}"); }
+        for (int g = 0; g < m; g++) if (bm[j] >> g & 1) { printf(f ? "%d" : ",%d", g); f = 0; }
+        printf("}"); }
     printf("  pool {"); int f = 1;
     for (int g = 0; g < m; g++) if (pool >> g & 1) { printf(f ? "%d" : ",%d", g); f = 0; }
     printf("}\n");
@@ -194,15 +333,16 @@ static void print_state(const State *s) {
 /* reach-only exploration: hash set of visited states */
 #define HBITS 24
 static unsigned long long *htab; static size_t hsize;
-static unsigned long long enc(const State *s) { unsigned long long k = 0;
-    for (int g = 0; g < m; g++) k = k * (n + 1) + (unsigned long long)(s->o[g] + 1); return k + 1; }
+static unsigned long long enc(const State *s) {
+    unsigned long long k = 0;
+    for (int g = 0; g < m; g++) k = k * (n + 1) + (unsigned long long)(s->o[g] + 1);
+    return k + 1;
+}
 static int hins(unsigned long long k) {
     size_t h = (k * 0x9E3779B97F4A7C15ULL) >> (64 - HBITS);
     while (htab[h]) { if (htab[h] == k) return 0; h = (h + 1) & (hsize - 1); }
     htab[h] = k; return 1;
 }
-static void dec(unsigned long long k, State *s) { k -= 1;
-    for (int g = m - 1; g >= 0; g--) { s->o[g] = (int)(k % (n + 1)) - 1; k /= n + 1; } }
 
 static long long run_profile(void) {
     long long stuck = 0;
@@ -213,9 +353,16 @@ static long long run_profile(void) {
             for (int g = 0; g < m; g++) { s.o[g] = (int)(c % (n + 1)) - 1; c /= n + 1; if (s.o[g] < 0) haspool = 1; }
             if (!haspool || !efx0(&s)) continue;
             cnt_states++;
+            if (proof_mode) { int c = proof_case(&s); pcase[c]++;
+                if (!c && pcase[0] <= stuck_print_limit) { printf("  OUTSIDE\n"); print_state(&s); }
+                continue; }
             collect_all = 0;
             int f = find_moves(&s);
-            if (f) { cnt_move[f]++; if (f != 'E' && f != 'S' && f != 'A') cnt_hard++; }
+            if (f) { cnt_move[f]++; if (f != 'E' && f != 'S' && f != 'A' && f != 'R') { cnt_hard++;
+                    if (print_hard) { printf("  HARD %c\n", f); print_state(&s);
+                        collect_all = 1; find_moves(&s); int ns = nsucc; State loc[MAXSUCC];
+                        memcpy(loc, succ, ns * sizeof(State));
+                        for (int q = 0; q < ns; q++) { printf("    ->"); print_state(&loc[q]); } } } }
             else { stuck++; if (cnt_stuck + stuck <= stuck_print_limit) { printf("  STUCK\n"); print_state(&s); } }
         }
         return stuck;
@@ -246,6 +393,10 @@ int main(int argc, char **argv) {
     for (int a = 1; a < argc; a++) {
         if (!strcmp(argv[a], "-r")) reach_only = 1;
         else if (!strcmp(argv[a], "-v")) verbose = 1;
+        else if (!strcmp(argv[a], "-H")) print_hard = 1;
+        else if (!strcmp(argv[a], "-p") && a + 1 < argc) only_profile = atoll(argv[++a]);
+        else if (!strcmp(argv[a], "-P")) proof_mode = 1;
+        else if (!strcmp(argv[a], "-O")) { outer_mode = 1; proof_mode = 1; }
         else if (!strcmp(argv[a], "-m") && a + 1 < argc) { strncpy(moves_on, argv[++a], 15); }
         else if (!strcmp(argv[a], "-l") && a + 1 < argc) stuck_print_limit = atoll(argv[++a]);
     }
@@ -253,10 +404,19 @@ int main(int argc, char **argv) {
     hsize = (size_t)1 << HBITS; htab = calloc(hsize, sizeof *htab);
     int core_id = 0; long long grand_stuck = 0;
     while (scanf("%d %d", &n, &m) == 2) {
-        for (int i = 0; i < n; i++) for (int k = 0; k < 3; k++) scanf("%d", &G[i][k]);
+        for (int i = 0; i < n; i++) for (int k = 0; k < 3; k++) if (scanf("%d", &G[i][k]) != 1) return 2;
         long long nprof = 1; for (int i = 0; i < n; i++) nprof *= 6;
         long long stuck_core = 0, stuck_profiles = 0;
+        if (outer_mode) {
+            long long o0 = outer_outside, s0 = outer_stuck;
+            run_core_outer();
+            printf("core %d n=%d m=%d goods", core_id, n, m);
+            for (int i = 0; i < n; i++) printf(" (%d,%d,%d)", G[i][0], G[i][1], G[i][2]);
+            printf(": outside %lld, stuck %lld\n", outer_outside - o0, outer_stuck - s0); fflush(stdout);
+            grand_stuck += outer_stuck - s0; core_id++; continue;
+        }
         for (long long pc = 0; pc < nprof; pc++) {
+            if (only_profile >= 0 && pc != only_profile) continue;
             long long c = pc;
             for (int i = 0; i < n; i++) { int p = (int)(c % 6); c /= 6;
                 ra[i] = G[i][PERM[p][0]]; rb[i] = G[i][PERM[p][1]]; rc[i] = G[i][PERM[p][2]];
@@ -273,7 +433,9 @@ int main(int argc, char **argv) {
     }
     printf("TOTAL cores %d, %s states examined %lld, stuck %lld; first applicable move:", core_id,
            reach_only ? "reachable" : "partial EFX0 (pool nonempty)", cnt_states, grand_stuck);
-    for (const char *p = "ESRAUCK"; *p; p++) if (use[(int)*p]) printf(" %c=%lld", *p, cnt_move[(int)*p]);
+    for (const char *p = "ESRAUCKX"; *p; p++) if (use[(int)*p]) printf(" %c=%lld", *p, cnt_move[(int)*p]);
     printf("\n");
+    if (proof_mode) printf("proof cases: outside=%lld E=%lld S=%lld R=%lld A=%lld 5a=%lld 5b=%lld J=%lld junkless-uncovered=%lld\n", pcase[0], pcase[1],
+                           pcase[2], pcase[3], pcase[4], pcase[5], pcase[6], pcase[7], pcase[9]);
     return grand_stuck ? 1 : 0;
 }
