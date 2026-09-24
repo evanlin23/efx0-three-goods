@@ -10,3 +10,7 @@ problems: 0
 exit=0  [23s]
 
 $ python src/construct_run.py --check-cert=results/certs_lb_7_10.json.gz
+results/certs_lb_7_10.json.gz: 8569 hypergraphs, 1077100 allocations; problems (a second bundle of >= 3 goods, not a core, uncovered profiles): 0
+exit=0  [1955s]
+
+$ python tools/check_certs.py results/certs_lb_7_9.json.gz --expect 7:9:12699 --require-d --jobs 2
