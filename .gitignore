@@ -2,3 +2,5 @@ __pycache__/
 *.pyc
 src/certs_*.json.gz
 src/frontier_results_*.json
+lean/.lake/
+lean/build.log

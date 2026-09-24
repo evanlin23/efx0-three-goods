@@ -13,12 +13,13 @@ If the person who started your session named a workstream or task, do that. Othe
 
 ## 2. Environment
 - Python 3.11+, with `pip install -r requirements.txt` (python-sat, networkx, numpy), and nauty, whose `genbg` enumerates the cores (`apt-get install nauty`, or `brew install nauty`). In Claude Code on the web, `.claude/hooks/session-start.sh` installs all of these when the session starts.
+- Lean 4 (`lean/`), toolchain pinned in `lean/lean-toolchain`; the hook installs it too (from GitHub if `release.lean-lang.org` is unreachable). Elsewhere: install [elan](https://github.com/leanprover/elan) and run `lean/check.sh`.
 - Claude Code sessions default to Claude Opus 5.5 at xhigh effort (`.claude/settings.json`); a model or effort chosen when starting a session overrides this.
 - No other services, credentials or network access are needed.
 
 ## 3. Branches, commits, pull requests
 - **Never commit to `main`.** All changes reach `main` through a pull request that a human reviews and merges. Never merge your own PR.
-- **Branch:** if your session assigned you a branch (e.g. Claude Code on the web's `claude/...` branches), use it as is: you may not be able to push anywhere else. Otherwise create one named after your workstream: `compute/<topic>` or `proof/<topic>` (e.g. `compute/n7-m12`, `proof/beta2-theta`). Start from an up-to-date `main`.
+- **Branch:** if your session assigned you a branch (e.g. Claude Code on the web's `claude/...` branches), use it as is: you may not be able to push anywhere else. Otherwise create one named after your workstream: `compute/<topic>`, `proof/<topic>` or `formal/<topic>` (e.g. `compute/n7-m12`, `proof/beta2-theta`, `formal/peel-r2`). Start from an up-to-date `main`.
 - **Commits:** small and often, with the message `[workstream] what changed and why`, e.g. `[compute/n7-m12] certify n = 7, m = 12 cores (41 hypergraphs)`.
 - **Pull request:** open one when a unit of work is done, into `main`, titled `[workstream] summary`. Fill in `.github/pull_request_template.md`. If you cannot push or open a PR, produce `git format-patch` output plus any new data files and say so.
 - Don't edit another workstream's files. To dispute a claim, open an issue with the counterexample.
@@ -36,12 +37,17 @@ python frontier.py 5 6                           # ~10 s on 4 CPUs; writes src/c
 python ../tools/check_certs.py certs_5_6.json.gz --expect 5:9:15 6:10:211 6:11:25
 python verify_fail.py                            # needs frontier_results_5_6.json from the previous step
 ```
+Lean (when you touch `lean/`; seconds once the toolchain is installed):
+```
+lean/check.sh                                    # core only, no sorry, warning-free, standard axioms only
+```
 Long searches (n = 7 and beyond, `run7.py`; `--n=8` for n = 8) use every CPU and can still take a long time: run them in the background, log to `results/`, and commit the log and certificate when done.
 
 ## 5. Rules that CI and reviewers enforce
 - A ledger status changes only in a PR that adds the required artifact (PROMPT.md §5 rule 1). CI fails if a PROVED, CERTIFIED or REFUTED row points to a missing file.
 - New certified results: commit the certificate (gzip JSON, as written by `frontier.py` or `run7.py`) under `results/` and make sure `tools/check_certs.py` accepts it. Files written into `src/` are gitignored, so copy them to `results/`.
 - Superseded code is moved to `archive/` (one snapshot folder per version, see `archive/README.md`), never deleted. Don't overwrite result files the ledger cites; write new runs under new names.
+- Lean (`lean/`, see `lean/README.md`): core Lean only (no `require` in `lakefile.toml`), the word `sorry` nowhere, a warning-free build, every declaration on `propext`, `Classical.choice` and `Quot.sound` only (so no `native_decide`, no new `axiom`). Give each ledger-facing theorem a `#print axioms` certificate at the end of its file and name it in the ledger's Lean column; `lean/check.sh` and `tools/check_ledger.py` enforce all of this. Reuse the model of evanlin23/mrd-efx (`lean/EFX/Model.lean`) rather than new definitions.
 - Random testing is EVIDENCE only; failures here can be 1 in 23,000 profiles.
 - UNSAT claims need a second, independently written encoding or a proof certificate.
 - Cite only what you have read; mark the rest [unverified].
