@@ -77,3 +77,40 @@ static int owner_ok(const int *Y, const P2 *s, int o) {
     }
 }
 
+
+/* Phase 2 state of a general pre-allocation: picks Y (Y[k] = -1: none) and a set up0 of agents holding {b_k, c_k}
+   (Y[k] = b_k); the junk is every good neither picked nor the c of an agent of up0. Then LB's upgrade loop and the
+   same NA / frozen / slot computation as phase2_state (which is the case up0 = 0 with J = the unpicked goods). */
+static int PRE_NOUP = 0;   /* 1: pre_state skips the upgrade loop */
+static void pre_state(const int *Y, uint32_t up0, P2 *s) {
+    uint32_t J = (m == 32) ? 0xffffffffu : ((1u << m) - 1);
+    for (int k = 0; k < n; k++) { if (Y[k] >= 0) J &= ~(1u << Y[k]); if (up0 >> k & 1) J &= ~(1u << trip[k][2]); }
+    uint32_t done = (1u << n) - 1, up = up0;
+    for (int k = 0; k < n; k++) s->held[k] = held_of(k, Y);
+    for (; !PRE_NOUP;) {
+        uint32_t NA = need_mask(done, up, Y);
+        int found = -1;
+        for (int k = 0; k < n; k++)
+            if (!(up >> k & 1) && s->held[k] == 1 && (J >> trip[k][2] & 1) && !(NA >> trip[k][1] & 1)) { found = k; break; }
+        if (found < 0) break;
+        up |= 1u << found; J &= ~(1u << trip[found][2]);
+    }
+    s->up = up; s->NA = need_mask(done, up, Y); s->J = J; s->sumcap = 0; s->nj = 0;
+    for (int k = 0; k < n; k++) {
+        s->frozen[k] = Y[k] >= 0 && !(up >> k & 1) && (s->NA >> Y[k] & 1);
+        s->cap[k] = (s->frozen[k] || (up >> k & 1)) ? 0 : (Y[k] >= 0 ? 1 : 2);
+        s->sumcap += s->cap[k];
+    }
+    for (int g = 0; g < m; g++) if (J >> g & 1) s->Jl[s->nj++] = g;
+}
+
+/* Validity of a pre-allocation for the soundness proof (proofs/lb_last_step.md): no junk good and no good of an
+   upgraded agent is needed alone. */
+static int pre_valid(const int *Y, const P2 *s) {
+    if (s->J & s->NA) return 0;
+    for (int k = 0; k < n; k++) if (s->up >> k & 1) {
+        if (Y[k] != trip[k][1]) return 0;
+        if ((s->NA >> trip[k][1] & 1) || (s->NA >> trip[k][2] & 1)) return 0;
+    }
+    return 1;
+}

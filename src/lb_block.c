@@ -58,7 +58,7 @@ int main(void) {
             }
             if (allterm) st[10]++;
             if (over && owner_ok(Y, &s, r)) st[11]++;
-            if (!c2 && nex < 4) {
+            if (!c2 && over && nex < 4) {
                 nex++;
                 printf("ex%s", over ? " OVER" : "");
                 for (int i = 0; i < n; i++) printf(" %d", prof[i]);
