@@ -3,9 +3,8 @@
   2. for each stored allocation, decides from the raw EFX0 definition which rankings keep each agent safe, under three
      balanced realizations of a > b > c (they must agree, since EFX0 in a core is ordinal);
   3. checks that every one of the 6^n ranking profiles is covered by some stored allocation.
-Usage: check_certs.py certs.json.gz [--expect n:m:count ...] [--jobs N]
-Hypergraphs are checked in parallel (--jobs, default: all CPUs). The v1 version is in archive/v1-python-enumeration/."""
-import sys, json, gzip, itertools, collections, os, multiprocessing
+Usage: check_certs.py certs.json.gz [--expect n:m:count ...]"""
+import sys, json, gzip, itertools, collections
 import numpy as np
 PERMS = list(itertools.permutations(range(3)))
 REAL = [(2.0, 1.5, 1.0), (10.0, 9.0, 2.0), (5.0, 3.0, 2.5)]
@@ -30,38 +29,32 @@ def valid_core(n, m, sets):
     return len(seen) == n
 
 def uncovered(rec):
-    """Profiles are indexed by an n-dimensional array whose axis i is agent i's ranking (one of the 6 PERMS)."""
     n, m, sets = rec['n'], rec['m'], [tuple(S) for S in rec['sets']]
-    axis = lambda i: (1,) * i + (6,) + (1,) * (n - i - 1)
-    cov = np.zeros((6,) * n, dtype=bool)
+    idx = np.arange(6 ** n, dtype=np.int64); digits = [(idx // 6 ** i) % 6 for i in range(n)]
+    cov = np.zeros(6 ** n, dtype=bool)
     for X in rec['allocations']:
         if len(X) != m or not all(0 <= o < n for o in X): raise SystemExit("invalid allocation")
         bundles = [[g for g in range(m) if X[g] == j] for j in range(n)]
-        c = np.ones((6,) * n, dtype=bool)
+        c = np.ones(6 ** n, dtype=bool)
         for i, S in enumerate(sets):
             mask = []
             for p in PERMS:
                 res = {safe(dict(zip((S[p[0]], S[p[1]], S[p[2]]), r)), bundles, i) for r in REAL}
                 if len(res) != 1: raise SystemExit("realizations disagree: ordinality violated")
                 mask.append(res.pop())
-            c &= np.array(mask).reshape(axis(i))
+            c &= np.array(mask)[digits[i]]
         cov |= c
     return int((~cov).sum())
 
-def check(r):
-    return valid_core(r['n'], r['m'], r['sets']), uncovered(r)
-
 if __name__ == '__main__':
-    args = sys.argv[1:]; jobs = os.cpu_count()
-    if '--jobs' in args: k = args.index('--jobs'); jobs = int(args[k + 1]); del args[k:k + 2]
-    recs = json.load(gzip.open(args[0], 'rt'))
-    expect = {tuple(map(int, e.split(':')[:2])): int(e.split(':')[2]) for e in args[2:]} if '--expect' in args else {}
+    recs = json.load(gzip.open(sys.argv[1], 'rt'))
+    expect = {tuple(map(int, e.split(':')[:2])): int(e.split(':')[2]) for e in sys.argv[3:]} if '--expect' in sys.argv else {}
     count, problems = collections.Counter(), 0
-    with multiprocessing.Pool(jobs) as pool:
-        for r, (valid, u) in zip(recs, pool.imap(check, recs, chunksize=4)):
-            count[(r['n'], r['m'])] += 1
-            if not valid: print("not a valid connected core:", r['sets']); problems += 1
-            if u: print(f"UNCOVERED profiles: {u} for {r['sets']}"); problems += 1
+    for r in recs:
+        count[(r['n'], r['m'])] += 1
+        if not valid_core(r['n'], r['m'], r['sets']): print("not a valid connected core:", r['sets']); problems += 1
+        u = uncovered(r)
+        if u: print(f"UNCOVERED profiles: {u} for {r['sets']}"); problems += 1
     for k, v in expect.items():
         if count[k] != v: print(f"expected {v} hypergraphs at (n,m)={k}, found {count[k]}"); problems += 1
     print(f"checked {len(recs)} hypergraphs {dict(count)}; problems: {problems}"); sys.exit(1 if problems else 0)

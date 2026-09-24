@@ -12,16 +12,17 @@ Open question (CS 580 course project, Fall 2026): does every additive fair-divis
 - `AGENTS.md`: how an AI agent gets oriented, sets up, branches, checks and opens a pull request (`CLAUDE.md` loads it for Claude Code)
 - `PROMPT.md`: the research brief every agent works from (problem, results, plan, rules, repository workflow)
 - `LEDGER.md`: every claim, its status, and the artifact behind it; the single source of truth
-- `src/`: tools; `frontier.py` is the main one (enumerate connected cores, CEGAR over ranking profiles, save certificates)
+- `src/`: tools; `frontier.py` is the main one (enumerate connected cores with `cores_nauty.py`, CEGAR over ranking profiles, save certificates)
 - `tools/`: checkers run by CI: `check_certs.py` (SAT-free certificate checker), `check_ledger.py` (status ⇒ artifact)
 - `results/`: logs, result summaries, certificate files
 - `proofs/`: written proofs; `attempts/`: failed approaches with their smallest failing configuration
+- `archive/`: superseded versions of code, kept verbatim (see `archive/README.md`)
 
 ## Reproduce
 ```
-pip install -r requirements.txt
+pip install -r requirements.txt   # plus nauty: apt-get install nauty (or brew install nauty)
 cd src
-python frontier.py 5 6        # about 4 min: enumerate cores, search, certify; writes certs_5_6.json.gz
+python frontier.py 5 6        # ~10 s on 4 CPUs: enumerate cores (nauty genbg), search, certify; writes certs_5_6.json.gz
 python ../tools/check_certs.py certs_5_6.json.gz --expect 5:9:15 6:10:211 6:11:25   # re-check without SAT
 python verify_fail.py         # independent confirmation of the 57 refutations of conjecture A
 ```

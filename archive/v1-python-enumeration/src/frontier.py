@@ -5,13 +5,10 @@ Per hypergraph H (up to isomorphism), CEGAR over the 6^n ranking profiles:
   outer SAT picks a profile not covered by the allocations found so far; inner SAT finds a safe allocation in the model;
   the clause "some agent is unsafe under X" is computed with the RAW EFX0 definition (two balanced realizations).
 Outer UNSAT => every profile covered. Certificate check: enumerate all 6^n profiles, verify coverage from raw masks.
-Models: C2 = all bundles <= 2; C3s3 = one bundle may have 3 goods; C3 = one bundle of any size; G = unrestricted.
-Cores come from nauty's genbg (cores_nauty.py; --enum python uses gen_cores below, which is much slower). Hypergraphs are
-solved in parallel (--jobs, default: all CPUs). The v1 version of this file is in archive/v1-python-enumeration/.
-Usage: frontier.py [n ...] [--jobs=N] [--enum=nauty|python]"""
-import itertools, time, json, sys, collections, gzip, os, multiprocessing
+Models: C2 = all bundles <= 2; C3s3 = one bundle may have 3 goods; C3 = one bundle of any size; G = unrestricted."""
+import itertools, time, json, sys, collections, gzip
 import numpy as np, networkx as nx
-from pysat.solvers import Glucose4
+from pysat.solvers import Minisat22
 from pysat.card import CardEnc, EncType
 from pysat.formula import IDPool
 
@@ -95,7 +92,7 @@ def build(n, m, sets, mode):
             z = pool.id(('z', i, k)); sel[(i, k)] = z
             cls.append([-z, pool.id(('Ta2', i, a)), pool.id(('T3', i, a)), pool.id(('P', i, a)),
                         pool.id(('B', i, b, a)), pool.id(('C', i, c)), pool.id(('E', i))])
-    return Glucose4(bootstrap_with=cls), sel, x
+    return Minisat22(bootstrap_with=cls), sel, x
 
 def raw_masks(n, m, sets, X):
     bundles = [[g for g in range(m) if X[g] == j] for j in range(n)]
@@ -116,7 +113,7 @@ def raw_masks(n, m, sets, X):
 def cegar(n, m, sets, mode, limit=20000):
     inner, sel, x = build(n, m, sets, mode)
     pool = IDPool(); r = [[pool.id(('r', i, k)) for k in range(6)] for i in range(n)]
-    outer = Glucose4()
+    outer = Minisat22()
     for i in range(n):
         for cl in CardEnc.equals(lits=r[i], bound=1, vpool=pool, encoding=EncType.pairwise).clauses: outer.add_clause(cl)
     masks, allocs, status, bad = [], [], 'OK', None
@@ -137,52 +134,40 @@ def cegar(n, m, sets, mode, limit=20000):
     return status, bad, masks, allocs
 
 def certify(n, masks):
-    """Number of the 6^n ranking profiles covered by no allocation. Axis i of cov is agent i's ranking; an allocation
-    covers the box of profiles in which every agent i is safe, i.e. the product of the sets {k : M[i, k]}."""
-    cov = np.zeros((6,) * n, dtype=bool)
-    for M in masks: cov[np.ix_(*(np.flatnonzero(M[i]) for i in range(n)))] = True
+    idx = np.arange(6 ** n, dtype=np.int64); digits = [(idx // (6 ** i)) % 6 for i in range(n)]
+    cov = np.zeros(6 ** n, dtype=bool)
+    for M in masks:
+        c = M[0][digits[0]].copy()
+        for i in range(1, n): c &= M[i][digits[i]]
+        cov |= c
     return int((~cov).sum())
 
-def solve_core(task):
-    """Try the models in order on one hypergraph; return its result record and, if a model succeeds, its certificate."""
-    n, m, pi, sets, modes = task
-    rec, cert = {'n': n, 'm': m, 'pi': pi, 'sets': sets, 'modes': {}}, None
-    for md in modes:
-        st, bad, masks, allocs = cegar(n, m, sets, md)
-        rec['modes'][md] = {'status': st, 'bad': bad, 'ncert': len(masks)}
-        if st == 'OK':
-            unc = certify(n, masks); rec['modes'][md]['uncovered'] = unc
-            rec['final'] = md if unc == 0 else md + '-CERTFAIL'
-            cert = {'n': n, 'm': m, 'pi': pi, 'sets': sets, 'mode': md, 'allocations': allocs}; break
-        if st != 'FAIL': rec['final'] = md + '-' + st; break
-    else: rec['final'] = 'NO-EFX0'
-    return rec, cert
-
-def options(argv):
-    """Positional integers, plus --key=value flags."""
-    return [int(a) for a in argv if not a.startswith('--')], dict(a[2:].split('=', 1) for a in argv if a.startswith('--'))
-
 if __name__ == '__main__':
-    from cores_nauty import gen_cores_nauty
-    levels, opts = options(sys.argv[1:]); levels = levels or [5, 6]
-    enum = gen_cores if opts.get('enum') == 'python' else gen_cores_nauty
-    jobs = int(opts.get('jobs', os.cpu_count()))
+    levels = [int(a) for a in sys.argv[1:]] or [5, 6]
     tag = "_".join(map(str, levels)); t0 = time.time(); log = lambda s: print(f"[{time.time()-t0:6.0f}s] {s}", flush=True)
     results, certs, problems = [], [], 0
-    with multiprocessing.Pool(jobs) as pool:
-        for n in levels:
-            for m in range(n + 4, 2 * n):
-                t1 = time.time(); cores = enum(n, m)
-                log(f"n={n} m={m} beta={2*n-m+1}: {len(cores)} connected cores (generated in {time.time()-t1:.0f}s, {jobs} jobs)")
-                modes = ['C2', 'C3', 'G'] if m <= 2 * n - 2 else ['C2', 'C3s3', 'C3', 'G']
-                tally = collections.Counter()
-                for rec, cert in pool.imap(solve_core, [(n, m, pi, sets, modes) for pi, sets in cores]):
-                    if cert: certs.append(cert)
-                    if rec['final'] not in ('C2', 'C3s3', 'C3', 'G'): problems += 1
-                    tally['final=' + rec['final']] += 1
-                    if rec['modes']['C2']['status'] == 'FAIL': tally['C2 fails'] += 1
-                    results.append(rec)
-                log(f"n={n} m={m} DONE: {dict(tally)}")
-                json.dump(results, open(f'frontier_results_{tag}.json', 'w'))
-                with gzip.open(f'certs_{tag}.json.gz', 'wt') as f: json.dump(certs, f)
+    for n in levels:
+        for m in range(n + 4, 2 * n):
+            t1 = time.time(); cores = gen_cores(n, m)
+            log(f"n={n} m={m} beta={2*n-m+1}: {len(cores)} connected cores (generated in {time.time()-t1:.0f}s)")
+            modes = ['C2', 'C3', 'G'] if m <= 2 * n - 2 else ['C2', 'C3s3', 'C3', 'G']
+            tally = collections.Counter()
+            for hid, (pi, sets) in enumerate(cores):
+                rec = {'n': n, 'm': m, 'pi': pi, 'sets': sets, 'modes': {}}
+                for md in modes:
+                    st, bad, masks, allocs = cegar(n, m, sets, md)
+                    rec['modes'][md] = {'status': st, 'bad': bad, 'ncert': len(masks)}
+                    if st == 'OK':
+                        unc = certify(n, masks); rec['modes'][md]['uncovered'] = unc
+                        rec['final'] = md if unc == 0 else md + '-CERTFAIL'
+                        certs.append({'n': n, 'm': m, 'pi': pi, 'sets': sets, 'mode': md, 'allocations': allocs}); break
+                    if st != 'FAIL': rec['final'] = md + '-' + st; break
+                else: rec['final'] = 'NO-EFX0'
+                if rec['final'] not in ('C2', 'C3s3', 'C3', 'G'): problems += 1
+                tally['final=' + rec['final']] += 1
+                if rec['modes']['C2']['status'] == 'FAIL': tally['C2 fails'] += 1
+                results.append(rec)
+            log(f"n={n} m={m} DONE: {dict(tally)}")
+            json.dump(results, open(f'frontier_results_{tag}.json', 'w'))
+            with gzip.open(f'certs_{tag}.json.gz', 'wt') as f: json.dump(certs, f)
     log(f"ALL DONE; problems: {problems}"); sys.exit(1 if problems else 0)

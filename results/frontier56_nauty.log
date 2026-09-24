@@ -1,0 +1,7 @@
+[     0s] n=5 m=9 beta=2: 15 connected cores (generated in 0s, 4 jobs)
+[     0s] n=5 m=9 DONE: {'final=C3s3': 7, 'C2 fails': 7, 'final=C2': 8}
+[     0s] n=6 m=10 beta=3: 211 connected cores (generated in 0s, 4 jobs)
+[     6s] n=6 m=10 DONE: {'final=C3': 57, 'C2 fails': 57, 'final=C2': 154}
+[     6s] n=6 m=11 beta=2: 25 connected cores (generated in 0s, 4 jobs)
+[     6s] n=6 m=11 DONE: {'final=C3s3': 11, 'C2 fails': 14, 'final=C3': 3, 'final=C2': 11}
+[     7s] ALL DONE; problems: 0
