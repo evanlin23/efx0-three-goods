@@ -132,6 +132,9 @@ the terminals other than o. Let X_o = base(o) ∪ (J ∖ C). Take x ∉ U, x ≠
 Then {b_x, c_x} ⊆ J ∪ base(o), so x ∈ E_o. So H meets {b_x, c_x} in a good of C, which is not in X_o: a contradiction.
 ∎
 
+Every choice works here: any C ⊇ H of size S − cap(o), and any split of C into the slots. The argument uses only
+H ⊆ C, and Theorem 1′ covers every completion that satisfies (OC).
+
 If ω ≤ 0, the completion with no owner (C = J, |J| ≤ S) has all bundles of at most two goods. It satisfies (OC)
 vacuously.
 
@@ -139,7 +142,8 @@ vacuously.
 
 Phase 2 of LB starts from the picks of Phase 1, with U = ∅ and J = J₀. It *upgrades*: while some k ∉ U has
 Y_k = b_k, c_k ∈ J and b_k ∉ NA (NA computed for the current U), it puts k in U and removes c_k from J. The
-upgrades only shrink NA. When the loop stops:
+loop may pick such k in any order (LB takes the smallest index). Different orders can give different sets U, but the
+proof below uses only (UT) and validity, which hold for every order. The upgrades only shrink NA. When the loop stops:
 
 - **(UT)** no k ∉ U has Y_k = b_k, c_k ∈ J and b_k ∉ NA.
 
@@ -188,7 +192,7 @@ If neither sub-case applies, the three conditions of the bad case hold. ∎
 ## 5. Theorem B: the rotation
 
 Assume the bad case. Let k = k*, and fix a need chain k = x₀, x₁, …, x_t = r (t ≥ 1). It exists: k ∈ F, and every
-need chain from k ends at r. Define P′ = (Y′, U′):
+need chain from k ends at r. If there are several, any one may be used; nothing below depends on the choice. Define P′ = (Y′, U′):
 - Y′_{x_i} = Y_{x_{i−1}} for 1 ≤ i ≤ t: every agent of the chain takes the good it needed from its predecessor;
 - Y′_k = b_k, and U′ = U ∪ {k}: k gives up a_k and takes b_k and c_k, which are free because
   {b_k, c_k} ⊆ J ∪ {Y_r} (k ∈ E_r);
@@ -236,10 +240,16 @@ and π_x = π_k ≠ ∅, contradicting the disjointness in the bad case.
 
 ## 6. Theorem C and the corollaries
 
-**Construction LB⁺.** Run Phase 1 (§1, any choices), then LB's upgrades (§3). If ω ≤ 0, return the completion without
-owner. If r is a valid owner, return a completion with owner r (Lemma 1). Otherwise (the bad case, by Theorem A), rotate
-along a need chain from k* to r (Theorem B). Return the completion of P′ without owner if ω′ ≤ 0, and with owner k*
-otherwise.
+**Construction LB⁺.** Run Phase 1 (§1, any choices), then LB's upgrades (§3, any order). If ω ≤ 0, return the
+completion without owner. Otherwise test r exactly by Lemma 1's condition: let H be a *minimum* hitting set of the sets
+π_x = {b_x, c_x} ∩ J (x ∈ E_r). If |H| ≤ S − cap(r), return a completion with owner r (Lemma 1). Otherwise rotate
+along a need chain from k* to r (Theorem B, any chain). Return the completion of P′ without owner if ω′ ≤ 0, and with
+owner k* otherwise.
+
+The "otherwise" branch is always the bad case. This is the contrapositive of Theorem A: whenever r fails Lemma 1's
+test, the three conditions of the bad case hold. So LB⁺ never meets an invalid r outside the bad case. The test must be
+Lemma 1's exact condition, a minimum hitting set compared with S − cap(r). Taking one good per exposed pair without
+reusing shared goods can overestimate |H| and reject a valid r outside the bad case (remark 2).
 
 **Theorem C.** For every instance of §0 and every run of Phase 1, LB⁺ returns an allocation that is EFX₀ for every
 consistent balanced additive valuation, with at most one bundle of more than two goods.
@@ -262,8 +272,13 @@ Remarks.
    goods then gives ω = m − 2n + |NA| = |NA| − σ with σ = 2n − m, as in `proofs/construction.md` Lemma 2. The rotation
    does not increase NA (Theorem B(b)), so it does not enlarge the large bundle.
 2. LB⁺ is polynomial: Phase 1 is O(n) steps, the upgrades O(n²), and one rotation. With LB's lookahead, Phase 1 is
-   O(n³) evaluations. Finding a set H is easy: take one good per exposed pair, using a shared good whenever two of the
-   sets π_x meet. In the sub-case of Theorem A where only overlapping π-sets save r, H must use the shared good.
+   O(n³) evaluations. *A sufficient shortcut for the test, not its definition:* one good per exposed pair gives a
+   hitting set of size |E_r|. If |E_r| ≤ S − cap(r), r is valid. Otherwise the exact test needs a minimum hitting set.
+   In the sub-case of Theorem A where only overlapping π-sets save r, H must use a shared good. Example (second
+   review of PR #13): n = 5, m = 8, rankings 0:(5,0,2), 1:(1,2,6), 2:(3,4,7), 3:(3,4,0), 4:(1,3,4), order 0, 1, 4, 3,
+   2 with 0 and 1 inserted (an R1 order other than LB's, which §1 allows). Then r = 2, the sets π_x are {0, 2} and {2, 6}, one slot is available, and H = {2} works.
+   The minimum is easy to compute here, since the sets π_x have at most two goods each. `src/lbplus.c` computes it by
+   brute force.
 3. What the proof uses about a core: each agent values exactly three goods and is balanced. It does not use that
    every good is valued, the private-good condition, connectivity, or L5.
 4. *Labellings.* LB breaks ties by index, so its output depends on how agents and goods are labelled. Theorem C does
