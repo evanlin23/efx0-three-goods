@@ -1,0 +1,2 @@
+# src/construct_run.py 7 <m> --cert: construction LB on every connected core with n = 7 and m <= 10, every ranking profile, with certificates (LB's own outputs covering all 6^7 profiles per core). Every output checked against the raw EFX0 definition in src/construct.c. 4 CPUs.
+$ python src/construct_run.py 7 10 --cert=../results/certs_lb_7_10.json.gz   # 2026-09-24T19:38:41Z
