@@ -1,0 +1,9 @@
+# Independent Python implementation of the two-phase check (raw EFX0 definition, two numeric realizations; stability
+# M1, M2, M3; placement searched over all agents): python src/local_search.py py n. Compare: results/ls_twophase_2_5.log
+# (C, -x): n = 2, 3, 4 give 8, 640, 62,034 stable states and 0 failures in both.
+PY TOTAL cores 2, stable junk-free states 8, junk placement fails 0
+[py n=2 m=[3, 4]: 2 cores, 0s]
+PY TOTAL cores 7, stable junk-free states 640, junk placement fails 0
+[py n=3 m=[3, 4, 5, 6]: 7 cores, 1s]
+PY TOTAL cores 41, stable junk-free states 62034, junk placement fails 0
+[py n=4 m=[3, 4, 5, 6, 7, 8]: 41 cores, 485s]

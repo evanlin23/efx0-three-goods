@@ -224,7 +224,7 @@ Claims 1–4 prove Theorem C. ∎
 - **Certificates.** The distinct outputs per core are saved as `results/certs_ls2_2_5.json.gz` and `results/certs_ls2_6.json.gz`. The SAT-free checker `tools/check_certs.py`, written independently of this work, confirms from the raw EFX₀ definition that they cover every profile of every core (`results/check_certs_ls2.log`).
 - **Independent Python implementation.** `python src/local_search.py pyalg n` and `pyrandom` (function `ls2_numeric`) implement LS2 again from numeric valuations. Every decision (envy, steps, matching) uses the numbers, not the ordinal rule, and every step is checked by the raw definition and for being a Pareto improvement.
   - Exhaustive: every profile of every connected core with n ≤ 5 (realization (4, 3, 2)); 0 failures (`results/ls_alg_py.log`).
-  - Random: PYRANDOM_SUMMARY random cores, not necessarily connected, n = 2, …, 40, 50 and 100, with independent random real balanced values; 0 failures (`results/ls_alg_py.log`).
+  - Random: 39,150 random cores, not necessarily connected (1,000 for each n = 2, …, 40, 100 for n = 50, 50 for n = 100), with independent random real balanced values; 0 failures, at most 124 Phase-1 steps (`results/ls_alg_py.log`).
 
 ## 6. How the moves were found
 
