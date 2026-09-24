@@ -5,4 +5,5 @@ Each folder is a snapshot that mirrors the repository layout, so a snapshot's sc
 
 | Snapshot | Replaced by | What changed | Produced |
 |---|---|---|---|
+| `v1-ledger-lint/` | `tools/check_ledger.py` | Did not check the ledger's Lean column (added with `lean/`) | — |
 | `v1-python-enumeration/` | `src/cores_nauty.py`, `src/frontier.py`, `src/run7.py`, `tools/check_certs.py` | Cores enumerated in pure Python (`gen_cores`, still in `src/frontier.py` for `--enum=python` and the cross-check) instead of nauty's `genbg`; one hypergraph at a time; Minisat instead of Glucose; coverage via flat index arrays | `results/frontier56*.log`, `results/frontier7.log`, `results/certs_5_6.json.gz`, `results/frontier_results_5_6.json`, `results/frontier_results_7.json`, `results/verify_fail.log` |

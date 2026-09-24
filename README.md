@@ -16,6 +16,7 @@ Open question (CS 580 course project, Fall 2026): does every additive fair-divis
 - `tools/`: checkers run by CI: `check_certs.py` (SAT-free certificate checker), `check_ledger.py` (status ⇒ artifact)
 - `results/`: logs, result summaries, certificate files
 - `proofs/`: written proofs; `attempts/`: failed approaches with their smallest failing configuration
+- `lean/`: Lean formalization of ledger items (core Lean only, no `sorry`, standard axioms only; see `lean/README.md`)
 - `archive/`: superseded versions of code, kept verbatim (see `archive/README.md`)
 
 ## Reproduce
@@ -28,10 +29,10 @@ python verify_fail.py         # independent confirmation of the 57 refutations o
 ```
 
 ## Working here
-Humans and agents follow PROMPT.md §7: one branch per workstream (`compute/...`, `proof/...`), pull requests into `main`, CI green, and a ledger status change only with its artifact. Protect `main` (Settings → Branches: require a pull request and passing checks).
+Humans and agents follow PROMPT.md §7: one branch per workstream (`compute/...`, `proof/...`, `formal/...`), pull requests into `main`, CI green, and a ledger status change only with its artifact. Protect `main` (Settings → Branches: require a pull request and passing checks).
 
 Kickoff message for a new agent (for Claude Code on the web, start a session on this repository and paste it; the repository is already cloned and dependencies are installed):
-> You're joining an open research project in fair division. Read AGENTS.md and follow it: read README.md, PROMPT.md and LEDGER.md, then take the WORKSTREAM workstream (compute: Steps 1–2 of the plan; proof: Step 3). The repository, not this chat, is the record: work on your own branch, push, and open a pull request into main when a unit of work is done.
+> You're joining an open research project in fair division. Read AGENTS.md and follow it: read README.md, PROMPT.md and LEDGER.md, then take the WORKSTREAM workstream (compute: Steps 1–2 of the plan; proof: Step 3; formal: machine-check PROVED ledger items in `lean/`). The repository, not this chat, is the record: work on your own branch, push, and open a pull request into main when a unit of work is done.
 
 ## AI use
 Most code and text here were produced with AI assistants (Claude) under human direction; commit messages are tagged with the workstream that produced them. Cite accordingly in course submissions.

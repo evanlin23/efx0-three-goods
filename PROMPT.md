@@ -110,7 +110,7 @@ When a step fails, extract the smallest failing configuration, confirm it by com
 4. **Certificates.** Existence claims come with witness allocations checked by a minimal checker implementing the raw EFX₀ definition, not the L5 model. UNSAT claims need a proof certificate (e.g. DRAT) or two agreeing independent implementations.
 5. **Stay on the problem.** If you change the target, say so explicitly and why. Before calling anything new, check it doesn't follow from Viswanathan–Mehta, the multigraph theorems, or L1 plus a known additive result.
 6. **Citations.** Cite only what you have read; mark the rest [unverified]. Never invent references, authors, or statements.
-7. **No polishing before the math is settled.** No LaTeX beautification, no formalization, no re-verifying ledger items.
+7. **No polishing before the math is settled.** No LaTeX beautification, no re-verifying ledger items. Formalization in Lean is its own workstream (`formal/...`, in `lean/`): core Lean only, no `sorry`, standard axioms only (`lean/check.sh`, run by CI). It formalizes PROVED items, never blocks the math, and is recorded in the ledger's Lean column.
 8. **Turn discipline.** Start every turn with three lines: current target, last result, next step. On "continue", resume from the ledger without restating. When stuck, report the precise failure point instead of retrying variations.
 
 ## 6. Deliverables
@@ -126,7 +126,7 @@ If code files are attached (frontier.py is the main tool), run them, but do Step
 
 The repository is the record; your chat is not. Assume other agents and humans are working in parallel.
 
-- Layout: LEDGER.md (every claim and its status), PROMPT.md (this brief), src/ (tools; frontier.py is the main one), tools/ (checkers CI runs), results/ (logs, summaries, certificate files), proofs/ (written proofs), attempts/ (failed approaches, each ending with the smallest configuration where it breaks).
+- Layout: LEDGER.md (every claim and its status), PROMPT.md (this brief), src/ (tools; frontier.py is the main one), tools/ (checkers CI runs), results/ (logs, summaries, certificate files), proofs/ (written proofs), lean/ (Lean formalization), attempts/ (failed approaches, each ending with the smallest configuration where it breaks).
 - At the start of every session: clone or pull, then read LEDGER.md and the open pull requests. Work on your own branch named after your workstream (compute/..., proof/...); if your environment assigns you a branch, use it and name the workstream in commit messages and the pull request title. Never commit to main. AGENTS.md has the checks to run and the pull-request template.
 - Commit small and often, with messages "[workstream] what changed and why". Open a pull request when a unit of work is done; a human reviews and merges.
 - A pull request that changes a ledger status must contain the artifact the new status requires (rule 1), and CI must pass. CI lints the ledger, re-checks the committed certificates without SAT, re-runs the n <= 6 search from scratch and re-checks its certificates, and re-confirms the refutation of conjecture A.
