@@ -6,7 +6,9 @@ Written separately from src/reduce.py, sharing no code with it:
   2. agents of S (ranked, balanced, three goods) are judged by the case table T/P/B/C/E of L5, not by the raw
      definition; agents of S' (explicit additive valuations, possibly not balanced) by the raw EFX0 definition written
      as v(own) >= v(B - {g}) for every other bundle B and every g in B;
-  3. every admissible state must have a stored extension, and each extension is checked against the rules of Lemma M1:
+  3. the gadget is a legal reduction (smaller, supported on I' + D, at most three goods per agent, and H' stays in the
+     class C_k whenever H does; see gadget_problems);
+  4. every admissible state must have a stored extension, and each extension is checked against the rules of Lemma M1:
      goods conserved, outside bundles keep their goods outside I', moved items go to agents of S or to outside bundles
      worth 0 to their owner, all agents of S safe, every new or modified bundle dominated by a bundle of Y or (with
      the option 'source', M1(b)) made, outside I and I', of goods of the unenvied bundle of Y.
@@ -94,13 +96,68 @@ def states(rec):
                     yield key, sb, blk, sd
 
 
+def partitions(items):
+    if not items: yield []; return
+    first, rest = items[0], items[1:]
+    for part in partitions(rest):
+        for k in range(len(part)): yield part[:k] + [[first] + part[k]] + part[k + 1:]
+        yield [[first]] + part
+
+
+def components(edges, vertices):
+    parent = {v: v for v in vertices}
+    def find(v):
+        while parent[v] != v: parent[v] = parent[parent[v]]; v = parent[v]
+        return v
+    for a, b in edges: parent[find(a)] = find(b)
+    comp = {}
+    for v in vertices: comp.setdefault(find(v), set()).add(v)
+    return list(comp.values())
+
+
+def gadget_problems(rec):
+    """The gadget (S', I') must be a legal reduction (Lemma M1): smaller than (S, I); each agent of S' values at most
+    three goods, all in I' + D; I' disjoint from D; and H' stays in the class C_k whenever H does. The last is
+    checked exactly, for every way the rest of the instance can connect the boundary goods D: with the rest modelled by
+    one tree per block of a partition of D, every component of (rest + gadget) must lie, by its rest-part, inside one
+    component of (rest + configuration), with cyclomatic number no larger; components of the gadget touching no
+    boundary good must be forests."""
+    S, Sp, I, D, Ip = rec['S'], rec['Sp'], set(rec['I']), set(rec['D']), set(rec['Ip'])
+    out = []
+    if not (len(Sp) < len(S) or (len(Sp) == len(S) and len(Ip) < len(I))): out.append('gadget not smaller')
+    if Ip & D: out.append("I' meets D")      # I' may reuse a name of I: a good the gadget keeps (deleted, then re-added)
+    for a, val in Sp.items():
+        supp = {g for g, x in val.items() if x > 0}
+        if len(supp) > 3: out.append('gadget agent %s values more than three goods' % a)
+        if not supp <= Ip | D: out.append('gadget agent %s values a good outside I\' + D' % a)
+    L = [(('a', a), ('g', g)) for a, R in S.items() for g in R]
+    Lp = [(('b', a), ('g', g)) for a, val in Sp.items() for g, x in val.items() if x > 0]
+    for P in partitions(sorted(D)):
+        star = [(('r', k), ('g', g)) for k, blk in enumerate(P) for g in blk]
+        def graph(edges):
+            V = {v for e in edges + star for v in e} | {('g', g) for g in D} | {('r', k) for k in range(len(P))}
+            comps = components(edges + star, V)
+            beta = lambda C: sum(1 for e in edges + star if e[0] in C) - len(C) + 1
+            return [(C, beta(C)) for C in comps]
+        GH, GHp = graph(L), graph(Lp)
+        for C, b in GHp:
+            roots = {v for v in C if v[0] == 'r'}
+            if not roots:
+                if b > 0: out.append("gadget component with a cycle and no boundary good")
+                continue
+            host = [(C2, b2) for C2, b2 in GH if roots <= C2]
+            if not host: out.append("H' joins parts of the instance that H keeps apart (partition %s)" % P)
+            elif b > host[0][1]: out.append("H' has a component with a larger cyclomatic number (partition %s)" % P)
+    return sorted(set(out))
+
+
 def check_record(rec):
     S, Sp = rec['S'], rec['Sp']
     I, D, Ddel, Ip = set(rec['I']), set(rec['D']), set(rec['Ddel']), set(rec['Ip'])
     wit = dict((k, x) for k, x in rec['states'])
     U = lambda B: frozenset(x for x in B if x in D or is_marker(x))
     inner = lambda B: any(x in I or x in Ip for x in B)
-    problems, n_adm = [], 0
+    problems, n_adm = gadget_problems(rec), 0
     for key, sb, blk, sd in states(rec):
         Ybund = [sb[s] for s in sorted(sb)] + blk
         if not all(safe_raw(Sp[s], sb[s], [sb[t] for t in sorted(sb) if t != s] + blk) for s in sorted(sb)):

@@ -1,5 +1,8 @@
+$ python tools/check_reductions.py results/min_cex_reductions.json.gz --cover
 checked 183 reductions, 10066 admissible local states; reductions with problems: 0
 pair: 36 of the 36 required ranking profiles covered by a verified reduction (36 covered in all)
 loop: 36 of the 36 required ranking profiles covered by a verified reduction (36 covered in all)
 pq: 12 of the 12 required ranking profiles covered by a verified reduction (14 covered in all)
+exit=0
+$ python tools/check_reductions.py results/min_cex_reductions.json.gz --selftest
 selftest: 120 corrupted certificates, 116 rejected (a moved good can leave a valid extension)

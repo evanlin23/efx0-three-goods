@@ -167,9 +167,10 @@ Equivalently, in the language of L11: every thread (maximal path of agents of H-
 at most one P-agent, and every good of degree 2 is valued by a Q-agent.
 
 *Setting.* Let e, f be P-agents sharing a good g that no one else values; R_e = {gl, g, p}, R_f = {g, y, pf} with p, pf
-private. If gl = y, this common good G is valued by at least one agent outside {e, f} (otherwise {e, f} with its five
-goods would be a whole component, n = 2); if gl ≠ y, each of gl, y is valued by an agent outside {e, f} (a good valued
-only by e and f besides g would again make {e, f} a component). So there are two configurations, *pair* (gl ≠ y,
+private. If gl ≠ y, then f does not value gl, and gl is not private (e has only one private good, K3), so gl is valued
+by an agent outside {e, f}; likewise y. If gl = y, this common good G is valued by an agent outside {e, f}: otherwise
+e, f and their four goods g, G, p, pf would form a whole component, and H, being connected, would be a core with two
+agents, which R1 covers. So there are two configurations, *pair* (gl ≠ y,
 boundary goods gl, y) and *loop* (gl = y = G, boundary good G), each with interior goods I = {g, p, pf} and 36 ranking
 profiles. For each profile at least one of the following reductions satisfies Lemma M1 (with M1(b) where marked):
 - **RPT-e / RPT-f** (e resp. f ranks its private good first): Lemma M2.
@@ -185,7 +186,9 @@ profiles. For each profile at least one of the following reductions satisfies Le
 Coverage (`results/min_cex_reductions.log`): pair profiles are covered by RPT-e 12, RPT-f 12, DEL 23, CON-e 26, CON-f 26,
 together all 36; loop profiles by RPT-e 12, RPT-f 12, DEL 23, GAD 23, together all 36.
 
-*Proof.* Each reduction has fewer agents, and its H′ lies in the class (above). By Lemma M1 (and M1(b)) the
+*Proof.* Each reduction has fewer agents, and its H′ lies in the class (above; `tools/check_reductions.py` also checks,
+for every record, that the gadget is smaller, values only goods of I′ ∪ ∂, gives each agent at most three goods, and
+that H′ lies in 𝒞_k whenever H does, for every way the rest of the instance can connect the boundary goods). By Lemma M1 (and M1(b)) the
 configuration is reducible under every profile, so it does not occur in a minimal counterexample. The statement "every
 admissible local state has an extension" is a finite check per reduction: `src/reduce.py` enumerates the local states
 of Y and finds the extensions, and `src/min_cex.py` writes them all as a certificate (`results/min_cex_reductions.json.gz`:
@@ -259,12 +262,13 @@ bound on the large bundle.
 ## 8. Beyond M3: what reduces and what does not
 
 **Lemma M6.** In a minimal counterexample (or one within 𝒞_k), a P-agent e that shares a good g of degree 2 with a
-Q-agent u does not rank its private good last.
+Q-agent u that does not value e's other shared good gl does not rank its private good last.
 
 *Proof.* Contract e (CON-e of §4 with f = u: delete e, g, p; u values gl, e's other shared good, where it valued g;
 H′ is a minor of H) with the unenvied bundle of M1(b). `src/min_cex.py` (configuration pq) certifies it for the 12
 profiles in which e ranks p last, and also for e: g > p > gl with u ranking g last; `tools/check_reductions.py --cover`
-re-checks the 12. ∎ (CERTIFIED; not used in §6.)
+re-checks the 12. The configuration has three distinct boundary goods gl, y1, y2, so the case where u also values gl
+(R_u = {g, gl, y}; CON-e is not even defined there) is not covered. ∎ (CERTIFIED; not used in §6.)
 
 What fails, with the smallest failing configurations and reproducing scripts:
 - CON-e for a P-agent next to a Q-agent misses 22 profiles, and deleting the pair misses all 36
@@ -281,7 +285,8 @@ What fails, with the smallest failing configurations and reproducing scripts:
 
 Proved: M0, M1, M1(b), M2, and the counting in M4 and the deductions in M5 given their inputs. Certified (two
 implementations or SAT-free re-checks): M3, M6, the 20-core certificate, hence M4 and M5. Open:
-- β = 4. By M4 and T3 a minimal counterexample within 𝒞_4 has 8 ≤ n ≤ 15 − t ≤ 14 and satisfies M3 and M6;
+- β = 4. By M4 and T3 a minimal counterexample within 𝒞_4 has 8 ≤ n ≤ 15 − t ≤ 14 and satisfies M3 and M6 (the
+  latter for P–Q pairs in which the Q-agent does not value the P-agent's other good);
   n = 8, m = 13 is not certified yet (R4 covers m ≥ 14). Listing the M3-cores for n ≤ 14 needs a generator built on the
   kernel (every thread carries at most one P-agent), since genbg lists all cores; and the profile spaces (6^n, up to
   6^14) need M6 and further reductions to be cut down.
