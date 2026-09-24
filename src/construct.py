@@ -10,7 +10,8 @@ Phase 1 (serial dictatorship with an adaptive order; every pick is a singleton).
            remaining good, or nothing if none is left.
   insertion: otherwise (every unprocessed agent still has all three goods), for each unprocessed agent i simulate
            "i takes a_i, then R1 steps while any apply" and count NA, the goods that some processed agent values more
-           than its pick; the agent with the smallest (count, index) takes a_i.
+           than its pick, leaving out the agents already certain to be upgraded (below: it holds b, its c is left and
+           valued by no unprocessed agent, and b is not in NA); the agent with the smallest (count, index) takes a_i.
   The goods nobody picked are the junk J. Invariants: every good an agent prefers to its pick was picked before it
   (so it is a singleton), and every junk good is worth less than the pick to every agent that values it.
 Phase 2 (place the junk):
