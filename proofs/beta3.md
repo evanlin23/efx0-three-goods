@@ -1,6 +1,6 @@
 # Conjecture D for β = 3 (connected cores with m = 2n − 2)
 
-Workstream `proof/beta3`, plan Step 3.2, ledger open item 7. Ledger rows D3.M, D3.Q, D3.P, D3.0, D3.1, D3.L, D3.
+Workstream `proof/beta3`, plan Step 3.2, ledger open item 7. Ledger rows D3.M, D3.P, D3.0, D3.2, D3.S, D3.Q, D3, T4.
 
 **Theorem D3.** Every connected core with n agents and m = 2n − 2 goods (cyclomatic number β = 3) has an EFX₀
 allocation in which at most one bundle has more than two goods.
@@ -69,7 +69,8 @@ Y = X_j ∖ {h}; v_i(Y) is the sum of the values of the goods of R_i in Y, and Y
 - (S3) b_i ∉ Y, and a_i ∉ Y (if a_i ∈ X_j then X_j = {a_i} and Y = ∅). So v_i(Y) ≤ C ≤ B ≤ v_i(X_i).
 - (S4) As in (S3), Y contains no good of R_i, so v_i(Y) = 0. ∎
 
-Adding goods to X_i keeps (S1)–(S4) true for i (they only ask what X_i contains, and (S2) asks about other bundles).
+Conditions (S1)–(S4) only concern the goods of R_i in X_i and the other bundles. So they stay true when goods that i
+does not value are added to X_i, and (S1) stays true when any goods are added.
 
 **Lemma 2 (counting).** In a connected core, Σ_C base(C) = β − 1 − 2q, the sum over the components C of K. For
 β = 3: Σ_C base(C) = 2 − 2q, and q ≤ 4.
@@ -178,8 +179,9 @@ Q-agents admit a Q-plan, then C has an EFX₀ allocation in which at most one bu
    with M = V(C) ∩ Π gives ε(C) collectors and a head map covering the other goods of C; together they form a cover
    state for (E, V′, Π) with k = Σ_{C active} ε(C) = |E| + |Π| − |V′| ≥ 1. Take the spares Z as the set Z of the
    setting. The setting of Theorem 2 holds: agents of E value only V′ and their private goods; Z ∩ V′ = ∅ by (P2), and
-   spares are shared goods outside V′, so not valued by agents of E; the bundles of steps 1–2 contain no good of V′
-   except the pins (a 2-holder's goods and the goods of balanced components lie outside V′ by (P2)). Theorem 2 gives
+   spares are shared goods outside V′, so not valued by agents of E; apart from the pins, the bundles of steps 1–2
+   contain only private goods of agents outside E and shared goods outside V′ (a 2-holder's goods and the goods of
+   balanced components lie outside V′ by (P2)), so no good of V′ and no good valued by an agent of E. Theorem 2 gives
    a cover state and J; allocate X(W, h, J, w*) for any w* ∈ W.
 4. *No active component.* Then no agent is served in step 3. If Z ≠ ∅, add Z to the bundle of the owner of T: the
    2-holder z with Y_z = T, or the P-agent e with h(e) = v when T = {v} (v is unmarked, so it lies in a balanced
@@ -245,8 +247,8 @@ thread component), (1, 1, 0), (1, 3, −1), (2, 2, 0) or (2, 4, −1); in partic
 needs checking, and only when there are two needy components. Then Σ_{C active} ε(C) = 2. An active component has
 ε(C) = base(C) + (number of the goods a_u, a_v in C), and base(C) ≤ 0, so both tops lie in active components of base
 0: either in one, which by (†) has S = r ≥ 2, hence S = r = 2, so it contains no pair (z, g) other than (u, a_u) and
-(v, a_v); or in two, each with S = r ≥ 1, hence S = r = 1. Either way all of Σ S = 2 is used up, so every other component is a thread component, and the four remaining pairs
-(u, b_u), (u, c_u), (v, b_v), (v, c_v) lie in exactly two thread components T₁, T₂ (the two needy ones).
+(v, a_v); or in two, each with S = r ≥ 1, hence S = r = 1. Either way all of Σ S = 2 is used up, so every other component is a
+thread component, and the four remaining pairs (u, b_u), (u, c_u), (v, b_v), (v, c_v) lie in exactly two thread components T₁, T₂ (the two needy ones).
 - If b_u and c_u lie in different thread components, change the plan to Y_u = {b_u, c_u} (a 2-holder),
   Y_v = {a_v}, Z = ∅: T₁ and T₂ get one good of u each and are balanced; the component of a_v gets excess 1 and holds
   no good of u, so it is active and satisfies (P2); the component of a_u, if different, has base 0 and no marked good.
@@ -287,7 +289,8 @@ holds.
 between them; g has H-degree 2, so it is valued by exactly f and f′. Let g″ be the other shared good of f and g‴ that
 of f′. Then g‴ ≠ g″: otherwise f, g, f′, g″ would form a cycle of H in which g, f, f′ have degree 2, so either g″ has
 degree 2 as well and the cycle is all of H (impossible), or t is a good-loop at g″ with exactly the two P-agents
-f, f′ (excluded). Build C′ by deleting f, its private good p_f and g, and replacing g by g″ in R_{f′}. Then f′ values
+f, f′ (excluded). Build C′ by deleting f, its private good p_f and g, and replacing g by g″ in R_{f′} (with any
+balanced values for f′; Q-plans do not depend on values). Then f′ values
 p_{f′}, g″, g‴ (distinct), g″ keeps its degree (f′ replaces f), all other goods and agents are unchanged, so C′ is a
 core, connected (H′ is H with the path g″ f g f′ replaced by the edge g″ f′), with n′ = n − 1, m′ = m − 2, hence
 β′ = β = 3. The Q-agents and their goods are unchanged (g was valued only by P-agents).
@@ -318,8 +321,10 @@ a minute):
 - `tools/check_qplans.py`, written without the search code, re-derives which cores are reduced (with a different
   algorithm: components of H minus its branch vertices) and checks every stored plan against the definition of §3.
 
-By Lemmas 8 and 9 every β = 3 core with a Q-agent shortens to a reduced core with at most 10 agents, which is on the
-list; cores without Q-agents are covered by Corollary 3. This proves Lemma 7.
+By Lemmas 8 and 9 every β = 3 core with a Q-agent shortens to a reduced core with at most 10 agents, which is
+isomorphic to one on the list. Q-plans are invariant under isomorphism (a relabelling of agents and goods carries
+orders, components and conditions (Q0)–(P4) along), and the check covers every order of the listed core's Q-agents.
+Cores without Q-agents are covered by Corollary 3. This proves Lemma 7.
 
 *Proof of Theorem D3.* Lemma 7 and Theorem 5. ∎
 
@@ -348,8 +353,8 @@ list; cores without Q-agents are covered by Corollary 3. This proves Lemma 7.
   agent has a private good, any β); D for β = 3 cores with q ≤ 2 (Lemma 6).
 - **Certified (finite computation behind a proved reduction):** Lemma 7 for q = 3, 4, hence Theorem D3 for all
   β = 3 cores.
-- **Open:** a hand proof of Lemma 7 for q = 3, 4 (§6 lists which roles these need; in particular dump targets). Beyond β = 3: Theorem 5
-  holds for every β, and so do Lemma 8 (its proof only uses that H is not a cycle) and the proof of Lemma 9, which
+- **Open:** a hand proof of Lemma 7 for q = 3, 4 (§6 lists which roles these need; in particular dump targets).
+  Beyond β = 3: Theorem 5 holds for every β, and so do Lemma 8 (its proof only uses that H is not a cycle) and the proof of Lemma 9, which
   in general gives n ≤ q + (3β − 3) + (2β − 2 − q) = 5(β − 1) for reduced cores with a Q-agent (Γ has at most
   3β − 3 threads, and Σ_{g ∈ V} (deg(g) − 2) = 2β − 2 − q). So D for any fixed β reduces to Q-plans for finitely
   many reduced cores. For β = 4 that means n ≤ 15, too far for enumerating all cores with genbg; generating the
