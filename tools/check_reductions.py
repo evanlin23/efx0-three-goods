@@ -8,10 +8,13 @@ Written separately from src/reduce.py, sharing no code with it:
      as v(own) >= v(B - {g}) for every other bundle B and every g in B;
   3. every admissible state must have a stored extension, and each extension is checked against the rules of Lemma M1:
      goods conserved, outside bundles keep their goods outside I', moved items go to agents of S or to outside bundles
-     worth 0 to their owner, all agents of S safe, every new or modified bundle dominated by a bundle of Y.
+     worth 0 to their owner, all agents of S safe, every new or modified bundle dominated by a bundle of Y or (with
+     the option 'source', M1(b)) made, outside I and I', of goods of the unenvied bundle of Y.
 Certificate: gzip JSON list of records {name, S, I, D, Ddel, Sp, Ip, states: [[Ykey, X], ...]}; Ykey and X as written
 by reduce.canon_state and reduce.export_ext.
-Usage: check_reductions.py certs.json.gz [--jobs N]"""
+With --cover, also checks that the verified reductions cover all 36 ranking profiles of each configuration of
+proofs/min_counterexample.md, section 4 (pair and loop), reading each profile from the record's agents, not its name.
+Usage: check_reductions.py certs.json.gz [--jobs N] [--cover]"""
 import sys, json, gzip, itertools, os, multiprocessing
 
 MARK = ('w:', 'W:')
@@ -45,10 +48,11 @@ def safe_raw(val, own, bundles):
     return True
 
 
-def key_of(spb, blocks):
-    """Canonical key: S' bundles in agent order, outside blocks sorted; markers renamed by canonical position."""
+def key_of(spb, blocks, src):
+    """Canonical key: S' bundles in agent order, outside blocks sorted (markers already renamed by canonical position),
+    and the unenvied bundle (None, ['sp', agent], or ['O', position of the block])"""
     blocks = sorted(tuple(sorted(b)) for b in blocks)
-    return json.dumps([[sorted(spb[s]) for s in sorted(spb)], [list(b) for b in blocks]])
+    return json.dumps([[sorted(spb[s]) for s in sorted(spb)], [list(b) for b in blocks], src])
 
 
 def states(rec):
@@ -70,14 +74,22 @@ def states(rec):
         for wf in itertools.product((0, 1), repeat=len(sp)):
             for Wf in itertools.product((0, 1), repeat=len(raw)):
                 sb = {s: spb[s] + (['w:' + s] if wf[i] else []) for i, s in enumerate(sp)}
-                blk = [b + (['W'] if Wf[k] else []) for k, b in enumerate(raw)]
-                # canonical order of blocks, then name each W marker by its block's position
-                blk = sorted(tuple(sorted(b)) for b in blk)
-                blk = [[('W:%d' % k if g == 'W' else g) for g in b] for k, b in enumerate(blk)]
-                key = key_of(sb, blk)
-                if key in seen: continue
-                seen.add(key)
-                yield key, sb, blk
+                base = [b + (['W'] if Wf[k] else []) for k, b in enumerate(raw)]
+                # with an unenvied bundle: it is an S' bundle, one of the blocks, or an extra outside bundle holding
+                # no local good (empty, or outside goods only)
+                variants = [(base, None)]
+                if rec.get('source'):
+                    variants = [(base, ('sp', s)) for s in sp] + [(base, ('O', k)) for k in range(len(base))] + \
+                               [(base + [[]], ('O', len(base))), (base + [['W']], ('O', len(base)))]
+                for blocks0, src in variants:
+                    tag = [(tuple(sorted(b)), k) for k, b in enumerate(blocks0)]
+                    order = [k for _, k in sorted(tag)]
+                    blk = [[('W:%d' % i if g == 'W' else g) for g in sorted(blocks0[k])] for i, k in enumerate(order)]
+                    sd = None if src is None else (['sp', src[1]] if src[0] == 'sp' else ['O', order.index(src[1])])
+                    key = key_of(sb, blk, sd)
+                    if key in seen: continue
+                    seen.add(key)
+                    yield key, sb, blk, sd
 
 
 def check_record(rec):
@@ -87,10 +99,14 @@ def check_record(rec):
     U = lambda B: frozenset(x for x in B if x in D or is_marker(x))
     inner = lambda B: any(x in I or x in Ip for x in B)
     problems, n_adm = [], 0
-    for key, sb, blk in states(rec):
+    for key, sb, blk, sd in states(rec):
         Ybund = [sb[s] for s in sorted(sb)] + blk
         if not all(safe_raw(Sp[s], sb[s], [sb[t] for t in sorted(sb) if t != s] + blk) for s in sorted(sb)):
             continue
+        Ysrc = None if sd is None else (sb[sd[1]] if sd[0] == 'sp' else blk[sd[1]])
+        if Ysrc is not None and any(sum(Sp[s].get(g, 0) for g in Ysrc) > sum(Sp[s].get(g, 0) for g in sb[s]) + 1e-9
+                                    for s in sb):
+            continue                                            # an agent of S' envies the supposedly unenvied bundle
         n_adm += 1
         if key not in wit: problems.append('no extension for state ' + key); continue
         X = wit[key]
@@ -103,7 +119,7 @@ def check_record(rec):
             keep = [x for x in b if x not in Ip]
             if sorted(x for x in nb if x in keep) != sorted(keep): problems.append('outside bundle changed ' + key)
             add = [x for x in nb if x not in keep]
-            free = all(x in Ip for x in b)
+            free = bool(b) and all(x in Ip for x in b)
             if any(not (x in I or (free and x in moved)) for x in add): problems.append('illegal addition ' + key)
             extra += add
         placed += extra
@@ -114,20 +130,44 @@ def check_record(rec):
         changed = [Xs[s] for s in sorted(Xs)] + [nb for b, nb in zip(blk, Xo) if sorted(b) != sorted(nb)]
         for B in changed:
             if len(B) <= 1 or not U(B): continue
+            if Ysrc is not None and U(B) <= U(Ysrc): continue      # worth at most the unenvied bundle to outsiders
             if not any(U(B) <= U(B2) and (not inner(B) or inner(B2) or U(B) != U(B2)) for B2 in Ybund):
                 problems.append('bundle %s not dominated in %s' % (B, key))
     return rec['name'], n_adm, problems
 
 
+# Configurations of proofs/min_counterexample.md, section 4: two P-agents e, f sharing a good g of degree 2.
+CONFS = {'pair': ({'gl', 'g', 'p'}, {'g', 'y', 'pf'}, {'g', 'p', 'pf'}, {'gl', 'y'}),
+         'loop': ({'G', 'g', 'p'}, {'g', 'G', 'pf'}, {'g', 'p', 'pf'}, {'G'})}
+
+
+def configuration(rec):
+    S = rec['S']
+    if sorted(S) != ['e', 'f']: return None
+    for name, (ge, gf, I, D) in CONFS.items():
+        if set(S['e']) == ge and set(S['f']) == gf and set(rec['I']) == I and set(rec['D']) == D: return name
+    return None
+
+
 if __name__ == '__main__':
     args = sys.argv[1:]; jobs = os.cpu_count()
     if '--jobs' in args: k = args.index('--jobs'); jobs = int(args[k + 1]); del args[k:k + 2]
+    cover = '--cover' in args; args = [a for a in args if a != '--cover']
     recs = json.load(gzip.open(args[0], 'rt'))
-    total, bad = 0, 0
+    total, bad, covered = 0, 0, {c: set() for c in CONFS}
     with multiprocessing.Pool(jobs) as pool:
-        for name, n_adm, probs in pool.imap(check_record, recs, chunksize=2):
+        for rec, (name, n_adm, probs) in zip(recs, pool.imap(check_record, recs, chunksize=2)):
             total += n_adm
             if probs:
                 bad += 1; print(name, 'PROBLEMS:', len(probs)); [print('  ', p) for p in probs[:5]]
+            elif configuration(rec):
+                covered[configuration(rec)].add((tuple(rec['S']['e']), tuple(rec['S']['f'])))
     print('checked %d reductions, %d admissible local states; reductions with problems: %d' % (len(recs), total, bad))
+    if cover:
+        # every ranking profile of the two agents must be covered by a reduction that passed
+        for c, (ge, gf, I, D) in CONFS.items():
+            allp = {(e, f) for e in itertools.permutations(sorted(ge)) for f in itertools.permutations(sorted(gf))}
+            miss = allp - covered[c]
+            print('%s: %d of %d ranking profiles covered by a verified reduction' % (c, len(allp) - len(miss), len(allp)))
+            if miss: bad += 1; print('  not covered:', sorted(miss)[:10])
     sys.exit(1 if bad else 0)

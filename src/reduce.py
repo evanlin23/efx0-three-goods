@@ -37,8 +37,9 @@ class Reduction:
     (4, 3, 2)); Ip: set of gadget goods; Ddel: boundary goods absent from H' (placed by the extension; the domination
     condition forces them to be alone)."""
 
-    def __init__(self, S, I, D, Sp, Ip, name='', Ddel=()):
+    def __init__(self, S, I, D, Sp, Ip, name='', Ddel=(), source=False):
         self.S, self.I, self.D, self.Ip, self.name = dict(S), set(I), set(D), set(Ip), name
+        self.source = source                           # use an unenvied bundle of Y (Lemma M1, part (b))
         self.Ddel = set(Ddel)                          # boundary goods deleted from H' (they must end up alone in X)
         assert self.Ddel <= self.D
         self.Sp = {s: (v if isinstance(v, dict) else realize(v, REALS[0])) for s, v in Sp.items()}
@@ -73,14 +74,27 @@ class Reduction:
                 for Wf in itertools.product((0, 1), repeat=len(blocks)):
                     Yb = {s: spb[s] + (['w:' + s] if wf[i] else []) for i, s in enumerate(sp)}
                     Ob = [blocks[k] + (['W:%d' % k] if Wf[k] else []) for k in range(len(blocks))]
-                    yield Yb, Ob
+                    if not self.source:
+                        yield Yb, Ob, None; continue
+                    # the unenvied bundle: an agent of S', an outside bundle meeting the local goods, or an outside
+                    # bundle without local goods (empty, or holding outside goods only), appended as an extra block
+                    for s in sp: yield Yb, Ob, ('sp', s)
+                    for k in range(len(Ob)): yield Yb, Ob, ('O', k)
+                    k = len(Ob)
+                    yield Yb, Ob + [[]], ('O', k)
+                    yield Yb, Ob + [['W:%d' % k]], ('O', k)
 
-    def sp_safe(self, Yb, Ob):
-        bundles = list(Yb.values()) + Ob
+    def sp_safe(self, Yb, Ob, src=None):
         for s, val in self.Sp.items():
             others = [B for t, B in Yb.items() if t != s] + Ob
             if not safe(val, Yb[s], others): return False
+            if src is not None:
+                Bs = Yb[src[1]] if src[0] == 'sp' else Ob[src[1]]
+                if sum(val.get(g, 0.0) for g in Bs) > sum(val.get(g, 0.0) for g in Yb[s]) + 1e-9: return False
         return True
+
+    def src_bundle(self, Yb, Ob, src):
+        return None if src is None else (Yb[src[1]] if src[0] == 'sp' else Ob[src[1]])
 
     # ----- domination (Lemma M1) -----
     def U(self, B):
@@ -89,10 +103,11 @@ class Reduction:
     def inner(self, B):
         return any(x in self.I or x in self.Ip for x in B)
 
-    def dominated(self, B, Yall):
+    def dominated(self, B, Yall, Ysrc=None):
         if len(B) <= 1: return True
         u = self.U(B)
         if not u: return True
+        if Ysrc is not None and u <= self.U(Ysrc): return True
         inn = self.inner(B)
         for B2 in Yall:
             u2 = self.U(B2)
@@ -108,20 +123,21 @@ class Reduction:
             if not res.pop(): return False
         return True
 
-    def extend(self, Yb, Ob):
+    def extend(self, Yb, Ob, src=None):
         """Search an extension X; return (S-bundles, outside bundles) or None."""
         S = sorted(self.S)
         Yall = list(Yb.values()) + Ob
+        Ysrc = self.src_bundle(Yb, Ob, src)
         # items from S'-bundles that must move to S-bundles: boundary goods and w-markers
         moved = [x for s in sorted(Yb) for x in Yb[s] if x not in self.Ip] + sorted(self.Ddel)
-        ipblocks = [k for k, b in enumerate(Ob) if any(x in self.Ip for x in b)]
+        ipblocks = [k for k, b in enumerate(Ob) if any(x in self.Ip for x in b) or (src == ('O', k))]
         Ibase = [[x for x in b if x not in self.Ip] for b in Ob]
         Igoods = sorted(self.I)
         # preferred order for interior goods: an owner first (agents of S valuing it), then the others
         owners = {g: [s for s in S if g in self.S[s]] for g in Igoods}
         choicesI = {g: owners[g] + [s for s in S if s not in owners[g]] + [('O', k) for k in ipblocks] for g in Igoods}
         # outside bundles made only of gadget goods (worth 0 to their owner) may also receive moved items
-        free = [k for k in ipblocks if not self.U(Ob[k])]
+        free = [k for k in ipblocks if not self.U(Ob[k]) and any(x in self.Ip for x in Ob[k])]
         dest = S + [('O', k) for k in free]
         for mv in itertools.product(dest, repeat=len(moved)):
             Xs0 = {s: [] for s in S}
@@ -133,7 +149,7 @@ class Reduction:
             ok = True
             for B in list(Xs0.values()) + Ib0:
                 u = self.U(B)
-                if len(u) >= 2 and not any(u <= self.U(B2) for B2 in Yall): ok = False; break
+                if len(u) >= 2 and not any(u <= self.U(B2) for B2 in Yall + ([Ysrc] if src else [])): ok = False; break
             if not ok: continue
             for ch in itertools.product(*(choicesI[g] for g in Igoods)):
                 Xs = {s: list(Xs0[s]) for s in S}
@@ -141,30 +157,31 @@ class Reduction:
                 for g, c in zip(Igoods, ch):
                     if isinstance(c, tuple): Ox[c[1]].append(g)
                     else: Xs[c].append(g)
-                if not all(self.dominated(Xs[s], Yall) for s in S): continue
-                if not all(self.dominated(Ox[k], Yall) for k in ipblocks): continue
+                if not all(self.dominated(Xs[s], Yall, Ysrc) for s in S): continue
+                if not all(self.dominated(Ox[k], Yall, Ysrc) for k in ipblocks): continue
                 if self.s_safe_all(Xs, Ox): return Xs, Ox
         return None
 
     def check(self, stop_at_first=True, verbose=False):
         """Return (number of admissible local states, list of failing states)."""
         n_adm, fails = 0, []
-        for Yb, Ob in self.y_states():
-            if not self.sp_safe(Yb, Ob): continue
+        for Yb, Ob, src in self.y_states():
+            if not self.sp_safe(Yb, Ob, src): continue
             n_adm += 1
-            if self.extend(Yb, Ob) is None:
-                fails.append((Yb, Ob))
+            if self.extend(Yb, Ob, src) is None:
+                fails.append((Yb, Ob, src))
                 if stop_at_first: break
         return n_adm, fails
 
 
-def fmt_state(Yb, Ob):
+def fmt_state(Yb, Ob, src=None):
     return 'S\': ' + ', '.join('%s=%s' % (s, '{' + ','.join(b) + '}') for s, b in sorted(Yb.items())) + \
-        ' | outside: ' + ', '.join('{' + ','.join(b) + '}' for b in Ob)
+        ' | outside: ' + ', '.join('{' + ','.join(b) + '}' for b in Ob) + \
+        ('' if src is None else ' | unenvied: ' + (src[1] if src[0] == 'sp' else '{' + ','.join(Ob[src[1]]) + '}'))
 
 
 # ----- certificates (re-checked independently by tools/check_reductions.py) -----
-def canon_state(Yb, Ob):
+def canon_state(Yb, Ob, src=None):
     """Canonical key of a local state and the renaming of its outside-bundle markers: blocks are sorted (a block's
     marker counted as 'W'), then marker 'W:k' is renamed after its block's position in that order."""
     tagged = sorted((tuple(sorted('W' if x.startswith('W:') else x for x in b)), k) for k, b in enumerate(Ob))
@@ -172,7 +189,8 @@ def canon_state(Yb, Ob):
     ren = {'W:%d' % k: 'W:%d' % pos[k] for k in range(len(Ob))}
     blocks = [None] * len(Ob)
     for k, b in enumerate(Ob): blocks[pos[k]] = sorted(ren.get(x, x) for x in b)
-    key = json.dumps([[sorted(Yb[s]) for s in sorted(Yb)], [list(b) for b in sorted(tuple(b) for b in blocks)]])
+    sd = None if src is None else (['sp', src[1]] if src[0] == 'sp' else ['O', pos[src[1]]])
+    key = json.dumps([[sorted(Yb[s]) for s in sorted(Yb)], [list(b) for b in sorted(tuple(b) for b in blocks)], sd])
     return key, pos, ren
 
 
@@ -186,11 +204,11 @@ def export_ext(Ob, ext, pos, ren):
 def certificate(red):
     """Record for tools/check_reductions.py, or None if some admissible state has no extension."""
     st = []
-    for Yb, Ob in red.y_states():
-        if not red.sp_safe(Yb, Ob): continue
-        ext = red.extend(Yb, Ob)
+    for Yb, Ob, src in red.y_states():
+        if not red.sp_safe(Yb, Ob, src): continue
+        ext = red.extend(Yb, Ob, src)
         if ext is None: return None
-        key, pos, ren = canon_state(Yb, Ob)
+        key, pos, ren = canon_state(Yb, Ob, src)
         st.append([key, export_ext(Ob, ext, pos, ren)])
     return {'name': red.name, 'S': {s: list(R) for s, R in red.S.items()}, 'I': sorted(red.I), 'D': sorted(red.D),
-            'Ddel': sorted(red.Ddel), 'Sp': red.Sp, 'Ip': sorted(red.Ip), 'states': st}
+            'Ddel': sorted(red.Ddel), 'Sp': red.Sp, 'Ip': sorted(red.Ip), 'source': red.source, 'states': st}

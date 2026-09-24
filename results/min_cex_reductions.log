@@ -1,0 +1,14 @@
+pair: 132 reductions tried, 99 reducible
+  RPT-e  covers 12 of 36 profiles
+  RPT-f  covers 12 of 36 profiles
+  DEL    covers 23 of 36 profiles
+  CON-e  covers 26 of 36 profiles
+  CON-f  covers 26 of 36 profiles
+  profiles covered by no reduction: 0 []
+loop: 96 reductions tried, 70 reducible
+  RPT-e  covers 12 of 36 profiles
+  RPT-f  covers 12 of 36 profiles
+  DEL    covers 23 of 36 profiles
+  GAD    covers 23 of 36 profiles
+  profiles covered by no reduction: 0 []
+wrote 169 certificates, 8274 local states, to ../results/min_cex_reductions.json.gz (1s)
