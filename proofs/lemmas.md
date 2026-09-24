@@ -141,13 +141,13 @@ Let Γ be the bipartite *incidence graph* on agents and goods, with an edge i–
 **Lemma.** Let a core (A, G) have connected components (A_1, G_1), …, (A_r, G_r) in Γ. Each (A_k, G_k) is a connected core with |A_k| ≥ 2. If each has an EFX₀ allocation X^k, their union X is EFX₀ for (A, G). Hence a core without an EFX₀ allocation has a connected component, a connected core with no more agents, without one: minimal counterexamples are connected.
 *Proof.* Goods are not isolated (K4), so every component contains an agent. For i ∈ A_k, R_i ⊆ G_k, so (K1) and (K2) hold. A good of G_k is relevant only to agents of A_k, so private goods are the same in both instances: (K3). (K4) holds by construction. If |A_k| = 1, its agent's three goods would all be private, contradicting (K3). For i ∈ A_k and j ∈ A_l with l ≠ k: X_j ⊆ G_l is disjoint from R_i, so θ_i(X_j) = 0. Inside A_k, X^k is EFX₀. ∎
 
-**Note (conjecture D and components).** L6 composes EFX₀ allocations, but the union of allocations with one large bundle each (bundles of more than two goods) can have several. So D for disconnected cores does *not* follow from D for connected cores, and "D certified for n ≤ 6" had covered connected cores only. For TARGET this is irrelevant: L6 and connected cores suffice. D for all cores with n ≤ 6 follows from the certificates (last section):
-- every component has ≥ 2 agents, so a disconnected core with n ≤ 6 has at most two components with ≥ 3 agents, and then exactly two with 3 agents each;
-- every 2-agent core admits bundles ≤ 2 under every profile;
-- the only 3-agent connected core that does not is H3 (`proofs/counterexamples.md`);
-- H3 ⊔ H3 has, under every profile, an EFX₀ allocation with at most one large bundle (`results/certs_disconnected_6_10.json.gz`).
+**Note (conjecture D and components).** L6 composes EFX₀ allocations, but the union of allocations with one large bundle each (bundles of more than two goods) can have several. So D for disconnected cores does *not* follow from D for connected cores, and "D certified for n ≤ 6" had covered connected cores only. For TARGET this is irrelevant: L6 and connected cores suffice. D for all cores with n ≤ 6 follows from certificates (`src/c2_small.py`, log `results/c2_small.log`):
+- Every component of a disconnected core with n ≤ 6 has between 2 and 4 agents, and at most two components have ≥ 3 agents; if two do, each has exactly 3.
+- Every 2-agent core (all are connected) has, under every profile, an EFX₀ allocation with all bundles ≤ 2 (`results/certs_c2_2_3_4.json.gz`).
+- If at most one component has ≥ 3 agents, combine its allocation under D (connected, certified) with such allocations of the 2-agent components. The union has at most one large bundle.
+- If two components have 3 agents each: among the connected 3-agent cores, only H3 (`proofs/counterexamples.md`) lacks a size-≤ 2 allocation for some profile. If a component is not H3, or its profile admits one, combine as before. What remains is H3 ⊔ H3, which is certified directly: under every one of the 6⁶ profiles it has an EFX₀ allocation with at most one large bundle (`results/certs_disconnected_6_10.json.gz`).
 
-Mixing across components is what makes this work. Two disjoint copies of the X2 example also have such an allocation, with one bundle holding goods of both copies (`results/c2_small.log`). Whether D holds for all disconnected cores is open. It is implied by D for connected cores plus a merging argument that nobody has found yet.
+In the H3 ⊔ H3 certificate, 77 of the 79 allocations with a large bundle put goods of both components in it. Two disjoint copies of the X2 example behave the same way, with one bundle holding goods of both copies (`results/c2_small.log`). Whether D holds for all disconnected cores is open. It would follow from D for connected cores plus a merging argument, which we do not have.
 
 ## L7 Slack
 
