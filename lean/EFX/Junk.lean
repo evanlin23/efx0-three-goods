@@ -1,4 +1,5 @@
 import EFX.PeelingR2
+import EFX.Bridge
 
 /-!
 # Junk goods and envy cycles (LEDGER L3)
@@ -13,6 +14,8 @@ envy cycles, and give all the junk to an agent that nobody envies (a source of t
   `Σ_a v_a(X_a)`, which is bounded, so the process stops.
 - `EFX.junkToSource`: goods worthless to every agent go to that agent; the result is EFX₀.
 - `EFX.junk`: L3 as the ledger states it, for the goods relevant to no agent.
+- `EFX.Inst.exists_efx0_of_junk`: L3 in the model's terms: an allocation satisfying the EFX₀
+  condition whenever the removed good is relevant to some agent can be turned into an EFX₀ one.
 
 The cycle comes from pigeonhole: following "is envied by" from any agent must repeat, and a point
 that repeats lies on a cycle of the map (take its least period).
@@ -378,6 +381,53 @@ theorem junk (v : A → G → Nat) {agents : List A} {goods : List G} (hne : age
   simp only [isJunk, List.all_eq_true, beq_iff_eq] at hg
   exact hg a ha
 
+omit [DecidableEq G] in
+/-- Filtering the goods commutes with taking a bundle. -/
+theorem bundle_filter (goods : List G) (p : G → Bool) (X : G → A) (j : A) :
+    bundle (goods.filter p) X j = (bundle goods X j).filter p := by
+  unfold bundle
+  rw [List.filter_filter, List.filter_filter]
+  apply List.filter_congr
+  intro g _
+  exact Bool.and_comm _ _
+
+/-- **L3** in the model's terms. If an allocation `X'` satisfies the EFX₀ condition whenever the
+removed good is relevant to some agent (so it may fail only for removed goods that nobody values),
+then some allocation is EFX₀. -/
+theorem Inst.exists_efx0_of_junk (I : Inst) (hn : 0 < I.n) (X' : I.Alloc)
+    (h : ∀ i j : Fin I.n, i ≠ j → ∀ g : Fin I.m, X' g = j → (∃ a, 0 < I.v a g) →
+      I.bundleVal X' i j (some g) ≤ I.bundleVal X' i i none) :
+    ∃ X : I.Alloc, I.EFX0 X := by
+  let agents := List.finRange I.n
+  -- junk is worthless to every agent
+  have hq : ∀ x g, isJunk I.v agents g = true → I.v x g = 0 := by
+    intro x g hg
+    simp only [isJunk, List.all_eq_true, beq_iff_eq] at hg
+    exact hg x (List.mem_finRange x)
+  obtain ⟨X, _, hE⟩ := junk I.v (agents := agents) (goods := List.finRange I.m)
+    (List.ne_nil_of_mem (List.mem_finRange ⟨0, hn⟩)) (X' := X') (fun g _ => List.mem_finRange _) (by
+      intro x _ y _ hxy g hg
+      have hg' := List.mem_filter.mp ((bundle_filter _ _ X' y) ▸ hg)
+      have hXg : X' g = y := of_decide_eq_true (List.mem_filter.mp hg'.1).2
+      -- `g` is relevant to some agent
+      have hrel : ∃ a, 0 < I.v a g := by
+        apply Classical.byContradiction
+        intro hno
+        have : isJunk I.v agents g = true := by
+          simp only [isJunk, List.all_eq_true, beq_iff_eq]
+          intro a _
+          apply Classical.byContradiction
+          intro ha
+          exact hno ⟨a, Nat.pos_of_ne_zero ha⟩
+        simp [this] at hg'
+      have := h x y hxy g hXg hrel
+      rw [bundleVal_some, bundleVal_none] at this
+      rw [bundle_filter, bundle_filter, List.erase_filter,
+        value_filter_of_worthless I.v x _ (fun g _ hg => hq x g hg),
+        value_filter_of_worthless I.v x _ (fun g _ hg => hq x g hg)]
+      exact this)
+  exact ⟨X, (Inst.efx0_iff I X).mpr hE⟩
+
 end EFX
 
 /-! ## Axiom certificates (audited by `check.sh`) -/
@@ -386,3 +436,4 @@ end EFX
 #print axioms EFX.exists_unenvied
 #print axioms EFX.junkToSource
 #print axioms EFX.junk
+#print axioms EFX.Inst.exists_efx0_of_junk
