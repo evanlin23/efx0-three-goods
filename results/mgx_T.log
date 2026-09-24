@@ -1,0 +1,56 @@
+n = 3, class T: 7 connected cores (all m), 0 s
+  EFX0: (b) an open agent lies in no H_f: 84
+  EFX0: no free good: 492
+  large bundles 0: 504
+  large bundles 1: 72
+  moves R1: 936
+  moves U1: 80
+  moves Up: 196
+  profiles: 576
+exit status 0
+n = 4, class T: 41 connected cores (all m), 0 s
+  EFX0: (b) an open agent lies in no H_f: 1924
+  EFX0: no free good: 10495
+  large bundles 0: 10890
+  large bundles 1: 1529
+  moves R1: 22433
+  moves U1: 2148
+  moves Up: 5459
+  no popular matching: 13
+  profiles: 12432
+exit status 0
+n = 5, class T: 293 connected cores (all m), 7 s
+  EFX0: (b) an open agent lies in no H_f: 39722
+  EFX0: (c) two open enviers: 2
+  EFX0: (c) two open enviers, one good bad at both: 22
+  EFX0: no free good: 165480
+  large bundles 0: 173846
+  large bundles 1: 31380
+  moves R1: 432862
+  moves U1: 43112
+  moves Up: 114184
+  no popular matching: 310
+  profiles: 205536
+exit status 0
+n = 6, class T: 3093 connected cores (all m), 213 s
+    ...and an admissible assignment exists: 194
+    ...but some assignment to unenvied agents is EFX0: 194
+  EFX0: (a) three open agents: 48
+  EFX0: (b) an open agent lies in no H_f: 1002014
+  EFX0: (c) two open enviers: 100
+  EFX0: (c) two open enviers, one good bad at both: 272
+  EFX0: no free good: 4227171
+  Lemma 4.2 case analysis does not apply: 194
+  large bundles 0: 4434404
+  large bundles 1: 795201
+  moves R1: 12086579
+  moves U1: 1379288
+  moves Up: 3448364
+  no popular matching: 11609
+  profiles: 5241408
+  example: ([[0, 3, 6], [0, 4, 5], [1, 3, 5], [1, 4, 6], [2, 3, 4], [2, 5, 6]], [(0, 3, 6), (0, 4, 5), (1, 3, 5), (1, 6, 4), (2, 4, 3), (2, 5, 6)])
+  example: ([[0, 3, 6], [0, 4, 5], [1, 3, 5], [1, 4, 6], [2, 3, 4], [2, 5, 6]], [(0, 3, 6), (0, 4, 5), (1, 3, 5), (1, 6, 4), (2, 4, 3), (2, 6, 5)])
+  example: ([[0, 3, 6], [0, 4, 5], [1, 3, 5], [1, 4, 6], [2, 3, 4], [2, 5, 6]], [(0, 3, 6), (0, 4, 5), (1, 5, 3), (1, 4, 6), (2, 3, 4), (2, 5, 6)])
+  example: ([[0, 5, 7], [0, 2, 6], [1, 2, 4], [1, 5, 6], [3, 4, 5], [3, 4, 6]], [(0, 5, 7), (2, 0, 6), (1, 2, 4), (1, 5, 6), (3, 5, 4), (3, 4, 6)])
+  example: ([[0, 5, 7], [0, 2, 6], [1, 2, 4], [1, 5, 6], [3, 4, 5], [3, 4, 6]], [(0, 5, 7), (2, 0, 6), (1, 2, 4), (1, 5, 6), (3, 5, 4), (3, 6, 4)])
+exit status 0
