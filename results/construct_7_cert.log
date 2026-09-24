@@ -5,3 +5,8 @@ $ python src/construct_run.py 7 10 --cert=../results/certs_lb_7_10.json.gz   # 2
 [   1515s] ALL DONE; failures: 0
 exit=0
 $ python src/construct_run.py 7 9 --cert=../results/certs_lb_7_9.json.gz   # 2026-09-24T20:03:57Z
+[   2881s] n=7 m=9: 12699 cores, 3554907264 hypergraph-profile pairs, construction fails on 0; outputs with a large bundle: 318 (by size {3: 318})
+[   2902s] certificate: ../results/certs_lb_7_9.json.gz (12699 hypergraphs)
+[   2902s] ALL DONE; failures: 0
+exit=0
+$ python src/construct_run.py 7 8 --cert=../results/certs_lb_7_8.json.gz   # 2026-09-24T20:52:20Z

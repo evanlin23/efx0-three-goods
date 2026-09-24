@@ -1,3 +1,12 @@
 # SAT-free re-checks of the construction LB certificates for n = 7, m <= 10 (D shape included), their orbit counts, and construct_run.py's own certificate check; run alongside the LB searches on 4 CPUs, 2026-09-24T20:04:37Z
 
 $ python tools/check_certs.py results/certs_lb_7_10.json.gz --expect 7:10:8569 --require-d --jobs 2
+checked 8569 hypergraphs {(7, 10): 8569}, models {'LB': 8569}; problems: 0
+exit=0  [1019s]
+
+$ python tools/check_enum.py results/certs_lb_7_10.json.gz
+results/certs_lb_7_10.json.gz: (n,m)=(7,10): 8569 hypergraphs, orbit sum 89526516710400, labeled connected cores 89526516710400 -> complete
+problems: 0
+exit=0  [23s]
+
+$ python src/construct_run.py --check-cert=results/certs_lb_7_10.json.gz
