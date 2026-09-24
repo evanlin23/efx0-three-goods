@@ -13,8 +13,10 @@ Written separately from src/reduce.py, sharing no code with it:
 Certificate: gzip JSON list of records {name, S, I, D, Ddel, Sp, Ip, states: [[Ykey, X], ...]}; Ykey and X as written
 by reduce.canon_state and reduce.export_ext.
 With --cover, also checks that the verified reductions cover all 36 ranking profiles of each configuration of
-proofs/min_counterexample.md, section 4 (pair and loop), reading each profile from the record's agents, not its name.
-Usage: check_reductions.py certs.json.gz [--jobs N] [--cover]"""
+proofs/min_counterexample.md, section 4 (pair and loop), and the 12 profiles of Lemma M6 (pq: the P-agent ranks its
+private good last), reading each profile from the record's agents, not from its name.
+Usage: check_reductions.py certs.json.gz [--jobs N] [--cover]
+       check_reductions.py certs.json.gz --selftest   (corrupted copies of the first records must be rejected)"""
 import sys, json, gzip, itertools, os, multiprocessing
 
 MARK = ('w:', 'W:')
@@ -138,7 +140,11 @@ def check_record(rec):
 
 # Configurations of proofs/min_counterexample.md, section 4: two P-agents e, f sharing a good g of degree 2.
 CONFS = {'pair': ({'gl', 'g', 'p'}, {'g', 'y', 'pf'}, {'g', 'p', 'pf'}, {'gl', 'y'}),
-         'loop': ({'G', 'g', 'p'}, {'g', 'G', 'pf'}, {'g', 'p', 'pf'}, {'G'})}
+         'loop': ({'G', 'g', 'p'}, {'g', 'G', 'pf'}, {'g', 'p', 'pf'}, {'G'}),
+         'pq': ({'gl', 'g', 'p'}, {'g', 'y1', 'y2'}, {'g', 'p'}, {'gl', 'y1', 'y2'})}
+# profiles each configuration must have covered: all of them for pair and loop (Theorem M3); for pq (Lemma M6) those in
+# which e ranks its private good p last
+MUST = {'pair': lambda e, f: True, 'loop': lambda e, f: True, 'pq': lambda e, f: e[2] == 'p'}
 
 
 def configuration(rec):
@@ -149,8 +155,33 @@ def configuration(rec):
     return None
 
 
+def selftest(recs):
+    """Corrupted copies of the first records must be rejected: a missing state, a bundle emptied, a good moved."""
+    import copy, random
+    rng, caught, tried = random.Random(1), 0, 0
+    for rec in recs[:40]:
+        for kind in ('drop', 'empty', 'move'):
+            r = copy.deepcopy(rec); st = r['states']
+            if not st: continue
+            k = rng.randrange(len(st)); X = st[k][1]
+            if kind == 'drop': del st[k]
+            elif kind == 'empty':
+                a = rng.choice(sorted(X['S'])); X['S'][a] = [] if X['S'][a] else ['p', 'g']
+            else:
+                src = [a for a in X['S'] if X['S'][a]]
+                if not src: continue
+                a = rng.choice(src); b = rng.choice([x for x in sorted(X['S']) if x != a])
+                x = X['S'][a].pop(rng.randrange(len(X['S'][a]))); X['S'][b].append(x)
+            tried += 1; caught += bool(check_record(r)[2])
+    return tried, caught
+
+
 if __name__ == '__main__':
     args = sys.argv[1:]; jobs = os.cpu_count()
+    if '--selftest' in args:
+        tried, caught = selftest(json.load(gzip.open([a for a in args if a != '--selftest'][0], 'rt')))
+        print('selftest: %d corrupted certificates, %d rejected (a moved good can leave a valid extension)' % (tried, caught))
+        sys.exit(0)
     if '--jobs' in args: k = args.index('--jobs'); jobs = int(args[k + 1]); del args[k:k + 2]
     cover = '--cover' in args; args = [a for a in args if a != '--cover']
     recs = json.load(gzip.open(args[0], 'rt'))
@@ -166,8 +197,10 @@ if __name__ == '__main__':
     if cover:
         # every ranking profile of the two agents must be covered by a reduction that passed
         for c, (ge, gf, I, D) in CONFS.items():
-            allp = {(e, f) for e in itertools.permutations(sorted(ge)) for f in itertools.permutations(sorted(gf))}
+            allp = {(e, f) for e in itertools.permutations(sorted(ge)) for f in itertools.permutations(sorted(gf))
+                    if MUST[c](e, f)}
             miss = allp - covered[c]
-            print('%s: %d of %d ranking profiles covered by a verified reduction' % (c, len(allp) - len(miss), len(allp)))
+            print('%s: %d of the %d required ranking profiles covered by a verified reduction (%d covered in all)'
+                  % (c, len(allp) - len(miss), len(allp), len(covered[c])))
             if miss: bad += 1; print('  not covered:', sorted(miss)[:10])
     sys.exit(1 if bad else 0)

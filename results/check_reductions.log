@@ -1,3 +1,5 @@
-checked 169 reductions, 8274 admissible local states; reductions with problems: 0
-pair: 36 of 36 ranking profiles covered by a verified reduction
-loop: 36 of 36 ranking profiles covered by a verified reduction
+checked 183 reductions, 10066 admissible local states; reductions with problems: 0
+pair: 36 of the 36 required ranking profiles covered by a verified reduction (36 covered in all)
+loop: 36 of the 36 required ranking profiles covered by a verified reduction (36 covered in all)
+pq: 12 of the 12 required ranking profiles covered by a verified reduction (14 covered in all)
+selftest: 120 corrupted certificates, 116 rejected (a moved good can leave a valid extension)

@@ -216,16 +216,57 @@ L8 and β = 2 is D2, so β = 3 and m = 2n − 2. Every connected core with n ≤
 and with n = 8, m = 14 by R4; so n ≥ 9. By M4, n ≤ 10 − t ≤ 10. So H is a connected core with (n, m) = (9, 16) or
 (10, 18) in which no good of degree 2 is valued by two P-agents (M3). Of the 2,477 and 4,619 connected cores with these
 (n, m), exactly 15 and 5 have that property, and each of these 20 has an EFX₀ allocation under every ranking profile
-(certificates below), contradicting M0(c). The second sentence: each CORE reduction step extends EFX₀ allocations
-(L2, L3) and components combine (L6). ∎
+(certificates below); by M0(c) only H's ranking profile matters, so H has an EFX₀ allocation, a contradiction. The
+second sentence: each CORE reduction step extends EFX₀ allocations (L2, L3) and components combine (L6). ∎
 
 The proof uses no published theorem (neither Mahara nor Afshinmehr et al.): only L2, L3, L6, L8 and D2 (proved), R1,
-R2, R4 and M3 (certified), and the certificate for the 20 cores. As M4 predicts, the 20 cores are tight: the 15 with
-n = 9 have t = 1 (six P-agents, one good of degree 3) or t = 0 (five P-agents, four Q-agents), the 5 with n = 10 have
-t = 0 and every thread carrying exactly one P-agent.
+R2, R4 and M3 (certified), and the certificate for the 20 cores. The 20 cores are as M4 predicts: of the 15 with
+n = 9, six have t = 1 (three Q-agents, six P-agents, one good of degree 3, n = 10 − t) and nine have t = 0 (four
+Q-agents, five P-agents); the 5 with n = 10 have t = 0, four Q-agents and six P-agents, one on each thread of a cubic
+kernel.
+
+*Certificates.* `src/min_cex_cores.py` lists every connected core with (n, m) = (9, 16) and (10, 18) with nauty's genbg
+(`results/cores_9_16_10_18.json.gz`, 7,096 cores; complete by orbit counting, `tools/check_enum.py`,
+`results/check_enum_min_cex.log`), keeps the 20 cores allowed by M3, and runs frontier.py's CEGAR search on each over
+all 6^n ranking profiles (`results/min_cex_cores_9_16.log`, `results/min_cex_cores_10_18.log`). Every one of them has,
+under every profile, an EFX₀ allocation with at most one bundle of more than two goods (model C3, so conjecture D holds
+for them too). `tools/check_certs.py --require-d` re-checks the certificates without SAT from the raw definition
+(`results/check_certs_min_cex.log`), and `tools/check_min_cex_cores.py` re-derives the filter independently and checks
+that every allowed core of the complete list has a certificate.
 
 ## 7. Sanity check: β = 2 in three lines
 
 Within 𝒞_2 a minimal counterexample has β = 2 (L8), so n ≤ 5 − t ≤ 5 by M4, and R1 covers every connected core with
 n ≤ 6. So M3 + M4 + R1 reprove TARGET for 𝒞_2 (the EFX₀ part of D2/T2) without D2's construction; they do not give D2's
 bound on the large bundle.
+
+## 8. Beyond M3: what reduces and what does not
+
+**Lemma M6.** In a minimal counterexample (or one within 𝒞_k), a P-agent e that shares a good g of degree 2 with a
+Q-agent u does not rank its private good last.
+
+*Proof.* Contract e (CON-e of §4 with f = u: delete e, g, p; u values gl, e's other shared good, where it valued g;
+H′ is a minor of H) with the unenvied bundle of M1(b). `src/min_cex.py` (configuration pq) certifies it for the 12
+profiles in which e ranks p last, and also for e: g > p > gl with u ranking g last; `tools/check_reductions.py --cover`
+re-checks the 12. ∎ (CERTIFIED; not used in §6.)
+
+What fails, with the smallest failing configurations and reproducing scripts:
+- CON-e for a P-agent next to a Q-agent misses 22 profiles, and deleting the pair misses all 36
+  (`attempts/min-cex-pq-reductions.md`). This is the obstacle to pushing M3 through Q-agents.
+- Contracting the middle agent of three consecutive P-agents (path shortening, plan Step 3.1) misses 16 of 216
+  profiles; M3's two-agent reductions made it unnecessary (`attempts/min-cex-window-contraction.md`).
+- Reductions around a single P-agent between two goods of degree ≥ 3, or around a Q-agent alone, were not found; M1
+  treats the rest of the instance adversarially, and every such configuration has a local state (all its boundary goods
+  in one outside bundle with outside goods) in which one of its agents has at most one own good left and is unsafe.
+  Any reduction there needs a gadget that constrains the boundary, as GAD does for loops.
+
+## 9. Status and what remains
+
+Proved: M0, M1, M1(b), M2, and the counting in M4 and the deductions in M5 given their inputs. Certified (two
+implementations or SAT-free re-checks): M3, M6, the 20-core certificate, hence M4 and M5. Open:
+- β = 4. By M4 and T3 a minimal counterexample within 𝒞_4 has 8 ≤ n ≤ 15 − t ≤ 14 and satisfies M3 and M6;
+  n = 8, m = 13 is not certified yet (R4 covers m ≥ 14). Listing the M3-cores for n ≤ 14 needs a generator built on the
+  kernel (every thread carries at most one P-agent), since genbg lists all cores; and the profile spaces (6^n, up to
+  6^14) need M6 and further reductions to be cut down.
+- General β: a minimal counterexample has β + 3 ≤ n ≤ 5β − 6 (with T3). Unavoidability would need reductions at
+  Q-agents and at goods of degree ≥ 3 (§8); cores without private goods (π = 0) are untouched by everything here.
