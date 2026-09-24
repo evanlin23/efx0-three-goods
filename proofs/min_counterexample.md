@@ -2,7 +2,22 @@
 
 Workstream `proof/min-counterexample`. An independent route to TARGET by induction, in the style of the four-colour
 theorem: show that a minimal counterexample contains no *reducible configuration*, and (eventually) that every
-candidate core contains one. Work in progress; the status of each statement is given where it is stated.
+candidate core contains one. The status of each statement is given where it is stated.
+
+**Results.**
+- A soundness lemma for local reductions (M1, M1(b)): a configuration is excluded from a minimal counterexample once a
+  finite check over the "local states" of the smaller instance's allocation succeeds. PROVED. `src/reduce.py` runs the
+  check; `tools/check_reductions.py` re-checks its certificates independently.
+- **M3: in a minimal counterexample no good of degree 2 is valued by two agents with a private good**; equivalently,
+  every thread of the shape (L11) carries at most one P-agent. CERTIFIED (72 configurations × profiles, each reduced by
+  peeling, deletion, contraction or a one-agent gadget).
+- **M4: a minimal counterexample has n ≤ 5(β − 1) − t**, t = Σ (deg g − 2) over goods of degree ≥ 3; so at most 9n/5
+  goods, and finitely many cores per β. CERTIFIED (counting on top of M3).
+- **M5: TARGET holds for every instance whose core components have β ≤ 3** (m_C ≥ 2n_C − 2), with no appeal to the
+  literature: M4 leaves 20 cores with n ∈ {9, 10}, all certified (in the D shape). CERTIFIED.
+- M2 (private top next to a P-agent; hand proof), M6 (a P-agent next to a Q-agent does not rank its private good last;
+  CERTIFIED), a three-line re-derivation of TARGET for β ≤ 2 from M3, M4 and R1 (§7), and the reductions that failed
+  (§8, `attempts/min-cex-*.md`).
 
 Notation as in `proofs/lemmas.md`: R_i is agent i's set of relevant goods, θ_i(B) = v_i(B) − min_{g ∈ B} v_i(g) is the
 largest value i can see in B after deleting one good (θ_i(B) = 0 if |B| ≤ 1; F1), agent i is *safe* in X iff

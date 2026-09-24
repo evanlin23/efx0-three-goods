@@ -9,6 +9,7 @@ Open question (CS 580 course project, Fall 2026): does every additive fair-divis
 - Refuted: "bundles of at most two goods always suffice" (smallest counterexample n = 3), and its weaker form for m ≤ 2n − 2 (smallest n = 4).
 - Main conjecture D: some EFX₀ allocation has at most one bundle with more than two goods. Certified for every core with n ≤ 6, and for every connected core with n = 7, m ≥ 11 or n = 8, m ≥ 14.
 - Proved: conjecture D for every core with m = 2n − 1 (cyclomatic number β = 2), for all n ([proofs/beta2.md](proofs/beta2.md)).
+- Certified: EFX₀ exists for every instance whose core components have β ≤ 3 (ledger T4), with no appeal to the literature, via the structure of a minimal counterexample ([proofs/min_counterexample.md](proofs/min_counterexample.md)): no good relevant to exactly two agents is relevant to two agents with private goods, so a minimal counterexample has n ≤ 5(β − 1) agents.
 
 ## Layout
 - `AGENTS.md`: how an AI agent gets oriented, sets up, branches, checks and opens a pull request (`CLAUDE.md` loads it for Claude Code)
