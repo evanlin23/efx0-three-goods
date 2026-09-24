@@ -1,0 +1,54 @@
+n = 2, class U: 2 connected cores (all m), 0 s
+  EFX0: (b) an open agent lies in no H_f: 4
+  EFX0: no free good: 68
+  large bundles 0: 72
+  moves R1: 84
+  moves Up: 20
+  profiles: 72
+exit status 0
+n = 3, class U: 7 connected cores (all m), 0 s
+  EFX0: (b) an open agent lies in no H_f: 80
+  EFX0: no free good: 368
+  large bundles 0: 376
+  large bundles 1: 72
+  moves R1: 812
+  moves U1: 56
+  moves Up: 156
+  profiles: 448
+exit status 0
+n = 4, class U: 41 connected cores (all m), 0 s
+  EFX0: (b) an open agent lies in no H_f: 1631
+  EFX0: no free good: 6551
+  large bundles 0: 6832
+  large bundles 1: 1350
+  moves R1: 16210
+  moves U1: 1564
+  moves Up: 3536
+  no popular matching: 10
+  profiles: 8192
+exit status 0
+n = 5, class U: 293 connected cores (all m), 3 s
+  EFX0: (b) an open agent lies in no H_f: 26143
+  EFX0: no free good: 61493
+  large bundles 0: 65932
+  large bundles 1: 21704
+  moves R1: 218979
+  moves U1: 16934
+  moves Up: 52506
+  no popular matching: 108
+  profiles: 87744
+exit status 0
+n = 6, class U: 3093 connected cores (all m), 67 s
+  EFX0: (a) three open agents: 38
+  EFX0: (b) an open agent lies in no H_f: 470406
+  EFX0: (c) two open enviers: 32
+  EFX0: (c) two open enviers, one good bad at both: 32
+  EFX0: no free good: 1112145
+  large bundles 0: 1183881
+  large bundles 1: 398772
+  moves R1: 4381046
+  moves U1: 417745
+  moves Up: 1108868
+  no popular matching: 2563
+  profiles: 1585216
+exit status 0
