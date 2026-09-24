@@ -1,0 +1,11 @@
+# src/construct_run.py 7 <m>: construction LB on every connected core with n = 7, every ranking profile; every output checked against the raw EFX0 definition in src/construct.c (no stored certificate). One run per m.
+[      1s] n=7 m=14: 1 cores, 279936 hypergraph-profile pairs, construction fails on 0; outputs with a large bundle: 10796 (by size {3: 10534, 4: 262})
+[      1s] ALL DONE; failures: 0
+[     22s] n=7 m=13: 37 cores, 10357632 hypergraph-profile pairs, construction fails on 0; outputs with a large bundle: 68148 (by size {3: 66515, 4: 1621, 5: 12})
+[     22s] ALL DONE; failures: 0
+[    263s] n=7 m=12: 541 cores, 151445376 hypergraph-profile pairs, construction fails on 0; outputs with a large bundle: 281479 (by size {3: 271597, 4: 9753, 5: 129})
+[    263s] ALL DONE; failures: 0
+[   1253s] n=7 m=11: 3103 cores, 868641408 hypergraph-profile pairs, construction fails on 0; outputs with a large bundle: 364520 (by size {3: 359468, 4: 5052})
+[   1253s] ALL DONE; failures: 0
+[   4378s] n=7 m=10: 8569 cores, 2398771584 hypergraph-profile pairs, construction fails on 0; outputs with a large bundle: 72580 (by size {3: 72556, 4: 24})
+[   4378s] ALL DONE; failures: 0
