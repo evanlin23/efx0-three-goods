@@ -1,0 +1,181 @@
+
+=== environment ===
+Thu Sep 24 23:42:35 UTC 2026
+work dir: /tmp/claude-0/-home-user-efx0-three-goods/e7467d05-c697-5117-8eb6-90729d45fc0c/scratchpad/kwork
+commit under test: dac68f33f960bbcd3c5ad89e15f65a1b94086b54
+toolchain: leanprover/lean4:v4.34.0
+
+=== 1. fresh clone, clean .lake, lake build ===
+Lean (version 4.34.0, x86_64-unknown-linux-gnu, commit 293d5d0c0c3f3dded4688b3ccd6a33939ac5102b, Release)
+ℹ [17/21] Built EFX.CorollaryD (678ms)
+ℹ [18/21] Built EFX.Target (699ms)
+ℹ [19/21] Built EFX.Audit (828ms)
+✔ [20/21] Built EFX (249ms)
+Build completed successfully (21 jobs).
+RESULT: lake build: as expected (exit 0)
+warnings replayed: 0
+RESULT: warning count: as expected (exit 0)
+
+=== 2. leanchecker --fresh ===
+(72 s)
+RESULT: leanchecker --fresh EFX.Target: as expected (exit 0)
+(71 s)
+RESULT: leanchecker --fresh EFX: as expected (exit 0)
+
+=== 3. #print axioms (scratch file) ===
+EFX.target : ∀ (I : EFX.Inst), 0 < I.n → (∀ (i : Fin I.n), EFX.numRelevant I i ≤ 3) → ∃ X, I.EFX0 X
+EFX.LB.corollaryD : ∀ (I : EFX.Inst),
+  0 < I.n →
+    (∀ (i : Fin I.n), EFX.numRelevant I i = 3) →
+      (∀ (i : Fin I.n) (g : Fin I.m), 2 * I.v i g ≤ EFX.finSum I.m (I.v i)) →
+        ∃ X, I.EFX0 X ∧ ∃ o, ∀ (j : Fin I.n), j ≠ o → (EFX.finSum I.m fun g => if X g = j then 1 else 0) ≤ 2
+Audit.target_audit : Audit.TargetStmt
+Audit.corollaryD_audit : Audit.DStmt
+'EFX.target' depends on axioms: [propext, Classical.choice, Quot.sound]
+'EFX.LB.corollaryD' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Audit.target_audit' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Audit.corollaryD_audit' depends on axioms: [propext, Classical.choice, Quot.sound]
+RESULT: scratch #print axioms: as expected (exit 0)
+RESULT: every certificate is exactly [propext, Classical.choice, Quot.sound]: as expected (exit 0)
+
+=== 4. second kernel: lean4export + nanoda ===
+lean4export 076e8e5 chore: bump toolchain to v4.34.0 (#49) ; toolchain leanprover/lean4:v4.34.0
+Build completed successfully (6 jobs).
+nanoda_lib 3a24072 Merge pull request #34 from scottdhughes/fix/pretty-printer-binder-prefix
+    Finished `release` profile [optimized] target(s) in 23.33s
+declarations exported: 726 named EFX-library declarations and their dependencies
+RESULT: lean4export: as expected (exit 0)
+def EFX.finSum (k : Nat) (x._@.EFX.Model.2634009645._hygCtx._hyg.13 : Fin k → Nat) : Nat :=
+  Nat.brecOn k EFX.finSum._f x._@.EFX.Model.2634009645._hygCtx._hyg.13
+
+def EFX.Inst.bundleVal (I : EFX.Inst) (X : EFX.Inst.Alloc I) (i j : Fin (EFX.Inst.n I))
+  (ex : Option (Fin (EFX.Inst.m I))) :
+  Nat :=
+  EFX.finSum (EFX.Inst.m I)
+    (fun (g : Fin (EFX.Inst.m I)) =>
+    ite (And (Eq (X g) j) (Ne ex (Option.some g))) (EFX.Inst.v I i g) (OfNat.ofNat 0))
+
+def EFX.Inst.EFX0 (I : EFX.Inst) (X : EFX.Inst.Alloc I) : Prop :=
+  forall (i j : Fin (EFX.Inst.n I)),
+  Ne i j → (forall (g : Fin (EFX.Inst.m I)),
+  Eq (X g) j → LE.le (EFX.Inst.bundleVal I X i j (Option.some g))
+    (EFX.Inst.bundleVal I X i i Option.none))
+
+def EFX.numRelevant (I : EFX.Inst) (i : Fin (EFX.Inst.n I)) : Nat :=
+  EFX.finSum (EFX.Inst.m I)
+    (fun (g : Fin (EFX.Inst.m I)) =>
+    ite (LT.lt (OfNat.ofNat 0) (EFX.Inst.v I i g)) (OfNat.ofNat 1) (OfNat.ofNat 0))
+
+theorem EFX.target (I : EFX.Inst) (hn : LT.lt (OfNat.ofNat 0) (EFX.Inst.n I))
+  (h : (forall (i : Fin (EFX.Inst.n I)), LE.le (EFX.numRelevant I i) (OfNat.ofNat 3))) :
+  Exists (fun (X : EFX.Inst.Alloc I) => EFX.Inst.EFX0 I X) :=
+  _
+
+theorem EFX.LB.corollaryD (I : EFX.Inst) (hn : LT.lt (OfNat.ofNat 0) (EFX.Inst.n I))
+  (h3 : (forall (i : Fin (EFX.Inst.n I)), Eq (EFX.numRelevant I i) (OfNat.ofNat 3)))
+  (hbal :
+    (forall (i : Fin (EFX.Inst.n I)) (g : Fin (EFX.Inst.m I)),
+    LE.le (HMul.hMul (OfNat.ofNat 2) (EFX.Inst.v I i g))
+      (EFX.finSum (EFX.Inst.m I) (EFX.Inst.v I i)))) :
+  Exists
+    (fun (X : EFX.Inst.Alloc I) =>
+    And (EFX.Inst.EFX0 I X)
+      (Exists
+        (fun (o : Fin (EFX.Inst.n I)) =>
+        forall (j : Fin (EFX.Inst.n I)),
+        Ne j o → LE.le
+          (EFX.finSum (EFX.Inst.m I)
+            (fun (g : Fin (EFX.Inst.m I)) => ite (Eq (X g) j) (OfNat.ofNat 1) (OfNat.ofNat 0)))
+          (OfNat.ofNat 2)))) :=
+  _
+
+def Audit.lsum :
+  forall {m : Nat}, (Fin m → Nat) → List (Fin m) → Nat :=
+  fun {m : Nat} (f : Fin m → Nat) (x._@.EFX.Audit.706667673._hygCtx._hyg.14 : List (Fin m)) =>
+  List.brecOn x._@.EFX.Audit.706667673._hygCtx._hyg.14 (Audit.lsum._f f)
+
+def Audit.IsPartition :
+  forall {n m : Nat}, (Fin n → List (Fin m)) → Prop :=
+  fun {n m : Nat} (X : Fin n → List (Fin m)) =>
+  And (forall (i : Fin n), List.Nodup (X i))
+    (And (forall (g : Fin m), Exists (fun (i : Fin n) => Membership.mem (X i) g))
+      (forall (i j : Fin n) (g : Fin m),
+      Membership.mem (X i) g → Membership.mem (X j) g → Eq i j))
+
+def Audit.IsEFX0 :
+  forall {n m : Nat}, (Fin n → Fin m → Nat) → (Fin n → List (Fin m)) → Prop :=
+  fun {n m : Nat} (v : Fin n → Fin m → Nat) (X : Fin n → List (Fin m)) =>
+  forall (i j : Fin n),
+  Ne i j → (forall (g : Fin m),
+  Membership.mem (X j) g → LE.le (Audit.lsum (v i) (List.erase (X j) g)) (Audit.lsum (v i) (X i)))
+
+def Audit.relevant :
+  forall {n m : Nat}, (Fin n → Fin m → Nat) → Fin n → List (Fin m) :=
+  fun {n m : Nat} (v : Fin n → Fin m → Nat) (i : Fin n) =>
+  List.filter (fun (g : Fin m) => Decidable.decide (LT.lt (OfNat.ofNat 0) (v i g)))
+    (List.finRange m)
+
+def Audit.total :
+  forall {n m : Nat}, (Fin n → Fin m → Nat) → Fin n → Nat :=
+  fun {n m : Nat} (v : Fin n → Fin m → Nat) (i : Fin n) => Audit.lsum (v i) (List.finRange m)
+
+def Audit.Balanced :
+  forall {n m : Nat}, (Fin n → Fin m → Nat) → Prop :=
+  fun {n m : Nat} (v : Fin n → Fin m → Nat) =>
+  forall (i : Fin n) (g : Fin m),
+  LE.le (HMul.hMul (OfNat.ofNat 2) (v i g)) (Audit.total v i)
+
+def Audit.TargetStmt :
+  Prop :=
+  forall (n m : Nat) (v : Fin n → Fin m → Nat),
+  LT.lt (OfNat.ofNat 0) n → (forall (i : Fin n),
+    LE.le (List.length (Audit.relevant v i)) (OfNat.ofNat 3)) →
+  Exists (fun (X : Fin n → List (Fin m)) => And (Audit.IsPartition X) (Audit.IsEFX0 v X))
+
+def Audit.DStmt :
+  Prop :=
+  forall (n m : Nat) (v : Fin n → Fin m → Nat),
+  LT.lt (OfNat.ofNat 0) n → (forall (i : Fin n),
+    Eq (List.length (Audit.relevant v i)) (OfNat.ofNat 3)) →
+  Audit.Balanced v → Exists
+    (fun (X : Fin n → List (Fin m)) =>
+    And (Audit.IsPartition X)
+      (And (Audit.IsEFX0 v X)
+        (forall (j k : Fin n),
+        LT.lt (OfNat.ofNat 2) (List.length (X j)) → LT.lt (OfNat.ofNat 2) (List.length (X k)) →
+        Eq j k)))
+
+theorem Audit.target_audit : Audit.TargetStmt := _
+
+theorem Audit.corollaryD_audit : Audit.DStmt := _
+
+axiom Quot.sound.{u} {α : Sort u} {r : α → α → Prop} {a b : α} :
+  r a b → Eq (Quot.mk r a) (Quot.mk r b)
+
+axiom propext {a b : Prop} : Iff a b → Eq a b
+
+axiom Classical.choice.{u} {α : Sort u} : Nonempty α → α
+
+Checked 4186 declarations with no errors
+RESULT: nanoda on the EFX library: as expected (exit 0)
+
+=== 5. negative controls (both checkers must reject) ===
+info: Neg: no previous manifest, creating one from scratch
+info: toolchain not updated; already up-to-date
+info: Neg.lean:13:0: 'negNative' depends on axioms: [negNative._native.native_decide.ax_1_1]
+info: Neg.lean:14:0: 'negOneEqTwo' does not depend on any axioms
+RESULT: lake build accepts the negative controls: as expected (exit 0)
+(kernel) declaration type mismatch, 'negFalse' has type
+  True
+but it is expected to have type
+  False
+RESULT: leanchecker --fresh Neg: as expected (exit rejected)
+thread 'main' (3129) panicked at src/tc.rs:955:71:
+assertion failed: self.def_eq(u, v)
+RESULT: nanoda on negOneEqTwo: as expected (exit rejected)
+thread 'main' (3142) panicked at src/tc.rs:230:13:
+declaration not found in infer_const, negNative._native.native_decide.ax_1_1
+RESULT: nanoda on negNative: as expected (exit rejected)
+
+=== summary ===
+AUDIT KERNEL CHECK PASSED
