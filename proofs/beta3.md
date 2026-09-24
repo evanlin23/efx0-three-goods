@@ -335,9 +335,10 @@ Cores without Q-agents are covered by Corollary 3. This proves Lemma 7.
   hold their top (case T of L5) or their b with their top alone (case B), and the spares), or a dump target's
   (a P-agent holding its private good and one shared good, or a 2-holder, plus the spares), or there is none.
   Spares are shared goods, valued only by agents that are safe regardless (P-agents of balanced components, 2-holders,
-  a-pins for which (P4) holds). This is close to, but not the same as, the canonical shape of conjecture S2.K in open
-  PR #9 (owner in case C, bundle = its c plus private goods of agents in cases T or B): here the main collector may be
-  in case T, B or C, and spares are shared goods.
+  a-pins for which (P4) holds). This is close to, but not the same as, the canonical shape of conjecture S2.K
+  (`proofs/construction.md` §5.2: owner in case C, bundle = its c plus private goods of agents in cases T or B):
+  here the main collector may be in case T, B or C, and spares are shared goods. D3 is proved directly; it does not
+  go through construction LB (S2.LB) or S2.K.
 - **Which tools each q needs** (over every β = 3 core with n ≤ 7 and every order of its Q-agents; `src/dg_beta3.py`
   searches roles in the order a-pin, b-pin, 2-holder, and spares before dump targets): q = 0 and q = 1 need only
   a-pins, spares and collectors; q = 2 also needs b-pins and 2-holders; q = 3 and 4 need all tools, including dump

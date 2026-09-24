@@ -1,0 +1,230 @@
+# src/large_bundle.py structure: every EFX0 allocation with exactly one bundle of >= 3 goods, for every C2-failing (core, profile) of every connected core (n = 3..6)
+n=3 m=5: 14 C2-failing (core, profile) pairs; one-large-bundle allocations per pair: min 4, max 6  [0s]
+  minimum size of the large bundle: {3: 14}
+  pairs where the owner can use case: {'B': 6, 'C': 14}
+  some solution has [L minus owner goods all private]: 14 of 14
+  some solution has [rest private, their agents in case T or B]: 14 of 14
+  some solution has [owner in case C, rest private, their agents in case T or B]: 14 of 14
+  some solution has [L = owner's c + private goods of agents in case T or B]: 14 of 14
+  some solution has [... and their agents hold their tops]: 12 of 14
+  pairs where no solution has [owner holds top, rest private, their agents hold tops]: 14
+  agents' cases in the canonical solution with the most agents holding their tops (owner in case C), by number of pairs: {'TTC (D=3)': 12, 'TBC (D=3)': 2}
+    e.g. [[0, 1, 2], [0, 1, 3], [0, 1, 4]] profile (0, 0, 0), (a, b, c): [(0, 1, 2), (0, 1, 3), (0, 1, 4)]
+    e.g. [[0, 1, 2], [0, 1, 3], [0, 1, 4]] profile (0, 0, 2), (a, b, c): [(0, 1, 2), (0, 1, 3), (1, 0, 4)]
+    e.g. [[0, 1, 2], [0, 1, 3], [0, 1, 4]] profile (0, 0, 3), (a, b, c): [(0, 1, 2), (0, 1, 3), (1, 4, 0)]
+    e.g. [[0, 1, 2], [0, 1, 3], [0, 1, 4]] profile (0, 2, 0), (a, b, c): [(0, 1, 2), (1, 0, 3), (0, 1, 4)]
+    e.g. [[0, 1, 2], [0, 1, 3], [0, 1, 4]] profile (0, 2, 2), (a, b, c): [(0, 1, 2), (1, 0, 3), (1, 0, 4)]
+n=4 m=6: 5 C2-failing (core, profile) pairs; one-large-bundle allocations per pair: min 8, max 10  [0s]
+  minimum size of the large bundle: {3: 5}
+  pairs where the owner can use case: {'C': 5, 'E': 2}
+  some solution has [L minus owner goods all private]: 5 of 5
+  some solution has [... and their agents hold their tops]: 3 of 5
+  some solution has [rest private, their agents in case T or B]: 5 of 5
+  some solution has [owner in case C, rest private, their agents in case T or B]: 5 of 5
+  some solution has [L = owner's c + private goods of agents in case T or B]: 5 of 5
+  pairs where no solution has [owner holds top, rest private, their agents hold tops]: 5
+  agents' cases in the canonical solution with the most agents holding their tops (owner in case C), by number of pairs: {'TTBC (D=3)': 4, 'TTCC (D=3)': 1}
+    e.g. [[0, 2, 3], [1, 2, 4], [1, 2, 5], [0, 1, 2]] profile (0, 0, 0, 0), (a, b, c): [(0, 2, 3), (1, 2, 4), (1, 2, 5), (0, 1, 2)]
+    e.g. [[0, 2, 3], [1, 2, 4], [1, 2, 5], [0, 1, 2]] profile (0, 0, 0, 1), (a, b, c): [(0, 2, 3), (1, 2, 4), (1, 2, 5), (0, 2, 1)]
+    e.g. [[0, 3, 4], [2, 3, 5], [0, 1, 3], [1, 2, 3]] profile (0, 0, 1, 3), (a, b, c): [(0, 3, 4), (2, 3, 5), (0, 3, 1), (2, 3, 1)]
+    e.g. [[2, 3, 4], [2, 3, 5], [0, 1, 3], [0, 1, 3]] profile (0, 0, 1, 1), (a, b, c): [(2, 3, 4), (2, 3, 5), (0, 3, 1), (0, 3, 1)]
+    e.g. [[2, 3, 4], [2, 3, 5], [0, 1, 3], [0, 1, 3]] profile (0, 0, 3, 3), (a, b, c): [(2, 3, 4), (2, 3, 5), (1, 3, 0), (1, 3, 0)]
+n=4 m=7: 102 C2-failing (core, profile) pairs; one-large-bundle allocations per pair: min 8, max 40  [1s]
+  minimum size of the large bundle: {3: 101, 4: 1}
+  pairs where the owner can use case: {'B': 70, 'C': 102, 'P': 33, 'T': 82}
+  pairs needing a large bundle of >= 4 goods: 1, in 1 cores
+    [[0, 2, 3], [0, 2, 4], [1, 2, 5], [1, 2, 6]] profile (0, 0, 0, 0): (a, b, c) [(0, 2, 3), (0, 2, 4), (1, 2, 5), (1, 2, 6)]
+  some solution has [L minus owner goods all private]: 102 of 102
+  some solution has [rest private, their agents in case T or B]: 102 of 102
+  some solution has [owner in case C, rest private, their agents in case T or B]: 102 of 102
+  some solution has [L = owner's c + private goods of agents in case T or B]: 102 of 102
+  some solution has [owner holds its top]: 82 of 102
+  some solution has [... and their agents hold their tops]: 100 of 102
+  some solution has [owner holds top, rest private, their agents hold tops]: 64 of 102
+  pairs where no solution has [owner holds top, rest private, their agents hold tops]: 38
+  agents' cases in the canonical solution with the most agents holding their tops (owner in case C), by number of pairs: {'TTTC (D=3)': 49, 'TTPC (D=3)': 28, 'TTTC (D=4)': 23, 'TTBC (D=4)': 1, 'TPBC (D=3)': 1}
+    e.g. [[0, 2, 3], [0, 2, 4], [1, 2, 5], [1, 2, 6]] profile (0, 0, 0, 0), (a, b, c): [(0, 2, 3), (0, 2, 4), (1, 2, 5), (1, 2, 6)]
+    e.g. [[0, 2, 3], [0, 2, 4], [1, 2, 5], [1, 2, 6]] profile (0, 0, 2, 2), (a, b, c): [(0, 2, 3), (0, 2, 4), (2, 1, 5), (2, 1, 6)]
+    e.g. [[0, 2, 3], [0, 2, 4], [1, 2, 5], [1, 2, 6]] profile (0, 0, 2, 3), (a, b, c): [(0, 2, 3), (0, 2, 4), (2, 1, 5), (2, 6, 1)]
+    e.g. [[0, 2, 3], [0, 2, 4], [1, 2, 5], [1, 2, 6]] profile (0, 0, 3, 2), (a, b, c): [(0, 2, 3), (0, 2, 4), (2, 5, 1), (2, 1, 6)]
+    e.g. [[0, 2, 3], [0, 2, 4], [1, 2, 5], [1, 2, 6]] profile (0, 0, 3, 3), (a, b, c): [(0, 2, 3), (0, 2, 4), (2, 5, 1), (2, 6, 1)]
+n=5 m=7: 1 C2-failing (core, profile) pairs; one-large-bundle allocations per pair: min 20, max 20  [2s]
+  minimum size of the large bundle: {3: 1}
+  pairs where the owner can use case: {'C': 1, 'E': 1}
+  some solution has [L minus owner goods all private]: 1 of 1
+  some solution has [... and their agents hold their tops]: 1 of 1
+  some solution has [rest private, their agents in case T or B]: 1 of 1
+  some solution has [owner in case C, rest private, their agents in case T or B]: 1 of 1
+  some solution has [L = owner's c + private goods of agents in case T or B]: 1 of 1
+  pairs where no solution has [owner holds top, rest private, their agents hold tops]: 1
+  agents' cases in the canonical solution with the most agents holding their tops (owner in case C), by number of pairs: {'TTTCC (D=3)': 1}
+    e.g. [[1, 3, 4], [1, 3, 5], [2, 3, 6], [0, 2, 3], [0, 2, 3]] profile (0, 0, 0, 0, 0), (a, b, c): [(1, 3, 4), (1, 3, 5), (2, 3, 6), (0, 2, 3), (0, 2, 3)]
+n=5 m=8: 261 C2-failing (core, profile) pairs; one-large-bundle allocations per pair: min 42, max 160  [6s]
+  minimum size of the large bundle: {3: 261}
+  pairs where the owner can use case: {'B': 195, 'C': 261, 'E': 38, 'P': 43, 'T': 50}
+  some solution has [L minus owner goods all private]: 261 of 261
+  some solution has [... and their agents hold their tops]: 261 of 261
+  some solution has [rest private, their agents in case T or B]: 261 of 261
+  some solution has [owner in case C, rest private, their agents in case T or B]: 261 of 261
+  some solution has [L = owner's c + private goods of agents in case T or B]: 261 of 261
+  some solution has [owner holds its top]: 50 of 261
+  some solution has [owner holds top, rest private, their agents hold tops]: 50 of 261
+  pairs where no solution has [owner holds top, rest private, their agents hold tops]: 211
+  agents' cases in the canonical solution with the most agents holding their tops (owner in case C), by number of pairs: {'TTTCC (D=4)': 89, 'TTTBC (D=3)': 61, 'TTTCC (D=3)': 50, 'TTBCC (D=4)': 17, 'TTTBC (D=4)': 17, 'TTTCE (D=4)': 11, 'TTPBC (D=3)': 6, 'TTBBC (D=3)': 4, 'TTPCC (D=3)': 4, 'TTBCC (D=3)': 2}
+    e.g. [[0, 2, 3], [0, 2, 4], [1, 2, 5], [1, 2, 6], [1, 2, 7]] profile (0, 0, 0, 0, 0), (a, b, c): [(0, 2, 3), (0, 2, 4), (1, 2, 5), (1, 2, 6), (1, 2, 7)]
+    e.g. [[0, 2, 3], [0, 2, 4], [1, 2, 5], [1, 2, 6], [1, 2, 7]] profile (0, 0, 0, 0, 1), (a, b, c): [(0, 2, 3), (0, 2, 4), (1, 2, 5), (1, 2, 6), (1, 7, 2)]
+    e.g. [[0, 2, 3], [0, 2, 4], [1, 2, 5], [1, 2, 6], [1, 2, 7]] profile (0, 0, 0, 0, 2), (a, b, c): [(0, 2, 3), (0, 2, 4), (1, 2, 5), (1, 2, 6), (2, 1, 7)]
+    e.g. [[0, 2, 3], [0, 2, 4], [1, 2, 5], [1, 2, 6], [1, 2, 7]] profile (0, 0, 0, 0, 3), (a, b, c): [(0, 2, 3), (0, 2, 4), (1, 2, 5), (1, 2, 6), (2, 7, 1)]
+    e.g. [[0, 2, 3], [0, 2, 4], [1, 2, 5], [1, 2, 6], [1, 2, 7]] profile (0, 0, 0, 1, 0), (a, b, c): [(0, 2, 3), (0, 2, 4), (1, 2, 5), (1, 6, 2), (1, 2, 7)]
+n=5 m=9: 722 C2-failing (core, profile) pairs; one-large-bundle allocations per pair: min 52, max 306  [20s]
+  minimum size of the large bundle: {3: 722}
+  pairs where the owner can use case: {'B': 650, 'C': 722, 'P': 544, 'T': 720}
+  some solution has [owner holds its top]: 720 of 722
+  some solution has [L minus owner goods all private]: 722 of 722
+  some solution has [... and their agents hold their tops]: 722 of 722
+  some solution has [owner holds top, rest private, their agents hold tops]: 708 of 722
+  some solution has [rest private, their agents in case T or B]: 722 of 722
+  some solution has [owner in case C, rest private, their agents in case T or B]: 722 of 722
+  some solution has [L = owner's c + private goods of agents in case T or B]: 722 of 722
+  pairs where no solution has [owner holds top, rest private, their agents hold tops]: 14
+  agents' cases in the canonical solution with the most agents holding their tops (owner in case C), by number of pairs: {'TTTTC (D=3)': 265, 'TTTPC (D=3)': 189, 'TTTTC (D=4)': 122, 'TTTPC (D=4)': 65, 'TTTTC (D=5)': 53, 'TTPPC (D=3)': 16, 'TTPBC (D=4)': 4, 'TTTCC (D=4)': 4, 'TTTCC (D=3)': 4}
+    e.g. [[0, 1, 4], [0, 3, 5], [1, 3, 6], [2, 3, 7], [2, 3, 8]] profile (0, 2, 2, 2, 2), (a, b, c): [(0, 1, 4), (3, 0, 5), (3, 1, 6), (3, 2, 7), (3, 2, 8)]
+    e.g. [[0, 1, 4], [0, 3, 5], [1, 3, 6], [2, 3, 7], [2, 3, 8]] profile (1, 2, 2, 2, 2), (a, b, c): [(0, 4, 1), (3, 0, 5), (3, 1, 6), (3, 2, 7), (3, 2, 8)]
+    e.g. [[0, 1, 4], [0, 3, 5], [1, 3, 6], [2, 3, 7], [2, 3, 8]] profile (2, 2, 2, 2, 2), (a, b, c): [(1, 0, 4), (3, 0, 5), (3, 1, 6), (3, 2, 7), (3, 2, 8)]
+    e.g. [[0, 1, 4], [0, 3, 5], [1, 3, 6], [2, 3, 7], [2, 3, 8]] profile (3, 2, 2, 2, 2), (a, b, c): [(1, 4, 0), (3, 0, 5), (3, 1, 6), (3, 2, 7), (3, 2, 8)]
+    e.g. [[0, 2, 4], [0, 2, 5], [1, 3, 6], [1, 3, 7], [2, 3, 8]] profile (2, 2, 2, 2, 0), (a, b, c): [(2, 0, 4), (2, 0, 5), (3, 1, 6), (3, 1, 7), (2, 3, 8)]
+n=6 m=9: 1153 C2-failing (core, profile) pairs; one-large-bundle allocations per pair: min 116, max 516  [129s]
+  minimum size of the large bundle: {3: 1153}
+  pairs where the owner can use case: {'B': 792, 'C': 1153, 'E': 934, 'P': 11, 'T': 1}
+  some solution has [L minus owner goods all private]: 1153 of 1153
+  some solution has [... and their agents hold their tops]: 1153 of 1153
+  some solution has [rest private, their agents in case T or B]: 1153 of 1153
+  some solution has [owner in case C, rest private, their agents in case T or B]: 1153 of 1153
+  some solution has [L = owner's c + private goods of agents in case T or B]: 1153 of 1153
+  some solution has [owner holds its top]: 1 of 1153
+  some solution has [owner holds top, rest private, their agents hold tops]: 1 of 1153
+  pairs where no solution has [owner holds top, rest private, their agents hold tops]: 1152
+  agents' cases in the canonical solution with the most agents holding their tops (owner in case C), by number of pairs: {'TTTTCC (D=4)': 279, 'TTTTCC (D=3)': 240, 'TTTTCE (D=4)': 144, 'TTTCEE (D=4)': 105, 'TTTCCE (D=4)': 91, 'TTTTCE (D=3)': 81, 'TTTBCC (D=3)': 68, 'TTTBCC (D=4)': 55, 'TTTCCC (D=4)': 18, 'TTTBBC (D=3)': 17, 'TTTTCE (D=5)': 11, 'TTTCCC (D=3)': 9} ...
+    e.g. [[0, 1, 4], [0, 1, 5], [2, 3, 6], [2, 3, 7], [2, 3, 8], [1, 2, 3]] profile (0, 0, 0, 0, 0, 0), (a, b, c): [(0, 1, 4), (0, 1, 5), (2, 3, 6), (2, 3, 7), (2, 3, 8), (1, 2, 3)]
+    e.g. [[0, 1, 4], [0, 1, 5], [2, 3, 6], [2, 3, 7], [2, 3, 8], [1, 2, 3]] profile (0, 0, 0, 0, 0, 1), (a, b, c): [(0, 1, 4), (0, 1, 5), (2, 3, 6), (2, 3, 7), (2, 3, 8), (1, 3, 2)]
+    e.g. [[0, 1, 4], [0, 1, 5], [2, 3, 6], [2, 3, 7], [2, 3, 8], [1, 2, 3]] profile (0, 0, 0, 0, 2, 0), (a, b, c): [(0, 1, 4), (0, 1, 5), (2, 3, 6), (2, 3, 7), (3, 2, 8), (1, 2, 3)]
+    e.g. [[0, 1, 4], [0, 1, 5], [2, 3, 6], [2, 3, 7], [2, 3, 8], [1, 2, 3]] profile (0, 0, 0, 0, 2, 1), (a, b, c): [(0, 1, 4), (0, 1, 5), (2, 3, 6), (2, 3, 7), (3, 2, 8), (1, 3, 2)]
+    e.g. [[0, 1, 4], [0, 1, 5], [2, 3, 6], [2, 3, 7], [2, 3, 8], [1, 2, 3]] profile (0, 0, 0, 0, 3, 0), (a, b, c): [(0, 1, 4), (0, 1, 5), (2, 3, 6), (2, 3, 7), (3, 8, 2), (1, 2, 3)]
+n=6 m=10: 7077 C2-failing (core, profile) pairs; one-large-bundle allocations per pair: min 160, max 1206  [751s]
+  minimum size of the large bundle: {3: 6999, 4: 78}
+  pairs where the owner can use case: {'B': 6440, 'C': 7077, 'E': 369, 'P': 2360, 'T': 6354}
+  pairs needing a large bundle of >= 4 goods: 78, in 7 cores
+    [[0, 3, 4], [0, 3, 5], [1, 3, 6], [1, 3, 7], [2, 3, 8], [2, 3, 9]] profile (0, 0, 0, 0, 0, 0): (a, b, c) [(0, 3, 4), (0, 3, 5), (1, 3, 6), (1, 3, 7), (2, 3, 8), (2, 3, 9)]
+    [[0, 3, 4], [0, 3, 5], [1, 3, 6], [1, 3, 7], [2, 3, 8], [2, 3, 9]] profile (0, 0, 0, 0, 0, 1): (a, b, c) [(0, 3, 4), (0, 3, 5), (1, 3, 6), (1, 3, 7), (2, 3, 8), (2, 9, 3)]
+    [[0, 3, 4], [0, 3, 5], [1, 3, 6], [1, 3, 7], [2, 3, 8], [2, 3, 9]] profile (0, 0, 0, 0, 1, 0): (a, b, c) [(0, 3, 4), (0, 3, 5), (1, 3, 6), (1, 3, 7), (2, 8, 3), (2, 3, 9)]
+    [[0, 3, 4], [0, 3, 5], [1, 3, 6], [1, 3, 7], [2, 3, 8], [2, 3, 9]] profile (0, 0, 0, 0, 1, 1): (a, b, c) [(0, 3, 4), (0, 3, 5), (1, 3, 6), (1, 3, 7), (2, 8, 3), (2, 9, 3)]
+    [[0, 3, 4], [0, 3, 5], [1, 3, 6], [1, 3, 7], [2, 3, 8], [2, 3, 9]] profile (0, 0, 0, 1, 0, 0): (a, b, c) [(0, 3, 4), (0, 3, 5), (1, 3, 6), (1, 7, 3), (2, 3, 8), (2, 3, 9)]
+    [[0, 3, 4], [0, 3, 5], [1, 3, 6], [1, 3, 7], [2, 3, 8], [2, 3, 9]] profile (0, 0, 1, 0, 0, 0): (a, b, c) [(0, 3, 4), (0, 3, 5), (1, 6, 3), (1, 3, 7), (2, 3, 8), (2, 3, 9)]
+    [[0, 3, 4], [0, 3, 5], [1, 3, 6], [1, 3, 7], [2, 3, 8], [2, 3, 9]] profile (0, 0, 1, 1, 0, 0): (a, b, c) [(0, 3, 4), (0, 3, 5), (1, 6, 3), (1, 7, 3), (2, 3, 8), (2, 3, 9)]
+    [[0, 3, 4], [0, 3, 5], [1, 3, 6], [1, 3, 7], [2, 3, 8], [2, 3, 9]] profile (0, 1, 0, 0, 0, 0): (a, b, c) [(0, 3, 4), (0, 5, 3), (1, 3, 6), (1, 3, 7), (2, 3, 8), (2, 3, 9)]
+    [[0, 3, 4], [0, 3, 5], [1, 3, 6], [1, 3, 7], [2, 3, 8], [2, 3, 9]] profile (1, 0, 0, 0, 0, 0): (a, b, c) [(0, 4, 3), (0, 3, 5), (1, 3, 6), (1, 3, 7), (2, 3, 8), (2, 3, 9)]
+    [[0, 3, 4], [0, 3, 5], [1, 3, 6], [1, 3, 7], [2, 3, 8], [2, 3, 9]] profile (1, 1, 0, 0, 0, 0): (a, b, c) [(0, 4, 3), (0, 5, 3), (1, 3, 6), (1, 3, 7), (2, 3, 8), (2, 3, 9)]
+    [[0, 2, 4], [0, 3, 5], [1, 3, 6], [1, 3, 7], [2, 3, 8], [2, 3, 9]] profile (0, 0, 0, 0, 0, 0): (a, b, c) [(0, 2, 4), (0, 3, 5), (1, 3, 6), (1, 3, 7), (2, 3, 8), (2, 3, 9)]
+    [[0, 2, 4], [0, 3, 5], [1, 3, 6], [1, 3, 7], [2, 3, 8], [2, 3, 9]] profile (0, 1, 0, 0, 0, 0): (a, b, c) [(0, 2, 4), (0, 5, 3), (1, 3, 6), (1, 3, 7), (2, 3, 8), (2, 3, 9)]
+    [[0, 2, 4], [0, 3, 5], [1, 3, 6], [1, 3, 7], [2, 3, 8], [2, 3, 9]] profile (1, 0, 0, 0, 0, 0): (a, b, c) [(0, 4, 2), (0, 3, 5), (1, 3, 6), (1, 3, 7), (2, 3, 8), (2, 3, 9)]
+    [[0, 2, 4], [0, 3, 5], [1, 3, 6], [1, 3, 7], [2, 3, 8], [2, 3, 9]] profile (1, 1, 0, 0, 0, 0): (a, b, c) [(0, 4, 2), (0, 5, 3), (1, 3, 6), (1, 3, 7), (2, 3, 8), (2, 3, 9)]
+    [[0, 2, 4], [0, 2, 5], [1, 3, 6], [1, 3, 7], [2, 3, 8], [2, 3, 9]] profile (0, 0, 0, 0, 0, 0): (a, b, c) [(0, 2, 4), (0, 2, 5), (1, 3, 6), (1, 3, 7), (2, 3, 8), (2, 3, 9)]
+    [[0, 2, 4], [0, 2, 5], [1, 3, 6], [1, 3, 7], [2, 3, 8], [2, 3, 9]] profile (0, 0, 0, 0, 0, 2): (a, b, c) [(0, 2, 4), (0, 2, 5), (1, 3, 6), (1, 3, 7), (2, 3, 8), (3, 2, 9)]
+    [[0, 2, 4], [0, 2, 5], [1, 3, 6], [1, 3, 7], [2, 3, 8], [2, 3, 9]] profile (0, 0, 0, 0, 0, 3): (a, b, c) [(0, 2, 4), (0, 2, 5), (1, 3, 6), (1, 3, 7), (2, 3, 8), (3, 9, 2)]
+    [[0, 2, 4], [0, 2, 5], [1, 3, 6], [1, 3, 7], [2, 3, 8], [2, 3, 9]] profile (0, 0, 0, 0, 1, 2): (a, b, c) [(0, 2, 4), (0, 2, 5), (1, 3, 6), (1, 3, 7), (2, 8, 3), (3, 2, 9)]
+    [[0, 2, 4], [0, 2, 5], [1, 3, 6], [1, 3, 7], [2, 3, 8], [2, 3, 9]] profile (0, 0, 0, 0, 1, 3): (a, b, c) [(0, 2, 4), (0, 2, 5), (1, 3, 6), (1, 3, 7), (2, 8, 3), (3, 9, 2)]
+    [[0, 2, 4], [0, 2, 5], [1, 3, 6], [1, 3, 7], [2, 3, 8], [2, 3, 9]] profile (0, 0, 0, 0, 2, 0): (a, b, c) [(0, 2, 4), (0, 2, 5), (1, 3, 6), (1, 3, 7), (3, 2, 8), (2, 3, 9)]
+    [[0, 2, 4], [0, 2, 5], [1, 3, 6], [1, 3, 7], [2, 3, 8], [2, 3, 9]] profile (0, 0, 0, 0, 2, 1): (a, b, c) [(0, 2, 4), (0, 2, 5), (1, 3, 6), (1, 3, 7), (3, 2, 8), (2, 9, 3)]
+    [[0, 2, 4], [0, 2, 5], [1, 3, 6], [1, 3, 7], [2, 3, 8], [2, 3, 9]] profile (0, 0, 0, 0, 2, 2): (a, b, c) [(0, 2, 4), (0, 2, 5), (1, 3, 6), (1, 3, 7), (3, 2, 8), (3, 2, 9)]
+    [[0, 2, 4], [0, 2, 5], [1, 3, 6], [1, 3, 7], [2, 3, 8], [2, 3, 9]] profile (0, 0, 0, 0, 3, 0): (a, b, c) [(0, 2, 4), (0, 2, 5), (1, 3, 6), (1, 3, 7), (3, 8, 2), (2, 3, 9)]
+    [[0, 2, 4], [0, 2, 5], [1, 3, 6], [1, 3, 7], [2, 3, 8], [2, 3, 9]] profile (0, 0, 0, 0, 3, 1): (a, b, c) [(0, 2, 4), (0, 2, 5), (1, 3, 6), (1, 3, 7), (3, 8, 2), (2, 9, 3)]
+    [[0, 2, 4], [0, 2, 5], [1, 3, 6], [1, 3, 7], [2, 3, 8], [2, 3, 9]] profile (0, 0, 0, 1, 2, 2): (a, b, c) [(0, 2, 4), (0, 2, 5), (1, 3, 6), (1, 7, 3), (3, 2, 8), (3, 2, 9)]
+    [[0, 2, 4], [0, 2, 5], [1, 3, 6], [1, 3, 7], [2, 3, 8], [2, 3, 9]] profile (0, 0, 1, 0, 2, 2): (a, b, c) [(0, 2, 4), (0, 2, 5), (1, 6, 3), (1, 3, 7), (3, 2, 8), (3, 2, 9)]
+    [[0, 2, 4], [0, 2, 5], [1, 3, 6], [1, 3, 7], [2, 3, 8], [2, 3, 9]] profile (0, 0, 1, 1, 2, 2): (a, b, c) [(0, 2, 4), (0, 2, 5), (1, 6, 3), (1, 7, 3), (3, 2, 8), (3, 2, 9)]
+    [[0, 2, 4], [0, 2, 5], [1, 3, 6], [1, 3, 7], [2, 3, 8], [2, 3, 9]] profile (0, 1, 0, 0, 0, 0): (a, b, c) [(0, 2, 4), (0, 5, 2), (1, 3, 6), (1, 3, 7), (2, 3, 8), (2, 3, 9)]
+    [[0, 2, 4], [0, 2, 5], [1, 3, 6], [1, 3, 7], [2, 3, 8], [2, 3, 9]] profile (1, 0, 0, 0, 0, 0): (a, b, c) [(0, 4, 2), (0, 2, 5), (1, 3, 6), (1, 3, 7), (2, 3, 8), (2, 3, 9)]
+    [[0, 2, 4], [0, 2, 5], [1, 3, 6], [1, 3, 7], [2, 3, 8], [2, 3, 9]] profile (1, 1, 0, 0, 0, 0): (a, b, c) [(0, 4, 2), (0, 5, 2), (1, 3, 6), (1, 3, 7), (2, 3, 8), (2, 3, 9)]
+    [[0, 1, 4], [0, 1, 5], [1, 3, 6], [2, 3, 7], [2, 3, 8], [2, 3, 9]] profile (0, 0, 0, 0, 0, 0): (a, b, c) [(0, 1, 4), (0, 1, 5), (1, 3, 6), (2, 3, 7), (2, 3, 8), (2, 3, 9)]
+    [[0, 1, 4], [0, 1, 5], [1, 3, 6], [2, 3, 7], [2, 3, 8], [2, 3, 9]] profile (0, 0, 0, 0, 0, 2): (a, b, c) [(0, 1, 4), (0, 1, 5), (1, 3, 6), (2, 3, 7), (2, 3, 8), (3, 2, 9)]
+    [[0, 1, 4], [0, 1, 5], [1, 3, 6], [2, 3, 7], [2, 3, 8], [2, 3, 9]] profile (0, 0, 0, 0, 0, 3): (a, b, c) [(0, 1, 4), (0, 1, 5), (1, 3, 6), (2, 3, 7), (2, 3, 8), (3, 9, 2)]
+    [[0, 1, 4], [0, 1, 5], [1, 3, 6], [2, 3, 7], [2, 3, 8], [2, 3, 9]] profile (0, 0, 0, 0, 2, 0): (a, b, c) [(0, 1, 4), (0, 1, 5), (1, 3, 6), (2, 3, 7), (3, 2, 8), (2, 3, 9)]
+    [[0, 1, 4], [0, 1, 5], [1, 3, 6], [2, 3, 7], [2, 3, 8], [2, 3, 9]] profile (0, 0, 0, 0, 2, 2): (a, b, c) [(0, 1, 4), (0, 1, 5), (1, 3, 6), (2, 3, 7), (3, 2, 8), (3, 2, 9)]
+    [[0, 1, 4], [0, 1, 5], [1, 3, 6], [2, 3, 7], [2, 3, 8], [2, 3, 9]] profile (0, 0, 0, 0, 3, 0): (a, b, c) [(0, 1, 4), (0, 1, 5), (1, 3, 6), (2, 3, 7), (3, 8, 2), (2, 3, 9)]
+    [[0, 1, 4], [0, 1, 5], [1, 3, 6], [2, 3, 7], [2, 3, 8], [2, 3, 9]] profile (0, 0, 0, 1, 2, 2): (a, b, c) [(0, 1, 4), (0, 1, 5), (1, 3, 6), (2, 7, 3), (3, 2, 8), (3, 2, 9)]
+    [[0, 1, 4], [0, 1, 5], [1, 3, 6], [2, 3, 7], [2, 3, 8], [2, 3, 9]] profile (0, 0, 0, 2, 0, 0): (a, b, c) [(0, 1, 4), (0, 1, 5), (1, 3, 6), (3, 2, 7), (2, 3, 8), (2, 3, 9)]
+    [[0, 1, 4], [0, 1, 5], [1, 3, 6], [2, 3, 7], [2, 3, 8], [2, 3, 9]] profile (0, 0, 0, 2, 0, 2): (a, b, c) [(0, 1, 4), (0, 1, 5), (1, 3, 6), (3, 2, 7), (2, 3, 8), (3, 2, 9)]
+    [[0, 1, 4], [0, 1, 5], [1, 3, 6], [2, 3, 7], [2, 3, 8], [2, 3, 9]] profile (0, 0, 0, 2, 1, 2): (a, b, c) [(0, 1, 4), (0, 1, 5), (1, 3, 6), (3, 2, 7), (2, 8, 3), (3, 2, 9)]
+    [[0, 1, 4], [0, 1, 5], [1, 3, 6], [2, 3, 7], [2, 3, 8], [2, 3, 9]] profile (0, 0, 0, 2, 2, 0): (a, b, c) [(0, 1, 4), (0, 1, 5), (1, 3, 6), (3, 2, 7), (3, 2, 8), (2, 3, 9)]
+    [[0, 1, 4], [0, 1, 5], [1, 3, 6], [2, 3, 7], [2, 3, 8], [2, 3, 9]] profile (0, 0, 0, 2, 2, 1): (a, b, c) [(0, 1, 4), (0, 1, 5), (1, 3, 6), (3, 2, 7), (3, 2, 8), (2, 9, 3)]
+    [[0, 1, 4], [0, 1, 5], [1, 3, 6], [2, 3, 7], [2, 3, 8], [2, 3, 9]] profile (0, 0, 0, 2, 2, 2): (a, b, c) [(0, 1, 4), (0, 1, 5), (1, 3, 6), (3, 2, 7), (3, 2, 8), (3, 2, 9)]
+    [[0, 1, 4], [0, 1, 5], [1, 3, 6], [2, 3, 7], [2, 3, 8], [2, 3, 9]] profile (0, 0, 0, 3, 0, 0): (a, b, c) [(0, 1, 4), (0, 1, 5), (1, 3, 6), (3, 7, 2), (2, 3, 8), (2, 3, 9)]
+    [[0, 1, 4], [0, 1, 5], [1, 3, 6], [2, 3, 7], [2, 3, 8], [2, 3, 9]] profile (0, 0, 1, 0, 0, 0): (a, b, c) [(0, 1, 4), (0, 1, 5), (1, 6, 3), (2, 3, 7), (2, 3, 8), (2, 3, 9)]
+    [[0, 1, 4], [0, 1, 5], [1, 3, 6], [2, 3, 7], [2, 3, 8], [2, 3, 9]] profile (0, 0, 1, 0, 0, 2): (a, b, c) [(0, 1, 4), (0, 1, 5), (1, 6, 3), (2, 3, 7), (2, 3, 8), (3, 2, 9)]
+    [[0, 1, 4], [0, 1, 5], [1, 3, 6], [2, 3, 7], [2, 3, 8], [2, 3, 9]] profile (0, 0, 1, 0, 0, 3): (a, b, c) [(0, 1, 4), (0, 1, 5), (1, 6, 3), (2, 3, 7), (2, 3, 8), (3, 9, 2)]
+    [[0, 1, 4], [0, 1, 5], [1, 3, 6], [2, 3, 7], [2, 3, 8], [2, 3, 9]] profile (0, 0, 1, 0, 2, 0): (a, b, c) [(0, 1, 4), (0, 1, 5), (1, 6, 3), (2, 3, 7), (3, 2, 8), (2, 3, 9)]
+    [[0, 1, 4], [0, 1, 5], [1, 3, 6], [2, 3, 7], [2, 3, 8], [2, 3, 9]] profile (0, 0, 1, 0, 2, 2): (a, b, c) [(0, 1, 4), (0, 1, 5), (1, 6, 3), (2, 3, 7), (3, 2, 8), (3, 2, 9)]
+    [[0, 1, 4], [0, 1, 5], [1, 3, 6], [2, 3, 7], [2, 3, 8], [2, 3, 9]] profile (0, 0, 1, 0, 3, 0): (a, b, c) [(0, 1, 4), (0, 1, 5), (1, 6, 3), (2, 3, 7), (3, 8, 2), (2, 3, 9)]
+    [[0, 1, 4], [0, 1, 5], [1, 3, 6], [2, 3, 7], [2, 3, 8], [2, 3, 9]] profile (0, 0, 1, 1, 2, 2): (a, b, c) [(0, 1, 4), (0, 1, 5), (1, 6, 3), (2, 7, 3), (3, 2, 8), (3, 2, 9)]
+    [[0, 1, 4], [0, 1, 5], [1, 3, 6], [2, 3, 7], [2, 3, 8], [2, 3, 9]] profile (0, 0, 1, 2, 0, 0): (a, b, c) [(0, 1, 4), (0, 1, 5), (1, 6, 3), (3, 2, 7), (2, 3, 8), (2, 3, 9)]
+    [[0, 1, 4], [0, 1, 5], [1, 3, 6], [2, 3, 7], [2, 3, 8], [2, 3, 9]] profile (0, 0, 1, 2, 0, 2): (a, b, c) [(0, 1, 4), (0, 1, 5), (1, 6, 3), (3, 2, 7), (2, 3, 8), (3, 2, 9)]
+    [[0, 1, 4], [0, 1, 5], [1, 3, 6], [2, 3, 7], [2, 3, 8], [2, 3, 9]] profile (0, 0, 1, 2, 1, 2): (a, b, c) [(0, 1, 4), (0, 1, 5), (1, 6, 3), (3, 2, 7), (2, 8, 3), (3, 2, 9)]
+    [[0, 1, 4], [0, 1, 5], [1, 3, 6], [2, 3, 7], [2, 3, 8], [2, 3, 9]] profile (0, 0, 1, 2, 2, 0): (a, b, c) [(0, 1, 4), (0, 1, 5), (1, 6, 3), (3, 2, 7), (3, 2, 8), (2, 3, 9)]
+    [[0, 1, 4], [0, 1, 5], [1, 3, 6], [2, 3, 7], [2, 3, 8], [2, 3, 9]] profile (0, 0, 1, 2, 2, 1): (a, b, c) [(0, 1, 4), (0, 1, 5), (1, 6, 3), (3, 2, 7), (3, 2, 8), (2, 9, 3)]
+    [[0, 1, 4], [0, 1, 5], [1, 3, 6], [2, 3, 7], [2, 3, 8], [2, 3, 9]] profile (0, 0, 1, 2, 2, 2): (a, b, c) [(0, 1, 4), (0, 1, 5), (1, 6, 3), (3, 2, 7), (3, 2, 8), (3, 2, 9)]
+    [[0, 1, 4], [0, 1, 5], [1, 3, 6], [2, 3, 7], [2, 3, 8], [2, 3, 9]] profile (0, 0, 1, 3, 0, 0): (a, b, c) [(0, 1, 4), (0, 1, 5), (1, 6, 3), (3, 7, 2), (2, 3, 8), (2, 3, 9)]
+    [[0, 1, 4], [0, 2, 5], [1, 3, 6], [1, 3, 7], [2, 3, 8], [2, 3, 9]] profile (0, 0, 0, 0, 0, 0): (a, b, c) [(0, 1, 4), (0, 2, 5), (1, 3, 6), (1, 3, 7), (2, 3, 8), (2, 3, 9)]
+    [[0, 1, 4], [0, 2, 5], [1, 3, 6], [1, 3, 7], [2, 3, 8], [2, 3, 9]] profile (0, 1, 0, 0, 0, 0): (a, b, c) [(0, 1, 4), (0, 5, 2), (1, 3, 6), (1, 3, 7), (2, 3, 8), (2, 3, 9)]
+    [[0, 1, 4], [0, 2, 5], [1, 3, 6], [1, 3, 7], [2, 3, 8], [2, 3, 9]] profile (1, 0, 0, 0, 0, 0): (a, b, c) [(0, 4, 1), (0, 2, 5), (1, 3, 6), (1, 3, 7), (2, 3, 8), (2, 3, 9)]
+    [[0, 1, 4], [0, 2, 5], [1, 3, 6], [1, 3, 7], [2, 3, 8], [2, 3, 9]] profile (1, 1, 0, 0, 0, 0): (a, b, c) [(0, 4, 1), (0, 5, 2), (1, 3, 6), (1, 3, 7), (2, 3, 8), (2, 3, 9)]
+    [[0, 3, 4], [0, 3, 5], [1, 2, 6], [1, 2, 7], [1, 3, 8], [2, 3, 9]] profile (0, 0, 0, 0, 2, 0): (a, b, c) [(0, 3, 4), (0, 3, 5), (1, 2, 6), (1, 2, 7), (3, 1, 8), (2, 3, 9)]
+    [[0, 3, 4], [0, 3, 5], [1, 2, 6], [1, 2, 7], [1, 3, 8], [2, 3, 9]] profile (0, 0, 0, 0, 2, 1): (a, b, c) [(0, 3, 4), (0, 3, 5), (1, 2, 6), (1, 2, 7), (3, 1, 8), (2, 9, 3)]
+    [[0, 3, 4], [0, 3, 5], [1, 2, 6], [1, 2, 7], [1, 3, 8], [2, 3, 9]] profile (0, 0, 0, 0, 3, 0): (a, b, c) [(0, 3, 4), (0, 3, 5), (1, 2, 6), (1, 2, 7), (3, 8, 1), (2, 3, 9)]
+    [[0, 3, 4], [0, 3, 5], [1, 2, 6], [1, 2, 7], [1, 3, 8], [2, 3, 9]] profile (0, 0, 0, 0, 3, 1): (a, b, c) [(0, 3, 4), (0, 3, 5), (1, 2, 6), (1, 2, 7), (3, 8, 1), (2, 9, 3)]
+    [[0, 3, 4], [0, 3, 5], [1, 2, 6], [1, 2, 7], [1, 3, 8], [2, 3, 9]] profile (0, 0, 2, 2, 0, 2): (a, b, c) [(0, 3, 4), (0, 3, 5), (2, 1, 6), (2, 1, 7), (1, 3, 8), (3, 2, 9)]
+    [[0, 3, 4], [0, 3, 5], [1, 2, 6], [1, 2, 7], [1, 3, 8], [2, 3, 9]] profile (0, 0, 2, 2, 0, 3): (a, b, c) [(0, 3, 4), (0, 3, 5), (2, 1, 6), (2, 1, 7), (1, 3, 8), (3, 9, 2)]
+    [[0, 3, 4], [0, 3, 5], [1, 2, 6], [1, 2, 7], [1, 3, 8], [2, 3, 9]] profile (0, 0, 2, 2, 1, 2): (a, b, c) [(0, 3, 4), (0, 3, 5), (2, 1, 6), (2, 1, 7), (1, 8, 3), (3, 2, 9)]
+    [[0, 3, 4], [0, 3, 5], [1, 2, 6], [1, 2, 7], [1, 3, 8], [2, 3, 9]] profile (0, 0, 2, 2, 1, 3): (a, b, c) [(0, 3, 4), (0, 3, 5), (2, 1, 6), (2, 1, 7), (1, 8, 3), (3, 9, 2)]
+    [[0, 2, 4], [0, 2, 5], [0, 3, 6], [1, 2, 7], [1, 3, 8], [1, 3, 9]] profile (0, 0, 2, 2, 0, 0): (a, b, c) [(0, 2, 4), (0, 2, 5), (3, 0, 6), (2, 1, 7), (1, 3, 8), (1, 3, 9)]
+    [[0, 2, 4], [0, 2, 5], [0, 3, 6], [1, 2, 7], [1, 3, 8], [1, 3, 9]] profile (0, 0, 2, 3, 0, 0): (a, b, c) [(0, 2, 4), (0, 2, 5), (3, 0, 6), (2, 7, 1), (1, 3, 8), (1, 3, 9)]
+    [[0, 2, 4], [0, 2, 5], [0, 3, 6], [1, 2, 7], [1, 3, 8], [1, 3, 9]] profile (0, 0, 3, 2, 0, 0): (a, b, c) [(0, 2, 4), (0, 2, 5), (3, 6, 0), (2, 1, 7), (1, 3, 8), (1, 3, 9)]
+    [[0, 2, 4], [0, 2, 5], [0, 3, 6], [1, 2, 7], [1, 3, 8], [1, 3, 9]] profile (0, 0, 3, 3, 0, 0): (a, b, c) [(0, 2, 4), (0, 2, 5), (3, 6, 0), (2, 7, 1), (1, 3, 8), (1, 3, 9)]
+    [[0, 2, 4], [0, 2, 5], [0, 3, 6], [1, 2, 7], [1, 3, 8], [1, 3, 9]] profile (2, 2, 0, 0, 2, 2): (a, b, c) [(2, 0, 4), (2, 0, 5), (0, 3, 6), (1, 2, 7), (3, 1, 8), (3, 1, 9)]
+    [[0, 2, 4], [0, 2, 5], [0, 3, 6], [1, 2, 7], [1, 3, 8], [1, 3, 9]] profile (2, 2, 0, 1, 2, 2): (a, b, c) [(2, 0, 4), (2, 0, 5), (0, 3, 6), (1, 7, 2), (3, 1, 8), (3, 1, 9)]
+    [[0, 2, 4], [0, 2, 5], [0, 3, 6], [1, 2, 7], [1, 3, 8], [1, 3, 9]] profile (2, 2, 1, 0, 2, 2): (a, b, c) [(2, 0, 4), (2, 0, 5), (0, 6, 3), (1, 2, 7), (3, 1, 8), (3, 1, 9)]
+    [[0, 2, 4], [0, 2, 5], [0, 3, 6], [1, 2, 7], [1, 3, 8], [1, 3, 9]] profile (2, 2, 1, 1, 2, 2): (a, b, c) [(2, 0, 4), (2, 0, 5), (0, 6, 3), (1, 7, 2), (3, 1, 8), (3, 1, 9)]
+  some solution has [owner holds its top]: 6354 of 7077
+  some solution has [L minus owner goods all private]: 7077 of 7077
+  some solution has [... and their agents hold their tops]: 7076 of 7077
+  some solution has [owner holds top, rest private, their agents hold tops]: 6130 of 7077
+  some solution has [rest private, their agents in case T or B]: 7077 of 7077
+  some solution has [owner in case C, rest private, their agents in case T or B]: 7077 of 7077
+  some solution has [L = owner's c + private goods of agents in case T or B]: 7077 of 7077
+  pairs where no solution has [owner holds top, rest private, their agents hold tops]: 947
+  agents' cases in the canonical solution with the most agents holding their tops (owner in case C), by number of pairs: {'TTTTCC (D=4)': 1963, 'TTTTBC (D=3)': 962, 'TTTTCC (D=5)': 932, 'TTTTCC (D=3)': 809, 'TTTPBC (D=3)': 481, 'TTTTBC (D=4)': 417, 'TTTPCC (D=3)': 401, 'TTTPCC (D=4)': 385, 'TTTPBC (D=4)': 155, 'TTTTBC (D=5)': 125, 'TTTBCC (D=4)': 81, 'TTTBCC (D=5)': 60} ...
+    e.g. [[0, 3, 4], [0, 3, 5], [1, 3, 6], [1, 3, 7], [2, 3, 8], [2, 3, 9]] profile (0, 0, 0, 0, 0, 0), (a, b, c): [(0, 3, 4), (0, 3, 5), (1, 3, 6), (1, 3, 7), (2, 3, 8), (2, 3, 9)]
+    e.g. [[0, 3, 4], [0, 3, 5], [1, 3, 6], [1, 3, 7], [2, 3, 8], [2, 3, 9]] profile (0, 0, 0, 0, 0, 1), (a, b, c): [(0, 3, 4), (0, 3, 5), (1, 3, 6), (1, 3, 7), (2, 3, 8), (2, 9, 3)]
+    e.g. [[0, 3, 4], [0, 3, 5], [1, 3, 6], [1, 3, 7], [2, 3, 8], [2, 3, 9]] profile (0, 0, 0, 0, 1, 0), (a, b, c): [(0, 3, 4), (0, 3, 5), (1, 3, 6), (1, 3, 7), (2, 8, 3), (2, 3, 9)]
+    e.g. [[0, 3, 4], [0, 3, 5], [1, 3, 6], [1, 3, 7], [2, 3, 8], [2, 3, 9]] profile (0, 0, 0, 0, 1, 1), (a, b, c): [(0, 3, 4), (0, 3, 5), (1, 3, 6), (1, 3, 7), (2, 8, 3), (2, 9, 3)]
+    e.g. [[0, 3, 4], [0, 3, 5], [1, 3, 6], [1, 3, 7], [2, 3, 8], [2, 3, 9]] profile (0, 0, 0, 0, 2, 2), (a, b, c): [(0, 3, 4), (0, 3, 5), (1, 3, 6), (1, 3, 7), (3, 2, 8), (3, 2, 9)]
+n=6 m=11: 4269 C2-failing (core, profile) pairs; one-large-bundle allocations per pair: min 216, max 2810  [1691s]
+  minimum size of the large bundle: {3: 4265, 4: 4}
+  pairs where the owner can use case: {'B': 4152, 'C': 4269, 'E': 104, 'P': 3693, 'T': 4268}
+  pairs needing a large bundle of >= 4 goods: 4, in 3 cores
+    [[0, 3, 5], [0, 4, 6], [1, 3, 7], [1, 4, 8], [2, 4, 9], [2, 4, 10]] profile (0, 0, 0, 0, 0, 0): (a, b, c) [(0, 3, 5), (0, 4, 6), (1, 3, 7), (1, 4, 8), (2, 4, 9), (2, 4, 10)]
+    [[0, 3, 5], [0, 3, 6], [1, 3, 7], [1, 4, 8], [2, 4, 9], [2, 4, 10]] profile (0, 0, 0, 0, 0, 0): (a, b, c) [(0, 3, 5), (0, 3, 6), (1, 3, 7), (1, 4, 8), (2, 4, 9), (2, 4, 10)]
+    [[0, 3, 5], [0, 4, 6], [1, 3, 7], [1, 4, 8], [2, 3, 9], [2, 4, 10]] profile (0, 0, 0, 0, 0, 0): (a, b, c) [(0, 3, 5), (0, 4, 6), (1, 3, 7), (1, 4, 8), (2, 3, 9), (2, 4, 10)]
+    [[0, 3, 5], [0, 4, 6], [1, 3, 7], [1, 4, 8], [2, 3, 9], [2, 4, 10]] profile (2, 2, 2, 2, 2, 2): (a, b, c) [(3, 0, 5), (4, 0, 6), (3, 1, 7), (4, 1, 8), (3, 2, 9), (4, 2, 10)]
+  some solution has [owner holds its top]: 4268 of 4269
+  some solution has [L minus owner goods all private]: 4269 of 4269
+  some solution has [... and their agents hold their tops]: 4268 of 4269
+  some solution has [owner holds top, rest private, their agents hold tops]: 4264 of 4269
+  some solution has [rest private, their agents in case T or B]: 4269 of 4269
+  some solution has [owner in case C, rest private, their agents in case T or B]: 4269 of 4269
+  some solution has [L = owner's c + private goods of agents in case T or B]: 4269 of 4269
+  pairs where no solution has [owner holds top, rest private, their agents hold tops]: 5
+  agents' cases in the canonical solution with the most agents holding their tops (owner in case C), by number of pairs: {'TTTTTC (D=3)': 1482, 'TTTTPC (D=3)': 1213, 'TTTTTC (D=4)': 493, 'TTTTPC (D=4)': 410, 'TTTPPC (D=3)': 184, 'TTTTTC (D=5)': 168, 'TTTTCC (D=4)': 92, 'TTTTPC (D=5)': 65, 'TTTPPC (D=4)': 51, 'TTTTTC (D=6)': 49, 'TTTTCC (D=5)': 40, 'TTTTCC (D=3)': 8} ...
+    e.g. [[0, 3, 5], [0, 4, 6], [1, 3, 7], [1, 4, 8], [2, 4, 9], [2, 4, 10]] profile (0, 2, 0, 2, 2, 2), (a, b, c): [(0, 3, 5), (4, 0, 6), (1, 3, 7), (4, 1, 8), (4, 2, 9), (4, 2, 10)]
+    e.g. [[0, 3, 5], [0, 4, 6], [1, 3, 7], [1, 4, 8], [2, 4, 9], [2, 4, 10]] profile (0, 2, 1, 2, 2, 2), (a, b, c): [(0, 3, 5), (4, 0, 6), (1, 7, 3), (4, 1, 8), (4, 2, 9), (4, 2, 10)]
+    e.g. [[0, 3, 5], [0, 4, 6], [1, 3, 7], [1, 4, 8], [2, 4, 9], [2, 4, 10]] profile (1, 2, 0, 2, 2, 2), (a, b, c): [(0, 5, 3), (4, 0, 6), (1, 3, 7), (4, 1, 8), (4, 2, 9), (4, 2, 10)]
+    e.g. [[0, 3, 5], [0, 4, 6], [1, 3, 7], [1, 4, 8], [2, 4, 9], [2, 4, 10]] profile (1, 2, 1, 2, 2, 2), (a, b, c): [(0, 5, 3), (4, 0, 6), (1, 7, 3), (4, 1, 8), (4, 2, 9), (4, 2, 10)]
+    e.g. [[0, 3, 5], [0, 4, 6], [1, 3, 7], [1, 4, 8], [2, 3, 9], [2, 4, 10]] profile (2, 2, 2, 2, 2, 2), (a, b, c): [(3, 0, 5), (4, 0, 6), (3, 1, 7), (4, 1, 8), (3, 2, 9), (4, 2, 10)]
