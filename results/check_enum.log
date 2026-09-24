@@ -1,0 +1,39 @@
+# Orbit-counting check that each certificate file lists every connected core (2026-09-24T17:00:53Z); CI runs the file checks
+
+$ python tools/check_enum.py --selftest
+a=1 g=3: brute force 0 labeled, 0 connected; DP 0, 0 OK
+a=2 g=3: brute force 1 labeled, 1 connected; DP 1, 1 OK
+a=2 g=4: brute force 12 labeled, 12 connected; DP 12, 12 OK
+a=2 g=5: brute force 0 labeled, 0 connected; DP 0, 0 OK
+a=2 g=6: brute force 0 labeled, 0 connected; DP 0, 0 OK
+a=3 g=3: brute force 1 labeled, 1 connected; DP 1, 1 OK
+a=3 g=4: brute force 60 labeled, 60 connected; DP 60, 60 OK
+a=3 g=5: brute force 600 labeled, 600 connected; DP 600, 600 OK
+a=3 g=6: brute force 720 labeled, 720 connected; DP 720, 720 OK
+a=3 g=7: brute force 0 labeled, 0 connected; DP 0, 0 OK
+a=3 g=8: brute force 0 labeled, 0 connected; DP 0, 0 OK
+a=3 g=9: brute force 0 labeled, 0 connected; DP 0, 0 OK
+a=4 g=3: brute force 1 labeled, 1 connected; DP 1, 1 OK
+a=4 g=4: brute force 252 labeled, 252 connected; DP 252, 252 OK
+a=4 g=5: brute force 8610 labeled, 8610 connected; DP 8610, 8610 OK
+a=4 g=6: brute force 89340 labeled, 89280 connected; DP 89340, 89280 OK
+a=4 g=7: brute force 294840 labeled, 292320 connected; DP 294840, 292320 OK
+a=5 g=3: brute force 1 labeled, 1 connected; DP 1, 1 OK
+a=5 g=4: brute force 1020 labeled, 1020 connected; DP 1020, 1020 OK
+a=5 g=5: brute force 94740 labeled, 94740 connected; DP 94740, 94740 OK
+a=5 g=6: brute force 2539640 labeled, 2539440 connected; DP 2539640, 2539440 OK
+problems: 0
+exit=0  [94s]
+
+$ python tools/check_enum.py results/certs_5_6.json.gz results/certs_7_13.json.gz results/certs_7_12.json.gz results/certs_7_11.json.gz results/certs_8_15.json.gz results/certs_8_14.json.gz
+results/certs_5_6.json.gz: (n,m)=(5,9): 15 hypergraphs, orbit sum 210470400, labeled connected cores 210470400 -> complete
+results/certs_5_6.json.gz: (n,m)=(6,10): 211 hypergraphs, orbit sum 235146240000, labeled connected cores 235146240000 -> complete
+results/certs_5_6.json.gz: (n,m)=(6,11): 25 hypergraphs, orbit sum 232315776000, labeled connected cores 232315776000 -> complete
+results/certs_7_13.json.gz: (n,m)=(7,13): 37 hypergraphs, orbit sum 381840915456000, labeled connected cores 381840915456000 -> complete
+results/certs_7_12.json.gz: (n,m)=(7,12): 541 hypergraphs, orbit sum 578394432000000, labeled connected cores 578394432000000 -> complete
+results/certs_7_11.json.gz: (n,m)=(7,11): 3103 hypergraphs, orbit sum 323366495760000, labeled connected cores 323366495760000 -> complete
+results/certs_8_15.json.gz: (n,m)=(8,15): 52 hypergraphs, orbit sum 900726104678400000, labeled connected cores 900726104678400000 -> complete
+results/certs_8_14.json.gz: (n,m)=(8,14): 1232 hypergraphs, orbit sum 1906903070392320000, labeled connected cores 1906903070392320000 -> complete
+problems: 0
+exit=0  [15s]
+

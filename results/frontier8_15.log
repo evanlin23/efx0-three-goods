@@ -1,0 +1,5 @@
+# cd src && python run7.py 15 --n=8   (4 CPUs, started 2026-09-24T16:17:10Z)
+[     1s] n=8 m=15 beta=2: 52 connected cores (generated in 1.0s, 4 jobs)
+[    20s] n=8 m=15 DONE: {'C3': 52}
+[    20s] ALL DONE
+run7 exit=0

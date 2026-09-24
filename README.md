@@ -4,9 +4,9 @@ Open question (CS 580 course project, Fall 2026): does every additive fair-divis
 
 **Status** (details and evidence in [LEDGER.md](LEDGER.md)):
 - Reduced to "cores" (agents with exactly three goods, balanced, at most one private good), where EFX₀ is a purely combinatorial condition.
-- Certified: EFX₀ exists for every such instance with at most 6 agents. Every connected core is covered, including those with m ≤ n + 3, which were first left to Mahara's theorem; nothing external is needed.
+- Certified: EFX₀ exists for every such instance with at most 6 agents. Every connected core is covered, including those with m ≤ n + 3, which were first left to Mahara's theorem; nothing external is needed. With at most 7 agents it is certified too, conditional on Mahara's theorem for cores with 7 agents and at most 10 goods (the only ones not searched).
 - Refuted: "bundles of at most two goods always suffice" (smallest counterexample n = 3), and its weaker form for m ≤ 2n − 2 (smallest n = 4).
-- Main conjecture D: some EFX₀ allocation has at most one bundle with more than two goods. Certified for every core with n ≤ 6 and for n = 7, m = 13.
+- Main conjecture D: some EFX₀ allocation has at most one bundle with more than two goods. Certified for every core with n ≤ 6, and for every connected core with n = 7, m ≥ 11 or n = 8, m ≥ 14.
 - Proved: conjecture D for every core with m = 2n − 1 (cyclomatic number β = 2), for all n ([proofs/beta2.md](proofs/beta2.md)).
 
 ## Layout
@@ -14,7 +14,7 @@ Open question (CS 580 course project, Fall 2026): does every additive fair-divis
 - `PROMPT.md`: the research brief every agent works from (problem, results, plan, rules, repository workflow)
 - `LEDGER.md`: every claim, its status, and the artifact behind it; the single source of truth
 - `src/`: tools; `frontier.py` is the main one (enumerate connected cores with `cores_nauty.py`, CEGAR over ranking profiles, save certificates)
-- `tools/`: checkers run by CI: `check_certs.py` (SAT-free certificate checker), `check_ledger.py` (status ⇒ artifact)
+- `tools/`: checkers run by CI: `check_certs.py` (SAT-free certificate checker), `check_enum.py` (a certificate lists every connected core, by orbit counting), `check_ledger.py` (status ⇒ artifact)
 - `results/`: logs, result summaries, certificate files
 - `proofs/`: written proofs; `attempts/`: failed approaches with their smallest failing configuration
 - `lean/`: Lean formalization of ledger items (core Lean only, no `sorry`, standard axioms only; see `lean/README.md`)
