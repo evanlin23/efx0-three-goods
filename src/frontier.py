@@ -159,8 +159,8 @@ def solve_core(task):
     return rec, cert
 
 def options(argv):
-    """Positional integers, plus --key=value flags."""
-    return [int(a) for a in argv if not a.startswith('--')], dict(a[2:].split('=', 1) for a in argv if a.startswith('--'))
+    """Positional integers, plus --key=value flags (a bare --key means --key=1)."""
+    return [int(a) for a in argv if not a.startswith('--')], dict((a[2:].split('=', 1) + ['1'])[:2] for a in argv if a.startswith('--'))
 
 if __name__ == '__main__':
     from cores_nauty import gen_cores_nauty
