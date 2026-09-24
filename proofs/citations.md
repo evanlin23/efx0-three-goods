@@ -45,9 +45,15 @@
   - Defines rival-injective (RI) ownership: each good goes to an agent who values it positively, and each ordered observer–owner pair is used by at most one good. Every RI allocation in which each agent's bundle is worth at least its most valuable single good is EFX₀ (using all goods). Gives sufficient certificates and witness families.
   - It states that EFX₀ remains open for general additive valuations with four or more agents, and that its 4 × 10 family "is not an unrestricted 4 × 10 theorem". It does not imply TARGET or D.
   - Possible proof idea: RI plus "own bundle ≥ best single good" is a sufficient condition in the spirit of L9. Not yet explored.
+- **Kakatelis–Lianeas–Sgouritsa–Sotiriou, "Almost EFX in Hypergraphs", arXiv:2606.26948v1 (25 Jun 2026).** Read.
+  - Same hypergraph model as 2608.03171 (agents are vertices, goods are hyperedges). Results are approximations only: EF2X for general monotone valuations on hypergraphs of girth ≥ 3; EF3X for additive valuations when each edge has multiplicity ≤ 2; √2/2-EFX (subadditive, girth ≥ 3) and 2/3-EFX (additive, multiplicity 2). Girth ≥ 3 means two agents share at most one good (up to repetitions of that edge).
+  - Use here: none. No exact EFX, and the girth condition fails on most cores (two agents sharing two different goods is a 2-cycle).
+- **Akrami–Ashuri–Chaudhury–Mehlhorn–Soldatov, "A Simple Polynomial-Time EFX Repair for Cancelable Valuations", arXiv:2608.08864v1 (9 Aug 2026).** Read.
+  - EFX there is the all-goods form (v_i(A_i) ≥ v_i(A_j ∖ {g}) for every g ∈ A_j), i.e. EFX₀. Theorem 1.1: for one common monotone cancelable valuation, the Plaut–Roughgarden repair (move an offending good to a minimum-value bundle), always moving the highest-ranked eligible good, ends after at most |S| transfers; the minimum bundle value does not decrease and the maximum does not increase. Application: restricted additive chores.
+  - Use here: none directly; it is about identical valuations. A possible tool for local repairs among agents that rank their goods the same way (not explored).
 
 ## Not read (leads only)
-- "Almost EFX in Hypergraphs", arXiv 2606.26948; "EFX Allocations on Some Multi-graph Classes", arXiv 2412.06513; "On the existence of EFX allocations in multigraphs", arXiv 2502.09777; "A Simple Polynomial-Time EFX Repair for Cancelable Valuations", arXiv 2608.08864; Afshinmehr–Danaei–Kazemi–Mehlhorn–Rathi, "EFX allocations and orientations on bipartite multi-graphs: A complete picture", *Autonomous Agents and Multi-Agent Systems* 40:32, 2026 (cited by 2608.30203).
+- "EFX Allocations on Some Multi-graph Classes", arXiv 2412.06513; "On the existence of EFX allocations in multigraphs", arXiv 2502.09777; Afshinmehr–Danaei–Kazemi–Mehlhorn–Rathi, "EFX allocations and orientations on bipartite multi-graphs: A complete picture", *Autonomous Agents and Multi-Agent Systems* 40:32, 2026 (cited by 2608.30203).
 - EGRES Quick-Proof 2022-01, "A note on the existence of EFX allocations" (https://egres.elte.hu/qp/egresqp-22-01.pdf).
 
 ## Network access from the cloud container (2026-09-24)
