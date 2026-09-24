@@ -1,6 +1,6 @@
 # The last step of construction LB, and a construction that never fails (LB⁺)
 
-Workstream `proof/lb-last-step`, ledger items S2.R, S2.LB+, S2.LB, D, T. Construction LB and its
+Workstream `proof/lb-last-step`, ledger items S2.R, S2.LB+, S2.LB, D, T; open item 8. Construction LB and its
 soundness theorem are in `proofs/construction.md` §3 (workstream `compute/large-bundle`, PR #9); notation as there.
 
 **Status.** This is a written proof. Two independent reviews found no error. Machine-checked in Lean (PR #18:

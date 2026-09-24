@@ -16,7 +16,8 @@ import EFX.Rotation
 LB⁺ has no failure case: it always returns an allocation (`G → A`).
 
 LB⁺ over all its choices (`LBPlusRun`, `LBPlusOut`): Phase 1 in any order with R1 priority, the upgrades in
-any order (`UpFinal`), any need chain from `k*` to `r` (`NeedChain`), and any completions (`Completion`).
+any order (`UpFinal`), any need chain from `k*` to `r` (`NeedChain`), and any completions satisfying (OC)
+(`Completion`).
 
 - `lbPlusRun_sound`: **Theorem C, over all choices**: every output is a complete allocation, EFX₀ for every
   additive valuation consistent with the rankings (ties allowed), with at most one bundle of more than two

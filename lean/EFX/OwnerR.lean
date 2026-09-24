@@ -21,9 +21,10 @@ LB's upgrades produce (`EFX.LB.lbState_valid`). This file proves Theorem A.
 - `Bad`: a weaker form of the bad case of `proofs/lb_last_step.md`. The agent `k` exposed for `r` in `r`'s
   block (if any) has the need chain `chainEnd` follows ending at `r`, and the sets `π_x` are pairwise disjoint.
   The text asks *every* need chain from `k*` to end at `r`, and `k*` to be frozen (implicit here: a chain from
-  `k` that ends at `r ≠ k` is non-empty), so `theoremA` is (weakly) stronger than the text's statement.
-- **Theorem A** (`theoremA`): unless `Bad`, `r` is a valid owner with `H = hitSet`; `kstar_spec` records the
-  structure of `k*`.
+  `k` that ends at `r ≠ k` is non-empty). The text's bad case implies `Bad`.
+- `theoremA`: unless `Bad`, `r` is a valid owner with `H = hitSet`. Its hypothesis `¬ Bad` is stronger than the
+  negation of the text's bad case, so this is a weaker corollary of the text's Theorem A; `kstar_spec` records
+  the structure of `k*`.
 - `ValidOwner w`: `w` is a valid owner, i.e. Lemma 1's condition holds for *some* set `H` (the reading of
   `proofs/lb_last_step.md`: a hitting set of the exposed pairs' junk parts that fits the free slots).
   `validOwner_iff`: `r` is a valid owner exactly when `hitSet` fits (when the sets `π_x` are disjoint,
@@ -754,9 +755,10 @@ theorem ownerOK_of_fits (hS : State P agents goods order Y blk lead up) {r : A}
   exact ⟨hra, Or.inr hrt, hitSet_sub hEj, hfit,
     fun x hx hxe => hitSet_hit x (List.mem_filter.mpr ⟨hx, decide_eq_true hxe⟩)⟩
 
-/-- **Theorem A (the owner r), strong form.** After a run of Phase 1 with R1 priority and LB's upgrades, `r`
-(the last agent not upgraded) is a valid owner, with `H = hitSet`, unless `Bad` holds (a weaker form of the bad
-case, so this is stronger than the text's Theorem A; `theoremA_invalid` is the text's form). -/
+/-- **Theorem A (the owner r), weaker corollary.** After a run of Phase 1 with R1 priority and LB's upgrades, `r`
+(the last agent not upgraded) is a valid owner, with `H = hitSet`, unless `Bad` holds. `Bad` is a weaker form of
+the bad case (the text's bad case implies it), so the hypothesis `¬ Bad` is stronger and this follows from the
+text's Theorem A; the text's Theorem A is `theoremA_invalid` (with `kstar_spec`, `exposed_lead`). -/
 theorem theoremA (hS : State P agents goods order Y blk lead up) {r : A}
     (hr : lastOut up order = some r) (hnb : ¬ Bad P agents up Y goods order blk r) :
     OwnerOK P agents up Y goods r
