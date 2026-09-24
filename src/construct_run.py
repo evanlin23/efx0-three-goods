@@ -8,6 +8,8 @@ Options:
                    the C run (K = 1: every core); the two implementations must produce identical allocations
   --disconnected   test the DISconnected cores with n agents instead: every multiset of >= 2 connected cores (each
                    with >= 2 agents) with n agents in total, goods relabelled apart
+  --relabel=SEED   apply a random permutation of the agents and of the goods to every core first (seeded; LB breaks
+                   ties by index, so this tests other labellings; evidence only)
   --cert=FILE      write a certificate (gzip JSON, the format of frontier.py; mode 'LB'): per core, allocations
                    output by the construction that cover every profile; check it with tools/check_certs.py and
                    construct_run.py --check-cert=FILE (every allocation has at most one bundle of >= 3 goods)
@@ -100,6 +102,13 @@ if __name__ == '__main__':
             dis = disconnected_cores(n); ms = sorted({m for m, _, _ in dis})
         for m in ms:
             cores = gen_cores_nauty(n, m) if 'disconnected' not in opts else [(pi, s) for mm, pi, s in dis if mm == m]
+            if 'relabel' in opts:
+                import random
+                rng = random.Random(f"{opts['relabel']}:{n}:{m}")
+                def relabel(sets):
+                    perm = list(range(m)); rng.shuffle(perm); sets = [[perm[g] for g in S] for S in sets]; rng.shuffle(sets)
+                    return sets
+                cores = [(pi, relabel(sets)) for pi, sets in cores]
             size = max(1, min(200, len(cores) // (4 * jobs) or 1))
             chunks = [cores[i:i + size] for i in range(0, len(cores), size)]
             res = [r for part in pool.map(run_chunk, [(n, m, ch, bool(cert)) for ch in chunks]) for r in part]
