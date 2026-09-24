@@ -1,0 +1,15 @@
+$ python tools/check_qplans.py results/qplans_beta3.json.gz --expect 3:2 4:15 5:45 6:96 7:108 8:81 9:36 10:11
+checked 9160 cores {3: 2, 4: 16, 5: 62, 6: 211, 7: 541, 8: 1232, 9: 2477, 10: 4619}; reduced {3: 2, 4: 15, 5: 45, 6: 96, 7: 108, 8: 81, 9: 36, 10: 11}; 110259 Q-plans; problems: 0
+exit=0  [4s]
+
+$ python tools/check_enum.py results/qplans_beta3.json.gz
+results/qplans_beta3.json.gz: (n,m)=(3,4): 2 hypergraphs, orbit sum 60, labeled connected cores 60 -> complete
+results/qplans_beta3.json.gz: (n,m)=(4,6): 16 hypergraphs, orbit sum 89280, labeled connected cores 89280 -> complete
+results/qplans_beta3.json.gz: (n,m)=(5,8): 62 hypergraphs, orbit sum 128217600, labeled connected cores 128217600 -> complete
+results/qplans_beta3.json.gz: (n,m)=(6,10): 211 hypergraphs, orbit sum 235146240000, labeled connected cores 235146240000 -> complete
+results/qplans_beta3.json.gz: (n,m)=(7,12): 541 hypergraphs, orbit sum 578394432000000, labeled connected cores 578394432000000 -> complete
+results/qplans_beta3.json.gz: (n,m)=(8,14): 1232 hypergraphs, orbit sum 1906903070392320000, labeled connected cores 1906903070392320000 -> complete
+results/qplans_beta3.json.gz: (n,m)=(9,16): 2477 hypergraphs, orbit sum 8308684242710691840000, labeled connected cores 8308684242710691840000 -> complete
+results/qplans_beta3.json.gz: (n,m)=(10,18): 4619 hypergraphs, orbit sum 47023457815571831193600000, labeled connected cores 47023457815571831193600000 -> complete
+problems: 0
+exit=0  [51s]
