@@ -1,0 +1,17 @@
+pair: 132 reductions tried, 99 reducible
+  RPT-e  covers 12 of 36 profiles
+  RPT-f  covers 12 of 36 profiles
+  DEL    covers 23 of 36 profiles
+  CON-e  covers 26 of 36 profiles
+  CON-f  covers 26 of 36 profiles
+  profiles covered by no reduction: 0 []
+loop: 96 reductions tried, 70 reducible
+  RPT-e  covers 12 of 36 profiles
+  RPT-f  covers 12 of 36 profiles
+  DEL    covers 23 of 36 profiles
+  GAD    covers 23 of 36 profiles
+  profiles covered by no reduction: 0 []
+pq: 36 reductions tried, 14 reducible
+  CON-e  covers 14 of 36 profiles
+  profiles covered by no reduction: 22 [('gl>p>g', 'g>y1>y2'), ('gl>p>g', 'g>y2>y1'), ('gl>p>g', 'y1>g>y2'), ('gl>p>g', 'y1>y2>g'), ('gl>p>g', 'y2>g>y1'), ('gl>p>g', 'y2>y1>g'), ('g>p>gl', 'g>y1>y2'), ('g>p>gl', 'g>y2>y1'), ('g>p>gl', 'y1>g>y2'), ('g>p>gl', 'y2>g>y1'), ('p>gl>g', 'g>y1>y2'), ('p>gl>g', 'g>y2>y1'), ('p>gl>g', 'y1>g>y2'), ('p>gl>g', 'y1>y2>g'), ('p>gl>g', 'y2>g>y1'), ('p>gl>g', 'y2>y1>g'), ('p>g>gl', 'g>y1>y2'), ('p>g>gl', 'g>y2>y1'), ('p>g>gl', 'y1>g>y2'), ('p>g>gl', 'y1>y2>g'), ('p>g>gl', 'y2>g>y1'), ('p>g>gl', 'y2>y1>g')]
+wrote 183 certificates, 10066 local states, to ../results/min_cex_reductions.json.gz (3s)
