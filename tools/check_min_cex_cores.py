@@ -3,7 +3,7 @@ Given the complete list of connected cores for some (n, m) (its completeness is 
 certificate file (checked by tools/check_certs.py), recomputes, independently of src/min_cex_cores.py, which cores have
 no good of degree 2 valued by two agents that have a private good, and checks that each of them appears in the
 certificate file with the same hypergraph (same list of agents' goods).
-Usage: check_min_cex_cores.py full_list.json.gz certs.json.gz"""
+Usage: check_min_cex_cores.py full_list.json.gz certs.json.gz [certs.json.gz ...]"""
 import sys, json, gzip
 
 
@@ -18,7 +18,8 @@ def keeps(sets):
 
 
 full = json.load(gzip.open(sys.argv[1], 'rt'))
-certified = {(r['n'], r['m'], json.dumps([sorted(S) for S in r['sets']])) for r in json.load(gzip.open(sys.argv[2], 'rt'))}
+certified = {(r['n'], r['m'], json.dumps([sorted(S) for S in r['sets']])) for path in sys.argv[2:]
+             for r in json.load(gzip.open(path, 'rt'))}
 missing, kept = 0, {}
 for r in full:
     if not keeps(r['sets']): continue
