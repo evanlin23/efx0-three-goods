@@ -15,7 +15,8 @@ v_i(X_i) >= v_i(X_j - g)) on exact integer values; nothing here imports frontier
   X3   four identical agents + three worthless goods: EFX0 allocations exist, and each has a bundle of >= 3 goods.
   D    tools/check_certs.py checks EFX0 coverage but not the shape conjecture D asks for: here every allocation stored
        in results/certs_*.json.gz is checked to have at most one bundle of more than two goods.
-Usage: python step0_checks.py   (about 3 minutes on one CPU; exit status 1 if any check fails)"""
+Usage: python step0_checks.py [CHECK ...]   (all checks: about 3 minutes on one CPU; CHECK in L5 L2 L8 L11 X2 X3 D;
+exit status 1 if any check fails)"""
 import itertools, sys, time, collections
 import networkx as nx
 from cores_nauty import gen_cores_nauty
@@ -315,6 +316,9 @@ def check_D_shape():
 
 if __name__ == '__main__':
     t0 = time.time()
-    check_L5(); check_L2_L3(3, 4, (0, 1, 2)); check_L2_L3(2, 4, (0, 1, 2, 3)); check_L8(); check_L4_L11(); check_X2(); check_X3(); check_D_shape()
+    checks = {'L5': [check_L5], 'L2': [lambda: check_L2_L3(3, 4, (0, 1, 2)), lambda: check_L2_L3(2, 4, (0, 1, 2, 3))],
+              'L8': [check_L8], 'L11': [check_L4_L11], 'X2': [check_X2], 'X3': [check_X3], 'D': [check_D_shape]}
+    for name in sys.argv[1:] or list(checks):
+        for f in checks[name]: f()
     print(f"step0_checks: {len(FAIL)} failures {FAIL}  [{time.time() - t0:.0f}s]")
     sys.exit(1 if FAIL else 0)
