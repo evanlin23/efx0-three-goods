@@ -6,7 +6,7 @@ import EFX.Bridge
 Theorem 1 says that every allocation construction LB returns is EFX₀ for every additive valuation
 consistent with the rankings, and has at most one bundle of more than two goods. Its proof uses only a
 few properties of LB's output. This file states them as `Hyp` and proves that they imply both
-conclusions.
+conclusions; `EFX.LBRun` defines LB and proves that its output satisfies `Hyp` (`EFX.LB.lb_hyp`).
 
 A ranking profile `P` gives each agent `i` three goods `a i > b i > c i`. A valuation is consistent
 with `P` (`Profile.Consistent`) if agent `i` values exactly these three goods, in this order, and is

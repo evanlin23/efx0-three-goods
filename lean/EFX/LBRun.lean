@@ -1,5 +1,30 @@
 import EFX.LBSound
 
+/-!
+# Construction LB in Lean (LEDGER S2.S)
+
+`EFX.LB.lb` is construction LB (`proofs/construction.md` §3) as `src/construct.py` implements it, with
+one difference: Phase 1 takes its processing order as an argument. LB chooses that order adaptively (R1
+steps by their key, insertions by their `NA` lookahead). Each agent is processed exactly once and takes
+its favourite remaining good, so every run of LB's Phase 1 is `phase1` in some order. The theorems hold
+for every order, so they cover LB whatever its order heuristic, which is not formalized.
+
+- Phase 1: `phase1`; `phase1_spec`: each pick is one of the picker's goods, no good is picked twice,
+  and invariant (I1) holds.
+- Phase 2: `upgrades` (LB's loop, the first eligible agent first) with its invariant `UpInv` (`NA` only
+  shrinks, so upgraded agents stay unfrozen; the `c`s given away are distinct junk); `frozenB`, `cap`
+  (the slots), `fill` and `build` (the allocation, as `build` in `construct.py`), `ownerOK` (the owner
+  constraint), `ownerSearch` (the first valid owner and overflow set, in LB's order), and `lb`, which
+  returns `none` when LB fails.
+- `lb_hyp`: every allocation `lb` returns satisfies `EFX.LB.Hyp` (`EFX.LBSound`).
+- `lb_sound`, `lb_sound_model`: **Theorem 1**. Every allocation `lb` returns is EFX₀ for every additive
+  valuation consistent with the rankings, and at most one of its bundles has more than two goods.
+
+Not formalized: LB's order heuristic, and that LB never fails (S2.LB, a conjecture). That `lb` computes
+what `construct.py` computes is evidence only: `lean/scripts/lb_crosscheck.py` runs both on the ranking
+profiles of connected cores (with Python's Phase 1 order) and compares the allocations.
+-/
+
 set_option autoImplicit false
 
 namespace EFX
