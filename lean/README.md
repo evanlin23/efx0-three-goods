@@ -96,6 +96,11 @@ each agent's values by a common denominator.
 - `EFX/PreAlloc.lean`, `EFX/Blocks.lean`, `EFX/OwnerR.lean`, `EFX/Rotation.lean`, `EFX/LBPlus.lean`,
   `EFX/CorollaryD.lean`, `EFX/Target.lean`: construction LB⁺, conjecture D and TARGET
   (`proofs/lb_last_step.md`); see the section below.
+- `EFX/Audit.lean`: red-team audit (`formal/audit`): TARGET and D restated independently (bundles as lists that
+  partition the goods, a hand-written sum; written before the model was read), derived from `EFX.target` and
+  `EFX.LB.corollaryD`, with non-vacuity examples checked by `decide`.
+- `scripts/audit_kernel.sh`: fresh-clone build, `leanchecker --fresh`, a second kernel (lean4export + nanoda) and
+  negative controls; log in `results/audit_kernel.log`.
 - `CheckAxioms.lean`: the all-declarations axiom check.
 
 ## Correspondence with the ledger
@@ -126,6 +131,7 @@ name in the ledger's Lean column has one.
 | T | CORE: if every core with at most `N` agents has an EFX₀ allocation, so does every instance with at most `N` agents and `\|R_i\| ≤ 3` (L3, R1, R2 by induction) | Target : `EFX.core_reduction` (over lists) |
 | T | TARGET (Corollary T): every instance with `\|R_i\| ≤ 3` for every agent has a complete EFX₀ allocation; values in ℕ, real values by L12 (`proofs/real_values.md`, written) | Target : `EFX.target` (model), `EFX.target_lists` (over lists) |
 | — | The list layer agrees with the model | Bridge : `EFX.Inst.efx0_iff` |
+| AUD | Independently written TARGET and D (list bundles partitioning the goods) follow from `EFX.target` and `EFX.LB.corollaryD` | Audit : `Audit.target_audit`, `Audit.corollaryD_audit` |
 
 mrd-efx proves a stronger form of L2c (`MRD.main_theorem_L`: in addition, all bundles but one have at most one
 good), and extends it to monotone valuations.
