@@ -10,7 +10,8 @@ proof (section numbers refer to proofs/multigraph_extension.md):
   2. moves (section 3), while one applies: Up (an unenvied agent holding its b whose c is free takes c), U1 (an envied
      agent w holding its top whose b and c are each free or held by one envier k: w takes {b_w, c_w}, k takes a_w), then R1
      (every unenvied agent holding its top takes one free good of its own, if it has one).
-  3. the dump (section 4, Lemma 4.2): free goods go to open sinks (unenvied agents whose bundle is not a closed pair).
+  3. the dump (section 4, Lemma 4.2): free goods go to open agents (unenvied, and not holding exactly the b and c of an
+     agent that holds only its top); a free good f may join the holder of its "partner" (H_f) only as a 2-good bundle.
 Every step asserts the invariants I1-I3 of Lemma 3.1 and the facts F1-F4 used by Lemma 4.2, so a run is also a check of the
 lemmas; every output is checked against the raw EFX0 definition (efx0_raw, three balanced realizations, no use of L5).
 
@@ -190,24 +191,20 @@ def dump(st):
         for f, s_ in assign.items(): X[f] = s_
         return X, case
     if not F: return give({}, 'no free good')
-    empty = [s_ for s_ in opn if all(X[g] != s_ for g in range(m))]
-    if empty: return give({f: empty[0] for f in F}, '(b) an open agent holds nothing')
+    cold = [s_ for s_ in opn if all(s_ not in Hf[f] for f in F)]
+    if cold: return give({f: cold[0] for f in F}, '(b) an open agent lies in no H_f')
     if len(opn) >= 3:
         if any(all(s_ in Hf[f] for s_ in opn) for f in F): return None, None   # impossible when |H_f| <= 2 (F4)
         return give({f: next(s_ for s_ in opn if s_ not in Hf[f]) for f in F}, '(a) three open agents')
-    assert set(O) <= set(opn)
-    if not O: return give({f: opn[0] for f in F}, '(c) no envier')
-    if len(O) == 1:
-        k = O[0]; assert all(k not in Hf[f] for f in F)
-        return give({f: k for f in F}, '(c) one envier')
-    k1, k2 = O                                         # |O| = 2 = |open|
+    # (c) |open| <= 2 and every open agent lies in some H_f: then open = O = {k1, k2} (Lemma 4.2)
+    assert set(O) <= set(opn) and len(O) == 2 and set(O) == set(opn)
+    k1, k2 = O
     bad = {k: [f for f in F if k in Hf[f]] for k in O}
-    if any(len(bad[k]) > 1 for k in O): return None, None
-    both = set(bad[k1]) & set(bad[k2])
-    if both:
-        f = both.pop()
-        return give({g: (k1 if g == f else k2) for g in F}, '(c) two enviers, crossed')
-    return give({g: (k2 if g in bad[k1] else k1) for g in F}, '(c) two enviers')
+    if any(len(bad[k]) > 1 for k in O): return None, None   # impossible in class U (fact (ii))
+    if bad[k1] == bad[k2]:
+        f = bad[k1][0]
+        return give({g: (k1 if g == f else k2) for g in F}, '(c) two open enviers, one good bad at both')
+    return give({g: (k2 if g in bad[k1] else k1) for g in F}, '(c) two open enviers')
 
 def construct(n, m, trip, cls):
     Y = popular_matching(n, trip)
