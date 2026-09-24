@@ -18,15 +18,22 @@ jobs:
         run: sudo apt-get install -y -q nauty || (sudo apt-get update -q && sudo apt-get install -y -q nauty)
       - name: Ledger lint (every PROVED/CERTIFIED/REFUTED row has an existing artifact)
         run: python tools/check_ledger.py
-      - name: Committed certificates, re-checked without SAT
+      - name: Committed certificates, re-checked without SAT (all allocations within conjecture D)
+        # certs_7_11 and certs_8_14 take minutes; their local re-checks are logged in results/check_certs_frontier.log
         run: |
-          python tools/check_certs.py results/certs_5_6.json.gz --expect 5:9:15 6:10:211 6:11:25
-          python tools/check_certs.py results/certs_7_13.json.gz --expect 7:13:37
+          python tools/check_certs.py results/certs_5_6.json.gz --expect 5:9:15 6:10:211 6:11:25 --require-d
+          python tools/check_certs.py results/certs_7_13.json.gz --expect 7:13:37 --require-d
+          python tools/check_certs.py results/certs_7_12.json.gz --expect 7:12:541 --require-d
+          python tools/check_certs.py results/certs_8_15.json.gz --expect 8:15:52 --require-d
+      - name: Committed certificates list every connected core (orbit counting, independent of nauty)
+        run: |
+          python tools/check_enum.py results/certs_5_6.json.gz results/certs_7_13.json.gz results/certs_7_12.json.gz \
+            results/certs_7_11.json.gz results/certs_8_15.json.gz
       - name: Re-run the n <= 6 search from scratch
         working-directory: src
         run: python frontier.py 5 6
       - name: Fresh certificates, re-checked without SAT
-        run: python tools/check_certs.py src/certs_5_6.json.gz --expect 5:9:15 6:10:211 6:11:25
+        run: python tools/check_certs.py src/certs_5_6.json.gz --expect 5:9:15 6:10:211 6:11:25 --require-d
       - name: Independent confirmation of the conjecture-A refutation
         working-directory: src
         run: python verify_fail.py
