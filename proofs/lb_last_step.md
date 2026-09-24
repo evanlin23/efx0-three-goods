@@ -10,7 +10,7 @@ partial allocation that is still sound and has an owner (§5). The resulting con
 insertion rule Phase 1 uses (§6). This proves conjecture D for every instance in which every agent values exactly three
 goods and is balanced, connected or not, and with L2 and L3 it proves TARGET. S2.LB itself stays a conjecture, and D does not need it.
 S2.LB would follow if LB's lookahead never reached the bad case. LB never reaches it on any core with n ≤ 6, nor on any
-connected core with n = 7 and 11 ≤ m ≤ 14 (§7).
+connected core with n = 7, 11 ≤ m ≤ 14 or n = 8, m ∈ {15, 16} (§7; one labelling per isomorphism class).
 
 Summary of what is proved here, with a complete proof (§1–§6):
 - **Theorem 1′ (soundness of pre-allocations).** A generalization of `proofs/construction.md` Theorem 1 to any "valid
@@ -29,8 +29,9 @@ Summary of what is proved here, with a complete proof (§1–§6):
 The proof does not use connectivity, the "at most one private good" condition of cores, L5, or any computation. The
 cross-checks in §7 are evidence only. `src/lbplus.c` runs LB⁺ exactly as written below. It asserts every lemma, and it
 checks every output against the raw EFX₀ definition. It runs on every core with n ≤ 6 under every ranking profile and
-every sequence of insertion choices, on every connected core with n = 7 and 11 ≤ m ≤ 14 under LB's own choices, and on
-random non-core instances. It found 0 failures.
+every sequence of insertion choices, on every connected core with n = 7, 11 ≤ m ≤ 14 and n = 8, m ∈ {15, 16} under LB's
+own and under random choices, and on random non-core instances. It found 0 failures in 5.8 × 10⁹ runs, of which
+1.3 × 10⁶ needed the rotation. A separate Python implementation agrees with it.
 
 ## 0. Setting
 
@@ -284,7 +285,27 @@ balanced realizations, and at most one bundle of ≥ 3 goods. That check does no
 - 1: every sequence of insertion choices (a tree of runs; LB's R1 order);
 - 2: random insertion *and* R1 choices.
 
-Results (`results/lbplus.log`): see the table there. Every run has 0 assertion failures and 0 raw-check failures.
+Results (`results/lbplus.log`; 0 assertion failures and 0 raw-check failures everywhere):
+
+| runs | scope | runs | rotated (owner k after it) |
+|---|---|---|---|
+| mode 1 | every core, n = 2–5, every m, every profile, every insertion sequence | 23,403,096 | 16,318 (28) |
+| mode 1 | every core, n = 6 | 2,449,875,384 | 354,024 (1,588) |
+| mode 0 | every core, n = 2–6 | 146,640,096 | 0 |
+| mode 0 | every connected core, n = 7, m = 11–14 | 1,030,724,352 | 0 |
+| mode 0 | every connected core, n = 8, m = 15, 16 | 89,019,648 | 0 |
+| mode 2 | every core n = 5 (10 random runs per profile), n = 6 (2), connected n = 7, m = 11–14 (1), n = 8, m = 15, 16 (1) | 1,431,141,696 | 400,670 (12,690) |
+| random non-cores | n = 5 (300 instances per m, m = 3–15, mode 1), n = 6 (100 per m, m = 4–14, mode 2), n = 7 (30 per m, m = 5–16, mode 2) | 673,459,632 | 556,089 (320,111) |
+| total | | 5,844,263,904 | 1,327,101 (334,417) |
+
+The independent Python implementation `src/lbplus.py` gives the same tallies as `src/lbplus.c` on all 40 levels
+(n = 2–5, modes 0 and 1): runs, no owner, owner r, rotated, and the outcome after the rotation. Its own raw checks
+also found 0 failures.
+
+Mode 0 never rotates: on these cores, with the labelling `cores_nauty.py` produces, LB's own runs never reach the bad
+case. This is the evidence for S2.LB, not part of the proof. Modes 1 and 2 rotate often, so the rotation is needed as
+soon as the insertion rule is not LB's lookahead. In mode 1 at n = 6, 195,234 runs at m = 8 have no valid owner at all
+before the rotation (`results/lb_tree.log`, `any_bad`).
 
 Instrumentation that led here (evidence):
 - `src/lb_owner.c`: the last-processed agent z works except when upgraded, 32 profiles at n = 6, m = 10; r works on
@@ -294,10 +315,12 @@ Instrumentation that led here (evidence):
 
 Reproduce (from `src/`; times on 4 CPUs):
 ```
-python lb_owner.py 5 --bin=lbplus --mode=1           # every core n = 5, every profile, every insertion choice: ~10 s
-python lb_owner.py 6 --bin=lbplus --mode=1           # n = 6: ~10 min
-python lb_owner.py 6 --bin=lbplus --mode=0           # LB's own runs, n = 6
-python lb_owner.py 7 14 13 12 11 --bin=lbplus --mode=0
-python lb_owner.py 6 --bin=lbplus --mode=2 --seed=1 --reps=3   # random insertion and R1 choices
-python lb_owner.py 5 5 6 7 8 9 10 11 12 --bin=lbplus --mode=1 --random=300:1   # random non-core instances
+python lb_owner.py 5 --bin=lbplus --mode=1           # every core n = 5, every profile, every insertion choice: ~5 s
+python lb_owner.py 6 --bin=lbplus --mode=1           # n = 6: ~7 min
+python lb_owner.py 6 --bin=lbplus --mode=0           # LB's own runs, n = 6: ~1 min
+python lb_owner.py 7 14 13 12 11 --bin=lbplus --mode=0          # ~25 min
+python lb_owner.py 6 --bin=lbplus --mode=2 --seed=1 --reps=2    # random insertion and R1 choices
+python lb_owner.py 5 3 4 5 6 7 8 9 10 11 12 13 14 15 --bin=lbplus --mode=1 --random=300:1   # random non-cores
+python lbplus.py 4 --mode=1                          # the Python implementation (n = 5: ~1 h)
+python lb_owner.py 6 --bin=lb_tree                   # results/lb_tree.log (X5)
 ```
