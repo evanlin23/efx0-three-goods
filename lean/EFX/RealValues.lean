@@ -469,4 +469,230 @@ theorem tri_rep {x1 x2 x3 : V} (h1 : ¬ x1 ≤ 0) (h2 : ¬ x2 ≤ 0) (h3 : ¬ x3
 
 end OrderedValue
 
+/-! ## Per agent: natural-number values with the same subset comparisons -/
+
+/-- `f` (values in `V`) and `w` (natural numbers) give the same answer to every comparison between
+two subset sums. -/
+def Agree {V : Type} [OrderedValue V] {k : Nat} (f : Fin k → V) (w : Fin k → Nat) : Prop :=
+  ∀ (S T : Fin k → Prop) [DecidablePred S] [DecidablePred T],
+    (finSumO k (fun g => if S g then f g else 0) ≤ finSumO k (fun g => if T g then f g else 0) ↔
+      finSum k (fun g => if S g then w g else 0) ≤ finSum k (fun g => if T g then w g else 0))
+
+namespace OrderedValue
+variable {V : Type} [OrderedValue V]
+
+/-- If `f` and `w` vanish off a list `L` of goods, and their sums over `L` are three-slot sums
+(`sl` gives each set's slots) with the same comparisons, then `f` and `w` agree. -/
+theorem agree_of_slots {k : Nat} (f : Fin k → V) (w : Fin k → Nat) (L : List (Fin k))
+    (hnd : L.Nodup) (hf : ∀ g, g ∉ L → f g = 0) (hw : ∀ g, g ∉ L → w g = 0)
+    (x1 x2 x3 : V) (A1 A2 A3 : Nat)
+    (hA : ∀ s1 s2 s3 t1 t2 t3 : Bool, (tri s1 s2 s3 x1 x2 x3 ≤ tri t1 t2 t3 x1 x2 x3 ↔
+      tri s1 s2 s3 A1 A2 A3 ≤ tri t1 t2 t3 A1 A2 A3))
+    (sl : (Fin k → Bool) → Bool × Bool × Bool)
+    (hLf : ∀ S : Fin k → Bool, listSum (L.map fun g => if S g then f g else 0) =
+      tri (sl S).1 (sl S).2.1 (sl S).2.2 x1 x2 x3)
+    (hLw : ∀ S : Fin k → Bool, listSum (L.map fun g => if S g then w g else 0) =
+      tri (sl S).1 (sl S).2.1 (sl S).2.2 A1 A2 A3) : Agree f w := by
+  have ef : ∀ (S : Fin k → Prop) [DecidablePred S], finSumO k (fun g => if S g then f g else 0) =
+      tri (sl fun g => S g).1 (sl fun g => S g).2.1 (sl fun g => S g).2.2 x1 x2 x3 := fun S _ => by
+    rw [finSumO_support k L _ hnd (fun g hg => by simp [hf g hg]), ← hLf]; simp
+  have ew : ∀ (S : Fin k → Prop) [DecidablePred S], finSum k (fun g => if S g then w g else 0) =
+      tri (sl fun g => S g).1 (sl fun g => S g).2.1 (sl fun g => S g).2.2 A1 A2 A3 := fun S _ => by
+    rw [← finSumO_nat, finSumO_support k L _ hnd (fun g hg => by simp [hw g hg]), ← hLw]; simp
+  intro S T _ _
+  rw [ef S, ef T, ew S, ew T]
+  exact hA _ _ _ _ _ _
+
+open Classical in
+/-- **L12 for one agent.** Values with at most three relevant goods have natural-number values that
+agree with them on every subset comparison. -/
+theorem exists_agree {k : Nat} (f : Fin k → V) (hf : ∀ g, 0 ≤ f g)
+    (h3 : finSum k (fun g => if ¬ f g ≤ 0 then 1 else 0) ≤ 3) : ∃ w : Fin k → Nat, Agree f w := by
+  obtain ⟨L, hnd, hmem, hout, hlen⟩ : ∃ L : List (Fin k), L.Nodup ∧ (∀ g ∈ L, ¬ f g ≤ 0) ∧
+      (∀ g, g ∉ L → f g = 0) ∧ L.length ≤ 3 := by
+    refine ⟨(List.finRange k).filter (fun g => decide (¬ f g ≤ 0)),
+      (List.nodup_finRange k).sublist List.filter_sublist,
+      fun g hg => of_decide_eq_true (List.mem_filter.mp hg).2, fun g hg => ?_, ?_⟩
+    · refine le_antisymm _ _ (Classical.byContradiction fun hc => hg ?_) (hf g)
+      exact List.mem_filter.mpr ⟨List.mem_finRange g, decide_eq_true hc⟩
+    · rw [finSum_eq_sum, sum_map_ite (fun g => ¬ f g ≤ 0) (fun _ => 1), sum_map_one] at h3
+      exact h3
+  rcases L with _ | ⟨g1, _ | ⟨g2, _ | ⟨g3, _ | ⟨g4, L⟩⟩⟩⟩
+  · -- no relevant good
+    refine ⟨fun _ => 0, fun S T _ _ => ?_⟩
+    rw [finSumO_support k [] _ hnd (fun g hg => by simp [hout g hg]),
+      finSumO_support k [] _ hnd (fun g hg => by simp [hout g hg])]
+    simp [listSum, finSum_eq_sum, le_refl]
+  · -- one relevant good
+    have h1 := hmem g1 (by simp)
+    obtain ⟨A1, A2, A3, -, -, -, hA⟩ := tri_rep h1 h1 h1
+    refine ⟨fun g => if g = g1 then A1 else 0, agree_of_slots f _ [g1] hnd hout
+      (fun g hg => by simp at hg; simp [hg]) _ _ _ A1 A2 A3 hA (fun S => (S g1, false, false))
+      (fun S => by simp [listSum, tri, add_zero]) (fun S => by simp [listSum, tri, add_zero])⟩
+  · -- two relevant goods (the third slot is a phantom that no set contains)
+    have h21 : g2 ≠ g1 := fun e => by subst e; simp at hnd
+    obtain ⟨A1, A2, A3, -, -, -, hA⟩ := tri_rep (hmem g1 (by simp)) (hmem g2 (by simp)) (hmem g1 (by simp))
+    refine ⟨fun g => if g = g1 then A1 else if g = g2 then A2 else 0,
+      agree_of_slots f _ [g1, g2] hnd hout (fun g hg => by simp at hg; simp [hg]) _ _ _ A1 A2 A3 hA
+      (fun S => (S g1, S g2, false)) (fun S => by simp [listSum, tri, add_zero])
+      (fun S => by simp [listSum, tri, add_zero, h21])⟩
+  · -- three relevant goods
+    have h21 : g2 ≠ g1 := fun e => by subst e; simp at hnd
+    have h31 : g3 ≠ g1 := fun e => by subst e; simp at hnd
+    have h32 : g3 ≠ g2 := fun e => by subst e; simp at hnd
+    obtain ⟨A1, A2, A3, -, -, -, hA⟩ :=
+      tri_rep (hmem g1 (by simp)) (hmem g2 (by simp)) (hmem g3 (by simp))
+    refine ⟨fun g => if g = g1 then A1 else if g = g2 then A2 else if g = g3 then A3 else 0,
+      agree_of_slots f _ [g1, g2, g3] hnd hout (fun g hg => by simp at hg; simp [hg]) _ _ _
+      A1 A2 A3 hA (fun S => (S g1, S g2, S g3)) (fun S => by simp [listSum, tri, add_zero])
+      (fun S => by simp [listSum, tri, add_zero, h21, h31, h32])⟩
+  · simp at hlen
+
+end OrderedValue
+
+/-! ## Transfer along `Agree` -/
+
+namespace OrderedValue
+variable {V : Type} [OrderedValue V]
+
+theorem finSumO_single' (k : Nat) (f : Fin k → V) (a : Fin k) :
+    finSumO k (fun g => if g = a then f g else 0) = f a := by
+  rw [show (fun g => if g = a then f g else 0) = fun g => if g = a then f a else 0 from
+    funext fun g => by by_cases hg : g = a <;> simp [hg]]
+  exact finSumO_single k a (f a)
+
+theorem finSumO_false (k : Nat) (f : Fin k → V) : finSumO k (fun g => if False then f g else 0) = 0 := by
+  simp only [ite_false]; exact finSumO_zero k
+
+/-- Relevance is preserved: `v(g) > 0 ↔ w(g) > 0`. -/
+theorem relevant_iff_of_agree {k : Nat} {f : Fin k → V} {w : Fin k → Nat} (h : Agree f w)
+    (g : Fin k) : ¬ f g ≤ 0 ↔ 0 < w g := by
+  have := h (· = g) (fun _ => False)
+  rw [finSumO_single', finSumO_false, ← finSumO_nat, ← finSumO_nat, finSumO_single',
+    finSumO_false] at this
+  rw [this]; exact Nat.not_le
+
+/-- Balance is a subset comparison: `2 v(a) ≤ v(M)` iff `v({a}) ≤ v(M \ {a})`. -/
+theorem double_le_iff {k : Nat} (f : Fin k → V) (a : Fin k) :
+    f a + f a ≤ finSumO k f ↔ finSumO k (fun g => if g = a then f g else 0) ≤
+      finSumO k (fun g => if ¬ g = a then f g else 0) := by
+  rw [finSumO_split k f a, finSumO_single']; exact (add_le_add_iff_left _ _ _).symm
+
+/-- Balance is preserved. -/
+theorem balanced_iff_of_agree {k : Nat} {f : Fin k → V} {w : Fin k → Nat} (h : Agree f w)
+    (a : Fin k) : f a + f a ≤ finSumO k f ↔ 2 * w a ≤ finSum k w := by
+  rw [double_le_iff, h, Nat.two_mul, ← finSumO_nat k w, double_le_iff, finSumO_nat, finSumO_nat]
+
+end OrderedValue
+
+open OrderedValue
+
+/-- EFX₀ is preserved: an allocation is EFX₀ for `v` iff it is EFX₀ for `w`. -/
+theorem efx0_iff_of_agree {V : Type} [OrderedValue V] (I : OInst V) (w : Fin I.n → Fin I.m → Nat)
+    (hw : ∀ i, Agree (I.v i) (w i)) (X : I.Alloc) :
+    I.EFX0 X ↔ (⟨I.n, I.m, w⟩ : Inst).EFX0 X := by
+  constructor
+  · intro h i j hij g hg
+    exact (hw i (fun g' => X g' = j ∧ some g ≠ some g') (fun g' => X g' = i ∧ none ≠ some g')).mp
+      (h i j hij g hg)
+  · intro h i j hij g hg
+    exact (hw i (fun g' => X g' = j ∧ some g ≠ some g') (fun g' => X g' = i ∧ none ≠ some g')).mpr
+      (h i j hij g hg)
+
+/-- The relevant-goods count is preserved. -/
+theorem numRelevant_eq_of_agree {V : Type} [OrderedValue V] (I : OInst V)
+    (w : Fin I.n → Fin I.m → Nat) (hw : ∀ i, Agree (I.v i) (w i)) (i : Fin I.n) :
+    numRelevant ⟨I.n, I.m, w⟩ i = I.numRelevant i := by
+  unfold numRelevant OInst.numRelevant
+  congr 1; funext g
+  by_cases h : 0 < w i g
+  · simp [h, (relevant_iff_of_agree (hw i) g).mpr h]
+  · simp [h, show ¬ ¬ I.v i g ≤ 0 from fun h' => h ((relevant_iff_of_agree (hw i) g).mp h')]
+
+/-! ## Main theorems -/
+
+/-- **L12.** If every agent has at most three relevant goods (and nonnegative values), there are
+natural-number values `w` with the same relevant goods that agree with `v` on every comparison
+between two subset sums. -/
+theorem l12 {V : Type} [OrderedValue V] (I : OInst V) (hv : ∀ i g, 0 ≤ I.v i g)
+    (h : ∀ i, I.numRelevant i ≤ 3) :
+    ∃ w : Fin I.n → Fin I.m → Nat, (∀ i g, 0 < w i g ↔ ¬ I.v i g ≤ 0) ∧ ∀ i, Agree (I.v i) (w i) := by
+  have hex := fun i => exists_agree (I.v i) (hv i) (h i)
+  refine ⟨fun i => Classical.choose (hex i), fun i g => ?_, fun i => Classical.choose_spec (hex i)⟩
+  exact (relevant_iff_of_agree (Classical.choose_spec (hex i)) g).symm
+
+/-- **TARGET over any ordered value type** (Corollary T; `ℝ≥0` by the textbook fact that it
+satisfies the axioms of `OrderedValue`). Every additive instance with nonnegative values in which every
+agent positively values at most three goods has a complete EFX₀ allocation. -/
+theorem target_ordered {V : Type} [OrderedValue V] (I : OInst V) (hn : 0 < I.n)
+    (hv : ∀ i g, 0 ≤ I.v i g) (h : ∀ i, I.numRelevant i ≤ 3) : ∃ X : I.Alloc, I.EFX0 X := by
+  obtain ⟨w, -, hw⟩ := l12 I hv h
+  obtain ⟨X, hX⟩ := target ⟨I.n, I.m, w⟩ hn (fun i => (numRelevant_eq_of_agree I w hw i) ▸ h i)
+  exact ⟨X, (efx0_iff_of_agree I w hw X).mpr hX⟩
+
+/-- **Corollary D over any ordered value type.** Every instance with nonnegative values in which every
+agent values exactly three goods and is balanced (`2 v_i(g) ≤ v_i(M)`) has an EFX₀ allocation in
+which at most one bundle has more than two goods. -/
+theorem corollaryD_ordered {V : Type} [OrderedValue V] (I : OInst V) (hn : 0 < I.n)
+    (hv : ∀ i g, 0 ≤ I.v i g) (h3 : ∀ i, I.numRelevant i = 3)
+    (hbal : ∀ i g, I.v i g + I.v i g ≤ finSumO I.m (I.v i)) :
+    ∃ X : I.Alloc, I.EFX0 X ∧ ∃ o, ∀ j, j ≠ o → finSum I.m (fun g => if X g = j then 1 else 0) ≤ 2 := by
+  obtain ⟨w, -, hw⟩ := l12 I hv (fun i => Nat.le_of_eq (h3 i))
+  obtain ⟨X, hX, o, ho⟩ := LB.corollaryD ⟨I.n, I.m, w⟩ hn
+    (fun i => (numRelevant_eq_of_agree I w hw i).trans (h3 i))
+    (fun i g => (balanced_iff_of_agree (hw i) g).mp (hbal i g))
+  exact ⟨X, (efx0_iff_of_agree I w hw X).mpr hX, o, ho⟩
+
+/-! ## Sanity: at `V = Nat` this is `EFX.Model` -/
+
+/-- At `V = Nat`, `OInst.EFX0` is `Inst.EFX0`. -/
+theorem efx0_nat_iff (I : Inst) (X : I.Alloc) :
+    OInst.EFX0 (⟨I.n, I.m, I.v⟩ : OInst Nat) X ↔ I.EFX0 X := by
+  unfold OInst.EFX0 Inst.EFX0 OInst.bundleVal Inst.bundleVal
+  simp only [finSumO_nat]
+
+/-- At `V = Nat`, `OInst.numRelevant` is `numRelevant`. -/
+theorem numRelevant_nat (I : Inst) (i : Fin I.n) :
+    OInst.numRelevant (⟨I.n, I.m, I.v⟩ : OInst Nat) i = numRelevant I i := by
+  unfold OInst.numRelevant numRelevant
+  congr 1; funext g
+  by_cases h : 0 < I.v i g
+  · simp [h, Nat.not_le.mpr h]
+  · simp [h, show I.v i g ≤ 0 from Nat.le_of_not_lt h]
+
+/-- `target_ordered` at `V = Nat` is `EFX.target` (same statement; see the `example` below). -/
+theorem target_of_ordered (I : Inst) (hn : 0 < I.n) (h : ∀ i, numRelevant I i ≤ 3) :
+    ∃ X : I.Alloc, I.EFX0 X := by
+  obtain ⟨X, hX⟩ := target_ordered (V := Nat) ⟨I.n, I.m, I.v⟩ hn (fun _ _ => Nat.zero_le _)
+    (fun i => (numRelevant_nat I i) ▸ h i)
+  exact ⟨X, (efx0_nat_iff I X).mp hX⟩
+
+/-- `corollaryD_ordered` at `V = Nat` is `EFX.LB.corollaryD` (same statement). -/
+theorem corollaryD_of_ordered (I : Inst) (hn : 0 < I.n) (h3 : ∀ i, numRelevant I i = 3)
+    (hbal : ∀ i g, 2 * I.v i g ≤ finSum I.m (I.v i)) :
+    ∃ X : I.Alloc, I.EFX0 X ∧ ∃ o, ∀ j, j ≠ o → finSum I.m (fun g => if X g = j then 1 else 0) ≤ 2 := by
+  obtain ⟨X, hX, o, ho⟩ := corollaryD_ordered (V := Nat) ⟨I.n, I.m, I.v⟩ hn
+    (fun _ _ => Nat.zero_le _) (fun i => (numRelevant_nat I i).trans (h3 i))
+    (fun i g => by
+      show I.v i g + I.v i g ≤ finSumO I.m (I.v i)
+      rw [finSumO_nat]; have := hbal i g; omega)
+  exact ⟨X, (efx0_nat_iff I X).mp hX, o, ho⟩
+
+/-- The specializations have exactly the statements of the natural-number theorems. -/
+example : @target_of_ordered = @target := rfl
+example : @corollaryD_of_ordered = @LB.corollaryD := rfl
+
 end EFX
+
+/-! ## Axiom certificates (audited by `check.sh`) -/
+
+#print axioms EFX.OrderedValue.tri_le_iff
+#print axioms EFX.OrderedValue.tri_rep
+#print axioms EFX.OrderedValue.exists_agree
+#print axioms EFX.numRelevant_eq_of_agree
+#print axioms EFX.OrderedValue.balanced_iff_of_agree
+#print axioms EFX.l12
+#print axioms EFX.target_ordered
+#print axioms EFX.corollaryD_ordered
+#print axioms EFX.target_of_ordered
+#print axioms EFX.corollaryD_of_ordered
