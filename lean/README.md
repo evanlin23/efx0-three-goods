@@ -21,7 +21,7 @@ standard ones, if the number of certificates differs from the number of `#print 
 declaration of the library (certified or not; `CheckAxioms.lean`) depends on another axiom. On success the last
 line is
 
-    CHECK PASSED: 65 audited statements, 248 theorems, standard axioms only
+    CHECK PASSED: 80 audited statements, 278 theorems, standard axioms only
 
 CI runs it on every pull request (job `lean` in `.github/workflows/verify.yml`). In Claude Code on the web the
 session-start hook installs the toolchain (from GitHub when `release.lean-lang.org` is unreachable).

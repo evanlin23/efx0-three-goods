@@ -208,9 +208,127 @@ theorem corollaryD_audit : DStmt := by
     have := ho k h; rw [← length_bundles] at this; omega
   exact hj'.trans hk'.symm
 
+/-! ## Non-vacuity
+
+The definitions above are not trivially satisfied, and the hypotheses of both statements are
+satisfiable. All concrete facts are checked by `decide` (kernel evaluation; no `native_decide`). -/
+
+section NonVacuity
+
+/-- Standard EFX (only goods the envious agent values positively may be removed), for contrast. -/
+def IsEFX {n m : Nat} (v : Fin n → Fin m → Nat) (X : Fin n → List (Fin m)) : Prop :=
+  ∀ i j : Fin n, i ≠ j → ∀ g, g ∈ X j → 0 < v i g → lsum (v i) ((X j).erase g) ≤ lsum (v i) (X i)
+
+/-- `total` counts only relevant goods. -/
+theorem total_eq_relevant {n m : Nat} (v : Fin n → Fin m → Nat) (i : Fin n) :
+    total v i = lsum (v i) (relevant v i) := by
+  rw [total, relevant, lsum_filter]
+  exact lsum_congr (fun g _ => by by_cases h : 0 < v i g <;> simp [h]; omega)
+
+/-- `Balanced` at an agent with relevant goods `a, b, c` is exactly "each good is worth at most the
+sum of the other two", as in the informal statement of D. -/
+theorem balanced_iff_pairwise {n m : Nat} (v : Fin n → Fin m → Nat) (i : Fin n) {a b c : Fin m}
+    (h : relevant v i = [a, b, c]) :
+    (∀ g, 2 * v i g ≤ total v i) ↔
+      (v i a ≤ v i b + v i c ∧ v i b ≤ v i a + v i c ∧ v i c ≤ v i a + v i b) := by
+  have ht : total v i = v i a + v i b + v i c := by
+    rw [total_eq_relevant, h]; simp only [lsum]; omega
+  constructor
+  · intro hb; have := hb a; have := hb b; have := hb c; omega
+  · intro ⟨h1, h2, h3⟩ g
+    by_cases hg : 0 < v i g
+    · have hm : g ∈ relevant v i := by simp [relevant, List.mem_finRange, hg]
+      rw [h] at hm
+      simp only [List.mem_cons, List.not_mem_nil, or_false] at hm
+      rcases hm with rfl | rfl | rfl <;> omega
+    · omega
+
+/-- With no agents, no allocation of a good exists: the hypothesis `0 < n` is needed. -/
+theorem no_partition_without_agents : ¬ ∃ X : Fin 0 → List (Fin 1), IsPartition X :=
+  fun ⟨_, _, hcov, _⟩ => (hcov 0).elim fun i _ => i.elim0
+
+/-- Instance 1 (two agents, three goods). Agent 0 values every good 1; agent 1 values goods
+0, 1, 2 at 2, 1, 0. Every agent has at most three relevant goods. -/
+def v1 : Fin 2 → Fin 3 → Nat := fun i g => ([[1, 1, 1], [2, 1, 0]].getD i.val []).getD g.val 0
+
+/-- Agent 0 gets goods 0 and 2 (good 2 is worth 0 to agent 1), agent 1 gets good 1. -/
+def X1bad : Fin 2 → List (Fin 3) := fun i => if i = 0 then [0, 2] else [1]
+
+/-- Agent 0 gets goods 1 and 2, agent 1 gets good 0. -/
+def X1good : Fin 2 → List (Fin 3) := fun i => if i = 0 then [1, 2] else [0]
+
+theorem v1_target_hyp : ∀ i, (relevant v1 i).length ≤ 3 := by decide
+theorem X1bad_partition : IsPartition X1bad := by unfold IsPartition; decide
+/-- `X1bad` is EFX ... -/
+theorem X1bad_EFX : IsEFX v1 X1bad := by unfold IsEFX; decide
+/-- ... but not EFX₀: agent 1 envies `{0, 2} ∖ {2} = {0}` (value 2 > 1), and good 2 is worth 0 to
+agent 1. So `IsEFX0` really quantifies over zero-valued goods. -/
+theorem X1bad_not_EFX0 : ¬ IsEFX0 v1 X1bad := by unfold IsEFX0; decide
+theorem X1good_partition : IsPartition X1good := by unfold IsPartition; decide
+theorem X1good_EFX0 : IsEFX0 v1 X1good := by unfold IsEFX0; decide
+
+/-- Two agents, two goods, all values 1: giving both goods to agent 0 is not EFX₀ (nor EFX). -/
+theorem all_to_one_not_EFX0 :
+    ¬ IsEFX0 (fun (_ : Fin 2) (_ : Fin 2) => 1) (fun i => if i = 0 then [0, 1] else []) := by
+  unfold IsEFX0; decide
+
+/-- Lists that are not partitions: a missing good, a good in two bundles, a repeated good. -/
+theorem not_partitions :
+    ¬ IsPartition (fun (_ : Fin 1) => ([] : List (Fin 1))) ∧
+    ¬ IsPartition (fun (_ : Fin 2) => ([0] : List (Fin 1))) ∧
+    ¬ IsPartition (fun (_ : Fin 1) => ([0, 0] : List (Fin 1))) := by
+  unfold IsPartition; decide
+
+/-- Instance 2 (two agents, six goods): both agents value goods 0, 1, 2 at 1 and goods 3, 4, 5 at 0
+(goods nobody values). It satisfies the hypotheses of D. -/
+def v2 : Fin 2 → Fin 6 → Nat := fun _ g => if g.val < 3 then 1 else 0
+
+theorem v2_D_hyp : (∀ i, (relevant v2 i).length = 3) ∧ Balanced v2 := by
+  unfold Balanced total; decide
+
+/-- At most one bundle of `X` has more than two goods. -/
+def AtMostOneBig {n m : Nat} (X : Fin n → List (Fin m)) : Prop :=
+  ∀ j k, 2 < (X j).length → 2 < (X k).length → j = k
+
+/-- An allocation meeting D's conclusion for instance 2: bundles `{0, 1}` and `{2, 3, 4, 5}`. -/
+def X2good : Fin 2 → List (Fin 6) := fun i => if i = 0 then [0, 1] else [2, 3, 4, 5]
+
+/-- An allocation of instance 2 with two bundles of three goods. -/
+def X2bad : Fin 2 → List (Fin 6) := fun i => if i = 0 then [0, 1, 3] else [2, 4, 5]
+
+theorem v2_D_witness : IsPartition X2good ∧ IsEFX0 v2 X2good ∧ AtMostOneBig X2good := by
+  unfold IsPartition IsEFX0 AtMostOneBig; decide
+
+/-- `X2bad` violates both parts of D's conclusion: two bundles have three goods, and agent 1
+envies `{0, 1, 3} ∖ {3}` (good 3 is worth 0 to agent 1). -/
+theorem v2_D_violation : IsPartition X2bad ∧ ¬ IsEFX0 v2 X2bad ∧ ¬ AtMostOneBig X2bad := by
+  unfold IsPartition IsEFX0 AtMostOneBig; decide
+
+/-- An unbalanced agent (values 3, 1, 1) fails `Balanced`, and an agent with four relevant goods
+fails TARGET's hypothesis: both hypotheses have content. -/
+theorem hyps_not_trivial :
+    ¬ Balanced (fun (_ : Fin 1) (g : Fin 3) => if g = 0 then 3 else 1) ∧
+    ¬ (∀ i, (relevant (fun (_ : Fin 1) (_ : Fin 4) => 1) i).length ≤ 3) := by
+  unfold Balanced total; decide
+
+end NonVacuity
+
 end Audit
 
 /-! ## Axiom certificates (audited by `check.sh`) -/
 
 #print axioms Audit.target_audit
 #print axioms Audit.corollaryD_audit
+#print axioms Audit.balanced_iff_pairwise
+#print axioms Audit.no_partition_without_agents
+#print axioms Audit.v1_target_hyp
+#print axioms Audit.X1bad_partition
+#print axioms Audit.X1bad_EFX
+#print axioms Audit.X1bad_not_EFX0
+#print axioms Audit.X1good_partition
+#print axioms Audit.X1good_EFX0
+#print axioms Audit.all_to_one_not_EFX0
+#print axioms Audit.not_partitions
+#print axioms Audit.v2_D_witness
+#print axioms Audit.v2_D_violation
+#print axioms Audit.hyps_not_trivial
