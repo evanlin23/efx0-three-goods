@@ -1,5 +1,8 @@
 name: verify
-on: [push, pull_request]
+on: [pull_request]
+concurrency:
+  group: verify-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   verify:
     runs-on: ubuntu-latest
@@ -9,7 +12,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: pip install python-sat networkx numpy
+      - run: pip install -r requirements.txt
       - name: Ledger lint (every PROVED/CERTIFIED/REFUTED row has an existing artifact)
         run: python tools/check_ledger.py
       - name: Committed certificates, re-checked without SAT
