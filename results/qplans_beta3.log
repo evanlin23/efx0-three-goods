@@ -1,0 +1,11 @@
+$ python dg_beta3.py 3 4 5 6 7 8 9 10 --jobs=2 --out=../results/qplans_beta3.json.gz
+[     0s] n=3 m=4: 2 connected cores, reduced by q {2: 1, 3: 1}, 252 Q-plans; missing so far 0
+[     1s] n=4 m=6: 16 connected cores, reduced by q {0: 1, 1: 2, 2: 6, 3: 4, 4: 2}, 3685 Q-plans; missing so far 0
+[     2s] n=5 m=8: 62 connected cores, reduced by q {0: 2, 1: 8, 2: 18, 3: 13, 4: 4}, 8690 Q-plans; missing so far 0
+[     3s] n=6 m=10: 211 connected cores, reduced by q {0: 6, 1: 16, 2: 36, 3: 28, 4: 10}, 20406 Q-plans; missing so far 0
+[     5s] n=7 m=12: 541 connected cores, reduced by q {0: 3, 1: 17, 2: 38, 3: 35, 4: 15}, 28473 Q-plans; missing so far 0
+[    10s] n=8 m=14: 1232 connected cores, reduced by q {0: 2, 1: 9, 2: 27, 3: 28, 4: 15}, 26516 Q-plans; missing so far 0
+[    31s] n=9 m=16: 2477 connected cores, reduced by q {0: 1, 1: 3, 2: 9, 3: 14, 4: 9}, 15031 Q-plans; missing so far 0
+[   163s] n=10 m=18: 4619 connected cores, reduced by q {1: 1, 2: 2, 3: 3, 4: 5}, 7206 Q-plans; missing so far 0
+[   164s] wrote ../results/qplans_beta3.json.gz; missing Q-plans: 0
+exit=0

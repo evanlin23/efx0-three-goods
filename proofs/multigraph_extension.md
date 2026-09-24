@@ -7,12 +7,12 @@ Workstream `proof/multigraph-extension`. Source: Afshinmehr, Ashuri, Mahmoudkhan
 **Proved here.**
 - **Theorem M.** Every core in which each good has at most two valuers (a *multigraph core*) has an EFX₀ allocation. This is a short, self-contained proof of the part of the paper's theorem that TARGET uses (ledger T3), for every n. It needs none of the paper's machinery beyond the move U1.
 - **Theorem X (extension).** Let a core have a strict ranking profile with a *popular matching* (§1), and suppose every good with three or more valuers is the top of each of its valuers (class 𝒰). Then the core has an EFX₀ allocation. Multigraph cores are in 𝒰 and always have a popular matching (Lemma 1.2), so Theorem M is a special case. The construction is explicit: popular matching, then the moves Up, U1 and R1, then one dump step.
-- **Lemma 1.1 (dictionary).** In a core, the paper's simple height-one allocations are exactly the popular matchings of the ranking profile (in the sense of Abraham, Irving, Kavitha and Mehlhorn [unverified: not read in this session; everything used below is proved here]).
+- **Lemma 1.1.** In a core, a singleton state (every agent holds at most one of its own goods) is unitary (nobody prefers a free good to its holding) and has height one (nobody both envies and is envied) iff it is a popular matching of the ranking profile, in the sense of Abraham, Irving, Kavitha and Mehlhorn [unverified: not read in this session; everything used below is proved here]. These states play the role of the paper's simple height-one allocations. That they *are* the paper's objects is only an unproved remark (§1). It fails for the core with two agents sharing three goods, and the paper's objects are undefined for goods with three or more valuers.
 - **Obstructions (§5).**
   - **O1**, core H3 (n = 3, two goods with three valuers): no popular matching exists, and every EFX₀ allocation has an agent that envies someone and is envied.
   - **O2** (n = 3, m = 4, a single good with three valuers): a popular matching exists, but again every EFX₀ allocation has an agent that envies and is envied.
 
-  The paper's allocations never have such an agent (children are envied only by their root and envy nobody; everybody else is unenvied, digest §2). So no argument whose output keeps the paper's final shape can reach O2, with or without a popular matching. Theorem X gets past this because its dump lemma (Lemma 2.1) allows the harmless envy of an agent toward a two-good bundle made of its own b and c.
+  The paper's allocations never have such an agent (children are envied only by their root and envy nobody; everybody else is unenvied, digest §2). So no argument whose output keeps the paper's final shape can reach O2, with or without a popular matching. O2 itself is outside class 𝒰, so Theorem X does not cover it. What Theorem X shows is that the paper's shape is not needed: its dump lemma (Lemma 2.1) allows the harmless envy of an agent toward a two-good bundle made of its own b and c.
 
 **Checked by computer** (`src/mgx.py`, logs `results/mgx_mg.log`, `results/mgx_U.log`, `results/mgx_T.log`, `results/mgx_obstructions.log`). The construction was run on every profile of the classes below, for every connected core with the given n, all m. Every step asserts the invariants of Lemmas 3.1 and 3.2, and every output is checked against the raw EFX₀ definition (three balanced realizations, no use of L5). Theorems M and X are proofs; the runs cross-check them.
 - Multigraph cores, n ≤ 7, and class 𝒰, n ≤ 6: every profile succeeds (every 𝒰 profile with a popular matching).
@@ -23,7 +23,7 @@ Workstream `proof/multigraph-extension`. Source: Afshinmehr, Ashuri, Mahmoudkhan
 - Profiles in which a good with three or more valuers is the top of some valuers but not of others: the move U1 can then break the invariant I3; the smallest such profile has n = 4, m = 5 (`attempts/multigraph_u1_mixed_top.md`).
 - The dump in class 𝒯: proved only in class 𝒰; conjecture MX-C (the case analysis first fails at n = 6, `attempts/multigraph_dump_class_T.md`).
 
-What this leaves for TARGET: Theorem X adds, to ledger T3, every core whose components have a profile in 𝒰 with a popular matching.
+What this leaves for TARGET: Theorem X adds (ledger T5) every core whose components have a strict profile in 𝒰 with a popular matching.
 
 ## 0. The criterion used throughout
 
@@ -39,14 +39,15 @@ Ties need no separate treatment. A core with tied values has a strict profile co
 
 ## 1. The paper's objects in a core; popular matchings
 
-**Dictionary (inference, from digest §4).**
-- In a core, a class of goods valued by exactly two agents has at most two goods, and its only EFX₀-feasible 2-partition is the singleton split, so both cuts coincide and every unit bundle is one good.
+**Dictionary (an unproved remark, from digest §4).** It applies to cores in which every good has at most two valuers, other than the core with n = 2, m = 3.
+- A class of goods valued by exactly two agents has at most two goods (three would make the two agents a whole core, n = 2, m = 3), and its only EFX₀-feasible 2-partition is the singleton split. So both cuts coincide and every unit bundle is one good.
+- In the excluded core, the pair class {0, 1, 2} has the cut ({a}, {b, c}). With both agents ranking 0 > 1 > 2, ({0}, {1, 2}) is simple, basic and height-one without being a popular matching. The popular matching ({0}, {1}) is not unitary in the sense of Def. 2.4(1). With goods of three or more valuers, the paper's objects are not defined.
 - An orientation in which every agent holds at most one unit bundle (the paper's *simple*, Def. 2.10, p. 9) is then a partial allocation in which every agent holds at most one of its own goods. Call this a *singleton state*.
 - *Unitary* (Def. 2.4(2), p. 8) says that no agent prefers a free good to its holding.
 - A resented agent holds a good that its resenter prefers to its own holding (Remark 2.7, Lemma 2.8), so resent is envy of a held good.
 - *Height-one* (every resent tree is a star) says that no agent both envies someone and is envied.
 
-The lemma below is stated and proved in core terms; nothing later depends on the dictionary.
+Lemma 1.1 is stated and proved in core terms, for every core; nothing later depends on the dictionary.
 
 **Definitions.**
 - The *f-goods* are the tops, F = {a_i : i an agent}. The *claimants* of an f-good g are the agents whose top it is.
@@ -200,7 +201,7 @@ If there is no free good, there is nothing to assign. Otherwise consider three c
 
 *Proof.* Take a strict profile consistent with the values (§0). It is in 𝒰, because no good has three valuers. It has a popular matching by Lemma 1.2(b), so Theorem X applies. ∎
 
-**Consequence for TARGET.** Take an instance with |R_i| ≤ 3, and reduce it to its core by L2 and L3 (`proofs/lemmas.md`, CORE). If every connected component of the core has a strict profile in 𝒰 with a popular matching, then an EFX₀ allocation exists: combine L6 with Theorem X. Theorem M re-proves the multigraph part of ledger T3 without the paper. Theorem X adds components in which goods valued by three or more agents occur, provided each of them is the top of all its valuers (and a popular matching exists). An example is agents that all rank a common good first.
+**Consequence for TARGET (ledger T5).** Take an instance with |R_i| ≤ 3, and suppose the reduction by L2 and L3 (`proofs/lemmas.md`, CORE) reaches a core each of whose connected components has a strict profile consistent with its values that lies in 𝒰 and has a popular matching. Then an EFX₀ allocation exists: combine L6 with Theorem X. Theorem M re-proves the multigraph part of ledger T3 without the paper. Theorem X adds components in which goods valued by three or more agents occur, provided each of them is the top of all its valuers (and a popular matching exists). An example is agents that all rank a common good first, provided a popular matching exists. It need not: four agents whose common top is g, with s-goods x, x, y, y, have none, since three losers would need distinct s-goods.
 
 **Remarks.**
 1. *Which parts of the paper survive, in core form (inference).* U1 does. Greedy and Reduce Trees are replaced by the popular matching of Lemma 1.2. The support pairs, the budgets, the main cases A–H and their dumping rules are replaced by Lemma 4.2's admissible assignment. The part of the dumping that the paper needs budgets for is here the single condition (β\*), because in a core EFX₀ is ordinal (L5) and every unit bundle is one good.
