@@ -1,0 +1,19 @@
+# SAT-free re-check of the n = 7 (m = 12, 11) and n = 8 (m = 15, 14) certificates, D shape included
+# 4 CPUs, 2026-09-24T16:50:36Z; CI re-checks certs_7_12 and certs_8_15 on every pull request
+
+$ python tools/check_certs.py results/certs_7_12.json.gz --expect 7:12:541 --require-d
+checked 541 hypergraphs {(7, 12): 541}, models {'C3': 541}; problems: 0
+exit=0  [19s]
+
+$ python tools/check_certs.py results/certs_7_11.json.gz --expect 7:11:3103 --require-d
+checked 3103 hypergraphs {(7, 11): 3103}, models {'C3': 3103}; problems: 0
+exit=0  [148s]
+
+$ python tools/check_certs.py results/certs_8_15.json.gz --expect 8:15:52 --require-d
+checked 52 hypergraphs {(8, 15): 52}, models {'C3': 52}; problems: 0
+exit=0  [11s]
+
+$ python tools/check_certs.py results/certs_8_14.json.gz --expect 8:14:1232 --require-d
+checked 1232 hypergraphs {(8, 14): 1232}, models {'C3': 1232}; problems: 0
+exit=0  [439s]
+
