@@ -32,5 +32,5 @@ The single source of truth. A status changes only in a pull request that adds th
 ## Open items
 1. ~~Independent re-implementation of the core enumeration (the trust point of R1): reproduce 15 / 211 / 25 / 37.~~ Done: `src/cores_nauty.py` (nauty genbg) matches `gen_cores` up to isomorphism, `results/enum_crosscheck.log`.
 2. Verify the Mahara citation (m ≤ n + 3).
-3. ~~Regenerate the n = 7, m = 13 certificates~~ (done: `results/certs_7_13.json.gz`); run m = 12 and 11 (`src/run7.py 12 11`: 541 and 3,103 cores); then n = 8 at m = 15 (`src/run7.py 15 --n=8`: 52 cores).
+3. ~~Regenerate the n = 7, m = 13 certificates~~ (done: `results/certs_7_13.json.gz`); run m = 12 and 11 (`src/run7.py 12 11`: 541 and 3,103 cores, about 1 and 10 min on 4 CPUs); then n = 8 at m = 15 (`src/run7.py 15 --n=8`: 52 cores, 15 s). Beyond the plan, estimated from samples on 4 CPUs: n = 8, m = 14: 1,232 cores, ~20 min; m = 13: 11,478 cores, ~13 h; m = 12: 52,889 cores, ~4 days.
 4. Characterize the large bundle; attempt D for β = 2 via L11.

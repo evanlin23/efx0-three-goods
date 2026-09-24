@@ -6,10 +6,10 @@ Start here if you are an AI agent (Claude Code on the web, or any other coding a
 1. `README.md`: the problem in one paragraph, current status, layout.
 2. `PROMPT.md`: the full brief: problem, lemmas L1–L11, results, plan (Steps 0–4), working rules (§5), repository workflow (§7). Read all of it before doing anything.
 3. `LEDGER.md`: every claim with its status and artifact. This is the source of truth; "Open items" at the bottom lists what to do next.
-4. Open pull requests and issues on GitHub, so you don't duplicate or contradict work in progress.
+4. Open pull requests (drafts included: a draft PR claims its ledger item) and issues on GitHub, so you don't duplicate or contradict work in progress.
 5. Only what your task needs: `proofs/lemmas.md` and `proofs/counterexamples.md` for proof work; `src/frontier.py` (module docstring first) for compute work; `attempts/` before trying an approach that may already have failed.
 
-If the person who started your session named a workstream or task, do that. Otherwise, pick the first unclaimed item under "Open items" in LEDGER.md and say which one you picked.
+If the person who started your session named a workstream or task, do that. Otherwise, pick the first unclaimed item under "Open items" in LEDGER.md (unclaimed: no open PR, draft or not, names it) and say which one you picked.
 
 ## 2. Environment
 - Python 3.11+, with `pip install -r requirements.txt` (python-sat, networkx, numpy), and nauty, whose `genbg` enumerates the cores (`apt-get install nauty`, or `brew install nauty`). In Claude Code on the web, `.claude/hooks/session-start.sh` installs all of these when the session starts.
@@ -21,7 +21,8 @@ If the person who started your session named a workstream or task, do that. Othe
 - **Never commit to `main`.** All changes reach `main` through a pull request that a human reviews and merges. Never merge your own PR.
 - **Branch:** if your session assigned you a branch (e.g. Claude Code on the web's `claude/...` branches), use it as is: you may not be able to push anywhere else. Otherwise create one named after your workstream: `compute/<topic>`, `proof/<topic>` or `formal/<topic>` (e.g. `compute/n7-m12`, `proof/beta2-theta`, `formal/peel-r2`). Start from an up-to-date `main`.
 - **Commits:** small and often, with the message `[workstream] what changed and why`, e.g. `[compute/n7-m12] certify n = 7, m = 12 cores (41 hypergraphs)`.
-- **Pull request:** open one when a unit of work is done, into `main`, titled `[workstream] summary`. Fill in `.github/pull_request_template.md`. If you cannot push or open a PR, produce `git format-patch` output plus any new data files and say so.
+- **Claim before you start:** after your first commit, push and open a **draft** pull request into `main` titled `[workstream] <ledger item>`, so parallel sessions see the item is taken.
+- **Pull request:** when the unit of work is done, mark the draft ready for review (or open the PR), titled `[workstream] summary`. Fill in `.github/pull_request_template.md`. If you cannot push or open a PR, produce `git format-patch` output plus any new data files and say so.
 - Don't edit another workstream's files. To dispute a claim, open an issue with the counterexample.
 
 ## 4. Checks to run before pushing
@@ -41,7 +42,7 @@ Lean (when you touch `lean/`; seconds once the toolchain is installed):
 ```
 lean/check.sh                                    # core only, no sorry, warning-free, standard axioms only
 ```
-Long searches (n = 7 and beyond, `run7.py`; `--n=8` for n = 8) use every CPU and can still take a long time: run them in the background, log to `results/`, and commit the log and certificate when done.
+Long searches (n = 7 and beyond, `run7.py`; `--n=8` for n = 8) use every CPU and can still take a long time; LEDGER.md "Open items" lists time estimates. Run them in the background, log to `results/`, and commit the log and certificate when done. `run7.py` appends each solved hypergraph to `src/checkpoint_{n}_{m}.jsonl` and resumes from it when rerun (`--fresh` starts over). The checkpoint lives in the container, and a reclaimed container loses it, so start only runs that fit in a session.
 
 ## 5. Rules that CI and reviewers enforce
 - A ledger status changes only in a PR that adds the required artifact (PROMPT.md §5 rule 1). CI fails if a PROVED, CERTIFIED or REFUTED row points to a missing file.

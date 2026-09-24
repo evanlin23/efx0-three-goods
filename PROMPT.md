@@ -70,7 +70,7 @@ Corollary: if |R_i| ≤ 2 for all i, serial dictatorship (each agent takes its f
 - "Every core has an EFX₀ allocation with all bundles ≤ 2": false at n = 5.
 - Conjecture A of v1 ("m ≤ 2n − 2 ⟹ all bundles ≤ 2 suffice"): false.
   - At n = 6, m = 10, 57 of the 211 connected cores have a ranking profile with no such allocation; all 57 were confirmed by a second, independently written encoding.
-  - In the hypergraphs measured, only 2–36 of the 46,656 profiles fail, which is why ~500 random samples saw nothing.
+  - In each of the 57 failing hypergraphs only 1 to 747 of the 46,656 profiles fail (median 22; 7,077 of all 211 × 46,656 hypergraph–profile pairs, 0.07%; `results/fail_density_6_10.log`), which is why ~500 random samples saw nothing.
   - Example (agent: a > b > c): (1,0,6) (1,0,7) (2,0,8) (3,0,9) (2,4,5) (3,4,5). An EFX₀ allocation: {0,6} {1,7,8,9} {2} {3} {4} {5}.
   - Mechanism: there are three top-collisions (goods 1, 2, 3). Agents 0–3 all have good 0 in their bottom pair, and agents 4, 5 share one bottom pair, so at most two collisions can be fixed by case P. The third needs a chain, and chains need more alone goods than the slack 2n − m = 2 allows (L7). The large bundle collects private goods.
 - The same statement for arbitrary (non-core) instances: false. Counterexample: four identical agents valuing {x, y, z}, plus three worthless goods.
