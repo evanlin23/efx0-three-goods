@@ -1,0 +1,14 @@
+$ python tools/check_certs.py results/certs_beta2_2.json.gz --expect 2:3:1
+checked 1 hypergraphs {(2, 3): 1}; problems: 0
+$ python tools/check_certs.py results/certs_beta2_3.json.gz --expect 3:5:3
+checked 3 hypergraphs {(3, 5): 3}; problems: 0
+$ python tools/check_certs.py results/certs_beta2_4.json.gz --expect 4:7:8
+checked 8 hypergraphs {(4, 7): 8}; problems: 0
+$ python tools/check_certs.py results/certs_beta2_5.json.gz --expect 5:9:15
+checked 15 hypergraphs {(5, 9): 15}; problems: 0
+$ python tools/check_certs.py results/certs_beta2_6.json.gz --expect 6:11:25
+checked 25 hypergraphs {(6, 11): 25}; problems: 0
+$ python tools/check_certs.py results/certs_beta2_7.json.gz --expect 7:13:37
+checked 37 hypergraphs {(7, 13): 37}; problems: 0
+$ python tools/check_certs.py results/certs_beta2_8.json.gz --expect 8:15:52
+checked 52 hypergraphs {(8, 15): 52}; problems: 0
