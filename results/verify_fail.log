@@ -1,0 +1,7 @@
+[independent check] n=6 m=10 C2 failures confirmed UNSAT by second encoding: 57/57
+  hypergraph [[0, 1, 6], [0, 1, 7], [0, 2, 8], [0, 3, 9], [2, 4, 5], [3, 4, 5]]: 2/46656 profiles fail C2 (0.00%)  [3s]
+  hypergraph [[0, 1, 6], [0, 1, 7], [0, 2, 8], [2, 3, 9], [0, 4, 5], [3, 4, 5]]: 2/46656 profiles fail C2 (0.00%)  [3s]
+  hypergraph [[0, 1, 6], [0, 1, 7], [0, 2, 8], [3, 4, 9], [0, 2, 5], [3, 4, 5]]: 36/46656 profiles fail C2 (0.08%)  [3s]
+  example (agent: a > b > c): [(1, 0, 6), (1, 0, 7), (2, 0, 8), (3, 0, 9), (2, 4, 5), (3, 4, 5)]
+  EFX0 allocation with one large bundle: [[0, 6], [1, 7, 8, 9], [2], [3], [4], [5]]
+verify_fail exit=0

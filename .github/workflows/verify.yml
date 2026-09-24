@@ -1,0 +1,29 @@
+name: verify
+on: [push, pull_request]
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install python-sat networkx numpy
+      - name: Ledger lint (every PROVED/CERTIFIED/REFUTED row has an existing artifact)
+        run: python tools/check_ledger.py
+      - name: Committed certificates, re-checked without SAT
+        run: python tools/check_certs.py results/certs_5_6.json.gz --expect 5:9:15 6:10:211 6:11:25
+      - name: Re-run the n <= 6 search from scratch
+        working-directory: src
+        run: python frontier.py 5 6
+      - name: Fresh certificates, re-checked without SAT
+        run: python tools/check_certs.py src/certs_5_6.json.gz --expect 5:9:15 6:10:211 6:11:25
+      - name: Independent confirmation of the conjecture-A refutation
+        working-directory: src
+        run: python verify_fail.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: certificates
+          path: src/certs_*.json.gz
