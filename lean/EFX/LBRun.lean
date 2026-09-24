@@ -682,6 +682,18 @@ theorem lb_sound_model {n m : Nat} (P : Profile (Fin n) (Fin m)) (order : List (
     (fun i => ⟨fun _ => List.mem_finRange i, fun _ => hperm i⟩) h
   exact ⟨(sound hH).1, o, (sound hH).2⟩
 
+/-! ## Examples (checked by `decide`; the allocations are those of `src/construct.py`) -/
+
+/-- Two agents ranking the goods `0 > 1 > 2` alike (n = 2, m = 3): agent 0 takes `0`; agent 1 picks
+`1` and is upgraded with `2`. -/
+example : (lb (⟨fun _ => 0, fun _ => 1, fun _ => 2⟩ : Profile Nat Nat) [0, 1] [0, 1, 2] [0, 1] 0).map
+    (fun X => [0, 1, 2].map X) = some [0, 1, 1] := by decide
+
+/-- Core H3 (`proofs/construction.md` §1; n = 3, m = 5, every agent ranks `0 > 1 >` its private good):
+LB returns `{0}, {1}, {2, 3, 4}`, the large bundle owned by agent 2. -/
+example : (lb (⟨fun _ => 0, fun _ => 1, fun i => i + 2⟩ : Profile Nat Nat) [0, 1, 2] [0, 1, 2, 3, 4]
+    [0, 1, 2] 0).map (fun X => [0, 1, 2, 3, 4].map X) = some [0, 1, 2, 2, 2] := by decide
+
 end LB
 end EFX
 

@@ -8,9 +8,9 @@ consistent with the rankings, and has at most one bundle of more than two goods.
 few properties of LB's output. This file states them as `Hyp` and proves that they imply both
 conclusions; `EFX.LBRun` defines LB and proves that its output satisfies `Hyp` (`EFX.LB.lb_hyp`).
 
-A ranking profile `P` gives each agent `i` three goods `a i > b i > c i`. A valuation is consistent
-with `P` (`Profile.Consistent`) if agent `i` values exactly these three goods, in this order, and is
-balanced (`a i < b i + c i`), as every core agent is. An allocation `X` comes with picks
+A ranking profile `P` gives each agent `i` three distinct goods `a i`, `b i`, `c i`. A valuation is
+consistent with `P` (`Profile.Consistent`) if agent `i` values exactly these three goods, with
+`a i ≥ b i ≥ c i > 0` (ties allowed) and `a i ≤ b i + c i` (every core agent has `a i < b i + c i`). An allocation `X` comes with picks
 `Y : A → Option G` (LB's Phase 1), a set `U` of upgraded agents and an owner `o` (Phase 2).
 `NA` is the set of goods that some agent outside `U` ranks above its pick (all three of its goods if
 it has no pick). `Hyp` asks:
@@ -40,7 +40,7 @@ namespace LB
 
 variable {A G : Type}
 
-/-- A ranking profile: agent `i` values exactly the goods `a i > b i > c i`. -/
+/-- A ranking profile: agent `i` ranks its three goods `a i`, `b i`, `c i` in this order. -/
 structure Profile (A G : Type) where
   a : A → G
   b : A → G
@@ -54,11 +54,13 @@ value. -/
 def rank (i : A) (g : G) : Nat :=
   if g = P.a i then 0 else if g = P.b i then 1 else if g = P.c i then 2 else 3
 
-/-- An additive valuation consistent with the profile on `agents`: agent `i` values `a i > b i > c i > 0`,
-is balanced (`a i < b i + c i`), and values nothing else. -/
+/-- An additive valuation consistent with the profile on `agents`: agent `i` values its three distinct
+goods `a i ≥ b i ≥ c i > 0` (ties allowed), `a i ≤ b i + c i` (core agents are balanced,
+`a i < b i + c i`), and values nothing else. -/
 def Consistent (agents : List A) (v : A → G → Nat) : Prop :=
-  ∀ i ∈ agents, 0 < v i (P.c i) ∧ v i (P.c i) < v i (P.b i) ∧ v i (P.b i) < v i (P.a i) ∧
-    v i (P.a i) < v i (P.b i) + v i (P.c i) ∧ ∀ g, P.rank i g = 3 → v i g = 0
+  ∀ i ∈ agents, 0 < v i (P.c i) ∧ v i (P.c i) ≤ v i (P.b i) ∧ v i (P.b i) ≤ v i (P.a i) ∧
+    v i (P.a i) ≤ v i (P.b i) + v i (P.c i) ∧ (∀ g, P.rank i g = 3 → v i g = 0) ∧
+    P.a i ≠ P.b i ∧ P.a i ≠ P.c i ∧ P.b i ≠ P.c i
 
 variable {P}
 
@@ -70,7 +72,7 @@ theorem value_eq {agents : List A} {v : A → G → Nat} (hv : P.Consistent agen
   | g :: S, h => by
     have ih := value_eq hv hi (List.nodup_cons.mp h).2
     have hg := (List.nodup_cons.mp h).1
-    obtain ⟨h1, h2, h3, h4, h0⟩ := hv i hi
+    obtain ⟨h1, h2, h3, h4, h0, hab, hac, hbc⟩ := hv i hi
     rw [value_cons, ih]
     unfold rank at h0
     by_cases ha : g = P.a i <;> by_cases hb : g = P.b i <;> by_cases hc : g = P.c i <;>
@@ -95,7 +97,7 @@ def NA (P : Profile A G) (agents : List A) (U : A → Prop) (Y : A → Option G)
 
 theorem rank_le {agents : List A} {v : A → G → Nat} (hv : P.Consistent agents v) {i : A}
     (hi : i ∈ agents) {g h : G} (hgh : P.rank i g ≤ P.rank i h) : v i h ≤ v i g := by
-  obtain ⟨h1, h2, h3, h4, h0⟩ := hv i hi
+  obtain ⟨h1, h2, h3, h4, h0, hab, hac, hbc⟩ := hv i hi
   have e3 : P.rank i g = 3 → v i g = 0 := h0 g
   have f3 : P.rank i h = 3 → v i h = 0 := h0 h
   unfold rank at hgh e3 f3
@@ -107,16 +109,13 @@ theorem rank_a (i : A) : P.rank i (P.a i) = 0 := by simp [rank]
 
 theorem rank_b {agents : List A} {v : A → G → Nat} (hv : P.Consistent agents v) {i : A}
     (hi : i ∈ agents) : P.rank i (P.b i) = 1 := by
-  obtain ⟨_, _, h3, _⟩ := hv i hi
-  have : P.b i ≠ P.a i := fun e => by rw [e] at h3; omega
-  simp [rank, this]
+  obtain ⟨-, -, -, -, -, hab, -, -⟩ := hv i hi
+  simp [rank, Ne.symm hab]
 
 theorem rank_c {agents : List A} {v : A → G → Nat} (hv : P.Consistent agents v) {i : A}
     (hi : i ∈ agents) : P.rank i (P.c i) = 2 := by
-  obtain ⟨_, h2, h3, _⟩ := hv i hi
-  have hb : P.c i ≠ P.b i := fun e => by rw [e] at h2; omega
-  have ha : P.c i ≠ P.a i := fun e => by rw [e] at h2; omega
-  simp [rank, ha, hb]
+  obtain ⟨-, -, -, -, -, -, hac, hbc⟩ := hv i hi
+  simp [rank, Ne.symm hac, Ne.symm hbc]
 
 end Profile
 

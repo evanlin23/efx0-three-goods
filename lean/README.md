@@ -77,7 +77,7 @@ each agent's values by a common denominator.
 - `EFX/TwoOwnGoods.lean`: L8. `EFX.envyFree_of_two_own` and `EFX.safe_of_two_own` over lists,
   `EFX.Inst.safe_of_two_own` in the model's terms, `EFX.Inst.efx0_of_two_own` (every agent holds two own goods ⟹
   EFX₀), and `EFX.balance_needed` (a top-heavy agent holding two own goods can be unsafe).
-- `EFX/LBSound.lean`: S2.S, abstract form. `EFX.LB.Profile` (rankings `a i > b i > c i`), `Profile.Consistent`
+- `EFX/LBSound.lean`: S2.S, abstract form. `EFX.LB.Profile` (rankings `a i`, `b i`, `c i`; consistent values `a ≥ b ≥ c > 0`, ties allowed), `Profile.Consistent`
   (additive valuations consistent with them, balanced), `Profile.NA`, and `EFX.LB.Hyp`, the properties of LB's
   output that the proof of Theorem 1 uses (picks, invariant (I1), upgraded, frozen and slot-filled bundles, the
   owner constraint). `EFX.LB.Hyp.efx0` (EFX₀ for every consistent valuation), `EFX.LB.Hyp.length_le_two` (every
