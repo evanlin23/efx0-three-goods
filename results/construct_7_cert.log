@@ -18,3 +18,8 @@ $ python src/construct_run.py 7 3 4 5 6 7 --cert=../results/certs_lb_7_3_7.json.
 [      0s] n=7 m=3: 1 cores, 279936 hypergraph-profile pairs, construction fails on 0; outputs with a large bundle: 0 (by size {})
 [      2s] n=7 m=4: 10 cores, 2799360 hypergraph-profile pairs, construction fails on 0; outputs with a large bundle: 0 (by size {})
 [     19s] n=7 m=5: 137 cores, 38351232 hypergraph-profile pairs, construction fails on 0; outputs with a large bundle: 0 (by size {})
+[    253s] n=7 m=6: 1097 cores, 307089792 hypergraph-profile pairs, construction fails on 0; outputs with a large bundle: 0 (by size {})
+[   1362s] n=7 m=7: 4632 cores, 1296663552 hypergraph-profile pairs, construction fails on 0; outputs with a large bundle: 0 (by size {})
+[   1362s] certificate: ../results/certs_lb_7_3_7.json.gz (5877 hypergraphs)
+[   1362s] ALL DONE; failures: 0
+exit=0

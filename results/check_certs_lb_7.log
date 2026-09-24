@@ -14,3 +14,19 @@ results/certs_lb_7_10.json.gz: 8569 hypergraphs, 1077100 allocations; problems (
 exit=0  [1955s]
 
 $ python tools/check_certs.py results/certs_lb_7_9.json.gz --expect 7:9:12699 --require-d --jobs 2
+checked 12699 hypergraphs {(7, 9): 12699}, models {'LB': 12699}; problems: 0
+exit=0  [983s]
+
+$ python tools/check_enum.py results/certs_lb_7_9.json.gz
+results/certs_lb_7_9.json.gz: (n,m)=(7,9): 12699 hypergraphs, orbit sum 13679027863200, labeled connected cores 13679027863200 -> complete
+problems: 0
+exit=0  [32s]
+
+$ python tools/check_certs.py results/certs_lb_7_8.json.gz --expect 7:8:10343 --require-d --jobs 2
+checked 10343 hypergraphs {(7, 8): 10343}, models {'LB': 10343}; problems: 0
+exit=0  [272s]
+
+$ python tools/check_enum.py results/certs_lb_7_8.json.gz
+results/certs_lb_7_8.json.gz: (n,m)=(7,8): 10343 hypergraphs, orbit sum 1178956961280, labeled connected cores 1178956961280 -> complete
+problems: 0
+exit=0  [23s]
