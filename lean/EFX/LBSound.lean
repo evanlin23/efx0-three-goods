@@ -16,7 +16,8 @@ balanced (`a i < b i + c i`), as every core agent is. An allocation `X` comes wi
 it has no pick). `Hyp` asks:
 - `pick`: each pick is one of the picker's three goods, and the picker holds it;
 - `i1`: invariant (I1): a good that an agent ranks above its pick was picked;
-- `upgraded`: an agent of `U` picked its `b`, holds exactly its `b` and `c`, and its `b` is not in `NA`;
+- `upgraded`: an agent of `U` picked its `b`, holds its `c`, and its `b` is not in `NA`; unless it is
+  the owner, it holds nothing else (LB's implementation lets an upgraded agent own the large bundle);
 - `frozen`: an agent outside `U` whose pick is in `NA` holds only its pick;
 - `slots`: every other agent outside `U` except `o` holds at most 1 good beyond its pick, or at most
   2 goods if it has no pick;
@@ -75,9 +76,18 @@ theorem value_eq {agents : List A} {v : A → G → Nat} (hv : P.Consistent agen
     by_cases ha : g = P.a i <;> by_cases hb : g = P.b i <;> by_cases hc : g = P.c i <;>
       simp_all <;> grind
 
+/-- The rank of `i`'s pick, `3` if it has none. -/
+def pickRank (P : Profile A G) (Y : A → Option G) (i : A) : Nat :=
+  match Y i with
+  | none => 3
+  | some y => P.rank i y
+
 /-- `i` ranks `g` above its pick `Y i`; every good `i` values if it has no pick. -/
 def Prefers (P : Profile A G) (Y : A → Option G) (i : A) (g : G) : Prop :=
-  P.rank i g < (match Y i with | none => 3 | some y => P.rank i y)
+  P.rank i g < P.pickRank Y i
+
+instance (P : Profile A G) (Y : A → Option G) (i : A) (g : G) : Decidable (P.Prefers Y i g) :=
+  inferInstanceAs (Decidable (_ < _))
 
 /-- `NA`: the goods that some listed agent outside `U` (not upgraded) ranks above its pick. -/
 def NA (P : Profile A G) (agents : List A) (U : A → Prop) (Y : A → Option G) (g : G) : Prop :=
@@ -160,7 +170,8 @@ variable [DecidableEq G]
 - `pick`: each pick is a good `k` values, and `k` holds it;
 - `i1`: invariant (I1), in the form the proof uses: a good that an agent ranks above its pick was picked
   (by some agent; LB's stronger "before `i`" is not needed);
-- `upgraded`: an upgraded agent picked its `b` and holds exactly `b` and `c`, and its `b` is not in `NA`;
+- `upgraded`: an upgraded agent picked its `b`, holds its `c`, and its `b` is not in `NA`; unless it
+  is the owner, it holds nothing else;
 - `frozen`: an agent that is not upgraded and whose pick is in `NA` holds only its pick;
 - `slots`: every other agent except the owner holds, beyond its pick, at most its slots (1 with a pick,
   2 without);
@@ -172,7 +183,7 @@ structure Hyp (P : Profile A G) (agents : List A) (goods : List G) (X : G → A)
   pick : ∀ k y, Y k = some y → y ∈ goods ∧ X y = k ∧ P.rank k y < 3
   i1 : ∀ i ∈ agents, ∀ g ∈ goods, P.Prefers Y i g → ∃ k, Y k = some g
   upgraded : ∀ k ∈ agents, U k → Y k = some (P.b k) ∧ P.c k ∈ goods ∧ X (P.c k) = k ∧
-    ¬ P.NA agents U Y (P.b k) ∧ ∀ g ∈ goods, X g = k → g = P.b k ∨ g = P.c k
+    ¬ P.NA agents U Y (P.b k) ∧ (k ≠ o → ∀ g ∈ goods, X g = k → g = P.b k ∨ g = P.c k)
   frozen : ∀ j ∈ agents, ¬ U j → ∀ y, Y j = some y → P.NA agents U Y y →
     ∀ g ∈ goods, X g = j → g = y
   slots : ∀ j ∈ agents, j ≠ o → ¬ U j → (∀ y, Y j = some y → ¬ P.NA agents U Y y) →
@@ -190,7 +201,8 @@ theorem Hyp.length_le_two (h : Hyp P agents goods X Y U o) (hg : goods.Nodup) :
   have hnd := nodup_bundle hg X j
   by_cases hU : U j
   · obtain ⟨-, -, -, -, hsub⟩ := h.upgraded j hj hU
-    exact EFX.LB.length_le_two hnd (fun g hg' => hsub g (mem_bundle.mp hg').1 (mem_bundle.mp hg').2)
+    exact EFX.LB.length_le_two hnd
+      (fun g hg' => hsub hjo g (mem_bundle.mp hg').1 (mem_bundle.mp hg').2)
   by_cases hfz : ∃ y, Y j = some y ∧ P.NA agents U Y y
   · obtain ⟨y, hy, hna⟩ := hfz
     have := length_le_one hnd (y := y)
@@ -279,7 +291,7 @@ theorem Hyp.efx0 (h : Hyp P agents goods X Y U o) (hg : goods.Nodup) {v : A → 
   cases hY : Y i with
   | none =>
     have hn : ∀ x, P.rank i x < 3 → x ∉ bundle goods X j := fun x hx hxj =>
-      hnp x hxj (by unfold Prefers; rw [hY]; exact hx)
+      hnp x hxj (by unfold Prefers pickRank; rw [hY]; exact hx)
     have := hn _ (by omega : P.rank i (P.a i) < 3)
     have := hn _ (by omega : P.rank i (P.b i) < 3)
     have := hn _ (by omega : P.rank i (P.c i) < 3)
@@ -290,7 +302,7 @@ theorem Hyp.efx0 (h : Hyp P agents goods X Y U o) (hg : goods.Nodup) {v : A → 
     have hyi : y ∈ bundle goods X i := mem_bundle.mpr ⟨hyg, hXy⟩
     have hvy := le_value_of_mem v i hyi
     have hn : ∀ x, P.rank i x < P.rank i y → x ∉ bundle goods X j := fun x hx hxj =>
-      hnp x hxj (by unfold Prefers; rw [hY]; exact hx)
+      hnp x hxj (by unfold Prefers pickRank; rw [hY]; exact hx)
     have hyj := fun hy => hdisj _ hy hyi
     have hy3 : y = P.a i ∨ y = P.b i ∨ y = P.c i := by
       unfold rank at hry; grind
