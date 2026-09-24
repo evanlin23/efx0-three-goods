@@ -6,3 +6,7 @@ lean/.lake/
 lean/build.log
 src/checkpoint_*.jsonl
 src/construct
+src/lb_*
+!src/lb_*.c
+!src/lb_*.h
+!src/lb_*.py
