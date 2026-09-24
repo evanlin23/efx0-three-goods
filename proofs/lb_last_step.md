@@ -259,6 +259,11 @@ Remarks.
    O(n³) evaluations. Finding a set H is trivial: one good per exposed pair.
 3. What the proof uses about a core: each agent values exactly three goods and is balanced. It does not use that
    every good is valued, the private-good condition, connectivity, or L5.
+4. *Labellings.* LB breaks ties by index, so its output depends on how agents and goods are labelled. Theorem C does
+   not: it holds for every choice at every insertion and R1 step, hence for every labelling and every tie-break rule.
+   Theorem A and Theorem B do not use the tie-break either. By contrast, the S2.LB evidence in §7 (LB's own runs never
+   reach the bad case) covers one labelling per isomorphism class, the one `cores_nauty.py` produces. That is evidence
+   only, like `results/construct_relabel.log`.
 
 ## 7. What remains of S2.LB, and the computations
 
