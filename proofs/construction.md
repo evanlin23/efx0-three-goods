@@ -176,5 +176,5 @@ In most failing profiles the tops that must stay alone exactly use up the slack,
 **Open.**
 1. S2.LB: LB never fails. Theorem 1 reduces this to the existence of an owner in the last step. Certified for every core with n ≤ 6 (S2.N6). For n = 7 and n = 8, see `results/construct_7.log`, `results/construct_8.log` (exhaustive, raw check in `construct.c`, no stored certificate).
 2. S2.K (Conjecture K above), and whether LB can be changed to output the canonical shape.
-3. LB depends on labels through its tie-breaks. Random relabellings (`construct_run.py --relabel`) are evidence only (`results/construct_relabel.log`).
+3. LB depends on labels through its tie-breaks. Random relabellings (`construct_run.py --relabel`, which permutes agents and goods) are evidence only. Five random labellings of every connected core with n ≤ 6, and one of every connected core with n = 7 and m ≥ 11, give 0 failures in 1,763,924,832 core–profile pairs (`results/construct_relabel.log`). Permuting agents does change LB's outputs: at n = 5, m = 9, 17 of 45 random agent orders change the number of profiles in which LB uses a large bundle.
 
