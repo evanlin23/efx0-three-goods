@@ -3,12 +3,15 @@
 Workstream `proof/lb-last-step`, ledger items S2.R, S2.LB+, S2.LB, D, T; open item 8. Construction LB and its
 soundness theorem are in `proofs/construction.md` §3 (workstream `compute/large-bundle`, PR #9); notation as there.
 
+**Status.** This is a written proof. Two independent reviews found no error, and its Lean formalization is in progress
+(workstream `formal/lbplus`). The ledger does not claim S2.R, S2.LB+, D or T until the formalization lands.
+
 **Change of target (PROMPT.md §5 rule 5).** The task was S2.LB: LB's Phase 2 always finds an owner for the overflow
 bundle. This file proves a slightly different statement that serves the same purpose. §4 identifies an owner that
 works in every case but one, the *bad case*. In the bad case, one *rotation* along a chain of agents gives a new
 partial allocation that is still sound and has an owner (§5). The resulting construction LB⁺ never fails, whatever
-insertion rule Phase 1 uses (§6). This proves conjecture D for every instance in which every agent values exactly three
-goods and is balanced, connected or not, and with L2 and L3 it proves TARGET. S2.LB itself stays a conjecture, and D does not need it.
+insertion rule Phase 1 uses (§6). This gives a proof of conjecture D for every instance in which every agent values exactly three
+goods and is balanced, connected or not, and with L2 and L3 a proof of TARGET. S2.LB itself stays a conjecture, and D does not need it.
 S2.LB would follow if LB's lookahead never reached the bad case. LB never reaches it on any core with n ≤ 6, nor on any
 connected core with n = 7, 11 ≤ m ≤ 14 or n = 8, m ∈ {15, 16} (§7; one labelling per isomorphism class).
 
@@ -16,8 +19,9 @@ Summary of what is proved here, with a complete proof (§1–§6):
 - **Theorem 1′ (soundness of pre-allocations).** A generalization of `proofs/construction.md` Theorem 1 to any "valid
   pre-allocation", not only LB's.
 - **Theorem A (the owner r).** After any run of Phase 1 and LB's upgrades, the last-processed agent that is not
-  upgraded, r, is a valid owner unless the bad case holds. In the bad case, the leader k of the last block holds only its top, its b and c are
-  free, it is frozen, every need chain from k ends at r, and the free parts of the exposed pairs are disjoint.
+  upgraded, r, is a valid owner unless the bad case holds. In the bad case, the leader k of the last block holds only its top,
+  {b_k, c_k} ⊆ J ∪ {Y_r} (so one of them may be r's pick), k is frozen, every need chain from k ends at r, and the junk
+  parts of the exposed pairs are disjoint.
 - **Theorem B (rotation).** In the bad case, move every agent of a need chain from k to r one step up the chain. Then k
   takes {b_k, c_k}. The result is a valid pre-allocation, and either it needs no large bundle or k is a valid owner.
 - **Theorem C (LB⁺ never fails).** With any insertion rule in Phase 1, LB's upgrades, then owner r, or else Theorem B,
@@ -222,7 +226,8 @@ same cap.
 
   In each case {b_r, c_r} ⊄ W.
 
-(f) *No exposed pair lies in base′(k) = {b_k, c_k}.* If x ∈ E′_k had {b_x, c_x} = {b_k, c_k}, then x ∈ E_r ∖ {k} by (e),
+(f) *No exposed pair lies in base′(k) = {b_k, c_k}.* If x ∈ E′_k had {b_x, c_x} ⊆ {b_k, c_k} (so the two pairs are
+equal), then x ∈ E_r ∖ {k} by (e),
 and π_x = π_k ≠ ∅, contradicting the disjointness in the bad case.
 
 (g) *Counting.* By (f), every x ∈ E′_k has a good of {b_x, c_x} in J′. Let H′ contain one such good for each x. By (e),
@@ -257,7 +262,8 @@ Remarks.
    goods then gives ω = m − 2n + |NA| = |NA| − σ with σ = 2n − m, as in `proofs/construction.md` Lemma 2. The rotation
    does not increase NA (Theorem B(b)), so it does not enlarge the large bundle.
 2. LB⁺ is polynomial: Phase 1 is O(n) steps, the upgrades O(n²), and one rotation. With LB's lookahead, Phase 1 is
-   O(n³) evaluations. Finding a set H is trivial: one good per exposed pair.
+   O(n³) evaluations. Finding a set H is easy: take one good per exposed pair, using a shared good whenever two of the
+   sets π_x meet. In the sub-case of Theorem A where only overlapping π-sets save r, H must use the shared good.
 3. What the proof uses about a core: each agent values exactly three goods and is balanced. It does not use that
    every good is valued, the private-good condition, connectivity, or L5.
 4. *Labellings.* LB breaks ties by index, so its output depends on how agents and goods are labelled. Theorem C does
