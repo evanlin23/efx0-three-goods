@@ -18,8 +18,10 @@ LB's upgrades produce (`EFX.LB.lbState_valid`). This file proves Theorem A.
 - `meet`: two distinct exposed agents whose junk parts `π_x = {b x, c x} ∩ J` share a good. `hitSet`: one
   good from each `π_x`, the shared good for such a pair.
 - `OwnerOK w H`: the hypotheses of Lemma 1 (`EFX.LB.complete_some`) for owner `w` and set `H`.
-- `Bad`: the bad case. The agent `k` exposed for `r` in `r`'s block (if any) has its need chain ending at `r`,
-  and the sets `π_x` are pairwise disjoint.
+- `Bad`: a weaker form of the bad case of `proofs/lb_last_step.md`. The agent `k` exposed for `r` in `r`'s
+  block (if any) has the need chain `chainEnd` follows ending at `r`, and the sets `π_x` are pairwise disjoint.
+  The text asks *every* need chain from `k*` to end at `r`, and `k*` to be frozen (implicit here: a chain from
+  `k` that ends at `r ≠ k` is non-empty), so `theoremA` is (weakly) stronger than the text's statement.
 - **Theorem A** (`theoremA`): unless `Bad`, `r` is a valid owner with `H = hitSet`; `kstar_spec` records the
   structure of `k*`.
 - `ValidOwner w`: `w` is a valid owner, i.e. Lemma 1's condition holds for *some* set `H` (the reading of
@@ -516,8 +518,9 @@ def kstar (P : Profile A G) (agents up : List A) (Y : A → Option G) (goods : L
     (r : A) : Option A :=
   (exposedL P agents up Y goods r).find? (fun x => blk x == blk r)
 
-/-- The bad case: `k*` exists, its need chain ends at `r`, and the sets `π_x` (`x` exposed for `r`) are
-pairwise disjoint. -/
+/-- A weaker form of the bad case: `k*` exists, the need chain `chainEnd` follows from it ends at `r`, and the
+sets `π_x` (`x` exposed for `r`) are pairwise disjoint. The text's bad case asks *every* need chain from `k*` to
+end at `r` (see `theoremA_invalid`), and `k*` frozen, which is implicit here. -/
 def Bad (P : Profile A G) (agents up : List A) (Y : A → Option G) (goods : List G) (order : List A)
     (blk : A → Nat) (r : A) : Prop :=
   ∃ k, kstar P agents up Y goods blk r = some k ∧ chainEnd P agents up Y order k = r ∧
@@ -751,8 +754,9 @@ theorem ownerOK_of_fits (hS : State P agents goods order Y blk lead up) {r : A}
   exact ⟨hra, Or.inr hrt, hitSet_sub hEj, hfit,
     fun x hx hxe => hitSet_hit x (List.mem_filter.mpr ⟨hx, decide_eq_true hxe⟩)⟩
 
-/-- **Theorem A (the owner r).** After a run of Phase 1 with R1 priority and LB's upgrades, `r` (the last
-agent not upgraded) is a valid owner, with `H = hitSet`, unless the bad case holds. -/
+/-- **Theorem A (the owner r), strong form.** After a run of Phase 1 with R1 priority and LB's upgrades, `r`
+(the last agent not upgraded) is a valid owner, with `H = hitSet`, unless `Bad` holds (a weaker form of the bad
+case, so this is stronger than the text's Theorem A; `theoremA_invalid` is the text's form). -/
 theorem theoremA (hS : State P agents goods order Y blk lead up) {r : A}
     (hr : lastOut up order = some r) (hnb : ¬ Bad P agents up Y goods order blk r) :
     OwnerOK P agents up Y goods r
@@ -762,7 +766,7 @@ theorem theoremA (hS : State P agents goods order Y blk lead up) {r : A}
   · cases hk : kstar P agents up Y goods blk r with
     | none => exact Or.inr (Or.inl rfl)
     | some k =>
-      -- not the bad case: the chain from `k*` ends at a terminal other than `r`
+      -- not `Bad`: the chain from `k*` ends at a terminal other than `r`
       have hkr : chainEnd P agents up Y order k ≠ r := fun e => hnb ⟨k, hk, e, hm⟩
       obtain ⟨hkE, hkb, -⟩ := kstar_spec hS hr hk
       obtain ⟨hka, ⟨-, hku, -⟩, -⟩ := exposed_r hS hr hkE

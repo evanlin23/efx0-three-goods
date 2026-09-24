@@ -1,0 +1,6 @@
+# Two-phase check WITH augmented envy cycles (moves M1-M3; ls_twophase -x): proofs/local_search.md §6.2, Evidence 6.3.
+# All 3,093 connected cores with n = 6; 0 failures. Reproduce: python src/local_search.py twophase 6 --flags='-x -l 20'
+TOTAL cores 774, stable junk-free states 175895996, junk placement fails 0
+TOTAL cores 773, stable junk-free states 176953664, junk placement fails 0
+TOTAL cores 773, stable junk-free states 177440016, junk placement fails 0
+TOTAL cores 773, stable junk-free states 176718818, junk placement fails 0

@@ -1,0 +1,5 @@
+rankings (a,b,c): [(1, 6, 7), (4, 5, 8), (0, 1, 5), (0, 3, 6), (2, 3, 5), (2, 4, 6)] 
+Y: [[1], [4], [5], [0], [2], [6]] unallocated: [3, 7, 8]
+stable under M1, M2 (and s2, s3): True - some junk placement over all agents is EFX0: False
+stable under M1, M2, M3: False
+augmented cycle 0->5->1->2->0 gives [[6, 7], [5, 8], [1], [0], [2], [4]] EFX0: True ; then good 3 with agent 2: [[6, 7], [5, 8], [1, 3], [0], [2], [4]] EFX0: True

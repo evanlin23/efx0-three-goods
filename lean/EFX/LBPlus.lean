@@ -21,7 +21,8 @@ any order (`UpFinal`), any need chain from `k*` to `r` (`NeedChain`), and any co
 - `lbPlusRun_sound`: **Theorem C, over all choices**: every output is a complete allocation, EFX₀ for every
   additive valuation consistent with the rankings (ties allowed), with at most one bundle of more than two
   goods. `lbPlusOut_exists`: LB⁺ never meets an undefined case (for every order and every end state of the
-  upgrades, an output exists). `lbPlus_run`: the computable `lbPlus` is one of the outputs.
+  upgrades, an output exists); `lbPlusOut_exists_chain`: in the rotation branch, every need chain from `k*` to
+  `r` gives an output. `lbPlus_run`: the computable `lbPlus` is one of the outputs.
 - `lbPlus_sound`: **Theorem C** for `lbPlus`; `lbPlus_sound_model`: the same in the model's terms
   (`EFX.Inst.EFX0`).
 
@@ -194,6 +195,38 @@ theorem lbPlusOut_exists (d : A) (hag : agents.Nodup) (hgd : goods.Nodup) (hne :
   · exact ⟨_, Or.inr ⟨by omega, r, hr, Or.inr ⟨hval, k, _, hk, hch,
       Or.inr ⟨by omega, hO'.completion hV' hag hgd d⟩⟩⟩⟩
 
+/-- **Every need chain works.** If the junk overflows the slots and `r` is not a valid owner, then for *every*
+need chain `ch` from `k*` to `r` the rotation along `ch` has a completion, without owner if the rotated junk
+fits the rotated slots and with owner `k*` otherwise, and it is an output of LB⁺. -/
+theorem lbPlusOut_exists_chain (d : A) (hag : agents.Nodup) (hgd : goods.Nodup)
+    (hWF : WF P agents goods) (hord : order.Nodup) (hperm : ∀ i, i ∈ order ↔ i ∈ agents)
+    (hR : R1Prio P order goods) {up : List A} (hup : UpFinal P agents (phase1 P order goods) goods up)
+    (hfit : slotSum P agents up (phase1 P order goods) <
+      (junkList P agents up (phase1 P order goods) goods).length)
+    {r k : A} {ch : List A} (hr : lastOut up order = some r)
+    (hinv : ¬ ValidOwner P agents up (phase1 P order goods) goods r)
+    (hk : kstar P agents up (phase1 P order goods) goods (blkAux P order goods 0) r = some k)
+    (hch : NeedChain P agents up (phase1 P order goods) k r ch) :
+    ∃ X, (((junkList P agents (k :: up) (rotPicks P (phase1 P order goods) k ch) goods).length ≤
+            slotSum P agents (k :: up) (rotPicks P (phase1 P order goods) k ch) ∧
+          Completion P agents goods (rotPicks P (phase1 P order goods) k ch) (k :: up) none X) ∨
+        (slotSum P agents (k :: up) (rotPicks P (phase1 P order goods) k ch) <
+            (junkList P agents (k :: up) (rotPicks P (phase1 P order goods) k ch) goods).length ∧
+          Completion P agents goods (rotPicks P (phase1 P order goods) k ch) (k :: up) (some k) X)) ∧
+      LBPlusOut P agents goods order up X := by
+  have hS := state_of_final hag hgd hWF hord hperm hR hup
+  obtain ⟨-, -, -, hm, -⟩ := theoremA_invalid hS hr hinv
+  obtain ⟨hV', hO'⟩ := theoremB (⟨hS, hr, hk, hm, hch.1, hch.2.1, hch.2.2⟩ :
+    BadCase P agents goods order (phase1 P order goods) (blkAux P order goods 0)
+      (fun x => leadB P order goods x = true) up r k ch)
+  by_cases hfit' : (junkList P agents (k :: up) (rotPicks P (phase1 P order goods) k ch) goods).length ≤
+      slotSum P agents (k :: up) (rotPicks P (phase1 P order goods) k ch)
+  · have hC := complete_none (d := d) hV' hag hgd hfit'
+    exact ⟨_, Or.inl ⟨hfit', hC⟩, Or.inr ⟨hfit, r, hr, Or.inr ⟨hinv, k, ch, hk, hch, Or.inl ⟨hfit', hC⟩⟩⟩⟩
+  · have hC := hO'.completion hV' hag hgd d
+    exact ⟨_, Or.inr ⟨by omega, hC⟩,
+      Or.inr ⟨hfit, r, hr, Or.inr ⟨hinv, k, ch, hk, hch, Or.inr ⟨by omega, hC⟩⟩⟩⟩
+
 /-- The computable LB⁺ (`lbPlus`) is one of LB⁺'s runs: LB's upgrade order, the chain `chainFrom`, and the
 completions `complete`. -/
 theorem lbPlus_run (d : A) (hag : agents.Nodup) (hgd : goods.Nodup) (hne : agents ≠ [])
@@ -350,6 +383,8 @@ end EFX
 
 #print axioms EFX.LB.lbPlusRun_sound
 #print axioms EFX.LB.lbPlusOut_exists
+#print axioms EFX.LB.lbPlusOut_exists_chain
+#print axioms EFX.LB.state_of_final
 #print axioms EFX.LB.lbPlus_run
 #print axioms EFX.LB.lbPlus_sound
 #print axioms EFX.LB.lbPlus_sound_model
