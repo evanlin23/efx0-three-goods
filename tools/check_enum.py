@@ -8,8 +8,9 @@ Then every labeled core lies in the orbit of exactly one listed H, i.e. the list
 Labeled count: T(a, g) counts a x g 0/1 matrices with row sums 3, no zero column, at most one column of sum 1 in each
 row (choose the p private columns and their distinct owner rows, then fill the rest with every column sum >= 2, a DP
 over columns on how many rows still need 1, 2 or 3 goods); connected counts come from the component of agent 1.
-Usage: check_enum.py certs.json.gz [certs.json.gz ...]"""
-import sys, json, gzip, collections
+Usage: check_enum.py certs.json.gz [certs.json.gz ...]
+       check_enum.py --selftest     compares the labeled counts with brute force over all small matrices (about 1 min)"""
+import sys, json, gzip, collections, itertools
 from functools import lru_cache
 from math import comb, factorial
 import networkx as nx
@@ -64,7 +65,25 @@ def check(n, m, hypergraphs):
     if orbits != total: print(f"(n,m)=({n},{m}): orbit sum {orbits} != labeled connected cores {total}"); problems += 1
     return problems, orbits, total
 
+def selftest(limit=4e6):
+    """Brute force: every a x g choice of 3 goods per agent, for all sizes with at most `limit` choices."""
+    bad = 0
+    for a in range(1, 6):
+        for g in range(3, 3 * a + 1):
+            if comb(g, 3) ** a > limit: continue
+            tot = con = 0
+            for rows in itertools.product(list(itertools.combinations(range(g), 3)), repeat=a):
+                deg = collections.Counter(x for S in rows for x in S)
+                if len(deg) == g and all(sum(deg[x] == 1 for x in S) <= 1 for S in rows):
+                    tot += 1; con += nx.is_connected(incidence(rows))
+            ok = (tot, con) == (labeled(a, g), connected(a, g)); bad += not ok
+            print(f"a={a} g={g}: brute force {tot} labeled, {con} connected; DP {labeled(a, g)}, {connected(a, g)}"
+                  f" {'OK' if ok else 'MISMATCH'}", flush=True)
+    return bad
+
 if __name__ == '__main__':
+    if sys.argv[1:] == ['--selftest']:
+        bad = selftest(); print(f"problems: {bad}"); sys.exit(1 if bad else 0)
     problems = 0
     for path in sys.argv[1:]:
         by = collections.defaultdict(list)
