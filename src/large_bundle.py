@@ -13,7 +13,13 @@
         all these pairs disjoint), deficit delta = #contested - p, slack sigma = 2n - m. Lemma (proofs/construction.md):
         an allocation with all bundles <= 2 needs delta <= sigma. Tabulates C2 failure against delta - sigma, and
         compares with construction LB (construct.py), which uses a large bundle iff |NA| > sigma after its upgrades.
-Usage: large_bundle.py c2|structure|relate n m [m ...] [--jobs=N]"""
+  canon
+        For every C2-failing (core, profile): is there an allocation of Conjecture K's shape (proofs/construction.md
+        §5.2)? One SAT call with the shape imposed; every solution is re-checked (raw definition and shape).
+  margin
+        For every profile where LB needs its overflow bundle: how many agents could own it (LB takes the first); a
+        profile where exactly one works shows how close LB comes to failing.
+Usage: large_bundle.py c2|structure|relate|canon|margin n m [m ...] [--jobs=N]"""
 import sys, os, itertools, collections, time, multiprocessing
 from pysat.solvers import Glucose4
 from pysat.card import CardEnc, EncType
@@ -105,6 +111,60 @@ def one_large(n, m, trip):
         out.append(X); S.add_clause([-x(g, X[g]) for g in range(m)])
     S.delete(); return out
 
+def canonical(n, m, sets, trip):
+    """One EFX0 allocation of Conjecture K's shape, or None: exactly one bundle of >= 3 goods, owned by an agent o in
+    case C, containing c_o and otherwise only goods private to agents in case T or B (the rest <= 2 goods)."""
+    pool = IDPool(); x = lambda g, j: pool.id(('x', g, j)); s = lambda g: pool.id(('s', g))
+    big = [pool.id(('big', j)) for j in range(n)]; cls = []
+    deg = collections.Counter(g for S in sets for g in S)
+    owner_of = {g: k for k, S in enumerate(sets) for g in S if deg[g] == 1}
+    for g in range(m): cls += CardEnc.equals([x(g, j) for j in range(n)], 1, vpool=pool, encoding=EncType.pairwise).clauses
+    for g in range(m):
+        for j in range(n):
+            for h in range(m):
+                if h != g: cls.append([-s(g), -x(g, j), -x(h, j)])
+    for j in range(n):
+        for g, h, k in itertools.combinations(range(m), 3): cls.append([big[j], -x(g, j), -x(h, j), -x(k, j)])
+        cls += [[-big[j]] + c for c in CardEnc.atleast([x(g, j) for g in range(m)], 3, vpool=pool, encoding=EncType.seqcounter).clauses]
+    cls += CardEnc.equals(big, 1, vpool=pool, encoding=EncType.pairwise).clauses
+    T = [pool.id(('Tk', k)) for k in range(n)]; B = [pool.id(('Bk', k)) for k in range(n)]
+    for k, (a, b, c) in enumerate(trip):
+        cls += [[-T[k], x(a, k)], [-B[k], x(b, k)], [-B[k], s(a)]]
+    for j, (a, b, c) in enumerate(trip):
+        cls += [[-big[j], x(c, j)], [-big[j], s(a)], [-big[j], s(b)]]            # the owner is in case C
+        for g in range(m):
+            if g == c: continue
+            k = owner_of.get(g)
+            if k is None or k == j: cls.append([-big[j], -x(g, j)])            # shared, or the owner's own a or b
+            else: cls.append([-big[j], -x(g, j), T[k], B[k]])                  # private to k: k in case T or B
+    for i, (a, b, c) in enumerate(trip):
+        opts = []
+        for tag, conds in (('T1', [x(a, i), x(b, i)]), ('T2', [x(a, i), x(c, i)]), ('P', [x(b, i), x(c, i)]),
+                           ('B', [x(b, i), s(a)]), ('C', [x(c, i), s(a), s(b)]), ('E', [s(a), s(b), s(c)])):
+            y = pool.id((tag, i)); cls += [[-y, l] for l in conds]; opts.append(y)
+        y = pool.id(('T3', i)); cls.append([-y, x(a, i)]); opts.append(y)
+        for j in range(n):
+            for h in range(m):
+                if h not in (b, c): cls.append([-y, -x(b, j), -x(c, j), -x(h, j)])
+        cls.append(opts)
+    with Glucose4(bootstrap_with=cls) as S:
+        if not S.solve(): return None
+        mdl = set(l for l in S.get_model() if l > 0)
+    X = [next(j for j in range(n) if x(g, j) in mdl) for g in range(m)]
+    f = features(n, m, sets, trip, X)
+    if not raw_ok(n, m, trip, X) or not (f['owner_case'] == 'C' and f['own'] == 'c' and f['private'] and f['holders_TB']):
+        raise SystemExit(f"canonical encoding produced a wrong allocation: {trip} {X}")
+    return X
+
+def canon(task):
+    n, m, sets = task; F = c2_failing(n, m, sets); miss = []
+    D = collections.Counter()
+    for prof in F:
+        X = canonical(n, m, sets, ranked(sets, prof))
+        if X is None: miss.append(prof)
+        else: D[max(collections.Counter(X).values())] += 1
+    return sets, len(F), D, miss
+
 def case_of(i, trip, X, size):
     a, b, c = trip[i]; alone = lambda g: size[X[g]] == 1
     if X[a] == i: return 'T'
@@ -124,7 +184,8 @@ def features(n, m, sets, trip, X):
             'own': ''.join('abc'[trip[o].index(g)] for g in sorted((g for g in L if g in trip[o]), key=trip[o].index)),
             'private': all(deg[g] == 1 for g in other),
             'holders_top': all(X[trip[k][0]] == k for k in holders),
-            'holders_TB': all(cases[k] in 'TB' for k in holders)}
+            'holders_TB': all(cases[k] in 'TB' for k in holders),
+            'cases': ''.join(sorted(cases, key='TPBCE'.index))}
 
 def structure(task):
     n, m, sets = task; out = []
@@ -152,6 +213,35 @@ def na_split(n, m, trip):
     need = [(k, r) for k in range(n) if k not in up for r in range(rank[k][Y[k]] if Y[k] is not None else 3)]
     tops = {trip[k][0] for k, r in need}
     return len(tops), len({trip[k][r] for k, r in need} - tops)
+
+def feasible_owners(n, m, trip):
+    """For LB's picks and upgrades (construct.phase1 / phase2): None if the junk fits the slots; otherwise the number
+    of non-frozen agents, and the number of them that admit a set J_L passing LB's owner constraint."""
+    Y, J = phase1(n, m, trip); res = phase2(n, m, trip, Y, J)
+    if res is None or res[1] is None: return None
+    up = res[2]; rank = [{g: r for r, g in enumerate(t)} for t in trip]
+    held = [rank[k][Y[k]] if Y[k] is not None else 3 for k in range(n)]
+    NA = {g for k in range(n) if k not in up for g in trip[k][:held[k]]}
+    frozen = [Y[k] is not None and Y[k] in NA for k in range(n)]
+    cap = [0 if frozen[k] or k in up else (1 if Y[k] is not None else 2) for k in range(n)]
+    Jl = sorted(set(J) - {trip[k][2] for k in up})
+    cand = ok = 0
+    for o in range(n):
+        if frozen[o]: continue
+        cand += 1; need = len(Jl) - (sum(cap) - cap[o])
+        L0 = ({Y[o]} if Y[o] is not None else set()) | ({trip[o][2]} if o in up else set())
+        if any(not any(k != o and held[k] == 0 and k not in up and trip[k][1] in L and trip[k][2] in L for k in range(n))
+               for L in (L0 | set(JL) for JL in itertools.combinations(Jl, need))): ok += 1
+    return cand, ok
+
+def margin(task):
+    n, m, sets = task; tab = collections.Counter(); tight = []
+    for prof in itertools.product(range(6), repeat=n):
+        r = feasible_owners(n, m, ranked(sets, prof))
+        if r is None: continue
+        tab[r] += 1
+        if r[1] == 1 and len(tight) < 3: tight.append(prof)
+    return sets, tab, tight
 
 def relate(task):
     n, m, sets = task; fails = set(c2_failing(n, m, sets)); tab = collections.Counter()
@@ -186,11 +276,15 @@ if __name__ == '__main__':
                     if F and 'list' in opts: print(f"   {sets}: {len(F)} profiles, first {F[0]}: (a, b, c) {ranked(sets, F[0])}")
             elif mode == 'structure':
                 npairs = 0; minD = collections.Counter(); cases = collections.Counter(); some = collections.Counter()
-                nsol = []; exc = []; big4 = []
+                nsol = []; exc = []; big4 = []; caseprof = collections.Counter()
                 for sets, out in pool.imap_unordered(structure, cores, chunksize=1):
                     for prof, fs in out:
                         npairs += 1; nsol.append(len(fs)); minD[min(f['D'] for f in fs)] += 1
                         if min(f['D'] for f in fs) >= 4: big4.append((sets, prof))
+                        canon = [f for f in fs if f['owner_case'] == 'C' and f['private'] and f['holders_TB']]
+                        if canon:
+                            best = max(canon, key=lambda f: (f['cases'].count('T'), f['cases']))
+                            caseprof[best['cases'] + f" (D={best['D']})"] += 1
                         for c in {f['owner_case'] for f in fs}: cases[c] += 1
                         tests = {'owner holds its top': lambda f: f['owner_top'],
                                  'L minus owner goods all private': lambda f: f['private'],
@@ -214,7 +308,24 @@ if __name__ == '__main__':
                 for sets, prof in big4: print(f"    {sets} profile {prof}: (a, b, c) {ranked(sets, prof)}")
                 for k, v in some.items(): print(f"  some solution has [{k}]: {v} of {npairs}")
                 print(f"  pairs where no solution has [owner holds top, rest private, their agents hold tops]: {len(exc)}")
+                if caseprof:
+                    print(f"  agents' cases in the canonical solution with the most agents holding their tops (owner in case C), "
+                          f"by number of pairs: {dict(caseprof.most_common(12))}" + (" ..." if len(caseprof) > 12 else ""))
                 for sets, prof, trip in exc[:5]: print(f"    e.g. {sets} profile {prof}, (a, b, c): {trip}")
+            elif mode == 'canon':
+                tot = 0; D = collections.Counter(); miss = []
+                for sets, nf, d, mi in pool.imap_unordered(canon, cores, chunksize=1):
+                    tot += nf; D.update(d); miss += [(sets, p) for p in mi]
+                print(f"n={n} m={m}: {tot} C2-failing (core, profile) pairs; with an allocation of Conjecture K's shape: "
+                      f"{tot - len(miss)} (its large bundle's size: {dict(sorted(D.items()))})  [{time.time() - t0:.0f}s]", flush=True)
+                for sets, prof in miss[:10]: print(f"   NO canonical allocation: {sets} profile {prof}: (a, b, c) {ranked(sets, prof)}")
+            elif mode == 'margin':
+                tab = collections.Counter(); ex = []
+                for sets, t, tight in pool.imap_unordered(margin, cores, chunksize=1):
+                    tab.update(t); ex += [(sets, p) for p in tight]
+                print(f"n={n} m={m}: profiles where LB needs its overflow bundle, by (non-frozen agents, agents that "
+                      f"admit a valid overflow set): {dict(sorted(tab.items()))}  [{time.time() - t0:.0f}s]", flush=True)
+                for sets, prof in ex[:3]: print(f"   only one owner works: {sets} profile {prof}: (a, b, c) {ranked(sets, prof)}")
             elif mode == 'relate':
                 tab = collections.Counter()
                 for t in pool.imap_unordered(relate, cores, chunksize=1): tab.update(t)
