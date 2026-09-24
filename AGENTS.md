@@ -12,7 +12,7 @@ Start here if you are an AI agent (Claude Code on the web, or any other coding a
 If the person who started your session named a workstream or task, do that. Otherwise, pick the first unclaimed item under "Open items" in LEDGER.md and say which one you picked.
 
 ## 2. Environment
-- Python 3.11+, with `pip install -r requirements.txt` (python-sat, networkx, numpy). In Claude Code on the web, `.claude/hooks/session-start.sh` installs these when the session starts.
+- Python 3.11+, with `pip install -r requirements.txt` (python-sat, networkx, numpy), and nauty, whose `genbg` enumerates the cores (`apt-get install nauty`, or `brew install nauty`). In Claude Code on the web, `.claude/hooks/session-start.sh` installs all of these when the session starts.
 - Claude Code sessions default to Claude Opus 5.5 at xhigh effort (`.claude/settings.json`); a model or effort chosen when starting a session overrides this.
 - No other services, credentials or network access are needed.
 
@@ -29,18 +29,19 @@ Fast (under 10 s each; run on every change):
 python tools/check_ledger.py                     # every PROVED/CERTIFIED/REFUTED row has an existing artifact
 python tools/check_certs.py results/certs_5_6.json.gz --expect 5:9:15 6:10:211 6:11:25
 ```
-Full CI (`.github/workflows/verify.yml`, about 5 min; it runs only on pull requests, so a branch without a PR gets no CI; run when you touch `src/`, `tools/` or `results/`):
+Full CI (`.github/workflows/verify.yml`, about 1–2 min; it runs only on pull requests, so a branch without a PR gets no CI; run when you touch `src/`, `tools/` or `results/`):
 ```
 cd src
-python frontier.py 5 6                           # ~4 min; writes src/certs_5_6.json.gz and src/frontier_results_5_6.json (gitignored)
+python frontier.py 5 6                           # ~10 s on 4 CPUs; writes src/certs_5_6.json.gz and src/frontier_results_5_6.json (gitignored)
 python ../tools/check_certs.py certs_5_6.json.gz --expect 5:9:15 6:10:211 6:11:25
 python verify_fail.py                            # needs frontier_results_5_6.json from the previous step
 ```
-Long searches (n = 7 and beyond) can take much longer than a session's patience: run them in the background, log to `results/`, and commit the log and certificate when done.
+Long searches (n = 7 and beyond, `run7.py`; `--n=8` for n = 8) use every CPU and can still take a long time: run them in the background, log to `results/`, and commit the log and certificate when done.
 
 ## 5. Rules that CI and reviewers enforce
 - A ledger status changes only in a PR that adds the required artifact (PROMPT.md §5 rule 1). CI fails if a PROVED, CERTIFIED or REFUTED row points to a missing file.
 - New certified results: commit the certificate (gzip JSON, as written by `frontier.py` or `run7.py`) under `results/` and make sure `tools/check_certs.py` accepts it. Files written into `src/` are gitignored, so copy them to `results/`.
+- Superseded code is moved to `archive/` (one snapshot folder per version, see `archive/README.md`), never deleted. Don't overwrite result files the ledger cites; write new runs under new names.
 - Random testing is EVIDENCE only; failures here can be 1 in 23,000 profiles.
 - UNSAT claims need a second, independently written encoding or a proof certificate.
 - Cite only what you have read; mark the rest [unverified].
