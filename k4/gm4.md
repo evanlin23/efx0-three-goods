@@ -152,6 +152,7 @@ Such profiles are not isolated. The one-agent and two-agent neighbourhoods of th
   In instance G every maximum is bad, so every run of LS4⁺_n that reaches a maximum fails.
 - **The default rule** (`k4/ls4alg.c -DCMOVE=8`, PR #29's program, used unchanged) completes all of these profiles. It stops early at a placeable state: at G it dumps at Σℓ = 17.
   - `k4/gm4_ls4plus_around.py` ran it on every profile that changes the types of two agents of one of the seven GM₄ profiles found at n = 4: 2,260,332 profiles, including the 148 profiles whose maxima are all bad. It had 0 failures and never needed a coalition move (`results/k4_gm4_ls4plus_around2_4.log`).
+  - On the 148 profiles themselves, #29's alternative rule `-DALT` (most valuable rebundle first) with coalition moves also completes all 148, and so does the default rule (`results/k4_gm4_ls4plus_gmall_4.log`, via `k4/gm4_tols4.py`).
   - It also ran on every profile that changes two agents' types of one of those 148 profiles: 73,654,272 runs (the neighbourhoods overlap, so fewer distinct profiles). Again 0 failures and no coalition move (`results/k4_gm4_ls4plus_around2_gmall_4.log`).
   - So the evidence K4.LSP.RUN for that rule stands. But if the rule is correct, the reason is where it stops, not a property of the maxima of Σℓ.
 - **"No dead end maximizes Σℓ" is false**, and the level sum does not separate dead ends from completable states even in the existence sense (instance G). A proof along the LS4⁺ route needs one of:
