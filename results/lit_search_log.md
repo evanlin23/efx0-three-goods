@@ -146,9 +146,20 @@ Four more queries first failed because of an invalid page size and were rerun wi
 | 15 | `EFX "limited" agents like at most four items ternary valuations "0, a, b" full version journal` | no full version; CS 580 Fall 2023 slides (read, irrelevant) |
 | 16 | `AAMAS 2026 OR IJCAI 2026 OR "EC 2026" EFX existence accepted papers envy-free up to any good` | EC 2026 list: "EFX allocations on multigraphs" (Christodoulou, Mastrakouis, Sgouritsa, Sotiriou), not on arXiv, not read |
 | 17 | `"EFX" "sparse" valuations existence agents each value few goods hypergraph dual "bounded degree"` | known multigraph/hypergraph papers only |
+| 18 | `EFX allocations envy-free up to any good preprint 2026` (ResearchGate only) | known arXiv papers and RG mirrors; a July 2026 preprint noting additive EFX is open = Sivashankar, arXiv 2607.27455 (swept) |
+| 19 | `EFX envy-free up to any good indivisible goods allocation existence` (SSRN only) | no SSRN record; arXiv papers only |
+| 20 | `EFX allocation existence preprint 2026` (zenodo.org, osf.io, hal.science, preprints.org, techrxiv.org, optimization-online.org) | **Bratby, Zenodo 22665180**; otherwise known arXiv papers |
+| 21 | `"complete" EFX allocation additive valuations preprint July 2026 every fair-division instance` (ResearchGate only) | nothing new |
+| 22 | `Bratby EFX preprint "GPT-6" OR "AI" complete EFX allocations` | the Zenodo record only |
+
+Rows 18–22 are second-pass searches (§6).
 
 ## 4. Full-text sweep of recent EFX papers (2026-09-25)
-Every arXiv paper from §2 with identifier ≥ 2404 (after AAMAS 2024, where Viswanathan–Mehta appeared) was downloaded, 112 papers, plus 2606.16144, 2606.13306, 2002.05119, 2202.07551 and 2208.08782 for specific checks. Text was extracted (PyMuPDF) and searched, case-insensitively, for:
+**What was swept (corrected in the second pass).** The arXiv queries of §2 return 165 distinct papers with identifier ≥ 2404, i.e. from after AAMAS 2024, where Viswanathan–Mehta appeared. All 165 were downloaded and text-searched, in two passes:
+- *First pass:* 112 identifiers were queued, taken from the batch-1 queries only (§2 rows 1–41). Two of them, 2609.23577 and 2609.28333, were silently skipped by a bug: the download loop dropped the last line of a list file that had no trailing newline. So 110 were swept, plus 2606.16144 and 2606.13306 (EconCSLib, read separately). The first version of this log said 112; that was wrong.
+- *Second pass, after the coordinator's review of PR #22:* the other 51 results with identifier ≥ 2404 (from §2 rows 42–92, most of them off-topic hits), plus the two skipped ones: 53 papers. The review had named 11 of them: 2410.15738, 2502.10516, 2507.12100, 2511.03629, 2601.13287, 2605.09930, 2605.31253, 2607.01059, 2608.16130, 2609.01580, 2609.08687.
+
+Also downloaded for specific checks: 2002.05119, 2202.07551, 2208.08782. Text was extracted (PyMuPDF) and searched, case-insensitively, for:
 - citation of Viswanathan–Mehta: `Viswanathan|Vishwanatha|picky|non-differentiative` (matches of Vignesh Viswanathan's papers discarded by hand);
 - few relevant goods: `[k234]-limited|at most (two|three|four|2|3|4|k) (goods|items)|values? at most (two|three|four|3|4|k)|positively values? at most|likes at most`;
 - EFX₀: `EFX *0|EFX₀|strong EFX|zero-tolerant|strongly EFX`;
@@ -156,15 +167,43 @@ Every arXiv paper from §2 with identifier ≥ 2404 (after AAMAS 2024, where Vis
 - methods: `hitting set|serial dictatorship|need chain|rotat|local search|potential function|ordinal|top-heavy|strongly prefer` and envy-graph-source phrases.
 
 Every match was read in context. Results:
-- **No paper cites Viswanathan–Mehta.** All `Viswanathan` matches are Vignesh Viswanathan's papers; `picky` and `non-differentiative` do not occur.
-- **No existence result for few relevant goods per agent.** The "at most k goods" matches are about bundle sizes, hardness constructions, pair-demand valuations (2507.14957, PMMS), or EF1 round robin under "each agent values at most 3 goods and each good at most 3 agents" (2605.16791, a parallel-complexity statement, not existence).
-- **Formalization:** 2604.18216 §9 (Lean), 2608.10572 (Lean 4), EconCSLib 2606.16144 and 2606.13306; details in `proofs/novelty.md` §4.
+- **No paper cites Viswanathan–Mehta** (both passes, 165 papers). Every `Viswanathan` match is a paper by an author printed as V. Viswanathan (Vignesh Viswanathan where the first name is given), e.g. Barman–Viswanathan, "Equitable colorings of vertex-weighted graphs" (arXiv 2605.09320), cited in 2607.01059. `picky` and `non-differentiative` never occur.
+- **No existence result for few relevant goods per agent.** The "at most k goods" matches are about bundle sizes, hardness constructions, pair-demand valuations (2507.14957, PMMS), or EF1 round robin under "each agent values at most 3 goods and each good at most 3 agents" (2605.16791, a parallel-complexity statement, not existence). Second pass: the matches are about bundle values (2605.09930), an agent who "likes at most |G| items" in a weighted mixed-manna bound (2609.01580), and EFk definitions (2609.28333); no existence result for few relevant goods.
+- **Formalization:** 2604.18216 §9 (Lean), 2608.10572 (Lean 4), EconCSLib 2606.16144 and 2606.13306; details in `proofs/novelty.md` §4. The second pass adds only Lean or formal-verification papers outside fair division: 2505.12840, 2506.07066, 2507.07052, 2512.07901, 2602.00101, 2606.18292 (economics); 2510.04520, 2605.29955, 2607.01544, 2608.11941 (autoformalization, mathematics); Formal Conjectures 2605.13171, which never mentions EFX.
 - **Methods:** "need chain" occurs nowhere; "hitting set" only in hardness reductions (2608.30669) and communication bounds (2407.07641); "serial dictatorship" only in 2407.05891, 2410.06877, 2507.16209 (none about EFX existence).
 
-The 112 identifiers: 2404.13527, 2404.18133, 2404.19740, 2405.14463, 2406.09744, 2406.10752, 2406.12413, 2406.13824, 2407.03318, 2407.05139, 2407.05891, 2407.07641, 2407.12461, 2409.01963, 2409.03594, 2409.06423, 2409.13616, 2410.02274, 2410.06877, 2410.08986, 2410.12039, 2410.13580, 2410.14272, 2410.14421, 2410.14593, 2410.17002, 2410.18655, 2410.23137, 2410.23979, 2411.19881, 2412.00254, 2412.00358, 2412.06513, 2501.04550, 2501.06506, 2501.13481, 2502.09777, 2503.01368, 2503.05695, 2504.03951, 2505.19961, 2505.22174, 2506.09288, 2506.15379, 2506.21727, 2507.09600, 2507.14957, 2507.16209, 2507.18251, 2507.19461, 2507.20899, 2508.03253, 2508.04779, 2508.15380, 2510.04915, 2510.05429, 2510.12158, 2511.04891, 2511.06218, 2512.21644, 2512.25033, 2601.03438, 2601.11372, 2601.12835, 2601.12849, 2601.16579, 2602.08714, 2602.11732, 2602.14668, 2602.15566, 2602.20929, 2603.17270, 2604.08345, 2604.18216, 2605.06451, 2605.10371, 2605.16791, 2605.19844, 2605.21448, 2606.02233, 2606.08872, 2606.11494, 2606.18665, 2606.18921, 2606.26948, 2607.10064, 2607.17224, 2607.17811, 2607.23367, 2607.27455, 2608.03171, 2608.04340, 2608.06325, 2608.08590, 2608.08864, 2608.08966, 2608.10397, 2608.10572, 2608.15159, 2608.16109, 2608.17295, 2608.24600, 2608.26410, 2608.29497, 2608.30203, 2608.30267, 2608.30669, 2609.10585, 2609.13970, 2609.15358, 2609.23577, 2609.28333.
+First-pass identifiers (the 112 queued; 2609.23577 and 2609.28333 were swept only in the second pass): 2404.13527, 2404.18133, 2404.19740, 2405.14463, 2406.09744, 2406.10752, 2406.12413, 2406.13824, 2407.03318, 2407.05139, 2407.05891, 2407.07641, 2407.12461, 2409.01963, 2409.03594, 2409.06423, 2409.13616, 2410.02274, 2410.06877, 2410.08986, 2410.12039, 2410.13580, 2410.14272, 2410.14421, 2410.14593, 2410.17002, 2410.18655, 2410.23137, 2410.23979, 2411.19881, 2412.00254, 2412.00358, 2412.06513, 2501.04550, 2501.06506, 2501.13481, 2502.09777, 2503.01368, 2503.05695, 2504.03951, 2505.19961, 2505.22174, 2506.09288, 2506.15379, 2506.21727, 2507.09600, 2507.14957, 2507.16209, 2507.18251, 2507.19461, 2507.20899, 2508.03253, 2508.04779, 2508.15380, 2510.04915, 2510.05429, 2510.12158, 2511.04891, 2511.06218, 2512.21644, 2512.25033, 2601.03438, 2601.11372, 2601.12835, 2601.12849, 2601.16579, 2602.08714, 2602.11732, 2602.14668, 2602.15566, 2602.20929, 2603.17270, 2604.08345, 2604.18216, 2605.06451, 2605.10371, 2605.16791, 2605.19844, 2605.21448, 2606.02233, 2606.08872, 2606.11494, 2606.18665, 2606.18921, 2606.26948, 2607.10064, 2607.17224, 2607.17811, 2607.23367, 2607.27455, 2608.03171, 2608.04340, 2608.06325, 2608.08590, 2608.08864, 2608.08966, 2608.10397, 2608.10572, 2608.15159, 2608.16109, 2608.17295, 2608.24600, 2608.26410, 2608.29497, 2608.30203, 2608.30267, 2608.30669, 2609.10585, 2609.13970, 2609.15358, 2609.23577, 2609.28333.
+
+Second-pass identifiers (53): 2406.03674, 2406.10895, 2409.16478, 2410.15738, 2410.17500, 2412.13622, 2502.10516, 2504.18489, 2505.12840, 2505.22862, 2506.01237, 2506.05379, 2506.07066, 2507.07052, 2507.12100, 2510.01689, 2510.04520, 2511.03629, 2512.07901, 2512.15401, 2601.01012, 2601.13287, 2602.00101, 2602.11330, 2602.12231, 2603.04885, 2603.20805, 2605.03581, 2605.09930, 2605.12537, 2605.13171, 2605.15750, 2605.29955, 2605.31253, 2606.04016, 2606.10472, 2606.16743, 2606.18292, 2606.21015, 2607.01059, 2607.01544, 2607.18139, 2607.28133, 2608.02911, 2608.08897, 2608.11941, 2608.16130, 2609.01580, 2609.08687, 2609.09621, 2609.19234, 2609.23577, 2609.28333.
 
 ## 5. Other sources checked (2026-09-25)
 - Viswanathan–Mehta: IFAAMAS/ACM record (10.5555/3635637.3663218, pp. 2534–2536); NSF PAR 10511105 and 10572377 (both the same 3-page extended abstract, full text read; they differ only in the proceedings header); OpenAlex W7124246012; Crossref 10.65109/osos1146; Google Scholar (7 versions, no citations); arXiv (no version: queries `EFX picky`, `picky agents`, `EFX non-differentiative` give 0 or unrelated results).
 - Ruta Mehta's CV (rutamehta.cs.illinois.edu/Mehta-CV.pdf, 2026 version; full): lists the paper only as conference paper C51 (AAMAS 2024); no journal version, no working paper on the topic; the mentoring section says Maya Viswanathan (2023–2024) is now an undergraduate at Yale.
 - Isabelle AFP, topic "Mathematics/Games and economics" (isa-afp.org, 2026 listing): no entry on fair division, envy-freeness, or allocation.
 - EC 2026 accepted papers (ec26.sigecom.org): EFX titles are #136 "EFX allocations on multigraphs" and #144 "EFX Allocations Exist on Multi-Graphs" (= 2606.18665).
+
+## 6. Second pass after the coordinator's review of PR #22 (2026-09-25)
+The review found a missed preprint: J. Bratby, "Complete EFX Allocations with Four More Goods than Agents", Zenodo, 2026-09-08, DOI 10.5281/zenodo.22665180. The first pass never searched general-purpose repositories. It is now read at section level (front matter, Theorem 1.1, §1.1–1.5; `proofs/novelty.md`, `proofs/citations.md`). Record: `https://zenodo.org/api/records/22665180`; PDF from `https://zenodo.org/api/records/22665180/files/EFX_EXCESS_FOUR_MANUSCRIPT.pdf/content` (149 pp.). The DOI landing page itself returns HTTP 403 to `curl`.
+
+Zenodo API (`https://zenodo.org/api/records?q=Q&size=25&page=P`; anonymous page size is capped at 25; up to 4 pages per query):
+
+| Query | Total | Fetched |
+|---|---|---|
+| `EFX` | 12 | 12 |
+| `"envy-free up to any good"` | 0 | 0 |
+| `"envy-freeness up to any good"` | 1 | 1 |
+| `"envy-free up to any item"` | 0 | 0 |
+| `"envy-freeness up to any item"` | 0 | 0 |
+| `EFX0` | 0 | 0 |
+| `"fair division" indivisible` | 789 | 100 |
+| `"indivisible goods" envy` | 302 | 100 |
+| `"fair allocation" indivisible` | 831 | 100 |
+| `envy-free indivisible` | 46808 | 100 |
+| `"maximin share" OR "EF1" allocation` | 27728 | 100 |
+| `EFX allocation` | 27225 | 100 |
+
+Of the 12 records matching `EFX`, two are fair division: Bratby (22665180) and Lin–Osterhaus, "Strong EFX allocations for 2-relevant agents: Lean 4 formalization" (22926398, 2026-09-24; the owner's evanlin23/mrd-efx, ours). The others are crystallography ("EF-X" data), paleontology figures, and an FX-markets lesson. The broad queries (unquoted terms, relevance-ranked) were scanned by title in their first 100 results. Fair-division records found: conference-paper mirrors by Aleksandrov, Walsh, Aziz et al. (2016–2019; online fair division, chores MMS); supplementary material of Sharma, "Exploring Relations among Fairness Notions in Discrete Fair Division" (arXiv 2502.02815); a 2024 class-style note on fair allocation with colluding agents. None is about EFX existence.
+
+ResearchGate, SSRN and other repositories: web searches 18–22 (§3). Direct fetches with `curl` (2026-09-25) are refused with HTTP 403 by researchgate.net (`/search/publication?q=EFX`), papers.ssrn.com (`/sol3/results.cfm?txtKey_Words=EFX`) and mdpi.com, so these were searched only through the web-search tool.
+
+Sweep correction: see §4.
