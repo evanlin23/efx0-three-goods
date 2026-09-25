@@ -33,6 +33,7 @@ static int n, m, d[MAXN], gl[MAXN][4], loc[MAXN][MAXM];
 static uint32_t R[MAXN];
 static int nt[MAXN], tv[MAXN][MAXT][4];
 static int np[MAXN], pr[MAXN][24][4], pcnt[MAXN][24], pidx[MAXN][24][MAXG];
+static int QFIRST = 0;
 static int OWN = 0, INS = 0, SENS = 0, MAXF = 3, UPG = 1, BRUTE = 0, ALLOC = 0;
 /* -a: distinct leaf allocations per core (owners packed 3 bits per good), printed as "A o_0 .. o_{m-1}" lines */
 #define HBITS 22
@@ -122,6 +123,9 @@ static void phase1(void) {
             }
             else if (INS == 3) { int bv = 1 << 30; for (int q = 0; q < nc; q++) { int v = lookahead(cand[q], G, done, Y); if (v < bv) { bv = v; c = q; } } }
             else if (INS >= 1) { if (nins >= nchoice) choice[nchoice++] = 0; c = choice[nins]; maxchoice[nins] = nc; if (c >= nc) c = nc - 1; }
+            if (QFIRST && nins == 0) {       /* -Q: the first insertion step takes the (unique) 4-good agent */
+                for (int t = 0; t < nc; t++) if (d[cand[t]] == 4) { c = t; if (INS >= 1) maxchoice[0] = 1; break; }
+            }
             nins++;
             best = cand[c]; b++;
         }
@@ -508,6 +512,7 @@ static int ends_all_in(int k, int a, int b) {    /* every need chain from frozen
     for (int q = 0; q < nends && q < 64; q++) if (ends_[q] != a && ends_[q] != b) return 0;
     return 1;
 }
+static int at_tc, at_tb;
 static int check_AT(int r, const int *E, int w, int rok) {   /* returns 1 unless (Tc) or (Tb) */
     chkf[C_AT_APPL] = 1;
     int gw = best_junk(w);
@@ -522,6 +527,7 @@ static int check_AT(int r, const int *E, int w, int rok) {   /* returns 1 unless
     for (int x = 0; x < n; x++) for (int y = x + 1; y < n; y++)
         if (E[x] && E[y] && d[x] == 3 && d[y] == 3 && x != served && y != served && (R[x] & R[y] & J)) disj = 0;
     int tb = ks != w && E[ks] && frz[ks] && disj && ends_all_in(ks, r, blk[w] == blk[r] ? w : r);
+    at_tc = tc; at_tb = tb;
     if (tc) chkf[rok ? C_AT_TC_ROK : C_AT_TC] = 1;
     else if (tb) chkf[rok ? C_AT_TB_ROK : C_AT_TB] = 1;
     else if (rok) chkf[C_AT_ROK] = 1;
@@ -551,6 +557,77 @@ static int check_Aplus(int r, uint32_t W, const int *E, int rok) {
     return ok;
 }
 static int check_AB1(int S, int r, uint32_t W, const int *E, int e4, int e4f, int rok);
+
+/* ---- -Y (with -X): runs with exactly one 4-good agent q; for the runs that §2-§4c of k4/c4.md do not prove, the
+   case and the repairs that work (k4/c4one.md) ---- */
+static int YCHK = 0, ycls = -1, ymask, yfirst, YSHOW = 0, yshown = 0, PROVEDOK = 0, last_proved;
+static long YC[2][8][64];
+static const char *yclsname[8] = {"proved", "G2", "G1F_nochain", "G1F_cond", "G1T_Tc", "G1T_Tb", "other", "-"};
+static int ych[MAXN], ycl;
+static int rot_q_found;
+static void rot_q_rec(int q) {                /* every need chain from q; rotate with O = R_q & (J | B_end), owner q */
+    int x = ych[ycl - 1];
+    if (ycl > 1 && !frz[x]) {
+        int sY[MAXN], su[MAXN], sf[MAXN], sc[MAXN]; uint32_t sb[MAXN], sN[MAXN], sJ = J;
+        memcpy(sY, Y, sizeof Y); memcpy(su, upg, sizeof upg); memcpy(sb, base, sizeof base); memcpy(sN, N_, sizeof N_);
+        memcpy(sf, frz, sizeof frz); memcpy(sc, cap, sizeof cap);
+        J |= base[x]; upg[x] = 0;
+        for (int i = ycl - 1; i >= 1; i--) { Y[ych[i]] = Y[ych[i - 1]]; base[ych[i]] = 1u << Y[ych[i]]; N_[ych[i]] = above(ych[i], Y[ych[i]]); }
+        uint32_t O = R[q] & J;
+        J &= ~O; upg[q] = 1; base[q] = O; Y[q] = -2;
+        { uint32_t nn = 0; for (int g = 0; g < m; g++) if ((R[q] & ~O) >> g & 1 && cmpv(q, 1u << g, O) > 0) nn |= 1u << g; N_[q] = nn; }
+        uint32_t NA = NAset(); int valid = !(J & NA), nbig = 0;
+        for (int i = 0; i < n; i++) { if (upg[i] && (base[i] & NA)) valid = 0; if (popc(base[i]) >= 3) nbig++; }
+        if (valid && nbig <= 1) {
+            int S2 = slots(), so = OWNW; OWNW = 0;
+            if (popc(O) >= 3 || popc(J) - S2 >= 1) { if (try_owner(q, S2)) rot_q_found = 1; }
+            else if (try_owner(-1, S2) || try_owner(q, S2)) rot_q_found = 1;
+            OWNW = so;
+        }
+        memcpy(Y, sY, sizeof Y); memcpy(upg, su, sizeof upg); memcpy(base, sb, sizeof base); memcpy(N_, sN, sizeof N_); J = sJ;
+        memcpy(frz, sf, sizeof frz); memcpy(cap, sc, sizeof cap);
+        return;
+    }
+    for (int j = 0; j < n && !rot_q_found; j++) {
+        int in = 0; for (int t = 0; t < ycl; t++) if (ych[t] == j) in = 1;
+        if (in || upg[j] || Y[x] < 0 || !(N_[j] >> Y[x] & 1)) continue;
+        ych[ycl++] = j; rot_q_rec(q); ycl--;
+    }
+}
+static void analyze_one(int S, int r, const int *E, int rok, int proved) {
+    int q = -1, nq = 0;
+    for (int i = 0; i < n; i++) if (d[i] == 4) { nq++; q = i; }
+    if (nq != 1) return;
+    yfirst = pos[q] == 0; ymask = 0;
+    if (proved) { ycls = 0; return; }
+    if (E[q]) {
+        if (frz[q]) { int chn[MAXN]; ch2[0] = q; cl2 = 1; ycls = first_chain(chn, r) ? 3 : 2; }
+        else ycls = at_tc ? 4 : at_tb ? 5 : 6;
+    } else ycls = q == r ? 1 : 6;
+    int so = OWNW; OWNW = 0;
+    if (rok) ymask |= 1;
+    for (int o = 0; o < n; o++) if (o != r && !frz[o] && (cap[o] > 0 || upg[o]) && try_owner(o, S)) { ymask |= 2; if (o == q) ymask |= 4; }
+    if (frz[q] && !upg[q]) { rot_q_found = 0; ych[0] = q; ycl = 1; rot_q_rec(q); if (rot_q_found) ymask |= 8; }
+    if (frz[q] && !upg[q]) {                   /* owner t for a terminal t at the end of a need chain from q */
+        nends = 0; ch2[0] = q; cl2 = 1; chain_ends();
+        for (int e = 0; e < nends && e < 64; e++) if (!frz[ends_[e]] && try_owner(ends_[e], S)) { ymask |= 32; break; }
+    }
+    OWNW = so;
+    {   /* lb4.c's single-rotation search (the options' -r, -c, -w); restore the state afterwards */
+        int sY[MAXN], su[MAXN], sf[MAXN], sc[MAXN]; uint32_t sb[MAXN], sN[MAXN], sJ = J;
+        memcpy(sY, Y, sizeof Y); memcpy(su, upg, sizeof upg); memcpy(sb, base, sizeof base); memcpy(sN, N_, sizeof N_);
+        memcpy(sf, frz, sizeof frz); memcpy(sc, cap, sizeof cap);
+        int sd = rot_depth; rot_depth = 0;
+        if (try_rotations()) ymask |= 16;
+        rot_depth = sd;
+        memcpy(Y, sY, sizeof Y); memcpy(upg, su, sizeof upg); memcpy(base, sb, sizeof base); memcpy(N_, sN, sizeof N_); J = sJ;
+        memcpy(frz, sf, sizeof frz); memcpy(cap, sc, sizeof cap);
+    }
+    if (YSHOW == ycls && yfirst && !(ymask & 8) && yshown < 40) {
+        char buf[64]; sprintf(buf, "YCASE cls=%s mask=%d q=%d r=%d", yclsname[ycls], ymask, q, r); report(buf); yshown++;
+    }
+}
+
 static void check_AB(int S) {
     int w = popc(J) - S; if (w <= 0) return;
     chkf[C_W1] = 1;
@@ -568,6 +645,8 @@ static void check_AB(int S) {
     int pr = check_AB1(S, r, W, E, e4, e4f, rok);
     if (pr) chkf[C_PROVED_NOAP] = 1;
     if (pr || ap) chkf[C_PROVED] = 1;
+    last_proved = pr || ap;
+    if (YCHK) analyze_one(S, r, E, rok, pr || ap);
 }
 /* the checks of Theorems A4, B4, B4w, A4T; returns 1 if one of them guarantees an allocation on this run */
 static int check_AB1(int S, int r, uint32_t W, const int *E, int e4, int e4f, int rok) {
@@ -639,7 +718,7 @@ static int construct2(void) {
     setup_state();
     upgrades();
     int S = slots(), w = popc(J) - S;
-    if (XCHK && upg_mode == 2) { check_AB(S); S = slots(); }
+    if (XCHK && upg_mode == 2) { last_proved = 1; check_AB(S); S = slots(); if (PROVEDOK) { last_status = 1; return last_proved; } }
     if (w <= 0) { try_owner(-1, S); last_status = 0; return 1; }
     int r = -1;
     for (int i = 0; i < n; i++) if (!upg[i] && (r < 0 || pos[i] > pos[r])) r = i;
@@ -704,7 +783,7 @@ static void report(const char *what) {
 static int run_leaf(int *ok) {
     if (setjmp(env)) return 1;
     fb_seq = fb_upg = 0; rot_depth = 0;  /* a split may have interrupted a nested rotation */
-    memset(chkf, 0, sizeof chkf);
+    memset(chkf, 0, sizeof chkf); ycls = -1;
     *ok = construct();
     return 0;
 }
@@ -722,6 +801,10 @@ int main(int argc, char **argv) {
         else if (!strncmp(argv[a], "-w", 2)) OWNW = atoi(argv[a] + 2);
         else if (!strncmp(argv[a], "-c", 2)) CHUP = atoi(argv[a] + 2);
         else if (!strcmp(argv[a], "-X")) XCHK = 1;
+        else if (!strcmp(argv[a], "-P")) PROVEDOK = 1;    /* with -X -u2: "success" means proved by k4/c4.md's theorems */
+        else if (!strcmp(argv[a], "-Q")) QFIRST = 1;
+        else if (!strcmp(argv[a], "-Y")) YCHK = 1;
+        else if (!strncmp(argv[a], "-Y", 2)) { YCHK = 1; YSHOW = atoi(argv[a] + 2); }   /* -YC: show runs of class C */
     }
     if (ALLOC) htab = calloc((size_t)1 << HBITS, sizeof(uint64_t));
     while (scanf("%d %d", &n, &m) == 2) {
@@ -795,6 +878,7 @@ int main(int argc, char **argv) {
                     }
                     long w = weight();
                     for (int q = 0; q < C_NCHK; q++) if (chkf[q]) CHK[q] += w;
+                    if (ycls >= 0) YC[yfirst][ycls][ymask] += w;
                     leaves++; total += w;
                     if (!ok) { fails += w; if (shown < MAXF) { report("FAIL"); shown++; } continue; }
                     stat[last_status] += w;
@@ -825,6 +909,9 @@ int main(int argc, char **argv) {
             memset(htab, 0, sizeof(uint64_t) << HBITS); hcnt = 0;
         }
         if (XCHK) { fprintf(stderr, "C4CHK"); for (int q = 0; q < C_NCHK; q++) fprintf(stderr, " %s=%ld", chkname[q], CHK[q]); fprintf(stderr, "\n"); memset(CHK, 0, sizeof CHK); }
+        if (YCHK) { for (int f = 0; f < 2; f++) for (int c = 0; c < 8; c++) for (int k = 0; k < 64; k++) if (YC[f][c][k])
+                        fprintf(stderr, "C4Y first=%d cls=%s mask=%d n=%ld\n", f, yclsname[c], k, YC[f][c][k]);
+                    memset(YC, 0, sizeof YC); }
         printf("total %ld leaves %ld runs %ld fails %ld rawfails %ld nobig %ld owner_r %ld owner_other %ld rot %ld later_seq %ld later_upg %ld big", total, leaves, runs, fails, rawf, stat[0], stat[1], stat[2], stat[3], nfb_seq, nfb_upg);
         for (int s = 3; s < 40; s++) if (bigsz[s]) printf(" %d:%ld", s, bigsz[s]);
         printf("\n");
