@@ -1,0 +1,19 @@
+# c4omega1.py results/k4_certs_3.json.gz results/k4_certs_4_n4_1.json.gz results/k4_certs_5_n4_1.json.gz
+results/k4_certs_3.json.gz: 14 cores, 388 (Tc) cases
+   hypotheses hold; rho' is a run of Phase 1 with the rotated picks; omega drops (no later agent has b_l) 150
+   hypotheses hold; rho' is a run of Phase 1 with the rotated picks; omega drops (the next block moves into q's) 238
+results/k4_certs_4_n4_1.json.gz: 135 cores, 6976 (Tc) cases
+   H2 fails: x does not hold b_x with a_x the leader's pick                                             2656
+   H5 fails: a later agent other than the next leader has b_l                                           924
+   hypotheses hold; rho' is a run of Phase 1 with the rotated picks; omega drops (no later agent has b_l) 2028
+   hypotheses hold; rho' is a run of Phase 1 with the rotated picks; omega drops (the next block moves into q's) 1368
+results/k4_certs_5_n4_1.json.gz: 1735 cores, 203592 (Tc) cases
+   H2 fails: some agent ranked b_x above its Phase 1 pick                                               238
+   H2 fails: x does not hold b_x with a_x the leader's pick                                             79312
+   H5 fails: a later agent other than the next leader has b_l                                           27182
+   hypotheses hold; rho' is a run of Phase 1 with the rotated picks; omega drops (no later agent has b_l) 64480
+   hypotheses hold; rho' is a run of Phase 1 with the rotated picks; omega drops (the next block moves into q's) 32380
+
+real	2m10.857s
+user	8m4.356s
+sys	0m23.281s
