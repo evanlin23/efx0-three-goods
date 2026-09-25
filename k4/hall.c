@@ -339,7 +339,7 @@ static void f0_cycle_check(const st_t *s) {
    and no valid owner; 5 Lemma R violations (a frozen agent x and a chain end tau with a need-free improving set of
    <= 2 goods of R_x inside J ∪ B_tau, other than x's needs); 6 frozen exposed agents w.r.t. two or more owners;
    7 maxima where some owner is valid */
-static long long fc[10], fzcls[5];
+static long long fc[10], fzcls[5], btc[4];   /* btc: 0 profiles with a non-completable Pareto-maximum with frozen agents, 1 ... with a completable min-frozen P owned by a big-top-type agent, 2 ... with any completable min-frozen P */
 static void frozen_analyze(const st_t *s) {
   fc[0]++;
   mask_t reach[MAXN];
@@ -494,6 +494,15 @@ static void do_profile(void) {
       if (dd <= 0) so = 1; else { ev = 0; if (pex > 0) { pex--; printf("EXPARETO F=%d:", best_frozen); print_profile(); print_pa(&s); printf(" omega %d def %d\n", s.omega, dd); } }
     }
     pm_prof[fb]++; pm_every[fb] += ev; pm_some[fb] += so; pm_n[fb] += npm;
+    if (!ev && best_frozen >= 1) {   /* a failing Pareto-maximum: is some min-frozen P completable with a big-top-type owner? */
+      btc[0]++; int okbt = 0, okany = 0;
+      for (long long k = 0; k < nL && !okbt; k++) {
+        st_t s; mkst(L[k].o, &s);
+        for (int o = 0; o < n && !okbt; o++) if (!s.fz[o]) { if (s.omega <= 0) { okany = 1; continue; } int dd = def_owner(&s, o, 0); if (dd <= 0) { okany = 1; if (bigtop_type(o)) okbt = 1; } }
+      }
+      btc[1] += okbt; btc[2] += okany;
+      if (!okbt && pex > 0) { pex--; printf("EXBT no big-top owner:"); print_profile(); printf("\n"); }
+    }
     free(gkey);
   }
   if (xcheck) { printf("X"); for (int i = 0; i < n; i++) printf(" %d", cur[i]); printf(" valid %lld minfrozen %d count %lld le0 %lld least %d\n", nvalid, best_frozen, nL, nle0, least); }
@@ -555,6 +564,7 @@ int main(int argc, char **argv) {
   printf("FAILOWNERS %lld unhittable %lld tau", kfail_owner, kfail_owner_unhit);
   for (int t = 0; t < 8; t++) printf(" %lld", tauhist[t]);
   printf(" violsize"); for (int t = 0; t < 8; t++) printf(" %lld", kviol_size[t]); printf("\n");
+  if (paretomode) printf("BTC %lld %lld %lld\n", btc[0], btc[1], btc[2]);
   if (paretomode) { printf("FZ"); for (int q = 0; q < 10; q++) printf(" %lld", fc[q]); for (int q = 0; q < 5; q++) printf(" %lld", fzcls[q]); printf("\n"); }
   if (cyclemode) { printf("G0"); for (int q = 0; q < 8; q++) printf(" %lld", g0c[q]); printf("\n"); }
   if (paretomode) { printf("F0"); for (int q = 0; q < 15; q++) printf(" %lld", f0c[q]); printf("\n"); }

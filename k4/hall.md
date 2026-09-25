@@ -111,12 +111,14 @@ top. Write T for the number of agents with a one-good base; then S = T. A base w
 need-free: a good outside the new base is worth at most the old base's value, and a good of the old base is worth at
 most that too.
 
-**Theorem H0.** Let P ∈ 𝒫 be Pareto-maximal with no frozen agent and ω ≥ 1.
+**Theorem H0.** Let P ∈ 𝒫 have no frozen agent and ω ≥ 1, and satisfy (U) and (U₂) of Lemma H2 (every Pareto-maximal P does).
 - (a) If T ≥ 2, some agent is a removal-only owner of P. So P is completable, and by Theorem 1′₄ the profile has an
   EFX₀ allocation with at most one bundle of more than two goods.
 - (b) If no agent is a removal-only owner, then T ≤ 1, and each agent is exposed with respect to exactly one owner, with
   each owner exposing exactly one agent. So o ↦ (the agent exposed with respect to o) is a permutation π of N. If
   T = 1, the one-good holder t exposes an e2 agent, and every other agent's exposed agent is e1 or e3.
+
+Lemma H3 uses Pareto-maximality only through (U) and (U₂), so H3 and H4 hold under this weaker hypothesis.
 
 *Proof.* Let D(o) be the set of agents exposed with respect to o. Every agent is free, so by Lemma H3 the sets D(o) are
 pairwise disjoint, and Σ_o |D(o)| ≤ n. Suppose no agent is a removal-only owner (Corollary H4).
@@ -158,7 +160,11 @@ New bases worth more than need-free bases are need-free, so the result has NA = 
 t (T = 1) is always in H: π(t) is e2 with In(π(t)) = {a_t} = B_t, so keep(t) = ∅. ∎
 
 So at a Pareto-maximum that is not removal-only completable, every cycle of π contains two e2 agents of H with the same
-bottom good: a **label collision**. At T ≤ 1 heavy moves are forced only by t and by e3 agents holding {a, d} whose
+bottom good: a **label collision**. Theorem H0 and Lemma H5 also give an algorithm for the case without frozen agents:
+1. Start from any P without frozen agents.
+2. Apply the improvements of (U) and (U₂).
+3. If no agent is an owner, rotate a cycle of π.
+Every step raises some agents' values and lowers none, so this stops. It can fail only at a label collision. At T ≤ 1 heavy moves are forced only by t and by e3 agents holding {a, d} whose
 successor wants their top, and a heavy agent forces its predecessor. So each maximal heavy run starts, going backwards,
 at an e2 agent. A collision is two such runs whose e2 starts share their bottom good.
 
@@ -269,6 +275,36 @@ With frozen agents (the same run), the Pareto-maxima inside the min-frozen set a
 §5 has the structure of these failures, and `results/k4_hall_n3_pareto.log` the counters of Lemmas H6, H7 and conjecture
 BT on the same profiles.
 
+**The level-sum form** (conjecture K4.HALL.F0S; `results/k4_hall_n3_sumlev.log`, `k4/hall.c -N -Q1`, every profile with
+n ≤ 3): wherever a pre-allocation without frozen agents exists (187,920 + 283,959,584 profiles), every Σℓ-maximum among
+them is completable. With frozen agents, the Σℓ-maxima inside the min-frozen class fail on 56,776 (F = 1) and 27,612
+(F = 2) profiles with n = 3; that is `k4/c4x.md`'s (−frozen, Σℓ) failure.
+
+Around cyc6 (`results/k4_hall_cyc6_nb.log`) one or two agents' types (w, w′) are varied over all strict balanced
+types. Pareto-maxima without frozen agents fail on 10, 10, 20, 10, 10, 20 of the 288, 288, 144, 288, 288, 144
+one-agent profiles and on 400 of the 20,736 two-agent profiles. The Σℓ-maxima fail on none of them.
+
+**Samples, n = 4 and n = 5** (`results/k4_hall_samples.log`; `-P -G`, seeded random strict profiles per core). The
+columns are:
+- (1) profiles with a pre-allocation without frozen agents;
+- (2) of those, profiles where every Pareto-maximum without frozen agents is completable;
+- (3) Pareto-maxima without frozen agents with ω ≥ 1 checked for Lemmas U, U₂, H3 and H4 (0 violations everywhere);
+- (4) pre-allocations checked by the rotation rule (all repaired).
+
+| class | profiles | (1) | (2) | (3) | (4) |
+|---|---|---|---|---|---|
+| n = 4, one 4-good agent | 67,500 | 50,449 | 50,449 | 1,785 | 0 |
+| n = 4, two | 61,800 | 51,272 | 51,272 | 20,322 | 0 |
+| n = 4, three | 33,900 | 29,580 | 29,580 | 30,987 | 0 |
+| n = 4, pure | 65,700 | 58,290 | 58,290 | 100,496 | 3 |
+| n = 5, one | 34,700 | 20,156 | 20,156 | 97 | 0 |
+| n = 5, two | 27,340 | 18,336 | 18,336 | 2,035 | 0 |
+
+The same log has the Σℓ form and the big-top-last potential of §5 (`-N -Q1`, `-N -Q5`) on the n = 4 samples. The
+Σℓ-maxima inside the min-frozen class have no failure without frozen agents; with frozen agents they fail on 1 + 2
+(three 4-good agents) and 24 + 4 (pure) profiles. The big-top-last maxima have no failure at all on the four n = 4
+samples.
+
 ## 5. With frozen agents: what survives, and where k = 4 breaks
 
 Theorem H0's counting needs every exposed agent to be exposed with respect to one owner. Lemma H3 gives this for free
@@ -317,12 +353,18 @@ respect to o. Then exactly one of the following holds.
 - (G) and (G1) are the (G1) mechanism of `k4/c4x.md` §5: the rotation that would repair x gives it three goods, so x
   would have to become the owner.
 
-**The data** (`k4/hall.c -N`, Pareto-maxima inside the min-frozen set, with frozen agents and ω ≥ 1; §4):
-- Lemma H6 has no violation.
-- Every global exposure has the shape (G).
-- The Pareto-maxima that are not completable number 112 of 7,442 (n = 3 sample) and 82 of 11,615 (pure n = 4 sample).
-  Every one of them has a frozen big-top agent.
-- 16 and 2 of them have no (G) or (G1) exposure. In those, the big-top agent becomes the owner through an exchange
+**The data** (`k4/hall.c -N`, Pareto-maxima inside the min-frozen set, with frozen agents and ω ≥ 1):
+- **Every profile with n ≤ 3** (`results/k4_hall_n3_pareto.log`):
+  - 19,259,044 + 2,592 such maxima. Lemma H6 has no violation, and every global exposure has the shape (G).
+  - The frozen exposures (agent, owner) number: global 504,540; G1-type 1,664,700; local with one label 6,052,996;
+    local with two labels 371,136; local unhittable 883,312. 248,904 frozen agents are exposed w.r.t. two or more
+    owners.
+  - 377,832 maxima are not completable, and **every one of them has a frozen big-top agent**. 113,136 of them have no
+    (G1) configuration, and 180,876 no global exposure.
+- The samples at n = 4 and 5 (`results/k4_hall_samples.log`) agree: 0 non-completable maxima without a frozen big-top
+  agent.
+- In a non-completable maximum without (G) or (G1) exposures, the big-top agent becomes the owner through an exchange
+  cycle that a Pareto-maximum does not see. In those, the big-top agent becomes the owner through an exchange
   cycle that a Pareto-maximum does not see. Example, core 33 of `results/k4_certs_3.json.gz`, instance
   `k4/hall_instances/local3.inst`:
   - agent 0 has values 0:3, 1:2, 2:10, 3:6 and base {2}, frozen;
@@ -335,8 +377,11 @@ respect to o. Then exactly one of the following holds.
 
 **Conjecture K4.HALL.BT (the obstruction is the big-top agent).** A Pareto-maximal P ∈ 𝒫 with ω ≥ 1 that is not
 removal-only completable either has a frozen big-top agent, or has no frozen agent and a label collision (§3.1). At
-k = 3 there are no big-top agents, which matches Theorem K3. With frozen agents it held in every sample (n = 3, pure n = 4,
-§4). The potential "fewest frozen agents, then Σℓ over the agents that are not of big-top type, then Σℓ over the
-big-top types" gives priority as the conjecture suggests. It has 1 non-completable maximum in the n = 3 sample of §4
-(core 41) and none in the n = 4 samples. The variants "big-top types' Σℓ minimized" and "big-top types' smallest bases
+k = 3 there are no big-top agents, which matches Theorem K3. With frozen agents it holds on every profile with n ≤ 3
+and on the n = 4, 5 samples; without frozen agents only the n = 6 collision of §3.2 is known.
+
+The potential "fewest frozen agents, then Σℓ over the agents that are not of big-top type, then Σℓ over the big-top
+types" (`-Q5`) gives priority as the conjecture suggests. It has 1 non-completable maximum in a 102,000-profile n = 3
+sample (core 41; the exhaustive count is in `results/k4_hall_n3_bigtoplast.log`) and none in the four n = 4 samples of
+§4. The variants "big-top types' Σℓ minimized" and "big-top types' smallest bases
 first" fail 6 and 4 times on the same n = 3 sample. So the priority is right, but the exact rule is not.

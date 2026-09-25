@@ -92,6 +92,9 @@ def main():
                 elif line.startswith('FAILOWNERS'):
                     nums = [int(x) for x in w[1:2] + w[3:4] + w[5:13] + w[14:22]]
                     fo = [a + b for a, b in zip(fo, nums)] if fo else nums
+                elif line.startswith('BTC'):
+                    cur = tot.setdefault('_btc', [0] * 3)
+                    for q, v in enumerate(w[1:4]): cur[q] += int(v)
                 elif line.startswith('FZ'):
                     cur = tot.setdefault('_fz', [0] * 15)
                     for q, v in enumerate(w[1:16]): cur[q] += int(v)
@@ -115,6 +118,7 @@ def main():
         f0 = tot.pop('_f0', None)
         g0 = tot.pop('_g0', None)
         fz = tot.pop('_fz', None)
+        btc = tot.pop('_btc', None)
         print(f'FILE {f} cores {len(set(ci for ci, _ in tasks))} ' + ' '.join(f'{k} {v}' for k, v in tot.items()))
         for k, v in par.items():
             if v[0]: print(f'  Pareto-maxima inside the min-frozen set, {k}: profiles {v[0]}, every maximum deficit <= 0: {v[1]}, some: {v[2]} ({v[3]} maxima)')
@@ -123,6 +127,8 @@ def main():
                      'label criterion != exact test', 'a single-good holder valid', 'a pair-holder valid', 'no valid owner', 'every single-good holder valid',
                      'single-good holder invalid by an unhittable exposure', 'e2 exposures', 'e1 exposures', 'e3 exposures', 'e2 exposures at single-good owners']
             print('  F0: ' + ', '.join(f'{a} {b}' for a, b in zip(names, f0)))
+        if btc and btc[0]:
+            print(f'  BTC: profiles with a non-completable Pareto-maximum with frozen agents {btc[0]}, with a completable min-frozen pre-allocation whose owner is of big-top type {btc[1]}, with any completable min-frozen pre-allocation {btc[2]}')
         if fz:
             names = ['maxima with F>=1 and omega>=1', 'with a globally exposed frozen agent', 'global exposure of another shape', 'no global exposure and no valid owner',
                      'global exposure and no valid owner', 'Lemma H6 violations', 'frozen agents exposed w.r.t. >= 2 owners', 'some owner valid', 'no valid owner and no G1 configuration', 'no valid owner and no frozen big-top agent',
