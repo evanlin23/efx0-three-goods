@@ -1,0 +1,4 @@
+# lb4_run.py results/k4_certs_4_pure.json.gz -i0 -u3 -r3 -w1 -c1 --show=5
+results/k4_certs_4_pure.json.gz: 219 cores, 1938s
+  total=1022496473088 leaves=365525059 runs=675197062 fails=0 rawfails=0 nobig=597658015104 owner_r=369377790846 owner_other=27249063888 rot=28211603250 later_seq=0 later_upg=46400500 big3=265785076392 big4=117112415494 big5=26362867958 big6=3412740054 big7=220942528 big8=3993280
+  cores with a failure: 0
