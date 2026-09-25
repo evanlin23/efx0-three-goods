@@ -12,7 +12,7 @@ Options (k4/lb4.md §2 and §6): LB4 is -i2 -u1 -r1 -w1 -c1.
       4 least omega, 5 "a > b + c" first, 6 index with one step changed, 7 index then the last block led by r,
       8 index then every leader of the last block, 9 every sequence then every leader of its last block;
   -uN upgrades: 0 none, 1 need-shrinking, 2 envy-free only, 3 policies 1, 2, 0 in turn;
-  -oN owner: 0 every owner, 1 r only, 2 r then rotation;  -rN up to N rotations in a row;
+  -oN owner: 0 every owner, 1 r only, 2 r then rotation;  -rN up to N rotations in a row; -d1 iterative deepening on N (0, 1, ..., N: same successes, least rotations);
   -w1 owner needs from its bundle;  -c1 chains may end at upgraded agents;
   -s sensitivity (owner constraint ignored: must give raw failures);  -b brute force (every profile its own leaf);
   -a print the leaf allocations;  -fN print at most N failures per core. */
@@ -264,7 +264,7 @@ static int slots(void) {
 
 /* ---- rotation (exploration): a frozen agent k gives up its pick along a need chain k = x0 -> .. -> xt (terminal),
    every chain agent takes its predecessor's pick, xt's pick is released, and k takes its relevant junk as its base */
-static int ROT = 0, rot_depth = 0, CHUP = 0;
+static int ROT = 0, rot_depth = 0, CHUP = 0, rot_cap = 0, DEEPEN = 0;   /* rot_cap: the depth bound in force */
 static int used_pol, used_rot; static long effort;   /* how a run succeeded: policy index, rotations, rotation attempts */
 static int try_rotations(void);
 static int chain[MAXN], clen;
@@ -304,7 +304,7 @@ static int apply_chain(int rot_pick, int *rot_more) {
             for (int o = 0; o < n && !ok; o++) if (o != k && (cap[o] > 0 || upg[o])) ok = try_owner(o, S);
     }
     if (ok) used_rot = rot_depth + 1;             /* succeeded after rot_depth + 1 rotations */
-    if (!ok && valid && rot_depth + 1 < ROT) {    /* rotate again from the rotated state */
+    if (!ok && valid && rot_depth + 1 < rot_cap) {    /* rotate again from the rotated state */
         int sc[MAXN], sl = clen; memcpy(sc, chain, sizeof sc);
         rot_depth++; ok = try_rotations(); rot_depth--;
         memcpy(chain, sc, sizeof sc); clen = sl;
@@ -424,12 +424,17 @@ static int construct(void) {
     }
 }
 static int construct2(void);
+/* one policy with rotation depth bound ROT; with -d1 (iterative deepening) bounds 0, 1, ..., ROT in turn, which
+   succeeds exactly when bound ROT does (each bound's search contains the previous one's) and finds the least depth */
+static int construct_rot(void) {
+    for (rot_cap = DEEPEN ? 0 : ROT; rot_cap <= ROT; rot_cap++) { used_rot = 0; if (construct2()) return 1; }
+    return 0;
+}
 static int construct1(void) {
-    if (UPG != 3) { upg_mode = UPG; used_pol = 0; used_rot = 0; return construct2(); }
+    if (UPG != 3) { upg_mode = UPG; used_pol = 0; return construct_rot(); }
     int pi = 0;
     for (upg_mode = 1; upg_mode >= 0; upg_mode = upg_mode == 1 ? 2 : upg_mode == 2 ? 0 : -1, pi++) {  /* -u3: 1, 2, 0 */
-        used_rot = 0;
-        if (construct2()) { used_pol = pi; return 1; }
+        if (construct_rot()) { used_pol = pi; return 1; }
         fb_upg = 1;
     }
     return 0;
@@ -445,11 +450,11 @@ static int construct2(void) {
     if (SENS) { fill_bases(); for (int g = 0; g < m; g++) if (own[g] < 0) own[g] = r; last_status = 1; return 1; }
     if (!frz[r] && try_owner(r, S)) { last_status = 1; return 1; }
     if (OWN == 1) { last_status = -1; return 0; }
-    if (OWN == 2) { if (ROT && try_rotations()) { last_status = 3; return 1; } last_status = -1; return 0; }
+    if (OWN == 2) { if (rot_cap && try_rotations()) { last_status = 3; return 1; } last_status = -1; return 0; }
     int ordr[MAXN], k = 0;
     for (int p = n - 1; p >= 0; p--) for (int i = 0; i < n; i++) if (pos[i] == p && i != r && (cap[i] > 0 || upg[i])) ordr[k++] = i;
     for (int t = 0; t < k; t++) if (try_owner(ordr[t], S)) { last_status = 2; return 1; }
-    if (ROT && try_rotations()) { last_status = 3; return 1; }
+    if (rot_cap && try_rotations()) { last_status = 3; return 1; }
     last_status = -1; return 0;
 }
 
@@ -554,6 +559,7 @@ int main(int argc, char **argv) {
         else if (!strncmp(argv[a], "-S", 2)) SAMPLE = atol(argv[a] + 2);
         else if (!strncmp(argv[a], "-H", 2)) HILL = atol(argv[a] + 2);
         else if (!strncmp(argv[a], "-r", 2)) ROT = atoi(argv[a] + 2);
+        else if (!strncmp(argv[a], "-d", 2)) DEEPEN = atoi(argv[a] + 2);
         else if (!strncmp(argv[a], "-w", 2)) OWNW = atoi(argv[a] + 2);
         else if (!strncmp(argv[a], "-c", 2)) CHUP = atoi(argv[a] + 2);
     }
