@@ -2,6 +2,7 @@
 sets first, last two agents by columns) against the version on main before these changes (git show 2039ab7:k4/check4.py,
 a plain depth-first walk over every type). Random cores from the committed certificates, each with a random subset
 of its allocations deleted (so many are no longer covered): both versions must give the same answer on every one.
+Also: a corrupted vectorized safety table must be caught by the plain-loop re-check.
 Usage: test_check4_fast.py [trials_per_file] (writes a summary; exit status 1 on any disagreement)"""
 import gzip, importlib.util, json, os, random, subprocess, sys, tempfile
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -35,4 +36,12 @@ if __name__ == '__main__':
             if a != b: print(f"DISAGREE {fn} m={r['m']} sets={r['sets']} kept {len(A)}/{len(r['allocs'])}: old {a}, new {b}")
         print(f"{fn}: {trials} trials done", flush=True)
     print(f"{tot} cores with random allocation subsets: old and new agree on {agree} ({cov} covered, {tot - cov} not covered)")
-    sys.exit(0 if agree == tot else 1)
+    # the vectorized safety table is re-checked against efx0_safe on every 16th allocation: a wrong table must be caught
+    good = NEW.safe_all_types
+    NEW.safe_all_types = lambda Vi, An, i, n: ~good(Vi, An, i, n) if i == 0 else good(Vi, An, i, n)
+    data = json.load(gzip.open(os.path.join(ROOT, 'results', 'k4_certs_3.json.gz'), 'rt'))
+    r = data['cores'][-1]
+    caught = not NEW.covered((3, r['m'], r['sets'], r['allocs'], False))
+    NEW.safe_all_types = good
+    print(f"a corrupted safety table (agent 0 negated) is {'rejected' if caught else 'NOT rejected'}")
+    sys.exit(0 if agree == tot and caught else 1)

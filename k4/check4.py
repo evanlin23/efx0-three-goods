@@ -5,7 +5,8 @@ For each certificate file (results/k4_certs_*.json.gz), checks:
      good relevant to someone, at most d - 2 private goods for an agent of degree d;
   2. no two are isomorphic, and the orbits add up: sum of n! m! / |Aut(H)| equals the number of labeled such cores
      (computed below by a DP, self-tested against brute force with --selftest); so the list is complete;
-  3. coverage: for every profile of strict balanced types (an agent of degree 4 with private goods p, q also has
+  3. coverage (safety tables vectorized with numpy, the plain loop efx0_safe re-run on every 16th allocation and
+     required to agree): for every profile of strict balanced types (an agent of degree 4 with private goods p, q also has
      p + q < s + t), one of the listed allocations is EFX₀. Types are enumerated here from scratch: integer vectors in
      [1, 16]^d, grouped by the dense ranking of all their nonempty subset sums (k4/SCOUT.md §2 shows [1, 16]^4 meets
      every type); strict = all nonempty subset sums distinct; balanced = max < sum of the others. Safety is the raw
@@ -31,6 +32,7 @@ Usage: check4.py FILE [FILE ...] [--expect n:MODE:cores ...] [--jobs=J]     MODE
 import ctypes, gzip, itertools, json, math, os, subprocess, sys, tempfile
 from functools import lru_cache
 import networkx as nx
+import numpy as np
 from networkx.algorithms.isomorphism import GraphMatcher
 
 C_SRC = r"""
@@ -227,6 +229,18 @@ def efx0_safe(i, vals, bundles):
     return all(own >= sum(vals.get(g, 0) for g in B) - vals.get(h, 0)
                for j, B in enumerate(bundles) if j != i for h in B)
 
+def safe_all_types(Vi, An, i, n):
+    """efx0_safe for every type at once: Vi[t, g] = agent i's value of good g under type t (0 off R_i), An[g] = owner.
+    Row t is True iff v(X_i) >= v(X_j) - v(h) for every j != i and h in X_j, i.e. v(X_i) >= v(X_j) - min over h."""
+    own = Vi[:, An == i].sum(axis=1)
+    ok = np.ones(len(Vi), dtype=bool)
+    for j in range(n):
+        cols = An == j
+        if j == i or not cols.any(): continue
+        sub = Vi[:, cols]
+        ok &= own >= sub.sum(axis=1) - sub.min(axis=1)
+    return ok
+
 def core_domains(sets, m, ties):
     deg = [sum(g in S for S in sets) for g in range(m)]
     doms = []
@@ -259,16 +273,22 @@ def covered(task):
     off = [0]
     for D in doms: off.append(off[-1] + len(D) * W)
     M = (ctypes.c_uint64 * off[-1])()
+    Mn = np.ctypeslib.as_array(M)                    # the same memory, as a numpy array
+    V = [np.array([[vals.get(g, 0) for g in range(m)] for vals in D], dtype=np.int64) for D in doms]
     for a, A in enumerate(A_list):
-        bundles = [[g for g in range(m) if A[g] == j] for j in range(n)]
+        An = np.array(A)
+        bundles = [[g for g in range(m) if A[g] == j] for j in range(n)] if a % 16 == 0 else None
         for i, D in enumerate(doms):
-            for t, vals in enumerate(D):
-                if efx0_safe(i, vals, bundles): M[off[i] + t * W + a // 64] |= 1 << (a % 64)
+            ok = safe_all_types(V[i], An, i, n)
+            if bundles is not None:                  # every 16th allocation: also the plain loop, must agree
+                if any(bool(ok[t]) != efx0_safe(i, vals, bundles) for t, vals in enumerate(D)):
+                    print(f"  MASK MISMATCH: sets={sets} allocation={A} agent={i}", flush=True); return False
+            Mn[off[i] + np.flatnonzero(ok) * W + a // 64] |= np.uint64(1 << (a % 64))
     F = (ctypes.c_uint64 * ((n + 1) * W))()          # F[l]: allocations safe for agents l..n-1 with every type
-    for a in range(K):
-        for l in range(n + 1):
-            if all(M[off[j] + t * W + a // 64] >> (a % 64) & 1 for j in range(l, n) for t in range(len(doms[j]))):
-                F[l * W + a // 64] |= 1 << (a % 64)
+    Fn = np.ctypeslib.as_array(F).reshape(n + 1, W)
+    Fn[n] = ~np.uint64(0)
+    for l in range(n - 1, -1, -1):
+        Fn[l] = Fn[l + 1] & np.bitwise_and.reduce(Mn[off[l]:off[l + 1]].reshape(len(doms[l]), W), axis=0)
     keep = [minimal_types(M, off[i], len(D), W) for i, D in enumerate(doms)]
     off2 = [0]
     for kt in keep: off2.append(off2[-1] + len(kt) * W)

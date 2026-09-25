@@ -5,7 +5,8 @@ format, so k4/check4.py checks the output unchanged. Only the proposal step diff
 allocation found so far covers, or proves there is none, using minimal rows, full-safety sets and a store of covered
 prefix sets (see scan2.c). The certificate does not depend on the scanner's correctness: check4.py re-checks coverage.
 
-Usage: search.py n [--pure] [--n4=K] [--m=M[,M..]] [--part=i/k] [--jobs=J] [--cap=N] [--store=S] [--out=FILE] [--fresh]
+Usage: search.py n [--pure] [--n4=K] [--m=M[,M..]] [--part=i/k] [--jobs=J] [--cap=N] [--tries=T] [--out=FILE] [--fresh]
+  --tries: SAT solutions tried per proposal (best covered box kept; default 8, as search4.py);
   --m: only these m; --part=i/k: only cores with index ≡ i (mod k) in the (m, idx) list (for splitting long runs);
   checkpoint k4/frontier/checkpoint_<tag>.jsonl (resume by rerunning)."""
 import ctypes, gzip, json, os, subprocess, sys, time
@@ -26,11 +27,12 @@ LIB.ctx_free.argtypes = [ctypes.c_void_p]
 LIB.ctx_nodes.restype = ctypes.c_long
 LIB.ctx_nodes.argtypes = [ctypes.c_void_p]
 LIB.find.argtypes = [ctypes.c_void_p, ctypes.c_int] + [ctypes.c_void_p] * 2 + [ctypes.c_int] + [ctypes.c_void_p] * 4
-STORE, DEPTH = 100000, 2                        # store size per level; no store at the last DEPTH levels
+STORE, DEPTH, TRIES = 100000, 2, 8                       # store size per level; no store at the last DEPTH levels
 
-def cegar(C, s, c, cap, tries=8, order=None, rand=1024):
+def cegar(C, s, c, cap, tries=None, order=None, rand=1024):
     """As search4.Core.cegar: returns (allocations, failing profiles, complete?, stats)."""
     n = C.n
+    if tries is None: tries = TRIES
     sizes = np.array([len(D) for D in C.dom])
     if order is None: order = sorted(range(n), key=lambda i: (-sizes[i], i))
     base = np.cumsum([0] + sizes.tolist())
@@ -133,6 +135,8 @@ def main():
     ms = set(map(int, opt['m'].split(','))) if 'm' in opt else None
     part, parts = map(int, opt.get('part', '0/1').split('/'))
     n = int(args[0])
+    global TRIES
+    TRIES = int(opt.get('tries', TRIES))
     print("command: python3 k4/frontier/search.py " + ' '.join(sys.argv[1:]), flush=True)
     t0 = time.time()
     tasks = [(n, m, idx, sets, cap) for m in range(4, 3 * n + 1) for idx, sets in enumerate(S4.cores(n, m, pure, n4))]

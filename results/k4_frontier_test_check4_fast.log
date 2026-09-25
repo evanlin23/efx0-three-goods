@@ -6,3 +6,5 @@ k4_certs_4_n4_2.json.gz: 40 trials done
 k4_certs_4_n4_3.json.gz: 40 trials done
 k4_certs_5_n4_1.json.gz: 40 trials done
 240 cores with random allocation subsets: old and new agree on 240 (72 covered, 168 not covered)
+  MASK MISMATCH: sets=[[0, 2, 6, 7], [1, 4, 6, 8], [3, 5, 7, 8]] allocation=[0, 1, 1, 1, 1, 2, 0, 2, 1] agent=0
+a corrupted safety table (agent 0 negated) is rejected
