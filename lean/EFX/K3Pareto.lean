@@ -3,7 +3,7 @@ import EFX.C4min
 /-!
 # Theorem K3: the extremal principle at k = 3 (`k4/c4x.md` §3; ledger K4.C4MIN.K3)
 
-The building blocks of Theorem K3 of `k4/c4x.md` (PR #36, branch `proof/k4-c4x`) over the space 𝒫 of
+The building blocks of Theorem K3 of `k4/c4x.md` (PR #36, branch `proof/k4-c4x`, read at commit efef349) over the space 𝒫 of
 `EFX/C4min.lean`: Pareto-maximality, Lemmas U, C, R and E, the moves they use (validity and strict Pareto
 improvement), and the owner criterion (Lemma O).
 
@@ -21,7 +21,9 @@ improvement), and the owner criterion (Lemma O).
 - `inP_of_gain`: a base map whose bases have at most two goods, in which no listed agent loses, whose junk and
   two-good bases avoid the old `NA`, is in 𝒫 (the needs only shrink: `vbNeeds_mono`).
 - `lemmaU`: (any k) at a Pareto-maximum a free agent with at most one base good values no junk good.
-- `transfer_move`, `cycle_move`, `path_move`: **the validity of the rotations and the strict Pareto improvement**. If
+- `transfer_inP_dominates`, `transfer_move`, `cycle_move`, `path_move`: **the validity of the rotations and the strict
+  Pareto improvement**, from any `P ∈ 𝒫` (`transfer_inP_dominates`; the others are its contrapositives at a
+  Pareto-maximum). If
   every mover's new base (what it receives plus its extra junk goods) has at most two goods, all relevant to it, is worth
   more to it than its base, and avoids `NA` when it has two goods, and every base released to the junk avoids `NA`,
   then the result is in 𝒫 and dominates `P`. `cycle_move`: the bases pass around a cycle `L[k] → L[k+1 mod n]` (Lemma C's
@@ -41,7 +43,9 @@ improvement), and the owner criterion (Lemma O).
 1. The k = 3 setting is `Three`: exactly three relevant goods per listed agent and strict balance
    (`2 v_i(g) < v_i(M)`). The text also assumes strict types; none of the proofs here uses them.
 2. "Top-holder" is not defined separately: Lemma R assumes `B_x = {a}` for some good `a` (the rotation only needs
-   `v_x(a) < v_x(l₁) + v_x(l₂)`, which is balance), and Lemma E derives it.
+   `v_x(a) < v_x(l₁) + v_x(l₂)`, which is balance), and Lemma E derives `B_x = {a}`; that `a` is `x`'s top good (the
+   text's "top-holder") follows because an exposed agent needs nothing (`EFX.C4min.exposed_no_needs`,
+   `EFX.C4min.exposed_top` in `EFX/K3Theorem.lean`).
 3. `E_t` uses `W_t` itself as the threatening set (`Exposed`); a subset `X ⊆ W_t` that threatens `x` exposes it
    (`exposed_of_sub`).
 4. A need chain is a list of agents with its edges; its end is free, so it is a terminal (it needs the previous good).
@@ -50,7 +54,6 @@ improvement), and the owner criterion (Lemma O).
 -/
 
 set_option autoImplicit false
-set_option linter.unusedSectionVars false
 
 namespace EFX
 namespace C4min
@@ -299,19 +302,20 @@ theorem mem_baseOf_transfer {a : A} {g : G} :
         · exact absurd hq hp
         · rfl
 
-/-- **The transfer move dominates**: if the movers `L` (listed, distinct, not empty) hand their bases to distinct movers
-or to the junk, the extras are junk goods given to movers, every released base avoids `NA`, and every mover's new
-base (what it receives plus its extras) satisfies `GoodNew`, the result is a pre-allocation of 𝒫 that dominates `P`.
-So at a Pareto-maximum no such move exists. -/
-theorem transfer_move (hgd : goods.Nodup) (hP : ParetoMax v agents goods base) (hL : L.Nodup) (hne : L ≠ [])
+omit [DecidableEq G] in
+/-- **The transfer move stays in 𝒫 and dominates** (any `P ∈ 𝒫`, not only a Pareto-maximum): if the movers `L`
+(listed, not empty) hand their bases to distinct movers or to the junk, the extras are junk goods given to movers, every
+released base avoids `NA`, and every mover's new base (what it receives plus its extras) satisfies `GoodNew`, the result
+is a pre-allocation of 𝒫 that Pareto-dominates `P`. -/
+theorem transfer_inP_dominates (hgd : goods.Nodup) (hP : InP v agents goods base) (hne : L ≠ [])
     (hLa : ∀ a ∈ L, a ∈ agents)
     (hinj : ∀ p ∈ L, ∀ q ∈ L, ∀ a, dstF p = some a → dstF q = some a → p = q)
     (hdstL : ∀ p ∈ L, ∀ a, dstF p = some a → a ∈ L)
     (hex : ∀ g ∈ goods, ∀ a, extra g = some a → base g = none ∧ a ∈ L)
     (hrelease : ∀ p ∈ L, dstF p = none → ∀ g ∈ baseOf goods base p, ¬ NA agents (vbNeeds v goods base) g)
     (hnew : ∀ a ∈ L, GoodNew v agents goods base a (recvOf goods base L dstF a ++ extrasOf goods base extra a)) :
-    False := by
-  have _hL := hL
+    InP v agents goods (transfer L dstF extra base) ∧
+      Dominates v agents goods (transfer L dstF extra base) base := by
   let base' := transfer L dstF extra base
   -- the new bases
   have hstay : ∀ a, a ∉ L → baseOf goods base' a = baseOf goods base a := fun a ha =>
@@ -375,20 +379,20 @@ theorem transfer_move (hgd : goods.Nodup) (hP : ParetoMax v agents goods base) (
     · have := mem_baseOf_transfer.mp (mem_baseOf.mpr ⟨hg, hb⟩)
       rcases this.2 with ⟨p, hp, -, hpa⟩ | ⟨-, hb'⟩ | ⟨-, hx⟩
       · exact hLa i (hdstL p hp i hpa)
-      · exact hP.1.mem g hg i hb'
+      · exact hP.mem g hg i hb'
       · exact hLa i (hex g hg i hx).2
     · have hgi : g ∈ baseOf goods base' i := mem_baseOf.mpr ⟨hg, hb⟩
       by_cases hi : i ∈ L
       · exact (hnew i hi).rel g ((hmove i hi).mem_iff.mp hgi)
-      · rw [hstay i hi] at hgi; exact hP.1.rel g hg i (mem_baseOf.mp hgi).2
+      · rw [hstay i hi] at hgi; exact hP.rel g hg i (mem_baseOf.mp hgi).2
     · by_cases hi : i ∈ L
       · rw [(hmove i hi).length_eq]; exact (hnew i hi).two
-      · rw [hstay i hi]; exact hP.1.two i
+      · rw [hstay i hi]; exact hP.two i
     · simp only [base', transfer] at hb
       cases hbg : base g with
       | none =>
         rw [hbg] at hb
-        exact hP.1.valid.v1 g (mem_junk.mpr ⟨hg, hbg⟩)
+        exact hP.valid.v1 g (mem_junk.mpr ⟨hg, hbg⟩)
       | some p =>
         rw [hbg] at hb
         by_cases hp : p ∈ L
@@ -398,10 +402,23 @@ theorem transfer_move (hgd : goods.Nodup) (hP : ParetoMax v agents goods base) (
     · by_cases hi : i ∈ L
       · rw [(hmove i hi).length_eq] at h2
         exact (hnew i hi).na h2 g ((hmove i hi).mem_iff.mp hgi)
-      · rw [hstay i hi] at h2 hgi; exact hP.1.valid.v2 i h2 g hgi
+      · rw [hstay i hi] at h2 hgi; exact hP.valid.v2 i h2 g hgi
   obtain ⟨a, ha⟩ := List.exists_mem_of_ne_nil L hne
-  refine hP.2 base' hIn ⟨hgain, a, hLa a ha, ?_⟩
+  refine ⟨hIn, hgain, a, hLa a ha, ?_⟩
   rw [value_perm (hmove a ha)]; exact (hnew a ha).gain
+
+omit [DecidableEq G] in
+/-- **The transfer move dominates, so it does not exist at a Pareto-maximum** (`transfer_inP_dominates`). -/
+theorem transfer_move (hgd : goods.Nodup) (hP : ParetoMax v agents goods base) (hne : L ≠ [])
+    (hLa : ∀ a ∈ L, a ∈ agents)
+    (hinj : ∀ p ∈ L, ∀ q ∈ L, ∀ a, dstF p = some a → dstF q = some a → p = q)
+    (hdstL : ∀ p ∈ L, ∀ a, dstF p = some a → a ∈ L)
+    (hex : ∀ g ∈ goods, ∀ a, extra g = some a → base g = none ∧ a ∈ L)
+    (hrelease : ∀ p ∈ L, dstF p = none → ∀ g ∈ baseOf goods base p, ¬ NA agents (vbNeeds v goods base) g)
+    (hnew : ∀ a ∈ L, GoodNew v agents goods base a (recvOf goods base L dstF a ++ extrasOf goods base extra a)) :
+    False :=
+  let h := transfer_inP_dominates hgd hP.1 hne hLa hinj hdstL hex hrelease hnew
+  hP.2 _ h.1 h.2
 
 end transfer
 
@@ -474,6 +491,7 @@ theorem pathNext_ne_head (hL : L.Nodup) (h0 : 0 < L.length) {p : A} (hp : p ∈ 
 
 end succ
 
+omit [DecidableEq G] in
 /-- **A cycle move** (the transfer along a cycle): the movers `L[0], …, L[n−1]` pass their bases cyclically, `L[k]`'s to
 `L[k+1 mod n]`, and receive extras from the junk. If every new base satisfies `GoodNew`, this contradicts Pareto-
 maximality. -/
@@ -483,7 +501,7 @@ theorem cycle_move (hgd : goods.Nodup) (hP : ParetoMax v agents goods base) {L :
     (hnew : ∀ k (hk : k < L.length), GoodNew v agents goods base (L[(k + 1) % L.length]'(Nat.mod_lt _ (by omega)))
       (baseOf goods base L[k] ++ extrasOf goods base extra (L[(k + 1) % L.length]'(Nat.mod_lt _ (by omega))))) :
     False := by
-  refine transfer_move (dstF := cycNext L) hgd hP hL hne hLa (fun p hp q hq a => cycNext_inj hL hp hq)
+  refine transfer_move (dstF := cycNext L) hgd hP hne hLa (fun p hp q hq a => cycNext_inj hL hp hq)
     (fun _ _ _ h => cycNext_mem h) hex (fun p hp h => ?_) (fun a ha => ?_)
   · obtain ⟨i, hi, rfl⟩ := List.mem_iff_getElem.mp hp
     rw [cycNext_getElem hL hi] at h; cases h
@@ -499,6 +517,7 @@ theorem cycle_move (hgd : goods.Nodup) (hP : ParetoMax v agents goods base) {L :
     rw [recvOf_eq (List.getElem_mem hk) hs fun q hq hqa => cycNext_inj hL hq (List.getElem_mem hk) hqa hs]
     exact hnew k hk
 
+omit [DecidableEq G] in
 /-- **A path move** (the transfer along a path, releasing the last base): `L[k]`'s base goes to `L[k+1]`, the last
 agent's base goes to the junk, and the movers receive extras from the junk. If the released base avoids `NA` and
 every new base satisfies `GoodNew`, this contradicts Pareto-maximality. -/
@@ -509,7 +528,7 @@ theorem path_move (hgd : goods.Nodup) (hP : ParetoMax v agents goods base) {L : 
     (hhead : GoodNew v agents goods base L[0] (extrasOf goods base extra L[0]))
     (hnew : ∀ k (hk : k + 1 < L.length), GoodNew v agents goods base L[k + 1]
       (baseOf goods base L[k] ++ extrasOf goods base extra L[k + 1])) : False := by
-  refine transfer_move (dstF := pathNext L) hgd hP hL (List.ne_nil_of_length_pos h0) hLa
+  refine transfer_move (dstF := pathNext L) hgd hP (List.ne_nil_of_length_pos h0) hLa
     (fun p hp q hq a => pathNext_inj hL hp hq) (fun _ _ _ h => pathNext_mem h) hex (fun p hp h => ?_)
     (fun a ha => ?_)
   · obtain ⟨i, hi, rfl⟩ := List.mem_iff_getElem.mp hp
@@ -552,17 +571,20 @@ def ChainTo (v : A → G → Nat) (agents : List A) (goods : List G) (base : G �
 def Terminal (v : A → G → Nat) (agents : List A) (goods : List G) (base : G → Option A) (t : A) : Prop :=
   t ∈ agents ∧ ¬ Frozen agents goods base (vbNeeds v goods base) t ∧ ∃ g, vbNeeds v goods base t g
 
+omit [DecidableEq G] in
 /-- The tail of an edge is frozen when its head is listed. -/
 theorem Edge.frozen {y z : A} (h : Edge v goods base y z) (hz : z ∈ agents) :
     Frozen agents goods base (vbNeeds v goods base) y := by
   obtain ⟨g, hB, hN⟩ := h
   exact ⟨g, hB, z, hz, hN⟩
 
+omit [DecidableEq G] in
 /-- The agents of a need chain but the last are frozen. -/
 theorem NeedChain.frozen {c : List A} (h : NeedChain v agents goods base c) {k : Nat} (hk : k + 1 < c.length) :
     Frozen agents goods base (vbNeeds v goods base) c[k] :=
   (h.edge k hk).frozen (h.mem _ (List.getElem_mem hk))
 
+omit [DecidableEq G] in
 /-- The end of a need chain is a terminal. -/
 theorem NeedChain.terminal {c : List A} (h : NeedChain v agents goods base c) :
     Terminal v agents goods base (c[c.length - 1]'(by have := h.two; omega)) := by
@@ -573,6 +595,7 @@ theorem NeedChain.terminal {c : List A} (h : NeedChain v agents goods base c) :
   simp only [e] at hN
   exact hN
 
+omit [DecidableEq G] in
 /-- **Lemma C, first half** (`k4/c4x.md` §3; any k). At a Pareto-maximum the need digraph has no cycle: no distinct
 listed agents `L[0] → L[1] → … → L[n−1] → L[0]`. (Every agent takes its predecessor's good, which it needed.) -/
 theorem no_edge_cycle (hgd : goods.Nodup) (hP : ParetoMax v agents goods base) {L : List A} (hL : L.Nodup)
@@ -586,6 +609,7 @@ theorem no_edge_cycle (hgd : goods.Nodup) (hP : ParetoMax v agents goods base) {
     rw [hB, hx]
     exact ⟨by simp, by simp; omega, by simpa [value] using hlt, by simp⟩
 
+omit [DecidableEq G] in
 /-- **Lemma C, second half** (`k4/c4x.md` §3; any k). At a Pareto-maximum every frozen listed agent `x` has a need
 chain: following the edges from `x` through frozen agents reaches a terminal (it cannot close a cycle,
 `no_edge_cycle`). -/
@@ -679,6 +703,7 @@ structure Three (v : A → G → Nat) (agents : List A) (goods : List G) : Prop 
   three : ∀ i ∈ agents, (relevant v i goods).length = 3
   bal : ∀ i ∈ agents, ∀ g ∈ goods, 2 * v i g < value v i goods
 
+omit [DecidableEq A] [DecidableEq G] in
 theorem mem_relevant {i : A} {g : G} : g ∈ relevant v i goods ↔ g ∈ goods ∧ 0 < v i g := by
   simp [relevant]
 
@@ -692,6 +717,7 @@ theorem perm_of_subset_length {S T : List G} (hS : S.Nodup) (hT : T.Nodup) (hsub
     (by rw [← hp.length_eq]; exact hl)
   rw [this] at hp; exact hp
 
+omit [DecidableEq A] in
 /-- Values are monotone along duplicate-free subsets. -/
 theorem value_le_of_subset {S T : List G} (hS : S.Nodup) (hT : T.Nodup) (hsub : ∀ g ∈ S, g ∈ T) (i : A) :
     value v i S ≤ value v i T := by
@@ -700,6 +726,7 @@ theorem value_le_of_subset {S T : List G} (hS : S.Nodup) (hT : T.Nodup) (hsub : 
       simp only [List.mem_filter, decide_eq_true_eq]; exact ⟨fun h => ⟨hsub g h, h⟩, fun h => h.2⟩
   rw [value_perm hp]; exact value_sublist v i List.filter_sublist
 
+omit [DecidableEq A] [DecidableEq G] in
 theorem value_relevant (i : A) : value v i goods = value v i (relevant v i goods) :=
   LB4.value_filter_pos i goods
 
@@ -775,6 +802,7 @@ theorem Terminal.le_one (hgd : goods.Nodup) (hP : InP v agents goods base) (hT :
   obtain ⟨hta, -, g, hN⟩ := ht
   exact Nat.le_of_not_lt fun h2 => no_needs_two hgd hP (hT.three t hta) (hT.bal t hta) h2 hN
 
+omit [DecidableEq G] in
 /-- The goods of a free agent with at most one good are not in `NA`. -/
 theorem not_NA_of_free_le_one {j : A} (h1 : (baseOf goods base j).length ≤ 1)
     (hF : ¬ Frozen agents goods base (vbNeeds v goods base) j) : ∀ g ∈ baseOf goods base j,
@@ -784,6 +812,7 @@ theorem not_NA_of_free_le_one {j : A} (h1 : (baseOf goods base j).length ≤ 1)
   · rw [hB] at hg; simp at hg
   · rw [hB] at hg; simp at hg; subst hg; exact not_NA_of_free hB hF
 
+omit [DecidableEq A] in
 /-- The two goods of `R_x` other than `a`, and `v_x(R_x) = v_x(a) + v_x(l₁) + v_x(l₂)`. -/
 theorem low_pair (hgd : goods.Nodup) {x : A} (h3 : (relevant v x goods).length = 3) {a : G} (ha : a ∈ goods)
     (hpa : 0 < v x a) : ∃ l1 l2, l1 ∈ goods ∧ l2 ∈ goods ∧ 0 < v x l1 ∧ 0 < v x l2 ∧ l1 ≠ l2 ∧ l1 ≠ a ∧ l2 ≠ a ∧
@@ -805,6 +834,7 @@ theorem low_pair (hgd : goods.Nodup) {x : A} (h3 : (relevant v x goods).length =
       (hm g).mp (mem_relevant.mpr ⟨hg, hpos⟩), ?_⟩
     rw [value_relevant, value_perm hp]; simp [value]; omega
 
+omit [DecidableEq G] in
 /-- The extras that `fun g => if P g then some x else none` gives: the junk goods of `P` to `x`, nothing to others. -/
 theorem mem_extrasOf_if {P : G → Prop} [DecidablePred P] {x y : A} {g : G} :
     g ∈ extrasOf goods base (fun g => if P g then some x else none) y ↔
@@ -813,10 +843,12 @@ theorem mem_extrasOf_if {P : G → Prop} [DecidablePred P] {x y : A} {g : G} :
   rw [List.mem_filter, mem_junk]
   by_cases hP : P g <;> simp [hP, eq_comm, and_assoc]
 
+omit [DecidableEq G] in
 theorem extrasOf_if_ne {P : G → Prop} [DecidablePred P] {x y : A} (hxy : y ≠ x) :
     extrasOf goods base (fun g => if P g then some x else none) y = [] :=
   List.eq_nil_iff_forall_not_mem.mpr fun _ hg => hxy (mem_extrasOf_if.mp hg).2.2.2
 
+omit [DecidableEq G] in
 theorem extrasOf_if_perm (hgd : goods.Nodup) {P : G → Prop} [DecidablePred P] {x : A} {S : List G} (hS : S.Nodup)
     (h : ∀ g, g ∈ S ↔ g ∈ goods ∧ base g = none ∧ P g) :
     (extrasOf goods base (fun g => if P g then some x else none) x).Perm S :=
@@ -833,6 +865,7 @@ theorem extrasOf_single (hgd : goods.Nodup) {z : G} {x : A} (hz : z ∈ goods) (
     · rintro rfl; exact ⟨hz, hzb, rfl⟩
     · exact fun h => h.2.2)
 
+omit [DecidableEq G] in
 /-- The new base of the receiver of an edge satisfies `GoodNew`. -/
 theorem goodNew_edge {p a : A} (h : Edge v goods base p a) : GoodNew v agents goods base a (baseOf goods base p) := by
   obtain ⟨g, hB, -, -, hlt⟩ := h
@@ -972,6 +1005,7 @@ def Exposed (v : A → G → Nat) (agents : List A) (goods : List G) (base : G �
   x ∈ agents ∧ x ≠ t ∧ ∃ h ∈ W goods base t,
     value v x (baseOf goods base x) < value v x ((W goods base t).erase h)
 
+omit [DecidableEq G] in
 theorem mem_W {t : A} {g : G} : g ∈ W goods base t ↔ g ∈ goods ∧ (base g = some t ∨ base g = none) := by
   simp [W]
 
@@ -985,6 +1019,7 @@ theorem exposed_of_sub (hgd : goods.Nodup) {t x : A} (hx : x ∈ agents) (hxt : 
   have hgh : g ≠ h := fun e => by subst e; exact (List.Nodup.not_mem_erase hX) hg
   exact (List.mem_erase_of_ne hgh).mpr (hXW g (List.mem_of_mem_erase hg))
 
+omit [DecidableEq G] in
 /-- The goods of `W_t` are not in `NA` when `t` is free with at most one good (V1 for the junk). -/
 theorem W_not_NA (hP : InP v agents goods base) {t : A} (ht1 : (baseOf goods base t).length ≤ 1)
     (htF : ¬ Frozen agents goods base (vbNeeds v goods base) t) :
@@ -1087,6 +1122,7 @@ end EFX
 #print axioms EFX.C4min.inP_of_gain
 #print axioms EFX.C4min.lemmaU
 #print axioms EFX.C4min.transfer_move
+#print axioms EFX.C4min.transfer_inP_dominates
 #print axioms EFX.C4min.cycle_move
 #print axioms EFX.C4min.path_move
 #print axioms EFX.C4min.no_edge_cycle

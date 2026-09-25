@@ -3,7 +3,7 @@ import EFX.LB4R
 /-!
 # The space 𝒫, completability and Conjecture C₄ᵐⁱⁿ (`k4/c4x.md` §1, §5; ledger K4.C4MIN.FRAME)
 
-The frame for conjecture C₄ᵐⁱⁿ of `k4/c4x.md` (PR #36, branch `proof/k4-c4x`): its definitions over the pre-allocations
+The frame for conjecture C₄ᵐⁱⁿ of `k4/c4x.md` (PR #36, branch `proof/k4-c4x`, read at commit efef349): its definitions over the pre-allocations
 of `EFX/PreAllocK.lean`, the statement as a `Prop`, and the reductions "C₄ᵐⁱⁿ ⟹ C₄∃ ⟹ TARGET₄". C₄ᵐⁱⁿ is a hypothesis of
 every theorem here, never an axiom.
 

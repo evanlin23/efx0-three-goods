@@ -4,8 +4,9 @@ import EFX.Target
 /-!
 # Theorem K3 (`k4/c4x.md` §3; ledger K4.C4MIN.K3)
 
-**Theorem K3.** At k = 3, every Pareto-maximal pre-allocation of 𝒫 of a core is completable: without owner if
-`ω ≤ 0`, and otherwise removal-only with a terminal as owner (`theoremK3`). With a Pareto-maximum, which always exists
+**Theorem K3** (`k4/c4x.md` §3, PR #36, read at commit efef349). At k = 3, every Pareto-maximal pre-allocation of 𝒫
+of a core is completable: without owner if `ω ≤ 0`, and otherwise removal-only with a terminal as owner
+(`theoremK3_owner`; `theoremK3` states the removal-only conclusion). With a Pareto-maximum, which always exists
 (`exists_paretoMax`), this is a second proof of conjecture D for k = 3 cores (`corollaryD_K3`), independent of LB⁺
 (`EFX.LB.corollaryD_lists`), and with the CORE reduction a second proof of TARGET (`target_K3`).
 
@@ -23,7 +24,6 @@ The proof follows `k4/c4x.md` §3:
 -/
 
 set_option autoImplicit false
-set_option linter.unusedSectionVars false
 
 namespace EFX
 namespace C4min
@@ -35,6 +35,7 @@ variable {v : A → G → Nat} {agents : List A} {goods : List G} {base : G → 
 
 /-! ## Lemma O (owner criterion) -/
 
+omit [DecidableEq G] in
 /-- Fewer needs, fewer frozen agents, more slots. -/
 theorem otherSlots_mono {M M' : A → G → Prop} (h : ∀ i ∈ agents, ∀ g, M i g → M' i g) (w : A) :
     otherSlots agents goods base M' w ≤ otherSlots agents goods base M w := by
@@ -48,6 +49,7 @@ theorem otherSlots_mono {M M' : A → G → Prop} (h : ∀ i ∈ agents, ∀ g, 
   · have h2 : ¬ (j = w ∨ Frozen agents goods base M j) := fun h' => h1 (h'.imp id hF)
     simp [h1, h2]
 
+omit [DecidableEq G] in
 /-- The owner's needs from its bundle `B_o ∪ (J ∖ C)` are needs from its base. -/
 theorem roNeeds_le {o : A} {C : G → Bool} {i : A} {g : G} (h : roNeeds v goods base o C i g) :
     vbNeeds v goods base i g := by
@@ -144,6 +146,7 @@ theorem terminals_le_otherSlots (hgd : goods.Nodup) (hP : InP v agents goods bas
   simp only [hn, ↓reduceIte]
   omega
 
+omit [DecidableEq G] in
 /-- **A terminal exists when `ω ≥ 1` and `σ = 2n − m ≥ 0`** (`k4/c4x.md` §3): then some good is needed, its holder is
 frozen, and its need chain ends at a terminal (Lemma C). -/
 theorem exists_terminal (hag : agents.Nodup) (hgd : goods.Nodup) (hP : ParetoMax v agents goods base)
@@ -173,6 +176,7 @@ theorem exists_terminal (hag : agents.Nodup) (hgd : goods.Nodup) (hP : ParetoMax
 
 /-! ## L4: `m ≤ 2n` in a core -/
 
+omit [DecidableEq G] in
 /-- **L4** (`proofs/lemmas.md`): in a k = 3 core, `m ≤ 2n`. Every agent has three relevant goods, every good is
 relevant to someone, and a good relevant to exactly one agent is private to it, which happens at most once per agent:
 `3n = Σ_g deg(g) ≥ 2m − π ≥ 2m − n`. -/
@@ -277,6 +281,7 @@ theorem nodup_map_range {α : Type} {f : Nat → α} :
     have := h i (by omega) n (by omega) e
     omega
 
+omit [DecidableEq G] in
 /-- A need chain from `x` gives `ChainTo x τ` for its end `τ`, a terminal. -/
 theorem NeedChain.chainTo {c : List A} (hc : NeedChain v agents goods base c) {x : A} (hx : c.head? = some x) :
     ∃ τ, ChainTo v agents goods base x τ ∧ Terminal v agents goods base τ :=
@@ -425,6 +430,7 @@ theorem LabelCycle.cut {k : Nat} {ts xs : Nat → A} {zs : Nat → G} (hC : Labe
     · rw [show i + 1 = ℓ by omega, Nat.mod_self, Nat.add_zero, Nat.mod_eq_of_lt hs]
       rwa [show i = ℓ - 1 by omega]
 
+omit [DecidableEq A] in
 /-- The entries of `c.take i ++ c'.drop j`. -/
 theorem getElem_splice {c c' : List A} {i j k : Nat} (hi : i ≤ c.length)
     (hk : k < (c.take i ++ c'.drop j).length) :
@@ -440,6 +446,7 @@ theorem getElem_splice {c c' : List A} {i j k : Nat} (hi : i ≤ c.length)
     congr 1
     omega
 
+omit [DecidableEq G] in
 /-- **Splicing two need chains** at a common agent `c[i] = c'[j]` (`i ≥ 1`) that is the first agent of `c` on `c'`:
 `c[0], …, c[i−1], c'[j], c'[j+1], …` is a need chain. -/
 theorem splice {c c' : List A} (hc : NeedChain v agents goods base c) (hc' : NeedChain v agents goods base c')
@@ -493,6 +500,18 @@ theorem exposed_no_needs (hgd : goods.Nodup) (hP : ParetoMax v agents goods base
   · exact not_NA_of_free hBt ht.2.1 ⟨x, hx.1, hN⟩
   · exact hP.1.valid.v1 g (mem_junk.mpr ⟨hz, hzb⟩) ⟨x, hx.1, hN⟩
 
+/-- An exposed agent is a *top-holder* (`k4/c4x.md` §3, Lemma E: "x is a frozen top-holder"): its one base good `a` is
+worth at least every other good to it, as it needs nothing (`exposed_no_needs`). -/
+theorem exposed_top (hgd : goods.Nodup) (hP : ParetoMax v agents goods base) (hT : Three v agents goods)
+    {t x : A} (ht : Terminal v agents goods base t) (hx : Exposed v agents goods base t x) :
+    ∃ a, baseOf goods base x = [a] ∧ ∀ g ∈ goods, v x g ≤ v x a := by
+  obtain ⟨-, a, -, -, hB, -⟩ := lemmaE hgd hP hT ht hx
+  refine ⟨a, hB, fun g hg => ?_⟩
+  by_cases hb : base g = some x
+  · rw [(mem_single_base hB).mp ⟨hg, hb⟩]; exact Nat.le_refl _
+  · refine Nat.le_of_not_lt fun hlt => exposed_no_needs hgd hP hT ht hx g ⟨hg, hb, ?_⟩
+    rw [hB]; simpa using hlt
+
 /-- In a `LabelCycle` the exposed agents are distinct: an exposed agent's junk goods are its one label (Lemma E). -/
 theorem LabelCycle.xinj (hgd : goods.Nodup) (hP : ParetoMax v agents goods base) (hT : Three v agents goods)
     {k : Nat} {ts xs : Nat → A} {zs : Nat → G} (hC : LabelCycle v agents goods base k ts xs zs) :
@@ -512,11 +531,13 @@ theorem LabelCycle.xinj (hgd : goods.Nodup) (hP : ParetoMax v agents goods base)
   rw [← e] at hj3
   exact hC.zinj i hi j hj ((hlab _ hi1 hi2 hi3).trans (hlab _ hj1 hj2 hj3).symm)
 
+omit [DecidableEq A] in
 theorem head_eq {c : List A} {x : A} (h : c.head? = some x) (h0 : 0 < c.length) : c[0] = x := by
   cases c with
   | nil => simp at h0
   | cons y c => simpa using h
 
+omit [DecidableEq A] in
 theorem last_eq {c : List A} {x : A} (h : c.getLast? = some x) (h0 : 0 < c.length) : c[c.length - 1] = x := by
   rw [List.getLast?_eq_getElem?] at h
   exact (List.getElem?_eq_some_iff.mp h).2
@@ -594,6 +615,7 @@ theorem LabelCycle.disjoint (hgd : goods.Nodup) (hP : ParetoMax v agents goods b
 
 /-! ## The cycle move -/
 
+omit [DecidableEq A] in
 /-- The value of an exposed agent's two other goods beats its base (balance): `v_x(a) < v_x(y) + v_x(z)`. -/
 theorem value_three (hgd : goods.Nodup) (hT : Three v agents goods) {x : A} (hx : x ∈ agents) {a y z : G}
     (ha : a ∈ goods) (hy : y ∈ goods) (hz : z ∈ goods) (hpa : 0 < v x a) (hpy : 0 < v x y) (hpz : 0 < v x z)
@@ -616,7 +638,7 @@ theorem value_three (hgd : goods.Nodup) (hT : Three v agents goods) {x : A} (hx 
 Pareto-maximality: every exposed agent `xs i` takes `B_{ts i} = {y}` and its label `zs i`, and along every chain each
 agent takes its predecessor's good, so `ts (i+1)` gives up its good to `xs (i+1)`. Every moved agent gains
 (`transfer_move`). -/
-theorem cycle_contra (hag : agents.Nodup) (hgd : goods.Nodup) (hP : ParetoMax v agents goods base)
+theorem cycle_contra (hgd : goods.Nodup) (hP : ParetoMax v agents goods base)
     (hT : Three v agents goods) {k : Nat} {ts xs : Nat → A} {zs : Nat → G}
     (hC : LabelCycle v agents goods base k ts xs zs) {c : Nat → List A}
     (hc : ∀ i < k, NeedChain v agents goods base (c i) ∧ (c i).head? = some (xs i) ∧
@@ -712,7 +734,7 @@ theorem cycle_contra (hag : agents.Nodup) (hgd : goods.Nodup) (hP : ParetoMax v 
       subst this
       have : m = m' := by omega
       subst this; rfl
-  refine transfer_move (L := L) (dstF := dstF) (extra := extra) hgd hP (hag.sublist List.filter_sublist)
+  refine transfer_move (L := L) (dstF := dstF) (extra := extra) hgd hP
     (List.ne_nil_of_mem (hxsL 0 hk)) (fun a ha => ((hmemL a).mp ha).1) hinj (fun p hp a hpa => ?_)
     (fun g _ a h => ?_) (fun p hp h => ?_) (fun a ha => ?_)
   · -- destinations are movers
@@ -804,20 +826,25 @@ theorem exists_min_labelCycle (h : ∃ k ts xs zs, LabelCycle v agents goods bas
       exact ih k' hlt ⟨ts', xs', zs', hC'⟩
 
 open Classical in
-/-- **Theorem K3** (`k4/c4x.md` §3). Let every listed agent value exactly three goods, strictly balanced, and
-`m ≤ 2n` (true in every core, `sigma_nonneg`). Then every Pareto-maximal pre-allocation of 𝒫 is removal-only
-completable (`def(P) ≤ 0`): without owner if `ω ≤ 0`, and otherwise with a terminal as owner (Lemma O). -/
-theorem theoremK3 (hag : agents.Nodup) (hgd : goods.Nodup) (hP : ParetoMax v agents goods base)
-    (hT : Three v agents goods) (hσ : goods.length ≤ 2 * agents.length) : RemovalOnly v agents goods base := by
+/-- **Theorem K3, with its owner** (`k4/c4x.md` §3): at k = 3 with `m ≤ 2n`, a Pareto-maximal `P ∈ 𝒫` has `ω ≤ 0`, or a
+terminal `t` whose labels fit the other agents' slots and whose bundle `B_t ∪ (J ∖ Z_t)` threatens nobody (Lemma O's
+removal-only completion with owner `t`). If no terminal were such an owner, every terminal would have at least `T` labels,
+the walk would close a cycle of exposures, and the cycle move on a shortest one would dominate `P`. -/
+theorem theoremK3_owner (hag : agents.Nodup) (hgd : goods.Nodup) (hP : ParetoMax v agents goods base)
+    (hT : Three v agents goods) (hσ : goods.length ≤ 2 * agents.length) :
+    omegaP v agents goods base ≤ 0 ∨ ∃ t, Terminal v agents goods base t ∧
+      Unthreatened v agents goods base t (labelC v agents goods base t) ∧
+      ((LB4.junk goods base).filter (labelC v agents goods base t)).length ≤
+        otherSlots agents goods base (vbNeeds v goods base) t := by
   by_cases hω : omegaP v agents goods base ≤ 0
-  · exact Or.inl ⟨hω, hω⟩
+  · exact Or.inl hω
   have hω' : 0 < omegaP v agents goods base := by omega
   obtain ⟨t0, ht0⟩ := exists_terminal hag hgd hP hσ hω'
   by_cases hgood : ∃ t, Terminal v agents goods base t ∧
       ((LB4.junk goods base).filter (labelC v agents goods base t)).length ≤
         otherSlots agents goods base (vbNeeds v goods base) t
   · obtain ⟨t, ht, hZ⟩ := hgood
-    exact lemmaO hgd hP hT hω' ht hZ
+    exact Or.inr ⟨t, ht, unthreatened_labels hgd hP hT ht, hZ⟩
   exfalso
   -- every terminal has at least `T` labels: `|Z_t| > S − cap(t) ≥ T − 1`
   have hbig : ∀ t, Terminal v agents goods base t →
@@ -844,7 +871,18 @@ theorem theoremK3 (hag : agents.Nodup) (hgd : goods.Nodup) (hP : ParetoMax v age
     intro i hi
     simp only [c, hi, ↓reduceDIte]
     exact Classical.choose_spec (hC.chain i hi)
-  exact cycle_contra hag hgd hP hT hC hc (hC.disjoint hgd hP hT hmin hc)
+  exact cycle_contra hgd hP hT hC hc (hC.disjoint hgd hP hT hmin hc)
+
+/-- **Theorem K3** (`k4/c4x.md` §3). Let every listed agent value exactly three goods, strictly balanced, and
+`m ≤ 2n` (true in every core, `sigma_nonneg`). Then every Pareto-maximal pre-allocation of 𝒫 is removal-only
+completable (`def(P) ≤ 0`): without owner if `ω ≤ 0`, and otherwise with a terminal as owner (`theoremK3_owner`). -/
+theorem theoremK3 (hag : agents.Nodup) (hgd : goods.Nodup) (hP : ParetoMax v agents goods base)
+    (hT : Three v agents goods) (hσ : goods.length ≤ 2 * agents.length) : RemovalOnly v agents goods base := by
+  rcases theoremK3_owner hag hgd hP hT hσ with hω | ⟨t, ht, hU, hZ⟩
+  · exact Or.inl ⟨hω, hω⟩
+  · by_cases hω : omegaP v agents goods base ≤ 0
+    · exact Or.inl ⟨hω, hω⟩
+    · exact removalOnly_of_owner (by omega) ht.1 ht.2.1 _ hU hZ
 
 /-- **Theorem K3, completable form**: every Pareto-maximal pre-allocation of 𝒫 (k = 3, `m ≤ 2n`) is completable. -/
 theorem completable_K3 (hag : agents.Nodup) (hgd : goods.Nodup) (hne : agents ≠ [])
@@ -944,10 +982,12 @@ end EFX
 #print axioms EFX.C4min.exists_terminal
 #print axioms EFX.C4min.sigma_nonneg
 #print axioms EFX.C4min.exists_labelCycle
+#print axioms EFX.C4min.exposed_top
 #print axioms EFX.C4min.LabelCycle.cut
 #print axioms EFX.C4min.splice
 #print axioms EFX.C4min.LabelCycle.disjoint
 #print axioms EFX.C4min.cycle_contra
+#print axioms EFX.C4min.theoremK3_owner
 #print axioms EFX.C4min.theoremK3
 #print axioms EFX.C4min.completable_K3
 #print axioms EFX.C4min.exists_paretoMax
