@@ -1,0 +1,10 @@
+# k4/c4min.md Lemma 1: configuration test (k4/c4min.c) vs the deficit of k4/c4x.md §1 computed directly on every min-frozen pre-allocation (-X; xbad = mismatches)
+# command: python3 k4/c4min_run.py results/k4_certs_2.json.gz -X -p 9,16 --jobs=1
+FILE results/k4_certs_2.json.gz cores 5 profiles 189216 omega>=1 105120 configs 1097864 none 0 keyfail 0 xbad 0 paretomax 0 paretoevery 0 paretosome 0 rmax0 0
+  (rob,sumlev)                             every-max fails          0   some-max fails          0
+# command: python3 k4/c4min_run.py results/k4_certs_3.json.gz -X --rand=3000 --seed=1 -p 9,16 --jobs=1
+FILE results/k4_certs_3.json.gz cores 51 profiles 153000 omega>=1 56691 configs 2310671 none 0 keyfail 252 xbad 0 paretomax 0 paretoevery 0 paretosome 0 rmax0 0
+  (rob,sumlev)                             every-max fails         44   some-max fails          0
+# command: python3 k4/c4min_run.py results/k4_certs_2.json.gz -X -U0 -p 9,16 --jobs=1   (no unfreezing: mismatches expected, Lemma 1 needs the unfreezing clause; XCHECK lines omitted)
+FILE results/k4_certs_2.json.gz cores 5 profiles 189216 omega>=1 105120 configs 1097864 none 720 keyfail 1440 xbad 720 paretomax 0 paretoevery 0 paretosome 0 rmax0 0
+  (rob,sumlev)                             every-max fails        720   some-max fails        720

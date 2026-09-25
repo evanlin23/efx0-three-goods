@@ -73,7 +73,7 @@ def main():
         with ThreadPoolExecutor(jobs) as ex:
             for (ci, _), out in zip(tasks, ex.map(run, [t for _, t in tasks])):
                 for line in out.splitlines():
-                    if line.startswith(('EX', 'NONE', 'XCHECK')): print(f'core {ci}: {line}')
+                    if line.startswith(('EX', 'NONE', 'XCHECK', 'R0PROF')): print(f'core {ci}: {line}')
                     elif line.startswith('RESULT'):
                         w = line.split()
                         for k, v in zip(w[1::2], w[2::2]): tot[k] = tot.get(k, 0) + int(v)
