@@ -1,0 +1,2 @@
+command: python3 k4/frontier/search.py 5 --pure --part=1/2 --jobs=2 --out=results/k4_certs_5_pure.json.gz
+n=5 (pure): 4674 cores; this part: 2337, already done: 0 (checkpoints ['checkpoint_5_pure_all_p0of2.jsonl'])
