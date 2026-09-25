@@ -27,7 +27,7 @@ showed that a declaration added under `set_option debug.skipKernelTC true` is ne
 without warnings and has no axioms for `#print axioms` or `CheckAxioms.lean` to report; the tripwire refuses the
 option and the replay checker rejects such a declaration. On success the last line is
 
-    CHECK PASSED: 178 audited statements, 508 theorems, standard axioms only
+    CHECK PASSED: 186 audited statements, 516 theorems, standard axioms only
 
 CI runs it on every pull request (job `lean` in `.github/workflows/verify.yml`). In Claude Code on the web the
 session-start hook installs the toolchain (from GitHub when `release.lean-lang.org` is unreachable).
@@ -166,6 +166,13 @@ specializations) have exactly the types of `EFX.target`, `EFX.LB.corollaryD` (ch
   upgrades, no rotation, an owner with four goods; also `W1.sound_direct`, `W1.sound_pr`) and
   `EFX.LB4R.Examples.W2.succeeds` (one `RotStep` along the chain [0, 1] with O = {0}, `W2.rotStep`; the rotated
   one-good agent owns three goods).
+- `EFX/K4One.lean`: TARGET₄ with at most one 4-good agent (ledger K4.ONE.FRAME). `EFX.AtMostOne4`;
+  `EFX.atMostOne4_sublist` (a sub-instance adds no 4-good agent); `EFX.core_reduction4_conn_of` and
+  `EFX.core_reduction4_mixed_of` (K4.CORE for any class of instances closed under sub-instances: the proof of
+  `EFX.core_reduction4_conn` with the class carried through each recursive call); `EFX.core_reduction4_one_strict`,
+  `EFX.target4one_of_strict_cores` (with K4.TIE); `EFX.LB4R.C4existsOne` (C₄∃ for connected strict cores with at
+  most one 4-good agent), `EFX.LB4R.C4existsOne_iff`, `EFX.LB4R.C4existsOne_of_C4exists` and
+  `EFX.LB4R.target4one_of_C4existsOne` (`C4existsOne` as a hypothesis).
 - `EFX/RealValues.lean`: L12 (`proofs/real_values.md`) and TARGET and D over any `EFX.OrderedValue`. The value
   class and mirrored model above; `EFX.Agree` (same answer to every comparison between two subset sums);
   `EFX.OrderedValue.tri_le_iff` (for three positive values, every such comparison is decided by twelve basic
@@ -215,6 +222,7 @@ name in the ledger's Lean column has one.
 | K4.LB4.S | Lemma 3₄: for a strictly balanced owner with at most four relevant goods, its base among them, and `\|B_o\| ≥ 3` or (free, other bases ≤ 2, `ω ≥ 1`): if a sound completion exists, one exists with at least `min(\|J\|, s₀)` slot goods and the same `N_o^X` | PreAllocK : `EFX.LB4.ownerSearch_exact_base`, `EFX.LB4.ownerSearch_exact`, `EFX.LB4.move_step` |
 | K4.LB4.S | Shape: a sound completion is EFX₀ with at most one bundle of more than two goods; hence a sound completion of every connected strict k = 4 core with a 4-good agent gives TARGET₄ (with K4.CORE, K4.TIE) | PreAllocK : `EFX.LB4.SoundCompletion.efx0_d2` (over lists), `EFX.LB4.d2_shape`, `EFX.LB4.k4D_of_completion`, `EFX.LB4.target4_of_completions` (model) |
 | K4.C4.FRAME | Theorem C₄ (LB₄ʳ, defined in Lean, succeeds on every strict profile of every k = 4 core, for every insertion sequence or for the index order; claimed false by PR #33, `k4/c4.md` §7, unreviewed) implies C₄∃ (every strict profile of every k = 4 core has a completion satisfying (OC₄) of a valid pre-allocation); C₄∃ ⟺ K4.D on strict cores (every strict k = 4 core has an EFX₀ allocation with at most one bundle of more than two goods), and C₄∃ implies K4.D (all k = 4 cores) and TARGET₄; the frame's content is the equivalence and the LB₄ʳ ⇒ C₄∃ direction | LB4R : `EFX.LB4R.target4_of_C4exists`, `EFX.LB4R.target4_of_C4existsConn`, `EFX.LB4R.target4_of_C4`, `EFX.LB4R.target4_of_C4index` (model), `EFX.LB4R.C4exists_iff`, `EFX.LB4R.sound_of_d2`, `EFX.LB4R.k4D_of_C4exists`, `EFX.LB4R.conn_of_C4exists`, `EFX.LB4R.C4exists_of_C4`, `EFX.LB4R.C4exists_of_C4index`, `EFX.LB4R.theoremC4index_of_C4`, `EFX.LB4R.k4D_of_C4index`, `EFX.LB4R.sound_of_succeeds`, `EFX.LB4R.Inv.sound`, `EFX.LB4R.phase1State_inv`, `EFX.LB4R.upgrade_inv`, `EFX.LB4R.rotStep_inv`, `EFX.LB4R.rotStep_valid`, `EFX.LB4R.output_big_base` (over lists) |
+| K4.ONE.FRAME | C₄∃ for connected strict k = 4 cores with at most one 4-good agent implies that every instance with at most four relevant goods per agent, at most one agent with exactly four, has an EFX₀ allocation; the K4.CORE reduction and K4.TIE's perturbation add no 4-good agent | K4One : `EFX.LB4R.target4one_of_C4existsOne`, `EFX.target4one_of_strict_cores` (model), `EFX.LB4R.C4existsOne_iff`, `EFX.LB4R.C4existsOne_of_C4exists`, `EFX.core_reduction4_one_strict`, `EFX.core_reduction4_mixed_of`, `EFX.core_reduction4_conn_of`, `EFX.atMostOne4_sublist` (over lists) |
 | T | TARGET (Corollary T): every instance with `\|R_i\| ≤ 3` for every agent has a complete EFX₀ allocation | Target : `EFX.target` (model), `EFX.target_lists` (over lists), values in ℕ; RealValues : `EFX.target_ordered` (values in any `EFX.OrderedValue`, e.g. ℝ≥0, via L12), `EFX.target_of_ordered` (its specialization to ℕ) |
 | L12 | Real values reduce to natural numbers: with ≤ 3 relevant goods per agent and nonnegative values, there are natural-number values with the same relevant goods and the same answer to every comparison between two subset sums; EFX₀, the relevant-goods count and balance transfer | RealValues : `EFX.l12`, `EFX.OrderedValue.exists_agree` (one agent), `EFX.OrderedValue.tri_rep` (three positive values), `EFX.numRelevant_eq_of_agree`, `EFX.OrderedValue.balanced_iff_of_agree`, `EFX.efx0_iff_of_agree` (EFX₀ for `v` iff for `w`) |
 | — | The list layer agrees with the model | Bridge : `EFX.Inst.efx0_iff` |
