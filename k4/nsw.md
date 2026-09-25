@@ -88,7 +88,7 @@ which every good is valued by at most 3 agents:
 | n = 5, four 4-good agents (4,380 of 9,846) | 4,380,000 random | 0 | 4,337,772 / 42,227 / 1 / 0 |
 | pure n = 5 (1,962 of 4,674) | 1,962,000 random | 0 | 1,939,368 / 22,632 / 0 / 0 |
 | random, n = 6–10, 200 cores each | 500,000 random | 0 | at most 1 rotation |
-| random dense (90% 4-good agents, ≤ 1 private good), n = 6–10 | see `results/k4_p3_random_dense.log` | | |
+| random dense (90% 4-good agents, ≤ 0 or ≤ 1 private goods per agent), n = 6–10, 200 cores each | 1,000,000 random | 0 | at most 1 rotation (`results/k4_p3_random_dense.log`) |
 
 Logs: `results/k4_p3_sample_5.log`, `results/k4_p3_random.log`. The filtered core lists and the filter log are in
 `results/k4_p3/`.
