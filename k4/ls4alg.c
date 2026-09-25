@@ -22,6 +22,8 @@
  *   d_i g_1 .. g_d                         (n lines)
  *   per agent: T_i, then T_i blocks: "P  v_1 .. v_d" (representative) followed by P preimage lines "v_1 .. v_d"
  *   MODE K SEED                            MODE 0: all profiles; 1: K random profiles
+ * Compile with -DCMOVE=k to add, when stuck, the coalition re-divisions C_2..C_k of LS4+ (level sum must rise).
+ * Compile with -DEARLY to stop as soon as Phase 2 (b) or (c) applies (before any further move).
  * Compile with -DALT for another choice rule (most valuable M1 set, rotating agent order, longest cycles first).
  * Output: one RESULT line per task; FAIL lines on any failure (and exit status 1 at the end).
  */
@@ -155,6 +157,40 @@ static int move_X(void) {
     return 0;
 }
 
+/* C_k (LS4+, k4/ls4plus.md): a coalition of 2..CMOVE agents re-divides its bundles and the pool, each member taking
+ * a set of its own goods; the result must be EFX0 (checked exactly) and raise the level sum (some members may lose). */
+#ifdef CMOVE
+static int lev_of(int i, mask S) { long v = vs(i, S); int r = 0;
+    for (int z = 0; z < (1 << d[i]); z++) { long t = 0; for (int q = 0; q < d[i]; q++) if (z >> q & 1) t += V[i][rg[i][q]]; if (t < v) r++; } return r; }
+static int coA[MAXN], coL, coOld; static mask coZ[MAXN];
+static int dfs_C(int t, mask avail, int newsum) {
+    if (t == coL) {
+        if (newsum <= coOld) return 0;
+        mask NY[MAXN]; memcpy(NY, Y, sizeof NY);
+        for (int q = 0; q < coL; q++) NY[coA[q]] = coZ[q];
+        return efx0(NY);
+    }
+    int h = coA[t];
+    for (int z = 0; z < (1 << d[h]); z++) {             /* z = 0: the member ends with nothing */
+        mask Z = loc(h, z); if (Z & ~avail) continue;
+        coZ[t] = Z;
+        if (dfs_C(t + 1, avail & ~Z, newsum + lev_of(h, Z))) return 1;
+    }
+    return 0;
+}
+static long cnt_C[MAXN + 1];
+static int move_C(void) {
+    for (coL = 2; coL <= CMOVE && coL <= n; coL++)
+        for (unsigned S = 0; S < (1u << n); S++) {
+            if (__builtin_popcount(S) != coL) continue;
+            int k = 0; mask pool = U; coOld = 0;
+            for (int i = 0; i < n; i++) if (S >> i & 1) { coA[k++] = i; pool |= Y[i]; coOld += lev_of(i, Y[i]); }
+            if (dfs_C(0, pool, 0)) { apply(coL, coA, coZ); cnt_C[coL]++; return 1; }
+        }
+    return 0;
+}
+#endif
+
 /* Phase 2 */
 static mask P2[MAXN];
 static int ok_at(int s, mask J) { mask B = Y[s] | J; for (int h = 0; h < n; h++) if (h != s && threat(h, B) > vs(h, Y[h])) return 0; return 1; }
@@ -176,12 +212,13 @@ static int ex_rec(mask rest) {
     }
     return 0;
 }
+static int restrict_bc;                   /* EARLY: only the directly checked cases (b), (c) */
 static int phase2(void) {                 /* returns case index 1..4, 0 if no placement */
     memcpy(P2, Y, sizeof P2);
 #ifdef BADDUMP                            /* sensitivity test: dump U at the first source without any check */
     for (int s = 0; s < n; s++) if (is_src(s) && Y[s]) { P2[s] |= U; return 2; }
 #endif
-    for (int e = 0; e < n; e++) if (!Y[e]) { P2[e] = U; return 1; }
+    if (!restrict_bc) for (int e = 0; e < n; e++) if (!Y[e]) { P2[e] = U; return 1; }
     for (int s = 0; s < n; s++) if (is_src(s) && !(U & R[s]) && ok_at(s, U)) { P2[s] |= U; return 2; }
     for (int s = 0; s < n; s++) if (is_src(s)) {
         mask Uj = U & ~R[s];
@@ -191,7 +228,7 @@ static int phase2(void) {                 /* returns case index 1..4, 0 if no pl
         }
     }
     memcpy(P2, Y, sizeof P2);
-    if (ex_rec(U)) return 4;
+    if (!restrict_bc && ex_rec(U)) return 4;
     return 0;
 }
 
@@ -218,13 +255,20 @@ static void run(void) {
     for (int i = 0; i < n; i++) Y[i] = 0;
     U = ALL;
     int steps = 0, lev = level_sum(); rot = 0;
+    restrict_bc = 0;
     for (;;) {
+#ifdef EARLY                              /* stop as soon as (b) or (c) places the pool (both checked directly) */
+        if (U) { restrict_bc = 1; if (phase2()) break; restrict_bc = 0; }
+#endif
         int moved = move_M1() || move_R();
         if (!moved) {
             if (!U) break;
             if (phase2()) break;
 #ifndef NOX
             moved = move_X();
+#endif
+#ifdef CMOVE
+            if (!moved) moved = move_C();
 #endif
             if (!moved) break;
         }
