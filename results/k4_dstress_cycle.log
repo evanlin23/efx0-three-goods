@@ -1,0 +1,13 @@
+$ python3 k4/d_stress.py cycle 2 --profiles=300 --owners=20 --restarts=2 --seed=10
+cycle 2: n = 9 (9 with 4 goods), m = 23, beta = 5; domains [144, 288]
+  300 random profiles: 0 without a D2 allocation (5.0 s)
+  owner climb 0: min feasible owners 9 of 9 after 20 steps (75 s); trace [9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9]
+  owners at the minimum: [0, 1, 2, 3, 4, 5, 6, 7, 8]; profile [[10, 8, 3, 4], [7, 4, 2, 10], [8, 10, 3, 6], [4, 8, 2, 7], [10, 6, 3, 8], [8, 2, 5, 4], [4, 3, 6, 8], [8, 7, 2, 4], [4, 8, 2, 3]]
+  owner climb 1: min feasible owners 9 of 9 after 20 steps (62 s); trace [9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9]
+  owners at the minimum: [0, 1, 2, 3, 4, 5, 6, 7, 8]; profile [[6, 5, 7, 3], [10, 2, 4, 7], [3, 6, 2, 10], [7, 4, 2, 10], [2, 7, 6, 10], [6, 8, 3, 10], [7, 2, 4, 10], [8, 3, 10, 6], [10, 7, 2, 6]]
+  min feasible owners over climbs: 9 of 9
+
+$ python3 k4/d_stress.py cycle 4 --profiles=150 --seed=11
+cycle 4: n = 17 (17 with 4 goods), m = 43, beta = 9; domains [144, 288]
+  150 random profiles: 0 without a D2 allocation (31.6 s)
+

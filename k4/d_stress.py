@@ -13,7 +13,10 @@ Families:
   cycle t              gadgets in a cycle (e_j = g_{j+1}, e_t = g_1) with one head attached to g_1 by a new good
   tree t               gadgets in a binary tree: gadget j's y links to the g's of its children
   pure n m             random connected pure cores (every agent 4 goods) with n agents and m goods (high beta)
-Usage: d_stress.py FAMILY ARGS [--profiles=N] [--climb=STEPS] [--cap=C] [--seed=S] [--values=paper]"""
+Margin: owners(prof) (d_stress_check.py, the independent encoding) = the agents o for which a D2 EFX0 allocation exists
+with no bundle other than o's above 2 goods; --owners=STEPS hill-climbs profiles toward fewer owners (0 = no D2).
+Usage: d_stress.py FAMILY ARGS [--profiles=N] [--owners=STEPS] [--restarts=R] [--climb=STEPS] [--cap=C] [--seed=S]
+       [--values=paper]"""
 import sys, time, random, json, itertools
 import numpy as np
 import search4 as S4
@@ -152,6 +155,26 @@ def climb(I, rng, steps, cap, start=None):
     return best, bestp, trace
 
 
+def climb_owners(I, rng, steps, start=None):
+    """Hill-climb a profile toward fewer feasible large-bundle owners (d_stress_check.owners, the independent
+    encoding); returns (min number of owners, profile, trace)."""
+    import d_stress_check as DC
+    cur = start or I.random_profile(rng)
+    cc = len(DC.owners(I.sets, I.values(cur)))
+    best, bestp, trace = cc, list(cur), [cc]
+    for _ in range(steps):
+        if cc == 0: break
+        cand = list(cur)
+        for i in rng.sample(range(I.n), rng.choice((1, 1, 2))):
+            cand[i] = rng.randrange(len(I.dom[i]))
+        k = len(DC.owners(I.sets, I.values(cand)))
+        if k <= cc:
+            cur, cc = cand, k
+            if k < best: best, bestp = k, list(cand)
+        trace.append(cc)
+    return best, bestp, trace
+
+
 def build(args, rng):
     fam = args[0]
     if fam == 'chain': return chain(int(args[1]), int(args[2]) if len(args) > 2 else 1)
@@ -185,6 +208,25 @@ def main():
             anyA = I.shape(p, None, None)
             print('    any shape: %s; two big bundles: %s' % (anyA is not None, I.shape(p, 2, 2) is not None), flush=True)
     if npro: print('  %d random profiles: %d without a D2 allocation (%.1f s)' % (npro, fails, time.time() - t0), flush=True)
+    osteps = int(opts.get('owners', 0))
+    if osteps:
+        import d_stress_check as DC
+        if opts.get('values') == 'paper' and paper_profile(I):
+            print('  paper values: feasible large-bundle owners %d of %d' % (len(DC.owners(I.sets, I.values(paper_profile(I)))), I.n), flush=True)
+        res = []
+        for r in range(int(opts.get('restarts', 3))):
+            t1 = time.time()
+            b, bp, tr = climb_owners(I, rng, osteps)
+            res.append(b)
+            print('  owner climb %d: min feasible owners %d of %d after %d steps (%.0f s); trace %s' % (
+                r, b, I.n, len(tr) - 1, time.time() - t1, tr[::max(1, len(tr) // 12)]), flush=True)
+            if b == 0:
+                print('  NO D2 allocation (owner climb): %s' % json.dumps(I.values(bp)), flush=True)
+                print('    d_stress.py model: %s; any shape: %s' % ('D2' if I.shape(bp) else 'no D2',
+                                                                     I.shape(bp, None, None) is not None), flush=True)
+            else:
+                print('  owners at the minimum: %s; profile %s' % (DC.owners(I.sets, I.values(bp)), json.dumps(I.values(bp))), flush=True)
+        print('  min feasible owners over climbs: %d of %d' % (min(res), I.n), flush=True)
     steps = int(opts.get('climb', 0))
     if steps:
         restarts = int(opts.get('restarts', 3))

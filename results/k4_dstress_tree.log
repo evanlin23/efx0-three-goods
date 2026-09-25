@@ -1,0 +1,9 @@
+$ python3 k4/d_stress.py tree 3 --profiles=250 --owners=15 --restarts=2 --seed=12
+tree 3: n = 14 (14 with 4 goods), m = 35, beta = 8; domains [144, 288]
+  250 random profiles: 0 without a D2 allocation (20.1 s)
+
+$ python3 k4/d_stress.py tree 5 --profiles=120 --seed=13
+tree 5: n = 23 (23 with 4 goods), m = 57, beta = 13; domains [144, 288]
+  120 random profiles: 0 without a D2 allocation (188.0 s)
+
+  (owner climbs stopped before finishing, to fit the session)

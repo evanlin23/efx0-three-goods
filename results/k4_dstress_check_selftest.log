@@ -1,0 +1,8 @@
+$ cd k4 && python3 d_stress_check.py --selftest pure 3 5 150
+selftest pure 3 5: 150 of 150 profiles decided alike (d_stress.py vs this encoding), for D2 and for all bundles <= 2 (the latter unsatisfiable in 2)
+$ cd k4 && python3 d_stress_check.py --selftest pure 4 7 150
+selftest pure 4 7: 150 of 150 profiles decided alike (d_stress.py vs this encoding), for D2 and for all bundles <= 2 (the latter unsatisfiable in 2)
+$ cd k4 && python3 d_stress_check.py --selftest pure 6 8 150
+selftest pure 6 8: 150 of 150 profiles decided alike (d_stress.py vs this encoding), for D2 and for all bundles <= 2 (the latter unsatisfiable in 0)
+$ cd k4 && python3 d_stress_check.py --selftest chain 1 150
+selftest chain 1: 150 of 150 profiles decided alike (d_stress.py vs this encoding), for D2 and for all bundles <= 2 (the latter unsatisfiable in 150)
