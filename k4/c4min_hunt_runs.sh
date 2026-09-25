@@ -100,6 +100,9 @@ print(len(top), 'tight cores; scores from', top[0][0], 'to', top[-1][0])"
     log $R/k4_c4min_hunt_rigid.log python3 c4min_rigid.py ../$R/k4_certs_3.json.gz --samples=400 --pairs=150 --seed=81 --jobs=${JOBS:-4}
     log $R/k4_c4min_hunt_rigid.log python3 c4min_rigid.py ../$R/k4_certs_4_n4_3.json.gz ../$R/k4_certs_4_pure.json.gz \
         --samples=60 --pairs=80 --seed=82 --jobs=${JOBS:-4} ;;
+  rigid5)      # pairs of the tightest n = 5 profiles of climb5b (owner needed, d* = 0) glued (n = 10-11)
+    log $R/k4_c4min_hunt_rigid.log python3 c4min_rigid.py --gadgets=../$R/k4_c4min_hunt_climb_n5_b.jsonl --pairs=200 --seed=83 \
+        --jobs=${JOBS:-4} ;;
   families)    # structured families: random and perturbed profiles (exact test per profile); m <= 64
     for fam in ${FAMS:-ht:4 ht:5 ht2:4 htx:4 htc:4 grid:2:2 chain:2:2 ht:6 cycle:4 tree:4}; do
       log $R/k4_c4min_hunt_families.log python3 c4min_sample.py --family=$fam --profiles=400 --mode=uniform --seed=91 --verify=20 --jobs=1
@@ -114,5 +117,5 @@ print(len(top), 'tight cores; scores from', top[0][0], 'to', top[-1][0])"
         --seed=101 --jobs=${JOBS:-4} --top=8 ;;
   attempts)    # the hard profiles of PR #36's attempts and PR #30's n = 5 GM4 profiles, one by one
     log $R/k4_c4min_hunt_attempts.log python3 c4min_attempts_eval.py ;;
-  *) echo "sections: classes w0big attempts climbtight selfcheck w0small crosscheck n4 n5a n5b n6a climb5 climb5b climbrand climbglue rigid families climbfam"; exit 2 ;;
+  *) echo "sections: rigid5 classes w0big attempts climbtight selfcheck w0small crosscheck n4 n5a n5b n6a climb5 climb5b climbrand climbglue rigid families climbfam"; exit 2 ;;
 esac

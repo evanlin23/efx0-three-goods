@@ -10,8 +10,10 @@ different owners are glued, and C4min is tested on the glued instance:
 With only one owner for the whole instance, a gadget whose junk only its own owner can absorb has to be protected
 through slots instead; the question is whether the two demands can exceed the supply.
 
-usage: c4min_rigid.py [--samples=N] [--pairs=P] [--seed=S] [--jobs=J] FILE [FILE ...]   (core lists of n = 3, 4)"""
-import itertools, json, random, subprocess, sys, time
+usage: c4min_rigid.py [--samples=N] [--pairs=P] [--seed=S] [--jobs=J] FILE [FILE ...]   (core lists of n = 3, 4)
+       c4min_rigid.py --gadgets=DUMP.jsonl [--pairs=P] ...   the gadgets are the profiles of a climber dump
+       (k4/c4min_climb.py --dump) with an owner needed and d* = 0 (the tightest found), not only owner-rigid ones"""
+import itertools, json, os, random, subprocess, sys, time
 from concurrent.futures import ThreadPoolExecutor
 import c4min_common as cc
 import c4min_families as F
@@ -86,13 +88,14 @@ def glue_test(args):
 
 
 def main():
-    files, N, P, seed, jobs = [], 300, 40, 1, 4
+    files, N, P, seed, jobs, gadgets = [], 300, 40, 1, 4, None
     for a in sys.argv[1:]:
         k, _, v = a.partition('=')
         if k == '--samples': N = int(v)
         elif k == '--pairs': P = int(v)
         elif k == '--seed': seed = int(v)
         elif k == '--jobs': jobs = int(v)
+        elif k == '--gadgets': gadgets = v
         else: files.append(a)
     cc.hunt_binary()
     rng = random.Random(seed)
@@ -102,9 +105,20 @@ def main():
             tasks.append((c['sets'], c['m'], cc.domains(c['sets'], c['m']), seed * 100003 + len(tasks), N))
     t0 = time.time()
     rigid = []
+    if gadgets:
+        from c4min_climb import parse_profile
+        lists = {}
+        for l in open(gadgets):
+            r = json.loads(l)
+            if not (r['owner'] and r['dstar'] == 0): continue
+            if r['file'] not in lists: lists[r['file']] = cc.load_cores(os.path.join(cc.ROOT, 'results', r['file']))
+            c = lists[r['file']][r['core']]
+            vals = parse_profile(r['line'], None)
+            rigid.append({'sets': c['sets'], 'm': c['m'], 'vals': [[v[g] for g in S] for S, v in zip(c['sets'], vals)], 'source': f"{r['file']}#{r['core']}"})
+        print(f'# {len(rigid)} gadgets (owner needed, d* = 0) from {gadgets}', flush=True)
     with ThreadPoolExecutor(jobs) as ex:
         for r in ex.map(find_rigid, tasks): rigid += r
-    print(f'# {len(tasks)} cores x {N} random profiles: {len(rigid)} owner-rigid profiles ({time.time() - t0:.0f} s)', flush=True)
+    if tasks: print(f'# {len(tasks)} cores x {N} random profiles: {len(rigid)} owner-rigid profiles ({time.time() - t0:.0f} s)', flush=True)
     pairs = [(rng.choice(rigid), rng.choice(rigid)) for _ in range(P)] if rigid else []
     tot = {'merge': [0, 0], 'link': [0, 0]}
     with ThreadPoolExecutor(jobs) as ex:
