@@ -1,0 +1,4 @@
+  n=2 m=4 ties: 2 cores, orbit sum 9 = labeled 9: yes; all profiles covered in 2/2
+  n=2 m=5 ties: 2 cores, orbit sum 80 = labeled 80: yes; all profiles covered in 2/2
+  n=2 m=6 ties: 1 cores, orbit sum 90 = labeled 90: yes; all profiles covered in 1/1
+  results/k4_certs_2_ties.json.gz: OK; cores covered by allocations with <= 1 bundle of > 2 goods: 5/5, of > 3 goods: 5/5

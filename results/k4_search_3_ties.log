@@ -1,0 +1,11 @@
+n=3 (degrees 3-4, ties): 51 cores
+  ... 25/51 cores [3s]
+  ... 50/51 cores [9s]
+  m=4: {'cores': 4, 'D2 fails': 0, 'D3 fails': 0, 'cex': 0, 'allocs': 43}
+  m=5: {'cores': 11, 'D2 fails': 0, 'D3 fails': 0, 'cex': 0, 'allocs': 208}
+  m=6: {'cores': 18, 'D2 fails': 0, 'D3 fails': 0, 'cex': 0, 'allocs': 334}
+  m=7: {'cores': 12, 'D2 fails': 0, 'D3 fails': 0, 'cex': 0, 'allocs': 199}
+  m=8: {'cores': 5, 'D2 fails': 0, 'D3 fails': 0, 'cex': 0, 'allocs': 89}
+  m=9: {'cores': 1, 'D2 fails': 0, 'D3 fails': 0, 'cex': 0, 'allocs': 17}
+  [9s]
+  wrote results/k4_certs_3_ties.json.gz
