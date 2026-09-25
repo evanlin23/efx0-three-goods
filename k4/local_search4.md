@@ -7,7 +7,7 @@ route to TARGET₄ that does not go through construction LB₄ (`k4/SCOUT.md` §
 **Status.**
 - **Negative result (the main finding).** The k = 3 scheme does not carry over as it stands. Theorem C allows *any* choice of moves. At k = 4 there is a *dead end* (n = 4, m = 7, a pure core): a junk-free EFX₀ partial allocation that LS4 reaches from the empty allocation with 15 single-agent rebundles, and that no complete EFX₀ allocation weakly Pareto-dominates (§4, `attempts/k4-ls-dead-end.md`; replayed by an independent brute force). Hence:
   - conjecture TP₄ ("every stable state can be completed by a placement") is false;
-  - no two-phase local search whose Phase 1 makes Pareto improvements with arbitrary choices proves TARGET₄.
+  - no two-phase local search whose Phase 1 makes Pareto improvements with arbitrary choices, and whose Pareto move set contains single-agent rebundles, proves TARGET₄.
 
   A local-search proof for k = 4 needs a choice rule that provably avoids dead ends, or moves that make some agent worse off.
 - *Proved here, pending review.*
@@ -294,7 +294,7 @@ Each configuration is replayed by `k4/ls4_attempts.py`. The failure counts are s
 
 - Theorem 1, Lemmas A, B, 2, 5, 6 and Proposition 4 (no failure with one source): written proofs here, pending review (ledger K4.LS.SOUND, K4.LS.ONE, CONJECTURE until reviewed).
 - Proposition 3 (LS4 never fails on three-good cores): conditional on Theorem C of `proofs/local_search.md`, pending review (K4.LS.K3).
-- Proposition 7, a dead end at n = 4, m = 7: by two independent computations (K4.LS.DEAD, EVIDENCE under the owner's claim policy for new rows). It refutes conjecture TP₄ and every two-phase Pareto local search with arbitrary choices.
+- Proposition 7, a dead end at n = 4, m = 7: by two independent computations (K4.LS.DEAD, EVIDENCE under the owner's claim policy for new rows). It refutes conjecture TP₄ and every two-phase Pareto local search with arbitrary choices whose Pareto move set contains single-agent rebundles.
 - LS4 with its default choice rule: the evidence of §5 (K4.LS.RUN).
 - Weaker variants fail: §6 (K4.LS.VAR).
 - Open:

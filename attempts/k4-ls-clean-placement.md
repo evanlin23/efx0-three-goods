@@ -3,7 +3,7 @@
 Workstream `proof/k4-localsearch` (`k4/local_search4.md` §6).
 
 **Approach.** A polynomial Phase 2 that looks only at structure, not values.
-- A source s is *clean* for a pool good u if s does not value u and no unsatisfied valuer h ≠ s of u has a good in Y_s. Here h is unsatisfied if v_h(Y_h) < v_h(R_h ∖ Y_h).
+- A source s is *clean* for a pool good u if s does not value u and no unsatisfied valuer h ≠ s of u values a good of Y_s (Y_s ∩ R_h ≠ ∅). Here h is unsatisfied if v_h(Y_h) < v_h(R_h ∖ Y_h).
 - Clean placements never conflict. So:
   - goods with a clean source go to one;
   - "dirty" goods, with no clean source, go alone to distinct sources where Y_s ∪ {u} is threat-free;

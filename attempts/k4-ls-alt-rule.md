@@ -17,7 +17,7 @@ On the dead-end profile of `attempts/k4-ls-dead-end.md` it succeeds, in 5 steps.
 - agent 2: goods 1:4, 4:2, 5:5, 6:8;
 - agent 3: goods 3:4, 4:3, 5:2, 6:8.
 
-`-DALT` makes 5 single-agent rebundles and reaches Y = {2} | {0, 5} | {6} | {3, 4} with U = {1}.
+`-DALT` makes 5 single-agent rebundles and reaches Y = {2} | {0, 5} | {6} | {3, 4} with U = {1}. (The default rule also fails on this profile, at the same final state: line 2 of `results/k4_ls4_4_sample.log`.)
 - No single-agent rebundle, rotation or exchange cycle improves Y.
 - No complete EFX₀ allocation extends Y.
 

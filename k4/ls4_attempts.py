@@ -124,7 +124,7 @@ def dm_placements(vals, Y, U):
 
 def clean_rule(vals, Y, U):
     """the value-free Phase 2 of attempts/k4-ls-clean-placement.md: s is clean for u if s is a source not valuing u
-    and no unsatisfied valuer h != s of u (v_h(Y_h) < v_h(R_h - Y_h)) has a good in Y_s; goods with no clean source
+    and no unsatisfied valuer h != s of u (v_h(Y_h) < v_h(R_h - Y_h)) values a good of Y_s (Y_s & R_h nonempty); goods with no clean source
     ('dirty') go alone to distinct sources where they are threat-free, clean goods to clean sources not so used."""
     n, S = len(vals), sources(vals, Y)
     sat = [val(vals[h], Y[h]) >= val(vals[h], set(vals[h]) - Y[h]) for h in range(n)]

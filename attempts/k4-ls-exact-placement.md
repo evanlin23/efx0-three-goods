@@ -9,7 +9,7 @@ Workstream `proof/k4-localsearch` (`k4/local_search4.md` §2, §4).
 - 5,632 times on the exhaustive run for n = 4 with two;
 - 839 and 162 times on the n = 5 samples.
 
-It still leaves 20 failures on 21,900,000 random pure n = 4 profiles (`results/k4_ls4_4_sample.log`). Those are states that no move improves and no placement at all completes.
+It still leaves 20 failures on 21,900,000 random pure n = 4 profiles (`results/k4_ls4_4_sample.log`). Those are states that no M1, R or X move improves and no placement at all completes (8 of the 19 logged are dead ends; 11 admit coalition moves).
 
 **Where it breaks (n = 4, m = 7).** The dead end of `attempts/k4-ls-dead-end.md` (Proposition 7 of `k4/local_search4.md`): Y = {2} | {6} | {1, 4} | {3, 5}, U = {0}. It admits no placement of the pool good at all, junk or not. So TP₄ with (d) is false as well.
 

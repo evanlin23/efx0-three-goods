@@ -48,7 +48,7 @@ The 15 moves (each a single-agent rebundle M1; values are the mover's):
 
 **What this refutes.**
 - Conjecture TP₄ of `k4/local_search4.md` as stated for every stable state: Y is stable and has no placement at all.
-- Any two-phase local search in which Phase 1 makes Pareto improvements of junk-free EFX₀ partial allocations with arbitrary choices, as Theorem C allows at k = 3. Y is reached with single-agent rebundles alone, which every such move set contains.
+- Every two-phase local search in which Phase 1 makes Pareto improvements of junk-free EFX₀ partial allocations with arbitrary choices, as Theorem C allows at k = 3, and whose Pareto move set contains single-agent rebundles. Y is reached with single-agent rebundles alone.
 
 It does not refute a local search with a *specific* choice rule. The same profile succeeds under LS4's alternative rule `-DALT` (most valuable rebundle, rotating agent order), in 5 steps. Nor does it refute one that allows non-Pareto moves (some agent loses, as in LB⁺'s rotation).
 
