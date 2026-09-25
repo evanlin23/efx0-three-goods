@@ -230,9 +230,9 @@ What each failure shows:
 3. *With one rotation, the insertion order matters* (n = 3): unlike LB⁺ (Theorem C holds for every insertion order),
    some profiles need an agent to end below the good it picked, and one rotation moves every agent of its chain up.
    Every fixed rule tested fails with one rotation. Two rotations in a row can do it: with up to three nested
-   rotations and every upgrade policy, index insertion fails nowhere at n ≤ 3, nor on n = 4 with at most three 4-good
-   agents (`-i0 -u3 -r3 -w1 -c1`, `results/k4_lb4_nested_n4.log`; pure n = 4 not tested), though with LB₄'s single
-   upgrade policy it still fails at n ≤ 3 (`-i0 -u1 -r3 -w1 -c1`, 15 cores).
+   rotations and every upgrade policy, index insertion fails nowhere on any core with n ≤ 4 (`-i0 -u3 -r3 -w1 -c1`,
+   `results/k4_lb4_nested_n4.log`, `results/k4_lb4_nested_pure4.log`), though with LB₄'s single upgrade policy it still
+   fails at n ≤ 3 (`-i0 -u1 -r3 -w1 -c1`, 15 cores). See §5 for this lead.
 4. *The owner's large bundle can remove its own needs* (n = 4): with {b, c, d} worth more than a, the owner no longer
    needs its top alone, which frees the agent holding that top.
 5. *Earlier blocks matter* (n = 4): choosing only the leader of the last block, the analogue of Theorem A's focus on
@@ -313,8 +313,14 @@ counting pairs every exposed agent with a terminal of its own block, and needs o
    Phase 1" is false at k = 4 with one rotation, and so are its weakenings "for every run, up to the choice of the last
    block's leader" and "for the index run, up to that choice" (`attempts/lb4-last-block-leader.md`). Both last-block
    restrictions fail, which is evidence that, with one rotation, a proof must choose more of the insertion sequence
-   than the last block's leader, or use a move that lets an agent go below its pick (two rotations in a row can: with
-   every upgrade policy, index insertion then passes n ≤ 3 and n = 4 with at most three 4-good agents).
+   than the last block's leader, or use a move that lets an agent go below its pick (two rotations in a row can).
+
+**A lead: nested rotations with any insertion order.** With every upgrade policy and up to three rotations in a row
+(`-u3 -r3 -w1 -c1`), a fixed insertion order suffices on the data: index insertion never fails on any core with n ≤ 4
+(1.06·10¹² profiles), and on n ≤ 3 and on n = 4 with at most three 4-good agents no run of Phase 1 fails, whatever
+its insertion order (`-i1`, 2.1·10¹¹ run–profile pairs; pure n = 4 not run for every order; `results/k4_lb4_nested_every.log`, `results/k4_lb4_nested_n4.log`, `results/k4_lb4_nested_pure4.log`). That is the
+shape of LB⁺'s Theorem C (every run of Phase 1 works, after upgrades and rotations), with up to three rotations instead
+of one; it may be a better proof target than LB₄'s search over insertion sequences.
 
 **The gap, precisely.** By Theorem 1′₄, K4.D follows from
 - **Conjecture K4.LB4.** For every k = 4 core and every strict profile, LB₄ does not fail: some insertion sequence

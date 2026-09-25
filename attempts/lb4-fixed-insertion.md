@@ -39,7 +39,7 @@ brute-force solutions. The second rotation moves agent 1 back up from 1 to 5, be
 sequence also works (`-i2` succeeds on every profile of this core).
 
 So with one rotation the insertion order matters at k = 4, unlike Theorem C at k = 3. With nested rotations and every
-upgrade policy this is not established: index insertion with `-u3 -r3 -w1 -c1` passes n ≤ 3 and every n = 4 core with
-at most three 4-good agents (`results/k4_lb4_nested_n4.log`); pure n = 4 not tested.
+upgrade policy this is not established: index insertion with `-u3 -r3 -w1 -c1` passes every core with n ≤ 4
+(`results/k4_lb4_nested_n4.log`, `results/k4_lb4_nested_pure4.log`: 1.02·10¹² pure n = 4 profiles, 0 failures).
 
 Reproduce: `python attempts/lb4_variants.py fixed-insertion`.
