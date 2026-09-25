@@ -463,7 +463,10 @@ static void rule_stats(const asg_t *a) {
     if (N[w] && pc(B[w]) == 2)
       for (int x = 0; x < n; x++) if (x != w && d[x] == 3) {
         int top = -1, tv0 = -1; for (int k = 0; k < 3; k++) if (tv[x][cur[x]][k] > tv0) { tv0 = tv[x][cur[x]][k]; top = gl[x][k]; }
-        if (B[x] == ((mask_t)1 << top) && (Rmask[x] & ~B[x]) == B[w]) rs_cnt[13]++;
+        if (B[x] == ((mask_t)1 << top) && (Rmask[x] & ~B[x]) == B[w]) {
+          rs_cnt[13]++;
+          if (nex && rs_cnt[31] < nex) { rs_cnt[31]++; printf("EXP1W x=%d %s w %s:", x, fz[x] ? "frozen" : "free", wok ? "valid" : "invalid"); print_profile(); print_asg(a); printf("\n"); }
+        }
       }
   }
   if (fz[w]) {

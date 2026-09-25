@@ -28,8 +28,9 @@ K4.TIE and K4.CORE this gives TARGET₄. It is equivalent to K4.D on strict core
 - **One 4-good agent** (§4, written proofs, not reviewed): with the 3-good agents first,
   Ψ = (Σℓ over the 3-good agents, ℓ_w), every Ψ-maximum is completable in the cases w frozen (Theorem A), w a terminal
   with at most one good (B₁), w free, not a terminal and not exposed (C0), and no terminal (Lemma C2). **The gap:** w
-  free and holding two goods (cases B₂ and C1, §4.3), where on the data w itself is always a valid owner. Every
-  Ψ-maximum is completable for n ≤ 4 (exhaustive) and on samples with n = 5.
+  free and holding two goods (cases B₂ and C1, §4.3); on the data w or a 3-good terminal is always a valid owner there
+  (w alone is not enough from n = 5 on). Every Ψ-maximum is completable for n ≤ 4 (exhaustive) and on 3,470,000 sampled
+  profiles with n = 5.
 
 Nothing here changes K4.D or K4.T.
 
@@ -102,7 +103,9 @@ profile of every core of the class; "sample" = random strict profiles per core (
 | k = 4, n = 4, one 4-good agent (135) | all 7,247,232 | 0 | 176 / 0 | 0 / 0 | `results/k4_c4x_n4_1.log` |
 | k = 4, n = 4, two (309) | all 724,847,616 | 0 | 203,952 / 0 | 4,520 / 1,772 | `results/k4_c4x_n4_2.log` |
 | k = 4, n = 4, three (339) | sample 1,695,000 | 0 | 23,942 / 0 | 78 / 5 | `results/k4_c4x_samples.log` |
-| __SAMPLEROWS__ |
+| k = 4, n = 4, pure (219) | sample 1,095,000 | 0 | 73,946 / 0 | 182 / 4 | the same |
+| k = 4, n = 5, one 4-good agent (1,735) | sample 1,735,000 | 0 | 1 / 0 | 0 / 0 | the same |
+| k = 4, n = 5, two (5,468) | sample 546,800 | 0 | 24 / 0 | 2 / 2 | the same |
 | k = 4, random connected cores, n = 6–8 | 4,200 (one per random core) | 0 | – | – | `results/k4_c4x_random.log` |
 | k = 4, H_1, H_2, H_3 (§6) | 3 | 0 | fails / 0 | 0 / 0 | `results/k4_c4x_ht.log` |
 | k = 3, n ≤ 6 (3,436) | all 146,640,096 | 0 | 0 / 0 | 0 / 0 | `results/k4_c4x_k3_pareto.log` |
@@ -219,7 +222,7 @@ Pareto-maximum is completable, some terminal is always a valid owner, and the cr
 the exact owner test on all 28,313,452 terminals. "Every terminal is a valid owner" is false (17,056 terminals, all
 with two exposed agents whose chains end at one terminal), and the exposure graph does have cycles (at 3,000 maxima,
 first at n = 6), as the proof allows: in a cycle two exposed agents share a junk label. Example (`results/k4_c4x_k3_pareto.log`,
-pareto.log`, core 2964): terminals 3 and 5 expose agents 2 and 4, whose chains end at each other's terminal, and both
+core 2964): terminals 3 and 5 expose agents 2 and 4, whose chains end at each other's terminal, and both
 need the junk good 2; both terminals are valid (one label, one slot).
 
 ## 4. One 4-good agent: the 3-good agents first
@@ -232,7 +235,8 @@ leximax or Σ 2^ℓ; leximin is (evidence), and so is the potential
   **Ψ(P) = (Σ_{i ≠ w} ℓ_i(B_i), ℓ_w(B_w))**, lexicographic: the 3-good agents first, then w.
 
 Evidence: every Ψ-maximum is completable on every strict profile of every core with one 4-good agent and n = 3 (14
-cores, 119,232 profiles) or n = 4 (135 cores, 7,247,232 profiles); both orders of the two coordinates were tested and
+cores, 119,232 profiles) or n = 4 (135 cores, 7,247,232 profiles), and on 3,470,000 sampled profiles of the 1,735 cores
+with n = 5 (`results/k4_c4x_one.log`); both orders of the two coordinates were tested and
 only this one works (w first fails at n = 3). With two 4-good agents the analogue (Σℓ over 3-good agents, then over
 4-good agents) fails (§5).
 
@@ -337,8 +341,12 @@ agents and goods, so it never raises an agent's number of relevant goods; cores 
   - **(B₂″) 3-good terminals exist as well.** The walk of Theorem K3 over all terminals needs, besides excluding (P1),
     **one slot**: w has none, so a 3-good terminal t only gets |Z_t| ≥ S − cap(t) + 1 ≥ T − 1, one less than the walk
     uses. **Open.** (At n = 4: 7,076 such maxima; in 16 of them no 3-good terminal is valid, and w is.)
-  Evidence: (P1) occurs at Ψ-maxima (1,072 at n = 4, all with ω ≤ 0) but never at one with ω ≥ 1 (n ≤ 4, and a sample
-  of n = 5), so excluding it must use ω ≥ 1; and in case B w itself is always a valid owner.
+  Evidence: at n ≤ 4, (P1) occurs at Ψ-maxima only with ω ≤ 0 (1,072 at n = 4), and in case B w itself is always a valid
+  owner. That stops at n = 5: in the sample of `results/k4_c4x_one.log` (2,000 profiles per core, 3,470,000 profiles)
+  two Ψ-maxima with ω ≥ 1 are in case B₂″ with a frozen (P1) agent whose chains avoid w, and there w is *not* a valid
+  owner, while a 3-good terminal is (core 1085 of `results/k4_certs_5_n4_1.json.gz`: w = agent 0 with values
+  0:2, 3:6, 4:10, 5:3 holds {3, 5} and needs 4; agent 3 with values 3:2, 5:3, 6:4 holds its top 6, frozen). So in case
+  B₂″ the owner cannot always be w, and a proof has to go through the walk.
 - **(C1)** w is free with N_w = ∅ and exposed by a 3-good terminal t. Then B_w = {b_w, c_w} with
   a_w < b_w + c_w < a_w + d_w, B_t = {a_w} and d_w ∈ J: by Lemma U the base has two goods, by Lemma U₂ the junk good
   of the complementary pair is worse than both base goods, which leaves only this shape. The walk breaks here (w has no
@@ -358,10 +366,12 @@ agents and goods, so it never raises an agent's number of relevant goods; cores 
   3-good terminals applies verbatim (exposed agents are frozen 3-good top-holders; chain ends are 3-good terminals),
   so some 3-good terminal is valid. (Proved.)
 
-Counters (`k4/c4x.c -W` on the Ψ-maxima with ω ≥ 1): n = 3, one 4-good agent: 9,282 maxima (w terminal 3,386; w
-free, not a terminal, a 3-good terminal exists 576; no terminal 5,320; w frozen 244); n = 4: 200,808 maxima (118,841;
-48,811; 33,156; 16,341). Lemma R_w and Lemma E_w: 0 violations; (P1): 0; case C1: 0 at n = 3 and 300 at n = 4, w
-valid in all; w frozen: every 3-good terminal is valid (stronger than Theorem A); no terminal: w valid.
+Counters (`k4/c4x.c -W` on the Ψ-maxima with ω ≥ 1; `results/k4_c4x_one.log`): n = 3, one 4-good agent: 9,282 maxima
+(w terminal 3,386; w free, not a terminal, a 3-good terminal exists 576; no terminal 5,320; w frozen 244); n = 4:
+200,808 maxima (118,841; 48,811; 33,156; 16,341); n = 5, sample of 3,470,000 profiles: 52,440 maxima (35,087; 15,091;
+2,262; 3,399). Lemma R_w and Lemma E_w: 0 violations; (P1): 0 at n ≤ 4, 2 at n = 5 (above); case C1: 0 at n = 3, 300 at
+n = 4 and 52 at n = 5, with nobody exposed w.r.t. W_w in all of them; w frozen: every 3-good terminal is valid (stronger
+than Theorem A); no terminal: w valid. Every Ψ-maximum is completable in all three classes.
 
 ### 4.4 A refinement: w holds as little as possible (evidence)
 
