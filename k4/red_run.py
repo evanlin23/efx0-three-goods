@@ -1,6 +1,7 @@
 """Driver for k4/red.c (k4/c4min_reduce.md): runs it on every core of the given certificate files
 (results/k4_certs_*.json.gz; types from k4/check4.py, as every k = 4 tool) and sums the counters.
-Usage: red_run.py FILE [FILE ...] [--rand=R] [--seed=S] [--jobs=J] [-x N] [--cores=a:b]
+Usage: red_run.py FILE [FILE ...] [--rand=R] [--seed=S] [--jobs=J] [-x N] [--cores=a:b] [--pots='f,f;f']
+  --pots: extra global potentials (features r lamU lamR mt mp mterm lx mvp mndx; lexicographic, maximized).
   --rand=R: R random profiles per core (seed S + core index); default every profile.
   -x N: print up to N example profiles per failure counter and core."""
 import gzip, hashlib, json, os, subprocess, sys, tempfile, time
@@ -27,8 +28,8 @@ def core_input(n, m, sets, rand, seed):
     return '\n'.join(lines) + '\n'
 
 def run(task):
-    b, n, m, sets, rand, seed, nex, tag = task
-    p = subprocess.run([b, '-x', str(nex)], input=core_input(n, m, sets, rand, seed), capture_output=True, text=True, check=True)
+    b, n, m, sets, rand, seed, nex, tag, pots = task
+    p = subprocess.run([b, '-x', str(nex)] + (['-p', pots] if pots else []), input=core_input(n, m, sets, rand, seed), capture_output=True, text=True, check=True)
     cnt, ex = {}, []
     for line in p.stdout.splitlines():
         if line.startswith('EX '): ex.append('%s %s' % (tag, line[3:])); continue
@@ -49,7 +50,7 @@ def main():
         if 'cores' in opt: lo, hi = map(int, opt['cores'].split(':'))
         for ci in range(lo, min(hi, len(cores))):
             c = cores[ci]
-            tasks.append((b, c['n'], c['m'], c['sets'], rand, seed + ci, nex, '%s#%d' % (os.path.basename(f), ci)))
+            tasks.append((b, c['n'], c['m'], c['sets'], rand, seed + ci, nex, '%s#%d' % (os.path.basename(f), ci), opt.get('pots', '')))
     tot = {}; t0 = time.time()
     with Pool(jobs) as pool:
         for cnt, ex in pool.imap_unordered(run, tasks):

@@ -86,8 +86,8 @@ static int disjoint_system(int na, const int *ag, const mask_t *U, mask_t avoid)
 /* ---- configurations at a key ---- */
 typedef struct {
   mask_t Q[MAXN], L;
-  int r, lamU, lamR, t, p, nterm, poolopt, nfv, ndx, comp, inj;
-  mask_t terms, fv, dx, compo;       /* bitsets of agents */
+  int r, lamU, lamR, t, p, nterm, poolopt, nfv, ndx, comp, inj, lx, vp;
+  mask_t terms, fv, dx, compo, npo, rob;  /* bitsets of agents (npo: not pool-optimal) */
 } cfg_t;
 typedef struct { int g, x, omega, nfree, free[MAXN], lx; mask_t U[MAXN], Mp; cfg_t *c; int nc, cap; } rkey_t;
 static rkey_t keys[MAXN]; static int nkeys;
@@ -96,21 +96,23 @@ static mask_t curQ[MAXN];
 
 static void eval_cfg(rkey_t *K, cfg_t *c) {
   int x = K->x, g = K->g; mask_t gb = (mask_t)1 << g;
-  c->r = c->lamU = 0; c->lamR = K->lx; c->nterm = 0; c->terms = 0; c->poolopt = 1;
+  c->r = c->lamU = 0; c->lamR = K->lx; c->nterm = 0; c->terms = 0; c->poolopt = 1; c->npo = 0; c->rob = 0;
   for (int k = 0; k < K->nfree; k++) {
     int y = K->free[k]; mask_t Q = c->Q[y], U = K->U[y];
     int vq = val(y, Q);
-    if (vq >= val(y, U & ~Q)) c->r++;
+    if (vq >= val(y, U & ~Q)) { c->r++; c->rob |= 1u << y; }
     c->lamU += level(y, Q, U); c->lamR += level(y, Q, Rm[y]);
     if ((Rm[y] & gb) && vv[y][g] > vq) { c->nterm++; c->terms |= 1u << y; }
     /* pool-optimality in I' */
-    mask_t W = Q | c->L, r1 = W;
-    while (r1 && c->poolopt) { int a = __builtin_ctz(r1); mask_t r2 = r1 & (r1 - 1);
-      while (r2) { int b = __builtin_ctz(r2); if (val(y, ((mask_t)1 << a) | ((mask_t)1 << b)) > vq) { c->poolopt = 0; break; } r2 &= r2 - 1; }
+    mask_t W = Q | c->L, r1 = W; int po = 1;
+    while (r1 && po) { int a = __builtin_ctz(r1); mask_t r2 = r1 & (r1 - 1);
+      while (r2) { int b = __builtin_ctz(r2); if (val(y, ((mask_t)1 << a) | ((mask_t)1 << b)) > vq) { po = 0; break; } r2 &= r2 - 1; }
       r1 &= r1 - 1; }
+    if (!po) { c->poolopt = 0; c->npo |= 1u << y; }
   }
   int vg = vv[x][g];
-  c->t = val(x, c->L & K->U[x]) > vg;
+  c->vp = val(x, c->L & K->U[x]); c->lx = K->lx;
+  c->t = c->vp > vg;
   c->p = pc(c->L & K->U[x]);
   c->nfv = c->ndx = 0; c->fv = c->dx = 0; c->comp = 0; c->compo = 0;
   { int nthr[MAXN] = {0};                /* threat-injectivity: every free agent threatened by at most one owner */
@@ -185,11 +187,28 @@ static int nexs[NCNT];
 static void example(const char *tag) { int i = cid(tag); if (nexs[i] < nex) { nexs[i]++; print_profile(tag); } }
 
 /* lexicographic potentials over a configuration (maximized) */
-enum { F_R, F_LAMU, F_LAMR, F_MT, F_MP, F_MTERM, NF };
+enum { F_R, F_LAMU, F_LAMR, F_MT, F_MP, F_MTERM, F_LX, F_MVP, F_MNDX, NF };
+static const char *fnames[NF] = {"r", "lamU", "lamR", "mt", "mp", "mterm", "lx", "mvp", "mndx"};
 static int feat(const cfg_t *c, int f) {
   switch (f) { case F_R: return c->r; case F_LAMU: return c->lamU; case F_LAMR: return c->lamR; case F_MT: return -c->t;
-    case F_MP: return -c->p; case F_MTERM: return -c->nterm; }
+    case F_MP: return -c->p; case F_MTERM: return -c->nterm; case F_LX: return c->lx; case F_MVP: return -c->vp;
+    case F_MNDX: return -c->ndx; }
   return 0;
+}
+/* user potentials (-p "f,f;f,f"): global over all keys */
+#define MAXUP 16
+static int nup, upn[MAXUP], up[MAXUP][8]; static char upname[MAXUP][80], upE[MAXUP][100], upF[MAXUP][100], upS[MAXUP][100];
+static void parse_pots(const char *spec) {
+  char buf[1024]; strncpy(buf, spec, sizeof buf - 1); buf[sizeof buf - 1] = 0;
+  for (char *save1, *tok = strtok_r(buf, ";", &save1); tok && nup < MAXUP; tok = strtok_r(NULL, ";", &save1)) {
+    snprintf(upname[nup], sizeof upname[nup], "%s", tok); upn[nup] = 0;
+    char b2[200]; strncpy(b2, tok, sizeof b2 - 1); b2[sizeof b2 - 1] = 0;
+    for (char *save2, *f = strtok_r(b2, ",", &save2); f; f = strtok_r(NULL, ",", &save2)) {
+      int k = -1; for (int q = 0; q < NF; q++) if (!strcmp(f, fnames[q])) k = q;
+      if (k < 0) { fprintf(stderr, "unknown feature %s\n", f); exit(1); }
+      up[nup][upn[nup]++] = k; }
+    snprintf(upE[nup], 100, "pot[%s]_every", upname[nup]); snprintf(upS[nup], 100, "pot[%s]_some", upname[nup]);
+    snprintf(upF[nup], 100, "FAIL_pot[%s]", upname[nup]); nup++; }
 }
 static int cmp_pot(const cfg_t *a, const cfg_t *b, const int *pot, int np) {
   for (int i = 0; i < np; i++) { int u = feat(a, pot[i]), v = feat(b, pot[i]); if (u != v) return u < v ? -1 : 1; }
@@ -239,9 +258,20 @@ static void do_profile(void) {
     anyc[k] = 0; for (int q = 0; q < K->nc; q++) if (K->c[q].comp) anyc[k] = 1;
     if (e) INC("key_rl_every");
     if (s) INC("key_rl_some");
-    if (anyc[k]) INC("key_any");
+    if (anyc[k]) INC("key_any"); else { INC("key_noncompletable"); example("key_noncompletable"); }
     int e3, s3; key_max(K, P_G3, 3, &e3, &s3); if (e3) INC("key_rlp_every");
     prof_every |= e; prof_any |= anyc[k];
+    { /* Theorem Z's argument under the constraint t = 0: maxima of (-t, r, lamU) at this key */
+      static const int PT[] = {F_MT, F_R, F_LAMU};
+      int bq = -1; for (int q = 0; q < K->nc; q++) if (bq < 0 || cmp_pot(&K->c[q], &K->c[bq], PT, 3) > 0) bq = q;
+      for (int q = 0; q < K->nc; q++) { cfg_t *c = &K->c[q]; if (cmp_pot(c, &K->c[bq], PT, 3)) continue;
+        INC("tmax"); if (c->t) INC("tmax_t1");
+        if (!c->nfv) { INC("tmax_no_freevalid"); example("tmax_no_freevalid");
+          if (!c->inj) INC("tmax_no_freevalid_notinj");
+          if (c->npo & ~c->rob) INC("tmax_no_freevalid_nonrobust_npo"); }
+        if (c->npo & ~c->rob) INC("tmax_nonrobust_npo");
+        if (!c->inj) INC("tmax_not_inj");
+        if (!c->comp) INC("tmax_noncomp"); } }
     /* Theorem Z' at every (r, lamU)-max; count lemma at every pool-optimal configuration; pool-optimality at maxima */
     int best = -1; for (int q = 0; q < K->nc; q++) if (best < 0 || cmp_pot(&K->c[q], &K->c[best], P_RL, 2) > 0) best = q;
     for (int q = 0; q < K->nc; q++) {
@@ -282,9 +312,33 @@ static void do_profile(void) {
       if (t0p) INC("key_t0_poolopt_exists"); }
     if (cert) INC("prof_cert_exists"); else { INC("FAIL_prof_cert"); example("prof_cert"); }
     if (cert2) INC("prof_cert2_exists"); else { INC("FAIL_prof_cert2"); example("prof_cert2"); }
-    if (t0key) INC("prof_every_key_t0"); }
+    if (t0key) INC("prof_every_key_t0");
+    { int any0 = 0; for (int k = 0; k < nkeys; k++) for (int q = 0; q < keys[k].nc; q++) if (!keys[k].c[q].t) any0 = 1;
+      if (!any0) { INC("prof_no_t0_anywhere"); example("prof_no_t0_anywhere"); } } }
   if (prof_every) INC("prof_some_key_every"); else { INC("FAIL_prof_some_key_every"); example("prof_some_key_every"); }
   if (prof_any) INC("prof_completable"); else { INC("FAIL_prof_completable"); example("prof_completable"); }
+  for (int u = 0; u < nup; u++) {
+    const cfg_t *best = NULL;
+    for (int k = 0; k < nkeys; k++) for (int q = 0; q < keys[k].nc; q++) if (!best || cmp_pot(&keys[k].c[q], best, up[u], upn[u]) > 0) best = &keys[k].c[q];
+    int ev = 1, so = 0;
+    for (int k = 0; k < nkeys; k++) for (int q = 0; q < keys[k].nc; q++) if (!cmp_pot(&keys[k].c[q], best, up[u], upn[u])) { if (keys[k].c[q].comp) so = 1; else ev = 0; }
+    if (ev) INC(upE[u]); else { INC(upF[u]); example(upF[u]); }
+    if (so) INC(upS[u]);
+  }
+  /* structure at the maxima of the analysis potential (the first user potential, else (-t, r, lamR)) */
+  { const int *AP = nup ? up[0] : P_G1; int AN = nup ? upn[0] : 3;
+    const cfg_t *best = NULL;
+    for (int k = 0; k < nkeys; k++) for (int q = 0; q < keys[k].nc; q++) if (!best || cmp_pot(&keys[k].c[q], best, AP, AN) > 0) best = &keys[k].c[q];
+    for (int k = 0; k < nkeys; k++) for (int q = 0; q < keys[k].nc; q++) { const cfg_t *c = &keys[k].c[q];
+      if (cmp_pot(c, best, AP, AN)) continue;
+      INC("amax"); if (c->t) { INC("amax_t1"); example("amax_t1"); }
+      if (!c->poolopt) INC("amax_not_poolopt");
+      if (c->npo & ~c->rob) { INC("amax_nonrobust_not_poolopt"); example("amax_nonrobust_not_poolopt"); }
+      if (!c->inj) { INC("amax_not_inj"); example("amax_not_inj"); }
+      if (c->ndx >= 2) { INC("amax_ndx2"); example("amax_ndx2"); }
+      if (c->r == 0) { INC("amax_r0"); example("amax_r0"); } else if (c->r == 1) INC("amax_r1");
+      if (c->inj && c->r > c->ndx) INC("amax_cert2"); else { INC("amax_not_cert2"); example("amax_not_cert2"); }
+      if (!c->comp) { INC("FAIL_amax_noncomp"); example("amax_noncomp"); } } }
   /* global potentials over all keys */
   const int *GP[] = {P_G1, P_G2, P_RL}; const int GN[] = {3, 4, 2}; const char *GE[] = {"glob_-t,r,lamR_every", "glob_-t,r,lamR,-p_every", "glob_r,lamU_every"};
   const char *GF[] = {"FAIL_glob_-t,r,lamR", "FAIL_glob_-t,r,lamR,-p", "FAIL_glob_r,lamU"};
@@ -294,12 +348,17 @@ static void do_profile(void) {
     int ev = 1;
     for (int k = 0; k < nkeys; k++) for (int q = 0; q < keys[k].nc; q++) if (!cmp_pot(&keys[k].c[q], best, GP[gp], GN[gp]) && !keys[k].c[q].comp) ev = 0;
     if (ev) INC(GE[gp]); else { INC(GF[gp]); example(GF[gp]); }
-    if (gp == 0)   /* structure at the maxima of (-t, r, lamR) */
+    if (0)
       for (int k = 0; k < nkeys; k++) for (int q = 0; q < keys[k].nc; q++) { const cfg_t *c = &keys[k].c[q];
         if (cmp_pot(c, best, GP[gp], GN[gp])) continue;
         INC("g1max"); if (c->t) INC("g1max_t1"); if (!c->poolopt) { INC("g1max_not_poolopt"); example("g1max_not_poolopt"); }
         if (c->poolopt && c->r > c->ndx) INC("g1max_cert"); else { INC("g1max_not_cert"); example("g1max_not_cert"); }
         if (c->inj && c->r > c->ndx) INC("g1max_cert2"); else { INC("g1max_not_cert2"); example("g1max_not_cert2"); }
+        if (!c->inj) { INC("g1max_not_inj"); example("g1max_not_inj"); }
+        if (c->npo & ~c->rob) { INC("g1max_nonrobust_not_poolopt"); example("g1max_nonrobust_not_poolopt"); }
+        if (c->npo) INC("g1max_robust_not_poolopt");
+        if (c->ndx >= 2) INC("g1max_ndx2");
+        if (c->r == 0) INC("g1max_r0"); else if (c->r == 1) INC("g1max_r1");
         if (!c->nfv) INC("g1max_no_fv"); }
   }
 }
@@ -308,7 +367,10 @@ static uint64_t rs = 88172645463325252ULL;
 static uint64_t rnd(void) { rs ^= rs << 13; rs ^= rs >> 7; rs ^= rs << 17; return rs; }
 
 int main(int argc, char **argv) {
-  for (int a = 1; a < argc; a++) if (!strcmp(argv[a], "-x") && a + 1 < argc) nex = atoi(argv[++a]);
+  for (int a = 1; a < argc; a++) {
+    if (!strcmp(argv[a], "-x") && a + 1 < argc) nex = atoi(argv[++a]);
+    else if (!strcmp(argv[a], "-p") && a + 1 < argc) parse_pots(argv[++a]);
+  }
   if (scanf("%d %d", &n, &m) != 2) return 1;
   if (n > MAXN || m > MAXM) { fprintf(stderr, "too large\n"); return 1; }
   for (int i = 0; i < n; i++) {

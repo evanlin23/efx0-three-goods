@@ -1,0 +1,14 @@
+# command: python3 attempts/k4_c4min_reduce_rules.py results/k4_certs_3.json.gz 6000 11
+f1 profiles                                                  8402
+narrow swap fails                                            24
+non-completable (r', Lambda')-maxima                         392
+rule fails: best (r', Lambda')-maximum of I'                 120
+rule fails: fewest private goods                             239
+rule fails: largest a / v(U_x)                               215
+rule fails: largest a / v(U_x) - private share               157
+rule fails: least value of private goods / a                 145
+rule fails: max level of top (lx)                            241
+
+real	0m19.397s
+user	0m19.185s
+sys	0m0.049s
