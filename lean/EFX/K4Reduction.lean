@@ -9,14 +9,18 @@ import EFX.Target
   (C3) an agent with `d` relevant goods has at most `d − 2` private goods (relevant to no other agent): at
   most 1 with 3 goods, at most 2 with 4; (C4) an agent with two private goods `p, q` values them less than
   its shared goods `s, t`, `v(p) + v(q) < v(s) + v(t)`; (C5) every good is relevant to some agent.
-- `core_reduction4`: **K4.CORE**. If every k = 4 core with at most `N` agents has an EFX₀ allocation, so
-  does every instance with at most `N` agents in which every agent has at most four relevant goods. The
-  induction of `EFX.core_reduction` (`proofs/lemmas.md`, CORE), which never uses k: junk goods by L3
-  (`EFX.junk`), then peeling by R1 (`EFX.peel`), then by R2 (`EFX.peelR2`, applied whenever its balance
-  condition `v_i(R_i ∖ P) ≤ v_i(P)` holds); what remains is a k = 4 core.
-- `core_reduction4_mixed`: the same with only the k = 4 cores that have an agent with four relevant goods:
-  a k = 4 core whose agents all have three goods is a core in the sense of `EFX.IsCore`, which Corollary D
-  (`EFX.LB.corollaryD_lists`) covers.
+- `Connected`: the agents are connected through the goods (no split of the agents into two nonempty sides
+  such that no good is relevant to agents on both sides).
+- `efx0_split`: **L6 (components)**. EFX₀ allocations of the two sides of such a split combine into one.
+- `core_reduction4_conn`: **K4.CORE**. If every *connected* k = 4 core with at most `N` agents has an EFX₀
+  allocation, so does every instance with at most `N` agents in which every agent has at most four relevant
+  goods. The induction of `EFX.core_reduction` (`proofs/lemmas.md`, CORE), which never uses k: junk goods by
+  L3 (`EFX.junk`), then peeling by R1 (`EFX.peel`), then by R2 (`EFX.peelR2`, applied whenever its balance
+  condition `v_i(R_i ∖ P) ≤ v_i(P)` holds), then L6 (`efx0_split`); what remains is a connected k = 4 core.
+- `core_reduction4`: the same for all k = 4 cores, connected or not.
+- `core_reduction4_mixed`: only the connected k = 4 cores that have an agent with four relevant goods are
+  needed: a k = 4 core whose agents all have three goods is a core in the sense of `EFX.IsCore`, which
+  Corollary D (`EFX.LB.corollaryD_lists`) covers.
 - `target4_of_cores`: `core_reduction4_mixed` in the model's terms (`EFX.Inst`, `numRelevant I i ≤ 4`).
 -/
 
@@ -39,6 +43,12 @@ def IsCore4 (v : A → G → Nat) (agents : List A) (goods : List G) : Prop :=
   (∀ i ∈ agents, (privateGoods v agents i goods).length = 2 →
     value v i (privateGoods v agents i goods) < value v i (sharedGoods v agents i goods)) ∧
   (∀ g ∈ goods, ∃ i ∈ agents, 0 < v i g)
+
+/-- The agents are connected through the goods (`proofs/lemmas.md`, L6): a split of the agents into two
+sides, `S` and not `S`, such that no good is relevant to agents on both sides, puts all agents on one side. -/
+def Connected (v : A → G → Nat) (agents : List A) (goods : List G) : Prop :=
+  ∀ S : A → Bool, (∀ g ∈ goods, ∀ i ∈ agents, ∀ j ∈ agents, 0 < v i g → 0 < v j g → S i = S j) →
+    ∀ i ∈ agents, ∀ j ∈ agents, S i = S j
 
 section lemmas
 variable (v : A → G → Nat)
@@ -117,14 +127,89 @@ theorem privateGoods_eq {agents : List A} (hag : agents.Nodup) (i : A) (goods : 
   intro g _
   rw [Bool.eq_iff_iff, decide_eq_true_eq, isPrivate_iff v hag]
 
+omit [DecidableEq G] in
+theorem bundle_ite_left {goods : List G} (T : G → Bool) {X1 X2 : G → A} {j : A}
+    (h2 : ∀ g ∈ goods, T g = false → X2 g ≠ j) :
+    bundle goods (fun g => if T g then X1 g else X2 g) j = bundle (goods.filter T) X1 j := by
+  unfold bundle
+  rw [List.filter_filter]
+  apply List.filter_congr
+  intro g hg
+  cases hT : T g
+  · simp [hT, h2 g hg hT]
+  · simp [hT]
+
+omit [DecidableEq G] in
+theorem bundle_ite_right {goods : List G} (T : G → Bool) {X1 X2 : G → A} {j : A}
+    (h1 : ∀ g ∈ goods, T g = true → X1 g ≠ j) :
+    bundle goods (fun g => if T g then X1 g else X2 g) j = bundle (goods.filter (fun g => !T g)) X2 j := by
+  unfold bundle
+  rw [List.filter_filter]
+  apply List.filter_congr
+  intro g hg
+  cases hT : T g
+  · simp [hT]
+  · simp [hT, h1 g hg hT]
+
+/-- **L6 (components).** Split the agents by a test `S` and the goods by a test `T` so that every good
+relevant to an agent lies on that agent's side. EFX₀ allocations of the two sides combine into an EFX₀
+allocation of everything: across the split, every good of the other side's bundles is worthless. -/
+theorem efx0_split {agents : List A} {goods : List G} (S : A → Bool) (T : G → Bool)
+    (hST : ∀ i ∈ agents, ∀ g ∈ goods, 0 < v i g → S i = T g) {X1 X2 : G → A}
+    (hX1 : IsAllocation (agents.filter S) (goods.filter T) X1)
+    (hE1 : EFX0L v (agents.filter S) (goods.filter T) X1)
+    (hX2 : IsAllocation (agents.filter (fun i => !S i)) (goods.filter (fun g => !T g)) X2)
+    (hE2 : EFX0L v (agents.filter (fun i => !S i)) (goods.filter (fun g => !T g)) X2) :
+    IsAllocation agents goods (fun g => if T g then X1 g else X2 g) ∧
+      EFX0L v agents goods (fun g => if T g then X1 g else X2 g) := by
+  -- the owner of a good is on the good's side
+  have hS1 : ∀ g ∈ goods, T g = true → X1 g ∈ agents ∧ S (X1 g) = true := fun g hg hT =>
+    List.mem_filter.mp (hX1 g (List.mem_filter.mpr ⟨hg, hT⟩))
+  have hS2 : ∀ g ∈ goods, T g = false → X2 g ∈ agents ∧ S (X2 g) = false := fun g hg hT => by
+    have := List.mem_filter.mp (hX2 g (List.mem_filter.mpr ⟨hg, by simp [hT]⟩))
+    simpa using this
+  -- each agent's bundle is its bundle on its side
+  have hb1 : ∀ j, S j = true →
+      bundle goods (fun g => if T g then X1 g else X2 g) j = bundle (goods.filter T) X1 j :=
+    fun j hj => bundle_ite_left T fun g hg hT h => by have := (hS2 g hg hT).2; rw [h, hj] at this; simp at this
+  have hb2 : ∀ j, S j = false →
+      bundle goods (fun g => if T g then X1 g else X2 g) j = bundle (goods.filter (fun g => !T g)) X2 j :=
+    fun j hj => bundle_ite_right T fun g hg hT h => by have := (hS1 g hg hT).2; rw [h, hj] at this; simp at this
+  -- a good on the other side is worthless
+  have hzero : ∀ i ∈ agents, ∀ (Y : List G), (∀ g ∈ Y, g ∈ goods ∧ T g ≠ S i) → ∀ x, value v i (Y.erase x) = 0 :=
+    fun i hi Y hY x => value_eq_zero_of_forall v i fun g hg => by
+      obtain ⟨hg, hT⟩ := hY g (List.mem_of_mem_erase hg)
+      exact Nat.eq_zero_of_not_pos fun hpos => hT (hST i hi g hg hpos).symm
+  constructor
+  · intro g hg
+    by_cases hT : T g = true
+    · simp only [hT, ↓reduceIte]; exact (hS1 g hg hT).1
+    · simp only [Bool.not_eq_true] at hT
+      simp only [hT, Bool.false_eq_true, ↓reduceIte]; exact (hS2 g hg hT).1
+  · intro i hi j hj hij g hg
+    cases hSi : S i <;> cases hSj : S j
+    · rw [hb2 i hSi, hb2 j hSj] at *
+      exact hE2 i (List.mem_filter.mpr ⟨hi, by simp [hSi]⟩) j (List.mem_filter.mpr ⟨hj, by simp [hSj]⟩) hij g hg
+    · rw [hb1 j hSj, hzero i hi _ (fun x hx => ?_) g]
+      · exact Nat.zero_le _
+      · have := List.mem_filter.mp (List.mem_filter.mp hx).1
+        exact ⟨this.1, by rw [this.2, hSi]; simp⟩
+    · rw [hb2 j hSj, hzero i hi _ (fun x hx => ?_) g]
+      · exact Nat.zero_le _
+      · have := List.mem_filter.mp (List.mem_filter.mp hx).1
+        exact ⟨this.1, by rw [hSi]; simpa using this.2⟩
+    · rw [hb1 i hSi, hb1 j hSj] at *
+      exact hE1 i (List.mem_filter.mpr ⟨hi, hSi⟩) j (List.mem_filter.mpr ⟨hj, hSj⟩) hij g hg
+
 end lemmas
 
-/-- **The k = 4 CORE theorem** (K4.CORE, `k4/SCOUT.md` §2). If every k = 4 core with at most `N` agents has
-an EFX₀ allocation, then so does every instance with at most `N` agents in which every agent has at most
-four relevant goods. -/
-theorem core_reduction4 (v : A → G → Nat) (N : Nat)
+/-- **The k = 4 CORE theorem with L6** (K4.CORE, `k4/SCOUT.md` §2). If every connected k = 4 core with at
+most `N` agents has an EFX₀ allocation, then so does every instance with at most `N` agents in which every
+agent has at most four relevant goods. -/
+theorem core_reduction4_conn (v : A → G → Nat) (N : Nat)
     (hcore : ∀ (agents : List A) (goods : List G), agents.Nodup → goods.Nodup → agents.length ≤ N →
-      IsCore4 v agents goods → ∃ X : G → A, IsAllocation agents goods X ∧ EFX0L v agents goods X) :
+      IsCore4 v agents goods → Connected v agents goods →
+      ∃ X : G → A, IsAllocation agents goods X ∧ EFX0L v agents goods X) :
     ∀ (agents : List A) (goods : List G), agents ≠ [] → agents.Nodup → goods.Nodup →
       agents.length ≤ N → (∀ i ∈ agents, (relevant v i goods).length ≤ 4) →
       ∃ X : G → A, IsAllocation agents goods X ∧ EFX0L v agents goods X := by
@@ -205,11 +290,46 @@ theorem core_reduction4 (v : A → G → Nat) (N : Nat)
       (fun j hj => Nat.le_trans (relevant_sublist v List.filter_sublist) (h4 j (List.mem_of_mem_erase hj)))
     obtain ⟨hX, hE⟩ := peelR2 v (List.Nodup.not_mem_erase hag) hX' hE' hb
     exact ⟨_, fun g hg => (mem_cons_erase hi _).mp (hX g hg), efx0L_congr v (mem_cons_erase hi) hE⟩
-  -- 4. a k = 4 core
+  -- 4. components (L6): split along a disconnection and solve each side
+  by_cases hconn : ¬ Connected v agents goods
+  · obtain ⟨S, hS, a, ha, b, hb, hab⟩ : ∃ S : A → Bool,
+        (∀ g ∈ goods, ∀ i ∈ agents, ∀ j ∈ agents, 0 < v i g → 0 < v j g → S i = S j) ∧
+        ∃ a ∈ agents, ∃ b ∈ agents, S a = true ∧ S b = false := by
+      refine Classical.byContradiction fun hno => hconn fun S hS i hi j hj => ?_
+      cases hSi : S i <;> cases hSj : S j
+      · rfl
+      · exact absurd ⟨S, hS, j, hj, i, hi, hSj, hSi⟩ hno
+      · exact absurd ⟨S, hS, i, hi, j, hj, hSi, hSj⟩ hno
+      · rfl
+    let T : G → Bool := fun g => decide (∃ a ∈ agents, S a = true ∧ 0 < v a g)
+    have hST : ∀ i ∈ agents, ∀ g ∈ goods, 0 < v i g → S i = T g := by
+      intro i hi g hg hpos
+      cases hSi : S i
+      · refine (decide_eq_false fun ⟨a', ha', hSa', hpa'⟩ => ?_).symm
+        have := hS g hg i hi a' ha' hpos hpa'
+        rw [hSi, hSa'] at this
+        exact Bool.noConfusion this
+      · exact (decide_eq_true ⟨i, hi, hSi, hpos⟩).symm
+    have hlenS : (agents.filter S).length < agents.length :=
+      List.length_filter_lt_length_iff_exists.mpr ⟨b, hb, by simp [hab.2]⟩
+    have hlenN : (agents.filter (fun i => !S i)).length < agents.length :=
+      List.length_filter_lt_length_iff_exists.mpr ⟨a, ha, by simp [hab.1]⟩
+    have hgS := (List.filter_sublist (p := T) (l := goods)).length_le
+    have hgN := (List.filter_sublist (p := fun g => !T g) (l := goods)).length_le
+    obtain ⟨X1, hX1, hE1⟩ := ih _ (by omega) (agents.filter S) (goods.filter T) rfl
+      (List.ne_nil_of_mem (List.mem_filter.mpr ⟨ha, hab.1⟩)) (hag.filter _) (hgd.filter _) (by omega)
+      (fun i hi => Nat.le_trans (relevant_sublist v List.filter_sublist) (h4 i (List.mem_filter.mp hi).1))
+    obtain ⟨X2, hX2, hE2⟩ := ih _ (by omega) (agents.filter (fun i => !S i)) (goods.filter (fun g => !T g))
+      rfl (List.ne_nil_of_mem (List.mem_filter.mpr ⟨hb, by simp [hab.2]⟩)) (hag.filter _) (hgd.filter _)
+      (by omega)
+      (fun i hi => Nat.le_trans (relevant_sublist v List.filter_sublist) (h4 i (List.mem_filter.mp hi).1))
+    exact ⟨_, efx0_split v S T hST hX1 hE1 hX2 hE2⟩
+  have hconn : Connected v agents goods := Classical.byContradiction hconn
+  -- 5. a connected k = 4 core
   have hq : ∀ i, ∀ g, isPrivate v i (agents.erase i) g = true → 0 < v i g :=
     fun i g hg => ((isPrivate_iff v hag).mp hg).1
   refine hcore agents goods hag hgd hN ⟨by omega, fun i hi => ⟨(hbal i hi).1, h4 i hi⟩,
-    fun i hi => (hbal i hi).2, fun i hi => ?_, fun i hi _ => ?_, fun g hg => ?_⟩
+    fun i hi => (hbal i hi).2, fun i hi => ?_, fun i hi _ => ?_, fun g hg => ?_⟩ hconn
   · -- (C3): at least two relevant goods are shared, or else R2 applies
     rw [privateGoods_eq v hag, length_relevant_split v i _ goods (hq i)]
     refine Nat.add_le_add_left (Nat.le_of_not_lt fun hlt => hR2 ⟨i, hi, ?_⟩) _
@@ -222,19 +342,30 @@ theorem core_reduction4 (v : A → G → Nat) (N : Nat)
     intro j hj
     exact Nat.eq_zero_of_not_pos fun hpos => hno ⟨j, hj, hpos⟩
 
-/-- **The k = 4 CORE theorem, new cores only.** It suffices to treat the k = 4 cores in which some agent has
-four relevant goods: a k = 4 core whose agents all have three is a core (`EFX.IsCore`), and Corollary D
+/-- **The k = 4 CORE theorem** (K4.CORE, `k4/SCOUT.md` §2). If every k = 4 core with at most `N` agents has
+an EFX₀ allocation, then so does every instance with at most `N` agents in which every agent has at most
+four relevant goods. -/
+theorem core_reduction4 (v : A → G → Nat) (N : Nat)
+    (hcore : ∀ (agents : List A) (goods : List G), agents.Nodup → goods.Nodup → agents.length ≤ N →
+      IsCore4 v agents goods → ∃ X : G → A, IsAllocation agents goods X ∧ EFX0L v agents goods X) :
+    ∀ (agents : List A) (goods : List G), agents ≠ [] → agents.Nodup → goods.Nodup →
+      agents.length ≤ N → (∀ i ∈ agents, (relevant v i goods).length ≤ 4) →
+      ∃ X : G → A, IsAllocation agents goods X ∧ EFX0L v agents goods X :=
+  core_reduction4_conn v N fun agents goods hag hgd hN hc _ => hcore agents goods hag hgd hN hc
+
+/-- **The k = 4 CORE theorem, new cores only.** It suffices to treat the connected k = 4 cores in which some
+agent has four relevant goods: a k = 4 core whose agents all have three is a core (`EFX.IsCore`), and Corollary D
 covers it. -/
 theorem core_reduction4_mixed (v : A → G → Nat) (N : Nat)
     (hcore : ∀ (agents : List A) (goods : List G), agents.Nodup → goods.Nodup → agents.length ≤ N →
-      IsCore4 v agents goods → (∃ i ∈ agents, (relevant v i goods).length = 4) →
+      IsCore4 v agents goods → Connected v agents goods → (∃ i ∈ agents, (relevant v i goods).length = 4) →
       ∃ X : G → A, IsAllocation agents goods X ∧ EFX0L v agents goods X) :
     ∀ (agents : List A) (goods : List G), agents ≠ [] → agents.Nodup → goods.Nodup →
       agents.length ≤ N → (∀ i ∈ agents, (relevant v i goods).length ≤ 4) →
       ∃ X : G → A, IsAllocation agents goods X ∧ EFX0L v agents goods X := by
-  refine core_reduction4 v N fun agents goods hag hgd hN hc => ?_
+  refine core_reduction4_conn v N fun agents goods hag hgd hN hc hconn => ?_
   by_cases h4 : ∃ i ∈ agents, (relevant v i goods).length = 4
-  · exact hcore agents goods hag hgd hN hc h4
+  · exact hcore agents goods hag hgd hN hc hconn h4
   obtain ⟨hlen, hk1, hk2, -, -, -⟩ := hc
   have hne : agents ≠ [] := fun h => by rw [h] at hlen; simp at hlen
   have h3 : ∀ i ∈ agents, (relevant v i goods).length = 3 := fun i hi => by
@@ -244,12 +375,13 @@ theorem core_reduction4_mixed (v : A → G → Nat) (N : Nat)
   obtain ⟨X, hX, hE, -⟩ := LB.corollaryD_lists v hag hgd hne h3 (fun i hi g hg => Nat.le_of_lt (hk2 i hi g hg))
   exact ⟨X, hX, hE⟩
 
-/-- **The k = 4 CORE theorem in the model's terms.** If every k = 4 core of `I`'s agents and goods with at
-most `N` agents, some agent having four relevant goods, has an EFX₀ allocation, and every agent of `I`
+/-- **The k = 4 CORE theorem in the model's terms.** If every connected k = 4 core of `I`'s agents and goods
+with at most `N` agents, some agent having four relevant goods, has an EFX₀ allocation, and every agent of `I`
 positively values at most four goods (`|R_i| ≤ 4`), then `I` has a complete EFX₀ allocation. -/
 theorem target4_of_cores (I : Inst) (hn : 0 < I.n) (N : Nat) (hN : I.n ≤ N)
     (hcore : ∀ (agents : List (Fin I.n)) (goods : List (Fin I.m)), agents.Nodup → goods.Nodup →
-      agents.length ≤ N → IsCore4 I.v agents goods → (∃ i ∈ agents, (relevant I.v i goods).length = 4) →
+      agents.length ≤ N → IsCore4 I.v agents goods → Connected I.v agents goods →
+      (∃ i ∈ agents, (relevant I.v i goods).length = 4) →
       ∃ X : Fin I.m → Fin I.n, IsAllocation agents goods X ∧ EFX0L I.v agents goods X)
     (h : ∀ i, numRelevant I i ≤ 4) : ∃ X : I.Alloc, I.EFX0 X := by
   obtain ⟨X, -, hE⟩ := core_reduction4_mixed I.v N hcore (List.finRange I.n)
@@ -266,6 +398,10 @@ end EFX
 #print axioms EFX.R2_balance_of_le_one
 #print axioms EFX.sharedGoods_eq
 #print axioms EFX.privateGoods_eq
+#print axioms EFX.bundle_ite_left
+#print axioms EFX.bundle_ite_right
+#print axioms EFX.efx0_split
+#print axioms EFX.core_reduction4_conn
 #print axioms EFX.core_reduction4
 #print axioms EFX.core_reduction4_mixed
 #print axioms EFX.target4_of_cores
