@@ -1709,6 +1709,88 @@ theorem theoremB4c (hS : AfterUp v agents goods run s) (hgd : goods.Nodup) (hag 
 
 end theoremA
 
+/-! ## Corollary C₄⁰ -/
+
+section corollary
+variable {v : A → G → Nat} {agents : List A} {goods : List G}
+
+/-- **Corollary C₄⁰** (`k4/c4.md` §4). Take LB₄ʳ's Phase 1(τ) (LB's key) followed by envy-free upgrades to the
+fixpoint, and its last unmarked agent `r`. If no 4-good agent is exposed w.r.t. `r`, and in LB⁺'s bad case `r` is not
+exposed after LB⁺'s rotation along a need chain from `k*` (automatic if `r` has three goods, Theorem B₄(b)), then
+LB₄ʳ(τ) succeeds: the owner step on the upgraded state (Theorem A₄, or no owner when `ω ≤ 0`), or after one rotation
+(Theorems B₄ (a), (c)). -/
+theorem corollaryC40 (hag : agents.Nodup) (hgd : goods.Nodup) (hs : Strict v agents goods)
+    (hcore : IsCore4 v agents goods) {τ : List Nat} {s : LState A G}
+    (hup : UpRun v agents goods .envyFree (phase1State v agents goods τ) s) {r : A}
+    (hr : IsLast (phase1 v agents goods agents.length agents goods τ) s r)
+    (hno4 : ∀ x, Exposed v agents goods s r x → (relevant v x goods).length ≠ 4)
+    (hrot : ∀ k c, BadCase v agents goods (phase1 v agents goods agents.length agents goods τ) s r k →
+      NeedChain v agents goods s c → c.head? = some k → c.getLast? = some r → 2 ≤ c.length →
+      ¬ Exposed v agents goods (rotate s c (relevant v k (Wl goods s r))) k r) :
+    Succeeds v agents goods τ := by
+  have hS : AfterUp v agents goods (phase1 v agents goods agents.length agents goods τ) s :=
+    ⟨phase1_phaseRun hag hgd τ, hup⟩
+  have hI := hS.inv hgd
+  have hbase2 := hS.base_two hgd
+  by_cases hω : omega v agents goods s ≤ 0
+  · -- no owner
+    obtain ⟨tr, pr, hpr, hpr1, -, -⟩ := id hr
+    have hC := complete_none_exists (N := needsOf v goods s) hag hgd (fun g _ i hb => hS.base_mem hb)
+      (fun j _ => hbase2.1 j) hω r
+    exact ⟨.envyFree, s, s, none, _, hup, RotReach.refl 3 s,
+      hC.toOwnerNeeds hI.needs, (fun w hw => by cases hw), fun _ => ⟨fun _ => hω, fun _ => rfl⟩⟩
+  rcases theoremA4_output hS hgd hag hs hcore hr hno4 (by omega) with ⟨X, hX⟩ | ⟨k, hbad⟩
+  · exact ⟨.envyFree, s, s, some r, X, hup, RotReach.refl 3 s, hX⟩
+  -- the bad case: one rotation along a need chain from `k*`, which ends at `r`
+  obtain ⟨hkE, hkF, hkI, hkB, hall, -⟩ := id hbad
+  obtain ⟨pk, hpk, hpk1⟩ := hS.phase.getElem?_posOf hkE.1
+  obtain ⟨c, e, te, pe, hch, hck, hce, -, -, -, -, hef, -⟩ :=
+    hS.exists_chain hgd _ _ pk (Nat.le_refl _) hpk (hpk1 ▸ hkE.2.1)
+  rw [hpk1] at hck
+  have her : e = r := hall c e hch hck hce
+  subst her
+  have hlen : 2 ≤ c.length := by
+    refine Classical.byContradiction fun h => ?_
+    match c, hck, hce, h with
+    | [], hck, _, _ => simp at hck
+    | [x], hck, hce, _ =>
+      simp at hck hce; subst hck; subst hce; exact hef hkF
+    | _ :: _ :: _, _, _, h => simp at h
+  have hk3 : (relevant v k goods).length = 3 := by
+    have := hcore.2.1 k hkE.1; have := hno4 k hkE; omega
+  obtain ⟨hRot, -⟩ := theoremB4 hS hgd hs hcore hr hch hck hce hlen hkE hk3 hno4 rfl
+  obtain ⟨o, X, hX⟩ := theoremB4c hS hgd hag hs hcore hr hno4 hbad hch hck hce hlen rfl
+    (hrot k c hbad hch hck hce hlen)
+  exact ⟨.envyFree, s, _, o, X, hup, RotReach.step 2 s _ _ hRot (RotReach.refl 2 _), hX⟩
+
+/-- **LB₄ʳ never fails when every agent has three goods** (`k4/c4.md` §4: at k = 3 the hypotheses of Corollary C₄⁰
+always hold, so it contains LB⁺'s Theorem C for LB₄ʳ's search): on a strict profile of a k = 4 core whose agents all
+have three relevant goods, LB₄ʳ(τ) succeeds for every τ. -/
+theorem succeeds_of_three (hag : agents.Nodup) (hgd : goods.Nodup) (hs : Strict v agents goods)
+    (hcore : IsCore4 v agents goods) (h3 : ∀ i ∈ agents, (relevant v i goods).length = 3) (τ : List Nat) :
+    Succeeds v agents goods τ := by
+  classical
+  have hR := phase1_phaseRun (v := v) hag hgd τ
+  obtain ⟨s, hup⟩ := upRun_exists (v := v) (agents := agents) (goods := goods) .envyFree _
+    (phase1State v agents goods τ) (Nat.le_refl _)
+  have hS : AfterUp v agents goods (phase1 v agents goods agents.length agents goods τ) s := ⟨hR, hup⟩
+  have hne : phase1 v agents goods agents.length agents goods τ ≠ [] := fun h => by
+    obtain ⟨i, hi⟩ := List.exists_mem_of_ne_nil agents (fun e => by have := hcore.1; rw [e] at this; simp at this)
+    obtain ⟨p, hp, -⟩ := (hR.mem i).mp hi
+    rw [h] at hp; simp at hp
+  obtain ⟨r, hr⟩ := hS.exists_last hne
+  have hno4 : ∀ x, Exposed v agents goods s r x → (relevant v x goods).length ≠ 4 := fun x hx => by
+    rw [h3 x hx.1]; omega
+  refine corollaryC40 hag hgd hs hcore hup hr hno4 fun k c hbad hch hck hce hlen hrE => ?_
+  have hk3 := h3 k hbad.1.1
+  obtain ⟨-, -, -, -, -, hexp, -⟩ := theoremB4 hS hgd hs hcore hr hch hck hce hlen hbad.1 hk3 hno4 rfl
+  rcases hexp r hrE with ⟨h, -⟩ | ⟨-, h4⟩
+  · exact h.2.2.1 rfl
+  · obtain ⟨tr, pr, hpr, hpr1, -, -⟩ := id hr
+    rw [h3 r (hpr1 ▸ hS.phase.agent_mem hpr)] at h4; cases h4
+
+end corollary
+
 end LB4R
 end EFX
 
@@ -1738,3 +1820,5 @@ end EFX
 #print axioms EFX.LB4R.AfterUp.terminals_out
 #print axioms EFX.LB4R.rotate_base_le_two
 #print axioms EFX.LB4R.theoremB4c
+#print axioms EFX.LB4R.corollaryC40
+#print axioms EFX.LB4R.succeeds_of_three

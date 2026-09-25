@@ -653,6 +653,112 @@ theorem upRun_efBase {s s' : LState A G} (hR : UpRun v agents goods .envyFree s 
         List.filter_congr fun h _ => by simp only [hb h]
       rw [h1, h2]; exact this
 
+/-- A list has an element minimizing any `Nat`-valued function. -/
+theorem exists_min_of_mem {α : Type} (f : α → Nat) : ∀ {l : List α} {a : α}, a ∈ l →
+    ∃ m ∈ l, ∀ b ∈ l, f m ≤ f b
+  | [], _, h => by simp at h
+  | x :: l, _, _ => by
+    cases l with
+    | nil => exact ⟨x, by simp, fun b hb => by simp at hb; subst hb; exact Nat.le_refl _⟩
+    | cons y l' =>
+      obtain ⟨m, hm, hmin⟩ := exists_min_of_mem f (l := y :: l') (a := y) (by simp)
+      by_cases hxm : f x ≤ f m
+      · exact ⟨x, by simp, fun b hb => by
+          rcases List.mem_cons.mp hb with rfl | hb
+          · exact Nat.le_refl _
+          · exact Nat.le_trans hxm (hmin b hb)⟩
+      · exact ⟨m, List.mem_cons_of_mem _ hm, fun b hb => by
+          rcases List.mem_cons.mp hb with rfl | hb
+          · omega
+          · exact hmin b hb⟩
+
+/-- A predicate implied by another counts at most as often, and strictly less often if it fails where the other
+holds. -/
+theorem countP_lt_of_imp {α : Type} {p q : α → Bool} : ∀ {l : List α}, (∀ i ∈ l, q i = true → p i = true) →
+    ∀ {k : α}, k ∈ l → p k = true → ¬ q k = true → l.countP q + 1 ≤ l.countP p
+  | [], _, _, hk, _, _ => by simp at hk
+  | a :: l, h, k, hk, hpk, hqk => by
+    have hle : ∀ {l : List α}, (∀ i ∈ l, q i = true → p i = true) → l.countP q ≤ l.countP p := by
+      intro l hl
+      induction l with
+      | nil => simp
+      | cons b l ih =>
+        simp only [List.countP_cons]
+        have := ih fun i hi => hl i (by simp [hi])
+        by_cases hq : q b = true
+        · simp [hq, hl b (by simp) hq]; omega
+        · simp only [hq, Bool.false_eq_true, ↓reduceIte]; split <;> omega
+    simp only [List.countP_cons]
+    rcases List.mem_cons.mp hk with rfl | hk
+    · have := hle (l := l) fun i hi => h i (List.mem_cons_of_mem _ hi)
+      simp only [hpk, ↓reduceIte, hqk, Bool.false_eq_true]; omega
+    · have := countP_lt_of_imp (fun i hi => h i (by simp [hi])) hk hpk hqk
+      by_cases hq : q a = true
+      · simp [hq, h a (by simp) hq]; omega
+      · simp only [hq, Bool.false_eq_true, ↓reduceIte]; split <;> omega
+
+/-- **Upgrades terminate**: from every state, a run of upgrades (smallest-index eligible agent, best eligible good)
+reaches a state where none applies. Each step marks an unmarked listed agent. -/
+theorem upRun_exists {v : A → G → Nat} {agents : List A} {goods : List G} (pol : Policy) :
+    ∀ (n : Nat) (s : LState A G), (by classical exact agents.countP (fun i => decide (¬ s.marked i))) ≤ n →
+      ∃ s', UpRun v agents goods pol s s' := by
+  classical
+  intro n
+  induction n with
+  | zero =>
+    intro s hn
+    refine ⟨s, UpRun.done s fun k g hE => ?_⟩
+    have : 0 < agents.countP (fun i => decide (¬ s.marked i)) :=
+      List.countP_pos_iff.mpr ⟨k, hE.1, by simpa using hE.2.1⟩
+    omega
+  | succ n ih =>
+    intro s hn
+    by_cases hex : ∃ k g, UpEligible v agents goods pol s k g
+    · obtain ⟨k₀, g₀, hE₀⟩ := hex
+      -- the eligible agent of smallest index
+      obtain ⟨k, hkm, hkmin⟩ := exists_min_of_mem (fun k => agents.idxOf k)
+        (l := agents.filter (fun k => decide (∃ g, UpEligible v agents goods pol s k g))) (a := k₀)
+        (List.mem_filter.mpr ⟨hE₀.1, by simpa using ⟨g₀, hE₀⟩⟩)
+      obtain ⟨-, hkE⟩ := List.mem_filter.mp hkm
+      obtain ⟨g₁, hg₁⟩ : ∃ g, UpEligible v agents goods pol s k g := by simpa using hkE
+      have hgoods : ∀ g, UpEligible v agents goods pol s k g → g ∈ goods := fun g h => by
+        obtain ⟨-, -, y, -, -, -, -, hgJ, -⟩ := h; exact (mem_junk.mp hgJ).1
+      -- its eligible good of largest value, then of smallest index
+      obtain ⟨g₂, hg₂m, hg₂max⟩ := exists_min_of_mem (fun g => value v k goods - v k g)
+        (l := goods.filter (fun g => decide (UpEligible v agents goods pol s k g))) (a := g₁)
+        (List.mem_filter.mpr ⟨hgoods g₁ hg₁, by simpa using hg₁⟩)
+      obtain ⟨-, hg₂E⟩ := List.mem_filter.mp hg₂m
+      have hg₂E : UpEligible v agents goods pol s k g₂ := by simpa using hg₂E
+      have hle : ∀ g ∈ goods, v k g ≤ value v k goods := fun g hg => le_value_of_mem v k hg
+      have hmax : ∀ g', UpEligible v agents goods pol s k g' → v k g' ≤ v k g₂ := fun g' h' => by
+        have := hg₂max g' (List.mem_filter.mpr ⟨hgoods g' h', by simpa using h'⟩)
+        have := hle g' (hgoods g' h'); have := hle g₂ (hgoods g₂ hg₂E); omega
+      obtain ⟨g, hgm, hgmin⟩ := exists_min_of_mem (fun g => goods.idxOf g)
+        (l := goods.filter (fun g => decide (UpEligible v agents goods pol s k g ∧ v k g = v k g₂))) (a := g₂)
+        (List.mem_filter.mpr ⟨hgoods g₂ hg₂E, by simpa using hg₂E⟩)
+      obtain ⟨-, hgE'⟩ := List.mem_filter.mp hgm
+      obtain ⟨hgE, hgv⟩ : UpEligible v agents goods pol s k g ∧ v k g = v k g₂ := by simpa using hgE'
+      have hstep : UpStep v agents goods pol s (upgrade s k g) :=
+        ⟨k, g, hgE, fun k' g' h' => hkmin k' (List.mem_filter.mpr ⟨h'.1, by simpa using ⟨g', h'⟩⟩),
+          fun g' h' => by
+            have := hmax g' h'
+            by_cases hlt : v k g' < v k g
+            · exact Or.inl hlt
+            · refine Or.inr ⟨by omega, hgmin g' (List.mem_filter.mpr ⟨hgoods g' h', ?_⟩)⟩
+              simp only [decide_eq_true_eq]; exact ⟨h', by omega⟩, rfl⟩
+      -- one unmarked listed agent fewer
+      have hcount : agents.countP (fun i => decide (¬ (upgrade s k g).marked i)) + 1 ≤
+          agents.countP (fun i => decide (¬ s.marked i)) := by
+        have hsub : ∀ i ∈ agents, decide (¬ (upgrade s k g).marked i) = true → decide (¬ s.marked i) = true :=
+          fun i _ h => by
+            simp only [upgrade, decide_eq_true_eq, not_or] at h ⊢; exact h.2
+        have hk : decide (¬ s.marked k) = true := by simpa using hgE.2.1
+        have hk' : ¬ decide (¬ (upgrade s k g).marked k) = true := by simp [upgrade]
+        exact countP_lt_of_imp hsub hgE.1 hk hk'
+      obtain ⟨s'', hs''⟩ := ih (upgrade s k g) (by omega)
+      exact ⟨s'', UpRun.step s _ s'' hstep hs''⟩
+    · exact ⟨s, UpRun.done s fun k g hE => hex ⟨k, g, hE⟩⟩
+
 end upgrades
 
 /-! ## The state after Phase 1 and envy-free upgrades -/
@@ -995,3 +1101,4 @@ end EFX
 #print axioms EFX.LB4R.AfterUp.exists_chain
 #print axioms EFX.LB4R.AfterUp.base_of_pick
 #print axioms EFX.LB4R.AfterUp.base_two
+#print axioms EFX.LB4R.upRun_exists
