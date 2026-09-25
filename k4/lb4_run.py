@@ -46,6 +46,9 @@ def main():
     monly = next((int(a.split('=')[1]) for a in args if a.startswith('--m=')), None)
     opts = [a for a in args if a.startswith('-') and not a.startswith('--')]
     certp = next((a.split('=', 1)[1] for a in args if a.startswith('--cert=')), None)
+    # --checkpoint=PATH: one JSON line per finished core (its result line and failure reports); a rerun skips the cores
+    # already there, and the totals printed are over the whole checkpoint, so an interrupted run resumes
+    ckp = next((a.split('=', 1)[1] for a in args if a.startswith('--checkpoint=')), None)
     if certp: opts.append('-a')
     build()
     print('#', 'lb4_run.py', ' '.join(args), flush=True)
@@ -55,12 +58,37 @@ def main():
         if data.get('ties', False) != ties:     # the type domain must match the file's (a strict run of a ties file
             raise SystemExit(f"{f}: file has ties={data.get('ties', False)}, run has --ties={ties}")  # would mislabel)
         cores = [c for c in data['cores'] if monly is None or c['m'] == monly]
+        done = {}
+        if ckp and os.path.exists(ckp):
+            for l in open(ckp):
+                rec = json.loads(l)
+                if rec['file'] == os.path.basename(f) and rec['opts'] == opts: done[(rec['m'], json.dumps(rec['sets']))] = rec
+        allcores = cores
+        cores = [c for c in cores if (c['m'], json.dumps(c['sets'])) not in done]
+        if ckp: print(f"  checkpoint {ckp}: {len(done)} cores done before, {len(cores)} to run", flush=True)
         chunk = max(1, min(8, len(cores) // (4 * jobs) or 1))
         tasks = [(cores[i:i + chunk], ties, opts) for i in range(0, len(cores), chunk)]
         tot = {}; bad = []; errs = []
         cert = [] if certp else None
+        collected = []
         with Pool(jobs) as pool:
+            ck = open(ckp, 'a') if ckp else None
             for res, err in pool.imap_unordered(run, tasks):
+                collected.append((res, err))
+                if ck:
+                    for q, (r, line, A) in enumerate(res):
+                        ck.write(json.dumps({'file': os.path.basename(f), 'opts': opts, 'm': r['m'], 'sets': r['sets'],
+                                             'line': line, 'err': err if q == 0 else ''}) + '\n')
+                    ck.flush()
+            if ck: ck.close()
+        if ckp:                                  # totals over the whole checkpoint (earlier runs included)
+            for l in open(ckp):
+                rec = json.loads(l)
+                if rec['file'] == os.path.basename(f) and rec['opts'] == opts: done[(rec['m'], json.dumps(rec['sets']))] = rec
+            key = lambda c: (c['m'], json.dumps(c['sets']))
+            collected = [([(c, done[key(c)]['line'], [])], done[key(c)]['err']) for c in allcores]
+        if True:
+            for res, err in collected:
                 if err: errs.append(err)
                 for r, line, A in res:
                     if cert is not None: cert.append({'m': r['m'], 'sets': r['sets'], 'allocs': A})
@@ -70,7 +98,7 @@ def main():
                     for bs in toks[23:]:
                         s, c = bs.split(':'); tot['big' + s] = tot.get('big' + s, 0) + int(c)
                     if kv['fails'] or kv['rawfails']: bad.append((r['m'], r['sets'], kv['fails'], kv['rawfails']))
-                    if '-i1' not in opts and '-i9' not in opts:        # every profile covered exactly once: leaf weights add up
+                    if '-i1' not in opts and '-i9' not in opts and not any(o.startswith('-S') for o in opts):        # every profile covered exactly once: leaf weights add up
                         expect = 1
                         for dom in check4.core_domains(r['sets'], r['m'], ties): expect *= len(dom)
                         if kv['total'] != expect: raise SystemExit(f"coverage mismatch {r['sets']}: {kv['total']} != {expect}")
@@ -80,7 +108,7 @@ def main():
             cert.sort(key=lambda c: (c['m'], c['sets']))
             with gzip.open(path, 'wt') as fh: json.dump(dict(hdr, construction='LB4 ' + ' '.join(opts), cores=cert), fh)
             print(f"  certificate: {path} ({sum(len(c['allocs']) for c in cert)} allocations)")
-        print(f"{f}: {len(cores)} cores{' (ties)' if ties else ''}, {time.time() - t0:.0f}s")
+        print(f"{f}: {len(allcores)} cores{' (ties)' if ties else ''}, {time.time() - t0:.0f}s")
         print('  ' + ' '.join(f"{k}={v}" for k, v in tot.items()))
         print(f"  cores with a failure: {len(bad)}")
         for b in sorted(bad)[:show]: print('   ', b)

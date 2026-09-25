@@ -33,6 +33,7 @@ static uint32_t R[MAXN];
 static int nt[MAXN], tv[MAXN][MAXT][4];
 static int np[MAXN], pr[MAXN][24][4], pcnt[MAXN][24], pidx[MAXN][24][MAXG];
 static int OWN = 0, INS = 0, SENS = 0, MAXF = 3, UPG = 1, BRUTE = 0, ALLOC = 0;
+static long SAMPLE = 0;   /* -SN: N random profiles per core instead of all */
 /* -a: distinct leaf allocations per core (owners packed 3 bits per good), printed as "A o_0 .. o_{m-1}" lines */
 #define HBITS 22
 static uint64_t *htab; static long hcnt;
@@ -510,6 +511,7 @@ int main(int argc, char **argv) {
         else if (!strncmp(argv[a], "-u", 2)) UPG = atoi(argv[a] + 2);
         else if (!strcmp(argv[a], "-b")) BRUTE = 1;
         else if (!strcmp(argv[a], "-a")) ALLOC = 1;
+        else if (!strncmp(argv[a], "-S", 2)) SAMPLE = atol(argv[a] + 2);
         else if (!strncmp(argv[a], "-r", 2)) ROT = atoi(argv[a] + 2);
         else if (!strncmp(argv[a], "-w", 2)) OWNW = atoi(argv[a] + 2);
         else if (!strncmp(argv[a], "-c", 2)) CHUP = atoi(argv[a] + 2);
@@ -537,6 +539,33 @@ int main(int argc, char **argv) {
         }
         long total = 0, leaves = 0, fails = 0, rawf = 0, runs = 0, shown = 0;
         long stat[5] = {0}, bigsz[40] = {0}, nfb_seq = 0, nfb_upg = 0;
+        if (SAMPLE > 0) {                /* random profiles: a type index per agent, uniform over its list */
+            uint64_t x = 88172645463325252ull ^ (uint64_t)(n * 131 + m);
+            for (int i = 0; i < n; i++) for (int k = 0; k < d[i]; k++) x = x * 6364136223846793005ull + (uint64_t)(gl[i][k] + 17 * k + 1);
+            for (long sidx = 0; sidx < SAMPLE; sidx++) {
+                for (int i = 0; i < n; i++) {
+                    x ^= x << 13; x ^= x >> 7; x ^= x << 17;
+                    int t = (int)(x % (uint64_t)nt[i]), p, kk = 0;
+                    for (p = 0; p < np[i]; p++) { for (kk = 0; kk < pcnt[i][p]; kk++) if (pidx[i][p][kk] == t) break; if (kk < pcnt[i][p]) break; }
+                    cp[i] = p; ts[i] = (u128)1 << kk;
+                    for (int r = 0; r < d[i]; r++) ord[i][r] = gl[i][pr[i][cp[i]][r]];
+                    for (int g = 0; g < m; g++) rp[i][g] = -1;
+                    for (int r = 0; r < d[i]; r++) rp[i][ord[i][r]] = r;
+                }
+                nchoice = 0;
+                if (INS == 1 || INS == 9) { fprintf(stderr, "-S with -i1/-i9 not supported\n"); return 1; }
+                int ok;
+                if (run_leaf(&ok)) { fprintf(stderr, "split with singleton type sets\n"); return 1; }
+                runs++; leaves++; total++;
+                if (!ok) { fails++; if (shown < MAXF) { report("FAIL"); shown++; } continue; }
+                stat[last_status]++;
+                if (fb_seq) nfb_seq++;
+                if (fb_upg) nfb_upg++;
+                if (!rawcheck()) { rawf++; if (shown < MAXF) { report("RAWFAIL"); shown++; } continue; }
+                if (lastbig) bigsz[lastbig]++;
+            }
+            goto core_done;
+        }
         /* odometer over ranking profiles */
         int rk[MAXN] = {0};
         for (;;) {
@@ -606,6 +635,7 @@ int main(int argc, char **argv) {
             while (i < n && ++rk[i] == np[i]) rk[i++] = 0;
             if (i == n) break;
         }
+      core_done:
         if (ALLOC) {
             for (long h = 0; h < (1 << HBITS); h++) if (htab[h]) {
                 int o[MAXM]; uint64_t key = htab[h];
