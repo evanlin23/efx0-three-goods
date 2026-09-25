@@ -13,7 +13,8 @@ and the other goods form the pool.
 `L = junk goods hold` and `Q_o ∪ L = W goods hold o` (`EFX/K3Pareto.lean`).
 - `IsAPA`: pairs of exactly two goods held by listed agents, each needing nothing (`vbNeeds` empty: admissible).
 - `ZThreat o i`: `max_{h ∈ Q_o ∪ L} v_i((Q_o ∪ L) ∖ h) > v_i(Q_i)`; `ZValid o`: `o` threatens nobody.
-- `ZRobust i`: `v_i(Q_i) ≥ v_i(R_i ∖ Q_i)`, i.e. `v_i(M) ≤ 2 v_i(Q_i)`; `nRobust`: their number.
+- `ZRobust i`: `v_i(Q_i) ≥ v_i(R_i ∖ Q_i)`, i.e. `v_i(M) ≤ 2 v_i(Q_i)`; `nRobust`: their number. This is robustness at
+  `f = 0` (`𝒩 = ∅`, `U_i = R_i`); Theorem F needs `U_i = R_i ∖ 𝒩` in its place.
 - `PoolOpt`: no agent prefers a pair of `Q_i ∪ L`.
 
 **Results.**
@@ -76,7 +77,9 @@ def ZThreat (v : A → G → Nat) (goods : List G) (hold : G → Option A) (o i 
 def ZValid (v : A → G → Nat) (agents : List A) (goods : List G) (hold : G → Option A) (o : A) : Prop :=
   o ∈ agents ∧ ∀ i ∈ agents, i ≠ o → ¬ ZThreat v goods hold o i
 
-/-- A robust agent: its pair is worth at least the rest of its goods. -/
+/-- A robust agent: its pair is worth at least the rest of its goods. This is the form at `f = 0` (`𝒩 = ∅`, so
+`U_i = R_i`); with frozen agents (Theorem F) the rest is `U_i ∖ Q_i` with `U_i = R_i ∖ 𝒩`, which this definition does
+not cover. -/
 def ZRobust (v : A → G → Nat) (goods : List G) (hold : G → Option A) (i : A) : Prop :=
   value v i goods ≤ 2 * value v i (baseOf goods hold i)
 
