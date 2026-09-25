@@ -1,0 +1,10 @@
+# command: python3 c4min_rigid.py ../results/k4_certs_3.json.gz --samples=400 --pairs=150 --seed=81 --jobs=1
+# commit e965821, k4/c4min_hunt.c sha1 60fbc9be5f85, started Fri Sep 25 22:10:04 UTC 2026
+# 51 cores x 400 random profiles: 83 owner-rigid profiles (36 s)
+# glued pairs 150: merge profiles 6765 fails 0; link profiles 974160 fails 0 (85 s)
+# finished Fri Sep 25 22:11:30 UTC 2026
+# command: python3 c4min_rigid.py ../results/k4_certs_4_n4_3.json.gz ../results/k4_certs_4_pure.json.gz --samples=60 --pairs=80 --seed=82 --jobs=1
+# commit e965821, k4/c4min_hunt.c sha1 60fbc9be5f85, started Fri Sep 25 22:11:30 UTC 2026
+# 558 cores x 60 random profiles: 4 owner-rigid profiles (69 s)
+# glued pairs 80: merge profiles 5465 fails 0; link profiles 786960 fails 0 (121 s)
+# finished Fri Sep 25 22:13:32 UTC 2026
