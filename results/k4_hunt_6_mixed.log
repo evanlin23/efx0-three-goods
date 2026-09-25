@@ -1,0 +1,2 @@
+command: python3 k4/frontier/hunt.py --n=6 --p4=0.5 --skew=0 --cores=40 --rand=200 --climb=40 --jobs=2 --seed=11 --out=results/k4_hunt_candidates.jsonl
+n=6 m=6..14 p4=0.5 skew=0.0: 40 cores, 8000 random profiles + hill-climbing (40 steps, cap 2); candidates: 0; min scores (score: count): {10: 1, 12: 25, 14: 14} [416s]
