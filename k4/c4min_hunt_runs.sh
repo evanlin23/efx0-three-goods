@@ -25,6 +25,12 @@ case "$1" in
     log $R/k4_c4min_hunt_w0.log python3 c4min_hunt_run.py ../$R/k4_certs_4_n4_3.json.gz ../$R/k4_certs_5_n4_1.json.gz \
         ../$R/k4_certs_5_n4_2.json.gz -w0 --jobs=${JOBS:-4}
     log $R/k4_c4min_hunt_w0.log python3 c4min_hunt_run.py ../$R/k4_certs_4_pure.json.gz --order=big --best=1 -w0 --jobs=${JOBS:-4} ;;
+  classes)     # n = 5 with four or five 4-good agents, every 4-good agent restricted to two order-type classes
+               # (k4/c4min_common.py type_class): 10,11 = 'a > b + c' (G1 of k4/c4x.md §5); 0,1 = flat (a < c + d, G4)
+    for cl in ${CLS:-10,11 0,1}; do
+      log $R/k4_c4min_hunt_classes.log python3 c4min_hunt_run.py ../$R/k4_certs_5_n4_4.json.gz ../$R/k4_certs_5_pure.json.gz \
+          --classes=$cl --jobs=${JOBS:-4}
+    done ;;
   crosscheck)  # three implementations on random profiles
     log $R/k4_c4min_hunt_crosscheck.log python3 c4min_crosscheck.py ../$R/k4_certs_2.json.gz --per-core=40 --seed=1
     log $R/k4_c4min_hunt_crosscheck.log python3 c4min_crosscheck.py ../$R/k4_certs_3.json.gz --per-core=10 --seed=2
@@ -108,5 +114,5 @@ print(len(top), 'tight cores; scores from', top[0][0], 'to', top[-1][0])"
         --seed=101 --jobs=${JOBS:-4} --top=8 ;;
   attempts)    # the hard profiles of PR #36's attempts and PR #30's n = 5 GM4 profiles, one by one
     log $R/k4_c4min_hunt_attempts.log python3 c4min_attempts_eval.py ;;
-  *) echo "sections: w0big attempts climbtight selfcheck w0small crosscheck n4 n5a n5b n6a climb5 climb5b climbrand climbglue rigid families climbfam"; exit 2 ;;
+  *) echo "sections: classes w0big attempts climbtight selfcheck w0small crosscheck n4 n5a n5b n6a climb5 climb5b climbrand climbglue rigid families climbfam"; exit 2 ;;
 esac

@@ -10,7 +10,9 @@ their global index in the core), and appends per-core lines to a checkpoint (--c
 
 usage: c4min_hunt_run.py FILE [--jobs=4] [--split=K] [--only=I,J] [--from=I] [--to=I] [--ckpt=PATH] [--order=small|big]
        [--best=K] [--first=K] [-w0] [-V]
-  --first=K  only the profiles whose first agent has one of its first K types (a sample, e.g. for -V)"""
+  --first=K  only the profiles whose first agent has one of its first K types (a sample, e.g. for -V)
+  --classes=I,J  every 4-good agent restricted to the strict types of the listed order-type classes
+             (k4/c4min_common.py type_class: 0-11; 3-good agents keep all their types)"""
 import json, os, subprocess, sys, time
 from concurrent.futures import ThreadPoolExecutor
 import c4min_common as cc
@@ -25,7 +27,7 @@ def run(args):
 
 
 def main():
-    files, jobs, split, only, lo_c, hi_c, ckpt, opts, order_mode, first_k = [], 4, None, None, 0, None, None, ['-B', '8'], 'small', None
+    files, jobs, split, only, lo_c, hi_c, ckpt, opts, order_mode, first_k, classes = [], 4, None, None, 0, None, None, ['-B', '8'], 'small', None, None
     for a in sys.argv[1:]:
         if a.startswith('--jobs='): jobs = int(a[7:])
         elif a.startswith('--split='): split = int(a[8:])
@@ -37,6 +39,7 @@ def main():
         elif a.startswith('--order='): order_mode = a[8:]
         elif a.startswith('--best='): opts[opts.index('-B') + 1] = a[7:]
         elif a.startswith('--first='): first_k = int(a[8:])
+        elif a.startswith('--classes='): classes = set(int(x) for x in a[10:].split(','))
         else: files.append(a)
     b = cc.hunt_binary()
     done = {}
@@ -51,6 +54,9 @@ def main():
             if ci < lo_c or (hi_c is not None and ci >= hi_c): continue
             if (f, ci) in done: continue
             doms = cc.domains(c['sets'], c['m'])
+            if classes is not None:                # 4-good agents restricted to the listed order-type classes
+                doms = [[v for v in D if cc.type_class(list(v.values())) in classes] if len(D[0]) == 4 else D for D in doms]
+                if any(not D for D in doms): continue
             sizes = [len(D) for D in doms]
             n = len(c['sets'])
             last = max(range(n), key=lambda i: (sizes[i], i))

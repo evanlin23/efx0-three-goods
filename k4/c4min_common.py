@@ -89,3 +89,15 @@ def c4x_one(sets, m, vals, opts=()):
             r['good'] = int(line.split('with deficit <= 0: ')[1].split(',')[0].split()[0])
             r['dstar'] = int(line.split('least deficit seen ')[1])
     return r
+
+
+def type_class(v):
+    """order-type class (0-11) of a strict balanced 4-good type with values v: with a > b > c > d, the position of a
+    among the pair sums c+d < b+d < b+c (0: a < c+d, 'flat'; 3: a > b+c), whether b > c+d, and whether a+d > b+c;
+    numbered in the order of CLASSES."""
+    a, b, c, d = sorted(v, reverse=True)
+    return CLASSES.index((sum(a > x for x in (c + d, b + d, b + c)), b > c + d, a + d > b + c))
+
+
+CLASSES = [(0, False, False), (0, False, True), (1, False, False), (1, False, True), (1, True, False), (1, True, True),
+           (2, False, False), (2, False, True), (2, True, False), (2, True, True), (3, False, True), (3, True, True)]
