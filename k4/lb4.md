@@ -403,6 +403,23 @@ in any test below. The n = 5 core lists with three or more 4-good agents are tho
   on the cores H_t of `k4/c4.md` §7 (n = 4t + 1; Proposition H of proof/k4-c4, under review) LB₄ʳ with index insertion
   needs ⌈2t/3⌉ nested rotations, so it fails on H_5 (n = 21) with three, and no fixed bound works for every run of
   Phase 1. The tests here reach n ≤ 8, where only H_1 (n = 5) fits, and it needs one rotation.
+- *Some insertion order (∃τ), the question H_t leaves.* On H_t, random insertion sequences (a uniformly random
+  candidate at each insertion step; `k4/lb4r_tau.c`, which is `k4/c4_lb4w.c` of proof/k4-c4, lb4.c with 64-bit masks,
+  plus this sampling; `results/k4_lb4r_tau_H.log`) mostly need no rotation, and none failed with at most three: with no,
+  one, two rotations (fewest, every policy allowed) 784, 216, 0 of 1,000 sequences for t = 1; 807, 92, 101 of 1,000 for
+  t = 2; 414, 31, 55 of 500 for t = 3; t = 4 to 6 still running (owner's needs from its base, `-w0`, as `k4/c4.md` §7 from t = 4; the
+  search with needs from the bundle is out of reach there). On small cores, hill-climbing with `-P3` (score: the fewest
+  rotations over all insertion sequences, then the share of sequences that need one) on the hard n ≤ 5 cores, the n = 5
+  classes with four or five 4-good agents, grown and random cores up to n = 7 (6.3·10⁶ profiles, 6.3·10⁷ runs;
+  `results/k4_lb4r_tau_climb.log`) found profiles on which every sequence needs a rotation (already at n = 3, m = 5, as
+  `attempts/lb4-no-rotation.md` implies), but none on which every sequence needs two, and none on which no sequence
+  succeeds with three.
+- *The profiles of PR #30* (`k4/gm4.md`; `k4/lb4r_profiles.py`, `results/k4_lb4r_gm4.log`), where two exposed agents
+  need the same pool good kept out of the large bundle: the eleven named instances A–H, P, Q, S, the 148 profiles whose
+  level-sum maxima are all dead ends, and the two-agent neighbourhoods of the seven GM₄ seeds (2,260,332 runs over the
+  2,247,609 distinct profiles of `k4/gm4.md`) and of the 148 (17,003,520 runs). LB₄ʳ fails on none, with index order or
+  every order (every order: 9.0·10⁷ run–profile pairs; index order: 1.9·10⁷ profiles). They are strict profiles of n = 4 cores, which the exhaustive every-order run
+  above covers as well.
 - *The hardest profiles found* (the logs give each with its run's insertion order, picks, upgrades and frozen agents):
   (values listed in the order of each agent's goods, which are sorted)
   - fewest rotations over all policies 2, with 128 rotation attempts in all: n = 5, m = 9, agents {0, 2, 7, 8},
