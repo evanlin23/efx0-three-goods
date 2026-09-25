@@ -24,3 +24,4 @@ import EFX.LB4R
 import EFX.LB4RExamples
 import EFX.C4min
 import EFX.K3Pareto
+import EFX.K3Theorem
