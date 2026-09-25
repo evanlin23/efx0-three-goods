@@ -1,0 +1,32 @@
+$ cd k4 && python3 mincex_shapes.py 4 --nmax=9 --write=../results/k4_min_cex_shapes_4.json.gz   (candidate list only; not certified)
+px P4 open: 10 profiles not reduced
+px P4 closed: 0 profiles not reduced
+px Q3 open: 2 profiles not reduced
+px Q3 closed: 0 profiles not reduced
+px Q4 open: 1080 profiles not reduced
+px Q4 closed: 72 profiles not reduced
+beta = 4: candidate cores, listed per graph G' and choice of P4 agents (isomorphic ones not merged)
+  n = 5, m = 10: 362 listed, 252 left after K4.MC-PX (up to isomorphism; profiles: max 859963392, total 84406724352)
+  n = 5, m = 11: 112 listed, 82 left after K4.MC-PX (up to isomorphism; profiles: max 41278242816, total 1870085947392)
+  n = 5, m = 12: 12 listed, 12 left after K4.MC-PX (up to isomorphism; profiles: max 1981355655168, total 23776267862016)
+  n = 6, m = 10: 684 listed, 530 left after K4.MC-PX (up to isomorphism; profiles: max 2239488, total 163777552)
+  n = 6, m = 11: 1181 listed, 840 left after K4.MC-PX (up to isomorphism; profiles: max 107495424, total 10544084400)
+  n = 6, m = 12: 897 listed, 572 left after K4.MC-PX (up to isomorphism; profiles: max 5159780352, total 303791975832)
+  n = 6, m = 13: 328 listed, 204 left after K4.MC-PX (up to isomorphism; profiles: max 247669456896, total 8743993307136)
+  n = 6, m = 14: 61 listed, 31 left after K4.MC-PX (up to isomorphism; profiles: max 11888133931008, total 120326077808640)
+  n = 6, m = 15: 6 listed, 6 left after K4.MC-PX (up to isomorphism; profiles: max 570630428688384, total 3423782572130304)
+  n = 7, m = 12: 738 listed, 575 left after K4.MC-PX (up to isomorphism; profiles: max 13436928, total 348140816)
+  n = 7, m = 13: 1176 listed, 816 left after K4.MC-PX (up to isomorphism; profiles: max 644972544, total 11503789072)
+  n = 7, m = 14: 811 listed, 527 left after K4.MC-PX (up to isomorphism; profiles: max 30958682112, total 155181799712)
+  n = 7, m = 15: 246 listed, 170 left after K4.MC-PX (up to isomorphism; profiles: max 440301256704, total 972506308608)
+  n = 7, m = 16: 26 listed, 22 left after K4.MC-PX (up to isomorphism; profiles: max 2388787200, total 52553318400)
+  n = 8, m = 14: 347 listed, 239 left after K4.MC-PX (up to isomorphism; profiles: max 23887872, total 301117552)
+  n = 8, m = 15: 534 listed, 321 left after K4.MC-PX (up to isomorphism; profiles: max 764411904, total 5855903008)
+  n = 8, m = 16: 366 listed, 197 left after K4.MC-PX (up to isomorphism; profiles: max 24461180928, total 36041599120)
+  n = 8, m = 17: 115 listed, 68 left after K4.MC-PX (up to isomorphism; profiles: max 15288238080, total 33038902960)
+  n = 8, m = 18: 13 listed, 10 left after K4.MC-PX (up to isomorphism; profiles: max 82944000, total 829440000)
+  n = 9, m = 16: 51 listed, 24 left after K4.MC-PX (up to isomorphism; profiles: max 95551488, total 575700672)
+  n = 9, m = 17: 77 listed, 32 left after K4.MC-PX (up to isomorphism; profiles: max 3057647616, total 9888023040)
+  n = 9, m = 18: 53 listed, 18 left after K4.MC-PX (up to isomorphism; profiles: max 97844723712, total 97996069632)
+  n = 9, m = 19: 17 listed, 8 left after K4.MC-PX (up to isomorphism; profiles: max 530841600, total 536841600)
+  n = 9, m = 20: 2 listed, 2 left after K4.MC-PX (up to isomorphism; profiles: max 2880000, total 5760000)

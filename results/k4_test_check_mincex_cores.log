@@ -1,0 +1,7 @@
+$ cd k4 && python3 test_check_mincex_cores.py
+unmodified inputs: exit 0
+an allocation deleted                              exit 1 (rejected)
+a core deleted                                     exit 1 (rejected)
+an allocation replaced by all goods to one agent   exit 1 (rejected)
+px-Q3-closed failing set: all 36 profiles          exit 1 (rejected)
+RESULT: OK

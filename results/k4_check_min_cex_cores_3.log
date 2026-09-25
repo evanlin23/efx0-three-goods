@@ -1,0 +1,13 @@
+$ cd k4 && python3 check_mincex_cores.py 3 ../results/k4_min_cex_cores_3.json.gz ../results/k4_min_cex_px_fail.json
+beta = 3: 82782 connected cores with 5 <= n <= 6 listed; 407 pass the filters; 9 left after K4.MC-PX
+  n = 5, m = 11, kinds P4P4P3P4P3: 28800 profiles, 4 allocations, 0 uncovered
+  n = 5, m = 11, kinds P4P4P3P3Q4: 28800 profiles, 2 allocations, 0 uncovered
+  n = 6, m = 11, kinds P4P3P3P3P3Q3: 720 profiles, 1 allocations, 0 uncovered
+  n = 6, m = 11, kinds P3P3P3P3P3Q4: 442368 profiles, 39 allocations, 0 uncovered
+  n = 6, m = 11, kinds P4P3P3P3Q3Q3: 40 profiles, 1 allocations, 0 uncovered
+  n = 6, m = 12, kinds P4P4P3P3P3P3: 3600 profiles, 1 allocations, 0 uncovered
+  n = 6, m = 12, kinds P4P4P3P3P3Q3: 200 profiles, 1 allocations, 0 uncovered
+  n = 6, m = 12, kinds P3P3P3P3Q4Q4: 21233664 profiles, 22 allocations, 0 uncovered
+  n = 6, m = 13, kinds P4P4P4P3P3P3: 1000 profiles, 1 allocations, 0 uncovered
+every allocation has at most one bundle of more than 2 goods (D2): True
+RESULT: OK

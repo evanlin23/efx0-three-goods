@@ -1,0 +1,12 @@
+$ python3 k4/mincex_shapes.py 3 --write=results/k4_min_cex_shapes_3.json.gz   (G' listed up to n = 5(beta - 1) = 10, beyond the bound 3(beta - 1) = 6, as a check)
+px P4 open: 10 profiles not reduced
+px P4 closed: 0 profiles not reduced
+px Q3 open: 2 profiles not reduced
+px Q3 closed: 0 profiles not reduced
+px Q4 open: 1080 profiles not reduced
+px Q4 closed: 72 profiles not reduced
+beta = 3: candidate cores, listed per graph G' and choice of P4 agents (isomorphic ones not merged)
+  n = 5, m = 11: 3 listed, 2 left after K4.MC-PX (up to isomorphism; profiles: max 28800, total 57600)
+  n = 6, m = 11: 8 listed, 3 left after K4.MC-PX (up to isomorphism; profiles: max 442368, total 443128)
+  n = 6, m = 12: 8 listed, 3 left after K4.MC-PX (up to isomorphism; profiles: max 21233664, total 21237464)
+  n = 6, m = 13: 2 listed, 1 left after K4.MC-PX (up to isomorphism; profiles: max 1000, total 1000)

@@ -37,6 +37,7 @@ def gammas(beta, nmin=5, nmax=None):
 def hypergraphs(beta, nmax=None):
     """Candidate cores: list of agent good-lists (private goods appended after the shared ones)."""
     for n, nb, mp in gammas(beta, nmax=nmax):
+        if structural_prune(nb): continue
         deg = collections.Counter(g for N in nb for g in N)
         if any(deg[g] == 2 and all(len(nb[a]) == 2 for a in range(n) if g in nb[a]) for g in range(mp)): continue
         t = sum(d - 2 for d in deg.values())
@@ -78,6 +79,29 @@ def kind(S, deg):
     return {(3, 1): 'P3', (3, 0): 'Q3', (4, 1): 'P4', (4, 0): 'Q4'}[(len(S), priv)]
 
 
+_SYM = {}
+
+
+def sym_allowed(fail, ke, closed):
+    """Allowed (not reduced) e- and f-vectors of configuration px, in px label order with e's symmetric goods (those
+    other than g, y and its private good) in a fixed order: a profile is reduced if some labeling of the symmetric
+    goods reduces it, so the allowed set is the intersection over the permutations of their projections."""
+    key = (ke, closed)
+    if key in _SYM: return _SYM[key]
+    fs = fail[key]
+    lead = 2 if closed else 1
+    nsym = {'Q3': 2, 'P4': 2, 'Q4': 3}[ke] - (1 if closed else 0)
+    AE, AF = None, set(fv for _, fv in fs)
+    for perm in itertools.permutations(range(nsym)):
+        ae = set()
+        for ev, fv in fs:
+            ev = list(ev)
+            ae.add(tuple(ev[:lead] + [ev[lead + perm[i]] for i in range(nsym)] + ev[lead + nsym:]))
+        AE = ae if AE is None else AE & ae
+    _SYM[key] = (AE, AF)
+    return _SYM[key]
+
+
 def restricted_domains(sets, m, fail):
     """fail[(kind of e, closed)] = set of (e-vector on the px labels, f-vector on (g, y, pf)) not reduced. Returns the
     per-agent lists of allowed value vectors (aligned with sets[i]) and the rules applied."""
@@ -94,26 +118,37 @@ def restricted_domains(sets, m, fail):
             ke = kinds[e]
             y = next(x for x in Sf if x not in (g, pf))
             closed = y in sets[e]
-            rest = [x for x in sets[e] if x not in (g, y) and deg[x] > 1]
+            rest = sorted(x for x in sets[e] if x not in (g, y) and deg[x] > 1)
             pe = [x for x in sets[e] if deg[x] == 1]
-            allowed_e, allowed_f = set(), set()
-            first = True
-            for perm in itertools.permutations(rest):            # every labeling of e's symmetric goods
-                labels = [g] + ([y] if closed else []) + list(perm) + pe      # e's goods in px order
-                fs = fail[(ke, closed)]
-                pe_set = {tuple(ev) for ev, fv in fs}
-                ae = set()
-                af = set()
-                for ev, fv in fs:
-                    val_e = dict(zip(labels, ev)); val_f = dict(zip((g, y, pf), fv))
-                    ae.add(tuple(val_e[x] for x in sets[e])); af.add(tuple(val_f[x] for x in Sf))
-                allowed_e = ae if first else allowed_e & ae
-                allowed_f = af if first else allowed_f & af
-                first = False
-            dom[e] = [v for v in dom[e] if tuple(v) in allowed_e]
-            dom[f] = [v for v in dom[f] if tuple(v) in allowed_f]
+            labels = [g] + ([y] if closed else []) + rest + pe          # e's goods in px order
+            AE, AF = sym_allowed(fail, ke, closed)
+            pos_e = [sets[e].index(x) for x in labels]
+            pos_f = [Sf.index(x) for x in (g, y, pf)]
+            dom[e] = [v for v in dom[e] if tuple(v[i] for i in pos_e) in AE]
+            dom[f] = [v for v in dom[f] if tuple(v[i] for i in pos_f) in AF]
             rules.append((ke, closed, e, f, g))
     return dom, kinds, rules
+
+
+def structural_prune(nb):
+    """True if G' (agent neighbourhoods) is excluded whatever the Q3/P4 choice (K4.MC-PX with Q3 and P4, whose closed
+    configurations are always reduced and whose open ones force the P3 agent to rank g last and e to rank g first)."""
+    n = len(nb)
+    deg = collections.Counter(g for N in nb for g in N)
+    def partner(a, g): return next(b for b in range(n) if b != a and g in nb[b])
+    tops = collections.Counter()
+    for f in range(n):
+        if len(nb[f]) != 2: continue
+        e3 = []
+        for g in nb[f]:
+            if deg[g] != 2: continue
+            e = partner(f, g)
+            if len(nb[e]) == 3:
+                y = next(x for x in nb[f] if x != g)
+                if y in nb[e]: return True                        # closed: reduced
+                e3.append(e); tops[e] += 1
+        if len(e3) == 2: return True                              # f would rank each of its goods last
+    return any(c >= 2 for c in tops.values())                     # e would rank two goods first
 
 
 def px_fail():
