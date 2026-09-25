@@ -36,6 +36,14 @@ def junk_free_states(vals, m):
         Y = [frozenset(g for g in range(m) if A[g] == j) for j in range(n)]
         if efx0(vals, [set(b) for b in Y]): yield Y
 
+def dead(vals, Y, m):
+    """no complete EFX0 allocation gives every agent at least its value in Y"""
+    n = len(vals); vY = [val(vals[i], Y[i]) for i in range(n)]
+    for A in itertools.product(range(n), repeat=m):
+        X = [{g for g in range(m) if A[g] == j} for j in range(n)]
+        if all(val(vals[i], X[i]) >= vY[i] for i in range(n)) and efx0(vals, X): return False
+    return True
+
 def trajectory(s, traj):
     vals = parse(s); m = 1 + max(g for v in vals for g in v)
     ok, Y = replay(vals, traj, m)
@@ -58,6 +66,7 @@ def main():
     claim("states on the path with a single-dump or dump-plus-solo placement", anyp, [])
     U = set(range(m)) - set().union(*Y)
     claim(f"completions of the final state {[sorted(b) for b in Y]} U={sorted(U)}", len(completions(vals, Y, U)), 0)
+    claim("the final state is a dead end", dead(vals, Y, m), True)
     # 2. bounded coalitions (attempts/k4-lsp-bounded-coalitions.md)
     s = '[0:2 1:4 2:10 3:7] [0:3 2:10 5:2 6:6] [1:4 4:3 5:8 6:6] [3:6 4:3 5:10 6:2]'
     traj = ['1 0 0 0', '2 0 0 0', '8 0 0 0', '4 0 0 0', '4 20 0 0', '4 1 0 0', '4 40 0 0', '4 40 10 0', '4 40 2 0',
@@ -75,6 +84,7 @@ def main():
     print(f"   level-sum-raising re-divisions by all 4 agents: {len(c4)} (claim > 0), e.g. {[(i, sorted(Z)) for i, Z in c4[0]] if c4 else None}")
     bad += not c4
     claim("completions of Y", len(completions(vals, Y, U)), 0)
+    claim("Y is a dead end", dead(vals, Y, m), False)
     # 3. leximin potential (attempts/k4-lsp-leximin.md)
     s = '[0:8 2:10 5:6 6:3] [0:5 3:2 4:4 6:8] [1:1 2:8 4:6 6:4] [1:2 3:3 5:6 6:10]'
     print(f"== leximin of the levels as the potential, n = 4, m = 7 (the profile of Proposition 7)\n   values {s}")

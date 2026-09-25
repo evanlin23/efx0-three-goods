@@ -4,6 +4,7 @@ $ python3 k4/lsp_attempts.py
    16 LS4 steps replayed as Pareto moves: True (claim True)
    states on the path with a single-dump or dump-plus-solo placement: [] (claim [])
    completions of the final state [[2], [5], [1, 4], [3, 6]] U=[0]: 0 (claim 0)
+   the final state is a dead end: True (claim True)
 == coalition re-divisions of at most 3 agents (LS4 -DCMOVE=3), n = 4, m = 7
    values [0:2 1:4 2:10 3:7] [0:3 2:10 5:2 6:6] [1:4 4:3 5:8 6:6] [3:6 4:3 5:10 6:2]
    14 LS4 steps replayed as Pareto moves: True (claim True)
@@ -15,6 +16,7 @@ $ python3 k4/lsp_attempts.py
    level-sum-raising re-divisions by 3 agents (C_3): 0 (claim 0)
    level-sum-raising re-divisions by all 4 agents: 14 (claim > 0), e.g. [(0, [3]), (1, [2]), (2, [1, 6]), (3, [5])]
    completions of Y: 0 (claim 0)
+   Y is a dead end: False (claim False)
 == leximin of the levels as the potential, n = 4, m = 7 (the profile of Proposition 7)
    values [0:8 2:10 5:6 6:3] [0:5 3:2 4:4 6:8] [1:1 2:8 4:6 6:4] [1:2 3:3 5:6 6:10]
    leximin-maximal junk-free EFX0 partial allocations: [[[2], [6], [1, 4], [3, 5]]] (levels sorted [5, 5, 6, 6])

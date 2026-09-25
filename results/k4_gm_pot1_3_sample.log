@@ -1,0 +1,2 @@
+# ls4alg_run.py ../results/k4_certs_3.json.gz --prog=ls4_gm --defs=-DPOT=1 --sample=2000
+TOTAL cores=51 badcores=0 runs=102000 nmaximal=108859 fail=0 allfail=0 wall=3s
