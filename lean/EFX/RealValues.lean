@@ -22,7 +22,7 @@ every comparison of two subset sums is, after cancelling the common goods, a com
 disjoint subsets (`tri_cancel`), hence decided by twelve basic comparisons (`Pat`, `Realizes`,
 `tri_le_iff`). Those twelve answers satisfy the constraints `Pat.ok` (totality, transitivity,
 positivity), and every pattern satisfying them is realized by one of 31 natural-number triples, the
-permutations of the representatives of proofs/real_values.md (`table`, checked by `decide`). Agents
+permutations of the representatives of proofs/real_values.md (`table`, checked by `decide +kernel`). Agents
 with one or two relevant goods use the same table with a phantom slot that no subset contains.
 
 **Consequences.** EFX₀, the relevant-goods count and balance transfer along `Agree`
@@ -689,6 +689,7 @@ end EFX
 #print axioms EFX.OrderedValue.tri_le_iff
 #print axioms EFX.OrderedValue.tri_rep
 #print axioms EFX.OrderedValue.exists_agree
+#print axioms EFX.efx0_iff_of_agree
 #print axioms EFX.numRelevant_eq_of_agree
 #print axioms EFX.OrderedValue.balanced_iff_of_agree
 #print axioms EFX.l12

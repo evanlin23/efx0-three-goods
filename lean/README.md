@@ -21,7 +21,7 @@ standard ones, if the number of certificates differs from the number of `#print 
 declaration of the library (certified or not; `CheckAxioms.lean`) depends on another axiom. On success the last
 line is
 
-    CHECK PASSED: 75 audited statements, 296 theorems, standard axioms only
+    CHECK PASSED: 76 audited statements, 296 theorems, standard axioms only
 
 CI runs it on every pull request (job `lean` in `.github/workflows/verify.yml`). In Claude Code on the web the
 session-start hook installs the toolchain (from GitHub when `release.lean-lang.org` is unreachable).
@@ -130,7 +130,7 @@ specializations) have exactly the types of `EFX.target`, `EFX.LB.corollaryD` (ch
   class and mirrored model above; `EFX.Agree` (same answer to every comparison between two subset sums);
   `EFX.OrderedValue.tri_le_iff` (for three positive values, every such comparison is decided by twelve basic
   comparisons, after cancelling common goods); `EFX.Pat.table` (every consistent pattern of those twelve answers is
-  realized by one of the 31 permutations of the representatives of L12, checked by `decide`);
+  realized by one of the 31 permutations of the representatives of L12, checked by `decide +kernel`);
   `EFX.OrderedValue.tri_rep`, `EFX.OrderedValue.exists_agree`, `EFX.l12`; the transfers `EFX.efx0_iff_of_agree`,
   `EFX.numRelevant_eq_of_agree`, `EFX.OrderedValue.balanced_iff_of_agree`; `EFX.target_ordered`,
   `EFX.corollaryD_ordered`.
@@ -163,7 +163,7 @@ name in the ledger's Lean column has one.
 | D | Corollary D: every instance in which every agent values exactly three goods and is balanced has an EFX₀ allocation with at most one bundle of more than two goods | CorollaryD : `EFX.LB.corollaryD` (model), `EFX.LB.corollaryD_lists` (over lists), values in ℕ; RealValues : `EFX.corollaryD_ordered` (values in any `EFX.OrderedValue`, e.g. ℝ≥0, via L12), `EFX.corollaryD_of_ordered` (its specialization to ℕ) |
 | T | CORE: if every core with at most `N` agents has an EFX₀ allocation, so does every instance with at most `N` agents and `\|R_i\| ≤ 3` (L3, R1, R2 by induction) | Target : `EFX.core_reduction` (over lists) |
 | T | TARGET (Corollary T): every instance with `\|R_i\| ≤ 3` for every agent has a complete EFX₀ allocation | Target : `EFX.target` (model), `EFX.target_lists` (over lists), values in ℕ; RealValues : `EFX.target_ordered` (values in any `EFX.OrderedValue`, e.g. ℝ≥0, via L12), `EFX.target_of_ordered` (its specialization to ℕ) |
-| L12 | Real values reduce to natural numbers: with ≤ 3 relevant goods per agent and nonnegative values, there are natural-number values with the same relevant goods and the same answer to every comparison between two subset sums; EFX₀, the relevant-goods count and balance transfer | RealValues : `EFX.l12`, `EFX.OrderedValue.exists_agree` (one agent), `EFX.OrderedValue.tri_rep` (three positive values), `EFX.numRelevant_eq_of_agree`, `EFX.OrderedValue.balanced_iff_of_agree` |
+| L12 | Real values reduce to natural numbers: with ≤ 3 relevant goods per agent and nonnegative values, there are natural-number values with the same relevant goods and the same answer to every comparison between two subset sums; EFX₀, the relevant-goods count and balance transfer | RealValues : `EFX.l12`, `EFX.OrderedValue.exists_agree` (one agent), `EFX.OrderedValue.tri_rep` (three positive values), `EFX.numRelevant_eq_of_agree`, `EFX.OrderedValue.balanced_iff_of_agree`, `EFX.efx0_iff_of_agree` (EFX₀ for `v` iff for `w`) |
 | — | The list layer agrees with the model | Bridge : `EFX.Inst.efx0_iff` |
 
 mrd-efx proves a stronger form of L2c (`MRD.main_theorem_L`: in addition, all bundles but one have at most one
@@ -178,7 +178,7 @@ good), and extends it to monotone valuations.
 - The peeling theorems are stated over lists: removing an agent and its goods changes the index types `Fin n`, `Fin m`,
   so a model-level statement needs sub-instances. `EFX.Inst.efx0_iff` connects the two for the full instance.
 - Real-valued utilities: core Lean has no `ℝ`, so that `ℝ≥0` satisfies the axioms of `EFX.OrderedValue` is the
-  textbook fact, not a Lean instance. L12's remark that cores are preserved is not formalized.
+  textbook fact, not a Lean instance. L12's remark that cores are preserved (K1–K4) is written only, not formalized.
 - S2.S: LB's rule for choosing Phase 1's processing order (R1 keys, insertion lookahead); the theorems hold for
   every order. That `EFX.LB.lb` is the algorithm of `src/construct.py` is checked by running both
   (`scripts/lb_crosscheck.py`), not proved. That LB never fails (S2.LB) is a conjecture. Lemma 2 (the size of the

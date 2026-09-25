@@ -55,5 +55,5 @@ iff it is EFX₀ for w, with the same bundles. Hence:
 Machine-checked in Lean (`formal/real-values`, `lean/EFX/RealValues.lean`): `EFX.l12`, for values in any type satisfying
 `EFX.OrderedValue` (a linearly ordered cancellative additive commutative monoid; ℝ≥0 is one), and from it
 `EFX.target_ordered` and `EFX.corollaryD_ordered`. The Lean proof uses the representatives above in every order (31
-triples, checked by `decide`) instead of sorting the goods, and treats agents with one or two relevant goods as three
+triples, checked by `decide +kernel`) instead of sorting the goods, and treats agents with one or two relevant goods as three
 slots, one or two of them phantom. Core preservation is not formalized.
