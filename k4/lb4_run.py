@@ -1,7 +1,7 @@
 """Driver for k4/lb4.c: run LB4 on every strict (or, with --ties, every balanced weak) profile of every core in the
 given certificate files (results/k4_certs_*.json.gz; only the core lists are used, loaded as in k4/check4.py), in
 parallel over cores, and sum the per-core result lines.
-Usage: lb4_run.py FILE [FILE ...] [--ties] [--jobs=J] [--show=N] [--m=M] [C options: -o0 -o1 -o2 -i1 -s -b -u0]"""
+Usage: lb4_run.py FILE [FILE ...] [--ties] [--jobs=J] [--show=N] [--m=M] [--checkpoint=P] [--badcores=P] [C options: -o0 -o1 -o2 -i1 -s -b -u0]"""
 import gzip, hashlib, json, os, subprocess, sys, tempfile, time
 from multiprocessing import Pool
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -50,6 +50,9 @@ def main():
     # --checkpoint=PATH: one JSON line per finished core (its result line and failure reports); a rerun skips the cores
     # already there, and the totals printed are over the whole checkpoint, so an interrupted run resumes
     ckp = next((a.split('=', 1)[1] for a in args if a.startswith('--checkpoint=')), None)
+    # --badcores=PATH: write the cores with a failure (over every file) as a core list that this driver reads back
+    badp = next((a.split('=', 1)[1] for a in args if a.startswith('--badcores=')), None)
+    allbad = []
     if certp: opts.append('-a')
     build()
     print('#', 'lb4_run.py', ' '.join(args), flush=True)
@@ -117,6 +120,7 @@ def main():
         print('  ' + ' '.join(f"{k}={v}" for k, v in tot.items()))
         print(f"  cores with a failure: {len(bad)}")
         for b in sorted(bad)[:show]: print('   ', b)
+        allbad += [{'m': b[0], 'sets': b[1]} for b in sorted(bad)]
         lines = [l for e in errs for l in e.strip().split('\n') if l and not l.startswith('HARD')]
         hard = [l for e in errs for l in e.strip().split('\n') if l.startswith('HARD')]
         hk = lambda l: tuple(int(t.split('=')[1]) for t in l.split()[1:4])
@@ -125,6 +129,9 @@ def main():
         lines.sort(key=lambda l: (int(l.split('m=')[1].split()[0]), len(l)))
         for l in lines[:show]: print('  ', l)
         sys.stdout.flush()
+    if badp:
+        with gzip.open(badp, 'wt') as fh: json.dump({'ties': ties, 'from': files, 'failing': ' '.join(opts), 'cores': allbad}, fh)
+        print(f"  cores with a failure written to {badp} ({len(allbad)})")
 
 if __name__ == '__main__':
     main()

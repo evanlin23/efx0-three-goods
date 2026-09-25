@@ -510,6 +510,7 @@ static int run_leaf(int *ok) {
 
 static long HILL = 0;                    /* -HN: N hill-climbing steps per core (restart every 500) */
 static long hist_pol[3], hist_rot[4];
+static long sstat[5], sbig[40], sfb_upg;   /* per-run counters of the -S and -H modes */
 /* set the rankings and singleton type sets for type indices ty[]; run LB4 (every insertion sequence when -i1);
    *score = max over runs of policy * 1e8 + rotations * 1e6 + min(effort, 999999); returns 1 if every run succeeds */
 static int eval_profile(const int *ty, long *score, long *nruns) {
@@ -528,6 +529,8 @@ static int eval_profile(const int *ty, long *score, long *nruns) {
         (*nruns)++;
         if (!ok) { *score = -1; return 0; }
         if (!rawcheck()) { report("RAWFAIL"); exit(2); }
+        sstat[last_status]++; if (lastbig) sbig[lastbig]++; if (fb_upg) sfb_upg++;
+        hist_pol[used_pol]++; hist_rot[used_rot]++;
         long e = effort < 999999 ? effort : 999999, v = used_pol * 100000000L + used_rot * 1000000L + e;
         if (v > sc) sc = v;
         if (INS != 1) break;
@@ -596,7 +599,6 @@ int main(int argc, char **argv) {
                     if (HILL > 0) break;
                     continue;
                 }
-                hist_pol[sc / 100000000L]++; hist_rot[(sc / 1000000L) % 100]++;
                 if (sc > top) {          /* hardest so far on this core */
                     top = sc; memcpy(best, ty, sizeof best);
                     if (sc >= 2000000L) { char lab[64]; snprintf(lab, sizeof lab, "HARD p=%ld r=%ld e=%ld", sc / 100000000L, (sc / 1000000L) % 100, sc % 1000000L); report(lab); }
@@ -605,6 +607,10 @@ int main(int argc, char **argv) {
                 else cur = sc;
             }
             (void)best;
+            for (int k = 0; k < 5; k++) stat[k] += sstat[k];
+            for (int k = 0; k < 40; k++) bigsz[k] += sbig[k];
+            nfb_upg += sfb_upg;
+            memset(sstat, 0, sizeof sstat); memset(sbig, 0, sizeof sbig); sfb_upg = 0;
             goto core_done;
         }
         /* odometer over ranking profiles */
