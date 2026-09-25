@@ -7,6 +7,12 @@ A: pure n=4, m=7
   level-sum maxima: 2; with a placement: 1
     [[0, 2], [5], [3], [6]] pool [1, 4] placement: True
     [[0, 2], [1, 4], [5], [6]] pool [3] placement: False
+  [ok] Y is reached from the empty allocation by 4 M1 moves, and its envy graph is acyclic (LS4+_n can stop at Y with failure)
+     [[], [], [], []]
+     [[], [], [5], []]
+     [[0, 2], [], [5], []]
+     [[0, 2], [], [5], [6]]
+     [[0, 2], [1, 4], [5], [6]]
   largest level sum of a complete EFX0 allocation: 21 (maximum over partial ones: 21)
 B: pure n=4, m=7
   [ok] k = 4 core (degrees 3-4, strictly balanced, strict, private-good rule, every good valued, connected)
@@ -20,6 +26,12 @@ B: pure n=4, m=7
     [[0, 2], [5], [6], [3, 4]] pool [1] placement: True
     [[0], [6], [2, 3], [5]] pool [1, 4] placement: True
     [[0, 2], [1, 4], [6], [5]] pool [3] placement: False
+  [ok] Y is reached from the empty allocation by 4 M1 moves, and its envy graph is acyclic (LS4+_n can stop at Y with failure)
+     [[], [], [], []]
+     [[], [], [6], []]
+     [[0, 2], [], [6], []]
+     [[0, 2], [], [6], [5]]
+     [[0, 2], [1, 4], [6], [5]]
   largest level sum of a complete EFX0 allocation: 20 (maximum over partial ones: 20)
 C: pure n=4, m=7
   [ok] k = 4 core (degrees 3-4, strictly balanced, strict, private-good rule, every good valued, connected)
@@ -31,6 +43,12 @@ C: pure n=4, m=7
     [[5], [6], [1, 4], [3]] pool [0, 2] placement: True
     [[0, 2], [1, 3], [6], [5]] pool [4] placement: True
     [[0, 2], [6], [1, 4], [5]] pool [3] placement: False
+  [ok] Y is reached from the empty allocation by 4 M1 moves, and its envy graph is acyclic (LS4+_n can stop at Y with failure)
+     [[], [], [], []]
+     [[], [6], [], []]
+     [[0, 2], [6], [], []]
+     [[0, 2], [6], [], [5]]
+     [[0, 2], [6], [1, 4], [5]]
   largest level sum of a complete EFX0 allocation: 21 (maximum over partial ones: 21)
 D: pure n=4, m=7
   [ok] k = 4 core (degrees 3-4, strictly balanced, strict, private-good rule, every good valued, connected)
@@ -42,5 +60,52 @@ D: pure n=4, m=7
     [[0], [4, 6], [5], [1, 3]] pool [2] placement: True
     [[2, 4], [0], [1, 6], [5]] pool [3] placement: True
     [[2, 4], [0], [5], [1, 3]] pool [6] placement: False
+  [ok] Y is reached from the empty allocation by 4 M1 moves, and its envy graph is acyclic (LS4+_n can stop at Y with failure)
+     [[], [], [], []]
+     [[], [0], [], []]
+     [[], [0], [5], []]
+     [[2, 4], [0], [5], []]
+     [[2, 4], [0], [5], [1, 3]]
   largest level sum of a complete EFX0 allocation: 23 (maximum over partial ones: 23)
+E: n=4, m=7, two 4-good agents
+  [ok] k = 4 core (degrees 3-4, strictly balanced, strict, private-good rule, every good valued, connected)
+  [ok] Y is junk-free and EFX0
+  [ok] Y maximizes the level sum over all junk-free EFX0 partial allocations (18 = 18)
+  [ok] pool [6] is nonempty and no assignment of it to any agents is EFX0 (GM4 fails)
+  [ok] dead end: none of the 15 complete EFX0 allocations gives every agent at least v_i(Y_i)
+  level-sum maxima: 3; with a placement: 2
+    [[2], [1, 3], [6], [5]] pool [0, 4] placement: True
+    [[0, 4], [5], [2], [6]] pool [1, 3] placement: True
+    [[0, 4], [1, 3], [2], [5]] pool [6] placement: False
+  [ok] Y is reached from the empty allocation by 4 M1 moves, and its envy graph is acyclic (LS4+_n can stop at Y with failure)
+     [[], [], [], []]
+     [[], [], [2], []]
+     [[], [1, 3], [2], []]
+     [[], [1, 3], [2], [5]]
+     [[0, 4], [1, 3], [2], [5]]
+  largest level sum of a complete EFX0 allocation: 18 (maximum over partial ones: 18)
+F: n=4, m=7, two 4-good agents
+  [ok] k = 4 core (degrees 3-4, strictly balanced, strict, private-good rule, every good valued, connected)
+  [ok] Y is junk-free and EFX0
+  [ok] Y maximizes the level sum over all junk-free EFX0 partial allocations (16 = 16)
+  [ok] pool [6] is nonempty and no assignment of it to any agents is EFX0 (GM4 fails)
+  [ok] dead end: none of the 18 complete EFX0 allocations gives every agent at least v_i(Y_i)
+  level-sum maxima: 4; with a placement: 3
+    [[2], [1, 3], [6], [5]] pool [0, 4] placement: True
+    [[5], [1, 3], [2], [4, 6]] pool [0] placement: True
+    [[0, 4], [5], [2], [6]] pool [1, 3] placement: True
+    [[0, 4], [1, 3], [2], [5]] pool [6] placement: False
+  [ok] Y is reached from the empty allocation by 4 M1 moves, and its envy graph is acyclic (LS4+_n can stop at Y with failure)
+     [[], [], [], []]
+     [[], [], [2], []]
+     [[], [1, 3], [2], []]
+     [[], [1, 3], [2], [5]]
+     [[0, 4], [1, 3], [2], [5]]
+  largest level sum of a complete EFX0 allocation: 16 (maximum over partial ones: 16)
+S: n=4, m=6, one 4-good agent (GM4S only: a split placement is needed)
+  [ok] k = 4 core (degrees 3-4, strictly balanced, strict, private-good rule, every good valued, connected)
+  [ok] Y is junk-free and EFX0
+  [ok] Y maximizes the level sum over all junk-free EFX0 partial allocations (13 = 13)
+  [ok] pool [0, 2] nonempty, no empty bundle, and no agent can take the whole pool (GM4S fails)
+  [ok] junk placements (pool good -> agent) that are EFX0: [{0: 2, 2: 3}, {0: 3, 2: 2}]
 ALL CLAIMS HOLD

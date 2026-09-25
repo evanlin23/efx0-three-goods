@@ -76,7 +76,7 @@ def main():
                 if line.startswith('RESULT'):
                     for kv in line.split()[1:]:
                         k, v = kv.split('='); tot[k] = tot.get(k, 0) + int(v)
-                elif line.split(' ')[0] in ('M', 'GMFAIL', 'GM4S', 'GAP', 'H1FAIL', 'H0FAIL', 'ESC', 'NOESC') or line.startswith('SKIP'):
+                elif line.split(' ')[0] in ('M', 'GMFAIL', 'GMALL', 'GM4S', 'GAP', 'H1FAIL', 'H0FAIL', 'ESC', 'NOESC') or line.startswith('SKIP'):
                     print(f"{line} # m={m} sets={json.dumps(sets, separators=(',', ':'))}", flush=True)
             if rc not in (0, 1) or 'RESULT' not in out: bad += 1; print('BAD', sets, rc, out[-300:], flush=True)
     print(f"TOTAL cores={ncores} badcores={bad} " + ' '.join(f"{k}={v}" for k, v in tot.items()) + f" wall={time.time() - t0:.0f}s", flush=True)

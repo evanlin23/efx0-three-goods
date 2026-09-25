@@ -12,26 +12,44 @@ For each instance (explicit integer values; every agent's subset sums on its rel
   4. [GM4] no placement of the pool: no assignment of the pool goods to agents (any agents, valued or not) gives a
      complete EFX0 allocation containing Y (so in particular no junk placement);
   5. [dead end] no complete EFX0 allocation X has v_i(X_i) >= v_i(Y_i) for every i (all n^m allocations);
-  6. it lists every level-sum maximum and says which admit a placement, and counts the complete EFX0 allocations.
+  6. it lists every level-sum maximum and says which admit a placement, and counts the complete EFX0 allocations;
+  7. [LS4+ fails under some choices] Y is reached from the empty allocation by single-agent rebundles (M1 moves of
+     k4/local_search4.md §2: one agent h replaces Y_h by Z subset R_h cap (Y_h cup U) with v_h(Z) > v_h(Y_h), result
+     EFX0), found by breadth-first search; M1 has priority in LS4 and LS4+, so this path is a valid run of both, and at
+     Y no M1, R, X or coalition move applies (Y is a maximum and every such move raises the level sum; the envy graph
+     is acyclic) and no placement exists, so LS4+_n stops there with failure.
+Instances of kind GM4S (a maximum that admits a placement but no single dump) replace 4, 5 and 7 by:
+  4'. the pool is nonempty, no bundle of Y is empty, and for EVERY agent s, adding all of the pool to Y_s does not
+      give an EFX0 allocation (so neither the empty-bundle dump nor any single dump works), and
+  5'. some assignment of the pool goods to agents not valuing them is EFX0 (printed).
 Exit status 0 iff every claim holds for every instance.
 Usage: python3 k4/gm4_counterexample.py
 """
 import itertools, sys
 
-# (goods of agent i with values), stated maximum Y (list of bundles), label
+# label, (goods of agent i with values), stated maximum Y (list of bundles), kind
 INSTANCES = [
     ("A: pure n=4, m=7",
      [{0: 3, 2: 6, 5: 2, 6: 10}, {1: 1, 4: 6, 5: 8, 6: 4}, {2: 2, 3: 7, 5: 8, 6: 4}, {3: 6, 4: 3, 5: 4, 6: 8}],
-     [{0, 2}, {1, 4}, {5}, {6}]),
+     [{0, 2}, {1, 4}, {5}, {6}], 'GM4'),
     ("B: pure n=4, m=7",
      [{0: 4, 2: 2, 5: 8, 6: 5}, {1: 3, 4: 6, 5: 8, 6: 10}, {2: 4, 3: 5, 4: 2, 6: 8}, {3: 5, 4: 4, 5: 8, 6: 2}],
-     [{0, 2}, {1, 4}, {6}, {5}]),
+     [{0, 2}, {1, 4}, {6}, {5}], 'GM4'),
     ("C: pure n=4, m=7",
      [{0: 2, 2: 4, 5: 8, 6: 3}, {1: 2, 2: 4, 3: 7, 6: 10}, {1: 1, 4: 6, 5: 4, 6: 8}, {3: 8, 4: 6, 5: 10, 6: 3}],
-     [{0, 2}, {6}, {1, 4}, {5}]),
+     [{0, 2}, {6}, {1, 4}, {5}], 'GM4'),
     ("D: pure n=4, m=7",
      [{0: 10, 2: 7, 4: 2, 5: 6}, {0: 8, 3: 4, 4: 1, 6: 6}, {1: 1, 2: 4, 5: 8, 6: 6}, {1: 3, 3: 6, 5: 10, 6: 2}],
-     [{2, 4}, {0}, {5}, {1, 3}]),
+     [{2, 4}, {0}, {5}, {1, 3}], 'GM4'),
+    ("E: n=4, m=7, two 4-good agents",
+     [{0: 3, 2: 10, 4: 6, 6: 2}, {1: 3, 3: 4, 5: 8, 6: 2}, {2: 4, 3: 2, 6: 3}, {4: 2, 5: 4, 6: 3}],
+     [{0, 4}, {1, 3}, {2}, {5}], 'GM4'),
+    ("F: n=4, m=7, two 4-good agents",
+     [{0: 3, 2: 8, 4: 4, 5: 6}, {1: 3, 3: 6, 5: 10, 6: 2}, {2: 4, 3: 2, 6: 3}, {4: 2, 5: 4, 6: 3}],
+     [{0, 4}, {1, 3}, {2}, {5}], 'GM4'),
+    ("S: n=4, m=6, one 4-good agent (GM4S only: a split placement is needed)",
+     [{0: 1, 2: 6, 3: 4, 4: 8}, {1: 2, 2: 3, 5: 4}, {1: 3, 4: 4, 5: 2}, {3: 3, 4: 2, 5: 4}],
+     [{4}, {5}, {1}, {3}], 'GM4S'),
 ]
 
 def v(vals, i, S):
@@ -52,7 +70,7 @@ def level(vals, i, S):
     x = v(vals, i, S)
     return sum(1 for k in range(len(R) + 1) for T in itertools.combinations(R, k) if v(vals, i, T) < x)
 
-def check(label, vals, Y):
+def check(label, vals, Y, kind):
     n = len(vals); m = 1 + max(g for d in vals for g in d)
     Y = [set(b) for b in Y]
     ok = True
@@ -98,6 +116,16 @@ def check(label, vals, Y):
             for u, j in zip(P, asg): X[j].add(u)
             if efx0(vals, X): return True
         return False
+    if kind == 'GM4S':
+        single = [s_ for s_ in range(n) if efx0(vals, [Y[i] | U if i == s_ else Y[i] for i in range(n)])]
+        claim(U and all(Y) and not single, f"pool {sorted(U)} nonempty, no empty bundle, and no agent can take the whole pool (GM4S fails)")
+        P = sorted(U); found = []
+        for asg in itertools.product(*[[j for j in range(n) if u not in R[j]] for u in P]):
+            X = [set(b) for b in Y]
+            for u, j in zip(P, asg): X[j].add(u)
+            if efx0(vals, X): found.append(dict(zip(P, asg)))
+        claim(found, f"junk placements (pool good -> agent) that are EFX0: {found}")
+        return ok
     claim(U and not placeable(Y), f"pool {sorted(U)} is nonempty and no assignment of it to any agents is EFX0 (GM4 fails)")
     comp = []
     for owners in itertools.product(range(n), repeat=m):
@@ -109,12 +137,42 @@ def check(label, vals, Y):
     for Z in maxima:
         print(f"    {[sorted(b) for b in Z]} pool {sorted(set(range(m)) - set().union(*Z))} placement: {placeable(Z)}")
     bestc = max(sum(level(vals, i, X[i] & R[i]) for i in range(n)) for X in comp)
+    key = lambda X: tuple(frozenset(b) for b in X)
+    start = key([set() for _ in range(n)]); prev = {start: None}; queue = [start]; target = key(Y)
+    while queue and target not in prev:
+        nxt = []
+        for S in queue:
+            X = [set(b) for b in S]; P = set(range(m)) - set().union(*X)
+            for h in range(n):
+                cand = sorted(R[h] & (X[h] | P))
+                for k in range(1, len(cand) + 1):
+                    for Z in itertools.combinations(cand, k):
+                        if v(vals, h, Z) <= v(vals, h, X[h]): continue
+                        X2 = [set(b) for b in X]; X2[h] = set(Z)
+                        if not efx0(vals, X2): continue
+                        K = key(X2)
+                        if K not in prev: prev[K] = S; nxt.append(K)
+        queue = nxt
+    path = []
+    K = target if target in prev else None
+    while K is not None: path.append(K); K = prev[K]
+    envy = {(i, j) for i in range(n) for j in range(n) if i != j and v(vals, i, Y[j]) > v(vals, i, Y[i])}
+    def cyc():
+        col = {}
+        def dfs(a):
+            col[a] = 1
+            for (x, y) in envy:
+                if x == a and (col.get(y) == 1 or (y not in col and dfs(y))): return True
+            col[a] = 2; return False
+        return any(a not in col and dfs(a) for a in range(n))
+    claim(path and not cyc(), f"Y is reached from the empty allocation by {len(path) - 1} M1 moves, and its envy graph is acyclic (LS4+_n can stop at Y with failure)")
+    for K in reversed(path): print("    ", [sorted(b) for b in K])
     print(f"  largest level sum of a complete EFX0 allocation: {bestc} (maximum over partial ones: {best})")
     return ok
 
 if __name__ == '__main__':
     allok = True
-    for label, vals, Y in INSTANCES:
-        allok &= check(label, vals, Y)
+    for label, vals, Y, kind in INSTANCES:
+        allok &= check(label, vals, Y, kind)
     print("ALL CLAIMS HOLD" if allok else "SOME CLAIM FAILED")
     sys.exit(0 if allok else 1)

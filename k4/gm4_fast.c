@@ -7,6 +7,8 @@
  * For every maximum with a nonempty pool U: (a) an empty bundle, (b) a source s valuing no good of U with Y_s cup U
  * threat-free for s.  If neither applies, all junk placements are searched: GM4S lines (no single dump) and GMFAIL
  * lines (no placement at all: a counterexample to GM4).  Exit status 1 if a GMFAIL occurs.
+ * Per profile: pfail = some maximum admits no placement (GM4 fails); pallfail = no maximum admits a placement (the
+ * existence form GM4E fails: then every maximum has a nonempty pool); GMALL lines print such profiles.
  * -DOUT=k prints up to k maxima with a nonempty pool per task as M lines (gm4_analyze.py format). */
 #include <stdio.h>
 #include <stdlib.h>
@@ -86,13 +88,14 @@ int main(void) {
         rs = seed * 2654435761ULL + 88172645463325252ULL;
         for (int i = 0; i < n; i++) for (int c = 0; c < (1 << d[i]); c++) { lm[i][c] = 0; for (int t = 0; t < d[i]; t++) if (c >> t & 1) lm[i][c] |= 1u << rg[i][t]; }
         memset(cur, 0, sizeof cur);
-        long runs = 0, maxima = 0, pool = 0, empty = 0, dump = 0, nodump = 0, fail = 0, out = 0;
+        long runs = 0, maxima = 0, pool = 0, empty = 0, dump = 0, nodump = 0, fail = 0, out = 0, pfail = 0, pallfail = 0;
         for (;;) {
             if (mode == 1) { if (runs >= K) break; for (int i = 0; i < n; i++) cur[i] = rnd() % T[i]; }
             for (int i = 0; i < n; i++) { memset(v[i], 0, sizeof v[i]); for (int t = 0; t < d[i]; t++) v[i][rg[i][t]] = rep[i][cur[i]][t]; }
             for (int i = 0; i < n; i++) for (int c = 0; c < (1 << d[i]); c++) { lval[i][c] = val(i, lm[i][c]); llev[i][c] = lev(i, lm[i][c]); }
             for (int i = 0; i < n; i++) for (int j = 0; j < n; j++) for (int c = 0; c < (1 << d[j]); c++) tP[i][j][c] = c ? thr(i, lm[j][c]) : 0;
             best = -1; nl = 0; dfs(0, 0, 0);
+            int nbadq = 0;
             for (int q = 0; q < nl; q++) {
                 mask *Y = lst[q], a = 0; for (int i = 0; i < n; i++) a |= Y[i];
                 mask U = ALL & ~a; maxima++;
@@ -114,12 +117,14 @@ int main(void) {
                 nodump++;
                 mask X[MAXN]; memcpy(X, Y, sizeof X);
                 if (place_rec(X, U)) prline("GM4S", Y, U);
-                else { fail++; anyfail = 1; prline("GMFAIL", Y, U); }
+                else { fail++; nbadq++; anyfail = 1; prline("GMFAIL", Y, U); }
             }
+            if (nbadq) pfail++;
+            if (nl && nbadq == nl) { pallfail++; prline("GMALL", lst[0], 0); }
             runs++;
             if (mode == 0) { int i = 0; while (i < n && ++cur[i] == T[i]) { cur[i] = 0; i++; } if (i == n) break; }
         }
-        printf("RESULT runs=%ld maxima=%ld pool=%ld empty=%ld dump=%ld nodump=%ld fail=%ld overflow=%ld\n", runs, maxima, pool, empty, dump, nodump, fail, overflow);
+        printf("RESULT runs=%ld maxima=%ld pool=%ld empty=%ld dump=%ld nodump=%ld fail=%ld pfail=%ld pallfail=%ld overflow=%ld\n", runs, maxima, pool, empty, dump, nodump, fail, pfail, pallfail, overflow);
         fflush(stdout);
     }
     return anyfail;
