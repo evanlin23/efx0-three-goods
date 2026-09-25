@@ -1,0 +1,762 @@
+/* adaptive.c: LB4r (k4/lb4.md §5, lean/EFX/LB4R.lean) with an adaptive insertion rule (k4/adaptive.md).
+
+Derived from k4/lb4r_tau.c of branch proof/k4-lb4 (itself k4/c4_lb4w.c of proof/k4-c4, which is k4/lb4.c with
+64-bit masks). Changes:
+  - good masks are 128-bit (m <= 128), up to 40 agents, so the cores H_t of k4/c4.md §7 fit up to t = 9;
+  - the insertion step is a function (rule_choose, rollout rules in choose_seq): -AN selects the rule, see below;
+    Phase 1 first computes the insertion sequence tau with the rule, then LB4r(tau) is run on that tau;
+  - LB4r(tau) is always run with iterative deepening, the rotation bound outermost (bound 0 under every policy, then
+    bound 1, ...; lb4.c's -d2), so a success reports the fewest rotations over the policies. This succeeds exactly when
+    LB4r with at most -rN rotations does (each bound's search contains the previous one's);
+  - modes: exhaustive (lazy type splitting, as lb4.c), -SN random profiles per core, -HN hill-climbing against the
+    rule (score: rotations needed, then policy), -TN single profiles (one type per agent) under the rule or N random
+    insertion sequences (-i10), -M mining (every insertion sequence of each profile; see mine()).
+Everything else (Phase 1 with LB's P-step key, the three upgrade policies, the owner step with an exact search over the
+slot sets C, rotations along need chains with every O, nested up to -rN) is lb4.c's code, unchanged in substance.
+
+Input (stdin), any number of cores: n m, then per agent: d g_0 .. g_{d-1} T, then T lines of d values.
+
+Options:
+  -AN  insertion rule (with -i0, the default): 0 index; 1 block lookahead, least |NA| of the new block's agents;
+       2 rollout, least omega after envy-free upgrades (rest of Phase 1 in index order); 3 rollout, fewest rotations
+       of LB4r on (prefix, c, index order), ties by rule 2's omega; 4 rollout, least omega after need-shrinking
+       upgrades; 5 least omega after Phase 1 with no upgrades (least |NA|); 6 4-good agents first; 7 3-good agents
+       first; 8 least contested top (fewest other unprocessed agents value the candidate's top), ties index;
+       9 most contested top; 10 rollout with rule 2 but ties broken by fewest frozen 4-good agents;
+       11 rollout with key (omega, number of frozen agents with 4 goods, -pos of the last 4-good agent) (c4one's key);
+       further rules are listed at rule_choose.
+  -i0 use -A (default);  -i1 every insertion sequence separately;  -i10 -TN N random sequences (single profile)
+  -uN upgrades: 0 none, 1 need-shrinking, 2 envy-free only, 3 policies 1, 2, 0 in turn (default 3)
+  -rN at most N nested rotations (default 2);  -w1 owner needs from its bundle (default 1);  -c1 chains may end at
+       upgraded agents (default 1);  -oN owner step: 0 every owner (default), 1 r only, 2 r then rotation
+  -SN N random profiles per core;  -HN N hill-climbing steps per core (restart every 500);  -TN single-profile mode
+  -LN local search on tau after the rule: up to N rounds of "change one insertion step, index order after it",
+       taking a change that lowers (rotations needed, omega); -fN print at most N failures per core; -XS seed;
+  -b brute force (every profile its own leaf); -v print each profile's run (single-profile modes) */
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <setjmp.h>
+#include <stdint.h>
+
+typedef unsigned __int128 u128;
+typedef u128 gm;                      /* a set of goods */
+#define BIT(g) ((gm)1 << (g))
+#define MAXN 40
+#define MAXM 128
+#define MAXT 1300
+#define MAXG 80
+#define MAXROT 6
+
+static int n, m, d[MAXN], gl[MAXN][4];
+static gm R[MAXN], ALLG;
+static int nt[MAXN], tv[MAXN][MAXT][4];
+static int np[MAXN], pr[MAXN][24][4], pcnt[MAXN][24], pidx[MAXN][24][MAXG];
+static int OWN = 0, INS = 0, MAXF = 3, UPG = 3, BRUTE = 0, ARULE = 0, VERB = 0, LSR = 0, MINE = 0;
+static long TAU = 0, SAMPLE = 0, HILL = 0;
+static uint64_t rng_x = 88172645463325252ull;
+static uint64_t rnd(void) { rng_x ^= rng_x << 13; rng_x ^= rng_x >> 7; rng_x ^= rng_x << 17; return rng_x; }
+
+static int popc(gm x) { return __builtin_popcountll((uint64_t)x) + __builtin_popcountll((uint64_t)(x >> 64)); }
+
+/* run state */
+static int cp[MAXN];                 /* ranking index per agent */
+static u128 ts[MAXN];                /* current type set (bits over pidx[i][cp[i]]) */
+static int ord[MAXN][4];
+static jmp_buf env;
+static int sp_i; static gm sp_S, sp_T;
+
+static int tsum(int i, int t, gm S) { int s = 0; for (int k = 0; k < d[i]; k++) if (S >> gl[i][k] & 1) s += tv[i][t][k]; return s; }
+/* sign of v_i(S) - v_i(T) (goods outside R_i count 0), for every type in the current set; splits if not constant */
+static int cmpv(int i, gm S, gm T) {
+    int res = 2;
+    for (int k = 0; k < pcnt[i][cp[i]]; k++) if (ts[i] >> k & 1) {
+        int t = pidx[i][cp[i]][k], x = tsum(i, t, S) - tsum(i, t, T), s = (x > 0) - (x < 0);
+        if (res == 2) res = s; else if (res != s) { sp_i = i; sp_S = S; sp_T = T; longjmp(env, 1); }
+    }
+    return res;
+}
+
+/* ---- the construction ---- */
+static int Y[MAXN], pos[MAXN], blk[MAXN], upg[MAXN], frz[MAXN], cap[MAXN], own[MAXM];
+static gm base[MAXN], N_[MAXN], J;
+static int last_status;              /* 0 no owner needed, 1 owner r, 2 other owner, 3 rotation, -1 fail */
+static int lastbig;
+
+static gm above(int i, int g) { gm s = 0; for (int r = 0; r < d[i] && ord[i][r] != g; r++) s |= BIT(ord[i][r]); return s; }
+static gm NAset(void) { gm s = 0; for (int i = 0; i < n; i++) s |= N_[i]; return s; }
+
+/* P-step choice: an unprocessed agent that lost a good, smallest (rank of favourite remaining, goods left, index) */
+static int pstep(gm G, const int *done) {
+    int best = -1, bk0 = 0, bk1 = 0;
+    for (int i = 0; i < n; i++) if (!done[i]) {
+        int left = popc(R[i] & G);
+        if (left < d[i]) {
+            int fr = d[i];
+            for (int r = 0; r < d[i]; r++) if (G >> ord[i][r] & 1) { fr = r; break; }
+            if (best < 0 || fr < bk0 || (fr == bk0 && left < bk1)) { best = i; bk0 = fr; bk1 = left; }
+        }
+    }
+    return best;
+}
+static int favr(int i, gm G) { for (int r = 0; r < d[i]; r++) if (G >> ord[i][r] & 1) return ord[i][r]; return -1; }
+
+/* ---- insertion sequences ---- */
+static int pre[MAXN], npre;          /* forced insertion sequence (agent ids); later insertion steps use the rule */
+static int ins_seq[MAXN], nins;      /* agents inserted by the last Phase 1 */
+static int ncand_at[MAXN];           /* candidates at each insertion step of the last Phase 1 */
+static int stop_at = -1;             /* Phase 1 stops at this insertion step, leaving its candidates below */
+static int scand[MAXN], nscand;
+static int choice[MAXN], nchoice, maxchoice[MAXN];   /* -i1 tree over candidate indices, -i10 random */
+static int TAILRULE = 0;             /* rule used after the forced prefix (0 index; rules computed inside Phase 1) */
+
+static int rule_choose(int rule, const int *cand, int nc, gm G, const int *done);
+/* Phase 1(tau): returns 0 if stopped at insertion step stop_at (its candidates in scand), 1 when complete */
+static int phase1(void) {
+    gm G = ALLG;
+    int done[MAXN] = {0}, b = -1;
+    nins = 0;
+    for (int i = 0; i < n; i++) Y[i] = -1;
+    for (int step = 0; step < n; step++) {
+        int best = pstep(G, done);
+        if (best < 0) {              /* insertion step: every unprocessed agent has all its goods */
+            int cand[MAXN], nc = 0;
+            for (int i = 0; i < n; i++) if (!done[i]) cand[nc++] = i;
+            if (nins == stop_at) { memcpy(scand, cand, sizeof cand); nscand = nc; J = G; return 0; }
+            int c;
+            if (nins < npre) c = pre[nins];
+            else if (INS == 1 || INS == 10) {
+                if (nins >= nchoice) choice[nchoice++] = INS == 10 ? (int)(rnd() % (uint64_t)nc) : 0;
+                int q = choice[nins]; if (q >= nc) q = nc - 1; maxchoice[nins] = nc; c = cand[q];
+            } else c = rule_choose(TAILRULE, cand, nc, G, done);
+            ins_seq[nins] = c; ncand_at[nins] = nc; nins++;
+            best = c; b++;
+        }
+        int i = best; Y[i] = favr(i, G);
+        if (Y[i] >= 0) G &= ~BIT(Y[i]);
+        done[i] = 1; pos[i] = step; blk[i] = b;
+    }
+    J = G;
+    return 1;
+}
+
+/* is agent x threatened by bundle L when it holds H?  exists h in L: v_x(L - h) > v_x(H) */
+static int threatened(int x, gm L, gm H) {
+    gm Q = L & R[x];
+    if (!Q) return 0;
+    if ((L & ~R[x]) == 0) {          /* L inside R_x: remove its least valued good (lowest in the ranking) */
+        for (int r = d[x] - 1; r >= 0; r--) if (Q >> ord[x][r] & 1) { Q &= ~BIT(ord[x][r]); break; }
+        if (!Q) return 0;
+    }
+    return cmpv(x, Q, H & R[x]) > 0;
+}
+
+/* completion with owner o (or o = -1: none); C = goods of J going to slots; returns 1 and fills own[] if OK */
+static int try_C0(int o, gm C, gm L);
+static int tcnt; static int tl[MAXN]; static gm allow[MAXN]; static int mt[MAXM];
+static int aug(int t, gm *seen) {
+    for (int g = 0; g < m; g++) if ((allow[t] >> g & 1) && !(*seen >> g & 1)) {
+        *seen |= BIT(g);
+        if (mt[g] < 0 || aug(mt[g], seen)) { mt[g] = t; return 1; }
+    }
+    return 0;
+}
+static void fill_bases(void) {
+    for (int g = 0; g < m; g++) own[g] = -1;
+    for (int x = 0; x < n; x++) for (int g = 0; g < m; g++) if (base[x] >> g & 1) own[g] = x;
+}
+static int OWNW = 1;
+static int try_C(int o, gm C) {
+    gm L = (o >= 0 ? base[o] : 0) | (J & ~C);
+    int scap[MAXN], sfrz[MAXN];
+    if (OWNW && o >= 0) {            /* -w1: the owner's needs are the goods it values above its whole bundle */
+        memcpy(scap, cap, sizeof cap); memcpy(sfrz, frz, sizeof frz);
+        gm NA = 0, no = 0;
+        for (int g = 0; g < m; g++) if ((R[o] & ~L) >> g & 1 && cmpv(o, BIT(g), L) > 0) no |= BIT(g);
+        for (int i = 0; i < n; i++) NA |= (i == o) ? no : N_[i];
+        for (int i = 0; i < n; i++) if (i != o) {
+            frz[i] = popc(base[i]) == 1 && (NA & base[i]);
+            cap[i] = frz[i] ? 0 : (popc(base[i]) >= 2 ? 0 : 2 - popc(base[i]));
+        }
+        int ok = try_C0(o, C, L);
+        memcpy(cap, scap, sizeof cap); memcpy(frz, sfrz, sizeof frz);
+        return ok;
+    }
+    return try_C0(o, C, L);
+}
+static int try_C0(int o, gm C, gm L) {
+    for (int x = 0; x < n; x++) if (x != o && cap[x] == 0 && threatened(x, L, base[x])) return 0;
+    /* cap-1 terminals threatened with their base alone need a protecting good (SDR); the rest needs capacity */
+    int room = 0; tcnt = 0;
+    for (int x = 0; x < n; x++) if (x != o) {
+        room += cap[x];
+        if (cap[x] == 1 && threatened(x, L, base[x])) {
+            gm a = 0;
+            for (int g = 0; g < m; g++) if ((C >> g & 1) && !threatened(x, L, base[x] | BIT(g))) a |= BIT(g);
+            allow[tcnt] = a; tl[tcnt++] = x;
+        }
+    }
+    if (popc(C) > room) return 0;
+    for (int g = 0; g < m; g++) mt[g] = -1;
+    for (int t = 0; t < tcnt; t++) { gm seen = 0; if (!aug(t, &seen)) return 0; }
+    fill_bases();
+    int left[MAXN];
+    for (int x = 0; x < n; x++) left[x] = (x == o) ? 0 : cap[x];
+    for (int g = 0; g < m; g++) if (mt[g] >= 0) { own[g] = tl[mt[g]]; left[tl[mt[g]]]--; }
+    for (int g = 0; g < m; g++) if ((C >> g & 1) && own[g] < 0) {
+        for (int x = 0; x < n; x++) if (left[x] > 0) { own[g] = x; left[x]--; break; }
+        if (own[g] < 0) return 0;
+    }
+    for (int g = 0; g < m; g++) if (L >> g & 1) own[g] = o;
+    return 1;
+}
+static long owner_tests;             /* sets C tried (effort) */
+static int try_owner(int o, int S) {
+    if (o < 0) {                      /* |J| <= S: fill the slots in any order */
+        int left[MAXN]; fill_bases();
+        for (int x = 0; x < n; x++) left[x] = cap[x];
+        for (int g = 0; g < m; g++) if (J >> g & 1)
+            for (int x = 0; x < n; x++) if (left[x]) { own[g] = x; left[x]--; break; }
+        for (int g = 0; g < m; g++) if (own[g] < 0) return 0;
+        return 1;
+    }
+    int need = S - cap[o]; if (need > popc(J)) need = popc(J);
+    int jl[MAXM], nj = 0; for (int g = 0; g < m; g++) if (J >> g & 1) jl[nj++] = g;
+    for (int sz = need; sz <= (OWNW ? nj : need); sz++) {   /* subsets of size need, then larger (-w1) */
+        int ix[MAXM]; for (int q = 0; q < sz; q++) ix[q] = q;
+        for (;;) {
+            gm C = 0; for (int q = 0; q < sz; q++) C |= BIT(jl[ix[q]]);
+            owner_tests++;
+            if (try_C(o, C)) return 1;
+            int q = sz - 1; while (q >= 0 && ix[q] == nj - sz + q) q--;
+            if (q < 0) break;
+            ix[q]++; for (int p = q + 1; p < sz; p++) ix[p] = ix[p - 1] + 1;
+        }
+    }
+    return 0;
+}
+
+static void setup_state(void) {
+    for (int i = 0; i < n; i++) {
+        upg[i] = 0; base[i] = Y[i] >= 0 ? BIT(Y[i]) : 0;
+        N_[i] = Y[i] >= 0 ? above(i, Y[i]) : R[i];
+    }
+}
+static int upg_mode;
+static void upgrades(void) {
+    if (!upg_mode) return;
+    for (int again = 1; again;) {
+        again = 0;
+        gm NA = NAset();
+        for (int k = 0; k < n && !again; k++) if (!upg[k] && Y[k] >= 0 && !(NA >> Y[k] & 1) && N_[k]) {
+            for (int r = 0; r < d[k]; r++) {
+                int g = ord[k][r];
+                if (!(J >> g & 1)) continue;
+                gm nn = 0, B = base[k] | BIT(g);
+                for (int x = 0; x < m; x++) if ((N_[k] >> x & 1) && cmpv(k, BIT(x), B) > 0) nn |= BIT(x);
+                if (upg_mode == 2 && cmpv(k, B, R[k] & ~B) < 0) continue;   /* mode 2: only envy-free upgrades */
+                if (nn != N_[k]) { upg[k] = 1; base[k] = B; J &= ~BIT(g); N_[k] = nn; again = 1; break; }
+            }
+        }
+    }
+}
+static int slots(void) {
+    gm NA = NAset(); int S = 0;
+    for (int i = 0; i < n; i++) {
+        frz[i] = !upg[i] && Y[i] >= 0 && (NA >> Y[i] & 1);
+        cap[i] = (upg[i] || frz[i]) ? 0 : (Y[i] >= 0 ? 1 : 2);
+        S += cap[i];
+    }
+    return S;
+}
+
+/* ---- rotation: a frozen agent k gives up its pick along a need chain k = x0 -> .. -> xt (not frozen), every chain
+   agent takes its predecessor's pick, xt's base is released, and k takes a nonempty O of its goods in J as its base */
+static int ROT = 2, rot_depth = 0, CHUP = 1, rot_cap = 0, used_rot = 0;
+static long effort;
+static int try_rotations(void);
+static int chain[MAXN], clen;
+static int apply_chain(int rot_pick, int *rot_more) {
+    int sY[MAXN], su[MAXN]; gm sb[MAXN], sN[MAXN], sJ = J;
+    memcpy(sY, Y, sizeof Y); memcpy(su, upg, sizeof upg); memcpy(sb, base, sizeof base); memcpy(sN, N_, sizeof N_);
+    effort++;
+    int k = chain[0], t = chain[clen - 1];
+    J |= base[t]; upg[t] = 0;            /* the chain end releases its base (a pick, or an upgraded pair) */
+    for (int i = clen - 1; i >= 1; i--) { Y[chain[i]] = Y[chain[i - 1]]; base[chain[i]] = BIT(Y[chain[i]]); N_[chain[i]] = above(chain[i], Y[chain[i]]); }
+    gm W = R[k] & J, B = 0;
+    /* k's new base: the rot_pick-th nonempty subset of W, pairs first, then triples, singles, quadruples */
+    { int cnt = 0, want = rot_pick; static const int szord[5] = {2, 3, 1, 4, 0};
+      for (int zi = 0; zi < 4 && !B; zi++) for (gm O = W;; O = (O - 1) & W) {
+          if (O && popc(O) == szord[zi] && cnt++ == want) { B = O; break; }
+          if (!O) break; }
+      if (!B) { memcpy(Y, sY, sizeof Y); memcpy(upg, su, sizeof upg); memcpy(base, sb, sizeof base); memcpy(N_, sN, sizeof N_); J = sJ; *rot_more = 0; return 0; } }
+    J &= ~B; upg[k] = 1; base[k] = B; Y[k] = -2;
+    gm nn = 0;
+    for (int x = 0; x < m; x++) if ((R[k] & ~B) >> x & 1) { if (!B || cmpv(k, BIT(x), B) > 0) nn |= BIT(x); }
+    N_[k] = nn;
+    int ok = 0;
+    gm NA = NAset();
+    int valid = !(J & NA);
+    for (int i = 0; i < n; i++) if (upg[i] && (base[i] & NA)) valid = 0;
+    /* a base of 3 or more goods must be the owner's; two such bases cannot both be, and the state is rejected */
+    int nbig = 0, big = -1;
+    for (int i = 0; i < n; i++) if (popc(base[i]) >= 3) { nbig++; big = i; }
+    if (nbig >= 2) valid = 0;
+    if (valid) {
+        int S = slots();
+        if (nbig == 1) ok = try_owner(big, S);
+        else if (popc(J) - S >= 1) ok = try_owner(k, S);
+        else ok = try_owner(-1, S) || try_owner(k, S);
+        if (!ok && nbig == 0 && popc(J) - S >= 1)
+            for (int o = 0; o < n && !ok; o++) if (o != k && (cap[o] > 0 || upg[o])) ok = try_owner(o, S);
+    }
+    if (ok) used_rot = rot_depth + 1;
+    if (!ok && valid && rot_depth + 1 < rot_cap) {    /* rotate again from the rotated state */
+        int sc[MAXN], sl = clen; memcpy(sc, chain, sizeof sc);
+        rot_depth++; ok = try_rotations(); rot_depth--;
+        memcpy(chain, sc, sizeof sc); clen = sl;
+    }
+    if (!ok) { memcpy(Y, sY, sizeof Y); memcpy(upg, su, sizeof upg); memcpy(base, sb, sizeof base); memcpy(N_, sN, sizeof N_); J = sJ; slots(); }
+    return ok;
+}
+static int ext_chain(void) {
+    int x = chain[clen - 1];
+    if (clen > 1 && !frz[x]) {
+        int more = 1;
+        for (int p = 0; more; p++) if (apply_chain(p, &more)) return 1;
+        return 0;
+    }
+    for (int j = 0; j < n; j++) {
+        int in = 0; for (int q = 0; q < clen; q++) if (chain[q] == j) in = 1;
+        if (in || (upg[j] && !CHUP) || Y[x] < 0 || !(N_[j] >> Y[x] & 1)) continue;
+        chain[clen++] = j;
+        if (ext_chain()) return 1;
+        clen--;
+    }
+    return 0;
+}
+static int try_rotations(void) {
+    int fz[MAXN]; memcpy(fz, frz, sizeof fz);
+    for (int p = n - 1; p >= 0; p--) for (int k = 0; k < n; k++) if (pos[k] == p && fz[k]) {
+        chain[0] = k; clen = 1;
+        if (ext_chain()) return 1;
+    }
+    return 0;
+}
+
+/* LB4r on the Phase 1 state of the current tau, one policy, rotation bound rot_cap */
+static int construct2(void) {
+    phase1();
+    setup_state();
+    upgrades();
+    int S = slots(), w = popc(J) - S;
+    if (w <= 0) { try_owner(-1, S); last_status = 0; return 1; }
+    int r = -1;
+    for (int i = 0; i < n; i++) if (!upg[i] && (r < 0 || pos[i] > pos[r])) r = i;
+    if (!frz[r] && try_owner(r, S)) { last_status = 1; return 1; }
+    if (OWN == 1) { last_status = -1; return 0; }
+    if (OWN == 2) { if (rot_cap && try_rotations()) { last_status = 3; return 1; } last_status = -1; return 0; }
+    int ordr[MAXN], k = 0;
+    for (int p = n - 1; p >= 0; p--) for (int i = 0; i < n; i++) if (pos[i] == p && i != r && (cap[i] > 0 || upg[i])) ordr[k++] = i;
+    for (int t = 0; t < k; t++) if (try_owner(ordr[t], S)) { last_status = 2; return 1; }
+    if (rot_cap && try_rotations()) { last_status = 3; return 1; }
+    last_status = -1; return 0;
+}
+static int used_pol;
+static const int POLS[3] = {1, 2, 0};
+/* LB4r(tau) for the tau fixed in pre[]: bound outermost, every policy at each bound; returns 1 on success, with
+   used_rot (fewest rotations) and used_pol (index into POLS) */
+static int lb4r(int maxrot) {
+    for (int c = 0; c <= maxrot; c++) {
+        for (int pi = 0; pi < 3; pi++) {
+            if (UPG != 3 && POLS[pi] != UPG) continue;
+            upg_mode = POLS[pi]; rot_cap = c; used_rot = 0; rot_depth = 0;
+            if (construct2()) { used_pol = pi; return 1; }
+        }
+    }
+    return 0;
+}
+
+/* omega of the Phase 1 state of the current tau (pre[]) after upgrades of policy pol */
+static int omega_of(int pol, int *nfrz4) {
+    phase1(); setup_state(); upg_mode = pol; upgrades();
+    int S = slots(), w = popc(J) - S;
+    if (nfrz4) { *nfrz4 = 0; for (int i = 0; i < n; i++) if (frz[i] && d[i] == 4) (*nfrz4)++; }
+    return w;
+}
+
+/* ---- insertion rules ---- */
+/* rules computed inside Phase 1 from the state at the insertion step (G: goods not yet picked, done: processed) */
+static int nabove_block(int c, gm G, const int *done0) {   /* |NA| of the agents of c's block (rule 1) */
+    int done[MAXN]; memcpy(done, done0, sizeof done);
+    gm NA = 0;
+    for (int i = c;;) {
+        int y = favr(i, G); if (y >= 0) G &= ~BIT(y); done[i] = 1;
+        NA |= y >= 0 ? above(i, y) : R[i];
+        i = pstep(G, done); if (i < 0) break;
+    }
+    return popc(NA);
+}
+static int contest(int c, gm G, const int *done) {        /* other unprocessed agents that value c's top */
+    int y = favr(c, G), k = 0;
+    for (int i = 0; i < n; i++) if (!done[i] && i != c && (R[i] >> y & 1)) k++;
+    return k;
+}
+static int rule_choose(int rule, const int *cand, int nc, gm G, const int *done) {
+    int best = cand[0]; long bk = 1L << 60;
+    for (int q = 0; q < nc; q++) {
+        int c = cand[q]; long k;
+        switch (rule) {
+        case 1: k = nabove_block(c, G, done); break;
+        case 6: k = d[c] == 4 ? 0 : 1; break;
+        case 7: k = d[c] == 3 ? 0 : 1; break;
+        case 8: k = contest(c, G, done); break;
+        case 9: k = -contest(c, G, done); break;
+        default: k = 0;
+        }
+        if (k < bk) { bk = k; best = c; }
+    }
+    return best;
+}
+
+/* rollout rules: build tau step by step; at each insertion step score every candidate c by a run on (prefix, c, then
+   index order), and keep the best (ties: the candidate first in index order) */
+static int ROLLROT = 2;              /* rotation bound of rule 3's rollouts */
+static long rollout_score(int rule, int *fail) {
+    *fail = 0;
+    if (rule == 2 || rule == 4 || rule == 5 || rule == 10 || rule == 11) {
+        int f4, w = omega_of(rule == 4 ? 1 : rule == 5 ? 0 : 2, &f4);
+        if (rule == 10) return (long)w * 64 + f4;
+        if (rule == 11) {
+            int lastq = 0; for (int i = 0; i < n; i++) if (d[i] == 4 && pos[i] > lastq) lastq = pos[i];
+            return ((long)w * 64 + f4) * 64 - lastq;
+        }
+        return w;
+    }
+    /* rule 3: fewest rotations, then omega after envy-free upgrades */
+    int ok = lb4r(ROLLROT), r = ok ? used_rot : ROLLROT + 1;
+    int w = omega_of(2, NULL);
+    return (long)r * 4096 + (w + 2048);
+}
+static int is_rollout(int rule) { return rule == 2 || rule == 3 || rule == 4 || rule == 5 || rule == 10 || rule == 11; }
+static void choose_seq(int rule) {   /* fills pre[] (npre) with the rule's insertion sequence */
+    npre = 0; TAILRULE = 0;
+    if (!is_rollout(rule)) {         /* local rule: run Phase 1 with it and record the sequence */
+        TAILRULE = rule; stop_at = -1; phase1(); TAILRULE = 0;
+        memcpy(pre, ins_seq, sizeof(int) * nins); npre = nins; return;
+    }
+    for (;;) {
+        stop_at = npre;
+        int complete = phase1();
+        stop_at = -1;
+        if (complete) break;
+        int cand[MAXN], nc = nscand; memcpy(cand, scand, sizeof cand);
+        int bestc = cand[0]; long bs = 1L << 60;
+        for (int q = 0; q < nc; q++) {
+            pre[npre] = cand[q]; npre++;
+            int f; long s = rollout_score(rule, &f);
+            npre--;
+            if (s < bs) { bs = s; bestc = cand[q]; }
+        }
+        pre[npre++] = bestc;
+    }
+}
+/* -L: local search on tau: change one insertion step (then index order), keep a change that lowers
+   (rotations needed, omega after envy-free upgrades); returns 1 if LB4r(tau) succeeds at the end */
+static long tau_key(void) {
+    int ok = lb4r(ROT), r = ok ? used_rot : ROT + 1;
+    int w = omega_of(2, NULL);
+    return (long)r * 4096 + (w + 2048);
+}
+static int local_search(void) {
+    long cur = tau_key();
+    for (int round = 0; round < LSR && cur >= 4096; round++) {   /* while some rotation is needed */
+        int base_pre[MAXN], bn = npre, improved = 0;
+        memcpy(base_pre, pre, sizeof base_pre);
+        long bestk = cur; int bp[MAXN], bnp = 0;
+        for (int j = 0; j < bn && !improved; j++) {
+            /* candidates at step j of tau */
+            npre = j; memcpy(pre, base_pre, sizeof(int) * j); stop_at = j; phase1(); stop_at = -1;
+            int cand[MAXN], nc = nscand; memcpy(cand, scand, sizeof cand);
+            for (int q = 0; q < nc; q++) if (cand[q] != base_pre[j]) {
+                memcpy(pre, base_pre, sizeof(int) * j); pre[j] = cand[q]; npre = j + 1;
+                TAILRULE = 0; phase1();             /* complete in index order and record the sequence */
+                memcpy(pre, ins_seq, sizeof(int) * nins); npre = nins;
+                long k = tau_key();
+                if (k < bestk) { bestk = k; memcpy(bp, pre, sizeof bp); bnp = npre; improved = 1; break; }
+            }
+        }
+        if (!improved) { memcpy(pre, base_pre, sizeof base_pre); npre = bn; break; }
+        memcpy(pre, bp, sizeof bp); npre = bnp; cur = bestk;
+    }
+    return cur < (long)(ROT + 1) * 4096;
+}
+
+/* the whole construction for the current profile: tau by the rule (or tree / random choices), then LB4r(tau) */
+static int construct(void) {
+    if (INS == 1 || INS == 10) {     /* tree or random: Phase 1 draws/extends choice[]; fix tau from it */
+        npre = 0; stop_at = -1; phase1();
+        memcpy(pre, ins_seq, sizeof(int) * nins); npre = nins;
+    } else choose_seq(ARULE);
+    if (LSR) { if (!local_search()) return 0; return lb4r(ROT); }
+    return lb4r(ROT);
+}
+
+/* raw EFX0 check of own[] for every type in every agent's set; D2 shape */
+static int rawcheck(void) {
+    int sz[MAXN] = {0}, big = 0;
+    for (int g = 0; g < m; g++) { if (own[g] < 0 || own[g] >= n) return 0; sz[own[g]]++; }
+    for (int i = 0; i < n; i++) if (sz[i] > 2) big++;
+    lastbig = 0; for (int i = 0; i < n; i++) if (sz[i] > 2) lastbig = sz[i];
+    if (big > 1) return 0;
+    for (int i = 0; i < n; i++) for (int k = 0; k < pcnt[i][cp[i]]; k++) if (ts[i] >> k & 1) {
+        int t = pidx[i][cp[i]][k], vo = 0;
+        int v[MAXM]; for (int g = 0; g < m; g++) v[g] = 0;
+        for (int q = 0; q < d[i]; q++) v[gl[i][q]] = tv[i][t][q];
+        for (int g = 0; g < m; g++) if (own[g] == i) vo += v[g];
+        for (int j = 0; j < n; j++) if (j != i) {
+            int s = 0, mn = 1 << 30, cnt = 0;
+            for (int g = 0; g < m; g++) if (own[g] == j) { s += v[g]; if (v[g] < mn) mn = v[g]; cnt++; }
+            if (cnt && vo < s - mn) return 0;
+        }
+    }
+    return 1;
+}
+
+static long weight(void) { long w = 1; for (int i = 0; i < n; i++) w *= popc(ts[i]); return w; }
+
+static void report(const char *what) {
+    printf("%s n=%d m=%d sets=[", what, n, m);
+    for (int i = 0; i < n; i++) { printf("["); for (int k = 0; k < d[i]; k++) printf("%d%s", gl[i][k], k + 1 < d[i] ? "," : ""); printf("]%s", i + 1 < n ? "," : ""); }
+    printf("] vals=[");
+    for (int i = 0; i < n; i++) {
+        int k = 0; while (!(ts[i] >> k & 1)) k++;
+        int t = pidx[i][cp[i]][k];
+        printf("["); for (int q = 0; q < d[i]; q++) printf("%d%s", tv[i][t][q], q + 1 < d[i] ? "," : ""); printf("]%s", i + 1 < n ? "," : "");
+    }
+    printf("] tau=");
+    for (int q = 0; q < npre; q++) printf("%d%s", pre[q], q + 1 < npre ? "," : "");
+    printf(" order=");
+    for (int p = 0; p < n; p++) for (int i = 0; i < n; i++) if (pos[i] == p) printf("%d ", i);
+    printf(" picks=");
+    for (int i = 0; i < n; i++) printf("%d%s", Y[i], i + 1 < n ? "," : "");
+    printf(" blocks=");
+    for (int i = 0; i < n; i++) printf("%d%s", blk[i], i + 1 < n ? "," : "");
+    printf("\n");
+    fflush(stdout);
+}
+
+/* one run of the construction on the current type sets; returns 1 if a comparison split them */
+static int run_leaf(int *ok) {
+    if (setjmp(env)) { stop_at = -1; TAILRULE = 0; return 1; }
+    rot_depth = 0;
+    *ok = construct();
+    return 0;
+}
+
+/* set the rankings for ranking indices rk[] */
+static void set_ranks(const int *rk) {
+    for (int i = 0; i < n; i++) { cp[i] = rk[i]; for (int r = 0; r < d[i]; r++) ord[i][r] = gl[i][pr[i][cp[i]][r]]; }
+}
+/* set singleton type sets for type indices ty[] */
+static void set_types(const int *ty) {
+    for (int i = 0; i < n; i++) {
+        int t = ty[i], p, kk = 0;
+        for (p = 0; p < np[i]; p++) { for (kk = 0; kk < pcnt[i][p]; kk++) if (pidx[i][p][kk] == t) break; if (kk < pcnt[i][p]) break; }
+        cp[i] = p; ts[i] = (u128)1 << kk;
+        for (int r = 0; r < d[i]; r++) ord[i][r] = gl[i][pr[i][cp[i]][r]];
+    }
+}
+
+static long hist_rot[MAXROT + 2], hist_pol[3];
+
+/* -M mining on one profile (singleton type sets): every insertion sequence, fewest rotations of each; prints the
+   profile's summary line "MINE best=.. index=.. frac0=.." and, per first-step candidate, the fewest rotations over
+   the sequences starting with it */
+static void mine(void) {
+    nchoice = 0; INS = 1;
+    int bestr = 99, nseq = 0, nzero = 0, idxr = -1, firstbest[MAXN];
+    for (int i = 0; i < n; i++) firstbest[i] = 99;
+    for (;;) {
+        int ok; if (run_leaf(&ok)) { fprintf(stderr, "split with singleton type sets\n"); exit(1); }
+        int r = ok ? used_rot : ROT + 1;
+        if (ok && !rawcheck()) { report("RAWFAIL"); exit(2); }
+        if (nseq == 0) idxr = r;
+        nseq++; if (r == 0) nzero++;
+        if (r < bestr) bestr = r;
+        if (r < firstbest[pre[0]]) firstbest[pre[0]] = r;
+        int j = nins - 1;
+        while (j >= 0 && choice[j] + 1 >= maxchoice[j]) j--;
+        if (j < 0) break;
+        choice[j]++; nchoice = j + 1;
+    }
+    INS = 0;
+    printf("MINE best=%d index=%d seqs=%d zero=%d first:", bestr, idxr, nseq, nzero);
+    for (int i = 0; i < n; i++) if (firstbest[i] < 99) printf(" %d:%d", i, firstbest[i]);
+    printf("\n");
+}
+
+int main(int argc, char **argv) {
+    for (int a = 1; a < argc; a++) {
+        if (!strncmp(argv[a], "-o", 2)) OWN = atoi(argv[a] + 2);
+        else if (!strncmp(argv[a], "-i", 2)) INS = atoi(argv[a] + 2);
+        else if (!strncmp(argv[a], "-f", 2)) MAXF = atoi(argv[a] + 2);
+        else if (!strncmp(argv[a], "-u", 2)) UPG = atoi(argv[a] + 2);
+        else if (!strcmp(argv[a], "-b")) BRUTE = 1;
+        else if (!strcmp(argv[a], "-v")) VERB = 1;
+        else if (!strcmp(argv[a], "-M")) MINE = 1;
+        else if (!strncmp(argv[a], "-r", 2)) ROT = atoi(argv[a] + 2);
+        else if (!strncmp(argv[a], "-R", 2)) ROLLROT = atoi(argv[a] + 2);
+        else if (!strncmp(argv[a], "-A", 2)) ARULE = atoi(argv[a] + 2);
+        else if (!strncmp(argv[a], "-L", 2)) LSR = atoi(argv[a] + 2);
+        else if (!strncmp(argv[a], "-T", 2)) TAU = atol(argv[a] + 2);
+        else if (!strncmp(argv[a], "-S", 2)) SAMPLE = atol(argv[a] + 2);
+        else if (!strncmp(argv[a], "-H", 2)) HILL = atol(argv[a] + 2);
+        else if (!strncmp(argv[a], "-X", 2)) rng_x ^= (uint64_t)atol(argv[a] + 2) * 0x9E3779B97F4A7C15ull;
+        else if (!strncmp(argv[a], "-w", 2)) OWNW = atoi(argv[a] + 2);
+        else if (!strncmp(argv[a], "-c", 2)) CHUP = atoi(argv[a] + 2);
+        else { fprintf(stderr, "unknown option %s\n", argv[a]); return 1; }
+    }
+    if (ROT < 0 || ROT > MAXROT) { fprintf(stderr, "-r: the rotation bound must be 0 .. %d\n", MAXROT); return 1; }
+    while (scanf("%d %d", &n, &m) == 2) {
+        if (n > MAXN || m > MAXM) { fprintf(stderr, "n = %d or m = %d too large\n", n, m); return 1; }
+        ALLG = m == 128 ? ~(gm)0 : (BIT(m) - 1);
+        for (int i = 0; i < n; i++) {
+            if (scanf("%d", &d[i]) != 1) return 3;
+            R[i] = 0;
+            for (int k = 0; k < d[i]; k++) { if (scanf("%d", &gl[i][k]) != 1) return 3; R[i] |= BIT(gl[i][k]); }
+            if (scanf("%d", &nt[i]) != 1 || nt[i] > MAXT) return 3;
+            for (int t = 0; t < nt[i]; t++) for (int k = 0; k < d[i]; k++) if (scanf("%d", &tv[i][t][k]) != 1) return 3;
+            /* group by tie-broken ranking: decreasing value, ties by position in the list */
+            np[i] = 0;
+            for (int t = 0; t < nt[i]; t++) {
+                int o[4]; for (int k = 0; k < d[i]; k++) o[k] = k;
+                for (int a = 0; a < d[i]; a++) for (int b = a + 1; b < d[i]; b++)
+                    if (tv[i][t][o[b]] > tv[i][t][o[a]] || (tv[i][t][o[b]] == tv[i][t][o[a]] && o[b] < o[a])) { int z = o[a]; o[a] = o[b]; o[b] = z; }
+                int p;
+                for (p = 0; p < np[i]; p++) if (!memcmp(pr[i][p], o, sizeof(int) * d[i])) break;
+                if (p == np[i]) { memcpy(pr[i][p], o, sizeof(int) * d[i]); pcnt[i][p] = 0; np[i]++; }
+                if (pcnt[i][p] >= MAXG) { fprintf(stderr, "group too large\n"); return 1; }
+                pidx[i][p][pcnt[i][p]++] = t;
+            }
+        }
+        long total = 0, leaves = 0, fails = 0, rawf = 0, runs = 0, shown = 0;
+        memset(hist_rot, 0, sizeof hist_rot); memset(hist_pol, 0, sizeof hist_pol);
+        if (TAU > 0 || MINE) {           /* single profile: one type per agent */
+            int ty[MAXN];
+            for (int i = 0; i < n; i++) { if (nt[i] != 1) { fprintf(stderr, "single-profile mode needs one type per agent\n"); return 1; } ty[i] = 0; }
+            set_types(ty);
+            if (MINE) { mine(); continue; }
+            long nsm = INS == 10 ? TAU : 1;
+            for (long smp = 0; smp < nsm; smp++) {
+                nchoice = 0; owner_tests = 0; effort = 0;
+                int ok; if (run_leaf(&ok)) { fprintf(stderr, "split with a single type per agent\n"); return 1; }
+                int k = ok ? used_rot : ROT + 1;
+                if (ok && !rawcheck()) { report("RAWFAIL"); return 2; }
+                hist_rot[k]++; if (ok) hist_pol[used_pol]++;
+                if (VERB || !ok) { char lab[64]; snprintf(lab, sizeof lab, ok ? "RUN rot=%d pol=%d" : "RUN fail", k, used_pol); report(lab); }
+                if (INS == 10) printf("sample %ld: %s %d\n", smp, ok ? "rot" : "fail", k);
+                fflush(stdout);
+            }
+            printf("single rule=%d samples=%ld", ARULE, nsm);
+            for (int k = 0; k <= ROT; k++) printf(" rot%d=%ld", k, hist_rot[k]);
+            printf(" fail=%ld\n", hist_rot[ROT + 1]); fflush(stdout);
+            continue;
+        }
+        if (SAMPLE > 0 || HILL > 0) {    /* random profiles (-S), or hill-climbing toward hard profiles (-H) */
+            uint64_t x = 88172645463325252ull ^ (uint64_t)(n * 131 + m) ^ rng_x;
+            for (int i = 0; i < n; i++) for (int k = 0; k < d[i]; k++) x = x * 6364136223846793005ull + (uint64_t)(gl[i][k] + 17 * k + 1);
+            int ty[MAXN]; long cur = -1, top = -1;
+            long nsteps = SAMPLE > 0 ? SAMPLE : HILL;
+            for (long sidx = 0; sidx < nsteps; sidx++) {
+                int restart = SAMPLE > 0 || sidx % 500 == 0, mi = -1, mold = 0;
+                if (restart) for (int i = 0; i < n; i++) { x ^= x << 13; x ^= x >> 7; x ^= x << 17; ty[i] = (int)(x % (uint64_t)nt[i]); }
+                else {                   /* mutate one agent's type */
+                    x ^= x << 13; x ^= x >> 7; x ^= x << 17; mi = (int)(x % (uint64_t)n); mold = ty[mi];
+                    x ^= x << 13; x ^= x >> 7; x ^= x << 17; ty[mi] = (int)(x % (uint64_t)nt[mi]);
+                }
+                set_types(ty);
+                nchoice = 0; effort = 0;
+                int ok; if (run_leaf(&ok)) { fprintf(stderr, "split with singleton type sets\n"); return 1; }
+                runs++; leaves++; total++;
+                if (!ok) { fails++; hist_rot[ROT + 1]++; if (shown < MAXF) { report("FAIL"); shown++; } if (HILL > 0) break; continue; }
+                if (!rawcheck()) { rawf++; if (shown < MAXF) { report("RAWFAIL"); shown++; } continue; }
+                hist_rot[used_rot]++; hist_pol[used_pol]++;
+                long sc = used_rot * 100000000L + used_pol * 1000000L + (effort < 999999 ? effort : 999999);
+                if (sc > top) { top = sc; if (used_rot >= 1 && VERB) { char lab[64]; snprintf(lab, sizeof lab, "HARD r=%d p=%d e=%ld", used_rot, used_pol, effort); report(lab); } }
+                if (HILL > 0 && !restart && sc < cur) ty[mi] = mold;   /* reject a downhill move */
+                else cur = sc;
+            }
+            goto core_done;
+        }
+        {   /* exhaustive: odometer over ranking profiles, DFS over type-set splits */
+            int rk[MAXN] = {0};
+            for (;;) {
+                set_ranks(rk);
+                nchoice = 0;
+                for (;;) {
+                    static u128 stack[1 << 11][MAXN]; int top = 0;
+                    if (!BRUTE) {
+                        for (int i = 0; i < n; i++) { int c = pcnt[i][cp[i]]; stack[0][i] = c == 128 ? ~(u128)0 : (((u128)1 << c) - 1); }
+                        top = 1;
+                    } else {
+                        int kk[MAXN] = {0};
+                        for (top = 0;;) {
+                            if (top >= (1 << 11)) { fprintf(stderr, "brute: too many profiles\n"); return 1; }
+                            for (int i = 0; i < n; i++) stack[top][i] = (u128)1 << kk[i];
+                            top++;
+                            int i = 0;
+                            while (i < n && ++kk[i] == pcnt[i][cp[i]]) kk[i++] = 0;
+                            if (i == n) break;
+                        }
+                    }
+                    int ochoice[MAXN] = {0}, onchoice = nchoice; memcpy(ochoice, choice, sizeof(int) * nchoice);   /* Phase 1 extends it with zeros */
+                    int lastnins = 0, lastmax[MAXN];
+                    while (top) {
+                        top--;
+                        for (int i = 0; i < n; i++) ts[i] = stack[top][i];
+                        runs++;
+                        memcpy(choice, ochoice, sizeof choice); nchoice = onchoice;
+                        int ok;
+                        if (run_leaf(&ok)) {        /* a comparison split the type sets: push the parts */
+                            u128 part[3] = {0, 0, 0}; int i = sp_i;
+                            for (int k = 0; k < pcnt[i][cp[i]]; k++) if (ts[i] >> k & 1) {
+                                int t = pidx[i][cp[i]][k], x = tsum(i, t, sp_S) - tsum(i, t, sp_T);
+                                part[(x > 0) - (x < 0) + 1] |= (u128)1 << k;
+                            }
+                            for (int s = 0; s < 3; s++) if (part[s]) {
+                                if (top >= (1 << 11)) { fprintf(stderr, "stack overflow\n"); return 1; }
+                                for (int j = 0; j < n; j++) stack[top][j] = ts[j];
+                                stack[top][i] = part[s]; top++;
+                            }
+                            continue;
+                        }
+                        lastnins = nins; memcpy(lastmax, maxchoice, sizeof lastmax);
+                        long w = weight();
+                        leaves++; total += w;
+                        if (!ok) { fails += w; hist_rot[ROT + 1] += w; if (shown < MAXF) { report("FAIL"); shown++; } continue; }
+                        if (!rawcheck()) { rawf += w; if (shown < MAXF) { report("RAWFAIL"); shown++; } continue; }
+                        hist_rot[used_rot] += w; hist_pol[used_pol] += w;
+                    }
+                    if (INS != 1) break;
+                    /* next insertion sequence (the tree's shape depends only on the rankings) */
+                    memcpy(choice, ochoice, sizeof choice); nchoice = onchoice;
+                    nins = lastnins; memcpy(maxchoice, lastmax, sizeof maxchoice);
+                    int j = nins - 1;
+                    while (j >= 0 && choice[j] + 1 >= maxchoice[j]) j--;
+                    if (j < 0) break;
+                    choice[j]++; nchoice = j + 1;
+                }
+                int i = 0;
+                while (i < n && ++rk[i] == np[i]) rk[i++] = 0;
+                if (i == n) break;
+            }
+        }
+      core_done:
+        printf("total %ld leaves %ld runs %ld fails %ld rawfails %ld rot", total, leaves, runs, fails, rawf);
+        for (int k = 0; k <= ROT; k++) printf(" %ld", hist_rot[k]);
+        printf(" pol %ld %ld %ld\n", hist_pol[0], hist_pol[1], hist_pol[2]);
+        fflush(stdout);
+    }
+    return 0;
+}
