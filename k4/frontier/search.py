@@ -21,12 +21,12 @@ if not os.path.exists(_so) or os.path.getmtime(_so) < os.path.getmtime(os.path.j
     subprocess.run(['gcc', '-O2', '-shared', '-fPIC', '-o', _so, os.path.join(HERE, 'scan2.c')], check=True)
 LIB = ctypes.CDLL(_so)
 LIB.ctx_new.restype = ctypes.c_void_p
-LIB.ctx_new.argtypes = [ctypes.c_int, ctypes.c_int]
+LIB.ctx_new.argtypes = [ctypes.c_int, ctypes.c_int, ctypes.c_int]
 LIB.ctx_free.argtypes = [ctypes.c_void_p]
 LIB.ctx_nodes.restype = ctypes.c_long
 LIB.ctx_nodes.argtypes = [ctypes.c_void_p]
 LIB.find.argtypes = [ctypes.c_void_p, ctypes.c_int] + [ctypes.c_void_p] * 2 + [ctypes.c_int] + [ctypes.c_void_p] * 4
-STORE = 4096
+STORE, DEPTH = 100000, 2                        # store size per level; no store at the last DEPTH levels
 
 def cegar(C, s, c, cap, tries=8, order=None, rand=1024):
     """As search4.Core.cegar: returns (allocations, failing profiles, complete?, stats)."""
@@ -51,13 +51,13 @@ def cegar(C, s, c, cap, tries=8, order=None, rand=1024):
         ncol += 1
     sol, x, z = C.inner(s, c)
     allocs, fails = [], []
-    ctx = LIB.ctx_new(n, STORE)
+    ctx = LIB.ctx_new(n, STORE, DEPTH)
     rng = np.random.default_rng(12345)
     out = (ctypes.c_int * n)()
     ordc = (ctypes.c_int * n)(*order)
     domc = (ctypes.c_int * n)(*sizes.tolist())
     basec = (ctypes.c_long * n)(*base[:n].tolist())
-    calls = 0
+    calls, tscan = 0, 0.0
     try:
         while True:
             W = max(1, (ncol + 63) // 64)
@@ -75,13 +75,16 @@ def cegar(C, s, c, cap, tries=8, order=None, rand=1024):
                 Fc[n] = ~np.uint64(0)
                 for l in range(n - 1, -1, -1): Fc[l] = Fc[l + 1] & full_rows[order[l], :W]
                 calls += 1
-                if not LIB.find(ctx, n, ordc, domc, W, Mc.ctypes.data, basec, Fc.ctypes.data, out):
-                    return allocs, fails, True, {'calls': calls, 'nodes': LIB.ctx_nodes(ctx)}
+                t0 = time.time()
+                found = LIB.find(ctx, n, ordc, domc, W, Mc.ctypes.data, basec, Fc.ctypes.data, out)
+                tscan += time.time() - t0
+                if not found:
+                    return allocs, fails, True, {'calls': calls, 'nodes': LIB.ctx_nodes(ctx), 'scan_s': round(tscan, 2)}
                 prof = list(out)
             best = C.best_allocation(sol, x, z, prof, tries)
             if best is None:
                 fails.append(prof)
-                if len(fails) > cap: return allocs, fails, False, {'calls': calls, 'nodes': LIB.ctx_nodes(ctx)}
+                if len(fails) > cap: return allocs, fails, False, {'calls': calls, 'nodes': LIB.ctx_nodes(ctx), 'scan_s': round(tscan, 2)}
                 add([1 << t for t in prof])
                 continue
             allocs.append(best[0])
@@ -121,3 +124,54 @@ def solve(task):
     rec['scan'] = st
     rec['time'] = round(time.time() - t0, 2)
     return rec
+
+def main():
+    args = [a for a in sys.argv[1:] if not a.startswith('--')]
+    opt = dict(a[2:].split('=', 1) if '=' in a else (a[2:], True) for a in sys.argv[1:] if a.startswith('--'))
+    pure, cap, jobs = 'pure' in opt, int(opt.get('cap', 20)), int(opt.get('jobs', os.cpu_count()))
+    n4 = int(opt['n4']) if 'n4' in opt else None
+    ms = set(map(int, opt['m'].split(','))) if 'm' in opt else None
+    part, parts = map(int, opt.get('part', '0/1').split('/'))
+    n = int(args[0])
+    print("command: python3 k4/frontier/search.py " + ' '.join(sys.argv[1:]), flush=True)
+    t0 = time.time()
+    tasks = [(n, m, idx, sets, cap) for m in range(4, 3 * n + 1) for idx, sets in enumerate(S4.cores(n, m, pure, n4))]
+    total = len(tasks)
+    tag = f"{n}{'_pure' if pure else ''}{'' if n4 is None else f'_n4_{n4}'}"
+    ckpts = sorted(f for f in os.listdir(HERE) if f.startswith(f'checkpoint_{tag}_') and f.endswith('.jsonl'))
+    done = {}
+    for fn in ([] if 'fresh' in opt else ckpts):
+        for line in open(os.path.join(HERE, fn)):
+            try: r = json.loads(line)
+            except json.JSONDecodeError: continue                       # a line cut by a killed run
+            done[(r['m'], r['idx'])] = r
+    mine = [t for k, t in enumerate(tasks) if k % parts == part and (ms is None or t[1] in ms)]
+    todo = [t for t in mine if (t[1], t[2]) not in done]
+    print(f"n={n} ({'pure' if pure else 'degrees 3-4'}{'' if n4 is None else f', exactly {n4} of degree 4'}): {total} cores;"
+          f" this part: {len(mine)}, already done: {len(mine) - len(todo)} (checkpoints {ckpts})", flush=True)
+    ck = os.path.join(HERE, f"checkpoint_{tag}_{opt.get('m', 'all').replace(',', '-')}_p{part}of{parts}.jsonl")
+    stats, cnt = {}, 0
+    with Pool(jobs) as pool, open(ck, 'a') as f:
+        for rec in pool.imap_unordered(solve, todo, chunksize=1):
+            f.write(json.dumps(rec, separators=(',', ':')) + '\n'); f.flush()
+            done[(rec['m'], rec['idx'])] = rec; cnt += 1
+            if rec['counterexample']: print("  COUNTEREXAMPLE CANDIDATE", rec['sets'], rec['fail_profiles'][:1], flush=True)
+            if rec['D2_fails'] != 0: print(f"  D2 fails: m={rec['m']} sets={rec['sets']} ({rec['D2_fails']} profiles)", flush=True)
+            if cnt % 100 == 0: print(f"  ... {cnt}/{len(todo)} [{time.time() - t0:.0f}s]", flush=True)
+    for (m, idx), r in done.items():
+        st = stats.setdefault(m, {'cores': 0, 'D2 fails': 0, 'cex': 0, 'allocs': 0, 'max allocs': 0, 'max s': 0})
+        st['cores'] += 1; st['allocs'] += len(r['allocs']); st['D2 fails'] += r['D2_fails'] != 0
+        st['cex'] += r['counterexample']; st['max allocs'] = max(st['max allocs'], len(r['allocs'])); st['max s'] = max(st['max s'], r['time'])
+    for m, st in sorted(stats.items()): print(f"  m={m}: {st}", flush=True)
+    print(f"  done {len(done)}/{total} cores [{time.time() - t0:.0f}s]", flush=True)
+    if len(done) == total and all((t[1], t[2]) in done for t in tasks):
+        path = opt.get('out', os.path.join(HERE, f"k4_certs_{tag}.json.gz"))
+        out = [done[(t[1], t[2])] for t in tasks]
+        with gzip.open(path, 'wt') as f:
+            json.dump({'n': n, 'pure': pure, 'ties': False, 'n4': n4, 'cores': out}, f, separators=(',', ':'))
+        print(f"  all cores done: wrote {path}", flush=True)
+    else:
+        print("  not all cores done yet: no certificate written (rerun the remaining parts)", flush=True)
+
+if __name__ == '__main__':
+    main()

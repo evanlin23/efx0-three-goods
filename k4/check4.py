@@ -14,7 +14,18 @@ For each certificate file (results/k4_certs_*.json.gz), checks:
   5. format: exactly n agents, goods in range(m), allocations of exactly m owners in range(n); every m in 1..3n is
      checked (a missing m group must have labeled count 0), and with --expect the number of cores per file.
 Any failure makes the exit status nonzero. Coverage loop in C (compiled at run time from the string below), run in
-parallel over cores; everything else plain Python.
+parallel over cores; everything else plain Python. The loop walks the agents in order, keeping the set `pre` of
+allocations safe for every agent so far; each step below is sound because coverage is monotone in `pre`:
+  - each agent's types are cut to those whose row (the allocations under which the type is safe) contains no other
+    type's row (equal rows: the lowest index); if row_t contains row_u, a profile using t is covered whenever the
+    same profile with u is;
+  - a subtree is skipped when `pre` meets F (allocations safe for all later agents with every type), or contains a
+    set already proved covered at the same level (memo, levels 1..n-3); children are visited smallest set first;
+  - the last two agents are checked together: for each type t of agent n-2, every type of agent n-1 meets
+    pre & row_t iff the union over the allocations in pre & row_t of their columns (types of agent n-1 safe under
+    that allocation) is all of agent n-1's types.
+Before these were added (k4/frontier, compute/k4-frontier) the loop was a plain walk; k4/frontier/test_check4_fast.py
+checks both versions agree on random allocation subsets of the committed certificates.
 Usage: check4.py FILE [FILE ...] [--expect n:MODE:cores ...] [--jobs=J]     MODE = pure, an exact n4, or any
        check4.py --selftest"""
 import ctypes, gzip, itertools, json, math, os, subprocess, sys, tempfile
@@ -24,30 +35,101 @@ from networkx.algorithms.isomorphism import GraphMatcher
 
 C_SRC = r"""
 #include <stdint.h>
-/* all profiles covered? masks[off[i] + t*W + w]; returns 1 if every profile has a common allocation */
+#include <stdlib.h>
+/* all profiles covered? masks[off[i] + t*W + w]; returns 1 if every profile has a common allocation.
+   Memo: DONE[l] lists prefix sets `pre` for which go(l, pre) returned 1 (at levels 1..n-3, at most CAP each). If a
+   listed set is contained in `pre`, then go(l, pre) is 1 too: every completion meets the listed set, hence `pre`. */
+#define CAP 50000
 static int n_, W_; static const int *D_; static const long *off_; static const uint64_t *M_, *F_;
+static uint64_t *DONE[16]; static int NDONE[16], *DPC[16];
+static int popc(const uint64_t *x);
+static int listed(int l, const uint64_t *pre) {
+    int p = popc(pre);
+    for (int k = 0; k < NDONE[l]; k++) {
+        if (DPC[l][k] > p) continue;            /* a subset of pre has at most popc(pre) bits */
+        const uint64_t *s = DONE[l] + (long)k * W_; int sub = 1;
+        for (int w = 0; w < W_ && sub; w++) sub = (s[w] & ~pre[w]) == 0;
+        if (sub) return 1;
+    }
+    return 0;
+}
+static uint64_t *CH[16]; static int *PC[16], *IX[16];
+static uint64_t *COL, ALL[8]; static int WB;    /* COL[a*WB..]: the last agent's types whose row contains allocation a */
+static int popc(const uint64_t *x) { int c = 0; for (int w = 0; w < W_; w++) c += __builtin_popcountll(x[w]); return c; }
 static int go(int l, const uint64_t *pre) {
-    uint64_t cur[W_];
-    for (int t = 0; t < D_[l]; t++) {
-        const uint64_t *m = M_ + off_[l] + (long)t * W_;
-        int any = 0;
-        if (l + 1 == n_) {                      /* last agent: some common allocation? (stop at the first) */
+    if (l + 1 == n_) {                          /* last agent: some common allocation for every type? */
+        for (int t = 0; t < D_[l]; t++) {
+            const uint64_t *m = M_ + off_[l] + (long)t * W_;
+            int any = 0;
             for (int w = 0; w < W_ && !any; w++) any = (pre[w] & m[w]) != 0;
             if (!any) return 0;
-            continue;
         }
+        return 1;
+    }
+    if (l + 2 == n_ && COL) {                   /* last two agents: for each type t of agent l, every type of the last */
+        uint64_t cur[W_], acc[8];               /* agent meets pre & row_t iff the union of COL over it is everything */
+        for (int t = 0; t < D_[l]; t++) {
+            const uint64_t *m = M_ + off_[l] + (long)t * W_;
+            int any = 0, full = 0;
+            for (int w = 0; w < W_; w++) { cur[w] = pre[w] & m[w]; if (cur[w]) any = 1; }
+            if (!any) return 0;
+            for (int w = 0; w < W_ && !full; w++) full = (cur[w] & F_[(l + 1) * W_ + w]) != 0;
+            if (full) continue;
+            for (int v = 0; v < WB; v++) acc[v] = 0;
+            for (int w = 0; w < W_; w++)
+                for (uint64_t b = cur[w]; b; b &= b - 1) {
+                    const uint64_t *c = COL + (long)(64 * w + __builtin_ctzll(b)) * WB;
+                    for (int v = 0; v < WB; v++) acc[v] |= c[v];
+                }
+            for (int v = 0; v < WB; v++) if (acc[v] != ALL[v]) return 0;
+        }
+        return 1;
+    }
+    int memo = l >= 1 && l <= n_ - 3;
+    if (memo && listed(l, pre)) return 1;
+    uint64_t *ch = CH[l]; int *pc = PC[l], *ix = IX[l], k = 0;
+    for (int t = 0; t < D_[l]; t++) {           /* children: pre & row_t for every type t of agent l */
+        const uint64_t *m = M_ + off_[l] + (long)t * W_;
+        uint64_t *cur = ch + (long)t * W_;
+        int any = 0;
         for (int w = 0; w < W_; w++) { cur[w] = pre[w] & m[w]; if (cur[w]) any = 1; }
         if (!any) return 0;
         int full = 0;                           /* an allocation safe for all later agents with every type */
         for (int w = 0; w < W_ && !full; w++) full = (cur[w] & F_[(l + 1) * W_ + w]) != 0;
-        if (!full && !go(l + 1, cur)) return 0;
+        if (!full) { pc[t] = popc(cur); ix[k++] = t; }
     }
+    for (int a = 1; a < k; a++) {               /* smallest sets first: they make the strongest memo entries */
+        int v = ix[a], b = a - 1;
+        while (b >= 0 && pc[ix[b]] > pc[v]) { ix[b + 1] = ix[b]; b--; }
+        ix[b + 1] = v;
+    }
+    for (int a = 0; a < k; a++) if (!go(l + 1, ch + (long)ix[a] * W_)) return 0;
+    if (memo && NDONE[l] < CAP) { for (int w = 0; w < W_; w++) DONE[l][(long)NDONE[l] * W_ + w] = pre[w]; DPC[l][NDONE[l]++] = popc(pre); }
     return 1;
 }
 int covered(int n, int W, const int *D, const long *off, const uint64_t *M, const uint64_t *F) {
     n_ = n; W_ = W; D_ = D; off_ = off; M_ = M; F_ = F;
+    if (n > 16) return 0;
+    for (int l = 0; l < n; l++) {
+        DONE[l] = malloc(sizeof(uint64_t) * CAP * W); NDONE[l] = 0; DPC[l] = malloc(sizeof(int) * CAP);
+        CH[l] = malloc(sizeof(uint64_t) * D[l] * W); PC[l] = malloc(sizeof(int) * D[l]); IX[l] = malloc(sizeof(int) * D[l]);
+    }
+    COL = 0;
+    if (n >= 2 && D[n - 1] <= 512) {
+        int L = n - 1; WB = (D[L] + 63) / 64;
+        COL = calloc((size_t)64 * W * WB, sizeof(uint64_t));
+        for (int v = 0; v < 8; v++) ALL[v] = 0;
+        for (int t = 0; t < D[L]; t++) {
+            ALL[t / 64] |= (uint64_t)1 << (t % 64);
+            for (int a = 0; a < 64 * W; a++)
+                if (M[off[L] + (long)t * W + a / 64] >> (a % 64) & 1) COL[(long)a * WB + t / 64] |= (uint64_t)1 << (t % 64);
+        }
+    }
     uint64_t all[W]; for (int w = 0; w < W; w++) all[w] = ~(uint64_t)0;
-    return go(0, all);
+    int r = go(0, all);
+    free(COL); COL = 0;
+    for (int l = 0; l < n; l++) { free(DONE[l]); free(DPC[l]); free(CH[l]); free(PC[l]); free(IX[l]); }
+    return r;
 }
 """
 
@@ -158,6 +240,14 @@ def core_domains(sets, m, ties):
         doms.append(dom)
     return doms
 
+def minimal_types(M, off, D, W):
+    """One agent's types whose row (bits: allocations under which the type is safe; row t at M[off + t*W ...]) contains
+    no other type's row; of equal rows only the lowest index. Every other type t has a kept u with row_u inside row_t,
+    so a profile using t is covered whenever the same profile using u is: checking the kept types suffices."""
+    rows = [sum(M[off + t * W + w] << (64 * w) for w in range(W)) for t in range(D)]
+    return [t for t, r in enumerate(rows)
+            if not any(u != t and q & ~r == 0 and (q != r or u < t) for u, q in enumerate(rows))]
+
 LIB = None
 def covered(task):
     """Is every profile of the core covered by one of its allocations (raw EFX₀)? Runs in a worker process."""
@@ -179,7 +269,14 @@ def covered(task):
         for l in range(n + 1):
             if all(M[off[j] + t * W + a // 64] >> (a % 64) & 1 for j in range(l, n) for t in range(len(doms[j]))):
                 F[l * W + a // 64] |= 1 << (a % 64)
-    return bool(LIB.covered(n, W, (ctypes.c_int * n)(*[len(D) for D in doms]), (ctypes.c_long * n)(*off[:n]), M, F))
+    keep = [minimal_types(M, off[i], len(D), W) for i, D in enumerate(doms)]
+    off2 = [0]
+    for kt in keep: off2.append(off2[-1] + len(kt) * W)
+    M2 = (ctypes.c_uint64 * off2[-1])()
+    for i, kt in enumerate(keep):
+        for r, t in enumerate(kt):
+            for w in range(W): M2[off2[i] + r * W + w] = M[off[i] + t * W + w]
+    return bool(LIB.covered(n, W, (ctypes.c_int * n)(*[len(kt) for kt in keep]), (ctypes.c_long * n)(*off2[:n]), M2, F))
 
 def well_formed(rec, n):
     """Format: m in 1..3n, exactly n agent lists of distinct goods in range(m), allocations of exactly m owners in

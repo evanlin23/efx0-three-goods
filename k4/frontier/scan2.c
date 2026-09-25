@@ -14,7 +14,7 @@
 
 #define MAXN 12
 typedef struct { int cap, len, w; uint64_t *data; int *pop; int *wd; } store_t;
-typedef struct { int n; store_t st[MAXN + 1]; long nodes; } ctx_t;
+typedef struct { int n, depth; store_t st[MAXN + 1]; long nodes; } ctx_t;
 
 static int N, W, ORD[MAXN];
 static const uint64_t *M, *F;
@@ -23,10 +23,11 @@ static int *A[MAXN], NA[MAXN];               /* antichain of minimal rows per le
 static int *OUT;
 static ctx_t *C;
 static uint64_t *CH[MAXN];                    /* children buffers per level */
+static uint64_t *COLB, FULLB[8]; static int WB;  /* COLB[a*WB..]: minimal rows of the last level containing allocation a */
 static int *CP[MAXN], *CI[MAXN];
 
-void *ctx_new(int n, int cap) {
-    ctx_t *c = calloc(1, sizeof(ctx_t)); c->n = n;
+void *ctx_new(int n, int cap, int depth) {     /* store at levels 1..n-1-depth (depth = levels at the bottom without) */
+    ctx_t *c = calloc(1, sizeof(ctx_t)); c->n = n; c->depth = depth;
     for (int l = 0; l <= n; l++) { c->st[l].cap = cap; }
     return c;
 }
@@ -40,6 +41,7 @@ static inline int meets(const uint64_t *a, const uint64_t *b) { for (int w = 0; 
 static inline const uint64_t *row(int l, int t) { return M + (B[ORD[l]] + (long)t) * W; }
 
 static int dominated(int l, const uint64_t *cur, int pc) {
+    if (l > N - 1 - C->depth) return 0;
     store_t *s = &C->st[l];
     for (int k = 0; k < s->len; k++) {
         if (s->pop[k] > pc) continue;
@@ -51,6 +53,7 @@ static int dominated(int l, const uint64_t *cur, int pc) {
     return 0;
 }
 static void insert(int l, const uint64_t *cur, int pc) {
+    if (l > N - 1 - C->depth) return;
     store_t *s = &C->st[l];
     if (s->cap <= 0) return;
     if (s->w < W) {                           /* widen every entry (zero-extend) */
@@ -74,6 +77,29 @@ static int rec(int l, const uint64_t *cur) {
     if (l > 0 && dominated(l, cur, pc)) return 0;
     if (l == N - 1) {
         for (int k = 0; k < NA[l]; k++) if (!meets(cur, row(l, A[l][k]))) { OUT[ORD[l]] = A[l][k]; return 1; }
+        return 0;
+    }
+    if (l == N - 2 && COLB) {                 /* last two levels at once: for each t, the last-level rows met by */
+        uint64_t x[W], acc[8];                /* cur & row_t are the union of COLB over its allocations          */
+        for (int k = 0; k < NA[l]; k++) {
+            const uint64_t *r = row(l, A[l][k]); int any = 0;
+            for (int w = 0; w < W; w++) { x[w] = cur[w] & r[w]; any |= x[w] != 0; }
+            if (!any) { OUT[ORD[l]] = A[l][k]; fill_rest(l + 1); return 1; }
+            if (meets(x, F + (long)(l + 1) * W)) continue;
+            for (int v = 0; v < WB; v++) acc[v] = 0;
+            int done = 0;
+            for (int w = 0; w < W && !done; w++) for (uint64_t b = x[w]; b && !done; b &= b - 1) {
+                const uint64_t *cb = COLB + (long)(64 * w + __builtin_ctzll(b)) * WB; done = 1;
+                for (int v = 0; v < WB; v++) { acc[v] |= cb[v]; done &= acc[v] == FULLB[v]; }
+            }
+            if (!done) {
+                for (int v = 0; v < WB; v++) if (acc[v] != FULLB[v]) {
+                    int u = 64 * v + __builtin_ctzll(~acc[v] & FULLB[v]);
+                    OUT[ORD[l]] = A[l][k]; OUT[ORD[l + 1]] = A[l + 1][u]; return 1;
+                }
+            }
+        }
+        insert(l, cur, pc);
         return 0;
     }
     uint64_t *ch = CH[l]; int *cp = CP[l], *ci = CI[l];
@@ -123,9 +149,21 @@ int find(void *ctx, int n, const int *order, const int *dom, int words, const ui
     }
     if (!ret) {
         for (int l = 0; l < n; l++) { CH[l] = malloc(8L * NA[l] * W); CP[l] = malloc(sizeof(int) * NA[l]); CI[l] = malloc(sizeof(int) * NA[l]); }
+        COLB = NULL;
+        if (n >= 2 && NA[n - 1] <= 512) {     /* transposed last level */
+            int L = n - 1; WB = (NA[L] + 63) / 64;
+            COLB = calloc((size_t)64 * W * WB, 8);
+            for (int v = 0; v < WB; v++) FULLB[v] = 0;
+            for (int k = 0; k < NA[L]; k++) {
+                FULLB[k / 64] |= 1ULL << (k % 64);
+                const uint64_t *r = row(L, A[L][k]);
+                for (int w = 0; w < W; w++) for (uint64_t b = r[w]; b; b &= b - 1)
+                    COLB[(long)(64 * w + __builtin_ctzll(b)) * WB + k / 64] |= 1ULL << (k % 64);
+            }
+        }
         uint64_t *all = malloc(8L * W); memset(all, 0xff, 8L * W);
         ret = rec(0, all);
-        free(all);
+        free(all); free(COLB); COLB = NULL;
         for (int l = 0; l < n; l++) { free(CH[l]); free(CP[l]); free(CI[l]); }
     }
     for (int l = 0; l < n; l++) free(A[l]);
