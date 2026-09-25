@@ -1,4 +1,5 @@
-command: python3 k4/check4.py results/k4_certs_5_n4_3.json.gz --expect 5:3:9861 --jobs=2
+command: python3 k4/check4_fast.py results/k4_certs_5_n4_3.json.gz --expect 5:3:9861 --jobs=2
+checker sha256: c7ccbe49d57415f015fc845f96bddc1d6adeff05c2be2ba87b2ec38d2e4da80e
   n=5 m=4 n4=3: 2 cores, orbit sum 160 = labeled 160: yes; all profiles covered in 2/2
   n=5 m=5 n4=3: 32 cores, orbit sum 124200 = labeled 124200: yes; all profiles covered in 32/32
   n=5 m=6 n4=3: 304 cores, orbit sum 12747600 = labeled 12747600: yes; all profiles covered in 304/304
