@@ -226,8 +226,8 @@ theorem strict_tieBreak {agents : List A} (hgd : goods.Nodup) : Strict (tieBreak
 
 end perturbation
 
-/-- **K4.TIE** (`k4/SCOUT.md` §2). If every strict profile with the same relevant goods as a connected
-k = 4 core `v` is a connected k = 4 core with an EFX₀ allocation, then `v` has an EFX₀ allocation. -/
+/-- **K4.TIE** (`k4/SCOUT.md` §2). If every strict profile `w` with the same relevant goods as `v` that is
+itself a connected k = 4 core has an EFX₀ allocation, then so does the connected k = 4 core `v`. -/
 theorem tie_reduction (v : A → G → Nat) {agents : List A} {goods : List G} (hgd : goods.Nodup)
     (hstrict : ∀ w : A → G → Nat, (∀ i g, 0 < w i g ↔ 0 < v i g) → IsCore4 w agents goods →
       Connected w agents goods → Strict w agents goods →

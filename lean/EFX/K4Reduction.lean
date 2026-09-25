@@ -18,6 +18,8 @@ import EFX.Target
   L3 (`EFX.junk`), then peeling by R1 (`EFX.peel`), then by R2 (`EFX.peelR2`, applied whenever its balance
   condition `v_i(R_i ∖ P) ≤ v_i(P)` holds), then L6 (`efx0_split`); what remains is a connected k = 4 core.
 - `core_reduction4`: the same for all k = 4 cores, connected or not.
+- `isCore_of_isCore4`, `isCore4_of_isCore`: the k = 4 cores whose agents all have three goods are exactly the
+  cores of `EFX.IsCore`.
 - `core_reduction4_mixed`: only the connected k = 4 cores that have an agent with four relevant goods are
   needed: a k = 4 core whose agents all have three goods is a core in the sense of `EFX.IsCore`, which
   Corollary D (`EFX.LB.corollaryD_lists`) covers.
@@ -353,9 +355,25 @@ theorem core_reduction4 (v : A → G → Nat) (N : Nat)
       ∃ X : G → A, IsAllocation agents goods X ∧ EFX0L v agents goods X :=
   core_reduction4_conn v N fun agents goods hag hgd hN hc _ => hcore agents goods hag hgd hN hc
 
+omit [DecidableEq G] in
+/-- A k = 4 core whose agents all have three relevant goods is a core (`EFX.IsCore`). -/
+theorem isCore_of_isCore4 (v : A → G → Nat) {agents : List A} {goods : List G} (hc : IsCore4 v agents goods)
+    (h3 : ∀ i ∈ agents, (relevant v i goods).length = 3) : IsCore v agents goods := by
+  obtain ⟨h0, -, h2, h3', -, h5⟩ := hc
+  exact ⟨h0, h3, h2, fun i hi => by have := h3' i hi; have := h3 i hi; omega, h5⟩
+
+omit [DecidableEq G] in
+/-- Conversely, a core (`EFX.IsCore`) is a k = 4 core. -/
+theorem isCore4_of_isCore (v : A → G → Nat) {agents : List A} {goods : List G} (hc : IsCore v agents goods) :
+    IsCore4 v agents goods := by
+  obtain ⟨h0, h1, h2, h3, h5⟩ := hc
+  refine ⟨h0, fun i hi => by have := h1 i hi; omega, h2, fun i hi => ?_, fun i hi h => ?_, h5⟩
+  · have := h1 i hi; have := h3 i hi; omega
+  · have := h3 i hi; omega
+
 /-- **The k = 4 CORE theorem, new cores only.** It suffices to treat the connected k = 4 cores in which some
-agent has four relevant goods: a k = 4 core whose agents all have three is a core (`EFX.IsCore`), and Corollary D
-covers it. -/
+agent has four relevant goods: a k = 4 core whose agents all have three is a core (`EFX.IsCore`,
+`isCore_of_isCore4`), and Corollary D covers it. -/
 theorem core_reduction4_mixed (v : A → G → Nat) (N : Nat)
     (hcore : ∀ (agents : List A) (goods : List G), agents.Nodup → goods.Nodup → agents.length ≤ N →
       IsCore4 v agents goods → Connected v agents goods → (∃ i ∈ agents, (relevant v i goods).length = 4) →
@@ -366,13 +384,14 @@ theorem core_reduction4_mixed (v : A → G → Nat) (N : Nat)
   refine core_reduction4_conn v N fun agents goods hag hgd hN hc hconn => ?_
   by_cases h4 : ∃ i ∈ agents, (relevant v i goods).length = 4
   · exact hcore agents goods hag hgd hN hc hconn h4
-  obtain ⟨hlen, hk1, hk2, -, -, -⟩ := hc
-  have hne : agents ≠ [] := fun h => by rw [h] at hlen; simp at hlen
   have h3 : ∀ i ∈ agents, (relevant v i goods).length = 3 := fun i hi => by
-    have := hk1 i hi
+    have := (hc.2.1 i hi).1
+    have := (hc.2.1 i hi).2
     have : (relevant v i goods).length ≠ 4 := fun h => h4 ⟨i, hi, h⟩
     omega
-  obtain ⟨X, hX, hE, -⟩ := LB.corollaryD_lists v hag hgd hne h3 (fun i hi g hg => Nat.le_of_lt (hk2 i hi g hg))
+  obtain ⟨hlen, hk1, hk2, -, -⟩ := isCore_of_isCore4 v hc h3
+  have hne : agents ≠ [] := fun h => by rw [h] at hlen; simp at hlen
+  obtain ⟨X, hX, hE, -⟩ := LB.corollaryD_lists v hag hgd hne hk1 (fun i hi g hg => Nat.le_of_lt (hk2 i hi g hg))
   exact ⟨X, hX, hE⟩
 
 /-- **The k = 4 CORE theorem in the model's terms.** If every connected k = 4 core of `I`'s agents and goods
@@ -403,5 +422,7 @@ end EFX
 #print axioms EFX.efx0_split
 #print axioms EFX.core_reduction4_conn
 #print axioms EFX.core_reduction4
+#print axioms EFX.isCore_of_isCore4
+#print axioms EFX.isCore4_of_isCore
 #print axioms EFX.core_reduction4_mixed
 #print axioms EFX.target4_of_cores
