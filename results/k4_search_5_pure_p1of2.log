@@ -1,2 +1,39 @@
 command: python3 k4/frontier/search.py 5 --pure --part=1/2 --jobs=2 --out=results/k4_certs_5_pure.json.gz
 n=5 (pure): 4674 cores; this part: 2337, already done: 0 (checkpoints ['checkpoint_5_pure_all_p0of2.jsonl'])
+  ... 100/2337 [67s]
+  ... 200/2337 [145s]
+  ... 300/2337 [273s]
+  ... 400/2337 [473s]
+  ... 500/2337 [729s]
+  ... 600/2337 [810s]
+  ... 700/2337 [919s]
+  ... 800/2337 [1131s]
+  ... 900/2337 [1451s]
+  ... 1000/2337 [1909s]
+  ... 1100/2337 [2120s]
+  ... 1200/2337 [2208s]
+  ... 1300/2337 [2330s]
+  ... 1400/2337 [2468s]
+  ... 1500/2337 [2775s]
+  ... 1600/2337 [3252s]
+  ... 1700/2337 [3520s]
+  ... 1800/2337 [3613s]
+  ... 1900/2337 [3750s]
+  ... 2000/2337 [3922s]
+  ... 2100/2337 [4231s]
+  ... 2200/2337 [4334s]
+  ... 2300/2337 [4473s]
+  m=4: {'cores': 1, 'D2 fails': 0, 'cex': 0, 'allocs': 1, 'max allocs': 1, 'max s': 0.2}
+  m=5: {'cores': 6, 'D2 fails': 0, 'cex': 0, 'allocs': 6, 'max allocs': 1, 'max s': 0.27}
+  m=6: {'cores': 45, 'D2 fails': 0, 'cex': 0, 'allocs': 3949, 'max allocs': 133, 'max s': 1.15}
+  m=7: {'cores': 219, 'D2 fails': 0, 'cex': 0, 'allocs': 42937, 'max allocs': 290, 'max s': 3.05}
+  m=8: {'cores': 656, 'D2 fails': 0, 'cex': 0, 'allocs': 196550, 'max allocs': 546, 'max s': 24.27}
+  m=9: {'cores': 1119, 'D2 fails': 0, 'cex': 0, 'allocs': 362667, 'max allocs': 676, 'max s': 29.08}
+  m=10: {'cores': 1237, 'D2 fails': 0, 'cex': 0, 'allocs': 392390, 'max allocs': 570, 'max s': 23.2}
+  m=11: {'cores': 862, 'D2 fails': 0, 'cex': 0, 'allocs': 255287, 'max allocs': 498, 'max s': 17.92}
+  m=12: {'cores': 401, 'D2 fails': 0, 'cex': 0, 'allocs': 105188, 'max allocs': 389, 'max s': 8.86}
+  m=13: {'cores': 110, 'D2 fails': 0, 'cex': 0, 'allocs': 23967, 'max allocs': 300, 'max s': 3.28}
+  m=14: {'cores': 17, 'D2 fails': 0, 'cex': 0, 'allocs': 3037, 'max allocs': 220, 'max s': 1.68}
+  m=15: {'cores': 1, 'D2 fails': 0, 'cex': 0, 'allocs': 153, 'max allocs': 153, 'max s': 1.06}
+  done 4674/4674 cores [4503s]
+  all cores done: wrote results/k4_certs_5_pure.json.gz
