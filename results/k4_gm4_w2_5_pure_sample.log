@@ -1,0 +1,3 @@
+# gm4_run.py --gen=5:pure --sample=2000 --prog=gm4_fast --defs=-DW=2
+# 4674 cores from genbg
+TOTAL cores=4674 badcores=0 runs=9348000 maxima=9956751 pool=1659461 empty=6452 dump=1653009 nodump=0 fail=0 pfail=0 pallfail=0 overflow=0 wall=290s
