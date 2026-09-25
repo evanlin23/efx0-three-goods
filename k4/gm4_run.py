@@ -4,6 +4,8 @@ Cores come from results/k4_certs_*.json.gz (complete lists by the orbit count of
 representatives from k4/check4.py's core_domains (an agent with two private goods keeps only p + q < s + t).
 Usage: gm4_run.py CERTFILE [...] [--sample=K] [--jobs=J] [--cores=A:B] [--only=IDX] [--maxm=M] [--minm=M]
                   [--defs='-DOUT=100'] [--prog=gm4_explore]
+       gm4_run.py --gen=N:N4 [--mrange=A:B] ...   cores from genbg (k4/search4.py cores(); N4 = number of 4-good
+                  agents, or 'pure', or 'any'); --every=K keeps every K-th core only
 Prints the per-core RESULT lines' totals; with -DOUT the M lines too (for k4/gm4_analyze.py).
 """
 import gzip, json, os, subprocess, sys, time
@@ -40,6 +42,19 @@ def main():
     exe = build(opt.get('defs', ''), opt.get('prog', 'gm4_explore'))
     print('# ' + ' '.join(sys.argv), flush=True)
     tasks = []
+    if 'gen' in opt:
+        import search4
+        N, mode = opt['gen'].split(':')
+        N = int(N)
+        lo, hi = map(int, opt.get('mrange', f'4:{3 * N}').split(':'))
+        every, k = int(opt.get('every', 1)), 0
+        for m in range(lo, hi + 1):
+            cs = search4.cores(N, m, mode == 'pure', None if mode in ('pure', 'any') else int(mode))
+            for sets in cs:
+                k += 1
+                if (k - 1) % every: continue
+                tasks.append((exe, N, m, sets, sample, k))
+        print(f'# {len(tasks)} cores from genbg', flush=True)
     for f in files:
         data = json.load(gzip.open(f, 'rt'))
         recs = data['cores']
@@ -57,7 +72,7 @@ def main():
                 if line.startswith('RESULT'):
                     for kv in line.split()[1:]:
                         k, v = kv.split('='); tot[k] = tot.get(k, 0) + int(v)
-                elif line.split(' ')[0] in ('M', 'GMFAIL', 'H1FAIL', 'H0FAIL') or line.startswith('SKIP'):
+                elif line.split(' ')[0] in ('M', 'GMFAIL', 'GM4S', 'H1FAIL', 'H0FAIL', 'ESC', 'NOESC') or line.startswith('SKIP'):
                     print(f"{line} # m={m} sets={json.dumps(sets, separators=(',', ':'))}", flush=True)
             if rc not in (0, 1) or 'RESULT' not in out: bad += 1; print('BAD', sets, rc, out[-300:], flush=True)
     print(f"TOTAL cores={ncores} badcores={bad} " + ' '.join(f"{k}={v}" for k, v in tot.items()) + f" wall={time.time() - t0:.0f}s", flush=True)
