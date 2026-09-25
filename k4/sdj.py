@@ -39,6 +39,7 @@ def cegar_sdj(C, s, c, cap):
     base = np.cumsum([0] + [len(D) for D in C.dom])
     cbase = (ctypes.c_long * n)(*base[:n].tolist())
     M, ncol = np.zeros((base[-1], 16), dtype=np.uint64), 0
+    Fnone = np.zeros((n + 1, 4096), dtype=np.uint64)       # no subtree pruning in SDJ
     def add(masks):
         nonlocal M, ncol
         if ncol == 64 * M.shape[1]: M = np.concatenate([M, np.zeros_like(M)], axis=1)
@@ -52,7 +53,8 @@ def cegar_sdj(C, s, c, cap):
     while True:
         W = max(1, (ncol + 63) // 64)
         Mc = np.ascontiguousarray(M[:, :W])
-        if not S4.SCAN.scan(n, dom, W, Mc.ctypes.data_as(ctypes.POINTER(ctypes.c_uint64)), cbase, start, out):
+        if not S4.SCAN.scan(n, dom, W, Mc.ctypes.data_as(ctypes.POINTER(ctypes.c_uint64)), cbase, start, out,
+                            np.ascontiguousarray(Fnone[:, :W]).ctypes.data_as(ctypes.POINTER(ctypes.c_uint64))):
             return nalloc, fails, True
         prof = list(out)
         for i in range(n): start[i] = prof[i]

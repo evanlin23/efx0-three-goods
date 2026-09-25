@@ -41,6 +41,7 @@ def cores(n, m, pure, n4=None):
     n4: only cores with exactly n4 agents of degree 4."""
     lo, hi = (4 * n if pure else 3 * n + 1), 4 * n
     if n4 is not None: lo = hi = 3 * n + n4
+    if hi < n + m - 1: return []                      # too few edges for a connected graph (genbg refuses)
     args = [GENBG, '-cq', f'-d{4 if pure else 3}:1', f'-D4:{n}', str(n), str(m), f'{lo}:{hi}']
     out = []
     for line in subprocess.run(args, capture_output=True, text=True, check=True).stdout.split():
@@ -117,12 +118,13 @@ class Core:
             zi = []
             for t, v in enumerate(self.dom[i]):
                 zt = vp.id(('z', i, t)); zi.append(zt)
+                ssum = [sum(v[p] for p in range(k) if S >> p & 1) for S in range(1 << k)]
+                smin = [min([v[p] for p in range(k) if S >> p & 1] or [0]) for S in range(1 << k)]
                 for O in range(1 << k):
-                    vO = sum(v[p] for p in range(k) if O >> p & 1)
+                    vO = ssum[O]
                     for G in range(1, 1 << k):
                         if G & O: continue
-                        vals = [v[p] for p in range(k) if G >> p & 1]
-                        for kind, bad in (('E', vO < sum(vals) - min(vals)), ('F', vO < sum(vals))):
+                        for kind, bad in (('E', vO < ssum[G] - smin[G]), ('F', vO < ssum[G])):
                             if not bad: continue
                             if (O, G, kind) not in guards:
                                 u = guards[(O, G, kind)] = vp.id(('u', i, O, G, kind))
@@ -138,22 +140,24 @@ class Core:
 
     def allocation(self, sol, x, z, prof):
         if not sol.solve(assumptions=[z[i][t] for i, t in enumerate(prof)]): return None
-        mod = set(l for l in sol.get_model() if l > 0)
-        return [next(j for j in range(self.n) if x[g][j] in mod) for g in range(self.m)]
+        mod = sol.get_model()
+        return [next(j for j in range(self.n) if mod[x[g][j] - 1] > 0) for g in range(self.m)]
 
     def best_allocation(self, sol, x, z, prof, tries):
-        """Among up to `tries` allocations for prof, the one whose covered box is largest (log volume)."""
-        sel = self.vp.id(('sel', len(self.vp.obj2id)))
+        """Among up to `tries` allocations for prof (diversified by random phases), the one whose covered box is
+        largest (log volume)."""
         best, bestv = None, None
-        for _ in range(tries):
-            if not sol.solve(assumptions=[z[i][t] for i, t in enumerate(prof)] + [sel]): break
-            mod = set(l for l in sol.get_model() if l > 0)
-            A = [next(j for j in range(self.n) if x[g][j] in mod) for g in range(self.m)]
+        rng = getattr(self, 'rng', None) or np.random.default_rng(7)
+        self.rng = rng
+        xs = [x[g][j] for g in range(self.m) for j in range(self.n)]
+        for k in range(tries):
+            if k: sol.set_phases([v if b else -v for v, b in zip(xs, rng.integers(0, 2, len(xs)))])
+            if not sol.solve(assumptions=[z[i][t] for i, t in enumerate(prof)]): break
+            mod = sol.get_model()
+            A = [next(j for j in range(self.n) if mod[x[g][j] - 1] > 0) for g in range(self.m)]
             masks = [self.safe_mask(i, A) for i in range(self.n)]
             vol = sum(np.log(bin(mk).count('1')) for mk in masks)
             if bestv is None or vol > bestv: best, bestv = (A, masks), vol
-            sol.add_clause([-sel] + [-x[g][A[g]] for g in range(self.m)])
-        sol.add_clause([-sel])
         return best
 
     def cegar(self, s, c, cap, extra_allocs=(), tries=8, maxsize=None):
@@ -165,21 +169,44 @@ class Core:
         cbase = (ctypes.c_long * n)(*base[:n].tolist())
         M = np.zeros((base[-1], 16), dtype=np.uint64)
         ncol = 0
+        Fu = np.zeros((n + 1, 16), dtype=np.uint64)          # Fu[l]: allocations safe for agents l.. with every type
         def add(masks):
-            nonlocal M, ncol
-            if ncol == 64 * M.shape[1]: M = np.concatenate([M, np.zeros_like(M)], axis=1)
+            nonlocal M, Fu, ncol
+            if ncol == 64 * M.shape[1]:
+                M = np.concatenate([M, np.zeros_like(M)], axis=1); Fu = np.concatenate([Fu, np.zeros_like(Fu)], axis=1)
             for i in range(n):
                 ts = [t for t in range(len(self.dom[i])) if masks[i] >> t & 1]
                 M[base[i] + np.array(ts, dtype=np.int64), ncol // 64] |= np.uint64(1 << (ncol % 64))
+            for l in range(n + 1):
+                if all(masks[j] == (1 << len(self.dom[j])) - 1 for j in range(l, n)):
+                    Fu[l, ncol // 64] |= np.uint64(1 << (ncol % 64))
             ncol += 1
         sol, x, z = self.inner(s, c, maxsize)
         allocs, fails = [], []
         start = (ctypes.c_int * n)(*([0] * n)); out = (ctypes.c_int * n)()
         for A in extra_allocs: add([self.safe_mask(i, A) for i in range(n)])
+        rng, sizes = np.random.default_rng(12345), np.array([len(D) for D in self.dom])
+        while True:                                  # random phase: diverse proposals until 4096 samples are covered
+            W = max(1, (ncol + 63) // 64)
+            P = rng.integers(0, sizes, size=(4096, n))
+            acc = np.full((4096, W), ~np.uint64(0))
+            for i in range(n): acc &= M[base[i] + P[:, i], :W]
+            unc = np.flatnonzero(~acc.any(axis=1))
+            if len(unc) == 0: break
+            prof = P[unc[0]].tolist()
+            best = self.best_allocation(sol, x, z, prof, tries)
+            if best is None:
+                fails.append(prof)
+                if len(fails) > cap: return allocs, fails, False
+                add([1 << t for t in prof])
+                continue
+            allocs.append(best[0])
+            add(best[1])
         while True:
             W = max(1, (ncol + 63) // 64)
-            Mc = np.ascontiguousarray(M[:, :W])
-            if not SCAN.scan(n, dom, W, Mc.ctypes.data_as(ctypes.POINTER(ctypes.c_uint64)), cbase, start, out):
+            Mc, Fc = np.ascontiguousarray(M[:, :W]), np.ascontiguousarray(Fu[:, :W])
+            if not SCAN.scan(n, dom, W, Mc.ctypes.data_as(ctypes.POINTER(ctypes.c_uint64)), cbase, start, out,
+                             Fc.ctypes.data_as(ctypes.POINTER(ctypes.c_uint64))):
                 return allocs, fails, True
             prof = list(out)
             for i in range(n): start[i] = prof[i]
@@ -246,9 +273,22 @@ def main():
             for idx, sets in enumerate(cores(n, m, pure, n4)): tasks.append((n, m, idx, sets, cap))
         print(f"n={n} ({'pure' if pure else 'degrees 3-4'}{'' if n4 is None else f', exactly {n4} of degree 4'}"
               f"{', ties' if TIES else ''}): {len(tasks)} cores", flush=True)
+        suffix = f"{n}{'_pure' if pure else ''}{'' if n4 is None else f'_n4_{n4}'}{'_ties' if TIES else ''}"
+        ckpt = os.path.join(HERE, f"checkpoint_{suffix}.jsonl")     # resume: one finished core per line
+        done = {}
+        if os.path.exists(ckpt) and 'fresh' not in opt:
+            for line in open(ckpt):
+                r = json.loads(line); done[(r['m'], r['idx'])] = r
         out, stats = [], {}
-        with Pool(jobs) as pool:
-            for rec in pool.imap_unordered(solve, tasks, chunksize=1):
+        todo = [t for t in tasks if (t[1], t[2]) not in done]
+        print(f"  resuming: {len(done)} cores from {ckpt}" if done else "", end='', flush=True)
+        def results():
+            yield from done.values()
+            with Pool(jobs) as pool, open(ckpt, 'a') as ck:
+                for rec in pool.imap_unordered(solve, todo, chunksize=1):
+                    ck.write(json.dumps(rec, separators=(',', ':')) + '\n'); ck.flush()
+                    yield rec
+        for rec in results():
                 out.append(rec)
                 st = stats.setdefault(rec['m'], {'cores': 0, 'D2 fails': 0, 'D3 fails': 0, 'cex': 0, 'allocs': 0})
                 st['cores'] += 1; st['allocs'] += len(rec['allocs'])

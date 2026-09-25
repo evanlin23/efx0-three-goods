@@ -22,20 +22,27 @@ from networkx.algorithms.isomorphism import GraphMatcher
 C_SRC = r"""
 #include <stdint.h>
 /* all profiles covered? masks[off[i] + t*W + w]; returns 1 if every profile has a common allocation */
-static int n_, W_; static const int *D_; static const long *off_; static const uint64_t *M_;
+static int n_, W_; static const int *D_; static const long *off_; static const uint64_t *M_, *F_;
 static int go(int l, const uint64_t *pre) {
     uint64_t cur[W_];
     for (int t = 0; t < D_[l]; t++) {
         const uint64_t *m = M_ + off_[l] + (long)t * W_;
         int any = 0;
+        if (l + 1 == n_) {                      /* last agent: some common allocation? (stop at the first) */
+            for (int w = 0; w < W_ && !any; w++) any = (pre[w] & m[w]) != 0;
+            if (!any) return 0;
+            continue;
+        }
         for (int w = 0; w < W_; w++) { cur[w] = pre[w] & m[w]; if (cur[w]) any = 1; }
         if (!any) return 0;
-        if (l + 1 < n_ && !go(l + 1, cur)) return 0;
+        int full = 0;                           /* an allocation safe for all later agents with every type */
+        for (int w = 0; w < W_ && !full; w++) full = (cur[w] & F_[(l + 1) * W_ + w]) != 0;
+        if (!full && !go(l + 1, cur)) return 0;
     }
     return 1;
 }
-int covered(int n, int W, const int *D, const long *off, const uint64_t *M) {
-    n_ = n; W_ = W; D_ = D; off_ = off; M_ = M;
+int covered(int n, int W, const int *D, const long *off, const uint64_t *M, const uint64_t *F) {
+    n_ = n; W_ = W; D_ = D; off_ = off; M_ = M; F_ = F;
     uint64_t all[W]; for (int w = 0; w < W; w++) all[w] = ~(uint64_t)0;
     return go(0, all);
 }
@@ -168,7 +175,12 @@ def check_file(path, lib):
                 for i, D in enumerate(doms):
                     for t, vals in enumerate(D):
                         if efx0_safe(i, vals, bundles): M[off[i] + t * W + a // 64] |= 1 << (a % 64)
-            cov = lib.covered(n, W, (ctypes.c_int * n)(*[len(D) for D in doms]), (ctypes.c_long * n)(*off[:n]), M)
+            F = (ctypes.c_uint64 * ((n + 1) * W))()      # F[l]: allocations safe for agents l..n-1 with every type
+            for a in range(K):
+                for l in range(n + 1):
+                    if all(M[off[j] + t * W + a // 64] >> (a % 64) & 1 for j in range(l, n) for t in range(len(doms[j]))):
+                        F[l * W + a // 64] |= 1 << (a % 64)
+            cov = lib.covered(n, W, (ctypes.c_int * n)(*[len(D) for D in doms]), (ctypes.c_long * n)(*off[:n]), M, F)
             if not cov: bad += 1; ok = False; print(f"  NOT COVERED: {sets}")
             big = lambda A, s: sum(A.count(j) > s for j in range(n))
             d2 += cov and all(big(A, 2) <= 1 for A in A_list)
