@@ -142,4 +142,5 @@ Q: instance E under fixed priority, agent order 2, 3, 0, 1 (no maximum admits a 
   [ok] Y is junk-free and EFX0
   [ok] Y is a fixed-priority maximum for agent order [2, 3, 0, 1] (levels in that order [3, 3, 6, 6]; 1 maxima)
   [ok] no fixed-priority maximum for this order admits a placement
+BATCH: 136 distinct (profile, maximum) pairs from results/k4_gm4_seeds_4.txt, results/k4_gm4_4_n4_2.log, results/k4_gm4_5_pure_sample.log, results/k4_gm4_5_n4_4_sample.log (136 distinct profiles): all claims 1-4 hold
 ALL CLAIMS HOLD

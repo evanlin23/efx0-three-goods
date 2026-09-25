@@ -35,6 +35,10 @@ decreasing order compared lexicographically, that admits no placement) replace 3
 Instances of kind PRIO:<order> (fixed priority: maximize the level vector read in the given agent order,
 lexicographically) replace 3-7 by: 3'''''. Y is a maximum for that order over all junk-free EFX0 partial allocations,
 and no maximum for that order admits a placement (no assignment of its pool to any agents is EFX0).
+BATCH: then every distinct (profile, maximum) pair of the GMFAIL lines of the random and exhaustive runs' logs
+(BATCH_LOGS below) is checked for claims 1-4: core, Y junk-free and EFX0, Y maximizes the level sum (all junk-free
+partial allocations enumerated), and no assignment of the pool to any agents is EFX0.  The logs are only read for the
+values and the stated Y; every claim is recomputed here.
 Exit status 0 iff every claim holds for every instance.
 Usage: python3 k4/gm4_counterexample.py
 """
@@ -76,6 +80,9 @@ INSTANCES = [
      [{0: 3, 2: 10, 4: 6, 6: 2}, {1: 3, 3: 4, 5: 8, 6: 2}, {2: 4, 3: 2, 6: 3}, {4: 2, 5: 4, 6: 3}],
      [{0, 4}, {1, 3}, {2}, {5}], 'PRIO:2,3,0,1'),
 ]
+
+BATCH_LOGS = ['results/k4_gm4_seeds_4.txt', 'results/k4_gm4_4_n4_2.log', 'results/k4_gm4_5_pure_sample.log',
+              'results/k4_gm4_5_n4_4_sample.log']
 
 def v(vals, i, S):
     return sum(vals[i].get(g, 0) for g in S)
@@ -264,9 +271,67 @@ def check(label, vals, Y, kind):
     print(f"  largest level sum of a complete EFX0 allocation: {bestc} (maximum over partial ones: {best})")
     return ok
 
+def batch(files):
+    import json, os
+    root = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
+    seen, ok_all, cache = set(), True, {}
+    for f in files:
+        for line in open(os.path.join(root, f)):
+            if not line.startswith('GMFAIL '): continue
+            body, meta = line.split(' # ')
+            parts = body.split(' | ')
+            valsl = [list(map(int, t.split(','))) for t in parts[0].split()[1:]]
+            masks = [int(x) for x in parts[1].split()]
+            sets = json.loads(meta.split('sets=')[1])
+            key = (json.dumps(sets), json.dumps(valsl), tuple(masks))
+            if key in seen: continue
+            seen.add(key)
+            vals = [dict(zip(S, vs)) for S, vs in zip(sets, valsl)]
+            n, m = len(vals), 1 + max(g for d in vals for g in d)
+            Y = [set(g for g in range(m) if y >> g & 1) for y in masks]
+            R = [set(d) for d in vals]
+            deg = [sum(g in R[i] for i in range(n)) for g in range(m)]
+            ok = all(len(R[i]) in (3, 4) for i in range(n)) and all(d >= 1 for d in deg)
+            for i in range(n):
+                top = max(vals[i].values()); ok &= top < sum(vals[i].values()) - top
+                sums = [v(vals, i, T) for k in range(1, len(R[i]) + 1) for T in itertools.combinations(sorted(R[i]), k)]
+                ok &= len(set(sums)) == len(sums)
+                priv = [g for g in R[i] if deg[g] == 1]
+                ok &= len(priv) <= len(R[i]) - 2
+                if len(priv) == 2: ok &= v(vals, i, priv) < v(vals, i, R[i] - set(priv))
+            seenag, todo = {0}, [0]
+            while todo:
+                a_ = todo.pop()
+                for b in range(n):
+                    if b not in seenag and R[a_] & R[b]: seenag.add(b); todo.append(b)
+            ok &= len(seenag) == n
+            ok &= all(Y[i] <= R[i] for i in range(n)) and efx0(vals, Y)
+            pk = key[:2]
+            if pk not in cache:
+                best = -1
+                for owners in itertools.product(*[[None] + [i for i in range(n) if g in R[i]] for g in range(m)]):
+                    X = [set() for _ in range(n)]
+                    for g, i in enumerate(owners):
+                        if i is not None: X[i].add(g)
+                    if efx0(vals, X): best = max(best, sum(level(vals, i, X[i]) for i in range(n)))
+                cache[pk] = best
+            ok &= sum(level(vals, i, Y[i]) for i in range(n)) == cache[pk]
+            P = sorted(set(range(m)) - set().union(*Y))
+            ok &= bool(P)
+            for asg in itertools.product(range(n), repeat=len(P)):
+                X = [set(b) for b in Y]
+                for u, j in zip(P, asg): X[j].add(u)
+                if efx0(vals, X): ok = False; break
+            if not ok: print(f"  [FAILED] {line.strip()}")
+            ok_all &= ok
+    print(f"BATCH: {len(seen)} distinct (profile, maximum) pairs from {', '.join(files)} ({len(cache)} distinct profiles): "
+          + ("all claims 1-4 hold" if ok_all else "SOME CLAIM FAILED"))
+    return ok_all
+
 if __name__ == '__main__':
     allok = True
     for label, vals, Y, kind in INSTANCES:
         allok &= check(label, vals, Y, kind)
+    allok &= batch(BATCH_LOGS)
     print("ALL CLAIMS HOLD" if allok else "SOME CLAIM FAILED")
     sys.exit(0 if allok else 1)

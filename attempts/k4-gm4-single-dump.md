@@ -20,6 +20,6 @@ Counts (one implementation, `k4/gm4_fast.c`):
 - 10 of 4,385,569 in random n = 4 profiles with one to three 4-good agents;
 - 5 of 2,583,713 in random pure n = 4 profiles.
 
-Smallest configuration found: n = 4, m = 6, one 4-good agent. It is the smallest possible n, and the fewest 4-good agents, since n ≤ 3 is exhausted. Among cores with one 4-good agent at n = 4, both failures have m = 6.
+Smallest configuration found: n = 4, m = 6, one 4-good agent. By the exhaustive runs of one implementation (`k4/gm4_fast.c`), it is the smallest possible n, and the fewest 4-good agents: every profile with n ≤ 3 was checked. Among cores with one 4-good agent at n = 4, both failures have m = 6.
 
 Reproduce: `python3 k4/gm4_counterexample.py` (instance S).

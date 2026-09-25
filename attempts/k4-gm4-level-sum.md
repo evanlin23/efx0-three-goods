@@ -18,7 +18,7 @@ The partial allocation Y = {0, 4} | {1, 3} | {2} | {5}, with pool {6}, has these
 
 The obstruction is the one the proof would have had to exclude. The two sources, 0 and 1, have champions 3 (envying {4, 6}) and 2 (envying {3, 6}), each reachable only from the other source. The exchange cycle 1 → 3 ⇒ 0 → 2 ⇒ 1 needs good 6 twice. At k = 3 this Hall-type conflict is resolved by placing the shared good alone next to a one-good source. Here the only one-good bundles belong to envied agents, and the sources hold two goods each.
 
-**Consequence.** GM₄ is false, and so is its equivalent form. LS4⁺_n fails under some valid choices: M1 has priority, so the four rebundles are a valid run. Its default rule does not fail on the profiles found (`k4/gm4.md` §3). Every counterexample found has *another* maximum that admits a placement. So the existence form GM₄∃ and refined potentials remain open (`k4/gm4.md` §4, §6).
+**Consequence.** GM₄ is false, and so is its equivalent form. LS4⁺_n fails under some valid choices: M1 has priority, so the four rebundles are a valid run. Its default rule does not fail on the profiles found (`k4/gm4.md` §3). Every counterexample found by the random and exhaustive runs has another maximum that admits a placement. But the existence form GM₄∃ is refuted as well, by a profile found in a targeted search (`attempts/k4-gm4-existence.md`). Other potentials: `attempts/k4-gm4-potentials.md`.
 
 Counts (one implementation, `k4/gm4_fast.c`; `k4/gm4.md` §4):
 - no failure for n ≤ 3 (exhaustive), for n = 4 with one 4-good agent (exhaustive), or for all-3-good cores with n = 5 (exhaustive);

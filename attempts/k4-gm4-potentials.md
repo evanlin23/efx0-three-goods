@@ -24,11 +24,18 @@ The hope was a potential of which every maximum admits a placement ("GM" for tha
 - Fixed priority: instance E with agent order 2, 3, 0, 1 (the two 3-good agents first). The unique fixed-priority maximum is E's dead end. Over all 24 orders, 6 of the 7 GM₄ seed profiles, and all 148 profiles whose Σℓ-maxima are all bad, have an order whose maxima are all dead ends (`k4/gm4_priority.py`, `results/k4_gm4_priority_*.log`). Every profile tested had some order that works.
 
 **Consequence.** No potential tried has all its maxima placeable. For Σ 2^ℓ and leximax the existence form ("some maximum admits a placement") had no failure:
-- around the seven GM₄ profiles, 2 agents changed: 2,260,332 profiles, 32 with a bad maximum, 0 with only bad maxima;
-- around those 32, 2 agents changed: 15,925,248 profiles, 2,688 with a bad maximum, 0 with only bad maxima.
+- around the seven GM₄ profiles, 2 agents changed: 2,247,609 distinct profiles (2,260,332 runs), 32 distinct profiles with a bad maximum, none with only bad maxima;
+- around those 32, 2 agents changed: 5,428,320 distinct profiles (15,925,248 runs), 384 distinct profiles with a bad maximum, none with only bad maxima;
+- around those 384, 1 agent changed (both potentials) and 2 agents changed (leximax: 13,696,128 distinct profiles, 191,102,976 runs): the profiles with a bad maximum are exactly the same 384, so the search closed there.
+
+In all: 7,750,832 distinct profiles for Σ 2^ℓ and 19,652,066 for leximax (`results/k4_gm4_distinct.log`). Random runs over whole classes (92M profiles each) found no maximum without a placement at all (`k4/gm4.md` §6).
 
 That existence form is conjecture K4.GM.POT (`k4/gm4.md` §6, §7).
 
-Smallest configuration found: pure n = 4, m = 7 for every variant (found only by the neighbourhood searches).
+Smallest configurations found, all with n = 4 and m = 7:
+- the leximin tie-break fails already on A (pure) and E (two 4-good agents), from the random runs;
+- the Σℓ² and leximax tie-breaks, and Σℓ², fail on G (pure), from the neighbourhood searches;
+- fixed priority fails on Q = E with agent order 2, 3, 0, 1 (two 4-good agents), found by running all orders on the random seeds;
+- the "every maximum" forms of Σ 2^ℓ and leximax fail on P (pure), from the neighbourhood searches.
 
 Reproduce: `python3 k4/gm4_counterexample.py` (instances G, P and Q).

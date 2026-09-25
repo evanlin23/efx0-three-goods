@@ -62,7 +62,7 @@ Suppose LS4⁺_n stops with failure at Y. Then no C_n move applies. Any junk-fre
 
 **Conjecture GM₄.** For every k = 4 core and every strict profile, every junk-free EFX₀ partial allocation that maximizes Σℓ among all junk-free EFX₀ partial allocations of that strict profile admits a placement of its pool: one of LS4's Phase-2 shapes (a)–(d). Shape (a) is sound here because a maximum admits no M1 move.
 
-A counterexample has since been reported in PR #30 (proof/k4-gm4), pending review.
+GM₄ is refuted in #30 (`k4/gm4.md` §2, row K4.GM.CEX; independent replay `k4/gm4_counterexample.py`, log `results/k4_gm4_counterexample.log`).
 
 **Equivalent form (observed by the referee of PR #29).** GM₄ ⟺ *no dead end maximizes Σℓ*.
 - (⇒) A placement changes no value, so it gives a complete EFX₀ allocation weakly dominating Y.

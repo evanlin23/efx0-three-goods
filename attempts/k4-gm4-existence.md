@@ -2,7 +2,7 @@
 
 Workstream `proof/k4-gm4` (`k4/gm4.md` §2.4).
 
-**Approach.** GM₄ fails: some maxima of the level sum Σℓ are dead ends (`attempts/k4-gm4-level-sum.md`). But in every counterexample to GM₄, *another* maximum admitted a placement. The weaker statement GM₄∃ says every strict profile has a Σℓ-maximum that admits a placement. Equivalently, the largest Σℓ over junk-free EFX₀ partial allocations is attained by the valued part of a complete EFX₀ allocation. With K4.TIE and K4.CORE it would still give TARGET₄, as an existence argument: take a good maximum and place its pool. A tie-break among the maxima (Σℓ², leximax) could have made it constructive.
+**Approach.** GM₄ fails: some maxima of the level sum Σℓ are dead ends (`attempts/k4-gm4-level-sum.md`). But in every counterexample to GM₄ found by the random and exhaustive runs, another maximum admitted a placement. The weaker statement GM₄∃ says every strict profile has a Σℓ-maximum that admits a placement. Equivalently, the largest Σℓ over junk-free EFX₀ partial allocations is attained by the valued part of a complete EFX₀ allocation. With K4.TIE and K4.CORE it would still give TARGET₄, as an existence argument: take a good maximum and place its pool. A tie-break among the maxima (Σℓ², leximax) could have made it constructive.
 
 **Where it breaks (pure n = 4, m = 7).** Agents and values:
 - agent 0: goods 0:3, 2:6, 5:2, 6:10;
@@ -14,8 +14,8 @@ The only Σℓ-maximum is {0, 2} | {1, 4} | {5} | {6}, with pool {3} and Σℓ =
 
 **Consequence.** No argument that takes a Σℓ-maximum, with any tie-break, proves TARGET₄. Every run of LS4⁺_n that reaches a maximum of this profile fails. LS4⁺'s default rule still completes it, by stopping at a placeable state with Σℓ = 17.
 
-Found by searching around the GM₄ counterexamples: the profiles that change one agent's type (`results/k4_gm4_around1_4.log`) or two agents' types (`results/k4_gm4_around2_4.log`: 148 distinct such profiles in 2,260,332). None appeared in the random runs of `k4/gm4.md` §4.
+Found by searching around the GM₄ counterexamples: the profiles that change one agent's type (`results/k4_gm4_around1_4.log`) or two agents' types (`results/k4_gm4_around2_4.log`: 148 distinct such profiles among 2,247,609 distinct profiles, from 2,260,332 runs; `results/k4_gm4_distinct.log`). All 148 lie in the core of A and G. None appeared in the random runs of `k4/gm4.md` §4.
 
-Smallest configuration found: pure n = 4, m = 7. It has the same core as instance A, and only agent 2's type differs. Smaller classes: GM₄ itself holds for n ≤ 3 and for n = 4 with one 4-good agent (exhaustive), so GM₄∃ does too. With two 4-good agents at n = 4, GM₄∃ holds for all 724,847,616 profiles (exhaustive, `results/k4_gm4_4_n4_2.log`). So a counterexample needs n ≥ 4 and at least three 4-good agents; the one found is pure.
+Smallest configuration found: pure n = 4, m = 7. It has the same core as instance A, and only agent 2's type differs. Smaller classes: GM₄ itself holds for n ≤ 3 and for n = 4 with one 4-good agent (exhaustive), so GM₄∃ does too. With two 4-good agents at n = 4, GM₄∃ holds for all 724,847,616 profiles (exhaustive, `results/k4_gm4_4_n4_2.log`). So at n = 4 a counterexample needs at least three 4-good agents (exhaustive runs, one implementation). n = 5 with one or two 4-good agents was only sampled. The one found is pure.
 
 Reproduce: `python3 k4/gm4_counterexample.py` (instance G).

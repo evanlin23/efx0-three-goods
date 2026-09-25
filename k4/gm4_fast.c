@@ -4,7 +4,8 @@
  * junk-free partial allocation); a branch is cut when two chosen bundles violate EFX0 (raw definition: v_i(Y_i) >=
  * v_i(Y_j \ g) for all g in Y_j), or when its level sum plus sum over later agents of l_i(R_i minus taken goods)
  * is below the best found.  All states reaching the maximum are kept (ties included).
- * For every maximum with a nonempty pool U: (a) an empty bundle, (b) a source s valuing no good of U with Y_s cup U
+ * For every maximum with a nonempty pool U: (a) an empty bundle whose holder can take all of U (EFX0 checked; else counted
+ * in emptyfail and the other checks follow), (b) a source s valuing no good of U with Y_s cup U
  * threat-free for s.  If neither applies, all junk placements are searched: GM4S lines (no single dump) and GMFAIL
  * lines (no placement at all: a counterexample to GM4).  Exit status 1 if a GMFAIL occurs.
  * Per profile: pfail = some maximum admits no placement (GM4 fails); pallfail = no maximum admits a placement (the
@@ -97,7 +98,7 @@ int main(void) {
         rs = seed * 2654435761ULL + 88172645463325252ULL;
         for (int i = 0; i < n; i++) for (int c = 0; c < (1 << d[i]); c++) { lm[i][c] = 0; for (int t = 0; t < d[i]; t++) if (c >> t & 1) lm[i][c] |= 1u << rg[i][t]; }
         memset(cur, 0, sizeof cur);
-        long runs = 0, maxima = 0, pool = 0, empty = 0, dump = 0, nodump = 0, fail = 0, out = 0, pfail = 0, pallfail = 0;
+        long runs = 0, maxima = 0, pool = 0, empty = 0, emptyfail = 0, dump = 0, nodump = 0, fail = 0, out = 0, pfail = 0, pallfail = 0;
         for (;;) {
             if (mode == 1) { if (runs >= K) break; for (int i = 0; i < n; i++) cur[i] = rnd() % T[i]; }
             for (int i = 0; i < n; i++) { memset(v[i], 0, sizeof v[i]); for (int t = 0; t < d[i]; t++) v[i][rg[i][t]] = rep[i][cur[i]][t]; }
@@ -135,7 +136,12 @@ int main(void) {
                 if (!U) continue;
                 pool++;
                 int e = 0; for (int i = 0; i < n; i++) if (!Y[i]) e = 1;
-                if (e) { empty++; continue; }
+                if (e) {                    /* empty-bundle dump: checked (Lemma 2 of k4/local_search4.md says it works at a maximum) */
+                    mask X[MAXN]; memcpy(X, Y, sizeof X);
+                    for (int i = 0; i < n; i++) if (!X[i]) { X[i] = U; break; }
+                    if (efx0(X)) { empty++; continue; }
+                    emptyfail++;
+                }
                 long sig[MAXN]; for (int i = 0; i < n; i++) sig[i] = val(i, Y[i]);
                 int ok = 0;
                 for (int s = 0; s < n && !ok; s++) {
@@ -157,7 +163,7 @@ int main(void) {
             runs++;
             if (mode == 0) { int i = 0; while (i < n && ++cur[i] == T[i]) { cur[i] = 0; i++; } if (i == n) break; }
         }
-        printf("RESULT runs=%ld maxima=%ld pool=%ld empty=%ld dump=%ld nodump=%ld fail=%ld pfail=%ld pallfail=%ld overflow=%ld\n", runs, maxima, pool, empty, dump, nodump, fail, pfail, pallfail, overflow);
+        printf("RESULT runs=%ld maxima=%ld pool=%ld empty=%ld emptyfail=%ld dump=%ld nodump=%ld fail=%ld pfail=%ld pallfail=%ld overflow=%ld\n", runs, maxima, pool, empty, emptyfail, dump, nodump, fail, pfail, pallfail, overflow);
         fflush(stdout);
     }
     return anyfail;
