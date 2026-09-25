@@ -48,7 +48,7 @@ def main():
         elif a.startswith('--only='): only = set(int(x) for x in a[7:].split(','))
         elif a.startswith('--split='): split = int(a[8:])
         elif a.startswith('--xcheck='): xc = a[9:]
-        elif a in ('-x', '-r', '-S', '-Px', '-Gx'): opts += [a, argv[i + 1]]; i += 1
+        elif a in ('-x', '-r', '-S', '-Px', '-Gx', '-Bx'): opts += [a, argv[i + 1]]; i += 1
         elif a.startswith('-'): opts.append(a)
         else: files.append(a)
         i += 1
@@ -92,6 +92,9 @@ def main():
                 elif line.startswith('FAILOWNERS'):
                     nums = [int(x) for x in w[1:2] + w[3:4] + w[5:13] + w[14:22]]
                     fo = [a + b for a, b in zip(fo, nums)] if fo else nums
+                elif line.startswith('BTX'):
+                    cur = tot.setdefault('_btx', [0] * 5)
+                    for q, v in enumerate(w[1:6]): cur[q] += int(v)
                 elif line.startswith('BTC'):
                     cur = tot.setdefault('_btc', [0] * 3)
                     for q, v in enumerate(w[1:4]): cur[q] += int(v)
@@ -119,6 +122,7 @@ def main():
         g0 = tot.pop('_g0', None)
         fz = tot.pop('_fz', None)
         btc = tot.pop('_btc', None)
+        btx = tot.pop('_btx', None)
         print(f'FILE {f} cores {len(set(ci for ci, _ in tasks))} ' + ' '.join(f'{k} {v}' for k, v in tot.items()))
         for k, v in par.items():
             if v[0]: print(f'  Pareto-maxima inside the min-frozen set, {k}: profiles {v[0]}, every maximum deficit <= 0: {v[1]}, some: {v[2]} ({v[3]} maxima)')
@@ -127,6 +131,8 @@ def main():
                      'label criterion != exact test', 'a single-good holder valid', 'a pair-holder valid', 'no valid owner', 'every single-good holder valid',
                      'single-good holder invalid by an unhittable exposure', 'e2 exposures', 'e1 exposures', 'e3 exposures', 'e2 exposures at single-good owners']
             print('  F0: ' + ', '.join(f'{a} {b}' for a, b in zip(names, f0)))
+        if btx:
+            print(f'  BTX: non-completable Pareto-maxima with frozen agents {btx[0]}, with a frozen big-top agent {btx[1]}, with an exposed frozen big-top agent {btx[2]}, with an exchange cycle through a frozen big-top agent x after which x is a valid owner {btx[3]}, after which some owner is valid {btx[4]}')
         if btc and btc[0]:
             print(f'  BTC: profiles with a non-completable Pareto-maximum with frozen agents {btc[0]}, with a completable min-frozen pre-allocation whose owner is of big-top type {btc[1]}, with any completable min-frozen pre-allocation {btc[2]}')
         if fz:
