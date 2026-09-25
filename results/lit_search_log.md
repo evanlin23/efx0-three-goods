@@ -229,7 +229,7 @@ Read for this task (levels in `proofs/pq_bounded.md` and `proofs/citations.md`):
 - abstracts: 2202.13676, 2008.08798;
 - `k4/lb4.md` §5 (main) and `k4/c4.md` §7 (PR #33's branch `proof/k4-c4`), for the k = 4 comparison.
 
-Structural checks, run in the session with Python from the definitions in the repository; they are not stored as scripts:
+Structural checks, computed by `results/pq_structure.py` (log `results/pq_structure.log`; added after the review of PR #38; the first version of this log said they were not stored as scripts):
 - **H_t of `k4/c4.md` §7, for t = 1..5:** n = 4t + 1, m = 10t + 3 (as stated), largest good degree p = 4 (the goods g_j), q = 1, a Berge 3-cycle in every H_t.
 - **The 6 graphical all-P4 cores of K4.MC7 (`k4/MINCEX.md` §8):**
 
@@ -243,3 +243,5 @@ Structural checks, run in the session with Python from the definitions in the re
   | 6 | parallel pairs (0,1), (3,5) | yes | no |
 
   For cores 4 and 5, every agent's private good fits on a distinct non-adjacent pair (the complement is 2-regular), so each is a simple-graph (2, 1) instance and CFKS applies.
+
+  Girth of the simple agent graph: 3, 6, 3, 3, 4, 4 for cores 1–6. Berge girth: 2 for the cores with parallel pairs (1, 2, 3, 6), and 3 and 4 for cores 4 and 5. The script reproduces the reviewer's independent table.
