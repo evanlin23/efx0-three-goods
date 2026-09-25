@@ -42,6 +42,6 @@ python3 hcore.py                              # Task 1 checks
 python3 run_H.py 4 3                          # H_4: fails with ≤ 2, succeeds with 3 (~11 min on 4 CPUs)
 python3 run_H.py 5 3                          # H_5: no output with ≤ 3 rotations (~20 min on 4 CPUs)
 python3 run_encb.py 5 3                       # encoding B on H_5 (~1 h)
-python3 matching.py                           # H_5 with 4 rotations: the matching-construction states have outputs
+python3 matching.py 5 4                       # H_5 with 4 rotations: the matching-construction states have outputs
 gcc -O2 -o bf bf.c && python3 validate_bf_random.py 1 2000
 ```
