@@ -19,10 +19,21 @@ The last two levels are checked together through columns (for each allocation, t
 makes safe). `test_scan2.py` compares `find` with brute force: random rows, one context kept across calls
 (13,640 calls, all agree).
 
-Speed (4 CPUs):
-- n = 5 with four 4-good agents: ~1 s per core, against ~35 s with `scan.c`.
-- pure n = 5 (288⁵ ≈ 2·10¹² profiles per core): 1–9 s per core, ~4.4 CPU-hours for all 4,674 cores (estimated from
-  a sample).
+Measured runs (no profile without a D2 allocation anywhere):
+
+| cores | count | command | time | allocations |
+|---|---|---|---|---|
+| n = 5, three 4-good agents | 9,861 | `k4/search4.py 5 --n4=3` (the old scanner) | 56 min on 3 CPUs | 923,281 |
+| n = 5, four 4-good agents | 9,846 | `search.py 5 --n4=4` | 95 min on 2 CPUs | 1,566,025 |
+| n = 5, pure (288⁵ ≈ 2·10¹² profiles per core) | 4,674 | `search.py 5 --pure --part=0/2`, then `--part=1/2` | 2 × 75 min on 2 CPUs | 1,386,132 |
+| n = 6, one 4-good agent | 26,866 | `search.py 6 --n4=1 --tries=2` | 85 min on 2 CPUs | 2,022,655 |
+
+With the old scanner (`k4/scan.c`), a core with four 4-good agents took ~35 s instead of ~1 s (4-core sample). Its
+walk grows with the product of the domains, so a fifth 288-type agent multiplies it by up to 48 more; that is why
+`k4/SCOUT.md` left pure n = 5 open. It took ~5 CPU-hours here. No symmetry reduction or type lemma was needed: the minimal-row
+reduction adapts to the allocations found, and the store carries covered regions from one call to the next.
+Next (not run): n = 6 with two 4-good agents, 119,283 cores at ~0.7 s each with `--tries=2`, ≈ 24 CPU-hours plus
+checking.
 
 Runs are split into parts with checkpoints:
 - `--part=i/k` takes every k-th core; `--m=` restricts m.
@@ -73,13 +84,19 @@ are solved in the D2 model. Then hill-climbing on the profile minimizes a score:
 bundle's owner (or none), the number of D2 EFX₀ allocations, capped and summed. Any profile with no D2 allocation
 is written out, and it counts only after an independent brute-force check from the raw definition.
 
+Runs (`results/k4_hunt_{6_mixed,6_pure,7_mixed,8_mixed}.log`): 130 cores with n = 6–8, 26,000 random profiles plus
+hill-climbing, no profile without a D2 allocation. The climbing barely lowers the score: with cap 2, most owner choices
+keep at least two D2 allocations. So these runs are weak evidence. Exhaustive certification (above) is the real test.
+
 ## Reproduce
 ```
 python3 k4/frontier/test_scan2.py 300                       # scanner vs brute force
 python3 k4/frontier/test_check4_fast.py 40                  # new check4 coverage vs main's
 python3 k4/search4.py 5 --n4=3 --jobs=3 --out=results/k4_certs_5_n4_3.json.gz        # ≈ 1 h on 3 CPUs
-python3 k4/frontier/search.py 5 --n4=4 --out=results/k4_certs_5_n4_4.json.gz          # ≈ 1 h on 4 CPUs
-python3 k4/frontier/search.py 5 --pure --out=results/k4_certs_5_pure.json.gz          # parts: add --part=i/k
-python3 k4/check4.py results/k4_certs_5_n4_3.json.gz --expect 5:3:9861
+python3 k4/frontier/search.py 5 --n4=4 --jobs=2 --out=results/k4_certs_5_n4_4.json.gz
+python3 k4/frontier/search.py 5 --pure --part=0/2 --jobs=2 --out=results/k4_certs_5_pure.json.gz   # then --part=1/2
+python3 k4/frontier/search.py 6 --n4=1 --tries=2 --jobs=2 --out=results/k4_certs_6_n4_1.json.gz
+python3 k4/check4.py results/k4_certs_5_n4_3.json.gz --expect 5:3:9861         # likewise 5:4:9846, 5:pure:4674, 6:1:26866
+python3 k4/frontier/hunt.py --n=7 --p4=0.6 --skew=1 --cores=30 --climb=40 --seed=13   # EVIDENCE
 python3 k4/frontier/tester.py --oracle --n=2,3 --d2         # brute-force re-check of the n <= 3 certificates
 ```
