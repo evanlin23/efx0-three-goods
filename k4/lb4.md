@@ -361,8 +361,8 @@ in any test below. The n = 5 core lists with three or more 4-good agents are tho
 `results/k4_lb4r_cores_*.json.gz`.
 - *Exhaustive.* Every insertion order on every core with n ≤ 4 (above); every order on the two n = 5 cores below on
   which need-shrinking needs a third rotation (8.41·10¹¹ run–profile pairs, `results/k4_lb4r_deep.log`). Index order
-  on every certified core (above), and on n = 5 with three 4-good agents on 8,752 of the 9,861 cores
-  (5.9·10¹² profiles, no failure; checkpoint snapshot in `results/k4_lb4r_ex_5_n4_3.log`; 1,109 cores not run).
+  on every certified core (above), and on n = 5 with three 4-good agents, all 9,861 cores
+  (6.4·10¹² profiles, no failure; `results/k4_lb4r_ex_5_n4_3.log`).
 - *Random profiles* (seeded from each core; `results/k4_lb4r_samples.log`, `results/k4_lb4r_random.log`). n = 5 with
   three to five 4-good agents (24,381 cores; with at most two, exhaustive above): index order 6.3·10⁸ profiles, every
   order 8.0·10⁷ profiles (8.0·10⁸ runs). n = 6 with one 4-good agent (26,866 cores of PR #26): index order
@@ -390,7 +390,8 @@ in any test below. The n = 5 core lists with three or more 4-good agents are tho
   upgrades except in 4,841,440 pairs (envy-free upgrades), and under that policy needs 0, 1, 2, 3 rotations in
   98.99 %, 1.01 %, 690,140 and 5,760 pairs; with the policy free (`-d2`), 2 rotations in 101,272 pairs and 3 in none.
   Index order (`-d2`) on every certified core with n ≤ 4 and at most three 4-good agents or n = 5 and at most two
-  (1.17·10¹¹ profiles): 2 rotations in 44,404, 3 in none (pure n = 4 not finished).
+  (1.17·10¹¹ profiles): 2 rotations in 44,404, 3 in none; pure n = 4
+  (1.02·10¹² profiles): 2 rotations in 1,497,520, 3 in none.
 - *Simpler candidates.* LB₄ʳ with at most two rotations (`-r2`) fails nowhere tested: every order on n ≤ 4 with at most
   three 4-good agents (exhaustive) and on the n = 5 sample (3,000 profiles per core, three to five 4-good agents,
   every order). Even one policy
@@ -414,7 +415,7 @@ in any test below. The n = 5 core lists with three or more 4-good agents are tho
   plus this sampling; `results/k4_lb4r_tau_H.log`) mostly need no rotation, and none failed with at most three: with no,
   one, two rotations (fewest, every policy allowed) 784, 216, 0 of 1,000 sequences for t = 1; 807, 92, 101 of 1,000 for
   t = 2; 414, 31, 55 of 500 for t = 3; with no, one, two, three: 174, 8, 2, 16 of 200 for t = 4 (n = 17);
-  t = 5 (n = 21): all 10 sequences sampled in 30 minutes need none; t = 6 (n = 25): all 8 sampled so far need none
+  t = 5 (n = 21): all 10 sequences sampled in 30 minutes need none; t = 6 (n = 25): all 8 sampled in 30 minutes need none
   (every t with the owner's needs from its base, `-w0`, as `k4/c4.md` §7 does from t = 4, where the search with
   needs from the bundle is out of reach; a `-w0` completion is also a `-w1` completion, `k4/c4.md` §7, so these
   counts are upper bounds on the rotations LB₄ʳ, which uses `-w1`, needs). On small cores, hill-climbing with `-P3` (score: the fewest

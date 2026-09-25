@@ -63,4 +63,6 @@ results/k4_certs_5_n4_1.json.gz: 1735 cores, 41s
 results/k4_certs_5_n4_2.json.gz: 5468 cores, 1441s
   pol_needshrink=80009879633 pol_envyfree=2128995 pol_none=13855564 rot0=79365582838 rot1=660279114 rot2=2240 rot3=0 total=80025864192 leaves=835854561 runs=1076502978 fails=0 rawfails=0 nobig=72445114642 owner_r=6425902250 owner_other=494565946 rot=660281354 later_seq=0 later_upg=15984559 big3=5914828841 big4=1140827260 big5=107566056 big6=3873470 big7=48520
   cores with a failure: 0
-# not finished: the last file of the command above (results/k4_certs_4_pure.json.gz) had not completed when this log was committed
+results/k4_certs_4_pure.json.gz: 219 cores, 11297s
+  pol_needshrink=1021645217238 pol_envyfree=608693222 pol_none=242562628 rot0=995082845692 rot1=27412129876 rot2=1497520 rot3=0 total=1022496473088 leaves=397091355 runs=738329654 fails=0 rawfails=0 nobig=597659362992 owner_r=369924470050 owner_other=27499012650 rot=27413627396 later_seq=0 later_upg=851255850 big3=265834207376 big4=117263041906 big5=26435727212 big6=3432742892 big7=223652616 big8=4102848
+  cores with a failure: 0
