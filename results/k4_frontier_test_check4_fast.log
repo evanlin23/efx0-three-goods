@@ -1,0 +1,8 @@
+command: python3 k4/frontier/test_check4_fast.py 40
+k4_certs_2.json.gz: 40 trials done
+k4_certs_3.json.gz: 40 trials done
+k4_certs_4_n4_1.json.gz: 40 trials done
+k4_certs_4_n4_2.json.gz: 40 trials done
+k4_certs_4_n4_3.json.gz: 40 trials done
+k4_certs_5_n4_1.json.gz: 40 trials done
+240 cores with random allocation subsets: old and new agree on 240 (72 covered, 168 not covered)
