@@ -6,9 +6,9 @@ import EFX.K4Ties
 
 The k = 4 construction LB₄ builds *pre-allocations* in which an agent's base can have any number of
 goods and its needs are any set between the goods worth more than the base and all goods outside it.
-This file proves `k4/lb4.md` §1 (Theorem 1′₄, the counting, Lemmas 2₄ and 3₄) and the Shape paragraph's
-deduction of §2, for any number of relevant goods per agent where the text allows it (only additivity and
-nonnegativity of the values are used). It generalizes `EFX/PreAlloc.lean` (Theorem 1′ of
+This file proves `k4/lb4.md` §1 (Theorem 1′₄, the counting, Lemma 2₄) and §2 (Lemma 3₄, and the Shape
+paragraph's deduction), for any number of relevant goods per agent where the text allows it, with values in
+`Nat` (rationals by scaling; real values are not formalized at k = 4): only additivity is used. It generalizes `EFX/PreAlloc.lean` (Theorem 1′ of
 `proofs/lb_last_step.md`, k = 3), whose pre-allocations are ranking-based (picks and upgraded pairs), and
 reuses the model (`EFX/Model.lean`) and the list layer (`EFX/Lists.lean`).
 
@@ -43,7 +43,8 @@ Results, in the order of `k4/lb4.md`:
   slot takes its `≻`-best junk good not yet placed does not envy the owner's bundle, whose base has at most
   one good, so it is not threatened by it); `selfProtect_seq` (the same when the agents fill their slots one
   at a time, `seqFill`, whatever else is placed); `selfProtect_core` (the value argument alone);
-  `selfProtect_five` (it fails with five relevant goods, checked by `decide`).
+  `selfProtect_five` (the value argument fails with five relevant goods) and `Ex5.counterexample` (an instance
+  of every hypothesis of `selfProtect` but `|R_x| ≤ 4` in which `x` is threatened), both by `decide`.
 - **Lemma 3₄** (§2, the owner search is exact): `ownerSearch_exact_base` in the text's terms (`s₀` with the
   owner's needs from its base; `|B_o| ≥ 3`, or `o` free with `ω ≥ 1` and the other bases of at most two
   goods; strict balance and `|R_o| ≤ 4`): if a sound completion with owner `o` exists, one exists with at
@@ -55,9 +56,10 @@ Results, in the order of `k4/lb4.md`:
   K4.TIE, sound completions of every connected strict k = 4 core with a 4-good agent give TARGET₄. So "LB₄
   never fails ⟹ K4.D ⟹ TARGET₄" holds once every allocation LB₄ returns is a sound completion, which is §2's
   Shape paragraph read against LB₄'s definition (LB₄ itself is not defined in Lean).
-- **Non-vacuity** (`EFX.LB4.Ex`): a two-agent instance whose sound completion gives the owner three goods
-  (`Ex.sound`, by `decide`), and which is valid only with the owner's needs taken from its bundle
-  (`Ex.baseNeeds_invalid`).
+- **Non-vacuity** (by `decide`): `Ex.sound`, a two-agent instance whose sound completion gives the owner three
+  goods, valid only with the owner's needs taken from its bundle (`Ex.baseNeeds_invalid`); `ExB.sound`, a
+  four-agent instance satisfying `Valid.sound`'s hypotheses (owner's needs from its base) with a frozen agent, a
+  two-good base, a filled slot and an owner's bundle of three goods (`ExB.shape`).
 -/
 
 set_option autoImplicit false
@@ -1128,11 +1130,11 @@ theorem selfProtect_seq {w : A} (hV : Valid agents goods base N)
   · obtain ⟨t, hct, htP, htpos, hbest⟩ := hchoose x P hex
     exact ⟨t, htP, hplace _ (h3 t hct), htpos, hbest⟩
 
-/-- `|R_x| ≤ 4` is needed in Lemma 2₄ (`k4/lb4.md` §1): `x` values goods `0, …, 4` at `10, 9, 8, 7, 6` and
-good `5` at `0`, holds `{0, 1}` (its pick `0` and its best junk good `1`), and the owner holds
-`{2, 3, 4, 5}`. The other hypotheses of `selfProtect_core` hold (`Bo = []`, `U = [2, 3, 4, 5]`, `t = 1`:
-every good of the owner's bundle is worth at most `x`'s pick and at most `t`), `x` values five goods, and
-`x` is threatened: without good `5` the owner's bundle is worth `21 > 19`. -/
+/-- The value argument of Lemma 2₄ fails with five relevant goods (`k4/lb4.md` §1): `x` values goods `0, …, 4`
+at `10, 9, 8, 7, 6` and good `5` at `0`, holds `{0, 1}` (its pick `0` and its best junk good `1`), and the
+owner holds `{2, 3, 4, 5}`. Every good of the owner's bundle is worth at most `x`'s pick and at most `t = 1`,
+`x` values five goods, and `x` is threatened: without good `5` the owner's bundle is worth `21 > 19`. (This
+is the values only; `Ex5.counterexample` is a full instance of `selfProtect`'s other hypotheses.) -/
 theorem selfProtect_five :
     let v : Unit → Fin 6 → Nat := fun _ g => if g.val < 5 then 10 - g.val else 0
     (relevant v () (List.finRange 6)).length = 5 ∧
@@ -1628,6 +1630,141 @@ theorem efx0 : (Inst.mk 2 5 v).EFX0 X := (sound_model (Inst.mk 2 5 v) sound.1).1
 
 end LB4.Ex
 
+/-! ## Non-vacuity with the owner's needs from its base -/
+
+namespace LB4.ExB
+
+/-- Agent 0 values good 0; agent 1 goods 3, 4, 5; agent 2 goods 0, 1, 2; agent 3 goods 0, 5, 6, 7. -/
+def v : Fin 4 → Fin 8 → Nat := fun i g =>
+  [[5, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 3, 3, 1, 0, 0], [10, 6, 5, 0, 0, 0, 0, 0],
+    [5, 0, 0, 0, 0, 1, 1, 4]][i.val]![g.val]!
+/-- Bases: `{0}` (agent 0), `{3, 4}` (agent 1), `{1}` (agent 2), `{7}` (agent 3); junk 2, 5, 6. -/
+def base : Fin 8 → Option (Fin 4) := fun g =>
+  [some 0, some 2, none, some 1, some 1, none, none, some 3][g.val]!
+/-- Agent 2's slot takes junk good 2; the owner, agent 3, takes junk goods 5, 6 with its base good 7. -/
+def X : Fin 8 → Fin 4 := fun g => [0, 2, 2, 1, 1, 3, 3, 3][g.val]!
+/-- The value-based needs of every agent (from its base). -/
+abbrev N : Fin 4 → Fin 8 → Prop := fun i g =>
+  g ∈ List.finRange 8 ∧ base g ≠ some i ∧ value v i (baseOf (List.finRange 8) base i) < v i g
+
+theorem na_iff : ∀ g, NA (List.finRange 4) N g ↔ g = 0 := by
+  have h : ∀ g : Fin 8, (∃ i ∈ List.finRange 4, N i g) ↔ g = 0 := by decide
+  exact h
+
+theorem frozen_iff : ∀ j, Frozen (List.finRange 4) (List.finRange 8) base N j ↔ j = 0 := by
+  intro j
+  constructor
+  · rintro ⟨y, hy, hna⟩
+    rw [na_iff] at hna; subst hna
+    have : ∀ j : Fin 4, baseOf (List.finRange 8) base j = [0] → j = 0 := by decide
+    exact this j hy
+  · rintro rfl; exact ⟨0, by decide, (na_iff 0).mpr rfl⟩
+
+/-- **Non-vacuity of `Valid.sound`.** The example satisfies its hypotheses (every agent's needs, the owner's
+included, from its base). -/
+theorem sound :
+    (∀ i ∈ List.finRange 4, Needs v (List.finRange 8) base N i) ∧
+    Valid (List.finRange 4) (List.finRange 8) base N ∧
+    Completion (List.finRange 4) (List.finRange 8) base N (some 3) X ∧
+    OC v (List.finRange 4) (List.finRange 8) X (some 3) := by
+  refine ⟨fun i _ => ⟨fun g hg hb hlt => ⟨hg, hb, hlt⟩, fun g ⟨hg, hb, hlt⟩ => ⟨hg, by omega, hb⟩⟩,
+    ⟨fun g hg h => ?_, fun i h2 g hg h => ?_⟩,
+    ⟨fun g _ => List.mem_finRange _, ?_, fun w hw => ?_, fun j _ _ hF => ?_, fun j _ hjo _ => ?_⟩, ?_⟩
+  · rw [na_iff] at h; subst h; revert hg; decide
+  · rw [na_iff] at h; subst h
+    have : ∀ i : Fin 4, 2 ≤ (baseOf (List.finRange 8) base i).length → 0 ∉ baseOf (List.finRange 8) base i := by
+      decide
+    exact this i h2 hg
+  · have : ∀ g : Fin 8, ∀ i : Fin 4, base g = some i → X g = i := by decide
+    exact fun g _ i h => this g i h
+  · cases hw; exact ⟨List.mem_finRange _, fun h => by have := (frozen_iff 3).mp h; revert this; decide⟩
+  · rw [frozen_iff] at hF; subst hF; decide
+  · have : ∀ j : Fin 4, some 3 ≠ some j →
+        (junkOf (List.finRange 8) base X j).length + (baseOf (List.finRange 8) base j).length ≤ 2 := by
+      decide
+    exact this j hjo
+  · unfold OC; decide
+
+/-- The example has a frozen agent (0), a two-good base (agent 1), a filled slot (agent 2) and an owner's
+bundle of three goods. -/
+theorem shape : Frozen (List.finRange 4) (List.finRange 8) base N 0 ∧
+    (baseOf (List.finRange 8) base 1).length = 2 ∧
+    (junkOf (List.finRange 8) base X 2).length + (baseOf (List.finRange 8) base 2).length = 2 ∧
+    (bundle (List.finRange 8) X 3).length = 3 :=
+  ⟨(frozen_iff 0).mpr rfl, by decide, by decide, by decide⟩
+
+/-- Hence, by Theorem 1′₄, it is EFX₀. -/
+theorem efx0 : EFX0L v (List.finRange 4) (List.finRange 8) X :=
+  (Valid.sound (List.nodup_finRange 8) sound.1 sound.2.1 sound.2.2.1 sound.2.2.2).1
+
+end LB4.ExB
+
+/-! ## `|R_x| ≤ 4` is needed in Lemma 2₄: a full instance (from the independent audit of PR #31) -/
+
+namespace LB4.Ex5
+
+def v5 : Fin 2 → Fin 6 → Nat := fun i g => if i.val = 0 then [10, 9, 8, 7, 6, 0][g.val]! else 1
+def base5 : Fin 6 → Option (Fin 2) := fun g => if g.val = 0 then some 0 else none
+def X5 : Fin 6 → Fin 2 := fun g => if g.val ≤ 1 then 0 else 1
+abbrev N5 : Fin 2 → Fin 6 → Prop := fun _ _ => False
+abbrev pref5 : Fin 2 → Fin 6 → Fin 6 → Prop := fun i g h => v5 i h < v5 i g
+abbrev N5X := ownerNeeds v5 (List.finRange 6) X5 N5 (some 1)
+theorem n5x_empty : ∀ i g, ¬ N5X i g := by
+  intro i g
+  have : ∀ i : Fin 2, ∀ g : Fin 6, ¬ N5X i g := by unfold N5X ownerNeeds; decide
+  exact this i g
+theorem na5 : ∀ g, ¬ NA (List.finRange 2) N5X g := fun g ⟨i, _, h⟩ => n5x_empty i g h
+theorem hyps5 :
+    Valid (List.finRange 2) (List.finRange 6) base5 N5X ∧
+    Completion (List.finRange 2) (List.finRange 6) base5 N5X (some 1) X5 ∧
+    (baseOf (List.finRange 6) base5 1).length ≤ 1 ∧
+    (relevant v5 0 (List.finRange 6)).length = 5 ∧
+    baseOf (List.finRange 6) base5 0 = [0] ∧ 0 < v5 0 0 ∧ RankOK v5 pref5 0 ∧
+    (∀ g, pickNeeds v5 (List.finRange 6) pref5 0 0 g → N5X 0 g) := by
+  have hF : ∀ j, ¬ Frozen (List.finRange 2) (List.finRange 6) base5 N5X j := fun _ ⟨y, _, h⟩ => na5 y h
+  refine ⟨⟨fun g _ h => na5 g h, fun _ _ g _ h => na5 g h⟩,
+    ⟨fun g _ => List.mem_finRange _, ?_, fun w hw => ?_, fun j _ _ h => absurd h (hF j), ?_⟩,
+    by decide, by decide, by decide, by decide, ⟨fun g h h1 h2 => by omega, fun g h h1 h2 => h2⟩, ?_⟩
+  · have : ∀ g : Fin 6, ∀ i : Fin 2, base5 g = some i → X5 g = i := by decide
+    exact fun g _ i h => this g i h
+  · cases hw; exact ⟨List.mem_finRange _, hF 1⟩
+  · have : ∀ j : Fin 2, some 1 ≠ some j →
+        (junkOf (List.finRange 6) base5 X5 j).length + (baseOf (List.finRange 6) base5 j).length ≤ 2 := by
+      decide
+    exact fun j _ hjo _ => this j hjo
+  · intro g ⟨_, _, hp⟩
+    have : ∀ g : Fin 6, ¬ pref5 0 g 0 := by decide
+    exact absurd hp (this g)
+abbrev U5 : List (Fin 6) := [1, 2, 3, 4, 5]
+theorem slot5a : ∀ g ∈ U5, g ∈ junk (List.finRange 6) base5 := by decide
+theorem slot5b : ∀ g ∈ junk (List.finRange 6) base5, X5 g = 1 → g ∈ U5 := by decide
+theorem slot5c : ∃ t ∈ U5, X5 t = 0 ∧ 0 < v5 0 t ∧ ∀ g ∈ U5, 0 < v5 0 g → g ≠ t → v5 0 g < v5 0 t := by decide
+theorem threatened5 : ¬ ∀ h ∈ bundle (List.finRange 6) X5 1,
+    value v5 0 ((bundle (List.finRange 6) X5 1).erase h) ≤ value v5 0 (bundle (List.finRange 6) X5 0) := by
+  decide
+
+/-- **`|R_x| ≤ 4` is needed in Lemma 2₄.** In this instance every hypothesis of `selfProtect` holds except
+`|R_x| ≤ 4` (agent `0` values five goods): a valid pre-allocation and a completion with owner `1`, whose base
+has at most one good; `x = 0 ≠ 1` with pick base `{0}`, a ranking consistent with its values and the needs of a
+pick; `U = [1, 2, 3, 4, 5]`, junk, containing every junk good of the owner's bundle, from which `x` took its
+best valued good `1`. And `x` is threatened by the owner's bundle. -/
+theorem counterexample :
+    (Valid (List.finRange 2) (List.finRange 6) base5 N5X ∧
+      Completion (List.finRange 2) (List.finRange 6) base5 N5X (some 1) X5 ∧
+      (baseOf (List.finRange 6) base5 1).length ≤ 1 ∧
+      (relevant v5 0 (List.finRange 6)).length = 5 ∧
+      baseOf (List.finRange 6) base5 0 = [0] ∧ 0 < v5 0 0 ∧ RankOK v5 pref5 0 ∧
+      (∀ g, pickNeeds v5 (List.finRange 6) pref5 0 0 g → N5X 0 g)) ∧
+    (∀ g ∈ U5, g ∈ junk (List.finRange 6) base5) ∧
+    (∀ g ∈ junk (List.finRange 6) base5, X5 g = 1 → g ∈ U5) ∧
+    ((∃ g ∈ U5, 0 < v5 0 g) →
+      ∃ t ∈ U5, X5 t = 0 ∧ 0 < v5 0 t ∧ ∀ g ∈ U5, 0 < v5 0 g → g ≠ t → pref5 0 t g) ∧
+    ¬ ∀ h ∈ bundle (List.finRange 6) X5 1,
+      value v5 0 ((bundle (List.finRange 6) X5 1).erase h) ≤ value v5 0 (bundle (List.finRange 6) X5 0) :=
+  ⟨hyps5, slot5a, slot5b, fun _ => slot5c, threatened5⟩
+
+end LB4.Ex5
+
 end EFX
 
 /-! ## Axiom certificates (audited by `check.sh`) -/
@@ -1657,3 +1794,8 @@ end EFX
 #print axioms EFX.LB4.Ex.sound
 #print axioms EFX.LB4.Ex.baseNeeds_invalid
 #print axioms EFX.LB4.Ex.efx0
+#print axioms EFX.LB4.Completion.frozen_base
+#print axioms EFX.LB4.ExB.sound
+#print axioms EFX.LB4.ExB.shape
+#print axioms EFX.LB4.ExB.efx0
+#print axioms EFX.LB4.Ex5.counterexample
