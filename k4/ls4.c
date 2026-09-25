@@ -31,8 +31,9 @@ static int T[MAXN];
 static int types[MAXN][MAXT][4];
 static long V[MAXN][MAXM];          /* algorithm values (strict) */
 static long RV[MAXN][MAXM];         /* raw values */
-static int useG = 0, useX = 0, verbose = 0, policy = 0, p2mode = 0;
+static int useC = 0, useG = 0, useX = 0, verbose = 0, policy = 0, p2mode = 0;
 
+static void print_state(const char *tag); static void print_profile(void);
 static unsigned long long rng_s = 88172645463325252ULL;
 static unsigned long long rnd(void) { rng_s ^= rng_s << 13; rng_s ^= rng_s >> 7; rng_s ^= rng_s << 17; return rng_s; }
 
@@ -139,17 +140,21 @@ static int move_R(void) {
 /* X: general cyclic exchange with the pool: distinct agents i_0..i_{L-1}, L >= 2, Z_t subset R cap (Y_{i_{t+1}} cup U),
  * disjoint, V(Z_t) > V(Y_{i_t}); first valid found. */
 static int cyc[MAXN], cycL; static mask cz[MAXN];
+static int onePool = 0, localX = 0, keepX = 0, maxL = 99; static long stat_L[MAXN + 1];
 static int dfs_X(int t, mask usedU) {
     int h = cyc[t], nx = cyc[(t + 1) % cycL];
     long cur = vs(V, h, Y[h]);
-    mask avail = (Y[nx] | (U & ~usedU)) & R[h];
+    mask avail = (Y[nx] | (keepX ? Y[h] : 0)) & ~usedU & R[h];
+    avail |= U & ~usedU & R[h];
     for (int z = 1; z < (1 << d[h]); z++) {
         mask Z = loc2glob(h, z);
         if ((Z & ~avail) || vs(V, h, Z) <= cur) continue;
         if (!(Z & Y[nx])) continue;            /* must take something from the successor */
+        if (onePool && (Z & U) && (usedU & U)) continue;
+        if (localX) { int ok = 1; for (int x = 0; x < n && ok; x++) if (x != h && threat(V, x, Z) > vs(V, x, Y[x])) ok = 0; if (!ok) continue; }
         cz[t] = Z;
         if (t + 1 == cycL) { if (try_exchange(cycL, cyc, cz, 0)) return 1; }
-        else if (dfs_X(t + 1, usedU | (Z & U))) return 1;
+        else if (dfs_X(t + 1, usedU | Z)) return 1;
     }
     return 0;
 }
@@ -160,11 +165,11 @@ static int perm_next(int *a, int k) { /* next permutation of a[1..k-1] */
     return 1;
 }
 static int move_X(void) {
-    for (cycL = 2; cycL <= n; cycL++) {
+    for (cycL = 2; cycL <= n && cycL <= maxL; cycL++) {
         for (unsigned S = 0; S < (1u << n); S++) {
             if (__builtin_popcount(S) != cycL) continue;
             int k = 0; for (int i = 0; i < n; i++) if (S >> i & 1) cyc[k++] = i;
-            do { if (dfs_X(0, 0)) { try_exchange(cycL, cyc, cz, 1); stat_moves[2]++; return 1; } } while (perm_next(cyc, cycL));
+            do { if (dfs_X(0, 0)) { try_exchange(cycL, cyc, cz, 1); stat_moves[2]++; stat_L[cycL]++; return 1; } } while (perm_next(cyc, cycL));
         }
     }
     return 0;
@@ -190,7 +195,9 @@ static int move_G(void) {
         for (unsigned S = 0; S < (1u << n); S++) {
             if (__builtin_popcount(S) != coL) continue;
             int k = 0; mask pool = U; for (int i = 0; i < n; i++) if (S >> i & 1) { coA[k++] = i; pool |= Y[i]; }
-            if (dfs_G(0, pool)) { try_exchange(coL, coA, coZ, 1); stat_moves[3]++; return 1; }
+            if (dfs_G(0, pool)) {
+                if (verbose) { print_profile(); print_state("  G-BEFORE"); printf("  G-move:"); for (int t = 0; t < coL; t++) { printf(" %d<-{", coA[t]); for (int g = 0; g < m; g++) if (coZ[t] >> g & 1) printf("%d,", g); printf("}"); } printf("\n"); }
+                try_exchange(coL, coA, coZ, 1); stat_moves[3]++; return 1; }
         }
     return 0;
 }
@@ -216,6 +223,174 @@ static int phase2_exact(int anywhere) {
     return p2dfs(0, X, anywhere);
 }
 
+
+/* single dump: some source s such that Y_s cup U is threat-free for every other agent */
+static long stat_dump[4];
+static int single_dump(void) {
+    for (int s = 0; s < n; s++) {
+        int issrc = 1; for (int i = 0; i < n; i++) if (i != s && envies(i, s)) issrc = 0;
+        if (!issrc || (U & R[s])) continue;
+        mask B = Y[s] | U; int ok = 1;
+        for (int h = 0; h < n && ok; h++) if (h != s && threat(V, h, B) > vs(V, h, Y[h])) ok = 0;
+        if (ok) return 1;
+    }
+    return 0;
+}
+
+
+/* CH: champion cycles.  Exchange graph on agents: envy edges t -> t' (t takes Y_t'), champion edges h -> s for a
+ * source s whose dump fails (h takes a minimum-cardinality envied Z subset Y_s cup U, Z subset R_h).  A simple cycle
+ * with at least one champion edge and pairwise disjoint U-parts is applied. */
+static int nch[MAXN]; static int chh[MAXN][64]; static mask chZ[MAXN][64];
+static long stat_ch[4];
+static int isrc[MAXN];
+static void champions(void) {
+    for (int s = 0; s < n; s++) {
+        nch[s] = 0; if (!isrc[s]) continue;
+        mask B = Y[s] | U; int kbest = 99;
+        for (int h = 0; h < n; h++) if (h != s) for (int z = 1; z < (1 << d[h]); z++) {
+            mask Z = loc2glob(h, z); if (Z & ~B) continue;
+            if (vs(V, h, Z) > vs(V, h, Y[h])) { int k = __builtin_popcount(Z); if (k < kbest) { kbest = k; nch[s] = 0; } if (k == kbest && nch[s] < 64) { chh[s][nch[s]] = h; chZ[s][nch[s]++] = Z; } }
+        }
+    }
+}
+static int cyA[MAXN], cyL; static mask cyZ[MAXN]; static int cyOn[MAXN];
+static int dfs_CH(int t, mask usedU, int nchamp) {
+    int u = cyA[t];
+    for (int w = 0; w < n; w++) {
+        /* envy edge u -> w */
+        int opts = 0;
+        if (w != u && envies(u, w)) {
+            if (w == cyA[0] && nchamp > 0) { cyZ[t] = Y[w]; cyL = t + 1; if (try_exchange(cyL, cyA, cyZ, 0)) return 1; }
+            else if (!cyOn[w]) { cyZ[t] = Y[w]; cyOn[w] = 1; cyA[t + 1] = w; if (dfs_CH(t + 1, usedU, nchamp)) return 1; cyOn[w] = 0; }
+        }
+        (void)opts;
+        /* champion edges u -> w */
+        for (int c = 0; c < nch[w]; c++) if (chh[w][c] == u) {
+            mask Z = chZ[w][c]; if (Z & U & usedU) continue;
+            if (w == cyA[0]) { cyZ[t] = Z; cyL = t + 1; if (try_exchange(cyL, cyA, cyZ, 0)) return 1; else stat_ch[2]++; }
+            else if (!cyOn[w]) { cyZ[t] = Z; cyOn[w] = 1; cyA[t + 1] = w; if (dfs_CH(t + 1, usedU | (Z & U), nchamp + 1)) return 1; cyOn[w] = 0; }
+        }
+    }
+    return 0;
+}
+static int move_CH(void) {
+    for (int j = 0; j < n; j++) { isrc[j] = 1; for (int i = 0; i < n; i++) if (i != j && envies(i, j)) isrc[j] = 0; }
+    champions();
+    for (int s = 0; s < n; s++) {
+        memset(cyOn, 0, sizeof cyOn); cyA[0] = s; cyOn[s] = 1;
+        if (dfs_CH(0, 0, 0)) { try_exchange(cyL, cyA, cyZ, 1); stat_ch[cyL > 3 ? 3 : cyL - 1]++; stat_moves[4]++; return 1; }
+    }
+    return 0;
+}
+
+
+/* classify minimal bad sets J subset U at sources: B1 |J|=1; B2a |J|=2 violator values one; B2b values both; B3 |J|>=3 */
+static long stat_bad[6];
+static int bad_at(int s, mask J, int *viol) {
+    mask B = Y[s] | J;
+    for (int h = 0; h < n; h++) if (h != s && threat(V, h, B) > vs(V, h, Y[h])) { *viol = h; return 1; }
+    return 0;
+}
+static void classify_bad(void) {
+    int seen[6] = {0};
+    for (int s = 0; s < n; s++) {
+        int issrc = 1; for (int i = 0; i < n; i++) if (i != s && envies(i, s)) issrc = 0;
+        if (!issrc) continue;
+        mask Uj = U & ~R[s];
+        for (mask J = Uj; J; J = (J - 1) & Uj) {
+            int h; if (!bad_at(s, J, &h)) continue;
+            int minimal = 1;
+            for (mask K = (J - 1) & J; K; K = (K - 1) & J) { int h2; if (bad_at(s, K, &h2)) { minimal = 0; break; } }
+            if (!minimal) continue;
+            int k = __builtin_popcount(J);
+            if (k == 1) seen[0] = 1;
+            else if (k == 2) { int anyboth = 0, h2;
+                for (int x = 0; x < n; x++) if (x != s && threat(V, x, Y[s] | J) > vs(V, x, Y[x]) && __builtin_popcount(J & R[x]) == 2) anyboth = 1;
+                (void)h2; seen[anyboth ? 2 : 1] = 1; }
+            else seen[3] = 1;
+        }
+    }
+    for (int k = 0; k < 4; k++) stat_bad[k] += seen[k];
+    if (!seen[0] && !seen[1] && !seen[2] && !seen[3]) stat_bad[4]++;
+    if (seen[2] || seen[3]) { stat_bad[5]++; if (verbose && stat_bad[5] <= 3) { print_profile(); print_state("  PAIRBAD"); } }
+}
+
+
+/* clean placement analysis.  sat[h]: v_h(Y_h) >= v_h(R_h \ Y_h).  clean(u,s): s source, s does not value u, and
+ * no unsatisfied valuer h != s of u has a good in Y_s.  solo(u,s): s source, Y_s cup {u} threat-free for all. */
+static long stat_cl[6];
+static int is_src(int s) { for (int i = 0; i < n; i++) if (i != s && envies(i, s)) return 0; return 1; }
+static int solo_ok(int s, mask J) { mask B = Y[s] | J; for (int h = 0; h < n; h++) if (h != s && threat(V, h, B) > vs(V, h, Y[h])) return 0; return 1; }
+static int clean_ok(int s, int u) {
+    if (R[s] >> u & 1) return 0;
+    for (int h = 0; h < n; h++) if (h != s && (R[h] >> u & 1) && (Y[s] & R[h]) && vs(V, h, Y[h]) < vs(V, h, R[h] & ~Y[h])) return 0;
+    return 1;
+}
+/* structured placement: every dirty good (no clean source) goes alone to a distinct source in solo(u); every clean
+ * good to a clean source not used by a dirty good.  Exhaustive over assignments of dirty goods (few). */
+static int sp_dg[MAXM], sp_nd, sp_used[MAXN];
+static int sp_rec(int k) {
+    if (k == sp_nd) {
+        for (int u = 0; u < m; u++) if (U >> u & 1) {
+            int dirty = 0; for (int q = 0; q < sp_nd; q++) if (sp_dg[q] == u) dirty = 1;
+            if (dirty) continue;
+            int ok = 0; for (int s = 0; s < n; s++) if (!sp_used[s] && is_src(s) && clean_ok(s, u)) ok = 1;
+            if (!ok) return 0;
+        }
+        return 1;
+    }
+    int u = sp_dg[k];
+    for (int s = 0; s < n; s++) if (!sp_used[s] && is_src(s) && !(R[s] >> u & 1) && solo_ok(s, 1u << u)) {
+        sp_used[s] = 1; if (sp_rec(k + 1)) { sp_used[s] = 0; return 1; } sp_used[s] = 0;
+    }
+    return 0;
+}
+static void clean_analysis(void) {
+    sp_nd = 0;
+    for (int u = 0; u < m; u++) if (U >> u & 1) {
+        int ok = 0; for (int s = 0; s < n; s++) if (is_src(s) && clean_ok(s, u)) ok = 1;
+        if (!ok) sp_dg[sp_nd++] = u;
+    }
+    if (sp_nd == 0) { stat_cl[0]++; return; }
+    memset(sp_used, 0, sizeof sp_used);
+    if (sp_rec(0)) stat_cl[1]++;
+    else { stat_cl[2]++; if (verbose && stat_cl[2] <= 4) { print_profile(); print_state("  NOSTRUCT"); } }
+}
+
+
+/* DM shape: a dump s* takes J subset U; every other good goes alone to a distinct other source (value-checked). */
+static long stat_dm[3];
+static int dm_try(int sstar, mask rest, int *used) {
+    if (!rest) return 1;
+    int u = __builtin_ctz(rest);
+    for (int s = 0; s < n; s++) if (!used[s] && s != sstar && is_src(s) && !(R[s] >> u & 1) && solo_ok(s, 1u << u)) {
+        used[s] = 1; if (dm_try(sstar, rest & (rest - 1), used)) { used[s] = 0; return 1; } used[s] = 0;
+    }
+    return 0;
+}
+
+/* DM1: J = goods individually harmless at s* (Y_s* + {u} threat-free, u not valued by s*); rest matched solo. */
+static int dm1_shape(void) {
+    for (int s = 0; s < n; s++) if (is_src(s)) {
+        mask J = 0; for (int u = 0; u < m; u++) if ((U >> u & 1) && !(R[s] >> u & 1) && solo_ok(s, 1u << u)) J |= 1u << u;
+        if (!solo_ok(s, J)) continue;
+        int used[MAXN] = {0}; if (dm_try(s, U & ~J, used)) return 1;
+    }
+    return 0;
+}
+
+static int dm_shape(void) {
+    for (int s = 0; s < n; s++) if (is_src(s)) {
+        mask Uj = U & ~R[s];
+        for (mask J = Uj;; J = (J - 1) & Uj) {
+            if (solo_ok(s, J) || !J) { int used[MAXN] = {0}; if (dm_try(s, U & ~J, used)) return 1; }
+            if (!J) break;
+        }
+    }
+    return 0;
+}
+
 static void print_state(const char *tag) {
     printf("%s Y:", tag);
     for (int i = 0; i < n; i++) { printf(" {"); int f = 1; for (int g = 0; g < m; g++) if (Y[i] >> g & 1) { printf(f ? "%d" : ",%d", g); f = 0; } printf("}"); }
@@ -234,6 +409,7 @@ static int run(void) {
     for (;;) {
         if (move_M1() || move_R()) { steps++; continue; }
         if (!U) break;
+        if (useC) { int e = 0; for (int i = 0; i < n; i++) if (!Y[i]) e = 1; if (!e && !single_dump() && move_CH()) { steps++; continue; } }
         if (useX && move_X()) { steps++; continue; }
         if (useG && move_G()) { steps++; continue; }
         break;
@@ -241,6 +417,8 @@ static int run(void) {
     if (steps > stat_steps_max) stat_steps_max = steps;
     if (!efx0(V, Y)) { printf("PHASE1 NOT EFX0\n"); exit(4); }
     if (!U) { stat_p2[0]++; if (!efx0_raw(Y)) { printf("RAW FAIL complete\n"); exit(4); } return 1; }
+    { int e = 0; for (int i = 0; i < n; i++) if (!Y[i]) e = 1; if (!e) { classify_bad(); clean_analysis(); }
+      if (e) stat_dump[0]++; else if (single_dump()) stat_dump[1]++; else { if (dm_shape()) stat_dm[0]++; else stat_dm[1]++; if (dm1_shape()) stat_dm[2]++; stat_dump[2]++; if (verbose && stat_dump[2] <= 5) { print_profile(); print_state("  NODUMP"); if (phase2_exact(0)) { mask t[MAXN]; memcpy(t, Y, sizeof t); memcpy(Y, P2X, sizeof t); print_state("  PLACED"); memcpy(Y, t, sizeof t); } } } }
     if (phase2_exact(0)) { stat_p2[1]++;
         int big = 0; for (int i = 0; i < n; i++) if (__builtin_popcount(P2X[i]) > 2) big++;
         stat_big[big > 3 ? 3 : big]++;
@@ -255,6 +433,11 @@ int main(int argc, char **argv) {
     for (int a = 1; a < argc; a++) {
         if (!strcmp(argv[a], "-x")) useX = 1;
         else if (!strcmp(argv[a], "-g")) useG = 1;
+        else if (!strcmp(argv[a], "-c")) useC = 1;
+        else if (!strcmp(argv[a], "-k")) keepX = 1;
+        else if (!strcmp(argv[a], "-1")) onePool = 1;
+        else if (!strcmp(argv[a], "-l")) localX = 1;
+        else if (!strcmp(argv[a], "-L")) maxL = atoi(argv[++a]);
         else if (!strcmp(argv[a], "-v")) verbose = 1;
         else if (!strcmp(argv[a], "-r")) policy = atoi(argv[++a]);
         else if (!strcmp(argv[a], "-p")) p2mode = atoi(argv[++a]);
@@ -266,7 +449,7 @@ int main(int argc, char **argv) {
         int mode; long K; unsigned long long seed;
         if (scanf("%d %ld %llu", &mode, &K, &seed) != 3) return 1;
         rng_s = seed * 2654435761ULL + 12345;
-        memset(stat_moves, 0, sizeof stat_moves); memset(stat_p2, 0, sizeof stat_p2); memset(stat_big, 0, sizeof stat_big);
+        memset(stat_moves, 0, sizeof stat_moves); memset(stat_p2, 0, sizeof stat_p2); memset(stat_big, 0, sizeof stat_big); memset(stat_dump, 0, sizeof stat_dump); memset(stat_bad, 0, sizeof stat_bad); memset(stat_cl, 0, sizeof stat_cl); memset(stat_dm, 0, sizeof stat_dm); memset(stat_L, 0, sizeof stat_L);
         stat_steps_max = 0; stat_runs = 0; stat_fail = 0;
         int idx[MAXN] = {0};
         for (long r = 0;; r++) {
@@ -275,9 +458,9 @@ int main(int argc, char **argv) {
             run(); stat_runs++;
             if (mode == 0) { int i = 0; while (i < n && ++idx[i] == T[i]) { idx[i] = 0; i++; } if (i == n) break; }
         }
-        printf("RESULT runs=%ld fail=%ld complete=%ld p2src=%ld p2any=%ld big0=%ld big1=%ld big2=%ld big3+=%ld M1=%ld R=%ld X=%ld G=%ld maxsteps=%ld\n",
+        printf("RESULT runs=%ld fail=%ld complete=%ld p2src=%ld p2any=%ld big0=%ld big1=%ld big2=%ld big3+=%ld M1=%ld R=%ld X=%ld G=%ld CH=%ld maxsteps=%ld empty=%ld dump1=%ld nodump=%ld B1=%ld B2a=%ld B2b=%ld B3=%ld nobad=%ld allclean=%ld structok=%ld nostruct=%ld dm=%ld nodm=%ld dm1=%ld L2=%ld L3=%ld L4=%ld L5=%ld\n",
                stat_runs, stat_fail, stat_p2[0], stat_p2[1], stat_p2[2], stat_big[0], stat_big[1], stat_big[2], stat_big[3],
-               stat_moves[0], stat_moves[1], stat_moves[2], stat_moves[3], stat_steps_max);
+               stat_moves[0], stat_moves[1], stat_moves[2], stat_moves[3], stat_moves[4], stat_steps_max, stat_dump[0], stat_dump[1], stat_dump[2], stat_bad[0], stat_bad[1], stat_bad[2], stat_bad[3], stat_bad[4], stat_cl[0], stat_cl[1], stat_cl[2], stat_dm[0], stat_dm[1], stat_dm[2], stat_L[2], stat_L[3], stat_L[4], stat_L[5]);
         fflush(stdout);
     }
     return 0;
