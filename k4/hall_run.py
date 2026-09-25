@@ -48,7 +48,7 @@ def main():
         elif a.startswith('--only='): only = set(int(x) for x in a[7:].split(','))
         elif a.startswith('--split='): split = int(a[8:])
         elif a.startswith('--xcheck='): xc = a[9:]
-        elif a in ('-x', '-r', '-S'): opts += [a, argv[i + 1]]; i += 1
+        elif a in ('-x', '-r', '-S', '-Px', '-Gx'): opts += [a, argv[i + 1]]; i += 1
         elif a.startswith('-'): opts.append(a)
         else: files.append(a)
         i += 1
@@ -92,13 +92,37 @@ def main():
                 elif line.startswith('FAILOWNERS'):
                     nums = [int(x) for x in w[1:2] + w[3:4] + w[5:13] + w[14:22]]
                     fo = [a + b for a, b in zip(fo, nums)] if fo else nums
+                elif line.startswith('G0'):
+                    cur = tot.setdefault('_g0', [0] * 8)
+                    for q, v in enumerate(w[1:9]): cur[q] += int(v)
+                elif line.startswith('F0'):
+                    cur = tot.setdefault('_f0', [0] * 15)
+                    for q, v in enumerate(w[1:16]): cur[q] += int(v)
+                elif line.startswith('PARETO'):
+                    key = 'pareto F=' + w[2]
+                    cur = tot.setdefault(key, [0, 0, 0, 0])
+                    for q, v in enumerate((w[4], w[6], w[8], w[10])): cur[q] += int(v)
                 elif line.startswith('KIND'):
                     k = int(w[1]); name = ' '.join(w[10:])
                     cur = kinds.get(k, [name, 0, 0, 0, 0])
                     kinds[k] = [name, cur[1] + int(w[3]), cur[2] + int(w[5].strip('()')), cur[3] + int(w[7]), cur[4] + int(w[9].strip('()'))]
                 elif line.startswith('EX') or line.startswith('P ') or line.startswith('V'):
                     print(f'core {ci}: {line}')
+        par = {k: tot.pop(k) for k in list(tot) if k.startswith('pareto')}
+        f0 = tot.pop('_f0', None)
+        g0 = tot.pop('_g0', None)
         print(f'FILE {f} cores {len(set(ci for ci, _ in tasks))} ' + ' '.join(f'{k} {v}' for k, v in tot.items()))
+        for k, v in par.items():
+            if v[0]: print(f'  Pareto-maxima inside the min-frozen set, {k}: profiles {v[0]}, every maximum deficit <= 0: {v[1]}, some: {v[2]} ({v[3]} maxima)')
+        if f0:
+            names = ['F=0 Pareto-maxima with omega>=1', 'Lemma U violated', 'Lemma U2 violated', 'no single-good holder', 'exposure of another kind',
+                     'label criterion != exact test', 'a single-good holder valid', 'a pair-holder valid', 'no valid owner', 'every single-good holder valid',
+                     'single-good holder invalid by an unhittable exposure', 'e2 exposures', 'e1 exposures', 'e3 exposures', 'e2 exposures at single-good owners']
+            print('  F0: ' + ', '.join(f'{a} {b}' for a, b in zip(names, f0)))
+        if g0:
+            names = ['F=0 P with U, U2, omega>=1 and no valid owner', 'agent exposed w.r.t. two owners', 'owner exposing nobody', 'T>=2',
+                     'exposure map not a bijection', 'rotation rule: valid Pareto improvement', 'rotation rule fails', '... for want of labels']
+            print('  G0: ' + ', '.join(f'{a} {b}' for a, b in zip(names, g0)))
         if xc: print(f'  XCHECK profiles {nx} mismatching task pairs {mism}')
         if fo:
             print(f'  failing (P, owner) pairs {fo[0]}, with an unhittable exposed agent {fo[1]}; tau for the others: {fo[2:10]}; minimal violator size (0 = none of size < 8): {fo[10:18]}')

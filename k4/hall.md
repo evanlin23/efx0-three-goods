@@ -1,18 +1,229 @@
-# Owner validity as a covering problem, and C₄ᵐⁱⁿ by Hall-type arguments
+# Owner validity as a covering problem, and C₄ᵐⁱⁿ without frozen agents
 
-Workstream `proof/k4-hall`, ledger rows K4.HALL.* (CONJECTURE / EVIDENCE only), ledger open item 18. A second,
-independent attack on conjecture C₄ᵐⁱⁿ of `k4/c4x.md` §5 (PR #36, branch `proof/k4-c4x`); the other one (branch
+Workstream `proof/k4-hall`, ledger rows K4.HALL.* (CONJECTURE / EVIDENCE only), ledger open item 18. This is a second,
+independent attack on conjecture C₄ᵐⁱⁿ of `k4/c4x.md` §5 (PR #36, branch `proof/k4-c4x`). The other attack (branch
 `proof/k4-c4min`) uses the walk/cycle technique of Theorem K3 and was not read for this file. Notation as in
 `k4/lb4.md` §1 and `k4/c4x.md` §1.
 
-**Status: work in progress.** Nothing here changes K4.D or K4.T.
+**Status.** Nothing here changes K4.D or K4.T. What is here:
+- **§1 The covering form** (Lemma H1, proved): an owner o is a removal-only owner of P iff the threat hypergraph on
+  B_o ∪ J has an independent set X ⊇ B_o with |X| ≥ ω + 2 − u_o(X). Equivalently, a set of |J| − |X| junk goods,
+  at most the number of slots of the others, hits every minimal threatening set. So the deficit is ω + 2 minus the
+  largest safe owner bundle.
+- **§2 Exposure at a Pareto-maximum** (Lemma H3, proved, any P ∈ 𝒫 that is Pareto-maximal):
+  - a *free* agent is exposed with respect to at most one owner, in one of three shapes (e1, e2, e3);
+  - only the shape e2 can be repaired by removing a good, and then exactly one "label" good has to go.
+- **§3 Theorem H0** (no frozen agent; written proof, not reviewed). Let P ∈ 𝒫 be Pareto-maximal, with no frozen agent
+  and ω ≥ 1, and let T be the number of agents holding one good.
+  - (a) If T ≥ 2, P is removal-only completable. The proof is a counting argument: the exposure sets of the owners
+    are disjoint.
+  - (b) If P is not removal-only completable, then T ≤ 1 and the exposure relation is a permutation of the agents.
+    Rotating along a cycle of it is a Pareto improvement unless two agents on the cycle need the same junk label.
+  - **The gap** is exactly this *label collision*. It occurs: a pure core with n = 6, m = 15 has a Pareto-maximal
+    pre-allocation without frozen agents that is not completable at all (confirmed by two implementations,
+    `attempts/k4-hall-pareto-no-frozen.md`). So "every Pareto-maximum is completable" fails even without frozen
+    agents, while the some-form and the Σℓ-form hold there.
+- **Consequence.** C₄ᵐⁱⁿ holds for every strict profile on which *some* valid pre-allocation has no frozen agent and
+  some Pareto-maximal one of them has T ≥ 2. The full no-frozen case needs the collision closed (§3.4).
+- **§4 Evidence and cross-checks**; §5 what changes with frozen agents.
 
-Plan:
-1. Characterize removal-only owner validity exactly as a covering (hitting-set / independent-set) condition in a
-   threat hypergraph, and check it against `k4/c4x.c`'s exact test.
-2. Classify the minimal violators at pre-allocations with the fewest frozen agents, on n ≤ 3 exhaustively, samples at
-   n = 4, and H_1–H_3.
-3. Prove an augmenting lemma, or give the sharpest partial result with the exact gap.
+## 1. The covering form of owner validity
 
-Tools: `k4/hall.c` (written from the definitions, independently of `k4/c4x.c`), `k4/hall_run.py` (driver),
-`k4/hall_c4x_xcheck.py` (builds `k4/c4x.c` of PR #36 with a per-profile summary line, for the cross-check).
+Fix a strict profile of an instance in which every agent has three or four relevant goods and is strictly balanced
+(every k = 4 core is one), and let 𝒫 be as in `k4/c4x.md` §1. The value-based needs of a base B are
+N(B) = {g ∉ B : v(g) > v(B)}. A base is *need-free* if N(B) = ∅. For P ∈ 𝒫, F is the set of frozen agents,
+S the number of slots, ω = |J| − S, and W_o = B_o ∪ J for a free agent o. A set X *threatens* x holding B_x if
+max_{h ∈ X} v_x(X ∖ h) > v_x(B_x). This is monotone in X.
+
+**Lemma H1 (covering form).** Let P ∈ 𝒫 with ω ≥ 1, o free, and K ⊆ J, X = B_o ∪ K. Let u_o(X) be the number of
+agents that are frozen in P but not once o's needs are taken from X. Then some removal-only completion of P has owner
+o and owner bundle X iff
+- X threatens no agent x ≠ o holding B_x, and
+- |X| ≥ ω + 2 − u_o(X).
+
+Hence def(P) = ω + 2 − max (|X| + u_o(X)) over the free o and the safe X. In the complement: the removed junk
+C = J ∖ K must hit every minimal threatening subset of W_o (every edge of the *threat hypergraph* H_o), with
+|C| ≤ S − cap(o) + u_o(X).
+
+*Proof.* N_o^X ⊆ N(B_o), since v_o(X) ≥ v_o(B_o). So taking o's needs from X only unfreezes agents. Each unfrozen agent
+holds one good and gains one slot, and nobody else changes status. The slots of the agents other than o are therefore
+S − cap(o) + u_o(X). The completion puts J ∖ K into them, which is possible iff |J| − |K| ≤ S − cap(o) + u_o(X). With
+|J| = S + ω and |B_o| + cap(o) = 2 (o is free, |B_o| ≤ 2), this is |X| ≥ ω + 2 − u_o(X). Removal-only means exactly
+that X threatens nobody holding its base (`k4/c4x.md` §1). ∎
+
+Every edge of H_o lies in R_x ∖ B_x for one agent x, plus at most one good outside R_x. Each good of R_x ∩ W_o is worth
+at most v_x(B_x): it is not in B_x, and not in NA, since J misses NA by (V1) and B_o does by (V2) or because o is free.
+So an edge needs two goods of R_x. An agent whose base is empty is never threatened, since N_x = R_x ⊆ NA. The
+brute-force check `bad_char` of `k4/hall.c` compares the transversal form with the exact deficit (0 disagreements,
+§4).
+
+## 2. Exposure at a Pareto-maximum
+
+P ∈ 𝒫 is *Pareto-maximal* if no P′ ∈ 𝒫 has v_i(B′_i) ≥ v_i(B_i) for all i with one inequality strict. A
+Pareto-improvement P′ of P has NA′ ⊆ NA, since each agent's needs shrink when its base value does not drop. So it has at
+most as many frozen agents. Hence the maxima of (−|F|, Pareto) are the Pareto-maxima with the fewest frozen agents.
+
+**Lemma H2 (any k).** Let P ∈ 𝒫 be Pareto-maximal.
+- **(U)** A free agent with at most one base good values no junk good.
+- **(U₂)** A free agent x with a two-good base has no pair B′ ⊆ B_x ∪ (R_x ∩ J) with v_x(B′) > v_x(B_x).
+
+*Proof.* (U) is Lemma U of `k4/c4x.md` §3. For (U₂), let x take B′ instead of B_x. Its needs shrink: a good of B_x ∖ B′
+is worth less than v(B_x) < v(B′). The released goods of B_x are not in NA by (V2), and the goods of B′ are in B_x or
+in J, so not in NA. The result is in 𝒫 and dominates P. ∎
+
+x is *exposed with respect to* a free owner o ≠ x if W_o threatens x holding B_x.
+
+**Lemma H3 (free exposed agents).** Let P ∈ 𝒫 be Pareto-maximal, o free, and x ≠ o a *free* agent exposed with respect
+to o. Then x is exposed with respect to no other free agent, and exactly one of the following holds:
+- **(e1)** |B_x| = 1, R_x ∩ J = ∅ and B_o is a pair ⊆ R_x ∖ B_x;
+- **(e2)** x has four goods, B_x = {b_x, c_x}, a_x ∈ B_o, d_x ∈ J, and v(a_x) + v(d_x) > v(b_x) + v(c_x);
+- **(e3)** x has four goods, |B_x| = 2, R_x ∩ J = ∅ and R_x ∖ B_x = B_o.
+
+With |X| ≥ 3 for every owner bundle X, a removal-only completion with owner o protects an e1 or e3 agent never
+(*unhittable*), and an e2 agent iff it removes the *label* d_x.
+
+*Proof.* A threat needs two goods of R_x ∩ W_o (§1). If |B_x| = 1, then R_x ∩ J = ∅ by (U), so both goods are in B_o:
+(e1). |B_x| = 0 is impossible, since x would then not be threatened. Let |B_x| = 2. A 3-good agent has only one good
+outside its base, so x has four goods, and R_x ∖ B_x = {r, s} ⊆ W_o. If r, s ∈ J, (U₂) with B′ = {r, s} gives
+v(r) + v(s) < v(B_x), so there is no threat (θ_x ≤ v(W_o ∩ R_x)). If both are in B_o, we are in (e3), and R_x ∩ J = ∅.
+Otherwise say r ∈ B_o and s ∈ J. (U₂) with B′ = {y, s}, y ∈ B_x, gives v(s) < v(y) for both y ∈ B_x. The threat gives
+v(r) + v(s) > v(B_x), so v(r) > v(B_x) − v(s) > max_{y ∈ B_x} v(y). Hence r = a_x, s = d_x and B_x = {b_x, c_x}: (e2).
+
+*Uniqueness.* In each case B_{o′} of an owner o′ exposing x must contain a good of R_x ∖ B_x that is not junk. In (e1)
+and (e3) it must contain two such goods, and R_x ∖ B_x has at most three goods, already two in B_o. In (e2) the only
+non-junk good of R_x ∖ B_x is a_x ∈ B_o.
+
+*Protection.* Let X ⊇ B_o, X ⊆ W_o, |X| ≥ 3.
+- In (e1) and (e3), X ∩ R_x = B_o, since R_x ∩ J = ∅. X ⊄ R_x, since |X| ≥ 3 > |B_o| = |X ∩ R_x|, so θ_x(X) =
+  v_x(B_o). This exceeds v_x(B_x), since W_o threatens x and meets R_x in B_o alone.
+- In (e2), if d_x ∉ X then X ∩ R_x ⊆ {a_x}, which is worth at most v(B_x). If d_x ∈ X then X ∩ R_x = {a_x, d_x}, and
+  X ⊄ R_x (|X| ≥ 3), so θ_x(X) = v(a_x) + v(d_x) > v(B_x). ∎
+
+**Corollary H4 (the criterion without frozen agents).** If P is Pareto-maximal, has no frozen agent and ω ≥ 1, then
+every agent is free and the owner bundles have ω + 2 ≥ 3 goods (u = 0). So o is a removal-only owner iff no agent is
+e1- or e3-exposed with respect to o and |Z_o| ≤ S − cap(o), where Z_o is the set of labels d_x of the e2-exposed agents
+x. (Brute force: 0 disagreements with the exact deficit, §4.)
+
+## 3. Theorem H0: no frozen agent
+
+Let P ∈ 𝒫 have no frozen agent (NA = ∅). Then every base is need-free and nonempty, so a one-good base is the agent's
+top. Write T for the number of agents with a one-good base; then S = T. A base worth more than a need-free base is
+need-free: a good outside the new base is worth at most the old base's value, and a good of the old base is worth at
+most that too.
+
+**Theorem H0.** Let P ∈ 𝒫 be Pareto-maximal with no frozen agent and ω ≥ 1.
+- (a) If T ≥ 2, some agent is a removal-only owner of P. So P is completable, and by Theorem 1′₄ the profile has an
+  EFX₀ allocation with at most one bundle of more than two goods.
+- (b) If no agent is a removal-only owner, then T ≤ 1, and each agent is exposed with respect to exactly one owner, with
+  each owner exposing exactly one agent. So o ↦ (the agent exposed with respect to o) is a permutation π of N. If
+  T = 1, the one-good holder t exposes an e2 agent, and every other agent's exposed agent is e1 or e3.
+
+*Proof.* Let D(o) be the set of agents exposed with respect to o. Every agent is free, so by Lemma H3 the sets D(o) are
+pairwise disjoint, and Σ_o |D(o)| ≤ n. Suppose no agent is a removal-only owner (Corollary H4).
+- An agent o with a one-good base has no e1 or e3 exposure, since those need |B_o| = 2. So
+  |D(o)| ≥ |Z_o| ≥ S − cap(o) + 1 = T.
+- An agent with a pair has |D(o)| ≥ 1: an unhittable exposure, or |Z_o| ≥ T + 1 ≥ 1.
+
+So n ≥ T · T + (n − T), that is T(T − 1) ≤ 0, and T ≤ 1. For T ≤ 1 the bound n ≥ Σ|D(o)| ≥ n is tight, so every
+|D(o)| = 1 and every agent lies in one D(o). For T = 1: |D(t)| = 1 ≥ |Z_t| ≥ 1, so t's one exposure is e2. A pair-holder
+whose exposure is e2 would need |Z_o| ≥ T + 1 = 2 > |D(o)|, so every pair-holder's exposure is e1 or e3. ∎
+
+### 3.1 The rotation along a cycle of π
+
+Let C be a cycle of π, and for y ∈ C let p = π⁻¹(y) be the owner exposing y. y wants In(y) = B_p ∩ R_y:
+- one good for e2 (namely a_y);
+- the whole of B_p for e1 and e3.
+
+Let g(y) be y's best good of In(y). A *light* move of y takes g(y) and keeps its best own good that its successor
+does not take. A *heavy* move takes In(y), plus the label d_y if y is e2 (then In(y) = {a_y}). The successor π(y)
+takes take(π(y)): In(π(y)) if it moves heavy, else {g(π(y))}. y must move heavy if its successor takes all of B_y, or
+if keep(y) = B_y ∖ take(π(y)) is empty, or if v(g(y)) + v(max keep(y)) ≤ v(B_y). Let H be the least set of agents
+closed under this rule. (It grows monotonically, since a heavy successor takes more.)
+
+**Lemma H5.** If the labels d_y of the e2 agents in H ∩ C are pairwise distinct, the move is a Pareto-improvement in
+𝒫. Every y ∈ C gets:
+- {g(y), best of keep(y)} if y ∉ H;
+- In(y) if y ∈ H is e1 or e3;
+- {a_y, d_y} if y ∈ H is e2.
+
+Nobody else moves.
+
+*Proof.* The new bases are pairwise disjoint. y takes only goods of B_p that p gives up (p keeps only keep(p) =
+B_p ∖ take(y)), plus distinct junk labels. Each moved agent strictly gains:
+- y ∉ H by the rule;
+- e1 and e3 in H because W_p threatens y, with W_p ∩ R_y = B_p (Lemma H3);
+- e2 in H because v(a_y) + v(d_y) > v(B_y).
+
+New bases worth more than need-free bases are need-free, so the result has NA = ∅ and lies in 𝒫. The one-good holder
+t (T = 1) is always in H: π(t) is e2 with In(π(t)) = {a_t} = B_t, so keep(t) = ∅. ∎
+
+So at a Pareto-maximum that is not removal-only completable, every cycle of π contains two e2 agents of H with the same
+bottom good: a **label collision**. At T ≤ 1 heavy moves are forced only by t and by e3 agents holding {a, d} whose
+successor wants their top, and a heavy agent forces its predecessor. So each maximal heavy run starts, going backwards,
+at an e2 agent. A collision is two such runs whose e2 starts share their bottom good.
+
+### 3.2 The collision occurs: the gap is real
+
+`k4/hall_instances/cyc6.inst`, a pure core, n = 6, m = 15. The agents and their values (good:value) are:
+
+| agent | goods and values | base |
+|---|---|---|
+| y | 0:8 2:6 3:5 12:4 | {2,3} |
+| z | 4:10 2:8 3:6 5:3 | {4,5} |
+| w | 4:8 6:6 7:5 13:4 | {6,7} |
+| y′ | 6:8 8:6 9:5 12:4 | {8,9} |
+| z′ | 10:10 8:8 9:6 11:3 | {10,11} |
+| w′ | 10:8 0:6 1:5 14:4 | {0,1} |
+
+The junk is J = {12, 13, 14}. This P has no frozen agent, T = 0 and ω = 3, and it is Pareto-maximal among all 4,015
+valid pre-allocations. The permutation π is the 6-cycle y → z → w → y′ → z′ → w′ → y:
+- y is e2 w.r.t. w′, z is e3 w.r.t. y, and w is e2 w.r.t. z;
+- y′ is e2 w.r.t. w, z′ is e3 w.r.t. y′, and w′ is e2 w.r.t. z′.
+
+z and z′ hold {a, d}, and their successors want their tops. So z, z′, y and y′ are heavy, and both y and y′ need the
+label 12. There are no slots, and every owner leaves one agent threatened. So P is not completable, not even with
+protection by slot goods (there are none). Both implementations confirm it (`attempts/k4-hall-pareto-no-frozen.md`). The
+profile still satisfies C₄ᵐⁱⁿ: 55 of the 56 Pareto-maxima without frozen agents are completable, and so are all 3
+Σℓ-maxima. The repair is not Pareto:
+- w′ gives 0 to y and takes its own label 14 (a loss for w′);
+- y takes {0, 2} and gives 3 to z;
+- z keeps its top 4 and takes 3, releasing 5;
+- w does not move.
+
+### 3.3 What is proved, and the consequence for C₄ᵐⁱⁿ
+
+- Theorem H0 (a) and Lemma H5 prove: if a profile has a Pareto-maximal P ∈ 𝒫 with no frozen agent, ω ≥ 1 and either
+  T ≥ 2, or T ≤ 1 without a label collision on some π-cycle, then P is completable. If ω ≤ 0, P is completable without
+  an owner. In both cases the fewest frozen agents is 0 and P has deficit ≤ 0, so C₄ᵐⁱⁿ holds on that profile.
+- Not proved: the collision case, and anything with frozen agents.
+
+### 3.4 Closing the collision (open)
+
+Conjecture K4.HALL.F0Σ: if some P ∈ 𝒫 has no frozen agent, every Σℓ-maximum among those P is removal-only completable
+(evidence §4). A proof would show that a collision at a Σℓ-maximum yields a Σℓ-increasing move. In cyc6 the repair above
+is such a move:
+- y moves from level {b,c} to {a,b}, a gain of at least 3;
+- z moves from {a,d} to {a,c}, a gain of at least 2 (it passes {a,d} and {b,c});
+- w′ moves from {b,c} to {c,d}, a loss of at most 4 (only {c,d}, {b,d}, {a}, {b} can lie in between).
+
+The general collision needs the same count along heavy runs of any length.
+
+## 4. Evidence and cross-checks
+
+Tools: `k4/hall.c` enumerates 𝒫 for every strict profile of a core, computes the exact removal-only deficit, and has
+the counters below. It was written from the definitions and agrees with `k4/c4x.c` (PR #36), profile by profile, on
+every profile with n = 2 and on 5,100 random profiles with n = 3 (`results/k4_hall_xcheck.log`). `k4/hall_check.py` is
+an independent plain-Python checker for single pre-allocations: it tries every completion and re-checks the raw
+EFX₀ definition. `k4/hall_random.py` generates random instances that are not cores.
+
+(Table filled in from `results/k4_hall_n3.log` and the sample logs when the runs finish.)
+
+## 5. With frozen agents (what changes)
+
+Lemma H3 is about free exposed agents only. A frozen agent x holds one good, and its goods below it may be junk: Lemma
+U does not apply, since adding a junk good would put a needed good into a two-good base. So a frozen agent can be
+threatened by J alone, with respect to every owner at once. Examples are a 4-good top-holder of type a > b + c with
+b, c, d ∈ J (instance 3 of `attempts/k4-c4x-pareto-potentials.md`, n = 3), or a flat one. The exposure sets are then
+no longer disjoint, and the counting of §3 breaks. At k = 3, Lemma R of `k4/c4x.md` excludes this at a
+Pareto-maximum (LB⁺'s rotation). At k = 4 the rotation that repairs it gives the frozen agent a base of three goods,
+so the agent must become the owner (`k4/c4x.md` §5, (G1)). Work in progress.
