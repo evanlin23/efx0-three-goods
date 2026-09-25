@@ -1,7 +1,8 @@
 """LS4+ (k4/ls4alg.c -DCMOVE=8, its default choice rule; PR #29's program, used unchanged) on the K-agent
 neighbourhoods of the profiles in GMFAIL lines: every profile that changes the strict types of K agents of such a
 profile (exhaustive over those agents' types, the others fixed).  EVIDENCE only (k4/gm4.md §3).
-Usage: gm4_ls4plus_around.py LOG[,LOG...] K"""
+Usage: gm4_ls4plus_around.py LOG[,LOG...] K [TAG]   (TAG: the line tag of the seed profiles, default GMFAIL; GMALL
+       takes the profiles all of whose level-sum maxima lack a placement)"""
 import sys, json, itertools, subprocess, os
 from multiprocessing import Pool
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -24,7 +25,7 @@ def task(args):
 tasks, seen = [], set()
 for logf in sys.argv[1].split(','):
     for line in open(logf):
-        if not line.startswith('GMFAIL '): continue
+        if not line.startswith((sys.argv[3] if len(sys.argv) > 3 else 'GMFAIL') + ' '): continue
         body, meta = line.split(' # ')
         vals = [list(map(int, t.split(','))) for t in body.split(' | ')[0].split()[1:]]
         m = int(meta.split()[0][2:]); sets = json.loads(meta.split('sets=')[1])

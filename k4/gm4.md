@@ -152,6 +152,7 @@ Such profiles are not isolated. The one-agent and two-agent neighbourhoods of th
   In instance G every maximum is bad, so every run of LS4⁺_n that reaches a maximum fails.
 - **The default rule** (`k4/ls4alg.c -DCMOVE=8`, PR #29's program, used unchanged) completes all of these profiles. It stops early at a placeable state: at G it dumps at Σℓ = 17.
   - `k4/gm4_ls4plus_around.py` ran it on every profile that changes the types of two agents of one of the seven GM₄ profiles found at n = 4: 2,260,332 profiles, including the 148 profiles whose maxima are all bad. It had 0 failures and never needed a coalition move (`results/k4_gm4_ls4plus_around2_4.log`).
+  - It also ran on every profile that changes two agents' types of one of those 148 profiles: 73,654,272 runs (the neighbourhoods overlap, so fewer distinct profiles). Again 0 failures and no coalition move (`results/k4_gm4_ls4plus_around2_gmall_4.log`).
   - So the evidence K4.LSP.RUN for that rule stands. But if the rule is correct, the reason is where it stops, not a property of the maxima of Σℓ.
 - **"No dead end maximizes Σℓ" is false**, and the level sum does not separate dead ends from completable states even in the existence sense (instance G). A proof along the LS4⁺ route needs one of:
   - a potential whose maxima all admit a placement (none found, §6);
@@ -161,7 +162,9 @@ Such profiles are not isolated. The one-agent and two-agent neighbourhoods of th
 ## 4. Evidence
 
 `k4/gm4_fast.c` finds all Σℓ-maxima of a profile by branch and bound over agents' bundles, with EFX₀ checked by the raw definition. For each maximum with a nonempty pool it checks (a) an empty bundle, (b) a single dump, and otherwise every junk placement.
-- It agrees exactly with the full enumeration `k4/gm4_explore.c` on the n = 2 run (236,176 maxima, 2,286 with a pool) and on a pure n = 4 sample (438,000 profiles: 622,450 maxima, 25,713 with a pool). The latter matches #29's `results/k4_gm4_*` counts in kind, not in profiles.
+- It agrees exactly with the full enumeration `k4/gm4_explore.c` on the n = 2 run (236,176 maxima, 2,286 with a pool) and on a pure n = 4 sample (438,000 profiles: 622,450 maxima, 25,713 with a pool).
+- At n = 2 it also agrees with #29's independent `k4/ls4_gm.c`, which counts the same 236,176 maximal states (`results/k4_gm_2.log`).
+- Its n = 3 run covers 299,837,376 strict profiles, the count in row K4.LS.RUN.
 - Cores come from the certificate files, whose core lists are complete by the orbit count of `k4/check4.py`, or from genbg via `k4/search4.py` (n = 5).
 - Every counterexample is re-checked by `k4/gm4_counterexample.py`.
 
