@@ -39,13 +39,19 @@ The other stuck states have no valid rotation at all. Both counts are out of 299
 (`results/k4_nsw_n23_N1P0.log`, `results/k4_nsw_n23_N2P0.log`). So a proof cannot take any Φ-increasing rotation; it
 must choose which one, or use Φ only in the existence form.
 
-**Smallest.** At n = 2 no stuck state has a rotation (exhaustive: `k4_certs_2` in the same logs). At n = 3 the smallest
-m is 5, as here.
+**Smallest.** The census `k4/lb4_nsw.c -N6` (`results/k4_nsw_census_n23.log`) visits every state reachable from Phase 1
+by strictly Φ-increasing moves through states without an output. It flags a profile if one of those states has no
+output, has a RotStep, and has none that raises Φ. Its counts:
+- n = 2: 0 of 189,216 profiles;
+- n = 3, m = 4: 0 of 24,406,272;
+- n = 3, m = 5: 46,992 of 49,813,056, under each policy.
+
+So n = 3, m = 5, as here, is the smallest size. The census reproduces the counts of the #40 reviewer's own run.
 
 **Checked twice, independently.**
 1. `k4/lb4_nsw.c` (LB₄ʳ of `k4/lb4.c`, 64-bit, plus the NSW walk): `-N2` stops at S under each policy.
-2. `k4/nsw_verify.py` runs on `k4/c4_verify_H/lb4r.py`, an independent transcription of LB₄ʳ from its Lean definition
-   (PR #35, by the C₄ verifier). It explores every Φ-increasing path and finds S stuck (no output by SAT, one RotStep
+2. `k4/nsw_verify.py` runs on `k4/c4_verify_H/lb4r.py` (on main since #33; git blob 6726d25), an independent
+   transcription of LB₄ʳ from its Lean definition (PR #35, by the C₄ verifier). It explores every Φ-increasing path and finds S stuck (no output by SAT, one RotStep
    successor with smaller Φ). It also finds 2 reachable states with an output.
 
 **Reproduce.**

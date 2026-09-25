@@ -9,7 +9,12 @@ number of goods in bases (2), the base values sorted increasingly (leximin, 3), 
 ties by enumeration order), 2 first strict increase, 5 strict search: depth-first search over every path of strictly
 increasing moves (success if some reachable state has a valid owner), 3 weak search: the same over moves that do not
 decrease the potential, every state visited once, 4 weak greedy walk (largest potential >= current among unvisited
-states). -L bounds the states of 3, 4, 5 (then "undecided"). -v also prints dead ends with no valid rotation.
+states), 6 local-form census (the #40 reviewer's mode): visit every state reachable by strictly increasing moves through
+states without an output, and flag the profile if some visited state has no output, has a RotStep, and has none that
+raises the potential (counted as "noimprove"; "ok" then means no such state, not an output). -L bounds the states of
+3, 4, 5, 6 (then "undecided"). -v also prints dead ends with no valid rotation. The visited set (3, 4, 5, 6) compares
+64-bit state hashes only: a collision can only hide a state (a false dead end, a missed flag), never fake a success.
+-N needs n <= 21 (the 128-bit product).
 Counters: per policy, successes with a histogram of the number of rotations used (for the searches: on the path found,
 depth-first, not necessarily the shortest), dead ends with no valid rotation ("norot"), dead ends where rotations exist
 but none raises the potential enough ("noimprove"; for the searches: every reachable state explored), undecided. Values are the given type representatives (one profile per leaf, -b).
@@ -508,7 +513,7 @@ static void report(const char *what) {
     fprintf(stderr, " blocks=");
     for (int i = 0; i < n; i++) fprintf(stderr, "%d%s", blk[i], i + 1 < n ? "," : "");
     fprintf(stderr, " upg=");
-    for (int i = 0; i < n; i++) if (upg[i]) fprintf(stderr, "%d:%x ", i, base[i]);
+    for (int i = 0; i < n; i++) if (upg[i]) fprintf(stderr, "%d:%llx ", i, (unsigned long long)base[i]);
     fprintf(stderr, " frozen=");
     for (int i = 0; i < n; i++) if (frz[i]) fprintf(stderr, "%d ", i);
     fprintf(stderr, " J=%llx w=%d\n", (unsigned long long)J, popc(J) - slots());
@@ -531,6 +536,8 @@ static pot_t potential(void) {
     pot_t P; memset(&P, 0, sizeof P); P.p = 1;
     int vals[MAXN], nv = 0;
     for (int i = 0; i < n; i++) if (base[i]) { int v = tsum(i, tyof(i), base[i]); P.z++; P.p *= (u128)v; vals[nv++] = v; }
+    /* each factor is a sum of at most four values of a type representative in [1, 16], so < 64 = 2^6, and a product
+       of at most 21 factors is < 2^126: -N refuses n > 21 (main) */
     if (POT == 1) P.z = 0;
     if (POT == 2) for (int i = 0; i < n; i++) P.t[0] += popc(base[i]);            /* goods in bases */
     if (POT == 3) {                                                                   /* leximin of base values */
@@ -646,6 +653,22 @@ static int nsw_run(void) {                  /* from the current state; 1 success
             if (nsw_steps > NSWLIM) { nsw_undec = 1; return 0; }
         }
     }
+    if (NSWM == 6) {   /* local-form census: every state reachable by strictly increasing moves through non-output states */
+        int top = 0, loc = 0; st_save(&dfs_stack[top++]); nsw_expanded = 0;
+        while (top) {
+            st_load(&dfs_stack[--top]);
+            if (owner_ok()) continue;
+            nsw_expanded++;
+            if (nvis > NSWLIM || top > NSWLIM) { nsw_undec = 1; return 0; }
+            pot_t P = potential(); collect_all(); int up = 0;
+            for (int c = 0; c < ncand; c++) if (potcmp(cpot[c], P) > 0) {
+                up = 1; st_t sv; st_save(&sv); st_load(&cst[c]); uint64_t h = st_hash(); int nw = visit(h); st_load(&sv);
+                if (nw) memcpy(&dfs_stack[top++], &cst[c], sizeof(st_t));
+            }
+            if (ncand && !up) loc = 1;
+        }
+        nsw_kind = 2; return !loc;
+    }
     int top = 0; dfs_depth[top] = 0; st_save(&dfs_stack[top++]);  /* NSWM == 3 (5): depth-first search over non-decreasing (increasing) moves */
     int anycand = 0; nsw_expanded = 0;
     while (top) {
@@ -674,12 +697,12 @@ static int nsw_leaf(void) {                 /* each upgrade policy separately fr
         nchoice = 0; phase1(); setup_state(); upg_mode = pol[q]; upgrades(); slots();
         int ok = nsw_run();
         nsw_res[q] = ok ? 1 : (nsw_undec ? 2 : 4 + nsw_kind); nsw_st[q] = nsw_steps;   /* 5 no rotation, 6 none improves */
-        if (ok && !rawcheck()) nsw_res[q] = 3;       /* raw EFX0 / D2 failure of an output: a bug */
+        if (ok && NSWM != 6 && !rawcheck()) nsw_res[q] = 3;   /* raw EFX0 / D2 failure of an output: a bug (-N6 has no output) */
         if ((nsw_res[q] == 6 || nsw_res[q] == 3 || (SHOWALL && nsw_res[q] == 5)) && nsw_show > 0) {   /* print the state where it stopped */
             nsw_show--; fprintf(stderr, "%s policy u%d after %ld moves: ", nsw_res[q] == 3 ? "RAWFAIL" : nsw_res[q] == 5 ? "DEADEND(no valid rotation)" : "DEADEND(no improving rotation)", pol[q], nsw_steps);
             report("");
         }
-        any |= ok;
+        any |= nsw_res[q] == 1;
     }
     return any;
 }
@@ -714,6 +737,7 @@ int main(int argc, char **argv) {
     if (ALLOC) htab = calloc((size_t)1 << HBITS, sizeof(uint64_t));
     if (NSWM) { BRUTE = 1; vis = calloc((size_t)1 << VBITS, sizeof(uint64_t)); vused = malloc(sizeof(uint32_t) << VBITS); dfs_stack = malloc(sizeof(st_t) * (NSWLIM + MAXC + 8)); dfs_depth = malloc(sizeof(int) * (NSWLIM + MAXC + 8)); }
     while (scanf("%d %d", &n, &m) == 2) {
+        if (NSWM && n > 21) { fprintf(stderr, "-N needs n <= 21 (128-bit product)\n"); return 2; }
         memset(loc, -1, sizeof loc);
         for (int i = 0; i < n; i++) {
             scanf("%d", &d[i]); R[i] = 0;
@@ -735,6 +759,7 @@ int main(int argc, char **argv) {
         }
         long total = 0, leaves = 0, fails = 0, rawf = 0, runs = 0, shown = 0;
         long stat[5] = {0}, bigsz[40] = {0}, nfb_seq = 0, nfb_upg = 0;
+        ctrunc = 0;
         long ns_ok[3] = {0}, ns_norot[3] = {0}, ns_dead[3] = {0}, ns_und[3] = {0}, ns_bad[3] = {0}, ns_max[3] = {0}, ns_hist[3][8] = {{0}}, ns_alldead = 0, ns_alldead_nsw = 0;
         nsw_show = MAXF;
         /* odometer over ranking profiles */

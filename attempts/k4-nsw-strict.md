@@ -25,7 +25,7 @@ has agents {0, 4, 5, 6}, {1, 4, 6, 8}, {2, 5, 7, 8} and {3, 7, 8}. The values:
 - agent 2: 2:1, 5:8, 7:6, 8:4;
 - agent 3: 3:2, 7:3, 8:4.
 
-These are the only two failures among 10,020,000 random profiles of the n = 4 cores, sampled 10,000 per core
+These are the only two failures among 10,020,000 random draws of n = 4 profiles, 10,000 per core (with replacement)
 (`results/k4_nsw_n4_N5P0.log`). Both have three 4-good agents. They are the smallest found; smaller m at n = 4 was
 not searched exhaustively.
 
@@ -42,8 +42,8 @@ not searched exhaustively.
 
 **Checked twice, independently.**
 1. `k4/lb4_nsw.c -N5` finds both profiles failing under all three policies.
-2. `k4/nsw_verify.py` explores every Φ-increasing path in `k4/c4_verify_H/lb4r.py`'s model, an independent
-   transcription of the Lean definition (PR #35). Under each policy it finds only the Phase 1 state, with no output
+2. `k4/nsw_verify.py` explores every Φ-increasing path in `k4/c4_verify_H/lb4r.py`'s model (on main since #33; git
+   blob 6726d25), an independent transcription of the Lean definition (PR #35). Under each policy it finds only the Phase 1 state, with no output
    and no successor of larger Φ. It reports "existence form FAILS" 6 times (2 profiles × 3 policies,
    `results/k4_nsw_strict_verify.log`).
 

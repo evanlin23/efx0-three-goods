@@ -12,19 +12,20 @@ and is not expanded. Reports
     fails there), with the path of moves that reaches it.
 Usage: nsw_verify.py [--lb4r=PATH] 'VALUES' POLICY   VALUES: a JSON list of {good: value} dicts, one per agent;
        POLICY: shrink (u1), envyFree (u2) or none (u0). Exit status 0 if the run completed."""
-import importlib.util, hashlib, json, os, subprocess, sys, tempfile
+import importlib.util, hashlib, json, os, sys
+
+PINNED = '6726d25aaa06d3e5944dc3e0640e006f758bde4c'   # git blob of k4/c4_verify_H/lb4r.py used by the committed logs
 
 def load_lb4r(path):
+    """k4/c4_verify_H/lb4r.py from the tree (on main since #33), or --lb4r=PATH; reports whether it is the pinned blob"""
     if path is None:
-        here = os.path.dirname(os.path.abspath(__file__))
-        path = os.path.join(here, 'c4_verify_H', 'lb4r.py')
-        if not os.path.exists(path):             # not merged yet: take it from the branch of PR #33
-            src = subprocess.run(['git', '-C', here, 'show', 'origin/proof/k4-c4:k4/c4_verify_H/lb4r.py'],
-                                 capture_output=True, text=True, check=True).stdout
-            path = os.path.join(tempfile.mkdtemp(), 'lb4r.py'); open(path, 'w').write(src)
+        path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'c4_verify_H', 'lb4r.py')
+    data = open(path, 'rb').read()
+    blob = hashlib.sha1(b'blob %d\0' % len(data) + data).hexdigest()
+    if blob != PINNED: print(f"note: {path} is git blob {blob}, not the pinned {PINNED}", file=sys.stderr)
     spec = importlib.util.spec_from_file_location('lb4r', path)
     mod = importlib.util.module_from_spec(spec); spec.loader.exec_module(mod)
-    return mod, hashlib.sha256(open(path, 'rb').read()).hexdigest()
+    return mod, hashlib.sha256(data).hexdigest()
 
 def phi(inst, s):
     base = s[0]

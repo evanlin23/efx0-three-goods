@@ -3,12 +3,15 @@ feeds it profiles, runs in parallel, and sums the per-core result lines.
 
 Sources of profiles (any combination):
   FILE ...        certificate files (results/k4_certs_*.json.gz; only the core lists are used): every strict profile of
-                  every core (--exhaustive), or --sample=S random strict profiles per core (--seed=X);
+                  every core (--exhaustive), or --sample=S random draws per core (--seed=X; profiles drawn uniformly
+                  with replacement, so a profile can repeat); --m=5,6 keeps only the cores with these m;
   --h=1,2,3       the cores H_t of k4/c4.md section 7 with their profile (one profile each);
   --gm4           the named instances of k4/gm4_counterexample.py (A-H, P, Q, S; one profile each).
 Types are check4.core_domains' representatives (the smallest integer vector of each type in [1, 16]^d); NSW compares
 products of values, which depend on the representative, so the results are for these values.
-Usage: nsw_run.py [FILE ...] [--exhaustive | --sample=S --seed=X] [--h=..] [--gm4] [--jobs=J] [--show=N]
+Every run of the binary must exit with status 0 and report exactly the profiles it was given (the product of the
+domain sizes, the number of draws, or 1); otherwise the driver stops.
+Usage: nsw_run.py [FILE ...] [--exhaustive | --sample=S --seed=X] [--m=M,..] [--h=..] [--gm4] [--jobs=J] [--show=N]
                   [C options, e.g. -N1 -P0 -i0 -w1 -c1 -L50000]"""
 import gzip, hashlib, json, os, random, re, subprocess, sys, tempfile, time
 from multiprocessing import Pool
@@ -55,8 +58,11 @@ def hcore(t):
     return sets, len(goods), vals
 
 def run(task):
-    label, inp, opts = task
+    label, inp, opts, expect = task
     r = subprocess.run([BIN] + opts, input=inp, capture_output=True, text=True)
+    if r.returncode: raise RuntimeError(f"{label}: exit status {r.returncode}: {r.stderr[-2000:]}")
+    got = sum(int(mm.group(3)) for mm in map(LINE.match, r.stdout.splitlines()) if mm)
+    if got != expect: raise RuntimeError(f"{label}: {got} profiles reported, {expect} given")
     return label, r.stdout, r.stderr
 
 LINE = re.compile(r"nsw N(\d+) P(\d+) profiles (\d+) all_policies_fail (\d+) \(with a no-improving-rotation dead end (\d+)\)(.*)")
@@ -96,20 +102,24 @@ def main():
     for fn in files:
         data = json.load(gzip.open(fn, 'rt'))
         for r in data['cores']:
+            if 'm' in opt and r['m'] not in [int(x) for x in opt['m'].split(',')]: continue
             if 'exhaustive' in opt:
-                tasks.append((os.path.basename(fn), encode_all(r['sets'], r['m']), copts))
+                expect = 1
+                for D in check4.core_domains(r['sets'], r['m'], False): expect *= len(D)
+                tasks.append((os.path.basename(fn), encode_all(r['sets'], r['m']), copts, expect))
             else:
                 doms = check4.core_domains(r['sets'], r['m'], False)
-                inp = ''.join(encode_profile(r['sets'], r['m'], [rng.choice(D) for D in doms]) for _ in range(int(opt.get('sample', 100))))
-                tasks.append((os.path.basename(fn), inp, copts))
+                S = int(opt.get('sample', 100))
+                inp = ''.join(encode_profile(r['sets'], r['m'], [rng.choice(D) for D in doms]) for _ in range(S))
+                tasks.append((os.path.basename(fn), inp, copts, S))
     for t in ([int(x) for x in opt['h'].split(',')] if 'h' in opt else []):
         sets, m, vals = hcore(t)
-        tasks.append((f"H_{t}", encode_profile(sets, m, vals), copts))
+        tasks.append((f"H_{t}", encode_profile(sets, m, vals), copts, 1))
     if 'gm4' in opt:
         import gm4_counterexample as G
         for label, vals, _, _ in G.INSTANCES:
             m = 1 + max(g for v in vals for g in v)
-            tasks.append((f"GM4 {label.split(':')[0]}", encode_profile([sorted(v) for v in vals], m, vals), copts))
+            tasks.append((f"GM4 {label.split(':')[0]}", encode_profile([sorted(v) for v in vals], m, vals), copts, 1))
     t0, tots, shown = time.time(), {}, 0
     with Pool(int(opt.get('jobs', os.cpu_count()))) as pool:
         for label, out, err in pool.imap_unordered(run, tasks):
