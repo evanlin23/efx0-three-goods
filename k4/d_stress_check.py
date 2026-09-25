@@ -15,6 +15,8 @@ from pysat.solvers import Solver
 from pysat.card import CardEnc, EncType
 from pysat.formula import IDPool
 
+SOLVER = 'cadical153'   # glucose4 takes minutes on some tree and cycle profiles that CaDiCaL solves in 0.1 s
+
 
 def raw(sets, values, A):
     n, m = len(sets), len(A)
@@ -79,7 +81,7 @@ def _alloc(sol, x, n, m):
 
 def decide(sets, values, s=2, big=1):
     cl, x, bigv, n, m = encode(sets, values, s, big)
-    with Solver(name='g4', bootstrap_with=cl) as sol:
+    with Solver(name=SOLVER, bootstrap_with=cl) as sol:
         if not sol.solve(): return None
         A = _alloc(sol, x, n, m)
         assert raw(sets, values, A), 'encoding produced a non-EFX0 allocation'
@@ -92,7 +94,7 @@ def owners(sets, values):
     """The agents o for which a D2 EFX0 allocation exists in which no bundle other than o's has more than 2 goods."""
     cl, x, bigv, n, m = encode(sets, values, 2, 1)
     out = []
-    with Solver(name='g4', bootstrap_with=cl) as sol:
+    with Solver(name=SOLVER, bootstrap_with=cl) as sol:
         for o in range(n):
             if sol.solve(assumptions=[-bigv[j] for j in range(n) if j != o]):
                 A = _alloc(sol, x, n, m)
