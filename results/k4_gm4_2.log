@@ -1,0 +1,2 @@
+# gm4_run.py ../results/k4_certs_2.json.gz --prog=gm4_fast
+TOTAL cores=5 badcores=0 runs=189216 maxima=236176 pool=2286 empty=0 dump=2286 nodump=0 fail=0 pfail=0 pallfail=0 overflow=0 wall=2s

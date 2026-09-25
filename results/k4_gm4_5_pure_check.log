@@ -1,0 +1,6 @@
+# gm4_run.py --around=../results/k4_gm4_5_pure_sample.log --vary=0 --prog=gm4_fast
+# 3 neighbourhood tasks around 3 profiles
+GMFAIL 6,7,3,5 1,6,4,8 2,7,10,6 3,6,5,7 6,4,8,5 | 9 34 68 256 128 | 16 # m=9 sets=[[0,3,6,8],[1,5,7,8],[2,6,7,8],[3,4,6,8],[4,5,7,8]]
+GMFAIL 4,2,8,3 3,6,8,10 2,7,10,4 4,5,6,8 3,6,5,7 | 69 18 40 256 512 | 128 # m=10 sets=[[0,2,6,7],[1,4,6,9],[3,5,8,9],[4,6,7,8],[5,7,8,9]]
+GMFAIL 3,4,10,8 3,4,10,8 4,6,5,8 4,6,8,5 8,3,2,4 | 5 10 128 64 16 | 32 # m=8 sets=[[0,2,4,6],[1,3,4,7],[2,5,6,7],[3,5,6,7],[4,5,6,7]]
+TOTAL cores=3 badcores=0 runs=3 maxima=11 pool=11 empty=0 dump=8 nodump=3 fail=3 pfail=3 pallfail=0 overflow=0 wall=1s
