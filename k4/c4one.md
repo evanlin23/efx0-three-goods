@@ -35,7 +35,7 @@ Lemma E, Theorems A₄, B₄, B₄ʷ, A₄ᵀ, A₄⁺ and the conventions of it
   - **A first proved piece: Lemma Ω** (§6, written proof, not yet reviewed). Take a need chain from a block's 3-good
     leader ℓ to a free agent x that holds its second good. Inserting x first in the block, then the chain backwards,
     realizes the rotation along the chain, and ℓ then upgrades. So ω drops by at least 1, under five side conditions.
-    - This proves the (Tc) cases of Lemma X that satisfy those conditions: 80–100% of them at n ≤ 5.
+    - This proves the (Tc) cases of Lemma X that satisfy those conditions: all of them at n ≤ 4, and 97.7% at n = 5.
     - The proof is for runs with P-steps in any order.
 - **The existence form C₄¹∃** (§1) is open. It is what TARGET₄ needs for these instances.
 
@@ -336,7 +336,8 @@ envy-free upgrades in any order. Let β be a block of ρ with leader ℓ, and x 
   In particular it is not a_x. For s = 1 there is nothing to check; for s = 2 it says that ℓ's pick is x₁'s top.
 - **(H3)** In P, no agent other than x needs a_x.
 - **(H4)** Every agent of β off the chain had, at its turn, lost a good other than b_x, or has b_ℓ among its goods.
-- **(H5)** No agent processed after β has b_ℓ among its goods, except possibly the leader of the block right after β.
+- **(H5′)** Every agent processed after β that has b_ℓ among its goods leads its block in ρ. Call these blocks
+  *moved*. For each moved block γ, no agent of a block between β and γ that is not moved has a good picked in γ.
 
 Then some run ρ′ of Phase 1, equal to ρ before β, followed by envy-free upgrades, reaches a state P′ with
 ω(P′) ≤ ω(P) − 1. In ρ′ each x_i (1 ≤ i ≤ s) takes Y_{x_{i−1}}, ℓ takes b_ℓ, and every other agent keeps its pick. So
@@ -368,14 +369,21 @@ Then some run ρ′ of Phase 1, equal to ρ before β, followed by envy-free upg
     same agents. The one exception would be b_x, which by (H2) p does not rank above Y_p.
   - Y_p is still available. It is not a chain pick, and it is not b_ℓ.
   - So p takes Y_p.
-- *Now consider the unprocessed agents.* By (B1), only b_ℓ can be missing among their goods. By (H5), only the leader z
-  of the next block γ can have lost it. If z has, process γ's agents next, in ρ's order.
-  - z has lost b_ℓ, so this is a P-step. Its other goods are all there, since γ comes right after β. So z takes its top,
-    which is its pick in ρ (b_ℓ is junk, so it is not z's pick).
-  - Each later agent of γ lost the same goods as in ρ, and it takes the same pick.
-- *Process every remaining block as in ρ, with the same leaders.* At each block start no unprocessed agent has lost a
-  good: b_ℓ is not among their goods (H5), and neither is any other good picked in β (B1). So each such block runs as
-  in ρ.
+- *Now consider the unprocessed agents.* By (B1), only b_ℓ can be missing among their goods. By (H5′), only the leaders
+  of the moved blocks have lost it. Process the moved blocks next, in ρ's order, each with its agents in ρ's order.
+  - Take a moved block γ with leader z. z has lost b_ℓ, so this is a P-step.
+  - Every good taken so far in ρ′, other than b_ℓ, was taken in ρ before γ started: the prefix, β's picks, and the picks
+    of earlier moved blocks. By (B1) at γ's start, none of these is among the goods of γ's agents.
+  - So z takes its top, which is its pick in ρ (b_ℓ is junk, so it is not z's pick).
+  - Each later agent of γ does not have b_ℓ (H5′), so it lost the same goods as in ρ and takes the same pick.
+- *Next insertion.* No unprocessed agent has lost a good. Such an agent lies in a block δ that is not moved:
+  - it does not have b_ℓ (H5′);
+  - it does not have a good picked in β (B1);
+  - it does not have a good picked in a moved block γ. If δ comes after γ, this is (B1). If δ comes before γ, it is the
+    second part of (H5′).
+- *Process every remaining block as in ρ, with the same leaders.* During these blocks, the goods taken differ from ρ's
+  only by b_ℓ and the moved blocks' picks, which are not theirs, and by b_x, which is not theirs either (B1). So each
+  such block runs as in ρ.
 
 *Step 2: upgrades.* Compare the states after Phase 1, P₀ (of ρ) and P₀′ (of ρ′). They differ only on the chain:
 - x needs nothing, instead of {a_x};
@@ -413,33 +421,35 @@ with one slot, so it leaves |J| − S unchanged. It then can only unfreeze agent
 *Checked* (`k4/c4tools/c4omega1.py` → `results/k4_c4one_omega1.log`). Take the (Tc) runs that the theorems leave open
 (every insertion sequence, n ≤ 5), with x = q. The hypotheses hold in:
 
-| n | (Tc) cases | (H1)–(H5) hold | by chain length 1 / 2 / 3 |
-|---|---|---|---|
-| 3 | 388 | 388 | 388 / 0 / 0 |
-| 4 | 6,976 | 6,052 | 3,396 / 2,656 / 0 |
-| 5 | 203,592 | 162,624 (80%) | 96,860 / 44,892 / 20,872 |
+| n | (Tc) cases | (H1)–(H5′) hold | by chain length 1 / 2 / 3 | with moved blocks |
+|---|---|---|---|---|
+| 3 | 388 | 388 | 388 / 0 / 0 | 238 |
+| 4 | 6,976 | 6,976 | 4,320 / 2,656 / 0 | 3,846 |
+| 5 | 203,592 | 198,928 (97.7%) | 121,672 / 56,384 / 20,872 | 99,564 |
 
 - In every one of these cases the script builds ρ′ order by order and checks that it is a run of Phase 1 with the
   stated picks. It then replays the upgrades and finds ω′ ≤ ω − 1.
-- Where the hypotheses fail at n = 5:
-  - (H5) in 38,674 cases: an agent of a later block, other than the next leader, has b_ℓ;
+- Where the hypotheses fail at n = 5 (4,664 cases):
   - (H2c) in 1,864;
+  - (H5′) in 1,608 cases because a block in between has a good of a moved block, and in 762 because an agent after β
+    that is not a leader has b_ℓ;
   - (H2) in 430, where some agent ranked b_q above its Phase 1 pick.
 
 *What it gives.* Lemma Ω does not use that q has four goods, or case (Tc). It says that at a run and upgrade fixpoint
-minimizing ω, no chain satisfies (H1)–(H5).
+minimizing ω, no chain satisfies (H1)–(H5′).
 - For Lemma X on these (Tc) runs it gives the key decrease directly, and so proves those cases of Lemma X.
 - The caveat: ρ′ is a run of Phase 1 in the general sense (P-steps in any order). Lemma X's evidence (`-i19`) covers
   only the runs `lb4.c` makes (LB's key). So an induction on the key that uses Ω needs Lemma X for general runs, which
   has not been tested. #33's theorems hold for general runs, so the covered case is fine.
-- (H5) is the main gap. A later agent z with b_ℓ is pulled into β's block and takes its top. If z led its block in ρ,
-  that whole block can move too, provided no block in between has z's block's picks. This is the obstacle (D1) above.
+- (H5′) handles obstacle (D1) above when the agents pulled in are leaders: their whole blocks move. What is left at
+  n = 5 is 2.3% of the (Tc) cases. Beyond (Tc), the same move applies to any chain in any run.
 
 So on the data, C₄¹∃ reduces to one local lemma about Phase 1 runs.
 - It does not mention rotations beyond single ones, and it does not rely on LB₄ʳ's search.
 - The key is a potential over insertion sequences, not over rotations. This is where route 2 (§4) failed: rotations
   need preparing moves, while insertion sequences do not.
-- Next step: close (H5) in Lemma Ω, then treat the q-frozen classes, where the working agent is usually not q.
+- Next step: the remaining (Tc) cases, (Tb), G2, and the q-frozen classes, where the working agent is usually not q.
+  Lemma Ω applies to any chain to a free agent holding its b, so it may apply beyond (Tc).
 
 ## 7. Reproduce
 

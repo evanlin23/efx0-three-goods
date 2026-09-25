@@ -4,8 +4,8 @@ those runs (-X -Y -P2 -u2 -i20 -Z3 -K4, every insertion sequence). For each dist
 - checks the hypotheses (H1)-(H5) of Lemma Ω for x = q and the leader ℓ of q's block (a need chain from ℓ to q of any
   length, (H2c) for its middle agents);
 - when they hold, builds the run ρ' of the proof step by step (prefix as in ρ; insert q; then the chain backwards,
-  ending with ℓ; then the rest of the block in ρ's order; then the next block if its leader has b_ℓ; then the other
-  blocks as in ρ) and checks that it is
+  ending with ℓ; then the rest of the block in ρ's order; then every later block whose leader has b_ℓ, (H5'); then the
+  other blocks as in ρ) and checks that it is
   a run of Phase 1 (a P-step agent has lost a good, an inserted agent has not and nobody unprocessed has) with the
   picks the proof says;
 - replays the proof's upgrades (ρ's upgrades, then ℓ with c_ℓ, then envy-free upgrades to a fixpoint, the tracer's
@@ -88,15 +88,23 @@ def check(line):
         if p in chain: continue
         taken = {Y[z] for z in range(n) if pos[z] < pos[p] and Y[z] is not None}
         if not ((I.R[p] & taken) - {b_x}) and b_l not in I.R[p]: return 'H4 fails'
-    # (H5) no agent after the block has b_l, except possibly the leader of the next block
-    nxt = blk(blocks[q] + 1)
+    # (H5') every agent after the block with b_l leads its block; those blocks move into q's block, which needs that no
+    # block in between that stays has a good they pick
     Z = [z for z in range(n) if blocks[z] > blocks[q] and b_l in I.R[z]]
-    if Z and (not nxt or Z != [nxt[0]]): return 'H5 fails: a later agent other than the next leader has b_l'
+    if any(blk(blocks[z])[0] != z for z in Z): return "H5' fails: an agent after the block that is not a leader has b_l"
+    moved = sorted({blocks[z] for z in Z})
+    for g_ in moved:
+        picks_g = {Y[i] for i in blk(g_) if Y[i] is not None}
+        for d in range(blocks[q] + 1, g_):
+            if d in moved: continue
+            if any(I.R[i] & picks_g for i in blk(d)): return "H5' fails: a block in between has a good of a moved block"
+    h5 = 'no later agent has b_l' if not Z else ('the next block moves into q\'s' if moved == [blocks[q] + 1] else
+                                                   '%d later block(s) move into q\'s' % len(moved))
     # the run rho' of the proof: x, then the chain backwards, then the rest of the block in rho's order
     prefix = [a for a in order if blocks[a] < blocks[q]]
     new = prefix + list(reversed(chain)) + [p for p in beta if p not in chain]
-    leaders = {blk(b)[0] for b in set(blocks) if b != blocks[q]} | {x}
-    if Z: new += nxt; leaders.discard(nxt[0])
+    leaders = {blk(b)[0] for b in set(blocks) if b != blocks[q] and b not in moved} | {x}
+    for g_ in moved: new += blk(g_)
     new += [a for a in order if a not in new]
     Y2 = simulate(I, new, leaders)
     if isinstance(Y2, str): return 'PROOF STEP 1 FAILS: ' + Y2
@@ -115,8 +123,7 @@ def check(line):
     if not st.valid(): return 'PROOF STEP 2 FAILS: the leader\'s upgrade gives an invalid state'
     w1 = st.omega(); w2 = T.upgrades(st, 2).omega()
     if w1 > w - 1 or w2 > w1: return 'PROOF STEP 2 FAILS: omega %d -> %d -> %d' % (w, w1, w2)
-    return 'hypotheses hold; rho\' is a run of Phase 1 with the rotated picks; omega drops (chain length %d, %s)' % \
-        (s_, 'the next block moves into q\'s' if Z else 'no later agent has b_l')
+    return 'hypotheses hold; rho\' is a run of Phase 1 with the rotated picks; omega drops (chain length %d, %s)' % (s_, h5)
 
 def run(c):
     out = collections.Counter(); seen = set()
