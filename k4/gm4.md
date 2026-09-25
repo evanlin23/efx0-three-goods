@@ -4,24 +4,29 @@ Workstream `proof/k4-gm4`, ledger rows `K4.GM.*`. This builds on:
 - `k4/ls4plus.md`: Algorithm LS4⁺, Theorem 1⁺, conjecture GM₄, and its equivalent form;
 - `k4/local_search4.md`: Algorithm LS4, Theorem 1, Lemma 2, Lemma 5, Propositions 4 and 7.
 
-**Status.**
-- **Conjecture GM₄ is false** (§2). Some junk-free EFX₀ partial allocations that maximize the level sum Σℓ admit no placement of their pool; they are dead ends. The smallest counterexample found has n = 4, m = 7 and two 4-good agents; pure n = 4 cores and pure n = 5 cores have them too. The claims are checked by an independent plain-Python brute force from the raw definitions (`k4/gm4_counterexample.py`), and for the smallest instance by hand as well, except maximality and the dead-end property.
+**Status.** All claims below are EVIDENCE under the claim policy for new rows. The refutations are confirmed by `k4/gm4_counterexample.py`, a plain-Python brute force from the raw definitions that shares no code with the searches. The key facts of the smallest instance are also checked by hand.
+- **Conjecture GM₄ is false** (§2.1–2.2). Some junk-free EFX₀ partial allocations that maximize the level sum Σℓ admit no placement of their pool; they are dead ends. The smallest counterexample found has n = 4, m = 7 and two 4-good agents; pure n = 4 and pure n = 5 cores have them too.
+- **The single-dump form GM₄ˢ is false already with one 4-good agent** (n = 4, m = 6; §2.3). The only placements there split the pool, so no rule that picks one dump source can prove GM₄.
+- **The existence form GM₄∃ is false too** (§2.4; pure n = 4, m = 7). The profile has a *unique* Σℓ-maximum and it is a dead end. The 16 complete EFX₀ allocations of the profile reach at most Σℓ = 20 < 21. So **no argument of the form "take a Σℓ-maximum", with any tie-break, gives TARGET₄**.
 - **Consequences** (§3):
   - the equivalent form "no dead end maximizes Σℓ" is false;
   - LS4⁺_n fails under some valid choices: each bad maximum is reached from the empty allocation by 4 single-agent rebundles;
   - the route "GM₄ ⇒ LS4⁺ never fails ⇒ TARGET₄" is closed.
 
-  LS4⁺'s default rule does not fail on the profiles found. So K4.LSP.RUN (evidence for that rule) is unaffected, but no proof can go through GM₄.
-- **The single-dump form GM₄ˢ is false already with one 4-good agent** (n = 4, m = 6; §2.3). There the only placements split the pool between two agents. So no rule that picks one dump source can work, including the rules studied in §5.
-- **What survives** (§4, EVIDENCE only):
-  - GM₄∃ (the existence form): *some* Σℓ-maximum admits a placement. Equivalently, the maximum of Σℓ over junk-free EFX₀ partial allocations is attained by the valued part of a complete EFX₀ allocation. GM₄∃ still implies TARGET₄, but only as an existence argument.
-  - Refined potentials: in every counterexample the bad maximum is the *most equal* one. Two changes pick only placeable maxima on every profile tested: breaking ties among the Σℓ-maxima by the largest Σℓ², or by leximax; or maximizing Σℓ² or Σ 2^ℓ instead of Σℓ. Leximin tie-breaking fails.
-- **Where GM₄ does hold** (§4, EVIDENCE: exhaustive, one implementation):
+  **LS4⁺'s default rule has not failed**: 0 failures on 2,260,332 profiles next to the counterexamples, which include the 148 profiles whose maxima are all bad. It stops early at placeable states. K4.LSP.RUN is unaffected, but its correctness cannot be proved through maxima of Σℓ.
+- **Other potentials** (§6). Every potential tried has maxima without a placement, so each "every maximum" form fails:
+  - tie-breaks among the Σℓ-maxima (Σℓ², leximax, leximin);
+  - Σℓ²;
+  - Σ 2^ℓ;
+  - leximax (Σ 16^ℓ).
+
+  For Σℓ² and every Σℓ tie-break, the existence form fails as well (instance G). For **Σ 2^ℓ and leximax** the existence form survives: in 15.9M profiles around their own bad maxima, every profile had a placeable maximum. This is the only surviving statement of this kind: conjecture K4.GM.POT, evidence only.
+- **Where GM₄ does hold** (§4; exhaustive, one implementation):
   - every strict profile of every k = 4 core with n ≤ 3;
   - n = 4 with one 4-good agent;
   - all-3-good cores with n = 5.
 
-  In all of these, every maximum with a nonempty pool admits the empty-bundle dump or a single dump, except 2 maxima with one 4-good agent that need a split.
+  In all of these, every maximum with a nonempty pool admits the empty-bundle dump or a single dump, except 2 maxima (one 4-good agent) that need a split.
 
 Notation as in `k4/ls4plus.md` and `k4/local_search4.md` §0:
 - Y is a junk-free partial allocation and U its pool;
@@ -36,7 +41,7 @@ All profiles are strict: all nonempty subset sums of each R_i are distinct, and 
 
 - **GM₄** (`k4/ls4plus.md` §2). For every k = 4 core and every strict profile, every junk-free EFX₀ partial allocation that maximizes Σℓ among all junk-free EFX₀ partial allocations admits a placement. Equivalent form (referee of #29): no dead end maximizes Σℓ. A *dead end* is a junk-free EFX₀ partial allocation that no complete EFX₀ allocation weakly dominates.
 - **GM₄ˢ** (the coordinator's sharpening, suggested by the data of #29). Every Σℓ-maximum with a nonempty pool admits the empty-bundle dump (a) or a single dump (b): some source s values no good of U and Y_s ∪ U is threat-free for s.
-- **GM₄∃** (new). For every k = 4 core and every strict profile, *some* Σℓ-maximum admits a placement.
+- **GM₄∃** (new). For every k = 4 core and every strict profile, *some* Σℓ-maximum admits a placement. Equivalently, the largest Σℓ of a junk-free EFX₀ partial allocation equals the largest Σℓ of the valued part of a complete EFX₀ allocation.
 
 GM₄ˢ ⇒ GM₄ ⇒ GM₄∃ ⇒ TARGET₄, the last with K4.TIE and K4.CORE, by taking a maximum; no algorithm is needed.
 
@@ -115,14 +120,43 @@ The maximum Y = {4} | {5} | {1} | {3} has pool {0, 2}. No agent can take the who
 
 In the exhaustive run over all 7,247,232 profiles with one 4-good agent, this happens at exactly 2 maxima (the same core, two profiles; `results/k4_gm4_4_n4_1.log`). So a Phase 2 limited to one dump fails at maxima too, as it does at LS4-stable states (`attempts/k4-ls-single-dump.md`).
 
+### 2.4 GM₄∃ fails: a unique maximum that is a dead end (instance G; pure n = 4, m = 7)
+
+Take instance A and change agent 2's type from (2:2, 3:7, 5:8, 6:4) to (2:3, 3:6, 5:8, 6:4). Agents:
+- 0: {0:3, 2:6, 5:2, 6:10};
+- 1: {1:1, 4:6, 5:8, 6:4};
+- 2: {2:3, 3:6, 5:8, 6:4};
+- 3: {3:6, 4:3, 5:4, 6:8}.
+
+**Proposition GM-2.**
+- (i) Y = {0, 2} | {1, 4} | {5} | {6}, with pool {3}, is the *unique* junk-free EFX₀ partial allocation with the largest level sum, Σℓ = 21.
+- (ii) It admits no placement.
+- (iii) The profile has 16 complete EFX₀ allocations. The largest level sum of their valued parts is 20.
+
+*Proof of (ii) by hand.* Good 3 is valued by agents 2 and 3.
+- At agent 0: θ_2({0, 2, 3}) ≥ v_2({2, 3}) = 9 > 8.
+- At agent 1: θ_3({1, 3, 4}) ≥ v_3({3, 4}) = 9 > 8.
+- At agent 2: θ_1({3, 5}) ≥ v_1(5) = 8 > 7.
+- At agent 3: θ_0({3, 6}) ≥ v_0(6) = 10 > 9.
+
+(i) and (iii) by computation (`k4/gm4_counterexample.py`, instance G; found by `k4/gm4_fast.c`). ∎
+
+So for this profile, no maximizer of Σℓ can be completed. Any argument that takes a Σℓ-maximum and places its pool fails here, whatever tie-break chooses among the maxima. This is the only maximum, and every LS4⁺ run that reaches a maximum stops with failure.
+
+Such profiles are not isolated. The one-agent and two-agent neighbourhoods of the seven GM₄ profiles found at n = 4 contain 148 of them (§6); by construction they lie in the same cores (m = 7). The bad maximum of G is reached from the empty allocation by 4 M1 moves (`k4/gm4_counterexample.py`).
+
 ## 3. Consequences for LS4⁺
 
 - **LS4⁺_n fails under some choices.** In each of instances A–F, the path of Proposition GM-1 (v) consists of M1 moves. M1 has priority in LS4 and LS4⁺ (`k4/local_search4.md` §2, `k4/ls4plus.md` §2), so the path is a valid run with some choices. At the bad maximum, no M1, R, X or C_n move applies: each of them raises Σℓ, and the envy graph is acyclic. Phase 2 has no placement. So LS4⁺_n stops with failure, exactly as Theorem 1⁺ allows.
-- **The default rule** (`k4/ls4alg.c -DCMOVE=8`, first agent and least valuable set) completes all six profiles A–F: it stops earlier at a placeable state. So the evidence K4.LSP.RUN for that rule stands, but its correctness cannot be proved through GM₄.
-- **"No dead end maximizes Σℓ" is false.** The level sum does not separate dead ends from completable states. A proof along the LS4⁺ route needs one of:
-  - a potential whose maxima all admit a placement;
-  - a choice rule that provably avoids bad maxima;
-  - an existence argument that picks a good maximum (GM₄∃).
+
+  In instance G every maximum is bad, so every run of LS4⁺_n that reaches a maximum fails.
+- **The default rule** (`k4/ls4alg.c -DCMOVE=8`, PR #29's program, used unchanged) completes all of these profiles. It stops early at a placeable state: at G it dumps at Σℓ = 17.
+  - `k4/gm4_ls4plus_around.py` ran it on every profile that changes the types of two agents of one of the seven GM₄ profiles found at n = 4: 2,260,332 profiles, including the 148 profiles whose maxima are all bad. It had 0 failures and never needed a coalition move (`results/k4_gm4_ls4plus_around2_4.log`).
+  - So the evidence K4.LSP.RUN for that rule stands. But if the rule is correct, the reason is where it stops, not a property of the maxima of Σℓ.
+- **"No dead end maximizes Σℓ" is false**, and the level sum does not separate dead ends from completable states even in the existence sense (instance G). A proof along the LS4⁺ route needs one of:
+  - a potential whose maxima all admit a placement (none found, §6);
+  - an existence argument with a potential for which some maximum always admits a placement (Σ 2^ℓ and leximax survive, §6);
+  - a choice rule, such as the default rule, together with a proof that it stops at a placeable state before it can reach a bad maximum.
 
 ## 4. Evidence
 
@@ -139,11 +173,11 @@ In the exhaustive run over all 7,247,232 profiles with one 4-good agent, this ha
 | n = 4, one to three 4-good agents | 39,150,000 | 50,000 random per core | 4,385,569 | 10 | 3 | `results/k4_gm4_4_mixed_sample.log` |
 | n = 4, pure | 43,800,000 | 200,000 random per core | 2,583,713 | 5 | 4 | `results/k4_gm4_4_pure_sample.log` |
 | n = 5, all agents with 3 goods | 2,270,592 | exhaustive | 430,501 | 0 | 0 | `results/k4_gm4_k3cores_5.log` |
-| n = 5, pure (4,674 cores) | PENDING | 20,000 random per core | | | | `results/k4_gm4_5_pure_sample.log` |
+| n = 5, pure (4,674 cores) | 93,480,000 | 20,000 random per core | 7,871,760 | 4 | 3 | `results/k4_gm4_5_pure_sample.log` |
 
 "No single dump" counts maxima with a nonempty pool, no empty bundle and no source admitting the single dump. "No placement" counts those among them that admit no junk placement either.
 
-GM₄∃ (*every* maximum of the profile lacks a placement): PENDING.
+*Every* maximum of the profile lacks a placement (GM₄∃ fails): never in these random runs. Each profile with a GM₄ failure also has a placeable maximum; for pure n = 5 this is checked separately (`results/k4_gm4_5_pure_check.log`). The per-profile counters `pfail`/`pallfail` in `results/k4_gm4_5_pure_sample.log` are partial, because the base binary was rebuilt with those counters while that run was in progress; its per-maximum counts are complete. GM₄∃ fails only in the targeted search of §6 (instance G, §2.4).
 
 ## 5. Structure of maxima (exploration; EVIDENCE)
 
@@ -163,32 +197,38 @@ Found with `k4/gm4_explore.c` (full enumeration) and the plain-Python `k4/gm4_an
 
   States without a single dump that admit no Pareto improvement at all are rare: 2 in 43,800 random pure n = 4 profiles (`results/k4_gm4_escape_4_pure_sample.log`, `k4/gm4_escape.c -DPSTABLE`). Each is escaped by a 2-agent re-division with one loser, which matches #29's escape study.
 
-## 6. Refined potentials (EVIDENCE; PENDING large runs)
+## 6. Other potentials (EVIDENCE)
 
-On the six GM₄ profiles A–F, among the Σℓ-maxima, the bad maximum is always the most equal one:
+On the six GM₄ profiles A–F the bad maximum is always the most *equal* one among the Σℓ-maxima:
 - its level vector is leximin-largest in A and E, and tied for leximin-largest in C and D;
 - it is never the unique largest in Σℓ² or in leximax.
 
-So `k4/gm4_fast.c` has four variants:
-- tie-breaks among the Σℓ-maxima: `-DTB=1` keeps those with the largest Σℓ², `-DTB=2` the leximax-largest (`-DTB=3`, leximin, for contrast);
-- primary potentials: `-DW=1` maximizes Σℓ², `-DW=2` Σ 2^ℓ.
+So `k4/gm4_fast.c` has variants:
+- tie-breaks among the Σℓ-maxima: `-DTB=1` keeps those with the largest Σℓ², `-DTB=2` the leximax-largest, `-DTB=3` the leximin-largest;
+- other potentials maximized instead of Σℓ: `-DW=1` Σℓ², `-DW=2` Σ 2^ℓ, `-DW=3` Σ 16^ℓ. For n < 16 the last orders level vectors exactly like leximax: sorted in decreasing order and compared lexicographically.
 
-Each variant keeps LS4⁺'s soundness and termination. Every M1, R and X move raises every level of its movers and lowers none, so it raises each of these potentials; a coalition move is then defined as raising the potential in use. What each variant needs is its own GM statement.
+Each variant keeps LS4⁺'s soundness and termination. M1, R and X moves raise some levels and lower none, so they raise every such potential, and a coalition move is defined as raising the potential in use. What each variant needs is its own GM statement: "every maximum admits a placement" (GM), or the existence form "some maximum does" (GM∃).
 
-| variant | profiles A–F | large runs |
-|---|---|---|
-| Σℓ (GM₄) | 6 bad maxima | §4 |
-| Σℓ, then Σℓ² | all kept maxima placeable | PENDING |
-| Σℓ, then leximax | all kept maxima placeable | PENDING |
-| Σℓ, then leximin | fails on A–F (A and E: the unique kept maximum is bad) | — |
-| Σℓ² | all maxima placeable | PENDING |
-| Σ 2^ℓ | all maxima placeable | PENDING |
+To search where failures are likely, `k4/gm4_run.py --around=… --vary=K` runs a variant on every profile that changes the strict types of K agents of a given profile, exhaustively over those agents' types. The seeds are the seven GM₄ profiles found in the random n = 4 runs (`results/k4_gm4_seeds_4.txt`).
+
+| potential | GM ("every maximum") | GM∃ ("some maximum") | where |
+|---|---|---|---|
+| Σℓ | false (A–F) | false (G) | around the seeds, 2 agents changed (2,260,332 profiles): 2,043 profiles with a bad maximum, 148 distinct profiles with only bad maxima (`results/k4_gm4_around2_4.log`); 1 agent changed: `results/k4_gm4_around1_4.log` |
+| Σℓ, ties broken by Σℓ², leximax or leximin | false | false (G: unique maximum) | leximin already fails on A and E |
+| Σℓ² | false | false (G: its unique Σℓ²-maximum is the same dead end) | |
+| Σ 2^ℓ | false (instance P) | **no failure** | around the seeds: 32 of 2,260,332 profiles have a bad maximum (`results/k4_gm4_w2_around2_4.log`); around those 32, 2 agents changed (15,925,248 profiles): 2,688 with a bad maximum, 0 with only bad maxima (`results/k4_gm4_w2_around2b_4.log`) |
+| leximax (Σ 16^ℓ) | false (instance P) | **no failure** | the same counts as Σ 2^ℓ (`results/k4_gm4_w3_around2_4.log`, `results/k4_gm4_w3_around2b_4.log`) |
+
+Instance P (pure n = 4, m = 7) makes the "every maximum" forms of Σ 2^ℓ and leximax fail:
+- agents 0: {0:1, 2:6, 5:8, 6:4}, 1: {1:1, 4:6, 5:4, 6:8}, 2: {2:4, 3:5, 4:2, 6:8}, 3: {3:5, 4:4, 5:8, 6:2};
+- Y = {0, 2} | {1, 4} | {6} | {5}, pool {3}, is a maximum of both and has no placement;
+- the other maximum of both, {0, 2} | {6} | {3, 4} | {5}, admits one.
+
+It is checked by `k4/gm4_counterexample.py`. Random runs of the convex potentials over whole classes: §4.
 
 ## 7. Status and open questions
 
-- GM₄ and GM₄ˢ are false: counterexamples in §2, confirmed by an independent brute force (K4.GM.CEX, K4.GM.S; EVIDENCE under the claim policy for new rows, refutations in substance).
-- LS4⁺_n with arbitrary choices is not correct (§3). Its default rule has no known failure.
-- Open:
-  - GM₄∃ (some maximum admits a placement). It implies TARGET₄. No counterexample so far (§4).
-  - Whether a refined potential (§6) has all its maxima placeable.
-  - A proof of either. At a maximum, the obstruction of §2 is a Hall-type conflict between champion sets at different sources. At k = 3 a matching resolves it (Theorem C). Here it can sit at a maximum, so any proof must pick the maximum, or the potential, with care.
+- GM₄, GM₄ˢ and GM₄∃ are false: counterexamples in §2, confirmed by an independent brute force (rows K4.GM.CEX, K4.GM.S, K4.GM.E). These are EVIDENCE under the claim policy for new rows; each is a refutation in substance.
+- LS4⁺_n with arbitrary choices is not correct (§3). Its default rule has no known failure (K4.LSP.RUN, and §3 here).
+- Every potential tried has bad maxima (§6). For Σ 2^ℓ and leximax, some maximum was always placeable in every profile searched (conjecture K4.GM.POT). This is the only statement of the GM kind left that would give TARGET₄, and only as an existence argument.
+- The obstruction, at a maximum, is a Hall-type conflict between the champion sets of different sources: two champions need the same pool good, and no one-good source can take that good alone. Theorem C resolves it at k = 3 with a matching. At k = 4 it can survive at every Σℓ-maximum of a profile (instance G). So a proof along these lines must either favor unequal level vectors (the convex potentials of §6) or stop before the conflict arises (LS4⁺'s default rule).

@@ -1,0 +1,2 @@
+# LS4+ (ls4alg.c -DCMOVE=8, default rule) on the 2-agent neighbourhoods of 7 profiles (42 tasks)
+TOTAL runs=2260332 fail=0 complete=1216872 empty=0 dump=1032848 dm=10612 exact=0 M1=34047761 R=36716 X=129516 L2=114426 L3=14960 L4=130 L5=0 maxsteps=20 maxlevels=42 big0=793946 big1=1466386 big2=0 big3+=0 C2=0 C3=0 C4=0

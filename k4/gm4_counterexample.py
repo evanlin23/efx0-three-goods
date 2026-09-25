@@ -25,6 +25,13 @@ Instances of kind GM4S (a maximum that admits a placement but no single dump) re
 Instances of kind H1 (a maximum where a source that envies someone fails the single dump; another source's works)
 replace 4-7 by: 4''. the pool is nonempty; source s envies some agent and adding the pool to Y_s is not EFX0 (or s
 values a pool good); and for some other source t, adding the pool to Y_t is EFX0 with t valuing no pool good.
+Instances of kind ALL (the existence form GM4E fails: EVERY maximum lacks a placement) replace 4-7 by:
+  4'''. every level-sum maximum has a nonempty pool and no assignment of its pool to any agents is EFX0; and
+  5'''. complete EFX0 allocations exist, and the largest level sum of one (of its valued part) is below the maximum.
+Instances of kind POT (a maximum of the convex potentials sum_i 2^(l_i) and leximax, i.e. the level vector sorted in
+decreasing order compared lexicographically, that admits no placement) replace 3-7 by:
+  3''''. Y maximizes sum_i 2^(l_i), and Y is leximax-maximal, over all junk-free EFX0 partial allocations;
+  4''''. no assignment of the pool of Y to any agents is EFX0; the other maxima of each potential are listed.
 Exit status 0 iff every claim holds for every instance.
 Usage: python3 k4/gm4_counterexample.py
 """
@@ -56,6 +63,12 @@ INSTANCES = [
     ("H: n=4, m=6, one 4-good agent (H1 fails: an envier source cannot take the pool)",
      [{0: 4, 1: 2, 4: 8, 5: 7}, {2: 4, 3: 2, 5: 3}, {2: 4, 4: 2, 5: 3}, {3: 3, 4: 4, 5: 2}],
      [{4}, {5}, {2}, {3}], 'H1'),
+    ("G: pure n=4, m=7 (GM4E fails: no maximum admits a placement; instance A with agent 2's type changed)",
+     [{0: 3, 2: 6, 5: 2, 6: 10}, {1: 1, 4: 6, 5: 8, 6: 4}, {2: 3, 3: 6, 5: 8, 6: 4}, {3: 6, 4: 3, 5: 4, 6: 8}],
+     [{0, 2}, {1, 4}, {5}, {6}], 'ALL'),
+    ("P: pure n=4, m=7 (a maximum of sum 2^l and of leximax without placement)",
+     [{0: 1, 2: 6, 5: 8, 6: 4}, {1: 1, 4: 6, 5: 4, 6: 8}, {2: 4, 3: 5, 4: 2, 6: 8}, {3: 5, 4: 4, 5: 8, 6: 2}],
+     [{0, 2}, {1, 4}, {6}, {5}], 'POT'),
 ]
 
 def v(vals, i, S):
@@ -75,6 +88,29 @@ def level(vals, i, S):
     R = sorted(vals[i])
     x = v(vals, i, S)
     return sum(1 for k in range(len(R) + 1) for T in itertools.combinations(R, k) if v(vals, i, T) < x)
+
+def m1_path(vals, Y, n, m):
+    """shortest sequence of M1 moves from the empty allocation to Y (breadth-first), or [] if none"""
+    R = [set(d) for d in vals]
+    key = lambda X: tuple(frozenset(b) for b in X)
+    start = key([set() for _ in range(n)]); prev = {start: None}; queue = [start]; target = key(Y)
+    while queue and target not in prev:
+        nxt = []
+        for S in queue:
+            X = [set(b) for b in S]; P = set(range(m)) - set().union(*X)
+            for h in range(n):
+                cand = sorted(R[h] & (X[h] | P))
+                for k in range(1, len(cand) + 1):
+                    for Z in itertools.combinations(cand, k):
+                        if v(vals, h, Z) <= v(vals, h, X[h]): continue
+                        X2 = [set(b) for b in X]; X2[h] = set(Z)
+                        if not efx0(vals, X2): continue
+                        K = key(X2)
+                        if K not in prev: prev[K] = S; nxt.append(K)
+        queue = nxt
+    path, K = [], (target if target in prev else None)
+    while K is not None: path.append(K); K = prev[K]
+    return list(reversed(path))
 
 def check(label, vals, Y, kind):
     n = len(vals); m = 1 + max(g for d in vals for g in d)
@@ -105,6 +141,27 @@ def check(label, vals, Y, kind):
     claim(all(Y[i] <= R[i] for i in range(n)) and efx0(vals, Y), "Y is junk-free and EFX0")
     U = set(range(m)) - set().union(*Y)
     ly = sum(level(vals, i, Y[i]) for i in range(n))
+    if kind == 'POT':
+        allst = []
+        for owners in itertools.product(*[[None] + [i for i in range(n) if g in R[i]] for g in range(m)]):
+            X = [set() for _ in range(n)]
+            for g, i in enumerate(owners):
+                if i is not None: X[i].add(g)
+            if efx0(vals, X): allst.append((X, [level(vals, i, X[i]) for i in range(n)]))
+        def placeable(Z):
+            P = sorted(set(range(m)) - set().union(*Z))
+            for asg in itertools.product(range(n), repeat=len(P)):
+                X = [set(b) for b in Z]
+                for u, j in zip(P, asg): X[j].add(u)
+                if efx0(vals, X): return True
+            return False
+        for name, f in (('sum 2^l', lambda l: sum(2 ** x for x in l)), ('leximax', lambda l: sorted(l, reverse=True))):
+            best = max(f(l) for X, l in allst)
+            mx = [X for X, l in allst if f(l) == best]
+            claim(Y in mx, f"Y maximizes {name} over all junk-free EFX0 partial allocations ({len(mx)} maxima)")
+            for Z in mx: print(f"    {[sorted(b) for b in Z]} pool {sorted(set(range(m)) - set().union(*Z))} placement: {placeable(Z)}")
+        claim(U and not placeable(Y), f"pool {sorted(U)} of Y is nonempty and no assignment of it to any agents is EFX0")
+        return ok
     best, maxima = -1, []
     for owners in itertools.product(*[[None] + [i for i in range(n) if g in R[i]] for g in range(m)]):
         X = [set() for _ in range(n)]
@@ -122,6 +179,20 @@ def check(label, vals, Y, kind):
             for u, j in zip(P, asg): X[j].add(u)
             if efx0(vals, X): return True
         return False
+    if kind == 'ALL':
+        claim(all(not placeable(Z) for Z in maxima), f"none of the {len(maxima)} level-sum maxima admits a placement (GM4E fails)")
+        for Z in maxima:
+            print(f"    {[sorted(b) for b in Z]} pool {sorted(set(range(m)) - set().union(*Z))} levels {[level(vals, i, Z[i]) for i in range(n)]}")
+        comp = []
+        for owners in itertools.product(range(n), repeat=m):
+            X = [set(g for g in range(m) if owners[g] == i) for i in range(n)]
+            if efx0(vals, X): comp.append(X)
+        bestc = max(sum(level(vals, i, X[i] & R[i]) for i in range(n)) for X in comp) if comp else -1
+        claim(comp and bestc < best, f"{len(comp)} complete EFX0 allocations exist; their largest level sum is {bestc} < {best}")
+        path = m1_path(vals, Y, n, m)
+        claim(path, f"Y is reached from the empty allocation by {len(path) - 1} M1 moves")
+        for K in path: print("    ", [sorted(b) for b in K])
+        return ok
     if kind == 'H1':
         sig = [v(vals, i, Y[i]) for i in range(n)]
         src = [s_ for s_ in range(n) if all(v(vals, i, Y[s_]) <= sig[i] for i in range(n) if i != s_)]

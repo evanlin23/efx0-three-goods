@@ -114,4 +114,27 @@ H: n=4, m=6, one 4-good agent (H1 fails: an envier source cannot take the pool)
   [ok] Y maximizes the level sum over all junk-free EFX0 partial allocations (12 = 12)
   [ok] pool [0, 1]; sources [1, 3]; enviers [1, 3]; single dump works at [3]: an envier source fails
   [ok] some source admits the single dump (GM4S holds here)
+G: pure n=4, m=7 (GM4E fails: no maximum admits a placement; instance A with agent 2's type changed)
+  [ok] k = 4 core (degrees 3-4, strictly balanced, strict, private-good rule, every good valued, connected)
+  [ok] Y is junk-free and EFX0
+  [ok] Y maximizes the level sum over all junk-free EFX0 partial allocations (21 = 21)
+  [ok] none of the 1 level-sum maxima admits a placement (GM4E fails)
+    [[0, 2], [1, 4], [5], [6]] pool [3] levels [6, 5, 5, 5]
+  [ok] 16 complete EFX0 allocations exist; their largest level sum is 20 < 21
+  [ok] Y is reached from the empty allocation by 4 M1 moves
+     [[], [], [], []]
+     [[], [], [5], []]
+     [[0, 2], [], [5], []]
+     [[0, 2], [], [5], [6]]
+     [[0, 2], [1, 4], [5], [6]]
+P: pure n=4, m=7 (a maximum of sum 2^l and of leximax without placement)
+  [ok] k = 4 core (degrees 3-4, strictly balanced, strict, private-good rule, every good valued, connected)
+  [ok] Y is junk-free and EFX0
+  [ok] Y maximizes sum 2^l over all junk-free EFX0 partial allocations (2 maxima)
+    [[0, 2], [6], [3, 4], [5]] pool [1] placement: True
+    [[0, 2], [1, 4], [6], [5]] pool [3] placement: False
+  [ok] Y maximizes leximax over all junk-free EFX0 partial allocations (2 maxima)
+    [[0, 2], [6], [3, 4], [5]] pool [1] placement: True
+    [[0, 2], [1, 4], [6], [5]] pool [3] placement: False
+  [ok] pool [3] of Y is nonempty and no assignment of it to any agents is EFX0
 ALL CLAIMS HOLD

@@ -6,6 +6,9 @@ Usage: gm4_run.py CERTFILE [...] [--sample=K] [--jobs=J] [--cores=A:B] [--only=I
                   [--defs='-DOUT=100'] [--prog=gm4_explore]
        gm4_run.py --gen=N:N4 [--mrange=A:B] ...   cores from genbg (k4/search4.py cores(); N4 = number of 4-good
                   agents, or 'pure', or 'any'); --every=K keeps every K-th core only
+       gm4_run.py --around=LOG[,LOG...] --vary=K ...   for every GMFAIL line of the logs (a profile with a maximum
+                  without placement), all profiles that change the types of any K agents (the others keep theirs;
+                  exhaustive over the changed agents' strict types)
 Prints the per-core RESULT lines' totals; with -DOUT the M lines too (for k4/gm4_analyze.py).
 """
 import gzip, json, os, subprocess, sys, time
@@ -18,13 +21,17 @@ def build(defs, prog):
     d = os.path.expanduser('~/.cache/gm4'); os.makedirs(d, exist_ok=True)
     exe, src = os.path.join(d, prog + defs.replace(' ', '').replace('-D', '_').replace('=', '')), os.path.join(HERE, prog + '.c')
     if not os.path.exists(exe) or os.path.getmtime(exe) < os.path.getmtime(src):
-        subprocess.run(['gcc', '-O2', '-march=native'] + defs.split() + ['-o', exe, src], check=True)
+        tmp = f"{exe}.{os.getpid()}"             # build aside and rename: a run in progress keeps its binary
+        subprocess.run(['gcc', '-O2', '-march=native'] + defs.split() + ['-o', tmp, src], check=True)
+        os.replace(tmp, exe)
     return exe
 
 CLIMB = None      # --climb=R:S for gm4_climb.c: R restarts of S steps each
 
-def task_text(n, m, sets, sample, seed):
+def task_text(n, m, sets, sample, seed, fixed=None):
     doms = core_domains(sets, m, False)
+    if fixed:                                   # fixed[i] = values of agent i (dict good -> value) or None
+        doms = [[f] if f is not None else D for f, D in zip(fixed, doms)]
     lines = [f"{n} {m}"] + [" ".join(map(str, [len(S)] + list(S))) for S in sets]
     for S, dom in zip(sets, doms):
         lines.append(str(len(dom)))
@@ -33,8 +40,9 @@ def task_text(n, m, sets, sample, seed):
     return "\n".join(lines) + "\n"
 
 def work(args):
-    exe, n, m, sets, sample, seed = args
-    out = subprocess.run([exe], input=task_text(n, m, sets, sample, seed), capture_output=True, text=True)
+    exe, n, m, sets, sample, seed = args[:6]
+    fixed = args[6] if len(args) > 6 else None
+    out = subprocess.run([exe], input=task_text(n, m, sets, sample, seed, fixed), capture_output=True, text=True)
     return sets, m, out.returncode, out.stdout
 
 def main():
@@ -59,6 +67,22 @@ def main():
                 if (k - 1) % every: continue
                 tasks.append((exe, N, m, sets, sample, k))
         print(f'# {len(tasks)} cores from genbg', flush=True)
+    if 'around' in opt:
+        import itertools
+        K, seen = int(opt.get('vary', 1)), set()
+        for logf in opt['around'].split(','):
+            for line in open(logf):
+                if not line.startswith('GMFAIL '): continue
+                body, meta = line.split(' # ')
+                vals = [list(map(int, t.split(','))) for t in body.split(' | ')[0].split()[1:]]
+                m = int(meta.split()[0][2:]); sets = json.loads(meta.split('sets=')[1])
+                key = (json.dumps(sets), json.dumps(vals))
+                if key in seen: continue
+                seen.add(key)
+                V = [dict(zip(S, v)) for S, v in zip(sets, vals)]
+                for A in itertools.combinations(range(len(sets)), K):
+                    tasks.append((exe, len(sets), m, sets, 0, len(tasks) + 1, [None if i in A else V[i] for i in range(len(sets))]))
+        print(f'# {len(tasks)} neighbourhood tasks around {len(seen)} profiles', flush=True)
     for f in files:
         data = json.load(gzip.open(f, 'rt'))
         recs = data['cores']

@@ -9,7 +9,11 @@
  * lines (no placement at all: a counterexample to GM4).  Exit status 1 if a GMFAIL occurs.
  * Per profile: pfail = some maximum admits no placement (GM4 fails); pallfail = no maximum admits a placement (the
  * existence form GM4E fails: then every maximum has a nonempty pool); GMALL lines print such profiles.
- * -DOUT=k prints up to k maxima with a nonempty pool per task as M lines (gm4_analyze.py format). */
+ * -DOUT=k prints up to k maxima with a nonempty pool per task as M lines (gm4_analyze.py format).
+ * Variants of the potential (k4/gm4.md §6): -DW=1 maximizes sum_i l_i^2, -DW=2 sum_i 2^(l_i), -DW=3 sum_i 16^(l_i)
+ *   (the leximax order of the level vector for n < 16; no overflow for n <= 7) instead of sum_i l_i;
+ * -DTB=1 keeps, among the maxima, only those with the largest sum_i l_i^2 (tie-break), -DTB=2 only the leximax-largest
+ * (level vector sorted in decreasing order, compared lexicographically), -DTB=3 only the leximin-largest. */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -42,11 +46,15 @@ static int efx0(const mask *X) {
     return 1;
 }
 /* per-agent local subsets */
-static mask lm[MAXN][16]; static long lval[MAXN][16]; static int llev[MAXN][16];
+#ifndef W
+#define W 0
+#endif
+static mask lm[MAXN][16]; static long lval[MAXN][16]; static int llev[MAXN][16]; static long lw[MAXN][16];
+static long wfun(int l) { return W == 0 ? l : W == 1 ? (long)l * l : W == 2 ? 1L << l : 1L << (4 * l); }   /* W=3: 16^l */
 static long tP[MAXN][MAXN][16];   /* tP[i][j][k] = theta_i(lm[j][k]) */
-static int ch[MAXN], best, nl; static mask lst[MAXL][MAXN]; static long overflow;
-static int ubound(int k, mask used) { int b = 0; for (int i = k; i < n; i++) { mask a = R[i] & ~used; for (int c = 0; c < (1 << d[i]); c++) if (lm[i][c] == a) { b += llev[i][c]; break; } } return b; }
-static void dfs(int k, mask used, int ps) {
+static int ch[MAXN], nl; static long best; static mask lst[MAXL][MAXN]; static long overflow;
+static long ubound(int k, mask used) { long b = 0; for (int i = k; i < n; i++) { mask a = R[i] & ~used; for (int c = 0; c < (1 << d[i]); c++) if (lm[i][c] == a) { b += lw[i][c]; break; } } return b; }
+static void dfs(int k, mask used, long ps) {
     if (k == n) {
         if (ps > best) { best = ps; nl = 0; }
         if (ps == best) { if (nl < MAXL) { for (int i = 0; i < n; i++) lst[nl][i] = lm[i][ch[i]]; nl++; } else overflow++; }
@@ -61,7 +69,7 @@ static void dfs(int k, mask used, int ps) {
             if (c && tP[j][k][c] > lval[j][ch[j]]) ok = 0;
         }
         if (!ok) continue;
-        ch[k] = c; dfs(k + 1, used | lm[k][c], ps + llev[k][c]);
+        ch[k] = c; dfs(k + 1, used | lm[k][c], ps + lw[k][c]);
     }
 }
 static int place_rec(mask *X, mask U) {
@@ -92,9 +100,29 @@ int main(void) {
         for (;;) {
             if (mode == 1) { if (runs >= K) break; for (int i = 0; i < n; i++) cur[i] = rnd() % T[i]; }
             for (int i = 0; i < n; i++) { memset(v[i], 0, sizeof v[i]); for (int t = 0; t < d[i]; t++) v[i][rg[i][t]] = rep[i][cur[i]][t]; }
-            for (int i = 0; i < n; i++) for (int c = 0; c < (1 << d[i]); c++) { lval[i][c] = val(i, lm[i][c]); llev[i][c] = lev(i, lm[i][c]); }
+            for (int i = 0; i < n; i++) for (int c = 0; c < (1 << d[i]); c++) { lval[i][c] = val(i, lm[i][c]); llev[i][c] = lev(i, lm[i][c]); lw[i][c] = wfun(llev[i][c]); }
             for (int i = 0; i < n; i++) for (int j = 0; j < n; j++) for (int c = 0; c < (1 << d[j]); c++) tP[i][j][c] = c ? thr(i, lm[j][c]) : 0;
             best = -1; nl = 0; dfs(0, 0, 0);
+#if defined(TB) && TB > 0
+            {   /* keep only the maxima that are best under the tie-break */
+                long key[MAXL][MAXN + 1]; int kl = n;
+                for (int q = 0; q < nl; q++) { int l[MAXN];
+                    for (int i = 0; i < n; i++) l[i] = lev(i, lst[q][i]);
+#if TB == 1
+                    key[q][0] = 0; for (int i = 0; i < n; i++) key[q][0] += l[i] * l[i]; kl = 1;
+#else
+                    for (int a = 0; a < n; a++) for (int b = a + 1; b < n; b++) if (TB == 2 ? l[b] > l[a] : l[b] < l[a]) { int t = l[a]; l[a] = l[b]; l[b] = t; }
+                    for (int i = 0; i < n; i++) key[q][i] = l[i];
+#endif
+                }
+                int bq = 0;
+                for (int q = 1; q < nl; q++) for (int i = 0; i < kl; i++) { if (key[q][i] != key[bq][i]) { if (key[q][i] > key[bq][i]) bq = q; break; } }
+                int nn = 0;
+                for (int q = 0; q < nl; q++) { int eq = 1; for (int i = 0; i < kl; i++) if (key[q][i] != key[bq][i]) eq = 0;
+                    if (eq) { memmove(lst[nn], lst[q], sizeof lst[q]); nn++; } }
+                nl = nn;
+            }
+#endif
             int nbadq = 0;
             for (int q = 0; q < nl; q++) {
                 mask *Y = lst[q], a = 0; for (int i = 0; i < n; i++) a |= Y[i];
