@@ -88,10 +88,12 @@ strict balanced types of `k4/check4.py`, 288 per 4-good agent, 144 with two priv
 | n = 4, pure (four 4-good agents) | 219 | 1,022,496,473,088 | 0 | ≈ 22 min | `results/k4_c4min_hunt_n4_pure.log` |
 | n = 5, one 4-good agent | 1,735 | 574,615,296 | 0 | < 1 min | `results/k4_c4min_hunt_n5_12.log` |
 | n = 5, two 4-good agents | 5,468 | 80,025,864,192 | 0 | ≈ 2 min | the same |
+| n = 5, three 4-good agents | 9,861 | 6,423,281,565,696 | 0 | 2 h 17 min (3 jobs) | `results/k4_c4min_hunt_n5_3.log` |
 
 With PR #36's exhaustive runs (n ≤ 3; n = 4 with one or two 4-good agents; `k4/c4x.c`), which this tool reproduces
-(§1.1), **C₄ᵐⁱⁿ holds on every strict profile of every k = 4 core with n ≤ 4, and with n = 5 and at most two 4-good
-agents.** A counterexample, if any, has n ≥ 5, and at n = 5 at least three 4-good agents. Each row is one
+(§1.1), **C₄ᵐⁱⁿ holds on every strict profile of every k = 4 core with n ≤ 4, and with n = 5 and at most three 4-good
+agents** (about 6.5·10¹² profiles in all). A counterexample, if any, has n ≥ 5, and at n = 5 four or five 4-good
+agents (the classes of §3's climbing and of §2.1's restricted runs). Each row is one
 implementation (`k4/c4min_hunt.c`), so the status is EVIDENCE; the certificates (templates) are not stored.
 
 ## 3. Adversarial search
@@ -120,7 +122,25 @@ So on 1,860 cores the climber reaches profiles where an owner is needed and the 
 `results/k4_c4min_hunt_seeds_gm4.json`): C₄ᵐⁱⁿ holds on all 19 (d* between −2 and 0), and the brute force agrees on
 every n ≤ 4 one. (The n ≤ 4 ones are inside §2's exhaustive runs anyway.)
 
-(more to be filled: other objective orders, random cores n = 6–8, glued cores)
+**Random connected cores, n = 6–8** (`results/k4_c4min_hunt_climb_rand.log`; `k4/c4min_families.random_core`, uniform
+random good sets accepted by `k4/check4.py`'s `is_core`): 60 cores for each of (n, m, number of 4-good agents) =
+(6, 9, 3), (6, 12, 4), (6, 14, 6), (6, 16, 6), (7, 12, 4), (7, 15, 7), (7, 18, 7), (8, 14, 5), (8, 17, 8), (8, 20, 8),
+two restarts each: no profile with d* > 0; an owner is needed at the best profile of 570 of the 600 cores, and 117 of
+them reach d* = 0. (Second pass, other objective order with annealing: below.)
+
+**Glued cores** (`results/k4_c4min_hunt_climb_glue.log`): 40 random pairs for each of (n = 3 core, n = 3 core),
+(n = 3, pure n = 4), (pure n = 4, pure n = 4), (n = 3, n = 4 with three 4-good agents), each joined in three ways (a
+good of one identified with a good of the other; a 4-good connector agent {a, b, p, q} with two private goods; a
+3-good connector {a, b, p}), n = 6–9, climbed with two restarts: no profile with d* > 0 (best d* = 0 on a few).
+
+**Owner-rigid gadgets glued in pairs** (`k4/c4min_rigid.py`, `results/k4_c4min_hunt_rigid.log`). A profile is
+owner-rigid if an owner is needed and exactly one agent can be it (`c4min_hunt.c -1o`: the least deficit over the
+min-frozen P when only o may own). With one owner for the whole instance, a gadget whose excess junk only its own
+owner can absorb must be protected through slots instead; two such gadgets with different owners are the natural
+candidate for a failure that no small core shows. 83 owner-rigid profiles among 20,400 random profiles of the 51 n = 3
+cores, 4 among 33,480 of the n = 4 cores with three or four 4-good agents. 230 random pairs, glued in every way: every
+pair of goods identified (12,230 profiles), or a connector agent on every pair of goods with every one of its types
+(1,761,120 profiles, exhaustive over the connector's type with `-E`): **0 failures**.
 
 ## 4. Structured families
 
