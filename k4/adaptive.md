@@ -92,7 +92,7 @@ Adversarial and structured sets:
   agent's type, undo a change that makes the profile easier, restart every 500 steps) on #32's core lists
   (`results/k4_lb4r_cores_*.json.gz`): the two cores where need-shrinking needs three rotations, the 276 and 396 cores
   where weaker variants fail (n ≤ 5), 5,000 cores grown from them (n = 4 to 7), and 5,700 random cores with n = 6, 7, 8:
-  HILL_TOTAL profiles, none needing two rotations (`results/k4_adaptive_hill.log`).
+  24,022,000 profiles, none needing two rotations (`results/k4_adaptive_hill.log`).
 - *Hill-climbing on pure n = 4* (the 219 certified cores, 5,000 steps each, 1,095,000 profiles): none needing two
   rotations (`results/k4_adaptive_A16_pure4.log`).
 - *#30's GM₄ profiles* (the 148 profiles whose level-sum maxima are all dead ends, the GM₄ seeds and failing maxima,
