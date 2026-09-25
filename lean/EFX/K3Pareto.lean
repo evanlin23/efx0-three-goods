@@ -1,7 +1,7 @@
 import EFX.C4min
 
 /-!
-# Theorem K3: the extremal principle at k = 3 (`k4/c4x.md` §3; ledger K4.C4MIN.K3)
+# Theorem K3: the extremal principle at k = 3 (`k4/c4x.md` §3; ledger K4.C4X.K3.LEAN)
 
 The building blocks of Theorem K3 of `k4/c4x.md` (PR #36, branch `proof/k4-c4x`, read at commit efef349) over the space 𝒫 of
 `EFX/C4min.lean`: Pareto-maximality, Lemmas U, C, R and E, the moves they use (validity and strict Pareto

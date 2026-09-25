@@ -2,7 +2,7 @@ import EFX.K3Pareto
 import EFX.Target
 
 /-!
-# Theorem K3 (`k4/c4x.md` §3; ledger K4.C4MIN.K3)
+# Theorem K3 (`k4/c4x.md` §3; ledger K4.C4X.K3.LEAN)
 
 **Theorem K3** (`k4/c4x.md` §3, PR #36, read at commit efef349). At k = 3, every Pareto-maximal pre-allocation of 𝒫
 of a core is completable: without owner if `ω ≤ 0`, and otherwise removal-only with a terminal as owner
