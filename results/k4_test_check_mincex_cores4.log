@@ -1,0 +1,8 @@
+$ cd k4 && python3 test_check_mincex_cores4.py
+unmodified inputs: exit 0
+an allocation deleted                                          exit 1 (rejected)
+a core deleted                                                 exit 1 (rejected)
+a non-D2 allocation added                                      exit 1 (rejected)
+uncovered file truncated                                       exit 1 (rejected)
+a non-graphical core without allocations, --allow-graphical    exit 1 (rejected)
+RESULT: OK

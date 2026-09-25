@@ -5,7 +5,8 @@ Each finished core is appended to a checkpoint (out + '.ckpt.jsonl'), and a reru
 core that takes longer than S seconds is recorded as 'timeout' (rerun with a larger limit, or --only-timeouts).
 --scanner=frontier:DIR uses compute/k4-frontier's proposal step (DIR/search.py with scan2.c, draft PR #26) in place
 of search4.py's; the certificate does not depend on it (the checkers re-check coverage).
-Usage: mincex_cert.py shapes.json.gz out.json.gz [--jobs=J] [--timeout=S] [--only-timeouts] [--scanner=frontier:DIR]"""
+Usage: mincex_cert.py shapes.json.gz out.json.gz [--jobs=J] [--timeout=S] [--only-timeouts] [--scanner=frontier:DIR]
+       [--max-profiles=X] (skip cores with more profiles)"""
 import sys, os, json, gzip, time, signal
 from multiprocessing import Pool
 import search4 as S4
@@ -65,6 +66,7 @@ def main():
         for line in open(ck):
             r = json.loads(line); done[key(r)] = r
     todo = [r for r in recs if key(r) not in done or ('--only-timeouts' in sys.argv and 'timeout' in done[key(r)])]
+    if 'max-profiles' in opts: todo = [r for r in todo if r['profiles'] <= float(opts['max-profiles'])]
     print('%d cores, %d in the checkpoint, %d to run' % (len(recs), len(done), len(todo)), flush=True)
     fdir = opts['scanner'].split(':', 1)[1] if opts.get('scanner', '').startswith('frontier:') else None
     with Pool(int(opts.get('jobs', 4)), initializer=_init, initargs=(timeout, fdir)) as pool, open(ck, 'a') as f:

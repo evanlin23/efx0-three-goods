@@ -6,7 +6,8 @@ Written separately from mincex_shapes.py / mincex_cert.py:
   1. G' (the incidence graph without private goods: n agents of degree 2-4, shared goods of degree >= 2, cyclomatic
      number beta) is listed with nauty's genbg for 5 <= n <= 3(beta - 1) (K4.MC4), and the list is complete by orbit
      counting (gamma_orbits.py: sum n! m'! / |Aut| = the labeled count, from check4.py's column-filling DP);
-  2. every G' is expanded: an agent of degree 2 gets one private good (P3), one of degree 4 none (Q4), and one of
+  2. G' in which a good of degree 2 joins two agents of degree 2 (both P3) are dropped (K4.MC3); every other G' is
+     expanded: an agent of degree 2 gets one private good (P3), one of degree 4 none (Q4), and one of
      degree 3 none (Q3) or one (P4), every combination (K4.MC2: no agent has two private goods);
   3. filters: at least one 4-good agent, at least three when n = 5 (K4.MC0(d)), no good of degree 2 valued by two P3
      agents (K4.MC3);
@@ -17,7 +18,10 @@ Written separately from mincex_shapes.py / mincex_cert.py:
      checked with check4.py's C routine (pruned depth-first search), from safety masks computed here with the raw
      definition (vectorized: v(own) >= v(B ∩ R) - [B ⊆ R] min_B v); every certified allocation must be D2.
 Any failure makes the exit status nonzero.
-Usage: check_mincex_cores4.py BETA certificate.json.gz px_uncovered.json [--reductions-log=PATH] [--jobs=J]"""
+With --allow-graphical, a core without allocations is accepted if every good of it is valued by at most two agents
+(verified here); such cores are listed as left to the multigraph theorem (Afshinmehr et al., arXiv 2606.18665).
+Usage: check_mincex_cores4.py BETA certificate.json.gz px_uncovered.json [--reductions-log=PATH] [--jobs=J]
+       [--allow-graphical]"""
 import sys, os, re, json, gzip, hashlib, itertools, collections, ctypes
 import numpy as np
 import networkx as nx
@@ -30,35 +34,50 @@ import check4
 HERE = os.path.dirname(os.path.abspath(__file__))
 
 
-def expand(beta):
-    """(n, m, sets) for every G' and every choice of Q3/P4 at its degree-3 agents (private goods appended)."""
-    orbit_ok = True
-    for n in range(5, 3 * (beta - 1) + 1):
-        for mp in range(1, n + beta):
-            E = n + mp + beta - 1
-            gs = GO.genbg_list(n, mp, E)
-            lab = GO.labeled_conn(n, mp, E)
-            s = GO.orbit_sum(n, mp, gs) if gs else 0
-            if lab or gs:
-                print("  orbit count n = %d, m' = %d: %d graphs G', sum n! m'! / |Aut| = %d, labeled %d %s" % (
-                    n, mp, len(gs), s, lab, 'ok' if s == lab else 'MISMATCH'), flush=True)
-            orbit_ok &= s == lab
-            for g6 in gs:
-                G = nx.from_graph6_bytes(g6.encode())
-                nb = [sorted(x - n for x in G[a]) for a in range(n)]
-                three = [a for a in range(n) if len(nb[a]) == 3]
-                for bits in itertools.product((0, 1), repeat=len(three)):
-                    p4 = {a for a, b in zip(three, bits) if b}
-                    sets, m = [], mp
-                    for a in range(n):
-                        S = list(nb[a])
-                        if len(S) == 2 or a in p4: S.append(m); m += 1
-                        sets.append(S)
-                    yield n, m, sets
-    yield None, orbit_ok, None
+def expand_chunk(args):
+    """Expand a chunk of G' (graph6) of one (n, m'): every choice of Q3/P4 at the degree-3 agents; keep the cores that
+    pass the filters and whose cut domains are nonempty. Returns [(n, m, sets, dom, kinds)] and counts."""
+    n, mp, g6s = args
+    out, cnt = [], collections.Counter()
+    for g6 in g6s:
+        G = nx.from_graph6_bytes(g6.encode())
+        nb = [sorted(x - n for x in G[a]) for a in range(n)]
+        dg = collections.Counter(g for N in nb for g in N)
+        if any(dg[g] == 2 and all(len(N) == 2 for N in nb if g in N) for g in dg): continue       # K4.MC3
+        three = [a for a in range(n) if len(nb[a]) == 3]
+        for bits in itertools.product((0, 1), repeat=len(three)):
+            p4 = {a for a, b in zip(three, bits) if b}
+            sets, m = [], mp
+            for a in range(n):
+                S = list(nb[a])
+                if len(S) == 2 or a in p4: S.append(m); m += 1
+                sets.append(S)
+            cnt['expanded'] += 1
+            n4 = sum(len(S) == 4 for S in sets)
+            if n4 == 0 or (n == 5 and n4 < 3): continue
+            cnt['after filters'] += 1
+            kinds, deg, dom = domains(sets, PX_G)
+            if any(not d for d in dom): continue
+            out.append((n, m, sets, dom, kinds))
+    return out, cnt
+
+
+PX_G = None
+
+
+def _init_px(px):
+    global PX_G
+    PX_G = px
 
 
 _CUT = {}
+_SIG = {}
+
+
+def vsig(v):
+    """signature() of a value vector indexed by position, cached."""
+    if v not in _SIG: _SIG[v] = signature(list(range(len(v))), dict(enumerate(v)))
+    return _SIG[v]
 
 
 def allowed(PX, name, pos_e, pos_f, Se_len, Sf_len):
@@ -100,8 +119,8 @@ def domains(sets, PX):
                           for perm in itertools.permutations(sym))
             pos_f = tuple(sets[f].index(x) for x in (g, y, pf))
             okE, okF = allowed(PX, name, pos_e, pos_f, len(sets[e]), len(sets[f]))
-            dom[e] = [v for v in dom[e] if signature(list(range(len(v))), dict(enumerate(v))) in okE]
-            dom[f] = [v for v in dom[f] if signature(list(range(len(v))), dict(enumerate(v))) in okF]
+            dom[e] = [v for v in dom[e] if vsig(v) in okE]
+            dom[f] = [v for v in dom[f] if vsig(v) in okF]
     return kinds, deg, dom
 
 
@@ -142,10 +161,24 @@ def safe_masks(sets, m, dom, allocs):
 LIB = None
 
 
+def minimal_rows(M):
+    """The distinct rows of M (types x allocations) that contain no other row. A profile whose type t has a row that
+    contains the row of type t' is covered whenever the profile with t' in its place is, so the product of all types is
+    covered iff the product of these rows is."""
+    R = np.unique(M, axis=0)
+    R = R[np.argsort(R.sum(1), kind='stable')]
+    keep = []
+    for r in R:
+        if not any((k & ~r).sum() == 0 for k in keep): keep.append(r)
+    return np.array(keep, dtype=bool) if keep else np.zeros((0, M.shape[1]), dtype=bool)
+
+
 def covered(masks):
-    """check4.py's C routine: every profile of the product of domains has a common allocation."""
+    """check4.py's C routine (every profile of the product has a common allocation), on each agent's minimal rows."""
     global LIB
     if LIB is None: LIB = check4.load_c()
+    masks = [minimal_rows(Mi) for Mi in masks]
+    if any(Mi.shape[0] == 0 for Mi in masks): return False
     n = len(masks)
     K = masks[0].shape[1]
     W = max(1, (K + 63) // 64)
@@ -168,6 +201,12 @@ def covered(masks):
 
 
 CERT = None
+GRAPHICAL = False
+
+
+def _init(c, g):
+    global CERT, GRAPHICAL
+    CERT, GRAPHICAL = c, g
 
 
 def check_one(item):
@@ -178,7 +217,11 @@ def check_one(item):
         gm = nx.algorithms.isomorphism.GraphMatcher(G, graph(r['sets'], r['m']), node_match=lambda a, b: a['c'] == b['c'])
         if not gm.is_isomorphic(): continue
         mp = gm.mapping
-        if 'allocs' not in r: return sets, kinds, None, 'not certified (%s)' % ('timeout' if 'timeout' in r else 'no allocations')
+        if 'allocs' not in r:
+            deg = collections.Counter(g for S in sets for g in S)
+            if GRAPHICAL and max(deg.values()) <= 2:
+                return sets, kinds, None, 'graphical, not certified (left to the multigraph theorem)'
+            return sets, kinds, None, 'not certified (%s)' % ('timeout' if 'timeout' in r else 'no allocations')
         gmap = {g: mp[('g', g)][1] for g in range(m)}
         inv = {mp[('a', a)][1]: a for a in range(n)}
         allocs = [[inv[A[gmap[g]]] for g in range(m)] for A in r['allocs']]
@@ -188,11 +231,6 @@ def check_one(item):
         prof = int(np.prod([len(d) for d in dom], dtype=object))
         return sets, kinds, (ok, d2, prof, len(allocs)), None
     return sets, kinds, None, 'no isomorphic core in the certificate'
-
-
-def _init(c):
-    global CERT
-    CERT = c
 
 
 def main():
@@ -210,23 +248,29 @@ def main():
     PX = {k: v for k, v in json.loads(raw).items() if k.startswith('px-')}
     stat = collections.Counter()
     left, buckets = [], collections.defaultdict(list)
-    orbit_ok = False
-    for n, m, sets in expand(beta):
-        if n is None: orbit_ok = m; continue
-        stat['expanded'] += 1
-        n4 = sum(len(S) == 4 for S in sets)
-        if n4 == 0 or (n == 5 and n4 < 3): continue
-        deg = collections.Counter(g for S in sets for g in S)
-        p3 = [len(S) == 3 and any(deg[g] == 1 for g in S) for S in sets]
-        if any(deg[g] == 2 and all(p3[a] for a in range(n) if g in sets[a]) for g in deg): continue
-        stat['after filters'] += 1
-        kinds, deg, dom = domains(sets, PX)
-        if any(not d for d in dom): continue
-        G = graph(sets, m)
-        h = (n, m, nx.weisfeiler_lehman_graph_hash(G, node_attr='c'))
-        if any(nx.is_isomorphic(G, G2, node_match=lambda a, b: a['c'] == b['c']) for G2 in buckets[h]): continue
-        buckets[h].append(G)
-        left.append((n, m, sets, dom, kinds))
+    orbit_ok = True
+    jobs = int(opts.get('jobs', 4))
+    with Pool(jobs, initializer=_init_px, initargs=(PX,)) as pool:
+        for n in range(5, 3 * (beta - 1) + 1):
+            for mp in range(1, n + beta):
+                E = n + mp + beta - 1
+                gs = GO.genbg_list(n, mp, E)
+                lab = GO.labeled_conn(n, mp, E)
+                sm = GO.orbit_sum(n, mp, gs) if gs else 0
+                if lab or gs:
+                    print("  orbit count n = %d, m' = %d: %d graphs G', sum n! m'! / |Aut| = %d, labeled %d %s" % (
+                        n, mp, len(gs), sm, lab, 'ok' if sm == lab else 'MISMATCH'), flush=True)
+                orbit_ok &= sm == lab
+                chunks = [(n, mp, gs[i:i + 200]) for i in range(0, len(gs), 200)]
+                for surv, cnt in pool.imap_unordered(expand_chunk, chunks):
+                    stat.update(cnt)
+                    for n_, m, sets, dom, kinds in surv:
+                        G = graph(sets, m)
+                        h = (n_, m, nx.weisfeiler_lehman_graph_hash(G, node_attr='c'))
+                        if any(nx.is_isomorphic(G, G2, node_match=lambda a, b: a['c'] == b['c']) for G2 in buckets[h]):
+                            continue
+                        buckets[h].append(G)
+                        left.append((n_, m, sets, dom, kinds))
     print('beta = %d: %d cores expanded from G\' (5 <= n <= %d), %d pass the filters, %d left after K4.MC5 up to '
           'isomorphism; orbit counting %s' % (beta, stat['expanded'], 3 * (beta - 1), stat['after filters'], len(left),
                                               'OK' if orbit_ok else 'FAILED'), flush=True)
@@ -234,9 +278,12 @@ def main():
     for r in cert:
         cb[(r['n'], r['m'], nx.weisfeiler_lehman_graph_hash(graph(r['sets'], r['m']), node_attr='c'))].append(r)
     ok, d2all, nprof, bad = True, True, 0, collections.Counter()
-    with Pool(int(opts.get('jobs', 4)), initializer=_init, initargs=(cb,)) as pool:
+    graphical = '--allow-graphical' in sys.argv
+    with Pool(int(opts.get('jobs', 4)), initializer=_init, initargs=(cb, graphical)) as pool:
         for sets, kinds, res, err in pool.imap_unordered(check_one, left, chunksize=4):
             if err:
+                if err.startswith('graphical'):
+                    bad['graphical'] += 1; print('  %s: %s %s' % (err, ''.join(kinds), sets)); continue
                 ok = False; bad[err.split(' (')[0]] += 1
                 if bad[err.split(' (')[0]] <= 20: print('  %s: %s %s' % (err, ''.join(kinds), sets))
                 continue

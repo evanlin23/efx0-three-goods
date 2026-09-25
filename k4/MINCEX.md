@@ -291,17 +291,69 @@ Trust points:
 
 ## 7. What remains
 
-- **β = 4.** K4.MC4 gives n ≤ 9. Listing Γ′ for β = 4, n ≤ 9 with the same filters leaves 5,558 cores up to
-  isomorphism (346, 2,183, 2,110, 835 and 84 for n = 5, …, 9), with restricted profile spaces of up to 5.7·10¹⁴
-  (`results/k4_min_cex_shapes_4.log`, `results/k4_min_cex_shapes_4.json.gz`; generated, not certified). The n = 5 part
-  (346 cores) overlaps compute/k4-frontier's targets (n = 5 with three or four 4-good agents). The
-  largest spaces come from Q4 agents and 4-good E3 agents, whose K4.MC5 restrictions are weak or absent. Needed:
-  reductions at Q4 agents (px-Q4 open reduces only 648 of 1,728; a one-agent gadget has no room for a gadget good there),
-  reductions at goods of degree ≥ 3, and a two-agent gadget search (two agents on ∂ with fewer goods).
+- **β = 4**: see §8 (round 2).
 - **General β.** n ≤ 3(β − 1) holds for every β, so for each β only finitely many cores remain. Unavoidability (every
   core contains a reducible configuration) is open.
 - The joint (e, f) restrictions of K4.MC5 are used only through per-agent projections. Using them jointly would shrink the
   profile spaces further, as would a CEGAR that accepts joint constraints.
+
+## 8. β = 4 (round 2)
+
+**Theorem K4.MC7.** Every instance with |R_i| ≤ 4 in 𝒞₄ has an EFX₀ allocation, provided the 6 cores listed below have
+one. Those 6 are graphical (every good valued by at most two agents), so the multigraph theorem of Afshinmehr et al.
+(arXiv 2606.18665, read in full, `proofs/citations.md` item 4, as used by T3) covers them. So TARGET₄ holds for every
+instance whose k = 4 core components have β ≤ 4, using that published theorem for 6 cores and nothing else external.
+
+*Proof.* Let H be a minimal counterexample within 𝒞₄. By K4.MC6 (β ≤ 3 is closed within 𝒞₃ ⊆ 𝒞₄, and a minimal
+counterexample within 𝒞₄ with β ≤ 3 would lie in 𝒞₃) we may take β = 4, and by K4.MC4 5 ≤ n ≤ 9. As in K4.MC6, H's Γ′
+is one of the graphs listed by genbg (bipartite, connected, agents of degree 2–4, shared goods of degree ≥ 2,
+cyclomatic number 4), its degree-3 agents are Q3 or P4 (K4.MC2), K4.MC3 holds, at least one agent has 4 goods (three
+if n = 5), and its profile avoids every covered px profile (K4.MC5). These cores, with the cut domains, are 5,558 up to
+isomorphism. Each has an EFX₀ allocation for every profile of its domains: 5,552 by the certificate below, and the 6
+graphical ones by the multigraph theorem. By K4.MC0(c) only H's types matter, a contradiction. ∎
+
+*The 5,558 cores* (`results/k4_min_cex_shapes_4.log`): 346, 2,183, 2,110, 835 and 84 for n = 5, …, 9, with restricted
+profile spaces of up to 5.7·10¹⁴ (the 6 graphical all-P4 cores with n = 6, m = 15). The Γ′ lists are complete by
+orbit counting (`k4/gamma_orbits.py`, `results/k4_gamma_orbits_4.log`: 111,078 graphs for 5 ≤ n ≤ 9, every (n, m′)
+equal to the labeled count from check4.py's column-filling DP).
+
+*Certification* (`k4/mincex_cert.py`, certificate `results/k4_min_cex_cores_4.json.gz`, logs
+`results/k4_min_cex_cores_4.log`). search4.py's CEGAR on the restricted domains, model D2, in three passes: a 30 s
+limit per core (search4's scanner), then 120 s and 3,600 s with compute/k4-frontier's subsumption scanner
+(`k4/frontier/search.py` and `scan2.c` of draft PR #26, commit 152afae, used unmodified from a scratch copy; the
+certificate does not depend on the scanner, since the checkers re-check coverage). Result: 5,552 cores certified, every
+one in the D2 shape; no profile without an EFX₀ allocation was found. The hardest certified ones took 5–22 min
+(n = 6, m = 14, five P4 agents and a Q3, 1.2·10¹³ profiles, about 650 allocations each). Not certified: the 6 all-P4 cores
+(n = 6, m = 15; 288⁶ ≈ 5.7·10¹⁴ profiles each; one ran for an hour without finishing).
+
+*Independent check* (`k4/check_mincex_cores4.py`, log `results/k4_check_min_cex_cores_4.log`): written separately
+from the generator. It lists Γ′ with genbg and checks completeness by orbit counting (every (n, m′), 5 ≤ n ≤ 9). It
+re-implements the expansion (degree-2 agents P3, degree-4 Q4, degree-3 Q3 or P4), the filters (K4.MC3 on Γ′,
+4-good agents, n = 5), and the domain cuts from the uncovered px profiles (SHA-256 verified against
+`results/k4_check_min_cex_reductions.log`), with its own type representatives. It merges isomorphic cores and matches
+every survivor to a certified core up to isomorphism. It checks coverage of the full product of the survivor's domains
+with check4.py's pruned C search on each agent's inclusion-minimal safety rows (raw definition, vectorized), and D2.
+On the β = 3 certificate it reproduces §6 (9 cores, 21,739,192 profiles). A deleted allocation is caught there too.
+
+*Reductions tried at β = 4* (not needed for the result; `attempts/k4-mincex-xy-pairs.md`):
+- two 4-good agents sharing a good of degree 2 (configuration xy): P4–P4 open reduces only 12% (DEL), since
+  one-agent gadgets have no room for a gadget good; closed 89%;
+- two P3 agents valuing the same two shared goods ("twins"): 26 of 36 profiles.
+
+**The general-β picture.**
+- *Bound.* n ≤ 3(β − 1) for every β (K4.MC4). The candidate lists grow quickly: 0 cores at β = 2, 9 at β = 3, 5,558
+  at β = 4. Direct certification of β = 4 took about 10 CPU-hours, timeouts included.
+- *What persists.* Configurations the reductions never touch:
+  - agents with a spare incidence (Q3, P4, Q4) adjacent to one another;
+  - P3 agents between goods of degree ≥ 3;
+  - P3 agents next to a single E3 agent in the one forced profile (f ranks g last, e ranks g first);
+  - Q4 agents, whose px restriction is weak.
+- *Hard cores.* The hardest cores are graphical: all agents of excess 1 and every good of degree 2 (t = 0). There the
+  multigraph theorem applies, and no one-agent gadget can help, because every boundary has 4 goods.
+- *What could extend.* (i) Two-agent gadgets. Their state spaces (~3·10⁵ local states) need a C reducer. (ii) A k = 4
+  proof of the multigraph theorem for cores (as `proofs/multigraph_extension.md` did for k = 3, ledger T5), which
+  would remove the literature dependency at every β. (iii) A counting argument that bounds the number of 4-good agents,
+  which dominate the profile spaces.
 
 ## Reproduce
 
@@ -317,4 +369,13 @@ python3 k4/check_reductions4.py results/k4_min_cex_reductions.json.gz --selftest
 (cd k4 && python3 test_check_mincex_cores.py)                                    # ~6 min
 (cd k4 && python3 mincex_shapes.py 4 --nmax=9 --write=../results/k4_min_cex_shapes_4.json.gz)  # beta = 4 list, ~45 s
 (cd k4 && python3 mincex_attempts.py drop-private; python3 mincex_attempts.py px-open)         # failed reductions
+# beta = 4 (section 8)
+(cd k4 && python3 gamma_orbits.py 4 5 9)                                         # G' completeness, ~2 min
+(cd k4 && python3 mincex_cert.py ../results/k4_min_cex_shapes_4.json.gz OUT.json.gz --jobs=4 --timeout=3600 \
+    --scanner=frontier:DIR)   # DIR = compute/k4-frontier's k4/frontier (scan2.c, search.py); ~10 CPU-hours; resumable
+(cd k4 && python3 mincex_ckpt.py ../results/k4_min_cex_shapes_4.json.gz OUT.json.gz.ckpt.jsonl ../results/k4_min_cex_cores_4.json.gz)
+(cd k4 && python3 check_mincex_cores4.py 4 ../results/k4_min_cex_cores_4.json.gz ../results/k4_min_cex_px_uncovered.json \
+    --jobs=4 --allow-graphical)                                                  # ~30 min on 4 CPUs
+(cd k4 && python3 test_check_mincex_cores4.py)                                   # ~30 s
+(cd k4 && python3 mincex4.py explore xy P4 P4)                                   # the failed xy reduction
 ```
