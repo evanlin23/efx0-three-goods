@@ -482,7 +482,7 @@ static int rule_choose(int rule, const int *cand, int nc, gm G, const int *done)
         case 8: k = contest(c, G, done); break;
         case 9: k = -contest(c, G, done); break;
         case 17: k = mcls[c]; break;                    /* matched to the first choice, then the second, then unmatched */
-        case 18: k = mcls[c] == 1 ? 0 : mcls[c] == 0 ? 1 : 2;   /* matched to the second choice first */
+        case 18: k = mcls[c] == 1 ? 0 : mcls[c] == 0 ? 1 : 2; break;   /* matched to the second choice first */
         case 25: {                                      /* the matching recomputed on the unprocessed agents and goods */
             if (q == 0) { int A[MAXN], na = 0; for (int i = 0; i < n; i++) if (!done[i]) A[na++] = i; choice_matching(A, na, G, mcls); }
             k = mcls[c]; break; }
