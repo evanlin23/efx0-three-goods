@@ -26,3 +26,4 @@ import EFX.C4min
 import EFX.K3Pareto
 import EFX.K3Theorem
 import EFX.C4minExamples
+import EFX.ThmZ
