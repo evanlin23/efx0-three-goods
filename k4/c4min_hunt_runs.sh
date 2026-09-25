@@ -10,9 +10,14 @@ log() {  # log FILE COMMAND...
     (cd k4 && "$@") 2>&1; echo "# finished $(date -u)"; } >> "$f"
 }
 case "$1" in
-  selfcheck)   # every profile of n <= 3 and of n = 4 with one or two 4-good agents re-solved from scratch (-V)
+  selfcheck)   # every profile of n <= 3 and of n = 4 with one or two 4-good agents re-solved from scratch (-V); and the
+               # profiles with the first agent's first type of 12 pure n = 4 cores and 40 n = 5 cores (three 4-good agents)
     log $R/k4_c4min_hunt_selfcheck.log python3 c4min_hunt_run.py ../$R/k4_certs_2.json.gz ../$R/k4_certs_3.json.gz \
-        ../$R/k4_certs_4_n4_1.json.gz ../$R/k4_certs_4_n4_2.json.gz -V ;;
+        ../$R/k4_certs_4_n4_1.json.gz ../$R/k4_certs_4_n4_2.json.gz -V
+    log $R/k4_c4min_hunt_selfcheck.log python3 c4min_hunt_run.py ../$R/k4_certs_4_pure.json.gz --order=big --best=1 \
+        --only=0,20,40,60,80,100,120,140,160,180,200,218 --first=1 -V
+    log $R/k4_c4min_hunt_selfcheck.log python3 c4min_hunt_run.py ../$R/k4_certs_5_n4_3.json.gz \
+        --only=$(seq -s, 0 250 9860) --first=1 -V ;;
   w0small)     # the variant with the owner's needs from its base: must find PR #36's 720 profiles at n = 2
     log $R/k4_c4min_hunt_w0.log python3 c4min_hunt_run.py ../$R/k4_certs_2.json.gz ../$R/k4_certs_3.json.gz \
         ../$R/k4_certs_4_n4_1.json.gz ../$R/k4_certs_4_n4_2.json.gz -w0 ;;

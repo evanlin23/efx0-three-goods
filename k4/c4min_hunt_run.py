@@ -9,7 +9,8 @@ FAIL line (a profile where no min-frozen pre-allocation has deficit <= 0; the li
 their global index in the core), and appends per-core lines to a checkpoint (--ckpt) so an interrupted run resumes.
 
 usage: c4min_hunt_run.py FILE [--jobs=4] [--split=K] [--only=I,J] [--from=I] [--to=I] [--ckpt=PATH] [--order=small|big]
-       [--best=K] [-w0] [-V]"""
+       [--best=K] [--first=K] [-w0] [-V]
+  --first=K  only the profiles whose first agent has one of its first K types (a sample, e.g. for -V)"""
 import json, os, subprocess, sys, time
 from concurrent.futures import ThreadPoolExecutor
 import c4min_common as cc
@@ -24,7 +25,7 @@ def run(args):
 
 
 def main():
-    files, jobs, split, only, lo_c, hi_c, ckpt, opts, order_mode = [], 4, None, None, 0, None, None, ['-B', '8'], 'small'
+    files, jobs, split, only, lo_c, hi_c, ckpt, opts, order_mode, first_k = [], 4, None, None, 0, None, None, ['-B', '8'], 'small', None
     for a in sys.argv[1:]:
         if a.startswith('--jobs='): jobs = int(a[7:])
         elif a.startswith('--split='): split = int(a[8:])
@@ -35,6 +36,7 @@ def main():
         elif a in ('-w0', '-V'): opts.append(a)
         elif a.startswith('--order='): order_mode = a[8:]
         elif a.startswith('--best='): opts[opts.index('-B') + 1] = a[7:]
+        elif a.startswith('--first='): first_k = int(a[8:])
         else: files.append(a)
     b = cc.hunt_binary()
     done = {}
@@ -63,6 +65,9 @@ def main():
             for s in sizes: prof *= s
             k = split if split else max(1, min(sizes[order[0]], prof // (5 * 10 ** 9) + 1))
             k = min(k, sizes[order[0]])
+            if first_k is not None:                # only the first first_k types of the first agent (a sample)
+                tasks.append((ci, order, (b, inp, 0, min(first_k, sizes[order[0]]), opts)))
+                continue
             for p in range(k):
                 lo, hi = sizes[order[0]] * p // k, sizes[order[0]] * (p + 1) // k
                 tasks.append((ci, order, (b, inp, lo, hi, opts)))
