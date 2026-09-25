@@ -16,6 +16,6 @@ The only Σℓ-maximum is {0, 2} | {1, 4} | {5} | {6}, with pool {3} and Σℓ =
 
 Found by searching around the GM₄ counterexamples: the profiles that change one agent's type (`results/k4_gm4_around1_4.log`) or two agents' types (`results/k4_gm4_around2_4.log`: 148 distinct such profiles in 2,260,332). None appeared in the random runs of `k4/gm4.md` §4.
 
-Smallest configuration found: pure n = 4, m = 7. It has the same core as instance A, and only agent 2's type differs. Smaller classes: GM₄ itself holds for n ≤ 3 and for n = 4 with one 4-good agent (exhaustive), so GM₄∃ does too. Two 4-good agents at n = 4: `results/k4_gm4_4_n4_2.log` (exhaustive).
+Smallest configuration found: pure n = 4, m = 7. It has the same core as instance A, and only agent 2's type differs. Smaller classes: GM₄ itself holds for n ≤ 3 and for n = 4 with one 4-good agent (exhaustive), so GM₄∃ does too. With two 4-good agents at n = 4, GM₄∃ holds for all 724,847,616 profiles (exhaustive, `results/k4_gm4_4_n4_2.log`). So a counterexample needs n ≥ 4 and at least three 4-good agents; the one found is pure.
 
 Reproduce: `python3 k4/gm4_counterexample.py` (instance G).

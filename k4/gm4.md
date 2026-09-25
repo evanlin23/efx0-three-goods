@@ -50,6 +50,8 @@ GM₄ˢ ⇒ GM₄ ⇒ GM₄∃ ⇒ TARGET₄, the last with K4.TIE and K4.CORE, 
 
 ### 2.1 The smallest one: n = 4, m = 7, two 4-good agents (instance E)
 
+It is smallest in two respects. GM₄ holds for every profile with n ≤ 3 and for n = 4 with one 4-good agent. With two 4-good agents at n = 4, it fails only at m = 7, at 128 maxima in 3 cores; each of these runs is exhaustive (§4).
+
 Agents (good: value):
 - agent 0: 0:3, 2:10, 4:6, 6:2 (4 goods; good 0 private);
 - agent 1: 1:3, 3:4, 5:8, 6:2 (4 goods; good 1 private);
@@ -175,6 +177,7 @@ Such profiles are not isolated. The one-agent and two-agent neighbourhoods of th
 | n = 2 | 189,216 | exhaustive | 2,286 | 0 | 0 | `results/k4_gm4_2.log` |
 | n = 3 | 299,837,376 | exhaustive | 9,227,950 | 0 | 0 | `results/k4_gm4_3.log` |
 | n = 4, one 4-good agent | 7,247,232 | exhaustive | 1,131,363 | 2 | 0 | `results/k4_gm4_4_n4_1.log` |
+| n = 4, two 4-good agents | 724,847,616 | exhaustive | 85,832,084 | 274 | 128 (all m = 7, in 3 cores) | `results/k4_gm4_4_n4_2.log` |
 | n = 4, one to three 4-good agents | 39,150,000 | 50,000 random per core | 4,385,569 | 10 | 3 | `results/k4_gm4_4_mixed_sample.log` |
 | n = 4, pure | 43,800,000 | 200,000 random per core | 2,583,713 | 5 | 4 | `results/k4_gm4_4_pure_sample.log` |
 | n = 5, all agents with 3 goods | 2,270,592 | exhaustive | 430,501 | 0 | 0 | `results/k4_gm4_k3cores_5.log` |
@@ -185,7 +188,7 @@ Such profiles are not isolated. The one-agent and two-agent neighbourhoods of th
 
 "No single dump" counts maxima with a nonempty pool, no empty bundle and no source admitting the single dump. "No placement" counts those among them that admit no junk placement either.
 
-*Every* maximum of the profile lacks a placement (GM₄∃ fails): never in these random runs (counter `pallfail` = 0 in every log). For pure n = 5 this was checked separately for the 3 failing profiles (`results/k4_gm4_5_pure_check.log`). The per-profile counters `pfail`/`pallfail` in `results/k4_gm4_5_pure_sample.log` are partial, because the base binary was rebuilt with those counters while that run was in progress; its per-maximum counts are complete. GM₄∃ fails only in the targeted search of §6 (instance G, §2.4).
+*Every* maximum of the profile lacks a placement (GM₄∃ fails): never in these runs (counter `pallfail` = 0 in every log). This includes the exhaustive run with two 4-good agents: there GM₄ fails at 128 maxima, but every one of the 724,847,616 profiles has a placeable maximum. For pure n = 5 this was checked separately for the 3 failing profiles (`results/k4_gm4_5_pure_check.log`). The per-profile counters `pfail`/`pallfail` in `results/k4_gm4_5_pure_sample.log` are partial, because the base binary was rebuilt with those counters while that run was in progress; its per-maximum counts are complete. GM₄∃ fails only in the targeted search of §6 (instance G, §2.4).
 
 ## 5. Structure of maxima (exploration; EVIDENCE)
 
