@@ -320,8 +320,9 @@ counting pairs every exposed agent with a terminal of its own block, and needs o
 (LB₄ʳ below), a fixed insertion order suffices on the data. Index insertion never fails on any certified core (n ≤ 4,
 and n = 5 with at most two 4-good agents; 1.14·10¹² profiles; `results/k4_lb4_variants.log` for n ≤ 3,
 `results/k4_lb4_nested_n4.log`, `results/k4_lb4_nested_pure4.log`, `results/k4_lb4_nested_n5.log`). On n ≤ 3 and on
-n = 4 with at most three 4-good agents no run of Phase 1 fails, whatever its insertion order (2.1·10¹¹ run–profile
-pairs, `results/k4_lb4_nested_every.log`; pure n = 4 and n = 5 not run for every order). That is the shape of LB⁺'s
+n = 4 no run of Phase 1 fails, whatever its insertion order (2.1·10¹¹ run–profile pairs for n ≤ 3 and mixed n = 4,
+`results/k4_lb4_nested_every.log`; 5.89·10¹² for pure n = 4, `results/k4_lb4r_i1_pure4.log`); n = 5 and beyond: the
+stress tests below. That is the shape of LB⁺'s
 Theorem C (every run of Phase 1 works, after upgrades and rotations), with up to three rotations instead of one; it may
 be a better proof target than LB₄'s search over insertion sequences.
 
@@ -347,6 +348,68 @@ The first allocation found is returned; LB₄ʳ(τ) fails if no policy gives one
 owner's, so by Theorem 1′₄ every output is EFX₀ with at most one bundle of more than two goods; `lb4.c` also checks
 each against the raw definition. The rotation depth is reset for every profile.
 
+With `-d1` the rotation bound is deepened for each policy (0, 1, 2, 3 in turn), and with `-d2` it is outermost (every
+policy at bound 0, then every policy at bound 1, …). Both succeed exactly when LB₄ʳ does, since each bound's search
+contains the previous one's; they change only the allocation returned and what the histograms count: `-d1` gives the
+policy LB₄ʳ ends with and the fewest rotations under it, `-d2` the fewest rotations over all policies.
+
+**LB₄ʳ under stress (EVIDENCE; one implementation).** No run of LB₄ʳ failed, and no output failed the raw EFX₀ check,
+in any test below. The n = 5 core lists with three or more 4-good agents are those of PR #26 (`compute/k4-frontier` at
+2809bb4, not yet on main); the random cores are drawn by `k4/lb4_randcores.py` and committed as
+`results/k4_lb4r_cores_*.json.gz`.
+- *Exhaustive.* Every insertion order on every core with n ≤ 4 (above); every order on the two n = 5 cores below on
+  which need-shrinking needs a third rotation (8.41·10¹¹ run–profile pairs, `results/k4_lb4r_deep.log`). Index order
+  on every certified core (above), and on n = 5 with three 4-good agents (in progress: 7,064 of the 9,861 cores, 5.1·10¹² profiles, no failure; `results/k4_lb4r_ex_5_n4_3.log`).
+- *Random profiles* (seeded from each core; `results/k4_lb4r_samples.log`, `results/k4_lb4r_random.log`). n = 5, every
+  class (1 to 5 four-good agents, 31,584 cores): index order 7.6·10⁸ profiles; every order 6.6·10⁷ profiles
+  (6.7·10⁸ runs). Random cores, index order and every order: n = 6, 4,200 cores (8.4·10⁷ profiles; 3.4·10⁶ profiles,
+  7.7·10⁷ runs); n = 7, 1,500 cores (1.5·10⁷; 3·10⁵ profiles, 1.6·10⁷ runs); n = 8, 300 cores (3·10⁶, index only).
+- *Adversarial* (`results/k4_lb4r_weak.log`, `results/k4_lb4r_adversarial.log`). First the cores where a weaker
+  variant fails: need-shrinking upgrades only (`attempts/lb4r-need-shrinking-only.md`) fail on 149 cores with n ≤ 4
+  at index order, 262 for every order, and 376 of the n = 5 cores (5,000 random profiles each); one rotation fails on
+  91 and 21. On those cores (276 with n ≤ 4, 396 with n = 5), on 5,000 cores grown from them by one or two random agents
+  (n = 4 to 7), and on the random n = 6 and n = 7 cores, hill-climbing (`-H`: change one agent's type, undo the change
+  if the profile got easier, restart every 500 steps) toward three kinds of hardness: the policy LB₄ʳ ends with, then
+  its rotations, then its rotation attempts; the number of policies that fail on their own (`-P1`); the fewest
+  rotations over all policies (`-P2 -d2`). In all, 1.8·10⁸ profiles (3.1·10⁸ runs), 0 failures. The climbs never
+  found a profile on which two policies fail on their own, nor one needing a third rotation with the policy free.
+- *What LB₄ʳ uses* (`-d1` and `-d2`; `results/k4_lb4r_hist.log` has the histograms for every certified core).
+  "No upgrades" is never the policy LB₄ʳ ends with: wherever need-shrinking fails, envy-free upgrades succeed (on n ≤ 3,
+  index order, 147,240 of 3·10⁸ profiles need them). With every policy allowed, no tested run needs a third rotation;
+  two are needed rarely (at n = 3, every order, 25,240 of 1.0·10⁹ run–profile pairs). Under need-shrinking alone, 2 runs
+  of the n = 5 sample (four 4-good agents, m = 9; `results/k4_lb4r_deep.log`) need three rotations, and envy-free
+  upgrades then need one; on those two cores LB₄ʳ with at most two rotations never fails, for every order and profile.
+  Every order on n ≤ 4 with at most three 4-good agents (2.09·10¹¹ run–profile pairs): LB₄ʳ ends with need-shrinking
+  upgrades except in 4,841,440 pairs (envy-free upgrades), and under that policy needs 0, 1, 2, 3 rotations in
+  98.99 %, 1.01 %, 690,140 and 5,760 pairs; with the policy free (`-d2`), 2 rotations in 101,272 pairs and 3 in none.
+  Index order (`-d2`): 2 rotations in 12,320 of 1.03·10⁹ profiles with n ≤ 4 and at most two 4-good agents, 3 in none.
+- *Simpler candidates.* LB₄ʳ with at most two rotations (`-r2`) fails nowhere tested: every order on n ≤ 4 with at most
+  three 4-good agents (exhaustive) and on the n = 5 sample (3,000 profiles per core, every class). Even one policy
+  suffices on every test run so far, if it is not need-shrinking: envy-free upgrades only with at most two rotations
+  (`-u2 -r2`) fail on no profile, for every order on n ≤ 4 with at most three 4-good agents (exhaustive,
+  2.1·10¹¹ run–profile pairs), on pure n = 4 (every order, 20,000 random profiles per core), on n = 5 (index order
+  1.3·10⁸ profiles, every order 7.3·10⁶), on the random n = 6, 7 cores (index order 2.3·10⁷) and under hill-climbing
+  on the hard n = 5 cores and the grown cores (`results/k4_lb4r_simple.log`). No upgrades at all (`-u0`)
+  also fails on none of these kinds of test: index order on n ≤ 4 with at most three 4-good agents (exhaustive,
+  3.6·10¹⁰ profiles), every order on n ≤ 3 (exhaustive) and on pure n = 4 (sampled), n = 5 (index 8.1·10⁷ profiles,
+  every order 7.3·10⁶), random n = 6, 7 cores (every order 1.35·10⁶), hill-climbing; it never needs a third rotation.
+  So Theorem C₄ may be provable in the form "every run of Phase 1, then envy-free upgrades (or none), then at most two
+  rotations", which is closer to LB⁺'s Theorem C; need-shrinking upgrades are the one policy that cannot stand alone.
+- *The hardest profiles found* (the logs give each with its run's insertion order, picks, upgrades and frozen agents):
+  (values listed in the order of each agent's goods, which are sorted)
+  - fewest rotations over all policies 2, with 128 rotation attempts in all: n = 5, m = 9, agents {0, 2, 7, 8}, {1, 3, 4, 6},
+    {3, 4, 6, 8}, {5, 6, 7, 8}, {5, 7, 8}, values (2, 7, 8, 4), (5, 6, 3, 7), (5, 4, 8, 6), (2, 8, 4, 7), (2, 3, 4),
+    insertion order 1, 2, 0, 4, 3 (`-P2 -d2`);
+  - need-shrinking fails, envy-free upgrades need one rotation, 394 rotation attempts in all: n = 5, m = 10, agents {0, 2, 5, 9},
+    {1, 4, 5, 6}, {3, 4, 7, 8}, {3, 7, 8, 9}, {6, 7, 8, 9}, values (4, 3, 8, 10), (4, 2, 7, 10), (4, 2, 7, 8),
+    (3, 6, 10, 8), (3, 5, 6, 7), order 0, 3, 2, 4, 1;
+  - need-shrinking needs three rotations (envy-free upgrades one): n = 5, m = 9, agents {0, 1, 2, 3}, {0, 2, 3, 8},
+    {1, 6, 8}, {4, 5, 6, 7}, {4, 5, 7, 8}, values (6, 10, 3, 8), (4, 6, 8, 1), (3, 2, 4), (4, 5, 8, 2), (6, 3, 5, 7),
+    order 4, 1, 0, 2, 3;
+  - at n = 6 (`-P2 -d2`), two rotations with the policy free: m = 15, agents {1, 11, 12, 13}, {0, 4, 9, 14},
+    {1, 2, 7, 13}, {5, 8, 9, 10}, {4, 5, 6, 13}, {1, 3, 9, 13}, values (10, 4, 8, 3), (4, 5, 8, 6), (6, 4, 1, 8),
+    (10, 7, 2, 4), (3, 10, 6, 8), (4, 2, 10, 7), order 1, 3, 4, 0, 2, 5.
+
 **The gap, precisely.** By Theorem 1′₄, K4.D follows from
 - **Conjecture K4.LB4.** For every k = 4 core and every strict profile, LB₄ does not fail: some insertion sequence
   gives a Phase 1 run whose upgraded pre-allocation, or one rotation of it, has a completion satisfying (OC₄).
@@ -359,7 +422,7 @@ insertion sequence. §4's counters say how rare each hard case is: they are the 
 
 **Not done.** The analogue of conjecture S2.K (what the large bundle contains) was not tested: LB₄ returns the first
 completion found, not a canonical one. Tests beyond the certified cores (n = 5 with three or more 4-good agents, pure
-n = 5) were not run.
+n = 5) were not run for LB₄; LB₄ʳ's are above.
 
 ## 6. Reproduce
 
