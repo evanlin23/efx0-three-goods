@@ -70,8 +70,13 @@ static u8 cur[MAXM];
 static u8 *store; static long nstore, capstore;
 static int d2only;
 
-static void push(const u8 *own) {
-    if (nstore == capstore) { capstore = capstore ? 2 * capstore : 1 << 16; store = realloc(store, capstore * (size_t)m); }
+static void push(const u8 *own) {          /* capstore is the capacity in bytes (m changes between instances) */
+    if ((nstore + 1) * (size_t)m > (size_t)capstore) {
+        capstore = capstore ? 2 * capstore : 1 << 20;
+        while ((nstore + 1) * (size_t)m > (size_t)capstore) capstore *= 2;
+        store = realloc(store, (size_t)capstore);
+        if (!store) { fprintf(stderr, "out of memory\n"); exit(2); }
+    }
     memcpy(store + nstore * (size_t)m, own, m); nstore++;
 }
 
@@ -101,7 +106,51 @@ static void rec(int k) {
     }
 }
 
+/* Early-exit search for an EFX0 allocation in which nobody envies agent ps_w (and, with d2only, D2). Same order and
+   prune as rec(), plus: once agent j is complete, v_j(X_j) is final and v_j(X_w) can only grow, so v_j(X_w) > v_j(X_j)
+   is final. Returns 1 as soon as one is found (left in cur[]). */
+static int ps_w;
+static int rec_ps(int k) {
+    if (k == no) return 1;
+    int g = order[k];
+    for (int j = 0; j < n; j++) {
+        if (!agent_on[j]) continue;
+        if (d2only && CNT[j] == 2) {
+            int big = 0; for (int x = 0; x < n; x++) if (CNT[x] > 2) big++;
+            if (big >= 1) continue;
+        }
+        long long saveS[MAXN], saveM[MAXN];
+        for (int i = 0; i < n; i++) { saveS[i] = S[i][j]; saveM[i] = MN[i][j]; S[i][j] += v[i][g]; if (v[i][g] < MN[i][j]) MN[i][j] = v[i][g]; }
+        CNT[j]++; cur[g] = (u8)j;
+        int ok = 1;
+        for (int i = 0; i < n && ok; i++) if (agent_on[i] && done_at[i] <= k + 1) {
+            ok = check_agent(i);
+            if (ok && i != ps_w && S[i][ps_w] > S[i][i]) ok = 0;
+        }
+        if (ok && rec_ps(k + 1)) { CNT[j]--; for (int i = 0; i < n; i++) { S[i][j] = saveS[i]; MN[i][j] = saveM[i]; } return 1; }
+        CNT[j]--;
+        for (int i = 0; i < n; i++) { S[i][j] = saveS[i]; MN[i][j] = saveM[i]; }
+    }
+    return 0;
+}
+
 /* enumerate EFX0 allocations of the instance restricted to agent_on / good_on; result in store[0..nstore) */
+static void setup_order(void) {
+    int seen[MAXM] = {0}; no = 0;
+    for (int i = 0; i < n; i++) if (agent_on[i])
+        for (int g = 0; g < m; g++) if (good_on[g] && v[i][g] > 0 && !seen[g]) { seen[g] = 1; order[no++] = g; }
+    for (int g = 0; g < m; g++) if (good_on[g] && !seen[g]) { seen[g] = 1; order[no++] = g; }
+    for (int i = 0; i < n; i++) {
+        done_at[i] = 0;
+        for (int k = 0; k < no; k++) if (v[i][order[k]] > 0) done_at[i] = k + 1;
+    }
+    for (int i = 0; i < n; i++) for (int j = 0; j < n; j++) { S[i][j] = 0; MN[i][j] = (long long)4e18; }
+    for (int j = 0; j < n; j++) CNT[j] = 0;
+    memset(cur, 255, sizeof cur);
+}
+
+static int ps_search(int w, int onlyd2) { d2only = onlyd2; ps_w = w; setup_order(); return rec_ps(0); }
+
 static void enumerate(int onlyd2) {
     nstore = 0; d2only = onlyd2;
     /* order: agents by index, each contributes its relevant goods not yet listed; then the rest */
@@ -193,7 +242,7 @@ int main(int argc, char **argv) {
         for (int q = 0; q < t; q++) {
             char kind[4]; int w, d = -1;
             if (scanf("%3s %d", kind, &w) != 2) return 1;
-            if ((kind[0] == 'G' || kind[0] == 'B' || kind[0] == 'H') && scanf("%d", &d) != 1) return 1;
+            if ((kind[0] == 'G' || kind[0] == 'B' || kind[0] == 'H' || kind[0] == 'V') && scanf("%d", &d) != 1) return 1;
             if (kind[0] == 'H') {       /* H w d h: X' in E(I - d) minimizing #enviers(h); does d -> h keep EFX0? */
                 int h; if (scanf("%d", &h) != 1) return 1;
                 for (int i = 0; i < n; i++) agent_on[i] = 1;
@@ -212,6 +261,17 @@ int main(int argc, char **argv) {
                     if ((int)(-f[2] + 0.5) == best) { nmin++; nok += ok; }
                 }
                 printf("TASK H %d %d %d | E' %ld | minenv %d | minimizers %ld ok %ld | anyX' %ld\n", w, d, h, nstore, best, nmin, nok, anyok);
+                fflush(stdout);
+                continue;
+            }
+            if (kind[0] == 'Q') {       /* Q w [d]: PS by early-exit search on I (or on I - d if d >= 0); all X, then D2 */
+                int dd; if (scanf("%d", &dd) != 1) return 1;
+                for (int i = 0; i < n; i++) agent_on[i] = 1;
+                for (int g = 0; g < m; g++) good_on[g] = 1;
+                if (dd >= 0) good_on[dd] = 0;
+                int a = ps_search(w, 0);
+                int b = a ? ps_search(w, 1) : 0;
+                printf("TASK Q %d %d | ps %d psD2 %d\n", w, dd, a, b);
                 fflush(stdout);
                 continue;
             }
@@ -236,25 +296,30 @@ int main(int argc, char **argv) {
             for (int g = 0; g < m; g++) good_on[g] = 1;
             if (kind[0] == 'G' || kind[0] == 'B') good_on[d] = 0;
             if (kind[0] == 'A' || kind[0] == 'B') agent_on[w] = 0;
+            long long saved = 0;
+            if (kind[0] == 'V') { saved = v[w][d]; v[w][d] = 0; }
             enumerate(ONLYD2);
             for (int i = 0; i < n; i++) small_on[i] = agent_on[i];
             long nE = nstore; u8 *E = malloc((size_t)(nE ? nE : 1) * m); memcpy(E, store, (size_t)nE * m);
             /* distance setup on I */
             nmov = nfree = 0;
-            for (int g = 0; g < m; g++) { if (g == d) freeg[nfree++] = g; else movable[nmov++] = g; }
+            for (int g = 0; g < m; g++) { if (g == d && kind[0] != 'V') freeg[nfree++] = g; else movable[nmov++] = g; }
             target_w = w;
             long hist[8] = {0}, nd2 = 0, dw = 0; int maxr = -1, maxrd2 = -1; long worst = -1; int worstd2 = 0;
             int minr = 1 << 30;
             int *R = malloc(sizeof(int) * (nE ? nE : 1));
             double (*F)[NPOT] = malloc(sizeof(double) * NPOT * (nE ? nE : 1));
             u8 *D2F = malloc(nE ? nE : 1);
+            int isV = kind[0] == 'V';
+            for (long e = 0; e < nE; e++) features(E + e * (size_t)m, w, kind[0] == 'G' || isV, F[e]);   /* smaller instance */
+            if (isV) v[w][d] = saved;
+            int dfree = (d >= 0 && !isV) ? d : -1;       /* the good placed freely (not counted by the distance) */
             for (long e = 0; e < nE; e++) {
                 u8 *X = E + e * (size_t)m;
                 int d2 = is_d2(X); nd2 += d2; D2F[e] = (u8)d2;
-                features(X, w, kind[0] == 'G', F[e]);
                 for (int i = 0; i < n; i++) agent_on[i] = 1;
                 for (int g = 0; g < m; g++) good_on[g] = 1;
-                memcpy(work, X, m); if (d >= 0) work[d] = 255;
+                memcpy(work, X, m); if (dfree >= 0) work[dfree] = 255;
                 int r = -1;
                 found_d_at_w = 0;
                 for (int rr = 0; rr <= RMAX; rr++) {
@@ -274,7 +339,7 @@ int main(int argc, char **argv) {
                         int best = 1 << 30;
                         for (long f = 0; f < nbig; f++) {
                             u8 *Y = bigE + f * (size_t)m; int dist = 0;
-                            for (int g = 0; g < m && dist < best; g++) if (g != d && Y[g] != X[g]) dist++;
+                            for (int g = 0; g < m && dist < best; g++) if (g != dfree && Y[g] != X[g]) dist++;
                             if (dist < best) best = dist;
                         }
                         r = best;           /* 1<<30 if I has no EFX0 allocation at all */
@@ -283,7 +348,7 @@ int main(int argc, char **argv) {
                 hist[r < 7 ? r : 7]++; R[e] = r; if (r < minr) minr = r;
                 if (VERBOSE && r >= 1) {
                     printf("  X' r=%d d2=%d :", r, d2);
-                    for (int g = 0; g < m; g++) { if (g == d) printf(" -"); else printf(" %d", X[g]); }
+                    for (int g = 0; g < m; g++) { if (g == dfree) printf(" -"); else printf(" %d", X[g]); }
                     printf("\n");
                 }
                 if (r > maxr) { maxr = r; if (!worstd2) worst = e; }
@@ -301,7 +366,7 @@ int main(int argc, char **argv) {
                 }
             }
             printf(" | worst");
-            if (worst >= 0) for (int g = 0; g < m; g++) { u8 o = E[worst * (size_t)m + g]; if (g == d) printf(" -"); else printf(" %d", o); }
+            if (worst >= 0) for (int g = 0; g < m; g++) { u8 o = E[worst * (size_t)m + g]; if (g == dfree) printf(" -"); else printf(" %d", o); }
             printf("\n");
             free(R); free(F); free(D2F);
             fflush(stdout);

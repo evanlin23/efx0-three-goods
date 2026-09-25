@@ -23,7 +23,12 @@ from multiprocessing import Pool
 HERE = os.path.dirname(os.path.abspath(__file__))
 OT = json.load(open(os.path.join(HERE, 'order_types.json')))
 STRICT_BAL = {k: [tuple(t['rep']) for t in OT[str(k)]['types'] if t['strict'] and t['balanced']] for k in (3, 4)}
+EXAMPLE_KEYS = {'best_G', 'best_B', 'V_best', 'priv_G', 'least_G', 'PS_priv', 'GPS_Q4_anyd', 'pot5_Q4w', 'V_Q4_everyw',
+                'B_Q4_everyw'} | {f'pot{k}_G' for k in range(8)} | {f'V_pot{k}_best' for k in range(8)} | \
+               {f'pot{k}_P4w' for k in range(8)} | {f'pot{k}_Q4w' for k in range(8)}
 NO_A = False
+WITH_V = False
+ONLY_V = False
 NPOT = 8   # potentials of induct.c: 0 v_w, 1 -v_w, 2 -#enviers(w), 3 (-#enviers(w), v_w), 4 utilitarian, 5 Nash,
            # 6 (-#enviers(w), utilitarian), 7 -#agents envying someone
 BIN = os.environ.get('INDUCT_BIN', os.path.join(tempfile.gettempdir(), 'k4_induct'))
@@ -55,8 +60,11 @@ def tasks_for(sets, m, V, only_g):
     T = []
     for w, S in enumerate(sets):
         if len(S) != 4: continue
-        for d in S: T.append(('G', w, d))
-        if not only_g:
+        if not ONLY_V:
+            for d in S: T.append(('G', w, d))
+        if WITH_V:
+            for d in S: T.append(('V', w, d))
+        if not only_g and not ONLY_V:
             if not NO_A: T.append(('A', w, None))
             for d in S: T.append(('B', w, d))
     return T, deg
@@ -111,8 +119,8 @@ def main():
     opts = dict(rmax=int(opt.get('rmax', 3)), quick=bool(opt.get('quick')), d2=bool(opt.get('d2')),
                 only_g=bool(opt.get('only-g')))
     maxcores = int(opt.get('max-cores', 10 ** 9))
-    global NO_A
-    NO_A = bool(opt.get('no-a'))
+    global NO_A, WITH_V, ONLY_V
+    NO_A = bool(opt.get('no-a')); WITH_V = bool(opt.get('v')) or bool(opt.get('only-v')); ONLY_V = bool(opt.get('only-v'))
     logf = open(opt['log'], 'w') if 'log' in opt else None
     def log(s):
         print(s, flush=True)
@@ -140,10 +148,13 @@ def main():
         [f'pot{k}_G' for k in range(NPOT)] + [f'pot{k}d2_G' for k in range(NPOT)] + [f'pot{k}_B' for k in (4, 5, 7)] + \
         [f'pot{k}_{q}' for k in (2, 3, 4, 5, 6) for q in ('allG', 'leastG', 'privG', 'topG', 'everyw', 'everyd')] + \
         [f'pot{k}_{q}' for k in range(NPOT) for q in ('Q4w', 'P4w')] + \
+        ['V_best', 'V_least', 'V_top', 'V_everyw', 'V_all', 'V_least_everyw', 'V_Q4_everyw', 'V_Q4_least', 'V_P4_everyw'] + \
+        [f'V_pot{k}_{q}' for k in range(NPOT) for q in ('best', 'least', 'everyw', 'Q4w')] + \
         ['B_top', 'B_least', 'B_everyw', 'B_all', 'B_top_everyw', 'B_Q4_everyw', 'B_Q4_top', 'B_d2', 'B_top_d2'] + \
         ['PS_priv', 'PS_Q4_anyd', 'PS_Q4_least', 'GPS_Q4_anyd', 'GPS_Q4_least', 'GPS_anyw_anyd', 'GPS_P4_priv']
     stats = {k: Counter() for k in keys}
     worst_examples = {}
+    fail_ex = {}
     t0 = time.time()
     with Pool(jobs) as pool:
         for res in pool.imap_unordered(run_batch, batches):
@@ -170,6 +181,24 @@ def main():
                 s['GPS_Q4_least'] = all(r['gps'] for r in G if r['w'] in Q4w and r['least']) if Q4w else None
                 s['GPS_anyw_anyd'] = any(r['gps'] for r in G) if G else None
                 P4w = sorted({r['w'] for r in G if r['wpriv']})
+                Vs = [r for r in recs if r['kind'] == 'V']
+                if Vs:
+                    Vw = sorted({r['w'] for r in Vs})
+                    s['V_best'] = min(r['maxr'] for r in Vs)
+                    s['V_least'] = min(r['maxr'] for r in Vs if r['least'])
+                    s['V_top'] = min(r['maxr'] for r in Vs if r['top'])
+                    s['V_everyw'] = max(min(r['maxr'] for r in Vs if r['w'] == w) for w in Vw)
+                    s['V_all'] = max(r['maxr'] for r in Vs)
+                    s['V_least_everyw'] = max(r['maxr'] for r in Vs if r['least'])
+                    s['V_Q4_everyw'] = max((min(r['maxr'] for r in Vs if r['w'] == w) for w in Vw if not any(x['wpriv'] for x in Vs if x['w'] == w)), default=None)
+                    s['V_Q4_least'] = max((r['maxr'] for r in Vs if r['least'] and not r['wpriv']), default=None)
+                    s['V_P4_everyw'] = max((min(r['maxr'] for r in Vs if r['w'] == w) for w in Vw if any(x['wpriv'] for x in Vs if x['w'] == w)), default=None)
+                    for k in range(NPOT):
+                        key = f'pot{k}'
+                        s[f'V_{key}_best'] = min(r[key] for r in Vs)
+                        s[f'V_{key}_least'] = min(r[key] for r in Vs if r['least'])
+                        s[f'V_{key}_everyw'] = max(min(r[key] for r in Vs if r['w'] == w) for w in Vw)
+                        s[f'V_{key}_Q4w'] = max((min(r[key] for r in Vs if r['w'] == w) for w in Vw if not any(x['wpriv'] for x in Vs if x['w'] == w)), default=None)
                 Bs = [r for r in recs if r['kind'] == 'B']
                 if Bs:
                     Bw = sorted({r['w'] for r in Bs})
@@ -196,13 +225,22 @@ def main():
                     ws = sorted({r['w'] for r in G})
                     s[f'{key}_everyw'] = max((min(r[key] for r in G if r['w'] == w) for w in ws), default=None)
                     s[f'{key}_everyd'] = min((max(r[key] for r in G if r['w'] == w) for w in ws), default=None)
-                for k, x in s.items(): stats[k][x] += 1
+                for k, x in s.items():
+                    stats[k][x] += 1
+                    bad = (x is not None and x is not True and (x is False or x >= 1))
+                    if bad and k in EXAMPLE_KEYS:
+                        cur = fail_ex.setdefault(k, [])
+                        cand = (len(sets), m, x, sets, [list(t) for t in prof])
+                        cur.append(cand); cur.sort(key=lambda z: (z[0], z[1], -z[2] if isinstance(z[2], int) else 0)); del cur[2:]
                 key = (s['best_G'], len(sets), m)
                 if s['best_G'] is not None and s['best_G'] >= 1 and key not in worst_examples:
                     worst_examples[key] = (sets, prof, [(r['kind'], r['w'], r['d'], r['maxr'], r['maxrd2'], r['nE'], ' '.join(r['worst'])) for r in recs if r['kind'] == 'G'])
     log(f'time {time.time() - t0:.1f}s')
     for k, c in stats.items():
         log(f'{k:10s} ' + ', '.join(f'{x}: {c[x]}' for x in sorted(c, key=lambda z: (z is None, z if z is not None else 0))))
+    for k in sorted(fail_ex):
+        for (nn, mm, x, sets, prof) in fail_ex[k]:
+            log(f'FAIL {k} = {x}: n={nn} m={mm} sets={sets} prof={prof}')
     for key in sorted(worst_examples, key=lambda z: (z[0], z[1], z[2]))[:12]:
         sets, prof, rows = worst_examples[key]
         log(f'example best_G={key[0]} n={key[1]} m={key[2]} sets={sets} prof={[list(p) for p in prof]}')
