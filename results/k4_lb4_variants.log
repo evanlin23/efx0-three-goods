@@ -1,0 +1,247 @@
+## LB+'s shape (attempts/lb4-lbplus-shape.md)
+# lb4_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz -i0 -u1 -o2 -r1 --show=3
+results/k4_certs_2.json.gz: 5 cores, 1s
+  total=189216 leaves=4186 runs=6724 fails=10200 rawfails=0 nobig=81216 owner_r=90840 owner_other=0 rot=6960 later_seq=0 later_upg=0 big3=78768 big4=17016
+  cores with a failure: 2
+    (5, [[0, 2, 3, 4], [1, 2, 3, 4]], 6480, 0)
+    (6, [[0, 1, 4, 5], [2, 3, 4, 5]], 3720, 0)
+   FAIL n=2 m=5 sets=[[0,2,3,4],[1,2,3,4]] vals=[[1,4,6,8],[2,4,5,8]] order=0 1  picks=4,3 blocks=0,0 upg=1:c  frozen= J=3 w=1
+   FAIL n=2 m=5 sets=[[0,2,3,4],[1,2,3,4]] vals=[[1,6,4,8],[2,4,5,8]] order=0 1  picks=4,3 blocks=0,0 upg=1:c  frozen= J=3 w=1
+   FAIL n=2 m=5 sets=[[0,2,3,4],[1,2,3,4]] vals=[[3,2,4,8],[2,4,5,8]] order=0 1  picks=4,3 blocks=0,0 upg=1:c  frozen= J=3 w=1
+results/k4_certs_3.json.gz: 51 cores, 0s
+  total=299837376 leaves=835402 runs=1415028 fails=6065876 rawfails=0 nobig=164485016 owner_r=114461848 owner_other=0 rot=14824636 later_seq=0 later_upg=0 big3=88694503 big4=29332967 big5=4948336 big6=328116
+  cores with a failure: 30
+    (6, [[0, 1, 2, 3], [0, 1, 4, 5], [2, 3, 4, 5]], 79232, 0)
+    (6, [[0, 1, 2, 5], [1, 3, 4, 5], [2, 3, 4, 5]], 316672, 0)
+    (6, [[0, 1, 2, 5], [2, 3, 4, 5], [3, 4, 5]], 3712, 0)
+   FAIL n=3 m=6 sets=[[0,2,4,5],[1,3,5],[3,4,5]] vals=[[2,4,8,7],[2,3,4],[3,4,2]] order=0 2 1  picks=4,5,3 blocks=0,0,0 upg= frozen=0  J=7 w=1
+   FAIL n=3 m=6 sets=[[0,2,4,5],[1,3,5],[3,4,5]] vals=[[4,2,8,7],[2,3,4],[3,4,2]] order=0 2 1  picks=4,5,3 blocks=0,0,0 upg= frozen=0  J=7 w=1
+   FAIL n=3 m=6 sets=[[0,2,4,5],[1,3,5],[3,4,5]] vals=[[2,4,8,7],[3,2,4],[3,4,2]] order=0 2 1  picks=4,5,3 blocks=0,0,0 upg= frozen=0  J=7 w=1
+## no rotation (attempts/lb4-no-rotation.md)
+# lb4_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz -i2 -u3 -r0 -w1 --show=3
+results/k4_certs_2.json.gz: 5 cores, 1s
+  total=189216 leaves=4344 runs=7040 fails=0 rawfails=0 nobig=84096 owner_r=95220 owner_other=9900 rot=0 later_seq=3360 later_upg=3540 big3=84384 big4=20736
+  cores with a failure: 0
+results/k4_certs_3.json.gz: 51 cores, 7s
+  total=299837376 leaves=1283881 runs=2311986 fails=263336 rawfails=0 nobig=169674280 owner_r=119373336 owner_other=10526424 rot=0 later_seq=9766254 later_upg=10069308 big3=92088884 big4=31943346 big5=5504600 big6=361104
+  cores with a failure: 16
+    (5, [[0, 1, 3, 4], [0, 2, 3, 4], [1, 2, 3, 4]], 25280, 0)
+    (5, [[0, 1, 3, 4], [2, 3, 4], [2, 3, 4]], 52, 0)
+    (5, [[0, 2, 3, 4], [1, 2, 3, 4], [1, 2, 3, 4]], 68640, 0)
+   FAIL n=3 m=5 sets=[[0,1,3,4],[2,3,4],[2,3,4]] vals=[[3,5,7,6],[2,3,4],[2,3,4]] order=2 0 1  picks=3,2,4 blocks=0,0,0 upg= frozen=0 2  J=3 w=1
+   FAIL n=3 m=5 sets=[[0,1,3,4],[2,3,4],[2,3,4]] vals=[[2,7,8,4],[2,3,4],[2,3,4]] order=2 0 1  picks=3,2,4 blocks=0,0,0 upg= frozen=0 2  J=3 w=1
+   FAIL n=3 m=5 sets=[[0,1,3,4],[2,3,4],[2,3,4]] vals=[[5,3,7,6],[2,3,4],[2,3,4]] order=2 0 1  picks=3,2,4 blocks=0,0,0 upg= frozen=0 2  J=3 w=1
+# lb4_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz -i2 -u1 -r0 -w1 -c1 --show=3
+results/k4_certs_2.json.gz: 5 cores, 1s
+  total=189216 leaves=4308 runs=6968 fails=0 rawfails=0 nobig=84096 owner_r=95220 owner_other=9900 rot=0 later_seq=3540 later_upg=0 big3=84384 big4=20736
+  cores with a failure: 0
+results/k4_certs_3.json.gz: 51 cores, 4s
+  total=299837376 leaves=1198034 runs=2140292 fails=263336 rawfails=0 nobig=169800200 owner_r=119266516 owner_other=10507324 rot=0 later_seq=10069308 later_upg=0 big3=92019068 big4=31908636 big5=5485032 big6=361104
+  cores with a failure: 16
+    (5, [[0, 1, 3, 4], [0, 2, 3, 4], [1, 2, 3, 4]], 25280, 0)
+    (5, [[0, 1, 3, 4], [2, 3, 4], [2, 3, 4]], 52, 0)
+    (5, [[0, 2, 3, 4], [1, 2, 3, 4], [1, 2, 3, 4]], 68640, 0)
+   FAIL n=3 m=5 sets=[[0,1,3,4],[2,3,4],[2,3,4]] vals=[[3,5,7,6],[2,3,4],[2,3,4]] order=2 0 1  picks=3,2,4 blocks=0,0,0 upg= frozen=0 2  J=3 w=1
+   FAIL n=3 m=5 sets=[[0,1,3,4],[2,3,4],[2,3,4]] vals=[[2,7,8,4],[2,3,4],[2,3,4]] order=2 0 1  picks=3,2,4 blocks=0,0,0 upg= frozen=0 2  J=3 w=1
+   FAIL n=3 m=5 sets=[[0,1,3,4],[2,3,4],[2,3,4]] vals=[[5,3,7,6],[2,3,4],[2,3,4]] order=2 0 1  picks=3,2,4 blocks=0,0,0 upg= frozen=0 2  J=3 w=1
+# lb4_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz -i9 -u1 -r0 -w1 -c1 --show=3
+results/k4_certs_2.json.gz: 5 cores, 1s
+  total=378432 leaves=8460 runs=13624 fails=0 rawfails=0 nobig=168192 owner_r=190320 owner_other=19920 rot=0 later_seq=7152 later_upg=0 big3=168768 big4=41472
+  cores with a failure: 0
+results/k4_certs_3.json.gz: 51 cores, 8s
+  total=1004658480 leaves=3263522 runs=5651868 fails=1549424 rawfails=0 nobig=555374380 owner_r=418137234 owner_other=29597442 rot=0 later_seq=21111284 later_upg=0 big3=319203476 big4=109387776 big5=18022960 big6=1120464
+  cores with a failure: 37
+    (5, [[0, 1, 3, 4], [0, 2, 3, 4], [1, 2, 3, 4]], 75840, 0)
+    (5, [[0, 1, 3, 4], [2, 3, 4], [2, 3, 4]], 156, 0)
+    (5, [[0, 2, 3, 4], [1, 2, 3, 4], [1, 2, 3, 4]], 205920, 0)
+   FAIL n=3 m=5 sets=[[0,1,3,4],[2,3,4],[2,3,4]] vals=[[3,5,7,6],[2,3,4],[2,3,4]] order=2 0 1  picks=3,2,4 blocks=0,0,0 upg= frozen=0 2  J=3 w=1
+   FAIL n=3 m=5 sets=[[0,1,3,4],[2,3,4],[2,3,4]] vals=[[3,5,7,6],[2,3,4],[2,3,4]] order=2 0 1  picks=3,2,4 blocks=0,0,0 upg= frozen=0 2  J=3 w=1
+   FAIL n=3 m=5 sets=[[0,1,3,4],[2,3,4],[2,3,4]] vals=[[3,5,7,6],[2,3,4],[2,3,4]] order=1 0 2  picks=3,4,2 blocks=0,0,0 upg= frozen=0 1  J=3 w=1
+## fixed insertion rules, one rotation (attempts/lb4-fixed-insertion.md)
+# lb4_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz -i0 -u1 -r1 -w1 -c1 --show=3
+results/k4_certs_2.json.gz: 5 cores, 1s
+  total=189216 leaves=4476 runs=7304 fails=300 rawfails=0 nobig=81216 owner_r=94560 owner_other=9900 rot=3240 later_seq=0 later_upg=0 big4=20736 big3=84948
+  cores with a failure: 1
+    (5, [[0, 2, 3, 4], [1, 2, 3, 4]], 300, 0)
+   FAIL n=2 m=5 sets=[[0,2,3,4],[1,2,3,4]] vals=[[1,4,6,8],[2,4,5,8]] order=0 1  picks=4,3 blocks=0,0 upg=1:c  frozen= J=3 w=1
+   FAIL n=2 m=5 sets=[[0,2,3,4],[1,2,3,4]] vals=[[1,6,4,8],[2,4,5,8]] order=0 1  picks=4,3 blocks=0,0 upg=1:c  frozen= J=3 w=1
+   FAIL n=2 m=5 sets=[[0,2,3,4],[1,2,3,4]] vals=[[1,4,8,6],[2,4,8,5]] order=0 1  picks=3,4 blocks=0,0 upg=1:14  frozen= J=3 w=1
+results/k4_certs_3.json.gz: 51 cores, 3s
+  total=299837376 leaves=1113199 runs=1970622 fails=160060 rawfails=0 nobig=164485016 owner_r=115676816 owner_other=9342900 rot=10172584 later_seq=0 later_upg=0 big3=92421647 big4=32216511 big5=5624284 big6=371668
+  cores with a failure: 16
+    (6, [[0, 1, 2, 3], [0, 1, 4, 5], [2, 3, 4, 5]], 21760, 0)
+    (6, [[0, 1, 2, 5], [1, 3, 4, 5], [2, 3, 4, 5]], 36960, 0)
+    (6, [[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], 11520, 0)
+   FAIL n=3 m=6 sets=[[0,2,4,5],[1,3,4,5],[2,3,5]] vals=[[1,8,4,6],[2,8,4,5],[4,3,2]] order=0 2 1  picks=2,5,3 blocks=0,0,0 upg=1:30  frozen=0  J=3 w=1
+   FAIL n=3 m=6 sets=[[0,2,4,5],[1,3,4,5],[2,3,5]] vals=[[1,8,6,4],[2,8,4,5],[4,3,2]] order=0 2 1  picks=2,5,3 blocks=0,0,0 upg=1:30  frozen=0  J=3 w=1
+   FAIL n=3 m=6 sets=[[0,2,4,5],[1,3,4,5],[2,3,5]] vals=[[4,8,2,7],[2,8,4,5],[4,3,2]] order=0 2 1  picks=2,5,3 blocks=0,0,0 upg=1:30  frozen=0  J=3 w=1
+# lb4_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz -i3 -u1 -r1 -w1 -c1 --show=3
+results/k4_certs_2.json.gz: 5 cores, 1s
+  total=189216 leaves=4476 runs=7304 fails=300 rawfails=0 nobig=81216 owner_r=94560 owner_other=9900 rot=3240 later_seq=0 later_upg=0 big3=84948 big4=20736
+  cores with a failure: 1
+    (5, [[0, 2, 3, 4], [1, 2, 3, 4]], 300, 0)
+   FAIL n=2 m=5 sets=[[0,2,3,4],[1,2,3,4]] vals=[[1,4,6,8],[2,4,5,8]] order=0 1  picks=4,3 blocks=0,0 upg=1:c  frozen= J=3 w=1
+   FAIL n=2 m=5 sets=[[0,2,3,4],[1,2,3,4]] vals=[[1,6,4,8],[2,4,5,8]] order=0 1  picks=4,3 blocks=0,0 upg=1:c  frozen= J=3 w=1
+   FAIL n=2 m=5 sets=[[0,2,3,4],[1,2,3,4]] vals=[[1,4,8,6],[2,4,8,5]] order=0 1  picks=3,4 blocks=0,0 upg=1:14  frozen= J=3 w=1
+results/k4_certs_3.json.gz: 51 cores, 3s
+  total=299837376 leaves=997822 runs=1739868 fails=13780 rawfails=0 nobig=170010670 owner_r=117916122 owner_other=8402500 rot=3494304 later_seq=0 later_upg=0 big3=91297791 big4=31391753 big5=5396392 big6=332292
+  cores with a failure: 4
+    (6, [[0, 1, 2, 5], [1, 3, 4, 5], [2, 3, 4, 5]], 320, 0)
+    (6, [[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], 11520, 0)
+    (6, [[0, 2, 4, 5], [1, 3, 4, 5], [2, 3, 4, 5]], 1840, 0)
+   FAIL n=3 m=6 sets=[[0,2,4,5],[1,3,5],[2,3,4,5]] vals=[[3,5,6,7],[2,4,3],[2,8,3,4]] order=0 1 2  picks=5,3,4 blocks=0,0,0 upg=2:14  frozen=1  J=3 w=1
+   FAIL n=3 m=6 sets=[[0,2,4,5],[1,3,5],[2,3,4,5]] vals=[[2,4,7,8],[2,4,3],[2,8,3,4]] order=0 1 2  picks=5,3,4 blocks=0,0,0 upg=2:14  frozen=1  J=3 w=1
+   FAIL n=3 m=6 sets=[[0,2,4,5],[1,3,5],[2,3,4,5]] vals=[[1,4,6,8],[2,4,3],[2,8,3,4]] order=0 1 2  picks=5,3,4 blocks=0,0,0 upg=2:14  frozen=1  J=3 w=1
+# lb4_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz -i4 -u1 -r1 -w1 -c1 --show=3
+results/k4_certs_2.json.gz: 5 cores, 1s
+  total=189216 leaves=4476 runs=7304 fails=300 rawfails=0 nobig=84096 owner_r=93120 owner_other=11700 rot=0 later_seq=0 later_upg=0 big3=84084 big4=20736
+  cores with a failure: 1
+    (5, [[0, 2, 3, 4], [1, 2, 3, 4]], 300, 0)
+   FAIL n=2 m=5 sets=[[0,2,3,4],[1,2,3,4]] vals=[[1,4,6,8],[2,4,5,8]] order=0 1  picks=4,3 blocks=0,0 upg=1:c  frozen= J=3 w=1
+   FAIL n=2 m=5 sets=[[0,2,3,4],[1,2,3,4]] vals=[[1,6,4,8],[2,4,5,8]] order=0 1  picks=4,3 blocks=0,0 upg=1:c  frozen= J=3 w=1
+   FAIL n=2 m=5 sets=[[0,2,3,4],[1,2,3,4]] vals=[[1,4,8,6],[2,4,8,5]] order=0 1  picks=3,4 blocks=0,0 upg=1:14  frozen= J=3 w=1
+results/k4_certs_3.json.gz: 51 cores, 1s
+  total=299837376 leaves=1070453 runs=1885130 fails=32160 rawfails=0 nobig=178320254 owner_r=114710402 owner_other=6293612 rot=480948 later_seq=0 later_upg=0 big3=88446554 big4=28569104 big5=4187888 big6=138064
+  cores with a failure: 9
+    (6, [[0, 1, 2, 5], [1, 3, 4, 5], [2, 3, 4, 5]], 4640, 0)
+    (6, [[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], 11520, 0)
+    (6, [[0, 2, 4, 5], [1, 3, 4, 5], [2, 3, 4, 5]], 2280, 0)
+   FAIL n=3 m=6 sets=[[0,1,4,5],[2,3,4,5],[2,3,4,5]] vals=[[1,4,6,8],[3,5,7,6],[2,3,4,8]] order=0 1 2  picks=5,4,3 blocks=0,0,0 upg=2:c  frozen=0  J=3 w=1
+   FAIL n=3 m=6 sets=[[0,1,4,5],[2,3,4,5],[2,3,4,5]] vals=[[1,4,8,6],[2,3,8,4],[3,5,6,7]] order=0 2 1  picks=4,3,5 blocks=0,0,0 upg=1:c  frozen=0  J=3 w=1
+   FAIL n=3 m=6 sets=[[0,1,4,5],[2,3,4,5],[2,3,4,5]] vals=[[4,1,6,8],[3,5,7,6],[2,3,4,8]] order=0 1 2  picks=5,4,3 blocks=0,0,0 upg=2:c  frozen=0  J=3 w=1
+# lb4_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz -i5 -u1 -r1 -w1 -c1 --show=3
+results/k4_certs_2.json.gz: 5 cores, 1s
+  total=189216 leaves=6588 runs=11528 fails=300 rawfails=0 nobig=84096 owner_r=93120 owner_other=11700 rot=0 later_seq=0 later_upg=0 big3=84084 big4=20736
+  cores with a failure: 1
+    (5, [[0, 2, 3, 4], [1, 2, 3, 4]], 300, 0)
+   FAIL n=2 m=5 sets=[[0,2,3,4],[1,2,3,4]] vals=[[1,4,6,8],[2,4,5,8]] order=0 1  picks=4,3 blocks=0,0 upg=1:c  frozen= J=3 w=1
+   FAIL n=2 m=5 sets=[[0,2,3,4],[1,2,3,4]] vals=[[1,6,4,8],[2,4,5,8]] order=0 1  picks=4,3 blocks=0,0 upg=1:c  frozen= J=3 w=1
+   FAIL n=2 m=5 sets=[[0,2,3,4],[1,2,3,4]] vals=[[1,4,8,6],[2,4,8,5]] order=0 1  picks=3,4 blocks=0,0 upg=1:14  frozen= J=3 w=1
+results/k4_certs_3.json.gz: 51 cores, 2s
+  total=299837376 leaves=1722566 runs=3189356 fails=109016 rawfails=0 nobig=170561304 owner_r=115262336 owner_other=6785428 rot=7119292 later_seq=0 later_upg=0 big3=90807777 big4=30155157 big5=4701016 big6=235008
+  cores with a failure: 16
+    (6, [[0, 1, 2, 3], [0, 1, 4, 5], [2, 3, 4, 5]], 7040, 0)
+    (6, [[0, 1, 2, 5], [1, 3, 4, 5], [2, 3, 4, 5]], 27680, 0)
+    (6, [[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], 9216, 0)
+   FAIL n=3 m=6 sets=[[0,2,4,5],[1,3,4,5],[2,3,5]] vals=[[1,8,4,6],[2,8,4,5],[4,3,2]] order=0 2 1  picks=2,5,3 blocks=0,0,0 upg=1:30  frozen=0  J=3 w=1
+   FAIL n=3 m=6 sets=[[0,2,4,5],[1,3,4,5],[2,3,5]] vals=[[1,8,6,4],[2,8,4,5],[4,3,2]] order=0 2 1  picks=2,5,3 blocks=0,0,0 upg=1:30  frozen=0  J=3 w=1
+   FAIL n=3 m=6 sets=[[0,2,4,5],[1,3,4,5],[2,3,5]] vals=[[4,8,2,7],[2,8,4,5],[4,3,2]] order=0 2 1  picks=2,5,3 blocks=0,0,0 upg=1:30  frozen=0  J=3 w=1
+# lb4_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz -i7 -u1 -r1 -w1 -c1 --show=3
+results/k4_certs_2.json.gz: 5 cores, 1s
+  total=189216 leaves=4476 runs=7304 fails=300 rawfails=0 nobig=81216 owner_r=94560 owner_other=9900 rot=3240 later_seq=0 later_upg=0 big3=84948 big4=20736
+  cores with a failure: 1
+    (5, [[0, 2, 3, 4], [1, 2, 3, 4]], 300, 0)
+   FAIL n=2 m=5 sets=[[0,2,3,4],[1,2,3,4]] vals=[[1,4,6,8],[2,4,5,8]] order=0 1  picks=4,3 blocks=0,0 upg=1:c  frozen= J=3 w=1
+   FAIL n=2 m=5 sets=[[0,2,3,4],[1,2,3,4]] vals=[[1,6,4,8],[2,4,5,8]] order=0 1  picks=4,3 blocks=0,0 upg=1:c  frozen= J=3 w=1
+   FAIL n=2 m=5 sets=[[0,2,3,4],[1,2,3,4]] vals=[[1,4,8,6],[2,4,8,5]] order=0 1  picks=3,4 blocks=0,0 upg=1:14  frozen= J=3 w=1
+results/k4_certs_3.json.gz: 51 cores, 3s
+  total=299837376 leaves=1114555 runs=1973334 fails=13480 rawfails=0 nobig=164554816 owner_r=115740696 owner_other=9354500 rot=10173884 later_seq=146580 later_upg=0 big3=92475447 big4=32235631 big5=5626844 big6=371668
+  cores with a failure: 4
+    (6, [[0, 1, 2, 5], [1, 3, 4, 5], [2, 3, 4, 5]], 320, 0)
+    (6, [[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], 11520, 0)
+    (6, [[0, 2, 4, 5], [1, 3, 4, 5], [2, 3, 4, 5]], 640, 0)
+   FAIL n=3 m=6 sets=[[0,1,4,5],[2,3,4,5],[2,3,4,5]] vals=[[1,4,6,8],[3,5,7,6],[2,3,4,8]] order=1 0 2  picks=5,4,3 blocks=0,0,0 upg=2:c  frozen=0  J=3 w=1
+   FAIL n=3 m=6 sets=[[0,1,4,5],[2,3,4,5],[2,3,4,5]] vals=[[1,4,8,6],[2,3,8,4],[3,5,6,7]] order=2 0 1  picks=4,3,5 blocks=0,0,0 upg=1:c  frozen=0  J=3 w=1
+   FAIL n=3 m=6 sets=[[0,1,4,5],[2,3,4,5],[2,3,4,5]] vals=[[4,1,6,8],[3,5,7,6],[2,3,4,8]] order=1 0 2  picks=5,4,3 blocks=0,0,0 upg=2:c  frozen=0  J=3 w=1
+# lb4_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz -i0 -u3 -r1 -w1 -c1 --show=3
+results/k4_certs_2.json.gz: 5 cores, 1s
+  total=189216 leaves=4512 runs=7376 fails=0 rawfails=0 nobig=81216 owner_r=94740 owner_other=9900 rot=3360 later_seq=0 later_upg=300 big3=85248 big4=20736
+  cores with a failure: 0
+results/k4_certs_3.json.gz: 51 cores, 3s
+  total=299837376 leaves=1125516 runs=1995256 fails=12040 rawfails=0 nobig=164485016 owner_r=115706864 owner_other=9342900 rot=10290556 later_seq=0 later_upg=148020 big3=92487827 big4=32260751 big5=5634012 big6=371668
+  cores with a failure: 3
+    (6, [[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], 11520, 0)
+    (6, [[0, 2, 4, 5], [1, 3, 4, 5], [2, 3, 4, 5]], 480, 0)
+    (6, [[0, 2, 4, 5], [1, 3, 5], [2, 3, 4, 5]], 40, 0)
+   FAIL n=3 m=6 sets=[[0,2,4,5],[1,3,5],[2,3,4,5]] vals=[[1,4,6,8],[2,4,3],[2,8,3,4]] order=0 1 2  picks=5,3,4 blocks=0,0,0 upg= frozen=0 1  J=7 w=2
+   FAIL n=3 m=6 sets=[[0,2,4,5],[1,3,5],[2,3,4,5]] vals=[[1,6,4,8],[2,4,3],[2,8,3,4]] order=0 1 2  picks=5,3,4 blocks=0,0,0 upg= frozen=0 1  J=7 w=2
+   FAIL n=3 m=6 sets=[[0,2,4,5],[1,3,5],[2,3,4,5]] vals=[[2,6,7,10],[2,4,3],[2,8,3,4]] order=0 1 2  picks=5,3,4 blocks=0,0,0 upg= frozen=0 1  J=7 w=2
+# lb4_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz -i7 -u3 -r1 -w1 -c1 --show=3
+results/k4_certs_2.json.gz: 5 cores, 1s
+  total=189216 leaves=4512 runs=7376 fails=0 rawfails=0 nobig=81216 owner_r=94740 owner_other=9900 rot=3360 later_seq=0 later_upg=300 big3=85248 big4=20736
+  cores with a failure: 0
+results/k4_certs_3.json.gz: 51 cores, 3s
+  total=299837376 leaves=1125516 runs=1995256 fails=0 rawfails=0 nobig=164485536 owner_r=115706864 owner_other=9342900 rot=10302076 later_seq=12040 later_upg=160060 big3=92499347 big4=32260751 big5=5634012 big6=371668
+  cores with a failure: 0
+## fixed (index) insertion with nested rotations
+# lb4_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz -i0 -u3 -r2 -w1 -c1 --show=3
+results/k4_certs_2.json.gz: 5 cores, 1s
+  total=189216 leaves=4512 runs=7376 fails=0 rawfails=0 nobig=81216 owner_r=94740 owner_other=9900 rot=3360 later_seq=0 later_upg=300 big4=20736 big3=85248
+  cores with a failure: 0
+results/k4_certs_3.json.gz: 51 cores, 3s
+  total=299837376 leaves=1135022 runs=2014268 fails=0 rawfails=0 nobig=164485016 owner_r=115706864 owner_other=9342900 rot=10302596 later_seq=0 later_upg=147240 big3=92513406 big4=32331509 big5=5670728 big6=383068
+  cores with a failure: 0
+# lb4_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz -i0 -u3 -r3 -w1 -c1 --show=3
+results/k4_certs_2.json.gz: 5 cores, 1s
+  total=189216 leaves=4512 runs=7376 fails=0 rawfails=0 nobig=81216 owner_r=94740 owner_other=9900 rot=3360 later_seq=0 later_upg=300 big3=85248 big4=20736
+  cores with a failure: 0
+results/k4_certs_3.json.gz: 51 cores, 3s
+  total=299837376 leaves=1130218 runs=2004660 fails=0 rawfails=0 nobig=164485016 owner_r=115706864 owner_other=9342900 rot=10302596 later_seq=0 later_upg=147240 big3=92498167 big4=32261067 big5=5634268 big6=371668
+  cores with a failure: 0
+# lb4_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz -i0 -u1 -r3 -w1 -c1 --show=3
+results/k4_certs_2.json.gz: 5 cores, 1s
+  total=189216 leaves=4476 runs=7304 fails=300 rawfails=0 nobig=81216 owner_r=94560 owner_other=9900 rot=3240 later_seq=0 later_upg=0 big3=84948 big4=20736
+  cores with a failure: 1
+    (5, [[0, 2, 3, 4], [1, 2, 3, 4]], 300, 0)
+   FAIL n=2 m=5 sets=[[0,2,3,4],[1,2,3,4]] vals=[[1,4,6,8],[2,4,5,8]] order=0 1  picks=4,3 blocks=0,0 upg=1:c  frozen= J=3 w=1
+   FAIL n=2 m=5 sets=[[0,2,3,4],[1,2,3,4]] vals=[[1,6,4,8],[2,4,5,8]] order=0 1  picks=4,3 blocks=0,0 upg=1:c  frozen= J=3 w=1
+   FAIL n=2 m=5 sets=[[0,2,3,4],[1,2,3,4]] vals=[[1,4,8,6],[2,4,8,5]] order=0 1  picks=3,4 blocks=0,0 upg=1:14  frozen= J=3 w=1
+results/k4_certs_3.json.gz: 51 cores, 3s
+  total=299837376 leaves=1115289 runs=1974802 fails=147240 rawfails=0 nobig=164485016 owner_r=115676816 owner_other=9342900 rot=10185404 later_seq=0 later_upg=0 big3=92432523 big4=32215871 big5=5624284 big6=371668
+  cores with a failure: 14
+    (6, [[0, 1, 2, 3], [0, 1, 4, 5], [2, 3, 4, 5]], 21760, 0)
+    (6, [[0, 1, 2, 5], [1, 3, 4, 5], [2, 3, 4, 5]], 36960, 0)
+    (6, [[0, 2, 4, 5], [1, 3, 4, 5], [2, 3, 4, 5]], 19320, 0)
+   FAIL n=3 m=6 sets=[[0,2,4,5],[1,3,4,5],[2,3,5]] vals=[[1,8,4,6],[2,8,4,5],[4,3,2]] order=0 2 1  picks=2,5,3 blocks=0,0,0 upg=1:30  frozen=0  J=3 w=1
+   FAIL n=3 m=6 sets=[[0,2,4,5],[1,3,4,5],[2,3,5]] vals=[[1,8,6,4],[2,8,4,5],[4,3,2]] order=0 2 1  picks=2,5,3 blocks=0,0,0 upg=1:30  frozen=0  J=3 w=1
+   FAIL n=3 m=6 sets=[[0,2,4,5],[1,3,4,5],[2,3,5]] vals=[[4,8,2,7],[2,8,4,5],[4,3,2]] order=0 2 1  picks=2,5,3 blocks=0,0,0 upg=1:30  frozen=0  J=3 w=1
+## the owner's needs from its base (attempts/lb4-owner-needs-from-base.md)
+# lb4_run.py results/k4_certs_3.json.gz -i2 -u3 -r1 -w0 --show=3
+results/k4_certs_3.json.gz: 51 cores, 1s
+  total=299837376 leaves=927183 runs=1598590 fails=0 rawfails=0 nobig=164485016 owner_r=114461848 owner_other=9689028 rot=11201484 later_seq=12040 later_upg=993200 big3=92401873 big4=32226173 big5=5730048 big6=383004
+  cores with a failure: 0
+# lb4_run.py results/k4_certs_4_n4_1.json.gz -i2 -u3 -r1 -w0 --show=3
+results/k4_certs_4_n4_1.json.gz: 135 cores, 1s
+  total=7247232 leaves=718004 runs=800104 fails=0 rawfails=0 nobig=6684788 owner_r=408034 owner_other=34642 rot=119768 later_seq=0 later_upg=0 big3=423677 big4=42017 big5=1072
+  cores with a failure: 0
+# lb4_run.py results/k4_certs_4_n4_2.json.gz -i2 -u3 -r1 -w0 --show=3
+results/k4_certs_4_n4_2.json.gz: 309 cores, 4s
+  total=724847616 leaves=8799087 runs=12139998 fails=0 rawfails=0 nobig=605233094 owner_r=95676920 owner_other=8466772 rot=15470830 later_seq=336 later_upg=78196 big3=91422618 big4=16488422 big5=1347086 big6=31640
+  cores with a failure: 0
+# lb4_run.py results/k4_certs_4_n4_3.json.gz -i2 -u3 -r1 -w0 --show=3
+results/k4_certs_4_n4_3.json.gz: 339 cores, 32s
+  total=34971844608 leaves=59060298 runs=95535252 fails=0 rawfails=0 nobig=24935704928 owner_r=8510552266 owner_other=680628818 rot=844958596 later_seq=46984 later_upg=13675084 big3=7296948366 big4=1992251414 big5=285832432 big6=18393404 big7=290128
+  cores with a failure: 0
+# lb4_run.py results/k4_certs_4_pure.json.gz -i2 -u3 -r1 -w0 --show=3
+results/k4_certs_4_pure.json.gz: 219 cores, 276s
+  total=1022496473088 leaves=285377171 runs=514901286 fails=5040 rawfails=0 nobig=597659021728 owner_r=367717895364 owner_other=27904514584 rot=29215036372 later_seq=2958232 later_upg=838478488 big3=265619438276 big4=116786318384 big5=26301414104 big6=3453012724 big7=226925856 big8=4118528
+  cores with a failure: 13
+    (8, [[0, 2, 4, 6], [0, 2, 5, 6], [1, 3, 4, 7], [1, 3, 5, 7]], 1296, 0)
+    (8, [[0, 2, 5, 6], [0, 3, 4, 6], [1, 2, 4, 7], [1, 3, 5, 7]], 1184, 0)
+    (9, [[0, 2, 4, 8], [1, 3, 6, 7], [2, 3, 4, 5], [5, 6, 7, 8]], 256, 0)
+   FAIL n=4 m=8 sets=[[0,2,4,6],[0,2,5,6],[1,3,4,7],[1,3,5,7]] vals=[[2,3,8,4],[2,3,8,4],[2,3,8,4],[2,3,8,4]] order=3 1 0 2  picks=4,6,7,5 blocks=0,0,0,0 upg= frozen=0 3  J=f w=2
+   FAIL n=4 m=8 sets=[[0,2,4,6],[0,2,5,6],[1,3,4,7],[1,3,5,7]] vals=[[2,4,8,3],[2,3,8,4],[2,3,8,4],[2,3,8,4]] order=3 1 0 2  picks=4,6,7,5 blocks=0,0,0,0 upg= frozen=0 3  J=f w=2
+   FAIL n=4 m=8 sets=[[0,2,4,6],[0,2,5,6],[1,3,4,7],[1,3,5,7]] vals=[[3,2,8,4],[2,3,8,4],[2,3,8,4],[2,3,8,4]] order=3 1 0 2  picks=4,6,7,5 blocks=0,0,0,0 upg= frozen=0 3  J=f w=2
+## chains ending at upgraded agents (k4/lb4.md §3, item 2): pure n = 4, m = 8 and 9
+# lb4_run.py results/k4_certs_4_pure.json.gz --m=8 -i2 -u1 -r1 -w1 -c0 --show=3
+results/k4_certs_4_pure.json.gz: 62 cores, 213s
+  total=331945869312 leaves=98766281 runs=180059026 fails=9280 rawfails=0 nobig=246451743096 owner_r=65576426392 owner_other=11821897760 rot=8095792784 later_seq=286259728 later_upg=0 big3=64060248056 big4=19073134072 big5=671145648
+  cores with a failure: 2
+    (8, [[0, 1, 3, 7], [2, 3, 4, 7], [2, 5, 6, 7], [4, 5, 6, 7]], 640, 0)
+    (8, [[0, 2, 4, 7], [1, 3, 6, 7], [3, 5, 6, 7], [4, 5, 6, 7]], 8640, 0)
+   FAIL n=4 m=8 sets=[[0,1,3,7],[2,3,4,7],[2,5,6,7],[4,5,6,7]] vals=[[3,5,7,6],[2,8,3,4],[4,2,5,8],[2,3,4,8]] order=3 0 2 1  picks=3,4,6,7 blocks=0,0,0,0 upg=1:14  frozen=0 3  J=23 w=2
+   FAIL n=4 m=8 sets=[[0,1,3,7],[2,3,4,7],[2,5,6,7],[4,5,6,7]] vals=[[5,3,7,6],[2,8,3,4],[4,2,5,8],[2,3,4,8]] order=3 0 2 1  picks=3,4,6,7 blocks=0,0,0,0 upg=1:14  frozen=0 3  J=23 w=2
+   FAIL n=4 m=8 sets=[[0,1,3,7],[2,3,4,7],[2,5,6,7],[4,5,6,7]] vals=[[3,5,7,6],[3,8,2,4],[4,2,5,8],[2,3,4,8]] order=3 0 2 1  picks=3,2,6,7 blocks=0,0,0,0 upg=1:14  frozen=0 3  J=23 w=2
+# lb4_run.py results/k4_certs_4_pure.json.gz --m=8 -i2 -u3 -r1 -w1 -c0 --show=3
+results/k4_certs_4_pure.json.gz: 62 cores, 223s
+  total=331945869312 leaves=99570796 runs=181668056 fails=0 rawfails=0 nobig=246242585904 owner_r=65545666134 owner_other=11811061100 rot=8346556174 later_seq=574528 later_upg=286269008 big3=64139185970 big4=19127617706 big5=671215424
+  cores with a failure: 0
+# lb4_run.py results/k4_certs_4_pure.json.gz --m=9 -i2 -u3 -r1 -w1 -c0 --show=3
+results/k4_certs_4_pure.json.gz: 54 cores, 493s
+  total=214990848000 leaves=119003665 runs=225362978 fails=0 rawfails=0 nobig=0 owner_r=203687679396 owner_other=7110796012 rot=4192372592 later_seq=192848 later_upg=212418360 big3=172901812992 big4=34940740890 big5=7005591558 big6=142702560
+  cores with a failure: 0
+## (appended) the owner's needs from its base at n = 2
+# lb4_run.py results/k4_certs_2.json.gz -i2 -u3 -r1 -w0 --show=3
+results/k4_certs_2.json.gz: 5 cores, 1s
+  total=189216 leaves=4494 runs=7340 fails=0 rawfails=0 nobig=81216 owner_r=90840 owner_other=9900 rot=7260 later_seq=0 later_upg=300 big3=85248 big4=20736
+  cores with a failure: 0

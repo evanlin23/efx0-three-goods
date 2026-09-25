@@ -4,16 +4,24 @@
 other steps are as permissive as possible: every upgrade policy, every owner and completion, the owner's needs from its
 whole bundle, and one rotation whose chain may end at an upgraded agent (`k4/lb4.c -i0 -u3 -r1 -w1 -c1`).
 
-**Where it breaks.** Every core with n = 2 passes. At n = 3, with index insertion (`-i0 -u3 -r1 -w1 -c1`), 3 of the
-51 cores fail (12,040 profiles). Other fixed rules, with LB₄'s single upgrade policy (`-u1 -r1 -w1 -c1`), at n ≤ 3:
-index `-i0` 16 cores (160,060 profiles), LB's block lookahead (fewest goods needed alone) `-i3` 4 (13,780), the
-sequence with least ω after upgrades `-i4` 16 (109,016), "an agent with a > b + c first" `-i5` 9 (32,160), and "if the
-index run fails, rerun it with the last block led by that run's r" `-i7` 5 (13,480: 1 core at n = 2, 4 at n = 3).
+**Where it breaks.** With index insertion and every upgrade policy (`-i0 -u3 -r1 -w1 -c1`), every core with n = 2
+passes, and 3 of the 51 cores with n = 3 fail (12,040 profiles). Fixed rules with LB₄'s single upgrade policy (options `-u1 -r1 -w1 -c1`); each of
+them also fails in 1 of the 5 cores with n = 2 (300 profiles), and at n = 3:
+
+| rule | option | cores failing at n = 3 | profiles |
+|---|---|---|---|
+| index | `-i0` | 16 | 160,060 |
+| LB's block lookahead (fewest goods needed alone) | `-i3` | 4 | 13,780 |
+| the sequence with least ω after upgrades | `-i4` | 9 | 32,160 |
+| an agent with a > b + c first | `-i5` | 16 | 109,016 |
+| if the index run fails, rerun it with the last block led by that run's r | `-i7` | 4 | 13,480 |
+
 With every upgrade policy, `-i7 -u3 -r1 -w1 -c1` fails nowhere at n ≤ 3. Log: `results/k4_lb4_variants.log`.
 
-**Nested rotations repair it at n ≤ 3.** With up to two or three rotations in a row, index insertion fails nowhere at
-n ≤ 3 (`-i0 -u3 -r2 -w1 -c1`, `-i0 -u3 -r3 -w1 -c1`, and `-i0 -u1 -r3 -w1 -c1`; same log; lazy branching and brute
-force agree, `k4/test_lb4.py`). An earlier version of this file claimed the opposite; that came from a bug in `lb4.c`
+**Nested rotations repair it at n ≤ 3, with every upgrade policy.** With up to two or three rotations in a row and
+every upgrade policy, index insertion fails nowhere at n ≤ 3 (`-i0 -u3 -r2 -w1 -c1`, `-i0 -u3 -r3 -w1 -c1`; lazy
+branching and brute force agree, `k4/test_lb4.py`). With LB₄'s single upgrade policy it still fails
+(`-i0 -u1 -r3 -w1 -c1`: 1 core with n = 2, 300 profiles; 14 cores with n = 3, 147,240 profiles). Same log. An earlier version of this file claimed the opposite; that came from a bug in `lb4.c`
 (the rotation depth was not reset after a type split, and after two rotations a base of three goods could be left
 outside the owner's bundle), fixed in the commit that added this paragraph.
 
@@ -30,7 +38,7 @@ it, and takes {4, 2} (worth 10 > 9); the owner is agent 0, and the result is {0,
 brute-force solutions. The second rotation moves agent 1 back up from 1 to 5, below its first pick 3. Another insertion
 sequence also works (`-i2` succeeds on every profile of this core).
 
-So with one rotation the insertion order matters at k = 4, unlike Theorem C at k = 3. With nested rotations this is
-not established.
+So with one rotation the insertion order matters at k = 4, unlike Theorem C at k = 3. With nested rotations and every
+upgrade policy this is not established (index insertion passes n ≤ 3; n = 4 not tested).
 
 Reproduce: `python attempts/lb4_variants.py fixed-insertion`.

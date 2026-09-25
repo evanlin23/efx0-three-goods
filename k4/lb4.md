@@ -155,7 +155,8 @@ Return the first allocation found. LB₄ *fails* if no τ gives one.
 and if that fails, on τ with the leader of its *last* block replaced by each other agent of that block in turn (index
 order; later insertion steps, if the new block does not absorb every remaining agent, take the first agent). This is
 at most n runs of Phase 1. `-i8` is LB₄ᴸ(index order), a polynomial construction; `-i9` tests LB₄ᴸ(τ) for every τ.
-LB₄ᴸ(τ) fails for some τ at n = 4 (§3); LB₄ᴸ(index order) has not failed on any core tested (§4).
+Both fail at n = 4 (§3): LB₄ᴸ(τ) for some τ when three agents have 4 goods, and LB₄ᴸ(index order) on 4 pure cores.
+So LB₄ keeps the search over all insertion sequences.
 
 ## 3. Why each ingredient is there (rejected variants)
 
@@ -169,7 +170,7 @@ the construction that fails, not K4.D. One file each in `attempts/`, reproduced 
 | no rotation (everything else searched, including every insertion sequence) | n = 3, m = 5 | `attempts/lb4-no-rotation.md` |
 | a fixed insertion rule (index, block lookahead, least ω, "a > b + c first", r leads the last block) with one rotation | n = 3, m = 6 | `attempts/lb4-fixed-insertion.md` |
 | the owner's needs from its base, as at k = 3 (everything else searched) | n = 4, m = 8 (pure) | `attempts/lb4-owner-needs-from-base.md` |
-| only the last block's leader searched, for every run of Phase 1 (LB₄ᴸ(τ) for all τ) | n = 4, m = 8 (three 4-good agents) | `attempts/lb4-last-block-leader.md` |
+| only the last block's leader searched: for every run of Phase 1 (LB₄ᴸ(τ) for all τ), or for the index run (LB₄ᴸ(index), polynomial) | n = 4, m = 8 (three 4-good agents; pure for the index run) | `attempts/lb4-last-block-leader.md` |
 
 What each failure shows:
 1. *Upgrades can hurt* (n = 2): the k = 4 pair {b, c} is not always envy-free, so an upgraded agent can be threatened
@@ -182,13 +183,15 @@ What each failure shows:
 3. *With one rotation, the insertion order matters* (n = 3): unlike LB⁺ (Theorem C holds for every insertion order),
    some profiles need an agent to end below the good it picked, and one rotation moves every agent of its chain up.
    Every fixed rule tested fails with one rotation. Two rotations in a row can do it: with up to three nested
-   rotations, index insertion fails nowhere at n ≤ 3 (`-i0 -u3 -r3 -w1 -c1`; not tested beyond n = 3).
+   rotations and every upgrade policy, index insertion fails nowhere at n ≤ 3 (`-i0 -u3 -r3 -w1 -c1`; not tested
+   beyond n = 3), though with LB₄'s single upgrade policy it still fails there (`-i0 -u1 -r3 -w1 -c1`, 15 cores).
 4. *The owner's large bundle can remove its own needs* (n = 4): with {b, c, d} worth more than a, the owner no longer
    needs its top alone, which frees the agent holding that top.
-5. *For some runs, earlier blocks matter* (n = 4): choosing only the leader of the last block, the analogue of
-   Theorem A's focus on the last block, fails for some runs of Phase 1; in the smallest case the run's last block is
-   one agent, and the first block's leader must change (`results/k4_lb4_i9_run.log`). For the index run it has not
-   failed: LB₄ᴸ(index order) never fails on the cores tested (§4).
+5. *Earlier blocks matter* (n = 4): choosing only the leader of the last block, the analogue of Theorem A's focus on
+   the last block, fails for some runs of Phase 1 (three 4-good agents, `results/k4_lb4_i9_run.log`), and for the
+   index run on 4 pure cores (119,200 profiles, `results/k4_lb4_i8.log`). In both smallest cases the run's last block
+   is one agent, and the first block's leader must change. The polynomial LB₄ᴸ(index order) holds for n ≤ 3 (with
+   ties), n = 4 with at most three 4-good agents, and n = 5 with at most two.
 
 ## 4. Exhaustive tests
 
@@ -254,8 +257,8 @@ counting pairs every exposed agent with a terminal of its own block, and needs o
 3. *One good per exposed agent fails:* a flat frozen agent (a < c + d) with b, c, d all free needs two goods kept out of
    the large bundle, and an agent holding b_x is exposed when c + d > b. Agents with a two-good base can be exposed.
 4. *Any insertion order fails with one rotation* (`attempts/lb4-fixed-insertion.md`): Theorem C's "for every run of
-   Phase 1" is false at k = 4 with one rotation, and so is its weakening "for every run, up to the choice of the last
-   block's leader" (`attempts/lb4-last-block-leader.md`). A proof must choose the insertion sequence, or use a move
+   Phase 1" is false at k = 4 with one rotation, and so are its weakenings "for every run, up to the choice of the last
+   block's leader" and "for the index run, up to that choice" (`attempts/lb4-last-block-leader.md`). A proof must choose the insertion sequence, or use a move
    that lets an agent go below its pick (two rotations in a row can; untested beyond n = 3).
 
 **The gap, precisely.** By Theorem 1′₄, K4.D follows from

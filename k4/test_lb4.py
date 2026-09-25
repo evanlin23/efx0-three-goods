@@ -5,7 +5,7 @@
     rotations (-i0 -u3 -r3 -w1 -c1, whose rotation depth must be reset after a type split), the numbers of failing
     profiles and of raw-check failures per core must be the same when every profile is its own leaf (-b), on every core
     with n <= 3.
-(c) The five rejected variants of attempts/lb4-*.md reproduce (attempts/lb4_variants.py).
+(c) The rejected variants of attempts/lb4-*.md reproduce (attempts/lb4_variants.py).
 Usage: python3 k4/test_lb4.py"""
 import gzip, json, os, subprocess, sys
 from multiprocessing import Pool

@@ -19,7 +19,7 @@ run $R/k4_certs_2.json.gz $R/k4_certs_3.json.gz -i0 -u3 -r2 -w1 -c1
 run $R/k4_certs_2.json.gz $R/k4_certs_3.json.gz -i0 -u3 -r3 -w1 -c1
 run $R/k4_certs_2.json.gz $R/k4_certs_3.json.gz -i0 -u1 -r3 -w1 -c1
 echo "## the owner's needs from its base (attempts/lb4-owner-needs-from-base.md)"
-for f in 3 4_n4_1 4_n4_2 4_n4_3 4_pure; do run $R/k4_certs_$f.json.gz -i2 -u3 -r1 -w0; done
+for f in 2 3 4_n4_1 4_n4_2 4_n4_3 4_pure; do run $R/k4_certs_$f.json.gz -i2 -u3 -r1 -w0; done
 echo "## chains ending at upgraded agents (k4/lb4.md §3, item 2): pure n = 4, m = 8 and 9"
 run $R/k4_certs_4_pure.json.gz --m=8 -i2 -u1 -r1 -w1 -c0
 run $R/k4_certs_4_pure.json.gz --m=8 -i2 -u3 -r1 -w1 -c0
