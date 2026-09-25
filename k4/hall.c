@@ -38,10 +38,11 @@ static inline int pc(mask_t x) { return __builtin_popcountll(x); }
 
 static int n, m, d[MAXN], gl[MAXN][4], nt[MAXN], tv[MAXN][MAXT][4], cur[MAXN];
 static mask_t R[MAXN];
-static int nex = 0, dump = 0, xcheck = 0, paretomode = 0, pex = 0, cyclemode = 0;
+static int nex = 0, dump = 0, xcheck = 0, paretomode = 0, pex = 0, cyclemode = 0, paretoonly = 0;
 static long long pm_prof[4], pm_every[4], pm_some[4], pm_n[4];
 static int potmode = 0; static long long *potv, potbest;
 static int level(int i, mask_t B);
+static int bigtop_type(int i);
 
 /* per profile */
 static int nop[MAXN]; static mask_t opB[MAXN][MAXO], opN[MAXN][MAXO]; static int opV[MAXN][MAXO];
@@ -332,6 +333,104 @@ static void f0_cycle_check(const st_t *s) {
   else g0c[5]++;
 }
 
+/* frozen agents at a Pareto-maximum with frozen agents (k4/hall.md §5). fc counters: 0 maxima with F >= 1 and
+   omega >= 1; 1 ... with a globally exposed frozen agent (J alone threatens it, plain threat); 2 global exposures not of
+   the shape "4-good, a > b + c, all three lower goods junk"; 3 no global exposure and no valid owner; 4 global exposure
+   and no valid owner; 5 Lemma R violations (a frozen agent x and a chain end tau with a need-free improving set of
+   <= 2 goods of R_x inside J ∪ B_tau, other than x's needs); 6 frozen exposed agents w.r.t. two or more owners;
+   7 maxima where some owner is valid */
+static long long fc[10], fzcls[5];
+static void frozen_analyze(const st_t *s) {
+  fc[0]++;
+  mask_t reach[MAXN];
+  for (int x = 0; x < n; x++) {   /* chain ends: free agents reachable from x through frozen agents in the need digraph */
+    reach[x] = 0; if (!s->fz[x]) continue;
+    int seen = 1 << x, st[4 * MAXN], sp = 0; st[sp++] = x;
+    while (sp) { int y = st[--sp]; for (int z = 0; z < n; z++) if (z != y && (s->B[y] & s->N[z])) { if (s->fz[z]) { if (!(seen >> z & 1)) { seen |= 1 << z; st[sp++] = z; } } else reach[x] |= (mask_t)1 << z; } }
+  }
+  int glob = 0;
+  for (int x = 0; x < n; x++) if (s->fz[x]) {
+    mask_t q = s->J & R[x];
+    if (pc(q) >= 2 && val(x, q) > val(x, s->B[x])) {
+      glob = 1;
+      /* shape: 4-good, base = top, a > b + c, q = the three lower goods */
+      int ok = d[x] == 4 && pc(q) == 3 && (q | s->B[x]) == R[x];
+      if (ok) { int mx = 0; for (int k = 0; k < 4; k++) if (tv[x][cur[x]][k] > mx) mx = tv[x][cur[x]][k];
+        ok = val(x, s->B[x]) == mx; int best2 = 0;
+        for (int g = 0; g < m; g++) for (int h = g + 1; h < m; h++) if ((q >> g & 1) && (q >> h & 1)) { int w = val(x, ((mask_t)1 << g) | ((mask_t)1 << h)); if (w > best2) best2 = w; }
+        if (best2 > mx) ok = 0; }
+      if (!ok) fc[2]++;
+    }
+    /* Lemma H6: for every chain end tau, no set O ⊆ R_x ∩ (J ∪ B_tau), 1 <= |O| <= 2, with v(O) > v(B_x) */
+    for (int tau = 0; tau < n; tau++) if (reach[x] >> tau & 1) {
+      mask_t av = R[x] & (s->J | s->B[tau]);
+      for (mask_t O = av; O; O = (O - 1) & av)
+        if (pc(O) <= 2 && val(x, O) > val(x, s->B[x])) { fc[5]++; tau = n; break; }
+    }
+  }
+  if (glob) fc[1]++;
+  int anyok = 0, cntexp[MAXN] = {0};
+  for (int o = 0; o < n; o++) if (!s->fz[o]) {
+    if (def_owner(s, o, 0) <= 0) anyok = 1;
+    mask_t W = s->B[o] | s->J;
+    for (int x = 0; x < n; x++) if (x != o && s->fz[x] && threatens(x, W, val(x, s->B[x]))) {
+      cntexp[x]++;
+      mask_t q = s->J & R[x];
+      int cls;
+      if (pc(q) >= 2 && val(x, q) > val(x, s->B[x])) cls = 0;                 /* G */
+      else if (reach[x] >> o & 1) cls = 1;                                        /* G1-type: o is a chain end of x */
+      else {                                                                      /* L: labels needed */
+        int r = 99;
+        for (mask_t C = q;; C = (C - 1) & q) { if (pc(C) < r && !threatens(x, W & ~C, val(x, s->B[x]))) r = pc(C); if (!C) break; }
+        cls = r == 1 ? 2 : r == 2 ? 3 : 4;
+      }
+      fzcls[cls]++;
+    }
+  }
+  for (int x = 0; x < n; x++) if (cntexp[x] >= 2) fc[6]++;
+  /* a G1 configuration: a frozen 4-good agent x holding its top, a > b + c, and a chain end tau of x with
+     R_x \ B_x ⊆ J ∪ B_tau (the rotation that repairs x gives it three goods: x must become the owner) */
+  int g1 = 0;
+  for (int x = 0; x < n && !g1; x++) if (s->fz[x] && d[x] == 4) {
+    int v4[4], mx = 0; for (int k = 0; k < 4; k++) { v4[k] = tv[x][cur[x]][k]; if (v4[k] > mx) mx = v4[k]; }
+    if (val(x, s->B[x]) != mx) continue;
+    int tot = v4[0] + v4[1] + v4[2] + v4[3], mn = 1 << 30; for (int k = 0; k < 4; k++) if (v4[k] < mn) mn = v4[k];
+    if (mx <= tot - mx - mn) continue;                     /* a > b + c */
+    mask_t low = R[x] & ~s->B[x];
+    for (int tau = 0; tau < n; tau++) if ((reach[x] >> tau & 1) && !(low & ~(s->J | s->B[tau]))) g1 = 1;
+  }
+  if (!anyok && !g1) fc[8]++;
+  /* 9: no valid owner and no frozen 4-good agent holding its top with a > b + c ("big-top") */
+  if (!anyok) {
+    int bigtop = 0;
+    for (int x = 0; x < n; x++) if (s->fz[x] && d[x] == 4) {
+      int v4[4], mx = 0, tot = 0, mn = 1 << 30; for (int k = 0; k < 4; k++) { v4[k] = tv[x][cur[x]][k]; tot += v4[k]; if (v4[k] > mx) mx = v4[k]; if (v4[k] < mn) mn = v4[k]; }
+      if (val(x, s->B[x]) == mx && mx > tot - mx - mn) bigtop = 1;
+    }
+    if (!bigtop) { fc[9]++; if (pex > 0) { pex--; printf("EXFROZEN no owner, no frozen big-top:"); print_profile(); print_pa(s); printf("\n"); } }
+  }
+  if (anyok) fc[7]++;
+  else if (glob) fc[4]++;
+  else fc[3]++;
+}
+
+static int bigtop_type(int i) {   /* four goods and a > b + c */
+  if (d[i] != 4) return 0;
+  int v4[4], mx = 0, tot = 0, mn = 1 << 30; for (int k = 0; k < 4; k++) { v4[k] = tv[i][cur[i]][k]; tot += v4[k]; if (v4[k] > mx) mx = v4[k]; if (v4[k] < mn) mn = v4[k]; }
+  return mx > tot - mx - mn;
+}
+
+static int gdemand(const st_t *s) {
+  mask_t J = s->J; int best = 1 << 20;
+  for (mask_t C = J;; C = (C - 1) & J) {
+    if (pc(C) < best) {   /* plain threat v_x(Q) > v_x(B_x), |Q| >= 2: an owner's bundle also holds goods outside R_x */
+      int ok = 1; for (int x = 0; x < n && ok; x++) { mask_t q = J & ~C & R[x]; if (s->fz[x] && pc(q) >= 2 && val(x, q) > val(x, s->B[x])) ok = 0; }
+      if (ok) best = pc(C); }
+    if (!C) break;
+  }
+  return best;
+}
+
 static void do_profile(void) {
   setup();
   valuedfrom[n] = 0; for (int i = n - 1; i >= 0; i--) valuedfrom[i] = valuedfrom[i + 1] | R[i];
@@ -340,7 +439,7 @@ static void do_profile(void) {
   gen(0, 0, 0, 0, 0, o);
   cnt_prof++; cnt_valid += nvalid; cnt_minF += nL;
   int any = 0, least = 1 << 20; long long nle0 = 0;
-  for (long long k = 0; k < nL; k++) {
+  for (long long k = 0; k < nL && !paretoonly; k++) {
     st_t s; mkst(L[k].o, &s);
     int who = -1, dd = deficit(&s, &who);
     if (dd < least) least = dd;
@@ -350,23 +449,36 @@ static void do_profile(void) {
     if (dd > 0) cnt_minF_pos++;
     if (dump) { printf("P"); print_pa(&s); printf(" omega %d def %d owner %d\n", s.omega, dd, who); }
   }
+  if (paretoonly) any = 1;   /* -N: the min-frozen deficits are not computed */
   if (any) cnt_def_le0_prof++;
   else if (nex-- > 0) { printf("EX C4min fails:"); print_profile(); printf("\n"); }
   if (paretomode) {   /* -P: Pareto-maxima (base values) inside the min-frozen set, by the fewest frozen agents
                          (-Q1: the maxima of the level sum instead; -Q2: of leximin over the levels) */
     int fb = best_frozen > 3 ? 3 : best_frozen, ev = 1, so = 0; long long npm = 0;
+    long long *gkey = 0, gbest = -(1LL << 62);
+    if (potmode >= 3) {   /* -Q3: (-G, level sum); -Q4: (-G, Pareto); G = the frozen agents' junk demand (gdemand) */
+      gkey = malloc(nL * sizeof(long long));
+      for (long long k = 0; k < nL; k++) { st_t s; mkst(L[k].o, &s); gkey[k] = -gdemand(&s); if (gkey[k] > gbest) gbest = gkey[k]; }
+    }
     if (potmode) {
       potv = realloc(potv, nL * sizeof(long long)); potbest = -(1LL << 62);
       for (long long k = 0; k < nL; k++) {
         long long pv = 0;
-        for (int i = 0; i < n; i++) { int l = level(i, opB[i][L[k].o[i]]); if (potmode == 1) pv += l; else pv -= 1LL << (4 * (15 - l)); }
+        for (int i = 0; i < n; i++) { int l = level(i, opB[i][L[k].o[i]]);
+          if (potmode == 5) pv += bigtop_type(i) ? l : 1000LL * l;   /* -Q5: level sum of the other agents first, then of the big-top types */
+          else if (potmode == 6) pv += bigtop_type(i) ? -l : 1000LL * l;   /* -Q6: ... then the big-top types' level sum minimized */
+          else if (potmode == 7) pv += bigtop_type(i) ? 100LL * (2 - pc(opB[i][L[k].o[i]])) + l : 100000LL * l;   /* -Q7: ... then -|B| of big-tops, then their levels */
+          else if (potmode == 1 || potmode == 3) pv += l; else pv -= 1LL << (4 * (15 - l)); }
+        if (potmode >= 3 && gkey[k] != gbest) pv = -(1LL << 61);
         potv[k] = pv; if (pv > potbest) potbest = pv;
       }
     }
     for (long long k = 0; k < nL; k++) {
       int dom = 0;
-      if (potmode == 0)
+      if (potmode == 4 && gkey[k] != gbest) continue;
+      if (potmode == 0 || potmode == 4)
         for (long long q = 0; q < nL && !dom; q++) {
+          if (potmode == 4 && gkey[q] != gbest) continue;
           int ge = 1, gt = 0;
           for (int i = 0; i < n; i++) { int a = opV[i][L[k].o[i]], b = opV[i][L[q].o[i]]; if (b < a) { ge = 0; break; } if (b > a) gt = 1; }
           dom = ge && gt;
@@ -377,9 +489,12 @@ static void do_profile(void) {
       st_t s; mkst(L[k].o, &s);
       int dd = deficit(&s, 0);
       if (best_frozen == 0 && s.omega >= 1) f0_analyze(&s);
+      if (best_frozen >= 1 && s.omega >= 1) frozen_analyze(&s);
+      if (dump) { int T = 0; for (int i = 0; i < n; i++) T += pc(s.B[i]) == 1; printf("PM"); print_pa(&s); printf(" T %d omega %d def %d\n", T, s.omega, dd); }
       if (dd <= 0) so = 1; else { ev = 0; if (pex > 0) { pex--; printf("EXPARETO F=%d:", best_frozen); print_profile(); print_pa(&s); printf(" omega %d def %d\n", s.omega, dd); } }
     }
     pm_prof[fb]++; pm_every[fb] += ev; pm_some[fb] += so; pm_n[fb] += npm;
+    free(gkey);
   }
   if (xcheck) { printf("X"); for (int i = 0; i < n; i++) printf(" %d", cur[i]); printf(" valid %lld minfrozen %d count %lld le0 %lld least %d\n", nvalid, best_frozen, nL, nle0, least); }
 }
@@ -395,8 +510,14 @@ int main(int argc, char **argv) {
     else if (!strcmp(argv[i], "-X")) xcheck = 1;
     else if (!strcmp(argv[i], "-P")) { paretomode = 1; }
     else if (!strcmp(argv[i], "-G")) cyclemode = 1;
+    else if (!strcmp(argv[i], "-N")) { paretoonly = 1; paretomode = 1; }
     else if (!strcmp(argv[i], "-Q1")) potmode = 1;
     else if (!strcmp(argv[i], "-Q2")) potmode = 2;
+    else if (!strcmp(argv[i], "-Q3")) potmode = 3;
+    else if (!strcmp(argv[i], "-Q4")) potmode = 4;
+    else if (!strcmp(argv[i], "-Q5")) potmode = 5;
+    else if (!strcmp(argv[i], "-Q6")) potmode = 6;
+    else if (!strcmp(argv[i], "-Q7")) potmode = 7;
     else if (!strcmp(argv[i], "-Gx")) { cyclemode = 1; gex = atoi(argv[++i]); }
     else if (!strcmp(argv[i], "-Px")) { paretomode = 1; pex = atoi(argv[++i]); }
     else { fprintf(stderr, "unknown option %s\n", argv[i]); return 2; }
@@ -434,6 +555,7 @@ int main(int argc, char **argv) {
   printf("FAILOWNERS %lld unhittable %lld tau", kfail_owner, kfail_owner_unhit);
   for (int t = 0; t < 8; t++) printf(" %lld", tauhist[t]);
   printf(" violsize"); for (int t = 0; t < 8; t++) printf(" %lld", kviol_size[t]); printf("\n");
+  if (paretomode) { printf("FZ"); for (int q = 0; q < 10; q++) printf(" %lld", fc[q]); for (int q = 0; q < 5; q++) printf(" %lld", fzcls[q]); printf("\n"); }
   if (cyclemode) { printf("G0"); for (int q = 0; q < 8; q++) printf(" %lld", g0c[q]); printf("\n"); }
   if (paretomode) { printf("F0"); for (int q = 0; q < 15; q++) printf(" %lld", f0c[q]); printf("\n"); }
   if (paretomode) for (int f = 0; f < 4; f++) printf("PARETO minfrozen %d%s profiles %lld every_ok %lld some_ok %lld maxima %lld\n", f, f == 3 ? "+" : "", pm_prof[f], pm_every[f], pm_some[f], pm_n[f]);

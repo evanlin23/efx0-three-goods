@@ -29,6 +29,15 @@ def main():
     c2 = all(s in out2 for s in ('valid True frozen []', 'fewest frozen 0, Pareto-maximal True', 'completable False', 'removal-only completable False'))
     print(f'cyc6: hall.c {"confirmed" if c1 else "NOT confirmed"}; hall_check.py {"confirmed" if c2 else "NOT confirmed"}')
     ok &= c1 and c2
+    # 2. k4/hall.md §5: a Pareto-maximum with only local frozen exposures (no (G), no (G1)) that is not completable
+    #    (n = 3, m = 7; core 33 of results/k4_certs_3.json.gz).
+    inst = os.path.join(ROOT, 'k4', 'hall_instances', 'local3.inst')
+    out = subprocess.run([binary(), '-1', '-N', '-d'], input=hall_input(inst), capture_output=True, text=True, check=True).stdout
+    c1 = 'PM bases {2}F {5,6} {3,4} J {0,1} T 1 omega 2 def 1' in out
+    out2 = subprocess.run([sys.executable, os.path.join(ROOT, 'k4', 'hall_check.py'), inst], capture_output=True, text=True, check=True).stdout
+    c2 = all(s in out2 for s in ('valid True frozen [0]', 'fewest frozen 1, Pareto-maximal True', 'completable False', 'removal-only completable False'))
+    print(f'local3: hall.c {"confirmed" if c1 else "NOT confirmed"}; hall_check.py {"confirmed" if c2 else "NOT confirmed"}')
+    ok &= c1 and c2
     print('ALL CONFIRMED' if ok else 'SOME NOT CONFIRMED')
     sys.exit(0 if ok else 1)
 

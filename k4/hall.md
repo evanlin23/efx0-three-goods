@@ -218,12 +218,74 @@ EFX₀ definition. `k4/hall_random.py` generates random instances that are not c
 
 (Table filled in from `results/k4_hall_n3.log` and the sample logs when the runs finish.)
 
-## 5. With frozen agents (what changes)
+## 5. With frozen agents: what survives, and where k = 4 breaks
 
-Lemma H3 is about free exposed agents only. A frozen agent x holds one good, and its goods below it may be junk: Lemma
-U does not apply, since adding a junk good would put a needed good into a two-good base. So a frozen agent can be
-threatened by J alone, with respect to every owner at once. Examples are a 4-good top-holder of type a > b + c with
-b, c, d ∈ J (instance 3 of `attempts/k4-c4x-pareto-potentials.md`, n = 3), or a flat one. The exposure sets are then
-no longer disjoint, and the counting of §3 breaks. At k = 3, Lemma R of `k4/c4x.md` excludes this at a
-Pareto-maximum (LB⁺'s rotation). At k = 4 the rotation that repairs it gives the frozen agent a base of three goods,
-so the agent must become the owner (`k4/c4x.md` §5, (G1)). Work in progress.
+Theorem H0's counting needs every exposed agent to be exposed with respect to one owner. Lemma H3 gives this for free
+agents. For frozen agents the analogue of Theorem K3's Lemma R still holds, but it no longer excludes every shared
+exposure.
+
+**Lemma H6 (frozen agents cannot improve along a need chain).** Let P ∈ 𝒫 be Pareto-maximal, x frozen with base {g},
+and τ a chain end of x (a free agent reached from x in the need digraph through frozen agents; one exists by Lemma C of
+`k4/c4x.md` §3). Then v_x(O) < v_x(g) for every set O ⊆ R_x ∩ (J ∪ B_τ) of one or two goods.
+
+*Proof.* Take a simple need chain x = x₀ → x₁ → … → x_s = τ. Suppose some O has v_x(O) > v_x(g). Make the moves:
+- each x_{i+1} takes B_{x_i} (a good it needed);
+- x takes O;
+- the rest of (J ∪ B_τ) ∖ O becomes junk.
+
+Check that the result is a Pareto-improvement in 𝒫:
+- Every moved agent strictly gains, so its needs shrink. For x, N(O) ⊆ N(g), since v(O) > v(g). Hence NA′ ⊆ NA.
+- Every good of N(O) is still a one-good base: g is x₁'s, and the others did not move or moved along the chain.
+- B_τ is not in NA, because τ is free: a one-good free base is not needed, and a pair misses NA by (V2).
+- So the new junk and the goods of O miss NA′: (V1) and (V2) hold.
+
+So P′ ∈ 𝒫 dominates P. ∎
+
+At k = 3, Lemma H6 for a top-holder is Lemma R of `k4/c4x.md` §3. At k = 4 it excludes every improving set of at most two
+goods. What remains is the one thing a base cannot hold: three goods.
+
+**Lemma H7 (frozen exposed agents).** Let P ∈ 𝒫 be Pareto-maximal, o free, and x frozen with base {g}, exposed with
+respect to o. Then exactly one of the following holds.
+- **(G) global.** x has four goods, g = a_x, a_x > b_x + c_x (a *big-top* agent), and R_x ∖ {a_x} ⊆ J. Then x is
+  exposed with respect to every free agent.
+- **(G1)** Not (G); o is a chain end of x; x is a big-top agent with g = a_x and R_x ∖ {a_x} ⊆ J ∪ B_o.
+- **(L) local.** Not (G); o is not a chain end of x, and the threat uses a good of B_o.
+
+*Proof.* Every good of R_x ∩ W_o is worth at most v(g), and a threat needs a subset Q ⊆ R_x ∩ W_o with v(Q) > v(g).
+- If J alone threatens, Lemma H6 with any chain end shows that no one or two goods of R_x ∩ J beat g. So Q has three
+  goods, and so does R_x ∖ {g}, and x has four goods. g = a_x, since for g ≠ a_x the good a_x is needed, hence not in
+  W_o. No pair of low(x) beats a_x, so a_x > b_x + c_x: (G).
+- If o is a chain end, Lemma H6 with τ = o gives the same conclusion within J ∪ B_o: (G1).
+- Otherwise the threat must use a good of B_o: (L). ∎
+
+**What this gives, and what it does not.**
+- A local exposure needs one label, or two (e.g., x holds a with c + d < a < b + d, b ∈ B_o and c, d ∈ J), or is
+  unhittable.
+- A local exposure is tied to the owners whose base holds one of x's lower goods. There are up to three of them (89
+  frozen agents exposed w.r.t. two or more owners in the n = 3 sample below).
+- (G) and (G1) are the (G1) mechanism of `k4/c4x.md` §5: the rotation that would repair x gives it three goods, so x
+  would have to become the owner.
+
+**The data** (`k4/hall.c -N`, Pareto-maxima inside the min-frozen set, with frozen agents and ω ≥ 1; §4):
+- Lemma H6 has no violation.
+- Every global exposure has the shape (G).
+- The Pareto-maxima that are not completable number 112 of 7,442 (n = 3 sample) and 82 of 11,615 (pure n = 4 sample).
+  Every one of them has a frozen big-top agent.
+- 16 and 2 of them have no (G) or (G1) exposure. In those, the big-top agent becomes the owner through an exchange
+  cycle that a Pareto-maximum does not see. Example, core 33 of `results/k4_certs_3.json.gz`, instance
+  `k4/hall_instances/local3.inst`:
+  - agent 0 has values 0:3, 1:2, 2:10, 3:6 and base {2}, frozen;
+  - agent 1 has values 2:8, 4:2, 5:3, 6:4 and base {5, 6};
+  - agent 2 has values 3:7, 4:3, 5:5, 6:6 and base {3, 4};
+  - J = {0, 1}, and there are no slots.
+  - Owner 1 leaves agent 2 threatened (e3). Owner 2 leaves agent 0 threatened (local, one label). So P is Pareto-maximal
+    and not completable.
+  - The cycle "0 gives 2 to 1, 1 gives {5, 6} to 2, 2 gives 3 to 0, 0 becomes the owner of {3, 0, 1, 4}" is completable.
+
+**Conjecture K4.HALL.BT (the obstruction is the big-top agent).** A Pareto-maximal P ∈ 𝒫 with ω ≥ 1 that is not
+removal-only completable either has a frozen big-top agent, or has no frozen agent and a label collision (§3.1). At
+k = 3 there are no big-top agents, which matches Theorem K3. With frozen agents it held in every sample (n = 3, pure n = 4,
+§4). The potential "fewest frozen agents, then Σℓ over the agents that are not of big-top type, then Σℓ over the
+big-top types" gives priority as the conjecture suggests. It has 1 non-completable maximum in the n = 3 sample of §4
+(core 41) and none in the n = 4 samples. The variants "big-top types' Σℓ minimized" and "big-top types' smallest bases
+first" fail 6 and 4 times on the same n = 3 sample. So the priority is right, but the exact rule is not.
