@@ -18,8 +18,15 @@ Lemma E, Theorems A₄, B₄, B₄ʷ, A₄ᵀ, A₄⁺ and the conventions of it
   proved from 94.5% to 97.6% (n = 4, one 4-good agent).
 - **The insertion sequence is the lever** (§6). Take the theorems of `k4/c4.md` together with A₄⁺ for every owner.
   Then every strict profile of every certified core with one 4-good agent and n ≤ 5 has an insertion sequence whose
-  run they prove. No fixed rule tested (index order, q first, q as late as possible) achieves this. So C₄¹∃ reduces,
-  on the data, to an exchange argument on τ; that argument is open.
+  run they prove.
+  - It can even be taken among the sequences that minimize ω (**Conjecture C₄¹τ**).
+  - It can also be taken as index order with the single insertion step that started q's block changed.
+  - No fixed rule tested (index order, q first, q as late as possible, the lexicographically first least-ω sequence)
+    achieves this.
+  - A deterministic rule works: minimize (ω, q frozen, −pos(q)).
+  - Behind it is a local **Exchange Lemma X**, which holds on every run tested. When a run is not covered, changing
+    one insertion step covers it or lowers that key.
+  - **Lemma X plus the theorems imply C₄¹∃.** So on the data, C₄¹∃ reduces to Lemma X, which is open.
 - **The existence form C₄¹∃** (§1) is open. It is what TARGET₄ needs for these instances.
 
 ## 1. Statements
@@ -156,32 +163,79 @@ n = 4 with at most two 4-good agents. Share of runs with ω ≥ 1 that are prove
 | n = 4, one 4-good agent | 94.5% | 97.6% |
 | n = 4, two 4-good agents | 89.4% | 95.3% |
 
-## 6. Choosing the insertion sequence (`k4/c4one_tau.py`, `results/k4_c4one_tau.log`)
+## 6. Choosing the insertion sequence (`k4/c4one_tau_runs.sh` → `results/k4_c4one_tau.log`)
 
 In this section a run counts as a success when the theorems prove it:
 - with `-P`: those of `k4/c4.md` (A₄, B₄, B₄ʷ, A₄ᵀ, A₄⁺ for r);
-- with `-P2`: those plus A₄⁺(o) for every owner.
+- with `-P2`: those plus A₄⁺(o) for every owner (§5).
 
-`k4/c4check.c -X -P` then searches the insertion sequences with `-i2`, or fixes them with `-i0` (index order), `-Q`
-(q first) and `-Q2` (q never inserted while another agent is available). The table counts the profiles on which no
-allowed insertion sequence gives a proved run, over the certified cores with one 4-good agent:
+Runs with ω ≤ 0 need no owner and always count as a success. `k4/c4check.c -X -P` restricts the insertion sequences
+by a rule. The table counts the profiles on which no allowed insertion sequence gives a proved run, over the certified
+cores with one 4-good agent (`k4/c4one_tau.py`):
 
-| criterion | insertion sequences | n = 2 | n = 3 | n = 4 | n = 5 |
+| criterion | insertion sequences allowed | n = 2 | n = 3 | n = 4 | n = 5 |
 |---|---|---|---|---|---|
-| `k4/c4.md` | all | 0 | 24 | 0 | 0 |
+| `k4/c4.md` | all (`-i2`) | 0 | 24 | 0 | 0 |
 | `k4/c4.md` | q first, the rest searched | 0 | 260 | 10,786 | 229,492 |
 | + A₄⁺(o) | **all** | **0** | **0** | **0** | **0** |
+| + A₄⁺(o) | **those minimizing ω after envy-free upgrades** (`-i14`) | **0** | **0** | **0** | **0** |
+| + A₄⁺(o) | index order, or index order with one insertion step changed (`-i6`) | 0 | 0 | 0 | 0 |
+| + A₄⁺(o) | index order, or index order with the step that started q's block changed (`-i10`) | 0 | 0 | 0 | 0 |
+| + A₄⁺(o) | the first sequence minimizing ω (lexicographic order, `-i12`) | 0 | 136 | 1,000 | 3,202 |
+| + A₄⁺(o) | **the first sequence minimizing key(τ) = (ω, q frozen, −pos(q))** (`-i17`) | **0** | **0** | **0** | **0** |
+| `k4/c4.md` | the same (`-P -i17`) | 0 | 44 | 509 | 4,518 |
+| + A₄⁺(o) | the first sequence minimizing (ω, q frozen) only (`-i15`) | 0 | 0 | 0 | 4 |
+| + A₄⁺(o) | index order, else q inserted at the step that started its block (`-i11`) | 0 | 212 | 5,624 | 145,832 |
 | + A₄⁺(o) | q first, the rest searched | 0 | 212 | 6,840 | 120,260 |
 | + A₄⁺(o) | q as late as possible, the rest searched | 348 | 272 | 80 | 0 |
 | + A₄⁺(o) | index order | 0 | 916 | 12,388 | 287,418 |
 | + A₄⁺(o) | q first, then index order | 0 | 212 | 6,920 | 183,016 |
 | + A₄⁺(o) | q as late as possible, then index order | 348 | 2,308 | 22,498 | 367,828 |
 
-So on the data, every profile with one 4-good agent has an insertion sequence where r, or another owner, is valid by a
-theorem already proved here or in `k4/c4.md`, or where LB⁺'s rotation (B₄) or the rotation of q (B₄ʷ) works. A proof
-of C₄¹∃ along this line needs a rule or an exchange argument: when the run for τ is not covered, some other τ′ is.
-None of the fixed rules does it: each misses profiles that another rule, or a search over the remaining insertion
-steps, covers, so the choice has to depend on the profile.
+The table has three findings:
+- **One change of insertion step suffices.** When the index-order run is not covered, changing the single insertion
+  step that started q's block covers it. The new agent there is q in only about a quarter of the cases. The new run
+  often has ω ≤ 0, so it needs no owner.
+- **Minimizing ω suffices.** Some insertion sequence that minimizes ω = |NA| − σ after envy-free upgrades is always
+  covered. The lexicographically first such sequence is not always covered.
+- **A deterministic rule works.** Minimize key(τ) = (ω after envy-free upgrades; q frozen (1) or not (0); −pos(q),
+  that is q processed as late as possible), then take the lexicographically first. The resulting run is always
+  covered (`-i17`). An upgraded q counts as not frozen: it holds an envy-free pair and is never exposed. Without
+  A₄⁺(o) the same rule leaves 44, 509 and 4,518 profiles (n = 3, 4, 5).
+
+The last finding comes from a local statement that holds on every run tested:
+
+**Exchange Lemma X (conjecture).** Let q be the unique 4-good agent. For an insertion sequence τ, let P(τ) be the state
+after Phase 1(τ) (LB's P-step key) and envy-free upgrades, and compare key(τ) lexicographically. Suppose the run for τ
+is not covered, that is:
+- ω(P(τ)) ≥ 1;
+- none of A₄ (outside LB⁺'s bad case), B₄ (in the bad case, r not exposed after the rotation), B₄ʷ, A₄ᵀ or A₄⁺(o) for
+  any owner o applies.
+
+Then some τ′ has a covered run or key(τ′) < key(τ). Here τ′ agrees with τ before one insertion step, takes another
+agent there, and follows index order after it.
+
+*Evidence* (`-i19`, `results/k4_c4one_tau.log`): it holds for every insertion sequence of every strict profile of
+every certified core with one 4-good agent and n ≤ 5, with 0 exceptions in 5.78·10⁹ (run, profile) pairs at n = 5.
+Restricted to the step that started q's block (`-i18`), it fails for 288 pairs in one core, where q leads its own
+block. With only the theorems of `k4/c4.md` (no A₄⁺(o), `-P -i19`) it fails for 24 pairs, all in one core with n = 3.
+
+**Corollary.** Lemma X and the theorems (K4.C4.AB, K4.C4.AO) imply C₄¹∃, and so TARGET₄ for every instance in which
+at most one agent values four goods. *Proof.* Start from any τ and apply Lemma X while the run is not covered. The key
+strictly decreases, and it takes finitely many values, so this stops at a covered run. That run has one of three
+outcomes:
+- it needs no owner (ω ≤ 0);
+- it has a valid owner (A₄, A₄ᵀ, A₄⁺(o));
+- one rotation gives one (B₄, B₄ʷ).
+
+In each case there is a valid pre-allocation with a completion satisfying (OC₄), which is C₄¹∃'s witness
+(Theorem 1′₄). ∎
+
+So on the data, C₄¹∃ reduces to one local lemma about Phase 1 runs.
+- It does not mention rotations beyond single ones, and it does not rely on LB₄ʳ's search.
+- The key is a potential over insertion sequences, not over rotations. This is where route 2 (§4) failed: rotations
+  need preparing moves, while insertion sequences do not.
+- Next step: prove Lemma X, case by case along the classes of §3, starting with the step that started q's block.
 
 ## 7. Reproduce
 
@@ -191,5 +245,5 @@ python3 k4/lb4_run.py results/k4_certs_5_n4_1.json.gz -i1 -u2 -o0 -r2 -w1 -c1   
 python3 k4/c4one_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz results/k4_certs_4_n4_1.json.gz results/k4_certs_5_n4_1.json.gz   # §3
 python3 k4/c4tools/c4potscan.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz results/k4_certs_4_n4_1.json.gz   # §4 (~25 min)
 python3 k4/c4check_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz results/k4_certs_4_n4_1.json.gz results/k4_certs_4_n4_2.json.gz   # §5
-python3 k4/c4one_tau.py "-X -P2 -u2 -i2 -o0 -r1 -w0 -c0 -f3" results/k4_certs_5_n4_1.json.gz                  # §6, one row
+bash k4/c4one_tau_runs.sh                                                 # §6 (~30 min)
 ```
