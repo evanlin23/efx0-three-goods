@@ -26,7 +26,7 @@ Workstream `proof/k4-gm4`, ledger rows `K4.GM.*`. This builds on:
   - leximax (Σ 16^ℓ);
   - fixed priority (the level vector in a fixed agent order, compared lexicographically; #29's `POT=2`).
 
-  For Σℓ² and every Σℓ tie-break, the existence form fails as well (instance G). For fixed priority it fails for some agent orders (instance Q), though every profile tested has some order that works. For **Σ 2^ℓ and leximax** the existence form survives. In the targeted searches (7,750,832 distinct profiles for Σ 2^ℓ, 19,652,066 for leximax) and in 92M random profiles each, every profile had a placeable maximum. The targeted search closed at 384 distinct profiles with a bad maximum: changing one or two agents' types of any of them gives no new one. This is the only surviving statement of this kind: conjecture K4.GM.POT, evidence only.
+  For Σℓ² and every Σℓ tie-break, the existence form fails as well (instance G). For fixed priority it fails for some agent orders (instance Q), though every profile tested has some order that works. For **Σ 2^ℓ and leximax** the existence form survives. In the targeted searches (7,750,832 distinct profiles for Σ 2^ℓ, 19,652,066 for leximax) and in 92M random profiles each, every profile had a placeable maximum. The targeted search closed at 384 distinct profiles with a bad maximum: changing one agent's type of any of them (both potentials), or two agents' types (leximax only), gives no new one. This is the only surviving statement of this kind: conjecture K4.GM.POT, evidence only.
 - **Where GM₄ does hold** (§4; exhaustive, one implementation):
   - every strict profile of every k = 4 core with n ≤ 3;
   - n = 4 with one 4-good agent;
@@ -182,16 +182,18 @@ In the logs cited below, (a) counted a maximum with an empty bundle as placed wi
 - n = 4, one to three 4-good agents: 171,295 (`results/k4_gm4_4_mixed_sample_echeck.log`);
 - n = 5, one or two 4-good agents: 344,310 (`results/k4_gm4_5_n4_12_sample_echeck.log`);
 - n = 5, three: 186,391 (`results/k4_gm4_5_n4_3_sample_echeck.log`);
-- n = 5, four: 62,772 (`results/k4_gm4_5_n4_4_sample_echeck.log`).
+- n = 5, four: 62,772 (`results/k4_gm4_5_n4_4_sample_echeck.log`);
+- pure n = 5: 26,798 (`results/k4_gm4_5_pure_sample_echeck.log`);
+- n = 4, two 4-good agents, exhaustive: 3,046,488 (`results/k4_gm4_4_n4_2_echeck.log`).
 
-For pure n = 5 (26,798 such maxima) and n = 4 with two 4-good agents (3,046,488), the cited logs rely on Lemma 2.
+These are all the classes of §4 with such maxima.
 
 Checks on the tool and the data:
 - It agrees exactly with the full enumeration `k4/gm4_explore.c` on the n = 2 run (236,176 maxima, 2,286 with a pool). It also agrees on a pure n = 4 sample of 438,000 profiles (2,000 per core): 622,450 maxima, 25,713 with a pool (`results/k4_gm4_fast_4_pure_2000.log` against `results/k4_gm4_h1_4_pure_sample.log`).
 - At n = 2 it also agrees with #29's independent `k4/ls4_gm.c`, which counts the same 236,176 maximal states (`results/k4_gm_2.log`).
 - Its n = 3 run covers 299,837,376 strict profiles, the count in row K4.LS.RUN.
 - Cores come from the certificate files, whose core lists are complete by the orbit count of `k4/check4.py`, or from genbg via `k4/search4.py` (n = 5).
-- Every counterexample is re-checked by `k4/gm4_counterexample.py`. Instances A–H, P, Q and S are checked for all their stated claims. All 136 distinct maxima without a placement in the GMFAIL lines of the random and exhaustive runs are checked for the core conditions, EFX₀, maximality and the absence of a placement (its BATCH line). These are the 7 seeds, the 128 exhaustive maxima with two 4-good agents and the 4 at n = 5.
+- Every counterexample is re-checked by `k4/gm4_counterexample.py`. Instances A–H, P, Q and S are checked for all their stated claims. All 136 distinct maxima without a placement in the GMFAIL lines of the random and exhaustive runs are checked for the core conditions, EFX₀, maximality and the absence of a placement (its BATCH line). These are the 7 seeds, the 128 exhaustive maxima with two 4-good agents and the 4 at n = 5 (3 of the seeds are among the 128, so 136 in all).
 
 | class | profiles | how | maxima with a pool | no single dump | no placement (GM₄ fails) | log |
 |---|---|---|---|---|---|---|
@@ -207,7 +209,7 @@ Checks on the tool and the data:
 | n = 5, three 4-good agents (9,861 cores, genbg) | 19,722,000 | 2,000 random per core | 2,777,846 | 3 | 0 | `results/k4_gm4_5_n4_3_sample.log` |
 | n = 5, four 4-good agents (9,846 cores, genbg) | 19,692,000 | 2,000 random per core | 2,179,195 | 1 | 1 | `results/k4_gm4_5_n4_4_sample.log` |
 
-"No single dump" counts maxima with a nonempty pool, no empty bundle and no source admitting the single dump. "No placement" counts those among them that admit no junk placement either.
+For the random classes, "profiles" are draws with replacement, so a profile may be counted more than once. "No single dump" counts maxima with a nonempty pool, no empty bundle and no source admitting the single dump. "No placement" counts those among them that admit no junk placement either.
 
 *Every* maximum of the profile lacks a placement (GM₄∃ fails): never in these runs. The counter `pallfail` is 0 in every log that has it. `results/k4_gm4_3.log` and `results/k4_gm4_k3cores_5.log` predate the counter, but there `fail` = 0 implies it. This includes the exhaustive run with two 4-good agents: there GM₄ fails at 128 maxima, but every one of the 724,847,616 profiles has a placeable maximum. For pure n = 5 this was checked separately for the 3 failing profiles (`results/k4_gm4_5_pure_check.log`). The per-profile counters `pfail`/`pallfail` in `results/k4_gm4_5_pure_sample.log` are partial, because the base binary was rebuilt with those counters while that run was in progress; its per-maximum counts are complete. GM₄∃ fails only in the targeted search of §6 (instance G, §2.4).
 

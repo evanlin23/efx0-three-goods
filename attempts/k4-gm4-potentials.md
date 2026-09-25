@@ -2,7 +2,7 @@
 
 Workstream `proof/k4-gm4` (`k4/gm4.md` §6).
 
-**Approach.** LS4⁺'s soundness and termination hold for any potential that every M1, R and X move raises, with coalition moves defined by the same potential (`k4/ls4plus.md` Theorem 1⁺). Every strictly increasing function of each agent's level qualifies. The bad maxima of the level sum are the *most equal* ones (`k4/gm4.md` §6). So potentials that favor unequal level vectors were tried:
+**Approach.** LS4⁺'s soundness and termination hold for any potential that every M1, R and X move raises, with coalition moves defined by the same potential (`k4/ls4plus.md` Theorem 1⁺). Every strictly increasing function of each agent's level qualifies. The bad maxima of the level sum tend to be among the more equal ones (though not in B; `k4/gm4.md` §6). So potentials that favor unequal level vectors were tried:
 - tie-breaks among the Σℓ-maxima: largest Σℓ², leximax-largest, and leximin for contrast;
 - Σℓ² in place of Σℓ;
 - Σ 2^ℓ in place of Σℓ;
