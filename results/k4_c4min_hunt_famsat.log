@@ -67,3 +67,52 @@ SAT ht:10 (n 41, m 103, sigma -21, perturb:16) profiles 300 fails 0 fstar {0: 27
 SAT htc:8 (n 32, m 80, sigma -16, perturb:16) profiles 300 fails 0 fstar {0: 273, 1: 25, 2: 2} (22.8 s; every certificate re-checked by c4min_brute)
 TOTAL profiles 1200 fails 0
 # finished Fri Sep 25 21:49:45 UTC 2026
+# command: python3 c4min_sat.py --family=lt:2:2 --family=lt:2:3 --family=lt:3:3 --family=lt:3:4 --family=lt:4:4 --family=lt:2:6 --family=ltp:2:2 --family=ltp:2:3 --family=ltp:3:3 --family=ltp:3:4 --family=ltp:4:4 --family=ltp:5:5 --mode=paper --jobs=1
+# commit 65577ad, k4/c4min_hunt.c sha1 60fbc9be5f85, started Fri Sep 25 22:45:34 UTC 2026
+SAT lt:2:2 (n 4, m 8, sigma 0, paper) profiles 1 fails 0 fstar {2: 1} (0.0 s; every certificate re-checked by c4min_brute)
+SAT lt:2:3 (n 6, m 9, sigma 3, paper) profiles 1 fails 0 fstar {3: 1} (0.0 s; every certificate re-checked by c4min_brute)
+SAT lt:3:3 (n 9, m 12, sigma 6, paper) profiles 1 fails 0 fstar {3: 1} (0.0 s; every certificate re-checked by c4min_brute)
+SAT lt:3:4 (n 12, m 13, sigma 11, paper) profiles 1 fails 0 fstar {7: 1} (0.0 s; every certificate re-checked by c4min_brute)
+SAT lt:4:4 (n 16, m 16, sigma 16, paper) profiles 1 fails 0 fstar {10: 1} (0.0 s; every certificate re-checked by c4min_brute)
+SAT lt:2:6 (n 12, m 12, sigma 12, paper) profiles 1 fails 0 fstar {9: 1} (0.0 s; every certificate re-checked by c4min_brute)
+SAT ltp:2:2 (n 4, m 10, sigma -2, paper) profiles 1 fails 0 fstar {2: 1} (0.0 s; every certificate re-checked by c4min_brute)
+SAT ltp:2:3 (n 6, m 13, sigma -1, paper) profiles 1 fails 0 fstar {3: 1} (0.0 s; every certificate re-checked by c4min_brute)
+SAT ltp:3:3 (n 9, m 18, sigma 0, paper) profiles 1 fails 0 fstar {3: 1} (0.0 s; every certificate re-checked by c4min_brute)
+SAT ltp:3:4 (n 12, m 22, sigma 2, paper) profiles 1 fails 0 fstar {6: 1} (0.0 s; every certificate re-checked by c4min_brute)
+SAT ltp:4:4 (n 16, m 28, sigma 4, paper) profiles 1 fails 0 fstar {8: 1} (0.0 s; every certificate re-checked by c4min_brute)
+SAT ltp:5:5 (n 25, m 40, sigma 10, paper) profiles 1 fails 0 fstar {13: 1} (0.1 s; every certificate re-checked by c4min_brute)
+TOTAL profiles 12 fails 0
+# finished Fri Sep 25 22:45:35 UTC 2026
+# command: python3 c4min_sat.py --family=lt:3:3 --family=lt:3:4 --family=lt:4:4 --family=ltp:2:2 --family=ltp:3:3 --family=ltp:4:4 --family=ltp:5:5 --profiles=300 --mode=uniform --seed=141 --jobs=1
+# commit 65577ad, k4/c4min_hunt.c sha1 60fbc9be5f85, started Fri Sep 25 22:45:35 UTC 2026
+SAT lt:3:3 (n 9, m 12, sigma 6, uniform) profiles 300 fails 0 fstar {0: 84, 1: 146, 2: 60, 3: 10} (3.1 s; every certificate re-checked by c4min_brute)
+SAT lt:3:4 (n 12, m 13, sigma 11, uniform) profiles 300 fails 0 fstar {1: 8, 2: 25, 3: 88, 4: 103, 5: 56, 6: 20} (5.2 s; every certificate re-checked by c4min_brute)
+SAT lt:4:4 (n 16, m 16, sigma 16, uniform) profiles 300 fails 0 fstar {2: 3, 3: 3, 4: 13, 5: 38, 6: 105, 7: 97, 8: 37, 9: 4} (9.4 s; every certificate re-checked by c4min_brute)
+SAT ltp:2:2 (n 4, m 10, sigma -2, uniform) profiles 300 fails 0 fstar {0: 292, 1: 8} (1.3 s; every certificate re-checked by c4min_brute)
+SAT ltp:3:3 (n 9, m 18, sigma 0, uniform) profiles 300 fails 0 fstar {0: 249, 1: 49, 2: 2} (3.4 s; every certificate re-checked by c4min_brute)
+SAT ltp:4:4 (n 16, m 28, sigma 4, uniform) profiles 300 fails 0 fstar {0: 65, 1: 86, 2: 76, 3: 47, 4: 22, 5: 3, 6: 1} (7.1 s; every certificate re-checked by c4min_brute)
+SAT ltp:5:5 (n 25, m 40, sigma 10, uniform) profiles 300 fails 0 fstar {0: 5, 1: 15, 2: 26, 3: 47, 4: 58, 5: 52, 6: 48, 7: 29, 8: 15, 9: 4, 11: 1} (15.5 s; every certificate re-checked by c4min_brute)
+TOTAL profiles 2100 fails 0
+# finished Fri Sep 25 22:46:21 UTC 2026
+# command: python3 c4min_sat.py --family=lt:3:3 --family=lt:3:4 --family=lt:4:4 --family=ltp:2:2 --family=ltp:3:3 --family=ltp:4:4 --family=ltp:5:5 --profiles=300 --mode=perturb:2 --seed=141 --jobs=1
+# commit 65577ad, k4/c4min_hunt.c sha1 60fbc9be5f85, started Fri Sep 25 22:46:21 UTC 2026
+SAT lt:3:3 (n 9, m 12, sigma 6, perturb:2) profiles 300 fails 0 fstar {2: 45, 3: 252, 4: 3} (3.1 s; every certificate re-checked by c4min_brute)
+SAT lt:3:4 (n 12, m 13, sigma 11, perturb:2) profiles 300 fails 0 fstar {5: 7, 6: 85, 7: 208} (6.7 s; every certificate re-checked by c4min_brute)
+SAT lt:4:4 (n 16, m 16, sigma 16, perturb:2) profiles 300 fails 0 fstar {9: 68, 10: 232} (14.6 s; every certificate re-checked by c4min_brute)
+SAT ltp:2:2 (n 4, m 10, sigma -2, perturb:2) profiles 300 fails 0 fstar {0: 127, 1: 171, 2: 2} (1.3 s; every certificate re-checked by c4min_brute)
+SAT ltp:3:3 (n 9, m 18, sigma 0, perturb:2) profiles 300 fails 0 fstar {2: 52, 3: 246, 4: 2} (3.3 s; every certificate re-checked by c4min_brute)
+SAT ltp:4:4 (n 16, m 28, sigma 4, perturb:2) profiles 300 fails 0 fstar {6: 26, 7: 35, 8: 239} (11.5 s; every certificate re-checked by c4min_brute)
+SAT ltp:5:5 (n 25, m 40, sigma 10, perturb:2) profiles 300 fails 0 fstar {11: 162, 12: 61, 13: 77} (29.6 s; every certificate re-checked by c4min_brute)
+TOTAL profiles 2100 fails 0
+# finished Fri Sep 25 22:47:32 UTC 2026
+# command: python3 c4min_sat.py --family=lt:3:3 --family=lt:3:4 --family=lt:4:4 --family=ltp:2:2 --family=ltp:3:3 --family=ltp:4:4 --family=ltp:5:5 --profiles=300 --mode=perturb:6 --seed=141 --jobs=1
+# commit 65577ad, k4/c4min_hunt.c sha1 60fbc9be5f85, started Fri Sep 25 22:47:32 UTC 2026
+SAT lt:3:3 (n 9, m 12, sigma 6, perturb:6) profiles 300 fails 0 fstar {1: 52, 2: 175, 3: 71, 4: 2} (3.1 s; every certificate re-checked by c4min_brute)
+SAT lt:3:4 (n 12, m 13, sigma 11, perturb:6) profiles 300 fails 0 fstar {2: 5, 3: 22, 4: 62, 5: 113, 6: 83, 7: 15} (5.3 s; every certificate re-checked by c4min_brute)
+SAT lt:4:4 (n 16, m 16, sigma 16, perturb:6) profiles 300 fails 0 fstar {6: 2, 7: 23, 8: 81, 9: 157, 10: 37} (11.9 s; every certificate re-checked by c4min_brute)
+SAT ltp:2:2 (n 4, m 10, sigma -2, perturb:6) profiles 300 fails 0 fstar {0: 271, 1: 29} (1.4 s; every certificate re-checked by c4min_brute)
+SAT ltp:3:3 (n 9, m 18, sigma 0, perturb:6) profiles 300 fails 0 fstar {0: 5, 1: 115, 2: 143, 3: 35, 4: 2} (3.5 s; every certificate re-checked by c4min_brute)
+SAT ltp:4:4 (n 16, m 28, sigma 4, perturb:6) profiles 300 fails 0 fstar {3: 4, 4: 18, 5: 50, 6: 101, 7: 73, 8: 54} (8.7 s; every certificate re-checked by c4min_brute)
+SAT ltp:5:5 (n 25, m 40, sigma 10, perturb:6) profiles 300 fails 0 fstar {9: 16, 10: 36, 11: 214, 12: 29, 13: 5} (24.1 s; every certificate re-checked by c4min_brute)
+TOTAL profiles 2100 fails 0
+# finished Fri Sep 25 22:48:31 UTC 2026
