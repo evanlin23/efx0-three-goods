@@ -881,6 +881,94 @@ theorem AfterUp.exists_chain (hS : AfterUp v agents goods run s) (hgd : goods.No
       · simp at hl; subst hl; exact hF
       · simp at hz; subst hz; exact ⟨t, p, hp, rfl, SameBlock.refl t⟩
 
+/-- Upgrades only give junk goods away: a good in a base stays in it. -/
+theorem upRun_base_some {v : A → G → Nat} {agents : List A} {goods : List G} {pol : Policy} {s s' : LState A G}
+    (hR : UpRun v agents goods pol s s') {g : G} {i : A} (hg : s.base g = some i) : s'.base g = some i := by
+  induction hR with
+  | done => exact hg
+  | step s s' s'' hs _ ih =>
+    obtain ⟨k, g', hE, -, -, rfl⟩ := hs
+    obtain ⟨-, -, -, -, -, -, -, hgJ, -⟩ := hE
+    apply ih
+    simp only [upgrade]
+    split
+    · rename_i e; subst e; rw [(mem_junk.mp hgJ).2] at hg; cases hg
+    · exact hg
+
+/-- Along upgrades from a state where every base has at most one good and nobody is marked, every base has at
+most two goods, and every marked agent's base has two. -/
+theorem upRun_base_two {v : A → G → Nat} {agents : List A} {goods : List G} {pol : Policy} {s s' : LState A G}
+    (hgd : goods.Nodup) (hR : UpRun v agents goods pol s s')
+    (h2 : ∀ i, (baseOf goods s.base i).length ≤ 2) (hm : ∀ i, s.marked i → (baseOf goods s.base i).length = 2)
+    (hu : ∀ i, ¬ s.marked i → (baseOf goods s.base i).length ≤ 1) :
+    (∀ i, (baseOf goods s'.base i).length ≤ 2) ∧ (∀ i, s'.marked i → (baseOf goods s'.base i).length = 2) ∧
+      ∀ i, ¬ s'.marked i → (baseOf goods s'.base i).length ≤ 1 := by
+  induction hR with
+  | done => exact ⟨h2, hm, hu⟩
+  | step s s' s'' hs _ ih =>
+    obtain ⟨k, g, hE, -, -, rfl⟩ := hs
+    obtain ⟨-, hkm, y, -, hBk, -, -, hgJ, -⟩ := hE
+    obtain ⟨hgg, hgb⟩ := mem_junk.mp hgJ
+    have hyg : y ∈ goods := (mem_baseOf.mp (by rw [hBk]; simp : y ∈ baseOf goods s.base k)).1
+    have hyk : ∀ h ∈ goods, s.base h = some k ↔ h = y := fun h hh => by
+      have := congrArg (h ∈ ·) hBk
+      simp only [mem_baseOf, List.mem_singleton, eq_iff_iff] at this
+      exact ⟨fun hb => this.mp ⟨hh, hb⟩, fun e => (this.mpr e).2⟩
+    have hyne : y ≠ g := fun e => by
+      have := (hyk y hyg).mpr rfl; rw [e, hgb] at this; cases this
+    -- `k`'s new base is `{y, g}`; every other base is unchanged
+    have hk2 : (baseOf goods (upgrade s k g).base k).length = 2 := by
+      have hmem : ∀ h, h ∈ baseOf goods (upgrade s k g).base k ↔ h ∈ [y, g] := fun h => by
+        rw [mem_baseOf]
+        simp only [upgrade, List.mem_cons, List.not_mem_nil, or_false]
+        constructor
+        · rintro ⟨hh, hb⟩
+          by_cases hhg : h = g
+          · exact Or.inr hhg
+          · simp only [hhg, ↓reduceIte] at hb; exact Or.inl ((hyk h hh).mp hb)
+        · rintro (rfl | rfl)
+          · refine ⟨hyg, ?_⟩; simp only [hyne, ↓reduceIte]; exact (hyk h hyg).mpr rfl
+          · exact ⟨hgg, by simp⟩
+      have hnd : (baseOf goods (upgrade s k g).base k).Nodup := hgd.filter _
+      have h1 := List.Nodup.length_le_of_subset hnd fun h hh => (hmem h).mp hh
+      have h2' := List.Nodup.length_le_of_subset (l₁ := [y, g]) (by simp [hyne]) fun h hh => (hmem h).mpr hh
+      simp at h1 h2'; omega
+    have hother : ∀ i, i ≠ k → baseOf goods (upgrade s k g).base i = baseOf goods s.base i := fun i hik =>
+      List.filter_congr fun h _ => by
+        simp only [upgrade]
+        by_cases hhg : h = g
+        · subst hhg; simp only [↓reduceIte, hgb, decide_eq_decide]
+          exact ⟨fun e => absurd (Option.some.inj e).symm hik, fun e => by cases e⟩
+        · simp [hhg]
+    refine ih (fun i => ?_) (fun i hi => ?_) (fun i hi => ?_)
+    · by_cases e : i = k
+      · subst e; omega
+      · rw [hother i e]; exact h2 i
+    · by_cases e : i = k
+      · subst e; exact hk2
+      · rw [hother i e]
+        rcases hi with hi | hi
+        · exact absurd hi e
+        · exact hm i hi
+    · have e : i ≠ k := fun e => hi (Or.inl e)
+      rw [hother i e]
+      exact hu i fun h => hi (Or.inr h)
+
+theorem AfterUp.base_of_pick (hS : AfterUp v agents goods run s) {t : Nat} {p : A × Option G}
+    (hp : run[t]? = some p) {g : G} (hg : p.2 = some g) : s.base g = some p.1 :=
+  upRun_base_some hS.up ((runState_base hS.phase).mpr ⟨t, p, hp, rfl, hg⟩)
+
+/-- After envy-free upgrades every base has at most two goods, an upgraded agent's exactly two, the others' at most
+one. -/
+theorem AfterUp.base_two (hS : AfterUp v agents goods run s) (hgd : goods.Nodup) :
+    (∀ i, (baseOf goods s.base i).length ≤ 2) ∧ (∀ i, s.marked i → (baseOf goods s.base i).length = 2) ∧
+      ∀ i, ¬ s.marked i → (baseOf goods s.base i).length ≤ 1 := by
+  have h1 : ∀ i, (baseOf goods (runState run).base i).length ≤ 1 := fun i => by
+    rw [runState_baseOf hS.phase hgd]
+    cases (runState run).pick i <;> simp
+  exact upRun_base_two hgd hS.up (fun i => Nat.le_trans (h1 i) (by omega)) (fun _ h => False.elim h)
+    fun i _ => h1 i
+
 end after
 
 end LB4R
@@ -905,3 +993,5 @@ end EFX
 #print axioms EFX.LB4R.AfterUp.last_block
 #print axioms EFX.LB4R.AfterUp.exists_last
 #print axioms EFX.LB4R.AfterUp.exists_chain
+#print axioms EFX.LB4R.AfterUp.base_of_pick
+#print axioms EFX.LB4R.AfterUp.base_two
