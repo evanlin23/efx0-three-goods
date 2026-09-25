@@ -25,9 +25,11 @@ case "$1" in
         ../$R/k4_certs_5_n4_3.json.gz ../$R/k4_certs_5_n4_4.json.gz ../$R/k4_certs_5_pure.json.gz --cores=100 --per-core=2 --seed=4
     log $R/k4_c4min_hunt_crosscheck.log python3 c4min_crosscheck.py ../$R/k4_certs_3.json.gz ../$R/k4_certs_4_pure.json.gz \
         --w0 --per-core=2 --seed=5 ;;
-  n4)          # n = 4 with three 4-good agents, and pure n = 4: every strict profile
+  n4)          # n = 4 with three 4-good agents, and pure n = 4: every strict profile (pure: one agent with the most
+               # types first, one certificate per solve: faster there)
     log $R/k4_c4min_hunt_n4_3.log python3 c4min_hunt_run.py ../$R/k4_certs_4_n4_3.json.gz --ckpt=../$R/k4_c4min_hunt_n4_3.ckpt
-    log $R/k4_c4min_hunt_n4_pure.log python3 c4min_hunt_run.py ../$R/k4_certs_4_pure.json.gz --ckpt=../$R/k4_c4min_hunt_n4_pure.ckpt ;;
+    log $R/k4_c4min_hunt_n4_pure.log python3 c4min_hunt_run.py ../$R/k4_certs_4_pure.json.gz --order=big --best=1 \
+        --ckpt=../$R/k4_c4min_hunt_n4_pure.ckpt ;;
   n5a)         # n = 5 with one or two 4-good agents: every strict profile
     log $R/k4_c4min_hunt_n5_12.log python3 c4min_hunt_run.py ../$R/k4_certs_5_n4_1.json.gz ../$R/k4_certs_5_n4_2.json.gz \
         --ckpt=../$R/k4_c4min_hunt_n5_12.ckpt ;;

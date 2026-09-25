@@ -10,6 +10,10 @@ Core sources (several allowed):
   --file=PATH[:K]          the cores of a certificate file (K: a random sample of K cores)
   --random=N:M:N4:COUNT    COUNT random connected k = 4 cores (N agents, N4 with 4 goods, M goods)
   --family=NAME:A[:B]      a structured family of k4/c4min_families.py (ht, ht2, htx, htc, grid, chain, cycle, tree)
+  --seeds=JSON             profiles to start from: a list of {sets, m, vals} (vals per agent in the order of its set);
+                           the first restart starts there
+  --glue=FA:FB:COUNT:MODE  COUNT random pairs (core of FA, core of FB) joined by k4/c4min_families.glue (MODE merge,
+                           link or link3)
 options: --iters=I --restarts=R --stale=T --order=0|1|2 (2: owner needed, f*, -good, d*) --cap=K (count at most K
 witnesses; d* is then over those seen) --seed=S --jobs=J --start=paper (families ht*: the first
 restart starts from §7's values) --top=K (print the K tightest cores)."""
@@ -72,6 +76,8 @@ def main():
         if k == '--file': srcs.append(('file', v))
         elif k == '--random': srcs.append(('random', v))
         elif k == '--family': srcs.append(('family', v))
+        elif k == '--glue': srcs.append(('glue', v))
+        elif k == '--seeds': srcs.append(('seeds', v))
         elif k == '--iters': iters = int(v)
         elif k == '--restarts': restarts = int(v)
         elif k == '--stale': stale = int(v)
@@ -98,6 +104,18 @@ def main():
                 sets = F.random_core(rng, n, m, n4)
                 if sets is None: print(f'no random core for {v}'); break
                 tasks.append((f'random{n},{m},{n4}#{r}', sets, m, None))
+        elif kind == 'seeds':
+            for si, sd in enumerate(json.load(open(v))):
+                tasks.append((f'seed#{si} ({sd.get("source", "")})', sd['sets'], sd['m'], sd['vals']))
+        elif kind == 'glue':
+            fa, fb, cnt, mode = v.split(':')
+            ca, cb = cc.load_cores(fa), cc.load_cores(fb)
+            made = 0
+            while made < int(cnt):
+                A, B = rng.choice(ca), rng.choice(cb)
+                r = F.glue(A['sets'], A['m'], B['sets'], B['m'], rng, mode)
+                if r is None: continue
+                tasks.append((f'glue-{mode}#{made}', r[0], r[1], None)); made += 1
         else:
             name, *args = v.split(':')
             sets, m = F.normalize(F.family(name, args, rng))

@@ -12,6 +12,8 @@ Families (every one is checked to be a k = 4 core by k4/check4.py's is_core):
   htx T               H_T whose x's share their lower goods around the gadget: x_{j,i} = {a_{j,i}, b_{j,i},
                       b_{j,i+1 mod 3}, g_j} (no private goods).
   htc T               T gadgets in a cycle without a head: e_j = g_{j+1}, e_T = g_1.
+  glue (function)     two cores joined by a shared good ('merge') or a connector agent ('link': 4 goods, two of them
+                      private; 'link3': 3 goods, one private).
   grid R C            gadgets on an R x C grid: gadget (r, c)'s y links to the g of (r, c+1) (or of (r+1, 0) at the end
                       of a row), and one extra 4-good agent per row joins the g's of consecutive rows.
 """
@@ -138,6 +140,23 @@ def family(name, args, rng=None):
     if name == 'tree': return ds.tree(int(args[0]))
     if name == 'pure': return ds.pure(int(args[0]), int(args[1]), rng)
     raise ValueError(name)
+
+
+def glue(A, mA, Bs, mB, rng, mode):
+    """Two cores joined: mode 'merge' identifies a random good of A with a random good of B; mode 'link' adds a
+    connector agent {a, b, p, q} (a of A, b of B, p and q new private goods); mode 'link3' a 3-good connector
+    {a, b, p}. Returns (sets, m) or None if the result is not a k = 4 core."""
+    B = [[g + mA for g in S] for S in Bs]
+    if mode == 'merge':
+        a, b = rng.randrange(mA), rng.randrange(mB) + mA
+        B = [[a if g == b else g for g in S] for S in B]
+        sets = [list(S) for S in A] + B
+    elif mode == 'link':
+        sets = [list(S) for S in A] + B + [[rng.randrange(mA), rng.randrange(mB) + mA, mA + mB, mA + mB + 1]]
+    else:
+        sets = [list(S) for S in A] + B + [[rng.randrange(mA), rng.randrange(mB) + mA, mA + mB]]
+    sets, m = normalize(sets)
+    return (sets, m) if check_core(sets, m) else None
 
 
 def normalize(sets):
