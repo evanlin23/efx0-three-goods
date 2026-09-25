@@ -1,0 +1,8 @@
+# python attempts/lb4_variants.py lb4r-need-shrinking-only
+lb4r-need-shrinking-only: LB4r (k4/lb4.md §5) with need-shrinking upgrades only: index insertion, every owner, up to three nested rotations (chains may end at upgraded agents), owner needs from its bundle
+  options -i0 -u1 -r3 -w1 -c1; core m=5 sets=[[0, 2, 3, 4], [1, 2, 3, 4]]
+  profiles 82944, failing 300, raw-check failures 0
+  first failing profile: values [[1, 4, 6, 8], [2, 4, 5, 8]]
+  FAIL n=2 m=5 sets=[[0,2,3,4],[1,2,3,4]] vals=[[1,4,6,8],[2,4,5,8]] order=0 1  picks=4,3 blocks=0,0 upg=1:c  frozen= J=3 w=1
+  brute force: 2 EFX0 allocations with at most one bundle of > 2 goods, e.g. [[[0, 2, 3], [1, 4]], [[2, 3], [0, 1, 4]]]
+all reproduced

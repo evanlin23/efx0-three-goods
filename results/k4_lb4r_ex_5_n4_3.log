@@ -1,0 +1,6 @@
+# core list: results/k4_certs_5_n4_3.json.gz of branch compute/k4-frontier (PR #26) at 2809bb4, read-only (copied to /tmp); complete run (all 9,861 cores)
+# lb4_run.py /tmp/claude-0/lb4r/k4_certs_5_n4_3.json.gz -i0 -u3 -r3 -w1 -c1 --show=5 --checkpoint=/tmp/claude-0/lb4r/ck_5_n4_3.jsonl
+  checkpoint /tmp/claude-0/lb4r/ck_5_n4_3.jsonl: 0 cores done before, 9861 to run
+/tmp/claude-0/lb4r/k4_certs_5_n4_3.json.gz: 9861 cores, 24032s
+  total=6423281565696 leaves=8053336783 runs=12025017758 fails=0 rawfails=0 nobig=5391295615398 owner_r=892424797287 owner_other=67465327138 rot=72095825873 later_seq=0 later_upg=14039540 big3=755605448274 big4=205243692505 big5=31271685880 big6=2314319978 big7=67581252 big8=627584
+  cores with a failure: 0
