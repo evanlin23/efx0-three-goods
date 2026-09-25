@@ -37,6 +37,12 @@ at most R nested rotations, R as small as possible?
 
 Nothing here changes K4.D or K4.T. Rows K4.AD.* are CONJECTURE or EVIDENCE.
 
+**Related work in progress** (open PRs, read from their descriptions only): #41 (`proof/k4-c4min`) proves, in its
+Theorem Z, the existence form C₄ᵐⁱⁿ on every profile whose fewest frozen agents is 0, which covers every H_t; Proposition
+H′ is the algorithmic counterpart (LB₄ʳ with a chosen first agent reaches a state with no frozen agent). #43
+(`proof/k4-induct`, induction on the number of 4-good agents) and #40 (`compute/k4-nsw`, unbounded rotations guided by
+Nash welfare) attack the same multi-4-good gap by other routes.
+
 ## 1. The rules
 
 `k4/adaptive.c` computes an insertion sequence τ with the rule, then runs LB₄ʳ(τ) (`k4/lb4.md` §5: Phase 1(τ) with LB's

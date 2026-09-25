@@ -31,3 +31,12 @@ python3 k4/adaptive_H.py 1,2,3,4,5,6,7,8 --perms=5 -A1 -r1 -w0 --timeout=600 > $
    python3 k4/adaptive_run.py $f -A22 -C3 -Z1 -r3 --show=3; python3 k4/adaptive_run.py $f -A22 -C2 -Z1 -r3 --show=3; done) > $R/k4_adaptive_cover_N.log 2>&1
 python3 k4/adaptive_run.py $R/k4_certs_5_n4_1.json.gz $R/k4_certs_5_n4_2.json.gz $R/k4_certs_5_n4_3.json.gz $R/k4_certs_5_n4_4.json.gz $R/k4_certs_5_pure.json.gz -A2 -r3 -S1000 -K3 -f3 --show=50 > $R/k4_adaptive_A2.log 2>&1; for f in hard4 hard5 grow1 rc6_big rc7; do python3 k4/adaptive_run.py $R/k4_lb4r_cores_$f.json.gz -A2 -r3 -H2000 -K3 -f3 --show=50; done >> $R/k4_adaptive_A2.log 2>&1
 python3 k4/adaptive_H.py 8 -A16 -r1 -w0 --timeout=10800 > $R/k4_adaptive_A16_H8.log 2>&1
+R=results
+for A in -A17 -A18 -A25; do
+  python3 k4/adaptive_run.py $R/k4_certs_2.json.gz $R/k4_certs_3.json.gz $R/k4_certs_4_n4_1.json.gz $R/k4_certs_4_n4_2.json.gz $R/k4_certs_4_n4_3.json.gz $A -r3 -K2 -f1 --show=3 --jobs=2
+  python3 k4/adaptive_run.py $R/k4_certs_5_n4_1.json.gz $R/k4_certs_5_n4_2.json.gz $R/k4_certs_5_n4_3.json.gz $R/k4_certs_5_n4_4.json.gz $R/k4_certs_5_pure.json.gz $A -r3 -S1000 -K3 -f1 --show=3 --jobs=2
+  python3 k4/adaptive_run.py --profiles=$R/k4_adaptive_gm4_profiles.jsonl $A -r3 --jobs=2
+  for f in hard4 hard5 grow1 rc6_big rc7; do python3 k4/adaptive_run.py $R/k4_lb4r_cores_$f.json.gz $A -r3 -H2000 -K3 -f1 --show=3 --jobs=2; done
+done
+for A in -A17 -A25; do python3 k4/adaptive_H.py 1,2,3,4,5,6,7 --perms=5 $A -r3 -w0 --timeout=900; done
+# (the block above writes results/k4_adaptive_matching.log)

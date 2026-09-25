@@ -28,6 +28,10 @@ Options:
        14 the index run or the index run with one insertion step changed, least (rotations, omega);
        15 the same family as 14, the first sequence (index run first) with the fewest rotations (bound outermost);
        16 the same family as 12 (every first agent, then index order), the first with the fewest rotations;
+       17, 18, 25: Sgouritsa-Sotiriou's first round (a maximum matching of the agents to their first or second choice,
+       most first choices): insert the agents matched to their first choice first, then those matched to their second,
+       then the unmatched (17); the second-choice ones first (18); the matching recomputed at every insertion step on
+       the unprocessed agents and remaining goods (25);
        20, 21, 22: the first run covered by the theorems of k4/c4.md and k4/c4one.md (see covered()) in the family of
        rule 15 (index, or one step changed), of rule 16 (first agent), or among all sequences; -C1 without A4+(o),
        -C3 also the candidate A4+N after need-shrinking upgrades (see aplusN_owner),
@@ -432,6 +436,41 @@ static int contest(int c, gm G, const int *done) {        /* other unprocessed a
     for (int i = 0; i < n; i++) if (!done[i] && i != c && (R[i] >> y & 1)) k++;
     return k;
 }
+/* the first round of Sgouritsa-Sotiriou (arXiv 2502.09777 §3, Lemma 3.7; proofs/pq_bounded.md §2.5) carried to k = 4:
+   a matching of the agents in A to goods of G, each agent to its first or second choice among its goods in G, of
+   maximum weight with weights 1 (first) and 0 (second) among the matchings of maximum size (min-cost flow, successive
+   shortest paths by Bellman-Ford; ties by index). cls[i] = 0 matched to its first choice, 1 to its second, 2 unmatched. */
+static void choice_matching(const int *A, int na, gm G, int *cls) {
+    int nn = 2 + na + m, src = 0, snk = 1;               /* nodes: src, snk, agents 2.., goods 2+na.. */
+    static int eu[4 * MAXN + MAXM + 8], ev[4 * MAXN + MAXM + 8], ecap[4 * MAXN + MAXM + 8], ecost[4 * MAXN + MAXM + 8];
+    int ne = 0;
+    #define ADDE(a, b, c) do { eu[ne] = a; ev[ne] = b; ecap[ne] = 1; ecost[ne] = c; ne++; eu[ne] = b; ev[ne] = a; ecap[ne] = 0; ecost[ne] = -(c); ne++; } while (0)
+    int f1[MAXN], f2[MAXN];
+    for (int q = 0; q < na; q++) {
+        int i = A[q], k = 0; f1[q] = f2[q] = -1;
+        for (int r = 0; r < d[i]; r++) if (G >> ord[i][r] & 1) { if (k == 0) f1[q] = ord[i][r]; else if (k == 1) f2[q] = ord[i][r]; k++; }
+        ADDE(src, 2 + q, 0);
+        if (f1[q] >= 0) ADDE(2 + q, 2 + na + f1[q], -(na + 2));
+        if (f2[q] >= 0) ADDE(2 + q, 2 + na + f2[q], -(na + 1));
+    }
+    for (int g = 0; g < m; g++) if (G >> g & 1) ADDE(2 + na + g, snk, 0);
+    for (;;) {                                          /* shortest augmenting path (costs negative: maximize weight) */
+        long dist[2 + MAXN + MAXM]; int pe[2 + MAXN + MAXM];
+        for (int v = 0; v < nn; v++) { dist[v] = 1L << 40; pe[v] = -1; }
+        dist[src] = 0;
+        for (int it = 0; it < nn; it++) { int ch = 0;
+            for (int e = 0; e < ne; e++) if (ecap[e] > 0 && dist[eu[e]] < (1L << 40) && dist[eu[e]] + ecost[e] < dist[ev[e]]) { dist[ev[e]] = dist[eu[e]] + ecost[e]; pe[ev[e]] = e; ch = 1; }
+            if (!ch) break; }
+        if (pe[snk] < 0 || dist[snk] >= 0) break;
+        for (int v = snk; v != src; v = eu[pe[v]]) { ecap[pe[v]]--; ecap[pe[v] ^ 1]++; }
+    }
+    for (int q = 0; q < na; q++) {
+        cls[A[q]] = 2;
+        for (int e = 0; e < ne; e += 2) if (eu[e] == 2 + q && ev[e] >= 2 + na && ecap[e] == 0) cls[A[q]] = (ev[e] - 2 - na == f1[q]) ? 0 : 1;
+    }
+    #undef ADDE
+}
+static int mcls[MAXN];               /* rules 17, 18: classes of the matching on all agents and goods, set before Phase 1 */
 static int rule_choose(int rule, const int *cand, int nc, gm G, const int *done) {
     int best = cand[0]; long bk = 1L << 60;
     for (int q = 0; q < nc; q++) {
@@ -442,6 +481,11 @@ static int rule_choose(int rule, const int *cand, int nc, gm G, const int *done)
         case 7: k = d[c] == 3 ? 0 : 1; break;
         case 8: k = contest(c, G, done); break;
         case 9: k = -contest(c, G, done); break;
+        case 17: k = mcls[c]; break;                    /* matched to the first choice, then the second, then unmatched */
+        case 18: k = mcls[c] == 1 ? 0 : mcls[c] == 0 ? 1 : 2;   /* matched to the second choice first */
+        case 25: {                                      /* the matching recomputed on the unprocessed agents and goods */
+            if (q == 0) { int A[MAXN], na = 0; for (int i = 0; i < n; i++) if (!done[i]) A[na++] = i; choice_matching(A, na, G, mcls); }
+            k = mcls[c]; break; }
         default: k = 0;
         }
         if (k < bk) { bk = k; best = c; }
@@ -474,6 +518,8 @@ static void choose_seq(int rule) {   /* fills pre[] (npre) with the rule's inser
     npre = 0; TAILRULE = 0;
     if (rule == 14) { one_change(); return; }
     int srule = rule == 12 ? 3 : rule == 13 ? 2 : rule;   /* 12, 13: rules 3, 2 at the first insertion step only */
+    if (rule == 17 || rule == 18) { int A[MAXN]; for (int i = 0; i < n; i++) A[i] = i; choice_matching(A, n, ALLG, mcls);
+        if (VERB > 1) { printf("  matching classes:"); for (int i = 0; i < n; i++) printf(" %d", mcls[i]); printf("\n"); } }
     if (!is_rollout(rule)) {         /* local rule: run Phase 1 with it and record the sequence */
         TAILRULE = rule; stop_at = -1; phase1(); TAILRULE = 0;
         memcpy(pre, ins_seq, sizeof(int) * nins); npre = nins; return;
