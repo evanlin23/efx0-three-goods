@@ -775,6 +775,33 @@ static int cover_family(int rule) {
     return 0;
 }
 
+/* rule 24 (statistics): for each first agent c, the most rotations over every continuation of the insertion sequence
+   (all later insertion steps free); the first c (index order) minimizing that maximum; used_rot = that maximum
+   (ROT + 1 if some continuation fails). Answers: once the first agent is chosen, does every later order work? */
+static int minmax_first(void) {
+    npre = 0; stop_at = 0; phase1(); stop_at = -1;
+    int cand[MAXN], nc = nscand; memcpy(cand, scand, sizeof cand);
+    int best = ROT + 2, bestc = cand[0];
+    for (int q = 0; q < nc && best > 0; q++) {
+        int worst = -1;
+        /* odometer over the continuations: choice[0] fixed to q */
+        nchoice = 1; choice[0] = q;
+        for (;;) {
+            INS = 1; npre = 0; stop_at = -1; phase1(); INS = 0;
+            memcpy(pre, ins_seq, sizeof(int) * nins); npre = nins;
+            int r = lb4r(ROT) ? used_rot : ROT + 1;
+            if (r > worst) worst = r;
+            if (worst >= best) break;
+            int j = nins - 1;
+            while (j >= 1 && choice[j] + 1 >= maxchoice[j]) j--;
+            if (j < 1) break;
+            choice[j]++; nchoice = j + 1;
+        }
+        if (worst < best) { best = worst; bestc = cand[q]; }
+    }
+    return best * 64 + bestc;
+}
+
 /* the whole construction for the current profile: tau by the rule (or tree / random choices), then LB4r(tau) */
 static int construct(void) {
     if (INS == 1 || INS == 10) {     /* tree or random: Phase 1 draws/extends choice[]; fix tau from it */
@@ -797,6 +824,15 @@ static int construct(void) {
     } else if (ARULE >= 20 && ARULE <= 22) {
         last_uncov = !cover_family(ARULE);
         if (!last_uncov && COVZ) cov_verify();
+        return lb4r(ROT);
+    } else if (ARULE == 24) {
+        int b = minmax_first(), mx = b / 64;
+        pre[0] = b % 64; npre = 1; TAILRULE = 0; phase1(); memcpy(pre, ins_seq, sizeof(int) * nins); npre = nins;
+        if (mx > ROT) return 0;
+        int ok = lb4r(ROT); used_rot = mx; return ok;
+    } else if (ARULE == 23) {        /* rule 16, with the coverage of every sequence recorded (statistics, -A23) */
+        last_uncov = !cover_family(22);
+        if (!deepen_family(16)) return 0;
         return lb4r(ROT);
     } else if (ARULE == 15 || ARULE == 16) {
         if (!deepen_family(ARULE)) return 0;
@@ -873,7 +909,7 @@ static void set_types(const int *ty) {
     }
 }
 
-static long hist_rot[MAXROT + 2], hist_pol[3];
+static long hist_rot[MAXROT + 2], hist_pol[3], ustat[2][3][MAXROT + 1][4];   /* -A23: [uncovered][policy][rotations][status] */
 
 /* -M mining on one profile (singleton type sets): every insertion sequence, fewest rotations of each; prints the
    profile's summary line "MINE best=.. index=.. frac0=.." and, per first-step candidate, the fewest rotations over
@@ -993,6 +1029,7 @@ int main(int argc, char **argv) {
                 if (!ok) { fails++; hist_rot[ROT + 1]++; if (shown < MAXF) { report("FAIL"); shown++; } if (HILL > 0) break; continue; }
                 if (!rawcheck()) { rawf++; if (shown < MAXF) { report("RAWFAIL"); shown++; } continue; }
                 hist_rot[used_rot]++; hist_pol[used_pol]++;
+                ustat[last_uncov][used_pol][used_rot][last_status]++;
                 if (DEEP && used_rot >= DEEP && shown < MAXF) { char lab[48]; snprintf(lab, sizeof lab, "DEEP r=%d p=%d", used_rot, used_pol); report(lab); shown++; }
                 long sc = used_rot * 100000000L + used_pol * 1000000L + (effort < 999999 ? effort : 999999);
                 if (sc > top) { top = sc; if (used_rot >= 1 && VERB) { char lab[64]; snprintf(lab, sizeof lab, "HARD r=%d p=%d e=%ld", used_rot, used_pol, effort); report(lab); } }
@@ -1050,6 +1087,7 @@ int main(int argc, char **argv) {
                         if (!ok) { fails += w; hist_rot[ROT + 1] += w; if (shown < MAXF) { report("FAIL"); shown++; } continue; }
                         if (!rawcheck()) { rawf += w; if (shown < MAXF) { report("RAWFAIL"); shown++; } continue; }
                         hist_rot[used_rot] += w; hist_pol[used_pol] += w;
+                        ustat[last_uncov][used_pol][used_rot][last_status] += w;
                         if (DEEP && used_rot >= DEEP && shown < MAXF) { char lab[48]; snprintf(lab, sizeof lab, "DEEP r=%d p=%d w=%ld", used_rot, used_pol, w); report(lab); shown++; }
                     }
                     if (INS != 1) break;
@@ -1067,6 +1105,11 @@ int main(int argc, char **argv) {
             }
         }
       core_done:
+        if (ARULE == 23) {               /* U unc pol rot status count, status 0 no owner, 1 owner r, 2 other owner, 3 rotation */
+            for (int a = 0; a < 2; a++) for (int b = 0; b < 3; b++) for (int c = 0; c <= MAXROT; c++) for (int e = 0; e < 4; e++)
+                if (ustat[a][b][c][e]) printf("U %d %d %d %d %ld\n", a, b, c, e, ustat[a][b][c][e]);
+            memset(ustat, 0, sizeof ustat);
+        }
         printf("total %ld leaves %ld runs %ld fails %ld rawfails %ld rot", total, leaves, runs, fails, rawf);
         for (int k = 0; k <= ROT; k++) printf(" %ld", hist_rot[k]);
         printf(" pol %ld %ld %ld uncov %ld covviol %ld\n", hist_pol[0], hist_pol[1], hist_pol[2], uncov, covviol);

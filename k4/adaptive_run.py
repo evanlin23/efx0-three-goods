@@ -64,6 +64,10 @@ def load_profiles(path):
         if not line or line.startswith('#'): continue
         if line.startswith('{'):
             o = json.loads(line); out.append((o['sets'], o['vals'])); continue
+        if ' # m=' in line and 'sets=' in line and 'vals=' not in line:   # k4/gm4_*.py lines: TAG v0 v1 .. | .. # m= sets=
+            body, meta = line.split(' # ')
+            vals = [list(map(int, t.split(','))) for t in body.split(' | ')[0].split()[1:]]
+            out.append((json.loads(meta.split('sets=')[1]), vals)); continue
         ms = re.search(r'sets=(\[\[.*?\]\])', line); mv = re.search(r'vals=(\[\[.*?\]\])', line)
         if ms and mv: out.append((json.loads(ms.group(1)), json.loads(mv.group(1))))
     return out
