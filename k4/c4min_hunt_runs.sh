@@ -7,7 +7,7 @@ R=results
 log() {  # log FILE COMMAND...
   local f=$1; shift
   { echo "# command: $*"; echo "# commit $(git rev-parse --short HEAD), k4/c4min_hunt.c sha1 $(sha1sum k4/c4min_hunt.c | cut -c1-12), started $(date -u)";
-    (cd k4 && "$@") 2>&1; echo "# finished $(date -u)"; } >> "$f"
+    (cd k4 && "$@") 2>&1 || echo "# exit status $?"; echo "# finished $(date -u)"; } >> "$f"
 }
 case "$1" in
   selfcheck)   # every profile of n <= 3 and of n = 4 with one or two 4-good agents re-solved from scratch (-V); and the
@@ -71,8 +71,8 @@ case "$1" in
     log $R/k4_c4min_hunt_rigid.log python3 c4min_rigid.py ../$R/k4_certs_3.json.gz --samples=400 --pairs=150 --seed=81 --jobs=${JOBS:-4}
     log $R/k4_c4min_hunt_rigid.log python3 c4min_rigid.py ../$R/k4_certs_4_n4_3.json.gz ../$R/k4_certs_4_pure.json.gz \
         --samples=60 --pairs=80 --seed=82 --jobs=${JOBS:-4} ;;
-  families)    # structured families: random and perturbed profiles (exact test per profile)
-    for fam in ht:4 ht:5 ht2:4 htx:4 htc:4 grid:2:2 chain:2:2 chain:3:2 cycle:4 tree:4; do
+  families)    # structured families: random and perturbed profiles (exact test per profile); m <= 64
+    for fam in ${FAMS:-ht:4 ht:5 ht2:4 htx:4 htc:4 grid:2:2 chain:2:2 ht:6 cycle:4 tree:4}; do
       log $R/k4_c4min_hunt_families.log python3 c4min_sample.py --family=$fam --profiles=400 --mode=uniform --seed=91 --verify=20 --jobs=1
     done
     for k in 1 2 4 8; do

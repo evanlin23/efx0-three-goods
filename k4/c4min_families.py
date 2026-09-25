@@ -128,6 +128,7 @@ def grid(r, c):
 
 
 def family(name, args, rng=None):
+    """the good lists of a family member (k4/c4min_hunt.c handles at most 64 goods: H_t up to t = 6)"""
     rng = rng or random.Random(1)
     if name == 'ht': return ht(int(args[0]))
     if name == 'ht2': return ht2(int(args[0]))
