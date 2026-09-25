@@ -1,0 +1,6 @@
+# regression: k4/lb4.c at 4ad6e8f vs this version, both compiled with gcc -O2 and run directly (not through lb4_run.py, which rebuilds LB4_BIN from the current source); the new 'H' histogram lines are dropped before comparing
+# sampling (-S3000): the 16 cores of a random n = 6 sample and every n = 3 core; exhaustive: every n = 3 core
+-i0 -u3 -r3 -w1 -c1 -S3000 (in_reg): 67 result lines, identical
+-i0 -u1 -r1 -w1 -c1 -S3000 (in_reg): 67 result lines, identical
+-i0 -u3 -r3 -w1 -c1 (in3): 51 result lines, identical
+-i2 -u1 -r1 -w1 -c1 (in3): 51 result lines, identical
