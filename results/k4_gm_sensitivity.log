@@ -5,5 +5,15 @@
 BAD [[0, 1, 2, 3], [1, 2, 3]] rc 1 GMFAIL n=2 m=4 [0:1 1:4 2:6 3:8] [1:2 2:3 3:4] Y: 6 8 U:1
 GMFAIL n=2 m=4 [0:1 1:4 2:8 3:6] [1:2 2:3 3:4] Y: 6 8 U:1
 GMFAIL n=2 m=4 [0:1 1:6 2:4 3:8] [1:2 2:3 3:4] Y: 6 8 U:1
+RESULT runs=1728 nmaximal=2100 pool_nonempty=282 placed_a=0 placed_b=0 placed_c=0 placed_d=0 bad_placement=0 fail=282 allfail=120
+
 [[0, 2, 3, 4], [1, 2, 3, 4]] GMFAIL n=2 m=5 [0:1 2:4 3:6 4:8] [1:1 2:4 3:6 4:8] Y: 11 c U:2
+[[0, 2, 3, 4], [1, 2, 3, 4]] GMFAIL n=2 m=5 [0:1 2:4 3:6 4:8] [1:1 2:4 3:6 4:8] Y: c 12 U:1
+[[0, 2, 3, 4], [1, 2, 3, 4]] GMFAIL n=2 m=5 [0:1 2:4 3:8 4:6] [1:1 2:4 3:6 4:8] Y: c 12 U:1
+BAD [[0, 2, 3, 4], [1, 2, 3, 4]] rc 1 GMFAIL n=2 m=5 [0:1 2:4 3:6 4:8] [1:1 2:4 3:6 4:8] Y: 11 c U:2
+GMFAIL n=2 m=5 [0:1 2:4 3:6 4:8] [1:1 2:4 3:6 4:8] Y: c 12 U:1
+GMFAIL n=2 m=5 [0:1 2:4 3:8 4:6] [1:1 2:4 3:6 4:8] Y: c 12 U:1
+RESULT runs=82944 nmaximal=105636 pool_nonempty=2004 placed_a=0 placed_b=0 placed_c=0 placed_d=0 bad_placement=0 fail=1590 allfail=1020
+
+TOTAL cores=5 badcores=2 runs=189216 nmaximal=236176 pool_nonempty=2286 placed_a=0 placed_b=0 placed_c=0 placed_d=0 bad_placement=0 fail=1872 allfail=1140 wall=2s
 exit status of the (a)-only run: 1

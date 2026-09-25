@@ -1,4 +1,4 @@
-# LS4⁺: escaping the dead ends of LS4 (k = 4)
+# LS4⁺: a local search designed to escape the dead ends of LS4 (k = 4; it escapes all 8 logged ones)
 
 Workstream `proof/k4-ls-plus`, ledger open item 17 (positive direction). Rows `K4.LSP.*`. Builds on `k4/local_search4.md` (Algorithm LS4, Theorem 1, Proposition 7: dead ends). Notation as there:
 - Y is a junk-free EFX₀ partial allocation and U its pool;
@@ -83,7 +83,7 @@ The variant with the fixed-priority potential (levels in agent order, lexicograp
 
 ## 3. Evidence (not part of any proof)
 
-**LS4⁺_n** (`k4/ls4alg.c -DCMOVE=8`, i.e. coalitions of any size; every output checked by the raw EFX₀ definition; the same profiles and seeds as LS4's runs in `k4/local_search4.md` §5). After every move the program checks that the level sum rose. Since the computational review it also aborts and reports a run that exceeds Theorem 1's bound of Σ_i (2^{d_i} − 1) moves. The logs of this table were produced before that cap was added, but any non-raising move would already have been reported:
+**LS4⁺_n** (`k4/ls4alg.c -DCMOVE=8`, i.e. coalitions of any size; every output checked by the raw EFX₀ definition; the same profiles and seeds as LS4's runs in `k4/local_search4.md` §5). After every move the program checks that the level sum rose. Since the computational review it also aborts and reports a run that exceeds Theorem 1⁺'s bound of Σ_i (2^{d_i} − 1) moves. The logs of this table were produced before that cap was added, but any non-raising move would already have been reported:
 
 | class | profiles | how | failures | coalition moves used | log |
 |---|---|---|---|---|---|
