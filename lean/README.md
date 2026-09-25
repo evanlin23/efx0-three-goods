@@ -27,7 +27,7 @@ showed that a declaration added under `set_option debug.skipKernelTC true` is ne
 without warnings and has no axioms for `#print axioms` or `CheckAxioms.lean` to report; the tripwire refuses the
 option and the replay checker rejects such a declaration. On success the last line is
 
-    CHECK PASSED: 81 audited statements, 278 theorems, standard axioms only
+    CHECK PASSED: 92 audited statements, 326 theorems, standard axioms only
 
 CI runs it on every pull request (job `lean` in `.github/workflows/verify.yml`). In Claude Code on the web the
 session-start hook installs the toolchain (from GitHub when `release.lean-lang.org` is unreachable).
@@ -64,8 +64,38 @@ In `EFX/Model.lean` the docstring of `numRelevant` reads "The counting form of 2
 `|R_i| ≤ 2`": it is inherited verbatim from mrd-efx, whose theorem is about two goods. The definition counts the
 goods `g` with `0 < v i g` and has nothing to do with the bound 2 (`Model.lean` is left untouched, as copied).
 
-Values are natural numbers (nonnegative real values reduce to them by L12, `proofs/real_values.md`). EFX₀ only compares sums of values, so rational instances reduce to these by scaling
-each agent's values by a common denominator.
+Values are natural numbers. EFX₀ only compares sums of values, so rational instances reduce to these by scaling
+each agent's values by a common denominator; nonnegative real values reduce to them by L12 (`proofs/real_values.md`),
+which is machine-checked: see the next section.
+
+### Values in an ordered type (`EFX/RealValues.lean`)
+
+TARGET and conjecture D are also stated for values in any type `V` satisfying the class `EFX.OrderedValue`, and the
+model is mirrored for such values (`Model.lean` is unchanged):
+
+    class OrderedValue (V : Type) extends Zero V, Add V, LE V where
+      add_assoc : ∀ a b c : V, a + b + c = a + (b + c)
+      add_comm : ∀ a b : V, a + b = b + a
+      zero_add : ∀ a : V, 0 + a = a
+      le_refl : ∀ a : V, a ≤ a
+      le_trans : ∀ a b c : V, a ≤ b → b ≤ c → a ≤ c
+      le_antisymm : ∀ a b : V, a ≤ b → b ≤ a → a = b
+      le_total : ∀ a b : V, a ≤ b ∨ b ≤ a
+      add_le_add_iff_right : ∀ a b c : V, a ≤ b ↔ a + c ≤ b + c
+
+    def finSumO : (k : Nat) → (Fin k → V) → V            -- as finSum
+    structure OInst (V : Type) where (n m : Nat) (v : Fin n → Fin m → V)
+    def OInst.bundleVal, OInst.EFX0                         -- as Inst.bundleVal, Inst.EFX0, word for word
+    def OInst.numRelevant (i : Fin I.n) : Nat := finSum I.m (fun g => if ¬ I.v i g ≤ 0 then 1 else 0)
+
+These are the axioms of a linearly ordered cancellative additive commutative monoid. `ℝ≥0`, `ℚ≥0` and `ℕ` satisfy
+them (so do `ℝ`, `ℚ`, `ℤ`); core Lean has no `ℝ`, so the `ℝ≥0` instance is the textbook fact, while the instances
+for `Nat` and `Int` are in the file. Nonnegativity is not an axiom but a hypothesis of the theorems
+(`∀ i g, 0 ≤ I.v i g`), which keeps the class to the order-and-sum axioms and lets `Int` (or `ℝ`) values with that
+hypothesis in. A good is relevant iff `¬ v i g ≤ 0` (that is, `v i g > 0`), and balance is
+`I.v i g + I.v i g ≤ finSumO I.m (I.v i)`. At `V = Nat` the mirrored model is the trusted base
+(`EFX.efx0_nat_iff`, `EFX.numRelevant_nat`), and `EFX.target_of_ordered`, `EFX.corollaryD_of_ordered` (the
+specializations) have exactly the types of `EFX.target`, `EFX.LB.corollaryD` (checked by `rfl` in the file).
 
 ## Contents
 
@@ -102,6 +132,14 @@ each agent's values by a common denominator.
 - `EFX/PreAlloc.lean`, `EFX/Blocks.lean`, `EFX/OwnerR.lean`, `EFX/Rotation.lean`, `EFX/LBPlus.lean`,
   `EFX/CorollaryD.lean`, `EFX/Target.lean`: construction LB⁺, conjecture D and TARGET
   (`proofs/lb_last_step.md`); see the section below.
+- `EFX/RealValues.lean`: L12 (`proofs/real_values.md`) and TARGET and D over any `EFX.OrderedValue`. The value
+  class and mirrored model above; `EFX.Agree` (same answer to every comparison between two subset sums);
+  `EFX.OrderedValue.tri_le_iff` (for three positive values, every such comparison is decided by twelve basic
+  comparisons, after cancelling common goods); `EFX.Pat.table` (every consistent pattern of those twelve answers is
+  realized by one of the 31 permutations of the representatives of L12, checked by `decide +kernel`);
+  `EFX.OrderedValue.tri_rep`, `EFX.OrderedValue.exists_agree`, `EFX.l12`; the transfers `EFX.efx0_iff_of_agree`,
+  `EFX.numRelevant_eq_of_agree`, `EFX.OrderedValue.balanced_iff_of_agree`; `EFX.target_ordered`,
+  `EFX.corollaryD_ordered`.
 - `EFX/Audit.lean`: red-team audit (`formal/audit`): TARGET and D restated independently (bundles as lists that
   partition the goods, a hand-written sum; written before the model was read), derived from `EFX.target` and
   `EFX.LB.corollaryD`, with non-vacuity examples checked by `decide`.
@@ -133,9 +171,10 @@ name in the ledger's Lean column has one.
 | S2.LB+ | Theorem 1′: every completion of a valid pre-allocation satisfying the owner constraint is EFX₀ for every consistent valuation, and only the owner's bundle can exceed two goods | PreAlloc : `EFX.LB.Valid.sound` (via `EFX.LB.HypNA.efx0`); Lemma 1: `EFX.LB.complete_some`, `EFX.LB.complete_none` |
 | S2.LB+ | Theorem B: in the bad case, the rotation along any need chain from `k*` to `r` gives a valid pre-allocation of which `k*` is a valid owner | Rotation : `EFX.LB.theoremB` |
 | S2.LB+ | Theorem C: for every processing order of Phase 1 with R1 priority, every upgrade order, every need chain and every completion satisfying (OC), LB⁺'s output is a complete allocation, EFX₀ for every consistent valuation, with at most one bundle of more than two goods; an output always exists, and in the rotation branch every need chain from `k*` to `r` gives one | LBPlus : `EFX.LB.lbPlusRun_sound`, `EFX.LB.lbPlusOut_exists`, `EFX.LB.lbPlusOut_exists_chain`, `EFX.LB.lbPlus_sound` (the computable LB⁺, over lists), `EFX.LB.lbPlus_sound_model` (model); Blocks : `EFX.LB.phase1_run`, `EFX.LB.upFinal_valid` |
-| D | Corollary D: every instance in which every agent values exactly three goods and is balanced has an EFX₀ allocation with at most one bundle of more than two goods | CorollaryD : `EFX.LB.corollaryD` (model), `EFX.LB.corollaryD_lists` (over lists); values in ℕ, real values by L12 (`proofs/real_values.md`, written) |
+| D | Corollary D: every instance in which every agent values exactly three goods and is balanced has an EFX₀ allocation with at most one bundle of more than two goods | CorollaryD : `EFX.LB.corollaryD` (model), `EFX.LB.corollaryD_lists` (over lists), values in ℕ; RealValues : `EFX.corollaryD_ordered` (values in any `EFX.OrderedValue`, e.g. ℝ≥0, via L12), `EFX.corollaryD_of_ordered` (its specialization to ℕ) |
 | T | CORE: if every core with at most `N` agents has an EFX₀ allocation, so does every instance with at most `N` agents and `\|R_i\| ≤ 3` (L3, R1, R2 by induction) | Target : `EFX.core_reduction` (over lists) |
-| T | TARGET (Corollary T): every instance with `\|R_i\| ≤ 3` for every agent has a complete EFX₀ allocation; values in ℕ, real values by L12 (`proofs/real_values.md`, written) | Target : `EFX.target` (model), `EFX.target_lists` (over lists) |
+| T | TARGET (Corollary T): every instance with `\|R_i\| ≤ 3` for every agent has a complete EFX₀ allocation | Target : `EFX.target` (model), `EFX.target_lists` (over lists), values in ℕ; RealValues : `EFX.target_ordered` (values in any `EFX.OrderedValue`, e.g. ℝ≥0, via L12), `EFX.target_of_ordered` (its specialization to ℕ) |
+| L12 | Real values reduce to natural numbers: with ≤ 3 relevant goods per agent and nonnegative values, there are natural-number values with the same relevant goods and the same answer to every comparison between two subset sums; EFX₀, the relevant-goods count and balance transfer | RealValues : `EFX.l12`, `EFX.OrderedValue.exists_agree` (one agent), `EFX.OrderedValue.tri_rep` (three positive values), `EFX.numRelevant_eq_of_agree`, `EFX.OrderedValue.balanced_iff_of_agree`, `EFX.efx0_iff_of_agree` (EFX₀ for `v` iff for `w`) |
 | — | The list layer agrees with the model | Bridge : `EFX.Inst.efx0_iff` |
 | AUD | Independently written TARGET and D (list bundles partitioning the goods) follow from `EFX.target` and `EFX.LB.corollaryD` | Audit : `Audit.target_audit`, `Audit.corollaryD_audit` |
 
@@ -150,8 +189,8 @@ good), and extends it to monotone valuations.
 - L1, L4–L7 and L9–L11. (The reduction to cores, CORE, is formalized: `EFX.core_reduction`.)
 - The peeling theorems are stated over lists: removing an agent and its goods changes the index types `Fin n`, `Fin m`,
   so a model-level statement needs sub-instances. `EFX.Inst.efx0_iff` connects the two for the full instance.
-- Real-valued utilities: values are natural numbers in Lean, as in mrd-efx; nonnegative real values reduce to them by
-  L12 (`proofs/real_values.md`, written, not formalized).
+- Real-valued utilities: core Lean has no `ℝ`, so that `ℝ≥0` satisfies the axioms of `EFX.OrderedValue` is the
+  textbook fact, not a Lean instance. L12's remark that cores are preserved (K1–K4) is written only, not formalized.
 - S2.S: LB's rule for choosing Phase 1's processing order (R1 keys, insertion lookahead); the theorems hold for
   every order. That `EFX.LB.lb` is the algorithm of `src/construct.py` is checked by running both
   (`scripts/lb_crosscheck.py`), not proved. That LB never fails (S2.LB) is a conjecture. Lemma 2 (the size of the
