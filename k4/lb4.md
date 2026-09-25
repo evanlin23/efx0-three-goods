@@ -381,5 +381,17 @@ step changed, `-i7` index then the last block led by r, `-i8` index then every l
 every run of Phase 1 then every leader of its last block; `-u0/-u1/-u2/-u3` no upgrades, need-shrinking, envy-free
 only, all three in turn; `-o0` every owner, `-o1` r only, `-o2` r then rotation; `-rN` up to N rotations in a row (a
 base of three or more goods is then the owner's, and two such bases are rejected); `-w1` owner needs from its bundle;
-`-c1` chains may end at upgraded agents; `-s` sensitivity (owner constraint ignored); `-b` brute force (every profile
-its own leaf); `-a` print the leaf allocations.
+`-c1` chains may end at upgraded agents; `-d1` iterative deepening on the rotation bound (0, 1, …, N for each policy:
+the same successes as `-rN`, and the least number of rotations); `-s` sensitivity (owner constraint ignored); `-b` brute
+force (every profile its own leaf); `-a` print the leaf allocations; `-SN` N random strict profiles per core (seeded from
+the core); `-HN` N hill-climbing steps per core (below); `-P1` with `-H`: hardness by how many of the three policies fail on their own. The driver's `--checkpoint=PATH` resumes an interrupted run,
+`--badcores=PATH` writes the cores with a failure as a core list it can read back, and every result line ends with the
+policy and rotation histograms (`pol_*`, `rot*`: in `-S` and `-H` modes per run, otherwise per run–profile pair).
+`k4/lb4_randcores.py` draws random cores (`k4/check4.py`'s `is_core`), or grows the cores of a core list by random
+agents (`--extend`, `--add`).
+```
+python3 k4/lb4_run.py results/k4_certs_4_pure.json.gz -i1 -u3 -r3 -w1 -c1 --checkpoint=ck.jsonl   # LB4r, every order: ~1.8 h
+python3 k4/lb4_run.py results/k4_certs_3.json.gz -i0 -u1 -r3 -w1 -c1 --badcores=hard.json.gz      # cores a weaker variant fails
+python3 k4/lb4_run.py hard.json.gz -i1 -u3 -r3 -w1 -c1 -d1 -H2000                                 # hill-climb LB4r there
+python3 k4/lb4_randcores.py 6 300 rc6.json.gz --n4=4 --seed=4                                    # random n = 6 cores
+```

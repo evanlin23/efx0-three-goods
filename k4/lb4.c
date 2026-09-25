@@ -514,6 +514,7 @@ static int run_leaf(int *ok) {
 
 
 static long HILL = 0;                    /* -HN: N hill-climbing steps per core (restart every 500) */
+static int PSCORE = 0;                   /* -P1: hardness = how few policies succeed on their own */
 static long hist_pol[3], hist_rot[4];
 static long sstat[5], sbig[40], sfb_upg;   /* per-run counters of the -S and -H modes */
 /* set the rankings and singleton type sets for type indices ty[]; run LB4 (every insertion sequence when -i1);
@@ -530,14 +531,30 @@ static int eval_profile(const int *ty, long *score, long *nruns) {
     long sc = 0; nchoice = 0;
     for (;;) {
         int ok; effort = 0;
+        if (PSCORE && UPG == 3) {        /* -P1: run each policy on its own; score by how few succeed */
+            int nsucc = 0, rmin = 99; long eff = 0;
+            for (UPG = 0; UPG < 3; UPG++) {
+                effort = 0;
+                if (run_leaf(&ok)) { fprintf(stderr, "split with singleton type sets\n"); exit(1); }
+                eff += effort;
+                if (ok) { nsucc++; if (used_rot < rmin) rmin = used_rot; if (!rawcheck()) { report("RAWFAIL"); exit(2); } }
+            }
+            UPG = 3;
+            (*nruns)++;
+            if (!nsucc) { *score = -1; return 0; }
+            long e = eff < 999999 ? eff : 999999, v = (3 - nsucc) * 100000000L + rmin * 1000000L + e;
+            if (v > sc) sc = v;
+            if (run_leaf(&ok) || !ok) { fprintf(stderr, "-P1: LB4r disagrees with its policies\n"); exit(1); }
+        } else {
         if (run_leaf(&ok)) { fprintf(stderr, "split with singleton type sets\n"); exit(1); }
         (*nruns)++;
         if (!ok) { *score = -1; return 0; }
+        }
         if (!rawcheck()) { report("RAWFAIL"); exit(2); }
         sstat[last_status]++; if (lastbig) sbig[lastbig]++; if (fb_upg) sfb_upg++;
         hist_pol[used_pol]++; hist_rot[used_rot]++;
         long e = effort < 999999 ? effort : 999999, v = used_pol * 100000000L + used_rot * 1000000L + e;
-        if (v > sc) sc = v;
+        if (!PSCORE && v > sc) sc = v;
         if (INS != 1) break;
         int j = nins - 1;                /* next insertion sequence */
         while (j >= 0 && choice[j] + 1 >= maxchoice[j]) j--;
@@ -560,6 +577,7 @@ int main(int argc, char **argv) {
         else if (!strncmp(argv[a], "-H", 2)) HILL = atol(argv[a] + 2);
         else if (!strncmp(argv[a], "-r", 2)) ROT = atoi(argv[a] + 2);
         else if (!strncmp(argv[a], "-d", 2)) DEEPEN = atoi(argv[a] + 2);
+        else if (!strncmp(argv[a], "-P", 2)) PSCORE = atoi(argv[a] + 2);
         else if (!strncmp(argv[a], "-w", 2)) OWNW = atoi(argv[a] + 2);
         else if (!strncmp(argv[a], "-c", 2)) CHUP = atoi(argv[a] + 2);
     }
