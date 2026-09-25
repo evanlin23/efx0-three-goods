@@ -1,0 +1,13 @@
+# c4check_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz results/k4_certs_4_n4_1.json.gz results/k4_certs_4_n4_2.json.gz --jobs=3 options -X -i1 -u2 -o0 -r1 -w0 -c0 -f5
+results/k4_certs_2.json.gz: 5 cores, 378432 (run, profile) pairs, 1s
+  omega_ge1=233532 A1_VIOL=0 E4_nonempty=210216 E4_empty_r_ok=22896 E4_empty_r_fails=420 A3_VIOL=0 BADCASE_VIOL=0 ROT_INVALID_VIOL=0 E4_after_rot_k_ok=348 E4_after_rot_k_fails=0 B4_k_ok=72 B4_VIOL=0 E4_has_frozen=48720 E4_only_free=161496
+  violation lines (A1VIOL, A3VIOL, BADVIOL, ROTINV, B4VIOL, RAWFAIL): 0
+results/k4_certs_3.json.gz: 51 cores, 1004658480 (run, profile) pairs, 10s
+  omega_ge1=531903492 A1_VIOL=0 E4_nonempty=467765740 E4_empty_r_ok=63990940 E4_empty_r_fails=146812 A3_VIOL=0 BADCASE_VIOL=0 ROT_INVALID_VIOL=0 E4_after_rot_k_ok=71588 E4_after_rot_k_fails=1288 B4_k_ok=73936 B4_VIOL=0 E4_has_frozen=170989128 E4_only_free=296776612 construction_fails_lines=55
+  violation lines (A1VIOL, A3VIOL, BADVIOL, ROTINV, B4VIOL, RAWFAIL): 0
+results/k4_certs_4_n4_1.json.gz: 135 cores, 42998976 (run, profile) pairs, 4s
+  omega_ge1=2828048 A1_VIOL=0 E4_nonempty=957960 E4_empty_r_ok=1717950 E4_empty_r_fails=152138 A3_VIOL=0 BADCASE_VIOL=0 ROT_INVALID_VIOL=0 E4_after_rot_k_ok=32232 E4_after_rot_k_fails=0 B4_k_ok=119906 B4_VIOL=0 E4_has_frozen=488672 E4_only_free=469288
+  violation lines (A1VIOL, A3VIOL, BADVIOL, ROTINV, B4VIOL, RAWFAIL): 0
+results/k4_certs_4_n4_2.json.gz: 309 cores, 4287616128 (run, profile) pairs, 72s
+  omega_ge1=813153086 A1_VIOL=0 E4_nonempty=536763182 E4_empty_r_ok=266494180 E4_empty_r_fails=9895724 A3_VIOL=0 BADCASE_VIOL=0 ROT_INVALID_VIOL=0 E4_after_rot_k_ok=2779008 E4_after_rot_k_fails=7216 B4_k_ok=7109500 B4_VIOL=0 E4_has_frozen=201275834 E4_only_free=335487348 construction_fails_lines=185
+  violation lines (A1VIOL, A3VIOL, BADVIOL, ROTINV, B4VIOL, RAWFAIL): 0
