@@ -1,0 +1,2 @@
+# ls4alg_run.py ../results/k4_certs_4_n4_3.json.gz --sample=100000 --defs=-DCMOVE=8
+TOTAL cores=339 badcores=0 runs=33900000 fail=0 complete=24569927 empty=198246 dump=8822462 dm=308202 exact=1163 M1=605487594 R=260603 X=351203 L2=280428 L3=67070 L4=3705 L5=0 maxsteps=35 maxlevels=48 big0=6942954 big1=19617951 big2=6968657 big3+=370438 wall=118s

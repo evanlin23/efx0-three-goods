@@ -61,6 +61,8 @@ GM₄ implies that LS4⁺_n never fails, hence that every k = 4 core has an EFX�
 
 So a counterexample to GM₄ has at least two sources and no empty bundle.
 
+*Three-good cores.* If every agent has three goods, GM₄ follows from the proof of Theorem C of `proofs/local_search.md` (row LS3, pending review), exactly as Proposition 3 of `k4/local_search4.md`. Every step of LS2 would raise Σℓ, so none applies at a maximum, and LS2's Claims 2–4 give a placement of the dump-plus-solo shape.
+
 The variant with the fixed-priority potential (levels in agent order, lexicographic; `k4/ls4_gm.c -DPOT=2`) had no failure either. The leximin variant fails (`attempts/k4-lsp-leximin.md`).
 
 ## 3. Evidence (not part of any proof)
