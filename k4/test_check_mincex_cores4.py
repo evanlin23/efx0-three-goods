@@ -29,7 +29,9 @@ c = copy.deepcopy(cert); del c[big]['allocs']; c[big]['timeout'] = 1
 tests.append(('a non-graphical core without allocations, --allow-graphical', c, raw, ('--allow-graphical',)))
 ok = True
 r0 = run(cert, raw)
-print('unmodified inputs: exit %d' % r0.returncode)
+print('unmodified inputs: exit %d; summary lines of that run:' % r0.returncode)
+for line in r0.stdout.splitlines():
+    if line.startswith(('beta =', 'checked', 'every allocation', 'RESULT')): print('    ' + line)
 ok &= r0.returncode == 0
 for what, c, data, extra in tests:
     r = run(c, data, extra)

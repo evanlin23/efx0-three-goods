@@ -1,0 +1,14 @@
+$ cd k4 && python3 mincex_attempts.py twins
+twin P3 agents on (G1, G2, p): 26 of 36 profiles reduced (DEL and one-agent gadgets h on G1, G2, z')
+  not reduced: {'e': {'G1': 4, 'G2': 3, 'pe': 2}, 'f': {'G1': 4, 'G2': 3, 'pf': 2}}
+  not reduced: {'e': {'G1': 4, 'G2': 3, 'pe': 2}, 'f': {'G1': 3, 'G2': 4, 'pf': 2}}
+  not reduced: {'e': {'G1': 4, 'G2': 3, 'pe': 2}, 'f': {'G1': 2, 'G2': 4, 'pf': 3}}
+  not reduced: {'e': {'G1': 3, 'G2': 4, 'pe': 2}, 'f': {'G1': 4, 'G2': 3, 'pf': 2}}
+  not reduced: {'e': {'G1': 3, 'G2': 4, 'pe': 2}, 'f': {'G1': 3, 'G2': 4, 'pf': 2}}
+  not reduced: {'e': {'G1': 3, 'G2': 4, 'pe': 2}, 'f': {'G1': 4, 'G2': 2, 'pf': 3}}
+  not reduced: {'e': {'G1': 4, 'G2': 2, 'pe': 3}, 'f': {'G1': 3, 'G2': 4, 'pf': 2}}
+  not reduced: {'e': {'G1': 4, 'G2': 2, 'pe': 3}, 'f': {'G1': 2, 'G2': 4, 'pf': 3}}
+  not reduced: {'e': {'G1': 2, 'G2': 4, 'pe': 3}, 'f': {'G1': 4, 'G2': 3, 'pf': 2}}
+  not reduced: {'e': {'G1': 2, 'G2': 4, 'pe': 3}, 'f': {'G1': 4, 'G2': 2, 'pf': 3}}
+  DEL under {'e': {'G1': 4, 'G2': 3, 'pe': 2}, 'f': {'G1': 4, 'G2': 3, 'pf': 2}}: Y = S': {} | outside: [['G1', 'G2']] | unenvied: ('O', 0)
+  GAD h(G1=2,G2=2,z'=3) under {'e': {'G1': 4, 'G2': 3, 'pe': 2}, 'f': {'G1': 4, 'G2': 3, 'pf': 2}}: Y = S': {'h': ['G1', "z'"]} | outside: [['G2', 'W:0']] | unenvied: ('sp', 'h')

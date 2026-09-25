@@ -13,6 +13,7 @@ agent gadgets from a menu of valuation classes) are described in k4/MINCEX.md.
 Usage: mincex4.py [pair|loop] KE KF [--jobs=J] [--write=out.json.gz]   (KE, KF in P3, PP4); prints the coverage.
        mincex4.py single PP4 | px K [closed]
        mincex4.py all --write=results/k4_min_cex_reductions.json.gz     (every configuration; greedy certificate)
+       mincex4.py explore px K [closed] | explore xy KE KF [closed] | explore twins   (coverage only, no certificate)
 """
 import sys, time, gzip, json, itertools
 import numpy as np
@@ -93,7 +94,8 @@ def main():
     if args[0] == 'all':
         return write_all(opts.get('write', 'k4_min_cex_reductions.json.gz'), jobs)
     if args[0] == 'explore':
-        cfg = px_config(args[2], 'closed' in args) if args[1] == 'px' else xy_config(args[2], args[3], 'closed' in args)
+        if args[1] == 'twins': cfg = twins_config()
+        else: cfg = px_config(args[2], 'closed' in args) if args[1] == 'px' else xy_config(args[2], args[3], 'closed' in args)
         print('configuration %s: agents %s, D = %s' % (cfg.name, cfg.S, sorted(cfg.D)), flush=True)
         return explore(cfg, jobs)
     if args[0] in ('px', 'xy'):
@@ -157,6 +159,11 @@ def xy_config(ke, kf, closed=False):
     I = {'g'} | {x for x in ('pe', 'pf') if x in eo + fo}
     D = {x for R in S.values() for x in R} - I
     return R4.Config('xy-%s-%s%s' % (ke, kf, '-closed' if closed else ''), S, I, D)
+
+
+def twins_config():
+    """Two P3 agents valuing the same two shared goods G1, G2 (degree >= 3 by K4.MC3, so both are boundary goods)."""
+    return R4.Config('twins-P3-P3', {'e': ('G1', 'G2', 'pe'), 'f': ('G1', 'G2', 'pf')}, {'pe', 'pf'}, {'G1', 'G2'})
 
 
 def gadget_cover(cfg, jobs=4, write=None, extra=()):

@@ -1,5 +1,9 @@
 $ cd k4 && python3 test_check_mincex_cores4.py
-unmodified inputs: exit 0
+unmodified inputs: exit 0; summary lines of that run:
+    beta = 3: 808 cores expanded from G' (5 <= n <= 6), 501 pass the filters, 9 left after K4.MC5 up to isomorphism; orbit counting OK
+    checked 9 cores: 9 certified (21739192 profiles in all), all covered; 0 graphical left to the multigraph theorem; problems: {}
+    every allocation has at most one bundle of more than 2 goods (D2): True
+    RESULT: OK
 an allocation deleted                                          exit 1 (rejected)
 a core deleted                                                 exit 1 (rejected)
 a non-D2 allocation added                                      exit 1 (rejected)

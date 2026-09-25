@@ -277,7 +277,7 @@ def main():
     cb = collections.defaultdict(list)
     for r in cert:
         cb[(r['n'], r['m'], nx.weisfeiler_lehman_graph_hash(graph(r['sets'], r['m']), node_attr='c'))].append(r)
-    ok, d2all, nprof, bad = True, True, 0, collections.Counter()
+    ok, d2all, nprof, bad, ncert = True, True, 0, collections.Counter(), 0
     graphical = '--allow-graphical' in sys.argv
     with Pool(int(opts.get('jobs', 4)), initializer=_init, initargs=(cb, graphical)) as pool:
         for sets, kinds, res, err in pool.imap_unordered(check_one, left, chunksize=4):
@@ -288,12 +288,13 @@ def main():
                 if bad[err.split(' (')[0]] <= 20: print('  %s: %s %s' % (err, ''.join(kinds), sets))
                 continue
             cov, d2, prof, na = res
-            nprof += prof
+            nprof += prof; ncert += 1
             if not cov:
                 ok = False; print('  UNCOVERED profiles: %s %s' % (''.join(kinds), sets))
             d2all &= d2
-    print('checked %d cores (%d profiles in all): %s; problems: %s' % (len(left), nprof, 'all covered' if ok else
-                                                                       'NOT all covered', dict(bad)))
+    print('checked %d cores: %d certified (%d profiles in all), %s; %d graphical left to the multigraph theorem; '
+          'problems: %s' % (len(left), ncert, nprof, 'all covered' if ok else 'NOT all covered', bad['graphical'],
+                            {k: v for k, v in bad.items() if k != 'graphical'}))
     print('every allocation has at most one bundle of more than 2 goods (D2): %s' % d2all)
     ok = ok and d2all and sha_ok and orbit_ok
     print('RESULT: %s' % ('OK' if ok else 'FAILED'))

@@ -1,0 +1,5 @@
+$ cd k4 && python3 mincex_attempts.py xy
+open P4-P4 pair, e on (g, a, b, p_e) = (4, 8, 6, 1), f on (g, x, y, p_f) = (4, 8, 6, 1)
+  one-agent gadgets (menu of 1665 on a, b, x, y): 0 of 82944 profiles reduced; this profile: not reduced
+  DEL: 9692 of 82944 profiles reduced; this profile: not reduced
+  DEL under {'e': {'g': 4, 'a': 8, 'b': 6, 'pe': 1}, 'f': {'g': 4, 'x': 8, 'y': 6, 'pf': 1}}: Y = S': {} | outside: [['a', 'b', 'x', 'y']] | unenvied: ('O', 0)
