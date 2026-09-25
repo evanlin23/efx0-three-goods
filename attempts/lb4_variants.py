@@ -33,6 +33,10 @@ VARIANTS = {
     'owner-needs-from-base': ('-i2 -u3 -r1 -w0', (8, [[0, 2, 4, 6], [0, 2, 5, 6], [1, 3, 4, 7], [1, 3, 5, 7]]),
                               'every insertion sequence, every upgrade policy, every owner, one rotation; '
                               'the owner\'s needs from its base (as at k = 3)'),
+    'lb4r-need-shrinking-only': ('-i0 -u1 -r3 -w1 -c1', (5, [[0, 2, 3, 4], [1, 2, 3, 4]]),
+                                 'LB4r (k4/lb4.md §5) with need-shrinking upgrades only: index insertion, every owner, '
+                                 'up to three nested rotations (chains may end at upgraded agents), owner needs from '
+                                 'its bundle'),
 }
 
 def run_variant(name):
@@ -40,7 +44,8 @@ def run_variant(name):
     lb4_run.build()
     p = subprocess.run([lb4_run.BIN] + opts.split() + ['-f1'], input=lb4_run.encode(sets, m, False),
                        capture_output=True, text=True, check=True)
-    kv = dict(zip(p.stdout.split()[0:22:2], map(int, p.stdout.split()[1:22:2])))
+    t = next(l for l in p.stdout.split('\n') if l.startswith('total ')).split()   # skip the histogram line 'H ...'
+    kv = dict(zip(t[0:22:2], map(int, t[1:22:2])))
     print(f"{name}: {what}\n  options {opts}; core m={m} sets={sets}")
     print(f"  profiles {kv['total']}, failing {kv['fails']}, raw-check failures {kv['rawfails']}")
     fail = [l for l in p.stderr.split('\n') if l.startswith('FAIL')]
