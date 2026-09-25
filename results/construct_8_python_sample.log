@@ -1,0 +1,9 @@
+# Sampled comparison of the C (src/construct.c) and Python (src/construct.py) implementations of LB at n = 8, m = 13: two slices of the core list (its first 3 and last 4 cores, construct_run.py --part), C and Python on every core of each; the FNV hash of all Python outputs, in profile order, must equal the C run's. 4 CPUs, 2026-09-25T07:22:18Z.
+$ cd src && python construct_run.py 8 13 --part=1/2870 --python=1
+[    788s] n=8 m=13: 3 cores (part 1/2870), 5038848 hypergraph-profile pairs, construction fails on 0; outputs with a large bundle: 10830 (by size {3: 10664, 4: 166}); Python reference on 3 cores: identical outputs on 3
+[    788s] ALL DONE; failures: 0
+exit=0
+$ cd src && python construct_run.py 8 13 --part=2870/2870 --python=1
+[    497s] n=8 m=13: 4 cores (part 2870/2870), 6718464 hypergraph-profile pairs, construction fails on 0; outputs with a large bundle: 0 (by size {}); Python reference on 4 cores: identical outputs on 4
+[    497s] ALL DONE; failures: 0
+exit=0

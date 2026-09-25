@@ -1,6 +1,6 @@
 /* Construction LB, the same steps as construct.py (see its docstring and proofs/construction.md), run on every ranking
    profile of each core read from stdin, with every output checked from the raw EFX0 definition.
-   Build: gcc -O2 -o construct construct.c      (construct_run.py compiles and drives it)
+   Build: gcc -O3 -march=native -o construct construct.c   (construct_run.py compiles and drives it)
    stdin:  "n m K" then K lines of 3n goods (agent i's three goods, as in frontier.py's `sets`).
    stdout, per core: "core <k> fails <f> large <l> hash <h> D <d3> <d4> ... first <profile or ->"
      fails: profiles where the construction fails or the raw check rejects its output;
