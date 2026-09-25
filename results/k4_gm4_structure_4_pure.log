@@ -1,0 +1,21 @@
+# gm4_run.py ../results/k4_certs_4_pure.json.gz --sample=300 --defs=-DOUT=300 (records), then gm4_structure.py rules
+TOTAL cores=219 badcores=0 runs=65700 maxima=93512 pool=3824 empty=0 dump_any=3824 dump_all_src=2427 place=3824 noplace=0 src1=181 src2=1132 src3=2511 src4p=0 nodump_place=0 envyfree=0 envsrc=4145 envsrc_fail=18 isosrc=5833 isosrc_fail=1446 wall=45s
+champion (minimal envied set) is a non-source 1478
+champion (minimal envied set) is a source 2
+failing source valuing no pool good: sources reaching its champions are all working 1272
+failing source valuing no pool good: sources reaching its champions are not all working 2
+maxima with >= 2 sources, all admit the dump 2246
+maxima with >= 2 sources, some source fails 1397
+('fewest goods', 'NONE chosen admits it') 11
+('fewest goods', 'all chosen admit the dump') 1007
+('fewest goods', 'some chosen admit it') 379
+('fewest other agents valuing its goods', 'NONE chosen admits it') 14
+('fewest other agents valuing its goods', 'all chosen admit the dump') 1226
+('fewest other agents valuing its goods', 'some chosen admit it') 157
+('lowest level', 'NONE chosen admits it') 3
+('lowest level', 'all chosen admit the dump') 1384
+('lowest level', 'some chosen admit it') 10
+('most out-edges', 'all chosen admit the dump') 1382
+('most out-edges', 'some chosen admit it') 15
+('most reachable agents', 'all chosen admit the dump') 1382
+('most reachable agents', 'some chosen admit it') 15

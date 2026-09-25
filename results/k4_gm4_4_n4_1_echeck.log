@@ -1,0 +1,4 @@
+# gm4_run.py ../results/k4_certs_4_n4_1.json.gz --prog=gm4_fast
+GM4S 1,6,4,8 2,3,4 3,4,2 3,2,4 | 16 32 2 8 | 5 # m=6 sets=[[0,2,3,4],[1,2,5],[1,4,5],[3,4,5]]
+GM4S 2,7,4,10 2,3,4 3,4,2 3,2,4 | 16 32 2 8 | 5 # m=6 sets=[[0,2,3,4],[1,2,5],[1,4,5],[3,4,5]]
+TOTAL cores=135 badcores=0 runs=7247232 maxima=10634225 pool=1131363 empty=115581 emptyfail=0 dump=1015780 nodump=2 fail=0 pfail=0 pallfail=0 overflow=0 wall=10s
