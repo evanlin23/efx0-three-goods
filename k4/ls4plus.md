@@ -14,8 +14,8 @@ A *placement* of the pool is one of LS4's Phase-2 shapes (a)–(d). At a maximum
 - **LS4⁺ (§2).** LS4 plus one move type, used only when LS4 is stuck: a *coalition re-division* C_k, in which at most k agents re-divide their bundles and the pool so that Σℓ rises (some members may lose).
   - Σℓ remains a potential, so termination (≤ Σ_i (2^{d_i} − 1) ≤ 15n moves) and soundness carry over (Theorem 1⁺).
   - With k = n, LS4⁺ can stop only at a placement or at a **global maximum of Σℓ**. So its correctness follows from **conjecture GM₄**: every junk-free EFX₀ partial allocation that maximizes Σℓ among all junk-free EFX₀ partial allocations of the same strict profile admits a placement. The converse is not claimed.
-  - Equivalently, GM₄ says that *no dead end maximizes Σℓ*. With K4.TIE and K4.CORE, GM₄ would give TARGET₄.
-- **Evidence (§3), no counterexample.**
+  - Equivalently, GM₄ says that *no dead end maximizes Σℓ*. With K4.TIE and K4.CORE, GM₄ would give TARGET₄. A counterexample has since been reported in PR #30 (proof/k4-gm4), pending review.
+- **Evidence (§3), no counterexample in these runs.**
   - LS4⁺ with k = n passes the 21.9M sampled pure n = 4 profiles on which LS4 failed 20 times, and the regression classes.
   - GM₄ itself is tested on every maximal state, not only reached ones: n = 2 exhaustive, and large samples at n = 3 and n = 4.
 - **Negative (§4, `attempts/k4-lsp-*.md`):**
@@ -62,6 +62,8 @@ Suppose LS4⁺_n stops with failure at Y. Then no C_n move applies. Any junk-fre
 
 **Conjecture GM₄.** For every k = 4 core and every strict profile, every junk-free EFX₀ partial allocation that maximizes Σℓ among all junk-free EFX₀ partial allocations of that strict profile admits a placement of its pool: one of LS4's Phase-2 shapes (a)–(d). Shape (a) is sound here because a maximum admits no M1 move.
 
+A counterexample has since been reported in PR #30 (proof/k4-gm4), pending review.
+
 **Equivalent form (observed by the referee of PR #29).** GM₄ ⟺ *no dead end maximizes Σℓ*.
 - (⇒) A placement changes no value, so it gives a complete EFX₀ allocation weakly dominating Y.
 - (⇐) Let Y be a maximum and X a complete EFX₀ allocation with v_i(X_i) ≥ v_i(Y_i) for all i. Its valued part X′ (X′_i = X_i ∩ R_i) is junk-free and EFX₀, since θ is monotone and values are unchanged, and ℓ_i(X′_i) ≥ ℓ_i for all i. Maximality forces equality, so X′ = Y (strict types: equal level means equal set). Then X places U as junk, shape (d).
@@ -103,9 +105,7 @@ Only the maxima with a nonempty pool test GM₄: a maximum whose pool is empty i
 | n = 4, one to three 4-good agents | 1,566,000 | 2,000 random per core | 2,174,535 | 175,167 (8.1%) | 6,716 / 168,451 / 0 / 0 | 0 | `results/k4_gm_4_mixed_sample.log` |
 | n = 4, pure | 4,380,000 | 20,000 random per core | 6,226,242 | 258,916 (4.2%) | 0 / 258,916 / 0 / 0 | 0 | `results/k4_gm_4_pure_sample.log` |
 
-So 502,281 maxima actually test GM₄, and every one of them was placed by the empty-bundle dump (a) or a single dump (b). The split (c) and the exact search (d) were never needed at a maximum. This supports a sharper conjecture, which may be easier to prove:
-
-**Conjecture GM₄ˢ.** Every maximum of Σℓ (as in GM₄) with a nonempty pool has an empty bundle or a source that can take the whole pool (LS4's Phase 2 (a) or (b)).
+So 502,281 maxima actually test GM₄. In these runs every one of them was placed by the empty-bundle dump (a) or a single dump (b); the split (c) and the exact search (d) were never needed at a maximum. PR #30 (proof/k4-gm4, pending review) reports rarer profiles, about 4 in 43.8M pure n = 4 profiles and 3 in 39M mixed ones, where a maximum has no placement at all (counterexamples to GM₄), and one where a split is needed.
 
 *Sensitivity* (`results/k4_gm_sensitivity.log`). With Phase 2 restricted to (a) (`-DP2A_ONLY`), the n = 2 run reports failures, records them in the log, and exits with status 1. The independent placement check was added after the computational review of PR #29. All the logs in this table were re-run with it: 0 bad placements.
 
@@ -143,7 +143,7 @@ So LS4⁺ is an existence argument, conditional on GM₄, with a linear number o
 ## 7. Status
 
 - Theorem 1⁺: written proof, pending review (K4.LSP.SOUND, CONJECTURE until reviewed).
-- Conjecture GM₄ and LS4⁺_n: EVIDENCE (§3; K4.LSP.GM, K4.LSP.RUN).
+- Conjecture GM₄ and LS4⁺_n: EVIDENCE (§3; K4.LSP.GM, K4.LSP.RUN). A counterexample has since been reported in PR #30 (proof/k4-gm4), pending review.
 - The escape study (§1) and the failed designs (§4): EVIDENCE with independent replay (K4.LSP.VAR).
 - Open:
   - a proof of GM₄ (equivalently: no dead end maximizes Σℓ). Its hardest case has ≥ 2 sources, no empty bundle, and no improving move of any kind (this uses K4.LS.SOUND and K4.LS.ONE, pending review);
