@@ -1,0 +1,40 @@
+# lb4_run.py results/k4_certs_2.json.gz -i9 -u1 -r1 -w1 -c1 --show=5 --jobs=2
+results/k4_certs_2.json.gz: 5 cores, 1s
+  total=378432 leaves=8796 runs=14296 fails=0 rawfails=0 nobig=162360 owner_r=189600 owner_other=19920 rot=6552 later_seq=600 later_upg=0 big3=170496 big4=41472
+  cores with a failure: 0
+# lb4_run.py results/k4_certs_3.json.gz -i9 -u1 -r1 -w1 -c1 --show=5 --jobs=2
+results/k4_certs_3.json.gz: 51 cores, 10s
+  total=1004658480 leaves=3154417 runs=5433658 fails=0 rawfails=0 nobig=543539664 owner_r=411223204 owner_other=27540144 rot=22355468 later_seq=333540 later_upg=0 big3=320624011 big4=110232341 big5=18469894 big6=1153976
+  cores with a failure: 0
+# lb4_run.py results/k4_certs_4_n4_1.json.gz -i9 -u1 -r1 -w1 -c1 --show=5 --jobs=2
+results/k4_certs_4_n4_1.json.gz: 135 cores, 3s
+  total=42998976 leaves=4606201 runs=5389178 fails=0 rawfails=0 nobig=40827356 owner_r=1795856 owner_other=114376 rot=261388 later_seq=120 later_upg=0 big3=1807893 big4=158833 big5=3960
+  cores with a failure: 0
+# lb4_run.py results/k4_certs_4_n4_2.json.gz -i9 -u1 -r1 -w1 -c1 --show=5 --jobs=2
+results/k4_certs_4_n4_2.json.gz: 309 cores, 50s
+  total=4287616128 leaves=51487916 runs=69989592 fails=0 rawfails=0 nobig=3659510518 owner_r=563914596 owner_other=28987940 rot=35203074 later_seq=60636 later_upg=0 big3=524082735 big4=75887612 big5=5524454 big6=123104
+  cores with a failure: 0
+# lb4_run.py results/k4_certs_4_n4_3.json.gz -i9 -u1 -r1 -w1 -c1 --show=5 --jobs=2
+results/k4_certs_4_n4_3.json.gz: 339 cores, 665s
+  total=203844377088 leaves=321460326 runs=507253772 fails=20640 rawfails=0 nobig=145417658982 owner_r=53962839796 owner_other=2414071782 rot=2049785888 later_seq=5121804 later_upg=0 big3=44924365894 big4=11056630254 big5=1328736466 big6=76069292 big7=1203232
+  cores with a failure: 3
+    (8, [[0, 1, 2, 6], [1, 2, 5, 6], [3, 4, 5, 7], [3, 4, 7]], 5760, 0)
+    (8, [[0, 2, 7], [1, 2, 3, 7], [1, 4, 5, 6], [3, 4, 5, 6]], 8640, 0)
+    (9, [[0, 3, 4, 7], [1, 5, 6, 8], [2, 5, 8], [3, 4, 6, 7]], 6240, 0)
+   FAIL n=4 m=8 sets=[[0,1,2,6],[1,2,5,6],[3,4,5,7],[3,4,7]] vals=[[2,4,5,8],[3,5,7,6],[2,4,8,7],[2,3,4]] order=2 1 0 3  picks=2,6,5,7 blocks=0,0,0,1 upg=0:6  frozen=2  J=19 w=1
+   FAIL n=4 m=8 sets=[[0,1,2,6],[1,2,5,6],[3,4,5,7],[3,4,7]] vals=[[2,4,5,8],[3,5,7,6],[3,4,8,6],[2,3,4]] order=2 1 0 3  picks=2,6,5,7 blocks=0,0,0,1 upg=0:6  frozen=2  J=19 w=1
+   FAIL n=4 m=8 sets=[[0,1,2,6],[1,2,5,6],[3,4,5,7],[3,4,7]] vals=[[2,5,4,8],[3,5,7,6],[2,4,8,7],[2,3,4]] order=2 1 0 3  picks=1,6,5,7 blocks=0,0,0,1 upg=0:6  frozen=2  J=19 w=1
+   FAIL n=4 m=8 sets=[[0,2,7],[1,2,3,7],[1,4,5,6],[3,4,5,6]] vals=[[2,3,4],[8,2,4,7],[7,3,5,6],[2,4,5,8]] order=1 2 3 0  picks=7,1,6,5 blocks=1,0,0,0 upg=3:30  frozen=1  J=d w=1
+   FAIL n=4 m=8 sets=[[0,2,7],[1,2,3,7],[1,4,5,6],[3,4,5,6]] vals=[[2,3,4],[8,2,4,7],[8,2,4,5],[2,4,5,8]] order=1 2 3 0  picks=7,1,6,5 blocks=1,0,0,0 upg=3:30  frozen=1  J=d w=1
+# lb4_run.py results/k4_certs_2_ties.json.gz --ties -i9 -u1 -r1 -w1 -c1 --show=5 --jobs=2
+results/k4_certs_2_ties.json.gz: 5 cores (ties), 1s
+  total=7180346 leaves=20890 runs=30818 fails=0 rawfails=0 nobig=3184723 owner_r=3576822 owner_other=349702 rot=69099 later_seq=5440 later_upg=0 big3=3277432 big4=670482
+  cores with a failure: 0
+# lb4_run.py results/k4_certs_3_ties.json.gz --ties -i9 -u1 -r1 -w1 -c1 --show=5 --jobs=2
+results/k4_certs_3_ties.json.gz: 51 cores (ties), 133s
+  total=82860076781 leaves=14649069 runs=22931293 fails=0 rawfails=0 nobig=47241575920 owner_r=32799834835 owner_other=1825733762 rot=992932264 later_seq=13801026 later_upg=0 big3=26101930820 big4=7842877868 big5=1121271784 big6=63869062
+  cores with a failure: 0
+# lb4_run.py results/k4_certs_5_n4_1.json.gz -i9 -u1 -r1 -w1 -c1 --show=5 --jobs=2
+results/k4_certs_5_n4_1.json.gz: 1735 cores, 352s
+  total=5782149576 leaves=598189172 runs=685712104 fails=0 rawfails=0 nobig=5643725176 owner_r=125248806 owner_other=5070092 rot=8105502 later_seq=726 later_upg=0 big3=120075505 big4=11945282 big5=507482 big6=8944
+  cores with a failure: 0
