@@ -1,0 +1,7 @@
+# ls4alg_run.py ../results/k4_certs_4_pure.json.gz --sample=20000 --defs=-DCMOVE=3
+[[0, 1, 2, 3], [0, 2, 5, 6], [1, 4, 5, 6], [3, 4, 5, 6]] FAIL no placement: n=4 m=7 [0:2 1:4 2:10 3:7] [0:3 2:10 5:2 6:6] [1:4 4:3 5:8 6:6] [3:6 4:3 5:10 6:2] Y: 4 41 20 18 U:2
+BAD [[0, 1, 2, 3], [0, 2, 5, 6], [1, 4, 5, 6], [3, 4, 5, 6]] rc 1 FAIL no placement: n=4 m=7 [0:2 1:4 2:10 3:7] [0:3 2:10 5:2 6:6] [1:4 4:3 5:8 6:6] [3:6 4:3 5:10 6:2] Y: 4 41 20 18 U:2
+RESULT runs=20000 fail=1 complete=18551 empty=0 dump=1436 dm=12 exact=0 M1=348715 R=101 X=69 L2=34 L3=32 L4=3 L5=0 maxsteps=23 maxlevels=43 big0=7508 big1=12491 big2=0 big3+=0
+CMOVES C2=1 C3=0 C4=0
+
+TOTAL cores=219 badcores=1 runs=4380000 fail=1 complete=3361625 empty=0 dump=993959 dm=24248 exact=167 M1=86990873 R=59476 X=48158 L2=42116 L3=5679 L4=363 L5=0 maxsteps=38 maxlevels=55 big0=677628 big1=2219984 big2=1276995 big3+=205392 C2=5 C3=0 C4=0 wall=18s

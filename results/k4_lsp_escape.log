@@ -1,0 +1,39 @@
+$ python3 k4/lsp_escape.py
+row  1 m=7 alive min-worse=0 sole-losers=[0, 2, 3] pareto-sizes=[4] smallest-raise=2(1 losers) smallest-raise-to-alive=None sole-loser-3-allocations=4 path-ok=True first-dead-step=None/14 LS4+move: valid=True size=2 losers=[0]
+row  2 m=7 alive min-worse=0 sole-losers=[0, 1, 2] pareto-sizes=[4] smallest-raise=4(0 losers) smallest-raise-to-alive=None sole-loser-3-allocations=0 path-ok=True first-dead-step=None/14 LS4+move: valid=True size=4 losers=[0]
+row  3 m=7 alive min-worse=0 sole-losers=[0, 2, 3] pareto-sizes=[4] smallest-raise=3(1 losers) smallest-raise-to-alive=None sole-loser-3-allocations=1 path-ok=True first-dead-step=None/17 LS4+move: valid=True size=3 losers=[0]
+row  4 m=7 alive min-worse=0 sole-losers=[0, 1, 2] pareto-sizes=[4] smallest-raise=2(1 losers) smallest-raise-to-alive=None sole-loser-3-allocations=0 path-ok=True first-dead-step=None/14 LS4+move: valid=True size=2 losers=[0]
+row  5 m=7 alive min-worse=0 sole-losers=[0, 2] pareto-sizes=[4] smallest-raise=4(0 losers) smallest-raise-to-alive=None sole-loser-3-allocations=0 path-ok=True first-dead-step=None/14 LS4+move: valid=True size=4 losers=[0]
+row  6 m=7 DEAD  min-worse=1 sole-losers=[0, 1, 2, 3] pareto-sizes=- smallest-raise=2(1 losers) smallest-raise-to-alive=2(1 losers; losers among them [2]) sole-loser-3-allocations=1 path-ok=True first-dead-step=15/15 LS4+move: valid=True size=2 losers=[2]
+row  7 m=7 alive min-worse=0 sole-losers=[0, 1, 2, 3] pareto-sizes=[4] smallest-raise=2(1 losers) smallest-raise-to-alive=None sole-loser-3-allocations=1 path-ok=True first-dead-step=None/15 LS4+move: valid=True size=2 losers=[2]
+row  8 m=7 DEAD  min-worse=1 sole-losers=[0, 1, 2, 3] pareto-sizes=- smallest-raise=2(1 losers) smallest-raise-to-alive=2(1 losers; losers among them [2]) sole-loser-3-allocations=1 path-ok=True first-dead-step=16/16 LS4+move: valid=True size=2 losers=[2]
+row  9 m=7 DEAD  min-worse=1 sole-losers=[0, 1, 2, 3] pareto-sizes=- smallest-raise=2(1 losers) smallest-raise-to-alive=2(1 losers; losers among them [2, 3]) sole-loser-3-allocations=4 path-ok=True first-dead-step=16/16 LS4+move: valid=True size=2 losers=[2]
+row 10 m=7 DEAD  min-worse=1 sole-losers=[0, 1, 2, 3] pareto-sizes=- smallest-raise=2(1 losers) smallest-raise-to-alive=2(1 losers; losers among them [2]) sole-loser-3-allocations=1 path-ok=True first-dead-step=17/17 LS4+move: valid=True size=2 losers=[2]
+row 11 m=7 alive min-worse=0 sole-losers=[0, 1, 2, 3] pareto-sizes=[4] smallest-raise=2(1 losers) smallest-raise-to-alive=None sole-loser-3-allocations=3 path-ok=True first-dead-step=None/16 LS4+move: valid=True size=2 losers=[3]
+row 12 m=7 alive min-worse=0 sole-losers=[0, 1, 2, 3] pareto-sizes=[4] smallest-raise=3(1 losers) smallest-raise-to-alive=None sole-loser-3-allocations=1 path-ok=True first-dead-step=None/16 LS4+move: valid=True size=3 losers=[3]
+row 13 m=8 alive min-worse=0 sole-losers=[0, 1, 2, 3] pareto-sizes=[4] smallest-raise=2(1 losers) smallest-raise-to-alive=None sole-loser-3-allocations=4 path-ok=True first-dead-step=None/16 LS4+move: valid=True size=2 losers=[1]
+row 14 m=8 DEAD  min-worse=1 sole-losers=[0, 1, 2, 3] pareto-sizes=- smallest-raise=2(1 losers) smallest-raise-to-alive=2(1 losers; losers among them [0, 2, 3]) sole-loser-3-allocations=3 path-ok=True first-dead-step=15/15 LS4+move: valid=True size=2 losers=[0]
+row 15 m=8 alive min-worse=0 sole-losers=[0, 1, 2] pareto-sizes=[4] smallest-raise=3(1 losers) smallest-raise-to-alive=None sole-loser-3-allocations=0 path-ok=True first-dead-step=None/14 LS4+move: valid=True size=3 losers=[2]
+row 16 m=8 DEAD  min-worse=1 sole-losers=[0, 1, 2, 3] pareto-sizes=- smallest-raise=2(1 losers) smallest-raise-to-alive=2(1 losers; losers among them [1]) sole-loser-3-allocations=5 path-ok=True first-dead-step=15/15 LS4+move: valid=True size=2 losers=[1]
+row 17 m=8 DEAD  min-worse=1 sole-losers=[0, 1, 2, 3] pareto-sizes=- smallest-raise=2(1 losers) smallest-raise-to-alive=2(1 losers; losers among them [0, 1]) sole-loser-3-allocations=1 path-ok=True first-dead-step=18/18 LS4+move: valid=True size=2 losers=[0]
+row 18 m=8 alive min-worse=0 sole-losers=[0, 1, 2, 3] pareto-sizes=[4] smallest-raise=2(1 losers) smallest-raise-to-alive=None sole-loser-3-allocations=7 path-ok=True first-dead-step=None/17 LS4+move: valid=True size=2 losers=[0]
+row 19 m=9 DEAD  min-worse=1 sole-losers=[0, 1, 2, 3] pareto-sizes=- smallest-raise=3(1 losers) smallest-raise-to-alive=3(1 losers; losers among them [0, 3]) sole-loser-3-allocations=22 path-ok=True first-dead-step=15/15 LS4+move: valid=True size=3 losers=[0]
+summary
+  dead ends / not dead: (8, 11) (claim (8, 11))
+  every trajectory replays as Pareto moves ending at Y: True (claim True)
+  dead ends: minimum number of worse-off agents: [1] (claim [1])
+  dead ends: agent 3 can be the only worse-off agent: True (claim True)
+  dead ends: number of complete EFX0 allocations whose only worse-off agent is 3, by row: {6: 1, 8: 1, 9: 4, 10: 1, 14: 3, 16: 5, 17: 1, 19: 22} (claim {6: 1, 8: 1, 9: 4, 10: 1, 14: 3, 16: 5, 17: 1, 19: 22})
+  dead ends: rows where agent 3 loses in some smallest escape to a non-dead state: [9, 14, 19] (claim [9, 14, 19])
+  dead ends: first dead state is LS4's last state: True (claim True)
+  dead ends: smallest raise reaching a non-dead state, sizes: [2, 2, 2, 2, 2, 2, 2, 3] (claim [2, 2, 2, 2, 2, 2, 2, 3])
+  dead ends: ... with exactly one loser: [1] (claim [1])
+  not dead: every dominating complete allocation changes all 4 valued bundles: True (claim True)
+  not dead: smallest level-sum-raising re-division, rows by size: {2: [1, 4, 7, 11, 13, 18], 3: [3, 12, 15], 4: [2, 5]} (claim {2: [1, 4, 7, 11, 13, 18], 3: [3, 12, 15], 4: [2, 5]})
+  not dead: fewest losers among the smallest re-divisions, where they have 2 or 3 agents: [1] (claim [1])
+  not dead: fewest losers among the 4-agent re-divisions of rows 2 and 5 (Pareto ones exist): [0, 0] (claim [0, 0])
+  LS4+_n's coalition move is valid (junk-free, EFX0, level sum up) at all 19: True (claim True)
+  LS4+_n's coalition move has exactly one loser at all 19: True (claim True)
+  LS4+_n's coalition move sizes (2, 3, 4): (13, 4, 2) (claim (13, 4, 2))
+  dead ends: the loser of LS4+_n's move is never agent 3: True (claim True)
+ALL CLAIMS CONFIRMED
