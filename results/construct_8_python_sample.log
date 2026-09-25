@@ -1,0 +1,2 @@
+# Sampled comparison of the C (src/construct.c) and Python (src/construct.py) implementations of LB at n = 8, m = 13: two slices of the core list (its first and last 4 cores, construct_run.py --part), C and Python on every core of each; the FNV hash of all Python outputs, in profile order, must equal the C run's. 4 CPUs, 2026-09-25T07:22:18Z.
+$ cd src && python construct_run.py 8 13 --part=1/2870 --python=1
