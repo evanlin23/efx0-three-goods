@@ -1,3 +1,5 @@
+# k = 4, n = 4, one 4-good agent, every strict profile (section 2 of k4/c4x.md)
+# command: python3 k4/c4x_run.py results/k4_certs_4_n4_1.json.gz -R -p "6,17;3;6,3;6,8,3;6;6,8" -x 3
 core 24: EX every (-frozen): types [0:2,2:3,4:4,5:8] [1:2,4:4,5:3] [3:4,4:3,5:2] [3:4,4:3,5:2] bases {4} {1} {3} {5} J {0,2}
 core 24: EX every (-frozen,slots): types [0:2,2:3,4:4,5:8] [1:2,4:4,5:3] [3:4,4:3,5:2] [3:4,4:3,5:2] bases {4} {5} {} {3} J {0,1,2}
 core 24: EX every (-frozen): types [0:2,2:3,4:8,5:4] [1:2,4:3,5:4] [3:4,4:2,5:3] [3:4,4:2,5:3] bases {5} {1} {3} {4} J {0,2}

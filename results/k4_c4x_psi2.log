@@ -1,0 +1,6 @@
+# one 4-good agent, section 4.4 of k4/c4x.md: the counters of -W on the maxima of Psi_2 = (sumlev3, -size4, sumlev4)
+# command: python3 k4/c4x_run.py results/k4_certs_4_n4_1.json.gz -W -p 18,22,19 --jobs=2
+  RULESTATS (argmax of the first potential): maxima with omega>=1 247271, w terminal 162505, ... w invalid 0, w not terminal, 3-good terminal exists 50882, ... no 3-good terminal valid 0, no terminal 33884, ... w invalid 0, ... frozen agents exist 0, w frozen 21340, w frozen and some 3-good terminal invalid 0, Lemma Rw violated 0, Lemma Ew violated 0, P1 0, P2 0, w free and exposed by a 3-good terminal 15962, w free, E_w nonempty 10610, .. frozen x, one good of B_w + one junk 10610, .. low(x) in B_w 0, .. other 0, .. w terminal 108, .. w valid 10610, P1 at any maximum 230, C1 with E_w nonempty 3970, case B2 18820, case B2 with E_w nonempty 0, case B2, no 3-good terminal valid 0, case B2, no 3-good terminal 18780
+FILE results/k4_certs_4_n4_1.json.gz cores 135 profiles 7247232 valid 137951940 tested 9233359 nocomp 0 ronone 0 ronone_any 0 paretomax 0 paretofail 0
+  (sumlev3,-size4,sumlev4)         every-max fails            0   some-max fails            0
+

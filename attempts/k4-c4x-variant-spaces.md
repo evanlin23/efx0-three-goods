@@ -6,18 +6,20 @@ needs, and completions with the owner's needs taken from its bundle (as in `lean
 tested, and each failure explains one ingredient of 𝒫.
 
 1. **The owner's needs from its base** (as at k = 3, and as in LB₄'s `-w0`): then some profiles have *no* completable
-   pre-allocation at all, already at n = 2 (720 of 189,216 profiles; `k4/c4x.c -w0 -a`). The completion must be allowed
-   to use a large owner bundle that is worth more than the goods the owner needed, which unfreezes their holders and
-   frees their slots. (`k4/lb4.md` §3 found the same need for LB₄, first at n = 4; in 𝒫 it appears at n = 2 because 𝒫
-   has no owner bases of three or more goods.)
+   pre-allocation at all, already at n = 2 (720 of 189,216 profiles; `k4/c4x.c -w0`, `results/k4_c4x_variants.log`). The
+   completion must be allowed to use a large owner bundle that is worth more than the goods the owner needed, which
+   unfreezes their holders and frees their slots. (`k4/lb4.md` §3 found the same need for LB₄, first at n = 4; in 𝒫 it
+   appears at n = 2 because 𝒫 has no owner bases of three or more goods.)
 2. **Only envy-free two-good bases** (v_i(B) ≥ v_i(R_i ∖ B), LB₄ʳ's second upgrade policy): then some profiles have no
-   completable pre-allocation at all, at n = 3 (50 of 1,020,000 sampled profiles; none at n = 2, exhaustive). The
-   solutions need a 4-good agent holding a pair that is not envy-free.
+   completable pre-allocation at all, at n = 3 (50 of 1,020,000 sampled profiles; none at n = 2, exhaustive;
+   `k4/c4x.c -E`, `results/k4_c4x_variants.log`). The solutions need a 4-good agent holding a pair that is not
+   envy-free.
 3. **One base of three or four goods allowed** (its agent then has to be the owner; LB₄ʳ's rotated owner): with the
    fewest frozen agents first, even the some-form fails at n = 3, m = 5 (949 of 1,020,000 sampled profiles; none at
-   n = 2, exhaustive). A large base lowers the frozen count (the owner needs nothing), but the minimizers are then
-   not completable; and the Pareto-type potentials get much worse in this space (leximin: 1,080 profiles with a
-   non-completable maximum at n = 3 with one 4-good agent, against 0 in 𝒫), because a base of all four goods has the
+   n = 2, exhaustive; `k4/c4x.c -3`, `results/k4_c4x_variants.log`). A large base lowers the frozen count (the owner
+   needs nothing), but the minimizers are then not completable; and the Pareto-type potentials get much worse in this
+   space (leximin: 1,080 profiles with a non-completable maximum at n = 3 with one 4-good agent, exhaustive,
+   `results/k4_c4x_variants.log`; against 0 in 𝒫, `results/k4_c4x_one.log`), because a base of all four goods has the
    highest level and dominates the maxima.
 
 ## Smallest failing configurations (checked by both implementations)

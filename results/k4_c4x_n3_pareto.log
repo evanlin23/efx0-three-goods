@@ -1,3 +1,5 @@
+# k = 4, n <= 3, every strict profile: Pareto-maxima (-Q) and the Pareto-type potentials (attempts/k4-c4x-pareto-potentials.md)
+# command: python3 k4/c4x_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz -Q -p "0;1;2;3;4;6,3;18,19;20,21" -x 2 --jobs=2
 FILE results/k4_certs_2.json.gz cores 5 profiles 189216 valid 2318524 tested 336748 nocomp 0 ronone 0 ronone_any 0 paretomax 336748 paretofail 0
   (sumlev)                         every-max fails            0   some-max fails            0
   (sum2lev)                        every-max fails            0   some-max fails            0

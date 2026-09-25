@@ -49,11 +49,11 @@ def py_check(sets, vl, pot, flags=()):
     return all(r[1] for r in mx), any(r[1] for r in mx), len(res), sum(r[1] for r in res)
 
 def pareto_check(sets, vl):
-    """(every Pareto-maximum completable, number of Pareto maxima)"""
+    """(every Pareto-maximum completable, some Pareto-maximum completable, number of Pareto maxima)"""
     res = py_results(sets, vl, ())
     vs = [tuple(sum(vl[i][g] for g in B[i]) for i in range(len(sets))) for (B, _, _) in res]
     pm = [k for k in range(len(res)) if not any(all(vs[q][i] >= vs[k][i] for i in range(len(sets))) and vs[q] != vs[k] for q in range(len(res)))]
-    return all(res[k][1] for k in pm), len(pm)
+    return all(res[k][1] for k in pm), any(res[k][1] for k in pm), len(pm)
 
 def c_run(sets, vl, opts):
     m = 1 + max(max(S) for S in sets)
@@ -77,11 +77,13 @@ def c_result(sets, vl, opts, key):
 #   claim 'pot', potential, 'every' | 'some' [, flags]: the every-form fails (some maximum is not completable) or the
 #     some-form fails (no maximum is completable), in the space given by flags ('w0', 'ef', 'big'; default 𝒫);
 #   claim 'nocomp', flags: no pre-allocation of the variant space is completable;
-#   claim 'pareto': some Pareto-maximal pre-allocation of 𝒫 is not completable.
+#   claim 'pareto': some Pareto-maximal pre-allocation of 𝒫 is not completable;
+#   claim 'paretosome': no Pareto-maximal pre-allocation of 𝒫 is completable.
 INSTANCES = [
     ('k4-c4x-frozen-first', 'n = 2, m = 5', [[0, 2, 3, 4], [1, 2, 3, 4]], [(1, 4, 6, 8), (1, 4, 8, 6)], 'pot', '-frozen', 'every'),
     ('k4-c4x-frozen-first', 'n = 2, m = 5', [[0, 2, 3, 4], [1, 2, 3, 4]], [(1, 4, 6, 8), (2, 4, 5, 8)], 'pot', '(-frozen,slots)', 'every'),
     ('k4-c4x-frozen-first', 'n = 3, m = 6', [[0, 2, 4, 5], [1, 3, 5], [3, 4, 5]], [(2, 3, 4, 8), (2, 4, 3), (4, 2, 3)], 'pot', '(-frozen,sumlev)', 'every'),
+    ('k4-c4x-frozen-first', 'n = 4, m = 7 (some-form)', [[0, 2, 3, 6], [1, 5, 6], [3, 4, 5, 6], [4, 5, 6]], [(2, 6, 3, 10), (2, 4, 3), (3, 10, 8, 6), (4, 3, 2)], 'pot', '(-frozen,slots)', 'some'),
     ('k4-c4x-frozen-first', 'n = 3, m = 8 (some-form)', [[0, 2, 6, 7], [1, 4, 6, 7], [3, 5, 6, 7]], [(3, 4, 2, 8), (3, 4, 2, 8), (3, 4, 2, 8)], 'pot', '(-frozen,sumlev)', 'some'),
     ('k4-c4x-pareto-potentials', 'n = 3, m = 6, one 4-good agent', [[0, 2, 4, 5], [1, 3, 5], [3, 4, 5]], [(2, 3, 4, 8), (2, 4, 3), (4, 2, 3)], 'pot', 'sumlev', 'every'),
     ('k4-c4x-pareto-potentials', 'n = 3, m = 6, one 4-good agent', [[0, 2, 4, 5], [1, 3, 5], [3, 4, 5]], [(2, 3, 4, 8), (2, 3, 4), (3, 2, 4)], 'pot', 'sum2lev', 'some'),
@@ -90,6 +92,7 @@ INSTANCES = [
     ('k4-c4x-pareto-potentials', 'n = 3, m = 8, two 4-good agents', [[0, 2, 5, 6], [1, 4, 5, 7], [3, 6, 7]], [(2, 3, 8, 4), (3, 4, 8, 2), (3, 2, 4)], 'pot', 'leximin', 'every'),
     ('k4-c4x-pareto-potentials', 'n = 3, m = 8, pure', [[0, 2, 6, 7], [1, 4, 6, 7], [3, 5, 6, 7]], [(3, 4, 2, 8), (3, 4, 2, 8), (3, 4, 2, 8)], 'pot', 'leximin', 'some'),
     ('k4-c4x-pareto-potentials', 'n = 3, m = 8, pure', [[0, 2, 6, 7], [1, 4, 6, 7], [3, 5, 6, 7]], [(3, 4, 2, 8), (3, 4, 2, 8), (3, 4, 2, 8)], 'pot', 'sumlev', 'some'),
+    ('k4-c4x-pareto-potentials', 'n = 3, m = 8, pure', [[0, 2, 6, 7], [1, 4, 6, 7], [3, 5, 6, 7]], [(3, 4, 2, 8), (3, 4, 2, 8), (3, 4, 2, 8)], 'paretosome'),
     ('k4-c4x-pareto-potentials', 'n = 3, m = 6, two 4-good agents', [[0, 1, 2, 5], [2, 3, 4, 5], [3, 4, 5]], [(2, 3, 4, 8), (1, 4, 8, 6), (2, 4, 3)], 'pot', 'sumlev3,sumlev4', 'every'),
     ('k4-c4x-variant-spaces', 'n = 2, m = 5, owner needs from base', [[0, 2, 3, 4], [1, 2, 3, 4]], [(2, 3, 4, 8), (2, 3, 4, 8)], 'nocomp', ('w0',)),
     ('k4-c4x-variant-spaces', 'n = 3, m = 6, envy-free two-good bases only', [[0, 3, 4, 5], [1, 3, 4, 5], [2, 3, 4, 5]], [(3, 5, 6, 7), (4, 6, 5, 8), (5, 4, 6, 8)], 'nocomp', ('ef',)),
@@ -102,10 +105,15 @@ def main():
         att, name, sets, values, claim = inst[:5]
         vl = [dict(zip(S, v)) for S, v in zip(sets, values)]
         if claim == 'pareto':
-            ev, npm = pareto_check(sets, vl)
+            ev, so, npm = pareto_check(sets, vl)
             cfail = c_result(sets, vl, ['-Q', '-p', '3'], 'paretofail')
             ok = (not ev) and cfail == 1
             print(f'{att}: {name}: {npm} Pareto maxima; some Pareto maximum not completable: py {not ev}, c {cfail == 1} -> {"confirmed" if ok else "NOT confirmed"}')
+        elif claim == 'paretosome':
+            ev, so, npm = pareto_check(sets, vl)
+            cfail = c_result(sets, vl, ['-Q', '-p', '3'], 'paretosomefail')
+            ok = (not so) and cfail == 1
+            print(f'{att}: {name}: {npm} Pareto maxima; no Pareto maximum completable: py {not so}, c {cfail == 1} -> {"confirmed" if ok else "NOT confirmed"}')
         elif claim == 'nocomp':
             flags = inst[5]
             res = py_results(sets, vl, flags)

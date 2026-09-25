@@ -38,7 +38,7 @@ static int tv[MAXN][MAXT][4];            /* type values, local good order */
 static int loc[MAXN][MAXM];              /* local index of global good g in R_i, or -1 */
 static mask_t Rmask[MAXN];
 static int rodef_on = 0, efonly = 0, moves = 0, single = 0;
-static int pareto = 0; static long long pareto_fail, pareto_n;
+static int pareto = 0; static long long pareto_fail, pareto_n, pareto_somefail;
 static long long hist_lower[8], hist_zero[8], nposdef, ronone, ronone_any, mvtype[64], mvonly[64], mvnone1;
 static const char *mvname[8] = {"up(1->2)", "down(2->1)", "drop(1->0)", "fill(0->1/2)", "swap1", "swap2", "other", "frozen-changes"};
 static int wbase = 1, nex = 0, anyall = 0, allow3 = 0, verbose = 0, dump = 0;
@@ -620,6 +620,21 @@ static void do_profile(void) {
       if (!comp[k]) { bad = 1; if (nex && pareto_fail < nex) { printf("EXP pareto-max stuck:"); print_profile(); print_asg(&A[validlist[k]]); printf("\n"); } }
     }
     pareto_fail += bad;
+    if (bad) {   /* the some-form: is any Pareto-maximum completable? (not counted in "tested") */
+      int any = 0;
+      for (int k = 0; k < nv && !any; k++) {
+        int dom = 0;
+        for (int q = 0; q < nv && !dom; q++) {
+          int ge = 1, gt = 0;
+          for (int i = 0; i < n; i++) { int lk = lev[i][A[validlist[k]].o[i]], lq = lev[i][A[validlist[q]].o[i]]; if (lq < lk) { ge = 0; break; } if (lq > lk) gt = 1; }
+          dom = ge && gt;
+        }
+        if (dom) continue;
+        if (comp[k] < 0) comp[k] = completable(&A[validlist[k]]);
+        any = comp[k];
+      }
+      if (!any) { pareto_somefail++; if (nex && pareto_somefail <= nex) { printf("EXP no pareto-max completable:"); print_profile(); printf("\n"); } }
+    }
   }
   int anysomefail = 0;
   for (int p = 0; p < nphi; p++) {
@@ -807,7 +822,7 @@ int main(int argc, char **argv) {
       }
     }
   }
-  printf("RESULT asg %d profiles %lld valid %lld tested %lld nocomp %lld ronone %lld ronone_any %lld paretomax %lld paretofail %lld\n", nA, nprof, nvalid, ncompl_tested, nocomp, ronone, ronone_any, pareto_n, pareto_fail);
+  printf("RESULT asg %d profiles %lld valid %lld tested %lld nocomp %lld ronone %lld ronone_any %lld paretomax %lld paretofail %lld paretosomefail %lld\n", nA, nprof, nvalid, ncompl_tested, nocomp, ronone, ronone_any, pareto_n, pareto_fail, pareto_somefail);
   if (rulestat) { printf("RULESTATS"); for (int q = 0; q < 10; q++) printf(" %lld", rs_cnt[q]); for (int q = 11; q < 22; q++) printf(" %lld", rs_cnt[q]); printf(" %lld %lld %lld %lld %lld %lld\n", rs_cnt[23], rs_cnt[25], rs_cnt[27], rs_cnt[28], rs_cnt[29], rs_cnt[30]); }
   if (termstat) { printf("TERMSTATS"); for (int q = 0; q < 12; q++) printf(" %lld", ts_cnt[q]); for (int q = 13; q < 22; q++) printf(" %lld", ts_cnt[q]); printf("\n"); }
   if (moves) {

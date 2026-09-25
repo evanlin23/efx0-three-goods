@@ -1,0 +1,11 @@
+# k = 4, section 5 of k4/c4x.md: Lemmas U, C and exposure counters at Pareto-maxima (-T), n = 2 all, n = 3 sample
+# command: python3 k4/c4x_run.py results/k4_certs_2.json.gz -T -p 3 --jobs=1
+FILE results/k4_certs_2.json.gz cores 5 profiles 189216 valid 2318524 tested 336748 nocomp 0 ronone 0 ronone_any 0 paretomax 336748 paretofail 0
+  TERMSTATS (Pareto-maxima): terminals 2592, |E_t|=0 1152, |E_t|=1 1440, |E_t|>=2 0, |E_t|>slots 1440, t invalid 0, E_t has free agent 0, t reachable from E_t 1440, two in E_t, same single end 0, P without terminal 172108, x in E_t without end 0, P with omega>=1 174700, P: no terminal with E_t empty 1440, P: no valid terminal 0, P: exposure graph has a cycle 1440, Lemma U violated 0, Lemma C violated 0, frozen agent without chain end 0, Lemma E violated 1152, |Z_t| fits but t invalid 0, |Z_t| too big but t valid 1440
+  (leximin)                        every-max fails            0   some-max fails            0
+
+# command: python3 k4/c4x_run.py results/k4_certs_3.json.gz -T -p 3 --rand=20000 --jobs=1
+FILE results/k4_certs_3.json.gz cores 51 profiles 1020000 valid 22336951 tested 2857521 nocomp 0 ronone 0 ronone_any 0 paretomax 2854991 paretofail 4424
+  TERMSTATS (Pareto-maxima): terminals 203271, |E_t|=0 189636, |E_t|=1 12376, |E_t|>=2 1259, |E_t|>slots 12663, t invalid 11646, E_t has free agent 2253, t reachable from E_t 12209, two in E_t, same single end 432, P without terminal 858982, x in E_t without end 0, P with omega>=1 1060981, P: no terminal with E_t empty 12904, P: no valid terminal 11132, P: exposure graph has a cycle 12185, Lemma U violated 0, Lemma C violated 0, frozen agent without chain end 0, Lemma E violated 14317, |Z_t| fits but t invalid 595, |Z_t| too big but t valid 1936
+  (leximin)                        every-max fails          190   some-max fails            0
+

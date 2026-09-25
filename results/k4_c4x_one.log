@@ -1,4 +1,7 @@
 # one 4-good agent: Psi = (sumlev3, sumlev4), Psi_2 = (sumlev3, -size4, sumlev4), leximin; -W counters on the Psi-maxima
+# command: python3 k4/c4x_run.py results/k4_certs_3.json.gz --only=0,1,4,5,7,9,12,15,18,19,21,24,26,36 -W -p "18,19;18,22,19;3" -x 2   (the n = 3 cores with exactly one 4-good agent)
+# command: python3 k4/c4x_run.py results/k4_certs_4_n4_1.json.gz -W -p "18,19;18,22,19;3" -x 2
+# command: python3 k4/c4x_run.py results/k4_certs_5_n4_1.json.gz -W -p "18,19;18,22,19;3" --rand=2000 --seed=21 -x 2
 # n = 3 (cores with exactly one 4-good agent), exhaustive
   RULESTATS (argmax of the first potential): maxima with omega>=1 9282, w terminal 3386, ... w invalid 0, w not terminal, 3-good terminal exists 576, ... no 3-good terminal valid 0, no terminal 5320, ... w invalid 0, ... frozen agents exist 0, w frozen 244, w frozen and some 3-good terminal invalid 0, Lemma Rw violated 0, Lemma Ew violated 0, P1 0, P2 0, w free and exposed by a 3-good terminal 0, w free, E_w nonempty 332, .. frozen x, one good of B_w + one junk 324, .. low(x) in B_w 8, .. other 0, .. w terminal 0, .. w valid 324, P1 at any maximum 0, C1 with E_w nonempty 0, case B2 3370, case B2 with E_w nonempty 0, case B2, no 3-good terminal valid 0, case B2, no 3-good terminal 3370
 FILE results/k4_certs_3.json.gz cores 14 profiles 119232 valid 1476250 tested 209350 nocomp 0 ronone 0 ronone_any 0 paretomax 0 paretofail 0

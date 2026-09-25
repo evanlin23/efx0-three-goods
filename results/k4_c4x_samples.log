@@ -1,4 +1,9 @@
 # samples: random strict profiles per core (seeded), potentials (-frozen,-deficit), leximin, (sumlev3,sumlev4)
+# command: python3 k4/c4x_run.py results/k4_certs_4_n4_3.json.gz -R -p "6,17;3;18,19;6" --rand=5000 --seed=11 -x 2
+# command: python3 k4/c4x_run.py results/k4_certs_4_pure.json.gz -R -p "6,17;3;18,19;6" --rand=5000 --seed=12 -x 2
+# command: python3 k4/c4x_run.py results/k4_certs_5_n4_1.json.gz -R -p "6,17;3;18,19;6" --rand=1000 --seed=13 -x 2
+# command: python3 k4/c4x_run.py results/k4_certs_5_n4_2.json.gz -R -p "6,17;3;18,19;6" --rand=100 --seed=14 -x 2
+# (the four outputs follow in this order)
 core 9: EX every (-frozen): types [0:2,1:3,4:8,5:4] [2:2,3:8,4:4,5:5] [2:1,3:8,4:4,5:6] [3:2,4:3,5:4] bases {5} {2} {3} {4} J {0,1}
 core 9: EX every (-frozen): types [0:3,1:4,4:6,5:8] [2:2,3:4,4:10,5:7] [2:2,3:10,4:6,5:3] [3:4,4:3,5:2] bases {4} {2} {3} {5} J {0,1}
 core 12: EX every (-frozen): types [0:3,2:6,4:8,5:10] [1:2,3:10,4:7,5:6] [2:2,3:10,4:7,5:6] [3:2,4:4,5:3] bases {4} {1} {3} {5} J {0,2}

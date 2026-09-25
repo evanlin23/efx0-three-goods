@@ -97,6 +97,12 @@ def main():
                         w = [int(x) for x in line.split()[1:]]
                         ts = tot.setdefault('_ts', [0] * len(w))
                         for q in range(len(w)): ts[q] += w[q]
+                    elif line.startswith('MOVETYPES'):
+                        w = line.split()
+                        mt = tot.setdefault('_mt', {})
+                        mt['no one-agent step'] = mt.get('no one-agent step', 0) + int(w[2])
+                        for name, val in zip(w[3::2], w[4::2]):
+                            mt[name] = mt.get(name, 0) + int(val.split('/')[0])
                     elif line.startswith('MOVES'):
                         w = line.split()
                         mv = tot.setdefault('_moves', [0] * 17)
@@ -115,6 +121,8 @@ def main():
         mv = tot.pop('_moves', None)
         ts = tot.pop('_ts', None)
         rs = tot.pop('_rs', None)
+        mt = tot.pop('_mt', None)
+        if mt: print('  MOVETYPES (pre-allocations admitting a one-agent step of each kind): ' + ', '.join(f'{k} {v}' for k, v in mt.items()))
         if rs:
             names = ['maxima with omega>=1', 'w terminal', '... w invalid', 'w not terminal, 3-good terminal exists',
                      '... no 3-good terminal valid', 'no terminal', '... w invalid', '... frozen agents exist', 'w frozen',

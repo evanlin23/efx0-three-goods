@@ -3,7 +3,7 @@
 
 usage: python3 k4/c4x_crosscheck.py FILE [--all | --rand=N] [--seed=S] [--only=I,J] [--w0]
 For each core of FILE (or --only), the Python checker analyses the profiles (all, or N random ones) and c4x -v
-analyses the same profiles; the lines (#valid, #completable, every/some flags of six potentials) must agree."""
+analyses the same profiles; the lines (#valid, #completable, every/some flags of eight potentials) must agree."""
 import gzip, json, sys, os, subprocess, itertools, random
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
