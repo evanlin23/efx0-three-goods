@@ -80,7 +80,7 @@ Rule F with at most three rotations allowed, counting the fewest each profile ne
 | n = 4, one 4-good agent, exhaustive | 7,247,232 | 7,246,416 | 816 | 0 | `results/k4_adaptive_rules_n4.log` |
 | n = 4, two, exhaustive | 724,847,616 | 724,640,736 | 206,880 | 0 | `results/k4_adaptive_rules_n4.log` |
 | n = 4, three, exhaustive | 34,971,844,608 | 34,961,492,780 | 10,351,828 | 0 | `results/k4_adaptive_A16_n4_3.log` |
-| n = 4, pure, random (20,000 per core) | PURE4_TOTAL | PURE4_R0 | PURE4_R1 | PURE4_R2 | `results/k4_adaptive_A16_pure4.log` |
+| n = 4, pure, random (20,000 per core) | 4,380,000 | 4,378,184 | 1,816 | 0 | `results/k4_adaptive_A16_pure4.log` |
 | n = 5, one 4-good agent, random (5,000 per core) | 8,675,000 | 8,674,942 | 58 | 0 | `results/k4_adaptive_A16_n5_sample.log` |
 | n = 5, two, random | 27,340,000 | 27,339,644 | 356 | 0 | same |
 | n = 5, three, random | 49,305,000 | 49,303,628 | 1,372 | 0 | same |
@@ -93,6 +93,8 @@ Adversarial and structured sets:
   (`results/k4_lb4r_cores_*.json.gz`): the two cores where need-shrinking needs three rotations, the 276 and 396 cores
   where weaker variants fail (n ≤ 5), 5,000 cores grown from them (n = 4 to 7), and 5,700 random cores with n = 6, 7, 8:
   HILL_TOTAL profiles, none needing two rotations (`results/k4_adaptive_hill.log`).
+- *Hill-climbing on pure n = 4* (the 219 certified cores, 5,000 steps each, 1,095,000 profiles): none needing two
+  rotations (`results/k4_adaptive_A16_pure4.log`).
 - *#30's GM₄ profiles* (the 148 profiles whose level-sum maxima are all dead ends, the GM₄ seeds and failing maxima,
   instances A–H, P, Q, S; 442 profiles): no rotation needed, by index order already (`results/k4_adaptive_hard.log`).
 - *H_1–H_8 and five relabelings of each* (owner's needs from its base, `-w0`, as #33 and #32 do from t = 4; a `-w0`
@@ -262,7 +264,15 @@ agent 1 from b to {b, c} (need-shrinking: 8 < 5 + 4), nobody is frozen, ω = 0, 
 
 How rule F succeeds where no run is covered (`results/k4_adaptive_uncovered.log`):
 
-UNCOV_TABLE
+| class | no covered sequence | need-shrinking upgrades, no owner / owner r / other owner / one rotation | envy-free upgrades, owner r / other | no upgrades, owner r / other |
+|---|---|---|---|---|
+| n = 2 | 12,420 | 3,600 / 2,520 / 6,300 / 0 | 0 / 0 | 0 / 0 |
+| n = 3 | 7,503,039 | 2,907,589 / 3,749,002 / 831,723 / 0 | 13,189 / 1,536 | 0 / 0 |
+| n = 4, one 4-good agent | 0 | | | |
+| n = 4, two | 155,947 | 44,769 / 67,280 / 12,344 / 31,312 | 168 / 10 | 32 / 32 |
+
+(The first policy under which rule F's sequence succeeds, and how its owner step ended.) At n ≤ 3 no uncovered profile
+needs a rotation; at n = 4 with two 4-good agents 31,312 do, which none of the theorems addresses.
 
 So a proof of rule F, or of K4.AD.C1, needs a counterpart of Theorems A₄–A₄⁺ for **need-shrinking upgrades**: an
 agent holding b (or its second good) with a < b + c gives up its need with one junk good, which unfreezes the holder
