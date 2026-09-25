@@ -1,0 +1,70 @@
+# k4/c4min.md §5: Theorems Z, F and Conjecture Phi on k = 4 cores with n = 4 (one 4-good agent: every strict profile; other classes: random profiles per core) and n = 5 (random profiles per core)
+# command: python3 k4/c4min_run.py results/k4_certs_4_n4_1.json.gz -p 8,9,16;9,16;8,17 --jobs=3
+FILE results/k4_certs_4_n4_1.json.gz cores 135 profiles 7247232 omega>=1 102434 configs 6153234 none 0 keyfail 286 xbad 0 paretomax 0 paretoevery 0 paretosome 0 rmax0 0 allrobF 0 covZ 31104 covF 26942 f1 28478 uncovered 15910
+  (-thrL,rob,sumlev)                       every-max fails          0   some-max fails          0
+  (rob,sumlev)                             every-max fails          0   some-max fails          0
+  (-thrL,leximin)                          every-max fails          4   some-max fails          0
+# command: python3 k4/c4min_run.py results/k4_certs_4_n4_1.json.gz -F1 -A -U0 -p 23,9,16 --jobs=3
+FILE results/k4_certs_4_n4_1.json.gz cores 135 profiles 7247232 omega>=1 71330 configs 880714 none 0 keyfail 286 xbad 0 paretomax 0 paretoevery 0 paretosome 0 rmax0 0 allrobF 26942 covZ 0 covF 26942 f1 0 uncovered 0
+  (allrobF,rob,sumlev)                     every-max fails          0   some-max fails          0
+# command: python3 k4/c4min_run.py results/k4_certs_4_n4_2.json.gz --rand=1000 --seed=31 -p 8,9,16;8,17 --jobs=3
+FILE results/k4_certs_4_n4_2.json.gz cores 309 profiles 309000 omega>=1 41625 configs 4286566 none 0 keyfail 54 xbad 0 paretomax 0 paretoevery 0 paretosome 0 rmax0 0 allrobF 0 covZ 30490 covF 1944 f1 8367 uncovered 824
+  (-thrL,rob,sumlev)                       every-max fails          0   some-max fails          0
+  (-thrL,leximin)                          every-max fails          0   some-max fails          0
+# command: python3 k4/c4min_run.py results/k4_certs_4_n4_2.json.gz --rand=1000 --seed=31 -f 0 -p 9,16 --jobs=3
+FILE results/k4_certs_4_n4_2.json.gz cores 309 profiles 309000 omega>=1 30490 configs 3793300 none 0 keyfail 0 xbad 0 paretomax 0 paretoevery 0 paretosome 0 rmax0 0 allrobF 0 covZ 30490 covF 0 f1 0 uncovered 0
+  (rob,sumlev)                             every-max fails          0   some-max fails          0
+# command: python3 k4/c4min_run.py results/k4_certs_4_n4_2.json.gz --rand=1000 --seed=31 -F1 -A -U0 -p 23,9,16 --jobs=3
+FILE results/k4_certs_4_n4_2.json.gz cores 309 profiles 309000 omega>=1 11135 configs 76061 none 0 keyfail 54 xbad 0 paretomax 0 paretoevery 0 paretosome 0 rmax0 0 allrobF 1944 covZ 0 covF 1944 f1 0 uncovered 0
+  (allrobF,rob,sumlev)                     every-max fails          0   some-max fails          0
+# command: python3 k4/c4min_run.py results/k4_certs_4_n4_3.json.gz --rand=1000 --seed=31 -p 8,9,16;8,17 --jobs=3
+FILE results/k4_certs_4_n4_3.json.gz cores 339 profiles 339000 omega>=1 103540 configs 15251510 none 0 keyfail 51 xbad 0 paretomax 0 paretoevery 0 paretosome 0 rmax0 0 allrobF 0 covZ 87331 covF 1730 f1 13717 uncovered 762
+  (-thrL,rob,sumlev)                       every-max fails          0   some-max fails          0
+  (-thrL,leximin)                          every-max fails          0   some-max fails          0
+# command: python3 k4/c4min_run.py results/k4_certs_4_n4_3.json.gz --rand=1000 --seed=31 -f 0 -p 9,16 --jobs=3
+FILE results/k4_certs_4_n4_3.json.gz cores 339 profiles 339000 omega>=1 87331 configs 14221634 none 0 keyfail 0 xbad 0 paretomax 0 paretoevery 0 paretosome 0 rmax0 0 allrobF 0 covZ 87331 covF 0 f1 0 uncovered 0
+  (rob,sumlev)                             every-max fails          0   some-max fails          0
+# command: python3 k4/c4min_run.py results/k4_certs_4_n4_3.json.gz --rand=1000 --seed=31 -F1 -A -U0 -p 23,9,16 --jobs=3
+FILE results/k4_certs_4_n4_3.json.gz cores 339 profiles 339000 omega>=1 16209 configs 92301 none 0 keyfail 51 xbad 0 paretomax 0 paretoevery 0 paretosome 0 rmax0 0 allrobF 1730 covZ 0 covF 1730 f1 0 uncovered 0
+  (allrobF,rob,sumlev)                     every-max fails          0   some-max fails          0
+# command: python3 k4/c4min_run.py results/k4_certs_4_pure.json.gz --rand=1000 --seed=31 -p 8,9,16;8,17 --jobs=3
+FILE results/k4_certs_4_pure.json.gz cores 219 profiles 219000 omega>=1 102033 configs 24419068 none 0 keyfail 57 xbad 0 paretomax 0 paretoevery 0 paretosome 0 rmax0 0 allrobF 0 covZ 90011 covF 751 f1 10819 uncovered 452
+  (-thrL,rob,sumlev)                       every-max fails          1   some-max fails          0
+  (-thrL,leximin)                          every-max fails          0   some-max fails          0
+# command: python3 k4/c4min_run.py results/k4_certs_4_pure.json.gz --rand=1000 --seed=31 -f 0 -p 9,16 --jobs=3
+FILE results/k4_certs_4_pure.json.gz cores 219 profiles 219000 omega>=1 90011 configs 23239788 none 0 keyfail 0 xbad 0 paretomax 0 paretoevery 0 paretosome 0 rmax0 0 allrobF 0 covZ 90011 covF 0 f1 0 uncovered 0
+  (rob,sumlev)                             every-max fails          0   some-max fails          0
+# command: python3 k4/c4min_run.py results/k4_certs_4_pure.json.gz --rand=1000 --seed=31 -F1 -A -U0 -p 23,9,16 --jobs=3
+FILE results/k4_certs_4_pure.json.gz cores 219 profiles 219000 omega>=1 12022 configs 47387 none 0 keyfail 57 xbad 0 paretomax 0 paretoevery 0 paretosome 0 rmax0 0 allrobF 751 covZ 0 covF 751 f1 0 uncovered 0
+  (allrobF,rob,sumlev)                     every-max fails          0   some-max fails          0
+# command: python3 k4/c4min_run.py results/k4_certs_5_n4_1.json.gz --rand=50 --seed=32 -p 8,9,16;8,17 --jobs=3
+FILE results/k4_certs_5_n4_1.json.gz cores 1735 profiles 86750 omega>=1 475 configs 78569 none 0 keyfail 0 xbad 0 paretomax 0 paretoevery 0 paretosome 0 rmax0 0 allrobF 0 covZ 50 covF 133 f1 118 uncovered 174
+  (-thrL,rob,sumlev)                       every-max fails          0   some-max fails          0
+  (-thrL,leximin)                          every-max fails          0   some-max fails          0
+# command: python3 k4/c4min_run.py results/k4_certs_5_n4_1.json.gz --rand=50 --seed=32 -f 0 -p 9,16 --jobs=3
+FILE results/k4_certs_5_n4_1.json.gz cores 1735 profiles 86750 omega>=1 50 configs 31784 none 0 keyfail 0 xbad 0 paretomax 0 paretoevery 0 paretosome 0 rmax0 0 allrobF 0 covZ 50 covF 0 f1 0 uncovered 0
+  (rob,sumlev)                             every-max fails          0   some-max fails          0
+# command: python3 k4/c4min_run.py results/k4_certs_5_n4_1.json.gz --rand=50 --seed=32 -F1 -A -U0 -p 23,9,16 --jobs=3
+FILE results/k4_certs_5_n4_1.json.gz cores 1735 profiles 86750 omega>=1 425 configs 14223 none 0 keyfail 0 xbad 0 paretomax 0 paretoevery 0 paretosome 0 rmax0 0 allrobF 133 covZ 0 covF 133 f1 0 uncovered 0
+  (allrobF,rob,sumlev)                     every-max fails          0   some-max fails          0
+# command: python3 k4/c4min_run.py results/k4_certs_5_n4_2.json.gz --rand=50 --seed=32 -p 8,9,16;8,17 --jobs=3
+FILE results/k4_certs_5_n4_2.json.gz cores 5468 profiles 273400 omega>=1 9539 configs 3400906 none 0 keyfail 0 xbad 0 paretomax 0 paretoevery 0 paretosome 0 rmax0 0 allrobF 0 covZ 4461 covF 1160 f1 2760 uncovered 1158
+  (-thrL,rob,sumlev)                       every-max fails          0   some-max fails          0
+  (-thrL,leximin)                          every-max fails          0   some-max fails          0
+# command: python3 k4/c4min_run.py results/k4_certs_5_n4_2.json.gz --rand=50 --seed=32 -f 0 -p 9,16 --jobs=3
+FILE results/k4_certs_5_n4_2.json.gz cores 5468 profiles 273400 omega>=1 4461 configs 2661159 none 0 keyfail 0 xbad 0 paretomax 0 paretoevery 0 paretosome 0 rmax0 0 allrobF 0 covZ 4461 covF 0 f1 0 uncovered 0
+  (rob,sumlev)                             every-max fails          0   some-max fails          0
+# command: python3 k4/c4min_run.py results/k4_certs_5_n4_2.json.gz --rand=50 --seed=32 -F1 -A -U0 -p 23,9,16 --jobs=3
+FILE results/k4_certs_5_n4_2.json.gz cores 5468 profiles 273400 omega>=1 5078 configs 155887 none 0 keyfail 0 xbad 0 paretomax 0 paretoevery 0 paretosome 0 rmax0 0 allrobF 1160 covZ 0 covF 1160 f1 0 uncovered 0
+  (allrobF,rob,sumlev)                     every-max fails          0   some-max fails          0
+# command: python3 k4/c4min_run.py results/k4_certs_5_pure.json.gz --rand=50 --seed=32 -p 8,9,16;8,17 --jobs=3
+FILE results/k4_certs_5_pure.json.gz cores 4674 profiles 233700 omega>=1 78992 configs 95504534 none 0 keyfail 4 xbad 0 paretomax 0 paretoevery 0 paretosome 0 rmax0 0 allrobF 0 covZ 63328 covF 1141 f1 13209 uncovered 1314
+  (-thrL,rob,sumlev)                       every-max fails          0   some-max fails          0
+  (-thrL,leximin)                          every-max fails          0   some-max fails          0
+# command: python3 k4/c4min_run.py results/k4_certs_5_pure.json.gz --rand=50 --seed=32 -f 0 -p 9,16 --jobs=3
+FILE results/k4_certs_5_pure.json.gz cores 4674 profiles 233700 omega>=1 63328 configs 88852651 none 0 keyfail 0 xbad 0 paretomax 0 paretoevery 0 paretosome 0 rmax0 0 allrobF 0 covZ 63328 covF 0 f1 0 uncovered 0
+  (rob,sumlev)                             every-max fails          0   some-max fails          0
+# command: python3 k4/c4min_run.py results/k4_certs_5_pure.json.gz --rand=50 --seed=32 -F1 -A -U0 -p 23,9,16 --jobs=3
+FILE results/k4_certs_5_pure.json.gz cores 4674 profiles 233700 omega>=1 15664 configs 298042 none 0 keyfail 4 xbad 0 paretomax 0 paretoevery 0 paretosome 0 rmax0 0 allrobF 1141 covZ 0 covF 1141 f1 0 uncovered 0
+  (allrobF,rob,sumlev)                     every-max fails          0   some-max fails          0
+# finished Fri Sep 25 21:42:00 UTC 2026

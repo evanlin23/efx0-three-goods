@@ -31,7 +31,12 @@ CLAIMS = [
      [{0: 3, 1: 2, 2: 10, 3: 6}, {2: 8, 4: 4, 5: 2, 6: 3}, {3: 3, 4: 2, 5: 6, 6: 10}]),
     ('configurations without the unfreezing clause', ['-U0'], '9,16', 'nounf', 2, 6, [[0, 1, 4, 5], [2, 3, 4, 5]],
      [{0: 6, 1: 3, 4: 10, 5: 2}, {2: 4, 3: 3, 4: 8, 5: 2}]),
+    ('Conjecture Phi = (-t, r, Lambda), f = 2', ['-f', '2'], '8,9,16', 'every', 4, 8, [[0, 2, 4, 7], [1, 5, 6, 7], [3, 5, 6, 7], [4, 5, 6, 7]],
+     [{0: 3, 2: 4, 4: 2, 7: 8}, {1: 3, 5: 6, 6: 10, 7: 2}, {3: 4, 5: 8, 6: 3, 7: 6}, {4: 4, 5: 8, 6: 6, 7: 5}]),
+    ('(-t, leximin), f = 2', ['-f', '2'], '8,17', 'every', 4, 7, [[0, 1, 3, 6], [2, 3, 4], [2, 5, 6], [4, 5, 6]],
+     [{0: 2, 1: 3, 3: 6, 6: 10}, {2: 3, 3: 2, 4: 4}, {2: 3, 5: 2, 6: 4}, {4: 4, 5: 3, 6: 2}]),
 ]
+# the n = 4 instances: n = 3 is excluded by the exhaustive run of results/k4_c4min_phi_n3.log (0 failures of both)
 
 
 def c_input(n, m, sets, vals):
@@ -69,7 +74,10 @@ def feat(c, pot):
     n = c.pr.n
     t = -sum(c.pool_threat(x) for x in range(n) if c.phi[x] is not None)
     r = sum(c.robust(i) for i in range(n)); lam = sum(c.level(i) for i in range(n))
-    return {'9': (r,), '16': (lam,), '9,16': (r, lam), '8,16': (t, lam), '20': (int(c.pool_optimal()),)}[pot]
+    lev = sorted(c.level(i) for i in range(n))
+    return {'9': (r,), '16': (lam,), '9,16': (r, lam), '8,16': (t, lam), '20': (int(c.pool_optimal()),),
+            '8,9,16': (t, r, lam), '8,17': (t, tuple(lev)),
+            '8,9,16,3': (t, r, lam, -sum(len(c.L & c.U[x]) for x in range(n) if c.phi[x] is not None))}[pot]
 
 
 def replay_py(pot, kind, n, m, vals):
@@ -108,6 +116,14 @@ def main():
             print(f'   c4min.c: every-form fails = {res["every_fail"]}, profile without completable configuration = {res["none"]}: {"confirmed" if okc else "NOT CONFIRMED"}')
         msg, okp = replay_py(pot, kind, n, m, vals)
         print(f'   c4min_cfg.py: {msg}: {"confirmed" if okp else "NOT CONFIRMED"}')
+        if n == 4:
+            print('   n <= 3: every strict profile with f >= 1 has 0 failures of this potential (results/k4_c4min_phi_n3.log): n = 4 is the smallest n')
+            if pot == '8,9,16':
+                r2 = run_c(opts, '8,9,16,3', c_input(n, m, sets, vals))
+                msg2, bad2 = replay_py('8,9,16,3', 'every', n, m, vals)
+                ok2 = r2['every_fail'] == 0 and not bad2
+                print(f"   refinement Phi' = (-t, r, Lambda, -p): c4min.c every-form fails = {r2['every_fail']}; c4min_cfg.py: {msg2}: {'every maximum completable' if ok2 else 'NOT CONFIRMED'}")
+                allok &= ok2
         if n == 3:
             k, what = run_n2(opts, pot, kind)
             print(f'   n = 2, every strict profile of every core (k4/c4min.c): {k} {what}: n = 3 is the smallest n' if k == 0 else f'   n = 2: {k} {what}')

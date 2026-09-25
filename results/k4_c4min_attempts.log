@@ -1,4 +1,4 @@
-# attempts/k4-c4min-potentials.md: failing instances replayed by k4/c4min.c and k4/c4min_cfg.py; n = 2 exhaustive for the n = 3 instances
+# attempts/k4-c4min-potentials.md: failing instances replayed by k4/c4min.c and k4/c4min_cfg.py; n = 2 exhaustive for the n = 3 instances; n <= 3 exhaustive (results/k4_c4min_phi_n3.log) for the n = 4 ones
 # command: python3 attempts/k4_c4min_attempts.py
 robust count alone, f = 0: n = 3, m = 7, sets [[0, 2, 5, 6], [1, 4, 5, 6], [3, 4, 5, 6]], values [{0: 10, 2: 2, 5: 6, 6: 7}, {1: 2, 4: 7, 5: 4, 6: 8}, {3: 3, 4: 7, 5: 6, 6: 5}]
    c4min.c: every-form fails = 1, profile without completable configuration = 0: confirmed
@@ -26,4 +26,13 @@ Pareto-maximality, f = 1: n = 3, m = 7, sets [[0, 1, 2, 3], [2, 4, 5, 6], [3, 4,
 configurations without the unfreezing clause: n = 2, m = 6, sets [[0, 1, 4, 5], [2, 3, 4, 5]], values [{0: 6, 1: 3, 4: 10, 5: 2}, {2: 4, 3: 3, 4: 8, 5: 2}]
    c4min.c: without unfreezing none completable = 1; with it = 0: confirmed
    c4min_cfg.py: f = 1, 9 configurations, 9 completable, 0 without unfreezing: confirmed
+Conjecture Phi = (-t, r, Lambda), f = 2: n = 4, m = 8, sets [[0, 2, 4, 7], [1, 5, 6, 7], [3, 5, 6, 7], [4, 5, 6, 7]], values [{0: 3, 2: 4, 4: 2, 7: 8}, {1: 3, 5: 6, 6: 10, 7: 2}, {3: 4, 5: 8, 6: 3, 7: 6}, {4: 4, 5: 8, 6: 6, 7: 5}]
+   c4min.c: every-form fails = 1, profile without completable configuration = 0: confirmed
+   c4min_cfg.py: f = 2, 39 configurations, 4 maxima, 2 of them not completable, 34 completable in all: confirmed
+   n <= 3: every strict profile with f >= 1 has 0 failures of this potential (results/k4_c4min_phi_n3.log): n = 4 is the smallest n
+   refinement Phi' = (-t, r, Lambda, -p): c4min.c every-form fails = 0; c4min_cfg.py: f = 2, 39 configurations, 2 maxima, 0 of them not completable, 34 completable in all: every maximum completable
+(-t, leximin), f = 2: n = 4, m = 7, sets [[0, 1, 3, 6], [2, 3, 4], [2, 5, 6], [4, 5, 6]], values [{0: 2, 1: 3, 3: 6, 6: 10}, {2: 3, 3: 2, 4: 4}, {2: 3, 5: 2, 6: 4}, {4: 4, 5: 3, 6: 2}]
+   c4min.c: every-form fails = 1, profile without completable configuration = 0: confirmed
+   c4min_cfg.py: f = 2, 18 configurations, 4 maxima, 1 of them not completable, 16 completable in all: confirmed
+   n <= 3: every strict profile with f >= 1 has 0 failures of this potential (results/k4_c4min_phi_n3.log): n = 4 is the smallest n
 ALL CONFIRMED

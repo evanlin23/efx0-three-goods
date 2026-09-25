@@ -25,9 +25,12 @@ TARGET₄.
   frozen agents has only *robust* frozen agents (each values its frozen good at least as much as all its goods outside
   the needed set). Such agents are never threatened, Theorem Z's argument runs among the free agents, and a cycle of
   frozen agents replaces the last step.
-- **Conjecture Φ** (§4): in general, every configuration maximizing Φ = (−#frozen agents threatened by the pool
-  alone, #robust agents, Σ levels) is completable. Evidence: every profile with n ≤ 3, samples with n = 4 and 5.
-  - Theorems Z and F cover 40–93% of the sampled profiles with ω ≥ 1 at n ≤ 5, depending on the class (§4 table). What remains is the
+- **Conjecture Φ′** (§4): in general, every configuration maximizing Φ′ = (−#frozen agents threatened by the pool
+  alone, #robust agents, Σ levels, −#pool goods valued by frozen agents) is completable. Evidence: every profile with
+  n ≤ 3, every profile of the n = 4 cores with one 4-good agent, and samples of every class with n = 4 and 5.
+  - Its first form Φ, without the last term, is false: two n = 4 profiles.
+  - Theorems Z and F cover 38–99% of the profiles with ω ≥ 1 at n ≤ 5, depending on the class: 94% at n = 3, and 56–89% at
+    n = 4 (§4 table). What remains is the
     profiles where every configuration has an *exposed* frozen agent, including every profile with f = 1.
   - §4 also gives an *exchange digraph* whose cycles unify all the moves used so far, the measured move catalogue, the
     exact gap, and a roadmap for f = 1.
@@ -309,37 +312,58 @@ frozen-robust configuration (`-A`).
 
 Theorems Z and F leave the profiles on which every configuration at the fewest frozen agents has an **exposed**
 frozen agent x, i.e. v_x(U_x) > v_x(φ(x)). These include every profile with f = 1: the frozen agent sits on its top,
-and balance makes it exposed. Coverage of the sampled profiles with ω ≥ 1 (`k4/c4min.c`, counters covZ / covF / f1 /
-uncovered; §5):
+and balance makes it exposed. Coverage of the profiles with ω ≥ 1 (`k4/c4min.c` counters covZ / covF / f1 /
+uncovered):
 
-| class | profiles (ω ≥ 1) | Theorem Z (f = 0) | Theorem F (f ≥ 2, frozen-robust) | f = 1 | f ≥ 2, not frozen-robust |
-|---|---|---|---|---|---|
-| n = 3, 2,000 per core | 37,811 | 34,615 | 359 | 2,837 | 0 |
-| n = 4, one 4-good agent, 150 per core | 454 | 150 | 111 | 134 | 59 |
-| n = 4, two, 150 per core | 6,179 | 4,591 | 289 | 1,202 | 97 |
-| n = 4, three, 150 per core | 15,603 | 13,126 | 267 | 2,105 | 105 |
-| n = 4, pure, 150 per core | 15,317 | 13,504 | 107 | 1,629 | 77 |
-| n = 5, one 4-good agent, 40 per core | 376 | 40 | 113 | 93 | 130 |
-| n = 5, pure, 40 per core | 63,169 | 50,535 | 892 | 10,671 | 1,071 |
+| class | profiles (ω ≥ 1) | Theorem Z (f = 0) | Theorem F (f ≥ 2, frozen-robust) | f = 1 | f ≥ 2, not frozen-robust | log |
+|---|---|---|---|---|---|---|
+| n = 2, every profile | 105,120 | 103,824 | 0 | 1,296 | 0 | `k4_c4min_z_n3.log`, `k4_c4min_phi_n3.log` |
+| n = 3, every profile | 119,640,516 | 112,040,608 | 315,364 | 7,284,544 | 0 | the same |
+| n = 4, one 4-good agent, every profile | 102,434 | 31,104 | 26,942 | 28,478 | 15,910 | `k4_c4min_n4.log` |
+| n = 4, two 4-good agents, 1,000 per core | 41,625 | 30,490 | 1,944 | 8,367 | 824 | the same |
+| n = 4, three, 1,000 per core | 103,540 | 87,331 | 1,730 | 13,717 | 762 | the same |
+| n = 4, pure, 1,000 per core | 102,033 | 90,011 | 751 | 10,819 | 452 | the same |
+| n = 5, one 4-good agent, 50 per core | 475 | 50 | 133 | 118 | 174 | the same |
+| n = 5, two, 50 per core | 9,539 | 4,461 | 1,160 | 2,760 | 1,158 | the same |
+| n = 5, pure, 50 per core | 78,992 | 63,328 | 1,141 | 13,209 | 1,314 | the same |
 
-**Conjecture Φ (K4.C4MIN.PHI).** For every strict profile of every k = 4 core with ω ≥ 1, every configuration at the
+**Conjecture Φ (first form, false).** Every configuration at the fewest frozen agents that maximizes Φ = (−t, r, Λ)
+(lexicographic) has a valid owner. Here t is the number of frozen agents threatened by the pool alone
+(v_x(L ∩ U_x) > v_x(φ(x))), and r and Λ are the robust count and the level sum of §3.6.
+- It holds on every profile with n ≤ 3 and on every profile of the n = 4 cores with one 4-good agent.
+- It fails on two sampled profiles with n = 4 (smallest n; instance 7 of `attempts/k4-c4min-potentials.md`, replayed
+  by both implementations).
+- There, two Φ-maxima with no valid owner differ from a completable one only in *which* good, worthless to it, a robust
+  free agent keeps in its pair. That good protects a frozen agent when it stays out of the pool, and Φ does not see
+  it.
+
+**Conjecture Φ′ (K4.C4MIN.PHI).** For every strict profile of every k = 4 core with ω ≥ 1, every configuration at the
 fewest frozen agents that maximizes
 
-  Φ = (−t, r, Λ)  (lexicographic)
+  Φ′ = (−t, r, Λ, −p)  (lexicographic),  p = Σ over frozen x of |L ∩ U_x|,
 
-has a valid owner. Here t is the number of frozen agents threatened by the pool alone (v_x(L ∩ U_x) > v_x(φ(x))), and
-r and Λ are the robust count and the level sum of §3.6. It implies C₄ᵐⁱⁿ (Lemma 1(a)). At f = 0, t = 0 and Φ is
-Theorem Z's potential. At the tested maxima no unfreezing is needed: the owner test with C = ∅ gives the same result
-for n ≥ 3 (`-U0`). At n = 2 unfreezing is needed, for 720 profiles.
+has a valid owner. It implies C₄ᵐⁱⁿ (Lemma 1(a)).
+- At f = 0, t = p = 0 and Φ′ is Theorem Z's potential.
+- Φ′ only breaks Φ's ties, so its maxima are Φ-maxima, and Φ′ holds wherever Φ does.
+- At the tested maxima no unfreezing is needed: the owner test with C = ∅ gives the same result for n ≥ 3 (`-U0`). At
+  n = 2 unfreezing is needed, on 720 profiles.
 
-Evidence (every maximum completable; §5): every profile with n = 2; 204,000 sampled profiles with n = 3 and f ∈ {1, 2};
-150 profiles per core with n = 4 (every class). (−t, leximin) and (−t, r, leximin) behave the same on these samples.
-Simpler potentials fail. Their smallest failures, replayed by the independent Python implementation, are in
+Evidence (every maximum of Φ′ completable; §5):
+- every profile with n ≤ 3;
+- every profile of the n = 4 cores with one 4-good agent;
+- 1,000 random profiles per core for the other n = 4 classes, then 4,000 per core with f ≥ 1 (both Φ counterexamples
+  included);
+- 50 per core at n = 5, then 150 or 60 per core with f ≥ 1.
+
+The tie-break "fewest frozen agents threatened by some owner" works on the same samples.
+
+Simpler potentials fail. Their failing instances, replayed by the independent Python implementation, are in
 `attempts/k4-c4min-potentials.md`:
 - r alone fails at f = 0 (n = 3);
 - (r, Λ) and Λ fail at f = 1 (n = 3), where the pool completes a frozen agent's threatening triple;
-- (−t, Λ) fails at f = 2;
-- Pareto-maximality fails at f ≥ 1.
+- (−t, Λ) fails at f = 2 (n = 3);
+- Pareto-maximality fails at f ≥ 1 (n = 3);
+- Φ = (−t, r, Λ) and (−t, leximin) fail at f = 2 (n = 4).
 
 **Structure at the maxima** (n = 3, f ≥ 1, 1,209 maxima; n = 4 samples, 872 maxima; `k4/c4min_moves.py --maxima`,
 `results/k4_c4min_moves.log`):
@@ -372,12 +396,12 @@ Every agent on the cycle gains, with two exceptions:
 In any case t and r can move either way: a terminal crossing a need edge becomes frozen and may be exposed. Measured
 on the non-completable configurations of sampled profiles with n = 3 and f ≥ 1 (`k4/c4min_moves.py --moves`,
 `results/k4_c4min_moves.log`): 403 of 440 have a
-Φ-raising *pool move* (one free agent improves its pair from the pool without raising t), 36 more a Φ-raising cycle
+Φ-raising (hence Φ′-raising) *pool move* (one free agent improves its pair from the pool without raising t), 36 more a Φ-raising cycle
 move, and 1 needs a third kind. In that one the pool move is blocked, because the released good completes a frozen
 agent's threatening triple in the pool. A two-agent exchange passes that good to the other free agent instead of the
 pool.
 
-**The gap, precisely.** A proof of Conjecture Φ, hence of C₄ᵐⁱⁿ and TARGET₄, needs a *local improvement lemma*: every
+**The gap, precisely.** A proof of Conjecture Φ′, hence of C₄ᵐⁱⁿ and TARGET₄, needs a *local improvement lemma*: every
 configuration without a valid owner admits a Φ-raising move from a fixed finite catalogue. Pool moves, the cycle moves
 above and pool-assisted two-agent exchanges suffice on every non-completable configuration of the samples; which
 cycle to take is the open part. Theorems Z and F are the cases where the catalogue is proved sufficient: pool moves,
@@ -425,8 +449,9 @@ where an owner is needed at all.
 | Theorem Z lemmas A–D (Python) | all n = 2 (103,824 profiles with f = 0, ω ≥ 1); 10,000 random profiles per n = 3 core (173,126 with f = 0, ω ≥ 1) | 0 violations; 991,329 pool-optimal APAs, 6,053 of them without a valid owner, each with a rotation of Lemma R giving a robust agent | `results/k4_c4min_zf_python.log` |
 | Theorem F lemmas (Python) | 10,000 random profiles per n = 3 core with f ≥ 1 (1,681 have a frozen-robust configuration, all with f = 2); 30 per n = 4 core | 0 violations; at n = 4, 6 pool-optimal frozen-robust configurations without a valid owner, each resolved by a rotation (plain or modified) | `results/k4_c4min_zf_python.log`, `results/k4_c4min_f_n4.log` |
 | Theorem F (`23,9,16`, `-A -U0`) | every profile with n ≤ 3, f ≥ 1, having a frozen-robust configuration: 315,364 (all at n = 3, f = 2) | every max completable without unfreezing | `results/k4_c4min_f_n3.log` |
-| Conjecture Φ (`8,9,16`) | every profile with n ≤ 3 and f ≥ 1: 1,296 (n = 2) + 7,599,908 (n = 3) with ω ≥ 1; 1.43·10⁸ configurations at n = 3 | every max completable; also (−t, leximin) and (−t, r, leximin); (r, Λ) fails on 56,928, and on 128 no maximum of it is completable | `results/k4_c4min_phi_n3.log` |
-| Theorems Z, F, Conjecture Φ | n = 4: every profile of the 135 cores with one 4-good agent; 1,000 random profiles per core for two, three, four 4-good agents; n = 5: 50 per core (one, two 4-good agents; pure) | N4RESULT | `results/k4_c4min_n4.log` |
+| Conjecture Φ′ (`8,9,16,3`; Φ is `8,9,16`) | every profile with n ≤ 3 and f ≥ 1: 1,296 (n = 2) + 7,599,908 (n = 3) with ω ≥ 1; 1.43·10⁸ configurations at n = 3 | every max of Φ completable, hence of Φ′; also (−t, leximin) and (−t, r, leximin); (r, Λ) fails on 56,928, and on 128 no maximum of it is completable | `results/k4_c4min_phi_n3.log` |
+| Theorems Z, F, Conjectures Φ, Φ′ | n = 4: every profile of the 135 cores with one 4-good agent (102,434 with ω ≥ 1); 1,000 random profiles per core for two, three, four 4-good agents; n = 5: 50 per core (one and two 4-good agents, pure) | Theorems Z and F: every max completable everywhere. Φ: one failure (pure n = 4); (−t, leximin): 4 failures (n = 4, one 4-good agent) | `results/k4_c4min_n4.log` |
+| Conjecture Φ′ (`8,9,16,3`) | f ≥ 1 only: 4,000 random profiles per core for n = 4 with two, three, four 4-good agents (157,483 with ω ≥ 1); 150 or 60 per core for n = 5 (115,844) | every max of Φ′ completable (Φ fails once more, n = 4 three 4-good agents) | `results/k4_c4min_phi2.log` |
 | H_1, H_2 | one profile each | every max of (r, Λ) completable | §3.4 (rerun with `k4/c4min.c`) |
 | failing potentials | 7 instances | replayed by both implementations | `results/k4_c4min_attempts.log` |
 | structure and moves | n = 3, 4 samples | §4 | `results/k4_c4min_moves.log` |
