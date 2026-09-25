@@ -25,8 +25,8 @@ Remarks.
 - The needs are the smallest the Definition of `k4/lb4.md` §1 allows, so nothing is lost: a completion that satisfies
   (OC₄) for larger needs does so for these (a larger NA only adds frozen agents and removes slots). With strict types
   they are the pick needs {g : g ≻_i Y} for a one-good base {Y}, and R_i for an empty base.
-- Every run of Phase 1 of LB₄ followed by any upgrades, and every rotation of LB₄ʳ whose rotated base has at most two
-  goods, is in 𝒫 (`k4/lb4.md` §2, §5), so 𝒫 ≠ ∅.
+- The picks of any run of Phase 1 of LB₄, with their pick needs, form a valid pre-allocation (`k4/lb4.md` §2: (V1)
+  by (I2); there are no two-good bases), so 𝒫 ≠ ∅.
 - (V1) and (V2) say: *every needed good is the whole base of one agent*. Such an agent is frozen (F); the others are
   free, with cap(i) = 2 − |B_i| slots. As in `k4/lb4.md` §1, |F| = |NA| and ω := |J| − S = |F| − σ with σ = 2n − m.
 
@@ -118,7 +118,7 @@ owner t that satisfies (OC₄), with the owner's needs from its base.
 
 *Proof.* |J| = S + ω > S − cap(t). Take C with Z_t ⊆ C ⊆ J and |C| = S − cap(t), fill the slots of the free agents other
 than t with C, and let X_t = B_t ∪ (J ∖ C) ⊆ W_t. If X_t threatened some x ≠ t holding X_x ⊇ B_x, it would threaten x
-holding B_x (monotonicity, `k4/c4.md` §1), so x ∈ E_t and low(x) ⊆ X_t, but z_x ∈ C. Only X_t has more than two goods and
+holding B_x (max_h v_x(X_t ∖ h) > v_x(X_x) ≥ v_x(B_x)), so x ∈ E_t and low(x) ⊆ X_t, but z_x ∈ C. Only X_t has more than two goods and
 frozen agents hold their bases, so Theorem 1′₄ applies (`SoundCompletion.of_baseNeeds`). ∎
 
 **Theorem K3.** Every Pareto-maximal P ∈ 𝒫 of a k = 3 core is completable: without owner if ω ≤ 0, and otherwise with
@@ -229,8 +229,8 @@ its base).
   exposed agent: for w, X_t ∩ R_w ⊆ {y} is worth at most v_w(g). So Lemma O holds with Z_t the set of labels.
 - The walk with fresh labels is unchanged (w's label, once used, is not fresh, so w is picked at most once).
 - Shortening: w may have needs (if g is not a_w), so w can lie inside another chain Q_j. If w = x_i does, then
-  x_j ⇝ w ⇝ t_{i+1} (Q_j up to w, then Q_i) is a need chain from x_j; it does not end at t_j (x_j is not reachable to
-  t_j by Lemma E), and cutting the cycle there drops at least one terminal and keeps a subset of the labels. So in a
+  x_j ⇝ w ⇝ t_{i+1} (Q_j up to w, then Q_i) is a need chain from x_j; it does not end at t_j (no need chain from x_j ends at
+  t_j, Lemma E), and cutting the cycle there drops at least one terminal and keeps a subset of the labels. So in a
   shortest cycle no exposed agent lies on another chain, and chains are disjoint as before.
 - The cycle move: if w = x_i, w takes {y_{t_i}, u}, worth more than g; its needs are the goods of R_w worth more than
   v_w(y) + v_w(u) > v_w(g), all of them in N_w(g) ⊆ NA, which are single-good bases of the result as well (the move
@@ -254,20 +254,24 @@ satisfies (OC₄). ∎
 
 The two-agent cores (n = 2) are covered by the exhaustive run.
 
-### 4.3 The gap (Cases B and C with a terminal)
+### 4.3 Cases B and C with a terminal: what is proved and the gap
 
-What remains for a proof of "every Ψ-maximum is completable" with one 4-good agent, and with it (by K4.TIE, K4.CORE,
-Theorem 1′₄, whose peeling never creates a 4-good agent, `k4/c4.md` §6) TARGET₄ for every instance in which at most one
-agent values four goods:
-- **(B)** w is a terminal. Then w is not exposed by any 3-good terminal (a two-good base of a terminal w leaves out a
-  needed good, which is a frozen agent's base and not in W_t; a smaller base leaves w no junk good by Lemma U). Every
-  agent exposed w.r.t. a 3-good terminal, or w.r.t. w as owner, is a frozen 3-good top-holder with one junk label,
-  *unless* **(P1)** some 3-good top-holder x has low(x) = B_w (w holding two goods). Two things are missing for the walk
-  of Theorem K3 run over all terminals including w (in its cycle move w would give the good of its base that x_i wants,
-  take the needed good from the previous chain, and release its other base good to the junk): **excluding (P1)**, and
-  **one slot**: if w holds two goods it has no slot, so a 3-good terminal t only gets |Z_t| ≥ S − cap(t) + 1 ≥ T − 1,
-  one less than the walk uses. Evidence: (P1) occurs at Ψ-maxima (1,072 at n = 4, all with ω ≤ 0) but never at one with
-  ω ≥ 1 (n ≤ 4, and a sample of n = 5), so excluding it must use ω ≥ 1; and in case B w itself is always a valid owner.
+The cases B₁ and C0 are proved below; what remains for a proof of "every Ψ-maximum is completable" with one 4-good
+agent is **w free and holding two goods** (cases B₂ and C1). A proof would give, with Theorem 1′₄, K4.TIE and
+K4.CORE, TARGET₄ for every instance in which at most one agent values four goods (the reduction to cores only removes
+agents and goods, so it never raises an agent's number of relevant goods; cores with no 4-good agent are Theorem K3's):
+- **(B₁)** w is a terminal holding at most one good (proved). Then w has a slot, cannot be exposed (Lemma U for w),
+  and no agent can have low(x) ⊆ B_w; w.r.t. every terminal (3-good or w) the exposed agents are frozen 3-good
+  top-holders with one junk label (for the owner w: Lemmas U and R₃, as in Lemma E); every terminal other than t has a
+  slot, so |Z_t| ≥ T when t is not valid; and the walk of Theorem K3 over all terminals applies, w taking part as a
+  terminal (in the cycle move it gives its good to the exposed agent that wants it and takes the needed good from the
+  previous chain). Some terminal is a valid owner.
+- **(B₂)** w is a terminal holding two goods (open). Then w is still not exposed by a 3-good terminal (its base leaves
+  out a needed good, which is a frozen agent's base, not in W_t), but two things are missing for the walk: **excluding
+  (P1)**, some 3-good top-holder x with low(x) = B_w; and **one slot**: w has none, so a 3-good terminal t only gets
+  |Z_t| ≥ S − cap(t) + 1 ≥ T − 1, one less than the walk uses. Evidence: (P1) occurs at Ψ-maxima (1,072 at n = 4, all
+  with ω ≤ 0) but never at one with ω ≥ 1 (n ≤ 4, and a sample of n = 5), so excluding it must use ω ≥ 1; and in case B
+  w itself is always a valid owner.
 - **(C1)** w is free with N_w = ∅ and exposed by a 3-good terminal t. Then B_w = {b_w, c_w} with
   a_w < b_w + c_w < a_w + d_w, B_t = {a_w} and d_w ∈ J: by Lemma U the base has two goods, by Lemma U₂ the junk good
   of the complementary pair is worse than both base goods, which leaves only this shape. The walk breaks here (w has no
@@ -277,9 +281,10 @@ agent values four goods:
   (t2) low(x) = B_w. (a) If x is frozen and some need chain from x ends at t, let x take {y, z} (t1) or B_w (t2),
   rotate the chain (t takes the good it needed and gives up a_w), and let w take {a_w, d_w} (worth more than B_w, no
   needs) and release what is left of B_w to the junk: everyone moved gains and the result is valid, contradicting
-  (M1). (b) In case t1 with y = c_w and a chain from x ending at τ ≠ t, let x take {c_w, z}, rotate the chain (τ
-  releases its base to the junk) and let w take {b_w, d_w}: w's needs are then at most {a_w}, still t's base, the
-  result is valid, and every agent of x's chain gains, contradicting (M1) (w may lose). Open: t1 with y = b_w, chains
+  (M1). (b) In case t1 with a chain from x ending at τ ≠ t, let x take {y, z}, rotate the chain (τ releases its base
+  to the junk), and let w keep the other good of B_w and take d_w: if y = c_w, w's new base {b_w, d_w} needs at most
+  a_w, still t's base; if y = b_w and b_w < c_w + d_w, the base {c_w, d_w} needs at most a_w as well. The result is
+  valid and every agent of x's chain gains, contradicting (M1) (w may lose). Open: t1 with y = b_w, chains
   avoiding t and b_w > c_w + d_w (then w cannot keep {c_w, d_w}), and t2 when x is free or its chains avoid t. Evidence: 300 case-C1 maxima at n = 4 (none
   at n = 3), E_w = ∅ at all of them; 52 in the n = 5 sample, w valid at all.
 - **(C0)** w free, N_w = ∅, not exposed by any 3-good terminal, and a 3-good terminal exists: the walk over the
@@ -301,3 +306,46 @@ P′ with the same 3-good bases gives w a base of the same size worth more or a 
 for w (an upgrade of w lowers Ψ₂), and the argument of case B that w is not exposed must be redone. Counters
 (`k4/c4x.c -W -p "18,22,19"`): n = 4: 247,271 maxima with ω ≥ 1, 0 violations of the rule; w exposed by a 3-good
 terminal at 15,962 of them, and a 3-good terminal is valid at all of these.
+
+## 5. General k = 4: where the principle stops, and the conjecture
+
+**What carries over to every k.** Lemma U (no upgrade) and Lemma C (need chains) use nothing about three goods, and
+hold at every Pareto-maximum; brute force confirms both at k = 4 (0 violations at the Pareto-maxima with ω ≥ 1 of every
+profile with n = 2 and of 1,020,000 sampled profiles with n = 3; `k4/c4x.c -T`).
+
+**What breaks** (each with the smallest example found; `k4/c4x.c -T -x` prints them):
+- **(G1) Better bases with three goods.** An agent of type a > b + c has no base of at most two goods worth more than
+  its top without the top; its only such base is {b, c, d}. So LB⁺'s rotation (Lemma R) leaves 𝒫, and a frozen
+  top-holder of this type can sit with all three lower goods in the junk: a Pareto-maximum that is not completable at
+  n = 3, m = 6 (`attempts/k4-c4x-pareto-potentials.md`). Allowing a base of three or four goods for the owner (as LB₄ʳ
+  does) makes the potentials worse (`attempts/k4-c4x-variant-spaces.md`).
+- **(G2) Two-good bases that are not envy-free.** A free 4-good agent with base {b, c} and a + d > b + c (or its
+  other non-envy-free pairs) has no slot and is threatened by a and d in the owner's bundle: the smallest failure of
+  "fewest frozen agents first" (n = 2, m = 5, `attempts/k4-c4x-frozen-first.md`).
+- **(G3) ω ≥ 1 without frozen agents.** σ = 2n − m can be negative at k = 4, so a large bundle may be needed while no
+  agent is frozen and there is no terminal; the owner must then be an agent that needs nothing. At n = 3, 81% of the
+  Pareto-maxima with ω ≥ 1 have no terminal.
+- **(G4) Two labels.** An exposed 4-good agent can need two goods kept out of the owner's bundle (a flat agent,
+  a < c + d), so the one-label counting of Theorem K3 does not apply.
+With one 4-good agent, (G1) and (G2) are exactly what Lemma R_w and the cases B₂ and C1 of §4 are about, (G3) is
+Lemma C2, and (G4) cannot happen at a Ψ-maximum when w is frozen (Lemma E_w).
+
+**Measured at k = 4** (Pareto-maxima, all profiles with n = 2 and 20,000 per core with n = 3): Lemma E fails for
+14,317 exposed agents, an exposed agent can reach its owner by a need chain (12,209, impossible at k = 3 by Lemma R),
+the exposure graph has cycles at 12,185 maxima, and 4,424 of the 1,020,000 sampled n = 3 profiles have a
+Pareto-maximum that is not completable.
+
+**Conjecture K4.C4X.MIN (C₄ᵐⁱⁿ).** For every strict profile of every k = 4 core, some valid pre-allocation with the
+fewest frozen agents (equivalently, the smallest ω: the smallest large bundle any pre-allocation needs) has deficit ≤ 0:
+it has an owner o (or none) and a set C ⊆ J of junk goods that fits into the other agents' slots, with the owner's
+needs taken from its bundle, such that B_o ∪ (J ∖ C) threatens no agent holding its base alone. Equivalently, every
+maximum of Φ_def = (−|F|, −def) is completable (removal-only). By Theorem 1′₄, K4.TIE and K4.CORE it implies TARGET₄.
+
+A proof along the extremal route would take a Φ_def-maximum with def > 0 and produce a pre-allocation with as few
+frozen agents and a smaller deficit: an augmenting step. The data on those steps (§2): from a min-frozen pre-allocation
+with positive deficit, some pre-allocation with as few frozen agents and a smaller deficit differs from it in the base
+of one agent in 97% of the cases, and of at most three agents always (137,220 such pre-allocations in 1,020,000 sampled
+n = 3 profiles; at n = 2, 93% and at most two). The one-agent steps are of several kinds: a free agent's base gains a
+junk good, loses a good, has one of two goods replaced (the most common), or is replaced by a disjoint base
+(`k4/c4x.c -M`, sample of 5,000 profiles per n = 3 core: 5,921, 18,338, 32,373 and 21,371 pre-allocations admit a step
+of each kind; 1,060 admit no one-agent step). Theorem K3 and §4 are the cases where a Pareto-type potential replaces the deficit.
