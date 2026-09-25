@@ -17,6 +17,8 @@ Every allocation returned is re-checked by raw_efx0 (the definition, no encoding
 CLI:
   python3 k4/induct_sat.py ht T            PS and private insertion on the chain core H_T of k4/c4.md §7 (own builder)
   python3 k4/induct_sat.py ps 'SETS' 'PROF' [--d2]     PS for every agent of one instance
+  python3 k4/induct_sat.py crosscheck N SEED FILE...   PS by SAT vs k4/induct.c's search (task Q) on N random strict
+                                                        profiles of the cores in the k = 4 certificate files
 """
 import itertools, sys, json
 from pysat.solvers import Solver
@@ -166,6 +168,38 @@ def main():
                     X2 = dict(X); X2[p] = w; ok = raw_efx0(V, X2, A)
                 print(f'  private insertion {anames[w]} + {names[p]}: PS(H - p, w) =', 'yes' if X else 'NO',
                       '; X\' + (p -> w) EFX0 (raw):', ok)
+    elif args[0] == 'crosscheck':
+        import gzip, random, subprocess, os
+        sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+        from induct_run import domain, build, BIN
+        build()
+        N, seed, files = int(args[1]), int(args[2]), args[3:]
+        rng = random.Random(seed)
+        cores = [c for f in files for c in json.load(gzip.open(f))['cores']]
+        print('command: python3 k4/induct_sat.py ' + ' '.join(sys.argv[1:]))
+        tests = mism = 0
+        for _ in range(N):
+            c = rng.choice(cores); sets, m = c['sets'], c['m']
+            deg = [sum(g in S for S in sets) for g in range(m)]
+            prof = [rng.choice(domain(S, deg)) for S in sets]
+            V = [[0] * m for _ in sets]
+            for i, (S, t_) in enumerate(zip(sets, prof)):
+                for gg, xv in zip(S, t_): V[i][gg] = xv
+            n = len(sets)
+            T = [(w, -1) for w in range(n)] + [(w, p) for w, S in enumerate(sets) if len(S) == 4 for p in S if deg[p] == 1]
+            inp = [f'{n} {m}'] + [' '.join(map(str, r)) for r in V] + [str(len(T))] + [f'Q {w} {p}' for w, p in T]
+            out = [l for l in subprocess.run([BIN], input='\n'.join(inp) + '\n', capture_output=True, text=True,
+                                             check=True).stdout.split('\n') if l.startswith('TASK')]
+            for (w, p), line in zip(T, out):
+                f = line.split('|')[1].split()
+                goods = [g for g in range(m) if g != p]
+                for d2, cval in ((False, int(f[1])), (True, int(f[3]))):
+                    if d2 and not int(f[1]): continue          # the C search reports D2 only when PS holds
+                    sat = ps(V, list(range(n)), goods, w, d2) is not None
+                    tests += 1
+                    if sat != bool(cval):
+                        mism += 1; print('  MISMATCH', sets, prof, w, p, d2, sat, cval)
+        print(f'{N} profiles, {tests} PS tests (SAT vs k4/induct.c task Q, with and without D2): {mism} mismatches')
     elif args[0] == 'ps':
         sets = json.loads(args[1]); prof = json.loads(args[2])
         m = 1 + max(g for S in sets for g in S)

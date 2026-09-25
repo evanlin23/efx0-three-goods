@@ -234,7 +234,9 @@ X_w, θ_i(X_w) ≤ v_i(X_w) ≤ v_i(X_i). For w (any number of goods): every bun
 
 PS(I, w) for every agent w, and PS(I − p, w) for every 4-good w with a private good p (the input Theorem 4 needs), with
 `k4/induct_ps.py` (early-exit search, `k4/induct.c` task Q, cross-checked against the full enumeration of task P on
-889 random instances), and with the SAT encoding of `k4/induct_sat.py` for the chain cores:
+889 random instances, and against the independent SAT encoding of `k4/induct_sat.py` on 400 random k = 4 core
+profiles: 5,074 tests, 0 mismatches, `results/k4_induct_ps_satcheck.log`), and with the SAT encoding alone for the
+chain cores:
 
 | instances | tests | failures (all X / D2 X) | log |
 |---|---|---|---|
@@ -325,16 +327,18 @@ argument on insertion sequences of the kind PR #37 (K4.C4.1X, Lemma X) needs for
 
 For a Q4 agent every d ∈ R_w is shared, and Lemma 2 does not apply: d → w needs, besides w unenvied by the other
 agents, the margin θ_j(X′_w ∪ {d}) ≤ v_j(X′_j) for every other valuer j of d. Tested rules:
-- *GPS* ("some X′ ∈ E(I − d) admits d → w", for some d): fails for a Q4 agent on 119 of 12,000 n = 3 (Q4 agent,
-  profile) pairs.
+- *GPS* ("some X′ ∈ E(I − d) admits d → w", for some d ∈ R_w): fails for some Q4 agent on 119 of the 12,000 sampled
+  n = 3 profiles that have a Q4 agent (`results/k4_induct_n3.log`, statistic GPS_Q4_anyd), and on 134 of 3,275 at
+  n = 4 (`results/k4_induct_n4.log`). There d can only go to another agent.
 - *PS-selected placement* H(w, d, h): take X′ ∈ E(I − d) minimizing the number of agents envying h, and give d to h.
   For P4 agents with d private and h = w it always works (Lemma 2 plus PS: 13,600 of 13,600 n = 3 cases). In the
   n = 3 cores whose 4-good agents are all Q4, no triple (w, d, h) works on 128 of 2,200 sampled profiles
   (`results/k4_induct_rules_n3.log`); in the n = 4 cores whose only 4-good agent is Q4 (the case j = 0 → 1), on 813 of
   4,700 (`results/k4_induct_rules_n4_1.log`). Smallest configuration (`attempts/k4-induct-q4-rules.md`): n = 3, m = 5,
   agents {0, 3, 4} (2, 4, 3), {1, 2, 3, 4} (6, 4, 8, 3), {1, 2, 4} (2, 3, 4).
-- *B-form* for a Q4 agent (delete w and d; give w nothing but d): r ≤ 1 for the best d on every sampled n = 5 core
-  with one 4-good agent, r = 2 and 3 at n = 3.
+- *B-form* for a Q4 agent (delete w and d; give w nothing but d): for the best d, repair r ≤ 1 on every sampled n = 5
+  profile (cores with one or two 4-good agents, `results/k4_induct_n5.log`), but r = 2 and r = 3 occur at n = 3
+  (267 and 2 of the 12,000 profiles with a Q4 agent).
 
 What a proof of the Q4 step would have to supply is an X′ with *two* properties at once (w unenvied, and the valuers of
 d satisfied with margin), which is what Proposition 5 also cannot supply for a second agent.
@@ -383,6 +387,8 @@ python3 k4/induct_ps.py results/k4_certs_3.json.gz --max-all=3000000 --samples=1
 python3 k4/induct_ps.py --general --per=2000 --jobs=2 --log=results/k4_induct_ps_general.log
 python3 k4/induct_ps.py results/certs_5_6.json.gz --all --jobs=4 --log=results/k4_induct_ps_k3_56.log   # ~3 h
 (cd k4 && for t in 1 2 3 4 5; do python3 induct_sat.py ht $t --d2; done) > results/k4_induct_ht.log   # ~5 min
+(cd k4 && python3 induct_sat.py crosscheck 400 1 ../results/k4_certs_3.json.gz ../results/k4_certs_4_n4_2.json.gz \
+    ../results/k4_certs_4_pure.json.gz) > results/k4_induct_ps_satcheck.log
 python3 k4/induct_rules.py results/k4_certs_3.json.gz --samples=200 --seed=1 --jobs=2 --log=results/k4_induct_rules_n3.log
 python3 k4/induct_rules.py results/k4_certs_4_n4_1.json.gz --samples=100 --seed=2 --jobs=2 --log=results/k4_induct_rules_n4_1.log
 python3 k4/induct_lbo.py results/certs_lb_2_6.json.gz --n=4 --all --jobs=2 --last --partial --rot --log=results/k4_induct_lbo_n234.log
