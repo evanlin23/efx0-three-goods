@@ -10,7 +10,28 @@ completion satisfying (OC₄) in which frozen agents hold their base and only th
 goods. By Theorem 1′₄ (machine-checked, `lean/EFX/PreAllocK.lean`: `SoundCompletion`, `target4_of_completions`),
 K4.TIE and K4.CORE this gives TARGET₄. It is equivalent to K4.D on strict cores (§1).
 
-**Status.** Work in progress; see the summary at the end of the session.
+**Status.** Not a proof of C₄∃. What is here:
+- **The space and the test** (§1): 𝒫 = valid pre-allocations with bases of at most two goods and value-based needs;
+  *completable* = has a completion that is a Lean `SoundCompletion`. `k4/c4x.c` enumerates 𝒫 for every strict profile
+  and tests completability exactly; an independent Python checker agrees with it on every profile with n = 2 and on a
+  sample with n = 3.
+- **No simple potential works at k = 4** (§2, §5, `attempts/k4-c4x-*.md`): for Σℓ, Σ 2^ℓ, leximax, leximin, Pareto-
+  maximality, fewest frozen agents and their simple tie-breaks, some maximum is not completable (smallest failures at
+  n = 2 or 3, each confirmed by both implementations); for several, no maximum is.
+- **Conjecture C₄ᵐⁱⁿ** (§5, K4.C4X.MIN): some pre-allocation with the fewest frozen agents is completable, even with
+  protection by removal only (deficit ≤ 0); equivalently every maximum of (−frozen, −deficit) is completable.
+  Exhaustive for n ≤ 3 (300,026,592 strict profiles) and n = 4 with one or two 4-good agents, sampled beyond, and true on
+  the cores H_1–H_3 that defeat LB₄ʳ's bounded rotations (§6). A proof needs an augmenting step that lowers the deficit.
+- **Theorem K3** (§3, written proof, not reviewed): at k = 3 every Pareto-maximal P ∈ 𝒫 is completable, with a
+  terminal as owner: if no terminal were valid, a walk with fresh junk labels closes a cycle of exposures whose
+  rotation is a Pareto improvement. A second, extremal proof of D at k = 3; every lemma is checked by brute force.
+- **One 4-good agent** (§4, written proofs, not reviewed): with the 3-good agents first,
+  Ψ = (Σℓ over the 3-good agents, ℓ_w), every Ψ-maximum is completable in the cases w frozen (Theorem A), w a terminal
+  with at most one good (B₁), w free, not a terminal and not exposed (C0), and no terminal (Lemma C2). **The gap:** w
+  free and holding two goods (cases B₂ and C1, §4.3), where on the data w itself is always a valid owner. Every
+  Ψ-maximum is completable for n ≤ 4 (exhaustive) and on samples with n = 5.
+
+Nothing here changes K4.D or K4.T.
 
 ## 1. The space 𝒫 and completability
 
