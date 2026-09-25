@@ -1,5 +1,6 @@
 # one 4-good agent: Psi = (sumlev3, sumlev4), Psi_2 = (sumlev3, -size4, sumlev4), leximin; -W counters on the Psi-maxima
-# command: python3 k4/c4x_run.py results/k4_certs_3.json.gz --only=0,1,4,5,7,9,12,15,18,19,21,24,26,36 -W -p "18,19;18,22,19;3" -x 2   (the n = 3 cores with exactly one 4-good agent)
+# command: python3 k4/c4x_run.py results/k4_certs_3.json.gz --only=0,1,4,5,7,9,12,15,18,19,21,24,26,36 -W -p "18,19;18,22,19;3" -x 2
+# (--only: the n = 3 cores with exactly one 4-good agent)
 # command: python3 k4/c4x_run.py results/k4_certs_4_n4_1.json.gz -W -p "18,19;18,22,19;3" -x 2
 # command: python3 k4/c4x_run.py results/k4_certs_5_n4_1.json.gz -W -p "18,19;18,22,19;3" --rand=2000 --seed=21 -x 2
 # n = 3 (cores with exactly one 4-good agent), exhaustive

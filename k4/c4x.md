@@ -218,11 +218,12 @@ O applies. ∎
 chain ends); fact (iii) with Lemma R (a top-holder's only better base without its top is the pair low(x), which has two
 goods, so the rotation stays in 𝒫, and an exposed agent needs exactly one junk good kept out); σ ≥ 0 (a terminal exists
 when ω ≥ 1). Lemmas U and C hold for every k. The private-goods rule of cores is used only through L4 (m ≤ 2n, so σ ≥ 0
-and a terminal exists when ω ≥ 1), so Theorem K3 proves D for k = 3 *cores* (and with the CORE reduction TARGET); LB⁺
-covers every balanced 3-good instance. Without σ ≥ 0 the owner need not be a terminal: for R_0 = {0, 1, 2}, R_1 =
-{2, 3, 4} (not a core: m = 5 > 2n) all 52 Pareto-maxima over the 36 ranking profiles have ω ≥ 1 and no terminal (e.g.
-bases {0, 1} | {2, 3}, J = {4}); they are completable with owner 0 (reviewer's example on PR #36; confirmed by
-`k4/c4x.c -T`).
+and a terminal exists when ω ≥ 1), so Theorem K3 proves D for k = 3 *cores* (strict types; ties by the perturbation of
+K4.TIE, `EFX.tieBreak`; and with the CORE reduction TARGET); LB⁺ covers every balanced 3-good instance. Without σ ≥ 0
+the owner need not be a terminal: for R_0 = {0, 1, 2}, R_1 = {2, 3, 4} (not a core: m = 5 > 2n) all 52 Pareto-maxima
+over the 36 ranking profiles have ω ≥ 1 and no terminal (e.g. bases {0, 1} | {2, 3}, J = {4}; `k4/c4x.c -T -Q`,
+`results/k4_c4x_noncore.log`); they are all completable (paretofail 0 in the same log), with owner 0 (the reviewer's
+brute force on PR #36; `-T` does not report the owner).
 
 *Checks against brute force* (`k4/c4x.c -T`, counters of `k4/c4x_run.py`; `results/k4_c4x_k3_lemmas.log`): on every
 Pareto-maximum with ω ≥ 1 of every strict profile of every k = 3 core with n ≤ 6 (3,436 cores, 146,640,096 profiles,
@@ -359,24 +360,24 @@ cores with no 4-good agent are Theorem K3's):
   owner, while a 3-good terminal is (core 1085 of `results/k4_certs_5_n4_1.json.gz`: w = agent 0 with values
   0:2, 3:6, 4:10, 5:3 holds {3, 5} and needs 4; agent 3 with values 3:2, 5:3, 6:4 holds its top 6, frozen). So in case
   B₂″ the owner cannot always be w, and a proof has to go through the walk.
-- **(C1)** w is free with N_w = ∅ and exposed by a 3-good terminal t. Then B_w = {b_w, c_w} with
-  a_w < b_w + c_w < a_w + d_w, B_t = {a_w} and d_w ∈ J: by Lemma U the base has two goods, by Lemma U₂ the junk good
-  of the complementary pair is worse than both base goods, which leaves only this shape. The walk breaks here (w has no
-  need chain). The data says more: at every such maximum *nobody* is exposed w.r.t. W_w = B_w ∪ J, so w is a valid
-  owner with any completion (**Lemma C1′, open**). Part of it is proved: an agent x exposed w.r.t. W_w is a 3-good
-  top-holder with low(x) ⊆ W_w, so either (t1) x is frozen with low(x) = {y, z}, y ∈ B_w, z ∈ J (Lemmas U, R₃), or
-  (t2) low(x) = B_w. Note that z may be d_w. (a) If x is frozen and some need chain from x ends at t, let x take
-  low(x), rotate the chain (t takes the good it needed and gives up a_w), and let w take {a_w} ∪ (B_w ∖ {y}) in case t1
-  ({a_w, c_w} or {a_w, b_w}: worth more than b_w + c_w, no needs since it contains a_w) and {a_w, d_w} in case t2 (worth
-  more than B_w, no needs); what is left of B_w goes to the junk. Everyone moved gains and the result is valid,
-  contradicting (M1). (b) In case t1 with a chain from x ending at τ ≠ t, let x take {y, z}, rotate the chain (τ
-  releases its base to the junk), and let w keep the other good of B_w, adding d_w if z ≠ d_w: if y = c_w, w's new base
-  {b_w, d_w} (or {b_w} when z = d_w) needs at most a_w, still t's base; if y = b_w, z ≠ d_w and b_w < c_w + d_w, the
-  base {c_w, d_w} needs at most a_w as well. The result is valid and every agent of x's chain gains, contradicting (M1)
-  (w may lose). Open: t1 with y = b_w and chains avoiding t, when b_w > c_w + d_w or z = d_w (then w keeps {c_w}, which
-  needs b_w, now in x's two-good base), and t2 when x is free or its chains avoid t. (At the sampled Ψ-maxima E_w = ∅ in
-  case C1, so these are gaps of the argument only.) Evidence: 300 case-C1 maxima at n = 4 (none
-  at n = 3), E_w = ∅ at all of them; 52 in the n = 5 sample, w valid at all.
+- **(C1)** w is free with N_w = ∅ and exposed by a 3-good terminal t. Then B_w = {b_w, c_w} with a_w < b_w + c_w < a_w +
+  d_w, B_t = {a_w} and d_w ∈ J: by Lemma U the base has two goods, by Lemma U₂ the junk good of the complementary pair
+  is worse than both base goods, which leaves only this shape. The walk breaks here (w has no need chain). The data says
+  more: at every such maximum *nobody* is exposed w.r.t. W_w = B_w ∪ J, so w is a valid owner with any completion
+  (**Lemma C1′, open**). Part of it is proved: an agent x exposed w.r.t. W_w is a 3-good top-holder with low(x) ⊆ W_w,
+  so either (t1) x is frozen with low(x) = {y, z}, y ∈ B_w, z ∈ J (Lemmas U, R₃), or (t2) low(x) = B_w. Note that z may
+  be d_w. (a) If x is frozen and some need chain from x ends at t, let x take low(x), rotate the chain (t takes the good
+  it needed and gives up a_w), and let w take {a_w} ∪ (B_w ∖ {y}) in case t1 ({a_w, c_w} or {a_w, b_w}: worth more than
+  b_w + c_w, no needs since it contains a_w) and {a_w, d_w} in case t2 (worth more than B_w, no needs). Everyone moved
+  gains and the result is valid, contradicting (M1). (b) In case t1 with a chain from x ending at τ ≠ t, let x take
+  {y, z}, rotate the chain (τ releases its base to the junk), and let w keep the other good of B_w, adding d_w if
+  z ≠ d_w: if y = c_w, w's new base {b_w, d_w} (or {b_w} when z = d_w) needs at most a_w, still t's base; if y = b_w,
+  z ≠ d_w and b_w < c_w + d_w, the base {c_w, d_w} needs at most a_w as well. The result is valid and every agent of x's
+  chain gains, contradicting (M1) (w may lose). Open: t1 with y = b_w and chains avoiding t, when b_w > c_w + d_w or
+  z = d_w (then every base of w without a_w and b_w, {c_w, d_w} or {c_w}, needs b_w, now in x's two-good base), and t2
+  when x is free or its chains avoid t. (At the sampled Ψ-maxima E_w = ∅ in case C1, so these are gaps of the argument
+  only.) Evidence: 300 case-C1 maxima at n = 4 (none at n = 3), E_w = ∅ at all of them; 52 in the n = 5 sample, w valid
+  at all.
 - **(C0)** w free, N_w = ∅, not exposed by any 3-good terminal, and a 3-good terminal exists: the walk over the
   3-good terminals applies verbatim (exposed agents are frozen 3-good top-holders; chain ends are 3-good terminals),
   so some 3-good terminal is valid. (Proved.)
@@ -416,16 +417,16 @@ profile with n = 2 and of 1,020,000 sampled profiles with n = 3; `k4/c4x.c -T`, 
   other non-envy-free pairs) has no slot and is threatened by a and d in the owner's bundle: the smallest failure of
   "fewest frozen agents first" (n = 2, m = 5, `attempts/k4-c4x-frozen-first.md`).
 - **(G3) ω ≥ 1 without frozen agents.** σ = 2n − m can be negative at k = 4, so a large bundle may be needed while no
-  agent is frozen and there is no terminal; the owner must then be an agent that needs nothing. At n = 3, 81% of the
-  Pareto-maxima with ω ≥ 1 have no terminal (858,982 of 1,060,981 in the sample of `results/k4_c4x_k4_pareto_T.log`).
+  agent is frozen and there is no terminal; the owner must then be an agent that needs nothing. At n = 3, 80.6% of the
+  Pareto-maxima with ω ≥ 1 have no terminal (860,121 of 1,066,859 in the sample of `results/k4_c4x_k4_pareto_T.log`).
 - **(G4) Two labels.** An exposed 4-good agent can need two goods kept out of the owner's bundle (a flat agent,
   a < c + d), so the one-label counting of Theorem K3 does not apply.
 With one 4-good agent, (G1) and (G2) are exactly what Lemma R_w and the cases B₂ and C1 of §4 are about, (G3) is
 Lemma C2, and (G4) cannot happen at a Ψ-maximum when w is frozen (Lemma E_w).
 
 **Measured at k = 4** (Pareto-maxima of 20,000 random profiles per n = 3 core, `results/k4_c4x_k4_pareto_T.log`, which
-also has the counts for every profile with n = 2): Lemma E fails for 14,317 exposed agents, an exposed agent can reach
-its owner by a need chain (12,209, impossible at k = 3 by Lemma R), the exposure graph has cycles at 12,185 maxima, and
+also has the counts for every profile with n = 2): Lemma E fails for 16,081 exposed agents, an exposed agent can reach
+its owner by a need chain (14,011, impossible at k = 3 by Lemma R), the exposure graph has cycles at 13,987 maxima, and
 4,424 of the 1,020,000 sampled n = 3 profiles have a Pareto-maximum that is not completable.
 
 **Conjecture K4.C4X.MIN (C₄ᵐⁱⁿ).** For every strict profile of every k = 4 core, some valid pre-allocation with the
@@ -469,7 +470,13 @@ its minimum over the min-frozen pre-allocations is ≤ 0.
 ## 7. Reproduce
 
 Every log under `results/k4_c4x_*.log` starts with the command(s) that wrote it (`# command:` lines); they are, by log
-(times on 4 CPUs):
+(times on 4 CPUs), below. Logs written by earlier revisions of `k4/c4x.c` differ from a re-run with the current one only
+in diagnostic counters and example lines, never in a failure count or a PHI line: FILE lines written before 655b113 lack
+`paretosomefail`; with `-Q`, `paretomax` and `tested` in logs written before the revision that fixed the Pareto loop
+counted each profile's Pareto-maxima only up to the first non-completable one (`k4_c4x_n3_pareto.log`,
+`k4_c4x_n3_pareto_some.log`, the `-3 -Q` run in `k4_c4x_variants.log`; `k4_c4x_k4_pareto_T.log` was regenerated over all
+maxima, and the k = 3 logs are unaffected, having no non-completable Pareto-maximum); and the n = 5 section of
+`k4_c4x_one.log` lacks two example lines (`core 1085: EXP1W x=3 frozen w invalid ...`) that the current binary prints.
 ```
 # k4_c4x_n3.log (§2, n <= 3, all profiles; ~40 min)
 python3 k4/c4x_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz -R -p "6,17;6,17,0;6,17,3;6,17,8;6;6,0;6,8" -x 3
@@ -487,8 +494,8 @@ python3 k4/c4x_random.py 7 12 3 300 --seed=712
 python3 k4/c4x_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz -Q -p "0;1;2;3;4;6,3;18,19;20,21" -x 2 --jobs=2
 # k4_c4x_n3_pareto_some.log (the some-form of Pareto-maximality on the 18 pure n = 3 cores)
 python3 k4/c4x_run.py results/k4_certs_3.json.gz --only=3,11,14,17,23,28,29,32,33,38,41,43,44,45,46,48,49,50 -Q -p "0;3" -x 2 --jobs=4
-# k4_c4x_n3_potentials.log (§2, the long list of potentials, n = 3, 20,000 random profiles per core; the log has the list)
-python3 k4/c4x_run.py results/k4_certs_3.json.gz -R -p "0;1;2;3;4;5;6;7;8;9;6,0;6,3;..." --rand=20000 --jobs=4
+# k4_c4x_n3_potentials.log (§2, the 43 potentials, n = 3, 20,000 random profiles per core)
+python3 k4/c4x_run.py results/k4_certs_3.json.gz -R -p "0;1;2;3;4;5;6;7;8;9;6,0;6,3;6,2;6,1;0,6;6,9;6,9,0;6,4;3,6;6,10,0;6,7,0;6,12,0;6,8;6,8,0;6,8,3;6,8,2;6,8,9;6,9,8;6,11;6,13;6,14;6,15;6,8,13;6,8,14;6,8,15;8,6;6,16;6,8,16;6,16,8;6,8,16,0;6,8,16,3;6,17;6,17,0" --rand=20000 --jobs=4
 # k4_c4x_k3_pareto.log and k4_c4x_k3_lemmas.log (§3, k = 3, n <= 6, all profiles; the second ~45 min on 2 CPUs)
 python3 k4/c4x_run.py results/certs_lb_2_6.json.gz -T -R -p "3;0;6,17;6" -x 5 --jobs=2
 python3 k4/c4x_run.py results/certs_lb_2_6.json.gz -T -p "3" -x 3 --jobs=2
@@ -497,6 +504,8 @@ python3 k4/c4x_run.py results/k4_certs_3.json.gz --only=0,1,4,5,7,9,12,15,18,19,
 python3 k4/c4x_run.py results/k4_certs_4_n4_1.json.gz -W -p "18,19;18,22,19;3" -x 2
 python3 k4/c4x_run.py results/k4_certs_5_n4_1.json.gz -W -p "18,19;18,22,19;3" --rand=2000 --seed=21 -x 2
 python3 k4/c4x_run.py results/k4_certs_4_n4_1.json.gz -W -p "18,22,19" --jobs=2
+# k4_c4x_noncore.log (§3, the non-core example; B as for k4_c4x_ht.log below)
+python3 -c "import sys; sys.path.insert(0, 'k4'); import c4x_run; inp, s = c4x_run.core_input({'n': 2, 'm': 5, 'sets': [[0, 1, 2], [2, 3, 4]]}, k3=True); print(inp); print(0, s[0])" | $B -T -Q -p 3 2>&1
 # k4_c4x_k4_pareto_T.log and k4_c4x_moves.log (§5)
 python3 k4/c4x_run.py results/k4_certs_2.json.gz -T -p 3 --jobs=1
 python3 k4/c4x_run.py results/k4_certs_3.json.gz -T -p 3 --rand=20000 --jobs=1
@@ -511,9 +520,10 @@ python3 k4/c4x_run.py results/k4_certs_3.json.gz -3 -R -p "6,17;6" --rand=20000 
 python3 k4/c4x_run.py results/k4_certs_3.json.gz --only=0,1,4,5,7,9,12,15,18,19,21,24,26,36 -3 -Q -p "3;0;2" --jobs=4
 # k4_c4x_ht.log (§6)
 B=$(python3 -c "import sys; sys.path.insert(0, 'k4'); import c4x_run; print(c4x_run.binary())")
-for t in 1 2; do python3 k4/c4x_ht.py $t | $B -1s -R -a -p "6;0;2;3;6,0;6,3"; done
-for t in 1 2; do python3 k4/c4x_ht.py $t | $B -1 -R -Q -p "6,17;6;0;1;2;3;6,0;6,3;6,8;4"; done
-python3 k4/c4x_ht.py 3 | $B -1s -R -p "6;0;2;3;6,0;6,3"
+for t in 1 2; do python3 k4/c4x_ht.py $t | $B -1s -R -a -p "6;0;2;3;6,0;6,3" 2>&1; done
+python3 k4/c4x_ht.py 1 | $B -1 -R -Q -p "6,17;6;0;1;2;3;6,0;6,3;6,8;4" 2>&1
+python3 k4/c4x_ht.py 2 | $B -1 -R -Q -p "6,17;6;0;1;2;3;6,0;6,3;6,8;4" 2>&1 | grep -v "^EX"
+python3 k4/c4x_ht.py 3 | $B -1s -R -p "6;0;2;3;6,0;6,3" 2>&1
 # k4_c4x_crosscheck.log (the independent checker: n = 2 all profiles, ~15 min; n = 3, 100 random profiles per core)
 python3 k4/c4x_crosscheck.py results/k4_certs_2.json.gz --all
 python3 k4/c4x_crosscheck.py results/k4_certs_3.json.gz --rand=100

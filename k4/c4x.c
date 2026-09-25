@@ -588,8 +588,8 @@ static void do_profile(void) {
     }
   }
   if (pareto) {   /* -Q: is every (paretofail) / some (paretosomefail) Pareto-maximal (base levels) valid pre-allocation completable? */
-    int bad = 0;
-    for (int k = 0; k < nv && !bad; k++) {
+    int bad = 0, anyok = 0;
+    for (int k = 0; k < nv; k++) {   /* every Pareto-maximum, so that the -T counters see all of them */
       int dom = 0;
       for (int q = 0; q < nv && !dom; q++) {
         int ge = 1, gt = 0;
@@ -617,24 +617,11 @@ static void do_profile(void) {
         }
       }
       if (comp[k] < 0) { comp[k] = completable(&A[validlist[k]]); ncompl_tested++; }
-      if (!comp[k]) { bad = 1; if (nex && pareto_fail < nex) { printf("EXP pareto-max stuck:"); print_profile(); print_asg(&A[validlist[k]]); printf("\n"); } }
+      if (comp[k]) anyok = 1;
+      if (!comp[k]) { if (!bad && nex && pareto_fail < nex) { printf("EXP pareto-max stuck:"); print_profile(); print_asg(&A[validlist[k]]); printf("\n"); } bad = 1; }
     }
     pareto_fail += bad;
-    if (bad) {   /* the some-form: is any Pareto-maximum completable? (not counted in "tested") */
-      int any = 0;
-      for (int k = 0; k < nv && !any; k++) {
-        int dom = 0;
-        for (int q = 0; q < nv && !dom; q++) {
-          int ge = 1, gt = 0;
-          for (int i = 0; i < n; i++) { int lk = lev[i][A[validlist[k]].o[i]], lq = lev[i][A[validlist[q]].o[i]]; if (lq < lk) { ge = 0; break; } if (lq > lk) gt = 1; }
-          dom = ge && gt;
-        }
-        if (dom) continue;
-        if (comp[k] < 0) comp[k] = completable(&A[validlist[k]]);
-        any = comp[k];
-      }
-      if (!any) { pareto_somefail++; if (nex && pareto_somefail <= nex) { printf("EXP no pareto-max completable:"); print_profile(); printf("\n"); } }
-    }
+    if (bad && !anyok) { pareto_somefail++; if (nex && pareto_somefail <= nex) { printf("EXP no pareto-max completable:"); print_profile(); printf("\n"); } }
   }
   int anysomefail = 0;
   for (int p = 0; p < nphi; p++) {
