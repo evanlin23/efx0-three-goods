@@ -240,7 +240,7 @@ PS(I, w) for every agent w, and PS(I − p, w) for every 4-good w with a private
 |---|---|---|---|
 | every strict profile of every k = 4 core with n = 2 (189,216) | 378,432 PS(I, w) + 252,288 PS(I − p, w) | 0 / 0 | `results/k4_induct_ps_k4_n2.log` |
 | k = 4 cores with n = 3: 14,782,912 profiles (35 cores exhaustively, 16 with 100,000 random profiles each) | 44,348,736 PS(I, w) + 49,737,600 PS(I − p, w) | 0 / 0 | `results/k4_induct_ps_k4_n3.log` |
-| k = 4 cores with n = 4, 5: 20 random profiles per core (651,720) | see log | see log | `results/k4_induct_ps_k4_n45.log` |
+| every k = 4 core with n = 4 or 5 (32,586 cores): 20 random profiles each (651,720) | 3,238,560 PS(I, w) + 1,497,520 PS(I − p, w) | 0 / 0 | `results/k4_induct_ps_k4_n45.log` |
 | every ranking profile of the 251 connected k = 3 cores of `results/certs_5_6.json.gz` (n = 5, m = 9; n = 6, m = 10, 11) | see log | see log | `results/k4_induct_ps_k3_56.log` |
 | H_1–H_5 (`k4/c4.md` §7; n = 5, 9, 13, 17, 21), SAT | every agent (65) and every private-good insertion | 0 (D2) | `results/k4_induct_ht.log` |
 | random general additive, n = 3 (m = 4..8), n = 4 (m = 4..7), values 0..R with zeros and ties | 162,000 instances, 558,000 tests | 0 | `results/k4_induct_ps_general.log` |
