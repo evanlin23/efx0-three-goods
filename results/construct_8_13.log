@@ -15,3 +15,7 @@ $ python src/construct_run.py 8 13 --part=3/4 --cert=/home/user/efx0-three-goods
 [   5762s] ALL DONE; failures: 0
 exit=0
 $ python src/construct_run.py 8 13 --part=4/4 --cert=/home/user/efx0-three-goods/src/certs_lb_8_13_part4.json.gz   # 2026-09-25T02:18:04Z
+[   5350s] n=8 m=13: 2870 cores (part 4/4), 4820497920 hypergraph-profile pairs, construction fails on 0; outputs with a large bundle: 151759 (by size {3: 150826, 4: 933})
+[   5374s] certificate: /home/user/efx0-three-goods/src/certs_lb_8_13_part4.json.gz (2870 hypergraphs)
+[   5374s] ALL DONE; failures: 0
+exit=0
