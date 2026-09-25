@@ -26,6 +26,7 @@
                best of up to K certificates per solve (the one covering most of the slice).
      -1        one profile (type indices from stdin): prints f*, d*, the counts, the weaker forms.
      -1q       one profile: f* and whether C4min holds, with a certificate (bases, owner, C); no counts.
+     -1o       one profile: for each agent o, the least deficit over the min-frozen P when only o may own.
      -R N      N random profiles (uniform; with -P, the given profile with -K agents re-typed), each solved exactly
                (f* and whether C4min holds); prints FAIL lines and the f* histogram.
      -H ITER   hill-climbing from random profiles (-S seed, -Z restarts, -T stale limit, -O objective order, -P start
@@ -190,6 +191,7 @@ static void bb(mask_t C) {
   for (mask_t D = av0; D; D = (D - 1) & av0) bb(C | D);
   if (out0) bb(C | out0);
 }
+static int only_own = -1;                  /* -1o: only this owner */
 static int deficit(mask_t used, mask_t NA, int stop_le0) {
   mask_t J = ALL & ~used;
   int frozen[MAXN], cap[MAXN], S = 0;
@@ -204,7 +206,7 @@ static int deficit(mask_t used, mask_t NA, int stop_le0) {
   int best = INF;
   if (!plain_def) {
     for (int o = 0; o < n; o++) {
-      if (frozen[o]) continue;
+      if (frozen[o] || (only_own >= 0 && o != only_own)) continue;
       mask_t NAo = 0; for (int j = 0; j < n; j++) if (j != o) NAo |= needT[j][cur[j]][bo[j]];
       bb_o = o; bb_best = best; bb_stop = stop_le0; bb_J = J; bb_Bo = optg[o][bo[o]]; bb_NAo = NAo; bb_S = S; bb_capo = cap[o];
       bb(0);
@@ -214,7 +216,7 @@ static int deficit(mask_t used, mask_t NA, int stop_le0) {
   }
   int jg[64], k0 = 0; for (int g = 0; g < m; g++) if (J >> g & 1) jg[k0++] = g;
   for (int o = 0; o < n; o++) {
-    if (frozen[o]) continue;
+    if (frozen[o] || (only_own >= 0 && o != only_own)) continue;
     mask_t NAo = 0; int Smax = 0;
     for (int j = 0; j < n; j++) if (j != o) { NAo |= needT[j][cur[j]][bo[j]]; Smax += 2 - optsz[j][bo[j]]; }
     mask_t Bo = optg[o][bo[o]];
@@ -629,6 +631,7 @@ int main(int argc, char **argv) {
     else if (!strcmp(argv[a], "-V")) verify = 1;
     else if (!strcmp(argv[a], "-1")) mode = '1';
     else if (!strcmp(argv[a], "-1q")) mode = 'q';
+    else if (!strcmp(argv[a], "-1o")) mode = 'o';
     else if (!strcmp(argv[a], "-H")) { mode = 'H'; iters = atoll(argv[++a]); }
     else if (!strcmp(argv[a], "-R")) { mode = 'R'; iters = atoll(argv[++a]); }
     else if (!strcmp(argv[a], "-K")) perturb = atoi(argv[++a]);
@@ -685,6 +688,18 @@ int main(int argc, char **argv) {
       printf(" owner %d C", sol_o); for (int g = 0; g < m; g++) if (sol_o >= 0 && (sol_C >> g & 1)) printf(" %d", g);
       printf(" bases"); for (int i = 0; i < n; i++) { printf(" {"); int first = 1; for (int g = 0; g < m; g++) if (optg[i][sol_b[i]] >> g & 1) { printf(first ? "%d" : ",%d", g); first = 0; } printf("}"); }
     }
+    printf("\n");
+  } else if (mode == 'o') {
+    /* per owner o: the least deficit over the min-frozen P when only o may be the owner (INF: never free) */
+    for (int i = 0; i < n; i++) if (scanf("%d", &cur[i]) != 1) return 2;
+    valued_from[n] = 0; for (int i = n - 1; i >= 0; i--) valued_from[i] = valued_from[i + 1] | R[i];
+    int f = fstar();
+    printf("OWNERS fstar %d sigma %d", f, sigma);
+    for (int o = 0; o < n; o++) {
+      only_own = o; ob_f = f; ob_d = INF; ob_good = 0; gbound = f; leaf = leaf_obj; enumerate();
+      printf(" %d", ob_d);
+    }
+    only_own = -1;
     printf("\n");
   } else if (mode == 'R') {
     /* random profiles: uniform, or (-P) the given profile with -K agents re-typed at random */
