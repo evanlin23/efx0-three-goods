@@ -30,8 +30,10 @@ at most R nested rotations, R as small as possible?
   at n = 3, m = 6 (confirmed in the independent model).
 - **The theorems of #33 and #37 do not reach the multi-4-good case** (§6): with two or more 4-good agents some
   profiles have no insertion sequence whose run they cover (12,420 of 189,216 at n = 2). LB₄ʳ solves all of them, at
-  n ≤ 3 with no rotation, mostly by need-shrinking upgrades, which those theorems do not treat. A proof of rule F or of
-  K4.AD.C1 needs a theorem for need-shrinking upgrades; §6 states what it must cover.
+  n ≤ 3 with no rotation, mostly by need-shrinking upgrades, which those theorems do not treat. **Theorem A₄⁺ᴺ** (§6,
+  written proof, unreviewed; 0 violations against the exact owner test) extends #37's count to need-shrinking upgrades
+  and reduces the uncovered profiles about a hundredfold (n = 2: 12,420 → 1,020; n = 3: 7,503,039 → 119,616). The
+  rest needs the owner's needs taken from its bundle, which no counting theorem uses yet (§6).
 
 Nothing here changes K4.D or K4.T. Rows K4.AD.* are CONJECTURE or EVIDENCE.
 
@@ -256,8 +258,54 @@ UNCOV_TABLE
 So a proof of rule F, or of K4.AD.C1, needs a counterpart of Theorems A₄–A₄⁺ for **need-shrinking upgrades**: an
 agent holding b (or its second good) with a < b + c gives up its need with one junk good, which unfreezes the holder
 of its top, as in Proposition H′. Such an upgraded pair need not be envy-free, so it can be threatened by the owner's
-bundle (the reason #33's theorems used envy-free upgrades); Proposition H′ shows the count that works when the
-protecting goods are private. What is open: the same count when slot goods compete, and the types with a > b + c.
+bundle (the reason #33's theorems used envy-free upgrades). The counting theorem carries over once such agents are
+counted like frozen ones:
+
+**Theorem A₄⁺ᴺ (written proof below, not yet reviewed).** Let P be the state after any run of Phase 1 and
+need-shrinking upgrades to a fixpoint (LB₄'s rule, any order), with ω ≥ 1. Let o be an agent that is not frozen and
+has a base of at most one good, or an upgraded agent. Put W_o := B_o ∪ J, and let E_o be the agents x ≠ o threatened
+by W_o with their base, *upgraded agents included*. Let dem(x) = 1 if x is free (neither frozen nor upgraded), holds a
+pick, and |B_o ∩ R_x| ≤ 1; otherwise dem(x) = ρ_o(x), the least size of a set D ⊆ R_x ∩ J such that x is not
+threatened by W_o ∖ D with its base (∞ if none). If Σ_{x ∈ E_o} dem(x) ≤ S − cap(o), then o is a valid owner with its
+needs from its base.
+
+*Proof.* This is the proof of A₄⁺(o) (`k4/c4one.md` §5, after `k4/c4.md` §4c) with one change: there, upgraded agents
+hold envy-free bases and are never threatened; here an upgraded agent may be threatened, and it is treated like a
+frozen one (it holds exactly its base and has no slot).
+- Validity: need-shrinking upgrades keep the pre-allocation valid (`k4/lb4.md` §2). W_o ∩ NA = ∅: J by (V1); B_o
+  because o is not frozen or, if upgraded, by (V2). So every good of R_x ∩ W_o is ranked below x's pick, an agent
+  without a pick is not threatened, and every free x ∈ E_o holds a pick and has a junk good of R_x (it is threatened,
+  so |R_x ∩ W_o| ≥ 2, and at most one of these goods is in B_o).
+- Fill the slots of the free agents of E_o with dem(x) = 1 first, one agent at a time, each with its ≻-best junk good
+  not yet placed. By Lemma 2₄ (`k4/lb4.md` §1, |R_x| ≤ 4; its proof is per agent, uses only |B_o ∩ R_x| ≤ 1 and that
+  later placements only shrink X_o) none of them is threatened by X_o, whatever is placed afterwards.
+- For every other x ∈ E_o (frozen, upgraded, or free with two goods of R_x in B_o) fix D_x of size ρ_o(x). The goods of
+  ⋃ D_x not yet placed number at most Σ ρ_o(x) ≤ S − cap(o) − #{free x ∈ E_o with dem 1}, the number of slot places
+  left among the free agents other than o; place them there (a free agent's slot may take any junk good). Fill the
+  remaining places with junk, so that |C| = S − cap(o) < |J| (ω ≥ 1), and let X_o = B_o ∪ (J ∖ C) ⊆ W_o.
+- (OC₄): an agent not in E_o holds at least its base and X_o ⊆ W_o, so it is safe by monotonicity (`k4/c4.md` §1); an
+  x ∈ E_o with a set D_x holds at least its base and X_o ⊆ W_o ∖ D_x: safe by the choice of D_x and monotonicity; the
+  others are safe by Lemma 2₄. Frozen agents hold exactly their bases, and only X_o has more than two goods (upgraded
+  bases have two, free agents one good plus one slot good), so Theorem 1′₄ applies, with the owner's needs from its
+  base. ∎
+
+*Checked* (`k4/adaptive.c -C3 -Z1`: every run A₄⁺ᴺ covers is re-run through the exact owner test with the owner it
+names, needs from the base, no rotation; `results/k4_adaptive_cover_N.log`): 0 violations. It covers much of the gap,
+not all of it (profiles with no covered insertion sequence, every sequence tried):
+
+| class | #33 + #37 | + A₄⁺ᴺ |
+|---|---|---|
+| n = 2 | 12,420 | 1,020 |
+| n = 3 | 7,503,039 | 119,616 |
+| n = 4, one 4-good agent | 0 | 0 |
+| n = 4, two | 155,947 | COVN_N4_2 |
+
+What remains is solved by LB₄ʳ without rotation, with need-shrinking upgrades and an owner valid only with its needs
+from its bundle (the smallest: n = 2, m = 5, agents {0, 2, 3, 4} and {1, 2, 3, 4}, both with values (2, 3, 4, 8) on
+their goods in index order). At k = 4 the owner's large bundle can remove its own needs, which frees the holder of its
+top (`k4/lb4.md` §3, item 4); none of the counting theorems uses that. That, the rotations (the one-rotation profiles
+of §2), and a choice of the first agent that makes one of these theorems apply are what a proof of K4.AD.F still
+needs.
 
 ## 7. Reproduce
 

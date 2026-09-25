@@ -1,0 +1,49 @@
+# adaptive_H.py 1,2,3,4,5,6,7,8 --perms=5 -A16 -r1 -w0 --timeout=1200 # adaptive.c sha256 c42a46fe13e32e41
+H_1: single rule=16 samples=1 rot0=1 rot1=0 fail=0 uncov=0 time 0.0s
+H_1 relabel 1 (l -> agent 2): single rule=16 samples=1 rot0=1 rot1=0 fail=0 uncov=0 time 0.0s
+H_1 relabel 2 (l -> agent 3): single rule=16 samples=1 rot0=1 rot1=0 fail=0 uncov=0 time 0.0s
+H_1 relabel 3 (l -> agent 4): single rule=16 samples=1 rot0=1 rot1=0 fail=0 uncov=0 time 0.0s
+H_1 relabel 4 (l -> agent 2): single rule=16 samples=1 rot0=1 rot1=0 fail=0 uncov=0 time 0.0s
+H_1 relabel 5 (l -> agent 4): single rule=16 samples=1 rot0=1 rot1=0 fail=0 uncov=0 time 0.0s
+H_2: single rule=16 samples=1 rot0=1 rot1=0 fail=0 uncov=0 time 0.0s
+H_2 relabel 1 (l -> agent 3): single rule=16 samples=1 rot0=1 rot1=0 fail=0 uncov=0 time 0.0s
+H_2 relabel 2 (l -> agent 5): single rule=16 samples=1 rot0=1 rot1=0 fail=0 uncov=0 time 0.0s
+H_2 relabel 3 (l -> agent 8): single rule=16 samples=1 rot0=1 rot1=0 fail=0 uncov=0 time 0.0s
+H_2 relabel 4 (l -> agent 1): single rule=16 samples=1 rot0=1 rot1=0 fail=0 uncov=0 time 0.0s
+H_2 relabel 5 (l -> agent 8): single rule=16 samples=1 rot0=1 rot1=0 fail=0 uncov=0 time 0.0s
+H_3: single rule=16 samples=1 rot0=1 rot1=0 fail=0 uncov=0 time 0.0s
+H_3 relabel 1 (l -> agent 6): single rule=16 samples=1 rot0=1 rot1=0 fail=0 uncov=0 time 0.0s
+H_3 relabel 2 (l -> agent 10): single rule=16 samples=1 rot0=1 rot1=0 fail=0 uncov=0 time 0.0s
+H_3 relabel 3 (l -> agent 1): single rule=16 samples=1 rot0=1 rot1=0 fail=0 uncov=0 time 0.0s
+H_3 relabel 4 (l -> agent 5): single rule=16 samples=1 rot0=1 rot1=0 fail=0 uncov=0 time 0.0s
+H_3 relabel 5 (l -> agent 12): single rule=16 samples=1 rot0=1 rot1=0 fail=0 uncov=0 time 0.0s
+H_4: single rule=16 samples=1 rot0=1 rot1=0 fail=0 uncov=0 time 0.0s
+H_4 relabel 1 (l -> agent 4): single rule=16 samples=1 rot0=1 rot1=0 fail=0 uncov=0 time 0.0s
+H_4 relabel 2 (l -> agent 3): single rule=16 samples=1 rot0=1 rot1=0 fail=0 uncov=0 time 0.0s
+H_4 relabel 3 (l -> agent 1): single rule=16 samples=1 rot0=1 rot1=0 fail=0 uncov=0 time 0.0s
+H_4 relabel 4 (l -> agent 15): single rule=16 samples=1 rot0=1 rot1=0 fail=0 uncov=0 time 0.0s
+H_4 relabel 5 (l -> agent 15): single rule=16 samples=1 rot0=1 rot1=0 fail=0 uncov=0 time 0.0s
+H_5: single rule=16 samples=1 rot0=1 rot1=0 fail=0 uncov=0 time 0.4s
+H_5 relabel 1 (l -> agent 19): single rule=16 samples=1 rot0=1 rot1=0 fail=0 uncov=0 time 0.0s
+H_5 relabel 2 (l -> agent 9): single rule=16 samples=1 rot0=1 rot1=0 fail=0 uncov=0 time 0.0s
+H_5 relabel 3 (l -> agent 13): single rule=16 samples=1 rot0=1 rot1=0 fail=0 uncov=0 time 0.0s
+H_5 relabel 4 (l -> agent 13): single rule=16 samples=1 rot0=1 rot1=0 fail=0 uncov=0 time 0.0s
+H_5 relabel 5 (l -> agent 8): single rule=16 samples=1 rot0=1 rot1=0 fail=0 uncov=0 time 0.0s
+H_6: single rule=16 samples=1 rot0=1 rot1=0 fail=0 uncov=0 time 7.8s
+H_6 relabel 1 (l -> agent 24): single rule=16 samples=1 rot0=1 rot1=0 fail=0 uncov=0 time 0.0s
+H_6 relabel 2 (l -> agent 8): single rule=16 samples=1 rot0=1 rot1=0 fail=0 uncov=0 time 0.0s
+H_6 relabel 3 (l -> agent 19): single rule=16 samples=1 rot0=1 rot1=0 fail=0 uncov=0 time 0.0s
+H_6 relabel 4 (l -> agent 19): single rule=16 samples=1 rot0=1 rot1=0 fail=0 uncov=0 time 0.0s
+H_6 relabel 5 (l -> agent 8): single rule=16 samples=1 rot0=1 rot1=0 fail=0 uncov=0 time 0.0s
+H_7: single rule=16 samples=1 rot0=1 rot1=0 fail=0 uncov=0 time 147.3s
+H_7 relabel 1 (l -> agent 8): single rule=16 samples=1 rot0=1 rot1=0 fail=0 uncov=0 time 0.4s
+H_7 relabel 2 (l -> agent 3): single rule=16 samples=1 rot0=1 rot1=0 fail=0 uncov=0 time 0.0s
+H_7 relabel 3 (l -> agent 17): single rule=16 samples=1 rot0=1 rot1=0 fail=0 uncov=0 time 0.0s
+H_7 relabel 4 (l -> agent 26): single rule=16 samples=1 rot0=1 rot1=0 fail=0 uncov=0 time 0.0s
+H_7 relabel 5 (l -> agent 26): single rule=16 samples=1 rot0=1 rot1=0 fail=0 uncov=0 time 0.0s
+H_8: timeout 1200s time 1200.1s
+H_8 relabel 1 (l -> agent 6): single rule=16 samples=1 rot0=1 rot1=0 fail=0 uncov=0 time 0.0s
+H_8 relabel 2 (l -> agent 2): single rule=16 samples=1 rot0=1 rot1=0 fail=0 uncov=0 time 0.0s
+H_8 relabel 3 (l -> agent 18): single rule=16 samples=1 rot0=1 rot1=0 fail=0 uncov=0 time 0.0s
+H_8 relabel 4 (l -> agent 29): single rule=16 samples=1 rot0=1 rot1=0 fail=0 uncov=0 time 0.0s
+H_8 relabel 5 (l -> agent 16): single rule=16 samples=1 rot0=1 rot1=0 fail=0 uncov=0 time 0.0s

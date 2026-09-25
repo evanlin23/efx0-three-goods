@@ -30,7 +30,9 @@ Options:
        16 the same family as 12 (every first agent, then index order), the first with the fewest rotations;
        20, 21, 22: the first run covered by the theorems of k4/c4.md and k4/c4one.md (see covered()) in the family of
        rule 15 (index, or one step changed), of rule 16 (first agent), or among all sequences; -C1 without A4+(o),
-       -Z1 check each covered run by LB4r (envy-free upgrades, needs from the base, one rotation); 'uncov' counts
+       -C3 also the candidate A4+N after need-shrinking upgrades (see aplusN_owner),
+       -Z1 check each covered run by LB4r (envy-free upgrades, needs from the base, one rotation), or for A4+N by the
+       exact owner test with the owner found (needs from the base, no rotation); 'uncov' counts
        the profiles (weighted) where no sequence of the family is covered.
   -i0 use -A (default);  -i1 every insertion sequence separately;  -i2 the fewest rotations over every insertion
        sequence (exists tau; bound outermost, sequences in lexicographic order);  -i10 -TN N random sequences (single profile)
@@ -722,9 +724,43 @@ static int cov_AB1(int r, gm W, const int *E, int e4) {
     snap_load(&sv);
     return pr;
 }
+/* -C3: candidate Theorem A4+N (k4/adaptive.md §6): A4+(o) after need-shrinking upgrades, where an upgraded agent can
+   be threatened (its pair need not be envy-free); it holds its base and has no slot, so it is counted like a frozen
+   one, by rho. Owner o: not frozen, with a base of at most one good, or upgraded. Returns the owner, or -1. */
+static int aplusN_owner(void) {
+    int r = -1;
+    for (int i = 0; i < n; i++) if (!upg[i] && (r < 0 || pos[i] > pos[r])) r = i;
+    int ordo[MAXN], k = 0;
+    if (r >= 0 && !frz[r]) ordo[k++] = r;
+    for (int o = 0; o < n; o++) if (o != r && !frz[o] && (cap[o] > 0 || upg[o])) ordo[k++] = o;
+    for (int q = 0; q < k; q++) {
+        int o = ordo[q]; gm Wo = base[o] | J; int dem = 0, tb = 0;
+        for (int x = 0; x < n && dem < 99; x++) {
+            if (x == o) continue;
+            if (!upg[x] && !frz[x]) tb += cap[x];
+            if (!threatened(x, Wo, base[x])) continue;
+            if (!upg[x] && !frz[x] && Y[x] >= 0 && cap[x] >= 1 && popc(base[o] & R[x]) <= 1) dem += 1;
+            else dem += rho4(x, Wo);
+        }
+        if (dem <= tb) return o;
+    }
+    return -1;
+}
 /* is the run of Phase 1 on pre[] covered? (envy-free upgrades; the state is left after the upgrades) */
-static int cov_last;                 /* how: 0 omega <= 0, 1 A4/B4/B4w/A4T, 2 A4+ for r, 3 A4+(o) */
+static int cov_last, cov_owner;      /* how: 0 omega <= 0, 1 A4/B4/B4w/A4T, 2 A4+ for r, 3 A4+(o); with -C3 after
+                                        need-shrinking upgrades: 4 omega <= 0, 5 A4+N (cov_owner) */
+static int covered0(void);
 static int covered(void) {
+    if (covered0()) return 1;
+    if (COVT < 3) return 0;
+    phase1(); setup_state(); upg_mode = 1; upgrades();
+    int S = slots();
+    if (popc(J) - S <= 0) { cov_last = 4; return 1; }
+    int o = aplusN_owner();
+    if (o >= 0) { cov_last = 5; cov_owner = o; return 1; }
+    return 0;
+}
+static int covered0(void) {
     phase1(); setup_state(); upg_mode = 2; upgrades();
     int S = slots(), w = popc(J) - S;
     if (w <= 0) { cov_last = 0; return 1; }
@@ -741,10 +777,14 @@ static int covered(void) {
 }
 /* -Z1: a covered run must give LB4r(tau) with envy-free upgrades, needs from the base, at most one rotation */
 static void cov_verify(void) {
-    int su = UPG, sw = OWNW; UPG = 2; OWNW = 0;
-    int ok = lb4r(1);
-    UPG = su; OWNW = sw;
-    if (!ok) { covviol++; report("COVVIOL"); }
+    int su = UPG, sw = OWNW, ok;
+    if (cov_last >= 4) {             /* A4+N: need-shrinking upgrades, the owner found (needs from its base), no rotation */
+        OWNW = 0; phase1(); setup_state(); upg_mode = 1; upgrades();
+        int S = slots();
+        ok = cov_last == 4 ? try_owner(-1, S) : try_owner(cov_owner, S);
+        OWNW = sw;
+    } else { UPG = 2; OWNW = 0; ok = lb4r(1); UPG = su; OWNW = sw; }
+    if (!ok) { covviol++; report(cov_last >= 4 ? "COVVIOL_N" : "COVVIOL"); }
 }
 /* rules 20-22: the first covered run in a family; if none, the family's first sequence (index run), counted as
    uncovered. 20: index run, then the index run with one insertion step changed (rule 15's family, #37's Lemma X');
