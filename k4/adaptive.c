@@ -27,7 +27,11 @@ Options:
        12 rule 3 at the first insertion step only, then index order; 13 rule 2 at the first insertion step only;
        14 the index run or the index run with one insertion step changed, least (rotations, omega);
        15 the same family as 14, the first sequence (index run first) with the fewest rotations (bound outermost);
-       16 the same family as 12 (every first agent, then index order), the first with the fewest rotations.
+       16 the same family as 12 (every first agent, then index order), the first with the fewest rotations;
+       20, 21, 22: the first run covered by the theorems of k4/c4.md and k4/c4one.md (see covered()) in the family of
+       rule 15 (index, or one step changed), of rule 16 (first agent), or among all sequences; -C1 without A4+(o),
+       -Z1 check each covered run by LB4r (envy-free upgrades, needs from the base, one rotation); 'uncov' counts
+       the profiles (weighted) where no sequence of the family is covered.
   -i0 use -A (default);  -i1 every insertion sequence separately;  -i2 the fewest rotations over every insertion
        sequence (exists tau; bound outermost, sequences in lexicographic order);  -i10 -TN N random sequences (single profile)
   -uN upgrades: 0 none, 1 need-shrinking, 2 envy-free only, 3 policies 1, 2, 0 in turn (default 3)
@@ -118,6 +122,7 @@ static int choice[MAXN], nchoice, maxchoice[MAXN];   /* -i1 tree over candidate 
 static int TAILRULE = 0;             /* rule used after the forced prefix (0 index; rules computed inside Phase 1) */
 
 static int rule_choose(int rule, const int *cand, int nc, gm G, const int *done);
+static void report(const char *what);
 /* Phase 1(tau): returns 0 if stopped at insertion step stop_at (its candidates in scand), 1 when complete */
 static int phase1(void) {
     gm G = ALLG;
@@ -574,6 +579,202 @@ static int deepen_family(int rule) {
     return 0;
 }
 
+/* ---- coverage: the theorems of k4/c4.md §2-§4c (A4, B4, B4w, A4T, A4+) and A4+(o) of k4/c4one.md §5 ----
+   Ported from k4/c4check.c of branch proof/k4-c4one (check_AB, check_AB1, check_Bw, check_AT, check_Aplus,
+   aplus_owner, chain_ends, first_chain, is_leader; the same conditions, the same first need chain), without its
+   counters. A run of Phase 1 (tau in pre[]) is *covered* when, after envy-free upgrades, omega <= 0 or one of these
+   theorems applies to it; then LB4r(tau) with envy-free upgrades and at most one rotation succeeds (by the theorems;
+   the owner's needs from its base, whose completions are also completions with needs from the bundle, k4/c4.md
+   §1.1). -C1: theorems of k4/c4.md only; -C2 (default): with A4+(o) for every owner. With -Z1 every covered run is
+   also checked: LB4r(tau) with envy-free upgrades only, the owner's needs from the base and at most one rotation must
+   succeed (a violation is printed as COVVIOL and counted). */
+static int COVT = 2, COVZ = 0; static long covviol;
+static int is_leader(int x) { for (int i = 0; i < n; i++) if (blk[i] == blk[x] && pos[i] < pos[x]) return 0; return 1; }
+static int nends; static int ends_[64]; static int ch2[MAXN], cl2;
+static void chain_ends(void) {
+    int x = ch2[cl2 - 1];
+    if (cl2 > 1 && !frz[x]) { if (nends < 64) ends_[nends] = x; nends++; return; }
+    for (int j = 0; j < n; j++) {
+        int in = 0; for (int q = 0; q < cl2; q++) if (ch2[q] == j) in = 1;
+        if (in || upg[j] || Y[x] < 0 || !(N_[j] >> Y[x] & 1)) continue;
+        ch2[cl2++] = j; chain_ends(); cl2--;
+    }
+}
+static int first_chain(int *out, int target) {   /* a need chain from ch2[0] ending at target; returns its length */
+    int x = ch2[cl2 - 1];
+    if (cl2 > 1 && !frz[x]) { if (x == target) { memcpy(out, ch2, sizeof(int) * cl2); return cl2; } return 0; }
+    for (int j = 0; j < n; j++) {
+        int in = 0; for (int q = 0; q < cl2; q++) if (ch2[q] == j) in = 1;
+        if (in || upg[j] || Y[x] < 0 || !(N_[j] >> Y[x] & 1)) continue;
+        ch2[cl2++] = j; int L = first_chain(out, target); cl2--; if (L) return L;
+    }
+    return 0;
+}
+typedef struct { int Y[MAXN], upg[MAXN], frz[MAXN], cap[MAXN]; gm base[MAXN], N[MAXN], J; } snap_t;
+static void snap_save(snap_t *s) { memcpy(s->Y, Y, sizeof Y); memcpy(s->upg, upg, sizeof upg); memcpy(s->frz, frz, sizeof frz); memcpy(s->cap, cap, sizeof cap); memcpy(s->base, base, sizeof base); memcpy(s->N, N_, sizeof N_); s->J = J; }
+static void snap_load(const snap_t *s) { memcpy(Y, s->Y, sizeof Y); memcpy(upg, s->upg, sizeof upg); memcpy(frz, s->frz, sizeof frz); memcpy(cap, s->cap, sizeof cap); memcpy(base, s->base, sizeof base); memcpy(N_, s->N, sizeof N_); J = s->J; }
+/* Theorem B4w's hypotheses: the only exposed 4-good agent w is frozen; rotate it along a need chain to r, O = R_w & W */
+static int cov_Bw(int r, gm W, const int *E, int w) {
+    int chn[MAXN]; ch2[0] = w; cl2 = 1; int L = first_chain(chn, r);
+    if (!L) return 0;
+    int hyp = 0, ks = -1;
+    for (int i = 0; i < n; i++) if (blk[i] == blk[r] && (ks < 0 || pos[i] < pos[ks])) ks = i;
+    gm O = R[w] & W;
+    int c1 = 1;
+    for (int x = 0; x < n; x++) if (E[x] && x != w && d[x] == 3 && ((R[x] & ~BIT(ord[x][0])) & ~O) == 0) c1 = 0;
+    int c2 = !E[ks] || ks == w || !frz[ks];
+    if (!c2) { nends = 0; ch2[0] = ks; cl2 = 1; chain_ends(); for (int q = 0; q < nends && q < 64; q++) if (ends_[q] != r) c2 = 1; }
+    snap_t sv; snap_save(&sv);
+    J |= base[r];
+    for (int i = L - 1; i >= 1; i--) { Y[chn[i]] = Y[chn[i - 1]]; base[chn[i]] = BIT(Y[chn[i]]); N_[chn[i]] = above(chn[i], Y[chn[i]]); }
+    J &= ~O; upg[w] = 1; base[w] = O; Y[w] = -2;
+    { gm nn = 0; for (int x = 0; x < m; x++) if ((R[w] & ~O) >> x & 1 && cmpv(w, BIT(x), O) > 0) nn |= BIT(x); N_[w] = nn; }
+    gm NA = NAset(); int valid = !(J & NA);
+    for (int i = 0; i < n; i++) if (upg[i] && (base[i] & NA)) valid = 0;
+    for (int i = 0; i < n; i++) if (i != w && popc(base[i]) >= 3) valid = 0;
+    if (valid && (base[w] | J) == W) {
+        slots(); int e42 = 0;
+        if (!c2 && !frz[r]) c2 = 1;              /* (ii): r is a terminal after the rotation */
+        for (int x = 0; x < n; x++) if (x != w && !upg[x] && threatened(x, W, base[x]) && d[x] == 4) e42 = 1;
+        hyp = !e42 && c1 && c2;
+    }
+    snap_load(&sv);
+    return hyp;
+}
+/* Theorem A4T: the only exposed 4-good agent w is free; r is valid unless (Tc) or (Tb) */
+static int best_junk(int x) { for (int q = 0; q < d[x]; q++) if (J >> ord[x][q] & 1) return ord[x][q]; return -1; }
+static int ends_all_in(int k, int a, int b) {
+    nends = 0; ch2[0] = k; cl2 = 1; chain_ends();
+    if (!nends) return 0;
+    for (int q = 0; q < nends && q < 64; q++) if (ends_[q] != a && ends_[q] != b) return 0;
+    return 1;
+}
+static int cov_AT(int r, const int *E, int w) {
+    int gw = best_junk(w), lw = -1, ks = -1;
+    for (int i = 0; i < n; i++) if (blk[i] == blk[w] && (lw < 0 || pos[i] < pos[lw])) lw = i;
+    for (int i = 0; i < n; i++) if (blk[i] == blk[r] && (ks < 0 || pos[i] < pos[ks])) ks = i;
+    int lwall = blk[w] != blk[r] && lw != w && E[lw] && frz[lw] && ends_all_in(lw, w, w);
+    int tc = lwall && !(gw >= 0 && (R[lw] >> gw & 1));
+    int served = lwall && !tc ? lw : -1;
+    int disj = 1;
+    for (int x = 0; x < n; x++) for (int y = x + 1; y < n; y++)
+        if (E[x] && E[y] && d[x] == 3 && d[y] == 3 && x != served && y != served && (R[x] & R[y] & J)) disj = 0;
+    int tb = ks != w && E[ks] && frz[ks] && disj && ends_all_in(ks, r, blk[w] == blk[r] ? w : r);
+    return !tc && !tb;
+}
+static int rho4(int w, gm W) {               /* least number of junk goods of R_w to remove from W so that w is safe */
+    gm cand = J & R[w]; int best = 99;
+    for (gm D = cand;; D = (D - 1) & cand) {
+        if (popc(D) < best && !threatened(w, W & ~D, base[w])) best = popc(D);
+        if (!D) break;
+    }
+    return best;
+}
+static int cov_Aplus(int r, gm W, const int *E) {
+    int dem = 0, tb = 0;
+    for (int x = 0; x < n; x++) {
+        if (x != r && !upg[x] && !frz[x]) tb += cap[x];
+        if (!E[x]) continue;
+        if (d[x] == 3 || !frz[x]) dem += 1; else dem += rho4(x, W);
+    }
+    return dem <= tb;
+}
+static int aplus_owner(int o) {
+    gm Wo = base[o] | J; int dem = 0, tb = 0;
+    for (int x = 0; x < n; x++) {
+        if (x == o) continue;
+        if (!upg[x] && !frz[x]) tb += cap[x];
+        if (upg[x] || !threatened(x, Wo, base[x])) continue;
+        if (!frz[x] && Y[x] >= 0 && cap[x] >= 1 && popc(base[o] & R[x]) <= 1) dem += 1;
+        else dem += rho4(x, Wo);
+    }
+    return dem <= tb;
+}
+/* Theorems A4 and B4 (no exposed 4-good agent), B4w and A4T (one): 1 if one of them applies */
+static int cov_AB1(int r, gm W, const int *E, int e4) {
+    if (e4) {
+        int ne4 = 0, w4 = -1; for (int x = 0; x < n; x++) if (E[x] && d[x] == 4) { ne4++; w4 = x; }
+        if (ne4 == 1 && !frz[w4]) return cov_AT(r, E, w4);
+        if (ne4 == 1 && frz[w4]) return cov_Bw(r, W, E, w4);
+        return 0;
+    }
+    for (int x = 0; x < n; x++) if (E[x] && (d[x] != 3 || Y[x] != ord[x][0] || !is_leader(x))) { printf("A3VIOL\n"); covviol++; return 0; }
+    int ks = -1;
+    for (int i = 0; i < n; i++) if (blk[i] == blk[r] && (ks < 0 || pos[i] < pos[ks])) ks = i;
+    int bad = E[ks] && ks != r && frz[ks];
+    if (bad) { nends = 0; ch2[0] = ks; cl2 = 1; chain_ends(); for (int q = 0; q < nends && q < 64; q++) if (ends_[q] != r) bad = 0; if (!nends) bad = 0; }
+    if (bad) for (int x = 0; x < n; x++) for (int y = x + 1; y < n; y++) if (E[x] && E[y] && (R[x] & R[y] & J)) bad = 0;
+    if (!bad) return 1;                           /* Theorem A4 */
+    int pr = 0, chn[MAXN]; ch2[0] = ks; cl2 = 1; int L = first_chain(chn, r);
+    snap_t sv; snap_save(&sv);
+    J |= base[r];
+    for (int i = L - 1; i >= 1; i--) { Y[chn[i]] = Y[chn[i - 1]]; base[chn[i]] = BIT(Y[chn[i]]); N_[chn[i]] = above(chn[i], Y[chn[i]]); }
+    gm O = BIT(ord[ks][1]) | BIT(ord[ks][2]);
+    J &= ~O; upg[ks] = 1; base[ks] = O; Y[ks] = -2;
+    { gm nn = 0; for (int x = 0; x < m; x++) if ((R[ks] & ~O) >> x & 1 && cmpv(ks, BIT(x), O) > 0) nn |= BIT(x); N_[ks] = nn; }
+    gm NA = NAset(); int valid = !(J & NA);
+    for (int i = 0; i < n; i++) if (upg[i] && (base[i] & NA)) valid = 0;
+    if (valid) {
+        slots(); int e42 = 0;
+        for (int x = 0; x < n; x++) if (x != ks && !upg[x] && threatened(x, W, base[x]) && x == r && d[x] == 4) e42 = 1;
+        pr = !e42;                                /* Theorem B4: r is not a 4-good agent exposed after the rotation */
+    } else { printf("ROTINV\n"); covviol++; }
+    snap_load(&sv);
+    return pr;
+}
+/* is the run of Phase 1 on pre[] covered? (envy-free upgrades; the state is left after the upgrades) */
+static int cov_last;                 /* how: 0 omega <= 0, 1 A4/B4/B4w/A4T, 2 A4+ for r, 3 A4+(o) */
+static int covered(void) {
+    phase1(); setup_state(); upg_mode = 2; upgrades();
+    int S = slots(), w = popc(J) - S;
+    if (w <= 0) { cov_last = 0; return 1; }
+    int r = -1;
+    for (int i = 0; i < n; i++) if (!upg[i] && (r < 0 || pos[i] > pos[r])) r = i;
+    if (frz[r]) { printf("A1VIOL\n"); covviol++; return 0; }
+    gm W = base[r] | J;
+    int E[MAXN], e4 = 0;
+    for (int x = 0; x < n; x++) { E[x] = (x != r && !upg[x] && threatened(x, W, base[x])); if (E[x] && d[x] == 4) e4 = 1; }
+    if (cov_AB1(r, W, E, e4)) { cov_last = 1; return 1; }
+    if (cov_Aplus(r, W, E)) { cov_last = 2; return 1; }
+    if (COVT >= 2) for (int o = 0; o < n; o++) if (o != r && !frz[o] && (cap[o] > 0 || upg[o]) && aplus_owner(o)) { cov_last = 3; return 1; }
+    return 0;
+}
+/* -Z1: a covered run must give LB4r(tau) with envy-free upgrades, needs from the base, at most one rotation */
+static void cov_verify(void) {
+    int su = UPG, sw = OWNW; UPG = 2; OWNW = 0;
+    int ok = lb4r(1);
+    UPG = su; OWNW = sw;
+    if (!ok) { covviol++; report("COVVIOL"); }
+}
+/* rules 20-22: the first covered run in a family; if none, the family's first sequence (index run), counted as
+   uncovered. 20: index run, then the index run with one insertion step changed (rule 15's family, #37's Lemma X');
+   21: every first agent, then index order (rule 16's family); 22: every insertion sequence (lexicographic). */
+static long uncov; static int last_uncov;
+static int cover_family(int rule) {
+    int fseq[MAXN], fn;
+    if (rule == 22) {
+        nchoice = 0;
+        for (;;) {
+            INS = 1; npre = 0; stop_at = -1; phase1(); INS = 0;
+            memcpy(pre, ins_seq, sizeof(int) * nins); npre = nins;
+            if (covered()) return 1;
+            int j = nins - 1;
+            while (j >= 0 && choice[j] + 1 >= maxchoice[j]) j--;
+            if (j < 0) break;
+            choice[j]++; nchoice = j + 1;
+        }
+        nchoice = 0; npre = 0; phase1(); memcpy(pre, ins_seq, sizeof(int) * nins); npre = nins;
+        return 0;
+    }
+    int fam = rule == 20 ? 15 : 16;
+    for (int k = 0; fam_seq(fam, k, fseq, &fn); k++) {
+        memcpy(pre, fseq, sizeof fseq); npre = fn;
+        if (covered()) return 1;
+    }
+    fam_seq(fam, 0, fseq, &fn); memcpy(pre, fseq, sizeof fseq); npre = fn;
+    return 0;
+}
+
 /* the whole construction for the current profile: tau by the rule (or tree / random choices), then LB4r(tau) */
 static int construct(void) {
     if (INS == 1 || INS == 10) {     /* tree or random: Phase 1 draws/extends choice[]; fix tau from it */
@@ -593,6 +794,10 @@ static int construct(void) {
             }
         }
         return 0;
+    } else if (ARULE >= 20 && ARULE <= 22) {
+        last_uncov = !cover_family(ARULE);
+        if (!last_uncov && COVZ) cov_verify();
+        return lb4r(ROT);
     } else if (ARULE == 15 || ARULE == 16) {
         if (!deepen_family(ARULE)) return 0;
         return lb4r(ROT);             /* re-run on the sequence found: the same fewest rotations, and own[] */
@@ -625,6 +830,7 @@ static int rawcheck(void) {
 static long weight(void) { long w = 1; for (int i = 0; i < n; i++) w *= popc(ts[i]); return w; }
 
 static void report(const char *what) {
+    stop_at = -1; phase1();          /* the Phase 1 state of tau (picks, order, blocks), not the state after rotations */
     printf("%s n=%d m=%d sets=[", what, n, m);
     for (int i = 0; i < n; i++) { printf("["); for (int k = 0; k < d[i]; k++) printf("%d%s", gl[i][k], k + 1 < d[i] ? "," : ""); printf("]%s", i + 1 < n ? "," : ""); }
     printf("] vals=[");
@@ -648,7 +854,7 @@ static void report(const char *what) {
 /* one run of the construction on the current type sets; returns 1 if a comparison split them */
 static int run_leaf(int *ok) {
     if (setjmp(env)) { stop_at = -1; TAILRULE = 0; if (INS == 1 && EXISTS) INS = 2; return 1; }
-    rot_depth = 0;
+    rot_depth = 0; last_uncov = 0;
     *ok = construct();
     return 0;
 }
@@ -711,6 +917,8 @@ int main(int argc, char **argv) {
         else if (!strncmp(argv[a], "-L", 2)) LSR = atoi(argv[a] + 2);
         else if (!strncmp(argv[a], "-K", 2)) DEEP = atoi(argv[a] + 2);
         else if (!strncmp(argv[a], "-P", 2)) PRUNE = atoi(argv[a] + 2);
+        else if (!strncmp(argv[a], "-C", 2)) COVT = atoi(argv[a] + 2);
+        else if (!strncmp(argv[a], "-Z", 2)) COVZ = atoi(argv[a] + 2);
         else if (!strncmp(argv[a], "-T", 2)) TAU = atol(argv[a] + 2);
         else if (!strncmp(argv[a], "-S", 2)) SAMPLE = atol(argv[a] + 2);
         else if (!strncmp(argv[a], "-H", 2)) HILL = atol(argv[a] + 2);
@@ -762,7 +970,7 @@ int main(int argc, char **argv) {
             }
             printf("single rule=%d samples=%ld", ARULE, nsm);
             for (int k = 0; k <= ROT; k++) printf(" rot%d=%ld", k, hist_rot[k]);
-            printf(" fail=%ld\n", hist_rot[ROT + 1]); fflush(stdout);
+            printf(" fail=%ld uncov=%d\n", hist_rot[ROT + 1], last_uncov); fflush(stdout);
             continue;
         }
         if (SAMPLE > 0 || HILL > 0) {    /* random profiles (-S), or hill-climbing toward hard profiles (-H) */
@@ -781,6 +989,7 @@ int main(int argc, char **argv) {
                 nchoice = 0; effort = 0;
                 int ok; if (run_leaf(&ok)) { fprintf(stderr, "split with singleton type sets\n"); return 1; }
                 runs++; leaves++; total++;
+                if (last_uncov) { uncov++; if (DEEP && shown < MAXF) { report("UNCOV"); shown++; } }
                 if (!ok) { fails++; hist_rot[ROT + 1]++; if (shown < MAXF) { report("FAIL"); shown++; } if (HILL > 0) break; continue; }
                 if (!rawcheck()) { rawf++; if (shown < MAXF) { report("RAWFAIL"); shown++; } continue; }
                 hist_rot[used_rot]++; hist_pol[used_pol]++;
@@ -836,6 +1045,7 @@ int main(int argc, char **argv) {
                         }
                         lastnins = nins; memcpy(lastmax, maxchoice, sizeof lastmax);
                         long w = weight();
+                        if (last_uncov) { uncov += w; if (DEEP && shown < MAXF) { report("UNCOV"); shown++; } }
                         leaves++; total += w;
                         if (!ok) { fails += w; hist_rot[ROT + 1] += w; if (shown < MAXF) { report("FAIL"); shown++; } continue; }
                         if (!rawcheck()) { rawf += w; if (shown < MAXF) { report("RAWFAIL"); shown++; } continue; }
@@ -859,7 +1069,8 @@ int main(int argc, char **argv) {
       core_done:
         printf("total %ld leaves %ld runs %ld fails %ld rawfails %ld rot", total, leaves, runs, fails, rawf);
         for (int k = 0; k <= ROT; k++) printf(" %ld", hist_rot[k]);
-        printf(" pol %ld %ld %ld\n", hist_pol[0], hist_pol[1], hist_pol[2]);
+        printf(" pol %ld %ld %ld uncov %ld covviol %ld\n", hist_pol[0], hist_pol[1], hist_pol[2], uncov, covviol);
+        uncov = covviol = 0;
         fflush(stdout);
     }
     return 0;

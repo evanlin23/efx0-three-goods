@@ -53,6 +53,8 @@ def parse(line):
     d['total'] = int(t[1]); d['fails'] = int(t[7]); d['rawfails'] = int(t[9])
     i = t.index('rot'); j = t.index('pol')
     d['rot'] = list(map(int, t[i + 1:j])); d['pol'] = list(map(int, t[j + 1:j + 4]))
+    d['uncov'] = int(t[t.index('uncov') + 1]) if 'uncov' in t else 0
+    d['covviol'] = int(t[t.index('covviol') + 1]) if 'covviol' in t else 0
     return d
 
 def load_profiles(path):
@@ -109,19 +111,19 @@ def main():
         with Pool(jobs) as pool:
             for res, other in pool.imap_unordered(run, tasks):
                 for l in other:
-                    if shown < show and (l.startswith('FAIL') or l.startswith('RAWFAIL') or l.startswith('HARD') or l.startswith('DEEP')):
+                    if shown < show and (l.startswith('FAIL') or l.startswith('RAWFAIL') or l.startswith('HARD') or l.startswith('DEEP') or l.startswith('UNCOV') or 'VIOL' in l):
                         print(l); shown += 1
                 for line in res:
                     d = parse(line)
                     if d['fails'] or d['rawfails']: badcores += 1
                     if tot is None: tot = d
                     else:
-                        for k in ('total', 'fails', 'rawfails'): tot[k] += d[k]
+                        for k in ('total', 'fails', 'rawfails', 'uncov', 'covviol'): tot[k] += d[k]
                         tot['rot'] = [a + b for a, b in zip(tot['rot'], d['rot'])]
                         tot['pol'] = [a + b for a, b in zip(tot['pol'], d['pol'])]
         print(f"{os.path.basename(f)}{'' if n4 is None else f' n4={n4}'}{'' if monly is None else f' m={monly}'}: cores={len(cores)} "
               f"total={tot['total']} fails={tot['fails']} rawfails={tot['rawfails']} badcores={badcores} "
-              f"rot={tot['rot']} (last entry: fails) pol={tot['pol']} time {time.time() - t0:.0f}s", flush=True)
+              f"rot={tot['rot']} (last entry: fails) pol={tot['pol']} uncov={tot['uncov']} covviol={tot['covviol']} time {time.time() - t0:.0f}s", flush=True)
 
 if __name__ == '__main__':
     main()
