@@ -19,3 +19,4 @@ FILE results/k4_certs_3.json.gz cores 51 profiles 5100 valid 112583 minfrozen 89
   exposed at failing owners, 4-good top flat: free 4707 (unhittable 883), frozen 17 (unhittable 6)
   exposed at failing owners, 4-good {b}: free 153 (unhittable 15), frozen 2 (unhittable 0)
   exposed at failing owners, 4-good pair: free 30439 (unhittable 2838), frozen 0 (unhittable 0)
+# c4x.c revision: k4/c4x.c of branch proof/k4-c4x at commit efef349 (PR #36), the head when these runs were made; the #46 referee reproduced the log with f085fe7. k4/hall_c4x_xcheck.py now takes the revision from $C4X_REV (default efef349).

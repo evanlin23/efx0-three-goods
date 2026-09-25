@@ -38,7 +38,7 @@ static inline int pc(mask_t x) { return __builtin_popcountll(x); }
 
 static int n, m, d[MAXN], gl[MAXN][4], nt[MAXN], tv[MAXN][MAXT][4], cur[MAXN];
 static mask_t R[MAXN];
-static int nex = 0, dump = 0, xcheck = 0, paretomode = 0, pex = 0, cyclemode = 0, paretoonly = 0, btmode = 0;
+static int nex = 0, dump = 0, xcheck = 0, paretomode = 0, pex = 0, cyclemode = 0, paretoonly = 0, btmode = 0, h1check = 0;
 static long long pm_prof[4], pm_every[4], pm_some[4], pm_n[4];
 static int potmode = 0; static long long *potv, potbest;
 static int level(int i, mask_t B);
@@ -237,6 +237,10 @@ static void analyze(const st_t *s) {
   }
 }
 
+static void rank_goods(int x, mask_t *rk) {   /* rk[0..d-1]: x's goods in decreasing value */
+  int used[4] = {0};
+  for (int r = 0; r < d[x]; r++) { int bk = -1; for (int k = 0; k < d[x]; k++) if (!used[k] && (bk < 0 || tv[x][cur[x]][k] > tv[x][cur[x]][bk])) bk = k; used[bk] = 1; rk[r] = (mask_t)1 << gl[x][bk]; }
+}
 /* F = 0 (no frozen agent) at a Pareto-maximum with omega >= 1 (k4/hall.md §3). f0c counters:
    0 maxima; 1 Lemma U violated (a single-good holder values a junk good); 2 Lemma U2 violated (a pair-holder has a
    better pair inside its base and the junk); 3 no single-good holder (T = 0); 4 exposure of another kind than e1-e3;
@@ -259,9 +263,15 @@ static void f0_analyze(const st_t *s) {
     mask_t W = s->B[o] | s->J, Z = 0; int unhit = 0;
     for (int x = 0; x < n; x++) if (x != o && threatens(x, W, val(x, s->B[x]))) {
       mask_t low = R[x] & ~s->B[x];
-      if (pc(s->B[x]) == 1 && pc(low & s->B[o]) == 2) { unhit = 1; f0c[12]++; }
-      else if (pc(s->B[x]) == 2 && d[x] == 4 && (low & ~s->B[o]) == 0) { unhit = 1; f0c[13]++; }
-      else if (pc(s->B[x]) == 2 && d[x] == 4 && pc(low & s->B[o]) == 1 && pc(low & s->J) == 1) { Z |= low & s->J; f0c[11]++; if (pc(s->B[o]) == 1) { f0c[14]++; if (pex > 0) { pex--; printf("EXF0 e2 at single owner %d x %d:", o, x); print_profile(); print_pa(s); printf("\n"); } } }
+      mask_t rk[4] = {0, 0, 0, 0}; rank_goods(x, rk);   /* x's goods by value: a, b, c, (d) */
+      /* the exact shapes of Lemma H3 */
+      int e1 = pc(s->B[x]) == 1 && !(R[x] & s->J) && pc(s->B[o]) == 2 && (s->B[o] & ~low) == 0;
+      int e3 = pc(s->B[x]) == 2 && d[x] == 4 && !(R[x] & s->J) && low == s->B[o];
+      int e2 = pc(s->B[x]) == 2 && d[x] == 4 && s->B[x] == (rk[1] | rk[2]) && (rk[0] & s->B[o]) && (rk[3] & s->J)
+               && val(x, rk[0] | rk[3]) > val(x, rk[1] | rk[2]);
+      if (e1) { unhit = 1; f0c[12]++; }
+      else if (e3) { unhit = 1; f0c[13]++; }
+      else if (e2) { Z |= rk[3]; f0c[11]++; if (pc(s->B[o]) == 1) { f0c[14]++; if (pex > 0) { pex--; printf("EXF0 e2 at single owner %d x %d:", o, x); print_profile(); print_pa(s); printf("\n"); } } }
       else f0c[4]++;
     }
     int crit = !unhit && pc(Z) <= s->S - s->cap[o];
@@ -271,6 +281,9 @@ static void f0_analyze(const st_t *s) {
     else if (pc(s->B[o]) == 1) { allt = 0; if (unhit) f0c[10]++; }
   }
   f0c[6] += anyt; f0c[7] += anyp; f0c[8] += !anyt && !anyp; f0c[9] += allt && T;
+  /* 15: agents exposed w.r.t. two or more owners (Lemma H3's uniqueness); 16: maxima with T >= 2 (Theorem H0 (a)) */
+  for (int x = 0; x < n; x++) { int c = 0; for (int o = 0; o < n; o++) if (o != x && threatens(x, s->B[o] | s->J, val(x, s->B[x]))) c++; if (c >= 2) f0c[15]++; }
+  if (T >= 2) f0c[16]++;
 }
 
 /* -G: the cycle argument of Theorem H0 (k4/hall.md §3) on every pre-allocation with no frozen agent and omega >= 1
@@ -519,6 +532,28 @@ static int gdemand(const st_t *s) {
   return best;
 }
 
+/* -H: Lemma H1's slot count, per (P, o, K): the slots of the agents other than o with o's needs from X = B_o ∪ K equal
+   S - cap(o) + u_o(X), u_o(X) = the agents frozen in P that are not frozen once o's needs are taken from X; and a
+   removal-only completion with owner o and bundle X exists iff X is safe and |X| >= omega + 2 - u_o(X). */
+static long long h1n, h1bad;
+static void h1_check(const st_t *s) {
+  for (int o = 0; o < n; o++) if (!s->fz[o]) {
+    mask_t J = s->J;
+    for (mask_t K = J;; K = (K - 1) & J) {
+      mask_t X = s->B[o] | K; int vx = val(o, X); mask_t no = 0;
+      for (int k = 0; k < d[o]; k++) { mask_t g = (mask_t)1 << gl[o][k]; if (!(g & X) && tv[o][cur[o]][k] > vx) no |= g; }
+      mask_t NAp = no; for (int j = 0; j < n; j++) if (j != o) NAp |= s->N[j];
+      int u = 0; for (int j = 0; j < n; j++) if (j != o && s->fz[j] && !(s->B[j] & NAp)) u++;
+      int sl = slots_o(s, o, X);
+      h1n++;
+      if (sl != s->S - s->cap[o] + u) h1bad++;
+      int comp = safe(s, o, X) && pc(J & ~K) <= sl, lemma = safe(s, o, X) && pc(X) >= s->omega + 2 - u;
+      if (comp != lemma) h1bad++;
+      if (!K) break;
+    }
+  }
+}
+
 static void do_profile(void) {
   setup();
   valuedfrom[n] = 0; for (int i = n - 1; i >= 0; i--) valuedfrom[i] = valuedfrom[i + 1] | R[i];
@@ -532,7 +567,7 @@ static void do_profile(void) {
     int who = -1, dd = deficit(&s, &who);
     if (dd < least) least = dd;
     if (dd <= 0) { any = 1; nle0++; }
-    if (s.omega >= 1) { cnt_minF_om1++; if (!cyclemode) analyze(&s); }
+    if (s.omega >= 1) { cnt_minF_om1++; if (!cyclemode) analyze(&s); if (h1check) h1_check(&s); }
     if (cyclemode && best_frozen == 0 && s.omega >= 1 && f0_local_ok(&s)) f0_cycle_check(&s);
     if (dd > 0) cnt_minF_pos++;
     if (dump) { printf("P"); print_pa(&s); printf(" omega %d def %d owner %d\n", s.omega, dd, who); }
@@ -610,6 +645,7 @@ int main(int argc, char **argv) {
     else if (!strcmp(argv[i], "-G")) cyclemode = 1;
     else if (!strcmp(argv[i], "-B")) { btmode = 1; paretoonly = 1; paretomode = 1; }
     else if (!strcmp(argv[i], "-Bx")) { btmode = 1; paretoonly = 1; paretomode = 1; btex = atoi(argv[++i]); }
+    else if (!strcmp(argv[i], "-H")) { h1check = 1; cyclemode = 1; }
     else if (!strcmp(argv[i], "-N")) { paretoonly = 1; paretomode = 1; }
     else if (!strcmp(argv[i], "-Q1")) potmode = 1;
     else if (!strcmp(argv[i], "-Q2")) potmode = 2;
@@ -656,10 +692,11 @@ int main(int argc, char **argv) {
   for (int t = 0; t < 8; t++) printf(" %lld", tauhist[t]);
   printf(" violsize"); for (int t = 0; t < 8; t++) printf(" %lld", kviol_size[t]); printf("\n");
   if (btmode) printf("BTX %lld %lld %lld %lld %lld %lld\n", btx[0], btx[1], btx[2], btx[3], btx[4], btx[5]);
+  if (h1check) printf("H1 %lld %lld\n", h1n, h1bad);
   if (paretomode) printf("BTC %lld %lld %lld\n", btc[0], btc[1], btc[2]);
   if (paretomode) { printf("FZ"); for (int q = 0; q < 10; q++) printf(" %lld", fc[q]); for (int q = 0; q < 5; q++) printf(" %lld", fzcls[q]); printf("\n"); }
   if (cyclemode) { printf("G0"); for (int q = 0; q < 8; q++) printf(" %lld", g0c[q]); printf("\n"); }
-  if (paretomode) { printf("F0"); for (int q = 0; q < 15; q++) printf(" %lld", f0c[q]); printf("\n"); }
+  if (paretomode) { printf("F0"); for (int q = 0; q < 17; q++) printf(" %lld", f0c[q]); printf("\n"); }
   if (paretomode) for (int f = 0; f < 4; f++) printf("PARETO minfrozen %d%s profiles %lld every_ok %lld some_ok %lld maxima %lld\n", f, f == 3 ? "+" : "", pm_prof[f], pm_every[f], pm_some[f], pm_n[f]);
   for (int k = 0; k < NK; k++) printf("KIND %d free %lld (unhit %lld) frozen %lld (unhit %lld) %s\n", k, kexp[k][0], kexp_unhit[k][0], kexp[k][1], kexp_unhit[k][1], kname[k]);
   return 0;

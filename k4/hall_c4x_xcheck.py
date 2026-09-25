@@ -4,14 +4,15 @@ that prints, per profile, the summary "X <types> valid V minfrozen F count C le0
 fewest frozen agents, how many pre-allocations have that many, how many of those have deficit <= 0, least deficit),
 computed by c4x's own enumeration and its own removal-only deficit (completable_ro). Nothing else is changed.
 
-usage: python3 k4/hall_c4x_xcheck.py [OUT]   (reads k4/c4x.c from git: origin/proof/k4-c4x, or $C4X_SRC)
+usage: python3 k4/hall_c4x_xcheck.py [OUT]   (reads k4/c4x.c from git at revision $C4X_REV, default efef349 of
+       branch proof/k4-c4x, the one used for results/k4_hall_xcheck.log; or from the file $C4X_SRC)
 prints the path of the binary."""
 import os, subprocess, sys, tempfile
 
 def main():
     out = sys.argv[1] if len(sys.argv) > 1 else os.path.join(tempfile.gettempdir(), 'c4x_xcheck')
     src = os.environ.get('C4X_SRC')
-    s = open(src).read() if src else subprocess.run(['git', 'show', 'origin/proof/k4-c4x:k4/c4x.c'], capture_output=True, text=True, check=True).stdout
+    s = open(src).read() if src else subprocess.run(['git', 'show', os.environ.get('C4X_REV', 'efef349') + ':k4/c4x.c'], capture_output=True, text=True, check=True).stdout
     old = """    if (bestd > 0) {
       ronone++;"""
     new = """    { long long cnt = 0, le0 = 0; for (int k = 0; k < nv; k++) if (feat[(size_t)k * NFEAT + 6] == mf) { cnt++; if (-feat[(size_t)k * NFEAT + 17] <= 0) le0++; }
