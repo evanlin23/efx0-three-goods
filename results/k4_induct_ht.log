@@ -1,0 +1,158 @@
+# command: (cd k4 && for t in 1 2 3 4 5; do python3 induct_sat.py ht $t --d2; done) > results/k4_induct_ht.log
+H_1: n = 5, m = 13
+  EFX0 (D2) exists: True
+  PS(H, l): yes
+  PS(H, x11): yes
+  PS(H, x12): yes
+  PS(H, x13): yes
+  PS(H, y1): yes
+  private insertion l + u: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion l + u': PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x11 + b11: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x11 + c11: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x12 + b12: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x12 + c12: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x13 + b13: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x13 + c13: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+H_2: n = 9, m = 23
+  EFX0 (D2) exists: True
+  PS(H, l): yes
+  PS(H, x11): yes
+  PS(H, x12): yes
+  PS(H, x13): yes
+  PS(H, y1): yes
+  PS(H, x21): yes
+  PS(H, x22): yes
+  PS(H, x23): yes
+  PS(H, y2): yes
+  private insertion l + u: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion l + u': PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x11 + b11: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x11 + c11: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x12 + b12: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x12 + c12: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x13 + b13: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x13 + c13: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x21 + b21: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x21 + c21: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x22 + b22: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x22 + c22: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x23 + b23: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x23 + c23: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+H_3: n = 13, m = 33
+  EFX0 (D2) exists: True
+  PS(H, l): yes
+  PS(H, x11): yes
+  PS(H, x12): yes
+  PS(H, x13): yes
+  PS(H, y1): yes
+  PS(H, x21): yes
+  PS(H, x22): yes
+  PS(H, x23): yes
+  PS(H, y2): yes
+  PS(H, x31): yes
+  PS(H, x32): yes
+  PS(H, x33): yes
+  PS(H, y3): yes
+  private insertion l + u: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion l + u': PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x11 + b11: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x11 + c11: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x12 + b12: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x12 + c12: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x13 + b13: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x13 + c13: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x21 + b21: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x21 + c21: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x22 + b22: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x22 + c22: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x23 + b23: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x23 + c23: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x31 + b31: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x31 + c31: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x32 + b32: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x32 + c32: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x33 + b33: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x33 + c33: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+H_4: n = 17, m = 43
+  EFX0 (D2) exists: True
+  PS(H, l): yes
+  PS(H, x11): yes
+  PS(H, x12): yes
+  PS(H, x13): yes
+  PS(H, y1): yes
+  PS(H, x21): yes
+  PS(H, x22): yes
+  PS(H, x23): yes
+  PS(H, y2): yes
+  PS(H, x31): yes
+  PS(H, x32): yes
+  PS(H, x33): yes
+  PS(H, y3): yes
+  PS(H, x41): yes
+  PS(H, x42): yes
+  PS(H, x43): yes
+  PS(H, y4): yes
+  private insertion l + u: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion l + u': PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x11 + b11: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x11 + c11: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x12 + b12: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x12 + c12: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x13 + b13: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x13 + c13: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x21 + b21: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x21 + c21: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x22 + b22: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x22 + c22: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x23 + b23: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x23 + c23: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x31 + b31: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x31 + c31: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x32 + b32: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x32 + c32: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x33 + b33: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x33 + c33: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x41 + b41: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x41 + c41: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x42 + b42: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x42 + c42: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x43 + b43: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x43 + c43: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+H_5: n = 21, m = 53
+  EFX0 (D2) exists: True
+  PS(H, l): yes
+  PS(H, x11): yes
+  PS(H, x12): yes
+  PS(H, x13): yes
+  PS(H, y1): yes
+  PS(H, x21): yes
+  PS(H, x22): yes
+  PS(H, x23): yes
+  PS(H, y2): yes
+  PS(H, x31): yes
+  PS(H, x32): yes
+  PS(H, x33): yes
+  PS(H, y3): yes
+  PS(H, x41): yes
+  PS(H, x42): yes
+  PS(H, x43): yes
+  PS(H, y4): yes
+  PS(H, x51): yes
+  PS(H, x52): yes
+  PS(H, x53): yes
+  PS(H, y5): yes
+  private insertion l + u: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion l + u': PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x11 + b11: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x11 + c11: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x12 + b12: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x12 + c12: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x13 + b13: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x13 + c13: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x21 + b21: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x21 + c21: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x22 + b22: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x22 + c22: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x23 + b23: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x23 + c23: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True

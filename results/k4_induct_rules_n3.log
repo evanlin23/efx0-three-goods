@@ -1,0 +1,20 @@
+command: python3 k4/induct_rules.py results/k4_certs_3.json.gz --samples=200 --seed=1 --jobs=2 --log=results/k4_induct_rules_n3.log
+10200 (core, profile) pairs
+time 4.7s
+P4 agents: agents: 13600
+P4 agents: d = least, some h: 9331
+P4 agents: d private, h = w: 13600
+P4 agents: h = w, some d: 13600
+P4 agents: h a non-valuer of d, some d: 5364
+P4 agents: h another valuer of d, some d: 3401
+P4 agents: some (d, h) works: 13600
+Q4 agents: agents: 7600
+Q4 agents: d = least, some h: 5007
+Q4 agents: h = w, some d: 5208
+Q4 agents: h a non-valuer of d, some d: 1425
+Q4 agents: h another valuer of d, some d: 5624
+Q4 agents: some (d, h) works: 6577
+cores whose 4-good agents are all Q4: 2200 profiles; some rule (w, d, h) works on 2072
+  no rule works: m=5 sets=[[0, 3, 4], [1, 2, 3, 4], [1, 2, 4]] prof=[[3, 2, 4], [4, 6, 8, 5], [2, 3, 4]]
+  no rule works: m=5 sets=[[0, 3, 4], [1, 2, 3, 4], [1, 2, 4]] prof=[[3, 4, 2], [6, 5, 4, 8], [3, 2, 4]]
+  no rule works: m=5 sets=[[0, 3, 4], [1, 2, 3, 4], [1, 2, 4]] prof=[[3, 2, 4], [3, 4, 6, 8], [2, 3, 4]]
