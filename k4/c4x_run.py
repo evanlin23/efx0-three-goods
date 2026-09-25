@@ -113,7 +113,9 @@ def main():
         print(f'FILE {f} cores {len(set(ci for ci, _ in tasks))} ' + ' '.join(f'{k} {v}' for k, v in tot.items()))
         if ts:
             names = ['terminals', '|E_t|=0', '|E_t|=1', '|E_t|>=2', '|E_t|>slots', 't invalid', 'E_t has free agent',
-                     't reachable from E_t', 'two in E_t, same single end', 'P without terminal', 'x in E_t without end', 'P with omega>=1', 'P: no terminal with E_t empty', 'P: no valid terminal', 'P: exposure graph has a cycle']
+                     't reachable from E_t', 'two in E_t, same single end', 'P without terminal', 'x in E_t without end', 'P with omega>=1', 'P: no terminal with E_t empty', 'P: no valid terminal', 'P: exposure graph has a cycle',
+                     'Lemma U violated', 'Lemma C violated', 'frozen agent without chain end', 'Lemma E violated',
+                     '|Z_t| fits but t invalid', '|Z_t| too big but t valid']
             print('  TERMSTATS (Pareto-maxima): ' + ', '.join(f'{a} {b}' for a, b in zip(names, ts)))
         if mv: print(f'  MOVES: {mv[0]} min-frozen pre-allocations with positive deficit; nearest lower deficit at distance 1..7: {mv[2:9]} (none: {mv[1]}); nearest deficit <= 0: {mv[10:17]} (none: {mv[9]})')
         for name in order:

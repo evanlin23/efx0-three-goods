@@ -119,7 +119,7 @@ static int prot_search(int k, uint32_t rest) {
 }
 
 static int how_owner, how_K, only_owner = -1, ownstat = 0, termstat = 0;
-static long long ts_cnt[16];
+static long long ts_cnt[32];
 /* returns 1 if the assignment a is completable (a valid P assumed) */
 static int completable(const asg_t *a) {
   uint32_t B[MAXN], NA = 0, NAo[MAXN];
@@ -229,10 +229,10 @@ static int completable_ro(const asg_t *a) {
 }
 
 /* ---- potentials: lexicographic lists of features (all maximized) ---- */
-#define NFEAT 18
+#define NFEAT 22
 static const char *featname[NFEAT] = {
   "sumlev", "sum2lev", "leximax", "leximin", "sumval", "sumvalnorm", "-frozen", "upgraded", "slots", "-exposed",
-  "-empty", "junk", "-upgraded", "frozen-sumlev", "frozen-leximin", "free-sumlev", "-exposed0", "-rodef"
+  "-empty", "junk", "-upgraded", "frozen-sumlev", "frozen-leximin", "free-sumlev", "-exposed0", "-rodef", "sumlev3", "sumlev4", "leximin3", "leximin4"
 };
 #define MAXPHI 64
 static int nphi, phil[MAXPHI], phif[MAXPHI][6];
@@ -283,6 +283,9 @@ static void features(const asg_t *a, long long *F) {
     }
   }
   F[16] = -D0;
+  { long long s3 = 0, s4 = 0, m3 = 0, m4 = 0;
+    for (int i = 0; i < n; i++) { int l = lev[i][a->o[i]]; if (d[i] == 3) { s3 += l; m3 += 1LL << (4 * (15 - l)); } else { s4 += l; m4 += 1LL << (4 * (15 - l)); } }
+    F[18] = s3; F[19] = s4; F[20] = -m3; F[21] = -m4; }
   F[17] = 0;   /* -rodef: filled in by do_profile for the pre-allocations with the fewest frozen agents (-R) */
   F[0] = sl; F[1] = s2; F[2] = lmx; F[3] = -lmn; F[4] = sv; F[5] = svn; F[6] = -nF; F[7] = nU; F[8] = S; F[9] = -D;
   F[10] = -nE; F[11] = pc(a->J); F[12] = -nU; F[13] = fsl; F[14] = -flmn; F[15] = gsl;
@@ -320,6 +323,16 @@ static void term_stats(const asg_t *a) {
     int seen = 1 << x, st[MAXN * 4], sp = 0; st[sp++] = x;
     while (sp) { int y = st[--sp]; for (int z = 0; z < n; z++) if (z != y && (B[y] & N[z])) { if (fz[z]) { if (!(seen >> z & 1)) { seen |= 1 << z; st[sp++] = z; } } else reach[x] |= 1 << z; } }
   }
+  /* lemma checks (k = 3 proof of k4/c4x.md): 16 a free agent with <= 1 base good values a junk good (Lemma U);
+     17 a need cycle among frozen agents (Lemma C); 18 a frozen agent without a chain end; */
+  for (int i = 0; i < n; i++) if (!fz[i] && pc(B[i]) <= 1 && (Rmask[i] & a->J)) ts_cnt[16]++;
+  for (int x = 0; x < n; x++) if (fz[x] && !reach[x]) ts_cnt[18]++;
+  {
+    int C3[MAXN];
+    for (int y = 0; y < n; y++) { C3[y] = 0; if (fz[y]) for (int z = 0; z < n; z++) if (z != y && fz[z] && (B[y] & N[z])) C3[y] |= 1 << z; }
+    for (int k2 = 0; k2 < n; k2++) for (int y = 0; y < n; y++) if (C3[y] >> k2 & 1) C3[y] |= C3[k2];
+    for (int y = 0; y < n; y++) if (C3[y] >> y & 1) { ts_cnt[17]++; break; }
+  }
   int nterm = 0, anyempty = 0, anyvalid = 0, Et[MAXN] = {0};
   for (int t = 0; t < n; t++) {
     if (fz[t] || !N[t]) continue;
@@ -338,6 +351,17 @@ static void term_stats(const asg_t *a) {
       for (int x2 = x + 1; x2 < n; x2++) if ((E >> x2 & 1) && fz[x] && fz[x2] && reach[x] == reach[x2] && pc(reach[x]) == 1) common = 1;
     }
     ts_cnt[6] += anyfree; ts_cnt[7] += reachable; ts_cnt[8] += common; ts_cnt[10] += noend;
+    /* 19: an exposed agent that is not a frozen holder of its top good with exactly one lower good in J and the other
+       equal to B_t (Lemma E, k = 3); 20: |Z_t| <= S - cap(t) but t invalid; 21: |Z_t| > S - cap(t) but t valid */
+    int Zt = 0;
+    for (int x = 0; x < n; x++) if (E >> x & 1) {
+      int top = -1, tv0 = -1; for (int k = 0; k < d[x]; k++) if (tv[x][cur[x]][k] > tv0) { tv0 = tv[x][cur[x]][k]; top = gl[x][k]; }
+      uint32_t low = Rmask[x] & ~(1u << top);
+      if (!(fz[x] && B[x] == (1u << top) && pc(low & a->J) == 1 && (low & ~a->J) == B[t])) ts_cnt[19]++;
+      Zt |= low & a->J;
+    }
+    if (pc(Zt) <= S - cap[t] && !ok) ts_cnt[20]++;
+    if (pc(Zt) > S - cap[t] && ok) ts_cnt[21]++;
     if ((!ok || common) && nex && ts_cnt[12] < nex) { ts_cnt[12]++; printf("EXT %s%s t=%d E=%x:", ok ? "" : "INVALID ", common ? "COMMON" : "", t, E); print_profile(); print_asg(a); printf("\n"); }
   }
   if (!nterm) ts_cnt[9]++;
@@ -601,7 +625,7 @@ int main(int argc, char **argv) {
     }
   }
   printf("RESULT asg %d profiles %lld valid %lld tested %lld nocomp %lld ronone %lld ronone_any %lld paretomax %lld paretofail %lld\n", nA, nprof, nvalid, ncompl_tested, nocomp, ronone, ronone_any, pareto_n, pareto_fail);
-  if (termstat) { printf("TERMSTATS"); for (int q = 0; q < 12; q++) printf(" %lld", ts_cnt[q]); printf(" %lld %lld %lld\n", ts_cnt[13], ts_cnt[14], ts_cnt[15]); }
+  if (termstat) { printf("TERMSTATS"); for (int q = 0; q < 12; q++) printf(" %lld", ts_cnt[q]); for (int q = 13; q < 22; q++) printf(" %lld", ts_cnt[q]); printf("\n"); }
   if (moves) {
     printf("MOVES posdef %lld lower_by_dist", nposdef); for (int h = 0; h < 8; h++) printf(" %lld", hist_lower[h]);
     printf(" zero_by_dist"); for (int h = 0; h < 8; h++) printf(" %lld", hist_zero[h]); printf("\n");
