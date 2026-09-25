@@ -91,6 +91,30 @@ For a potential Φ: "every" = every Φ-maximum of 𝒫 is completable (the form 
 v_i(B)} is the level of a base (`k4/gm4.md`), leximin/leximax are over the level vector, "slots" is S, "-frozen" is
 −|F| (equivalently −ω), and "-deficit" is −def(P), computed on the pre-allocations with the fewest frozen agents.
 
+**Main table.** Profiles on which the form fails (0 everywhere in the column C₄ᵐⁱⁿ: some pre-allocation with the
+fewest frozen agents has deficit ≤ 0, i.e. every maximum of (−frozen, −deficit) is completable). "All" = every strict
+profile of every core of the class; "sample" = random strict profiles per core (seeded, `c4x_run.py --rand`).
+
+| cores | profiles | C₄ᵐⁱⁿ fails | −frozen: every / some | leximin: every / some | log |
+|---|---|---|---|---|---|
+| k = 4, n = 2 (5) | all 189,216 | 0 | 50,320 / 0 | 0 / 0 | `results/k4_c4x_n3.log`, `k4_c4x_n3_pareto.log` |
+| k = 4, n = 3 (51) | all 299,837,376 | 0 | 12,710,832 / 0 | 38,016 / 128 | the same |
+| k = 4, n = 4, one 4-good agent (135) | all 7,247,232 | 0 | 176 / 0 | 0 / 0 | `results/k4_c4x_n4_1.log` |
+| k = 4, n = 4, two (309) | all 724,847,616 | 0 | 203,952 / 0 | 4,520 / 1,772 | `results/k4_c4x_n4_2.log` |
+| k = 4, n = 4, three (339) | sample 1,695,000 | 0 | 23,942 / 0 | 78 / 5 | `results/k4_c4x_samples.log` |
+| __SAMPLEROWS__ |
+| k = 4, random connected cores, n = 6–8 | 4,200 (one per random core) | 0 | – | – | `results/k4_c4x_random.log` |
+| k = 4, H_1, H_2, H_3 (§6) | 3 | 0 | fails / 0 | 0 / 0 | `results/k4_c4x_ht.log` |
+| k = 3, n ≤ 6 (3,436) | all 146,640,096 | 0 | 0 / 0 | 0 / 0 | `results/k4_c4x_k3_pareto.log` |
+
+At k = 3 even the plain frozen count works: *every* valid pre-allocation with the fewest frozen agents is completable
+(n ≤ 6), and so is every Pareto-maximum (Theorem K3). At k = 4 neither holds (n = 2 for the frozen count, n = 3 for
+Pareto; §5 and `attempts/`). The other potentials tested (Σℓ, Σ 2^ℓ, leximax, Σv, slots, exposure counts and 20
+lexicographic combinations) fail at n ≤ 3 in the every-form; the table in `attempts/k4-c4x-pareto-potentials.md` has
+the Pareto-type ones at n = 3. The independent checker `k4/c4x_check.py` agrees with `k4/c4x.c` on every profile with
+n = 2 (`results/k4_c4x_crosscheck.log`: valid and completable counts, and both forms of eight potentials including the
+deficit) and on 5,100 random profiles with n = 3; the other rows are `k4/c4x.c` alone.
+
 ## 3. The extremal principle where it works: k = 3 (Theorem K3)
 
 At k = 3 the principle closes with the plainest potential: **every Pareto-maximal valid pre-allocation is
