@@ -114,7 +114,7 @@ static void phase1(void) {
                     if (d[i] == 4 && cmpv(i, 1u << ord[i][0], 1u << ord[i][1] | 1u << ord[i][2]) > 0) { c = q; break; } }
             }
             else if (INS == 3) { int bv = 1 << 30; for (int q = 0; q < nc; q++) { int v = lookahead(cand[q], G, done, Y); if (v < bv) { bv = v; c = q; } } }
-            else if (INS >= 1) { if (nins >= nchoice) choice[nchoice++] = 0; c = choice[nins]; maxchoice[nins] = nc; }
+            else if (INS >= 1) { if (nins >= nchoice) choice[nchoice++] = 0; c = choice[nins]; maxchoice[nins] = nc; if (c >= nc) c = nc - 1; }
             nins++;
             best = cand[c]; b++;
         }
@@ -322,7 +322,7 @@ static int try_rotations(void) {
 }
 
 static int construct1(void);
-static int fb_seq, fb_upg;           /* fallbacks used: a later insertion sequence, a later upgrade policy */
+static int fb_seq, fb_upg, construct1_probe;           /* fallbacks used: a later insertion sequence, a later upgrade policy */
 static int construct(void) {
     if (INS == 4) {                  /* -i4: the insertion sequence with least omega after upgrades (mode 1), first in lex order */
         int best[MAXN], bn = 0, bw = 1 << 30;
@@ -338,6 +338,34 @@ static int construct(void) {
         }
         memcpy(choice, best, sizeof best); nchoice = bn;
         return construct1();
+    }
+    if (INS == 7) {                  /* -i7: index insertion; if it fails, the last block led by r of that run */
+        nchoice = 0;
+        if (construct1()) return 1;
+        fb_seq = 1;
+        int r0 = -1, bl = 0, jl = nins - 1, q = 0;
+        for (int i = 0; i < n; i++) { if (!upg[i] && (r0 < 0 || pos[i] > pos[r0])) r0 = i; if (blk[i] > bl) bl = blk[i]; }
+        if (blk[r0] != bl) return 0;
+        for (int i = 0; i < r0; i++) if (blk[i] == bl) q++;
+        if (q == 0) return 0;          /* r already leads the last block */
+        memset(choice, 0, sizeof choice); choice[jl] = q; nchoice = jl + 1;
+        return construct1();
+    }
+    if (INS == 6) {                  /* -i6: index insertion, or index with one insertion step changed */
+        nchoice = 0;
+        if (construct1()) return 1;
+        fb_seq = 1;
+        for (int j = 0; j < n; j++) {
+            for (int q = 1;; q++) {
+                memset(choice, 0, sizeof choice); choice[j] = q; nchoice = j + 1;
+                construct1_probe = 1;
+                int ok = construct1();
+                construct1_probe = 0;
+                if (nins <= j || q >= maxchoice[j]) break;   /* fewer insertion steps, or q out of range */
+                if (ok) return 1;
+            }
+        }
+        return 0;
     }
     if (INS != 2) return construct1();
     nchoice = 0;                     /* -i2: backtrack over insertion sequences until one succeeds */

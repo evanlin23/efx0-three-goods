@@ -1,0 +1,55 @@
+# python3 k4/check4.py results/k4_lb4_certs_2.json.gz results/k4_lb4_certs_3.json.gz --expect 2:any:5 3:any:51
+command: python3 k4/check4.py results/k4_lb4_certs_2.json.gz results/k4_lb4_certs_3.json.gz --expect 2:any:5 3:any:51
+  n=2 m=4: 2 cores, orbit sum 9 = labeled 9: yes; all profiles covered in 2/2
+  n=2 m=5: 2 cores, orbit sum 80 = labeled 80: yes; all profiles covered in 2/2
+  n=2 m=6: 1 cores, orbit sum 90 = labeled 90: yes; all profiles covered in 1/1
+  results/k4_lb4_certs_2.json.gz: OK; 5 cores; every allocation has at most one bundle of more than 2 goods (D2) in 5/5
+  n=3 m=4: 4 cores, orbit sum 61 = labeled 61: yes; all profiles covered in 4/4
+  n=3 m=5: 11 cores, orbit sum 2070 = labeled 2070: yes; all profiles covered in 11/11
+  n=3 m=6: 18 cores, orbit sum 19740 = labeled 19740: yes; all profiles covered in 18/18
+  n=3 m=7: 12 cores, orbit sum 68670 = labeled 68670: yes; all profiles covered in 12/12
+  n=3 m=8: 5 cores, orbit sum 100800 = labeled 100800: yes; all profiles covered in 5/5
+  n=3 m=9: 1 cores, orbit sum 45360 = labeled 45360: yes; all profiles covered in 1/1
+  results/k4_lb4_certs_3.json.gz: OK; 51 cores; every allocation has at most one bundle of more than 2 goods (D2) in 51/51
+ALL OK
+# python3 k4/check4.py results/k4_lb4_certs_2_ties.json.gz results/k4_lb4_certs_3_ties.json.gz --expect 2:any:5 3:any:51
+command: python3 k4/check4.py results/k4_lb4_certs_2_ties.json.gz results/k4_lb4_certs_3_ties.json.gz --expect 2:any:5 3:any:51
+  n=2 m=4 ties: 2 cores, orbit sum 9 = labeled 9: yes; all profiles covered in 2/2
+  n=2 m=5 ties: 2 cores, orbit sum 80 = labeled 80: yes; all profiles covered in 2/2
+  n=2 m=6 ties: 1 cores, orbit sum 90 = labeled 90: yes; all profiles covered in 1/1
+  results/k4_lb4_certs_2_ties.json.gz: OK; 5 cores; every allocation has at most one bundle of more than 2 goods (D2) in 5/5
+  n=3 m=4 ties: 4 cores, orbit sum 61 = labeled 61: yes; all profiles covered in 4/4
+  n=3 m=5 ties: 11 cores, orbit sum 2070 = labeled 2070: yes; all profiles covered in 11/11
+  n=3 m=6 ties: 18 cores, orbit sum 19740 = labeled 19740: yes; all profiles covered in 18/18
+  n=3 m=7 ties: 12 cores, orbit sum 68670 = labeled 68670: yes; all profiles covered in 12/12
+  n=3 m=8 ties: 5 cores, orbit sum 100800 = labeled 100800: yes; all profiles covered in 5/5
+  n=3 m=9 ties: 1 cores, orbit sum 45360 = labeled 45360: yes; all profiles covered in 1/1
+  results/k4_lb4_certs_3_ties.json.gz: OK; 51 cores; every allocation has at most one bundle of more than 2 goods (D2) in 51/51
+ALL OK
+# python3 k4/check4.py results/k4_lb4_certs_4_n4_1.json.gz results/k4_lb4_certs_4_n4_2.json.gz results/k4_lb4_certs_4_n4_3.json.gz --expect 4:1:135 4:2:309 4:3:339
+command: python3 k4/check4.py results/k4_lb4_certs_4_n4_1.json.gz results/k4_lb4_certs_4_n4_2.json.gz results/k4_lb4_certs_4_n4_3.json.gz --expect 4:1:135 4:2:309 4:3:339
+  n=4 m=4 n4=1: 3 cores, orbit sum 256 = labeled 256: yes; all profiles covered in 3/3
+  n=4 m=5 n4=1: 17 cores, orbit sum 18720 = labeled 18720: yes; all profiles covered in 17/17
+  n=4 m=6 n4=1: 44 cores, orbit sum 352080 = labeled 352080: yes; all profiles covered in 44/44
+  n=4 m=7 n4=1: 51 cores, orbit sum 2482200 = labeled 2482200: yes; all profiles covered in 51/51
+  n=4 m=8 n4=1: 19 cores, orbit sum 6209280 = labeled 6209280: yes; all profiles covered in 19/19
+  n=4 m=9 n4=1: 1 cores, orbit sum 2177280 = labeled 2177280: yes; all profiles covered in 1/1
+  results/k4_lb4_certs_4_n4_1.json.gz: OK; 135 cores; every allocation has at most one bundle of more than 2 goods (D2) in 135/135
+  n=4 m=4 n4=2: 2 cores, orbit sum 96 = labeled 96: yes; all profiles covered in 2/2
+  n=4 m=5 n4=2: 16 cores, orbit sum 14520 = labeled 14520: yes; all profiles covered in 16/16
+  n=4 m=6 n4=2: 62 cores, orbit sum 448560 = labeled 448560: yes; all profiles covered in 62/62
+  n=4 m=7 n4=2: 107 cores, orbit sum 5216820 = labeled 5216820: yes; all profiles covered in 107/107
+  n=4 m=8 n4=2: 90 cores, orbit sum 26722080 = labeled 26722080: yes; all profiles covered in 90/90
+  n=4 m=9 n4=2: 30 cores, orbit sum 53615520 = labeled 53615520: yes; all profiles covered in 30/30
+  n=4 m=10 n4=2: 2 cores, orbit sum 16329600 = labeled 16329600: yes; all profiles covered in 2/2
+  results/k4_lb4_certs_4_n4_2.json.gz: OK; 309 cores; every allocation has at most one bundle of more than 2 goods (D2) in 309/309
+  n=4 m=4 n4=3: 1 cores, orbit sum 16 = labeled 16: yes; all profiles covered in 1/1
+  n=4 m=5 n4=3: 8 cores, orbit sum 4920 = labeled 4920: yes; all profiles covered in 8/8
+  n=4 m=6 n4=3: 38 cores, orbit sum 240000 = labeled 240000: yes; all profiles covered in 38/38
+  n=4 m=7 n4=3: 90 cores, orbit sum 4159680 = labeled 4159680: yes; all profiles covered in 90/90
+  n=4 m=8 n4=3: 109 cores, orbit sum 33512640 = labeled 33512640: yes; all profiles covered in 109/109
+  n=4 m=9 n4=3: 72 cores, orbit sum 132995520 = labeled 132995520: yes; all profiles covered in 72/72
+  n=4 m=10 n4=3: 20 cores, orbit sum 222264000 = labeled 222264000: yes; all profiles covered in 20/20
+  n=4 m=11 n4=3: 1 cores, orbit sum 59875200 = labeled 59875200: yes; all profiles covered in 1/1
+  results/k4_lb4_certs_4_n4_3.json.gz: OK; 339 cores; every allocation has at most one bundle of more than 2 goods (D2) in 339/339
+ALL OK
