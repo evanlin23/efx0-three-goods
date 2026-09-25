@@ -29,6 +29,9 @@ Lemma E, Theorems A₄, B₄, B₄ʷ, A₄ᵀ, A₄⁺ and the conventions of it
   - **Lemma X plus the theorems imply C₄¹∃.** So on the data, C₄¹∃ reduces to Lemma X, which is open.
   - The stronger **Lemma X′** also holds on the data: from every uncovered run, one changed insertion step gives a
     covered run directly, with no key needed.
+  - **n = 6:** on all 26,866 certified n = 6 cores with one 4-good agent (PR #26), for every strict profile, the
+    index-order run is covered or one changed insertion step makes it covered. There are 0 exceptions in 5.47·10¹⁰
+    profiles (`results/k4_c4one_n6.log`).
 - **The existence form C₄¹∃** (§1) is open. It is what TARGET₄ needs for these instances.
 
 ## 1. Statements
@@ -71,7 +74,8 @@ The mechanism is two agents to protect and only one slot, both for owner r and f
 At n ≤ 4, one rotation suffices on every run `lb4.c` makes (`results/k4_c4_variants.log`). The gadget chain H_t
 (`k4/c4.md` §7) needs many rotations, but its gadgets have three 4-good agents each, and a single 4-good agent cannot
 be repeated along a chain. Whether two rotations always suffice with one 4-good agent is open. The certified n = 6
-cores with one 4-good agent (PR #26, not merged) were not run: every insertion sequence at n = 6 is out of reach here.
+cores with one 4-good agent (PR #26, not merged) were not run here: every insertion sequence at n = 6 is out of reach.
+Only index order with one changed step was run there (§6).
 
 ## 3. The runs the theorems of `k4/c4.md` leave open, by case (`results/k4_c4one_classes.log`)
 
@@ -243,6 +247,11 @@ agrees with τ before one insertion step, takes another agent there, and follows
 - *Evidence* (`-i20`): 0 exceptions on every insertion sequence of every strict profile of every certified core with
   one 4-good agent and n ≤ 5.
 - Without A₄⁺(o) (`-P -i20`) it fails for 72 pairs, all in one core with n = 3.
+- *n = 6, from index order* (`-i6`, `results/k4_c4one_n6.log`): on each of the 26,866 certified n = 6 cores with one
+  4-good agent, every strict profile has its index-order run covered, or covered after one changed insertion step.
+  That is 0 exceptions in 5.47·10¹⁰ profiles (713 s on 4 CPUs).
+  - The cores come from `results/k4_certs_6_n4_1.json.gz` of PR #26 (not merged); the log records its SHA-256 prefix.
+  - This tests X′ from index order only. Every insertion sequence at n = 6 is out of reach here.
 - The working change is always at or before the insertion step that started q's block (`-E`, searching from the first
   step on). At n = 5, of the 1,696,106 uncovered runs, 321,544 are covered by a change at an earlier step, and the
   other 1,374,562 by a change at that step. No run needs a later step.
@@ -263,6 +272,8 @@ python3 k4/c4tools/c4potscan.py results/k4_certs_2.json.gz results/k4_certs_3.js
 python3 k4/c4check_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz results/k4_certs_4_n4_1.json.gz results/k4_certs_4_n4_2.json.gz   # §5
 bash k4/c4one_tau_runs.sh                                                 # §6, every row (~1 h)
 python3 k4/c4one_tau.py "-X -P2 -u2 -i20 -o0 -r1 -w0 -c0 -f3" results/k4_certs_5_n4_1.json.gz   # Lemma X', n = 5 (~5 min)
+git show origin/compute/k4-frontier:results/k4_certs_6_n4_1.json.gz > /tmp/k4_certs_6_n4_1.json.gz  # PR #26's n = 6 cores
+python3 k4/c4one_tau.py "-X -P2 -u2 -i6 -o0 -r1 -w0 -c0 -f3" /tmp/k4_certs_6_n4_1.json.gz          # X' from index order, n = 6 (~12 min)
 ```
 In `k4/c4check.c`, `-P2` counts a run as a success when the theorems (with A₄⁺(o)) prove it, and the insertion modes
 used above are these:

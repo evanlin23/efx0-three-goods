@@ -34,7 +34,9 @@ static uint32_t R[MAXN];
 static int nt[MAXN], tv[MAXN][MAXT][4];
 static int np[MAXN], pr[MAXN][24][4], pcnt[MAXN][24], pidx[MAXN][24][MAXG];
 static int QFIRST = 0;
-static int ins_ag[64], ins_ag0[64], ECHK = 0, ecat = -1; static long EC[1024];   /* -E: which insertion step -i6 changes */
+static int ins_ag[64], ins_ag0[64], ECHK = 0, ecat = -1; static long EC[1 << 15];   /* -E: which insertion step -i6 changes */
+static int ycls;   /* tentative; defined with the -Y state below */
+static int ZR = 0, KSHOW = -1, kshown = 0;   /* -K<cls> (with -i20 -Y): print the first uncovered runs of that class and the change that covers them */   /* -Z (with -i20): restrict the changes tried: 1 only the step that started q's block, 2 only q as the new agent, 3 both, 4 only steps up to the one that started q's block */
 static int OWN = 0, INS = 0, SENS = 0, MAXF = 3, UPG = 1, BRUTE = 0, ALLOC = 0;
 /* -a: distinct leaf allocations per core (owners packed 3 bits per good), printed as "A o_0 .. o_{m-1}" lines */
 #define HBITS 22
@@ -441,13 +443,14 @@ static int construct(void) {
         int sc[MAXN], smc[MAXN], sn = onchoice;
         memcpy(sc, ochoice, sizeof sc);
         memcpy(choice, sc, sizeof sc); nchoice = sn;
-        int ok = construct1();
+        int ok = construct1(), ycls0 = ycls;
         int sni = nins; memcpy(smc, maxchoice, sizeof smc);
         memcpy(sc, choice, sizeof sc);
         int qa = -1; for (int i = 0; i < n; i++) if (d[i] == 4) qa = i;
         if (!ok && qa >= 0) {
             fb_seq = 1;
             phase1(); setup_state(); upg_mode = 2; upgrades();
+            if (KSHOW == ycls0 && kshown < 12) report("KCASE");
             int w0 = popc(J) - slots(), f0 = frz[qa], p0 = pos[qa], qb = blk[qa];
             int oblk[MAXN], orr = -1; memcpy(oblk, blk, sizeof oblk);
             for (int i = 0; i < n; i++) if (!upg[i] && (orr < 0 || pos[i] > pos[orr])) orr = i;
@@ -456,13 +459,24 @@ static int construct(void) {
             if (INS == 20) k0 = -1;           /* no key decrease is accepted */
             for (int j = j0; j <= j1 && !ok; j++)
             for (int a = 0; a < smc[j] && !ok; a++) if (a != sc[j]) {
+                if (((ZR & 1) && j != qb) || (ZR == 4 && j > qb)) continue;
                 memset(choice, 0, sizeof choice); memcpy(choice, sc, sizeof(int) * j); choice[j] = a; nchoice = j + 1;
+                if (ZR & 2) { phase1(); if (ins_ag[j] != qa) continue; }
                 ok = construct1();
                 int where = j == qb ? 16 : j < qb ? 32 : 64;
+                if (ok && KSHOW == ycls0 && kshown < 12) {
+                    char b[64]; sprintf(b, "KNEW step=%d agent=%d", j, ins_ag[j]); report(b); kshown++;
+                }
                 if (ok) {
                     int na = ins_ag[j];
                     int rel = na == qa ? 0 : na == orr ? 1 : oblk[na] == qb ? 2 : oblk[na] > qb ? 3 : 4;   /* q, old r, q's block, later block, earlier */
-                    ecat = 1 | where | (ECHK == 3 ? rel << 7 : 0);
+                    ecat = 1 | where | (ECHK >= 3 ? rel << 7 : 0);
+                    if (ECHK == 4) {   /* -E4: also omega of the new run against tau's (0 lower, 1 equal, 2 higher), and tau's class (-Y) */
+                        memset(choice, 0, sizeof choice); memcpy(choice, sc, sizeof(int) * j); choice[j] = a; nchoice = j + 1;
+                        phase1(); setup_state(); upg_mode = 2; upgrades();
+                        int w1 = popc(J) - slots();
+                        ecat |= (w1 < w0 ? 0 : w1 == w0 ? 1 : 2) << 10 | (ycls0 < 0 ? 7 : ycls0) << 12;
+                    }
                 }
                 if (!ok) {
                     memset(choice, 0, sizeof choice); memcpy(choice, sc, sizeof(int) * j); choice[j] = a; nchoice = j + 1;
@@ -473,6 +487,7 @@ static int construct(void) {
                 }
             }
         }
+        if (!ok && qa >= 0 && ECHK == 4) ecat = (ycls0 < 0 ? 7 : ycls0) << 12;   /* not covered by any change tried */
         memcpy(choice, sc, sizeof sc); nchoice = sn; nins = sni; memcpy(maxchoice, smc, sizeof smc);
         return ok;
     }
@@ -536,6 +551,8 @@ static int construct(void) {
         fb_seq = 1;
         int qa = -1; for (int i = 0; i < n; i++) if (d[i] == 4) qa = i;
         int nins0 = nins, qblk0 = qa >= 0 ? blk[qa] : -1; memcpy(ins_ag0, ins_ag, sizeof ins_ag);
+        static int eshown6 = 0;
+        if (ECHK == 2 && eshown6 < 40) report("ECASE_INDEX");
         for (int j = 0; j < n; j++) {
             for (int q = 1;; q++) {
                 memset(choice, 0, sizeof choice); choice[j] = q; nchoice = j + 1;
@@ -545,6 +562,7 @@ static int construct(void) {
                 if (nins <= j || q >= maxchoice[j]) break;   /* fewer insertion steps, or q out of range */
                 if (ok) {   /* -E: 1 the new agent is q; 2 step j started q's block; 4 j was the last insertion; 8 j inserted q */
                     ecat = 16 | (ins_ag[j] == qa) | (j == qblk0) << 1 | (j == nins0 - 1) << 2 | (ins_ag0[j] == qa) << 3;
+                    if (ECHK == 2 && eshown6 < 40) { char b[48]; sprintf(b, "ECASE_NEW step=%d agent=%d q=%d", j, ins_ag[j], qa); report(b); eshown6++; }
                     return 1;
                 }
             }
@@ -964,6 +982,8 @@ int main(int argc, char **argv) {
         else if (!strcmp(argv[a], "-X")) XCHK = 1;
         else if (!strncmp(argv[a], "-P", 2)) PROVEDOK = argv[a][2] ? atoi(argv[a] + 2) : 1;   /* with -X -u2: "success" = proved by k4/c4.md's theorems (-P2: A4+ for any owner too) */
         else if (!strncmp(argv[a], "-Q", 2)) QFIRST = argv[a][2] ? atoi(argv[a] + 2) : 1;
+        else if (!strncmp(argv[a], "-Z", 2)) ZR = atoi(argv[a] + 2);
+        else if (!strncmp(argv[a], "-K", 2)) KSHOW = atoi(argv[a] + 2);
         else if (!strncmp(argv[a], "-E", 2)) ECHK = argv[a][2] ? atoi(argv[a] + 2) : 1;
         else if (!strcmp(argv[a], "-Y")) YCHK = 1;
         else if (!strncmp(argv[a], "-Y", 2)) { YCHK = 1; YSHOW = atoi(argv[a] + 2); }   /* -YC: show runs of class C */
@@ -1072,7 +1092,7 @@ int main(int argc, char **argv) {
             memset(htab, 0, sizeof(uint64_t) << HBITS); hcnt = 0;
         }
         if (XCHK) { fprintf(stderr, "C4CHK"); for (int q = 0; q < C_NCHK; q++) fprintf(stderr, " %s=%ld", chkname[q], CHK[q]); fprintf(stderr, "\n"); memset(CHK, 0, sizeof CHK); }
-        if (ECHK) { for (int k = 0; k < 1024; k++) if (EC[k]) fprintf(stderr, "C4E cat=%d n=%ld\n", k, EC[k]); memset(EC, 0, sizeof EC); }
+        if (ECHK) { for (int k = 0; k < (1 << 15); k++) if (EC[k]) fprintf(stderr, "C4E cat=%d n=%ld\n", k, EC[k]); memset(EC, 0, sizeof EC); }
         if (YCHK) { for (int f = 0; f < 2; f++) for (int c = 0; c < 8; c++) for (int k = 0; k < 64; k++) if (YC[f][c][k])
                         fprintf(stderr, "C4Y first=%d cls=%s mask=%d n=%ld\n", f, yclsname[c], k, YC[f][c][k]);
                     memset(YC, 0, sizeof YC); }
