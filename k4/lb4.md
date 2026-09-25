@@ -384,7 +384,7 @@ base of three or more goods is then the owner's, and two such bases are rejected
 `-c1` chains may end at upgraded agents; `-d1` iterative deepening on the rotation bound (0, 1, …, N for each policy:
 the same successes as `-rN`, and the least number of rotations); `-s` sensitivity (owner constraint ignored); `-b` brute
 force (every profile its own leaf); `-a` print the leaf allocations; `-SN` N random strict profiles per core (seeded from
-the core); `-HN` N hill-climbing steps per core (below); `-P1` with `-H`: hardness by how many of the three policies fail on their own. The driver's `--checkpoint=PATH` resumes an interrupted run,
+the core); `-HN` N hill-climbing steps per core (below); `-P1` with `-H`: hardness by how many of the three policies fail on their own; `-P2`: by the least number of rotations first; `-TN`: report every run needing at least N rotations. The driver's `--checkpoint=PATH` resumes an interrupted run,
 `--badcores=PATH` writes the cores with a failure as a core list it can read back, and every result line ends with the
 policy and rotation histograms (`pol_*`, `rot*`: in `-S` and `-H` modes per run, otherwise per run–profile pair).
 `k4/lb4_randcores.py` draws random cores (`k4/check4.py`'s `is_core`), or grows the cores of a core list by random

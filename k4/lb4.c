@@ -514,7 +514,7 @@ static int run_leaf(int *ok) {
 
 
 static long HILL = 0;                    /* -HN: N hill-climbing steps per core (restart every 500) */
-static int PSCORE = 0;                   /* -P1: hardness = how few policies succeed on their own */
+static int PSCORE = 0;                   /* -P1: hardness = how few policies succeed on their own; -P2: rotations first */
 static int DEEPREP = 0;                  /* -TN: report every run (-S, -H) needing at least N rotations */
 static long hist_pol[3], hist_rot[4];
 static long sstat[5], sbig[40], sfb_upg;   /* per-run counters of the -S and -H modes */
@@ -532,7 +532,7 @@ static int eval_profile(const int *ty, long *score, long *nruns) {
     long sc = 0; nchoice = 0;
     for (;;) {
         int ok; effort = 0;
-        if (PSCORE && UPG == 3) {        /* -P1: run each policy on its own; score by how few succeed */
+        if (PSCORE == 1 && UPG == 3) {   /* -P1: run each policy on its own; score by how few succeed */
             int nsucc = 0, rmin = 99; long eff = 0;
             for (UPG = 0; UPG < 3; UPG++) {
                 effort = 0;
@@ -556,7 +556,8 @@ static int eval_profile(const int *ty, long *score, long *nruns) {
         sstat[last_status]++; if (lastbig) sbig[lastbig]++; if (fb_upg) sfb_upg++;
         hist_pol[used_pol]++; hist_rot[used_rot]++;
         long e = effort < 999999 ? effort : 999999, v = used_pol * 100000000L + used_rot * 1000000L + e;
-        if (!PSCORE && v > sc) sc = v;
+        if (PSCORE == 2) v = used_rot * 100000000L + used_pol * 1000000L + e;   /* -P2: rotations first */
+        if (PSCORE != 1 && v > sc) sc = v;
         if (INS != 1) break;
         int j = nins - 1;                /* next insertion sequence */
         while (j >= 0 && choice[j] + 1 >= maxchoice[j]) j--;
@@ -628,7 +629,7 @@ int main(int argc, char **argv) {
                 }
                 if (sc > top) {          /* hardest so far on this core */
                     top = sc; memcpy(best, ty, sizeof best);
-                    if (sc >= 2000000L) { char lab[64]; snprintf(lab, sizeof lab, "HARD p=%ld r=%ld e=%ld", sc / 100000000L, (sc / 1000000L) % 100, sc % 1000000L); report(lab); }
+                    if (sc >= 2000000L) { char lab[64]; snprintf(lab, sizeof lab, PSCORE == 2 ? "HARD r=%ld p=%ld e=%ld" : "HARD p=%ld r=%ld e=%ld", sc / 100000000L, (sc / 1000000L) % 100, sc % 1000000L); report(lab); }
                 }
                 if (HILL > 0 && !restart && sc < cur) ty[mi] = mold;   /* reject a downhill move */
                 else cur = sc;
