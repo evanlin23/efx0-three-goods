@@ -16,7 +16,7 @@ route to TARGET₄ that does not go through construction LB₄ (`k4/SCOUT.md` §
   - It has an agent with four goods: for cores whose agents all have three goods, LS4 never fails (Proposition 3, conditional on the proof of Theorem C of `proofs/local_search.md`, itself pending review).
 - *Computation (EVIDENCE).* LS4 with its default choice rule never fails on:
   - n ≤ 3: every profile, ties included (300 million strict profiles; 24.7·10⁹ tied ones);
-  - n = 4 with one 4-good agent (exhaustive) or two (see §5);
+  - n = 4 with one or two 4-good agents: every profile (7,247,232 and 724,847,616);
   - large random samples of every other n = 4 and n = 5 certificate class,
 
   except on 20 of the 21.9 million sampled profiles of pure n = 4 cores (§5). There LS4 stops at a state that no M1, R or X move improves and that no placement completes. Of the three such states examined by brute force, one is a dead end; the other two still admit coalition moves.
@@ -237,13 +237,13 @@ So a stable state without a placement needs at least two sources, the dump fails
 | n = 2 | 5 | 189,216 (all tied profiles too) | exhaustive | 0 | X used 732 times; dump always single | `results/k4_ls4_2_ties.log` |
 | n = 3 | 51 | 299,837,376 (all 24,690,461,987 tied profiles too) | exhaustive | 0 | X used 3,474,924 times (cycles of length 2, 3); DM split needed 1,232 times; the exact-search fallback never | `results/k4_ls4_3_ties.log` |
 | n = 4, one 4-good agent | 135 | 7,247,232 | exhaustive | 0 | DM split 77,900 times | `results/k4_ls4_4_n4_1.log` |
-| n = 4, two 4-good agents | 309 | N4N42 | exhaustive | N4N42F | | `results/k4_ls4_4_n4_2.log` |
+| n = 4, two 4-good agents | 309 | 724,847,616 | exhaustive | 0 | DM split 7,152,104 times; exact-search fallback 5,632 times | `results/k4_ls4_4_n4_2.log` |
 | n = 4, three 4-good agents | 339 | 33,900,000 | 100,000 random per core | 0 | | `results/k4_ls4_4_sample.log` |
 | n = 4, pure | 219 | 21,900,000 | 100,000 random per core | **20** (10 cores, all m = 7) | dead ends (§4); rule `-DALT`: 23 failures on the same sample (`results/k4_ls4_4_pure_alt_sample.log`) | `results/k4_ls4_4_sample.log` |
 | n = 5, one 4-good agent | 1,735 | 34,700,000 | 20,000 random per core | 0 | | `results/k4_ls4_5_n4_1_sample.log` |
 | n = 5, two 4-good agents | 5,468 | 54,680,000 | 10,000 random per core | 0 | exact-search fallback needed 839 times (DM shape failed) | `results/k4_ls4_5_n4_2_sample.log` |
 
-In the n = 4 samples the exact-search fallback was needed 1,938 times: states where a junk placement exists but not in DM shape.
+In the n = 4 samples with three or four 4-good agents the exact-search fallback was needed 1,938 times: states where a junk placement exists but not in DM shape.
 
 *Every stable state, not only those LS4 reaches* (`k4/ls4_allstates.c`). All junk-free EFX₀ partial allocations of each profile are enumerated. For those with a nonempty pool and no M1, R or X move, Phase 2 is checked.
 - n = 2, exhaustive: 24,508 stable states, all completed by a single dump (`results/k4_ls4_allstates_2.log`). Without X, it reports failures.
