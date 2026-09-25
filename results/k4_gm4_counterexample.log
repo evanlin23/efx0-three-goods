@@ -108,4 +108,10 @@ S: n=4, m=6, one 4-good agent (GM4S only: a split placement is needed)
   [ok] Y maximizes the level sum over all junk-free EFX0 partial allocations (13 = 13)
   [ok] pool [0, 2] nonempty, no empty bundle, and no agent can take the whole pool (GM4S fails)
   [ok] junk placements (pool good -> agent) that are EFX0: [{0: 2, 2: 3}, {0: 3, 2: 2}]
+H: n=4, m=6, one 4-good agent (H1 fails: an envier source cannot take the pool)
+  [ok] k = 4 core (degrees 3-4, strictly balanced, strict, private-good rule, every good valued, connected)
+  [ok] Y is junk-free and EFX0
+  [ok] Y maximizes the level sum over all junk-free EFX0 partial allocations (12 = 12)
+  [ok] pool [0, 1]; sources [1, 3]; enviers [1, 3]; single dump works at [3]: an envier source fails
+  [ok] some source admits the single dump (GM4S holds here)
 ALL CLAIMS HOLD

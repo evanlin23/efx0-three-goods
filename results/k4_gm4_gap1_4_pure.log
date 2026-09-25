@@ -1,0 +1,4 @@
+# gm4_run.py ../results/k4_certs_4_pure.json.gz --prog=gm4_climb --climb=2:200 --minm=6 --maxm=7 --cores=0:120 --defs='-DNOPSTABLE -DSHOWGAP=1', then gm4_structure.py gap
+TOTAL cores=56 badcores=0 restarts=112 evals=22512 hits=0 gap1=86 gap2=25 gap3=1 wall=8s
+Pareto improvement exists 86
+smallest escape changes 1 agent(s) 86

@@ -22,6 +22,9 @@ Instances of kind GM4S (a maximum that admits a placement but no single dump) re
   4'. the pool is nonempty, no bundle of Y is empty, and for EVERY agent s, adding all of the pool to Y_s does not
       give an EFX0 allocation (so neither the empty-bundle dump nor any single dump works), and
   5'. some assignment of the pool goods to agents not valuing them is EFX0 (printed).
+Instances of kind H1 (a maximum where a source that envies someone fails the single dump; another source's works)
+replace 4-7 by: 4''. the pool is nonempty; source s envies some agent and adding the pool to Y_s is not EFX0 (or s
+values a pool good); and for some other source t, adding the pool to Y_t is EFX0 with t valuing no pool good.
 Exit status 0 iff every claim holds for every instance.
 Usage: python3 k4/gm4_counterexample.py
 """
@@ -50,6 +53,9 @@ INSTANCES = [
     ("S: n=4, m=6, one 4-good agent (GM4S only: a split placement is needed)",
      [{0: 1, 2: 6, 3: 4, 4: 8}, {1: 2, 2: 3, 5: 4}, {1: 3, 4: 4, 5: 2}, {3: 3, 4: 2, 5: 4}],
      [{4}, {5}, {1}, {3}], 'GM4S'),
+    ("H: n=4, m=6, one 4-good agent (H1 fails: an envier source cannot take the pool)",
+     [{0: 4, 1: 2, 4: 8, 5: 7}, {2: 4, 3: 2, 5: 3}, {2: 4, 4: 2, 5: 3}, {3: 3, 4: 4, 5: 2}],
+     [{4}, {5}, {2}, {3}], 'H1'),
 ]
 
 def v(vals, i, S):
@@ -116,6 +122,14 @@ def check(label, vals, Y, kind):
             for u, j in zip(P, asg): X[j].add(u)
             if efx0(vals, X): return True
         return False
+    if kind == 'H1':
+        sig = [v(vals, i, Y[i]) for i in range(n)]
+        src = [s_ for s_ in range(n) if all(v(vals, i, Y[s_]) <= sig[i] for i in range(n) if i != s_)]
+        envier = {s_ for s_ in src if any(v(vals, s_, Y[j]) > sig[s_] for j in range(n) if j != s_)}
+        dump = {s_ for s_ in src if not (R[s_] & U) and efx0(vals, [Y[i] | U if i == s_ else Y[i] for i in range(n)])}
+        claim(U and envier - dump, f"pool {sorted(U)}; sources {src}; enviers {sorted(envier)}; single dump works at {sorted(dump)}: an envier source fails")
+        claim(dump, "some source admits the single dump (GM4S holds here)")
+        return ok
     if kind == 'GM4S':
         single = [s_ for s_ in range(n) if efx0(vals, [Y[i] | U if i == s_ else Y[i] for i in range(n)])]
         claim(U and all(Y) and not single, f"pool {sorted(U)} nonempty, no empty bundle, and no agent can take the whole pool (GM4S fails)")
