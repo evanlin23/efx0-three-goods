@@ -382,7 +382,7 @@ in any test below. The n = 5 core lists with three or more 4-good agents are tho
   `results/k4_lb4r_samples.log`, predate the histograms).
   "No upgrades" is never the policy LB₄ʳ ends with: wherever need-shrinking fails, envy-free upgrades succeed (at n = 3,
   index order, 147,240 of 3·10⁸ profiles need them; `results/k4_lb4r_weak.log`). With every policy allowed, no run
-  with a rotation histogram (`-d2`, or `-d1` under a single policy) needs a third rotation;
+  with a rotation histogram (`-d2`) needs a third rotation;
   two are needed rarely (at n = 3, every order, 25,240 of 1.0·10⁹ run–profile pairs). Under need-shrinking alone, 2 runs
   of the n = 5 sample (four 4-good agents, m = 9; `results/k4_lb4r_deep.log`) need three rotations, and envy-free
   upgrades then need one; on those two cores LB₄ʳ with at most two rotations never fails, for every order and profile.
@@ -415,8 +415,9 @@ in any test below. The n = 5 core lists with three or more 4-good agents are tho
   one, two rotations (fewest, every policy allowed) 784, 216, 0 of 1,000 sequences for t = 1; 807, 92, 101 of 1,000 for
   t = 2; 414, 31, 55 of 500 for t = 3; with no, one, two, three: 174, 8, 2, 16 of 200 for t = 4 (n = 17);
   t = 5 (n = 21): all 10 sequences sampled in 30 minutes need none; t = 6 (n = 25): all 8 sampled so far need none
-  (owner's needs from its base, `-w0`, as `k4/c4.md` §7 from t = 4; the
-  search with needs from the bundle is out of reach there). On small cores, hill-climbing with `-P3` (score: the fewest
+  (every t with the owner's needs from its base, `-w0`, as `k4/c4.md` §7 does from t = 4, where the search with
+  needs from the bundle is out of reach; a `-w0` completion is also a `-w1` completion, `k4/c4.md` §7, so these
+  counts are upper bounds on the rotations LB₄ʳ, which uses `-w1`, needs). On small cores, hill-climbing with `-P3` (score: the fewest
   rotations over all insertion sequences, then the share of sequences that need one) on the hard n ≤ 5 cores, the n = 5
   classes with four or five 4-good agents, grown and random cores up to n = 7 (6.3·10⁶ profiles, 6.3·10⁷ runs;
   `results/k4_lb4r_tau_climb.log`) found profiles on which every sequence needs a rotation (already at n = 3, m = 5, as
@@ -477,10 +478,13 @@ step changed, `-i7` index then the last block led by r, `-i8` index then every l
 every run of Phase 1 then every leader of its last block; `-u0/-u1/-u2/-u3` no upgrades, need-shrinking, envy-free
 only, all three in turn; `-o0` every owner, `-o1` r only, `-o2` r then rotation; `-rN` up to N rotations in a row (a
 base of three or more goods is then the owner's, and two such bases are rejected); `-w1` owner needs from its bundle;
-`-c1` chains may end at upgraded agents; `-d1` iterative deepening on the rotation bound (0, 1, …, N for each policy:
+`-c1` chains may end at upgraded agents; `-d2` iterative deepening with the rotation bound outermost (bound 0 with every
+policy, then bound 1, …: the same successes as `-rN`, and the fewest rotations over all policies); `-d1` iterative
+deepening on the rotation bound (0, 1, …, N for each policy:
 the same successes as `-rN`, and the least number of rotations); `-s` sensitivity (owner constraint ignored); `-b` brute
 force (every profile its own leaf); `-a` print the leaf allocations; `-SN` N random strict profiles per core (seeded from
-the core); `-HN` N hill-climbing steps per core (below); `-P1` with `-H`: hardness by how many of the three policies fail on their own (LB₄ʳ must succeed whenever some policy does); `-P2`: by the least number of rotations first; `-P3` with `-i1` (∃τ): by the fewest rotations over all insertion sequences (the least only with `-d2`; failing sequences are counted in `runs` but not in the histograms, which sum to the successful runs); `-TN`: report every run needing at least N rotations. The driver's `--checkpoint=PATH` resumes an interrupted run,
+the core); `-HN` N hill-climbing steps per core (below); `-P1` with `-H`: hardness by how many of the three policies fail on their own (LB₄ʳ must succeed whenever some policy does); `-P2`: by the least number of rotations first; `-P3` with `-i1` (∃τ): by the fewest rotations over all insertion sequences (the least only with `-d2`; failing sequences are counted in `runs` but not in the histograms, which sum to the successful runs); `-TN`: report every run needing at least N rotations (in `k4/lb4r_tau.c`, `-TN` is instead the number of random
+insertion sequences sampled). The driver's `--checkpoint=PATH` resumes an interrupted run,
 `--badcores=PATH` writes the cores with a failure as a core list it can read back, and every result line ends with the
 policy and rotation histograms (`pol_*`, `rot*`: in `-S` and `-H` modes per run, otherwise per run–profile pair).
 `k4/lb4_randcores.py` draws random cores (`k4/check4.py`'s `is_core`), or grows the cores of a core list by random

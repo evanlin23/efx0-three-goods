@@ -11,7 +11,8 @@
     insertion order (-i1 -S) find the failures of need-shrinking upgrades only (n = 2), none for LB4r, and stop with a
     raw-check failure (exit 2) when the owner constraint is ignored (-s); hill-climbing (-H, with -P1's check that LB4r
     succeeds whenever some policy does) runs clean on n = 3; a rotation bound above 3 (-r4, depth-first, every
-    insertion order, n = 3) runs clean under AddressSanitizer and fills the histogram entry rot4, and -r9 is rejected.
+    insertion order, n = 3) runs clean under AddressSanitizer and fills the histogram entry rot4 (if gcc lacks
+    -fsanitize=address this check prints SKIPPED and is left out of ALL OK), and -r9 is rejected.
 Usage: python3 k4/test_lb4.py [d]      (d: part (d) only)"""
 import gzip, json, os, subprocess, sys
 from multiprocessing import Pool
@@ -61,7 +62,7 @@ def part_d(pool):
         r4 = sum(x[7] for x in h if len(x) > 7)
         print(f"(d) -r4 under AddressSanitizer, n=3: exit {p.returncode}, sanitizer reports {p.stderr.count('AddressSanitizer')}, rot4 {r4}")
         ok &= p.returncode == 0 and 'AddressSanitizer' not in p.stderr and r4 > 0
-    else: print('(d) -r4 under AddressSanitizer: skipped (no -fsanitize=address)')
+    else: print('(d) -r4 under AddressSanitizer: SKIPPED (gcc has no -fsanitize=address); ALL OK below then excludes it')
     p = subprocess.run([lb4_run.BIN, '-r9'], input='', capture_output=True, text=True)
     print(f"(d) -r9 rejected: {p.returncode != 0}"); ok &= p.returncode != 0
     return ok
