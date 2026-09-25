@@ -14,7 +14,7 @@ A *placement* of the pool is one of LS4's Phase-2 shapes (a)–(d). At a maximum
 - **LS4⁺ (§2).** LS4 plus one move type, used only when LS4 is stuck: a *coalition re-division* C_k, in which at most k agents re-divide their bundles and the pool so that Σℓ rises (some members may lose).
   - Σℓ remains a potential, so termination (≤ Σ_i (2^{d_i} − 1) ≤ 15n moves) and soundness carry over (Theorem 1⁺).
   - With k = n, LS4⁺ can stop only at a placement or at a **global maximum of Σℓ**. So its correctness follows from **conjecture GM₄**: every junk-free EFX₀ partial allocation that maximizes Σℓ among all junk-free EFX₀ partial allocations of the same strict profile admits a placement. The converse is not claimed.
-  - Equivalently, GM₄ says that *no dead end maximizes Σℓ*. With K4.TIE and K4.CORE, GM₄ would give TARGET₄. A counterexample has since been reported in PR #30 (proof/k4-gm4), pending review.
+  - Equivalently, GM₄ says that *no dead end maximizes Σℓ*. With K4.TIE and K4.CORE, GM₄ would give TARGET₄. GM₄ is refuted in #30 (`k4/gm4.md` §2, row K4.GM.CEX; independent replay `k4/gm4_counterexample.py`, log `results/k4_gm4_counterexample.log`). So is its existence form, "some maximum of Σℓ admits a placement" (`k4/gm4.md` §2.4, row K4.GM.E).
 - **Evidence (§3), no counterexample in these runs.**
   - LS4⁺ with k = n passes the 21.9M sampled pure n = 4 profiles on which LS4 failed 20 times, and the regression classes.
   - GM₄ itself is tested on every maximal state, not only reached ones: n = 2 exhaustive, and large samples at n = 3 and n = 4.
@@ -24,7 +24,7 @@ A *placement* of the pool is one of LS4's Phase-2 shapes (a)–(d). At a maximum
   - leximin instead of Σℓ fails: the dead end of Proposition 7 is its own unique leximin maximum.
 
   Among the designs tried, no bounded move suffices with the level sum; the unbounded coalition move reduces correctness to GM₄. Bounded moves with another potential are untested.
-- **Not proved:** GM₄, and any polynomial time bound. C_n and LS4's exchange cycles are searched by enumeration.
+- **Not proved:** any polynomial time bound. GM₄ is refuted in #30 (`k4/gm4.md` §2, row K4.GM.CEX; independent replay `k4/gm4_counterexample.py`, log `results/k4_gm4_counterexample.log`). C_n and LS4's exchange cycles are searched by enumeration.
 
 ## 1. Escape study (`results/k4_ls4_failures_4_pure.tsv`, the 19 logged LS4 failure states)
 
@@ -105,7 +105,7 @@ Only the maxima with a nonempty pool test GM₄: a maximum whose pool is empty i
 | n = 4, one to three 4-good agents | 1,566,000 | 2,000 random per core | 2,174,535 | 175,167 (8.1%) | 6,716 / 168,451 / 0 / 0 | 0 | `results/k4_gm_4_mixed_sample.log` |
 | n = 4, pure | 4,380,000 | 20,000 random per core | 6,226,242 | 258,916 (4.2%) | 0 / 258,916 / 0 / 0 | 0 | `results/k4_gm_4_pure_sample.log` |
 
-So 502,281 maxima actually test GM₄. In these runs every one of them was placed by the empty-bundle dump (a) or a single dump (b); the split (c) and the exact search (d) were never needed at a maximum. PR #30 (proof/k4-gm4, pending review) reports rarer profiles, about 4 in 43.8M pure n = 4 profiles and 3 in 39M mixed ones, where a maximum has no placement at all (counterexamples to GM₄), and one where a split is needed.
+So 502,281 maxima actually test GM₄. In these runs every one of them was placed by the empty-bundle dump (a) or a single dump (b); the split (c) and the exact search (d) were never needed at a maximum. PR #30 (`k4/gm4.md` §4) found rarer profiles, 4 in 43.8M pure n = 4 profiles and 3 in 39.15M mixed ones, where a maximum has no placement at all (counterexamples to GM₄, which is refuted in #30 (`k4/gm4.md` §2, row K4.GM.CEX; independent replay `k4/gm4_counterexample.py`, log `results/k4_gm4_counterexample.log`)), and maxima where only a split works.
 
 *Sensitivity* (`results/k4_gm_sensitivity.log`). With Phase 2 restricted to (a) (`-DP2A_ONLY`), the n = 2 run reports failures, records them in the log, and exits with status 1. The independent placement check was added after the computational review of PR #29. All the logs in this table were re-run with it: 0 bad placements.
 
@@ -138,14 +138,14 @@ What LS4⁺ adds is that soundness and termination hold for *any* Σℓ-raising 
 - C_k takes polynomial time for fixed k: at most n^k coalitions and 16^k set choices, each with an EFX₀ check.
 - Bounded k fails already at n = 4 with k = 3 (§4). With k = n, the search is exponential: C_n is a search over all junk-free partial allocations.
 
-So LS4⁺ is an existence argument, conditional on GM₄, with a linear number of moves but no polynomial time bound. A polynomial algorithm would need a structural reason why small coalitions suffice most of the time and a different treatment of the rare states that need large ones.
+So LS4⁺ was an existence argument conditional on GM₄, which is now refuted in #30 (`k4/gm4.md` §2, row K4.GM.CEX), with a linear number of moves but no polynomial time bound. A polynomial algorithm would need a structural reason why small coalitions suffice most of the time and a different treatment of the rare states that need large ones.
 
 ## 7. Status
 
 - Theorem 1⁺: written proof, pending review (K4.LSP.SOUND, CONJECTURE until reviewed).
-- Conjecture GM₄ and LS4⁺_n: EVIDENCE (§3; K4.LSP.GM, K4.LSP.RUN). A counterexample has since been reported in PR #30 (proof/k4-gm4), pending review.
+- Conjecture GM₄ (K4.LSP.GM): refuted in #30 (`k4/gm4.md` §2, row K4.GM.CEX; independent replay `k4/gm4_counterexample.py`, log `results/k4_gm4_counterexample.log`). LS4⁺_n with its default rule: EVIDENCE (§3; K4.LSP.RUN), no failure known; with arbitrary choices it can fail (`k4/gm4.md` §3).
 - The escape study (§1) and the failed designs (§4): EVIDENCE with independent replay (K4.LSP.VAR).
 - Open:
-  - a proof of GM₄ (equivalently: no dead end maximizes Σℓ). Its hardest case has ≥ 2 sources, no empty bundle, and no improving move of any kind (this uses K4.LS.SOUND and K4.LS.ONE, pending review);
+  - ~~a proof of GM₄~~: GM₄ is refuted in #30 (`k4/gm4.md` §2, row K4.GM.CEX; independent replay `k4/gm4_counterexample.py`, log `results/k4_gm4_counterexample.log`), and so is its existence form. A proof of LS4⁺'s correctness needs another argument, for example that the default rule stops at a placeable state before any bad maximum (`k4/gm4.md` §3, §7);
   - whether a bounded move set with another potential suffices (untested);
   - polynomial time.

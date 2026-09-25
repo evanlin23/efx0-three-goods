@@ -248,7 +248,7 @@ In random runs over whole classes, the convex potentials never had a maximum wit
 
 ## 7. Status and open questions
 
-- GM₄, GM₄ˢ and GM₄∃ are false: counterexamples in §2, confirmed by an independent brute force (rows K4.GM.CEX, K4.GM.S, K4.GM.E, REFUTED). So are the variants of §5–6 (K4.GM.VAR). K4.LSP.GM (#29's row) is refuted by K4.GM.CEX; its status should change once #29 is merged into main and main into this branch.
+- GM₄, GM₄ˢ and GM₄∃ are false: counterexamples in §2, confirmed by an independent brute force (rows K4.GM.CEX, K4.GM.S, K4.GM.E, REFUTED). So are the variants of §5–6 (K4.GM.VAR). K4.LSP.GM (#29's row, now on main) is marked REFUTED as well, citing K4.GM.CEX, and `k4/ls4plus.md` points here.
 - LS4⁺_n with arbitrary choices is not correct (§3). Its default rule has no known failure (K4.LSP.RUN, and §3 here).
 - Every potential tried has bad maxima (§6). For Σ 2^ℓ and leximax, some maximum was always placeable in every profile searched (conjecture K4.GM.POT). This is the only statement of the GM kind left that would give TARGET₄, and only as an existence argument.
 - The obstruction, at a maximum, is a Hall-type conflict between the champion sets of different sources: two champions need the same pool good, and no one-good source can take that good alone. Theorem C resolves it at k = 3 with a matching. At k = 4 it can survive at every Σℓ-maximum of a profile (instance G). So a proof along these lines must either favor unequal level vectors (the convex potentials of §6) or stop before the conflict arises (LS4⁺'s default rule).
