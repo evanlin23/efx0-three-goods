@@ -1,0 +1,5 @@
+t=1: new states per depth [1, 6, 7, 6]; cumulative [1, 7, 14, 20] (0.0s)
+t=2: new states per depth [1, 12, 104, 276]; cumulative [1, 13, 117, 393] (0.1s)
+t=3: new states per depth [1, 18, 237, 1926]; cumulative [1, 19, 256, 2182] (0.4s)
+t=4: new states per depth [1, 24, 406, 4740]; cumulative [1, 25, 431, 5171] (1.3s)
+t=5: new states per depth [1, 30, 611, 8934]; cumulative [1, 31, 642, 9576] (3.5s)

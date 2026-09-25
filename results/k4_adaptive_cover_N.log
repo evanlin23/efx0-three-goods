@@ -1,0 +1,16 @@
+# adaptive_run.py results/k4_certs_2.json.gz -A22 -C3 -Z1 -r3 --show=3 --jobs=1 # adaptive.c sha256 88770f344c979a32
+k4_certs_2.json.gz: cores=5 total=189216 fails=0 rawfails=0 badcores=0 rot=[167179, 22037, 0, 0] (last entry: fails) pol=[2892, 186324, 0] uncov=1020 covviol=0 time 1s
+# adaptive_run.py results/k4_certs_2.json.gz -A22 -C2 -Z1 -r3 --show=3 --jobs=1 # adaptive.c sha256 88770f344c979a32
+k4_certs_2.json.gz: cores=5 total=189216 fails=0 rawfails=0 badcores=0 rot=[174064, 15152, 0, 0] (last entry: fails) pol=[2892, 186324, 0] uncov=12420 covviol=0 time 1s
+# adaptive_run.py results/k4_certs_3.json.gz -A22 -C3 -Z1 -r3 --show=3 --jobs=1 # adaptive.c sha256 88770f344c979a32
+k4_certs_3.json.gz: cores=51 total=299837376 fails=0 rawfails=0 badcores=0 rot=[280958224, 18842744, 36408, 0] (last entry: fails) pol=[24412744, 275424632, 0] uncov=119616 covviol=0 time 24s
+# adaptive_run.py results/k4_certs_3.json.gz -A22 -C2 -Z1 -r3 --show=3 --jobs=1 # adaptive.c sha256 88770f344c979a32
+k4_certs_3.json.gz: cores=51 total=299837376 fails=0 rawfails=0 badcores=0 rot=[289079909, 10734911, 22556, 0] (last entry: fails) pol=[24412744, 275424632, 0] uncov=7503039 covviol=0 time 33s
+# adaptive_run.py results/k4_certs_4_n4_1.json.gz -A22 -C3 -Z1 -r3 --show=3 --jobs=1 # adaptive.c sha256 88770f344c979a32
+k4_certs_4_n4_1.json.gz: cores=135 total=7247232 fails=0 rawfails=0 badcores=0 rot=[7124870, 122362, 0, 0] (last entry: fails) pol=[2150274, 5096952, 6] uncov=0 covviol=0 time 3s
+# adaptive_run.py results/k4_certs_4_n4_1.json.gz -A22 -C2 -Z1 -r3 --show=3 --jobs=1 # adaptive.c sha256 88770f344c979a32
+k4_certs_4_n4_1.json.gz: cores=135 total=7247232 fails=0 rawfails=0 badcores=0 rot=[7128074, 119158, 0, 0] (last entry: fails) pol=[2150274, 5096952, 6] uncov=0 covviol=0 time 3s
+# adaptive_run.py results/k4_certs_4_n4_2.json.gz -A22 -C3 -Z1 -r3 --show=3 --jobs=1 # adaptive.c sha256 88770f344c979a32
+k4_certs_4_n4_2.json.gz: cores=309 total=724847616 fails=0 rawfails=0 badcores=0 rot=[710224097, 14621801, 1718, 0] (last entry: fails) pol=[59667862, 665179704, 50] uncov=62536 covviol=0 time 76s
+# adaptive_run.py results/k4_certs_4_n4_2.json.gz -A22 -C2 -Z1 -r3 --show=3 --jobs=1 # adaptive.c sha256 88770f344c979a32
+k4_certs_4_n4_2.json.gz: cores=309 total=724847616 fails=0 rawfails=0 badcores=0 rot=[712230617, 12616999, 0, 0] (last entry: fails) pol=[59652814, 665194762, 40] uncov=155947 covviol=0 time 75s

@@ -1,0 +1,9 @@
+t=1: n=5 m=13 (4t+1=5, 10t+3=13) 4-good agents=5 m<=3n:True core-failures=[] | explicit allocation: EFX0 violations=0 bundles>2 goods: ['l'] sizes=[6] all goods allocated=True
+t=2: n=9 m=23 (4t+1=9, 10t+3=23) 4-good agents=9 m<=3n:True core-failures=[] | explicit allocation: EFX0 violations=0 bundles>2 goods: ['l'] sizes=[9] all goods allocated=True
+t=3: n=13 m=33 (4t+1=13, 10t+3=33) 4-good agents=13 m<=3n:True core-failures=[] | explicit allocation: EFX0 violations=0 bundles>2 goods: ['l'] sizes=[12] all goods allocated=True
+t=4: n=17 m=43 (4t+1=17, 10t+3=43) 4-good agents=17 m<=3n:True core-failures=[] | explicit allocation: EFX0 violations=0 bundles>2 goods: ['l'] sizes=[15] all goods allocated=True
+t=5: n=21 m=53 (4t+1=21, 10t+3=53) 4-good agents=21 m<=3n:True core-failures=[] | explicit allocation: EFX0 violations=0 bundles>2 goods: ['l'] sizes=[18] all goods allocated=True
+t=6: n=25 m=63 (4t+1=25, 10t+3=63) 4-good agents=25 m<=3n:True core-failures=[] | explicit allocation: EFX0 violations=0 bundles>2 goods: ['l'] sizes=[21] all goods allocated=True
+t=7: n=29 m=73 (4t+1=29, 10t+3=73) 4-good agents=29 m<=3n:True core-failures=[] | explicit allocation: EFX0 violations=0 bundles>2 goods: ['l'] sizes=[24] all goods allocated=True
+t=8: n=33 m=83 (4t+1=33, 10t+3=83) 4-good agents=33 m<=3n:True core-failures=[] | explicit allocation: EFX0 violations=0 bundles>2 goods: ['l'] sizes=[27] all goods allocated=True
+ALL OK
