@@ -14,7 +14,8 @@ Options:
                    output by the construction that cover every profile; check it with tools/check_certs.py and
                    construct_run.py --check-cert=FILE (every allocation has at most one bundle of >= 3 goods)
   --part=k/K       only the k-th of K contiguous slices of each core list (k = 1..K), so a long level can run in
-                   pieces; the slices of one level partition its cores (merge their certificates for check_enum.py)
+                   pieces; the slices of one level partition its cores (check their certificates together with
+                   tools/check_enum.py --union)
 Usage: construct_run.py n [m ...] [options]"""
 import sys, os, subprocess, time, json, gzip, itertools, multiprocessing, collections
 from frontier import options
@@ -85,7 +86,7 @@ def check_cert(path):
         for X in r['allocations']:
             if sum(v >= 3 for v in collections.Counter(X).values()) > 1: bad += 1
         deg = collections.Counter(g for S in r['sets'] for g in S)
-        if (len(r['sets']) != r['n'] or any(len(set(S)) != 3 for S in r['sets']) or set(deg) != set(range(r['m']))
+        if (len(r['sets']) != r['n'] or any(len(S) != 3 or len(set(S)) != 3 for S in r['sets']) or set(deg) != set(range(r['m']))
                 or any(sum(deg[g] == 1 for g in S) > 1 for S in r['sets'])): print("not a core:", r['sets']); bad += 1
         u = uncovered(r)
         if u: print(f"UNCOVERED profiles: {u} for {r['sets']}"); bad += 1
@@ -97,6 +98,9 @@ if __name__ == '__main__':
     if 'check-cert' in opts: sys.exit(1 if check_cert(opts['check-cert']) else 0)
     n = args[0]; ms = args[1:] or list(range(3, 2 * n + 1))
     jobs = int(opts.get('jobs', os.cpu_count())); pyk = int(opts.get('python', 0)); cert = opts.get('cert')
+    if 'part' in opts:
+        k, K = map(int, opts['part'].split('/'))
+        if not 1 <= k <= K: sys.exit(f"--part=k/K needs 1 <= k <= K, got {opts['part']}")
     compile_c(); t0 = time.time(); certs = []; allfails = 0
     log = lambda s: print(f"[{time.time() - t0:7.0f}s] {s}", flush=True)
     with multiprocessing.Pool(jobs) as pool:
@@ -105,8 +109,7 @@ if __name__ == '__main__':
         for m in ms:
             cores = gen_cores_nauty(n, m) if 'disconnected' not in opts else [(pi, s) for mm, pi, s in dis if mm == m]
             if 'part' in opts:
-                k, K = map(int, opts['part'].split('/')); L = len(cores)
-                cores = cores[(k - 1) * L // K:k * L // K]
+                L = len(cores); cores = cores[(k - 1) * L // K:k * L // K]
             if 'relabel' in opts:
                 import random
                 rng = random.Random(f"{opts['relabel']}:{n}:{m}")

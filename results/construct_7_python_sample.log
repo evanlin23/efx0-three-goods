@@ -1,0 +1,2 @@
+# Sampled comparison of the C (src/construct.c) and Python (src/construct.py) implementations of LB at n = 7: C runs every connected core with m = 10..14 (raw check of every output), and the Python reference runs every 200th core; the FNV hash of all its outputs, in profile order, must equal the C run's. 4 CPUs, 2026-09-25T06:21:29Z.
+$ cd src && python construct_run.py 7 10 11 12 13 14 --python=200

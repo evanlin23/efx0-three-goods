@@ -47,7 +47,7 @@ def incidence(sets):
 
 def is_core(n, m, sets):
     deg = collections.Counter(x for S in sets for x in S)
-    return (len(sets) == n and all(len(set(S)) == 3 for S in sets) and set(deg) == set(range(m))
+    return (len(sets) == n and all(len(S) == 3 and len(set(S)) == 3 for S in sets) and set(deg) == set(range(m))
             and all(sum(deg[x] == 1 for x in S) <= 1 for S in sets) and nx.is_connected(incidence(sets)))
 
 same = lambda u, v: u['kind'] == v['kind']

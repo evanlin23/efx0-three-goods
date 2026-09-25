@@ -287,7 +287,7 @@ Proved: M0, M1, M1(b), M2, and the counting in M4 and the deductions in M5 given
 implementations or SAT-free re-checks): M3, M6, the 20-core certificate, hence M4 and M5. Open:
 - β = 4. By M4 and T3 a minimal counterexample within 𝒞_4 has 8 ≤ n ≤ 15 − t ≤ 14 and satisfies M3 and M6 (the
   latter for P–Q pairs in which the Q-agent does not value the P-agent's other good);
-  n = 8, m = 13 is not certified yet (R4 covers m ≥ 14). Listing the M3-cores for n ≤ 14 needs a generator built on the
+  n = 8, m = 13 is now certified by construction LB (ledger S2.N8). Listing the M3-cores for n ≤ 14 needs a generator built on the
   kernel (every thread carries at most one P-agent), since genbg lists all cores; and the profile spaces (6^n, up to
   6^14) need M6 and further reductions to be cut down.
 - General β: a minimal counterexample has β + 3 ≤ n ≤ 5β − 6 (with T3). Unavoidability would need reductions at
