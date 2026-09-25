@@ -1,0 +1,185 @@
+$ cd k4 && python3 mincex_shapes.py 3 --write=../results/k4_min_cex_shapes_3.json.gz   (G' listed up to n = 5(beta - 1) = 10, beyond the bound 3(beta - 1) = 6, as a check)
+  gadget search: 1665 menu valuations of h on ['a', 'b', 'y', "z'"]; 34 of 36 profiles reduced (0.8 s)
+    h = {'a': 2, 'b': 2, 'y': 0, "z'": 3} reduces 6
+    h = {'a': 2, 'b': 4, 'y': 0, "z'": 1} reduces 4
+    h = {'a': 4, 'b': 2, 'y': 0, "z'": 1} reduces 4
+    h = {'a': 0, 'b': 2, 'y': 0, "z'": 1} reduces 3
+    h = {'a': 0, 'b': 4, 'y': 2, "z'": 1} reduces 3
+    h = {'a': 2, 'b': 0, 'y': 0, "z'": 1} reduces 3
+    h = {'a': 4, 'b': 0, 'y': 2, "z'": 1} reduces 3
+    h = {'a': 2, 'b': 3, 'y': 4, "z'": 0} reduces 2
+    h = {'a': 3, 'b': 2, 'y': 4, "z'": 0} reduces 2
+    h = {'a': 4, 'b': 6, 'y': 2, "z'": 1} reduces 4
+    h = {'a': 6, 'b': 4, 'y': 2, "z'": 1} reduces 4
+  gadget search: 43 menu valuations of h on ['b', 'y', "z'"]; 36 of 36 profiles reduced (0.1 s)
+    h = {'b': 2, 'y': 4, "z'": 1} reduces 14
+    h = {'b': 4, 'y': 2, "z'": 1} reduces 10
+    h = {'b': 0, 'y': 2, "z'": 1} reduces 13
+    h = {'b': 2, 'y': 2, "z'": 3} reduces 6
+    h = {'b': 2, 'y': 0, "z'": 1} reduces 3
+  gadget search: 1665 menu valuations of h on ['a', 'b', 'y', "z'"]; 1718 of 1728 profiles reduced (2.5 s)
+    h = {'a': 2, 'b': 2, 'y': 0, "z'": 3} reduces 800
+    h = {'a': 2, 'b': 6, 'y': 2, "z'": 3} reduces 208
+    h = {'a': 6, 'b': 2, 'y': 2, "z'": 3} reduces 208
+    h = {'a': 2, 'b': 2, 'y': 6, "z'": 3} reduces 276
+    h = {'a': 6, 'b': 10, 'y': 2, "z'": 3} reduces 108
+    h = {'a': 10, 'b': 6, 'y': 2, "z'": 3} reduces 108
+    h = {'a': 0, 'b': 4, 'y': 2, "z'": 1} reduces 84
+    h = {'a': 4, 'b': 0, 'y': 2, "z'": 1} reduces 84
+    h = {'a': 4, 'b': 8, 'y': 6, "z'": 5} reduces 52
+    h = {'a': 8, 'b': 4, 'y': 6, "z'": 5} reduces 52
+    h = {'a': 4, 'b': 6, 'y': 2, "z'": 1} reduces 52
+    h = {'a': 6, 'b': 4, 'y': 2, "z'": 1} reduces 52
+    h = {'a': 0, 'b': 0, 'y': 0, "z'": 1} reduces 478
+    h = {'a': 6, 'b': 7, 'y': 10, "z'": 2} reduces 24
+    h = {'a': 7, 'b': 6, 'y': 10, "z'": 2} reduces 24
+    h = {'a': 2, 'b': 6, 'y': 4, "z'": 3} reduces 44
+    h = {'a': 6, 'b': 2, 'y': 4, "z'": 3} reduces 44
+    h = {'a': 2, 'b': 4, 'y': 2, "z'": 1} reduces 32
+    h = {'a': 4, 'b': 2, 'y': 2, "z'": 1} reduces 32
+    h = {'a': 0, 'b': 0, 'y': 2, "z'": 1} reduces 216
+  gadget search: 43 menu valuations of h on ['b', 'y', "z'"]; 1728 of 1728 profiles reduced (0.4 s)
+    h = {'b': 2, 'y': 2, "z'": 3} reduces 816
+    h = {'b': 0, 'y': 2, "z'": 1} reduces 676
+    h = {'b': 4, 'y': 2, "z'": 1} reduces 214
+    h = {'b': 2, 'y': 4, "z'": 1} reduces 303
+    h = {'b': 4, 'y': 2, "z'": 3} reduces 246
+    h = {'b': 2, 'y': 0, "z'": 1} reduces 162
+    h = {'b': 4, 'y': 3, "z'": 2} reduces 234
+    h = {'b': 2, 'y': 4, "z'": 3} reduces 552
+  gadget search: 1665 menu valuations of h on ['a', 'b', 'c', 'y']; 648 of 1728 profiles reduced (0.5 s)
+    h = {'a': 4, 'b': 6, 'c': 8, 'y': 1} reduces 30
+    h = {'a': 4, 'b': 8, 'c': 6, 'y': 1} reduces 30
+    h = {'a': 6, 'b': 4, 'c': 8, 'y': 1} reduces 30
+    h = {'a': 6, 'b': 8, 'c': 4, 'y': 1} reduces 30
+    h = {'a': 8, 'b': 4, 'c': 6, 'y': 1} reduces 30
+    h = {'a': 8, 'b': 6, 'c': 4, 'y': 1} reduces 30
+    h = {'a': 1, 'b': 4, 'c': 7, 'y': 2} reduces 12
+    h = {'a': 1, 'b': 7, 'c': 4, 'y': 2} reduces 12
+    h = {'a': 3, 'b': 8, 'c': 10, 'y': 4} reduces 12
+    h = {'a': 3, 'b': 10, 'c': 8, 'y': 4} reduces 12
+    h = {'a': 4, 'b': 1, 'c': 7, 'y': 2} reduces 12
+    h = {'a': 4, 'b': 7, 'c': 1, 'y': 2} reduces 12
+    h = {'a': 7, 'b': 1, 'c': 4, 'y': 2} reduces 12
+    h = {'a': 7, 'b': 4, 'c': 1, 'y': 2} reduces 12
+    h = {'a': 8, 'b': 3, 'c': 10, 'y': 4} reduces 12
+    h = {'a': 8, 'b': 10, 'c': 3, 'y': 4} reduces 12
+    h = {'a': 10, 'b': 3, 'c': 8, 'y': 4} reduces 12
+    h = {'a': 10, 'b': 8, 'c': 3, 'y': 4} reduces 12
+    h = {'a': 1, 'b': 2, 'c': 7, 'y': 4} reduces 10
+    h = {'a': 1, 'b': 7, 'c': 2, 'y': 4} reduces 10
+    h = {'a': 2, 'b': 1, 'c': 7, 'y': 4} reduces 10
+    h = {'a': 2, 'b': 3, 'c': 8, 'y': 4} reduces 10
+    h = {'a': 2, 'b': 7, 'c': 1, 'y': 4} reduces 10
+    h = {'a': 2, 'b': 8, 'c': 3, 'y': 4} reduces 10
+    h = {'a': 3, 'b': 2, 'c': 8, 'y': 4} reduces 10
+    h = {'a': 3, 'b': 8, 'c': 2, 'y': 4} reduces 10
+    h = {'a': 7, 'b': 1, 'c': 2, 'y': 4} reduces 10
+    h = {'a': 7, 'b': 2, 'c': 1, 'y': 4} reduces 10
+    h = {'a': 8, 'b': 2, 'c': 3, 'y': 4} reduces 10
+    h = {'a': 8, 'b': 3, 'c': 2, 'y': 4} reduces 10
+    h = {'a': 2, 'b': 4, 'c': 7, 'y': 1} reduces 6
+    h = {'a': 2, 'b': 7, 'c': 4, 'y': 1} reduces 6
+    h = {'a': 4, 'b': 2, 'c': 7, 'y': 1} reduces 6
+    h = {'a': 4, 'b': 7, 'c': 2, 'y': 1} reduces 6
+    h = {'a': 7, 'b': 2, 'c': 4, 'y': 1} reduces 6
+    h = {'a': 7, 'b': 4, 'c': 2, 'y': 1} reduces 6
+    h = {'a': 1, 'b': 4, 'c': 6, 'y': 8} reduces 4
+    h = {'a': 1, 'b': 6, 'c': 4, 'y': 8} reduces 4
+    h = {'a': 2, 'b': 4, 'c': 7, 'y': 8} reduces 4
+    h = {'a': 2, 'b': 6, 'c': 7, 'y': 10} reduces 4
+    h = {'a': 2, 'b': 7, 'c': 4, 'y': 8} reduces 4
+    h = {'a': 2, 'b': 7, 'c': 6, 'y': 10} reduces 4
+    h = {'a': 3, 'b': 5, 'c': 6, 'y': 7} reduces 4
+    h = {'a': 3, 'b': 6, 'c': 5, 'y': 7} reduces 4
+    h = {'a': 3, 'b': 6, 'c': 8, 'y': 10} reduces 4
+    h = {'a': 3, 'b': 8, 'c': 6, 'y': 10} reduces 4
+    h = {'a': 4, 'b': 1, 'c': 6, 'y': 8} reduces 4
+    h = {'a': 4, 'b': 2, 'c': 7, 'y': 8} reduces 4
+    h = {'a': 4, 'b': 5, 'c': 8, 'y': 6} reduces 4
+    h = {'a': 4, 'b': 6, 'c': 1, 'y': 8} reduces 4
+    h = {'a': 4, 'b': 7, 'c': 2, 'y': 8} reduces 4
+    h = {'a': 4, 'b': 8, 'c': 5, 'y': 6} reduces 4
+    h = {'a': 5, 'b': 3, 'c': 6, 'y': 7} reduces 4
+    h = {'a': 5, 'b': 4, 'c': 8, 'y': 6} reduces 4
+    h = {'a': 5, 'b': 6, 'c': 3, 'y': 7} reduces 4
+    h = {'a': 5, 'b': 8, 'c': 4, 'y': 6} reduces 4
+    h = {'a': 6, 'b': 1, 'c': 4, 'y': 8} reduces 4
+    h = {'a': 6, 'b': 2, 'c': 7, 'y': 10} reduces 4
+    h = {'a': 6, 'b': 3, 'c': 5, 'y': 7} reduces 4
+    h = {'a': 6, 'b': 3, 'c': 8, 'y': 10} reduces 4
+    h = {'a': 6, 'b': 4, 'c': 1, 'y': 8} reduces 4
+    h = {'a': 6, 'b': 5, 'c': 3, 'y': 7} reduces 4
+    h = {'a': 6, 'b': 7, 'c': 2, 'y': 10} reduces 4
+    h = {'a': 6, 'b': 8, 'c': 3, 'y': 10} reduces 4
+    h = {'a': 7, 'b': 2, 'c': 4, 'y': 8} reduces 4
+    h = {'a': 7, 'b': 2, 'c': 6, 'y': 10} reduces 4
+    h = {'a': 7, 'b': 4, 'c': 2, 'y': 8} reduces 4
+    h = {'a': 7, 'b': 6, 'c': 2, 'y': 10} reduces 4
+    h = {'a': 8, 'b': 3, 'c': 6, 'y': 10} reduces 4
+    h = {'a': 8, 'b': 4, 'c': 5, 'y': 6} reduces 4
+    h = {'a': 8, 'b': 5, 'c': 4, 'y': 6} reduces 4
+    h = {'a': 8, 'b': 6, 'c': 3, 'y': 10} reduces 4
+    h = {'a': 2, 'b': 3, 'c': 4, 'y': 8} reduces 2
+    h = {'a': 2, 'b': 3, 'c': 6, 'y': 10} reduces 2
+    h = {'a': 2, 'b': 4, 'c': 3, 'y': 8} reduces 2
+    h = {'a': 2, 'b': 6, 'c': 3, 'y': 10} reduces 2
+    h = {'a': 3, 'b': 2, 'c': 4, 'y': 8} reduces 2
+    h = {'a': 3, 'b': 2, 'c': 6, 'y': 10} reduces 2
+    h = {'a': 3, 'b': 4, 'c': 2, 'y': 8} reduces 2
+    h = {'a': 3, 'b': 6, 'c': 2, 'y': 10} reduces 2
+    h = {'a': 4, 'b': 2, 'c': 3, 'y': 8} reduces 2
+    h = {'a': 4, 'b': 3, 'c': 2, 'y': 8} reduces 2
+    h = {'a': 6, 'b': 2, 'c': 3, 'y': 10} reduces 2
+    h = {'a': 6, 'b': 3, 'c': 2, 'y': 10} reduces 2
+  gadget search: 1665 menu valuations of h on ['b', 'c', 'y', "z'"]; 1656 of 1728 profiles reduced (1.0 s)
+    h = {'b': 2, 'c': 2, 'y': 8, "z'": 3} reduces 238
+    h = {'b': 4, 'c': 6, 'y': 8, "z'": 1} reduces 122
+    h = {'b': 6, 'c': 4, 'y': 8, "z'": 1} reduces 122
+    h = {'b': 2, 'c': 4, 'y': 4, "z'": 5} reduces 120
+    h = {'b': 4, 'c': 8, 'y': 6, "z'": 1} reduces 116
+    h = {'b': 8, 'c': 4, 'y': 6, "z'": 1} reduces 116
+    h = {'b': 6, 'c': 8, 'y': 4, "z'": 1} reduces 100
+    h = {'b': 8, 'c': 6, 'y': 4, "z'": 1} reduces 100
+    h = {'b': 0, 'c': 4, 'y': 2, "z'": 1} reduces 106
+    h = {'b': 4, 'c': 0, 'y': 2, "z'": 1} reduces 106
+    h = {'b': 2, 'c': 8, 'y': 2, "z'": 3} reduces 60
+    h = {'b': 8, 'c': 2, 'y': 2, "z'": 3} reduces 60
+    h = {'b': 0, 'c': 2, 'y': 4, "z'": 1} reduces 107
+    h = {'b': 2, 'c': 0, 'y': 4, "z'": 1} reduces 107
+    h = {'b': 4, 'c': 4, 'y': 2, "z'": 5} reduces 112
+    h = {'b': 4, 'c': 2, 'y': 4, "z'": 5} reduces 120
+    h = {'b': 4, 'c': 8, 'y': 2, "z'": 1} reduces 36
+    h = {'b': 8, 'c': 4, 'y': 2, "z'": 1} reduces 36
+    h = {'b': 8, 'c': 10, 'y': 3, "z'": 4} reduces 20
+    h = {'b': 10, 'c': 8, 'y': 3, "z'": 4} reduces 20
+    h = {'b': 3, 'c': 5, 'y': 3, "z'": 4} reduces 36
+    h = {'b': 5, 'c': 3, 'y': 3, "z'": 4} reduces 36
+    h = {'b': 3, 'c': 8, 'y': 10, "z'": 4} reduces 33
+    h = {'b': 8, 'c': 3, 'y': 10, "z'": 4} reduces 33
+    h = {'b': 2, 'c': 4, 'y': 8, "z'": 1} reduces 101
+    h = {'b': 2, 'c': 8, 'y': 4, "z'": 1} reduces 80
+    h = {'b': 3, 'c': 10, 'y': 8, "z'": 4} reduces 30
+    h = {'b': 4, 'c': 2, 'y': 8, "z'": 1} reduces 101
+    h = {'b': 8, 'c': 2, 'y': 4, "z'": 1} reduces 80
+    h = {'b': 10, 'c': 3, 'y': 8, "z'": 4} reduces 30
+    h = {'b': 3, 'c': 3, 'y': 5, "z'": 4} reduces 34
+    h = {'b': 2, 'c': 4, 'y': 0, "z'": 1} reduces 18
+    h = {'b': 4, 'c': 2, 'y': 0, "z'": 1} reduces 18
+    h = {'b': 4, 'c': 6, 'y': 5, "z'": 2} reduces 10
+    h = {'b': 6, 'c': 4, 'y': 5, "z'": 2} reduces 10
+    h = {'b': 6, 'c': 7, 'y': 5, "z'": 3} reduces 14
+    h = {'b': 7, 'c': 6, 'y': 5, "z'": 3} reduces 14
+    h = {'b': 7, 'c': 10, 'y': 6, "z'": 2} reduces 32
+    h = {'b': 10, 'c': 7, 'y': 6, "z'": 2} reduces 32
+px P4 open: 10 profiles not reduced
+px P4 closed: 0 profiles not reduced
+px Q3 open: 2 profiles not reduced
+px Q3 closed: 0 profiles not reduced
+px Q4 open: 1080 profiles not reduced
+px Q4 closed: 72 profiles not reduced
+beta = 3: candidate cores, listed per graph G' and choice of P4 agents (isomorphic ones not merged)
+  n = 5, m = 11: 3 listed, 2 left after K4.MC5 (up to isomorphism; profiles: max 28800, total 57600)
+  n = 6, m = 11: 8 listed, 3 left after K4.MC5 (up to isomorphism; profiles: max 442368, total 443128)
+  n = 6, m = 12: 8 listed, 3 left after K4.MC5 (up to isomorphism; profiles: max 21233664, total 21237464)
+  n = 6, m = 13: 2 listed, 1 left after K4.MC5 (up to isomorphism; profiles: max 1000, total 1000)

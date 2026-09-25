@@ -1,0 +1,10 @@
+$ python3 k4/mincex_cert.py results/k4_min_cex_shapes_3.json.gz results/k4_min_cex_cores_3.json.gz
+n = 5, m = 11, kinds P4P4P3P4P3, 28800 profiles: 4 allocations, 0 D2 failures, 0.1 s
+n = 5, m = 11, kinds P4P4P3Q4P3, 28800 profiles: 2 allocations, 0 D2 failures, 0.1 s
+n = 6, m = 11, kinds P4Q3P3P3P3P3, 720 profiles: 1 allocations, 0 D2 failures, 0.0 s
+n = 6, m = 12, kinds P4P4P3P3P3P3, 3600 profiles: 1 allocations, 0 D2 failures, 0.0 s
+n = 6, m = 11, kinds Q4P3P3P3P3P3, 442368 profiles: 39 allocations, 0 D2 failures, 0.5 s
+n = 6, m = 11, kinds P4Q3Q3P3P3P3, 40 profiles: 1 allocations, 0 D2 failures, 0.0 s
+n = 6, m = 12, kinds P4P4Q3P3P3P3, 200 profiles: 1 allocations, 0 D2 failures, 0.0 s
+n = 6, m = 13, kinds P4P4P4P3P3P3, 1000 profiles: 1 allocations, 0 D2 failures, 0.0 s
+n = 6, m = 12, kinds Q4P3P3P3Q4P3, 21233664 profiles: 22 allocations, 0 D2 failures, 0.3 s
