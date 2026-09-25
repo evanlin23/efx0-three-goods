@@ -1,0 +1,14 @@
+n=4 (degrees 3-4, exactly 1 of degree 4): 135 cores
+  ... 25/135 cores [0s]
+  ... 50/135 cores [1s]
+  ... 75/135 cores [2s]
+  ... 100/135 cores [2s]
+  ... 125/135 cores [3s]
+  m=4: {'cores': 3, 'D2 fails': 0, 'D3 fails': 0, 'cex': 0, 'allocs': 3}
+  m=5: {'cores': 17, 'D2 fails': 0, 'D3 fails': 0, 'cex': 0, 'allocs': 300}
+  m=6: {'cores': 44, 'D2 fails': 0, 'D3 fails': 0, 'cex': 0, 'allocs': 918}
+  m=7: {'cores': 51, 'D2 fails': 0, 'D3 fails': 0, 'cex': 0, 'allocs': 918}
+  m=8: {'cores': 19, 'D2 fails': 0, 'D3 fails': 0, 'cex': 0, 'allocs': 207}
+  m=9: {'cores': 1, 'D2 fails': 0, 'D3 fails': 0, 'cex': 0, 'allocs': 1}
+  [3s]
+  wrote results/k4_certs_4_n4_1.json.gz

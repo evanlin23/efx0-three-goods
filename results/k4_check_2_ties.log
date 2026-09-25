@@ -1,0 +1,6 @@
+command: python3 k4/check4.py results/k4_certs_2_ties.json.gz --expect 2:any:5
+  n=2 m=4 ties: 2 cores, orbit sum 9 = labeled 9: yes; all profiles covered in 2/2
+  n=2 m=5 ties: 2 cores, orbit sum 80 = labeled 80: yes; all profiles covered in 2/2
+  n=2 m=6 ties: 1 cores, orbit sum 90 = labeled 90: yes; all profiles covered in 1/1
+  results/k4_certs_2_ties.json.gz: OK; 5 cores; every allocation has at most one bundle of more than 2 goods (D2) in 5/5
+ALL OK
