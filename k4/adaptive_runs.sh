@@ -13,7 +13,6 @@ N5="$R/k4_certs_5_n4_1.json.gz $R/k4_certs_5_n4_2.json.gz $R/k4_certs_5_n4_3.jso
 python3 k4/adaptive_run.py $N43 -A14 -r3 -K1 -f2 --show=40 > $R/k4_adaptive_A14_n4_3.log 2>&1
 python3 k4/adaptive_run.py $N43 -A16 -r3 --show=20 > $R/k4_adaptive_A16_n4_3.log 2>&1
 python3 k4/adaptive_run.py $N43 -i2 -r3 --show=20 > $R/k4_adaptive_exists_n4_3.log 2>&1
-python3 k4/adaptive_run.py $N43 -A24 -r3 -K2 -f2 --show=10 > $R/k4_adaptive_A24_n4_3.log 2>&1
 (python3 k4/adaptive_run.py $P4 -A16 -r3 -S20000 -K2 -f3 --show=20; python3 k4/adaptive_run.py $P4 -A16 -r3 -H5000 -K2 -f3 --show=20) > $R/k4_adaptive_A16_pure4.log 2>&1
 python3 k4/adaptive_run.py $N5 -A16 -r3 -S5000 -K2 -f3 --jobs=2 --show=50 > $R/k4_adaptive_A16_n5_sample.log 2>&1
 # adversarial sets (§2)
@@ -42,7 +41,7 @@ python3 k4/adaptive_matching_check.py > $R/k4_adaptive_matching_check.log 2>&1
   python3 k4/adaptive_run.py --profiles=$R/k4_adaptive_gm4_profiles.jsonl $A -r3
   for f in hard4 hard5; do python3 k4/adaptive_run.py $R/k4_lb4r_cores_$f.json.gz $A -r3 -H2000 -K3 -f1 --show=2; done
  done
- for A in -A17 -A18 -A25; do python3 k4/adaptive_H.py 1,2,3,4 --perms=5 $A -r3 -w0 --timeout=300; done) > $R/k4_adaptive_matching.log 2>&1
+ for A in -A17 -A18 -A25; do python3 k4/adaptive_H.py 1,2,3 --perms=5 $A -r3 -w0 --timeout=300; done) > $R/k4_adaptive_matching.log 2>&1
 # the multi-4-good gap (§6)
 python3 k4/adaptive_crosscheck.py $C2 $C3 $N41 $N42 > $R/k4_adaptive_crosscheck.log 2>&1
 python3 k4/adaptive_uncovered.py $C2 $C3 $N41 $N42 > $R/k4_adaptive_uncovered.log 2>&1

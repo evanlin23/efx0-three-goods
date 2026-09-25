@@ -18,9 +18,9 @@ at most R nested rotations, R as small as possible?
   1.6·10⁸ random profiles over the five n = 5 classes, hill-climbing towards profiles that need two
   rotations on #32's hard and random cores up to n = 8, #30's GM₄ profiles, and H_1–H_8 with relabelings (§2). R = 1
   is the least possible: 263,336 profiles at n = 3 need a rotation under every insertion order (`attempts/lb4-no-rotation.md`).
-- **Rule F is optimal where it was compared** (§4): on every profile with n ≤ 4 (pure n = 4 not compared), the fewest
-  rotations of rule F equal the fewest over *all* insertion sequences. More: some first agent makes *every*
-  continuation work with that fewest number (n ≤ 3, and n = 4 with one to three 4-good agents; conjecture
+- **Rule F is optimal where it was compared** (§4): on every profile with n ≤ 4 and at most three 4-good agents, the
+  fewest rotations of rule F equal the fewest over *all* insertion sequences. More: some first agent makes *every*
+  continuation work with that fewest number (n ≤ 3, and n = 4 with one or two 4-good agents; conjecture
   **K4.AD.C1**, "Theorem C₄ after the first insertion").
 - **Proved (written proof, §3, unreviewed; checked in an independent model for t ≤ 5): Proposition H′.** On H_t, for
   every t, every run of Phase 1 in which an agent of gadget 1 is processed before ℓ gives LB₄ʳ an allocation with **no
@@ -206,9 +206,9 @@ where H_t's structure is used, and what a general theorem must replace by a coun
   every profile, so equal histograms mean equality on every profile. So on these classes the insertion order matters
   only through the first agent, and the optimum is at most one rotation.
 - *Every continuation.* `-A24` (for each first agent, the largest number of rotations over every continuation)
-  reaches the same histogram on n ≤ 3 and on n = 4 with one or two 4-good agents (`results/k4_adaptive_rules_n23.log`, `results/k4_adaptive_rules_n4.log`) and
-  with three (`results/k4_adaptive_A24_n4_3.log`): some first agent makes *every* later insertion order work with the
-  fewest rotations. Proposition H′ is an instance (H_t, no rotation). This is LB⁺'s Theorem C (every run of Phase 1
+  reaches the same histogram on n ≤ 3 and on n = 4 with one or two 4-good agents (`results/k4_adaptive_rules_n23.log`,
+  `results/k4_adaptive_rules_n4.log`; the run with three was lost with the container and not repeated): some first
+  agent makes *every* later insertion order work with the fewest rotations. Proposition H′ is an instance (H_t, no rotation). This is LB⁺'s Theorem C (every run of Phase 1
   works) after one chosen step:
 
 **Conjecture K4.AD.C1.** For every strict profile of every k = 4 core there is an agent a such that for every
