@@ -1,0 +1,5 @@
+# python3 k4/lb4_run.py results/k4_p3/k4_certs_6_n4_1_p3.json.gz -i0 -u3 -r3 -w1 -c1 --jobs=2   (k4/lb4.c sha256 e1d1d864d3216a18b26d68b2205144d4fd0d82c9585a0cd82937ca062680447f)
+# lb4_run.py results/k4_p3/k4_certs_6_n4_1_p3.json.gz -i0 -u3 -r3 -w1 -c1 --jobs=2 --show=5
+results/k4_p3/k4_certs_6_n4_1_p3.json.gz: 7817 cores, 1323s
+  total=15802947072 leaves=1525659506 runs=1687097572 fails=0 rawfails=0 nobig=15233142342 owner_r=513442248 owner_other=23794558 rot=32567924 later_seq=0 later_upg=0 big3=470899814 big4=74249005 big5=5784422 big6=187002 big7=2404
+  cores with a failure: 0

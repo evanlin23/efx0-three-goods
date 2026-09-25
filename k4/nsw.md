@@ -46,6 +46,7 @@ EVIDENCE only (PROMPT.md §5 rule 3). Two leads for the open step of the k = 4 p
 | n = 2, every profile (189,216) | 0 | 0 | 0 | 0 |
 | n = 3, every profile (299,837,376) | 478,880 | 30,726 | **0** | 0 |
 | n = 4, 10,020,000 random profiles | 6,074 | 763 | **2** | 0 |
+| n = 5, 9,475,200 random profiles | — | — | 0 | 0 |
 | H_1 … H_5 (`-w0`) | 0 | 0 | 0 | — |
 | GM₄ instances A–H, P, Q, S | 0 | 0 | 0 | 0 |
 
@@ -62,13 +63,40 @@ The counts are profiles where all three upgrade policies fail. Logs: `results/k4
   (`results/k4_nsw_strict_verify.log`).
 - **Weak existence form, survives.** The weak form (non-decreasing moves, no state twice) never failed. A proof along
   these lines needs Φ plus a tie-break that strictly increases on the equal-Φ moves. P4 (rotated agents) solves both
-  n = 4 failures; P2 and P3 solve only one.
+  n = 4 failures; P2 and P3 solve only one. With P4, the strict search never fails:
+  - on every profile with n ≤ 3 (`results/k4_nsw_n23_N5P4.log`);
+  - on the 10,020,000 sampled n = 4 profiles (`results/k4_nsw_n4_N5P4.log`);
+  - on the 9,475,200 sampled n = 5 profiles, 300 per certified core, every class (`results/k4_nsw_n5_N5P4.log`).
+
+  So the surviving candidate is **Φ⁺ = (z, Π v_i(B_i), number of rotated agents)** in the existence form: some path
+  of RotSteps, each strictly raising Φ⁺, reaches an output. It is a candidate, not a local rule: it still has to
+  choose among the rotations.
 - **H_t.** Every H_t (t ≤ 5) succeeds. The steepest walk uses ⌈2t/3⌉ rotations (1, 2, 2, 3, 4), the minimum by
   `k4/c4.md` §7. The first walk uses 3t for t ≥ 2 (2, 6, 9, 12, 15); the path found by the strict search has t.
   So NSW does guide unboundedly many rotations there.
 
 ## 2. Results for the (4, 3) class
-(filled in below as runs finish)
+Bounded LB₄ʳ (`k4/lb4.c -i0 -u3 -r3 -w1 -c1`; for random cores the same options in `k4/lb4_nsw.c`) on k = 4 cores in
+which every good is valued by at most 3 agents:
+
+| cores | profiles | LB₄ʳ fails | least rotation depth that works (0, 1, 2, 3) |
+|---|---|---|---|
+| n ≤ 3 (all 56 cores are (4, 3) cores) | every profile | 0 | (earlier runs, `results/k4_lb4_nested_*.log`) |
+| n = 4 (696 of 1,002 cores), n = 5 with one or two 4-good agents (3,438 of 7,203) | every profile | 0 | (earlier runs: every core of these classes) |
+| n = 6, one 4-good agent (7,817 of 26,866) | every profile (1.58·10¹⁰) | 0 | (`results/k4_p3_lb4r_6_n4_1.log`, 22 min on 2 CPUs) |
+| n = 5, three 4-good agents (4,622 of 9,861) | every profile, in 4 parts | see `results/k4_p3_lb4r_5_n4_3_part*of4.log` | |
+| n = 5, four 4-good agents (4,380 of 9,846) | 4,380,000 random | 0 | 4,337,772 / 42,227 / 1 / 0 |
+| pure n = 5 (1,962 of 4,674) | 1,962,000 random | 0 | 1,939,368 / 22,632 / 0 / 0 |
+| random, n = 6–10, 200 cores each | 500,000 random | 0 | at most 1 rotation |
+| random dense (90% 4-good agents, ≤ 1 private good), n = 6–10 | see `results/k4_p3_random_dense.log` | | |
+
+Logs: `results/k4_p3_sample_5.log`, `results/k4_p3_random.log`. The filtered core lists and the filter log are in
+`results/k4_p3/`.
+
+The earlier exhaustive runs cover every core of their classes with index insertion (`k4/lb4.md` §5), so they cover
+the (4, 3) cores among them. On the data, LB₄ʳ never fails in the (4, 3) class, and it rarely needs more than one
+rotation. The one profile that needs two is an n = 5 core with four 4-good agents. The random cores are mostly easy:
+nearly all profiles need no rotation.
 
 ## Reproduce
 ```
