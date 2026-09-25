@@ -524,7 +524,8 @@ static int run_leaf(int *ok) {
 
 
 static long HILL = 0;                    /* -HN: N hill-climbing steps per core (restart every 500) */
-static int PSCORE = 0;                   /* -P1: hardness = how few policies succeed on their own; -P2: rotations first */
+static int PSCORE = 0;                   /* -P1: hardness = how few policies succeed on their own; -P2: rotations first;
+                                            -P3 (with -i1): the least rotations over all insertion sequences (exists tau) */
 static int DEEPREP = 0;                  /* -TN: report every run (-S, -H) needing at least N rotations */
 static long hist_pol[3], hist_rot[4];
 static long sstat[5], sbig[40], sfb_upg;   /* per-run counters of the -S and -H modes */
@@ -541,6 +542,7 @@ static int eval_profile(const int *ty, long *score, long *nruns) {
     }
     long sc = 0; nchoice = 0;
     int bchoice[MAXN], bnchoice = 0;     /* the hardest run's insertion sequence (-i1), re-run at the end for reports */
+    int xmin = 99, xnt = 0, xbad = 0;    /* -P3: least rotations over the insertion sequences, how many, how many need one */
     for (;;) {
         int ok; effort = 0;
         long sc0 = sc;
@@ -561,6 +563,7 @@ static int eval_profile(const int *ty, long *score, long *nruns) {
         } else {
         if (run_leaf(&ok)) { fprintf(stderr, "split with singleton type sets\n"); exit(1); }
         (*nruns)++;
+        if (!ok && PSCORE == 3) { xnt++; xbad++; goto next_seq; }   /* -P3: a failing sequence is allowed */
         if (!ok) { *score = -1; return 0; }
         }
         if (!rawcheck()) { report("RAWFAIL"); exit(2); }
@@ -569,13 +572,23 @@ static int eval_profile(const int *ty, long *score, long *nruns) {
         hist_pol[used_pol]++; hist_rot[used_rot]++;
         long e = effort < 999999 ? effort : 999999, v = used_pol * 100000000L + used_rot * 1000000L + e;
         if (PSCORE == 2) v = used_rot * 100000000L + used_pol * 1000000L + e;   /* -P2: rotations first */
+        if (PSCORE == 3) {               /* keep the sequence with the fewest rotations */
+            xnt++; if (used_rot) xbad++;
+            if (used_rot < xmin) { xmin = used_rot; memcpy(bchoice, choice, sizeof bchoice); bnchoice = nchoice ? nchoice : -1; }
+        } else {
         if (PSCORE != 1 && v > sc) sc = v;
         if (sc > sc0 || !bnchoice) { memcpy(bchoice, choice, sizeof bchoice); bnchoice = nchoice ? nchoice : -1; }
+        }
+      next_seq:
         if (INS != 1) break;
         int j = nins - 1;                /* next insertion sequence */
         while (j >= 0 && choice[j] + 1 >= maxchoice[j]) j--;
         if (j < 0) break;
         choice[j]++; nchoice = j + 1;
+    }
+    if (PSCORE == 3) {                   /* -P3 (exists tau): score = least rotations, then the share of sequences needing one */
+        if (xmin == 99) { *score = -1; return 0; }      /* no insertion sequence succeeds */
+        sc = xmin * 100000000L + xbad * 999999L / xnt;
     }
     if (INS == 1) {                      /* leave the state of the hardest run, for report() */
         int ok; memcpy(choice, bchoice, sizeof bchoice); nchoice = bnchoice < 0 ? 0 : bnchoice;
@@ -646,7 +659,10 @@ int main(int argc, char **argv) {
                 }
                 if (sc > top) {          /* hardest so far on this core */
                     top = sc; memcpy(best, ty, sizeof best);
-                    if (sc >= 2000000L) { char lab[64]; snprintf(lab, sizeof lab, PSCORE == 2 ? "HARD r=%ld p=%ld e=%ld" : "HARD p=%ld r=%ld e=%ld", sc / 100000000L, (sc / 1000000L) % 100, sc % 1000000L); report(lab); }
+                    if (sc >= 2000000L) { char lab[64];
+                        if (PSCORE == 3) snprintf(lab, sizeof lab, "HARD minr=%ld bad_ppm=%ld", sc / 100000000L, sc % 100000000L);
+                        else snprintf(lab, sizeof lab, PSCORE == 2 ? "HARD r=%ld p=%ld e=%ld" : "HARD p=%ld r=%ld e=%ld", sc / 100000000L, (sc / 1000000L) % 100, sc % 1000000L);
+                        report(lab); }
                 }
                 if (HILL > 0 && !restart && sc < cur) ty[mi] = mold;   /* reject a downhill move */
                 else cur = sc;
