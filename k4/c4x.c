@@ -229,10 +229,10 @@ static int completable_ro(const asg_t *a) {
 }
 
 /* ---- potentials: lexicographic lists of features (all maximized) ---- */
-#define NFEAT 22
+#define NFEAT 23
 static const char *featname[NFEAT] = {
   "sumlev", "sum2lev", "leximax", "leximin", "sumval", "sumvalnorm", "-frozen", "upgraded", "slots", "-exposed",
-  "-empty", "junk", "-upgraded", "frozen-sumlev", "frozen-leximin", "free-sumlev", "-exposed0", "-rodef", "sumlev3", "sumlev4", "leximin3", "leximin4"
+  "-empty", "junk", "-upgraded", "frozen-sumlev", "frozen-leximin", "free-sumlev", "-exposed0", "-rodef", "sumlev3", "sumlev4", "leximin3", "leximin4", "-size4"
 };
 #define MAXPHI 64
 static int nphi, phil[MAXPHI], phif[MAXPHI][6];
@@ -285,7 +285,8 @@ static void features(const asg_t *a, long long *F) {
   F[16] = -D0;
   { long long s3 = 0, s4 = 0, m3 = 0, m4 = 0;
     for (int i = 0; i < n; i++) { int l = lev[i][a->o[i]]; if (d[i] == 3) { s3 += l; m3 += 1LL << (4 * (15 - l)); } else { s4 += l; m4 += 1LL << (4 * (15 - l)); } }
-    F[18] = s3; F[19] = s4; F[20] = -m3; F[21] = -m4; }
+    F[18] = s3; F[19] = s4; F[20] = -m3; F[21] = -m4;
+    long long z4 = 0; for (int i = 0; i < n; i++) if (d[i] == 4) z4 += pc(optg[i][a->o[i]]); F[22] = -z4; }
   F[17] = 0;   /* -rodef: filled in by do_profile for the pre-allocations with the fewest frozen agents (-R) */
   F[0] = sl; F[1] = s2; F[2] = lmx; F[3] = -lmn; F[4] = sv; F[5] = svn; F[6] = -nF; F[7] = nU; F[8] = S; F[9] = -D;
   F[10] = -nE; F[11] = pc(a->J); F[12] = -nU; F[13] = fsl; F[14] = -flmn; F[15] = gsl;
@@ -388,7 +389,7 @@ static void rule_stats(const asg_t *a) {
   if (!fz[w] && N[w] && pc(B[w]) == 2)   /* 23: (P1) at any Psi-maximum, omega <= 0 included */
     for (int x = 0; x < n; x++) if (x != w && d[x] == 3) {
       int top = -1, tv0 = -1; for (int k = 0; k < 3; k++) if (tv[x][cur[x]][k] > tv0) { tv0 = tv[x][cur[x]][k]; top = gl[x][k]; }
-      if (B[x] == (1u << top) && (Rmask[x] & ~B[x]) == B[w]) rs_cnt[23]++;
+      if (B[x] == (1u << top) && (Rmask[x] & ~B[x]) == B[w]) { rs_cnt[23]++; if (nex && rs_cnt[24] < nex) { rs_cnt[24]++; printf("EXP1 x=%d S=%d J=%d:", x, S, pc(a->J)); print_profile(); print_asg(a); printf("\n"); } }
     }
   if (pc(a->J) <= S) return;
   rs_cnt[0]++;
@@ -418,6 +419,7 @@ static void rule_stats(const asg_t *a) {
         else t3 = 1;
       }
       if (ne) { rs_cnt[16]++; rs_cnt[17] += t1; rs_cnt[18] += t2; rs_cnt[19] += t3; if (N[w]) rs_cnt[20]++; if (wok) rs_cnt[21]++; }
+      if (wexp && ne) { rs_cnt[25]++; if (nex && rs_cnt[26] < nex) { rs_cnt[26]++; printf("EXC1:"); print_profile(); print_asg(a); printf("\n"); } }
       if (t3 && nex && rs_cnt[22] < nex) { rs_cnt[22]++; printf("EXE3:"); print_profile(); print_asg(a); printf("\n"); }
     }
     if (N[w] && pc(B[w]) == 2)
@@ -705,7 +707,7 @@ int main(int argc, char **argv) {
     }
   }
   printf("RESULT asg %d profiles %lld valid %lld tested %lld nocomp %lld ronone %lld ronone_any %lld paretomax %lld paretofail %lld\n", nA, nprof, nvalid, ncompl_tested, nocomp, ronone, ronone_any, pareto_n, pareto_fail);
-  if (rulestat) { printf("RULESTATS"); for (int q = 0; q < 10; q++) printf(" %lld", rs_cnt[q]); for (int q = 11; q < 22; q++) printf(" %lld", rs_cnt[q]); printf(" %lld\n", rs_cnt[23]); }
+  if (rulestat) { printf("RULESTATS"); for (int q = 0; q < 10; q++) printf(" %lld", rs_cnt[q]); for (int q = 11; q < 22; q++) printf(" %lld", rs_cnt[q]); printf(" %lld %lld\n", rs_cnt[23], rs_cnt[25]); }
   if (termstat) { printf("TERMSTATS"); for (int q = 0; q < 12; q++) printf(" %lld", ts_cnt[q]); for (int q = 13; q < 22; q++) printf(" %lld", ts_cnt[q]); printf("\n"); }
   if (moves) {
     printf("MOVES posdef %lld lower_by_dist", nposdef); for (int h = 0; h < 8; h++) printf(" %lld", hist_lower[h]);

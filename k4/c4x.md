@@ -270,8 +270,18 @@ agent values four goods:
   ω ≥ 1 (n ≤ 4, and a sample of n = 5), so excluding it must use ω ≥ 1; and in case B w itself is always a valid owner.
 - **(C1)** w is free with N_w = ∅ and exposed by a 3-good terminal t. Then B_w = {b_w, c_w} with
   a_w < b_w + c_w < a_w + d_w, B_t = {a_w} and d_w ∈ J: by Lemma U the base has two goods, by Lemma U₂ the junk good
-  of the complementary pair is worse than both base goods, which leaves only this shape. The walk breaks: w has no need
-  chain. **Open: show that w is then a valid owner.** Evidence: 300 such maxima at n = 4, w valid in all of them.
+  of the complementary pair is worse than both base goods, which leaves only this shape. The walk breaks here (w has no
+  need chain). The data says more: at every such maximum *nobody* is exposed w.r.t. W_w = B_w ∪ J, so w is a valid
+  owner with any completion (**Lemma C1′, open**). Part of it is proved: an agent x exposed w.r.t. W_w is a 3-good
+  top-holder with low(x) ⊆ W_w, so either (t1) x is frozen with low(x) = {y, z}, y ∈ B_w, z ∈ J (Lemmas U, R₃), or
+  (t2) low(x) = B_w. (a) If x is frozen and some need chain from x ends at t, let x take {y, z} (t1) or B_w (t2),
+  rotate the chain (t takes the good it needed and gives up a_w), and let w take {a_w, d_w} (worth more than B_w, no
+  needs) and release what is left of B_w to the junk: everyone moved gains and the result is valid, contradicting
+  (M1). (b) In case t1 with y = c_w and a chain from x ending at τ ≠ t, let x take {c_w, z}, rotate the chain (τ
+  releases its base to the junk) and let w take {b_w, d_w}: w's needs are then at most {a_w}, still t's base, the
+  result is valid, and every agent of x's chain gains, contradicting (M1) (w may lose). Open: t1 with y = b_w, chains
+  avoiding t and b_w > c_w + d_w (then w cannot keep {c_w, d_w}), and t2 when x is free or its chains avoid t. Evidence: 300 case-C1 maxima at n = 4 (none
+  at n = 3), E_w = ∅ at all of them; 52 in the n = 5 sample, w valid at all.
 - **(C0)** w free, N_w = ∅, not exposed by any 3-good terminal, and a 3-good terminal exists: the walk over the
   3-good terminals applies verbatim (exposed agents are frozen 3-good top-holders; chain ends are 3-good terminals),
   so some 3-good terminal is valid. (Proved.)
@@ -280,3 +290,14 @@ Counters (`k4/c4x.c -W` on the Ψ-maxima with ω ≥ 1): n = 3, one 4-good agent
 free, not a terminal, a 3-good terminal exists 576; no terminal 5,320; w frozen 244); n = 4: 200,808 maxima (118,841;
 48,811; 33,156; 16,341). Lemma R_w and Lemma E_w: 0 violations; (P1): 0; case C1: 0 at n = 3 and 300 at n = 4, w
 valid in all; w frozen: every 3-good terminal is valid (stronger than Theorem A); no terminal: w valid.
+
+### 4.4 A refinement: w holds as little as possible (evidence)
+
+Let **Ψ₂(P) = (Σ_{i ≠ w} ℓ_i(B_i), −|B_w|, ℓ_w(B_w))**. Every Ψ₂-maximum is completable on the same classes (n = 3 and
+n = 4 exhaustive, 1,735,000 sampled profiles at n = 5), and at its maxima with ω ≥ 1 the structure is simpler:
+neither (P1) nor any agent x with low(x) ⊆ B_w occurs, and **some terminal is always a valid owner** (w if w is a
+terminal; otherwise a 3-good terminal, including in case C1; w if there is no terminal). The price: (M2) becomes "no
+P′ with the same 3-good bases gives w a base of the same size worth more or a smaller base", so Lemma U no longer holds
+for w (an upgrade of w lowers Ψ₂), and the argument of case B that w is not exposed must be redone. Counters
+(`k4/c4x.c -W -p "18,22,19"`): n = 4: 247,271 maxima with ω ≥ 1, 0 violations of the rule; w exposed by a 3-good
+terminal at 15,962 of them, and a 3-good terminal is valid at all of these.
