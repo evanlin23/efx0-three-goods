@@ -10,7 +10,8 @@
     rotation bound, for a failing variant and for LB4r with every insertion order, n <= 3; random profiles with every
     insertion order (-i1 -S) find the failures of need-shrinking upgrades only (n = 2), none for LB4r, and stop with a
     raw-check failure (exit 2) when the owner constraint is ignored (-s); hill-climbing (-H, with -P1's check that LB4r
-    succeeds exactly when some policy does) runs clean on n = 3.
+    succeeds whenever some policy does) runs clean on n = 3; a rotation bound above 3 (-r4, depth-first, every
+    insertion order, n = 3) runs clean under AddressSanitizer and fills the histogram entry rot4, and -r9 is rejected.
 Usage: python3 k4/test_lb4.py [d]      (d: part (d) only)"""
 import gzip, json, os, subprocess, sys
 from multiprocessing import Pool
@@ -51,6 +52,18 @@ def part_d(pool):
     h = pool.map(per_core, [(r, '-i1 -u3 -r3 -w1 -c1 -d1 -P1 -H500') for r in cores(3)])
     print(f"(d) -i1 -d1 -P1 -H500, n=3: {sum(x['total'] for x in h)} profiles, fails {sum(x['fails'] for x in h)}")
     ok &= sum(x['fails'] + x['rawfails'] for x in h) == 0
+    import tempfile
+    asan = os.path.join(tempfile.gettempdir(), 'k4_lb4_asan')
+    b = subprocess.run(['gcc', '-O1', '-fsanitize=address', '-o', asan, lb4_run.SRC], capture_output=True)
+    if b.returncode == 0:
+        p = subprocess.run([asan] + '-i1 -u3 -r4 -w1 -c1'.split(), input=inp, capture_output=True, text=True)
+        h = [list(map(int, l.split()[1:])) for l in p.stdout.split('\n') if l.startswith('H ')]
+        r4 = sum(x[7] for x in h if len(x) > 7)
+        print(f"(d) -r4 under AddressSanitizer, n=3: exit {p.returncode}, sanitizer reports {p.stderr.count('AddressSanitizer')}, rot4 {r4}")
+        ok &= p.returncode == 0 and 'AddressSanitizer' not in p.stderr and r4 > 0
+    else: print('(d) -r4 under AddressSanitizer: skipped (no -fsanitize=address)')
+    p = subprocess.run([lb4_run.BIN, '-r9'], input='', capture_output=True, text=True)
+    print(f"(d) -r9 rejected: {p.returncode != 0}"); ok &= p.returncode != 0
     return ok
 
 def main():

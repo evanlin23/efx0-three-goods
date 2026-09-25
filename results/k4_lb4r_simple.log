@@ -139,6 +139,7 @@ results/k4_certs_4_pure.json.gz: 219 cores, 47s
     HARD p=0 r=2 e=18 n=4 m=8 sets=[[0,4,5,7],[1,2,3,4],[1,3,6,7],[2,5,6,7]] vals=[[2,8,5,4],[6,2,7,10],[4,2,8,3],[2,7,8,4]] order=3 2 1 0  picks=-2,4,1,6 blocks=0,0,0,0 upg=0:a0  frozen=3  J=d w=1
   cores with a failure written to /tmp/claude-0/lb4r/bad_simple_pure4.json.gz (0)
 # lb4_run.py results/k4_certs_4_pure.json.gz -i0 -u2 -r2 -w1 -c1 -d1 --show=3 --badcores=/tmp/claude-0/lb4r/bad_simple_pure4_i0.json.gz
+# not finished: the command above (-i0 -u2 -r2 on pure n = 4, exhaustive) had not completed when this log was committed
 # lb4_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz results/k4_certs_4_n4_1.json.gz results/k4_certs_4_n4_2.json.gz results/k4_certs_4_n4_3.json.gz -i0 -u0 -r3 -w1 -c1 -d1 --show=3 --badcores=/tmp/claude-0/lb4r/bad_u0.json.gz
 results/k4_certs_2.json.gz: 5 cores, 4s
   pol_needshrink=189216 pol_envyfree=0 pol_none=0 rot0=185736 rot1=3480 rot2=0 rot3=0 total=189216 leaves=5050 runs=8452 fails=0 rawfails=0 nobig=63504 owner_r=122232 owner_other=0 rot=3480 later_seq=0 later_upg=0 big3=88200 big4=20736

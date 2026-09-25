@@ -322,4 +322,5 @@ results/k4_certs_5_n4_2.json.gz: 5468 cores, 20s
 /tmp/claude-0/lb4r/hard5.json.gz 396 {5: 396}
 /tmp/claude-0/lb4r/grow1.json.gz: 2000 random cores, n = 6, 4-good agents random, m from 8 to 13
 /tmp/claude-0/lb4r/grow2.json.gz: 2000 random cores, n = 4, 4-good agents random, m from 5 to 14
+# note: grow2 holds n = 4, 5 and 6 (5, 132 and 1,863 cores); the line above was printed before lb4_randcores.py printed the range of n
 /tmp/claude-0/lb4r/grow3.json.gz: 1000 random cores, n = 7, 4-good agents random, m from 8 to 14

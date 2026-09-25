@@ -555,6 +555,7 @@ int main(int argc, char **argv) {
         }
         if (TAU > 0) {                   /* -i10 -TN: random insertion sequences on one profile */
             int RMAX = ROT; long hist[8] = {0}; int shownr[8] = {0};
+            if (RMAX < 0 || RMAX > 6) { fprintf(stderr, "-T: the rotation bound must be 0 .. 6\n"); return 1; }
             for (int i = 0; i < n; i++) {
                 if (nt[i] != 1) { fprintf(stderr, "-T needs one type per agent\n"); return 1; }
                 cp[i] = 0; ts[i] = 1;

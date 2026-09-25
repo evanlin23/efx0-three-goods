@@ -527,7 +527,8 @@ static long HILL = 0;                    /* -HN: N hill-climbing steps per core 
 static int PSCORE = 0;                   /* -P1: hardness = how few policies succeed on their own; -P2: rotations first;
                                             -P3 (with -i1): the least rotations over all insertion sequences (exists tau) */
 static int DEEPREP = 0;                  /* -TN: report every run (-S, -H) needing at least N rotations */
-static long hist_pol[3], hist_rot[4];
+#define MAXROT 8                         /* largest rotation bound -rN; the histograms have MAXROT + 1 entries */
+static long hist_pol[3], hist_rot[MAXROT + 1];
 static long sstat[5], sbig[40], sfb_upg;   /* per-run counters of the -S and -H modes */
 /* set the rankings and singleton type sets for type indices ty[]; run LB4 (every insertion sequence when -i1);
    *score = max over runs of policy * 1e8 + rotations * 1e6 + min(effort, 999999); returns 1 if every run succeeds */
@@ -615,6 +616,7 @@ int main(int argc, char **argv) {
         else if (!strncmp(argv[a], "-w", 2)) OWNW = atoi(argv[a] + 2);
         else if (!strncmp(argv[a], "-c", 2)) CHUP = atoi(argv[a] + 2);
     }
+    if (ROT < 0 || ROT > MAXROT) { fprintf(stderr, "-r%d: the rotation bound must be 0 .. %d\n", ROT, MAXROT); return 1; }
     if (ALLOC) htab = calloc((size_t)1 << HBITS, sizeof(uint64_t));
     while (scanf("%d %d", &n, &m) == 2) {
         memset(loc, -1, sizeof loc);
@@ -745,7 +747,9 @@ int main(int argc, char **argv) {
             if (i == n) break;
         }
       core_done:
-        printf("H %ld %ld %ld %ld %ld %ld %ld\n", hist_pol[0], hist_pol[1], hist_pol[2], hist_rot[0], hist_rot[1], hist_rot[2], hist_rot[3]);
+        printf("H %ld %ld %ld", hist_pol[0], hist_pol[1], hist_pol[2]);   /* then rotations 0 .. max(3, N) */
+        for (int k = 0; k <= (ROT > 3 ? ROT : 3); k++) printf(" %ld", hist_rot[k]);
+        printf("\n");
         memset(hist_pol, 0, sizeof hist_pol); memset(hist_rot, 0, sizeof hist_rot);
         if (ALLOC) {
             for (long h = 0; h < (1 << HBITS); h++) if (htab[h]) {

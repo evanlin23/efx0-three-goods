@@ -98,7 +98,8 @@ def main():
                     if cert is not None: cert.append({'m': r['m'], 'sets': r['sets'], 'allocs': A})
                     line, _, hl = line.partition(' | ')
                     if hl:                       # policies 1, 2, 0 used; rotations 0..3 used
-                        for k, v in zip(('pol_needshrink', 'pol_envyfree', 'pol_none', 'rot0', 'rot1', 'rot2', 'rot3'), map(int, hl.split()[1:])):
+                        hv = list(map(int, hl.split()[1:]))
+                        for k, v in zip(['pol_needshrink', 'pol_envyfree', 'pol_none'] + [f'rot{i}' for i in range(len(hv) - 3)], hv):
                             tot[k] = tot.get(k, 0) + v
                     toks = line.split()
                     kv = dict(zip(toks[0:22:2], map(int, toks[1:22:2])))
