@@ -212,11 +212,15 @@ chain ends); fact (iii) with Lemma R (a top-holder's only better base without it
 two goods, so the rotation stays in 𝒫, and an exposed agent needs exactly one junk good kept out); σ ≥ 0 (a terminal
 exists when ω ≥ 1). Lemmas U and C hold for every k. The private-goods rule of cores is not used.
 
-*Checks against brute force* (`k4/c4x.c -T`, counters of `k4/c4x_run.py`): on every Pareto-maximum with ω ≥ 1 of
-every strict profile of every k = 3 core with n ≤ 5 (343 cores, 2,333,088 profiles, 343,256 such maxima) Lemmas U, C,
-E hold (0 violations), every Pareto-maximum is completable, some terminal is always a valid owner, and the criterion
-|Z_t| ≤ S − cap(t) agrees with the exact owner test on every terminal. "Every terminal is a valid owner" is false
-(80 terminals, all in the situation the label argument handles: two exposed agents whose chains end at one terminal).
+*Checks against brute force* (`k4/c4x.c -T`, counters of `k4/c4x_run.py`; `results/k4_c4x_k3_lemmas.log`): on every
+Pareto-maximum with ω ≥ 1 of every strict profile of every k = 3 core with n ≤ 6 (3,436 cores, 146,640,096 profiles,
+1,460,716,706 Pareto-maxima, 25,456,130 of them with ω ≥ 1) Lemmas U, C and E hold (0 violations), every
+Pareto-maximum is completable, some terminal is always a valid owner, and the criterion |Z_t| ≤ S − cap(t) agrees with
+the exact owner test on all 28,313,452 terminals. "Every terminal is a valid owner" is false (17,056 terminals, all
+with two exposed agents whose chains end at one terminal), and the exposure graph does have cycles (at 3,000 maxima,
+first at n = 6), as the proof allows: in a cycle two exposed agents share a junk label. Example (`results/k4_c4x_k3_pareto.log`,
+pareto.log`, core 2964): terminals 3 and 5 expose agents 2 and 4, whose chains end at each other's terminal, and both
+need the junk good 2; both terminals are valid (one label, one slot).
 
 ## 4. One 4-good agent: the 3-good agents first
 
