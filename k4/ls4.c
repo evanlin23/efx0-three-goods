@@ -418,7 +418,7 @@ static int run(void) {
     if (!efx0(V, Y)) { printf("PHASE1 NOT EFX0\n"); exit(4); }
     if (!U) { stat_p2[0]++; if (!efx0_raw(Y)) { printf("RAW FAIL complete\n"); exit(4); } return 1; }
     { int e = 0; for (int i = 0; i < n; i++) if (!Y[i]) e = 1; if (!e) { classify_bad(); clean_analysis(); }
-      if (e) stat_dump[0]++; else if (single_dump()) stat_dump[1]++; else { if (dm_shape()) stat_dm[0]++; else stat_dm[1]++; if (dm1_shape()) stat_dm[2]++; stat_dump[2]++; if (verbose && stat_dump[2] <= 5) { print_profile(); print_state("  NODUMP"); if (phase2_exact(0)) { mask t[MAXN]; memcpy(t, Y, sizeof t); memcpy(Y, P2X, sizeof t); print_state("  PLACED"); memcpy(Y, t, sizeof t); } } } }
+      if (e) stat_dump[0]++; else if (single_dump()) stat_dump[1]++; else { if (dm_shape()) stat_dm[0]++; else stat_dm[1]++; if (dm1_shape()) stat_dm[2]++; else if (verbose && stat_dm[1] + stat_dm[0] - stat_dm[2] <= 3) { print_profile(); print_state("  DM1FAIL"); } stat_dump[2]++; if (verbose && stat_dump[2] <= 5) { print_profile(); print_state("  NODUMP"); if (phase2_exact(0)) { mask t[MAXN]; memcpy(t, Y, sizeof t); memcpy(Y, P2X, sizeof t); print_state("  PLACED"); memcpy(Y, t, sizeof t); } } } }
     if (phase2_exact(0)) { stat_p2[1]++;
         int big = 0; for (int i = 0; i < n; i++) if (__builtin_popcount(P2X[i]) > 2) big++;
         stat_big[big > 3 ? 3 : big]++;

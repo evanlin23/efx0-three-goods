@@ -14,7 +14,9 @@ Phase 2 places U as junk.
 - No complete EFX₀ allocation extends Y. Good 0 at agent 1 gives {0, 1, 2}; good 0 at agent 0 gives {0, 3} (both strongly envied as above).
 - The exchange cycle 0 → 1 → 0 repairs it: agent 0 takes {0, 2} (10 > 8), agent 1 takes {3} (8 > 7), and good 1 goes to the pool. Then {0, 2} | {1, 3} is EFX₀.
 
-Count: in `k4/ls4.c` without exchange cycles, 648 of the 189,216 strict profiles of the five n = 2 cores fail (single implementation). With the exchange cycles of LS4 none fails (`results/k4_ls4_2_ties.log`). The same example is the `-DNOX` sensitivity test of `k4/ls4alg.c` (`results/k4_ls4_sensitivity.log`).
+Count: in `k4/ls4.c` without exchange cycles, 648 of the 189,216 strict profiles of the five n = 2 cores fail (single implementation). With the exchange cycles of LS4 none fails (`results/k4_ls4_2_ties.log`).
+
+The same test in `k4/ls4alg.c` (`-DNOX`, `results/k4_ls4_sensitivity.log`) counts 732 = 648 + 84 failures. The difference is Phase 2: `k4/ls4.c`'s exact search also lets a pool good go to an agent that values it, and that completes 84 of the states. LS4 places pool goods only as junk at sources, so it counts them as failures.
 
 So at k = 4 cycle moves are needed already at n = 2. At k = 3 they are needed first at n = 6 (`attempts/local-search-twophase-m1m2.md`).
 

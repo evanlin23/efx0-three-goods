@@ -26,6 +26,26 @@ LS4 (`k4/ls4alg.c`, default choice rule) makes 15 single-agent rebundles from th
 
 The dead end is a property of the four strict types, not of the integer representatives. Safety and the comparisons V_i(X_i) ≥ V_i(Y_i) are comparisons of subset sums of one agent. So it holds for every valuation of these types.
 
+The 15 moves (each a single-agent rebundle M1; values are the mover's):
+
+| step | agent | bundle before (value) | bundle after (value) | pool after |
+|---|---|---|---|---|
+| 1 | 0 | ∅ (0) | {6} (3) | {0, 1, 2, 3, 4, 5} |
+| 2 | 0 | {6} (3) | {5} (6) | {0, 1, 2, 3, 4, 6} |
+| 3 | 0 | {5} (6) | {0} (8) | {1, 2, 3, 4, 5, 6} |
+| 4 | 0 | {0} (8) | {2} (10) | {0, 1, 3, 4, 5, 6} |
+| 5 | 1 | ∅ (0) | {3} (2) | {0, 1, 4, 5, 6} |
+| 6 | 1 | {3} (2) | {4} (4) | {0, 1, 3, 5, 6} |
+| 7 | 1 | {4} (4) | {0} (5) | {1, 3, 4, 5, 6} |
+| 8 | 1 | {0} (5) | {6} (8) | {0, 1, 3, 4, 5} |
+| 9 | 2 | ∅ (0) | {1} (1) | {0, 3, 4, 5} |
+| 10 | 2 | {1} (1) | {4} (6) | {0, 1, 3, 5} |
+| 11 | 3 | ∅ (0) | {1} (2) | {0, 3, 5} |
+| 12 | 3 | {1} (2) | {3} (3) | {0, 1, 5} |
+| 13 | 2 | {4} (6) | {1, 4} (7) | {0, 5} |
+| 14 | 3 | {3} (3) | {5} (6) | {0, 3} |
+| 15 | 3 | {5} (6) | {3, 5} (9) | {0} |
+
 **What this refutes.**
 - Conjecture TP₄ of `k4/local_search4.md` as stated for every stable state: Y is stable and has no placement at all.
 - Any two-phase local search in which Phase 1 makes Pareto improvements of junk-free EFX₀ partial allocations with arbitrary choices, as Theorem C allows at k = 3. Y is reached with single-agent rebundles alone, which every such move set contains.
@@ -33,17 +53,19 @@ The dead end is a property of the four strict types, not of the integer represen
 It does not refute a local search with a *specific* choice rule. The same profile succeeds under LS4's alternative rule `-DALT` (most valuable rebundle, rotating agent order), in 5 steps. Nor does it refute one that allows non-Pareto moves (some agent loses, as in LB⁺'s rotation).
 
 **How rare.**
-- LS4 with its default rule fails on 20 of the 21,900,000 sampled profiles of the 219 pure n = 4 cores (`results/k4_ls4_4_sample.log`; 10 cores, all with m = 7).
+- LS4 with its default rule fails on 20 of the 21,900,000 sampled profiles of the 219 pure n = 4 cores (`results/k4_ls4_4_sample.log`).
+  - They are in 10 cores: m = 7, 8 and 9 (4, 5 and 1 cores; 13, 6 and 1 failures).
+  - Each is a stable state where LS4 stops without a placement. Of the 19 logged states (the log prints at most 5 per core), 8 are dead ends and 11 still admit coalition moves (brute force).
 - It never fails on:
   - the other n = 4 cores: 33,900,000 sampled profiles with three 4-good agents; exhaustive with one or two;
   - n ≤ 3: exhaustive, ties included;
-  - n = 5 with at most two 4-good agents (sampled, or exhaustive with one).
+  - n = 5 with at most two 4-good agents (sampled: 20,000 random profiles per core with one, 10,000 with two).
 - Dead ends of any kind are junk-free EFX₀ partial allocations with no dominating complete EFX₀ allocation, reachable or not (`k4/ls4_deadend.c`).
   - n = 2: none, exhaustive (`results/k4_ls4_deadend_2.log`).
   - n = 3: none in 1,020,000 random profiles.
   - n = 4, m ≤ 6: none in 424,000 random profiles.
   - n = 4, m = 7: 34 of 576,000 random profiles have one, in 20 of the 288 cores (8 pure, 7 with three 4-good agents, 5 with two). Every one is reachable by single-agent rebundles (`results/k4_ls4_deadend_4_m7_sample.log`).
-  - So the smallest dead end has n = 4 and m = 7 among n = 4 cores; n = 3 is not excluded (sampled only).
+  - So dead ends were found first at n = 4, m = 7. None was found for m ≤ 6 (sampled, 424,000 profiles) or at n = 3 (sampled, 1,020,000 profiles); n = 2 has none (exhaustive).
 
 Reproduce:
 - `python3 k4/ls4_attempts.py` is an independent brute force from the raw definition. It replays the 15 steps (each a valid single-agent rebundle), checks that no M1, R, X or coalition move exists, that no completion exists, and that no complete EFX₀ allocation dominates Y.

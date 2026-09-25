@@ -19,7 +19,12 @@ Phase 1 reaches Y = {0, 5} | {3} | {2, 4} with U = {1}. The values are 11, 8, 9.
   - at agent 1, agent 2 values {1, 3} minus good 1 at 10 > 9.
 - The repair keeps an own good. In the cycle 0 → 2 → 1 → 0, agent 0 keeps good 0 and takes good 2 (14). Agent 2 takes good 3 (10). Agent 1 takes good 5 from agent 0's bundle and the pool good 1 (9). The result {0, 2} | {1, 5} | {3} is Pareto-better, with goods 4 in the pool. It is completed by giving 4 to agent 2 (valued) or placing it as junk.
 
-**Why champion cycles in particular fail.** In the n = 3 profile agent 0 (0:6, 2:8, 4:4, 5:5), agent 1 (1:2, 3:10, 4:6, 5:7), agent 2 (2:3, 3:4, 5:2), the stable state is Y = {0, 5} | {3} | {2}, U = {1, 4}. The two sources' champions both need the pool good 4: agent 1 wants {4, 5} ⊆ Y_0 ∪ U, and agent 0 wants {2, 4} ⊆ Y_2 ∪ U. So the cycle 1 → 0 → 2 → 1 is not disjoint. The repair again keeps an own good: agent 0 takes {0, 2}, agent 1 takes {4, 5}, agent 2 takes {3}. At k = 3 this overlap cannot occur, because a dirty good is a single good per source and the system of distinct representatives separates them.
+**Champion cycles.** A champion cycle takes, for each source s, the agent envying a smallest subset of Y_s ∪ U; that agent takes the subset, and envy paths compensate s. It is an exchange cycle without keep, so the failing state above (no move, no completion) is also one for champion cycles, and `k4/ls4.c -c` reaches it.
+
+An *illustration* (not a failure) of how champion cycles get blocked. In the n = 3 profile agent 0 (0:6, 2:8, 4:4, 5:5), agent 1 (1:2, 3:10, 4:6, 5:7), agent 2 (2:3, 3:4, 5:2), take the state Y = {0, 5} | {3} | {2}, U = {1, 4}.
+- The two sources' champions both need the pool good 4: agent 1 wants {4, 5} ⊆ Y_0 ∪ U, and agent 0 wants {2, 4} ⊆ Y_2 ∪ U. So the champion cycle 1 → 0 → 2 → 1 is not disjoint. At k = 3 this cannot happen, because a dirty good is a single good per source and a system of distinct representatives separates them.
+- An exchange cycle with keep still improves this state: agent 0 takes {0, 2}, agent 1 takes {4, 5}, agent 2 takes {3}.
+- LS4's Phase 2 completes the state as it is: good 1 as junk at agent 0 and good 4 as junk at agent 2 give the EFX₀ allocation {0, 1, 5} | {3} | {2, 4}. This is a dump plus a solo good, and it is the only completion (brute force).
 
 Counts (single implementation, `k4/ls4.c -x` without `-k`): 40 of 5,100,000 random strict n = 3 profiles end in such a dead end. There are 0 at n = 2 (exhaustive). The smallest n is 3; whether m = 6 is the smallest m at n = 3 was not searched.
 

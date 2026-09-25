@@ -19,7 +19,7 @@ route to TARGET₄ that does not go through construction LB₄ (`k4/SCOUT.md` §
   - n = 4 with one or two 4-good agents: every profile (7,247,232 and 724,847,616);
   - large random samples of every other n = 4 and n = 5 certificate class,
 
-  except on 20 of the 21.9 million sampled profiles of pure n = 4 cores (§5). There LS4 stops at a state that no M1, R or X move improves and that no placement completes. Of the three such states examined by brute force, one is a dead end; the other two still admit coalition moves.
+  except on 20 of the 21.9 million sampled profiles of pure n = 4 cores (§5). They are in 10 cores with m = 7, 8, 9 (4, 5 and 1 cores). There LS4 stops at a state that no M1, R or X move improves and that no placement completes. Of the 19 logged such states, 8 are dead ends and 11 still admit coalition moves (brute force).
 - *Not proved:* a polynomial bound on the running time. The number of moves is linear, but the implementation finds exchange cycles and the Phase-2 split by enumeration.
 
 ## 0. Setting and notation
@@ -220,7 +220,7 @@ So a stable state without a placement needs at least two sources, the dump fails
 - *Lemma 2 fails.* An agent may envy a bundle of two or three goods. A source with two goods may envy. So backward envy walks need not end at one-good sources.
 - *m ≤ 3n.* One-good sources need not exist.
 - *Placement constraints are not per good.* At a source s, a minimal set J ⊆ U such that Y_s ∪ J is not threat-free can have one, two or three goods. Two-good sets whose goods are both valued by the envier occur at n = 3 (`k4/ls4.c`, counters B1, B2a, B2b, B3). At k = 3 every such constraint is "u must sit alone next to the source's single good".
-- *Exchange cycles must keep own goods and can be long.* Cycles without keep fail at n = 3 (`attempts/k4-ls-exchange-no-keep.md`). Length ≤ 2 fails at n = 4. Cycles in which at most one agent takes pool goods fail at n = 5 (§6).
+- *Exchange cycles must keep own goods and can be long.* Cycles without keep fail at n = 3 (`attempts/k4-ls-exchange-no-keep.md`). Length ≤ 2 fails at n = 3 (`attempts/k4-ls-short-cycles.md`). Cycles in which at most one agent takes pool goods fail at n = 5 (§6).
 
 ## 5. Computational evidence (not part of any proof)
 
@@ -239,7 +239,7 @@ So a stable state without a placement needs at least two sources, the dump fails
 | n = 4, one 4-good agent | 135 | 7,247,232 | exhaustive | 0 | DM split 77,900 times | `results/k4_ls4_4_n4_1.log` |
 | n = 4, two 4-good agents | 309 | 724,847,616 | exhaustive | 0 | DM split 7,152,104 times; exact-search fallback 5,632 times | `results/k4_ls4_4_n4_2.log` |
 | n = 4, three 4-good agents | 339 | 33,900,000 | 100,000 random per core | 0 | | `results/k4_ls4_4_sample.log` |
-| n = 4, pure | 219 | 21,900,000 | 100,000 random per core | **20** (10 cores, all m = 7) | dead ends (§4); rule `-DALT`: 23 failures on the same sample (`results/k4_ls4_4_pure_alt_sample.log`) | `results/k4_ls4_4_sample.log` |
+| n = 4, pure | 219 | 21,900,000 | 100,000 random per core | **20** (10 cores: m = 7, 8, 9 with 4, 5 and 1 cores; 13, 6 and 1 failures) | stable states where LS4 stops without a placement; 8 of the 19 logged are dead ends (§4), 11 admit coalition moves. Rule `-DALT`: 23 failures on the same sample (`results/k4_ls4_4_pure_alt_sample.log`, `attempts/k4-ls-alt-rule.md`) | `results/k4_ls4_4_sample.log` |
 | n = 5, one 4-good agent | 1,735 | 34,700,000 | 20,000 random per core | 0 | | `results/k4_ls4_5_n4_1_sample.log` |
 | n = 5, two 4-good agents | 5,468 | 54,680,000 | 10,000 random per core | 0 | exact-search fallback needed 839 times (DM shape failed) | `results/k4_ls4_5_n4_2_sample.log` |
 
@@ -266,20 +266,26 @@ So the smallest dead end has n = 3 or n = 4. An exhaustive search at n = 3 would
 | Phase 1 = M1 and R only | n = 2, m = 4: a stable state with no completion at all | `attempts/k4-ls-no-exchange.md` |
 | exchange cycles without keeping own goods (includes the k = 3 champion cycles) | n = 3, m = 6: a stable state with no completion at all | `attempts/k4-ls-exchange-no-keep.md` |
 | Phase 2 = one dump only | n = 4, m = 7: stable even under all coalition moves; the only EFX₀ completion splits the pool | `attempts/k4-ls-single-dump.md` |
-| exchange cycles of length ≤ 2, or with at most one pool-using agent | n = 4 (length), n = 5 (pool); random samples, `k4/ls4.c -L 2`, `-1` | this section |
-| Phase 2 = "clean" placement plus solo matching, ignoring values | fails in about 3% of stable n = 3 states, where the value slack makes a dump valid | this section |
+| exchange cycles of length ≤ 2 | n = 3, m = 5: a stable state with no completion at all | `attempts/k4-ls-short-cycles.md` |
+| exchange cycles with at most one pool-using agent | n = 5, m = 8: a stable state with no completion at all | `attempts/k4-ls-one-pool-agent.md` |
+| Phase 2 = "clean" placement plus solo matching, ignoring values | n = 3, m = 5: a stable state that a single dump completes but the clean rule does not | `attempts/k4-ls-clean-placement.md` |
+| Phase 2 (c) by the simplest polynomial split (§7) | n = 4, m = 6: a stable state with dump-plus-solo placements that the split misses | `attempts/k4-ls-simple-split.md` |
+| Phase 2 (d), any junk placement, in place of (c) | the dead end of Proposition 7 (n = 4, m = 7) has no placement at all | `attempts/k4-ls-exact-placement.md` |
+| LS4 with the choice rule `-DALT` | n = 4, m = 7: 5 moves reach a stable state with no completion (not a dead end: coalition moves exist) | `attempts/k4-ls-alt-rule.md` |
 
-The last two rows are single-implementation sample counts from `k4/ls4.c` (the exploratory engine, `k4/ls4_run.py`).
-- Length ≤ 2: 302 failures in 219,000 pure n = 4 profiles.
-- At most one pool-using agent: 3 failures in 5,468,000 n = 5 profiles.
-- Clean placement: 8,821 failures in 304,901 stable states.
+Each configuration is replayed by `k4/ls4_attempts.py`. The failure counts are single-implementation sample counts from `k4/ls4.c` (the exploratory engine, `k4/ls4_run.py`) or from `k4/ls4alg.c`:
+- length ≤ 2: 6,432 failures in 5,100,000 random n = 3 profiles, and 302 in 219,000 pure n = 4 ones;
+- at most one pool-using agent: 3 in 5,468,000 n = 5 profiles;
+- clean placement: 8,821 failures in 304,901 stable n = 3 states;
+- simplest split: completes 0 of 79 sampled n = 5 states that need a split;
+- `-DALT`: 23 in 21,900,000 pure n = 4 profiles.
 
 ## 7. Complexity
 
 - The number of Phase-1 moves is at most Σ_i (2^{d_i} − 1) ≤ 15n (Theorem 1).
 - Steps 1 and 2 and Phase 2 (a), (b) take polynomial time.
 - The implementation finds step 4's exchange cycles and Phase 2 (c)'s split by enumeration: over agent sequences and over subsets of the pool.
-  - Cycles of length up to 5 occur at n = 5 (`results/k4_ls4_5_n4_2_sample.log`, counters L2–L5), and capping the length at 2 fails (§6).
+  - Cycles of length up to 5 occur at n = 5 (`results/k4_ls4_5_n4_2_sample.log`, counters L2–L5), and capping the length at 2 fails already at n = 3 (§6).
   - The simplest polynomial split fails: keep at the dump every pool good that is individually harmless there and match the rest. It never worked in the 79 sampled n = 5 states that needed a split (`k4/ls4.c`, counter dm1), because pair constraints bind at the dump (Lemma 6).
   - Edge-local validity (threat-freeness of each Z_t with respect to the old values, which is how X is defined) loses nothing in the samples. So an exchange cycle is a cycle in a product graph on (agent, kept part of its bundle). The only non-local constraint is that the pool goods used by different agents must be disjoint.
 - Whether an improving exchange cycle, and a DM placement, can always be found in polynomial time is open. So is whether a Hall-type argument as at k = 3 decides between them. Both questions matter only for a choice rule that avoids dead ends (§4).
