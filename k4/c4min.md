@@ -351,8 +351,8 @@ has a valid owner. It implies C₄ᵐⁱⁿ (Lemma 1(a)).
 Evidence (every maximum of Φ′ completable; §5):
 - every profile with n ≤ 3;
 - every profile of the n = 4 cores with one 4-good agent;
-- 1,000 random profiles per core for the other n = 4 classes, then 4,000 per core with f ≥ 1 (both Φ counterexamples
-  included);
+- 1,000 random profiles per core for the other n = 4 classes, then 4,000 per core with f ≥ 1 (each sample contains
+  one Φ counterexample, and Φ′ holds on both);
 - 50 per core at n = 5, then 150 or 60 per core with f ≥ 1.
 
 The tie-break "fewest frozen agents threatened by some owner" works on the same samples.
@@ -402,20 +402,20 @@ agent's threatening triple in the pool. A two-agent exchange passes that good to
 pool.
 
 **The gap, precisely.** A proof of Conjecture Φ′, hence of C₄ᵐⁱⁿ and TARGET₄, needs a *local improvement lemma*: every
-configuration without a valid owner admits a Φ-raising move from a fixed finite catalogue. Pool moves, the cycle moves
+configuration without a valid owner admits a Φ′-raising move from a fixed finite catalogue. Pool moves, the cycle moves
 above and pool-assisted two-agent exchanges suffice on every non-completable configuration of the samples; which
 cycle to take is the open part. Theorems Z and F are the cases where the catalogue is proved sufficient: pool moves,
 Lemma R's rotations and frozen cycles. There the exposed frozen agents, the only source of t, of blocked pool moves and
 of the exceptions above, are absent.
 
 **Roadmap for f = 1 (not a proof).** Let 𝒩 = {g}, x the frozen agent (on its top g), and A the free agents. Take a
-Φ-maximum without a valid owner, and **assume** it is pool-optimal with t = 0 (both hold at every sampled maximum, but
+Φ′-maximum without a valid owner, and **assume** it is pool-optimal with t = 0 (both hold at every sampled maximum, but
 neither is proved). Assume also that x has three goods, so U_x = {b_x, c_x}.
 - x is threatened by at most one owner (t = 0 keeps b_x, c_x out of the pool together). Free agents are threatened by
   at most one owner (Lemma Z2). So σ: A → N is injective.
 - If x ∉ σ(A), σ permutes A, and every free agent is threatened. A terminal τ (a free agent needing g) exists, and
   with |U_τ| = 2 it would be robust, hence untouchable. So τ is 4-good of kind (T3). The plain rotation of its
-  σ-cycle makes τ robust without touching the pool, and Φ rises. Contradiction.
+  σ-cycle makes τ robust without touching the pool, and Φ′ rises. Contradiction.
 - So x ∈ σ(A). σ is a path w → p₁ → … → x from the unique unthreatened free agent w, plus cycles. A cycle containing
   an agent of kind (T3), (D), or (R) with s in the predecessor's pair rotates plainly and raises r. So the cycles
   contain only (T4) agents and (R) agents with s in the pool, and terminals lie on the path.
