@@ -1,6 +1,7 @@
 #!/bin/bash
 # The runs of k4/c4min_hunt.md, one section per log (run from the repository root): bash k4/c4min_hunt_runs.sh SECTION
 # Every log starts with the command, the commit and the sha1 of k4/c4min_hunt.c, and ends with the finishing time.
+# Edit this file only by replacing it (write a copy, then mv): bash reads a running script incrementally.
 set -e
 cd "$(dirname "$0")/.."
 R=results
@@ -119,6 +120,9 @@ print(len(top), 'tight cores; scores from', top[0][0], 'to', top[-1][0])"
     log $R/k4_c4min_hunt_climbsat.log python3 c4min_sat.py --family=ht:3 --family=ht:4 --family=ht:5 --family=htc:4 \
         --family=htx:4 --family=ht2:4 --family=grid:2:2 --family=tree:4 --family=cycle:4 --family=chain:2:2 \
         --climb=200 --restarts=3 --stale=60 --seed=121 --jobs=${JOBS:-4} ;;
+  chains)      # chains, cycles and stars of 2-5 tight n = 5 gadgets (climb5b's dump), SAT-checked
+    log $R/k4_c4min_hunt_chains.log python3 c4min_chains.py ../$R/k4_c4min_hunt_climb_n5_b.jsonl --count=4000 --seed=131 \
+        --jobs=${JOBS:-4} ;;
   families)    # structured families: random and perturbed profiles (exact test per profile); m <= 64
     for fam in ${FAMS:-ht:4 ht:5 ht2:4 htx:4 htc:4 grid:2:2 chain:2:2 ht:6 cycle:4 tree:4}; do
       log $R/k4_c4min_hunt_families.log python3 c4min_sample.py --family=$fam --profiles=400 --mode=uniform --seed=91 --verify=20 --jobs=1
@@ -133,5 +137,5 @@ print(len(top), 'tight cores; scores from', top[0][0], 'to', top[-1][0])"
         --seed=101 --jobs=${JOBS:-4} --top=8 ;;
   attempts)    # the hard profiles of PR #36's attempts and PR #30's n = 5 GM4 profiles, one by one
     log $R/k4_c4min_hunt_attempts.log python3 c4min_attempts_eval.py ;;
-  *) echo "sections: satcheck famsat climbsat rigid5 classes w0big attempts climbtight selfcheck w0small crosscheck n4 n5a n5b n6a climb5 climb5b climbrand climbglue rigid families climbfam"; exit 2 ;;
+  *) echo "sections: chains satcheck famsat climbsat rigid5 classes w0big attempts climbtight selfcheck w0small crosscheck n4 n5a n5b n6a climb5 climb5b climbrand climbglue rigid families climbfam"; exit 2 ;;
 esac

@@ -124,7 +124,29 @@ every n ≤ 4 one. (The n ≤ 4 ones are inside §2's exhaustive runs anyway.)
 
 ## 4. Structured families
 
-(to be filled)
+Families of `k4/c4min_families.py`, all pure (every agent has four goods) except the heads:
+- `ht T`: H_T of `k4/c4.md` §7 (PR #33), n = 4T + 1, m = 10T + 3: a head ℓ = {g_1, z, u, u′} and T gadgets of three
+  x_{j,i} = {a_{j,i}, b_{j,i}, c_{j,i}, g_j} and y_j = {a_{j,1}, a_{j,2}, a_{j,3}, e_j}, e_j = g_{j+1}, e_T = z; §7's values
+  (8, 6, 5, 4) for ℓ and (8, 6, 4, 3) for every x and y. (`k4/d_stress.py`'s `cycle T` of PR #42 is H_T again, with
+  its head's z renamed w.)
+- `ht2 T`: two x's per gadget, y_j = {a_{j,1}, a_{j,2}, p_j, e_j} with p_j private; `htx T`: the x's of a gadget share
+  their lower goods around the gadget, x_{j,i} = {a_{j,i}, b_{j,i}, b_{j,i+1}, g_j} (no private goods); `htc T`: T
+  gadgets in a cycle without a head (e_T = g_1).
+- From `k4/d_stress.py` (PR #42, loaded from its branch): `chain T H` (H heads, each starting a chain of T gadgets),
+  `tree T` (gadgets in a binary tree, a second child joined by a head-like agent); and `grid R C` here (R rows of C
+  gadgets, one 4-good agent joining consecutive rows).
+
+**Exact test per profile with `k4/c4min_hunt.c -R`** (`results/k4_c4min_hunt_families.log`; 20 certificates per family
+re-checked literally by the brute force, `verify_certificate`): 400 uniform random profiles each of H_4, H_5, ht2 4,
+htx 4, htc 4, grid 2×2, chain 2 2, tree 4 (and cycle 4 = H_4); and 400 profiles each of H_4, H_5, htc 4 at §7's values
+with 1, 2, 4 or 8 agents re-typed at random. **0 failures** (8,400 profiles); an owner is needed in all of them except
+htx 4 (m = 31 < 2n). f* reaches 4 on random profiles; near §7's values it is almost always 0. The exact search of
+`c4min_hunt.c` has a heavy tail on H_6 (one profile needed 18 s to prove f* = 2), so larger instances use the SAT
+encoding.
+
+**SAT encoding** (`k4/c4min_sat.py`, `results/k4_c4min_hunt_famsat.log`; every certificate re-checked by the brute force):
+- §7's values on H_T for T = 4, …, 10, 12, 16 (up to n = 65, m = 163): C₄ᵐⁱⁿ holds, f* = 0, in under a second each.
+  (numbers of the other SAT runs below)
 
 ## 5. Reproduce
 
