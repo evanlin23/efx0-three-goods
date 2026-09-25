@@ -331,6 +331,8 @@ goods, one of them private, which is inside LBO's setting).
 pre-allocation; single implementation):
 - every ranking profile of every connected k = 3 core with n ≤ 5 (`results/certs_lb_2_6.json.gz`): 217,224 (profile, w)
   pairs for n ≤ 4 and 11,391,840 for n = 5, no miss (`results/k4_induct_lbo_n234.log`, `results/k4_induct_lbo_n5.log`);
+- 20 random ranking profiles of each of the 3,093 connected k = 3 cores with n = 6 (371,160 pairs): no miss
+  (`results/k4_induct_lbo_n6.log`);
 - the instances J = I − p for every strict profile of every k = 4 core with n ≤ 3 whose only 4-good agent is P4 (53,568),
   and 300 (n = 4) or 20 (n = 5) random profiles per such core (15,300 and 12,520), about half of them with w top-heavy in
   J: no miss (`results/k4_induct_lbo_k4_n23.log`, `results/k4_induct_lbo_k4_n4.log`, `results/k4_induct_lbo_k4_n5.log`);
