@@ -1,0 +1,2 @@
+# ls4alg_run.py ../results/k4_certs_3.json.gz --ties --prog=ls4_allstates --sample=10000 --jobs=1
+TOTAL cores=51 badcores=0 runs=510000 states=274720000 efx0_nonempty_pool=77642125 stable=191274 fail=0 empty=0 dump=191274 dm=0 wall=24s

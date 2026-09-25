@@ -132,6 +132,11 @@ specializations) have exactly the types of `EFX.target`, `EFX.LB.corollaryD` (ch
 - `EFX/PreAlloc.lean`, `EFX/Blocks.lean`, `EFX/OwnerR.lean`, `EFX/Rotation.lean`, `EFX/LBPlus.lean`,
   `EFX/CorollaryD.lean`, `EFX/Target.lean`: construction LB⁺, conjecture D and TARGET
   (`proofs/lb_last_step.md`); see the section below.
+- `EFX/K4Reduction.lean`: the k = 4 core reduction (K4.CORE, `k4/SCOUT.md` §2): `EFX.IsCore4` and
+  `EFX.core_reduction4`, reusing the k = 3 induction's peeling and junk steps unchanged; L6 (`EFX.efx0_split`)
+  restricts it to connected cores (`EFX.Connected`, `EFX.core_reduction4_conn`).
+- `EFX/K4Ties.lean`: ties reduce to strict profiles at k = 4 (K4.TIE): `EFX.Strict`, `EFX.tieBreak` (the
+  perturbation `2^|M| · v + w`), `EFX.tie_reduction`, `EFX.core_reduction4_strict`.
 - `EFX/RealValues.lean`: L12 (`proofs/real_values.md`) and TARGET and D over any `EFX.OrderedValue`. The value
   class and mirrored model above; `EFX.Agree` (same answer to every comparison between two subset sums);
   `EFX.OrderedValue.tri_le_iff` (for three positive values, every such comparison is decided by twelve basic
@@ -173,6 +178,8 @@ name in the ledger's Lean column has one.
 | S2.LB+ | Theorem C: for every processing order of Phase 1 with R1 priority, every upgrade order, every need chain and every completion satisfying (OC), LB⁺'s output is a complete allocation, EFX₀ for every consistent valuation, with at most one bundle of more than two goods; an output always exists, and in the rotation branch every need chain from `k*` to `r` gives one | LBPlus : `EFX.LB.lbPlusRun_sound`, `EFX.LB.lbPlusOut_exists`, `EFX.LB.lbPlusOut_exists_chain`, `EFX.LB.lbPlus_sound` (the computable LB⁺, over lists), `EFX.LB.lbPlus_sound_model` (model); Blocks : `EFX.LB.phase1_run`, `EFX.LB.upFinal_valid` |
 | D | Corollary D: every instance in which every agent values exactly three goods and is balanced has an EFX₀ allocation with at most one bundle of more than two goods | CorollaryD : `EFX.LB.corollaryD` (model), `EFX.LB.corollaryD_lists` (over lists), values in ℕ; RealValues : `EFX.corollaryD_ordered` (values in any `EFX.OrderedValue`, e.g. ℝ≥0, via L12), `EFX.corollaryD_of_ordered` (its specialization to ℕ) |
 | T | CORE: if every core with at most `N` agents has an EFX₀ allocation, so does every instance with at most `N` agents and `\|R_i\| ≤ 3` (L3, R1, R2 by induction) | Target : `EFX.core_reduction` (over lists) |
+| K4.CORE | k = 4 CORE: if every (connected) k = 4 core (`EFX.IsCore4`: ≥ 2 agents; 3 ≤ `\|R_i\|` ≤ 4; strictly balanced; `\|P_i\| + 2 ≤ \|R_i\|` private goods; `v_i(P_i) < v_i(S_i)` when `\|P_i\| = 2`; no junk) with at most `N` agents has an EFX₀ allocation, so does every instance with at most `N` agents and `\|R_i\| ≤ 4`; connected cores with a 4-good agent suffice (all-3-good ones are covered by Corollary D; L6: EFX₀ allocations of the sides of a split with no good relevant across it combine) | K4Reduction : `EFX.core_reduction4_conn`, `EFX.core_reduction4`, `EFX.efx0_split`, `EFX.isCore_of_isCore4`, `EFX.isCore4_of_isCore`, `EFX.core_reduction4_mixed` (over lists), `EFX.target4_of_cores` (model) |
+| K4.TIE | Ties reduce to strict profiles: if every strict profile (`EFX.Strict`: disjoint nonempty `S, T ⊆ R_i` have `v_i(S) ≠ v_i(T)`) with the same relevant goods as a connected k = 4 core has an EFX₀ allocation, so does the core; with K4.CORE, TARGET₄ up to `N` agents follows from EFX₀ for connected strict k = 4 cores with a 4-good agent. The existing certificates discharge this hypothesis for `N ≤ 4` (K4.R3, K4.R4; K4.R5 covers `n = 5` only with at most two 4-good agents, which this form cannot use), through two steps outside Lean: relabeling list cores to the certificates' indices, and K4.OT's grid completeness | K4Ties : `EFX.tie_reduction`, `EFX.core_reduction4_strict` (over lists), `EFX.target4_of_strict_cores` (model) |
 | T | TARGET (Corollary T): every instance with `\|R_i\| ≤ 3` for every agent has a complete EFX₀ allocation | Target : `EFX.target` (model), `EFX.target_lists` (over lists), values in ℕ; RealValues : `EFX.target_ordered` (values in any `EFX.OrderedValue`, e.g. ℝ≥0, via L12), `EFX.target_of_ordered` (its specialization to ℕ) |
 | L12 | Real values reduce to natural numbers: with ≤ 3 relevant goods per agent and nonnegative values, there are natural-number values with the same relevant goods and the same answer to every comparison between two subset sums; EFX₀, the relevant-goods count and balance transfer | RealValues : `EFX.l12`, `EFX.OrderedValue.exists_agree` (one agent), `EFX.OrderedValue.tri_rep` (three positive values), `EFX.numRelevant_eq_of_agree`, `EFX.OrderedValue.balanced_iff_of_agree`, `EFX.efx0_iff_of_agree` (EFX₀ for `v` iff for `w`) |
 | — | The list layer agrees with the model | Bridge : `EFX.Inst.efx0_iff` |
@@ -186,7 +193,8 @@ good), and extends it to monotone valuations.
 - The second half of L8: that a β = 1 core has an allocation giving every agent two of its own goods (its private
   good and the next shared good around the cycle). The graph structure of cores (L4, L6, L7, L11) is not
   formalized.
-- L1, L4–L7 and L9–L11. (The reduction to cores, CORE, is formalized: `EFX.core_reduction`.)
+- L1, L4–L7 and L9–L11. (The reduction to cores, CORE, is formalized: `EFX.core_reduction`; for k = 4,
+  `EFX.core_reduction4_conn`, with L6's restriction to connected cores.)
 - The peeling theorems are stated over lists: removing an agent and its goods changes the index types `Fin n`, `Fin m`,
   so a model-level statement needs sub-instances. `EFX.Inst.efx0_iff` connects the two for the full instance.
 - Real-valued utilities: core Lean has no `ℝ`, so that `ℝ≥0` satisfies the axioms of `EFX.OrderedValue` is the
