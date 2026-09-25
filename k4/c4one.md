@@ -6,16 +6,16 @@ Lemma E, Theorems A₄, B₄, B₄ʷ, A₄ᵀ, A₄⁺ and the conventions of it
 ## Status
 
 - **C₄¹ as stated in `k4/c4.md` §6.2 is false** (§2). With at most one 4-good agent, one rotation is not enough at
-  n = 5. This holds for every run, and even for index insertion, under every convention. The smallest case is n = 5,
-  m = 9 (`attempts/k4-c4one-one-rotation.md`). **Two rotations suffice** on every certified core with one 4-good agent
-  and n ≤ 5, for every insertion sequence (Conjecture C₄¹², evidence).
+  n = 5. It fails over every insertion sequence searched, even with index insertion, under every convention. The
+  smallest case is n = 5, m = 9 (`attempts/k4-c4one-one-rotation.md`). **Two rotations suffice** on every certified
+  core with one 4-good agent and n ≤ 5, for every insertion sequence (Conjecture C₄¹², evidence).
 - **Route 2 fails as posed** (§4). The claim was: whenever no owner is valid, some rotation raises "slots minus forced
   goods". It fails first at n = 3 with two 4-good agents, and at n = 5 with one. Wherever two rotations are needed, the
   first one cannot raise it (`attempts/k4-c4one-potential.md`).
 - **New: Theorem A₄⁺ holds for every owner** (§5, written proof, not yet reviewed). Any non-frozen owner with a base of
   at most one good, or an upgraded owner, is valid when the goods its exposed agents need kept out fit into the other
-  slots. It is checked on every run with n ≤ 4 (≤ 2 four-good agents): 0 violations. It raises the share of runs
-  proved from 94.5% to 97.6% (n = 4, one 4-good agent).
+  slots. It is checked on the runs `lb4.c` makes with n ≤ 4 (≤ 2 four-good agents): 0 violations. It raises the share of
+  runs proved from 94.5% to 97.6% (n = 4, one 4-good agent).
 - **The insertion sequence is the lever** (§6). Take the theorems of `k4/c4.md` together with A₄⁺ for every owner.
   Then every strict profile of every certified core with one 4-good agent and n ≤ 5 has an insertion sequence whose
   run they prove.
@@ -24,8 +24,8 @@ Lemma E, Theorems A₄, B₄, B₄ʷ, A₄ᵀ, A₄⁺ and the conventions of it
   - No fixed rule tested (index order, q first, q as late as possible, the lexicographically first least-ω sequence)
     achieves this.
   - A deterministic rule works: minimize (ω, q frozen, −pos(q)).
-  - Behind it is a local **Exchange Lemma X**, which holds on every run tested. When a run is not covered, changing
-    one insertion step covers it or lowers that key.
+  - Behind it is a local **Exchange Lemma X**, which holds on every run tested (the runs `lb4.c` makes). When a run is
+    not covered, changing one insertion step covers it or lowers that key.
   - **Lemma X plus the theorems imply C₄¹∃.** So on the data, C₄¹∃ reduces to Lemma X, which is open.
 - **The existence form C₄¹∃** (§1) is open. It is what TARGET₄ needs for these instances.
 
@@ -66,14 +66,16 @@ The m = 9 index-order failure is confirmed by the independent tracer (`k4/c4tool
 
 The mechanism is two agents to protect and only one slot, both for owner r and for owner q (see the attempt file).
 
-At n ≤ 4, one rotation suffices on every run (`results/k4_c4_variants.log`). The gadget chain H_t (`k4/c4.md` §7)
-needs many rotations, but its gadgets have three 4-good agents each, and a single 4-good agent cannot be repeated along
-a chain. Whether two rotations always suffice with one 4-good agent is open. The certified n = 6 cores with one 4-good
-agent (PR #26, not merged) were not run: every insertion sequence at n = 6 is out of reach here.
+At n ≤ 4, one rotation suffices on every run `lb4.c` makes (`results/k4_c4_variants.log`). The gadget chain H_t
+(`k4/c4.md` §7) needs many rotations, but its gadgets have three 4-good agents each, and a single 4-good agent cannot
+be repeated along a chain. Whether two rotations always suffice with one 4-good agent is open. The certified n = 6
+cores with one 4-good agent (PR #26, not merged) were not run: every insertion sequence at n = 6 is out of reach here.
 
 ## 3. The runs the theorems of `k4/c4.md` leave open, by case (`results/k4_c4one_classes.log`)
 
 `k4/c4check.c -X -Y` (driver `k4/c4one_run.py`) takes every run with ω ≥ 1 that §2–§4c of `k4/c4.md` do not prove.
+As everywhere in this file, the runs are those `lb4.c` makes: LB's P-step key, smallest-index upgrades, every
+insertion sequence.
 It classifies each one and tests these repairs:
 - owner r;
 - another owner;
@@ -154,7 +156,8 @@ Then Theorem 1′₄ applies: only X_o has more than two goods, and frozen agent
 needs are empty. ∎
 
 **Checked** (`k4/c4check.c -X`; every owner o ≠ r for which the count holds is run through the exact owner test;
-`results/k4_c4one_check_ext.log`): 0 violations, on every run of every strict profile of every core with n ≤ 3 or
+`results/k4_c4one_check_ext.log`): 0 violations, on the runs `lb4.c` makes (every insertion sequence) of every strict
+profile of every core with n ≤ 3 or
 n = 4 with at most two 4-good agents. Share of runs with ω ≥ 1 that are proved:
 
 | cores | with `k4/c4.md` | with A₄⁺(o) too |
