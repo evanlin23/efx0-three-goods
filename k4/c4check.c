@@ -36,7 +36,7 @@ static int np[MAXN], pr[MAXN][24][4], pcnt[MAXN][24], pidx[MAXN][24][MAXG];
 static int QFIRST = 0;
 static int ins_ag[64], ins_ag0[64], ECHK = 0, ecat = -1; static long EC[1 << 15];   /* -E: which insertion step -i6 changes */
 static int ycls;   /* tentative; defined with the -Y state below */
-static int ZR = 0, KSHOW = -1, kshown = 0;   /* -K<cls> (with -i20 -Y): print the first uncovered runs of that class and the change that covers them */   /* -Z (with -i20): restrict the changes tried: 1 only the step that started q's block, 2 only q as the new agent, 3 both, 4 only steps up to the one that started q's block */
+static int ZR = 0, KSHOW = -1, kshown = 0, KLIM = 12;   /* -K<cls> (with -i20 -Y): print the first -KL<lim> (12) uncovered runs of that class and the change that covers them */   /* -Z (with -i20): restrict the changes tried: 1 only the step that started q's block, 2 only q as the new agent, 3 both, 4 only steps up to the one that started q's block */
 static int OWN = 0, INS = 0, SENS = 0, MAXF = 3, UPG = 1, BRUTE = 0, ALLOC = 0;
 /* -a: distinct leaf allocations per core (owners packed 3 bits per good), printed as "A o_0 .. o_{m-1}" lines */
 #define HBITS 22
@@ -450,7 +450,7 @@ static int construct(void) {
         if (!ok && qa >= 0) {
             fb_seq = 1;
             phase1(); setup_state(); upg_mode = 2; upgrades();
-            if (KSHOW == ycls0 && kshown < 12) report("KCASE");
+            if (KSHOW == ycls0 && kshown < KLIM) report("KCASE");
             int w0 = popc(J) - slots(), f0 = frz[qa], p0 = pos[qa], qb = blk[qa];
             int oblk[MAXN], orr = -1; memcpy(oblk, blk, sizeof oblk);
             for (int i = 0; i < n; i++) if (!upg[i] && (orr < 0 || pos[i] > pos[orr])) orr = i;
@@ -464,7 +464,7 @@ static int construct(void) {
                 if (ZR & 2) { phase1(); if (ins_ag[j] != qa) continue; }
                 ok = construct1();
                 int where = j == qb ? 16 : j < qb ? 32 : 64;
-                if (ok && KSHOW == ycls0 && kshown < 12) {
+                if (ok && KSHOW == ycls0 && kshown < KLIM) {
                     char b[64]; sprintf(b, "KNEW step=%d agent=%d", j, ins_ag[j]); report(b); kshown++;
                 }
                 if (ok) {
@@ -983,6 +983,7 @@ int main(int argc, char **argv) {
         else if (!strncmp(argv[a], "-P", 2)) PROVEDOK = argv[a][2] ? atoi(argv[a] + 2) : 1;   /* with -X -u2: "success" = proved by k4/c4.md's theorems (-P2: A4+ for any owner too) */
         else if (!strncmp(argv[a], "-Q", 2)) QFIRST = argv[a][2] ? atoi(argv[a] + 2) : 1;
         else if (!strncmp(argv[a], "-Z", 2)) ZR = atoi(argv[a] + 2);
+        else if (!strncmp(argv[a], "-KL", 3)) KLIM = atoi(argv[a] + 3);
         else if (!strncmp(argv[a], "-K", 2)) KSHOW = atoi(argv[a] + 2);
         else if (!strncmp(argv[a], "-E", 2)) ECHK = argv[a][2] ? atoi(argv[a] + 2) : 1;
         else if (!strcmp(argv[a], "-Y")) YCHK = 1;

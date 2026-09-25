@@ -10,6 +10,8 @@ more than 2 goods (brute force, k4/lb4_brute.py). lb4.c agrees: -i0 -u3 -o0 -r1 
 core, -r2 on none; with every insertion sequence the core [[0,2,4,7],[1,2,3],[1,5,6],[3,5,7],[4,6,7]] (m = 8) fails too.
 potential (attempts/k4-c4one-potential.md): route 2's local step, "whenever no owner is valid, some rotation strictly
 raises the count" (Phi = the best A4+ slack over owners, or the owner-free count), fails on these two states.
+realization (attempts/k4-c4one-realization.md): in case (Tc), inserting q at the start of its block reproduces the
+rotation along a need chain from the old leader to q in every case at n <= 4, but not always at n = 5.
 Usage: python3 attempts/k4_c4one_attempts.py [NAME ...]   (default: all)"""
 import os, subprocess, sys
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -78,7 +80,30 @@ def potential():
         ok &= try_owners(st, w1=True, rot_slot=True) is None and all(f <= f0 and c <= c0 for _, _, f, c in rots) and two
     return ok
 
-ALL = {'one-rotation': one_rotation, 'potential': potential}
+def realization():
+    """k4/c4one.md §6 (a): inserting q at the start of its block need not reproduce the rotation along a need chain from
+    the old leader to q, even in case (Tc) (attempts/k4-c4one-realization.md)"""
+    sets = [[0, 1, 3, 4], [2, 3, 6], [2, 6, 7], [4, 5, 7], [5, 6, 7]]
+    vals = [[2, 4, 3, 8], [3, 2, 4], [4, 2, 3], [4, 2, 3], [2, 4, 3]]
+    I = Inst(sets, vals); q, ell = 0, 3
+    old = upgrades(initial_state(I, [3, 2])[0], 2)    # leaders 3, then 4
+    new = upgrades(initial_state(I, [0])[0], 2)       # q inserted first, then index order
+    print('realization: n = 5, m = 8, q = agent 0; old run (leaders 3, 4):'); print(pretty(old))
+    print('   new run (q inserted at the start of its block, which is the first block):'); print(pretty(new))
+    Y, Y2 = old.Y, new.Y
+    rotations = []
+    for ch in chains_from(old, ell):
+        if ch[-1] != q: continue
+        pred = list(Y)
+        for k in range(1, len(ch)): pred[ch[k]] = Y[ch[k - 1]]
+        rotations.append((ch, [i for i in range(I.n) if i != ell and Y2[i] != pred[i]]))
+    for ch, off in rotations: print(f'   rotation along {ch}: the new picks differ at agents {off}')
+    pulled = [z for z in range(I.n) if Y2[ell] in I.R[z] and z != ell and old.blk[z] > old.blk[q]]
+    print(f'   the old leader {ell} takes {Y2[ell]} (its b); agents of a later block with that good: {pulled}')
+    print(f'   omega: old {old.omega()}, new {new.omega()}')
+    return bool(rotations) and all(off for _, off in rotations) and bool(pulled) and new.omega() >= old.omega()
+
+ALL = {'one-rotation': one_rotation, 'potential': potential, 'realization': realization}
 
 if __name__ == '__main__':
     names = sys.argv[1:] or list(ALL)

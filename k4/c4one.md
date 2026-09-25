@@ -203,8 +203,8 @@ cores with one 4-good agent (`k4/c4one_tau.py`):
 
 The table has three findings:
 - **One change of insertion step suffices.** When the index-order run is not covered, changing the single insertion
-  step that started q's block covers it. The new agent there is q in only about a quarter of the cases. The new run
-  often has ω ≤ 0, so it needs no owner.
+  step that started q's block covers it. The new agent there is q in only 45%, 38% and 23% of the cases (n = 3, 4, 5;
+  `-i10 -E`, `results/k4_c4one_exchange.log`). The new run often has ω ≤ 0, so it needs no owner.
 - **Minimizing ω suffices.** Some insertion sequence that minimizes ω = |NA| − σ after envy-free upgrades is always
   covered. The lexicographically first such sequence is not always covered.
 - **A deterministic rule works.** Minimize key(τ) = (ω after envy-free upgrades; q frozen (1) or not (0); −pos(q),
@@ -256,11 +256,77 @@ agrees with τ before one insertion step, takes another agent there, and follows
   step on). At n = 5, of the 1,696,106 uncovered runs, 321,544 are covered by a change at an earlier step, and the
   other 1,374,562 by a change at that step. No run needs a later step.
 
+**Where the change is, by case** (`k4/c4one_exchange.py`; `k4/c4one_exchange_runs.sh` → `results/k4_c4one_exchange.log`).
+The runs are the uncovered runs of every insertion sequence (n = 3, 4, 5), split by the classes of §3. Changes are tried
+step by step from the first one, and agents in index order, so the counts describe the first change that works.
+- **Only the step that started q's block** (`-Z1`) covers every uncovered run at n ≤ 4. At n = 5 it covers all but
+  432 runs, all in the class "q frozen, with (i) or (ii) of B₄ʷ failing"; those need an earlier step.
+- **Only q inserted at that step** (`-Z3`):
+  - (Tc): covers every run, n ≤ 5.
+  - (Tb): covers every run at n ≤ 4, and all but 8 at n = 5.
+  - G2: covers all but 24, 44 and 956 runs (n = 3, 4, 5).
+  - q frozen: often fails. For example, at n = 5 with no need chain from q to r, 294,628 of 682,232 runs stay
+    uncovered. There the working agent is usually the old r or another agent of q's block.
+- **ω does not always drop.** Where inserting q covers a run of (Tc) or (Tb), ω drops in every case at n ≤ 4. At n = 5
+  it drops in all but 678 of 409,416. So these moves are not always steps down in key(τ), and Lemma X′, not X, is
+  the form they support.
+
+**A rotation realized by Phase 1** (`k4/c4tools/c4realize.py` → `results/k4_c4one_realize.log`). In (Tc), inserting q at
+the start of its block does what a rotation does, with fresh blocks.
+- The new picks are those of the old run rotated along a need chain ℓ_q = x₀ → x₁ → … → x_s = q. Each x_i (i ≥ 1)
+  takes Y_{x_{i−1}}, the old leader ℓ_q ends on a good it ranks lower, and every other agent keeps its pick.
+- This holds in every (Tc) case at n ≤ 4 (7,364 cases, chains of length 1 and 2). At n = 5 it holds in 195,296 of
+  203,592 cases (96%, chains of length up to 3), although inserting q covers all of them. The counts are of distinct
+  cases as `k4/c4check.c` prints them, not weighted by profiles.
+- In (Tb) it holds in 3,352 of 3,592 cases at n ≤ 4 (in the rest q already held its top, so it has no need chain),
+  and in 54,292 of 74,120 at n = 5. In G2 it holds in 70% of the cases at n ≤ 4 and 71% at n = 5.
+- Why this matters: the new state is the output of a run of Phase 1. So every theorem of `k4/c4.md` applies to it, with
+  its own r, blocks and exposed agents. By contrast, LB₄ʳ's rotation along ℓ_q → q keeps the old run's blocks, and the
+  theorems of `k4/c4.md` treat only rotations that end at r.
+
+This suggests a proof of X′ for q free, in two parts:
+- **(a) Realization.** State when inserting the end of a need chain at the start of its block reproduces the rotation
+  along the chain. This is a statement about Phase 1 alone.
+- **(b) Coverage.** Show that the rotated state is covered.
+
+What (a) must handle, for a chain ℓ → q of length 1 (so Y_q = b_q, and ℓ took a_q):
+- *What goes through.* q takes a_q first. ℓ has lost a_q, so it is processed in the new block and takes b_ℓ, which is
+  available (b_ℓ ∈ W).
+  - No agent ranks b_q above its pick, since q is free. No agent ranks b_ℓ above its pick, since b_ℓ ∈ W and
+    W ∩ NA = ∅.
+  - So every other agent of the old block, processed in the old order, finds the same favourite good, as long as the
+    same agents have lost a good (see D2).
+- *Where it can break:*
+  - (D1) An agent z of a later block with b_ℓ ∈ R_z loses b_ℓ and is pulled into the new block. z then takes its top,
+    which differs from its old pick unless that pick was its top.
+  - (D2) An agent of the old block whose only lost good was b_q is no longer pulled into the new block.
+  - (D3) With longer chains, the chain agents must be processed in reverse order, and LB's P-step key must allow
+    this.
+
+  None of these breaks the realization in the (Tc) cases at n ≤ 4. At n = 5 they break it in 4% of the (Tc) cases,
+  and there the new run is still covered. The smallest example, through (D1), is in
+  `attempts/k4-c4one-realization.md`; there ω does not drop.
+
+Why ω drops in the simplest case (a sketch, not a proof). Take a chain of length 1 in which the realization holds with
+none of (D1)–(D3), and b_ℓ, c_ℓ ∈ J.
+- After the change, q holds a_q and has no needs, and ℓ holds b_ℓ and needs only a_ℓ = a_q. The other picks are
+  unchanged, and b_q is junk.
+- ℓ is a 3-good core agent, so b_ℓ + c_ℓ > a_ℓ and {b_ℓ, c_ℓ} is an envy-free pair. So ℓ upgrades, unless another
+  upgrade takes c_ℓ first.
+- Then J′ = (J ∖ {b_ℓ, c_ℓ}) ∪ {b_q}. ℓ had no slot (it was frozen) and still has none (it is upgraded), and q keeps its
+  slot unless another agent needs a_q.
+- So ω′ = |J′| − S′ ≤ ω − 1 before any further upgrade. Further envy-free upgrades never raise ω: each one moves a junk
+  good into a base and removes one slot, and it can only unfreeze agents.
+
+A proof must also compare the two upgrade fixpoints, and handle c_ℓ = Y_r and the cases where another agent needs
+a_q.
+
 So on the data, C₄¹∃ reduces to one local lemma about Phase 1 runs.
 - It does not mention rotations beyond single ones, and it does not rely on LB₄ʳ's search.
 - The key is a potential over insertion sequences, not over rotations. This is where route 2 (§4) failed: rotations
   need preparing moves, while insertion sequences do not.
-- Next step: prove Lemma X, case by case along the classes of §3, starting with the step that started q's block.
+- Next step: prove X′ for q free (parts (a) and (b) above), then for q frozen, where the working agent is usually
+  not q.
 
 ## 7. Reproduce
 
@@ -274,6 +340,8 @@ bash k4/c4one_tau_runs.sh                                                 # §6,
 python3 k4/c4one_tau.py "-X -P2 -u2 -i20 -o0 -r1 -w0 -c0 -f3" results/k4_certs_5_n4_1.json.gz   # Lemma X', n = 5 (~5 min)
 git show origin/compute/k4-frontier:results/k4_certs_6_n4_1.json.gz > /tmp/k4_certs_6_n4_1.json.gz  # PR #26's n = 6 cores
 python3 k4/c4one_tau.py "-X -P2 -u2 -i6 -o0 -r1 -w0 -c0 -f3" /tmp/k4_certs_6_n4_1.json.gz          # X' from index order, n = 6 (~12 min)
+bash k4/c4one_exchange_runs.sh                                            # §6, where the change is, by case (~10 min)
+python3 k4/c4tools/c4realize.py results/k4_certs_3.json.gz results/k4_certs_4_n4_1.json.gz results/k4_certs_5_n4_1.json.gz   # §6, realized rotations
 ```
 In `k4/c4check.c`, `-P2` counts a run as a success when the theorems (with A₄⁺(o)) prove it, and the insertion modes
 used above are these:
@@ -283,4 +351,6 @@ used above are these:
 - `-i17`: the key rule.
 - `-i19`, `-i20`: Lemmas X and X′, starting from every sequence.
 
-`-E` (with `-E3`) counts which step and which agent the successful change uses.
+`-E` (with `-E3`) counts which step and which agent the successful change uses. `-E4` (with `-Y`) adds the class of
+the uncovered run and whether ω drops. `-Z1`, `-Z3` restrict the changes tried to the step that started q's block,
+and to inserting q there. `-K<class>` prints the uncovered runs of a class with the change that covers them.
