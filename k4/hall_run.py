@@ -93,8 +93,8 @@ def main():
                     nums = [int(x) for x in w[1:2] + w[3:4] + w[5:13] + w[14:22]]
                     fo = [a + b for a, b in zip(fo, nums)] if fo else nums
                 elif line.startswith('BTX'):
-                    cur = tot.setdefault('_btx', [0] * 5)
-                    for q, v in enumerate(w[1:6]): cur[q] += int(v)
+                    cur = tot.setdefault('_btx', [0] * 6)
+                    for q, v in enumerate(w[1:7]): cur[q] += int(v)
                 elif line.startswith('BTC'):
                     cur = tot.setdefault('_btc', [0] * 3)
                     for q, v in enumerate(w[1:4]): cur[q] += int(v)
@@ -132,7 +132,7 @@ def main():
                      'single-good holder invalid by an unhittable exposure', 'e2 exposures', 'e1 exposures', 'e3 exposures', 'e2 exposures at single-good owners']
             print('  F0: ' + ', '.join(f'{a} {b}' for a, b in zip(names, f0)))
         if btx:
-            print(f'  BTX: non-completable Pareto-maxima with frozen agents {btx[0]}, with a frozen big-top agent {btx[1]}, with an exposed frozen big-top agent {btx[2]}, with an exchange cycle through a frozen big-top agent x after which x is a valid owner {btx[3]}, after which some owner is valid {btx[4]}')
+            print(f'  BTX: non-completable Pareto-maxima with frozen agents {btx[0]}, with a frozen big-top agent {btx[1]}, with an exposed frozen big-top agent {btx[2]}, with an exchange cycle through a frozen big-top agent x after which x is a valid owner {btx[3]}, after which some owner is valid {btx[4]}; some cycle through any exposed frozen agent completes {btx[5]}')
         if btc and btc[0]:
             print(f'  BTC: profiles with a non-completable Pareto-maximum with frozen agents {btc[0]}, with a completable min-frozen pre-allocation whose owner is of big-top type {btc[1]}, with any completable min-frozen pre-allocation {btc[2]}')
         if fz:

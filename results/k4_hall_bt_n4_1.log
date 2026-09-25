@@ -1,0 +1,13 @@
+# the same on every strict profile of the n = 4 cores with one 4-good agent
+# command: python3 k4/hall_run.py results/k4_certs_4_n4_1.json.gz -Bx 5 --jobs=4
+Fri Sep 25 23:10:02 UTC 2026
+FILE results/k4_certs_4_n4_1.json.gz cores 135 profiles 7247232 valid 137951940 minfrozen 80473565 minfrozen_omega1 0 minfrozen_posdef 0 profiles_c4min_ok 7247232 bad_char 0
+  Pareto-maxima inside the min-frozen set, pareto F=0: profiles 5444704, every maximum deficit <= 0: 5444704, some: 5444704 (16112012 maxima)
+  Pareto-maxima inside the min-frozen set, pareto F=1: profiles 1373076, every maximum deficit <= 0: 1373076, some: 1373076 (2972896 maxima)
+  Pareto-maxima inside the min-frozen set, pareto F=2: profiles 395916, every maximum deficit <= 0: 395916, some: 395916 (1348375 maxima)
+  Pareto-maxima inside the min-frozen set, pareto F=3+: profiles 33536, every maximum deficit <= 0: 33536, some: 33536 (344624 maxima)
+  F0: F=0 Pareto-maxima with omega>=1 106068, Lemma U violated 0, Lemma U2 violated 0, no single-good holder 70452, exposure of another kind 0, label criterion != exact test 0, a single-good holder valid 35616, a pair-holder valid 106068, no valid owner 0, every single-good holder valid 35616, single-good holder invalid by an unhittable exposure 0, e2 exposures 12360, e1 exposures 0, e3 exposures 0, e2 exposures at single-good owners 0
+  BTX: non-completable Pareto-maxima with frozen agents 0, with a frozen big-top agent 0, with an exposed frozen big-top agent 0, with an exchange cycle through a frozen big-top agent x after which x is a valid owner 0, after which some owner is valid 0
+  FZ: maxima with F>=1 and omega>=1 249310, with a globally exposed frozen agent 1040, global exposure of another shape 0, no global exposure and no valid owner 0, global exposure and no valid owner 0, Lemma H6 violations 0, frozen agents exposed w.r.t. >= 2 owners 1016, some owner valid 249310, no valid owner and no G1 configuration 0, no valid owner and no frozen big-top agent 0, frozen exposures (agent, owner): global 2296, ... owner a chain end of x (G1-type) 1354, ... local, one label 121229, ... local, two labels 4676, ... local, unhittable 17364
+  failing (P, owner) pairs 0, with an unhittable exposed agent 0; tau for the others: [0, 0, 0, 0, 0, 0, 0, 0]; minimal violator size (0 = none of size < 8): [0, 0, 0, 0, 0, 0, 0, 0]
+Fri Sep 25 23:10:06 UTC 2026

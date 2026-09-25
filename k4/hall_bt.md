@@ -10,13 +10,17 @@ Workstream `proof/k4-hall-bt`. It builds on `k4/hall.md` (PR #46: Lemmas H3, H6,
 This file attacks it from the side of the *big-top* agents: four goods, holding the top a, with a > b + c.
 
 **Status.** Nothing here changes K4.D or K4.T. What is here:
-- **§1 BT in #41's language** (conjecture, with exhaustive evidence for n ≤ 3 and the n = 4 one-4-good class).
-  Let P ∈ 𝒫 be Pareto-maximal at the fewest frozen agents, with ω ≥ 1 and no valid owner. Then some *exposed* frozen
-  agent is a big-top agent. The part that is proved (`k4/hall.md` Lemmas H6, H7) is that a frozen agent that is not
-  big-top is exposed only *locally*: through a good of the owner's base, w.r.t. an owner that does not need its good.
-- **§2 The big-top owner step** (conjecture K4.HALL.BTOWN, with exhaustive evidence, and a proved monotonicity lemma).
-  At every such P, some cycle of #41's exchange digraph through a frozen big-top agent x, with x becoming the owner,
-  gives a completable configuration.
+- **§1 BT in #41's language: false at n = 4.** The conjecture says a non-completable Pareto-maximum at the fewest
+  frozen agents with frozen agents has an exposed frozen big-top agent.
+  - It holds for all 377,832 such maxima with n ≤ 3, and vacuously on the n = 4 cores with one 4-good agent.
+  - It fails on a pure core with n = 4 (`attempts/k4-hall-bt-n4.md`, both implementations). Two non-big-top frozen
+    agents block the two owners by local exposures, with no slots. The repair is a *downgrade swap* (a frozen agent
+    passes its top to its needer and takes a junk good), which no exchange-digraph cycle performs.
+  - What is proved (`k4/hall.md` Lemmas H6, H7): a frozen agent that is not big-top is exposed only locally.
+- **§2 The big-top owner step** (conjecture K4.HALL.BTCYC, with exhaustive evidence, and a proved monotonicity lemma).
+  At every such P, some cycle of #41's exchange digraph through an exposed frozen big-top agent x gives a completable
+  configuration. Usually x becomes the owner, though not always: 1,344 of the 377,832 such maxima at n ≤ 3; the
+  examples printed have several big-top agents sharing their top.
   - The cycle move lets every receiver of a threat edge keep part of its own holding. #41's move, where each vertex
     gives away everything, is not enough on one sampled n = 3 profile.
   - Lemma BT1 (proved) handles the plainest cycle, a need chain closed by one threat edge (LB⁺'s rotation). The new
@@ -64,8 +68,20 @@ as the owner, with its needs from its bundle: once the bundle holds enough lower
 unfreeze the agent now holding a. Admissibility keeps NA inside 𝒩, so the result is a valid pre-allocation with the
 fewest frozen agents (rigidity, `k4/c4min.md` §1).
 
-**Conjecture K4.HALL.BTOWN.** At every P as in §1, some such cycle through some frozen big-top agent x makes x a
-removal-only owner.
+**Conjecture K4.HALL.BTCYC.** At every P as in §1, some such cycle through an exposed frozen big-top agent x gives a
+removal-only completable pre-allocation. The owner is x in almost every case, but not always.
+
+**The variant with x as the owner (BTOWN) fails.** At 1,344 of the 377,832 such maxima with n ≤ 3 no cycle makes x itself
+a valid owner, though a cycle through x always gives a completable pre-allocation with another owner. In the example
+below, found by `k4/hall.c` alone, all three agents are big-top agents with the same top (core 46 of
+`results/k4_certs_3.json.gz`):
+- agent 0 has 0:2 2:3 6:4 7:8 and holds 7, frozen;
+- agent 1 has 1:3 4:4 6:2 7:8 and holds {1, 4};
+- agent 2 has 3:3 5:4 6:2 7:8 and holds {3, 5};
+- J = {0, 2, 6}.
+
+The cycle 0 → 1 → 0 moves 7 to agent 1 and {2, 6} to agent 0. The new frozen big-top agent 1 is then threatened by
+agent 0's bundle, and agent 2 is the owner.
 
 Evidence (§3), in every profile tested with a non-completable Pareto-maximum with frozen agents:
 - the cycle exists;
@@ -111,8 +127,31 @@ bad case. The data says a suitable cycle always exists; it is not always this on
 
 ## 3. Evidence
 
-(Filled in from `results/k4_hall_bt_n3.log`, `results/k4_hall_bt_n4_1.log` and `results/k4_hall_bt_samples.log` when the
-runs finish.)
+Pareto-maxima inside the min-frozen class with frozen agents, ω ≥ 1 and no removal-only owner (`k4/hall.c -B`, one
+implementation; the counterexample bt4 is confirmed by the independent `k4/hall_check.py`). Columns:
+- (1) such maxima;
+- (2) with an exposed frozen big-top agent;
+- (3) with an exchange cycle through such an agent x that makes x a valid owner;
+- (4) with an exchange cycle through such an agent that completes, with any owner.
+
+| class | profiles | (1) | (2) | (3) | (4) | log |
+|---|---|---|---|---|---|---|
+| n = 2, every profile | 189,216 | 0 | – | – | – | `results/k4_hall_bt_n3.log` |
+| n = 3, every profile | 299,837,376 | 377,832 | 377,832 | 376,488 | 377,832 | the same |
+| n = 4, one 4-good agent, every profile | 7,247,232 | 0 | – | – | – | `results/k4_hall_bt_n4_1.log` |
+| n = 4, two, 1,000 per core | 309,000 | 6 | 6 | 6 | 6 | `results/k4_hall_bt_samples.log` |
+| n = 4, three, 1,000 per core | 339,000 | 120 | 120 | 120 | 120 | the same |
+| n = 4, pure, 1,000 per core | 219,000 | 303 | 302 | 300 | 302 | the same |
+| n = 5, one, 100 per core | 173,500 | 0 | – | – | – | the same |
+| n = 5, two, 20 per core | 109,360 | 0 | – | – | – | the same |
+| n = 5, pure, 10 per core | 46,740 | 47 | 47 | 47 | 47 | the same |
+
+The one pure n = 4 maximum without an exposed frozen big-top agent is bt4 (`attempts/k4-hall-bt-n4.md`). No
+exchange-digraph cycle through any exposed frozen agent completes it; the downgrade swap does.
+
+Coordination: PR #50 (`proof/k4-c4min-f1`) builds the f = 1 move catalogue and PR #51 (`proof/k4-c4min-reduce`)
+reduces f = 1 to Theorem Z. Both were stubs when this was written. bt4 has f = 2. The rows (3) and (4) are the
+catalogue entry "cycle through a big-top agent"; the downgrade swap is an entry they need too.
 
 ## 4. Reproduce
 
