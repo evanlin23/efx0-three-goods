@@ -359,10 +359,12 @@ in any test below. The n = 5 core lists with three or more 4-good agents are tho
 `results/k4_lb4r_cores_*.json.gz`.
 - *Exhaustive.* Every insertion order on every core with n ≤ 4 (above); every order on the two n = 5 cores below on
   which need-shrinking needs a third rotation (8.41·10¹¹ run–profile pairs, `results/k4_lb4r_deep.log`). Index order
-  on every certified core (above), and on n = 5 with three 4-good agents (in progress: 7,064 of the 9,861 cores, 5.1·10¹² profiles, no failure; `results/k4_lb4r_ex_5_n4_3.log`).
-- *Random profiles* (seeded from each core; `results/k4_lb4r_samples.log`, `results/k4_lb4r_random.log`). n = 5, every
-  class (1 to 5 four-good agents, 31,584 cores): index order 7.6·10⁸ profiles; every order 6.6·10⁷ profiles
-  (6.7·10⁸ runs). Random cores, index order and every order: n = 6, 4,200 cores (8.4·10⁷ profiles; 3.4·10⁶ profiles,
+  on every certified core (above), and on n = 5 with three 4-good agents (in progress: 7,064 of the 9,861 cores,
+  5.1·10¹² profiles, no failure; `results/k4_lb4r_ex_5_n4_3.log`).
+- *Random profiles* (seeded from each core; `results/k4_lb4r_samples.log`, `results/k4_lb4r_random.log`). n = 5 with
+  three to five 4-good agents (24,381 cores; with at most two, exhaustive above): index order 6.3·10⁸ profiles, every
+  order 8.0·10⁷ profiles (8.0·10⁸ runs). n = 6 with one 4-good agent (26,866 cores of PR #26): index order
+  1.3·10⁸. Random cores, index order and every order: n = 6, 4,200 cores (8.4·10⁷ profiles; 3.4·10⁶ profiles,
   7.7·10⁷ runs); n = 7, 1,500 cores (1.5·10⁷; 3·10⁵ profiles, 1.6·10⁷ runs); n = 8, 300 cores (3·10⁶, index only).
 - *Adversarial* (`results/k4_lb4r_weak.log`, `results/k4_lb4r_adversarial.log`). First the cores where a weaker
   variant fails: need-shrinking upgrades only (`attempts/lb4r-need-shrinking-only.md`) fail on 149 cores with n ≤ 4
@@ -374,7 +376,7 @@ in any test below. The n = 5 core lists with three or more 4-good agents are tho
   rotations over all policies (`-P2 -d2`). In all, 1.8·10⁸ profiles (3.1·10⁸ runs), 0 failures. The climbs never
   found a profile on which two policies fail on their own, nor one needing a third rotation with the policy free.
 - *What LB₄ʳ uses* (`-d1` and `-d2`; `results/k4_lb4r_hist.log` has the histograms for every certified core).
-  "No upgrades" is never the policy LB₄ʳ ends with: wherever need-shrinking fails, envy-free upgrades succeed (on n ≤ 3,
+  "No upgrades" is never the policy LB₄ʳ ends with: wherever need-shrinking fails, envy-free upgrades succeed (at n = 3,
   index order, 147,240 of 3·10⁸ profiles need them). With every policy allowed, no tested run needs a third rotation;
   two are needed rarely (at n = 3, every order, 25,240 of 1.0·10⁹ run–profile pairs). Under need-shrinking alone, 2 runs
   of the n = 5 sample (four 4-good agents, m = 9; `results/k4_lb4r_deep.log`) need three rotations, and envy-free
@@ -384,24 +386,25 @@ in any test below. The n = 5 core lists with three or more 4-good agents are tho
   98.99 %, 1.01 %, 690,140 and 5,760 pairs; with the policy free (`-d2`), 2 rotations in 101,272 pairs and 3 in none.
   Index order (`-d2`): 2 rotations in 12,320 of 1.03·10⁹ profiles with n ≤ 4 and at most two 4-good agents, 3 in none.
 - *Simpler candidates.* LB₄ʳ with at most two rotations (`-r2`) fails nowhere tested: every order on n ≤ 4 with at most
-  three 4-good agents (exhaustive) and on the n = 5 sample (3,000 profiles per core, every class). Even one policy
+  three 4-good agents (exhaustive) and on the n = 5 sample (3,000 profiles per core, three to five 4-good agents,
+  every order). Even one policy
   suffices on every test run so far, if it is not need-shrinking: envy-free upgrades only with at most two rotations
   (`-u2 -r2`) fail on no profile, for every order on n ≤ 4 with at most three 4-good agents (exhaustive,
   2.1·10¹¹ run–profile pairs), on pure n = 4 (every order, 20,000 random profiles per core), on n = 5 (index order
-  1.3·10⁸ profiles, every order 7.3·10⁶), on the random n = 6, 7 cores (index order 2.3·10⁷) and under hill-climbing
+  1.6·10⁸ profiles, every order 7.3·10⁶), on the random n = 6, 7 cores (index order 2.3·10⁷) and under hill-climbing
   on the hard n = 5 cores and the grown cores (`results/k4_lb4r_simple.log`). No upgrades at all (`-u0`)
   also fails on none of these kinds of test: index order on n ≤ 4 with at most three 4-good agents (exhaustive,
-  3.6·10¹⁰ profiles), every order on n ≤ 3 (exhaustive) and on pure n = 4 (sampled), n = 5 (index 8.1·10⁷ profiles,
+  3.6·10¹⁰ profiles), every order on n ≤ 3 (exhaustive) and on pure n = 4 (sampled), n = 5 (index 9.5·10⁷ profiles,
   every order 7.3·10⁶), random n = 6, 7 cores (every order 1.35·10⁶), hill-climbing; it never needs a third rotation.
   So Theorem C₄ may be provable in the form "every run of Phase 1, then envy-free upgrades (or none), then at most two
   rotations", which is closer to LB⁺'s Theorem C; need-shrinking upgrades are the one policy that cannot stand alone.
 - *The hardest profiles found* (the logs give each with its run's insertion order, picks, upgrades and frozen agents):
   (values listed in the order of each agent's goods, which are sorted)
-  - fewest rotations over all policies 2, with 128 rotation attempts in all: n = 5, m = 9, agents {0, 2, 7, 8}, {1, 3, 4, 6},
-    {3, 4, 6, 8}, {5, 6, 7, 8}, {5, 7, 8}, values (2, 7, 8, 4), (5, 6, 3, 7), (5, 4, 8, 6), (2, 8, 4, 7), (2, 3, 4),
+  - fewest rotations over all policies 2, with 128 rotation attempts in all: n = 5, m = 9, agents {0, 2, 7, 8},
+    {1, 3, 4, 6}, {3, 4, 6, 8}, {5, 6, 7, 8}, {5, 7, 8}, values (2, 7, 8, 4), (5, 6, 3, 7), (5, 4, 8, 6), (2, 8, 4, 7), (2, 3, 4),
     insertion order 1, 2, 0, 4, 3 (`-P2 -d2`);
-  - need-shrinking fails, envy-free upgrades need one rotation, 394 rotation attempts in all: n = 5, m = 10, agents {0, 2, 5, 9},
-    {1, 4, 5, 6}, {3, 4, 7, 8}, {3, 7, 8, 9}, {6, 7, 8, 9}, values (4, 3, 8, 10), (4, 2, 7, 10), (4, 2, 7, 8),
+  - need-shrinking fails, envy-free upgrades need one rotation, 394 rotation attempts in all: n = 5, m = 10, agents
+    {0, 2, 5, 9}, {1, 4, 5, 6}, {3, 4, 7, 8}, {3, 7, 8, 9}, {6, 7, 8, 9}, values (4, 3, 8, 10), (4, 2, 7, 10), (4, 2, 7, 8),
     (3, 6, 10, 8), (3, 5, 6, 7), order 0, 3, 2, 4, 1;
   - need-shrinking needs three rotations (envy-free upgrades one): n = 5, m = 9, agents {0, 1, 2, 3}, {0, 2, 3, 8},
     {1, 6, 8}, {4, 5, 6, 7}, {4, 5, 7, 8}, values (6, 10, 3, 8), (4, 6, 8, 1), (3, 2, 4), (4, 5, 8, 2), (6, 3, 5, 7),
