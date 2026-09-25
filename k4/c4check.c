@@ -123,8 +123,17 @@ static void phase1(void) {
             }
             else if (INS == 3) { int bv = 1 << 30; for (int q = 0; q < nc; q++) { int v = lookahead(cand[q], G, done, Y); if (v < bv) { bv = v; c = q; } } }
             else if (INS >= 1) { if (nins >= nchoice) choice[nchoice++] = 0; c = choice[nins]; maxchoice[nins] = nc; if (c >= nc) c = nc - 1; }
-            if (QFIRST && nins == 0) {       /* -Q: the first insertion step takes the (unique) 4-good agent */
+            if (QFIRST == 1 && nins == 0) {  /* -Q: the first insertion step takes the (unique) 4-good agent */
                 for (int t = 0; t < nc; t++) if (d[cand[t]] == 4) { c = t; if (INS >= 1) maxchoice[0] = 1; break; }
+            }
+            if (QFIRST == 2 && nc > 1) {     /* -Q2: an insertion step never takes the 4-good agent while another is left */
+                int t4 = -1; for (int t = 0; t < nc; t++) if (d[cand[t]] == 4) t4 = t;
+                if (t4 >= 0) {
+                    if (INS >= 1) { maxchoice[nins] = nc - 1; if (c >= nc - 1) c = nc - 2; }
+                    int rest[MAXN], k = 0; for (int t = 0; t < nc; t++) if (t != t4) rest[k++] = cand[t];
+                    for (int t = 0; t < nc - 1; t++) cand[t] = rest[t];
+                    if (INS == 0) c = 0;
+                }
             }
             nins++;
             best = cand[c]; b++;
@@ -430,13 +439,13 @@ static int XCHK = 0;
 enum { C_W1, C_A1VIOL, C_E4, C_E4E_ROK, C_E4E_RFAIL, C_A3VIOL, C_BADVIOL, C_ROTINV, C_E4AFTER_OK, C_E4AFTER_FAIL,
        C_B_OK, C_B_VIOL, C_E4F, C_E4T, C_BW_APPL, C_BW_OK, C_BW_VIOL, C_BW_NOCHAIN, C_BW_CONDFAIL_OK, C_BW_CONDFAIL_FAIL,
        C_BW_E4AFTER, C_E4_ROK, C_G1T, C_G1T_WOK, C_G1F, C_AT_APPL, C_AT_ROK, C_AT_VIOL, C_AT_TC, C_AT_TB, C_AT_TC_ROK,
-       C_AT_TB_ROK, C_AP_APPL, C_AP_VIOL, C_AP_FAILCOND, C_AP_FAILCOND_ROK, C_PROVED, C_PROVED_NOAP, C_NCHK };
+       C_AT_TB_ROK, C_AP_APPL, C_AP_VIOL, C_AP_FAILCOND, C_AP_FAILCOND_ROK, C_PROVED, C_PROVED_NOAP, C_PROVED_EXT, C_NCHK };
 static const char *chkname[C_NCHK] = {"omega_ge1", "A1_VIOL", "E4_nonempty", "E4_empty_r_ok", "E4_empty_r_fails",
     "A3_VIOL", "BADCASE_VIOL", "ROT_INVALID_VIOL", "E4_after_rot_k_ok", "E4_after_rot_k_fails", "B4_k_ok", "B4_VIOL",
     "E4_has_frozen", "E4_only_free", "Bw_applicable", "Bw_w_ok", "Bw_VIOL", "Bw_no_chain_to_r", "Bw_cond_fail_w_ok",
     "Bw_cond_fail_w_fails", "Bw_4good_exposed_after", "E4_r_ok", "G1T_r_fails", "G1T_owner_w_ok", "G1F_r_fails",
     "AT_applicable", "AT_r_ok", "AT_VIOL", "AT_conflict_Tc", "AT_badcase_Tb", "AT_Tc_but_r_ok", "AT_Tb_but_r_ok",
-    "Aplus_count_ok_r_ok", "Aplus_VIOL", "Aplus_short_r_fails", "Aplus_short_r_ok", "proved", "proved_without_Aplus"};
+    "Aplus_count_ok_r_ok", "Aplus_VIOL", "Aplus_short_r_fails", "Aplus_short_r_ok", "proved", "proved_without_Aplus", "proved_with_Aplus_any_owner"};
 static long CHK[C_NCHK]; static int chkf[C_NCHK];
 static int is_leader(int x) { for (int i = 0; i < n; i++) if (blk[i] == blk[x] && pos[i] < pos[x]) return 0; return 1; }
 static int nends; static int ends_[64]; static int ch2[MAXN], cl2;
@@ -558,6 +567,20 @@ static int check_Aplus(int r, uint32_t W, const int *E, int rok) {
 }
 static int check_AB1(int S, int r, uint32_t W, const int *E, int e4, int e4f, int rok);
 
+/* Theorem A4+ for an owner o other than r (k4/c4one.md): o not frozen, with a base of at most one good, or an upgraded
+   owner (then a free exposed agent protects itself with its slot only if at most one good of its R is in B_o) */
+static int aplus_owner(int o) {
+    uint32_t Wo = base[o] | J; int dem = 0, tb = 0;
+    for (int x = 0; x < n; x++) {
+        if (x == o) continue;
+        if (!upg[x] && !frz[x]) tb += cap[x];
+        if (upg[x] || !threatened(x, Wo, base[x])) continue;
+        if (!frz[x] && Y[x] >= 0 && cap[x] >= 1 && popc(base[o] & R[x]) <= 1) dem += 1;
+        else dem += rho4(x, Wo);
+    }
+    return dem <= tb;
+}
+
 /* ---- -Y (with -X): runs with exactly one 4-good agent q; for the runs that §2-§4c of k4/c4.md do not prove, the
    case and the repairs that work (k4/c4one.md) ---- */
 static int YCHK = 0, ycls = -1, ymask, yfirst, YSHOW = 0, yshown = 0, PROVEDOK = 0, last_proved;
@@ -645,7 +668,15 @@ static void check_AB(int S) {
     int pr = check_AB1(S, r, W, E, e4, e4f, rok);
     if (pr) chkf[C_PROVED_NOAP] = 1;
     if (pr || ap) chkf[C_PROVED] = 1;
-    last_proved = pr || ap;
+    int apo = 0;
+    for (int o = 0; o < n && !apo; o++) if (o != r && !frz[o] && (cap[o] > 0 || upg[o]) && aplus_owner(o)) {
+        apo = 1;
+        int so = OWNW; OWNW = 0;
+        if (!try_owner(o, S)) { chkf[C_AP_VIOL] = 1; report("APOVIOL"); }
+        OWNW = so;
+    }
+    if (pr || ap || apo) chkf[C_PROVED_EXT] = 1;
+    last_proved = PROVEDOK == 2 ? (pr || ap || apo) : (pr || ap);
     if (YCHK) analyze_one(S, r, E, rok, pr || ap);
 }
 /* the checks of Theorems A4, B4, B4w, A4T; returns 1 if one of them guarantees an allocation on this run */
@@ -801,8 +832,8 @@ int main(int argc, char **argv) {
         else if (!strncmp(argv[a], "-w", 2)) OWNW = atoi(argv[a] + 2);
         else if (!strncmp(argv[a], "-c", 2)) CHUP = atoi(argv[a] + 2);
         else if (!strcmp(argv[a], "-X")) XCHK = 1;
-        else if (!strcmp(argv[a], "-P")) PROVEDOK = 1;    /* with -X -u2: "success" means proved by k4/c4.md's theorems */
-        else if (!strcmp(argv[a], "-Q")) QFIRST = 1;
+        else if (!strncmp(argv[a], "-P", 2)) PROVEDOK = argv[a][2] ? atoi(argv[a] + 2) : 1;   /* with -X -u2: "success" = proved by k4/c4.md's theorems (-P2: A4+ for any owner too) */
+        else if (!strncmp(argv[a], "-Q", 2)) QFIRST = argv[a][2] ? atoi(argv[a] + 2) : 1;
         else if (!strcmp(argv[a], "-Y")) YCHK = 1;
         else if (!strncmp(argv[a], "-Y", 2)) { YCHK = 1; YSHOW = atoi(argv[a] + 2); }   /* -YC: show runs of class C */
     }

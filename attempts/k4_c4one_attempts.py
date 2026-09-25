@@ -8,7 +8,9 @@ with or without a slot for a rotated agent's one-good base (checked with the ind
 k4/c4tools/c4trace.py); two nested rotations work; the profile has 167 EFX0 allocations with at most one bundle of
 more than 2 goods (brute force, k4/lb4_brute.py). lb4.c agrees: -i0 -u3 -o0 -r1 -w1 -c1 fails on 4 profiles of this
 core, -r2 on none; with every insertion sequence the core [[0,2,4,7],[1,2,3],[1,5,6],[3,5,7],[4,6,7]] (m = 8) fails too.
-Usage: python3 attempts/k4_c4one_attempts.py"""
+potential (attempts/k4-c4one-potential.md): route 2's local step, "whenever no owner is valid, some rotation strictly
+raises the count" (Phi = the best A4+ slack over owners, or the owner-free count), fails on these two states.
+Usage: python3 attempts/k4_c4one_attempts.py [NAME ...]   (default: all)"""
 import os, subprocess, sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 K4 = os.path.join(HERE, '..', 'k4')
@@ -48,7 +50,35 @@ def one_rotation():
         ok &= (f > 0) == want
     return ok
 
-ALL = {'one-rotation': one_rotation}
+def potential():
+    """route 2: from a state with no valid owner, no single rotation raises Phi (nor the owner-free count)"""
+    from c4pot import Phi, count
+    ok = True
+    for what, sets, vals, tau in [
+            ('two 4-good agents (agents 0, 1), n = 3, m = 6, first insertion agent 2',
+             [[0, 1, 2, 5], [2, 3, 4, 5], [3, 4, 5]], [[1, 4, 8, 6], [8, 2, 3, 4], [2, 3, 4]], [2]),
+            ('one 4-good agent (agent 2), n = 5, m = 9, index insertion',
+             [[0, 3, 7], [1, 5, 8], [2, 6, 7, 8], [3, 4, 5], [4, 6, 8]], [[2, 3, 4], [2, 4, 3], [2, 3, 8, 4], [2, 3, 4], [4, 2, 3]], [])]:
+        I = Inst(sets, vals)
+        st = upgrades(initial_state(I, tau)[0], 2)
+        print(f'potential: {what}'); print(pretty(st))
+        f0, c0 = Phi(st), count(st)
+        rots = []
+        fr = st.frozen()
+        for k in range(I.n):
+            if not fr[k]: continue
+            for ch in chains_from(st, k):
+                for O in rot_options(st, ch):
+                    ns = rotate(st, ch, O)
+                    if ns.valid(): rots.append((tuple(ch), sorted(O), Phi(ns), count(ns)))
+        print(f'   no valid owner: {try_owners(st, w1=True, rot_slot=True) is None}; Phi {f0}, count {c0}')
+        for ch, O, f, c in rots: print(f'   rotation {ch} O = {O}: Phi {f}, count {c}')
+        two = len(search(st, 2, w1=True, rot_slot=True, all_paths=False)) > 0
+        print(f'   two nested rotations reach a valid owner: {two}')
+        ok &= try_owners(st, w1=True, rot_slot=True) is None and all(f <= f0 and c <= c0 for _, _, f, c in rots) and two
+    return ok
+
+ALL = {'one-rotation': one_rotation, 'potential': potential}
 
 if __name__ == '__main__':
     names = sys.argv[1:] or list(ALL)

@@ -7,7 +7,7 @@ import os, sys, gzip, json, subprocess
 from multiprocessing import Pool
 HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
 import lb4_run, c4check_run
-BIN = c4check_run.BIN; opts = sys.argv[1].split(); files = sys.argv[2:]
+BIN = os.environ.get('C4CHECK_BIN') or c4check_run.BIN; opts = sys.argv[1].split(); files = sys.argv[2:]
 
 def run(recs):
     p = subprocess.run([BIN] + opts, input=''.join(lb4_run.encode(c['sets'], c['m'], False) for c in recs), capture_output=True, text=True)
