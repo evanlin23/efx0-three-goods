@@ -6,7 +6,7 @@ Bounded LB4r with index insertion (k4/lb4.md section 5: -i0 -u3 -r3 -w1 -c1), EV
   sample FILE ... --profiles=P [--seed=S] [--jobs=J]
                               for every core of the files with every good of degree <= 3, P random strict profiles, run
                               as in random mode below (least R = 0..3 per profile)
-  random --n=6,7 --cores=C --profiles=P [--seed=S] [--p4=0.5] [--jobs=J]
+  random --n=6,7 --cores=C --profiles=P [--seed=S] [--p4=0.5] [--maxpriv=2] [--jobs=J]
                               random (4, 3) cores (every shared good has degree 2 or 3; agents of degree 3 or 4 with at
                               most d - 2 private goods; connected; checked by check4.is_core), P random strict profiles
                               each; LB4r with index insertion and at most R nested rotations for R = 0, 1, 2, 3 on each
@@ -36,11 +36,12 @@ def do_filter(files, out):
         with gzip.open(os.path.join(out, name), 'wt') as fo: json.dump(o, fo)
         print(f"{os.path.basename(f)}: {len(d['cores'])} cores, every good of degree <= 3: {len(keep)} -> {name}", flush=True)
 
+MAXPRIV = 2
 def random_core43(rng, n, p4, tries=20000):
     for _ in range(tries):
         d = [4 if rng.random() < p4 else 3 for _ in range(n)]
         if 4 not in d: d[rng.randrange(n)] = 4
-        p = [rng.randrange(di - 1) for di in d]          # 0 .. d-2 private goods
+        p = [rng.randrange(min(di - 2, MAXPRIV) + 1) for di in d]   # 0 .. min(d - 2, --maxpriv) private goods
         slots = sum(di - pi for di, pi in zip(d, p))
         lo, hi = -(-slots // 3), slots // 2                 # shared goods ms with 2 ms <= slots <= 3 ms
         if lo > hi: continue
@@ -89,6 +90,8 @@ def main():
     opt = dict(a[2:].split('=', 1) if '=' in a else (a[2:], True) for a in sys.argv[1:] if a.startswith('--'))
     print("command: python3 k4/p3_run.py " + ' '.join(sys.argv[1:]), flush=True)
     if args[0] == 'filter': return do_filter(args[1:], opt['out'])
+    global MAXPRIV
+    MAXPRIV = int(opt.get('maxpriv', 2))
     if not os.path.exists(BIN): subprocess.run(['gcc', '-O2', '-o', BIN, SRC], check=True, stderr=subprocess.DEVNULL)
     print(f"binary: {BIN} (sha256 of k4/lb4_nsw.c: {hashlib.sha256(open(SRC, 'rb').read()).hexdigest()}), options {' '.join(OPTS)} -rR -b", flush=True)
     ns = [int(x) for x in opt.get('n', '6').split(',')]
