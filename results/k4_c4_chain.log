@@ -34,3 +34,33 @@ H_3: n = 13, m = 33
   lb4 -i2 -u1 -r1 -w1 -c1: fails 0 rawfails 0 nobig 0 owner_r 1 owner_other 0 rot 0  largest bundle 9:1
 H_3: n = 13, m = 33
   lb4 -i1 -u3 -r2 -w1 -c1: fails 0 rawfails 0 nobig 0 owner_r 170682 owner_other 184 rot 208  largest bundle 12:546
+H_1: reachable states with at most 3 rotations
+  Phase 1 (picks, junk, frozen = the x's, no upgrade under policies 1 and 2) as in the proof: True, omega = 6
+  1 rotation(s): 6 new valid states; largest total (slots minus forced goods) 1; proof bound (t - s) - 2s with s = max(t - 1, 0): 1
+  2 rotation(s): 7 new valid states; largest total (slots minus forced goods) 1; proof bound (t - s) - 2s with s = max(t - 2, 0): 1
+  3 rotation(s): 6 new valid states; largest total (slots minus forced goods) 1; proof bound (t - s) - 2s with s = max(t - 3, 0): 1
+  every structural step of the proof holds on all 20 states: True
+H_2: reachable states with at most 3 rotations
+  Phase 1 (picks, junk, frozen = the x's, no upgrade under policies 1 and 2) as in the proof: True, omega = 11
+  1 rotation(s): 12 new valid states; largest total (slots minus forced goods) -1; proof bound (t - s) - 2s with s = max(t - 1, 0): -1
+  2 rotation(s): 104 new valid states; largest total (slots minus forced goods) 2; proof bound (t - s) - 2s with s = max(t - 2, 0): 2
+  3 rotation(s): 276 new valid states; largest total (slots minus forced goods) 2; proof bound (t - s) - 2s with s = max(t - 3, 0): 2
+  every structural step of the proof holds on all 393 states: True
+H_3: reachable states with at most 3 rotations
+  Phase 1 (picks, junk, frozen = the x's, no upgrade under policies 1 and 2) as in the proof: True, omega = 16
+  1 rotation(s): 18 new valid states; largest total (slots minus forced goods) -3; proof bound (t - s) - 2s with s = max(t - 1, 0): -3
+  2 rotation(s): 237 new valid states; largest total (slots minus forced goods) 0; proof bound (t - s) - 2s with s = max(t - 2, 0): 0
+  3 rotation(s): 1926 new valid states; largest total (slots minus forced goods) 3; proof bound (t - s) - 2s with s = max(t - 3, 0): 3
+  every structural step of the proof holds on all 2182 states: True
+H_4: reachable states with at most 3 rotations
+  Phase 1 (picks, junk, frozen = the x's, no upgrade under policies 1 and 2) as in the proof: True, omega = 21
+  1 rotation(s): 24 new valid states; largest total (slots minus forced goods) -5; proof bound (t - s) - 2s with s = max(t - 1, 0): -5
+  2 rotation(s): 406 new valid states; largest total (slots minus forced goods) -2; proof bound (t - s) - 2s with s = max(t - 2, 0): -2
+  3 rotation(s): 4740 new valid states; largest total (slots minus forced goods) 1; proof bound (t - s) - 2s with s = max(t - 3, 0): 1
+  every structural step of the proof holds on all 5171 states: True
+H_5: reachable states with at most 3 rotations
+  Phase 1 (picks, junk, frozen = the x's, no upgrade under policies 1 and 2) as in the proof: True, omega = 26
+  1 rotation(s): 30 new valid states; largest total (slots minus forced goods) -7; proof bound (t - s) - 2s with s = max(t - 1, 0): -7
+  2 rotation(s): 611 new valid states; largest total (slots minus forced goods) -4; proof bound (t - s) - 2s with s = max(t - 2, 0): -4
+  3 rotation(s): 8934 new valid states; largest total (slots minus forced goods) -1; proof bound (t - s) - 2s with s = max(t - 3, 0): -1
+  every structural step of the proof holds on all 9576 states: True
