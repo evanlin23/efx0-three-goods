@@ -13,8 +13,9 @@ at most R nested rotations, R as small as possible?
 
 **Status.**
 - **Rule F** (§1): choose the *first* agent by lookahead, then insert in index order. With at most **R = 1** rotation
-  it fails on no profile tested: every strict profile of every certified core with n ≤ 4 (exhaustive, pure n = 4
-  included), 1.6·10⁸ random profiles over the five n = 5 classes, hill-climbing towards profiles that need two
+  it fails on no profile tested: every strict profile of every certified core with n ≤ 4 and at most three 4-good agents
+  (exhaustive, 3.6·10¹⁰ profiles), pure n = 4 (random profiles and hill-climbing; the exhaustive run did not finish),
+  1.6·10⁸ random profiles over the five n = 5 classes, hill-climbing towards profiles that need two
   rotations on #32's hard and random cores up to n = 8, #30's GM₄ profiles, and H_1–H_8 with relabelings (§2). R = 1
   is the least possible: 263,336 profiles at n = 3 need a rotation under every insertion order (`attempts/lb4-no-rotation.md`).
 - **Rule F is optimal where it was compared** (§4): on every profile with n ≤ 4 (pure n = 4 not compared), the fewest
@@ -79,7 +80,7 @@ Rule F with at most three rotations allowed, counting the fewest each profile ne
 | n = 4, one 4-good agent, exhaustive | 7,247,232 | 7,246,416 | 816 | 0 | `results/k4_adaptive_rules_n4.log` |
 | n = 4, two, exhaustive | 724,847,616 | 724,640,736 | 206,880 | 0 | `results/k4_adaptive_rules_n4.log` |
 | n = 4, three, exhaustive | 34,971,844,608 | 34,961,492,780 | 10,351,828 | 0 | `results/k4_adaptive_A16_n4_3.log` |
-| n = 4, pure, exhaustive | PURE4_TOTAL | PURE4_R0 | PURE4_R1 | PURE4_R2 | `results/k4_adaptive_A16_pure4.log` |
+| n = 4, pure, random (20,000 per core) | PURE4_TOTAL | PURE4_R0 | PURE4_R1 | PURE4_R2 | `results/k4_adaptive_A16_pure4.log` |
 | n = 5, one 4-good agent, random (5,000 per core) | 8,675,000 | 8,674,942 | 58 | 0 | `results/k4_adaptive_A16_n5_sample.log` |
 | n = 5, two, random | 27,340,000 | 27,339,644 | 356 | 0 | same |
 | n = 5, three, random | 49,305,000 | 49,303,628 | 1,372 | 0 | same |
@@ -95,7 +96,9 @@ Adversarial and structured sets:
 - *#30's GM₄ profiles* (the 148 profiles whose level-sum maxima are all dead ends, the GM₄ seeds and failing maxima,
   instances A–H, P, Q, S; 442 profiles): no rotation needed, by index order already (`results/k4_adaptive_hard.log`).
 - *H_1–H_8 and five relabelings of each* (owner's needs from its base, `-w0`, as #33 and #32 do from t = 4; a `-w0`
-  completion is also a `-w1` one): no rotation needed (`results/k4_adaptive_A16_H.log`), as Proposition H′ proves.
+  completion is also a `-w1` one): no rotation needed on 47 of the 48 (`results/k4_adaptive_A16_H.log`). The 48th,
+  H_8 in #33's labeling, hit the 20-minute limit: rule F first tries ℓ, whose run is the cascade, and LB₄ʳ's exact
+  owner search on it is slow; the next candidate, x_{1,1}, needs no rotation by Proposition H′.
 
 ## 3. H_t: Proposition H′
 
@@ -201,7 +204,7 @@ where H_t's structure is used, and what a general theorem must replace by a coun
   every profile, so equal histograms mean equality on every profile. So on these classes the insertion order matters
   only through the first agent, and the optimum is at most one rotation.
 - *Every continuation.* `-A24` (for each first agent, the largest number of rotations over every continuation)
-  reaches the same histogram on n ≤ 3 and on n = 4 with one or two 4-good agents (`results/k4_adaptive_A24.log`) and
+  reaches the same histogram on n ≤ 3 and on n = 4 with one or two 4-good agents (`results/k4_adaptive_rules_n23.log`, `results/k4_adaptive_rules_n4.log`) and
   with three (`results/k4_adaptive_A24_n4_3.log`): some first agent makes *every* later insertion order work with the
   fewest rotations. Proposition H′ is an instance (H_t, no rotation). This is LB⁺'s Theorem C (every run of Phase 1
   works) after one chosen step:
@@ -304,7 +307,7 @@ not all of it (profiles with no covered insertion sequence, every sequence tried
 | n = 2 | 12,420 | 1,020 |
 | n = 3 | 7,503,039 | 119,616 |
 | n = 4, one 4-good agent | 0 | 0 |
-| n = 4, two | 155,947 | COVN_N4_2 |
+| n = 4, two | 155,947 | 62,536 |
 
 What remains is solved by LB₄ʳ without rotation, with need-shrinking upgrades and an owner valid only with its needs
 from its bundle (the smallest: n = 2, m = 5, agents {0, 2, 3, 4} and {1, 2, 3, 4}, both with values (2, 3, 4, 8) on
