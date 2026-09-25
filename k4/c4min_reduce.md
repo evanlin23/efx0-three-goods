@@ -355,13 +355,13 @@ replayed by both. The f = 1 count agrees with #41's implementation, and the f â‰
 ## 7. Reproduce
 
 ```
-python3 k4/red_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz --pots="mt,r,lamR;r,mt,lamR;mt,r,lamR,mp;r,mt,lamR,mp" -x 2   # ~45 s on 4 CPUs
+python3 k4/red_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz --pots="mt,r,lamR;r,mt,lamR;mt,r,lamR,mp;r,mt,lamR,mp" -x 3   # ~45 s on 4 CPUs
 python3 k4/red_run.py results/k4_certs_4_n4_1.json.gz --pots=...                                  # ~2 s
 python3 k4/red_run.py results/k4_certs_4_n4_2.json.gz results/k4_certs_4_n4_3.json.gz results/k4_certs_4_pure.json.gz --rand=4000 --seed=7 --pots=...
 python3 attempts/k4_c4min_reduce_attempts.py                                                       # < 1 s
 ```
 Each log starts with the `# command:` lines that wrote it. `k4/red_run.py` compiles `k4/red.c` into the temporary
-directory under a name made from a hash of the source (`RED_BIN` overrides). Potentials (`--pots`) are lexicographic and
+directory under a name made from a hash of the source (`RED_BIN` overrides). `-x N` prints up to N example profiles per counter. Potentials (`--pots`) are lexicographic and
 maximized over all keys. Their features are:
 - `r` (robust free agents);
 - `lamU` (levels over U_y);

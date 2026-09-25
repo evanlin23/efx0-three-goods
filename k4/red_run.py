@@ -3,7 +3,7 @@
 Usage: red_run.py FILE [FILE ...] [--rand=R] [--seed=S] [--jobs=J] [-x N] [--cores=a:b] [--pots='f,f;f']
   --pots: extra global potentials (features r lamU lamR mt mp mterm lx mvp mndx; lexicographic, maximized).
   --rand=R: R random profiles per core (seed S + core index); default every profile.
-  -x N: print up to N example profiles per failure counter and core."""
+  -x N: print up to N example profiles per counter (in core order)."""
 import gzip, hashlib, json, os, subprocess, sys, tempfile, time
 from multiprocessing import Pool
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -51,11 +51,13 @@ def main():
         for ci in range(lo, min(hi, len(cores))):
             c = cores[ci]
             tasks.append((b, c['n'], c['m'], c['sets'], rand, seed + ci, nex, '%s#%d' % (os.path.basename(f), ci), opt.get('pots', '')))
-    tot = {}; t0 = time.time()
+    tot = {}; t0 = time.time(); shown = {}
     with Pool(jobs) as pool:
-        for cnt, ex in pool.imap_unordered(run, tasks):
+        for cnt, ex in pool.imap(run, tasks):
             for k, v in cnt.items(): tot[k] = tot.get(k, 0) + v
-            for e in ex: print(e)
+            for e in ex:
+                tag = e.split()[1]
+                if shown.get(tag, 0) < nex: shown[tag] = shown.get(tag, 0) + 1; print(e)
     print('# files: %s  rand=%d seed=%d  cores=%d  time=%.1fs' % (' '.join(args), rand, seed, len(tasks), time.time() - t0))
     for k in sorted(tot): print('%-36s %d' % (k, tot[k]))
     fails = {k: v for k, v in tot.items() if k.startswith('FAIL') and v}
