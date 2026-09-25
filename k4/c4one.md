@@ -24,8 +24,9 @@ Lemma E, Theorems A₄, B₄, B₄ʷ, A₄ᵀ, A₄⁺ and the conventions of it
   - No fixed rule tested (index order, q first, q as late as possible, the lexicographically first least-ω sequence)
     achieves this.
   - A deterministic rule works: minimize (ω, q frozen, −pos(q)).
-  - Behind it is a local **Exchange Lemma X**, which holds on every run tested (the runs `lb4.c` makes). When a run is
-    not covered, changing one insertion step covers it or lowers that key.
+  - Behind it is a local **Exchange Lemma X**, which holds on every run tested, n ≤ 5: the runs `lb4.c` makes, and
+    the runs with P-steps in any order (`-G`). When a run is not covered, changing one decision covers it or lowers
+    that key.
   - **Lemma X plus the theorems imply C₄¹∃.** So on the data, C₄¹∃ reduces to Lemma X, which is open.
   - The stronger **Lemma X′** also holds on the data: from every uncovered run, one changed insertion step gives a
     covered run directly, with no key needed.
