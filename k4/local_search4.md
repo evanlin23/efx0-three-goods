@@ -240,7 +240,7 @@ So a stable state without a placement needs at least two sources, the dump fails
 | n = 4, two 4-good agents | 309 | N4N42 | exhaustive | N4N42F | | `results/k4_ls4_4_n4_2.log` |
 | n = 4, three 4-good agents | 339 | 33,900,000 | 100,000 random per core | 0 | | `results/k4_ls4_4_sample.log` |
 | n = 4, pure | 219 | 21,900,000 | 100,000 random per core | **20** (10 cores, all m = 7) | dead ends (§4); rule `-DALT`: 23 failures on the same sample (`results/k4_ls4_4_pure_alt_sample.log`) | `results/k4_ls4_4_sample.log` |
-| n = 5, one 4-good agent | 1,735 | N5N41 | 20,000 random per core | N5N41F | | `results/k4_ls4_5_n4_1_sample.log` |
+| n = 5, one 4-good agent | 1,735 | 34,700,000 | 20,000 random per core | 0 | | `results/k4_ls4_5_n4_1_sample.log` |
 | n = 5, two 4-good agents | 5,468 | 54,680,000 | 10,000 random per core | 0 | exact-search fallback needed 839 times (DM shape failed) | `results/k4_ls4_5_n4_2_sample.log` |
 
 In the n = 4 samples the exact-search fallback was needed 1,938 times: states where a junk placement exists but not in DM shape.
@@ -252,7 +252,7 @@ In the n = 4 samples the exact-search fallback was needed 1,938 times: states wh
 *Dead ends* (`k4/ls4_deadend.c`). These are junk-free EFX₀ partial allocations that no complete EFX₀ allocation weakly dominates, reachable or not.
 - n = 2: none, exhaustive (`results/k4_ls4_deadend_2.log`).
 - n = 3: none in 1,020,000 random profiles (`results/k4_ls4_deadend_3_sample.log`).
-- n = 4: none in 424,000 random profiles of the cores with m ≤ 6 (`results/k4_ls4_deadend_4_m6_sample.log`). With m ≤ 7, 34 of 1,000,000 random profiles have one (`results/k4_ls4_deadend_4_sample.log`), each reachable from the empty allocation by single-agent rebundles; the cores are listed in `results/k4_ls4_deadend_4_m7_sample.log`.
+- n = 4: none in 424,000 random profiles of the cores with m ≤ 6 (`results/k4_ls4_deadend_4_m6_sample.log`). With m ≤ 7, 34 of 1,000,000 random profiles have one (`results/k4_ls4_deadend_4_sample.log`), each reachable from the empty allocation by single-agent rebundles. Rerun on the 288 cores with m = 7 (`results/k4_ls4_deadend_4_m7_sample.log`, which lists them), 34 of 576,000 profiles have one, in 20 cores: 8 pure, 7 with three 4-good agents, 5 with two. So dead ends exist in classes where LS4's default rule never failed; LS4 simply does not reach them there.
 
 So the smallest dead end has n = 3 or n = 4. An exhaustive search at n = 3 would take about 13 CPU-hours with `k4/ls4_deadend.c`; it was not run.
 

@@ -38,7 +38,12 @@ It does not refute a local search with a *specific* choice rule. The same profil
   - the other n = 4 cores: 33,900,000 sampled profiles with three 4-good agents; exhaustive with one or two;
   - n ≤ 3: exhaustive, ties included;
   - n = 5 with at most two 4-good agents (sampled, or exhaustive with one).
-- Dead ends of any kind (junk-free EFX₀ partial allocations with no dominating complete EFX₀ allocation, reachable or not) do not exist at n = 2 (exhaustive, `results/k4_ls4_deadend_2.log`). See `results/k4_ls4_deadend_3_sample.log` and `results/k4_ls4_deadend_4_sample.log` for n = 3 and n = 4.
+- Dead ends of any kind are junk-free EFX₀ partial allocations with no dominating complete EFX₀ allocation, reachable or not (`k4/ls4_deadend.c`).
+  - n = 2: none, exhaustive (`results/k4_ls4_deadend_2.log`).
+  - n = 3: none in 1,020,000 random profiles.
+  - n = 4, m ≤ 6: none in 424,000 random profiles.
+  - n = 4, m = 7: 34 of 576,000 random profiles have one, in 20 of the 288 cores (8 pure, 7 with three 4-good agents, 5 with two). Every one is reachable by single-agent rebundles (`results/k4_ls4_deadend_4_m7_sample.log`).
+  - So the smallest dead end has n = 4 and m = 7 among n = 4 cores; n = 3 is not excluded (sampled only).
 
 Reproduce:
 - `python3 k4/ls4_attempts.py` is an independent brute force from the raw definition. It replays the 15 steps (each a valid single-agent rebundle), checks that no M1, R, X or coalition move exists, that no completion exists, and that no complete EFX₀ allocation dominates Y.
