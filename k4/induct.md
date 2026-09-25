@@ -37,7 +37,7 @@ X′; an *insertion lemma* would turn X′ into an EFX₀ allocation of I by pla
 - *A constructive route to PS at k = 3* (§4b): run LB⁺ with the target w processed *last*. Lemma 7 (written proof): if w
   ends Phase 1 with its top good, w is a valid owner and hence unenvied. Conjecture LBO (K4.IND.LBO): with the upgrade
   loop stopped anywhere and at most one LB⁺ rotation, some run always makes w an owner or gives it a free slot; no miss
-  on every profile of every k = 3 core with n ≤ 5, nor on the instances I − p Theorem 4 needs (n ≤ 3 exhaustively).
+  on every profile of every k = 3 core with n ≤ 5, nor on the instances I − p Theorem 4 needs (n ≤ 4 exhaustively).
   What is missing is the choice of the run, the same kind of exchange argument PR #37 needs for C₄¹∃.
 
 ## 0. Setting and notation
@@ -336,9 +336,10 @@ pre-allocation; single implementation):
   pairs for n ≤ 4 and 11,391,840 for n = 5, no miss (`results/k4_induct_lbo_n234.log`, `results/k4_induct_lbo_n5.log`);
 - 20 random ranking profiles of each of the 3,093 connected k = 3 cores with n = 6 (371,160 pairs): no miss
   (`results/k4_induct_lbo_n6.log`);
-- the instances J = I − p for every strict profile of every k = 4 core with n ≤ 3 whose only 4-good agent is P4 (53,568),
-  and 300 (n = 4) or 20 (n = 5) random profiles per such core (15,300 and 12,520), about half of them with w top-heavy in
-  J: no miss (`results/k4_induct_lbo_k4_n23.log`, `results/k4_induct_lbo_k4_n4.log`, `results/k4_induct_lbo_k4_n5.log`);
+- the instances J = I − p for every strict profile of every k = 4 core with n ≤ 4 whose only 4-good agent is P4
+  (53,568 for n ≤ 3, 3,172,608 for n = 4), and 20 random profiles per such core with n = 5 (12,520), about half of them
+  with w top-heavy in J: no miss (`results/k4_induct_lbo_k4_n23.log`, `results/k4_induct_lbo_k4_n4_all.log`,
+  `results/k4_induct_lbo_k4_n5.log`; `results/k4_induct_lbo_k4_n4.log` is an earlier sample);
 - *every ingredient is needed* (`results/k4_induct_lbo_variants.log`): without "w last" (every run of Phase 1 with LB's
   R1 priority for every agent), 1,134 misses among the 583,200 pairs of the n = 5, m = 9 cores (none at n ≤ 4);
   without stopping the upgrade loop early, 4,098 misses at n = 4; without the rotation, 3,608; with w as owner only
