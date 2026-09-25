@@ -322,7 +322,7 @@ static int try_rotations(void) {
 }
 
 static int construct1(void);
-static int fb_seq, fb_upg, construct1_probe;           /* fallbacks used: a later insertion sequence, a later upgrade policy */
+static int fb_seq, fb_upg, construct1_probe, ochoice[MAXN], onchoice;           /* fallbacks used: a later insertion sequence, a later upgrade policy */
 static int construct(void) {
     if (INS == 4) {                  /* -i4: the insertion sequence with least omega after upgrades (mode 1), first in lex order */
         int best[MAXN], bn = 0, bw = 1 << 30;
@@ -352,10 +352,12 @@ static int construct(void) {
         return construct1();
     }
     if (INS == 9) {                  /* -i9: the given insertion sequence; if it fails, every other leader at its last step */
-        int sc[MAXN], smc[MAXN], sn = nchoice;
-        memcpy(sc, choice, sizeof sc);
+        int sc[MAXN], smc[MAXN], sn = onchoice;
+        memcpy(sc, ochoice, sizeof sc);   /* the outer sequence (a type split may have interrupted a deviation run) */
+        memcpy(choice, sc, sizeof sc); nchoice = sn;
         int ok = construct1();
         int sni = nins; memcpy(smc, maxchoice, sizeof smc);
+        memcpy(sc, choice, sizeof sc);   /* the effective sequence (Phase 1 extends it with zeros) */
         if (!ok) {
             fb_seq = 1;
             int jl = nins - 1;
@@ -527,6 +529,7 @@ int main(int argc, char **argv) {
             /* insertion-sequence tree (INS = 1): odometer over choices */
             nchoice = 0;
             for (;;) {
+                memcpy(ochoice, choice, sizeof ochoice); onchoice = nchoice;
                 /* DFS over type-set splits */
                 static u128 stack[1 << 16][MAXN]; int top = 0;
                 if (!BRUTE) {
@@ -573,6 +576,7 @@ int main(int argc, char **argv) {
                     if (ALLOC) hadd(own);
                 }
                 if (INS != 1 && INS != 9) break;
+                if (INS == 9) { memcpy(choice, ochoice, sizeof choice); nchoice = onchoice; phase1(); }   /* odometer state of the outer sequence */
                 /* next insertion sequence */
                 int j = nins - 1;
                 while (j >= 0 && choice[j] + 1 >= maxchoice[j]) j--;

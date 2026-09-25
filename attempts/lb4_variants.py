@@ -19,6 +19,8 @@ VARIANTS = {
     'fixed-insertion': ('-i0 -u3 -r3 -w1 -c1', (6, [[0, 2, 4, 5], [1, 3, 5], [2, 3, 4, 5]]),
                         'index insertion; every upgrade policy, every owner, up to 3 rotations (chains may end at '
                         'upgraded agents), owner needs from its bundle'),
+    'last-block-leader': ('-i8 -u1 -r1 -w1 -c1', (8, [[0, 2, 7], [1, 2, 3, 7], [1, 4, 5, 6], [3, 4, 5, 6]]),
+                          'index insertion; if it fails, every other leader of the last block (LB4 otherwise)'),
     'owner-needs-from-base': ('-i2 -u3 -r1 -w0', (8, [[0, 2, 4, 6], [0, 2, 5, 6], [1, 3, 4, 7], [1, 3, 5, 7]]),
                               'every insertion sequence, every upgrade policy, every owner, one rotation; '
                               'the owner\'s needs from its base (as at k = 3)'),

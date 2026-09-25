@@ -3,7 +3,7 @@
     report failures, at n = 2 and n = 3; without -s it reports none.
 (b) Lazy type branching vs brute force: for a variant that fails (-i0 -u1 -o2 -r1) and for LB4 itself, the number of
     failing profiles per core must be the same when every profile is its own leaf (-b), on every core with n <= 3.
-(c) The four rejected variants of attempts/lb4-*.md reproduce (attempts/lb4_variants.py).
+(c) The five rejected variants of attempts/lb4-*.md reproduce (attempts/lb4_variants.py).
 Usage: python3 k4/test_lb4.py"""
 import gzip, json, os, subprocess, sys
 from multiprocessing import Pool

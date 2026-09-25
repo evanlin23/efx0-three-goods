@@ -1,0 +1,9 @@
+# python3 k4/test_lb4.py
+(a) n=2: -s (owner constraint ignored): 107752 profiles fail the raw check; LB4: 0 fail
+(a) n=3: -s (owner constraint ignored): 133455972 profiles fail the raw check; LB4: 0 fail
+(b) -i0 -u1 -o2 -r1, n=2: lazy fails 10200 of 189216, brute fails 10200 of 189216; equal per core: True
+(b) -i0 -u1 -o2 -r1, n=3: lazy fails 6065876 of 299837376, brute fails 6065876 of 299837376; equal per core: True
+(b) -i2 -u1 -r1 -w1 -c1, n=2: lazy fails 0 of 189216, brute fails 0 of 189216; equal per core: True
+(b) -i2 -u1 -r1 -w1 -c1, n=3: lazy fails 0 of 299837376, brute fails 0 of 299837376; equal per core: True
+(c) attempts/lb4_variants.py: all reproduced
+ALL OK
