@@ -290,7 +290,7 @@ The two-agent cores (n = 2) are covered by the exhaustive run.
 ### 4.3 Cases B and C with a terminal: what is proved and the gap
 
 The cases B₁ and C0 are proved below; what remains for a proof of "every Ψ-maximum is completable" with one 4-good
-agent is **w free and holding two goods** (cases B₂ and C1). A proof would give, with Theorem 1′₄, K4.TIE and
+agent is **w free and holding two goods** (cases B₂ and C1; their proved parts and the exact open steps are below). A proof would give, with Theorem 1′₄, K4.TIE and
 K4.CORE, TARGET₄ for every instance in which at most one agent values four goods (the reduction to cores only removes
 agents and goods, so it never raises an agent's number of relevant goods; cores with no 4-good agent are Theorem K3's):
 - **(B₁)** w is a terminal holding at most one good (proved). Then w has a slot, cannot be exposed (Lemma U for w),
@@ -299,12 +299,18 @@ agents and goods, so it never raises an agent's number of relevant goods; cores 
   slot, so |Z_t| ≥ T when t is not valid; and the walk of Theorem K3 over all terminals applies, w taking part as a
   terminal (in the cycle move it gives its good to the exposed agent that wants it and takes the needed good from the
   previous chain). Some terminal is a valid owner.
-- **(B₂)** w is a terminal holding two goods (open). Then w is still not exposed by a 3-good terminal (its base leaves
-  out a needed good, which is a frozen agent's base, not in W_t), but two things are missing for the walk: **excluding
-  (P1)**, some 3-good top-holder x with low(x) = B_w; and **one slot**: w has none, so a 3-good terminal t only gets
-  |Z_t| ≥ S − cap(t) + 1 ≥ T − 1, one less than the walk uses. Evidence: (P1) occurs at Ψ-maxima (1,072 at n = 4, all
-  with ω ≤ 0) but never at one with ω ≥ 1 (n ≤ 4, and a sample of n = 5), so excluding it must use ω ≥ 1; and in case B
-  w itself is always a valid owner.
+- **(B₂)** w is a terminal holding two goods. Then w is still not exposed by a 3-good terminal (its base leaves out a
+  needed good, which is a frozen agent's base, not in W_t). Two sub-cases:
+  - **(B₂′) w is the only terminal** (99,049 of the 106,125 case-B₂ maxima at n = 4). Every need chain ends at w, so no
+    agent is exposed w.r.t. W_w with a junk label (such an agent's chains avoid its owner, Lemma E); the only possible
+    exposed agents are 3-good top-holders x with low(x) = B_w **(P1)**. If such an x is frozen, its chain ends at w and
+    the cycle "x takes B_w, the chain rotates, w takes the good it needed" contradicts (M1). **Open: a free x with
+    low(x) = B_w.** Without it, w is a valid owner with any completion.
+  - **(B₂″) 3-good terminals exist as well.** The walk of Theorem K3 over all terminals needs, besides excluding (P1),
+    **one slot**: w has none, so a 3-good terminal t only gets |Z_t| ≥ S − cap(t) + 1 ≥ T − 1, one less than the walk
+    uses. **Open.** (At n = 4: 7,076 such maxima; in 16 of them no 3-good terminal is valid, and w is.)
+  Evidence: (P1) occurs at Ψ-maxima (1,072 at n = 4, all with ω ≤ 0) but never at one with ω ≥ 1 (n ≤ 4, and a sample
+  of n = 5), so excluding it must use ω ≥ 1; and in case B w itself is always a valid owner.
 - **(C1)** w is free with N_w = ∅ and exposed by a 3-good terminal t. Then B_w = {b_w, c_w} with
   a_w < b_w + c_w < a_w + d_w, B_t = {a_w} and d_w ∈ J: by Lemma U the base has two goods, by Lemma U₂ the junk good
   of the complementary pair is worse than both base goods, which leaves only this shape. The walk breaks here (w has no
