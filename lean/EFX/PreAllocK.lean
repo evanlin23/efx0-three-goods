@@ -711,7 +711,264 @@ theorem omega_eq (hV : Valid agents goods base N) (hag : agents.Nodup) (hg : goo
   push_cast
   omega
 
+omit [DecidableEq G] in
+/-- In a completion, `|X_j| = |C_j| + |B_j|`. -/
+theorem Completion.length_eq (hC : Completion agents goods base N o X) (j : A) :
+    (bundle goods X j).length = (junkOf goods base X j).length + (baseOf goods base j).length := by
+  rw [List.length_eq_countP_add_countP (fun g => base g = none) (l := bundle goods X j), junkOf,
+    ← List.countP_eq_length_filter]
+  congr 1
+  rw [bundle, List.countP_filter, baseOf, ← List.countP_eq_length_filter]
+  apply List.countP_congr
+  intro g hg
+  simp only [Bool.and_eq_true, decide_eq_true_eq, decide_not, Bool.not_eq_true', decide_eq_false_iff_not]
+  constructor
+  · rintro ⟨hb, hX⟩
+    cases hbg : base g with
+    | none => exact absurd hbg hb
+    | some k => rw [← hX, hC.onBase g hg k hbg]
+  · intro hb
+    exact ⟨by rw [hb]; simp, hC.onBase g hg j hb⟩
+
+omit [DecidableEq G] in
+/-- The junk is split among the listed agents: `|J| = Σ_j |C_j|`. -/
+theorem Completion.junk_length (hC : Completion agents goods base N o X) (hag : agents.Nodup) :
+    (junk goods base).length = (agents.map (fun j => (junkOf goods base X j).length)).sum := by
+  have e : agents.map (fun j => (junkOf goods base X j).length) =
+      agents.map (fun j => goods.countP (fun g => decide (X g = j) && decide (base g = none))) := by
+    apply List.map_congr_left
+    intro j _
+    rw [junkOf, bundle, List.filter_filter, ← List.countP_eq_length_filter]
+    apply List.countP_congr
+    intro g _
+    simp [And.comm]
+  rw [e, sum_countP_comm (fun j g => decide (X g = j) && decide (base g = none)) agents goods, junk,
+    ← List.countP_eq_length_filter, countP_eq_sum]
+  congr 1
+  apply List.map_congr_left
+  intro g hg
+  have hX := countP_base agents hag (b := some (X g)) (fun k hk => by cases hk; exact hC.alloc g hg)
+  by_cases hb : base g = none
+  · simp only [hb, decide_true, Bool.and_true, ↓reduceIte]
+    simp only [reduceCtorEq, ↓reduceIte, Option.some.injEq] at hX
+    exact hX.symm
+  · simp [hb]
+
+omit [DecidableEq G] in
+open Classical in
+/-- **The owner's bundle.** In a completion with a free owner `w` in which every other agent's slots are
+filled (every free `j ≠ w` gets exactly `cap(j) = 2 − |B_j|` junk goods), the owner gets
+`|X_w| = |B_w| + cap(w) + ω = ω + 2` goods, `ω = |J| − S`. -/
+theorem Completion.owner_length {w : A} (hC : Completion agents goods base N (some w) X)
+    (hag : agents.Nodup)
+    (hfill : ∀ j ∈ agents, j ≠ w → ¬ Frozen agents goods base N j →
+      (junkOf goods base X j).length + (baseOf goods base j).length = 2) :
+    ((bundle goods X w).length : Int) = ((junk goods base).length : Int) - capSum agents goods base N + 2 := by
+  have hw := hC.owner w rfl
+  have hJ := hC.junk_length hag
+  have hsum : (agents.map (fun j => ((junkOf goods base X j).length : Int) - cap agents goods base N j)).sum =
+      ((junkOf goods base X w).length : Int) - cap agents goods base N w := by
+    apply sum_single (fun j => ((junkOf goods base X j).length : Int) - cap agents goods base N j) hag hw.1
+    intro j hj hjw
+    have hjo : some w ≠ some j := fun e => hjw (Option.some.inj e).symm
+    by_cases hF : Frozen agents goods base N j
+    · rw [hC.frozen j hj hjo hF]; unfold cap; simp [hF]
+    · have := hfill j hj hjw hF
+      unfold cap; simp only [hF, ↓reduceIte]; omega
+  rw [sum_map_sub_int, sum_map_cast] at hsum
+  have hcw : cap agents goods base N w = 2 - ((baseOf goods base w).length : Int) := by
+    unfold cap; simp [hw.2]
+  rw [hC.length_eq w, hJ]
+  unfold capSum
+  omega
+
 end counting
+
+/-! ## Lemma 2₄ (self-protection) -/
+
+section selfProtect
+
+omit [DecidableEq A] [DecidableEq G] in
+/-- Irrelevant goods add nothing: a value is the value of the relevant part. -/
+theorem value_filter_pos (i : A) : ∀ S : List G, value v i S = value v i (S.filter (fun g => 0 < v i g))
+  | [] => by simp
+  | g :: S => by
+    rw [value_cons, value_filter_pos i S]
+    by_cases hg : 0 < v i g
+    · simp [hg]
+    · simp [hg]; omega
+
+omit [DecidableEq A] in
+/-- Two distinct goods of a bundle are worth together at most the bundle. -/
+theorem two_le_value {i : A} {y t : G} {S : List G} (hy : y ∈ S) (ht : t ∈ S) (hyt : y ≠ t) :
+    v i y + v i t ≤ value v i S := by
+  rw [value_erase (v := v) (i := i) hy]
+  have := le_value_of_mem v i ((List.mem_erase_of_ne (Ne.symm hyt)).mpr ht)
+  omega
+
+omit [DecidableEq A] in
+/-- **Lemma 2₄, its core (values only).** Let `x` value at most four goods of `goods`, hold `y` with
+`v_x(y) > 0`, and let `Xo` be a bundle disjoint from `x`'s in which every good is worth at most `v_x(y)` to
+`x`. Suppose every good of `Xo` that `x` values lies in `Bo` (at most one good) or in `U`, and either `x`
+values no good of `U`, or `x` also holds a good `t ≠ y` it values, worth at least every good of `U`.
+Then `x` does not envy `Xo`. -/
+theorem selfProtect_core {x : A} {Xx Xo Bo U : List G} {y : G}
+    (hR : (relevant v x goods).length ≤ 4)
+    (hXo : Xo.Nodup) (hXog : ∀ g ∈ Xo, g ∈ goods) (hdisj : ∀ g ∈ Xo, g ∉ Xx)
+    (hy : y ∈ Xx) (hyg : y ∈ goods) (hypos : 0 < v x y) (hbelow : ∀ g ∈ Xo, v x g ≤ v x y)
+    (hBo : Bo.length ≤ 1) (hcov : ∀ g ∈ Xo, 0 < v x g → g ∈ Bo ∨ g ∈ U)
+    (hslot : (∀ g ∈ U, v x g = 0) ∨
+      ∃ t ∈ Xx, t ≠ y ∧ t ∈ goods ∧ 0 < v x t ∧ ∀ g ∈ U, v x g ≤ v x t) :
+    value v x Xo ≤ value v x Xx := by
+  have hyX : v x y ≤ value v x Xx := le_value_of_mem v x hy
+  -- `L`: the goods of `Xo` that `x` values
+  rw [value_filter_pos (v := v) x Xo]
+  have hL : (Xo.filter (fun g => 0 < v x g)).Nodup := hXo.sublist List.filter_sublist
+  have hLmem : ∀ g ∈ Xo.filter (fun g => 0 < v x g), g ∈ Xo ∧ 0 < v x g := fun g hg' => by
+    simpa using List.mem_filter.mp hg'
+  -- a list of at most one such good is worth at most `v_x(y)`
+  have hone : (Xo.filter (fun g => 0 < v x g)).length ≤ 1 →
+      value v x (Xo.filter (fun g => 0 < v x g)) ≤ value v x Xx := by
+    intro h1
+    match hLe : Xo.filter (fun g => 0 < v x g), h1 with
+    | [], _ => simp
+    | [p], _ =>
+      have hp := (hLmem p (by rw [hLe]; simp)).1
+      simp only [value_cons, value_nil, Nat.add_zero]
+      exact Nat.le_trans (hbelow p hp) hyX
+  rcases hslot with hU0 | ⟨t, ht, hty, htg, htpos, htmax⟩
+  · -- `x` values nothing in `U`: its valued goods of `Xo` are in `Bo`
+    apply hone
+    refine Nat.le_trans (length_le_of_subset hL fun g hg' => ?_) hBo
+    obtain ⟨hgXo, hgpos⟩ := hLmem g hg'
+    rcases hcov g hgXo hgpos with h | h
+    · exact h
+    · have := hU0 g h; omega
+  · -- `x` holds `y` and `t`; at most two of its (at most four) valued goods remain for `Xo`
+    have hlen : (Xo.filter (fun g => 0 < v x g)).length + 2 ≤ 4 := by
+      have hnd : (y :: t :: Xo.filter (fun g => 0 < v x g)).Nodup := by
+        refine List.nodup_cons.mpr ⟨?_, List.nodup_cons.mpr ⟨?_, hL⟩⟩
+        · intro hm
+          rcases List.mem_cons.mp hm with e | hm
+          · exact hty e.symm
+          · exact hdisj y (hLmem y hm).1 hy
+        · intro hm; exact hdisj t (hLmem t hm).1 ht
+      have := length_le_of_subset hnd (T := relevant v x goods) (fun g hg' => by
+        unfold relevant
+        rcases List.mem_cons.mp hg' with rfl | hg'
+        · simpa using ⟨hyg, hypos⟩
+        rcases List.mem_cons.mp hg' with rfl | hg'
+        · simpa using ⟨htg, htpos⟩
+        · obtain ⟨hgXo, hgpos⟩ := hLmem g hg'
+          simpa using ⟨hXog g hgXo, hgpos⟩)
+      simp only [List.length_cons] at this
+      omega
+    by_cases h1 : (Xo.filter (fun g => 0 < v x g)).length ≤ 1
+    · exact hone h1
+    -- two goods `p`, `q`: not both in `Bo`, so one is in `U` and worth at most `t`
+    have hyt := two_le_value (v := v) (i := x) hy ht (Ne.symm hty)
+    match hLe : Xo.filter (fun g => 0 < v x g), hlen, h1, hL with
+    | [], _, h1, _ => simp at h1
+    | [_], _, h1, _ => simp at h1
+    | _ :: _ :: _ :: _, hlen, _, _ => simp at hlen
+    | [p, q], _, _, hpq =>
+      have hp := hLmem p (by rw [hLe]; simp)
+      have hq := hLmem q (by rw [hLe]; simp)
+      have hpq' : p ≠ q := by simp at hpq; exact hpq
+      simp only [value_cons, value_nil, Nat.add_zero]
+      have hbp := hbelow p hp.1
+      have hbq := hbelow q hq.1
+      rcases hcov p hp.1 hp.2 with hpB | hpU
+      · rcases hcov q hq.1 hq.2 with hqB | hqU
+        · have := length_le_of_subset (S := [p, q]) (by simp [hpq']) (fun g hg' => by
+            rcases List.mem_cons.mp hg' with rfl | hg'
+            · exact hpB
+            · simp at hg'; rw [hg']; exact hqB)
+          simp at this; omega
+        · have := htmax q hqU; omega
+      · have := htmax p hpU; omega
+
+/-- **Lemma 2₄ (self-protection, `|R_x| ≤ 4`).** Let `(base, N)` be a valid pre-allocation (`N` the needs
+used, so the owner's may be `N_o^X`) and `X` a completion with owner `w` whose base has at most one good.
+Let `x ≠ w` be a listed agent with at most four relevant goods whose base is a pick `{y}` it values, and
+whose needs contain the goods it ranks above `y` (its needs are those of a pick, for a strict order `≻_x`
+consistent with its values). Let `U` be the junk not yet placed when `x` fills its slot: it contains every
+junk good that ends in the owner's bundle (goods placed earlier went into other agents' slots, goods placed
+later only leave the owner's bundle). Suppose `x` takes its `≻_x`-best good of `U` it values, if there is
+one. Then `x` does not envy the owner's bundle; in particular it is not threatened by it. -/
+theorem selfProtect {w : A} (hV : Valid agents goods base N)
+    (hC : Completion agents goods base N (some w) X) (hBo : (baseOf goods base w).length ≤ 1)
+    {x : A} (hx : x ∈ agents) (hxw : x ≠ w) (hR : (relevant v x goods).length ≤ 4)
+    {y : G} (hBx : baseOf goods base x = [y]) (hy : 0 < v x y)
+    {pref : A → G → G → Prop} (hrank : RankOK v pref x)
+    (hNx : ∀ g, pickNeeds v goods pref y x g → N x g)
+    {U : List G} (hUJ : ∀ g ∈ U, g ∈ junk goods base)
+    (hU : ∀ g ∈ junk goods base, X g = w → g ∈ U)
+    (hslot : (∃ g ∈ U, 0 < v x g) →
+      ∃ t ∈ U, X t = x ∧ 0 < v x t ∧ ∀ g ∈ U, 0 < v x g → g ≠ t → pref x t g) (hg : goods.Nodup) :
+    value v x (bundle goods X w) ≤ value v x (bundle goods X x) ∧
+      ∀ h ∈ bundle goods X w, value v x ((bundle goods X w).erase h) ≤ value v x (bundle goods X x) := by
+  have hyb : y ∈ baseOf goods base x := by rw [hBx]; simp
+  obtain ⟨hyg, hby⟩ := mem_baseOf.mp hyb
+  have hyX : y ∈ bundle goods X x := mem_bundle.mpr ⟨hyg, hC.onBase y hyg x hby⟩
+  -- a good of the owner's bundle is junk or the owner's base good
+  have hsrc : ∀ g ∈ bundle goods X w, g ∈ junk goods base ∨ g ∈ baseOf goods base w := by
+    intro g hgb
+    obtain ⟨hgg, hXg⟩ := mem_bundle.mp hgb
+    cases hb : base g with
+    | none => exact Or.inl (mem_junk.mpr ⟨hgg, hb⟩)
+    | some k =>
+      have := hC.onBase g hgg k hb
+      rw [hXg] at this; subst this
+      exact Or.inr (mem_baseOf.mpr ⟨hgg, hb⟩)
+  -- no good of the owner's bundle is in `NA`: not junk (V1), and the owner's base good would freeze it
+  have hnotNA : ∀ g ∈ bundle goods X w, ¬ NA agents N g := by
+    intro g hgb hna
+    rcases hsrc g hgb with hJ | hB
+    · exact hV.v1 g hJ hna
+    · have hB1 : baseOf goods base w = [g] := by
+        match hB' : baseOf goods base w, hBo with
+        | [], _ => rw [hB'] at hB; simp at hB
+        | [z], _ => rw [hB'] at hB; simp at hB; rw [hB]
+      exact (hC.owner w rfl).2 ⟨g, hB1, hna⟩
+  have hmain : value v x (bundle goods X w) ≤ value v x (bundle goods X x) := by
+    refine selfProtect_core (Bo := baseOf goods base w) (U := U) hR (nodup_bundle hg X w)
+      (fun g hgb => (mem_bundle.mp hgb).1) (fun g hgw hgx => hxw ((mem_bundle.mp hgx).2.symm.trans
+        (mem_bundle.mp hgw).2)) hyX hyg hy (fun g hgb => ?_) hBo (fun g hgb hpos => ?_) ?_
+    · -- the goods `x` ranks above `y` are in `NA`, so not in the owner's bundle
+      refine Nat.le_of_not_lt fun hlt => hnotNA g hgb ⟨x, hx, hNx g ⟨(mem_bundle.mp hgb).1, ?_, ?_⟩⟩
+      · omega
+      · exact hrank.consistent g y hy hlt
+    · rcases hsrc g hgb with hJ | hB
+      · exact Or.inr (hU g hJ (mem_bundle.mp hgb).2)
+      · exact Or.inl hB
+    · by_cases hex : ∃ g ∈ U, 0 < v x g
+      · obtain ⟨t, htU, hXt, htpos, hbest⟩ := hslot hex
+        obtain ⟨htg, hbt⟩ := mem_junk.mp (hUJ t htU)
+        refine Or.inr ⟨t, mem_bundle.mpr ⟨htg, hXt⟩, fun e => ?_, htg, htpos, fun g hgU => ?_⟩
+        · rw [e, hby] at hbt; cases hbt
+        · by_cases hgpos : 0 < v x g
+          · by_cases hgt : g = t
+            · rw [hgt]; exact Nat.le_refl _
+            · exact Nat.le_of_not_lt fun hlt =>
+                hrank.asymm t g (hbest g hgU hgpos hgt) (hrank.consistent g t htpos hlt)
+          · omega
+      · exact Or.inl fun g hgU => Nat.eq_zero_of_not_pos fun hpos => hex ⟨g, hgU, hpos⟩
+  exact ⟨hmain, fun h _ => Nat.le_trans (value_sublist v x List.erase_sublist) hmain⟩
+
+/-- `|R_x| ≤ 4` is needed in Lemma 2₄ (`k4/lb4.md` §1): `x` values goods `0, …, 4` at `10, 9, 8, 7, 6` and
+good `5` at `0`, holds `{0, 1}` (its pick `0` and its best junk good `1`), and the owner holds
+`{2, 3, 4, 5}`. The other hypotheses of `selfProtect_core` hold (`Bo = []`, `U = [2, 3, 4, 5]`, `t = 1`:
+every good of the owner's bundle is worth at most `x`'s pick and at most `t`), `x` values five goods, and
+`x` is threatened: without good `5` the owner's bundle is worth `21 > 19`. -/
+theorem selfProtect_five :
+    let v : Unit → Fin 6 → Nat := fun _ g => if g.val < 5 then 10 - g.val else 0
+    (relevant v () (List.finRange 6)).length = 5 ∧
+      (∀ g ∈ ([2, 3, 4, 5] : List (Fin 6)), v () g ≤ v () 0 ∧ v () g ≤ v () 1) ∧
+      value v () [0, 1] < value v () (([2, 3, 4, 5] : List (Fin 6)).erase 5) := by
+  decide
+
+end selfProtect
 
 end LB4
 end EFX
@@ -731,3 +988,7 @@ end EFX
 #print axioms EFX.LB4.target4_of_completions
 #print axioms EFX.LB4.numFrozen_eq
 #print axioms EFX.LB4.omega_eq
+#print axioms EFX.LB4.selfProtect_core
+#print axioms EFX.LB4.selfProtect
+#print axioms EFX.LB4.Completion.owner_length
+#print axioms EFX.LB4.selfProtect_five
