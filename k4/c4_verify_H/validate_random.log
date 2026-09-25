@@ -1,0 +1,4 @@
+{'cases': 12122, 'sat': 1998, 'unsat': 10124, 'mismatch': 0, 'dyn_cases': 0}
+{'cases': 11984, 'sat': 1917, 'unsat': 10067, 'mismatch': 0, 'dyn_cases': 0}
+{'cases': 12070, 'sat': 1885, 'unsat': 10185, 'mismatch': 0, 'dyn_cases': 0}
+{'cases': 11892, 'sat': 1934, 'unsat': 9958, 'mismatch': 0, 'dyn_cases': 0}
