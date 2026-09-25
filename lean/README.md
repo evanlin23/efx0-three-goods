@@ -15,13 +15,19 @@ Toolchain: `leanprover/lean4:v4.34.0`, pinned in `lean-toolchain` (the same as m
 
     cd lean && ./check.sh
 
-The script fails if any source file contains the word `sorry`, if the project has a dependency, if the
-build reports an error or a warning, if any `#print axioms` certificate lists an axiom other than the three
-standard ones, if the number of certificates differs from the number of `#print axioms` commands, or if any
-declaration of the library (certified or not; `CheckAxioms.lean`) depends on another axiom. On success the last
-line is
+The script fails if any source file contains the word `sorry`, if any source file or `lakefile.toml` uses a
+debug option, metaprogramming or unsafe code (`debug.`, `import Lean`, `run_cmd`, `run_meta`, `run_elab`,
+`addDecl`, `implemented_by`, `extern`, `unsafe`), if the project has a dependency, if the build reports an error
+or a warning, if any `#print axioms` certificate lists an axiom other than the three standard ones (a certificate
+may also list none), if the number of certificates differs from the number of `#print axioms` commands, if any
+declaration of the library (certified or not; `CheckAxioms.lean`) depends on another axiom, or if Lean's replay
+checker `lake env leanchecker --fresh EFX` rejects the library (it re-checks every declaration, Init included,
+in a fresh kernel; about a minute). The last two checks were added after the `formal/audit` review (PR #19)
+showed that a declaration added under `set_option debug.skipKernelTC true` is never kernel-checked, yet builds
+without warnings and has no axioms for `#print axioms` or `CheckAxioms.lean` to report; the tripwire refuses the
+option and the replay checker rejects such a declaration. On success the last line is
 
-    CHECK PASSED: 76 audited statements, 296 theorems, standard axioms only
+    CHECK PASSED: 92 audited statements, 326 theorems, standard axioms only
 
 CI runs it on every pull request (job `lean` in `.github/workflows/verify.yml`). In Claude Code on the web the
 session-start hook installs the toolchain (from GitHub when `release.lean-lang.org` is unreachable).
@@ -134,6 +140,11 @@ specializations) have exactly the types of `EFX.target`, `EFX.LB.corollaryD` (ch
   `EFX.OrderedValue.tri_rep`, `EFX.OrderedValue.exists_agree`, `EFX.l12`; the transfers `EFX.efx0_iff_of_agree`,
   `EFX.numRelevant_eq_of_agree`, `EFX.OrderedValue.balanced_iff_of_agree`; `EFX.target_ordered`,
   `EFX.corollaryD_ordered`.
+- `EFX/Audit.lean`: red-team audit (`formal/audit`): TARGET and D restated independently (bundles as lists that
+  partition the goods, a hand-written sum; written before the model was read), derived from `EFX.target` and
+  `EFX.LB.corollaryD`, with non-vacuity examples checked by `decide`.
+- `scripts/audit_kernel.sh`: fresh-clone build, `leanchecker --fresh`, a second kernel (lean4export + nanoda) and
+  negative controls; log in `results/audit_kernel.log`.
 - `CheckAxioms.lean`: the all-declarations axiom check.
 
 ## Correspondence with the ledger
@@ -165,6 +176,7 @@ name in the ledger's Lean column has one.
 | T | TARGET (Corollary T): every instance with `\|R_i\| ≤ 3` for every agent has a complete EFX₀ allocation | Target : `EFX.target` (model), `EFX.target_lists` (over lists), values in ℕ; RealValues : `EFX.target_ordered` (values in any `EFX.OrderedValue`, e.g. ℝ≥0, via L12), `EFX.target_of_ordered` (its specialization to ℕ) |
 | L12 | Real values reduce to natural numbers: with ≤ 3 relevant goods per agent and nonnegative values, there are natural-number values with the same relevant goods and the same answer to every comparison between two subset sums; EFX₀, the relevant-goods count and balance transfer | RealValues : `EFX.l12`, `EFX.OrderedValue.exists_agree` (one agent), `EFX.OrderedValue.tri_rep` (three positive values), `EFX.numRelevant_eq_of_agree`, `EFX.OrderedValue.balanced_iff_of_agree`, `EFX.efx0_iff_of_agree` (EFX₀ for `v` iff for `w`) |
 | — | The list layer agrees with the model | Bridge : `EFX.Inst.efx0_iff` |
+| AUD | Independently written TARGET and D (list bundles partitioning the goods) follow from `EFX.target` and `EFX.LB.corollaryD` | Audit : `Audit.target_audit`, `Audit.corollaryD_audit` |
 
 mrd-efx proves a stronger form of L2c (`MRD.main_theorem_L`: in addition, all bundles but one have at most one
 good), and extends it to monotone valuations.
