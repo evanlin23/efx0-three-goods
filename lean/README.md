@@ -27,7 +27,7 @@ showed that a declaration added under `set_option debug.skipKernelTC true` is ne
 without warnings and has no axioms for `#print axioms` or `CheckAxioms.lean` to report; the tripwire refuses the
 option and the replay checker rejects such a declaration. On success the last line is
 
-    CHECK PASSED: 141 audited statements, 419 theorems, standard axioms only
+    CHECK PASSED: 144 audited statements, 425 theorems, standard axioms only
 
 CI runs it on every pull request (job `lean` in `.github/workflows/verify.yml`). In Claude Code on the web the
 session-start hook installs the toolchain (from GitHub when `release.lean-lang.org` is unreachable).
@@ -145,7 +145,7 @@ specializations) have exactly the types of `EFX.target`, `EFX.LB.corollaryD` (ch
   `EFX.LB4.selfProtect_five`: false with five relevant goods); Lemma 3₄ (`EFX.LB4.ownerSearch_exact_base`,
   `EFX.LB4.ownerSearch_exact`); the D2 shape and the chain to K4.D and TARGET₄ (`EFX.LB4.Completion.length_le_two`,
   `EFX.LB4.SoundCompletion.efx0_d2`, `EFX.LB4.sound_model`, `EFX.LB4.k4D_of_completion`,
-  `EFX.LB4.target4_of_completions`).
+  `EFX.LB4.target4_of_completions`); a non-vacuity example (`EFX.LB4.Ex.sound`, by `decide`).
 - `EFX/RealValues.lean`: L12 (`proofs/real_values.md`) and TARGET and D over any `EFX.OrderedValue`. The value
   class and mirrored model above; `EFX.Agree` (same answer to every comparison between two subset sums);
   `EFX.OrderedValue.tri_le_iff` (for three positive values, every such comparison is decided by twelve basic
