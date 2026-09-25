@@ -4,7 +4,8 @@ if some owner passes LB4's exact owner test (every non-frozen agent, the big-bas
 goods, no owner if omega <= 0), stop (success); else take a RotStep (frozen start, need chain, O, validity (V1), (V2),
 at most one base of >= 3 goods; lb4.md section 5) whose result has a larger potential; if none, the state is a dead end.
 Potential (-P): 0: (z, prod) compared lexicographically, z = number of agents with a nonempty base, prod = product of
-v_i(B_i) over them (exact 128-bit integers); 1: prod alone. Rules (-N): 1 steepest strict increase (largest potential,
+v_i(B_i) over them (exact 128-bit integers); 1: prod alone; 2, 3, 4: (z, prod, tie-break), the tie-break being the
+number of goods in bases (2), the base values sorted increasingly (leximin, 3), the number of rotated agents (4). Rules (-N): 1 steepest strict increase (largest potential,
 ties by enumeration order), 2 first strict increase, 5 strict search: depth-first search over every path of strictly
 increasing moves (success if some reachable state has a valid owner), 3 weak search: the same over moves that do not
 decrease the potential, every state visited once, 4 weak greedy walk (largest potential >= current among unvisited
@@ -525,14 +526,26 @@ static uint64_t st_hash(void) {
     return (h ^ J) * 1099511628211ull;
 }
 static int tyof(int i) { int k = 0; while (!(ts[i] >> k & 1)) k++; return pidx[i][cp[i]][k]; }
-typedef struct { int z; u128 p; } pot_t;
+typedef struct { int z; u128 p; int t[MAXN]; } pot_t;   /* t: tie-break key (-P2..-P4), compared lexicographically */
 static pot_t potential(void) {
-    pot_t P = {0, 1};
-    for (int i = 0; i < n; i++) if (base[i]) { P.z++; P.p *= (u128)tsum(i, tyof(i), base[i]); }
+    pot_t P; memset(&P, 0, sizeof P); P.p = 1;
+    int vals[MAXN], nv = 0;
+    for (int i = 0; i < n; i++) if (base[i]) { int v = tsum(i, tyof(i), base[i]); P.z++; P.p *= (u128)v; vals[nv++] = v; }
     if (POT == 1) P.z = 0;
+    if (POT == 2) for (int i = 0; i < n; i++) P.t[0] += popc(base[i]);            /* goods in bases */
+    if (POT == 3) {                                                                   /* leximin of base values */
+        for (int a = 1; a < nv; a++) { int x = vals[a], b = a - 1; while (b >= 0 && vals[b] > x) { vals[b + 1] = vals[b]; b--; } vals[b + 1] = x; }
+        for (int a = 0; a < nv; a++) P.t[a] = vals[a];
+    }
+    if (POT == 4) for (int i = 0; i < n; i++) P.t[0] += upg[i] && Y[i] == -2;        /* rotated agents */
     return P;
 }
-static int potcmp(pot_t a, pot_t b) { if (a.z != b.z) return a.z < b.z ? -1 : 1; return a.p < b.p ? -1 : a.p > b.p; }
+static int potcmp(pot_t a, pot_t b) {
+    if (a.z != b.z) return a.z < b.z ? -1 : 1;
+    if (a.p != b.p) return a.p < b.p ? -1 : 1;
+    for (int k = 0; k < MAXN; k++) if (a.t[k] != b.t[k]) return a.t[k] < b.t[k] ? -1 : 1;
+    return 0;
+}
 static int owner_ok(void) {
     int S = slots(), nbig = 0, big = -1;
     for (int i = 0; i < n; i++) if (popc(base[i]) >= 3) { nbig++; big = i; }
@@ -782,7 +795,8 @@ int main(int argc, char **argv) {
                             else if (nsw_res[q] == 5) ns_norot[q]++;
                             else { ns_dead[q]++; anynsw = 1; }
                         }
-                        if (!ok) { ns_alldead++; ns_alldead_nsw += anynsw; }
+                        if (!ok) { ns_alldead++; ns_alldead_nsw += anynsw;
+                                   if (ns_alldead <= MAXF) { fprintf(stderr, "ALLFAIL (every policy; last policy's final state shown) "); report(""); } }
                         continue;
                     }
                     if (!ok) { fails += w; if (shown < MAXF) { report("FAIL"); shown++; } continue; }

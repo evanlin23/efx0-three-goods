@@ -3,6 +3,9 @@ Bounded LB4r with index insertion (k4/lb4.md section 5: -i0 -u3 -r3 -w1 -c1), EV
 
   filter FILE ... --out=DIR   write DIR/<name>_p3.json.gz: the cores of each certificate file with every good of degree
                               <= 3 (core lists only; run k4/lb4_run.py on them for every strict profile)
+  sample FILE ... --profiles=P [--seed=S] [--jobs=J]
+                              for every core of the files with every good of degree <= 3, P random strict profiles, run
+                              as in random mode below (least R = 0..3 per profile)
   random --n=6,7 --cores=C --profiles=P [--seed=S] [--p4=0.5] [--jobs=J]
                               random (4, 3) cores (every shared good has degree 2 or 3; agents of degree 3 or 4 with at
                               most d - 2 private goods; connected; checked by check4.is_core), P random strict profiles
@@ -63,9 +66,9 @@ def encode_profile(sets, m, vals):
     return '\n'.join(out) + '\n'
 
 def run_random(task):
-    n, p4, seed, P = task
+    n, p4, seed, P = task[:4]
     rng = random.Random(seed)
-    rc = random_core43(rng, n, p4)
+    rc = task[4] if len(task) > 4 else random_core43(rng, n, p4)
     if rc is None: return None
     m, sets = rc
     doms = check4.core_domains(sets, m, False)
@@ -91,8 +94,15 @@ def main():
     ns = [int(x) for x in opt.get('n', '6').split(',')]
     C, P, seed, p4 = int(opt.get('cores', 50)), int(opt.get('profiles', 200)), int(opt.get('seed', 1)), float(opt.get('p4', 0.5))
     t0 = time.time()
-    for n in ns:
-        tasks = [(n, p4, seed * 1000003 + n * 10007 + k, P) for k in range(C)]
+    groups = []
+    if args[0] == 'sample':
+        for f in args[1:]:
+            d = json.load(gzip.open(f, 'rt'))
+            cs = [r for r in d['cores'] if pmax(r['sets'], r['m']) <= 3]
+            groups.append((os.path.basename(f), d['n'], [(d['n'], p4, seed * 1000003 + k, P, (r['m'], r['sets'])) for k, r in enumerate(cs)]))
+    else:
+        for n in ns: groups.append((f"random n={n}", n, [(n, p4, seed * 1000003 + n * 10007 + k, P) for k in range(C)]))
+    for label, n, tasks in groups:
         tot, raw, cores, ms = [0] * 5, 0, 0, []
         with Pool(int(opt.get('jobs', os.cpu_count()))) as pool:
             for res in pool.imap_unordered(run_random, tasks):
@@ -100,7 +110,7 @@ def main():
                 cores += 1; ms.append(res['m']); raw += res['raw']
                 tot = [a + b for a, b in zip(tot, res['least'])]
                 for sets, m, vals in res['bad']: print(f"  LB4r FAILS (R = 3): n={n} m={m} sets={sets} values={vals}", flush=True)
-        print(f"n={n}: {cores} random (4, 3) cores (m {min(ms)}..{max(ms)}), {cores * P} profiles; least number of nested "
+        print(f"{label}: {cores} (4, 3) cores (m {min(ms)}..{max(ms)}), {cores * P} random profiles; least number of nested "
               f"rotations that works, R = 0, 1, 2, 3: {tot[:4]}; LB4r (R <= 3) fails: {tot[4]}; raw EFX0/D2 failures: {raw} "
               f"[{time.time() - t0:.0f} s]", flush=True)
 
