@@ -13,3 +13,4 @@ run $S/k4_certs_2_n4eq2.json.gz $S/k4_certs_3_n4eq2.json.gz -i1 -u2 -o0 -r2 -w1 
 run results/k4_certs_2.json.gz results/k4_certs_3.json.gz -i1 -u0 -o0 -r1 -w1 -c1
 run results/k4_certs_2.json.gz results/k4_certs_3.json.gz results/k4_certs_4_n4_1.json.gz results/k4_certs_4_n4_2.json.gz results/k4_certs_4_n4_3.json.gz -i1 -u0 -o0 -r2 -w1 -c1
 run results/k4_certs_2.json.gz results/k4_certs_3.json.gz results/k4_certs_4_n4_1.json.gz results/k4_certs_4_n4_2.json.gz results/k4_certs_4_n4_3.json.gz -i1 -u0 -o2 -r3 -w1 -c1
+run $S/k4_certs_2_n4eq2.json.gz $S/k4_certs_3_n4eq2.json.gz -i1 -u2 -o0 -r2 -w0 -c0

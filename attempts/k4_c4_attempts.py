@@ -167,8 +167,47 @@ def gadget_stacking():
           f'two copies (n = 6) fail with 1 rotation: {two[0] == 1}')
     return one == [1, 0] and two[0] == 0
 
+def phase1_order(I, order):
+    """Phase 1 with a given processing order (any P-step order, not only LB's key); asserts that each step is legal:
+    a P-step whenever some unprocessed agent has lost a good, an insertion step (a new block) otherwise"""
+    G = set(range(I.m)); Y = [None] * I.n; pos = [0] * I.n; blk = [0] * I.n; b = -1; done = set()
+    for step, i in enumerate(order):
+        lost = [x for x in range(I.n) if x not in done and not I.R[x] <= G]
+        assert (i in lost) if lost else True, f'step {step}: agent {i} is not a legal P-step choice'
+        if not lost: b += 1
+        Y[i] = next((g for g in I.ord[i] if g in G), None)
+        if Y[i] is not None: G.discard(Y[i])
+        done.add(i); pos[i] = step; blk[i] = b
+    base = [frozenset([y]) if y is not None else frozenset() for y in Y]
+    return State(I, base, ['pick'] * I.n, frozenset(G), pos, blk, Y)
+
+def g2_other_runs():
+    # k4/c4.md §6.1 item 4: for runs of Phase 1 other than lb4.c's (a P-step order that is not LB's key), LB+'s rotation
+    # can leave k* invalid with a single 4-good agent (review of PR #33, finding F4; n = 4, m = 7)
+    sets, vals = [[0, 2, 5], [1, 5, 6], [2, 3, 4, 6], [3, 4, 6]], [[2, 3, 4], [2, 4, 3], [8, 4, 3, 6], [2, 3, 4]]
+    I = Inst(sets, vals)
+    st = upgrades(phase1_order(I, [3, 1, 0, 2]), 2)
+    print('G2 in other runs: agent 0 is processed before agent 2 in a P-step (LB\'s key would take agent 2)'); print(pretty(st))
+    r = max((i for i in range(I.n) if st.kind[i] == 'pick'), key=lambda i: st.pos[i])
+    E = exposed(st, r, st.base[r] | st.J)
+    ks = min((i for i in range(I.n) if st.blk[i] == st.blk[r]), key=lambda i: st.pos[i])
+    chs = [c for c in chains_from(st, ks)]
+    print(f'   r = {r}, exposed {E}, owner r valid: {owner_test(st, r, w1=False) is not None}; k* = {ks}, chains {chs}')
+    ns = rotate(st, chs[0], frozenset(I.ord[ks][1:3]))
+    print(pretty(ns))
+    kval = ns.omega() <= 0 and owner_test_none(ns) or owner_test(ns, ks, w1=True)
+    out = [g for g in ns.J if g not in I.R[r]]          # k*'s bundle holds O and, as omega' = 1, a junk good outside R_r
+    thr = I.val(r, ns.base[ks]) > I.val(r, ns.base[r]) and len(out) > 0
+    print(f'   after LB+\'s rotation: omega {ns.omega()}; r values O = {sorted(ns.base[ks])} at {I.val(r, ns.base[ks])} > '
+          f'{I.val(r, ns.base[r])}, its base, and junk outside R_r is {out}: r is threatened by every bundle of k*: {thr}; '
+          f'k* a valid owner: {bool(kval)}')
+    fixes = [(p, o) for p, o, X in search(st, 1, w1=True)]
+    print(f'   single rotations that work: {fixes}')
+    return E == [ks] and len(chs) == 1 and chs[0][-1] == r and not kval and thr and any(p[0][0][0] == 0 and p[0][1] == (0,) for p, o in fixes)
+
 ALL = {'exposure-counting': exposure_counting, 'lbplus-rotation': lbplus_rotation, 'one-rotation': one_rotation,
-       'pareto-moves': pareto_moves, 'owner-last': owner_last_, 'gadget-stacking': gadget_stacking}
+       'pareto-moves': pareto_moves, 'owner-last': owner_last_, 'gadget-stacking': gadget_stacking,
+       'g2-other-runs': g2_other_runs}
 
 if __name__ == '__main__':
     names = sys.argv[1:] or list(ALL)
