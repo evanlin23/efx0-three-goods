@@ -7,7 +7,12 @@ agent). Reductions (all with the unenvied bundle of Lemma M1(b)):
   CON-e delete e, g and e's private goods; f' copies f with g renamed gl and f's private goods renamed (pair only);
   CON-f symmetric;
   GAD   (loop) one agent h valuing G at 2 and a new good at 1.
+Configurations 'single PP4' (a PP4 agent alone: one-agent gadgets with one private good fewer) and 'px K' (a P3 agent
+sharing a good of degree 2 with a K agent, K in Q3, P4, Q4; 'closed' when K also values the P3 agent's other good; one-
+agent gadgets from a menu of valuation classes) are described in k4/MINCEX.md.
 Usage: mincex4.py [pair|loop] KE KF [--jobs=J] [--write=out.json.gz]   (KE, KF in P3, PP4); prints the coverage.
+       mincex4.py single PP4 | px K [closed]
+       mincex4.py all --write=results/k4_min_cex_reductions.json.gz     (every configuration; greedy certificate)
 """
 import sys, time, gzip, json, itertools
 import numpy as np
@@ -85,6 +90,8 @@ def main():
     args = [a for a in sys.argv[1:] if not a.startswith('--')]
     opts = dict(a[2:].split('=', 1) for a in sys.argv[1:] if a.startswith('--') and '=' in a)
     jobs = int(opts.get('jobs', 4))
+    if args[0] == 'all':
+        return write_all(opts.get('write', 'k4_min_cex_reductions.json.gz'), jobs)
     if args[0] == 'px':
         shape = 'px'
         cfg = px_config(args[1], 'closed' in args)
@@ -156,6 +163,68 @@ def gadget_cover(cfg, jobs=4, write=None, extra=()):
                          {'h': ('fix', {g: int(v) for g, v in zip(goods, M[k])})}, Ip, source=True) for k in chosen]
     for k in chosen: print('    h = %s reduces %d' % (dict(zip(goods, M[k].tolist())), ok[k].sum()))
     return union.reshape(cfg.shape), list(extra) + reds
+
+
+
+
+def certify(cfg, fixed, gadget=True, jobs=4):
+    """Reductions for cfg: the fixed ones, plus (gadget) every valuation of a one-agent gadget h on D (+ z' if |D| < 4)
+    from the menu. A greedy choice covers every reduced profile; returns (reduced array, certificate records)."""
+    cands = []                                         # (ok array, reduction, kept or None)
+    for red in fixed:
+        ok, kept = R4.run(red, jobs)
+        cands.append((ok, red, kept))
+    if gadget:
+        D = sorted(cfg.D)
+        goods = D + (["z'"] if len(D) < 4 else [])
+        Ip = set(goods) - set(D)
+        M = R4.menu(len(goods))
+        okm = R4.gadget_search(cfg, 'h', goods, Ip, M, jobs)
+        for k in range(len(M)):
+            if okm[k].any():
+                red = R4.Reduction(cfg, 'GAD-h(' + ','.join('%s=%d' % (g, v) for g, v in zip(goods, M[k])) + ')',
+                                   {'h': ('fix', {g: int(v) for g, v in zip(goods, M[k])})}, Ip, source=True)
+                cands.append((okm[k].reshape(cfg.shape), red, None))
+    union = np.zeros(cfg.shape, dtype=bool)
+    for ok, _, _ in cands: union |= ok
+    need, recs = union.copy(), []
+    while need.any():
+        ok, red, kept = max(cands, key=lambda c: int((c[0] & need).sum()))
+        if kept is None:
+            ok2, kept = R4.run(red, jobs)
+            assert (ok2 == ok).all(), 'gadget search and direct run disagree: %s' % red.name
+        recs.append(R4.record(red, R4.select(cfg, kept, ok), int(ok.sum())))
+        print('    %-40s reduces %6d, new %6d' % (red.name, ok.sum(), (ok & need).sum()), flush=True)
+        need &= ~ok
+    return union, recs
+
+
+def all_configs():
+    """(configuration, fixed reductions, gadget search?) for every configuration of k4/MINCEX.md."""
+    out = []
+    cfg = single_config('PP4')
+    out.append((cfg, single_reductions(cfg), False))
+    for shape in ('pair', 'loop'):
+        cfg = config(shape, 'P3', 'P3')
+        out.append((cfg, reductions(cfg, shape), False))
+    for kind in ('Q3', 'P4', 'Q4'):
+        for closed in (False, True):
+            cfg = px_config(kind, closed)
+            out.append((cfg, [R4.Reduction(cfg, 'DEL', {}, set(), source=True)], True))
+    return out
+
+
+def write_all(path, jobs=4):
+    recs = []
+    for cfg, fixed, gad in all_configs():
+        total = int(np.prod(cfg.shape))
+        print('configuration %s: agents %s, I = %s, D = %s, %d profiles' % (cfg.name, cfg.S, sorted(cfg.I),
+                                                                           sorted(cfg.D), total), flush=True)
+        union, r = certify(cfg, fixed, gad, jobs)
+        print('  reduced: %d of %d profiles' % (union.sum(), total), flush=True)
+        recs += r
+    with gzip.open(path, 'wt') as f: json.dump(recs, f)
+    print('wrote %s: %d records, %d states' % (path, len(recs), sum(len(r['states']) for r in recs)))
 
 
 if __name__ == '__main__':
