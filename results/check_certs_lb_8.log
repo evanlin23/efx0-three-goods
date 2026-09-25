@@ -18,3 +18,16 @@ problems: 0
 exit=0  [47s]
 
 $ python tools/check_certs.py results/certs_lb_8_13_part4.json.gz --expect 8:13:2870 --require-d --jobs 2
+
+$ python tools/check_certs.py results/certs_lb_8_15_16.json.gz --expect 8:15:52 8:16:1 --require-d --jobs 2
+checked 53 hypergraphs {(8, 15): 52, (8, 16): 1}, models {'LB': 53}; problems: 0
+exit=0  [38s]
+
+$ python tools/check_enum.py results/certs_lb_8_14.json.gz results/certs_lb_8_15_16.json.gz
+results/certs_lb_8_14.json.gz: (n,m)=(8,14): 1232 hypergraphs, orbit sum 1906903070392320000, labeled connected cores 1906903070392320000 -> complete
+results/certs_lb_8_15_16.json.gz: (n,m)=(8,15): 52 hypergraphs, orbit sum 900726104678400000, labeled connected cores 900726104678400000 -> complete
+results/certs_lb_8_15_16.json.gz: (n,m)=(8,16): 1 hypergraphs, orbit sum 52725430517760000, labeled connected cores 52725430517760000 -> complete
+problems: 0
+exit=0  [7s]
+
+$ python tools/check_certs.py results/certs_lb_8_14.json.gz --expect 8:14:1232 --require-d --jobs 2

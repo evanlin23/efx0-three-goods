@@ -69,6 +69,13 @@ jobs:
           python tools/check_certs.py results/certs_lb_7_3_7.json.gz --require-d --expect 7:3:1 7:4:10 7:5:137 7:6:1097 7:7:4632
           python tools/check_enum.py results/certs_lb_7_3_7.json.gz results/certs_lb_7_8.json.gz results/certs_lb_7_9.json.gz \
             results/certs_lb_7_10.json.gz results/certs_lb_7_11_14.json.gz
+      - name: Construction LB certificates for n = 8, m >= 13, orbit counts (m = 13 in four parts); full re-check of m = 15, 16
+        # the m = 13 parts and m = 14 take about 70 and 30 min on 2 CPUs; re-checked locally in results/check_certs_lb_8.log
+        run: |
+          python tools/check_certs.py results/certs_lb_8_15_16.json.gz --require-d --expect 8:15:52 8:16:1
+          python tools/check_enum.py --union results/certs_lb_8_13_part1.json.gz results/certs_lb_8_13_part2.json.gz \
+            results/certs_lb_8_13_part3.json.gz results/certs_lb_8_13_part4.json.gz
+          python tools/check_enum.py results/certs_lb_8_14.json.gz results/certs_lb_8_15_16.json.gz
       - name: Construction LB from scratch for n <= 5 (C and Python implementations must agree)
         working-directory: src
         run: for n in 2 3 4 5; do python construct_run.py $n --python=1 || exit 1; done
