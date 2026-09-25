@@ -540,8 +540,10 @@ static int eval_profile(const int *ty, long *score, long *nruns) {
         for (int r = 0; r < d[i]; r++) rp[i][ord[i][r]] = r;
     }
     long sc = 0; nchoice = 0;
+    int bchoice[MAXN], bnchoice = 0;     /* the hardest run's insertion sequence (-i1), re-run at the end for reports */
     for (;;) {
         int ok; effort = 0;
+        long sc0 = sc;
         if (PSCORE == 1 && UPG == 3) {   /* -P1: run each policy on its own; score by how few succeed */
             int nsucc = 0, rmin = 99; long eff = 0;
             for (UPG = 0; UPG < 3; UPG++) {
@@ -568,11 +570,16 @@ static int eval_profile(const int *ty, long *score, long *nruns) {
         long e = effort < 999999 ? effort : 999999, v = used_pol * 100000000L + used_rot * 1000000L + e;
         if (PSCORE == 2) v = used_rot * 100000000L + used_pol * 1000000L + e;   /* -P2: rotations first */
         if (PSCORE != 1 && v > sc) sc = v;
+        if (sc > sc0 || !bnchoice) { memcpy(bchoice, choice, sizeof bchoice); bnchoice = nchoice ? nchoice : -1; }
         if (INS != 1) break;
         int j = nins - 1;                /* next insertion sequence */
         while (j >= 0 && choice[j] + 1 >= maxchoice[j]) j--;
         if (j < 0) break;
         choice[j]++; nchoice = j + 1;
+    }
+    if (INS == 1) {                      /* leave the state of the hardest run, for report() */
+        int ok; memcpy(choice, bchoice, sizeof bchoice); nchoice = bnchoice < 0 ? 0 : bnchoice;
+        if (run_leaf(&ok) || !ok) { fprintf(stderr, "re-run of the hardest run failed\n"); exit(1); }
     }
     *score = sc; return 1;
 }
