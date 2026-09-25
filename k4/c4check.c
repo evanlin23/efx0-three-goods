@@ -36,6 +36,7 @@ static int np[MAXN], pr[MAXN][24][4], pcnt[MAXN][24], pidx[MAXN][24][MAXG];
 static int QFIRST = 0;
 static int ins_ag[64], ins_ag0[64], ECHK = 0, ecat = -1; static long EC[1 << 15];   /* -E: which insertion step -i6 changes */
 static int ycls;   /* tentative; defined with the -Y state below */
+static int GEN = 0;   /* -G: P-steps in any order (every agent that has lost a good may go next), as decision points */
 static int ZR = 0, KSHOW = -1, kshown = 0, KLIM = 12;   /* -K<cls> (with -i20 -Y): print the first -KL<lim> (12) uncovered runs of that class and the change that covers them */   /* -Z (with -i20): restrict the changes tried: 1 only the step that started q's block, 2 only q as the new agent, 3 both, 4 only steps up to the one that started q's block */
 static int OWN = 0, INS = 0, SENS = 0, MAXF = 3, UPG = 1, BRUTE = 0, ALLOC = 0;
 /* -a: distinct leaf allocations per core (owners packed 3 bits per good), printed as "A o_0 .. o_{m-1}" lines */
@@ -108,13 +109,23 @@ static void phase1(void) {
     for (int i = 0; i < n; i++) Y[i] = -1;
     for (int step = 0; step < n; step++) {
         int best = -1, bk0 = 0, bk1 = 0;
+        int pc[MAXN], pk[MAXN], npc = 0;   /* -G: the agents that have lost a good, by LB's key */
         for (int i = 0; i < n; i++) if (!done[i]) {
             int left = popc(R[i] & G);
             if (left < d[i]) {
                 int fr = d[i];
                 for (int r = 0; r < d[i]; r++) if (G >> ord[i][r] & 1) { fr = r; break; }
                 if (best < 0 || fr < bk0 || (fr == bk0 && left < bk1)) { best = i; bk0 = fr; bk1 = left; }
+                int key = (fr * 8 + left) * MAXN + i, t = npc++;
+                while (t > 0 && pk[t - 1] > key) { pk[t] = pk[t - 1]; pc[t] = pc[t - 1]; t--; }
+                pk[t] = key; pc[t] = i;
             }
+        }
+        if (GEN && npc >= 2 && INS >= 1) {   /* -G: a P-step with a choice is a decision point; choice 0 is LB's key */
+            if (nins >= nchoice) choice[nchoice++] = 0;
+            int c = choice[nins]; maxchoice[nins] = npc; if (c >= npc) c = npc - 1;
+            ins_ag[nins] = pc[c]; nins++;
+            best = pc[c];
         }
         if (best < 0) {              /* insertion step: every unprocessed agent has all its goods */
             int cand[MAXN], nc = 0;
@@ -983,6 +994,7 @@ int main(int argc, char **argv) {
         else if (!strncmp(argv[a], "-P", 2)) PROVEDOK = argv[a][2] ? atoi(argv[a] + 2) : 1;   /* with -X -u2: "success" = proved by k4/c4.md's theorems (-P2: A4+ for any owner too) */
         else if (!strncmp(argv[a], "-Q", 2)) QFIRST = argv[a][2] ? atoi(argv[a] + 2) : 1;
         else if (!strncmp(argv[a], "-Z", 2)) ZR = atoi(argv[a] + 2);
+        else if (!strcmp(argv[a], "-G")) GEN = 1;
         else if (!strncmp(argv[a], "-KL", 3)) KLIM = atoi(argv[a] + 3);
         else if (!strncmp(argv[a], "-K", 2)) KSHOW = atoi(argv[a] + 2);
         else if (!strncmp(argv[a], "-E", 2)) ECHK = argv[a][2] ? atoi(argv[a] + 2) : 1;

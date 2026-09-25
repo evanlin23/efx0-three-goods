@@ -13,7 +13,8 @@ those runs (-X -Y -P2 -u2 -i20 -Z3 -K4, every insertion sequence). For each dist
 Counts distinct printed cases (not weighted by profiles).
 With --any: every class of uncovered run (G2, q frozen, (Tc), (Tb)), and every agent x of the run tried in turn;
 counts the runs to which Lemma Ω applies with x = q, with another x, or with none.
-Usage: python3 k4/c4tools/c4omega1.py FILE [FILE ...] [--any]"""
+With --general: the runs of Phase 1 with P-steps in any order (k4/c4check.c -G), not only LB's key.
+Usage: python3 k4/c4tools/c4omega1.py FILE [FILE ...] [--any] [--general]"""
 import os, re, sys, gzip, json, subprocess, collections
 from multiprocessing import Pool
 HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE); sys.path.insert(0, os.path.dirname(HERE))
@@ -57,16 +58,17 @@ def check(line, x=None):
     if ell == x: return 'x leads its block'
     if x in upg: return 'x is upgraded'
     above = lambda i: set(I.ord[i][:I.rank[i][Y[i]]]) if Y[i] is not None else set(I.R[i])
-    a_x, b_x = I.ord[x][0], I.ord[x][1]
-    # (H1) each of the leader's b and c is junk in P or is x's pick b_x, and {b, c} is envy-free for the leader
+    a_x = I.ord[x][0]
+    if Y[x] is None or Y[x] == a_x: return 'H2 fails: x has no pick or holds its top'
+    b_x = Y[x]   # x's pick Y_x, any good below its top (the proof only uses that x gives it back)
+    # (H1) each of the leader's b and c is junk in P or is x's pick Y_x, and {b, c} is envy-free for the leader
     # (automatic with three goods, a < b + c; with four goods it needs a + d <= b + c)
     b_l, c_l = I.ord[ell][1], I.ord[ell][2]
     if len(sets[ell]) == 4 and I.val(ell, [b_l, c_l]) < I.val(ell, [I.ord[ell][0], I.ord[ell][3]]):
         return 'H1 fails: the leader has four goods and {b, c} is not envy-free'
-    if not all(Jpost >> g & 1 or g == b_x for g in (b_l, c_l)): return 'H1 fails: b_l or c_l is neither junk nor b_x'
-    # (H2) x holds its second good, and no agent ranks b_x above its Phase 1 pick
-    if Y[x] != b_x: return 'H2 fails: x does not hold b_x'
-    if any(b_x in above(i) for i in range(n) if i != x): return 'H2 fails: some agent ranked b_x above its Phase 1 pick'
+    if not all(Jpost >> g & 1 or g == b_x for g in (b_l, c_l)): return 'H1 fails: b_l or c_l is neither junk nor Y_x'
+    # (H2) x holds a good Y_x below its top, and no agent ranks Y_x above its Phase 1 pick
+    if any(b_x in above(i) for i in range(n) if i != x): return 'H2 fails: some agent ranked Y_x above its Phase 1 pick'
     # (H2c) a need chain ell = x_0 -> ... -> x_s = x, each x_i (0 < i < s) ranking above Y_{x_{i-1}} only goods of
     # x_{i+1}, ..., x_{s-1}, and not a_x
     chains = []
@@ -150,12 +152,13 @@ def check(line, x=None):
 
 CLS = {1: 'G2', 2: 'q frozen, no chain to r', 3: 'q frozen, (i)/(ii) of B4w fail', 4: '(Tc)', 5: '(Tb)'}
 ANY = '--any' in sys.argv
+GENERAL = ['-G'] if '--general' in sys.argv else []   # runs with P-steps in any order (k4/c4check.c -G)
 
 def run(c):
     out = collections.Counter(); seen = set()
     for K in ((1, 2, 3, 4, 5) if ANY else (4,)):
         p = subprocess.run([BIN, '-X', '-Y', '-P2', '-u2', '-i20', '-o0', '-r1', '-w0', '-c0', '-f3', '-Z3', '-K%d' % K,
-                            '-KL100000'], input=lb4_run.encode(c['sets'], c['m'], False), capture_output=True, text=True)
+                            '-KL100000'] + GENERAL, input=lb4_run.encode(c['sets'], c['m'], False), capture_output=True, text=True)
         for l in p.stderr.split('\n'):
             if not l.startswith('KCASE'): continue
             key = (K, l.split(' upg=')[0])

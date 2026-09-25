@@ -33,12 +33,13 @@ Lemma E, Theorems A₄, B₄, B₄ʷ, A₄ᵀ, A₄⁺ and the conventions of it
     index-order run is covered or one changed insertion step makes it covered. There are 0 exceptions in 5.47·10¹⁰
     profiles (`results/k4_c4one_n6.log`).
   - **A first proved piece: Lemma Ω** (§6, written proof, not yet reviewed). Take a need chain from a block's leader
-    ℓ to a free agent x that holds its second good. Inserting x first in the block, then the chain backwards, realizes
+    ℓ to a free agent x that does not hold its top. Inserting x first in the block, then the chain backwards, realizes
     the rotation along the chain, and ℓ then upgrades with {b_ℓ, c_ℓ}. So ω drops by at least 1, under five side
     conditions.
     - With x = q it proves every (Tc) case of Lemma X at n ≤ 4, and 97.7% at n = 5.
-    - Over all uncovered runs, with any agent as x, it proves 80%, 61% and 58% of them (n = 3, 4, 5).
-    - The proof is for runs with P-steps in any order.
+    - Over all uncovered runs, with any agent as x, it proves 84%, 72% and 72% of them (n = 3, 4, 5).
+    - The proof is for runs with P-steps in any order. Over those runs, Lemmas X and X′ also hold at n ≤ 5, and Ω
+      proves 84%, 60% and 48% of their uncovered runs (`k4/c4check.c -G`).
 - **The existence form C₄¹∃** (§1) is open. It is what TARGET₄ needs for these instances.
 
 ## 1. Statements
@@ -294,7 +295,8 @@ the start of its block does what a rotation does, with fresh blocks.
 This suggests a proof of X′ for q free, in two parts:
 - **(a) Realization.** State when inserting the end of a need chain at the start of its block reproduces the rotation
   along the chain. This is a statement about Phase 1 alone.
-- **(b) Coverage.** Show that the rotated state is covered.
+- **(b) Coverage or a lower key.** Show that the rotated state is covered, or that its key is smaller. Lemma Ω below
+  does the second, which is what Lemma X needs.
 
 What (a) must handle, for a chain ℓ → q of length 1 (so Y_q = b_q, and ℓ took a_q):
 - *What goes through.* q takes a_q first. ℓ has lost a_q, so it is processed in the new block and takes b_ℓ, which is
@@ -321,11 +323,11 @@ agents. Its case s = 1 is called Ω₁.
 
 **Lemma Ω (a move that lowers ω; written proof, not yet reviewed).** Let P be the state after a run ρ of Phase 1 and
 envy-free upgrades in any order. Let β be a block of ρ with leader ℓ, and x ≠ ℓ an agent of β, such that:
-- **(H1)** Each of b_ℓ, c_ℓ is junk in P or is x's pick b_x, and the pair {b_ℓ, c_ℓ} is envy-free for ℓ. This is
+- **(H1)** Each of b_ℓ, c_ℓ is junk in P or is x's pick Y_x, and the pair {b_ℓ, c_ℓ} is envy-free for ℓ. This is
   automatic when ℓ has three goods (a < b + c in a core). When ℓ has four goods it means a_ℓ + d_ℓ ≤ b_ℓ + c_ℓ; ℓ can then
   be q itself.
-- **(H2)** x ∉ U, x's pick is b_x, and no agent ranks b_x above its pick (x is free already after Phase 1). There is
-  a need chain ℓ = x₀ → x₁ → … → x_s = x in P (each x_{i+1} ∉ U needs Y_{x_i}) with Y_{x_{s−1}} = a_x.
+- **(H2)** x ∉ U, x's pick Y_x is a good below its top a_x, and no agent ranks Y_x above its pick (x is free already
+  after Phase 1). There is a need chain ℓ = x₀ → x₁ → … → x_s = x in P (each x_{i+1} ∉ U needs Y_{x_i}) with Y_{x_{s−1}} = a_x.
 - **(H2c)** For 0 < i < s, every good that x_i ranks above Y_{x_{i−1}} is the pick of some x_k with i < k < s − 1.
   In particular it is not a_x. For s = 1 there is nothing to check; for s = 2 it says that ℓ's pick is x₁'s top.
 - **(H3)** In P, no agent other than x needs a_x.
@@ -342,8 +344,8 @@ Then some run ρ′ of Phase 1, equal to ρ before β, followed by envy-free upg
 *Proof.* Since ℓ leads β, its pick is its top a_ℓ.
 
 *Two facts.*
-- (F) No agent ranks b_ℓ or b_x above its pick. For b_x this is (H2). For b_ℓ it is (I2) when b_ℓ ∈ J ⊆ J₀, and (H2)
-  when b_ℓ = b_x.
+- (F) No agent ranks b_ℓ or Y_x above its pick. For Y_x this is (H2). For b_ℓ it is (I2) when b_ℓ ∈ J ⊆ J₀, and (H2)
+  when b_ℓ = Y_x.
 - (B1) At the start of each block after β, every unprocessed agent has all its goods. So no agent processed after β
   has a good that an agent of β picked in ρ.
 
@@ -357,12 +359,12 @@ Then some run ρ′ of Phase 1, equal to ρ before β, followed by envy-free upg
   - Y_{x_{i−1}} itself is still there.
   - So x_i takes Y_{x_{i−1}}.
 - *Process ℓ.* It has lost a_ℓ = Y_{x₀}, which x₁ has taken. Its b_ℓ is still there: either b_ℓ ∈ J₀, so no agent of
-  ρ picked it, or b_ℓ = b_x, which x did not take in ρ′. So ℓ takes b_ℓ.
+  ρ picked it, or b_ℓ = Y_x, which x did not take in ρ′. So ℓ takes b_ℓ.
 - *Process the attached agents p in ρ's order.* By definition p has lost a good (b_ℓ, a chain pick, or an earlier
   attached agent's pick, all taken by now), so this is a P-step.
   - By (I1) and (B2), every good that p ranks above its ρ-pick Y_p was taken in ρ before p's turn, by an agent of β.
   - In ρ′ these goods are taken too: the chain's picks Y_{x₀}, …, Y_{x_{s−1}} by x₁, …, x_s, and earlier attached
-    agents' picks by the same agents. The exceptions would be b_x, which by (H2) p does not rank above Y_p, and
+    agents' picks by the same agents. The exceptions would be Y_x, which by (H2) p does not rank above Y_p, and
     detached agents' picks, which by (H4) it does not rank above Y_p either.
   - Y_p is still available. It is not a chain pick, not b_ℓ, and not another attached agent's pick.
   - So p takes Y_p.
@@ -371,7 +373,7 @@ Then some run ρ′ of Phase 1, equal to ρ before β, followed by envy-free upg
   - Take a moved block γ with leader z. z has lost b_ℓ, so this is a P-step.
   - Every good taken so far in ρ′, other than b_ℓ, was taken in ρ before γ started: the prefix, β's picks, and the picks
     of earlier moved blocks. By (B1) at γ's start, none of these is among the goods of γ's agents.
-  - So z takes its top, which is its pick in ρ. (Moved blocks exist only if b_ℓ ≠ b_x, by (B1). Then b_ℓ is junk, so
+  - So z takes its top, which is its pick in ρ. (Moved blocks exist only if b_ℓ ≠ Y_x, by (B1). Then b_ℓ is junk, so
     it is not z's pick.)
   - Each later agent of γ does not have b_ℓ (H5′), so it lost the same goods as in ρ and takes the same pick.
 - *Agents of later blocks that are not moved have lost nothing, now or during the next step.* Such an agent lies in a
@@ -388,31 +390,31 @@ Then some run ρ′ of Phase 1, equal to ρ before β, followed by envy-free upg
     by (H4) they do not rank a detached pick above their own. The moved blocks' agents do not have it (B1). The other
     detached agents took their own tops.
 - *Process every remaining block as in ρ, with the same leaders.* During these blocks, the goods taken differ from ρ's
-  only by b_ℓ and the moved blocks' picks, which are not theirs, and by b_x, which is not theirs either (B1). So each
+  only by b_ℓ and the moved blocks' picks, which are not theirs, and by Y_x, which is not theirs either (B1). So each
   such block runs as in ρ.
 
 *Step 2: upgrades.* Compare the states after Phase 1, P₀ (of ρ) and P₀′ (of ρ′). They differ only on the chain:
-- x needs nothing, instead of {a_x};
+- x needs nothing, instead of the goods above Y_x (among them a_x);
 - x_i (0 < i < s) needs the goods above Y_{x_{i−1}}, a subset of its old needs;
 - ℓ needs {a_ℓ}, which x₁ needed in P₀.
 
-So NA₀′ ⊆ NA₀, and J₀′ = (J₀ ∪ {b_x}) ∖ {b_ℓ}.
+So NA₀′ ⊆ NA₀, and J₀′ = (J₀ ∪ {Y_x}) ∖ {b_ℓ}.
 - Replay ρ's upgrades in the same order. Each step stays valid:
   - the upgraded agent is off the chain, since x ∉ U, and x₀, …, x_{s−1} are frozen in P and hence throughout;
   - NA only shrinks relative to ρ's;
-  - the good taken is junk and is neither b_ℓ nor c_ℓ, since each of them is in J or is b_x, which ρ never used.
-  - Afterwards NA ⊆ NA(P), and J = (J(P) ∪ {b_x}) ∖ {b_ℓ}.
+  - the good taken is junk and is neither b_ℓ nor c_ℓ, since each of them is in J or is Y_x, which ρ never used.
+  - Afterwards NA ⊆ NA(P), and J = (J(P) ∪ {Y_x}) ∖ {b_ℓ}.
 - Upgrade ℓ with c_ℓ:
   - b_ℓ ∉ NA, by (F);
   - ℓ needs a_ℓ;
-  - c_ℓ is junk: either c_ℓ ∈ J(P), or c_ℓ = b_x, which is now junk;
+  - c_ℓ is junk: either c_ℓ ∈ J(P), or c_ℓ = Y_x, which is now junk;
   - {b_ℓ, c_ℓ} is envy-free for ℓ (H1), so this is an envy-free upgrade and ℓ's needs become empty.
   - Call the result P″.
 
 *Counting.*
-- |J(P″)| = |J(P)| − 1. Here J(P″) = (J(P) ∪ {b_x}) ∖ {b_ℓ, c_ℓ}, with b_x ∉ J(P).
-  - If b_x ∉ {b_ℓ, c_ℓ}, then b_ℓ and c_ℓ both lie in J(P), and b_x is added.
-  - Otherwise b_x is one of them, and the other lies in J(P).
+- |J(P″)| = |J(P)| − 1. Here J(P″) = (J(P) ∪ {Y_x}) ∖ {b_ℓ, c_ℓ}, with Y_x ∉ J(P).
+  - If Y_x ∉ {b_ℓ, c_ℓ}, then b_ℓ and c_ℓ both lie in J(P), and Y_x is added.
+  - Otherwise Y_x is one of them, and the other lies in J(P).
 - a_x ∉ NA(P″):
   - agents off the chain need what they needed in P, and by (H3) that excludes a_x;
   - by (H2c), no x_i (0 < i < s) ranks a_x above its new pick;
@@ -420,7 +422,8 @@ So NA₀′ ⊆ NA₀, and J₀′ = (J₀ ∪ {b_x}) ∖ {b_ℓ}.
   - So x, which holds a_x, is free with one slot, as it was in P.
 - ℓ has no slot in P (frozen) and none in P″ (upgraded).
 - x₁, …, x_{s−1} have no slot in P (frozen), so they cannot have fewer in P″.
-- Every other agent keeps its base, and is frozen in P″ only if it was in P, since NA(P″) ⊆ NA(P).
+- Every other agent keeps its base, and is frozen in P″ only if it was in P, since NA(P″) ⊆ NA(P). If x needed goods
+  other than a_x, their holders may even be unfrozen.
 - So S(P″) ≥ S(P) and ω(P″) ≤ ω(P) − 1.
 
 *Further upgrades.* Upgrade to a fixpoint P′. Each envy-free upgrade moves a junk good into the base of a free agent
@@ -442,12 +445,12 @@ with one slot, so it leaves |J| − S unchanged. It then can only unfreeze agent
 
   | class | n = 3 | n = 4 | n = 5 |
   |---|---|---|---|
-  | (Tc) | 388 / 388 | 6,976 / 6,976 | 200,774 / 203,592 |
-  | (Tb) | 512 / 512 | 2,680 / 3,080 | 50,498 / 74,128 |
-  | G2 | 732 / 1,102 | 5,716 / 10,703 | 87,482 / 154,893 |
-  | q frozen, (i)/(ii) of B₄ʷ fail | 0 / 12 | 204 / 2,290 | 6,932 / 71,040 |
-  | q frozen, no chain to r | 68 / 120 | 2,590 / 6,852 | 82,322 / 229,013 |
-  | all | 1,700 / 2,134 | 18,166 / 29,901 | 428,008 / 732,666 |
+  | (Tc) | 388 / 388 | 6,976 / 6,976 | 201,440 / 203,592 |
+  | (Tb) | 512 / 512 | 2,920 / 3,080 | 54,562 / 74,128 |
+  | G2 | 812 / 1,102 | 6,894 / 10,703 | 103,708 / 154,893 |
+  | q frozen, (i)/(ii) of B₄ʷ fail | 12 / 12 | 1,050 / 2,290 | 27,900 / 71,040 |
+  | q frozen, no chain to r | 68 / 120 | 3,654 / 6,852 | 138,753 / 229,013 |
+  | all | 1,792 / 2,134 (84%) | 21,494 / 29,901 (72%) | 526,363 / 732,666 (72%) |
 
   The proof step fails nowhere. With q frozen, x is another agent; with a 4-good leader, ℓ is often q itself.
 - Where the hypotheses fail at n = 5 (4,664 cases):
@@ -459,15 +462,31 @@ with one slot, so it leaves |J| − S unchanged. It then can only unfreeze agent
 *What it gives.* Lemma Ω does not use that q has four goods, or case (Tc). It says that at a run and upgrade fixpoint
 minimizing ω, no chain satisfies (H1)–(H5′).
 - For Lemma X on these (Tc) runs it gives the key decrease directly, and so proves those cases of Lemma X.
-- The caveat: ρ′ is a run of Phase 1 in the general sense (P-steps in any order). Lemma X's evidence (`-i19`) covers
-  only the runs `lb4.c` makes (LB's key). So an induction on the key that uses Ω needs Lemma X for general runs, which
-  has not been tested. #33's theorems hold for general runs, so the covered case is fine.
+- The caveat: ρ′ is a run of Phase 1 in the general sense (P-steps in any order). So an induction on the key that uses
+  Ω needs Lemma X for general runs. #33's theorems hold for general runs, so the covered case is fine. The next
+  paragraph tests Lemma X on them.
+
+**Runs with P-steps in any order** (`k4/c4check.c -G`; `k4/c4one_omega_runs.sh` → `results/k4_c4one_general.log`,
+`results/k4_c4one_omega1_general.log`). With `-G`, every P-step with two or more candidates is a decision point, and
+choice 0 is LB's key. So `-i19`/`-i20` start from every run of Phase 1 in the general sense, change one decision (an
+insertion or a P-step), and follow the defaults after it.
+- **Lemmas X′ and X hold over these runs:** 0 exceptions at n = 3, 4, 5, in 530,568, 86.0 million and 2.15·10¹⁰
+  (run, profile) pairs.
+- **Lemma Ω applies** to 1,992 of 2,358 (84%), 36,111 of 60,659 (60%) and 1,592,467 of 3,331,360 (48%) of their uncovered runs
+  (n = 3, 4, 5; any agent as x). Its proof step never fails.
+
+So on the data, the induction on the key can range over runs with P-steps in any order. On those runs Lemma X holds
+and Lemma Ω supplies the step for most of them.
 - (H5′) handles obstacle (D1) above when the agents pulled in are leaders: their whole blocks move. What is left at
   n = 5 is 2.3% of the (Tc) cases (1.4% if x may be any agent).
-- Beyond (Tc), Lemma Ω proves 58–80% of all uncovered runs at n ≤ 5 to be key-decreasing, in the general-run sense.
-- The rest needs other moves. For example, in the (Tb) runs where q already holds its top, the working change moves
-  an agent holding its c up to its top, while the old leader falls to its b. That is a rotation along a chain whose
-  end does not hold its second good.
+- Beyond (Tc), Lemma Ω proves 72–84% of all uncovered runs at n ≤ 5 to be key-decreasing, in the general-run sense.
+  Allowing x to hold any good below its top matters here: in the (Tb) runs where q already holds its top, x is another
+  agent, one holding its c.
+- The rest needs other moves. One example is a G2 run with n = 3, m = 5: sets [[0,2,3,4],[1,3,4],[2,3,4]], values
+  [[2,8,3,4],[2,3,4],[4,2,3]], agent 1 inserted first, so q = 0 = r holds its c.
+  - Inserting q first covers it. q moves up to its top, agent 2, which held q's top as its own top, falls to its b, and
+    the leader, agent 1, falls to its b.
+  - This is not a rotation along a need chain: agent 2 did not need anything.
 
 So on the data, C₄¹∃ reduces to one local lemma about Phase 1 runs.
 - It does not mention rotations beyond single ones, and it does not rely on LB₄ʳ's search.
@@ -490,7 +509,7 @@ git show origin/compute/k4-frontier:results/k4_certs_6_n4_1.json.gz > /tmp/k4_ce
 python3 k4/c4one_tau.py "-X -P2 -u2 -i6 -o0 -r1 -w0 -c0 -f3" /tmp/k4_certs_6_n4_1.json.gz          # X' from index order, n = 6 (~12 min)
 bash k4/c4one_exchange_runs.sh                                            # §6, where the change is, by case (~10 min)
 python3 k4/c4tools/c4realize.py results/k4_certs_3.json.gz results/k4_certs_4_n4_1.json.gz results/k4_certs_5_n4_1.json.gz   # §6, realized rotations
-python3 k4/c4tools/c4omega1.py results/k4_certs_3.json.gz results/k4_certs_4_n4_1.json.gz results/k4_certs_5_n4_1.json.gz   # §6, Lemma Ω (~2 min)
+bash k4/c4one_omega_runs.sh                                               # §6, Lemma Ω and runs with P-steps in any order (~70 min)
 ```
 In `k4/c4check.c`, `-P2` counts a run as a success when the theorems (with A₄⁺(o)) prove it, and the insertion modes
 used above are these:
@@ -502,4 +521,5 @@ used above are these:
 
 `-E` (with `-E3`) counts which step and which agent the successful change uses. `-E4` (with `-Y`) adds the class of
 the uncovered run and whether ω drops. `-Z1`, `-Z3` restrict the changes tried to the step that started q's block,
-and to inserting q there. `-K<class>` prints the uncovered runs of a class with the change that covers them.
+and to inserting q there. `-K<class>` prints the uncovered runs of a class with the change that covers them. `-G` makes
+every P-step with a choice a decision point (runs with P-steps in any order).
