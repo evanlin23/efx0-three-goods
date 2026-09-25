@@ -183,8 +183,9 @@ What each failure shows:
 3. *With one rotation, the insertion order matters* (n = 3): unlike LB⁺ (Theorem C holds for every insertion order),
    some profiles need an agent to end below the good it picked, and one rotation moves every agent of its chain up.
    Every fixed rule tested fails with one rotation. Two rotations in a row can do it: with up to three nested
-   rotations and every upgrade policy, index insertion fails nowhere at n ≤ 3 (`-i0 -u3 -r3 -w1 -c1`; not tested
-   beyond n = 3), though with LB₄'s single upgrade policy it still fails there (`-i0 -u1 -r3 -w1 -c1`, 15 cores).
+   rotations and every upgrade policy, index insertion fails nowhere at n ≤ 3, nor on n = 4 with at most three 4-good
+   agents (`-i0 -u3 -r3 -w1 -c1`, `results/k4_lb4_nested_n4.log`; pure n = 4 not tested), though with LB₄'s single
+   upgrade policy it still fails at n ≤ 3 (`-i0 -u1 -r3 -w1 -c1`, 15 cores).
 4. *The owner's large bundle can remove its own needs* (n = 4): with {b, c, d} worth more than a, the owner no longer
    needs its top alone, which frees the agent holding that top.
 5. *Earlier blocks matter* (n = 4): choosing only the leader of the last block, the analogue of Theorem A's focus on
