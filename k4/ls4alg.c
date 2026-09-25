@@ -250,6 +250,7 @@ static void run(void) {
     cnt_big[big > 3 ? 3 : big]++;
 }
 
+#ifndef LS4_NO_MAIN
 int main(void) {
     int anyfail = 0;
     while (scanf("%d %d", &n, &m) == 2) {
@@ -285,3 +286,4 @@ int main(void) {
     }
     return anyfail;
 }
+#endif

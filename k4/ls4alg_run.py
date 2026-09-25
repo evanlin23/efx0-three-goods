@@ -6,7 +6,8 @@ type (check4's tied domain) is covered: the run on a tied profile equals the run
 perturbation 32 v + w (w = 2^position), so each tied type is attached as a preimage to the strict representative of
 its perturbed type, and ls4alg.c checks the output against it with the raw definition.
 Usage: ls4alg_run.py CERTFILE [...] [--sample=K] [--ties] [--jobs=J] [--only=IDX] [--cores=A:B] [--defs='-DNOX']
-(--defs=-DNOX: no exchange cycles; --defs=-DBADDUMP: unchecked dump; both are sensitivity tests that must fail)
+(--prog=ls4_allstates: check conjecture TP4 on every stable state, not only reached ones;
+ --defs=-DNOX: no exchange cycles; --defs=-DBADDUMP: unchecked dump; both are sensitivity tests that must fail)
 """
 import gzip, itertools, json, os, subprocess, sys, time
 from multiprocessing import Pool
@@ -14,10 +15,11 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 from check4 import core_domains
 
-def build(defs=''):
+def build(defs='', prog='ls4alg'):
     d = os.path.expanduser('~/.cache/ls4'); os.makedirs(d, exist_ok=True)
-    exe, src = os.path.join(d, 'ls4alg' + defs.replace(' ', '').replace('-D', '_')), os.path.join(HERE, 'ls4alg.c')
-    if not os.path.exists(exe) or os.path.getmtime(exe) < os.path.getmtime(src):
+    exe, src = os.path.join(d, prog + defs.replace(' ', '').replace('-D', '_')), os.path.join(HERE, prog + '.c')
+    newest = max(os.path.getmtime(src), os.path.getmtime(os.path.join(HERE, 'ls4alg.c')))
+    if not os.path.exists(exe) or os.path.getmtime(exe) < newest:
         subprocess.run(['gcc', '-O2', '-march=native'] + defs.split() + ['-o', exe, src], check=True)
     return exe
 
@@ -60,7 +62,7 @@ def main():
     files = [a for a in sys.argv[1:] if not a.startswith('--')]
     opt = dict(a[2:].split('=', 1) if '=' in a else (a[2:], '1') for a in sys.argv[1:] if a.startswith('--'))
     sample, ties, jobs = int(opt.get('sample', 0)), 'ties' in opt, int(opt.get('jobs', os.cpu_count()))
-    exe = build(opt.get('defs', ''))
+    exe = build(opt.get('defs', ''), opt.get('prog', 'ls4alg'))
     print('# ' + ' '.join(sys.argv), flush=True)
     tasks = []
     for f in files:
