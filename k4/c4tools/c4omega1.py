@@ -64,9 +64,14 @@ def check(line, x=None):
     # (H1) each of the leader's b and c is junk in P or is x's pick Y_x, and {b, c} is envy-free for the leader
     # (automatic with three goods, a < b + c; with four goods it needs a + d <= b + c)
     b_l, c_l = I.ord[ell][1], I.ord[ell][2]
-    if len(sets[ell]) == 4 and I.val(ell, [b_l, c_l]) < I.val(ell, [I.ord[ell][0], I.ord[ell][3]]):
-        return 'H1 fails: the leader has four goods and {b, c} is not envy-free'
-    if not all(Jpost >> g & 1 or g == b_x for g in (b_l, c_l)): return 'H1 fails: b_l or c_l is neither junk nor Y_x'
+    free_ok = lambda g: bool(Jpost >> g & 1) or g == b_x
+    ef = len(sets[ell]) == 3 or I.val(ell, [b_l, c_l]) >= I.val(ell, [I.ord[ell][0], I.ord[ell][3]])
+    # Lemma Ω upgrades the leader with {b, c}; its variant Ω_q (the leader is q) does without that upgrade and lowers
+    # the key's second component instead (q is no longer frozen)
+    noupg = not (ef and free_ok(b_l) and free_ok(c_l))
+    if noupg:
+        if ell != q: return 'H1 fails: b_l or c_l is neither junk nor Y_x, or {b, c} is not envy-free'
+        if not free_ok(b_l): return 'H1 fails (variant, the leader is q): b_q is neither junk nor Y_x'
     # (H2) x holds a good Y_x below its top, and no agent ranks Y_x above its Phase 1 pick
     if any(b_x in above(i) for i in range(n) if i != x): return 'H2 fails: some agent ranked Y_x above its Phase 1 pick'
     # (H2c) a need chain ell = x_0 -> ... -> x_s = x, each x_i (0 < i < s) ranking above Y_{x_{i-1}} only goods of
@@ -143,6 +148,12 @@ def check(line, x=None):
         B = frozenset(g for g in range(I.m) if h >> g & 1); g = next(iter(B - {Y2[k]}))
         st.base[k] = B; st.kind[k] = 'upg'; st.J = st.J - {g}
     if not st.valid(): return 'PROOF STEP 2 FAILS: replaying the upgrades gives an invalid state'
+    if noupg:
+        w1 = st.omega(); fin = T.upgrades(st, 2); w2 = fin.omega()
+        if w1 > w or w2 > w1: return 'PROOF STEP 2 FAILS (variant): omega %d -> %d -> %d' % (w, w1, w2)
+        if fin.frozen()[q]: return 'PROOF STEP 2 FAILS (variant): q is still frozen'
+        return 'hypotheses of the variant hold; rho\' is a run of Phase 1 with the rotated picks; q unfrozen, omega %s' % (
+            'drops' if w2 < w else 'equal')
     st.base[ell] = frozenset([b_l, c_l]); st.kind[ell] = 'upg'; st.J = st.J - {c_l}
     if not st.valid(): return 'PROOF STEP 2 FAILS: the leader\'s upgrade gives an invalid state'
     w1 = st.omega(); w2 = T.upgrades(st, 2).omega()
@@ -172,6 +183,7 @@ def run(c):
             if bad: out[(CLS[K], 'PROOF FAILS: ' + bad[0])] += 1
             elif vs[q].startswith('hypotheses hold'): out[(CLS[K], 'Lemma Omega applies with x = q')] += 1
             elif any(v.startswith('hypotheses hold') for v in vs.values()): out[(CLS[K], 'Lemma Omega applies with another x')] += 1
+            elif any(v.startswith('hypotheses of the variant') for v in vs.values()): out[(CLS[K], 'only the variant (leader q) applies')] += 1
             else: out[(CLS[K], 'Lemma Omega applies to no agent')] += 1
     return out
 

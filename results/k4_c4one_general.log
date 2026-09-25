@@ -4,14 +4,14 @@ results/k4_certs_3.json.gz: 14 cores, total 530568, profiles with no success 0, 
 results/k4_certs_4_n4_1.json.gz: 135 cores, total 86035176, profiles with no success 0, cores with one 0
 results/k4_certs_5_n4_1.json.gz: 1735 cores, total 21452587992, profiles with no success 0, cores with one 0
 
-real	6m47.961s
-user	26m49.444s
-sys	0m2.845s
+real	6m46.250s
+user	26m44.360s
+sys	0m3.047s
 # c4one_tau.py -X -P2 -u2 -i19 -o0 -r1 -w0 -c0 -f3 -G
 results/k4_certs_3.json.gz: 14 cores, total 530568, profiles with no success 0, cores with one 0
 results/k4_certs_4_n4_1.json.gz: 135 cores, total 86035176, profiles with no success 0, cores with one 0
 results/k4_certs_5_n4_1.json.gz: 1735 cores, total 21452587992, profiles with no success 0, cores with one 0
 
-real	6m48.372s
-user	26m50.188s
-sys	0m2.921s
+real	6m43.152s
+user	26m31.092s
+sys	0m2.843s

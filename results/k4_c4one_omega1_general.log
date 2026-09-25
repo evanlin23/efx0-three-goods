@@ -6,8 +6,9 @@ results/k4_certs_3.json.gz: 14 cores, 2358 uncovered cases
    ('G2', 'Lemma Omega applies with x = q')                                                             988
    ('q frozen, (i)/(ii) of B4w fail', 'Lemma Omega applies to no agent')                                20
    ('q frozen, (i)/(ii) of B4w fail', 'Lemma Omega applies with another x')                             28
-   ('q frozen, no chain to r', 'Lemma Omega applies to no agent')                                       56
+   ('q frozen, no chain to r', 'Lemma Omega applies to no agent')                                       12
    ('q frozen, no chain to r', 'Lemma Omega applies with another x')                                    76
+   ('q frozen, no chain to r', 'only the variant (leader q) applies')                                   44
 results/k4_certs_4_n4_1.json.gz: 135 cores, 60659 uncovered cases
    ('(Tb)', 'Lemma Omega applies to no agent')                                                          1324
    ('(Tb)', 'Lemma Omega applies with another x')                                                       240
@@ -17,8 +18,9 @@ results/k4_certs_4_n4_1.json.gz: 135 cores, 60659 uncovered cases
    ('G2', 'Lemma Omega applies with x = q')                                                             14458
    ('q frozen, (i)/(ii) of B4w fail', 'Lemma Omega applies to no agent')                                5460
    ('q frozen, (i)/(ii) of B4w fail', 'Lemma Omega applies with another x')                             3520
-   ('q frozen, no chain to r', 'Lemma Omega applies to no agent')                                       9352
+   ('q frozen, no chain to r', 'Lemma Omega applies to no agent')                                       7572
    ('q frozen, no chain to r', 'Lemma Omega applies with another x')                                    8122
+   ('q frozen, no chain to r', 'only the variant (leader q) applies')                                   1780
 results/k4_certs_5_n4_1.json.gz: 1735 cores, 3331360 uncovered cases
    ('(Tb)', 'Lemma Omega applies to no agent')                                                          126991
    ('(Tb)', 'Lemma Omega applies with another x')                                                       26079
@@ -29,11 +31,13 @@ results/k4_certs_5_n4_1.json.gz: 1735 cores, 3331360 uncovered cases
    ('G2', 'Lemma Omega applies to no agent')                                                            344561
    ('G2', 'Lemma Omega applies with another x')                                                         190
    ('G2', 'Lemma Omega applies with x = q')                                                             424278
-   ('q frozen, (i)/(ii) of B4w fail', 'Lemma Omega applies to no agent')                                607136
+   ('q frozen, (i)/(ii) of B4w fail', 'Lemma Omega applies to no agent')                                607020
    ('q frozen, (i)/(ii) of B4w fail', 'Lemma Omega applies with another x')                             228295
-   ('q frozen, no chain to r', 'Lemma Omega applies to no agent')                                       655057
+   ('q frozen, (i)/(ii) of B4w fail', 'only the variant (leader q) applies')                            116
+   ('q frozen, no chain to r', 'Lemma Omega applies to no agent')                                       570151
    ('q frozen, no chain to r', 'Lemma Omega applies with another x')                                    603445
+   ('q frozen, no chain to r', 'only the variant (leader q) applies')                                   84906
 
-real	40m40.119s
-user	154m10.372s
-sys	6m18.141s
+real	40m6.296s
+user	152m22.314s
+sys	6m13.489s
