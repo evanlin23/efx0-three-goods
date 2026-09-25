@@ -215,7 +215,7 @@ int main(int argc, char **argv) {
         free(c.allocs);
         if (stop_after >= 0 && nfailcores >= stop_after) break;
     }
-    if (r < 0) { fprintf(stderr, "malformed cores file near core %ld\n", idx + 1); return 2; }
+    if (r < 0) { fprintf(stderr, "malformed cores file: core record %ld (0-based, in file order)\n", idx + 1); return 2; }
     printf("SUMMARY: %ld cores, %.0f profiles, %.0f failures in %ld cores%s\n", ncores, tot, totfail, nfailcores, d2 ? " (EFX0 + D2)" : " (EFX0)");
     if (fo) fclose(fo);
     return nfailcores ? 1 : 0;

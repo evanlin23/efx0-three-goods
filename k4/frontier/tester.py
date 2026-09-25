@@ -9,8 +9,8 @@ values, the construction's allocation, the reason, and a certificate allocation 
 
 Usage: tester.py (--plugin=my.so [--plugin-arg=S] | --pipe='python3 mine.py' | --oracle) [--n=2,3] [--files=F,..]
                  [--d2] [--ties] [--sample=N --seed=S] [--max-fail=3] [--stop-after=K] [--jobs=J] [--fail-out=F]
-  --n: which n to take from results/ (default 2,3: every profile of every core is feasible there; n = 4 and 5 have
-       up to 288^4 and 288^5 profiles per core, use --sample); --files: explicit certificate files instead;
+  --n: which n to take from results/ (default 2,3: every profile of every core is feasible there; n = 4, 5 and 6 have
+       up to 288^4, 288^5 and 288 * 6^5 profiles per core, use --sample); --files: explicit certificate files instead;
   --stop-after=K: stop each job after K failing cores.
 Pipe protocol: the tester writes one line per instance, "n m" then for each agent "d g_1..g_d v_1..v_d" (goods
 increasing; values positive integers, 0 on every other good); the program answers with one line of m owners.

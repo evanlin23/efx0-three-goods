@@ -78,7 +78,7 @@ Timings:
 | n = 5, three 4-good agents | 7 min 02 s, `--jobs=2` |
 | n = 5, four 4-good agents | 34 min 19 s, `--jobs=1` |
 | n = 6, one 4-good agent | 25 min 04 s, `--jobs=1` |
-| pure n = 5 | ≈ 7.7 s per core on average, at most 76 s, ≈ 10 CPU-hours (here: ≈ 70 min on 4 CPUs) |
+| pure n = 5 | reviewer's run: ≈ 7.7 s per core on average, at most 76 s, ≈ 10 CPU-hours; the run for the committed log: ≈ 70 min wall on 4 CPUs (≈ 4.7 CPU-hours) |
 
 Tests:
 - `test_check4_fast.py` (`results/k4_frontier_test_check4_fast.log`):
@@ -99,7 +99,7 @@ Tests:
 
 ## Tester for construction candidates: `tester.py`, `tester.c`, `k4plugin.h`
 Checks a construction's outputs on every strict profile of every certified core (n ≤ 3 by default: 56 cores,
-3.0·10⁸ profiles), or on a random sample (`--sample=N`) for n = 4, 5. Every output is checked with the raw EFX₀
+3.0·10⁸ profiles), or on a random sample (`--sample=N`) for n = 4–6 (the certified n = 6 cores have one 4-good agent). Every output is checked with the raw EFX₀
 definition and explicit integer values; `--d2` also requires at most one bundle of more than 2 goods. Types are
 enumerated in tester.c from scratch (6 and 288; `--ties`: 13 and 1,271). Failures are reported smallest first
 (n, then m), each with a certificate allocation that works for the same profile. The construction can be:
