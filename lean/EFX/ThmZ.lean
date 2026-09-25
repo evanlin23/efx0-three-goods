@@ -345,6 +345,174 @@ theorem exists_apa (hag : agents.Nodup) (hgd : goods.Nodup) {base : G → Option
         simp only [decide_eq_true_eq] at hb ⊢; simp [hold, hb])
     refine hNA i hi g ⟨hg, fun hb => hgh (by simp [hold, hb]), by omega⟩
 
+
+/-! ## Lemma Z1: pool improvements; a pool-optimal APA with the most robust agents -/
+
+/-- A pool improvement: `i` takes the pair `S ⊆ Q_i ∪ L`, the rest of `Q_i` goes to the pool. -/
+def poolImprove (hold : G → Option A) (i : A) (S : List G) (g : G) : Option A :=
+  if g ∈ S then some i else if hold g = some i then none else hold g
+
+section improve
+variable {hold : G → Option A} {i : A} {S : List G}
+
+theorem baseOf_poolImprove_self (hgd : goods.Nodup) (hS : S.Nodup) (hSg : ∀ g ∈ S, g ∈ goods) :
+    (baseOf goods (poolImprove hold i S) i).Perm S := by
+  apply baseOf_perm hgd hS
+  intro g
+  unfold poolImprove
+  by_cases hg : g ∈ S
+  · simp [hg, hSg g hg]
+  · simp only [hg, ↓reduceIte, false_iff, not_and]
+    intro _
+    split
+    · simp
+    · rename_i h; exact h
+
+theorem baseOf_poolImprove_other (hSW : ∀ g ∈ S, g ∈ W goods hold i) {j : A} (hji : j ≠ i) :
+    baseOf goods (poolImprove hold i S) j = baseOf goods hold j := by
+  apply baseOf_congr
+  intro g hg
+  unfold poolImprove
+  by_cases hgS : g ∈ S
+  · simp only [hgS, ↓reduceIte, Option.some.injEq]
+    have := (mem_W.mp (hSW g hgS)).2
+    constructor
+    · intro e; exact absurd e.symm hji
+    · intro e; rcases this with e' | e' <;> rw [e] at e'
+      · exact absurd (Option.some.inj e') hji
+      · cases e'
+  · simp only [hgS, ↓reduceIte]
+    split
+    · rename_i h; rw [h]; simp [Ne.symm hji]
+    · rfl
+
+theorem value_poolImprove_self (hgd : goods.Nodup) (hS : S.Nodup) (hSg : ∀ g ∈ S, g ∈ goods) :
+    value v i (baseOf goods (poolImprove hold i S) i) = value v i S :=
+  value_perm (baseOf_poolImprove_self hgd hS hSg)
+
+/-- **A pool improvement is an APA** in which `i` gains and nobody else changes. -/
+theorem isAPA_poolImprove (hgd : goods.Nodup) (hA : IsAPA v agents goods hold) (hi : i ∈ agents) (hS : S.Nodup)
+    (hS2 : S.length = 2) (hSW : ∀ g ∈ S, g ∈ W goods hold i)
+    (hlt : value v i (baseOf goods hold i) < value v i S) : IsAPA v agents goods (poolImprove hold i S) := by
+  have hSg : ∀ g ∈ S, g ∈ goods := fun g hg => (mem_W.mp (hSW g hg)).1
+  refine ⟨fun g hg j hj => ?_, fun j hj => ?_, fun j hj g ⟨hg, hgb, hvl⟩ => ?_⟩
+  · unfold poolImprove at hj
+    by_cases hgS : g ∈ S
+    · simp only [hgS, ↓reduceIte, Option.some.injEq] at hj; rw [← hj]; exact hi
+    · simp only [hgS, ↓reduceIte] at hj
+      split at hj
+      · cases hj
+      · exact hA.mem g hg j hj
+  · by_cases hji : j = i
+    · subst hji; rw [(baseOf_poolImprove_self hgd hS hSg).length_eq, hS2]
+    · rw [baseOf_poolImprove_other hSW hji]; exact hA.pair j hj
+  · by_cases hji : j = i
+    · subst hji
+      rw [value_poolImprove_self hgd hS hSg] at hvl
+      have hgS : g ∉ S := fun h => hgb (by simp [poolImprove, h])
+      by_cases hh : hold g = some j
+      · have := le_value_of_mem v j (mem_baseOf.mpr ⟨hg, hh⟩ : g ∈ baseOf goods hold j)
+        omega
+      · exact hA.adm j hj g ⟨hg, hh, by omega⟩
+    · rw [baseOf_poolImprove_other hSW hji] at hvl
+      refine hA.adm j hj g ⟨hg, fun hh => hgb ?_, hvl⟩
+      have : g ∉ S := fun h => by
+        rcases (mem_W.mp (hSW g h)).2 with e | e <;> rw [hh] at e
+        · exact hji (Option.some.inj e)
+        · cases e
+      simp [poolImprove, this, hh, hji]
+
+end improve
+
+/-- The welfare of an APA, `Σ_i v_i(Q_i)` (`welfare` of `EFX/K3Theorem.lean`). -/
+abbrev zWelfare (v : A → G → Nat) (agents : List A) (goods : List G) (hold : G → Option A) : Nat :=
+  welfare v agents goods hold
+
+/-- The potential `r · (B + 1) + Σ_i v_i(Q_i)`, with `B = Σ_i v_i(M)` a bound on the welfare: maximizing it maximizes
+the number of robust agents first, then the welfare (in place of the text's level sum Λ; see the module doc). -/
+noncomputable def zPot (v : A → G → Nat) (agents : List A) (goods : List G) (hold : G → Option A) : Nat :=
+  nRobust v agents goods hold * ((agents.map (fun i => value v i goods)).sum + 1) + zWelfare v agents goods hold
+
+omit [DecidableEq G] in
+theorem zWelfare_le (hold : G → Option A) :
+    zWelfare v agents goods hold ≤ (agents.map (fun i => value v i goods)).sum :=
+  LB4.sum_le_sum_of_le _ _ agents fun i _ => value_sublist v i List.filter_sublist
+
+omit [DecidableEq G] in
+theorem nRobust_le (hold : G → Option A) : nRobust v agents goods hold ≤ agents.length := by
+  unfold nRobust; exact List.countP_le_length
+
+/-- **Lemma Z1** (`k4/c4min.md` §3.1): if an APA exists, some APA is pool-optimal and has the most robust agents among
+all APAs (take a maximum of `zPot`; a pool improvement raises it, and so does any APA with more robust agents). -/
+theorem exists_zmax (hgd : goods.Nodup) (h : ∃ hold, IsAPA v agents goods hold) :
+    ∃ hold, IsAPA v agents goods hold ∧ PoolOpt v agents goods hold ∧
+      ∀ hold', IsAPA v agents goods hold' → nRobust v agents goods hold' ≤ nRobust v agents goods hold := by
+  classical
+  obtain ⟨B, hB⟩ : ∃ B, B = (agents.map (fun i => value v i goods)).sum := ⟨_, rfl⟩
+  have hpot : ∀ hold, zPot v agents goods hold = nRobust v agents goods hold * (B + 1) + zWelfare v agents goods hold :=
+    fun hold => by rw [hB]; rfl
+  have htop : ∀ hold, zPot v agents goods hold ≤ agents.length * (B + 1) + B := fun hold => by
+    rw [hpot]
+    have := nRobust_le (v := v) (agents := agents) (goods := goods) hold
+    have := zWelfare_le (v := v) (agents := agents) (goods := goods) hold
+    rw [← hB] at this
+    have := Nat.mul_le_mul_right (B + 1) (nRobust_le (v := v) (agents := agents) (goods := goods) hold)
+    omega
+  have key : ∀ d, ∀ hold, IsAPA v agents goods hold → agents.length * (B + 1) + B - zPot v agents goods hold = d →
+      ∃ hold, IsAPA v agents goods hold ∧ PoolOpt v agents goods hold ∧
+        ∀ hold', IsAPA v agents goods hold' → nRobust v agents goods hold' ≤ nRobust v agents goods hold := by
+    intro d
+    induction d using Nat.strongRecOn with
+    | ind d ih =>
+      intro hold hA hd
+      -- a better APA would contradict the induction
+      have better : ∀ hold', IsAPA v agents goods hold' → zPot v agents goods hold < zPot v agents goods hold' →
+          ∃ hold, IsAPA v agents goods hold ∧ PoolOpt v agents goods hold ∧
+            ∀ hold'', IsAPA v agents goods hold'' → nRobust v agents goods hold'' ≤ nRobust v agents goods hold :=
+        fun hold' hA' hlt => ih _ (by have := htop hold'; omega) hold' hA' rfl
+      by_cases hpo : PoolOpt v agents goods hold
+      · by_cases hmax : ∀ hold', IsAPA v agents goods hold' → nRobust v agents goods hold' ≤ nRobust v agents goods hold
+        · exact ⟨hold, hA, hpo, hmax⟩
+        · obtain ⟨hold', hA', hlt⟩ : ∃ hold', IsAPA v agents goods hold' ∧
+              nRobust v agents goods hold < nRobust v agents goods hold' :=
+            Classical.byContradiction fun hno => hmax fun h' hA' => Nat.le_of_not_lt fun hl => hno ⟨h', hA', hl⟩
+          refine better hold' hA' ?_
+          rw [hpot, hpot]
+          have := zWelfare_le (v := v) (agents := agents) (goods := goods) hold
+          rw [← hB] at this
+          have := Nat.mul_le_mul_right (B + 1) hlt
+          rw [Nat.succ_mul] at this
+          omega
+      · obtain ⟨i, hi, S, hS, hS2, hSW, hlt⟩ : ∃ i ∈ agents, ∃ S : List G, S.Nodup ∧ S.length = 2 ∧
+            (∀ g ∈ S, g ∈ W goods hold i) ∧ value v i (baseOf goods hold i) < value v i S :=
+          Classical.byContradiction fun hno => hpo fun i hi S hS hS2 hSW =>
+            Nat.le_of_not_lt fun hl => hno ⟨i, hi, S, hS, hS2, hSW, hl⟩
+        have hSg : ∀ g ∈ S, g ∈ goods := fun g hg => (mem_W.mp (hSW g hg)).1
+        have hA' := isAPA_poolImprove hgd hA hi hS hS2 hSW hlt
+        refine better _ hA' ?_
+        rw [hpot, hpot]
+        -- the robust agents stay robust, and the welfare rises
+        have hval : ∀ j, value v j (baseOf goods hold j) ≤ value v j (baseOf goods (poolImprove hold i S) j) := by
+          intro j
+          by_cases hji : j = i
+          · subst hji; rw [value_poolImprove_self hgd hS hSg]; omega
+          · rw [baseOf_poolImprove_other hSW hji] <;> exact Nat.le_refl _
+        have hr : nRobust v agents goods hold ≤ nRobust v agents goods (poolImprove hold i S) := by
+          unfold nRobust
+          apply List.countP_mono_left
+          intro j _ hj
+          have hj' : ZRobust v goods hold j := of_decide_eq_true hj
+          have := hval j
+          unfold ZRobust at hj'
+          exact decide_eq_true (by unfold ZRobust; omega)
+        have hw : zWelfare v agents goods hold < zWelfare v agents goods (poolImprove hold i S) :=
+          sum_lt_of_le_of_lt _ _ agents (fun j _ => hval j)
+            ⟨i, hi, by rw [value_poolImprove_self hgd hS hSg]; exact hlt⟩
+        have := Nat.mul_le_mul_right (B + 1) hr
+        omega
+  obtain ⟨hold, hA⟩ := h
+  exact key _ hold hA rfl
+
 end C4min
 end EFX
 
@@ -354,3 +522,5 @@ end EFX
 #print axioms EFX.C4min.c4min_of_zvalid
 #print axioms EFX.C4min.removalOnly_of_f0_small
 #print axioms EFX.C4min.exists_apa
+#print axioms EFX.C4min.isAPA_poolImprove
+#print axioms EFX.C4min.exists_zmax
