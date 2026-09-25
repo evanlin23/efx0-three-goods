@@ -315,12 +315,14 @@ The excluded configuration is real: when another agent holding its top has lower
 {b_w, c_w} threatens it, and Lemma 1 fails for every completion. Lemmas 7 and 8 are checked directly on every run of
 Phase 1 with w last of every profile of every k = 3 core with n ≤ 4 (`k4/induct_lbo.py --lemmas`,
 `results/k4_induct_lbo_lemmas_n4.log`: 488,696 runs for Lemma 7 and 109,656 for Lemma 8, no failure; 26,020 runs fall
-in the excluded configuration) and n = 5 (`results/k4_induct_lbo_lemmas_n5.log`).
+in the excluded configuration) and n = 5 (`results/k4_induct_lbo_lemmas_n5.log`: 60,581,840 and 13,289,504 runs, no
+failure).
 
 **Conjecture LBO** (K4.IND.LBO). In the setting above (agents other than w: three goods, balanced; w: at most three
 goods), there are a run of Phase 1 with w last, a state of LB's upgrade loop (stopped anywhere; never upgrading w if it
-is top-heavy), and optionally one LB⁺ rotation (Theorem B's, along a need chain from the last block's leader, exposed
-w.r.t. w, to w), whose valid pre-allocation has w as a valid owner (Lemma 1), or has w as a terminal with a slot while
+is top-heavy), and optionally one LB⁺ rotation (Theorem B's: along a need chain from k*, the last agent processed at an
+insertion step, when k* holds its top and b_{k*}, c_{k*} ∈ J ∪ {Y_r}, to r, the last-processed agent not upgraded, which
+is w unless w was upgraded), whose valid pre-allocation has w as a valid owner (Lemma 1), or has w as a terminal with a slot while
 some other valid owner o leaves a slot free (|H| ≤ S − cap(o) − 1). Either way, by Theorem 1′ and Lemma 1 (padding as in
 Lemma 7), I has an EFX₀ allocation in which nobody envies w.
 
@@ -398,6 +400,9 @@ fails at r = 1 already at n = 3 (§2).
    insertion sequences, like PR #37's Lemma X for C₄¹∃.
 2. **PS on 𝒞_j in general**, whose own induction (Proposition 5) stops at R1 on the target and at a second agent's
    private good. Without it, Theorem 4 does not iterate beyond j = 0.
+   (If PS held for every instance smaller than I in the order (j, n, m), Lemma 2 would remove every agent with a
+   private good, P3 included, from a minimal counterexample, leaving only Q3 and Q4 agents; but that is PS at the same
+   level j, which is exactly what Proposition 5 cannot reach.)
 3. **Q4 agents**: an insertion rule for a shared good; none of the tested selection rules works (§5), already with a
    single Q4 agent (j = 0 → 1).
 
