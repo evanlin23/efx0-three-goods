@@ -1,0 +1,21 @@
+# k4/hall.c against k4/c4x.c (PR #36) with the per-profile summary line of k4/hall_c4x_xcheck.py
+# command: B=$(python3 k4/hall_c4x_xcheck.py); python3 k4/hall_run.py results/k4_certs_2.json.gz --xcheck=$B
+FILE results/k4_certs_2.json.gz cores 5 profiles 189216 valid 2318524 minfrozen 2129840 minfrozen_omega1 1402784 minfrozen_posdef 171432 profiles_c4min_ok 189216 bad_char 0
+  XCHECK profiles 189216 mismatching task pairs 0
+  failing (P, owner) pairs 996408, with an unhittable exposed agent 213960; tau for the others: [0, 638064, 144384, 0, 0, 0, 0, 0]; minimal violator size (0 = none of size < 8): [0, 782448, 0, 0, 0, 0, 0, 0]
+  exposed at failing owners, 3-good top: free 288 (unhittable 288), frozen 0 (unhittable 0)
+  exposed at failing owners, 4-good top b+d<a<b+c: free 23088 (unhittable 23088), frozen 0 (unhittable 0)
+  exposed at failing owners, 4-good top c+d<a<b+d: free 98832 (unhittable 43824), frozen 0 (unhittable 0)
+  exposed at failing owners, 4-good top flat: free 121656 (unhittable 32280), frozen 0 (unhittable 0)
+  exposed at failing owners, 4-good pair: free 752544 (unhittable 114480), frozen 0 (unhittable 0)
+# command: python3 k4/hall_run.py results/k4_certs_3.json.gz --rand=100 --xcheck=$B
+FILE results/k4_certs_3.json.gz cores 51 profiles 5100 valid 112583 minfrozen 89076 minfrozen_omega1 53908 minfrozen_posdef 643 profiles_c4min_ok 5100 bad_char 0
+  XCHECK profiles 5100 mismatching task pairs 0
+  failing (P, owner) pairs 33426, with an unhittable exposed agent 5580; tau for the others: [0, 19948, 7209, 676, 13, 0, 0, 0]; minimal violator size (0 = none of size < 8): [0, 24629, 3217, 0, 0, 0, 0, 0]
+  exposed at failing owners, 3-good top: free 784 (unhittable 302), frozen 256 (unhittable 61)
+  exposed at failing owners, 4-good top a>b+c: free 222 (unhittable 0), frozen 272 (unhittable 0)
+  exposed at failing owners, 4-good top b+d<a<b+c: free 1630 (unhittable 686), frozen 154 (unhittable 13)
+  exposed at failing owners, 4-good top c+d<a<b+d: free 4197 (unhittable 1077), frozen 90 (unhittable 13)
+  exposed at failing owners, 4-good top flat: free 4707 (unhittable 883), frozen 17 (unhittable 6)
+  exposed at failing owners, 4-good {b}: free 153 (unhittable 15), frozen 2 (unhittable 0)
+  exposed at failing owners, 4-good pair: free 30439 (unhittable 2838), frozen 0 (unhittable 0)
