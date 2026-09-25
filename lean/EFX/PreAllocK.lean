@@ -6,35 +6,55 @@ import EFX.K4Ties
 
 The k = 4 construction LB₄ builds *pre-allocations* in which an agent's base can have any number of
 goods and its needs are any set between the goods worth more than the base and all goods outside it.
-This file proves `k4/lb4.md` §1 for any number of relevant goods per agent (only additivity and
-nonnegativity of the values are used), generalizing `EFX/PreAlloc.lean` (Theorem 1′ of
-`proofs/lb_last_step.md`, k = 3), whose pre-allocations are ranking-based (picks and upgraded pairs).
+This file proves `k4/lb4.md` §1 (Theorem 1′₄, the counting, Lemmas 2₄ and 3₄) and the Shape paragraph's
+deduction of §2, for any number of relevant goods per agent where the text allows it (only additivity and
+nonnegativity of the values are used). It generalizes `EFX/PreAlloc.lean` (Theorem 1′ of
+`proofs/lb_last_step.md`, k = 3), whose pre-allocations are ranking-based (picks and upgraded pairs), and
+reuses the model (`EFX/Model.lean`) and the list layer (`EFX/Lists.lean`).
 
-Setting (over lists, as `EFX/Lists.lean`): agents `agents`, goods `goods`, values `v : A → G → Nat`.
+Setting (over lists): agents `agents`, goods `goods`, values `v : A → G → Nat`.
 - A pre-allocation is a map `base : G → Option A` (`base g = some i` iff `g ∈ B_i`, so bases are
   disjoint) and needs `N : A → G → Prop` (`N i g` iff `g ∈ N_i`). `baseOf goods base i` is `B_i`,
-  `junk goods base` is `J`, `NA agents N` is `NA = ⋃ N_i`.
+  `junk goods base` is `J`, `junkOf goods base X j` is `C_j` (the junk in `j`'s bundle), `NA agents N`
+  is `NA = ⋃ N_i`.
 - `Needs`: the Definition's bounds `{g ∈ R_i ∖ B_i : v_i(g) > v_i(B_i)} ⊆ N_i ⊆ R_i ∖ B_i`. The pick
-  needs (`g ≻_i Y`, for a strict order consistent with the values), the needs of an empty base (`R_i`)
-  and the value-based needs are instances (`Needs.pick`, `Needs.empty`, `Needs.valueBased`).
+  needs (`g ≻_i Y`, for a strict order consistent with the values, `RankOK`), the needs of an empty base
+  (`R_i`) and the value-based needs are instances (`Needs.pick`, `Needs.empty`, `Needs.valueBased`).
 - `Frozen`: the base is one good, and it is in `NA`. `Valid`: (V1) and (V2).
 - `Completion`: owner `o` (a listed free agent) or none; every good goes to a listed agent, every base
   good to its base's agent, a frozen agent other than `o` gets no junk, a free agent `j ≠ o` gets
   junk `C_j` with `|C_j| ≤ cap(j) = 2 − |B_j|` (with its sign: `|C_j| + |B_j| ≤ 2`).
 - `OC`: the owner constraint (OC₄), `v_j(X_o ∖ {h}) ≤ v_j(X_j)` for every `j ≠ o` and `h ∈ X_o`.
 - `ownerNeeds`: the needs with the owner's replaced by `N_o^X = {g ∈ R_o ∖ X_o : v_o(g) > v_o(X_o)}`.
+- `SoundCompletion`: a completion satisfying (OC₄) of a valid pre-allocation, the owner's needs taken from
+  its bundle (the base-needs version is a special case, `SoundCompletion.of_baseNeeds`).
 
-Main results:
-- `efx0_of_needs`: the proof of Theorem 1′₄ with its hypotheses reduced to what it uses (every agent's
-  needs contain the goods outside its bundle worth more than its bundle).
-- `Valid.sound` (owner's needs from its base) and `Valid.sound_ownerNeeds` (owner's needs `N_o^X`):
-  **Theorem 1′₄**. Every completion satisfying (OC₄) is EFX₀, for any values.
-- `Completion.length_le_two`, `Completion.shape`: every bundle but the owner's has at most two goods
-  (so the text's hypothesis "only `X_o` may have more than 2 goods" holds in every completion); in the
-  model's terms (`d2_of_completion`) the allocation has the D2 shape, and `k4D_of_completion` states
-  the chain "a completion satisfying (OC₄) exists ⟹ an EFX₀ allocation with at most one bundle of more
-  than two goods exists". `target4_of_completions`: with K4.CORE and K4.TIE, TARGET₄ up to `N` agents
-  follows if every connected strict k = 4 core with a 4-good agent has such a completion.
+Results, in the order of `k4/lb4.md`:
+- **Theorem 1′₄** (§1): `Valid.sound` (owner's needs from its base) and `Valid.sound_ownerNeeds` (owner's
+  needs `N_o^X`): every completion satisfying (OC₄) is EFX₀. `efx0_of_needs`: the proof, from only what it
+  uses. The text's hypotheses "only `X_o` may have more than 2 goods" and "frozen agents hold exactly their
+  base" hold in every completion (`Completion.length_le_two`, `Completion.frozen_base`), so they are not
+  assumed.
+- **Counting** (§1): `numFrozen_eq` (`|F| = |NA|`), `omega_eq` (`ω = |J| − S = |NA| − σ`, `σ = 2n − m`, the
+  cap counted with its sign), `complete_none_exists` (if `ω ≤ 0` and every base has at most two goods, a
+  completion without owner exists; all its bundles have at most two goods), `Completion.owner_length`
+  (when the other slots are filled, the owner holds `|B_o| + cap(o) + ω = ω + 2` goods).
+- **Lemma 2₄** (§1, self-protection, `|R_x| ≤ 4`): `selfProtect` (an agent `x ≠ o` with a pick base whose
+  slot takes its `≻`-best junk good not yet placed does not envy the owner's bundle, whose base has at most
+  one good, so it is not threatened by it); `selfProtect_seq` (the same when the agents fill their slots one
+  at a time, `seqFill`, whatever else is placed); `selfProtect_core` (the value argument alone);
+  `selfProtect_five` (it fails with five relevant goods, checked by `decide`).
+- **Lemma 3₄** (§2, the owner search is exact): `ownerSearch_exact_base` in the text's terms (`s₀` with the
+  owner's needs from its base; `|B_o| ≥ 3`, or `o` free with `ω ≥ 1` and the other bases of at most two
+  goods; strict balance and `|R_o| ≤ 4`): if a sound completion with owner `o` exists, one exists with at
+  least `min(|J|, s₀)` junk goods in the other agents' slots and the same `N_o^X`. `ownerSearch_exact`: the
+  general form; `move_step`: one move of its proof.
+- **Shape** (§2): `SoundCompletion.efx0_d2` (over lists) and `sound_model`, `d2_shape` (model): a sound
+  completion is EFX₀ with at most one bundle of more than two goods. `k4D_of_completion`: a sound completion
+  of an instance gives the conclusion of conjecture K4.D for it; `target4_of_completions`: with K4.CORE and
+  K4.TIE, sound completions of every connected strict k = 4 core with a 4-good agent give TARGET₄. So "LB₄
+  never fails ⟹ K4.D ⟹ TARGET₄" holds once every allocation LB₄ returns is a sound completion, which is §2's
+  Shape paragraph read against LB₄'s definition (LB₄ itself is not defined in Lean).
 -/
 
 set_option autoImplicit false
@@ -782,6 +802,71 @@ theorem Completion.owner_length {w : A} (hC : Completion agents goods base N (so
   unfold capSum
   omega
 
+open Classical in
+/-- The slots `max(cap(j), 0)`: none for a frozen agent, `2 − |B_j|` (truncated at 0) for a free one. -/
+noncomputable def slots (agents : List A) (goods : List G) (base : G → Option A) (N : A → G → Prop) (j : A) :
+    Nat :=
+  if Frozen agents goods base N j then 0 else 2 - (baseOf goods base j).length
+
+open Classical in
+/-- The completion without owner: base goods to their base's agent, the junk into the slots in the order of
+`agents` (`EFX.LB.fill`); `d` receives what nothing places (nothing, under `complete_none_exists`). -/
+noncomputable def completeNone (agents : List A) (goods : List G) (base : G → Option A) (N : A → G → Prop)
+    (d : A) (g : G) : A :=
+  match base g with
+  | some i => i
+  | none => (LB.fill (slots agents goods base N) agents (junk goods base) g).getD d
+
+/-- **If `ω ≤ 0`, there is a completion without owner** (and by `Completion.length_le_two` all its bundles
+have at most two goods; by Theorem 1′₄ it is EFX₀, (OC₄) being empty): when every base has at most two goods
+and `|J| ≤ S`, the junk fits the slots. -/
+theorem complete_none_exists (hag : agents.Nodup) (hg : goods.Nodup)
+    (hmem : ∀ g ∈ goods, ∀ i, base g = some i → i ∈ agents)
+    (hB2 : ∀ j ∈ agents, (baseOf goods base j).length ≤ 2)
+    (hω : ((junk goods base).length : Int) - capSum agents goods base N ≤ 0) (d : A) :
+    Completion agents goods base N none (completeNone agents goods base N d) := by
+  classical
+  -- `S` is the number of slots
+  have hS : capSum agents goods base N = ((agents.map (slots agents goods base N)).sum : Nat) := by
+    unfold capSum
+    rw [← sum_map_cast]
+    congr 1
+    apply List.map_congr_left
+    intro j hj
+    have := hB2 j hj
+    by_cases hF : Frozen agents goods base N j
+    · simp [cap, slots, hF]
+    · simp only [cap, slots, hF, ↓reduceIte]; omega
+  have hfit : (junk goods base).length ≤ (agents.map (slots agents goods base N)).sum := by omega
+  have hplace : ∀ g ∈ goods, base g = none → ∃ j, LB.fill (slots agents goods base N) agents (junk goods base) g = some j :=
+    fun g hgg hb => LB.fill_cover (mem_junk.mpr ⟨hgg, hb⟩) hfit
+  -- a junk good of `j`'s bundle was placed with `j` by `fill`
+  have hjunk : ∀ j, ∀ g ∈ junkOf goods base (completeNone agents goods base N d) j,
+      LB.fill (slots agents goods base N) agents (junk goods base) g = some j := by
+    intro j g hgC
+    obtain ⟨hgg, hXg, hb⟩ := mem_junkOf.mp hgC
+    obtain ⟨k, hk⟩ := hplace g hgg hb
+    simp only [completeNone, hb, hk, Option.getD_some] at hXg
+    rw [hk, hXg]
+  refine ⟨fun g hgg => ?_, fun g _ i hb => (by simp [completeNone, hb]), fun w hw => (by cases hw),
+    fun j _ _ hF => ?_, fun j _ _ hF => ?_⟩
+  · cases hb : base g with
+    | some i => simp only [completeNone, hb]; exact hmem g hgg i hb
+    | none =>
+      obtain ⟨k, hk⟩ := hplace g hgg hb
+      simp only [completeNone, hb, hk, Option.getD_some]
+      exact (LB.fill_some hk).1
+  · -- a frozen agent has no slot, so `fill` gives it nothing
+    apply List.eq_nil_iff_forall_not_mem.mpr
+    intro g hgC
+    have := LB.fill_pos (hjunk j g hgC)
+    simp [slots, hF] at this
+  · have hc := LB.fill_count hag ((nodup_bundle hg _ j).sublist List.filter_sublist) (hjunk j)
+    have := hB2 j (by assumption)
+    simp only [slots, hF, ↓reduceIte] at hc
+    unfold junkOf
+    omega
+
 end counting
 
 /-! ## Lemma 2₄ (self-protection) -/
@@ -1500,3 +1585,4 @@ end EFX
 #print axioms EFX.LB4.move_step
 #print axioms EFX.LB4.ownerSearch_exact
 #print axioms EFX.LB4.ownerSearch_exact_base
+#print axioms EFX.LB4.complete_none_exists
