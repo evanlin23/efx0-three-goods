@@ -32,10 +32,12 @@ Lemma E, Theorems A₄, B₄, B₄ʷ, A₄ᵀ, A₄⁺ and the conventions of it
   - **n = 6:** on all 26,866 certified n = 6 cores with one 4-good agent (PR #26), for every strict profile, the
     index-order run is covered or one changed insertion step makes it covered. There are 0 exceptions in 5.47·10¹⁰
     profiles (`results/k4_c4one_n6.log`).
-  - **A first proved piece: Lemma Ω** (§6, written proof, not yet reviewed). Take a need chain from a block's 3-good
-    leader ℓ to a free agent x that holds its second good. Inserting x first in the block, then the chain backwards,
-    realizes the rotation along the chain, and ℓ then upgrades. So ω drops by at least 1, under five side conditions.
-    - This proves the (Tc) cases of Lemma X that satisfy those conditions: all of them at n ≤ 4, and 97.7% at n = 5.
+  - **A first proved piece: Lemma Ω** (§6, written proof, not yet reviewed). Take a need chain from a block's leader
+    ℓ to a free agent x that holds its second good. Inserting x first in the block, then the chain backwards, realizes
+    the rotation along the chain, and ℓ then upgrades with {b_ℓ, c_ℓ}. So ω drops by at least 1, under five side
+    conditions.
+    - With x = q it proves every (Tc) case of Lemma X at n ≤ 4, and 97.7% at n = 5.
+    - Over all uncovered runs, with any agent as x, it proves 80%, 61% and 58% of them (n = 3, 4, 5).
     - The proof is for runs with P-steps in any order.
 - **The existence form C₄¹∃** (§1) is open. It is what TARGET₄ needs for these instances.
 
@@ -312,30 +314,24 @@ What (a) must handle, for a chain ℓ → q of length 1 (so Y_q = b_q, and ℓ t
   and there the new run is still covered. The smallest example, through (D1), is in
   `attempts/k4-c4one-realization.md`; there ω does not drop.
 
-Why ω drops in the simplest case (a sketch, not a proof). Take a chain of length 1 in which the realization holds with
-none of (D1)–(D3), and b_ℓ, c_ℓ ∈ J.
-- After the change, q holds a_q and has no needs, and ℓ holds b_ℓ and needs only a_ℓ = a_q. The other picks are
-  unchanged, and b_q is junk.
-- ℓ is a 3-good core agent, so b_ℓ + c_ℓ > a_ℓ and {b_ℓ, c_ℓ} is an envy-free pair. So ℓ upgrades, unless another
-  upgrade takes c_ℓ first.
-- Then J′ = (J ∖ {b_ℓ, c_ℓ}) ∪ {b_q}. ℓ had no slot (it was frozen) and still has none (it is upgraded), and q keeps its
-  slot unless another agent needs a_q.
-- So ω′ = |J′| − S′ ≤ ω − 1 before any further upgrade. Further envy-free upgrades never raise ω: each one moves a junk
-  good into a base and removes one slot, and it can only unfreeze agents.
-
-A proof must also compare the two upgrade fixpoints, and handle c_ℓ = Y_r and the cases where another agent needs
-a_q. Lemma Ω below does this, for runs of Phase 1 in the sense of `k4/c4.md` §1 (P-steps in any order), and for
-chains of any length. Its case s = 1 is called Ω₁.
+Why ω drops: after the change ℓ holds b_ℓ and upgrades with c_ℓ, q gives back b_q, and q keeps its slot. So |J| falls
+by 1 and S does not. Lemma Ω makes this exact, for runs of Phase 1 in the sense of `k4/c4.md` §1 (P-steps in any order)
+and chains of any length. It handles (D1) when the agents pulled in lead their blocks, and (D2) through detached
+agents. Its case s = 1 is called Ω₁.
 
 **Lemma Ω (a move that lowers ω; written proof, not yet reviewed).** Let P be the state after a run ρ of Phase 1 and
 envy-free upgrades in any order. Let β be a block of ρ with leader ℓ, and x ≠ ℓ an agent of β, such that:
-- **(H1)** ℓ has three goods, and b_ℓ, c_ℓ ∈ J.
+- **(H1)** Each of b_ℓ, c_ℓ is junk in P or is x's pick b_x, and the pair {b_ℓ, c_ℓ} is envy-free for ℓ. This is
+  automatic when ℓ has three goods (a < b + c in a core). When ℓ has four goods it means a_ℓ + d_ℓ ≤ b_ℓ + c_ℓ; ℓ can then
+  be q itself.
 - **(H2)** x ∉ U, x's pick is b_x, and no agent ranks b_x above its pick (x is free already after Phase 1). There is
   a need chain ℓ = x₀ → x₁ → … → x_s = x in P (each x_{i+1} ∉ U needs Y_{x_i}) with Y_{x_{s−1}} = a_x.
 - **(H2c)** For 0 < i < s, every good that x_i ranks above Y_{x_{i−1}} is the pick of some x_k with i < k < s − 1.
   In particular it is not a_x. For s = 1 there is nothing to check; for s = 2 it says that ℓ's pick is x₁'s top.
 - **(H3)** In P, no agent other than x needs a_x.
-- **(H4)** Every agent of β off the chain had, at its turn, lost a good other than b_x, or has b_ℓ among its goods.
+- **(H4)** Go through the agents of β off the chain in ρ's order. Call one *attached* if it has among its goods b_ℓ,
+  the ρ-pick of a chain agent other than x, or the pick of an earlier attached agent; call the others *detached*.
+  Every detached agent holds its top in ρ, and no attached agent ranks a detached agent's pick above its own.
 - **(H5′)** Every agent processed after β that has b_ℓ among its goods leads its block in ρ. Call these blocks
   *moved*. For each moved block γ, no agent of a block between β and γ that is not moved has a good picked in γ.
 
@@ -346,8 +342,8 @@ Then some run ρ′ of Phase 1, equal to ρ before β, followed by envy-free upg
 *Proof.* Since ℓ leads β, its pick is its top a_ℓ.
 
 *Two facts.*
-- (F) No agent ranks b_ℓ above its pick. This is (I2), because b_ℓ ∈ J ⊆ J₀. By (H2), no agent ranks b_x above its
-  pick either.
+- (F) No agent ranks b_ℓ or b_x above its pick. For b_x this is (H2). For b_ℓ it is (I2) when b_ℓ ∈ J ⊆ J₀, and (H2)
+  when b_ℓ = b_x.
 - (B1) At the start of each block after β, every unprocessed agent has all its goods. So no agent processed after β
   has a good that an agent of β picked in ρ.
 
@@ -360,27 +356,37 @@ Then some run ρ′ of Phase 1, equal to ρ before β, followed by envy-free upg
     has already been taken, by x_{k+1}.
   - Y_{x_{i−1}} itself is still there.
   - So x_i takes Y_{x_{i−1}}.
-- *Process ℓ.* It has lost a_ℓ = Y_{x₀}, which x₁ has taken. Its b_ℓ is still there: b_ℓ ∈ J₀, so no agent of ρ picked
-  it. So ℓ takes b_ℓ.
-- *Process the agents p of β off the chain, in ρ's order.* Each is a P-step by (H4): the goods taken before p in ρ′
-  include all those taken before p in ρ except b_x.
+- *Process ℓ.* It has lost a_ℓ = Y_{x₀}, which x₁ has taken. Its b_ℓ is still there: either b_ℓ ∈ J₀, so no agent of
+  ρ picked it, or b_ℓ = b_x, which x did not take in ρ′. So ℓ takes b_ℓ.
+- *Process the attached agents p in ρ's order.* By definition p has lost a good (b_ℓ, a chain pick, or an earlier
+  attached agent's pick, all taken by now), so this is a P-step.
   - By (I1) and (B2), every good that p ranks above its ρ-pick Y_p was taken in ρ before p's turn, by an agent of β.
-  - In ρ′ these goods are all taken too: the chain's picks Y_{x₀}, …, Y_{x_{s−1}} by x₁, …, x_s, and the others by the
-    same agents. The one exception would be b_x, which by (H2) p does not rank above Y_p.
-  - Y_p is still available. It is not a chain pick, and it is not b_ℓ.
+  - In ρ′ these goods are taken too: the chain's picks Y_{x₀}, …, Y_{x_{s−1}} by x₁, …, x_s, and earlier attached
+    agents' picks by the same agents. The exceptions would be b_x, which by (H2) p does not rank above Y_p, and
+    detached agents' picks, which by (H4) it does not rank above Y_p either.
+  - Y_p is still available. It is not a chain pick, not b_ℓ, and not another attached agent's pick.
   - So p takes Y_p.
 - *Now consider the unprocessed agents.* By (B1), only b_ℓ can be missing among their goods. By (H5′), only the leaders
   of the moved blocks have lost it. Process the moved blocks next, in ρ's order, each with its agents in ρ's order.
   - Take a moved block γ with leader z. z has lost b_ℓ, so this is a P-step.
   - Every good taken so far in ρ′, other than b_ℓ, was taken in ρ before γ started: the prefix, β's picks, and the picks
     of earlier moved blocks. By (B1) at γ's start, none of these is among the goods of γ's agents.
-  - So z takes its top, which is its pick in ρ (b_ℓ is junk, so it is not z's pick).
+  - So z takes its top, which is its pick in ρ. (Moved blocks exist only if b_ℓ ≠ b_x, by (B1). Then b_ℓ is junk, so
+    it is not z's pick.)
   - Each later agent of γ does not have b_ℓ (H5′), so it lost the same goods as in ρ and takes the same pick.
-- *Next insertion.* No unprocessed agent has lost a good. Such an agent lies in a block δ that is not moved:
+- *Agents of later blocks that are not moved have lost nothing, now or during the next step.* Such an agent lies in a
+  block δ that is not moved, and:
   - it does not have b_ℓ (H5′);
   - it does not have a good picked in β (B1);
   - it does not have a good picked in a moved block γ. If δ comes after γ, this is (B1). If δ comes before γ, it is the
     second part of (H5′).
+- *Process the detached agents.* Repeatedly take the first unprocessed detached agent, in ρ's order, that has lost a
+  good, as a P-step. If none has, insert the first unprocessed detached agent; this is an insertion step, since by the
+  previous point no other unprocessed agent has lost a good.
+  - Each detached agent takes its top, which is its pick in ρ (H4).
+  - That top is still there. The chain agents took chain picks (H2c). The attached agents took their own picks, since
+    by (H4) they do not rank a detached pick above their own. The moved blocks' agents do not have it (B1). The other
+    detached agents took their own tops.
 - *Process every remaining block as in ρ, with the same leaders.* During these blocks, the goods taken differ from ρ's
   only by b_ℓ and the moved blocks' picks, which are not theirs, and by b_x, which is not theirs either (B1). So each
   such block runs as in ρ.
@@ -390,28 +396,30 @@ Then some run ρ′ of Phase 1, equal to ρ before β, followed by envy-free upg
 - x_i (0 < i < s) needs the goods above Y_{x_{i−1}}, a subset of its old needs;
 - ℓ needs {a_ℓ}, which x₁ needed in P₀.
 
-So NA₀′ ⊆ NA₀, and J₀′ = (J₀ ∖ {b_ℓ}) ∪ {b_x}.
+So NA₀′ ⊆ NA₀, and J₀′ = (J₀ ∪ {b_x}) ∖ {b_ℓ}.
 - Replay ρ's upgrades in the same order. Each step stays valid:
   - the upgraded agent is off the chain, since x ∉ U, and x₀, …, x_{s−1} are frozen in P and hence throughout;
   - NA only shrinks relative to ρ's;
-  - the good taken is junk and is not b_ℓ, since b_ℓ ∈ J.
-  - Afterwards NA ⊆ NA(P), and J = (J(P) ∖ {b_ℓ}) ∪ {b_x}.
+  - the good taken is junk and is neither b_ℓ nor c_ℓ, since each of them is in J or is b_x, which ρ never used.
+  - Afterwards NA ⊆ NA(P), and J = (J(P) ∪ {b_x}) ∖ {b_ℓ}.
 - Upgrade ℓ with c_ℓ:
-  - b_ℓ ∉ NA, by (V1) in P;
+  - b_ℓ ∉ NA, by (F);
   - ℓ needs a_ℓ;
-  - c_ℓ is junk;
-  - a_ℓ < b_ℓ + c_ℓ, since ℓ is a 3-good core agent.
+  - c_ℓ is junk: either c_ℓ ∈ J(P), or c_ℓ = b_x, which is now junk;
+  - {b_ℓ, c_ℓ} is envy-free for ℓ (H1), so this is an envy-free upgrade and ℓ's needs become empty.
   - Call the result P″.
 
 *Counting.*
-- |J(P″)| = |J(P)| − 1.
+- |J(P″)| = |J(P)| − 1. Here J(P″) = (J(P) ∪ {b_x}) ∖ {b_ℓ, c_ℓ}, with b_x ∉ J(P).
+  - If b_x ∉ {b_ℓ, c_ℓ}, then b_ℓ and c_ℓ both lie in J(P), and b_x is added.
+  - Otherwise b_x is one of them, and the other lies in J(P).
 - a_x ∉ NA(P″):
   - agents off the chain need what they needed in P, and by (H3) that excludes a_x;
   - by (H2c), no x_i (0 < i < s) ranks a_x above its new pick;
   - ℓ is upgraded.
   - So x, which holds a_x, is free with one slot, as it was in P.
 - ℓ has no slot in P (frozen) and none in P″ (upgraded).
-- x₁, …, x_{s−1} have no slot in P (frozen) and at least none in P″.
+- x₁, …, x_{s−1} have no slot in P (frozen), so they cannot have fewer in P″.
 - Every other agent keeps its base, and is frozen in P″ only if it was in P, since NA(P″) ⊆ NA(P).
 - So S(P″) ≥ S(P) and ω(P″) ≤ ω(P) − 1.
 
@@ -429,6 +437,19 @@ with one slot, so it leaves |J| − S unchanged. It then can only unfreeze agent
 
 - In every one of these cases the script builds ρ′ order by order and checks that it is a run of Phase 1 with the
   stated picks. It then replays the upgrades and finds ω′ ≤ ω − 1.
+- *Every class* (`--any`: every uncovered run of §3's classes, every agent of the run tried as x). Lemma Ω applies to
+  this many runs (with x = q, or with another x):
+
+  | class | n = 3 | n = 4 | n = 5 |
+  |---|---|---|---|
+  | (Tc) | 388 / 388 | 6,976 / 6,976 | 200,774 / 203,592 |
+  | (Tb) | 512 / 512 | 2,680 / 3,080 | 50,498 / 74,128 |
+  | G2 | 732 / 1,102 | 5,716 / 10,703 | 87,482 / 154,893 |
+  | q frozen, (i)/(ii) of B₄ʷ fail | 0 / 12 | 204 / 2,290 | 6,932 / 71,040 |
+  | q frozen, no chain to r | 68 / 120 | 2,590 / 6,852 | 82,322 / 229,013 |
+  | all | 1,700 / 2,134 | 18,166 / 29,901 | 428,008 / 732,666 |
+
+  The proof step fails nowhere. With q frozen, x is another agent; with a 4-good leader, ℓ is often q itself.
 - Where the hypotheses fail at n = 5 (4,664 cases):
   - (H2c) in 1,864;
   - (H5′) in 1,608 cases because a block in between has a good of a moved block, and in 762 because an agent after β
@@ -442,7 +463,11 @@ minimizing ω, no chain satisfies (H1)–(H5′).
   only the runs `lb4.c` makes (LB's key). So an induction on the key that uses Ω needs Lemma X for general runs, which
   has not been tested. #33's theorems hold for general runs, so the covered case is fine.
 - (H5′) handles obstacle (D1) above when the agents pulled in are leaders: their whole blocks move. What is left at
-  n = 5 is 2.3% of the (Tc) cases. Beyond (Tc), the same move applies to any chain in any run.
+  n = 5 is 2.3% of the (Tc) cases (1.4% if x may be any agent).
+- Beyond (Tc), Lemma Ω proves 58–80% of all uncovered runs at n ≤ 5 to be key-decreasing, in the general-run sense.
+- The rest needs other moves. For example, in the (Tb) runs where q already holds its top, the working change moves
+  an agent holding its c up to its top, while the old leader falls to its b. That is a rotation along a chain whose
+  end does not hold its second good.
 
 So on the data, C₄¹∃ reduces to one local lemma about Phase 1 runs.
 - It does not mention rotations beyond single ones, and it does not rely on LB₄ʳ's search.
