@@ -55,6 +55,27 @@ Tools (all in `k4/`):
   certificate files of K4.R3–R5c), `c4min_climb.py` (climbing), `c4min_sample.py` (random profiles on families),
   `c4min_families.py` (H_t and other gadget families; random cores), `c4min_common.py`.
 
+### 1.1 Validation of the tools
+
+- **Against PR #36's exhaustive runs** (`k4/c4x.c`): the exhaustive mode finds 0 failures of C₄ᵐⁱⁿ on every strict profile
+  with n ≤ 3 (189,216 + 299,837,376) and n = 4 with one or two 4-good agents (7,247,232 + 724,847,616), the same
+  profile counts and the same result as `results/k4_c4x_n3.log`, `k4_c4x_n4_1.log`, `k4_c4x_n4_2.log`.
+- **A variant that does fail**: with the owner's needs from its base (`-w0`), the exhaustive mode finds exactly 720
+  failing profiles at n = 2, the number `k4/c4x.c -w0 -R` gives (`results/k4_c4x_variants.log` of PR #36), and none
+  with n = 3 or n = 4 with at most two 4-good agents (`results/k4_c4min_hunt_w0.log`). So failures are found when
+  they exist, and the owner's needs from its bundle are needed only at n = 2 among these classes.
+- **Self-check of the masks** (`-V`: after each slice, every profile is re-solved from scratch by the exact search and
+  compared with the result of the masks; `results/k4_c4min_hunt_selfcheck.log`): all 1,032,121,440 profiles with
+  n ≤ 3 or n = 4 with at most two 4-good agents, 200,060,928 profiles of 12 pure n = 4 cores (the first type of the
+  first agent) and 95,551,488 profiles of 40 n = 5 cores with three 4-good agents: 0 disagreements.
+- **Per profile, three implementations** (`k4/c4min_crosscheck.py`, `results/k4_c4min_hunt_crosscheck.log`): on random
+  profiles of every class with n ≤ 5, `c4min_hunt.c -1` against `k4/c4x.c -1s -R -a` (f*, d*, the numbers of valid,
+  min-frozen and good pre-allocations) and, for n ≤ 4 and m ≤ 8, against the brute force (the same, and (W1)); and
+  `c4min_hunt.c` against itself with the plain enumeration of C (`-D`) and with static and dynamic agent orders
+  (`-Y0`, `-Y1`), on all outputs including a checksum of the deficits of all valid pre-allocations. (numbers below)
+- The brute force is also the referee of certificates on large instances: `verify_certificate` rebuilds the completion
+  from (bases, owner, C) and checks it EFX₀ by the raw definition; used on samples of every family in §4.
+
 ## 2. Exhaustive checks
 
 `k4/c4min_hunt.c -E` through `k4/c4min_hunt_run.py`, on the core lists of the K4.R* certificates (every connected k = 4
