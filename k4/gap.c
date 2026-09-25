@@ -16,9 +16,9 @@ For each configuration:
     frozen agents unfrozen by o's needs from X \ C, nobody x != o strongly envies X \ C holding H_x), the least |C|;
   - Phi' = (-t, r, Lambda, -p) (c4min.md section 4), pool-optimality;
   - the threat edges o -> x with C = 0, and for frozen x the class of hall.md Lemma H7 in configuration terms:
-    J_P = M' minus the free bases Q_y & U_y; G: x big-top (four goods, phi(x) = its top a, a > b + c) with
-    R_x \ {a} in J_P; G1: not G, o a chain end of x (a free agent reached from x by need edges through frozen
-    agents), x big-top with R_x \ {a} in J_P + B_o; L: not G or G1, o not a chain end, and the goods of R_x in
+    J_P = M' minus the free bases Q_y & U_y; G: the plain test of hall.md Lemma H7 as revised in #46 (two or more
+    goods of R_x in J_P, worth more to x than phi(x)); G1: not G, o a chain end of x (a free agent reached from x by need edges through frozen
+    agents), x big-top (four goods, phi(x) = its top a, a > b + c) with R_x \ {a} in J_P + B_o; L: not G or G1, o not a chain end, and the goods of R_x in
     X \ B_o alone are worth at most v_x(phi(x)) (the threat uses a good of B_o); O: none of these (possible outside
     Pareto-maxima).
 With -D, also the removal-only deficit (c4x.md section 1) of every min-frozen P: the profile passes if some P has
@@ -204,7 +204,7 @@ static void eval(cfg_t *c) {
                 msk rest = Rm[x] & ~(1u << a);
                 int bt = bigtop_agent[x] && a == top[x];
                 msk Bo = Q[o] & Um[o];
-                if (bt && !(rest & ~JP)) cls = 0;
+                if (pc(JP & Rm[x]) >= 2 && val(x, JP & Rm[x]) > hv[x]) cls = 0;   /* (G): the plain test of hall.md */
                 else if ((ends[x] >> o & 1) && bt && !(rest & ~(JP | Bo))) cls = 1;
                 else if (!(ends[x] >> o & 1) && val(x, (X & ~Bo) & Rm[x]) <= hv[x]) cls = 2;
                 else cls = 3;

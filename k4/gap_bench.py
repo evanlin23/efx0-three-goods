@@ -20,13 +20,15 @@ API (from the repository root):
   Every configuration has the attributes of gap_model.Config: .key .frozen .free .N .Q .L .H(i) .hv(i) .U(i)
   .needs(i) .needers(g) .threatens(o, x, C) .owner(o) .owners .completable .simple .t .r .Lam .p .phi .phi0
   .pool_optimal .kind(i) .exposed .bigtop(x) .threat_edges .need_edges .chain_ends(x) .h7(x, o) .mult(x)
-  .pool_moves() .cycle_moves(); and prof: .n .m .R .v .f .omega .keys.
+  .pool_moves() .cycle_moves(general, keep) .two_agent_moves() .downgrade_swaps() .pool_closure(); and prof: .n .m
+  .R .v .f .omega .keys. gap_bench.pareto(cfgs) and gap_bench.reach(starts, swaps) are available to predicates.
   Counterexamples are sorted by (n, m, number of configurations, catalog order): smallest first. --every=E keeps every
   E-th catalog record, --max-profiles=K the first K (after --every).
 
 CLI:
     python3 k4/gap_bench.py [--catalog=F1,F2] [--only=NAME,...] [--every=E] [--max-profiles=K] [--show=2] [--list]
-    python3 k4/gap_bench.py --selftest [--catalog=...] [--every=E] [--max-profiles=K]     # gap.c vs gap_model, config by config
+    python3 k4/gap_bench.py --selftest [--catalog=...] [--every=E] [--max-profiles=K]
+    python3 k4/gap_bench.py --profile='{"sets": [[0,2,5,6], ...], "vals": [[2,6,3,10], ...]}' [--only=...]   # one profile     # gap.c vs gap_model, config by config
 The seeded statements (STATEMENTS below) are the candidate steps of k4/c4min.md section 4 (PR #41: Conjecture Phi',
 the roadmap steps (i)-(iv)) and of k4/hall.md section 5 (PR #46: BT, the trichotomy of Lemma H7)."""
 import gzip, json, os, subprocess, sys, time
@@ -235,6 +237,54 @@ def st_h7(prof, c):
     if not edges: return None
     return all(c.h7(x, o) != 'O' for o, x in edges)
 
+def st_btcyc(prof, c):
+    """#52 K4.HALL.BTCYC in configuration form"""
+    if c.completable: return None
+    X = [x for x in c.frozen if c.bigtop(x) and not c.robust(x)]
+    if not X: return None
+    return any(c2.completable for cyc, c2 in c.cycle_moves(general=True, keep=True) if any(x in cyc for x in X))
+
+def _sig(c): return (c.key, tuple(sorted((y, tuple(sorted(q))) for y, q in c.Q.items())))
+
+def reach(starts, swaps=True, cap=20000):
+    """breadth-first search from the start configurations over exchange-cycle moves (any admissible pairs, receivers may
+    keep part of their pair) and, if swaps, downgrade swaps; True if a configuration with a valid owner is reached,
+    None if more than cap configurations are visited"""
+    seen = {_sig(c) for c in starts}; front = list(starts)
+    while front:
+        nxt = []
+        for c in front:
+            if c.completable: return True
+            moves = [c2 for _, c2 in c.cycle_moves(general=True, keep=True)]
+            if swaps: moves += [c2 for _, _, c2 in c.downgrade_swaps()]
+            for c2 in moves:
+                k = _sig(c2)
+                if k not in seen:
+                    seen.add(k); nxt.append(c2)
+                    if len(seen) > cap: return None
+        front = nxt
+    return False
+
+def st_reach(prof, cfgs):
+    """from the Pareto-maxima, exchange cycles and downgrade swaps reach a configuration with a valid owner"""
+    par = pareto(cfgs)
+    if any(c._own_c for c in par): return True
+    return reach(par, swaps=True)
+
+def st_reach_cyc(prof, cfgs):
+    par = pareto(cfgs)
+    if any(c._own_c for c in par): return None
+    return reach(par, swaps=False)
+
+def st_reach_each(prof, c):
+    """from this non-completable Pareto-maximal configuration, cycles and downgrade swaps reach a valid owner"""
+    if c._own_c: return None
+    return reach([c], swaps=True)
+
+def st_reach_each_cyc(prof, c):
+    if c._own_c: return None
+    return reach([c], swaps=False)
+
 def st_simple_max(prof, cfgs):
     b = max(c._phi_c for c in cfgs)
     return any(c.simple for c in cfgs if c._phi_c == b)
@@ -272,6 +322,16 @@ STATEMENTS = {
                   "the same with a larger catalogue: also cycle moves with any admissible pairs, and re-partitions of two free agents' pairs and the pool (contains #41's pool-assisted two-agent exchange)"),
     'LOCAL_CLOSURE': ('all', st_local_closure,
                       "the same catalogue plus cycle moves followed by the pool closure (every free agent re-takes its best pair from the pool, repeatedly)"),
+    'BTCYC': ('pareto', st_btcyc,
+              "#52 K4.HALL.BTCYC: at a Pareto-maximal configuration without a valid owner that has an exposed frozen big-top agent, some exchange-cycle move through it (any admissible pairs; threat receivers may keep part of their pair) has a valid owner"),
+    'REACH': ('profile', st_reach,
+              "the coordinator's question (b): from the Pareto-maximal configurations, exchange-cycle moves (any admissible pairs, receivers may keep part of their pair) and #52's downgrade swaps reach a configuration with a valid owner"),
+    'REACH_CYC': ('profile', st_reach_cyc,
+                  "the same without downgrade swaps, on the profiles where no Pareto-maximal configuration has a valid owner"),
+    'REACH_EACH': ('pareto', st_reach_each,
+                   "the per-start form: from each Pareto-maximal configuration without a valid owner, exchange-cycle moves and downgrade swaps reach one with a valid owner"),
+    'REACH_EACH_CYC': ('pareto', st_reach_each_cyc,
+                       "the per-start form without downgrade swaps"),
     'BT': ('pareto', st_bt,
            "#46 K4.HALL.BT in configuration form: a Pareto-maximal configuration without a valid owner has a frozen big-top agent"),
     'H7': ('pareto', st_h7,
@@ -287,7 +347,18 @@ def main():
     if 'list' in opt:
         for k, (s, _, d) in STATEMENTS.items(): print(f"{k} [{s}]: {d}")
         return
-    recs = load(cats)
+    if 'profile' in opt:                       # one given profile: {"sets": [...], "vals": [...], "m": M}
+        d = json.loads(opt['profile'])
+        recs = [{'core': {'sets': d['sets'], 'm': d.get('m', 1 + max(g for S in d['sets'] for g in S)), 'file': 'given',
+                          'pos': 0, 'idx': 0}, 'vals': d['vals'], 'prof': [0] * len(d['sets'])}]
+        for r, head, cl in dump(recs):
+            print(f"gap.c: in the gap {head is not None}" + (f"; f {head['f']}, omega {head['omega']}, keys {head['keys']}, "
+                  f"{len(cl)} configurations, {sum(1 for c in cl if c['own'])} with a valid owner" if head else ''))
+            for c in cl: print('  C ' + json.dumps(c))
+        prof = gm.Profile(d['sets'], d['vals'], recs[0]['core']['m'])
+        print(f"gap_model: in the gap {prof.in_gap}; f {prof.f}, omega {prof.omega}, keys {prof.keys}")
+    else:
+        recs = load(cats)
     if 'every' in opt: recs = recs[::int(opt['every'])]
     if K: recs = recs[:K]
     if 'selftest' in opt:

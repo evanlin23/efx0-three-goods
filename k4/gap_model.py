@@ -236,7 +236,7 @@ class Config:
         a = self.key[x]
         rest = P.R[x] - {a}
         Bo = self.base(o)
-        if self.bigtop(x) and rest <= JP: return 'G'
+        if len(JP & P.R[x]) >= 2 and P.val(x, JP & P.R[x]) > self.hv(x): return 'G'   # the plain test (hall.md, #46)
         ends = self.chain_ends(x)
         if o in ends and self.bigtop(x) and rest <= JP | Bo: return 'G1'
         if o not in ends and P.val(x, ((self.Q[o] | self.L) - Bo) & P.R[x]) <= self.hv(x): return 'L'
@@ -276,12 +276,14 @@ class Config:
                 elif w > start and w not in seen: rec(start, path + [w], seen | {w})
         for s in range(n): rec(s, [s], {s})
         return out
-    def cycle_moves(self, general=False):
+    def cycle_moves(self, general=False, keep=False):
         """every cycle of the exchange digraph, moved one step (c4min.md section 4): across a need edge x -> z, z takes
         phi(x); across a threat edge o -> y, y takes a best admissible pair of Q_o + L. Receivers can compete for pool
         goods, so the threat receivers choose in every order (each time a best pair among the goods still available,
         every best pair). general=True: each threat receiver takes any admissible pair of Q_o + L (disjoint), not only a
-        best one. Returns the distinct (cycle, new Config) that are configurations of a key of the profile."""
+        best one. keep=True (with general): a free threat receiver may also keep goods of its own pair (the rest goes on
+        to its successor or the pool), as in #52's K4.HALL.BTCYC. Returns the distinct (cycle, new Config) that are
+        configurations of a key of the profile."""
         from itertools import permutations
         P, out, seen = self.P, [], set()
         for cyc in self.cycles():
@@ -302,7 +304,7 @@ class Config:
                     if sig not in seen and c2.valid_config(): seen.add(sig); out.append((cyc, c2))
                     return
                 u, w = order[idx]
-                src = (self.Q[u] | self.L) & avail
+                src = (self.Q[u] | self.L | (self.Q[w] if keep and self.key[w] is None else frozenset())) & avail
                 Uw = P.R[w] - self.N
                 opts = [frozenset(S) for S in combinations(sorted(src), 2) if P.admissible(w, frozenset(S) & Uw, Uw)]
                 if not opts: return
@@ -312,6 +314,26 @@ class Config:
                     Q2 = dict(Qc); Q2[w] = S; rec(order, idx + 1, avail - S, Q2)
             for order in (permutations(thr) if not general else [thr]):
                 rec(list(order), 0, avail0, dict(Q0))
+        return out
+    def downgrade_swaps(self):
+        """#52's downgrade swap (attempts/k4-hall-bt-n4.md), written here from its description: a frozen agent x gives
+        phi(x) to a free agent z that needs it (z becomes frozen on it; its old pair is released), and x becomes free
+        with an admissible pair of L + Q_z (in pre-allocation terms, a single junk good it values as its base). Returns
+        (x, z, new Config) for the results that are configurations of a key of the profile."""
+        P, out = self.P, []
+        for x in self.frozen:
+            for z in self.needers(self.key[x]):
+                if self.key[z] is not None: continue
+                key = list(self.key); key[z] = self.key[x]; key[x] = None
+                Q = {y: q for y, q in self.Q.items() if y != z}
+                src = sorted(self.L | self.Q[z])
+                Ux = P.R[x] - self.N
+                for S in combinations(src, 2):
+                    S = frozenset(S)
+                    if not P.admissible(x, S & Ux, Ux): continue
+                    Q2 = dict(Q); Q2[x] = S
+                    c2 = Config(P, key, Q2)
+                    if c2.valid_config(): out.append((x, z, c2))
         return out
     def pool_closure(self):
         """repeat, for each free agent in turn, the best pool improvement (its best admissible pair of Q_y + L, if worth

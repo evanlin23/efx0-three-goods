@@ -28,7 +28,8 @@ For each configuration the catalog records:
 - **The class of Lemma H7** (`k4/hall.md` §5) of each threatened frozen agent. The configuration corresponds to the
   pre-allocation of Lemma 1(a): B_y = Q_y ∩ U_y, with junk J_P = M ∖ 𝒩 ∖ ⋃ B_y. A big-top agent has four goods,
   holds its top a, and has a > b + c. The classes are:
-  - **G**: x is big-top and R_x ∖ {a} ⊆ J_P.
+  - **G**: the plain test of `k4/hall.md` Lemma H7 as revised in #46. Two or more goods of R_x lie in J_P, and
+    together they are worth more to x than φ(x).
   - **G1**: not G; o is a chain end of x (a free agent reached from x by need edges through frozen agents); x is
     big-top and R_x ∖ {a} ⊆ J_P ∪ B_o.
   - **L**: not G or G1; o is not a chain end, and the goods of R_x in X ∖ B_o are worth at most v_x(φ(x)), so the
