@@ -11,7 +11,8 @@
  * existence form GM4E fails: then every maximum has a nonempty pool); GMALL lines print such profiles.
  * -DOUT=k prints up to k maxima with a nonempty pool per task as M lines (gm4_analyze.py format).
  * Variants of the potential (k4/gm4.md §6): -DW=1 maximizes sum_i l_i^2, -DW=2 sum_i 2^(l_i), -DW=3 sum_i 16^(l_i)
- *   (the leximax order of the level vector for n < 16; no overflow for n <= 7) instead of sum_i l_i;
+ *   (the leximax order of the level vector for n < 16; no overflow for n <= 7) instead of sum_i l_i; -DW=4 the fixed
+ *   priority order: the level vector in agent index order, compared lexicographically (#29's POT=2);
  * -DTB=1 keeps, among the maxima, only those with the largest sum_i l_i^2 (tie-break), -DTB=2 only the leximax-largest
  * (level vector sorted in decreasing order, compared lexicographically), -DTB=3 only the leximin-largest. */
 #include <stdio.h>
@@ -100,7 +101,11 @@ int main(void) {
         for (;;) {
             if (mode == 1) { if (runs >= K) break; for (int i = 0; i < n; i++) cur[i] = rnd() % T[i]; }
             for (int i = 0; i < n; i++) { memset(v[i], 0, sizeof v[i]); for (int t = 0; t < d[i]; t++) v[i][rg[i][t]] = rep[i][cur[i]][t]; }
-            for (int i = 0; i < n; i++) for (int c = 0; c < (1 << d[i]); c++) { lval[i][c] = val(i, lm[i][c]); llev[i][c] = lev(i, lm[i][c]); lw[i][c] = wfun(llev[i][c]); }
+            for (int i = 0; i < n; i++) for (int c = 0; c < (1 << d[i]); c++) { lval[i][c] = val(i, lm[i][c]); llev[i][c] = lev(i, lm[i][c]); lw[i][c] = wfun(llev[i][c]);
+#if W == 4
+                lw[i][c] = (long)llev[i][c] << (4 * (n - 1 - i));   /* fixed priority: levels in agent order, lexicographic */
+#endif
+            }
             for (int i = 0; i < n; i++) for (int j = 0; j < n; j++) for (int c = 0; c < (1 << d[j]); c++) tP[i][j][c] = c ? thr(i, lm[j][c]) : 0;
             best = -1; nl = 0; dfs(0, 0, 0);
 #if defined(TB) && TB > 0

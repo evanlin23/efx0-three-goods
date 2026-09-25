@@ -32,6 +32,9 @@ Instances of kind POT (a maximum of the convex potentials sum_i 2^(l_i) and lexi
 decreasing order compared lexicographically, that admits no placement) replace 3-7 by:
   3''''. Y maximizes sum_i 2^(l_i), and Y is leximax-maximal, over all junk-free EFX0 partial allocations;
   4''''. no assignment of the pool of Y to any agents is EFX0; the other maxima of each potential are listed.
+Instances of kind PRIO:<order> (fixed priority: maximize the level vector read in the given agent order,
+lexicographically) replace 3-7 by: 3'''''. Y is a maximum for that order over all junk-free EFX0 partial allocations,
+and no maximum for that order admits a placement (no assignment of its pool to any agents is EFX0).
 Exit status 0 iff every claim holds for every instance.
 Usage: python3 k4/gm4_counterexample.py
 """
@@ -69,6 +72,9 @@ INSTANCES = [
     ("P: pure n=4, m=7 (a maximum of sum 2^l and of leximax without placement)",
      [{0: 1, 2: 6, 5: 8, 6: 4}, {1: 1, 4: 6, 5: 4, 6: 8}, {2: 4, 3: 5, 4: 2, 6: 8}, {3: 5, 4: 4, 5: 8, 6: 2}],
      [{0, 2}, {1, 4}, {6}, {5}], 'POT'),
+    ("Q: instance E under fixed priority, agent order 2, 3, 0, 1 (no maximum admits a placement)",
+     [{0: 3, 2: 10, 4: 6, 6: 2}, {1: 3, 3: 4, 5: 8, 6: 2}, {2: 4, 3: 2, 6: 3}, {4: 2, 5: 4, 6: 3}],
+     [{0, 4}, {1, 3}, {2}, {5}], 'PRIO:2,3,0,1'),
 ]
 
 def v(vals, i, S):
@@ -141,6 +147,27 @@ def check(label, vals, Y, kind):
     claim(all(Y[i] <= R[i] for i in range(n)) and efx0(vals, Y), "Y is junk-free and EFX0")
     U = set(range(m)) - set().union(*Y)
     ly = sum(level(vals, i, Y[i]) for i in range(n))
+    if kind.startswith('PRIO:'):
+        order = [int(x) for x in kind[5:].split(',')]
+        allst = []
+        for owners in itertools.product(*[[None] + [i for i in range(n) if g in R[i]] for g in range(m)]):
+            X = [set() for _ in range(n)]
+            for g, i in enumerate(owners):
+                if i is not None: X[i].add(g)
+            if efx0(vals, X): allst.append((X, [level(vals, i, X[i]) for i in order]))
+        best = max(l for X, l in allst)
+        mx = [X for X, l in allst if l == best]
+        def placeable_p(Z):
+            P = sorted(set(range(m)) - set().union(*Z))
+            for asg in itertools.product(range(n), repeat=len(P)):
+                X = [set(b) for b in Z]
+                for u, j in zip(P, asg): X[j].add(u)
+                if efx0(vals, X): return True
+            return False
+        claim(Y in mx, f"Y is a fixed-priority maximum for agent order {order} (levels in that order {best}; {len(mx)} maxima)")
+        claim(all(U_ for U_ in [set(range(m)) - set().union(*Z) for Z in mx]) and not any(placeable_p(Z) for Z in mx),
+              "no fixed-priority maximum for this order admits a placement")
+        return ok
     if kind == 'POT':
         allst = []
         for owners in itertools.product(*[[None] + [i for i in range(n) if g in R[i]] for g in range(m)]):

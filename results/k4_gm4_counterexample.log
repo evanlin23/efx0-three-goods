@@ -137,4 +137,9 @@ P: pure n=4, m=7 (a maximum of sum 2^l and of leximax without placement)
     [[0, 2], [6], [3, 4], [5]] pool [1] placement: True
     [[0, 2], [1, 4], [6], [5]] pool [3] placement: False
   [ok] pool [3] of Y is nonempty and no assignment of it to any agents is EFX0
+Q: instance E under fixed priority, agent order 2, 3, 0, 1 (no maximum admits a placement)
+  [ok] k = 4 core (degrees 3-4, strictly balanced, strict, private-good rule, every good valued, connected)
+  [ok] Y is junk-free and EFX0
+  [ok] Y is a fixed-priority maximum for agent order [2, 3, 0, 1] (levels in that order [3, 3, 6, 6]; 1 maxima)
+  [ok] no fixed-priority maximum for this order admits a placement
 ALL CLAIMS HOLD

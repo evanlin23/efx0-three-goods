@@ -1,0 +1,8 @@
+# fixed priority (gm4_fast.c -DW=4) under all agent orders, 7 profiles from ../results/k4_gm4_seeds_4.txt (GMFAIL)
+ALLBAD orders=1/24 sets=[[0, 2, 5, 6], [1, 4, 5, 6], [2, 3, 5], [3, 4, 6]] vals=[[1, 6, 4, 8], [3, 4, 8, 6], [2, 3, 4], [3, 2, 4]]
+ALLBAD orders=6/24 sets=[[0, 2, 4, 5], [0, 3, 4, 6], [1, 2, 5, 6], [1, 3, 5, 6]] vals=[[10, 7, 2, 6], [8, 4, 1, 6], [1, 4, 8, 6], [3, 6, 10, 2]]
+ALLBAD orders=6/24 sets=[[0, 2, 5, 6], [1, 2, 3, 6], [1, 4, 5, 6], [3, 4, 5, 6]] vals=[[2, 4, 8, 3], [2, 4, 7, 10], [1, 6, 4, 8], [8, 6, 10, 3]]
+ALLBAD orders=6/24 sets=[[0, 2, 4, 6], [1, 3, 5, 6], [2, 3, 6], [4, 5, 6]] vals=[[3, 10, 6, 2], [3, 4, 8, 2], [4, 2, 3], [2, 4, 3]]
+ALLBAD orders=6/24 sets=[[0, 2, 5, 6], [1, 4, 5, 6], [2, 3, 5, 6], [3, 4, 5, 6]] vals=[[3, 6, 2, 10], [1, 6, 8, 4], [2, 7, 8, 4], [6, 3, 4, 8]]
+ALLBAD orders=1/24 sets=[[0, 2, 4, 5], [1, 3, 5, 6], [2, 3, 6], [4, 5, 6]] vals=[[3, 8, 4, 6], [3, 6, 10, 2], [4, 2, 3], [2, 4, 3]]
+TOTAL profiles=7 orders=168 orders_pfail=26 orders_pallfail=26 profiles_some_order_bad=6 profiles_every_order_all_bad=0 profiles_some_order_all_bad=6
