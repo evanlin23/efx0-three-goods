@@ -8,7 +8,9 @@ from its whole bundle, and up to three rotations whose chains may end at upgrade
 **Where it breaks.** Every core with n = 2 passes. At n = 3 (index insertion), 3 of the 51 cores fail (12,040 profiles).
 Other fixed rules fail too, with LB₄'s other steps (`-u1 -r1`): index insertion 25 cores, LB's block lookahead (fewest
 goods needed alone, `-i3`) 12, "an agent with a > b + c first" (`-i5`) 25, the sequence with least ω after upgrades
-(`-i4`) 16. Trying every insertion sequence (`-i2`) fails nowhere at n = 3.
+(`-i4`) 16. A deterministic second try, "if the index run fails, rerun it with the last block led by that run's r"
+(`-i7`), still fails in 1 core at n = 2 and 4 at n = 3 (13,780 profiles). Trying every insertion sequence (`-i2`)
+fails nowhere at n = 3.
 
 **Smallest failing configuration** (n = 3, m = 6). Agents 0 = {0, 2, 4, 5}, 1 = {1, 3, 5} (3 goods),
 2 = {2, 3, 4, 5}; values 0: (1, 4, 6, 8), 1: (2, 4, 3), 2: (2, 8, 3, 4). Rankings 0: 5 > 4 > 2 > 0, 1: 3 > 5 > 1,

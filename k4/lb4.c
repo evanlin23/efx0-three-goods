@@ -351,6 +351,34 @@ static int construct(void) {
         memset(choice, 0, sizeof choice); choice[jl] = q; nchoice = jl + 1;
         return construct1();
     }
+    if (INS == 9) {                  /* -i9: the given insertion sequence; if it fails, every other leader at its last step */
+        int sc[MAXN], smc[MAXN], sn = nchoice;
+        memcpy(sc, choice, sizeof sc);
+        int ok = construct1();
+        int sni = nins; memcpy(smc, maxchoice, sizeof smc);
+        if (!ok) {
+            fb_seq = 1;
+            int jl = nins - 1;
+            for (int q = 0; q < smc[jl] && !ok; q++) if (q != sc[jl]) {
+                memcpy(choice, sc, sizeof sc); choice[jl] = q; nchoice = jl + 1;
+                ok = construct1();
+            }
+        }
+        memcpy(choice, sc, sizeof sc); nchoice = sn; nins = sni; memcpy(maxchoice, smc, sizeof smc);
+        return ok;
+    }
+    if (INS == 8) {                  /* -i8: index insertion; if it fails, every other leader of the last block */
+        nchoice = 0;
+        if (construct1()) return 1;
+        fb_seq = 1;
+        int jl = nins - 1;
+        for (int q = 1; q < maxchoice[jl]; q++) {
+            memset(choice, 0, sizeof choice); choice[jl] = q; nchoice = jl + 1;
+            if (construct1()) return 1;
+            if (nins - 1 != jl) break;
+        }
+        return 0;
+    }
     if (INS == 6) {                  /* -i6: index insertion, or index with one insertion step changed */
         nchoice = 0;
         if (construct1()) return 1;
@@ -544,7 +572,7 @@ int main(int argc, char **argv) {
                     if (lastbig) bigsz[lastbig] += w;
                     if (ALLOC) hadd(own);
                 }
-                if (INS != 1) break;
+                if (INS != 1 && INS != 9) break;
                 /* next insertion sequence */
                 int j = nins - 1;
                 while (j >= 0 && choice[j] + 1 >= maxchoice[j]) j--;
