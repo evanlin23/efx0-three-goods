@@ -30,7 +30,9 @@ proof works with *all-pairs allocations* (APAs): every agent holds a pair of goo
   at a pool-optimal APA every agent is threatened by at most one agent, a threatening pair is admissible for the
   threatened agent, and taking it (or it with one pool good swapped in) makes the agent robust unless the agent has four
   goods and the pool is worthless to it.
-- `zvalid_of_zmax` (Lemmas P and R, and the last step): a pool-optimal APA with the most robust agents has a valid owner.
+- `zvalid_or_all4` (Lemmas P and R): a pool-optimal APA with the most robust agents has a valid owner, or every agent
+  has four relevant goods and a worthless pool; `zvalid_of_zmax` (the last step): a pool good relevant to someone rules
+  out the latter. Theorem F (`EFX/ThmF.lean`) uses `zvalid_or_all4` on the free agents.
 - `theoremZ_min`, `theoremZ_RO`, `theoremZ`, `c4minRO_of_f0`, `c4min_of_f0` (**Theorem Z**): on every k = 4 core whose
   fewest frozen agents is 0, some pre-allocation of 𝒫 with the fewest frozen agents has `def(P) ≤ 0` and is completable
   (C₄ᵐⁱⁿ in both forms); `theoremZ_min` states it with only the hypotheses used (item 5 below).
@@ -49,9 +51,10 @@ b9ff629).
 4. The kinds (T), (D), (R) are not named. The case split is by the number of relevant goods in the pair: one (case A, the
    text's (T)), or two (case B: robust with three goods; with four, the two goods `u, w` outside the pair cover (D) and
    (R), and the threatener holds `u` or `w`).
-5. Hypotheses used (`theoremZ_min`): at least one agent, `3 ≤ |R_i| ≤ 4`, every good relevant to some agent (all from
-   `IsCore4`), and a pre-allocation of 𝒫 with no frozen agent. Strict values, balance, the private-goods rule and
-   connectivity are not used.
+5. Hypotheses used (`theoremZ_min`): at least one agent, `|R_i| ≤ 4`, every good relevant to some agent (all from
+   `IsCore4`), and a pre-allocation of 𝒫 with no frozen agent. A threatened agent has at least three relevant goods
+   anyway (`three_le_of_threat`: an agent with at most two is robust in every APA, `robust_of_rel_le2`). Strict values,
+   balance, the private-goods rule, connectivity and `3 ≤ |R_i|` are not used.
 -/
 
 set_option autoImplicit false
@@ -1143,8 +1146,9 @@ section rotation
 variable {hold : G → Option A} {σ : A → A}
 
 omit [DecidableEq G] in
-theorem baseOf_rotateH (hA : IsAPA v agents goods hold) (hinj : ∀ o ∈ agents, ∀ o' ∈ agents, σ o = σ o' → o = o')
-    {o : A} (ho : o ∈ agents) : baseOf goods (rotateH hold σ) (σ o) = baseOf goods hold o := by
+theorem baseOf_rotateH (hmem : ∀ g ∈ goods, ∀ i, hold g = some i → i ∈ agents)
+    (hinj : ∀ o ∈ agents, ∀ o' ∈ agents, σ o = σ o' → o = o') {o : A} (ho : o ∈ agents) :
+    baseOf goods (rotateH hold σ) (σ o) = baseOf goods hold o := by
   unfold baseOf
   apply List.filter_congr
   intro g hg
@@ -1154,7 +1158,7 @@ theorem baseOf_rotateH (hA : IsAPA v agents goods hold) (hinj : ∀ o ∈ agents
   | some o' =>
     simp only [Option.map_some, Option.some.injEq]
     by_cases e : σ o' = σ o
-    · rw [hinj o' (hA.mem g hg o' h) o ho e]; simp
+    · rw [hinj o' (hmem g hg o' h) o ho e]; simp
     · have : o' ≠ o := fun e' => e (by rw [e'])
       simp [e, this]
 
@@ -1170,9 +1174,9 @@ theorem isAPA_rotateH (hA : IsAPA v agents goods hold) (hσ : ∀ o ∈ agents, 
     | none => rw [h] at hj; cases hj
     | some o => rw [h] at hj; simp at hj; rw [← hj]; exact hσ o (hA.mem g hg o h)
   · obtain ⟨o, ho, rfl⟩ := hsurj j hj
-    rw [baseOf_rotateH hA hinj ho]; exact hA.pair o ho
+    rw [baseOf_rotateH hA.mem hinj ho]; exact hA.pair o ho
   · obtain ⟨o, ho, rfl⟩ := hsurj j hj
-    rw [baseOf_rotateH hA hinj ho] at hlt
+    rw [baseOf_rotateH hA.mem hinj ho] at hlt
     have : hold g ≠ some o := fun h => hgj (by simp [rotateH, h])
     have := hadm o ho g hg this
     omega
@@ -1262,14 +1266,14 @@ theorem zvalid_or_all4 (hag : agents.Nodup) (hgd : goods.Nodup) {hold : G → Op
   · -- the plain rotation makes `σ o` robust
     refine hcontra _ hrot _ (hσ o ho).1 ?_
     unfold ZRobust
-    rw [baseOf_rotateH hA hinj ho]; exact hpl
+    rw [baseOf_rotateH hA.mem hinj ho]; exact hpl
   · -- the modified rotation: `σ o` takes `{x, z}`
     obtain ⟨c, d, hcd, hQo⟩ := exists_pair hgd hA ho
     obtain ⟨y, hxy, hQxy⟩ : ∃ y, x ≠ y ∧ (baseOf goods hold o).Perm [x, y] := by
       rcases (mem_pair_iff hQo).mp ⟨hx, hxo⟩ with rfl | rfl
       · exact ⟨d, hcd, hQo⟩
       · exact ⟨c, Ne.symm hcd, hQo.trans (List.Perm.swap x c [])⟩
-    have hQr : (baseOf goods (rotateH hold σ) (σ o)).Perm [x, y] := by rw [baseOf_rotateH hA hinj ho]; exact hQxy
+    have hQr : (baseOf goods (rotateH hold σ) (σ o)).Perm [x, y] := by rw [baseOf_rotateH hA.mem hinj ho]; exact hQxy
     have hxz : x ≠ z := fun e => by rw [e, hzn] at hxo; cases hxo
     have hzr : rotateH hold σ z = none := by simp [rotateH, hzn]
     have hyr : rotateH hold σ y = some (σ o) := by
@@ -1509,6 +1513,9 @@ end EFX
 #print axioms EFX.C4min.threat_unique
 #print axioms EFX.C4min.threat_adm
 #print axioms EFX.C4min.threat_gain
+#print axioms EFX.C4min.robust_of_rel_le2
+#print axioms EFX.C4min.three_le_of_threat
+#print axioms EFX.C4min.zvalid_or_all4
 #print axioms EFX.C4min.isAPA_rotateH
 #print axioms EFX.C4min.zvalid_of_zmax
 #print axioms EFX.C4min.removalOnly_of_zvalid
