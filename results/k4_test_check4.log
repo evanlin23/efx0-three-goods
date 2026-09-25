@@ -1,0 +1,73 @@
+  n=3 m=4: 4 cores, orbit sum 61 = labeled 61: yes; all profiles covered in 4/4
+  n=3 m=5: 11 cores, orbit sum 2070 = labeled 2070: yes; all profiles covered in 11/11
+  n=3 m=6: 18 cores, orbit sum 19740 = labeled 19740: yes; all profiles covered in 18/18
+  n=3 m=7: 12 cores, orbit sum 68670 = labeled 68670: yes; all profiles covered in 12/12
+  n=3 m=8: 5 cores, orbit sum 100800 = labeled 100800: yes; all profiles covered in 5/5
+  n=3 m=9: 1 cores, orbit sum 45360 = labeled 45360: yes; all profiles covered in 1/1
+  /tmp/tmpkjca3h7y/c.json.gz: OK; 51 cores; every allocation has at most one bundle of more than 2 goods (D2) in 51/51
+original: checker says OK (expected OK)
+  n=3 m=4: 4 cores, orbit sum 61 = labeled 61: yes; all profiles covered in 4/4
+  n=3 m=5: 11 cores, orbit sum 2070 = labeled 2070: yes; all profiles covered in 11/11
+  n=3 m=6: 18 cores, orbit sum 19740 = labeled 19740: yes; all profiles covered in 18/18
+  n=3 m=7: 12 cores, orbit sum 68670 = labeled 68670: yes; all profiles covered in 12/12
+  n=3 m=8: 5 cores, orbit sum 100800 = labeled 100800: yes; all profiles covered in 5/5
+  n=3 m=9: orbit sum 0 != labeled count 45360
+  /tmp/tmpkjca3h7y/c.json.gz: FAILED; 50 cores; every allocation has at most one bundle of more than 2 goods (D2) in 50/50
+(a) m = 9 group dropped: checker says FAILED (expected FAILED)
+  n=3 m=4: 4 cores, orbit sum 61 = labeled 61: yes; all profiles covered in 4/4
+  n=3 m=5: 11 cores, orbit sum 2070 = labeled 2070: yes; all profiles covered in 11/11
+  n=3 m=6: 18 cores, orbit sum 19740 = labeled 19740: yes; all profiles covered in 18/18
+  n=3 m=7: 12 cores, orbit sum 68670 = labeled 68670: yes; all profiles covered in 12/12
+  n=3 m=8: 5 cores, orbit sum 100800 = labeled 100800: yes; all profiles covered in 5/5
+  NOT D2 (more than one bundle of > 2 goods): [[0, 2, 6, 7], [1, 4, 6, 8], [3, 5, 7, 8]] [0, 0, 0, 1, 1, 1, 2, 2, 2]
+  n=3 m=9: 1 cores, orbit sum 45360 = labeled 45360: yes; all profiles covered in 1/1
+  /tmp/tmpkjca3h7y/c.json.gz: FAILED; 51 cores; every allocation has at most one bundle of more than 2 goods (D2) in 50/51
+(b) non-D2 allocation added: checker says FAILED (expected FAILED)
+  MALFORMED record: m=5 sets=[[0, 2, 3, 4], [1, 3, 4], [2, 3, 4]]
+  n=3 m=4: 4 cores, orbit sum 61 = labeled 61: yes; all profiles covered in 4/4
+  n=3 m=5: orbit sum 1710 != labeled count 2070
+  n=3 m=5: 10 cores, orbit sum 1710 = labeled 2070: NO; all profiles covered in 10/10
+  n=3 m=6: 18 cores, orbit sum 19740 = labeled 19740: yes; all profiles covered in 18/18
+  n=3 m=7: 12 cores, orbit sum 68670 = labeled 68670: yes; all profiles covered in 12/12
+  n=3 m=8: 5 cores, orbit sum 100800 = labeled 100800: yes; all profiles covered in 5/5
+  n=3 m=9: 1 cores, orbit sum 45360 = labeled 45360: yes; all profiles covered in 1/1
+  /tmp/tmpkjca3h7y/c.json.gz: FAILED; 51 cores; every allocation has at most one bundle of more than 2 goods (D2) in 50/51
+(c1) allocation too short: checker says FAILED (expected FAILED)
+  MALFORMED record: m=5 sets=[[0, 2, 3, 4], [1, 3, 4], [2, 3, 4]]
+  n=3 m=4: 4 cores, orbit sum 61 = labeled 61: yes; all profiles covered in 4/4
+  n=3 m=5: orbit sum 1710 != labeled count 2070
+  n=3 m=5: 10 cores, orbit sum 1710 = labeled 2070: NO; all profiles covered in 10/10
+  n=3 m=6: 18 cores, orbit sum 19740 = labeled 19740: yes; all profiles covered in 18/18
+  n=3 m=7: 12 cores, orbit sum 68670 = labeled 68670: yes; all profiles covered in 12/12
+  n=3 m=8: 5 cores, orbit sum 100800 = labeled 100800: yes; all profiles covered in 5/5
+  n=3 m=9: 1 cores, orbit sum 45360 = labeled 45360: yes; all profiles covered in 1/1
+  /tmp/tmpkjca3h7y/c.json.gz: FAILED; 51 cores; every allocation has at most one bundle of more than 2 goods (D2) in 50/51
+(c2) owner out of range: checker says FAILED (expected FAILED)
+  n=3 m=4: 4 cores, orbit sum 61 = labeled 61: yes; all profiles covered in 4/4
+  n=3 m=5: 11 cores, orbit sum 2070 = labeled 2070: yes; all profiles covered in 11/11
+  NOT COVERED: [[0, 2, 4, 5], [1, 3, 4, 5], [3, 4, 5]]
+  n=3 m=6: 18 cores, orbit sum 19740 = labeled 19740: yes; all profiles covered in 17/18
+  n=3 m=7: 12 cores, orbit sum 68670 = labeled 68670: yes; all profiles covered in 12/12
+  n=3 m=8: 5 cores, orbit sum 100800 = labeled 100800: yes; all profiles covered in 5/5
+  n=3 m=9: 1 cores, orbit sum 45360 = labeled 45360: yes; all profiles covered in 1/1
+  /tmp/tmpkjca3h7y/c.json.gz: FAILED; 51 cores; every allocation has at most one bundle of more than 2 goods (D2) in 51/51
+(d) one allocation deleted: checker says FAILED (expected FAILED)
+  n=3 m=4: 4 cores, orbit sum 61 = labeled 61: yes; all profiles covered in 4/4
+  n=3 m=5: orbit sum 1980 != labeled count 2070
+  n=3 m=5: 10 cores, orbit sum 1980 = labeled 2070: NO; all profiles covered in 10/10
+  n=3 m=6: 18 cores, orbit sum 19740 = labeled 19740: yes; all profiles covered in 18/18
+  n=3 m=7: 12 cores, orbit sum 68670 = labeled 68670: yes; all profiles covered in 12/12
+  n=3 m=8: 5 cores, orbit sum 100800 = labeled 100800: yes; all profiles covered in 5/5
+  n=3 m=9: 1 cores, orbit sum 45360 = labeled 45360: yes; all profiles covered in 1/1
+  /tmp/tmpkjca3h7y/c.json.gz: FAILED; 50 cores; every allocation has at most one bundle of more than 2 goods (D2) in 50/50
+(e) one core deleted: checker says FAILED (expected FAILED)
+  n=3 m=4: 4 cores, orbit sum 61 = labeled 61: yes; all profiles covered in 4/4
+  n=3 m=5: 11 cores, orbit sum 2070 = labeled 2070: yes; all profiles covered in 11/11
+  n=3 m=6: 18 cores, orbit sum 19740 = labeled 19740: yes; all profiles covered in 18/18
+  n=3 m=7: 12 cores, orbit sum 68670 = labeled 68670: yes; all profiles covered in 12/12
+  n=3 m=8: 5 cores, orbit sum 100800 = labeled 100800: yes; all profiles covered in 5/5
+  n=3 m=9: 1 cores, orbit sum 45360 = labeled 45360: yes; all profiles covered in 1/1
+  EXPECTED 50 cores for n=3 any, file has 51
+  /tmp/tmpkjca3h7y/c.json.gz: FAILED; 51 cores; every allocation has at most one bundle of more than 2 goods (D2) in 51/51
+(f) wrong --expect: checker says FAILED (expected FAILED)
+all sensitivity cases behave as expected

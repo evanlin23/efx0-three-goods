@@ -1,7 +1,7 @@
 # k = 4 scout: EFX₀ when every agent has at most four relevant goods
 
-Workstream `compute/k4-scout`. Ledger rows `K4.*`. Everything here is one of: argued in this file (marked *proof*;
-written but not yet reviewed, so the ledger lists these as CONJECTURE until a review), certified by an exhaustive
+Workstream `compute/k4-scout`. Ledger rows `K4.*`. Everything here is one of: proved in this file (marked *proof*;
+reviewed by an independent referee, including brute-force tests), certified by an exhaustive
 search with an independently checked certificate, or marked EVIDENCE / CONJECTURE.
 
 **TARGET₄.** Every instance with nonnegative real additive valuations in which every agent has |R_i| ≤ 4 has a
@@ -10,7 +10,7 @@ complete EFX₀ allocation.
 **Summary.**
 - *Literature* (§1): ordinary EFX for k = 4 is claimed by Viswanathan–Mehta (proof sketch only). EFX₀ for k = 4
   is open in every paper read.
-- *Reduction* (§2, written, not yet reviewed): L1, L2, L3, L6, L9, L10, L11 carry over. TARGET₄ reduces to
+- *Reduction* (§2, reviewed): L1, L2, L3, L6, L9, L10, L11 carry over. TARGET₄ reduces to
   k = 4 cores. These have agents with 3 or 4 goods, strictly balanced, with up to 2 private goods (then p + q < s + t),
   and m ≤ 3n. L5 fails. The additive order types of 4 goods replace it: 1,519 weak, 288 strict balanced (12 per
   ranking, all behaviorally distinct), with integer representatives ≤ 10. Ties reduce to strict types.
@@ -67,13 +67,13 @@ The numbering follows PROMPT.md §3 and `proofs/lemmas.md`.
 | L3 junk to an envy-graph source | carries over verbatim | never used k |
 | CORE | **changes**: see K4.CORE below | agents with 3 goods remain, and an agent may keep 2 private goods |
 | L4 counting | changes: m ≤ 2n₃ + 3n₄ ≤ 3n | below |
-| L5 ordinality | **fails**: the ranking no longer suffices, and 12 order types per ranking replace it | K4.OT below |
-| L6 components | carries over verbatim | |
+| L5 ordinality | **fails for 4-good agents**: the ranking no longer suffices, and 12 order types per ranking replace it. It still holds for 3-good agents inside k = 4 cores | an agent's safety depends only on its own values; K4.OT below |
+| L6 components | carries over | one step changes: `proofs/lemmas.md` excludes a one-agent component by (K3) for three goods; here a lone agent's d goods would all be private, but at most d − 2 are |
 | L7 slack | the identity carries over; slack 2n − m can now be negative | below |
-| L8 two own goods ⟹ safe | **fails**; "all but one own good ⟹ envy-free" replaces it | below |
+| L8 two own goods ⟹ safe | **fails for 4-good agents** (still holds for 3-good agents); "all but one own good ⟹ envy-free" replaces it | below |
 | L9 size-2 criterion | carries over verbatim (any additive valuations) | but needs m ≤ 2n |
 | L10 insertion | carries over verbatim | only uses v_i(a_i) ≥ v_i(g) for every g |
-| L11 shapes | carries over | an agent with 2 private goods becomes a degree-2 vertex |
+| L11 shapes | **partly** carries over | everything but its last bullet; agents can now be branch vertices (below) |
 
 **K4.CORE (proof).** Apply R1, R2 and L3 until none applies, exactly as in the CORE theorem of
 `proofs/lemmas.md`, whose induction never uses k. What remains, if it has ≥ 2 agents, is a *k = 4 core*:
@@ -92,8 +92,8 @@ covered by TARGET (proved). So the new cores are the connected ones with agent d
 **New features compared with k = 3.** (i) An agent can keep two private goods. The tempting fix, merging p and q
 into one good, is not sound: if they end up in another agent's bundle B, then v_i(B ∖ p) keeps q's value. Nor may
 one assume that i holds its private goods: moving p into X_i can create strong envy toward X_i ∪ {p}, since
-removing p leaves all of X_i. (ii) Agents with 3 goods appear in k = 4 cores. They come from 4-good agents that
-lost a good to peeling.
+removing p leaves all of X_i. (ii) Agents with 3 goods appear in k = 4 cores: agents that had 3 relevant goods from the
+start, and 4-good agents that lost a good to peeling.
 
 **L4 for k = 4 (proof).** Σ_i d_i = 2m − π + Σ over shared goods of (deg − 2), with π ≤ n₃ + 2n₄ private goods
 (n_d = number of agents with d goods). So 2m ≤ Σ d_i + π ≤ 4n₃ + 6n₄, that is m ≤ 2n₃ + 3n₄ ≤ 3n. For a connected core,
@@ -111,9 +111,17 @@ O ⊇ {a, b} and O ⊇ {a, c}, and for {a, d} or {b, c} depending on the type. *
 a connected core with β = 1 is one cycle of agents and degree-2 goods, with pendant private goods. Give every agent
 its private goods and the next cycle good. Each agent then holds all but one of its goods, so it is envy-free.
 
-**L11 for k = 4.** Delete the private goods. Agents with 2 private goods become degree-2 vertices, and the others
-keep degree ≥ 2. So a connected k = 4 core is a subdivision, with pendant private goods, of one of finitely many
-multigraphs of minimum degree ≥ 3 and cyclomatic number β. Agent vertices now have degree up to 4.
+**L11 for k = 4.** Let Γ′ be the incidence graph without the private goods.
+- *What carries over.* Private goods are leaves, so Γ′ is connected with the same cyclomatic number β. An agent of
+  degree d with p ≤ d − 2 private goods has degree d − p ≥ 2 in Γ′, and a shared good has degree ≥ 2. So Γ′ has
+  minimum degree ≥ 2. It is a cycle when β = 1. For β ≥ 2 it is a subdivision of one of finitely many multigraphs K
+  of minimum degree ≥ 3 and cyclomatic number β: |V(K)| ≤ 2β − 2, and for β = 2 the theta, the dumbbell or the
+  figure-eight. This is pure graph theory.
+- *What does not.* L11's last bullet fails: "vertices of K of degree ≥ 4 are goods, and agents with a private good
+  are subdivision vertices". An agent with ≤ 1 private good has degree 3 or 4 in Γ′, so it can be a branch vertex,
+  of degree 4 too. Example (n = 3, m = 6, β = 2): agent i on four shared goods g₁, …, g₄, j = {g₁, g₂, p_j},
+  l = {g₃, g₄, p_l}. Here Γ′ is a figure-eight whose centre is the agent i. Only agents with d − 2 private goods (a
+  3-good agent with one, a 4-good agent with two) are forced to be subdivision vertices.
 
 ### K4.OT: additive order types of 3 and 4 goods (`k4/order_types.py`, `results/k4_order_types.log`)
 
@@ -139,18 +147,30 @@ sums of ≤ 4 of them. The two give the same 1,519 types, and the grid [1, 20]�
 For 3 goods a balanced agent's type is its ranking, which is L5. For 4 goods every ranking a > b > c > d carries
 12 balanced strict types. They are listed with their smallest integer representatives (largest value 10) in
 `results/k4_order_types.log`. For example, (8, 4, 3, 2) is d < c < b < cd < bd < bc < a < bcd < ad < ⋯, and
-(7, 6, 5, 3) is d < c < b < a < cd < ⋯. Any two of the 12 differ on some comparison v(S) vs v(T) of disjoint sets.
-In a configuration where the agent holds S and another bundle is T plus a good the agent does not value, one type
-is safe and the other is not. So the 12 are behaviorally distinct, and EFX₀ in a k = 4 core is **not ordinal**. A
-k = 4 instance is a hypergraph plus one of 288 labels per 4-good agent (6 per 3-good agent), with half as many
-choices for an agent with two private goods, because of p + q < s + t.
+(7, 6, 5, 3) is d < c < b < a < cd < ⋯. Any two of the 12 differ on some comparison v(S) vs v(T) of disjoint nonempty sets. Take the local configuration
+where the agent holds exactly S of its goods, another bundle is T plus a good outside R_i, and the goods of
+R_i ∖ (S ∪ T) lie in singleton bundles, which are never strongly envied. There one type is safe and the other is
+not. So the 12 are behaviorally distinct as local safety functions. EFX₀ is also **not ordinal at the level of
+cores**. In the n = 2 core of §4 (two agents with the same 4 goods, both ranking a > b > c > d), type (8, 4, 3, 2)
+admits only the EFX₀ allocations {a} | {b, c, d}. Type (7, 6, 5, 3) admits only the six 2 + 2 splits (brute force,
+`k4/verify_small.py`). A strict k = 4 core profile is a hypergraph plus one of 288 labels per 4-good agent (6 per
+3-good agent), with half as many choices for an agent with two private goods, because of p + q < s + t.
 
-**K4.TIE, ties reduce to strict types (proof).** Whether agent i is safe in an allocation depends only on v_i, and
-it is a conjunction of weak inequalities between subset sums of v_i. So the set of v_i under which i is safe is
-closed. Let a tied core profile have values v_i. Every core condition (strict balance, p + q < s + t) is a strict
-inequality, so a small generic perturbation v_i′ keeps it and lies in a chamber (strict type) C_i with v_i ∈ cl C_i.
-Suppose the strict profile (C_i) has an EFX₀ allocation X. Then X is EFX₀ for every valuation in the product of the
-C_i (the condition depends only on the types), hence, by closedness, at v. So it suffices to search strict profiles.
+**K4.TIE, ties reduce to strict types (proof).** For a fixed allocation X, whether agent i is safe depends only on
+v_i, and it is a conjunction of weak inequalities between subset sums of v_i. So the set of v_i under which i is
+safe is closed. Let a tied core profile have values v_i, positive exactly on R_i. Take the perturbation v_i + εw_i,
+with w_i supported on R_i and all its subset sums distinct (for example, w_i(g) = 2^(index of g in R_i)).
+- For each pair of disjoint nonempty S, T ⊆ R_i, the difference (v_i + εw_i)(S) − (v_i + εw_i)(T) is affine in ε
+  with nonzero slope w_i(S) − w_i(T). So it has at most one zero, and its sign is constant and nonzero for
+  0 < ε < ε₀.
+- Hence v_i + εw_i lies in one chamber (strict type) C_i for all such ε, and v_i = lim_(ε→0) (v_i + εw_i) ∈ cl C_i.
+- The perturbation is supported on R_i, so the relevant goods, and hence the hypergraph, are unchanged. Positivity,
+  strict balance and p + q < s + t are strict inequalities, so they survive for small ε.
+- If the strict core profile (C_i) has an EFX₀ allocation X, then X is EFX₀ throughout the product of the C_i
+  (safety depends only on the type). In particular it is EFX₀ at (v_i + εw_i) for all small ε, hence, by
+  closedness, at v.
+
+So it suffices to search strict core profiles.
 
 ## 3. Small-case search (`k4/search4.py`, `k4/check4.py`)
 
@@ -178,11 +198,19 @@ allocation would be recorded, and solved without the shape limit. None occurred.
 **Certificates and checker.** `results/k4_certs_*.json.gz` list, per core, the allocations. `k4/check4.py` is
 independent of the search: its own order-type enumeration from the grid [1, 16]^d, the raw EFX₀ definition, a
 plain C coverage loop. It checks
-(1) every listed hypergraph is a k = 4 core,
-(2) no two are isomorphic, and Σ n! m! / |Aut| equals the number of labeled cores, which comes from a DP (self-tested
-against brute force for n ≤ 3, `results/k4_check_selftest.log`), so the list is complete, and
-(3) every strict balanced profile of every core is covered.
-Negative tests (a deleted allocation, a deleted core) are caught.
+(1) format: exactly n agents, goods in range(m), allocations of exactly m owners in range(n);
+(2) every listed hypergraph is a k = 4 core with the file's degree pattern;
+(3) completeness: no two cores are isomorphic, and for *every* m in 1..3n the sum of n! m! / |Aut| equals the
+number of labeled cores. The labeled counts come from a DP, self-tested against brute force for n ≤ 3
+(`results/k4_check_selftest.log`). So a missing core, or a missing m group (labeled count ≠ 0), is rejected;
+(4) with `--expect n:MODE:cores`, the number of cores per file;
+(5) every strict core profile of every core is covered;
+(6) D2: every listed allocation has at most one bundle of more than 2 goods.
+Any failure makes the exit status nonzero. Each log in `results/k4_check_*.log` starts with the exact command.
+`k4/test_check4.py` (`results/k4_test_check4.log`) shows that each of these is rejected: a dropped m group (the only
+n = 3, m = 9 core), a non-D2 allocation, malformed allocations, a deleted allocation, a deleted core, and a wrong
+`--expect`. An earlier version checked only the m values present in the file and only reported D2. The current
+data passed that version too; independent code in the coordinator's re-check covered all 8,261 cores.
 
 **Results (CERTIFIED).** For every strict profile, an EFX₀ allocation with at most one bundle of more than 2
 goods exists in:
@@ -200,8 +228,8 @@ ran.
 
 By K4.CORE, K4.TIE and L6, these give: **every instance with |R_i| ≤ 4 whose reduction reaches only core components
 with at most 4 agents, or with 5 agents of which at most two have 4 goods, has an EFX₀ allocation**. Each
-component is a k = 4 core, or a k = 3 core, which TARGET covers. This is conditional on K4.CORE and K4.TIE, whose
-written proofs are not yet reviewed.
+component is a k = 4 core, or a k = 3 core, which TARGET covers. K4.CORE and K4.TIE are proved in §2
+(reviewed).
 
 **EVIDENCE for n = 5 with all agents of degree 4** (random strict profiles, PROMPT.md §5 rule 3):
 all 4,674 pure n = 5 cores (m = 4–15), 30 random strict profiles each, 140,220 profiles in all. Every one has an
@@ -314,7 +342,12 @@ python3 k4/search4.py 2 3                          # n = 2, 3 (all cores), secon
 python3 k4/search4.py 4 --pure                     # n = 4, 219 pure cores: ~6 min on 4 CPUs
 python3 k4/search4.py 4 --n4=1                     # likewise --n4=2, --n4=3 (seconds each); n = 5: --n4=1 (1.5 min), --n4=2 (9 min)
 python3 k4/search4.py 3 --ties                     # all balanced weak types, seconds
-python3 k4/check4.py results/k4_certs_*.json.gz    # independent checker; n = 4 pure ~30 min, the rest minutes
+python3 k4/check4.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz --expect 2:any:5 3:any:51
+python3 k4/check4.py results/k4_certs_2_ties.json.gz --expect 2:any:5          # likewise k4_certs_3_ties: 3:any:51
+python3 k4/check4.py results/k4_certs_4_n4_1.json.gz results/k4_certs_4_n4_2.json.gz results/k4_certs_4_n4_3.json.gz --expect 4:1:135 4:2:309 4:3:339
+python3 k4/check4.py results/k4_certs_4_pure.json.gz --expect 4:pure:219       # the slowest, parallel over cores
+python3 k4/check4.py results/k4_certs_5_n4_1.json.gz --expect 5:1:1735        # likewise k4_certs_5_n4_2: 5:2:5468
+python3 k4/test_check4.py                          # the checker rejects corrupted certificates, ~1 min
 python3 k4/check4.py --selftest                    # labeled-core DP vs brute force
 python3 k4/structure.py 3                          # §4 table, seconds
 python3 k4/verify_small.py                         # brute-force confirmation of every failure claim in k4/small_claims.json

@@ -10,10 +10,13 @@ For each certificate file (results/k4_certs_*.json.gz), checks:
      [1, 16]^d, grouped by the dense ranking of all their nonempty subset sums (k4/SCOUT.md §2 shows [1, 16]^4 meets
      every type); strict = all nonempty subset sums distinct; balanced = max < sum of the others. Safety is the raw
      definition: v_i(X_i) >= v_i(X_j) - v_i(h) for all j != i and h in X_j, all goods counted.
-  4. reports how many cores are covered using only allocations with at most one bundle of more than 2 goods (D2) or
-     of more than 3 goods (D3).
-Coverage loop in C (compiled at run time from the string below), everything else plain Python.
-Usage: check4.py FILE [FILE ...]      check4.py --selftest"""
+  4. D2: every listed allocation has at most one bundle of more than 2 goods;
+  5. format: exactly n agents, goods in range(m), allocations of exactly m owners in range(n); every m in 1..3n is
+     checked (a missing m group must have labeled count 0), and with --expect the number of cores per file.
+Any failure makes the exit status nonzero. Coverage loop in C (compiled at run time from the string below), run in
+parallel over cores; everything else plain Python.
+Usage: check4.py FILE [FILE ...] [--expect n:MODE:cores ...] [--jobs=J]     MODE = pure, an exact n4, or any
+       check4.py --selftest"""
 import ctypes, gzip, itertools, json, math, os, subprocess, sys, tempfile
 from functools import lru_cache
 import networkx as nx
@@ -142,17 +145,80 @@ def efx0_safe(i, vals, bundles):
     return all(own >= sum(vals.get(g, 0) for g in B) - vals.get(h, 0)
                for j, B in enumerate(bundles) if j != i for h in B)
 
-def check_file(path, lib):
+def core_domains(sets, m, ties):
+    deg = [sum(g in S for S in sets) for g in range(m)]
+    doms = []
+    for S in sets:
+        priv = [g for g in S if deg[g] == 1]
+        dom = []
+        for v in strict_balanced_types(len(S), ties):
+            vals = dict(zip(S, v))
+            if len(priv) == 2 and vals[priv[0]] + vals[priv[1]] >= sum(v) - vals[priv[0]] - vals[priv[1]]: continue
+            dom.append(vals)
+        doms.append(dom)
+    return doms
+
+LIB = None
+def covered(task):
+    """Is every profile of the core covered by one of its allocations (raw EFX₀)? Runs in a worker process."""
+    global LIB
+    if LIB is None: LIB = load_c()
+    n, m, sets, A_list, ties = task
+    doms = core_domains(sets, m, ties)
+    K = len(A_list); W = max(1, (K + 63) // 64)
+    off = [0]
+    for D in doms: off.append(off[-1] + len(D) * W)
+    M = (ctypes.c_uint64 * off[-1])()
+    for a, A in enumerate(A_list):
+        bundles = [[g for g in range(m) if A[g] == j] for j in range(n)]
+        for i, D in enumerate(doms):
+            for t, vals in enumerate(D):
+                if efx0_safe(i, vals, bundles): M[off[i] + t * W + a // 64] |= 1 << (a % 64)
+    F = (ctypes.c_uint64 * ((n + 1) * W))()          # F[l]: allocations safe for agents l..n-1 with every type
+    for a in range(K):
+        for l in range(n + 1):
+            if all(M[off[j] + t * W + a // 64] >> (a % 64) & 1 for j in range(l, n) for t in range(len(doms[j]))):
+                F[l * W + a // 64] |= 1 << (a % 64)
+    return bool(LIB.covered(n, W, (ctypes.c_int * n)(*[len(D) for D in doms]), (ctypes.c_long * n)(*off[:n]), M, F))
+
+def well_formed(rec, n):
+    """Format: m in 1..3n, exactly n agent lists of distinct goods in range(m), allocations of exactly m owners in
+    range(n), nothing else of the wrong type."""
+    m = rec.get('m')
+    if not isinstance(m, int) or not 1 <= m <= 3 * n: return False
+    if rec.get('n', n) != n: return False
+    sets, allocs = rec.get('sets'), rec.get('allocs')
+    if not isinstance(sets, list) or len(sets) != n: return False
+    for S in sets:
+        if not isinstance(S, list) or len(set(S)) != len(S): return False
+        if not all(isinstance(g, int) and 0 <= g < m for g in S): return False
+    if not isinstance(allocs, list): return False
+    for A in allocs:
+        if not isinstance(A, list) or len(A) != m: return False
+        if not all(isinstance(j, int) and 0 <= j < n for j in A): return False
+    return True
+
+def big(A, n, s):
+    return sum(A.count(j) > s for j in range(n))
+
+def check_file(path, pool, expect=None):
+    """Returns (ok, key, number of cores); key = (n, mode) with mode 'pure', the exact n4, or 'any'."""
     data = json.load(gzip.open(path, 'rt'))
     n, pure, cores, ties, n4 = data['n'], data['pure'], data['cores'], data.get('ties', False), data.get('n4')
+    key = (n, 'pure' if pure else (str(n4) if n4 is not None else 'any'))
     ok, byM = True, {}
-    for rec in cores: byM.setdefault(rec['m'], []).append(rec)
-    d2 = d3 = 0
-    for m, recs in sorted(byM.items()):
+    for rec in cores:
+        if not well_formed(rec, n):
+            print(f"  MALFORMED record: m={rec.get('m')} sets={rec.get('sets')}"); ok = False; continue
+        byM.setdefault(rec['m'], []).append(rec)
+    nD2 = 0
+    for m in range(1, 3 * n + 1):                      # every m, also those without listed cores
+        recs = byM.get(m, [])
         graphs, orbit = [], 0
         for rec in recs:
             good, G = is_core(n, m, rec['sets'], pure)
             if n4 is not None and sum(len(S) == 4 for S in rec['sets']) != n4: good = False
+            if not pure and n4 is None and not any(len(S) == 4 for S in rec['sets']): good = False
             if not good: print(f"  NOT A CORE: {rec['sets']}"); ok = False
             for v in G: G.nodes[v]['side'] = v[0]
             h = nx.weisfeiler_lehman_graph_hash(G, node_attr='side')
@@ -162,45 +228,22 @@ def check_file(path, lib):
             graphs.append((h, G))
             orbit += math.factorial(n) * math.factorial(m) // aut_size(G)
         lab = labeled_count(n, m, pure, n4)
-        if orbit != lab: print(f"  m={m}: orbit sum {orbit} != labeled count {lab}"); ok = False
-        # coverage
-        bad = 0
-        for rec in recs:
-            sets, A_list = rec['sets'], rec['allocs']
-            deg = [sum(g in S for S in sets) for g in range(m)]
-            doms = []
-            for S in sets:
-                priv = [g for g in S if deg[g] == 1]
-                dom = []
-                for v in strict_balanced_types(len(S), ties):
-                    vals = dict(zip(S, v))
-                    if len(priv) == 2 and vals[priv[0]] + vals[priv[1]] >= sum(v) - vals[priv[0]] - vals[priv[1]]: continue
-                    dom.append(vals)
-                doms.append(dom)
-            K = len(A_list); W = max(1, (K + 63) // 64)
-            off = [0]
-            for D in doms: off.append(off[-1] + len(D) * W)
-            M = (ctypes.c_uint64 * off[-1])()
-            for a, A in enumerate(A_list):
-                bundles = [[g for g in range(m) if A[g] == j] for j in range(n)]
-                for i, D in enumerate(doms):
-                    for t, vals in enumerate(D):
-                        if efx0_safe(i, vals, bundles): M[off[i] + t * W + a // 64] |= 1 << (a % 64)
-            F = (ctypes.c_uint64 * ((n + 1) * W))()      # F[l]: allocations safe for agents l..n-1 with every type
-            for a in range(K):
-                for l in range(n + 1):
-                    if all(M[off[j] + t * W + a // 64] >> (a % 64) & 1 for j in range(l, n) for t in range(len(doms[j]))):
-                        F[l * W + a // 64] |= 1 << (a % 64)
-            cov = lib.covered(n, W, (ctypes.c_int * n)(*[len(D) for D in doms]), (ctypes.c_long * n)(*off[:n]), M, F)
-            if not cov: bad += 1; ok = False; print(f"  NOT COVERED: {sets}")
-            big = lambda A, s: sum(A.count(j) > s for j in range(n))
-            d2 += cov and all(big(A, 2) <= 1 for A in A_list)
-            d3 += cov and all(big(A, 3) <= 1 for A in A_list)
-        print(f"  n={n} m={m}{' pure' if pure else ''}{'' if n4 is None else f' n4={n4}'}{' ties' if ties else ''}: {len(recs)} cores, orbit sum {orbit} = labeled {lab}: "
-              f"{'yes' if orbit == lab else 'NO'}; all profiles covered in {len(recs) - bad}/{len(recs)}", flush=True)
-    print(f"  {path}: {'OK' if ok else 'FAILED'}; cores covered by allocations with <= 1 bundle of > 2 goods: "
-          f"{d2}/{len(cores)}, of > 3 goods: {d3}/{len(cores)}", flush=True)
-    return ok
+        if orbit != lab: print(f"  n={n} m={m}: orbit sum {orbit} != labeled count {lab}"); ok = False
+        if not recs: continue
+        cov = pool.map(covered, [(n, m, r['sets'], r['allocs'], ties) for r in recs], chunksize=1)
+        for r, cv in zip(recs, cov):
+            if not cv: print(f"  NOT COVERED: {r['sets']}"); ok = False
+            nonD2 = [A for A in r['allocs'] if big(A, n, 2) > 1]
+            if nonD2: print(f"  NOT D2 (more than one bundle of > 2 goods): {r['sets']} {nonD2[0]}"); ok = False
+            else: nD2 += 1
+        print(f"  n={n} m={m}{' pure' if pure else ''}{'' if n4 is None else f' n4={n4}'}{' ties' if ties else ''}: "
+              f"{len(recs)} cores, orbit sum {orbit} = labeled {lab}: {'yes' if orbit == lab else 'NO'}; "
+              f"all profiles covered in {sum(cov)}/{len(recs)}", flush=True)
+    if expect is not None and expect.get(key) != len(cores):
+        print(f"  EXPECTED {expect.get(key)} cores for n={key[0]} {key[1]}, file has {len(cores)}"); ok = False
+    print(f"  {path}: {'OK' if ok else 'FAILED'}; {len(cores)} cores; every allocation has at most one bundle of more "
+          f"than 2 goods (D2) in {nD2}/{len(cores)}", flush=True)
+    return ok, key, len(cores)
 
 if __name__ == '__main__':
     if '--selftest' in sys.argv:
@@ -213,5 +256,24 @@ if __name__ == '__main__':
                   f" {'ok' if a == b else 'MISMATCH'}", flush=True)
         print("types (strict balanced, balanced):", {d: (len(strict_balanced_types(d)), len(strict_balanced_types(d, True))) for d in (3, 4)})
         sys.exit(0)
-    lib = load_c()
-    sys.exit(0 if all([check_file(p, lib) for p in sys.argv[1:]]) else 1)
+    from multiprocessing import Pool
+    print("command: python3 k4/check4.py " + ' '.join(sys.argv[1:]), flush=True)
+    files, expect, jobs, i = [], None, os.cpu_count(), 1
+    while i < len(sys.argv):
+        a = sys.argv[i]
+        if a == '--expect':
+            expect = {}
+            while i + 1 < len(sys.argv) and not sys.argv[i + 1].startswith('--') and ':' in sys.argv[i + 1]:
+                nn, mode, cnt = sys.argv[i + 1].split(':'); expect[(int(nn), mode)] = int(cnt); i += 1
+        elif a.startswith('--jobs='): jobs = int(a.split('=')[1])
+        else: files.append(a)
+        i += 1
+    with Pool(jobs) as pool:
+        res = [check_file(p, pool, expect) for p in files]
+    ok = all(r[0] for r in res)
+    if expect is not None:
+        seen = {r[1] for r in res}
+        for k in expect:
+            if k not in seen: print(f"  EXPECTED a file for n={k[0]} {k[1]}, none given"); ok = False
+    print("ALL OK" if ok else "FAILED")
+    sys.exit(0 if ok else 1)
