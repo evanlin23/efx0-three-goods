@@ -34,7 +34,7 @@ static uint32_t R[MAXN];
 static int nt[MAXN], tv[MAXN][MAXT][4];
 static int np[MAXN], pr[MAXN][24][4], pcnt[MAXN][24], pidx[MAXN][24][MAXG];
 static int QFIRST = 0;
-static int ins_ag[64], ins_ag0[64], ECHK = 0, ecat = -1; static long EC[64];   /* -E: which insertion step -i6 changes */
+static int ins_ag[64], ins_ag0[64], ECHK = 0, ecat = -1; static long EC[256];   /* -E: which insertion step -i6 changes */
 static int OWN = 0, INS = 0, SENS = 0, MAXF = 3, UPG = 1, BRUTE = 0, ALLOC = 0;
 /* -a: distinct leaf allocations per core (owners packed 3 bits per good), printed as "A o_0 .. o_{m-1}" lines */
 #define HBITS 22
@@ -434,7 +434,7 @@ static int construct(void) {
         memset(choice, 0, sizeof choice); choice[jl] = q; nchoice = jl + 1;
         return construct1();
     }
-    if (INS == 18 || INS == 19) {    /* -i18 (k4/c4one.md §6): the given insertion sequence tau; if its run is not a success,
+    if (INS == 18 || INS == 19 || INS == 20) {   /* -i20: as -i19, but only a covered run counts (no key decrease) */    /* -i18 (k4/c4one.md §6): the given insertion sequence tau; if its run is not a success,
                                         try every other agent at the insertion step that started q's block (index order after
                                         it); a success, or a run with a smaller key (omega, q frozen, q early), counts.
                                         -i19: the same at every insertion step */
@@ -448,17 +448,22 @@ static int construct(void) {
         if (!ok && qa >= 0) {
             fb_seq = 1;
             phase1(); setup_state(); upg_mode = 2; upgrades();
-            long k0 = ((long)(popc(J) - slots()) + 64) * 64 + frz[qa] * 32 + (31 - pos[qa]);
+            int w0 = popc(J) - slots(), f0 = frz[qa], p0 = pos[qa], qb = blk[qa];
+            long k0 = ((long)w0 + 64) * 64 + f0 * 32 + (31 - p0);
             int j0 = INS == 18 ? blk[qa] : 0, j1 = INS == 18 ? blk[qa] : sni - 1;
+            if (INS == 20) k0 = -1;           /* no key decrease is accepted */
             for (int j = j0; j <= j1 && !ok; j++)
             for (int a = 0; a < smc[j] && !ok; a++) if (a != sc[j]) {
                 memset(choice, 0, sizeof choice); memcpy(choice, sc, sizeof(int) * j); choice[j] = a; nchoice = j + 1;
                 ok = construct1();
+                int where = j == qb ? 16 : j < qb ? 32 : 64;
+                if (ok) ecat = 1 | where;
                 if (!ok) {
                     memset(choice, 0, sizeof choice); memcpy(choice, sc, sizeof(int) * j); choice[j] = a; nchoice = j + 1;
                     phase1(); setup_state(); upg_mode = 2; upgrades();
-                    long k1 = ((long)(popc(J) - slots()) + 64) * 64 + frz[qa] * 32 + (31 - pos[qa]);
-                    if (k1 < k0) ok = 1;
+                    int w1 = popc(J) - slots();
+                    long k1 = ((long)w1 + 64) * 64 + frz[qa] * 32 + (31 - pos[qa]);
+                    if (k1 < k0) { ok = 1; ecat = (w1 < w0 ? 2 : frz[qa] < f0 ? 4 : 8) | where; }
                 }
             }
         }
@@ -1040,8 +1045,8 @@ int main(int argc, char **argv) {
                     if (lastbig) bigsz[lastbig] += w;
                     if (ALLOC) hadd(own);
                 }
-                if (INS != 1 && INS != 9 && INS != 18 && INS != 19) break;
-                if (INS == 9 || INS == 18 || INS == 19) { memcpy(choice, ochoice, sizeof choice); nchoice = onchoice; phase1(); }   /* odometer state of the outer sequence */
+                if (INS != 1 && INS != 9 && INS != 18 && INS != 19 && INS != 20) break;
+                if (INS == 9 || INS == 18 || INS == 19 || INS == 20) { memcpy(choice, ochoice, sizeof choice); nchoice = onchoice; phase1(); }   /* odometer state of the outer sequence */
                 /* next insertion sequence */
                 int j = nins - 1;
                 while (j >= 0 && choice[j] + 1 >= maxchoice[j]) j--;
@@ -1061,7 +1066,7 @@ int main(int argc, char **argv) {
             memset(htab, 0, sizeof(uint64_t) << HBITS); hcnt = 0;
         }
         if (XCHK) { fprintf(stderr, "C4CHK"); for (int q = 0; q < C_NCHK; q++) fprintf(stderr, " %s=%ld", chkname[q], CHK[q]); fprintf(stderr, "\n"); memset(CHK, 0, sizeof CHK); }
-        if (ECHK) { for (int k = 0; k < 64; k++) if (EC[k]) fprintf(stderr, "C4E cat=%d n=%ld\n", k, EC[k]); memset(EC, 0, sizeof EC); }
+        if (ECHK) { for (int k = 0; k < 256; k++) if (EC[k]) fprintf(stderr, "C4E cat=%d n=%ld\n", k, EC[k]); memset(EC, 0, sizeof EC); }
         if (YCHK) { for (int f = 0; f < 2; f++) for (int c = 0; c < 8; c++) for (int k = 0; k < 64; k++) if (YC[f][c][k])
                         fprintf(stderr, "C4Y first=%d cls=%s mask=%d n=%ld\n", f, yclsname[c], k, YC[f][c][k]);
                     memset(YC, 0, sizeof YC); }

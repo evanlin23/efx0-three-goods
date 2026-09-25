@@ -27,6 +27,8 @@ Lemma E, Theorems A₄, B₄, B₄ʷ, A₄ᵀ, A₄⁺ and the conventions of it
   - Behind it is a local **Exchange Lemma X**, which holds on every run tested (the runs `lb4.c` makes). When a run is
     not covered, changing one insertion step covers it or lowers that key.
   - **Lemma X plus the theorems imply C₄¹∃.** So on the data, C₄¹∃ reduces to Lemma X, which is open.
+  - The stronger **Lemma X′** also holds on the data: from every uncovered run, one changed insertion step gives a
+    covered run directly, with no key needed.
 - **The existence form C₄¹∃** (§1) is open. It is what TARGET₄ needs for these instances.
 
 ## 1. Statements
@@ -233,6 +235,17 @@ outcomes:
 
 In each case there is a valid pre-allocation with a completion satisfying (OC₄), which is C₄¹∃'s witness
 (Theorem 1′₄). ∎
+
+**Exchange Lemma X′ (stronger; conjecture).** If the run for τ is not covered, some τ′ has a covered run. Here τ′
+agrees with τ before one insertion step, takes another agent there, and follows index order after it.
+- X′ needs no key. Together with the theorems it gives C₄¹∃ directly: start from index order, or from any τ, and
+  change one insertion step.
+- *Evidence* (`-i20`): 0 exceptions on every insertion sequence of every strict profile of every certified core with
+  one 4-good agent and n ≤ 5.
+- Without A₄⁺(o) (`-P -i20`) it fails for 72 pairs, all in one core with n = 3.
+- The working change is always at or before the insertion step that started q's block (`-E`, searching from the first
+  step on). At n = 5, of the 1,696,106 uncovered runs, 321,544 are covered by a change at an earlier step, and the
+  other 1,374,562 by a change at that step. No run needs a later step.
 
 So on the data, C₄¹∃ reduces to one local lemma about Phase 1 runs.
 - It does not mention rotations beyond single ones, and it does not rely on LB₄ʳ's search.
