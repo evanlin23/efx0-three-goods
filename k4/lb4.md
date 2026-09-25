@@ -243,7 +243,8 @@ for 2.7%.
 
 **Carries over (proved above or verbatim).** The Phase 1 invariants (I1)–(I3), (B1), (B2); validity after the
 upgrades; soundness of every completion that satisfies (OC₄) (Theorem 1′₄, any k); the counting ω = |NA| − σ; the
-exact owner test (§2 is Lemma 1 of `proofs/lb_last_step.md` with (OC₄) and slots that depend on the owner's bundle);
+owner test (§2: Lemma 1 of `proofs/lb_last_step.md` with (OC₄); exact with the owner's needs from its base,
+sufficient with slots that depend on the owner's bundle);
 self-protection of free agents with one-good bases (Lemma 2₄), the k = 4 counterpart of "a terminal holding its top
 is its own τ(x)".
 
