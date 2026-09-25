@@ -1,3 +1,6 @@
 core 0: 1728 profiles checked
 core 1: 82944 profiles checked
 core 2: 864 profiles checked
+core 3: 82944 profiles checked
+core 4: 20736 profiles checked
+CROSSCHECK results/k4_certs_2.json.gz profiles 189216 mismatches 0
