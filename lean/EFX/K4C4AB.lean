@@ -23,13 +23,13 @@ eligible agent, best good); `k4/c4.md` allows any order to the fixpoint and uses
 - **Theorem A₄** (§3): `theoremA4` (with no exposed 4-good agent, `r` is a valid owner or LB⁺'s bad case `BadCase`
   holds), `theoremA4_output`; the completion `placeH` (`completion_placeH_gen`, `oc_placeH_gen`) and LB⁺'s count of
   terminals (`AfterUp.terminals_out`, `AfterUp.terminals`).
-- **Corollary C₄⁰** (§4): `corollaryC40` (LB₄ʳ(τ) succeeds under the hypotheses of A₄ and B₄) and
+- **Corollary C₄⁰** (§4): `corollaryC40'` (as `k4/c4.md` at 96ff1d0 states it: `ω ≤ 0`, or the hypotheses of A₄
+  and B₄), `corollaryC40` (LB₄ʳ(τ) succeeds under the hypotheses of A₄ and B₄) and
   `succeeds_of_three` (LB₄ʳ never fails on a strict profile of a core whose agents all have three goods).
 Theorems B₄ʷ, A₄ᵀ and A₄⁺ (§4a–§4c) are not formalized.
 -/
 
 set_option autoImplicit false
-set_option linter.unusedSectionVars false
 
 namespace EFX
 namespace LB4R
@@ -55,16 +55,19 @@ def Exposed (v : A → G → Nat) (agents : List A) (goods : List G) (s : LState
 section lemmas
 variable {v : A → G → Nat}
 
+omit [DecidableEq A] in
 /-- **Monotonicity** (`k4/c4.md` §1): a smaller bundle and a better own bundle can only remove a threat. -/
 theorem Threatened.mono {x : A} {L L' H H' : List G} (h : Threatened v x L' H') (hL : L'.Sublist L)
     (hH : value v x H ≤ value v x H') : Threatened v x L H := by
   obtain ⟨h, hh, hlt⟩ := h
   exact ⟨h, hL.subset hh, Nat.lt_of_le_of_lt hH (Nat.lt_of_lt_of_le hlt (value_sublist v x (hL.erase h)))⟩
 
+omit [DecidableEq G] in
 theorem mem_Wl {goods : List G} {s : LState A G} {r : A} {g : G} :
     g ∈ Wl goods s r ↔ g ∈ goods ∧ (s.base g = none ∨ s.base g = some r) := by
   simp [Wl]
 
+omit [DecidableEq G] in
 /-- A list without repetitions inside another one of at most its length contains it. -/
 theorem subset_of_length_le {l₁ l₂ : List G} (h₁ : l₁.Nodup) (hsub : ∀ g ∈ l₁, g ∈ l₂)
     (hlen : l₂.length ≤ l₁.length) : ∀ g ∈ l₂, g ∈ l₁ := by
@@ -77,6 +80,7 @@ theorem subset_of_length_le {l₁ l₂ : List G} (h₁ : l₁.Nodup) (hsub : ∀
       · exact hsub a ha
   simp at this; omega
 
+omit [DecidableEq A] [DecidableEq G] in
 /-- On a strict profile, two goods an agent values are worth different amounts to it. -/
 theorem strict_ne {agents : List A} {goods : List G} (hs : Strict v agents goods) {x : A} (hx : x ∈ agents)
     {g y : G} (hg : g ∈ goods) (hy : y ∈ goods) (hgy : g ≠ y) (hpos : 0 < v x g) : v x g ≠ v x y := by
@@ -85,6 +89,7 @@ theorem strict_ne {agents : List A} {goods : List G} (hs : Strict v agents goods
     (by simpa using hgy) (by simpa using e)
   simp at this; omega
 
+omit [DecidableEq A] [DecidableEq G] in
 /-- The value of a list of at most one good, each worth less than `c > 0`, is less than `c`. -/
 theorem value_lt_of_length_le_one {x : A} {c : Nat} {L : List G} (hc : 0 < c) (hL : L.length ≤ 1)
     (hlt : ∀ g ∈ L, v x g < c) : value v x L < c := by
@@ -499,6 +504,7 @@ theorem rotate_needs_out (hl : c.getLast? = some r) (hO : ∀ g ∈ O, s.base g 
   unfold needsOf
   simp only [hB, hp, hm, ne_eq, rotate_base_out hl hO hj]
 
+omit [DecidableEq G] in
 /-- The head of a chain of at least two agents is frozen and has a pick that the next agent needs. -/
 theorem NeedChain.head (hch : NeedChain v agents goods s c) (hk : c.head? = some k) (hlen : 2 ≤ c.length) :
     FrozenAt v agents goods s k ∧ ∃ y b, s.pick k = some y ∧ c[1]? = some b ∧ needsOf v goods s b y := by
@@ -1011,9 +1017,11 @@ def placeH (s : LState A G) (r : A) (H : List G) (T : List A) (g : G) : A :=
   | some i => i
   | none => if g ∈ H then T.getD (H.idxOf g) r else r
 
+omit [DecidableEq A] in
 theorem getD_mem_of_lt {T : List A} {i : Nat} {d : A} (h : i < T.length) : T.getD i d ∈ T := by
   rw [List.getD_eq_getElem?_getD, List.getElem?_eq_getElem h]; exact List.getElem_mem h
 
+omit [DecidableEq A] in
 theorem placeH_junk {H : List G} {T : List A} (hlen : H.length ≤ T.length) {g : G}
     (hb : s.base g = none) {j : A} (hj : placeH s r H T g = j) (hjr : j ≠ r) :
     g ∈ H ∧ T.getD (H.idxOf g) r = j ∧ j ∈ T := by
@@ -1024,6 +1032,7 @@ theorem placeH_junk {H : List G} {T : List A} (hlen : H.length ≤ T.length) {g 
     exact ⟨hgH, hj, hj ▸ getD_mem_of_lt hi⟩
   · simp only [hgH, ↓reduceIte] at hj; exact absurd hj.symm hjr
 
+omit [DecidableEq A] in
 /-- The owner's bundle of `placeH` is its base and the junk outside `H`: it lies in `W` and avoids `H`. -/
 theorem placeH_owner {H : List G} {T : List A} (hlen : H.length ≤ T.length) (hTr : ∀ t ∈ T, t ≠ r)
     (hHJ : ∀ h ∈ H, s.base h = none) {g : G}
@@ -1215,10 +1224,12 @@ theorem oc_placeH (hS : AfterUp v agents goods run s) (hgd : goods.Nodup) (hs : 
 /-- The step at which `x` is processed. -/
 def posOf (run : List (A × Option G)) (x : A) : Nat := (run.map Prod.fst).idxOf x
 
+omit [DecidableEq G] in
 theorem PhaseRun.posOf_eq (hR : PhaseRun v agents goods run) {t : Nat} {p : A × Option G}
     (hp : run[t]? = some p) : posOf run p.1 = t :=
   idxOf_of_getElem? hR.nodup (by simp [hp])
 
+omit [DecidableEq G] in
 theorem PhaseRun.getElem?_posOf (hR : PhaseRun v agents goods run) {x : A} (hx : x ∈ agents) :
     ∃ p : A × Option G, run[posOf run x]? = some p ∧ p.1 = x := by
   obtain ⟨t, p, hp, rfl⟩ := hR.exists_pos hx
@@ -1304,6 +1315,7 @@ theorem length_dedupL_lt : ∀ {l : List G}, ¬ l.Nodup → (dedupL l).length < 
       have hl : ¬ l.Nodup := fun hl => h (List.nodup_cons.mpr ⟨fun hm => ha (mem_dedupL.mpr hm), hl⟩)
       have := length_dedupL_lt hl; simp; omega
 
+omit [DecidableEq A] in
 theorem nodup_map_of_inj {f : A → A} : ∀ {l : List A}, l.Nodup → (∀ x ∈ l, ∀ y ∈ l, f x = f y → x = y) →
     (l.map f).Nodup
   | [], _, _ => by simp
@@ -1572,8 +1584,8 @@ theorem rotate_base_le_two (hS : AfterUp v agents goods run s) (hgd : goods.Nodu
 
 /-- **Theorem B₄(c)** (`k4/c4.md` §4). In LB⁺'s bad case (no 4-good agent exposed), rotate along a need chain from
 `k*` to `r` with base `O = R_k* ∩ W`. If `r` is not exposed w.r.t. `k*` after the rotation (in particular if `r` has
-three goods, Theorem B₄(b)), the owner step of LB₄ʳ has an output on the rotated state: with `ω′ ≤ 0` the completion
-without owner, otherwise a completion with owner `k*` (`Output`). The exposed agents after the rotation are exposed
+three goods, Theorem B₄(b)), the owner step of LB₄ʳ has an output on the rotated state, with no owner or with owner
+`k*`: with `ω′ ≤ 0` the completion without owner, otherwise a completion with owner `k*` (`Output`). The exposed agents after the rotation are exposed
 agents of `P` other than `k*` (Theorem B₄(b)), each with a junk good outside `O` (the sets `π_x` are disjoint); the
 terminals of their blocks lie outside `B*`, off the chain, and stay terminals. -/
 theorem theoremB4c (hS : AfterUp v agents goods run s) (hgd : goods.Nodup) (hag : agents.Nodup)
@@ -1582,7 +1594,7 @@ theorem theoremB4c (hS : AfterUp v agents goods run s) (hgd : goods.Nodup) (hag 
     {O : List G} (hbad : BadCase v agents goods run s r k) (hch : NeedChain v agents goods s c)
     (hk : c.head? = some k) (hl : c.getLast? = some r) (hlen : 2 ≤ c.length)
     (hOd : O = relevant v k (Wl goods s r)) (hrE : ¬ Exposed v agents goods (rotate s c O) k r) :
-    ∃ o X, Output v agents goods (rotate s c O) o X := by
+    ∃ o X, (o = none ∨ o = some k) ∧ Output v agents goods (rotate s c O) o X := by
   classical
   obtain ⟨hkE, hkF, hkI, hkB, hall, hdisj⟩ := hbad
   have hk3 : (relevant v k goods).length = 3 := by
@@ -1605,7 +1617,8 @@ theorem theoremB4c (hS : AfterUp v agents goods run s) (hgd : goods.Nodup) (hag 
   · -- the completion without owner
     have hC := complete_none_exists (N := needsOf v goods (rotate s c O)) hag hgd
       (fun g _ i hb => hmem' g i hb) (fun j _ => hle2' j) hω k
-    exact ⟨none, _, hC.toOwnerNeeds hI'.needs, (fun w hw => by cases hw), fun _ => ⟨fun _ => hω, fun _ => rfl⟩⟩
+    exact ⟨none, _, Or.inl rfl, hC.toOwnerNeeds hI'.needs, (fun w hw => by cases hw),
+      fun _ => ⟨fun _ => hω, fun _ => rfl⟩⟩
   -- the completion with owner `k*`
   obtain ⟨Er, hErd⟩ : ∃ Er, Er = agents.filter (fun x => decide (Exposed v agents goods s r x)) := ⟨_, rfl⟩
   obtain ⟨E', hE'd⟩ : ∃ E', E' = agents.filter (fun x => decide (Exposed v agents goods (rotate s c O) k x)) :=
@@ -1691,7 +1704,7 @@ theorem theoremB4c (hS : AfterUp v agents goods run s) (hgd : goods.Nodup) (hag 
       simp at this; omega) hTnd hlenH hTt'
   have hOC := oc_placeH_gen (v := v) (agents := agents) hgd (fun h hh => (hHJ h hh).2) (fun h hh => (hHJ h hh).1) hlenH
     (fun t ht => (hTt' t ht).2.1) fun j hj hjk => ?_
-  · exact ⟨some k, _, hC.toOwnerNeeds hI'.needs, hOC, fun _ => ⟨(fun h => by cases h), fun h => absurd h hω⟩⟩
+  · exact ⟨some k, _, Or.inr rfl, hC.toOwnerNeeds hI'.needs, hOC, fun _ => ⟨(fun h => by cases h), fun h => absurd h hω⟩⟩
   -- every agent other than `k*` is safe
   by_cases hjm : (rotate s c O).marked j
   · -- an upgraded agent off the chain keeps its envy-free base
@@ -1775,8 +1788,33 @@ theorem corollaryC40 (hag : agents.Nodup) (hgd : goods.Nodup) (hs : Strict v age
   have hk3 : (relevant v k goods).length = 3 := by
     have := hcore.2.1 k hbad.1.1; have := hno4 k hbad.1; omega
   obtain ⟨hRot, -⟩ := theoremB4 hS hgd hs hcore hr hch hck hce hlen hbad.1 hk3 hno4 rfl
-  obtain ⟨o, X, hX⟩ := theoremB4c hS hgd hag hs hcore hr hno4 hbad hch hck hce hlen rfl hrE
+  obtain ⟨o, X, -, hX⟩ := theoremB4c hS hgd hag hs hcore hr hno4 hbad hch hck hce hlen rfl hrE
   exact ⟨.envyFree, s, _, o, X, hup, RotReach.step 2 s _ _ hRot (RotReach.refl 2 _), hX⟩
+
+/-- **Corollary C₄⁰, as `k4/c4.md` states it** (proof/k4-c4 at 96ff1d0): after LB₄ʳ's Phase 1(τ) and envy-free
+upgrades, if `ω ≤ 0`, or no 4-good agent is exposed w.r.t. `r` and, in LB⁺'s bad case, `r` is not exposed after the
+rotation along some need chain `k* → r`, then LB₄ʳ(τ) succeeds. With `ω ≤ 0` the completion without owner is an
+output; otherwise `corollaryC40`. -/
+theorem corollaryC40' (hag : agents.Nodup) (hgd : goods.Nodup) (hs : Strict v agents goods)
+    (hcore : IsCore4 v agents goods) {τ : List Nat} {s : LState A G}
+    (hup : UpRun v agents goods .envyFree (phase1State v agents goods τ) s) {r : A}
+    (hr : IsLast (phase1 v agents goods agents.length agents goods τ) s r)
+    (h : omega v agents goods s ≤ 0 ∨
+      ((∀ x, Exposed v agents goods s r x → (relevant v x goods).length ≠ 4) ∧
+       ∀ k, BadCase v agents goods (phase1 v agents goods agents.length agents goods τ) s r k →
+        ∃ c, NeedChain v agents goods s c ∧ c.head? = some k ∧ c.getLast? = some r ∧ 2 ≤ c.length ∧
+          ¬ Exposed v agents goods (rotate s c (relevant v k (Wl goods s r))) k r)) :
+    Succeeds v agents goods τ := by
+  rcases h with hω | ⟨hno4, hrot⟩
+  · have hS : AfterUp v agents goods (phase1 v agents goods agents.length agents goods τ) s :=
+      ⟨phase1_phaseRun hag hgd τ, hup⟩
+    have hI := hS.inv hgd
+    have hbase2 := hS.base_two hgd
+    have hC := complete_none_exists (N := needsOf v goods s) hag hgd (fun g _ i hb => hS.base_mem hb)
+      (fun j _ => hbase2.1 j) hω r
+    exact ⟨.envyFree, s, s, none, _, hup, RotReach.refl 3 s,
+      hC.toOwnerNeeds hI.needs, (fun w hw => by cases hw), fun _ => ⟨fun _ => hω, fun _ => rfl⟩⟩
+  · exact corollaryC40 hag hgd hs hcore hup hr hno4 hrot
 
 /-- **LB₄ʳ never fails when every agent has three goods** (`k4/c4.md` §4: at k = 3 the hypotheses of Corollary C₄⁰
 always hold, so it contains LB⁺'s Theorem C for LB₄ʳ's search): on a strict profile of a k = 4 core whose agents all
@@ -1839,4 +1877,5 @@ end EFX
 #print axioms EFX.LB4R.theoremB4c
 #print axioms EFX.LB4R.BadCase.chain
 #print axioms EFX.LB4R.corollaryC40
+#print axioms EFX.LB4R.corollaryC40'
 #print axioms EFX.LB4R.succeeds_of_three

@@ -28,7 +28,6 @@ block ((A4) `exists_chain`); every base has at most two goods (`base_two`); upgr
 -/
 
 set_option autoImplicit false
-set_option linter.unusedSectionVars false
 
 namespace EFX
 namespace LB4R
@@ -61,9 +60,11 @@ structure RunFrom (v : A → G → Nat) (goods : List G) (U : List A) (G0 : List
   step : ∀ (t : Nat) (p : A × Option G), run[t]? = some p → LostFrom v goods G0 run t p.1 ∨
     ∀ (t' : Nat) (q : A × Option G), t ≤ t' → run[t']? = some q → ¬ LostFrom v goods G0 run t q.1
 
+omit [DecidableEq A] [DecidableEq G] in
 theorem not_pickedBefore_zero (run : List (A × Option G)) (g : G) : ¬ PickedBefore run 0 g :=
   fun ⟨_, ht, _⟩ => Nat.not_lt_zero _ ht
 
+omit [DecidableEq A] [DecidableEq G] in
 theorem pickedBefore_cons {p : A × Option G} {rest : List (A × Option G)} {t : Nat} {g : G} :
     PickedBefore (p :: rest) (t + 1) g ↔ p.2 = some g ∨ PickedBefore rest t g := by
   constructor
@@ -86,6 +87,7 @@ theorem mem_takeOut {G0 : List G} (hG : G0.Nodup) {y : Option G} {g : G} :
     · rintro ⟨h1, h2⟩; exact ⟨h2, fun e => h1 e.symm⟩
     · rintro ⟨h1, h2⟩; exact ⟨fun e => h2 e.symm, h1⟩
 
+omit [DecidableEq A] in
 theorem lostFrom_cons {v : A → G → Nat} {goods G0 : List G} (hG : G0.Nodup) {p : A × Option G}
     {rest : List (A × Option G)} {t : Nat} {x : A} :
     LostFrom v goods G0 (p :: rest) (t + 1) x ↔ LostFrom v goods (takeOut G0 p.2) rest t x := by
@@ -107,6 +109,7 @@ theorem lostFrom_cons {v : A → G → Nat} {goods G0 : List G} (hG : G0.Nodup) 
       · exact Or.inl hG0
     · exact Or.inr (Or.inr h)
 
+omit [DecidableEq A] in
 theorem argmin_eq_none {f : A → Nat} : ∀ {l : List A}, argmin f l = none → l = []
   | [], _ => rfl
   | a :: l, h => by
@@ -115,6 +118,7 @@ theorem argmin_eq_none {f : A → Nat} : ∀ {l : List A}, argmin f l = none →
     · cases h
     · split at h <;> cases h
 
+omit [DecidableEq A] in
 theorem lost_iff {v : A → G → Nat} {goods G0 : List G} {i : A} :
     lost v goods G0 i = true ↔ ∃ g ∈ goods, 0 < v i g ∧ g ∉ G0 := by
   unfold lost relevant
@@ -247,6 +251,7 @@ structure PhaseRun (v : A → G → Nat) (agents : List A) (goods : List G) (run
     ∃ y, p.2 = some y ∧ v p.1 g ≤ v p.1 y
   step : ∀ (t : Nat) (p : A × Option G), run[t]? = some p → LostAt v run t p.1 ∨ InsAt v run t
 
+omit [DecidableEq A] [DecidableEq G] in
 theorem lostFrom_iff {v : A → G → Nat} {goods : List G} {run : List (A × Option G)}
     (hpick : ∀ (t : Nat) (p : A × Option G) (y : G), run[t]? = some p → p.2 = some y → y ∈ goods)
     {t : Nat} {x : A} :
@@ -288,9 +293,11 @@ theorem phase1State_eq (v : A → G → Nat) (agents : List A) (goods : List G) 
 section run
 variable {v : A → G → Nat} {agents : List A} {goods : List G} {run : List (A × Option G)}
 
+omit [DecidableEq A] [DecidableEq G] in
 theorem pickAt_of_getElem? {t : Nat} {p : A × Option G} (hp : run[t]? = some p) : pickAt run t = p.2 := by
   simp [pickAt, hp]
 
+omit [DecidableEq A] [DecidableEq G] in
 /-- An agent is processed at one step only. -/
 theorem PhaseRun.pos_unique (hR : PhaseRun v agents goods run) {t t' : Nat} {p q : A × Option G}
     (hp : run[t]? = some p) (hq : run[t']? = some q) (h : p.1 = q.1) : t = t' := by
@@ -301,6 +308,7 @@ theorem PhaseRun.pos_unique (hR : PhaseRun v agents goods run) {t t' : Nat} {p q
   rw [← h] at h2
   exact (List.Nodup.getElem?_inj (by simpa using ht) hR.nodup).mp (h1.trans h2.symm)
 
+omit [DecidableEq A] [DecidableEq G] in
 /-- A good is picked at one step only. -/
 theorem PhaseRun.pick_unique (hR : PhaseRun v agents goods run) {t t' : Nat} {p q : A × Option G} {y : G}
     (hp : run[t]? = some p) (hq : run[t']? = some q) (hpy : p.2 = some y) (hqy : q.2 = some y) : t = t' := by
@@ -309,6 +317,7 @@ theorem PhaseRun.pick_unique (hR : PhaseRun v agents goods run) {t t' : Nat} {p 
   · exact h
   · exact absurd ⟨t', h, by rw [pickAt_of_getElem? hq, hqy]⟩ (hR.pick t p y hp hpy).2.2
 
+omit [DecidableEq A] [DecidableEq G] in
 /-- Every listed agent is processed at some step. -/
 theorem PhaseRun.exists_pos (hR : PhaseRun v agents goods run) {x : A} (hx : x ∈ agents) :
     ∃ (t : Nat) (p : A × Option G), run[t]? = some p ∧ p.1 = x := by
@@ -316,6 +325,7 @@ theorem PhaseRun.exists_pos (hR : PhaseRun v agents goods run) {x : A} (hx : x �
   obtain ⟨t, ht, hpt⟩ := List.getElem_of_mem hp
   exact ⟨t, p, by rw [List.getElem?_eq_getElem ht, hpt], rfl⟩
 
+omit [DecidableEq A] [DecidableEq G] in
 theorem PhaseRun.agent_mem (hR : PhaseRun v agents goods run) {t : Nat} {p : A × Option G}
     (hp : run[t]? = some p) : p.1 ∈ agents :=
   (hR.mem p.1).mpr ⟨p, List.mem_of_getElem? hp, rfl⟩
@@ -407,6 +417,7 @@ theorem runState_baseOf (hR : PhaseRun v agents goods run) (hgd : goods.Nodup) (
       obtain ⟨t, p, hp, hpi, -⟩ := (runState_base hR).mp (by simpa using h)
       exact hi (hpi ▸ hR.agent_mem hp)
 
+omit [DecidableEq A] [DecidableEq G] in
 /-- (I1) with the favourite rule: a good that the agent of step `t` values more than its pick (or at all, if it has
 none) was picked before `t`. -/
 theorem PhaseRun.pickedBefore_of_prefers (hR : PhaseRun v agents goods run) {t : Nat} {p : A × Option G}
@@ -437,9 +448,11 @@ theorem runState_inv (hR : PhaseRun v agents goods run) (hgd : goods.Nodup) :
 
 /-! ### Insertion steps and blocks -/
 
+omit [DecidableEq A] [DecidableEq G] in
 /-- The first step is an insertion step. -/
 theorem insAt_zero : InsAt v run 0 := fun _ _ _ _ ⟨_, _, h⟩ => not_pickedBefore_zero _ _ h
 
+omit [DecidableEq A] [DecidableEq G] in
 /-- (I3): an agent that has lost no good at its turn is processed at an insertion step. -/
 theorem PhaseRun.insAt_of_not_lost (hR : PhaseRun v agents goods run) {t : Nat} {p : A × Option G}
     (hp : run[t]? = some p) (h : ¬ LostAt v run t p.1) : InsAt v run t :=
@@ -449,8 +462,10 @@ theorem PhaseRun.insAt_of_not_lost (hR : PhaseRun v agents goods run) {t : Nat} 
 def SameBlock (v : A → G → Nat) (run : List (A × Option G)) (t₁ t₂ : Nat) : Prop :=
   t₁ ≤ t₂ ∧ ∀ t, t₁ < t → t ≤ t₂ → ¬ InsAt v run t
 
+omit [DecidableEq A] [DecidableEq G] in
 theorem SameBlock.refl (t : Nat) : SameBlock v run t t := ⟨Nat.le_refl t, fun _ h1 h2 => absurd h2 (by omega)⟩
 
+omit [DecidableEq A] [DecidableEq G] in
 theorem SameBlock.trans {t₁ t₂ t₃ : Nat} (h₁ : SameBlock v run t₁ t₂) (h₂ : SameBlock v run t₂ t₃) :
     SameBlock v run t₁ t₃ :=
   ⟨Nat.le_trans h₁.1 h₂.1, fun t ht1 ht3 => by
@@ -458,10 +473,12 @@ theorem SameBlock.trans {t₁ t₂ t₃ : Nat} (h₁ : SameBlock v run t₁ t₂
     · exact h₁.2 t ht1 h
     · exact h₂.2 t (by omega) ht3⟩
 
+omit [DecidableEq A] [DecidableEq G] in
 theorem SameBlock.mono {t₁ t₂ t₁' t₂' : Nat} (h : SameBlock v run t₁ t₂) (h1 : t₁ ≤ t₁') (h2 : t₁' ≤ t₂')
     (h3 : t₂' ≤ t₂) : SameBlock v run t₁' t₂' :=
   ⟨h2, fun t ht1 ht2 => h.2 t (by omega) (by omega)⟩
 
+omit [DecidableEq A] [DecidableEq G] in
 /-- Every step lies in the block of an insertion step at or before it (its leader's step). -/
 theorem exists_leader (t : Nat) : ∃ t₀, InsAt v run t₀ ∧ SameBlock v run t₀ t := by
   induction t with
@@ -475,6 +492,7 @@ theorem exists_leader (t : Nat) : ∃ t₀, InsAt v run t₀ ∧ SameBlock v run
         · exact e ▸ h
         · exact hb.2 t' h1 (by omega)⟩⟩
 
+omit [DecidableEq A] [DecidableEq G] in
 /-- A block has one leader: two insertion steps are in different blocks. -/
 theorem leader_unique {t₀ t₁ t : Nat} (h₀ : InsAt v run t₀) (h₁ : InsAt v run t₁) (hb₀ : SameBlock v run t₀ t)
     (hb₁ : SameBlock v run t₁ t) : t₀ = t₁ := by
@@ -483,10 +501,12 @@ theorem leader_unique {t₀ t₁ t : Nat} (h₀ : InsAt v run t₀) (h₁ : InsA
   · exact h
   · exact absurd h₀ (hb₁.2 t₀ h hb₀.1)
 
+omit [DecidableEq A] [DecidableEq G] in
 /-- Steps in the same block as a common later or earlier step are in the same block (in order). -/
 theorem SameBlock.of_common {t₁ t₂ t : Nat} (h₁ : SameBlock v run t₁ t) (h₂ : SameBlock v run t₂ t)
     (h : t₁ ≤ t₂) : SameBlock v run t₁ t₂ := h₁.mono (Nat.le_refl _) h h₂.1
 
+omit [DecidableEq A] [DecidableEq G] in
 /-- **(B2)**: a good that the agent of step `t` values more than its pick (or at all, if it has none) was picked at
 an earlier step of the same block. -/
 theorem PhaseRun.b2 (hR : PhaseRun v agents goods run) {t : Nat} {p : A × Option G} (hp : run[t]? = some p)
@@ -508,6 +528,7 @@ end run
 section upgrades
 variable {v : A → G → Nat} {agents : List A} {goods : List G}
 
+omit [DecidableEq A] in
 /-- The value of a list without repetitions is at most that of any list containing its goods. -/
 theorem value_le_of_subset (i : A) : ∀ {L₁ L₂ : List G}, L₁.Nodup → (∀ g ∈ L₁, g ∈ L₂) →
     value v i L₁ ≤ value v i L₂
@@ -542,6 +563,7 @@ theorem EFBase.no_needs {s : LState A G} {k : A} (hk : EFBase v goods s k) (hm :
     simp at this; omega
   · exact hm' hm
 
+omit [DecidableEq G] in
 /-- The needs of an unmarked agent depend only on its pick. -/
 theorem needsOf_unmarked {s : LState A G} {k : A} (hk : ¬ s.marked k) {x : G} :
     needsOf v goods s k x ↔ x ∈ goods ∧ 0 < v k x ∧ ∀ y, s.pick k = some y → v k y < v k x := by
@@ -815,6 +837,7 @@ theorem AfterUp.junk (hS : AfterUp v agents goods run s) {g : G} (hg : s.base g 
 theorem AfterUp.final (hS : AfterUp v agents goods run s) : ∀ k g, ¬ UpEligible v agents goods .envyFree s k g :=
   upRun_final hS.up
 
+omit [DecidableEq A] [DecidableEq G] in
 /-- A leader holds its top: at an insertion step every good the agent values is still there. -/
 theorem PhaseRun.leader_top (hR : PhaseRun v agents goods run) {t : Nat} {p : A × Option G}
     (hp : run[t]? = some p) (hins : InsAt v run t) :

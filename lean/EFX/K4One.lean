@@ -13,13 +13,15 @@ goods by L3, peeling by R1 and by R2, components by L6) passes to a sub-instance
 of the goods, the same values. No gadget is added and no value changes. An agent's relevant goods in a sub-instance
 are among its relevant goods in the instance (`EFX.relevant_sublist`), so with at most four relevant goods per agent,
 an agent with four in a sub-instance has the same four in the instance (`EFX.atMostOne4_sublist`). K4.TIE's
-perturbation `EFX.tieBreak` keeps every agent's relevant goods (`EFX.relevant_tieBreak`). Hence:
+perturbation `EFX.tieBreak` keeps which goods each agent values (`EFX.pos_tieBreak_iff`, which `EFX.tie_reduction`
+passes on as its positivity hypothesis; also `EFX.relevant_tieBreak`). Hence:
 - `core_reduction4_conn_of`: K4.CORE for any class of instances closed under sub-instances (the proof of
   `EFX.core_reduction4_conn`, with the class carried along: each recursive call is on a sub-instance);
 - `core_reduction4_mixed_of`: the same, only connected cores with a 4-good agent needed (Corollary D for the rest);
 - `core_reduction4_one_strict`, `target4one_of_strict_cores`: with K4.TIE, for the class `AtMostOne4`;
 - `C4existsOne`, `C4existsOne_iff` (a sound completion ⟺ a D2-shaped EFX₀ allocation, as for `C4exists_iff`),
-  `C4existsOne_of_C4exists`, `target4one_of_C4existsOne`.
+  `C4existsOne_of_C4exists`, `C4existsOne_of_C4existsConn` (with `sound_of_three_cores`: Corollary D covers the cores
+  whose agents all have three goods), `target4one_of_C4existsOne`.
 
 `C4existsOne` asks for every connected strict core with at most one 4-good agent; `target4one_of_C4existsOne` uses
 it only for cores with exactly one (Corollary D covers the cores whose agents all have three goods).
@@ -219,7 +221,8 @@ theorem core_reduction4_mixed_of (v : A → G → Nat) (N : Nat) (P : List A →
 /-- **K4.CORE with K4.TIE, at most one 4-good agent.** If every connected strict k = 4 core with at most `N` agents
 and exactly one 4-good agent has an EFX₀ allocation, then so does every instance with at most `N` agents in which
 every agent has at most four relevant goods and at most one has four. The class "every agent at most four, at most
-one with four" passes to sub-instances (`atMostOne4_sublist`), and the perturbation keeps the relevant goods. -/
+one with four" passes to sub-instances (`atMostOne4_sublist`), and the perturbation keeps the relevant goods
+(`EFX.pos_tieBreak_iff`, through `EFX.tie_reduction`'s positivity hypothesis). -/
 theorem core_reduction4_one_strict (N : Nat)
     (hcore : ∀ (w : A → G → Nat) (agents : List A) (goods : List G), agents.Nodup → goods.Nodup →
       agents.length ≤ N → IsCore4 w agents goods → Connected w agents goods → Strict w agents goods →
@@ -295,6 +298,35 @@ theorem C4existsOne_iff :
 theorem C4existsOne_of_C4exists (h : TheoremC4exists A G) : C4existsOne A G :=
   fun agents goods v hag hgd hc _ hs _ => h agents goods v hag hgd hc hs
 
+/-- **A core whose agents all have three goods has a sound completion**: Corollary D gives an EFX₀ allocation with at
+most one bundle of more than two goods (`EFX.LB.corollaryD_lists`), and such an allocation is a sound completion
+(`sound_of_d2`). -/
+theorem sound_of_three_cores {agents : List A} {goods : List G} {v : A → G → Nat} (hag : agents.Nodup)
+    (hgd : goods.Nodup) (hc : IsCore4 v agents goods) (h3 : ∀ i ∈ agents, (relevant v i goods).length = 3) :
+    ∃ (base : G → Option A) (N : A → G → Prop) (o : Option A) (X : G → A),
+      SoundCompletion v agents goods base N o X := by
+  have hne : agents ≠ [] := fun e => by have := hc.1; rw [e] at this; simp at this
+  obtain ⟨X, hX, hE, o, ho⟩ :=
+    LB.corollaryD_lists v hag hgd hne h3 (fun i hi g hg => Nat.le_of_lt (hc.2.2.1 i hi g hg))
+  obtain ⟨i0, hi0⟩ := List.exists_mem_of_ne_nil agents hne
+  by_cases hoa : o ∈ agents
+  · obtain ⟨base, N, o', hS⟩ := sound_of_d2 hgd hX hE hoa ho
+    exact ⟨base, N, o', X, hS⟩
+  · obtain ⟨base, N, o', hS⟩ := sound_of_d2 hgd hX hE hi0 fun j hj _ => ho j hj fun e => hoa (e ▸ hj)
+    exact ⟨base, N, o', X, hS⟩
+
+/-- **`C4existsOne` is the restriction of `C4existsConn`** to at most one 4-good agent: a core with exactly one is
+covered by `C4existsConn`, a core with none by Corollary D (`sound_of_three_cores`). -/
+theorem C4existsOne_of_C4existsConn (h : C4existsConn A G) : C4existsOne A G := by
+  intro agents goods v hag hgd hc hconn hs _
+  by_cases h4 : ∃ i ∈ agents, (relevant v i goods).length = 4
+  · exact h agents goods v hag hgd hc hconn hs h4
+  · refine sound_of_three_cores hag hgd hc fun i hi => ?_
+    have := (hc.2.1 i hi).1
+    have := (hc.2.1 i hi).2
+    have : (relevant v i goods).length ≠ 4 := fun e => h4 ⟨i, hi, e⟩
+    omega
+
 /-- **C₄∃ with at most one 4-good agent ⟹ TARGET₄ with at most one 4-good agent.** Every instance with at least one
 agent in which every agent has at most four relevant goods, and at most one agent exactly four, has an EFX₀
 allocation. `C4existsOne` is a hypothesis, not an axiom. -/
@@ -319,4 +351,6 @@ end EFX
 #print axioms EFX.target4one_of_strict_cores
 #print axioms EFX.LB4R.C4existsOne_iff
 #print axioms EFX.LB4R.C4existsOne_of_C4exists
+#print axioms EFX.LB4R.sound_of_three_cores
+#print axioms EFX.LB4R.C4existsOne_of_C4existsConn
 #print axioms EFX.LB4R.target4one_of_C4existsOne
