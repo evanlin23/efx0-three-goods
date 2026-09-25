@@ -13,3 +13,8 @@ checked 2869 hypergraphs {(8, 13): 2869}, models {'LB': 2869}; problems: 0
 exit=0  [4181s]
 
 $ python tools/check_enum.py --union results/certs_lb_8_13_part1.json.gz results/certs_lb_8_13_part2.json.gz results/certs_lb_8_13_part3.json.gz results/certs_lb_8_13_part4.json.gz
+results/certs_lb_8_13_part1.json.gz+results/certs_lb_8_13_part2.json.gz+results/certs_lb_8_13_part3.json.gz+results/certs_lb_8_13_part4.json.gz: (n,m)=(8,13): 11478 hypergraphs, orbit sum 1496846029206528000, labeled connected cores 1496846029206528000 -> complete
+problems: 0
+exit=0  [47s]
+
+$ python tools/check_certs.py results/certs_lb_8_13_part4.json.gz --expect 8:13:2870 --require-d --jobs 2
