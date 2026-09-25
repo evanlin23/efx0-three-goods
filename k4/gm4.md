@@ -223,15 +223,23 @@ To search where failures are likely, `k4/gm4_run.py --around=… --vary=K` runs 
 | Σℓ | false (A–F) | false (G) | around the seeds, 2 agents changed (2,260,332 profiles): 2,043 profiles with a bad maximum, 148 distinct profiles with only bad maxima (`results/k4_gm4_around2_4.log`); 1 agent changed: `results/k4_gm4_around1_4.log` |
 | Σℓ, ties broken by Σℓ², leximax or leximin | false | false (G: unique maximum) | leximin already fails on A and E |
 | Σℓ² | false | false (G: its unique Σℓ²-maximum is the same dead end) | |
-| Σ 2^ℓ | false (instance P) | **no failure** | around the seeds: 32 of 2,260,332 profiles have a bad maximum (`results/k4_gm4_w2_around2_4.log`); around those 32, 2 agents changed (15,925,248 profiles): 2,688 with a bad maximum, 0 with only bad maxima (`results/k4_gm4_w2_around2b_4.log`) |
-| leximax (Σ 16^ℓ) | false (instance P) | **no failure** | the same counts as Σ 2^ℓ (`results/k4_gm4_w3_around2_4.log`, `results/k4_gm4_w3_around2b_4.log`) |
+| Σ 2^ℓ | false (instance P) | **no failure** | 2 agents changed around the seeds: 32 of 2,260,332 profiles have a bad maximum, 0 have only bad maxima (`results/k4_gm4_w2_around2_4.log`). 2 agents changed around those 32: 15,925,248 profiles, 2,688 with a bad maximum (384 distinct profiles), 0 with only bad maxima (`results/k4_gm4_w2_around2b_4.log`). 1 agent changed around the 384: 442,368 profiles, 5,888 with a bad maximum, 0 with only bad maxima (`results/k4_gm4_w2_around1c_4.log`) |
+| leximax (Σ 16^ℓ) | false (instance P) | **no failure** | the same counts as Σ 2^ℓ (`results/k4_gm4_w3_around2_4.log`, `results/k4_gm4_w3_around2b_4.log`, `results/k4_gm4_w3_around1c_4.log`). Also 2 agents changed around the 384: 191,102,976 profiles, 33,792 with a bad maximum, 0 with only bad maxima (`results/k4_gm4_w3_around2c_4.log`) |
 
 Instance P (pure n = 4, m = 7) makes the "every maximum" forms of Σ 2^ℓ and leximax fail:
 - agents 0: {0:1, 2:6, 5:8, 6:4}, 1: {1:1, 4:6, 5:4, 6:8}, 2: {2:4, 3:5, 4:2, 6:8}, 3: {3:5, 4:4, 5:8, 6:2};
 - Y = {0, 2} | {1, 4} | {6} | {5}, pool {3}, is a maximum of both and has no placement;
 - the other maximum of both, {0, 2} | {6} | {3, 4} | {5}, admits one.
 
-It is checked by `k4/gm4_counterexample.py`. Random runs of the convex potentials over whole classes: §4.
+It is checked by `k4/gm4_counterexample.py`.
+
+In random runs over whole classes, the convex potentials never had a maximum without a placement. Only the targeted searches above find one:
+
+| class | profiles | Σ 2^ℓ: maxima with a pool / no single dump / no placement | leximax: the same | logs |
+|---|---|---|---|---|
+| n = 4, pure, 200,000 random per core | 43,800,000 | 5,957,875 / 1 / 0 | 6,023,613 / 1 / 0 | `results/k4_gm4_w2_4_pure_sample.log`, `results/k4_gm4_w3_4_pure_sample.log` |
+| n = 4, one to three 4-good agents, 50,000 per core | 39,150,000 | 6,630,258 / 68 / 0 | 6,678,024 / 68 / 0 | `results/k4_gm4_w2_4_mixed_sample.log`, `results/k4_gm4_w3_4_mixed_sample.log` |
+| n = 5, pure, 2,000 per core | 9,348,000 | 1,659,461 / 0 / 0 | 1,678,691 / 0 / 0 | `results/k4_gm4_w2_5_pure_sample.log`, `results/k4_gm4_w3_5_pure_sample.log` |
 
 ## 7. Status and open questions
 
