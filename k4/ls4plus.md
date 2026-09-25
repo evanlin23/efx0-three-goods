@@ -84,7 +84,7 @@ The variant with the fixed-priority potential (levels in agent order, lexicograp
 | n = 2 | 189,216 | exhaustive | 236,176 | 0 | `results/k4_gm_2.log` |
 | n = 3 | 1,020,000 | 20,000 random per core | 1,323,209 | 0 | `results/k4_gm_3_sample.log` |
 | n = 4, one to three 4-good agents | 1,566,000 | 2,000 random per core | 2,174,535 | 0 | `results/k4_gm_4_mixed_sample.log` |
-| n = 4, pure | GMPURE | 20,000 random per core | GMPUREMAX | GMPUREF | `results/k4_gm_4_pure_sample.log` |
+| n = 4, pure | 4,380,000 | 20,000 random per core | 6,226,242 | 0 | `results/k4_gm_4_pure_sample.log` |
 
 The 19 logged LS4 failure profiles also pass, under the level sum and under the fixed-priority order; leximin fails on one (§4).
 
