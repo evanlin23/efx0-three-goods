@@ -55,7 +55,7 @@ case "$1" in
     log $R/k4_c4min_hunt_climb_n5_b.log python3 c4min_climb.py --seeds=../$R/k4_c4min_hunt_seeds_gm4.json \
         --iters=20000 --restarts=20 --order=0 --seed=53 --jobs=${JOBS:-4} --top=8 ;;
   climbrand)   # random connected cores, n = 6-8
-    for nmk in 6:9:3 6:12:4 6:14:6 6:16:6 6:18:6 7:12:4 7:15:7 7:18:7 7:21:7 8:14:5 8:17:8 8:20:8 8:24:8; do
+    for nmk in 6:9:3 6:12:4 6:14:6 6:16:6 7:12:4 7:15:7 7:18:7 8:14:5 8:17:8 8:20:8; do
       log $R/k4_c4min_hunt_climb_rand.log python3 c4min_climb.py --random=$nmk:60 --iters=2000 --restarts=2 \
           --order=0 --seed=61 --jobs=${JOBS:-4} --top=3
     done ;;
