@@ -360,8 +360,8 @@ in any test below. The n = 5 core lists with three or more 4-good agents are tho
 `results/k4_lb4r_cores_*.json.gz`.
 - *Exhaustive.* Every insertion order on every core with n ≤ 4 (above); every order on the two n = 5 cores below on
   which need-shrinking needs a third rotation (8.41·10¹¹ run–profile pairs, `results/k4_lb4r_deep.log`). Index order
-  on every certified core (above), and on n = 5 with three 4-good agents (in progress: 7,472 of the 9,861 cores,
-  5.3·10¹² profiles, no failure; `results/k4_lb4r_ex_5_n4_3.log`).
+  on every certified core (above), and on n = 5 with three 4-good agents (in progress: 8,320 of the 9,861 cores,
+  5.6·10¹² profiles, no failure; `results/k4_lb4r_ex_5_n4_3.log`).
 - *Random profiles* (seeded from each core; `results/k4_lb4r_samples.log`, `results/k4_lb4r_random.log`). n = 5 with
   three to five 4-good agents (24,381 cores; with at most two, exhaustive above): index order 6.3·10⁸ profiles, every
   order 8.0·10⁷ profiles (8.0·10⁸ runs). n = 6 with one 4-good agent (26,866 cores of PR #26): index order
@@ -407,7 +407,8 @@ in any test below. The n = 5 core lists with three or more 4-good agents are tho
   candidate at each insertion step; `k4/lb4r_tau.c`, which is `k4/c4_lb4w.c` of proof/k4-c4, lb4.c with 64-bit masks,
   plus this sampling; `results/k4_lb4r_tau_H.log`) mostly need no rotation, and none failed with at most three: with no,
   one, two rotations (fewest, every policy allowed) 784, 216, 0 of 1,000 sequences for t = 1; 807, 92, 101 of 1,000 for
-  t = 2; 414, 31, 55 of 500 for t = 3; t = 4 to 6 still running (owner's needs from its base, `-w0`, as `k4/c4.md` §7 from t = 4; the
+  t = 2; 414, 31, 55 of 500 for t = 3; with no, one, two, three: 174, 8, 2, 16 of 200 for t = 4 (n = 17); t = 5, 6
+  still running (owner's needs from its base, `-w0`, as `k4/c4.md` §7 from t = 4; the
   search with needs from the bundle is out of reach there). On small cores, hill-climbing with `-P3` (score: the fewest
   rotations over all insertion sequences, then the share of sequences that need one) on the hard n ≤ 5 cores, the n = 5
   classes with four or five 4-good agents, grown and random cores up to n = 7 (6.3·10⁶ profiles, 6.3·10⁷ runs;
