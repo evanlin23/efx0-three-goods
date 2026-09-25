@@ -1,4 +1,4 @@
-command: python3 k4/check4.py results/k4_certs_5_pure.json.gz --expect 5:pure:4674 --jobs=2
+command: python3 k4/check4.py results/k4_certs_5_pure.json.gz --expect 5:pure:4674 --jobs=4
   n=5 m=4 pure: 1 cores, orbit sum 1 = labeled 1: yes; all profiles covered in 1/1
   n=5 m=5 pure: 6 cores, orbit sum 3120 = labeled 3120: yes; all profiles covered in 6/6
   n=5 m=6 pure: 45 cores, orbit sum 740640 = labeled 740640: yes; all profiles covered in 45/45
