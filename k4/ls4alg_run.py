@@ -8,6 +8,7 @@ its perturbed type, and ls4alg.c checks the output against it with the raw defin
 Usage: ls4alg_run.py CERTFILE [...] [--sample=K] [--ties] [--jobs=J] [--only=IDX] [--cores=A:B] [--maxm=M] [--defs='-DNOX']
 (--prog=ls4_deadend: dead ends of Pareto local search, attempts/k4-ls-dead-end.md)
 (--prog=ls4_allstates: check conjecture TP4 on every stable state, not only reached ones;
+ --prog=ls4_gm --defs=-DPOT=0: conjecture GM4, every maximum of the level sum (POT=1 leximin, POT=2 fixed priority);
  --defs=-DNOX: no exchange cycles; --defs=-DBADDUMP: unchecked dump; both are sensitivity tests that must fail)
 """
 import gzip, itertools, json, os, subprocess, sys, time
@@ -17,10 +18,12 @@ sys.path.insert(0, HERE)
 from check4 import core_domains
 
 def build(defs='', prog='ls4alg'):
+    import hashlib
     d = os.path.expanduser('~/.cache/ls4'); os.makedirs(d, exist_ok=True)
-    exe, src = os.path.join(d, prog + defs.replace(' ', '').replace('-D', '_')), os.path.join(HERE, prog + '.c')
-    newest = max(os.path.getmtime(src), os.path.getmtime(os.path.join(HERE, 'ls4alg.c')))
-    if not os.path.exists(exe) or os.path.getmtime(exe) < newest:
+    src = os.path.join(HERE, prog + '.c')
+    h = hashlib.sha256((open(src).read() + open(os.path.join(HERE, 'ls4alg.c')).read() + defs).encode()).hexdigest()[:16]
+    exe = os.path.join(d, f"{prog}{defs.replace(' ', '').replace('-D', '_')}_{h}")   # keyed by the sources' hash
+    if not os.path.exists(exe):
         subprocess.run(['gcc', '-O2', '-march=native'] + defs.split() + ['-o', exe, src], check=True)
     return exe
 
@@ -88,7 +91,7 @@ def main():
                 elif line.startswith('CMOVES'):
                     for x in line.split()[1:]:
                         k, v = x.split('='); tot[k] = tot.get(k, 0) + int(v)
-                elif line.startswith('FAIL') or line.startswith('DEADEND'): print(sets, line, flush=True)
+                elif line.startswith(('FAIL', 'DEADEND', 'GMFAIL')): print(sets, line, flush=True)
             if rc != 0 or 'RESULT' not in out: bad += 1; print('BAD', sets, 'rc', rc, out[-500:], flush=True)
     print(f"TOTAL cores={ncores} badcores={bad} " + ' '.join(f"{k}={v}" for k, v in tot.items()) + f" wall={time.time() - t0:.0f}s", flush=True)
     sys.exit(1 if bad or tot.get('fail', 0) else 0)

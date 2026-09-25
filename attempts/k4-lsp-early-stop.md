@@ -12,6 +12,6 @@ Workstream `proof/k4-ls-plus` (`k4/ls4plus.md` §1, §4).
 - agent 2: goods 1:2, 2:8, 4:5, 6:4;
 - agent 3: goods 1:6, 3:2, 5:10, 6:7.
 
-LS4's 16 moves pass through no state with a single-dump or dump-plus-solo placement. The final state Y = {2} | {5} | {1, 4} | {3, 6}, U = {0}, is a dead end: no complete EFX₀ allocation gives every agent at least its value in it, so in particular it has no completion.
+LS4's 16 moves pass through no state with a single-dump or dump-plus-solo placement, nor, after the first move, with any junk placement at all (shape (d)). The final state Y = {2} | {5} | {1, 4} | {3, 6}, U = {0}, is a dead end: no complete EFX₀ allocation gives every agent at least its value in it, so in particular it has no completion.
 
-Reproduce: `python3 k4/lsp_attempts.py` (independent brute force: replays the 16 moves, checks every state on the path for a placement, and checks that the final state has no completion and is a dead end).
+Reproduce: `python3 k4/lsp_attempts.py` (independent brute force: replays the 16 moves, checks every state on the path for a placement of each shape, and checks that the final state has no completion and is a dead end).

@@ -1,2 +1,2 @@
 # ls4alg_run.py ../results/k4_certs_2.json.gz --prog=ls4_gm --defs=-DPOT=2
-TOTAL cores=5 badcores=0 runs=189216 nmaximal=189216 fail=0 allfail=0 wall=2s
+TOTAL cores=5 badcores=0 runs=189216 nmaximal=189216 pool_nonempty=10732 placed_a=0 placed_b=10732 placed_c=0 placed_d=0 bad_placement=0 fail=0 allfail=0 wall=2s

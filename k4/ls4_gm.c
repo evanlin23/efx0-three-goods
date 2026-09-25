@@ -2,7 +2,9 @@
  * placement of the pool (LS4 Phase 2 (a)-(d); (a) is sound here because a maximum admits no M1 move).
  * Potentials: POT=0 sum of levels; POT=1 leximin of levels (sorted ascending, lexicographic); POT=2 levels in agent
  * order, lexicographic (fixed priority).  For each profile all junk-free partial allocations are enumerated.
- * Same input format as ls4alg.c.  Output: RESULT runs=profiles nmaximal=... fail=profiles with a maximal state
+ * Every placement is checked independently (complete, disjoint, extends Y, EFX0 under V and by the raw definition);
+ * the output counts the maxima with a nonempty pool and which Phase-2 case (a)-(d) placed each.  Exit status 1 if any
+ * profile fails.  Same input format as ls4alg.c.  Output: RESULT runs=profiles nmaximal=... fail=profiles with a maximal state
  * without placement, allfail=profiles all of whose maximal states lack one. */
 #define LS4_NO_MAIN
 #include "ls4alg.c"
@@ -49,7 +51,7 @@ int main(void) {
         long NS = 1;
         for (int g = 0; g < m; g++) { ngvv[g] = 0; gvv[g][ngvv[g]++] = -1; for (int i = 0; i < n; i++) if (R[i] >> g & 1) gvv[g][ngvv[g]++] = i; NS *= ngvv[g]; }
         if (NS > MAXS) { printf("SKIP\n"); continue; }
-        long runs = 0, maxstates = 0, fail = 0, allfail = 0; int printed = 0;
+        long runs = 0, maxstates = 0, fail = 0, allfail = 0, npool = 0, pcase[5] = {0}, badplace = 0; int printed = 0;
         memset(cur_idx, 0, sizeof cur_idx);
         for (long r = 0;; r++) {
             if (mode == 1) { if (r >= K) break; for (int i = 0; i < n; i++) cur_idx[i] = rnd() % T[i]; }
@@ -66,7 +68,16 @@ int main(void) {
             for (long q = 0; q < nl; q++) {
                 decode(list[q], Y); mask a = 0; for (int i = 0; i < n; i++) a |= Y[i]; U = ALL & ~a;
                 restrict_bc = 0;
-                if (U && !phase2()) { nf++;
+                if (U) npool++;
+                int c = U ? phase2() : 0;
+                if (U && c) {                       /* independent check of the placement: complete, disjoint, EFX0 */
+                    mask a2 = 0; int okp = 1;
+                    for (int i = 0; i < n; i++) { if (a2 & P2[i]) okp = 0; a2 |= P2[i]; if ((P2[i] & Y[i]) != Y[i]) okp = 0; }
+                    if (a2 != ALL || !efx0(P2)) okp = 0;
+                    for (int i = 0; i < n; i++) if (!raw_safe(i, rep[i][cur_idx[i]], P2)) okp = 0;
+                    if (!okp) { badplace++; c = 0; } else pcase[c]++;
+                }
+                if (U && !c) { nf++;
                     if (printed++ < 3) { printf("GMFAIL n=%d m=%d", n, m);
                         for (int i = 0; i < n; i++) { printf(" ["); for (int t = 0; t < d[i]; t++) printf(t ? " %d:%d" : "%d:%d", rg[i][t], rep[i][cur_idx[i]][t]); printf("]"); }
                         printf(" Y:"); for (int i = 0; i < n; i++) printf(" %x", Y[i]); printf(" U:%x\n", U); } }
@@ -75,9 +86,11 @@ int main(void) {
             runs++;
             if (mode == 0) { int i = 0; while (i < n && ++cur_idx[i] == T[i]) { cur_idx[i] = 0; i++; } if (i == n) break; }
         }
-        printf("RESULT runs=%ld nmaximal=%ld fail=%ld allfail=%ld\n", runs, maxstates, fail, allfail);
+        printf("RESULT runs=%ld nmaximal=%ld pool_nonempty=%ld placed_a=%ld placed_b=%ld placed_c=%ld placed_d=%ld "
+               "bad_placement=%ld fail=%ld allfail=%ld\n", runs, maxstates, npool, pcase[1], pcase[2], pcase[3], pcase[4],
+               badplace, fail, allfail);
         fflush(stdout);
         if (fail) anyfail = 1;
     }
-    return 0;
+    return anyfail;
 }
