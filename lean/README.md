@@ -27,7 +27,7 @@ showed that a declaration added under `set_option debug.skipKernelTC true` is ne
 without warnings and has no axioms for `#print axioms` or `CheckAxioms.lean` to report; the tripwire refuses the
 option and the replay checker rejects such a declaration. On success the last line is
 
-    CHECK PASSED: 149 audited statements, 438 theorems, standard axioms only
+    CHECK PASSED: 156 audited statements, 452 theorems, standard axioms only
 
 CI runs it on every pull request (job `lean` in `.github/workflows/verify.yml`). In Claude Code on the web the
 session-start hook installs the toolchain (from GitHub when `release.lean-lang.org` is unreachable).
@@ -149,6 +149,12 @@ specializations) have exactly the types of `EFX.target`, `EFX.LB.corollaryD` (ch
   `EFX.LB4.target4_of_completions`); non-vacuity examples by `decide` (`EFX.LB4.Ex.sound`, owner's needs from its
   bundle; `EFX.LB4.ExB.sound`, `Valid.sound`'s hypotheses with a frozen agent, a two-good base, a filled slot
   and a three-good owner's bundle).
+- `EFX/K4MinCex.lean`: the minimal-counterexample chain at k = 4 (`k4/MINCEX.md`, ledger K4.MC0–K4.MC7).
+  K4.MC1: M1 and M1(b) in semantic form (`EFX.MinCex.Extension`, `EFX.MinCex.m1_efx0`, `EFX.MinCex.m1_reduce`);
+  K4.MC0 (a)–(c) in inductive form over a hereditary class (`EFX.MinCex.core_reduction4_class`, `EFX.MinCex.mc0`);
+  K4.MC4's counting (`EFX.MinCex.mc4_count`); the assembly of K4.MC6 and K4.MC7 (`EFX.MinCex.target4_chain`) under
+  the named hypotheses of `EFX.MinCex.ChainHyp` (graph facts about 𝒞_b; reduction certificates; K4.R3–K4.R5; the
+  core list, its certificates and the multigraph theorem), which Lean does not re-check.
 - `EFX/RealValues.lean`: L12 (`proofs/real_values.md`) and TARGET and D over any `EFX.OrderedValue`. The value
   class and mirrored model above; `EFX.Agree` (same answer to every comparison between two subset sums);
   `EFX.OrderedValue.tri_le_iff` (for three positive values, every such comparison is decided by twelve basic
@@ -197,6 +203,10 @@ name in the ledger's Lean column has one.
 | K4.LB4.S | Lemma 2₄: with an owner whose base has at most one good, an agent with at most four relevant goods, a pick base and pick needs, whose slot takes its best junk good not yet placed, does not envy (so is not threatened by) the owner's bundle; also for agents filling their slots one at a time; with five relevant goods the value argument fails, and an instance of every other hypothesis has the agent threatened | PreAllocK : `EFX.LB4.selfProtect`, `EFX.LB4.selfProtect_seq`, `EFX.LB4.selfProtect_core`, `EFX.LB4.selfProtect_five`, `EFX.LB4.Ex5.counterexample` |
 | K4.LB4.S | Lemma 3₄: for a strictly balanced owner with at most four relevant goods, its base among them, and `\|B_o\| ≥ 3` or (free, other bases ≤ 2, `ω ≥ 1`): if a sound completion exists, one exists with at least `min(\|J\|, s₀)` slot goods and the same `N_o^X` | PreAllocK : `EFX.LB4.ownerSearch_exact_base`, `EFX.LB4.ownerSearch_exact`, `EFX.LB4.move_step` |
 | K4.LB4.S | Shape: a sound completion is EFX₀ with at most one bundle of more than two goods; hence a sound completion of every connected strict k = 4 core with a 4-good agent gives TARGET₄ (with K4.CORE, K4.TIE) | PreAllocK : `EFX.LB4.SoundCompletion.efx0_d2` (over lists), `EFX.LB4.d2_shape`, `EFX.LB4.k4D_of_completion`, `EFX.LB4.target4_of_completions` (model) |
+| K4.MC1 | M1, M1(b): an extension of an EFX₀ allocation of the smaller instance (outside agents keep their goods outside `I ∪ I′`, agents of `S` safe, every bundle dominated or within the unenvied bundle's `U`-part) is EFX₀; any number of relevant goods | K4MinCex : `EFX.MinCex.m1_efx0`, `EFX.MinCex.m1_reduce`, `EFX.MinCex.threat_le_of_dominated` (over lists) |
+| K4.MC0 | (a)–(c): within a hereditary, relevance-invariant class, a minimal counterexample is a connected strict k = 4 core with a 4-good agent | K4MinCex : `EFX.MinCex.mc0`, `EFX.MinCex.core_reduction4_class` (over lists) |
+| K4.MC4 | the counting: with K4.MC3 and K4.MC5(iii) on `Γ′`, `4n + 3m ≤ 3 Σ_i \|R_i\|`, i.e. `n ≤ 3(β − 1)` | K4MinCex : `EFX.MinCex.mc4_count` (over lists) |
+| K4.MC6, K4.MC7 | the chain: under `EFX.MinCex.ChainHyp` (hypotheses `her`, `rel`, `cyc`, `red`, `small`, `enum`, `cert`, `lit`, `cover`), every admissible instance of the class is solvable | K4MinCex : `EFX.MinCex.target4_chain` (over lists) |
 | T | TARGET (Corollary T): every instance with `\|R_i\| ≤ 3` for every agent has a complete EFX₀ allocation | Target : `EFX.target` (model), `EFX.target_lists` (over lists), values in ℕ; RealValues : `EFX.target_ordered` (values in any `EFX.OrderedValue`, e.g. ℝ≥0, via L12), `EFX.target_of_ordered` (its specialization to ℕ) |
 | L12 | Real values reduce to natural numbers: with ≤ 3 relevant goods per agent and nonnegative values, there are natural-number values with the same relevant goods and the same answer to every comparison between two subset sums; EFX₀, the relevant-goods count and balance transfer | RealValues : `EFX.l12`, `EFX.OrderedValue.exists_agree` (one agent), `EFX.OrderedValue.tri_rep` (three positive values), `EFX.numRelevant_eq_of_agree`, `EFX.OrderedValue.balanced_iff_of_agree`, `EFX.efx0_iff_of_agree` (EFX₀ for `v` iff for `w`) |
 | — | The list layer agrees with the model | Bridge : `EFX.Inst.efx0_iff` |
