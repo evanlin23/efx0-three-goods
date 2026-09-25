@@ -26,7 +26,17 @@ static int n, m, d[MAXN], gl[MAXN][4], loc[MAXN][MAXM];
 static uint32_t R[MAXN];
 static int nt[MAXN], tv[MAXN][MAXT][4];
 static int np[MAXN], pr[MAXN][24][4], pcnt[MAXN][24], pidx[MAXN][24][MAXG];
-static int OWN = 0, INS = 0, SENS = 0, MAXF = 3, UPG = 1, BRUTE = 0;
+static int OWN = 0, INS = 0, SENS = 0, MAXF = 3, UPG = 1, BRUTE = 0, ALLOC = 0;
+/* -a: distinct leaf allocations per core (owners packed 3 bits per good), printed as "A o_0 .. o_{m-1}" lines */
+#define HBITS 22
+static uint64_t *htab; static long hcnt;
+static void hadd(const int *own_) {
+    uint64_t key = 1;
+    for (int g = 0; g < m; g++) key = key << 3 | (uint64_t)own_[g];
+    uint64_t h = key * 0x9E3779B97F4A7C15ull >> (64 - HBITS);
+    while (htab[h] && htab[h] != key) h = (h + 1) & ((1u << HBITS) - 1);
+    if (!htab[h]) { if (++hcnt > (1 << HBITS) / 2) { fprintf(stderr, "hash full\n"); exit(1); } htab[h] = key; }
+}
 
 /* run state */
 static int cp[MAXN];                 /* ranking index per agent */
@@ -247,14 +257,14 @@ static int slots(void) {
 
 /* ---- rotation (exploration): a frozen agent k gives up its pick along a need chain k = x0 -> .. -> xt (terminal),
    every chain agent takes its predecessor's pick, xt's pick is released, and k takes its relevant junk as its base */
-static int ROT = 0, rot_depth = 0;
+static int ROT = 0, rot_depth = 0, CHUP = 0;
 static int try_rotations(void);
 static int chain[MAXN], clen;
 static int apply_chain(int rot_pick, int *rot_more) {
     int sY[MAXN], su[MAXN]; uint32_t sb[MAXN], sN[MAXN], sJ = J;
     memcpy(sY, Y, sizeof Y); memcpy(su, upg, sizeof upg); memcpy(sb, base, sizeof base); memcpy(sN, N_, sizeof N_);
     int k = chain[0], t = chain[clen - 1];
-    if (Y[t] >= 0) J |= 1u << Y[t];
+    J |= base[t]; upg[t] = 0;            /* the chain end releases its base (a pick, or an upgraded pair) */
     for (int i = clen - 1; i >= 1; i--) { Y[chain[i]] = Y[chain[i - 1]]; base[chain[i]] = 1u << Y[chain[i]]; N_[chain[i]] = above(chain[i], Y[chain[i]]); }
     uint32_t W = R[k] & J, B = 0;
     /* k's new base: the rot_pick-th nonempty subset of W, pairs first, then triples, singles, quadruples */
@@ -295,7 +305,7 @@ static int ext_chain(void) {
     }
     for (int j = 0; j < n; j++) {
         int in = 0; for (int q = 0; q < clen; q++) if (chain[q] == j) in = 1;
-        if (in || upg[j] || Y[x] < 0 || !(N_[j] >> Y[x] & 1)) continue;
+        if (in || (upg[j] && !CHUP) || Y[x] < 0 || !(N_[j] >> Y[x] & 1)) continue;
         chain[clen++] = j;
         if (ext_chain()) return 1;
         clen--;
@@ -312,6 +322,7 @@ static int try_rotations(void) {
 }
 
 static int construct1(void);
+static int fb_seq, fb_upg;           /* fallbacks used: a later insertion sequence, a later upgrade policy */
 static int construct(void) {
     if (INS == 4) {                  /* -i4: the insertion sequence with least omega after upgrades (mode 1), first in lex order */
         int best[MAXN], bn = 0, bw = 1 << 30;
@@ -332,6 +343,7 @@ static int construct(void) {
     nchoice = 0;                     /* -i2: backtrack over insertion sequences until one succeeds */
     for (;;) {
         if (construct1()) return 1;
+        fb_seq = 1;
         int j = nins - 1;
         while (j >= 0 && choice[j] + 1 >= maxchoice[j]) j--;
         if (j < 0) return 0;
@@ -341,8 +353,10 @@ static int construct(void) {
 static int construct2(void);
 static int construct1(void) {
     if (UPG != 3) { upg_mode = UPG; return construct2(); }
-    for (upg_mode = 1; upg_mode >= 0; upg_mode = upg_mode == 1 ? 2 : upg_mode == 2 ? 0 : -1)   /* -u3: 1, then 2, then 0 */
+    for (upg_mode = 1; upg_mode >= 0; upg_mode = upg_mode == 1 ? 2 : upg_mode == 2 ? 0 : -1) {  /* -u3: 1, 2, 0 */
         if (construct2()) return 1;
+        fb_upg = 1;
+    }
     return 0;
 }
 static int construct2(void) {
@@ -417,9 +431,12 @@ int main(int argc, char **argv) {
         else if (!strncmp(argv[a], "-f", 2)) MAXF = atoi(argv[a] + 2);
         else if (!strncmp(argv[a], "-u", 2)) UPG = atoi(argv[a] + 2);
         else if (!strcmp(argv[a], "-b")) BRUTE = 1;
+        else if (!strcmp(argv[a], "-a")) ALLOC = 1;
         else if (!strncmp(argv[a], "-r", 2)) ROT = atoi(argv[a] + 2);
         else if (!strncmp(argv[a], "-w", 2)) OWNW = atoi(argv[a] + 2);
+        else if (!strncmp(argv[a], "-c", 2)) CHUP = atoi(argv[a] + 2);
     }
+    if (ALLOC) htab = calloc((size_t)1 << HBITS, sizeof(uint64_t));
     while (scanf("%d %d", &n, &m) == 2) {
         memset(loc, -1, sizeof loc);
         for (int i = 0; i < n; i++) {
@@ -441,7 +458,7 @@ int main(int argc, char **argv) {
             }
         }
         long total = 0, leaves = 0, fails = 0, rawf = 0, runs = 0, shown = 0;
-        long stat[5] = {0}, bigsz[40] = {0};
+        long stat[5] = {0}, bigsz[40] = {0}, nfb_seq = 0, nfb_upg = 0;
         /* odometer over ranking profiles */
         int rk[MAXN] = {0};
         for (;;) {
@@ -487,13 +504,17 @@ int main(int argc, char **argv) {
                         }
                         continue;
                     }
+                    fb_seq = fb_upg = 0;
                     int ok = construct();
                     long w = weight();
                     leaves++; total += w;
                     if (!ok) { fails += w; if (shown < MAXF) { report("FAIL"); shown++; } continue; }
                     stat[last_status] += w;
+                    if (fb_seq) nfb_seq += w;
+                    if (fb_upg) nfb_upg += w;
                     if (!rawcheck()) { rawf += w; if (shown < MAXF) { report("RAWFAIL"); shown++; } continue; }
                     if (lastbig) bigsz[lastbig] += w;
+                    if (ALLOC) hadd(own);
                 }
                 if (INS != 1) break;
                 /* next insertion sequence */
@@ -506,7 +527,15 @@ int main(int argc, char **argv) {
             while (i < n && ++rk[i] == np[i]) rk[i++] = 0;
             if (i == n) break;
         }
-        printf("total %ld leaves %ld runs %ld fails %ld rawfails %ld nobig %ld owner_r %ld owner_other %ld rot %ld big", total, leaves, runs, fails, rawf, stat[0], stat[1], stat[2], stat[3]);
+        if (ALLOC) {
+            for (long h = 0; h < (1 << HBITS); h++) if (htab[h]) {
+                int o[MAXM]; uint64_t key = htab[h];
+                for (int g = m - 1; g >= 0; g--) { o[g] = key & 7; key >>= 3; }
+                printf("A"); for (int g = 0; g < m; g++) printf(" %d", o[g]); printf("\n");
+            }
+            memset(htab, 0, sizeof(uint64_t) << HBITS); hcnt = 0;
+        }
+        printf("total %ld leaves %ld runs %ld fails %ld rawfails %ld nobig %ld owner_r %ld owner_other %ld rot %ld later_seq %ld later_upg %ld big", total, leaves, runs, fails, rawf, stat[0], stat[1], stat[2], stat[3], nfb_seq, nfb_upg);
         for (int s = 3; s < 40; s++) if (bigsz[s]) printf(" %d:%ld", s, bigsz[s]);
         printf("\n");
         fflush(stdout);

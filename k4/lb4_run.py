@@ -28,7 +28,11 @@ def run(task):
     inp = ''.join(encode(r['sets'], r['m'], ties) for r in recs)
     p = subprocess.run([BIN] + opts, input=inp, capture_output=True, text=True)
     if p.returncode: raise RuntimeError(p.stderr[-2000:])
-    return [(r, line) for r, line in zip(recs, p.stdout.strip().split('\n'))], p.stderr
+    out, allocs, cur = [], [], []
+    for line in p.stdout.strip().split('\n'):
+        if line.startswith('A '): cur.append(list(map(int, line.split()[1:])))
+        else: out.append(line); allocs.append(cur); cur = []
+    return [(r, line, A) for r, line, A in zip(recs, out, allocs)], p.stderr
 
 def main():
     args = sys.argv[1:]
@@ -38,6 +42,8 @@ def main():
     show = int(next((a.split('=')[1] for a in args if a.startswith('--show=')), 20))
     monly = next((int(a.split('=')[1]) for a in args if a.startswith('--m=')), None)
     opts = [a for a in args if a.startswith('-') and not a.startswith('--')]
+    certp = next((a.split('=', 1)[1] for a in args if a.startswith('--cert=')), None)
+    if certp: opts.append('-a')
     build()
     print('#', 'lb4_run.py', ' '.join(args), flush=True)
     for f in files:
@@ -47,20 +53,28 @@ def main():
         chunk = max(1, min(8, len(cores) // (4 * jobs) or 1))
         tasks = [(cores[i:i + chunk], ties, opts) for i in range(0, len(cores), chunk)]
         tot = {}; bad = []; errs = []
+        cert = [] if certp else None
         with Pool(jobs) as pool:
             for res, err in pool.imap_unordered(run, tasks):
                 if err: errs.append(err)
-                for r, line in res:
+                for r, line, A in res:
+                    if cert is not None: cert.append({'m': r['m'], 'sets': r['sets'], 'allocs': A})
                     toks = line.split()
-                    kv = dict(zip(toks[0:18:2], map(int, toks[1:18:2])))
+                    kv = dict(zip(toks[0:22:2], map(int, toks[1:22:2])))
                     for k, v in kv.items(): tot[k] = tot.get(k, 0) + v
-                    for bs in toks[19:]:
+                    for bs in toks[23:]:
                         s, c = bs.split(':'); tot['big' + s] = tot.get('big' + s, 0) + int(c)
                     if kv['fails'] or kv['rawfails']: bad.append((r['m'], r['sets'], kv['fails'], kv['rawfails']))
                     if '-i1' not in opts:        # every profile covered exactly once: leaf weights add up
                         expect = 1
                         for dom in check4.core_domains(r['sets'], r['m'], ties): expect *= len(dom)
                         if kv['total'] != expect: raise SystemExit(f"coverage mismatch {r['sets']}: {kv['total']} != {expect}")
+        if certp:
+            hdr = {k: v for k, v in data.items() if k != 'cores'}
+            path = certp if len(files) == 1 else certp.replace('.json.gz', '_' + os.path.basename(f))
+            cert.sort(key=lambda c: (c['m'], c['sets']))
+            with gzip.open(path, 'wt') as fh: json.dump(dict(hdr, construction='LB4 ' + ' '.join(opts), cores=cert), fh)
+            print(f"  certificate: {path} ({sum(len(c['allocs']) for c in cert)} allocations)")
         print(f"{f}: {len(cores)} cores{' (ties)' if ties else ''}, {time.time() - t0:.0f}s")
         print('  ' + ' '.join(f"{k}={v}" for k, v in tot.items()))
         print(f"  cores with a failure: {len(bad)}")
