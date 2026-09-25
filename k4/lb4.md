@@ -316,8 +316,8 @@ counting pairs every exposed agent with a terminal of its own block, and needs o
    than the last block's leader, or use a move that lets an agent go below its pick (two rotations in a row can).
 
 **A lead: nested rotations with any insertion order.** With every upgrade policy and up to three rotations in a row
-(`-u3 -r3 -w1 -c1`), a fixed insertion order suffices on the data: index insertion never fails on any core with n ≤ 4
-(1.06·10¹² profiles), and on n ≤ 3 and on n = 4 with at most three 4-good agents no run of Phase 1 fails, whatever
+(`-u3 -r3 -w1 -c1`), a fixed insertion order suffices on the data: index insertion never fails on any certified core
+(n ≤ 4, and n = 5 with at most two 4-good agents; 1.14·10¹² profiles; `results/k4_lb4_nested_n5.log` for n = 5), and on n ≤ 3 and on n = 4 with at most three 4-good agents no run of Phase 1 fails, whatever
 its insertion order (`-i1`, 2.1·10¹¹ run–profile pairs; pure n = 4 not run for every order; `results/k4_lb4_nested_every.log`, `results/k4_lb4_nested_n4.log`, `results/k4_lb4_nested_pure4.log`). That is the
 shape of LB⁺'s Theorem C (every run of Phase 1 works, after upgrades and rotations), with up to three rotations instead
 of one; it may be a better proof target than LB₄'s search over insertion sequences.
