@@ -183,7 +183,7 @@ Such profiles are not isolated. The one-agent and two-agent neighbourhoods of th
 
 "No single dump" counts maxima with a nonempty pool, no empty bundle and no source admitting the single dump. "No placement" counts those among them that admit no junk placement either.
 
-*Every* maximum of the profile lacks a placement (GM₄∃ fails): never in these random runs. Each profile with a GM₄ failure also has a placeable maximum; for pure n = 5 this is checked separately (`results/k4_gm4_5_pure_check.log`). The per-profile counters `pfail`/`pallfail` in `results/k4_gm4_5_pure_sample.log` are partial, because the base binary was rebuilt with those counters while that run was in progress; its per-maximum counts are complete. GM₄∃ fails only in the targeted search of §6 (instance G, §2.4).
+*Every* maximum of the profile lacks a placement (GM₄∃ fails): never in these random runs (counter `pallfail` = 0 in every log). For pure n = 5 this was checked separately for the 3 failing profiles (`results/k4_gm4_5_pure_check.log`). The per-profile counters `pfail`/`pallfail` in `results/k4_gm4_5_pure_sample.log` are partial, because the base binary was rebuilt with those counters while that run was in progress; its per-maximum counts are complete. GM₄∃ fails only in the targeted search of §6 (instance G, §2.4).
 
 ## 5. Structure of maxima (exploration; EVIDENCE)
 
