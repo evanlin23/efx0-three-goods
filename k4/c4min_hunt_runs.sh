@@ -116,6 +116,14 @@ print(len(top), 'tight cores; scores from', top[0][0], 'to', top[-1][0])"
       log $R/k4_c4min_hunt_famsat.log python3 c4min_sat.py --family=ht:6 --family=ht:8 --family=ht:10 --family=htc:8 \
           --profiles=300 --mode=perturb:$k --seed=112 --jobs=${JOBS:-4}
     done ;;
+  famlt)       # the grids of attempts/k4-c4min-w0-owner-base.md (lt, and ltp with private goods), SAT-checked
+    log $R/k4_c4min_hunt_famsat.log python3 c4min_sat.py --family=lt:2:2 --family=lt:2:3 --family=lt:3:3 --family=lt:3:4 \
+        --family=lt:4:4 --family=lt:2:6 --family=ltp:2:2 --family=ltp:2:3 --family=ltp:3:3 --family=ltp:3:4 --family=ltp:4:4 \
+        --family=ltp:5:5 --mode=paper --jobs=${JOBS:-4}
+    for mode in uniform perturb:2 perturb:6; do
+      log $R/k4_c4min_hunt_famsat.log python3 c4min_sat.py --family=lt:3:3 --family=lt:3:4 --family=lt:4:4 --family=ltp:2:2 \
+          --family=ltp:3:3 --family=ltp:4:4 --family=ltp:5:5 --profiles=300 --mode=$mode --seed=141 --jobs=${JOBS:-4}
+    done ;;
   climbsat)    # hill-climbing on families with the SAT objective (owner needed, d*, fewest feasible owners)
     log $R/k4_c4min_hunt_climbsat.log python3 c4min_sat.py --family=ht:3 --family=ht:4 --family=ht:5 --family=htc:4 \
         --family=htx:4 --family=ht2:4 --family=grid:2:2 --family=tree:4 --family=cycle:4 --family=chain:2:2 \
@@ -137,5 +145,5 @@ print(len(top), 'tight cores; scores from', top[0][0], 'to', top[-1][0])"
         --seed=101 --jobs=${JOBS:-4} --top=8 ;;
   attempts)    # the hard profiles of PR #36's attempts and PR #30's n = 5 GM4 profiles, one by one
     log $R/k4_c4min_hunt_attempts.log python3 c4min_attempts_eval.py ;;
-  *) echo "sections: chains satcheck famsat climbsat rigid5 classes w0big attempts climbtight selfcheck w0small crosscheck n4 n5a n5b n6a climb5 climb5b climbrand climbglue rigid families climbfam"; exit 2 ;;
+  *) echo "sections: famlt chains satcheck famsat climbsat rigid5 classes w0big attempts climbtight selfcheck w0small crosscheck n4 n5a n5b n6a climb5 climb5b climbrand climbglue rigid families climbfam"; exit 2 ;;
 esac

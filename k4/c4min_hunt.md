@@ -146,7 +146,18 @@ encoding.
 
 **SAT encoding** (`k4/c4min_sat.py`, `results/k4_c4min_hunt_famsat.log`; every certificate re-checked by the brute force):
 - §7's values on H_T for T = 4, …, 10, 12, 16 (up to n = 65, m = 163): C₄ᵐⁱⁿ holds, f* = 0, in under a second each.
-  (numbers of the other SAT runs below)
+- 300 uniform random profiles each of H_6, H_8, H_10, ht2 8, htx 8, htc 8, grid 3×3 (n = 39), chain 3 2, chain 4 3
+  (n = 51), cycle 8 (= H_8), tree 7 and tree 15 (n = 68, m = 167): 0 failures; f* up to 8 (tree 15).
+- 300 profiles each of H_6, H_8, H_10 and htc 8 at §7's values with 1, 2, 4, 8 or 16 agents re-typed: 0 failures
+  (6,000 profiles; f* ≤ 2).
+- In all, 9,609 SAT-checked profiles of the large families, 0 failures, every certificate re-checked literally.
+
+**SAT hill-climbing** (`c4min_sat.py --climb`, `results/k4_c4min_hunt_climbsat.log`; score (an owner is needed, d*,
+fewest owners o with a min-frozen P of deficit ≤ 0 under o), 3 restarts on each of H_3, H_4, H_5, htc 4, htx 4,
+ht2 4, grid 2×2, tree 4, cycle 4, chain 2 2): best d* between −3 and −1, with 13 to 21 feasible owners out of
+13 to 21 agents. These families are far from failing: random profiles have millions of witnesses (`c4min_hunt.c`
+counts 361,584 min-frozen pre-allocations with deficit ≤ 0 on one random profile of H_4), and the climber cannot
+bring d* above −1.
 
 ## 5. Reproduce
 

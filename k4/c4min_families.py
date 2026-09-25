@@ -14,6 +14,9 @@ Families (every one is checked to be a k = 4 core by k4/check4.py's is_core):
   htc T               T gadgets in a cycle without a head: e_j = g_{j+1}, e_T = g_1.
   glue (function)     two cores joined by a shared good ('merge') or a connector agent ('link': 4 goods, two of them
                       private; 'link3': 3 goods, one private).
+  lt R C              agent (i, j) = row i's three lower goods + column j's top (R x C agents; lt 2 2 is the m = 8 core
+                      of attempts/k4-c4min-w0-owner-base.md)
+  ltp R C             lt with one private good per agent instead of a third lower good
   grid R C            gadgets on an R x C grid: gadget (r, c)'s y links to the g of (r, c+1) (or of (r+1, 0) at the end
                       of a row), and one extra 4-good agent per row joins the g's of consecutive rows.
 """
@@ -127,6 +130,30 @@ def grid(r, c):
     return sets
 
 
+def lt(r, c):
+    """R x C grid: row i has three 'lower' goods L_i, column j a top T_j; agent (i, j) = L_i ∪ {T_j}. For R = C = 2 this
+    is the pure n = 4, m = 8 core where C4min with the owner's needs from its base fails
+    (attempts/k4-c4min-w0-owner-base.md). n = R C, m = 3 R + C."""
+    G = Goods()
+    L = [[G(), G(), G()] for _ in range(r)]
+    T = [G() for _ in range(c)]
+    return [L[i] + [T[j]] for i in range(r) for j in range(c)]
+
+
+def ltp(r, c):
+    """lt with one private good per agent: agent (i, j) = {p_ij} ∪ (two lower goods of row i) ∪ {T_j};
+    m = R C + 2 R + C, sigma = R C - 2 R - C."""
+    G = Goods()
+    L = [[G(), G()] for _ in range(r)]
+    T = [G() for _ in range(c)]
+    return [[G()] + L[i] + [T[j]] for i in range(r) for j in range(c)]
+
+
+def lt_values(r, c):
+    """the type of the w0 instance for every agent: lower goods 2, 3, 4 (in list order), top 8 (a > b + c)"""
+    return [(2, 3, 4, 8)] * (r * c)
+
+
 def family(name, args, rng=None):
     """the good lists of a family member (k4/c4min_hunt.c handles at most 64 goods: H_t up to t = 6)"""
     rng = rng or random.Random(1)
@@ -135,6 +162,8 @@ def family(name, args, rng=None):
     if name == 'htx': return htx(int(args[0]))
     if name == 'htc': return htc(int(args[0]))
     if name == 'grid': return grid(int(args[0]), int(args[1]))
+    if name == 'lt': return lt(int(args[0]), int(args[1]))
+    if name == 'ltp': return ltp(int(args[0]), int(args[1]))
     ds = _d_stress()
     if name == 'chain': return ds.chain(int(args[0]), int(args[1]) if len(args) > 1 else 1)
     if name == 'cycle': return ds.cycle(int(args[0]))

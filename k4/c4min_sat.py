@@ -273,7 +273,9 @@ def sample(args):
     doms = cc.domains(sets, m)
     rng = random.Random(seed)
     base = None
-    if name in ('ht', 'htc', 'ht2', 'htx'):
+    if name in ('lt', 'ltp'):
+        base = [dict(zip(S, w)) for S, w in zip(sets, F.lt_values(int(fargs[0]), int(fargs[1])))]
+    elif name in ('ht', 'htc', 'ht2', 'htx'):
         want = [(8, 6, 5, 4) if (name != 'htc' and i == 0) else (8, 6, 4, 3) for i in range(len(sets))]
         base = [dict(zip(S, w)) for S, w in zip(sets, want)]
         if any(tuple(b[g] for g in S) not in {tuple(v[g] for g in S) for v in D} for S, b, D in zip(sets, base, doms)): base = None
