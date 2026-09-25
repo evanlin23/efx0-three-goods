@@ -70,7 +70,7 @@
     - Results for (∞, 1): partial EFX₀ discarding ≤ ⌊n/2⌋ − 1 goods (Thm 5.6, p. 14), complete EF2X (Thm 5.7, p. 14), and √2/2-EFX for subadditive valuations (Thm 7.1, p. 20).
     - Results for restricted additive valuations: √2/2-EFX (Thm 6.1, p. 16), and **exact** complete EFX₀ when also (2, ∞)-bounded (Thm 8.1, p. 27).
     - Techniques: rank, rankpath and virtual value; rankpath shifts under a Nash-welfare potential (§7).
-    - Use here: implies neither TARGET nor D (no exact result for p ≥ 3). TARGET gives exact EFX₀ on the additive (∞, 1) instances with ≤ 3 relevant goods per agent, where this paper has EF2X or approximations.
+    - Use here: implies neither TARGET nor D (no exact result here for p ≥ 3; elsewhere, exact results with p ≥ 3 need girth ≥ 4, 2608.03171). TARGET gives exact EFX₀ on the additive (∞, 1) instances with ≤ 3 relevant goods per agent, where this paper has EF2X or approximations.
   - **Kaviani–Keshavarz–Seddighin–Shahrezaei, "Improved Approximate EFX Guarantees for Multigraphs", arXiv 2506.09288v2 (18 Jul 2025)** [full, 18 pp.].
     - Complete (1/√2)-EFX for additive (2, ∞)-bounded instances (Thm 4.9, p. 15). Page 3 says "p = 2 and q = 1", apparently a typo: every result is for (2, ∞).
     - Uses Mahara's two-valuation extension theorem, restated as Thm 4.4 (p. 10).

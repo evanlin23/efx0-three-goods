@@ -109,7 +109,7 @@ Checked and irrelevant (abstracts unless stated; search log §3–§4): binary-v
 The (p, q)-bounded papers are now read in full, and their relation to this project is in `proofs/pq_bounded.md`. The summary:
 - In the agent–good incidence graph, k bounds agent degrees and p bounds good degrees; q bounds how many goods two agents share. So k ≤ 3 implies (∞, 3)-bounded.
 - Exact EFX₀ is known only for p ≤ 2 (any q) and for hypergraphs of girth ≥ 4. For q = 1 in general only EF2X, partial or approximate results exist.
-- So nothing there implies TARGET or D. Read in (p, q) terms, TARGET gives the first exact results with p ≥ 3 and q ≥ 2 on agent degree ≤ 3.
+- So nothing there implies TARGET or D. Read in (p, q) terms, TARGET is exact EFX₀ on agent degree ≤ 3 for every p and q with no girth condition. Every earlier exact result with p ≥ 3 needs hypergraph girth ≥ 4.
 - In the (k, p) table, the first open cell is (k, p) = (4, 3). The H_t family that defeats bounded-rotation LB₄ʳ has p = 4 and q = 1.
 - Four of K4.MC7's six graphical cores are covered by older theorems (CFKS for the two simple ones, bipartite-multigraph theorems for three). Only two need the general multigraph theorem.
 

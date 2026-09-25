@@ -125,26 +125,26 @@ Exact complete EFX₀, additive or wider valuations:
 | | q = 1 | q = 2 | q = ∞ |
 |---|---|---|---|
 | p = 2 | yes (CFKS) | yes | yes (2606.18665, EC 2026; restricted additive: 2407.05139 Thm 8.1) |
-| p ≥ 3 | only with girth ≥ 4 (2608.03171); otherwise EF2X, partial EFX, √2/2-EFX (2407.05139, 2606.26948) | multiplicity-2 hypergraphs: EF3X, 2/3-EFX (2606.26948) | open (general additive EFX) |
+| p ≥ 3 | only with girth ≥ 4 (2608.03171); otherwise EF2X, partial EFX, √2/2-EFX (2407.05139, 2606.26948) | exact only on girth-≥ 4 multi-hypergraphs with a multiplicity condition at one vertex (2608.03171 Thm 2); multiplicity-2 hypergraphs of girth ≥ 3: EF3X, 2/3-EFX (2606.26948) | open (general additive EFX) |
 
-**Nothing exact is known for p ≥ 3 except girth ≥ 4.** That is exactly where this project's k-bound adds something (§3.1).
+**For p ≥ 3, exact results are known only under girth ≥ 4** (2608.03171, Thms 1–2). That is exactly where this project's k-bound adds something (§3.1).
 
 ## 3. Relation to this project
 
 ### 3.1 Implications, overlaps, contradictions
 - **TARGET and D (k = 3): not implied.**
   - Exact results need p ≤ 2 or girth ≥ 4. TARGET cores have goods with three or more valuers and short Berge cycles. Take the showcase core of `proofs/novelty.md` §1: good 0 has three valuers (p = 3), and agents 0 and 1 share goods 0 and 1 (q = 2, so it is not even (∞, 1)).
-  - For q = 1 and p ≥ 3 only EF2X, partial or approximate results exist.
+  - For q = 1 and p ≥ 3 without girth ≥ 4, only EF2X, partial or approximate results exist.
   - Nothing is said about the shape of the allocation, so D has no counterpart.
 - **Overlap with T3/T5.**
   - T3's multigraph part (cores with every good of degree ≤ 2) is the (2, ∞) cell. 2606.18665 covers it, as T3 says. The (p, q) papers of §2.1–2.2 give only restricted-additive or approximate versions there and add nothing.
   - CFKS (refereed) independently covers a k = 3 core whose shared goods form a *simple* graph (q = 1), provided its private goods can be placed on distinct non-adjacent pairs (an edge to a non-neighbour that values it 0). That fails, for example, in a triangle.
   - 2608.03171 covers the k = 3 instances of girth ≥ 4, existence only (already noted in `proofs/citations.md`).
-  - T5 extends the multigraph theorem to goods with three or more valuers under a popular-matching condition. No (p, q) paper has an exact result with p ≥ 3 and q ≥ 2, so T5's class is not covered by them.
+  - T5 extends the multigraph theorem to goods with three or more valuers under a popular-matching condition. With p ≥ 3 the only exact (p, q) results need girth ≥ 4 (2608.03171). T5's class allows short cycles (for example two agents sharing two goods), so it is not covered by them.
 - **What TARGET adds to the (p, q) picture.**
   - Read in (p, q) terms, TARGET is **exact EFX₀ for every additive instance with agent degree ≤ 3, for every p and q**.
   - On (∞, 1)-bounded additive instances with at most 3 relevant goods per agent, it upgrades 2.1's EF2X (Thm 5.7), partial EFX (Thm 5.6) and √2/2-EFX (Thm 7.1) to exact complete EFX₀. Their theorems hold for monotone or subadditive valuations; ours is for additive.
-  - It gives the first exact results with p ≥ 3 and q ≥ 2 on that degree class.
+  - More generally, it is exact for p ≥ 3 and any q with no girth condition. Every earlier exact result with p ≥ 3 needs girth ≥ 4 (2608.03171).
 - **Contradictions: none.** The only non-existence results in these papers are about orientations (CFKS Example 1 and Prop. 14; Sgouritsa–Sotiriou §1.3 cites more). They are consistent with our junk placement: EFX₀ needs goods placed with agents who value them 0 (L3).
 - **K4.MC7.** It uses the multigraph theorem for 6 graphical all-P4 cores (n = 6, m = 15, `k4/MINCEX.md` §8). We checked their structure, from the lists in `k4/MINCEX.md` §8:
   - cores 4 (prism) and 5 (K₃,₃) are simple, so CFKS's Theorem 3 covers them. Each private good becomes an edge on a distinct complement edge; the complement is 2-regular, so orient each cycle.
