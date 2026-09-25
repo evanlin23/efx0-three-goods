@@ -956,6 +956,90 @@ theorem selfProtect {w : A} (hV : Valid agents goods base N)
       · exact Or.inl fun g hgU => Nat.eq_zero_of_not_pos fun hpos => hex ⟨g, hgU, hpos⟩
   exact ⟨hmain, fun h _ => Nat.le_trans (value_sublist v x List.erase_sublist) hmain⟩
 
+/-- Sequential slot filling (`k4/lb4.md` Lemma 2₄): the agents of `xs` in turn each take the good
+`choose x pool` (if any) from `pool`, the junk not yet placed. The result lists the placements `(x, t)`. -/
+def seqFill (choose : A → List G → Option G) : List A → List G → List (A × G)
+  | [], _ => []
+  | x :: xs, pool =>
+    match choose x pool with
+    | none => seqFill choose xs pool
+    | some t => (x, t) :: seqFill choose xs (pool.erase t)
+
+omit [DecidableEq A] in
+theorem seqFill_agent {choose : A → List G → Option G} :
+    ∀ {xs : List A} {pool : List G} {p : A × G}, p ∈ seqFill choose xs pool → p.1 ∈ xs
+  | [], _, _, h => by simp [seqFill] at h
+  | x :: xs, pool, p, h => by
+    unfold seqFill at h
+    split at h
+    · exact List.mem_cons_of_mem x (seqFill_agent h)
+    · rcases List.mem_cons.mp h with rfl | h
+      · simp
+      · exact List.mem_cons_of_mem x (seqFill_agent h)
+
+omit [DecidableEq A] in
+/-- At the turn of each agent `x` of `xs` the pool `P` contains every good of the initial pool that the
+fill never places, `P` is part of the initial pool, and `x` places the good `choose x P` (if any). -/
+theorem seqFill_pool {choose : A → List G → Option G} :
+    ∀ {xs : List A} {pool : List G} {x : A}, x ∈ xs → ∃ P : List G,
+      (∀ g ∈ pool, (∀ y, (y, g) ∉ seqFill choose xs pool) → g ∈ P) ∧ (∀ g ∈ P, g ∈ pool) ∧
+      ∀ t, choose x P = some t → (x, t) ∈ seqFill choose xs pool
+  | [], _, _, hx => by simp at hx
+  | x₀ :: xs, pool, x, hx => by
+    by_cases hx₀ : x = x₀
+    · subst hx₀
+      refine ⟨pool, fun g hg _ => hg, fun g hg => hg, fun t ht => ?_⟩
+      unfold seqFill; rw [ht]; simp
+    have hxs : x ∈ xs := (List.mem_cons.mp hx).resolve_left hx₀
+    cases hc : choose x₀ pool with
+    | none =>
+      obtain ⟨P, h1, h2, h3⟩ := seqFill_pool (choose := choose) (pool := pool) hxs
+      refine ⟨P, fun g hg hno => h1 g hg (fun y hy => hno y ?_), h2, fun t ht => ?_⟩
+      · unfold seqFill; rw [hc]; exact hy
+      · unfold seqFill; rw [hc]; exact h3 t ht
+    | some t₀ =>
+      obtain ⟨P, h1, h2, h3⟩ := seqFill_pool (choose := choose) (pool := pool.erase t₀) hxs
+      have hunf : seqFill choose (x₀ :: xs) pool = (x₀, t₀) :: seqFill choose xs (pool.erase t₀) := by
+        simp only [seqFill, hc]
+      refine ⟨P, fun g hg hno => h1 g ?_ (fun y hy => hno y ?_), fun g hg => List.mem_of_mem_erase (h2 g hg),
+        fun t ht => ?_⟩
+      · have : g ≠ t₀ := fun e => hno x₀ (by rw [hunf, e]; simp)
+        exact (List.mem_erase_of_ne this).mpr hg
+      · rw [hunf]; exact List.mem_cons_of_mem _ hy
+      · rw [hunf]; exact List.mem_cons_of_mem _ (h3 t ht)
+
+/-- **Lemma 2₄ for the sequential fill.** Let the agents of `xs` (not the owner `w`) fill their slots one at a
+time from the pool `pool` of junk goods, each taking its `≻`-best valued good of the pool if it has one
+(`hchoose`), and let `X` give each placed good to its placer and every other junk good of the owner's bundle
+come from `pool` (goods placed before the fill went into other agents' slots; whatever is placed after only
+leaves the owner's bundle). Then no agent `x` of `xs` with at most four relevant goods, a pick base `{y}` it
+values and the needs of a pick envies the owner's bundle. -/
+theorem selfProtect_seq {w : A} (hV : Valid agents goods base N)
+    (hC : Completion agents goods base N (some w) X) (hBo : (baseOf goods base w).length ≤ 1)
+    {pref : A → G → G → Prop} {choose : A → List G → Option G}
+    (hchoose : ∀ x P, (∃ g ∈ P, 0 < v x g) →
+      ∃ t, choose x P = some t ∧ t ∈ P ∧ 0 < v x t ∧ ∀ g ∈ P, 0 < v x g → g ≠ t → pref x t g)
+    {xs : List A} (hwxs : w ∉ xs) {pool : List G} (hpool : ∀ g ∈ pool, g ∈ junk goods base)
+    (hplace : ∀ p ∈ seqFill choose xs pool, X p.2 = p.1)
+    (hrest : ∀ g ∈ junk goods base, X g = w → g ∈ pool)
+    {x : A} (hxs : x ∈ xs) (hx : x ∈ agents) (hR : (relevant v x goods).length ≤ 4)
+    {y : G} (hBx : baseOf goods base x = [y]) (hy : 0 < v x y) (hrank : RankOK v pref x)
+    (hNx : ∀ g, pickNeeds v goods pref y x g → N x g) (hg : goods.Nodup) :
+    value v x (bundle goods X w) ≤ value v x (bundle goods X x) ∧
+      ∀ h ∈ bundle goods X w, value v x ((bundle goods X w).erase h) ≤ value v x (bundle goods X x) := by
+  obtain ⟨P, h1, h2, h3⟩ := seqFill_pool (choose := choose) (pool := pool) hxs
+  refine selfProtect hV hC hBo hx (fun e => hwxs (e ▸ hxs)) hR hBx hy hrank hNx
+    (U := P) (fun g hg => hpool g (h2 g hg)) (fun g hgJ hXg => ?_) (fun hex => ?_) hg
+  · -- a junk good of the owner's bundle was never placed by the fill, so it is still in `x`'s pool
+    refine h1 g (hrest g hgJ hXg) (fun z hz => ?_)
+    have hXz := hplace _ hz
+    have hzxs := seqFill_agent hz
+    simp only at hXz hzxs
+    rw [hXg] at hXz
+    exact hwxs (hXz ▸ hzxs)
+  · obtain ⟨t, hct, htP, htpos, hbest⟩ := hchoose x P hex
+    exact ⟨t, htP, hplace _ (h3 t hct), htpos, hbest⟩
+
 /-- `|R_x| ≤ 4` is needed in Lemma 2₄ (`k4/lb4.md` §1): `x` values goods `0, …, 4` at `10, 9, 8, 7, 6` and
 good `5` at `0`, holds `{0, 1}` (its pick `0` and its best junk good `1`), and the owner holds
 `{2, 3, 4, 5}`. The other hypotheses of `selfProtect_core` hold (`Bo = []`, `U = [2, 3, 4, 5]`, `t = 1`:
@@ -969,6 +1053,426 @@ theorem selfProtect_five :
   decide
 
 end selfProtect
+
+/-! ## Lemma 3₄ (the owner search is exact) -/
+
+section ownerSearch
+
+omit [DecidableEq G] in
+theorem filter_sublist_of_imp {p q : G → Bool} :
+    ∀ {l : List G}, (∀ g ∈ l, p g = true → q g = true) → (l.filter p).Sublist (l.filter q)
+  | [], _ => by simp
+  | g :: l, h => by
+    have ih := filter_sublist_of_imp (l := l) (fun g' hg' => h g' (by simp [hg']))
+    by_cases hp : p g = true
+    · have hq := h g (by simp) hp
+      simp only [List.filter_cons, hp, hq, ↓reduceIte]
+      exact ih.cons_cons g
+    · by_cases hq : q g = true
+      · simp only [List.filter_cons, hp, hq, ↓reduceIte, Bool.false_eq_true]
+        exact ih.cons g
+      · simp only [List.filter_cons, hp, hq, ↓reduceIte, Bool.false_eq_true]
+        exact ih
+
+theorem sum_le_sum_of_le {α : Type} (f g : α → Nat) :
+    ∀ l : List α, (∀ a ∈ l, f a ≤ g a) → (l.map f).sum ≤ (l.map g).sum
+  | [], _ => by simp
+  | a :: l, h => by
+    simp only [List.map_cons, List.sum_cons]
+    have := sum_le_sum_of_le f g l (fun b hb => h b (by simp [hb]))
+    have := h a (by simp)
+    omega
+
+theorem exists_lt_of_sum_lt {α : Type} (f g : α → Nat) (l : List α)
+    (h : (l.map f).sum < (l.map g).sum) : ∃ a ∈ l, f a < g a :=
+  Classical.byContradiction fun hno =>
+    Nat.not_le_of_lt h (sum_le_sum_of_le g f l fun a ha =>
+      Nat.le_of_not_lt fun hlt => hno ⟨a, ha, hlt⟩)
+
+/-- Splitting a sum over distinct agents into `w`'s term and the others'. -/
+theorem sum_split (f : A → Nat) {w : A} :
+    ∀ {l : List A}, l.Nodup → w ∈ l → (l.map f).sum = f w + (l.map (fun j => if j = w then 0 else f j)).sum
+  | [], _, hw => by simp at hw
+  | a :: l, hl, hw => by
+    obtain ⟨ha, hl'⟩ := List.nodup_cons.mp hl
+    simp only [List.map_cons, List.sum_cons]
+    by_cases haw : a = w
+    · subst haw
+      have : (l.map (fun j => if j = a then 0 else f j)) = l.map f :=
+        List.map_congr_left fun j hj => by simp [show j ≠ a from fun e => ha (e ▸ hj)]
+      rw [this]; simp
+    · rw [sum_split f hl' ((List.mem_cons.mp hw).resolve_left (Ne.symm haw))]
+      simp [haw]; omega
+
+open Classical in
+/-- `s`: the slots of the listed agents other than `w`, frozen agents computed with the needs `M` (the text's
+`s₀` takes the owner's needs from its base). -/
+noncomputable def otherSlots (agents : List A) (goods : List G) (base : G → Option A) (M : A → G → Prop)
+    (w : A) : Nat :=
+  (agents.map (fun j => if j = w ∨ Frozen agents goods base M j then 0 else 2 - (baseOf goods base j).length)).sum
+
+/-- Move the good `ℓ` to agent `x`. -/
+def moveTo (X : G → A) (ℓ : G) (x : A) : G → A := fun g => if g = ℓ then x else X g
+
+section move
+variable {w x : A} {ℓ : G}
+
+theorem bundle_moveTo_other (hℓ : X ℓ = w) {j : A} (hjw : j ≠ w) (hjx : j ≠ x) :
+    bundle goods (moveTo X ℓ x) j = bundle goods X j := by
+  unfold bundle moveTo
+  apply List.filter_congr
+  intro g _
+  by_cases hg : g = ℓ
+  · subst hg; simp [hℓ, Ne.symm hjx, Ne.symm hjw]
+  · simp [hg]
+
+theorem bundle_moveTo_owner (hℓ : X ℓ = w) (hxw : x ≠ w) :
+    (bundle goods (moveTo X ℓ x) w).Sublist (bundle goods X w) := by
+  unfold bundle
+  apply filter_sublist_of_imp
+  intro g _ h
+  unfold moveTo at h
+  by_cases hg : g = ℓ
+  · subst hg; simp [hxw] at h
+  · simpa [hg] using h
+
+theorem bundle_moveTo_x :
+    (bundle goods X x).Sublist (bundle goods (moveTo X ℓ x) x) := by
+  unfold bundle
+  apply filter_sublist_of_imp
+  intro g _ h
+  unfold moveTo
+  by_cases hg : g = ℓ
+  · subst hg; simp
+  · simpa [hg] using h
+
+/-- The owner's bundle after the move is its bundle without `ℓ`. -/
+theorem value_moveTo_owner (hg : goods.Nodup) (hℓg : ℓ ∈ goods) (hℓ : X ℓ = w) (hxw : x ≠ w) (i : A) :
+    value v i (bundle goods (moveTo X ℓ x) w) + v i ℓ = value v i (bundle goods X w) := by
+  have e : bundle goods (moveTo X ℓ x) w = (bundle goods X w).erase ℓ := by
+    rw [List.Nodup.erase_eq_filter (nodup_bundle hg X w)]
+    unfold bundle moveTo
+    rw [List.filter_filter]
+    apply List.filter_congr
+    intro g _
+    by_cases hgl : g = ℓ
+    · subst hgl; simp [hxw]
+    · simp [hgl]
+  rw [e, value_erase (v := v) (i := i) (mem_bundle.mpr ⟨hℓg, hℓ⟩)]
+  omega
+
+omit [DecidableEq G] in
+/-- Counting the junk goods of a bundle as a `countP` over the goods. -/
+theorem junkOf_length (j : A) (Y : G → A) :
+    (junkOf goods base Y j).length = goods.countP (fun g => decide (Y g = j) && decide (base g = none)) := by
+  rw [junkOf, bundle, List.filter_filter, List.countP_eq_length_filter]
+  congr 1
+  apply List.filter_congr
+  intro g _
+  simp [Bool.and_comm]
+
+/-- A `countP` over distinct goods, when the predicate changes at one good `ℓ` only. -/
+theorem countP_change {p q : G → Bool} (hg : goods.Nodup) (hℓ : ℓ ∈ goods)
+    (hpq : ∀ g ∈ goods, g ≠ ℓ → p g = q g) :
+    goods.countP p + (if q ℓ then 1 else 0) = goods.countP q + (if p ℓ then 1 else 0) := by
+  have hperm := List.perm_cons_erase hℓ
+  rw [hperm.countP_eq p, hperm.countP_eq q, List.countP_cons, List.countP_cons]
+  have : (goods.erase ℓ).countP p = (goods.erase ℓ).countP q := by
+    apply List.countP_congr
+    intro g hg'
+    have hne : g ≠ ℓ := fun e => by
+      subst e; exact (List.Nodup.mem_erase_iff hg).mp hg' |>.1 rfl
+    rw [hpq g (List.mem_of_mem_erase hg') hne]
+  rw [this]
+  omega
+
+theorem junkOf_moveTo_x (hg : goods.Nodup) (hℓg : ℓ ∈ goods) (hℓ : X ℓ = w) (hxw : x ≠ w)
+    (hbℓ : base ℓ = none) :
+    (junkOf goods base (moveTo X ℓ x) x).length = (junkOf goods base X x).length + 1 := by
+  rw [junkOf_length, junkOf_length]
+  have := countP_change (goods := goods) (ℓ := ℓ)
+    (p := fun g => decide (X g = x) && decide (base g = none))
+    (q := fun g => decide (moveTo X ℓ x g = x) && decide (base g = none)) hg hℓg
+    (fun g _ hgl => by simp [moveTo, hgl])
+  have hq : (decide (moveTo X ℓ x ℓ = x) && decide (base ℓ = none)) = true := by simp [moveTo, hbℓ]
+  have hp : (decide (X ℓ = x) && decide (base ℓ = none)) = false := by simp [hℓ, Ne.symm hxw]
+  simp only [hq, hp, ↓reduceIte, Bool.false_eq_true] at this
+  omega
+
+theorem junkOf_moveTo_owner (hg : goods.Nodup) (hℓg : ℓ ∈ goods) (hℓ : X ℓ = w) (hxw : x ≠ w)
+    (hbℓ : base ℓ = none) :
+    (junkOf goods base (moveTo X ℓ x) w).length + 1 = (junkOf goods base X w).length := by
+  rw [junkOf_length, junkOf_length]
+  have := countP_change (goods := goods) (ℓ := ℓ)
+    (p := fun g => decide (X g = w) && decide (base g = none))
+    (q := fun g => decide (moveTo X ℓ x g = w) && decide (base g = none)) hg hℓg
+    (fun g _ hgl => by simp [moveTo, hgl])
+  have hq : (decide (moveTo X ℓ x ℓ = w) && decide (base ℓ = none)) = false := by simp [moveTo, hxw]
+  have hp : (decide (X ℓ = w) && decide (base ℓ = none)) = true := by simp [hℓ, hbℓ]
+  simp only [hq, hp, ↓reduceIte, Bool.false_eq_true] at this
+  omega
+
+end move
+
+omit [DecidableEq G] in
+theorem junkOf_length_le (j : A) : (junkOf goods base X j).length ≤ (junk goods base).length := by
+  rw [junkOf_length, junk, ← List.countP_eq_length_filter]
+  apply List.countP_mono_left
+  intro g _ h
+  simp only [Bool.and_eq_true, decide_eq_true_eq] at h
+  simpa using h.2
+
+omit [DecidableEq G] in
+theorem ownerNeeds_ext {X' : G → A} {w : A} (h : ∀ g, ownerNeeds v goods X' N (some w) w g ↔ ownerNeeds v goods X N (some w) w g) :
+    ownerNeeds v goods X' N (some w) = ownerNeeds v goods X N (some w) := by
+  funext i g
+  apply propext
+  by_cases hiw : i = w
+  · subst hiw; exact h g
+  · have : (some w = some i) = False := by simp [Ne.symm hiw]
+    simp [ownerNeeds, this]
+
+/-- **One step of Lemma 3₄.** If the other agents' junk goods fill fewer than `s` slots and the owner has a
+junk good, one junk good of the owner's bundle can be moved into a free slot so that the result is again a
+sound completion with the same owner's needs `N_o^X` (hence the same frozen agents and slots). -/
+theorem move_step {w : A} {M : A → G → Prop} (hag : agents.Nodup) (hg : goods.Nodup)
+    (hS : SoundCompletion v agents goods base N (some w) X)
+    (hM : ∀ j, Frozen agents goods base (ownerNeeds v goods X N (some w)) j → Frozen agents goods base M j)
+    (hbal : ∀ g ∈ goods, 0 < v w g → 2 * v w g < value v w goods)
+    (hR4 : (relevant v w goods).length ≤ 4)
+    (hBR : ∀ g ∈ baseOf goods base w, 0 < v w g)
+    (hbig : 3 ≤ (baseOf goods base w).length ∨
+      3 + otherSlots agents goods base M w ≤ (baseOf goods base w).length + (junk goods base).length)
+    (hlt : (junk goods base).length - (junkOf goods base X w).length < otherSlots agents goods base M w)
+    (hpos : 0 < (junkOf goods base X w).length) :
+    ∃ X' : G → A, SoundCompletion v agents goods base N (some w) X' ∧
+      ownerNeeds v goods X' N (some w) = ownerNeeds v goods X N (some w) ∧
+      (junkOf goods base X' w).length + 1 = (junkOf goods base X w).length := by
+  classical
+  have hC := hS.completion
+  have hw := hC.owner w rfl
+  have hJC := junkOf_length_le (goods := goods) (base := base) (X := X) w
+  -- 1. a free agent `x ≠ w` with an unused slot
+  have hsumC : (agents.map (fun j => if j = w then 0 else (junkOf goods base X j).length)).sum +
+      (junkOf goods base X w).length = (junk goods base).length := by
+    rw [hC.junk_length hag, sum_split (fun j => (junkOf goods base X j).length) hag hw.1]; omega
+  have hsl : otherSlots agents goods base M w ≤ (agents.map (fun j =>
+      if j = w ∨ Frozen agents goods base (ownerNeeds v goods X N (some w)) j then 0
+      else 2 - (baseOf goods base j).length)).sum := by
+    apply sum_le_sum_of_le
+    intro j _
+    by_cases h1 : j = w ∨ Frozen agents goods base M j
+    · simp [h1]
+    · have h2 : ¬ (j = w ∨ Frozen agents goods base (ownerNeeds v goods X N (some w)) j) :=
+        fun h => h1 (h.imp id (hM j))
+      simp [h1, h2]
+  obtain ⟨x, hx, hxlt⟩ := exists_lt_of_sum_lt
+    (fun j => if j = w then 0 else (junkOf goods base X j).length) _ agents
+    (Nat.lt_of_lt_of_le (by omega) hsl)
+  have hxw : x ≠ w := fun e => by simp [e] at hxlt
+  have hxF : ¬ Frozen agents goods base (ownerNeeds v goods X N (some w)) x := fun h => by simp [h] at hxlt
+  have hxslot : (junkOf goods base X x).length + (baseOf goods base x).length + 1 ≤ 2 := by
+    simp only [hxw, hxF, or_self, ↓reduceIte] at hxlt; omega
+  -- 2. a good `ℓ` to move: worthless to the owner, or else the owner holds all its relevant goods
+  have hlen := hC.length_eq w
+  obtain ⟨ℓ, hℓC, hℓcase⟩ : ∃ ℓ ∈ junkOf goods base X w,
+      v w ℓ = 0 ∨ (0 < v w ℓ ∧ ∀ g ∈ goods, 0 < v w g → X g = w) := by
+    by_cases h0 : ∃ ℓ ∈ junkOf goods base X w, v w ℓ = 0
+    · obtain ⟨ℓ, hℓ, h⟩ := h0; exact ⟨ℓ, hℓ, Or.inl h⟩
+    · obtain ⟨ℓ, hℓ⟩ := List.exists_mem_of_ne_nil _ (List.ne_nil_of_length_pos hpos)
+      refine ⟨ℓ, hℓ, Or.inr ⟨Nat.pos_of_ne_zero fun e => h0 ⟨ℓ, hℓ, e⟩, fun g hgg hgpos => ?_⟩⟩
+      refine Classical.byContradiction fun hXg => ?_
+      -- otherwise the owner's bundle lies in `R_w ∖ {g}`, which has at most three goods
+      have hsub := length_le_of_subset (S := g :: bundle goods X w) (T := relevant v w goods)
+        (List.nodup_cons.mpr ⟨fun hm => hXg (mem_bundle.mp hm).2, nodup_bundle hg X w⟩) (fun h hh => by
+          unfold relevant
+          rcases List.mem_cons.mp hh with rfl | hh
+          · simpa using ⟨hgg, hgpos⟩
+          obtain ⟨hhg, hXh⟩ := mem_bundle.mp hh
+          cases hbh : base h with
+          | none =>
+            have hJ : h ∈ junkOf goods base X w := mem_junkOf.mpr ⟨hhg, hXh, hbh⟩
+            simpa using ⟨hhg, Nat.pos_of_ne_zero fun e => h0 ⟨h, hJ, e⟩⟩
+          | some k =>
+            have := hC.onBase h hhg k hbh
+            rw [hXh] at this; subst this
+            simpa using ⟨hhg, hBR h (mem_baseOf.mpr ⟨hhg, hbh⟩)⟩)
+      simp only [List.length_cons] at hsub
+      rcases hbig with hb | hb <;> omega
+  obtain ⟨hℓg, hXℓ, hbℓ⟩ := mem_junkOf.mp hℓC
+  -- 3. the owner's needs `N_o^X` do not change
+  have hval := value_moveTo_owner (v := v) (x := x) hg hℓg hXℓ hxw w
+  have hON : ownerNeeds v goods (moveTo X ℓ x) N (some w) = ownerNeeds v goods X N (some w) := by
+    apply ownerNeeds_ext
+    intro g
+    simp only [ownerNeeds, ↓reduceIte]
+    rcases hℓcase with h0 | ⟨hℓpos, hall⟩
+    · by_cases hgl : g = ℓ
+      · subst hgl; simp [h0, hXℓ]
+      · simp only [moveTo, hgl, ↓reduceIte]; rw [h0] at hval; rw [Nat.add_zero] at hval; rw [hval]
+    · -- both are empty: the owner holds every good it values, and keeps more than `ℓ` without it
+      have hgoods : value v w goods ≤ value v w (bundle goods X w) := by
+        rw [value_filter_pos (v := v) w goods]
+        apply value_sublist
+        unfold bundle
+        apply filter_sublist_of_imp
+        intro g hg' h
+        simp only [decide_eq_true_eq] at h ⊢
+        exact hall g hg' h
+      have := hbal ℓ hℓg hℓpos
+      constructor
+      · rintro ⟨hgg, hXg, hlt⟩
+        by_cases hgl : g = ℓ
+        · subst hgl; omega
+        · simp only [moveTo, hgl, ↓reduceIte] at hXg
+          exact absurd (hall g hgg (by omega)) hXg
+      · rintro ⟨hgg, hXg, hlt⟩
+        exact absurd (hall g hgg (by omega)) hXg
+  -- 4. the moved allocation is a sound completion
+  refine ⟨moveTo X ℓ x, ⟨hS.needs, hON ▸ hS.valid, ?_, ?_⟩, hON,
+    junkOf_moveTo_owner hg hℓg hXℓ hxw hbℓ⟩
+  · rw [hON]
+    refine ⟨fun g hg' => ?_, fun g hg' i hb => ?_, hC.owner, fun j hj hjo hF => ?_,
+      fun j hj hjo hF => ?_⟩
+    · unfold moveTo; split
+      · exact hx
+      · exact hC.alloc g hg'
+    · have : g ≠ ℓ := fun e => by rw [e, hbℓ] at hb; cases hb
+      simp only [moveTo, this, ↓reduceIte]; exact hC.onBase g hg' i hb
+    · have hjw : j ≠ w := fun e => hjo (by rw [e])
+      have hjx : j ≠ x := fun e => hxF (e ▸ hF)
+      unfold junkOf; rw [bundle_moveTo_other hXℓ hjw hjx]
+      exact hC.frozen j hj hjo hF
+    · have hjw : j ≠ w := fun e => hjo (by rw [e])
+      by_cases hjx : j = x
+      · subst hjx
+        rw [junkOf_moveTo_x hg hℓg hXℓ hxw hbℓ]; omega
+      · unfold junkOf; rw [bundle_moveTo_other hXℓ hjw hjx]
+        exact hC.free j hj hjo hF
+  · intro w' hw' j hj hjw h hh
+    cases hw'
+    have hsubw := bundle_moveTo_owner (goods := goods) hXℓ hxw
+    have hle1 : value v j ((bundle goods (moveTo X ℓ x) w).erase h) ≤ value v j ((bundle goods X w).erase h) :=
+      value_sublist v j (hsubw.erase h)
+    have hle2 := hS.oc w rfl j hj hjw h (hsubw.subset hh)
+    have hle3 : value v j (bundle goods X j) ≤ value v j (bundle goods (moveTo X ℓ x) j) := by
+      by_cases hjx : j = x
+      · subst hjx; exact value_sublist v j bundle_moveTo_x
+      · rw [bundle_moveTo_other hXℓ hjw hjx]; exact Nat.le_refl _
+    omega
+
+/-- **Lemma 3₄ (the owner search is exact), general form.** Let `X` be a sound completion with owner `w`,
+where `w` is strictly balanced (`2 v_w(g) < v_w(M)` for every good it values), values at most four goods
+and every good of its base, and let `s` be the slots of the other agents, the frozen agents computed with
+needs `M` whose frozen agents include those of `N_o^X` (`M = N`, the owner's needs from its base, gives the
+text's `s₀`; `otherSlots_le`). Suppose `|B_w| ≥ 3`, or `|B_w| + |J| ≥ s + 3`. Then some sound completion
+`X'` with the same owner's needs `N_o^X` puts at least `min(|J|, s)` junk goods into the other agents' slots
+(`|C| = |J| − |C_w|`). -/
+theorem ownerSearch_exact {w : A} {M : A → G → Prop} (hag : agents.Nodup) (hg : goods.Nodup)
+    (hS : SoundCompletion v agents goods base N (some w) X)
+    (hM : ∀ j, Frozen agents goods base (ownerNeeds v goods X N (some w)) j → Frozen agents goods base M j)
+    (hbal : ∀ g ∈ goods, 0 < v w g → 2 * v w g < value v w goods)
+    (hR4 : (relevant v w goods).length ≤ 4)
+    (hBR : ∀ g ∈ baseOf goods base w, 0 < v w g)
+    (hbig : 3 ≤ (baseOf goods base w).length ∨
+      3 + otherSlots agents goods base M w ≤ (baseOf goods base w).length + (junk goods base).length) :
+    ∃ X' : G → A, SoundCompletion v agents goods base N (some w) X' ∧
+      ownerNeeds v goods X' N (some w) = ownerNeeds v goods X N (some w) ∧
+      min (junk goods base).length (otherSlots agents goods base M w) ≤
+        (junk goods base).length - (junkOf goods base X' w).length := by
+  suffices h : ∀ n (X : G → A), (junkOf goods base X w).length = n →
+      SoundCompletion v agents goods base N (some w) X →
+      (∀ j, Frozen agents goods base (ownerNeeds v goods X N (some w)) j → Frozen agents goods base M j) →
+      ∃ X' : G → A, SoundCompletion v agents goods base N (some w) X' ∧
+        ownerNeeds v goods X' N (some w) = ownerNeeds v goods X N (some w) ∧
+        min (junk goods base).length (otherSlots agents goods base M w) ≤
+          (junk goods base).length - (junkOf goods base X' w).length from h _ X rfl hS hM
+  intro n
+  induction n with
+  | zero => intro X hn hS _; exact ⟨X, hS, rfl, by rw [hn]; omega⟩
+  | succ n ih =>
+    intro X hn hS hM
+    by_cases hdone : min (junk goods base).length (otherSlots agents goods base M w) ≤
+        (junk goods base).length - (n + 1)
+    · exact ⟨X, hS, rfl, by rw [hn]; exact hdone⟩
+    · obtain ⟨X₁, hS₁, hON₁, hlen₁⟩ :=
+        move_step hag hg hS hM hbal hR4 hBR hbig (by omega) (by omega)
+      obtain ⟨X', hS', hON', hmin⟩ := ih X₁ (by omega) hS₁ (by rw [hON₁]; exact hM)
+      exact ⟨X', hS', hON'.trans hON₁, hmin⟩
+
+/-- Sums over distinct agents split into `w`'s term and the others' (integer version). -/
+theorem sum_split_int (f : A → Int) {w : A} :
+    ∀ {l : List A}, l.Nodup → w ∈ l → (l.map f).sum = f w + (l.map (fun j => if j = w then 0 else f j)).sum
+  | [], _, hw => by simp at hw
+  | a :: l, hl, hw => by
+    obtain ⟨ha, hl'⟩ := List.nodup_cons.mp hl
+    simp only [List.map_cons, List.sum_cons]
+    by_cases haw : a = w
+    · subst haw
+      have : (l.map (fun j => if j = a then 0 else f j)) = l.map f :=
+        List.map_congr_left fun j hj => by simp [show j ≠ a from fun e => ha (e ▸ hj)]
+      rw [this]; simp
+    · rw [sum_split_int f hl' ((List.mem_cons.mp hw).resolve_left (Ne.symm haw))]
+      simp [haw]; omega
+
+omit [DecidableEq G] in
+open Classical in
+/-- When every other agent's base has at most two goods, `S = s + cap(w)`: the slots of the others are
+their caps. -/
+theorem otherSlots_add_cap {w : A} {M : A → G → Prop} (hag : agents.Nodup) (hw : w ∈ agents)
+    (hB2 : ∀ j ∈ agents, j ≠ w → (baseOf goods base j).length ≤ 2) :
+    (otherSlots agents goods base M w : Int) + cap agents goods base M w = capSum agents goods base M := by
+  unfold capSum otherSlots
+  rw [sum_split_int (cap agents goods base M) hag hw, ← sum_map_cast]
+  have : agents.map (fun j => (((if j = w ∨ Frozen agents goods base M j then 0
+      else 2 - (baseOf goods base j).length : Nat)) : Int)) =
+      agents.map (fun j => if j = w then 0 else cap agents goods base M j) := by
+    apply List.map_congr_left
+    intro j hj
+    by_cases hjw : j = w
+    · simp [hjw]
+    · have := hB2 j hj hjw
+      by_cases hF : Frozen agents goods base M j
+      · simp [hjw, hF, cap]
+      · simp only [hjw, hF, or_self, ↓reduceIte, cap]; omega
+  rw [this]; omega
+
+open Classical in
+/-- **Lemma 3₄, in the text's terms.** Let `X` be a sound completion with owner `w`, whose needs from its base
+`N w` are needs in the Definition's sense; `w` strictly balanced, with at most four relevant goods and its
+base among them. Let `s₀` be the slots of the other agents with the owner's needs from its base
+(`otherSlots … N w`). Suppose either `|B_w| ≥ 3` (a rotated agent with `|O| ≥ 3`), or `w` is free with its
+needs from its base, every other agent's base has at most two goods, and `ω ≥ 1` (`ω = |J| − S`, `S` with the
+owner's needs from its base). Then some sound completion with the same `N_o^X` has at least `min(|J|, s₀)`
+slot goods. -/
+theorem ownerSearch_exact_base {w : A} (hag : agents.Nodup) (hg : goods.Nodup)
+    (hS : SoundCompletion v agents goods base N (some w) X) (hNw : Needs v goods base N w)
+    (hbal : ∀ g ∈ goods, 0 < v w g → 2 * v w g < value v w goods)
+    (hR4 : (relevant v w goods).length ≤ 4)
+    (hBR : ∀ g ∈ baseOf goods base w, 0 < v w g)
+    (hcase : 3 ≤ (baseOf goods base w).length ∨
+      (¬ Frozen agents goods base N w ∧ (∀ j ∈ agents, j ≠ w → (baseOf goods base j).length ≤ 2) ∧
+        1 ≤ ((junk goods base).length : Int) - capSum agents goods base N)) :
+    ∃ X' : G → A, SoundCompletion v agents goods base N (some w) X' ∧
+      ownerNeeds v goods X' N (some w) = ownerNeeds v goods X N (some w) ∧
+      min (junk goods base).length (otherSlots agents goods base N w) ≤
+        (junk goods base).length - (junkOf goods base X' w).length := by
+  have hw := (hS.completion.owner w rfl).1
+  have hNd : ∀ i ∈ agents, Needs v goods base N i := fun i hi => by
+    by_cases hiw : i = w
+    · subst hiw; exact hNw
+    · exact hS.needs i hi (fun e => hiw (Option.some.inj e).symm)
+  refine ownerSearch_exact hag hg hS (fun j ⟨y, hy, i, hi, hN⟩ =>
+    ⟨y, hy, i, hi, ownerNeeds_le hS.completion.onBase hNd i hi y hN⟩) hbal hR4 hBR ?_
+  rcases hcase with h3 | ⟨hwF, hB2, hω⟩
+  · exact Or.inl h3
+  · right
+    have e := otherSlots_add_cap (M := N) (base := base) (goods := goods) hag hw hB2
+    have hc : cap agents goods base N w = 2 - ((baseOf goods base w).length : Int) := by
+      unfold cap; simp [hwF]
+    omega
+
+end ownerSearch
 
 end LB4
 end EFX
@@ -992,3 +1496,7 @@ end EFX
 #print axioms EFX.LB4.selfProtect
 #print axioms EFX.LB4.Completion.owner_length
 #print axioms EFX.LB4.selfProtect_five
+#print axioms EFX.LB4.selfProtect_seq
+#print axioms EFX.LB4.move_step
+#print axioms EFX.LB4.ownerSearch_exact
+#print axioms EFX.LB4.ownerSearch_exact_base
