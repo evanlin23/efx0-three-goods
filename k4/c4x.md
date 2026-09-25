@@ -457,7 +457,8 @@ python3 k4/c4x_run.py results/k4_certs_4_n4_2.json.gz -R -p "6,17;3;6"          
 python3 k4/c4x_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz -Q -p "0;1;2;3;4"      # Pareto-type table, n <= 3
 python3 k4/c4x_run.py results/certs_lb_2_6.json.gz -T -p 3 --jobs=2                                # Theorem K3's lemmas, k = 3, n <= 6: ~45 min
 python3 k4/c4x_run.py results/k4_certs_4_n4_1.json.gz -W -p "18,19"                                # §4 counters, one 4-good agent
-python3 k4/c4x_ht.py 2 | k4-c4x-binary -1s -R -p "6;0;2;3"                                         # §6, H_2 (the binary: see below)
+B=$(python3 -c "import sys; sys.path.insert(0, 'k4'); import c4x_run; print(c4x_run.binary())")
+python3 k4/c4x_ht.py 2 | $B -1s -R -a -p "6;0;2;3"                                                 # §6, H_2: ~15 s
 python3 k4/c4x_random.py 7 12 3 300 --seed=712                                                     # random cores (§2 table)
 python3 k4/c4x_crosscheck.py results/k4_certs_2.json.gz --all                                      # independent checker, n = 2: ~15 min
 python3 attempts/k4_c4x_attempts.py                                                                # smallest failures, both implementations
