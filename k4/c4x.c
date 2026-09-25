@@ -587,7 +587,7 @@ static void do_profile(void) {
       }
     }
   }
-  if (pareto) {   /* -Q: is every Pareto-maximal (base levels) valid pre-allocation completable? */
+  if (pareto) {   /* -Q: is every (paretofail) / some (paretosomefail) Pareto-maximal (base levels) valid pre-allocation completable? */
     int bad = 0;
     for (int k = 0; k < nv && !bad; k++) {
       int dom = 0;
