@@ -5,7 +5,8 @@ per strict balanced type; an agent with two private goods keeps only p + q < s +
 type (check4's tied domain) is covered: the run on a tied profile equals the run on the strict profile of its
 perturbation 32 v + w (w = 2^position), so each tied type is attached as a preimage to the strict representative of
 its perturbed type, and ls4alg.c checks the output against it with the raw definition.
-Usage: ls4alg_run.py CERTFILE [...] [--sample=K] [--ties] [--jobs=J] [--only=IDX] [--cores=A:B] [--defs='-DNOX']
+Usage: ls4alg_run.py CERTFILE [...] [--sample=K] [--ties] [--jobs=J] [--only=IDX] [--cores=A:B] [--maxm=M] [--defs='-DNOX']
+(--prog=ls4_deadend: dead ends of Pareto local search, attempts/k4-ls-dead-end.md)
 (--prog=ls4_allstates: check conjecture TP4 on every stable state, not only reached ones;
  --defs=-DNOX: no exchange cycles; --defs=-DBADDUMP: unchecked dump; both are sensitivity tests that must fail)
 """
@@ -71,6 +72,7 @@ def main():
         lo, hi = map(int, opt['cores'].split(':')) if 'cores' in opt else (0, len(recs))
         for k, rec in enumerate(recs[lo:hi], lo):
             if 'only' in opt and k != int(opt['only']): continue
+            if 'maxm' in opt and rec['m'] > int(opt['maxm']): continue
             tasks.append((exe, data['n'], rec['m'], rec['sets'], ties, sample, k + 1))
     tot, ncores, bad, t0 = {}, 0, 0, time.time()
     with Pool(jobs) as pool:

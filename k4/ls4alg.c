@@ -229,6 +229,9 @@ static void run(void) {
             if (!moved) break;
         }
         steps++; rot++;
+#ifdef TRACE
+        printf("STEP"); for (int i = 0; i < n; i++) printf(" %x", Y[i]); printf("\n");
+#endif
         mask a = 0; for (int i = 0; i < n; i++) { if (Y[i] & ~R[i]) report("junk"); a |= Y[i]; }
         if (!efx0(Y)) report("step not EFX0");
         int l2 = level_sum(); if (l2 <= lev) report("level sum did not rise"); lev = l2;

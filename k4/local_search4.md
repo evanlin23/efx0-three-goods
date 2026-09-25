@@ -4,13 +4,23 @@ Workstream `proof/k4-localsearch`. Ledger rows `K4.LS.*`. This carries the two-p
 `proofs/local_search.md` (Algorithm LS2, Theorem C, row LS3) from three to four relevant goods per agent. It is a
 route to TARGET₄ that does not go through construction LB₄ (`k4/SCOUT.md` §5).
 
-**Status in one paragraph.**
-- *Proved here, pending review:* Algorithm LS4 is sound and terminates in at most Σ_i (2^{d_i} − 1) ≤ 15n Phase-1 steps (Theorem 1). Every state it produces is a junk-free EFX₀ partial allocation. Every output is a complete EFX₀ allocation. The algorithm fails only if it reaches a state that no move improves and that no placement of Phase 2 completes.
-- *Open:* that this never happens is **conjecture TP₄** (§4). With K4.CORE and K4.TIE it would give TARGET₄.
-- *For cores whose agents all have three goods,* TP₄ follows from the proof of Theorem C of `proofs/local_search.md` (Proposition 3, conditional on that proof, which is itself pending review).
-- *Computation (EVIDENCE):* LS4 never fails in the runs of §5. These are exhaustive for n ≤ 3, ties included, and for the mixed n = 4 cores with at most two 4-good agents. The other n = 4 and n = 5 cores of the certificate files are sampled.
-- *Negative results:* four natural variants fail, each with a small configuration replayed by an independent brute force (§6, `attempts/k4-ls-*.md`).
-- *Not proved:* a polynomial bound on the total running time. The number of steps is linear, but the implementation searches for exchange cycles and for the Phase-2 split by enumeration.
+**Status.**
+- **Negative result (the main finding).** The k = 3 scheme does not carry over as it stands. Theorem C allows *any* choice of moves. At k = 4 there is a *dead end* (n = 4, m = 7, a pure core): a junk-free EFX₀ partial allocation that LS4 reaches from the empty allocation with 15 single-agent rebundles, and that no complete EFX₀ allocation weakly Pareto-dominates (§4, `attempts/k4-ls-dead-end.md`; replayed by an independent brute force). Hence:
+  - conjecture TP₄ ("every stable state can be completed by a placement") is false;
+  - no two-phase local search whose Phase 1 makes Pareto improvements with arbitrary choices proves TARGET₄.
+
+  A local-search proof for k = 4 needs a choice rule that provably avoids dead ends, or moves that make some agent worse off.
+- *Proved here, pending review.*
+  - Algorithm LS4 is sound and makes at most Σ_i (2^{d_i} − 1) ≤ 15n Phase-1 moves (Theorem 1). Every output is a complete EFX₀ allocation. It fails only at a stable state that no placement completes.
+  - Such a state has at least two sources (Lemma 5, Proposition 4: the k = 4 form of LS2's champion step).
+  - It has an agent with four goods: for cores whose agents all have three goods, LS4 never fails (Proposition 3, conditional on the proof of Theorem C of `proofs/local_search.md`, itself pending review).
+- *Computation (EVIDENCE).* LS4 with its default choice rule never fails on:
+  - n ≤ 3: every profile, ties included (300 million strict profiles; 24.7·10⁹ tied ones);
+  - n = 4 with one 4-good agent (exhaustive) or two (see §5);
+  - large random samples of every other n = 4 and n = 5 certificate class,
+
+  except on 20 of the 21.9 million sampled profiles of pure n = 4 cores (§5). All 20 are dead ends or stable states without a placement.
+- *Not proved:* a polynomial bound on the running time. The number of moves is linear, but the implementation finds exchange cycles and the Phase-2 split by enumeration.
 
 ## 0. Setting and notation
 
@@ -121,13 +131,32 @@ So X is EFX₀ and complete.
 
 So W is threat-free for h, and V_h(W) > σ_h would give a valid M1 move. ∎
 
-## 4. The conjecture, and the case of three goods
+## 4. Stable states: a dead end, three goods, one source
 
-**Conjecture TP₄.** Let Y be a junk-free EFX₀ partial allocation of a k = 4 core with U ≠ ∅, and suppose no M1, R or X move applies. Then Phase 2 (a), (b) or (c) applies.
+**Conjecture TP₄ (refuted).** "Let Y be a junk-free EFX₀ partial allocation of a k = 4 core with U ≠ ∅, and suppose no M1, R or X move applies. Then Phase 2 (a), (b) or (c) applies."
 
-By Theorem 1, TP₄ implies that LS4 always outputs a complete EFX₀ allocation. With K4.CORE and K4.TIE (`k4/SCOUT.md` §2) this gives TARGET₄. The implementation tests the equivalent lazy form on every state it reaches: whenever no M1 or R move applies and (a)–(c) fail, an X move exists.
+TP₄ would have made LS4 correct for every choice of moves, and with K4.CORE and K4.TIE it would have given TARGET₄. It is false.
 
-The shape of (c) is forced, in the following sense. Some state stable under every Pareto move, even every coalition move, admits no single dump (b). The only complete EFX₀ allocation that is at least as good for everyone as that state splits the pool over two sources (`attempts/k4-ls-single-dump.md`). So Phase 2 must be able to split the pool, as LS2's matching does at k = 3.
+**Proposition 7 (a dead end; n = 4, m = 7).** Take the pure core with agents
+- 0: goods 0:8, 2:10, 5:6, 6:3;
+- 1: goods 0:5, 3:2, 4:4, 6:8;
+- 2: goods 1:1, 2:8, 4:6, 6:4;
+- 3: goods 1:2, 3:3, 5:6, 6:10;
+
+and let Y = {2} | {6} | {1, 4} | {3, 5}, U = {0}. Then:
+- (i) Y is reached from the empty allocation by 15 M1 moves (LS4's own run);
+- (ii) no M1, R, X or coalition move applies, and no placement of good 0 gives an EFX₀ allocation;
+- (iii) no complete EFX₀ allocation X has V_i(X_i) ≥ σ_i for all i.
+
+*Proof.* By computation from the raw definition, in two independent programs: `k4/ls4alg.c` with `-DTRACE`, and the plain-Python brute force `k4/ls4_attempts.py` (all 4⁷ allocations; `results/k4_ls4_attempts.log`).
+
+The core of (ii) by hand: the sources are agents 2 and 3 (agent 2 envies agent 0, agent 3 envies agent 1). Good 0 at agent 2 gives agent 1 the threat 5 + 4 = 9 > 8, and at agent 3 it gives agent 0 the threat 8 + 6 = 14 > 10. Each claim compares subset sums of one agent, so it holds for every valuation with these strict types. ∎
+
+By (iii), a two-phase search that may reach Y cannot succeed, whatever moves it makes afterwards, as long as each move leaves every agent at least as well off. Single-agent rebundles reach Y, so every Pareto move set containing them can reach Y under some choices.
+
+What survives is LS4 with a fixed choice rule, as an algorithm to be tested, and the partial results above. The same profile succeeds under the alternative rule `-DALT` (most valuable rebundle, rotating agent order, longest cycles first).
+
+The shape of (c) is also forced, in the following sense. Some state stable under every Pareto move, even every coalition move, admits no single dump (b). The only complete EFX₀ allocation that is at least as good for everyone as that state splits the pool over two sources (`attempts/k4-ls-single-dump.md`). So Phase 2 must be able to split the pool, as LS2's matching does at k = 3.
 
 **Proposition 3 (three goods; conditional on `proofs/local_search.md` §4).** If every agent of the core has three goods, TP₄ follows from Claims 2–4 of Theorem C of `proofs/local_search.md`.
 
@@ -140,6 +169,50 @@ The shape of (c) is forced, in the following sense. Some state stable under ever
   - each new bundle is either an old bundle, whose threat to anyone other than its old holder is bounded because Y is EFX₀, and to its old holder by θ ≤ V, or a pair {u, y} of two goods nobody envies.
 
 Now let Y be as in TP₄. If some bundle is empty, (a) applies. Otherwise steps 1–7 of LS2 do not apply, so by Claims 2 and 4, LS2's Phase 2 (b) gives a complete EFX₀ allocation. In it, a one-good source s* that values no good of U (Claim 2 (e)) receives U ∖ D(T), and each u ∈ D(T) goes alone to a distinct one-good source M(u) ≠ s* that does not value it. Every bundle of an EFX₀ allocation is threat-free for its holder, and the σ_h are unchanged. So this placement is a DM placement, and (c) applies. ∎
+
+**Lemma 5 (champions; the k = 4 form of LS2's step 6 and Claim 2 (h)).** Let Y be junk-free and EFX₀, with no M1 and no X move. Let s be a source at which the single dump (b) fails, that is, s values a good of U, or Y_s ∪ U is not threat-free for s. Among all pairs (h, Z) of an agent h and a set Z ⊆ (Y_s ∪ U) ∩ R_h with V_h(Z) > σ_h, take one with |Z| minimum. Then:
+- Z is threat-free for h;
+- Z meets both Y_s and U;
+- h ≠ s;
+- h is not reachable from s by an envy path.
+
+*Proof.* Such pairs exist.
+- If s values u ∈ U, take (s, Y_s ∪ {u}).
+- Otherwise V_h((Y_s ∪ U) ∖ g) > σ_h for some h ≠ s and g. Take (h, ((Y_s ∪ U) ∖ g) ∩ R_h).
+
+*Threat-free.* For every agent x and g ∈ Z, the set Z ∖ g has fewer goods than Z. By minimality V_x(Z ∖ g) ≤ σ_x, so θ_x(Z) ≤ σ_x.
+
+*Z meets U.* If Z ⊆ Y_s, then h ≠ s (since V_s(Z) ≤ σ_s), and h envies s, contradicting that s is a source.
+
+*Z meets Y_s.* If Z ⊆ U, then V_h(Z) ≤ V_h(U ∩ R_h) ≤ σ_h by (F2) of Lemma 2.
+
+*h ≠ s.* If h = s, then Z ⊆ R_s ∩ (Y_s ∪ U) is an M1 move.
+
+*h is not reachable.* Suppose s = t_0 → t_1 → … → t_r = h is a simple envy path, r ≥ 1. Then the following is an X move: each t_q (q < r) takes Y_{t_{q+1}}, and h takes Z.
+- Y_{t_{q+1}} ⊆ R_{t_q} by Lemma B, and t_q strictly improves.
+- Y_{t_{q+1}} is threat-free for t_q: for x ≠ t_{q+1} because Y is EFX₀, and for x = t_{q+1} because θ ≤ V.
+- Z meets Y_s = Y_{t_0}, and no other agent takes from Y_{t_0}.
+- The taken sets are disjoint. ∎
+
+**Proposition 4 (one source).** If Y is as in TP₄ and has exactly one source, then (a) or (b) applies. So TP₄ holds for such states, for any instance with d_i ≤ 4. The dead end of Proposition 7 has two sources.
+
+*Proof.* If some bundle is empty, (a) applies. Otherwise the envy graph is acyclic, since no R move applies. A backward walk from any agent along envy edges ends at a source, which is s. So every agent is reachable from s. By Lemma 5 the single dump at s cannot fail. ∎
+
+**Lemma 6 (the Phase-2 constraints).** Let Y be junk-free and EFX₀, s a source, and 𝓔(s) the family of sets E ⊆ Y_s ∪ U that some agent envies (V_h(E) > σ_h). Then:
+- (i) For J ⊆ U ∖ R_s, the set Y_s ∪ J is threat-free for s iff no member of 𝓔(s) is a proper subset of Y_s ∪ J.
+- (ii) Every inclusion-minimal E ∈ 𝓔(s) is contained in R_h for each agent h envying it, and is threat-free for h. If no M1 move applies, E meets both Y_s and U, and h ≠ s.
+
+*Proof.* (i) Y_s ∪ J is not threat-free iff (Y_s ∪ J) ∖ g ∈ 𝓔(s) for some x ≠ s and g. Since 𝓔(s) is closed upward within Y_s ∪ U, this holds iff some E ∈ 𝓔(s) satisfies E ⊆ (Y_s ∪ J) ∖ g for some g, that is, E is a proper subset of Y_s ∪ J. The envier is not s, because s values no good of J and V_s(E ∩ Y_s) ≤ σ_s.
+
+(ii) Removing a good outside R_h from E keeps h's value, so minimality gives E ⊆ R_h. No proper subset of E is envied by anyone, so θ_x(E) = max_g V_x(E ∖ g) ≤ σ_x for every x. The rest is as in Lemma 5. ∎
+
+So Phase 2 must choose a dump s* and a set L ⊆ U of pool goods to remove, such that:
+- L meets the pool part E ∩ U of every minimal envied set E at s*, except that E = Y_{s*} ∪ J is allowed;
+- the goods of L can be matched to other sources, alone.
+
+Phase 1's exchange cycles instead use disjoint pool parts of minimal envied sets at different sources, or keep own goods. At k = 3 every pool part is a single good: LS2's dirty goods. That is why a system of distinct representatives decides between the two there. At k = 4 pool parts have up to three goods, so "meeting every pool part" involves a choice. The Hall-type duality that would decide between a DM placement and an exchange cycle is not known.
+
+So a stable state without a placement needs at least two sources, the dump fails at each of them, and each source's champion is reachable only from other sources. At k = 3, LS2 closes this case with a system of distinct representatives: the champion sets there differ in a single pool good per source, so either they can be chosen disjoint, giving an augmented cycle, or Hall's condition fails and a matching gives the placement. At k = 4, champion sets at different sources can need the same pool goods (`attempts/k4-ls-exchange-no-keep.md`), and the repair keeps own goods instead. An exchange argument that handles this is what is missing.
 
 **Where the k = 3 proof stops at four goods.** Each of the following is observed in LS4's stable states:
 - *Lemma 1 of `proofs/local_search.md` fails.* A 4-good agent's safety is not a condition on single goods: it compares sets, type by type (K4.OT: 12 behaviourally distinct types per ranking).
@@ -164,6 +237,7 @@ RESULTS_TABLE
 
 | variant | smallest failing configuration found | file |
 |---|---|---|
+| LS4 itself, with arbitrary choices (conjecture TP₄) | n = 4, m = 7 (pure core): a *dead end* reached by 15 M1 moves, which no complete EFX₀ allocation weakly dominates (Proposition 7) | `attempts/k4-ls-dead-end.md` |
 | Phase 1 = M1 and R only | n = 2, m = 4: a stable state with no completion at all | `attempts/k4-ls-no-exchange.md` |
 | exchange cycles without keeping own goods (includes the k = 3 champion cycles) | n = 3, m = 6: a stable state with no completion at all | `attempts/k4-ls-exchange-no-keep.md` |
 | Phase 2 = one dump only | n = 4, m = 7: stable even under all coalition moves; the only EFX₀ completion splits the pool | `attempts/k4-ls-single-dump.md` |
@@ -186,7 +260,11 @@ The last two rows are single-implementation sample counts from `k4/ls4.c` (the e
 
 ## 8. Status
 
-- Theorem 1, Lemmas A, B, 2: written proofs here, pending review (ledger K4.LS.SOUND, CONJECTURE until reviewed).
-- Proposition 3: conditional on Theorem C of `proofs/local_search.md`, pending review (K4.LS.K3).
-- Conjecture TP₄: open; EVIDENCE in §5 (K4.LS.TP).
-- Refuted variants: §6, EVIDENCE with independent brute-force replay (K4.LS.VAR).
+- Theorem 1, Lemmas A, B, 2, 5, 6 and Proposition 4 (no failure with one source): written proofs here, pending review (ledger K4.LS.SOUND, K4.LS.ONE, CONJECTURE until reviewed).
+- Proposition 3 (LS4 never fails on three-good cores): conditional on Theorem C of `proofs/local_search.md`, pending review (K4.LS.K3).
+- Proposition 7, a dead end at n = 4, m = 7: by two independent computations (K4.LS.DEAD, EVIDENCE under the owner's claim policy for new rows). It refutes conjecture TP₄ and every two-phase Pareto local search with arbitrary choices.
+- LS4 with its default choice rule: the evidence of §5 (K4.LS.RUN).
+- Weaker variants fail: §6 (K4.LS.VAR).
+- Open:
+  - a choice rule, or a non-Pareto move, with a proof that dead ends are avoided;
+  - polynomial-time search for exchange cycles and splits.

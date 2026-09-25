@@ -102,8 +102,43 @@ EXAMPLES = [
      ['M1', 'R', 'XK', 'G'], [], 'no_single_dump'),
 ]
 
+DEAD_END = ('LS4 dead end (attempts/k4-ls-dead-end.md), n = 4, m = 7',
+            '[0:8 2:10 5:6 6:3] [0:5 3:2 4:4 6:8] [1:1 2:8 4:6 6:4] [1:2 3:3 5:6 6:10]',
+            # LS4's trajectory from the empty allocation (bundles as bit masks, as printed by ls4alg.c -DTRACE)
+            ['40 0 0 0', '20 0 0 0', '1 0 0 0', '4 0 0 0', '4 8 0 0', '4 10 0 0', '4 1 0 0', '4 40 0 0', '4 40 2 0',
+             '4 40 10 0', '4 40 10 2', '4 40 10 8', '4 40 12 8', '4 40 12 20', '4 40 12 28'])
+
+def dead_end_check():
+    name, s, traj = DEAD_END
+    vals = parse(s); n, m = len(vals), 1 + max(g for v in vals for g in v); bad = 0
+    print(f"== {name}\n   values {s}")
+    prev = [frozenset() for _ in range(n)]
+    for k, line in enumerate(traj, 1):
+        Y = [frozenset(g for g in range(m) if int(x, 16) >> g & 1) for x in line.split()]
+        U = set(range(m)) - set().union(*Y)
+        movers = [i for i in range(n) if Y[i] != prev[i]]
+        ok = (efx0(vals, [set(b) for b in Y]) and all(g in vals[i] for i in range(n) for g in Y[i])
+              and len(movers) == 1 and val(vals[movers[0]], Y[movers[0]]) > val(vals[movers[0]], prev[movers[0]])
+              and Y[movers[0]] <= prev[movers[0]] | (set(range(m)) - set().union(*prev)))
+        if not ok: print(f"   step {k} is not a valid single-agent rebundle (M1): {[sorted(b) for b in Y]}"); bad += 1
+        prev = Y
+    print(f"   {len(traj)} steps replayed, each a valid M1 move (one agent takes goods from its bundle and the pool, "
+          f"strictly better, junk-free, EFX0): {not bad}")
+    Y, U = prev, set(range(m)) - set().union(*prev)
+    print(f"   final Y = {[sorted(b) for b in Y]}  U = {sorted(U)}  values {[val(vals[i], Y[i]) for i in range(n)]}")
+    for fam in ['M1', 'R', 'XK', 'G']:
+        k = len(moves(vals, Y, U, fam)); print(f"   improving {fam} moves: {k} (claim 0)"); bad += k != 0
+    c = completions(vals, Y, U); print(f"   completions of Y: {len(c)} (claim 0)"); bad += len(c) != 0
+    dom = 0
+    for A in itertools.product(range(n), repeat=m):
+        X = [{g for g in range(m) if A[g] == j} for j in range(n)]
+        if all(val(vals[i], X[i]) >= val(vals[i], Y[i]) for i in range(n)) and efx0(vals, X): dom += 1
+    print(f"   complete EFX0 allocations in which every agent gets at least its value in Y: {dom} of {n ** m} checked (claim 0)")
+    bad += dom != 0
+    return bad
+
 def main():
-    bad = 0
+    bad = dead_end_check()
     for name, s, Y, U, none_fam, some_fam, claim in EXAMPLES:
         vals = parse(s); Y = [frozenset(b) for b in Y]
         print(f"== {name}\n   values {s}\n   Y = {[sorted(b) for b in Y]}  U = {sorted(U)}")
