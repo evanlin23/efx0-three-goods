@@ -3,10 +3,14 @@ allocation with at most `big` bundles of more than `s` goods exist, for FIXED in
 (pysat): x[g][j] = good g to agent j (exactly one owner); size indicators via cardinality constraints; EFX0 as
 forbidden patterns derived directly from v_i(X_i) >= v_i(X_j) - v_i(g) for every g in X_j, with an indicator for "X_j
 holds a good outside R_i". Every allocation found is re-checked by raw() (the plain definition).
-Usage: d_stress_check.py FILE.json  (records {sets, values}); prints, per record, the decision of this encoding and of
-d_stress.py's, and exits nonzero on any disagreement.
-       d_stress_check.py --selftest FAMILY ARGS N   (N random profiles of a d_stress family, both encodings)"""
-import sys, json, itertools, random
+Usage: d_stress_check.py FILE.json.gz [--decide]   (a witness file written by d_stress.py --witnesses): checks every
+       profile is a strict core profile (each agent's values one type of search4.domain) and re-checks every allocation
+       by raw() and the D2 shape; with --decide also decides every profile with this encoding (D2 must be satisfiable).
+       Exits nonzero on any failure.
+       d_stress_check.py --selftest FAMILY ARGS N   (N random profiles of a d_stress family, both encodings; the
+       "all bundles <= 2" comparison is skipped when m > 2n, where both are unsatisfiable by counting and the SAT
+       calls are pigeonhole-hard)"""
+import sys, json, itertools, random, gzip
 from pysat.solvers import Solver
 from pysat.card import CardEnc, EncType
 from pysat.formula import IDPool
@@ -98,34 +102,41 @@ def owners(sets, values):
 
 
 def main():
+    import d_stress as D
+    print('commit %s' % D.git_head(), flush=True)
     if sys.argv[1] == '--selftest':
-        import d_stress as D
         fam, *rest = sys.argv[2:-1]
         N = int(sys.argv[-1])
         rng = random.Random(5)
         I = D.Inst(D.build([fam] + rest, rng))
+        pigeon = I.m > 2 * I.n                                 # all bundles <= 2 impossible by counting
         agree = nc2 = 0
         for k in range(N):
             p = I.random_profile(rng)
             a, b = I.shape(p) is not None, decide(I.sets, I.values(p)) is not None
-            c, d = I.shape(p, 2, 0) is not None, decide(I.sets, I.values(p), 2, 0) is not None   # all bundles <= 2
+            if pigeon: c = d = False
+            else: c, d = I.shape(p, 2, 0) is not None, decide(I.sets, I.values(p), 2, 0) is not None   # all bundles <= 2
             agree += (a == b) and (c == d)
             nc2 += not c
             if a != b or c != d: print('DISAGREE', json.dumps(I.values(p)))
         print('selftest %s: %d of %d profiles decided alike (d_stress.py vs this encoding), for D2 and for all bundles <= 2 '
-              '(the latter unsatisfiable in %d)' % (' '.join([fam] + rest), agree, N, nc2))
+              '(the latter unsatisfiable in %d%s)' % (' '.join([fam] + rest), agree, N, nc2,
+                                                       '; not run: m > 2n, unsatisfiable by counting' if pigeon else ''))
         sys.exit(0 if agree == N else 1)
-    recs = json.load(open(sys.argv[1]))
-    import d_stress as D
-    bad = 0
-    for r in recs:
-        A = decide(r['sets'], r['values'])
-        I = D.Inst(r['sets'])
-        prof = [next(t for t, v in enumerate(I.dom[i]) if list(v) == r['values'][i]) for i in range(I.n)]
-        B = I.shape(prof)
-        print('record: this encoding %s, d_stress.py %s; any shape: %s' % (
-            'D2' if A else 'no D2', 'D2' if B else 'no D2', decide(r['sets'], r['values'], None) is not None))
-        bad += (A is None) != (B is None)
+    rec = json.load(gzip.open(sys.argv[1], 'rt'))
+    I = D.Inst(rec['sets'])
+    bad = dec = 0
+    for vals, A in rec['witnesses']:
+        ok = all(any(list(t) == v for t in I.dom[i]) for i, v in enumerate(vals))      # a strict core profile
+        ok = ok and len(A) == I.m and raw(I.sets, vals, A) and sum(1 for j in range(I.n) if A.count(j) > 2) <= 1
+        if ok and '--decide' in sys.argv:
+            ok = decide(I.sets, vals) is not None
+            dec += 1
+        bad += not ok
+        if not ok: print('FAIL', json.dumps(vals), json.dumps(A))
+    print('%s (%s): %d witnesses; %d failures of the domain, raw EFX0 and D2-shape checks%s' % (
+        sys.argv[1], ' '.join(rec['args']), len(rec['witnesses']), bad,
+        '; %d profiles also decided D2-satisfiable by this encoding' % dec if dec else ''), flush=True)
     sys.exit(1 if bad else 0)
 
 

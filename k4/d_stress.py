@@ -3,24 +3,31 @@ structured k = 4 cores made of 4-good agents (k4/d_stress.md). EVIDENCE only; ev
 
 Instances: a hypergraph (agents' good lists) that must be a k = 4 core (check4.is_core) and a strict core profile (each
 agent's type from search4.domain: strictly balanced, strict, p + q < s + t for two private goods).
-Decisions: search4.Core's SAT model with every agent's full type domain (activation literals), so a profile is one call
-under assumptions:
-  d2(prof)            a D2 EFX0 allocation, or None;
-  count(prof, cap)    the number of D2 EFX0 allocations, up to cap (blocking clauses under a fresh activation literal);
-  shape(prof, s, c)   an EFX0 allocation with at most c bundles of more than s goods (None, None: any shape).
+Decisions: search4.Core's SAT model, built fresh for each profile with every agent's domain fixed to its one type
+(`fixed`); every allocation it returns is re-checked by the raw EFX0 definition and the shape (d_stress_check.raw):
+  shape(prof, s, c)   an EFX0 allocation with at most c bundles of more than s goods, or None (default s = 2, c = 1:
+                      the D2 shape; s = c = None: any shape);
+  count(prof, cap)    the number of D2 EFX0 allocations, up to cap (blocking clauses; counts are not re-checked).
 Families:
-  chain t [heads h]    H_t of k4/c4.md section 7 (gadgets in a chain; with h > 1, several heads, each starting a chain)
-  cycle t              gadgets in a cycle (e_j = g_{j+1}, e_t = g_1) with one head attached to g_1 by a new good
-  tree t               gadgets in a binary tree: gadget j's y links to the g's of its children
-  pure n m             random connected pure cores (every agent 4 goods) with n agents and m goods (high beta)
+  chain t [heads h]    H_t of k4/c4.md section 7 (on PR #33's branch proof/k4-c4, not on main); with h > 1, several
+                       heads, each starting a chain of t gadgets, all ends linked to the shared good z
+  cycle t              gadgets only, in a cycle: e_j = g_{(j+1) mod t}, no head (a pure core, n = 4t, m = 10t)
+  tree t               gadgets in a binary tree (heap order): gadget j's y links to its first child's g (a leaf's y to
+                       the root good z); a second child is joined to g_j by a head-like agent {g_j, g_child, p, q}
+  pure n m             one random connected pure core (every agent 4 goods) with n agents and m goods (high beta),
+                       fixed by --seed and printed in the log
 Margin: owners(prof) (d_stress_check.py, the independent encoding) = the agents o for which a D2 EFX0 allocation exists
 with no bundle other than o's above 2 goods; --owners=STEPS hill-climbs profiles toward fewer owners (0 = no D2).
 Usage: d_stress.py FAMILY ARGS [--profiles=N] [--owners=STEPS] [--restarts=R] [--climb=STEPS] [--cap=C] [--seed=S]
-       [--values=paper]"""
-import sys, time, random, json, itertools
+       [--values=paper] [--witnesses=OUT.json.gz]
+  --witnesses writes {args, sets, witnesses: [[values, allocation], ...]} for the random profiles (gzip JSON), which
+  d_stress_check.py FILE re-checks independently."""
+import sys, os, time, random, json, itertools
 import numpy as np
+import subprocess, gzip
 import search4 as S4
 import check4
+import d_stress_check as DC
 
 # ----- families -----
 def gadget(goods, g, e):
@@ -44,19 +51,19 @@ def chain(t, heads=1):
     z = goods()
     for h in range(heads):
         gs = [goods() for _ in range(t)]
-        sets.append([gs[0], z, goods(), goods()] if h == 0 else [gs[0], z, goods(), goods()])
+        sets.append([gs[0], z, goods(), goods()])
         for j in range(t):
             sets += gadget(goods, gs[j], gs[j + 1] if j + 1 < t else z)
     return sets
 
 
 def cycle(t):
+    """Gadgets only, in a cycle: gadget j's y links to g_{(j+1) mod t}; no head."""
     goods = counter()
     gs = [goods() for _ in range(t)]
-    w = goods()
-    sets = [[gs[0], w, goods(), goods()]]                    # head, attached to g_1 and to a new good w
+    sets = []
     for j in range(t):
-        sets += gadget(goods, gs[j], gs[(j + 1) % t] if j + 1 < t else w)
+        sets += gadget(goods, gs[j], gs[(j + 1) % t])
     return sets
 
 
@@ -81,20 +88,20 @@ def pure(n, m, rng, tries=100000):
     return None
 
 
-def relabel(sets):
-    m = max(g for S in sets for g in S) + 1
-    return sets, m
+def good_count(sets):
+    return max(g for S in sets for g in S) + 1
 
 
 # ----- decisions -----
 class Inst:
     def __init__(self, sets):
-        self.sets, self.m = relabel(sets)
+        self.sets, self.m = sets, good_count(sets)
         self.n = len(self.sets)
         ok, _ = check4.is_core(self.n, self.m, self.sets, False)
         assert ok, 'not a k = 4 core'
         self.C = S4.Core(self.n, self.m, self.sets)
         self.dom = self.C.dom
+        self.rechecked = 0
 
     def fixed(self, prof, s, c):
         """A fresh SAT model for this profile only (every agent's domain = its one type)."""
@@ -108,7 +115,12 @@ class Inst:
         sol, x, z = self.fixed(prof, s, c)
         if not sol.solve(assumptions=z): return None
         mod = sol.get_model()
-        return [next(j for j in range(self.n) if mod[x[g][j] - 1] > 0) for g in range(self.m)]
+        A = [next(j for j in range(self.n) if mod[x[g][j] - 1] > 0) for g in range(self.m)]
+        # every witness re-checked by the raw definition (PROMPT.md section 5 rule 4) and the shape
+        assert DC.raw(self.sets, self.values(prof), A), 'SAT allocation fails the raw EFX0 check'
+        if s is not None: assert sum(1 for j in range(self.n) if A.count(j) > s) <= c, 'shape violated'
+        self.rechecked += 1
+        return A
 
     def count(self, prof, cap):
         sol, x, z = self.fixed(prof, 2, 1)
@@ -184,12 +196,23 @@ def build(args, rng):
     raise SystemExit('unknown family')
 
 
+def git_head():
+    """The current commit, flagged when a .py file in k4/ has uncommitted changes."""
+    here = os.path.dirname(os.path.abspath(__file__))
+    try:
+        run = lambda *a: subprocess.run(['git'] + list(a), capture_output=True, text=True, cwd=here).stdout.strip()
+        return run('rev-parse', '--short', 'HEAD') + (' plus uncommitted changes to k4/*.py' if run('status', '--porcelain', '--', '*.py') else '')
+    except Exception: return '?'
+
+
 def main():
     args = [a for a in sys.argv[1:] if not a.startswith('--')]
     opts = dict(a[2:].split('=', 1) for a in sys.argv[1:] if a.startswith('--') and '=' in a)
     rng = random.Random(int(opts.get('seed', 1)))
     sets = build(args, rng)
     I = Inst(sets)
+    print('commit %s' % git_head(), flush=True)
+    if args[0] == 'pure': print('  hypergraph (seed %s): %s' % (opts.get('seed', 1), json.dumps(I.sets)), flush=True)
     n4 = sum(len(S) == 4 for S in I.sets)
     beta = sum(len(S) for S in I.sets) - I.n - I.m + 1
     print('%s: n = %d (%d with 4 goods), m = %d, beta = %d; domains %s' % (
@@ -197,20 +220,28 @@ def main():
     cap = int(opts.get('cap', 32))
     if opts.get('values') == 'paper':
         p = paper_profile(I)
+        if not p: print('  paper values: not in the type domains (skipped)', flush=True)
         if p: print('  paper values: D2 %s, count %d' % ('yes' if I.shape(p) else 'NO', I.count(p, cap)), flush=True)
     npro = int(opts.get('profiles', 0))
     t0, worst, fails = time.time(), None, 0
+    wit = []
     for k in range(npro):
         p = I.random_profile(rng)
-        if I.shape(p) is None:
+        A = I.shape(p)
+        if A is not None: wit.append([I.values(p), A])
+        if A is None:
             fails += 1
             print('  NO D2 allocation: %s' % json.dumps(I.values(p)), flush=True)
             anyA = I.shape(p, None, None)
             print('    any shape: %s; two big bundles: %s' % (anyA is not None, I.shape(p, 2, 2) is not None), flush=True)
-    if npro: print('  %d random profiles: %d without a D2 allocation (%.1f s)' % (npro, fails, time.time() - t0), flush=True)
+    if npro:
+        print('  %d random profiles: %d without a D2 allocation (%.1f s); %d witnesses re-checked by the raw definition '
+              'and the D2 shape' % (npro, fails, time.time() - t0, I.rechecked), flush=True)
+        if 'witnesses' in opts:
+            with gzip.open(opts['witnesses'], 'wt') as f: json.dump({'args': args, 'sets': I.sets, 'witnesses': wit}, f)
+            print('  witnesses written to %s' % opts['witnesses'], flush=True)
     osteps = int(opts.get('owners', 0))
     if osteps:
-        import d_stress_check as DC
         if opts.get('values') == 'paper' and paper_profile(I):
             print('  paper values: feasible large-bundle owners %d of %d' % (len(DC.owners(I.sets, I.values(paper_profile(I)))), I.n), flush=True)
         res = []
