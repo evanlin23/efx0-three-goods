@@ -1,6 +1,6 @@
 command: python3 k4/induct_rules.py results/k4_certs_4_n4_1.json.gz --samples=100 --seed=2 --jobs=2 --log=results/k4_induct_rules_n4_1.log
 13500 (core, profile) pairs
-time 19.1s
+time 10.2s
 P4 agents: agents: 8800
 P4 agents: d = least, some h: 5959
 P4 agents: d private, h = w: 8800
