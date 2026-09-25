@@ -1,9 +1,11 @@
-"""k4/c4one.md §6, Lemma Ω₁: check its hypotheses and its conclusion on the runs of case (Tc) that the theorems leave
+"""k4/c4one.md §6, Lemma Ω (Ω₁ for chains of length 1): check its hypotheses and its conclusion on the runs of case (Tc) that the theorems leave
 open, with x = q. For every core with exactly one 4-good agent q in the given certificate files, k4/c4check.c prints
 those runs (-X -Y -P2 -u2 -i20 -Z3 -K4, every insertion sequence). For each distinct one this script
-- checks the hypotheses (H1)-(H5) of Lemma Ω₁ for x = q and the leader ℓ of q's block;
-- when they hold, builds the run ρ' of the proof step by step (prefix as in ρ; insert q; then ℓ; then the rest of the
-  block in ρ's order; then the next block if its leader has b_ℓ; then the other blocks as in ρ) and checks that it is
+- checks the hypotheses (H1)-(H5) of Lemma Ω for x = q and the leader ℓ of q's block (a need chain from ℓ to q of any
+  length, (H2c) for its middle agents);
+- when they hold, builds the run ρ' of the proof step by step (prefix as in ρ; insert q; then the chain backwards,
+  ending with ℓ; then the rest of the block in ρ's order; then the next block if its leader has b_ℓ; then the other
+  blocks as in ρ) and checks that it is
   a run of Phase 1 (a P-step agent has lost a good, an inserted agent has not and nobody unprocessed has) with the
   picks the proof says;
 - replays the proof's upgrades (ρ's upgrades, then ℓ with c_ℓ, then envy-free upgrades to a fixpoint, the tracer's
@@ -48,35 +50,58 @@ def check(line):
     q = next(i for i in range(n) if len(sets[i]) == 4)
     blk = lambda b: sorted((i for i in range(n) if blocks[i] == b), key=lambda i: pos[i])
     beta = blk(blocks[q]); ell = beta[0]; x = q
+    above = lambda i: set(I.ord[i][:I.rank[i][Y[i]]]) if Y[i] is not None else set(I.R[i])
     a_x, b_x = I.ord[x][0], I.ord[x][1]
     # (H1) the leader has three goods, and its b and c are junk in P
     if len(sets[ell]) != 3: return 'H1 fails: the leader has four goods'
     b_l, c_l = I.ord[ell][1], I.ord[ell][2]
     if not (Jpost >> b_l & 1 and Jpost >> c_l & 1): return 'H1 fails: b_l or c_l is not junk (one of them is Y_r)'
-    # (H2) x holds its second good, its first is the leader's pick, and no agent ranks b_x above its Phase 1 pick
-    if Y[x] != b_x or Y[ell] != a_x: return 'H2 fails: x does not hold b_x with a_x the leader\'s pick'
-    above = lambda i: set(I.ord[i][:I.rank[i][Y[i]]]) if Y[i] is not None else set(I.R[i])
+    # (H2) x holds its second good, and no agent ranks b_x above its Phase 1 pick
+    if Y[x] != b_x: return 'H2 fails: x does not hold b_x'
     if any(b_x in above(i) for i in range(n) if i != x): return 'H2 fails: some agent ranked b_x above its Phase 1 pick'
+    # (H2c) a need chain ell = x_0 -> ... -> x_s = x, each x_i (0 < i < s) ranking above Y_{x_{i-1}} only goods of
+    # x_{i+1}, ..., x_{s-1}, and not a_x
+    chains = []
+    def rec(p):
+        z = p[-1]
+        if z == x: chains.append(list(p)); return
+        for u in range(n):
+            if u in p or u in upg or Y[z] is None or Y[z] not in above(u): continue
+            rec(p + [u])
+    rec([ell])
+    chains = [c for c in chains if Y[c[-2]] == a_x]
+    if not chains: return 'H2 fails: no need chain from the leader to x ending with a_x'
+    def ok_chain(c):
+        s_ = len(c) - 1
+        for i in range(1, s_):
+            want = set(I.ord[c[i]][:I.rank[c[i]][Y[c[i - 1]]]])
+            if not want <= {Y[c[k]] for k in range(i + 1, s_)} or a_x in want: return False
+        return True
+    chains = [c for c in chains if ok_chain(c)]
+    if not chains: return 'H2c fails: a chain agent ranks a good not held later in the chain above its new pick'
+    chain = min(chains, key=len); s_ = len(chain) - 1
     # (H3) in P no agent other than x needs a_x
-    if any(a_x in above(i) for i in range(n) if i not in (x, ell) and i not in upg): return 'H3 fails: another agent needs a_x'
+    if any(a_x in above(i) for i in range(n) if i not in (x,) and i not in upg and Y[i] != a_x):
+        return 'H3 fails: another agent needs a_x'
     # (H4) every other agent of the block lost, at its turn, a good other than b_x, or has b_l
     for p in beta:
-        if p in (ell, x): continue
+        if p in chain: continue
         taken = {Y[z] for z in range(n) if pos[z] < pos[p] and Y[z] is not None}
         if not ((I.R[p] & taken) - {b_x}) and b_l not in I.R[p]: return 'H4 fails'
     # (H5) no agent after the block has b_l, except possibly the leader of the next block
     nxt = blk(blocks[q] + 1)
     Z = [z for z in range(n) if blocks[z] > blocks[q] and b_l in I.R[z]]
     if Z and (not nxt or Z != [nxt[0]]): return 'H5 fails: a later agent other than the next leader has b_l'
-    # the run rho' of the proof
+    # the run rho' of the proof: x, then the chain backwards, then the rest of the block in rho's order
     prefix = [a for a in order if blocks[a] < blocks[q]]
-    new = prefix + [x, ell] + [p for p in beta if p not in (ell, x)]
+    new = prefix + list(reversed(chain)) + [p for p in beta if p not in chain]
     leaders = {blk(b)[0] for b in set(blocks) if b != blocks[q]} | {x}
     if Z: new += nxt; leaders.discard(nxt[0])
     new += [a for a in order if a not in new]
     Y2 = simulate(I, new, leaders)
     if isinstance(Y2, str): return 'PROOF STEP 1 FAILS: ' + Y2
-    want = list(Y); want[x] = a_x; want[ell] = b_l
+    want = list(Y); want[ell] = b_l
+    for k in range(1, s_ + 1): want[chain[k]] = Y[chain[k - 1]]
     if Y2 != want: return 'PROOF STEP 1 FAILS: picks %s, expected %s' % (Y2, want)
     # step 2: rho's upgrades, then the leader with c_l, then envy-free upgrades to a fixpoint
     base = [frozenset([y]) if y is not None else frozenset() for y in Y2]; kind = ['pick'] * n
@@ -90,8 +115,8 @@ def check(line):
     if not st.valid(): return 'PROOF STEP 2 FAILS: the leader\'s upgrade gives an invalid state'
     w1 = st.omega(); w2 = T.upgrades(st, 2).omega()
     if w1 > w - 1 or w2 > w1: return 'PROOF STEP 2 FAILS: omega %d -> %d -> %d' % (w, w1, w2)
-    return 'hypotheses hold; rho\' is a run of Phase 1 with the rotated picks; omega drops (%s)' % \
-        ('the next block moves into q\'s' if Z else 'no later agent has b_l')
+    return 'hypotheses hold; rho\' is a run of Phase 1 with the rotated picks; omega drops (chain length %d, %s)' % \
+        (s_, 'the next block moves into q\'s' if Z else 'no later agent has b_l')
 
 def run(c):
     out = collections.Counter(); seen = set()

@@ -1,19 +1,24 @@
 # c4omega1.py results/k4_certs_3.json.gz results/k4_certs_4_n4_1.json.gz results/k4_certs_5_n4_1.json.gz
 results/k4_certs_3.json.gz: 14 cores, 388 (Tc) cases
-   hypotheses hold; rho' is a run of Phase 1 with the rotated picks; omega drops (no later agent has b_l) 150
-   hypotheses hold; rho' is a run of Phase 1 with the rotated picks; omega drops (the next block moves into q's) 238
+   hypotheses hold; rho' is a run of Phase 1 with the rotated picks; omega drops (chain length 1, no later agent has b_l) 150
+   hypotheses hold; rho' is a run of Phase 1 with the rotated picks; omega drops (chain length 1, the next block moves into q's) 238
 results/k4_certs_4_n4_1.json.gz: 135 cores, 6976 (Tc) cases
-   H2 fails: x does not hold b_x with a_x the leader's pick                                             2656
    H5 fails: a later agent other than the next leader has b_l                                           924
-   hypotheses hold; rho' is a run of Phase 1 with the rotated picks; omega drops (no later agent has b_l) 2028
-   hypotheses hold; rho' is a run of Phase 1 with the rotated picks; omega drops (the next block moves into q's) 1368
+   hypotheses hold; rho' is a run of Phase 1 with the rotated picks; omega drops (chain length 1, no later agent has b_l) 2028
+   hypotheses hold; rho' is a run of Phase 1 with the rotated picks; omega drops (chain length 1, the next block moves into q's) 1368
+   hypotheses hold; rho' is a run of Phase 1 with the rotated picks; omega drops (chain length 2, no later agent has b_l) 1102
+   hypotheses hold; rho' is a run of Phase 1 with the rotated picks; omega drops (chain length 2, the next block moves into q's) 1554
 results/k4_certs_5_n4_1.json.gz: 1735 cores, 203592 (Tc) cases
-   H2 fails: some agent ranked b_x above its Phase 1 pick                                               238
-   H2 fails: x does not hold b_x with a_x the leader's pick                                             79312
-   H5 fails: a later agent other than the next leader has b_l                                           27182
-   hypotheses hold; rho' is a run of Phase 1 with the rotated picks; omega drops (no later agent has b_l) 64480
-   hypotheses hold; rho' is a run of Phase 1 with the rotated picks; omega drops (the next block moves into q's) 32380
+   H2 fails: some agent ranked b_x above its Phase 1 pick                                               430
+   H2c fails: a chain agent ranks a good not held later in the chain above its new pick                 1864
+   H5 fails: a later agent other than the next leader has b_l                                           38674
+   hypotheses hold; rho' is a run of Phase 1 with the rotated picks; omega drops (chain length 1, no later agent has b_l) 64480
+   hypotheses hold; rho' is a run of Phase 1 with the rotated picks; omega drops (chain length 1, the next block moves into q's) 32380
+   hypotheses hold; rho' is a run of Phase 1 with the rotated picks; omega drops (chain length 2, no later agent has b_l) 25188
+   hypotheses hold; rho' is a run of Phase 1 with the rotated picks; omega drops (chain length 2, the next block moves into q's) 19704
+   hypotheses hold; rho' is a run of Phase 1 with the rotated picks; omega drops (chain length 3, no later agent has b_l) 9696
+   hypotheses hold; rho' is a run of Phase 1 with the rotated picks; omega drops (chain length 3, the next block moves into q's) 11176
 
-real	2m10.857s
-user	8m4.356s
-sys	0m23.281s
+real	2m13.304s
+user	8m11.893s
+sys	0m23.173s

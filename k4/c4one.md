@@ -32,10 +32,11 @@ Lemma E, Theorems A₄, B₄, B₄ʷ, A₄ᵀ, A₄⁺ and the conventions of it
   - **n = 6:** on all 26,866 certified n = 6 cores with one 4-good agent (PR #26), for every strict profile, the
     index-order run is covered or one changed insertion step makes it covered. There are 0 exceptions in 5.47·10¹⁰
     profiles (`results/k4_c4one_n6.log`).
-  - **A first proved piece: Lemma Ω₁** (§6, written proof, not yet reviewed). In a block led by a 3-good agent ℓ,
-    take a free agent x that holds its second good and needs only ℓ's pick. Inserting x first in the block realizes
-    the rotation along the need chain ℓ → x, and ℓ then upgrades, so ω drops by at least 1 (five side conditions). This proves the (Tc) cases
-    of Lemma X that satisfy those conditions: 48–100% of them at n ≤ 5. The proof is for runs with P-steps in any order.
+  - **A first proved piece: Lemma Ω** (§6, written proof, not yet reviewed). Take a need chain from a block's 3-good
+    leader ℓ to a free agent x that holds its second good. Inserting x first in the block, then the chain backwards,
+    realizes the rotation along the chain, and ℓ then upgrades. So ω drops by at least 1, under five side conditions.
+    - This proves the (Tc) cases of Lemma X that satisfy those conditions: 80–100% of them at n ≤ 5.
+    - The proof is for runs with P-steps in any order.
 - **The existence form C₄¹∃** (§1) is open. It is what TARGET₄ needs for these instances.
 
 ## 1. Statements
@@ -323,21 +324,25 @@ none of (D1)–(D3), and b_ℓ, c_ℓ ∈ J.
   good into a base and removes one slot, and it can only unfreeze agents.
 
 A proof must also compare the two upgrade fixpoints, and handle c_ℓ = Y_r and the cases where another agent needs
-a_q. Lemma Ω₁ below does this, for runs of Phase 1 in the sense of `k4/c4.md` §1 (P-steps in any order).
+a_q. Lemma Ω below does this, for runs of Phase 1 in the sense of `k4/c4.md` §1 (P-steps in any order), and for
+chains of any length. Its case s = 1 is called Ω₁.
 
-**Lemma Ω₁ (a move that lowers ω; written proof, not yet reviewed).** Let P be the state after a run ρ of Phase 1 and
+**Lemma Ω (a move that lowers ω; written proof, not yet reviewed).** Let P be the state after a run ρ of Phase 1 and
 envy-free upgrades in any order. Let β be a block of ρ with leader ℓ, and x ≠ ℓ an agent of β, such that:
-- **(H1)** ℓ has three goods, and b_ℓ, c_ℓ ∈ J;
-- **(H2)** x ∉ U, x's pick is b_x, a_x is ℓ's pick, and no agent ranks b_x above its pick (x is free already after
-  Phase 1);
-- **(H3)** in P no agent other than x needs a_x;
-- **(H4)** every agent of β other than ℓ and x had, at its turn, lost a good other than b_x, or has b_ℓ among its goods;
-- **(H5)** no agent processed after β has b_ℓ among its goods, except possibly the leader of the block right after β.
+- **(H1)** ℓ has three goods, and b_ℓ, c_ℓ ∈ J.
+- **(H2)** x ∉ U, x's pick is b_x, and no agent ranks b_x above its pick (x is free already after Phase 1). There is
+  a need chain ℓ = x₀ → x₁ → … → x_s = x in P (each x_{i+1} ∉ U needs Y_{x_i}) with Y_{x_{s−1}} = a_x.
+- **(H2c)** For 0 < i < s, every good that x_i ranks above Y_{x_{i−1}} is the pick of some x_k with i < k < s − 1.
+  In particular it is not a_x. For s = 1 there is nothing to check; for s = 2 it says that ℓ's pick is x₁'s top.
+- **(H3)** In P, no agent other than x needs a_x.
+- **(H4)** Every agent of β off the chain had, at its turn, lost a good other than b_x, or has b_ℓ among its goods.
+- **(H5)** No agent processed after β has b_ℓ among its goods, except possibly the leader of the block right after β.
 
 Then some run ρ′ of Phase 1, equal to ρ before β, followed by envy-free upgrades, reaches a state P′ with
-ω(P′) ≤ ω(P) − 1. In ρ′ the picks are those of ρ, except that x takes a_x and ℓ takes b_ℓ.
+ω(P′) ≤ ω(P) − 1. In ρ′ each x_i (1 ≤ i ≤ s) takes Y_{x_{i−1}}, ℓ takes b_ℓ, and every other agent keeps its pick. So
+ρ′ realizes the rotation along the chain.
 
-*Proof.* Since ℓ leads β, its pick is its top a_ℓ, so a_x = a_ℓ.
+*Proof.* Since ℓ leads β, its pick is its top a_ℓ.
 
 *Two facts.*
 - (F) No agent ranks b_ℓ above its pick. This is (I2), because b_ℓ ∈ J ⊆ J₀. By (H2), no agent ranks b_x above its
@@ -346,36 +351,45 @@ Then some run ρ′ of Phase 1, equal to ρ before β, followed by envy-free upg
   has a good that an agent of β picked in ρ.
 
 *Step 1: the run ρ′.* Process the agents before β as ρ does. Then:
-- Insert x. Every unprocessed agent has all its goods (B1 at β's start), so this is an insertion step, and x takes its
+- *Insert x.* Every unprocessed agent has all its goods (B1 at β's start), so this is an insertion step. x takes its
   top a_x.
-- Process ℓ. It has lost a_ℓ, so this is a P-step. Its b_ℓ is still there: b_ℓ ∈ J₀, so no agent of ρ picked it. So ℓ
-  takes b_ℓ.
-- Process the other agents p of β in ρ's order. Each is a P-step by (H4), since the goods taken before p in ρ′ are
-  those taken before p in ρ, with b_x replaced by b_ℓ.
+- *Process x_{s−1}, …, x₁ in this order.* Each x_i has lost Y_{x_i}, which x_{i+1} has just taken, so this is a
+  P-step.
+  - The goods that x_i ranks above Y_{x_{i−1}} are, by (H2c), picks of chain agents x_k with k > i. In ρ′ each of these
+    has already been taken, by x_{k+1}.
+  - Y_{x_{i−1}} itself is still there.
+  - So x_i takes Y_{x_{i−1}}.
+- *Process ℓ.* It has lost a_ℓ = Y_{x₀}, which x₁ has taken. Its b_ℓ is still there: b_ℓ ∈ J₀, so no agent of ρ picked
+  it. So ℓ takes b_ℓ.
+- *Process the agents p of β off the chain, in ρ's order.* Each is a P-step by (H4): the goods taken before p in ρ′
+  include all those taken before p in ρ except b_x.
   - By (I1) and (B2), every good that p ranks above its ρ-pick Y_p was taken in ρ before p's turn, by an agent of β.
-  - In ρ′ each such good is taken as well: a_ℓ by x, and the others by the same agents. The one exception would be b_x,
-    which by (H2) p does not rank above Y_p.
-  - Y_p is still available. It is not a_ℓ, and it is not b_ℓ, since b_ℓ ∈ J₀.
+  - In ρ′ these goods are all taken too: the chain's picks Y_{x₀}, …, Y_{x_{s−1}} by x₁, …, x_s, and the others by the
+    same agents. The one exception would be b_x, which by (H2) p does not rank above Y_p.
+  - Y_p is still available. It is not a chain pick, and it is not b_ℓ.
   - So p takes Y_p.
-- Now consider the unprocessed agents. By (B1), only b_ℓ can be missing among their goods. By (H5), only the leader z of
-  the next block γ can have lost it. If z has, process γ's agents next, in ρ's order.
+- *Now consider the unprocessed agents.* By (B1), only b_ℓ can be missing among their goods. By (H5), only the leader z
+  of the next block γ can have lost it. If z has, process γ's agents next, in ρ's order.
   - z has lost b_ℓ, so this is a P-step. Its other goods are all there, since γ comes right after β. So z takes its top,
     which is its pick in ρ (b_ℓ is junk, so it is not z's pick).
   - Each later agent of γ lost the same goods as in ρ, and it takes the same pick.
-- Process every remaining block as in ρ, with the same leaders. At each block start no unprocessed agent has lost a
-  good: b_ℓ is not among their goods (H5), and b_x was taken in β, so by (B1) it is not among their goods either. Each
-  such block therefore runs as in ρ.
+- *Process every remaining block as in ρ, with the same leaders.* At each block start no unprocessed agent has lost a
+  good: b_ℓ is not among their goods (H5), and neither is any other good picked in β (B1). So each such block runs as
+  in ρ.
 
-*Step 2: upgrades.* Compare the states after Phase 1, P₀ (of ρ) and P₀′ (of ρ′).
-- They differ only at x and ℓ. In P₀, x needs {a_ℓ} and ℓ needs nothing. In P₀′, x needs nothing and ℓ needs {a_ℓ}.
-  So NA₀′ = NA₀ and J₀′ = (J₀ ∖ {b_ℓ}) ∪ {b_x}.
-- Replay ρ's upgrades in the same order. Each step is valid:
-  - the upgraded agent is neither x (by (H2)) nor ℓ, which is frozen throughout because x needs a_ℓ;
-  - NA evolves as in ρ;
+*Step 2: upgrades.* Compare the states after Phase 1, P₀ (of ρ) and P₀′ (of ρ′). They differ only on the chain:
+- x needs nothing, instead of {a_x};
+- x_i (0 < i < s) needs the goods above Y_{x_{i−1}}, a subset of its old needs;
+- ℓ needs {a_ℓ}, which x₁ needed in P₀.
+
+So NA₀′ ⊆ NA₀, and J₀′ = (J₀ ∖ {b_ℓ}) ∪ {b_x}.
+- Replay ρ's upgrades in the same order. Each step stays valid:
+  - the upgraded agent is off the chain, since x ∉ U, and x₀, …, x_{s−1} are frozen in P and hence throughout;
+  - NA only shrinks relative to ρ's;
   - the good taken is junk and is not b_ℓ, since b_ℓ ∈ J.
-  - Afterwards NA is NA(P), and J = (J(P) ∖ {b_ℓ}) ∪ {b_x}.
+  - Afterwards NA ⊆ NA(P), and J = (J(P) ∖ {b_ℓ}) ∪ {b_x}.
 - Upgrade ℓ with c_ℓ:
-  - b_ℓ ∉ NA(P), by (V1);
+  - b_ℓ ∉ NA, by (V1) in P;
   - ℓ needs a_ℓ;
   - c_ℓ is junk;
   - a_ℓ < b_ℓ + c_ℓ, since ℓ is a 3-good core agent.
@@ -383,39 +397,49 @@ Then some run ρ′ of Phase 1, equal to ρ before β, followed by envy-free upg
 
 *Counting.*
 - |J(P″)| = |J(P)| − 1.
-- By (H3), a_ℓ ∉ NA(P″). So x, which now holds a_ℓ, is free with one slot, as it was in P.
+- a_x ∉ NA(P″):
+  - agents off the chain need what they needed in P, and by (H3) that excludes a_x;
+  - by (H2c), no x_i (0 < i < s) ranks a_x above its new pick;
+  - ℓ is upgraded.
+  - So x, which holds a_x, is free with one slot, as it was in P.
 - ℓ has no slot in P (frozen) and none in P″ (upgraded).
-- Every other agent has the same base, and the same frozen status, since NA(P″) = NA(P) ∖ {a_ℓ}.
-- So S(P″) = S(P) and ω(P″) = ω(P) − 1.
+- x₁, …, x_{s−1} have no slot in P (frozen) and at least none in P″.
+- Every other agent keeps its base, and is frozen in P″ only if it was in P, since NA(P″) ⊆ NA(P).
+- So S(P″) ≥ S(P) and ω(P″) ≤ ω(P) − 1.
 
 *Further upgrades.* Upgrade to a fixpoint P′. Each envy-free upgrade moves a junk good into the base of a free agent
 with one slot, so it leaves |J| − S unchanged. It then can only unfreeze agents. So ω(P′) ≤ ω(P″). ∎
 
 *Checked* (`k4/c4tools/c4omega1.py` → `results/k4_c4one_omega1.log`). Take the (Tc) runs that the theorems leave open
-(every insertion sequence, n ≤ 5), with x = q:
-- (H1)–(H5) hold in 388 of 388 cases (n = 3), 3,396 of 6,976 (n = 4) and 96,860 of 203,592 (n = 5).
-- In every one of them, the script builds ρ′ order by order and checks that it is a run of Phase 1 with the stated
-  picks. It then replays the upgrades and finds ω′ ≤ ω − 1.
-- Where the hypotheses fail:
-  - mostly the need chain from ℓ to q is longer than 1 (79,312 cases at n = 5);
-  - or an agent of a later block other than the next leader has b_ℓ (27,182);
-  - or some agent ranked b_q above its Phase 1 pick (238).
+(every insertion sequence, n ≤ 5), with x = q. The hypotheses hold in:
 
-*What it gives.* Lemma Ω₁ does not use that q has four goods, or case (Tc). It says that at a run and upgrade
-fixpoint minimizing ω, no pair (x, ℓ) satisfies (H1)–(H5).
+| n | (Tc) cases | (H1)–(H5) hold | by chain length 1 / 2 / 3 |
+|---|---|---|---|
+| 3 | 388 | 388 | 388 / 0 / 0 |
+| 4 | 6,976 | 6,052 | 3,396 / 2,656 / 0 |
+| 5 | 203,592 | 162,624 (80%) | 96,860 / 44,892 / 20,872 |
+
+- In every one of these cases the script builds ρ′ order by order and checks that it is a run of Phase 1 with the
+  stated picks. It then replays the upgrades and finds ω′ ≤ ω − 1.
+- Where the hypotheses fail at n = 5:
+  - (H5) in 38,674 cases: an agent of a later block, other than the next leader, has b_ℓ;
+  - (H2c) in 1,864;
+  - (H2) in 430, where some agent ranked b_q above its Phase 1 pick.
+
+*What it gives.* Lemma Ω does not use that q has four goods, or case (Tc). It says that at a run and upgrade fixpoint
+minimizing ω, no chain satisfies (H1)–(H5).
 - For Lemma X on these (Tc) runs it gives the key decrease directly, and so proves those cases of Lemma X.
 - The caveat: ρ′ is a run of Phase 1 in the general sense (P-steps in any order). Lemma X's evidence (`-i19`) covers
-  only the runs `lb4.c` makes (LB's key). So an induction on the key that uses Ω₁ needs Lemma X for general runs, which
+  only the runs `lb4.c` makes (LB's key). So an induction on the key that uses Ω needs Lemma X for general runs, which
   has not been tested. #33's theorems hold for general runs, so the covered case is fine.
-- Extending Ω₁ to longer chains (x_i takes Y_{x_{i−1}}) needs the chain agents processed in reverse order. That is
-  obstacle (D3) above.
+- (H5) is the main gap. A later agent z with b_ℓ is pulled into β's block and takes its top. If z led its block in ρ,
+  that whole block can move too, provided no block in between has z's block's picks. This is the obstacle (D1) above.
 
 So on the data, C₄¹∃ reduces to one local lemma about Phase 1 runs.
 - It does not mention rotations beyond single ones, and it does not rely on LB₄ʳ's search.
 - The key is a potential over insertion sequences, not over rotations. This is where route 2 (§4) failed: rotations
   need preparing moves, while insertion sequences do not.
-- Next step: prove X′ for q free (parts (a) and (b) above), then for q frozen, where the working agent is usually
-  not q.
+- Next step: close (H5) in Lemma Ω, then treat the q-frozen classes, where the working agent is usually not q.
 
 ## 7. Reproduce
 
@@ -431,7 +455,7 @@ git show origin/compute/k4-frontier:results/k4_certs_6_n4_1.json.gz > /tmp/k4_ce
 python3 k4/c4one_tau.py "-X -P2 -u2 -i6 -o0 -r1 -w0 -c0 -f3" /tmp/k4_certs_6_n4_1.json.gz          # X' from index order, n = 6 (~12 min)
 bash k4/c4one_exchange_runs.sh                                            # §6, where the change is, by case (~10 min)
 python3 k4/c4tools/c4realize.py results/k4_certs_3.json.gz results/k4_certs_4_n4_1.json.gz results/k4_certs_5_n4_1.json.gz   # §6, realized rotations
-python3 k4/c4tools/c4omega1.py results/k4_certs_3.json.gz results/k4_certs_4_n4_1.json.gz results/k4_certs_5_n4_1.json.gz   # §6, Lemma Ω₁ (~2 min)
+python3 k4/c4tools/c4omega1.py results/k4_certs_3.json.gz results/k4_certs_4_n4_1.json.gz results/k4_certs_5_n4_1.json.gz   # §6, Lemma Ω (~2 min)
 ```
 In `k4/c4check.c`, `-P2` counts a run as a success when the theorems (with A₄⁺(o)) prove it, and the insertion modes
 used above are these:
