@@ -1,0 +1,2 @@
+# src/construct_run.py 8 15 16 --cert: construction LB on every connected core with n = 8, m = 15 and 16, every ranking profile, with a certificate (the uncertified run of #9 is results/construct_8.log). Every output checked against the raw EFX0 definition in src/construct.c. 4 CPUs.
+$ python src/construct_run.py 8 15 16 --cert=../results/certs_lb_8_15_16.json.gz   # 2026-09-25T04:33:02Z
