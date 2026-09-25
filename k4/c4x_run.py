@@ -120,7 +120,7 @@ def main():
                      '... no 3-good terminal valid', 'no terminal', '... w invalid', '... frozen agents exist', 'w frozen',
                      'w frozen and some 3-good terminal invalid', 'Lemma Rw violated', 'Lemma Ew violated', 'P1', 'P2', 'w free and exposed by a 3-good terminal',
                      'w free, E_w nonempty', '.. frozen x, one good of B_w + one junk', '.. low(x) in B_w', '.. other',
-                     '.. w terminal', '.. w valid', 'P1 at any maximum', 'C1 with E_w nonempty']
+                     '.. w terminal', '.. w valid', 'P1 at any maximum', 'C1 with E_w nonempty', 'case B2', 'case B2 with E_w nonempty']
             print('  RULESTATS (argmax of the first potential): ' + ', '.join(f'{a} {b}' for a, b in zip(names, rs)))
         print(f'FILE {f} cores {len(set(ci for ci, _ in tasks))} ' + ' '.join(f'{k} {v}' for k, v in tot.items()))
         if ts:

@@ -419,6 +419,7 @@ static void rule_stats(const asg_t *a) {
         else t3 = 1;
       }
       if (ne) { rs_cnt[16]++; rs_cnt[17] += t1; rs_cnt[18] += t2; rs_cnt[19] += t3; if (N[w]) rs_cnt[20]++; if (wok) rs_cnt[21]++; }
+      if (N[w] && pc(B[w]) == 2) { rs_cnt[27]++; if (ne) rs_cnt[28]++; }
       if (wexp && ne) { rs_cnt[25]++; if (nex && rs_cnt[26] < nex) { rs_cnt[26]++; printf("EXC1:"); print_profile(); print_asg(a); printf("\n"); } }
       if (t3 && nex && rs_cnt[22] < nex) { rs_cnt[22]++; printf("EXE3:"); print_profile(); print_asg(a); printf("\n"); }
     }
@@ -707,7 +708,7 @@ int main(int argc, char **argv) {
     }
   }
   printf("RESULT asg %d profiles %lld valid %lld tested %lld nocomp %lld ronone %lld ronone_any %lld paretomax %lld paretofail %lld\n", nA, nprof, nvalid, ncompl_tested, nocomp, ronone, ronone_any, pareto_n, pareto_fail);
-  if (rulestat) { printf("RULESTATS"); for (int q = 0; q < 10; q++) printf(" %lld", rs_cnt[q]); for (int q = 11; q < 22; q++) printf(" %lld", rs_cnt[q]); printf(" %lld %lld\n", rs_cnt[23], rs_cnt[25]); }
+  if (rulestat) { printf("RULESTATS"); for (int q = 0; q < 10; q++) printf(" %lld", rs_cnt[q]); for (int q = 11; q < 22; q++) printf(" %lld", rs_cnt[q]); printf(" %lld %lld %lld %lld\n", rs_cnt[23], rs_cnt[25], rs_cnt[27], rs_cnt[28]); }
   if (termstat) { printf("TERMSTATS"); for (int q = 0; q < 12; q++) printf(" %lld", ts_cnt[q]); for (int q = 13; q < 22; q++) printf(" %lld", ts_cnt[q]); printf("\n"); }
   if (moves) {
     printf("MOVES posdef %lld lower_by_dist", nposdef); for (int h = 0; h < 8; h++) printf(" %lld", hist_lower[h]);
