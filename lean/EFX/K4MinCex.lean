@@ -206,6 +206,188 @@ theorem m1_reduce (v : A → G → Nat) {out ag ag' : List A} {gs gs' : List G} 
   obtain ⟨X, hX, hext'⟩ := hext Y hY hE z hz hzu
   exact ⟨X, hX, m1_efx0 v hgs hgs' hout hinner hE hext'⟩
 
+/-! ## K4.MC0: the inductive statement -/
+
+/-- An instance has an EFX₀ allocation. -/
+def Solvable (agents : List A) (goods : List G) (v : A → G → Nat) : Prop :=
+  ∃ X : G → A, IsAllocation agents goods X ∧ EFX0L v agents goods X
+
+/-- An instance of TARGET₄: at least one agent, no repeated agents or goods, every agent with at most four
+relevant goods (nonnegative values in `Nat`). -/
+def Admissible (agents : List A) (goods : List G) (v : A → G → Nat) : Prop :=
+  agents ≠ [] ∧ agents.Nodup ∧ goods.Nodup ∧ ∀ i ∈ agents, (relevant v i goods).length ≤ 4
+
+/-- `(agents', goods')` is smaller than `(agents, goods)`: fewer agents, or as many agents and fewer goods (the
+order of a minimal counterexample: fewest agents, then fewest goods). -/
+def LexLt (agents' : List A) (goods' : List G) (agents : List A) (goods : List G) : Prop :=
+  agents'.length < agents.length ∨ (agents'.length = agents.length ∧ goods'.length < goods.length)
+
+/-- A class of instances is *hereditary* if it is closed under deleting agents and goods (for `𝒞_β`: deleting
+vertices never raises a component's cyclomatic number). -/
+def Hereditary (C : List A → List G → (A → G → Nat) → Prop) : Prop :=
+  ∀ agents goods v agents' goods', C agents goods v → agents'.Sublist agents → goods'.Sublist goods →
+    C agents' goods' v
+
+/-- A class *depends only on the relevant goods* (for `𝒞_β`: only the incidence graph matters). -/
+def RelevanceInvariant (C : List A → List G → (A → G → Nat) → Prop) : Prop :=
+  ∀ agents goods v w, C agents goods v → (∀ i g, 0 < w i g ↔ 0 < v i g) → C agents goods w
+
+/-- Every smaller admissible instance of the class, with any valuation, has an EFX₀ allocation (K4.MC0(a)). -/
+def MinimalFor (C : List A → List G → (A → G → Nat) → Prop) (agents : List A) (goods : List G) : Prop :=
+  ∀ agents' goods' v', C agents' goods' v' → Admissible agents' goods' v' → LexLt agents' goods' agents goods →
+    Solvable agents' goods' v'
+
+/-- **K4.MC0(a), (b): the CORE reduction within a class.** Let `C` be hereditary. If every connected k = 4 core of
+`C` all of whose smaller admissible instances in `C` have EFX₀ allocations has one itself, then every admissible
+instance of `C` has one. (The proof of `EFX.core_reduction4_conn`, with the class and the order of a minimal
+counterexample in place of the bound on the agents: each step, L3, R1, R2 and L6, passes to a sublist of the agents
+and of the goods, with fewer agents, or with as many agents and fewer goods.) -/
+theorem core_reduction4_class (C : List A → List G → (A → G → Nat) → Prop) (hher : Hereditary C)
+    (hcore : ∀ agents goods v, C agents goods v → agents.Nodup → goods.Nodup → IsCore4 v agents goods →
+      Connected v agents goods → MinimalFor C agents goods → Solvable agents goods v) :
+    ∀ agents goods v, C agents goods v → Admissible agents goods v → Solvable agents goods v := by
+  suffices H : ∀ n m (agents : List A) (goods : List G) (v : A → G → Nat), agents.length = n →
+      goods.length = m → C agents goods v → Admissible agents goods v → Solvable agents goods v from
+    fun agents goods v => H _ _ agents goods v rfl rfl
+  intro n
+  induction n using Nat.strongRecOn with
+  | _ n ihn =>
+  intro m
+  induction m using Nat.strongRecOn with
+  | _ m ihm =>
+  intro agents goods v hn hm hC ⟨hne, hag, hgd, h4⟩
+  -- every smaller admissible instance of the class is solvable
+  have hmin : MinimalFor C agents goods := by
+    intro agents' goods' v' hC' had' hlt
+    rcases hlt with hlt | ⟨heq, hlt⟩
+    · exact ihn _ (by omega) _ agents' goods' v' rfl rfl hC' had'
+    · exact ihm _ (by omega) agents' goods' v' (by omega) rfl hC' had'
+  have hsub : ∀ agents' goods', agents'.Sublist agents → goods'.Sublist goods → agents' ≠ [] →
+      LexLt agents' goods' agents goods → Solvable agents' goods' v := fun agents' goods' ha hg hne' hlt =>
+    hmin agents' goods' v (hher _ _ _ _ _ hC ha hg) ⟨hne', hag.sublist ha, hgd.sublist hg,
+      fun i hi => Nat.le_trans (relevant_sublist v hg) (h4 i (ha.subset hi))⟩ hlt
+  obtain ⟨i0, hi0⟩ := List.exists_mem_of_ne_nil agents hne
+  -- no goods: nothing to allocate
+  by_cases hg0 : goods = []
+  · subst hg0
+    exact ⟨fun _ => i0, fun g hg => by simp at hg, fun _ _ _ _ _ g hg => by simp [bundle] at hg⟩
+  -- one agent: it takes everything
+  by_cases h1 : agents.length ≤ 1
+  · refine ⟨fun _ => i0, fun _ _ => hi0, fun x hx y hy hxy => ?_⟩
+    exfalso
+    have : x = y := by
+      cases agents with
+      | nil => simp at hx
+      | cons a l =>
+        cases l with
+        | nil => simp at hx hy; rw [hx, hy]
+        | cons b l => simp at h1
+    exact hxy this
+  -- 1. junk goods (L3)
+  by_cases hjunk : ∃ g ∈ goods, isJunk v agents g = true
+  · obtain ⟨g, hg, hgj⟩ := hjunk
+    have hlt : (goods.filter (fun g => !isJunk v agents g)).length < goods.length :=
+      List.length_filter_lt_length_iff_exists.mpr ⟨g, hg, by simp [hgj]⟩
+    obtain ⟨X', hX', hE'⟩ := hsub agents _ (List.Sublist.refl _) List.filter_sublist hne (Or.inr ⟨rfl, hlt⟩)
+    exact junk v hne hX' hE'
+  -- 2. peeling by R1
+  by_cases hR1 : ∃ i ∈ agents, ∃ p ∈ goods, value v i (goods.erase p) ≤ v i p
+  · obtain ⟨i, hi, p, hp, htop⟩ := hR1
+    have hrest : agents.erase i ≠ [] := by
+      intro h
+      have := List.length_erase_of_mem hi
+      rw [h] at this; simp at this; omega
+    obtain ⟨X', hX', hE'⟩ := hsub (agents.erase i) (goods.erase p) List.erase_sublist List.erase_sublist hrest
+      (Or.inl (by rw [List.length_erase_of_mem hi]; have := List.length_pos_of_mem hi; omega))
+    obtain ⟨hX, hE⟩ := peel v (List.Nodup.not_mem_erase hag) hp hgd hX' hE' htop
+    exact ⟨_, fun g hg => (mem_cons_erase hi _).mp (hX g hg), efx0L_congr v (mem_cons_erase hi) hE⟩
+  -- every agent has at least three relevant goods and is strictly balanced
+  have hbal : ∀ i ∈ agents, 3 ≤ (relevant v i goods).length ∧ ∀ g ∈ goods, 2 * v i g < value v i goods :=
+    fun i hi => not_R1 v hg0 (fun ⟨p, hp, h⟩ => hR1 ⟨i, hi, p, hp, h⟩)
+  -- 3. peeling by R2
+  by_cases hR2 : ∃ i ∈ agents,
+      value v i (relevant v i (goods.filter (fun g => !isPrivate v i (agents.erase i) g))) ≤
+        value v i (goods.filter (isPrivate v i (agents.erase i)))
+  · obtain ⟨i, hi, hb⟩ := hR2
+    have hrest : agents.erase i ≠ [] := by
+      intro h
+      have := List.length_erase_of_mem hi
+      rw [h] at this; simp at this; omega
+    obtain ⟨X', hX', hE'⟩ := hsub (agents.erase i) (goods.filter (fun g => !isPrivate v i (agents.erase i) g))
+      List.erase_sublist List.filter_sublist hrest
+      (Or.inl (by rw [List.length_erase_of_mem hi]; have := List.length_pos_of_mem hi; omega))
+    obtain ⟨hX, hE⟩ := peelR2 v (List.Nodup.not_mem_erase hag) hX' hE' hb
+    exact ⟨_, fun g hg => (mem_cons_erase hi _).mp (hX g hg), efx0L_congr v (mem_cons_erase hi) hE⟩
+  -- 4. components (L6)
+  by_cases hconn : ¬ Connected v agents goods
+  · obtain ⟨S, hS, a, ha, b, hb, hab⟩ : ∃ S : A → Bool,
+        (∀ g ∈ goods, ∀ i ∈ agents, ∀ j ∈ agents, 0 < v i g → 0 < v j g → S i = S j) ∧
+        ∃ a ∈ agents, ∃ b ∈ agents, S a = true ∧ S b = false := by
+      refine Classical.byContradiction fun hno => hconn fun S hS i hi j hj => ?_
+      cases hSi : S i <;> cases hSj : S j
+      · rfl
+      · exact absurd ⟨S, hS, j, hj, i, hi, hSj, hSi⟩ hno
+      · exact absurd ⟨S, hS, i, hi, j, hj, hSi, hSj⟩ hno
+      · rfl
+    let T : G → Bool := fun g => decide (∃ a ∈ agents, S a = true ∧ 0 < v a g)
+    have hST : ∀ i ∈ agents, ∀ g ∈ goods, 0 < v i g → S i = T g := by
+      intro i hi g hg hpos
+      cases hSi : S i
+      · refine (decide_eq_false fun ⟨a', ha', hSa', hpa'⟩ => ?_).symm
+        have := hS g hg i hi a' ha' hpos hpa'
+        rw [hSi, hSa'] at this
+        exact Bool.noConfusion this
+      · exact (decide_eq_true ⟨i, hi, hSi, hpos⟩).symm
+    have hlenS : (agents.filter S).length < agents.length :=
+      List.length_filter_lt_length_iff_exists.mpr ⟨b, hb, by simp [hab.2]⟩
+    have hlenN : (agents.filter (fun i => !S i)).length < agents.length :=
+      List.length_filter_lt_length_iff_exists.mpr ⟨a, ha, by simp [hab.1]⟩
+    obtain ⟨X1, hX1, hE1⟩ := hsub (agents.filter S) (goods.filter T) List.filter_sublist List.filter_sublist
+      (List.ne_nil_of_mem (List.mem_filter.mpr ⟨ha, hab.1⟩)) (Or.inl hlenS)
+    obtain ⟨X2, hX2, hE2⟩ := hsub (agents.filter (fun i => !S i)) (goods.filter (fun g => !T g))
+      List.filter_sublist List.filter_sublist
+      (List.ne_nil_of_mem (List.mem_filter.mpr ⟨hb, by simp [hab.2]⟩)) (Or.inl hlenN)
+    exact ⟨_, efx0_split v S T hST hX1 hE1 hX2 hE2⟩
+  have hconn : Connected v agents goods := Classical.byContradiction hconn
+  -- 5. a connected k = 4 core, all of whose smaller instances in the class are solvable
+  have hq : ∀ i, ∀ g, isPrivate v i (agents.erase i) g = true → 0 < v i g :=
+    fun i g hg => ((isPrivate_iff v hag).mp hg).1
+  refine hcore agents goods v hC hag hgd ⟨by omega, fun i hi => ⟨(hbal i hi).1, h4 i hi⟩,
+    fun i hi => (hbal i hi).2, fun i hi => ?_, fun i hi _ => ?_, fun g hg => ?_⟩ hconn hmin
+  · rw [privateGoods_eq v hag, length_relevant_split v i _ goods (hq i)]
+    refine Nat.add_le_add_left (Nat.le_of_not_lt fun hlt => hR2 ⟨i, hi, ?_⟩) _
+    exact R2_balance_of_le_one v _ (hbal i hi).2 (by omega)
+  · rw [privateGoods_eq v hag, sharedGoods_eq v hag]
+    exact Nat.lt_of_not_le fun hle => hR2 ⟨i, hi, hle⟩
+  · refine Classical.byContradiction fun hno => hjunk ⟨g, hg, ?_⟩
+    simp only [isJunk, List.all_eq_true, beq_iff_eq]
+    intro j hj
+    exact Nat.eq_zero_of_not_pos fun hpos => hno ⟨j, hj, hpos⟩
+
+/-- **K4.MC0 (a)–(c), in inductive form.** Let `C` be a hereditary class of instances that depends only on the
+relevant goods (such as `𝒞_β`). Suppose every connected k = 4 core of `C` that is *strict* (`EFX.Strict`: only the
+types matter, K4.TIE) and has an agent with four relevant goods has an EFX₀ allocation whenever every smaller
+admissible instance of `C` has one. Then every admissible instance of `C` has an EFX₀ allocation. Equivalently, a
+minimal counterexample within `C` is a connected strict k = 4 core with a 4-good agent (cores whose agents all have
+three goods are covered by TARGET, `EFX.target_lists`). -/
+theorem mc0 (C : List A → List G → (A → G → Nat) → Prop) (hher : Hereditary C) (hrel : RelevanceInvariant C)
+    (hcore : ∀ agents goods v, C agents goods v → agents.Nodup → goods.Nodup → IsCore4 v agents goods →
+      Connected v agents goods → Strict v agents goods → (∃ i ∈ agents, (relevant v i goods).length = 4) →
+      MinimalFor C agents goods → Solvable agents goods v) :
+    ∀ agents goods v, C agents goods v → Admissible agents goods v → Solvable agents goods v := by
+  refine core_reduction4_class C hher fun agents goods v hC hag hgd hc hconn hmin => ?_
+  by_cases h4 : ∃ i ∈ agents, (relevant v i goods).length = 4
+  · refine tie_reduction v hgd (fun w hw hcw hconnw hsw => hcore agents goods w (hrel _ _ _ _ hC hw) hag hgd hcw
+      hconnw hsw ?_ hmin) hc hconn
+    obtain ⟨i, hi, h4i⟩ := h4
+    refine ⟨i, hi, ?_⟩
+    have : relevant w i goods = relevant v i goods := List.filter_congr fun g _ => by simp [hw]
+    rw [this]; exact h4i
+  · have hne : agents ≠ [] := fun h => by have := hc.1; rw [h] at this; simp at this
+    exact target_lists v hne hag hgd fun i hi => by
+      have := (hc.2.1 i hi).2
+      exact Nat.le_of_lt_succ (Nat.lt_of_le_of_ne (by omega) fun e => h4 ⟨i, hi, e⟩)
+
 end MinCex
 end EFX
 
@@ -214,3 +396,5 @@ end EFX
 #print axioms EFX.MinCex.threat_le_of_dominated
 #print axioms EFX.MinCex.m1_efx0
 #print axioms EFX.MinCex.m1_reduce
+#print axioms EFX.MinCex.core_reduction4_class
+#print axioms EFX.MinCex.mc0
