@@ -1,2 +1,2 @@
-# ls4alg_run.py ../results/k4_certs_4_pure.json.gz --sample=100000 --defs=-DCMOVE=8
-TOTAL cores=219 badcores=0 runs=21900000 fail=0 complete=16803665 empty=0 dump=4974901 dm=120659 exact=775 M1=434935709 R=297196 X=242134 L2=211631 L3=28721 L4=1782 L5=0 maxsteps=38 maxlevels=55 big0=3391358 big1=11100776 big2=6379180 big3+=1028686 wall=87s
+# ls4alg_run.py ../results/k4_certs_4_pure.json.gz --sample=100000 --defs=-DCMOVE=8 --jobs=2
+TOTAL cores=219 badcores=0 runs=21900000 fail=0 complete=16803665 empty=0 dump=4974901 dm=120659 exact=775 M1=434935709 R=297196 X=242134 L2=211631 L3=28721 L4=1782 L5=0 maxsteps=38 maxlevels=55 big0=3391358 big1=11100776 big2=6379180 big3+=1028686 C2=14 C3=4 C4=2 wall=175s

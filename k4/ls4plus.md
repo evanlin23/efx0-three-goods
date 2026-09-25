@@ -67,7 +67,26 @@ The variant with the fixed-priority potential (levels in agent order, lexicograp
 
 ## 3. Evidence (not part of any proof)
 
-RESULTS_TABLE
+**LS4⁺_n** (`k4/ls4alg.c -DCMOVE=8`, i.e. coalitions of any size; every output checked by the raw EFX₀ definition; the same profiles and seeds as LS4's runs in `k4/local_search4.md` §5):
+
+| class | profiles | how | failures | coalition moves used | log |
+|---|---|---|---|---|---|
+| n = 4, pure | 21,900,000 | 100,000 random per core | **0** (LS4: 20) | 20: 14 by 2 agents, 4 by 3, 2 by 4, one per LS4 failure | `results/k4_lsp_4_pure_sample.log` |
+| n = 4, three 4-good agents | 33,900,000 | 100,000 random per core | 0 | 0 | `results/k4_lsp_4_n4_3_sample.log` |
+| n = 4, one 4-good agent | 7,247,232 | exhaustive | 0 | 0 | `results/k4_lsp_4_n4_1.log` |
+| n ≤ 3 | 299,837,376 (all 24.7·10⁹ tied profiles too) | exhaustive | 0 | 0 | `results/k4_lsp_3_ties.log` |
+| n = 5, two 4-good agents | 54,680,000 | 10,000 random per core | 0 | 0 | `results/k4_lsp_5_n4_2_sample.log` |
+
+**GM₄ directly** (`k4/ls4_gm.c -DPOT=0`). For each profile, all junk-free partial allocations are enumerated, the maximal ones found, and each checked for a placement (LS4 Phase 2 (a)–(d)). This covers every maximum, not only those LS4⁺ reaches.
+
+| class | profiles | how | maximal states | failures | log |
+|---|---|---|---|---|---|
+| n = 2 | 189,216 | exhaustive | 236,176 | 0 | `results/k4_gm_2.log` |
+| n = 3 | 1,020,000 | 20,000 random per core | 1,323,209 | 0 | `results/k4_gm_3_sample.log` |
+| n = 4, one to three 4-good agents | 1,566,000 | 2,000 random per core | 2,174,535 | 0 | `results/k4_gm_4_mixed_sample.log` |
+| n = 4, pure | GMPURE | 20,000 random per core | GMPUREMAX | GMPUREF | `results/k4_gm_4_pure_sample.log` |
+
+The 19 logged LS4 failure profiles also pass, under the level sum and under the fixed-priority order; leximin fails on one (§4).
 
 ## 4. Failed designs (`attempts/k4-lsp-*.md`; replayed by `python3 k4/lsp_attempts.py`)
 
