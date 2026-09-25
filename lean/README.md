@@ -15,13 +15,19 @@ Toolchain: `leanprover/lean4:v4.34.0`, pinned in `lean-toolchain` (the same as m
 
     cd lean && ./check.sh
 
-The script fails if any source file contains the word `sorry`, if the project has a dependency, if the
-build reports an error or a warning, if any `#print axioms` certificate lists an axiom other than the three
-standard ones, if the number of certificates differs from the number of `#print axioms` commands, or if any
-declaration of the library (certified or not; `CheckAxioms.lean`) depends on another axiom. On success the last
-line is
+The script fails if any source file contains the word `sorry`, if any source file or `lakefile.toml` uses a
+debug option, metaprogramming or unsafe code (`debug.`, `import Lean`, `run_cmd`, `run_meta`, `run_elab`,
+`addDecl`, `implemented_by`, `extern`, `unsafe`), if the project has a dependency, if the build reports an error
+or a warning, if any `#print axioms` certificate lists an axiom other than the three standard ones (a certificate
+may also list none), if the number of certificates differs from the number of `#print axioms` commands, if any
+declaration of the library (certified or not; `CheckAxioms.lean`) depends on another axiom, or if Lean's replay
+checker `lake env leanchecker --fresh EFX` rejects the library (it re-checks every declaration, Init included,
+in a fresh kernel; about a minute). The last two checks were added after the `formal/audit` review (PR #19)
+showed that a declaration added under `set_option debug.skipKernelTC true` is never kernel-checked, yet builds
+without warnings and has no axioms for `#print axioms` or `CheckAxioms.lean` to report; the tripwire refuses the
+option and the replay checker rejects such a declaration. On success the last line is
 
-    CHECK PASSED: 65 audited statements, 248 theorems, standard axioms only
+    CHECK PASSED: 81 audited statements, 278 theorems, standard axioms only
 
 CI runs it on every pull request (job `lean` in `.github/workflows/verify.yml`). In Claude Code on the web the
 session-start hook installs the toolchain (from GitHub when `release.lean-lang.org` is unreachable).
@@ -96,6 +102,11 @@ each agent's values by a common denominator.
 - `EFX/PreAlloc.lean`, `EFX/Blocks.lean`, `EFX/OwnerR.lean`, `EFX/Rotation.lean`, `EFX/LBPlus.lean`,
   `EFX/CorollaryD.lean`, `EFX/Target.lean`: construction LB⁺, conjecture D and TARGET
   (`proofs/lb_last_step.md`); see the section below.
+- `EFX/Audit.lean`: red-team audit (`formal/audit`): TARGET and D restated independently (bundles as lists that
+  partition the goods, a hand-written sum; written before the model was read), derived from `EFX.target` and
+  `EFX.LB.corollaryD`, with non-vacuity examples checked by `decide`.
+- `scripts/audit_kernel.sh`: fresh-clone build, `leanchecker --fresh`, a second kernel (lean4export + nanoda) and
+  negative controls; log in `results/audit_kernel.log`.
 - `CheckAxioms.lean`: the all-declarations axiom check.
 
 ## Correspondence with the ledger
@@ -126,6 +137,7 @@ name in the ledger's Lean column has one.
 | T | CORE: if every core with at most `N` agents has an EFX₀ allocation, so does every instance with at most `N` agents and `\|R_i\| ≤ 3` (L3, R1, R2 by induction) | Target : `EFX.core_reduction` (over lists) |
 | T | TARGET (Corollary T): every instance with `\|R_i\| ≤ 3` for every agent has a complete EFX₀ allocation; values in ℕ, real values by L12 (`proofs/real_values.md`, written) | Target : `EFX.target` (model), `EFX.target_lists` (over lists) |
 | — | The list layer agrees with the model | Bridge : `EFX.Inst.efx0_iff` |
+| AUD | Independently written TARGET and D (list bundles partitioning the goods) follow from `EFX.target` and `EFX.LB.corollaryD` | Audit : `Audit.target_audit`, `Audit.corollaryD_audit` |
 
 mrd-efx proves a stronger form of L2c (`MRD.main_theorem_L`: in addition, all bundles but one have at most one
 good), and extends it to monotone valuations.
