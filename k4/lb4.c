@@ -265,9 +265,11 @@ static int slots(void) {
 /* ---- rotation (exploration): a frozen agent k gives up its pick along a need chain k = x0 -> .. -> xt (terminal),
    every chain agent takes its predecessor's pick, xt's pick is released, and k takes its relevant junk as its base */
 static int ROT = 0, rot_depth = 0, CHUP = 0;
+static int used_pol, used_rot; static long effort;   /* how a run succeeded: policy index, rotations, rotation attempts */
 static int try_rotations(void);
 static int chain[MAXN], clen;
 static int apply_chain(int rot_pick, int *rot_more) {
+    effort++;
     int sY[MAXN], su[MAXN]; uint32_t sb[MAXN], sN[MAXN], sJ = J;
     memcpy(sY, Y, sizeof Y); memcpy(su, upg, sizeof upg); memcpy(sb, base, sizeof base); memcpy(sN, N_, sizeof N_);
     int k = chain[0], t = chain[clen - 1];
@@ -301,6 +303,7 @@ static int apply_chain(int rot_pick, int *rot_more) {
         if (!ok && nbig == 0 && popc(J) - S >= 1)
             for (int o = 0; o < n && !ok; o++) if (o != k && (cap[o] > 0 || upg[o])) ok = try_owner(o, S);
     }
+    if (ok) used_rot = rot_depth + 1;             /* succeeded after rot_depth + 1 rotations */
     if (!ok && valid && rot_depth + 1 < ROT) {    /* rotate again from the rotated state */
         int sc[MAXN], sl = clen; memcpy(sc, chain, sizeof sc);
         rot_depth++; ok = try_rotations(); rot_depth--;
@@ -422,9 +425,11 @@ static int construct(void) {
 }
 static int construct2(void);
 static int construct1(void) {
-    if (UPG != 3) { upg_mode = UPG; return construct2(); }
-    for (upg_mode = 1; upg_mode >= 0; upg_mode = upg_mode == 1 ? 2 : upg_mode == 2 ? 0 : -1) {  /* -u3: 1, 2, 0 */
-        if (construct2()) return 1;
+    if (UPG != 3) { upg_mode = UPG; used_pol = 0; used_rot = 0; return construct2(); }
+    int pi = 0;
+    for (upg_mode = 1; upg_mode >= 0; upg_mode = upg_mode == 1 ? 2 : upg_mode == 2 ? 0 : -1, pi++) {  /* -u3: 1, 2, 0 */
+        used_rot = 0;
+        if (construct2()) { used_pol = pi; return 1; }
         fb_upg = 1;
     }
     return 0;
@@ -502,6 +507,38 @@ static int run_leaf(int *ok) {
     return 0;
 }
 
+
+static long HILL = 0;                    /* -HN: N hill-climbing steps per core (restart every 500) */
+static long hist_pol[3], hist_rot[4];
+/* set the rankings and singleton type sets for type indices ty[]; run LB4 (every insertion sequence when -i1);
+   *score = max over runs of policy * 1e8 + rotations * 1e6 + min(effort, 999999); returns 1 if every run succeeds */
+static int eval_profile(const int *ty, long *score, long *nruns) {
+    for (int i = 0; i < n; i++) {
+        int t = ty[i], p, kk = 0;
+        for (p = 0; p < np[i]; p++) { for (kk = 0; kk < pcnt[i][p]; kk++) if (pidx[i][p][kk] == t) break; if (kk < pcnt[i][p]) break; }
+        cp[i] = p; ts[i] = (u128)1 << kk;
+        for (int r = 0; r < d[i]; r++) ord[i][r] = gl[i][pr[i][cp[i]][r]];
+        for (int g = 0; g < m; g++) rp[i][g] = -1;
+        for (int r = 0; r < d[i]; r++) rp[i][ord[i][r]] = r;
+    }
+    long sc = 0; nchoice = 0;
+    for (;;) {
+        int ok; effort = 0;
+        if (run_leaf(&ok)) { fprintf(stderr, "split with singleton type sets\n"); exit(1); }
+        (*nruns)++;
+        if (!ok) { *score = -1; return 0; }
+        if (!rawcheck()) { report("RAWFAIL"); exit(2); }
+        long e = effort < 999999 ? effort : 999999, v = used_pol * 100000000L + used_rot * 1000000L + e;
+        if (v > sc) sc = v;
+        if (INS != 1) break;
+        int j = nins - 1;                /* next insertion sequence */
+        while (j >= 0 && choice[j] + 1 >= maxchoice[j]) j--;
+        if (j < 0) break;
+        choice[j]++; nchoice = j + 1;
+    }
+    *score = sc; return 1;
+}
+
 int main(int argc, char **argv) {
     for (int a = 1; a < argc; a++) {
         if (!strncmp(argv[a], "-o", 2)) OWN = atoi(argv[a] + 2);
@@ -512,6 +549,7 @@ int main(int argc, char **argv) {
         else if (!strcmp(argv[a], "-b")) BRUTE = 1;
         else if (!strcmp(argv[a], "-a")) ALLOC = 1;
         else if (!strncmp(argv[a], "-S", 2)) SAMPLE = atol(argv[a] + 2);
+        else if (!strncmp(argv[a], "-H", 2)) HILL = atol(argv[a] + 2);
         else if (!strncmp(argv[a], "-r", 2)) ROT = atoi(argv[a] + 2);
         else if (!strncmp(argv[a], "-w", 2)) OWNW = atoi(argv[a] + 2);
         else if (!strncmp(argv[a], "-c", 2)) CHUP = atoi(argv[a] + 2);
@@ -539,31 +577,34 @@ int main(int argc, char **argv) {
         }
         long total = 0, leaves = 0, fails = 0, rawf = 0, runs = 0, shown = 0;
         long stat[5] = {0}, bigsz[40] = {0}, nfb_seq = 0, nfb_upg = 0;
-        if (SAMPLE > 0) {                /* random profiles: a type index per agent, uniform over its list */
+        if (SAMPLE > 0 || HILL > 0) {    /* random profiles (-S), or hill-climbing toward hard profiles (-H) */
             uint64_t x = 88172645463325252ull ^ (uint64_t)(n * 131 + m);
             for (int i = 0; i < n; i++) for (int k = 0; k < d[i]; k++) x = x * 6364136223846793005ull + (uint64_t)(gl[i][k] + 17 * k + 1);
-            for (long sidx = 0; sidx < SAMPLE; sidx++) {
-                for (int i = 0; i < n; i++) {
-                    x ^= x << 13; x ^= x >> 7; x ^= x << 17;
-                    int t = (int)(x % (uint64_t)nt[i]), p, kk = 0;
-                    for (p = 0; p < np[i]; p++) { for (kk = 0; kk < pcnt[i][p]; kk++) if (pidx[i][p][kk] == t) break; if (kk < pcnt[i][p]) break; }
-                    cp[i] = p; ts[i] = (u128)1 << kk;
-                    for (int r = 0; r < d[i]; r++) ord[i][r] = gl[i][pr[i][cp[i]][r]];
-                    for (int g = 0; g < m; g++) rp[i][g] = -1;
-                    for (int r = 0; r < d[i]; r++) rp[i][ord[i][r]] = r;
+            int ty[MAXN], best[MAXN]; long cur = -1, top = -1;
+            long nsteps = SAMPLE > 0 ? SAMPLE : HILL;
+            for (long sidx = 0; sidx < nsteps; sidx++) {
+                int restart = SAMPLE > 0 || sidx % 500 == 0, mi = -1, mold = 0;
+                if (restart) for (int i = 0; i < n; i++) { x ^= x << 13; x ^= x >> 7; x ^= x << 17; ty[i] = (int)(x % (uint64_t)nt[i]); }
+                else {                   /* mutate one agent's type */
+                    x ^= x << 13; x ^= x >> 7; x ^= x << 17; mi = (int)(x % (uint64_t)n); mold = ty[mi];
+                    x ^= x << 13; x ^= x >> 7; x ^= x << 17; ty[mi] = (int)(x % (uint64_t)nt[mi]);
                 }
-                nchoice = 0;
-                if (INS == 1 || INS == 9) { fprintf(stderr, "-S with -i1/-i9 not supported\n"); return 1; }
-                int ok;
-                if (run_leaf(&ok)) { fprintf(stderr, "split with singleton type sets\n"); return 1; }
-                runs++; leaves++; total++;
-                if (!ok) { fails++; if (shown < MAXF) { report("FAIL"); shown++; } continue; }
-                stat[last_status]++;
-                if (fb_seq) nfb_seq++;
-                if (fb_upg) nfb_upg++;
-                if (!rawcheck()) { rawf++; if (shown < MAXF) { report("RAWFAIL"); shown++; } continue; }
-                if (lastbig) bigsz[lastbig]++;
+                long sc; int ok = eval_profile(ty, &sc, &runs);
+                leaves++; total++;
+                if (!ok) {
+                    fails++; if (shown < MAXF) { report("FAIL"); shown++; }
+                    if (HILL > 0) break;
+                    continue;
+                }
+                hist_pol[sc / 100000000L]++; hist_rot[(sc / 1000000L) % 100]++;
+                if (sc > top) {          /* hardest so far on this core */
+                    top = sc; memcpy(best, ty, sizeof best);
+                    if (sc >= 2000000L) { char lab[64]; snprintf(lab, sizeof lab, "HARD p=%ld r=%ld e=%ld", sc / 100000000L, (sc / 1000000L) % 100, sc % 1000000L); report(lab); }
+                }
+                if (HILL > 0 && !restart && sc < cur) ty[mi] = mold;   /* reject a downhill move */
+                else cur = sc;
             }
+            (void)best;
             goto core_done;
         }
         /* odometer over ranking profiles */
@@ -617,6 +658,7 @@ int main(int argc, char **argv) {
                     leaves++; total += w;
                     if (!ok) { fails += w; if (shown < MAXF) { report("FAIL"); shown++; } continue; }
                     stat[last_status] += w;
+                    hist_pol[used_pol] += w; hist_rot[used_rot] += w;
                     if (fb_seq) nfb_seq += w;
                     if (fb_upg) nfb_upg += w;
                     if (!rawcheck()) { rawf += w; if (shown < MAXF) { report("RAWFAIL"); shown++; } continue; }
@@ -636,6 +678,8 @@ int main(int argc, char **argv) {
             if (i == n) break;
         }
       core_done:
+        printf("H %ld %ld %ld %ld %ld %ld %ld\n", hist_pol[0], hist_pol[1], hist_pol[2], hist_rot[0], hist_rot[1], hist_rot[2], hist_rot[3]);
+        memset(hist_pol, 0, sizeof hist_pol); memset(hist_rot, 0, sizeof hist_rot);
         if (ALLOC) {
             for (long h = 0; h < (1 << HBITS); h++) if (htab[h]) {
                 int o[MAXM]; uint64_t key = htab[h];

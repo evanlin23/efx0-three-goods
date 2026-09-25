@@ -30,10 +30,11 @@ def run(task):
     inp = ''.join(encode(r['sets'], r['m'], ties) for r in recs)
     p = subprocess.run([BIN] + opts, input=inp, capture_output=True, text=True)
     if p.returncode: raise RuntimeError(p.stderr[-2000:])
-    out, allocs, cur = [], [], []
+    out, allocs, cur, hist = [], [], [], None
     for line in p.stdout.strip().split('\n'):
         if line.startswith('A '): cur.append(list(map(int, line.split()[1:])))
-        else: out.append(line); allocs.append(cur); cur = []
+        elif line.startswith('H '): hist = line
+        else: out.append(line + (' | ' + hist if hist else '')); allocs.append(cur); cur = []; hist = None
     if len(out) != len(recs): raise RuntimeError(f"{len(out)} result lines for {len(recs)} cores")
     return [(r, line, A) for r, line, A in zip(recs, out, allocs)], p.stderr
 
@@ -92,6 +93,10 @@ def main():
                 if err: errs.append(err)
                 for r, line, A in res:
                     if cert is not None: cert.append({'m': r['m'], 'sets': r['sets'], 'allocs': A})
+                    line, _, hl = line.partition(' | ')
+                    if hl:                       # policies 1, 2, 0 used; rotations 0..3 used
+                        for k, v in zip(('pol_needshrink', 'pol_envyfree', 'pol_none', 'rot0', 'rot1', 'rot2', 'rot3'), map(int, hl.split()[1:])):
+                            tot[k] = tot.get(k, 0) + v
                     toks = line.split()
                     kv = dict(zip(toks[0:22:2], map(int, toks[1:22:2])))
                     for k, v in kv.items(): tot[k] = tot.get(k, 0) + v
@@ -112,7 +117,11 @@ def main():
         print('  ' + ' '.join(f"{k}={v}" for k, v in tot.items()))
         print(f"  cores with a failure: {len(bad)}")
         for b in sorted(bad)[:show]: print('   ', b)
-        lines = [l for e in errs for l in e.strip().split('\n') if l]
+        lines = [l for e in errs for l in e.strip().split('\n') if l and not l.startswith('HARD')]
+        hard = [l for e in errs for l in e.strip().split('\n') if l.startswith('HARD')]
+        hk = lambda l: tuple(int(t.split('=')[1]) for t in l.split()[1:4])
+        if hard: print(f"  hardest profiles found ({len(hard)} reported with >= 2 rotations or a later policy):")
+        for l in sorted(hard, key=hk, reverse=True)[:show]: print('   ', l)
         lines.sort(key=lambda l: (int(l.split('m=')[1].split()[0]), len(l)))
         for l in lines[:show]: print('  ', l)
         sys.stdout.flush()
