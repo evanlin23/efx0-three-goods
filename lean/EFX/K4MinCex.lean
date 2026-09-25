@@ -1,5 +1,6 @@
 import EFX.K4Ties
 import EFX.Target
+import EFX.PreAllocK
 
 /-!
 # A minimal counterexample to TARGET₄ (`k4/MINCEX.md`; ledger K4.MC0–K4.MC7)
@@ -388,6 +389,243 @@ theorem mc0 (C : List A → List G → (A → G → Nat) → Prop) (hher : Hered
       have := (hc.2.1 i hi).2
       exact Nat.le_of_lt_succ (Nat.lt_of_le_of_ne (by omega) fun e => h4 ⟨i, hi, e⟩)
 
+/-! ## K4.MC4: the counting bound -/
+
+section count
+
+/-- The degree of a good: the number of agents that value it. -/
+def deg (v : A → G → Nat) (agents : List A) (g : G) : Nat := agents.countP (fun i => decide (0 < v i g))
+
+/-- An agent's degree in `Γ′` (the incidence graph without the private goods): the number of goods it values
+that another agent values too (degree ≥ 2). -/
+def degS (v : A → G → Nat) (agents : List A) (goods : List G) (i : A) : Nat :=
+  goods.countP (fun g => decide (0 < v i g) && decide (2 ≤ deg v agents g))
+
+theorem sum_map_add' {α : Type} (f g : α → Nat) :
+    ∀ l : List α, (l.map (fun a => f a + g a)).sum = (l.map f).sum + (l.map g).sum
+  | [] => by simp
+  | a :: l => by simp only [List.map_cons, List.sum_cons, sum_map_add' f g l]; omega
+
+theorem sum_map_mul_left' {α : Type} (k : Nat) (f : α → Nat) :
+    ∀ l : List α, (l.map (fun a => k * f a)).sum = k * (l.map f).sum
+  | [] => by simp
+  | a :: l => by simp only [List.map_cons, List.sum_cons, sum_map_mul_left' k f l, Nat.mul_add]
+
+omit [DecidableEq A] in
+/-- A count of at least 2 in a list without repeats, one of them `f`: another element passes. -/
+theorem exists_other_of_countP {p : A → Bool} {l : List A} (hl : l.Nodup) (h2 : 2 ≤ l.countP p) {f : A}
+    (_hf : f ∈ l) : ∃ e ∈ l, e ≠ f ∧ p e = true := by
+  refine Classical.byContradiction fun hno => ?_
+  have : l.countP p ≤ 1 := by
+    rw [List.countP_eq_length_filter]
+    refine LB.length_le_one (hl.sublist List.filter_sublist) (y := f) fun e he => ?_
+    obtain ⟨hel, hpe⟩ := List.mem_filter.mp he
+    exact Classical.byContradiction fun hef => hno ⟨e, hel, hef, hpe⟩
+  omega
+
+omit [DecidableEq G] in
+/-- **K4.MC4 (counting).** Let every good be valued by some agent, every agent have `Γ′`-degree 2, 3 or 4, no good
+of degree 2 be valued by two agents of `Γ′`-degree 2 (K4.MC3; with K4.MC2 these are the P3 agents), and every agent
+of `Γ′`-degree 3 (the E3 agents) share at most one good of degree 2 with an agent of `Γ′`-degree 2 (K4.MC5(iii):
+it ranks every such good first). Then `n ≤ 3(β − 1)`, where `β = Σ_i |R_i| − n − m + 1`: that is,
+`4n + 3m ≤ 3 Σ_i |R_i|`. -/
+theorem mc4_count (v : A → G → Nat) {agents : List A} {goods : List G} (hag : agents.Nodup)
+    (hcov : ∀ g ∈ goods, 1 ≤ deg v agents g)
+    (hd : ∀ i ∈ agents, 2 ≤ degS v agents goods i ∧ degS v agents goods i ≤ 4)
+    (hMC3 : ∀ g ∈ goods, deg v agents g = 2 → ∀ f ∈ agents, ∀ f' ∈ agents, f ≠ f' → 0 < v f g → 0 < v f' g →
+      degS v agents goods f = 2 → degS v agents goods f' ≠ 2)
+    (hMC5 : ∀ e ∈ agents, degS v agents goods e = 3 →
+      goods.countP (fun g => decide (0 < v e g) && decide (deg v agents g = 2) &&
+        decide (∃ f ∈ agents, f ≠ e ∧ 0 < v f g ∧ degS v agents goods f = 2)) ≤ 1) :
+    4 * agents.length + 3 * goods.length ≤ 3 * (agents.map (fun i => (relevant v i goods).length)).sum := by
+  -- (F1) Σ_i |R_i| = Σ_g deg g, and (F2) Σ_i d′_i = Σ_{g shared} deg g
+  have F1 : (agents.map (fun i => (relevant v i goods).length)).sum = (goods.map (deg v agents)).sum := by
+    have := LB4.sum_countP_comm (fun i g => decide (0 < v i g)) agents goods
+    change _ = (goods.map (fun g => agents.countP (fun i => decide (0 < v i g)))).sum
+    rw [← this]
+    congr 1
+    apply List.map_congr_left
+    intro i _
+    rw [relevant, List.countP_eq_length_filter]
+  have F2 : (agents.map (degS v agents goods)).sum = (goods.map (fun g => if 2 ≤ deg v agents g then deg v agents g else 0)).sum := by
+    have := LB4.sum_countP_comm (fun i g => decide (0 < v i g) && decide (2 ≤ deg v agents g)) agents goods
+    change (agents.map (fun i => goods.countP (fun g => decide (0 < v i g) && decide (2 ≤ deg v agents g)))).sum = _
+    rw [this]
+    congr 1
+    apply List.map_congr_left
+    intro g _
+    by_cases h2 : 2 ≤ deg v agents g
+    · simp only [h2, decide_true, Bool.and_true, ↓reduceIte]
+      rfl
+    · simp only [h2, ↓reduceIte]
+      apply List.countP_eq_zero.mpr
+      intro i _ h
+      simp at h
+  -- the goods: `deg g = [deg ≥ 2] deg g + [deg = 1]`, and `1 = [deg ≥ 2] + [deg = 1]`
+  have G1 : (goods.map (deg v agents)).sum = (goods.map (fun g => if 2 ≤ deg v agents g then deg v agents g else 0)).sum +
+      (goods.map (fun g => if 2 ≤ deg v agents g then 0 else 1)).sum := by
+    rw [← sum_map_add']
+    congr 1
+    apply List.map_congr_left
+    intro g hg
+    have := hcov g hg
+    by_cases h2 : 2 ≤ deg v agents g
+    · simp [h2]
+    · simp only [h2, ↓reduceIte]; omega
+  have G2 : goods.length = (goods.map (fun g => if 2 ≤ deg v agents g then 1 else 0)).sum +
+      (goods.map (fun g => if 2 ≤ deg v agents g then 0 else 1)).sum := by
+    rw [← sum_map_add']
+    have : ∀ l : List G, l.length = (l.map (fun g => (if 2 ≤ deg v agents g then 1 else 0) + (if 2 ≤ deg v agents g then 0 else 1))).sum := by
+      intro l
+      induction l with
+      | nil => simp
+      | cons a l ih =>
+        simp only [List.length_cons, List.map_cons, List.sum_cons, ← ih]
+        by_cases h : 2 ≤ deg v agents a <;> simp [h] <;> omega
+    exact this goods
+  -- (F3) the charging: `2n ≤ 3 Σ_i (d′_i − 2) + 3 Σ_g [deg ≥ 2] (deg g − 2)`
+  -- c(g): the agents of `Γ′`-degree 2 valuing a shared good `g`
+  let c : G → Nat := fun g => agents.countP (fun f => decide (0 < v f g) && decide (degS v agents goods f = 2) && decide (2 ≤ deg v agents g))
+  let q : A → G → Bool := fun e g => decide (0 < v e g) && decide (deg v agents g = 2) &&
+    decide (∃ f ∈ agents, f ≠ e ∧ 0 < v f g ∧ degS v agents goods f = 2)
+  -- (a) each agent of `Γ′`-degree 2 has exactly two shared incidences
+  have Fa : (agents.map (fun f => if degS v agents goods f = 2 then 2 else 0)).sum = (goods.map c).sum := by
+    have := LB4.sum_countP_comm (fun f g => decide (0 < v f g) && decide (degS v agents goods f = 2) && decide (2 ≤ deg v agents g))
+      agents goods
+    rw [← this]
+    congr 1
+    apply List.map_congr_left
+    intro f _
+    by_cases hf : degS v agents goods f = 2
+    · simp only [hf, ↓reduceIte]
+      rw [← hf]
+      show _ = goods.countP _
+      apply List.countP_congr
+      intro g _
+      simp [hf]
+    · simp only [hf, ↓reduceIte]
+      symm; apply List.countP_eq_zero.mpr
+      intro g _ h
+      simp at h
+  -- (b) per good: `c(g) ≤ 3 [deg ≥ 2] (deg g − 2) + Σ_e q(e, g)`
+  have Fb : ∀ g ∈ goods, c g ≤ 3 * (if 2 ≤ deg v agents g then deg v agents g - 2 else 0) + agents.countP (fun e => q e g) := by
+    intro g hg
+    have hcle : c g ≤ deg v agents g := by
+      apply List.countP_mono_left
+      intro f _ h
+      simp only [Bool.and_eq_true, decide_eq_true_eq] at h ⊢
+      exact h.1.1
+    by_cases h3 : 3 ≤ deg v agents g
+    · simp only [show 2 ≤ deg v agents g by omega, ↓reduceIte]; omega
+    by_cases h2 : deg v agents g = 2
+    · simp only [h2, Nat.le_refl, ↓reduceIte, Nat.sub_self, Nat.mul_zero, Nat.zero_add]
+      -- at most one agent of degree 2 values `g` (K4.MC3), and then the other valuer is not one
+      by_cases hc0 : c g = 0
+      · omega
+      obtain ⟨f, hf, hfp⟩ : ∃ f ∈ agents, (decide (0 < v f g) && decide (degS v agents goods f = 2) && decide (2 ≤ deg v agents g)) = true := by
+        refine Classical.byContradiction fun hno => hc0 (List.countP_eq_zero.mpr fun f hf h => hno ⟨f, hf, ?_⟩)
+        simpa using h
+      simp only [Bool.and_eq_true, decide_eq_true_eq] at hfp
+      obtain ⟨e, he, hef, hep⟩ := exists_other_of_countP (p := fun i => decide (0 < v i g)) hag
+        (show 2 ≤ deg v agents g by omega) hf
+      simp only [decide_eq_true_eq] at hep
+      have hde : degS v agents goods e ≠ 2 := hMC3 g hg h2 f hf e he (Ne.symm hef) hfp.1.1 hep hfp.1.2
+      have hc1 : c g ≤ 1 := by
+        refine Classical.byContradiction fun h => ?_
+        obtain ⟨f₂, hf₂, hf₂f, hp₂⟩ := exists_other_of_countP (p := fun f => decide (0 < v f g) &&
+          decide (degS v agents goods f = 2) && decide (2 ≤ deg v agents g)) hag (by simp only [c] at h; omega) hf
+        simp only [Bool.and_eq_true, decide_eq_true_eq] at hp₂
+        exact hMC3 g hg h2 f hf f₂ hf₂ (Ne.symm hf₂f) hfp.1.1 hp₂.1.1 hfp.1.2 hp₂.1.2
+      have hq1 : 1 ≤ agents.countP (fun e => q e g) := by
+        rw [List.countP_eq_length_filter]
+        apply List.length_pos_of_mem (a := e)
+        refine List.mem_filter.mpr ⟨he, ?_⟩
+        simp only [q, Bool.and_eq_true, decide_eq_true_eq]
+        exact ⟨⟨hep, h2⟩, f, hf, hef.symm, hfp.1.1, hfp.1.2⟩
+      omega
+    · have : c g = 0 := by
+        apply List.countP_eq_zero.mpr
+        intro f _ h
+        simp only [Bool.and_eq_true, decide_eq_true_eq] at h
+        omega
+      omega
+  -- (c) per agent: `Σ_g q(e, g) ≤ b(e)`, with `2 [d′ ≠ 2] + b(e) ≤ 3 (d′_e − 2)`
+  have Fc : ∀ e ∈ agents, (if degS v agents goods e = 2 then 0 else 2) + goods.countP (q e) ≤ 3 * (degS v agents goods e - 2) := by
+    intro e he
+    obtain ⟨hlo, hhi⟩ := hd e he
+    by_cases h2 : degS v agents goods e = 2
+    · have : goods.countP (q e) = 0 := by
+        apply List.countP_eq_zero.mpr
+        intro g _ h
+        simp only [q, Bool.and_eq_true, decide_eq_true_eq] at h
+        obtain ⟨⟨hv, hdg⟩, f, hf, hfe, hvf, hdf⟩ := h
+        exact hMC3 g (by assumption) hdg f hf e he hfe hvf hv hdf h2
+      simp only [h2, ↓reduceIte, this]; omega
+    by_cases h3 : degS v agents goods e = 3
+    · have := hMC5 e he h3
+      simp only [h2, ↓reduceIte]
+      have : goods.countP (q e) ≤ 1 := by
+        refine Nat.le_trans (Nat.le_of_eq ?_) this
+        apply List.countP_congr; intro g _; simp [q]
+      omega
+    · have h4 : degS v agents goods e = 4 := by omega
+      have : goods.countP (q e) ≤ degS v agents goods e := by
+        apply List.countP_mono_left
+        intro g _ h
+        simp only [q, Bool.and_eq_true, decide_eq_true_eq] at h ⊢
+        exact ⟨h.1.1, by omega⟩
+      simp only [h2, ↓reduceIte]; omega
+  -- summing up
+  have S1 : (goods.map c).sum ≤ 3 * (goods.map (fun g => if 2 ≤ deg v agents g then deg v agents g - 2 else 0)).sum +
+      (agents.map (fun e => goods.countP (q e))).sum := by
+    have hq := LB4.sum_countP_comm q agents goods
+    rw [hq, ← sum_map_mul_left', ← sum_map_add']
+    exact LB4.sum_le_sum_of_le _ _ goods Fb
+  have S2 : (agents.map (fun e => (if degS v agents goods e = 2 then 0 else 2) + goods.countP (q e))).sum ≤
+      (agents.map (fun e => 3 * (degS v agents goods e - 2))).sum := LB4.sum_le_sum_of_le _ _ agents Fc
+  rw [sum_map_add'] at S2
+  have S3 : 2 * agents.length = (agents.map (fun f => if degS v agents goods f = 2 then 2 else 0)).sum +
+      (agents.map (fun e => if degS v agents goods e = 2 then 0 else 2)).sum := by
+    rw [← sum_map_add']
+    have : ∀ l : List A, 2 * l.length = (l.map (fun f => (if degS v agents goods f = 2 then 2 else 0) + (if degS v agents goods f = 2 then 0 else 2))).sum := by
+      intro l
+      induction l with
+      | nil => simp
+      | cons a l ih =>
+        simp only [List.length_cons, List.map_cons, List.sum_cons]
+        by_cases h : degS v agents goods a = 2 <;> simp [h] <;> omega
+    exact this agents
+  -- `Σ_i 3(d′_i − 2) = 3 Σ d′ − 6n` and `Σ_g [deg ≥ 2](deg − 2) = Σ_g [deg ≥ 2] deg − 2 m_s`
+  have S4 : (agents.map (fun e => 3 * (degS v agents goods e - 2))).sum + 6 * agents.length = 3 * (agents.map (degS v agents goods)).sum := by
+    have : ∀ l : List A, (∀ e ∈ l, 2 ≤ degS v agents goods e) →
+        (l.map (fun e => 3 * (degS v agents goods e - 2))).sum + 6 * l.length = 3 * (l.map (degS v agents goods)).sum := by
+      intro l hl
+      induction l with
+      | nil => simp
+      | cons a l ih =>
+        simp only [List.map_cons, List.sum_cons, List.length_cons]
+        have := hl a (by simp)
+        have := ih (fun e he => hl e (by simp [he]))
+        omega
+    exact this agents fun e he => (hd e he).1
+  have S5 : (goods.map (fun g => if 2 ≤ deg v agents g then deg v agents g - 2 else 0)).sum +
+      2 * (goods.map (fun g => if 2 ≤ deg v agents g then 1 else 0)).sum =
+      (goods.map (fun g => if 2 ≤ deg v agents g then deg v agents g else 0)).sum := by
+    have : ∀ l : List G, (l.map (fun g => if 2 ≤ deg v agents g then deg v agents g - 2 else 0)).sum +
+        2 * (l.map (fun g => if 2 ≤ deg v agents g then 1 else 0)).sum = (l.map (fun g => if 2 ≤ deg v agents g then deg v agents g else 0)).sum := by
+      intro l
+      induction l with
+      | nil => simp
+      | cons a l ih =>
+        simp only [List.map_cons, List.sum_cons]
+        by_cases h : 2 ≤ deg v agents a <;> simp [h] <;> omega
+    exact this goods
+  rw [F1, G1]
+  rw [G2]
+  omega
+
+end count
+
 end MinCex
 end EFX
 
@@ -398,3 +636,4 @@ end EFX
 #print axioms EFX.MinCex.m1_reduce
 #print axioms EFX.MinCex.core_reduction4_class
 #print axioms EFX.MinCex.mc0
+#print axioms EFX.MinCex.mc4_count
