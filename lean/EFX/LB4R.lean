@@ -553,6 +553,279 @@ theorem phase1State_inv (hag : agents.Nodup) (hgd : goods.Nodup) :
 
 end phase1State
 
+/-! ### Upgrades -/
+
+section upgrades
+variable {v : A → G → Nat} {agents : List A} {goods : List G}
+
+theorem baseOf_upgrade_ne {s : LState A G} {k i : A} {g : G} (hg : s.base g = none) (hik : i ≠ k) :
+    baseOf goods (upgrade s k g).base i = baseOf goods s.base i := by
+  unfold baseOf upgrade
+  apply List.filter_congr
+  intro h _
+  by_cases hh : h = g
+  · subst hh; simp [hg, Ne.symm hik]
+  · simp [hh]
+
+theorem needsOf_upgrade_ne {s : LState A G} {k i : A} {g : G} (hg : s.base g = none) (hik : i ≠ k) (h : G) :
+    needsOf v goods (upgrade s k g) i h ↔ needsOf v goods s i h := by
+  have hb : (upgrade s k g).base h ≠ some i ↔ s.base h ≠ some i := by
+    simp only [upgrade]
+    by_cases hh : h = g
+    · subst hh; simp [hg, Ne.symm hik]
+    · simp [hh]
+  unfold needsOf
+  rw [baseOf_upgrade_ne hg hik, hb]
+  simp [upgrade, hik]
+
+/-- **An upgrade keeps the invariant**: `NA` only shrinks, the new base `{Y_k, g}` is not in it (`Y_k ∉ NA` by
+eligibility, `g` was junk), and the other agents keep their bases and needs. -/
+theorem upgrade_inv {pol : Policy} {s : LState A G} {k : A} {g : G}
+    (hI : Inv v agents goods s) (hE : UpEligible v agents goods pol s k g) :
+    Inv v agents goods (upgrade s k g) := by
+  obtain ⟨hk, hkm, y, hy, hBk, hyNA, -, hgJ, hgpos, -, -⟩ := hE
+  obtain ⟨hgg, hgb⟩ := mem_junk.mp hgJ
+  have hyb : s.base y = some k := (mem_baseOf.mp (by rw [hBk]; simp : y ∈ baseOf goods s.base k)).2
+  -- the new needs are contained in the old ones
+  have hsub : ∀ i h, needsOf v goods (upgrade s k g) i h → needsOf v goods s i h := by
+    intro i h hN
+    by_cases hik : i = k
+    · subst hik
+      rcases hN with ⟨-, hh, -, hlt⟩ | ⟨hm, -⟩
+      · refine Or.inr ⟨hkm, hh, ?_, fun y' hy' => ?_⟩
+        · omega
+        · rw [hy] at hy'; cases hy'
+          have hyB : y ∈ baseOf goods (upgrade s i g).base i := mem_baseOf.mpr ⟨(mem_baseOf.mp
+            (by rw [hBk]; simp : y ∈ baseOf goods s.base i)).1, by
+              simp only [upgrade]; have : y ≠ g := fun e => by rw [e, hgb] at hyb; cases hyb
+              simp [this, hyb]⟩
+          have := le_value_of_mem v i hyB
+          omega
+      · exact absurd (Or.inl rfl) hm
+    · exact (needsOf_upgrade_ne hgb hik h).mp hN
+  have hNA : ∀ h, NA agents (needsOf v goods (upgrade s k g)) h → NA agents (needsOf v goods s) h :=
+    fun h ⟨i, hi, hN⟩ => ⟨i, hi, hsub i h hN⟩
+  refine ⟨⟨fun h hh hna => ?_, fun i h2 h hh hna => ?_⟩, fun i hi hm => ?_, fun i hi hm => ?_⟩
+  · obtain ⟨hhg, hhb⟩ := mem_junk.mp hh
+    have hne : h ≠ g := fun e => by subst e; simp [upgrade] at hhb
+    have : s.base h = none := by simpa [upgrade, hne] using hhb
+    exact hI.valid.v1 h (mem_junk.mpr ⟨hhg, this⟩) (hNA h hna)
+  · by_cases hik : i = k
+    · subst hik
+      obtain ⟨hhg, hhb⟩ := mem_baseOf.mp hh
+      by_cases hhg' : h = g
+      · subst hhg'; exact hI.valid.v1 h hgJ (hNA h hna)
+      · have : s.base h = some i := by simpa [upgrade, hhg'] using hhb
+        have hmem : h ∈ baseOf goods s.base i := mem_baseOf.mpr ⟨hhg, this⟩
+        rw [hBk] at hmem; simp at hmem; subst hmem
+        exact hyNA (hNA h hna)
+    · rw [baseOf_upgrade_ne hgb hik] at h2 hh
+      exact hI.valid.v2 i h2 h hh (hNA h hna)
+  · have hik : i ≠ k := fun e => hm (Or.inl e)
+    have hm' : ¬ s.marked i := fun h => hm (Or.inr h)
+    rw [baseOf_upgrade_ne hgb hik]
+    exact hI.unmarked i hi hm'
+  · exact hI.pickRel i hi fun h => hm (Or.inr h)
+
+theorem upRun_inv {pol : Policy} {s s' : LState A G} (hR : UpRun v agents goods pol s s')
+    (hI : Inv v agents goods s) : Inv v agents goods s' := by
+  induction hR with
+  | done => exact hI
+  | step s s' s'' hstep _ ih =>
+    obtain ⟨k, g, hE, -, -, rfl⟩ := hstep
+    exact ih (upgrade_inv hI hE)
+
+end upgrades
+
+/-! ### Rotations -/
+
+theorem getElem?_idxOf {c : List A} {a : A} (h : a ∈ c) : c[c.idxOf a]? = some a := by
+  rw [List.getElem?_eq_getElem (List.idxOf_lt_length_of_mem h), List.getElem_idxOf]
+
+theorem idxOf_of_getElem? {c : List A} (hc : c.Nodup) {j : Nat} {a : A} (h : c[j]? = some a) :
+    c.idxOf a = j := by
+  obtain ⟨hj, rfl⟩ := List.getElem?_eq_some_iff.mp h
+  exact List.Nodup.idxOf_getElem hc j hj
+
+section rotations
+variable {v : A → G → Nat} {agents : List A} {goods : List G}
+
+/-- **A rotation keeps the invariant**: validity is checked; every agent of the chain after `k` holds exactly its
+predecessor's pick (the predecessor is frozen, so its base is its pick alone, and that pick is not in `O`); an
+agent outside the chain keeps its base. -/
+theorem rotStep_inv {s s' : LState A G} (hgd : goods.Nodup) (hI : Inv v agents goods s) (hR : RotStep v agents goods s s') :
+    Inv v agents goods s' := by
+  obtain ⟨c, k, last, O, hc, hlen, hcA, hk, hlast, hchain, -, -, -, hO, rfl, hchk⟩ := hR
+  have hkc : k ∈ c := List.mem_of_mem_head? hk
+  have hlc : last ∈ c := List.mem_of_getLast? hlast
+  refine ⟨hchk.1, fun i hi hm => ?_, fun i hi hm y hy => ?_⟩
+  all_goals simp only [rotate] at hm
+  -- unmarked after the rotation: not `k`, and unmarked before unless in the chain
+  all_goals have hik : c.head? ≠ some i := fun h => hm (Or.inl h)
+  · by_cases hic : i ∈ c
+    · -- `i = x_{j+1}`: it holds the pick of `x_j`
+      have hi0 : c.idxOf i ≠ 0 := fun h0 => hik (by
+        have := getElem?_idxOf hic; rw [h0] at this; rw [List.head?_eq_getElem?]; exact this)
+      obtain ⟨a, ha⟩ : ∃ a, c[c.idxOf i - 1]? = some a :=
+        ⟨_, List.getElem?_eq_getElem (by have := List.idxOf_lt_length_of_mem hic; omega)⟩
+      have hai : c[c.idxOf i - 1 + 1]? = some i := by
+        rw [Nat.sub_add_cancel (Nat.pos_of_ne_zero hi0), List.getElem?_eq_getElem (List.idxOf_lt_length_of_mem hic),
+          List.getElem_idxOf]
+      obtain ⟨⟨ham, y', hy'B, -⟩, y, hya, hNy⟩ := hchain _ a i ha hai
+      have hBa := hI.unmarked a (hcA a (List.mem_of_getElem? ha)) ham
+      rw [hya] at hBa
+      simp only [Option.toList_some] at hBa
+      have hyb : s.base y = some a := (mem_baseOf.mp (by rw [hBa]; simp : y ∈ baseOf goods s.base a)).2
+      have hyg : y ∈ goods := (mem_baseOf.mp (by rw [hBa]; simp : y ∈ baseOf goods s.base a)).1
+      -- `a` is not the last agent (it has a successor), so `y` is not in `O`
+      have hal : a ≠ last := by
+        intro e; subst e
+        have h1 := idxOf_of_getElem? hc ha
+        have h2 : c.idxOf a = c.length - 1 := by
+          rw [List.getLast?_eq_getElem?] at hlast
+          exact idxOf_of_getElem? hc hlast
+        have := List.idxOf_lt_length_of_mem hic
+        omega
+      have hyO : y ∉ O := fun hm' => by
+        rcases (hO y hm').2.2 with h | h <;> rw [hyb] at h <;> simp at h; exact hal h
+      simp only [rotate, hic, hi0, ↓reduceIte, ha, Option.bind_some, hya, Option.toList_some]
+      refine filter_eq_single hgd hyg fun g hg => ?_
+      simp only [decide_eq_true_eq]
+      constructor
+      · intro hg'
+        by_cases hgO : g ∈ O
+        · simp only [hgO, ↓reduceIte] at hg'; exact absurd hg' (Ne.symm hik ∘ Eq.symm)
+        · simp only [hgO, ↓reduceIte] at hg'
+          cases hgb : s.base g with
+          | none => rw [hgb] at hg'; cases hg'
+          | some b =>
+            rw [hgb] at hg'
+            by_cases hbc : b ∈ c
+            · simp only [hbc, ↓reduceIte] at hg'
+              have := idxOf_of_getElem? hc hg'
+              have hb : b = a := by
+                have hb1 := List.getElem_idxOf (List.idxOf_lt_length_of_mem hbc)
+                have : c.idxOf b = c.idxOf i - 1 := by omega
+                rw [← hb1] at ⊢
+                exact Option.some.inj (by rw [← ha, ← this, List.getElem?_eq_getElem]) 
+              subst hb
+              have : g ∈ baseOf goods s.base b := mem_baseOf.mpr ⟨hg, hgb⟩
+              rw [hBa] at this; simpa using this
+            · simp only [hbc, ↓reduceIte] at hg'; cases hg'; exact absurd hi (fun _ => hbc hic)
+      · intro e; subst e
+        simp only [hyO, ↓reduceIte, hyb, show a ∈ c from List.mem_of_getElem? ha]
+        rw [idxOf_of_getElem? hc ha]; exact hai
+    · -- outside the chain: the base is unchanged
+      have hm' : ¬ s.marked i := fun h => hm (Or.inr ⟨h, hic⟩)
+      simp only [rotate, hic, ↓reduceIte]
+      rw [← hI.unmarked i hi hm']
+      apply List.filter_congr
+      intro g _
+      simp only [decide_eq_decide]
+      by_cases hgO : g ∈ O
+      · simp only [hgO, ↓reduceIte]
+        constructor
+        · intro h; rw [hk] at h; cases h; exact absurd hkc hic
+        · intro h
+          rcases (hO g hgO).2.2 with h' | h' <;> rw [h] at h' <;> simp at h'; subst h'; exact absurd hlc hic
+      · simp only [hgO, ↓reduceIte]
+        cases hgb : s.base g with
+        | none => simp
+        | some b =>
+          by_cases hbc : b ∈ c
+          · simp only [hbc, ↓reduceIte]
+            constructor
+            · intro h; exact absurd (List.mem_of_getElem? h) hic
+            · intro h; cases h; exact absurd hbc hic
+          · simp [hbc]
+  · -- the pick of `i` after the rotation is a good it values
+    by_cases hic : i ∈ c
+    · have hi0 : c.idxOf i ≠ 0 := fun h0 => hik (by
+        have := getElem?_idxOf hic; rw [h0] at this; rw [List.head?_eq_getElem?]; exact this)
+      simp only [rotate, hic, hi0, ↓reduceIte] at hy
+      cases ha : c[c.idxOf i - 1]? with
+      | none => rw [ha] at hy; cases hy
+      | some a =>
+        rw [ha] at hy
+        have hai : c[c.idxOf i - 1 + 1]? = some i := by
+          rw [Nat.sub_add_cancel (Nat.pos_of_ne_zero hi0), List.getElem?_eq_getElem (List.idxOf_lt_length_of_mem hic),
+            List.getElem_idxOf]
+        obtain ⟨-, y', hya, hN⟩ := hchain _ a i ha hai
+        simp only [Option.bind_some, hya] at hy; cases hy
+        rcases hN with ⟨-, -, -, hlt⟩ | ⟨-, -, hpos, -⟩ <;> omega
+    · simp only [rotate, hic, ↓reduceIte] at hy
+      exact hI.pickRel i hi (fun h => hm (Or.inr ⟨h, hic⟩)) y hy
+
+theorem rotReach_inv {d : Nat} {s s' : LState A G} (hgd : goods.Nodup) (hR : RotReach v agents goods d s s')
+    (hI : Inv v agents goods s) : Inv v agents goods s' := by
+  induction hR with
+  | refl => exact hI
+  | step d s s' s'' hstep _ ih => exact ih (rotStep_inv hgd hI hstep)
+
+end rotations
+
+/-- **A base of three or more goods is the owner's** in every output (a completion gives every other agent at most
+two goods), and every other bundle has at most two goods. -/
+theorem output_big_base {v : A → G → Nat} {agents : List A} {goods : List G} {s : LState A G} {o : Option A}
+    {X : G → A} (hgd : goods.Nodup) (hO : Output v agents goods s o X) :
+    (∀ i ∈ agents, 3 ≤ (baseOf goods s.base i).length → o = some i) ∧
+      ∀ j ∈ agents, o ≠ some j → (bundle goods X j).length ≤ 2 := by
+  have hlen := hO.1.length_le_two hgd
+  refine ⟨fun i hi h3 => Classical.byContradiction fun hio => ?_, hlen⟩
+  have h2 := hlen i hi hio
+  have hsub : (baseOf goods s.base i).length ≤ (bundle goods X i).length := by
+    have := hO.1.length_eq i
+    omega
+  omega
+
+/-- (V1) and (V2) after a rotation: they are among the checks a rotation must pass (§5), so they hold in every
+state a rotation reaches; (V2) holds for every marked agent, even with a one-good base. -/
+theorem rotStep_valid {v : A → G → Nat} {agents : List A} {goods : List G} {s s' : LState A G}
+    (hR : RotStep v agents goods s s') :
+    Valid agents goods s'.base (needsOf v goods s') ∧
+      ∀ i ∈ agents, s'.marked i → ∀ g ∈ baseOf goods s'.base i, ¬ NA agents (needsOf v goods s') g := by
+  obtain ⟨-, -, -, -, -, -, -, -, -, -, -, -, -, -, -, hchk⟩ := hR
+  exact ⟨hchk.1, hchk.2.1⟩
+
+/-! ## Theorem C₄ ⟹ K4.D ⟹ TARGET₄ -/
+
+/-- **Every output of LB₄ʳ is sound.** If LB₄ʳ(τ) succeeds, some sound completion exists: an EFX₀ allocation with
+at most one bundle of more than two goods (Theorem 1′₄ and the shape, `EFX.LB4.SoundCompletion.efx0_d2`). -/
+theorem sound_of_succeeds {v : A → G → Nat} {agents : List A} {goods : List G} {τ : List Nat}
+    (hag : agents.Nodup) (hgd : goods.Nodup) (h : Succeeds v agents goods τ) :
+    ∃ (base : G → Option A) (N : A → G → Prop) (o : Option A) (X : G → A),
+      SoundCompletion v agents goods base N o X := by
+  obtain ⟨pol, s₁, s, o, X, hup, hrot, hout⟩ := h
+  have hinv := rotReach_inv hgd hrot (upRun_inv hup (phase1State_inv (τ := τ) hag hgd))
+  exact ⟨s.base, needsOf v goods s, o, X, hinv.sound hout⟩
+
+/-- **C₄ (index order) ⟹ K4.D.** If LB₄ʳ with the index order succeeds on every strict profile of every k = 4 core,
+every k = 4 core (strict or not) has an EFX₀ allocation with at most one bundle of more than two goods: a strict core
+directly, and a core with ties through its strict perturbation (K4.TIE, `EFX.tieBreak`), whose allocation is EFX₀
+for the original values. -/
+theorem k4D_of_C4index (hC4 : TheoremC4index A G) {agents : List A} {goods : List G} {v : A → G → Nat}
+    (hag : agents.Nodup) (hgd : goods.Nodup) (hc : IsCore4 v agents goods) :
+    ∃ X : G → A, IsAllocation agents goods X ∧ EFX0L v agents goods X ∧
+      ∃ w ∈ agents, ∀ j ∈ agents, j ≠ w → (bundle goods X j).length ≤ 2 := by
+  have hne : agents ≠ [] := fun h => by have := hc.1; rw [h] at this; simp at this
+  obtain ⟨base, N, o, X, hS⟩ := sound_of_succeeds hag hgd
+    (hC4 agents goods (tieBreak v goods) hag hgd (isCore4_tieBreak v goods hgd hc) (strict_tieBreak v goods hgd))
+  obtain ⟨hX, hE, hd2⟩ := hS.efx0_d2 hgd hne
+  exact ⟨X, hX, efx0_of_tieBreak v goods hgd hE, hd2⟩
+
+/-- **C₄ (index order) ⟹ TARGET₄.** With K4.CORE and K4.TIE (`EFX.LB4.target4_of_completions`): if LB₄ʳ with the
+index order succeeds on every strict profile of every k = 4 core, every instance with at least one agent and at most
+four relevant goods per agent has an EFX₀ allocation. Theorem C₄ is a hypothesis here, not an axiom. -/
+theorem target4_of_C4index (I : Inst) (hn : 0 < I.n) (hC4 : TheoremC4index (Fin I.n) (Fin I.m))
+    (h : ∀ i, numRelevant I i ≤ 4) : ∃ X : I.Alloc, I.EFX0 X :=
+  target4_of_completions I hn I.n (Nat.le_refl _)
+    (fun w agents goods hag hgd _ hc _ hs _ => sound_of_succeeds hag hgd (hC4 agents goods w hag hgd hc hs)) h
+
+/-- **Theorem C₄ ⟹ TARGET₄** (every insertion sequence; the index order suffices). -/
+theorem target4_of_C4 (I : Inst) (hn : 0 < I.n) (hC4 : TheoremC4 (Fin I.n) (Fin I.m))
+    (h : ∀ i, numRelevant I i ≤ 4) : ∃ X : I.Alloc, I.EFX0 X :=
+  target4_of_C4index I hn (theoremC4index_of_C4 hC4) h
+
 end LB4R
 end EFX
 
@@ -561,3 +834,11 @@ end EFX
 #print axioms EFX.LB4R.theoremC4index_of_C4
 #print axioms EFX.LB4R.phase1State_inv
 #print axioms EFX.LB4R.Inv.sound
+#print axioms EFX.LB4R.upgrade_inv
+#print axioms EFX.LB4R.rotStep_inv
+#print axioms EFX.LB4R.sound_of_succeeds
+#print axioms EFX.LB4R.k4D_of_C4index
+#print axioms EFX.LB4R.target4_of_C4index
+#print axioms EFX.LB4R.target4_of_C4
+#print axioms EFX.LB4R.output_big_base
+#print axioms EFX.LB4R.rotStep_valid
