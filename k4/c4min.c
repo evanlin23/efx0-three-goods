@@ -263,6 +263,7 @@ static void do_profile(void) {
   int omega = fmin - (2 * n - m);
   if (omega <= 0) return;
   if (onlyf >= 0 && fmin != onlyf) return;
+  if (onlyf == -2 && fmin == 0) return;
   nom++;
   ncf = 0;
   int anycomp = 0;
@@ -336,6 +337,7 @@ int main(int argc, char **argv) {
     else if (!strcmp(argv[i], "-X")) xcheck = 1;
     else if (!strcmp(argv[i], "-D")) dist = 1;
     else if (!strcmp(argv[i], "-f")) onlyf = atoi(argv[++i]);
+    else if (!strcmp(argv[i], "-F1")) onlyf = -2;
     else if (!strcmp(argv[i], "-Q")) pareto = 1;
     else if (!strcmp(argv[i], "-R0")) onlyr0 = 1;
     else if (!strcmp(argv[i], "-U0")) nounf = 1;

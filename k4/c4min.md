@@ -20,10 +20,18 @@ TARGET₄.
   (Lemma P). Rotating pairs along a cycle of it produces a robust agent (Lemma R), unless every agent holds its top
   with a good it does not value; then the pool is worthless to everyone, which a core forbids. This covers the cores
   H_t for every t (`k4/c4.md` §7 on PR #33), the family on which LB₄ʳ with any fixed number of rotations fails.
-  Every step is checked by brute force (§3.5).
-- **Conjecture Φ** (§4): in general (frozen agents allowed), every configuration maximizing Φ = (−#frozen agents
-  threatened by the pool alone, #robust agents, Σ levels) is completable. Evidence: every profile with n = 2, samples
-  with n = 3 and 4. The proof of Theorem Z breaks at frozen agents in two places, and §4 names both.
+  Every step is checked by brute force (§3.5), and the theorem exhaustively on every profile with n ≤ 3.
+- **Theorem F** (§3.6, written proof, not yet reviewed): the same holds whenever some configuration at the fewest
+  frozen agents has only *robust* frozen agents (each values its frozen good at least as much as all its goods outside
+  the needed set). Such agents are never threatened, Theorem Z's argument runs among the free agents, and a cycle of
+  frozen agents replaces the last step.
+- **Conjecture Φ** (§4): in general, every configuration maximizing Φ = (−#frozen agents threatened by the pool
+  alone, #robust agents, Σ levels) is completable. Evidence: every profile with n ≤ 3, samples with n = 4 and 5.
+  - Theorems Z and F cover 40–93% of the sampled profiles with ω ≥ 1 at n ≤ 5, depending on the class (§4 table). What remains is the
+    profiles where every configuration has an *exposed* frozen agent, including every profile with f = 1.
+  - §4 also gives an *exchange digraph* whose cycles unify all the moves used so far, the measured move catalogue, the
+    exact gap, and a roadmap for f = 1.
+- **k = 3:** C₄ᵐⁱⁿ follows from Theorem K3 of `k4/c4x.md` (§4, last paragraph).
 
 Nothing here changes K4.D or K4.T.
 
@@ -325,11 +333,13 @@ Simpler potentials fail. Their smallest failures, replayed by the independent Py
 - (−t, Λ) fails at f = 2;
 - Pareto-maximality fails at f ≥ 1.
 
-**Structure at the maxima** (n = 3, f ≥ 1, 868 maxima; n = 4 samples, 872 maxima; `k4/c4min_cfg.py` analyses, §5):
+**Structure at the maxima** (n = 3, f ≥ 1, 1,209 maxima; n = 4 samples, 872 maxima; `k4/c4min_moves.py --maxima`,
+`results/k4_c4min_moves.log`):
 - every maximum is pool-optimal and has t = 0;
 - at n = 3 every agent is threatened by at most one owner;
-- at n = 4 a frozen 4-good agent can be threatened by two owners (4 maxima), and 40–48% of the maxima have a frozen
-  agent threatened by some owner.
+- at n = 4 a frozen 4-good agent can be threatened by two owners (4 maxima), and 40–45% of the maxima have a frozen
+  agent threatened by some owner;
+- none needs the unfreezing clause.
 
 So Lemma P's pigeonhole fails as stated, but it is not needed for the cycle argument below.
 
@@ -352,7 +362,8 @@ Every agent on the cycle gains, with two exceptions:
 - two receivers can compete for the same pool good.
 
 In any case t and r can move either way: a terminal crossing a need edge becomes frozen and may be exposed. Measured
-on the non-completable configurations of sampled profiles with n = 3 and f ≥ 1 (`k4/c4min_cfg.py`): 403 of 440 have a
+on the non-completable configurations of sampled profiles with n = 3 and f ≥ 1 (`k4/c4min_moves.py --moves`,
+`results/k4_c4min_moves.log`): 403 of 440 have a
 Φ-raising *pool move* (one free agent improves its pair from the pool without raising t), 36 more a Φ-raising cycle
 move, and 1 needs a third kind. In that one the pool move is blocked, because the released good completes a frozen
 agent's threatening triple in the pool. A two-agent exchange passes that good to the other free agent instead of the
@@ -365,6 +376,28 @@ cycle to take is the open part. Theorems Z and F are the cases where the catalog
 Lemma R's rotations and frozen cycles. There the exposed frozen agents, the only source of t, of blocked pool moves and
 of the exceptions above, are absent.
 
+**Roadmap for f = 1 (not a proof).** Let 𝒩 = {g}, x the frozen agent (on its top g), and A the free agents. Take a
+Φ-maximum without a valid owner, and **assume** it is pool-optimal with t = 0 (both hold at every sampled maximum, but
+neither is proved). Assume also that x has three goods, so U_x = {b_x, c_x}.
+- x is threatened by at most one owner (t = 0 keeps b_x, c_x out of the pool together). Free agents are threatened by
+  at most one owner (Lemma Z2). So σ: A → N is injective.
+- If x ∉ σ(A), σ permutes A, and every free agent is threatened. A terminal τ (a free agent needing g) exists, and
+  with |U_τ| = 2 it would be robust, hence untouchable. So τ is 4-good of kind (T3). The plain rotation of its
+  σ-cycle makes τ robust without touching the pool, and Φ rises. Contradiction.
+- So x ∈ σ(A). σ is a path w → p₁ → … → x from the unique unthreatened free agent w, plus cycles. A cycle containing
+  an agent of kind (T3), (D), or (R) with s in the predecessor's pair rotates plainly and raises r. So the cycles
+  contain only (T4) agents and (R) agents with s in the pool, and terminals lie on the path.
+- Close the path at a terminal τ = p_j with the need edge x → τ. Rotate: p_{i+1} takes Q_{p_i}, x takes {b_x, c_x}
+  (free, robust, needs nothing), τ takes g. Then x gains one unit of r and τ loses at most one. Λ rises except at (R)
+  agents, which take {a, y}.
+
+**Open steps:**
+- (i) pool-optimality and t = 0 at a maximum;
+- (ii) t after the move (τ is newly frozen; its goods b_τ, c_τ must not both end in the pool, and the plain rotation
+  sends b_τ ∈ Q_τ to p_{j+1});
+- (iii) (R) agents on the path;
+- (iv) a 4-good x, which can be threatened by two owners.
+
 **k = 3.** For cores whose agents all have three goods, C₄ᵐⁱⁿ follows from Theorem K3 of `k4/c4x.md` §3 (written
 proof, not yet reviewed). Take P Pareto-maximal inside the class 𝒫_𝒩 of a min needed set (§1). Every pre-allocation
 that K3's proof constructs (upgrades, frozen cycles, LB⁺'s rotation, the cycle move) makes every moved agent strictly
@@ -373,4 +406,51 @@ f frozen agents) is completable, removal-only with the owner's needs from its ba
 
 ## 5. Evidence and logs
 
-(In progress.)
+All counts are strict profiles of the certified core lists `results/k4_certs_*.json.gz` (types from `k4/check4.py`).
+"Every max" means every maximum of the potential is completable (the failure count is 0). "ω ≥ 1" profiles are those
+where an owner is needed at all.
+
+| claim | scope | result | log |
+|---|---|---|---|
+| Lemma 1(b) | all n = 2; 153,000 random n = 3 | configuration test = deficit ≤ 0 on every profile | `results/k4_c4min_xcheck.log` |
+| Theorem Z (`9,16`, `-f 0`) | every profile with n ≤ 3: 103,824 (n = 2) + 112,040,608 (n = 3) with f = 0, ω ≥ 1; 4.74·10⁹ configurations at n = 3 | every max completable; r alone fails on 7,968 (n = 3); every Pareto-maximum completable (321,213,444 at n = 3) | `results/k4_c4min_z_n3.log` |
+| Theorem Z lemmas A–D (Python) | all n = 2 (103,824 profiles with f = 0, ω ≥ 1); 10,000 random profiles per n = 3 core (173,126 with f = 0, ω ≥ 1) | 0 violations; 991,329 pool-optimal APAs, 6,053 of them without a valid owner, each with a rotation of Lemma R giving a robust agent | `results/k4_c4min_zf_python.log` |
+| Theorem F lemmas (Python) | 10,000 random profiles per n = 3 core with f ≥ 1 (1,681 have a frozen-robust configuration, all with f = 2); 30 per n = 4 core | 0 violations; at n = 4, 6 pool-optimal frozen-robust configurations without a valid owner, each resolved by a rotation (plain or modified) | `results/k4_c4min_zf_python.log`, `results/k4_c4min_f_n4.log` |
+| Theorem F (`23,9,16`, `-A -U0`) | every profile with n ≤ 3, f ≥ 1, having a frozen-robust configuration | FNRESULT | `results/k4_c4min_f_n3.log` |
+| Conjecture Φ (`8,9,16`) | every profile with n ≤ 3 and f ≥ 1: 1,296 (n = 2) + 7,599,908 (n = 3) with ω ≥ 1; 1.43·10⁸ configurations at n = 3 | every max completable; also (−t, leximin) and (−t, r, leximin); (r, Λ) fails on 56,928, and on 128 no maximum of it is completable | `results/k4_c4min_phi_n3.log` |
+| Theorems Z, F, Conjecture Φ | n = 4: every profile of the 135 cores with one 4-good agent; 1,000 random profiles per core for two, three, four 4-good agents; n = 5: 50 per core (one, two 4-good agents; pure) | N4RESULT | `results/k4_c4min_n4.log` |
+| H_1, H_2 | one profile each | every max of (r, Λ) completable | §3.4 (rerun with `k4/c4min.c`) |
+| failing potentials | 7 instances | replayed by both implementations | `results/k4_c4min_attempts.log` |
+| structure and moves | n = 3, 4 samples | §4 | `results/k4_c4min_moves.log` |
+
+Independence:
+- The C tool `k4/c4min.c` and the Python modules `k4/c4min_lib.py`, `k4/c4min_cfg.py`, `k4/c4min_z.py`,
+  `k4/c4min_f.py` share no code, only the type generator `k4/check4.py` and the core lists.
+- `k4/c4min.c -X` recomputes the deficit of `k4/c4x.md` §1 directly on every min-frozen pre-allocation.
+- #36's `k4/c4x.c` found C₄ᵐⁱⁿ on every profile with n ≤ 3 by a third implementation.
+
+## 6. Reproduce
+
+Each log starts with the `# command:` lines that wrote it. `k4/c4min_run.py` compiles `k4/c4min.c` into the temporary
+directory under a name made from a hash of the source (`C4MIN_BIN` overrides the path). Options of `k4/c4min.c`:
+- `-p "f,f;f"`: potentials, as feature indices, lexicographic, maximized. Index 8 is −t, 9 is r, 16 is Λ, 17 is
+  leximin, 20 pool-optimality, 23 "all frozen robust"; the full list is `fname` in `k4/c4min.c`.
+- `-f K` only profiles with fewest frozen agents K, and `-F1` only those with K ≥ 1.
+- `-A` only profiles with a frozen-robust configuration.
+- `-U0` the owner test without unfreezing.
+- `-Q` Pareto-maxima.
+- `-X` the cross-check with the deficit.
+- `-R0` only profiles where no configuration has a robust agent.
+- `-x N` examples.
+
+Times on 4 CPUs:
+```
+python3 k4/c4min_run.py results/k4_certs_2.json.gz -X -p 9,16 --jobs=1              # Lemma 1(b), n = 2: ~3 s
+python3 k4/c4min_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz -f 0 -Q -p "9,16;9;16" --jobs=3   # Theorem Z, n <= 3: ~35 min
+python3 k4/c4min_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz -F1 -p "8,9,16;8,17;8,9,17;9,16" --jobs=3
+python3 k4/c4min_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz -F1 -A -U0 -p "23,9,16" --jobs=3
+python3 k4/c4min_z.py results/k4_certs_2.json.gz                                     # lemmas of Theorem Z: ~70 s
+python3 k4/c4min_f.py results/k4_certs_3.json.gz --rand=10000 --seed=22 --minf=1      # lemmas of Theorem F
+python3 k4/c4min_moves.py results/k4_certs_3.json.gz --rand=100 --seed=45 --moves     # §4 move catalogue
+python3 attempts/k4_c4min_attempts.py                                                # attempts: ~1 min
+```
