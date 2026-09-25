@@ -22,11 +22,15 @@
      -E        exhaustive over every profile with agent 0's type in [lo, hi): profiles are processed in slices (all
                types of agent n-1 at once, as a bitmask); certificates (P, owner, C) found by the exact search are
                kept in a cache and re-applied to whole slices through per-type masks. Prints FAIL lines and a RESULT
-               line. -V: also re-solve every covered profile from scratch (slow; self-test of the masks).
+               line. -V: also re-solve every covered profile from scratch (slow; self-test of the masks). -B K: keep the
+               best of up to K certificates per solve (the one covering most of the slice).
      -1        one profile (type indices from stdin): prints f*, d*, the counts, the weaker forms.
      -1q       one profile: f* and whether C4min holds, with a certificate (bases, owner, C); no counts.
+     -R N      N random profiles (uniform; with -P, the given profile with -K agents re-typed), each solved exactly
+               (f* and whether C4min holds); prints FAIL lines and the f* histogram.
      -H ITER   hill-climbing from random profiles (-S seed, -Z restarts, -T stale limit, -O objective order, -P start
-               profile after the types): maximizes (d*, -#{min-frozen P with def <= 0}) (-O1: the reverse order);
+               profile after the types): maximizes (owner needed, d*, -#{min-frozen P with def <= 0}) (-O1: the last
+               two in reverse order; -O2: (owner needed, f*, -good, d*); -C K: stop counting good beyond K);
                prints every profile with d* > 0 (CEX), each restart's end, and the best.
    options: -w0 owner's needs from its base; -D the deficit by plain enumeration of every C ⊆ J (a check of the
    branch and bound); -x N print up to N failures; -S seed; -Z restarts. */
@@ -112,6 +116,45 @@ static int dfs(int i, mask_t used, mask_t sing, mask_t two, mask_t NA) {
     if (dfs(i + 1, used2, sing2, two2, NA2)) return 1;
   }
   return 0;
+}
+
+/* the same enumeration with dynamic agent order (default for n > 6; -Y0 / -Y1 force static / dynamic): at every node
+   the unassigned agent with the fewest feasible options is assigned next (an option is feasible if it is disjoint from
+   the goods used, keeps |NA| <= gbound, puts no needed good into a two-good base, and leaves the needed goods not yet
+   used to the other unassigned agents, at most one each). Each valid P with |NA| <= gbound is a leaf exactly once. */
+static int dyn = -1, asg[MAXN];
+static int dfsd(int depth, mask_t used, mask_t sing, mask_t two, mask_t NA) {
+  if (depth == n) { if (NA & ~sing) return 0; return leaf(used, sing, NA); }
+  int nu = n - depth, bj = -1, bc = 99, bopt[NOPT], nb = 0;
+  for (int j = 0; j < n; j++) {
+    if (asg[j]) continue;
+    mask_t Ro = 0; for (int q = 0; q < n; q++) if (!asg[q] && q != j) Ro |= R[q];
+    int c = 0, op[NOPT];
+    for (int k = 0; k < nopt[j]; k++) {
+      mask_t B = optg[j][k];
+      if (B & used) continue;
+      mask_t NA2 = NA | needT[j][cur[j]][k];
+      if (pc(NA2) > gbound) continue;
+      if (NA2 & (two | (optsz[j][k] == 2 ? B : 0))) continue;
+      mask_t pend = NA2 & ~(used | B);
+      if ((pend & ~Ro) || pc(pend) > nu - 1) continue;
+      op[c++] = k;
+    }
+    if (!c) return 0;
+    if (c < bc) { bc = c; bj = j; nb = c; memcpy(bopt, op, sizeof(int) * c); }
+  }
+  asg[bj] = 1;
+  for (int q = 0; q < nb; q++) {
+    int k = bopt[q]; mask_t B = optg[bj][k];
+    bo[bj] = k;
+    if (dfsd(depth + 1, used | B, sing | (optsz[bj][k] == 1 ? B : 0), two | (optsz[bj][k] == 2 ? B : 0), NA | needT[bj][cur[bj]][k])) { asg[bj] = 0; return 1; }
+  }
+  asg[bj] = 0;
+  return 0;
+}
+static int enumerate(void) {
+  if (dyn == 1 || (dyn < 0 && n > 6)) { memset(asg, 0, sizeof asg); return dfsd(0, 0, 0, 0, 0); }
+  return dfs(0, 0, 0, 0, 0);
 }
 
 /* deficit of the pre-allocation bo[] (valid), exact (stop early if stop_le0 and a value <= 0 is found);
@@ -249,7 +292,7 @@ static int completable(mask_t used, mask_t NA) {
 /* single-profile solve */
 static int s_best;
 static int leaf_fstar(mask_t used, mask_t sing, mask_t NA) { (void)used; (void)sing; s_best = pc(NA); gbound = s_best - 1; return gbound < 0; }
-static int fstar(void) { s_best = INF; gbound = n; leaf = leaf_fstar; dfs(0, 0, 0, 0, 0); return s_best; }
+static int fstar(void) { s_best = INF; gbound = n; leaf = leaf_fstar; enumerate(); return s_best; }
 
 static int sol_b[MAXN], sol_o; static mask_t sol_C; static int sol_f;
 static int leaf_cert(mask_t used, mask_t sing, mask_t NA) {
@@ -263,7 +306,7 @@ static int leaf_cert(mask_t used, mask_t sing, mask_t NA) {
 static int solve(int *fs) {
   int f = fstar(); *fs = f; sol_f = f;
   gbound = f; leaf = leaf_cert;
-  return dfs(0, 0, 0, 0, 0);
+  return enumerate();
 }
 
 /* full statistics of one profile */
@@ -287,23 +330,23 @@ static int leaf_stats(mask_t used, mask_t sing, mask_t NA) {
 static void stats(int *f, int *dstar, long long *nv, long long *nmin, long long *ngood, int *comp) {
   sol_f = fstar(); *f = sol_f;
   st_valid = st_minF = st_good = st_defsum = 0; st_dmin = st_dmin_any = INF; st_comp = 0;
-  gbound = n; leaf = leaf_stats; dfs(0, 0, 0, 0, 0);
+  gbound = n; leaf = leaf_stats; enumerate();
   *dstar = st_dmin; *nv = st_valid; *nmin = st_minF; *ngood = st_good; *comp = (int)st_comp;
 }
 
 /* the least deficit over min-frozen P only (the objective of the climber): cheaper than stats() */
-static int ob_f; static long long ob_good; static int ob_d;
+static int ob_f; static long long ob_good, ob_cap = 1LL << 60; static int ob_d;
 static int leaf_obj(mask_t used, mask_t sing, mask_t NA) {
   (void)sing;
   if (pc(NA) != ob_f) return 0;
   int df = deficit(used, NA, 0);
   if (df < ob_d) ob_d = df;
   if (df <= 0) ob_good++;
-  return 0;
+  return ob_good > ob_cap;            /* -C: stop counting witnesses beyond the cap (d* is then over those seen) */
 }
 static void objective(int *dstar, long long *ngood, int *f) {
   ob_f = fstar(); *f = ob_f; ob_d = INF; ob_good = 0;
-  gbound = ob_f; leaf = leaf_obj; dfs(0, 0, 0, 0, 0);
+  gbound = ob_f; leaf = leaf_obj; enumerate();
   *dstar = ob_d; *ngood = ob_good;
 }
 
@@ -446,6 +489,21 @@ static void tmpl_mask(const tmpl_t *T, tm_t *M) {
   if (T->f > sigma) tm_andnot(M, E(T->f - 1));
 }
 
+/* -B K: after a solve, look at up to K certificates (min-frozen P with deficit <= 0, each with its owner and C) and
+   keep the one whose template covers most of the uncovered types of the slice */
+static int bestK = 1, bk_found, bk_bestcov, bk_f; static tm_t *bk_U; static tmpl_t bk_best;
+static int leaf_bestk(mask_t used, mask_t sing, mask_t NA) {
+  (void)sing;
+  if (pc(NA) != gbound || deficit(used, NA, 1) > 0) return 0;
+  tmpl_t T; memset(&T, 0, sizeof T);
+  for (int i = 0; i < n; i++) { T.b[i] = (unsigned char)bo[i]; T.need[i] = needT[i][cur[i]][bo[i]]; }
+  T.o = cert_o; T.C = cert_C; T.f = bk_f; T.noowner = cert_o < 0;
+  tm_t M; tmpl_mask(&T, &M); tm_and(&M, bk_U);
+  int cov = 0; for (int w = 0; w < TWn; w++) cov += pc(M.w[w]);
+  if (cov > bk_bestcov) { bk_bestcov = cov; bk_best = T; }
+  return ++bk_found >= bestK;
+}
+
 static void exhaustive(int lo, int hi) {
   slice_tables();
   valued_from[n] = 0; for (int i = n - 1; i >= 0; i--) valued_from[i] = valued_from[i + 1] | R[i];
@@ -481,6 +539,11 @@ static void exhaustive(int lo, int hi) {
       tmpl_t T; memset(&T, 0, sizeof T);
       for (int i = 0; i < n; i++) { T.b[i] = (unsigned char)sol_b[i]; T.need[i] = needT[i][cur[i]][sol_b[i]]; }
       T.o = sol_o; T.C = sol_C; T.f = f; T.noowner = sol_o < 0;
+      if (bestK > 1) {
+        gbound = f; leaf = leaf_bestk; bk_U = &U; bk_found = 0; bk_bestcov = -1; bk_f = f;
+        enumerate();
+        if (bk_bestcov > 0) T = bk_best;
+      }
       tm_t M; tmpl_mask(&T, &M);
       if (!tm_get(&M, t)) { fprintf(stderr, "internal error: template does not cover its own profile\n"); print_profile(stderr); fprintf(stderr, "\n"); exit(4); }
       tm_andnot(&U, &M);
@@ -506,12 +569,22 @@ static void exhaustive(int lo, int hi) {
 static uint64_t rs;
 static inline uint64_t rnd(void) { rs ^= rs << 13; rs ^= rs >> 7; rs ^= rs << 17; return rs; }
 
-/* -H: hill-climbing. Objective (maximized, lexicographic): -O0 (d*, -good), -O1 (-good, d*), where good = the number
-   of min-frozen P with deficit <= 0 (C4min fails iff good = 0 iff d* > 0). Moves: one agent (or, with probability
-   1/4, two agents) take random other types; a move is kept if the objective does not decrease. A restart ends after
-   `stale` moves without strict improvement. -P: the first restart starts from the profile given after the types. */
-static int obj_order = 0, stale_lim = 400, start_given = 0, start_p[MAXN];
-static int better(int d1, long long g1, int d2, long long g2) {    /* (d1, g1) >= (d2, g2)? 2 strict, 1 equal, 0 worse */
+/* -H: hill-climbing. Objective (maximized, lexicographic): first whether an owner is needed (f* > σ; otherwise every
+   min-frozen P has deficit f* - σ <= 0 and C4min holds trivially), then -O0 (d*, -good) or -O1 (-good, d*), where
+   good = the number of min-frozen P with deficit <= 0 (C4min fails iff good = 0 iff d* > 0). Moves: one agent (or,
+   with probability 1/4, two agents) take random other types; a move is kept if the objective does not decrease. A
+   restart ends after `stale` moves without strict improvement. -P: the first restart starts from the profile given
+   after the types. */
+static int obj_order = 0, stale_lim = 400, start_given = 0, start_p[MAXN], perturb = 1;
+static int better(int f1, int d1, long long g1, int f2, int d2, long long g2) {   /* 2 strictly better, 1 equal, 0 worse */
+  int o1 = f1 > sigma, o2 = f2 > sigma;
+  if (o1 != o2) return o1 > o2 ? 2 : 0;
+  if (obj_order == 2) {                /* -O2: (owner needed, f*, -good, d*) */
+    if (f1 != f2) return f1 > f2 ? 2 : 0;
+    if (g1 != g2) return g1 < g2 ? 2 : 0;
+    if (d1 != d2) return d1 > d2 ? 2 : 0;
+    return 1;
+  }
   long long a1 = obj_order ? -g1 : d1, b1 = obj_order ? d1 : -g1, a2 = obj_order ? -g2 : d2, b2 = obj_order ? d2 : -g2;
   if (a1 != a2) return a1 > a2 ? 2 : 0;
   if (b1 != b2) return b1 > b2 ? 2 : 0;
@@ -534,18 +607,18 @@ static void climb(long long iters, int restarts) {
         cur[i] = t;
       }
       int dn, fn; long long gn; objective(&dn, &gn, &fn); evals++;
-      int c = better(dn, gn, dcur, gcur);
+      int c = better(fn, dn, gn, fcur, dcur, gcur);
       if (c) {
         stale = c == 2 ? 0 : stale + 1;
         dcur = dn; gcur = gn; fcur = fn;
         if (dcur > 0 && c == 2) { ncex++; printf("CEX dstar %d fstar %d", dcur, fcur); print_profile(stdout); printf("\n"); fflush(stdout); }
       } else { memcpy(cur, old, sizeof old); stale++; }
     }
-    if (better(dcur, gcur, bestd, bestg) == 2 || r == 0) { bestd = dcur; bestg = gcur; bestf = fcur; memcpy(bestp, cur, sizeof bestp); }
-    printf("RESTART %d dstar %d good %lld fstar %d\n", r, dcur, gcur, fcur); fflush(stdout);
+    if (r == 0 || better(fcur, dcur, gcur, bestf, bestd, bestg) == 2) { bestd = dcur; bestg = gcur; bestf = fcur; memcpy(bestp, cur, sizeof bestp); }
+    printf("RESTART %d dstar %d good %lld fstar %d owner %d\n", r, dcur, gcur, fcur, fcur > sigma); fflush(stdout);
   }
   memcpy(cur, bestp, sizeof bestp);
-  printf("BEST dstar %d good %lld fstar %d evals %lld cex %lld", bestd, bestg, bestf, evals, ncex); print_profile(stdout); printf("\n");
+  printf("BEST dstar %d good %lld fstar %d evals %lld cex %lld owner %d sigma %d", bestd, bestg, bestf, evals, ncex, bestf > sigma, sigma); print_profile(stdout); printf("\n");
 }
 
 int main(int argc, char **argv) {
@@ -557,6 +630,10 @@ int main(int argc, char **argv) {
     else if (!strcmp(argv[a], "-1")) mode = '1';
     else if (!strcmp(argv[a], "-1q")) mode = 'q';
     else if (!strcmp(argv[a], "-H")) { mode = 'H'; iters = atoll(argv[++a]); }
+    else if (!strcmp(argv[a], "-R")) { mode = 'R'; iters = atoll(argv[++a]); }
+    else if (!strcmp(argv[a], "-K")) perturb = atoi(argv[++a]);
+    else if (!strcmp(argv[a], "-C")) ob_cap = atoll(argv[++a]);
+    else if (!strcmp(argv[a], "-B")) bestK = atoi(argv[++a]);
     else if (!strcmp(argv[a], "-Z")) restarts = atoi(argv[++a]);
     else if (!strcmp(argv[a], "-O")) obj_order = atoi(argv[++a]);
     else if (!strcmp(argv[a], "-T")) stale_lim = atoi(argv[++a]);
@@ -564,6 +641,8 @@ int main(int argc, char **argv) {
     else if (!strcmp(argv[a], "-S")) seed = strtoull(argv[++a], 0, 10);
     else if (!strcmp(argv[a], "-x")) nex = atoi(argv[++a]);
     else if (!strcmp(argv[a], "-D")) plain_def = 1;
+    else if (!strcmp(argv[a], "-Y0")) dyn = 0;
+    else if (!strcmp(argv[a], "-Y1")) dyn = 1;
     else { fprintf(stderr, "unknown option %s\n", argv[a]); return 2; }
   }
   if (scanf("%d %d", &n, &m) != 2) return 2;
@@ -606,6 +685,24 @@ int main(int argc, char **argv) {
       printf(" owner %d C", sol_o); for (int g = 0; g < m; g++) if (sol_o >= 0 && (sol_C >> g & 1)) printf(" %d", g);
       printf(" bases"); for (int i = 0; i < n; i++) { printf(" {"); int first = 1; for (int g = 0; g < m; g++) if (optg[i][sol_b[i]] >> g & 1) { printf(first ? "%d" : ",%d", g); first = 0; } printf("}"); }
     }
+    printf("\n");
+  } else if (mode == 'R') {
+    /* random profiles: uniform, or (-P) the given profile with -K agents re-typed at random */
+    if (start_given) for (int i = 0; i < n; i++) if (scanf("%d", &start_p[i]) != 1) return 2;
+    valued_from[n] = 0; for (int i = n - 1; i >= 0; i--) valued_from[i] = valued_from[i + 1] | R[i];
+    long long fails = 0, hist[MAXN + 2] = {0}, owner = 0;
+    for (long long r = 0; r < iters; r++) {
+      if (start_given) {
+        memcpy(cur, start_p, sizeof cur);
+        for (int q = 0; q < perturb; q++) { int i = (int)(rnd() % (uint64_t)n); cur[i] = (int)(rnd() % (uint64_t)nt[i]); }
+      } else for (int i = 0; i < n; i++) cur[i] = (int)(rnd() % (uint64_t)nt[i]);
+      int f, ok = solve(&f);
+      if (f <= n) hist[f]++;
+      owner += f > sigma;
+      if (!ok) { fails++; if (fails <= nex) { printf("FAIL fstar %d", f); print_profile(stdout); printf("\n"); fflush(stdout); } }
+    }
+    printf("RANDOM profiles %lld fails %lld owner_needed %lld fstar", iters, fails, owner);
+    for (int f = 0; f <= n; f++) printf(" %lld", hist[f]);
     printf("\n");
   } else if (mode == 'H') {
     if (start_given) for (int i = 0; i < n; i++) if (scanf("%d", &start_p[i]) != 1) return 2;

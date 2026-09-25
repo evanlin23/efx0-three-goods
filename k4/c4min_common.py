@@ -65,13 +65,14 @@ def input_one(sets, m, vals):
 
 
 def hunt_one(sets, m, vals, opts=()):
-    """c4min_hunt.c -1 on one profile: dict fstar, dstar, valid, minfrozen, good, completable, sigma."""
+    """c4min_hunt.c -1 on one profile: dict fstar, dstar, valid, minfrozen, good, completable, sigma, defsum (the sum
+    over all valid P of min(def, 99), a checksum of every deficit)."""
     inp = input_one(sets, m, vals) + ' '.join('0' for _ in sets) + '\n'
     out = subprocess.run([hunt_binary(), '-1', *opts], input=inp, capture_output=True, text=True, check=True).stdout
     w = out.split()
     assert w[0] == 'PROFILE', out
     r = {}
-    for k in ('fstar', 'dstar', 'valid', 'minfrozen', 'good', 'completable', 'sigma'):
+    for k in ('fstar', 'dstar', 'valid', 'minfrozen', 'good', 'completable', 'sigma', 'defsum'):
         r[k] = int(w[w.index(k) + 1])
     return r
 

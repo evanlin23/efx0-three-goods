@@ -1,16 +1,17 @@
 #!/usr/bin/env python3
 """Adversarial search for C4min (k4/c4min_hunt.md §3): hill-climbing of strict profiles with k4/c4min_hunt.c -H.
 
-Objective (maximized): (d*, -good) or, with --order=1, (-good, d*), where d* is the least deficit over the
-pre-allocations with the fewest frozen agents and good the number of them with deficit <= 0; C4min fails at a
-profile iff good = 0 iff d* > 0. Every profile with d* > 0 found by the climber (CEX) is re-evaluated with
+Objective (maximized): first whether an owner is needed (f* > sigma = 2n - m; otherwise C4min holds trivially), then
+(d*, -good) or, with --order=1, (-good, d*), where d* is the least deficit over the pre-allocations with the fewest
+frozen agents and good the number of them with deficit <= 0; C4min fails at a profile iff good = 0 iff d* > 0. Every profile with d* > 0 found by the climber (CEX) is re-evaluated with
 k4/c4x.c (-1s -R -a) and, when small enough, with the brute force k4/c4min_brute.py, and printed.
 
 Core sources (several allowed):
   --file=PATH[:K]          the cores of a certificate file (K: a random sample of K cores)
   --random=N:M:N4:COUNT    COUNT random connected k = 4 cores (N agents, N4 with 4 goods, M goods)
   --family=NAME:A[:B]      a structured family of k4/c4min_families.py (ht, ht2, htx, htc, grid, chain, cycle, tree)
-options: --iters=I --restarts=R --stale=T --order=0|1 --seed=S --jobs=J --start=paper (families ht*: the first
+options: --iters=I --restarts=R --stale=T --order=0|1|2 (2: owner needed, f*, -good, d*) --cap=K (count at most K
+witnesses; d* is then over those seen) --seed=S --jobs=J --start=paper (families ht*: the first
 restart starts from §7's values) --top=K (print the K tightest cores)."""
 import json, random, subprocess, sys, time
 from concurrent.futures import ThreadPoolExecutor
@@ -50,7 +51,7 @@ def run_core(args):
     for line in out.splitlines():
         if line.startswith('BEST'):
             w = line.split()
-            best = {'dstar': int(w[2]), 'good': int(w[4]), 'fstar': int(w[6]), 'evals': int(w[8]), 'line': line}
+            best = {'dstar': int(w[2]), 'good': int(w[4]), 'fstar': int(w[6]), 'evals': int(w[8]), 'owner': int(w[12]), 'line': line}
         elif line.startswith('CEX'): cex.append(line)
     return tag, sets, m, best, cex, time.time() - t
 
@@ -65,7 +66,7 @@ def confirm(sets, m, line):
 
 
 def main():
-    srcs, iters, restarts, stale, order, seed, jobs, start, top = [], 3000, 4, 400, 0, 1, 4, None, 10
+    srcs, iters, restarts, stale, order, seed, jobs, start, top, cap = [], 3000, 4, 400, 0, 1, 4, None, 10, None
     for a in sys.argv[1:]:
         k, _, v = a.partition('=')
         if k == '--file': srcs.append(('file', v))
@@ -79,6 +80,7 @@ def main():
         elif k == '--jobs': jobs = int(v)
         elif k == '--start': start = v
         elif k == '--top': top = int(v)
+        elif k == '--cap': cap = int(v)
         else: raise SystemExit(f'unknown option {a}')
     rng = random.Random(seed)
     cc.hunt_binary()                       # compile once before the threads start
@@ -110,22 +112,23 @@ def main():
         futs = []
         for k, (tag, sets, m, st) in enumerate(tasks):
             opts = [str(iters), '-Z', str(restarts), '-T', str(stale), '-O', str(order), '-S', str(seed * 1000003 + k)]
+            if cap is not None: opts += ['-C', str(cap)]
             futs.append(ex.submit(run_core, (tag, sets, m, opts, st)))
         for fu in futs:
             tag, sets, m, best, cex, dt = fu.result()
             if best is None: print(f'{tag}: empty type domain, skipped'); continue
-            results.append((best['dstar'], -best['good'], tag, sets, m, best))
-            key = (best['dstar'], min(best['good'], 3))
+            results.append(((best['owner'], best['dstar'], -best['good']), tag, sets, m, best))
+            key = (best['owner'], best['dstar'], min(best['good'], 3))
             hist[key] = hist.get(key, 0) + 1
             for line in cex:
                 ncex += 1
                 vals, res = confirm(sets, m, line)
                 print(f'CEX {tag} sets {json.dumps(sets)} m {m}\n  {line}\n  re-evaluated: {json.dumps(res)}', flush=True)
-    results.sort(key=lambda r: (r[0], r[1]), reverse=True)
+    results.sort(key=lambda r: r[0], reverse=True)
     print(f'# done in {time.time() - t0:.0f} s; cores {len(results)}; CEX lines {ncex}')
-    print('# best (d*, min(good, 3)) per core: ' + ', '.join(f'{k}: {v}' for k, v in sorted(hist.items(), reverse=True)))
+    print('# best (owner needed, d*, min(good, 3)) per core: ' + ', '.join(f'{k}: {v}' for k, v in sorted(hist.items(), reverse=True)))
     for r in results[:top]:
-        print(f'TIGHT {r[2]} m {r[4]} sets {json.dumps(r[3])}\n  {r[5]["line"]}')
+        print(f'TIGHT {r[1]} m {r[3]} sets {json.dumps(r[2])}\n  {r[4]["line"]}')
 
 
 if __name__ == '__main__':
