@@ -84,7 +84,7 @@ which every good is valued by at most 3 agents:
 | n ≤ 3 (all 56 cores are (4, 3) cores) | every profile | 0 | (earlier runs, `results/k4_lb4_nested_*.log`) |
 | n = 4 (696 of 1,002 cores), n = 5 with one or two 4-good agents (3,438 of 7,203) | every profile | 0 | (earlier runs: every core of these classes) |
 | n = 6, one 4-good agent (7,817 of 26,866) | every profile (1.58·10¹⁰) | 0 | (`results/k4_p3_lb4r_6_n4_1.log`, 22 min on 2 CPUs) |
-| n = 5, three 4-good agents (4,622 of 9,861) | every profile, in 4 parts | see `results/k4_p3_lb4r_5_n4_3_part*of4.log` | |
+| n = 5, three 4-good agents (4,622 of 9,861) | every profile | 0 | (the exhaustive index-order run on all 9,861 cores, `results/k4_lb4r_ex_5_n4_3.log`, no histogram) |
 | n = 5, four 4-good agents (4,380 of 9,846) | 4,380,000 random | 0 | 4,337,772 / 42,227 / 1 / 0 |
 | pure n = 5 (1,962 of 4,674) | 1,962,000 random | 0 | 1,939,368 / 22,632 / 0 / 0 |
 | random, n = 6–10, 200 cores each | 500,000 random | 0 | at most 1 rotation |
