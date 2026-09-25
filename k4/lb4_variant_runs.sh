@@ -6,6 +6,7 @@ R=results
 run() { python3 k4/lb4_run.py "$@" --show=3; }
 echo "## LB+'s shape (attempts/lb4-lbplus-shape.md)"
 run $R/k4_certs_2.json.gz $R/k4_certs_3.json.gz -i0 -u1 -o2 -r1
+run $R/k4_certs_2.json.gz $R/k4_certs_3.json.gz -i0 -u2 -o2 -r1
 echo "## no rotation (attempts/lb4-no-rotation.md)"
 run $R/k4_certs_2.json.gz $R/k4_certs_3.json.gz -i2 -u3 -r0 -w1
 run $R/k4_certs_2.json.gz $R/k4_certs_3.json.gz -i2 -u1 -r0 -w1 -c1

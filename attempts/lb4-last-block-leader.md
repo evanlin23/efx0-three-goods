@@ -19,7 +19,7 @@ and ties), n = 4 with at most three 4-good agents, and n = 5 with at most two (`
   (An earlier version of `-i8` stopped trying leaders as soon as one changed the number of insertion steps, and
   reported a failure at n = 4 with three 4-good agents; with that fixed, it has none there.)
 
-**Smallest failing configuration, every run** (n = 4, m = 8, `-i9`). Agents 0 = {0, 2, 7} (3 goods), 1 = {1, 2, 3, 7},
+**Smallest failing configuration found, every run** (n = 4, m = 8, `-i9`; `-i9` was not run on pure n = 4, whose cores go down to m = 4). Agents 0 = {0, 2, 7} (3 goods), 1 = {1, 2, 3, 7},
 2 = {1, 4, 5, 6}, 3 = {3, 4, 5, 6}; values 0: (2, 3, 4), 1: (8, 2, 4, 7), 2: (7, 3, 5, 6), 3: (2, 4, 5, 8) on the goods
 in that order. Of the 4 runs of Phase 1 of this profile, the one that inserts agent 1 first fails: agent 1 takes its
 top 1; agent 2 (lost its top 1) takes 6; agent 3 (lost 6) takes 5 and is upgraded with 4 ({5, 4} is worth 9 > 8);

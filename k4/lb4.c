@@ -7,9 +7,15 @@ construction asks a comparison v_i(S) vs v_i(T) on which they disagree.  Every l
 raw EFX0 definition for every type in every agent's set (explicit integer values), and for the D2 shape (at most one
 bundle of more than 2 goods).  One result line per core on stdout; failing configurations on stderr.
 
-Options: -o0 owner search over every candidate (default), -o1 owner r only (Lemma-1-style test), -o2 LB4 rule
-(r, else rotation; k4/lb4.md), -i0 insertion by index, -i1 every insertion sequence (tree), -s sensitivity (ignore
-every owner constraint: must produce raw failures), -f N print at most N failures per core, -u0 no upgrades. */
+Options (k4/lb4.md §2 and §6): LB4 is -i2 -u1 -r1 -w1 -c1.
+  -iN insertion: 0 index, 1 every sequence separately, 2 every sequence until one succeeds, 3 block lookahead,
+      4 least omega, 5 "a > b + c" first, 6 index with one step changed, 7 index then the last block led by r,
+      8 index then every leader of the last block, 9 every sequence then every leader of its last block;
+  -uN upgrades: 0 none, 1 need-shrinking, 2 envy-free only, 3 policies 1, 2, 0 in turn;
+  -oN owner: 0 every owner, 1 r only, 2 r then rotation;  -rN up to N rotations in a row;
+  -w1 owner needs from its bundle;  -c1 chains may end at upgraded agents;
+  -s sensitivity (owner constraint ignored: must give raw failures);  -b brute force (every profile its own leaf);
+  -a print the leaf allocations;  -fN print at most N failures per core. */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

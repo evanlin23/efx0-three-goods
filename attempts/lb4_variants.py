@@ -13,7 +13,9 @@ import lb4_run, lb4_brute
 VARIANTS = {
     # name: (options of k4/lb4.c, core as (m, sets), what the variant is)
     'lbplus-shape': ('-i0 -u1 -o2 -r1', (5, [[0, 2, 3, 4], [1, 2, 3, 4]]),
-                     'index insertion, N-shrinking upgrades, owner r, else one rotation (any chain, any subset)'),
+                     'index insertion, need-shrinking upgrades, owner r, else one rotation (any chain, any subset)'),
+    'lbplus-shape-envy-free': ('-i0 -u2 -o2 -r1', (6, [[0, 1, 2, 3], [0, 1, 4, 5], [2, 3, 4, 5]]),
+                               'the same with envy-free upgrades only (SCOUT §5\'s rule)'),
     'no-rotation': ('-i2 -u3 -r0 -w1', (5, [[0, 1, 3, 4], [2, 3, 4], [2, 3, 4]]),
                     'every insertion sequence, every upgrade policy, every owner, owner needs from its bundle; no rotation'),
     'fixed-insertion': ('-i0 -u3 -r1 -w1 -c1', (6, [[0, 2, 4, 5], [1, 3, 5], [2, 3, 4, 5]]),
