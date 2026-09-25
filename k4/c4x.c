@@ -26,17 +26,18 @@
 #include <string.h>
 #include <stdint.h>
 
-#define MAXN 6
-#define MAXM 16
+#define MAXN 16
+#define MAXM 64
 #define MAXT 300
 #define MAXOPT 16
+typedef uint64_t mask_t;
 
 
 static int n, m, d[MAXN], gl[MAXN][4], nt[MAXN];
 static int tv[MAXN][MAXT][4];            /* type values, local good order */
 static int loc[MAXN][MAXM];              /* local index of global good g in R_i, or -1 */
-static uint32_t Rmask[MAXN];
-static int rodef_on = 0, efonly = 0, moves = 0;
+static mask_t Rmask[MAXN];
+static int rodef_on = 0, efonly = 0, moves = 0, single = 0;
 static int pareto = 0; static long long pareto_fail, pareto_n;
 static long long hist_lower[8], hist_zero[8], nposdef, ronone, ronone_any, mvtype[64], mvonly[64], mvnone1;
 static const char *mvname[8] = {"up(1->2)", "down(2->1)", "drop(1->0)", "fill(0->1/2)", "swap1", "swap2", "other", "frozen-changes"};
@@ -44,38 +45,38 @@ static int wbase = 1, nex = 0, anyall = 0, allow3 = 0, verbose = 0, dump = 0;
 
 /* base options per agent: local masks with popcount <= 2 (or <= 4 with -3) */
 static int nopt[MAXN], optl[MAXN][MAXOPT], optsz[MAXN][MAXOPT];
-static uint32_t optg[MAXN][MAXOPT];
+static mask_t optg[MAXN][MAXOPT];
 
 /* assignments */
-typedef struct { unsigned char o[MAXN]; uint32_t sing, J, two, big; } asg_t;
+typedef struct { unsigned char o[MAXN]; mask_t sing, J, two, big; } asg_t;
 static asg_t *A; static int nA, capA;
 
 /* per profile tables */
 static int val[MAXN][16];                /* v_i(local subset) */
-static uint32_t need[MAXN][MAXOPT];      /* global mask */
+static mask_t need[MAXN][MAXOPT];      /* global mask */
 static int lev[MAXN][MAXOPT];
 static int bval[MAXN][MAXOPT];
 static int cur[MAXN];                    /* current type of each agent */
 
-static inline int pc(uint32_t x) { return __builtin_popcount(x); }
+static inline int pc(mask_t x) { return __builtin_popcountll(x); }
 
-static uint32_t tolocal(int i, uint32_t g) {
-  uint32_t s = 0;
-  for (int k = 0; k < d[i]; k++) if (g >> gl[i][k] & 1) s |= 1u << k;
+static mask_t tolocal(int i, mask_t g) {
+  mask_t s = 0;
+  for (int k = 0; k < d[i]; k++) if (g >> gl[i][k] & 1) s |= (mask_t)1 << k;
   return s;
 }
-static inline int vg(int i, uint32_t g) { return val[i][tolocal(i, g)]; }   /* v_i of a global set */
+static inline int vg(int i, mask_t g) { return val[i][tolocal(i, g)]; }   /* v_i of a global set */
 
-static void gen_asg(int i, uint32_t used, unsigned char *o, int nbig) {
+static void gen_asg(int i, mask_t used, unsigned char *o, int nbig) {
   if (i == n) {
     if (nA == capA) { capA = capA ? 2 * capA : 1024; A = realloc(A, capA * sizeof(asg_t)); }
     asg_t *a = &A[nA++]; memcpy(a->o, o, MAXN);
-    uint32_t sing = 0, two = 0, big = 0, all = 0;
+    mask_t sing = 0, two = 0, big = 0, all = 0;
     for (int k = 0; k < n; k++) {
-      uint32_t g = optg[k][o[k]]; all |= g;
+      mask_t g = optg[k][o[k]]; all |= g;
       if (pc(g) == 1) sing |= g; else if (pc(g) == 2) two |= g; else if (pc(g) >= 3) big |= g;
     }
-    a->sing = sing; a->two = two; a->big = big; a->J = ((1u << m) - 1) & ~all;
+    a->sing = sing; a->two = two; a->big = big; a->J = (((mask_t)1 << m) - 1) & ~all;
     return;
   }
   for (int k = 0; k < nopt[i]; k++) {
@@ -86,6 +87,42 @@ static void gen_asg(int i, uint32_t used, unsigned char *o, int nbig) {
   }
 }
 
+/* -1: one profile (T = 1 for every agent): generate only valid assignments, pruning on validity as agents are
+   assigned in index order (a needed good must end up as a one-good base: it may not lie in a two-good base, and if it
+   is still unused some later agent must value it). */
+static mask_t valued_from[MAXN + 1];
+static void (*stream_cb)(const void *);
+static void gen_valid(int i, mask_t used, mask_t sing, mask_t two, mask_t needU, unsigned char *o, int nbig) {
+  if (i == n) {
+    mask_t all = (((mask_t)1 << m) - 1);
+    if (needU & ~sing) return;                       /* (V1) and (V2): every needed good is a one-good base */
+    if (stream_cb) {
+      asg_t tmp; memcpy(tmp.o, o, MAXN);
+      mask_t big = 0; for (int k = 0; k < n; k++) if (pc(optg[k][o[k]]) >= 3) big |= optg[k][o[k]];
+      tmp.sing = sing; tmp.two = two; tmp.big = big; tmp.J = all & ~used;
+      stream_cb((const void *)&tmp); return;
+    }
+    if (nA == capA) { capA = capA ? 2 * capA : 1024; A = realloc(A, (size_t)capA * sizeof(asg_t)); }
+    asg_t *a = &A[nA++]; memcpy(a->o, o, MAXN);
+    mask_t big = 0; for (int k = 0; k < n; k++) if (pc(optg[k][o[k]]) >= 3) big |= optg[k][o[k]];
+    a->sing = sing; a->two = two; a->big = big; a->J = all & ~used;
+    return;
+  }
+  for (int k = 0; k < nopt[i]; k++) {
+    mask_t B = optg[i][k];
+    if (B & used) continue;
+    int b = optsz[i][k] >= 3; if (nbig + b > 1) continue;
+    mask_t nd = need[i][k];
+    mask_t used2 = used | B, sing2 = sing, two2 = two;
+    if (pc(B) == 1) sing2 |= B; else if (pc(B) >= 2) two2 |= B;
+    mask_t needU2 = needU | nd;
+    if (needU2 & two2) continue;                                   /* a needed good in a multi-good base */
+    if (needU2 & ~used2 & ~valued_from[i + 1]) continue;           /* a needed good nobody left can take */
+    if ((needU2 & used2) & ~sing2) continue;
+    o[i] = k; gen_valid(i + 1, used2, sing2, two2, needU2, o, nbig + b);
+  }
+}
+
 static void setup_profile(void) {
   for (int i = 0; i < n; i++) {
     int *v = tv[i][cur[i]];
@@ -93,10 +130,10 @@ static void setup_profile(void) {
     for (int o = 0; o < nopt[i]; o++) {
       int s = optl[i][o], bv = val[i][s];
       bval[i][o] = bv;
-      uint32_t nd = 0;
-      for (int k = 0; k < d[i]; k++) if (!(s >> k & 1) && v[k] > bv) nd |= 1u << gl[i][k];
+      mask_t nd = 0;
+      for (int k = 0; k < d[i]; k++) if (!(s >> k & 1) && v[k] > bv) nd |= (mask_t)1 << gl[i][k];
       need[i][o] = nd;
-      if (efonly && pc(s) >= 2 && 2 * bv < val[i][(1 << d[i]) - 1]) need[i][o] = 0xFFFFFFFFu;   /* -E: multi-good bases must be envy-free */
+      if (efonly && pc(s) >= 2 && 2 * bv < val[i][(1 << d[i]) - 1]) need[i][o] = ~(mask_t)0;   /* -E: multi-good bases must be envy-free */
       int l = 0; for (int t = 0; t < (1 << d[i]); t++) if (val[i][t] < bv) l++;
       lev[i][o] = l;
     }
@@ -105,24 +142,24 @@ static void setup_profile(void) {
 
 /* ---- the exact completability test ---- */
 static int thr_n, thr_j[MAXN], thr_cap[MAXN], thr_th[MAXN];
-static uint32_t thr_base[MAXN];
-static int prot_search(int k, uint32_t rest) {
+static mask_t thr_base[MAXN];
+static int prot_search(int k, mask_t rest) {
   if (k == thr_n) return 1;
-  int j = thr_j[k]; uint32_t avail = rest & Rmask[j];
+  int j = thr_j[k]; mask_t avail = rest & Rmask[j];
   int bj = vg(j, thr_base[k]);
   /* subsets C of avail with |C| <= cap and bj + v_j(C) >= th */
-  for (uint32_t c = avail;; c = (c - 1) & avail) {
+  for (mask_t c = avail;; c = (c - 1) & avail) {
     if (c && pc(c) <= thr_cap[k] && bj + vg(j, c) >= thr_th[k] && prot_search(k + 1, rest & ~c)) return 1;
     if (!c) break;
   }
   return 0;
 }
 
-static int how_owner, how_K, only_owner = -1, ownstat = 0, termstat = 0;
+static int how_owner, only_owner = -1, ownstat = 0, termstat = 0; static mask_t how_K;
 static long long ts_cnt[32]; static int rulestat = 0; static long long rs_cnt[32];
 /* returns 1 if the assignment a is completable (a valid P assumed) */
 static int completable(const asg_t *a) {
-  uint32_t B[MAXN], NA = 0, NAo[MAXN];
+  mask_t B[MAXN], NA = 0, NAo[MAXN];
   int frozen[MAXN], S = 0;
   for (int i = 0; i < n; i++) { B[i] = optg[i][a->o[i]]; NA |= need[i][a->o[i]]; }
   for (int i = 0; i < n; i++) {
@@ -130,20 +167,20 @@ static int completable(const asg_t *a) {
     frozen[i] = pc(B[i]) == 1 && (B[i] & NA);
     if (!frozen[i] && pc(B[i]) <= 2) S += 2 - pc(B[i]);
   }
-  uint32_t J = a->J;
+  mask_t J = a->J;
   if (!a->big && pc(J) <= S) { how_owner = -1; how_K = 0; return 1; }
   for (int o = 0; o < n; o++) {
     if (frozen[o]) continue;
     if (only_owner >= 0 && o != only_owner) continue;
     if (a->big && pc(B[o]) < 3) continue;     /* a base of >= 3 goods must be the owner's */
     int vbo = vg(o, B[o]);
-    for (uint32_t K = J;; K = (K - 1) & J) {
-      uint32_t Xo = B[o] | K, rest = J & ~K;
+    for (mask_t K = J;; K = (K - 1) & J) {
+      mask_t Xo = B[o] | K, rest = J & ~K;
       int vxo = vbo + vg(o, K & Rmask[o]);
-      uint32_t NAp;
+      mask_t NAp;
       if (wbase) {
-        uint32_t no = 0;
-        for (int k = 0; k < d[o]; k++) { uint32_t g = 1u << gl[o][k]; if (!(g & Xo) && tv[o][cur[o]][k] > vxo) no |= g; }
+        mask_t no = 0;
+        for (int k = 0; k < d[o]; k++) { mask_t g = (mask_t)1 << gl[o][k]; if (!(g & Xo) && tv[o][cur[o]][k] > vxo) no |= g; }
         NAp = NAo[o] | no;
       } else NAp = NA;
       int capsum = 0, capj[MAXN];
@@ -157,7 +194,7 @@ static int completable(const asg_t *a) {
         thr_n = 0; int bad = 0;
         for (int j = 0; j < n && !bad; j++) {
           if (j == o) continue;
-          uint32_t q = Xo & Rmask[j];
+          mask_t q = Xo & Rmask[j];
           if (pc(q) < 2) continue;                      /* one relevant good is worth <= v_j(B_j) by validity */
           int th = vg(j, q);
           if (!(Xo & ~Rmask[j])) {                      /* X_o ⊆ R_j: remove j's least good of X_o */
@@ -184,38 +221,38 @@ static int completable(const asg_t *a) {
    owner's needs from X_o (-w0: from B_o). ro_def <= 0 iff some completion puts C into those slots: it satisfies
    (OC4), so the pre-allocation is completable. */
 static int ro_def;
-static int threatened_by(int j, uint32_t Xo, uint32_t Bj) {
-  uint32_t q = Xo & Rmask[j];
+static int threatened_by(int j, mask_t Xo, mask_t Bj) {
+  mask_t q = Xo & Rmask[j];
   if (pc(q) < 2) return 0;
   int th = vg(j, q);
   if (!(Xo & ~Rmask[j])) { int mn = 1 << 30; for (int k = 0; k < d[j]; k++) if (q >> gl[j][k] & 1) if (tv[j][cur[j]][k] < mn) mn = tv[j][cur[j]][k]; th -= mn; }
   return th > vg(j, Bj);
 }
 static int completable_ro(const asg_t *a) {
-  uint32_t B[MAXN], NA = 0;
+  mask_t B[MAXN], NA = 0;
   int frozen[MAXN], cap[MAXN], S = 0;
   for (int i = 0; i < n; i++) { B[i] = optg[i][a->o[i]]; NA |= need[i][a->o[i]]; }
   for (int i = 0; i < n; i++) {
     frozen[i] = pc(B[i]) == 1 && (B[i] & NA);
     cap[i] = (frozen[i] || pc(B[i]) > 2) ? 0 : 2 - pc(B[i]); S += cap[i];
   }
-  uint32_t J = a->J;
+  mask_t J = a->J;
   if (!a->big && pc(J) <= S) { ro_def = pc(J) - S; return 1; }
   int bestdef = 1 << 20;
   for (int o = 0; o < n; o++) {
     if (frozen[o]) continue;
     if (a->big && pc(B[o]) < 3) continue;
-    uint32_t NAo = 0; for (int j = 0; j < n; j++) if (j != o) NAo |= need[j][a->o[j]];
+    mask_t NAo = 0; for (int j = 0; j < n; j++) if (j != o) NAo |= need[j][a->o[j]];
     int vbo = vg(o, B[o]);
-    for (uint32_t C = J;; C = (C - 1) & J) {
-      uint32_t Xo = B[o] | (J & ~C); int ok = 1;
+    for (mask_t C = J;; C = (C - 1) & J) {
+      mask_t Xo = B[o] | (J & ~C); int ok = 1;
       for (int j = 0; j < n && ok; j++) if (j != o && threatened_by(j, Xo, B[j])) ok = 0;
       if (ok) {
         int So;
         if (wbase) {   /* slots of the others with the owner's needs from its bundle */
-          int vxo = vbo + vg(o, (J & ~C) & Rmask[o]); uint32_t no = 0;
-          for (int k = 0; k < d[o]; k++) { uint32_t g = 1u << gl[o][k]; if (!(g & Xo) && tv[o][cur[o]][k] > vxo) no |= g; }
-          uint32_t NAp = NAo | no; So = 0;
+          int vxo = vbo + vg(o, (J & ~C) & Rmask[o]); mask_t no = 0;
+          for (int k = 0; k < d[o]; k++) { mask_t g = (mask_t)1 << gl[o][k]; if (!(g & Xo) && tv[o][cur[o]][k] > vxo) no |= g; }
+          mask_t NAp = NAo | no; So = 0;
           for (int j = 0; j < n; j++) if (j != o) So += (pc(B[j]) == 1 && (B[j] & NAp)) ? 0 : 2 - pc(B[j]);
         } else So = S - cap[o];
         int def = pc(C) - So;
@@ -262,12 +299,12 @@ static void parse_phis(const char *spec) {
 static void features(const asg_t *a, long long *F) {
   long long sl = 0, s2 = 0, lmx = 0, lmn = 0, sv = 0, svn = 0, fsl = 0, flmn = 0, gsl = 0;
   int nF = 0, nU = 0, nE = 0, S = 0, D = 0, D0 = 0;
-  uint32_t NA = 0;
+  mask_t NA = 0;
   for (int i = 0; i < n; i++) NA |= need[i][a->o[i]];
   long long totprod = 1; int tot[MAXN];
   for (int i = 0; i < n; i++) { tot[i] = val[i][(1 << d[i]) - 1]; totprod *= tot[i]; }
   for (int i = 0; i < n; i++) {
-    int o = a->o[i], l = lev[i][o]; uint32_t B = optg[i][o];
+    int o = a->o[i], l = lev[i][o]; mask_t B = optg[i][o];
     sl += l; s2 += 1LL << l; lmx += 1LL << (4 * l); lmn += 1LL << (4 * (15 - l)); sv += bval[i][o];
     svn += (long long)bval[i][o] * (totprod / tot[i]);
     int fz = pc(B) == 1 && (B & NA);
@@ -275,7 +312,7 @@ static void features(const asg_t *a, long long *F) {
     if (fz) { fsl += l; flmn += 1LL << (4 * (15 - l)); } else gsl += l;
     if (!fz && pc(B) <= 2) S += 2 - pc(B);
     /* exposed: threatened by the whole junk with its base */
-    uint32_t q = a->J & Rmask[i];
+    mask_t q = a->J & Rmask[i];
     if (pc(q) >= 2) {
       int th = vg(i, q);
       if (!(a->J & ~Rmask[i])) { int mn = 1 << 30; for (int k = 0; k < d[i]; k++) if (q >> gl[i][k] & 1) if (tv[i][cur[i]][k] < mn) mn = tv[i][cur[i]][k]; th -= mn; }
@@ -303,7 +340,7 @@ static void print_profile(void) {
 }
 static void print_asg(const asg_t *a) {
   printf(" bases");
-  for (int i = 0; i < n; i++) { uint32_t B = optg[i][a->o[i]]; printf(" {"); int f = 1; for (int g = 0; g < m; g++) if (B >> g & 1) { printf("%s%d", f ? "" : ",", g); f = 0; } printf("}"); }
+  for (int i = 0; i < n; i++) { mask_t B = optg[i][a->o[i]]; printf(" {"); int f = 1; for (int g = 0; g < m; g++) if (B >> g & 1) { printf("%s%d", f ? "" : ",", g); f = 0; } printf("}"); }
   printf(" J {"); int f = 1; for (int g = 0; g < m; g++) if (a->J >> g & 1) { printf("%s%d", f ? "" : ",", g); f = 0; } printf("}");
 }
 
@@ -313,7 +350,7 @@ static void print_asg(const asg_t *a) {
    4 |E_t| > slots, 5 t invalid, 6 E_t has a free agent, 7 t reachable from some x in E_t, 8 two x in E_t with the
    same single chain end, 9 P without terminal, 10 x in E_t without chain end, 11 P with omega >= 1 */
 static void term_stats(const asg_t *a) {
-  uint32_t B[MAXN], NA = 0, N[MAXN]; int fz[MAXN], cap[MAXN], S = 0;
+  mask_t B[MAXN], NA = 0, N[MAXN]; int fz[MAXN], cap[MAXN], S = 0;
   for (int i = 0; i < n; i++) { B[i] = optg[i][a->o[i]]; N[i] = need[i][a->o[i]]; NA |= N[i]; }
   for (int i = 0; i < n; i++) { fz[i] = pc(B[i]) == 1 && (B[i] & NA); cap[i] = fz[i] ? 0 : 2 - pc(B[i]); S += cap[i]; }
   if (pc(a->J) <= S) return;
@@ -338,7 +375,7 @@ static void term_stats(const asg_t *a) {
   for (int t = 0; t < n; t++) {
     if (fz[t] || !N[t]) continue;
     nterm++; ts_cnt[0]++;
-    uint32_t W = B[t] | a->J; int E = 0, ne = 0;
+    mask_t W = B[t] | a->J; int E = 0, ne = 0;
     for (int x = 0; x < n; x++) if (x != t && threatened_by(x, W, B[x])) { E |= 1 << x; ne++; }
     Et[t] = E; if (!ne) anyempty = 1;
     ts_cnt[ne == 0 ? 1 : ne == 1 ? 2 : 3]++;
@@ -354,11 +391,11 @@ static void term_stats(const asg_t *a) {
     ts_cnt[6] += anyfree; ts_cnt[7] += reachable; ts_cnt[8] += common; ts_cnt[10] += noend;
     /* 19: an exposed agent that is not a frozen holder of its top good with exactly one lower good in J and the other
        equal to B_t (Lemma E, k = 3); 20: |Z_t| <= S - cap(t) but t invalid; 21: |Z_t| > S - cap(t) but t valid */
-    int Zt = 0;
+    mask_t Zt = 0;
     for (int x = 0; x < n; x++) if (E >> x & 1) {
       int top = -1, tv0 = -1; for (int k = 0; k < d[x]; k++) if (tv[x][cur[x]][k] > tv0) { tv0 = tv[x][cur[x]][k]; top = gl[x][k]; }
-      uint32_t low = Rmask[x] & ~(1u << top);
-      if (!(fz[x] && B[x] == (1u << top) && pc(low & a->J) == 1 && (low & ~a->J) == B[t])) ts_cnt[19]++;
+      mask_t low = Rmask[x] & ~((mask_t)1 << top);
+      if (!(fz[x] && B[x] == ((mask_t)1 << top) && pc(low & a->J) == 1 && (low & ~a->J) == B[t])) ts_cnt[19]++;
       Zt |= low & a->J;
     }
     if (pc(Zt) <= S - cap[t] && !ok) ts_cnt[20]++;
@@ -382,14 +419,14 @@ static void term_stats(const asg_t *a) {
    3-good terminal valid; 5 no terminal, 6 ... and w invalid, 7 ... and frozen agents exist; 8 w frozen, 9 w frozen and
    some 3-good terminal invalid */
 static void rule_stats(const asg_t *a) {
-  uint32_t B[MAXN], NA = 0, N[MAXN]; int fz[MAXN], S = 0, w = -1, nF = 0;
+  mask_t B[MAXN], NA = 0, N[MAXN]; int fz[MAXN], S = 0, w = -1, nF = 0;
   for (int i = 0; i < n; i++) { B[i] = optg[i][a->o[i]]; N[i] = need[i][a->o[i]]; NA |= N[i]; if (d[i] == 4) w = i; }
   if (w < 0) return;
   for (int i = 0; i < n; i++) { fz[i] = pc(B[i]) == 1 && (B[i] & NA); nF += fz[i]; if (!fz[i]) S += 2 - pc(B[i]); }
   if (!fz[w] && N[w] && pc(B[w]) == 2)   /* 23: (P1) at any Psi-maximum, omega <= 0 included */
     for (int x = 0; x < n; x++) if (x != w && d[x] == 3) {
       int top = -1, tv0 = -1; for (int k = 0; k < 3; k++) if (tv[x][cur[x]][k] > tv0) { tv0 = tv[x][cur[x]][k]; top = gl[x][k]; }
-      if (B[x] == (1u << top) && (Rmask[x] & ~B[x]) == B[w]) { rs_cnt[23]++; if (nex && rs_cnt[24] < nex) { rs_cnt[24]++; printf("EXP1 x=%d S=%d J=%d:", x, S, pc(a->J)); print_profile(); print_asg(a); printf("\n"); } }
+      if (B[x] == ((mask_t)1 << top) && (Rmask[x] & ~B[x]) == B[w]) { rs_cnt[23]++; if (nex && rs_cnt[24] < nex) { rs_cnt[24]++; printf("EXP1 x=%d S=%d J=%d:", x, S, pc(a->J)); print_profile(); print_asg(a); printf("\n"); } }
     }
   if (pc(a->J) <= S) return;
   rs_cnt[0]++;
@@ -410,10 +447,10 @@ static void rule_stats(const asg_t *a) {
     /* E_w (exposed w.r.t. W_w = B_w ∪ J): 16 w free with E_w != {}; 17 ... with some x in E_w frozen whose low part is
        one good of B_w and one junk good; 18 ... some x in E_w with R_x \ B_x ⊆ B_w (unhittable); 19 ... other; 20 w free
        with E_w != {} and w a terminal; 21 w free, E_w != {}, and w valid */
-    { uint32_t W = B[w] | a->J; int ne = 0, t1 = 0, t2 = 0, t3 = 0;
+    { mask_t W = B[w] | a->J; int ne = 0, t1 = 0, t2 = 0, t3 = 0;
       for (int x = 0; x < n; x++) if (x != w && threatened_by(x, W, B[x])) {
         ne++;
-        uint32_t low = Rmask[x] & ~B[x];
+        mask_t low = Rmask[x] & ~B[x];
         if ((low & ~B[w]) == 0) t2 = 1;
         else if (fz[x] && pc(low) == 2 && pc(low & B[w]) == 1 && pc(low & a->J) == 1) t1 = 1;
         else t3 = 1;
@@ -426,7 +463,7 @@ static void rule_stats(const asg_t *a) {
     if (N[w] && pc(B[w]) == 2)
       for (int x = 0; x < n; x++) if (x != w && d[x] == 3) {
         int top = -1, tv0 = -1; for (int k = 0; k < 3; k++) if (tv[x][cur[x]][k] > tv0) { tv0 = tv[x][cur[x]][k]; top = gl[x][k]; }
-        if (B[x] == (1u << top) && (Rmask[x] & ~B[x]) == B[w]) rs_cnt[13]++;
+        if (B[x] == ((mask_t)1 << top) && (Rmask[x] & ~B[x]) == B[w]) rs_cnt[13]++;
       }
   }
   if (fz[w]) {
@@ -437,18 +474,18 @@ static void rule_stats(const asg_t *a) {
     int reachw = 0;
     { int seen = 1 << w, st[MAXN * 4], sp = 0; st[sp++] = w;
       while (sp) { int y = st[--sp]; for (int z = 0; z < n; z++) if (z != y && (B[y] & N[z])) { if (fz[z]) { if (!(seen >> z & 1)) { seen |= 1 << z; st[sp++] = z; } } else reachw |= 1 << z; } } }
-    uint32_t L = Rmask[w] & ~B[w], two = 0;
+    mask_t L = Rmask[w] & ~B[w], two = 0;
     for (int i = 0; i < n; i++) if (i != w && pc(B[i]) == 2) two |= B[i];
     for (int tau = 0; tau < n; tau++) if (reachw >> tau & 1) {
-      uint32_t Av = L & (a->J | B[tau]);
+      mask_t Av = L & (a->J | B[tau]);
       /* best <= 2 goods of Av by w's values */
-      uint32_t O = 0; for (int r = 0; r < 2; r++) { int bv = -1; uint32_t bg = 0; for (int k = 0; k < d[w]; k++) { uint32_t g = 1u << gl[w][k]; if ((Av & g) && !(O & g) && tv[w][cur[w]][k] > bv) { bv = tv[w][cur[w]][k]; bg = g; } } O |= bg; }
+      mask_t O = 0; for (int r = 0; r < 2; r++) { int bv = -1; mask_t bg = 0; for (int k = 0; k < d[w]; k++) { mask_t g = (mask_t)1 << gl[w][k]; if ((Av & g) && !(O & g) && tv[w][cur[w]][k] > bv) { bv = tv[w][cur[w]][k]; bg = g; } } O |= bg; }
       int vo = vg(w, O), ok = 0;
-      for (int k = 0; k < d[w]; k++) { uint32_t g = 1u << gl[w][k]; if ((L & two & g) && tv[w][cur[w]][k] > vo) ok = 1; }
+      for (int k = 0; k < d[w]; k++) { mask_t g = (mask_t)1 << gl[w][k]; if ((L & two & g) && tv[w][cur[w]][k] > vo) ok = 1; }
       if (!ok) rs_cnt[11]++;
     }
     for (int t = 0; t < n; t++) if (t != w && !fz[t] && N[t]) {
-      uint32_t W = B[t] | a->J;
+      mask_t W = B[t] | a->J;
       if (!threatened_by(w, W, B[w])) continue;
       if (!(B[t] && (B[t] & ~L) == 0 && pc(L & a->J) == 1 && vg(w, B[t] | (L & a->J)) > vg(w, B[w]) && !(reachw >> t & 1))) rs_cnt[12]++;
     }
@@ -457,13 +494,13 @@ static void rule_stats(const asg_t *a) {
 }
 
 static void own_line(const asg_t *a) {
-  uint32_t NA = 0; int S = 0, fzv[MAXN];
+  mask_t NA = 0; int S = 0, fzv[MAXN];
   for (int i = 0; i < n; i++) NA |= need[i][a->o[i]];
-  for (int i = 0; i < n; i++) { uint32_t B = optg[i][a->o[i]]; fzv[i] = pc(B) == 1 && (B & NA); if (!fzv[i]) S += 2 - pc(B); }
+  for (int i = 0; i < n; i++) { mask_t B = optg[i][a->o[i]]; fzv[i] = pc(B) == 1 && (B & NA); if (!fzv[i]) S += 2 - pc(B); }
   if (pc(a->J) <= S) return;
   printf("OWN");
   for (int i = 0; i < n; i++) {
-    uint32_t B = optg[i][a->o[i]];
+    mask_t B = optg[i][a->o[i]];
     int top = 0; for (int kk = 0; kk < d[i]; kk++) { int mx = 1; for (int k2 = 0; k2 < d[i]; k2++) if (tv[i][cur[i]][k2] > tv[i][cur[i]][kk]) mx = 0; if (mx && (B >> gl[i][kk] & 1)) top = 1; }
     int ok = 0;
     if (!fzv[i]) { only_owner = i; ok = completable(a); only_owner = -1; }
@@ -478,7 +515,7 @@ static void do_profile(void) {
   setup_profile();
   int nv = 0;
   for (int x = 0; x < nA; x++) {
-    const asg_t *a = &A[x]; uint32_t ok = ~a->sing;
+    const asg_t *a = &A[x]; mask_t ok = ~a->sing;
     int good = 1;
     for (int i = 0; i < n; i++) if (need[i][a->o[i]] & ok) { good = 0; break; }
     if (good) validlist[nv++] = x;
@@ -525,8 +562,8 @@ static void do_profile(void) {
         if (dq >= dk) continue;
         int h = 0, who = -1; for (int i = 0; i < n; i++) if (A[validlist[k]].o[i] != A[validlist[q]].o[i]) { h++; who = i; }
         if (h != 1) continue;
-        uint32_t B0 = optg[who][A[validlist[k]].o[who]], B1 = optg[who][A[validlist[q]].o[who]];
-        uint32_t NA0 = 0; for (int i = 0; i < n; i++) NA0 |= need[i][A[validlist[k]].o[i]];
+        mask_t B0 = optg[who][A[validlist[k]].o[who]], B1 = optg[who][A[validlist[q]].o[who]];
+        mask_t NA0 = 0; for (int i = 0; i < n; i++) NA0 |= need[i][A[validlist[k]].o[i]];
         int fz = pc(B0) == 1 && (B0 & NA0), t;
         if (fz) t = 7;
         else if (pc(B0) == 1 && pc(B1) == 2 && (B0 & B1)) t = 0;
@@ -561,13 +598,13 @@ static void do_profile(void) {
       if (termstat) term_stats(&A[validlist[k]]);
       if (ownstat == 1) {
         const asg_t *a = &A[validlist[k]];
-        uint32_t NA = 0; int S = 0, fzv[MAXN];
+        mask_t NA = 0; int S = 0, fzv[MAXN];
         for (int i = 0; i < n; i++) NA |= need[i][a->o[i]];
-        for (int i = 0; i < n; i++) { uint32_t B = optg[i][a->o[i]]; fzv[i] = pc(B) == 1 && (B & NA); if (!fzv[i]) S += 2 - pc(B); }
+        for (int i = 0; i < n; i++) { mask_t B = optg[i][a->o[i]]; fzv[i] = pc(B) == 1 && (B & NA); if (!fzv[i]) S += 2 - pc(B); }
         if (pc(a->J) > S) {
           printf("OWN");
           for (int i = 0; i < n; i++) {
-            uint32_t B = optg[i][a->o[i]];
+            mask_t B = optg[i][a->o[i]];
             int top = 0; for (int kk = 0; kk < d[i]; kk++) { int mx = 1; for (int k2 = 0; k2 < d[i]; k2++) if (tv[i][cur[i]][k2] > tv[i][cur[i]][kk]) mx = 0; if (mx && (B >> gl[i][kk] & 1)) top = 1; }
             int ok = 0;
             if (!fzv[i]) { only_owner = i; ok = completable(a); only_owner = -1; }
@@ -610,11 +647,11 @@ static void do_profile(void) {
     for (int k = 0; k < nv; k++) {
       const asg_t *a = &A[validlist[k]];
       int c = completable(a);
-      uint32_t NA = 0; for (int i = 0; i < n; i++) NA |= need[i][a->o[i]];
+      mask_t NA = 0; for (int i = 0; i < n; i++) NA |= need[i][a->o[i]];
       printf("P"); print_asg(a); printf(" lev");
       for (int i = 0; i < n; i++) printf(" %d", lev[i][a->o[i]]);
       printf(" frozen");
-      for (int i = 0; i < n; i++) { uint32_t B = optg[i][a->o[i]]; if (pc(B) == 1 && (B & NA)) printf(" %d", i); }
+      for (int i = 0; i < n; i++) { mask_t B = optg[i][a->o[i]]; if (pc(B) == 1 && (B & NA)) printf(" %d", i); }
       printf(" | %s", c ? "COMPLETABLE" : "stuck");
       if (c) { printf(" owner %d K {", how_owner); for (int g = 0; g < m; g++) if (how_K >> g & 1) printf(" %d", g); printf(" }"); }
       printf("\n");
@@ -639,6 +676,56 @@ static void do_profile(void) {
   }
 }
 
+/* -1s: one profile, streamed (for large n): pass 1 finds the fewest frozen agents and the maxima of the potentials,
+   keeping up to KEEP argmax pre-allocations per potential; pass 2 computes the deficit of every pre-allocation with
+   the fewest frozen agents (stopping at the first with deficit <= 0 unless -a). */
+#define KEEP 4096
+static long long s_valid, s_minF_cnt, s_def_cnt, s_def_le0; static long long s_minF = 1 << 30; static int s_defmin = 1 << 30;
+static long long s_best[MAXPHI][NFEAT]; static int s_has[MAXPHI]; static asg_t *s_arg[MAXPHI]; static int s_narg[MAXPHI]; static long long s_nmax[MAXPHI];
+static int s_pass, s_stop;
+static void stream_visit(const void *vp) {
+  const asg_t *a = (const asg_t *)vp;
+  if (s_stop) return;
+  long long F[NFEAT]; features(a, F); F[17] = 0;
+  if (s_pass == 1) {
+    s_valid++;
+    if (-F[6] < s_minF) { s_minF = -F[6]; s_minF_cnt = 0; }
+    if (-F[6] == s_minF) s_minF_cnt++;
+    for (int p = 0; p < nphi; p++) {
+      int skip = 0; for (int k = 0; k < phil[p]; k++) if (phif[p][k] == 17) skip = 1;
+      if (skip) continue;
+      int c = s_has[p] ? cmpphi(F, s_best[p], p) : 1;
+      if (c > 0) { memcpy(s_best[p], F, sizeof F); s_has[p] = 1; s_narg[p] = 0; s_nmax[p] = 0; }
+      if (c >= 0) { s_nmax[p]++; if (s_narg[p] < KEEP) s_arg[p][s_narg[p]++] = *a; }
+    }
+  } else {
+    if (-F[6] != s_minF) return;
+    completable_ro(a); s_def_cnt++;
+    if (ro_def < s_defmin) s_defmin = ro_def;
+    if (ro_def <= 0) { s_def_le0++; if (!anyall) s_stop = 1; }
+  }
+}
+static void run_stream(void) {
+  for (int i = 0; i < n; i++) cur[i] = 0;
+  setup_profile();
+  valued_from[n] = 0; for (int i = n - 1; i >= 0; i--) valued_from[i] = valued_from[i + 1] | Rmask[i];
+  for (int p = 0; p < nphi; p++) s_arg[p] = malloc(sizeof(asg_t) * KEEP);
+  unsigned char o[MAXN] = {0};
+  stream_cb = stream_visit;
+  s_pass = 1; gen_valid(0, 0, 0, 0, 0, o, 0);
+  printf("STREAM valid %lld minfrozen %lld count %lld\n", s_valid, s_minF, s_minF_cnt); fflush(stdout);
+  for (int p = 0; p < nphi; p++) {
+    int skip = 0; for (int k = 0; k < phil[p]; k++) if (phif[p][k] == 17) skip = 1;
+    if (skip || !s_has[p]) continue;
+    int ev = 1, so = 0; for (int k = 0; k < s_narg[p]; k++) { int c = completable(&s_arg[p][k]); if (c) so = 1; else ev = 0; }
+    printf("PHI %s maxima %lld (tested %d) every %s some %s\n", phiname[p], s_nmax[p], s_narg[p], ev ? "ok" : "FAILS", so ? "ok" : "FAILS"); fflush(stdout);
+  }
+  if (rodef_on) {
+    s_pass = 2; s_stop = 0; gen_valid(0, 0, 0, 0, 0, o, 0);
+    printf("DEFICIT min-frozen pre-allocations examined %lld, with deficit <= 0: %lld%s, least deficit seen %d\n", s_def_cnt, s_def_le0, anyall ? "" : " (stopped at the first)", s_defmin);
+  }
+}
+
 int main(int argc, char **argv) {
   long long smod = 1, srem = 0, nrand = 0; unsigned long long seed = 1; const char *phis = default_phis;
   for (int i = 1; i < argc; i++) {
@@ -650,6 +737,8 @@ int main(int argc, char **argv) {
     else if (!strcmp(argv[i], "-p")) phis = argv[++i];
     else if (!strcmp(argv[i], "-R")) rodef_on = 1;
     else if (!strcmp(argv[i], "-E")) efonly = 1;
+    else if (!strcmp(argv[i], "-1")) single = 1;
+    else if (!strcmp(argv[i], "-1s")) single = 2;
     else if (!strcmp(argv[i], "-Q")) pareto = 1;
     else if (!strcmp(argv[i], "-O")) { pareto = 1; ownstat = 1; }
     else if (!strcmp(argv[i], "-O2")) ownstat = 2;
@@ -670,19 +759,27 @@ int main(int argc, char **argv) {
     if (scanf("%d", &nt[i]) != 1) return 2;
     for (int t = 0; t < nt[i]; t++) for (int k = 0; k < d[i]; k++) if (scanf("%d", &tv[i][t][k]) != 1) return 2;
     Rmask[i] = 0; for (int g = 0; g < m; g++) loc[i][g] = -1;
-    for (int k = 0; k < d[i]; k++) { Rmask[i] |= 1u << gl[i][k]; loc[i][gl[i][k]] = k; }
+    for (int k = 0; k < d[i]; k++) { Rmask[i] |= (mask_t)1 << gl[i][k]; loc[i][gl[i][k]] = k; }
     nopt[i] = 0;
     for (int s = 0; s < (1 << d[i]); s++) {
       if (pc(s) > 2 && !allow3) continue;
       if (pc(s) > 4) continue;
       optl[i][nopt[i]] = s; optsz[i][nopt[i]] = pc(s);
-      uint32_t g = 0; for (int k = 0; k < d[i]; k++) if (s >> k & 1) g |= 1u << gl[i][k];
+      mask_t g = 0; for (int k = 0; k < d[i]; k++) if (s >> k & 1) g |= (mask_t)1 << gl[i][k];
       optg[i][nopt[i]] = g; nopt[i]++;
     }
   }
   int lo, hi; if (scanf("%d %d", &lo, &hi) != 2) { lo = 0; hi = nt[0]; }
   unsigned char o[MAXN] = {0};
-  gen_asg(0, 0, o, 0);
+  if (single == 2) { parse_phis(phis); run_stream(); return 0; }
+  if (single) {
+    for (int i = 0; i < n; i++) { cur[i] = lo < nt[i] ? lo : 0; }
+    for (int i = 0; i < n; i++) cur[i] = 0;
+    setup_profile();
+    valued_from[n] = 0; for (int i = n - 1; i >= 0; i--) valued_from[i] = valued_from[i + 1] | Rmask[i];
+    gen_valid(0, 0, 0, 0, 0, o, 0);
+    fprintf(stderr, "single profile: %d valid pre-allocations\n", nA);
+  } else gen_asg(0, 0, o, 0);
   parse_phis(phis);
   validlist = malloc(sizeof(int) * nA); feat = malloc(sizeof(long long) * (size_t)nA * NFEAT); comp = malloc(nA);
   int K;

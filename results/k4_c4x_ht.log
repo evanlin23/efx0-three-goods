@@ -1,0 +1,54 @@
+# H_t of k4/c4.md section 7 (branch proof/k4-c4): python3 k4/c4x_ht.py T | c4x -1s -R -p ... (streamed, one profile)
+## H_1 (n = 5, m = 13), every min-frozen pre-allocation examined (-a)
+STREAM valid 920 minfrozen 0 count 574
+PHI (-frozen) maxima 574 (tested 574) every FAILS some ok
+PHI (sumlev) maxima 2 (tested 2) every ok some ok
+PHI (leximax) maxima 1 (tested 1) every ok some ok
+PHI (leximin) maxima 1 (tested 1) every ok some ok
+PHI (-frozen,sumlev) maxima 2 (tested 2) every ok some ok
+PHI (-frozen,leximin) maxima 1 (tested 1) every ok some ok
+DEFICIT min-frozen pre-allocations examined 574, with deficit <= 0: 538, least deficit seen -1
+## H_2 (n = 9, m = 23), every min-frozen pre-allocation examined (-a)
+STREAM valid 181784 minfrozen 0 count 68876
+PHI (-frozen) maxima 68876 (tested 4096) every FAILS some ok
+PHI (sumlev) maxima 2 (tested 2) every ok some ok
+PHI (leximax) maxima 1 (tested 1) every ok some ok
+PHI (leximin) maxima 1 (tested 1) every ok some ok
+PHI (-frozen,sumlev) maxima 2 (tested 2) every ok some ok
+PHI (-frozen,leximin) maxima 1 (tested 1) every ok some ok
+DEFICIT min-frozen pre-allocations examined 68876, with deficit <= 0: 63937, least deficit seen -2
+## H_1, stored mode with Pareto-maxima (-1 -Q)
+single profile: 920 valid pre-allocations
+RESULT asg 920 profiles 1 valid 920 tested 574 nocomp 0 ronone 0 ronone_any 0 paretomax 6 paretofail 0
+PHI (-frozen,-rodef) every_fail 0 some_fail 0
+PHI (-frozen) every_fail 1 some_fail 0
+PHI (sumlev) every_fail 0 some_fail 0
+PHI (sum2lev) every_fail 0 some_fail 0
+PHI (leximax) every_fail 0 some_fail 0
+PHI (leximin) every_fail 0 some_fail 0
+PHI (-frozen,sumlev) every_fail 0 some_fail 0
+PHI (-frozen,leximin) every_fail 0 some_fail 0
+PHI (-frozen,slots) every_fail 0 some_fail 0
+PHI (sumval) every_fail 0 some_fail 0
+## H_2, stored mode with Pareto-maxima (-1 -Q)
+single profile: 181784 valid pre-allocations
+RESULT asg 181784 profiles 1 valid 181784 tested 68876 nocomp 0 ronone 0 ronone_any 0 paretomax 30 paretofail 0
+PHI (-frozen,-rodef) every_fail 0 some_fail 0
+PHI (-frozen) every_fail 1 some_fail 0
+PHI (sumlev) every_fail 0 some_fail 0
+PHI (sum2lev) every_fail 0 some_fail 0
+PHI (leximax) every_fail 0 some_fail 0
+PHI (leximin) every_fail 0 some_fail 0
+PHI (-frozen,sumlev) every_fail 0 some_fail 0
+PHI (-frozen,leximin) every_fail 0 some_fail 0
+PHI (-frozen,slots) every_fail 0 some_fail 0
+PHI (sumval) every_fail 0 some_fail 0
+## H_3 (n = 13, m = 33), stopped at the first min-frozen pre-allocation with deficit <= 0
+STREAM valid 35976296 minfrozen 0 count 8292664
+PHI (-frozen) maxima 8292664 (tested 4096) every FAILS some ok
+PHI (sumlev) maxima 2 (tested 2) every ok some ok
+PHI (leximax) maxima 1 (tested 1) every ok some ok
+PHI (leximin) maxima 1 (tested 1) every ok some ok
+PHI (-frozen,sumlev) maxima 2 (tested 2) every ok some ok
+PHI (-frozen,leximin) maxima 1 (tested 1) every ok some ok
+DEFICIT min-frozen pre-allocations examined 1, with deficit <= 0: 1 (stopped at the first), least deficit seen 0

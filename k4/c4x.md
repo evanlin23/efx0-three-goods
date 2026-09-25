@@ -8,7 +8,7 @@ it takes a pre-allocation that is extremal for a potential over *all* valid pre-
 **Target C₄∃.** For every strict profile of every k = 4 core, *some* valid pre-allocation (`k4/lb4.md` §1) has a
 completion satisfying (OC₄) in which frozen agents hold their base and only the owner's bundle has more than two
 goods. By Theorem 1′₄ (machine-checked, `lean/EFX/PreAllocK.lean`: `SoundCompletion`, `target4_of_completions`),
-K4.TIE and K4.CORE this gives TARGET₄.
+K4.TIE and K4.CORE this gives TARGET₄. It is equivalent to K4.D on strict cores (§1).
 
 **Status.** Work in progress; see the summary at the end of the session.
 
@@ -36,6 +36,18 @@ C_i = ∅ for frozen i ≠ o and |B_i| + |C_i| ≤ 2 for free i ≠ o; X_o = B_o
 from its bundle, N_o^X = {g ∈ R_o ∖ X_o : v_o(g) > v_o(X_o)} (frozen status and slots recomputed with them); and
 v_j(X_o ∖ h) ≤ v_j(X_j) for all j ≠ o, h ∈ X_o. By Theorem 1′₄ such an X is EFX₀ with at most one bundle of more than
 two goods. If ω ≤ 0, the completion without owner exists.
+
+**Relation to the Lean definitions** (`lean/EFX/PreAllocK.lean`; the target `EFX.LB4R.TheoremC4exists` of PR #35).
+A completable P ∈ 𝒫 with its completion is literally an `EFX.LB4.SoundCompletion`: `base` maps each good of B_i to i;
+`N` is the value-based needs, which satisfy `Needs` (its lower bound, and its upper bound since v_i(g) > v_i(B_i) ≥ 0);
+`Valid` is (V1), (V2); `Frozen` is "the base is one good, in NA"; `Completion`'s conditions (owner not frozen, frozen
+non-owners get no junk, |C_i| + |B_i| ≤ 2 for free non-owners) are the ones `k4/c4x.c` and `k4/c4x_check.py` impose,
+with the owner's needs replaced by `ownerNeeds` exactly as in `SoundCompletion`; and `OC` is (OC₄). 𝒫 is a *subclass* of
+Lean's pre-allocations: Lean allows bases of any size and with goods outside R_i, and any `Needs` between the two
+bounds; 𝒫 takes bases inside R_i of at most two goods and the smallest needs. Every statement here produces a sound
+completion, so it proves `TheoremC4exists` for the profiles it covers. Conversely, by the audit of PR #35 (`C4exists_iff`
+there), C₄∃ is equivalent to K4.D on strict cores: valid pre-allocations are a proof tool, and complete allocations
+(J = ∅) are pre-allocations too.
 
 **Removal-only completability.** A sufficient condition: some owner o and C ⊆ J such that X_o = B_o ∪ (J ∖ C)
 threatens no agent x ≠ o *holding its base alone* (max_h v_x(X_o ∖ h) ≤ v_x(B_x)), and |C| ≤ S_o(C), the number of
@@ -349,3 +361,24 @@ n = 3 profiles; at n = 2, 93% and at most two). The one-agent steps are of sever
 junk good, loses a good, has one of two goods replaced (the most common), or is replaced by a disjoint base
 (`k4/c4x.c -M`, sample of 5,000 profiles per n = 3 core: 5,921, 18,338, 32,373 and 21,371 pre-allocations admit a step
 of each kind; 1,060 admit no one-agent step). Theorem K3 and §4 are the cases where a Pareto-type potential replaces the deficit.
+
+## 6. The cores H_t (the obstruction to bounded rotations)
+
+`k4/c4.md` §7 on branch `proof/k4-c4` (PR #33, under review) builds pure cores H_t (n = 4t + 1, m = 10t + 3; t
+gadgets of three x's and a y chained through goods g_j) on which LB₄ʳ with index insertion needs ⌈2t/3⌉ nested
+rotations, each rotation repairing one gadget. They are the natural test for a *global* extremal choice, which must
+"see" every gadget at once. `k4/c4x_ht.py` builds H_t, and `k4/c4x.c` with `-1` (one profile, only valid
+pre-allocations generated) or `-1s` (streamed, for large n) tests it (`results/k4_c4x_ht.log`):
+
+| core | n, m | valid pre-allocations | fewest frozen | min-frozen with deficit ≤ 0 | maxima of Σℓ / leximax / leximin | Pareto-maxima |
+|---|---|---|---|---|---|---|
+| H_1 | 5, 13 | 920 | 0 (574 of them) | 538 of 574 | 2 / 1 / 1, all completable | 6, all completable |
+| H_2 | 9, 23 | 181,784 | 0 (68,876) | 63,937 of 68,876 | 2 / 1 / 1, all completable | 30, all completable |
+| H_3 | 13, 33 | 35,976,296 | 0 (8,292,664) | yes (the first one examined) | 2 / 1 / 1, all completable | not computed |
+
+So H_t is not hard for the global route: conjecture C₄ᵐⁱⁿ holds on H_1–H_3, and so does "every maximum of Σℓ, leximax,
+leximin is completable" (these potentials fail elsewhere, §2). On H_1–H_3 some valid pre-allocation has no frozen agent at all
+(computed), while Phase 1 freezes 3t agents, so the
+per-gadget count of Proposition H there ("slot places minus goods forced out of the owner's bundle", −2 per untouched
+gadget) is a count for Phase 1's states: taken globally, the extremal pre-allocations never have an untouched gadget.
+The global form of that count is the deficit, and on H_1–H_3 its minimum over the min-frozen pre-allocations is ≤ 0.
