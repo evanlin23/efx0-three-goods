@@ -124,14 +124,30 @@ static int dfs(int i, mask_t used, mask_t sing, mask_t two, mask_t NA) {
    the unassigned agent with the fewest feasible options is assigned next (an option is feasible if it is disjoint from
    the goods used, keeps |NA| <= gbound, puts no needed good into a two-good base, and leaves the needed goods not yet
    used to the other unassigned agents, at most one each). Each valid P with |NA| <= gbound is a leaf exactly once. */
-static int dyn = -1, asg[MAXN];
+static int dyn = -1, asg[MAXN], hall = 0;
+/* Hall pruning (-G1; off by default, it was slower on H_6): the unassigned agents whose empty base is not feasible must get pairwise distinct
+   goods, each from the union of its feasible options; checked by bipartite matching (Kuhn). */
+static mask_t hm_G[MAXN]; static int hm_n, hm_of[64], hm_vis_stamp[64], hm_stamp;
+static int hm_try(int a) {
+  for (int g = 0; g < m; g++) if ((hm_G[a] >> g & 1) && hm_vis_stamp[g] != hm_stamp) {
+    hm_vis_stamp[g] = hm_stamp;
+    if (hm_of[g] < 0 || hm_try(hm_of[g])) { hm_of[g] = a; return 1; }
+  }
+  return 0;
+}
+static int hall_ok(void) {
+  for (int g = 0; g < m; g++) hm_of[g] = -1;
+  for (int a = 0; a < hm_n; a++) { hm_stamp++; if (!hm_try(a)) return 0; }
+  return 1;
+}
 static int dfsd(int depth, mask_t used, mask_t sing, mask_t two, mask_t NA) {
   if (depth == n) { if (NA & ~sing) return 0; return leaf(used, sing, NA); }
   int nu = n - depth, bj = -1, bc = 99, bopt[NOPT], nb = 0;
+  hm_n = 0;
   for (int j = 0; j < n; j++) {
     if (asg[j]) continue;
     mask_t Ro = 0; for (int q = 0; q < n; q++) if (!asg[q] && q != j) Ro |= R[q];
-    int c = 0, op[NOPT];
+    int c = 0, op[NOPT], empty_ok = 0; mask_t G = 0;
     for (int k = 0; k < nopt[j]; k++) {
       mask_t B = optg[j][k];
       if (B & used) continue;
@@ -141,10 +157,13 @@ static int dfsd(int depth, mask_t used, mask_t sing, mask_t two, mask_t NA) {
       mask_t pend = NA2 & ~(used | B);
       if ((pend & ~Ro) || pc(pend) > nu - 1) continue;
       op[c++] = k;
+      if (!B) empty_ok = 1; else G |= B;
     }
     if (!c) return 0;
+    if (!empty_ok) hm_G[hm_n++] = G;
     if (c < bc) { bc = c; bj = j; nb = c; memcpy(bopt, op, sizeof(int) * c); }
   }
+  if (hall && hm_n > 1 && !hall_ok()) return 0;
   asg[bj] = 1;
   for (int q = 0; q < nb; q++) {
     int k = bopt[q]; mask_t B = optg[bj][k];
@@ -635,6 +654,7 @@ int main(int argc, char **argv) {
     else if (!strcmp(argv[a], "-1")) mode = '1';
     else if (!strcmp(argv[a], "-1q")) mode = 'q';
     else if (!strcmp(argv[a], "-1o")) mode = 'o';
+    else if (!strcmp(argv[a], "-1f")) mode = 'F';
     else if (!strcmp(argv[a], "-H")) { mode = 'H'; iters = atoll(argv[++a]); }
     else if (!strcmp(argv[a], "-R")) { mode = 'R'; iters = atoll(argv[++a]); }
     else if (!strcmp(argv[a], "-K")) perturb = atoi(argv[++a]);
@@ -650,6 +670,7 @@ int main(int argc, char **argv) {
     else if (!strcmp(argv[a], "-D")) plain_def = 1;
     else if (!strcmp(argv[a], "-Y0")) dyn = 0;
     else if (!strcmp(argv[a], "-Y1")) dyn = 1;
+    else if (!strcmp(argv[a], "-G1")) hall = 1;
     else { fprintf(stderr, "unknown option %s\n", argv[a]); return 2; }
   }
   if (scanf("%d %d", &n, &m) != 2) return 2;
@@ -693,6 +714,10 @@ int main(int argc, char **argv) {
       printf(" bases"); for (int i = 0; i < n; i++) { printf(" {"); int first = 1; for (int g = 0; g < m; g++) if (optg[i][sol_b[i]] >> g & 1) { printf(first ? "%d" : ",%d", g); first = 0; } printf("}"); }
     }
     printf("\n");
+  } else if (mode == 'F') {           /* f* only */
+    for (int i = 0; i < n; i++) if (scanf("%d", &cur[i]) != 1) return 2;
+    valued_from[n] = 0; for (int i = n - 1; i >= 0; i--) valued_from[i] = valued_from[i + 1] | R[i];
+    printf("FSTAR %d\n", fstar());
   } else if (mode == 'o') {
     /* per owner o: the least deficit over the min-frozen P when only o may be the owner (INF: never free) */
     for (int i = 0; i < n; i++) if (scanf("%d", &cur[i]) != 1) return 2;
