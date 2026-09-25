@@ -261,5 +261,15 @@ python3 k4/lb4_run.py results/k4_certs_5_n4_1.json.gz -i1 -u2 -o0 -r2 -w1 -c1   
 python3 k4/c4one_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz results/k4_certs_4_n4_1.json.gz results/k4_certs_5_n4_1.json.gz   # §3
 python3 k4/c4tools/c4potscan.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz results/k4_certs_4_n4_1.json.gz   # §4 (~25 min)
 python3 k4/c4check_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz results/k4_certs_4_n4_1.json.gz results/k4_certs_4_n4_2.json.gz   # §5
-bash k4/c4one_tau_runs.sh                                                 # §6 (~30 min)
+bash k4/c4one_tau_runs.sh                                                 # §6, every row (~1 h)
+python3 k4/c4one_tau.py "-X -P2 -u2 -i20 -o0 -r1 -w0 -c0 -f3" results/k4_certs_5_n4_1.json.gz   # Lemma X', n = 5 (~5 min)
 ```
+In `k4/c4check.c`, `-P2` counts a run as a success when the theorems (with A₄⁺(o)) prove it, and the insertion modes
+used above are these:
+- `-i2`: search every sequence.
+- `-i6`: index order, or index order with one step changed.
+- `-i14`: every least-ω sequence.
+- `-i17`: the key rule.
+- `-i19`, `-i20`: Lemmas X and X′, starting from every sequence.
+
+`-E` (with `-E3`) counts which step and which agent the successful change uses.
