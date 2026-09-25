@@ -23,7 +23,7 @@ K4.D on strict cores (`C4exists_iff`, PR #35); for the narrower space 𝒫 used 
   protection by removal only (deficit ≤ 0); equivalently every maximum of (−frozen, −deficit) is completable.
   Exhaustive for n ≤ 3 (300,026,592 strict profiles) and n = 4 with one or two 4-good agents, sampled beyond, and true on
   the cores H_1–H_3 that defeat LB₄ʳ's bounded rotations (§6). A proof needs an augmenting step that lowers the deficit.
-- **Theorem K3** (§3, written proof, not reviewed): at k = 3 every Pareto-maximal P ∈ 𝒫 is completable, with a
+- **Theorem K3** (§3; machine-checked in Lean, PR #47, row K4.C4X.K3.LEAN): at k = 3 every Pareto-maximal P ∈ 𝒫 is completable, with a
   terminal as owner: if no terminal were valid, a walk with fresh junk labels closes a cycle of exposures whose
   rotation is a Pareto improvement. A second, extremal proof of D at k = 3; every lemma is checked by brute force.
 - **One 4-good agent** (§4, written proofs, not reviewed): with the 3-good agents first,
@@ -126,7 +126,8 @@ deficit); the other rows are `k4/c4x.c` alone.
 At k = 3 the principle closes with the plainest potential: **every Pareto-maximal valid pre-allocation is completable.**
 This is a second, structural proof of conjecture D for k = 3 cores (already proved and machine-checked by LB⁺,
 `proofs/lb_last_step.md`), and it shows which properties of three goods the principle needs; §4 checks each of them at
-k = 4. Written proof, not yet reviewed: CONJECTURE in the ledger (K4.C4X.K3) until an independent review.
+k = 4. Machine-checked in Lean (`lean/EFX/K3Pareto.lean`, `lean/EFX/K3Theorem.lean`, PR #47; ledger K4.C4X.K3, PROVED).
+The Lean proof does not use strict types, so it needs no tie step.
 
 **Setting.** A k = 3 core with strict types: every agent i has R_i = {a_i, b_i, c_i}, v(a) > v(b) > v(c) > 0,
 v(a) < v(b) + v(c), all subset sums distinct; m ≤ 2n (L4), so σ = 2n − m ≥ 0. 𝒫 as in §1. P′ *Pareto-dominates* P if
