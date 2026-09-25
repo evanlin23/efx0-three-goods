@@ -1,10 +1,29 @@
 # k = 4 scout: EFX₀ when every agent has at most four relevant goods
 
-Workstream `compute/k4-scout`. Ledger rows `K4.*`. Everything here is either proved in this file (marked *proof*),
-certified by an exhaustive search with an independently checked certificate, or marked EVIDENCE / CONJECTURE.
+Workstream `compute/k4-scout`. Ledger rows `K4.*`. Everything here is one of: argued in this file (marked *proof*;
+written but not yet reviewed, so the ledger lists these as CONJECTURE until a review), certified by an exhaustive
+search with an independently checked certificate, or marked EVIDENCE / CONJECTURE.
 
 **TARGET₄.** Every instance with nonnegative real additive valuations in which every agent has |R_i| ≤ 4 has a
 complete EFX₀ allocation.
+
+**Summary.**
+- *Literature* (§1): ordinary EFX for k = 4 is claimed by Viswanathan–Mehta (proof sketch only). EFX₀ for k = 4
+  is open in every paper read.
+- *Reduction* (§2, written, not yet reviewed): L1, L2, L3, L6, L9, L10, L11 carry over. TARGET₄ reduces to
+  k = 4 cores. These have agents with 3 or 4 goods, strictly balanced, with up to 2 private goods (then p + q < s + t),
+  and m ≤ 3n. L5 fails. The additive order types of 4 goods replace it: 1,519 weak, 288 strict balanced (12 per
+  ranking, all behaviorally distinct), with integer representatives ≤ 10. Ties reduce to strict types.
+- *Certified* (§3): every k = 4 core with n ≤ 4 (1,058 cores), and with n = 5 and at most two 4-good agents
+  (7,203), has for every strict profile an EFX₀ allocation with at most one bundle of more than 2 goods (D2). n ≤ 3
+  also holds with ties. Checked by an independent checker, and the core lists are complete by orbit counting.
+- *Refuted* (§4, brute-force confirmed): all bundles ≤ 3 suffice (fails at n = 3); the large bundle stays at
+  the counting bound (it needs 2n goods at n = 3, m = 8).
+- *Evidence*: D2 on 140,220 random profiles of pure n = 5 cores. Serial dictatorship plus junk (LB's shape)
+  worked on every sampled profile for n ≤ 4.
+- *Conjecture K4.D*: D itself (≤ 1 bundle of more than two goods) holds for k ≤ 4. Recommended route (§5): LB₄,
+  construction LB⁺ carried to four goods, with type-dependent owner constraints and private pairs in the large
+  bundle.
 
 ## 1. Literature position (only what `proofs/citations.md` records as read)
 
@@ -27,8 +46,8 @@ complete EFX₀ allocation.
   - Chaudhury–Garg–Mehlhorn (three additive agents): [unverified]. With L1 it would give EFX₀ for n = 3.
 - **This repository:** TARGET (k = 3) is proved, and covers every k = 4 instance whose core (§2) has only agents
   with 3 relevant goods.
-- So, as far as the papers read go, **EFX₀ for k = 4 is open**. No read paper gives it for k = 4 with more than two
-  valuers per good, n ≥ 5 and m ≥ n + 4.
+- So, as far as the papers read go, **EFX₀ for k = 4 is open**. The read papers cover only the special cases
+  above: m ≤ n + 3, at most two valuers per good, or four agents with at most nine goods.
 
 ## 2. Reduction: which of L1–L11 carry over to k ≤ 4
 
@@ -133,16 +152,18 @@ C_i (the condition depends only on the types), hence, by closedness, at v. So it
 all 4), good degree ≥ 1, one graph per isomorphism class, keeping those with at most d − 2 private goods per agent of
 degree d. Counts (pure = every agent has 4 goods; mixed = degrees 3 and 4, at least one 4):
 
-| n | pure | mixed (incl. pure) | m range |
-|---|---|---|---|
-| 2 | 3 | 5 | 4–6 |
-| 3 | 18 | 51 | 4–9 |
-| 4 | 219 | N4MIXED | 4–12 |
+| n | all (≥ one 4-good agent) | by number n₄ of 4-good agents | m range | certificate |
+|---|---|---|---|---|
+| 2 | 5 | n₄ = 2 (pure): 3 | 4–6 | `results/k4_certs_2.json.gz` |
+| 3 | 51 | n₄ = 3 (pure): 18 | 4–9 | `results/k4_certs_3.json.gz` |
+| 4 | 1,002 | n₄ = 1: 135, 2: 309, 3: 339, 4 (pure): 219 | 4–12 | `results/k4_certs_4_n4_{1,2,3}.json.gz`, `results/k4_certs_4_pure.json.gz` |
+| 5 | (≈ 45,600 before the private-good filter) | n₄ = 1: 1,735; n₄ = 2: 5,468 (n₄ = 3, 4 and pure: not searched) | 4–12 | `results/k4_certs_5_n4_1.json.gz`, `results/k4_certs_5_n4_2.json.gz` |
 
 **Method.** Per core, CEGAR over profiles of strict balanced types. The domain has 288 types per 4-good agent (144
 if it has two private goods) and 6 per 3-good agent, so a pure n = 4 core has up to 288⁴ ≈ 6.9·10⁹ profiles. A
 proposal step picks a profile no allocation found so far covers: first random profiles until 4,096 random samples are
-all covered, then a C scanner (`k4/scan.c`) that walks the rest in lexicographic order with bitset pruning. An inner
+all covered, then a C scanner (`k4/scan.c`) that walks the rest in lexicographic order. The scanner prunes with
+bitsets, and skips a subtree when an allocation makes all remaining agents safe for every type. An inner
 SAT solver finds an allocation for the proposed profile in the model "at most one bundle with more than 2 goods"
 (D2). It takes the best of 8 solutions, diversified by random phases. An agent's covered types are those under which
 it is safe, computed from the raw EFX₀ definition with the types' integer representatives. A profile with no D2
@@ -157,20 +178,40 @@ against brute force for n ≤ 3, `results/k4_check_selftest.log`), so the list i
 (3) every strict balanced profile of every core is covered.
 Negative tests (a deleted allocation, a deleted core) are caught.
 
-**Results (CERTIFIED).**
-- n = 2 and n = 3: every k = 4 core (5 and 51, mixed degrees included) has, for every strict profile, an EFX₀
-  allocation with at most one bundle of more than 2 goods (`results/k4_check_2_3.log`). With ties too (all
-  1,271 balanced weak types per 4-good agent, 13 per 3-good agent): n = 2 (`results/k4_certs_2_ties.json.gz`).
-- n = 4: N4RESULT
+**Results (CERTIFIED).** For every strict profile, an EFX₀ allocation with at most one bundle of more than 2
+goods exists in:
+- every k = 4 core with n = 2 or n = 3 (5 and 51 cores; `results/k4_check_2_3.log`). With ties too, all 1,271
+  balanced weak types per 4-good agent and 13 per 3-good agent: n = 2 and n = 3 (`results/k4_certs_2_ties.json.gz`, `results/k4_certs_3_ties.json.gz`,
+  `results/k4_check_3_ties.log`), which corroborates K4.TIE directly;
+- every k = 4 core with n = 4, all 1,002 of them (`results/k4_check_4_pure.log`, `results/k4_check_4_mixed.log`). The
+  pure cores alone have up to 288⁴ ≈ 6.9·10⁹ profiles each; 22,000 allocations cover them all;
+- every k = 4 core with n = 5 and exactly one 4-good agent (1,735 cores,
+  `results/k4_check_5_n4_1.log`) and with exactly two (5,468 cores, `results/k4_check_5_n4_2.log`).
+  Together: 8,261 cores.
 
-By K4.CORE, K4.TIE and L6, these give: **every instance with |R_i| ≤ 4 whose reduction reaches cores (connected
-components) with at most N_MAX agents has an EFX₀ allocation**. Each component is a k = 4 core, or a k = 3 core,
-which TARGET covers.
+No profile anywhere needed a second bundle of more than 2 goods, so the search's fallback models (D3, no limit) never
+ran.
+
+By K4.CORE, K4.TIE and L6, these give: **every instance with |R_i| ≤ 4 whose reduction reaches only core components
+with at most 4 agents, or with 5 agents of which at most two have 4 goods, has an EFX₀ allocation**. Each
+component is a k = 4 core, or a k = 3 core, which TARGET covers. This is conditional on K4.CORE and K4.TIE, whose
+written proofs are not yet reviewed.
+
+**EVIDENCE for n = 5 with all agents of degree 4** (random strict profiles, PROMPT.md §5 rule 3):
+all 4,674 pure n = 5 cores (m = 4–15), 30 random strict profiles each, 140,220 profiles in all. Every one has an
+EFX₀ allocation with at most one bundle of more than 2 goods (`k4/sample5.py`, `results/k4_sample_5_pure.log`).
+Random testing misses rare failures: at k = 3 some failed in 1 of 23,000 profiles.
+
+**A bug the checker caught.** An early version of `scan.c` indexed agent rows as base + t·W instead of
+(base + t)·W. With more than 64 allocations it read wrong rows and could declare uncovered profiles covered.
+`check4.py` rejected the resulting n = 4 certificate (7 cores not covered). Every certificate listed here was
+produced after the fix, except n = 2 and 3, which came from an earlier SAT-based proposal step. All of them pass
+the checker. `k4/test_scan.py` tests the scanner against brute force with several words per row.
 
 ## 4. Structure (toward a k = 4 analogue of conjecture D)
 
 **D2, the same statement as D, held in every certified case.** Every certificate above uses only allocations with at
-most one bundle of more than 2 goods. So D2 holds for every k = 4 core with n ≤ 3, and for N4D2. No profile needed
+most one bundle of more than 2 goods. So D2 holds for every k = 4 core with n ≤ 4, and with n = 5 and at most two 4-good agents. No profile needed
 two large bundles.
 
 **All bundles ≤ 3 does not suffice; the large bundle can be big (REFUTED / CERTIFIED at n = 3,
@@ -188,14 +229,16 @@ two large bundles.
 C2 already fails at n = 2 (two agents with the same 4 goods and type (8, 4, 3, 2): every 2 + 2 split leaves the
 holder of the lower pair envious, so the only EFX₀ allocations are {a} | {b, c, d}). Every UNSAT claim in this table
 that enters the ledger is confirmed by `k4/verify_small.py`: brute force over all n^m allocations with explicit
-integer values and the raw definition, no SAT (`results/k4_verify_small.log`, 25 instances, all agree).
+integer values and the raw definition, no SAT (`results/k4_verify_small.log`: 51 instances, every claim confirmed). The "fails" counts are confirmed this
+way, one instance per failing core. The "holds" counts and the exact values of L come from one implementation
+(CEGAR in `structure.py`, no certificate).
 
 **Smallest configurations.**
 - *C3 fails* (n = 3, m = 6): agent 0 has goods {0, 2, 4, 5} with values (4, 3, 8, 2) (goods 0 and 2 private).
   Agents 1 and 2 have {1, 4, 5} and {3, 4, 5}, each with values (2, 3, 4) (goods 1 and 3 private). Every EFX₀
   allocation has a bundle of 4 goods. The two shared goods 4 and 5 are the tops of three agents. Agents 1 and 2
   rank them 5 > 4 and have one private good each.
-- *The large bundle must be twice the counting bound* (n = 3, m = 8, `n3_m8_L6_bound4`): agents {0, 2, 6, 7},
+- *The large bundle must be twice the counting bound* (n = 3, m = 8; `cited_n3_m8_L6_bound4` in `k4/small_claims.json`): agents {0, 2, 6, 7},
   {1, 4, 6, 7}, {3, 5, 6, 7} share goods 6 and 7, and each has two private goods. Values: (4, 3, 8, 2), (4, 1, 6, 8),
   (4, 1, 6, 8). Exactly 4 EFX₀ allocations exist, and each is: goods 6 and 7 as singletons for two agents, and all six
   private goods to the third ({0, 1, 2, 3, 4, 5}). All six private goods pool into one bundle of 2n goods
@@ -204,22 +247,22 @@ integer values and the raw definition, no SAT (`results/k4_verify_small.log`, 25
   here the privates come in pairs.
 
 **Serial dictatorship plus junk (the shape of LB's output) — EVIDENCE that it survives at k = 4 (`k4/sdj.py`,
-`results/k4_sdj_sample_2_3.log`).** Model SDJ: for some order of the agents, each agent picks its favourite remaining
+`results/k4_sdj_sample_2_3.log`, `results/k4_sdj_sample_4_pure.log`).** Model SDJ: for some order of the agents, each agent picks its favourite remaining
 good (nothing if none remains), and the unpicked goods are placed freely with at most one bundle of more than 2 goods.
 LB and LB's upgrades produce allocations of this shape; LB⁺'s rotation does not. Results: SDJ holds for every strict
 profile of every n = 2 core (exhaustive, CEGAR). At n = 3 it held on all 102,000 random profiles (2,000 per core,
 EVIDENCE only). The test does detect failures: on the k = 3 core H3 it reproduces the known 14 of 216 profiles
-without a size-≤ 2 allocation. SDN4
+without a size-≤ 2 allocation. At n = 4 it held on all 657,000 random profiles of the 219 pure cores (3,000 per core,
+`results/k4_sdj_sample_4_pure.log`, EVIDENCE only).
 
 ## 5. Conjecture and recommended route
 
 **Conjecture K4.D (D for k ≤ 4).** Every k = 4 core has an EFX₀ allocation in which at most one bundle has more
 than two goods. By K4.CORE and L6 (whose composition of components loses only the shape, not EFX₀), K4.D implies
-TARGET₄. For k = 3 cores this is conjecture D, which is proved. Status: CONJECTURE. It is certified for n ≤ 3 and
-N4D2SHORT, with no counterexample to D2 in any case searched.
+TARGET₄. For k = 3 cores this is conjecture D, which is proved. Status: CONJECTURE. It is certified for n ≤ 4, and for n = 5 with at most two 4-good agents (8,261 cores). No case searched, random samples included, gave a counterexample to D2.
 
 What the data rule out, so a proof cannot aim for them: all bundles ≤ 3 (fails at n = 3), a large bundle of
-bounded size (it needs 2n goods in the n = 3, m = 8 example; at least m − 2n + 2 by counting, and more in 6 of the 51
+bounded size (it needs 2n goods in the n = 3, m = 8 example; at least m − 2n + 2 by counting, and more in 13 of the 51
 n = 3 cores), and ordinality (12 behaviorally distinct types per ranking).
 
 **Recommended route: LB₄, construction LB⁺ carried to four goods.**
@@ -248,11 +291,32 @@ types. Record the smallest failing configurations;
 (b) prove LB₄'s soundness (the Theorem 1 analogue), which should be routine;
 (c) state and test the k = 4 analogue of S2.K (what the large bundle contains, and who owns it);
 (d) re-derive Theorem A and design the rotation;
-(e) computationally, extend the certified range (§3) as a safety net: finish n = 4 (cores with three 4-good agents)
-and n = 5 by the number of 4-good agents. Pure n = 5 cores have 288⁵ ≈ 2·10¹² profiles each, beyond this method.
+(e) computationally, extend the certified range (§3) as a safety net: n = 5 with three 4-good agents
+(`k4/search4.py 5 --n4=3`, about 14,500 hypergraphs before filtering, estimated 3 h on 4 CPUs), then four. Pure n = 5 cores have 288⁵ ≈ 2·10¹² profiles each, beyond this method.
 They need either symmetry reduction or a structural lemma that shrinks the type set.
 
 Alternatives, in case LB₄ breaks: the local search of `proofs/local_search.md`. Its Lemma 1 (EFX₀ is local and
 ordinal in a core) is exactly what fails at k = 4, so it needs the most rework. Or the multigraph route
 (`proofs/multigraph_extension.md`), which covers goods with at most two valuers for every k already (Afshinmehr et
 al.), and would need goods with 3 or 4 valuers.
+
+## Reproduce
+
+```
+python3 k4/order_types.py --write                  # K4.OT, ~2 min (the ray cross-check is pure Python)
+python3 k4/search4.py 2 3                          # n = 2, 3 (all cores), seconds; writes k4/k4_certs_{2,3}.json.gz
+python3 k4/search4.py 4 --pure                     # n = 4, 219 pure cores: ~6 min on 4 CPUs
+python3 k4/search4.py 4 --n4=1                     # likewise --n4=2, --n4=3 (seconds each); n = 5: --n4=1 (1.5 min), --n4=2 (9 min)
+python3 k4/search4.py 3 --ties                     # all balanced weak types, seconds
+python3 k4/check4.py results/k4_certs_*.json.gz    # independent checker; n = 4 pure ~30 min, the rest minutes
+python3 k4/check4.py --selftest                    # labeled-core DP vs brute force
+python3 k4/structure.py 3                          # §4 table, seconds
+python3 k4/verify_small.py                         # brute-force confirmation of every failure claim in k4/small_claims.json
+python3 k4/sdj.py 4 --pure --sample=3000           # SDJ sampling (EVIDENCE), seconds
+python3 k4/sample5.py 5 30 --pure                  # pure n = 5 sampling (EVIDENCE), ~3.5 min
+(cd k4 && python3 test_scan.py)                    # scanner vs brute force
+```
+`search4.py` needs nauty's `genbg` and compiles `k4/scan.c` on first use. It checkpoints finished cores in
+`k4/checkpoint_*.jsonl` (resume by rerunning; `--fresh` starts over). The search is randomized but seeded, so reruns
+give valid, not necessarily identical, certificates.
+
