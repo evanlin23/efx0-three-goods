@@ -83,5 +83,7 @@ case "$1" in
     log $R/k4_c4min_hunt_climb_fam.log python3 c4min_climb.py --family=ht:2 --family=ht:3 --family=ht2:3 --family=htx:3 \
         --family=htc:2 --family=htc:3 --family=cycle:2 --family=tree:2 --start=paper --iters=1500 --restarts=3 --order=2 --cap=200 \
         --seed=101 --jobs=${JOBS:-4} --top=8 ;;
-  *) echo "sections: selfcheck w0small crosscheck n4 n5a n5b n6a climb5 climb5b climbrand climbglue rigid families climbfam"; exit 2 ;;
+  attempts)    # the hard profiles of PR #36's attempts and PR #30's n = 5 GM4 profiles, one by one
+    log $R/k4_c4min_hunt_attempts.log python3 c4min_attempts_eval.py ;;
+  *) echo "sections: attempts selfcheck w0small crosscheck n4 n5a n5b n6a climb5 climb5b climbrand climbglue rigid families climbfam"; exit 2 ;;
 esac
