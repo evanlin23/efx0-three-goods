@@ -16,12 +16,37 @@ and the other goods form the pool.
 - `ZRobust i`: `v_i(Q_i) ≥ v_i(R_i ∖ Q_i)`, i.e. `v_i(M) ≤ 2 v_i(Q_i)`; `nRobust`: their number.
 - `PoolOpt`: no agent prefers a pair of `Q_i ∪ L`.
 
-**Results so far.**
-- `completable_of_zvalid` (Lemma Z0): a valid owner of an APA gives a pre-allocation of 𝒫 with no frozen agent (the
-  relevant goods of the pairs, `apaBase`) that is completable, hence C₄ᵐⁱⁿ's conclusion (`c4min_of_zvalid`).
+**Results.**
+- `completable_of_zvalid`, `c4min_of_zvalid` (Lemma Z0): a valid owner of an APA gives a pre-allocation of 𝒫 with no
+  frozen agent (the relevant goods of the pairs, `apaBase`) that is completable (every agent keeps its pair, the owner also
+  takes the pool: a sound completion), hence C₄ᵐⁱⁿ's conclusion.
 - `removalOnly_of_f0_small`: with no frozen agent and `m ≤ 2n`, `ω ≤ 0` and there is nothing to prove.
-- `exists_apa` (Lemma Z1, existence): a pre-allocation of 𝒫 with no frozen agent and `m ≥ 2n` extends to an APA (its
-  bases filled up with junk goods, `EFX.LB.fill`).
+- `exists_apa`, `isAPA_poolImprove`, `exists_zmax` (Lemma Z1): a pre-allocation of 𝒫 with no frozen agent and `m ≥ 2n`
+  extends to an APA (`EFX.LB.fill` fills the slots exactly, `fill_countP_eq`); a pool improvement is an APA that keeps
+  the robust agents and raises the welfare; so some APA is pool-optimal with the most robust agents.
+- `not_threat_of_robust`, `threat_unique`, `threat_adm`, `threat_gain` (Lemma Z2): robust agents are threatened by nobody;
+  at a pool-optimal APA every agent is threatened by at most one agent, a threatening pair is admissible for the
+  threatened agent, and taking it (or it with one pool good swapped in) makes the agent robust unless the agent has four
+  goods and the pool is worthless to it.
+- `zvalid_of_zmax` (Lemmas P and R, and the last step): a pool-optimal APA with the most robust agents has a valid owner.
+- `theoremZ`, `c4min_of_f0` (**Theorem Z**): on every k = 4 core whose fewest frozen agents is 0, some pre-allocation of 𝒫
+  with the fewest frozen agents is completable.
+
+**Choices where the prose leaves room** (the text is `k4/c4min.md` §3 on branch `proof/k4-c4min`, PR #41, read at commit
+b9ff629).
+1. An APA is a holding map; the pool is the goods held by nobody. Admissible means "needs nothing" with the value-based
+   needs (`vbNeeds`: no good outside the pair is worth more than the pair), the weak form of the text's strict
+   inequality; the two agree on strict profiles.
+2. The potential is (number of robust agents, welfare `Σ_i v_i(Q_i)`) instead of the text's (r, Λ) with the level sum Λ.
+   The theorem `zvalid_of_zmax` holds for every pool-optimal APA with the most robust agents; every (r, Λ)-maximum is one
+   (Lemma Z1's third claim, which is not formalized with levels).
+3. The rotation moves every pair along the threat map at once (all its cycles), and the modification of Lemma R(iii) is
+   made for one agent only.
+4. The kinds (T), (D), (R) are not named. The case split is by the number of relevant goods in the pair: one (case A, the
+   text's (T)), or two (case B: robust with three goods; with four, the two goods `u, w` outside the pair cover (D) and
+   (R), and the threatener holds `u` or `w`).
+5. Hypotheses used: at least two agents, `3 ≤ |R_i| ≤ 4`, every good relevant to some agent (all from `IsCore4`), and a
+   pre-allocation of 𝒫 with no frozen agent. Strict values, balance, the private-goods rule and connectivity are not used.
 -/
 
 set_option autoImplicit false
