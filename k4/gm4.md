@@ -177,6 +177,9 @@ Such profiles are not isolated. The one-agent and two-agent neighbourhoods of th
 | n = 4, pure | 43,800,000 | 200,000 random per core | 2,583,713 | 5 | 4 | `results/k4_gm4_4_pure_sample.log` |
 | n = 5, all agents with 3 goods | 2,270,592 | exhaustive | 430,501 | 0 | 0 | `results/k4_gm4_k3cores_5.log` |
 | n = 5, pure (4,674 cores) | 93,480,000 | 20,000 random per core | 7,871,760 | 4 | 3 | `results/k4_gm4_5_pure_sample.log` |
+| n = 5, one or two 4-good agents (7,203 cores) | 14,406,000 | 2,000 random per core | 2,588,416 | 0 | 0 | `results/k4_gm4_5_n4_12_sample.log` |
+| n = 5, three 4-good agents (9,861 cores, genbg) | 19,722,000 | 2,000 random per core | 2,777,846 | 3 | 0 | `results/k4_gm4_5_n4_3_sample.log` |
+| n = 5, four 4-good agents (9,846 cores, genbg) | 19,692,000 | 2,000 random per core | 2,179,195 | 1 | 1 | `results/k4_gm4_5_n4_4_sample.log` |
 
 "No single dump" counts maxima with a nonempty pool, no empty bundle and no source admitting the single dump. "No placement" counts those among them that admit no junk placement either.
 
