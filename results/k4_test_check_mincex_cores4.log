@@ -1,0 +1,16 @@
+$ cd k4 && python3 test_check_mincex_cores4.py
+unmodified inputs (--expect=9 --expect-n=5:2,6:7 --expect-graphical=0): exit 0; summary lines of that run:
+    beta = 3: 808 cores expanded from G' (5 <= n <= 6), 501 pass the filters, 9 left after K4.MC5 up to isomorphism; orbit counting OK
+    left per n: {5: 2, 6: 7}
+    checked 9 cores: 9 certified (21739192 profiles in all), all covered; 0 graphical left to the multigraph theorem; problems: {}
+    every allocation has at most one bundle of more than 2 goods (D2): True
+    RESULT: OK
+an allocation deleted                                          exit 1, rejected: "UNCOVERED profiles"
+a core deleted                                                 exit 1, rejected: "no isomorphic core in the certificate"
+a non-D2 allocation added                                      exit 1, rejected: "(D2): False"
+uncovered file truncated (real reductions log)                 exit 1, rejected: "DOES NOT MATCH"
+a non-graphical core without allocations, --allow-graphical    exit 1, rejected: "not certified (timeout)"
+px-Q3-closed uncovered set enlarged (matching SHA-256)         exit 1, rejected: "no isomorphic core in the certificate"
+an allocation list that is EFX but not EFX0                    exit 1, rejected: "UNCOVERED profiles"
+a record with an owner index >= n                              exit 1, rejected: "MALFORMED certificate record"
+RESULT: OK
