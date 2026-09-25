@@ -1317,18 +1317,20 @@ theorem ownerNeeds_ext {X' : G → A} {w : A} (h : ∀ g, ownerNeeds v goods X' 
   · have : (some w = some i) = False := by simp [Ne.symm hiw]
     simp [ownerNeeds, this]
 
-/-- **One step of Lemma 3₄.** If the other agents' junk goods fill fewer than `s` slots and the owner has a
-junk good, one junk good of the owner's bundle can be moved into a free slot so that the result is again a
+/-- **One step of Lemma 3₄.** If the other agents' junk goods fill fewer than `s` slots (`s` at most the other
+agents' slots, frozen agents computed with needs `M` whose frozen agents include those of `N_o^X`) and the
+owner has a junk good, one junk good of the owner's bundle can be moved into a free slot so that the result is again a
 sound completion with the same owner's needs `N_o^X` (hence the same frozen agents and slots). -/
-theorem move_step {w : A} {M : A → G → Prop} (hag : agents.Nodup) (hg : goods.Nodup)
+theorem move_step {w : A} {M : A → G → Prop} {s : Nat} (hag : agents.Nodup) (hg : goods.Nodup)
     (hS : SoundCompletion v agents goods base N (some w) X)
     (hM : ∀ j, Frozen agents goods base (ownerNeeds v goods X N (some w)) j → Frozen agents goods base M j)
+    (hs : s ≤ otherSlots agents goods base M w)
     (hbal : ∀ g ∈ goods, 0 < v w g → 2 * v w g < value v w goods)
     (hR4 : (relevant v w goods).length ≤ 4)
     (hBR : ∀ g ∈ baseOf goods base w, 0 < v w g)
     (hbig : 3 ≤ (baseOf goods base w).length ∨
-      3 + otherSlots agents goods base M w ≤ (baseOf goods base w).length + (junk goods base).length)
-    (hlt : (junk goods base).length - (junkOf goods base X w).length < otherSlots agents goods base M w)
+      3 + s ≤ (baseOf goods base w).length + (junk goods base).length)
+    (hlt : (junk goods base).length - (junkOf goods base X w).length < s)
     (hpos : 0 < (junkOf goods base X w).length) :
     ∃ X' : G → A, SoundCompletion v agents goods base N (some w) X' ∧
       ownerNeeds v goods X' N (some w) = ownerNeeds v goods X N (some w) ∧
@@ -1448,40 +1450,41 @@ theorem move_step {w : A} {M : A → G → Prop} (hag : agents.Nodup) (hg : good
 
 /-- **Lemma 3₄ (the owner search is exact), general form.** Let `X` be a sound completion with owner `w`,
 where `w` is strictly balanced (`2 v_w(g) < v_w(M)` for every good it values), values at most four goods
-and every good of its base, and let `s` be the slots of the other agents, the frozen agents computed with
-needs `M` whose frozen agents include those of `N_o^X` (`M = N`, the owner's needs from its base, gives the
-text's `s₀`; `otherSlots_le`). Suppose `|B_w| ≥ 3`, or `|B_w| + |J| ≥ s + 3`. Then some sound completion
-`X'` with the same owner's needs `N_o^X` puts at least `min(|J|, s)` junk goods into the other agents' slots
+and every good of its base. Let `s` be at most the slots of the other agents, the frozen agents computed
+with needs `M` whose frozen agents include those of `N_o^X` (`M = N`, the owner's needs from its base,
+and `s` all those slots give the text's `s₀`, `ownerSearch_exact_base`; a smaller `s` covers `k4/lb4.c`'s
+`s₀`, which gives a rotated agent no slot). Suppose `|B_w| ≥ 3`, or `|B_w| + |J| ≥ s + 3` (with
+`|J| = s + cap(w) + ω` this is `ω ≥ 1` when `|B_w| + cap(w) = 2`). Then some sound completion `X'` with the
+same owner's needs `N_o^X` puts at least `min(|J|, s)` junk goods into the other agents' slots
 (`|C| = |J| − |C_w|`). -/
-theorem ownerSearch_exact {w : A} {M : A → G → Prop} (hag : agents.Nodup) (hg : goods.Nodup)
+theorem ownerSearch_exact {w : A} {M : A → G → Prop} {s : Nat} (hag : agents.Nodup) (hg : goods.Nodup)
     (hS : SoundCompletion v agents goods base N (some w) X)
     (hM : ∀ j, Frozen agents goods base (ownerNeeds v goods X N (some w)) j → Frozen agents goods base M j)
+    (hs : s ≤ otherSlots agents goods base M w)
     (hbal : ∀ g ∈ goods, 0 < v w g → 2 * v w g < value v w goods)
     (hR4 : (relevant v w goods).length ≤ 4)
     (hBR : ∀ g ∈ baseOf goods base w, 0 < v w g)
     (hbig : 3 ≤ (baseOf goods base w).length ∨
-      3 + otherSlots agents goods base M w ≤ (baseOf goods base w).length + (junk goods base).length) :
+      3 + s ≤ (baseOf goods base w).length + (junk goods base).length) :
     ∃ X' : G → A, SoundCompletion v agents goods base N (some w) X' ∧
       ownerNeeds v goods X' N (some w) = ownerNeeds v goods X N (some w) ∧
-      min (junk goods base).length (otherSlots agents goods base M w) ≤
-        (junk goods base).length - (junkOf goods base X' w).length := by
+      min (junk goods base).length s ≤ (junk goods base).length - (junkOf goods base X' w).length := by
   suffices h : ∀ n (X : G → A), (junkOf goods base X w).length = n →
       SoundCompletion v agents goods base N (some w) X →
       (∀ j, Frozen agents goods base (ownerNeeds v goods X N (some w)) j → Frozen agents goods base M j) →
       ∃ X' : G → A, SoundCompletion v agents goods base N (some w) X' ∧
         ownerNeeds v goods X' N (some w) = ownerNeeds v goods X N (some w) ∧
-        min (junk goods base).length (otherSlots agents goods base M w) ≤
-          (junk goods base).length - (junkOf goods base X' w).length from h _ X rfl hS hM
+        min (junk goods base).length s ≤ (junk goods base).length - (junkOf goods base X' w).length
+    from h _ X rfl hS hM
   intro n
   induction n with
   | zero => intro X hn hS _; exact ⟨X, hS, rfl, by rw [hn]; omega⟩
   | succ n ih =>
     intro X hn hS hM
-    by_cases hdone : min (junk goods base).length (otherSlots agents goods base M w) ≤
-        (junk goods base).length - (n + 1)
+    by_cases hdone : min (junk goods base).length s ≤ (junk goods base).length - (n + 1)
     · exact ⟨X, hS, rfl, by rw [hn]; exact hdone⟩
     · obtain ⟨X₁, hS₁, hON₁, hlen₁⟩ :=
-        move_step hag hg hS hM hbal hR4 hBR hbig (by omega) (by omega)
+        move_step hag hg hS hM hs hbal hR4 hBR hbig (by omega) (by omega)
       obtain ⟨X', hS', hON', hmin⟩ := ih X₁ (by omega) hS₁ (by rw [hON₁]; exact hM)
       exact ⟨X', hS', hON'.trans hON₁, hmin⟩
 
@@ -1548,7 +1551,7 @@ theorem ownerSearch_exact_base {w : A} (hag : agents.Nodup) (hg : goods.Nodup)
     · subst hiw; exact hNw
     · exact hS.needs i hi (fun e => hiw (Option.some.inj e).symm)
   refine ownerSearch_exact hag hg hS (fun j ⟨y, hy, i, hi, hN⟩ =>
-    ⟨y, hy, i, hi, ownerNeeds_le hS.completion.onBase hNd i hi y hN⟩) hbal hR4 hBR ?_
+    ⟨y, hy, i, hi, ownerNeeds_le hS.completion.onBase hNd i hi y hN⟩) (Nat.le_refl _) hbal hR4 hBR ?_
   rcases hcase with h3 | ⟨hwF, hB2, hω⟩
   · exact Or.inl h3
   · right

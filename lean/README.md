@@ -27,7 +27,7 @@ showed that a declaration added under `set_option debug.skipKernelTC true` is ne
 without warnings and has no axioms for `#print axioms` or `CheckAxioms.lean` to report; the tripwire refuses the
 option and the replay checker rejects such a declaration. On success the last line is
 
-    CHECK PASSED: 92 audited statements, 326 theorems, standard axioms only
+    CHECK PASSED: 141 audited statements, 419 theorems, standard axioms only
 
 CI runs it on every pull request (job `lean` in `.github/workflows/verify.yml`). In Claude Code on the web the
 session-start hook installs the toolchain (from GitHub when `release.lean-lang.org` is unreachable).
@@ -137,6 +137,15 @@ specializations) have exactly the types of `EFX.target`, `EFX.LB.corollaryD` (ch
   restricts it to connected cores (`EFX.Connected`, `EFX.core_reduction4_conn`).
 - `EFX/K4Ties.lean`: ties reduce to strict profiles at k = 4 (K4.TIE): `EFX.Strict`, `EFX.tieBreak` (the
   perturbation `2^|M| · v + w`), `EFX.tie_reduction`, `EFX.core_reduction4_strict`.
+- `EFX/PreAllocK.lean`: LB₄'s pre-allocations (`k4/lb4.md` §1–§2, ledger K4.LB4.S), for any number of
+  relevant goods: bases and needs of any size (`EFX.LB4.Needs`, `Valid`, `Completion`, `OC`, `ownerNeeds`,
+  `SoundCompletion`); Theorem 1′₄ (`EFX.LB4.Valid.sound`, `EFX.LB4.Valid.sound_ownerNeeds`); the counting
+  (`EFX.LB4.numFrozen_eq`, `EFX.LB4.omega_eq`, `EFX.LB4.complete_none_exists`,
+  `EFX.LB4.Completion.owner_length`); Lemma 2₄ (`EFX.LB4.selfProtect`, `EFX.LB4.selfProtect_seq`, and
+  `EFX.LB4.selfProtect_five`: false with five relevant goods); Lemma 3₄ (`EFX.LB4.ownerSearch_exact_base`,
+  `EFX.LB4.ownerSearch_exact`); the D2 shape and the chain to K4.D and TARGET₄ (`EFX.LB4.Completion.length_le_two`,
+  `EFX.LB4.SoundCompletion.efx0_d2`, `EFX.LB4.sound_model`, `EFX.LB4.k4D_of_completion`,
+  `EFX.LB4.target4_of_completions`).
 - `EFX/RealValues.lean`: L12 (`proofs/real_values.md`) and TARGET and D over any `EFX.OrderedValue`. The value
   class and mirrored model above; `EFX.Agree` (same answer to every comparison between two subset sums);
   `EFX.OrderedValue.tri_le_iff` (for three positive values, every such comparison is decided by twelve basic
@@ -180,6 +189,11 @@ name in the ledger's Lean column has one.
 | T | CORE: if every core with at most `N` agents has an EFX₀ allocation, so does every instance with at most `N` agents and `\|R_i\| ≤ 3` (L3, R1, R2 by induction) | Target : `EFX.core_reduction` (over lists) |
 | K4.CORE | k = 4 CORE: if every (connected) k = 4 core (`EFX.IsCore4`: ≥ 2 agents; 3 ≤ `\|R_i\|` ≤ 4; strictly balanced; `\|P_i\| + 2 ≤ \|R_i\|` private goods; `v_i(P_i) < v_i(S_i)` when `\|P_i\| = 2`; no junk) with at most `N` agents has an EFX₀ allocation, so does every instance with at most `N` agents and `\|R_i\| ≤ 4`; connected cores with a 4-good agent suffice (all-3-good ones are covered by Corollary D; L6: EFX₀ allocations of the sides of a split with no good relevant across it combine) | K4Reduction : `EFX.core_reduction4_conn`, `EFX.core_reduction4`, `EFX.efx0_split`, `EFX.isCore_of_isCore4`, `EFX.isCore4_of_isCore`, `EFX.core_reduction4_mixed` (over lists), `EFX.target4_of_cores` (model) |
 | K4.TIE | Ties reduce to strict profiles: if every strict profile (`EFX.Strict`: disjoint nonempty `S, T ⊆ R_i` have `v_i(S) ≠ v_i(T)`) with the same relevant goods as a connected k = 4 core has an EFX₀ allocation, so does the core; with K4.CORE, TARGET₄ up to `N` agents follows from EFX₀ for connected strict k = 4 cores with a 4-good agent. The existing certificates discharge this hypothesis for `N ≤ 4` (K4.R3, K4.R4; K4.R5 covers `n = 5` only with at most two 4-good agents, which this form cannot use), through two steps outside Lean: relabeling list cores to the certificates' indices, and K4.OT's grid completeness | K4Ties : `EFX.tie_reduction`, `EFX.core_reduction4_strict` (over lists), `EFX.target4_of_strict_cores` (model) |
+| K4.LB4.S | Theorem 1′₄ (any k): every completion (owner `o` a listed free agent or none; base goods with their base's agent; no junk for frozen agents; `\|C_j\| + \|B_j\| ≤ 2` for free `j ≠ o`) of a valid pre-allocation (bases of any size, needs `N_i` with `{g ∉ B_i : v_i(g) > v_i(B_i)} ⊆ N_i ⊆ R_i ∖ B_i`; (V1), (V2)) that satisfies (OC₄) is EFX₀, with the owner's needs from its base or `N_o^X` from its bundle; every bundle but the owner's has at most two goods | PreAllocK : `EFX.LB4.Valid.sound`, `EFX.LB4.Valid.sound_ownerNeeds`, `EFX.LB4.efx0_of_needs`, `EFX.LB4.Completion.length_le_two` (over lists), `EFX.LB4.sound_model` (model); `EFX.LB4.Needs.pick` (pick needs are needs) |
+| K4.LB4.S | Counting: `\|F\| = \|NA\|` and `ω = \|J\| − S = \|NA\| − σ` (cap `2 − \|B_i\|` with its sign, 0 if frozen); if `ω ≤ 0` (all bases ≤ 2 goods) a completion without owner exists; with the other slots filled the owner holds `ω + 2` goods | PreAllocK : `EFX.LB4.numFrozen_eq`, `EFX.LB4.omega_eq`, `EFX.LB4.complete_none_exists`, `EFX.LB4.Completion.owner_length` |
+| K4.LB4.S | Lemma 2₄: with an owner whose base has at most one good, an agent with at most four relevant goods, a pick base and pick needs, whose slot takes its best junk good not yet placed, does not envy (so is not threatened by) the owner's bundle; also for agents filling their slots one at a time; false with five relevant goods | PreAllocK : `EFX.LB4.selfProtect`, `EFX.LB4.selfProtect_seq`, `EFX.LB4.selfProtect_core`, `EFX.LB4.selfProtect_five` |
+| K4.LB4.S | Lemma 3₄: for a strictly balanced owner with at most four relevant goods, its base among them, and `\|B_o\| ≥ 3` or (free, other bases ≤ 2, `ω ≥ 1`): if a sound completion exists, one exists with at least `min(\|J\|, s₀)` slot goods and the same `N_o^X` | PreAllocK : `EFX.LB4.ownerSearch_exact_base`, `EFX.LB4.ownerSearch_exact`, `EFX.LB4.move_step` |
+| K4.LB4.S | Shape: a sound completion is EFX₀ with at most one bundle of more than two goods; hence a sound completion of every connected strict k = 4 core with a 4-good agent gives TARGET₄ (with K4.CORE, K4.TIE) | PreAllocK : `EFX.LB4.SoundCompletion.efx0_d2` (over lists), `EFX.LB4.d2_shape`, `EFX.LB4.k4D_of_completion`, `EFX.LB4.target4_of_completions` (model) |
 | T | TARGET (Corollary T): every instance with `\|R_i\| ≤ 3` for every agent has a complete EFX₀ allocation | Target : `EFX.target` (model), `EFX.target_lists` (over lists), values in ℕ; RealValues : `EFX.target_ordered` (values in any `EFX.OrderedValue`, e.g. ℝ≥0, via L12), `EFX.target_of_ordered` (its specialization to ℕ) |
 | L12 | Real values reduce to natural numbers: with ≤ 3 relevant goods per agent and nonnegative values, there are natural-number values with the same relevant goods and the same answer to every comparison between two subset sums; EFX₀, the relevant-goods count and balance transfer | RealValues : `EFX.l12`, `EFX.OrderedValue.exists_agree` (one agent), `EFX.OrderedValue.tri_rep` (three positive values), `EFX.numRelevant_eq_of_agree`, `EFX.OrderedValue.balanced_iff_of_agree`, `EFX.efx0_iff_of_agree` (EFX₀ for `v` iff for `w`) |
 | — | The list layer agrees with the model | Bridge : `EFX.Inst.efx0_iff` |
@@ -205,6 +219,13 @@ good), and extends it to monotone valuations.
   large bundle) is not formalized. `EFX.LB.lb_sound` reads its conclusion through the definitions of
   `EFX/LBRun.lean` (what `lb` computes) and `EFX.LB.Profile.Consistent`, which a reader must accept along with the
   trusted base; `EFX.LB.sound` needs only `Profile.Consistent`, `Profile.NA` and `Hyp`.
+- LB₄ (`k4/lb4.md` §2) is not defined in Lean: `EFX/PreAllocK.lean` proves what holds for every completion of
+  every valid pre-allocation (`SoundCompletion`), and that every allocation LB₄ returns is one (its bases,
+  caps, upgrades and rotation, the premise of the Shape paragraph) is read from the text, not formalized.
+  Nor is the owner step's search (that its test for one set `C` is exact). Lemma 3₄: `ownerSearch_exact_base`
+  uses the text's caps (`cap = 2 − |B|` for every free agent, a rotated one included); `ownerSearch_exact`
+  takes any slot count `s` up to the other agents' slots and the hypothesis `|B_o| + |J| ≥ s + 3`, which also
+  covers `k4/lb4.c`'s `s₀` (a rotated agent gets no slot there).
 - LB⁺ (`proofs/lb_last_step.md` §7 and Remark 1): the size of the large bundle (`ω + 2` goods), that the rotation
   does not enlarge it, and S2.LB (LB's own lookahead never reaches the bad case, a conjecture). That `EFX.LB.lbPlus`
   computes what `src/lbplus.py` computes is checked only on the two `decide` examples in `EFX/LBPlus.lean`.
