@@ -1,0 +1,24 @@
+n=4 (degrees 3-4, exactly 3 of degree 4): 339 cores
+  ... 25/339 cores [3s]
+  ... 50/339 cores [6s]
+  ... 75/339 cores [8s]
+  ... 100/339 cores [12s]
+  ... 125/339 cores [15s]
+  ... 150/339 cores [17s]
+  ... 175/339 cores [19s]
+  ... 200/339 cores [21s]
+  ... 225/339 cores [24s]
+  ... 250/339 cores [27s]
+  ... 275/339 cores [28s]
+  ... 300/339 cores [30s]
+  ... 325/339 cores [31s]
+  m=4: {'cores': 1, 'D2 fails': 0, 'D3 fails': 0, 'cex': 0, 'allocs': 1}
+  m=5: {'cores': 8, 'D2 fails': 0, 'D3 fails': 0, 'cex': 0, 'allocs': 282}
+  m=6: {'cores': 38, 'D2 fails': 0, 'D3 fails': 0, 'cex': 0, 'allocs': 2187}
+  m=7: {'cores': 90, 'D2 fails': 0, 'D3 fails': 0, 'cex': 0, 'allocs': 5926}
+  m=8: {'cores': 109, 'D2 fails': 0, 'D3 fails': 0, 'cex': 0, 'allocs': 5791}
+  m=9: {'cores': 72, 'D2 fails': 0, 'D3 fails': 0, 'cex': 0, 'allocs': 2917}
+  m=10: {'cores': 20, 'D2 fails': 0, 'D3 fails': 0, 'cex': 0, 'allocs': 625}
+  m=11: {'cores': 1, 'D2 fails': 0, 'D3 fails': 0, 'cex': 0, 'allocs': 16}
+  [32s]
+  wrote results/k4_certs_4_n4_3.json.gz

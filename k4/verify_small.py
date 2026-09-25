@@ -5,7 +5,7 @@ For each instance prints: number of EFX₀ allocations; the fewest bundles with 
 the smallest largest bundle; and, among EFX₀ allocations with at most one bundle of > 2 goods, the smallest size of
 that bundle. Instances: k4/small_claims.json (list of {name, sets, values}; values[i] lists agent i's integer values
 on sets[i] in order).  Usage: verify_small.py [file]"""
-import itertools, json, os, sys
+import itertools, json, os, re, sys
 
 def efx0(bundles, vals):
     n = len(bundles)
@@ -35,8 +35,16 @@ def analyse(sets, values):
 
 if __name__ == '__main__':
     path = sys.argv[1] if len(sys.argv) > 1 else os.path.join(os.path.dirname(os.path.abspath(__file__)), 'small_claims.json')
-    for inst in json.load(open(path)):
+    bad = 0
+    insts = json.load(open(path))
+    for inst in insts:
         count, best = analyse(inst['sets'], inst['values'])
+        name = inst['name']                      # the claim is encoded in the name: _C2, _C3, _L<k>_ (see structure.py)
+        if '_C2' in name and not best['big2']: bad += 1; print('  NOT CONFIRMED: all bundles <= 2 possible')
+        if '_C3' in name and best['maxsize'] <= 3: bad += 1; print('  NOT CONFIRMED: all bundles <= 3 possible')
+        L = re.search(r'_L(\d+)_', name)
+        if L and (best['D2_large'] is None or best['D2_large'] < int(L.group(1))): bad += 1; print('  NOT CONFIRMED: L')
         print(f"{inst['name']}: sets={inst['sets']} values={inst['values']}: {count} EFX0 allocations; fewest bundles "
               f"with >2 goods {best['big2']}, with >3 goods {best['big3']}; smallest largest bundle {best['maxsize']}; "
               f"smallest large bundle with <=1 bundle of >2 goods: {best['D2_large']}", flush=True)
+    print(f"{len(insts)} instances: " + ("every claim confirmed" if not bad else f"{bad} claims NOT confirmed"))

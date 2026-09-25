@@ -1,0 +1,24 @@
+  n=4 m=4 n4=1: 3 cores, orbit sum 256 = labeled 256: yes; all profiles covered in 3/3
+  n=4 m=5 n4=1: 17 cores, orbit sum 18720 = labeled 18720: yes; all profiles covered in 17/17
+  n=4 m=6 n4=1: 44 cores, orbit sum 352080 = labeled 352080: yes; all profiles covered in 44/44
+  n=4 m=7 n4=1: 51 cores, orbit sum 2482200 = labeled 2482200: yes; all profiles covered in 51/51
+  n=4 m=8 n4=1: 19 cores, orbit sum 6209280 = labeled 6209280: yes; all profiles covered in 19/19
+  n=4 m=9 n4=1: 1 cores, orbit sum 2177280 = labeled 2177280: yes; all profiles covered in 1/1
+  results/k4_certs_4_n4_1.json.gz: OK; cores covered by allocations with <= 1 bundle of > 2 goods: 135/135, of > 3 goods: 135/135
+  n=4 m=4 n4=2: 2 cores, orbit sum 96 = labeled 96: yes; all profiles covered in 2/2
+  n=4 m=5 n4=2: 16 cores, orbit sum 14520 = labeled 14520: yes; all profiles covered in 16/16
+  n=4 m=6 n4=2: 62 cores, orbit sum 448560 = labeled 448560: yes; all profiles covered in 62/62
+  n=4 m=7 n4=2: 107 cores, orbit sum 5216820 = labeled 5216820: yes; all profiles covered in 107/107
+  n=4 m=8 n4=2: 90 cores, orbit sum 26722080 = labeled 26722080: yes; all profiles covered in 90/90
+  n=4 m=9 n4=2: 30 cores, orbit sum 53615520 = labeled 53615520: yes; all profiles covered in 30/30
+  n=4 m=10 n4=2: 2 cores, orbit sum 16329600 = labeled 16329600: yes; all profiles covered in 2/2
+  results/k4_certs_4_n4_2.json.gz: OK; cores covered by allocations with <= 1 bundle of > 2 goods: 309/309, of > 3 goods: 309/309
+  n=4 m=4 n4=3: 1 cores, orbit sum 16 = labeled 16: yes; all profiles covered in 1/1
+  n=4 m=5 n4=3: 8 cores, orbit sum 4920 = labeled 4920: yes; all profiles covered in 8/8
+  n=4 m=6 n4=3: 38 cores, orbit sum 240000 = labeled 240000: yes; all profiles covered in 38/38
+  n=4 m=7 n4=3: 90 cores, orbit sum 4159680 = labeled 4159680: yes; all profiles covered in 90/90
+  n=4 m=8 n4=3: 109 cores, orbit sum 33512640 = labeled 33512640: yes; all profiles covered in 109/109
+  n=4 m=9 n4=3: 72 cores, orbit sum 132995520 = labeled 132995520: yes; all profiles covered in 72/72
+  n=4 m=10 n4=3: 20 cores, orbit sum 222264000 = labeled 222264000: yes; all profiles covered in 20/20
+  n=4 m=11 n4=3: 1 cores, orbit sum 59875200 = labeled 59875200: yes; all profiles covered in 1/1
+  results/k4_certs_4_n4_3.json.gz: OK; cores covered by allocations with <= 1 bundle of > 2 goods: 339/339, of > 3 goods: 339/339

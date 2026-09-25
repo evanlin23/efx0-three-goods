@@ -90,37 +90,47 @@ def fill(need, q):
         total += ways * fill(tuple(sorted(new)), q - 1)
     return total
 
-def labeled_all(n, m, degs):
-    """Labeled n x m matrices, row sums in degs, no zero column, row of sum d has <= d - 2 columns of sum 1."""
-    if n == 0: return int(m == 0)
-    total = 0
-    choices = [(d, p) for d in degs for p in range(d - 1)]
+def labeled_all(n, m):
+    """Labeled n x m matrices, row sums in {3, 4}, no zero column, a row of sum d has <= d - 2 columns of sum 1;
+    as a list P with P[k] = number of such matrices with exactly k rows of sum 4."""
+    P = [0] * (n + 1)
+    if n == 0: P[0] = int(m == 0); return P
+    choices = [(d, p) for d in (3, 4) for p in range(d - 1)]
     for rows in itertools.product(choices, repeat=n):
-        P = sum(p for _, p in rows)
-        if P > m: continue
-        ways = math.factorial(m) // (math.factorial(m - P) * math.prod(math.factorial(p) for _, p in rows))
+        Ptot = sum(p for _, p in rows)
+        if Ptot > m: continue
+        ways = math.factorial(m) // (math.factorial(m - Ptot) * math.prod(math.factorial(p) for _, p in rows))
         need = tuple(sorted(d - p for d, p in rows if d - p > 0))
-        total += ways * fill(need, m - P)
-    return total
+        P[sum(d == 4 for d, _ in rows)] += ways * fill(need, m - Ptot)
+    return P
 
 @lru_cache(maxsize=None)
-def labeled_conn(n, m, degs):
-    tot = labeled_all(n, m, degs)
+def labeled_conn(n, m):
+    """Connected ones (component of agent 1 peeled off), by number of rows of sum 4."""
+    tot = labeled_all(n, m)
     for n1 in range(1, n + 1):
         for m1 in range(0, m + 1):
             if (n1, m1) == (n, m): continue
-            c = labeled_conn(n1, m1, degs)
-            if c: tot -= math.comb(n - 1, n1 - 1) * math.comb(m, m1) * c * labeled_all(n - n1, m - m1, degs)
+            c = labeled_conn(n1, m1)
+            if not any(c): continue
+            rest = labeled_all(n - n1, m - m1)
+            f = math.comb(n - 1, n1 - 1) * math.comb(m, m1)
+            for k1, a in enumerate(c):
+                for k2, b in enumerate(rest):
+                    if a and b: tot[k1 + k2] -= f * a * b
     return tot
 
-def labeled_count(n, m, pure):
-    return labeled_conn(n, m, (4,)) if pure else labeled_conn(n, m, (3, 4)) - labeled_conn(n, m, (3,))
+def labeled_count(n, m, pure, n4=None):
+    P = labeled_conn(n, m)
+    if n4 is not None: return P[n4]
+    return P[n] if pure else sum(P[1:])
 
-def brute(n, m, pure):
+def brute(n, m, pure, n4=None):
     degs = (4,) if pure else (3, 4)
     rows = [S for d in degs for S in itertools.combinations(range(m), d)]
     return sum(1 for sets in itertools.product(rows, repeat=n)
-               if (pure or any(len(S) == 4 for S in sets)) and is_core(n, m, [list(S) for S in sets], pure)[0])
+               if (pure or any(len(S) == 4 for S in sets)) and (n4 is None or sum(len(S) == 4 for S in sets) == n4)
+               and is_core(n, m, [list(S) for S in sets], pure)[0])
 
 def aut_size(G):
     same = lambda a, b: a['side'] == b['side']
@@ -134,7 +144,7 @@ def efx0_safe(i, vals, bundles):
 
 def check_file(path, lib):
     data = json.load(gzip.open(path, 'rt'))
-    n, pure, cores, ties = data['n'], data['pure'], data['cores'], data.get('ties', False)
+    n, pure, cores, ties, n4 = data['n'], data['pure'], data['cores'], data.get('ties', False), data.get('n4')
     ok, byM = True, {}
     for rec in cores: byM.setdefault(rec['m'], []).append(rec)
     d2 = d3 = 0
@@ -142,6 +152,7 @@ def check_file(path, lib):
         graphs, orbit = [], 0
         for rec in recs:
             good, G = is_core(n, m, rec['sets'], pure)
+            if n4 is not None and sum(len(S) == 4 for S in rec['sets']) != n4: good = False
             if not good: print(f"  NOT A CORE: {rec['sets']}"); ok = False
             for v in G: G.nodes[v]['side'] = v[0]
             h = nx.weisfeiler_lehman_graph_hash(G, node_attr='side')
@@ -150,7 +161,7 @@ def check_file(path, lib):
                     print(f"  DUPLICATE: {rec['sets']}"); ok = False
             graphs.append((h, G))
             orbit += math.factorial(n) * math.factorial(m) // aut_size(G)
-        lab = labeled_count(n, m, pure)
+        lab = labeled_count(n, m, pure, n4)
         if orbit != lab: print(f"  m={m}: orbit sum {orbit} != labeled count {lab}"); ok = False
         # coverage
         bad = 0
@@ -185,7 +196,7 @@ def check_file(path, lib):
             big = lambda A, s: sum(A.count(j) > s for j in range(n))
             d2 += cov and all(big(A, 2) <= 1 for A in A_list)
             d3 += cov and all(big(A, 3) <= 1 for A in A_list)
-        print(f"  n={n} m={m}{' pure' if pure else ''}{' ties' if ties else ''}: {len(recs)} cores, orbit sum {orbit} = labeled {lab}: "
+        print(f"  n={n} m={m}{' pure' if pure else ''}{'' if n4 is None else f' n4={n4}'}{' ties' if ties else ''}: {len(recs)} cores, orbit sum {orbit} = labeled {lab}: "
               f"{'yes' if orbit == lab else 'NO'}; all profiles covered in {len(recs) - bad}/{len(recs)}", flush=True)
     print(f"  {path}: {'OK' if ok else 'FAILED'}; cores covered by allocations with <= 1 bundle of > 2 goods: "
           f"{d2}/{len(cores)}, of > 3 goods: {d3}/{len(cores)}", flush=True)
@@ -193,10 +204,13 @@ def check_file(path, lib):
 
 if __name__ == '__main__':
     if '--selftest' in sys.argv:
-        for n, m, pure in [(1, 4, True), (2, 4, True), (2, 5, True), (2, 6, True), (2, 4, False), (2, 5, False),
-                           (2, 6, False), (3, 4, True), (3, 5, True), (3, 5, False), (3, 6, True)]:
-            a, b = labeled_count(n, m, pure), brute(n, m, pure)
-            print(f"n={n} m={m} {'pure' if pure else 'mixed'}: DP {a}, brute force {b}: {'ok' if a == b else 'MISMATCH'}", flush=True)
+        for n, m, pure, n4 in [(1, 4, True, None), (2, 4, True, None), (2, 5, True, None), (2, 6, True, None),
+                               (2, 4, False, None), (2, 5, False, None), (2, 6, False, None), (3, 4, True, None),
+                               (3, 5, True, None), (3, 5, False, None), (3, 6, True, None), (3, 5, False, 1),
+                               (3, 5, False, 2), (3, 6, False, 1), (3, 6, False, 2)]:
+            a, b = labeled_count(n, m, pure, n4), brute(n, m, pure, n4)
+            print(f"n={n} m={m} {'pure' if pure else 'mixed'}{'' if n4 is None else f' n4={n4}'}: DP {a}, brute force {b}:"
+                  f" {'ok' if a == b else 'MISMATCH'}", flush=True)
         print("types (strict balanced, balanced):", {d: (len(strict_balanced_types(d)), len(strict_balanced_types(d, True))) for d in (3, 4)})
         sys.exit(0)
     lib = load_c()
