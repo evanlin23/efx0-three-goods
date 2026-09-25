@@ -4,7 +4,7 @@ Workstream `proof/k4-mincex`. The minimal-counterexample route of `proofs/min_co
 carried to TARGET₄: every instance with nonnegative additive valuations and |R_i| ≤ 4 for every agent has a complete
 EFX₀ allocation. Ledger rows `K4.MC0`–`K4.MC7`. §1–§7 reviewed by the coordinator (two independent reviews of PR #23,
 one of them a brute-force referee check of the stored extensions and a re-derivation of the bound, the other an exact
-computational re-run with its own generator); §8 (K4.MC7) pending review.
+computational re-run with its own generator); §8 (K4.MC7) reviewed (two independent reviews of PR #28, a mathematical referee report and a computational re-run).
 
 **Results.**
 - *Soundness of local reductions at k = 4* (K4.MC0, K4.MC1). The inductive statement is plain EFX₀ existence, as at
@@ -336,7 +336,8 @@ this module for its orbit counting, so the two orbit logs come from one implemen
 `results/k4_min_cex_cores_4.log`). search4.py's CEGAR on the restricted domains, model D2, in three passes: a 30 s
 limit per core (search4's scanner), then 120 s and 3,600 s with compute/k4-frontier's subsumption scanner
 (`k4/frontier/search.py` and `scan2.c` of draft PR #26, commit 152afae, used unmodified from a scratch copy; the
-certificate does not depend on the scanner, since the checker re-checks coverage). Result: 5,552 cores certified, every
+certificate does not depend on the scanner, since the checker re-checks coverage). Regenerating the certificate needs
+`k4/frontier/search.py` and `scan2.c` from PR #26 (under review, not yet on main); checking it does not. Result: 5,552 cores certified, every
 one in the D2 shape; no profile without an EFX₀ allocation was found. The slowest certified ones, the ten
 n = 6, m = 14 cores with five P4 agents and a Q3 (1.2·10¹³ profiles, 577–668 allocations), took 8–40 min each. Not certified: the 6 all-P4 cores
 (n = 6, m = 15; 288⁶ ≈ 5.7·10¹⁴ profiles each; one ran for an hour without finishing).
@@ -348,9 +349,13 @@ re-implements the expansion (degree-2 agents P3, degree-4 Q4, degree-3 Q3 or P4)
 `results/k4_check_min_cex_reductions.log`), with its own type representatives. It merges isomorphic cores and matches
 every survivor to a certified core up to isomorphism. It checks coverage of the full product of the survivor's domains
 with check4.py's pruned C search on each agent's inclusion-minimal safety rows (raw definition, vectorized), and D2.
-On the β = 3 certificate it reproduces §6 (9 cores, 21,739,192 profiles; the summary lines of that run are in
+It format-checks the certificate records first (check4.py's well_formed), and `--expect`, `--expect-n` and
+`--expect-graphical` make its exit status depend on the number of cores left (5,558), their split by n (346, 2,183,
+2,110, 835, 84) and the number of graphical cores accepted (6). On the β = 3 certificate it reproduces §6 (9 cores, 21,739,192 profiles; the summary lines of that run are in
 `results/k4_test_check_mincex_cores4.log`). Its sensitivity test there rejects a deleted allocation, a deleted core, a
-non-D2 allocation, a truncated uncovered file, and a non-graphical core without allocations under --allow-graphical.
+non-D2 allocation, a truncated uncovered file, a non-graphical core without allocations under --allow-graphical, an
+enlarged uncovered set with a matching SHA-256, an allocation list that is EFX but not EFX₀, and a malformed record,
+each for its expected reason (the message it prints).
 
 *Reductions tried at β = 4* (not needed for the result):
 - two 4-good agents sharing a good of degree 2 (configuration xy, `attempts/k4-mincex-xy-pairs.md`): for an open
@@ -399,7 +404,7 @@ python3 k4/check_reductions4.py results/k4_min_cex_reductions.json.gz --selftest
     --scanner=frontier:DIR)   # DIR = compute/k4-frontier's k4/frontier (scan2.c, search.py); ~10 CPU-hours; resumable
 (cd k4 && python3 mincex_ckpt.py ../results/k4_min_cex_shapes_4.json.gz OUT.json.gz.ckpt.jsonl ../results/k4_min_cex_cores_4.json.gz)
 (cd k4 && python3 check_mincex_cores4.py 4 ../results/k4_min_cex_cores_4.json.gz ../results/k4_min_cex_px_uncovered.json \
-    --jobs=4 --allow-graphical)                                                  # ~30 min on 4 CPUs
+    --jobs=3 --allow-graphical --expect=5558 --expect-n=5:346,6:2183,7:2110,8:835,9:84 --expect-graphical=6)  # ~25 min
 (cd k4 && python3 test_check_mincex_cores4.py)                                   # ~30 s
 (cd k4 && python3 mincex4.py explore xy P4 P4)                                   # the failed xy reduction
 ```

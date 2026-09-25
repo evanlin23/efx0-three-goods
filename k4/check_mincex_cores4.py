@@ -20,8 +20,11 @@ Written separately from mincex_shapes.py / mincex_cert.py:
 Any failure makes the exit status nonzero.
 With --allow-graphical, a core without allocations is accepted if every good of it is valued by at most two agents
 (verified here); such cores are listed as left to the multigraph theorem (Afshinmehr et al., arXiv 2606.18665).
+Certificate records are format-checked first (check4.py's well_formed); --expect=N, --expect-n=n:N,... and
+--expect-graphical=K make the exit status depend on the number of cores left, their split by n, and the number of
+graphical cores accepted.
 Usage: check_mincex_cores4.py BETA certificate.json.gz px_uncovered.json [--reductions-log=PATH] [--jobs=J]
-       [--allow-graphical]"""
+       [--allow-graphical] [--expect=N] [--expect-n=5:N5,6:N6,...] [--expect-graphical=K]"""
 import sys, os, re, json, gzip, hashlib, itertools, collections, ctypes
 import numpy as np
 import networkx as nx
@@ -274,9 +277,21 @@ def main():
     print('beta = %d: %d cores expanded from G\' (5 <= n <= %d), %d pass the filters, %d left after K4.MC5 up to '
           'isomorphism; orbit counting %s' % (beta, stat['expanded'], 3 * (beta - 1), stat['after filters'], len(left),
                                               'OK' if orbit_ok else 'FAILED'), flush=True)
-    cb = collections.defaultdict(list)
+    pern = collections.Counter(n for n, _, _, _, _ in left)
+    print('left per n: %s' % dict(sorted(pern.items())), flush=True)
+    # format of the certificate records (check4.py's well_formed for records with allocations; the others must at least
+    # have n agent lists of distinct goods in range(m))
+    cb, malformed = collections.defaultdict(list), 0
     for r in cert:
+        n_ = r.get('n')
+        good = isinstance(n_, int) and n_ >= 1 and (check4.well_formed(r, n_) if 'allocs' in r else
+                                                     check4.well_formed(dict(r, allocs=[]), n_))
+        if not good:
+            malformed += 1
+            if malformed <= 5: print('  MALFORMED certificate record: %s' % json.dumps(r)[:200])
+            continue
         cb[(r['n'], r['m'], nx.weisfeiler_lehman_graph_hash(graph(r['sets'], r['m']), node_attr='c'))].append(r)
+    if malformed: print('  %d malformed certificate records (skipped)' % malformed)
     ok, d2all, nprof, bad, ncert = True, True, 0, collections.Counter(), 0
     graphical = '--allow-graphical' in sys.argv
     with Pool(int(opts.get('jobs', 4)), initializer=_init, initargs=(cb, graphical)) as pool:
@@ -296,7 +311,15 @@ def main():
           'problems: %s' % (len(left), ncert, nprof, 'all covered' if ok else 'NOT all covered', bad['graphical'],
                             {k: v for k, v in bad.items() if k != 'graphical'}))
     print('every allocation has at most one bundle of more than 2 goods (D2): %s' % d2all)
-    ok = ok and d2all and sha_ok and orbit_ok
+    exp_ok = True
+    if 'expect' in opts and int(opts['expect']) != len(left):
+        print('EXPECT FAILED: %d cores left, expected %s' % (len(left), opts['expect'])); exp_ok = False
+    if 'expect-n' in opts:
+        want = {int(a): int(b) for a, b in (x.split(':') for x in opts['expect-n'].split(','))}
+        if want != dict(pern): print('EXPECT FAILED: per n %s, expected %s' % (dict(pern), want)); exp_ok = False
+    if 'expect-graphical' in opts and int(opts['expect-graphical']) != bad['graphical']:
+        print('EXPECT FAILED: %d graphical, expected %s' % (bad['graphical'], opts['expect-graphical'])); exp_ok = False
+    ok = ok and d2all and sha_ok and orbit_ok and exp_ok and not malformed
     print('RESULT: %s' % ('OK' if ok else 'FAILED'))
     sys.exit(0 if ok else 1)
 

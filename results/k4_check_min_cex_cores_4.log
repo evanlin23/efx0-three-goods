@@ -1,4 +1,4 @@
-$ cd k4 && python3 check_mincex_cores4.py 4 ../results/k4_min_cex_cores_4.json.gz ../results/k4_min_cex_px_uncovered.json --jobs=4 --allow-graphical
+$ cd k4 && python3 check_mincex_cores4.py 4 ../results/k4_min_cex_cores_4.json.gz ../results/k4_min_cex_px_uncovered.json --jobs=3 --allow-graphical --expect=5558 --expect-n=5:346,6:2183,7:2110,8:835,9:84 --expect-graphical=6
 uncovered-profile file ../results/k4_min_cex_px_uncovered.json: sha256 a2ac24e62616db6e77fdc89946c28af3fc6756362c795ec6e950b05ca924da1f, matches /home/user/efx0-three-goods/k4/../results/k4_check_min_cex_reductions.log
   orbit count n = 5, m' = 2: 1 graphs G', sum n! m'! / |Aut| = 1, labeled 1 ok
   orbit count n = 5, m' = 3: 3 graphs G', sum n! m'! / |Aut| = 390, labeled 390 ok
@@ -36,12 +36,13 @@ uncovered-profile file ../results/k4_min_cex_px_uncovered.json: sha256 a2ac24e62
   orbit count n = 9, m' = 11: 12936 graphs G', sum n! m'! / |Aut| = 78060841822656000, labeled 78060841822656000 ok
   orbit count n = 9, m' = 12: 2870 graphs G', sum n! m'! / |Aut| = 143253564322176000, labeled 143253564322176000 ok
 beta = 4: 175274 cores expanded from G' (5 <= n <= 9), 165723 pass the filters, 5558 left after K4.MC5 up to isomorphism; orbit counting OK
+left per n: {5: 346, 6: 2183, 7: 2110, 8: 835, 9: 84}
   graphical, not certified (left to the multigraph theorem): P4P4P4P4P4P4 [[0, 1, 2, 9], [0, 4, 8, 10], [1, 5, 7, 11], [2, 6, 8, 12], [3, 4, 6, 13], [3, 5, 7, 14]]
-  graphical, not certified (left to the multigraph theorem): P4P4P4P4P4P4 [[0, 1, 6, 9], [0, 4, 7, 10], [1, 4, 7, 11], [2, 3, 6, 12], [2, 5, 8, 13], [3, 5, 8, 14]]
   graphical, not certified (left to the multigraph theorem): P4P4P4P4P4P4 [[0, 1, 2, 9], [0, 2, 8, 10], [1, 4, 7, 11], [3, 5, 6, 12], [3, 6, 8, 13], [4, 5, 7, 14]]
+  graphical, not certified (left to the multigraph theorem): P4P4P4P4P4P4 [[0, 1, 6, 9], [0, 4, 7, 10], [1, 4, 7, 11], [2, 3, 6, 12], [2, 5, 8, 13], [3, 5, 8, 14]]
   graphical, not certified (left to the multigraph theorem): P4P4P4P4P4P4 [[0, 1, 6, 9], [0, 4, 7, 10], [1, 5, 7, 11], [2, 3, 6, 12], [2, 4, 8, 13], [3, 5, 8, 14]]
   graphical, not certified (left to the multigraph theorem): P4P4P4P4P4P4 [[0, 1, 6, 9], [0, 4, 8, 10], [1, 5, 7, 11], [2, 3, 6, 12], [2, 4, 7, 13], [3, 5, 8, 14]]
   graphical, not certified (left to the multigraph theorem): P4P4P4P4P4P4 [[0, 1, 6, 9], [0, 4, 6, 10], [1, 5, 7, 11], [2, 3, 8, 12], [2, 4, 7, 13], [3, 5, 8, 14]]
-checked 5558 cores (156492494201512 profiles in all): all covered; problems: {'graphical': 6}
+checked 5558 cores: 5552 certified (156492494201512 profiles in all), all covered; 6 graphical left to the multigraph theorem; problems: {}
 every allocation has at most one bundle of more than 2 goods (D2): True
 RESULT: OK
