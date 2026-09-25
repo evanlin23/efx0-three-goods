@@ -60,3 +60,6 @@ results/k4_certs_4_n4_3.json.gz: 339 cores, 573s
 results/k4_certs_5_n4_1.json.gz: 1735 cores, 41s
   pol_needshrink=574573148 pol_envyfree=528 pol_none=41620 rot0=571221168 rot1=3394124 rot2=4 rot3=0 total=574615296 leaves=55161308 runs=60411064 fails=0 rawfails=0 nobig=547530326 owner_r=22292940 owner_other=1397902 rot=3394128 later_seq=0 later_upg=42148 big3=21894782 big4=2557506 big5=116044 big6=2044
   cores with a failure: 0
+results/k4_certs_5_n4_2.json.gz: 5468 cores, 1441s
+  pol_needshrink=80009879633 pol_envyfree=2128995 pol_none=13855564 rot0=79365582838 rot1=660279114 rot2=2240 rot3=0 total=80025864192 leaves=835854561 runs=1076502978 fails=0 rawfails=0 nobig=72445114642 owner_r=6425902250 owner_other=494565946 rot=660281354 later_seq=0 later_upg=15984559 big3=5914828841 big4=1140827260 big5=107566056 big6=3873470 big7=48520
+  cores with a failure: 0

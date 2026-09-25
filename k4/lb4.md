@@ -359,8 +359,8 @@ in any test below. The n = 5 core lists with three or more 4-good agents are tho
 `results/k4_lb4r_cores_*.json.gz`.
 - *Exhaustive.* Every insertion order on every core with n ≤ 4 (above); every order on the two n = 5 cores below on
   which need-shrinking needs a third rotation (8.41·10¹¹ run–profile pairs, `results/k4_lb4r_deep.log`). Index order
-  on every certified core (above), and on n = 5 with three 4-good agents (in progress: 7,064 of the 9,861 cores,
-  5.1·10¹² profiles, no failure; `results/k4_lb4r_ex_5_n4_3.log`).
+  on every certified core (above), and on n = 5 with three 4-good agents (in progress: 7,472 of the 9,861 cores,
+  5.3·10¹² profiles, no failure; `results/k4_lb4r_ex_5_n4_3.log`).
 - *Random profiles* (seeded from each core; `results/k4_lb4r_samples.log`, `results/k4_lb4r_random.log`). n = 5 with
   three to five 4-good agents (24,381 cores; with at most two, exhaustive above): index order 6.3·10⁸ profiles, every
   order 8.0·10⁷ profiles (8.0·10⁸ runs). n = 6 with one 4-good agent (26,866 cores of PR #26): index order
@@ -375,7 +375,7 @@ in any test below. The n = 5 core lists with three or more 4-good agents are tho
   its rotations, then its rotation attempts; the number of policies that fail on their own (`-P1`); the fewest
   rotations over all policies (`-P2 -d2`). In all, 1.8·10⁸ profiles (3.1·10⁸ runs), 0 failures. The climbs never
   found a profile on which two policies fail on their own, nor one needing a third rotation with the policy free.
-- *What LB₄ʳ uses* (`-d1` and `-d2`; `results/k4_lb4r_hist.log` has the histograms for every certified core).
+- *What LB₄ʳ uses* (`-d1` and `-d2`; histograms in `results/k4_lb4r_hist.log`, and per run in every log above).
   "No upgrades" is never the policy LB₄ʳ ends with: wherever need-shrinking fails, envy-free upgrades succeed (at n = 3,
   index order, 147,240 of 3·10⁸ profiles need them). With every policy allowed, no tested run needs a third rotation;
   two are needed rarely (at n = 3, every order, 25,240 of 1.0·10⁹ run–profile pairs). Under need-shrinking alone, 2 runs
@@ -384,7 +384,8 @@ in any test below. The n = 5 core lists with three or more 4-good agents are tho
   Every order on n ≤ 4 with at most three 4-good agents (2.09·10¹¹ run–profile pairs): LB₄ʳ ends with need-shrinking
   upgrades except in 4,841,440 pairs (envy-free upgrades), and under that policy needs 0, 1, 2, 3 rotations in
   98.99 %, 1.01 %, 690,140 and 5,760 pairs; with the policy free (`-d2`), 2 rotations in 101,272 pairs and 3 in none.
-  Index order (`-d2`): 2 rotations in 12,320 of 1.03·10⁹ profiles with n ≤ 4 and at most two 4-good agents, 3 in none.
+  Index order (`-d2`) on every certified core with n ≤ 4 and at most three 4-good agents or n = 5 and at most two
+  (1.17·10¹¹ profiles): 2 rotations in 44,404, 3 in none (pure n = 4 still running).
 - *Simpler candidates.* LB₄ʳ with at most two rotations (`-r2`) fails nowhere tested: every order on n ≤ 4 with at most
   three 4-good agents (exhaustive) and on the n = 5 sample (3,000 profiles per core, three to five 4-good agents,
   every order). Even one policy
