@@ -88,7 +88,16 @@ def main():
         with ThreadPoolExecutor(jobs) as ex:
             for (ci, _), out in zip(tasks, ex.map(run, [t for _, t in tasks])):
                 for line in out.splitlines():
-                    if line.startswith('EX '): print(f'core {ci}: {line}')
+                    if line.startswith('EX') or line.startswith('OWN'): print(f'core {ci}: {line}')
+                    elif line.startswith('TERMSTATS'):
+                        w = [int(x) for x in line.split()[1:]]
+                        ts = tot.setdefault('_ts', [0] * len(w))
+                        for q in range(len(w)): ts[q] += w[q]
+                    elif line.startswith('MOVES'):
+                        w = line.split()
+                        mv = tot.setdefault('_moves', [0] * 17)
+                        nums = [int(x) for x in w[2:3] + w[4:12] + w[13:21]]
+                        for q in range(17): mv[q] += nums[q]
                     elif line.startswith('RESULT'):
                         w = line.split()
                         for key, val in zip(w[1::2], w[2::2]):
@@ -99,7 +108,14 @@ def main():
                         name = w[1]
                         if name not in phis: phis[name] = [0, 0]; order.append(name)
                         phis[name][0] += int(w[3]); phis[name][1] += int(w[5])
+        mv = tot.pop('_moves', None)
+        ts = tot.pop('_ts', None)
         print(f'FILE {f} cores {len(set(ci for ci, _ in tasks))} ' + ' '.join(f'{k} {v}' for k, v in tot.items()))
+        if ts:
+            names = ['terminals', '|E_t|=0', '|E_t|=1', '|E_t|>=2', '|E_t|>slots', 't invalid', 'E_t has free agent',
+                     't reachable from E_t', 'two in E_t, same single end', 'P without terminal', 'x in E_t without end', 'P with omega>=1', 'P: no terminal with E_t empty', 'P: no valid terminal', 'P: exposure graph has a cycle']
+            print('  TERMSTATS (Pareto-maxima): ' + ', '.join(f'{a} {b}' for a, b in zip(names, ts)))
+        if mv: print(f'  MOVES: {mv[0]} min-frozen pre-allocations with positive deficit; nearest lower deficit at distance 1..7: {mv[2:9]} (none: {mv[1]}); nearest deficit <= 0: {mv[10:17]} (none: {mv[9]})')
         for name in order:
             print(f'  {name:32s} every-max fails {phis[name][0]:>12d}   some-max fails {phis[name][1]:>12d}')
         sys.stdout.flush()

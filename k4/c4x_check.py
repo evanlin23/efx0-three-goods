@@ -58,7 +58,7 @@ def analyse(sets, m, vals_list, w0=False):
             '(-frozen,sumlev)': (-sum(frozen), sum(lev)),
             '(-frozen,leximin)': (-sum(frozen), tuple(sorted(lev))),
             '(-frozen,slots)': (-sum(frozen), sum(cap)),
-            'rodef': rodef(n, vals_list, B, J, frozen, cap),
+            'rodef': rodef(n, vals_list, B, J, frozen, cap, R, N, w0),
         }
         results.append((B, comp, feats))
     mf = max(r[2]['-frozen'] for r in results)
@@ -69,24 +69,26 @@ def analyse(sets, m, vals_list, w0=False):
 def threatened(vals, X, Bx):
     return any(val(vals, X - {h}) > val(vals, Bx) for h in X)
 
-def rodef(n, vals_list, B, J, frozen, cap):
-    """Removal-only deficit: |J| - S if |J| <= S; else the least, over the free owners o, of
-    (fewest goods C ⊆ J to keep out of B_o ∪ J so that no agent x != o is threatened with its base alone) - (S - cap(o))."""
+def rodef(n, vals_list, B, J, frozen, cap, R, N, w0=False):
+    """Removal-only deficit: |J| - S if |J| <= S; else the least, over the free owners o and the sets C ⊆ J such
+    that X_o = B_o ∪ (J \\ C) threatens no agent x != o holding its base, of |C| - S_o(C), where S_o(C) counts the
+    slots of the agents other than o with frozen status from the owner's needs taken from X_o (w0: from B_o)."""
     S = sum(cap)
     if len(J) <= S: return len(J) - S
     best = None
     Jl = sorted(J)
     for o in range(n):
         if frozen[o]: continue
-        beta = None
         for r in range(len(Jl) + 1):
             for C in itertools.combinations(Jl, r):
                 X = set(B[o]) | (set(J) - set(C))
-                if not any(threatened(vals_list[x], X, B[x]) for x in range(n) if x != o):
-                    beta = r; break
-            if beta is not None: break
-        d = beta - (S - cap[o])
-        if best is None or d < best: best = d
+                if any(threatened(vals_list[x], X, B[x]) for x in range(n) if x != o): continue
+                if w0: No = N[o]
+                else: No = frozenset(g for g in R[o] - X if vals_list[o][g] > val(vals_list[o], X))
+                NAp = frozenset().union(*[N[j] for j in range(n) if j != o]) | No
+                So = sum(0 if (len(B[j]) == 1 and B[j] <= NAp) else 2 - len(B[j]) for j in range(n) if j != o)
+                d = r - So
+                if best is None or d < best: best = d
     return best if best is not None else 1 << 20
 
 def completable(n, m, R, vals_list, B, J, N, w0):
