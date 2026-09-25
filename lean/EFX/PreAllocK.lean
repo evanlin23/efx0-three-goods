@@ -55,6 +55,9 @@ Results, in the order of `k4/lb4.md`:
   K4.TIE, sound completions of every connected strict k = 4 core with a 4-good agent give TARGET₄. So "LB₄
   never fails ⟹ K4.D ⟹ TARGET₄" holds once every allocation LB₄ returns is a sound completion, which is §2's
   Shape paragraph read against LB₄'s definition (LB₄ itself is not defined in Lean).
+- **Non-vacuity** (`EFX.LB4.Ex`): a two-agent instance whose sound completion gives the owner three goods
+  (`Ex.sound`, by `decide`), and which is valid only with the owner's needs taken from its bundle
+  (`Ex.baseNeeds_invalid`).
 -/
 
 set_option autoImplicit false
@@ -1562,7 +1565,69 @@ theorem ownerSearch_exact_base {w : A} (hag : agents.Nodup) (hg : goods.Nodup)
 
 end ownerSearch
 
+
 end LB4
+
+/-! ## A non-vacuity example -/
+
+namespace LB4.Ex
+
+/-- Two agents, five goods: agent 0 values them `4, 3, 2, 2, 0`, agent 1 values them `3, 1, 1, 1, 1`. -/
+def v : Fin 2 → Fin 5 → Nat := fun i g => if i.val = 0 then [4, 3, 2, 2, 0][g.val]! else [3, 1, 1, 1, 1][g.val]!
+
+/-- Good 0 is agent 0's pick; goods 1–4 are junk; agent 1 has an empty base. -/
+def base : Fin 5 → Option (Fin 2) := fun g => if g.val = 0 then some 0 else none
+
+/-- Agent 0 takes good 1 into its slot; the owner, agent 1, takes goods 2, 3, 4. -/
+def X : Fin 5 → Fin 2 := fun g => if g.val ≤ 1 then 0 else 1
+
+/-- Agent 0's needs are those of its pick, its top good: none. -/
+abbrev N : Fin 2 → Fin 5 → Prop := fun _ _ => False
+
+theorem noNeeds : ∀ i g, ¬ ownerNeeds v (List.finRange 5) X N (some 1) i g := by
+  intro i g
+  have h : ∀ i ∈ List.finRange 2, ∀ g ∈ List.finRange 5, ¬ ownerNeeds v (List.finRange 5) X N (some 1) i g := by
+    unfold ownerNeeds; decide
+  exact h i (List.mem_finRange i) g (List.mem_finRange g)
+
+theorem noNA : ∀ g, ¬ NA (List.finRange 2) (ownerNeeds v (List.finRange 5) X N (some 1)) g :=
+  fun g ⟨i, _, h⟩ => noNeeds i g h
+
+theorem noFrozen :
+    ∀ j, ¬ Frozen (List.finRange 2) (List.finRange 5) base (ownerNeeds v (List.finRange 5) X N (some 1)) j :=
+  fun _ ⟨y, _, h⟩ => noNA y h
+
+/-- **Non-vacuity.** The example is a sound completion, with an owner's bundle of three goods; so
+`SoundCompletion` (Theorem 1′₄'s hypotheses, the owner's needs from its bundle) can hold with a large bundle. -/
+theorem sound : SoundCompletion v (List.finRange 2) (List.finRange 5) base N (some 1) X ∧
+    (bundle (List.finRange 5) X 1).length = 3 := by
+  refine ⟨⟨?_, ⟨fun g _ h => noNA g h, fun _ _ g _ h => noNA g h⟩, ?_, by unfold OC; decide⟩, by decide⟩
+  · intro i _ hio
+    have hi0 : i = 0 := by revert i; decide
+    subst hi0
+    refine ⟨?_, fun g h => h.elim⟩
+    have : ∀ g ∈ List.finRange 5, base g ≠ some 0 →
+        value v 0 (baseOf (List.finRange 5) base 0) < v 0 g → False := by decide
+    exact fun g hg hb hlt => this g hg hb hlt
+  · refine ⟨fun g _ => List.mem_finRange _, ?_, fun w hw => ?_, fun j _ _ hF => absurd hF (noFrozen j), ?_⟩
+    · have : ∀ g ∈ List.finRange 5, ∀ i ∈ List.finRange 2, base g = some i → X g = i := by decide
+      exact fun g hg i hb => this g hg i (List.mem_finRange i) hb
+    · cases hw; exact ⟨List.mem_finRange _, noFrozen 1⟩
+    · have : ∀ j ∈ List.finRange 2, some 1 ≠ some j →
+          (junkOf (List.finRange 5) base X j).length + (baseOf (List.finRange 5) base j).length ≤ 2 := by decide
+      exact fun j hj hjo _ => this j hj hjo
+
+/-- With the owner's needs from its (empty) base, `N_1 = R_1`, the same pre-allocation is not valid: junk
+good 1 is needed. Taking the owner's needs from its bundle is what makes it valid (`k4/lb4.md` §3, item 4). -/
+theorem baseNeeds_invalid :
+    ¬ Valid (List.finRange 2) (List.finRange 5) base (fun i g => i = 1 ∧ 0 < v 1 g) :=
+  fun h => h.v1 1 (by decide) ⟨1, by decide, by decide⟩
+
+/-- Hence, by Theorem 1′₄, the example is EFX₀. -/
+theorem efx0 : (Inst.mk 2 5 v).EFX0 X := (sound_model (Inst.mk 2 5 v) sound.1).1
+
+end LB4.Ex
+
 end EFX
 
 /-! ## Axiom certificates (audited by `check.sh`) -/
@@ -1589,3 +1654,6 @@ end EFX
 #print axioms EFX.LB4.ownerSearch_exact
 #print axioms EFX.LB4.ownerSearch_exact_base
 #print axioms EFX.LB4.complete_none_exists
+#print axioms EFX.LB4.Ex.sound
+#print axioms EFX.LB4.Ex.baseNeeds_invalid
+#print axioms EFX.LB4.Ex.efx0
