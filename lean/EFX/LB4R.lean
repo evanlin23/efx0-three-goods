@@ -4,10 +4,20 @@ import EFX.PreAllocK
 # Construction LB₄ʳ and Theorem C₄ (`k4/lb4.md` §2, §5; ledger K4.C4.FRAME)
 
 LB₄ʳ(τ) (`k4/lb4.md` §5, "LB₄ʳ(τ), precisely", with LB₄'s steps of §2) defined over the pre-allocations of
-`EFX/PreAllocK.lean`, the statement of Theorem C₄ (LB₄ʳ never fails on a strict profile of a k = 4 core), its
-route-agnostic form C₄∃ (`TheoremC4exists`: every strict profile of every k = 4 core has a sound completion of some
-valid pre-allocation), and the reductions "C₄ ⟹ C₄∃ ⟹ K4.D ⟹ TARGET₄" (`C4exists_of_C4`, `k4D_of_C4exists`,
+`EFX/PreAllocK.lean`, the statement of Theorem C₄ (LB₄ʳ never fails on a strict profile of a k = 4 core), the
+statement C₄∃ (`TheoremC4exists`: every strict profile of every k = 4 core has a sound completion of some valid
+pre-allocation), and the reductions "C₄ ⟹ C₄∃ ⟹ K4.D ⟹ TARGET₄" (`C4exists_of_C4`, `k4D_of_C4exists`,
 `target4_of_C4exists`, `target4_of_C4`).
+
+**C₄∃ is K4.D on strict cores** (`C4exists_iff`, from the independent audit of PR #35): every EFX₀ allocation with at
+most one bundle of more than two goods is a sound completion (every bundle a base, no junk, value-based needs, the
+owner the agent with three or more goods if any, `sound_of_d2`). So the content of this file is the equivalence, the
+direction LB₄ʳ ⟹ C₄∃, and the reduction to TARGET₄ (a thin wrapper around `EFX.LB4.target4_of_completions`).
+
+**Theorem C₄ as stated here is claimed false**: PR #33 (`k4/c4.md` §7, Proposition H, unreviewed) claims that on a
+family of cores H_t LB₄ʳ with index insertion needs at least ⌈2t/3⌉ rotations, under each of the choices below (checked
+there against this PR's description), so it fails on H_5 (n = 21, m = 53). If so, `target4_of_C4`,
+`target4_of_C4index` and `k4D_of_C4index` have a false hypothesis; the implications themselves are proved.
 
 **Representation.** A state `LState` records the bases (`base : G → Option A`), the picks (`pick`, used by the need
 chains) and the agents *marked* as upgraded or rotated. Needs are not stored but derived (`needsOf`):
@@ -27,7 +37,7 @@ is exactly this set, and a rotated agent has value-based needs by §2.
   no owner exactly when `ω ≤ 0`, unless some base has three or more goods (then its agent is the owner).
 - `Succeeds τ`: some policy, some run of upgrades, at most three rotations, and an output.
 
-**Choices where the prose leaves room** (to be pinned down by the proof of C₄; see the module README entry):
+**Choices where the prose leaves room** (this list is the source; `lean/README.md` and the ledger point here):
 1. The order `≻_i` is by value (`v_i(g) > v_i(h)`); the text breaks ties by index. On strict profiles (C₄'s domain)
    relevant goods have distinct values, so the two agree.
 2. τ is a list of numbers; the j-th insertion step takes the `(τ_j mod u)`-th unprocessed agent in index order (`u`
@@ -37,7 +47,10 @@ is exactly this set, and a rotated agent has value-based needs by §2.
 4. The owner step allows every completion that satisfies (OC₄), not only those with `|C| ≥ min(|J|, S − cap(o))`;
    by Lemma 3₄ this loses nothing except for a rotated owner with a one-good base.
 5. A rotated agent follows the text's rule `cap(k) = 2 − |O|` (it gets a slot when `|O| = 1`), but (V2) is required of
-   `O` even when `|O| = 1`, as in `lb4.c`. `ω` is computed with the text's signed caps.
+   `O` even when `|O| = 1`, as in `lb4.c`. `ω` is computed with the text's signed caps. This is the one place where
+   `Output` is stricter than "any completion satisfying (OC₄)": when every base has at most two goods and `ω ≤ 0`,
+   the owner step must use no owner. That loses nothing: then a completion without owner exists
+   (`EFX.LB4.complete_none_exists`), and (OC₄) is empty without an owner.
 6. A state reached by a rotation is used whether or not the owner step failed before it (for "succeeds" this is the
    same: an earlier success is a success).
 7. A chain may end at any agent that is not frozen: with a base of at most one good, upgraded, or rotated earlier
@@ -240,8 +253,10 @@ def Succeeds (v : A → G → Nat) (agents : List A) (goods : List G) (τ : List
     UpRun v agents goods pol (phase1State v agents goods τ) s₁ ∧ RotReach v agents goods 3 s₁ s ∧
     Output v agents goods s o X
 
-/-- **Theorem C₄** (conjecture, `k4/lb4.md` §5): for every strict profile of every k = 4 core and every insertion
-sequence τ, LB₄ʳ(τ) succeeds. -/
+/-- **Theorem C₄** (`k4/lb4.md` §5): for every strict profile of every k = 4 core and every insertion sequence τ,
+LB₄ʳ(τ) succeeds. Claimed false by PR #33 (`k4/c4.md` §7, Proposition H, unreviewed): with index insertion
+(τ = []) LB₄ʳ would need more than three rotations on the core H_5 (n = 21, m = 53), which refutes `TheoremC4index`
+and hence this statement. -/
 def TheoremC4 (A G : Type) [DecidableEq A] [DecidableEq G] : Prop :=
   ∀ (agents : List A) (goods : List G) (v : A → G → Nat), agents.Nodup → goods.Nodup → IsCore4 v agents goods →
     Strict v agents goods → ∀ τ : List Nat, Succeeds v agents goods τ
@@ -780,8 +795,8 @@ theorem output_big_base {v : A → G → Nat} {agents : List A} {goods : List G}
     omega
   omega
 
-/-- (V1) and (V2) after a rotation: they are among the checks a rotation must pass (§5), so they hold in every
-state a rotation reaches; (V2) holds for every marked agent, even with a one-good base. -/
+/-- (V1) and (V2) after a rotation. They are required by `RotStep` (checked in `RotChecks`, the checks of §5), not
+derived: this reads them off. (V2) is required for every marked agent, even with a one-good base. -/
 theorem rotStep_valid {v : A → G → Nat} {agents : List A} {goods : List G} {s s' : LState A G}
     (hR : RotStep v agents goods s s') :
     Valid agents goods s'.base (needsOf v goods s') ∧
@@ -801,11 +816,11 @@ theorem sound_of_succeeds {v : A → G → Nat} {agents : List A} {goods : List 
   have hinv := rotReach_inv hgd hrot (upRun_inv hup (phase1State_inv (τ := τ) hag hgd))
   exact ⟨s.base, needsOf v goods s, o, X, hinv.sound hout⟩
 
-/-- **Theorem C₄∃** (route-agnostic): every strict profile of every k = 4 core has a valid pre-allocation (bases of
-any size, needs in the Definition's sense for the agents other than the owner) with a completion satisfying (OC₄),
-the owner's needs taken from its bundle (`EFX.LB4.SoundCompletion`: frozen agents hold exactly their base, and only the
-owner's bundle may have more than two goods). A witness with the owner's needs from its base is one too
-(`EFX.LB4.SoundCompletion.of_baseNeeds`). -/
+/-- **Theorem C₄∃**: every strict profile of every k = 4 core has a valid pre-allocation (bases of any size, needs in
+the Definition's sense for the agents other than the owner) with a completion satisfying (OC₄), the owner's needs
+taken from its bundle (`EFX.LB4.SoundCompletion`: frozen agents hold exactly their base, and only the owner's bundle
+may have more than two goods). A witness with the owner's needs from its base is one too
+(`EFX.LB4.SoundCompletion.of_baseNeeds`). By `C4exists_iff` this is exactly K4.D on strict cores. -/
 def TheoremC4exists (A G : Type) [DecidableEq A] [DecidableEq G] : Prop :=
   ∀ (agents : List A) (goods : List G) (v : A → G → Nat), agents.Nodup → goods.Nodup → IsCore4 v agents goods →
     Strict v agents goods →
@@ -857,6 +872,112 @@ theorem target4_of_C4 (I : Inst) (hn : 0 < I.n) (hC4 : TheoremC4 (Fin I.n) (Fin 
     (h : ∀ i, numRelevant I i ≤ 4) : ∃ X : I.Alloc, I.EFX0 X :=
   target4_of_C4index I hn (theoremC4index_of_C4 hC4) h
 
+/-! ## C₄∃ ⟺ K4.D on strict cores (from the independent audit of PR #35) -/
+
+/-- **Every D2-shaped EFX₀ allocation is a sound completion.** Take every bundle as a base (no junk), the needs
+value-based (`g` outside `i`'s bundle and worth more to `i` than its whole bundle), and the owner the agent `w` if its
+bundle has three or more goods (else no owner). Bundles of two or more goods have no needed good by EFX₀. -/
+theorem sound_of_d2 {v : A → G → Nat} {agents : List A} {goods : List G} {X : G → A} {w : A}
+    (hgd : goods.Nodup) (hX : IsAllocation agents goods X) (hE : EFX0L v agents goods X) (hw : w ∈ agents)
+    (h2 : ∀ j ∈ agents, j ≠ w → (bundle goods X j).length ≤ 2) :
+    ∃ (base : G → Option A) (N : A → G → Prop) (o : Option A), SoundCompletion v agents goods base N o X := by
+  classical
+  let base : G → Option A := fun g => some (X g)
+  let N : A → G → Prop := fun i g => g ∈ goods ∧ X g ≠ i ∧ value v i (bundle goods X i) < v i g
+  let o : Option A := if 3 ≤ (bundle goods X w).length then some w else none
+  have hB : ∀ i, baseOf goods base i = bundle goods X i := fun i => by
+    unfold baseOf bundle; apply List.filter_congr; intro g _; simp [base]
+  have hJ : ∀ g ∈ goods, base g ≠ none := fun g _ => by simp [base]
+  have hON : ∀ i g, ownerNeeds v goods X N o i g ↔ N i g := fun i g => by
+    unfold ownerNeeds; split <;> simp [N]
+  have hNA2 : ∀ i, 2 ≤ (bundle goods X i).length → ∀ g ∈ bundle goods X i, ∀ j ∈ agents, ¬ N j g := by
+    intro i hi2 g hg j hj ⟨hgg, hXj, hlt⟩
+    have hXi : X g = i := (LB.mem_bundle.mp hg).2
+    have hji : j ≠ i := fun e => hXj (e ▸ hXi)
+    obtain ⟨h, hh, hhg⟩ : ∃ h ∈ bundle goods X i, h ≠ g := by
+      refine Classical.byContradiction fun hcon => ?_
+      have := LB.length_le_one (LB.nodup_bundle hgd X i) (y := g)
+        fun h hh => Classical.byContradiction fun hne => hcon ⟨h, hh, hne⟩
+      omega
+    have hgE : g ∈ (bundle goods X i).erase h := (List.mem_erase_of_ne (Ne.symm hhg)).mpr hg
+    have := le_value_of_mem v j hgE
+    have := hE j hj i (hXi ▸ hX g hgg) hji h hh
+    omega
+  refine ⟨base, N, o, ⟨fun i _ _ => ⟨fun g hg hb hlt => ⟨hg, fun e => hb (by simp [base, e]), by rwa [hB] at hlt⟩,
+      fun g ⟨hg, hXg, hlt⟩ => ⟨hg, by omega, fun e => hXg (by simpa [base] using e)⟩⟩, ⟨?_, ?_⟩, ⟨hX, ?_, ?_, ?_, ?_⟩, ?_⟩⟩
+  · intro g hg; exact absurd (mem_junk.mp hg).2 (hJ g (mem_junk.mp hg).1)
+  · intro i hi2 g hg ⟨j, hj, hN⟩
+    rw [hB] at hi2 hg
+    exact hNA2 i hi2 g hg j hj ((hON j g).mp hN)
+  · intro g _ i hb; simpa [base] using hb
+  · intro w' hw'
+    simp only [o] at hw'
+    split at hw'
+    · rename_i h3; cases hw'
+      refine ⟨hw, fun ⟨y, hy, _⟩ => ?_⟩
+      rw [hB] at hy; rw [hy] at h3; simp at h3
+    · cases hw'
+  · intro j _ _ _
+    apply List.eq_nil_iff_forall_not_mem.mpr
+    intro g hg; exact hJ g (mem_junkOf.mp hg).1 (mem_junkOf.mp hg).2.2
+  · intro j hj hjo _
+    have : junkOf goods base X j = [] := List.eq_nil_iff_forall_not_mem.mpr
+      fun g hg => hJ g (mem_junkOf.mp hg).1 (mem_junkOf.mp hg).2.2
+    rw [this, hB]
+    simp only [List.length_nil, Nat.zero_add]
+    by_cases hjw : j = w
+    · subst hjw
+      simp only [o] at hjo
+      split at hjo
+      · exact absurd rfl hjo
+      · omega
+    · exact h2 j hj hjw
+  · intro w' hw' j hj hjw h hh
+    simp only [o] at hw'
+    split at hw'
+    · cases hw'
+      exact hE j hj w hw hjw h hh
+    · cases hw'
+
+/-- **C₄∃ ⟺ K4.D on strict cores.** (⟹) by Theorem 1′₄ and the shape (`EFX.LB4.SoundCompletion.efx0_d2`),
+(⟸) by `sound_of_d2`. So C₄∃ says no more and no less than K4.D for strict k = 4 cores; what this file adds is the
+direction LB₄ʳ ⟹ C₄∃ (`C4exists_of_C4`) and the reduction to TARGET₄. -/
+theorem C4exists_iff :
+    TheoremC4exists A G ↔
+      ∀ (agents : List A) (goods : List G) (v : A → G → Nat), agents.Nodup → goods.Nodup →
+        IsCore4 v agents goods → Strict v agents goods →
+          ∃ X : G → A, IsAllocation agents goods X ∧ EFX0L v agents goods X ∧
+            ∃ w ∈ agents, ∀ j ∈ agents, j ≠ w → (bundle goods X j).length ≤ 2 := by
+  constructor
+  · intro h agents goods v hag hgd hc hs
+    have hne : agents ≠ [] := fun e => by have := hc.1; rw [e] at this; simp at this
+    obtain ⟨base, N, o, X, hS⟩ := h agents goods v hag hgd hc hs
+    exact ⟨X, hS.efx0_d2 hgd hne⟩
+  · intro h agents goods v hag hgd hc hs
+    obtain ⟨X, hX, hE, w, hw, h2⟩ := h agents goods v hag hgd hc hs
+    obtain ⟨base, N, o, hS⟩ := sound_of_d2 hgd hX hE hw h2
+    exact ⟨base, N, o, X, hS⟩
+
+/-- **C₄∃ restricted to connected cores with a 4-good agent**: exactly the hypothesis that
+`EFX.LB4.target4_of_completions` consumes. Weaker than C₄∃ (`conn_of_C4exists`), and still enough for TARGET₄
+(`target4_of_C4existsConn`). -/
+def C4existsConn (A G : Type) [DecidableEq A] [DecidableEq G] : Prop :=
+  ∀ (agents : List A) (goods : List G) (v : A → G → Nat), agents.Nodup → goods.Nodup →
+    IsCore4 v agents goods → Connected v agents goods → Strict v agents goods →
+    (∃ i ∈ agents, (relevant v i goods).length = 4) →
+      ∃ (base : G → Option A) (N : A → G → Prop) (o : Option A) (X : G → A),
+        SoundCompletion v agents goods base N o X
+
+/-- **C₄∃ ⟹ C₄∃ on connected cores with a 4-good agent.** -/
+theorem conn_of_C4exists (h : TheoremC4exists A G) : C4existsConn A G :=
+  fun agents goods v hag hgd hc _ hs _ => h agents goods v hag hgd hc hs
+
+/-- **C₄∃ on connected cores with a 4-good agent ⟹ TARGET₄** (`EFX.LB4.target4_of_completions`). -/
+theorem target4_of_C4existsConn (I : Inst) (hn : 0 < I.n) (hC : C4existsConn (Fin I.n) (Fin I.m))
+    (h : ∀ i, numRelevant I i ≤ 4) : ∃ X : I.Alloc, I.EFX0 X :=
+  target4_of_completions I hn I.n (Nat.le_refl _)
+    (fun w agents goods hag hgd _ hc hconn hs h4 => hC agents goods w hag hgd hc hconn hs h4) h
+
 end LB4R
 end EFX
 
@@ -877,3 +998,7 @@ end EFX
 #print axioms EFX.LB4R.C4exists_of_C4
 #print axioms EFX.LB4R.k4D_of_C4exists
 #print axioms EFX.LB4R.target4_of_C4exists
+#print axioms EFX.LB4R.sound_of_d2
+#print axioms EFX.LB4R.C4exists_iff
+#print axioms EFX.LB4R.conn_of_C4exists
+#print axioms EFX.LB4R.target4_of_C4existsConn

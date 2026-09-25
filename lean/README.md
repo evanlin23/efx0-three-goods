@@ -27,7 +27,7 @@ showed that a declaration added under `set_option debug.skipKernelTC true` is ne
 without warnings and has no axioms for `#print axioms` or `CheckAxioms.lean` to report; the tripwire refuses the
 option and the replay checker rejects such a declaration. On success the last line is
 
-    CHECK PASSED: 164 audited statements, 471 theorems, standard axioms only
+    CHECK PASSED: 178 audited statements, 508 theorems, standard axioms only
 
 CI runs it on every pull request (job `lean` in `.github/workflows/verify.yml`). In Claude Code on the web the
 session-start hook installs the toolchain (from GitHub when `release.lean-lang.org` is unreachable).
@@ -152,11 +152,20 @@ specializations) have exactly the types of `EFX.target`, `EFX.LB.corollaryD` (ch
 - `EFX/LB4R.lean`: construction LB₄ʳ (`k4/lb4.md` §5 with §2) and Theorem C₄ (ledger K4.C4.FRAME): states `EFX.LB4R.LState`
   (bases, picks, marked agents; needs derived by `EFX.LB4R.needsOf`), `EFX.LB4R.phase1`, `EFX.LB4R.UpRun`,
   `EFX.LB4R.RotStep`, `EFX.LB4R.Output`, `EFX.LB4R.Succeeds`; the statements `EFX.LB4R.TheoremC4` and
-  `EFX.LB4R.TheoremC4index`; the invariant `EFX.LB4R.Inv` of reachable states and `EFX.LB4R.sound_of_succeeds`
-  (every output is a sound completion); the route-agnostic `EFX.LB4R.TheoremC4exists` (every strict profile of every
-  k = 4 core has a sound completion) with `EFX.LB4R.target4_of_C4exists`, `EFX.LB4R.k4D_of_C4exists` and
-  `EFX.LB4R.C4exists_of_C4`; `EFX.LB4R.k4D_of_C4index`, `EFX.LB4R.target4_of_C4index`, `EFX.LB4R.target4_of_C4` (C₄ as a
-  hypothesis). The choices where the prose leaves room are in the module doc.
+  `EFX.LB4R.TheoremC4index` (C₄ as stated is claimed false by PR #33, `k4/c4.md` §7, unreviewed); the invariant
+  `EFX.LB4R.Inv` of reachable states and `EFX.LB4R.sound_of_succeeds` (every output is a sound completion). C₄∃
+  (`EFX.LB4R.TheoremC4exists`: every strict profile of every k = 4 core has a sound completion) ⟺ K4.D on strict
+  cores (`EFX.LB4R.C4exists_iff`, with `EFX.LB4R.sound_of_d2`); the frame's content is the equivalence and the
+  LB₄ʳ ⇒ C₄∃ direction (`EFX.LB4R.C4exists_of_C4`), with `EFX.LB4R.target4_of_C4exists`,
+  `EFX.LB4R.k4D_of_C4exists`, the connected form `EFX.LB4R.C4existsConn` (`EFX.LB4R.conn_of_C4exists`,
+  `EFX.LB4R.target4_of_C4existsConn`), and `EFX.LB4R.k4D_of_C4index`, `EFX.LB4R.target4_of_C4index`,
+  `EFX.LB4R.target4_of_C4` (C₄ as a hypothesis). The choices where the prose leaves room are listed in the module doc,
+  the single source for them.
+- `EFX/LB4RExamples.lean`: LB₄ʳ is not vacuous (from the audit of PR #35; not a ledger item): two certified k = 4
+  cores on which `EFX.LB4R.Succeeds` holds, checked by `decide`: `EFX.LB4R.Examples.W1.succeeds` (index order, no
+  upgrades, no rotation, an owner with four goods; also `W1.sound_direct`, `W1.sound_pr`) and
+  `EFX.LB4R.Examples.W2.succeeds` (one `RotStep` along the chain [0, 1] with O = {0}, `W2.rotStep`; the rotated
+  one-good agent owns three goods).
 - `EFX/RealValues.lean`: L12 (`proofs/real_values.md`) and TARGET and D over any `EFX.OrderedValue`. The value
   class and mirrored model above; `EFX.Agree` (same answer to every comparison between two subset sums);
   `EFX.OrderedValue.tri_le_iff` (for three positive values, every such comparison is decided by twelve basic
@@ -205,7 +214,7 @@ name in the ledger's Lean column has one.
 | K4.LB4.S | Lemma 2₄: with an owner whose base has at most one good, an agent with at most four relevant goods, a pick base and pick needs, whose slot takes its best junk good not yet placed, does not envy (so is not threatened by) the owner's bundle; also for agents filling their slots one at a time; with five relevant goods the value argument fails, and an instance of every other hypothesis has the agent threatened | PreAllocK : `EFX.LB4.selfProtect`, `EFX.LB4.selfProtect_seq`, `EFX.LB4.selfProtect_core`, `EFX.LB4.selfProtect_five`, `EFX.LB4.Ex5.counterexample` |
 | K4.LB4.S | Lemma 3₄: for a strictly balanced owner with at most four relevant goods, its base among them, and `\|B_o\| ≥ 3` or (free, other bases ≤ 2, `ω ≥ 1`): if a sound completion exists, one exists with at least `min(\|J\|, s₀)` slot goods and the same `N_o^X` | PreAllocK : `EFX.LB4.ownerSearch_exact_base`, `EFX.LB4.ownerSearch_exact`, `EFX.LB4.move_step` |
 | K4.LB4.S | Shape: a sound completion is EFX₀ with at most one bundle of more than two goods; hence a sound completion of every connected strict k = 4 core with a 4-good agent gives TARGET₄ (with K4.CORE, K4.TIE) | PreAllocK : `EFX.LB4.SoundCompletion.efx0_d2` (over lists), `EFX.LB4.d2_shape`, `EFX.LB4.k4D_of_completion`, `EFX.LB4.target4_of_completions` (model) |
-| K4.C4.FRAME | Theorem C₄ (LB₄ʳ, defined in Lean, succeeds on every strict profile of every k = 4 core, for every insertion sequence or for the index order) implies C₄∃ (every strict profile of every k = 4 core has a completion satisfying (OC₄) of a valid pre-allocation), which implies K4.D (every k = 4 core has an EFX₀ allocation with at most one bundle of more than two goods) and TARGET₄ | LB4R : `EFX.LB4R.target4_of_C4exists`, `EFX.LB4R.target4_of_C4`, `EFX.LB4R.target4_of_C4index` (model), `EFX.LB4R.k4D_of_C4exists`, `EFX.LB4R.C4exists_of_C4`, `EFX.LB4R.C4exists_of_C4index`, `EFX.LB4R.k4D_of_C4index`, `EFX.LB4R.sound_of_succeeds`, `EFX.LB4R.Inv.sound`, `EFX.LB4R.phase1State_inv`, `EFX.LB4R.upgrade_inv`, `EFX.LB4R.rotStep_inv`, `EFX.LB4R.output_big_base` (over lists) |
+| K4.C4.FRAME | Theorem C₄ (LB₄ʳ, defined in Lean, succeeds on every strict profile of every k = 4 core, for every insertion sequence or for the index order; claimed false by PR #33, `k4/c4.md` §7, unreviewed) implies C₄∃ (every strict profile of every k = 4 core has a completion satisfying (OC₄) of a valid pre-allocation); C₄∃ ⟺ K4.D on strict cores (every strict k = 4 core has an EFX₀ allocation with at most one bundle of more than two goods), and C₄∃ implies K4.D (all k = 4 cores) and TARGET₄; the frame's content is the equivalence and the LB₄ʳ ⇒ C₄∃ direction | LB4R : `EFX.LB4R.target4_of_C4exists`, `EFX.LB4R.target4_of_C4existsConn`, `EFX.LB4R.target4_of_C4`, `EFX.LB4R.target4_of_C4index` (model), `EFX.LB4R.C4exists_iff`, `EFX.LB4R.sound_of_d2`, `EFX.LB4R.k4D_of_C4exists`, `EFX.LB4R.conn_of_C4exists`, `EFX.LB4R.C4exists_of_C4`, `EFX.LB4R.C4exists_of_C4index`, `EFX.LB4R.theoremC4index_of_C4`, `EFX.LB4R.k4D_of_C4index`, `EFX.LB4R.sound_of_succeeds`, `EFX.LB4R.Inv.sound`, `EFX.LB4R.phase1State_inv`, `EFX.LB4R.upgrade_inv`, `EFX.LB4R.rotStep_inv`, `EFX.LB4R.rotStep_valid`, `EFX.LB4R.output_big_base` (over lists) |
 | T | TARGET (Corollary T): every instance with `\|R_i\| ≤ 3` for every agent has a complete EFX₀ allocation | Target : `EFX.target` (model), `EFX.target_lists` (over lists), values in ℕ; RealValues : `EFX.target_ordered` (values in any `EFX.OrderedValue`, e.g. ℝ≥0, via L12), `EFX.target_of_ordered` (its specialization to ℕ) |
 | L12 | Real values reduce to natural numbers: with ≤ 3 relevant goods per agent and nonnegative values, there are natural-number values with the same relevant goods and the same answer to every comparison between two subset sums; EFX₀, the relevant-goods count and balance transfer | RealValues : `EFX.l12`, `EFX.OrderedValue.exists_agree` (one agent), `EFX.OrderedValue.tri_rep` (three positive values), `EFX.numRelevant_eq_of_agree`, `EFX.OrderedValue.balanced_iff_of_agree`, `EFX.efx0_iff_of_agree` (EFX₀ for `v` iff for `w`) |
 | — | The list layer agrees with the model | Bridge : `EFX.Inst.efx0_iff` |
@@ -231,10 +240,10 @@ good), and extends it to monotone valuations.
   large bundle) is not formalized. `EFX.LB.lb_sound` reads its conclusion through the definitions of
   `EFX/LBRun.lean` (what `lb` computes) and `EFX.LB.Profile.Consistent`, which a reader must accept along with the
   trusted base; `EFX.LB.sound` needs only `Profile.Consistent`, `Profile.NA` and `Hyp`.
-- LB₄ʳ (`EFX/LB4R.lean`) is defined relationally where the text searches: the order in which owners, chains and the
-  sets `C` and `O` are tried is not modeled (so "succeeds" means "some tried configuration succeeds"), and the owner
-  step allows every completion satisfying (OC₄) (by Lemma 3₄ the same, except for a rotated owner with a one-good
-  base). Theorem C₄ itself is not proved: it is the hypothesis of `EFX.LB4R.target4_of_C4`.
+- LB₄ʳ (`EFX/LB4R.lean`) is defined relationally where the text searches; where the prose leaves room, the choices
+  are listed in that file's module doc. Theorem C₄ itself is not proved: it is the hypothesis of
+  `EFX.LB4R.target4_of_C4`, and PR #33 (`k4/c4.md` §7, unreviewed) claims it is false. C₄∃, equivalent to K4.D on
+  strict cores, is not proved either.
 - LB₄ (`k4/lb4.md` §2) is not defined in Lean: `EFX/PreAllocK.lean` proves what holds for every completion of
   every valid pre-allocation (`SoundCompletion`), and that every allocation LB₄ returns is one (its bases,
   caps, upgrades and rotation, the premise of the Shape paragraph) is read from the text, not formalized.
