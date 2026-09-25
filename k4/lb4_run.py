@@ -106,7 +106,7 @@ def main():
                     for bs in toks[23:]:
                         s, c = bs.split(':'); tot['big' + s] = tot.get('big' + s, 0) + int(c)
                     if kv['fails'] or kv['rawfails']: bad.append((r['m'], r['sets'], kv['fails'], kv['rawfails']))
-                    if '-i1' not in opts and '-i9' not in opts and not any(o.startswith('-S') for o in opts):        # every profile covered exactly once: leaf weights add up
+                    if '-i1' not in opts and '-i9' not in opts and not any(o[:2] in ('-S', '-H') for o in opts):        # every profile covered exactly once: leaf weights add up
                         expect = 1
                         for dom in check4.core_domains(r['sets'], r['m'], ties): expect *= len(dom)
                         if kv['total'] != expect: raise SystemExit(f"coverage mismatch {r['sets']}: {kv['total']} != {expect}")
