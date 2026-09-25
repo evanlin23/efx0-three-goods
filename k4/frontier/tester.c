@@ -1,5 +1,5 @@
 /* k = 4 construction tester: runs a construction on every strict profile (or a random sample) of every core in a
-   cores file (written by export_cores.py from the certificates) and checks each output against the raw EFX₀
+   cores file (written by tester.py's export() from the certificates) and checks each output against the raw EFX₀
    definition with explicit integer values: v_i(X_i) >= v_i(X_j) - v_i(h) for all i != j and h in X_j (all goods
    counted, v_i = 0 outside R_i). With --d2 it also requires at most one bundle of more than 2 goods.
    Types are enumerated here from scratch, as in k4/check4.py: vectors in [1, 16]^d, one per dense ranking of the
@@ -55,13 +55,17 @@ static int read_core(FILE *f, core_t *c) {
         if (line[0] != 'C') continue;
         if (sscanf(line, "C %63s %d %d %127s", c->id, &c->n, &c->m, c->src) != 4) return -1;
         if (c->n > K4_MAXN || c->m > K4_MAXM) return -1;
+        if (c->n < 1 || c->m < 1) return -1;
         for (int i = 0; i < c->n; i++) {
             if (fscanf(f, " A %d", &c->deg[i]) != 1 || c->deg[i] < 3 || c->deg[i] > 4) return -1;
-            for (int k = 0; k < c->deg[i]; k++) if (fscanf(f, "%d", &c->goods[i][k]) != 1) return -1;
+            for (int k = 0; k < c->deg[i]; k++)
+                if (fscanf(f, "%d", &c->goods[i][k]) != 1 || c->goods[i][k] < 0 || c->goods[i][k] >= c->m) return -1;
         }
-        if (fscanf(f, " K %d", &c->K) != 1) return -1;
-        c->allocs = malloc(sizeof(int) * (c->K * c->m + 1));
-        for (int a = 0; a < c->K * c->m; a++) if (fscanf(f, "%d", &c->allocs[a]) != 1) return -1;
+        if (fscanf(f, " K %d", &c->K) != 1 || c->K < 0) return -1;
+        c->allocs = malloc(sizeof(int) * ((long)c->K * c->m + 1));
+        if (!c->allocs) return -1;
+        for (long a = 0; a < (long)c->K * c->m; a++)
+            if (fscanf(f, "%d", &c->allocs[a]) != 1 || c->allocs[a] < 0 || c->allocs[a] >= c->n) return -1;
         return 1;
     }
     return 0;

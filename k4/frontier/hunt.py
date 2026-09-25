@@ -12,7 +12,8 @@ goods; incremental SAT with activation literals); then --climb steps of hill-cli
 score: for each choice of the large bundle's owner (or no large bundle), the number of D2 EFX₀ allocations with that
 owner, capped at --cap, summed (score 0 = no D2 allocation), starting from a "collision" profile (every agent ranks
 its highest-degree goods first). A profile with no D2 allocation is solved again without
-the shape limit and written to --out; it counts only after the independent check verify_fail.py confirms it.
+the shape limit and written to --out; it counts only after the independent check verify_fail.c (brute force,
+raw definition) confirms it.
 
 Usage: hunt.py --n=6 [--m=LO:HI] [--p4=0.5|--pure] [--skew=0] [--cores=100] [--rand=200] [--climb=150] [--cap=2]
                [--seed=1] [--jobs=J] [--out=results/k4_hunt_fail.jsonl]"""

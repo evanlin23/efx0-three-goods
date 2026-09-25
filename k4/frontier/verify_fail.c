@@ -49,11 +49,12 @@ static void rec(int g) {
 int main(int argc, char **argv) {
     anyshape = argc > 1 && !strcmp(argv[1], "--any");
     while (scanf("%d %d", &n, &m) == 2) {
+        if (n < 1 || n > MN || m < 1 || m > MM) { fprintf(stderr, "need 1 <= n <= %d, 1 <= m <= %d\n", MN, MM); return 2; }
         memset(v, 0, sizeof v);
         for (int i = 0; i < n; i++) {
-            int d, gs[8]; if (scanf("%d", &d) != 1 || d > 8) return 2;
-            for (int k = 0; k < d; k++) if (scanf("%d", &gs[k]) != 1) return 2;
-            for (int k = 0; k < d; k++) if (scanf("%d", &v[i][gs[k]]) != 1) return 2;
+            int d, gs[8]; if (scanf("%d", &d) != 1 || d < 0 || d > 8) return 2;
+            for (int k = 0; k < d; k++) if (scanf("%d", &gs[k]) != 1 || gs[k] < 0 || gs[k] >= m) return 2;
+            for (int k = 0; k < d; k++) if (scanf("%d", &v[i][gs[k]]) != 1 || v[i][gs[k]] < 0) return 2;
         }
         for (int g = 0; g < m; g++) own[g] = -1;
         memset(cnt, 0, sizeof cnt); found = 0; leaves = 0;
