@@ -4,8 +4,10 @@ import EFX.PreAllocK
 # Construction LB₄ʳ and Theorem C₄ (`k4/lb4.md` §2, §5; ledger K4.C4.FRAME)
 
 LB₄ʳ(τ) (`k4/lb4.md` §5, "LB₄ʳ(τ), precisely", with LB₄'s steps of §2) defined over the pre-allocations of
-`EFX/PreAllocK.lean`, the statement of Theorem C₄ (LB₄ʳ never fails on a strict profile of a k = 4 core), and the
-reduction "C₄ ⟹ K4.D ⟹ TARGET₄" (`target4_of_C4`).
+`EFX/PreAllocK.lean`, the statement of Theorem C₄ (LB₄ʳ never fails on a strict profile of a k = 4 core), its
+route-agnostic form C₄∃ (`TheoremC4exists`: every strict profile of every k = 4 core has a sound completion of some
+valid pre-allocation), and the reductions "C₄ ⟹ C₄∃ ⟹ K4.D ⟹ TARGET₄" (`C4exists_of_C4`, `k4D_of_C4exists`,
+`target4_of_C4exists`, `target4_of_C4`).
 
 **Representation.** A state `LState` records the bases (`base : G → Option A`), the picks (`pick`, used by the need
 chains) and the agents *marked* as upgraded or rotated. Needs are not stored but derived (`needsOf`):
@@ -799,29 +801,58 @@ theorem sound_of_succeeds {v : A → G → Nat} {agents : List A} {goods : List 
   have hinv := rotReach_inv hgd hrot (upRun_inv hup (phase1State_inv (τ := τ) hag hgd))
   exact ⟨s.base, needsOf v goods s, o, X, hinv.sound hout⟩
 
-/-- **C₄ (index order) ⟹ K4.D.** If LB₄ʳ with the index order succeeds on every strict profile of every k = 4 core,
-every k = 4 core (strict or not) has an EFX₀ allocation with at most one bundle of more than two goods: a strict core
-directly, and a core with ties through its strict perturbation (K4.TIE, `EFX.tieBreak`), whose allocation is EFX₀
-for the original values. -/
-theorem k4D_of_C4index (hC4 : TheoremC4index A G) {agents : List A} {goods : List G} {v : A → G → Nat}
+/-- **Theorem C₄∃** (route-agnostic): every strict profile of every k = 4 core has a valid pre-allocation (bases of
+any size, needs in the Definition's sense for the agents other than the owner) with a completion satisfying (OC₄),
+the owner's needs taken from its bundle (`EFX.LB4.SoundCompletion`: frozen agents hold exactly their base, and only the
+owner's bundle may have more than two goods). A witness with the owner's needs from its base is one too
+(`EFX.LB4.SoundCompletion.of_baseNeeds`). -/
+def TheoremC4exists (A G : Type) [DecidableEq A] [DecidableEq G] : Prop :=
+  ∀ (agents : List A) (goods : List G) (v : A → G → Nat), agents.Nodup → goods.Nodup → IsCore4 v agents goods →
+    Strict v agents goods →
+      ∃ (base : G → Option A) (N : A → G → Prop) (o : Option A) (X : G → A),
+        SoundCompletion v agents goods base N o X
+
+/-- **C₄ (LB₄ʳ, index order) ⟹ C₄∃**: every output of LB₄ʳ is a sound completion. -/
+theorem C4exists_of_C4index (h : TheoremC4index A G) : TheoremC4exists A G :=
+  fun agents goods v hag hgd hc hs => sound_of_succeeds hag hgd (h agents goods v hag hgd hc hs)
+
+/-- **C₄ (LB₄ʳ) ⟹ C₄∃.** -/
+theorem C4exists_of_C4 (h : TheoremC4 A G) : TheoremC4exists A G :=
+  C4exists_of_C4index (theoremC4index_of_C4 h)
+
+/-- **C₄∃ ⟹ K4.D.** Every k = 4 core (strict or not) has an EFX₀ allocation with at most one bundle of more than
+two goods: a strict core directly (Theorem 1′₄ and the shape, `EFX.LB4.SoundCompletion.efx0_d2`), a core with ties
+through its strict perturbation (K4.TIE, `EFX.tieBreak`), whose allocation is EFX₀ for the original values. -/
+theorem k4D_of_C4exists (hC4 : TheoremC4exists A G) {agents : List A} {goods : List G} {v : A → G → Nat}
     (hag : agents.Nodup) (hgd : goods.Nodup) (hc : IsCore4 v agents goods) :
     ∃ X : G → A, IsAllocation agents goods X ∧ EFX0L v agents goods X ∧
       ∃ w ∈ agents, ∀ j ∈ agents, j ≠ w → (bundle goods X j).length ≤ 2 := by
   have hne : agents ≠ [] := fun h => by have := hc.1; rw [h] at this; simp at this
-  obtain ⟨base, N, o, X, hS⟩ := sound_of_succeeds hag hgd
-    (hC4 agents goods (tieBreak v goods) hag hgd (isCore4_tieBreak v goods hgd hc) (strict_tieBreak v goods hgd))
+  obtain ⟨base, N, o, X, hS⟩ :=
+    hC4 agents goods (tieBreak v goods) hag hgd (isCore4_tieBreak v goods hgd hc) (strict_tieBreak v goods hgd)
   obtain ⟨hX, hE, hd2⟩ := hS.efx0_d2 hgd hne
   exact ⟨X, hX, efx0_of_tieBreak v goods hgd hE, hd2⟩
 
-/-- **C₄ (index order) ⟹ TARGET₄.** With K4.CORE and K4.TIE (`EFX.LB4.target4_of_completions`): if LB₄ʳ with the
-index order succeeds on every strict profile of every k = 4 core, every instance with at least one agent and at most
-four relevant goods per agent has an EFX₀ allocation. Theorem C₄ is a hypothesis here, not an axiom. -/
-theorem target4_of_C4index (I : Inst) (hn : 0 < I.n) (hC4 : TheoremC4index (Fin I.n) (Fin I.m))
+/-- **C₄∃ ⟹ TARGET₄.** With K4.CORE and K4.TIE (`EFX.LB4.target4_of_completions`): every instance with at least one
+agent and at most four relevant goods per agent has an EFX₀ allocation. C₄∃ is a hypothesis, not an axiom. -/
+theorem target4_of_C4exists (I : Inst) (hn : 0 < I.n) (hC4 : TheoremC4exists (Fin I.n) (Fin I.m))
     (h : ∀ i, numRelevant I i ≤ 4) : ∃ X : I.Alloc, I.EFX0 X :=
   target4_of_completions I hn I.n (Nat.le_refl _)
-    (fun w agents goods hag hgd _ hc _ hs _ => sound_of_succeeds hag hgd (hC4 agents goods w hag hgd hc hs)) h
+    (fun w agents goods hag hgd _ hc _ hs _ => hC4 agents goods w hag hgd hc hs) h
 
-/-- **Theorem C₄ ⟹ TARGET₄** (every insertion sequence; the index order suffices). -/
+/-- **C₄ (LB₄ʳ, index order) ⟹ K4.D.** -/
+theorem k4D_of_C4index (hC4 : TheoremC4index A G) {agents : List A} {goods : List G} {v : A → G → Nat}
+    (hag : agents.Nodup) (hgd : goods.Nodup) (hc : IsCore4 v agents goods) :
+    ∃ X : G → A, IsAllocation agents goods X ∧ EFX0L v agents goods X ∧
+      ∃ w ∈ agents, ∀ j ∈ agents, j ≠ w → (bundle goods X j).length ≤ 2 :=
+  k4D_of_C4exists (C4exists_of_C4index hC4) hag hgd hc
+
+/-- **C₄ (LB₄ʳ, index order) ⟹ TARGET₄**: `target4_of_C4exists` after `C4exists_of_C4index`. -/
+theorem target4_of_C4index (I : Inst) (hn : 0 < I.n) (hC4 : TheoremC4index (Fin I.n) (Fin I.m))
+    (h : ∀ i, numRelevant I i ≤ 4) : ∃ X : I.Alloc, I.EFX0 X :=
+  target4_of_C4exists I hn (C4exists_of_C4index hC4) h
+
+/-- **Theorem C₄ (LB₄ʳ) ⟹ TARGET₄** (every insertion sequence; the index order suffices). -/
 theorem target4_of_C4 (I : Inst) (hn : 0 < I.n) (hC4 : TheoremC4 (Fin I.n) (Fin I.m))
     (h : ∀ i, numRelevant I i ≤ 4) : ∃ X : I.Alloc, I.EFX0 X :=
   target4_of_C4index I hn (theoremC4index_of_C4 hC4) h
@@ -842,3 +873,7 @@ end EFX
 #print axioms EFX.LB4R.target4_of_C4
 #print axioms EFX.LB4R.output_big_base
 #print axioms EFX.LB4R.rotStep_valid
+#print axioms EFX.LB4R.C4exists_of_C4index
+#print axioms EFX.LB4R.C4exists_of_C4
+#print axioms EFX.LB4R.k4D_of_C4exists
+#print axioms EFX.LB4R.target4_of_C4exists
