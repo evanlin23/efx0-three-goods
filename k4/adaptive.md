@@ -251,7 +251,20 @@ matched to their first choice first, then second, then unmatched; `-A18` second-
 matching recomputed at every insertion step. Fewest rotations LB₄ʳ needs on the rule's sequence
 (`results/k4_adaptive_matching.log`):
 
-MATCH_TABLE
+| test set | `-A17` first choice first | `-A18` second choice first | `-A25` recomputed |
+|---|---|---|---|
+| n = 3, exhaustive (299,837,376) | 11,520 | 8,120 | 11,520 |
+| n = 4, one 4-good agent, exhaustive | 0 | 0 | 0 |
+| n = 4, two, exhaustive (724,847,616) | 216 | 232 | 216 |
+| n = 4, three, exhaustive (34,971,844,608) | 28,256 | 13,376 | 28,256 |
+| n = 5, five classes, 1,000 random profiles per core (31,584,000) | 1 | 6 | 1 |
+| #30's 442 GM₄ profiles | 0 | 0 | 0 |
+| hill-climbing on #32's hard n ≤ 5 cores (1,344,000) | 420 | 1,069 | 420 |
+| H_1, H_2, H_3 in #33's labeling (rotations needed) | 1, 2, 2 | 0, 0, 0 | 1, 2, 2 |
+| H_1–H_3, five relabelings each | 0 | 0 | 0 |
+
+(Profiles needing two rotations; none needs three. n = 2: none. Rule F needs at most one on every row. The `-A17` rows
+were run before a fix to `-A18`, which does not change `-A17`; the log records the source hash of each run.)
 
 All three fail with one rotation at n = 3, m = 6: `-A17` and `-A25` on the profile of the table above, `-A18` on
 `-A9`'s (confirmed in PR #33's model, `results/k4_adaptive_attempts.log`). On H_t the matching is forced (ℓ, y_j, x_{j,2}, x_{j,3} get their first choice,
@@ -356,5 +369,6 @@ python3 k4/adaptive_verify_H.py 5 200                                           
 python3 attempts/k4_adaptive_attempts.py                                         # rejected rules, smallest failures
 bash k4/adaptive_runs.sh                                                         # every log of this file
 ```
-`k4/adaptive_verify_H.py` and `attempts/k4_adaptive_attempts.py` need PR #33's `k4/c4_verify_H/` (set `C4VERIFY_DIR`
-while it is not on main); `k4/adaptive_crosscheck.py` needs `k4/c4check.c` of proof/k4-c4one compiled (`C4CHECK_BIN`).
+`k4/adaptive_verify_H.py` and `attempts/k4_adaptive_attempts.py` use PR #33's `k4/c4_verify_H/` (on main since #33
+merged); `k4/adaptive_crosscheck.py` needs `k4/c4check.c` of branch proof/k4-c4one (PR #37) compiled (`C4CHECK_BIN`),
+which differs from main's `k4/c4check.c` (#33) by A₄⁺(o).
