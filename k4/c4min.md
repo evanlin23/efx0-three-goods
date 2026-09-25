@@ -220,9 +220,16 @@ Z2(b), L ∩ R_i = ∅ for every i. The goods of L (there are ω ≥ 1 of them) 
 contradicts the definition of a core (every good is relevant to some agent). ∎
 
 *What is used.* Strict values; |R_i| ≤ 4; balance of 3-good agents (so that {b, c} is admissible and robust); every
-good relevant to someone; m ≥ 2n + 1. The private-goods rule of cores and connectivity are not used. The proof is by
-contradiction, but it is effective: a maximum can be reached by pool improvements and rotations. Each pool
-improvement raises (r, Λ). A rotation of Lemma R raises r when r = 0, since every agent was non-robust.
+good relevant to someone; m ≥ 2n + 1. The private-goods rule of cores and connectivity are not used.
+
+*An algorithm.* The proof is effective. Starting from any APA:
+1. apply pool improvements until the APA is pool-optimal (each raises Λ and keeps r, so there are at most 15n of
+   them, as each level is below 2⁴);
+2. if no owner is valid, then r = 0 (Lemma P), and one rotation of Lemma R gives an APA with r ≥ 1;
+3. apply pool improvements again (r never drops).
+
+Now the APA is pool-optimal with r ≥ 1, so some owner is valid by Lemma P. At most one rotation is needed. Finding
+the first APA, i.e. disjoint admissible sets, is the only step not shown to be polynomial.
 
 **Corollary Z.** C₄ᵐⁱⁿ holds on every H_t (t ≥ 1), the cores of `k4/c4.md` §7 (PR #33) on which LB₄ʳ with index
 insertion needs ⌈2t/3⌉ nested rotations. H_t has fewest frozen agents 0: y_j takes {a_{j,1}}, x_{j,1} its private pair
@@ -288,7 +295,8 @@ v(top) > v(top). So Theorem F says nothing about f = 1.
     That is a contradiction. ∎
 
 The proof is effective in the same way as Theorem Z's: pool improvements, rotations of Lemma R, and rotations of
-frozen cycles each raise (r, Λ) and keep the configuration frozen-robust.
+frozen cycles each raise (r, Λ) and keep the configuration frozen-robust. As r ≤ n and Λ ≤ 15n, O(n²) moves reach a
+configuration with a valid owner from any frozen-robust configuration.
 
 *Checks.* `k4/c4min_f.py` checks Theorem F and its lemmas on every frozen-robust configuration of the profiles it
 examines. It checks the analogues of A–D, and for C that a frozen improving cycle exists when every free agent is
@@ -416,7 +424,7 @@ where an owner is needed at all.
 | Theorem Z (`9,16`, `-f 0`) | every profile with n ≤ 3: 103,824 (n = 2) + 112,040,608 (n = 3) with f = 0, ω ≥ 1; 4.74·10⁹ configurations at n = 3 | every max completable; r alone fails on 7,968 (n = 3); every Pareto-maximum completable (321,213,444 at n = 3) | `results/k4_c4min_z_n3.log` |
 | Theorem Z lemmas A–D (Python) | all n = 2 (103,824 profiles with f = 0, ω ≥ 1); 10,000 random profiles per n = 3 core (173,126 with f = 0, ω ≥ 1) | 0 violations; 991,329 pool-optimal APAs, 6,053 of them without a valid owner, each with a rotation of Lemma R giving a robust agent | `results/k4_c4min_zf_python.log` |
 | Theorem F lemmas (Python) | 10,000 random profiles per n = 3 core with f ≥ 1 (1,681 have a frozen-robust configuration, all with f = 2); 30 per n = 4 core | 0 violations; at n = 4, 6 pool-optimal frozen-robust configurations without a valid owner, each resolved by a rotation (plain or modified) | `results/k4_c4min_zf_python.log`, `results/k4_c4min_f_n4.log` |
-| Theorem F (`23,9,16`, `-A -U0`) | every profile with n ≤ 3, f ≥ 1, having a frozen-robust configuration | FNRESULT | `results/k4_c4min_f_n3.log` |
+| Theorem F (`23,9,16`, `-A -U0`) | every profile with n ≤ 3, f ≥ 1, having a frozen-robust configuration: 315,364 (all at n = 3, f = 2) | every max completable without unfreezing | `results/k4_c4min_f_n3.log` |
 | Conjecture Φ (`8,9,16`) | every profile with n ≤ 3 and f ≥ 1: 1,296 (n = 2) + 7,599,908 (n = 3) with ω ≥ 1; 1.43·10⁸ configurations at n = 3 | every max completable; also (−t, leximin) and (−t, r, leximin); (r, Λ) fails on 56,928, and on 128 no maximum of it is completable | `results/k4_c4min_phi_n3.log` |
 | Theorems Z, F, Conjecture Φ | n = 4: every profile of the 135 cores with one 4-good agent; 1,000 random profiles per core for two, three, four 4-good agents; n = 5: 50 per core (one, two 4-good agents; pure) | N4RESULT | `results/k4_c4min_n4.log` |
 | H_1, H_2 | one profile each | every max of (r, Λ) completable | §3.4 (rerun with `k4/c4min.c`) |

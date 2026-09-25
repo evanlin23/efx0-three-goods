@@ -1,0 +1,8 @@
+# k4/c4min.md §3.6, Theorem F: on every strict profile with n <= 3, fewest frozen agents >= 1 and a frozen-robust configuration (-A), every maximum of (allrobF, r, Lambda) has a valid owner without unfreezing (-U0)
+# command: python3 k4/c4min_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz -F1 -A -U0 -p "23,9,16" --jobs=3
+# started Fri Sep 25 21:22:41 UTC 2026
+FILE results/k4_certs_2.json.gz cores 5 profiles 189216 omega>=1 1296 configs 0 none 0 keyfail 1440 xbad 0 paretomax 0 paretoevery 0 paretosome 0 rmax0 0 allrobF 0 covZ 0 covF 0 f1 0 uncovered 0
+  (allrobF,rob,sumlev)                     every-max fails          0   some-max fails          0
+FILE results/k4_certs_3.json.gz cores 51 profiles 299837376 omega>=1 7599908 configs 4654056 none 0 keyfail 255952 xbad 0 paretomax 0 paretoevery 0 paretosome 0 rmax0 0 allrobF 315364 covZ 0 covF 315364 f1 0 uncovered 0
+  (allrobF,rob,sumlev)                     every-max fails          0   some-max fails          0
+# finished Fri Sep 25 21:34:58 UTC 2026
