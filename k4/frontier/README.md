@@ -32,7 +32,7 @@ With the old scanner (`k4/scan.c`), a core with four 4-good agents took ~35 s in
 walk grows with the product of the domains, so a fifth 288-type agent multiplies it by up to 48 more; that is why
 `k4/SCOUT.md` left pure n = 5 open. It took ~5 CPU-hours here. No symmetry reduction or type lemma was needed: the minimal-row
 reduction adapts to the allocations found, and the store carries covered regions from one call to the next.
-Next (running as a follow-up; counts in `results/k4_frontier_counts_6.log`): n = 6 with two 4-good agents, 119,283 cores at ~0.7 s each with `--tries=2`, ≈ 24 CPU-hours plus
+Not run (stopped, effort goes to the proof): n = 6 with two 4-good agents (counts in `results/k4_frontier_counts_6.log`), 119,283 cores at ~0.7 s each with `--tries=2`, ≈ 24 CPU-hours plus
 checking.
 
 Runs are split into parts with checkpoints:
