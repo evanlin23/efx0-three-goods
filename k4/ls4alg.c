@@ -328,6 +328,10 @@ int main(void) {
                "L2=%ld L3=%ld L4=%ld L5=%ld maxsteps=%ld maxlevels=%ld big0=%ld big1=%ld big2=%ld big3+=%ld\n",
                cnt_run, cnt_fail, cnt_p2[0], cnt_p2[1], cnt_p2[2], cnt_p2[3], cnt_p2[4], cnt_move[0], cnt_move[1], cnt_move[2],
                cnt_L[2], cnt_L[3], cnt_L[4], cnt_L[5], cnt_steps_max, cnt_levels_max, cnt_big[0], cnt_big[1], cnt_big[2], cnt_big[3]);
+#ifdef CMOVE
+        printf("CMOVES"); for (int k = 2; k <= n; k++) printf(" C%d=%ld", k, cnt_C[k]); printf("\n");
+        memset(cnt_C, 0, sizeof cnt_C);
+#endif
         fflush(stdout);
         if (cnt_fail) anyfail = 1;
     }

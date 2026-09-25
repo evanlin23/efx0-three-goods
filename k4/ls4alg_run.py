@@ -85,6 +85,9 @@ def main():
                     for k, v in kv.items():
                         tot[k] = max(tot.get(k, 0), int(v)) if k.startswith('max') else tot.get(k, 0) + int(v)
                     if int(kv.get('deadprof', 0)): print(sets, 'm =', m, line, flush=True)
+                elif line.startswith('CMOVES'):
+                    for x in line.split()[1:]:
+                        k, v = x.split('='); tot[k] = tot.get(k, 0) + int(v)
                 elif line.startswith('FAIL') or line.startswith('DEADEND'): print(sets, line, flush=True)
             if rc != 0 or 'RESULT' not in out: bad += 1; print('BAD', sets, 'rc', rc, out[-500:], flush=True)
     print(f"TOTAL cores={ncores} badcores={bad} " + ' '.join(f"{k}={v}" for k, v in tot.items()) + f" wall={time.time() - t0:.0f}s", flush=True)
