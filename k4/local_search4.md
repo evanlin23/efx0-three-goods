@@ -19,7 +19,7 @@ route to TARGET₄ that does not go through construction LB₄ (`k4/SCOUT.md` §
   - n = 4 with one 4-good agent (exhaustive) or two (see §5);
   - large random samples of every other n = 4 and n = 5 certificate class,
 
-  except on 20 of the 21.9 million sampled profiles of pure n = 4 cores (§5). All 20 are dead ends or stable states without a placement.
+  except on 20 of the 21.9 million sampled profiles of pure n = 4 cores (§5). There LS4 stops at a state that no M1, R or X move improves and that no placement completes. Of the three such states examined by brute force, one is a dead end; the other two still admit coalition moves.
 - *Not proved:* a polynomial bound on the running time. The number of moves is linear, but the implementation finds exchange cycles and the Phase-2 split by enumeration.
 
 ## 0. Setting and notation
@@ -82,6 +82,7 @@ Start with Y_i = ∅ for all i and U = M. Repeat:
 - (a) If some bundle Y_e is empty: Y_e := U.
 - (b) Else, if some source s values no good of U and Y_s ∪ U is threat-free for s: Y_s := Y_s ∪ U.
 - (c) Else, if there are a source s* and J ⊆ U ∖ R_{s*} with Y_{s*} ∪ J threat-free for s*, and the goods of U ∖ J can be given one each to distinct sources s ≠ s* with u ∉ R_s and Y_s ∪ {u} threat-free for s: do so (*DM*: a dump plus solo goods).
+- (d) Else, if some assignment of each good of U to a source that does not value it gives an EFX₀ allocation (found by exhaustive search): use it. This fallback is needed rarely (§5).
 
 *Choice points.* Any valid choice may be taken. The implementation `k4/ls4alg.c` takes, in step 1, the first agent in index order with a move and its least valuable improving Z. In step 2 it takes the first cycle found. In step 4 it takes the first cycle in order of length, then agent set, then order, then sets. In Phase 2 it takes the first s, s*, J and matching found. Theorem 1 holds for every choice; the evidence of §5 is for this rule.
 
@@ -93,7 +94,7 @@ Every rule compares subset sums of single agents only, so the run is determined 
 - (i) Every state Y of LS4 is a junk-free EFX₀ partial allocation.
 - (ii) Every move of steps 1, 2 and 4 raises Φ by at least 1. So LS4 performs at most Σ_i (2^{d_i} − 1) ≤ 15n₄ + 7n₃ moves.
 - (iii) Every output is a complete allocation that is EFX₀ for V, hence for v.
-- (iv) LS4 fails only at a state Y with U ≠ ∅ where no M1, R or X move applies and none of (a)–(c) applies.
+- (iv) LS4 fails only at a state Y with U ≠ ∅ where no M1, R or X move applies and none of (a)–(d) applies.
 
 *Proof.* The empty allocation is junk-free and EFX₀.
 
@@ -104,7 +105,7 @@ Every rule compares subset sums of single agents only, so the run is determined 
 
 In each case Φ strictly increases and is bounded, so there are at most Σ_i (2^{d_i} − 1) moves.
 
-(iii) *Phase 2 (b), (c).* Every receiver r gets goods outside R_r, so all values σ_h are unchanged. Consider h and a bundle X_j with j ≠ h.
+(iii) *Phase 2 (d)* gives an EFX₀ allocation by definition. *Phase 2 (b), (c).* Every receiver r gets goods outside R_r, so all values σ_h are unchanged. Consider h and a bundle X_j with j ≠ h.
 - If j received nothing, θ_h(X_j) = θ_h(Y_j) ≤ σ_h, since Y is EFX₀.
 - If j received, θ_h(X_j) ≤ σ_h by the threat-freeness condition.
 
@@ -127,13 +128,13 @@ So X is EFX₀ and complete.
 
 (F2) If U ∩ R_h ≠ ∅, then σ_h > 0 by (F1), so Y_h ≠ ∅ and W := U ∩ R_h has at most 3 goods. Let x ≠ h.
 - If W ⊄ R_x, then θ_x(W) = V_x(W ∩ R_x), and |W ∩ R_x| ≤ 2, so it is ≤ σ_x by (F1) and the pair bound.
-- If W ⊆ R_x, then θ_x(W) is the value of x's best two goods of W, ≤ σ_x by the pair bound.
+- If W ⊆ R_x, then θ_x(W) = max_g V_x(W ∖ g) is the value of a set of at most two goods of U ∩ R_x, ≤ σ_x by (F1) and the pair bound.
 
 So W is threat-free for h, and V_h(W) > σ_h would give a valid M1 move. ∎
 
 ## 4. Stable states: a dead end, three goods, one source
 
-**Conjecture TP₄ (refuted).** "Let Y be a junk-free EFX₀ partial allocation of a k = 4 core with U ≠ ∅, and suppose no M1, R or X move applies. Then Phase 2 (a), (b) or (c) applies."
+**Conjecture TP₄ (refuted).** "Let Y be a junk-free EFX₀ partial allocation of a k = 4 core with U ≠ ∅, and suppose no M1, R or X move applies. Then Phase 2 (a), (b) or (c) applies." (With (d) in place of (c) the statement is also false: Proposition 7.)
 
 TP₄ would have made LS4 correct for every choice of moves, and with K4.CORE and K4.TIE it would have given TARGET₄. It is false.
 
@@ -154,7 +155,7 @@ The core of (ii) by hand: the sources are agents 2 and 3 (agent 2 envies agent 0
 
 By (iii), a two-phase search that may reach Y cannot succeed, whatever moves it makes afterwards, as long as each move leaves every agent at least as well off. Single-agent rebundles reach Y, so every Pareto move set containing them can reach Y under some choices.
 
-What survives is LS4 with a fixed choice rule, as an algorithm to be tested, and the partial results above. The same profile succeeds under the alternative rule `-DALT` (most valuable rebundle, rotating agent order, longest cycles first).
+The dead end is a matter of choices. The same profile succeeds under the alternative rule `-DALT` (most valuable rebundle, rotating agent order, longest cycles first), and every profile has *some* successful Pareto path: an allocation's valued part is a junk-free EFX₀ partial allocation, and a coalition move can jump to it from the empty allocation. But neither rule tried avoids dead ends in general: the default rule fails on 20 and `-DALT` on 23 of 21.9 million sampled pure n = 4 profiles (§5). A local-search proof needs a choice rule with a *proof* that dead ends are avoided, or non-Pareto moves.
 
 The shape of (c) is also forced, in the following sense. Some state stable under every Pareto move, even every coalition move, admits no single dump (b). The only complete EFX₀ allocation that is at least as good for everyone as that state splits the pool over two sources (`attempts/k4-ls-single-dump.md`). So Phase 2 must be able to split the pool, as LS2's matching does at k = 3.
 
@@ -229,7 +230,31 @@ So a stable state without a placement needs at least two sources, the dump fails
 
 *Sensitivity test* (`results/k4_ls4_sensitivity.log`). Without exchange cycles (`-DNOX`) the n = 2 run reports failures. So does a Phase 2 that dumps U unchecked (`-DBADDUMP`), and the raw check reports it too. Both runs have exit status 1.
 
-RESULTS_TABLE
+**Results** (LS4 with its default rule; "profiles" are strict type profiles; the certificate files' core lists).
+
+| class | cores | profiles | how | failures | notes | log |
+|---|---|---|---|---|---|---|
+| n = 2 | 5 | 189,216 (all tied profiles too) | exhaustive | 0 | X used 732 times; dump always single | `results/k4_ls4_2_ties.log` |
+| n = 3 | 51 | 299,837,376 (all 24,690,461,987 tied profiles too) | exhaustive | 0 | X used 3,474,924 times (cycles of length 2, 3); DM split needed 1,232 times; the exact-search fallback never | `results/k4_ls4_3_ties.log` |
+| n = 4, one 4-good agent | 135 | 7,247,232 | exhaustive | 0 | DM split 77,900 times | `results/k4_ls4_4_n4_1.log` |
+| n = 4, two 4-good agents | 309 | N4N42 | exhaustive | N4N42F | | `results/k4_ls4_4_n4_2.log` |
+| n = 4, three 4-good agents | 339 | 33,900,000 | 100,000 random per core | 0 | | `results/k4_ls4_4_sample.log` |
+| n = 4, pure | 219 | 21,900,000 | 100,000 random per core | **20** (10 cores, all m = 7) | dead ends (§4); rule `-DALT`: 23 failures on the same sample (`results/k4_ls4_4_pure_alt_sample.log`) | `results/k4_ls4_4_sample.log` |
+| n = 5, one 4-good agent | 1,735 | N5N41 | 20,000 random per core | N5N41F | | `results/k4_ls4_5_n4_1_sample.log` |
+| n = 5, two 4-good agents | 5,468 | 54,680,000 | 10,000 random per core | 0 | exact-search fallback needed 839 times (DM shape failed) | `results/k4_ls4_5_n4_2_sample.log` |
+
+In the n = 4 samples the exact-search fallback was needed 1,938 times: states where a junk placement exists but not in DM shape.
+
+*Every stable state, not only those LS4 reaches* (`k4/ls4_allstates.c`). All junk-free EFX₀ partial allocations of each profile are enumerated. For those with a nonempty pool and no M1, R or X move, Phase 2 is checked.
+- n = 2, exhaustive: 24,508 stable states, all completed by a single dump (`results/k4_ls4_allstates_2.log`). Without X, it reports failures.
+- n = 3, 510,000 random profiles: 191,274 stable states, all completed by a single dump (`results/k4_ls4_allstates_3_sample.log`).
+
+*Dead ends* (`k4/ls4_deadend.c`). These are junk-free EFX₀ partial allocations that no complete EFX₀ allocation weakly dominates, reachable or not.
+- n = 2: none, exhaustive (`results/k4_ls4_deadend_2.log`).
+- n = 3: none in 1,020,000 random profiles (`results/k4_ls4_deadend_3_sample.log`).
+- n = 4: none in 424,000 random profiles of the cores with m ≤ 6 (`results/k4_ls4_deadend_4_m6_sample.log`). With m ≤ 7, 34 of 1,000,000 random profiles have one (`results/k4_ls4_deadend_4_sample.log`), each reachable from the empty allocation by single-agent rebundles; the cores are listed in `results/k4_ls4_deadend_4_m7_sample.log`.
+
+So the smallest dead end has n = 3 or n = 4. An exhaustive search at n = 3 would take about 13 CPU-hours with `k4/ls4_deadend.c`; it was not run.
 
 ## 6. Variants that fail (`attempts/k4-ls-*.md`; replayed by `python3 k4/ls4_attempts.py`)
 
@@ -254,9 +279,10 @@ The last two rows are single-implementation sample counts from `k4/ls4.c` (the e
 - The number of Phase-1 moves is at most Σ_i (2^{d_i} − 1) ≤ 15n (Theorem 1).
 - Steps 1 and 2 and Phase 2 (a), (b) take polynomial time.
 - The implementation finds step 4's exchange cycles and Phase 2 (c)'s split by enumeration: over agent sequences and over subsets of the pool.
-  - Cycles of every length up to n occur (§5), so bounding the length is not an option (§6).
+  - Cycles of length up to 5 occur at n = 5 (`results/k4_ls4_5_n4_2_sample.log`, counters L2–L5), and capping the length at 2 fails (§6).
+  - The simplest polynomial split fails: keep at the dump every pool good that is individually harmless there and match the rest. It never worked in the 79 sampled n = 5 states that needed a split (`k4/ls4.c`, counter dm1), because pair constraints bind at the dump (Lemma 6).
   - Edge-local validity (threat-freeness of each Z_t with respect to the old values, which is how X is defined) loses nothing in the samples. So an exchange cycle is a cycle in a product graph on (agent, kept part of its bundle). The only non-local constraint is that the pool goods used by different agents must be disjoint.
-- Whether an improving exchange cycle, and a DM placement, can always be found in polynomial time is open. So is whether a Hall-type argument as at k = 3 decides between them.
+- Whether an improving exchange cycle, and a DM placement, can always be found in polynomial time is open. So is whether a Hall-type argument as at k = 3 decides between them. Both questions matter only for a choice rule that avoids dead ends (§4).
 
 ## 8. Status
 

@@ -73,6 +73,7 @@ def main():
         for k, rec in enumerate(recs[lo:hi], lo):
             if 'only' in opt and k != int(opt['only']): continue
             if 'maxm' in opt and rec['m'] > int(opt['maxm']): continue
+            if 'minm' in opt and rec['m'] < int(opt['minm']): continue
             tasks.append((exe, data['n'], rec['m'], rec['sets'], ties, sample, k + 1))
     tot, ncores, bad, t0 = {}, 0, 0, time.time()
     with Pool(jobs) as pool:
@@ -83,7 +84,8 @@ def main():
                     kv = dict(x.split('=') for x in line.split()[1:])
                     for k, v in kv.items():
                         tot[k] = max(tot.get(k, 0), int(v)) if k.startswith('max') else tot.get(k, 0) + int(v)
-                elif line.startswith('FAIL'): print(sets, line, flush=True)
+                    if int(kv.get('deadprof', 0)): print(sets, 'm =', m, line, flush=True)
+                elif line.startswith('FAIL') or line.startswith('DEADEND'): print(sets, line, flush=True)
             if rc != 0 or 'RESULT' not in out: bad += 1; print('BAD', sets, 'rc', rc, out[-500:], flush=True)
     print(f"TOTAL cores={ncores} badcores={bad} " + ' '.join(f"{k}={v}" for k, v in tot.items()) + f" wall={time.time() - t0:.0f}s", flush=True)
     sys.exit(1 if bad or tot.get('fail', 0) else 0)
