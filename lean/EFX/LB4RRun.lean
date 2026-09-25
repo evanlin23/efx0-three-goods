@@ -17,8 +17,14 @@ A run is a list of steps `(agent, pick)` in processing order (`PhaseRun`):
 - `step`: the agent of step `t` has lost a good (`LostAt`: some good it values was picked before `t`), or `t` is an
   insertion step (`InsAt`: no agent processed at `t` or later has lost a good).
 
-Blocks: `blockId t` counts the insertion steps up to `t`; a block is a maximal set of steps with the same count, its
-*leader* is the agent of its insertion step.
+Blocks (`SameBlock t₁ t₂`: no insertion step in `(t₁, t₂]`): every step has a leader (`exists_leader`), a block has
+one (`leader_unique`). Proved from `PhaseRun`: (I1) `pickedBefore_of_prefers`, (I3) `insAt_of_not_lost`, (B2) `b2`.
+
+After a run and LB₄ʳ's envy-free upgrades to the fixpoint (`AfterUp`): upgraded agents hold envy-free bases and need
+nothing (`upRun_efBase`, `EFBase.no_needs`); leaders are never upgraded (`leader_unmarked`); a need goes forward in
+the same block (`chain_step`); `r`, the last-processed unmarked agent (`IsLast`, `exists_last`), is a terminal
+((A1) `last_pick_free`, `last_not_frozen`) in the last block ((A2) `last_block`); need chains exist and stay in their
+block ((A4) `exists_chain`); every base has at most two goods (`base_two`); upgrades terminate (`upRun_exists`).
 -/
 
 set_option autoImplicit false
