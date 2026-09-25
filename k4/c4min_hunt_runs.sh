@@ -30,7 +30,7 @@ case "$1" in
                # (k4/c4min_common.py type_class): 10,11 = 'a > b + c' (G1 of k4/c4x.md §5); 0,1 = flat (a < c + d, G4)
     for cl in ${CLS:-10,11 0,1}; do
       log $R/k4_c4min_hunt_classes.log python3 c4min_hunt_run.py ../$R/k4_certs_5_n4_4.json.gz ../$R/k4_certs_5_pure.json.gz \
-          --classes=$cl --jobs=${JOBS:-4}
+          --classes=$cl --jobs=${JOBS:-4} --ckpt=../$R/k4_c4min_hunt_classes_${cl/,/_}.ckpt
     done ;;
   crosscheck)  # three implementations on random profiles
     log $R/k4_c4min_hunt_crosscheck.log python3 c4min_crosscheck.py ../$R/k4_certs_2.json.gz --per-core=40 --seed=1
