@@ -1,16 +1,16 @@
 
 === environment ===
-Thu Sep 24 23:42:35 UTC 2026
-work dir: /tmp/claude-0/-home-user-efx0-three-goods/e7467d05-c697-5117-8eb6-90729d45fc0c/scratchpad/kwork
-commit under test: dac68f33f960bbcd3c5ad89e15f65a1b94086b54
+Fri Sep 25 00:09:06 UTC 2026
+work dir: /tmp/claude-0/-home-user-efx0-three-goods/e7467d05-c697-5117-8eb6-90729d45fc0c/scratchpad/kwork2
+commit under test: ebf27a2fab4dd213968bd1e6cedb913c859b82f3
 toolchain: leanprover/lean4:v4.34.0
 
 === 1. fresh clone, clean .lake, lake build ===
 Lean (version 4.34.0, x86_64-unknown-linux-gnu, commit 293d5d0c0c3f3dded4688b3ccd6a33939ac5102b, Release)
-ℹ [17/21] Built EFX.CorollaryD (678ms)
-ℹ [18/21] Built EFX.Target (699ms)
-ℹ [19/21] Built EFX.Audit (828ms)
-✔ [20/21] Built EFX (249ms)
+ℹ [17/21] Built EFX.CorollaryD (681ms)
+ℹ [18/21] Built EFX.Target (709ms)
+ℹ [19/21] Built EFX.Audit (907ms)
+✔ [20/21] Built EFX (324ms)
 Build completed successfully (21 jobs).
 RESULT: lake build: as expected (exit 0)
 warnings replayed: 0
@@ -19,7 +19,7 @@ RESULT: warning count: as expected (exit 0)
 === 2. leanchecker --fresh ===
 (72 s)
 RESULT: leanchecker --fresh EFX.Target: as expected (exit 0)
-(71 s)
+(73 s)
 RESULT: leanchecker --fresh EFX: as expected (exit 0)
 
 === 3. #print axioms (scratch file) ===
@@ -42,7 +42,7 @@ RESULT: every certificate is exactly [propext, Classical.choice, Quot.sound]: as
 lean4export 076e8e5 chore: bump toolchain to v4.34.0 (#49) ; toolchain leanprover/lean4:v4.34.0
 Build completed successfully (6 jobs).
 nanoda_lib 3a24072 Merge pull request #34 from scottdhughes/fix/pretty-printer-binder-prefix
-    Finished `release` profile [optimized] target(s) in 23.33s
+    Finished `release` profile [optimized] target(s) in 23.65s
 declarations exported: 726 named EFX-library declarations and their dependencies
 RESULT: lean4export: as expected (exit 0)
 def EFX.finSum (k : Nat) (x._@.EFX.Model.2634009645._hygCtx._hyg.13 : Fin k → Nat) : Nat :=
@@ -170,10 +170,10 @@ RESULT: lake build accepts the negative controls: as expected (exit 0)
 but it is expected to have type
   False
 RESULT: leanchecker --fresh Neg: as expected (exit rejected)
-thread 'main' (3129) panicked at src/tc.rs:955:71:
+thread 'main' (1612) panicked at src/tc.rs:955:71:
 assertion failed: self.def_eq(u, v)
 RESULT: nanoda on negOneEqTwo: as expected (exit rejected)
-thread 'main' (3142) panicked at src/tc.rs:230:13:
+thread 'main' (1630) panicked at src/tc.rs:230:13:
 declaration not found in infer_const, negNative._native.native_decide.ax_1_1
 RESULT: nanoda on negNative: as expected (exit rejected)
 
