@@ -21,13 +21,15 @@ def build(defs, prog):
         subprocess.run(['gcc', '-O2', '-march=native'] + defs.split() + ['-o', exe, src], check=True)
     return exe
 
+CLIMB = None      # --climb=R:S for gm4_climb.c: R restarts of S steps each
+
 def task_text(n, m, sets, sample, seed):
     doms = core_domains(sets, m, False)
     lines = [f"{n} {m}"] + [" ".join(map(str, [len(S)] + list(S))) for S in sets]
     for S, dom in zip(sets, doms):
         lines.append(str(len(dom)))
         lines += [" ".join(str(vals[g]) for g in S) for vals in dom]
-    lines.append(f"{1 if sample else 0} {sample or 0} {seed}")
+    lines.append(f"{CLIMB[0]} {CLIMB[1]} {seed}" if CLIMB else f"{1 if sample else 0} {sample or 0} {seed}")
     return "\n".join(lines) + "\n"
 
 def work(args):
@@ -40,6 +42,8 @@ def main():
     opt = dict(a[2:].split('=', 1) if '=' in a else (a[2:], '1') for a in sys.argv[1:] if a.startswith('--'))
     sample, jobs = int(opt.get('sample', 0)), int(opt.get('jobs', os.cpu_count()))
     exe = build(opt.get('defs', ''), opt.get('prog', 'gm4_explore'))
+    global CLIMB
+    if 'climb' in opt: CLIMB = tuple(map(int, opt['climb'].split(':')))
     print('# ' + ' '.join(sys.argv), flush=True)
     tasks = []
     if 'gen' in opt:
@@ -72,7 +76,7 @@ def main():
                 if line.startswith('RESULT'):
                     for kv in line.split()[1:]:
                         k, v = kv.split('='); tot[k] = tot.get(k, 0) + int(v)
-                elif line.split(' ')[0] in ('M', 'GMFAIL', 'GM4S', 'H1FAIL', 'H0FAIL', 'ESC', 'NOESC') or line.startswith('SKIP'):
+                elif line.split(' ')[0] in ('M', 'GMFAIL', 'GM4S', 'GAP', 'H1FAIL', 'H0FAIL', 'ESC', 'NOESC') or line.startswith('SKIP'):
                     print(f"{line} # m={m} sets={json.dumps(sets, separators=(',', ':'))}", flush=True)
             if rc not in (0, 1) or 'RESULT' not in out: bad += 1; print('BAD', sets, rc, out[-300:], flush=True)
     print(f"TOTAL cores={ncores} badcores={bad} " + ' '.join(f"{k}={v}" for k, v in tot.items()) + f" wall={time.time() - t0:.0f}s", flush=True)
