@@ -207,3 +207,39 @@ Of the 12 records matching `EFX`, two are fair division: Bratby (22665180) and L
 ResearchGate, SSRN and other repositories: web searches 18–22 (§3). Direct fetches with `curl` (2026-09-25) are refused with HTTP 403 by researchgate.net (`/search/publication?q=EFX`), papers.ssrn.com (`/sol3/results.cfm?txtKey_Words=EFX`) and mdpi.com, so these were searched only through the web-search tool.
 
 Sweep correction: see §4.
+
+## 7. (p, q)-bounded instances (workstream `proof/lit-pq`, 2026-09-25)
+Task from the coordinator: read the (p, q)-bounded papers in full and relate them to this project. Result: `proofs/pq_bounded.md`; entries: `proofs/citations.md`, "Added 2026-09-25 by `proof/lit-pq`".
+
+Queries:
+
+| # | Source | Query | Hits / relevant results |
+|---|---|---|---|
+| 1 | arXiv | `"(p,q)-bounded"` | 7; relevant: 2506.09288, 2407.05139 (the others are physics) |
+| 2 | arXiv | `bounded valuations EFX relevant agents` | 2: 2506.09288, 2407.05139 |
+| 3 | arXiv | `Kaviani Seddighin Shahrezaei` | 5: 2606.26948, 2510.10423 (MMS, not relevant), 2506.09288, 2502.09777, 2407.05139 |
+| 4 | arXiv | `restricted additive EFX` | 19; relevant: 2202.13676, 2407.05139, 2502.09777, 2512.21644, 2606.18665, 2608.08864 |
+| 5 | web | `"(p,q)-bounded" OR "(p, q)-bounded" valuations EFX allocation each good relevant to at most p agents` | 2506.09288 and 2407.05139, with their Springer proceedings chapters (978-3-032-18660-7_26, 978-3-032-08560-3_15), 2502.09777; nothing new |
+| 6 | local full texts (the 168 arXiv texts of §4: 165 results ≥ 2404 plus 2002.05119, 2202.07551, 2208.08782; and CFKS) | `\(p, ?q\)-bounded`, `Kaviani`, `\((2|∞), ?(1|∞)\)-bounded` | 21 papers mention them. Those with existence results in a bounded regime: CFKS; 2406.12413; 2407.05139; 2409.03594; 2502.09777; 2506.09288; 2512.21644; 2606.18665; 2606.26948; 2608.03171. The rest mention them only in related work |
+
+Read for this task (levels in `proofs/pq_bounded.md` and `proofs/citations.md`):
+- in full: 2407.05139v2 (32 pp.); 2506.09288v2 (18 pp.); CFKS (author PDF, 17 pp.; earlier only pp. 1–4); 2502.09777v1 (23 pp.);
+- at section level: 2406.12413v3;
+- re-checked: 2606.26948 and 2608.03171, for the (p, q) translation;
+- abstracts: 2202.13676, 2008.08798;
+- `k4/lb4.md` §5 (main) and `k4/c4.md` §7 (PR #33's branch `proof/k4-c4`), for the k = 4 comparison.
+
+Structural checks, run in the session with Python from the definitions in the repository; they are not stored as scripts:
+- **H_t of `k4/c4.md` §7, for t = 1..5:** n = 4t + 1, m = 10t + 3 (as stated), largest good degree p = 4 (the goods g_j), q = 1, a Berge 3-cycle in every H_t.
+- **The 6 graphical all-P4 cores of K4.MC7 (`k4/MINCEX.md` §8):**
+
+  | Core | Agent multigraph | Bipartite | Triangles |
+  |---|---|---|---|
+  | 1 | parallel pair (2,5) | no | yes |
+  | 2 | parallel pairs (0,1), (3,4), (2,5); underlying girth 6 | yes | no |
+  | 3 | parallel pairs (1,2), (4,5) | no | yes |
+  | 4 | simple (prism) | no | yes |
+  | 5 | simple (K₃,₃) | yes | no |
+  | 6 | parallel pairs (0,1), (3,5) | yes | no |
+
+  For cores 4 and 5, every agent's private good fits on a distinct non-adjacent pair (the complement is 2-regular), so each is a simple-graph (2, 1) instance and CFKS applies.

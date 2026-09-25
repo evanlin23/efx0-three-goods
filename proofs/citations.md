@@ -64,9 +64,39 @@
   - **J. Bratby, "Complete EFX Allocations with Four More Goods than Agents", Zenodo preprint v1, 2026-09-08, https://doi.org/10.5281/zenodo.22665180 (also on ResearchGate per the review; not checked)** [section: front matter p. 1, Theorem 1.1 p. 5, §1.1–1.5 pp. 5–8; the 149-page proof not read]. **Unrefereed; AI-generated proof, not independently reviewed.** The front matter says GPT-6 Astra did substantial parts of the exploration, proof construction, drafting and internal verification, and that there has been no independent human peer review. Theorem 1.1 claims complete EFX in the all-goods form, EFX₀ ("includes goods g with v_i(g) = 0"), for every n and every additive nonnegative instance with exactly m = n + 4. §1.3 surveys related results (Plaut–Roughgarden, CGM, three types, Mahara, AFM) and does not mention Viswanathan–Mehta or few relevant goods. Use here: none for TARGET or D (TARGET has no bound on m). If correct, it covers cores with m = n + 4, e.g. the n = 6, m = 10 core of PROMPT.md §3. It was missed in the first pass and flagged in the coordinator's review of PR #22.
   - **Methods** [abstract]: Brânzei 2510.05429 (simulated-annealing local search for EFX; a potential function for identical valuations); Gowda et al. 2605.16791 [grep] (EF1 round robin is CC-hard even when each agent values ≤ 3 goods; complexity, not existence).
 
+- **Added 2026-09-25 by `proof/lit-pq`** ((p, q)-bounded instances; comparison with this project in `proofs/pq_bounded.md`, queries in `results/lit_search_log.md` §7). Read level in brackets. In every paper below, EFX is the all-goods form, EFX₀.
+  - **Kaviani–Seddighin–Shahrezaei, "Almost Envy-free Allocation of Indivisible Goods: A Tale of Two Valuations", arXiv 2407.05139v2 (9 Dec 2024; WINE 2024 as cited in 2506.09288)** [full, 32 pp.].
+    - Model: (p, q)-bounded means each good is relevant to ≤ p agents and two agents share ≤ q relevant goods (Def. 2.2, p. 3, after CFKS), with monotone valuations that are strictly monotone on relevant goods. The paper also treats restricted additive valuations, v_i(g) ∈ {0, v_g}.
+    - Results for (∞, 1): partial EFX₀ discarding ≤ ⌊n/2⌋ − 1 goods (Thm 5.6, p. 14), complete EF2X (Thm 5.7, p. 14), and √2/2-EFX for subadditive valuations (Thm 7.1, p. 20).
+    - Results for restricted additive valuations: √2/2-EFX (Thm 6.1, p. 16), and **exact** complete EFX₀ when also (2, ∞)-bounded (Thm 8.1, p. 27).
+    - Techniques: rank, rankpath and virtual value; rankpath shifts under a Nash-welfare potential (§7).
+    - Use here: implies neither TARGET nor D (no exact result for p ≥ 3). TARGET gives exact EFX₀ on the additive (∞, 1) instances with ≤ 3 relevant goods per agent, where this paper has EF2X or approximations.
+  - **Kaviani–Keshavarz–Seddighin–Shahrezaei, "Improved Approximate EFX Guarantees for Multigraphs", arXiv 2506.09288v2 (18 Jul 2025)** [full, 18 pp.].
+    - Complete (1/√2)-EFX for additive (2, ∞)-bounded instances (Thm 4.9, p. 15). Page 3 says "p = 2 and q = 1", apparently a typo: every result is for (2, ∞).
+    - Uses Mahara's two-valuation extension theorem, restated as Thm 4.4 (p. 10).
+    - Use here: none. For additive valuations it is subsumed by the exact multigraph theorem (item 4, T3).
+  - **Christodoulou–Fiat–Koutsoupias–Sgouritsa, "EFX Allocations on Graphs" (item 3)** [now full, 17 pp.].
+    - Thm 3 (p. 6): every simple graph, i.e. (2, 1)-bounded, has a complete EFX₀ allocation, found in polynomial time, for monotone valuations.
+    - Thm 2 (p. 4): deciding whether an EFX orientation exists is NP-complete.
+    - Techniques: a greedy chain start (Alg. 1, p. 7); "reducing envy" chains (Alg. 2, p. 8); parking at safe sets (Lemma 13, p. 13).
+    - §6 (p. 15) introduces p and q. Item 3 is now verified.
+  - **Sgouritsa–Sotiriou, "On the existence of EFX allocations in multigraphs", arXiv 2502.09777v1 (13 Feb 2025)** [full, 23 pp.].
+    - Complete EFX₀ on multigraphs, for monotone valuations, when the multigraph is bipartite (Thm 1), when every agent has ≤ ⌈n/4⌉ − 1 neighbours (Thm 2), or when the shortest cycle of non-parallel edges has length ≥ 6 (Thm 3).
+    - Remark 1 (p. 3): under ordinary EFX, multigraphs are trivial by pairwise cut-and-choose, so the difficulty is EFX₀.
+    - Use here: covers the bipartite ones among K4.MC7's 6 graphical cores (cores 2, 5, 6; `proofs/pq_bounded.md` §3.1). For additive valuations it is subsumed by item 4.
+  - **Amanatidis–Filos-Ratsikas–Sgouritsa, "Pushing the Frontier on Approximate EFX Allocations", arXiv 2406.12413v3 (29 Jul 2026; EC 2024)** [section: abstract, §1–1.2.1, §2, §4.2].
+    - Complete 2/3-EFX in polynomial time for additive multigraph instances (Thm 4.4, p. 20), for n ≤ 7 (Thm 4.6) and for 3-value instances (Thm 5.1).
+    - §1.2.1 (p. 5) reports that Christodoulou et al. [2026] independently proved exact EFX on multigraphs (see "Not read" below).
+  - **Lianeas–Sgouritsa–Sotiriou 2608.03171 and Kakatelis–Lianeas–Sgouritsa–Sotiriou 2606.26948** (read in full earlier; re-checked for the (p, q) translation).
+    - "Girth at least 3" means any two agents share at most one good (2606.26948, p. 2; 2608.03171, Obs. 2.1, p. 4). So girth ≥ 3 is exactly (∞, 1), and girth ≥ 4 is a strict subclass of it.
+    - 2606.26948 reproves Kaviani et al.'s Thms 5.7 and 7.1 (its Thms 1 and 3, pp. 7, 16). With multiplicity ≤ 2 it adds EF3X (Thm 2, p. 7) and 2/3-EFX (Thm 4, p. 17) for additive valuations.
+  - **Akrami–Rezvan–Seddighin, "An EF2X Allocation Protocol for Restricted Additive Valuations", arXiv 2202.13676** [abstract]: complete EF2X for restricted additive valuations, and EFX discarding ≤ ⌊n/2⌋ − 1 goods.
+  - **Mahara, "Existence of EFX for Two Additive Valuations", arXiv 2008.08798 (Discrete Appl. Math. 340, 2023)** [abstract]: complete EFX when every agent has one of two additive valuations.
+
 ## Not read (leads only)
 - "EFX Allocations on Some Multi-graph Classes", arXiv 2412.06513; "On the existence of EFX allocations in multigraphs", arXiv 2502.09777; Afshinmehr–Danaei–Kazemi–Mehlhorn–Rathi, "EFX allocations and orientations on bipartite multi-graphs: A complete picture", *Autonomous Agents and Multi-Agent Systems* 40:32, 2026 (cited by 2608.30203). Abstracts read 2026-09-25 (above).
-- Christodoulou–Mastrakouis–Sgouritsa–Sotiriou, "EFX allocations on multigraphs", EC 2026 (accepted-papers list, #136); not on arXiv, not read. By its title, a multigraph result (each good valued by ≤ 2 agents).
+- Christodoulou–Mastrakouis–Sgouritsa–Sotiriou, "EFX allocations on multigraphs", EC 2026 (accepted-papers list, #136); not on arXiv, not read. By its title, a multigraph result (each good valued by ≤ 2 agents). 2406.12413v3 §1.2.1 (p. 5) says Christodoulou et al. [2026] "independently showed the existence of (exact) EFX allocations on multigraphs" [unverified].
+- Farhadi–Hajiaghayi–Latifian–Seddighin–Yami, "Almost envy-freeness, envy-rank, and Nash social welfare matchings", AAAI 2021: the origin of "rank" used by 2407.05139 [not read].
 - EGRES Quick-Proof 2022-01, "A note on the existence of EFX allocations" (https://egres.elte.hu/qp/egresqp-22-01.pdf).
 
 ## Network access from the cloud container
