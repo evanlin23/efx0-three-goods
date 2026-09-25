@@ -47,13 +47,32 @@ case "$1" in
   climb5)      # hill-climbing on every n = 5 core with four or five 4-good agents
     log $R/k4_c4min_hunt_climb_n5_45.log python3 c4min_climb.py --file=../$R/k4_certs_5_n4_4.json.gz \
         --file=../$R/k4_certs_5_pure.json.gz --iters=3000 --restarts=3 --order=0 --seed=51 --jobs=${JOBS:-1} --top=20 ;;
-  climb5b)     # the other objective orders (with annealing), more restarts, and PR #30's eight n = 5 GM4 profiles as starts
+  climb5b)     # the other objective orders (with annealing), more restarts, and PR #30's eight n = 5 GM4 profiles as starts;
+               # every core's best goes to a dump, from which climbtight picks the tightest cores
     log $R/k4_c4min_hunt_climb_n5_b.log python3 c4min_climb.py --file=../$R/k4_certs_5_n4_4.json.gz \
-        --file=../$R/k4_certs_5_pure.json.gz --iters=3000 --restarts=6 --order=1 --seed=52 --jobs=${JOBS:-4} --top=20
+        --file=../$R/k4_certs_5_pure.json.gz --iters=3000 --restarts=6 --order=1 --seed=52 --jobs=${JOBS:-4} --top=20 \
+        --dump=../$R/k4_c4min_hunt_climb_n5_b.jsonl
     log $R/k4_c4min_hunt_climb_n5_b.log python3 c4min_climb.py --file=../$R/k4_certs_5_n4_4.json.gz \
-        --file=../$R/k4_certs_5_pure.json.gz --iters=4000 --restarts=4 --order=2 --anneal=30 --stale=800 --seed=54 --jobs=${JOBS:-4} --top=20
+        --file=../$R/k4_certs_5_pure.json.gz --iters=4000 --restarts=4 --order=2 --anneal=30 --stale=800 --seed=54 --jobs=${JOBS:-4} --top=20 \
+        --dump=../$R/k4_c4min_hunt_climb_n5_b.jsonl
     log $R/k4_c4min_hunt_climb_n5_b.log python3 c4min_climb.py --seeds=../$R/k4_c4min_hunt_seeds_gm4.json \
         --iters=20000 --restarts=20 --order=0 --seed=53 --jobs=${JOBS:-4} --top=8 ;;
+  climbtight)  # the 400 tightest n = 5 cores of climb5b (an owner needed; highest d*, then fewest witnesses), climbed harder
+    python3 -c "
+import json
+best = {}
+for l in open('$R/k4_c4min_hunt_climb_n5_b.jsonl'):
+    r = json.loads(l)
+    if not r['owner']: continue
+    k = (r['file'], r['core']); key = (r['dstar'], -r['good'])
+    if k not in best or key > best[k][0]: best[k] = (key, l)
+top = sorted(best.values(), key=lambda x: x[0], reverse=True)[:400]
+with open('$R/k4_c4min_hunt_tight_n5.jsonl', 'w') as out:
+    for _, l in top: out.write(l)
+print(len(top), 'tight cores; scores from', top[0][0], 'to', top[-1][0])"
+    log $R/k4_c4min_hunt_climb_tight.log python3 c4min_climb.py --file=../$R/k4_certs_5_n4_4.json.gz \
+        --file=../$R/k4_certs_5_pure.json.gz --cores=../$R/k4_c4min_hunt_tight_n5.jsonl --iters=10000 --restarts=20 \
+        --order=0 --anneal=20 --stale=2000 --seed=55 --jobs=${JOBS:-4} --top=20 ;;
   climbrand)   # random connected cores, n = 6-8
     for nmk in 6:9:3 6:12:4 6:14:6 6:16:6 7:12:4 7:15:7 7:18:7 8:14:5 8:17:8 8:20:8; do
       log $R/k4_c4min_hunt_climb_rand.log python3 c4min_climb.py --random=$nmk:60 --iters=2000 --restarts=2 \
@@ -85,5 +104,5 @@ case "$1" in
         --seed=101 --jobs=${JOBS:-4} --top=8 ;;
   attempts)    # the hard profiles of PR #36's attempts and PR #30's n = 5 GM4 profiles, one by one
     log $R/k4_c4min_hunt_attempts.log python3 c4min_attempts_eval.py ;;
-  *) echo "sections: attempts selfcheck w0small crosscheck n4 n5a n5b n6a climb5 climb5b climbrand climbglue rigid families climbfam"; exit 2 ;;
+  *) echo "sections: attempts climbtight selfcheck w0small crosscheck n4 n5a n5b n6a climb5 climb5b climbrand climbglue rigid families climbfam"; exit 2 ;;
 esac

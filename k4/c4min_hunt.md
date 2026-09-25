@@ -57,11 +57,49 @@ Tools (all in `k4/`):
 
 ## 2. Exhaustive checks
 
-(to be filled)
+`k4/c4min_hunt.c -E` through `k4/c4min_hunt_run.py`, on the core lists of the K4.R* certificates (every connected k = 4
+core of the class, up to isomorphism; `k4/check4.py` checks that the lists are complete), every strict profile (the
+strict balanced types of `k4/check4.py`, 288 per 4-good agent, 144 with two private goods, 6 per 3-good agent).
+
+| class | cores | strict profiles | C₄ᵐⁱⁿ fails | wall time (4 CPUs) | log |
+|---|---|---|---|---|---|
+| n = 4, three 4-good agents | 339 | 34,971,844,608 | 0 | 30 s | `results/k4_c4min_hunt_n4_3.log` |
+| n = 4, pure (four 4-good agents) | 219 | 1,022,496,473,088 | 0 | ≈ 22 min | `results/k4_c4min_hunt_n4_pure.log` |
+| n = 5, one 4-good agent | 1,735 | 574,615,296 | 0 | < 1 min | `results/k4_c4min_hunt_n5_12.log` |
+| n = 5, two 4-good agents | 5,468 | 80,025,864,192 | 0 | ≈ 2 min | the same |
+
+With PR #36's exhaustive runs (n ≤ 3; n = 4 with one or two 4-good agents; `k4/c4x.c`), which this tool reproduces
+(§1.1), **C₄ᵐⁱⁿ holds on every strict profile of every k = 4 core with n ≤ 4, and with n = 5 and at most two 4-good
+agents.** A counterexample, if any, has n ≥ 5, and at n = 5 at least three 4-good agents. Each row is one
+implementation (`k4/c4min_hunt.c`), so the status is EVIDENCE; the certificates (templates) are not stored.
 
 ## 3. Adversarial search
 
-(to be filled)
+**Climber** (`k4/c4min_hunt.c -H`, driver `k4/c4min_climb.py`). A profile is scored lexicographically by
+(an owner is needed (f* > σ), d*, −good), good = the number of min-frozen P with deficit ≤ 0 (C₄ᵐⁱⁿ fails iff good = 0
+iff d* > 0). The first key matters: where f* ≤ σ every min-frozen P has deficit f* − σ ≤ 0, and an objective without it
+drifts to such trivially tight profiles (d* = 0 with one witness). Moves re-type one agent (or two, with probability
+1/4) at random; a move is kept if the score does not drop; a restart ends after 400 moves without a strict
+improvement. Every profile with d* > 0 would be printed (CEX) and re-evaluated by `k4/c4x.c` and the brute force.
+
+**n = 5 with four or five 4-good agents** (`results/k4_c4min_hunt_climb_n5_45.log`): every one of the 14,520 cores
+(9,846 with four, 4,674 pure), 3 restarts of up to 3,000 moves each (≈ 2.4 million evaluations, 11 min on one CPU).
+No profile with d* > 0. Best score per core:
+
+| owner needed at the best profile | d* = 0 | d* = −1 | d* = −2 |
+|---|---|---|---|
+| yes (13,560 cores) | 1,860 (26 of them with exactly two witnesses, none with one) | 11,563 (3,802 with exactly one witness) | 137 |
+| not reached (960 cores; on a core with m ≤ n it never is, since f* ≤ n ≤ σ) | 850 | 105 | 5 |
+
+So on 1,860 cores the climber reaches profiles where an owner is needed and the best witness has no slack at all
+(d* = 0), and on 3,802 cores profiles with a single witness; none goes further.
+
+**Profiles where simpler potentials fail** (`results/k4_c4min_hunt_attempts.log`): the 11 distinct profiles of PR
+#36's `attempts/k4-c4x-*.md` (n ≤ 4) and PR #30's eight n = 5 GM₄ profiles (`k4/gm4.md`,
+`results/k4_c4min_hunt_seeds_gm4.json`): C₄ᵐⁱⁿ holds on all 19 (d* between −2 and 0), and the brute force agrees on
+every n ≤ 4 one. (The n ≤ 4 ones are inside §2's exhaustive runs anyway.)
+
+(more to be filled: other objective orders, random cores n = 6–8, glued cores)
 
 ## 4. Structured families
 

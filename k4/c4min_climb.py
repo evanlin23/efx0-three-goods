@@ -14,7 +14,8 @@ Core sources (several allowed):
                            the first restart starts there
   --glue=FA:FB:COUNT:MODE  COUNT random pairs (core of FA, core of FB) joined by k4/c4min_families.glue (MODE merge,
                            link or link3)
-options: --iters=I --restarts=R --stale=T --order=0|1|2 (2: owner needed, f*, -good, d*) --cap=K (count at most K
+options: --dump=JSONL (append every core's best), --cores=JSONL (with --file: only the cores listed in such a dump),
+--iters=I --restarts=R --stale=T --order=0|1|2 (2: owner needed, f*, -good, d*) --cap=K (count at most K
 witnesses; d* is then over those seen) --anneal=P (accept a worse move with probability P/1000) --seed=S --jobs=J --start=paper (families ht*: the first
 restart starts from §7's values) --top=K (print the K tightest cores)."""
 import json, random, subprocess, sys, time
@@ -70,7 +71,7 @@ def confirm(sets, m, line):
 
 
 def main():
-    srcs, iters, restarts, stale, order, seed, jobs, start, top, cap, anneal = [], 3000, 4, 400, 0, 1, 4, None, 10, None, 0
+    srcs, iters, restarts, stale, order, seed, jobs, start, top, cap, anneal, dump, core_list = [], 3000, 4, 400, 0, 1, 4, None, 10, None, 0, None, None
     for a in sys.argv[1:]:
         k, _, v = a.partition('=')
         if k == '--file': srcs.append(('file', v))
@@ -88,6 +89,8 @@ def main():
         elif k == '--top': top = int(v)
         elif k == '--cap': cap = int(v)
         elif k == '--anneal': anneal = int(v)
+        elif k == '--dump': dump = v
+        elif k == '--cores': core_list = v
         else: raise SystemExit(f'unknown option {a}')
     rng = random.Random(seed)
     cc.hunt_binary()                       # compile once before the threads start
@@ -98,6 +101,9 @@ def main():
             cores = cc.load_cores(path)
             idx = list(range(len(cores)))
             if K: idx = sorted(rng.sample(idx, min(int(K), len(idx))))
+            if core_list:                                   # --cores=JSONL: only the cores listed there for this file
+                want = {json.loads(l)['core'] for l in open(core_list) if json.loads(l)['file'] == path.split('/')[-1]}
+                idx = [i for i in idx if i in want]
             for ci in idx: tasks.append((f'{path.split("/")[-1]}#{ci}', cores[ci]['sets'], cores[ci]['m'], None))
         elif kind == 'random':
             n, m, n4, cnt = map(int, v.split(':'))
@@ -138,6 +144,11 @@ def main():
             tag, sets, m, best, cex, dt = fu.result()
             if best is None: print(f'{tag}: empty type domain, skipped'); continue
             results.append(((best['owner'], best['dstar'], -best['good']), tag, sets, m, best))
+            if dump:
+                with open(dump, 'a') as fh:
+                    fh.write(json.dumps({'file': tag.split('#')[0], 'core': int(tag.split('#')[1]) if '#' in tag else None,
+                                         'owner': best['owner'], 'dstar': best['dstar'], 'good': best['good'],
+                                         'fstar': best['fstar'], 'line': best['line']}) + '\n')
             key = (best['owner'], best['dstar'], min(best['good'], 3))
             hist[key] = hist.get(key, 0) + 1
             for line in cex:
