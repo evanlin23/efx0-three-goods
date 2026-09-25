@@ -34,7 +34,7 @@ static long long v[MAXN][MAXM];
 static int RMAX = 3, QUICK = 0, ONLYD2 = 0, VERBOSE = 0;
 
 /* ---------- raw EFX0 test of a complete allocation (owner vector; absent agents/goods excluded) ---------- */
-static int agent_on[MAXN], good_on[MAXM];
+static int agent_on[MAXN], good_on[MAXM], small_on[MAXN];   /* small_on: the agents of the smaller instance */
 
 static int efx0(const u8 *own) {
     static long long S[MAXN][MAXN], mn[MAXN][MAXN];
@@ -53,7 +53,7 @@ static int efx0(const u8 *own) {
 
 static int is_d2(const u8 *own) {
     int cnt[MAXN] = {0}, big = 0;
-    for (int g = 0; g < m; g++) if (good_on[g]) cnt[own[g]]++;
+    for (int g = 0; g < m; g++) if (own[g] != 255) cnt[own[g]]++;
     for (int j = 0; j < n; j++) if (cnt[j] > 2) big++;
     return big <= 1;
 }
@@ -155,6 +155,30 @@ static int try_moves(int start, int left) {
     return 0;
 }
 
+/* Potentials on X' (values in the smaller instance; unassigned goods ignored). Each is maximized.
+   0: v_w(X'_w)   1: -v_w(X'_w)   2: -#enviers of w   3: (-#enviers of w, v_w)   4: utilitarian sum_i v_i(X'_i)
+   5: Nash welfare (#agents with positive value, then sum of logs)   6: (-#enviers of w, utilitarian)
+   7: -#agents that envy someone   For agent removals (A, B) the w-potentials are 0. */
+#define NPOT 8
+#include <math.h>
+static void features(const u8 *own, int w, int wpresent, double *f) {
+    long long val[MAXN][MAXN]; int cnt[MAXN];
+    for (int i = 0; i < n; i++) { cnt[i] = 0; for (int j = 0; j < n; j++) val[i][j] = 0; }
+    for (int g = 0; g < m; g++) if (own[g] != 255) { cnt[own[g]]++; for (int i = 0; i < n; i++) val[i][own[g]] += v[i][g]; }
+    int env = 0, enviers_any = 0; double util = 0, lg = 0; int pos = 0;
+    for (int i = 0; i < n; i++) {
+        if (!small_on[i]) continue;
+        util += val[i][i]; if (val[i][i] > 0) { pos++; lg += log((double)val[i][i]); }
+        int e = 0;
+        for (int j = 0; j < n; j++) if (j != i && small_on[j] && val[i][j] > val[i][i]) e = 1;
+        enviers_any += e;
+        if (wpresent && i != w && val[i][w] > val[i][i]) env++;
+    }
+    double vw = wpresent ? (double)val[w][w] : 0;
+    f[0] = vw; f[1] = -vw; f[2] = -env; f[3] = -env * 1e6 + vw; f[4] = util; f[5] = pos * 1e6 + lg;
+    f[6] = -env * 1e9 + util; f[7] = -enviers_any;
+}
+
 int main(int argc, char **argv) {
     for (int a = 1; a < argc; a++) {
         if (!strcmp(argv[a], "-r")) RMAX = atoi(argv[++a]);
@@ -169,22 +193,65 @@ int main(int argc, char **argv) {
         for (int q = 0; q < t; q++) {
             char kind[4]; int w, d = -1;
             if (scanf("%3s %d", kind, &w) != 2) return 1;
-            if ((kind[0] == 'G' || kind[0] == 'B') && scanf("%d", &d) != 1) return 1;
+            if ((kind[0] == 'G' || kind[0] == 'B' || kind[0] == 'H') && scanf("%d", &d) != 1) return 1;
+            if (kind[0] == 'H') {       /* H w d h: X' in E(I - d) minimizing #enviers(h); does d -> h keep EFX0? */
+                int h; if (scanf("%d", &h) != 1) return 1;
+                for (int i = 0; i < n; i++) agent_on[i] = 1;
+                for (int g = 0; g < m; g++) good_on[g] = 1;
+                good_on[d] = 0;
+                enumerate(0);
+                for (int i = 0; i < n; i++) small_on[i] = 1;
+                int best = 1 << 30; long nmin = 0, nok = 0, anyok = 0; double f[NPOT];
+                for (long e = 0; e < nstore; e++) { features(store + e * (size_t)m, h, 1, f); int env = (int)(-f[2] + 0.5); if (env < best) best = env; }
+                good_on[d] = 1;
+                for (long e = 0; e < nstore; e++) {
+                    u8 *X = store + e * (size_t)m; features(X, h, 1, f);
+                    memcpy(work, X, m); work[d] = (u8)h;
+                    int ok = efx0(work);
+                    anyok |= ok;
+                    if ((int)(-f[2] + 0.5) == best) { nmin++; nok += ok; }
+                }
+                printf("TASK H %d %d %d | E' %ld | minenv %d | minimizers %ld ok %ld | anyX' %ld\n", w, d, h, nstore, best, nmin, nok, anyok);
+                fflush(stdout);
+                continue;
+            }
+            if (kind[0] == 'P') {       /* PS test: min over EFX0 X of I of #agents envying w (all X, then D2 X) */
+                for (int i = 0; i < n; i++) agent_on[i] = 1;
+                for (int g = 0; g < m; g++) good_on[g] = 1;
+                enumerate(0);
+                for (int i = 0; i < n; i++) small_on[i] = 1;
+                int best = 1 << 30, bestd2 = 1 << 30; double f[NPOT];
+                for (long e = 0; e < nstore; e++) {
+                    u8 *X = store + e * (size_t)m; features(X, w, 1, f);
+                    int env = (int)(-f[2] + 0.5);
+                    if (env < best) best = env;
+                    if (is_d2(X) && env < bestd2) bestd2 = env;
+                }
+                printf("TASK P %d | E %ld | minenv %d minenvD2 %d\n", w, nstore, best, bestd2);
+                fflush(stdout);
+                continue;
+            }
             /* smaller instance */
             for (int i = 0; i < n; i++) agent_on[i] = 1;
             for (int g = 0; g < m; g++) good_on[g] = 1;
             if (kind[0] == 'G' || kind[0] == 'B') good_on[d] = 0;
             if (kind[0] == 'A' || kind[0] == 'B') agent_on[w] = 0;
             enumerate(ONLYD2);
+            for (int i = 0; i < n; i++) small_on[i] = agent_on[i];
             long nE = nstore; u8 *E = malloc((size_t)(nE ? nE : 1) * m); memcpy(E, store, (size_t)nE * m);
             /* distance setup on I */
             nmov = nfree = 0;
             for (int g = 0; g < m; g++) { if (g == d) freeg[nfree++] = g; else movable[nmov++] = g; }
             target_w = w;
             long hist[8] = {0}, nd2 = 0, dw = 0; int maxr = -1, maxrd2 = -1; long worst = -1; int worstd2 = 0;
+            int minr = 1 << 30;
+            int *R = malloc(sizeof(int) * (nE ? nE : 1));
+            double (*F)[NPOT] = malloc(sizeof(double) * NPOT * (nE ? nE : 1));
+            u8 *D2F = malloc(nE ? nE : 1);
             for (long e = 0; e < nE; e++) {
                 u8 *X = E + e * (size_t)m;
-                int d2 = is_d2(X); nd2 += d2;
+                int d2 = is_d2(X); nd2 += d2; D2F[e] = (u8)d2;
+                features(X, w, kind[0] == 'G', F[e]);
                 for (int i = 0; i < n; i++) agent_on[i] = 1;
                 for (int g = 0; g < m; g++) good_on[g] = 1;
                 memcpy(work, X, m); if (d >= 0) work[d] = 255;
@@ -213,7 +280,7 @@ int main(int argc, char **argv) {
                         r = best;           /* 1<<30 if I has no EFX0 allocation at all */
                     }
                 }
-                hist[r < 7 ? r : 7]++;
+                hist[r < 7 ? r : 7]++; R[e] = r; if (r < minr) minr = r;
                 if (VERBOSE && r >= 1) {
                     printf("  X' r=%d d2=%d :", r, d2);
                     for (int g = 0; g < m; g++) { if (g == d) printf(" -"); else printf(" %d", X[g]); }
@@ -224,9 +291,19 @@ int main(int argc, char **argv) {
             }
             printf("TASK %s %d %d | E' %ld D2 %ld | maxr %d maxrD2 %d | hist", kind, w, d, nE, nd2, maxr, maxrd2);
             for (int r = 0; r < 8; r++) printf(" %ld", hist[r]);
-            printf(" | d_at_w %ld | worst", dw);
+            int minenv = 1 << 30; for (long e = 0; e < nE; e++) { int x = (int)(-F[e][2] + 0.5); if (x < minenv) minenv = x; }
+            printf(" | d_at_w %ld | minr %d minenvw %d | pot", dw, nE ? minr : -1, nE ? minenv : -1);
+            for (int p = 0; p < NPOT; p++) {               /* worst r among the maximizers of potential p (all X', then D2 X') */
+                for (int only = 0; only < 2; only++) {
+                    double best = -1e300; int wr = -1;
+                    for (long e = 0; e < nE; e++) if (!only || D2F[e]) { if (F[e][p] > best + 1e-9) { best = F[e][p]; wr = R[e]; } else if (F[e][p] > best - 1e-9 && R[e] > wr) wr = R[e]; }
+                    printf(" %d", wr);
+                }
+            }
+            printf(" | worst");
             if (worst >= 0) for (int g = 0; g < m; g++) { u8 o = E[worst * (size_t)m + g]; if (g == d) printf(" -"); else printf(" %d", o); }
             printf("\n");
+            free(R); free(F); free(D2F);
             fflush(stdout);
             free(E);
         }

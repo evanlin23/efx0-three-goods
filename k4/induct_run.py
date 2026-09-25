@@ -23,13 +23,16 @@ from multiprocessing import Pool
 HERE = os.path.dirname(os.path.abspath(__file__))
 OT = json.load(open(os.path.join(HERE, 'order_types.json')))
 STRICT_BAL = {k: [tuple(t['rep']) for t in OT[str(k)]['types'] if t['strict'] and t['balanced']] for k in (3, 4)}
+NO_A = False
+NPOT = 8   # potentials of induct.c: 0 v_w, 1 -v_w, 2 -#enviers(w), 3 (-#enviers(w), v_w), 4 utilitarian, 5 Nash,
+           # 6 (-#enviers(w), utilitarian), 7 -#agents envying someone
 BIN = os.environ.get('INDUCT_BIN', os.path.join(tempfile.gettempdir(), 'k4_induct'))
 
 
 def build():
     src = os.path.join(HERE, 'induct.c')
     if not os.path.exists(BIN) or os.path.getmtime(BIN) < os.path.getmtime(src):
-        subprocess.run(['gcc', '-O2', '-o', BIN, src], check=True)
+        subprocess.run(['gcc', '-O2', '-o', BIN, src, '-lm'], check=True)
 
 
 def domain(S, deg):
@@ -54,7 +57,7 @@ def tasks_for(sets, m, V, only_g):
         if len(S) != 4: continue
         for d in S: T.append(('G', w, d))
         if not only_g:
-            T.append(('A', w, None))
+            if not NO_A: T.append(('A', w, None))
             for d in S: T.append(('B', w, d))
     return T, deg
 
@@ -82,10 +85,15 @@ def run_batch(args):
             f = lines[k].split('|'); k += 1
             maxr = int(f[2].split()[1]); maxrd2 = int(f[2].split()[3])
             nE = int(f[1].split()[1])
-            worst = f[5].split()[1:]
-            recs.append(dict(kind=kind, w=w, d=d, maxr=maxr, maxrd2=maxrd2, nE=nE, worst=worst,
+            minr = int(f[5].split()[1]); minenvw = int(f[5].split()[3]); dw = int(f[4].split()[1])
+            pot = list(map(int, f[6].split()[1:]))
+            worst = f[7].split()[1:]
+            recs.append(dict(kind=kind, w=w, d=d, maxr=maxr, maxrd2=maxrd2, nE=nE, worst=worst, minr=minr,
+                             ps=(minenvw == 0), gps=(dw > 0), wpriv=any(deg[g] == 1 for g in sets[w]),
+                             **{f'pot{k}': pot[2 * k] for k in range(NPOT)}, **{f'pot{k}d2': pot[2 * k + 1] for k in range(NPOT)},
                              priv=(d is not None and deg[d] == 1),
-                             least=(d is not None and prof[w][sets[w].index(d)] == min(prof[w]))))
+                             least=(d is not None and prof[w][sets[w].index(d)] == min(prof[w])),
+                             top=(d is not None and prof[w][sets[w].index(d)] == max(prof[w]))))
         res.append((sets, m, prof, recs))
     return res
 
@@ -103,6 +111,8 @@ def main():
     opts = dict(rmax=int(opt.get('rmax', 3)), quick=bool(opt.get('quick')), d2=bool(opt.get('d2')),
                 only_g=bool(opt.get('only-g')))
     maxcores = int(opt.get('max-cores', 10 ** 9))
+    global NO_A
+    NO_A = bool(opt.get('no-a'))
     logf = open(opt['log'], 'w') if 'log' in opt else None
     def log(s):
         print(s, flush=True)
@@ -126,7 +136,13 @@ def main():
     log(f'{len(work)} (core, profile) pairs; options {opts}')
     B = 20
     batches = [(work[i:i + B], opts) for i in range(0, len(work), B)]
-    stats = {k: Counter() for k in ('best_G', 'priv_G', 'least_G', 'best_A', 'best_B', 'best_G_d2', 'worst_G')}
+    keys = ['best_G', 'priv_G', 'least_G', 'best_A', 'best_B', 'best_G_d2', 'worst_G', 'exists_G'] + \
+        [f'pot{k}_G' for k in range(NPOT)] + [f'pot{k}d2_G' for k in range(NPOT)] + [f'pot{k}_B' for k in (4, 5, 7)] + \
+        [f'pot{k}_{q}' for k in (2, 3, 4, 5, 6) for q in ('allG', 'leastG', 'privG', 'topG', 'everyw', 'everyd')] + \
+        [f'pot{k}_{q}' for k in range(NPOT) for q in ('Q4w', 'P4w')] + \
+        ['B_top', 'B_least', 'B_everyw', 'B_all', 'B_top_everyw', 'B_Q4_everyw', 'B_Q4_top', 'B_d2', 'B_top_d2'] + \
+        ['PS_priv', 'PS_Q4_anyd', 'PS_Q4_least', 'GPS_Q4_anyd', 'GPS_Q4_least', 'GPS_anyw_anyd', 'GPS_P4_priv']
+    stats = {k: Counter() for k in keys}
     worst_examples = {}
     t0 = time.time()
     with Pool(jobs) as pool:
@@ -136,7 +152,50 @@ def main():
                          least_G=summarize(recs, 'G', lambda r: r['least']),
                          best_A=summarize(recs, 'A'), best_B=summarize(recs, 'B'),
                          best_G_d2=summarize(recs, 'G', key='maxrd2'),
-                         worst_G=max((r['maxr'] for r in recs if r['kind'] == 'G'), default=None))
+                         worst_G=max((r['maxr'] for r in recs if r['kind'] == 'G'), default=None),
+                         exists_G=summarize(recs, 'G', key='minr'))
+                for k in range(NPOT):
+                    s[f'pot{k}_G'] = summarize(recs, 'G', key=f'pot{k}')
+                    s[f'pot{k}d2_G'] = summarize(recs, 'G', key=f'pot{k}d2')
+                for k in (4, 5, 7):
+                    s[f'pot{k}_B'] = summarize(recs, 'B', key=f'pot{k}')
+                G = [r for r in recs if r['kind'] == 'G']
+                P4 = [r for r in G if r['priv']]
+                s['PS_priv'] = all(r['ps'] for r in P4) if P4 else None
+                s['GPS_P4_priv'] = all(r['gps'] for r in P4) if P4 else None
+                Q4w = sorted({r['w'] for r in G if not r['wpriv']})
+                s['PS_Q4_anyd'] = all(any(r['ps'] for r in G if r['w'] == w) for w in Q4w) if Q4w else None
+                s['PS_Q4_least'] = all(r['ps'] for r in G if r['w'] in Q4w and r['least']) if Q4w else None
+                s['GPS_Q4_anyd'] = all(any(r['gps'] for r in G if r['w'] == w) for w in Q4w) if Q4w else None
+                s['GPS_Q4_least'] = all(r['gps'] for r in G if r['w'] in Q4w and r['least']) if Q4w else None
+                s['GPS_anyw_anyd'] = any(r['gps'] for r in G) if G else None
+                P4w = sorted({r['w'] for r in G if r['wpriv']})
+                Bs = [r for r in recs if r['kind'] == 'B']
+                if Bs:
+                    Bw = sorted({r['w'] for r in Bs})
+                    s['B_top'] = min(r['maxr'] for r in Bs if r['top'])
+                    s['B_least'] = min(r['maxr'] for r in Bs if r['least'])
+                    s['B_everyw'] = max(min(r['maxr'] for r in Bs if r['w'] == w) for w in Bw)
+                    s['B_all'] = max(r['maxr'] for r in Bs)
+                    s['B_top_everyw'] = max(r['maxr'] for r in Bs if r['top'])
+                    s['B_Q4_everyw'] = max((min(r['maxr'] for r in Bs if r['w'] == w) for w in Q4w), default=None)
+                    s['B_Q4_top'] = max((r['maxr'] for r in Bs if r['top'] and r['w'] in Q4w), default=None)
+                    s['B_d2'] = min(r['maxrd2'] for r in Bs)
+                    s['B_top_d2'] = min(r['maxrd2'] for r in Bs if r['top'])
+                for k in range(NPOT):
+                    key = f'pot{k}'
+                    s[f'{key}_Q4w'] = max((min(r[key] for r in G if r['w'] == w) for w in Q4w), default=None)
+                    s[f'{key}_P4w'] = max((min(r[key] for r in G if r['w'] == w and r['priv']) for w in P4w), default=None)
+                for k in (2, 3, 4, 5, 6):
+                    key = f'pot{k}'
+                    G = [r for r in recs if r['kind'] == 'G']
+                    s[f'{key}_allG'] = max((r[key] for r in G), default=None)
+                    s[f'{key}_leastG'] = summarize(recs, 'G', lambda r: r['least'], key=key)
+                    s[f'{key}_privG'] = summarize(recs, 'G', lambda r: r['priv'], key=key)
+                    s[f'{key}_topG'] = summarize(recs, 'G', lambda r: r['top'], key=key)
+                    ws = sorted({r['w'] for r in G})
+                    s[f'{key}_everyw'] = max((min(r[key] for r in G if r['w'] == w) for w in ws), default=None)
+                    s[f'{key}_everyd'] = min((max(r[key] for r in G if r['w'] == w) for w in ws), default=None)
                 for k, x in s.items(): stats[k][x] += 1
                 key = (s['best_G'], len(sets), m)
                 if s['best_G'] is not None and s['best_G'] >= 1 and key not in worst_examples:
