@@ -89,6 +89,11 @@ print(len(top), 'tight cores; scores from', top[0][0], 'to', top[-1][0])"
       log $R/k4_c4min_hunt_climb_rand.log python3 c4min_climb.py --random=$nmk:60 --iters=2000 --restarts=2 \
           --order=0 --seed=61 --jobs=${JOBS:-4} --top=3
     done ;;
+  climbrand2)  # random connected cores, n = 6-8, second pass: objective order 1, annealing, new seed, more cores
+    for nmk in 6:9:3 6:12:4 6:14:6 6:16:6 7:12:4 7:15:7 7:18:7 8:14:5 8:17:8 8:20:8; do
+      log $R/k4_c4min_hunt_climb_rand.log python3 c4min_climb.py --random=$nmk:100 --iters=3000 --restarts=3 \
+          --order=1 --anneal=30 --stale=800 --seed=62 --jobs=${JOBS:-4} --top=3
+    done ;;
   climbglue)   # two cores joined by a good or by a connector agent
     for spec in 3:3 3:4_pure 4_pure:4_pure 3:4_n4_3; do
       a=${spec%%:*}; b=${spec##*:}
@@ -145,5 +150,5 @@ print(len(top), 'tight cores; scores from', top[0][0], 'to', top[-1][0])"
         --seed=101 --jobs=${JOBS:-4} --top=8 ;;
   attempts)    # the hard profiles of PR #36's attempts and PR #30's n = 5 GM4 profiles, one by one
     log $R/k4_c4min_hunt_attempts.log python3 c4min_attempts_eval.py ;;
-  *) echo "sections: famlt chains satcheck famsat climbsat rigid5 classes w0big attempts climbtight selfcheck w0small crosscheck n4 n5a n5b n6a climb5 climb5b climbrand climbglue rigid families climbfam"; exit 2 ;;
+  *) echo "sections: climbrand2 famlt chains satcheck famsat climbsat rigid5 classes w0big attempts climbtight selfcheck w0small crosscheck n4 n5a n5b n6a climb5 climb5b climbrand climbglue rigid families climbfam"; exit 2 ;;
 esac
