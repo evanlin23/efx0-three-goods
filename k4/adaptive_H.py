@@ -39,7 +39,7 @@ def main():
     tmo = int(next((a.split('=')[1] for a in args if a.startswith('--timeout=')), 3600))
     opts = [a for a in args[1:] if a.startswith('-') and not a.startswith('--')]
     A.build()
-    print('#', 'adaptive_H.py', ' '.join(args), flush=True)
+    print('#', 'adaptive_H.py', ' '.join(args), '# adaptive.c sha256', A.SHA, flush=True)
     for t in ts:
         sets, vals, m = build(t)
         rng = random.Random(seed * 1000 + t)

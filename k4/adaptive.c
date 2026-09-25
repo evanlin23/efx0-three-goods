@@ -24,15 +24,20 @@ Options:
        first; 8 least contested top (fewest other unprocessed agents value the candidate's top), ties index;
        9 most contested top; 10 rollout with rule 2 but ties broken by fewest frozen 4-good agents;
        11 rollout with key (omega, number of frozen agents with 4 goods, -pos of the last 4-good agent) (c4one's key);
-       further rules are listed at rule_choose.
-  -i0 use -A (default);  -i1 every insertion sequence separately;  -i10 -TN N random sequences (single profile)
+       12 rule 3 at the first insertion step only, then index order; 13 rule 2 at the first insertion step only;
+       14 the index run or the index run with one insertion step changed, least (rotations, omega);
+       15 the same family as 14, the first sequence (index run first) with the fewest rotations (bound outermost);
+       16 the same family as 12 (every first agent, then index order), the first with the fewest rotations.
+  -i0 use -A (default);  -i1 every insertion sequence separately;  -i2 the fewest rotations over every insertion
+       sequence (exists tau; bound outermost, sequences in lexicographic order);  -i10 -TN N random sequences (single profile)
   -uN upgrades: 0 none, 1 need-shrinking, 2 envy-free only, 3 policies 1, 2, 0 in turn (default 3)
   -rN at most N nested rotations (default 2);  -w1 owner needs from its bundle (default 1);  -c1 chains may end at
        upgraded agents (default 1);  -oN owner step: 0 every owner (default), 1 r only, 2 r then rotation
   -SN N random profiles per core;  -HN N hill-climbing steps per core (restart every 500);  -TN single-profile mode
   -LN local search on tau after the rule: up to N rounds of "change one insertion step, index order after it",
        taking a change that lowers (rotations needed, omega); -fN print at most N failures per core; -XS seed;
-  -b brute force (every profile its own leaf); -v print each profile's run (single-profile modes) */
+  -b brute force (every profile its own leaf); -v print each profile's run (single-profile modes);
+  -KN print (as DEEP lines) the profiles needing at least N rotations, at most -f of them per core */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -52,8 +57,10 @@ static int n, m, d[MAXN], gl[MAXN][4];
 static gm R[MAXN], ALLG;
 static int nt[MAXN], tv[MAXN][MAXT][4];
 static int np[MAXN], pr[MAXN][24][4], pcnt[MAXN][24], pidx[MAXN][24][MAXG];
+static int EXISTS = 0;               /* -i2 given */
 static int OWN = 0, INS = 0, MAXF = 3, UPG = 3, BRUTE = 0, ARULE = 0, VERB = 0, LSR = 0, MINE = 0;
 static long TAU = 0, SAMPLE = 0, HILL = 0;
+static int DEEP = 0;                 /* -KN: report every leaf (profile) needing at least N rotations, up to -f per core */
 static uint64_t rng_x = 88172645463325252ull;
 static uint64_t rnd(void) { rng_x ^= rng_x << 13; rng_x ^= rng_x >> 7; rng_x ^= rng_x << 17; return rng_x; }
 
@@ -211,6 +218,26 @@ static int try_C0(int o, gm C, gm L) {
     return 1;
 }
 static long owner_tests;             /* sets C tried (effort) */
+/* the owner search: every C of the size need (then, with -w1, every larger size), in lexicographic order of the index
+   tuples, as lb4.c; by depth-first search with a prune that keeps it exact: a branch is cut when the goods already
+   left out of C (they stay in the owner's bundle L whatever else is chosen) together with B_o threaten an agent that
+   has no slot under any owner needs (a base of two or more goods, or a one-good base needed by an agent other than o),
+   since threats only grow with L (monotonicity, k4/c4.md §1). -P0 turns the prune off. */
+static int PRUNE = 1;
+static int ow_o, ow_nj, ow_sz, ow_jl[MAXM], ow_hard[MAXN], ow_nh;
+static gm ow_C;
+static int ow_dfs(int p, int k, gm excl) {
+    if (k == ow_sz) { owner_tests++; return try_C(ow_o, ow_C); }
+    if (ow_nj - p < ow_sz - k) return 0;
+    /* include jl[p] first (lexicographic order), then exclude it */
+    ow_C |= BIT(ow_jl[p]);
+    if (ow_dfs(p + 1, k + 1, excl)) return 1;
+    ow_C &= ~BIT(ow_jl[p]);
+    if (ow_nj - p - 1 < ow_sz - k) return 0;
+    gm e2 = excl | BIT(ow_jl[p]);
+    if (PRUNE) { gm L = base[ow_o] | e2; for (int h = 0; h < ow_nh; h++) if (threatened(ow_hard[h], L, base[ow_hard[h]])) return 0; }
+    return ow_dfs(p + 1, k, e2);
+}
 static int try_owner(int o, int S) {
     if (o < 0) {                      /* |J| <= S: fill the slots in any order */
         int left[MAXN]; fill_bases();
@@ -221,17 +248,13 @@ static int try_owner(int o, int S) {
         return 1;
     }
     int need = S - cap[o]; if (need > popc(J)) need = popc(J);
-    int jl[MAXM], nj = 0; for (int g = 0; g < m; g++) if (J >> g & 1) jl[nj++] = g;
-    for (int sz = need; sz <= (OWNW ? nj : need); sz++) {   /* subsets of size need, then larger (-w1) */
-        int ix[MAXM]; for (int q = 0; q < sz; q++) ix[q] = q;
-        for (;;) {
-            gm C = 0; for (int q = 0; q < sz; q++) C |= BIT(jl[ix[q]]);
-            owner_tests++;
-            if (try_C(o, C)) return 1;
-            int q = sz - 1; while (q >= 0 && ix[q] == nj - sz + q) q--;
-            if (q < 0) break;
-            ix[q]++; for (int p = q + 1; p < sz; p++) ix[p] = ix[p - 1] + 1;
-        }
+    ow_o = o; ow_nj = 0; for (int g = 0; g < m; g++) if (J >> g & 1) ow_jl[ow_nj++] = g;
+    gm NAo = 0; for (int i = 0; i < n; i++) if (i != o) NAo |= N_[i];
+    ow_nh = 0;
+    for (int x = 0; x < n; x++) if (x != o && (popc(base[x]) >= 2 || (popc(base[x]) == 1 && (base[x] & NAo)))) ow_hard[ow_nh++] = x;
+    for (int sz = need; sz <= (OWNW ? ow_nj : need); sz++) {   /* subsets of size need, then larger (-w1) */
+        ow_sz = sz; ow_C = 0;
+        if (ow_dfs(0, 0, 0)) return 1;
     }
     return 0;
 }
@@ -438,9 +461,12 @@ static long rollout_score(int rule, int *fail) {
     int w = omega_of(2, NULL);
     return (long)r * 4096 + (w + 2048);
 }
-static int is_rollout(int rule) { return rule == 2 || rule == 3 || rule == 4 || rule == 5 || rule == 10 || rule == 11; }
+static int is_rollout(int rule) { return rule == 2 || rule == 3 || rule == 4 || rule == 5 || rule == 10 || rule == 11 || rule == 12 || rule == 13; }
+static int one_change(void);
 static void choose_seq(int rule) {   /* fills pre[] (npre) with the rule's insertion sequence */
     npre = 0; TAILRULE = 0;
+    if (rule == 14) { one_change(); return; }
+    int srule = rule == 12 ? 3 : rule == 13 ? 2 : rule;   /* 12, 13: rules 3, 2 at the first insertion step only */
     if (!is_rollout(rule)) {         /* local rule: run Phase 1 with it and record the sequence */
         TAILRULE = rule; stop_at = -1; phase1(); TAILRULE = 0;
         memcpy(pre, ins_seq, sizeof(int) * nins); npre = nins; return;
@@ -452,9 +478,11 @@ static void choose_seq(int rule) {   /* fills pre[] (npre) with the rule's inser
         if (complete) break;
         int cand[MAXN], nc = nscand; memcpy(cand, scand, sizeof cand);
         int bestc = cand[0]; long bs = 1L << 60;
+        if ((rule == 12 || rule == 13) && npre > 0) { pre[npre++] = bestc; continue; }
         for (int q = 0; q < nc; q++) {
             pre[npre] = cand[q]; npre++;
-            int f; long s = rollout_score(rule, &f);
+            int f; long s = rollout_score(srule, &f);
+            if (VERB > 1) printf("  step %d cand %d score %ld\n", npre - 1, cand[q], s);
             npre--;
             if (s < bs) { bs = s; bestc = cand[q]; }
         }
@@ -492,11 +520,82 @@ static int local_search(void) {
     return cur < (long)(ROT + 1) * 4096;
 }
 
+/* rule 14: the index run, or the index run with one insertion step j changed to another candidate (index order
+   after it); the sequence with the least (rotations needed, omega after envy-free upgrades), the index run on ties */
+static int one_change(void) {
+    npre = 0; TAILRULE = 0; stop_at = -1; phase1();
+    int base_pre[MAXN], bn = nins; memcpy(base_pre, ins_seq, sizeof base_pre);
+    memcpy(pre, base_pre, sizeof base_pre); npre = bn;
+    long bestk = tau_key(); int bp[MAXN], bnp = bn; memcpy(bp, base_pre, sizeof bp);
+    for (int j = 0; j < bn && bestk >= 4096; j++) {
+        npre = j; memcpy(pre, base_pre, sizeof(int) * j); stop_at = j; phase1(); stop_at = -1;
+        int cand[MAXN], nc = nscand; memcpy(cand, scand, sizeof cand);
+        for (int q = 0; q < nc; q++) if (cand[q] != base_pre[j]) {
+            memcpy(pre, base_pre, sizeof(int) * j); pre[j] = cand[q]; npre = j + 1;
+            phase1(); memcpy(pre, ins_seq, sizeof(int) * nins); npre = nins;
+            long k = tau_key();
+            if (k < bestk) { bestk = k; memcpy(bp, pre, sizeof bp); bnp = npre; }
+        }
+    }
+    memcpy(pre, bp, sizeof bp); npre = bnp;
+    return 1;
+}
+
+/* rules 15 and 16: the same families as rules 14 and 12, searched with the rotation bound outermost: for c = 0, 1, ..,
+   -rN, the first sequence of the family (in the order below) on which LB4r succeeds with at most c rotations.
+   Family of rule 15: the index run, then the index run with step j changed to another candidate (j = 0, 1, ..;
+   candidates in index order; index order after the change). Family of rule 16: c first, then index order, for every
+   candidate c of the first insertion step in index order. Returns 1 with pre[] set, or 0 (pre[] = index run). */
+static int fam_seq(int rule, int k, int *fseq, int *fn) {   /* the k-th sequence of the family, 0 if none */
+    npre = 0; TAILRULE = 0; stop_at = -1; phase1();
+    int base_pre[MAXN], bn = nins; memcpy(base_pre, ins_seq, sizeof base_pre);
+    if (k == 0 && rule == 15) { memcpy(fseq, base_pre, sizeof base_pre); *fn = bn; return 1; }
+    int idx = rule == 15 ? 1 : 0;
+    for (int j = 0; j < (rule == 15 ? bn : 1); j++) {
+        npre = j; memcpy(pre, base_pre, sizeof(int) * j); stop_at = j; phase1(); stop_at = -1;
+        int cand[MAXN], nc = nscand; memcpy(cand, scand, sizeof cand);
+        for (int q = 0; q < nc; q++) if (rule == 16 || cand[q] != base_pre[j]) {
+            if (idx++ == k) {
+                memcpy(pre, base_pre, sizeof(int) * j); pre[j] = cand[q]; npre = j + 1;
+                phase1(); memcpy(fseq, ins_seq, sizeof(int) * nins); *fn = nins; return 1;
+            }
+        }
+    }
+    return 0;
+}
+static int deepen_family(int rule) {
+    int fseq[MAXN], fn;
+    for (int c = 0; c <= ROT; c++)
+        for (int k = 0; fam_seq(rule, k, fseq, &fn); k++) {
+            memcpy(pre, fseq, sizeof fseq); npre = fn;
+            if (lb4r(c)) return 1;
+        }
+    fam_seq(rule == 15 ? 15 : 16, 0, fseq, &fn); memcpy(pre, fseq, sizeof fseq); npre = fn;
+    return 0;
+}
+
 /* the whole construction for the current profile: tau by the rule (or tree / random choices), then LB4r(tau) */
 static int construct(void) {
     if (INS == 1 || INS == 10) {     /* tree or random: Phase 1 draws/extends choice[]; fix tau from it */
         npre = 0; stop_at = -1; phase1();
         memcpy(pre, ins_seq, sizeof(int) * nins); npre = nins;
+    } else if (INS == 2) {           /* -i2: the fewest rotations over every insertion sequence (bound outermost) */
+        for (int c = 0; c <= ROT; c++) {
+            nchoice = 0;
+            for (;;) {
+                INS = 1; npre = 0; stop_at = -1; phase1(); INS = 2;
+                memcpy(pre, ins_seq, sizeof(int) * nins); npre = nins;
+                if (lb4r(c)) return 1;
+                int j = nins - 1;
+                while (j >= 0 && choice[j] + 1 >= maxchoice[j]) j--;
+                if (j < 0) break;
+                choice[j]++; nchoice = j + 1;
+            }
+        }
+        return 0;
+    } else if (ARULE == 15 || ARULE == 16) {
+        if (!deepen_family(ARULE)) return 0;
+        return lb4r(ROT);             /* re-run on the sequence found: the same fewest rotations, and own[] */
     } else choose_seq(ARULE);
     if (LSR) { if (!local_search()) return 0; return lb4r(ROT); }
     return lb4r(ROT);
@@ -548,7 +647,7 @@ static void report(const char *what) {
 
 /* one run of the construction on the current type sets; returns 1 if a comparison split them */
 static int run_leaf(int *ok) {
-    if (setjmp(env)) { stop_at = -1; TAILRULE = 0; return 1; }
+    if (setjmp(env)) { stop_at = -1; TAILRULE = 0; if (INS == 1 && EXISTS) INS = 2; return 1; }
     rot_depth = 0;
     *ok = construct();
     return 0;
@@ -599,16 +698,19 @@ static void mine(void) {
 int main(int argc, char **argv) {
     for (int a = 1; a < argc; a++) {
         if (!strncmp(argv[a], "-o", 2)) OWN = atoi(argv[a] + 2);
-        else if (!strncmp(argv[a], "-i", 2)) INS = atoi(argv[a] + 2);
+        else if (!strncmp(argv[a], "-i", 2)) { INS = atoi(argv[a] + 2); EXISTS = INS == 2; }
         else if (!strncmp(argv[a], "-f", 2)) MAXF = atoi(argv[a] + 2);
         else if (!strncmp(argv[a], "-u", 2)) UPG = atoi(argv[a] + 2);
         else if (!strcmp(argv[a], "-b")) BRUTE = 1;
         else if (!strcmp(argv[a], "-v")) VERB = 1;
+        else if (!strcmp(argv[a], "-vv")) VERB = 2;
         else if (!strcmp(argv[a], "-M")) MINE = 1;
         else if (!strncmp(argv[a], "-r", 2)) ROT = atoi(argv[a] + 2);
         else if (!strncmp(argv[a], "-R", 2)) ROLLROT = atoi(argv[a] + 2);
         else if (!strncmp(argv[a], "-A", 2)) ARULE = atoi(argv[a] + 2);
         else if (!strncmp(argv[a], "-L", 2)) LSR = atoi(argv[a] + 2);
+        else if (!strncmp(argv[a], "-K", 2)) DEEP = atoi(argv[a] + 2);
+        else if (!strncmp(argv[a], "-P", 2)) PRUNE = atoi(argv[a] + 2);
         else if (!strncmp(argv[a], "-T", 2)) TAU = atol(argv[a] + 2);
         else if (!strncmp(argv[a], "-S", 2)) SAMPLE = atol(argv[a] + 2);
         else if (!strncmp(argv[a], "-H", 2)) HILL = atol(argv[a] + 2);
@@ -682,6 +784,7 @@ int main(int argc, char **argv) {
                 if (!ok) { fails++; hist_rot[ROT + 1]++; if (shown < MAXF) { report("FAIL"); shown++; } if (HILL > 0) break; continue; }
                 if (!rawcheck()) { rawf++; if (shown < MAXF) { report("RAWFAIL"); shown++; } continue; }
                 hist_rot[used_rot]++; hist_pol[used_pol]++;
+                if (DEEP && used_rot >= DEEP && shown < MAXF) { char lab[48]; snprintf(lab, sizeof lab, "DEEP r=%d p=%d", used_rot, used_pol); report(lab); shown++; }
                 long sc = used_rot * 100000000L + used_pol * 1000000L + (effort < 999999 ? effort : 999999);
                 if (sc > top) { top = sc; if (used_rot >= 1 && VERB) { char lab[64]; snprintf(lab, sizeof lab, "HARD r=%d p=%d e=%ld", used_rot, used_pol, effort); report(lab); } }
                 if (HILL > 0 && !restart && sc < cur) ty[mi] = mold;   /* reject a downhill move */
@@ -737,6 +840,7 @@ int main(int argc, char **argv) {
                         if (!ok) { fails += w; hist_rot[ROT + 1] += w; if (shown < MAXF) { report("FAIL"); shown++; } continue; }
                         if (!rawcheck()) { rawf += w; if (shown < MAXF) { report("RAWFAIL"); shown++; } continue; }
                         hist_rot[used_rot] += w; hist_pol[used_pol] += w;
+                        if (DEEP && used_rot >= DEEP && shown < MAXF) { char lab[48]; snprintf(lab, sizeof lab, "DEEP r=%d p=%d w=%ld", used_rot, used_pol, w); report(lab); shown++; }
                     }
                     if (INS != 1) break;
                     /* next insertion sequence (the tree's shape depends only on the rankings) */

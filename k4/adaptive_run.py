@@ -13,8 +13,8 @@ import check4
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 SRC = os.path.join(HERE, 'adaptive.c')
-BIN = os.environ.get('ADAPTIVE_BIN') or os.path.join(
-    tempfile.gettempdir(), 'k4_adaptive_' + hashlib.sha256(open(SRC, 'rb').read()).hexdigest()[:16])
+SHA = hashlib.sha256(open(SRC, 'rb').read()).hexdigest()[:16]
+BIN = os.environ.get('ADAPTIVE_BIN') or os.path.join(tempfile.gettempdir(), 'k4_adaptive_' + SHA)
 
 def build():
     if not os.path.exists(BIN):
@@ -77,7 +77,7 @@ def main():
     prof = next((a.split('=', 1)[1] for a in args if a.startswith('--profiles=')), None)
     opts = [a for a in args if a.startswith('-') and not a.startswith('--')]
     build()
-    print('#', 'adaptive_run.py', ' '.join(args), flush=True)
+    print('#', 'adaptive_run.py', ' '.join(args), '# adaptive.c sha256', SHA, flush=True)
     if prof:
         P = load_profiles(prof)
         t0 = time.time()
@@ -109,7 +109,7 @@ def main():
         with Pool(jobs) as pool:
             for res, other in pool.imap_unordered(run, tasks):
                 for l in other:
-                    if shown < show and (l.startswith('FAIL') or l.startswith('RAWFAIL') or l.startswith('HARD')):
+                    if shown < show and (l.startswith('FAIL') or l.startswith('RAWFAIL') or l.startswith('HARD') or l.startswith('DEEP')):
                         print(l); shown += 1
                 for line in res:
                     d = parse(line)
