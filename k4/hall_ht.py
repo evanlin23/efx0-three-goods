@@ -11,7 +11,7 @@ Allocation: l {g_1, z}; x_{j,1} {b_{j,1}, c_{j,1}}; x_{j,2} {a_{j,2}, b_{j,2}}; 
 y_j (j >= 2) {a_{j,1}} plus one junk good; y_1 {a_{1,1}} plus all remaining goods.
 The script checks, for t = 1..T (default 12): the pre-allocation is valid with no frozen agent (value-based needs),
 and the allocation is EFX0 by the raw definition (every ordered pair of agents, every removed good), with only y_1's
-bundle larger than two goods. usage: python3 k4/hall_ht.py [T]"""
+bundle larger than two goods. usage: python3 k4/hall_ht.py [T]. Also asserts that the re-typed H_t equals k4/c4_chain.py's build(t)."""
 import sys
 
 def build(t):
@@ -51,8 +51,26 @@ def check(t):
                 if v(i, X[i]) < v(i, X[k] - {h}): return False, (i, k, h)
     return True, len(X['y1'])
 
+def same_as_c4_chain(t):
+    """The re-typed H_t equals k4/c4_chain.py's build(t) (k4/c4.md §7, on main) under the obvious renaming."""
+    import os
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    from c4_chain import build as cbuild
+    sets, vals, m = cbuild(t)
+    idx = {f'g{j}': j - 1 for j in range(1, t + 1)}
+    idx.update({'z': t, 'u': t + 1, "u'": t + 2})
+    for j in range(1, t + 1):
+        base = t + 3 + 9 * (j - 1)
+        for i in range(1, 4):
+            idx[f'a{j}{i}'], idx[f'b{j}{i}'], idx[f'c{j}{i}'] = base + i - 1, base + 3 + i - 1, base + 6 + i - 1
+    goods, V = build(t)
+    mine = [{idx[g]: v for g, v in V[a].items()} for a in V]
+    theirs = [dict(zip(S, vs)) for S, vs in zip(sets, vals)]
+    return len(goods) == m and sorted(map(sorted, (x.items() for x in mine))) == sorted(map(sorted, (x.items() for x in theirs)))
+
 if __name__ == '__main__':
     T = int(sys.argv[1]) if len(sys.argv) > 1 else 12
     for t in range(1, T + 1):
+        assert same_as_c4_chain(t), t
         ok, info = check(t)
         print(f't = {t}: n = {4 * t + 1}, m = {10 * t + 3}: ' + (f'EFX0, large bundle of {info} goods (y_1)' if ok else f'FAILS {info}'))

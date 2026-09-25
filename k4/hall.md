@@ -1,12 +1,13 @@
 # Owner validity as a covering problem; C₄ᵐⁱⁿ without frozen agents; the big-top obstruction
 
-Workstream `proof/k4-hall`, ledger rows K4.HALL.* (CONJECTURE / EVIDENCE only) and open item 19. This is a second,
+Workstream `proof/k4-hall`, ledger rows K4.HALL.* (all CONJECTURE) and open item 19. This is a second,
 independent attack on conjecture C₄ᵐⁱⁿ of `k4/c4x.md` §5 (PR #36, branch `proof/k4-c4x`). The other attack (branch
 `proof/k4-c4min`) uses the walk/cycle technique of Theorem K3 and was not read for this file. Notation as in
-`k4/lb4.md` §1 and `k4/c4x.md` §1.
+`k4/lb4.md` §1 and `k4/c4x.md` §1. `k4/c4x.md` is on branch `proof/k4-c4x` (PR #36); `k4/c4.md` is on main (PR #33).
 
 **Status.** Nothing here changes K4.D or K4.T. All proofs below are written proofs that have not been reviewed, and
-every lemma was checked by brute force before use (§4).
+every lemma was checked by brute force before use (§4). The one exception is the case T ≥ 2 of Theorem H0 (a), which
+cannot occur at n ≤ 3; it is exercised only in the n = 4, 5 samples.
 
 Proved in writing:
 - **§1 Lemma H1 (the covering form).** An owner o is a removal-only owner of P iff the threat hypergraph on B_o ∪ J has
@@ -19,7 +20,7 @@ Proved in writing:
   of agents holding one good.
   - (a) If T ≥ 2, P is removal-only completable. The proof counts: the owners' exposure sets are disjoint.
   - (b) Otherwise, if P is not, the exposure relation is a permutation of the agents. Rotating a cycle of it is a
-    Pareto-improvement unless two agents on the cycle need the same junk label (Lemma H5).
+    Pareto-improvement unless two heavy e2 agents of the cycle (in H ∩ C) share their label (Lemma H5).
   - This gives an algorithm that can stop only at a *label collision*.
   - Corollary H0′: the counting also works with frozen agents, as long as none is exposed.
   - Proposition HT: every H_t (the family defeating LB₄ʳ's bounded rotations) has a completable pre-allocation without
@@ -35,10 +36,14 @@ Refuted, with the smallest configurations found (both implementations):
 
 Conjectured, with evidence (exhaustive for n ≤ 3):
 - **K4.HALL.F0S.** Without frozen agents, every Σℓ-maximum is completable. This would close the collision and prove
-  C₄ᵐⁱⁿ whenever a pre-allocation without frozen agents exists (about 95% of the profiles with n = 3).
-- **K4.HALL.BT.** A non-completable Pareto-maximum has a frozen big-top agent, or no frozen agent and a label collision.
-  It holds on all 377,832 non-completable Pareto-maxima with frozen agents for n ≤ 3. Where such a maximum exists, some
-  pre-allocation with the fewest frozen agents is completable with a big-top agent as the owner (§5).
+  C₄ᵐⁱⁿ whenever a pre-allocation without frozen agents exists (about 95% of the profiles with n = 3). At n ≤ 3 and in
+  every n = 4, 5 sample no label collision occurs, so there F0S already follows from Theorem H0 and Lemma H5. Only the
+  profiles around cyc6 test the collision.
+- **K4.HALL.BT.** A Pareto-maximum inside the min-frozen class that is not removal-only completable has a frozen
+  big-top agent, or no frozen agent and a label collision. It holds on all 377,832 such maxima with frozen agents for
+  n ≤ 3. Where such a maximum exists, some pre-allocation with the fewest frozen agents is removal-only completable with
+  an owner of big-top *type* (§5). It is false at n = 4: see `attempts/k4-hall-bt-n4.md` on branch
+  `proof/k4-hall-bt` (PR #52).
 
 The route this suggests for C₄ᵐⁱⁿ:
 1. Close the collision (Σℓ).
@@ -71,9 +76,10 @@ that X threatens nobody holding its base (`k4/c4x.md` §1). ∎
 
 Every edge of H_o lies in R_x ∖ B_x for one agent x, plus at most one good outside R_x. Each good of R_x ∩ W_o is worth
 at most v_x(B_x): it is not in B_x, and not in NA, since J misses NA by (V1) and B_o does by (V2) or because o is free.
-So an edge needs two goods of R_x. An agent whose base is empty is never threatened, since N_x = R_x ⊆ NA. The
-brute-force check `bad_char` of `k4/hall.c` compares the transversal form with the exact deficit (0 disagreements,
-§4).
+So an edge needs two goods of R_x. An agent whose base is empty is never threatened, since N_x = R_x ⊆ NA. `k4/hall.c -H` checks Lemma H1 for every (P, o, K). It compares the slot count S − cap(o) + u_o(X) and the criterion
+with the direct removal-only test, with 0 disagreements on every n = 2 profile and 102,000 n = 3 profiles
+(`results/k4_hall_h1.log`). The older counter `bad_char` checks only def_o ≤ τ_o − (S − cap(o)), the transversal
+bound without unfreezing.
 
 ## 2. Exposure at a Pareto-maximum
 
@@ -175,16 +181,20 @@ B_p ∖ take(y)), plus distinct junk labels. Each moved agent strictly gains:
 - e2 in H because v(a_y) + v(d_y) > v(B_y).
 
 New bases worth more than need-free bases are need-free, so the result has NA = ∅ and lies in 𝒫. The one-good holder
-t (T = 1) is always in H: π(t) is e2 with In(π(t)) = {a_t} = B_t, so keep(t) = ∅. ∎
+t (T = 1) is always in H: π(t) is e2 with In(π(t)) = {a_{π(t)}} = B_t, so keep(t) = ∅. ∎
 
 So at a Pareto-maximum that is not removal-only completable, every cycle of π contains two e2 agents of H with the same
 bottom good: a **label collision**. Theorem H0 and Lemma H5 also give an algorithm for the case without frozen agents:
 1. Start from any P without frozen agents.
 2. Apply the improvements of (U) and (U₂).
 3. If no agent is an owner, rotate a cycle of π.
-Every step raises some agents' values and lowers none, so this stops. It can fail only at a label collision. At T ≤ 1 heavy moves are forced only by t and by e3 agents holding {a, d} whose
-successor wants their top, and a heavy agent forces its predecessor. So each maximal heavy run starts, going backwards,
-at an e2 agent. A collision is two such runs whose e2 starts share their bottom good.
+Every step raises some agents' values and lowers none, so this stops. It can fail only at a label collision.
+
+Where collisions come from. At T ≤ 1, heaviness is forced only at t and at e3 agents holding {a, d} whose successor
+wants their top. It propagates backwards through heavy e1 and e3 agents, which take both goods of their predecessor's
+base. A heavy e2 agent takes only a_y from its predecessor, so the propagation stops there, and that agent needs its
+label. A whole cycle can be heavy without any e2 agent; it then needs no label. A collision is two heavy e2 agents of
+H ∩ C with the same label.
 
 **Corollary H0′ (frozen agents that nobody exposes).** The proof of (a) uses only that every exposed agent is free.
 Let P ∈ 𝒫 be Pareto-maximal with ω ≥ 1, and suppose no frozen agent is exposed with respect to any free agent.
@@ -230,8 +240,9 @@ profile still satisfies C₄ᵐⁱⁿ: 55 of the 56 Pareto-maxima without frozen
   - the exposure relation is a permutation π of the agents;
   - every π-cycle has a label collision.
 
-  If ω ≤ 0, P is completable without an owner. So on every profile with such a P, other than in the collision case,
-  the fewest frozen agents is 0, P has deficit ≤ 0, and C₄ᵐⁱⁿ holds.
+  If ω ≤ 0, P is completable without an owner. So C₄ᵐⁱⁿ holds on every profile with a pre-allocation without frozen
+  agents, unless every Pareto-maximal P without frozen agents has T ≤ 1, a permutation π, and a collision on every
+  π-cycle.
 - Not proved: the collision case, and anything with frozen agents (Corollary H0′ aside).
 
 **Proposition HT (the cores H_t of `k4/c4.md` §7).** For every t ≥ 1, the profile H_t has a removal-only completable
@@ -263,9 +274,11 @@ Conjecture K4.HALL.F0Σ: if some P ∈ 𝒫 has no frozen agent, every Σℓ-max
 is such a move:
 - y moves from level {b,c} to {a,b}, a gain of at least 3;
 - z moves from {a,d} to {a,c}, a gain of at least 2 (it passes {a,d} and {b,c});
-- w′ moves from {b,c} to {c,d}, a loss of at most 4 (only {c,d}, {b,d}, {a}, {b} can lie in between).
+- w′ moves from {b,c} to {c,d}, a loss of at most 5 in general (the sets that can lie in between are {c,d}, {b,d},
+  {a}, {b} and {a,d}, e.g. for values (10, 9, 8, 6)). In cyc6 the loss is 2 and the net gain is 3.
 
-The general collision needs the same count along heavy runs of any length.
+For this pattern the bounds give only a net gain of at least 3 + 2 − 5 = 0, so even this case is not settled in general.
+The general collision needs such a count along heavy runs of any length.
 
 ## 4. Evidence and cross-checks
 
@@ -281,8 +294,24 @@ profiles.
 
 | n | profiles with a pre-allocation without frozen agents | their Pareto-maxima (ω ≥ 1 or not) | every one completable | F0 checks at the maxima with ω ≥ 1 |
 |---|---|---|---|---|
-| 2 | 187,920 of 189,216 | 334,156 | yes (187,920 profiles) | 172,108 maxima: Lemma U, U₂, H3 shapes, criterion H4: 0 violations; no maximum without a valid owner |
+| 2 | 187,920 of 189,216 | 334,156 | yes (187,920 profiles) | 172,108 maxima: Lemma U, U₂, the exact H3 shapes and uniqueness, criterion H4: 0 violations; no maximum without a valid owner |
 | 3 | 283,959,584 of 299,837,376 | 786,313,328 | yes (283,959,584 profiles) | 287,013,316 maxima: 0 violations; no maximum without a valid owner |
+
+The H3 shapes are checked exactly (`results/k4_hall_n3_shapes.log`, which reruns these profiles with the final
+classifier):
+- e1: one base good, R_x ∩ J = ∅, and B_o a pair inside R_x ∖ B_x;
+- e2: B_x = {b_x, c_x}, a_x ∈ B_o, the label d_x ∈ J, and a + d > b + c;
+- e3: R_x ∩ J = ∅ and R_x ∖ B_x = B_o.
+
+Uniqueness (no agent exposed w.r.t. two owners) is counted too. Both have 0 violations.
+
+**Theorem H0 (a) is not exercised at n ≤ 3.** With no frozen agent, ω ≥ 1 and (U), junk can be valued only by
+pair-holders. With T ≥ 2 and n ≤ 3 at most one pair-holder is left, and it values at most two goods outside its base,
+while |J| = T + ω ≥ 3. So some junk good would be valued by nobody, which a core forbids, and the maxima with ω ≥ 1 have
+T ≤ 1. The samples exercise it (`results/k4_hall_shapes_samples.log`, `-N`): among the Pareto-maxima without frozen
+agents with ω ≥ 1 there are 11, 385, 569 and 364 with T ≥ 2 at n = 4 (one to three 4-good agents, pure), and 373 and
+1,416 at n = 5 (two 4-good agents, pure). None is without a valid owner, and the shapes and uniqueness have 0
+violations.
 
 **Lemma H5, directly** (`-G`): every pre-allocation (not only the Pareto-maxima) without frozen agents, with ω ≥ 1, that
 satisfies (U) and (U₂) and has no removal-only owner. There are 5,720 of them at n = 2 and 187,280 at n = 3, each with
@@ -292,8 +321,9 @@ six.
 
 With frozen agents (the same run), the Pareto-maxima inside the min-frozen set are not always completable, as known from
 `k4/c4x.md` §5:
-- F = 1: 15,414,020 profiles, 292,512 of them with a non-completable maximum, 128 with none completable;
-- F = 2: 463,772 profiles, 27,612 with a non-completable maximum, 0 with none completable.
+- F = 1: 15,414,020 profiles, 292,512 of them with a maximum that is not removal-only completable, 128 with none
+  removal-only completable;
+- F = 2: 463,772 profiles, 27,612 with a maximum that is not removal-only completable, 0 with none.
 
 §5 has the structure of these failures, and `results/k4_hall_n3_pareto.log` the counters of Lemmas H6, H7 and conjecture
 BT on the same profiles.
@@ -303,8 +333,8 @@ n ≤ 3): wherever a pre-allocation without frozen agents exists (187,920 + 283,
 them is completable. With frozen agents, the Σℓ-maxima inside the min-frozen class fail on 56,776 (F = 1) and 27,612
 (F = 2) profiles with n = 3; that is `k4/c4x.md`'s (−frozen, Σℓ) failure.
 
-Around cyc6 (`results/k4_hall_cyc6_nb.log`) one or two agents' types (w, w′) are varied over all strict balanced
-types. Pareto-maxima without frozen agents fail on 10, 10, 20, 10, 10, 20 of the 288, 288, 144, 288, 288, 144
+Around cyc6 (`results/k4_hall_cyc6_nb.log`), each of the six agents' types in turn, and then the two agents w, w′
+together, are varied over all strict balanced types. Pareto-maxima without frozen agents fail on 10, 10, 20, 10, 10, 20 of the 288, 288, 144, 288, 288, 144
 one-agent profiles and on 400 of the 20,736 two-agent profiles. The Σℓ-maxima fail on none of them.
 
 **Samples, n = 4 and n = 5** (`results/k4_hall_samples.log`; `-P -G`, seeded random strict profiles per core). The
@@ -356,8 +386,9 @@ goods. What remains is the one thing a base cannot hold: three goods.
 
 **Lemma H7 (frozen exposed agents).** Let P ∈ 𝒫 be Pareto-maximal, o free, and x frozen with base {g}, exposed with
 respect to o. Then exactly one of the following holds.
-- **(G) global.** x has four goods, g = a_x, a_x > b_x + c_x (a *big-top* agent), and R_x ∖ {a_x} ⊆ J. Then x is
-  exposed with respect to every free agent.
+- **(G) global.** J threatens x: v_x(J ∩ R_x) > v_x(g), with two or more goods. Then x has four goods, g = a_x,
+  a_x > b_x + c_x (a *big-top* agent), R_x ∖ {a_x} ⊆ J, and x is exposed with respect to every free agent. The shape
+  alone does not imply (G): R_x ∖ {a_x} ⊆ J without a threat by J is possible.
 - **(G1)** Not (G); o is a chain end of x; x is a big-top agent with g = a_x and R_x ∖ {a_x} ⊆ J ∪ B_o.
 - **(L) local.** Not (G); o is not a chain end of x, and the threat uses a good of B_o.
 
@@ -371,38 +402,42 @@ respect to o. Then exactly one of the following holds.
 **What this gives, and what it does not.**
 - A local exposure needs one label, or two (e.g., x holds a with c + d < a < b + d, b ∈ B_o and c, d ∈ J), or is
   unhittable.
-- A local exposure is tied to the owners whose base holds one of x's lower goods. There are up to three of them (89
-  frozen agents exposed w.r.t. two or more owners in the n = 3 sample below).
+- A local exposure is tied to the owners whose base holds one of x's lower goods. There are up to three of them
+  (248,904 frozen agents are exposed w.r.t. two or more owners, exhaustively at n ≤ 3, below).
 - (G) and (G1) are the (G1) mechanism of `k4/c4x.md` §5: the rotation that would repair x gives it three goods, so x
   would have to become the owner.
 
-**The data** (`k4/hall.c -N`, Pareto-maxima inside the min-frozen set, with frozen agents and ω ≥ 1):
+**The data** (`k4/hall.c -N`, Pareto-maxima inside the min-frozen set, with frozen agents and ω ≥ 1). Lemmas H6 and H7
+are proved for every Pareto-maximal P ∈ 𝒫, but these checks cover only the Pareto-maxima inside the min-frozen class.
 - **Every profile with n ≤ 3** (`results/k4_hall_n3_pareto.log`):
   - 19,259,044 + 2,592 such maxima. Lemma H6 has no violation, and every global exposure has the shape (G).
   - The frozen exposures (agent, owner) number: global 504,540; G1-type 1,664,700; local with one label 6,052,996;
     local with two labels 371,136; local unhittable 883,312. 248,904 frozen agents are exposed w.r.t. two or more
     owners.
-  - 377,832 maxima are not completable, and **every one of them has a frozen big-top agent**. 113,136 of them have no
+  - 377,832 maxima are not removal-only completable, and **every one of them has a frozen big-top agent**. 113,136 of them have no
     (G1) configuration, and 180,876 no global exposure.
 - The samples at n = 4 and 5 (`results/k4_hall_samples.log`) agree: 0 non-completable maxima without a frozen big-top
   agent.
-- In a non-completable maximum without (G) or (G1) exposures, the big-top agent becomes the owner through an exchange
-  cycle that a Pareto-maximum does not see.
-- **The repair is always a big-top owner** (`results/k4_hall_n3_btowner.log`). In every one of the 320,124 profiles with
+- **Every such profile has a completable pre-allocation owned by an agent of big-top type**
+  (`results/k4_hall_n3_btowner.log`). In every one of the 320,124 profiles with
   n ≤ 3 that have a non-completable Pareto-maximum with frozen agents, some pre-allocation with the fewest frozen agents
-  is removal-only completable with an owner of big-top type. In those, the big-top agent becomes the owner through an exchange
-  cycle that a Pareto-maximum does not see. Example, core 33 of `results/k4_certs_3.json.gz`, instance
+  is removal-only completable with an owner of big-top *type*. The counter does not check that this owner is the frozen
+  big-top agent, nor any exchange-cycle structure; that is the task of `k4/hall_bt.md` on branch `proof/k4-hall-bt`
+  (PR #52). In the following example the frozen big-top agent itself becomes the owner, through an exchange cycle that
+  a Pareto-maximum does not see. Example, core 33 of `results/k4_certs_3.json.gz`, instance
   `k4/hall_instances/local3.inst`:
   - agent 0 has values 0:3, 1:2, 2:10, 3:6 and base {2}, frozen;
   - agent 1 has values 2:8, 4:2, 5:3, 6:4 and base {5, 6};
   - agent 2 has values 3:7, 4:3, 5:5, 6:6 and base {3, 4};
   - J = {0, 1}, and there are no slots.
   - Owner 1 leaves agent 2 threatened (e3). Owner 2 leaves agent 0 threatened (local, one label). So P is Pareto-maximal
-    and not completable.
+    and not removal-only completable.
   - The cycle "0 gives 2 to 1, 1 gives {5, 6} to 2, 2 gives 3 to 0, 0 becomes the owner of {3, 0, 1, 4}" is completable.
 
-**Conjecture K4.HALL.BT (the obstruction is the big-top agent).** A Pareto-maximal P ∈ 𝒫 with ω ≥ 1 that is not
-removal-only completable either has a frozen big-top agent, or has no frozen agent and a label collision (§3.1). At
+**Conjecture K4.HALL.BT (the obstruction is the big-top agent).** A Pareto-maximum inside the min-frozen class, with
+ω ≥ 1, that is not removal-only completable either has a frozen big-top agent, or has no frozen agent and a label
+collision (§3.1). It is false at n = 4: `attempts/k4-hall-bt-n4.md` on branch `proof/k4-hall-bt` (PR #52) is a pure
+core whose two frozen agents are not big-top agents; the repair there is a downgrade swap. At
 k = 3 there are no big-top agents, which matches Theorem K3. With frozen agents it holds on every profile with n ≤ 3
 and on the n = 4, 5 samples; without frozen agents only the n = 6 collision of §3.2 is known.
 
@@ -411,8 +446,7 @@ types" (`-Q5`) gives priority as the conjecture suggests. It has no non-completa
 Exhaustively at n ≤ 3 (`results/k4_hall_n3_bigtoplast.log`), every maximum is completable when the fewest frozen agents
 is 0 or 1. With two frozen agents, 8,736 of 463,772 profiles have a non-completable maximum (455,036 have none; some
 maximum is completable on all of them). The failures have two agents of big-top type, e.g. core 16: one frozen at its
-top, the other holding its two lowest goods; how two big-top agents are ordered is left open. The variants "big-top types' Σℓ minimized" and "big-top types' smallest bases
-first" fail 6 and 4 times on the same n = 3 sample. So the priority is right, but the exact rule is not.
+top, the other holding its two lowest goods; how two big-top agents are ordered is left open.
 
 ## 6. Reproduce
 
@@ -428,6 +462,9 @@ python3 k4/hall_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz -N 
 python3 k4/hall_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz -N -Q1        # results/k4_hall_n3_sumlev.log
 python3 k4/hall_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz -N -Q5 -Px 3  # results/k4_hall_n3_bigtoplast.log
 python3 k4/hall_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz -N -Px 3      # results/k4_hall_n3_btowner.log
+python3 k4/hall_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz -N            # results/k4_hall_n3_shapes.log (exact H3 shapes, T >= 2)
+python3 k4/hall_run.py results/k4_certs_2.json.gz -H; python3 k4/hall_run.py results/k4_certs_3.json.gz -H --rand=2000 --seed=81   # results/k4_hall_h1.log
+# results/k4_hall_shapes_samples.log lists its commands (n = 4, 5; T >= 2 and exact shapes)
 # samples n = 4, 5 (results/k4_hall_samples.log lists every command) and the cyc6 neighbourhood
 python3 k4/hall_cyc6_nb.py 0 ... 5; python3 k4/hall_cyc6_nb.py 25                         # results/k4_hall_cyc6_nb.log
 # the counterexamples, both implementations; H_t
@@ -442,6 +479,7 @@ python3 k4/hall_ht.py 12
   big-top-last variants of §5);
 - `-G`: the rotation rule of Lemma H5 on every pre-allocation it applies to;
 - `-X`: the per-profile summary for the cross-check;
+- `-H`: Lemma H1 for every (P, o, K);
 - `-1`: a single profile;
 - `-d`: dump.
 

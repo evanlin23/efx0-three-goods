@@ -92,6 +92,9 @@ def main():
                 elif line.startswith('FAILOWNERS'):
                     nums = [int(x) for x in w[1:2] + w[3:4] + w[5:13] + w[14:22]]
                     fo = [a + b for a, b in zip(fo, nums)] if fo else nums
+                elif line.startswith('H1 '):
+                    cur = tot.setdefault('_h1', [0, 0])
+                    for q, v in enumerate(w[1:3]): cur[q] += int(v)
                 elif line.startswith('BTC'):
                     cur = tot.setdefault('_btc', [0] * 3)
                     for q, v in enumerate(w[1:4]): cur[q] += int(v)
@@ -102,8 +105,8 @@ def main():
                     cur = tot.setdefault('_g0', [0] * 8)
                     for q, v in enumerate(w[1:9]): cur[q] += int(v)
                 elif line.startswith('F0'):
-                    cur = tot.setdefault('_f0', [0] * 15)
-                    for q, v in enumerate(w[1:16]): cur[q] += int(v)
+                    cur = tot.setdefault('_f0', [0] * 17)
+                    for q, v in enumerate(w[1:18]): cur[q] += int(v)
                 elif line.startswith('PARETO'):
                     key = 'pareto F=' + w[2]
                     cur = tot.setdefault(key, [0, 0, 0, 0])
@@ -119,13 +122,15 @@ def main():
         g0 = tot.pop('_g0', None)
         fz = tot.pop('_fz', None)
         btc = tot.pop('_btc', None)
+        h1 = tot.pop('_h1', None)
+        if h1: print(f'  H1: (P, o, K) triples checked {h1[0]}, disagreements with Lemma H1 (slot count, criterion) {h1[1]}')
         print(f'FILE {f} cores {len(set(ci for ci, _ in tasks))} ' + ' '.join(f'{k} {v}' for k, v in tot.items()))
         for k, v in par.items():
-            if v[0]: print(f'  Pareto-maxima inside the min-frozen set, {k}: profiles {v[0]}, every maximum deficit <= 0: {v[1]}, some: {v[2]} ({v[3]} maxima)')
+            if v[0]: print(f'  maxima (Pareto, or the potential of -Q) inside the min-frozen set, {k}: profiles {v[0]}, every maximum deficit <= 0: {v[1]}, some: {v[2]} ({v[3]} maxima)')
         if f0:
-            names = ['F=0 Pareto-maxima with omega>=1', 'Lemma U violated', 'Lemma U2 violated', 'no single-good holder', 'exposure of another kind',
+            names = ['F=0 Pareto-maxima with omega>=1', 'Lemma U violated', 'Lemma U2 violated', 'no single-good holder', 'exposure of another shape than e1, e2, e3 (exact shapes)',
                      'label criterion != exact test', 'a single-good holder valid', 'a pair-holder valid', 'no valid owner', 'every single-good holder valid',
-                     'single-good holder invalid by an unhittable exposure', 'e2 exposures', 'e1 exposures', 'e3 exposures', 'e2 exposures at single-good owners']
+                     'single-good holder invalid by an unhittable exposure', 'e2 exposures', 'e1 exposures', 'e3 exposures', 'e2 exposures at single-good owners', 'agents exposed w.r.t. two or more owners', 'maxima with T >= 2']
             print('  F0: ' + ', '.join(f'{a} {b}' for a, b in zip(names, f0)))
         if btc and btc[0]:
             print(f'  BTC: profiles with a non-completable Pareto-maximum with frozen agents {btc[0]}, with a completable min-frozen pre-allocation whose owner is of big-top type {btc[1]}, with any completable min-frozen pre-allocation {btc[2]}')
