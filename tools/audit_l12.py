@@ -1,7 +1,9 @@
 """Brute-force cross-check of the table in proofs/real_values.md (L12). Evidence only, not a proof.
 
-For every agent profile with at most three relevant goods and values in 1..N (N = 12 by default), plus
-every rational profile with denominators up to 6 over the same range, build the natural-number valuation
+Profiles checked: every integer profile with at most three relevant goods and values in 1..N (N = 12 by
+default); every rational profile with one or two relevant goods, denominators up to 6 and values in (0, N];
+and every rational profile with three relevant goods, denominators up to 6 and values in (0, 4] only (the
+three-good rational grid is cut at 4 to keep the run short). For each, build the natural-number valuation
 w of the L12 table and check that v and w order all pairs of subsets of the relevant goods identically
 (v(S) <= v(T) iff w(S) <= w(T)), and that both have the same relevant goods. Zero-valued goods are left
 out: they contribute 0 to both v and w. Run: python tools/audit_l12.py [N]

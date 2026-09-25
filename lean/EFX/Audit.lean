@@ -329,6 +329,7 @@ end Audit
 #print axioms Audit.X1good_EFX0
 #print axioms Audit.all_to_one_not_EFX0
 #print axioms Audit.not_partitions
+#print axioms Audit.v2_D_hyp
 #print axioms Audit.v2_D_witness
 #print axioms Audit.v2_D_violation
 #print axioms Audit.hyps_not_trivial

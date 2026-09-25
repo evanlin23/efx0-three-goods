@@ -15,13 +15,19 @@ Toolchain: `leanprover/lean4:v4.34.0`, pinned in `lean-toolchain` (the same as m
 
     cd lean && ./check.sh
 
-The script fails if any source file contains the word `sorry`, if the project has a dependency, if the
-build reports an error or a warning, if any `#print axioms` certificate lists an axiom other than the three
-standard ones, if the number of certificates differs from the number of `#print axioms` commands, or if any
-declaration of the library (certified or not; `CheckAxioms.lean`) depends on another axiom. On success the last
-line is
+The script fails if any source file contains the word `sorry`, if any source file or `lakefile.toml` uses a
+debug option, metaprogramming or unsafe code (`debug.`, `import Lean`, `run_cmd`, `run_meta`, `run_elab`,
+`addDecl`, `implemented_by`, `extern`, `unsafe`), if the project has a dependency, if the build reports an error
+or a warning, if any `#print axioms` certificate lists an axiom other than the three standard ones (a certificate
+may also list none), if the number of certificates differs from the number of `#print axioms` commands, if any
+declaration of the library (certified or not; `CheckAxioms.lean`) depends on another axiom, or if Lean's replay
+checker `lake env leanchecker --fresh EFX` rejects the library (it re-checks every declaration, Init included,
+in a fresh kernel; about a minute). The last two checks were added after the `formal/audit` review (PR #19)
+showed that a declaration added under `set_option debug.skipKernelTC true` is never kernel-checked, yet builds
+without warnings and has no axioms for `#print axioms` or `CheckAxioms.lean` to report; the tripwire refuses the
+option and the replay checker rejects such a declaration. On success the last line is
 
-    CHECK PASSED: 80 audited statements, 278 theorems, standard axioms only
+    CHECK PASSED: 81 audited statements, 278 theorems, standard axioms only
 
 CI runs it on every pull request (job `lean` in `.github/workflows/verify.yml`). In Claude Code on the web the
 session-start hook installs the toolchain (from GitHub when `release.lean-lang.org` is unreachable).
