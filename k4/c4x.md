@@ -447,3 +447,25 @@ leximin is completable" (these potentials fail elsewhere, §2). On H_1–H_3 som
 per-gadget count of Proposition H there ("slot places minus goods forced out of the owner's bundle", −2 per untouched
 gadget) is a count for Phase 1's states: taken globally, the extremal pre-allocations never have an untouched gadget.
 The global form of that count is the deficit, and on H_1–H_3 its minimum over the min-frozen pre-allocations is ≤ 0.
+
+## 7. Reproduce
+
+```
+python3 k4/c4x_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz -R -p "6,17;6;6,0;6,8"   # §2, n <= 3: ~40 min on 4 CPUs
+python3 k4/c4x_run.py results/k4_certs_4_n4_1.json.gz -R -p "6,17;3;6"                             # n = 4, one 4-good agent: ~1 min
+python3 k4/c4x_run.py results/k4_certs_4_n4_2.json.gz -R -p "6,17;3;6"                             # n = 4, two: ~2 h
+python3 k4/c4x_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz -Q -p "0;1;2;3;4"      # Pareto-type table, n <= 3
+python3 k4/c4x_run.py results/certs_lb_2_6.json.gz -T -p 3 --jobs=2                                # Theorem K3's lemmas, k = 3, n <= 6: ~45 min
+python3 k4/c4x_run.py results/k4_certs_4_n4_1.json.gz -W -p "18,19"                                # §4 counters, one 4-good agent
+python3 k4/c4x_ht.py 2 | k4-c4x-binary -1s -R -p "6;0;2;3"                                         # §6, H_2 (the binary: see below)
+python3 k4/c4x_random.py 7 12 3 300 --seed=712                                                     # random cores (§2 table)
+python3 k4/c4x_crosscheck.py results/k4_certs_2.json.gz --all                                      # independent checker, n = 2: ~15 min
+python3 attempts/k4_c4x_attempts.py                                                                # smallest failures, both implementations
+```
+`k4/c4x_run.py` compiles `k4/c4x.c` into the temporary directory under a name made from a hash of the source (its
+`binary()`; `C4X_BIN` overrides the path). Potentials are given as `-p "f,f;f,f"`: `;`-separated lexicographic lists of
+feature indices (0 Σℓ, 1 Σ 2^ℓ, 2 leximax, 3 leximin, 4 Σv, 6 −frozen, 8 slots, 17 −deficit (with `-R`), 18/19 Σℓ over
+3-good/4-good agents, 22 −|B_w|; the full list is `featname` in `k4/c4x.c`). Other options: `-w0` owner's needs from
+its base, `-E` envy-free multi-good bases only, `-3` one base of 3–4 goods, `-Q` Pareto-maxima, `-T`/`-T2` exposure
+counters at Pareto-/first-potential maxima, `-W` the counters of §4, `-M` augmenting-step distances, `-d` dump every
+valid pre-allocation, `-1`/`-1s` one profile (stored / streamed), `-x N` examples.
