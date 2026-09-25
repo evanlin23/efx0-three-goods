@@ -1,0 +1,9 @@
+# python3 k4/test_lb4.py d
+(d) -i0 -u3 -r1 -w1 -c1, n=2: fails [0, 0, 0] (plain, -d1, -d2); equal per core: True
+(d) -i0 -u3 -r1 -w1 -c1, n=3: fails [12040, 12040, 12040] (plain, -d1, -d2); equal per core: True
+(d) -i1 -u3 -r3 -w1 -c1, n=2: fails [0, 0, 0] (plain, -d1, -d2); equal per core: True
+(d) -i1 -u3 -r3 -w1 -c1, n=3: fails [0, 0, 0] (plain, -d1, -d2); equal per core: True
+(d) -i1 -S20000 on [[0, 2, 3, 4], [1, 2, 3, 4]]: need-shrinking only fails 155, LB4r fails 0
+(d) -i1 -S200 -s (owner constraint ignored), n=3: exit 2 (RAWFAIL)
+(d) -i1 -d1 -P1 -H500, n=3: 25500 profiles, fails 0
+ALL OK

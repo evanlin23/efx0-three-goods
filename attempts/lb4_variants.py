@@ -44,7 +44,8 @@ def run_variant(name):
     lb4_run.build()
     p = subprocess.run([lb4_run.BIN] + opts.split() + ['-f1'], input=lb4_run.encode(sets, m, False),
                        capture_output=True, text=True, check=True)
-    kv = dict(zip(p.stdout.split()[0:22:2], map(int, p.stdout.split()[1:22:2])))
+    t = next(l for l in p.stdout.split('\n') if l.startswith('total ')).split()   # skip the histogram line 'H ...'
+    kv = dict(zip(t[0:22:2], map(int, t[1:22:2])))
     print(f"{name}: {what}\n  options {opts}; core m={m} sets={sets}")
     print(f"  profiles {kv['total']}, failing {kv['fails']}, raw-check failures {kv['rawfails']}")
     fail = [l for l in p.stderr.split('\n') if l.startswith('FAIL')]
