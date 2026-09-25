@@ -22,3 +22,4 @@ import EFX.Audit
 import EFX.PreAllocK
 import EFX.LB4R
 import EFX.LB4RExamples
+import EFX.C4min
