@@ -515,6 +515,7 @@ static int run_leaf(int *ok) {
 
 static long HILL = 0;                    /* -HN: N hill-climbing steps per core (restart every 500) */
 static int PSCORE = 0;                   /* -P1: hardness = how few policies succeed on their own */
+static int DEEPREP = 0;                  /* -TN: report every run (-S, -H) needing at least N rotations */
 static long hist_pol[3], hist_rot[4];
 static long sstat[5], sbig[40], sfb_upg;   /* per-run counters of the -S and -H modes */
 /* set the rankings and singleton type sets for type indices ty[]; run LB4 (every insertion sequence when -i1);
@@ -551,6 +552,7 @@ static int eval_profile(const int *ty, long *score, long *nruns) {
         if (!ok) { *score = -1; return 0; }
         }
         if (!rawcheck()) { report("RAWFAIL"); exit(2); }
+        if (DEEPREP && used_rot >= DEEPREP) { char lab[48]; snprintf(lab, sizeof lab, "DEEP p=%d r=%d", used_pol, used_rot); report(lab); }
         sstat[last_status]++; if (lastbig) sbig[lastbig]++; if (fb_upg) sfb_upg++;
         hist_pol[used_pol]++; hist_rot[used_rot]++;
         long e = effort < 999999 ? effort : 999999, v = used_pol * 100000000L + used_rot * 1000000L + e;
@@ -578,6 +580,7 @@ int main(int argc, char **argv) {
         else if (!strncmp(argv[a], "-r", 2)) ROT = atoi(argv[a] + 2);
         else if (!strncmp(argv[a], "-d", 2)) DEEPEN = atoi(argv[a] + 2);
         else if (!strncmp(argv[a], "-P", 2)) PSCORE = atoi(argv[a] + 2);
+        else if (!strncmp(argv[a], "-T", 2)) DEEPREP = atoi(argv[a] + 2);
         else if (!strncmp(argv[a], "-w", 2)) OWNW = atoi(argv[a] + 2);
         else if (!strncmp(argv[a], "-c", 2)) CHUP = atoi(argv[a] + 2);
     }
