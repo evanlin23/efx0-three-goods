@@ -357,7 +357,7 @@ policy LB₄ʳ ends with and the fewest rotations under it, `-d2` the fewest rot
 
 **LB₄ʳ under stress (EVIDENCE; one implementation).** No run of LB₄ʳ failed, and no output failed the raw EFX₀ check,
 in any test below. The n = 5 core lists with three or more 4-good agents are those of PR #26 (`compute/k4-frontier` at
-2809bb4, not yet on main); the random cores are drawn by `k4/lb4_randcores.py` and committed as
+2809bb4; the same files are on main since #26 merged); the random cores are drawn by `k4/lb4_randcores.py` and committed as
 `results/k4_lb4r_cores_*.json.gz`.
 - *Exhaustive.* Every insertion order on every core with n ≤ 4 (above); every order on the two n = 5 cores below on
   which need-shrinking needs a third rotation (8.41·10¹¹ run–profile pairs, `results/k4_lb4r_deep.log`). Index order
