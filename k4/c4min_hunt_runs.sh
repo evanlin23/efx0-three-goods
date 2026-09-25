@@ -16,7 +16,7 @@ case "$1" in
         ../$R/k4_certs_4_n4_1.json.gz ../$R/k4_certs_4_n4_2.json.gz -V
     log $R/k4_c4min_hunt_selfcheck.log python3 c4min_hunt_run.py ../$R/k4_certs_4_pure.json.gz --order=big --best=1 \
         --only=0,20,40,60,80,100,120,140,160,180,200,218 --first=1 -V
-    log $R/k4_c4min_hunt_selfcheck.log python3 c4min_hunt_run.py ../$R/k4_certs_5_n4_3.json.gz \
+    log $R/k4_c4min_hunt_selfcheck.log python3 c4min_hunt_run.py ../$R/k4_certs_5_n4_3.json.gz --order=big \
         --only=$(seq -s, 0 250 9860) --first=1 -V ;;
   w0small)     # the variant with the owner's needs from its base: must find PR #36's 720 profiles at n = 2
     log $R/k4_c4min_hunt_w0.log python3 c4min_hunt_run.py ../$R/k4_certs_2.json.gz ../$R/k4_certs_3.json.gz \
