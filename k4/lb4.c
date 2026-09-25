@@ -281,11 +281,17 @@ static int apply_chain(int rot_pick, int *rot_more) {
     uint32_t NA = NAset();
     int valid = !(J & NA);
     for (int i = 0; i < n; i++) if (upg[i] && (base[i] & NA)) valid = 0;
+    /* a base of 3 or more goods must be the owner's: after nested rotations (-rN, N >= 2) an earlier rotated agent
+       may hold one; two such bases cannot both be the owner's, and the state is rejected */
+    int nbig = 0, big = -1;
+    for (int i = 0; i < n; i++) if (popc(base[i]) >= 3) { nbig++; big = i; }
+    if (nbig >= 2) valid = 0;
     if (valid) {
         int S = slots();
-        if (popc(B) >= 3 || popc(J) - S >= 1) ok = try_owner(k, S);
+        if (nbig == 1) ok = try_owner(big, S);
+        else if (popc(J) - S >= 1) ok = try_owner(k, S);
         else ok = try_owner(-1, S) || try_owner(k, S);
-        if (!ok && popc(B) < 3 && popc(J) - S >= 1)
+        if (!ok && nbig == 0 && popc(J) - S >= 1)
             for (int o = 0; o < n && !ok; o++) if (o != k && (cap[o] > 0 || upg[o])) ok = try_owner(o, S);
     }
     if (!ok && valid && rot_depth + 1 < ROT) {    /* rotate again from the rotated state */
@@ -373,11 +379,10 @@ static int construct(void) {
         nchoice = 0;
         if (construct1()) return 1;
         fb_seq = 1;
-        int jl = nins - 1;
-        for (int q = 1; q < maxchoice[jl]; q++) {
+        int jl = nins - 1, nc = maxchoice[jl];     /* the last block's candidates in the index run */
+        for (int q = 1; q < nc; q++) {           /* later insertion steps (if any) take the first agent */
             memset(choice, 0, sizeof choice); choice[jl] = q; nchoice = jl + 1;
             if (construct1()) return 1;
-            if (nins - 1 != jl) break;
         }
         return 0;
     }
@@ -481,6 +486,15 @@ static void report(const char *what) {
     fprintf(stderr, " J=%x w=%d\n", J, popc(J) - slots());
 }
 
+/* one run of the construction on the current type sets; returns 1 if a comparison split them (setjmp lives here, so
+   no local of main is live across it) */
+static int run_leaf(int *ok) {
+    if (setjmp(env)) return 1;
+    fb_seq = fb_upg = 0; rot_depth = 0;  /* a split may have interrupted a nested rotation */
+    *ok = construct();
+    return 0;
+}
+
 int main(int argc, char **argv) {
     for (int a = 1; a < argc; a++) {
         if (!strncmp(argv[a], "-o", 2)) OWN = atoi(argv[a] + 2);
@@ -511,7 +525,7 @@ int main(int argc, char **argv) {
                 int p;
                 for (p = 0; p < np[i]; p++) if (!memcmp(pr[i][p], o, sizeof(int) * d[i])) break;
                 if (p == np[i]) { memcpy(pr[i][p], o, sizeof(int) * d[i]); pcnt[i][p] = 0; np[i]++; }
-                if (pcnt[i][p] >= 128) { fprintf(stderr, "group too large\n"); return 1; }
+                if (pcnt[i][p] >= MAXG) { fprintf(stderr, "group too large\n"); return 1; }
                 pidx[i][p][pcnt[i][p]++] = t;
             }
         }
@@ -550,7 +564,8 @@ int main(int argc, char **argv) {
                     top--;
                     for (int i = 0; i < n; i++) ts[i] = stack[top][i];
                     runs++;
-                    if (setjmp(env)) {
+                    int ok;
+                    if (run_leaf(&ok)) {        /* a comparison split the type sets: push the parts */
                         u128 part[3] = {0, 0, 0}; int i = sp_i;
                         for (int k = 0; k < pcnt[i][cp[i]]; k++) if (ts[i] >> k & 1) {
                             int t = pidx[i][cp[i]][k], x = tsum(i, t, sp_S) - tsum(i, t, sp_T);
@@ -563,8 +578,6 @@ int main(int argc, char **argv) {
                         }
                         continue;
                     }
-                    fb_seq = fb_upg = 0;
-                    int ok = construct();
                     long w = weight();
                     leaves++; total += w;
                     if (!ok) { fails += w; if (shown < MAXF) { report("FAIL"); shown++; } continue; }

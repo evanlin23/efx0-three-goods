@@ -123,13 +123,17 @@ B_k = {Y_k, g}, N_k = N′. Validity is kept: NA only shrinks, Y_k ∉ NA, and g
 b < c + d < a).
 
 **Owner step.** Compute F, the slots and ω. If ω ≤ 0, return the completion without owner. Otherwise try the owners
-in the order: r, the last-processed agent with a one-good base, if it is free; then every other free agent with a slot
-or a two-good base, latest-processed first. For an owner o, try every C ⊆ J (first those of size S − cap(o), then the
-larger ones): X_o = B_o ∪ (J ∖ C), the owner's needs N_o^X, and with them F and the slots. C must fit into the slots of
+in the order: r, the last-processed agent that is not upgraded (its base has at most one good), if it is free; then
+every other free agent with a slot or a two-good base, latest-processed first. For an owner o, try every C ⊆ J of size
+min(|J|, S − cap(o)), then every larger one: X_o = B_o ∪ (J ∖ C), the owner's needs N_o^X, and with them F and the
+slots. C must fit into the slots of
 the free agents other than o; every agent without a slot must be unthreatened by X_o; every agent with one slot that
 X_o threatens when it holds its base alone must receive a good of C that protects it (a system of distinct
-representatives, by augmenting paths). The rest of C fills the remaining slots in any order. This is an exact test:
-a completion with owner o exists iff one of these C passes.
+representatives, by augmenting paths). The rest of C fills the remaining slots in any order. With the owner's needs
+taken from its base, this is an exact test: a completion with owner o exists iff one of these C passes (a smaller C
+can be extended into free slots, which only shrinks X_o). With the needs taken from its bundle, a smaller C could make
+X_o worth more, free agents the owner needs, and add slots; those C are not tried, so the test is sufficient, not
+exact.
 
 **Rotation.** If the owner step fails, try every frozen agent k (latest-processed first), every need chain
 k = x₀, x₁, …, x_t (x₁, …, x_{t−1} frozen, Y_{x_{i−1}} ∈ N_{x_i}, and x_t free with a base of at most one good, or
@@ -139,7 +143,9 @@ with a two-good base: an upgraded agent that still needs Y_{x_{t−1}}), and eve
 - k takes the base O, with value-based needs.
 
 If the result is valid (checked), run the owner step on it: with owner k when |O| ≥ 3; otherwise without an owner if
-ω ≤ 0, else with owner k and then the other free agents in index order. At k = 3 LB⁺'s rotation is the case k = k*, x_t = r,
+ω ≤ 0, else with owner k and then the other free agents in index order. The rotated agent counts as upgraded: no slot
+when ω and the size of C are computed, even if |O| = 1 (the owner test with the owner's needs from its bundle recomputes
+the slots and gives a one-good base one slot). At k = 3 LB⁺'s rotation is the case k = k*, x_t = r,
 O = {b_k, c_k}.
 
 **Search.** Try the insertion sequences τ in lexicographic order; for each, Phase 1, upgrades, owner step, rotation.
@@ -148,8 +154,8 @@ Return the first allocation found. LB₄ *fails* if no τ gives one.
 **LB₄ᴸ: searching only the last block's leader.** For an insertion sequence τ, let LB₄ᴸ(τ) run LB₄'s steps on τ,
 and if that fails, on τ with the leader of its *last* block replaced by each other agent of that block in turn (index
 order; later insertion steps, if the new block does not absorb every remaining agent, take the first agent). This is
-at most n runs of Phase 1. `-i9` tests it for every τ; `-i8` is LB₄ᴸ(index order), a polynomial construction. Both
-fail at n = 4 (§3), so LB₄ keeps the search over all insertion sequences.
+at most n runs of Phase 1. `-i8` is LB₄ᴸ(index order), a polynomial construction; `-i9` tests LB₄ᴸ(τ) for every τ.
+LB₄ᴸ(τ) fails for some τ at n = 4 (§3); LB₄ᴸ(index order) has not failed on any core tested (§4).
 
 ## 3. Why each ingredient is there (rejected variants)
 
@@ -161,25 +167,28 @@ the construction that fails, not K4.D. One file each in `attempts/`, reproduced 
 |---|---|---|
 | LB⁺'s shape: index insertion, owner r, else one rotation (any chain, any subset) | n = 2, m = 5 | `attempts/lb4-lbplus-shape.md` |
 | no rotation (everything else searched, including every insertion sequence) | n = 3, m = 5 | `attempts/lb4-no-rotation.md` |
-| a fixed insertion rule (index, block lookahead, "a > b + c first", least ω), with every upgrade policy, every owner, up to 3 rotations | n = 3, m = 6 | `attempts/lb4-fixed-insertion.md` |
+| a fixed insertion rule (index, block lookahead, least ω, "a > b + c first", r leads the last block) with one rotation | n = 3, m = 6 | `attempts/lb4-fixed-insertion.md` |
 | the owner's needs from its base, as at k = 3 (everything else searched) | n = 4, m = 8 (pure) | `attempts/lb4-owner-needs-from-base.md` |
-| only the last block's leader searched (LB₄ᴸ), with index insertion or for every run of Phase 1 | n = 4, m = 8 (three 4-good agents) | `attempts/lb4-last-block-leader.md` |
+| only the last block's leader searched, for every run of Phase 1 (LB₄ᴸ(τ) for all τ) | n = 4, m = 8 (three 4-good agents) | `attempts/lb4-last-block-leader.md` |
 
 What each failure shows:
 1. *Upgrades can hurt* (n = 2): the k = 4 pair {b, c} is not always envy-free, so an upgraded agent can be threatened
    by a + d in the large bundle, and an upgrade that removes a need can leave no valid owner.
 2. *The rotation is needed* (n = 3): a flat agent must end with its two private goods, which serial dictatorship never
    gives it (it always picks a shared good); a rotation does. With LB₄'s single upgrade policy, chains must be allowed
-   to end at an upgraded agent that still needs a good: without that (`-c0`), 2 pure n = 4, m = 8 cores fail
-   (9,280 profiles); trying the other upgrade policies as well (`-u3 -c0`) also repairs them.
-3. *The insertion order matters* (n = 3): unlike LB⁺ (Theorem C holds for every insertion order), some profiles need an
-   agent to end below the good it picked, and a need-chain rotation only moves agents up. Every fixed rule tested fails.
+   to end at an upgraded agent that still needs a good: without that (`-i2 -u1 -r1 -w1 -c0`), 2 pure n = 4, m = 8 cores
+   fail (9,280 profiles); trying the other upgrade policies as well (`-i2 -u3 -r1 -w1 -c0`) also repairs them (pure
+   n = 4, m = 8 and 9; `results/k4_lb4_variants.log`).
+3. *With one rotation, the insertion order matters* (n = 3): unlike LB⁺ (Theorem C holds for every insertion order),
+   some profiles need an agent to end below the good it picked, and one rotation moves every agent of its chain up.
+   Every fixed rule tested fails with one rotation. Two rotations in a row can do it: with up to three nested
+   rotations, index insertion fails nowhere at n ≤ 3 (`-i0 -u3 -r3 -w1 -c1`; not tested beyond n = 3).
 4. *The owner's large bundle can remove its own needs* (n = 4): with {b, c, d} worth more than a, the owner no longer
    needs its top alone, which frees the agent holding that top.
-5. *Earlier blocks matter* (n = 4): choosing only the leader of the last block, the analogue of Theorem A's focus on
-   the last block, fails even when every earlier sequence of choices is allowed; in the smallest case the last block has
-   one agent, and the first block's leader must change. LB₄ᴸ holds for n ≤ 3 (with ties), n = 4 with at most two
-   4-good agents, and n = 5 with one (`results/k4_lb4_i9_run.log`, `results/k4_lb4_i8_run.log`).
+5. *For some runs, earlier blocks matter* (n = 4): choosing only the leader of the last block, the analogue of
+   Theorem A's focus on the last block, fails for some runs of Phase 1; in the smallest case the run's last block is
+   one agent, and the first block's leader must change (`results/k4_lb4_i9_run.log`). For the index run it has not
+   failed: LB₄ᴸ(index order) never fails on the cores tested (§4).
 
 ## 4. Exhaustive tests
 
@@ -199,7 +208,12 @@ give the same failure counts on every core with n ≤ 3, for a variant that fail
 of §3 reproduce. For n ≤ 3 (strict and ties) and n = 4 with at most three 4-good agents, LB₄'s leaf allocations are
 written as certificates (`results/k4_lb4_certs_*.json.gz`, 50 to 185,108 allocations per file) and accepted by the
 independent `k4/check4.py`: coverage of every profile, raw EFX₀, core lists complete, D2
-(`results/k4_lb4_check.log`). For pure n = 4 and n = 5 the certificates would be too large to store.
+(`results/k4_lb4_check.log`). What `check4.py` confirms independently is that LB₄'s outputs are EFX₀ with the D2
+shape and together cover every profile. That LB₄ produced an output for every profile (never failed) is `lb4.c`'s own
+count, for every class: the leaves' sizes add up to all profiles and no leaf failed. A profile where LB₄ failed could
+still be covered by another output. For pure n = 4 and n = 5 no certificate is stored (they would be about 1 MB for
+pure n = 4 and for n = 5 with one 4-good agent, and about 10 MB for n = 5 with two, as measured in the coordinator's
+review); for these classes every claim rests on `lb4.c` alone (single implementation).
 
 **Results (EVIDENCE for K4.LB4).** `-i2 -u1 -r1 -w1 -c1`; logs `results/k4_lb4_run_2_3_4mixed.log`,
 `results/k4_lb4_run_4pure_5.log`. Columns: how LB₄ ended, counted in profiles (the first success in the search order).
@@ -239,10 +253,10 @@ counting pairs every exposed agent with a terminal of its own block, and needs o
    are block leaders, one per block, no longer applies. (Not checked whether this happens in LB₄'s runs.)
 3. *One good per exposed agent fails:* a flat frozen agent (a < c + d) with b, c, d all free needs two goods kept out of
    the large bundle, and an agent holding b_x is exposed when c + d > b. Agents with a two-good base can be exposed.
-4. *Any insertion order fails* (`attempts/lb4-fixed-insertion.md`): Theorem C's "for every run of Phase 1" is false at
-   k = 4 for the rotations tested, and so is its weakening "for every run, up to the choice of the last block's leader"
-   (`attempts/lb4-last-block-leader.md`). A proof must choose the whole insertion sequence, or use a move that lets
-   an agent go below its pick.
+4. *Any insertion order fails with one rotation* (`attempts/lb4-fixed-insertion.md`): Theorem C's "for every run of
+   Phase 1" is false at k = 4 with one rotation, and so is its weakening "for every run, up to the choice of the last
+   block's leader" (`attempts/lb4-last-block-leader.md`). A proof must choose the insertion sequence, or use a move
+   that lets an agent go below its pick (two rotations in a row can; untested beyond n = 3).
 
 **The gap, precisely.** By Theorem 1′₄, K4.D follows from
 - **Conjecture K4.LB4.** For every k = 4 core and every strict profile, LB₄ does not fail: some insertion sequence
@@ -269,11 +283,13 @@ python3 k4/test_lb4.py                                                   # sensi
 python3 attempts/lb4_variants.py                                         # the rejected variants' smallest failures
 python3 k4/lb4_brute.py '[[0,2,3,4],[1,2,3,4]]' '[[1,4,6,8],[2,4,5,8]]'  # every EFX0 allocation of one instance
 ```
-`lb4_run.py` compiles `k4/lb4.c` with gcc into the temporary directory (`LB4_BIN` overrides the path). Options of
+`lb4_run.py` compiles `k4/lb4.c` with gcc into the temporary directory, under a name made from a hash of the source
+(`LB4_BIN` overrides the path); it takes ties from the certificate file and rejects a mismatched `--ties`. Options of
 `lb4.c`: `-i0` index insertion, `-i1` every insertion sequence separately, `-i2` every insertion sequence until one
 succeeds (LB₄), `-i3` block lookahead, `-i4` least ω, `-i5` "a > b + c" first, `-i6` index with at most one insertion
-step changed, `-i7` index then the last block led by r, `-i8` index then every leader of the last block (LB₄ᴸ),
-`-i9` every run of Phase 1 then every leader of its last block; `-u0/-u1/-u2/-u3` no upgrades, need-shrinking, envy-free only, all three in turn; `-o0` every owner, `-o1` r
-only, `-o2` r then rotation; `-rN` up to N rotations; `-w1` owner needs from its bundle; `-c1` chains may end at
-upgraded agents; `-s` sensitivity (owner constraint ignored); `-b` brute force (every profile its own leaf); `-a`
-print the leaf allocations.
+step changed, `-i7` index then the last block led by r, `-i8` index then every leader of the last block (LB₄ᴸ), `-i9`
+every run of Phase 1 then every leader of its last block; `-u0/-u1/-u2/-u3` no upgrades, need-shrinking, envy-free
+only, all three in turn; `-o0` every owner, `-o1` r only, `-o2` r then rotation; `-rN` up to N rotations in a row (a
+base of three or more goods is then the owner's, and two such bases are rejected); `-w1` owner needs from its bundle;
+`-c1` chains may end at upgraded agents; `-s` sensitivity (owner constraint ignored); `-b` brute force (every profile
+its own leaf); `-a` print the leaf allocations.

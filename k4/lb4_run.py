@@ -2,18 +2,20 @@
 given certificate files (results/k4_certs_*.json.gz; only the core lists are used, loaded as in k4/check4.py), in
 parallel over cores, and sum the per-core result lines.
 Usage: lb4_run.py FILE [FILE ...] [--ties] [--jobs=J] [--show=N] [--m=M] [C options: -o0 -o1 -o2 -i1 -s -b -u0]"""
-import gzip, json, os, subprocess, sys, tempfile, time
+import gzip, hashlib, json, os, subprocess, sys, tempfile, time
 from multiprocessing import Pool
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import check4
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-BIN = os.environ.get('LB4_BIN', os.path.join(tempfile.gettempdir(), 'k4_lb4_bin'))
+SRC = os.path.join(HERE, 'lb4.c')
+# the binary is named by a hash of the source, so two checkouts or an edited source never reuse a stale binary
+BIN = os.environ.get('LB4_BIN') or os.path.join(
+    tempfile.gettempdir(), 'k4_lb4_bin_' + hashlib.sha256(open(SRC, 'rb').read()).hexdigest()[:16])
 
 def build():
-    src = os.path.join(HERE, 'lb4.c')
-    if not os.path.exists(BIN) or os.path.getmtime(BIN) < os.path.getmtime(src):
-        subprocess.run(['gcc', '-O2', '-o', BIN, src], check=True, stderr=subprocess.DEVNULL)
+    if 'LB4_BIN' in os.environ or not os.path.exists(BIN):
+        subprocess.run(['gcc', '-O2', '-o', BIN, SRC], check=True, stderr=subprocess.DEVNULL)
 
 def encode(sets, m, ties):
     doms = check4.core_domains(sets, m, ties)
@@ -32,6 +34,7 @@ def run(task):
     for line in p.stdout.strip().split('\n'):
         if line.startswith('A '): cur.append(list(map(int, line.split()[1:])))
         else: out.append(line); allocs.append(cur); cur = []
+    if len(out) != len(recs): raise RuntimeError(f"{len(out)} result lines for {len(recs)} cores")
     return [(r, line, A) for r, line, A in zip(recs, out, allocs)], p.stderr
 
 def main():
@@ -49,6 +52,8 @@ def main():
     for f in files:
         t0 = time.time()
         data = json.load(gzip.open(f, 'rt'))
+        if data.get('ties', False) != ties:     # the type domain must match the file's (a strict run of a ties file
+            raise SystemExit(f"{f}: file has ties={data.get('ties', False)}, run has --ties={ties}")  # would mislabel)
         cores = [c for c in data['cores'] if monly is None or c['m'] == monly]
         chunk = max(1, min(8, len(cores) // (4 * jobs) or 1))
         tasks = [(cores[i:i + chunk], ties, opts) for i in range(0, len(cores), chunk)]

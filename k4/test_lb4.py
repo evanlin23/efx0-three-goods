@@ -1,8 +1,10 @@
 """Tests of the LB4 tester k4/lb4.c (results/k4_lb4_test.log).
 (a) Sensitivity: with -s the construction ignores the owner constraint (all junk to r). The raw EFX0 check must then
     report failures, at n = 2 and n = 3; without -s it reports none.
-(b) Lazy type branching vs brute force: for a variant that fails (-i0 -u1 -o2 -r1) and for LB4 itself, the number of
-    failing profiles per core must be the same when every profile is its own leaf (-b), on every core with n <= 3.
+(b) Lazy type branching vs brute force: for a variant that fails (-i0 -u1 -o2 -r1), for LB4 itself, and for nested
+    rotations (-i0 -u3 -r3 -w1 -c1, whose rotation depth must be reset after a type split), the numbers of failing
+    profiles and of raw-check failures per core must be the same when every profile is its own leaf (-b), on every core
+    with n <= 3.
 (c) The five rejected variants of attempts/lb4-*.md reproduce (attempts/lb4_variants.py).
 Usage: python3 k4/test_lb4.py"""
 import gzip, json, os, subprocess, sys
@@ -33,12 +35,12 @@ def main():
             rs, rt = sum(x['rawfails'] for x in s), sum(x['rawfails'] + x['fails'] for x in t)
             print(f"(a) n={n}: -s (owner constraint ignored): {rs} profiles fail the raw check; LB4: {rt} fail")
             ok &= rs > 0 and rt == 0
-        for opts in ('-i0 -u1 -o2 -r1', LB4):
+        for opts in ('-i0 -u1 -o2 -r1', LB4, '-i0 -u3 -r3 -w1 -c1'):
             for n in (2, 3):
                 lazy = pool.map(per_core, [(r, opts) for r in cores(n)])
                 brute = pool.map(per_core, [(r, opts + ' -b') for r in cores(n)])
                 same = all(a['fails'] == b['fails'] and a['total'] == b['total'] and a['rawfails'] == b['rawfails'] == 0
-                           for a, b in zip(lazy, brute))
+                           for a, b in zip(lazy, brute))      # rawfails must be 0 too: every output is EFX0 and D2
                 print(f"(b) {opts}, n={n}: lazy fails {sum(a['fails'] for a in lazy)} of {sum(a['total'] for a in lazy)}, "
                       f"brute fails {sum(b['fails'] for b in brute)} of {sum(b['total'] for b in brute)}; "
                       f"equal per core: {same}")
