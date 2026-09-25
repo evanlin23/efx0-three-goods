@@ -222,25 +222,7 @@ def check(label, vals, Y, kind):
     for Z in maxima:
         print(f"    {[sorted(b) for b in Z]} pool {sorted(set(range(m)) - set().union(*Z))} placement: {placeable(Z)}")
     bestc = max(sum(level(vals, i, X[i] & R[i]) for i in range(n)) for X in comp)
-    key = lambda X: tuple(frozenset(b) for b in X)
-    start = key([set() for _ in range(n)]); prev = {start: None}; queue = [start]; target = key(Y)
-    while queue and target not in prev:
-        nxt = []
-        for S in queue:
-            X = [set(b) for b in S]; P = set(range(m)) - set().union(*X)
-            for h in range(n):
-                cand = sorted(R[h] & (X[h] | P))
-                for k in range(1, len(cand) + 1):
-                    for Z in itertools.combinations(cand, k):
-                        if v(vals, h, Z) <= v(vals, h, X[h]): continue
-                        X2 = [set(b) for b in X]; X2[h] = set(Z)
-                        if not efx0(vals, X2): continue
-                        K = key(X2)
-                        if K not in prev: prev[K] = S; nxt.append(K)
-        queue = nxt
-    path = []
-    K = target if target in prev else None
-    while K is not None: path.append(K); K = prev[K]
+    path = m1_path(vals, Y, n, m)
     envy = {(i, j) for i in range(n) for j in range(n) if i != j and v(vals, i, Y[j]) > v(vals, i, Y[i])}
     def cyc():
         col = {}
@@ -251,7 +233,7 @@ def check(label, vals, Y, kind):
             col[a] = 2; return False
         return any(a not in col and dfs(a) for a in range(n))
     claim(path and not cyc(), f"Y is reached from the empty allocation by {len(path) - 1} M1 moves, and its envy graph is acyclic (LS4+_n can stop at Y with failure)")
-    for K in reversed(path): print("    ", [sorted(b) for b in K])
+    for K in path: print("    ", [sorted(b) for b in K])
     print(f"  largest level sum of a complete EFX0 allocation: {bestc} (maximum over partial ones: {best})")
     return ok
 
