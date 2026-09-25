@@ -626,6 +626,99 @@ theorem mc4_count (v : A → G → Nat) {agents : List A} {goods : List G} (hag 
 
 end count
 
+/-! ## The assembly (K4.MC6 for `b = 3`, K4.MC7 for `b = 4`) -/
+
+/-- The structure of `Γ′` that K4.MC4 counts with: every agent has `Γ′`-degree 2, 3 or 4; no good of degree 2 is
+valued by two agents of `Γ′`-degree 2 (K4.MC3); every agent of `Γ′`-degree 3 shares at most one good of degree 2 with
+an agent of `Γ′`-degree 2 (K4.MC5(iii)). -/
+def GammaStruct (v : A → G → Nat) (agents : List A) (goods : List G) : Prop :=
+  (∀ i ∈ agents, 2 ≤ degS v agents goods i ∧ degS v agents goods i ≤ 4) ∧
+  (∀ g ∈ goods, deg v agents g = 2 → ∀ f ∈ agents, ∀ f' ∈ agents, f ≠ f' → 0 < v f g → 0 < v f' g →
+    degS v agents goods f = 2 → degS v agents goods f' ≠ 2) ∧
+  (∀ e ∈ agents, degS v agents goods e = 3 →
+    goods.countP (fun g => decide (0 < v e g) && decide (deg v agents g = 2) &&
+      decide (∃ f ∈ agents, f ≠ e ∧ 0 < v f g ∧ degS v agents goods f = 2)) ≤ 1)
+
+/-- The number of agents with four relevant goods. -/
+def num4 (v : A → G → Nat) (agents : List A) (goods : List G) : Nat :=
+  agents.countP (fun i => decide ((relevant v i goods).length = 4))
+
+/-- **The hypotheses of the chain** for a class `C` (the instances whose incidence-graph components have
+cyclomatic number at most `b`, `𝒞_b`), each a fact that Lean does not re-check here:
+- `her`, `rel`: `𝒞_b` is closed under deleting agents and goods, and depends only on the relevant goods (graph
+  facts, `proofs/min_counterexample.md` §1; not formalized);
+- `cyc`: a connected k = 4 core of `𝒞_b` has cyclomatic number `β = Σ_i |R_i| − n − m + 1 ≤ b`;
+- `red` (K4.MC2, K4.MC3, K4.MC5: Lemma M1 (`m1_reduce`) with the reduction certificate
+  `results/k4_min_cex_reductions.json.gz`, checked by `k4/check_reductions4.py`): a connected strict core of `C`
+  with a 4-good agent whose smaller instances in `C` are all solvable, and which violates `GammaStruct` or the
+  per-agent domain cuts `Cut` (K4.MC2, and K4.MC5's restrictions of the P3/E3/Q4 profiles), is solvable;
+- `small` (K4.R3–K4.R5, certified): such a core with `n ≤ 4`, or `n = 5` and at most two 4-good agents, is solvable;
+- `enum` (the enumeration, `k4/mincex_shapes.py`, re-checked with orbit counting by `k4/check_mincex_cores.py`
+  (`b = 3`) and `k4/check_mincex_cores4.py` (`b = 4`)): such a core satisfying `GammaStruct` and `Cut`, with `n ≥ 5`,
+  `n ≤ 3(β − 1)` and `β ≤ b`, matches some entry `d` of the list `L` (isomorphic to it, with its profile in `d`'s
+  restricted domain; `Matches` is not defined in Lean);
+- `cert` (`results/k4_min_cex_cores_3.json.gz`, `results/k4_min_cex_cores_4.json.gz`, checked by the same
+  checkers): every instance matching a certified entry is solvable;
+- `lit` (the multigraph theorem of Afshinmehr et al., arXiv 2606.18665, `proofs/citations.md` item 4): every
+  instance matching a graphical entry is solvable;
+- `cover`: every entry is certified or graphical (for `b = 3`, all 9 are certified; for `b = 4`, 5,552 are certified
+  and 6 graphical). -/
+structure ChainHyp (C : List A → List G → (A → G → Nat) → Prop) (b : Nat)
+    (Cut : List A → List G → (A → G → Nat) → Prop) {D : Type} (L : List D)
+    (Matches : D → List A → List G → (A → G → Nat) → Prop) (certified graphical : D → Prop) : Prop where
+  her : Hereditary C
+  rel : RelevanceInvariant C
+  cyc : ∀ agents goods v, C agents goods v → IsCore4 v agents goods → Connected v agents goods →
+    (agents.map (fun i => (relevant v i goods).length)).sum + 1 ≤ b + agents.length + goods.length
+  red : ∀ agents goods v, C agents goods v → agents.Nodup → goods.Nodup → IsCore4 v agents goods →
+    Connected v agents goods → Strict v agents goods → 0 < num4 v agents goods → MinimalFor C agents goods →
+    ¬ (GammaStruct v agents goods ∧ Cut agents goods v) → Solvable agents goods v
+  small : ∀ agents goods v, C agents goods v → agents.Nodup → goods.Nodup → IsCore4 v agents goods →
+    Connected v agents goods → Strict v agents goods → 0 < num4 v agents goods →
+    (agents.length ≤ 4 ∨ (agents.length = 5 ∧ num4 v agents goods ≤ 2)) → Solvable agents goods v
+  enum : ∀ agents goods v, C agents goods v → agents.Nodup → goods.Nodup → IsCore4 v agents goods →
+    Connected v agents goods → Strict v agents goods → 0 < num4 v agents goods →
+    GammaStruct v agents goods → Cut agents goods v → 5 ≤ agents.length →
+    ¬ (agents.length = 5 ∧ num4 v agents goods ≤ 2) →
+    4 * agents.length + 3 * goods.length ≤ 3 * (agents.map (fun i => (relevant v i goods).length)).sum →
+    (agents.map (fun i => (relevant v i goods).length)).sum + 1 ≤ b + agents.length + goods.length →
+    ∃ d ∈ L, Matches d agents goods v
+  cert : ∀ d ∈ L, certified d → ∀ agents goods v, Matches d agents goods v → Solvable agents goods v
+  lit : ∀ d ∈ L, graphical d → ∀ agents goods v, Matches d agents goods v → Solvable agents goods v
+  cover : ∀ d ∈ L, certified d ∨ graphical d
+
+/-- **The chain of K4.MC6 (`b = 3`) and K4.MC7 (`b = 4`), machine-checked.** Under `ChainHyp`, every admissible
+instance of `C` (at least one agent, at most four relevant goods per agent) has an EFX₀ allocation. The proof is
+the minimal-counterexample argument of `k4/MINCEX.md` §6 and §8: a minimal counterexample is a connected strict
+k = 4 core with a 4-good agent (K4.MC0, `mc0`); it has the structure of K4.MC2, K4.MC3 and K4.MC5 (`red`), at least
+five agents (`small`), and `n ≤ 3(β − 1)` (K4.MC4, `mc4_count`), so it matches an entry of the list (`enum`), which
+is certified (`cert`) or graphical (`lit`). -/
+theorem target4_chain {C : List A → List G → (A → G → Nat) → Prop} {b : Nat}
+    {Cut : List A → List G → (A → G → Nat) → Prop} {D : Type} {L : List D}
+    {Matches : D → List A → List G → (A → G → Nat) → Prop} {certified graphical : D → Prop}
+    (h : ChainHyp C b Cut L Matches certified graphical) :
+    ∀ agents goods v, C agents goods v → Admissible agents goods v → Solvable agents goods v := by
+  refine mc0 C h.her h.rel fun agents goods v hC hag hgd hc hconn hs h4 hmin => ?_
+  have hn4 : 0 < num4 v agents goods := by
+    obtain ⟨i, hi, hi4⟩ := h4
+    rw [num4, List.countP_eq_length_filter]
+    exact List.length_pos_of_mem (List.mem_filter.mpr ⟨hi, by simpa using hi4⟩)
+  by_cases hst : GammaStruct v agents goods ∧ Cut agents goods v
+  · by_cases hsm : agents.length ≤ 4 ∨ (agents.length = 5 ∧ num4 v agents goods ≤ 2)
+    · exact h.small agents goods v hC hag hgd hc hconn hs hn4 hsm
+    · have hcov : ∀ g ∈ goods, 1 ≤ deg v agents g := fun g hg => by
+        obtain ⟨i, hi, hpos⟩ := hc.2.2.2.2.2 g hg
+        rw [deg, List.countP_eq_length_filter]
+        exact List.length_pos_of_mem (List.mem_filter.mpr ⟨hi, by simpa using hpos⟩)
+      obtain ⟨hd, h3, h5⟩ := hst.1
+      have hcount := mc4_count v hag hcov hd h3 h5
+      obtain ⟨d, hd, hm⟩ := h.enum agents goods v hC hag hgd hc hconn hs hn4 hst.1 hst.2 (by omega)
+        (fun hh => hsm (Or.inr hh)) hcount (h.cyc agents goods v hC hc hconn)
+      rcases h.cover d hd with hce | hgr
+      · exact h.cert d hd hce agents goods v hm
+      · exact h.lit d hd hgr agents goods v hm
+  · exact h.red agents goods v hC hag hgd hc hconn hs hn4 hmin hst
+
 end MinCex
 end EFX
 
@@ -637,3 +730,4 @@ end EFX
 #print axioms EFX.MinCex.core_reduction4_class
 #print axioms EFX.MinCex.mc0
 #print axioms EFX.MinCex.mc4_count
+#print axioms EFX.MinCex.target4_chain
