@@ -1,0 +1,29 @@
+# attempts/k4-c4min-potentials.md: failing instances replayed by k4/c4min.c and k4/c4min_cfg.py; n = 2 exhaustive for the n = 3 instances
+# command: python3 attempts/k4_c4min_attempts.py
+robust count alone, f = 0: n = 3, m = 7, sets [[0, 2, 5, 6], [1, 4, 5, 6], [3, 4, 5, 6]], values [{0: 10, 2: 2, 5: 6, 6: 7}, {1: 2, 4: 7, 5: 4, 6: 8}, {3: 3, 4: 7, 5: 6, 6: 5}]
+   c4min.c: every-form fails = 1, profile without completable configuration = 0: confirmed
+   c4min_cfg.py: f = 0, 38 configurations, 26 maxima, 1 of them not completable, 34 completable in all: confirmed
+   n = 2, every strict profile of every core (k4/c4min.c): 0 profiles where some maximum is not completable: n = 3 is the smallest n
+pool-optimality alone, f = 0: n = 2, m = 5, sets [[0, 2, 3, 4], [1, 2, 3, 4]], values [{0: 1, 2: 4, 3: 6, 4: 8}, {1: 2, 2: 4, 3: 5, 4: 8}]
+   c4min.c: every-form fails = 1, profile without completable configuration = 0: confirmed
+   c4min_cfg.py: f = 0, 4 configurations, 2 maxima, 1 of them not completable, 2 completable in all: confirmed
+(r, Lambda), f = 1: n = 3, m = 8, sets [[0, 2, 6, 7], [1, 4, 6, 7], [3, 5, 6, 7]], values [{0: 3, 2: 6, 6: 10, 7: 2}, {1: 3, 4: 6, 6: 10, 7: 2}, {3: 2, 5: 3, 6: 10, 7: 6}]
+   c4min.c: every-form fails = 1, profile without completable configuration = 0: confirmed
+   c4min_cfg.py: f = 1, 60 configurations, 3 maxima, 1 of them not completable, 58 completable in all: confirmed
+   n = 2, every strict profile of every core (k4/c4min.c): 0 profiles where some maximum is not completable: n = 3 is the smallest n
+Lambda alone, f = 1: n = 3, m = 8, sets [[0, 2, 6, 7], [1, 4, 6, 7], [3, 5, 6, 7]], values [{0: 3, 2: 6, 6: 10, 7: 2}, {1: 3, 4: 6, 6: 10, 7: 2}, {3: 2, 5: 3, 6: 10, 7: 6}]
+   c4min.c: every-form fails = 1, profile without completable configuration = 0: confirmed
+   c4min_cfg.py: f = 1, 60 configurations, 3 maxima, 1 of them not completable, 58 completable in all: confirmed
+   n = 2, every strict profile of every core (k4/c4min.c): 0 profiles where some maximum is not completable: n = 3 is the smallest n
+(-t, Lambda), f = 2: n = 3, m = 6, sets [[0, 1, 2, 5], [2, 3, 4, 5], [3, 4, 5]], values [{0: 4, 1: 3, 2: 2, 5: 8}, {2: 4, 3: 1, 4: 8, 5: 6}, {3: 2, 4: 4, 5: 3}]
+   c4min.c: every-form fails = 1, profile without completable configuration = 0: confirmed
+   c4min_cfg.py: f = 2, 14 configurations, 4 maxima, 3 of them not completable, 8 completable in all: confirmed
+   n = 2, every strict profile of every core (k4/c4min.c): 0 profiles where some maximum is not completable: n = 3 is the smallest n
+Pareto-maximality, f = 1: n = 3, m = 7, sets [[0, 1, 2, 3], [2, 4, 5, 6], [3, 4, 5, 6]], values [{0: 3, 1: 2, 2: 10, 3: 6}, {2: 8, 4: 4, 5: 2, 6: 3}, {3: 3, 4: 2, 5: 6, 6: 10}]
+   c4min.c: Pareto every-form fails = 1, profile without completable configuration = 0: confirmed
+   c4min_cfg.py: f = 1, 24 configurations, 5 Pareto-maximal, 3 of them not completable, 13 completable in all: confirmed
+   n = 2, every strict profile of every core (k4/c4min.c): 0 profiles with a Pareto-maximum that is not completable: n = 3 is the smallest n
+configurations without the unfreezing clause: n = 2, m = 6, sets [[0, 1, 4, 5], [2, 3, 4, 5]], values [{0: 6, 1: 3, 4: 10, 5: 2}, {2: 4, 3: 3, 4: 8, 5: 2}]
+   c4min.c: without unfreezing none completable = 1; with it = 0: confirmed
+   c4min_cfg.py: f = 1, 9 configurations, 9 completable, 0 without unfreezing: confirmed
+ALL CONFIRMED

@@ -33,7 +33,8 @@ static inline int pc(mask_t x) { return __builtin_popcountll(x); }
 static int n, m, d[MAXN], gl[MAXN][4], nt[MAXN], tv[MAXN][MAXT][4], cur[MAXN];
 static mask_t Rm[MAXN];
 static int vv[MAXN][MAXM];                   /* v_i(g) for the current profile, 0 if g not in R_i */
-static int nex = 0, xcheck = 0, dist = 0, onlyf = -1, pareto = 0, onlyr0 = 0, nounf = 0;
+static int nex = 0, xcheck = 0, dist = 0, onlyf = -1, pareto = 0, onlyr0 = 0, nounf = 0, onlyA = 0;
+static long long nA1, cov[4];
 static long long nr0;
 static long long par_every, par_some, par_n;
 
@@ -82,9 +83,9 @@ static void genP(int i, mask_t used, mask_t sing, mask_t two, mask_t NA) {
 }
 
 /* ---- step 2: configurations ---- */
-#define NF 23
+#define NF 24
 static const char *fname[NF] = {"robF", "robfree", "-rhoF", "-poolexp", "safeall", "nvalid", "-poolthr1", "-rhoL",
-  "-thrL", "rob", "-exposedL1", "toppairs", "-rhoLQ", "-poolvalF", "robfree+robF", "-maxrhoLQ", "sumlev", "leximin", "sumlevfree", "sumlevF", "poolopt", "-frozthr", "nvalid_nounf"};
+  "-thrL", "rob", "-exposedL1", "toppairs", "-rhoLQ", "-poolvalF", "robfree+robF", "-maxrhoLQ", "sumlev", "leximin", "sumlevfree", "sumlevF", "poolopt", "-frozthr", "nvalid_nounf", "allrobF"};
 typedef struct { mask_t H[MAXN]; mask_t L; int comp; int F[NF]; int v[MAXN]; } cfg_t;
 static cfg_t *cf; static int ncf, capcf;
 static int isfree[MAXN], freel[MAXN], nfree;
@@ -160,6 +161,7 @@ static void features(cfg_t *c) {
     for (int x = 0; x < n; x++) if (!isfree[x]) { int th = 0; for (int q = 0; q < nfree && !th; q++) if (threat(x, c->H[freel[q]] | c->L, c->H[x])) th = 1; ft += th; }
     for (int q = 0; q < nfree; q++) nvn += owner_ok_u(c, freel[q], 0);
     c->F[21] = -ft; c->F[22] = nvn; }
+  { int nf = 0; for (int x = 0; x < n; x++) nf += !isfree[x]; c->F[23] = robF == nf; }
   c->comp = nv > 0;
   for (int i = 0; i < n; i++) c->v[i] = val(i, isfree[i] ? c->H[i] & U[i] : c->H[i]);
   int *F = c->F;
@@ -247,8 +249,9 @@ static void parse(const char *s) {
 }
 static int cmpc(const cfg_t *a, const cfg_t *b, int p) { for (int k = 0; k < phil[p]; k++) { int f = phif[p][k]; if (a->F[f] != b->F[f]) return a->F[f] > b->F[f] ? 1 : -1; } return 0; }
 static void print_prof(void) { for (int i = 0; i < n; i++) { printf(" ["); for (int k = 0; k < d[i]; k++) printf("%s%d:%d", k ? "," : "", gl[i][k], tv[i][cur[i]][k]); printf("]"); } }
+static const nkey_t *print_key;
 static void print_cfg(const cfg_t *c) {
-  printf(" |"); for (int i = 0; i < n; i++) { printf(" %s{", isfree[i] ? "" : "F"); int f = 1; for (int g = 0; g < m; g++) if (c->H[i] >> g & 1) { printf("%s%d", f ? "" : ",", g); f = 0; } printf("}"); }
+  printf(" |"); for (int i = 0; i < n; i++) { printf(" %s{", (print_key ? !print_key->phi[i] : isfree[i]) ? "" : "F"); int f = 1; for (int g = 0; g < m; g++) if (c->H[i] >> g & 1) { printf("%s%d", f ? "" : ",", g); f = 0; } printf("}"); }
   printf(" L{"); int f = 1; for (int g = 0; g < m; g++) if (c->L >> g & 1) { printf("%s%d", f ? "" : ",", g); f = 0; } printf("}");
 }
 
@@ -274,7 +277,10 @@ static void do_profile(void) {
     anycomp |= kc;
     if (!kc) nkeyfail++;
   }
+  if (onlyA) { int ok = 0; for (int c = 0; c < ncf; c++) if (cf[c].F[23]) ok = 1; if (!ok) { free(keyof); return; } nA1++; }
   if (onlyr0) { int mr = 0; for (int c = 0; c < ncf; c++) if (cf[c].F[9] > mr) mr = cf[c].F[9]; if (mr > 0) { free(keyof); return; } nr0++; if (nex) { printf("R0PROF %d %d", n, m); for (int i = 0; i < n; i++) { printf(" |"); for (int k = 0; k < d[i]; k++) printf(" %d:%d", gl[i][k], tv[i][cur[i]][k]); } printf("\n"); } }
+  { int ar = 0; for (int c = 0; c < ncf; c++) if (cf[c].F[23]) ar = 1;
+    if (fmin == 0) cov[0]++; else if (ar) cov[1]++; else if (fmin == 1) cov[2]++; else cov[3]++; }
   ncfg += ncf;
   if (!anycomp) { ncomp_none++; if (nex) { printf("NONE"); print_prof(); printf("\n"); } }
   if (xcheck) {
@@ -294,7 +300,7 @@ static void do_profile(void) {
       par_n++;
       if (cf[c].comp) so = 1; else { ev = 0; if (badc < 0) badc = c; }
     }
-    if (!ev) { par_every++; if (nex && par_every <= nex) { printf("EX pareto:"); print_prof(); print_cfg(&cf[badc]); printf("\n"); } }
+    if (!ev) { par_every++; if (nex && par_every <= nex) { printf("EX pareto:"); print_prof(); print_key = &keys[keyof[badc]]; print_cfg(&cf[badc]); print_key = NULL; printf("\n"); } }
     if (!so) par_some++;
   }
   for (int p = 0; p < nphi; p++) {
@@ -302,7 +308,7 @@ static void do_profile(void) {
     for (int c = 0; c < ncf; c++) if (best < 0 || cmpc(&cf[c], &cf[best], p) > 0) best = c;
     int ev = 1, so = 0, bad = -1;
     for (int c = 0; c < ncf; c++) if (cmpc(&cf[c], &cf[best], p) == 0) { if (cf[c].comp) so = 1; else { ev = 0; if (bad < 0) bad = c; } }
-    if (!ev) { everyf[p]++; if (exe[p] < nex) { exe[p]++; printf("EX every %s:", phin[p]); print_prof(); print_cfg(&cf[bad]); printf("\n"); } }
+    if (!ev) { everyf[p]++; if (exe[p] < nex) { exe[p]++; printf("EX every %s:", phin[p]); print_prof(); print_key = &keys[keyof[bad]]; print_cfg(&cf[bad]); print_key = NULL; printf("\n"); } }
     if (!so) somef[p]++;
     if (dist && p == 0) {
       for (int c = 0; c < ncf; c++) {
@@ -333,6 +339,7 @@ int main(int argc, char **argv) {
     else if (!strcmp(argv[i], "-Q")) pareto = 1;
     else if (!strcmp(argv[i], "-R0")) onlyr0 = 1;
     else if (!strcmp(argv[i], "-U0")) nounf = 1;
+    else if (!strcmp(argv[i], "-A")) onlyA = 1;
     else { fprintf(stderr, "unknown option %s\n", argv[i]); return 2; }
   }
   parse(phis);
@@ -357,7 +364,7 @@ int main(int argc, char **argv) {
       for (;;) { do_profile(); int i = n - 1; while (i >= 1 && ++cur[i] == nt[i]) { cur[i] = 0; i--; } if (i < 1) break; }
     }
   }
-  printf("RESULT profiles %lld omega>=1 %lld configs %lld none %lld keyfail %lld xbad %lld paretomax %lld paretoevery %lld paretosome %lld rmax0 %lld\n", nprof, nom, ncfg, ncomp_none, nkeyfail, nxbad, par_n, par_every, par_some, nr0);
+  printf("RESULT profiles %lld omega>=1 %lld configs %lld none %lld keyfail %lld xbad %lld paretomax %lld paretoevery %lld paretosome %lld rmax0 %lld allrobF %lld covZ %lld covF %lld f1 %lld uncovered %lld\n", nprof, nom, ncfg, ncomp_none, nkeyfail, nxbad, par_n, par_every, par_some, nr0, nA1, cov[0], cov[1], cov[2], cov[3]);
   for (int p = 0; p < nphi; p++) {
     printf("PHI %s every_fail %lld some_fail %lld", phin[p], everyf[p], somef[p]);
     if (dist && p == 0) { printf(" dist"); for (int k = 1; k < 8; k++) printf(" %lld", distcnt[p][k]); }

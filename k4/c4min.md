@@ -235,9 +235,141 @@ profile with fewest frozen agents 0 and ω ≥ 1, and checks:
 
 (Results in §5.)
 
-## 4. Frozen agents
+### 3.6 Extension: frozen agents that are robust (Theorem F)
 
-(In progress.)
+Now let f ≥ 0 be arbitrary. A frozen agent x of a configuration is **robust** if v_x(U_x) ≤ v_x(φ(x)): all its goods
+outside 𝒩 together are worth at most its frozen good. Every owner's bundle lies in M′, so X ∩ R_x ⊆ U_x and a robust
+frozen agent is never threatened, whoever the owner is and whatever it keeps. A configuration is **frozen-robust** if
+all its frozen agents are robust. Robustness of free agents, pool-optimality, r and Λ are defined as in §3.1 with the
+free agents' pairs. r counts the robust frozen agents too, and Λ adds the frozen agents' levels ℓ_x({φ(x)}).
+
+**Theorem F.** Suppose some configuration at the fewest frozen agents is frozen-robust (ω ≥ 1). Take a frozen-robust
+configuration that maximizes (r, Λ) among frozen-robust configurations. Then it has a valid owner with C = ∅ (no
+unfreezing is needed). So C₄ᵐⁱⁿ holds on the profile.
+
+At f = 0 every configuration is frozen-robust, and Theorem F is Theorem Z. Every frozen agent at f = 1 is non-robust:
+its frozen good is its top (all goods above it are in 𝒩, which has one good), and balance gives v(U_x) = v(R_x) −
+v(top) > v(top). So Theorem F says nothing about f = 1.
+
+*Proof.* The proof of §3.2–§3.4 carries over with these changes.
+- **Pool-optimality.** A pool improvement of a free agent keeps 𝒩 and φ, so the configuration stays frozen-robust
+  (robustness of a frozen agent does not depend on the pool), and (r, Λ) rises as in Lemma Z1. A pair worth more than
+  an admissible pair of y is admissible (Lemma Z1 with U_y in place of R_y).
+- **Kinds (Lemma Z2 with U_y).**
+  - A free agent with |U_y| ≤ 2 is robust.
+  - With |U_y| = 3, every admissible pair inside U_y is robust (a pair of U_y against one good; {u₂, u₃} is admissible
+    only if worth more than u₁). So the only non-robust state is **(T3)**: y holds u₁ (the top of U_y) and a good
+    outside U_y, with v(u₁) < v(u₂) + v(u₃). Pool-optimality gives L ∩ U_y = ∅. y is threatened by o iff
+    Q_o = {u₂, u₃}, since X ∩ R_y = X ∩ U_y ⊆ Q_o because X ⊆ M′.
+  - With |U_y| = 4, U_y = R_y and the kinds (T4) (the old (T) for 4-good agents), (D) and (R) and their threat
+    conditions are those of Lemma Z2.
+
+  So every free agent is threatened by at most one owner, and frozen agents by none.
+- **Lemma P** becomes: without a valid owner, σ is a permutation of the free agents, and no free agent is robust.
+- **Lemma R.** A (T3) agent that receives Q_{c_j} = {u₂, u₃} is robust (a pair of U_y against u₁ < u₂ + u₃). (D) and
+  (R) are as before. The rotations do not touch the frozen agents. The modified rotation changes the pool, which does
+  not matter because robust frozen agents are never threatened. So at the maximum every free agent is of kind (T4): a
+  4-good agent with all four goods outside 𝒩, holding its top.
+- **The last step.** Now every free agent holds its top and needs nothing.
+  - If f = 0, the pool is worthless to everyone, as in Theorem Z.
+  - If f ≥ 1, every good of 𝒩 is needed (the fewest frozen agents), and only frozen agents can need it. So every
+    frozen agent's good is needed by another frozen agent, and there is a cycle x₁, …, x_k of frozen agents with
+    φ(x_i) ∈ N_{x_{i+1}}. Rotate it: x_{i+1} takes φ(x_i). Every rotated agent gets a better good of 𝒩, so its needs
+    shrink (they stay in 𝒩), it stays robust, and it is still frozen (its good is in 𝒩 = NA by rigidity). The free
+    agents and the pool do not change. The new configuration is frozen-robust, r does not drop, and Λ rises strictly.
+    That is a contradiction. ∎
+
+The proof is effective in the same way as Theorem Z's: pool improvements, rotations of Lemma R, and rotations of
+frozen cycles each raise (r, Λ) and keep the configuration frozen-robust.
+
+*Checks.* `k4/c4min_f.py` checks Theorem F and its lemmas on every frozen-robust configuration of the profiles it
+examines. It checks the analogues of A–D, and for C that a frozen improving cycle exists when every free agent is
+(T4). `k4/c4min.c` checks the maximum of (allrobF, r, Λ) (potential `23,9,16`) on the profiles that have a
+frozen-robust configuration (`-A`).
+
+(Results in §5.)
+
+## 4. Exposed frozen agents: the conjecture and the gap
+
+Theorems Z and F leave the profiles on which every configuration at the fewest frozen agents has an **exposed**
+frozen agent x, i.e. v_x(U_x) > v_x(φ(x)). These include every profile with f = 1: the frozen agent sits on its top,
+and balance makes it exposed. Coverage of the sampled profiles with ω ≥ 1 (`k4/c4min.c`, counters covZ / covF / f1 /
+uncovered; §5):
+
+| class | profiles (ω ≥ 1) | Theorem Z (f = 0) | Theorem F (f ≥ 2, frozen-robust) | f = 1 | f ≥ 2, not frozen-robust |
+|---|---|---|---|---|---|
+| n = 3, 2,000 per core | 37,811 | 34,615 | 359 | 2,837 | 0 |
+| n = 4, one 4-good agent, 150 per core | 454 | 150 | 111 | 134 | 59 |
+| n = 4, two, 150 per core | 6,179 | 4,591 | 289 | 1,202 | 97 |
+| n = 4, three, 150 per core | 15,603 | 13,126 | 267 | 2,105 | 105 |
+| n = 4, pure, 150 per core | 15,317 | 13,504 | 107 | 1,629 | 77 |
+| n = 5, one 4-good agent, 40 per core | 376 | 40 | 113 | 93 | 130 |
+| n = 5, pure, 40 per core | 63,169 | 50,535 | 892 | 10,671 | 1,071 |
+
+**Conjecture Φ (K4.C4MIN.PHI).** For every strict profile of every k = 4 core with ω ≥ 1, every configuration at the
+fewest frozen agents that maximizes
+
+  Φ = (−t, r, Λ)  (lexicographic)
+
+has a valid owner. Here t is the number of frozen agents threatened by the pool alone (v_x(L ∩ U_x) > v_x(φ(x))), and
+r and Λ are the robust count and the level sum of §3.6. It implies C₄ᵐⁱⁿ (Lemma 1(a)). At f = 0, t = 0 and Φ is
+Theorem Z's potential. At the tested maxima no unfreezing is needed: the owner test with C = ∅ gives the same result
+for n ≥ 3 (`-U0`). At n = 2 unfreezing is needed, for 720 profiles.
+
+Evidence (every maximum completable; §5): every profile with n = 2; 204,000 sampled profiles with n = 3 and f ∈ {1, 2};
+150 profiles per core with n = 4 (every class). (−t, leximin) and (−t, r, leximin) behave the same on these samples.
+Simpler potentials fail. Their smallest failures, replayed by the independent Python implementation, are in
+`attempts/k4-c4min-potentials.md`:
+- r alone fails at f = 0 (n = 3);
+- (r, Λ) and Λ fail at f = 1 (n = 3), where the pool completes a frozen agent's threatening triple;
+- (−t, Λ) fails at f = 2;
+- Pareto-maximality fails at f ≥ 1.
+
+**Structure at the maxima** (n = 3, f ≥ 1, 868 maxima; n = 4 samples, 872 maxima; `k4/c4min_cfg.py` analyses, §5):
+- every maximum is pool-optimal and has t = 0;
+- at n = 3 every agent is threatened by at most one owner;
+- at n = 4 a frozen 4-good agent can be threatened by two owners (4 maxima), and 40–48% of the maxima have a frozen
+  agent threatened by some owner.
+
+So Lemma P's pigeonhole fails as stated, but it is not needed for the cycle argument below.
+
+**The exchange digraph (what a proof would use).** In a configuration without a valid owner, draw
+- an edge o → x for each free agent o and each agent x it threatens (a *threat edge*); and
+- an edge x → z for each frozen agent x and each agent z that needs φ(x) (a *need edge*; every frozen agent has one).
+
+Every vertex has an out-edge, so there is a cycle. Moving holdings one step along the cycle is always a configuration
+at the same needed set:
+- across a threat edge o → y, y takes its best admissible pair from Q_o ∪ L (the rest of Q_o goes to the pool);
+- across a need edge x → z, z takes φ(x).
+
+Each vertex gives away exactly what it held. A free vertex has an out-going threat edge and gives its pair. A frozen
+vertex has an out-going need edge and gives its good. This one move contains Lemma R's rotation (all threat edges),
+the rotation of frozen cycles (all need edges), LB⁺'s rotation (a need chain closed by one threat edge; Theorem B of
+`proofs/lb_last_step.md`) and Theorem K3's cycle move (`k4/c4x.md` §3).
+
+Every agent on the cycle gains, with two exceptions:
+- a frozen agent of type a > b + c crossing a threat edge becomes free on a pair worth less than its top;
+- two receivers can compete for the same pool good.
+
+In any case t and r can move either way: a terminal crossing a need edge becomes frozen and may be exposed. Measured
+on the non-completable configurations of sampled profiles with n = 3 and f ≥ 1 (`k4/c4min_cfg.py`): 403 of 440 have a
+Φ-raising *pool move* (one free agent improves its pair from the pool without raising t), 36 more a Φ-raising cycle
+move, and 1 needs a third kind. In that one the pool move is blocked, because the released good completes a frozen
+agent's threatening triple in the pool. A two-agent exchange passes that good to the other free agent instead of the
+pool.
+
+**The gap, precisely.** A proof of Conjecture Φ, hence of C₄ᵐⁱⁿ and TARGET₄, needs a *local improvement lemma*: every
+configuration without a valid owner admits a Φ-raising move from a fixed finite catalogue. Pool moves, the cycle moves
+above and pool-assisted two-agent exchanges suffice on every non-completable configuration of the samples; which
+cycle to take is the open part. Theorems Z and F are the cases where the catalogue is proved sufficient: pool moves,
+Lemma R's rotations and frozen cycles. There the exposed frozen agents, the only source of t, of blocked pool moves and
+of the exceptions above, are absent.
+
+**k = 3.** For cores whose agents all have three goods, C₄ᵐⁱⁿ follows from Theorem K3 of `k4/c4x.md` §3 (written
+proof, not yet reviewed). Take P Pareto-maximal inside the class 𝒫_𝒩 of a min needed set (§1). Every pre-allocation
+that K3's proof constructs (upgrades, frozen cycles, LB⁺'s rotation, the cycle move) makes every moved agent strictly
+better off, so its needs shrink and it stays in 𝒫_𝒩. So the contradiction of K3 is reached inside 𝒫_𝒩, and P (with
+f frozen agents) is completable, removal-only with the owner's needs from its base.
 
 ## 5. Evidence and logs
 
