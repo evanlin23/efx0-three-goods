@@ -1,4 +1,4 @@
-# attempts/k4_adaptive_attempts.py # adaptive.c sha256 c42a46fe13e32e41
+# attempts/k4_adaptive_attempts.py # adaptive.c sha256 3c9b6b13188f57bc
 profile sets=[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]] vals=[[1, 4, 6, 8], [2, 3, 4, 8], [2, 7, 8, 4]]
   rule 0: tau=[0] adaptive.c -r1: fail, -r2: rot=2; independent model: least rotations 2 -> OK
   rule 1: tau=[0] adaptive.c -r1: fail, -r2: rot=2; independent model: least rotations 2 -> OK
@@ -10,6 +10,9 @@ profile sets=[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]] vals=[[1, 4, 6, 8], [2, 
   rule 10: tau=[0] adaptive.c -r1: fail, -r2: rot=2; independent model: least rotations 2 -> OK
   rule 11: tau=[0] adaptive.c -r1: fail, -r2: rot=2; independent model: least rotations 2 -> OK
   rule 13: tau=[0] adaptive.c -r1: fail, -r2: rot=2; independent model: least rotations 2 -> OK
+  rule 17: tau=[0] adaptive.c -r1: fail, -r2: rot=2; independent model: least rotations 2 -> OK
+  rule 18: tau=[0] adaptive.c -r1: fail, -r2: rot=2; independent model: least rotations 2 -> OK
+  rule 25: tau=[0] adaptive.c -r1: fail, -r2: rot=2; independent model: least rotations 2 -> OK
   rule 16: tau=[1] rot=1; independent model: least rotations 1
   brute force: 5 EFX0 allocations, 5 with at most one bundle of > 2 goods
 profile sets=[[0, 1, 2, 5], [2, 3, 4, 5], [3, 4, 5]] vals=[[1, 4, 8, 6], [8, 2, 3, 4], [2, 3, 4]]
