@@ -219,6 +219,9 @@ static int phase2(void) {                 /* returns case index 1..4, 0 if no pl
     for (int s = 0; s < n; s++) if (is_src(s) && Y[s]) { P2[s] |= U; return 2; }
 #endif
     if (!restrict_bc) for (int e = 0; e < n; e++) if (!Y[e]) { P2[e] = U; return 1; }
+#ifdef P2A_ONLY                           /* sensitivity test: Phase 2 restricted to case (a) */
+    return 0;
+#endif
     for (int s = 0; s < n; s++) if (is_src(s) && !(U & R[s]) && ok_at(s, U)) { P2[s] |= U; return 2; }
     for (int s = 0; s < n; s++) if (is_src(s)) {
         mask Uj = U & ~R[s];
@@ -256,7 +259,9 @@ static void run(void) {
     U = ALL;
     int steps = 0, lev = level_sum(); rot = 0;
     restrict_bc = 0;
+    int cap = 0; for (int i = 0; i < n; i++) cap += (1 << d[i]) - 1;   /* Theorem 1: at most this many moves */
     for (;;) {
+        if (steps > cap) { report("step cap exceeded (a move did not raise the level sum)"); return; }
 #ifdef EARLY                              /* stop as soon as (b) or (c) places the pool (both checked directly) */
         if (U) { restrict_bc = 1; if (phase2()) break; restrict_bc = 0; }
 #endif

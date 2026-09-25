@@ -36,7 +36,7 @@ The 19 states are those of LS4's failures on 21,900,000 random pure n = 4 profil
 
 | | count | finding |
 |---|---|---|
-| dead ends (no complete EFX₀ allocation is weakly better for everyone) | 8 | each has complete EFX₀ allocations with exactly **one** worse-off agent, and each of agents 0–3 can be that agent in some of them. Each became dead at LS4's **last** step, a single-agent add by agent 3 ({5} → {3, 5} and similar). The smallest escape to a non-dead state changes **2 agents** in 7 cases and 3 in one, with one loser (for example: agent 2 passes good 1 to agent 3, {1, 4} → {4} and {3, 5} → {1, 3, 5}). In the re-division LS4⁺ applies there, the loser is never agent 3, whose add created the dead end |
+| dead ends (no complete EFX₀ allocation is weakly better for everyone) | 8 | each has complete EFX₀ allocations with exactly **one** worse-off agent, and each of agents 0–3 can be that agent in some of them. Each became dead at LS4's **last** step, a single-agent add by agent 3 ({5} → {3, 5} and similar). The smallest escape to a non-dead state changes **2 agents** in 7 cases and 3 in one, with one loser (for example: agent 2 passes good 1 to agent 3, {1, 4} → {4} and {3, 5} → {1, 3, 5}). In the re-division LS4⁺ applies there, the loser is never agent 3, whose add created the dead end; among the other smallest escapes, agent 3 is a loser in rows 9, 14 and 19. The number of complete EFX₀ allocations whose only worse-off agent is agent 3 ranges from 1 to 22 per dead end (`results/k4_lsp_escape.log`) |
 | not dead | 11 | complete EFX₀ allocations weakly better for everyone exist, and each changes the bundles of all 4 agents. The smallest Σℓ-raising re-division changes 2 agents in 6 cases, 3 in 3, and all 4 in 2 (TSV rows 2, 5; row 2 is `attempts/k4-lsp-bounded-coalitions.md`). Where it has 2 or 3 agents it has one loser |
 
 Classification of the three escape kinds asked for by the coordinator's brief for this round (an earlier choice, a non-Pareto move, a coalition move):
@@ -81,7 +81,7 @@ The variant with the fixed-priority potential (levels in agent order, lexicograp
 
 ## 3. Evidence (not part of any proof)
 
-**LS4⁺_n** (`k4/ls4alg.c -DCMOVE=8`, i.e. coalitions of any size; every output checked by the raw EFX₀ definition; the same profiles and seeds as LS4's runs in `k4/local_search4.md` §5):
+**LS4⁺_n** (`k4/ls4alg.c -DCMOVE=8`, i.e. coalitions of any size; every output checked by the raw EFX₀ definition; the same profiles and seeds as LS4's runs in `k4/local_search4.md` §5). After every move the program checks that the level sum rose. Since the computational review it also aborts and reports a run that exceeds Theorem 1's bound of Σ_i (2^{d_i} − 1) moves. The logs of this table were produced before that cap was added, but any non-raising move would already have been reported:
 
 | class | profiles | how | failures | coalition moves used | log |
 |---|---|---|---|---|---|
@@ -92,14 +92,22 @@ The variant with the fixed-priority potential (levels in agent order, lexicograp
 | n = 2 | 189,216 (all tied profiles too) | exhaustive | 0 | 0 | `results/k4_lsp_2_ties.log` |
 | n = 5, two 4-good agents | 54,680,000 | 10,000 random per core | 0 | 0 | `results/k4_lsp_5_n4_2_sample.log` |
 
-**GM₄ directly** (`k4/ls4_gm.c -DPOT=0`). For each profile, all junk-free partial allocations are enumerated, the maximal ones found, and each checked for a placement (LS4 Phase 2 (a)–(d)). This covers every maximum, not only those LS4⁺ reaches.
+**GM₄ directly** (`k4/ls4_gm.c -DPOT=0`). For each profile, all junk-free partial allocations are enumerated and the maximal ones found. Each maximum with a nonempty pool is placed by LS4's Phase 2 (a)–(d), and the placement is then checked independently: complete, disjoint, extending Y, EFX₀ under V and by the raw definition. This covers every maximum, not only those LS4⁺ reaches.
 
-| class | profiles | how | maximal states | failures | log |
-|---|---|---|---|---|---|
-| n = 2 | 189,216 | exhaustive | 236,176 | 0 | `results/k4_gm_2.log` |
-| n = 3 | 1,020,000 | 20,000 random per core | 1,323,209 | 0 | `results/k4_gm_3_sample.log` |
-| n = 4, one to three 4-good agents | 1,566,000 | 2,000 random per core | 2,174,535 | 0 | `results/k4_gm_4_mixed_sample.log` |
-| n = 4, pure | 4,380,000 | 20,000 random per core | 6,226,242 | 0 | `results/k4_gm_4_pure_sample.log` |
+Only the maxima with a nonempty pool test GM₄: a maximum whose pool is empty is already complete.
+
+| class | profiles | how | maximal states | with a nonempty pool (these test GM₄) | placed by (a) / (b) / (c) / (d) | failures | log |
+|---|---|---|---|---|---|---|---|
+| n = 2 | 189,216 | exhaustive | 236,176 | 2,286 (1.0%) | 0 / 2,286 / 0 / 0 | 0 | `results/k4_gm_2.log` |
+| n = 3 | 1,020,000 | 20,000 random per core | 1,323,209 | 65,912 (5.0%) | 0 / 65,912 / 0 / 0 | 0 | `results/k4_gm_3_sample.log` |
+| n = 4, one to three 4-good agents | 1,566,000 | 2,000 random per core | 2,174,535 | 175,167 (8.1%) | 6,716 / 168,451 / 0 / 0 | 0 | `results/k4_gm_4_mixed_sample.log` |
+| n = 4, pure | 4,380,000 | 20,000 random per core | PUREMAX | PUREPOOL | PURECASES | PUREFAIL | `results/k4_gm_4_pure_sample.log` |
+
+So TOTALPOOL maxima actually test GM₄, and every one of them was placed by the empty-bundle dump (a) or a single dump (b). The split (c) and the exact search (d) were never needed at a maximum. This supports a sharper conjecture, which may be easier to prove:
+
+**Conjecture GM₄ˢ.** Every maximum of Σℓ (as in GM₄) with a nonempty pool has an empty bundle or a source that can take the whole pool (LS4's Phase 2 (a) or (b)).
+
+*Sensitivity* (`results/k4_gm_sensitivity.log`). With Phase 2 restricted to (a) (`-DP2A_ONLY`), the n = 2 run reports failures, records them in the log, and exits with status 1. The independent placement check was added after the computational review of PR #29. All the logs in this table were re-run with it: 0 bad placements.
 
 The 19 logged LS4 failure profiles also pass, under the level sum and under the fixed-priority order; leximin fails on one (§4; `results/k4_lsp_variants_19.log`). Leximin (`-DPOT=1`) and fixed priority (`-DPOT=2`) were also run at n = 2 (exhaustive) and on 102,000 random n = 3 profiles (`results/k4_gm_pot{1,2}_2.log`, `results/k4_gm_pot{1,2}_3_sample.log`).
 

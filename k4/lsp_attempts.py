@@ -64,6 +64,8 @@ def main():
     states = [[frozenset()] * 4] + [[frozenset(g for g in range(m) if int(x, 16) >> g & 1) for x in l.split()] for l in traj]
     anyp = [t for t, Z in enumerate(states) if dm_placements(vals, Z, set(range(m)) - set().union(*Z))]
     claim("states on the path with a single-dump or dump-plus-solo placement", anyp, [])
+    anyd = [t for t, Z in enumerate(states) if any(Z) and completions(vals, Z, set(range(m)) - set().union(*Z), junk_only=True)]
+    claim("states on the path (after the first move) with any junk placement at all, shape (d)", anyd, [])
     U = set(range(m)) - set().union(*Y)
     claim(f"completions of the final state {[sorted(b) for b in Y]} U={sorted(U)}", len(completions(vals, Y, U)), 0)
     claim("the final state is a dead end", dead(vals, Y, m), True)

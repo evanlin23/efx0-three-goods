@@ -3,6 +3,7 @@ $ python3 k4/lsp_attempts.py
    values [0:5 2:8 5:4 6:6] [0:4 3:2 4:5 5:8] [1:2 2:8 4:5 6:4] [1:6 3:2 5:10 6:7]
    16 LS4 steps replayed as Pareto moves: True (claim True)
    states on the path with a single-dump or dump-plus-solo placement: [] (claim [])
+   states on the path (after the first move) with any junk placement at all, shape (d): [] (claim [])
    completions of the final state [[2], [5], [1, 4], [3, 6]] U=[0]: 0 (claim 0)
    the final state is a dead end: True (claim True)
 == coalition re-divisions of at most 3 agents (LS4 -DCMOVE=3), n = 4, m = 7

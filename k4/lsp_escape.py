@@ -42,18 +42,22 @@ def main():
         worse = [[i for i in range(n) if l[i] < lY[i]] for l, _ in comp]
         minw = min(len(w) for w in worse)
         sole = sorted({w[0] for w in worse if len(w) == 1})
+        sole3 = sum(1 for w in worse if w == [3])       # complete EFX0 allocations whose only worse-off agent is 3
         psizes = sorted({sum(1 for i in range(n) if XR[i] != Y[i]) for XR in dom})
         def alive(lz): return any(all(a >= b for a, b in zip(l, lz)) for l, _ in comp)
         opts = [[None] + [i for i in range(n) if g in vals[i]] for g in range(m)]
-        best, best_alive = {}, {}
+        best, best_alive, alive_losers = {}, {}, {}
         for A in itertools.product(*opts):
             Z = [frozenset(g for g in range(m) if A[g] == j) for j in range(n)]
             lz = [lev(vals[i], Z[i]) for i in range(n)]
             if sum(lz) <= sum(lY) or not efx0(vals, [set(b) for b in Z]): continue
             ch = sum(1 for i in range(n) if Z[i] != Y[i]); lo = sum(1 for i in range(n) if lz[i] < lY[i])
             best[ch] = min(best.get(ch, 9), lo)
-            if dead and alive(lz): best_alive[ch] = min(best_alive.get(ch, 9), lo)
+            if dead and alive(lz):
+                best_alive[ch] = min(best_alive.get(ch, 9), lo)
+                alive_losers.setdefault(ch, set()).update(i for i in range(n) if lz[i] < lY[i])
         k = min(best); ka = min(best_alive) if best_alive else None
+        ka_los = sorted(alive_losers[ka]) if ka else []
         ok, last = replay(vals, traj.split(','), m)
         path = [[dec(x, m) for x in st.split()] for st in traj.split(',')]
         firstdead = next((t + 1 for t, Z in enumerate(path) if not alive([lev(vals[i], Z[i]) for i in range(n)])), None)
@@ -62,10 +66,11 @@ def main():
         c_size = sum(1 for i in range(n) if C[i] != Y[i]); c_los = [i for i in range(n) if lC[i] < lY[i]]
         print(f"row {r:2d} m={m} {'DEAD ' if dead else 'alive'} min-worse={minw} sole-losers={sole} "
               f"pareto-sizes={psizes or '-'} smallest-raise={k}({best[k]} losers) "
-              f"smallest-raise-to-alive={ka if ka is None else f'{ka}({best_alive[ka]} losers)'} "
+              f"smallest-raise-to-alive={ka if ka is None else f'{ka}({best_alive[ka]} losers; losers among them {ka_los})'} "
+              f"sole-loser-3-allocations={sole3} "
               f"path-ok={ok and last == Y} first-dead-step={firstdead}/{len(path)} "
               f"LS4+move: valid={c_ok} size={c_size} losers={c_los}", flush=True)
-        summ.append(dict(dead=dead, minw=minw, sole=sole, psizes=psizes, k=k, klos=best[k], ka=ka,
+        summ.append(dict(sole3=sole3, ka_los=ka_los, dead=dead, minw=minw, sole=sole, psizes=psizes, k=k, klos=best[k], ka=ka,
                          kalos=best_alive.get(ka), ok=ok and last == Y, fd=firstdead, T=len(path),
                          c_ok=c_ok, c_size=c_size, c_los=c_los))
     bad = 0
@@ -78,6 +83,10 @@ def main():
     claim("every trajectory replays as Pareto moves ending at Y", all(x['ok'] for x in summ), True)
     claim("dead ends: minimum number of worse-off agents", sorted({x['minw'] for x in D}), [1])
     claim("dead ends: agent 3 can be the only worse-off agent", all(3 in x['sole'] for x in D), True)
+    claim("dead ends: number of complete EFX0 allocations whose only worse-off agent is 3, by row",
+          {r: x['sole3'] for r, x in enumerate(summ, 1) if x['dead']}, {6: 1, 8: 1, 9: 4, 10: 1, 14: 3, 16: 5, 17: 1, 19: 22})
+    claim("dead ends: rows where agent 3 loses in some smallest escape to a non-dead state",
+          [r for r, x in enumerate(summ, 1) if x['dead'] and 3 in x['ka_los']], [9, 14, 19])
     claim("dead ends: first dead state is LS4's last state", all(x['fd'] == x['T'] for x in D), True)
     claim("dead ends: smallest raise reaching a non-dead state, sizes", sorted(x['ka'] for x in D), [2] * 7 + [3])
     claim("dead ends: ... with exactly one loser", sorted({x['kalos'] for x in D}), [1])
