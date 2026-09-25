@@ -3,12 +3,15 @@ product of the restricted type domains, an EFX0 allocation. CEGAR of k4/search4.
 are solved without a shape limit), with the domains replaced by the restricted ones.
 Each finished core is appended to a checkpoint (out + '.ckpt.jsonl'), and a rerun resumes from it; with --timeout=S a
 core that takes longer than S seconds is recorded as 'timeout' (rerun with a larger limit, or --only-timeouts).
-Usage: mincex_cert.py shapes.json.gz out.json.gz [--jobs=J] [--timeout=S] [--only-timeouts]"""
+--scanner=frontier:DIR uses compute/k4-frontier's proposal step (DIR/search.py with scan2.c, draft PR #26) in place
+of search4.py's; the certificate does not depend on it (the checkers re-check coverage).
+Usage: mincex_cert.py shapes.json.gz out.json.gz [--jobs=J] [--timeout=S] [--only-timeouts] [--scanner=frontier:DIR]"""
 import sys, os, json, gzip, time, signal
 from multiprocessing import Pool
 import search4 as S4
 
 TIMEOUT = None
+FS = None                              # --scanner=frontier:DIR: compute/k4-frontier's search.py (scan2.c) from DIR
 
 
 def key(rec):
@@ -26,7 +29,8 @@ def solve(rec):
         C = S4.Core(rec['n'], rec['m'], rec['sets'])
         C.dom = [[tuple(v) for v in d] for d in rec['domains']]
         C.cache = {}
-        allocs, fails, complete = C.cegar(2, 1, 1000)
+        if FS is None: allocs, fails, complete = C.cegar(2, 1, 1000)
+        else: allocs, fails, complete = FS.cegar(C, 2, 1, 1000)[:3]
         assert complete, 'D2 CEGAR incomplete'
         extra = []
         for prof in fails:
@@ -41,9 +45,13 @@ def solve(rec):
         if TIMEOUT: signal.alarm(0)
 
 
-def _init(t):
-    global TIMEOUT
+def _init(t, fdir):
+    global TIMEOUT, FS
     TIMEOUT = t
+    if fdir:
+        sys.path.insert(0, fdir)
+        import search as FS_
+        FS = FS_
 
 
 def main():
@@ -56,10 +64,10 @@ def main():
     if os.path.exists(ck):
         for line in open(ck):
             r = json.loads(line); done[key(r)] = r
-    todo = [r for r in recs if key(r) not in done or ('--only-timeouts' in sys.argv and 'timeout' in done[key(r)]
-                                                       and (timeout is None or done[key(r)]['timeout'] < timeout))]
+    todo = [r for r in recs if key(r) not in done or ('--only-timeouts' in sys.argv and 'timeout' in done[key(r)])]
     print('%d cores, %d in the checkpoint, %d to run' % (len(recs), len(done), len(todo)), flush=True)
-    with Pool(int(opts.get('jobs', 4)), initializer=_init, initargs=(timeout,)) as pool, open(ck, 'a') as f:
+    fdir = opts['scanner'].split(':', 1)[1] if opts.get('scanner', '').startswith('frontier:') else None
+    with Pool(int(opts.get('jobs', 4)), initializer=_init, initargs=(timeout, fdir)) as pool, open(ck, 'a') as f:
         for r in pool.imap_unordered(solve, todo):
             done[key(r)] = r
             f.write(json.dumps(r) + '\n'); f.flush()
