@@ -3,7 +3,7 @@ import EFX.LB4RRun
 /-!
 # Exposure, Lemma E, Theorem A₄, Theorem B₄ and Corollary C₄⁰ (`k4/c4.md` §2–§4; ledger K4.C4.AB.L)
 
-The reviewed building blocks of `k4/c4.md` (on proof/k4-c4, PR #33), stated for LB₄ʳ's states after a run of Phase 1
+The reviewed building blocks of `k4/c4.md` (on main, from PR #33), stated for LB₄ʳ's states after a run of Phase 1
 and envy-free upgrades to the fixpoint (`EFX.LB4R.AfterUp`, with `r` the last-processed unmarked agent,
 `EFX.LB4R.IsLast`). `k4/c4.md` states them for every run of Phase 1; `AfterUp` takes any run
 (`EFX.LB4R.PhaseRun`: any P-step order, any insertion steps), so LB₄ʳ's fixed key is a special case
@@ -1791,10 +1791,10 @@ theorem corollaryC40 (hag : agents.Nodup) (hgd : goods.Nodup) (hs : Strict v age
   obtain ⟨o, X, -, hX⟩ := theoremB4c hS hgd hag hs hcore hr hno4 hbad hch hck hce hlen rfl hrE
   exact ⟨.envyFree, s, _, o, X, hup, RotReach.step 2 s _ _ hRot (RotReach.refl 2 _), hX⟩
 
-/-- **Corollary C₄⁰, as `k4/c4.md` states it** (proof/k4-c4 at 96ff1d0): after LB₄ʳ's Phase 1(τ) and envy-free
-upgrades, if `ω ≤ 0`, or no 4-good agent is exposed w.r.t. `r` and, in LB⁺'s bad case, `r` is not exposed after the
-rotation along some need chain `k* → r`, then LB₄ʳ(τ) succeeds. With `ω ≤ 0` the completion without owner is an
-output; otherwise `corollaryC40`. -/
+/-- **Corollary C₄⁰, as `k4/c4.md` states it** (proof/k4-c4 at 96ff1d0, unchanged through #33's merge): after
+LB₄ʳ's Phase 1(τ) and envy-free upgrades, if `ω ≤ 0`, or no 4-good agent is exposed w.r.t. `r` and, in LB⁺'s bad
+case, `r` is not exposed after the rotation along some need chain `k* → r`, then LB₄ʳ(τ) succeeds. With `ω ≤ 0` the
+completion without owner is an output; otherwise `corollaryC40`. -/
 theorem corollaryC40' (hag : agents.Nodup) (hgd : goods.Nodup) (hs : Strict v agents goods)
     (hcore : IsCore4 v agents goods) {τ : List Nat} {s : LState A G}
     (hup : UpRun v agents goods .envyFree (phase1State v agents goods τ) s) {r : A}

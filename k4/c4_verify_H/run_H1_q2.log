@@ -1,0 +1,21 @@
+H_1: n=5 m=13
+Phase 1 (agent, pick, step): l->g1(I) x11->a11(P) x12->a12(P) x13->a13(P) y1->z(P)
+needs after Phase 1: {'y1': ['a11', 'a12', 'a13']}
+junk: ['b11', 'b12', 'b13', 'c11', 'c12', 'c13', 'u', "u'"] omega = 6
+policy shrink: upgrades []; state unchanged: True
+policy envyFree: upgrades []; state unchanged: True
+policy none: upgrades []; state unchanged: True
+depth 0: 1 new states, 1 states with <= 0 rotations
+depth 1: 6 new states, 7 states with <= 1 rotations
+depth 2: 7 new states, 14 states with <= 2 rotations
+reachability done in 0.0s
+depth 0: states=1 omega in [6,6] | states with an output: bundle=0 base=0  (0.0s)
+depth 1: states=6 omega in [3,6] | states with an output: bundle=4 base=4  (0.0s)
+  first success (bundle) at depth 1: owners ['l', 'x11', 'x12', 'x13']
+   state: l:{g1} x11*:{b11} x12:{a12} x13:{a13} y1:{a11}
+   path: chain ['x11', 'y1'] O=['b11']
+  first success (base) at depth 1: owners ['l', 'x11', 'x12', 'x13']
+   state: l:{g1} x11*:{b11} x12:{a12} x13:{a13} y1:{a11}
+   path: chain ['x11', 'y1'] O=['b11']
+depth 2: states=7 omega in [3,6] | states with an output: bundle=6 base=6  (0.1s)
+RESULT t=1 q<=2: least depth with an output: bundle=1 base=1 (Proposition H bound ceil(2t/3) = 1); total 0.1s

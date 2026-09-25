@@ -3,7 +3,7 @@ import EFX.LB4R
 /-!
 # TARGET₄ with at most one 4-good agent (ledger K4.ONE.FRAME)
 
-The frame for Theorem C₄¹ (`k4/c4.md`, proof/k4-c4): if every connected strict k = 4 core in which **at most one**
+The frame for Conjecture C₄¹ (`k4/c4.md`, ledger K4.C4.1): if every connected strict k = 4 core in which **at most one**
 agent has four relevant goods has a sound completion (`EFX.LB4R.C4existsOne`), then every instance in which every
 agent has at most four relevant goods and at most one agent has exactly four has an EFX₀ allocation
 (`EFX.LB4R.target4one_of_C4existsOne`).
@@ -267,7 +267,7 @@ namespace LB4R
 
 open LB4
 
-/-- **C₄∃ with at most one 4-good agent** (the conclusion of Theorem C₄¹, `k4/c4.md` on proof/k4-c4): every
+/-- **C₄∃ with at most one 4-good agent** (the conclusion of Conjecture C₄¹, ledger K4.C4.1): every
 connected strict k = 4 core in which at most one agent has four relevant goods has a sound completion
 (`EFX.LB4.SoundCompletion`), equivalently a D2-shaped EFX₀ allocation (`C4existsOne_iff`). -/
 def C4existsOne (A G : Type) [DecidableEq A] [DecidableEq G] : Prop :=
