@@ -89,10 +89,11 @@ strict balanced types of `k4/check4.py`, 288 per 4-good agent, 144 with two priv
 | n = 5, one 4-good agent | 1,735 | 574,615,296 | 0 | < 1 min | `results/k4_c4min_hunt_n5_12.log` |
 | n = 5, two 4-good agents | 5,468 | 80,025,864,192 | 0 | ≈ 2 min | the same |
 | n = 5, three 4-good agents | 9,861 | 6,423,281,565,696 | 0 | 2 h 17 min (3 jobs) | `results/k4_c4min_hunt_n5_3.log` |
+| n = 6, one 4-good agent | 26,866 | 54,698,374,656 | 0 | 8 min (3 jobs) | `results/k4_c4min_hunt_n6_1.log` |
 
 With PR #36's exhaustive runs (n ≤ 3; n = 4 with one or two 4-good agents; `k4/c4x.c`), which this tool reproduces
 (§1.1), **C₄ᵐⁱⁿ holds on every strict profile of every k = 4 core with n ≤ 4, and with n = 5 and at most three 4-good
-agents** (about 6.5·10¹² profiles in all). A counterexample, if any, has n ≥ 5, and at n = 5 four or five 4-good
+agents, and with n = 6 and one 4-good agent** (about 6.6·10¹² profiles in all). A counterexample, if any, has n ≥ 5, and at n = 5 four or five 4-good
 agents (the classes of §3's climbing and of §2.1's restricted runs). Each row is one
 implementation (`k4/c4min_hunt.c`), so the status is EVIDENCE; the certificates (templates) are not stored.
 
@@ -126,7 +127,9 @@ every n ≤ 4 one. (The n ≤ 4 ones are inside §2's exhaustive runs anyway.)
 random good sets accepted by `k4/check4.py`'s `is_core`): 60 cores for each of (n, m, number of 4-good agents) =
 (6, 9, 3), (6, 12, 4), (6, 14, 6), (6, 16, 6), (7, 12, 4), (7, 15, 7), (7, 18, 7), (8, 14, 5), (8, 17, 8), (8, 20, 8),
 two restarts each: no profile with d* > 0; an owner is needed at the best profile of 570 of the 600 cores, and 117 of
-them reach d* = 0. (Second pass, other objective order with annealing: below.)
+them reach d* = 0. A second pass (100 other cores per class, order (−good, d*), annealing: a worse move is kept with
+probability 3%, three restarts of up to 3,000 moves): no profile with d* > 0; an owner is needed at the best profile of
+755 of the 1,000 cores, 11 reach d* = 0.
 
 **Glued cores** (`results/k4_c4min_hunt_climb_glue.log`): 40 random pairs for each of (n = 3 core, n = 3 core),
 (n = 3, pure n = 4), (pure n = 4, pure n = 4), (n = 3, n = 4 with three 4-good agents), each joined in three ways (a
@@ -172,6 +175,11 @@ encoding.
   (6,000 profiles; f* ≤ 2).
 - In all, 9,609 SAT-checked profiles of the large families, 0 failures, every certificate re-checked literally.
 
+- The grids of §5 (`lt R C`: agent (i, j) = the three lower goods of row i and the top of column j; `ltp R C`: one
+  private good instead of the third lower good), with the types of the `-w0` counterexample (lower goods 2, 3, 4, top 8)
+  for R, C ≤ 5 and 300 uniform or perturbed profiles each of seven of them: 6,312 profiles, 0 failures. Without private
+  goods these grids need no owner beyond 2 × 2 (σ grows with the grid).
+
 **SAT hill-climbing** (`c4min_sat.py --climb`, `results/k4_c4min_hunt_climbsat.log`; score (an owner is needed, d*,
 fewest owners o with a min-frozen P of deficit ≤ 0 under o), 3 restarts on each of H_3, H_4, H_5, htc 4, htx 4,
 ht2 4, grid 2×2, tree 4, cycle 4, chain 2 2): best d* between −3 and −1, with 13 to 21 feasible owners out of
@@ -179,6 +187,18 @@ ht2 4, grid 2×2, tree 4, cycle 4, chain 2 2): best d* between −3 and −1, wi
 counts 361,584 min-frozen pre-allocations with deficit ≤ 0 on one random profile of H_4), and the climber cannot
 bring d* above −1.
 
-## 5. Reproduce
+## 5. The strengthening with the owner's needs from its base fails beyond n = 2
+
+`k4/c4x.md` takes the owner's needs from its bundle; PR #36 (`attempts/k4-c4x-variant-spaces.md`) showed that the
+needs from the base fail at n = 2. The exhaustive runs with `-w0` (`results/k4_c4min_hunt_w0.log`) find no other failure
+with n = 3, n = 4 with one to three 4-good agents, or n = 5 with one or two, but **26,496 failing profiles in 14 pure
+n = 4 cores** (m = 8–12). The smallest: pure n = 4, m = 8, agents {0, 2, 4, 6}, {0, 2, 5, 6}, {1, 3, 4, 7},
+{1, 3, 5, 7}, each with values (2, 3, 8, 4), a > b + c; its 36 min-frozen pre-allocations all have deficit ≥ 1 from
+the base needs and none is completable, while 32 have deficit ≤ 0 from the bundle needs. The failure counts are
+multiples of 6⁴: only each agent's top good and its kind (a > b + c) matter. Confirmed by the brute force,
+`k4/c4min_hunt.c` and `k4/c4x.c` (`attempts/k4-c4min-w0-owner-base.md`, `attempts/k4_c4min_w0_replay.py`). So a
+proof of C₄ᵐⁱⁿ has to use the unfreezing that the owner's bundle needs allow, already at n = 4.
+
+## 6. Reproduce
 
 (to be filled)
