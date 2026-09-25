@@ -15,7 +15,7 @@ Core sources (several allowed):
   --glue=FA:FB:COUNT:MODE  COUNT random pairs (core of FA, core of FB) joined by k4/c4min_families.glue (MODE merge,
                            link or link3)
 options: --iters=I --restarts=R --stale=T --order=0|1|2 (2: owner needed, f*, -good, d*) --cap=K (count at most K
-witnesses; d* is then over those seen) --seed=S --jobs=J --start=paper (families ht*: the first
+witnesses; d* is then over those seen) --anneal=P (accept a worse move with probability P/1000) --seed=S --jobs=J --start=paper (families ht*: the first
 restart starts from §7's values) --top=K (print the K tightest cores)."""
 import json, random, subprocess, sys, time
 from concurrent.futures import ThreadPoolExecutor
@@ -70,7 +70,7 @@ def confirm(sets, m, line):
 
 
 def main():
-    srcs, iters, restarts, stale, order, seed, jobs, start, top, cap = [], 3000, 4, 400, 0, 1, 4, None, 10, None
+    srcs, iters, restarts, stale, order, seed, jobs, start, top, cap, anneal = [], 3000, 4, 400, 0, 1, 4, None, 10, None, 0
     for a in sys.argv[1:]:
         k, _, v = a.partition('=')
         if k == '--file': srcs.append(('file', v))
@@ -87,6 +87,7 @@ def main():
         elif k == '--start': start = v
         elif k == '--top': top = int(v)
         elif k == '--cap': cap = int(v)
+        elif k == '--anneal': anneal = int(v)
         else: raise SystemExit(f'unknown option {a}')
     rng = random.Random(seed)
     cc.hunt_binary()                       # compile once before the threads start
@@ -131,6 +132,7 @@ def main():
         for k, (tag, sets, m, st) in enumerate(tasks):
             opts = [str(iters), '-Z', str(restarts), '-T', str(stale), '-O', str(order), '-S', str(seed * 1000003 + k)]
             if cap is not None: opts += ['-C', str(cap)]
+            if anneal: opts += ['-A', str(anneal)]
             futs.append(ex.submit(run_core, (tag, sets, m, opts, st)))
         for fu in futs:
             tag, sets, m, best, cex, dt = fu.result()

@@ -42,9 +42,11 @@ case "$1" in
   climb5)      # hill-climbing on every n = 5 core with four or five 4-good agents
     log $R/k4_c4min_hunt_climb_n5_45.log python3 c4min_climb.py --file=../$R/k4_certs_5_n4_4.json.gz \
         --file=../$R/k4_certs_5_pure.json.gz --iters=3000 --restarts=3 --order=0 --seed=51 --jobs=${JOBS:-1} --top=20 ;;
-  climb5b)     # the other objective order, more restarts, and PR #30's eight n = 5 GM4 profiles as starting points
+  climb5b)     # the other objective orders (with annealing), more restarts, and PR #30's eight n = 5 GM4 profiles as starts
     log $R/k4_c4min_hunt_climb_n5_b.log python3 c4min_climb.py --file=../$R/k4_certs_5_n4_4.json.gz \
         --file=../$R/k4_certs_5_pure.json.gz --iters=3000 --restarts=6 --order=1 --seed=52 --jobs=${JOBS:-4} --top=20
+    log $R/k4_c4min_hunt_climb_n5_b.log python3 c4min_climb.py --file=../$R/k4_certs_5_n4_4.json.gz \
+        --file=../$R/k4_certs_5_pure.json.gz --iters=4000 --restarts=4 --order=2 --anneal=30 --stale=800 --seed=54 --jobs=${JOBS:-4} --top=20
     log $R/k4_c4min_hunt_climb_n5_b.log python3 c4min_climb.py --seeds=../$R/k4_c4min_hunt_seeds_gm4.json \
         --iters=20000 --restarts=20 --order=0 --seed=53 --jobs=${JOBS:-4} --top=8 ;;
   climbrand)   # random connected cores, n = 6-8

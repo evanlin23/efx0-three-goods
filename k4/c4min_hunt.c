@@ -31,7 +31,8 @@
                (f* and whether C4min holds); prints FAIL lines and the f* histogram.
      -H ITER   hill-climbing from random profiles (-S seed, -Z restarts, -T stale limit, -O objective order, -P start
                profile after the types): maximizes (owner needed, d*, -#{min-frozen P with def <= 0}) (-O1: the last
-               two in reverse order; -O2: (owner needed, f*, -good, d*); -C K: stop counting good beyond K);
+               two in reverse order; -O2: (owner needed, f*, -good, d*); -C K: stop counting good beyond K; -A P:
+               accept a worse move with probability P/1000);
                prints every profile with d* > 0 (CEX), each restart's end, and the best.
    options: -w0 owner's needs from its base; -D the deficit by plain enumeration of every C ⊆ J (a check of the
    branch and bound); -x N print up to N failures; -S seed; -Z restarts. */
@@ -577,7 +578,7 @@ static inline uint64_t rnd(void) { rs ^= rs << 13; rs ^= rs >> 7; rs ^= rs << 17
    with probability 1/4, two agents) take random other types; a move is kept if the objective does not decrease. A
    restart ends after `stale` moves without strict improvement. -P: the first restart starts from the profile given
    after the types. */
-static int obj_order = 0, stale_lim = 400, start_given = 0, start_p[MAXN], perturb = 1;
+static int obj_order = 0, stale_lim = 400, start_given = 0, start_p[MAXN], perturb = 1, anneal = 0;
 static int better(int f1, int d1, long long g1, int f2, int d2, long long g2) {   /* 2 strictly better, 1 equal, 0 worse */
   int o1 = f1 > sigma, o2 = f2 > sigma;
   if (o1 != o2) return o1 > o2 ? 2 : 0;
@@ -610,6 +611,7 @@ static void climb(long long iters, int restarts) {
       }
       int dn, fn; long long gn; objective(&dn, &gn, &fn); evals++;
       int c = better(fn, dn, gn, fcur, dcur, gcur);
+      if (!c && anneal && (int)(rnd() % 1000) < anneal) c = 1;     /* -A: accept a worse move with probability A/1000 */
       if (c) {
         stale = c == 2 ? 0 : stale + 1;
         dcur = dn; gcur = gn; fcur = fn;
@@ -617,6 +619,7 @@ static void climb(long long iters, int restarts) {
       } else { memcpy(cur, old, sizeof old); stale++; }
     }
     if (r == 0 || better(fcur, dcur, gcur, bestf, bestd, bestg) == 2) { bestd = dcur; bestg = gcur; bestf = fcur; memcpy(bestp, cur, sizeof bestp); }
+    /* with -A the end point need not be the best of the restart; the CEX lines above report every d* > 0 seen */
     printf("RESTART %d dstar %d good %lld fstar %d owner %d\n", r, dcur, gcur, fcur, fcur > sigma); fflush(stdout);
   }
   memcpy(cur, bestp, sizeof bestp);
@@ -637,6 +640,7 @@ int main(int argc, char **argv) {
     else if (!strcmp(argv[a], "-K")) perturb = atoi(argv[++a]);
     else if (!strcmp(argv[a], "-C")) ob_cap = atoll(argv[++a]);
     else if (!strcmp(argv[a], "-B")) bestK = atoi(argv[++a]);
+    else if (!strcmp(argv[a], "-A")) anneal = atoi(argv[++a]);
     else if (!strcmp(argv[a], "-Z")) restarts = atoi(argv[++a]);
     else if (!strcmp(argv[a], "-O")) obj_order = atoi(argv[++a]);
     else if (!strcmp(argv[a], "-T")) stale_lim = atoi(argv[++a]);
