@@ -1,0 +1,13 @@
+# k = 4, n = 3, the 18 pure cores (every agent values four goods), every strict profile: Pareto some-form (paretosomefail: no Pareto-maximum completable)
+# these cores carry all 128 n = 3 profiles on which no Sigma-l maximum is completable (results/k4_c4x_n3_pareto.log); a Sigma-l maximum is Pareto-maximal, so these are all Pareto some-form failures at n = 3
+# command: python3 k4/c4x_run.py results/k4_certs_3.json.gz --only=3,11,14,17,23,28,29,32,33,38,41,43,44,45,46,48,49,50 -Q -p "0;3" -x 2 --jobs=4
+# (example lines below are an excerpt: the some-form examples of the last split of core 46; the FILE and PHI lines are complete)
+core 46: EX some (sumlev): types [0:6,2:3,6:10,7:2] [1:3,4:4,6:8,7:2] [3:3,5:4,6:8,7:2] bases {0,2} {1,4} {6} J {3,5,7}
+core 46: EX some (leximin): types [0:6,2:3,6:10,7:2] [1:3,4:4,6:8,7:2] [3:3,5:4,6:8,7:2] bases {0,2} {1,4} {6} J {3,5,7}
+core 46: EXP no pareto-max completable: types [0:6,2:3,6:10,7:2] [1:3,4:4,6:8,7:2] [3:3,5:6,6:10,7:2]
+core 46: EX some (sumlev): types [0:6,2:3,6:10,7:2] [1:3,4:4,6:8,7:2] [3:3,5:6,6:10,7:2] bases {0,2} {1,4} {6} J {3,5,7}
+core 46: EX some (leximin): types [0:6,2:3,6:10,7:2] [1:3,4:4,6:8,7:2] [3:3,5:6,6:10,7:2] bases {0,2} {1,4} {6} J {3,5,7}
+FILE results/k4_certs_3.json.gz cores 18 profiles 292626432 valid 7711384896 tested 876988687 nocomp 0 ronone 0 ronone_any 0 paretomax 876399560 paretofail 1131024 paretosomefail 128
+  (sumlev)                         every-max fails        84184   some-max fails          128
+  (leximin)                        every-max fails        37824   some-max fails          128
+
