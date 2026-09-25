@@ -4,9 +4,9 @@ import EFX.K3Theorem
 # Theorem Z: C₄ᵐⁱⁿ when the fewest frozen agents is 0 (`k4/c4min.md` §3; PR #41)
 
 Theorem Z of `k4/c4min.md` (PR #41, branch `proof/k4-c4min`): on every strict profile of a k = 4 core whose fewest
-frozen agents is 0, some pre-allocation of 𝒫 with the fewest frozen agents is completable. The proof works with
-*all-pairs allocations* (APAs): every agent holds a pair of goods whose relevant part is admissible (needs nothing),
-and the other goods form the pool.
+frozen agents is 0, some pre-allocation of 𝒫 with the fewest frozen agents has `def(P) ≤ 0` and is completable. The
+proof works with *all-pairs allocations* (APAs): every agent holds a pair of goods whose relevant part is admissible
+(needs nothing), and the other goods form the pool.
 
 **Definitions** (`k4/c4min.md` §3.1), over the lists of `EFX/C4min.lean`; an APA is a holding map
 `hold : G → Option A` (`hold g = some i` iff `g ∈ Q_i`; `none` for the pool `L`), so `Q_i = baseOf goods hold i`,
@@ -18,9 +18,10 @@ and the other goods form the pool.
 - `PoolOpt`: no agent prefers a pair of `Q_i ∪ L`.
 
 **Results.**
-- `completable_of_zvalid`, `c4min_of_zvalid` (Lemma Z0): a valid owner of an APA gives a pre-allocation of 𝒫 with no
-  frozen agent (the relevant goods of the pairs, `apaBase`) that is completable (every agent keeps its pair, the owner also
-  takes the pool: a sound completion), hence C₄ᵐⁱⁿ's conclusion.
+- `completable_of_zvalid`, `c4min_of_zvalid`, `removalOnly_of_zvalid` (Lemma Z0): a valid owner of an APA gives a
+  pre-allocation of 𝒫 with no frozen agent (the relevant goods of the pairs, `apaBase`) that is completable (every agent
+  keeps its pair, the owner also takes the pool: a sound completion) and has `def(P) ≤ 0` (the removed goods are the
+  other agents' pairs, whose irrelevant goods fill exactly those agents' slots), hence C₄ᵐⁱⁿ's conclusion.
 - `removalOnly_of_f0_small`: with no frozen agent and `m ≤ 2n`, `ω ≤ 0` and there is nothing to prove.
 - `exists_apa`, `isAPA_poolImprove`, `exists_zmax` (Lemma Z1): a pre-allocation of 𝒫 with no frozen agent and `m ≥ 2n`
   extends to an APA (`EFX.LB.fill` fills the slots exactly, `fill_countP_eq`); a pool improvement is an APA that keeps
@@ -30,8 +31,10 @@ and the other goods form the pool.
   threatened agent, and taking it (or it with one pool good swapped in) makes the agent robust unless the agent has four
   goods and the pool is worthless to it.
 - `zvalid_of_zmax` (Lemmas P and R, and the last step): a pool-optimal APA with the most robust agents has a valid owner.
-- `theoremZ`, `c4min_of_f0` (**Theorem Z**): on every k = 4 core whose fewest frozen agents is 0, some pre-allocation of 𝒫
-  with the fewest frozen agents is completable.
+- `theoremZ_min`, `theoremZ_RO`, `theoremZ`, `c4minRO_of_f0`, `c4min_of_f0` (**Theorem Z**): on every k = 4 core whose
+  fewest frozen agents is 0, some pre-allocation of 𝒫 with the fewest frozen agents has `def(P) ≤ 0` and is completable
+  (C₄ᵐⁱⁿ in both forms); `theoremZ_min` states it with only the hypotheses used (item 5 below).
+- `efx0_of_f0`: hence an EFX₀ allocation in which at most one bundle has more than two goods (K4.D's conclusion).
 
 **Choices where the prose leaves room** (the text is `k4/c4min.md` §3 on branch `proof/k4-c4min`, PR #41, read at commit
 b9ff629).
@@ -46,8 +49,9 @@ b9ff629).
 4. The kinds (T), (D), (R) are not named. The case split is by the number of relevant goods in the pair: one (case A, the
    text's (T)), or two (case B: robust with three goods; with four, the two goods `u, w` outside the pair cover (D) and
    (R), and the threatener holds `u` or `w`).
-5. Hypotheses used: at least two agents, `3 ≤ |R_i| ≤ 4`, every good relevant to some agent (all from `IsCore4`), and a
-   pre-allocation of 𝒫 with no frozen agent. Strict values, balance, the private-goods rule and connectivity are not used.
+5. Hypotheses used (`theoremZ_min`): at least one agent, `3 ≤ |R_i| ≤ 4`, every good relevant to some agent (all from
+   `IsCore4`), and a pre-allocation of 𝒫 with no frozen agent. Strict values, balance, the private-goods rule and
+   connectivity are not used.
 -/
 
 set_option autoImplicit false
@@ -1070,18 +1074,7 @@ theorem threat_gain (hgd : goods.Nodup) (hA : IsAPA v agents goods hold) (hpo : 
 end cases
 
 
-/-! ## Lemma P, Lemma R and Theorem Z -/
-
-theorem nodup_map_of_inj {α β : Type} {f : α → β} : ∀ {l : List α}, l.Nodup →
-    (∀ x ∈ l, ∀ y ∈ l, f x = f y → x = y) → (l.map f).Nodup
-  | [], _, _ => by simp
-  | a :: l, hl, h => by
-    obtain ⟨ha, hl'⟩ := List.nodup_cons.mp hl
-    refine List.nodup_cons.mpr ⟨fun hm => ?_,
-      nodup_map_of_inj hl' fun x hx y hy e => h x (by simp [hx]) y (by simp [hy]) e⟩
-    obtain ⟨b, hb, e⟩ := List.mem_map.mp hm
-    have := h b (by simp [hb]) a (by simp) e
-    exact ha (this ▸ hb)
+/-! ## Lemma P and Lemma R -/
 
 /-- The rotation along a map `σ` of the agents: `σ o` receives `Q_o` (`k4/c4min.md` §3.3, all cycles at once). -/
 def rotateH (hold : G → Option A) (σ : A → A) (g : G) : Option A := (hold g).map σ
@@ -1180,7 +1173,7 @@ theorem zvalid_of_zmax (hag : agents.Nodup) (hgd : goods.Nodup) {hold : G → Op
     exact threat_unique hgd hA hpo h34 hj ho ho' (Ne.symm hjo) (Ne.symm hjo') hT hT'
   -- Lemma P: `σ` is onto
   have hsurj : ∀ j ∈ agents, ∃ o ∈ agents, σ o = j := by
-    have hnd := nodup_map_of_inj hag hinj
+    have hnd := LB.nodup_map_of_inj hag hinj
     have hperm := perm_of_subset_length hnd hag (fun j hj => by
       obtain ⟨o, ho, rfl⟩ := List.mem_map.mp hj; exact (hσ o ho).1) (by simp)
     intro j hj
@@ -1280,28 +1273,158 @@ theorem zvalid_of_zmax (hag : agents.Nodup) (hgd : goods.Nodup) {hold : G → Op
       simp only [value_cons, value_nil, Nat.add_zero]
       exact hrob
 
+/-! ## Lemma Z0, removal-only form -/
+
+theorem countP_le_sum_of {α : Type} (p : α → Bool) (h : α → Nat) :
+    ∀ l : List α, (∀ a ∈ l, p a = true → 1 ≤ h a) → l.countP p ≤ (l.map h).sum
+  | [], _ => by simp
+  | a :: l, hl => by
+    have ih := countP_le_sum_of p h l fun b hb => hl b (by simp [hb])
+    have ha := hl a (by simp)
+    rw [List.countP_cons, List.map_cons, List.sum_cons]
+    cases hp : p a
+    · simp; omega
+    · simp only [ite_true]; have := ha hp; omega
+
+/-- **Lemma Z0, removal-only form** (`k4/c4min.md` §3.1): if `o` is a valid owner of an APA, the pre-allocation of the
+relevant goods of the pairs has `def(P) ≤ 0`: owner `o`, and `C` = the goods of the other agents' pairs, whose junk
+goods (the irrelevant good of a pair) fill exactly those agents' slots; the owner keeps `Q_o ∪ L`. -/
+theorem removalOnly_of_zvalid {hold : G → Option A} (hA : IsAPA v agents goods hold) {o : A}
+    (hV : ZValid v agents goods hold o) : RemovalOnly v agents goods (apaBase v hold) := by
+  classical
+  by_cases hω : omegaP v agents goods (apaBase v hold) ≤ 0
+  · exact Or.inl ⟨hω, hω⟩
+  have hNF : ∀ j, ¬ Frozen agents goods (apaBase v hold) (vbNeeds v goods (apaBase v hold)) j :=
+    fun _ ⟨y, _, i, hi, hN⟩ => noNeeds_apaBase hA i hi y hN
+  let C : G → Bool := fun g => match hold g with
+    | some j => decide (j ≠ o)
+    | none => false
+  have hOB : ownerBundle goods (apaBase v hold) o C = W goods hold o := by
+    unfold ownerBundle W
+    apply List.filter_congr
+    intro g _
+    unfold apaBase
+    cases h : hold g with
+    | none => simp [C, h]
+    | some j =>
+      by_cases hj : j = o
+      · subst hj; by_cases hp : 0 < v j g <;> simp [C, h, hp]
+      · by_cases hp : 0 < v j g <;> simp [C, h, hp, hj]
+  refine removalOnly_of_owner (by omega) hV.1 (hNF o) C ?_ ?_
+  · intro x hx hxo h hh
+    rw [hOB] at hh ⊢
+    rw [value_apaBase]
+    exact Nat.le_of_not_lt fun hlt => hV.2 x hx hxo ⟨h, hh, hlt⟩
+  · let p : A → G → Bool := fun j g => decide (j ≠ o ∧ hold g = some j ∧ ¬ 0 < v j g)
+    have h1 : ((LB4.junk goods (apaBase v hold)).filter C).length ≤
+        (goods.map (fun g => agents.countP (fun j => p j g))).sum := by
+      unfold LB4.junk
+      rw [List.filter_filter, ← List.countP_eq_length_filter]
+      apply countP_le_sum_of
+      intro g hg hpg
+      simp only [Bool.and_eq_true, decide_eq_true_eq] at hpg
+      obtain ⟨hC, hb⟩ := hpg
+      cases h : hold g with
+      | none => simp [C, h] at hC
+      | some j =>
+        have hjo : j ≠ o := by simpa [C, h] using hC
+        have hnp : ¬ 0 < v j g := fun hp => by rw [apaBase_eq_some.mpr ⟨h, hp⟩] at hb; cases hb
+        exact List.countP_pos_iff.mpr ⟨j, hA.mem g hg j h, by simp [p, hjo, h]; omega⟩
+    have h2 := LB4.sum_countP_comm p agents goods
+    have h3 : (agents.map (fun j => goods.countP (p j))).sum ≤
+        otherSlots agents goods (apaBase v hold) (vbNeeds v goods (apaBase v hold)) o := by
+      unfold otherSlots
+      apply LB4.sum_le_sum_of_le
+      intro j hj
+      by_cases hjo : j = o
+      · have : goods.countP (p j) = 0 := List.countP_eq_zero.mpr fun g _ h => by simp [p, hjo] at h
+        rw [this]; exact Nat.zero_le _
+      · have hif : ¬ (j = o ∨ Frozen agents goods (apaBase v hold) (vbNeeds v goods (apaBase v hold)) j) :=
+          fun h => h.elim hjo (hNF j)
+        simp only [hif, ↓reduceIte]
+        rw [baseOf_apaBase]
+        have e : goods.countP (p j) = (baseOf goods hold j).countP (fun g => decide (¬ 0 < v j g)) := by
+          unfold baseOf
+          rw [List.countP_filter]
+          apply List.countP_congr
+          intro g _
+          simp only [p, Bool.and_eq_true, decide_eq_true_eq]
+          constructor
+          · rintro ⟨-, hh, hn⟩; exact ⟨hn, hh⟩
+          · rintro ⟨hn, hh⟩; exact ⟨hjo, hh, hn⟩
+        rw [e, ← List.countP_eq_length_filter]
+        have hl := List.length_eq_countP_add_countP (fun g => decide (0 < v j g)) (l := baseOf goods hold j)
+        simp only [decide_eq_true_eq] at hl
+        rw [hA.pair j hj] at hl
+        omega
+    omega
+
+/-! ## Theorem Z -/
+
+/-- **Theorem Z with the hypotheses it uses**: if some pre-allocation of 𝒫 has no frozen agent, there is at least one
+agent, every agent has three or four relevant goods and every good is relevant to some agent, then some pre-allocation
+of 𝒫 with the fewest frozen agents has `def(P) ≤ 0` and is completable. For `m ≤ 2n` the given pre-allocation works
+(`ω ≤ 0`); otherwise a pool-optimal APA with the most robust agents has a valid owner (Lemmas Z1, Z2, P, R), and
+Lemma Z0 applies. -/
+theorem theoremZ_min (hag : agents.Nodup) (hgd : goods.Nodup) (hne : agents ≠ []) (h34 : Rel34 v agents goods)
+    (hrel : ∀ g ∈ goods, ∃ i ∈ agents, 0 < v i g)
+    (hf0 : ∃ base, InP v agents goods base ∧ nFrozen v agents goods base = 0) :
+    ∃ base, MinFrozen v agents goods base ∧ RemovalOnly v agents goods base ∧ Completable v agents goods base := by
+  obtain ⟨base, hP, h0⟩ := hf0
+  suffices h : ∃ b, InP v agents goods b ∧ nFrozen v agents goods b = 0 ∧ RemovalOnly v agents goods b by
+    obtain ⟨b, hb, hb0, hR⟩ := h
+    exact ⟨b, ⟨hb, fun _ _ => by rw [hb0]; exact Nat.zero_le _⟩, hR, completable_of_removalOnly hag hgd hne hb hR⟩
+  by_cases hm : goods.length ≤ 2 * agents.length
+  · exact ⟨base, hP, h0, removalOnly_of_f0_small hag hgd hP h0 hm⟩
+  · obtain ⟨hold, hA, hpo, hmax⟩ := exists_zmax hgd (exists_apa hag hgd hP h0 (by omega))
+    obtain ⟨o, hV⟩ := zvalid_of_zmax hag hgd hA hpo hmax h34 hrel (by omega)
+    exact ⟨apaBase v hold, inP_apaBase hA, nFrozen_apaBase hA, removalOnly_of_zvalid hA hV⟩
+
+/-- **Theorem Z, removal-only form**: on every k = 4 core whose fewest frozen agents is 0, some pre-allocation of 𝒫
+with the fewest frozen agents has `def(P) ≤ 0` (the text's C₄ᵐⁱⁿ, `TheoremC4minRO`, on those profiles). -/
+theorem theoremZ_RO (hag : agents.Nodup) (hgd : goods.Nodup) (hc : IsCore4 v agents goods)
+    (hf0 : ∃ base, InP v agents goods base ∧ nFrozen v agents goods base = 0) :
+    ∃ base, MinFrozen v agents goods base ∧ RemovalOnly v agents goods base := by
+  obtain ⟨base, hM, hR, -⟩ := theoremZ_min hag hgd (fun e => by have := hc.1; rw [e] at this; simp at this)
+    hc.2.1 hc.2.2.2.2.2 hf0
+  exact ⟨base, hM, hR⟩
+
 /-- **Theorem Z** (`k4/c4min.md` §3.4): on every k = 4 core whose fewest frozen agents is 0 (some pre-allocation of 𝒫
 has no frozen agent), some pre-allocation of 𝒫 with the fewest frozen agents is completable: the conclusion of
-C₄ᵐⁱⁿ (`TheoremC4min`). Strict values and balance are not needed. -/
+C₄ᵐⁱⁿ (`TheoremC4min`). Strict values and balance are not needed (`theoremZ_min`). -/
 theorem theoremZ (hag : agents.Nodup) (hgd : goods.Nodup) (hc : IsCore4 v agents goods)
     (hf0 : ∃ base, InP v agents goods base ∧ nFrozen v agents goods base = 0) :
     ∃ base, MinFrozen v agents goods base ∧ Completable v agents goods base := by
-  obtain ⟨base, hP, h0⟩ := hf0
-  have hne : agents ≠ [] := fun e => by have := hc.1; rw [e] at this; simp at this
-  have h34 : Rel34 v agents goods := hc.2.1
-  by_cases hm : goods.length ≤ 2 * agents.length
-  · exact ⟨base, ⟨hP, fun _ _ => by rw [h0]; exact Nat.zero_le _⟩,
-      completable_of_removalOnly hag hgd hne hP (removalOnly_of_f0_small hag hgd hP h0 hm)⟩
-  · obtain ⟨hold, hA, hpo, hmax⟩ := exists_zmax hgd (exists_apa hag hgd hP h0 (by omega))
-    obtain ⟨o, hV⟩ := zvalid_of_zmax hag hgd hA hpo hmax h34 hc.2.2.2.2.2 (by omega)
-    exact c4min_of_zvalid hA hV
+  obtain ⟨base, hM, -, hC⟩ := theoremZ_min hag hgd (fun e => by have := hc.1; rw [e] at this; simp at this)
+    hc.2.1 hc.2.2.2.2.2 hf0
+  exact ⟨base, hM, hC⟩
 
-/-- **Theorem Z in C₄ᵐⁱⁿ's form**: C₄ᵐⁱⁿ holds on every strict profile of a k = 4 core with fewest frozen agents 0. -/
+/-- **Theorem Z in C₄ᵐⁱⁿ's form** (`TheoremC4min`'s conclusion on the profiles with fewest frozen agents 0; the
+strictness hypothesis is carried but not used). -/
 theorem c4min_of_f0 (A G : Type) [DecidableEq A] [DecidableEq G] :
     ∀ (agents : List A) (goods : List G) (v : A → G → Nat), agents.Nodup → goods.Nodup → IsCore4 v agents goods →
       Strict v agents goods → (∃ base, InP v agents goods base ∧ nFrozen v agents goods base = 0) →
       ∃ base : G → Option A, MinFrozen v agents goods base ∧ Completable v agents goods base :=
   fun _ _ _ hag hgd hc _ hf0 => theoremZ hag hgd hc hf0
+
+/-- **Theorem Z in C₄ᵐⁱⁿ's removal-only form** (`TheoremC4minRO`'s conclusion on the profiles with fewest frozen
+agents 0; the strictness hypothesis is carried but not used). -/
+theorem c4minRO_of_f0 (A G : Type) [DecidableEq A] [DecidableEq G] :
+    ∀ (agents : List A) (goods : List G) (v : A → G → Nat), agents.Nodup → goods.Nodup → IsCore4 v agents goods →
+      Strict v agents goods → (∃ base, InP v agents goods base ∧ nFrozen v agents goods base = 0) →
+      ∃ base : G → Option A, MinFrozen v agents goods base ∧ RemovalOnly v agents goods base :=
+  fun _ _ _ hag hgd hc _ hf0 => theoremZ_RO hag hgd hc hf0
+
+/-- **K4.D's conclusion on these profiles**: under the hypotheses of `theoremZ_min` (so on every k = 4 core whose
+fewest frozen agents is 0, strict or not) there is an EFX₀ allocation in which at most one bundle has more than two
+goods (Theorem Z and Theorem 1′₄, `EFX.LB4.SoundCompletion.efx0_d2`). -/
+theorem efx0_of_f0 (hag : agents.Nodup) (hgd : goods.Nodup) (hne : agents ≠ []) (h34 : Rel34 v agents goods)
+    (hrel : ∀ g ∈ goods, ∃ i ∈ agents, 0 < v i g)
+    (hf0 : ∃ base, InP v agents goods base ∧ nFrozen v agents goods base = 0) :
+    ∃ X : G → A, IsAllocation agents goods X ∧ EFX0L v agents goods X ∧
+      ∃ w ∈ agents, ∀ j ∈ agents, j ≠ w → (bundle goods X j).length ≤ 2 := by
+  obtain ⟨base, -, -, o, X, hS⟩ := theoremZ_min hag hgd hne h34 hrel hf0
+  exact ⟨X, hS.efx0_d2 hgd hne⟩
 
 end C4min
 end EFX
@@ -1320,5 +1443,10 @@ end EFX
 #print axioms EFX.C4min.threat_gain
 #print axioms EFX.C4min.isAPA_rotateH
 #print axioms EFX.C4min.zvalid_of_zmax
+#print axioms EFX.C4min.removalOnly_of_zvalid
+#print axioms EFX.C4min.theoremZ_min
+#print axioms EFX.C4min.theoremZ_RO
 #print axioms EFX.C4min.theoremZ
 #print axioms EFX.C4min.c4min_of_f0
+#print axioms EFX.C4min.c4minRO_of_f0
+#print axioms EFX.C4min.efx0_of_f0
