@@ -224,9 +224,14 @@ profile still satisfies C₄ᵐⁱⁿ: 55 of the 56 Pareto-maxima without frozen
 
 ### 3.3 What is proved, and the consequence for C₄ᵐⁱⁿ
 
-- Theorem H0 (a) and Lemma H5 prove: if a profile has a Pareto-maximal P ∈ 𝒫 with no frozen agent, ω ≥ 1 and either
-  T ≥ 2, or T ≤ 1 without a label collision on some π-cycle, then P is completable. If ω ≤ 0, P is completable without
-  an owner. In both cases the fewest frozen agents is 0 and P has deficit ≤ 0, so C₄ᵐⁱⁿ holds on that profile.
+- Theorem H0 and Lemma H5 prove the following. Let P ∈ 𝒫 be Pareto-maximal with no frozen agent and ω ≥ 1. Then P is
+  removal-only completable unless:
+  - T ≤ 1;
+  - the exposure relation is a permutation π of the agents;
+  - every π-cycle has a label collision.
+
+  If ω ≤ 0, P is completable without an owner. So on every profile with such a P, other than in the collision case,
+  the fewest frozen agents is 0, P has deficit ≤ 0, and C₄ᵐⁱⁿ holds.
 - Not proved: the collision case, and anything with frozen agents (Corollary H0′ aside).
 
 **Proposition HT (the cores H_t of `k4/c4.md` §7).** For every t ≥ 1, the profile H_t has a removal-only completable
