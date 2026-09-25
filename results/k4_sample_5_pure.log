@@ -1,0 +1,14 @@
+n=5 pure: 4674 cores x 30 random strict profiles (EVIDENCE)
+  m=4: 1 cores, 30 profiles; D2 fails on 0 profiles in 0 cores; no EFX0 allocation: 0
+  m=5: 6 cores, 180 profiles; D2 fails on 0 profiles in 0 cores; no EFX0 allocation: 0
+  m=6: 45 cores, 1350 profiles; D2 fails on 0 profiles in 0 cores; no EFX0 allocation: 0
+  m=7: 219 cores, 6570 profiles; D2 fails on 0 profiles in 0 cores; no EFX0 allocation: 0
+  m=8: 656 cores, 19680 profiles; D2 fails on 0 profiles in 0 cores; no EFX0 allocation: 0
+  m=9: 1119 cores, 33570 profiles; D2 fails on 0 profiles in 0 cores; no EFX0 allocation: 0
+  m=10: 1237 cores, 37110 profiles; D2 fails on 0 profiles in 0 cores; no EFX0 allocation: 0
+  m=11: 862 cores, 25860 profiles; D2 fails on 0 profiles in 0 cores; no EFX0 allocation: 0
+  m=12: 401 cores, 12030 profiles; D2 fails on 0 profiles in 0 cores; no EFX0 allocation: 0
+  m=13: 110 cores, 3300 profiles; D2 fails on 0 profiles in 0 cores; no EFX0 allocation: 0
+  m=14: 17 cores, 510 profiles; D2 fails on 0 profiles in 0 cores; no EFX0 allocation: 0
+  m=15: 1 cores, 30 profiles; D2 fails on 0 profiles in 0 cores; no EFX0 allocation: 0
+  [204s]

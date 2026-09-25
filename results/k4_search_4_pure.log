@@ -1,0 +1,20 @@
+n=4 (pure): 219 cores
+  ... 25/219 cores [35s]
+  ... 50/219 cores [102s]
+  ... 75/219 cores [145s]
+  ... 100/219 cores [202s]
+  ... 125/219 cores [258s]
+  ... 150/219 cores [283s]
+  ... 175/219 cores [316s]
+  ... 200/219 cores [329s]
+  m=4: {'cores': 1, 'D2 fails': 0, 'D3 fails': 0, 'cex': 0, 'allocs': 1}
+  m=5: {'cores': 4, 'D2 fails': 0, 'D3 fails': 0, 'cex': 0, 'allocs': 194}
+  m=6: {'cores': 16, 'D2 fails': 0, 'D3 fails': 0, 'cex': 0, 'allocs': 1511}
+  m=7: {'cores': 40, 'D2 fails': 0, 'D3 fails': 0, 'cex': 0, 'allocs': 5298}
+  m=8: {'cores': 62, 'D2 fails': 0, 'D3 fails': 0, 'cex': 0, 'allocs': 6983}
+  m=9: {'cores': 54, 'D2 fails': 0, 'D3 fails': 0, 'cex': 0, 'allocs': 5163}
+  m=10: {'cores': 32, 'D2 fails': 0, 'D3 fails': 0, 'cex': 0, 'allocs': 2377}
+  m=11: {'cores': 9, 'D2 fails': 0, 'D3 fails': 0, 'cex': 0, 'allocs': 542}
+  m=12: {'cores': 1, 'D2 fails': 0, 'D3 fails': 0, 'cex': 0, 'allocs': 51}
+  [335s]
+  wrote results/k4_certs_4_pure.json.gz

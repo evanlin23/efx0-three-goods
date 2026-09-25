@@ -1,0 +1,16 @@
+n=1 m=4 pure: DP 0, brute force 0: ok
+n=2 m=4 pure: DP 1, brute force 1: ok
+n=2 m=5 pure: DP 20, brute force 20: ok
+n=2 m=6 pure: DP 90, brute force 90: ok
+n=2 m=4 mixed: DP 9, brute force 9: ok
+n=2 m=5 mixed: DP 80, brute force 80: ok
+n=2 m=6 mixed: DP 90, brute force 90: ok
+n=3 m=4 pure: DP 1, brute force 1: ok
+n=3 m=5 pure: DP 120, brute force 120: ok
+n=3 m=5 mixed: DP 2070, brute force 2070: ok
+n=3 m=6 pure: DP 2640, brute force 2640: ok
+n=3 m=5 mixed n4=1: DP 1260, brute force 1260: ok
+n=3 m=5 mixed n4=2: DP 690, brute force 690: ok
+n=3 m=6 mixed n4=1: DP 8100, brute force 8100: ok
+n=3 m=6 mixed n4=2: DP 9000, brute force 9000: ok
+types (strict balanced, balanced): {3: (6, 13), 4: (288, 1271)}

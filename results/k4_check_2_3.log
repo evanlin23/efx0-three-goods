@@ -1,0 +1,13 @@
+command: python3 k4/check4.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz --expect 2:any:5 3:any:51
+  n=2 m=4: 2 cores, orbit sum 9 = labeled 9: yes; all profiles covered in 2/2
+  n=2 m=5: 2 cores, orbit sum 80 = labeled 80: yes; all profiles covered in 2/2
+  n=2 m=6: 1 cores, orbit sum 90 = labeled 90: yes; all profiles covered in 1/1
+  results/k4_certs_2.json.gz: OK; 5 cores; every allocation has at most one bundle of more than 2 goods (D2) in 5/5
+  n=3 m=4: 4 cores, orbit sum 61 = labeled 61: yes; all profiles covered in 4/4
+  n=3 m=5: 11 cores, orbit sum 2070 = labeled 2070: yes; all profiles covered in 11/11
+  n=3 m=6: 18 cores, orbit sum 19740 = labeled 19740: yes; all profiles covered in 18/18
+  n=3 m=7: 12 cores, orbit sum 68670 = labeled 68670: yes; all profiles covered in 12/12
+  n=3 m=8: 5 cores, orbit sum 100800 = labeled 100800: yes; all profiles covered in 5/5
+  n=3 m=9: 1 cores, orbit sum 45360 = labeled 45360: yes; all profiles covered in 1/1
+  results/k4_certs_3.json.gz: OK; 51 cores; every allocation has at most one bundle of more than 2 goods (D2) in 51/51
+ALL OK
