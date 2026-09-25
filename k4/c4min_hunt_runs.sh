@@ -103,6 +103,22 @@ print(len(top), 'tight cores; scores from', top[0][0], 'to', top[-1][0])"
   rigid5)      # pairs of the tightest n = 5 profiles of climb5b (owner needed, d* = 0) glued (n = 10-11)
     log $R/k4_c4min_hunt_rigid.log python3 c4min_rigid.py --gadgets=../$R/k4_c4min_hunt_climb_n5_b.jsonl --pairs=200 --seed=83 \
         --jobs=${JOBS:-4} ;;
+  satcheck)    # the SAT encoding against c4min_hunt.c (f*, holds, d*, feasible owners)
+    log $R/k4_c4min_hunt_satcheck.log python3 c4min_satcheck.py --per-core=3 --seed=11 ;;
+  famsat)      # large structured families with the SAT encoding (every certificate re-checked by c4min_brute)
+    log $R/k4_c4min_hunt_famsat.log python3 c4min_sat.py --family=ht:4 --family=ht:5 --family=ht:6 --family=ht:7 --family=ht:8 \
+        --family=ht:9 --family=ht:10 --family=ht:12 --family=ht:16 --mode=paper --jobs=${JOBS:-4}
+    log $R/k4_c4min_hunt_famsat.log python3 c4min_sat.py --family=ht:6 --family=ht:8 --family=ht:10 --family=ht2:8 --family=htx:8 \
+        --family=htc:8 --family=grid:3:3 --family=chain:3:2 --family=chain:4:3 --family=cycle:8 --family=tree:7 --family=tree:15 \
+        --profiles=300 --mode=uniform --seed=111 --jobs=${JOBS:-4}
+    for k in 1 2 4 8 16; do
+      log $R/k4_c4min_hunt_famsat.log python3 c4min_sat.py --family=ht:6 --family=ht:8 --family=ht:10 --family=htc:8 \
+          --profiles=300 --mode=perturb:$k --seed=112 --jobs=${JOBS:-4}
+    done ;;
+  climbsat)    # hill-climbing on families with the SAT objective (owner needed, d*, fewest feasible owners)
+    log $R/k4_c4min_hunt_climbsat.log python3 c4min_sat.py --family=ht:3 --family=ht:4 --family=ht:5 --family=htc:4 \
+        --family=htx:4 --family=ht2:4 --family=grid:2:2 --family=tree:4 --family=cycle:4 --family=chain:2:2 \
+        --climb=200 --restarts=3 --stale=60 --seed=121 --jobs=${JOBS:-4} ;;
   families)    # structured families: random and perturbed profiles (exact test per profile); m <= 64
     for fam in ${FAMS:-ht:4 ht:5 ht2:4 htx:4 htc:4 grid:2:2 chain:2:2 ht:6 cycle:4 tree:4}; do
       log $R/k4_c4min_hunt_families.log python3 c4min_sample.py --family=$fam --profiles=400 --mode=uniform --seed=91 --verify=20 --jobs=1
@@ -117,5 +133,5 @@ print(len(top), 'tight cores; scores from', top[0][0], 'to', top[-1][0])"
         --seed=101 --jobs=${JOBS:-4} --top=8 ;;
   attempts)    # the hard profiles of PR #36's attempts and PR #30's n = 5 GM4 profiles, one by one
     log $R/k4_c4min_hunt_attempts.log python3 c4min_attempts_eval.py ;;
-  *) echo "sections: rigid5 classes w0big attempts climbtight selfcheck w0small crosscheck n4 n5a n5b n6a climb5 climb5b climbrand climbglue rigid families climbfam"; exit 2 ;;
+  *) echo "sections: satcheck famsat climbsat rigid5 classes w0big attempts climbtight selfcheck w0small crosscheck n4 n5a n5b n6a climb5 climb5b climbrand climbglue rigid families climbfam"; exit 2 ;;
 esac
