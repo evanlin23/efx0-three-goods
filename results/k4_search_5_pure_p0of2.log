@@ -1,0 +1,38 @@
+command: python3 k4/frontier/search.py 5 --pure --part=0/2 --jobs=2 --out=results/k4_certs_5_pure.json.gz
+n=5 (pure): 4674 cores; this part: 2337, already done: 0 (checkpoints [])
+  ... 100/2337 [69s]
+  ... 200/2337 [159s]
+  ... 300/2337 [298s]
+  ... 400/2337 [490s]
+  ... 500/2337 [731s]
+  ... 600/2337 [810s]
+  ... 700/2337 [916s]
+  ... 800/2337 [1123s]
+  ... 900/2337 [1450s]
+  ... 1000/2337 [1933s]
+  ... 1100/2337 [2164s]
+  ... 1200/2337 [2250s]
+  ... 1300/2337 [2369s]
+  ... 1400/2337 [2500s]
+  ... 1500/2337 [2789s]
+  ... 1600/2337 [3260s]
+  ... 1700/2337 [3561s]
+  ... 1800/2337 [3652s]
+  ... 1900/2337 [3786s]
+  ... 2000/2337 [3959s]
+  ... 2100/2337 [4251s]
+  ... 2200/2337 [4347s]
+  ... 2300/2337 [4480s]
+  m=4: {'cores': 1, 'D2 fails': 0, 'cex': 0, 'allocs': 1, 'max allocs': 1, 'max s': 0.2}
+  m=5: {'cores': 3, 'D2 fails': 0, 'cex': 0, 'allocs': 3, 'max allocs': 1, 'max s': 0.18}
+  m=6: {'cores': 22, 'D2 fails': 0, 'cex': 0, 'allocs': 1949, 'max allocs': 123, 'max s': 0.91}
+  m=7: {'cores': 110, 'D2 fails': 0, 'cex': 0, 'allocs': 21509, 'max allocs': 290, 'max s': 3.05}
+  m=8: {'cores': 328, 'D2 fails': 0, 'cex': 0, 'allocs': 98638, 'max allocs': 531, 'max s': 24.27}
+  m=9: {'cores': 559, 'D2 fails': 0, 'cex': 0, 'allocs': 181471, 'max allocs': 676, 'max s': 29.08}
+  m=10: {'cores': 619, 'D2 fails': 0, 'cex': 0, 'allocs': 196457, 'max allocs': 570, 'max s': 21.87}
+  m=11: {'cores': 431, 'D2 fails': 0, 'cex': 0, 'allocs': 128078, 'max allocs': 498, 'max s': 17.92}
+  m=12: {'cores': 200, 'D2 fails': 0, 'cex': 0, 'allocs': 52413, 'max allocs': 386, 'max s': 8.86}
+  m=13: {'cores': 55, 'D2 fails': 0, 'cex': 0, 'allocs': 11938, 'max allocs': 300, 'max s': 2.95}
+  m=14: {'cores': 9, 'D2 fails': 0, 'cex': 0, 'allocs': 1601, 'max allocs': 213, 'max s': 1.44}
+  done 2337/4674 cores [4511s]
+  not all cores done yet: no certificate written (rerun the remaining parts)
