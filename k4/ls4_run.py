@@ -13,7 +13,8 @@ from check4 import core_domains
 HERE = os.path.dirname(os.path.abspath(__file__))
 
 def build(src='ls4.c', exe='ls4'):
-    exe = os.path.join(HERE, exe)
+    os.makedirs(os.path.expanduser('~/.cache/ls4'), exist_ok=True)
+    exe = os.path.join(os.path.expanduser('~/.cache/ls4'), exe)
     srcp = os.path.join(HERE, src)
     if not os.path.exists(exe) or os.path.getmtime(exe) < os.path.getmtime(srcp):
         subprocess.run(['gcc', '-O2', '-march=native', '-o', exe, srcp], check=True)

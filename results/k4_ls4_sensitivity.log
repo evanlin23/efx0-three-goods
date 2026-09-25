@@ -1,0 +1,50 @@
+# ls4alg_run.py ../results/k4_certs_2.json.gz --ties --defs=-DNOX
+[[0, 1, 2, 3], [0, 1, 2, 3]] FAIL no placement: n=2 m=4 [0:4 1:1 2:6 3:8] [0:2 1:3 2:4 3:8] Y: 8 6 U:1
+[[0, 1, 2, 3], [0, 1, 2, 3]] FAIL no placement: n=2 m=4 [0:4 1:2 2:5 3:8] [0:2 1:3 2:4 3:8] Y: 8 6 U:1
+[[0, 1, 2, 3], [0, 1, 2, 3]] FAIL no placement: n=2 m=4 [0:4 1:2 2:7 3:10] [0:2 1:3 2:4 3:8] Y: 8 6 U:1
+[[0, 1, 2, 3], [0, 1, 2, 3]] FAIL no placement: n=2 m=4 [0:5 1:2 2:4 3:8] [0:2 1:3 2:4 3:8] Y: 8 6 U:1
+[[0, 1, 2, 3], [0, 1, 2, 3]] FAIL no placement: n=2 m=4 [0:6 1:1 2:4 3:8] [0:2 1:3 2:4 3:8] Y: 8 6 U:1
+BAD [[0, 1, 2, 3], [0, 1, 2, 3]] rc 1  [0:2 1:3 2:4 3:8] Y: 8 6 U:1
+FAIL no placement: n=2 m=4 [0:4 1:2 2:5 3:8] [0:2 1:3 2:4 3:8] Y: 8 6 U:1
+FAIL no placement: n=2 m=4 [0:4 1:2 2:7 3:10] [0:2 1:3 2:4 3:8] Y: 8 6 U:1
+FAIL no placement: n=2 m=4 [0:5 1:2 2:4 3:8] [0:2 1:3 2:4 3:8] Y: 8 6 U:1
+FAIL no placement: n=2 m=4 [0:6 1:1 2:4 3:8] [0:2 1:3 2:4 3:8] Y: 8 6 U:1
+RESULT runs=82944 fail=384 complete=82560 empty=0 dump=0 dm=0 exact=0 M1=849696 R=2112 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=14 maxlevels=24 big0=69120 big1=13440 big2=0 big3+=0
+
+[[0, 2, 3, 4], [1, 2, 3, 4]] FAIL no placement: n=2 m=5 [0:3 2:6 3:4 4:8] [1:1 2:4 3:6 4:8] Y: c 12 U:1
+[[0, 2, 3, 4], [1, 2, 3, 4]] FAIL no placement: n=2 m=5 [0:3 2:8 3:4 4:10] [1:1 2:4 3:6 4:8] Y: c 12 U:1
+[[0, 2, 3, 4], [1, 2, 3, 4]] FAIL no placement: n=2 m=5 [0:4 2:5 3:6 4:8] [1:1 2:4 3:6 4:8] Y: c 12 U:1
+[[0, 2, 3, 4], [1, 2, 3, 4]] FAIL no placement: n=2 m=5 [0:4 2:6 3:5 4:8] [1:1 2:4 3:6 4:8] Y: c 12 U:1
+[[0, 2, 3, 4], [1, 2, 3, 4]] FAIL no placement: n=2 m=5 [0:3 2:6 3:8 4:4] [1:1 2:4 3:8 4:6] Y: 14 a U:1
+BAD [[0, 2, 3, 4], [1, 2, 3, 4]] rc 1 1 2:4 3:6 4:8] Y: c 12 U:1
+FAIL no placement: n=2 m=5 [0:3 2:8 3:4 4:10] [1:1 2:4 3:6 4:8] Y: c 12 U:1
+FAIL no placement: n=2 m=5 [0:4 2:5 3:6 4:8] [1:1 2:4 3:6 4:8] Y: c 12 U:1
+FAIL no placement: n=2 m=5 [0:4 2:6 3:5 4:8] [1:1 2:4 3:6 4:8] Y: c 12 U:1
+FAIL no placement: n=2 m=5 [0:3 2:6 3:8 4:4] [1:1 2:4 3:8 4:6] Y: 14 a U:1
+RESULT runs=82944 fail=348 complete=74640 empty=0 dump=7956 dm=0 exact=0 M1=1002864 R=144 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=20 maxlevels=26 big0=0 big1=82596 big2=0 big3+=0
+
+TOTAL cores=5 badcores=2 runs=189216 fail=732 complete=178568 empty=0 dump=9916 dm=0 exact=0 M1=2198892 R=2256 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=20 maxlevels=28 big0=70848 big1=98340 big2=19296 big3+=0 wall=2s
+# ls4alg_run.py ../results/k4_certs_2.json.gz --ties --defs=-DBADDUMP
+[[0, 1, 2, 3], [0, 1, 2, 3]] FAIL output not EFX0 (V): n=2 m=4 [0:4 1:1 2:6 3:8] [0:2 1:3 2:4 3:8] Y: 8 6 U:1
+[[0, 1, 2, 3], [0, 1, 2, 3]] FAIL output not EFX0 (raw, representative): n=2 m=4 [0:4 1:1 2:6 3:8] [0:2 1:3 2:4 3:8] Y: 8 6 U:1
+[[0, 1, 2, 3], [0, 1, 2, 3]] FAIL output not EFX0 (raw, tied preimage): n=2 m=4 [0:4 1:1 2:6 3:8] [0:2 1:3 2:4 3:8] Y: 8 6 U:1
+[[0, 1, 2, 3], [0, 1, 2, 3]] FAIL output not EFX0 (raw, tied preimage): n=2 m=4 [0:4 1:1 2:6 3:8] [0:2 1:3 2:4 3:8] Y: 8 6 U:1
+[[0, 1, 2, 3], [0, 1, 2, 3]] FAIL output not EFX0 (raw, tied preimage): n=2 m=4 [0:4 1:1 2:6 3:8] [0:2 1:3 2:4 3:8] Y: 8 6 U:1
+BAD [[0, 1, 2, 3], [0, 1, 2, 3]] rc 1  [0:2 1:3 2:4 3:8] Y: 8 6 U:1
+FAIL output not EFX0 (raw, tied preimage): n=2 m=4 [0:4 1:1 2:6 3:8] [0:2 1:3 2:4 3:8] Y: 8 6 U:1
+FAIL output not EFX0 (raw, tied preimage): n=2 m=4 [0:4 1:1 2:6 3:8] [0:2 1:3 2:4 3:8] Y: 8 6 U:1
+FAIL output not EFX0 (raw, tied preimage): n=2 m=4 [0:4 1:1 2:6 3:8] [0:2 1:3 2:4 3:8] Y: 8 6 U:1
+RESULT runs=82944 fail=2100 complete=82560 empty=0 dump=384 dm=0 exact=0 M1=849696 R=2112 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=14 maxlevels=24 big0=69120 big1=13824 big2=0 big3+=0
+
+[[0, 2, 3, 4], [1, 2, 3, 4]] FAIL output not EFX0 (V): n=2 m=5 [0:3 2:6 3:4 4:8] [1:1 2:4 3:6 4:8] Y: c 12 U:1
+[[0, 2, 3, 4], [1, 2, 3, 4]] FAIL output not EFX0 (raw, representative): n=2 m=5 [0:3 2:6 3:4 4:8] [1:1 2:4 3:6 4:8] Y: c 12 U:1
+[[0, 2, 3, 4], [1, 2, 3, 4]] FAIL output not EFX0 (raw, tied preimage): n=2 m=5 [0:3 2:6 3:4 4:8] [1:1 2:4 3:6 4:8] Y: c 12 U:1
+[[0, 2, 3, 4], [1, 2, 3, 4]] FAIL output not EFX0 (raw, tied preimage): n=2 m=5 [0:3 2:6 3:4 4:8] [1:1 2:4 3:6 4:8] Y: c 12 U:1
+[[0, 2, 3, 4], [1, 2, 3, 4]] FAIL output not EFX0 (raw, tied preimage): n=2 m=5 [0:3 2:6 3:4 4:8] [1:1 2:4 3:6 4:8] Y: c 12 U:1
+BAD [[0, 2, 3, 4], [1, 2, 3, 4]] rc 1 [1:1 2:4 3:6 4:8] Y: c 12 U:1
+FAIL output not EFX0 (raw, tied preimage): n=2 m=5 [0:3 2:6 3:4 4:8] [1:1 2:4 3:6 4:8] Y: c 12 U:1
+FAIL output not EFX0 (raw, tied preimage): n=2 m=5 [0:3 2:6 3:4 4:8] [1:1 2:4 3:6 4:8] Y: c 12 U:1
+FAIL output not EFX0 (raw, tied preimage): n=2 m=5 [0:3 2:6 3:4 4:8] [1:1 2:4 3:6 4:8] Y: c 12 U:1
+RESULT runs=82944 fail=2303 complete=74640 empty=0 dump=8304 dm=0 exact=0 M1=1002864 R=144 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=20 maxlevels=26 big0=0 big1=82944 big2=0 big3+=0
+
+TOTAL cores=5 badcores=2 runs=189216 fail=4403 complete=178568 empty=0 dump=10648 dm=0 exact=0 M1=2198892 R=2256 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=20 maxlevels=28 big0=70848 big1=99072 big2=19296 big3+=0 wall=2s
