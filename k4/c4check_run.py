@@ -1,6 +1,7 @@
-"""Driver for k4/c4check.c (-X): check Theorems A4 and B4 of k4/c4.md on every strict profile of every core in the given
-certificate files (only the core lists are used), for every insertion sequence (-i1), with envy-free upgrades (-u2).
-Sums the per-core C4CHK counters (weighted by profiles) and prints every violation line (there should be none).
+"""Driver for k4/c4check.c (-X): check Theorems A4, B4, B4w, A4T and A4+ of k4/c4.md on every strict profile of every
+core in the given certificate files (only the core lists are used), for every insertion sequence (-i1), with envy-free
+upgrades (-u2). Sums the per-core C4CHK counters (weighted by profiles) and prints every violation line (any report of
+c4check.c other than FAIL, which is LB4r's own failure under these options; there should be none).
 Usage: c4check_run.py FILE [FILE ...] [--jobs=J] [--n4=K] (keep only cores with exactly K four-good agents)"""
 import gzip, hashlib, json, os, subprocess, sys, tempfile, time
 from multiprocessing import Pool
@@ -49,7 +50,7 @@ def main():
                 viol += v; runs += ru
         print(f"{f}: {len(cores)} cores, {runs} (run, profile) pairs, {time.time() - t0:.0f}s")
         print('  ' + ' '.join(f"{k}={v}" for k, v in tot.items()))
-        print(f"  violation lines (A1VIOL, A3VIOL, BADVIOL, ROTINV, B4VIOL, RAWFAIL): {len(viol)}")
+        print(f"  violation lines (every report other than FAIL): {len(viol)}")
         for l in viol[:10]: print('   ', l)
         sys.stdout.flush()
 
