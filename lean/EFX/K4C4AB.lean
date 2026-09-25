@@ -967,6 +967,541 @@ theorem theoremB4 (hS : AfterUp v agents goods run s) (hgd : goods.Nodup) (hs : 
 
 end rotation
 
+/-! ## Theorem A₄: the owner r -/
+
+section theoremA
+variable {v : A → G → Nat} {agents : List A} {goods : List G} {run : List (A × Option G)} {s : LState A G}
+  {r : A}
+
+theorem upRun_base_mem {pol : Policy} {s s' : LState A G} (hR : UpRun v agents goods pol s s')
+    (h : ∀ g i, s.base g = some i → i ∈ agents) : ∀ g i, s'.base g = some i → i ∈ agents := by
+  induction hR with
+  | done => exact h
+  | step s s' s'' hs _ ih =>
+    obtain ⟨k, g', hE, -, -, rfl⟩ := hs
+    refine ih fun g i hg => ?_
+    simp only [upgrade] at hg
+    split at hg
+    · cases hg; exact hE.1
+    · exact h g i hg
+
+/-- Every base belongs to a listed agent. -/
+theorem AfterUp.base_mem (hS : AfterUp v agents goods run s) {g : G} {i : A} (h : s.base g = some i) :
+    i ∈ agents :=
+  upRun_base_mem hS.up (fun g i hg => by
+    obtain ⟨t, p, hp, rfl, -⟩ := (runState_base hS.phase).mp hg
+    exact hS.phase.agent_mem hp) g i h
+
+/-- The completion that puts the goods of `H` (junk goods) one each into the agents of `T`, in order, and gives the
+owner `r` its base and the rest of the junk. -/
+def placeH (s : LState A G) (r : A) (H : List G) (T : List A) (g : G) : A :=
+  match s.base g with
+  | some i => i
+  | none => if g ∈ H then T.getD (H.idxOf g) r else r
+
+theorem getD_mem_of_lt {T : List A} {i : Nat} {d : A} (h : i < T.length) : T.getD i d ∈ T := by
+  rw [List.getD_eq_getElem?_getD, List.getElem?_eq_getElem h]; exact List.getElem_mem h
+
+theorem placeH_junk {H : List G} {T : List A} (hlen : H.length ≤ T.length) {g : G}
+    (hb : s.base g = none) {j : A} (hj : placeH s r H T g = j) (hjr : j ≠ r) :
+    g ∈ H ∧ T.getD (H.idxOf g) r = j ∧ j ∈ T := by
+  simp only [placeH, hb] at hj
+  by_cases hgH : g ∈ H
+  · simp only [hgH, ↓reduceIte] at hj
+    have hi : H.idxOf g < T.length := Nat.lt_of_lt_of_le (List.idxOf_lt_length_of_mem hgH) hlen
+    exact ⟨hgH, hj, hj ▸ getD_mem_of_lt hi⟩
+  · simp only [hgH, ↓reduceIte] at hj; exact absurd hj.symm hjr
+
+/-- The owner's bundle of `placeH` is its base and the junk outside `H`: it lies in `W` and avoids `H`. -/
+theorem placeH_owner {H : List G} {T : List A} (hlen : H.length ≤ T.length) (hTr : ∀ t ∈ T, t ≠ r)
+    (hHJ : ∀ h ∈ H, s.base h = none) {g : G}
+    (hg : placeH s r H T g = r) : (s.base g = none ∨ s.base g = some r) ∧ g ∉ H := by
+  cases hb : s.base g with
+  | some i =>
+    simp only [placeH, hb] at hg
+    refine ⟨Or.inr (by rw [hg]), fun hgH => ?_⟩
+    rw [hHJ g hgH] at hb; cases hb
+  | none =>
+    refine ⟨Or.inl rfl, fun hgH => ?_⟩
+    simp only [placeH, hb, hgH, ↓reduceIte] at hg
+    have hi : H.idxOf g < T.length := Nat.lt_of_lt_of_le (List.idxOf_lt_length_of_mem hgH) hlen
+    exact hTr _ (getD_mem_of_lt hi) hg
+
+/-- **The completion with owner `r` that places a set `H` of junk goods into distinct terminals** (`k4/c4.md`
+Theorem A₄, "Completion"; `proofs/lb_last_step.md` Lemma 1): it is a completion of the state after envy-free
+upgrades, with the needs of the state. -/
+theorem completion_placeH (hS : AfterUp v agents goods run s) (hgd : goods.Nodup) (hr : IsLast run s r)
+    {H : List G} {T : List A} (hT : T.Nodup) (hlen : H.length ≤ T.length)
+    (hTt : ∀ t ∈ T, t ∈ agents ∧ t ≠ r ∧ ¬ s.marked t ∧ ¬ FrozenAt v agents goods s t) :
+    Completion agents goods s.base (needsOf v goods s) (some r) (placeH s r H T) := by
+  have hTr : ∀ t ∈ T, t ≠ r := fun t ht => (hTt t ht).2.1
+  obtain ⟨tr, pr, hpr, hpr1, hrm, -⟩ := id hr
+  have hra : r ∈ agents := hpr1 ▸ hS.phase.agent_mem hpr
+  have hbase2 := hS.base_two hgd
+  refine ⟨fun g _ => ?_, fun g _ i hb => by simp [placeH, hb], fun w hw => ?_, fun j _ hjo hF => ?_,
+    fun j _ hjo hF => ?_⟩
+  · cases hb : s.base g with
+    | some i => simp only [placeH, hb]; exact hS.base_mem hb
+    | none =>
+      by_cases hX : placeH s r H T g = r
+      · rw [hX]; exact hra
+      · obtain ⟨-, -, hjT⟩ := placeH_junk hlen hb rfl hX
+        exact (hTt _ hjT).1
+  · cases hw
+    exact ⟨hra, fun hF => hS.last_not_frozen hgd hr ⟨hrm, hF⟩⟩
+  · have hjr : j ≠ r := fun e => hjo (by rw [e])
+    refine List.eq_nil_iff_forall_not_mem.mpr fun g hg => ?_
+    obtain ⟨hgb, hgX, hgn⟩ := mem_junkOf.mp hg
+    obtain ⟨-, -, hjT⟩ := placeH_junk hlen hgn hgX hjr
+    exact (hTt j hjT).2.2.2 ⟨(hTt j hjT).2.2.1, hF⟩
+  · have hjr : j ≠ r := fun e => hjo (by rw [e])
+    by_cases hjT : j ∈ T
+    · -- one junk good at most, and a base of at most one good
+      have h1 : (junkOf goods s.base (placeH s r H T) j).length ≤ 1 := by
+        cases hJ : junkOf goods s.base (placeH s r H T) j with
+        | nil => simp
+        | cons g₀ rest =>
+          rw [← hJ]
+          have hg₀ : g₀ ∈ junkOf goods s.base (placeH s r H T) j := by rw [hJ]; simp
+          have hnd : (junkOf goods s.base (placeH s r H T) j).Nodup :=
+            (LB.nodup_bundle hgd _ _).filter _
+          refine LB.length_le_one hnd (y := g₀) fun g hg => ?_
+          obtain ⟨-, hgX, hgn⟩ := mem_junkOf.mp hg
+          obtain ⟨-, hg₀X, hg₀n⟩ := mem_junkOf.mp hg₀
+          obtain ⟨hgH, hgT, -⟩ := placeH_junk hlen hgn hgX hjr
+          obtain ⟨hg₀H, hg₀T, -⟩ := placeH_junk hlen hg₀n hg₀X hjr
+          have hi := Nat.lt_of_lt_of_le (List.idxOf_lt_length_of_mem hgH) hlen
+          have hi₀ := Nat.lt_of_lt_of_le (List.idxOf_lt_length_of_mem hg₀H) hlen
+          rw [List.getD_eq_getElem?_getD, List.getElem?_eq_getElem hi] at hgT
+          rw [List.getD_eq_getElem?_getD, List.getElem?_eq_getElem hi₀] at hg₀T
+          simp only [Option.getD_some] at hgT hg₀T
+          have e : H.idxOf g = H.idxOf g₀ := (hT.getElem_inj (hi := hi) (hj := hi₀)).mp (hgT.trans hg₀T.symm)
+          rw [← List.getElem_idxOf (List.idxOf_lt_length_of_mem hgH),
+            ← List.getElem_idxOf (List.idxOf_lt_length_of_mem hg₀H)]
+          simp only [e]
+      have h2 := hbase2.2.2 j (hTt j hjT).2.2.1
+      omega
+    · have h0 : junkOf goods s.base (placeH s r H T) j = [] :=
+        List.eq_nil_iff_forall_not_mem.mpr fun g hg => by
+          obtain ⟨-, hgX, hgn⟩ := mem_junkOf.mp hg
+          exact hjT (placeH_junk hlen hgn hgX hjr).2.2
+      rw [h0]; simpa using hbase2.1 j
+
+/-- **(OC₄) for `placeH`** (`k4/c4.md` Theorem A₄, "(OC₄)"): if `H` meets `R_x` for every exposed agent `x` and no
+4-good agent is exposed, nobody strongly envies `r`'s bundle `X_r ⊆ W ∖ H`: an upgraded agent holds an envy-free base;
+an agent that is not exposed is not threatened by `W`, hence not by `X_r` (monotonicity); an exposed agent has three
+goods, and `X_r` holds at most one of them, worth less than its pick. -/
+theorem oc_placeH (hS : AfterUp v agents goods run s) (hgd : goods.Nodup) (hs : Strict v agents goods)
+    (hcore : IsCore4 v agents goods) (hr : IsLast run s r) {H : List G} {T : List A}
+    (hHJ : ∀ h ∈ H, s.base h = none) (hHg : ∀ h ∈ H, h ∈ goods) (hlen : H.length ≤ T.length)
+    (hTr : ∀ t ∈ T, t ≠ r)
+    (hno4 : ∀ x, Exposed v agents goods s r x → (relevant v x goods).length ≠ 4)
+    (hhit : ∀ x, Exposed v agents goods s r x → ∃ h ∈ H, 0 < v x h) :
+    OC v agents goods (placeH s r H T) (some r) := by
+  intro w hw j hj hjw h hh
+  cases hw
+  have hI := hS.inv hgd
+  obtain ⟨tr, pr, hpr, hpr1, hrm, -⟩ := id hr
+  have hXr : ∀ g ∈ bundle goods (placeH s r H T) r, g ∈ goods ∧ (s.base g = none ∨ s.base g = some r) ∧ g ∉ H := fun g hg => by
+    obtain ⟨hgg, hgX⟩ := LB.mem_bundle.mp hg
+    exact ⟨hgg, placeH_owner hlen hTr hHJ hgX⟩
+  have hsubW : (bundle goods (placeH s r H T) r).Sublist (Wl goods s r) :=
+    filter_sublist_of_imp fun g hg hgX => by
+      have := (hXr g (LB.mem_bundle.mpr ⟨hg, by simpa using hgX⟩)).2.1
+      simpa using this
+  have hbj : value v j (baseOf goods s.base j) ≤ value v j (bundle goods (placeH s r H T) j) :=
+    value_baseOf_le (fun g _ i hb => by simp [placeH, hb]) j
+  have hndr : ((bundle goods (placeH s r H T) r).erase h).Nodup := (LB.nodup_bundle hgd (placeH s r H T) r).erase h
+  by_cases hjm : s.marked j
+  · -- an upgraded agent: its base is envy-free
+    refine Nat.le_trans ((hS.efBase hgd j hjm).value_le hndr fun g hg => ?_) hbj
+    obtain ⟨hgg, hgb, -⟩ := hXr g (List.mem_of_mem_erase hg)
+    refine ⟨hgg, fun e => ?_⟩
+    rcases hgb with hb | hb
+    · rw [e] at hb; cases hb
+    · rw [e] at hb; exact hrm (Option.some.inj hb ▸ hjm)
+  by_cases hjE : Exposed v agents goods s r j
+  · -- an exposed agent: three goods, one of them in `H`, so at most one in `X_r`, below its pick
+    have hjA := hjE.1
+    have h3 : (relevant v j goods).length = 3 := by
+      have := hcore.2.1 j hjA; have := hno4 j hjE; omega
+    obtain ⟨y, hy, htop, -, -⟩ := lemmaE_three hS hgd hs hr hjE h3
+    obtain ⟨hj₀, hj₀H, hj₀pos⟩ := hhit j hjE
+    have hypos : 0 < v j y := hI.pickRel j hjA hjm y hy
+    have hBj : baseOf goods s.base j = [y] := by rw [hI.unmarked j hjA hjm, hy]; rfl
+    have hyg : y ∈ goods := (mem_baseOf.mp (by rw [hBj]; simp : y ∈ baseOf goods s.base j)).1
+    have hyb : s.base y = some j := (mem_baseOf.mp (by rw [hBj]; simp : y ∈ baseOf goods s.base j)).2
+    have hRnd : (relevant v j goods).Nodup := hgd.filter _
+    have hyR : y ∈ relevant v j goods := List.mem_filter.mpr ⟨hyg, by simpa using hypos⟩
+    have hj₀b := hHJ hj₀ hj₀H
+    have hj₀y : hj₀ ≠ y := fun e => by rw [e, hyb] at hj₀b; cases hj₀b
+    have hj₀R : hj₀ ∈ (relevant v j goods).erase y :=
+      (List.mem_erase_of_ne hj₀y).mpr (List.mem_filter.mpr ⟨hHg hj₀ hj₀H, by simpa using hj₀pos⟩)
+    have hlen1 : (((relevant v j goods).erase y).erase hj₀).length = 1 := by
+      rw [List.length_erase_of_mem hj₀R, List.length_erase_of_mem hyR, h3]
+    have hLr : ∀ g ∈ relevant v j (bundle goods (placeH s r H T) r), g ∈ ((relevant v j goods).erase y).erase hj₀ ∧
+        v j g < v j y := fun g hg => by
+      obtain ⟨hgX, hpos⟩ := List.mem_filter.mp hg
+      have hpos : 0 < v j g := by simpa using hpos
+      obtain ⟨hgg, hgb, hgH⟩ := hXr g hgX
+      have hgy : g ≠ y := fun e => by
+        rcases hgb with hb | hb
+        · rw [e, hyb] at hb; cases hb
+        · rw [e, hyb] at hb; exact hjw (Option.some.inj hb)
+      refine ⟨(List.mem_erase_of_ne fun e => hgH (by rw [e]; exact hj₀H)).mpr ((List.mem_erase_of_ne hgy).mpr
+        (List.mem_filter.mpr ⟨hgg, by simpa using hpos⟩)), (htop g hgg hpos hgy).2⟩
+    have hlenLr := List.Nodup.length_le_of_subset (l₁ := relevant v j (bundle goods (placeH s r H T) r))
+      ((LB.nodup_bundle hgd _ r).filter _) fun g hg => (hLr g hg).1
+    rw [hlen1] at hlenLr
+    have h1 := value_lt_of_length_le_one (L := relevant v j (bundle goods (placeH s r H T) r)) hypos hlenLr
+      fun g hg => (hLr g hg).2
+    rw [value_relevant] at h1
+    have h2 := value_sublist v j (List.erase_sublist (l := bundle goods (placeH s r H T) r) (a := h))
+    rw [hBj] at hbj
+    simp only [value_cons, value_nil, Nat.add_zero] at hbj
+    omega
+  · -- not exposed: not threatened by `W`, hence not by `X_r ⊆ W`
+    have hthr : ¬ Threatened v j (Wl goods s r) (baseOf goods s.base j) := fun ht =>
+      hjE ⟨hj, hjm, fun e => hjw e, ht⟩
+    have hhW : h ∈ Wl goods s r := hsubW.subset hh
+    have h1 : value v j ((Wl goods s r).erase h) ≤ value v j (baseOf goods s.base j) :=
+      Nat.le_of_not_lt fun hlt => hthr ⟨h, hhW, hlt⟩
+    have h2 := value_sublist v j (hsubW.erase h)
+    omega
+
+
+/-- The step at which `x` is processed. -/
+def posOf (run : List (A × Option G)) (x : A) : Nat := (run.map Prod.fst).idxOf x
+
+theorem PhaseRun.posOf_eq (hR : PhaseRun v agents goods run) {t : Nat} {p : A × Option G}
+    (hp : run[t]? = some p) : posOf run p.1 = t :=
+  idxOf_of_getElem? hR.nodup (by simp [hp])
+
+theorem PhaseRun.getElem?_posOf (hR : PhaseRun v agents goods run) {x : A} (hx : x ∈ agents) :
+    ∃ p : A × Option G, run[posOf run x]? = some p ∧ p.1 = x := by
+  obtain ⟨t, p, hp, rfl⟩ := hR.exists_pos hx
+  exact ⟨p, by rw [hR.posOf_eq hp]; exact hp, rfl⟩
+
+/-- `π_x = R_x ∩ J` is not empty for an exposed 3-good agent: of its two goods in `W`, at most one is `Y_r`. -/
+theorem AfterUp.pi_nonempty (hS : AfterUp v agents goods run s) (hgd : goods.Nodup) (hs : Strict v agents goods)
+    (hr : IsLast run s r) {x : A} (hx : Exposed v agents goods s r x) (h3 : (relevant v x goods).length = 3) :
+    ∃ g ∈ goods, s.base g = none ∧ 0 < v x g := by
+  obtain ⟨-, -, -, hL2, -⟩ := lemmaE_three hS hgd hs hr hx h3
+  have hI := hS.inv hgd
+  obtain ⟨tr, pr, hpr, hpr1, hrm, -⟩ := id hr
+  have hra : r ∈ agents := hpr1 ▸ hS.phase.agent_mem hpr
+  have hBr := hI.unmarked r hra hrm
+  obtain ⟨g₁, g₂, hL⟩ : ∃ g₁ g₂, relevant v x (Wl goods s r) = [g₁, g₂] := by
+    match hm : relevant v x (Wl goods s r), hL2 with
+    | [g₁, g₂], _ => exact ⟨g₁, g₂, rfl⟩
+  have hnd : (relevant v x (Wl goods s r)).Nodup := (hgd.filter _).filter _
+  rw [hL] at hnd
+  have h12 : g₁ ≠ g₂ := by simp at hnd; exact hnd
+  have hmem : ∀ g ∈ [g₁, g₂], g ∈ goods ∧ (s.base g = none ∨ s.base g = some r) ∧ 0 < v x g := fun g hg => by
+    rw [← hL] at hg
+    obtain ⟨hgW, hpos⟩ := List.mem_filter.mp hg
+    exact ⟨(mem_Wl.mp hgW).1, (mem_Wl.mp hgW).2, by simpa using hpos⟩
+  obtain ⟨hg₁, hb₁, hp₁⟩ := hmem g₁ (by simp)
+  obtain ⟨hg₂, hb₂, hp₂⟩ := hmem g₂ (by simp)
+  rcases hb₁ with hb₁ | hb₁
+  · exact ⟨g₁, hg₁, hb₁, hp₁⟩
+  rcases hb₂ with hb₂ | hb₂
+  · exact ⟨g₂, hg₂, hb₂, hp₂⟩
+  -- both in `r`'s base, which has at most one good
+  exfalso
+  have hm₁ : g₁ ∈ baseOf goods s.base r := mem_baseOf.mpr ⟨hg₁, hb₁⟩
+  have hm₂ : g₂ ∈ baseOf goods s.base r := mem_baseOf.mpr ⟨hg₂, hb₂⟩
+  rw [hBr] at hm₁ hm₂
+  cases hy : s.pick r with
+  | none => rw [hy] at hm₁; simp at hm₁
+  | some y => rw [hy] at hm₁ hm₂; simp at hm₁ hm₂; exact h12 (hm₁.trans hm₂.symm)
+
+/-- A list without repetitions with the same goods (keeping last occurrences). -/
+def dedupL : List G → List G
+  | [] => []
+  | a :: l => if a ∈ dedupL l then dedupL l else a :: dedupL l
+
+theorem mem_dedupL : ∀ {l : List G} {g : G}, g ∈ dedupL l ↔ g ∈ l
+  | [], _ => by simp [dedupL]
+  | a :: l, g => by
+    unfold dedupL
+    split
+    · rename_i h
+      rw [mem_dedupL]
+      constructor
+      · exact fun hg => List.mem_cons_of_mem _ hg
+      · intro hg
+        rcases List.mem_cons.mp hg with rfl | hg
+        · exact mem_dedupL.mp h
+        · exact hg
+    · simp [mem_dedupL]
+
+theorem nodup_dedupL : ∀ l : List G, (dedupL l).Nodup
+  | [] => by simp [dedupL]
+  | a :: l => by
+    unfold dedupL
+    split
+    · exact nodup_dedupL l
+    · rename_i h; exact List.nodup_cons.mpr ⟨h, nodup_dedupL l⟩
+
+theorem length_dedupL_le : ∀ l : List G, (dedupL l).length ≤ l.length
+  | [] => by simp [dedupL]
+  | a :: l => by
+    unfold dedupL
+    split
+    · have := length_dedupL_le l; simp; omega
+    · have := length_dedupL_le l; simp; omega
+
+theorem length_dedupL_lt : ∀ {l : List G}, ¬ l.Nodup → (dedupL l).length < l.length
+  | [], h => absurd List.nodup_nil h
+  | a :: l, h => by
+    unfold dedupL
+    split
+    · have := length_dedupL_le l; simp; omega
+    · rename_i ha
+      have hl : ¬ l.Nodup := fun hl => h (List.nodup_cons.mpr ⟨fun hm => ha (mem_dedupL.mpr hm), hl⟩)
+      have := length_dedupL_lt hl; simp; omega
+
+theorem nodup_map_of_inj {f : A → A} : ∀ {l : List A}, l.Nodup → (∀ x ∈ l, ∀ y ∈ l, f x = f y → x = y) →
+    (l.map f).Nodup
+  | [], _, _ => by simp
+  | a :: l, hnd, hinj => by
+    obtain ⟨ha, hl⟩ := List.nodup_cons.mp hnd
+    refine List.nodup_cons.mpr ⟨fun hm => ?_, nodup_map_of_inj hl fun x hx y hy => hinj x (by simp [hx]) y (by simp [hy])⟩
+    obtain ⟨b, hb, hfb⟩ := List.mem_map.mp hm
+    exact ha (hinj a (by simp) b (by simp [hb]) hfb.symm ▸ hb)
+
+/-- **The terminals of LB⁺'s Theorem A** (`proofs/lb_last_step.md` §4, `k4/c4.md` Theorem A₄). Let `E` be distinct
+unmarked leaders other than `r`. Their need chains end at terminals in their blocks (A4), distinct for distinct
+blocks, and other than `r` outside `r`'s block `B*`. So there are `|E|` distinct terminals other than `r`, unless
+`E` has an agent `k*` in `B*` (its leader) that is frozen and whose need chains all end at `r`; then there are
+`|E| − 1`. -/
+theorem AfterUp.terminals (hS : AfterUp v agents goods run s) (hgd : goods.Nodup) (hr : IsLast run s r)
+    {E : List A} (hE : E.Nodup)
+    (hEx : ∀ x ∈ E, x ∈ agents ∧ ¬ s.marked x ∧ x ≠ r ∧ InsAt v run (posOf run x)) :
+    (∃ T : List A, T.Nodup ∧ E.length ≤ T.length ∧
+        ∀ t ∈ T, t ∈ agents ∧ t ≠ r ∧ ¬ s.marked t ∧ ¬ FrozenAt v agents goods s t) ∨
+      ∃ k ∈ E, SameBlock v run (posOf run k) (posOf run r) ∧ FrozenAt v agents goods s k ∧
+        (∀ c e, NeedChain v agents goods s c → c.head? = some k → c.getLast? = some e → e = r) ∧
+        ∃ T : List A, T.Nodup ∧ E.length ≤ T.length + 1 ∧
+          ∀ t ∈ T, t ∈ agents ∧ t ≠ r ∧ ¬ s.marked t ∧ ¬ FrozenAt v agents goods s t := by
+  classical
+  have hR := hS.phase
+  obtain ⟨tr, pr, hpr, hpr1, hrm, -⟩ := id hr
+  have hra : r ∈ agents := hpr1 ▸ hR.agent_mem hpr
+  have hposr : posOf run r = tr := by rw [← hpr1]; exact hR.posOf_eq hpr
+  -- a terminal in each block
+  have hτ : ∀ x ∈ E, ∃ e, e ∈ agents ∧ ¬ s.marked e ∧ ¬ FrozenAt v agents goods s e ∧
+      SameBlock v run (posOf run x) (posOf run e) := by
+    intro x hx
+    obtain ⟨hxa, hxm, -, -⟩ := hEx x hx
+    obtain ⟨px, hpx, hpx1⟩ := hR.getElem?_posOf hxa
+    obtain ⟨c, e, te, pe, -, -, -, hpe, hpe1, hbl, hem, hef, -⟩ :=
+      hS.exists_chain hgd _ _ px (Nat.le_refl _) hpx (hpx1 ▸ hxm)
+    refine ⟨e, hpe1 ▸ hR.agent_mem hpe, hem, hef, ?_⟩
+    rw [← hpe1, hR.posOf_eq hpe]; exact hbl
+  let τ : A → A := fun x => if h : x ∈ E then Classical.choose (hτ x h) else x
+  have hτs : ∀ x (h : x ∈ E), τ x ∈ agents ∧ ¬ s.marked (τ x) ∧ ¬ FrozenAt v agents goods s (τ x) ∧
+      SameBlock v run (posOf run x) (posOf run (τ x)) := fun x h => by
+    simp only [τ, h, ↓reduceDIte]; exact Classical.choose_spec (hτ x h)
+  -- agents are processed at their positions; an agent at most as late as `r`
+  have hposE : ∀ x ∈ E, posOf run x ≤ posOf run r := fun x hx => by
+    obtain ⟨hxa, hxm, -, -⟩ := hEx x hx
+    obtain ⟨px, hpx, hpx1⟩ := hR.getElem?_posOf hxa
+    rw [hposr]; exact (hS.last_block hr hpr hpr1).1 _ px hpx (hpx1 ▸ hxm)
+  -- two leaders whose blocks share a step are equal
+  have hlead : ∀ x ∈ E, ∀ y ∈ E, ∀ t, SameBlock v run (posOf run x) t → SameBlock v run (posOf run y) t → x = y :=
+    fun x hx y hy t hbx hby => by
+      have e := leader_unique (hEx x hx).2.2.2 (hEx y hy).2.2.2 hbx hby
+      obtain ⟨px, hpx, hpx1⟩ := hR.getElem?_posOf (hEx x hx).1
+      obtain ⟨py, hpy, hpy1⟩ := hR.getElem?_posOf (hEx y hy).1
+      rw [e] at hpx; rw [hpx] at hpy; cases hpy; exact hpx1.symm.trans hpy1
+  let inB : A → Prop := fun x => SameBlock v run (posOf run x) (posOf run r)
+  let E' := E.filter (fun x => !decide (inB x))
+  let EB := E.filter (fun x => decide (inB x))
+  have hsplit : E.length = EB.length + E'.length := LB.length_filter_add E _
+  have hE'm : ∀ x ∈ E', x ∈ E ∧ ¬ inB x := fun x hx => by
+    obtain ⟨h1, h2⟩ := List.mem_filter.mp hx; exact ⟨h1, by simpa using h2⟩
+  have hEBm : ∀ x ∈ EB, x ∈ E ∧ inB x := fun x hx => by
+    obtain ⟨h1, h2⟩ := List.mem_filter.mp hx; exact ⟨h1, by simpa using h2⟩
+  -- the terminals of the exposed leaders outside `B*`
+  have hT₀nd : (E'.map τ).Nodup := nodup_map_of_inj (hE.filter _) fun x hx y hy hxy => by
+    have hx' := (hE'm x hx).1
+    have hy' := (hE'm y hy).1
+    exact hlead x hx' y hy' _ (hτs x hx').2.2.2 (hxy ▸ (hτs y hy').2.2.2)
+  have hT₀t : ∀ t ∈ E'.map τ, t ∈ agents ∧ t ≠ r ∧ ¬ s.marked t ∧ ¬ FrozenAt v agents goods s t := by
+    intro t ht
+    obtain ⟨x, hx, rfl⟩ := List.mem_map.mp ht
+    obtain ⟨hxE, hxB⟩ := hE'm x hx
+    obtain ⟨h1, h2, h3, h4⟩ := hτs x hxE
+    exact ⟨h1, fun e => hxB (by show SameBlock v run (posOf run x) (posOf run r); rw [← e]; exact h4), h2, h3⟩
+  -- a terminal in `B*` is none of them
+  have hT₀B : ∀ k ∈ EB, ∀ e, SameBlock v run (posOf run k) (posOf run e) → e ∉ E'.map τ := by
+    intro k hk e hke he
+    obtain ⟨x, hx, rfl⟩ := List.mem_map.mp he
+    obtain ⟨hxE, hxB⟩ := hE'm x hx
+    have := hlead x hxE k (hEBm k hk).1 _ (hτs x hxE).2.2.2 hke
+    subst this; exact hxB (hEBm x hk).2
+  -- `B*` holds at most one exposed leader
+  have hEB1 : EB.length ≤ 1 := by
+    cases hEBc : EB with
+    | nil => simp
+    | cons k rest =>
+      have hk : k ∈ EB := by rw [hEBc]; simp
+      rw [← hEBc]
+      exact LB.length_le_one (hE.filter _) (y := k) fun x hx =>
+        hlead x (hEBm x hx).1 k (hEBm k hk).1 _ (hEBm x hx).2 (hEBm k hk).2
+  cases hEBc : EB with
+  | nil =>
+    rw [hEBc] at hsplit
+    exact Or.inl ⟨E'.map τ, hT₀nd, by simp at hsplit ⊢; omega, hT₀t⟩
+  | cons k rest =>
+    have hk : k ∈ EB := by rw [hEBc]; simp
+    have hlen : E.length = E'.length + 1 := by
+      have : EB.length = 1 := by have := hEB1; rw [hEBc] at this ⊢; simp at this ⊢; omega
+      omega
+    obtain ⟨hkE, hkB⟩ := hEBm k hk
+    obtain ⟨hka, hkm, hkr, hkI⟩ := hEx k hkE
+    -- one more terminal in `B*`, other than `r`, gives `|E|` terminals
+    have hmore : ∀ e, e ∈ agents → e ≠ r → ¬ s.marked e → ¬ FrozenAt v agents goods s e →
+        SameBlock v run (posOf run k) (posOf run e) →
+        ∃ T : List A, T.Nodup ∧ E.length ≤ T.length ∧
+          ∀ t ∈ T, t ∈ agents ∧ t ≠ r ∧ ¬ s.marked t ∧ ¬ FrozenAt v agents goods s t :=
+      fun e hea her hem hef hbe => ⟨e :: E'.map τ, List.nodup_cons.mpr ⟨hT₀B k hk e hbe, hT₀nd⟩,
+        by simp; omega, fun t ht => by
+          rcases List.mem_cons.mp ht with rfl | ht
+          · exact ⟨hea, her, hem, hef⟩
+          · exact hT₀t t ht⟩
+    by_cases hkF : FrozenAt v agents goods s k
+    · by_cases hall : ∀ c e, NeedChain v agents goods s c → c.head? = some k → c.getLast? = some e → e = r
+      · exact Or.inr ⟨k, hkE, hkB, hkF, hall, E'.map τ, hT₀nd, by simp; omega, hT₀t⟩
+      · -- a need chain from `k*` ends at another terminal of `B*`
+        obtain ⟨c, e, hch, hck, hce, her⟩ : ∃ c e, NeedChain v agents goods s c ∧ c.head? = some k ∧
+            c.getLast? = some e ∧ e ≠ r :=
+          Classical.byContradiction fun hno => hall fun c e hch hck hce =>
+            Classical.byContradiction fun her => hno ⟨c, e, hch, hck, hce, her⟩
+        have hec : e ∈ c := List.mem_of_getLast? hce
+        have hef : ¬ FrozenAt v agents goods s e := hch.2.2.2 e hce
+        have hek : e ≠ k := fun h => hef (h ▸ hkF)
+        obtain ⟨i, a, ha, hei⟩ := exists_prev hck hec hek
+        obtain ⟨-, y, -, hN⟩ := hch.2.2.1 i a e ha hei
+        have hem : ¬ s.marked e := fun hm => hS.no_needs hgd hm y hN
+        obtain ⟨pk, hpk, hpk1⟩ := hR.getElem?_posOf hka
+        have hk0 : c[0]? = some pk.1 := by rw [← List.head?_eq_getElem?, hck, hpk1]
+        obtain ⟨te, pe, hpe, hpe1, hbl, -⟩ := hS.chain_pos hgd hch hpk hk0 (i + 1) e hei
+        refine Or.inl (hmore e (hch.2.1 e hec) her hem hef ?_)
+        rw [← hpe1, hR.posOf_eq hpe]; exact hbl
+    · exact Or.inl (hmore k hka hkr hkm hkF (SameBlock.refl _))
+
+/-- **LB⁺'s bad case** at `r` (`k4/c4.md` Theorem A₄, (1)–(3)): an exposed agent `k*` that leads `r`'s block, is not
+`r` and is frozen; every need chain from `k*` ends at `r`; and the sets `π_x = R_x ∩ J` of the exposed agents are
+pairwise disjoint. -/
+def BadCase (v : A → G → Nat) (agents : List A) (goods : List G) (run : List (A × Option G)) (s : LState A G)
+    (r k : A) : Prop :=
+  Exposed v agents goods s r k ∧ FrozenAt v agents goods s k ∧ InsAt v run (posOf run k) ∧
+    SameBlock v run (posOf run k) (posOf run r) ∧
+    (∀ c e, NeedChain v agents goods s c → c.head? = some k → c.getLast? = some e → e = r) ∧
+    ∀ x y g, Exposed v agents goods s r x → Exposed v agents goods s r y → x ≠ y → g ∈ goods →
+      s.base g = none → 0 < v x g → 0 < v y g → False
+
+/-- **Theorem A₄** (`k4/c4.md` §3). After a run of Phase 1 and envy-free upgrades to the fixpoint, if no 4-good agent
+is exposed, then `r` is a valid owner (some completion with owner `r`, the needs of the state, satisfies (OC₄)),
+except possibly in LB⁺'s bad case; in the bad case `k*` has three goods and every good of `R_k*` other than its pick
+is in `W`. The proof is LB⁺'s: every exposed agent is a 3-good leader (Lemma E(i)) with a junk good in `π_x`; the
+terminals of their blocks, one more terminal or a shared good for `k*`, carry a hitting set `H` of the sets `π_x`;
+the completion `placeH` puts `H` into those terminals. -/
+theorem theoremA4 (hS : AfterUp v agents goods run s) (hgd : goods.Nodup) (hag : agents.Nodup)
+    (hs : Strict v agents goods) (hcore : IsCore4 v agents goods) (hr : IsLast run s r)
+    (hno4 : ∀ x, Exposed v agents goods s r x → (relevant v x goods).length ≠ 4) :
+    (∃ X, Completion agents goods s.base (needsOf v goods s) (some r) X ∧ OC v agents goods X (some r)) ∨
+      ∃ k, BadCase v agents goods run s r k ∧ (relevant v k goods).length = 3 ∧
+        ∀ g ∈ goods, 0 < v k g → s.pick k ≠ some g → g ∈ Wl goods s r := by
+  classical
+  let E := agents.filter (fun x => decide (Exposed v agents goods s r x))
+  have hEm : ∀ x, x ∈ E ↔ Exposed v agents goods s r x := fun x => by
+    simp only [E, List.mem_filter, decide_eq_true_eq]; exact ⟨fun h => h.2, fun h => ⟨h.1, h⟩⟩
+  have hEnd : E.Nodup := hag.filter _
+  have h3 : ∀ x, Exposed v agents goods s r x → (relevant v x goods).length = 3 := fun x hx => by
+    have := hcore.2.1 x hx.1; have := hno4 x hx; omega
+  have hEx : ∀ x ∈ E, x ∈ agents ∧ ¬ s.marked x ∧ x ≠ r ∧ InsAt v run (posOf run x) := fun x hx => by
+    have hxE := (hEm x).mp hx
+    obtain ⟨-, -, -, -, hlead⟩ := lemmaE_three hS hgd hs hr hxE (h3 x hxE)
+    obtain ⟨px, hpx, hpx1⟩ := hS.phase.getElem?_posOf hxE.1
+    exact ⟨hxE.1, hxE.2.1, hxE.2.2.1, hlead _ px hpx hpx1⟩
+  -- the completion from a hitting set carried by enough terminals
+  have hdone : ∀ (H : List G) (T : List A), (∀ h ∈ H, h ∈ goods ∧ s.base h = none) → T.Nodup →
+      H.length ≤ T.length → (∀ t ∈ T, t ∈ agents ∧ t ≠ r ∧ ¬ s.marked t ∧ ¬ FrozenAt v agents goods s t) →
+      (∀ x, Exposed v agents goods s r x → ∃ h ∈ H, 0 < v x h) →
+      ∃ X, Completion agents goods s.base (needsOf v goods s) (some r) X ∧ OC v agents goods X (some r) :=
+    fun H T hHJ hT hlen hTt hhit => ⟨placeH s r H T, completion_placeH hS hgd hr hT hlen hTt,
+      oc_placeH hS hgd hs hcore hr (fun h hh => (hHJ h hh).2) (fun h hh => (hHJ h hh).1) hlen
+        (fun t ht => (hTt t ht).2.1) hno4 hhit⟩
+  by_cases hE0 : E = []
+  · -- nobody is exposed
+    refine Or.inl (hdone [] [] (by simp) List.nodup_nil (by simp) (by simp) fun x hx => ?_)
+    have := (hEm x).mpr hx; rw [hE0] at this; simp at this
+  obtain ⟨x₀, hx₀⟩ := List.exists_mem_of_ne_nil E hE0
+  obtain ⟨g₀, -, -, -⟩ := hS.pi_nonempty hgd hs hr ((hEm x₀).mp hx₀) (h3 x₀ ((hEm x₀).mp hx₀))
+  let c : A → G := fun x =>
+    if h : ∃ g, g ∈ goods ∧ s.base g = none ∧ 0 < v x g then Classical.choose h else g₀
+  have hc : ∀ x, Exposed v agents goods s r x → c x ∈ goods ∧ s.base (c x) = none ∧ 0 < v x (c x) := by
+    intro x hx
+    have h := hS.pi_nonempty hgd hs hr hx (h3 x hx)
+    have h' : ∃ g, g ∈ goods ∧ s.base g = none ∧ 0 < v x g := by
+      obtain ⟨g, hg, hb, hp⟩ := h; exact ⟨g, hg, hb, hp⟩
+    simp only [c, h', ↓reduceDIte]
+    exact Classical.choose_spec h'
+  rcases hS.terminals hgd hr hEnd hEx with ⟨T, hT, hlen, hTt⟩ | ⟨k, hkE, hkB, hkF, hall, T, hT, hlen, hTt⟩
+  · -- `|E|` terminals: one good of each `π_x`
+    refine Or.inl (hdone (dedupL (E.map c)) T (fun h hh => ?_) hT ?_ hTt fun x hx => ?_)
+    · obtain ⟨x, hx, rfl⟩ := List.mem_map.mp (mem_dedupL.mp hh)
+      exact ⟨(hc x ((hEm x).mp hx)).1, (hc x ((hEm x).mp hx)).2.1⟩
+    · have := length_dedupL_le (E.map c); simp at this; omega
+    · exact ⟨c x, mem_dedupL.mpr (List.mem_map.mpr ⟨x, (hEm x).mpr hx, rfl⟩), (hc x hx).2.2⟩
+  · by_cases hmeet : ∃ x y g, Exposed v agents goods s r x ∧ Exposed v agents goods s r y ∧ x ≠ y ∧
+        g ∈ goods ∧ s.base g = none ∧ 0 < v x g ∧ 0 < v y g
+    · -- two sets `π_x`, `π_y` meet: one good serves both
+      obtain ⟨x, y, g, hx, hy, hxy, hg, hgb, hgx, hgy⟩ := hmeet
+      let c' : A → G := fun z => if z = x ∨ z = y then g else c z
+      have hc' : ∀ z, Exposed v agents goods s r z → c' z ∈ goods ∧ s.base (c' z) = none ∧ 0 < v z (c' z) := by
+        intro z hz
+        by_cases e : z = x ∨ z = y
+        · simp only [c', e, ↓reduceIte]
+          rcases e with rfl | rfl
+          · exact ⟨hg, hgb, hgx⟩
+          · exact ⟨hg, hgb, hgy⟩
+        · simp only [c', e, ↓reduceIte]; exact hc z hz
+      have hnd : ¬ (E.map c').Nodup := fun hnd => hxy (eq_of_mem_of_nodup_map hnd ((hEm x).mpr hx)
+        ((hEm y).mpr hy) (by simp [c']))
+      refine Or.inl (hdone (dedupL (E.map c')) T (fun h hh => ?_) hT ?_ hTt fun z hz => ?_)
+      · obtain ⟨z, hz, rfl⟩ := List.mem_map.mp (mem_dedupL.mp hh)
+        exact ⟨(hc' z ((hEm z).mp hz)).1, (hc' z ((hEm z).mp hz)).2.1⟩
+      · have := length_dedupL_lt hnd; simp at this; omega
+      · exact ⟨c' z, mem_dedupL.mpr (List.mem_map.mpr ⟨z, (hEm z).mpr hz, rfl⟩), (hc' z hz).2.2⟩
+    · -- LB⁺'s bad case
+      have hkX := (hEm k).mp hkE
+      obtain ⟨y, hy, htop, -, -⟩ := lemmaE_three hS hgd hs hr hkX (h3 k hkX)
+      refine Or.inr ⟨k, ⟨hkX, hkF, (hEx k hkE).2.2.2, hkB, hall, fun x y g hx hy hxy hg hgb hgx hgy =>
+        hmeet ⟨x, y, g, hx, hy, hxy, hg, hgb, hgx, hgy⟩⟩, h3 k hkX, fun g hg hpos hpk => ?_⟩
+      exact (htop g hg hpos fun e => hpk (by rw [hy, e])).1
+
+/-- **Theorem A₄ for LB₄ʳ's owner step**: with `ω ≥ 1`, outside LB⁺'s bad case the owner step of LB₄ʳ has an output
+with owner `r` (`Output`, the owner's needs from its bundle). -/
+theorem theoremA4_output (hS : AfterUp v agents goods run s) (hgd : goods.Nodup) (hag : agents.Nodup)
+    (hs : Strict v agents goods) (hcore : IsCore4 v agents goods) (hr : IsLast run s r)
+    (hno4 : ∀ x, Exposed v agents goods s r x → (relevant v x goods).length ≠ 4)
+    (hω : 1 ≤ omega v agents goods s) :
+    (∃ X, Output v agents goods s (some r) X) ∨ ∃ k, BadCase v agents goods run s r k := by
+  rcases theoremA4 hS hgd hag hs hcore hr hno4 with ⟨X, hC, hOC⟩ | ⟨k, hk, -⟩
+  · refine Or.inl ⟨X, hC.toOwnerNeeds ((hS.inv hgd).needs), hOC, fun _ => ?_⟩
+    constructor
+    · intro h; cases h
+    · intro h; omega
+  · exact Or.inr ⟨k, hk⟩
+
+
+end theoremA
+
 end LB4R
 end EFX
 
@@ -985,3 +1520,9 @@ end EFX
 #print axioms EFX.LB4R.rotate_exposed_chain
 #print axioms EFX.LB4R.rotate_last_not_exposed
 #print axioms EFX.LB4R.theoremB4
+#print axioms EFX.LB4R.completion_placeH
+#print axioms EFX.LB4R.oc_placeH
+#print axioms EFX.LB4R.AfterUp.pi_nonempty
+#print axioms EFX.LB4R.AfterUp.terminals
+#print axioms EFX.LB4R.theoremA4
+#print axioms EFX.LB4R.theoremA4_output
