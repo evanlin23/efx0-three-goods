@@ -33,7 +33,8 @@ complete EFX₀ allocation.
   giving goods that everyone values at 0 to an arbitrary agent. That last step can break EFX₀, so the result
   does not give TARGET₄. The text is a 3-page abstract with a proof sketch only, and `proofs/citations.md` does
   not record which valuation class the theorem assumes (PROMPT.md §2 reads it as additive) [valuation class
-  unverified]. L1 does not transfer it to EFX₀: L1 is about classes fixed by (n, m), and perturbing zero values
+  unverified]. `proofs/citations.md` re-checked it: no full version, and no citing paper found. Its Phase I is the
+  same idea as peeling rule R1. L1 does not transfer it to EFX₀: L1 is about classes fixed by (n, m), and perturbing zero values
   leaves the 4-limited class.
 - **Pieces of TARGET₄ that follow from papers read in full** (each through the k = 4 core reduction of §2):
   - Mahara, arXiv 2107.09901, Theorem 3: EFX₀ for general monotone valuations when m ≤ n + 3. This covers every
@@ -44,6 +45,11 @@ complete EFX₀ allocation.
   - Lianeas–Sgouritsa–Sotiriou, arXiv 2608.03171: EFX on hypergraphs of girth ≥ 4, general monotone valuations.
     `proofs/citations.md` does not record whether this is EFX or EFX₀ [notion unverified here].
   - Chaudhury–Garg–Mehlhorn (three additive agents): [unverified]. With L1 it would give EFX₀ for n = 3.
+  - Christodoulou–Fiat–Koutsoupias–Sgouritsa ("EFX Allocations on Graphs", read per `proofs/citations.md`): EFX₀
+    on simple graphs, monotone valuations. It is subsumed, for additive valuations, by the multigraph theorem.
+  - Bratby, Zenodo preprint 2026 (`proofs/citations.md`: **unrefereed, AI-generated proof, 149 pages not read**)
+    *claims* EFX₀ for every additive instance with m = n + 4. If correct, it would extend Mahara's range to k = 4
+    cores with m ≤ n + 4. Not used here.
 - **This repository:** TARGET (k = 3) is proved, and covers every k = 4 instance whose core (§2) has only agents
   with 3 relevant goods.
 - So, as far as the papers read go, **EFX₀ for k = 4 is open**. The read papers cover only the special cases
