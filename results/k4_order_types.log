@@ -1,0 +1,28 @@
+k=3: rays 10 (max coordinate 2); faces in the open orthant: grid [1,6]^3 = ray sums = grid [1,12]^3: 31
+  labeled types: all 31, strict 12, balanced 13, balanced strict 6
+  up to permuting goods: all 8, strict 2, balanced 4, balanced strict 1
+  strict with v_0 > ... > v_2: 2 (1 balanced); largest coordinate of a smallest representative: all 4, balanced strict 4
+k=4: rays 101 (max coordinate 4); faces in the open orthant: grid [1,16]^4 = ray sums = grid [1,20]^4: 1519
+  labeled types: all 1519, strict 336, balanced 1271, balanced strict 288
+  up to permuting goods: all 88, strict 14, balanced 72, balanced strict 12
+  strict with v_0 > ... > v_3: 14 (12 balanced); largest coordinate of a smallest representative: all 10, balanced strict 10
+  the balanced strict types with v_0 > v_1 > v_2 > v_3 (smallest reps; a, b, c, d = goods 0..3):
+    (7, 6, 5, 3): d < c < b < a < cd < bd < ad < bc < ac < ab < bcd < acd < abd < abc < abcd
+    (8, 4, 3, 2): d < c < b < cd < bd < bc < a < bcd < ad < ac < ab < acd < abd < abc < abcd
+    (8, 5, 4, 2): d < c < b < cd < bd < a < bc < ad < bcd < ac < ab < acd < abd < abc < abcd
+    (8, 6, 4, 1): d < c < cd < b < bd < a < ad < bc < bcd < ac < acd < ab < abd < abc < abcd
+    (8, 6, 4, 3): d < c < b < cd < a < bd < bc < ad < ac < bcd < ab < acd < abd < abc < abcd
+    (8, 6, 5, 4): d < c < b < a < cd < bd < bc < ad < ac < ab < bcd < acd < abd < abc < abcd
+    (8, 7, 4, 2): d < c < cd < b < a < bd < ad < bc < ac < bcd < acd < ab < abd < abc < abcd
+    (10, 6, 3, 2): d < c < cd < b < bd < bc < a < bcd < ad < ac < acd < ab < abd < abc < abcd
+    (10, 7, 4, 2): d < c < cd < b < bd < a < bc < ad < bcd < ac < acd < ab < abd < abc < abcd
+    (10, 7, 6, 2): d < c < b < cd < bd < a < ad < bc < bcd < ac < ab < acd < abd < abc < abcd
+    (10, 8, 4, 3): d < c < cd < b < a < bd < bc < ad < ac < bcd < acd < ab < abd < abc < abcd
+    (10, 8, 6, 3): d < c < b < cd < a < bd < ad < bc < ac < bcd < ab < acd < abd < abc < abcd
+wrote k4/order_types.json
+
+real	2m6.259s
+user	2m5.393s
+sys	0m0.008s
+
+[exited with code 0]
