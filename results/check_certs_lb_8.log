@@ -31,3 +31,7 @@ problems: 0
 exit=0  [7s]
 
 $ python tools/check_certs.py results/certs_lb_8_14.json.gz --expect 8:14:1232 --require-d --jobs 2
+checked 2870 hypergraphs {(8, 13): 2870}, models {'LB': 2870}; problems: 0
+exit=0  [3851s]
+checked 1232 hypergraphs {(8, 14): 1232}, models {'LB': 1232}; problems: 0
+exit=0  [1547s]
