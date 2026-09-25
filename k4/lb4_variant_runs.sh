@@ -1,6 +1,8 @@
 #!/bin/sh
-# Every count quoted for the rejected LB4 variants (attempts/lb4-*.md, k4/lb4.md §3), with the exact options of
+# The counts quoted for the rejected LB4 variants (attempts/lb4-*.md, k4/lb4.md §3), with the exact options of
 # k4/lb4.c. Output: results/k4_lb4_variants.log (each block starts with the command line, printed by lb4_run.py).
+# Not here, each in its own log with its command line: -i8 (results/k4_lb4_i8.log), -i9 (results/k4_lb4_i9_run.log),
+# and nested rotations beyond n = 3 (results/k4_lb4_nested_n4.log, _pure4.log, _n5.log, _every.log).
 # Usage (from the repository root): sh k4/lb4_variant_runs.sh > results/k4_lb4_variants.log 2>&1      (~1 h, 4 CPUs)
 R=results
 run() { python3 k4/lb4_run.py "$@" --show=3; }

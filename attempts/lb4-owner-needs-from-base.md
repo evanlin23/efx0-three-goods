@@ -4,7 +4,7 @@
 insertion sequence, every upgrade policy, every owner and completion, one rotation (`k4/lb4.c -i2 -u3 -r1 -w0`).
 
 **Where it breaks.** Nowhere for n ≤ 3 and nowhere with n = 4 and at most three 4-good agents. On the pure n = 4
-cores it fails in 13 of 219 (5,040 of 1.02·10¹² profiles), at m = 8 and 9.
+cores it fails in 13 of 219 (5,040 of 1.02·10¹² profiles), the smallest at m = 8 (`results/k4_lb4_variants.log`, which lists the first three failing cores).
 
 **Smallest failing configuration** (n = 4, m = 8). Agents 0 = {0, 2, 4, 6}, 1 = {0, 2, 5, 6}, 2 = {1, 3, 4, 7},
 3 = {1, 3, 5, 7}, all with values (2, 3, 8, 4) on their goods in that order, i.e. type (8, 4, 3, 2) (a > b + c).

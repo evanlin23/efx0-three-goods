@@ -6,7 +6,7 @@ enough, whatever the earlier insertion choices, to choose the leader of the last
 on the run, or on the run with the last block's leader replaced by another agent of that block, succeeds
 (`k4/lb4.c -i9 -u1 -r1 -w1 -c1`: every insertion sequence τ, and for each, LB₄ᴸ(τ) of `k4/lb4.md` §2).
 
-The weaker, polynomial form fixes the insertion order: LB₄ᴸ(index order), at most n runs of Phase 1
+The weaker form fixes the insertion order: LB₄ᴸ(index order), at most n runs of Phase 1
 (`k4/lb4.c -i8 -u1 -r1 -w1 -c1`).
 
 **Evidence for it.** Every run of Phase 1 (`-i9`): every core with n ≤ 3 (strict and ties), n = 4 with at most two

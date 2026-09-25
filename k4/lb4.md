@@ -120,7 +120,7 @@ every other agent at most 2 − |base| slot goods. So every bundle other than th
 Theorem 1′₄ every allocation LB₄ returns is EFX₀ with at most one bundle of more than 2 goods.
 
 **Implementation.** The text fixes which configurations are tried, hence whether LB₄ succeeds. `k4/lb4.c` with options
-`-i2 -u1 -r1 -w1 -c1` implements it, with these orders where the text leaves a choice: the sets C (and O) of one size
+`-i2 -u1 -r1 -w1 -c1` implements it (except for the rotated agent, see Rotation), with these orders where the text leaves a choice: the sets C (and O) of one size
 in decreasing order of their bit masks over the goods; chain successors in index order; protecting goods matched to
 agents by augmenting paths, goods in index order; the other slot goods to agents in index order. These fix the
 allocation returned (and the "largest bundle" column of §4).
@@ -187,7 +187,8 @@ If the result is valid (checked), run the owner step on it: with owner k when |O
 (V2) is required of O even when |O| = 1, so it is never frozen, and it has no slot when ω and s₀ are computed; the owner
 test with the owner's needs from its bundle recomputes the slots of the other agents and then gives a one-good O one
 slot. The text's rule (cap(k) = 2 − |O|, (V2) only for |O| ≥ 2) would try more configurations; the evidence of §4 is
-for the code's rule, a subset. At k = 3 LB⁺'s rotation is the case k = k*, x_t = r,
+for the code's rule, a subset up to Lemma 3₄ (for |O| = 1 the code also tries one smaller size of C for the other
+owners). At k = 3 LB⁺'s rotation is the case k = k*, x_t = r,
 O = {b_k, c_k}.
 
 **Search.** Try the insertion sequences τ in lexicographic order; for each, Phase 1, upgrades, owner step, rotation.
@@ -196,7 +197,7 @@ Return the first allocation found. LB₄ *fails* if no τ gives one.
 **LB₄ᴸ: searching only the last block's leader.** For an insertion sequence τ, let LB₄ᴸ(τ) run LB₄'s steps on τ,
 and if that fails, on τ with the leader of its *last* block replaced by each other agent of that block in turn (index
 order; later insertion steps, if the new block does not absorb every remaining agent, take the first agent). This is
-at most n runs of Phase 1. `-i8` is LB₄ᴸ(index order), a polynomial construction; `-i9` tests LB₄ᴸ(τ) for every τ.
+at most n runs of Phase 1. `-i8` is LB₄ᴸ(index order), with at most n runs of Phase 1; `-i9` tests LB₄ᴸ(τ) for every τ.
 Both fail at n = 4 (§3): LB₄ᴸ(τ) for some τ when three agents have 4 goods, and LB₄ᴸ(index order) on 4 pure cores.
 So LB₄ keeps the search over all insertion sequences.
 
@@ -215,7 +216,7 @@ the construction that fails, not K4.D. One file each in `attempts/`, reproduced 
 | index insertion, one rotation, every upgrade policy | n = 3, m = 6 | `attempts/lb4-fixed-insertion.md` |
 | the owner's needs from its base, as at k = 3 (everything else searched) | n = 4, m = 8 (pure) | `attempts/lb4-owner-needs-from-base.md` |
 | only the last block's leader searched, for every run of Phase 1 (LB₄ᴸ(τ) for all τ) | n = 4, m = 8, three 4-good agents (smallest found: pure n = 4 not run) | `attempts/lb4-last-block-leader.md` |
-| only the last block's leader searched, for the index run (LB₄ᴸ(index), polynomial) | pure n = 4, m = 8 | `attempts/lb4-last-block-leader.md` |
+| only the last block's leader searched, for the index run (LB₄ᴸ(index), at most n runs of Phase 1) | pure n = 4, m = 8 | `attempts/lb4-last-block-leader.md` |
 
 What each failure shows:
 1. *Upgrades can hurt* (n = 2): the k = 4 pair {b, c} is not always envy-free, so an upgraded agent can be threatened
@@ -239,7 +240,7 @@ What each failure shows:
    the last block, fails for some run of Phase 1 (smallest found: n = 4, m = 8, three 4-good agents, the run
    τ = (1, 0); `results/k4_lb4_i9_run.log`), and for the index run on 4 pure cores (119,200 profiles,
    `results/k4_lb4_i8.log`). In both smallest cases the run's last block
-   is one agent, and the first block's leader must change. The polynomial LB₄ᴸ(index order) holds for n ≤ 3 (with
+   is one agent, and the first block's leader must change. LB₄ᴸ(index order) (at most n runs of Phase 1) holds for n ≤ 3 (with
    ties), n = 4 with at most three 4-good agents, and n = 5 with at most two.
 
 ## 4. Exhaustive tests
@@ -316,11 +317,35 @@ counting pairs every exposed agent with a terminal of its own block, and needs o
    than the last block's leader, or use a move that lets an agent go below its pick (two rotations in a row can).
 
 **A lead: nested rotations with any insertion order.** With every upgrade policy and up to three rotations in a row
-(`-u3 -r3 -w1 -c1`), a fixed insertion order suffices on the data: index insertion never fails on any certified core
-(n ≤ 4, and n = 5 with at most two 4-good agents; 1.14·10¹² profiles; `results/k4_lb4_nested_n5.log` for n = 5), and on n ≤ 3 and on n = 4 with at most three 4-good agents no run of Phase 1 fails, whatever
-its insertion order (`-i1`, 2.1·10¹¹ run–profile pairs; pure n = 4 not run for every order; `results/k4_lb4_nested_every.log`, `results/k4_lb4_nested_n4.log`, `results/k4_lb4_nested_pure4.log`). That is the
-shape of LB⁺'s Theorem C (every run of Phase 1 works, after upgrades and rotations), with up to three rotations instead
-of one; it may be a better proof target than LB₄'s search over insertion sequences.
+(LB₄ʳ below), a fixed insertion order suffices on the data. Index insertion never fails on any certified core (n ≤ 4,
+and n = 5 with at most two 4-good agents; 1.14·10¹² profiles; `results/k4_lb4_variants.log` for n ≤ 3,
+`results/k4_lb4_nested_n4.log`, `results/k4_lb4_nested_pure4.log`, `results/k4_lb4_nested_n5.log`). On n ≤ 3 and on
+n = 4 with at most three 4-good agents no run of Phase 1 fails, whatever its insertion order (2.1·10¹¹ run–profile
+pairs, `results/k4_lb4_nested_every.log`; pure n = 4 and n = 5 not run for every order). That is the shape of LB⁺'s
+Theorem C (every run of Phase 1 works, after upgrades and rotations), with up to three rotations instead of one; it may
+be a better proof target than LB₄'s search over insertion sequences.
+
+**LB₄ʳ(τ), precisely** (`k4/lb4.c -u3 -r3 -w1 -c1`, with `-i0` for τ = index order and `-i1` for every τ). Run
+Phase 1 with the insertion sequence τ. Then try the three upgrade policies in turn, each from the Phase 1 state:
+need-shrinking upgrades (LB₄'s rule), envy-free upgrades only (the same scan, but a pair {Y_k, g} is taken only if
+v_k(Y_k) + v_k(g) ≥ v_k(R_k ∖ {Y_k, g})), and no upgrades. For each, run LB₄'s owner step, and if it fails the rotation
+search R(1), where R(d) is:
+- try every frozen agent k of the current state (latest-processed first), every need chain k = x₀, x₁, …, x_t of
+  distinct agents with x₁, …, x_{t−1} frozen, Y_{x_{i−1}} ∈ N_{x_i}, and x_t not frozen, and every nonempty
+  O ⊆ R_k ∩ (J ∪ B_{x_t}) (pairs, triples, single goods, quadruples). The chain end x_t may have a base of at most one
+  good, be upgraded, or be an agent rotated earlier (marked upgraded, with the value-based needs of its base O′); an
+  upgraded or rotated end releases its whole base to the junk and takes Y_{x_{t−1}} as a pick. Rotated agents are
+  never frozen, so they are never a chain's start or middle;
+- apply the rotation as in LB₄ (§2): k is marked upgraded with base O, even when |O| = 1;
+- the result must satisfy (V1), and (V2) for every agent marked upgraded, and at most one base may have three or more
+  goods; otherwise it is discarded;
+- if one base has three or more goods, its agent is the owner and only it is tried; otherwise the owner step runs as
+  after LB₄'s rotation (without an owner if ω ≤ 0, else owner k, then the other free agents in index order);
+- if that fails and d < 3, run R(d + 1) from this state.
+
+The first allocation found is returned; LB₄ʳ(τ) fails if no policy gives one. Every base of three or more goods is the
+owner's, so by Theorem 1′₄ every output is EFX₀ with at most one bundle of more than two goods; `lb4.c` also checks
+each against the raw definition. The rotation depth is reset for every profile.
 
 **The gap, precisely.** By Theorem 1′₄, K4.D follows from
 - **Conjecture K4.LB4.** For every k = 4 core and every strict profile, LB₄ does not fail: some insertion sequence

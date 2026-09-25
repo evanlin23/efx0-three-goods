@@ -18,6 +18,9 @@ VARIANTS = {
                                'the same with envy-free upgrades only (SCOUT §5\'s rule)'),
     'no-rotation': ('-i2 -u3 -r0 -w1', (5, [[0, 1, 3, 4], [2, 3, 4], [2, 3, 4]]),
                     'every insertion sequence, every upgrade policy, every owner, owner needs from its bundle; no rotation'),
+    'fixed-insertion-lb4-steps': ('-i0 -u1 -r1 -w1 -c1', (5, [[0, 2, 3, 4], [1, 2, 3, 4]]),
+                                  'index insertion with LB4\'s other steps (need-shrinking upgrades, every owner, '
+                                  'one rotation, chains may end at upgraded agents, owner needs from its bundle)'),
     'fixed-insertion': ('-i0 -u3 -r1 -w1 -c1', (6, [[0, 2, 4, 5], [1, 3, 5], [2, 3, 4, 5]]),
                         'index insertion; every upgrade policy, every owner, one rotation (chains may end at '
                         'upgraded agents), owner needs from its bundle'),

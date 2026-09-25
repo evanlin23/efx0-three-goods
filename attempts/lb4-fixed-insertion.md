@@ -18,14 +18,21 @@ them also fails in 1 of the 5 cores with n = 2 (300 profiles), and at n = 3:
 
 With every upgrade policy, `-i7 -u3 -r1 -w1 -c1` fails nowhere at n ≤ 3. Log: `results/k4_lb4_variants.log`.
 
-**Nested rotations repair it at n ≤ 3, with every upgrade policy.** With up to two or three rotations in a row and
-every upgrade policy, index insertion fails nowhere at n ≤ 3 (`-i0 -u3 -r2 -w1 -c1`, `-i0 -u3 -r3 -w1 -c1`; lazy
-branching and brute force agree, `k4/test_lb4.py`). With LB₄'s single upgrade policy it still fails
+**Nested rotations repair it, with every upgrade policy.** With up to two or three rotations in a row and every
+upgrade policy, index insertion fails nowhere at n ≤ 3 (`-i0 -u3 -r2 -w1 -c1`, `-i0 -u3 -r3 -w1 -c1`; for `-r3`, lazy
+branching and brute force agree, `k4/test_lb4.py`), and with `-r3` on no certified core (n ≤ 4, and n = 5 with at most
+two 4-good agents; `results/k4_lb4_nested_n4.log`, `results/k4_lb4_nested_pure4.log`, `results/k4_lb4_nested_n5.log`). With LB₄'s single upgrade policy it still fails
 (`-i0 -u1 -r3 -w1 -c1`: 1 core with n = 2, 300 profiles; 14 cores with n = 3, 147,240 profiles). Same log. An earlier version of this file claimed the opposite; that came from a bug in `lb4.c`
 (the rotation depth was not reset after a type split, and after two rotations a base of three goods could be left
 outside the owner's bundle), fixed in the commit that added this paragraph.
 
-**Smallest failing configuration** (n = 3, m = 6, `-i0 -u3 -r1 -w1 -c1`). Agents 0 = {0, 2, 4, 5}, 1 = {1, 3, 5}
+**Smallest failing configuration with LB₄'s single upgrade policy** (n = 2, m = 5, `-i0 -u1 -r1 -w1 -c1`; the other
+fixed rules fail on the same core). Agents 0 = {0, 2, 3, 4} and 1 = {1, 2, 3, 4}, values 0: (1, 4, 6, 8) and
+1: (2, 4, 5, 8), the configuration of `attempts/lb4-lbplus-shape.md`: agent 0 takes 4, agent 1 takes 3 and its upgrade
+{3, 2} removes its need, no agent is frozen, and neither owner works. Brute force: {0, 2, 3} | {1, 4} and
+{2, 3} | {0, 1, 4}.
+
+**Smallest failing configuration with every upgrade policy** (n = 3, m = 6, `-i0 -u3 -r1 -w1 -c1`). Agents 0 = {0, 2, 4, 5}, 1 = {1, 3, 5}
 (3 goods), 2 = {2, 3, 4, 5}; values 0: (1, 4, 6, 8), 1: (2, 4, 3), 2: (2, 8, 3, 4). Rankings 0: 5 > 4 > 2 > 0,
 1: 3 > 5 > 1, 2: 3 > 5 > 4 > 2. Every EFX₀ allocation with at most one large bundle gives agent 2 its top 3, agent 1
 its second good 5, and agent 0 {2, 4} (brute force). By index: agent 0 takes 5, agent 1 (lost its second good) takes
@@ -39,7 +46,7 @@ brute-force solutions. The second rotation moves agent 1 back up from 1 to 5, be
 sequence also works (`-i2` succeeds on every profile of this core).
 
 So with one rotation the insertion order matters at k = 4, unlike Theorem C at k = 3. With nested rotations and every
-upgrade policy this is not established: index insertion with `-u3 -r3 -w1 -c1` passes every core with n ≤ 4
-(`results/k4_lb4_nested_n4.log`, `results/k4_lb4_nested_pure4.log`: 1.02·10¹² pure n = 4 profiles, 0 failures).
+upgrade policy this is not established: index insertion with `-u3 -r3 -w1 -c1` passes every certified core
+(1.14·10¹² profiles, 0 failures; the logs above).
 
-Reproduce: `python attempts/lb4_variants.py fixed-insertion`.
+Reproduce: `python attempts/lb4_variants.py fixed-insertion-lb4-steps fixed-insertion`.
