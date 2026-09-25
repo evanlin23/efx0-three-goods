@@ -162,6 +162,14 @@ bottom good: a **label collision**. At T ≤ 1 heavy moves are forced only by t 
 successor wants their top, and a heavy agent forces its predecessor. So each maximal heavy run starts, going backwards,
 at an e2 agent. A collision is two such runs whose e2 starts share their bottom good.
 
+**Corollary H0′ (frozen agents that nobody exposes).** The proof of (a) uses only that every exposed agent is free.
+Let P ∈ 𝒫 be Pareto-maximal with ω ≥ 1, and suppose no frozen agent is exposed with respect to any free agent.
+- If some free agent has an empty base, it is a removal-only owner. Its W_o = J exposes no free agent: e1 and e3
+  need a pair B_o, and e2 needs a_x ∈ B_o.
+- Otherwise, if at least two free agents hold one good each, some agent is a removal-only owner.
+
+The count is that of (a), over the free agents, with T the number of free one-good holders and S = T.
+
 ### 3.2 The collision occurs: the gap is real
 
 `k4/hall_instances/cyc6.inst`, a pure core, n = 6, m = 15. The agents and their values (good:value) are:
@@ -195,7 +203,29 @@ profile still satisfies C₄ᵐⁱⁿ: 55 of the 56 Pareto-maxima without frozen
 - Theorem H0 (a) and Lemma H5 prove: if a profile has a Pareto-maximal P ∈ 𝒫 with no frozen agent, ω ≥ 1 and either
   T ≥ 2, or T ≤ 1 without a label collision on some π-cycle, then P is completable. If ω ≤ 0, P is completable without
   an owner. In both cases the fewest frozen agents is 0 and P has deficit ≤ 0, so C₄ᵐⁱⁿ holds on that profile.
-- Not proved: the collision case, and anything with frozen agents.
+- Not proved: the collision case, and anything with frozen agents (Corollary H0′ aside).
+
+**Proposition HT (the cores H_t of `k4/c4.md` §7).** For every t ≥ 1, the profile H_t has a removal-only completable
+pre-allocation without frozen agents. H_t is the family on which LB₄ʳ needs ⌈2t/3⌉ rotations.
+
+The pre-allocation P_t (all bases need-free, hence valid with NA = ∅) is:
+- ℓ holds {g_1, z}, worth 14, more than every other good of ℓ;
+- x_{j,1} holds {b_{j,1}, c_{j,1}} (10 > 8);
+- x_{j,2} holds {a_{j,2}, b_{j,2}} and x_{j,3} holds {a_{j,3}, b_{j,3}};
+- every y_j holds its top {a_{j,1}}.
+
+The junk is u, u′, the c_{j,2}, c_{j,3} and g_2, …, g_t. So |J| = 3t + 1, S = t (the y_j), and ω = 2t + 1.
+
+With owner y_1, the set W = {a_{1,1}} ∪ J threatens nobody:
+- ℓ values u, u′ in W (9 < 14);
+- x_{j,1} values at most one good of W (g_j, or a_{1,1} for j = 1; 3 or 8 < 10);
+- x_{j,2} and x_{j,3} value c and g_j in W (7 < 14);
+- y_j (j ≥ 2) values at most g_{j+1} in W (its other a's are in the x's bases, and z is ℓ's).
+
+So any t − 1 junk goods may go to the slots of y_2, …, y_t, and y_1 takes the rest (2t + 3 goods). `k4/hall_ht.py`
+re-checks the allocation against the raw EFX₀ definition for t ≤ 12. `k4/c4.md` §7 already gives an EFX₀ allocation of H_t
+with ℓ the owner (checked for t ≤ 8). The point here is that H_t is in the easy regime of this file: no frozen agent is
+needed.
 
 ### 3.4 Closing the collision (open)
 
@@ -216,7 +246,28 @@ every profile with n = 2 and on 5,100 random profiles with n = 3 (`results/k4_ha
 an independent plain-Python checker for single pre-allocations: it tries every completion and re-checks the raw
 EFX₀ definition. `k4/hall_random.py` generates random instances that are not cores.
 
-(Table filled in from `results/k4_hall_n3.log` and the sample logs when the runs finish.)
+**Exhaustive, n ≤ 3** (every strict profile of every k = 4 core with n = 2, 3; `results/k4_hall_n3.log`,
+`k4/hall.c -P -G`). The cross-checked quantities also reproduce `k4/c4x.c`'s: C₄ᵐⁱⁿ holds on all 189,216 + 299,837,376
+profiles.
+
+| n | profiles with a pre-allocation without frozen agents | their Pareto-maxima (ω ≥ 1 or not) | every one completable | F0 checks at the maxima with ω ≥ 1 |
+|---|---|---|---|---|
+| 2 | 187,920 of 189,216 | 334,156 | yes (187,920 profiles) | 172,108 maxima: Lemma U, U₂, H3 shapes, criterion H4: 0 violations; no maximum without a valid owner |
+| 3 | 283,959,584 of 299,837,376 | 786,313,328 | yes (283,959,584 profiles) | 287,013,316 maxima: 0 violations; no maximum without a valid owner |
+
+**Lemma H5, directly** (`-G`): every pre-allocation (not only the Pareto-maxima) without frozen agents, with ω ≥ 1, that
+satisfies (U) and (U₂) and has no removal-only owner. There are 5,720 of them at n = 2 and 187,280 at n = 3, each with
+the exposure relation a permutation and T ≤ 1 (Theorem H0 (b)). The rotation rule of §3.1 gives a valid
+Pareto-improvement for every one of them (0 failures, 0 label collisions). So the collision needs more agents; cyc6 has
+six.
+
+With frozen agents (the same run), the Pareto-maxima inside the min-frozen set are not always completable, as known from
+`k4/c4x.md` §5:
+- F = 1: 15,414,020 profiles, 292,512 of them with a non-completable maximum, 128 with none completable;
+- F = 2: 463,772 profiles, 27,612 with a non-completable maximum, 0 with none completable.
+
+§5 has the structure of these failures, and `results/k4_hall_n3_pareto.log` the counters of Lemmas H6, H7 and conjecture
+BT on the same profiles.
 
 ## 5. With frozen agents: what survives, and where k = 4 breaks
 
