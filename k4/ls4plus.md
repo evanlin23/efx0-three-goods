@@ -101,9 +101,9 @@ Only the maxima with a nonempty pool test GM₄: a maximum whose pool is empty i
 | n = 2 | 189,216 | exhaustive | 236,176 | 2,286 (1.0%) | 0 / 2,286 / 0 / 0 | 0 | `results/k4_gm_2.log` |
 | n = 3 | 1,020,000 | 20,000 random per core | 1,323,209 | 65,912 (5.0%) | 0 / 65,912 / 0 / 0 | 0 | `results/k4_gm_3_sample.log` |
 | n = 4, one to three 4-good agents | 1,566,000 | 2,000 random per core | 2,174,535 | 175,167 (8.1%) | 6,716 / 168,451 / 0 / 0 | 0 | `results/k4_gm_4_mixed_sample.log` |
-| n = 4, pure | 4,380,000 | 20,000 random per core | PUREMAX | PUREPOOL | PURECASES | PUREFAIL | `results/k4_gm_4_pure_sample.log` |
+| n = 4, pure | 4,380,000 | 20,000 random per core | 6,226,242 | 258,916 (4.2%) | 0 / 258,916 / 0 / 0 | 0 | `results/k4_gm_4_pure_sample.log` |
 
-So TOTALPOOL maxima actually test GM₄, and every one of them was placed by the empty-bundle dump (a) or a single dump (b). The split (c) and the exact search (d) were never needed at a maximum. This supports a sharper conjecture, which may be easier to prove:
+So 502,281 maxima actually test GM₄, and every one of them was placed by the empty-bundle dump (a) or a single dump (b). The split (c) and the exact search (d) were never needed at a maximum. This supports a sharper conjecture, which may be easier to prove:
 
 **Conjecture GM₄ˢ.** Every maximum of Σℓ (as in GM₄) with a nonempty pool has an empty bundle or a source that can take the whole pool (LS4's Phase 2 (a) or (b)).
 
