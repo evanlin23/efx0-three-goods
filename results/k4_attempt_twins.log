@@ -1,4 +1,10 @@
 $ cd k4 && python3 mincex_attempts.py twins
+  gadget search: 43 menu valuations of h on ['G1', 'G2', "z'"]; 26 of 36 profiles reduced (0.1 s)
+    h = {'G1': 2, 'G2': 4, "z'": 1} reduces 6
+    h = {'G1': 4, 'G2': 2, "z'": 1} reduces 6
+    h = {'G1': 0, 'G2': 2, "z'": 1} reduces 5
+    h = {'G1': 2, 'G2': 0, "z'": 1} reduces 5
+    h = {'G1': 2, 'G2': 2, "z'": 3} reduces 4
 twin P3 agents on (G1, G2, p): 26 of 36 profiles reduced (DEL and one-agent gadgets h on G1, G2, z')
   not reduced: {'e': {'G1': 4, 'G2': 3, 'pe': 2}, 'f': {'G1': 4, 'G2': 3, 'pf': 2}}
   not reduced: {'e': {'G1': 4, 'G2': 3, 'pe': 2}, 'f': {'G1': 3, 'G2': 4, 'pf': 2}}

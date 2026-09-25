@@ -68,6 +68,7 @@ def valid_and_distinct(n, mp, E, g6s):
         if G.number_of_nodes() != n + mp or G.number_of_edges() != E or not nx.is_connected(G): return False
         if any(not 2 <= G.degree(a) <= 4 or any(b < n for b in G[a]) for a in range(n)): return False
         if any(G.degree(g) < 2 for g in range(n, n + mp)): return False
+        if sum(G.degree(a) for a in range(n)) != E: return False          # every edge has an agent end: no good-good edge
     out = subprocess.run([LABELG, '-q'], input='\n'.join(marked(n, mp, g) for g in g6s) + '\n', capture_output=True,
                          text=True).stdout.split()
     return len(out) == len(g6s) == len(set(out))

@@ -309,8 +309,8 @@ K4.MC6), using that published theorem for these 6 cores and nothing else externa
 The 6 cores (n = 6, m = 15, six P4 agents; agent i's goods, goods 9–14 private, every other good of degree 2), in the
 order of `results/k4_check_min_cex_cores_4.log`:
 1. [[0, 1, 2, 9], [0, 4, 8, 10], [1, 5, 7, 11], [2, 6, 8, 12], [3, 4, 6, 13], [3, 5, 7, 14]]; double edges (agents sharing two goods): (2,5)
-2. [[0, 1, 6, 9], [0, 4, 7, 10], [1, 4, 7, 11], [2, 3, 6, 12], [2, 5, 8, 13], [3, 5, 8, 14]]; double edges (agents sharing two goods): (1,2), (4,5)
-3. [[0, 1, 2, 9], [0, 2, 8, 10], [1, 4, 7, 11], [3, 5, 6, 12], [3, 6, 8, 13], [4, 5, 7, 14]]; double edges (agents sharing two goods): (0,1), (2,5), (3,4)
+2. [[0, 1, 2, 9], [0, 2, 8, 10], [1, 4, 7, 11], [3, 5, 6, 12], [3, 6, 8, 13], [4, 5, 7, 14]]; double edges (agents sharing two goods): (0,1), (2,5), (3,4)
+3. [[0, 1, 6, 9], [0, 4, 7, 10], [1, 4, 7, 11], [2, 3, 6, 12], [2, 5, 8, 13], [3, 5, 8, 14]]; double edges (agents sharing two goods): (1,2), (4,5)
 4. [[0, 1, 6, 9], [0, 4, 7, 10], [1, 5, 7, 11], [2, 3, 6, 12], [2, 4, 8, 13], [3, 5, 8, 14]] (agent multigraph: the prism)
 5. [[0, 1, 6, 9], [0, 4, 8, 10], [1, 5, 7, 11], [2, 3, 6, 12], [2, 4, 7, 13], [3, 5, 8, 14]] (agent multigraph: K₃,₃)
 6. [[0, 1, 6, 9], [0, 4, 6, 10], [1, 5, 7, 11], [2, 3, 8, 12], [2, 4, 7, 13], [3, 5, 8, 14]]; double edges (agents sharing two goods): (0,1), (3,5)
@@ -406,5 +406,5 @@ python3 k4/check_reductions4.py results/k4_min_cex_reductions.json.gz --selftest
 (cd k4 && python3 check_mincex_cores4.py 4 ../results/k4_min_cex_cores_4.json.gz ../results/k4_min_cex_px_uncovered.json \
     --jobs=3 --allow-graphical --expect=5558 --expect-n=5:346,6:2183,7:2110,8:835,9:84 --expect-graphical=6)  # ~25 min
 (cd k4 && python3 test_check_mincex_cores4.py)                                   # ~30 s
-(cd k4 && python3 mincex4.py explore xy P4 P4)                                   # the failed xy reduction
+(cd k4 && python3 mincex_attempts.py xy; python3 mincex_attempts.py twins)      # the failed xy and twins reductions, ~1 min
 ```

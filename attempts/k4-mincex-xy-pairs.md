@@ -29,6 +29,10 @@ sharing two goods of degree 2). The two simple ones (agent multigraph the prism 
 (`k4/MINCEX.md` §8 lists them). A certified closed-xy reduction would cut the type domains of those four cores. It was
 not certified, because the open pairs remain in every one of them.
 
+**What would be needed.** Two-agent gadgets, for example e′ = e without g and f′ = f without g (one good fewer). Their
+local states number about 3·10⁵ (6 local goods, 2 gadget agents), too many for `reduce4.py`'s Python enumeration. A C
+version, or a restriction to "natural" extensions, would be the next step.
+
 **Smallest failing configuration.** The open P4–P4 pair with both agents of type (8, 6, 4, 1) on their goods ordered
 boundary, boundary, g, private. That is, e on (a, b, g, p_e) = (8, 6, 4, 1) and f on (x, y, g, p_f) = (8, 6, 4, 1):
 each ranks its two boundary goods first.
@@ -36,10 +40,6 @@ each ranks its two boundary goods first.
 - DEL fails at the state where a, b, x, y lie together in one outside bundle without outside goods, and nobody envies
   it. Then θ_e({a, b, x, y}) = v(a) + v(b) = 14 (x and y are worthless to e), but e can hold only interior goods, worth
   at most v(g) + v(p_e) = 5 to it.
-
-**What would be needed.** Two-agent gadgets, for example e′ = e without g and f′ = f without g (one good fewer). Their
-local states number about 3·10⁵ (6 local goods, 2 gadget agents), too many for `reduce4.py`'s Python enumeration. A C
-version, or a restriction to "natural" extensions, would be the next step.
 
 Reproduce: `cd k4 && python3 mincex_attempts.py xy` (the named profile: 0 of 82,944 reduced by the menu, DEL's count and
 its failing state; log `results/k4_attempt_xy.log`, about 30 s). `python3 mincex4.py explore xy P4 P4 [closed]` prints
