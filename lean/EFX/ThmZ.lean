@@ -984,32 +984,87 @@ theorem pair_normal (hgd : goods.Nodup) (hA : IsAPA v agents goods hold) {i : A}
         rw [value_pair hQ] at this
         omega
 
-/-- The hypotheses on the profile: `3 ≤ |R_i| ≤ 4` for every agent. -/
-def Rel34 (v : A → G → Nat) (agents : List A) (goods : List G) : Prop :=
-  ∀ i ∈ agents, 3 ≤ (relevant v i goods).length ∧ (relevant v i goods).length ≤ 4
+omit [DecidableEq G] in
+/-- An agent with at most two relevant goods is robust in every APA: a good outside its pair is worth at most the pair,
+and if two relevant goods lie outside, the pair is worthless, so no good is worth more than nothing. -/
+theorem robust_of_rel_le2 (hA : IsAPA v agents goods hold) {i : A} (hi : i ∈ agents)
+    (h2 : (relevant v i goods).length ≤ 2) : ZRobust v goods hold i := by
+  have hsplit := value_split (v := v) (goods := goods) hold i
+  have hin : value v i (baseOf goods hold i) =
+      value v i ((relevant v i goods).filter (fun g => hold g = some i)) := by
+    rw [LB4.value_filter_pos i (baseOf goods hold i)]
+    unfold baseOf relevant
+    rw [List.filter_filter, List.filter_filter]
+    congr 1
+    apply List.filter_congr
+    intro g _
+    simp [Bool.and_comm]
+  have hout : value v i (goods.filter (fun g => hold g ≠ some i)) =
+      value v i ((relevant v i goods).filter (fun g => hold g ≠ some i)) := by
+    rw [LB4.value_filter_pos i (goods.filter _)]
+    unfold relevant
+    rw [List.filter_filter, List.filter_filter]
+    congr 1
+    apply List.filter_congr
+    intro g _
+    simp [Bool.and_comm]
+  have hl := (List.filter_append_perm (fun g => decide (hold g = some i)) (relevant v i goods)).length_eq
+  rw [List.length_append] at hl
+  have e : (relevant v i goods).filter (fun g => !decide (hold g = some i)) =
+      (relevant v i goods).filter (fun g => hold g ≠ some i) := by
+    apply List.filter_congr; intro g _; simp
+  rw [e] at hl
+  unfold ZRobust
+  match hT : (relevant v i goods).filter (fun g => hold g ≠ some i) with
+  | [] => rw [hout, hT] at hsplit; simp only [value_nil, Nat.add_zero] at hsplit; omega
+  | [z] =>
+    have hz : z ∈ (relevant v i goods).filter (fun g => hold g ≠ some i) := by rw [hT]; simp
+    obtain ⟨hzr, hzh⟩ := List.mem_filter.mp hz
+    have := adm_le hA hi (mem_relevant.mp hzr).1 (of_decide_eq_true hzh)
+    rw [hout, hT] at hsplit; simp only [value_cons, value_nil, Nat.add_zero] at hsplit; omega
+  | z :: w :: rest =>
+    exfalso
+    rw [hT] at hl
+    simp only [List.length_cons] at hl
+    have h0 : (relevant v i goods).filter (fun g => hold g = some i) = [] :=
+      List.eq_nil_of_length_eq_zero (by omega)
+    have hz : z ∈ (relevant v i goods).filter (fun g => hold g ≠ some i) := by rw [hT]; simp
+    obtain ⟨hzr, hzh⟩ := List.mem_filter.mp hz
+    have := adm_le hA hi (mem_relevant.mp hzr).1 (of_decide_eq_true hzh)
+    rw [hin, h0, value_nil] at this
+    have := (mem_relevant.mp hzr).2
+    omega
+
+/-- A threatened agent has at least three relevant goods (`robust_of_rel_le2`, `not_threat_of_robust`). -/
+theorem three_le_of_threat (hgd : goods.Nodup) (hA : IsAPA v agents goods hold) {j o : A} (hj : j ∈ agents)
+    (hoj : o ≠ j) (hT : ZThreat v goods hold o j) : 3 ≤ (relevant v j goods).length :=
+  Nat.lt_of_not_le fun h => not_threat_of_robust hgd hoj (robust_of_rel_le2 hA hj h) hT
 
 /-- **Lemma Z2(e)**: at a pool-optimal APA every agent is threatened by at most one agent. -/
 theorem threat_unique (hgd : goods.Nodup) (hA : IsAPA v agents goods hold) (hpo : PoolOpt v agents goods hold)
-    (h34 : Rel34 v agents goods) {j o o' : A} (hj : j ∈ agents) (ho : o ∈ agents) (ho' : o' ∈ agents)
-    (hoj : o ≠ j) (hoj' : o' ≠ j) (hT : ZThreat v goods hold o j) (hT' : ZThreat v goods hold o' j) : o = o' := by
-  obtain ⟨a, y, hay, hQ, ha⟩ := pair_normal hgd hA hj (by have := (h34 j hj).1; omega)
+    (h4 : ∀ i ∈ agents, (relevant v i goods).length ≤ 4) {j o o' : A} (hj : j ∈ agents) (ho : o ∈ agents)
+    (ho' : o' ∈ agents) (hoj : o ≠ j) (hoj' : o' ≠ j) (hT : ZThreat v goods hold o j) (hT' : ZThreat v goods hold o' j) :
+    o = o' := by
+  have h34j := And.intro (three_le_of_threat hgd hA hj hoj hT) (h4 j hj)
+  obtain ⟨a, y, hay, hQ, ha⟩ := pair_normal hgd hA hj (by have := h34j.1; omega)
   by_cases hy : v j y = 0
-  · exact caseA_unique hgd hA hpo hj hay hQ hy ha (h34 j hj).2 ho ho' hoj hoj' hT hT'
+  · exact caseA_unique hgd hA hpo hj hay hQ hy ha h34j.2 ho ho' hoj hoj' hT hT'
   · have hy' : 0 < v j y := Nat.pos_of_ne_zero hy
     by_cases hrob : ZRobust v goods hold j
     · exact absurd hT (not_threat_of_robust hgd hoj hrob)
     · have h3 := caseB_robust3 hgd hA hj hQ ha hy'
       obtain ⟨u, w, hB⟩ := caseB4_of hgd hQ ha hy' (by
-        have := h34 j hj
+        have := h34j
         exact Classical.byContradiction fun h => hrob (h3 (by omega))) hrob
       exact hB.unique hgd hA hpo hj hoj hoj' hT hT'
 
 /-- A threatening pair is admissible for the threatened agent. -/
 theorem threat_adm (hgd : goods.Nodup) (hA : IsAPA v agents goods hold) (hpo : PoolOpt v agents goods hold)
-    (h34 : Rel34 v agents goods) {j o : A} (hj : j ∈ agents) (ho : o ∈ agents) (hoj : o ≠ j)
-    (hT : ZThreat v goods hold o j) :
+    (h4 : ∀ i ∈ agents, (relevant v i goods).length ≤ 4) {j o : A} (hj : j ∈ agents) (ho : o ∈ agents)
+    (hoj : o ≠ j) (hT : ZThreat v goods hold o j) :
     ∀ g ∈ goods, hold g ≠ some o → v j g ≤ value v j (baseOf goods hold o) := by
-  obtain ⟨a, y, hay, hQ, ha⟩ := pair_normal hgd hA hj (by have := (h34 j hj).1; omega)
+  have h34j := And.intro (three_le_of_threat hgd hA hj hoj hT) (h4 j hj)
+  obtain ⟨a, y, hay, hQ, ha⟩ := pair_normal hgd hA hj (by have := h34j.1; omega)
   by_cases hy : v j y = 0
   · exact caseA_adm hgd hA hpo hj hay hQ hy ho hoj hT
   · have hy' : 0 < v j y := Nat.pos_of_ne_zero hy
@@ -1017,7 +1072,7 @@ theorem threat_adm (hgd : goods.Nodup) (hA : IsAPA v agents goods hold) (hpo : P
     · exact absurd hT (not_threat_of_robust hgd hoj hrob)
     · have h3 := caseB_robust3 hgd hA hj hQ ha hy'
       obtain ⟨u, w, hB⟩ := caseB4_of hgd hQ ha hy' (by
-        have := h34 j hj
+        have := h34j
         exact Classical.byContradiction fun h => hrob (h3 (by omega))) hrob
       exact hB.adm hgd hA hpo hj hoj hT
 
@@ -1025,23 +1080,24 @@ theorem threat_adm (hgd : goods.Nodup) (hA : IsAPA v agents goods hold) (hpo : P
 worthless (the text's (T) with four goods), or `j` is robust with `Q_o`, or `j` is robust and admissible with a pair
 `{x, z}`, `x ∈ Q_o`, `z` in the pool (the modified rotation). -/
 theorem threat_gain (hgd : goods.Nodup) (hA : IsAPA v agents goods hold) (hpo : PoolOpt v agents goods hold)
-    (h34 : Rel34 v agents goods) {j o : A} (hj : j ∈ agents) (ho : o ∈ agents) (hoj : o ≠ j)
-    (hT : ZThreat v goods hold o j) :
+    (h4 : ∀ i ∈ agents, (relevant v i goods).length ≤ 4) {j o : A} (hj : j ∈ agents) (ho : o ∈ agents)
+    (hoj : o ≠ j) (hT : ZThreat v goods hold o j) :
     ((relevant v j goods).length = 4 ∧ ∀ g ∈ goods, hold g = none → v j g = 0) ∨
     value v j goods ≤ 2 * value v j (baseOf goods hold o) ∨
     ∃ x z, x ∈ goods ∧ hold x = some o ∧ z ∈ goods ∧ hold z = none ∧
       value v j goods ≤ 2 * (v j x + v j z) ∧ ∀ g ∈ goods, g ≠ x → g ≠ z → v j g ≤ v j x + v j z := by
-  obtain ⟨a, y, hay, hQ, ha⟩ := pair_normal hgd hA hj (by have := (h34 j hj).1; omega)
+  have h34j := And.intro (three_le_of_threat hgd hA hj hoj hT) (h4 j hj)
+  obtain ⟨a, y, hay, hQ, ha⟩ := pair_normal hgd hA hj (by have := h34j.1; omega)
   by_cases hy : v j y = 0
-  · by_cases h4 : (relevant v j goods).length = 4
-    · exact Or.inl ⟨h4, caseA_pool hpo hj hay hQ hy⟩
-    · exact Or.inr (Or.inl (caseA_robust3 hgd hA hpo hj hay hQ hy ha ho hoj hT (by have := h34 j hj; omega)))
+  · by_cases h4j : (relevant v j goods).length = 4
+    · exact Or.inl ⟨h4j, caseA_pool hpo hj hay hQ hy⟩
+    · exact Or.inr (Or.inl (caseA_robust3 hgd hA hpo hj hay hQ hy ha ho hoj hT (by have := h34j; omega)))
   · have hy' : 0 < v j y := Nat.pos_of_ne_zero hy
     by_cases hrob : ZRobust v goods hold j
     · exact absurd hT (not_threat_of_robust hgd hoj hrob)
     · have h3 := caseB_robust3 hgd hA hj hQ ha hy'
       obtain ⟨u, w, hB⟩ := caseB4_of hgd hQ ha hy' (by
-        have := h34 j hj
+        have := h34j
         exact Classical.byContradiction fun h => hrob (h3 (by omega))) hrob
       obtain ⟨hu, hw⟩ := hB.threat_W hgd hA hj hoj hT
       have htot := hB.total
@@ -1147,19 +1203,20 @@ theorem baseOf_modifyH_other {i j : A} {z y : G} (hji : j ≠ i) (hz : hold z �
 
 end rotation
 
-/-- **Theorem Z, core step** (`k4/c4min.md` §3.4). Let `3 ≤ |R_i| ≤ 4` for every agent, every good be relevant to some
-agent, and `m ≥ 2n + 1`. A pool-optimal APA with the most robust agents among all APAs has a valid owner.
+/-- **Lemmas P and R** (`k4/c4min.md` §3.3–§3.4). Let `|R_i| ≤ 4` for every agent. A pool-optimal APA with the most
+robust agents among all APAs has a valid owner, or every agent has four relevant goods and a worthless pool.
 
 Otherwise the threat map `σ` is a permutation (Lemma P: `threat_unique`), so every agent is threatened and none is
 robust. Rotating every pair along `σ` (with one modification, `threat_gain`) makes an agent robust, unless every agent
-has four goods and a worthless pool; but some pool good is relevant to someone. -/
-theorem zvalid_of_zmax (hag : agents.Nodup) (hgd : goods.Nodup) {hold : G → Option A}
+has four goods and a worthless pool. -/
+theorem zvalid_or_all4 (hag : agents.Nodup) (hgd : goods.Nodup) {hold : G → Option A}
     (hA : IsAPA v agents goods hold) (hpo : PoolOpt v agents goods hold)
     (hmax : ∀ hold', IsAPA v agents goods hold' → nRobust v agents goods hold' ≤ nRobust v agents goods hold)
-    (h34 : Rel34 v agents goods) (hrel : ∀ g ∈ goods, ∃ i ∈ agents, 0 < v i g)
-    (hm : 2 * agents.length + 1 ≤ goods.length) : ∃ o, ZValid v agents goods hold o := by
+    (h4 : ∀ i ∈ agents, (relevant v i goods).length ≤ 4) :
+    (∃ o, ZValid v agents goods hold o) ∨
+      ∀ j ∈ agents, (relevant v j goods).length = 4 ∧ ∀ g ∈ goods, hold g = none → v j g = 0 := by
   classical
-  refine Classical.byContradiction fun hno => ?_
+  refine (Classical.em _).elim Or.inl fun hno => Or.inr ?_
   have hthr : ∀ o ∈ agents, ∃ j, j ∈ agents ∧ j ≠ o ∧ ZThreat v goods hold o j := fun o ho =>
     Classical.byContradiction fun h => hno ⟨o, ho, fun j hj hjo hT => h ⟨j, hj, hjo, hT⟩⟩
   -- the threat map
@@ -1170,7 +1227,7 @@ theorem zvalid_of_zmax (hag : agents.Nodup) (hgd : goods.Nodup) {hold : G → Op
     obtain ⟨hj, hjo, hT⟩ := hσ o ho
     obtain ⟨-, hjo', hT'⟩ := hσ o' ho'
     rw [← e] at hjo' hT'
-    exact threat_unique hgd hA hpo h34 hj ho ho' (Ne.symm hjo) (Ne.symm hjo') hT hT'
+    exact threat_unique hgd hA hpo h4 hj ho ho' (Ne.symm hjo) (Ne.symm hjo') hT hT'
   -- Lemma P: `σ` is onto
   have hsurj : ∀ j ∈ agents, ∃ o ∈ agents, σ o = j := by
     have hnd := LB.nodup_map_of_inj hag hinj
@@ -1186,7 +1243,7 @@ theorem zvalid_of_zmax (hag : agents.Nodup) (hgd : goods.Nodup) {hold : G → Op
     obtain ⟨o, ho, rfl⟩ := hsurj _ hj
     exact not_threat_of_robust hgd (hσ o ho).2.1.symm (of_decide_eq_true hR) (hσ o ho).2.2
   have hadm : ∀ o ∈ agents, ∀ g ∈ goods, hold g ≠ some o → v (σ o) g ≤ value v (σ o) (baseOf goods hold o) :=
-    fun o ho => threat_adm hgd hA hpo h34 (hσ o ho).1 ho (hσ o ho).2.1.symm (hσ o ho).2.2
+    fun o ho => threat_adm hgd hA hpo h4 (hσ o ho).1 ho (hσ o ho).2.1.symm (hσ o ho).2.2
   have hrot := isAPA_rotateH hA (fun o ho => (hσ o ho).1) hinj hsurj hadm
   -- an agent that is robust after the rotation contradicts the maximality
   have hcontra : ∀ hold', IsAPA v agents goods hold' → ∀ i ∈ agents, ZRobust v goods hold' i → False := by
@@ -1194,7 +1251,76 @@ theorem zvalid_of_zmax (hag : agents.Nodup) (hgd : goods.Nodup) {hold : G → Op
     have := hmax hold' hA'
     have : 0 < nRobust v agents goods hold' := List.countP_pos_iff.mpr ⟨i, hi, decide_eq_true hR⟩
     omega
-  by_cases hall : ∀ j ∈ agents, (relevant v j goods).length = 4 ∧ ∀ g ∈ goods, hold g = none → v j g = 0
+  refine Classical.byContradiction fun hall => ?_
+  obtain ⟨i, hi, hbad⟩ : ∃ i ∈ agents, ¬ ((relevant v i goods).length = 4 ∧
+      ∀ g ∈ goods, hold g = none → v i g = 0) :=
+    Classical.byContradiction fun h => hall fun j hj => Classical.byContradiction fun h' => h ⟨j, hj, h'⟩
+  obtain ⟨o, ho, rfl⟩ := hsurj i hi
+  have hoi := (hσ o ho).2.1
+  rcases threat_gain hgd hA hpo h4 (hσ o ho).1 ho hoi.symm (hσ o ho).2.2 with h4j | hpl | ⟨x, z, hx, hxo, hz, hzn, hrob, hadmz⟩
+  · exact hbad h4j
+  · -- the plain rotation makes `σ o` robust
+    refine hcontra _ hrot _ (hσ o ho).1 ?_
+    unfold ZRobust
+    rw [baseOf_rotateH hA hinj ho]; exact hpl
+  · -- the modified rotation: `σ o` takes `{x, z}`
+    obtain ⟨c, d, hcd, hQo⟩ := exists_pair hgd hA ho
+    obtain ⟨y, hxy, hQxy⟩ : ∃ y, x ≠ y ∧ (baseOf goods hold o).Perm [x, y] := by
+      rcases (mem_pair_iff hQo).mp ⟨hx, hxo⟩ with rfl | rfl
+      · exact ⟨d, hcd, hQo⟩
+      · exact ⟨c, Ne.symm hcd, hQo.trans (List.Perm.swap x c [])⟩
+    have hQr : (baseOf goods (rotateH hold σ) (σ o)).Perm [x, y] := by rw [baseOf_rotateH hA hinj ho]; exact hQxy
+    have hxz : x ≠ z := fun e => by rw [e, hzn] at hxo; cases hxo
+    have hzr : rotateH hold σ z = none := by simp [rotateH, hzn]
+    have hyr : rotateH hold σ y = some (σ o) := by
+      have := (mem_pair_iff hQxy).mpr (Or.inr rfl); simp [rotateH, this.2]
+    have hmod : IsAPA v agents goods (modifyH (rotateH hold σ) (σ o) z y) := by
+      refine ⟨fun g hg j hj => ?_, fun j hj => ?_, fun j hj g ⟨hg, hgj, hlt⟩ => ?_⟩
+      · unfold modifyH at hj
+        split at hj
+        · cases hj; exact (hσ o ho).1
+        · split at hj
+          · cases hj
+          · exact hrot.mem g hg j hj
+      · by_cases hji : j = σ o
+        · subst hji
+          rw [(baseOf_modifyH_self hgd hQr hxz hz (by rw [hzr]; simp) hxy).length_eq]; rfl
+        · rw [baseOf_modifyH_other hji (by rw [hzr]; simp) (by rw [hyr]; simpa using Ne.symm hji)]
+          exact hrot.pair j hj
+      · by_cases hji : j = σ o
+        · subst hji
+          rw [value_perm (baseOf_modifyH_self hgd hQr hxz hz (by rw [hzr]; simp) hxy)] at hlt
+          simp only [value_cons, value_nil, Nat.add_zero] at hlt
+          have hgx : g ≠ x := fun e => hgj (by
+            rw [e]; unfold modifyH; simp only [hxz, ↓reduceIte, hxy]
+            exact ((mem_pair_iff hQr).mpr (Or.inl rfl)).2)
+          have hgz : g ≠ z := fun e => hgj (by rw [e]; simp [modifyH])
+          have := hadmz g hg hgx hgz
+          omega
+        · rw [baseOf_modifyH_other hji (by rw [hzr]; simp) (by rw [hyr]; simpa using Ne.symm hji)] at hlt
+          refine hrot.adm j hj g ⟨hg, fun h => hgj ?_, hlt⟩
+          unfold modifyH
+          by_cases hgz : g = z
+          · subst hgz; rw [hzr] at h; cases h
+          · by_cases hgy : g = y
+            · subst hgy; rw [hyr] at h; exact absurd (Option.some.inj h) (Ne.symm hji)
+            · simp [hgz, hgy, h]
+    refine hcontra _ hmod _ (hσ o ho).1 ?_
+    unfold ZRobust
+    rw [value_perm (baseOf_modifyH_self hgd hQr hxz hz (by rw [hzr]; simp) hxy)]
+    simp only [value_cons, value_nil, Nat.add_zero]
+    exact hrob
+
+/-- **Theorem Z, core step** (`k4/c4min.md` §3.4). Let `|R_i| ≤ 4` for every agent, every good be relevant to some agent,
+and `m ≥ 2n + 1`. A pool-optimal APA with the most robust agents among all APAs has a valid owner: otherwise
+(`zvalid_or_all4`) every agent has four goods and a worthless pool, but some pool good is relevant to someone. -/
+theorem zvalid_of_zmax (hag : agents.Nodup) (hgd : goods.Nodup) {hold : G → Option A}
+    (hA : IsAPA v agents goods hold) (hpo : PoolOpt v agents goods hold)
+    (hmax : ∀ hold', IsAPA v agents goods hold' → nRobust v agents goods hold' ≤ nRobust v agents goods hold)
+    (h4 : ∀ i ∈ agents, (relevant v i goods).length ≤ 4) (hrel : ∀ g ∈ goods, ∃ i ∈ agents, 0 < v i g)
+    (hm : 2 * agents.length + 1 ≤ goods.length) : ∃ o, ZValid v agents goods hold o := by
+  rcases zvalid_or_all4 hag hgd hA hpo hmax h4 with h | hall
+  · exact h
   · -- the pool is not empty and worthless to everyone
     have hlen := length_goods (base := hold) hag hA.mem
     have hsum : (agents.map (fun i => (baseOf goods hold i).length)).sum = 2 * agents.length := by
@@ -1214,64 +1340,6 @@ theorem zvalid_of_zmax (hag : agents.Nodup) (hgd : goods.Nodup) {hold : G → Op
     obtain ⟨i, hi, hpos⟩ := hrel g hgg
     have := (hall i hi).2 g hgg hgn
     omega
-  · obtain ⟨i, hi, hbad⟩ : ∃ i ∈ agents, ¬ ((relevant v i goods).length = 4 ∧
-        ∀ g ∈ goods, hold g = none → v i g = 0) :=
-      Classical.byContradiction fun h => hall fun j hj => Classical.byContradiction fun h' => h ⟨j, hj, h'⟩
-    obtain ⟨o, ho, rfl⟩ := hsurj i hi
-    have hoi := (hσ o ho).2.1
-    rcases threat_gain hgd hA hpo h34 (hσ o ho).1 ho hoi.symm (hσ o ho).2.2 with h4 | hpl | ⟨x, z, hx, hxo, hz, hzn, hrob, hadmz⟩
-    · exact hbad h4
-    · -- the plain rotation makes `σ o` robust
-      refine hcontra _ hrot _ (hσ o ho).1 ?_
-      unfold ZRobust
-      rw [baseOf_rotateH hA hinj ho]; exact hpl
-    · -- the modified rotation: `σ o` takes `{x, z}`
-      obtain ⟨c, d, hcd, hQo⟩ := exists_pair hgd hA ho
-      obtain ⟨y, hxy, hQxy⟩ : ∃ y, x ≠ y ∧ (baseOf goods hold o).Perm [x, y] := by
-        rcases (mem_pair_iff hQo).mp ⟨hx, hxo⟩ with rfl | rfl
-        · exact ⟨d, hcd, hQo⟩
-        · exact ⟨c, Ne.symm hcd, hQo.trans (List.Perm.swap x c [])⟩
-      have hQr : (baseOf goods (rotateH hold σ) (σ o)).Perm [x, y] := by rw [baseOf_rotateH hA hinj ho]; exact hQxy
-      have hxz : x ≠ z := fun e => by rw [e, hzn] at hxo; cases hxo
-      have hzr : rotateH hold σ z = none := by simp [rotateH, hzn]
-      have hyr : rotateH hold σ y = some (σ o) := by
-        have := (mem_pair_iff hQxy).mpr (Or.inr rfl); simp [rotateH, this.2]
-      have hmod : IsAPA v agents goods (modifyH (rotateH hold σ) (σ o) z y) := by
-        refine ⟨fun g hg j hj => ?_, fun j hj => ?_, fun j hj g ⟨hg, hgj, hlt⟩ => ?_⟩
-        · unfold modifyH at hj
-          split at hj
-          · cases hj; exact (hσ o ho).1
-          · split at hj
-            · cases hj
-            · exact hrot.mem g hg j hj
-        · by_cases hji : j = σ o
-          · subst hji
-            rw [(baseOf_modifyH_self hgd hQr hxz hz (by rw [hzr]; simp) hxy).length_eq]; rfl
-          · rw [baseOf_modifyH_other hji (by rw [hzr]; simp) (by rw [hyr]; simpa using Ne.symm hji)]
-            exact hrot.pair j hj
-        · by_cases hji : j = σ o
-          · subst hji
-            rw [value_perm (baseOf_modifyH_self hgd hQr hxz hz (by rw [hzr]; simp) hxy)] at hlt
-            simp only [value_cons, value_nil, Nat.add_zero] at hlt
-            have hgx : g ≠ x := fun e => hgj (by
-              rw [e]; unfold modifyH; simp only [hxz, ↓reduceIte, hxy]
-              exact ((mem_pair_iff hQr).mpr (Or.inl rfl)).2)
-            have hgz : g ≠ z := fun e => hgj (by rw [e]; simp [modifyH])
-            have := hadmz g hg hgx hgz
-            omega
-          · rw [baseOf_modifyH_other hji (by rw [hzr]; simp) (by rw [hyr]; simpa using Ne.symm hji)] at hlt
-            refine hrot.adm j hj g ⟨hg, fun h => hgj ?_, hlt⟩
-            unfold modifyH
-            by_cases hgz : g = z
-            · subst hgz; rw [hzr] at h; cases h
-            · by_cases hgy : g = y
-              · subst hgy; rw [hyr] at h; exact absurd (Option.some.inj h) (Ne.symm hji)
-              · simp [hgz, hgy, h]
-      refine hcontra _ hmod _ (hσ o ho).1 ?_
-      unfold ZRobust
-      rw [value_perm (baseOf_modifyH_self hgd hQr hxz hz (by rw [hzr]; simp) hxy)]
-      simp only [value_cons, value_nil, Nat.add_zero]
-      exact hrob
 
 /-! ## Lemma Z0, removal-only form -/
 
@@ -1362,12 +1430,12 @@ theorem removalOnly_of_zvalid {hold : G → Option A} (hA : IsAPA v agents goods
 /-! ## Theorem Z -/
 
 /-- **Theorem Z with the hypotheses it uses**: if some pre-allocation of 𝒫 has no frozen agent, there is at least one
-agent, every agent has three or four relevant goods and every good is relevant to some agent, then some pre-allocation
+agent, every agent has at most four relevant goods and every good is relevant to some agent, then some pre-allocation
 of 𝒫 with the fewest frozen agents has `def(P) ≤ 0` and is completable. For `m ≤ 2n` the given pre-allocation works
 (`ω ≤ 0`); otherwise a pool-optimal APA with the most robust agents has a valid owner (Lemmas Z1, Z2, P, R), and
 Lemma Z0 applies. -/
-theorem theoremZ_min (hag : agents.Nodup) (hgd : goods.Nodup) (hne : agents ≠ []) (h34 : Rel34 v agents goods)
-    (hrel : ∀ g ∈ goods, ∃ i ∈ agents, 0 < v i g)
+theorem theoremZ_min (hag : agents.Nodup) (hgd : goods.Nodup) (hne : agents ≠ [])
+    (h4 : ∀ i ∈ agents, (relevant v i goods).length ≤ 4) (hrel : ∀ g ∈ goods, ∃ i ∈ agents, 0 < v i g)
     (hf0 : ∃ base, InP v agents goods base ∧ nFrozen v agents goods base = 0) :
     ∃ base, MinFrozen v agents goods base ∧ RemovalOnly v agents goods base ∧ Completable v agents goods base := by
   obtain ⟨base, hP, h0⟩ := hf0
@@ -1377,7 +1445,7 @@ theorem theoremZ_min (hag : agents.Nodup) (hgd : goods.Nodup) (hne : agents ≠ 
   by_cases hm : goods.length ≤ 2 * agents.length
   · exact ⟨base, hP, h0, removalOnly_of_f0_small hag hgd hP h0 hm⟩
   · obtain ⟨hold, hA, hpo, hmax⟩ := exists_zmax hgd (exists_apa hag hgd hP h0 (by omega))
-    obtain ⟨o, hV⟩ := zvalid_of_zmax hag hgd hA hpo hmax h34 hrel (by omega)
+    obtain ⟨o, hV⟩ := zvalid_of_zmax hag hgd hA hpo hmax h4 hrel (by omega)
     exact ⟨apaBase v hold, inP_apaBase hA, nFrozen_apaBase hA, removalOnly_of_zvalid hA hV⟩
 
 /-- **Theorem Z, removal-only form**: on every k = 4 core whose fewest frozen agents is 0, some pre-allocation of 𝒫
@@ -1386,7 +1454,7 @@ theorem theoremZ_RO (hag : agents.Nodup) (hgd : goods.Nodup) (hc : IsCore4 v age
     (hf0 : ∃ base, InP v agents goods base ∧ nFrozen v agents goods base = 0) :
     ∃ base, MinFrozen v agents goods base ∧ RemovalOnly v agents goods base := by
   obtain ⟨base, hM, hR, -⟩ := theoremZ_min hag hgd (fun e => by have := hc.1; rw [e] at this; simp at this)
-    hc.2.1 hc.2.2.2.2.2 hf0
+    (fun i hi => (hc.2.1 i hi).2) hc.2.2.2.2.2 hf0
   exact ⟨base, hM, hR⟩
 
 /-- **Theorem Z** (`k4/c4min.md` §3.4): on every k = 4 core whose fewest frozen agents is 0 (some pre-allocation of 𝒫
@@ -1396,7 +1464,7 @@ theorem theoremZ (hag : agents.Nodup) (hgd : goods.Nodup) (hc : IsCore4 v agents
     (hf0 : ∃ base, InP v agents goods base ∧ nFrozen v agents goods base = 0) :
     ∃ base, MinFrozen v agents goods base ∧ Completable v agents goods base := by
   obtain ⟨base, hM, -, hC⟩ := theoremZ_min hag hgd (fun e => by have := hc.1; rw [e] at this; simp at this)
-    hc.2.1 hc.2.2.2.2.2 hf0
+    (fun i hi => (hc.2.1 i hi).2) hc.2.2.2.2.2 hf0
   exact ⟨base, hM, hC⟩
 
 /-- **Theorem Z in C₄ᵐⁱⁿ's form** (`TheoremC4min`'s conclusion on the profiles with fewest frozen agents 0; the
@@ -1418,12 +1486,12 @@ theorem c4minRO_of_f0 (A G : Type) [DecidableEq A] [DecidableEq G] :
 /-- **K4.D's conclusion on these profiles**: under the hypotheses of `theoremZ_min` (so on every k = 4 core whose
 fewest frozen agents is 0, strict or not) there is an EFX₀ allocation in which at most one bundle has more than two
 goods (Theorem Z and Theorem 1′₄, `EFX.LB4.SoundCompletion.efx0_d2`). -/
-theorem efx0_of_f0 (hag : agents.Nodup) (hgd : goods.Nodup) (hne : agents ≠ []) (h34 : Rel34 v agents goods)
-    (hrel : ∀ g ∈ goods, ∃ i ∈ agents, 0 < v i g)
+theorem efx0_of_f0 (hag : agents.Nodup) (hgd : goods.Nodup) (hne : agents ≠ [])
+    (h4 : ∀ i ∈ agents, (relevant v i goods).length ≤ 4) (hrel : ∀ g ∈ goods, ∃ i ∈ agents, 0 < v i g)
     (hf0 : ∃ base, InP v agents goods base ∧ nFrozen v agents goods base = 0) :
     ∃ X : G → A, IsAllocation agents goods X ∧ EFX0L v agents goods X ∧
       ∃ w ∈ agents, ∀ j ∈ agents, j ≠ w → (bundle goods X j).length ≤ 2 := by
-  obtain ⟨base, -, -, o, X, hS⟩ := theoremZ_min hag hgd hne h34 hrel hf0
+  obtain ⟨base, -, -, o, X, hS⟩ := theoremZ_min hag hgd hne h4 hrel hf0
   exact ⟨X, hS.efx0_d2 hgd hne⟩
 
 end C4min
