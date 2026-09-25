@@ -12,7 +12,7 @@ Options (k4/lb4.md §2 and §6): LB4 is -i2 -u1 -r1 -w1 -c1.
       4 least omega, 5 "a > b + c" first, 6 index with one step changed, 7 index then the last block led by r,
       8 index then every leader of the last block, 9 every sequence then every leader of its last block;
   -uN upgrades: 0 none, 1 need-shrinking, 2 envy-free only, 3 policies 1, 2, 0 in turn;
-  -oN owner: 0 every owner, 1 r only, 2 r then rotation;  -rN up to N rotations in a row; -d1 iterative deepening on N (0, 1, ..., N: same successes, least rotations);
+  -oN owner: 0 every owner, 1 r only, 2 r then rotation;  -rN up to N rotations in a row; -d1 iterative deepening on N (0, 1, ..., N: same successes, least rotations) for each policy, -d2 with the bound outermost (least over all policies);
   -w1 owner needs from its bundle;  -c1 chains may end at upgraded agents;
   -s sensitivity (owner constraint ignored: must give raw failures);  -b brute force (every profile its own leaf);
   -a print the leaf allocations;  -fN print at most N failures per core. */
@@ -432,6 +432,16 @@ static int construct_rot(void) {
 }
 static int construct1(void) {
     if (UPG != 3) { upg_mode = UPG; used_pol = 0; return construct_rot(); }
+    if (DEEPEN == 2) {                   /* -d2: bound outermost, every policy at each bound: the least rotations over all policies */
+        for (int cap = 0; cap <= ROT; cap++) {
+            int pi = 0;
+            for (upg_mode = 1; upg_mode >= 0; upg_mode = upg_mode == 1 ? 2 : upg_mode == 2 ? 0 : -1, pi++) {
+                rot_cap = cap; used_rot = 0;
+                if (construct2()) { used_pol = pi; fb_upg = pi > 0; return 1; }
+            }
+        }
+        fb_upg = 1; return 0;
+    }
     int pi = 0;
     for (upg_mode = 1; upg_mode >= 0; upg_mode = upg_mode == 1 ? 2 : upg_mode == 2 ? 0 : -1, pi++) {  /* -u3: 1, 2, 0 */
         if (construct_rot()) { used_pol = pi; return 1; }
