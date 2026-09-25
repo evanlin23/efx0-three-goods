@@ -14,26 +14,31 @@ X′; an *insertion lemma* would turn X′ into an EFX₀ allocation of I by pla
   (B-form) or only w's value of d (V-form) also fails for every ρ ≤ 2 at n ≤ 4. Taking X′ extremal for a potential (w's
   value, the number of agents envying w, utilitarian or Nash welfare, and five more) fails too, each at n ≤ 3. Every
   failure is confirmed by an independent brute force (`attempts/k4_induct_attempts.py`, 21 claims).
-- *For a private good the right statement is exact* (§3, Lemma 2, proved): if d is valued by w only, X′ + (d → w) is
+- *For a private good the right statement is exact* (§3, Lemma 2, written proof): if d is valued by w only, X′ + (d → w) is
   EFX₀ **iff nobody envies w in X′**. So the step needs the right X′, never a repair.
 - *Prescribed source* (PS(J, w)): J has an EFX₀ allocation in which nobody envies w. **Conjecture PS₄** (K4.IND.PS):
   PS holds for every agent of every instance with ≤ 4 relevant goods per agent. No failure in any test (§4): every
   strict profile of every k = 4 core with n = 2 (630,720 tests), every profile of the 251 connected k = 3 cores with
   n = 5, 6 of `results/certs_5_6.json.gz`, samples of k = 4 cores with n ≤ 6, the chain cores H_1–H_5 of `k4/c4.md` §7
   (n ≤ 21, by SAT, D2 shape), and 162,000 random general additive instances (zeros and ties allowed).
-- *Conditional step* (§3, Theorem 4, proved): if PS holds on the instances with ≤ j four-good agents, then every
+- *Conditional step* (§3, Theorem 4, written proof): if PS holds on the instances with ≤ j four-good agents, then every
   instance with ≤ j + 1 four-good agents in which some 4-good agent has a private good has an EFX₀ allocation, and a
   minimal counterexample among those with ≤ j + 1 is a connected strict k = 4 core **all of whose 4-good agents are
   Q4** (no private good). **This does not close the induction**: its hypothesis (PS below) is stronger than the
   conclusion (TARGET above), and PS itself (which implies TARGET₄ outright) is open already for k ≤ 3.
-- *PS reduces to two configurations* (§3, Proposition 5, proved): a minimal counterexample (I, w*) to PS is connected,
+- *PS reduces to two configurations* (§3, Proposition 5, written proof): a minimal counterexample (I, w*) to PS is connected,
   has no junk good, w* has no private good, and no other agent can be peeled (R1, R2). Not reduced: R1 at w* (w*
   top-heavy), and a private good of another agent (Lemma 2 would need that agent unenvied as well).
 - *The gap: Q4 agents* (§5). For a 4-good agent without a private good every removable good is shared, and placing it
   needs margins for its other valuers that "w unenvied" does not give. No rule "take X′ ∈ E(I − d) with the fewest
   agents envying h, give d to h" works for any (w, d, h) on 128 of 2,200 sampled profiles of the n = 3 cores whose
-  4-good agents are all Q4, and on a larger share of the n = 4 cores whose only 4-good agent is Q4 (smallest:
-  n = 3, m = 5).
+  4-good agents are all Q4, and on 813 of 4,700 of the n = 4 cores whose only 4-good agent is Q4, i.e. already for
+  j = 0 → 1 (smallest: n = 3, m = 5).
+- *A constructive route to PS at k = 3* (§4b): run LB⁺ with the target w processed *last*. Lemma 7 (written proof): if w
+  ends Phase 1 with its top good, w is a valid owner and hence unenvied. Conjecture LBO (K4.IND.LBO): with the upgrade
+  loop stopped anywhere and at most one LB⁺ rotation, some run always makes w an owner or gives it a free slot; no miss
+  on every profile of every k = 3 core with n ≤ 5, nor on the instances I − p Theorem 4 needs (n ≤ 3 exhaustively).
+  What is missing is the choice of the run, the same kind of exchange argument PR #37 needs for C₄¹∃.
 
 ## 0. Setting and notation
 
@@ -68,6 +73,8 @@ move nothing"; in the B-form "give w nothing but (possibly) d, move nothing"; in
 - `k4/induct_sat.py`: an independent SAT encoding of EFX₀ and of "w unenvied" (per ordered pair (i, j), from agent
   i's own ≤ 4 goods), with every model re-checked by the raw definition; builds the chain cores H_t of `k4/c4.md` §7 from
   their description. Agrees with brute force on 2,362 random tests (PS and existence, with and without D2).
+- `k4/induct_rules.py`: the placement rules of §5. `k4/induct_lbo.py`: the LBO tests of §4b (exact Lemma 1 tests of
+  `proofs/lb_last_step.md` on every state; every state checked to be a valid pre-allocation).
 - `k4/induct_bf.py`: an independent pure-Python brute force (itertools over all allocations, raw definition), used
   by `attempts/k4_induct_attempts.py` to re-derive every failure claimed here.
 
@@ -214,33 +221,32 @@ with a strict type always have one envying the other).
   that no R_j contains: for instance, when w can be the owner of the large bundle of a D2 allocation padded to
   k + 1 goods (Lemma 1(a)). At k = 3 this is the owner of LB⁺ (`proofs/lb_last_step.md`) when the owner can be
   prescribed; at k = 4, the owner of LB₄.
-- (c) PS holds when |R_i| ≤ 2 for every agent: run serial dictatorship with w last (each agent takes its favorite
+- (c) PS(J, w) holds when |R_i| ≤ 2 for every agent i ≠ w (w arbitrary): run serial dictatorship with w last (each agent takes its favorite
   remaining good; w takes the rest). This is EFX₀ (L2c), and an agent i ≠ w values X_w at most at the value of the
   good of R_i it did not pick, which was still available at its turn, so at most v_i(X_i).
 
 *Proof of (c).* Take i ≠ w with pick g_i (if i picked nothing, every good of R_i was taken before its turn, so X_w
 contains no good of R_i). X_w ∩ R_i ⊆ R_i ∖ {g_i}, which has at most one good, and that good was available when i
 picked g_i, so v_i(X_w) ≤ v_i(g_i) ≤ v_i(X_i). EFX₀ for i ≠ w: the bundles other than X_w are single goods; toward
-X_w, θ_i(X_w) ≤ v_i(X_w) ≤ v_i(X_i). For w: every bundle other than X_w is a single good. ∎
+X_w, θ_i(X_w) ≤ v_i(X_w) ≤ v_i(X_i). For w (any number of goods): every bundle other than X_w is a single good. ∎
 
 ## 4. Evidence for PS (K4.IND.PS, K4.IND.PSE)
 
 PS(I, w) for every agent w, and PS(I − p, w) for every 4-good w with a private good p (the input Theorem 4 needs), with
 `k4/induct_ps.py` (early-exit search, `k4/induct.c` task Q, cross-checked against the full enumeration of task P on
-889 random instances):
+889 random instances), and with the SAT encoding of `k4/induct_sat.py` for the chain cores:
 
 | instances | tests | failures (all X / D2 X) | log |
 |---|---|---|---|
 | every strict profile of every k = 4 core with n = 2 (189,216) | 378,432 PS(I, w) + 252,288 PS(I − p, w) | 0 / 0 | `results/k4_induct_ps_k4_n2.log` |
-| every profile of every k = 3 core with n = 5, 6 (11,127,456) | see log | see log | `results/k4_induct_ps_k3_56.log` |
-| k = 4 cores, n = 3 (exhaustive where ≤ 3·10⁶ profiles, else samples) | see log | | `results/k4_induct_ps_k4_n3.log` |
-| k = 4 cores, n = 4, 5 (samples) | see log | | `results/k4_induct_ps_k4_n45.log` |
-| H_1–H_5 (`k4/c4.md` §7; n = 5, 9, 13, 17, 21), SAT | every agent, every private good | 0 (D2) | `results/k4_induct_ht.log` |
-| random general additive, n = 3, 4, m ≤ 8, values 0..R with zeros | 32,400 instances, every agent | 0 | `results/k4_induct_ps_general.log` |
+| k = 4 cores with n = 3: 14,782,912 profiles (35 cores exhaustively, 16 with 100,000 random profiles each) | 44,348,736 PS(I, w) + 49,737,600 PS(I − p, w) | 0 / 0 | `results/k4_induct_ps_k4_n3.log` |
+| k = 4 cores with n = 4, 5: 20 random profiles per core (651,720) | see log | see log | `results/k4_induct_ps_k4_n45.log` |
+| every ranking profile of the 251 connected k = 3 cores of `results/certs_5_6.json.gz` (n = 5, m = 9; n = 6, m = 10, 11) | see log | see log | `results/k4_induct_ps_k3_56.log` |
+| H_1–H_5 (`k4/c4.md` §7; n = 5, 9, 13, 17, 21), SAT | every agent (65) and every private-good insertion | 0 (D2) | `results/k4_induct_ht.log` |
+| random general additive, n = 3 (m = 4..8), n = 4 (m = 4..7), values 0..R with zeros and ties | 162,000 instances, 558,000 tests | 0 | `results/k4_induct_ps_general.log` |
 
 Random and sampled tests are EVIDENCE only (PROMPT.md §5 rule 3). The exhaustive rows are single-implementation
-exhaustive searches (the SAT encoding confirms the n = 2 row on samples); they are evidence for a conjecture, not a
-certificate of anything in the ledger.
+exhaustive searches; they are evidence for a conjecture, not a certificate of anything in the ledger.
 
 ## 4b. PS at k = 3 through LB⁺ with the target processed last
 
@@ -292,8 +298,8 @@ some other valid owner o leaves a slot free (|H| ≤ S − cap(o) − 1). Either
 Lemma 7), I has an EFX₀ allocation in which nobody envies w.
 
 LBO would give PS on the instances Theorem 4(a) needs at j = 0, and hence: *TARGET₄ holds for every instance with at
-most one 4-good agent unless the minimal counterexample's 4-good agent is Q4* (PP4 agents are excluded by K4.MC2, whose
-gadget has three goods and so stays in 𝒞₁).
+most one 4-good agent unless the minimal counterexample's 4-good agent is Q4* (for a PP4 agent, I − p leaves w with three
+goods, one of them private, which is inside LBO's setting).
 
 *Evidence* (`k4/induct_lbo.py`: exact Lemma 1 tests on every state; every state is checked to be a valid
 pre-allocation; single implementation):
@@ -301,14 +307,16 @@ pre-allocation; single implementation):
   pairs) and n = 5 (see `results/k4_induct_lbo_n5.log`): no miss (`results/k4_induct_lbo_n234.log`);
 - the instances J = I − p for every strict profile of every k = 4 core with n ≤ 3 whose only 4-good agent is P4, and
   samples for n = 4, 5 (`results/k4_induct_lbo_k4_n*.log`), about half of them with w top-heavy in J: no miss;
-- *every ingredient is needed* (n = 4, all profiles): without "w last" (every run of Phase 1, LB's R1 priority for
-  every agent): 744 misses already among the 583,200 pairs of the n = 5, m = 9 cores; without stopping the upgrade loop
-  early: 4,098 misses at n = 4; without the rotation: 3,608; with w as owner only (no slot witness): 48;
-- *the run must be chosen*: requiring every run of Phase 1 with w last to work fails on 1,344 of the 212,544 n = 4
-  pairs (smallest: n = 4, m = 5, the target gets none of its goods).
-- At n = 4, the simplest witness (no upgrade, no rotation, w owner) suffices whenever w ends with its top (Lemma 7) and
-  in most cases where it ends with its second good; the upgrades are needed only when w ends with its second good, the
-  rotation only when it ends with its third good or with nothing.
+- *every ingredient is needed* (`results/k4_induct_lbo_variants.log`): without "w last" (every run of Phase 1 with LB's
+  R1 priority for every agent), 1,134 misses among the 583,200 pairs of the n = 5, m = 9 cores (none at n ≤ 4);
+  without stopping the upgrade loop early, 4,098 misses at n = 4; without the rotation, 3,608; with w as owner only
+  (no slot witness), 48;
+- *the run must be chosen*: requiring every run of Phase 1 with w last to work fails on 2,188 of the 212,544 n = 4
+  pairs (smallest: n = 4, m = 5).
+- *by w's final pick* (every run of Phase 1 with w last, every n = 4 core and profile, `results/k4_induct_lbo_bytype_n4.log`):
+  every one of the 483,376 runs in which w ends with its top gives a witness, as Lemma 7 says (a computational check of
+  it); runs in which w ends with its second good, its third good, or nothing fail in 64 of 272,688, 1,936 of 138,524
+  and 2,080 of 83,460 cases even with the rotation (1,052, 11,528 and 16,932 without it).
 
 The step still missing for a proof of LBO is the choice of the run when w ends Phase 1 without its top: an exchange
 argument on insertion sequences of the kind PR #37 (K4.C4.1X, Lemma X) needs for C₄¹∃.
@@ -331,6 +339,12 @@ agents, the margin θ_j(X′_w ∪ {d}) ≤ v_j(X′_j) for every other valuer j
 What a proof of the Q4 step would have to supply is an X′ with *two* properties at once (w unenvied, and the valuers of
 d satisfied with margin), which is what Proposition 5 also cannot supply for a second agent.
 
+**H_t from this point of view.** In the chain cores H_t of `k4/c4.md` §7 (where LB₄ʳ needs unboundedly many
+rotations), ℓ and the x_{j,i} are PP4 agents and only the y_j are Q4. PS held for every agent of H_1–H_5 and for every
+H_t − p with p a private good (`results/k4_induct_ht.log`), so Lemma 2 inserts each private good with no repair; the
+difficulty of H_t for the induction is concentrated in its t Q4 agents y_j, whose goods are the tops
+a_{j,i} of three PP4 agents and a good of the next gadget.
+
 ## 6. The B-form and LB₄'s owner constraint
 
 In the B-form with d = a_w (w's top), X′ + (w ↦ {a_w}) is EFX₀ iff no bundle of X′ threatens w holding a_w
@@ -342,25 +356,39 @@ fails at r = 1 already at n = 3 (§2).
 
 ## 7. What remains
 
-1. **PS on 𝒞_0** (k ≤ 3 instances). With Theorem 4 it removes the P4 and PP4 agents from a minimal counterexample
-   with one 4-good agent. By Proposition 6(b) it would follow from a *prescribed-owner* version of LB⁺ (every agent can
-   be the owner of the padded large bundle); LB⁺'s Theorem A makes r (the last processed agent not upgraded) the owner
-   except in its bad case, but the bad case's rotation can freeze r, and postponing w to the end of Phase 1 breaks
-   (B2) for w (need chains may end at w in earlier blocks).
+1. **PS on 𝒞_0** (k ≤ 3 instances), at least for the instances I − p of §4b. With Theorem 4 it removes the P4 and PP4
+   agents from a minimal counterexample with one 4-good agent. Route: conjecture LBO (§4b). Lemma 7 proves it when w
+   ends Phase 1 (w last) with its top. Open: the runs in which w ends with its second or third good or with nothing,
+   where need chains from up to three blocks end at w; the upgrades (second good) and one rotation (third good,
+   nothing) repair them in every test, but only for a well-chosen run, so a proof needs an exchange argument on
+   insertion sequences, like PR #37's Lemma X for C₄¹∃.
 2. **PS on 𝒞_j in general**, whose own induction (Proposition 5) stops at R1 on the target and at a second agent's
-   private good.
-3. **Q4 agents**: an insertion rule for a shared good; none of the tested selection rules works (§5).
+   private good. Without it, Theorem 4 does not iterate beyond j = 0.
+3. **Q4 agents**: an insertion rule for a shared good; none of the tested selection rules works (§5), already with a
+   single Q4 agent (j = 0 → 1).
 
 ## Reproduce
 
 ```
-gcc -O2 -o /tmp/k4_induct k4/induct.c -lm            # (induct_run.py and induct_ps.py compile it on first use)
+gcc -O2 -o /tmp/k4_induct k4/induct.c -lm            # (the drivers compile it on first use)
 python3 k4/induct_run.py results/k4_certs_2.json.gz --all --jobs=2 --rmax=3 --no-a --v --log=results/k4_induct_n2.log
 python3 k4/induct_run.py results/k4_certs_3.json.gz --samples=500 --seed=7 --jobs=2 --rmax=3 --no-a --v --log=results/k4_induct_n3.log
 python3 k4/induct_run.py results/k4_certs_4_n4_1.json.gz results/k4_certs_4_n4_2.json.gz results/k4_certs_4_n4_3.json.gz \
     results/k4_certs_4_pure.json.gz --samples=5 --seed=2 --jobs=2 --rmax=3 --no-a --v --log=results/k4_induct_n4.log
-python3 k4/induct_ps.py results/k4_certs_2.json.gz --all --log=results/k4_induct_ps_k4_n2.log
-python3 k4/induct_ps.py results/certs_5_6.json.gz --all --log=results/k4_induct_ps_k3_56.log
-(cd k4 && for t in 1 2 3 4 5; do python3 induct_sat.py ht $t --d2; done)   # H_t, ~5 min
+python3 k4/induct_run.py results/k4_certs_5_n4_1.json.gz results/k4_certs_5_n4_2.json.gz --samples=1 --max-cores=400 \
+    --seed=3 --jobs=2 --rmax=3 --no-a --log=results/k4_induct_n5.log
 python3 attempts/k4_induct_attempts.py                                    # every failure above, by brute force, < 1 s
+python3 k4/induct_ps.py results/k4_certs_2.json.gz --all --jobs=2 --log=results/k4_induct_ps_k4_n2.log
+python3 k4/induct_ps.py results/k4_certs_3.json.gz --max-all=3000000 --samples=100000 --jobs=2 --log=results/k4_induct_ps_k4_n3.log  # ~20 min
+python3 k4/induct_ps.py --general --per=2000 --jobs=2 --log=results/k4_induct_ps_general.log
+python3 k4/induct_ps.py results/certs_5_6.json.gz --all --jobs=4 --log=results/k4_induct_ps_k3_56.log   # ~3 h
+(cd k4 && for t in 1 2 3 4 5; do python3 induct_sat.py ht $t --d2; done) > results/k4_induct_ht.log   # ~5 min
+python3 k4/induct_rules.py results/k4_certs_3.json.gz --samples=200 --seed=1 --jobs=2 --log=results/k4_induct_rules_n3.log
+python3 k4/induct_rules.py results/k4_certs_4_n4_1.json.gz --samples=100 --seed=2 --jobs=2 --log=results/k4_induct_rules_n4_1.log
+python3 k4/induct_lbo.py results/certs_lb_2_6.json.gz --n=4 --all --jobs=2 --last --partial --rot --log=results/k4_induct_lbo_n234.log
+python3 k4/induct_lbo.py results/certs_lb_2_6.json.gz --n=5 --all --jobs=2 --last --partial --rot --log=results/k4_induct_lbo_n5.log
+python3 k4/induct_lbo.py --from-k4 results/k4_certs_2.json.gz results/k4_certs_3.json.gz --all --jobs=2 --last --partial --rot \
+    --log=results/k4_induct_lbo_k4_n23.log
 ```
+The variants of LBO (each ingredient dropped; every run) are listed with their commands in
+`results/k4_induct_lbo_variants.log`.

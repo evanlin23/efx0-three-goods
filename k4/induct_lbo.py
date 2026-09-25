@@ -16,6 +16,8 @@ Usage: python3 k4/induct_lbo.py CERTS_K3.json.gz [--n=N] [--samples=S] [--all] [
          [--log=OUT]
   --partial: also the states where LB's upgrade loop stops early (still valid pre-allocations).
   --only-o: count only witnesses (O) (w a valid owner).
+  --by-type: (k = 3 files, every profile) per run of Phase 1 with w last, w's final pick and whether that run alone
+          gives a witness (upgrade loop stopped anywhere), without and with the rotation.
   --every-run: (implies --last) every run of Phase 1 with w last must give a witness on its own.
   --from-k4: the files are k = 4 certificates; for every profile of every core whose only 4-good agent w is P4 (one
           private good p), test J = I - p with target w (the input Theorem 4(a) needs at j = 0); w is never upgraded
@@ -265,8 +267,58 @@ def main_k4(files, opt, log):
     for e in ex: log(f'  no witness: sets={e[0]} values={e[1]} w={e[2]}')
 
 
+def work_bytype(args):
+    """Per run of Phase 1 with w last: w's final pick (a, b, c or none) and whether this run alone gives a witness,
+    without and with the rotation (upgrade loop stopped anywhere)."""
+    global PARTIAL
+    sets, prof = args
+    PARTIAL = True
+    n = len(sets); m = 1 + max(g for S in sets for g in S)
+    R = [tuple(g for _, g in sorted(zip(t, S), reverse=True)) for S, t in zip(sets, prof)]
+    out = []
+    for w in range(n):
+        for order, Y in runs(R, n, last=w):
+            yw = 'none' if Y[w] is None else 'abc'[R[w].index(Y[w])]
+            for rot in (False, True):
+                out.append((yw, rot, w in ps_witness_runs_one(R, n, m, rot, [(order, Y)], stop=w)))
+    return out
+
+
+def main_bytype(files, opt, log):
+    from collections import Counter
+    tasks = []
+    for fn in files:
+        data = json.load(gzip.open(fn)); cores = data if isinstance(data, list) else data['cores']
+        for c in cores:
+            if 'n' in opt and len(c['sets']) != int(opt['n']): continue
+            if any(len(S) != 3 for S in c['sets']): continue
+            perms = list(itertools.permutations(range(3)))
+            for pr in itertools.product(perms, repeat=len(c['sets'])):
+                tasks.append((c['sets'], [[p[0] + 2, p[1] + 2, p[2] + 2] for p in pr]))
+    log(f'{len(tasks)} (core, ranking profile) pairs; every run of Phase 1 with the target w last, for every w')
+    t0 = time.time(); C = Counter()
+    with Pool(int(opt.get('jobs', 4))) as pool:
+        for res in pool.imap_unordered(work_bytype, tasks, chunksize=16):
+            for k in res: C[k] += 1
+    log(f'time {time.time() - t0:.1f}s')
+    for yw in ('a', 'b', 'c', 'none'):
+        for rot in (False, True):
+            tot = C[(yw, rot, True)] + C[(yw, rot, False)]
+            log(f'w ends Phase 1 with {"its top" if yw == "a" else "its second good" if yw == "b" else "its third good" if yw == "c" else "nothing":16s}'
+                f' rotation {"yes" if rot else "no "}: runs {tot}, runs without a witness {C[(yw, rot, False)]}')
+
+
 def main():
     argv = sys.argv[1:]
+    if '--by-type' in argv:
+        files = [a for a in argv if not a.startswith('--')]
+        opt = {a.split('=')[0][2:]: (a.split('=', 1)[1] if '=' in a else True) for a in argv if a.startswith('--')}
+        logf = open(opt['log'], 'w') if 'log' in opt else None
+        def log(s):
+            print(s, flush=True)
+            if logf: logf.write(s + '\n'); logf.flush()
+        log('command: python3 k4/induct_lbo.py ' + ' '.join(argv))
+        return main_bytype(files, opt, log)
     if '--from-k4' in argv:
         files = [a for a in argv if not a.startswith('--')]
         opt = {a.split('=')[0][2:]: (a.split('=', 1)[1] if '=' in a else True) for a in argv if a.startswith('--')}
