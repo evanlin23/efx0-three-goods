@@ -1,0 +1,37 @@
+$ cd k4 && python3 gamma_orbits.py 4 5 9
+n = 5, m' = 2: 1 graphs listed (valid, pairwise non-isomorphic), sum n! m'! / |Aut| = 1, labeled 1 ok
+n = 5, m' = 3: 3 graphs listed (valid, pairwise non-isomorphic), sum n! m'! / |Aut| = 390, labeled 390 ok
+n = 5, m' = 4: 28 graphs listed (valid, pairwise non-isomorphic), sum n! m'! / |Aut| = 28770, labeled 28770 ok
+n = 5, m' = 5: 85 graphs listed (valid, pairwise non-isomorphic), sum n! m'! / |Aut| = 681100, labeled 681100 ok
+n = 5, m' = 6: 153 graphs listed (valid, pairwise non-isomorphic), sum n! m'! / |Aut| = 6122700, labeled 6122700 ok
+n = 5, m' = 7: 98 graphs listed (valid, pairwise non-isomorphic), sum n! m'! / |Aut| = 21079800, labeled 21079800 ok
+n = 5, m' = 8: 33 graphs listed (valid, pairwise non-isomorphic), sum n! m'! / |Aut| = 22444800, labeled 22444800 ok
+n = 6, m' = 3: 5 graphs listed (valid, pairwise non-isomorphic), sum n! m'! / |Aut| = 690, labeled 690 ok
+n = 6, m' = 4: 28 graphs listed (valid, pairwise non-isomorphic), sum n! m'! / |Aut| = 135000, labeled 135000 ok
+n = 6, m' = 5: 186 graphs listed (valid, pairwise non-isomorphic), sum n! m'! / |Aut| = 7176600, labeled 7176600 ok
+n = 6, m' = 6: 504 graphs listed (valid, pairwise non-isomorphic), sum n! m'! / |Aut| = 148611600, labeled 148611600 ok
+n = 6, m' = 7: 744 graphs listed (valid, pairwise non-isomorphic), sum n! m'! / |Aut| = 1330736400, labeled 1330736400 ok
+n = 6, m' = 8: 448 graphs listed (valid, pairwise non-isomorphic), sum n! m'! / |Aut| = 5033347200, labeled 5033347200 ok
+n = 6, m' = 9: 130 graphs listed (valid, pairwise non-isomorphic), sum n! m'! / |Aut| = 6392131200, labeled 6392131200 ok
+n = 7, m' = 4: 23 graphs listed (valid, pairwise non-isomorphic), sum n! m'! / |Aut| = 210840, labeled 210840 ok
+n = 7, m' = 5: 166 graphs listed (valid, pairwise non-isomorphic), sum n! m'! / |Aut| = 31976700, labeled 31976700 ok
+n = 7, m' = 6: 887 graphs listed (valid, pairwise non-isomorphic), sum n! m'! / |Aut| = 1521513000, labeled 1521513000 ok
+n = 7, m' = 7: 2169 graphs listed (valid, pairwise non-isomorphic), sum n! m'! / |Aut| = 30736641600, labeled 30736641600 ok
+n = 7, m' = 8: 2815 graphs listed (valid, pairwise non-isomorphic), sum n! m'! / |Aut| = 286637299200, labeled 286637299200 ok
+n = 7, m' = 9: 1623 graphs listed (valid, pairwise non-isomorphic), sum n! m'! / |Aut| = 1191531902400, labeled 1191531902400 ok
+n = 7, m' = 10: 409 graphs listed (valid, pairwise non-isomorphic), sum n! m'! / |Aut| = 1743946848000, labeled 1743946848000 ok
+n = 8, m' = 5: 85 graphs listed (valid, pairwise non-isomorphic), sum n! m'! / |Aut| = 51387000, labeled 51387000 ok
+n = 8, m' = 6: 683 graphs listed (valid, pairwise non-isomorphic), sum n! m'! / |Aut| = 6973243200, labeled 6973243200 ok
+n = 8, m' = 7: 3271 graphs listed (valid, pairwise non-isomorphic), sum n! m'! / |Aut| = 320327935200, labeled 320327935200 ok
+n = 8, m' = 8: 7413 graphs listed (valid, pairwise non-isomorphic), sum n! m'! / |Aut| = 6572353536000, labeled 6572353536000 ok
+n = 8, m' = 9: 8865 graphs listed (valid, pairwise non-isomorphic), sum n! m'! / |Aut| = 64795607856000, labeled 64795607856000 ok
+n = 8, m' = 10: 4893 graphs listed (valid, pairwise non-isomorphic), sum n! m'! / |Aut| = 294649923456000, labeled 294649923456000 ok
+n = 8, m' = 11: 1148 graphs listed (valid, pairwise non-isomorphic), sum n! m'! / |Aut| = 486538690176000, labeled 486538690176000 ok
+n = 9, m' = 6: 276 graphs listed (valid, pairwise non-isomorphic), sum n! m'! / |Aut| = 11958937200, labeled 11958937200 ok
+n = 9, m' = 7: 2291 graphs listed (valid, pairwise non-isomorphic), sum n! m'! / |Aut| = 1548313250400, labeled 1548313250400 ok
+n = 9, m' = 8: 10071 graphs listed (valid, pairwise non-isomorphic), sum n! m'! / |Aut| = 71079684278400, labeled 71079684278400 ok
+n = 9, m' = 9: 21534 graphs listed (valid, pairwise non-isomorphic), sum n! m'! / |Aut| = 1507322409062400, labeled 1507322409062400 ok
+n = 9, m' = 10: 24204 graphs listed (valid, pairwise non-isomorphic), sum n! m'! / |Aut| = 15783646767840000, labeled 15783646767840000 ok
+n = 9, m' = 11: 12936 graphs listed (valid, pairwise non-isomorphic), sum n! m'! / |Aut| = 78060841822656000, labeled 78060841822656000 ok
+n = 9, m' = 12: 2870 graphs listed (valid, pairwise non-isomorphic), sum n! m'! / |Aut| = 143253564322176000, labeled 143253564322176000 ok
+beta = 4, 5 <= n <= 9: 111078 graphs G'; RESULT: OK

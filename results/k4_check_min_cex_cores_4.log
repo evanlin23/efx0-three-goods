@@ -1,0 +1,48 @@
+$ cd k4 && python3 check_mincex_cores4.py 4 ../results/k4_min_cex_cores_4.json.gz ../results/k4_min_cex_px_uncovered.json --jobs=3 --allow-graphical --expect=5558 --expect-n=5:346,6:2183,7:2110,8:835,9:84 --expect-graphical=6
+uncovered-profile file ../results/k4_min_cex_px_uncovered.json: sha256 a2ac24e62616db6e77fdc89946c28af3fc6756362c795ec6e950b05ca924da1f, matches /home/user/efx0-three-goods/k4/../results/k4_check_min_cex_reductions.log
+  orbit count n = 5, m' = 2: 1 graphs G', sum n! m'! / |Aut| = 1, labeled 1 ok
+  orbit count n = 5, m' = 3: 3 graphs G', sum n! m'! / |Aut| = 390, labeled 390 ok
+  orbit count n = 5, m' = 4: 28 graphs G', sum n! m'! / |Aut| = 28770, labeled 28770 ok
+  orbit count n = 5, m' = 5: 85 graphs G', sum n! m'! / |Aut| = 681100, labeled 681100 ok
+  orbit count n = 5, m' = 6: 153 graphs G', sum n! m'! / |Aut| = 6122700, labeled 6122700 ok
+  orbit count n = 5, m' = 7: 98 graphs G', sum n! m'! / |Aut| = 21079800, labeled 21079800 ok
+  orbit count n = 5, m' = 8: 33 graphs G', sum n! m'! / |Aut| = 22444800, labeled 22444800 ok
+  orbit count n = 6, m' = 3: 5 graphs G', sum n! m'! / |Aut| = 690, labeled 690 ok
+  orbit count n = 6, m' = 4: 28 graphs G', sum n! m'! / |Aut| = 135000, labeled 135000 ok
+  orbit count n = 6, m' = 5: 186 graphs G', sum n! m'! / |Aut| = 7176600, labeled 7176600 ok
+  orbit count n = 6, m' = 6: 504 graphs G', sum n! m'! / |Aut| = 148611600, labeled 148611600 ok
+  orbit count n = 6, m' = 7: 744 graphs G', sum n! m'! / |Aut| = 1330736400, labeled 1330736400 ok
+  orbit count n = 6, m' = 8: 448 graphs G', sum n! m'! / |Aut| = 5033347200, labeled 5033347200 ok
+  orbit count n = 6, m' = 9: 130 graphs G', sum n! m'! / |Aut| = 6392131200, labeled 6392131200 ok
+  orbit count n = 7, m' = 4: 23 graphs G', sum n! m'! / |Aut| = 210840, labeled 210840 ok
+  orbit count n = 7, m' = 5: 166 graphs G', sum n! m'! / |Aut| = 31976700, labeled 31976700 ok
+  orbit count n = 7, m' = 6: 887 graphs G', sum n! m'! / |Aut| = 1521513000, labeled 1521513000 ok
+  orbit count n = 7, m' = 7: 2169 graphs G', sum n! m'! / |Aut| = 30736641600, labeled 30736641600 ok
+  orbit count n = 7, m' = 8: 2815 graphs G', sum n! m'! / |Aut| = 286637299200, labeled 286637299200 ok
+  orbit count n = 7, m' = 9: 1623 graphs G', sum n! m'! / |Aut| = 1191531902400, labeled 1191531902400 ok
+  orbit count n = 7, m' = 10: 409 graphs G', sum n! m'! / |Aut| = 1743946848000, labeled 1743946848000 ok
+  orbit count n = 8, m' = 5: 85 graphs G', sum n! m'! / |Aut| = 51387000, labeled 51387000 ok
+  orbit count n = 8, m' = 6: 683 graphs G', sum n! m'! / |Aut| = 6973243200, labeled 6973243200 ok
+  orbit count n = 8, m' = 7: 3271 graphs G', sum n! m'! / |Aut| = 320327935200, labeled 320327935200 ok
+  orbit count n = 8, m' = 8: 7413 graphs G', sum n! m'! / |Aut| = 6572353536000, labeled 6572353536000 ok
+  orbit count n = 8, m' = 9: 8865 graphs G', sum n! m'! / |Aut| = 64795607856000, labeled 64795607856000 ok
+  orbit count n = 8, m' = 10: 4893 graphs G', sum n! m'! / |Aut| = 294649923456000, labeled 294649923456000 ok
+  orbit count n = 8, m' = 11: 1148 graphs G', sum n! m'! / |Aut| = 486538690176000, labeled 486538690176000 ok
+  orbit count n = 9, m' = 6: 276 graphs G', sum n! m'! / |Aut| = 11958937200, labeled 11958937200 ok
+  orbit count n = 9, m' = 7: 2291 graphs G', sum n! m'! / |Aut| = 1548313250400, labeled 1548313250400 ok
+  orbit count n = 9, m' = 8: 10071 graphs G', sum n! m'! / |Aut| = 71079684278400, labeled 71079684278400 ok
+  orbit count n = 9, m' = 9: 21534 graphs G', sum n! m'! / |Aut| = 1507322409062400, labeled 1507322409062400 ok
+  orbit count n = 9, m' = 10: 24204 graphs G', sum n! m'! / |Aut| = 15783646767840000, labeled 15783646767840000 ok
+  orbit count n = 9, m' = 11: 12936 graphs G', sum n! m'! / |Aut| = 78060841822656000, labeled 78060841822656000 ok
+  orbit count n = 9, m' = 12: 2870 graphs G', sum n! m'! / |Aut| = 143253564322176000, labeled 143253564322176000 ok
+beta = 4: 175274 cores expanded from G' (5 <= n <= 9), 165723 pass the filters, 5558 left after K4.MC5 up to isomorphism; orbit counting OK
+left per n: {5: 346, 6: 2183, 7: 2110, 8: 835, 9: 84}
+  graphical, not certified (left to the multigraph theorem): P4P4P4P4P4P4 [[0, 1, 2, 9], [0, 4, 8, 10], [1, 5, 7, 11], [2, 6, 8, 12], [3, 4, 6, 13], [3, 5, 7, 14]]
+  graphical, not certified (left to the multigraph theorem): P4P4P4P4P4P4 [[0, 1, 2, 9], [0, 2, 8, 10], [1, 4, 7, 11], [3, 5, 6, 12], [3, 6, 8, 13], [4, 5, 7, 14]]
+  graphical, not certified (left to the multigraph theorem): P4P4P4P4P4P4 [[0, 1, 6, 9], [0, 4, 7, 10], [1, 4, 7, 11], [2, 3, 6, 12], [2, 5, 8, 13], [3, 5, 8, 14]]
+  graphical, not certified (left to the multigraph theorem): P4P4P4P4P4P4 [[0, 1, 6, 9], [0, 4, 7, 10], [1, 5, 7, 11], [2, 3, 6, 12], [2, 4, 8, 13], [3, 5, 8, 14]]
+  graphical, not certified (left to the multigraph theorem): P4P4P4P4P4P4 [[0, 1, 6, 9], [0, 4, 8, 10], [1, 5, 7, 11], [2, 3, 6, 12], [2, 4, 7, 13], [3, 5, 8, 14]]
+  graphical, not certified (left to the multigraph theorem): P4P4P4P4P4P4 [[0, 1, 6, 9], [0, 4, 6, 10], [1, 5, 7, 11], [2, 3, 8, 12], [2, 4, 7, 13], [3, 5, 8, 14]]
+checked 5558 cores: 5552 certified (156492494201512 profiles in all), all covered; 6 graphical left to the multigraph theorem; problems: {}
+every allocation has at most one bundle of more than 2 goods (D2): True
+RESULT: OK

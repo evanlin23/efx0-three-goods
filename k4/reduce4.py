@@ -396,9 +396,12 @@ def gadget_search(cfg, sp, goods, Ip, M, jobs=4):
     else:
         _init(red); covs = [_cover(st) for st in sts]
     P = int(np.prod(cfg.shape))
-    notcov = np.array([~np.unpackbits(c)[:P].astype(bool) for c in covs], dtype=np.float32)   # states x profiles
     adm = np.array([menu_admissible(goods, M, *st, sp) for st in sts], dtype=np.float32)       # states x menu
-    bad = adm.T @ notcov > 0.5
+    packed = np.array(covs)                                                                     # states x P/8
+    bad = np.zeros((len(M), P), dtype=bool)
+    for c0 in range(0, packed.shape[1], 1024):                                                  # 8192 profiles a time
+        cols = np.unpackbits(packed[:, c0:c0 + 1024], axis=1)[:, :max(0, min(8192, P - 8 * c0))]
+        bad[:, 8 * c0:8 * c0 + cols.shape[1]] = adm.T @ (1.0 - cols.astype(np.float32)) > 0.5
     return ~bad
 
 

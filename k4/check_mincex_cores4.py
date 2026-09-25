@@ -1,0 +1,328 @@
+"""Independent check of the candidate cores of a minimal counterexample with cyclomatic number beta >= 4, and of their
+certificate (k4/MINCEX.md, section 8). For beta = 3, see check_mincex_cores.py (which lists the full incidence graphs;
+at beta = 4 that list is too long, so this checker starts from G').
+
+Written separately from mincex_shapes.py / mincex_cert.py:
+  1. G' (the incidence graph without private goods: n agents of degree 2-4, shared goods of degree >= 2, cyclomatic
+     number beta) is listed with nauty's genbg for 5 <= n <= 3(beta - 1) (K4.MC4), and the list is complete by orbit
+     counting (gamma_orbits.py: sum n! m'! / |Aut| = the labeled count, from check4.py's column-filling DP);
+  2. G' in which a good of degree 2 joins two agents of degree 2 (both P3) are dropped (K4.MC3); every other G' is
+     expanded: an agent of degree 2 gets one private good (P3), one of degree 4 none (Q4), and one of
+     degree 3 none (Q3) or one (P4), every combination (K4.MC2: no agent has two private goods);
+  3. filters: at least one 4-good agent, at least three when n = 5 (K4.MC0(d)), no good of degree 2 valued by two P3
+     agents (K4.MC3);
+  4. type domains from check_reductions4.py's enumeration, cut by the profiles of configuration px that no certified
+     reduction covers (K4.MC5; the file's SHA-256 must match the value check_reductions4.py recorded); cores with an
+     empty domain are excluded; the rest are merged up to isomorphism;
+  5. every remaining core must be isomorphic to a certified core; coverage of the full product of its domains is
+     checked with check4.py's C routine (pruned depth-first search), from safety masks computed here with the raw
+     definition (vectorized: v(own) >= v(B ∩ R) - [B ⊆ R] min_B v); every certified allocation must be D2.
+Any failure makes the exit status nonzero.
+With --allow-graphical, a core without allocations is accepted if every good of it is valued by at most two agents
+(verified here); such cores are listed as left to the multigraph theorem (Afshinmehr et al., arXiv 2606.18665).
+Certificate records are format-checked first (check4.py's well_formed); --expect=N, --expect-n=n:N,... and
+--expect-graphical=K make the exit status depend on the number of cores left, their split by n, and the number of
+graphical cores accepted.
+Usage: check_mincex_cores4.py BETA certificate.json.gz px_uncovered.json [--reductions-log=PATH] [--jobs=J]
+       [--allow-graphical] [--expect=N] [--expect-n=5:N5,6:N6,...] [--expect-graphical=K]"""
+import sys, os, re, json, gzip, hashlib, itertools, collections, ctypes
+import numpy as np
+import networkx as nx
+from multiprocessing import Pool
+from check_reductions4 import TY
+from check_mincex_cores import signature, px_order
+import gamma_orbits as GO
+import check4
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+
+
+def expand_chunk(args):
+    """Expand a chunk of G' (graph6) of one (n, m'): every choice of Q3/P4 at the degree-3 agents; keep the cores that
+    pass the filters and whose cut domains are nonempty. Returns [(n, m, sets, dom, kinds)] and counts."""
+    n, mp, g6s = args
+    out, cnt = [], collections.Counter()
+    for g6 in g6s:
+        G = nx.from_graph6_bytes(g6.encode())
+        nb = [sorted(x - n for x in G[a]) for a in range(n)]
+        dg = collections.Counter(g for N in nb for g in N)
+        if any(dg[g] == 2 and all(len(N) == 2 for N in nb if g in N) for g in dg): continue       # K4.MC3
+        three = [a for a in range(n) if len(nb[a]) == 3]
+        for bits in itertools.product((0, 1), repeat=len(three)):
+            p4 = {a for a, b in zip(three, bits) if b}
+            sets, m = [], mp
+            for a in range(n):
+                S = list(nb[a])
+                if len(S) == 2 or a in p4: S.append(m); m += 1
+                sets.append(S)
+            cnt['expanded'] += 1
+            n4 = sum(len(S) == 4 for S in sets)
+            if n4 == 0 or (n == 5 and n4 < 3): continue
+            cnt['after filters'] += 1
+            kinds, deg, dom = domains(sets, PX_G)
+            if any(not d for d in dom): continue
+            out.append((n, m, sets, dom, kinds))
+    return out, cnt
+
+
+PX_G = None
+
+
+def _init_px(px):
+    global PX_G
+    PX_G = px
+
+
+_CUT = {}
+_SIG = {}
+
+
+def vsig(v):
+    """signature() of a value vector indexed by position, cached."""
+    if v not in _SIG: _SIG[v] = signature(list(range(len(v))), dict(enumerate(v)))
+    return _SIG[v]
+
+
+def allowed(PX, name, pos_e, pos_f, Se_len, Sf_len):
+    """Signatures (on e's and f's goods in their own order) allowed by the uncovered px profiles; pos_e[i] = index in
+    e's good list of the i-th px label (one tuple per labeling of e's symmetric goods)."""
+    key = (name, pos_e, pos_f, Se_len, Sf_len)
+    if key in _CUT: return _CUT[key]
+    okE = okF = None
+    Re, Rf = list(range(Se_len)), list(range(Sf_len))
+    for pe in pos_e:
+        se, sf = set(), set()
+        for pr in PX[name]:
+            ve = {pe[i]: pr['e'][x] for i, x in enumerate(px_order(name))}
+            vf = {pos_f[0]: pr['f']['g'], pos_f[1]: pr['f']['y'], pos_f[2]: pr['f']['pf']}
+            se.add(signature(Re, ve)); sf.add(signature(Rf, vf))
+        okE = se if okE is None else okE & se
+        okF = sf if okF is None else okF & sf
+    _CUT[key] = (okE, okF)
+    return okE, okF
+
+
+def domains(sets, PX):
+    n = len(sets)
+    deg = collections.Counter(g for S in sets for g in S)
+    kinds = [('P' if sum(deg[g] == 1 for g in S) else 'Q') + str(len(S)) for S in sets]
+    dom = [[tuple(t) for t in TY[len(S)]] for S in sets]
+    for f in range(n):
+        if kinds[f] != 'P3': continue
+        pf = next(g for g in sets[f] if deg[g] == 1)
+        for g in sets[f]:
+            if g == pf or deg[g] != 2: continue
+            e = next(a for a in range(n) if a != f and g in sets[a])
+            y = next(x for x in sets[f] if x not in (g, pf))
+            closed = y in sets[e]
+            name = 'px-' + kinds[e] + ('-closed' if closed else '')
+            sym = [x for x in sets[e] if x not in (g, y) and deg[x] > 1]
+            pe = [x for x in sets[e] if deg[x] == 1]
+            pos_e = tuple(tuple(sets[e].index(x) for x in [g] + ([y] if closed else []) + list(perm) + pe)
+                          for perm in itertools.permutations(sym))
+            pos_f = tuple(sets[f].index(x) for x in (g, y, pf))
+            okE, okF = allowed(PX, name, pos_e, pos_f, len(sets[e]), len(sets[f]))
+            dom[e] = [v for v in dom[e] if vsig(v) in okE]
+            dom[f] = [v for v in dom[f] if vsig(v) in okF]
+    return kinds, deg, dom
+
+
+def graph(sets, m):
+    G = nx.Graph()
+    G.add_nodes_from((('a', i) for i in range(len(sets))), c='a')
+    G.add_nodes_from((('g', g) for g in range(m)), c='g')
+    G.add_edges_from((('a', i), ('g', g)) for i, S in enumerate(sets) for g in S)
+    return G
+
+
+def safe_masks(sets, m, dom, allocs):
+    """masks[i][t, k]: agent i with type dom[i][t] is safe in allocation k (raw EFX0, vectorized over types)."""
+    n = len(sets)
+    out = []
+    for i, S in enumerate(sets):
+        V = np.array(dom[i], dtype=np.int64)                      # types x |S|
+        pos = {g: p for p, g in enumerate(S)}
+        M = np.zeros((len(dom[i]), len(allocs)), dtype=bool)
+        for k, A in enumerate(allocs):
+            own = [pos[g] for g in S if A[g] == i]
+            mine = V[:, own].sum(1)
+            ok = np.ones(len(V), dtype=bool)
+            for j in range(n):
+                if j == i: continue
+                B = [g for g in range(m) if A[g] == j]
+                if len(B) <= 1: continue
+                inR = [pos[g] for g in B if g in pos]
+                if not inR: continue
+                vals = V[:, inR]
+                thr = vals.sum(1) - (vals.min(1) if len(inR) == len(B) else 0)
+                ok &= mine >= thr
+            M[:, k] = ok
+        out.append(M)
+    return out
+
+
+LIB = None
+
+
+def minimal_rows(M):
+    """The distinct rows of M (types x allocations) that contain no other row. A profile whose type t has a row that
+    contains the row of type t' is covered whenever the profile with t' in its place is, so the product of all types is
+    covered iff the product of these rows is."""
+    R = np.unique(M, axis=0)
+    R = R[np.argsort(R.sum(1), kind='stable')]
+    keep = []
+    for r in R:
+        if not any((k & ~r).sum() == 0 for k in keep): keep.append(r)
+    return np.array(keep, dtype=bool) if keep else np.zeros((0, M.shape[1]), dtype=bool)
+
+
+def covered(masks):
+    """check4.py's C routine (every profile of the product has a common allocation), on each agent's minimal rows."""
+    global LIB
+    if LIB is None: LIB = check4.load_c()
+    masks = [minimal_rows(Mi) for Mi in masks]
+    if any(Mi.shape[0] == 0 for Mi in masks): return False
+    n = len(masks)
+    K = masks[0].shape[1]
+    W = max(1, (K + 63) // 64)
+    off = [0]
+    for Mi in masks: off.append(off[-1] + Mi.shape[0] * W)
+    buf = np.zeros(off[-1], dtype=np.uint64)
+    for i, Mi in enumerate(masks):
+        pad = np.zeros((Mi.shape[0], W * 64), dtype=bool); pad[:, :K] = Mi
+        words = np.packbits(pad.reshape(Mi.shape[0], W, 64)[:, :, ::-1], axis=2).view('>u8').reshape(Mi.shape[0], W)
+        buf[off[i]:off[i + 1]] = words.astype(np.uint64).ravel()
+    F = np.zeros((n + 1) * W, dtype=np.uint64)
+    for l in range(n + 1):
+        full = np.ones(K, dtype=bool)
+        for j in range(l, n): full &= masks[j].all(0)
+        pad = np.zeros(W * 64, dtype=bool); pad[:K] = full
+        F[l * W:(l + 1) * W] = np.packbits(pad.reshape(W, 64)[:, ::-1], axis=1).view('>u8').ravel().astype(np.uint64)
+    P = ctypes.POINTER(ctypes.c_uint64)
+    return bool(LIB.covered(n, W, (ctypes.c_int * n)(*[Mi.shape[0] for Mi in masks]), (ctypes.c_long * n)(*off[:n]),
+                            buf.ctypes.data_as(P), F.ctypes.data_as(P)))
+
+
+CERT = None
+GRAPHICAL = False
+
+
+def _init(c, g):
+    global CERT, GRAPHICAL
+    CERT, GRAPHICAL = c, g
+
+
+def check_one(item):
+    n, m, sets, dom, kinds = item
+    G = graph(sets, m)
+    h = nx.weisfeiler_lehman_graph_hash(G, node_attr='c')
+    for r in CERT.get((n, m, h), []):
+        gm = nx.algorithms.isomorphism.GraphMatcher(G, graph(r['sets'], r['m']), node_match=lambda a, b: a['c'] == b['c'])
+        if not gm.is_isomorphic(): continue
+        mp = gm.mapping
+        if 'allocs' not in r:
+            deg = collections.Counter(g for S in sets for g in S)
+            if GRAPHICAL and max(deg.values()) <= 2:
+                return sets, kinds, None, 'graphical, not certified (left to the multigraph theorem)'
+            return sets, kinds, None, 'not certified (%s)' % ('timeout' if 'timeout' in r else 'no allocations')
+        gmap = {g: mp[('g', g)][1] for g in range(m)}
+        inv = {mp[('a', a)][1]: a for a in range(n)}
+        allocs = [[inv[A[gmap[g]]] for g in range(m)] for A in r['allocs']]
+        masks = safe_masks(sets, m, dom, allocs)
+        ok = covered(masks)
+        d2 = all(sum(1 for c in collections.Counter(A).values() if c > 2) <= 1 for A in allocs)
+        prof = int(np.prod([len(d) for d in dom], dtype=object))
+        return sets, kinds, (ok, d2, prof, len(allocs)), None
+    return sets, kinds, None, 'no isomorphic core in the certificate'
+
+
+def main():
+    beta = int(sys.argv[1])
+    cert = json.load(gzip.open(sys.argv[2], 'rt'))
+    raw = open(sys.argv[3], 'rb').read()
+    opts = dict(a[2:].split('=', 1) for a in sys.argv[4:] if a.startswith('--') and '=' in a)
+    log = opts.get('reductions-log', os.path.join(HERE, '..', 'results', 'k4_check_min_cex_reductions.log'))
+    rec = re.findall(r'written to (\S+) \(sha256 ([0-9a-f]{64})\)', open(log).read())
+    want = [h for f, h in rec if os.path.basename(f) == os.path.basename(sys.argv[3])]
+    got = hashlib.sha256(raw).hexdigest()
+    sha_ok = bool(want) and all(h == got for h in want)
+    print('uncovered-profile file %s: sha256 %s, %s' % (sys.argv[3], got, 'matches %s' % log if sha_ok else
+                                                         'DOES NOT MATCH the value recorded in %s' % log), flush=True)
+    PX = {k: v for k, v in json.loads(raw).items() if k.startswith('px-')}
+    stat = collections.Counter()
+    left, buckets = [], collections.defaultdict(list)
+    orbit_ok = True
+    jobs = int(opts.get('jobs', 4))
+    with Pool(jobs, initializer=_init_px, initargs=(PX,)) as pool:
+        for n in range(5, 3 * (beta - 1) + 1):
+            for mp in range(1, n + beta):
+                E = n + mp + beta - 1
+                gs = GO.genbg_list(n, mp, E)
+                lab = GO.labeled_conn(n, mp, E)
+                sm = GO.orbit_sum(n, mp, gs) if gs else 0
+                if lab or gs:
+                    print("  orbit count n = %d, m' = %d: %d graphs G', sum n! m'! / |Aut| = %d, labeled %d %s" % (
+                        n, mp, len(gs), sm, lab, 'ok' if sm == lab else 'MISMATCH'), flush=True)
+                orbit_ok &= sm == lab
+                chunks = [(n, mp, gs[i:i + 200]) for i in range(0, len(gs), 200)]
+                for surv, cnt in pool.imap_unordered(expand_chunk, chunks):
+                    stat.update(cnt)
+                    for n_, m, sets, dom, kinds in surv:
+                        G = graph(sets, m)
+                        h = (n_, m, nx.weisfeiler_lehman_graph_hash(G, node_attr='c'))
+                        if any(nx.is_isomorphic(G, G2, node_match=lambda a, b: a['c'] == b['c']) for G2 in buckets[h]):
+                            continue
+                        buckets[h].append(G)
+                        left.append((n_, m, sets, dom, kinds))
+    print('beta = %d: %d cores expanded from G\' (5 <= n <= %d), %d pass the filters, %d left after K4.MC5 up to '
+          'isomorphism; orbit counting %s' % (beta, stat['expanded'], 3 * (beta - 1), stat['after filters'], len(left),
+                                              'OK' if orbit_ok else 'FAILED'), flush=True)
+    pern = collections.Counter(n for n, _, _, _, _ in left)
+    print('left per n: %s' % dict(sorted(pern.items())), flush=True)
+    # format of the certificate records (check4.py's well_formed for records with allocations; the others must at least
+    # have n agent lists of distinct goods in range(m))
+    cb, malformed = collections.defaultdict(list), 0
+    for r in cert:
+        n_ = r.get('n')
+        good = isinstance(n_, int) and n_ >= 1 and (check4.well_formed(r, n_) if 'allocs' in r else
+                                                     check4.well_formed(dict(r, allocs=[]), n_))
+        if not good:
+            malformed += 1
+            if malformed <= 5: print('  MALFORMED certificate record: %s' % json.dumps(r)[:200])
+            continue
+        cb[(r['n'], r['m'], nx.weisfeiler_lehman_graph_hash(graph(r['sets'], r['m']), node_attr='c'))].append(r)
+    if malformed: print('  %d malformed certificate records (skipped)' % malformed)
+    ok, d2all, nprof, bad, ncert = True, True, 0, collections.Counter(), 0
+    graphical = '--allow-graphical' in sys.argv
+    with Pool(int(opts.get('jobs', 4)), initializer=_init, initargs=(cb, graphical)) as pool:
+        for sets, kinds, res, err in pool.imap_unordered(check_one, left, chunksize=4):
+            if err:
+                if err.startswith('graphical'):
+                    bad['graphical'] += 1; print('  %s: %s %s' % (err, ''.join(kinds), sets)); continue
+                ok = False; bad[err.split(' (')[0]] += 1
+                if bad[err.split(' (')[0]] <= 20: print('  %s: %s %s' % (err, ''.join(kinds), sets))
+                continue
+            cov, d2, prof, na = res
+            nprof += prof; ncert += 1
+            if not cov:
+                ok = False; print('  UNCOVERED profiles: %s %s' % (''.join(kinds), sets))
+            d2all &= d2
+    print('checked %d cores: %d certified (%d profiles in all), %s; %d graphical left to the multigraph theorem; '
+          'problems: %s' % (len(left), ncert, nprof, 'all covered' if ok else 'NOT all covered', bad['graphical'],
+                            {k: v for k, v in bad.items() if k != 'graphical'}))
+    print('every allocation has at most one bundle of more than 2 goods (D2): %s' % d2all)
+    exp_ok = True
+    if 'expect' in opts and int(opts['expect']) != len(left):
+        print('EXPECT FAILED: %d cores left, expected %s' % (len(left), opts['expect'])); exp_ok = False
+    if 'expect-n' in opts:
+        want = {int(a): int(b) for a, b in (x.split(':') for x in opts['expect-n'].split(','))}
+        if want != dict(pern): print('EXPECT FAILED: per n %s, expected %s' % (dict(pern), want)); exp_ok = False
+    if 'expect-graphical' in opts and int(opts['expect-graphical']) != bad['graphical']:
+        print('EXPECT FAILED: %d graphical, expected %s' % (bad['graphical'], opts['expect-graphical'])); exp_ok = False
+    ok = ok and d2all and sha_ok and orbit_ok and exp_ok and not malformed
+    print('RESULT: %s' % ('OK' if ok else 'FAILED'))
+    sys.exit(0 if ok else 1)
+
+
+if __name__ == '__main__':
+    main()
