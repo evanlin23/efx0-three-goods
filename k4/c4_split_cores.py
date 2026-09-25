@@ -9,5 +9,7 @@ for n in (2, 3):
     for k in range(1, n + 1):
         cs = [{'m': c['m'], 'sets': c['sets']} for c in d['cores'] if sum(len(s) == 4 for s in c['sets']) == k]
         if cs:
-            json.dump({'ties': False, 'cores': cs}, gzip.open(os.path.join(OUT, f'k4_certs_{n}_n4eq{k}.json.gz'), 'wt'))
+            f = os.path.join(OUT, f'k4_certs_{n}_n4eq{k}.json.gz'); txt = json.dumps({'ties': False, 'cores': cs})
+            if not os.path.exists(f) or gzip.open(f, 'rt').read() != txt:   # rewrite only if the content changed
+                with gzip.open(f, 'wt') as g: g.write(txt)
             print(f'k4_certs_{n}_n4eq{k}.json.gz: {len(cs)} cores')

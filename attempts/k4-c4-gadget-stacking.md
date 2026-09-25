@@ -12,6 +12,11 @@ The same holds for a 4-agent core with an earlier-block deficit (`attempts/k4-c4
 mechanism): 1 to 4 copies need exactly one rotation, and the large bundle grows (3, 4, 5, 6 goods). So this construction does not raise the rotation depth; it
 also illustrates why a counting proof must be global (across blocks), not per block.
 
+**What works instead** (`k4/c4.md` §7): gadgets whose deficit exceeds the slack a rotation creates. In the chain H_t
+each gadget has three frozen exposed 4-good agents and one slot (net −2), and rotating inside a gadget raises it to at
+most +1, so q rotations leave a total of at most q − 2(t − q), negative unless q ≥ 2t/3: the depth grows as ⌈2t/3⌉
+(Proposition H).
+
 **Smallest configuration**: agents 0 = {0, 1, 4, 5} with values (1, 4, 6, 8), 1 = {2, 3, 4, 5} with (3, 5, 7, 6),
 2 = {2, 3, 4, 5} with (2, 3, 4, 8): index insertion needs two rotations; two copies (n = 6, m = 11, copy 2's private
 good 1 identified with copy 1's good 0) need one.
