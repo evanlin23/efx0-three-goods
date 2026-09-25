@@ -1,0 +1,27 @@
+$ cd k4 && python3 check_mincex_cores.py 3 ../results/k4_min_cex_cores_3.json.gz ../results/k4_min_cex_px_uncovered.json
+uncovered-profile file ../results/k4_min_cex_px_uncovered.json: sha256 a2ac24e62616db6e77fdc89946c28af3fc6756362c795ec6e950b05ca924da1f, matches /home/user/efx0-three-goods/k4/../results/k4_check_min_cex_reductions.log
+beta = 3: 82782 connected incidence graphs (agents of degree 3-4) with 5 <= n <= 6 listed; 407 pass the filters; 9 left after K4.MC5
+  orbit count n = 5, m = 8: 62 k = 4 cores listed, sum n! m! / |Aut| = 128217600, labeled (DP) 128217600 ok
+  orbit count n = 5, m = 9: 275 k = 4 cores listed, sum n! m! / |Aut| = 4829932800, labeled (DP) 4829932800 ok
+  orbit count n = 5, m = 10: 572 k = 4 cores listed, sum n! m! / |Aut| = 75850992000, labeled (DP) 75850992000 ok
+  orbit count n = 5, m = 11: 639 k = 4 cores listed, sum n! m! / |Aut| = 623275884000, labeled (DP) 623275884000 ok
+  orbit count n = 5, m = 12: 380 k = 4 cores listed, sum n! m! / |Aut| = 2684504592000, labeled (DP) 2684504592000 ok
+  orbit count n = 5, m = 13: 110 k = 4 cores listed, sum n! m! / |Aut| = 4850265420000, labeled (DP) 4850265420000 ok
+  orbit count n = 6, m = 10: 211 k = 4 cores listed, sum n! m! / |Aut| = 235146240000, labeled (DP) 235146240000 ok
+  orbit count n = 6, m = 11: 1067 k = 4 cores listed, sum n! m! / |Aut| = 11716379136000, labeled (DP) 11716379136000 ok
+  orbit count n = 6, m = 12: 2667 k = 4 cores listed, sum n! m! / |Aut| = 254206149120000, labeled (DP) 254206149120000 ok
+  orbit count n = 6, m = 13: 3687 k = 4 cores listed, sum n! m! / |Aut| = 3078580705200000, labeled (DP) 3078580705200000 ok
+  orbit count n = 6, m = 14: 3084 k = 4 cores listed, sum n! m! / |Aut| = 21953319019632000, labeled (DP) 21953319019632000 ok
+  orbit count n = 6, m = 15: 1433 k = 4 cores listed, sum n! m! / |Aut| = 87356529940680000, labeled (DP) 87356529940680000 ok
+  orbit count n = 6, m = 16: 335 k = 4 cores listed, sum n! m! / |Aut| = 151404172920000000, labeled (DP) 151404172920000000 ok
+  n = 5, m = 11, kinds P4P4P3P4P3: 28800 profiles, 4 allocations, 0 uncovered
+  n = 5, m = 11, kinds P4P4P3P3Q4: 28800 profiles, 2 allocations, 0 uncovered
+  n = 6, m = 11, kinds P4P3P3P3P3Q3: 720 profiles, 1 allocations, 0 uncovered
+  n = 6, m = 11, kinds P3P3P3P3P3Q4: 442368 profiles, 39 allocations, 0 uncovered
+  n = 6, m = 11, kinds P4P3P3P3Q3Q3: 40 profiles, 1 allocations, 0 uncovered
+  n = 6, m = 12, kinds P4P4P3P3P3P3: 3600 profiles, 1 allocations, 0 uncovered
+  n = 6, m = 12, kinds P4P4P3P3P3Q3: 200 profiles, 1 allocations, 0 uncovered
+  n = 6, m = 12, kinds P3P3P3P3Q4Q4: 21233664 profiles, 22 allocations, 0 uncovered
+  n = 6, m = 13, kinds P4P4P4P3P3P3: 1000 profiles, 1 allocations, 0 uncovered
+every allocation has at most one bundle of more than 2 goods (D2): True
+RESULT: OK

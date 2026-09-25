@@ -1,0 +1,6 @@
+# ls4alg_run.py ../results/k4_certs_2.json.gz --ties --prog=ls4_allstates --jobs=1
+TOTAL cores=5 badcores=0 runs=189216 states=18817920 efx0_nonempty_pool=7588760 stable=24508 fail=0 empty=0 dump=24508 dm=0 wall=3s
+[[0, 1, 2, 3], [1, 2, 3]] FAIL stable state without placement: n=2 m=4 [0:3 1:2 2:4 3:8] [1:2 2:3 3:4] Y: 5 8 U:2
+[[0, 1, 2, 3], [1, 2, 3]] FAIL stable state without placement: n=2 m=4 [0:3 1:2 2:6 3:10] [1:2 2:3 3:4] Y: 5 8 U:2
+[[0, 1, 2, 3], [1, 2, 3]] FAIL stable state without placement: n=2 m=4 [0:3 1:4 2:2 3:8] [1:2 2:3 3:4] Y: 3 8 U:4
+exit status of the NOX run: 1

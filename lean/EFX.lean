@@ -15,5 +15,7 @@ import EFX.Rotation
 import EFX.LBPlus
 import EFX.CorollaryD
 import EFX.Target
+import EFX.K4Reduction
+import EFX.K4Ties
 import EFX.RealValues
 import EFX.Audit

@@ -1,0 +1,2 @@
+# ls4alg_run.py ../results/k4_certs_4_pure.json.gz ../results/k4_certs_4_n4_3.json.gz ../results/k4_certs_4_n4_2.json.gz ../results/k4_certs_4_n4_1.json.gz --prog=ls4_deadend --sample=2000 --maxm=7 --jobs=2
+TOTAL cores=500 badcores=0 runs=1000000 deadprof=34 deadstates=34 m1reach=34 wall=419s
