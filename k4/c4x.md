@@ -160,3 +160,123 @@ every strict profile of every k = 3 core with n ≤ 5 (343 cores, 2,333,088 prof
 E hold (0 violations), every Pareto-maximum is completable, some terminal is always a valid owner, and the criterion
 |Z_t| ≤ S − cap(t) agrees with the exact owner test on every terminal. "Every terminal is a valid owner" is false
 (80 terminals, all in the situation the label argument handles: two exposed agents whose chains end at one terminal).
+
+## 4. One 4-good agent: the 3-good agents first
+
+Now let the core have exactly one agent w with four goods (a_w > b_w > c_w > d_w, a_w < b_w + c_w + d_w, all
+subset sums distinct); the other agents have three goods. By L4 for k = 4 (`k4/SCOUT.md`), m ≤ 2(n − 1) + 3, so
+σ ≥ −1. Pareto-maximality is not enough here (§5: a Pareto-maximum that is not completable at n = 3), and neither is
+leximax or Σ 2^ℓ; leximin is (evidence), and so is the potential
+
+  **Ψ(P) = (Σ_{i ≠ w} ℓ_i(B_i), ℓ_w(B_w))**, lexicographic: the 3-good agents first, then w.
+
+Evidence: every Ψ-maximum is completable on every strict profile of every core with one 4-good agent and n = 3 (14
+cores, 119,232 profiles) or n = 4 (135 cores, 7,247,232 profiles); both orders of the two coordinates were tested and
+only this one works (w first fails at n = 3). With two 4-good agents the analogue (Σℓ over 3-good agents, then over
+4-good agents) fails (§5).
+
+A Ψ-maximum P satisfies:
+- **(M1)** no P′ ∈ 𝒫 has v_i(B′_i) ≥ v_i(B_i) for every 3-good agent i with one inequality strict, *whatever w gets*;
+- **(M2)** no P′ ∈ 𝒫 differs from P only in w's base and gives w more.
+
+Everything below uses only (M1) and (M2). Lemmas U and C of §3 hold (U: by (M1) for 3-good agents, by (M2) for w; C: a
+cycle of frozen agents has at least two agents, so a 3-good one). Facts (i)–(iii) of §3 hold for the 3-good agents.
+Moreover:
+- **Lemma U₂ (swap).** A free agent with a two-good base values no junk good more than either of its base goods
+  (otherwise it swaps them, a gain for it; the released good is in no need set by (V2)). So a free 3-good agent with
+  base {b, c} has a ∉ J, and one with base {a, c} has b ∉ J; w's junk goods are worse than both goods of a two-good
+  base of w.
+- **Lemma R₃** (Lemma R for 3-good agents). If x is a 3-good frozen top-holder and τ the end of a need chain from x,
+  low(x) ⊄ J ∪ B_τ. The proof of §3 applies; τ may now be w, and if B_w has two goods they go to the junk (they are not
+  in NA by (V2)) while w takes the good it needed.
+- The case split below is by w's status: **(A)** w frozen; **(B)** w a terminal (free, N_w ≠ ∅); **(C)** w free with
+  N_w = ∅.
+
+### 4.1 Case A: w frozen (proved)
+
+Let B_w = {g}, L = R_w ∖ {g}, and let Two be the set of goods lying in two-good bases of agents other than w. Every
+h ∈ L ∩ Two has v_w(h) ≤ v_w(g), since h ∉ NA ⊇ N_w by (V2).
+
+**Lemma R_w (w cannot be rotated).** For every end τ of a need chain from w there is h ∈ L ∩ Two with
+v_w(h) > v_w(O*_τ), where O*_τ is the set of the (at most two) best goods of L ∩ (J ∪ B_τ) (∅ if there are none).
+
+*Proof.* Rotate along the chain: every agent after w takes its predecessor's base good (x₁ takes g), w takes O*_τ, and
+the rest of B_τ goes to the junk. Everybody but w strictly gains, and x₁ ≠ w is a 3-good agent, so by (M1) the result is
+not in 𝒫. Needs other than w's only shrink, O*_τ ⊆ J ∪ B_τ misses NA, and B_τ ∖ O*_τ is not needed; so the only way
+to be invalid is a good of R_w ∖ O*_τ worth more than O*_τ that is not a single-good base in the result. g is x₁'s base;
+a good of L in a single-good base of P other than B_τ is still one (chain agents pass single goods on); a good of
+L ∩ (J ∪ B_τ) outside O*_τ is worth less than each good of O*_τ. What remains is a good of L ∩ Two worth more than
+O*_τ. ∎
+
+**Lemma E_w (a frozen w is exposed like a 3-good top-holder).** If w is frozen and a 3-good terminal t exposes w
+(W_t = B_t ∪ J threatens w holding B_w), then B_t = {y} with y ∈ L, exactly one good u of L is junk,
+v_w(y) + v_w(u) > v_w(g), and no need chain from w ends at t.
+
+*Proof.* A threat by W_t is at most v_w(W_t ∩ L). Take any chain end τ of w and h as in Lemma R_w. Since h ∉ J ∪ B_τ,
+L ∩ (J ∪ B_τ) has at most two goods, so it equals O*_τ and v_w(L ∩ J) ≤ v_w(O*_τ) < v_w(h) ≤ v_w(g): the junk alone
+threatens nothing. So B_t = {y} with y ∈ L (a 3-good terminal holds at most one good), and t is not a chain end of w
+(else W_t ∩ L = O*_τ). h ∉ W_t (it lies in a two-good base of an agent other than t, and is not junk), so
+W_t ∩ L ⊆ {y, u} where u is the third good of L; v_w(y) ≤ v_w(g) because t is free (y ∉ NA); so the threat needs u ∈ J
+and v_w(y) + v_w(u) > v_w(g). ∎
+
+**Theorem A.** If w is frozen and ω ≥ 1, some 3-good terminal is a valid owner (removal-only, owner's needs from
+its base).
+
+*Proof.* The proof of Theorem K3 goes through with the following changes.
+- Terminals: all are 3-good (w is frozen), and there is one (|F| ≥ 1, Lemma C).
+- Exposed agents w.r.t. a terminal t: 3-good ones are frozen top-holders with one junk label (Lemma E of §3, which
+  used only Lemmas U, C, R₃); w, if exposed, has the single label u (Lemma E_w). Removing all labels protects every
+  exposed agent: for w, X_t ∩ R_w ⊆ {y} is worth at most v_w(g). So Lemma O holds with Z_t the set of labels.
+- The walk with fresh labels is unchanged (w's label, once used, is not fresh, so w is picked at most once).
+- Shortening: w may have needs (if g is not a_w), so w can lie inside another chain Q_j. If w = x_i does, then
+  x_j ⇝ w ⇝ t_{i+1} (Q_j up to w, then Q_i) is a need chain from x_j; it does not end at t_j (x_j is not reachable to
+  t_j by Lemma E), and cutting the cycle there drops at least one terminal and keeps a subset of the labels. So in a
+  shortest cycle no exposed agent lies on another chain, and chains are disjoint as before.
+- The cycle move: if w = x_i, w takes {y_{t_i}, u}, worth more than g; its needs are the goods of R_w worth more than
+  v_w(y) + v_w(u) > v_w(g), all of them in N_w(g) ⊆ NA, which are single-good bases of the result as well (the move
+  passes single goods along chains and only turns the terminals' goods y_t and junk goods into two-good bases). Every
+  moved agent gains, so NA′ ⊆ NA, and the result is valid as in §3. It raises every moved 3-good agent (the terminals
+  of the cycle are 3-good), contradicting (M1). ∎
+
+### 4.2 Case C with no terminal (proved for connected cores, n ≥ 3)
+
+**Lemma C2.** If ω ≥ 1 and P has no terminal, the core is connected and n ≥ 3, then w is free and a valid owner with
+any completion.
+
+*Proof.* No terminal means no frozen agent (Lemma C), so ω = −σ ≥ 1, and σ ≥ −1 forces m = 2n + 1, ω = 1. Counting
+incidences, Σ_i |R_i| = 3n + 1 = Σ_g deg(g) ≥ 2m − π = 4n + 2 − π, so the number π of private goods is at least n + 1;
+the private-goods rule of cores allows at most one per 3-good agent and two for w, so π = n + 1 and every shared good
+has exactly two valuers. With NA = ∅ every agent is free and w is not a terminal. The exposed agents w.r.t.
+W_w = B_w ∪ J are 3-good top-holders x (facts (i)–(ii)) with low(x) ⊆ W_w, and low(x) ∩ J = ∅ by Lemma U; so
+low(x) = B_w. Then both goods of low(x) are shared by x and w only, x's private good is a_x, and w's two other goods
+are private: {x, w} is a connected component, so n = 2. Hence nobody is exposed, and every completion with owner w
+satisfies (OC₄). ∎
+
+The two-agent cores (n = 2) are covered by the exhaustive run.
+
+### 4.3 The gap (Cases B and C with a terminal)
+
+What remains for a proof of "every Ψ-maximum is completable" with one 4-good agent, and with it (by K4.TIE, K4.CORE,
+Theorem 1′₄, whose peeling never creates a 4-good agent, `k4/c4.md` §6) TARGET₄ for every instance in which at most one
+agent values four goods:
+- **(B)** w is a terminal. Then w is not exposed by any 3-good terminal (a two-good base of a terminal w leaves out a
+  needed good, which is a frozen agent's base and not in W_t; a smaller base leaves w no junk good by Lemma U). Every
+  agent exposed w.r.t. a 3-good terminal, or w.r.t. w as owner, is a frozen 3-good top-holder with one junk label,
+  *unless* **(P1)** some 3-good top-holder x has low(x) = B_w (w holding two goods). Two things are missing for the walk
+  of Theorem K3 run over all terminals including w (in its cycle move w would give the good of its base that x_i wants,
+  take the needed good from the previous chain, and release its other base good to the junk): **excluding (P1)**, and
+  **one slot**: if w holds two goods it has no slot, so a 3-good terminal t only gets |Z_t| ≥ S − cap(t) + 1 ≥ T − 1,
+  one less than the walk uses. Evidence: (P1) occurs at Ψ-maxima (1,072 at n = 4, all with ω ≤ 0) but never at one with
+  ω ≥ 1 (n ≤ 4, and a sample of n = 5), so excluding it must use ω ≥ 1; and in case B w itself is always a valid owner.
+- **(C1)** w is free with N_w = ∅ and exposed by a 3-good terminal t. Then B_w = {b_w, c_w} with
+  a_w < b_w + c_w < a_w + d_w, B_t = {a_w} and d_w ∈ J: by Lemma U the base has two goods, by Lemma U₂ the junk good
+  of the complementary pair is worse than both base goods, which leaves only this shape. The walk breaks: w has no need
+  chain. **Open: show that w is then a valid owner.** Evidence: 300 such maxima at n = 4, w valid in all of them.
+- **(C0)** w free, N_w = ∅, not exposed by any 3-good terminal, and a 3-good terminal exists: the walk over the
+  3-good terminals applies verbatim (exposed agents are frozen 3-good top-holders; chain ends are 3-good terminals),
+  so some 3-good terminal is valid. (Proved.)
+
+Counters (`k4/c4x.c -W` on the Ψ-maxima with ω ≥ 1): n = 3, one 4-good agent: 9,282 maxima (w terminal 3,386; w
+free, not a terminal, a 3-good terminal exists 576; no terminal 5,320; w frozen 244); n = 4: 200,808 maxima (118,841;
+48,811; 33,156; 16,341). Lemma R_w and Lemma E_w: 0 violations; (P1): 0; case C1: 0 at n = 3 and 300 at n = 4, w
+valid in all; w frozen: every 3-good terminal is valid (stronger than Theorem A); no terminal: w valid.

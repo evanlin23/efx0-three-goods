@@ -89,6 +89,10 @@ def main():
             for (ci, _), out in zip(tasks, ex.map(run, [t for _, t in tasks])):
                 for line in out.splitlines():
                     if line.startswith('EX') or line.startswith('OWN'): print(f'core {ci}: {line}')
+                    elif line.startswith('RULESTATS'):
+                        w = [int(x) for x in line.split()[1:]]
+                        rs = tot.setdefault('_rs', [0] * len(w))
+                        for q in range(len(w)): rs[q] += w[q]
                     elif line.startswith('TERMSTATS'):
                         w = [int(x) for x in line.split()[1:]]
                         ts = tot.setdefault('_ts', [0] * len(w))
@@ -110,6 +114,14 @@ def main():
                         phis[name][0] += int(w[3]); phis[name][1] += int(w[5])
         mv = tot.pop('_moves', None)
         ts = tot.pop('_ts', None)
+        rs = tot.pop('_rs', None)
+        if rs:
+            names = ['maxima with omega>=1', 'w terminal', '... w invalid', 'w not terminal, 3-good terminal exists',
+                     '... no 3-good terminal valid', 'no terminal', '... w invalid', '... frozen agents exist', 'w frozen',
+                     'w frozen and some 3-good terminal invalid', 'Lemma Rw violated', 'Lemma Ew violated', 'P1', 'P2', 'w free and exposed by a 3-good terminal',
+                     'w free, E_w nonempty', '.. frozen x, one good of B_w + one junk', '.. low(x) in B_w', '.. other',
+                     '.. w terminal', '.. w valid', 'P1 at any maximum']
+            print('  RULESTATS (argmax of the first potential): ' + ', '.join(f'{a} {b}' for a, b in zip(names, rs)))
         print(f'FILE {f} cores {len(set(ci for ci, _ in tasks))} ' + ' '.join(f'{k} {v}' for k, v in tot.items()))
         if ts:
             names = ['terminals', '|E_t|=0', '|E_t|=1', '|E_t|>=2', '|E_t|>slots', 't invalid', 'E_t has free agent',

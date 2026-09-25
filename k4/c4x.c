@@ -119,7 +119,7 @@ static int prot_search(int k, uint32_t rest) {
 }
 
 static int how_owner, how_K, only_owner = -1, ownstat = 0, termstat = 0;
-static long long ts_cnt[32];
+static long long ts_cnt[32]; static int rulestat = 0; static long long rs_cnt[32];
 /* returns 1 if the assignment a is completable (a valid P assumed) */
 static int completable(const asg_t *a) {
   uint32_t B[MAXN], NA = 0, NAo[MAXN];
@@ -376,6 +376,83 @@ static void term_stats(const asg_t *a) {
   if (cyc) { ts_cnt[15]++; if (nex && ts_cnt[12] < 2 * nex) { ts_cnt[12]++; printf("EXT CYCLE:"); print_profile(); print_asg(a); printf("\n"); } }
 }
 
+/* -W: the owner rule for cores with one 4-good agent w, on the argmax of the first potential with omega >= 1:
+   rs_cnt: 0 P checked; 1 w terminal, 2 ... and w invalid; 3 w not terminal with a 3-good terminal, 4 ... and no
+   3-good terminal valid; 5 no terminal, 6 ... and w invalid, 7 ... and frozen agents exist; 8 w frozen, 9 w frozen and
+   some 3-good terminal invalid */
+static void rule_stats(const asg_t *a) {
+  uint32_t B[MAXN], NA = 0, N[MAXN]; int fz[MAXN], S = 0, w = -1, nF = 0;
+  for (int i = 0; i < n; i++) { B[i] = optg[i][a->o[i]]; N[i] = need[i][a->o[i]]; NA |= N[i]; if (d[i] == 4) w = i; }
+  if (w < 0) return;
+  for (int i = 0; i < n; i++) { fz[i] = pc(B[i]) == 1 && (B[i] & NA); nF += fz[i]; if (!fz[i]) S += 2 - pc(B[i]); }
+  if (!fz[w] && N[w] && pc(B[w]) == 2)   /* 23: (P1) at any Psi-maximum, omega <= 0 included */
+    for (int x = 0; x < n; x++) if (x != w && d[x] == 3) {
+      int top = -1, tv0 = -1; for (int k = 0; k < 3; k++) if (tv[x][cur[x]][k] > tv0) { tv0 = tv[x][cur[x]][k]; top = gl[x][k]; }
+      if (B[x] == (1u << top) && (Rmask[x] & ~B[x]) == B[w]) rs_cnt[23]++;
+    }
+  if (pc(a->J) <= S) return;
+  rs_cnt[0]++;
+  int wterm = !fz[w] && N[w], any3 = 0, valid3 = 0, inval3 = 0;
+  for (int t = 0; t < n; t++) if (t != w && !fz[t] && N[t]) { any3 = 1; only_owner = t; int ok = completable(a); only_owner = -1; if (ok) valid3 = 1; else inval3 = 1; }
+  int wok = 0; if (!fz[w]) { only_owner = w; wok = completable(a); only_owner = -1; }
+  if (wterm) { rs_cnt[1]++; if (!wok) rs_cnt[2]++; }
+  else if (any3) { rs_cnt[3]++; if (!valid3) rs_cnt[4]++; }
+  else { rs_cnt[5]++; if (!wok) rs_cnt[6]++; if (nF) rs_cnt[7]++; }
+  if (fz[w]) { rs_cnt[8]++; if (inval3) rs_cnt[9]++; }
+  if (!fz[w]) {
+    /* 13: (P1) w a terminal with a two-good base equal to low(x) of a 3-good top-holder x; 14: (P2) w free, not a
+       terminal, exposed by some 3-good terminal, and w not a valid owner; 15: w free, exposed by some 3-good terminal */
+    int wexp = 0;
+    for (int t = 0; t < n; t++) if (t != w && !fz[t] && N[t] && threatened_by(w, B[t] | a->J, B[w])) wexp = 1;
+    if (wexp) rs_cnt[15]++;
+    if (!N[w] && wexp && !wok) rs_cnt[14]++;
+    /* E_w (exposed w.r.t. W_w = B_w ∪ J): 16 w free with E_w != {}; 17 ... with some x in E_w frozen whose low part is
+       one good of B_w and one junk good; 18 ... some x in E_w with R_x \ B_x ⊆ B_w (unhittable); 19 ... other; 20 w free
+       with E_w != {} and w a terminal; 21 w free, E_w != {}, and w valid */
+    { uint32_t W = B[w] | a->J; int ne = 0, t1 = 0, t2 = 0, t3 = 0;
+      for (int x = 0; x < n; x++) if (x != w && threatened_by(x, W, B[x])) {
+        ne++;
+        uint32_t low = Rmask[x] & ~B[x];
+        if ((low & ~B[w]) == 0) t2 = 1;
+        else if (fz[x] && pc(low) == 2 && pc(low & B[w]) == 1 && pc(low & a->J) == 1) t1 = 1;
+        else t3 = 1;
+      }
+      if (ne) { rs_cnt[16]++; rs_cnt[17] += t1; rs_cnt[18] += t2; rs_cnt[19] += t3; if (N[w]) rs_cnt[20]++; if (wok) rs_cnt[21]++; }
+      if (t3 && nex && rs_cnt[22] < nex) { rs_cnt[22]++; printf("EXE3:"); print_profile(); print_asg(a); printf("\n"); }
+    }
+    if (N[w] && pc(B[w]) == 2)
+      for (int x = 0; x < n; x++) if (x != w && d[x] == 3) {
+        int top = -1, tv0 = -1; for (int k = 0; k < 3; k++) if (tv[x][cur[x]][k] > tv0) { tv0 = tv[x][cur[x]][k]; top = gl[x][k]; }
+        if (B[x] == (1u << top) && (Rmask[x] & ~B[x]) == B[w]) rs_cnt[13]++;
+      }
+  }
+  if (fz[w]) {
+    /* Lemma Rw': for every chain end tau of w there is h in L lying in another agent's two-good base with
+       v_w(h) > v_w(O*), O* = the best <= 2 goods of L ∩ (J ∪ B_tau). Lemma Ew: if a 3-good terminal t exposes w
+       (W_t = B_t ∪ J threatens w holding B_w), then B_t ⊆ L, |L ∩ J| = 1, v_w(B_t ∪ (L ∩ J)) > v_w(B_w), t is not a
+       chain end of w. counters 11, 12 */
+    int reachw = 0;
+    { int seen = 1 << w, st[MAXN * 4], sp = 0; st[sp++] = w;
+      while (sp) { int y = st[--sp]; for (int z = 0; z < n; z++) if (z != y && (B[y] & N[z])) { if (fz[z]) { if (!(seen >> z & 1)) { seen |= 1 << z; st[sp++] = z; } } else reachw |= 1 << z; } } }
+    uint32_t L = Rmask[w] & ~B[w], two = 0;
+    for (int i = 0; i < n; i++) if (i != w && pc(B[i]) == 2) two |= B[i];
+    for (int tau = 0; tau < n; tau++) if (reachw >> tau & 1) {
+      uint32_t Av = L & (a->J | B[tau]);
+      /* best <= 2 goods of Av by w's values */
+      uint32_t O = 0; for (int r = 0; r < 2; r++) { int bv = -1; uint32_t bg = 0; for (int k = 0; k < d[w]; k++) { uint32_t g = 1u << gl[w][k]; if ((Av & g) && !(O & g) && tv[w][cur[w]][k] > bv) { bv = tv[w][cur[w]][k]; bg = g; } } O |= bg; }
+      int vo = vg(w, O), ok = 0;
+      for (int k = 0; k < d[w]; k++) { uint32_t g = 1u << gl[w][k]; if ((L & two & g) && tv[w][cur[w]][k] > vo) ok = 1; }
+      if (!ok) rs_cnt[11]++;
+    }
+    for (int t = 0; t < n; t++) if (t != w && !fz[t] && N[t]) {
+      uint32_t W = B[t] | a->J;
+      if (!threatened_by(w, W, B[w])) continue;
+      if (!(B[t] && (B[t] & ~L) == 0 && pc(L & a->J) == 1 && vg(w, B[t] | (L & a->J)) > vg(w, B[w]) && !(reachw >> t & 1))) rs_cnt[12]++;
+    }
+  }
+  if (((wterm && !wok) || (!wterm && any3 && !valid3) || (!wterm && !any3 && !wok)) && nex && rs_cnt[10] < nex) { rs_cnt[10]++; printf("EXW:"); print_profile(); print_asg(a); printf("\n"); }
+}
+
 static void own_line(const asg_t *a) {
   uint32_t NA = 0; int S = 0, fzv[MAXN];
   for (int i = 0; i < n; i++) NA |= need[i][a->o[i]];
@@ -511,6 +588,8 @@ static void do_profile(void) {
       if (comp[k] < 0) { comp[k] = completable(&A[validlist[k]]); ncompl_tested++; }
       if (comp[k]) sok = 1; else { ef = 1; if (efk < 0) efk = k; }
     }
+    if (rulestat && p == 0)
+      for (int k = 0; k < nv; k++) if (cmpphi(&feat[(size_t)k * NFEAT], &feat[(size_t)best * NFEAT], p) == 0) rule_stats(&A[validlist[k]]);
     if (termstat == 2 && p == 0)
       for (int k = 0; k < nv; k++) if (cmpphi(&feat[(size_t)k * NFEAT], &feat[(size_t)best * NFEAT], p) == 0) term_stats(&A[validlist[k]]);
     if (ownstat == 2 && p == 0)
@@ -573,6 +652,7 @@ int main(int argc, char **argv) {
     else if (!strcmp(argv[i], "-O2")) ownstat = 2;
     else if (!strcmp(argv[i], "-T")) { pareto = 1; termstat = 1; }
     else if (!strcmp(argv[i], "-T2")) termstat = 2;
+    else if (!strcmp(argv[i], "-W")) rulestat = 1;
     else if (!strcmp(argv[i], "-M")) { moves = 1; rodef_on = 1; }
     else if (!strcmp(argv[i], "-3")) allow3 = 1;
     else if (!strcmp(argv[i], "-s")) { smod = atoll(argv[++i]); srem = atoll(argv[++i]); }
@@ -625,6 +705,7 @@ int main(int argc, char **argv) {
     }
   }
   printf("RESULT asg %d profiles %lld valid %lld tested %lld nocomp %lld ronone %lld ronone_any %lld paretomax %lld paretofail %lld\n", nA, nprof, nvalid, ncompl_tested, nocomp, ronone, ronone_any, pareto_n, pareto_fail);
+  if (rulestat) { printf("RULESTATS"); for (int q = 0; q < 10; q++) printf(" %lld", rs_cnt[q]); for (int q = 11; q < 22; q++) printf(" %lld", rs_cnt[q]); printf(" %lld\n", rs_cnt[23]); }
   if (termstat) { printf("TERMSTATS"); for (int q = 0; q < 12; q++) printf(" %lld", ts_cnt[q]); for (int q = 13; q < 22; q++) printf(" %lld", ts_cnt[q]); printf("\n"); }
   if (moves) {
     printf("MOVES posdef %lld lower_by_dist", nposdef); for (int h = 0; h < 8; h++) printf(" %lld", hist_lower[h]);

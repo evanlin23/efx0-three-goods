@@ -29,14 +29,20 @@ def py_potential(name, sets, vl, B, feats):
     if name == 'leximax': return tuple(sorted(lv, reverse=True))
     if name == 'leximin': return tuple(sorted(lv))
     if name == 'sumval': return sum(sum(vl[i][g] for g in B[i]) for i in range(len(sets)))
+    if name == 'sumlev3,sumlev4': return (sum(l for l, S in zip(lv, sets) if len(S) == 3), sum(l for l, S in zip(lv, sets) if len(S) == 4))
     return feats[name]      # '-frozen', '(-frozen,sumlev)', '(-frozen,leximin)', '(-frozen,slots)', '(-frozen,-rodef)'
 
-C_FEATS = {'sumlev': '0', 'sum2lev': '1', 'leximax': '2', 'leximin': '3', 'sumval': '4', '-frozen': '6',
+C_FEATS = {'sumlev3,sumlev4': '18,19', 'sumlev': '0', 'sum2lev': '1', 'leximax': '2', 'leximin': '3', 'sumval': '4', '-frozen': '6',
            '(-frozen,sumlev)': '6,0', '(-frozen,leximin)': '6,3', '(-frozen,slots)': '6,8', '(-frozen,-rodef)': '6,17'}
 
-def py_check(sets, vl, pot):
+FLAGS_C = {'w0': '-w0', 'ef': '-E', 'big': '-3'}
+
+def py_results(sets, vl, flags):
     m = 1 + max(max(S) for S in sets)
-    res = c4x_check.analyse(sets, m, vl)
+    return c4x_check.analyse(sets, m, vl, w0='w0' in flags, ef='ef' in flags, big='big' in flags)
+
+def py_check(sets, vl, pot, flags=()):
+    res = py_results(sets, vl, flags)
     vals = [py_potential(pot, sets, vl, B, feats) for (B, comp, feats) in res]
     best = max(vals)
     mx = [r for r, v in zip(res, vals) if v == best]
@@ -44,46 +50,71 @@ def py_check(sets, vl, pot):
 
 def pareto_check(sets, vl):
     """(every Pareto-maximum completable, number of Pareto maxima)"""
-    m = 1 + max(max(S) for S in sets)
-    res = c4x_check.analyse(sets, m, vl)
+    res = py_results(sets, vl, ())
     vs = [tuple(sum(vl[i][g] for g in B[i]) for i in range(len(sets))) for (B, _, _) in res]
     pm = [k for k in range(len(res)) if not any(all(vs[q][i] >= vs[k][i] for i in range(len(sets))) and vs[q] != vs[k] for q in range(len(res)))]
     return all(res[k][1] for k in pm), len(pm)
 
-def c_check(sets, vl, pot):
+def c_run(sets, vl, opts):
     m = 1 + max(max(S) for S in sets)
     lines = [f'{len(sets)} {m}']
     for i, S in enumerate(sets):
         lines.append(f'{len(S)} ' + ' '.join(map(str, S)) + ' 1')
         lines.append(' '.join(str(vl[i][g]) for g in S))
     lines.append('0 1')
-    opts = ['-p', C_FEATS[pot]] + (['-R'] if '17' in C_FEATS[pot] else [])
-    out = subprocess.run([c4x_run.binary()] + opts, input='\n'.join(lines) + '\n', capture_output=True, text=True, check=True).stdout
-    w = [l for l in out.splitlines() if l.startswith('PHI')][0].split()
+    return subprocess.run([c4x_run.binary()] + opts, input='\n'.join(lines) + '\n', capture_output=True, text=True, check=True).stdout
+
+def c_check(sets, vl, pot, flags=()):
+    opts = ['-p', C_FEATS[pot]] + (['-R'] if '17' in C_FEATS[pot] else []) + [FLAGS_C[f] for f in flags]
+    w = [l for l in c_run(sets, vl, opts).splitlines() if l.startswith('PHI')][0].split()
     return w[3] == '0', w[5] == '0'
 
-# (file, name, sets, values per agent in the order of sets, potential, claim) with claim 'every' (the every-form
-# fails: some maximum is not completable) or 'some' (no maximum is completable)
+def c_result(sets, vl, opts, key):
+    w = [l for l in c_run(sets, vl, opts).splitlines() if l.startswith('RESULT')][0].split()
+    return int(w[w.index(key) + 1])
+
+# (attempts file, name, sets, values per agent in the order of its set, claim, ...):
+#   claim 'pot', potential, 'every' | 'some' [, flags]: the every-form fails (some maximum is not completable) or the
+#     some-form fails (no maximum is completable), in the space given by flags ('w0', 'ef', 'big'; default 𝒫);
+#   claim 'nocomp', flags: no pre-allocation of the variant space is completable;
+#   claim 'pareto': some Pareto-maximal pre-allocation of 𝒫 is not completable.
 INSTANCES = [
+    ('k4-c4x-frozen-first', 'n = 2, m = 5', [[0, 2, 3, 4], [1, 2, 3, 4]], [(1, 4, 6, 8), (1, 4, 8, 6)], 'pot', '-frozen', 'every'),
+    ('k4-c4x-frozen-first', 'n = 2, m = 5', [[0, 2, 3, 4], [1, 2, 3, 4]], [(1, 4, 6, 8), (2, 4, 5, 8)], 'pot', '(-frozen,slots)', 'every'),
+    ('k4-c4x-frozen-first', 'n = 3, m = 6', [[0, 2, 4, 5], [1, 3, 5], [3, 4, 5]], [(2, 3, 4, 8), (2, 4, 3), (4, 2, 3)], 'pot', '(-frozen,sumlev)', 'every'),
+    ('k4-c4x-frozen-first', 'n = 3, m = 8 (some-form)', [[0, 2, 6, 7], [1, 4, 6, 7], [3, 5, 6, 7]], [(3, 4, 2, 8), (3, 4, 2, 8), (3, 4, 2, 8)], 'pot', '(-frozen,sumlev)', 'some'),
+    ('k4-c4x-variant-spaces', 'n = 2, m = 5, owner needs from base', [[0, 2, 3, 4], [1, 2, 3, 4]], [(2, 3, 4, 8), (2, 3, 4, 8)], 'nocomp', ('w0',)),
+    ('k4-c4x-variant-spaces', 'n = 3, m = 6, envy-free two-good bases only', [[0, 3, 4, 5], [1, 3, 4, 5], [2, 3, 4, 5]], [(3, 5, 6, 7), (4, 6, 5, 8), (5, 4, 6, 8)], 'nocomp', ('ef',)),
+    ('k4-c4x-variant-spaces', 'n = 3, m = 5, owner bases of 3-4 goods, -frozen', [[0, 1, 2, 4], [1, 3, 4], [2, 3, 4]], [(2, 10, 6, 3), (4, 3, 2), (3, 4, 2)], 'pot', '-frozen', 'some', ('big',)),
 ]
 
 def main():
     bad = 0
-    for (att, name, sets, values, pot, claim) in INSTANCES:
+    for inst in INSTANCES:
+        att, name, sets, values, claim = inst[:5]
         vl = [dict(zip(S, v)) for S, v in zip(sets, values)]
-        if pot == 'pareto':
+        if claim == 'pareto':
             ev, npm = pareto_check(sets, vl)
-            ok_py = not ev
-            print(f'{att}: {name}: pareto: {npm} Pareto maxima, every completable: {ev} -> claim {"confirmed" if ok_py else "NOT confirmed"} (python)')
-            bad += not ok_py
-            continue
-        ev, so, nv, nc = py_check(sets, vl, pot)
-        cev, cso = c_check(sets, vl, pot)
-        claim_py = (not ev) if claim == 'every' else (not so)
-        claim_c = (not cev) if claim == 'every' else (not cso)
-        print(f'{att}: {name}: {pot}: {nv} valid, {nc} completable; every max completable: py {ev} c {cev}; '
-              f'some max completable: py {so} c {cso} -> {claim}-form failure {"confirmed" if claim_py and claim_c else "NOT confirmed"}')
-        bad += not (claim_py and claim_c)
+            cfail = c_result(sets, vl, ['-Q', '-p', '3'], 'paretofail')
+            ok = (not ev) and cfail == 1
+            print(f'{att}: {name}: {npm} Pareto maxima; some Pareto maximum not completable: py {not ev}, c {cfail == 1} -> {"confirmed" if ok else "NOT confirmed"}')
+        elif claim == 'nocomp':
+            flags = inst[5]
+            res = py_results(sets, vl, flags)
+            cn = c_result(sets, vl, ['-a', '-p', '6'] + [FLAGS_C[f] for f in flags], 'nocomp')
+            ok = not any(r[1] for r in res) and cn == 1
+            print(f'{att}: {name}: space {"+".join(flags)}: {len(res)} valid, {sum(r[1] for r in res)} completable (py); no completable pre-allocation (c): {cn == 1} -> {"confirmed" if ok else "NOT confirmed"}')
+        else:
+            pot, form = inst[5], inst[6]
+            flags = inst[7] if len(inst) > 7 else ()
+            ev, so, nv, nc = py_check(sets, vl, pot, flags)
+            cev, cso = c_check(sets, vl, pot, flags)
+            claim_py = (not ev) if form == 'every' else (not so)
+            claim_c = (not cev) if form == 'every' else (not cso)
+            ok = claim_py and claim_c
+            print(f'{att}: {name}: {pot}{" [" + "+".join(flags) + "]" if flags else ""}: {nv} valid, {nc} completable; every max completable: py {ev} c {cev}; '
+                  f'some max completable: py {so} c {cso} -> {form}-form failure {"confirmed" if ok else "NOT confirmed"}')
+        bad += not ok
     print('ALL CONFIRMED' if not bad else f'{bad} NOT CONFIRMED')
     sys.exit(1 if bad else 0)
 

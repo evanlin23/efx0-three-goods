@@ -33,14 +33,20 @@ def efx0(vals_list, X, n):
                 if val(vals_list[i], X[j] - {h}) > val(vals_list[i], X[i]): return False
     return True
 
-def analyse(sets, m, vals_list, w0=False):
+def analyse(sets, m, vals_list, w0=False, ef=False, big=False):
+    """All valid pre-allocations with their completability and potentials. Variants: w0 (the owner's needs from its
+    base), ef (bases of two or more goods must be envy-free: v(B) >= v(R \\ B)), big (one base may have 3 or 4 goods;
+    a completion must then make its agent the owner, which Lean's Completion already forces)."""
     n = len(sets)
     R = [set(S) for S in sets]
     choices = [[None] + [i for i in range(n) if g in R[i]] for g in range(m)]
     results = []   # (bases, completable, feats)
     for bm in itertools.product(*choices):
         B = [frozenset(g for g in range(m) if bm[g] == i) for i in range(n)]
-        if any(len(b) > 2 for b in B): continue
+        if big:
+            if sum(len(b) > 2 for b in B) > 1: continue
+        elif any(len(b) > 2 for b in B): continue
+        if ef and any(len(B[i]) >= 2 and 2 * val(vals_list[i], B[i]) < val(vals_list[i], R[i]) for i in range(n)): continue
         J = frozenset(g for g in range(m) if bm[g] is None)
         N = [frozenset(g for g in R[i] - B[i] if vals_list[i][g] > val(vals_list[i], B[i])) for i in range(n)]
         NA = frozenset().union(*N)
@@ -48,7 +54,7 @@ def analyse(sets, m, vals_list, w0=False):
         if any(len(B[i]) >= 2 and B[i] & NA for i in range(n)): continue  # (V2)
         comp = completable(n, m, R, vals_list, B, J, N, w0)
         frozen = [len(B[i]) == 1 and B[i] <= NA for i in range(n)]
-        cap = [0 if frozen[i] else 2 - len(B[i]) for i in range(n)]
+        cap = [0 if frozen[i] else max(0, 2 - len(B[i])) for i in range(n)]
         lev = [sum(1 for T in range(1 << len(sets[i])) if sum(vals_list[i][sets[i][k]] for k in range(len(sets[i])) if T >> k & 1) < val(vals_list[i], B[i])) for i in range(n)]
         feats = {
             'sumlev': sum(lev),
