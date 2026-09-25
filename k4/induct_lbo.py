@@ -16,6 +16,8 @@ Usage: python3 k4/induct_lbo.py CERTS_K3.json.gz [--n=N] [--samples=S] [--all] [
          [--log=OUT]
   --partial: also the states where LB's upgrade loop stops early (still valid pre-allocations).
   --only-o: count only witnesses (O) (w a valid owner).
+  --lemmas: (k = 3 files, every profile) check Lemmas 7 and 8 of k4/induct.md directly on every run with w last:
+          (key, True) counts runs where the lemma's conclusion holds, (key, False) where it fails.
   --by-type: (k = 3 files, every profile) per run of Phase 1 with w last, w's final pick and whether that run alone
           gives a witness (upgrade loop stopped anywhere), without and with the rotation.
   --every-run: (implies --last) every run of Phase 1 with w last must give a witness on its own.
@@ -308,8 +310,56 @@ def main_bytype(files, opt, log):
                 f' rotation {"yes" if rot else "no "}: runs {tot}, runs without a witness {C[(yw, rot, False)]}')
 
 
+def work_lemmas(args):
+    """Direct checks of Lemmas 7 and 8 of k4/induct.md on every run of Phase 1 with w last (all agents balanced)."""
+    from collections import Counter
+    sets, prof = args
+    n = len(sets); m = 1 + max(g for S in sets for g in S)
+    R = [tuple(g for _, g in sorted(zip(t, S), reverse=True)) for S, t in zip(sets, prof)]
+    C = Counter()
+    for w in range(n):
+        for order, Y in runs(R, n, last=w):
+            if Y[w] == R[w][0]:                                     # Lemma 7: (Y, {}) has w as a valid owner
+                U = frozenset(); assert valid(R, n, m, Y, U)
+                NA, J, F, T, cap = state(R, n, m, Y, U)
+                C[('Lemma 7', valid_owner(R, n, Y, U, J, cap, sum(cap.values()), w, F) is not None)] += 1
+            elif Y[w] == R[w][1]:
+                NA, J, F, T, cap = state(R, n, m, Y, frozenset())
+                if R[w][2] not in J: continue
+                if any(x != w and Y[x] == R[x][0] and {R[x][1], R[x][2]} == {R[w][1], R[w][2]} for x in range(n)):
+                    C['Lemma 8 excluded (pair equality)'] += 1; continue
+                U = frozenset({w}); assert valid(R, n, m, Y, U)       # Lemma 8: (Y, {w}) has w as a valid owner
+                NA, J, F, T, cap = state(R, n, m, Y, U)
+                C[('Lemma 8', valid_owner(R, n, Y, U, J, cap, sum(cap.values()), w, F) is not None)] += 1
+    return C
+
+
 def main():
     argv = sys.argv[1:]
+    if '--lemmas' in argv:
+        from collections import Counter
+        files = [a for a in argv if not a.startswith('--')]
+        opt = {a.split('=')[0][2:]: (a.split('=', 1)[1] if '=' in a else True) for a in argv if a.startswith('--')}
+        logf = open(opt['log'], 'w') if 'log' in opt else None
+        def log(s):
+            print(s, flush=True)
+            if logf: logf.write(s + '\n'); logf.flush()
+        log('command: python3 k4/induct_lbo.py ' + ' '.join(argv))
+        tasks = []
+        for fn in files:
+            data = json.load(gzip.open(fn)); cores = data if isinstance(data, list) else data['cores']
+            for c in cores:
+                if 'n' in opt and len(c['sets']) != int(opt['n']): continue
+                perms = list(itertools.permutations(range(3)))
+                for pr in itertools.product(perms, repeat=len(c['sets'])):
+                    tasks.append((c['sets'], [[p[0] + 2, p[1] + 2, p[2] + 2] for p in pr]))
+        log(f'{len(tasks)} (core, ranking profile) pairs; every run of Phase 1 with the target w last, every w')
+        t0 = time.time(); C = Counter()
+        with Pool(int(opt.get('jobs', 4))) as pool:
+            for c in pool.imap_unordered(work_lemmas, tasks, chunksize=32): C.update(c)
+        log(f'time {time.time() - t0:.1f}s')
+        for k in sorted(C, key=str): log(f'{k}: {C[k]}')
+        return
     if '--by-type' in argv:
         files = [a for a in argv if not a.startswith('--')]
         opt = {a.split('=')[0][2:]: (a.split('=', 1)[1] if '=' in a else True) for a in argv if a.startswith('--')}

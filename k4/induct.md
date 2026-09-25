@@ -250,6 +250,10 @@ chain cores:
 Random and sampled tests are EVIDENCE only (PROMPT.md §5 rule 3). The exhaustive rows are single-implementation
 exhaustive searches; they are evidence for a conjecture, not a certificate of anything in the ledger.
 
+*Literature.* Whether PS (for general additive valuations, or for EFX instead of EFX₀) appears in the literature, or is
+known to fail, was not checked [unverified]. For two agents it holds for any additive valuations with an EFX₀ split
+for w's valuation: w splits, the other agent chooses and envies nothing. Nothing here uses that remark.
+
 ## 4b. PS at k = 3 through LB⁺ with the target processed last
 
 The P4 step at j = 0 needs PS(I − p, w) where I − p is a k = 3 instance: every agent other than w values three goods
@@ -292,6 +296,26 @@ Lemma 7 is the easy case: N_w = ∅, so no need chain can leave its block throug
 When w picks its second or third good, or nothing, chains from up to |N_w| ≤ 3 blocks can end at w, each costing one
 terminal in the count.
 
+**Lemma 8.** Suppose all agents are balanced. If, in some run of Phase 1 with w last, w picks its second good b_w,
+its third good c_w is junk (picked by nobody), and no agent x ≠ w holding its top has {b_x, c_x} = {b_w, c_w}, then w
+is a valid owner of P = (Y, {w}) (w upgraded alone), and I has an EFX₀ allocation in which nobody envies w.
+
+*Proof.* P is valid: Y_w = b_w, c_w ∈ J, and b_w ∉ NA because nobody needs Y_w (as in Lemma 7 (i)); in P every good
+of NA is still a pick, J shrinks by c_w, and w needs nothing, so NA only shrinks and (V1), (V2) hold. The owner is
+w ∈ U with base {b_w, c_w} and cap(w) = 0. An agent x is exposed w.r.t. w iff x ∉ U, Y_x = a_x and
+{b_x, c_x} ⊆ (J ∖ {c_w}) ∪ {b_w, c_w} = J ∪ {Y_w}: the same condition as in Lemma 7, so every exposed agent leads its
+block (argument (ii) there). By hypothesis no exposed pair lies inside base(w), so each π_x = {b_x, c_x} ∩ (J ∖ {c_w})
+is nonempty. Since w ∈ U needs nothing, a need chain from a frozen exposed x never reaches w; as in Lemma 7 (iii) it ends
+at a terminal of x's block, and the count S − cap(w) = S ≥ |E_w| ≥ |H| holds. Lemma 1 and Theorem 1′ (which uses
+balance for the upgraded w) give an EFX₀ completion with owner w, of |base(w)| + cap(w) + ω = ω + 2 goods; padding
+with goods valued by nobody to ω ≥ 2, as in Lemma 7 (v), makes w unenvied. ∎
+
+The excluded configuration is real: when another agent holding its top has lower pair {b_w, c_w}, w with base
+{b_w, c_w} threatens it, and Lemma 1 fails for every completion. Lemmas 7 and 8 are checked directly on every run of
+Phase 1 with w last of every profile of every k = 3 core with n ≤ 4 (`k4/induct_lbo.py --lemmas`,
+`results/k4_induct_lbo_lemmas_n4.log`: 488,696 runs for Lemma 7 and 109,656 for Lemma 8, no failure; 26,020 runs fall
+in the excluded configuration) and n = 5 (`results/k4_induct_lbo_lemmas_n5.log`).
+
 **Conjecture LBO** (K4.IND.LBO). In the setting above (agents other than w: three goods, balanced; w: at most three
 goods), there are a run of Phase 1 with w last, a state of LB's upgrade loop (stopped anywhere; never upgrading w if it
 is top-heavy), and optionally one LB⁺ rotation (Theorem B's, along a need chain from the last block's leader, exposed
@@ -305,10 +329,11 @@ goods, one of them private, which is inside LBO's setting).
 
 *Evidence* (`k4/induct_lbo.py`: exact Lemma 1 tests on every state; every state is checked to be a valid
 pre-allocation; single implementation):
-- every ranking profile of every connected k = 3 core with n ≤ 4 (`results/certs_lb_2_6.json.gz`; 217,224 (profile, w)
-  pairs) and n = 5 (see `results/k4_induct_lbo_n5.log`): no miss (`results/k4_induct_lbo_n234.log`);
-- the instances J = I − p for every strict profile of every k = 4 core with n ≤ 3 whose only 4-good agent is P4, and
-  samples for n = 4, 5 (`results/k4_induct_lbo_k4_n*.log`), about half of them with w top-heavy in J: no miss;
+- every ranking profile of every connected k = 3 core with n ≤ 5 (`results/certs_lb_2_6.json.gz`): 217,224 (profile, w)
+  pairs for n ≤ 4 and 11,391,840 for n = 5, no miss (`results/k4_induct_lbo_n234.log`, `results/k4_induct_lbo_n5.log`);
+- the instances J = I − p for every strict profile of every k = 4 core with n ≤ 3 whose only 4-good agent is P4 (53,568),
+  and 300 (n = 4) or 20 (n = 5) random profiles per such core (15,300 and 12,520), about half of them with w top-heavy in
+  J: no miss (`results/k4_induct_lbo_k4_n23.log`, `results/k4_induct_lbo_k4_n4.log`, `results/k4_induct_lbo_k4_n5.log`);
 - *every ingredient is needed* (`results/k4_induct_lbo_variants.log`): without "w last" (every run of Phase 1 with LB's
   R1 priority for every agent), 1,134 misses among the 583,200 pairs of the n = 5, m = 9 cores (none at n ≤ 4);
   without stopping the upgrade loop early, 4,098 misses at n = 4; without the rotation, 3,608; with w as owner only
