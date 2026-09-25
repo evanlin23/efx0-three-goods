@@ -20,3 +20,5 @@ import EFX.K4Ties
 import EFX.RealValues
 import EFX.Audit
 import EFX.PreAllocK
+import EFX.LB4R
+import EFX.LB4RExamples

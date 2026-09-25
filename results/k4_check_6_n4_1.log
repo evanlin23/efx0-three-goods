@@ -1,0 +1,14 @@
+command: python3 k4/check4_fast.py results/k4_certs_6_n4_1.json.gz --expect 6:1:26866 --jobs=2
+checker sha256: c7ccbe49d57415f015fc845f96bddc1d6adeff05c2be2ba87b2ec38d2e4da80e
+  n=6 m=4 n4=1: 6 cores, orbit sum 6144 = labeled 6144: yes; all profiles covered in 6/6
+  n=6 m=5 n4=1: 119 cores, orbit sum 2969280 = labeled 2969280: yes; all profiles covered in 119/119
+  n=6 m=6 n4=1: 1067 cores, orbit sum 269631000 = labeled 269631000: yes; all profiles covered in 1067/1067
+  n=6 m=7 n4=1: 4204 cores, orbit sum 8921612700 = labeled 8921612700: yes; all profiles covered in 4204/4204
+  n=6 m=8 n4=1: 8036 cores, orbit sum 140121374400 = labeled 140121374400: yes; all profiles covered in 8036/8036
+  n=6 m=9 n4=1: 8052 cores, orbit sum 1166166454320 = labeled 1166166454320: yes; all profiles covered in 8052/8052
+  n=6 m=10 n4=1: 4219 cores, orbit sum 5234843376000 = labeled 5234843376000: yes; all profiles covered in 4219/4219
+  n=6 m=11 n4=1: 1067 cores, orbit sum 11716379136000 = labeled 11716379136000: yes; all profiles covered in 1067/1067
+  n=6 m=12 n4=1: 95 cores, orbit sum 10001553408000 = labeled 10001553408000: yes; all profiles covered in 95/95
+  n=6 m=13 n4=1: 1 cores, orbit sum 1120863744000 = labeled 1120863744000: yes; all profiles covered in 1/1
+  results/k4_certs_6_n4_1.json.gz: OK; 26866 cores; every allocation has at most one bundle of more than 2 goods (D2) in 26866/26866
+ALL OK
