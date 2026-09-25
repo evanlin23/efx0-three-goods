@@ -13,6 +13,7 @@ agent gadgets from a menu of valuation classes) are described in k4/MINCEX.md.
 Usage: mincex4.py [pair|loop] KE KF [--jobs=J] [--write=out.json.gz]   (KE, KF in P3, PP4); prints the coverage.
        mincex4.py single PP4 | px K [closed]
        mincex4.py all --write=results/k4_min_cex_reductions.json.gz     (every configuration; greedy certificate)
+       mincex4.py explore px K [closed] | explore xy KE KF [closed] | explore twins   (coverage only, no certificate)
 """
 import sys, time, gzip, json, itertools
 import numpy as np
@@ -92,9 +93,14 @@ def main():
     jobs = int(opts.get('jobs', 4))
     if args[0] == 'all':
         return write_all(opts.get('write', 'k4_min_cex_reductions.json.gz'), jobs)
-    if args[0] == 'px':
+    if args[0] == 'explore':
+        if args[1] == 'twins': cfg = twins_config()
+        else: cfg = px_config(args[2], 'closed' in args) if args[1] == 'px' else xy_config(args[2], args[3], 'closed' in args)
+        print('configuration %s: agents %s, D = %s' % (cfg.name, cfg.S, sorted(cfg.D)), flush=True)
+        return explore(cfg, jobs)
+    if args[0] in ('px', 'xy'):
         shape = 'px'
-        cfg = px_config(args[1], 'closed' in args)
+        cfg = px_config(args[1], 'closed' in args) if args[0] == 'px' else xy_config(args[1], args[2], 'closed' in args)
         print('configuration %s: agents %s, I = %s, D = %s, %d profiles' % (cfg.name, cfg.S, sorted(cfg.I),
                                                                            sorted(cfg.D), int(np.prod(cfg.shape))))
         _, reds = gadget_cover(cfg, jobs)
@@ -140,6 +146,24 @@ def px_config(kind, closed=False):
     I = {'g', 'pf'} | ({'pe'} if kind == 'P4' else set())
     D = {x for R in S.values() for x in R} - I
     return R4.Config('px-%s%s' % (kind, '-closed' if closed else ''), S, I, D)
+
+
+def xy_config(ke, kf, closed=False):
+    """Two agents e (kind ke) and f (kind kf), each Q3, P4 or Q4, sharing a good g of degree 2; when `closed`, they also
+    share a second good a (e's first other good)."""
+    oth = {'Q3': 2, 'P4': 2, 'Q4': 3}
+    eo = ['a', 'b', 'c'][:oth[ke]] + (['pe'] if ke == 'P4' else [])
+    fo = ['x', 'y', 'w'][:oth[kf]] + (['pf'] if kf == 'P4' else [])
+    if closed: fo[0] = 'a'
+    S = {'e': tuple(['g'] + eo), 'f': tuple(['g'] + fo)}
+    I = {'g'} | {x for x in ('pe', 'pf') if x in eo + fo}
+    D = {x for R in S.values() for x in R} - I
+    return R4.Config('xy-%s-%s%s' % (ke, kf, '-closed' if closed else ''), S, I, D)
+
+
+def twins_config():
+    """Two P3 agents valuing the same two shared goods G1, G2 (degree >= 3 by K4.MC3, so both are boundary goods)."""
+    return R4.Config('twins-P3-P3', {'e': ('G1', 'G2', 'pe'), 'f': ('G1', 'G2', 'pf')}, {'pe', 'pf'}, {'G1', 'G2'})
 
 
 def gadget_cover(cfg, jobs=4, write=None, extra=()):
@@ -225,6 +249,15 @@ def write_all(path, jobs=4):
         recs += r
     with gzip.open(path, 'wt') as f: json.dump(recs, f)
     print('wrote %s: %d records, %d states' % (path, len(recs), sum(len(r['states']) for r in recs)))
+
+
+
+def explore(cfg, jobs=4):
+    """Coverage only (no certificate): DEL and the one-agent gadget menu; returns the union array."""
+    u, _ = gadget_cover(cfg, jobs)
+    ok, _ = R4.run(R4.Reduction(cfg, 'DEL', {}, set(), source=True), jobs)
+    print('  DEL reduces %d; together %d of %d' % (ok.sum(), (u | ok).sum(), u.size), flush=True)
+    return u | ok
 
 
 if __name__ == '__main__':
