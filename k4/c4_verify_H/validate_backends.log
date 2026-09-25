@@ -1,0 +1,4 @@
+{'cases': 5602, 'mismatch': 0, 'sat': 852, 'bundle_ne_base': 62}
+{'cases': 5582, 'mismatch': 0, 'sat': 895, 'bundle_ne_base': 59}
+{'cases': 5540, 'mismatch': 0, 'sat': 902, 'bundle_ne_base': 66}
+{'cases': 5670, 'mismatch': 0, 'sat': 865, 'bundle_ne_base': 63}
