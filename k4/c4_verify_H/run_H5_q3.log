@@ -1,0 +1,17 @@
+H_5: n=21 m=53 backend=milp
+Phase 1 (agent, pick, step): l->g1(I) x11->a11(P) x12->a12(P) x13->a13(P) y1->g2(P) x21->a21(P) x22->a22(P) x23->a23(P) y2->g3(P) x31->a31(P) x32->a32(P) x33->a33(P) y3->g4(P) x41->a41(P) x42->a42(P) x43->a43(P) y4->g5(P) x51->a51(P) x52->a52(P) x53->a53(P) y5->z(P)
+needs after Phase 1: {'y1': ['a11', 'a12', 'a13'], 'y2': ['a21', 'a22', 'a23'], 'y3': ['a31', 'a32', 'a33'], 'y4': ['a41', 'a42', 'a43'], 'y5': ['a51', 'a52', 'a53']}
+junk: ['b11', 'b12', 'b13', 'b21', 'b22', 'b23', 'b31', 'b32', 'b33', 'b41', 'b42', 'b43', 'b51', 'b52', 'b53', 'c11', 'c12', 'c13', 'c21', 'c22', 'c23', 'c31', 'c32', 'c33', 'c41', 'c42', 'c43', 'c51', 'c52', 'c53', 'u', "u'"] omega = 26
+policy shrink: upgrades []; state unchanged: True
+policy envyFree: upgrades []; state unchanged: True
+policy none: upgrades []; state unchanged: True
+depth 0: 1 new states, 1 states with <= 0 rotations
+depth 1: 30 new states, 31 states with <= 1 rotations
+depth 2: 611 new states, 642 states with <= 2 rotations
+depth 3: 8934 new states, 9576 states with <= 3 rotations
+reachability done in 3.4s
+depth 0: states=1 omega in [26,26] | states with an output: bundle=0 base=0  (4.2s)
+depth 1: states=30 omega in [23,26] | states with an output: bundle=0 base=0  (7.9s)
+depth 2: states=611 omega in [20,26] | states with an output: bundle=0 base=0  (78.0s)
+depth 3: states=8934 omega in [17,26] | states with an output: bundle=0 base=0  (1141.4s)
+RESULT t=5 q<=3: least depth with an output: bundle=None base=None (Proposition H bound ceil(2t/3) = 4); total 1141.4s
