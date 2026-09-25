@@ -1,10 +1,20 @@
-command: python3 k4/frontier/test_check4_fast.py 40
-k4_certs_2.json.gz: 40 trials done
-k4_certs_3.json.gz: 40 trials done
-k4_certs_4_n4_1.json.gz: 40 trials done
-k4_certs_4_n4_2.json.gz: 40 trials done
-k4_certs_4_n4_3.json.gz: 40 trials done
-k4_certs_5_n4_1.json.gz: 40 trials done
-240 cores with random allocation subsets: old and new agree on 240 (72 covered, 168 not covered)
+command: python3 k4/frontier/test_check4_fast.py 3000 30 --limit=30
+k4/check4.py sha256: 80b54019028dcd8523fa487361213b7fe65c1af56a94e85d06189f160a17a01d
+k4/check4_fast.py sha256: c7ccbe49d57415f015fc845f96bddc1d6adeff05c2be2ba87b2ec38d2e4da80e
+A. 3000 random row systems (n = 2..7, 1..200 allocations; 600 with a last agent of > 512 types): check4_fast = check4 = brute force on all (1828 covered, 1172 not)
+  k4_certs_2.json.gz: 30 cores compared {'thinned': 10, 'perturbed': 10, 'intact': 10}
+  k4_certs_3.json.gz: 30 cores compared {'thinned': 10, 'perturbed': 10, 'intact': 10}
+  k4_certs_4_n4_1.json.gz: 30 cores compared {'thinned': 10, 'perturbed': 10, 'intact': 10}
+  k4_certs_4_n4_2.json.gz: 30 cores compared {'thinned': 10, 'perturbed': 10, 'intact': 10}
+  k4_certs_4_n4_3.json.gz: 30 cores compared {'thinned': 10, 'perturbed': 10, 'intact': 10}
+  k4_certs_4_pure.json.gz: 30 cores compared {'thinned': 10, 'perturbed': 10, 'intact': 10}
+  k4_certs_5_n4_1.json.gz: 30 cores compared {'thinned': 10, 'perturbed': 10, 'intact': 10}
+  k4_certs_5_n4_2.json.gz: 30 cores compared {'thinned': 10, 'perturbed': 10, 'intact': 10}
+  k4_certs_5_n4_3.json.gz: 30 cores compared {'thinned': 10, 'perturbed': 10, 'intact': 10}
+  k4_certs_5_n4_4.json.gz: 26 cores compared {'thinned': 10, 'perturbed': 8, 'intact': 8}
+  k4_certs_5_pure.json.gz: 13 cores compared {'thinned': 10, 'perturbed': 3, 'intact': 0}
+  k4_certs_6_n4_1.json.gz: 30 cores compared {'thinned': 10, 'perturbed': 10, 'intact': 10}
+B. 339 certificate cores (thinned, perturbed, intact): check4 and check4_fast agree on 339 (187 covered, 152 not); 21 skipped (check4.py over 30.0 s)
   MASK MISMATCH: sets=[[0, 2, 6, 7], [1, 4, 6, 8], [3, 5, 7, 8]] allocation=[0, 1, 1, 1, 1, 2, 0, 2, 1] agent=0
-a corrupted safety table (agent 0 negated) is rejected
+C. a corrupted safety table (agent 0 negated) is rejected
+ALL AGREE
