@@ -1,0 +1,9 @@
+# Sampled comparison of the C (src/construct.c) and Python (src/construct.py) implementations of LB at n = 7: C runs every connected core with m = 10..14 (raw check of every output), and the Python reference runs every 200th core; the FNV hash of all its outputs, in profile order, must equal the C run's. 4 CPUs, 2026-09-25T06:21:29Z.
+$ cd src && python construct_run.py 7 10 11 12 13 14 --python=200
+[   2550s] n=7 m=10: 8569 cores, 2398771584 hypergraph-profile pairs, construction fails on 0; outputs with a large bundle: 72580 (by size {3: 72556, 4: 24}); Python reference on 43 cores: identical outputs on 43
+[   3302s] n=7 m=11: 3103 cores, 868641408 hypergraph-profile pairs, construction fails on 0; outputs with a large bundle: 364520 (by size {3: 359468, 4: 5052}); Python reference on 16 cores: identical outputs on 16
+[   3462s] n=7 m=12: 541 cores, 151445376 hypergraph-profile pairs, construction fails on 0; outputs with a large bundle: 281479 (by size {3: 271597, 4: 9753, 5: 129}); Python reference on 3 cores: identical outputs on 3
+[   3543s] n=7 m=13: 37 cores, 10357632 hypergraph-profile pairs, construction fails on 0; outputs with a large bundle: 68148 (by size {3: 66515, 4: 1621, 5: 12}); Python reference on 1 cores: identical outputs on 1
+[   3614s] n=7 m=14: 1 cores, 279936 hypergraph-profile pairs, construction fails on 0; outputs with a large bundle: 10796 (by size {3: 10534, 4: 262}); Python reference on 1 cores: identical outputs on 1
+[   3614s] ALL DONE; failures: 0
+exit=0

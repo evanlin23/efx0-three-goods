@@ -30,7 +30,7 @@ def safe(val, bundles, i):
     return True
 
 def valid_core(n, m, sets):
-    if len(sets) != n or any(len(set(S)) != 3 or not all(0 <= g < m for g in S) for S in sets): return False
+    if len(sets) != n or any(len(S) != 3 or len(set(S)) != 3 or not all(0 <= g < m for g in S) for S in sets): return False
     deg = collections.Counter(g for S in sets for g in S)
     if set(deg) != set(range(m)) or any(sum(deg[g] == 1 for g in S) > 1 for S in sets): return False
     seen, stack = {0}, [0]
