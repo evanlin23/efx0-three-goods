@@ -324,7 +324,8 @@ n = 4 no run of Phase 1 fails, whatever its insertion order (2.1·10¹¹ run–p
 `results/k4_lb4_nested_every.log`; 5.89·10¹² for pure n = 4, `results/k4_lb4r_i1_pure4.log`); n = 5 and beyond: the
 stress tests below. That is the shape of LB⁺'s
 Theorem C (every run of Phase 1 works, after upgrades and rotations), with up to three rotations instead of one; it may
-be a better proof target than LB₄'s search over insertion sequences.
+be a better proof target than LB₄'s search over insertion sequences. (It is refuted at n = 21 by the cores H_t of
+`k4/c4.md` §7, which need unboundedly many rotations at index order; see "Simpler candidates" below.)
 
 **LB₄ʳ(τ), precisely** (`k4/lb4.c -u3 -r3 -w1 -c1`, with `-i0` for τ = index order and `-i1` for every τ). Run
 Phase 1 with the insertion sequence τ. Then try the three upgrade policies in turn, each from the Phase 1 state:
@@ -397,8 +398,11 @@ in any test below. The n = 5 core lists with three or more 4-good agents are tho
   also fails on none of these kinds of test: index order on n ≤ 4 with at most three 4-good agents (exhaustive,
   3.6·10¹⁰ profiles), every order on n ≤ 3 (exhaustive) and on pure n = 4 (sampled), n = 5 (index 9.5·10⁷ profiles,
   every order 7.3·10⁶), random n = 6, 7 cores (every order 1.35·10⁶), hill-climbing; it never needs a third rotation.
-  So Theorem C₄ may be provable in the form "every run of Phase 1, then envy-free upgrades (or none), then at most two
-  rotations", which is closer to LB⁺'s Theorem C; need-shrinking upgrades are the one policy that cannot stand alone.
+  So on the cores tested (n ≤ 8) every run of Phase 1 works with one policy (envy-free upgrades, or none) and at most
+  two rotations; need-shrinking upgrades are the one policy that cannot stand alone. This does not extend to all n:
+  on the cores H_t of `k4/c4.md` §7 (n = 4t + 1; Proposition H of proof/k4-c4, under review) LB₄ʳ with index insertion
+  needs ⌈2t/3⌉ nested rotations, so it fails on H_5 (n = 21) with three, and no fixed bound works for every run of
+  Phase 1. The tests here reach n ≤ 8, where only H_1 (n = 5) fits, and it needs one rotation.
 - *The hardest profiles found* (the logs give each with its run's insertion order, picks, upgrades and frozen agents):
   (values listed in the order of each agent's goods, which are sorted)
   - fewest rotations over all policies 2, with 128 rotation attempts in all: n = 5, m = 9, agents {0, 2, 7, 8},
