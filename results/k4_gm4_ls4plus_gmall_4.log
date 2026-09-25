@@ -1,0 +1,594 @@
+# gcc -O2 -DALT -DCMOVE=8 -o ls4alt k4/ls4alg.c; python3 k4/gm4_tols4.py results/k4_gm4_gmall_seeds_4.txt GMALL | ./ls4alt   (one RESULT line per profile)
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=16 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=16 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=16 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=16 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=16 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=16 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=16 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=16 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=16 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=16 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=16 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=16 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=16 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=16 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=16 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=16 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=16 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=16 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=16 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=16 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=16 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=16 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=16 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=16 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=19 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=19 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=19 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=19 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=19 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=19 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=19 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=19 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=19 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=19 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=19 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=19 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=19 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=19 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=19 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=19 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=4 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=4 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+# default rule: gcc -O2 -DCMOVE=8
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=16 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=16 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=16 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=16 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=16 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=16 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=16 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=16 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=16 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=16 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=16 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=16 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=16 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=16 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=16 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=16 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=16 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=16 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=16 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=16 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=16 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=16 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=16 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=16 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=19 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=19 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=19 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=19 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=19 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=19 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=19 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=19 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=19 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=19 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=19 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=19 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=17 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=19 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=19 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=19 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=19 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0
+RESULT runs=1 fail=0 complete=0 empty=0 dump=1 dm=0 exact=0 M1=10 R=0 X=0 L2=0 L3=0 L4=0 L5=0 maxsteps=10 maxlevels=18 big0=0 big1=1 big2=0 big3+=0
+CMOVES C2=0 C3=0 C4=0

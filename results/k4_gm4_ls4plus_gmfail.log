@@ -1,0 +1,6 @@
+# LS4+ (k4/ls4alg.c, unchanged) on every distinct profile with a level-sum maximum without placement found by the random and exhaustive runs:
+#   grep -h '^GMFAIL ' results/k4_gm4_seeds_4.txt results/k4_gm4_4_n4_2.log results/k4_gm4_5_pure_sample.log results/k4_gm4_5_n4_4_sample.log > all.txt; python3 k4/gm4_tols4.py all.txt GMFAIL  (one task per distinct profile)
+# default rule: gcc -O2 -DCMOVE=8
+TOTAL profiles=136 failures=0 profiles_using_a_coalition_move=0
+# alternative rule: gcc -O2 -DALT -DCMOVE=8
+TOTAL profiles=136 failures=0 profiles_using_a_coalition_move=0
