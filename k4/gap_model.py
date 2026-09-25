@@ -20,7 +20,10 @@ Config(prof, key, Q): Q = {free agent: frozenset pair}; the pool L is the rest o
   .pool_optimal, .kind(i) ('robust', 'T', 'D', 'R', 'frozen-exposed', 'frozen-robust', or 'other'),
   .exposed, .bigtop(x), .threat_edges, .need_edges, .chain_ends(x), .h7(x, o) ('G', 'G1', 'L' or 'O'),
   .mult(x)                 the number of free owners that threaten x (C empty)
-  .pool_moves(), .cycle_moves()   the moves of c4min.md section 4 (pool improvements; cycles of the exchange digraph)
+  .pool_closure()          best pool improvements repeated until none applies
+  .pool_moves(), .cycle_moves(general=False), .two_agent_moves()   the moves of c4min.md section 4: pool improvements;
+                           one step along a cycle of the exchange digraph (best pairs, every order of the receivers; or
+                           any admissible pairs); re-partitions of two free agents' pairs and the pool
 """
 from itertools import combinations, product
 
@@ -273,46 +276,73 @@ class Config:
                 elif w > start and w not in seen: rec(start, path + [w], seen | {w})
         for s in range(n): rec(s, [s], {s})
         return out
-    def cycle_moves(self):
-        """every cycle of the exchange digraph, moved one step (c4min.md section 4): across a threat edge o -> y, y takes
-        a best admissible pair of Q_o + L (every choice of the second good when only one good is valued); across a need
-        edge x -> z, z takes phi(x). Returns (cycle, new Config) for the moves that give a configuration."""
-        P, out = self.P, []
+    def cycle_moves(self, general=False):
+        """every cycle of the exchange digraph, moved one step (c4min.md section 4): across a need edge x -> z, z takes
+        phi(x); across a threat edge o -> y, y takes a best admissible pair of Q_o + L. Receivers can compete for pool
+        goods, so the threat receivers choose in every order (each time a best pair among the goods still available,
+        every best pair). general=True: each threat receiver takes any admissible pair of Q_o + L (disjoint), not only a
+        best one. Returns the distinct (cycle, new Config) that are configurations of a key of the profile."""
+        from itertools import permutations
+        P, out, seen = self.P, [], set()
         for cyc in self.cycles():
             k = len(cyc)
-            key = list(self.key); Q = dict(self.Q)
-            gives = {u: self.H(u) for u in cyc}
-            pool = set(self.L) | set().union(*(gives[u] for u in cyc if self.key[u] is None))
-            steps = []
-            for j in range(k):
-                u, w = cyc[j], cyc[(j + 1) % k]
-                if self.key[u] is not None: steps.append(('need', u, w))
-                else: steps.append(('threat', u, w))
-            # need edges first (they are forced), then the threat receivers choose pairs from Q_u + L
+            key = list(self.key)
+            steps = [('need' if self.key[cyc[j]] is not None else 'threat', cyc[j], cyc[(j + 1) % k]) for j in range(k)]
             for kind, u, w in steps:
-                if kind == 'need': key[w] = self.key[u]; Q.pop(w, None)
+                if kind == 'need': key[w] = self.key[u]
             thr = [(u, w) for kind, u, w in steps if kind == 'threat']
             for u, w in thr: key[w] = None
-            N = self.N
-            def rec(idx, avail, Qc):
-                if idx == len(thr):
+            recv = {w for _, _, w in steps}
+            Q0 = {y: self.Q[y] for y in self.free if y not in recv}
+            avail0 = (P.M - self.N) - frozenset().union(*Q0.values()) if Q0 else P.M - self.N
+            def rec(order, idx, avail, Qc):
+                if idx == len(order):
                     c2 = Config(P, key, Qc)
-                    if c2.valid_config(): out.append((cyc, c2))
+                    sig = (c2.key, tuple(sorted((y, tuple(sorted(q))) for y, q in c2.Q.items())))
+                    if sig not in seen and c2.valid_config(): seen.add(sig); out.append((cyc, c2))
                     return
-                u, w = thr[idx]
+                u, w = order[idx]
                 src = (self.Q[u] | self.L) & avail
-                Uw = P.R[w] - N
+                Uw = P.R[w] - self.N
                 opts = [frozenset(S) for S in combinations(sorted(src), 2) if P.admissible(w, frozenset(S) & Uw, Uw)]
                 if not opts: return
-                bv = max(P.val(w, S) for S in opts)
+                if not general:
+                    bv = max(P.val(w, S) for S in opts); opts = [S for S in opts if P.val(w, S) == bv]
                 for S in opts:
-                    if P.val(w, S) == bv:
-                        Q2 = dict(Qc); Q2[w] = S; rec(idx + 1, avail - S, Q2)
-            Q0 = {y: Q[y] for y in range(P.n) if key[y] is None and y not in [w for _, w in thr]}
-            avail = frozenset(pool) - frozenset().union(*Q0.values()) if Q0 else frozenset(pool)
-            rec(0, avail, Q0)
+                    Q2 = dict(Qc); Q2[w] = S; rec(order, idx + 1, avail - S, Q2)
+            for order in (permutations(thr) if not general else [thr]):
+                rec(list(order), 0, avail0, dict(Q0))
         return out
-
+    def pool_closure(self):
+        """repeat, for each free agent in turn, the best pool improvement (its best admissible pair of Q_y + L, if worth
+        more than Q_y) until none applies; returns the resulting configuration (self if none applies)"""
+        P, c = self.P, self
+        changed = True
+        while changed:
+            changed = False
+            for y in c.free:
+                src = sorted(c.Q[y] | c.L)
+                opts = [frozenset(S) for S in combinations(src, 2) if P.admissible(y, frozenset(S) & c.U(y), c.U(y))]
+                S = max(opts, key=lambda S: P.val(y, S))
+                if P.val(y, S) > c.hv(y):
+                    Q = dict(c.Q); Q[y] = S; c = Config(P, c.key, Q); changed = True
+        return c
+    def two_agent_moves(self):
+        """every re-partition of Q_y + Q_z + L into admissible pairs for two free agents y, z (the rest to the pool);
+        contains the pool moves and the pool-assisted two-agent exchanges of c4min.md section 4"""
+        P, out = self.P, []
+        for y, z in combinations(self.free, 2):
+            pool = sorted(self.Q[y] | self.Q[z] | self.L)
+            for A in combinations(pool, 2):
+                A = frozenset(A)
+                if not P.admissible(y, A & self.U(y), self.U(y)): continue
+                for B in combinations(sorted(set(pool) - A), 2):
+                    B = frozenset(B)
+                    if not P.admissible(z, B & self.U(z), self.U(z)): continue
+                    if A == self.Q[y] and B == self.Q[z]: continue
+                    Q = dict(self.Q); Q[y] = A; Q[z] = B
+                    out.append(((y, z), Config(P, self.key, Q)))
+        return out
 
 def selftest(records, gapbin_dump):
     """compare this model with gap.c's dump (gapbin_dump(record) -> list of (P-line dict, [C-line dicts])) on the

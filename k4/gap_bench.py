@@ -191,18 +191,40 @@ def st_iv_setting(prof, c):
     if not xs: return None
     return all(c.mult(x) <= 1 for x in xs)
 
+def raises(c):
+    """some pool move or exchange-cycle move (best pairs, every order) raises Phi'"""
+    return any(c2.phi > c.phi for _, _, c2 in c.pool_moves()) or any(c2.phi > c.phi for _, c2 in c.cycle_moves())
+
+def raises_ext(c):
+    """... or a cycle move with any admissible pairs, or a re-partition of two free agents' pairs and the pool"""
+    return raises(c) or any(c2.phi > c.phi for _, c2 in c.cycle_moves(general=True)) \
+        or any(c2.phi > c.phi for _, c2 in c.two_agent_moves())
+
+def raises_closure(c):
+    """... or a cycle move (best pairs, any order) followed by the pool closure (every free agent re-optimizes its pair
+    from the pool until none can)"""
+    return raises_ext(c) or any(c2.pool_closure().phi > c.phi for _, c2 in c.cycle_moves()) \
+        or any(c2.pool_closure().phi > c.phi for _, c2 in c.cycle_moves(general=True))
+
+def st_local_closure(prof, c):
+    if c.completable: return None
+    return raises_closure(c)
+
 def st_local(prof, c):
     if c.completable: return None
-    if any(c2.phi > c.phi for _, _, c2 in c.pool_moves()): return True
-    return any(c2.phi > c.phi for _, c2 in c.cycle_moves())
+    return raises(c)
+
+def st_local_ext(prof, c):
+    if c.completable: return None
+    return raises_ext(c)
 
 def st_pool_local(prof, c):
     if c.completable or c.pool_optimal: return None
-    return any(c2.phi > c.phi for _, _, c2 in c.pool_moves()) or any(c2.phi > c.phi for _, c2 in c.cycle_moves())
+    return raises(c)
 
 def st_t_local(prof, c):
     if c.completable or c.t == 0: return None
-    return any(c2.phi > c.phi for _, _, c2 in c.pool_moves()) or any(c2.phi > c.phi for _, c2 in c.cycle_moves())
+    return raises(c)
 
 def st_bt(prof, c):
     if c.completable: return None
@@ -245,7 +267,11 @@ STATEMENTS = {
     'IV_SETTING': ('all', st_iv_setting,
                    "roadmap (iv) in the proof's setting: without a valid owner, pool-optimal, t = 0: a 4-good frozen agent is threatened by at most one owner"),
     'LOCAL': ('all', st_local,
-              "#41 section 4, the local improvement lemma with pool moves and exchange-cycle moves: every configuration without a valid owner has a Phi'-raising move"),
+              "#41 section 4, the local improvement lemma with pool moves and exchange-cycle moves (best pairs, every order of the receivers): every configuration without a valid owner has a Phi'-raising move"),
+    'LOCAL_EXT': ('all', st_local_ext,
+                  "the same with a larger catalogue: also cycle moves with any admissible pairs, and re-partitions of two free agents' pairs and the pool (contains #41's pool-assisted two-agent exchange)"),
+    'LOCAL_CLOSURE': ('all', st_local_closure,
+                      "the same catalogue plus cycle moves followed by the pool closure (every free agent re-takes its best pair from the pool, repeatedly)"),
     'BT': ('pareto', st_bt,
            "#46 K4.HALL.BT in configuration form: a Pareto-maximal configuration without a valid owner has a frozen big-top agent"),
     'H7': ('pareto', st_h7,
