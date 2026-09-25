@@ -1,0 +1,5 @@
+command: python3 k4/gap_run.py results/k4_certs_4_pure.json.gz --sample=4000 --seed=4 --rec=1 --out=results/k4_gap/gap_n4_pure_s4000.json.gz
+gap.c sha256 56713acd6f2f60753e98ee029ef976eb2006cc0732e6b3650e04381532c9c6f1
+k4_certs_4_pure.json.gz: 219 cores, 4000 random profiles per core [9 s]
+  prof=876000 om1=408441 Z=360206 small=467559 F=3134 gap=45101 gap_f1=43334 gap_f2=1767 catS=45100 catW=1 catN=0 catX=0 defmis=0 defover=0 trunc=0 cfg=4504315 cfg_compl=3919786 cfg_simple=3831022 max=57319 max_thr2=645 max_notpo=64 max_tpos=0 h7all_G=421114 h7all_G1=151324 h7all_L=1408701 h7all_O=561006 h7max_G=19 h7max_G1=874 h7max_L=26856 h7max_O=0 exp3=0 exp4=49968 expbt=42865 keys=90775 thr2prof=633
+wrote 45101 records to results/k4_gap/gap_n4_pure_s4000.json.gz

@@ -119,26 +119,35 @@ class Result:
         return '\n'.join(s)
 
 def check(pred, scope='all', catalogs=None, name='statement', max_profiles=None, recs=None, confirm=3):
-    res = Result(name)
-    found = []
+    """run one predicate; see the module docstring"""
+    return check_many([(name, scope, pred)], catalogs, max_profiles, recs, confirm)[0]
+
+def check_many(stmts, catalogs=None, max_profiles=None, recs=None, confirm=3):
+    """stmts: list of (name, scope, pred); one pass over the profiles; returns a list of Result"""
+    res = [Result(nm) for nm, _, _ in stmts]
+    found = [[] for _ in stmts]
     for r, prof, cfgs in profiles(catalogs, max_profiles, recs):
-        res.profiles += 1
-        if scope == 'profile':
-            out = pred(prof, cfgs)
-            if out is None: res.skipped += 1; continue
-            res.tested += 1
-            if out is False: found.append((prof.n, prof.m, len(cfgs), len(found), r, prof, None))
-            continue
-        for c in select(scope, prof, cfgs):
-            out = pred(prof, c)
-            if out is None: res.skipped += 1; continue
-            res.tested += 1
-            if out is False: found.append((prof.n, prof.m, len(cfgs), len(found), r, prof, c))
-    found.sort(key=lambda t: t[:4])
-    for k, (_, _, _, _, r, prof, c) in enumerate(found):
-        detail = ''
-        if k < confirm: detail = 'Python re-check: ' + recheck(r, c, pred, scope)
-        res.counterexamples.append((prof, c, detail))
+        sel = {}
+        for k, (nm, scope, pred) in enumerate(stmts):
+            res[k].profiles += 1
+            if scope == 'profile':
+                out = pred(prof, cfgs)
+                if out is None: res[k].skipped += 1; continue
+                res[k].tested += 1
+                if out is False: found[k].append((prof.n, prof.m, len(cfgs), len(found[k]), r, prof, None))
+                continue
+            key = scope if isinstance(scope, str) else id(scope)
+            if key not in sel: sel[key] = select(scope, prof, cfgs)
+            for c in sel[key]:
+                out = pred(prof, c)
+                if out is None: res[k].skipped += 1; continue
+                res[k].tested += 1
+                if out is False: found[k].append((prof.n, prof.m, len(cfgs), len(found[k]), r, prof, c))
+    for k, (nm, scope, pred) in enumerate(stmts):
+        found[k].sort(key=lambda t: t[:4])
+        for j, (_, _, _, _, r, prof, c) in enumerate(found[k]):
+            detail = 'Python re-check: ' + recheck(r, c, pred, scope) if j < confirm else ''
+            res[k].counterexamples.append((prof, c, detail))
     return res
 
 # ---------------------------------------------------------------- seeded statements
@@ -263,12 +272,12 @@ def main():
               f"Phi', pool-optimality, owners (least |C|), threat edges and H7 classes: {bad} mismatches [{time.time() - t0:.0f} s]")
         return
     names = opt['only'].split(',') if 'only' in opt else list(STATEMENTS)
-    for nm in names:
-        scope, pred, desc = STATEMENTS[nm]
-        t0 = time.time()
-        res = check(pred, scope, recs=recs, name=nm)
-        print(f"== {desc}")
-        print(res.summary(int(opt.get('show', 2))) + f" [{time.time() - t0:.0f} s]", flush=True)
+    t0 = time.time()
+    results = check_many([(nm, STATEMENTS[nm][0], STATEMENTS[nm][1]) for nm in names], recs=recs)
+    for nm, res in zip(names, results):
+        print(f"== {STATEMENTS[nm][2]}")
+        print(res.summary(int(opt.get('show', 2))), flush=True)
+    print(f"[{time.time() - t0:.0f} s]")
 
 if __name__ == '__main__':
     main()
