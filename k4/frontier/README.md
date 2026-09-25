@@ -50,7 +50,9 @@ counting over every m, `--expect`, D2, format; that code is copied verbatim) but
 - the last two agents by columns;
 - safety tables with numpy, the plain `efx0_safe` loop re-run on every 16th allocation (they must agree).
 
-Each of its runs prints its SHA-256 after the command line. Its coverage loop uses the same ideas as `scan2.c` and was
+Each of its runs prints its SHA-256 after the command line. The committed certificate logs come from version
+`c7ccbe49…` (SHA-256 in each log header, commit 9acd740). The current version differs only in two places: it prints
+the elapsed time at the end, and it reports n > 16 as "unsupported" instead of a generic failure. Its coverage loop uses the same ideas as `scan2.c` and was
 written in the same session, so it is not independent of the search's design. Where affordable, the plain
 `check4.py` confirms the certificates too:
 
@@ -58,10 +60,25 @@ written in the same session, so it is not independent of the search's design. Wh
 |---|---|---|
 | n = 5, three 4-good agents | `results/k4_check_5_n4_3.log` | `results/k4_check_plain_5_n4_3.log` |
 | n = 6, one 4-good agent | `results/k4_check_6_n4_1.log` | `results/k4_check_plain_6_n4_1.log` |
-| n = 5, four 4-good agents | `results/k4_check_5_n4_4.log` | not run: ≈ 25 s per core, ≈ 70 CPU-hours |
-| pure n = 5 | `results/k4_check_5_pure.log` | not run: see `results/k4_frontier_plain_timing.log` |
+| n = 5, four 4-good agents | `results/k4_check_5_n4_4.log` | cannot re-check in practice: 25–39 s per core, ≈ 70–106 CPU-hours |
+| pure n = 5 | `results/k4_check_5_pure.log` | cannot re-check in practice: 107 and 561 s on 2 sampled cores; 5 of 5 timed out at 300–600 s in the review |
 
-The plain costs come from `time_plain.py` samples (`results/k4_frontier_plain_timing.log`).
+So K4.R5d and K4.R5p are accepted by the reduced loop only. That loop is differentially tested against main's loop
+and against brute force (below, and in the PR #26 review).
+
+Timings:
+- The plain costs come from `time_plain.py` samples (`results/k4_frontier_plain_timing.log`: 25 s per core for four
+  4-good agents).
+- The PR #26 reviewer measured 38.7 s per core (≈ 106 CPU-hours) for four 4-good agents; main's check4.py accepted
+  K4.R6a in full in 22 min 56 s on 2 CPUs.
+- check4_fast.py wall times (reviewer's re-runs; the committed logs have no timing line):
+
+| certificate | check4_fast.py wall time |
+|---|---|
+| n = 5, three 4-good agents | 7 min 02 s, `--jobs=2` |
+| n = 5, four 4-good agents | 34 min 19 s, `--jobs=1` |
+| n = 6, one 4-good agent | 25 min 04 s, `--jobs=1` |
+| pure n = 5 | ≈ 7.7 s per core on average, at most 76 s, ≈ 10 CPU-hours (here: ≈ 70 min on 4 CPUs) |
 
 Tests:
 - `test_check4_fast.py` (`results/k4_frontier_test_check4_fast.log`):
@@ -69,7 +86,10 @@ Tests:
     so the fallback walk runs); check4_fast must agree with brute force and with check4.py's C loop;
   - B: cores from every certificate class, thinned, perturbed or intact; check4.py and check4_fast.py must agree
     (check4.py calls over a time limit are counted as skipped);
-  - C: a corrupted safety table must be caught.
+  - C: a corrupted safety table must be caught;
+  - D: near-threshold corruptions from every class: delete every allocation covering one random profile (hole), or
+    the dominated-type trap (row_u strictly inside row_t; kill a covered profile with u while the one with t stays
+    covered). Both checkers must say "not covered".
 - `test_check4_on_fast.py` runs main's sensitivity test `k4/test_check4.py`, unchanged, against check4_fast.py.
   Every corruption is rejected (`results/k4_frontier_test_check4.log`).
 - `results/k4_frontier_recheck.log`: every earlier k = 4 certificate passes check4_fast.py.

@@ -10,6 +10,11 @@ B. Certificates of every committed k = 4 class, including the four new ones (n =
    each check4.covered call runs in a worker with a time limit (--limit, default 30 s); cases over the limit are
    counted as skipped, never as agreeing.
 C. A corrupted vectorized safety table (agent 0's row negated) must be caught by check4_fast's plain-loop re-check.
+D. Near-threshold corruptions of real certificates, from every class: (hole) delete every allocation covering one
+   random profile; (trap) pick an agent i and types u, t with row_u strictly inside row_t, a profile P with i -> u
+   that is covered, and delete every allocation covering P while the same profile with i -> t stays covered (a
+   reduction that kept t instead of u would miss the hole). Both checkers must say "not covered"; check4.py calls
+   over the time limit are skipped, but check4_fast must still say "not covered".
 Usage: test_check4_fast.py [random_systems] [trials_per_file] [--limit=S]     exit status 1 on any disagreement"""
 import ctypes, gzip, itertools, json, os, random, sys
 import numpy as np
@@ -124,6 +129,74 @@ def part_c():
     print(f"C. a corrupted safety table (agent 0 negated) is {'rejected' if caught else 'NOT rejected'}", flush=True)
     return caught
 
+def safety_rows(n, m, sets, A_list):
+    """rows[i]: bool array (|domain_i|, K), agent i's type t safe under allocation a (check4_fast's numpy table)."""
+    doms = FAST.core_domains(sets, m, False)
+    V = [np.array([[vals.get(g, 0) for g in range(m)] for vals in D], dtype=np.int64) for D in doms]
+    rows = [np.zeros((len(D), len(A_list)), dtype=bool) for D in doms]
+    for a, A in enumerate(A_list):
+        An = np.array(A)
+        for i in range(n): rows[i][:, a] = FAST.safe_all_types(V[i], An, i, n)
+    return rows
+
+def cover_set(rows, prof):
+    acc = np.ones(rows[0].shape[1], dtype=bool)
+    for i, t in enumerate(prof): acc &= rows[i][t]
+    return acc
+
+def near_threshold(n, m, sets, A_list, kind, rng):
+    """A thinned allocation list with a known uncovered profile, or None if this core offers no such case."""
+    rows = safety_rows(n, m, sets, A_list)
+    for _ in range(50):
+        if kind == 'hole':
+            prof = [rng.randrange(len(r)) for r in rows]
+        else:
+            i = rng.randrange(n)
+            R = rows[i]
+            pairs = [(u, t) for u in range(len(R)) for t in range(len(R))
+                     if u != t and R[u].any() and not (R[u] & ~R[t]).any() and (R[t] & ~R[u]).any()]
+            if not pairs: continue
+            u, t = rng.choice(pairs)
+            a = rng.choice(list(np.flatnonzero(R[u])))                  # P covered by allocation a
+            prof = [rng.choice(list(np.flatnonzero(rows[j][:, a]))) if j != i else u for j in range(n)]
+        dead = cover_set(rows, prof)
+        if not dead.any(): continue                                      # already uncovered: not near the threshold
+        keep = [A for a, A in enumerate(A_list) if not dead[a]]
+        if not keep: continue
+        if kind == 'trap':
+            alt = list(prof); alt[i] = t
+            if not (cover_set(rows, alt) & ~dead).any(): continue      # the t-profile must stay covered
+        return keep
+    return None
+
+def part_d(trials, rng, limit):
+    from multiprocessing import Pool, TimeoutError as TE
+    pool = Pool(1)
+    tot = ok = skipped_plain = none = 0
+    for fn in FILES:
+        data = json.load(gzip.open(os.path.join(ROOT, 'results', fn), 'rt'))
+        n = data['n']
+        done = {'hole': 0, 'trap': 0}
+        for t in range(trials):
+            kind = ['hole', 'trap'][t % 2]
+            r = rng.choice(data['cores'])
+            keep = near_threshold(n, r['m'], r['sets'], r['allocs'], kind, rng)
+            if keep is None: none += 1; continue
+            task = (n, r['m'], r['sets'], keep, False)
+            f = FAST.covered(task)
+            try: p = pool.apply_async(plain_covered, (task,)).get(timeout=limit)
+            except TE:
+                pool.terminate(); pool = Pool(1); skipped_plain += 1; p = None
+            tot += 1; done[kind] += 1
+            good = (f is False) and (p in (False, None))
+            ok += good
+            if not good: print(f"WRONG {fn} m={r['m']} sets={r['sets']} ({kind}): check4 {p}, check4_fast {f} (expected not covered)")
+        print(f"  {fn}: {done}", flush=True)
+    pool.terminate()
+    print(f"D. {tot} near-threshold corruptions (hole, trap) from every class: check4_fast says 'not covered' on {ok}; "
+          f"check4.py agrees on all it finished ({skipped_plain} over {limit} s); {none} draws offered no case", flush=True)
+    return ok == tot
+
 if __name__ == '__main__':
     args = [a for a in sys.argv[1:] if not a.startswith('--')]
     limit = float(([a.split('=')[1] for a in sys.argv[1:] if a.startswith('--limit=')] or [30])[0])
@@ -135,5 +208,6 @@ if __name__ == '__main__':
     ok_a = part_a(systems, np.random.default_rng(2026))[0]
     ok_b = part_b(trials, random.Random(2026), limit)
     ok_c = part_c()
-    print("ALL AGREE" if ok_a and ok_b and ok_c else "FAILED")
-    sys.exit(0 if ok_a and ok_b and ok_c else 1)
+    ok_d = part_d(trials, random.Random(2027), limit)
+    print("ALL AGREE" if ok_a and ok_b and ok_c and ok_d else "FAILED")
+    sys.exit(0 if ok_a and ok_b and ok_c and ok_d else 1)

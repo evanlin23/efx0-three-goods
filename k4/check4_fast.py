@@ -49,7 +49,7 @@ C_SRC = r"""
 #include <stdint.h>
 #include <stdlib.h>
 /* all profiles covered? masks[off[i] + t*W + w]; returns 1 if every profile has a common allocation, 0 if some
-   profile has none, -1 if n > 16 or memory ran out (treated as a failure).
+   profile has none, -1 if memory ran out, -2 if n > 16 (both treated as a failure).
    Memo: DONE[l] lists prefix sets `pre` for which go(l, pre) returned 1 (at levels 1..n-3, at most CAP each). If a
    listed set is contained in `pre`, then go(l, pre) is 1 too: every completion meets the listed set, hence `pre`. */
 #define CAP 50000
@@ -122,7 +122,7 @@ static int go(int l, const uint64_t *pre) {
 }
 int covered(int n, int W, const int *D, const long *off, const uint64_t *M, const uint64_t *F) {
     n_ = n; W_ = W; D_ = D; off_ = off; M_ = M; F_ = F;
-    if (n > 16) return -1;
+    if (n > 16) return -2;
     int oom = 0;
     for (int l = 0; l < n; l++) {
         DONE[l] = malloc(sizeof(uint64_t) * CAP * W); NDONE[l] = 0; DPC[l] = malloc(sizeof(int) * CAP);
@@ -319,7 +319,8 @@ def coverage(n, W, sizes, off, M, F):
         for r, t in enumerate(kt):
             for w in range(W): M2[off2[i] + r * W + w] = M[off[i] + t * W + w]
     r = LIB.covered(n, W, (ctypes.c_int * n)(*[len(kt) for kt in keep]), (ctypes.c_long * n)(*off2[:n]), M2, F)
-    if r < 0: print(f"  COVERAGE LOOP FAILED (n > 16 or out of memory): n={n}", flush=True)
+    if r == -2: print(f"  COVERAGE LOOP FAILED: n > 16 unsupported (n={n})", flush=True)
+    elif r < 0: print(f"  COVERAGE LOOP FAILED: out of memory (n={n})", flush=True)
     return r == 1
 
 def well_formed(rec, n):
@@ -411,6 +412,8 @@ if __name__ == '__main__':
         elif a.startswith('--jobs='): jobs = int(a.split('=')[1])
         else: files.append(a)
         i += 1
+    import time
+    t0 = time.time()
     with Pool(jobs) as pool:
         res = [check_file(p, pool, expect) for p in files]
     ok = all(r[0] for r in res)
@@ -418,5 +421,6 @@ if __name__ == '__main__':
         seen = {r[1] for r in res}
         for k in expect:
             if k not in seen: print(f"  EXPECTED a file for n={k[0]} {k[1]}, none given"); ok = False
+    print(f"elapsed: {time.time() - t0:.0f} s wall with --jobs={jobs}")
     print("ALL OK" if ok else "FAILED")
     sys.exit(0 if ok else 1)
