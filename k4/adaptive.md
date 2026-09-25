@@ -253,8 +253,8 @@ matching recomputed at every insertion step. Fewest rotations LB₄ʳ needs on t
 
 MATCH_TABLE
 
-All three fail with one rotation at n = 3, m = 6, on the profile of the table above (confirmed in PR #33's model,
-`results/k4_adaptive_attempts.log`). On H_t the matching is forced (ℓ, y_j, x_{j,2}, x_{j,3} get their first choice,
+All three fail with one rotation at n = 3, m = 6: `-A17` and `-A25` on the profile of the table above, `-A18` on
+`-A9`'s (confirmed in PR #33's model, `results/k4_adaptive_attempts.log`). On H_t the matching is forced (ℓ, y_j, x_{j,2}, x_{j,3} get their first choice,
 x_{j,1} its second), so `-A17` and `-A25` insert ℓ first in #33's labeling, which is index order (Proposition H:
 ⌈2t/3⌉ rotations), while `-A18` inserts the x_{j,1} first and needs no rotation on every relabeling (Proposition H′).
 

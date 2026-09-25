@@ -10,8 +10,8 @@ it against brute force):
 - `-A18`: the agents matched to their second choice first;
 - `-A25`: the matching recomputed at every insertion step on the unprocessed agents and the remaining goods.
 
-**Where it breaks.** With at most one rotation each fails at n = 3 (with two, LB₄ʳ succeeds): `-A17` on 11,520
-profiles, and needs two rotations on 216 profiles with n = 4 and two 4-good agents and 28,256 with three
+**Where it breaks.** With at most one rotation each fails at n = 3 (with two, LB₄ʳ succeeds): `-A17` and `-A25` on
+11,520 profiles, `-A18` on 8,120; and needs two rotations on 216 profiles with n = 4 and two 4-good agents and 28,256 with three
 (`results/k4_adaptive_matching.log`, which also has `-A18`, `-A25`, n = 5 samples, #30's profiles, hill-climbing and
 H_1–H_4). On H_t in #33's labeling the matching gives ℓ its first choice g_1 (every x_{j,i} its a except one per
 gadget, which takes its b so that y_j gets an a), and ℓ has the least index, so `-A17` and `-A25` insert ℓ first:
@@ -22,11 +22,16 @@ to their second choice, come first, so an agent of gadget 1 is processed before 
 labels). So on H_t the matching can pick a good or a bad first agent, depending only on which class goes first; on
 small cores both orders fail.
 
-**Smallest failing configuration** (n = 3, m = 6; the same profile as `attempts/k4-adaptive-greedy-omega.md`). Agents
-{0, 1, 4, 5}, {2, 3, 4, 5}, {2, 3, 4, 5} with values (1, 4, 6, 8), (2, 3, 4, 8), (2, 7, 8, 4). The largest matchings
-match all three agents with one first choice; the tie gives agent 0 its first choice 5 (agents 1, 2 their second
-choices 4 and 3), so agent 0 is inserted first, and that run needs two rotations under every policy; agent 1 first
-needs one (rule F). Brute force: K4.D holds.
+**Smallest failing configurations** (n = 3, m = 6; `-A18` fails at n = 3 on 8,120 profiles).
+- `-A17`, `-A25`: the profile of `attempts/k4-adaptive-greedy-omega.md`, agents {0, 1, 4, 5}, {2, 3, 4, 5},
+  {2, 3, 4, 5} with values (1, 4, 6, 8), (2, 3, 4, 8), (2, 7, 8, 4). The largest matchings match all three agents with
+  one first choice; the tie gives agent 0 its first choice 5 (agents 1, 2 their second choices 4 and 3), so agent 0 is
+  inserted first, and that run needs two rotations under every policy; agent 1 first needs one (rule F).
+- `-A18`: the profile of `-A9` in `attempts/k4-adaptive-local-features.md`, agents {0, 1, 2, 5}, {1, 3, 4, 5},
+  {2, 3, 4, 5} with values (1, 4, 8, 6), (1, 4, 6, 8), (8, 2, 3, 4): agent 1 (matched to its second choice) is inserted
+  first and needs two rotations; agent 2 first needs none.
 
-Reproduce: `python3 attempts/k4_adaptive_attempts.py` (rules 17, 18, 25 on this profile, with `k4/adaptive.c` and in
+Brute force: K4.D holds on both.
+
+Reproduce: `python3 attempts/k4_adaptive_attempts.py` (rules 17, 25 and 18 on these profiles, with `k4/adaptive.c` and in
 PR #33's independent model `k4/c4_verify_H/lb4r.py`; `results/k4_adaptive_attempts.log`).
