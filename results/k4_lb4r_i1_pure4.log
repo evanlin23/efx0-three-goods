@@ -1,0 +1,5 @@
+# lb4_run.py results/k4_certs_4_pure.json.gz -i1 -u3 -r3 -w1 -c1 --show=5 --checkpoint=/tmp/claude-0/lb4r/ck_i1_pure4.jsonl
+  checkpoint /tmp/claude-0/lb4r/ck_i1_pure4.jsonl: 0 cores done before, 219 to run
+results/k4_certs_4_pure.json.gz: 219 cores, 6337s
+  total=5886564710400 leaves=1626689818 runs=2920606772 fails=0 rawfails=0 nobig=3319010324160 owner_r=2396646427362 owner_other=98284378472 rot=72623580406 later_seq=0 later_upg=174710300 big3=1645813394274 big4=724647172270 big5=147674250756 big6=16949160760 big7=1016301232 big8=16962368
+  cores with a failure: 0
