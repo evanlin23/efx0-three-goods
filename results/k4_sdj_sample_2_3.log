@@ -1,0 +1,13 @@
+SDJ(s=2, c=1) n=2: 5 cores x 2000 random strict profiles
+  m=4: 2 cores; SDJ fails in 0 cores, on 0 of 4000 sampled profiles
+  m=5: 2 cores; SDJ fails in 0 cores, on 0 of 4000 sampled profiles
+  m=6: 1 cores; SDJ fails in 0 cores, on 0 of 2000 sampled profiles
+  [0s]
+SDJ(s=2, c=1) n=3: 51 cores x 2000 random strict profiles
+  m=4: 4 cores; SDJ fails in 0 cores, on 0 of 8000 sampled profiles
+  m=5: 11 cores; SDJ fails in 0 cores, on 0 of 22000 sampled profiles
+  m=6: 18 cores; SDJ fails in 0 cores, on 0 of 36000 sampled profiles
+  m=7: 12 cores; SDJ fails in 0 cores, on 0 of 24000 sampled profiles
+  m=8: 5 cores; SDJ fails in 0 cores, on 0 of 10000 sampled profiles
+  m=9: 1 cores; SDJ fails in 0 cores, on 0 of 2000 sampled profiles
+  [4s]

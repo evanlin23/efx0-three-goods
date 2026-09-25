@@ -48,12 +48,12 @@ def load_c():
     return ctypes.CDLL(os.path.join(d, 'c.so'))
 
 @lru_cache(maxsize=None)
-def strict_balanced_types(d):
-    """One integer representative per strict balanced order type of d goods."""
+def strict_balanced_types(d, ties=False):
+    """One integer representative per strict balanced order type of d goods (ties=True: every balanced type)."""
     reps = {}
     for v in itertools.product(range(1, 17), repeat=d):
         sums = [sum(v[g] for g in range(d) if S >> g & 1) for S in range(1, 1 << d)]
-        if len(set(sums)) < len(sums) or max(v) >= sum(v) - max(v): continue
+        if (not ties and len(set(sums)) < len(sums)) or max(v) >= sum(v) - max(v): continue
         order = sorted(set(sums))
         key = tuple(order.index(s) for s in sums)
         reps.setdefault(key, v)
@@ -127,7 +127,7 @@ def efx0_safe(i, vals, bundles):
 
 def check_file(path, lib):
     data = json.load(gzip.open(path, 'rt'))
-    n, pure, cores = data['n'], data['pure'], data['cores']
+    n, pure, cores, ties = data['n'], data['pure'], data['cores'], data.get('ties', False)
     ok, byM = True, {}
     for rec in cores: byM.setdefault(rec['m'], []).append(rec)
     d2 = d3 = 0
@@ -154,7 +154,7 @@ def check_file(path, lib):
             for S in sets:
                 priv = [g for g in S if deg[g] == 1]
                 dom = []
-                for v in strict_balanced_types(len(S)):
+                for v in strict_balanced_types(len(S), ties):
                     vals = dict(zip(S, v))
                     if len(priv) == 2 and vals[priv[0]] + vals[priv[1]] >= sum(v) - vals[priv[0]] - vals[priv[1]]: continue
                     dom.append(vals)
@@ -173,7 +173,7 @@ def check_file(path, lib):
             big = lambda A, s: sum(A.count(j) > s for j in range(n))
             d2 += cov and all(big(A, 2) <= 1 for A in A_list)
             d3 += cov and all(big(A, 3) <= 1 for A in A_list)
-        print(f"  n={n} m={m}{' pure' if pure else ''}: {len(recs)} cores, orbit sum {orbit} = labeled {lab}: "
+        print(f"  n={n} m={m}{' pure' if pure else ''}{' ties' if ties else ''}: {len(recs)} cores, orbit sum {orbit} = labeled {lab}: "
               f"{'yes' if orbit == lab else 'NO'}; all profiles covered in {len(recs) - bad}/{len(recs)}", flush=True)
     print(f"  {path}: {'OK' if ok else 'FAILED'}; cores covered by allocations with <= 1 bundle of > 2 goods: "
           f"{d2}/{len(cores)}, of > 3 goods: {d3}/{len(cores)}", flush=True)
@@ -185,7 +185,7 @@ if __name__ == '__main__':
                            (2, 6, False), (3, 4, True), (3, 5, True), (3, 5, False), (3, 6, True)]:
             a, b = labeled_count(n, m, pure), brute(n, m, pure)
             print(f"n={n} m={m} {'pure' if pure else 'mixed'}: DP {a}, brute force {b}: {'ok' if a == b else 'MISMATCH'}", flush=True)
-        print("types:", {d: len(strict_balanced_types(d)) for d in (3, 4)})
+        print("types (strict balanced, balanced):", {d: (len(strict_balanced_types(d)), len(strict_balanced_types(d, True))) for d in (3, 4)})
         sys.exit(0)
     lib = load_c()
     sys.exit(0 if all([check_file(p, lib) for p in sys.argv[1:]]) else 1)

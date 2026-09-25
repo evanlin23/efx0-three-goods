@@ -15,7 +15,7 @@ Pipeline per hypergraph (models D2 = (2, 1), D3 = (3, 1), ANY): run D2; the prof
 (and their minimum numbers of bundles with > 2 and > 3 goods are recorded); if D2 fails more than `cap` profiles,
 run D3, then ANY, the same way. The certificate is the allocations used (they cover every profile).
 
-Usage: search4.py n [n ...] [--pure] [--cap=N] [--jobs=J] [--out=results/k4_certs_n.json.gz]
+Usage: search4.py n [n ...] [--pure] [--ties] [--n4=K] [--cap=N] [--jobs=J] [--out=results/k4_certs_n.json.gz]
   --pure: only cores whose agents all have 4 goods (default: cores with agent degrees 3 and 4, at least one 4)."""
 import ctypes, gzip, json, itertools, os, shutil, subprocess, sys, time
 import numpy as np
@@ -33,11 +33,15 @@ if not os.path.exists(_so) or os.path.getmtime(_so) < os.path.getmtime(os.path.j
     subprocess.run(['gcc', '-O2', '-shared', '-fPIC', '-o', _so, os.path.join(HERE, 'scan.c')], check=True)
 SCAN = ctypes.CDLL(_so)
 STRICT_BAL = {k: [tuple(t['rep']) for t in OT[str(k)]['types'] if t['strict'] and t['balanced']] for k in (3, 4)}
+WEAK_BAL = {k: [tuple(t['rep']) for t in OT[str(k)]['types'] if t['balanced']] for k in (3, 4)}
+TIES = False                                     # --ties: every balanced type, ties allowed (corroborates K4.TIE)
 
-def cores(n, m, pure):
-    """k = 4 cores (connected) with n agents and m goods, one per isomorphism class: list of agent good-lists."""
-    lo = 4 * n if pure else 3 * n + 1
-    args = [GENBG, '-cq', f'-d{4 if pure else 3}:1', f'-D4:{n}', str(n), str(m), f'{lo}:{4 * n}']
+def cores(n, m, pure, n4=None):
+    """k = 4 cores (connected) with n agents and m goods, one per isomorphism class: list of agent good-lists.
+    n4: only cores with exactly n4 agents of degree 4."""
+    lo, hi = (4 * n if pure else 3 * n + 1), 4 * n
+    if n4 is not None: lo = hi = 3 * n + n4
+    args = [GENBG, '-cq', f'-d{4 if pure else 3}:1', f'-D4:{n}', str(n), str(m), f'{lo}:{hi}']
     out = []
     for line in subprocess.run(args, capture_output=True, text=True, check=True).stdout.split():
         G = nx.from_graph6_bytes(line.encode())
@@ -50,7 +54,7 @@ def cores(n, m, pure):
 def domain(S, deg):
     """Types (integer values on S, in S's order) an agent with good list S may take in a core."""
     priv = [p for p, g in enumerate(S) if deg[g] == 1]
-    dom = STRICT_BAL[len(S)]
+    dom = (WEAK_BAL if TIES else STRICT_BAL)[len(S)]
     if len(priv) == 2:
         dom = [v for v in dom if v[priv[0]] + v[priv[1]] < sum(v) - v[priv[0]] - v[priv[1]]]
     return dom
@@ -86,8 +90,9 @@ class Core:
         self.cache[key] = mask
         return mask
 
-    def inner(self, s, c):
-        """Allocation solver with activation literals z[i][t]; shape: at most c bundles with more than s goods."""
+    def inner(self, s, c, maxsize=None):
+        """Allocation solver with activation literals z[i][t]; shape: at most c bundles with more than s goods, and
+        (maxsize) no bundle with more than maxsize goods."""
         n, m, vp = self.n, self.m, IDPool()
         x = [[vp.id(('x', g, j)) for j in range(n)] for g in range(m)]
         cl = []
@@ -99,6 +104,9 @@ class Core:
                 cl += [c_ + [big[j]] for c_ in CardEnc.atmost([x[g][j] for g in range(m)], s, vpool=vp,
                                                               encoding=EncType.seqcounter).clauses]
             if c < n: cl += CardEnc.atmost(big, c, vpool=vp, encoding=EncType.seqcounter).clauses
+        if maxsize is not None and maxsize < m:
+            for j in range(n):
+                cl += CardEnc.atmost([x[g][j] for g in range(m)], maxsize, vpool=vp, encoding=EncType.seqcounter).clauses
         z = []
         for i, S in enumerate(self.sets):
             k = len(S)
@@ -148,7 +156,7 @@ class Core:
         sol.add_clause([-sel])
         return best
 
-    def cegar(self, s, c, cap, extra_allocs=(), tries=8):
+    def cegar(self, s, c, cap, extra_allocs=(), tries=8, maxsize=None):
         """Returns (allocations, failing profiles, complete?). The C scanner (scan.c) proposes the first profile no
         allocation so far covers; a failing profile is blocked alone by a column covering just that profile."""
         n = self.n
@@ -164,7 +172,7 @@ class Core:
                 ts = [t for t in range(len(self.dom[i])) if masks[i] >> t & 1]
                 M[base[i] + np.array(ts, dtype=np.int64), ncol // 64] |= np.uint64(1 << (ncol % 64))
             ncol += 1
-        sol, x, z = self.inner(s, c)
+        sol, x, z = self.inner(s, c, maxsize)
         allocs, fails = [], []
         start = (ctypes.c_int * n)(*([0] * n)); out = (ctypes.c_int * n)()
         for A in extra_allocs: add([self.safe_mask(i, A) for i in range(n)])
@@ -228,12 +236,16 @@ def solve(task):
 def main():
     args = [a for a in sys.argv[1:] if not a.startswith('--')]
     opt = dict(a[2:].split('=', 1) if '=' in a else (a[2:], True) for a in sys.argv[1:] if a.startswith('--'))
+    global TIES
+    TIES = 'ties' in opt
     pure, cap, jobs = 'pure' in opt, int(opt.get('cap', 20)), int(opt.get('jobs', os.cpu_count()))
+    n4 = int(opt['n4']) if 'n4' in opt else None
     for n in map(int, args):
         t0, tasks = time.time(), []
         for m in range(4, 3 * n + 1):
-            for idx, sets in enumerate(cores(n, m, pure)): tasks.append((n, m, idx, sets, cap))
-        print(f"n={n} ({'pure' if pure else 'degrees 3-4'}): {len(tasks)} cores", flush=True)
+            for idx, sets in enumerate(cores(n, m, pure, n4)): tasks.append((n, m, idx, sets, cap))
+        print(f"n={n} ({'pure' if pure else 'degrees 3-4'}{'' if n4 is None else f', exactly {n4} of degree 4'}"
+              f"{', ties' if TIES else ''}): {len(tasks)} cores", flush=True)
         out, stats = [], {}
         with Pool(jobs) as pool:
             for rec in pool.imap_unordered(solve, tasks, chunksize=1):
@@ -244,11 +256,13 @@ def main():
                 st['D3 fails'] += rec.get('D3_fails', 0) != 0 or any(f.get('min_big3', 0) > 1 for f in rec['fail_profiles'])
                 st['cex'] += rec['counterexample']
                 if rec['counterexample']: print("  COUNTEREXAMPLE CANDIDATE", rec['sets'], rec['fail_profiles'][:1], flush=True)
+                if rec['D2_fails'] != 0: print(f"  D2 fails: m={rec['m']} sets={rec['sets']} ({rec['D2_fails']} profiles)", flush=True)
+                if len(out) % 25 == 0: print(f"  ... {len(out)}/{len(tasks)} cores [{time.time() - t0:.0f}s]", flush=True)
         out.sort(key=lambda r: (r['m'], r['idx']))
         for m, st in sorted(stats.items()): print(f"  m={m}: {st}", flush=True)
         print(f"  [{time.time() - t0:.0f}s]", flush=True)
         path = opt.get('out', os.path.join(HERE, f"k4_certs_{n}{'_pure' if pure else ''}.json.gz"))
-        with gzip.open(path, 'wt') as f: json.dump({'n': n, 'pure': pure, 'cores': out}, f, separators=(',', ':'))
+        with gzip.open(path, 'wt') as f: json.dump({'n': n, 'pure': pure, 'ties': TIES, 'n4': n4, 'cores': out}, f, separators=(',', ':'))
         print(f"  wrote {path}", flush=True)
 
 if __name__ == '__main__':
