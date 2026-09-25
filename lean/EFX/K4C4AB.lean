@@ -577,6 +577,394 @@ theorem rotate_valid (hS : AfterUp v agents goods run s) (hgd : goods.Nodup) (hr
       exact fun hna => hI.valid.v2 i h2 g (mem_baseOf.mpr ⟨hgg, (rotate_base_out hl hO' hic).mp hb⟩)
         (NA_rotate hS hgd hch hk hl hlen hO hOnd hvO hna)
 
+/-- The agents of a need chain are processed in order, in the head's block. -/
+theorem AfterUp.chain_pos (hS : AfterUp v agents goods run s) (hgd : goods.Nodup)
+    (hch : NeedChain v agents goods s c) {tk : Nat} {pk : A × Option G} (hpk : run[tk]? = some pk)
+    (hk : c[0]? = some pk.1) :
+    ∀ (i : Nat) (z : A), c[i]? = some z → ∃ (tz : Nat) (pz : A × Option G), run[tz]? = some pz ∧ pz.1 = z ∧
+      SameBlock v run tk tz ∧ (0 < i → tk < tz)
+  | 0, z, hz => by
+    rw [hk] at hz; cases hz
+    exact ⟨tk, pk, hpk, rfl, SameBlock.refl _, fun h => absurd h (by omega)⟩
+  | i + 1, z, hz => by
+    obtain ⟨a, ha⟩ : ∃ a, c[i]? = some a :=
+      ⟨_, List.getElem?_eq_getElem (by have := (List.getElem?_eq_some_iff.mp hz).1; omega)⟩
+    obtain ⟨ta, pa, hpa, hpa1, hba, -⟩ := AfterUp.chain_pos hS hgd hch hpk hk i a ha
+    obtain ⟨-, y, hy, hN⟩ := hch.2.2.1 i a z ha hz
+    obtain ⟨tz, pz, hpz, hpz1⟩ := hS.phase.exists_pos (hch.2.1 z (List.mem_of_getElem? hz))
+    obtain ⟨-, hlt, hbl⟩ := hS.chain_step hgd hy hN hpa hpa1 hpz hpz1
+    exact ⟨tz, pz, hpz, hpz1, hba.trans hbl, fun _ => by have := hba.1; omega⟩
+
+/-- A chain agent after the head takes its predecessor's pick as its whole base, which it values more than its old
+base. -/
+theorem AfterUp.rotate_base_better (hS : AfterUp v agents goods run s) (hgd : goods.Nodup)
+    (hch : NeedChain v agents goods s c) (hk : c.head? = some k) (hl : c.getLast? = some r)
+    (hO : ∀ g ∈ O, s.base g = none ∨ s.base g = some r) {i : Nat} {a x : A} (ha : c[i]? = some a)
+    (hx : c[i + 1]? = some x) :
+    ∃ y, baseOf goods (rotate s c O).base x = [y] ∧ s.pick a = some y ∧ needsOf v goods s x y ∧
+      ¬ s.marked x ∧ value v x (baseOf goods s.base x) < v x y := by
+  have hc := hch.1
+  have hI := hS.inv hgd
+  obtain ⟨⟨ham, y', hB', -⟩, y, hy, hN⟩ := hch.2.2.1 i a x ha hx
+  have haA : a ∈ agents := hch.2.1 a (List.mem_of_getElem? ha)
+  have hxA : x ∈ agents := hch.2.1 x (List.mem_of_getElem? hx)
+  have hBa : baseOf goods s.base a = [y] := by rw [hI.unmarked a haA ham, hy]; rfl
+  have hB : baseOf goods (rotate s c O).base x = [y] := by
+    rw [← hBa]; exact List.filter_congr fun h _ => by simp only [rotate_base_next hc hk hl hO ha hx]
+  have hxm : ¬ s.marked x := fun hm => hS.no_needs hgd hm y hN
+  refine ⟨y, hB, hy, hN, hxm, ?_⟩
+  rw [hI.unmarked x hxA hxm]
+  rw [needsOf_unmarked hxm] at hN
+  obtain ⟨-, hpos, hlt⟩ := hN
+  cases hyx : s.pick x with
+  | none => simpa using hpos
+  | some yx => simpa using hlt yx hyx
+
+/-- **Lemma R(c)**, first part (`k4/c4.md` §4a): after a rotation to `r`, an agent exposed w.r.t. the new owner `k`
+was exposed w.r.t. `r` before, unless it is `r`: off the chain it has the same base and faces the same `W`; on the
+chain its base got better (monotonicity). -/
+theorem rotate_exposed (hS : AfterUp v agents goods run s) (hgd : goods.Nodup)
+    (hch : NeedChain v agents goods s c) (hk : c.head? = some k) (hl : c.getLast? = some r)
+    (hO : ∀ g ∈ O, s.base g = none ∨ s.base g = some r) {x : A}
+    (hx : Exposed v agents goods (rotate s c O) k x) : Exposed v agents goods s r x ∨ x = r := by
+  have hc := hch.1
+  obtain ⟨hxa, hxm', hxk, hthr⟩ := hx
+  rw [rotate_Wl hc hk hl hO] at hthr
+  by_cases hxr : x = r
+  · exact Or.inr hxr
+  refine Or.inl ⟨hxa, ?_, hxr, ?_⟩
+  all_goals by_cases hxc : x ∈ c
+  · obtain ⟨i, a, ha, hx⟩ := exists_prev hk hxc hxk
+    obtain ⟨_, _, _, _, hxm, _⟩ := hS.rotate_base_better hgd hch hk hl hO ha hx
+    exact hxm
+  · exact fun hm => hxm' ((rotate_out hxc).2.mpr hm)
+  · obtain ⟨i, a, ha, hx⟩ := exists_prev hk hxc hxk
+    obtain ⟨y, hB, -, -, -, hlt⟩ := hS.rotate_base_better hgd hch hk hl hO ha hx
+    rw [hB] at hthr
+    exact hthr.mono (List.Sublist.refl _) (by simp; omega)
+  · have hB : baseOf goods (rotate s c O).base x = baseOf goods s.base x :=
+      List.filter_congr fun h _ => by simp only [rotate_base_out hl hO hxc]
+    rwa [hB] at hthr
+
+/-- **Lemma R(c)**, second part: a chain agent other than the head and `r` is exposed after the rotation only if it
+is a 4-good agent exposed before: a 3-good exposed agent leads its block (Lemma E(i)), while a chain agent after the
+head is processed after it in its block. -/
+theorem rotate_exposed_chain (hS : AfterUp v agents goods run s) (hgd : goods.Nodup) (hs : Strict v agents goods)
+    (hcore : IsCore4 v agents goods) (hr : IsLast run s r) (hch : NeedChain v agents goods s c)
+    (hk : c.head? = some k) (hl : c.getLast? = some r) (hO : ∀ g ∈ O, s.base g = none ∨ s.base g = some r)
+    {x : A} (hxc : x ∈ c) (hxr : x ≠ r) (hx : Exposed v agents goods (rotate s c O) k x) :
+    Exposed v agents goods s r x ∧ (relevant v x goods).length = 4 := by
+  have hE := (rotate_exposed hS hgd hch hk hl hO hx).resolve_right hxr
+  refine ⟨hE, ?_⟩
+  have hxk : x ≠ k := hx.2.2.1
+  have hxa := hE.1
+  rcases Nat.lt_or_ge (relevant v x goods).length 4 with h | h
+  · exfalso
+    have h3 : (relevant v x goods).length = 3 := by have := (hcore.2.1 x hxa).1; omega
+    obtain ⟨-, -, -, -, hlead⟩ := lemmaE_three hS hgd hs hr hE h3
+    have hkA : k ∈ agents := hch.2.1 k (List.mem_of_mem_head? hk)
+    obtain ⟨tk, pk, hpk, hpk1⟩ := hS.phase.exists_pos hkA
+    have hk0 : c[0]? = some pk.1 := by rw [← List.head?_eq_getElem?, hk, hpk1]
+    have hi := List.idxOf_lt_length_of_mem hxc
+    have hi0 : c.idxOf x ≠ 0 := fun h0 => hxk (by
+      have := getElem?_idxOf hxc; rw [h0, ← List.head?_eq_getElem?, hk] at this; exact (Option.some.inj this).symm)
+    obtain ⟨tx, px, hpx, hpx1, hbl, hlt⟩ := hS.chain_pos hgd hch hpk hk0 _ x (getElem?_idxOf hxc)
+    exact hbl.2 tx (hlt (Nat.pos_of_ne_zero hi0)) (Nat.le_refl _) (hlead tx px hpx hpx1)
+  · have := (hcore.2.1 x hxa).2; omega
+
+
+/-- **Lemma R(c)**, third part (`k4/c4.md` §4, Theorem B₄(b), the case `x = r`): after a rotation to `r`, a 3-good
+`r` is not exposed w.r.t. the new owner. The goods `r` values more than its old pick were picked by others, so they are
+not in `W`; if `W` held two goods of `R_r`, one would be `r`'s old pick and the other a junk good below it, and `r`
+could take that junk good in an envy-free upgrade, against (UT₂). So `R_r ∩ W` holds at most one good, worth less than
+`r`'s new pick. -/
+theorem rotate_last_not_exposed (hS : AfterUp v agents goods run s) (hgd : goods.Nodup)
+    (hcore : IsCore4 v agents goods) (hr : IsLast run s r)
+    (hch : NeedChain v agents goods s c) (hk : c.head? = some k) (hl : c.getLast? = some r)
+    (hO : ∀ g ∈ O, s.base g = none ∨ s.base g = some r) (h3 : (relevant v r goods).length = 3) :
+    ¬ Exposed v agents goods (rotate s c O) k r := by
+  intro hx
+  have hc := hch.1
+  have hI := hS.inv hgd
+  obtain ⟨hra, -, hrk, hthr⟩ := hx
+  rw [rotate_Wl hc hk hl hO] at hthr
+  have hrc : r ∈ c := List.mem_of_getLast? hl
+  obtain ⟨i, a, ha, hri⟩ := exists_prev hk hrc hrk
+  obtain ⟨yp, hB, hyp, hN, hrm, -⟩ := hS.rotate_base_better hgd hch hk hl hO ha hri
+  rw [hB] at hthr
+  obtain ⟨h, hh, hlt⟩ := hthr
+  simp only [value_cons, value_nil, Nat.add_zero] at hlt
+  obtain ⟨tr, pr, hpr, hpr1, -, -⟩ := id hr
+  have hpick : s.pick r = pr.2 := by rw [← hpr1]; exact hS.pick hpr
+  -- a good of `W` that `r` values is worth at most its old pick
+  have hle : ∀ g ∈ Wl goods s r, 0 < v r g → ∃ yr, s.pick r = some yr ∧ v r g ≤ v r yr := by
+    intro g hg hpos
+    refine Classical.byContradiction fun hno => ?_
+    have hpb := hS.phase.pickedBefore_of_prefers hpr (mem_Wl.mp hg).1 (by rw [hpr1]; exact hpos) fun y hy => by
+      rw [hpr1]; rw [← hpick] at hy
+      exact Nat.lt_of_not_le fun hle' => hno ⟨y, hy, hle'⟩
+    obtain ⟨t', ht', hpk⟩ := hpb
+    unfold pickAt at hpk
+    cases hq : run[t']? with
+    | none => rw [hq] at hpk; cases hpk
+    | some q =>
+      rw [hq] at hpk
+      have hbq := hS.base_of_pick hq hpk
+      have hqr : q.1 ≠ r := fun e => by
+        have := hS.phase.pos_unique hq hpr (e.trans hpr1.symm); omega
+      obtain ⟨-, hb | hb⟩ := mem_Wl.mp hg
+      · rw [hbq] at hb; cases hb
+      · rw [hbq] at hb; exact hqr (Option.some.inj hb)
+  obtain ⟨hypg, hyppos, hyplt⟩ := (needsOf_unmarked hrm).mp hN
+  have hbelow : ∀ g ∈ relevant v r (Wl goods s r), v r g < v r yp := fun g hg => by
+    obtain ⟨hgW, hpos⟩ := List.mem_filter.mp hg
+    obtain ⟨yr, hyr, hle'⟩ := hle g hgW (by simpa using hpos)
+    have := hyplt yr hyr; omega
+  -- `yp` is not in `W`: it is the base of `a`, which is not `r`
+  have har : a ≠ r := ne_last_of_next hc hl ha hri
+  have haA : a ∈ agents := hch.2.1 a (List.mem_of_getElem? ha)
+  have hypb : s.base yp = some a := by
+    obtain ⟨⟨ham, -⟩, -⟩ := hch.2.2.1 i a r ha hri
+    have := hI.unmarked a haA ham
+    rw [hyp] at this
+    exact (mem_baseOf.mp (by rw [this]; simp : yp ∈ baseOf goods s.base a)).2
+  have hypW : yp ∉ Wl goods s r := fun hm => by
+    obtain ⟨-, hb | hb⟩ := mem_Wl.mp hm
+    · rw [hypb] at hb; cases hb
+    · rw [hypb] at hb; exact har (Option.some.inj hb)
+  have hLnd : (relevant v r (Wl goods s r)).Nodup := (hgd.filter _).filter _
+  have hRnd : (relevant v r goods).Nodup := hgd.filter _
+  have hmemR : ∀ g, g ∈ goods → 0 < v r g → g ∈ relevant v r goods :=
+    fun g hg hpos => List.mem_filter.mpr ⟨hg, by simpa using hpos⟩
+  have hone : (relevant v r (Wl goods s r)).length ≤ 1 := by
+    refine Nat.le_of_not_lt fun h2 => ?_
+    obtain ⟨g₁, g₂, rest, hL⟩ : ∃ g₁ g₂ rest, relevant v r (Wl goods s r) = g₁ :: g₂ :: rest := by
+      match hm : relevant v r (Wl goods s r), h2 with
+      | g₁ :: g₂ :: rest, _ => exact ⟨g₁, g₂, rest, rfl⟩
+    have hg₁ : g₁ ∈ relevant v r (Wl goods s r) := by rw [hL]; simp
+    have hg₂ : g₂ ∈ relevant v r (Wl goods s r) := by rw [hL]; simp
+    have h12 : g₁ ≠ g₂ := by
+      have := hLnd; rw [hL] at this; intro e; subst e; simp at this
+    have hW₁ := (List.mem_filter.mp hg₁).1
+    have hW₂ := (List.mem_filter.mp hg₂).1
+    have hp₁ : 0 < v r g₁ := by simpa using (List.mem_filter.mp hg₁).2
+    have hp₂ : 0 < v r g₂ := by simpa using (List.mem_filter.mp hg₂).2
+    obtain ⟨yr, hyr, -⟩ := hle g₁ hW₁ hp₁
+    have hyrpos : 0 < v r yr := hI.pickRel r hra hrm yr hyr
+    have hBr : baseOf goods s.base r = [yr] := by rw [hI.unmarked r hra hrm, hyr]; rfl
+    have hyrg : yr ∈ goods := (mem_baseOf.mp (by rw [hBr]; simp : yr ∈ baseOf goods s.base r)).1
+    have hyryp : yr ≠ yp := fun e => by have := hyplt yr hyr; rw [e] at this; omega
+    have hne₁ : g₁ ≠ yp := fun e => hypW (e ▸ hW₁)
+    have hne₂ : g₂ ≠ yp := fun e => hypW (e ▸ hW₂)
+    by_cases hyrL : yr = g₁ ∨ yr = g₂
+    · -- `r`'s old pick is in `W`, with a junk good `g` below it: an envy-free upgrade applies
+      obtain ⟨g, hgW, hgpos, hgyr, hgyp⟩ : ∃ g ∈ Wl goods s r, 0 < v r g ∧ g ≠ yr ∧ g ≠ yp := by
+        rcases hyrL with e | e
+        · exact ⟨g₂, hW₂, hp₂, fun e' => h12 (e.symm.trans e'.symm), hne₂⟩
+        · exact ⟨g₁, hW₁, hp₁, fun e' => h12 (e'.trans e), hne₁⟩
+      have hgg := (mem_Wl.mp hgW).1
+      have hgJ : s.base g = none := by
+        rcases (mem_Wl.mp hgW).2 with hb | hb
+        · exact hb
+        · exfalso
+          have : g ∈ baseOf goods s.base r := mem_baseOf.mpr ⟨hgg, hb⟩
+          rw [hBr] at this; simp at this; exact hgyr this
+      -- `R_r = {yp, yr, g}`
+      have hnd3 : [yp, yr, g].Nodup := by
+        simp [Ne.symm hyryp, Ne.symm hgyp, Ne.symm hgyr]
+      have hsub3 : ∀ z ∈ [yp, yr, g], z ∈ relevant v r goods := by
+        intro z hz; simp at hz
+        rcases hz with rfl | rfl | rfl
+        · exact hmemR _ hypg hyppos
+        · exact hmemR _ hyrg hyrpos
+        · exact hmemR _ hgg hgpos
+      have hall := subset_of_length_le hnd3 hsub3 (by simp; omega)
+      have hval : value v r (relevant v r goods) = v r yp + v r yr + v r g := by
+        have h1 := value_le_of_subset (v := v) r hnd3 hsub3
+        have h2 := value_le_of_subset (v := v) r hRnd hall
+        simp at h1 h2; omega
+      have hbal := hcore.2.2.1 r hra yp hypg
+      rw [← value_relevant, hval] at hbal
+      refine hS.final r g ⟨hra, hrm, yr, hyr, hBr, hS.last_pick_free hgd hr hyr, ⟨yp, hN⟩,
+        mem_junk.mpr ⟨hgg, hgJ⟩, hgpos, ⟨yp, hN, by omega⟩, ?_⟩
+      show value v r ((relevant v r goods).filter (fun h => h ≠ yr ∧ h ≠ g)) ≤ v r yr + v r g
+      have := value_le_of_subset (v := v) r (L₁ := (relevant v r goods).filter (fun h => h ≠ yr ∧ h ≠ g))
+        (hRnd.filter _) (L₂ := [yp]) fun z hz => by
+        obtain ⟨hzR, hz'⟩ := List.mem_filter.mp hz
+        have hz'' : z ≠ yr ∧ z ≠ g := by simpa using hz'
+        have := hall z hzR; simp at this
+        rcases this with h | h | h
+        · simp [h]
+        · exact absurd h hz''.1
+        · exact absurd h hz''.2
+      simp only [value_cons, value_nil, Nat.add_zero] at this; omega
+    · -- four goods of `R_r`: `yp`, `yr`, `g₁`, `g₂`
+      simp only [not_or] at hyrL
+      have hnd4 : [yp, yr, g₁, g₂].Nodup := by
+        simp [Ne.symm hyryp, Ne.symm hne₁, Ne.symm hne₂, hyrL.1, hyrL.2, h12]
+      have hsub4 : ∀ z ∈ [yp, yr, g₁, g₂], z ∈ relevant v r goods := by
+        intro z hz; simp at hz
+        rcases hz with rfl | rfl | rfl | rfl
+        · exact hmemR _ hypg hyppos
+        · exact hmemR _ hyrg hyrpos
+        · exact hmemR _ (mem_Wl.mp hW₁).1 hp₁
+        · exact hmemR _ (mem_Wl.mp hW₂).1 hp₂
+      have := List.Nodup.length_le_of_subset hnd4 hsub4
+      simp at this; omega
+  have h1 := value_lt_of_length_le_one hyppos hone hbelow
+  have h2 := value_sublist v r (List.erase_sublist (l := Wl goods s r) (a := h))
+  rw [value_relevant] at h1
+  omega
+
+
+/-- In the rotation, a chain agent after the head has at most one good in its base. -/
+theorem rotate_chain_base_le_one (hgd : goods.Nodup) (hch : NeedChain v agents goods s c) (hk : c.head? = some k)
+    (hl : c.getLast? = some r) (hO : ∀ g ∈ O, s.base g = none ∨ s.base g = some r) {i : A} (hic : i ∈ c)
+    (hik : i ≠ k) : (baseOf goods (rotate s c O).base i).length ≤ 1 := by
+  obtain ⟨j, a, ha, hi⟩ := exists_prev hk hic hik
+  obtain ⟨⟨-, y, hB, -⟩, -⟩ := hch.2.2.1 j a i ha hi
+  have hsub : ∀ h ∈ baseOf goods (rotate s c O).base i, h ∈ [y] := fun h hh => by
+    obtain ⟨hhg, hhb⟩ := mem_baseOf.mp hh
+    rw [← hB]
+    exact mem_baseOf.mpr ⟨hhg, (rotate_base_next hch.1 hk hl hO ha hi).mp hhb⟩
+  have := List.Nodup.length_le_of_subset (l₁ := baseOf goods (rotate s c O).base i) (hgd.filter _) hsub
+  rw [List.length_singleton] at this; exact this
+
+/-- **Theorem B₄ (a), (b)** (`k4/c4.md` §4). Let `k*` be a 3-good agent exposed w.r.t. `r` at the head of a need
+chain `c` to `r` (in LB⁺'s bad case `k*` is the leader of `r`'s block, frozen and exposed, and every need chain from it
+ends at `r`), and suppose no 4-good agent is exposed. Let `P′` be the rotation along `c` with base
+`O = R_k* ∩ W` for `k*` (the two goods of `R_k*` other than its pick, Lemma E(i)). Then `P′` is a rotation of
+LB₄ʳ (`RotStep`: it passes the checks of §5), and
+- (a) `P′` is valid, `NA′ ⊆ NA`, and `k*`'s base `O` is envy-free;
+- (b) `W′ = W`, and every agent exposed w.r.t. the owner `k*` in `P′` is an agent of `E_r` other than `k*`, or `r`
+  when `r` has four goods. -/
+theorem theoremB4 (hS : AfterUp v agents goods run s) (hgd : goods.Nodup) (hs : Strict v agents goods)
+    (hcore : IsCore4 v agents goods) (hr : IsLast run s r) (hch : NeedChain v agents goods s c)
+    (hk : c.head? = some k) (hl : c.getLast? = some r) (hlen : 2 ≤ c.length)
+    (hkE : Exposed v agents goods s r k) (hk3 : (relevant v k goods).length = 3)
+    (hno4 : ∀ x, Exposed v agents goods s r x → (relevant v x goods).length ≠ 4)
+    (hOd : O = relevant v k (Wl goods s r)) :
+    RotStep v agents goods s (rotate s c O) ∧
+      Valid agents goods (rotate s c O).base (needsOf v goods (rotate s c O)) ∧
+      (∀ g, NA agents (needsOf v goods (rotate s c O)) g → NA agents (needsOf v goods s) g) ∧
+      EFBase v goods (rotate s c O) k ∧
+      Wl goods (rotate s c O) k = Wl goods s r ∧
+      (∀ x, Exposed v agents goods (rotate s c O) k x →
+        (Exposed v agents goods s r x ∧ x ≠ k) ∨ (x = r ∧ (relevant v r goods).length = 4)) ∧
+      ∀ x ∈ c, x ≠ r → ¬ Exposed v agents goods (rotate s c O) k x := by
+  have hc := hch.1
+  have hI := hS.inv hgd
+  have hkA := hkE.1
+  have hkr : k ≠ r := hkE.2.2.1
+  obtain ⟨y, hy, htop, hL2⟩ := (fun ⟨y, hy, htop, hL2, _⟩ => ⟨y, hy, htop, hL2⟩ :
+    (∃ y, s.pick k = some y ∧ (∀ g ∈ goods, 0 < v k g → g ≠ y → g ∈ Wl goods s r ∧ v k g < v k y) ∧
+      (relevant v k (Wl goods s r)).length = 2 ∧
+      ∀ (t : Nat) (p : A × Option G), run[t]? = some p → p.1 = k → InsAt v run t) →
+    ∃ y, s.pick k = some y ∧ (∀ g ∈ goods, 0 < v k g → g ≠ y → g ∈ Wl goods s r ∧ v k g < v k y) ∧
+      (relevant v k (Wl goods s r)).length = 2) (lemmaE_three hS hgd hs hr hkE hk3)
+  have hkm : ¬ s.marked k := hkE.2.1
+  have hypos : 0 < v k y := hI.pickRel k hkA hkm y hy
+  have hBk : baseOf goods s.base k = [y] := by rw [hI.unmarked k hkA hkm, hy]; rfl
+  have hyg : y ∈ goods := (mem_baseOf.mp (by rw [hBk]; simp : y ∈ baseOf goods s.base k)).1
+  have hyb : s.base y = some k := (mem_baseOf.mp (by rw [hBk]; simp : y ∈ baseOf goods s.base k)).2
+  have hyW : y ∉ Wl goods s r := fun hm => by
+    obtain ⟨-, hb | hb⟩ := mem_Wl.mp hm
+    · rw [hyb] at hb; cases hb
+    · rw [hyb] at hb; exact hkr (Option.some.inj hb)
+  have hOmem : ∀ g ∈ O, g ∈ goods ∧ 0 < v k g ∧ (s.base g = none ∨ s.base g = some r) := fun g hg => by
+    rw [hOd] at hg
+    obtain ⟨hgW, hpos⟩ := List.mem_filter.mp hg
+    exact ⟨(mem_Wl.mp hgW).1, by simpa using hpos, (mem_Wl.mp hgW).2⟩
+  have hO' : ∀ g ∈ O, g ∈ goods ∧ (s.base g = none ∨ s.base g = some r) :=
+    fun g hg => ⟨(hOmem g hg).1, (hOmem g hg).2.2⟩
+  have hO'' : ∀ g ∈ O, s.base g = none ∨ s.base g = some r := fun g hg => (hOmem g hg).2.2
+  have hOnd : O.Nodup := by rw [hOd]; exact (hgd.filter _).filter _
+  -- `R_k* = {y} ∪ O`, so by strict balance `v(O) > v(y)`
+  have hyO : y ∉ O := fun hm => by rw [hOd] at hm; exact hyW (List.mem_filter.mp hm).1
+  have hRnd : (relevant v k goods).Nodup := hgd.filter _
+  have hsub1 : ∀ g ∈ y :: O, g ∈ relevant v k goods := fun g hg => by
+    rcases List.mem_cons.mp hg with rfl | hg
+    · exact List.mem_filter.mpr ⟨hyg, by simpa using hypos⟩
+    · exact List.mem_filter.mpr ⟨(hOmem g hg).1, by simpa using (hOmem g hg).2.1⟩
+  have hsub2 : ∀ g ∈ relevant v k goods, g ∈ y :: O := fun g hg => by
+    obtain ⟨hgg, hpos⟩ := List.mem_filter.mp hg
+    have hpos : 0 < v k g := by simpa using hpos
+    by_cases hgy : g = y
+    · simp [hgy]
+    · exact List.mem_cons_of_mem _ (by rw [hOd]; exact List.mem_filter.mpr ⟨(htop g hgg hpos hgy).1, by simpa using hpos⟩)
+  have hval : value v k (relevant v k goods) = v k y + value v k O := by
+    have h1 := value_le_of_subset (v := v) k (List.nodup_cons.mpr ⟨hyO, hOnd⟩) hsub1
+    have h2 := value_le_of_subset (v := v) k hRnd hsub2
+    simp only [value_cons] at h1 h2; omega
+  have hbal := hcore.2.2.1 k hkA y hyg
+  rw [← value_relevant, hval] at hbal
+  have hvO : ∀ y', s.pick k = some y' → v k y' < value v k O := fun y' hy' => by
+    rw [hy] at hy'; cases hy'; omega
+  have hV := rotate_valid hS hgd hr hch hk hl hlen hO' hOnd hvO
+  have hNA := fun g => NA_rotate (g := g) hS hgd hch hk hl hlen hO' hOnd hvO
+  have hWW := rotate_Wl (goods := goods) (s := s) (O := O) hc hk hl hO''
+  have hbase2 := (hS.base_two hgd)
+  -- no base of the rotation has three goods
+  have hOlen : O.length = 2 := by rw [hOd]; exact hL2
+  have hle2 : ∀ i, (baseOf goods (rotate s c O).base i).length ≤ 2 := by
+    intro i
+    by_cases hic : i ∈ c
+    · by_cases hik : i = k
+      · subst hik
+        have := List.Nodup.length_le_of_subset (l₁ := baseOf goods (rotate s c O).base i) (hgd.filter _)
+          fun g hg => (rotate_base_head hc hk).mp (mem_baseOf.mp hg).2
+        omega
+      · have := rotate_chain_base_le_one hgd hch hk hl hO'' hic hik; omega
+    · have hB : baseOf goods (rotate s c O).base i = baseOf goods s.base i :=
+        List.filter_congr fun h _ => by simp only [rotate_base_out hl hO'' hic]
+      rw [hB]; exact hbase2.1 i
+  refine ⟨⟨c, k, r, O, hc, hlen, hch.2.1, hk, hl, hch.2.2.1, hch.2.2.2 r hl, ?_, hOnd,
+      fun g hg => hOmem g hg, rfl, hV, ?_, fun i _ j _ hi => absurd hi (by have := hle2 i; omega)⟩,
+    hV, hNA, ?_, hWW, ?_, fun x hxc hxr hx => ?_⟩
+  · intro e; rw [e] at hOlen; simp at hOlen
+  · -- (V2) for the marked agents: `k*`'s base lies in `W`; the others keep their two-good bases
+    intro i hi hm g hg hna
+    obtain ⟨hgg, hgb⟩ := mem_baseOf.mp hg
+    rcases hm with hm | ⟨hm, hic⟩
+    · rw [hk] at hm; cases hm
+      have hgO := (rotate_base_head hc hk).mp hgb
+      rw [hOd] at hgO
+      exact hS.W_not_NA hgd hr (List.mem_filter.mp hgO).1 (hNA g hna)
+    · have hB : baseOf goods (rotate s c O).base i = baseOf goods s.base i :=
+        List.filter_congr fun h _ => by simp only [rotate_base_out hl hO'' hic]
+      rw [hB] at hg
+      exact hI.valid.v2 i (by have := hbase2.2.1 i hm; omega) g hg (hNA g hna)
+  · -- `k*`'s base is envy-free: the only other good it values is its pick
+    unfold EFBase
+    have h1 := value_O_le (v := v) (s := s) hk hc (fun g hg => (hOmem g hg).1) hOnd
+    have h2 := value_le_of_subset (v := v) k
+      (L₁ := (relevant v k goods).filter (fun h => (rotate s c O).base h ≠ some k)) (hRnd.filter _) (L₂ := [y])
+      fun g hg => by
+        obtain ⟨hgR, hgb⟩ := List.mem_filter.mp hg
+        have hgO : g ∉ O := fun hm => by simp [(rotate_base_head hc hk).mpr hm] at hgb
+        rcases List.mem_cons.mp (hsub2 g hgR) with e | e
+        · simp [e]
+        · exact absurd e hgO
+    simp only [value_cons, value_nil, Nat.add_zero] at h2
+    omega
+  · -- (b): exposure after the rotation
+    intro x hx
+    have hxk : x ≠ k := hx.2.2.1
+    rcases rotate_exposed hS hgd hch hk hl hO'' hx with h | h
+    · exact Or.inl ⟨h, hxk⟩
+    · subst h
+      refine Or.inr ⟨rfl, ?_⟩
+      have hxA := hx.1
+      rcases Nat.lt_or_ge (relevant v x goods).length 4 with h4 | h4
+      · exfalso
+        have h3 : (relevant v x goods).length = 3 := by have := (hcore.2.1 x hxA).1; omega
+        exact rotate_last_not_exposed hS hgd hcore hr hch hk hl hO'' h3 hx
+      · have := (hcore.2.1 x hxA).2; omega
+  · -- the chain agents other than `r` are not exposed: they would be exposed 4-good agents of `P`
+    obtain ⟨hE, h4⟩ := rotate_exposed_chain hS hgd hs hcore hr hch hk hl hO'' hxc hxr hx
+    exact hno4 x hE h4
+
+
 end rotation
 
 end LB4R
@@ -592,3 +980,8 @@ end EFX
 #print axioms EFX.LB4R.rotate_Wl
 #print axioms EFX.LB4R.needsOf_rotate
 #print axioms EFX.LB4R.rotate_valid
+#print axioms EFX.LB4R.AfterUp.chain_pos
+#print axioms EFX.LB4R.rotate_exposed
+#print axioms EFX.LB4R.rotate_exposed_chain
+#print axioms EFX.LB4R.rotate_last_not_exposed
+#print axioms EFX.LB4R.theoremB4
