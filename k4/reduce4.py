@@ -136,6 +136,8 @@ class Reduction:
         return any(x in self.cfg.I or x in self.Ip for x in B)
 
     def dominated(self, B, Yall, Ysrc):
+        # |B| <= 1: a singleton is never a threat. The one-token bundle {'w:s''} stands for all the outside goods s'
+        # held in Y (moved as a whole); it is safe to call it dominated, because it is dominated by Y_{s'} itself.
         if len(B) <= 1: return True
         u = self.U(B)
         if not u: return True

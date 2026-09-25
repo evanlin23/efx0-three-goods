@@ -2,8 +2,9 @@
 
 Workstream `proof/k4-mincex`. The minimal-counterexample route of `proofs/min_counterexample.md` (rows MC1–MC6),
 carried to TARGET₄: every instance with nonnegative additive valuations and |R_i| ≤ 4 for every agent has a complete
-EFX₀ allocation. Ledger rows `K4.MC0`–`K4.MC7`. None of them has been reviewed yet. The rows record the status each
-proposes (PROVED or CERTIFIED), with its artifacts, pending the coordinator's review.
+EFX₀ allocation. Ledger rows `K4.MC0`–`K4.MC6`. Reviewed by the coordinator (two independent reviews of PR #23, one
+of them a brute-force referee check of the stored extensions and a re-derivation of the bound, the other an exact
+computational re-run with its own generator); the fixes they asked for are in.
 
 **Results.**
 - *Soundness of local reductions at k = 4* (K4.MC0, K4.MC1). The inductive statement is plain EFX₀ existence, as at
@@ -59,7 +60,7 @@ allocation, an agent's safety depends only on its type (its behavior on disjoint
 has ≤ 3 goods, TARGET (proved, `proofs/lb_last_step.md`) applies. Every connected k = 4 core with n ≤ 4 is covered by
 K4.R3 and K4.R4, and with n = 5 and at most two 4-good agents by K4.R5 (all certified, strict profiles). ∎
 
-(d) uses computation (K4.R3–K4.R5). The literature (Mahara; Afshinmehr et al., as in T3) would add m ≥ n + 4 and a good
+(a)–(c) are proved; (d) rests on the certified rows K4.R3–K4.R5 (and TARGET), so the lemma as a whole is CERTIFIED. The literature (Mahara; Afshinmehr et al., as in T3) would add m ≥ n + 4 and a good
 of degree ≥ 3; nothing below uses it.
 
 ## 2. Local reductions are sound (K4.MC1)
@@ -124,7 +125,9 @@ certificate. For every admissible state it stores a few extensions whose masks c
   I′, moved items only to S or to outside bundles of gadget goods, every changed bundle dominated.
 
 It re-derives the covered profiles and unites them per configuration. With `--expect` it fails on any count
-mismatch. It writes the profiles *not* covered (`results/k4_min_cex_px_fail.json`), which §5–§6 use.
+mismatch. Every record must declare one of the 9 configurations exactly as hard-coded in the checker (agents with
+their goods in order, I, ∂), or it is rejected before coverage is united. It writes the profiles *not* covered
+(`results/k4_min_cex_px_uncovered.json`, compact JSON) and records its SHA-256 in its log, which §6's checker verifies.
 - Certificate: `results/k4_min_cex_reductions.json.gz` (177 records, 93,552 states); log
   `results/k4_min_cex_reductions.log`.
 - Check: `results/k4_check_min_cex_reductions.log`. All counts agree and there are 0 problems. The same log has the
@@ -162,14 +165,16 @@ the menu. Coverage (both implementations):
 | P4 | 1,718 of 1,728 | **1,728 of 1,728** |
 | Q4 | 648 of 1,728 | 1,656 of 1,728 |
 
-So in a minimal counterexample:
+So in a minimal counterexample (or one within 𝒞_β) **with strict types**, chosen by K4.MC0(c) (statements (ii) and (iii)
+are about types):
 - (i) if e is Q3 or P4 (an *E3 agent*), the configuration is open;
 - (ii) f ranks y > p_f > g (its shared-with-e good last, its other shared good first);
 - (iii) e ranks g first.
 
 For Q3 the two profiles left are e: g > a > b or g > b > a with f: y > p_f > g. For P4 they are 10 types of e, all with g on
-top, with the same f. For Q4 the profiles left are recorded in `results/k4_min_cex_px_fail.json`; §6 uses them, but
-the bound of §5 does not. CERTIFIED. The failed part is in `attempts/k4-mincex-px-open.md`.
+top, with the same f. For Q4 the profile of (e, f) lies, under every labeling of e's other goods,
+in the set recorded in `results/k4_min_cex_px_uncovered.json` (profiles no reduction covers, not EFX₀ failures); §6
+uses it, but the bound of §5 does not. CERTIFIED. The failed part is in `attempts/k4-mincex-px-open.md`.
 
 A typical gadget: h valuing a = b = 2 and z′ = 3, ignoring y. It reduces 6 of the 36 Q3 profiles and 800 of the 1,728 P4
 ones. It is safe when holding z′ unless a, b sit together in a bundle of ≥ 3 goods; this is the same gadget that
@@ -213,9 +218,10 @@ whose k = 4 core (from any sequence of the K4.CORE reductions) has only connecte
 ≤ 3.
 
 *Proof.* Let H be a minimal counterexample within 𝒞₃: a connected k = 4 core with strict types and β ≤ 3 (K4.MC0).
+- β = 0 is impossible: Γ′ is connected with minimum degree ≥ 2 (K4.L's L11), so it contains a cycle.
 - β = 1: orientation (K4.L).
 - β = 2: n ≤ 3 by K4.MC4, but n ≥ 5 by K4.MC0(d).
-- β = 3: 5 ≤ n ≤ 6. Take H′s graph Γ′ and kinds. Every agent is P3, Q3, P4 or Q4 (K4.MC2), no good of degree 2 is shared
+- β = 3: 5 ≤ n ≤ 6. Take H's graph Γ′ and kinds. Every agent is P3, Q3, P4 or Q4 (K4.MC2), no good of degree 2 is shared
   by two P3 agents (K4.MC3), and at least one agent has 4 goods, three if n = 5 (K4.MC0(d)). The profile, restricted to
   every pair (e, f) of configuration px in H, is one that K4.MC5's certificate does not cover. The list of such cores,
   with each agent's type domain cut to the projections of the uncovered sets, is computed in two independent ways
@@ -223,6 +229,9 @@ whose k = 4 core (from any sequence of the K4.CORE reductions) has only connecte
   domains. By K4.MC0(c) only H's types matter, so H has an EFX₀ allocation, a contradiction.
 
 The second sentence: each K4.CORE step extends EFX₀ allocations, and components combine (L6). ∎
+
+*Dependencies:* K4.CORE, K4.TIE and K4.L (PROVED); K4.MC0–K4.MC5; K4.R3–K4.R5 (CERTIFIED); TARGET (PROVED). No
+published theorem.
 
 *The 9 cores* (n, m, kinds; profiles in the product of the restricted domains; allocations in the certificate):
 
@@ -249,26 +258,35 @@ their restricted domains. This says nothing about K4.D for β ≤ 3 in general: 
 4. It cuts the domains by the px profiles left (for Q3, P4 and Q4, intersected over the labelings of e's symmetric goods).
 5. It merges isomorphic cores.
 
-This gives 407 cores with n ≤ 6 before the restrictions and 9 after. *Certification* (`k4/mincex_cert.py`,
+Its log lists 21 cores with n ≤ 6 after the structural prune of step 2 (407 before it, as the independent check
+counts), and 9 after the restrictions. *Certification* (`k4/mincex_cert.py`,
 `results/k4_min_cex_cores_3.json.gz`, `results/k4_min_cex_cores_3.log`) uses `k4/search4.py`'s CEGAR with the
 restricted domains, model D2; no profile needed more.
 
 *Independent check* (`k4/check_mincex_cores.py`, log `results/k4_check_min_cex_cores_3.log`):
-- it lists every connected k = 4 core with 5 ≤ n ≤ 6 and β = 3 with genbg at the level of the full incidence graph (82,782
-  cores; a different genbg class from the Γ′ list);
+- it lists every connected incidence graph with 5 ≤ n ≤ 6 agents of degree 3–4 and β = 3 with genbg at the level of the
+  full incidence graph (82,782 graphs; a different genbg class from the Γ′ list);
+- completeness by orbit counting: for every (n, m), the listed graphs that are k = 4 cores give Σ n! m!/|Aut| (group
+  sizes from nauty's countg) equal to the number of labeled connected k = 4 cores with β = 3, from `k4/check4.py`'s DP
+  (self-tested there against brute force); all 13 (n, m) groups agree (for example (6, 10): 211, the k = 3 count);
 - it re-implements the filters;
 - it cuts the domains with the uncovered px profiles as re-derived by `check_reductions4.py`, judging types by signature
   on its own type enumeration;
-- it matches every survivor to a certified core up to isomorphism, and checks coverage of the full product of its
-  domains with the raw definition.
+- it verifies the SHA-256 of the uncovered-profile file against the value `check_reductions4.py` recorded;
+- it matches every survivor to a certified core up to isomorphism, checks coverage of the full product of its
+  domains with the raw definition, and checks that every certified allocation is D2.
+Any failure makes its exit status nonzero.
 
 Result: 407 cores pass the filters, the same 9 remain with the same profile counts, all covered. *Sensitivity test*
 (`k4/test_check_mincex_cores.py`, `results/k4_test_check_mincex_cores.log`): it rejects a deleted allocation, a deleted
-core, an allocation replaced by a bad one, and an enlarged px failing set.
+core, an allocation replaced by a bad one, an added non-D2 allocation, an enlarged px uncovered set, and a truncated
+uncovered file (SHA-256 mismatch).
 
 Trust points:
-- nauty's genbg. The two enumerations are different classes of graphs; neither is checked by orbit counting.
-- K4.R3–K4.R5 and TARGET (existing rows).
+- nauty's genbg and countg. The independent list is complete by orbit counting against `k4/check4.py`'s DP
+  (`results/k4_check_min_cex_cores_3.log`); the coordinator's reviewer re-derived the same list with a pure-Python
+  generator, also checked by orbit counting.
+- K4.CORE, K4.TIE, K4.L (PROVED), K4.R3–K4.R5 (CERTIFIED) and TARGET (existing rows).
 - The hand proofs of K4.MC0, K4.MC1 and K4.MC4.
 
 ## 7. What remains
@@ -289,14 +307,14 @@ Trust points:
 
 ```
 python3 k4/mincex4.py all --write=results/k4_min_cex_reductions.json.gz          # ~2 min on 4 CPUs
-python3 k4/check_reductions4.py results/k4_min_cex_reductions.json.gz --fail-out=results/k4_min_cex_px_fail.json \
+python3 k4/check_reductions4.py results/k4_min_cex_reductions.json.gz --uncovered-out=results/k4_min_cex_px_uncovered.json \
     --expect=single-PP4:144 --expect=pair-P3-P3:36 --expect=loop-P3-P3:36 --expect=px-Q3:34 --expect=px-Q3-closed:36 \
     --expect=px-P4:1718 --expect=px-P4-closed:1728 --expect=px-Q4:648 --expect=px-Q4-closed:1656   # ~30 s
 python3 k4/check_reductions4.py results/k4_min_cex_reductions.json.gz --selftest
 (cd k4 && python3 mincex_shapes.py 3 --write=../results/k4_min_cex_shapes_3.json.gz)            # ~10 s
 (cd k4 && python3 mincex_cert.py ../results/k4_min_cex_shapes_3.json.gz ../results/k4_min_cex_cores_3.json.gz)
-(cd k4 && python3 check_mincex_cores.py 3 ../results/k4_min_cex_cores_3.json.gz ../results/k4_min_cex_px_fail.json)  # ~50 s
-(cd k4 && python3 test_check_mincex_cores.py)                                    # ~5 min
-(cd k4 && python3 mincex_shapes.py 4 --nmax=9 --write=../results/k4_min_cex_shapes_4.json.gz)  # beta = 4 list, ~10 min
+(cd k4 && python3 check_mincex_cores.py 3 ../results/k4_min_cex_cores_3.json.gz ../results/k4_min_cex_px_uncovered.json)  # ~50 s
+(cd k4 && python3 test_check_mincex_cores.py)                                    # ~6 min
+(cd k4 && python3 mincex_shapes.py 4 --nmax=9 --write=../results/k4_min_cex_shapes_4.json.gz)  # beta = 4 list, ~45 s
 (cd k4 && python3 mincex_attempts.py drop-private; python3 mincex_attempts.py px-open)         # failed reductions
 ```

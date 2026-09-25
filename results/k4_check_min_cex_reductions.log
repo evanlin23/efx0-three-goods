@@ -1,4 +1,4 @@
-$ python3 k4/check_reductions4.py results/k4_min_cex_reductions.json.gz --expect=single-PP4:144 --expect=pair-P3-P3:36 --expect=loop-P3-P3:36 --expect=px-Q3:34 --expect=px-Q3-closed:36 --expect=px-P4:1718 --expect=px-P4-closed:1728 --expect=px-Q4:648 --expect=px-Q4-closed:1656 --fail-out=results/k4_min_cex_px_fail.json
+$ python3 k4/check_reductions4.py results/k4_min_cex_reductions.json.gz --expect=single-PP4:144 --expect=pair-P3-P3:36 --expect=loop-P3-P3:36 --expect=px-Q3:34 --expect=px-Q3-closed:36 --expect=px-P4:1718 --expect=px-P4-closed:1728 --expect=px-Q4:648 --expect=px-Q4-closed:1656 --uncovered-out=results/k4_min_cex_px_uncovered.json
 check_reductions4.py results/k4_min_cex_reductions.json.gz: 177 records; types re-enumerated: 6 (3 goods), 288 (4 goods)
   single-PP4         5 records,    650 admissible states: 144 of 144 profiles covered
   pair-P3-P3         3 records,    418 admissible states: 36 of 36 profiles covered
@@ -9,7 +9,7 @@ check_reductions4.py results/k4_min_cex_reductions.json.gz: 177 records; types r
   px-P4-closed       8 records,   1054 admissible states: 1728 of 1728 profiles covered
   px-Q4             84 records,  49320 admissible states: 648 of 1728 profiles covered
   px-Q4-closed      39 records,  23112 admissible states: 1656 of 1728 profiles covered
-  profiles not covered written to results/k4_min_cex_px_fail.json
+  profiles no reduction covers written to results/k4_min_cex_px_uncovered.json (sha256 a2ac24e62616db6e77fdc89946c28af3fc6756362c795ec6e950b05ca924da1f)
 RESULT: OK
 $ python3 k4/check_reductions4.py results/k4_min_cex_reductions.json.gz --selftest
 check_reductions4.py results/k4_min_cex_reductions.json.gz: 177 records; types re-enumerated: 6 (3 goods), 288 (4 goods)
@@ -23,4 +23,6 @@ check_reductions4.py results/k4_min_cex_reductions.json.gz: 177 records; types r
   selftest gadget agent with too many goods             -> rejected (problems: ["gadget agent f' values a good outside I' + D", "gadget agent f' values more than 4 goods"], covered 0)
   selftest gadget good not declared in I'               -> rejected (problems: ["gadget agent h values a good outside I' + D", '642 stored states are not local states'], covered 0)
   selftest interior good into a W bundle (domination)   -> rejected (problems: ['1 stored extensions violate Lemma M1'], covered 0)
+  selftest a record with a wrong configuration          -> rejected (problems: ['record declares a configuration different from pair-P3-P3'], covered 0)
+  selftest a record whose boundary differs from its configuration -> rejected (problems: ['record declares a configuration different from pair-P3-P3'], covered 0)
 RESULT: OK

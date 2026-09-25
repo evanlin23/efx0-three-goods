@@ -5,20 +5,30 @@ Written separately from mincex_shapes.py / mincex_cert.py:
   1. every connected k = 4 core with n agents (5 <= n <= 3(beta - 1), the bound K4.MC4) and cyclomatic number beta
      is listed with nauty's genbg at the level of the full incidence graph (agents of degree 3 or 4, goods of degree
      >= 1; mincex_shapes.py lists the graphs G' without private goods instead);
-  2. filters, re-implemented: at most one private good per agent (K4.MC-PP), at least one agent with 4 goods, at
+  2. filters, re-implemented: at most one private good per agent (K4.MC2), at least one agent with 4 goods, at
      least three when n = 5 (K4.R5), no good of degree 2 valued by two P3 agents (K4.MC3);
   3. type domains from this directory's check_reductions4.py enumeration (not the generator's), cut by the profiles
      of configuration px that the reduction certificate does NOT cover, as re-derived by check_reductions4.py
-     (--fail-out file); a shape with an empty domain is excluded;
+     (--uncovered-out file); a shape with an empty domain is excluded;
   4. every remaining core must be isomorphic to a certified core, and every profile in the product of its domains must
-     have an EFX0 allocation among the certified ones (raw definition, v(own) >= v(B) - v(g)).
-Usage: check_mincex_cores.py BETA certificate.json.gz px_fail.json"""
-import sys, json, gzip, itertools, collections, shutil, subprocess
+     have an EFX0 allocation among the certified ones (raw definition, v(own) >= v(B) - v(g)); every certified
+     allocation must have at most one bundle of more than 2 goods (D2);
+  5. completeness of the list by orbit counting: for every (n, m), the listed k = 4 cores sum n! m! / |Aut| to the
+     number of labeled connected k = 4 cores with cyclomatic number beta (check4.py's DP);
+  6. the uncovered-profile file must have the SHA-256 that check_reductions4.py recorded when it wrote it
+     (results/k4_check_min_cex_reductions.log, or --reductions-log=PATH).
+Any failure makes the exit status nonzero.
+Usage: check_mincex_cores.py BETA certificate.json.gz px_uncovered.json [--reductions-log=PATH]"""
+import sys, os, re, math, json, gzip, hashlib, itertools, collections, shutil, subprocess
 import numpy as np
 import networkx as nx
 from check_reductions4 import TY, safe
+import check4
+
+HERE = os.path.dirname(os.path.abspath(__file__))
 
 GENBG = shutil.which('genbg') or shutil.which('nauty-genbg')
+COUNTG = shutil.which('countg') or shutil.which('nauty-countg')
 
 
 def signature(R, v):
@@ -42,7 +52,7 @@ def cores(beta):
                                  capture_output=True, text=True)
             for g6 in res.stdout.split():
                 G = nx.from_graph6_bytes(g6.encode())
-                yield n, m, [sorted(x - n for x in G[a]) for a in range(n)]
+                yield n, m, [sorted(x - n for x in G[a]) for a in range(n)], g6
 
 
 def kinds_of(sets):
@@ -58,7 +68,16 @@ def kinds_of(sets):
 def main():
     beta = int(sys.argv[1])
     cert = json.load(gzip.open(sys.argv[2], 'rt'))
-    fails = json.load(open(sys.argv[3]))
+    raw = open(sys.argv[3], 'rb').read()
+    opts = dict(a[2:].split('=', 1) for a in sys.argv[4:] if a.startswith('--') and '=' in a)
+    log = opts.get('reductions-log', os.path.join(HERE, '..', 'results', 'k4_check_min_cex_reductions.log'))
+    rec = re.findall(r'written to (\S+) \(sha256 ([0-9a-f]{64})\)', open(log).read())
+    want = [h for f, h in rec if os.path.basename(f) == os.path.basename(sys.argv[3])]
+    got = hashlib.sha256(raw).hexdigest()
+    sha_ok = bool(want) and all(h == got for h in want)
+    print('uncovered-profile file %s: sha256 %s, %s' % (sys.argv[3], got, 'matches %s' % log if sha_ok else
+                                                         'DOES NOT MATCH the value recorded in %s' % log))
+    fails = json.loads(raw)
     # allowed (e, f) signatures of configuration px, with e's goods in px order
     PX = {}
     for name, profs in fails.items():
@@ -66,10 +85,13 @@ def main():
         PX[name] = profs
     stat = collections.Counter()
     left = []
-    for n, m, sets in cores(beta):
+    orbit = collections.defaultdict(list)                       # (n, m) -> graph6 of the listed k = 4 cores
+    for n, m, sets, g6 in cores(beta):
         stat['listed'] += 1
+        dg = collections.Counter(g for S in sets for g in S)
+        if all(sum(dg[g] == 1 for g in S) <= len(S) - 2 for S in sets): orbit[(n, m)].append(g6)
         kinds, deg = kinds_of(sets)
-        if kinds is None: continue                              # K4.MC-PP
+        if kinds is None: continue                              # K4.MC2
         n4 = sum(len(S) == 4 for S in sets)
         if n4 == 0 or (n == 5 and n4 < 3): continue
         if any(deg[g] == 2 and all(kinds[a] == 'P3' for a in range(n) if g in sets[a]) for g in range(m)): continue
@@ -101,8 +123,30 @@ def main():
         if any(not d for d in dom): continue
         stat['left'] += 1
         left.append((n, m, sets, dom))
-    print('beta = %d: %d connected cores with 5 <= n <= %d listed; %d pass the filters; %d left after K4.MC-PX' % (
+    print('beta = %d: %d connected incidence graphs (agents of degree 3-4) with 5 <= n <= %d listed; %d pass the filters; %d left after K4.MC5' % (
         beta, stat['listed'], 3 * (beta - 1), stat['after filters'], stat['left']))
+    # completeness by orbit counting: the listed graphs that are k = 4 cores (at most d - 2 private goods per agent)
+    # against the labeled count of connected k = 4 cores with cyclomatic number beta, i.e. with m - 2n + beta - 1
+    # agents of 4 goods (check4.py's DP, self-tested there against brute force); |Aut| from nauty's countg (n != m, so
+    # automorphisms keep the two sides)
+    orbit_ok = True
+    for n in range(5, 3 * (beta - 1) + 1):
+        for m in range(n, 3 * n + 1):
+            n4 = m - 2 * n + beta - 1
+            lab = check4.labeled_conn(n, m)[n4] if 0 <= n4 <= n else 0
+            gs = orbit.get((n, m), [])
+            tot = 0
+            if gs:
+                out = subprocess.run([COUNTG, '--a'], input='\n'.join(gs) + '\n', capture_output=True, text=True).stdout
+                rows = re.findall(r'(\d+) graphs? : groupsize=(\S+)', out)
+                assert sum(int(c) for c, _ in rows) == len(gs), out
+                for c, a in rows:
+                    a = int(float(a)); assert (math.factorial(n) * math.factorial(m)) % a == 0
+                    tot += int(c) * (math.factorial(n) * math.factorial(m) // a)
+            if lab or gs:
+                print('  orbit count n = %d, m = %d: %d k = 4 cores listed, sum n! m! / |Aut| = %d, labeled (DP) %d %s' % (
+                    n, m, len(gs), tot, lab, 'ok' if tot == lab else 'MISMATCH'))
+            orbit_ok &= tot == lab
     # match with the certificate and check coverage
     def graph(sets, m):
         G = nx.Graph()
@@ -153,6 +197,7 @@ def main():
             n, m, ''.join(kinds_of(sets)[0]), prof_n, len(allocs), unc, '' if big <= 1 else ' (not D2)'))
         ok &= unc == 0
     print('every allocation has at most one bundle of more than 2 goods (D2): %s' % d2)
+    ok = ok and d2 and sha_ok and orbit_ok
     print('RESULT: %s' % ('OK' if ok else 'FAILED'))
     sys.exit(0 if ok else 1)
 

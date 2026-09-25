@@ -18,9 +18,12 @@ Shares no code with reduce4.py / mincex4.py:
 A profile of a record is covered when every state admissible for it (gadget agents safe, none envying the unenvied
 bundle) has a stored extension under which every agent of S is safe. Per configuration the covered profiles of its
 records are united.
-Usage: check_reductions4.py certs.json.gz [--jobs=J] [--expect=CONFIG:COUNT ...] [--fail-out=fail.json]
+Every record must declare one of the configurations of k4/MINCEX.md exactly as hard-coded in CONFIGS (agents with
+their goods in order, I, D), or it is rejected. --uncovered-out writes the profiles no reduction covers, per
+configuration (compact JSON), and prints its SHA-256, which k4/check_mincex_cores.py verifies.
+Usage: check_reductions4.py certs.json.gz [--jobs=J] [--expect=CONFIG:COUNT ...] [--uncovered-out=file.json]
        check_reductions4.py certs.json.gz --selftest     (corrupted copies must be rejected)"""
-import sys, json, gzip, itertools, collections
+import sys, json, gzip, itertools, collections, hashlib
 import numpy as np
 from multiprocessing import Pool
 
@@ -148,6 +151,29 @@ def gadget_problems(S, I, D, Ip, supp):
     return sorted(set(out))
 
 
+# ----- the configurations of k4/MINCEX.md, hard-coded: agents with their goods in order, I, D -----
+CONFIGS = {
+    'single-PP4': ({'e': ['s', 't', 'p', 'q']}, ['p', 'q'], ['s', 't']),
+    'pair-P3-P3': ({'e': ['gl', 'g', 'pe'], 'f': ['g', 'y', 'pf']}, ['g', 'pe', 'pf'], ['gl', 'y']),
+    'loop-P3-P3': ({'e': ['G', 'g', 'pe'], 'f': ['g', 'G', 'pf']}, ['g', 'pe', 'pf'], ['G']),
+    'px-Q3': ({'e': ['g', 'a', 'b'], 'f': ['g', 'y', 'pf']}, ['g', 'pf'], ['a', 'b', 'y']),
+    'px-Q3-closed': ({'e': ['g', 'y', 'b'], 'f': ['g', 'y', 'pf']}, ['g', 'pf'], ['b', 'y']),
+    'px-P4': ({'e': ['g', 'a', 'b', 'pe'], 'f': ['g', 'y', 'pf']}, ['g', 'pe', 'pf'], ['a', 'b', 'y']),
+    'px-P4-closed': ({'e': ['g', 'y', 'b', 'pe'], 'f': ['g', 'y', 'pf']}, ['g', 'pe', 'pf'], ['b', 'y']),
+    'px-Q4': ({'e': ['g', 'a', 'b', 'c'], 'f': ['g', 'y', 'pf']}, ['g', 'pf'], ['a', 'b', 'c', 'y']),
+    'px-Q4-closed': ({'e': ['g', 'y', 'b', 'c'], 'f': ['g', 'y', 'pf']}, ['g', 'pf'], ['b', 'c', 'y']),
+}
+
+
+def config_problem(rec):
+    spec = CONFIGS.get(rec['config'])
+    if spec is None: return 'unknown configuration %s' % rec['config']
+    S, I, D = spec
+    if rec['S'] != S or sorted(rec['I']) != sorted(I) or sorted(rec['D']) != sorted(D):
+        return 'record declares a configuration different from %s' % rec['config']
+    return None
+
+
 # ----- 3 and 5. one record -----
 def check_record(rec):
     S = {s: list(R) for s, R in rec['S'].items()}
@@ -156,6 +182,8 @@ def check_record(rec):
     priv = {s: [g for g in R if g in I and sum(g in R2 for R2 in S.values()) == 1] for s, R in S.items()}
     dom = {s: domain(R, priv[s]) for s, R in S.items()}
     shape = tuple(len(dom[s]) for s in agents)
+    cp = config_problem(rec)                  # checked first: nothing else is read from a mislabeled record
+    if cp: return rec['config'], rec['name'], [cp], 0, np.zeros(shape, dtype=bool), [[dict(v) for v in dom[s]] for s in agents], agents
     # gadget agents: list of valuations, one per type of the agent copied (or a single one)
     gv, dep, supp = {}, {}, {}
     for sp, spec in rec['Sp'].items():
@@ -214,6 +242,8 @@ def check_record(rec):
             if ok:
                 mod = [B for B in Xs.values()] + [B for B, B0 in zip(Ox, blocks) if sorted(B) != sorted(B0)]
                 for B in mod:
+                    # a one-token bundle: a single good, or the token 'w:s'' for all outside goods s' held in Y (moved
+                    # as a whole), which is dominated by Y_{s'} itself; either way it is dominated
                     if len(B) <= 1 or not U(B): continue
                     if Ysrc is not None and U(B) <= U(Ysrc): continue
                     if any(U(B) <= U(B2) and (not inner(B) or inner(B2) or U(B) != U(B2)) for B2 in Yall): continue
@@ -259,8 +289,9 @@ def summarize(res, expect, fail_out=None):
         got = int(by[c][0].sum()) if c in by else None
         if got != int(n): print('  EXPECT FAILED: %s covered %s, expected %s' % (c, got, n)); ok = False
     if fail_out:
-        json.dump(fails, open(fail_out, 'w'), indent=0)
-        print('  profiles not covered written to %s' % fail_out)
+        data = json.dumps(fails, separators=(',', ':'), sort_keys=True).encode()
+        open(fail_out, 'wb').write(data)
+        print('  profiles no reduction covers written to %s (sha256 %s)' % (fail_out, hashlib.sha256(data).hexdigest()))
     return ok
 
 
@@ -302,6 +333,10 @@ def selftest(recs, jobs):
                 if hit: break
         if hit: break
     tests.append(('interior good into a W bundle (domination)', r))
+    r = copy.deepcopy(pick); r['S'] = {'e': ['gl', 'g', 'pe'], 'f': ['g', 'pe', 'pf']}
+    tests.append(('a record with a wrong configuration', r))
+    r = copy.deepcopy(pick); r['D'] = ['gl']
+    tests.append(('a record whose boundary differs from its configuration', r))
     good = True
     for what, args, want in (('smaller: 2 agents -> 2 agents, same goods', ({'e': ['a'], 'f': ['b']}, {'p'}, set(), {'q'}, {'x': set(), 'y': set()}), 'gadget not smaller'),
                              ('class: gadget closes a new cycle', ({'e': ['a', 'b'], 'f': ['c', 'p']}, {'p'}, {'a', 'b', 'c'}, set(), {'h': {'a', 'c'}}), "H' has a component with a larger cyclomatic number")):
@@ -323,7 +358,7 @@ def main():
     opts = [a for a in sys.argv[2:]]
     jobs = next((int(a.split('=')[1]) for a in opts if a.startswith('--jobs=')), 4)
     expect = [a.split('=', 1)[1] for a in opts if a.startswith('--expect=')]
-    fail_out = next((a.split('=', 1)[1] for a in opts if a.startswith('--fail-out=')), None)
+    fail_out = next((a.split('=', 1)[1] for a in opts if a.startswith('--uncovered-out=')), None)
     recs = json.load(gzip.open(path, 'rt'))
     print('check_reductions4.py %s: %d records; types re-enumerated: %d (3 goods), %d (4 goods)' % (
         path, len(recs), len(TY[3]), len(TY[4])))

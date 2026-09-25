@@ -1,14 +1,14 @@
 """Candidate shapes of a minimal counterexample to TARGET4 with cyclomatic number beta (k4/MINCEX.md, section 5).
 
 A minimal counterexample (within the class C_beta) is a connected k = 4 core (K4.MC0) with strict types. By the
-reductions of k4/MINCEX.md it has no agent with two private goods (K4.MC-PP), so its agents are P3 (3 goods, one
+reductions of k4/MINCEX.md it has no agent with two private goods (K4.MC2), so its agents are P3 (3 goods, one
 private), Q3 (3 goods, none), P4 (4 goods, one private) and Q4 (4 goods, none); deleting the private goods leaves a
 bipartite graph G' (agents of degree 2, 3, 3, 4; shared goods of degree >= 2) with the same cyclomatic number. No good
 of degree 2 is shared by two P3 agents (K4.MC3). G' is listed with nauty's genbg (one per isomorphism class); each agent
 of degree 3 is then Q3 or P4. Kept: n >= 5 (K4.R3, K4.R4 cover n <= 4), at least one 4-good agent (TARGET covers
 the rest), and at least three when n = 5 (K4.R5).
 
-Profile restrictions (K4.MC-PX): for a P3 agent f sharing a good g of degree 2 with a Q3, P4 or Q4 agent e, the
+Profile restrictions (K4.MC5): for a P3 agent f sharing a good g of degree 2 with a Q3, P4 or Q4 agent e, the
 profile restricted to (e, f) must lie in the set of profiles of configuration px (k4/mincex4.py) that no certified
 reduction covers; each agent's type domain is cut to the projection of that set. An empty domain removes the shape.
 Usage: mincex_shapes.py BETA [--write=out.json.gz]
@@ -131,7 +131,7 @@ def restricted_domains(sets, m, fail):
 
 
 def structural_prune(nb):
-    """True if G' (agent neighbourhoods) is excluded whatever the Q3/P4 choice (K4.MC-PX with Q3 and P4, whose closed
+    """True if G' (agent neighbourhoods) is excluded whatever the Q3/P4 choice (K4.MC5 with Q3 and P4, whose closed
     configurations are always reduced and whose open ones force the P3 agent to rank g last and e to rank g first)."""
     n = len(nb)
     deg = collections.Counter(g for N in nb for g in N)
@@ -151,7 +151,7 @@ def structural_prune(nb):
     return any(c >= 2 for c in tops.values())                     # e would rank two goods first
 
 
-def px_fail():
+def px_uncovered():
     """Profiles of configuration px (kinds Q3, P4, Q4; open and closed) that DEL and the one-agent gadgets miss."""
     import mincex4 as M
     out = {}
@@ -168,7 +168,7 @@ def px_fail():
 def main():
     beta = int(sys.argv[1])
     opts = dict(a[2:].split('=', 1) for a in sys.argv[2:] if a.startswith('--') and '=' in a)
-    fail = px_fail()
+    fail = px_uncovered()
     for key, fs in sorted(fail.items()): print('px %s %s: %d profiles not reduced' % (key[0], 'closed' if key[1] else 'open', len(fs)))
     nmax = int(opts['nmax']) if 'nmax' in opts else None
     out, stat = [], collections.Counter()
@@ -184,7 +184,7 @@ def main():
     print('beta = %d: candidate cores, listed per graph G\' and choice of P4 agents (isomorphic ones not merged)' % beta)
     for n, m in sorted(stat):
         left = [r['profiles'] for r in out if (r['n'], r['m']) == (n, m)]
-        print('  n = %d, m = %d: %d listed, %d left after K4.MC-PX (up to isomorphism; profiles: max %s, total %s)' % (
+        print('  n = %d, m = %d: %d listed, %d left after K4.MC5 (up to isomorphism; profiles: max %s, total %s)' % (
             n, m, stat[(n, m)], len(left), max(left) if left else 0, sum(left)))
     if 'write' in opts:
         with gzip.open(opts['write'], 'wt') as f: json.dump(out, f)
