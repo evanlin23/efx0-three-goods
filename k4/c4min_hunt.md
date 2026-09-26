@@ -1,14 +1,14 @@
 # Hunting for a counterexample to C₄ᵐⁱⁿ
 
 Workstream `compute/k4-c4min-hunt` (the refuter side; the prover side is `proof/k4-c4min`, PR #41), ledger rows
-K4.C4MINH.* (EVIDENCE only). Target: conjecture C₄ᵐⁱⁿ of `k4/c4x.md` §5 (PR #36, branch `proof/k4-c4x`, row
-K4.C4X.MIN there): for every strict profile of every k = 4 core, some valid pre-allocation in 𝒫 with the fewest frozen
+K4.C4MINH.* (EVIDENCE only). Target: conjecture C₄ᵐⁱⁿ of `k4/c4x.md` §5 (PR #36, row
+K4.C4X.MIN): for every strict profile of every k = 4 core, some valid pre-allocation in 𝒫 with the fewest frozen
 agents has deficit ≤ 0 (is removal-only completable, with the owner's needs from its bundle).
 
 **Status. No counterexample to C₄ᵐⁱⁿ found.** Everything here is EVIDENCE (one exact implementation per exhaustive
 class, no stored certificates; random and local search elsewhere). Nothing here changes K4.D or K4.T.
 - **Exhaustive** (§2): C₄ᵐⁱⁿ holds on every strict profile of every k = 4 core with n ≤ 4 (with PR #36's runs), with
-  n = 5 and at most three 4-good agents, and with n = 6 and one 4-good agent: about 6.6·10¹² profiles, 0 failures.
+  n = 5 and at most three 4-good agents, and with n = 6 and one 4-good agent: about 7.62·10¹² profiles, 0 failures.
 - **Adversarial** (§3): hill-climbing toward "an owner is needed and the best min-frozen pre-allocation has positive
   deficit" on all 14,520 n = 5 cores with four or five 4-good agents (three objective orders, 13 restarts per core,
   then 20 more on the 400 tightest), 1,600 random cores with n = 6–8, glued pairs of small cores, and from the hard
@@ -21,8 +21,8 @@ class, no stored certificates; random and local search elsewhere). Nothing here 
   held everywhere. **A stronger form fails** (§5): with the owner's needs from its base instead of its bundle, beyond
   PR #36's n = 2 cases, on 26,496 pure n = 4 profiles (smallest m = 8), confirmed by three implementations; C₄ᵐⁱⁿ holds
   on all of them, so its bundle needs are essential.
-- Not done: n = 5 with four or five 4-good agents exhaustively (4·10¹⁴ and 9·10¹⁵ profiles; only two order-type
-  classes per agent, §2.1, running when this was written) and anything exhaustive with n ≥ 6 beyond one 4-good agent.
+- Not done: n = 5 with four or five 4-good agents exhaustively (2.89·10¹⁴ and 6.21·10¹⁵ profiles under the tool's domains; only two order-type
+  classes per agent, §2.1: done for n = 5 with four 4-good agents, not for pure n = 5) and anything exhaustive with n ≥ 6 beyond one 4-good agent.
 
 ## 1. Definitions and tools
 
@@ -79,10 +79,15 @@ Tools (all in `k4/`):
   failing profiles at n = 2, the number `k4/c4x.c -w0 -R` gives (`results/k4_c4x_variants.log` of PR #36), and none
   with n = 3 or n = 4 with at most two 4-good agents (`results/k4_c4min_hunt_w0.log`). So failures are found when
   they exist, and the owner's needs from its bundle are needed only at n = 2 among these classes.
-- **Self-check of the masks** (`-V`: after each slice, every profile is re-solved from scratch by the exact search and
+- **Direct re-solve** (`-V`: after each slice, every profile is re-solved from scratch by the exact search and
   compared with the result of the masks; `results/k4_c4min_hunt_selfcheck.log`): all 1,032,121,440 profiles with
   n ≤ 3 or n = 4 with at most two 4-good agents, 200,060,928 profiles of 12 pure n = 4 cores (the first type of the
-  first agent) and 95,551,488 profiles of 40 n = 5 cores with three 4-good agents: 0 disagreements.
+  first agent) and 95,551,488 profiles of 40 n = 5 cores with three 4-good agents: 0 disagreements. This shows that
+  the exact search alone finds C₄ᵐⁱⁿ true on those profiles; it is **not** a test of the masks: where C₄ᵐⁱⁿ never
+  fails, a mask that covers too much agrees with the search too (the independent review of this PR compiled the tool
+  with the threat, E or need-equality check removed, and all three pass `-V`). The masks are tested where failures
+  exist: the `-w0` runs reproduce PR #36's 720 n = 2 failures, and the brute force confirms the `-w0` failures of §5;
+  `-V -w0` on the 14 failing pure n = 4 cores (which catches those mutants) was not run here.
 - **Per profile, three implementations** (`k4/c4min_crosscheck.py`, `results/k4_c4min_hunt_crosscheck.log`): on random
   profiles of every class with n ≤ 5, `c4min_hunt.c -1` against `k4/c4x.c -1s -R -a` (f*, d*, the numbers of valid,
   min-frozen and good pre-allocations) and, for n ≤ 4 and m ≤ 8, against the brute force (the same, and (W1)); and
@@ -104,22 +109,24 @@ strict balanced types of `k4/check4.py`, 288 per 4-good agent, 144 with two priv
 
 | class | cores | strict profiles | C₄ᵐⁱⁿ fails | wall time (4 CPUs) | log |
 |---|---|---|---|---|---|
-| n = 4, three 4-good agents | 339 | 34,971,844,608 | 0 | 30 s | `results/k4_c4min_hunt_n4_3.log` |
+| n = 4, three 4-good agents | 339 | 34,971,844,608 | 0 | 39 s | `results/k4_c4min_hunt_n4_3.log` |
 | n = 4, pure (four 4-good agents) | 219 | 1,022,496,473,088 | 0 | ≈ 22 min | `results/k4_c4min_hunt_n4_pure.log` |
 | n = 5, one 4-good agent | 1,735 | 574,615,296 | 0 | < 1 min | `results/k4_c4min_hunt_n5_12.log` |
 | n = 5, two 4-good agents | 5,468 | 80,025,864,192 | 0 | ≈ 2 min | the same |
 | n = 5, three 4-good agents | 9,861 | 6,423,281,565,696 | 0 | 2 h 17 min (3 jobs) | `results/k4_c4min_hunt_n5_3.log` |
 | n = 6, one 4-good agent | 26,866 | 54,698,374,656 | 0 | 8 min (3 jobs) | `results/k4_c4min_hunt_n6_1.log` |
 
-With PR #36's exhaustive runs (n ≤ 3; n = 4 with one or two 4-good agents; `k4/c4x.c`), which this tool reproduces
-(§1.1), **C₄ᵐⁱⁿ holds on every strict profile of every k = 4 core with n ≤ 4, and with n = 5 and at most three 4-good
-agents, and with n = 6 and one 4-good agent** (about 6.6·10¹² profiles in all). A counterexample, if any, has n ≥ 5, and at n = 5 four or five 4-good
+The `-V` runs of §1.1 re-solve every profile with n ≤ 3 and with n = 4 and one or two 4-good agents directly (as do
+PR #36's runs with `k4/c4x.c`: n ≤ 3; n = 4 with one or two 4-good agents), and cores without a 4-good agent (k = 3
+cores) are covered by `results/k4_c4x_k3_pareto.log` (row K4.C4X.K3: 3,436 cores with n ≤ 6, 0 failures). So
+**C₄ᵐⁱⁿ holds on every strict profile of every k = 4 core with n ≤ 4, and with n = 5 and at most three 4-good
+agents, and with n = 6 and one 4-good agent** (about 7.62·10¹² profiles in the table). A counterexample, if any, has n ≥ 5, and at n = 5 four or five 4-good
 agents (the classes of §3's climbing and of §2.1's restricted runs). Each row is one
 implementation (`k4/c4min_hunt.c`), so the status is EVIDENCE; the certificates (templates) are not stored.
 
 ### 2.1 n = 5 with four or five 4-good agents, two order-type classes
 
-`results/k4_c4min_hunt_classes.log` (resumable: `.ckpt` per class pair). Every 4-good agent restricted to the 48
+`results/k4_c4min_hunt_classes.log`. Every 4-good agent restricted to the 48
 strict types of two order-type classes (`k4/c4min_common.py` `type_class`; the rest of the profile space is only
 climbed, §3): classes 10, 11 (a > b + c, the kind of G1 in `k4/c4x.md` §5 and of the `-w0` counterexample of §5) and
 classes 0, 1 (flat, a < c + d, G4). 3-good agents keep all their types.
@@ -128,7 +135,7 @@ classes 0, 1 (flat, a < c + d, G4). 3-good agents keep all their types.
 |---|---|---|---|
 | 10, 11 (a > b + c), n = 5 with four 4-good agents | 9,846 | 223,148,556,288 | 0 |
 | 0, 1 (flat), n = 5 with four 4-good agents | 9,846 | 223,148,556,288 | 0 |
-| 10, 11 and 0, 1, pure n = 5 | 4,674 | (running; about 1.2·10¹² profiles each, several hours) | |
+| 10, 11 and 0, 1, pure n = 5 | 4,674 | not done in this PR (about 1.2·10¹² profiles each; stopped for budget) | |
 
 ## 3. Adversarial search
 
@@ -219,7 +226,7 @@ encoding.
   (n = 51), cycle 8 (= H_8), tree 7 and tree 15 (n = 68, m = 167): 0 failures; f* up to 8 (tree 15).
 - 300 profiles each of H_6, H_8, H_10 and htc 8 at §7's values with 1, 2, 4, 8 or 16 agents re-typed: 0 failures
   (6,000 profiles; f* ≤ 2).
-- In all, 9,609 SAT-checked profiles of the large families, 0 failures, every certificate re-checked literally.
+- In all, 9,625 SAT-checked profiles of the large families, 0 failures, every certificate re-checked literally (the re-check validates the bases, owner, C and EFX₀; that f is the minimum rests on the SAT answers).
 
 - The grids of §5 (`lt R C`: agent (i, j) = the three lower goods of row i and the top of column j; `ltp R C`: one
   private good instead of the third lower good), with the types of the `-w0` counterexample (lower goods 2, 3, 4, top 8)
@@ -228,8 +235,8 @@ encoding.
 
 **SAT hill-climbing** (`c4min_sat.py --climb`, `results/k4_c4min_hunt_climbsat.log`; score (an owner is needed, d*,
 fewest owners o with a min-frozen P of deficit ≤ 0 under o), 3 restarts on each of H_3, H_4, H_5, htc 4, htx 4,
-ht2 4, grid 2×2, tree 4, cycle 4, chain 2 2): best d* between −3 and −1, with 13 to 21 feasible owners out of
-13 to 21 agents. These families are far from failing: random profiles have millions of witnesses (`c4min_hunt.c`
+ht2 4, grid 2×2, tree 4, cycle 4, chain 2 2): best d* between −9 (htx 4) and −1, with most agents feasible owners (e.g. 15 of 17 for htx 4, 15 of
+16 for htc 4, 16 of 17 for cycle 4, 15 of 18 for chain 2 2). These families are far from failing: random profiles have millions of witnesses (`c4min_hunt.c`
 counts 361,584 min-frozen pre-allocations with deficit ≤ 0 on one random profile of H_4), and the climber cannot
 bring d* above −1.
 
@@ -240,8 +247,10 @@ needs from the base fail at n = 2. The exhaustive runs with `-w0` (`results/k4_c
 with n = 3, n = 4 with one to three 4-good agents, or n = 5 with one or two, but **26,496 failing profiles in 14 pure
 n = 4 cores** (m = 8–12). The smallest: pure n = 4, m = 8, agents {0, 2, 4, 6}, {0, 2, 5, 6}, {1, 3, 4, 7},
 {1, 3, 5, 7}, each with values (2, 3, 8, 4), a > b + c; its 36 min-frozen pre-allocations all have deficit ≥ 1 from
-the base needs and none is completable, while 32 have deficit ≤ 0 from the bundle needs. The failure counts are
-multiples of 6⁴: only each agent's top good and its kind (a > b + c) matter. Confirmed by the brute force,
+the base needs and none is completable, while 32 have deficit ≤ 0 from the bundle needs. The per-core failure
+counts are sums of products of per-agent counts (6 for an agent, the orders of its three lower goods; 4 for an agent
+with two private goods, core 215: 576 = 4²·6²): the failures depend on each agent's top good and on its kind
+(a > b + c), not on the finer type. Confirmed by the brute force,
 `k4/c4min_hunt.c` and `k4/c4x.c` (`attempts/k4-c4min-w0-owner-base.md`, `attempts/k4_c4min_w0_replay.py`). So a
 proof of C₄ᵐⁱⁿ has to use the unfreezing that the owner's bundle needs allow, already at n = 4.
 
@@ -254,7 +263,7 @@ Every log starts with its command, the commit and the sha1 of `k4/c4min_hunt.c`.
 |---|---|---|---|
 | `n4` | exhaustive, n = 4 with three and four 4-good agents | `k4_c4min_hunt_n4_3.log`, `k4_c4min_hunt_n4_pure.log` | 25 min |
 | `n5a`, `n5b`, `n6a` | exhaustive, n = 5 with one/two and three 4-good agents, n = 6 with one | `k4_c4min_hunt_n5_12.log`, `k4_c4min_hunt_n5_3.log`, `k4_c4min_hunt_n6_1.log` | 3 min, 2.3 h, 8 min |
-| `classes` | exhaustive, n = 5 with four or five 4-good agents restricted to two order-type classes | `k4_c4min_hunt_classes.log` | ≈ 8 h |
+| `classes` | exhaustive, n = 5 with four or five 4-good agents restricted to two order-type classes | `k4_c4min_hunt_classes.log` | 2 × 75 min for the four-4-good cores; pure cores not done |
 | `selfcheck`, `crosscheck`, `satcheck` | validation (§1.1) | `k4_c4min_hunt_selfcheck.log`, `k4_c4min_hunt_crosscheck.log`, `k4_c4min_hunt_satcheck.log` | 5 min, 20 min (one CPU), 1 min |
 | `w0small`, `w0big` | the `-w0` strengthening (§5) | `k4_c4min_hunt_w0.log` | 30 min |
 | `attempts` | the hard profiles of PR #36 and PR #30 | `k4_c4min_hunt_attempts.log` | seconds |
@@ -266,8 +275,12 @@ Every log starts with its command, the commit and the sha1 of `k4/c4min_hunt.c`.
 `climbtight`, `rigid5` and `chains` read `results/k4_c4min_hunt_climb_n5_b.jsonl`, which is committed gzipped
 (`gunzip -k results/k4_c4min_hunt_climb_n5_b.jsonl.gz` first); `climbtight` writes the 400 cores it climbs to
 `results/k4_c4min_hunt_tight_n5.jsonl`. The `-w0` replay: `python3 attempts/k4_c4min_w0_replay.py`. The tools need
-python-sat (SAT encoding), gcc, and `k4/c4x.c` of PR #36 for the cross-checks (read from `origin/proof/k4-c4x` with
-`git show` until that PR is merged). Several logs carry a note that the wrapper shell was stopped and a watcher wrote
+python-sat (SAT encoding), gcc, and `k4/c4x.c` (PR #36) for the cross-checks. The per-core "fails" printed in the
+logs written before the fix batch of the review is the number of FAIL lines shown (capped by `-x`); the real per-core
+counts are in the `.ckpt` files (the driver now prints them). The third `-w0` command in `results/k4_c4min_hunt_w0.log`
+(the 205 pure n = 4 cores without failures) ran a build of `k4/c4min_hunt.c` (sha1 8deda7b95660) that is in no commit
+(the -E code path is the same as in the committed versions); the 14 failing cores were re-run with the committed build
+60fbc9be5f85 (`results/k4_c4min_hunt_w0_pure_cores.log`). Several logs carry a note that the wrapper shell was stopped and a watcher wrote
 the last line: `k4_c4min_hunt_runs.sh` had been edited in place while it ran (bash reads scripts incrementally), which
 also made one shell run a garbled `climbglue` fragment once (its output was discarded); the Python runs themselves were
 not affected.

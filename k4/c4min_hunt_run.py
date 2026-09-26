@@ -102,7 +102,7 @@ def main():
                 if ncore_tasks[ci] == 0:
                     if ckpt:
                         with open(ckpt, 'a') as fh: fh.write(json.dumps(per[ci]) + '\n')
-                    print(f'core {ci} m {cores[ci]["m"]} profiles {per[ci].get("profiles", 0)} fails {len(per[ci]["faillines"])} '
+                    print(f'core {ci} m {cores[ci]["m"]} profiles {per[ci].get("profiles", 0)} fails {per[ci].get("fails", 0)} '
                           f'solved {per[ci].get("solved", 0)} secs {per[ci]["secs"]:.1f}', flush=True)
         for (ff, ci), rec in done.items():
             if ff != f: continue

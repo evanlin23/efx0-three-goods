@@ -1,0 +1,21 @@
+# k4/hall.c -B on bt4 (attempts/k4-hall-bt-n4.md): BTX = maxima without a removal-only owner with frozen agents, with a frozen big-top agent, with an exposed one, with a cycle through one making it the owner, with a cycle through one completing, with a cycle through any exposed frozen agent completing
+# command: python3 -c "import sys, subprocess; sys.path[:0] = ['attempts', 'k4']; import k4_hall_attempts as A; print(subprocess.run([A.binary(), '-1', '-Bx', '5'], input=A.hall_input('k4/hall_instances/bt4.inst'), capture_output=True, text=True, check=True).stdout, end='')"   (k4/hall.c sha256 f5be92b057547f173e81b61b55b40a52220ce97b63f9dfb0dc4948f2a502cdb5)
+EXBTC no big-top owner cycle (no frozen big-top): types [0:2,2:6,5:3,6:10] [0:6,3:3,4:10,6:8] [1:8,2:6,4:10,6:3] [1:6,3:4,5:1,6:8] bases {2,5} {0,3} {4}F {6}F J {1}
+RESULT profiles 1 valid 24 minfrozen 20 minfrozen_omega1 0 minfrozen_posdef 0 profiles_c4min_ok 1 bad_char 0
+FAILOWNERS 0 unhittable 0 tau 0 0 0 0 0 0 0 0 violsize 0 0 0 0 0 0 0 0
+BTX 1 0 0 0 0 0
+BTC 1 1 1
+FZ 5 0 0 1 0 0 0 4 1 1 0 0 6 0 0
+F0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+PARETO minfrozen 0 profiles 0 every_ok 0 some_ok 0 maxima 0
+PARETO minfrozen 1 profiles 0 every_ok 0 some_ok 0 maxima 0
+PARETO minfrozen 2 profiles 1 every_ok 0 some_ok 1 maxima 5
+PARETO minfrozen 3+ profiles 0 every_ok 0 some_ok 0 maxima 0
+KIND 0 free 0 (unhit 0) frozen 0 (unhit 0) 3-good top
+KIND 1 free 0 (unhit 0) frozen 0 (unhit 0) 4-good top a>b+c
+KIND 2 free 0 (unhit 0) frozen 0 (unhit 0) 4-good top b+d<a<b+c
+KIND 3 free 0 (unhit 0) frozen 0 (unhit 0) 4-good top c+d<a<b+d
+KIND 4 free 0 (unhit 0) frozen 0 (unhit 0) 4-good top flat
+KIND 5 free 0 (unhit 0) frozen 0 (unhit 0) 4-good {b}
+KIND 6 free 0 (unhit 0) frozen 0 (unhit 0) 4-good pair
+KIND 7 free 0 (unhit 0) frozen 0 (unhit 0) other

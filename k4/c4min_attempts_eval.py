@@ -2,17 +2,14 @@
 """C4min on the instances of PR #36's attempts (attempts/k4_c4x_attempts.py, INSTANCES: the smallest profiles where
 simpler potentials fail) and of PR #30's n = 5 GM4 profiles (results/k4_c4min_hunt_seeds_gm4.json): f*, sigma, d*,
 the number of min-frozen pre-allocations and of those with deficit <= 0, by k4/c4min_hunt.c -1 and by the brute force
-k4/c4min_brute.py (n <= 4). The INSTANCES list is read from attempts/k4_c4x_attempts.py if present (after PR #36's
-merge), else from `git show origin/proof/k4-c4x:attempts/k4_c4x_attempts.py`."""
+k4/c4min_brute.py (n <= 4). The INSTANCES list is read from attempts/k4_c4x_attempts.py (PR #36)."""
 import ast, json, os, subprocess
 import c4min_common as cc
 import c4min_brute
 
 
 def instances():
-    p = os.path.join(cc.ROOT, 'attempts', 'k4_c4x_attempts.py')
-    src = open(p).read() if os.path.exists(p) else subprocess.run(
-        ['git', '-C', cc.ROOT, 'show', 'origin/proof/k4-c4x:attempts/k4_c4x_attempts.py'], capture_output=True, text=True, check=True).stdout
+    src = open(os.path.join(cc.ROOT, 'attempts', 'k4_c4x_attempts.py')).read()
     tree = ast.parse(src)
     for node in tree.body:
         if isinstance(node, ast.Assign) and getattr(node.targets[0], 'id', '') == 'INSTANCES':

@@ -26,12 +26,9 @@ def hunt_binary():
 
 
 def c4x_binary():
-    """k4/c4x.c of PR #36: the file if present (after the merge), else `git show origin/proof/k4-c4x:k4/c4x.c`."""
+    """k4/c4x.c of PR #36 (C4X_BIN overrides)."""
     if os.environ.get('C4X_BIN'): return os.environ['C4X_BIN']
-    p = os.path.join(HERE, 'c4x.c')
-    if os.path.exists(p): src = open(p, 'rb').read()
-    else: src = subprocess.run(['git', '-C', ROOT, 'show', 'origin/proof/k4-c4x:k4/c4x.c'], capture_output=True, check=True).stdout
-    return _compile(src, 'c4x')
+    return _compile(open(os.path.join(HERE, 'c4x.c'), 'rb').read(), 'c4x')
 
 
 def load_cores(path):

@@ -693,6 +693,8 @@ int main(int argc, char **argv) {
   rs = seed * 0x9E3779B97F4A7C15ULL + 88172645463325252ULL;
   if (mode == 'E') {
     int lo, hi; if (scanf("%d %d", &lo, &hi) != 2) { lo = 0; hi = nt[0]; }
+    if (lo < 0) lo = 0;
+    if (hi > nt[0]) hi = nt[0];
     if (n < 2) return 2;
     exhaustive(lo, hi);
     printf("RESULT profiles %lld solved %lld templates %lld cachehits %lld fails %lld verified %lld fstar_solved", c_prof, c_solved, c_tmpl, c_hits, c_fail, c_verified);

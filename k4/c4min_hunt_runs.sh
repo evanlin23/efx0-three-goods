@@ -114,6 +114,8 @@ print(len(top), 'tight cores; scores from', top[0][0], 'to', top[-1][0])"
   satcheck)    # the SAT encoding against c4min_hunt.c (f*, holds, d*, feasible owners)
     log $R/k4_c4min_hunt_satcheck.log python3 c4min_satcheck.py --per-core=3 --seed=11 ;;
   famsat)      # large structured families with the SAT encoding (every certificate re-checked by c4min_brute)
+    log $R/k4_c4min_hunt_famsat.log python3 c4min_sat.py $(for t in $(seq 1 16); do printf -- '--family=ht:%d ' $t; done) \
+        --mode=paper --jobs=1
     log $R/k4_c4min_hunt_famsat.log python3 c4min_sat.py --family=ht:4 --family=ht:5 --family=ht:6 --family=ht:7 --family=ht:8 \
         --family=ht:9 --family=ht:10 --family=ht:12 --family=ht:16 --mode=paper --jobs=${JOBS:-4}
     log $R/k4_c4min_hunt_famsat.log python3 c4min_sat.py --family=ht:6 --family=ht:8 --family=ht:10 --family=ht2:8 --family=htx:8 \

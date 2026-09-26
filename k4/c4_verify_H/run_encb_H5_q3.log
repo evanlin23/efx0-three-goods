@@ -1,0 +1,6 @@
+encoding B, H_5, q <= 3: states per depth [1, 30, 611, 8934], total 9576
+depth 0: 1 states; states with an output: bundle=0 base=0 (4s)
+depth 1: 30 states; states with an output: bundle=0 base=0 (10s)
+depth 2: 611 states; states with an output: bundle=0 base=0 (137s)
+depth 3: 8934 states; states with an output: bundle=0 base=0 (3682s)
+RESULT encB t=5 q<=3: least depth with an output: bundle=None base=None

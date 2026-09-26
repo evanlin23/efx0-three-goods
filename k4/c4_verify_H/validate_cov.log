@@ -1,0 +1,4 @@
+{'cases': 23828, 'mismatch': 0, 'bundle_ne_base': 497, 'dyn': 5334, 'dyn_sat': 842, 'sat': 3091}
+{'cases': 23950, 'mismatch': 0, 'bundle_ne_base': 443, 'dyn': 5390, 'dyn_sat': 766, 'sat': 2807}
+{'cases': 23924, 'mismatch': 0, 'bundle_ne_base': 475, 'dyn': 5409, 'dyn_sat': 820, 'sat': 3083}
+{'cases': 24072, 'mismatch': 0, 'bundle_ne_base': 434, 'dyn': 5314, 'dyn_sat': 746, 'sat': 3006}

@@ -1,0 +1,31 @@
+command: for V in '[{"0":2,"3":8,"5":4,"7":7},{"1":2,"4":8,"5":3,"6":4},{"2":2,"4":10,"6":6,"7":7},{"3":4,"6":3,"7":2}]' '[{"0":3,"4":4,"5":10,"6":8},{"1":3,"4":2,"6":4,"8":8},{"2":1,"5":8,"7":6,"8":4},{"3":2,"7":3,"8":4}]'; do for P in shrink envyFree none; do python3 k4/nsw_verify.py "$V" $P; done; done
+lb4r.py sha256 8eff47e6296610cc19519a72bf81df59776f80b8837e121a09455b57a6cfe460; profile [{"0": 2, "3": 8, "5": 4, "7": 7}, {"1": 2, "4": 8, "5": 3, "6": 4}, {"2": 2, "4": 10, "6": 6, "7": 7}, {"3": 4, "6": 3, "7": 2}]; policy shrink; potential (z, product)
+Phase 1 + upgrades []: 0:{3} 1:{4} 2:{7} 3:{6}, Phi (4, 1344)
+explored 1 states by NSW-increasing RotSteps; states with an output: 0
+LOCAL FORM FAILS: 0:{3} 1:{4} 2:{7} 3:{6} (* = marked), Phi (4, 1344), no output (owner's needs from its bundle), 4 RotStep successors, largest Phi among them (4, 1344); reached by (chain, O) moves []
+summary: existence form FAILS here; local form fails at 1 explored state(s)
+lb4r.py sha256 8eff47e6296610cc19519a72bf81df59776f80b8837e121a09455b57a6cfe460; profile [{"0": 2, "3": 8, "5": 4, "7": 7}, {"1": 2, "4": 8, "5": 3, "6": 4}, {"2": 2, "4": 10, "6": 6, "7": 7}, {"3": 4, "6": 3, "7": 2}]; policy envyFree; potential (z, product)
+Phase 1 + upgrades []: 0:{3} 1:{4} 2:{7} 3:{6}, Phi (4, 1344)
+explored 1 states by NSW-increasing RotSteps; states with an output: 0
+LOCAL FORM FAILS: 0:{3} 1:{4} 2:{7} 3:{6} (* = marked), Phi (4, 1344), no output (owner's needs from its bundle), 4 RotStep successors, largest Phi among them (4, 1344); reached by (chain, O) moves []
+summary: existence form FAILS here; local form fails at 1 explored state(s)
+lb4r.py sha256 8eff47e6296610cc19519a72bf81df59776f80b8837e121a09455b57a6cfe460; profile [{"0": 2, "3": 8, "5": 4, "7": 7}, {"1": 2, "4": 8, "5": 3, "6": 4}, {"2": 2, "4": 10, "6": 6, "7": 7}, {"3": 4, "6": 3, "7": 2}]; policy none; potential (z, product)
+Phase 1 + upgrades []: 0:{3} 1:{4} 2:{7} 3:{6}, Phi (4, 1344)
+explored 1 states by NSW-increasing RotSteps; states with an output: 0
+LOCAL FORM FAILS: 0:{3} 1:{4} 2:{7} 3:{6} (* = marked), Phi (4, 1344), no output (owner's needs from its bundle), 4 RotStep successors, largest Phi among them (4, 1344); reached by (chain, O) moves []
+summary: existence form FAILS here; local form fails at 1 explored state(s)
+lb4r.py sha256 8eff47e6296610cc19519a72bf81df59776f80b8837e121a09455b57a6cfe460; profile [{"0": 3, "4": 4, "5": 10, "6": 8}, {"1": 3, "4": 2, "6": 4, "8": 8}, {"2": 1, "5": 8, "7": 6, "8": 4}, {"3": 2, "7": 3, "8": 4}]; policy shrink; potential (z, product)
+Phase 1 + upgrades []: 0:{5} 1:{6} 2:{7} 3:{8}, Phi (4, 960)
+explored 1 states by NSW-increasing RotSteps; states with an output: 0
+LOCAL FORM FAILS: 0:{5} 1:{6} 2:{7} 3:{8} (* = marked), Phi (4, 960), no output (owner's needs from its bundle), 3 RotStep successors, largest Phi among them (4, 960); reached by (chain, O) moves []
+summary: existence form FAILS here; local form fails at 1 explored state(s)
+lb4r.py sha256 8eff47e6296610cc19519a72bf81df59776f80b8837e121a09455b57a6cfe460; profile [{"0": 3, "4": 4, "5": 10, "6": 8}, {"1": 3, "4": 2, "6": 4, "8": 8}, {"2": 1, "5": 8, "7": 6, "8": 4}, {"3": 2, "7": 3, "8": 4}]; policy envyFree; potential (z, product)
+Phase 1 + upgrades []: 0:{5} 1:{6} 2:{7} 3:{8}, Phi (4, 960)
+explored 1 states by NSW-increasing RotSteps; states with an output: 0
+LOCAL FORM FAILS: 0:{5} 1:{6} 2:{7} 3:{8} (* = marked), Phi (4, 960), no output (owner's needs from its bundle), 3 RotStep successors, largest Phi among them (4, 960); reached by (chain, O) moves []
+summary: existence form FAILS here; local form fails at 1 explored state(s)
+lb4r.py sha256 8eff47e6296610cc19519a72bf81df59776f80b8837e121a09455b57a6cfe460; profile [{"0": 3, "4": 4, "5": 10, "6": 8}, {"1": 3, "4": 2, "6": 4, "8": 8}, {"2": 1, "5": 8, "7": 6, "8": 4}, {"3": 2, "7": 3, "8": 4}]; policy none; potential (z, product)
+Phase 1 + upgrades []: 0:{5} 1:{6} 2:{7} 3:{8}, Phi (4, 960)
+explored 1 states by NSW-increasing RotSteps; states with an output: 0
+LOCAL FORM FAILS: 0:{5} 1:{6} 2:{7} 3:{8} (* = marked), Phi (4, 960), no output (owner's needs from its bundle), 3 RotStep successors, largest Phi among them (4, 960); reached by (chain, O) moves []
+summary: existence form FAILS here; local form fails at 1 explored state(s)
