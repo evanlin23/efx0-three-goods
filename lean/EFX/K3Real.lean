@@ -31,9 +31,12 @@ cost, as it reads its input.
 - `algoOrd_efx0`: **correctness**: under the same hypotheses `algoOrd le I hn` is EFX₀ for the original values
   (via `EFX.efx0_iff_of_agree` and `EFX.K3.algo_efx0`).
 - `surrogateC_cost`: with each oracle call charged `c` units, computing `w` costs at most
-  `c · n (m + 12) + 10 n m + 971 n`: exactly `m + 12` oracle calls per agent, and `O(nm)` other operations.
+  `c · n (m + 12) + 10 n m + 971 n`: the program asks `m + 12` oracle calls per agent (the coefficient of `c`), and
+  does `O(nm)` other operations.
 - `algoOrdC_cost`: **the cost** (`c = 1`): at most `n (m + 12) + 10 n m + 971 n + 400 (n + m + 1)⁴` counted
-  operations on every instance with `n ≥ 1` (every oracle call, whatever the number of relevant goods).
+  operations on every instance with `n ≥ 1`, each oracle call counted as one unit, whatever the number of relevant
+  goods (with the finer count of K3ALG: `EFX.K3.algoOrdC_cost_fine` in `EFX.K3CostFine`).
+- `Examples.peelOwnerZ_algoOrd`: an instance with values in `Int`, checked by `decide`.
 
 What a unit counts is `EFX.K3CostLB`'s list, plus: one oracle call (`askC`), one addition of two values in `V`
 (`patC`'s `tick 6`), one read of an input value `v i g` (`relC`'s `tick 1`).
