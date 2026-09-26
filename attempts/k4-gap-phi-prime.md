@@ -61,7 +61,9 @@ value above, and no valid owner at it.
   reach a configuration with a valid owner (bench statement REACH_EACH).
 - The first form Φ = (−t, r, Λ) was already false at n = 4 (#41). The data now say that no potential of this family
   whose maxima are the Φ′-maxima can work at n = 4 without a further term or a different order.
-- Smallest known: n = 4, m = 8. No failure exists with n ≤ 3 (exhaustive) or at n = 4 with one 4-good agent
+- Smallest known: n = 4, m = 8 for the form "no Φ′-maximum has a valid owner" (category N, this core). The
+  weaker form "every Φ′-maximum has a valid owner" already fails at n = 4, m = 7 (pure core 53, one of three maxima;
+  `results/k4_gap_hard_hunt.log`). No failure exists with n ≤ 3 (exhaustive) or at n = 4 with one 4-good agent
   (exhaustive). The pure n = 4 class was sampled, not searched exhaustively.
 
 **Reproduce.**

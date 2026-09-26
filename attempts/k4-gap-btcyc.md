@@ -9,7 +9,8 @@
 The move stays at the fewest frozen agents (rigidity, `k4/c4min.md` §1). #52 checked it on every such maximum with n ≤ 3
 and on samples at n = 4.
 
-**It fails on a pure n = 4 profile, m = 8.** The profile was found by the hunt over 400,000 random profiles per pure
+**It fails on a pure n = 4 profile, m = 8** (core 122 of `results/k4_certs_4_pure.json.gz`, 0-based position). The
+profile was found by the hunt over 400,000 random profiles per pure
 n = 4 core (`results/k4_gap_hunt_n4_pure_s400k.log`); its record is in `results/k4_gap/hard_hunt.json.gz`.
 
 | agent | goods and values | in P |

@@ -95,16 +95,16 @@ valid owner with C = ∅. At the Φ′-maxima:
 | class | Φ′-maxima not pool-optimal | with t > 0 | with a frozen agent threatened by two owners | H7 at the maxima: G / G1 / L / O | H7, all configurations: G / G1 / L / O | exposed (key, agent): 3-good / 4-good / big-top |
 |---|---|---|---|---|---|---|
 | n = 2, every profile | 64 | 0 | 0 | 0 / 1,120 / 0 / 0 | 1,536 / 4,080 / 0 / 0 | 0 / 0 / 2,592 |
-| n = 3, every profile | 4,672 | 0 | 0 | 0 / 163,788 / 3,988,852 / 0 | 11,609,424 / 8,823,696 / 40,521,600 / 13,618,752 | 80,884 / 5,873,760 / 8,302,188 |
-| n = 4, one 4-good agent, every profile | 0 | 0 | 0 | 0 / 0 / 37,642 / 0 | 948 / 1,288 / 628,947 / 118,947 | 93,198 / 17,194 / 12,734 |
-| n = 4, two, 4,000 per core | 0 | 0 | 89 | 36 / 107 / 22,722 / 0 | 22,950 / 8,748 / 561,649 / 141,717 | 38,298 / 19,414 / 17,007 |
-| n = 4, three, 4,000 per core | 27 | 0 | 375 | 52 / 474 / 34,601 / 0 | 153,621 / 65,382 / 1,238,781 / 387,760 | 29,609 / 48,127 / 40,055 |
-| n = 4, pure, 4,000 per core | 64 | 0 | 645 | 19 / 874 / 26,856 / 0 | 421,114 / 151,324 / 1,408,701 / 561,006 | 0 / 49,968 / 42,865 |
-| n = 5, one, 100 per core | 0 | 0 | 1 | 0 / 0 / 468 / 0 | 32 / 0 / 23,670 / 4,068 | 1,649 / 237 / 150 |
-| n = 5, two, 100 per core | 0 | 0 | 24 | 0 / 8 / 4,436 / 0 | 4,722 / 2,218 / 361,139 / 78,074 | 12,792 / 4,874 / 3,236 |
-| n = 5, three, 100 per core | 0 | 0 | 161 | 39 / 59 / 16,098 / 0 | 106,018 / 31,057 / 1,891,640 / 510,133 | 30,268 / 26,595 / 16,998 |
-| n = 5, four, 100 per core | 11 | 0 | 423 | 12 / 180 / 22,683 / 0 | 500,043 / 156,279 / 3,960,586 / 1,278,137 | 21,500 / 51,525 / 33,395 |
-| n = 5, pure, 100 per core | 3 | 0 | 411 | 22 / 207 / 13,981 / 0 | 871,679 / 236,641 / 3,552,596 / 1,471,037 | 0 / 38,266 / 26,332 |
+| n = 3, every profile | 4,672 | 0 | 0 | 0 / 163,788 / 3,988,852 / 0 | 16,852,584 / 8,823,696 / 40,521,600 / 8,375,592 | 80,884 / 5,873,760 / 8,302,188 |
+| n = 4, one 4-good agent, every profile | 0 | 0 | 0 | 0 / 0 / 37,642 / 0 | 46,415 / 1,288 / 628,947 / 73,480 | 93,198 / 17,194 / 12,734 |
+| n = 4, two, 4,000 per core | 0 | 0 | 89 | 36 / 107 / 22,722 / 0 | 89,952 / 8,748 / 559,374 / 76,990 | 38,298 / 19,414 / 17,007 |
+| n = 4, three, 4,000 per core | 27 | 0 | 375 | 52 / 474 / 34,601 / 0 | 372,237 / 65,382 / 1,228,373 / 179,552 | 29,609 / 48,127 / 40,055 |
+| n = 4, pure, 4,000 per core | 64 | 0 | 645 | 19 / 874 / 26,856 / 0 | 798,885 / 151,324 / 1,391,165 / 200,771 | 0 / 49,968 / 42,865 |
+| n = 5, one, 100 per core | 0 | 0 | 1 | 0 / 0 / 468 / 0 | 1,327 / 0 / 23,626 / 2,817 | 1,649 / 237 / 150 |
+| n = 5, two, 100 per core | 0 | 0 | 24 | 0 / 8 / 4,436 / 0 | 41,796 / 2,218 / 359,365 / 42,774 | 12,792 / 4,874 / 3,236 |
+| n = 5, three, 100 per core | 0 | 0 | 161 | 39 / 59 / 16,098 / 0 | 414,909 / 31,057 / 1,872,885 / 219,997 | 30,268 / 26,595 / 16,998 |
+| n = 5, four, 100 per core | 11 | 0 | 423 | 12 / 180 / 22,683 / 0 | 1,376,015 / 156,279 / 3,903,168 / 459,583 | 21,500 / 51,525 / 33,395 |
+| n = 5, pure, 100 per core | 3 | 0 | 411 | 22 / 207 / 13,981 / 0 | 1,990,882 / 236,641 / 3,481,855 / 422,575 | 0 / 38,266 / 26,332 |
 
 What the tables say:
 - **t = 0 at every Φ′-maximum.** Roadmap step (i), second half.
@@ -169,7 +169,11 @@ C = ∅: nothing is withheld and nothing unfrozen.
 The smallest found, by n, then m, then the number of configurations (full lists with every Φ′-maximum re-derived by
 gap_model: `results/k4_gap_hard_base.log` for the catalogs, `results/k4_gap_hard_hunt.log` for the hunt):
 - **X: none anywhere.**
-- **PHI and N: n = 4, m = 8.** This is pure core 104 (`attempts/k4-gap-phi-prime.md`), found by the hunt.
+- **PHI: n = 4, m = 7**, pure core 53 (ω = 1, f = 2): one of its three Φ′-maxima has no valid owner (the other two
+  have one), so the "every maximum" form of Φ′ already fails there (`results/k4_gap_hard_hunt.log`, re-derived in the
+  PR #53 review).
+- **N (no Φ′-maximum has a valid owner): n = 4, m = 8.** This is pure core 104 (`attempts/k4-gap-phi-prime.md`),
+  found by the hunt.
   - The unique Φ′-maximum has two exposed frozen agents, and each owner is blocked by one local threat.
   - Every profile with n ≤ 3, and every profile of n = 4 with one or two 4-good agents, is free of PHI (exhaustive).
 - **W: n = 2, m = 5**, with 720 profiles at n = 2 (#41 found them too). The smallest has sets {0, 2, 3, 4},
@@ -190,12 +194,17 @@ gap_model: `results/k4_gap_hard_base.log` for the catalogs, `results/k4_gap_hard
   agent:
   - #52's pure n = 4, m = 7 profile. It is in the gap with f = 2, and both implementations confirm it
     (`results/k4_gap_bt4.log`).
-  - A second one found here: n = 5, m = 10, sets {0, 2, 4, 8}, {1, 3, 7, 9}, {4, 6, 9}, {5, 6, 7, 9}, {5, 8, 9},
+  - A second instance of the *configuration* form found here: n = 5, m = 10, sets {0, 2, 4, 8}, {1, 3, 7, 9}, {4, 6, 9}, {5, 6, 7, 9}, {5, 8, 9},
     values 2, 4, 5, 8 / 3, 2, 6, 10 / 2, 3, 4 / 8, 6, 4, 3 / 4, 3, 2 (`results/k4_gap_bt5.log`). Its frozen agents
     are the 3-good agent 2 (on 9) and agent 3 (on 5). Two owners are blocked by class-L threats, and the third owner's
-    threat falls on a free agent.
+    threat falls on a free agent. It does **not** refute K4.HALL.BT as stated (a pre-allocation
+    statement): its pre-allocation is removal-only completable (B = {2, 4}, {1, 7}, {9}, {5}, {8}, J = {0, 3, 6}; owner
+    0 withholds 6 into agent 4's free slot, and X₀ = {0, 2, 3, 4} threatens nobody), and no Pareto-maximal P of that
+    profile fails to be removal-only completable (PR #53 review). The bench's BT test (`st_bt`, `k4/gap_bench.py`)
+    skips only completable configurations, where BTCYC's test uses `p_completable`.
 
-  In both, exchange cycles alone never reach a configuration with a valid owner, and a downgrade swap does.
+  For #52's instance, exchange cycles alone never reach a configuration with a valid owner, and a downgrade swap does.
+  (For the n = 5 one, REACH_EACH_CYC holds trivially: its pre-allocation is already completable.)
 - **Configurations that no needed-set-preserving move improves: n = 4, m = 8**, sets {0, 2, 4, 5}, {1, 3, 6, 7},
   {4, 5, 6, 7}, {5, 6, 7}, values 6, 3, 2, 10 / 2, 3, 6, 10 / 4, 6, 3, 8 / 2, 4, 3.
   - The configuration has frozen 0 on 5, frozen 1 on 7, Q₂ = {0, 4}, Q₃ = {1, 6} and L = {2, 3}. It has no valid owner.
@@ -324,8 +333,9 @@ What the table says:
     downgrade swaps reach one with a valid owner or a completable pre-allocation.
   - Every potential-maximum form fails from n = 4 on: Φ′ fails, and Φ already failed.
   - Every local-improvement catalogue fails at n = 4. LOCAL_ALL, the largest (with downgrade swaps), fails exactly
-    where SAME_N fails. So there no move that keeps the needed set can raise Φ′, and the next catalogue needs moves that
-    change the needed set.
+    where SAME_N fails. The 55 hunt failures are the 55 Φ′-maxima without an owner, where no configuration of any
+    needed set has larger Φ′, so they say nothing about moves that change the needed set; only the 7 sampled n = 4
+    cases suggest that the next catalogue needs such moves.
 - **The f = 1 roadmap holds wherever its setting occurs**, but that setting is rare (1 to 156 cases).
   - SIGMA_INJ and (ii), tested in its own setting, hold.
   - (iii) fails at n = 4 (5 cases).
@@ -334,7 +344,8 @@ What the table says:
   fail too.
 - **#46 and #52.**
   - H7's trichotomy holds everywhere.
-  - BT fails at n = 4 (#52's instance, and one hunt profile) and at n = 5 (`results/k4_gap_bt5.log`).
+  - BT fails at n = 4 (#52's instance, and one hunt profile). The n = 5 instance (`results/k4_gap_bt5.log`) refutes
+    only the configuration form: its pre-allocation is removal-only completable (§3).
   - BTCYC fails at n = 4 (`attempts/k4-gap-btcyc.md`).
 
 ## 5. The instance suite (for reuse)
