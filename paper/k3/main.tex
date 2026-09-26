@@ -1,0 +1,423 @@
+\documentclass[runningheads,11pt]{llncs}
+
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb}
+\usepackage{alltt}
+\usepackage{booktabs}
+\usepackage[hidelinks]{hyperref}
+
+\DeclareUrlCommand\lean{\urlstyle{tt}}
+\newcommand{\efxz}{\texorpdfstring{\mbox{EFX$_0$}}{EFX0}}
+\newcommand{\LBp}{\texorpdfstring{\mbox{LB$^{+}$}}{LB+}}
+\newcommand{\NA}{\mathit{NA}}
+\newcommand{\capa}{\mathrm{cap}}
+\newcommand{\base}{\mathrm{base}}
+\newcommand{\none}{\bot}
+\newcommand{\st}{\mathrel{:}}
+
+\begin{document}
+
+\title{\efxz{} Allocations with at Most Three Relevant Goods: Existence and a Verified Polynomial-Time Algorithm}
+\titlerunning{\efxz{} with at Most Three Relevant Goods}
+
+\author{Evan Lin}
+\authorrunning{E. Lin}
+\institute{University of Illinois Urbana-Champaign}
+
+\maketitle
+
+\begin{abstract}
+An allocation of indivisible goods is \efxz{} if no agent envies another agent's bundle after the removal of any single good from it, even a good that the envious agent values at zero. We prove that every instance with nonnegative additive valuations in which each agent positively values at most three goods has a complete \efxz{} allocation, for any number of agents. The proof is an algorithm, K3ALG, that runs in polynomial time and returns such an allocation; its correctness and a bound of $400(n+m+1)^4$ counted operations are machine-checked in Lean~4 on the program itself, for natural-number values (rational values reduce to these by scaling). K3ALG removes agents that value at most two remaining goods or have a dominant good, runs a serial dictatorship on the rest, places the unpicked goods into free slots and one large bundle, and, when the natural owner of that bundle fails, rotates picks once along a chain of agents. The correctness proof also shows that when every agent values exactly three goods and none of them more than the other two together, some \efxz{} allocation has at most one bundle of more than two goods. Both existence results are machine-checked as well, in core Lean with the standard axioms only, for values in any linearly ordered cancellative commutative monoid, a class that contains the nonnegative reals. Bundles of at most two goods do not always suffice, even with fewer than $2n$ goods.
+\keywords{Fair division \and Indivisible goods \and EFX \and Serial dictatorship \and Formal verification \and Lean}
+\end{abstract}
+
+\section{Introduction}
+
+Envy-freeness up to any good is a central relaxation of envy-freeness for indivisible goods~\cite{AmanatidisBFV22}. Let agents $N=[n]$ share goods $M=[m]$, with additive valuations $v_i(S)=\sum_{g\in S}v_i(g)$, $v_i(g)\ge0$. An allocation $X=(X_1,\dots,X_n)$, a partition of $M$, is \emph{\efxz{}} if
+\[
+  v_i(X_i)\ \ge\ v_i(X_j\setminus\{h\})\qquad\text{for all } i\ne j \text{ and all } h\in X_j,
+\]
+and \emph{EFX} if this is required only for goods $h$ with $v_i(h)>0$; the stronger notion is usually called \efxz{}~\cite{AmanatidisBFV22}. The difference matters when agents value few goods: if $X_j$ contains a good worthless to $i$, then \efxz{} requires $v_i(X_i)\ge v_i(X_j)$, so goods that nobody values cannot be handed to an arbitrary agent.
+
+Complete EFX allocations are known to exist for additive valuations only in special cases, among them three agents~\cite{ChaudhuryGM20}, $m\le n+3$~\cite{Mahara21}, four agents with at most nine goods~\cite{AlkassarFM26}, when every good is valued by at most two agents~\cite{AfshinmehrAMMS26} (special cases earlier~\cite{ChristodoulouFKS23,SgouritsaS25,KavianiSS24}), and on hypergraphs of girth at least four~\cite{LianeasSS26}; these are \efxz{} results. For monotone valuations EFX can fail~\cite{AkramiMMSW26,MackenzieS26}. Call an instance \emph{$k$-relevant} if every agent positively values at most $k$ goods. For $k\le2$, serial dictatorship gives an \efxz{} allocation~\cite{MrdEfx}. For $k\le4$, Viswanathan and Mehta~\cite{ViswanathanM24} announce ordinary EFX, with a proof sketch; their algorithm gives the goods nobody values to an arbitrary agent, which can break \efxz{}. We ask whether every $3$-relevant instance has a complete \efxz{} allocation. A counterexample would refute the additive EFX conjecture, since perturbing all values by a small $\varepsilon>0$ (compare~\cite[Lemma~1]{ChaudhuryGM20}) turns it into a positive instance without EFX allocations; but the perturbation destroys the relevance structure, and we know of no result that implies a positive answer (see the literature search in~\cite{Repo}).
+
+\begin{theorem}[existence]\label{thm:target}
+Every instance with $n\ge1$ agents and nonnegative real additive valuations in which every agent positively values at most three goods has a complete \efxz{} allocation.
+\end{theorem}
+
+\noindent Call an agent \emph{balanced} if it values exactly three goods and none of them more than the other two together.
+
+\begin{theorem}[one large bundle]\label{thm:D}
+In every instance with $n\ge1$ agents and nonnegative real additive valuations in which every agent is balanced, some \efxz{} allocation has at most one bundle with more than two goods.
+\end{theorem}
+
+\begin{theorem}[algorithm]\label{thm:algo}
+On every instance with $n\ge1$ agents and natural-number values in which every agent positively values at most three goods, algorithm K3ALG (Section~\ref{sec:algo}) returns an \efxz{} allocation. On every instance with $n\ge1$ agents it performs at most $400(n+m+1)^4$ counted operations.
+\end{theorem}
+
+\noindent Scaling each agent's values preserves \efxz{}, so Theorem~\ref{thm:algo} covers rational values (not formalized).
+
+\paragraph{Contributions.} (i)~Existence over the reals (Theorem~\ref{thm:target}), with the structure of Theorem~\ref{thm:D}. (ii)~A polynomial-time algorithm, K3ALG, with correctness and operation bound machine-checked on the program itself (Theorem~\ref{thm:algo}); its correctness proof (Section~\ref{sec:correct}) also gives (i). (iii)~A formalization in core Lean~4 with the standard axioms only (Section~\ref{sec:lean}). (iv)~Limits: even in cores, bundles of at most two goods do not always suffice (smallest: three agents, five goods), nor does one bundle of three goods (Proposition~\ref{prop:neg}).
+
+\paragraph{Status of the claims.} The work was done in a public repository~\cite{Repo} whose ledger gives every claim a status: PROVED (complete written proof), CERTIFIED (exhaustive computation over a provably complete set, with independently checked certificates), EVIDENCE, CONJECTURE or REFUTED. Every theorem, lemma and proposition below is PROVED; results marked \emph{written} are not ledger claims, and Section~\ref{sec:cert} labels CERTIFIED and EVIDENCE results. Two independent reviews of the proof of Theorems~\ref{thm:target} and~\ref{thm:D} found no error.
+
+\section{Preliminaries}\label{sec:prelim}
+
+Let $R_i=\{g\st v_i(g)>0\}$. Since $\max_{h\in X_j}v_i(X_j\setminus\{h\})=v_i(X_j)-\min_{h\in X_j}v_i(h)$, a bundle of one good is never strongly envied, and $i$ must not envy at all a bundle that contains a good outside $R_i$. If $|R_i|=3$ we write $R_i=\{a_i,b_i,c_i\}$ with $v_i(a_i)\ge v_i(b_i)\ge v_i(c_i)>0$, fix this order (ties broken by index) as $a_i\succ_i b_i\succ_i c_i$, and call $i$ \emph{balanced} if $v_i(a_i)\le v_i(b_i)+v_i(c_i)$, and \emph{strictly balanced} if the inequality is strict.
+
+\begin{lemma}[peeling]\label{lem:peel}
+Let $i\in N$ and $P\subseteq M$ satisfy (i)~$v_i(P)\ge v_i(M\setminus P)$ and (ii)~$|P|\le1$ or $P$ is worthless to every other agent. If the instance without $i$ and $P$ has an \efxz{} allocation $Y$, then $Y$ together with $X_i=P$ is \efxz{}.
+\end{lemma}
+
+\noindent \emph{Rule R1} applies Lemma~\ref{lem:peel} with $P=\{p\}$ for a favourite remaining good $p$ of $i$ when $v_i(p)\ge v_i(M\setminus\{p\})$, and with $P=\emptyset$ when $v_i(p)=0$. If R1 fails for every agent, then $2v_i(g)\le2v_i(p)<v_i(M)$ for all $g$, so in a $3$-relevant instance every agent values exactly three goods and is strictly balanced. 
+
+\begin{lemma}[real values reduce to naturals]\label{lem:L12}
+If $v$ is nonnegative real additive with $|R_i|\le3$ for all $i$, there are natural-number additive valuations $w$ with the same relevant goods such that $v_i(S)\le v_i(T)\iff w_i(S)\le w_i(T)$ for every agent $i$ and all $S,T\subseteq M$.
+\end{lemma}
+
+\noindent Such comparisons depend only on the ties among $a_i,b_i,c_i$ and the sign of $v_i(a_i)-v_i(b_i)-v_i(c_i)$ (Appendix~\ref{app:prelim}).
+
+\section{Algorithm K3ALG}\label{sec:algo}
+
+K3ALG has two stages: \emph{Stage R} peels agents by rule R1, and \emph{Stage L} runs construction \LBp{} on the remaining agents $A$ and goods $M$; each of these agents values exactly three goods and is strictly balanced. Stage L first runs a serial dictatorship with \emph{R1 priority}: the next agent has at most two of its goods left if such an agent exists (an \emph{R1 step}), and otherwise it finds all three available and takes its top (an \emph{insertion step}). Let $G$ be the set of goods not yet picked (initially $M$). Each agent $i$ takes its $\succ_i$-favourite remaining good as its \emph{pick} $Y_i$, or no pick ($Y_i=\none$). A \emph{block} is an insertion step with the R1 steps that follow it, and its inserted agent is its \emph{leader}. The upgrades then give some agents $u$ with $Y_u=b_u$ also $c_u$; these agents form $U$. The \emph{junk} $J$ is the set of goods that are neither picks nor such goods $c_u$. For $i\notin U$ the \emph{needs} are $N_i=\{g\in R_i\st g\succ_i Y_i\}$ ($N_i=R_i$ if $Y_i=\none$), and $\NA=\bigcup_{i\notin U}N_i$ is the set of goods \emph{needed alone}. An agent $i\notin U$ is \emph{frozen} if $Y_i\in\NA$, and a \emph{terminal} otherwise. The \emph{slots} are $\capa(i)=0$ for upgraded and frozen agents, and $1$ or $2$ for a terminal with or without a pick; $S=\sum_i\capa(i)$. The \emph{base} of $i$ is $\{Y_i\}$ (or $\emptyset$) for $i\notin U$ and $\{b_i,c_i\}$ for $i\in U$. A \emph{completion} with \emph{owner} $o$ (a terminal or upgraded agent) gives every agent its base, at most $\capa(i)$ junk goods to every terminal $i\ne o$, and the rest of the junk to $o$; it satisfies the \emph{owner constraint} (OC) if no agent $x\notin U$, $x\ne o$, with $Y_x=a_x$ has $\{b_x,c_x\}\subseteq X_o$. The agents \emph{exposed} for $o$ are $E_o=\{x\notin U,\ x\ne o\st Y_x=a_x,\ \{b_x,c_x\}\subseteq J\cup\base(o)\}$, and $\pi_x=\{b_x,c_x\}\cap J$. A \emph{need chain} from a frozen agent $x$ is a sequence $x=x_0,\dots,x_t$ of distinct agents in which each $x_{s+1}\notin U$ needs $Y_{x_s}$, $x_0,\dots,x_{t-1}$ are frozen, and $x_t$ is a terminal.
+
+\medskip
+\noindent\rule{\textwidth}{0.5pt}\par
+\noindent\textbf{Algorithm K3ALG} (as formalized in \lean{EFX.K3.algoC}). Input: $n\ge1$ agents, $m$ goods, values $v_i(g)\in\mathbb{N}$; $A$ and $M$ start as all agents and all goods. Lists are in index order, and ``first'' means smallest index.
+\begin{enumerate}
+\item[P1.] If $|A|\le1$, give $M$ to the agent of $A$ and stop. If $M=\emptyset$, stop.
+\item[P2.] Find the first $i\in A$ such that, for the first good $p\in M$ of largest $v_i(p)$, $v_i(p)=0$ or $v_i(M\setminus\{p\})\le v_i(p)$; if none, go to L1.
+\item[P3.] Remove $i$ from $A$; if $v_i(p)>0$, let $X_i=\{p\}$, $M\leftarrow M\setminus\{p\}$. Go to P1.
+\item[L1.] For $i\in A$, sort $i$'s relevant goods in $M$ as $a_i,b_i,c_i$ (ties by index).
+\item[L2.] \emph{Phase 1.} Repeatedly, the first unprocessed agent with at most two of its goods unpicked (else the first unprocessed agent) picks the first of $a_i,b_i,c_i$ still unpicked, if any.
+\item[L3.] \emph{Upgrades.} $U\leftarrow\emptyset$. While some $k\notin U$ has $Y_k=b_k$, $c_k\in J$ and $b_k\notin\NA$, add the first such $k$ to $U$.
+\item[L4.] If $|J|\le S$, return $\textsc{Complete}(\text{no owner},\emptyset)$.
+\item[L5.] Let $r$ be the last-processed agent not in $U$, and $H=\textsc{HitSet}(E_r)$. If $|H|\le S-\capa(r)$, return $\textsc{Complete}(r,H)$.
+\item[L6.] \emph{Rotation.} Let $k$ be the first agent of $E_r$ in $r$'s block. Scanning the agents processed after $k$ in order, append $j$ to the chain $k,\dots$ if the chain's last agent is frozen, $j\notin U$, and $j$ needs the pick of the chain's last agent. Each chain agent takes its predecessor's pick; $k$ takes $b_k,c_k$ and joins $U$.
+\item[L7.] Recompute $J$, $\capa$ and $S$. If $|J|\le S$, return $\textsc{Complete}(\text{no owner},\emptyset)$; otherwise return $\textsc{Complete}(k,\textsc{HitSet}(E_k))$.
+\end{enumerate}
+$\textsc{HitSet}(E)$: if two agents $x\ne y$ of $E$ share a good of $\pi_x\cap\pi_y$ (the first such $x$, then the first such $y$, then the first such good among $b_x,c_x$), return that good followed by, for each other $z\in E$ in order, $b_z$ if $b_z\in J$ and $c_z$ otherwise; otherwise return that list for all $z\in E$.
+$\textsc{Complete}(o,H)$: picks go to their pickers, $c_u$ to each $u\in U$; the junk, $H$ first and then the rest of $J$, fills the slots of the agents other than $o$ in index order; $o$ gets the remaining junk.\par
+\noindent\rule{\textwidth}{0.5pt}\par
+
+\section{Correctness}\label{sec:correct}
+
+Stage R is correct by Lemma~\ref{lem:peel}. For Stage L we prove more, for every Phase~1 order with R1 priority, upgrade order and need chain (construction \LBp{}). Phase~1 has four immediate invariants (Appendix~\ref{app:proofs}): (I1)~if $g\in R_i$ and $g\succ_i Y_i$ (or $Y_i=\none$), then $g$ was picked before $i$'s turn, and (B)~by an agent of $i$'s block; (I2)~if $g\in R_i$ is never picked, then $Y_i\succ_i g$; (I3)~an agent that finds all its goods available is a leader. A pair $(Y,U)$ as above is \emph{valid} if (V1)~$J\cap\NA=\emptyset$ and (V2)~$b_u,c_u\notin\NA$ for $u\in U$. After L3 it is valid, by (I2) and because $\NA$ only shrinks (Lemma~\ref{lem:upgrades}).
+
+\begin{theorem}[soundness]\label{thm:sound}
+Let $(Y,U)$ be valid. Every completion that satisfies (OC) is \efxz{} for every balanced additive valuation consistent with the rankings, and only the owner's bundle can have more than two goods.
+\end{theorem}
+
+\begin{proof}[idea]
+A bundle of two or more goods contains no good needed alone, by (V1) and (V2), so it can threaten agent $i$ only through $b_i$ and $c_i$ together, while $i$ holds only $a_i$; with two goods that is harmless, and with more it is the owner's bundle, which (OC) excludes (Appendix~\ref{app:proofs}).\qed
+\end{proof}
+
+\begin{lemma}[owner criterion]\label{lem:owner}
+Let $(Y,U)$ be valid with $|J|>S$. If no $x\in E_o$ has $\{b_x,c_x\}\subseteq\base(o)$, and some $H\subseteq J$ with $|H|\le S-\capa(o)$ meets $\{b_x,c_x\}$ for every $x\in E_o$, then a completion with owner $o$ satisfies (OC).
+\end{lemma}
+
+\noindent (Fill the other slots with $H$ first.) Then $o$ is a \emph{valid owner}. If $|J|\le S$, the completion without owner has all bundles of at most two goods.
+
+\begin{theorem}[the owner $r$]\label{thm:A}
+Let $|J|>S$ after Phase 1 and the upgrades. Then $r$ is a valid owner unless the \emph{bad case} holds: an agent $k^*$ of $r$'s block is exposed for $r$ and frozen, every need chain from $k^*$ ends at $r$, and the sets $\pi_x$ ($x\in E_r$) are pairwise disjoint.
+\end{theorem}
+
+\begin{proof}[idea]
+An exposed agent found all its goods available, so it leads its block (I3). For each exposed $x$ outside $r$'s block, $x$ or the end of a need chain from $x$ is a terminal in $x$'s block (B); these terminals are distinct and differ from $r$, so $S-\capa(r)\ge|E_r|-1$, or $\ge|E_r|$ without $k^*$. One junk good per $\pi_x$, with a shared good where two meet, then fits unless the bad case holds (Appendix~\ref{app:proofs}).\qed
+\end{proof}
+
+\begin{theorem}[rotation]\label{thm:B}
+In the bad case, rotate along any need chain $k^*=x_0,\dots,x_t=r$: each $x_s$ ($s\ge1$) takes $Y_{x_{s-1}}$, and $k^*$ takes $b_{k^*},c_{k^*}$ and joins $U$. The result is valid, and if its junk exceeds its slots, then $k^*$ is a valid owner.
+\end{theorem}
+
+\begin{proof}[idea]
+Chain agents get goods they needed, so $\NA$ shrinks, and $b_{k^*},c_{k^*}\in J\cup\{Y_r\}$ are free. Agents exposed for $k^*$ afterwards were exposed for $r$, disjointness keeps their pairs out of $\{b_{k^*},c_{k^*}\}$, and the terminals found for them lie outside $r$'s block and keep their slots (Appendix~\ref{app:proofs}, with Example~\ref{ex:rot}).\qed
+\end{proof}
+
+\noindent \LBp{} is Stage L with any Phase~1 order with R1 priority and upgrade order, owner $r$ if valid, and otherwise a rotation along any need chain from $k^*$ to $r$ and owner $k^*$.
+
+\begin{theorem}[\LBp{} never fails]\label{thm:C}
+If every agent values exactly three goods and is balanced, then for all these choices \LBp{} returns an allocation that is \efxz{} for every balanced additive valuation consistent with the rankings, with at most one bundle of more than two goods.
+\end{theorem}
+
+\begin{proof}
+The pair $(Y,U)$ is valid, and the completion satisfies (OC), by Lemma~\ref{lem:owner} and Theorems~\ref{thm:A} and~\ref{thm:B}. Apply Theorem~\ref{thm:sound}.\qed
+\end{proof}
+
+\begin{proof}[of Theorems~\ref{thm:target}--\ref{thm:algo} (correctness)]
+L2 has R1 priority, L5 tests $r$ exactly (Proposition~\ref{prop:O}), and L6 builds a need chain from $k^*$ to $r$ in the bad case, so Stage L is a run of \LBp{} (Theorem~\ref{thm:C}, hence Theorem~\ref{thm:D}). With Lemma~\ref{lem:peel} and induction on $n$, K3ALG is correct (Theorem~\ref{thm:algo}); Lemma~\ref{lem:L12} gives Theorem~\ref{thm:target}.\qed
+\end{proof}
+
+\section{Running Time}\label{sec:time}
+
+A minimum set of junk goods meeting all sets $\pi_x$ (of at most two goods each) is a minimum vertex-cover problem in general, but the owner test for $r$ needs none.
+
+\begin{proposition}[the owner test]\label{prop:O}
+With $|J|>S$ after Phase~1 and the upgrades, $r$ is a valid owner if and only if $|E_r|\le S-\capa(r)$ or two of the sets $\pi_x$ ($x\in E_r$) meet; $\textup{\textsc{HitSet}}(E_r)$ is then a witness.
+\end{proposition}
+
+\begin{proof}
+The proof of Theorem~\ref{thm:A} gives $S-\capa(r)\ge|E_r|-1$, and nonempty sets $\pi_x$ have a hitting set of fewer than $|E_r|$ goods if and only if two of them meet.\qed
+\end{proof}
+
+\noindent In Lean, K3ALG is a program \lean{EFX.K3.algoC} in a \emph{cost monad} (a value paired with an operation count), and \lean{EFX.K3.algo} is defined as its value, so the bound of Theorem~\ref{thm:algo} is about the program that computes the allocation. One unit is a list step, a comparison of agents or goods, a read of an input value or of a table, or a comparison or addition of natural numbers of any size (Appendix~\ref{app:algo}). The dominant term is the upgrade loop L3. The finer bound $O(n^4+n^2m)$ is written but not formalized, as is $O((n+m)\log n)$ after reading the input for a Python implementation, which agrees with the Lean program on all instances tested and takes about 1.6\,s with $10^5$ agents (evidence); neither is a ledger claim. K3ALG compares only subset sums of one agent's values, so by Lemma~\ref{lem:L12} it runs verbatim on real values (a written remark; the ledger does not claim it).
+
+\section{The Lean Verification}\label{sec:lean}
+
+The formalization uses core Lean~4 (v4.34.0) and no packages; no file contains \texttt{sorry}, every declaration uses only the three standard axioms (checked by a script), and Lean's replay checker re-checks the library. The trusted base is six short definitions copied from~\cite{MrdEfx} (Appendix~\ref{app:lean}): values $v\colon\mathrm{Fin}\,n\to\mathrm{Fin}\,m\to\mathbb{N}$, an allocation as a map from goods to agents, and \efxz{} with the removed good ranging over \emph{every} good of the other bundle. Theorem~\ref{thm:algo} is (in namespace \lean{EFX.K3}):
+\begin{alltt}
+def algo (I : Inst) (hn : 0 < I.n) : I.Alloc :=
+  (algoC I hn).val
+theorem algo_efx0 (I : Inst) (hn : 0 < I.n)
+    (h : \(\forall\) i, numRelevant I i \(\le\) 3) : I.EFX0 (algo I hn)
+theorem algoC_cost (I : Inst) (hn : 0 < I.n) :
+    (algoC I hn).cost \(\le\) 400 * (I.n + I.m + 1) ^ 4
+\end{alltt}
+\lean{EFX.K3.algo_eq_spec} proves that the counted program computes exactly the specification \lean{EFX.K3.algoSpec}, the composition of the peeling loop, the processing order and \LBp{}. So the program whose cost is bounded is the one proved correct. Theorems~\ref{thm:target} and~\ref{thm:D} are \lean{EFX.target} and \lean{EFX.LB.corollaryD} over $\mathbb{N}$, and \lean{EFX.target_ordered} and \lean{EFX.corollaryD_ordered} over any linearly ordered cancellative commutative monoid via Lemma~\ref{lem:L12} (\lean{EFX.l12}); that $\mathbb{R}_{\ge0}$ is one is the textbook fact, as core Lean has no reals. Every result of Section~\ref{sec:correct} is formalized (Appendix~\ref{app:lean}). An independent restatement of Theorems~\ref{thm:target} and~\ref{thm:D} follows from them, and a second kernel re-checked their natural-number development. Not formalized: the size of the large bundle, the finer running-time bounds, the real-value remark, Lemma~\ref{lem:L5} and Proposition~\ref{prop:neg}.
+
+\section{Certification and Evidence}\label{sec:cert}
+
+Independently of the proof, a SAT-free checker verified from the raw \efxz{} definition that stored allocations cover all $6^n$ ranking profiles (Lemma~\ref{lem:L5}) of every connected core (Appendix~\ref{app:prelim}), as enumerated by nauty's \texttt{genbg} and cross-checked (Appendix~\ref{app:cert}). This certifies \efxz{} for all $3$-relevant instances with $n\le7$, and Theorem~\ref{thm:D} for all cores with $n\le6$ and all connected cores with $n=7$, or $n=8$ and $m\ge13$. As evidence, K3ALG returned an \efxz{} allocation on all $152{,}071{,}632$ ranking profiles of all cores with $n\le6$.
+
+\section{Conclusion and Open Problems}\label{sec:concl}
+
+Every $3$-relevant instance has a complete \efxz{} allocation, and a verified polynomial-time algorithm finds one. Four relevant goods per agent is open, as are the minimum size of the large bundle and the complexity of the owner test for arbitrary owners.
+
+\paragraph{Acknowledgments.} The proofs, code and Lean formalization were developed with the assistance of AI coding agents (Claude Code).
+
+\bibliographystyle{splncs04}
+\bibliography{refs}
+
+\clearpage
+\appendix
+
+\section{Proofs for Section~\ref{sec:prelim}}\label{app:prelim}
+
+Full proofs of all reduction lemmas are in \texttt{proofs/lemmas.md} of~\cite{Repo}; we reproduce those used here.
+
+\begin{proof}[of Lemma~\ref{lem:peel}]
+Every other bundle lies in $M\setminus P$, so $i$ values it at most $v_i(M\setminus P)\le v_i(P)=v_i(X_i)$. Towards $P$, every other agent sees a single good or a bundle worthless to it. The remaining constraints are those of $Y$.\qed
+\end{proof}
+
+\begin{lemma}[junk]\label{lem:junk}
+Let $J\ne\emptyset$ be the goods valued by no agent. If the instance without $J$ has an \efxz{} allocation, so does the instance.
+\end{lemma}
+
+\begin{proof}
+Let $Y$ be \efxz{} for $M\setminus J$. While the envy graph ($i\to j$ iff $v_i(Y_j)>v_i(Y_i)$) has a cycle, give each agent on it the bundle of its successor. The bundles are the same and no agent loses value; an agent that now sees its old bundle satisfies $v_i(Y_i\setminus\{h\})\le v_i(Y_i)$, so \efxz{} is preserved. The sum of values strictly increases, so this stops, with an acyclic envy graph. Let $s$ be a source: $v_i(Y_s)\le v_i(Y_i)$ for all $i$. Put $X_s=Y_s\cup J$. For $i\ne s$, $v_i(X_s\setminus\{h\})\le v_i(X_s)=v_i(Y_s)\le v_i(Y_i)$; all other constraints are unchanged.\qed
+\end{proof}
+
+\paragraph{Cores.} Agent $i$ is \emph{top-heavy} if $v_i(a_i)\ge v_i(b_i)+v_i(c_i)$. \emph{Rule R2} gives $i$ the set $P$ of its relevant goods that no other agent values, if $|P|\ge2$ and (i) of Lemma~\ref{lem:peel} holds. A \emph{core} is an instance with at least two agents, each valuing exactly three goods and strictly balanced, each with at most one \emph{private} good (one no other agent values), and no good valued by nobody.
+
+\begin{proposition}[core reduction]\label{prop:core}
+If every core with at most $N_0$ agents has an \efxz{} allocation, so does every $3$-relevant instance with between $1$ and $N_0$ agents.
+\end{proposition}
+
+\begin{proof}[of Proposition~\ref{prop:core}]
+Induction on $n+m$ over $3$-relevant instances with $1\le n\le N_0$. One agent takes everything. Otherwise: (1)~if some good is valued by nobody, use Lemma~\ref{lem:junk}; (2)~else if some agent has at most two relevant goods or is top-heavy, use rule R1 and Lemma~\ref{lem:peel}; (3)~else if some agent $i$ has at least two private goods, let $P$ be all of them: if $|P|=3$, (i) is trivial, and if $P=\{x,y\}$ and $R_i\setminus P=\{z\}$, then $v_i(x)+v_i(y)\ge v_i(b_i)+v_i(c_i)>v_i(a_i)\ge v_i(z)$, so Lemma~\ref{lem:peel} applies (rule R2); (4)~else the instance is a core, covered by hypothesis. Each case passes to a smaller $3$-relevant instance.\qed
+\end{proof}
+
+\noindent In Lean this is \lean{EFX.core_reduction} (with \lean{EFX.peel}, \lean{EFX.peelEmpty}, \lean{EFX.peelR2} and \lean{EFX.Inst.exists_efx0_of_junk}).
+
+\begin{proof}[of Lemma~\ref{lem:L12}]
+Fix $i$; $w_i$ is built from $v_i$ alone. Goods outside $R_i$ contribute $0$ to both sides under both valuations, and removing goods common to $S$ and $T$ changes neither comparison, so it suffices that $w_i$ preserves $v_i(X)\le v_i(Y)$ for disjoint $X,Y\subseteq R_i$. Name the relevant goods with values $a\ge b\ge c>0$. Comparisons with an empty side are decided by positivity; two single goods by the ties among $a,b,c$; a single good against the other two by the sign of $a-(b+c)$, because $b<a+c$ and $c<a+b$ always hold. Two disjoint pairs do not fit in three goods. Choose $w_i$ on $R_i$ (in the same order) by the pattern: $(4,3,2)$ if $a>b>c$ and $a<b+c$; $(3,2,1)$ if $a>b>c$ and $a=b+c$; $(5,2,1)$ if $a>b>c$ and $a>b+c$; $(2,2,1)$ if $a=b>c$; $(3,2,2)$, $(2,1,1)$, $(3,1,1)$ if $a>b=c$ and $a<2b$, $a=2b$, $a>2b$; $(1,1,1)$ if $a=b=c$; $(2,1)$ or $(1,1)$ for two relevant goods; $(1)$ for one; and $w_i(g)=0$ for $g\notin R_i$. Each triple has the same ties and the same sign of $a-(b+c)$ as its pattern.\qed
+\end{proof}
+
+\noindent Lean: \lean{EFX.l12}, which uses all 31 permutations of these representatives (checked by \texttt{decide}) instead of sorting, and \lean{EFX.efx0_iff_of_agree} for the transfer of \efxz{}.
+
+\section{Proofs for Section~\ref{sec:correct}}\label{app:proofs}
+
+These are the proofs of \texttt{proofs/lb\_last\_step.md} of~\cite{Repo}, Sections 1--6. A pair $P=(Y,U)$ as in Section~\ref{sec:algo} is a \emph{pre-allocation}; $F$ and $T$ denote its frozen agents and its terminals, and $\omega=|J|-S$. After the rotation, primes denote the new state: $P'=(Y',U')$, $J'$, $\NA'$, $\capa'$, $S'$, $\omega'$, $E'_{k}$.
+
+\paragraph{Phase 1.} (I1): $i$ took its favourite remaining good, and goods leave $G$ only by being picked. (I2): $g$ was still in $G$ at $i$'s turn. (I3): R1 steps process only agents with at most two goods left. (B): each block starts with an insertion step, when every unprocessed agent $i$ has $R_i\subseteq G$; by (I1) $g$ was picked before $j$'s turn, and not in an earlier block, since $j$ was unprocessed when its own block started.
+
+\begin{proof}[of Theorem~\ref{thm:sound}]
+Only $X_o$ can exceed two goods. Fix $i$ and $j\ne i$ with $|X_j|\ge2$. Then $j$ is not frozen, so $X_j\cap\NA=\emptyset$ by (V1) and (V2). If $i\in U$, then $X_j$ meets $R_i$ in at most $a_i$, and $v_i(X_j\setminus\{h\})\le v_i(a_i)\le v_i(b_i)+v_i(c_i)\le v_i(X_i)$. If $Y_i=\none$, then $R_i=N_i\subseteq\NA$ and $X_j$ is worthless to $i$. Otherwise every good of $R_i\cap X_j$ is outside $N_i\cup\{Y_i\}$, hence below $Y_i$. If there is at most one, $v_i(X_j\setminus\{h\})\le v_i(Y_i)\le v_i(X_i)$. If there are two, then $Y_i=a_i$ and $R_i\cap X_j=\{b_i,c_i\}$; for $|X_j|=2$ removing one leaves a good worth at most $v_i(a_i)$, and $|X_j|\ge3$ means $j=o$, excluded by (OC).\qed
+\end{proof}
+
+\begin{proof}[of Lemma~\ref{lem:owner}]
+Since $|J|=S+\omega>S-\capa(o)$, $H$ extends to $C\subseteq J$ with $|C|=S-\capa(o)$, which exactly fills the slots of the terminals other than $o$; let $X_o=\base(o)\cup(J\setminus C)$. If $x\notin U$, $x\ne o$, $Y_x=a_x$ had $\{b_x,c_x\}\subseteq X_o$, then $\{b_x,c_x\}\subseteq J\cup\base(o)$, so $x\in E_o$, and $H\subseteq C$ meets $\{b_x,c_x\}$ outside $X_o$, a contradiction.\qed
+\end{proof}
+
+\begin{lemma}[upgrades]\label{lem:upgrades}
+When the upgrade loop stops, $(Y,U)$ is a valid pre-allocation, and (UT) no $k\notin U$ has $Y_k=b_k$, $c_k\in J$ and $b_k\notin\NA$.
+\end{lemma}
+
+\begin{proof}
+(UT) is the stopping condition. (V1): by (I2) a junk good lies below the pick of every agent that values it, so it is in no $N_i$. (V2): $c_u$ was junk; $b_u\notin\NA$ held when $u$ was upgraded, and $\NA$ only shrinks as $U$ grows.\qed
+\end{proof}
+
+\begin{proof}[of Theorem~\ref{thm:A}]
+$r$ exists: the first processed agent is inserted and holds its top, so it is not upgraded.
+(A1)~$r\in T$: if $Y_r=\none$, $r$ is not frozen by definition; if $Y_r\in N_j$ for some $j\notin U$, then by (I1) $j$ was processed after $r$, contradicting the choice of $r$.
+(A2)~Every agent processed after $r$ is in $U$.
+(A3)~Let $x\in E_r$. Then $x$ was processed before $r$ (A2). At $x$'s turn, $a_x=Y_x$, every junk good, and $Y_r$ were available, and $\{b_x,c_x\}\subseteq J\cup\{Y_r\}$, so $R_x\subseteq G$ and $x$ is a leader by (I3). Hence each block contains at most one exposed agent; let $B^*$ be $r$'s block and $k^*$ its exposed agent, if any.
+(A4)~For a frozen $x$, some $j\notin U$ has $Y_x\in N_j$, and by (B) $j$ is processed after $x$ in $x$'s block. Iterating while the current agent is frozen gives a need chain of distinct agents of $x$'s block ending at a terminal. Let $\tau(x)=x$ if $x\in T$, and otherwise the end of some need chain from $x$; it has $\capa\ge1$.
+For $x\in E_r$, $\pi_x=\{b_x,c_x\}\cap J\ne\emptyset$, since at most one of $b_x,c_x$ is $Y_r$; for the same reason no exposed pair lies in $\base(r)$, the first condition of Lemma~\ref{lem:owner}.
+
+The agents $\tau(x)$, $x\in E_r\setminus B^*$, lie in distinct blocks other than $B^*$, so they are distinct terminals other than $r$, and $S-\capa(r)\ge|E_r\setminus B^*|$. Let $H$ contain one good of each $\pi_x$, a common one when two meet. If $E_r\cap B^*=\emptyset$, then $|H|\le|E_r|\le S-\capa(r)$. Otherwise $E_r\cap B^*=\{k^*\}$, $k^*\ne r$ and $|E_r\setminus B^*|=|E_r|-1$. If $k^*\in T$, or some need chain from $k^*$ ends at a terminal other than $r$, then $\tau(k^*)$ can be chosen in $B^*\setminus\{r\}$, one more terminal, so $S-\capa(r)\ge|E_r|\ge|H|$. If two sets $\pi_x$ meet, then $|H|\le|E_r|-1\le S-\capa(r)$. If none of these holds, the bad case holds.\qed
+\end{proof}
+
+\begin{proof}[of Theorem~\ref{thm:B}]
+Let $k=k^*$, $W=J\cup\{Y_r\}$; the new junk is $J'=W\setminus\{b_k,c_k\}$, and every pick other than $Y_r$ is still a pick in $P'$.
+(a)~$P'$ is a pre-allocation: $Y'_{x_s}\in R_{x_s}$ since $x_s$ needed it, and $b_k,c_k\in W$ are neither picks of $P'$ nor goods $c_u$.
+(b)~$\NA'\subseteq\NA$: $Y'_{x_s}\succ Y_{x_s}$ (or $Y_{x_s}=\none$), so $N'_{x_s}\subseteq N_{x_s}$; $k$ had $N_k=\emptyset$ and is now in $U'$.
+(c)~Validity: $J'\subseteq W$, $J\cap\NA=\emptyset$ and $Y_r\notin\NA$ (A1), so $J'\cap\NA'=\emptyset$; for $u\in U$, $b_u,c_u\notin\NA\supseteq\NA'$; $b_k,c_k\in W$ are not in $\NA$.
+(d)~A terminal $x\notin B^*$ keeps its pick and is a terminal of $P'$ with the same slots.
+(e)~$E'_k\subseteq E_r\setminus\{k\}$, where $E'_k$ is taken in $P'$, with $J'\cup\{b_k,c_k\}\subseteq W$. An agent off the chain in $E'_k$ is in $E_r$. An interior chain agent $x_s$ ($1\le s<t$) is not: $a_{x_s}=Y'_{x_s}\succ Y_{x_s}$, so $Y_{x_s}\in\{b_{x_s},c_{x_s}\}$, and $Y_{x_s}\notin W$. Nor is $r$: $Y_r\ne a_r$, since $r$ needs $Y_{x_{t-1}}$. If $Y_r=\none$ or $Y_r=c_r$, then $b_r$ was picked by another agent (I1), so $b_r\notin W$. If $Y_r=b_r$, then (UT) applies to $r$ ($b_r\notin\NA$ by (A1)), so $c_r\notin J$, and $c_r\ne Y_r$, so $c_r\notin W$.
+(f)~If some $x\in E'_k$ had $\{b_x,c_x\}=\{b_k,c_k\}$, then $x\in E_r\setminus\{k\}$ and $\pi_x=\pi_k\ne\emptyset$, against disjointness.
+(g)~By (f), every $x\in E'_k$ has a good of $\{b_x,c_x\}$ in $J'$; let $H'$ contain one each. By (e), $|H'|\le|E_r|-1=|E_r\setminus B^*|$. The terminals $\tau(x)$, $x\in E_r\setminus B^*$, are distinct, outside $B^*$, and keep $\capa'\ge1$ by (d). So $|H'|\le S'=S'-\capa'(k)$, and Lemma~\ref{lem:owner} applies to $P'$ and $o=k$.\qed
+\end{proof}
+
+\begin{example}[a rotation]\label{ex:rot}
+Let agents $0,1,2$ rank $g_0\succ g_2\succ g_3$, $g_2\succ g_1\succ g_4$, $g_0\succ g_2\succ g_1$, processed in the order $1,0,2$ (a Phase~1 order with R1 priority, though not the one of L2). Agent~1 is inserted and picks $g_2$; agents $0$ and $2$ then pick $g_0$ and $g_1$ in R1 steps. Now $J=\{g_3,g_4\}$, $\NA=\{g_0,g_2\}$, agents $0,1$ are frozen, and $r=2$ has one slot. Giving $r$ both junk goods violates (OC) for agent~1 ($b_1=g_1$, $c_1=g_4$). The rotation along the chain $1\to2$ gives $\{g_0\},\{g_1,g_4\},\{g_2,g_3\}$, which is \efxz{}.
+\end{example}
+
+\paragraph{Size of the large bundle (written, not formalized).} In a valid pre-allocation each good of $\NA$ is the pick of exactly one frozen agent, so $|F|=|\NA|$; counting goods gives $\omega=m-2n+|\NA|$, and the owner's bundle has $\omega+2$ goods. The rotation does not increase $\NA$.
+
+\section{Running Time: Cost Table and Evidence}\label{app:algo}
+
+The program is the listing of Section~\ref{sec:algo}, formalized as \lean{EFX.K3.algoC}; see \lean{proofs/k3_algorithm.md} of~\cite{Repo}. In L5 and L6 the program completes with owner $r$ (or without owner) if $k$ (or $r$) does not exist; by Theorem~\ref{thm:A} this never happens.
+
+\noindent \emph{Cost table (Lean bound with $N=n+m+1$; finer bound written).} Stage R: $15N^2$ per round, $O(n^2m)$ in all. Rankings: $14N^2$. Processing order: $15N^3$. Phase~1's picks: $17N^3$. Upgrades: $36N^4$, $O(n^4+n^2m)$, the dominant term. Junk and slots: $O(N^3)$. Owner test: $20N^2+24N^3$. Blocks, $k^*$, chain, rotation, completion: $O(N^3)$. Output: $4N^2$. The total is at most $400N^4$ (\lean{EFX.K3.algoC_cost}), also at most $6400(n+m)^4$. On random instances the count is far below the bound (ratio $0.002$ at $n=30$).
+
+\paragraph{Evidence.} Three implementations (a literal transcription of the Lean definitions, the fast Python version, and Lean's own evaluation of \lean{EFX.K3.algo}) agree on $200{,}000$ random instances (the first two) and on $675$ instances (all three), every output passes a raw \efxz{} check, and every Lean operation count is below the proved bound. The fast version takes $1.53$\,s and $1.58$\,s (medians) on random cores with $10^5$ agents and $1.5\times10^5$ and $2\times10^5$ goods.
+
+\section{The Lean Formalization}\label{app:lean}
+
+\paragraph{Trusted base.} The file \lean{lean/EFX/Model.lean}, copied from~\cite{MrdEfx} with the namespace renamed, defines:
+\begin{alltt}
+def finSum : (k : Nat) \(\to\) (Fin k \(\to\) Nat) \(\to\) Nat
+  | 0, _ => 0
+  | k+1, f => finSum k (fun i => f i.castSucc)
+                + f (Fin.last k)
+structure Inst where
+  n : Nat
+  m : Nat
+  v : Fin n \(\to\) Fin m \(\to\) Nat
+abbrev Alloc := Fin I.m \(\to\) Fin I.n
+def bundleVal (X : I.Alloc) (i j : Fin I.n)
+    (ex : Option (Fin I.m)) : Nat :=
+  finSum I.m (fun g =>
+    if X g = j \(\wedge\) ex \(\ne\) some g then I.v i g else 0)
+def EFX0 (X : I.Alloc) : Prop :=
+  \(\forall\) i j : Fin I.n, i \(\ne\) j \(\to\) \(\forall\) g : Fin I.m, X g = j \(\to\)
+    I.bundleVal X i j (some g)
+      \(\le\) I.bundleVal X i i none
+def numRelevant (I : Inst) (i : Fin I.n) : Nat :=
+  finSum I.m (fun g => if 0 < I.v i g then 1 else 0)
+\end{alltt}
+
+\paragraph{Main statements.}
+\begin{alltt}
+theorem EFX.target (I : Inst) (hn : 0 < I.n)
+    (h : \(\forall\) i, numRelevant I i \(\le\) 3) :
+    \(\exists\) X : I.Alloc, I.EFX0 X
+theorem EFX.LB.corollaryD (I : Inst) (hn : 0 < I.n)
+    (h3 : \(\forall\) i, numRelevant I i = 3)
+    (hbal : \(\forall\) i g, 2 * I.v i g \(\le\) finSum I.m (I.v i)) :
+    \(\exists\) X : I.Alloc, I.EFX0 X \(\wedge\) \(\exists\) o, \(\forall\) j, j \(\ne\) o \(\to\)
+      finSum I.m (fun g => if X g = j then 1 else 0)
+        \(\le\) 2
+def EFX.K3.algo (I : Inst) (hn : 0 < I.n) : I.Alloc :=
+  (algoC I hn).val
+theorem EFX.K3.algo_efx0 (I : Inst) (hn : 0 < I.n)
+    (h : \(\forall\) i, numRelevant I i \(\le\) 3) :
+    I.EFX0 (algo I hn)
+theorem EFX.K3.algoC_cost (I : Inst) (hn : 0 < I.n) :
+    (algoC I hn).cost \(\le\) 400 * (I.n + I.m + 1) ^ 4
+\end{alltt}
+\texttt{EFX.target\_ordered} and \texttt{EFX.corollaryD\_ordered} state the same over any type with $0$, $+$ and $\le$ satisfying the axioms of a linearly ordered cancellative commutative monoid (class \texttt{EFX.OrderedValue}), with nonnegativity as a hypothesis, relevance as $v_i(g)>0$ and balance as $v_i(g)+v_i(g)\le v_i(M)$; at $\mathbb{N}$ they are exactly the statements above.
+
+\paragraph{Theorems cited} (all in \texttt{lean/EFX/}; each has a \verb|#print axioms| certificate listing at most the three standard axioms; ledger rows of~\cite{Repo} in brackets):
+
+\medskip
+\noindent\begin{tabular}{@{}p{0.33\textwidth}p{0.63\textwidth}@{}}
+\toprule
+Result [ledger row] & Lean names (file in \texttt{lean/EFX/}) \\
+\midrule
+Thm.~\ref{thm:target} [T] & \lean{EFX.target} (\texttt{Target}); \lean{EFX.target_ordered} (\texttt{RealValues}) \\
+Thm.~\ref{thm:D} [D] & \lean{EFX.LB.corollaryD} (\texttt{CorollaryD}); \lean{EFX.corollaryD_ordered} (\texttt{RealValues}) \\
+Thm.~\ref{thm:algo} [K3.ALG] & \lean{EFX.K3.algo_efx0}, \lean{EFX.K3.algo_eq_spec} (\texttt{K3Cost}) \\
+Thm.~\ref{thm:algo} [K3.ALG.TIME] & \lean{EFX.K3.algoC_cost} (\texttt{K3CostBound}) \\
+Lem.~\ref{lem:peel} [L2] & \lean{EFX.peel} (\texttt{Peeling}); \lean{EFX.peelEmpty}, \lean{EFX.peelR2} (\texttt{PeelingR2}) \\
+Lem.~\ref{lem:junk} [L3] & \lean{EFX.Inst.exists_efx0_of_junk} (\texttt{Junk}) \\
+Prop.~\ref{prop:core} [T] & \lean{EFX.core_reduction} (\texttt{Target}) \\
+Lem.~\ref{lem:L12} [L12] & \lean{EFX.l12}, \lean{EFX.efx0_iff_of_agree} (\texttt{RealValues}) \\
+Lem.~\ref{lem:owner} [S2.LB+] & \lean{EFX.LB.complete_some} (\texttt{PreAlloc}) \\
+Lem.~\ref{lem:upgrades} [S2.LB+] & \lean{EFX.LB.upFinal_valid} (\texttt{Blocks}) \\
+Thm.~\ref{thm:sound} [S2.LB+] & \lean{EFX.LB.Valid.sound} (\texttt{PreAlloc}) \\
+Thm.~\ref{thm:A} [S2.R] & \lean{EFX.LB.theoremA_invalid} (\texttt{OwnerR}) \\
+Thm.~\ref{thm:B} [S2.LB+] & \lean{EFX.LB.theoremB} (\texttt{Rotation}) \\
+Thm.~\ref{thm:C} [S2.LB+] & \lean{EFX.LB.lbPlusRun_sound}, \lean{EFX.LB.lbPlusOut_exists} (\texttt{LBPlus}) \\
+Prop.~\ref{prop:O} [K3.OWNER] & \lean{EFX.LB.validOwner_iff}, \lean{EFX.LB.hitSet_fits} (\texttt{OwnerR}) \\
+Audit [AUD] & \lean{Audit.target_audit}, \lean{Audit.corollaryD_audit} (\texttt{Audit}) \\
+Second proof [K4.C4X.K3] & \lean{EFX.C4min.corollaryD_K3}, \lean{EFX.C4min.target_K3} (\texttt{K3Theorem}) \\
+\bottomrule
+\end{tabular}
+\medskip
+
+\noindent \lean{EFX.LB.lbPlusRun_sound} quantifies over all runs of \LBp{} (any Phase~1 order with R1 priority, any upgrade order, any need chain, any completion satisfying (OC)); \lean{EFX.LB.lbPlusOut_exists} shows that an output always exists. The audit's second kernel (nanoda) checked 4,186 declarations: the 726 named declarations of the library at the time (the natural-number development of Theorems~\ref{thm:target} and~\ref{thm:D}) and their dependencies. The files formalizing Theorems~\ref{thm:target}--\ref{thm:algo}, their proofs and the audit have about 9,700 lines.
+
+\section{Computational Certification}\label{app:cert}
+
+Each row is a ledger row of~\cite{Repo} with status CERTIFIED; certificates are stored allocations, re-checked without SAT from the raw \efxz{} definition, and the enumeration of connected cores is checked for completeness by a second, independent method.
+
+\medskip
+\noindent\begin{tabular}{@{}p{0.5\textwidth}p{0.38\textwidth}l@{}}
+\toprule
+Claim and scope & Size & Row \\
+\midrule
+\efxz{} exists, every $3$-relevant instance, $n\le6$ & $251+3{,}182$ connected cores & R1 \\
+\efxz{} exists, every $3$-relevant instance, $n\le7$ & adds $n=7$ (rows R2, S2.N7) & R5 \\
+Theorem~\ref{thm:D}, every core with $n\le6$, connected or not & certificates, components combined & R3 \\
+Theorem~\ref{thm:D}, connected cores, $n=7$, $11\le m\le13$ & $3{,}103$, $541$ and $37$ cores ($m=11,12,13$); $6^7$ profiles each & R2 \\
+Theorem~\ref{thm:D}, connected cores, $n=8$, $m\in\{14,15\}$ & $1{,}232$ and $52$ cores & R4 \\
+LB never fails, cores with $n\le6$ & $3{,}436$ connected, $131$ disconnected & S2.N6 \\
+LB never fails, connected cores with $n=7$ & $41{,}170$ cores, $1.15\times10^{10}$ pairs & S2.N7 \\
+LB never fails, connected cores, $n=8$, $m\ge13$ & $12{,}763$ cores, $2.14\times10^{10}$ pairs & S2.N8 \\
+\bottomrule
+\end{tabular}
+\medskip
+
+\noindent LB is the repository's earlier construction (\texttt{proofs/construction.md} \S3 of~\cite{Repo}): Phase~1 with a lookahead insertion rule, the same upgrades, and a search over owners instead of the rotation. For the rows on LB, the certificates (LB's outputs) confirm Theorem~\ref{thm:D} in every labelling; that LB itself never fails holds for the labelling stored in the certificates, as LB breaks ties by index. Cores with $m=2n$ are covered by a two-own-goods argument (every agent holding two of its own goods is safe).
+
+\paragraph{Evidence (not proof).} $5{,}844{,}263{,}904$ runs of a literal implementation of \LBp{} (every core with $n\le6$ under every ranking profile and every sequence of insertion choices; random choices on larger cores; random non-core instances), asserting every lemma of Section~\ref{sec:correct} and checking every output against the raw definition: $1{,}327{,}101$ rotations, $0$ failures. An independent Python implementation gives identical tallies for $n\le5$.
+
+\paragraph{Refutations} (status REFUTED, with checkers):
+\begin{itemize}
+\item bundles of at most two goods suffice in a core: false for $n=3$, $m=5$ (Proposition~\ref{prop:neg}(a), $14$ of $216$ profiles); no core with $n=2$ fails;
+\item bundles of at most two goods suffice when $m\le2n-2$: false, smallest $n=4$, $m=6$; at $n=6$, $m=10$, $57$ of the $211$ connected cores have a failing profile (confirmed by a second encoding);
+\item the same for instances that are not cores: four identical agents with values $4,3,2$ on three goods, and three goods valued by nobody;
+\item one bundle of three goods suffices: false for $n=4$, $m=7$ (Proposition~\ref{prop:neg}(b)); at $n=6$, $m=11$, $3$ of $25$ cores need four.
+\end{itemize}
+
+\section{Ordinality of Cores and the Counterexamples}\label{app:neg}
+
+A good is \emph{alone} if it is the only good of its bundle.
+
+\begin{lemma}[cases of safety]\label{lem:L5}
+Let agent $i$ have $R_i=\{a,b,c\}$ with $v_i(a)>v_i(b)>v_i(c)>0$ and $v_i(a)<v_i(b)+v_i(c)$. Then $i$ satisfies the \efxz{} constraints iff one of: (T)~$i$ holds $a$, and either $i$ holds $b$ or $c$, or $b$ and $c$ are not together in a bundle of at least three goods; (P)~$i$ holds $b$ and $c$; (B)~$i$ holds $b$, and $a$ is alone; (C)~$i$ holds $c$, and $a$ and $b$ are alone; (E)~$a$, $b$ and $c$ are all alone.
+\end{lemma}
+
+\begin{proof}
+The subset sums are ordered $0<c<b<a<b+c<a+c<a+b<a+b+c$ (writing $x$ for $v_i(x)$), so every constraint is decided by the ranking. Consider the goods of $R_i$ that $i$ holds. If it holds $a$ and one more, every other bundle meets $R_i$ in one good, worth $\le b<a+c$. If it holds $\{b,c\}$, the only threat is $a<b+c$. If it holds only $a$: bundles meeting $R_i$ in one good are harmless; $\{b,c\}$ as a bundle threatens $b<a$; $b,c$ together with another good threaten $b+c>a$. If it holds only $b$: $a$ not alone lies with $c$ (threat $a$) or with a good outside $R_i$ (threat $\ge a$), both $>b$; if $a$ is alone, $c$'s bundle threatens at most $c<b$. If it holds only $c$, it needs $a$ and $b$ alone by the same argument. If it holds none of $a,b,c$, any bundle with a good of $R_i$ and at least two goods threatens a positive amount, so all three must be alone.\qed
+\end{proof}
+
+\noindent The cases remain sufficient with ties, so tied cores reduce to strict ranking profiles (\texttt{proofs/lemmas.md}, L5).
+
+\begin{proposition}[limits of the shape]\label{prop:neg}
+Take strict rankings and strictly balanced values.
+(a) Let agents $0,1,2$ rank $g_0\succ g_1\succ p_i$, where $p_i$ is private to agent $i$. No \efxz{} allocation has all bundles of at most two goods, while $\{g_0\},\{g_1\},\{p_0,p_1,p_2\}$ is \efxz{}.
+(b) Let agents $0,1,2,3$ rank $g_0\succ g_2\succ p_0$, $g_0\succ g_2\succ p_1$, $g_1\succ g_2\succ p_2$, $g_1\succ g_2\succ p_3$. Every \efxz{} allocation with at most one bundle of more than two goods has bundle sizes $4,1,1,1$.
+\end{proposition}
+
+\noindent Exhaustive computation shows that no core with two agents needs a bundle of more than two goods, so (a) is a smallest example (ledger row X1 of~\cite{Repo}; \texttt{proofs/counterexamples.md} and \texttt{proofs/construction.md}, Section~1).
+
+\begin{proof}[of Proposition~\ref{prop:neg}]
+(a)~With five goods in three bundles of at most two goods, the sizes are $2,2,1$, so exactly one good is alone. Good $g_0$ is everyone's top and has one holder, so two agents do not hold their top. For them (T) fails, (C) and (E) need two or three alone goods, so each is in case (P) or (B), and both hold $g_1$: impossible. In $\{g_0\},\{g_1\},\{p_0,p_1,p_2\}$, the holder of $g_0$ is in case (T), the holder of $g_1$ in case (B), and the third agent in case (C).
+(b)~Each of the tops $g_0,g_1$ has a claimant that does not hold it (a \emph{loser}). A loser is safe only by (P) or (B), which need it to hold $g_2$, or by (C) or (E), which need $g_2$ alone. The two losers are distinct and cannot both hold $g_2$, so $g_2$ is alone, and no agent is in case (P). A loser holding $\{g_2\}$ is in case (B) or (E) and needs its top alone; a loser not holding $g_2$ is in case (C) or (E) and needs its top and $g_2$ alone. So $g_0,g_1,g_2$ are alone, held by three agents, and the fourth bundle is $\{p_0,p_1,p_2,p_3\}$. The allocation giving $g_0$ to agent~0, $g_1$ to agent~2, $g_2$ to agent~1 and the private goods to agent~3 is \efxz{} (cases T, B, T, C).\qed
+\end{proof}
+
+\end{document}
