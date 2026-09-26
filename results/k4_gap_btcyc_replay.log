@@ -1,0 +1,6 @@
+command: python3 attempts/k4_gap_btcyc.py
+gap.c: f 2, omega 2, keys [[2, 3, -1, -1], [2, -1, -1, 3], [-1, 3, 2, -1]]; P: {'key': [2, 3, -1, -1], 'Q': [None, None, [4, 7], [1, 5]], 'L': [0, 6], 'phi': [0, 2, 24, -4], 'po': 1, 'own': [], 'thr': [[2, 1, 2], [3, 0, 2]], 'need': [[2, [2]], [3, [3]]]}
+gap_model: in the gap True, f 2, omega 2, keys [(2, 3, None, None), (2, None, None, 3), (None, 3, 2, None)]
+  P = Config(key=[2, 3, None, None], Q={2: [4, 7], 3: [1, 5]}, L=[0, 6]): valid owner False, pre-allocation removal-only completable False, Pareto-maximal True, exposed frozen big-top agents [0, 1], threats [(2, 1, 'L'), (3, 0, 'L')]
+  cycles through them: [[0, 2, 1, 3]]; cycle moves with a min-frozen result: 0; downgrade swaps: 6, with a valid owner: 6
+BTCYC fails on this profile (both implementations)
