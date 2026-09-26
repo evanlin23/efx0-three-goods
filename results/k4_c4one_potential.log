@@ -1,0 +1,7 @@
+results/k4_certs_2.json.gz: 540 leaves with no valid owner; no rotation raises Phi in 0, the owner-free count in 324
+   by number of 4-good agents: (leaves, no Phi increase): {1: [36, 0], 2: [504, 0]}
+results/k4_certs_3.json.gz: 606042 leaves with no valid owner; no rotation raises Phi in 2184, the owner-free count in 60374
+   by number of 4-good agents: (leaves, no Phi increase): {1: [1384, 0], 2: [32860, 8], 3: [571798, 2176]}
+   smallest: FAIL n=3 m=6 sets=[[0,1,2,5],[2,3,4,5],[3,4,5]] vals=[[1,4,8,6],[8,2,3,4],[2,3,4]] order=2 0 1  picks=2,4,5 blocks=0,0,0 upg= frozen=0 2  J=b w=2 Phi -1 -> best -1, count 1 -> best 1
+results/k4_certs_4_n4_1.json.gz: 49578 leaves with no valid owner; no rotation raises Phi in 0, the owner-free count in 1232
+   by number of 4-good agents: (leaves, no Phi increase): {1: [49578, 0]}

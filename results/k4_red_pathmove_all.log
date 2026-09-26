@@ -1,0 +1,53 @@
+# k4/red_pathmove.py (review fix of Lemma PM, k4/c4min_reduce.md §5.2): every robust admissible P_x and every single (R) modification with s in L \ P_x, on the scopes of results/k4_red_pathmove.log
+# source: k4/red_pathmove.py sha1 5cfcae74ff9058bdda7b3d12c13c972d4193c404, k4/red_lib.py sha1 035b94e3d6c8eab87caaf32aa88ee9a8740fee25; git HEAD 964c7798f8e80887e920066a6358360b14e779a9
+# command: python3 k4/red_pathmove.py results/k4_certs_2.json.gz 0 8
+configurations (t = 0, non-robust pool-optimal, no valid owner)        4128
+(no path move in this scope: the check is vacuous here)
+ALL PATH MOVES OK
+# command: python3 k4/red_pathmove.py results/k4_certs_3.json.gz 20000 8
+configurations (t = 0, non-robust pool-optimal, no valid owner)        5414
+path moves (plain)                                                     4949
+paths                                                                  2244
+skipped: a threatener of tau on the path                               149
+ALL PATH MOVES OK
+# command: python3 k4/red_pathmove.py results/k4_certs_4_n4_1.json.gz 150 8
+(no path move in this scope: the check is vacuous here)
+ALL PATH MOVES OK
+# command: python3 k4/red_pathmove.py results/k4_certs_4_n4_2.json.gz 150 8
+configurations (t = 0, non-robust pool-optimal, no valid owner)        39
+path moves (modified)                                                  1
+path moves (plain)                                                     13
+paths                                                                  13
+ALL PATH MOVES OK
+# command: python3 k4/red_pathmove.py results/k4_certs_4_n4_3.json.gz 150 8
+configurations (t = 0, non-robust pool-optimal, no valid owner)        98
+path moves (modified)                                                  3
+path moves (plain)                                                     75
+paths                                                                  47
+skipped: a threatener of tau on the path                               1
+ALL PATH MOVES OK
+# command: python3 k4/red_pathmove.py results/k4_certs_4_pure.json.gz 150 8
+configurations (t = 0, non-robust pool-optimal, no valid owner)        130
+path moves (plain)                                                     93
+paths                                                                  65
+skipped: a threatener of tau on the path                               4
+ALL PATH MOVES OK
+# command: python3 k4/red_pathmove.py results/k4_certs_4_n4_2.json.gz 600 9
+configurations (t = 0, non-robust pool-optimal, no valid owner)        131
+path moves (plain)                                                     46
+paths                                                                  31
+ALL PATH MOVES OK
+# command: python3 k4/red_pathmove.py results/k4_certs_4_n4_3.json.gz 600 9
+configurations (t = 0, non-robust pool-optimal, no valid owner)        371
+path moves (modified)                                                  4
+path moves (plain)                                                     234
+paths                                                                  151
+skipped: a threatener of tau on the path                               5
+ALL PATH MOVES OK
+# command: python3 k4/red_pathmove.py results/k4_certs_4_pure.json.gz 600 9
+configurations (t = 0, non-robust pool-optimal, no valid owner)        415
+path moves (modified)                                                  18
+path moves (plain)                                                     260
+paths                                                                  174
+skipped: a threatener of tau on the path                               2
+ALL PATH MOVES OK

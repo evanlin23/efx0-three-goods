@@ -1,0 +1,302 @@
+# c4one_exchange.py -X -P2 -u2 -i20 -o0 -r1 -w0 -c0 -f3 -E3
+results/k4_certs_3.json.gz: 14 cores, 4384 weighted runs with a category
+   cat   17  covered      at the step that started q's block   new agent q                                                  3144
+   cat   33  covered      at an earlier step                   new agent q                                                  256
+   cat  145  covered      at the step that started q's block   new agent the old r                                          512
+   cat  273  covered      at the step that started q's block   new agent another agent of q's old block                     472
+results/k4_certs_4_n4_1.json.gz: 135 cores, 67116 weighted runs with a category
+   cat   17  covered      at the step that started q's block   new agent q                                                  36064
+   cat   33  covered      at an earlier step                   new agent q                                                  3752
+   cat  145  covered      at the step that started q's block   new agent the old r                                          9036
+   cat  161  covered      at an earlier step                   new agent the old r                                          912
+   cat  273  covered      at the step that started q's block   new agent another agent of q's old block                     14904
+   cat  289  covered      at an earlier step                   new agent another agent of q's old block                     1560
+   cat  401  covered      at the step that started q's block   new agent an agent of a later block                          496
+   cat  545  covered      at an earlier step                   new agent an agent of an earlier block                       392
+results/k4_certs_5_n4_1.json.gz: 1735 cores, 1696106 weighted runs with a category
+   cat   17  covered      at the step that started q's block   new agent q                                                  608732
+   cat   33  covered      at an earlier step                   new agent q                                                  174110
+   cat  145  covered      at the step that started q's block   new agent the old r                                          181684
+   cat  161  covered      at an earlier step                   new agent the old r                                          36372
+   cat  273  covered      at the step that started q's block   new agent another agent of q's old block                     508642
+   cat  289  covered      at an earlier step                   new agent another agent of q's old block                     75736
+   cat  401  covered      at the step that started q's block   new agent an agent of a later block                          75504
+   cat  417  covered      at an earlier step                   new agent an agent of a later block                          2208
+   cat  545  covered      at an earlier step                   new agent an agent of an earlier block                       33118
+# c4one_exchange.py -X -P2 -u2 -i20 -o0 -r1 -w0 -c0 -f3 -Y -E4
+results/k4_certs_3.json.gz: 14 cores, 4384 weighted runs with a category
+   cat 4113  G2           covered      at the step that started q's block   new agent q  omega lower                        1944
+   cat 4129  G2           covered      at an earlier step                   new agent q  omega lower                        256
+   cat 4369  G2           covered      at the step that started q's block   new agent another agent of q's old block  omega lower 348
+   cat 8337  G1F_nochain  covered      at the step that started q's block   new agent the old r  omega lower                28
+   cat 8465  G1F_nochain  covered      at the step that started q's block   new agent another agent of q's old block  omega lower 48
+   cat 9361  G1F_nochain  covered      at the step that started q's block   new agent the old r  omega equal                60
+   cat 9489  G1F_nochain  covered      at the step that started q's block   new agent another agent of q's old block  omega equal 76
+   cat 12433  G1F_cond     covered      at the step that started q's block   new agent the old r  omega lower                72
+   cat 16401  G1T_Tc       covered      at the step that started q's block   new agent q  omega lower                        664
+   cat 20497  G1T_Tb       covered      at the step that started q's block   new agent q  omega lower                        536
+   cat 20625  G1T_Tb       covered      at the step that started q's block   new agent the old r  omega lower                352
+results/k4_certs_4_n4_1.json.gz: 135 cores, 67116 weighted runs with a category
+   cat 4113  G2           covered      at the step that started q's block   new agent q  omega lower                        18588
+   cat 4129  G2           covered      at an earlier step                   new agent q  omega lower                        1000
+   cat 4369  G2           covered      at the step that started q's block   new agent another agent of q's old block  omega lower 3788
+   cat 4385  G2           covered      at an earlier step                   new agent another agent of q's old block  omega lower 416
+   cat 4641  G2           covered      at an earlier step                   new agent an agent of an earlier block  omega lower 392
+   cat 5137  G2           covered      at the step that started q's block   new agent q  omega equal                        316
+   cat 5393  G2           covered      at the step that started q's block   new agent another agent of q's old block  omega equal 32
+   cat 5409  G2           covered      at an earlier step                   new agent another agent of q's old block  omega equal 48
+   cat 6433  G2           covered      at an earlier step                   new agent another agent of q's old block  omega higher 56
+   cat 8209  G1F_nochain  covered      at the step that started q's block   new agent q  omega lower                        5208
+   cat 8337  G1F_nochain  covered      at the step that started q's block   new agent the old r  omega lower                2544
+   cat 8353  G1F_nochain  covered      at an earlier step                   new agent the old r  omega lower                112
+   cat 8465  G1F_nochain  covered      at the step that started q's block   new agent another agent of q's old block  omega lower 4552
+   cat 8481  G1F_nochain  covered      at an earlier step                   new agent another agent of q's old block  omega lower 248
+   cat 8593  G1F_nochain  covered      at the step that started q's block   new agent an agent of a later block  omega lower 176
+   cat 9361  G1F_nochain  covered      at the step that started q's block   new agent the old r  omega equal                3172
+   cat 9377  G1F_nochain  covered      at an earlier step                   new agent the old r  omega equal                120
+   cat 9489  G1F_nochain  covered      at the step that started q's block   new agent another agent of q's old block  omega equal 1360
+   cat 9505  G1F_nochain  covered      at an earlier step                   new agent another agent of q's old block  omega equal 288
+   cat 9617  G1F_nochain  covered      at the step that started q's block   new agent an agent of a later block  omega equal 192
+   cat 10385  G1F_nochain  covered      at the step that started q's block   new agent the old r  omega higher               4
+   cat 12305  G1F_cond     covered      at the step that started q's block   new agent q  omega lower                        1464
+   cat 12433  G1F_cond     covered      at the step that started q's block   new agent the old r  omega lower                1440
+   cat 12449  G1F_cond     covered      at an earlier step                   new agent the old r  omega lower                540
+   cat 12561  G1F_cond     covered      at the step that started q's block   new agent another agent of q's old block  omega lower 4133
+   cat 12577  G1F_cond     covered      at an earlier step                   new agent another agent of q's old block  omega lower 360
+   cat 13457  G1F_cond     covered      at the step that started q's block   new agent the old r  omega equal                36
+   cat 13473  G1F_cond     covered      at an earlier step                   new agent the old r  omega equal                12
+   cat 13585  G1F_cond     covered      at the step that started q's block   new agent another agent of q's old block  omega equal 205
+   cat 13601  G1F_cond     covered      at an earlier step                   new agent another agent of q's old block  omega equal 144
+   cat 14609  G1F_cond     covered      at the step that started q's block   new agent another agent of q's old block  omega higher 42
+   cat 16401  G1T_Tc       covered      at the step that started q's block   new agent q  omega lower                        6752
+   cat 16417  G1T_Tc       covered      at an earlier step                   new agent q  omega lower                        2752
+   cat 16529  G1T_Tc       covered      at the step that started q's block   new agent the old r  omega lower                208
+   cat 16545  G1T_Tc       covered      at an earlier step                   new agent the old r  omega lower                128
+   cat 16657  G1T_Tc       covered      at the step that started q's block   new agent another agent of q's old block  omega lower 16
+   cat 16785  G1T_Tc       covered      at the step that started q's block   new agent an agent of a later block  omega lower 128
+   cat 17553  G1T_Tc       covered      at the step that started q's block   new agent the old r  omega equal                32
+   cat 20497  G1T_Tb       covered      at the step that started q's block   new agent q  omega lower                        3736
+   cat 20625  G1T_Tb       covered      at the step that started q's block   new agent the old r  omega lower                1536
+   cat 20753  G1T_Tb       covered      at the step that started q's block   new agent another agent of q's old block  omega lower 776
+   cat 21649  G1T_Tb       covered      at the step that started q's block   new agent the old r  omega equal                64
+results/k4_certs_5_n4_1.json.gz: 1735 cores, 1696106 weighted runs with a category
+   cat 4113  G2           covered      at the step that started q's block   new agent q  omega lower                        210221
+   cat 4129  G2           covered      at an earlier step                   new agent q  omega lower                        27344
+   cat 4369  G2           covered      at the step that started q's block   new agent another agent of q's old block  omega lower 66491
+   cat 4385  G2           covered      at an earlier step                   new agent another agent of q's old block  omega lower 6752
+   cat 4641  G2           covered      at an earlier step                   new agent an agent of an earlier block  omega lower 15120
+   cat 5137  G2           covered      at the step that started q's block   new agent q  omega equal                        1404
+   cat 5393  G2           covered      at the step that started q's block   new agent another agent of q's old block  omega equal 416
+   cat 5409  G2           covered      at an earlier step                   new agent another agent of q's old block  omega equal 784
+   cat 5665  G2           covered      at an earlier step                   new agent an agent of an earlier block  omega equal 32
+   cat 6161  G2           covered      at the step that started q's block   new agent q  omega higher                       35
+   cat 6417  G2           covered      at the step that started q's block   new agent another agent of q's old block  omega higher 7
+   cat 6433  G2           covered      at an earlier step                   new agent another agent of q's old block  omega higher 232
+   cat 8209  G1F_nochain  covered      at the step that started q's block   new agent q  omega lower                        172922
+   cat 8225  G1F_nochain  covered      at an earlier step                   new agent q  omega lower                        19600
+   cat 8337  G1F_nochain  covered      at the step that started q's block   new agent the old r  omega lower                78200
+   cat 8353  G1F_nochain  covered      at an earlier step                   new agent the old r  omega lower                9496
+   cat 8465  G1F_nochain  covered      at the step that started q's block   new agent another agent of q's old block  omega lower 191726
+   cat 8481  G1F_nochain  covered      at an earlier step                   new agent another agent of q's old block  omega lower 32822
+   cat 8593  G1F_nochain  covered      at the step that started q's block   new agent an agent of a later block  omega lower 31390
+   cat 8609  G1F_nochain  covered      at an earlier step                   new agent an agent of a later block  omega lower 528
+   cat 8737  G1F_nochain  covered      at an earlier step                   new agent an agent of an earlier block  omega lower 882
+   cat 9233  G1F_nochain  covered      at the step that started q's block   new agent q  omega equal                        842
+   cat 9249  G1F_nochain  covered      at an earlier step                   new agent q  omega equal                        448
+   cat 9361  G1F_nochain  covered      at the step that started q's block   new agent the old r  omega equal                51742
+   cat 9377  G1F_nochain  covered      at an earlier step                   new agent the old r  omega equal                6216
+   cat 9489  G1F_nochain  covered      at the step that started q's block   new agent another agent of q's old block  omega equal 45268
+   cat 9505  G1F_nochain  covered      at an earlier step                   new agent another agent of q's old block  omega equal 7762
+   cat 9617  G1F_nochain  covered      at the step that started q's block   new agent an agent of a later block  omega equal 28418
+   cat 9633  G1F_nochain  covered      at an earlier step                   new agent an agent of a later block  omega equal 528
+   cat 9761  G1F_nochain  covered      at an earlier step                   new agent an agent of an earlier block  omega equal 382
+   cat 10385  G1F_nochain  covered      at the step that started q's block   new agent the old r  omega higher               458
+   cat 10401  G1F_nochain  covered      at an earlier step                   new agent the old r  omega higher               80
+   cat 10513  G1F_nochain  covered      at the step that started q's block   new agent another agent of q's old block  omega higher 1078
+   cat 10529  G1F_nochain  covered      at an earlier step                   new agent another agent of q's old block  omega higher 32
+   cat 10641  G1F_nochain  covered      at the step that started q's block   new agent an agent of a later block  omega higher 1396
+   cat 10785  G1F_nochain  covered      at an earlier step                   new agent an agent of an earlier block  omega higher 16
+   cat 12305  G1F_cond     covered      at the step that started q's block   new agent q  omega lower                        22626
+   cat 12321  G1F_cond     covered      at an earlier step                   new agent q  omega lower                        10640
+   cat 12433  G1F_cond     covered      at the step that started q's block   new agent the old r  omega lower                23356
+   cat 12449  G1F_cond     covered      at an earlier step                   new agent the old r  omega lower                13552
+   cat 12561  G1F_cond     covered      at the step that started q's block   new agent another agent of q's old block  omega lower 166725
+   cat 12577  G1F_cond     covered      at an earlier step                   new agent another agent of q's old block  omega lower 22436
+   cat 12833  G1F_cond     covered      at an earlier step                   new agent an agent of an earlier block  omega lower 8472
+   cat 13329  G1F_cond     covered      at the step that started q's block   new agent q  omega equal                        526
+   cat 13345  G1F_cond     covered      at an earlier step                   new agent q  omega equal                        48
+   cat 13457  G1F_cond     covered      at the step that started q's block   new agent the old r  omega equal                456
+   cat 13473  G1F_cond     covered      at an earlier step                   new agent the old r  omega equal                140
+   cat 13585  G1F_cond     covered      at the step that started q's block   new agent another agent of q's old block  omega equal 4695
+   cat 13601  G1F_cond     covered      at an earlier step                   new agent another agent of q's old block  omega equal 656
+   cat 13857  G1F_cond     covered      at an earlier step                   new agent an agent of an earlier block  omega equal 432
+   cat 14481  G1F_cond     covered      at the step that started q's block   new agent the old r  omega higher               72
+   cat 14609  G1F_cond     covered      at the step that started q's block   new agent another agent of q's old block  omega higher 588
+   cat 14625  G1F_cond     covered      at an earlier step                   new agent another agent of q's old block  omega higher 48
+   cat 14881  G1F_cond     covered      at an earlier step                   new agent an agent of an earlier block  omega higher 144
+   cat 16401  G1T_Tc       covered      at the step that started q's block   new agent q  omega lower                        128176
+   cat 16417  G1T_Tc       covered      at an earlier step                   new agent q  omega lower                        114106
+   cat 16529  G1T_Tc       covered      at the step that started q's block   new agent the old r  omega lower                4392
+   cat 16545  G1T_Tc       covered      at an earlier step                   new agent the old r  omega lower                5736
+   cat 16657  G1T_Tc       covered      at the step that started q's block   new agent another agent of q's old block  omega lower 2616
+   cat 16673  G1T_Tc       covered      at an earlier step                   new agent another agent of q's old block  omega lower 2804
+   cat 16785  G1T_Tc       covered      at the step that started q's block   new agent an agent of a later block  omega lower 4104
+   cat 16801  G1T_Tc       covered      at an earlier step                   new agent an agent of a later block  omega lower 1152
+   cat 16929  G1T_Tc       covered      at an earlier step                   new agent an agent of an earlier block  omega lower 6358
+   cat 17425  G1T_Tc       covered      at the step that started q's block   new agent q  omega equal                        206
+   cat 17441  G1T_Tc       covered      at an earlier step                   new agent q  omega equal                        260
+   cat 17553  G1T_Tc       covered      at the step that started q's block   new agent the old r  omega equal                784
+   cat 17569  G1T_Tc       covered      at an earlier step                   new agent the old r  omega equal                384
+   cat 17809  G1T_Tc       covered      at the step that started q's block   new agent an agent of a later block  omega equal 192
+   cat 18449  G1T_Tc       covered      at the step that started q's block   new agent q  omega higher                       330
+   cat 18465  G1T_Tc       covered      at an earlier step                   new agent q  omega higher                       1280
+   cat 18593  G1T_Tc       covered      at an earlier step                   new agent the old r  omega higher               64
+   cat 20497  G1T_Tb       covered      at the step that started q's block   new agent q  omega lower                        71302
+   cat 20513  G1T_Tb       covered      at an earlier step                   new agent q  omega lower                        384
+   cat 20625  G1T_Tb       covered      at the step that started q's block   new agent the old r  omega lower                20989
+   cat 20641  G1T_Tb       covered      at an earlier step                   new agent the old r  omega lower                704
+   cat 20753  G1T_Tb       covered      at the step that started q's block   new agent another agent of q's old block  omega lower 28776
+   cat 20769  G1T_Tb       covered      at an earlier step                   new agent another agent of q's old block  omega lower 1408
+   cat 20881  G1T_Tb       covered      at the step that started q's block   new agent an agent of a later block  omega lower 10004
+   cat 21025  G1T_Tb       covered      at an earlier step                   new agent an agent of an earlier block  omega lower 1280
+   cat 21521  G1T_Tb       covered      at the step that started q's block   new agent q  omega equal                        142
+   cat 21649  G1T_Tb       covered      at the step that started q's block   new agent the old r  omega equal                1073
+   cat 21777  G1T_Tb       covered      at the step that started q's block   new agent another agent of q's old block  omega equal 256
+   cat 22673  G1T_Tb       covered      at the step that started q's block   new agent the old r  omega higher               162
+# c4one_exchange.py -X -P2 -u2 -i20 -o0 -r1 -w0 -c0 -f3 -Y -E4 -Z1
+results/k4_certs_3.json.gz: 14 cores, 4384 weighted runs with a category
+   cat 4113  G2           covered      at the step that started q's block   new agent q  omega lower                        2200
+   cat 4369  G2           covered      at the step that started q's block   new agent another agent of q's old block  omega lower 348
+   cat 8337  G1F_nochain  covered      at the step that started q's block   new agent the old r  omega lower                28
+   cat 8465  G1F_nochain  covered      at the step that started q's block   new agent another agent of q's old block  omega lower 48
+   cat 9361  G1F_nochain  covered      at the step that started q's block   new agent the old r  omega equal                60
+   cat 9489  G1F_nochain  covered      at the step that started q's block   new agent another agent of q's old block  omega equal 76
+   cat 12433  G1F_cond     covered      at the step that started q's block   new agent the old r  omega lower                72
+   cat 16401  G1T_Tc       covered      at the step that started q's block   new agent q  omega lower                        664
+   cat 20497  G1T_Tb       covered      at the step that started q's block   new agent q  omega lower                        536
+   cat 20625  G1T_Tb       covered      at the step that started q's block   new agent the old r  omega lower                352
+results/k4_certs_4_n4_1.json.gz: 135 cores, 67116 weighted runs with a category
+   cat 4113  G2           covered      at the step that started q's block   new agent q  omega lower                        20372
+   cat 4369  G2           covered      at the step that started q's block   new agent another agent of q's old block  omega lower 3916
+   cat 5137  G2           covered      at the step that started q's block   new agent q  omega equal                        316
+   cat 5393  G2           covered      at the step that started q's block   new agent another agent of q's old block  omega equal 32
+   cat 8209  G1F_nochain  covered      at the step that started q's block   new agent q  omega lower                        5208
+   cat 8337  G1F_nochain  covered      at the step that started q's block   new agent the old r  omega lower                2656
+   cat 8465  G1F_nochain  covered      at the step that started q's block   new agent another agent of q's old block  omega lower 4800
+   cat 8593  G1F_nochain  covered      at the step that started q's block   new agent an agent of a later block  omega lower 176
+   cat 9361  G1F_nochain  covered      at the step that started q's block   new agent the old r  omega equal                3292
+   cat 9489  G1F_nochain  covered      at the step that started q's block   new agent another agent of q's old block  omega equal 1648
+   cat 9617  G1F_nochain  covered      at the step that started q's block   new agent an agent of a later block  omega equal 192
+   cat 10385  G1F_nochain  covered      at the step that started q's block   new agent the old r  omega higher               4
+   cat 12305  G1F_cond     covered      at the step that started q's block   new agent q  omega lower                        1464
+   cat 12433  G1F_cond     covered      at the step that started q's block   new agent the old r  omega lower                1980
+   cat 12561  G1F_cond     covered      at the step that started q's block   new agent another agent of q's old block  omega lower 4493
+   cat 13457  G1F_cond     covered      at the step that started q's block   new agent the old r  omega equal                48
+   cat 13585  G1F_cond     covered      at the step that started q's block   new agent another agent of q's old block  omega equal 349
+   cat 14609  G1F_cond     covered      at the step that started q's block   new agent another agent of q's old block  omega higher 42
+   cat 16401  G1T_Tc       covered      at the step that started q's block   new agent q  omega lower                        9504
+   cat 16529  G1T_Tc       covered      at the step that started q's block   new agent the old r  omega lower                336
+   cat 16657  G1T_Tc       covered      at the step that started q's block   new agent another agent of q's old block  omega lower 16
+   cat 16785  G1T_Tc       covered      at the step that started q's block   new agent an agent of a later block  omega lower 128
+   cat 17553  G1T_Tc       covered      at the step that started q's block   new agent the old r  omega equal                32
+   cat 20497  G1T_Tb       covered      at the step that started q's block   new agent q  omega lower                        3736
+   cat 20625  G1T_Tb       covered      at the step that started q's block   new agent the old r  omega lower                1536
+   cat 20753  G1T_Tb       covered      at the step that started q's block   new agent another agent of q's old block  omega lower 776
+   cat 21649  G1T_Tb       covered      at the step that started q's block   new agent the old r  omega equal                64
+results/k4_certs_5_n4_1.json.gz: 1735 cores, 1696106 weighted runs with a category
+   cat 4113  G2           covered      at the step that started q's block   new agent q  omega lower                        256933
+   cat 4369  G2           covered      at the step that started q's block   new agent another agent of q's old block  omega lower 70043
+   cat 5137  G2           covered      at the step that started q's block   new agent q  omega equal                        1404
+   cat 5393  G2           covered      at the step that started q's block   new agent another agent of q's old block  omega equal 416
+   cat 6161  G2           covered      at the step that started q's block   new agent q  omega higher                       35
+   cat 6417  G2           covered      at the step that started q's block   new agent another agent of q's old block  omega higher 7
+   cat 8209  G1F_nochain  covered      at the step that started q's block   new agent q  omega lower                        189258
+   cat 8337  G1F_nochain  covered      at the step that started q's block   new agent the old r  omega lower                89208
+   cat 8465  G1F_nochain  covered      at the step that started q's block   new agent another agent of q's old block  omega lower 221962
+   cat 8593  G1F_nochain  covered      at the step that started q's block   new agent an agent of a later block  omega lower 31918
+   cat 9233  G1F_nochain  covered      at the step that started q's block   new agent q  omega equal                        842
+   cat 9361  G1F_nochain  covered      at the step that started q's block   new agent the old r  omega equal                63598
+   cat 9489  G1F_nochain  covered      at the step that started q's block   new agent another agent of q's old block  omega equal 53424
+   cat 9617  G1F_nochain  covered      at the step that started q's block   new agent an agent of a later block  omega equal 28946
+   cat 10385  G1F_nochain  covered      at the step that started q's block   new agent the old r  omega higher               602
+   cat 10513  G1F_nochain  covered      at the step that started q's block   new agent another agent of q's old block  omega higher 1078
+   cat 10641  G1F_nochain  covered      at the step that started q's block   new agent an agent of a later block  omega higher 1396
+   cat 12288  G1F_cond     NOT COVERED                                                                                       432
+   cat 12305  G1F_cond     covered      at the step that started q's block   new agent q  omega lower                        26066
+   cat 12433  G1F_cond     covered      at the step that started q's block   new agent the old r  omega lower                44540
+   cat 12561  G1F_cond     covered      at the step that started q's block   new agent another agent of q's old block  omega lower 195997
+   cat 13329  G1F_cond     covered      at the step that started q's block   new agent q  omega equal                        526
+   cat 13457  G1F_cond     covered      at the step that started q's block   new agent the old r  omega equal                640
+   cat 13585  G1F_cond     covered      at the step that started q's block   new agent another agent of q's old block  omega equal 6703
+   cat 14481  G1F_cond     covered      at the step that started q's block   new agent the old r  omega higher               72
+   cat 14609  G1F_cond     covered      at the step that started q's block   new agent another agent of q's old block  omega higher 636
+   cat 16401  G1T_Tc       covered      at the step that started q's block   new agent q  omega lower                        249016
+   cat 16529  G1T_Tc       covered      at the step that started q's block   new agent the old r  omega lower                11856
+   cat 16657  G1T_Tc       covered      at the step that started q's block   new agent another agent of q's old block  omega lower 3064
+   cat 16785  G1T_Tc       covered      at the step that started q's block   new agent an agent of a later block  omega lower 5256
+   cat 17425  G1T_Tc       covered      at the step that started q's block   new agent q  omega equal                        206
+   cat 17553  G1T_Tc       covered      at the step that started q's block   new agent the old r  omega equal                3024
+   cat 17809  G1T_Tc       covered      at the step that started q's block   new agent an agent of a later block  omega equal 192
+   cat 18449  G1T_Tc       covered      at the step that started q's block   new agent q  omega higher                       330
+   cat 20497  G1T_Tb       covered      at the step that started q's block   new agent q  omega lower                        73158
+   cat 20625  G1T_Tb       covered      at the step that started q's block   new agent the old r  omega lower                21949
+   cat 20753  G1T_Tb       covered      at the step that started q's block   new agent another agent of q's old block  omega lower 28776
+   cat 20881  G1T_Tb       covered      at the step that started q's block   new agent an agent of a later block  omega lower 10004
+   cat 21521  G1T_Tb       covered      at the step that started q's block   new agent q  omega equal                        142
+   cat 21649  G1T_Tb       covered      at the step that started q's block   new agent the old r  omega equal                2033
+   cat 21777  G1T_Tb       covered      at the step that started q's block   new agent another agent of q's old block  omega equal 256
+   cat 22673  G1T_Tb       covered      at the step that started q's block   new agent the old r  omega higher               162
+# c4one_exchange.py -X -P2 -u2 -i20 -o0 -r1 -w0 -c0 -f3 -Y -E4 -Z3
+results/k4_certs_3.json.gz: 14 cores, 4384 weighted runs with a category
+   cat 4096  G2           NOT COVERED                                                                                       24
+   cat 4113  G2           covered      at the step that started q's block   new agent q  omega lower                        2524
+   cat 8192  G1F_nochain  NOT COVERED                                                                                       212
+   cat 12305  G1F_cond     covered      at the step that started q's block   new agent q  omega lower                        72
+   cat 16401  G1T_Tc       covered      at the step that started q's block   new agent q  omega lower                        664
+   cat 20497  G1T_Tb       covered      at the step that started q's block   new agent q  omega lower                        888
+results/k4_certs_4_n4_1.json.gz: 135 cores, 67116 weighted runs with a category
+   cat 4096  G2           NOT COVERED                                                                                       44
+   cat 4113  G2           covered      at the step that started q's block   new agent q  omega lower                        24276
+   cat 5137  G2           covered      at the step that started q's block   new agent q  omega equal                        316
+   cat 8192  G1F_nochain  NOT COVERED                                                                                       8904
+   cat 8209  G1F_nochain  covered      at the step that started q's block   new agent q  omega lower                        9072
+   cat 12288  G1F_cond     NOT COVERED                                                                                       1272
+   cat 12305  G1F_cond     covered      at the step that started q's block   new agent q  omega lower                        7104
+   cat 16401  G1T_Tc       covered      at the step that started q's block   new agent q  omega lower                        10016
+   cat 20497  G1T_Tb       covered      at the step that started q's block   new agent q  omega lower                        6112
+results/k4_certs_5_n4_1.json.gz: 1735 cores, 1696106 weighted runs with a category
+   cat 4096  G2           NOT COVERED                                                                                       956
+   cat 4113  G2           covered      at the step that started q's block   new agent q  omega lower                        326357
+   cat 5137  G2           covered      at the step that started q's block   new agent q  omega equal                        1483
+   cat 6161  G2           covered      at the step that started q's block   new agent q  omega higher                       42
+   cat 8192  G1F_nochain  NOT COVERED                                                                                       294628
+   cat 8209  G1F_nochain  covered      at the step that started q's block   new agent q  omega lower                        386720
+   cat 9233  G1F_nochain  covered      at the step that started q's block   new agent q  omega equal                        884
+   cat 12288  G1F_cond     NOT COVERED                                                                                       30648
+   cat 12305  G1F_cond     covered      at the step that started q's block   new agent q  omega lower                        243784
+   cat 13329  G1F_cond     covered      at the step that started q's block   new agent q  omega equal                        1180
+   cat 16401  G1T_Tc       covered      at the step that started q's block   new agent q  omega lower                        272408
+   cat 17425  G1T_Tc       covered      at the step that started q's block   new agent q  omega equal                        206
+   cat 18449  G1T_Tc       covered      at the step that started q's block   new agent q  omega higher                       330
+   cat 20480  G1T_Tb       NOT COVERED                                                                                       8
+   cat 20497  G1T_Tb       covered      at the step that started q's block   new agent q  omega lower                        136330
+   cat 21521  G1T_Tb       covered      at the step that started q's block   new agent q  omega equal                        142
+# c4one_exchange.py -X -P2 -u2 -i10 -o0 -r1 -w0 -c0 -f3 -E
+results/k4_certs_3.json.gz: 14 cores, 119232 weighted runs with a category
+   cat    0  the index run is covered                                                                                       118316
+   cat   16  changed step: new agent not q                                                                                  52
+   cat   17  changed step: new agent q                                                                                      184
+   cat   20  changed step: was the last insertion step new agent not q                                                      448
+   cat   21  changed step: was the last insertion step new agent q                                                          232
+results/k4_certs_4_n4_1.json.gz: 135 cores, 7247232 weighted runs with a category
+   cat    0  the index run is covered                                                                                       7234844
+   cat   16  changed step: new agent not q                                                                                  2208
+   cat   17  changed step: new agent q                                                                                      2496
+   cat   20  changed step: was the last insertion step new agent not q                                                      5476
+   cat   21  changed step: was the last insertion step new agent q                                                          2208
+results/k4_certs_5_n4_1.json.gz: 1735 cores, 574615296 weighted runs with a category
+   cat    0  the index run is covered                                                                                       574327878
+   cat   16  changed step: new agent not q                                                                                  90107
+   cat   17  changed step: new agent q                                                                                      31792
+   cat   20  changed step: was the last insertion step new agent not q                                                      130007
+   cat   21  changed step: was the last insertion step new agent q                                                          35512

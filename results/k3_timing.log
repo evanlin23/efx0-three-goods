@@ -1,0 +1,53 @@
+$ python3 k3/timing.py --max-n=100000 --mirror-max-n=80 --reps=3 --seed=1
+python 3.11.15; 3 instances per (family, n); times in seconds (median)
+
+family core
+      n       m      fast  slope    check    mirror  slope  branches, peeled, core size
+     10      15    0.0001          0.0000     0.000         noowner/0/10, noowner/0/10, noowner/0/10
+     20      30    0.0002   0.51   0.0000     0.001   1.89  noowner/0/20, noowner/0/20, noowner/0/20
+     40      60    0.0003   0.91   0.0001     0.010   2.81  noowner/0/40, noowner/0/40, noowner/0/40
+     80     120    0.0006   1.01   0.0001     0.089   3.19  noowner/0/80, noowner/0/80, noowner/0/80
+    100     150    0.0007   0.47   0.0002         -         noowner/0/100, noowner/0/100, noowner/0/100
+    200     300    0.0014   1.07   0.0004         -         noowner/0/200, noowner/0/200, noowner/0/200
+    500     750    0.0037   1.04   0.0009         -         noowner/0/500, noowner/0/500, noowner/0/500
+   1000    1500    0.0073   0.96   0.0018         -         noowner/0/1000, noowner/0/1000, noowner/0/1000
+   2000    3000    0.0148   1.02   0.0034         -         noowner/0/2000, noowner/0/2000, noowner/0/2000
+   5000    7500    0.0388   1.05   0.0085         -         noowner/0/5000, noowner/0/5000, noowner/0/5000
+  10000   15000    0.0824   1.09   0.0175         -         noowner/0/10000, noowner/0/10000, noowner/0/10000
+  20000   30000    0.1873   1.19   0.0366         -         noowner/0/20000, noowner/0/20000, noowner/0/20000
+  50000   75000    0.5875   1.25   0.0947         -         noowner/0/50000, noowner/0/50000, noowner/0/50000
+ 100000  150000    1.5282   1.38   0.2147         -         noowner/0/100000, noowner/0/100000, noowner/0/100000
+
+family core2m
+      n       m      fast  slope    check    mirror  slope  branches, peeled, core size
+     10      20    0.0001          0.0000     0.001         owner_r/0/10, owner_r/0/10, owner_r/0/10
+     20      40    0.0002   0.32   0.0000     0.006   2.54  owner_r/0/20, noowner/0/20, owner_r/0/20
+     40      80    0.0003   0.89   0.0001     0.040   2.74  owner_r/0/40, owner_r/0/40, owner_r/0/40
+     80     160    0.0007   1.04   0.0001     0.304   2.91  owner_r/0/80, owner_r/0/80, owner_r/0/80
+    100     200    0.0008   0.43   0.0002         -         owner_r/0/100, owner_r/0/100, owner_r/0/100
+    200     400    0.0015   0.98   0.0003         -         owner_r/0/200, owner_r/0/200, owner_r/0/200
+    500    1000    0.0037   0.98   0.0008         -         owner_r/0/500, owner_r/0/500, owner_r/0/500
+   1000    2000    0.0074   1.00   0.0016         -         owner_r/0/1000, owner_r/0/1000, owner_r/0/1000
+   2000    4000    0.0154   1.06   0.0034         -         owner_r/0/2000, owner_r/0/2000, owner_r/0/2000
+   5000   10000    0.0410   1.07   0.0086         -         owner_r/0/5000, owner_r/0/5000, owner_r/0/5000
+  10000   20000    0.0893   1.12   0.0173         -         owner_r/0/10000, owner_r/0/10000, owner_r/0/10000
+  20000   40000    0.2008   1.17   0.0350         -         owner_r/0/20000, owner_r/0/20000, owner_r/0/20000
+  50000  100000    0.6435   1.27   0.0951         -         owner_r/0/50000, owner_r/0/50000, owner_r/0/50000
+ 100000  200000    1.5755   1.29   0.2020         -         owner_r/0/100000, owner_r/0/100000, owner_r/0/100000
+
+family general
+      n       m      fast  slope    check    mirror  slope  branches, peeled, core size
+     10      20    0.0001          0.0000     0.000         one_agent/9/0, one_agent/9/0, one_agent/9/0
+     20      40    0.0001   1.07   0.0000     0.001   3.15  owner_r/18/2, owner_r/18/2, one_agent/19/0
+     40      80    0.0003   0.84   0.0001     0.003   2.00  owner_r/36/4, owner_r/36/4, owner_r/36/4
+     80     160    0.0004   0.77   0.0001     0.015   2.25  one_agent/79/0, owner_r/76/4, owner_r/74/6
+    100     200    0.0006   1.54   0.0002         -         owner_r/96/4, owner_r/86/14, owner_r/96/4
+    200     400    0.0011   0.90   0.0003         -         owner_r/184/16, owner_r/192/8, owner_r/183/17
+    500    1000    0.0037   1.29   0.0011         -         owner_r/468/32, owner_r/457/43, owner_r/450/50
+   1000    2000    0.0051   0.48   0.0016         -         owner_r/943/57, owner_r/911/89, owner_r/926/74
+   2000    4000    0.0105   1.03   0.0031         -         owner_r/1862/138, owner_r/1872/128, owner_r/1850/150
+   5000   10000    0.0275   1.06   0.0078         -         owner_r/4667/333, owner_r/4622/378, owner_r/4662/338
+  10000   20000    0.0616   1.16   0.0166         -         owner_r/9259/741, owner_r/9260/740, owner_r/9283/717
+  20000   40000    0.1400   1.19   0.0329         -         owner_r/18557/1443, owner_r/18524/1476, owner_r/18485/1515
+  50000  100000    0.3801   1.09   0.0869         -         owner_r/46302/3698, owner_r/46245/3755, owner_r/46257/3743
+ 100000  200000    0.8396   1.14   0.1972         -         owner_r/92781/7219, owner_r/92615/7385, owner_r/92987/7013

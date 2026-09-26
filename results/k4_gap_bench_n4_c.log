@@ -1,0 +1,15 @@
+command: python3 k4/gap_bench.py --catalog=results/k4_gap/gap_n4_1.json.gz,results/k4_gap/gap_n4_2_s4000.json.gz,results/k4_gap/gap_n4_3_s4000.json.gz,results/k4_gap/gap_n4_pure_s4000.json.gz --every=5 --only=II_T0,II_PHI,SAME_N --show=3
+gap.c sha256 0c14f252223c78d4fccbcfca4d048ca64b684980f6cec3f3cbb41742e3c38afa; catalogs ['gap_n4_1.json.gz', 'gap_n4_2_s4000.json.gz', 'gap_n4_3_s4000.json.gz', 'gap_n4_pure_s4000.json.gz']
+== roadmap (ii): in that setting with x threatened, once no exchange-cycle move avoiding x raises Phi', some exchange-cycle move through x (best pairs or any pairs, e.g. the plain rotation) leaves t = 0
+II_T0: HOLDS on the data; 18 cases tested, 2281806 skipped (hypothesis not met), 36803 profiles; 0 counterexamples
+== roadmap (ii) with (iii): in the same setting, some exchange-cycle move through x raises Phi'
+II_PHI: HOLDS on the data; 18 cases tested, 2281806 skipped (hypothesis not met), 36803 profiles; 0 counterexamples
+== needed for any move catalogue that keeps the needed set (pool, cycle, two-agent moves, downgrade swaps): at every configuration without a valid owner some configuration with the same needed set has a larger Phi'
+SAME_N: FAILS on the data; 179770 cases tested, 0 skipped (hypothesis not met), 36803 profiles; 7 counterexamples
+  smallest: n=4 m=8 sets=[[0, 2, 4, 5], [1, 3, 6, 7], [4, 5, 6, 7], [5, 6, 7]] values=[[6, 3, 2, 10], [2, 3, 6, 10], [4, 6, 3, 8], [2, 4, 3]]
+    Config(key=[5, 7, None, None], Q={2: [0, 4], 3: [1, 6]}, L=[2, 3]) Python re-check: confirmed
+  smallest: n=4 m=8 sets=[[0, 2, 4, 5], [1, 3, 6, 7], [4, 5, 6, 7], [5, 6, 7]] values=[[6, 3, 2, 10], [2, 3, 6, 10], [4, 6, 3, 8], [2, 4, 3]]
+    Config(key=[5, 7, None, None], Q={2: [0, 4], 3: [3, 6]}, L=[1, 2]) Python re-check: confirmed
+  smallest: n=4 m=8 sets=[[0, 2, 4, 5], [1, 3, 6, 7], [4, 5, 6, 7], [5, 6, 7]] values=[[6, 3, 2, 10], [2, 3, 6, 10], [4, 6, 3, 8], [2, 4, 3]]
+    Config(key=[5, 7, None, None], Q={2: [2, 4], 3: [1, 6]}, L=[0, 3]) Python re-check: confirmed
+[159 s]

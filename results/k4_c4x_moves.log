@@ -1,0 +1,13 @@
+# k = 4, section 5 of k4/c4x.md: augmenting-step distances and one-agent step kinds (-M) inside the min-frozen set
+# command: python3 k4/c4x_run.py results/k4_certs_2.json.gz -M -p 6,17 --jobs=1
+  MOVETYPES (pre-allocations admitting a one-agent step of each kind): no one-agent step 12816, up(1->2) 64296, down(2->1) 41664, drop(1->0) 0, fill(0->1/2) 0, swap1 0, swap2 145864, other 68828, frozen-changes 0
+FILE results/k4_certs_2.json.gz cores 5 profiles 189216 valid 2318524 tested 1958408 nocomp 0 ronone 0 ronone_any 0 paretomax 0 paretofail 0
+  MOVES: 171432 min-frozen pre-allocations with positive deficit; nearest lower deficit at distance 1..7: [158616, 12816, 0, 0, 0, 0, 0] (none: 0); nearest deficit <= 0: [158616, 12816, 0, 0, 0, 0, 0] (none: 0)
+  (-frozen,-rodef)                 every-max fails            0   some-max fails            0
+
+# command: python3 k4/c4x_run.py results/k4_certs_3.json.gz -M -p 6,17 --rand=20000 --jobs=1
+  MOVETYPES (pre-allocations admitting a one-agent step of each kind): no one-agent step 3811, up(1->2) 24832, down(2->1) 71665, drop(1->0) 0, fill(0->1/2) 0, swap1 0, swap2 130653, other 86347, frozen-changes 0
+FILE results/k4_certs_3.json.gz cores 51 profiles 1020000 valid 22336951 tested 11454210 nocomp 0 ronone 0 ronone_any 0 paretomax 0 paretofail 0
+  MOVES: 137220 min-frozen pre-allocations with positive deficit; nearest lower deficit at distance 1..7: [133409, 3676, 135, 0, 0, 0, 0] (none: 0); nearest deficit <= 0: [133361, 3724, 135, 0, 0, 0, 0] (none: 0)
+  (-frozen,-rodef)                 every-max fails            0   some-max fails            0
+

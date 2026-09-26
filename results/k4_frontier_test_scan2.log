@@ -1,0 +1,2 @@
+command: python3 k4/frontier/test_scan2.py 300
+300 trials, 13820 calls (4407 uncovered, 9413 covered): all agree with brute force

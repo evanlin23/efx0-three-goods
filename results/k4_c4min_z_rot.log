@@ -1,0 +1,39 @@
+# k4/c4min.md §3.5: Lemma R checked case by case (check B' of k4/c4min_z.py): at every pool-optimal APA without a valid owner, for every agent of every cycle of the threat permutation, the case of Lemma R it falls in ((i) 3-good or kind (D), (ii) kind (R) with s in the predecessor's pair, (iii) kind (R) with s in the pool) and the check of that case; counts are per agent and cycle. The other counters are those of results/k4_c4min_zf_python.log (same commands and seeds) and agree with it. The counters of check B' are printed with their zeros; the other counters, as before, only when nonzero (no VIOLATION line = 0 violations).
+# k4/c4min_z.py git blob f1e9ad8adb9ce55b5ec2f490456ca0880a920e0b
+# command: python3 k4/c4min_z.py results/k4_certs_2.json.gz
+FILE results/k4_certs_2.json.gz (111 s)
+  (r, sum-level)-maxima: 113208
+  Lemma R (i), 3-good agent robust after the plain rotation: 0
+  Lemma R (i), kind (D) robust after the plain rotation: 1200
+  Lemma R (ii), kind (R), s in the predecessor pair, robust after the plain rotation: 3120
+  Lemma R (iii), kind (R), s in the pool, robust in the modified rotation (an APA): 7120
+  Lemma R, plain rotations that are APAs (cycles): 5720
+  VIOLATION R (i): not robust: 0
+  VIOLATION R (ii): not robust: 0
+  VIOLATION R (iii): modified rotation not an APA, or not robust: 0
+  VIOLATION R: kind (R) without its top in Q', or s elsewhere: 0
+  VIOLATION R: plain rotation not an APA: 0
+  kind (T) 4-good agents on rotated cycles (no claim): 0
+  pool-optimal APAs: 210592
+  pool-optimal APAs without valid owner: 5720
+  profiles (f = 0, omega >= 1): 103824
+  rotations checked (modified): 5720
+# command: python3 k4/c4min_z.py results/k4_certs_3.json.gz --rand=10000 --seed=21
+FILE results/k4_certs_3.json.gz (742 s)
+  (r, sum-level)-maxima: 203136
+  Lemma R (i), 3-good agent robust after the plain rotation: 88
+  Lemma R (i), kind (D) robust after the plain rotation: 87
+  Lemma R (ii), kind (R), s in the predecessor pair, robust after the plain rotation: 169
+  Lemma R (iii), kind (R), s in the pool, robust in the modified rotation (an APA): 476
+  Lemma R, plain rotations that are APAs (cycles): 333
+  VIOLATION R (i): not robust: 0
+  VIOLATION R (ii): not robust: 0
+  VIOLATION R (iii): modified rotation not an APA, or not robust: 0
+  VIOLATION R: kind (R) without its top in Q', or s elsewhere: 0
+  VIOLATION R: plain rotation not an APA: 0
+  kind (T) 4-good agents on rotated cycles (no claim): 179
+  pool-optimal APAs: 780737
+  pool-optimal APAs without valid owner: 333
+  profiles (f = 0, omega >= 1): 173126
+  rotations checked (modified): 333
+# finished Sat Sep 26 01:36:50 UTC 2026

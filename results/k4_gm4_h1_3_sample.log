@@ -1,0 +1,2 @@
+# gm4_run.py ../results/k4_certs_3.json.gz --sample=20000
+TOTAL cores=51 badcores=0 runs=1020000 maxima=1322238 pool=66023 empty=0 dump_any=66023 dump_all_src=37421 place=66023 noplace=0 src1=17350 src2=48673 src3=0 src4p=0 nodump_place=0 envyfree=0 envsrc=67045 envsrc_fail=0 isosrc=47651 isosrc_fail=28602 wall=44s

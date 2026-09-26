@@ -1,0 +1,99 @@
+# k4/c4min_f1_proof.py (independent Python checker of the lemma steps, on k4/c4min_cfg.py); 2026-09-26
+FILE results/k4_certs_3.json.gz rand=1500 seed=31 (45 s)
+  configurations: 41518
+  profiles: 2177
+  x 3: 1 pool move raises Psi: 1031
+  x 3: 3 every rotation raises Psi: 1
+  x 3: 4 path moves: all raise: 6
+  x 3: 4s shortest paths (k=0): all raise: 6
+  x 3: configurations without owner valid with C = {}: 1038
+  x 4: 1 pool move raises Psi: 2268
+  x 4: 3 every rotation raises Psi: 5
+  x 4: 4 path moves: all raise: 70
+  x 4: 4s shortest paths (k=0): all raise: 70
+  x 4: configurations without owner valid with C = {}: 2343
+  x BT: 1 pool move raises Psi: 4640
+  x BT: 3 every rotation raises Psi: 37
+  x BT: 4 path move tie [tau robust k=0]: 33
+  x BT: 4 path moves: NONE RAISES: 27
+  x BT: 4 path moves: all raise: 118
+  x BT: 4 path moves: some raise: 6
+  x BT: 4s shortest paths (k=0): NONE RAISES: 33
+  x BT: 4s shortest paths (k=0): all raise: 67
+  x BT: 4s shortest paths (k=1): all raise: 51
+  x BT: 8 tie: t=1 t'=0 terminals=1 | x owns c' False | c' owner (C={}) True | c' completable True | tau owns c (unfreezing) True: 1
+  x BT: 8 tie: t=1 t'=0 terminals=1 | x owns c' True | c' owner (C={}) True | c' completable True | tau owns c (unfreezing) False: 23
+  x BT: 8 tie: t=1 t'=0 terminals=2 | x owns c' False | c' owner (C={}) True | c' completable True | tau owns c (unfreezing) False: 1
+  x BT: 8 tie: t=1 t'=0 terminals=2 | x owns c' True | c' owner (C={}) True | c' completable True | tau owns c (unfreezing) False: 2
+  x BT: 8 tie: t=1 t'=1 terminals=2 | x owns c' False | c' owner (C={}) False | c' completable False | tau owns c (unfreezing) False: 3
+  x BT: configurations without owner valid with C = {}: 4828
+  example (x BT: 4 path move tie [tau robust k=0]): [0:3,2:7,4:6,6:5] [1:4,3:2,5:8,7:3] [4:3,5:10,6:6,7:2] frozen 1:[5] pairs {0: [0, 2], 2: [4, 6]} pool [1, 3, 7]
+  example (x BT: 4 path move tie [tau robust k=0]): [0:4,2:6,6:8,7:3] [1:3,4:2,6:8,7:4] [3:4,5:3,6:8,7:2] frozen 1:[6] pairs {0: [0, 2], 2: [3, 5]} pool [1, 4, 7]
+FILE results/k4_certs_4_n4_2.json.gz rand=60 seed=32 (26 s)
+  configurations: 21978
+  profiles: 485
+  x 3: 1 pool move raises Psi: 348
+  x 3: 3 every rotation raises Psi: 3
+  x 3: 4 path moves: all raise: 2
+  x 3: 4s shortest paths (k=0): all raise: 2
+  x 3: configurations without owner valid with C = {}: 353
+  x 4: 1 pool move raises Psi: 96
+  x 4: configurations without owner valid with C = {}: 96
+  x BT: 1 pool move raises Psi: 110
+  x BT: 3 every rotation raises Psi: 3
+  x BT: 4 path moves: all raise: 6
+  x BT: 4s shortest paths (k=0): all raise: 5
+  x BT: 4s shortest paths (k=>=2): all raise: 1
+  x BT: configurations without owner valid with C = {}: 119
+FILE results/k4_certs_4_n4_3.json.gz rand=60 seed=32 (43 s)
+  configurations: 52710
+  profiles: 780
+  x 3: 1 pool move raises Psi: 926
+  x 3: 3 every rotation raises Psi: 2
+  x 3: 4 path moves: all raise: 3
+  x 3: 4s shortest paths (k=0): all raise: 3
+  x 3: configurations without owner valid with C = {}: 931
+  x 4: 1 pool move raises Psi: 1107
+  x 4: 3 every rotation raises Psi: 2
+  x 4: 4 path moves: all raise: 60
+  x 4: 4s shortest paths (k=0): all raise: 60
+  x 4: configurations without owner valid with C = {}: 1169
+  x BT: 1 pool move raises Psi: 1792
+  x BT: 3 every rotation raises Psi: 2
+  x BT: 4 path move tie [tau robust k=0]: 13
+  x BT: 4 path moves: NONE RAISES: 12
+  x BT: 4 path moves: all raise: 8
+  x BT: 4 path moves: some raise: 1
+  x BT: 4s shortest paths (k=0): NONE RAISES: 13
+  x BT: 4s shortest paths (k=0): all raise: 6
+  x BT: 4s shortest paths (k=>=2): all raise: 2
+  x BT: 8 tie: t=1 t'=0 terminals=1 | x owns c' False | c' owner (C={}) True | c' completable True | tau owns c (unfreezing) True: 5
+  x BT: 8 tie: t=1 t'=0 terminals=1 | x owns c' True | c' owner (C={}) True | c' completable True | tau owns c (unfreezing) False: 1
+  x BT: 8 tie: t=1 t'=1 terminals=1 | x owns c' False | c' owner (C={}) False | c' completable True | tau owns c (unfreezing) True: 6
+  x BT: configurations without owner valid with C = {}: 1815
+  example (x BT: 4 path move tie [tau robust k=0]): [0:4,2:7,6:10,8:2] [1:2,4:3,7:8,8:4] [3:2,5:3,9:4] [5:2,6:3,7:8,9:4] frozen 1:[7] pairs {0: [0, 2], 2: [3, 5], 3: [6, 9]} pool [1, 4, 8]
+  example (x BT: 4 path move tie [tau robust k=0]): [0:3,2:6,7:5,9:7] [1:3,5:2,8:6,9:10] [3:3,6:4,8:2,9:8] [4:4,7:3,9:2] frozen 1:[9] pairs {0: [0, 2], 2: [3, 6], 3: [4, 7]} pool [1, 5, 8]
+FILE results/k4_certs_4_pure.json.gz rand=60 seed=32 (44 s)
+  configurations: 59798
+  profiles: 635
+  x 4: 1 pool move raises Psi: 2956
+  x 4: 3 every rotation raises Psi: 2
+  x 4: 4 path moves: all raise: 81
+  x 4: 4s shortest paths (k=0): all raise: 81
+  x 4: configurations without owner valid with C = {}: 3039
+  x BT: 1 pool move raises Psi: 5201
+  x BT: 3 every rotation raises Psi: 4
+  x BT: 4 path move tie [tau robust k=0]: 12
+  x BT: 4 path moves: NONE RAISES: 12
+  x BT: 4 path moves: all raise: 31
+  x BT: 4s shortest paths (k=0): NONE RAISES: 12
+  x BT: 4s shortest paths (k=0): all raise: 29
+  x BT: 4s shortest paths (k=1): all raise: 1
+  x BT: 4s shortest paths (k=>=2): all raise: 1
+  x BT: 8 tie: t=1 t'=0 terminals=1 | x owns c' False | c' owner (C={}) False | c' completable True | tau owns c (unfreezing) True: 1
+  x BT: 8 tie: t=1 t'=0 terminals=1 | x owns c' False | c' owner (C={}) True | c' completable True | tau owns c (unfreezing) True: 2
+  x BT: 8 tie: t=1 t'=0 terminals=1 | x owns c' True | c' owner (C={}) True | c' completable True | tau owns c (unfreezing) False: 6
+  x BT: 8 tie: t=1 t'=1 terminals=1 | x owns c' False | c' owner (C={}) False | c' completable True | tau owns c (unfreezing) True: 3
+  x BT: configurations without owner valid with C = {}: 5248
+  example (x BT: 4 path move tie [tau robust k=0]): [0:4,2:3,5:2,9:8] [1:3,4:2,8:4,9:8] [3:8,5:4,6:5,7:6] [6:4,7:8,8:3,9:2] frozen 1:[9] pairs {0: [0, 2], 2: [3, 5], 3: [6, 7]} pool [1, 4, 8]
+  example (x BT: 4 path move tie [tau robust k=0]): [0:4,2:3,5:2,9:8] [1:3,4:2,8:4,9:8] [3:8,5:4,6:5,7:6] [6:4,7:8,8:3,9:2] frozen 0:[9] pairs {1: [1, 8], 2: [3, 6], 3: [4, 7]} pool [0, 2, 5]

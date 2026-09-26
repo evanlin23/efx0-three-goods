@@ -1,0 +1,205 @@
+# command: python3 c4min_sample.py --family=ht:4 --profiles=400 --mode=uniform --seed=91 --verify=20 --jobs=1
+# commit 664f466, k4/c4min_hunt.c sha1 9c7ca0ffe25b, started Fri Sep 25 20:55:23 UTC 2026
+ht:4 (n 17, m 43, uniform): RANDOM profiles 400 fails 0 owner_needed 400 fstar 263 115 20 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 (5.6 s)
+  verify: certificate re-checked but f = 1 > 0 needs the lower bound
+  verify: certificate re-checked but f = 1 > 0 needs the lower bound
+  verify: certificate re-checked but f = 1 > 0 needs the lower bound
+  verify: certificate re-checked but f = 1 > 0 needs the lower bound
+  verify: certificate re-checked but f = 1 > 0 needs the lower bound
+  verify: certificate re-checked but f = 1 > 0 needs the lower bound
+  verify: certificate re-checked but f = 2 > 0 needs the lower bound
+  verify: 20 certificates of ht:4 re-checked literally
+TOTAL profiles 400 fails 0
+# finished Fri Sep 25 20:55:34 UTC 2026
+# command: python3 c4min_sample.py --family=ht:5 --profiles=400 --mode=uniform --seed=91 --verify=20 --jobs=1
+# commit 664f466, k4/c4min_hunt.c sha1 9c7ca0ffe25b, started Fri Sep 25 20:55:34 UTC 2026
+ht:5 (n 21, m 53, uniform): RANDOM profiles 400 fails 0 owner_needed 400 fstar 206 159 31 4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 (103.4 s)
+  verify: certificate re-checked but f = 1 > 0 needs the lower bound
+  verify: certificate re-checked but f = 1 > 0 needs the lower bound
+  verify: certificate re-checked but f = 2 > 0 needs the lower bound
+  verify: certificate re-checked but f = 1 > 0 needs the lower bound
+  verify: certificate re-checked but f = 1 > 0 needs the lower bound
+  verify: certificate re-checked but f = 1 > 0 needs the lower bound
+  verify: certificate re-checked but f = 1 > 0 needs the lower bound
+  verify: certificate re-checked but f = 1 > 0 needs the lower bound
+  verify: 20 certificates of ht:5 re-checked literally
+TOTAL profiles 400 fails 0
+# finished Fri Sep 25 20:57:18 UTC 2026
+# command: python3 c4min_sample.py --family=ht2:4 --profiles=400 --mode=uniform --seed=91 --verify=20 --jobs=1
+# commit 96951e1, k4/c4min_hunt.c sha1 9c7ca0ffe25b, started Fri Sep 25 20:57:18 UTC 2026
+ht2:4 (n 13, m 35, uniform): RANDOM profiles 400 fails 0 owner_needed 400 fstar 339 58 3 0 0 0 0 0 0 0 0 0 0 0 (0.1 s)
+  verify: certificate re-checked but f = 1 > 0 needs the lower bound
+  verify: certificate re-checked but f = 1 > 0 needs the lower bound
+  verify: certificate re-checked but f = 1 > 0 needs the lower bound
+  verify: certificate re-checked but f = 1 > 0 needs the lower bound
+  verify: certificate re-checked but f = 1 > 0 needs the lower bound
+  verify: 20 certificates of ht2:4 re-checked literally
+TOTAL profiles 400 fails 0
+# finished Fri Sep 25 20:57:20 UTC 2026
+# command: python3 c4min_sample.py --family=htx:4 --profiles=400 --mode=uniform --seed=91 --verify=20 --jobs=1
+# commit 96951e1, k4/c4min_hunt.c sha1 9c7ca0ffe25b, started Fri Sep 25 20:57:20 UTC 2026
+htx:4 (n 17, m 31, uniform): RANDOM profiles 400 fails 0 owner_needed 0 fstar 281 102 16 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 (1.4 s)
+  verify: 20 certificates of htx:4 re-checked literally
+TOTAL profiles 400 fails 0
+# finished Fri Sep 25 20:57:22 UTC 2026
+# command: python3 c4min_sample.py --family=htc:4 --profiles=400 --mode=uniform --seed=91 --verify=20 --jobs=1
+# commit 96951e1, k4/c4min_hunt.c sha1 9c7ca0ffe25b, started Fri Sep 25 20:57:22 UTC 2026
+htc:4 (n 16, m 40, uniform): RANDOM profiles 400 fails 0 owner_needed 400 fstar 283 94 19 4 0 0 0 0 0 0 0 0 0 0 0 0 0 (1.9 s)
+  verify: certificate re-checked but f = 2 > 0 needs the lower bound
+  verify: certificate re-checked but f = 1 > 0 needs the lower bound
+  verify: certificate re-checked but f = 1 > 0 needs the lower bound
+  verify: certificate re-checked but f = 2 > 0 needs the lower bound
+  verify: certificate re-checked but f = 1 > 0 needs the lower bound
+  verify: certificate re-checked but f = 1 > 0 needs the lower bound
+  verify: certificate re-checked but f = 1 > 0 needs the lower bound
+  verify: 20 certificates of htc:4 re-checked literally
+TOTAL profiles 400 fails 0
+# finished Fri Sep 25 20:57:26 UTC 2026
+# command: python3 c4min_sample.py --family=grid:2:2 --profiles=400 --mode=uniform --seed=91 --verify=20 --jobs=1
+# commit 96951e1, k4/c4min_hunt.c sha1 9c7ca0ffe25b, started Fri Sep 25 20:57:26 UTC 2026
+grid:2:2 (n 18, m 45, uniform): RANDOM profiles 400 fails 0 owner_needed 400 fstar 244 113 37 5 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 (13.9 s)
+  verify: certificate re-checked but f = 1 > 0 needs the lower bound
+  verify: certificate re-checked but f = 1 > 0 needs the lower bound
+  verify: certificate re-checked but f = 2 > 0 needs the lower bound
+  verify: certificate re-checked but f = 2 > 0 needs the lower bound
+  verify: certificate re-checked but f = 1 > 0 needs the lower bound
+  verify: 20 certificates of grid:2:2 re-checked literally
+TOTAL profiles 400 fails 0
+# finished Fri Sep 25 20:57:41 UTC 2026
+# command: python3 c4min_sample.py --family=chain:2:2 --profiles=400 --mode=uniform --seed=91 --verify=20 --jobs=1
+# commit 96951e1, k4/c4min_hunt.c sha1 9c7ca0ffe25b, started Fri Sep 25 20:57:41 UTC 2026
+chain:2:2 (n 18, m 45, uniform): RANDOM profiles 400 fails 0 owner_needed 400 fstar 238 118 37 6 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 (12.5 s)
+  verify: certificate re-checked but f = 1 > 0 needs the lower bound
+  verify: certificate re-checked but f = 1 > 0 needs the lower bound
+  verify: certificate re-checked but f = 1 > 0 needs the lower bound
+  verify: certificate re-checked but f = 1 > 0 needs the lower bound
+  verify: 20 certificates of chain:2:2 re-checked literally
+TOTAL profiles 400 fails 0
+# finished Fri Sep 25 20:57:55 UTC 2026
+# command: python3 c4min_sample.py --family=ht:6 --profiles=400 --mode=uniform --seed=91 --verify=20 --jobs=1
+# commit 4eb9656, k4/c4min_hunt.c sha1 9c7ca0ffe25b, started Fri Sep 25 21:08:49 UTC 2026
+Traceback (most recent call last):
+  File "/home/user/efx0-three-goods/k4/c4min_sample.py", line 105, in <module>
+    main()
+  File "/home/user/efx0-three-goods/k4/c4min_sample.py", line 77, in main
+    for tag, sets, m, doms, out, dt in ex.map(run, tasks):
+  File "/usr/lib/python3.11/concurrent/futures/_base.py", line 619, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/concurrent/futures/_base.py", line 317, in _result_or_cancel
+    return fut.result(timeout)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/concurrent/futures/_base.py", line 456, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/usr/lib/python3.11/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/efx0-three-goods/k4/c4min_sample.py", line 44, in run
+    out = subprocess.run([cc.hunt_binary(), *opts], input=inp, capture_output=True, text=True, check=True).stdout
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['/tmp/c4min_hunt_9c7ca0ffe25b', '-R', '400', '-S', '720629', '-x', '5']' died with <Signals.SIGTERM: 15>.
+# exit status 1 (killed by hand after 14 CPU-minutes: the exact search of k4/c4min_hunt.c has a heavy tail on H_6, e.g. 18 s to
+# prove f* = 2 on one profile; H_6 and larger families are run with the SAT encoding k4/c4min_sat.py instead)
+# finished Fri Sep 25 21:31:13 UTC 2026
+# command: python3 c4min_sample.py --family=cycle:4 --profiles=400 --mode=uniform --seed=91 --verify=20 --jobs=1
+# commit fce1e15, k4/c4min_hunt.c sha1 60fbc9be5f85, started Fri Sep 25 21:31:13 UTC 2026
+cycle:4 (n 17, m 43, uniform): RANDOM profiles 400 fails 0 owner_needed 400 fstar 263 115 20 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 (6.0 s)
+  verify: certificate re-checked but f = 1 > 0 needs the lower bound
+  verify: certificate re-checked but f = 1 > 0 needs the lower bound
+  verify: certificate re-checked but f = 1 > 0 needs the lower bound
+  verify: certificate re-checked but f = 1 > 0 needs the lower bound
+  verify: certificate re-checked but f = 1 > 0 needs the lower bound
+  verify: certificate re-checked but f = 1 > 0 needs the lower bound
+  verify: certificate re-checked but f = 2 > 0 needs the lower bound
+  verify: 20 certificates of cycle:4 re-checked literally
+TOTAL profiles 400 fails 0
+# finished Fri Sep 25 21:31:25 UTC 2026
+# command: python3 c4min_sample.py --family=tree:4 --profiles=400 --mode=uniform --seed=91 --verify=20 --jobs=1
+# commit fce1e15, k4/c4min_hunt.c sha1 60fbc9be5f85, started Fri Sep 25 21:31:25 UTC 2026
+tree:4 (n 18, m 45, uniform): RANDOM profiles 400 fails 0 owner_needed 400 fstar 234 126 33 6 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 (14.0 s)
+  verify: certificate re-checked but f = 2 > 0 needs the lower bound
+  verify: certificate re-checked but f = 1 > 0 needs the lower bound
+  verify: 20 certificates of tree:4 re-checked literally
+TOTAL profiles 400 fails 0
+# finished Fri Sep 25 21:31:40 UTC 2026
+# command: python3 c4min_sample.py --family=ht:4 --family=ht:5 --family=htc:4 --profiles=400 --mode=perturb:1 --seed=92 --verify=10 --jobs=1
+# commit fce1e15, k4/c4min_hunt.c sha1 60fbc9be5f85, started Fri Sep 25 21:31:40 UTC 2026
+ht:4 (n 17, m 43, perturb:1): RANDOM profiles 400 fails 0 owner_needed 400 fstar 400 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 (0.2 s)
+  verify: certificate re-checked but f = 1 > 0 needs the lower bound
+  verify: certificate re-checked but f = 1 > 0 needs the lower bound
+  verify: certificate re-checked but f = 1 > 0 needs the lower bound
+  verify: certificate re-checked but f = 2 > 0 needs the lower bound
+  verify: certificate re-checked but f = 1 > 0 needs the lower bound
+  verify: 10 certificates of ht:4 re-checked literally
+ht:5 (n 21, m 53, perturb:1): RANDOM profiles 400 fails 0 owner_needed 400 fstar 400 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 (0.7 s)
+  verify: certificate re-checked but f = 3 > 0 needs the lower bound
+  verify: certificate re-checked but f = 2 > 0 needs the lower bound
+  verify: 10 certificates of ht:5 re-checked literally
+htc:4 (n 16, m 40, perturb:1): RANDOM profiles 400 fails 0 owner_needed 400 fstar 400 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 (0.2 s)
+  verify: certificate re-checked but f = 1 > 0 needs the lower bound
+  verify: certificate re-checked but f = 1 > 0 needs the lower bound
+  verify: 10 certificates of htc:4 re-checked literally
+TOTAL profiles 1200 fails 0
+# finished Fri Sep 25 21:31:43 UTC 2026
+# command: python3 c4min_sample.py --family=ht:4 --family=ht:5 --family=htc:4 --profiles=400 --mode=perturb:2 --seed=92 --verify=10 --jobs=1
+# commit fce1e15, k4/c4min_hunt.c sha1 60fbc9be5f85, started Fri Sep 25 21:31:43 UTC 2026
+ht:4 (n 17, m 43, perturb:2): RANDOM profiles 400 fails 0 owner_needed 400 fstar 399 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 (0.2 s)
+  verify: certificate re-checked but f = 1 > 0 needs the lower bound
+  verify: certificate re-checked but f = 1 > 0 needs the lower bound
+  verify: certificate re-checked but f = 1 > 0 needs the lower bound
+  verify: certificate re-checked but f = 2 > 0 needs the lower bound
+  verify: certificate re-checked but f = 1 > 0 needs the lower bound
+  verify: 10 certificates of ht:4 re-checked literally
+ht:5 (n 21, m 53, perturb:2): RANDOM profiles 400 fails 0 owner_needed 400 fstar 399 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 (0.7 s)
+  verify: certificate re-checked but f = 3 > 0 needs the lower bound
+  verify: certificate re-checked but f = 2 > 0 needs the lower bound
+  verify: 10 certificates of ht:5 re-checked literally
+htc:4 (n 16, m 40, perturb:2): RANDOM profiles 400 fails 0 owner_needed 400 fstar 399 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 (0.2 s)
+  verify: certificate re-checked but f = 1 > 0 needs the lower bound
+  verify: certificate re-checked but f = 1 > 0 needs the lower bound
+  verify: 10 certificates of htc:4 re-checked literally
+TOTAL profiles 1200 fails 0
+# finished Fri Sep 25 21:31:47 UTC 2026
+# command: python3 c4min_sample.py --family=ht:4 --family=ht:5 --family=htc:4 --profiles=400 --mode=perturb:4 --seed=92 --verify=10 --jobs=1
+# commit fce1e15, k4/c4min_hunt.c sha1 60fbc9be5f85, started Fri Sep 25 21:31:47 UTC 2026
+ht:4 (n 17, m 43, perturb:4): RANDOM profiles 400 fails 0 owner_needed 400 fstar 395 5 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 (0.4 s)
+  verify: certificate re-checked but f = 1 > 0 needs the lower bound
+  verify: certificate re-checked but f = 1 > 0 needs the lower bound
+  verify: certificate re-checked but f = 1 > 0 needs the lower bound
+  verify: certificate re-checked but f = 2 > 0 needs the lower bound
+  verify: certificate re-checked but f = 1 > 0 needs the lower bound
+  verify: 10 certificates of ht:4 re-checked literally
+ht:5 (n 21, m 53, perturb:4): RANDOM profiles 400 fails 0 owner_needed 400 fstar 397 3 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 (0.7 s)
+  verify: certificate re-checked but f = 3 > 0 needs the lower bound
+  verify: certificate re-checked but f = 2 > 0 needs the lower bound
+  verify: 10 certificates of ht:5 re-checked literally
+htc:4 (n 16, m 40, perturb:4): RANDOM profiles 400 fails 0 owner_needed 400 fstar 396 4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 (0.3 s)
+  verify: certificate re-checked but f = 1 > 0 needs the lower bound
+  verify: certificate re-checked but f = 1 > 0 needs the lower bound
+  verify: 10 certificates of htc:4 re-checked literally
+TOTAL profiles 1200 fails 0
+# finished Fri Sep 25 21:31:50 UTC 2026
+# command: python3 c4min_sample.py --family=ht:4 --family=ht:5 --family=htc:4 --profiles=400 --mode=perturb:8 --seed=92 --verify=10 --jobs=1
+# commit fce1e15, k4/c4min_hunt.c sha1 60fbc9be5f85, started Fri Sep 25 21:31:50 UTC 2026
+ht:4 (n 17, m 43, perturb:8): RANDOM profiles 400 fails 0 owner_needed 400 fstar 384 16 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 (0.8 s)
+  verify: certificate re-checked but f = 1 > 0 needs the lower bound
+  verify: certificate re-checked but f = 1 > 0 needs the lower bound
+  verify: certificate re-checked but f = 1 > 0 needs the lower bound
+  verify: certificate re-checked but f = 2 > 0 needs the lower bound
+  verify: certificate re-checked but f = 1 > 0 needs the lower bound
+  verify: 10 certificates of ht:4 re-checked literally
+ht:5 (n 21, m 53, perturb:8): RANDOM profiles 400 fails 0 owner_needed 400 fstar 389 11 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 (15.9 s)
+  verify: certificate re-checked but f = 3 > 0 needs the lower bound
+  verify: certificate re-checked but f = 2 > 0 needs the lower bound
+  verify: 10 certificates of ht:5 re-checked literally
+htc:4 (n 16, m 40, perturb:8): RANDOM profiles 400 fails 0 owner_needed 400 fstar 377 22 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 (0.6 s)
+  verify: certificate re-checked but f = 1 > 0 needs the lower bound
+  verify: certificate re-checked but f = 1 > 0 needs the lower bound
+  verify: 10 certificates of htc:4 re-checked literally
+TOTAL profiles 1200 fails 0
+# finished Fri Sep 25 21:32:09 UTC 2026

@@ -1,0 +1,43 @@
+# lb4_run.py results/k4_certs_5_n4_1.json.gz -i1 -u2 -o0 -r1 -w0 -c0 --show=6
+results/k4_certs_5_n4_1.json.gz: 1735 cores, 187s
+  total=5782149576 leaves=665805517 runs=820944794 fails=140 rawfails=0 nobig=5608380062 owner_r=160331234 owner_other=4944600 rot=8493540 later_seq=0 later_upg=0 big3=150870172 big4=15936818 big5=749920 big6=14888
+  cores with a failure: 5
+    (8, [[0, 2, 4], [1, 2, 3, 7], [1, 5, 7], [3, 6, 7], [4, 5, 6]], 40, 0)
+    (8, [[0, 2, 4, 7], [1, 2, 3], [1, 5, 6], [3, 5, 7], [4, 6, 7]], 20, 0)
+    (9, [[0, 2, 5, 8], [1, 4, 8], [3, 4, 7], [3, 6, 8], [5, 6, 7]], 20, 0)
+    (9, [[0, 3, 7], [1, 5, 8], [2, 6, 7, 8], [3, 4, 5], [4, 6, 8]], 20, 0)
+    (10, [[0, 2, 5, 9], [1, 5, 7], [3, 6, 9], [4, 8, 9], [6, 7, 8]], 40, 0)
+   FAIL n=5 m=8 sets=[[0,2,4],[1,2,3,7],[1,5,7],[3,6,7],[4,5,6]] vals=[[2,4,3],[2,8,3,4],[2,4,3],[2,4,3],[2,3,4]] order=0 1 2 3 4  picks=2,7,5,6,4 blocks=0,0,0,0,0 upg= frozen=0 2 3  J=b w=1
+   FAIL n=5 m=8 sets=[[0,2,4],[1,2,3,7],[1,5,7],[3,6,7],[4,5,6]] vals=[[2,4,3],[2,8,4,5],[2,4,3],[2,4,3],[2,3,4]] order=0 1 2 3 4  picks=2,7,5,6,4 blocks=0,0,0,0,0 upg= frozen=0 2 3  J=b w=1
+   FAIL n=5 m=8 sets=[[0,2,4],[1,2,3,7],[1,5,7],[3,6,7],[4,5,6]] vals=[[2,4,3],[3,8,4,6],[2,4,3],[2,4,3],[2,3,4]] order=0 1 2 3 4  picks=2,7,5,6,4 blocks=0,0,0,0,0 upg= frozen=0 2 3  J=b w=1
+   FAIL n=5 m=8 sets=[[0,2,4,7],[1,2,3],[1,5,6],[3,5,7],[4,6,7]] vals=[[4,8,5,6],[2,4,3],[2,4,3],[2,4,3],[2,4,3]] order=1 0 3 4 2  picks=7,2,1,5,6 blocks=0,0,0,0,0 upg= frozen=1 3 4  J=19 w=1
+   FAIL n=5 m=8 sets=[[0,2,4,7],[1,2,3],[1,5,6],[3,5,7],[4,6,7]] vals=[[5,8,4,6],[2,4,3],[2,4,3],[2,4,3],[2,4,3]] order=1 0 3 4 2  picks=7,2,1,5,6 blocks=0,0,0,0,0 upg= frozen=1 3 4  J=19 w=1
+   FAIL n=5 m=8 sets=[[0,2,4,7],[1,2,3],[1,5,6],[3,5,7],[4,6,7]] vals=[[2,8,3,4],[3,4,2],[2,4,3],[2,4,3],[2,4,3]] order=1 0 3 4 2  picks=7,2,1,5,6 blocks=0,0,0,0,0 upg= frozen=1 3 4  J=19 w=1
+# lb4_run.py results/k4_certs_5_n4_1.json.gz -i1 -u2 -o0 -r1 -w1 -c0 --show=4
+results/k4_certs_5_n4_1.json.gz: 1735 cores, 190s
+  total=5782149576 leaves=665851778 runs=821037316 fails=8 rawfails=0 nobig=5608380062 owner_r=160955438 owner_other=4700388 rot=8113680 later_seq=0 later_upg=0 big3=150881589 big4=15922716 big5=741098 big6=14888
+  cores with a failure: 2
+    (8, [[0, 2, 4, 7], [1, 2, 3], [1, 5, 6], [3, 5, 7], [4, 6, 7]], 2, 0)
+    (9, [[0, 3, 7], [1, 5, 8], [2, 6, 7, 8], [3, 4, 5], [4, 6, 8]], 6, 0)
+   FAIL n=5 m=8 sets=[[0,2,4,7],[1,2,3],[1,5,6],[3,5,7],[4,6,7]] vals=[[2,8,3,4],[3,4,2],[2,4,3],[2,4,3],[2,4,3]] order=1 0 3 4 2  picks=7,2,1,5,6 blocks=0,0,0,0,0 upg= frozen=1 3 4  J=19 w=1
+   FAIL n=5 m=8 sets=[[0,2,4,7],[1,2,3],[1,5,6],[3,5,7],[4,6,7]] vals=[[3,8,2,4],[3,4,2],[2,4,3],[2,4,3],[2,4,3]] order=1 0 3 4 2  picks=7,2,1,5,6 blocks=0,0,0,0,0 upg= frozen=1 3 4  J=19 w=1
+   FAIL n=5 m=9 sets=[[0,3,7],[1,5,8],[2,6,7,8],[3,4,5],[4,6,8]] vals=[[2,3,4],[2,4,3],[2,3,8,4],[2,3,4],[4,2,3]] order=0 2 1 4 3  picks=7,5,8,3,4 blocks=0,0,0,0,0 upg= frozen=0 1 4  J=47 w=2
+   FAIL n=5 m=9 sets=[[0,3,7],[1,5,8],[2,6,7,8],[3,4,5],[4,6,8]] vals=[[2,3,4],[2,4,3],[2,4,8,5],[2,3,4],[4,2,3]] order=0 2 1 4 3  picks=7,5,8,3,4 blocks=0,0,0,0,0 upg= frozen=0 1 4  J=47 w=2
+# lb4_run.py results/k4_certs_5_n4_1.json.gz -i1 -u2 -o0 -r2 -w1 -c1 --show=4
+results/k4_certs_5_n4_1.json.gz: 1735 cores, 210s
+  total=5782149576 leaves=665854724 runs=821043208 fails=0 rawfails=0 nobig=5608380062 owner_r=160955438 owner_other=4700388 rot=8113688 later_seq=0 later_upg=0 big3=150915727 big4=15939816 big5=743990 big6=15008
+  cores with a failure: 0
+# k4/lb4.c -i1 -u3 -o0 -r1 -w1 -c1 -f0 on each of the 5 cores above with a failure (the §2 table rows with -u3; appended after the PR #37 review, via attempts/k4_c4one_attempts.py's lb4 helper)
+  m=8 sets=[[0, 2, 4], [1, 2, 3, 7], [1, 5, 7], [3, 6, 7], [4, 5, 6]]: total 3157920 fails 0
+  m=8 sets=[[0, 2, 4, 7], [1, 2, 3], [1, 5, 6], [3, 5, 7], [4, 6, 7]]: total 2921184 fails 2
+  m=9 sets=[[0, 2, 5, 8], [1, 4, 8], [3, 4, 7], [3, 6, 8], [5, 6, 7]]: total 1712592 fails 0
+  m=9 sets=[[0, 3, 7], [1, 5, 8], [2, 6, 7, 8], [3, 4, 5], [4, 6, 8]]: total 5672160 fails 4
+  m=10 sets=[[0, 2, 5, 9], [1, 5, 7], [3, 6, 9], [4, 8, 9], [6, 7, 8]]: total 3445992 fails 0
+  fails 6 on 2 cores
+# k4/lb4.c -i0 -u3 -o0 -r1 -w1 -c1 -f0 on each of the 5 cores above with a failure (the §2 table rows with -u3; appended after the PR #37 review, via attempts/k4_c4one_attempts.py's lb4 helper)
+  m=8 sets=[[0, 2, 4], [1, 2, 3, 7], [1, 5, 7], [3, 6, 7], [4, 5, 6]]: total 373248 fails 0
+  m=8 sets=[[0, 2, 4, 7], [1, 2, 3], [1, 5, 6], [3, 5, 7], [4, 6, 7]]: total 373248 fails 0
+  m=9 sets=[[0, 2, 5, 8], [1, 4, 8], [3, 4, 7], [3, 6, 8], [5, 6, 7]]: total 186624 fails 0
+  m=9 sets=[[0, 3, 7], [1, 5, 8], [2, 6, 7, 8], [3, 4, 5], [4, 6, 8]]: total 373248 fails 4
+  m=10 sets=[[0, 2, 5, 9], [1, 5, 7], [3, 6, 9], [4, 8, 9], [6, 7, 8]]: total 186624 fails 0
+  fails 4 on 1 cores

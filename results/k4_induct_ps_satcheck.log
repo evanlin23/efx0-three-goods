@@ -1,0 +1,2 @@
+command: python3 k4/induct_sat.py crosscheck 400 1 results/k4_certs_3.json.gz results/k4_certs_4_n4_2.json.gz results/k4_certs_4_pure.json.gz
+400 profiles, 5074 PS tests (SAT vs k4/induct.c task Q, with and without D2): 0 mismatches

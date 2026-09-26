@@ -1,0 +1,24 @@
+# k4/gm4_distinct.py: distinct profiles behind the neighbourhood runs (commands in each line; seeds and logs under results/)
+searched ../results/k4_gm4_seeds_4.txt K=1: seeds=7 runs=6372 distinct_profiles=6351
+bad ../results/k4_gm4_around1_4.log tag=GMFAIL: distinct_profiles=147
+bad ../results/k4_gm4_around1_4.log tag=GMALL: distinct_profiles=8
+searched ../results/k4_gm4_seeds_4.txt K=2: seeds=7 runs=2260332 distinct_profiles=2247609
+bad ../results/k4_gm4_around2_4.log tag=GMFAIL: distinct_profiles=1728
+bad ../results/k4_gm4_around2_4.log tag=GMALL: distinct_profiles=148
+bad ../results/k4_gm4_around1_4.log ../results/k4_gm4_around2_4.log tag=GMALL: distinct_profiles=148
+searched ../results/k4_gm4_gmall_seeds_4.txt K=2: seeds=148 runs=73654272 distinct_profiles=16546776
+bad ../results/k4_gm4_w2_around2_4.log tag=GMFAIL: distinct_profiles=32
+searched ../results/k4_gm4_w2_seeds_4.txt K=2: seeds=32 runs=15925248 distinct_profiles=5428320
+bad ../results/k4_gm4_w2_around2b_4.log tag=GMFAIL: distinct_profiles=384
+searched ../results/k4_gm4_w2_seeds2_4.txt K=1: seeds=384 runs=442368 distinct_profiles=118656
+closure ../results/k4_gm4_w2_seeds2_4.txt vs ../results/k4_gm4_w2_around1c_4.log: seeds=384 found=384 found_minus_seeds=0 seeds_minus_found=0
+bad ../results/k4_gm4_w3_around2_4.log tag=GMFAIL: distinct_profiles=32
+searched ../results/k4_gm4_w3_seeds_4.txt K=2: seeds=32 runs=15925248 distinct_profiles=5428320
+bad ../results/k4_gm4_w3_around2b_4.log tag=GMFAIL: distinct_profiles=384
+searched ../results/k4_gm4_w3_seeds2_4.txt K=1: seeds=384 runs=442368 distinct_profiles=118656
+closure ../results/k4_gm4_w3_seeds2_4.txt vs ../results/k4_gm4_w3_around1c_4.log: seeds=384 found=384 found_minus_seeds=0 seeds_minus_found=0
+closure ../results/k4_gm4_w3_seeds2_4.txt vs ../results/k4_gm4_w3_around2c_4.log: seeds=384 found=384 found_minus_seeds=0 seeds_minus_found=0
+searched ../results/k4_gm4_w3_seeds2_4.txt K=2: seeds=384 runs=191102976 distinct_profiles=13696128
+union ../results/k4_gm4_seeds_4.txt:2 ../results/k4_gm4_w2_seeds_4.txt:2 ../results/k4_gm4_w2_seeds2_4.txt:1: runs=18627948 distinct_profiles=7750832
+union ../results/k4_gm4_seeds_4.txt:2 ../results/k4_gm4_w3_seeds_4.txt:2 ../results/k4_gm4_w3_seeds2_4.txt:1 ../results/k4_gm4_w3_seeds2_4.txt:2: runs=209730924 distinct_profiles=19652066
+union ../results/k4_gm4_seeds_4.txt:1 ../results/k4_gm4_seeds_4.txt:2: runs=2266704 distinct_profiles=2247609

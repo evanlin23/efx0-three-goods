@@ -1,0 +1,4 @@
+$ python3 k3/lean_crosscheck.py 600 --seed=2 --rot=60 --cores=3:12,16,20,24,30
+lean_crosscheck: 675 instances; Lean algo == mirror == fast on every one; every Lean output raw EFX0; every operation count <= 400 (n + m + 1)^4 (40 s)
+branches: {'no_goods': 24, 'noowner': 279, 'one_agent': 215, 'owner_r': 95, 'rot_noowner': 34, 'rot_owner_k': 28}
+largest count / (n + m + 1)^4 by n: {1: 0.074, 2: 0.38, 3: 0.262, 4: 0.206, 5: 0.142, 6: 0.109, 7: 0.09, 8: 0.069, 9: 0.057, 12: 0.016, 16: 0.009, 20: 0.007, 24: 0.006, 30: 0.002}

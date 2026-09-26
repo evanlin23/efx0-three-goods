@@ -1,0 +1,5 @@
+$ python3 k3/ls2_referee.py states 4
+ls2_referee states n <= 4: 53 cores {2: 2, 3: 7, 4: 44}; 1427 s
+counts: {'claim2 states': 94466, 'ok phase2a': 14976, 'ok phase2b': 132320, 'ok step1': 40847004, 'ok step2': 974676, 'ok step3': 118060, 'ok step4': 491968, 'ok step5': 756240, 'ok step6': 19876, 'ok step7': 240, 'states': 10650186}
+failures: 0
+(1427 s on 4 CPUs)

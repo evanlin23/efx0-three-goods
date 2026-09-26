@@ -1,0 +1,23 @@
+H_4: n=17 m=43 backend=milp
+Phase 1 (agent, pick, step): l->g1(I) x11->a11(P) x12->a12(P) x13->a13(P) y1->g2(P) x21->a21(P) x22->a22(P) x23->a23(P) y2->g3(P) x31->a31(P) x32->a32(P) x33->a33(P) y3->g4(P) x41->a41(P) x42->a42(P) x43->a43(P) y4->z(P)
+needs after Phase 1: {'y1': ['a11', 'a12', 'a13'], 'y2': ['a21', 'a22', 'a23'], 'y3': ['a31', 'a32', 'a33'], 'y4': ['a41', 'a42', 'a43']}
+junk: ['b11', 'b12', 'b13', 'b21', 'b22', 'b23', 'b31', 'b32', 'b33', 'b41', 'b42', 'b43', 'c11', 'c12', 'c13', 'c21', 'c22', 'c23', 'c31', 'c32', 'c33', 'c41', 'c42', 'c43', 'u', "u'"] omega = 21
+policy shrink: upgrades []; state unchanged: True
+policy envyFree: upgrades []; state unchanged: True
+policy none: upgrades []; state unchanged: True
+depth 0: 1 new states, 1 states with <= 0 rotations
+depth 1: 24 new states, 25 states with <= 1 rotations
+depth 2: 406 new states, 431 states with <= 2 rotations
+depth 3: 4740 new states, 5171 states with <= 3 rotations
+reachability done in 1.3s
+depth 0: states=1 omega in [21,21] | states with an output: bundle=0 base=0  (2.2s)
+depth 1: states=24 omega in [18,21] | states with an output: bundle=0 base=0  (6.6s)
+depth 2: states=406 omega in [15,21] | states with an output: bundle=0 base=0  (84.7s)
+depth 3: states=4740 omega in [12,21] | states with an output: bundle=508 base=408  (673.7s)
+  first success (bundle) at depth 3: owners ['l', 'x11', 'x12', 'x13', 'x21', 'x22', 'x23', 'x31', 'x32', 'x33', 'y4']
+   state: l:{g1} x11*:{b11} x12:{a12} x13:{a13} y1:{a11} x21*:{b21} x22:{a22} x23:{a23} y2:{a21} x31*:{b31} x32:{a32} x33:{a33} y3:{a31} x41:{a41} x42:{a42} x43:{a43} y4:{z}
+   path: chain ['x11', 'y1'] O=['b11'] ; chain ['x21', 'y2'] O=['b21'] ; chain ['x31', 'y3'] O=['b31']
+  first success (base) at depth 3: owners ['l', 'x11', 'x12', 'x13', 'x21', 'x22', 'x23', 'x31', 'x32', 'x33', 'y4']
+   state: l:{g1} x11*:{b11} x12:{a12} x13:{a13} y1:{a11} x21*:{b21} x22:{a22} x23:{a23} y2:{a21} x31*:{b31} x32:{a32} x33:{a33} y3:{a31} x41:{a41} x42:{a42} x43:{a43} y4:{z}
+   path: chain ['x11', 'y1'] O=['b11'] ; chain ['x21', 'y2'] O=['b21'] ; chain ['x31', 'y3'] O=['b31']
+RESULT t=4 q<=3: least depth with an output: bundle=3 base=3 (Proposition H bound ceil(2t/3) = 3); total 673.7s
