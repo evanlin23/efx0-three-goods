@@ -8,12 +8,16 @@
          f = 1), Lambda = sum of the levels l_i(H_i) = #{T ⊆ R_i : v_i(T) < v_i(H_i)}, Psi = (r, Lambda), t = [x is
          threatened by the pool alone].
    Theorem checks (counters in the RESULT line):
-     f1fail    (r, Lambda)-maxima whose frozen agent is not big-top and that have no owner valid with C = {}   (Thm F1)
+     f1fail    (r, Lambda)-maxima whose frozen agent is not big-top (or is big-top with omega = 1) and that have no
+               owner valid with C = {}                                                   (Thm F1, Lemma 8(b))
      starfail  profiles none of whose (r, Lambda)-maxima is completable                                    (Thm F1*)
      rltfail   profiles with an (r, Lambda, -t)-maximum that is not completable                             (evidence)
      cov3 / cov4  profiles with a Psi-maximum whose frozen agent has three goods / four goods, not big-top (and no
-               such maximum with three goods): Theorem F1 applies; btonly: every Psi-maximum has a big-top frozen
-               agent; btonly_comp: of those, some Psi-maximum is completable
+               such maximum with three goods): Theorem F1 applies; btomega1: every Psi-maximum has a big-top frozen
+               agent and omega = 1 (Lemma 8(b) applies); btonly: every Psi-maximum has a big-top frozen agent and
+               omega >= 2; btonly_comp: of those, some Psi-maximum is completable
+     phi1fail  profiles with a maximum of Phi' = (-t, r, Lambda, -p) (k4/c4min.md §4) that is not completable
+               (p = |L ∩ U_x|); phi1fail_btonly: those among the btonly profiles
    Lemma checks, with -L, on every configuration without an owner valid with C = {} (a superset of the
    non-completable ones): Lemma 1 (terminals have top g, some agent needs g); Lemma 2 (every value-raising pool move
    raises Psi); at pool-optimal ones Lemma 3 (robust free agents unthreatened, the others threatened by at most one
@@ -92,7 +96,7 @@ static void genP(int i, mask_t used, mask_t sing, mask_t two, mask_t NA) {
 typedef struct { mask_t H[MAXN]; mask_t L; int xf; } cfg_t;
 static mask_t gbit, U[MAXN], Mp;
 static cfg_t *cf; static int ncf, capcf;
-static int *cfr, *cfl, *cft, *cfc0, *cfc, *cfbt; static int capfeat;
+static int *cfr, *cfl, *cft, *cfc0, *cfc, *cfbt, *cfp; static int capfeat;
 static int nfopt[MAXN]; static mask_t fopt[MAXN][1200];
 static int isbt[MAXN];            /* big-top: 4 goods, top > second + third */
 
@@ -156,7 +160,7 @@ static void configs_for_key(const nkey_t *K) {
 }
 
 /* ---- counters ---- */
-static long long cov3, cov4, covbt, covbtc;
+static long long cov3, cov4, covbt1, covbt, covbtc, phi1fail, phi1fail_bt;
 static long long nprof, nf1, ncfgs, nmaxrl, nmaxrl_bt, f1fail, starfail, rltfail, nnoown;
 static long long L2pool, L2fail, Lpo, L5cyc, L5fail, L7paths, L7fail, L7rconf, L8[4][3], nL8cfg;
 static int exf1, exstar, exrlt, exl2, exl5, exl7, exrc;
@@ -324,7 +328,8 @@ static void do_profile(void) {
   nprof++;
   fmin = 1 << 20; nkeys = 0;
   genP(0, 0, 0, 0, 0);
-  if (fmin != 1 || fmin - (2 * n - m) <= 0) return;
+  int omega = fmin - (2 * n - m);
+  if (fmin != 1 || omega <= 0) return;
   nf1++;
   for (int i = 0; i < n; i++) {
     isbt[i] = 0;
@@ -336,7 +341,7 @@ static void do_profile(void) {
   for (int q = 0; q < nkeys; q++) {
     gbit = keys[q].NA; if (pc(gbit) != 1) { printf("ASSERT f = 1 with |NA| != 1\n"); exit(4); }
     int before = ncf; configs_for_key(&keys[q]);
-    if (ncf > capfeat) { capfeat = ncf + 4096; cfr = realloc(cfr, capfeat * sizeof(int)); cfl = realloc(cfl, capfeat * sizeof(int)); cft = realloc(cft, capfeat * sizeof(int)); cfc0 = realloc(cfc0, capfeat * sizeof(int)); cfc = realloc(cfc, capfeat * sizeof(int)); cfbt = realloc(cfbt, capfeat * sizeof(int)); }
+    if (ncf > capfeat) { capfeat = ncf + 4096; cfr = realloc(cfr, capfeat * sizeof(int)); cfl = realloc(cfl, capfeat * sizeof(int)); cft = realloc(cft, capfeat * sizeof(int)); cfc0 = realloc(cfc0, capfeat * sizeof(int)); cfc = realloc(cfc, capfeat * sizeof(int)); cfbt = realloc(cfbt, capfeat * sizeof(int)); cfp = realloc(cfp, capfeat * sizeof(int)); }
     for (int a = before; a < ncf; a++) {
       cfg_t *c = &cf[a];
       /* Lemma 1 */
@@ -345,7 +350,7 @@ static void do_profile(void) {
       for (int z = 0; z < n; z++) if (z != c->xf && (needs(z, c->H[z]) & gbit)) { anyneed = 1; if (top(z) != __builtin_ctzll(gbit)) die("Lemma 1: a terminal's top is not g", c); }
       if (!anyneed) die("Lemma 1: nobody needs g", c);
       if (robust(c, c->xf)) die("x robust at f = 1", c);
-      psi(c, &cfr[a], &cfl[a]); cft[a] = tthr(c); cfbt[a] = isbt[c->xf];
+      psi(c, &cfr[a], &cfl[a]); cft[a] = tthr(c); cfbt[a] = isbt[c->xf]; cfp[a] = pc(c->L & U[c->xf]);
       cfc0[a] = has_owner(c, 0); cfc[a] = cfc0[a] || has_owner(c, 1);
       if (!cfc0[a]) { nnoown++; if (lemmas) lemma_checks(c); }
     }
@@ -360,10 +365,19 @@ static void do_profile(void) {
     nmaxrl++; if (cfbt[a]) nmaxrl_bt++;
     if (cfc[a]) anycomp = 1;
     if (!cfbt[a]) { if (d[cf[a].xf] == 3) has3 = 1; else has4 = 1; }
-    if (!cfbt[a] && !cfc0[a]) { f1fail++; if (exf1 < nex) { exf1++; show("Theorem F1 fails", &cf[a]); } }
+    if ((!cfbt[a] || omega == 1) && !cfc0[a]) { f1fail++; if (exf1 < nex) { exf1++; show("Theorem F1 fails", &cf[a]); } }
   }
-  if (has3) cov3++; else if (has4) cov4++; else { covbt++; if (anycomp) covbtc++; }
+  if (has3) cov3++; else if (has4) cov4++; else if (omega == 1) covbt1++; else { covbt++; if (anycomp) covbtc++; }
   if (!anycomp) { starfail++; if (exstar < nex) { exstar++; printf("EX Theorem F1* fails:"); print_prof(); printf("\n"); } }
+  { /* Conjecture Phi' = (-t, r, Lambda, -p) of k4/c4min.md §4: every maximum completable? */
+    int b0 = -99, b1 = -1, b2 = -1, b3 = -99, bad = 0;
+    for (int a = 0; a < ncf; a++) {
+      int k0 = -cft[a], k3 = -cfp[a];
+      if (k0 > b0 || (k0 == b0 && (cfr[a] > b1 || (cfr[a] == b1 && (cfl[a] > b2 || (cfl[a] == b2 && k3 > b3)))))) { b0 = k0; b1 = cfr[a]; b2 = cfl[a]; b3 = k3; }
+    }
+    for (int a = 0; a < ncf; a++) if (-cft[a] == b0 && cfr[a] == b1 && cfl[a] == b2 && -cfp[a] == b3 && !cfc[a]) bad = 1;
+    if (bad) { phi1fail++; if (!has3 && !has4) phi1fail_bt++; }
+  }
   for (int a = 0; a < ncf; a++) if (cfr[a] == br && cfl[a] == bl && -cft[a] > bt3) bt3 = -cft[a];
   for (int a = 0; a < ncf; a++) if (cfr[a] == br && cfl[a] == bl && -cft[a] == bt3 && !cfc[a]) { rltfail++; if (exrlt < nex) { exrlt++; show("(r, Lambda, -t)-maximum not completable", &cf[a]); } break; }
 }
@@ -399,10 +413,10 @@ int main(int argc, char **argv) {
     }
   }
   printf("RESULT profiles %lld f1 %lld configs %lld noowner0 %lld maxrl %lld maxrl_bt %lld f1fail %lld starfail %lld rltfail %lld"
-         " cov3 %lld cov4 %lld btonly %lld btonly_comp %lld"
+         " cov3 %lld cov4 %lld btomega1 %lld btonly %lld btonly_comp %lld phi1fail %lld phi1fail_btonly %lld"
          " L2pool %lld L2fail %lld poolopt %lld L5cyc %lld L5fail %lld L7paths %lld L7rconf %lld L7fail %lld L8cfg %lld"
          " L8k0down %lld L8k0tie %lld L8k0up %lld L8k1down %lld L8k1tie %lld L8k1up %lld L8k2down %lld L8k2tie %lld L8k2up %lld L8rcdown %lld L8rctie %lld L8rcup %lld\n",
-         nprof, nf1, ncfgs, nnoown, nmaxrl, nmaxrl_bt, f1fail, starfail, rltfail, cov3, cov4, covbt, covbtc, L2pool, L2fail, Lpo, L5cyc, L5fail, L7paths, L7rconf, L7fail, nL8cfg,
+         nprof, nf1, ncfgs, nnoown, nmaxrl, nmaxrl_bt, f1fail, starfail, rltfail, cov3, cov4, covbt1, covbt, covbtc, phi1fail, phi1fail_bt, L2pool, L2fail, Lpo, L5cyc, L5fail, L7paths, L7rconf, L7fail, nL8cfg,
          L8[0][0], L8[0][1], L8[0][2], L8[1][0], L8[1][1], L8[1][2], L8[2][0], L8[2][1], L8[2][2], L8[3][0], L8[3][1], L8[3][2]);
   return 0;
 }
