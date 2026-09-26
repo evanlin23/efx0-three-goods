@@ -1,0 +1,5 @@
+command: python3 k4/induct_ps.py results/certs_5_6.json.gz --n=5 --all --jobs=4 --log=results/k4_induct_ps_k3_n5.log
+116640 (core, profile) pairs (15 cores exhaustively)
+time 20.7s
+PS(I, w), every agent w: 583200 tests, failures: 0 (all allocations), 0 (D2 allocations)
+PS(I - p, w), w 4-good with private p: 0 tests, failures: 0 (all), 0 (D2)

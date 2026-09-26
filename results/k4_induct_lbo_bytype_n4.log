@@ -1,0 +1,11 @@
+command: python3 k4/induct_lbo.py --by-type results/certs_lb_2_6.json.gz --n=4 --jobs=2 --log=results/k4_induct_lbo_bytype_n4.log
+53136 (core, ranking profile) pairs; every run of Phase 1 with the target w last, for every w
+time 173.7s
+w ends Phase 1 with its top          rotation no : runs 483376, runs without a witness 0
+w ends Phase 1 with its top          rotation yes: runs 483376, runs without a witness 0
+w ends Phase 1 with its second good  rotation no : runs 272688, runs without a witness 1052
+w ends Phase 1 with its second good  rotation yes: runs 272688, runs without a witness 64
+w ends Phase 1 with its third good   rotation no : runs 138524, runs without a witness 11528
+w ends Phase 1 with its third good   rotation yes: runs 138524, runs without a witness 1936
+w ends Phase 1 with nothing          rotation no : runs 83460, runs without a witness 16932
+w ends Phase 1 with nothing          rotation yes: runs 83460, runs without a witness 2080

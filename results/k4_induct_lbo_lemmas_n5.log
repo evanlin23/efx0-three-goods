@@ -1,0 +1,6 @@
+command: python3 k4/induct_lbo.py --lemmas results/certs_lb_2_6.json.gz --n=5 --jobs=2 --log=results/k4_induct_lbo_lemmas_n5.log
+2278368 (core, ranking profile) pairs; every run of Phase 1 with the target w last, every w
+time 1538.2s
+('Lemma 7', True): 60581840
+('Lemma 8', True): 13289504
+Lemma 8 excluded (pair equality): 2500840

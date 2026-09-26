@@ -1,0 +1,23 @@
+# command: python3 c4min_attempts_eval.py
+# commit 664f466, k4/c4min_hunt.c sha1 9c7ca0ffe25b, started Fri Sep 25 20:56:35 UTC 2026
+k4-c4x-frozen-first: n = 2, m = 5: n 2 m 5 sigma -1 fstar 0 dstar 0 minfrozen 8 good 7 | brute force agrees
+k4-c4x-frozen-first: n = 2, m = 5: n 2 m 5 sigma -1 fstar 0 dstar 0 minfrozen 4 good 2 | brute force agrees
+k4-c4x-frozen-first: n = 3, m = 6: n 3 m 6 sigma 0 fstar 2 dstar -1 minfrozen 10 good 8 | brute force agrees
+k4-c4x-frozen-first: n = 4, m = 7 (some-form): n 4 m 7 sigma 1 fstar 3 dstar -1 minfrozen 16 good 12 | brute force agrees
+k4-c4x-frozen-first: n = 3, m = 8 (some-form): n 3 m 8 sigma -2 fstar 1 dstar 0 minfrozen 36 good 33 | brute force agrees
+k4-c4x-pareto-potentials: n = 3, m = 6, one 4-good agent: n 3 m 6 sigma 0 fstar 1 dstar -1 minfrozen 13 good 13 | brute force agrees
+k4-c4x-pareto-potentials: n = 3, m = 8, two 4-good agents: n 3 m 8 sigma -2 fstar 1 dstar -1 minfrozen 20 good 17 | brute force agrees
+k4-c4x-pareto-potentials: n = 3, m = 6, two 4-good agents: n 3 m 6 sigma 0 fstar 2 dstar -1 minfrozen 11 good 8 | brute force agrees
+k4-c4x-variant-spaces: n = 2, m = 5, owner needs from base: n 2 m 5 sigma -1 fstar 1 dstar 0 minfrozen 8 good 8 | brute force agrees
+k4-c4x-variant-spaces: n = 3, m = 6, envy-free two-good bases only: n 3 m 6 sigma 0 fstar 0 dstar 0 minfrozen 12 good 12 | brute force agrees
+k4-c4x-variant-spaces: n = 3, m = 5, owner bases of 3-4 goods, -frozen: n 3 m 5 sigma 1 fstar 1 dstar 0 minfrozen 6 good 6 | brute force agrees
+results/k4_gm4_5_pure_sample.log: GMFAIL: n 5 m 8 sigma 2 fstar 2 dstar 0 minfrozen 6 good 6
+results/k4_gm4_5_pure_sample.log: GM4S: n 5 m 9 sigma 1 fstar 3 dstar -1 minfrozen 24 good 23
+results/k4_gm4_5_pure_sample.log: GMFAIL: n 5 m 9 sigma 1 fstar 2 dstar -2 minfrozen 20 good 19
+results/k4_gm4_5_pure_sample.log: GMFAIL: n 5 m 10 sigma 0 fstar 2 dstar -2 minfrozen 23 good 21
+results/k4_gm4_5_n4_4_sample.log: GMFAIL: n 5 m 8 sigma 2 fstar 3 dstar -1 minfrozen 18 good 17
+results/k4_gm4_5_n4_3_sample.log: GM4S: n 5 m 7 sigma 3 fstar 2 dstar -1 minfrozen 2 good 2
+results/k4_gm4_5_n4_3_sample.log: GM4S: n 5 m 8 sigma 2 fstar 3 dstar -1 minfrozen 17 good 17
+results/k4_gm4_5_n4_3_sample.log: GM4S: n 5 m 8 sigma 2 fstar 3 dstar -1 minfrozen 31 good 31
+19 distinct profiles
+# finished Fri Sep 25 20:56:35 UTC 2026
