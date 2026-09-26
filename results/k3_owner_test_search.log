@@ -1,0 +1,2 @@
+$ python3 attempts/k3_owner_test.py --search 3000000 3
+search: 3000000 random instances with n in 3..4 (seed 3); runs where the shared good decides the exact test, by the naive variant's (branch, raw EFX0): {('rot_owner_k', True): 319, ('rot_noowner', True): 543, ('rot_owner_k', False): 68}; smallest failure ((4, 8), [{2: 5, 6: 4, 5: 2}, {0: 3, 5: 3, 6: 2}, {0: 3, 1: 3, 7: 2}, {3: 2, 1: 2, 0: 2}])
