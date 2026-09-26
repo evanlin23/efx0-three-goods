@@ -147,11 +147,136 @@ hard one: 74,256 of 7,284,544. `k4/gap_run.py` regenerates the rest in 91 s.
 
 ## 3. The smallest hard instances
 
-(filled in below)
+Categories of a gap profile (`k4/gap.c`, `k4/gap_hard.py`). A Φ′-maximum is *simple* if it has a valid owner with
+C = ∅: nothing is withheld and nothing unfrozen.
+
+| category | meaning |
+|---|---|
+| S | some Φ′-maximum is simple |
+| W | none is simple, but some Φ′-maximum has a valid owner (it must withhold goods, which needs unfreezing) |
+| N | no Φ′-maximum has a valid owner, but some configuration has one |
+| X | no configuration has a valid owner (C₄ᵐⁱⁿ fails in configuration form) |
+| PHI | some Φ′-maximum has no valid owner: a counterexample to Conjecture Φ′ (N is the case where all do) |
+| T2 | some Φ′-maximum has a frozen agent threatened by two owners |
+| NPO | some Φ′-maximum is not pool-optimal |
+| F2 | f ≥ 2 |
+
+The smallest found, by n, then m, then the number of configurations (full lists with every Φ′-maximum re-derived by
+gap_model: `results/k4_gap_hard_base.log` for the catalogs, `results/k4_gap_hard_hunt.log` for the hunt):
+- **X: none anywhere.**
+- **PHI and N: n = 4, m = 8.** This is pure core 104 (`attempts/k4-gap-phi-prime.md`), found by the hunt.
+  - The unique Φ′-maximum has two exposed frozen agents, and each owner is blocked by one local threat.
+  - Every profile with n ≤ 3, and every profile of n = 4 with one or two 4-good agents, is free of PHI (exhaustive).
+- **W: n = 2, m = 5**, with 720 profiles at n = 2 (#41 found them too). The smallest has sets {0, 2, 3, 4},
+  {1, 2, 3, 4} and values 0:2, 2:3, 3:6, 4:10 and 1:2, 2:3, 3:6, 4:10.
+  - Both Φ′-maxima have one frozen agent on good 4, which only the owner needs.
+  - The owner completes only by withholding its partner's private good into the unfrozen agent's slot.
+  - For n ≥ 3 the smallest W is n = 4: pure core 179 (m = 10, f = 2) in the sample, and 113 pure and 2 three-4-good
+    profiles in the hunt. So #41's `-U0` observation ("no unfreezing at n ≥ 3") fails at n = 4.
+- **T2: n = 4, m = 8**, core 204 of `k4_certs_4_n4_2`. The values are 0:3, 2:4, 5:6, 6:8 / 1:5, 5:4, 6:8, 7:6 /
+  3:2, 5:3, 7:4 / 4:2, 6:3, 7:4.
+  - Frozen agent 1 (on good 6) is threatened by owners 2 and 3, both class L.
+  - The maximum is still simple, with owner 0.
+  - No T2 exists at n ≤ 3.
+- **NPO: n = 2, m = 6.** The sets are {0, 1, 4, 5} and {2, 3, 4, 5}, with values 3, 6, 2, 10 for each agent.
+  - The maximum keeps good 4 out of the pool. Agent 0's pool improvement would put 4 in the pool and raise t.
+- **F2 (the gap with f ≥ 2): n = 4, m = 7**, core 93 of `k4_certs_4_n4_2`. No gap profile with n ≤ 3 has f ≥ 2.
+- **BT counterexamples.** These are Pareto-maximal configurations without a valid owner and without a frozen big-top
+  agent:
+  - #52's pure n = 4, m = 7 profile. It is in the gap with f = 2, and both implementations confirm it
+    (`results/k4_gap_bt4.log`).
+  - A second one found here: n = 5, m = 10, sets {0, 2, 4, 8}, {1, 3, 7, 9}, {4, 6, 9}, {5, 6, 7, 9}, {5, 8, 9},
+    values 2, 4, 5, 8 / 3, 2, 6, 10 / 2, 3, 4 / 8, 6, 4, 3 / 4, 3, 2 (`results/k4_gap_bt5.log`). Its frozen agents
+    are the 3-good agent 2 (on 9) and agent 3 (on 5). Two owners are blocked by class-L threats, and the third owner's
+    threat falls on a free agent.
+
+  In both, exchange cycles alone never reach a configuration with a valid owner, and a downgrade swap does.
+- **Configurations that no needed-set-preserving move improves: n = 4, m = 8**, sets {0, 2, 4, 5}, {1, 3, 6, 7},
+  {4, 5, 6, 7}, {5, 6, 7}, values 6, 3, 2, 10 / 2, 3, 6, 10 / 4, 6, 3, 8 / 2, 4, 3.
+  - The configuration has frozen 0 on 5, frozen 1 on 7, Q₂ = {0, 4}, Q₃ = {1, 6} and L = {2, 3}. It has no valid owner.
+  - Every configuration of larger Φ′ has the needed set {6, 7} instead of {5, 7}. So no pool, cycle or two-agent move
+    and no downgrade swap raises Φ′ (§4, SAME_N).
 
 ## 4. The lemma bench
 
-(filled in below)
+`k4/gap_bench.py` runs a predicate over the catalog profiles. For each profile it rebuilds every configuration with
+`gap.c -C`. The configuration objects are those of `k4/gap_model.py`, so every property is computed by the Python
+model. Each reported counterexample is then re-derived from scratch by gap_model, with its own 𝒫, keys and
+configurations.
+```
+import sys; sys.path.insert(0, 'k4'); import gap_bench as gb
+def my_lemma(prof, c):                 # prof: gap_model.Profile, c: gap_model.Config
+    if c.completable: return None      # None: hypothesis not met, skipped
+    return any(c2.phi > c.phi for _, _, c2 in c.pool_moves())      # True holds, False counterexample
+res = gb.check(my_lemma, scope='all', catalogs=['results/k4_gap/gap_n3.json.gz'])
+print(res.summary()); res.counterexamples[0]          # (prof, config, detail), smallest first
+```
+
+**Scopes:**
+- `all`: every configuration;
+- `max`: the Φ′-maxima;
+- `max0`: the maxima of the first form Φ = (−t, r, Λ);
+- `noncompl`: the configurations without a valid owner;
+- `pareto`: the configurations that are Pareto-maximal (values of the holdings) among all configurations of the
+  profile;
+- `profile`: the predicate gets (prof, cfgs) once per profile;
+- a callable (prof, cfgs) → subset.
+
+**What a configuration offers:**
+- structure and values: `.key`, `.frozen`, `.free`, `.N`, `.Q`, `.L`, `.H(i)`, `.hv(i)`, `.U(i)`, `.needs(i)`,
+  `.needers(g)`;
+- owners: `.threatens(o, x, C)`, `.owner(o)` (the least |C|), `.owners`, `.completable`, `.simple`, and
+  `.p_completable` (the pre-allocation of Lemma 1(a) is removal-only completable; weaker, since it lets the owner
+  withhold into any free slot);
+- potentials: `.t`, `.r`, `.Lam`, `.p`, `.phi`, `.phi0`, `.pool_optimal`;
+- classification: `.kind(i)` (robust, T, D, R, frozen-exposed, frozen-robust), `.exposed`, `.bigtop(x)`,
+  `.threat_edges`, `.need_edges`, `.chain_ends(x)`, `.h7(x, o)`, `.mult(x)`;
+- moves:
+  - `.pool_moves()`;
+  - `.cycle_moves(general, keep)`: one step along a cycle of the exchange digraph. The default gives best pairs with
+    the receivers in every order; `general` allows any admissible pairs; `keep` lets receivers keep part of their pair;
+  - `.two_agent_moves()`: re-partitions of two free agents' pairs and the pool;
+  - `.downgrade_swaps()`: #52's move;
+  - `.pool_closure()`.
+
+**CLI.** `python3 k4/gap_bench.py [--catalog=…] [--only=…] [--every=E]` runs the seeded statements; `--list` lists them,
+`--profile='{"sets": …, "vals": …}'` runs them on one profile, and `--selftest` compares gap.c with gap_model.
+
+**The seeded statements** (the candidate steps of `k4/c4min.md` §4 (#41) and of `k4/hall.md`, `k4/hall_bt.md` (#46,
+#52)). The table after this list gives the results.
+- **PHI_PRIME**: Conjecture Φ′, every Φ′-maximum has a valid owner.
+- **PHI_FIRST**: the same for Φ = (−t, r, Λ).
+- **MAX_SIMPLE**: #41's `-U0` observation, some Φ′-maximum has a valid owner with C = ∅.
+- **Roadmap step (i)**, and step (i) as a local lemma:
+  - **I_POOLOPT**: every Φ′-maximum is pool-optimal;
+  - **I_T0**: every Φ′-maximum has t = 0;
+  - **I_POOL_LOCAL**, **I_T_LOCAL**: a configuration without a valid owner that is not pool-optimal (resp. has t > 0)
+    has a Φ′-raising pool or cycle move.
+- **The f = 1 roadmap.** Its setting is f = 1, the frozen x 3-good, no valid owner, pool-optimal, t = 0.
+  - **SIGMA_INJ**: every agent is threatened by at most one owner.
+  - **II_T0**, **II_PHI**: with x threatened, and once no cycle move avoiding x raises Φ′, some cycle move through x
+    (best pairs or any pairs, e.g. the plain rotation) leaves t = 0, resp. raises Φ′.
+  - **III_NO_R**: the threat path into x has no agent of kind (R).
+- **Roadmap step (iv)**: at Φ′-maxima (**IV_MAX**), resp. in the proof's setting (**IV_SETTING**), a frozen agent is
+  threatened by at most one owner.
+- **The local improvement lemma**: every configuration without a valid owner has a Φ′-raising move. The catalogues:
+  - **LOCAL**: pool moves and cycle moves;
+  - **LOCAL_EXT**: also any-pair cycle moves and two-agent re-partitions;
+  - **LOCAL_CLOSURE**: also a cycle move followed by the pool closure;
+  - **LOCAL_ALL**: also #52's downgrade swaps.
+- **SAME_N**: at every configuration without a valid owner, some configuration with the same needed set has larger Φ′.
+  Every catalogue that keeps the needed set needs this.
+- **#52**:
+  - **BTCYC**: at a Pareto-maximal configuration without a valid owner that has an exposed frozen big-top agent, some
+    cycle through it (any pairs, receivers may keep part) gives a removal-only completable pre-allocation.
+  - **REACH_EACH** (**REACH_EACH_CYC**): from each Pareto-maximal configuration without a valid owner, cycles and
+    downgrade swaps (cycles alone) reach a configuration with a valid owner or a completable pre-allocation.
+  - **REACH**: the coordinator's form, from some Pareto-maximum.
+- **#46**:
+  - **BT**: a Pareto-maximal configuration without a valid owner has a frozen big-top agent;
+  - **H7**: at Pareto-maximal configurations every threat on a frozen agent is of class G, G1 or L.
+
+(results table below)
 
 ## Reproduce
 ```
