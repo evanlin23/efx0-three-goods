@@ -5,7 +5,7 @@ A research paper (CS 580 course project report, Fall 2026) on the k = 3 result o
 - `main.tex`: the paper; `refs.bib`: the bibliography; `main.pdf`: the built paper.
 - `llncs.cls` (v2.26, 2025-02-25) and `splncs04.bst`: copied unmodified from Springer's LLNCS package on CTAN, https://mirrors.ctan.org/macros/latex/contrib/llncs.zip (the class that the Overleaf template "Springer Lecture Notes in Computer Science" uses).
 
-Build (pdflatex and bibtex):
+Build (pdflatex and bibtex; the fonts are Latin Modern, `lmodern`, so the PDF has only Type 1 fonts):
 
     pdflatex main && bibtex main && pdflatex main && pdflatex main
 
