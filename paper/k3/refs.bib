@@ -1,28 +1,43 @@
-% Every entry below is listed in proofs/citations.md or proofs/novelty.md of the
-% repository (read there at the level recorded in those files).  Titles, authors
-% and years were re-checked on 2026-09-26 against the arXiv abstract pages; the two
-% proceedings entries against Crossref (EC 2023: DOI 10.1145/3580507.3597764;
-% AAMAS 2024: pages 2534--2536).
+% Every entry below is listed in proofs/citations.md of the repository, which
+% records what was read of each source (section "Added 2026-09-26 by
+% paper/k3-cite").  Titles, authors and years were checked on 2026-09-26 against
+% the arXiv abstract pages; every venue, volume, page range and DOI against
+% Crossref (api.crossref.org) or the published paper itself; mrd-efx against its
+% CITATION.cff and tag v1.2.0.  The arXiv identifiers are kept for every entry
+% that has one.
 
-@misc{AmanatidisBFV22,
+@inproceedings{AmanatidisBFV22,
   author       = {Amanatidis, Georgios and Birmpas, Georgios and Filos-Ratsikas, Aris and Voudouris, Alexandros A.},
   title        = {Fair Division of Indivisible Goods: A Survey},
-  howpublished = {arXiv preprint arXiv:2202.07551},
-  year         = {2022}
+  booktitle    = {Proceedings of the Thirty-First International Joint Conference on Artificial Intelligence (IJCAI-22)},
+  pages        = {5385--5393},
+  year         = {2022},
+  doi          = {10.24963/ijcai.2022/756},
+  note         = {arXiv:2202.07551}
 }
 
-@misc{ChaudhuryGM20,
+@article{ChaudhuryGM20,
   author       = {Chaudhury, Bhaskar Ray and Garg, Jugal and Mehlhorn, Kurt},
   title        = {{EFX} Exists for Three Agents},
-  howpublished = {arXiv preprint arXiv:2002.05119},
-  year         = {2020}
+  journal      = {Journal of the ACM},
+  volume       = {71},
+  number       = {1},
+  pages        = {4:1--4:27},
+  year         = {2024},
+  doi          = {10.1145/3616009},
+  note         = {Conference version in Proc.\ 21st ACM Conference on Economics and Computation (EC 2020), pp.~1--19; full version arXiv:2002.05119}
 }
 
-@misc{Mahara21,
+@article{Mahara21,
   author       = {Mahara, Ryoga},
   title        = {Extension of Additive Valuations to General Valuations on the Existence of {EFX}},
-  howpublished = {arXiv preprint arXiv:2107.09901},
-  year         = {2021}
+  journal      = {Mathematics of Operations Research},
+  volume       = {49},
+  number       = {2},
+  pages        = {1263--1277},
+  year         = {2024},
+  doi          = {10.1287/moor.2022.0044},
+  note         = {Conference version in Proc.\ 29th European Symposium on Algorithms (ESA 2021), LIPIcs 204, 66:1--66:15; arXiv:2107.09901}
 }
 
 @misc{AlkassarFM26,
@@ -32,13 +47,13 @@
   year         = {2026}
 }
 
-@inproceedings{ChristodoulouFKS23,
+@article{ChristodoulouFKS23,
   author       = {Christodoulou, George and Fiat, Amos and Koutsoupias, Elias and Sgouritsa, Alkmini},
-  title        = {Fair Allocation in Graphs},
-  booktitle    = {Proceedings of the 24th ACM Conference on Economics and Computation (EC 2023)},
-  pages        = {473--488},
-  year         = {2023},
-  doi          = {10.1145/3580507.3597764}
+  title        = {Envy-Freeness up to Any Good Allocations on Graphs},
+  journal      = {Mathematics of Operations Research},
+  year         = {2026},
+  doi          = {10.1287/moor.2025.0915},
+  note         = {Conference version: ``Fair Allocation in Graphs'', in Proc.\ 24th ACM Conference on Economics and Computation (EC 2023), pp.~473--488}
 }
 
 @misc{AfshinmehrAMMS26,
@@ -52,29 +67,41 @@
   author       = {Sgouritsa, Alkmini and Sotiriou, Minas Marios},
   title        = {On the Existence of {EFX} Allocations in Multigraphs},
   howpublished = {arXiv preprint arXiv:2502.09777},
-  year         = {2025}
+  year         = {2025},
+  note         = {Extended abstract, without the bipartite case, in Proc.\ 24th International Conference on Autonomous Agents and Multiagent Systems (AAMAS 2025), pp.~2735--2737}
 }
 
-@misc{KavianiSS24,
+@inproceedings{KavianiSS24,
   author       = {Kaviani, Alireza and Seddighin, Masoud and Shahrezaei, AmirMohammad},
-  title        = {Almost Envy-free Allocation of Indivisible Goods: A Tale of Two Valuations},
-  howpublished = {arXiv preprint arXiv:2407.05139},
-  year         = {2024}
+  title        = {Almost Envy-Free Allocation of Indivisible Goods: A Tale of Two Valuations},
+  booktitle    = {Web and Internet Economics (WINE 2024)},
+  series       = {Lecture Notes in Computer Science},
+  pages        = {261--276},
+  publisher    = {Springer},
+  year         = {2026},
+  doi          = {10.1007/978-3-032-08560-3_15},
+  note         = {Full version arXiv:2407.05139}
 }
 
-@misc{LianeasSS26,
+@article{LianeasSS26,
   author       = {Lianeas, Thanasis and Sgouritsa, Alkmini and Sotiriou, Minas Marios},
   title        = {{EFX} Allocation in (Multi)Hypergraphs},
-  howpublished = {arXiv preprint arXiv:2608.03171},
-  year         = {2026}
+  journal      = {Proceedings of the AAAI Conference on Artificial Intelligence},
+  volume       = {40},
+  number       = {20},
+  pages        = {17102--17110},
+  year         = {2026},
+  doi          = {10.1609/aaai.v40i20.38759},
+  note         = {{AAAI-26}; arXiv:2608.03171}
 }
 
 @inproceedings{ViswanathanM24,
   author       = {Viswanathan, Maya and Mehta, Ruta},
   title        = {On the Existence of {EFX} under Picky or Non-Differentiative Agents},
-  booktitle    = {Proceedings of the International Conference on Autonomous Agents and Multiagent Systems (AAMAS 2024)},
+  booktitle    = {Proceedings of the 23rd International Conference on Autonomous Agents and Multiagent Systems (AAMAS 2024)},
   pages        = {2534--2536},
   year         = {2024},
+  doi          = {10.65109/osos1146},
   note         = {Extended abstract}
 }
 
@@ -100,7 +127,8 @@
 }
 
 @misc{MrdEfx,
-  author       = {Lin, Evan},
-  title        = {mrd-efx},
-  howpublished = {GitHub repository, tag \texttt{v1.2.0} (Lean formalization for at most two relevant goods per agent), \url{https://github.com/evanlin23/mrd-efx}}
+  author       = {Lin, Evan and Osterhaus, Gerald},
+  title        = {Strong {EFX} Allocations for 2-Relevant Agents: {Lean}~4 Formalization},
+  howpublished = {GitHub repository \texttt{mrd-efx}, tag \texttt{v1.2.0} (commit \texttt{fa42aa1}, 23 September 2026), \url{https://github.com/evanlin23/mrd-efx}},
+  year         = {2026}
 }
