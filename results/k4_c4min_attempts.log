@@ -36,3 +36,4 @@ Conjecture Phi = (-t, r, Lambda), f = 2: n = 4, m = 8, sets [[0, 2, 4, 7], [1, 5
    c4min_cfg.py: f = 2, 18 configurations, 4 maxima, 1 of them not completable, 16 completable in all: confirmed
    n <= 3: every strict profile with f >= 1 has 0 failures of this potential (results/k4_c4min_phi_n3.log): n = 4 is the smallest n
 ALL CONFIRMED
+# note (added in the PR #41 review fixes; not part of the run's output): k4/c4min.c (built by the script from the current source) was sha1 01776e55c55cb8056804693ccea4c8e909848cc5 at the commit of this log (16fa919) and is unchanged since; the build was not recorded at run time.

@@ -1,0 +1,3 @@
+command: python3 k4/induct_lbo.py results/certs_lb_2_6.json.gz --n=2,3,4 --all --jobs=2 --last --partial --rot --log=results/k4_induct_lbo_n234.log
+54720 (core, ranking profile) pairs; rotation states included; upgrade loop stopped anywhere; the target w is processed last in Phase 1; witness (O) or (S)
+time 11.0s; (profile, w) pairs: 217224; without an LB⁺ witness (O) or (S): 0

@@ -10,3 +10,4 @@ FILE results/k4_certs_3.json.gz cores 51 profiles 299837376 omega>=1 112040608 c
   (rob)                                    every-max fails       7968   some-max fails          0
   (sumlev)                                 every-max fails          0   some-max fails          0
 # finished Fri Sep 25 21:06:42 UTC 2026
+# note (added in the PR #41 review fixes; not part of the run's output): written by a build of k4/c4min.c whose RESULT line lacks the allrobF, covZ, covF, f1 and uncovered counters, i.e. the source committed in 8774e08 (sha1 dc95b8cf35097c53dd3e254bce9e6ad5d683d04f) or an uncommitted state with the same output. The later sources (be6b27a; 0bb6a22, sha1 01776e55c55cb8056804693ccea4c8e909848cc5, current) only add feature 23 (allrobF), the options -A and -F1, those counters and example printing; no existing computation changes.

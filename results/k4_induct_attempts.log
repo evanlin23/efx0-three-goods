@@ -1,0 +1,25 @@
+# command: python3 attempts/k4_induct_attempts.py
+[G-r0] G-form, every X' within repair 0: fails for every (w, d)? True; max over X' of r per (w, d): {(0, 0): 3, (0, 1): 2, (0, 2): 1, (0, 3): 2}
+[G-r1] G-form, every X' within repair 1: fails for every (w, d)? True; max over X' of r per (w, d): {(0, 0): 2, (0, 2): 2, (0, 3): 2, (0, 4): 2, (1, 1): 2, (1, 2): 2, (1, 3): 2, (1, 4): 2}
+[G-r2] G-form, every X' within repair 2: fails for every (w, d)? True; max over X' of r per (w, d): {(0, 0): 3, (0, 1): 3, (0, 3): 3, (0, 4): 3}
+[G-r3] G-form, every X' within repair 3: fails for every (w, d)? True; max over X' of r per (w, d): {(0, 0): 4, (0, 3): 4, (0, 4): 4, (0, 5): 4}
+[B-r0] B-form, every X' within repair 0: fails for every (w, d)? True; max over X' of r per (w, d): {(0, 0): 1, (0, 1): 1, (0, 2): 1, (0, 3): 2}
+[B-r1] B-form, every X' within repair 1: fails for every (w, d)? True; max over X' of r per (w, d): {(0, 0): 2, (0, 1): 2, (0, 3): 2, (0, 4): 2}
+[B-r2] B-form, every X' within repair 2: fails for every (w, d)? True; max over X' of r per (w, d): {(0, 0): 3, (0, 2): 4, (0, 3): 4, (0, 5): 3}
+[V-r0] V-form, every X' within repair 0: fails for every (w, d)? True; max over X' of r per (w, d): {(0, 0): 1, (0, 1): 1, (0, 3): 2, (0, 4): 1}
+[V-r1] V-form, every X' within repair 1: fails for every (w, d)? True; max over X' of r per (w, d): {(0, 0): 2, (0, 2): 2, (0, 3): 2, (0, 4): 2}
+[V-r3] V-form, every X' within repair 3: fails for every (w, d)? True; max over X' of r per (w, d): {(0, 0): 4, (0, 2): 4, (0, 4): 4, (0, 5): 4}
+[pot-maxvw] potential "max v_w": some maximizer of E(I - d) admits no placement of d, for every (w, d)? True   (weaker, some-maximizer form also fails here, i.e. no (w, d) has a maximizer admitting a placement: False)
+[pot-minvw] potential "min v_w": some maximizer of E(I - d) admits no placement of d, for every (w, d)? True   (weaker, some-maximizer form also fails here, i.e. no (w, d) has a maximizer admitting a placement: True)
+[pot-env] potential "min #enviers(w)": some maximizer of E(I - d) admits no placement of d, for every (w, d)? True   (weaker, some-maximizer form also fails here, i.e. no (w, d) has a maximizer admitting a placement: False)
+[pot-env-vw] potential "(min #enviers(w), max v_w)": some maximizer of E(I - d) admits no placement of d, for every (w, d)? True   (weaker, some-maximizer form also fails here, i.e. no (w, d) has a maximizer admitting a placement: True)
+[pot-util] potential "max utilitarian": some maximizer of E(I - d) admits no placement of d, for every (w, d)? True   (weaker, some-maximizer form also fails here, i.e. no (w, d) has a maximizer admitting a placement: False)
+[pot-nash] potential "max Nash welfare": some maximizer of E(I - d) admits no placement of d, for every (w, d)? True   (weaker, some-maximizer form also fails here, i.e. no (w, d) has a maximizer admitting a placement: False)
+[pot-env-util] potential "(min #enviers(w), max utilitarian)": some maximizer of E(I - d) admits no placement of d, for every (w, d)? True   (weaker, some-maximizer form also fails here, i.e. no (w, d) has a maximizer admitting a placement: True)
+[pot-envy] potential "min #agents that envy someone": some maximizer of E(I - d) admits no placement of d, for every (w, d)? True   (weaker, some-maximizer form also fails here, i.e. no (w, d) has a maximizer admitting a placement: False)
+[V-pot-env-util] V-form, potential "(min #enviers(w), max utilitarian)": some maximizer is not EFX0 for I, for every (w, d)? True
+[q4-rules] every 4-good agent is Q4: True; no rule (w, d, h) works: True
+[q4-rules]   (existence form, not a claim of failure: 6 of 12 triples (w, d, h) have SOME minimizer admitting d -> h: [(1, 1, 1), (1, 2, 1), (1, 2, 2), (1, 3, 0), (1, 4, 0), (1, 4, 2)])
+[ctrl-private] PS(I - p, w) holds and d -> w works exactly on the X' with w unenvied: True
+[ctrl-private] PS(I - p, w) holds and d -> w works exactly on the X' with w unenvied: True
+ALL CLAIMS CONFIRMED
