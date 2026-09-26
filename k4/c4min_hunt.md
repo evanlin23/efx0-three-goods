@@ -86,7 +86,7 @@ Tools (all in `k4/`):
   the exact search alone finds C₄ᵐⁱⁿ true on those profiles; it is **not** a test of the masks: where C₄ᵐⁱⁿ never
   fails, a mask that covers too much agrees with the search too (the independent review of this PR compiled the tool
   with the threat, E or need-equality check removed, and all three pass `-V`). The masks are tested where failures
-  exist: the `-w0` runs reproduce PR #36's 720 n = 2 failures, and the brute force confirms the `-w0` failures of §5;
+  exist: the `-w0` runs reproduce PR #36's 720 n = 2 failures, and the brute force confirms the two `-w0` instances of §5;
   `-V -w0` on the 14 failing pure n = 4 cores (which catches those mutants) was not run here.
 - **Per profile, three implementations** (`k4/c4min_crosscheck.py`, `results/k4_c4min_hunt_crosscheck.log`): on random
   profiles of every class with n ≤ 5, `c4min_hunt.c -1` against `k4/c4x.c -1s -R -a` (f*, d*, the numbers of valid,
@@ -208,7 +208,7 @@ Families of `k4/c4min_families.py`, all pure (every agent has four goods) except
 - `ht2 T`: two x's per gadget, y_j = {a_{j,1}, a_{j,2}, p_j, e_j} with p_j private; `htx T`: the x's of a gadget share
   their lower goods around the gadget, x_{j,i} = {a_{j,i}, b_{j,i}, b_{j,i+1}, g_j} (no private goods); `htc T`: T
   gadgets in a cycle without a head (e_T = g_1).
-- From `k4/d_stress.py` (PR #42, loaded from its branch): `chain T H` (H heads, each starting a chain of T gadgets),
+- From `k4/d_stress.py` (PR #42, on main): `chain T H` (H heads, each starting a chain of T gadgets),
   `tree T` (gadgets in a binary tree, a second child joined by a head-like agent); and `grid R C` here (R rows of C
   gadgets, one 4-good agent joining consecutive rows).
 
@@ -263,7 +263,7 @@ Every log starts with its command, the commit and the sha1 of `k4/c4min_hunt.c`.
 |---|---|---|---|
 | `n4` | exhaustive, n = 4 with three and four 4-good agents | `k4_c4min_hunt_n4_3.log`, `k4_c4min_hunt_n4_pure.log` | 25 min |
 | `n5a`, `n5b`, `n6a` | exhaustive, n = 5 with one/two and three 4-good agents, n = 6 with one | `k4_c4min_hunt_n5_12.log`, `k4_c4min_hunt_n5_3.log`, `k4_c4min_hunt_n6_1.log` | 3 min, 2.3 h, 8 min |
-| `classes` | exhaustive, n = 5 with four or five 4-good agents restricted to two order-type classes | `k4_c4min_hunt_classes.log` | 2 × 75 min for the four-4-good cores; pure cores not done |
+| `classes` | exhaustive, n = 5 with four or five 4-good agents restricted to two order-type classes | `k4_c4min_hunt_classes.log` | 75 min (classes 10, 11) and 3 min (classes 0, 1) for the four-4-good cores; pure cores not done |
 | `selfcheck`, `crosscheck`, `satcheck` | validation (§1.1) | `k4_c4min_hunt_selfcheck.log`, `k4_c4min_hunt_crosscheck.log`, `k4_c4min_hunt_satcheck.log` | 5 min, 20 min (one CPU), 1 min |
 | `w0small`, `w0big` | the `-w0` strengthening (§5) | `k4_c4min_hunt_w0.log` | 30 min |
 | `attempts` | the hard profiles of PR #36 and PR #30 | `k4_c4min_hunt_attempts.log` | seconds |

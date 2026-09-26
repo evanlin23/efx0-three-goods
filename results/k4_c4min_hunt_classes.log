@@ -19707,3 +19707,4 @@ FILE ../results/k4_certs_5_n4_4.json.gz cores 9846 profiles 223148556288 solved 
 # commit 2eec7a6, k4/c4min_hunt.c sha1 60fbc9be5f85, started Sat Sep 26 01:38:11 UTC 2026
 core 4 m 5 profiles 254803968 fails 0 solved 2757864 secs 15.5
 core 5 m 5 profiles 254803968 fails 0 solved 2780024 secs 15.8
+# stopped (budget) after 2 cores; this pure n = 5 run is not claimed anywhere
