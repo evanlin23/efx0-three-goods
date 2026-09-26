@@ -381,7 +381,7 @@ LB never fails, connected cores, $n=8$, $m\ge13$ & $12{,}763$ cores, $2.14\times
 \end{tabular}
 \medskip
 
-\noindent For the rows on LB, the certificates (LB's outputs) confirm Theorem~\ref{thm:D} in every labelling; that LB itself never fails holds for the labelling stored in the certificates, as LB breaks ties by index. Cores with $m=2n$ are covered by a two-own-goods argument (every agent holding two of its own goods is safe).
+\noindent LB is the repository's earlier construction (\texttt{proofs/construction.md} \S3 of~\cite{Repo}): Phase~1 with a lookahead insertion rule, the same upgrades, and a search over owners instead of the rotation. For the rows on LB, the certificates (LB's outputs) confirm Theorem~\ref{thm:D} in every labelling; that LB itself never fails holds for the labelling stored in the certificates, as LB breaks ties by index. Cores with $m=2n$ are covered by a two-own-goods argument (every agent holding two of its own goods is safe).
 
 \paragraph{Evidence (not proof).} $5{,}844{,}263{,}904$ runs of a literal implementation of \LBp{} (every core with $n\le6$ under every ranking profile and every sequence of insertion choices; random choices on larger cores; random non-core instances), asserting every lemma of Section~\ref{sec:correct} and checking every output against the raw definition: $1{,}327{,}101$ rotations, $0$ failures. An independent Python implementation gives identical tallies for $n\le5$.
 
