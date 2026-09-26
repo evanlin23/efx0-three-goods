@@ -35,6 +35,7 @@ In Lean (`lean/EFX/K3Cost.lean`, `lean/EFX/K3CostBound.lean`), with the model's 
     def algo (I : Inst) (hn : 0 < I.n) : I.Alloc := (algoC I hn).val
     theorem algo_efx0 (I : Inst) (hn : 0 < I.n) (h : ∀ i, numRelevant I i ≤ 3) : I.EFX0 (algo I hn)
     theorem algoC_cost (I : Inst) (hn : 0 < I.n) : (algoC I hn).cost ≤ 400 * (I.n + I.m + 1) ^ 4
+    theorem algoC_cost' (I : Inst) (hn : 0 < I.n) : (algoC I hn).cost ≤ 6400 * (I.n + I.m) ^ 4
 
 `algo` takes the proof `hn : 0 < I.n` as an argument: when n = 0 and m > 0 the type `Fin m → Fin 0` of allocations is
 empty, so no function `Inst → Alloc` exists. `algoC I hn : Timed I.Alloc` is the algorithm written in a cost monad

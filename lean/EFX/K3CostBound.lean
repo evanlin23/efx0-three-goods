@@ -897,8 +897,17 @@ theorem algoC_cost (I : Inst) (hn : 0 < I.n) : (algoC I hn).cost ≤ 400 * (I.n 
   generalize I.n + I.m + 1 = N at *
   omega
 
+/-- The running-time theorem in the form `c · (n + m)^d`: at most `6400 · (n + m)⁴` counted operations (from
+`algoC_cost`, as `n + m + 1 ≤ 2 (n + m)` when `n ≥ 1`). -/
+theorem algoC_cost' (I : Inst) (hn : 0 < I.n) : (algoC I hn).cost ≤ 6400 * (I.n + I.m) ^ 4 := by
+  have h1 : (I.n + I.m + 1) ^ 4 ≤ (2 * (I.n + I.m)) ^ 4 := Nat.pow_le_pow_left (by omega) 4
+  have h2 : (2 * (I.n + I.m)) ^ 4 = 16 * (I.n + I.m) ^ 4 := by rw [Nat.mul_pow]
+  have := algoC_cost I hn
+  omega
+
 /-! ## Axiom certificates (audited by `check.sh`) -/
 
 #print axioms EFX.K3.lbPlusC_cost
 #print axioms EFX.K3.reduceC_cost
 #print axioms EFX.K3.algoC_cost
+#print axioms EFX.K3.algoC_cost'
