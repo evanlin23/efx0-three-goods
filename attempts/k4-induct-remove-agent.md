@@ -6,9 +6,11 @@ record.
 **Idea.** Delete the agent w and a good d ∈ R_w (L10 for d = a_w). Every EFX₀ allocation X′ of I − w − d should become
 EFX₀ for I after giving w the good d (and nothing else) plus at most ρ moved goods.
 
-**Result.** Much better than deleting only d (the least ρ for the best d was ≤ 2 in every sample with n ≤ 5, and ≤ 1
-for every sampled n = 5 core with one 4-good agent), but not bounded by any ρ ≤ 2: ρ = 0 fails at n = 2, ρ = 1 at
-n = 3, ρ = 2 at n = 4 (`results/k4_induct_n2.log` … `results/k4_induct_n5.log`).
+**Result.** Much better than deleting only d (the least ρ for the best (w, d) was ≤ 3 in every sample with n ≤ 5:
+ρ = 3 on 1 of the 5,010 sampled n = 4 profiles, statistic best_B of `results/k4_induct_n4.log`; ρ = 2 on 1 of the 800
+sampled n = 5 profiles and ρ ≤ 1 on the rest, `results/k4_induct_n5.log`), but not bounded by any ρ ≤ 2: ρ = 0 fails
+at n = 2, ρ = 1 at n = 3, ρ = 2 at n = 4 (`results/k4_induct_n2.log` … `results/k4_induct_n5.log`). No failure of
+ρ = 3 was found.
 
 **Why.** With d = a_w, X′ + (w ↦ {a_w}) is EFX₀ iff no bundle of X′ threatens w; bundles of ≤ 2 goods never do, so for
 a D2-shaped X′ the obstruction is exactly the large bundle holding a threatening set of w's lower goods, LB₄'s owner

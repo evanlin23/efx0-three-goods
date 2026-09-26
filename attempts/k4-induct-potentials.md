@@ -1,6 +1,7 @@
 # Attempt: insert d into an extremal EFX₀ allocation of I − d
 
-Workstream `proof/k4-induct` (`k4/induct.md` §2). Failed; kept for the record.
+Workstream `proof/k4-induct` (`k4/induct.md` §2). Failed in the *every-maximizer* form stated below; kept for the
+record. The weaker some-maximizer form is refuted here only for three of the eight potentials (see the end).
 
 **Idea.** E(I − d) is finite and, by induction, nonempty, so a proof may take the X′ that maximizes a potential Φ and
 argue that d can be placed without any repair (else a better X′ exists). Tested for eight potentials; "fails" means:
@@ -33,5 +34,10 @@ other valuers of d that none of these potentials controls.
 - Nash: {0, 2, 4, 5} (4, 3, 6, 8); {1, 4, 5} (2, 3, 4); {3, 4, 5} (3, 4, 2).
 - −#agents envying someone: {0, 1, 2, 3} (2, 8, 5, 4); {1, 2, 3} (4, 2, 3); {1, 2, 3} (4, 3, 2).
 
+**Quantifier.** The statement refuted is "for some (w, d), *every* maximizer of Φ on E(I − d) admits a placement of d".
+The weaker "for some (w, d), *some* maximizer admits a placement" (a tie-break among maximizers) also fails on the
+instances above only for three potentials: min v_w (i.e. −v_w), (−#enviers(w), v_w) and (−#enviers(w), utilitarian).
+For the other five it holds on these instances and was not tested further. The replay prints both forms.
+
 Reproduce: `python3 attempts/k4_induct_attempts.py pot-maxvw pot-minvw pot-env pot-env-vw pot-util pot-nash
-pot-env-util pot-envy`.
+pot-env-util pot-envy` (log: `results/k4_induct_attempts.log`).
