@@ -1,8 +1,8 @@
 # C₄ᵐⁱⁿ with one frozen agent (f = 1)
 
-Workstream `proof/k4-c4min-f1`, building on `k4/c4min.md` (PR #41, under review): its configurations (§1), Theorem Z
-(§3), Theorem F (§3.6), Conjecture Φ′ and the f = 1 roadmap (§4). Ledger rows K4.C4MIN.F1.* (CONJECTURE / EVIDENCE
-only). PR #46 (`k4/hall.md`, an independent attack by covering/Hall counting) is cited where it is used or compared.
+Workstream `proof/k4-c4min-f1`, building on `k4/c4min.md` (PR #41): its configurations (§1), Theorem Z (§3),
+Theorem F (§3.6), and the f = 1 roadmap (§4). Ledger rows K4.C4MIN.F1* (CONJECTURE / EVIDENCE only), open item 22.
+Other PRs are cited in §6.
 
 **Target.** The local improvement lemma of `k4/c4min.md` §4 for configurations with an exposed frozen agent, for
 f = 1: every configuration at the fewest frozen agents without a valid owner has a move that raises a potential.
@@ -26,8 +26,10 @@ K4.T.
   tie in Ψ. When some terminal is not big-top, the tied move is again a Ψ-maximum, with a frozen agent that is not
   big-top, so Theorem F1 makes it completable. The remaining profiles are those where every Ψ-maximum has a big-top
   frozen agent. On some of them no Ψ-maximum is completable (the smallest: n = 3, §3), so no potential that starts
-  with (r, Λ) can work there. This is PR #46's big-top obstruction (K4.HALL.BT), met from the other side.
-  Conjecture Φ′ of `k4/c4min.md` §4, which puts x's protection first, has no failure there.
+  with (r, Λ) can work there. Protecting only big-top frozen agents first (Φ_BT) fails at n = 4. Conjecture Φ′ of
+  `k4/c4min.md` §4, which protects every frozen agent first, has no failure at f = 1 on the runs here, but PR #53
+  refutes it at f = 2. This case stays open; after the strategy change of 2026-09-26 no new potential is proposed
+  here (§6).
 
 ## 1. Setting
 
@@ -301,11 +303,29 @@ For example: agent 2 frozen, agent 0 on {0, 2}, agent 1 on {1, 4}, pool {3, 5, 7
 takes {1, 7} instead of {1, 4}. Good 7 then protects agent 2, and agent 0 is a valid owner. Agent 1 gives up level (its
 second good drops from value 4 to 2) to protect the frozen agent, which Ψ cannot see.
 
-This is the same phenomenon as the counterexample to Conjecture Φ (`attempts/k4-c4min-potentials.md` instance 7). It
-is also PR #46's obstruction: `k4/hall.md` §5 finds that every non-completable Pareto-maximum with n ≤ 3 has a frozen
-big-top agent (conjecture K4.HALL.BT). Theorem F1 is the (r, Λ) counterpart of that conjecture at f = 1: a
-non-completable Ψ-maximum has a big-top frozen agent. Conjecture Φ′ = (−t, r, Λ, −p) of `k4/c4min.md` §4 puts the
-frozen agent's protection first, and has no failure on these profiles (§4).
+**Protecting only big-top frozen agents is not enough either.** The potential Φ_BT = (−t, r, Λ, −p), with t and p
+counted only when the frozen agent is big-top, agrees with Ψ on configurations whose frozen agent is not big-top.
+- It has no failure on any strict profile with n ≤ 3, core 46 included (`results/k4_c4min_f1_phibt.log`).
+- It fails at n = 4: 7 profiles of the pure n = 4 sample, and one at n = 5.
+- The smallest failure is core 210 of `results/k4_certs_4_pure.json.gz`, with values
+  - 0:5, 2:4, 8:2, 10:8;
+  - 1:6, 5:3, 8:2, 10:10;
+  - 3:6, 6:3, 9:2, 10:10;
+  - 4:5, 7:4, 9:2, 10:8.
+
+  Its two Φ_BT-maxima have a frozen agent (agent 0 or 3) that is not big-top, and no valid owner. The path moves out
+  of them lead to an unprotected big-top frozen agent, which Φ_BT ranks lower. The Ψ-maxima of the same profile are
+  completable, consistent with Theorem F1.
+
+Both implementations confirm it (`attempts/k4-c4min-f1-bigtop.md`).
+
+This is the same phenomenon as the counterexample to Conjecture Φ (`attempts/k4-c4min-potentials.md` instance 7).
+
+Theorem F1 says that at f = 1 a non-completable Ψ-maximum has a big-top frozen agent. That is the (r, Λ) counterpart
+of PR #46's conjecture K4.HALL.BT for Pareto-maxima (`k4/hall.md` §5). PR #52 refutes K4.HALL.BT at n = 4 with two
+frozen agents that are not big-top, so its instance has f = 2 and does not bear on Theorem F1. Conjecture Φ′ =
+(−t, r, Λ, −p) of `k4/c4min.md` §4 puts the frozen agent's protection first. It has no failure at f = 1 on the runs of
+§4 and `results/k4_c4min_f1_phibt.log`, but PR #53 refutes it at f = 2.
 
 ## 4. Evidence
 
@@ -353,11 +373,58 @@ with f = 1.
 - With Theorems Z and F, the written proofs cover 86,524 of the 102,434 profiles of this class with ω ≥ 1. The rest
   have f ≥ 2 without a frozen-robust configuration.
 
-**Samples** (`results/k4_c4min_f1_samples.log`): SAMPLES_PLACEHOLDER
+**Samples** (`results/k4_c4min_f1_samples.log`): random profiles per core of every class, 100,000 per core at
+n = 4, 1,500 at n = 5, 200 at n = 6 (one 4-good agent).
+
+| class | profiles with f = 1 | F1 failures | lemma failures | covered: 3-good / 4-good / Lemma 8(b) | big-top only (ω ≥ 2): some Ψ-max completable / none |
+|---|---|---|---|---|---|
+| n = 4, two 4-good agents | 828,304 | 0 | 0 | 530,990 / 152,268 / 111,113 | 33,933 / 0 |
+| n = 4, three | 1,379,221 | 0 | 0 | 462,800 / 511,769 / 226,797 | 177,855 / 0 |
+| n = 4, pure | 1,076,769 | 0 | 0 | 0 / 609,794 / 190,059 | 276,912 / 4 |
+| n = 5, one | 3,079 | 0 | 0 | 2,621 / 156 / 302 | 0 / 0 |
+| n = 5, two | 81,177 | 0 | 0 | 58,522 / 11,246 / 10,164 | 1,245 / 0 |
+| n = 5, three | 382,878 | 0 | 0 | 193,822 / 108,595 / 60,378 | 20,083 / 0 |
+| n = 5, four | 622,121 | 0 | 0 | 160,002 / 278,732 / 113,285 | 70,102 / 0 |
+| n = 5, pure | 395,570 | 0 | 0 | 0 / 241,741 / 76,266 | 77,562 / 1 |
+| n = 6, one | 631 | 0 | 0 | 552 / 28 / 51 | 0 / 0 |
+
+Other observations on these samples:
+- Case (E′) never occurs (L7rconf = 0).
+- Case (E) occurs 9 times at n = 5, always resolved by recycling (L7recycle).
+- Φ′ has no failure on any sample.
+- Φ_BT (§3) fails once at n = 5. Its n = 4 failures are in `results/k4_c4min_f1_phibt.log`.
 
 ## 5. Reproduce
 
 ```
-python3 k4/c4min_f1_run.py results/k4_certs_3.json.gz -L            # C, every profile with n = 3 (Theorem F1, lemmas)
-python3 k4/c4min_f1_proof.py results/k4_certs_3.json.gz --rand=300  # the independent Python checker, a sample
+python3 k4/c4min_f1_run.py results/k4_certs_2.json.gz -L -x 3                  # seconds
+python3 k4/c4min_f1_run.py results/k4_certs_3.json.gz -L -x 3 --split=8        # ~10 min on 4 CPUs
+python3 k4/c4min_f1_run.py results/k4_certs_4_n4_1.json.gz -L -x 3             # ~20 s
+python3 k4/c4min_f1_run.py results/k4_certs_4_pure.json.gz -L -x 3 --rand=100000 --seed=91   # samples; see the log headers
+python3 k4/c4min_f1_proof.py results/k4_certs_3.json.gz --rand=1500 --seed=31  # the independent Python checker
+python3 k4/c4min_f1.py results/k4_certs_3.json.gz --maxima --rand=3000         # potentials at the maxima, by type of x
+python3 k4/c4min_f1_bt.py results/k4_certs_3.json.gz --rand=1000               # the big-top ties (Lemma 8)
+python3 k4/c4min_f1_run.py results/k4_certs_3.json.gz --split=8 -x 2           # Phi_BT without lemma checks (results/k4_c4min_f1_phibt.log)
+python3 attempts/k4_c4min_f1_bigtop.py                                         # the failing potentials of §3
 ```
+
+The RESULT counters of `k4/c4min_f1.c` are described in its header comment.
+
+## 6. Relation to other pull requests
+
+- **#41** (`k4/c4min.md`): the framework. Its referee fix batch measures the robustness of free agents against
+  U_y = R_y ∖ 𝒩, as this file does from the start.
+- **#46** (`k4/hall.md`, merged): K4.HALL.BT is compared in §3. It is refuted by **#52** at n = 4 (f = 2), which does
+  not bear on Theorem F1. #52 also introduces the "downgrade swap" (a frozen agent passes its top to its needer).
+  Theorem F1's catalogue does not need it at f = 1: its moves suffice at every Ψ-maximum with a frozen agent that is
+  not big-top (§4).
+- **#51** (`k4/c4min_reduce.md`, under review): its Lemma PM treats this file's path move under the potential
+  (r′, −t, Λ), and lets a receiver keep part of its pair. The recycling rule of §2 is the case used here. #51's referee
+  found that its local improvement lemma LIL fails on a non-core instance, so it must use the core's private-goods
+  rule. Theorem F1's proof does not appeal to that rule, but all of its brute-force checks are on cores only.
+- **#53** (compute/k4-gap): refutes Φ′ at f = 2 (pure n = 4, `attempts/k4-gap-phi-prime.md` on its branch).
+- **Strategy (2026-09-26).** The project owner asked that the exposed-frozen gap no longer be attacked by new
+  potentials or move families. This file therefore stops at Theorem F1, its open double case (E′), and the recorded
+  failures for the big-top case. The choice of a single target statement is left to the strategy session
+  (proof/k4-strategy).
+

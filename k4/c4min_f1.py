@@ -54,11 +54,21 @@ POTS = {
     'rlp': lambda c: (r_of(c), lam_of(c), -p_of(c)),
     'rlb': lambda c: (r_of(c), lam_of(c), -bt_of(c)),
     'brl': lambda c: (-bt_of(c), r_of(c), lam_of(c)),
+    'btphi1': lambda c: (-tbt_of(c), r_of(c), lam_of(c), -pbt_of(c)),   # protection first, for big-top frozen agents only
+    'btphi': lambda c: (-tbt_of(c), r_of(c), lam_of(c)),
 }
 
 
 def bt_of(c):
     return sum(xtype(c.pr, x, c.phi[x]) == 'BT' for x in frozen_of(c))
+
+
+def tbt_of(c):
+    return sum(c.pool_threat(x) for x in frozen_of(c) if xtype(c.pr, x, c.phi[x]) == 'BT')
+
+
+def pbt_of(c):
+    return sum(len(c.L & c.U[x]) for x in frozen_of(c) if xtype(c.pr, x, c.phi[x]) == 'BT')
 
 
 def holdings(c):

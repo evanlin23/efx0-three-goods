@@ -28,8 +28,32 @@ The minimum is n = 3: every strict profile with n = 2 has a completable Ψ-maxim
 first FILE line: starfail 0). Among the n = 3 profiles, 128 of the 7,284,544 with f = 1 fail, all on core 46 (the same
 log). The samples with n = 4 and 5 (`results/k4_c4min_f1_samples.log`) have a few more.
 
-**Reproduce.** `python3 attempts/k4_c4min_f1_bigtop.py` (seconds). It replays the profile with both implementations:
+**Reproduce.** `python3 attempts/k4_c4min_f1_bigtop.py` (about two minutes). It replays the profile with both implementations:
 - the independent Python one (`k4/c4min_cfg.py`) lists the maxima of Ψ, (r, Λ, −t), (r, Λ, −t, −p) and Φ′;
 - `k4/c4min_f1.c` reports starfail 1, rltfail 1, phi1fail 0.
 
 It ends with CONFIRMED.
+
+## Protecting only big-top frozen agents: Φ_BT fails at n = 4
+
+**The attempt.** Φ_BT = (−t, r, Λ, −p), with t (frozen agent threatened by the pool alone) and p (pool goods it
+values) counted only when the frozen agent is big-top. It agrees with Ψ on every other configuration, so Theorem F1
+would stay inside it. It fixes the profile above: every maximum is completable on every strict profile with n ≤ 3,
+core 46 included (`results/k4_c4min_f1_phibt.log`).
+
+**Smallest failing configuration.** n = 4 (n = 3 has no failure), m = 11, core 210 of
+`results/k4_certs_4_pure.json.gz`:
+- agent 0: 0:5, 2:4, 8:2, 10:8;
+- agent 1: 1:6, 5:3, 8:2, 10:10;
+- agent 2: 3:6, 6:3, 9:2, 10:10;
+- agent 3: 4:5, 7:4, 9:2, 10:8.
+
+The fewest frozen agents is 1. There are 1,030 configurations, and 678 of them are completable.
+- The two Φ_BT-maxima have a frozen agent that is not big-top and no valid owner. The frozen agent is agent 0 (values
+  8, 5, 4, 2, with 8 < 5 + 4) or agent 3. Their path moves would make a big-top agent frozen without protection, which Φ_BT
+  ranks lower.
+- The two Ψ-maxima (big-top frozen agents 1 and 2) are completable, as are all eight Φ′-maxima, consistent with
+  Theorem F1.
+
+The pure n = 4 sample of `results/k4_c4min_f1_phibt.log` has 7 such profiles, and the n = 5 samples one more
+(`results/k4_c4min_f1_samples.log`, counter phiBTfail). The same script replays it with both implementations.
