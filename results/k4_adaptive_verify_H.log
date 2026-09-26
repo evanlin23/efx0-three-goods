@@ -1,0 +1,7 @@
+# independent model: k4/c4_verify_H/{lb4r,hcore}.py of branch proof/k4-c4 at 96ff1d0 (PR #33), via C4VERIFY_DIR
+# adaptive_verify_H.py 5 200
+H_1: 200 sequences; gadget 1 touched before l: 175, all checks hold in 175 (no cascade, NA empty after need-shrinking upgrades, owner r has an output under both conventions); l first: 25, of which y_1 takes e_1 in 25
+H_2: 200 sequences; gadget 1 touched before l: 186, all checks hold in 186 (no cascade, NA empty after need-shrinking upgrades, owner r has an output under both conventions); l first: 14, of which y_1 takes e_1 in 14
+H_3: 200 sequences; gadget 1 touched before l: 185, all checks hold in 185 (no cascade, NA empty after need-shrinking upgrades, owner r has an output under both conventions); l first: 15, of which y_1 takes e_1 in 15
+H_4: 200 sequences; gadget 1 touched before l: 181, all checks hold in 181 (no cascade, NA empty after need-shrinking upgrades, owner r has an output under both conventions); l first: 19, of which y_1 takes e_1 in 19
+H_5: 200 sequences; gadget 1 touched before l: 173, all checks hold in 173 (no cascade, NA empty after need-shrinking upgrades, owner r has an output under both conventions); l first: 27, of which y_1 takes e_1 in 27

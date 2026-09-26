@@ -1,0 +1,4 @@
+# adaptive_verify_H.py 3 200 --relabel
+H_1: 120 (every) relabelings, l inserted first and index order after it: some y_j takes e_j (cascade) in 60
+H_2: 200 random relabelings, l inserted first and index order after it: some y_j takes e_j (cascade) in 99
+H_3: 200 random relabelings, l inserted first and index order after it: some y_j takes e_j (cascade) in 99

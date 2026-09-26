@@ -1,0 +1,18 @@
+results/k4_gm4_gmall_seeds_4.txt: 148 profiles, 148 new
+results/k4_gm4_seeds_4.txt: 7 profiles, 7 new
+results/k4_gm4_4_n4_2.log: 274 profiles, 271 new
+results/k4_gm4_5_pure_sample.log: 4 profiles, 4 new
+results/k4_gm4_5_n4_4_sample.log: 1 profiles, 1 new
+k4/gm4_counterexample.py instance A: already listed
+k4/gm4_counterexample.py instance B: already listed
+k4/gm4_counterexample.py instance C: already listed
+k4/gm4_counterexample.py instance D: already listed
+k4/gm4_counterexample.py instance E: already listed
+k4/gm4_counterexample.py instance F: already listed
+k4/gm4_counterexample.py instance S: new
+k4/gm4_counterexample.py instance H: new
+k4/gm4_counterexample.py instance G: already listed
+k4/gm4_counterexample.py instance P: new
+k4/gm4_counterexample.py instance Q: already listed
+442 lines, 434 distinct profiles
+identical to the committed file

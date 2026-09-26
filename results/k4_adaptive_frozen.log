@@ -1,0 +1,17 @@
+# adaptive_frozen.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz results/k4_certs_4_n4_1.json.gz results/k4_certs_4_n4_2.json.gz # adaptive.c sha256 e5ed45c423467df0 # c4x.c k4_c4x_494da2271dbf0c43
+# adaptive_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz results/k4_certs_4_n4_1.json.gz results/k4_certs_4_n4_2.json.gz -A28 -r3 --show=0 # adaptive.c sha256 e5ed45c423467df0
+k4_certs_2.json.gz: cores=5 total=189216 fails=0 rawfails=0 badcores=0 rot=[189096, 120, 0, 0] (rotations 0..R) pol=[188916, 300, 0] uncov=0 covviol=0 time 1s
+k4_certs_3.json.gz: cores=51 total=299837376 fails=0 rawfails=0 badcores=0 rot=[299373804, 452052, 11520, 0] (rotations 0..R) pol=[299773080, 47960, 16336] uncov=0 covviol=0 time 2s
+k4_certs_4_n4_1.json.gz: cores=135 total=7247232 fails=0 rawfails=0 badcores=0 rot=[7246346, 886, 0, 0] (rotations 0..R) pol=[7247208, 0, 24] uncov=0 covviol=0 time 1s
+k4_certs_4_n4_2.json.gz: cores=309 total=724847616 fails=0 rawfails=0 badcores=0 rot=[724611112, 236504, 0, 0] (rotations 0..R) pol=[724834228, 4524, 8864] uncov=0 covviol=0 time 10s
+# adaptive_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz results/k4_certs_4_n4_1.json.gz results/k4_certs_4_n4_2.json.gz -A29 -r3 --show=0 # adaptive.c sha256 e5ed45c423467df0
+k4_certs_2.json.gz: cores=5 total=189216 fails=0 rawfails=0 badcores=0 rot=[189216, 0, 0, 0] (rotations 0..R) pol=[189036, 180, 0] uncov=0 covviol=0 time 1s
+k4_certs_3.json.gz: cores=51 total=299837376 fails=0 rawfails=0 badcores=0 rot=[299565688, 260168, 11520, 0] (rotations 0..R) pol=[299787300, 33200, 16876] uncov=0 covviol=0 time 2s
+k4_certs_4_n4_1.json.gz: cores=135 total=7247232 fails=0 rawfails=0 badcores=0 rot=[7246416, 816, 0, 0] (rotations 0..R) pol=[7247208, 0, 24] uncov=0 covviol=0 time 1s
+k4_certs_4_n4_2.json.gz: cores=309 total=724847616 fails=0 rawfails=0 badcores=0 rot=[724640368, 207248, 0, 0] (rotations 0..R) pol=[724834140, 4476, 9000] uncov=0 covviol=0 time 10s
+k4_certs_2.json.gz: leaves where -A29 needs two rotations, by (fewest frozen over P, fewest frozen over every Phase 1 run and policy):
+k4_certs_3.json.gz: leaves where -A29 needs two rotations, by (fewest frozen over P, fewest frozen over every Phase 1 run and policy):
+  P: 0, Phase 1 runs: 1: 96 leaves, weight 11520
+  first: sets=[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]] vals=[[1, 4, 6, 8], [3, 5, 7, 6], [2, 3, 4, 8]] fewest frozen over P 0, over Phase 1 runs 1
+k4_certs_4_n4_1.json.gz: leaves where -A29 needs two rotations, by (fewest frozen over P, fewest frozen over every Phase 1 run and policy):
+k4_certs_4_n4_2.json.gz: leaves where -A29 needs two rotations, by (fewest frozen over P, fewest frozen over every Phase 1 run and policy):

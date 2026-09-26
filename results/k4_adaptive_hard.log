@@ -1,0 +1,6 @@
+# adaptive_run.py --profiles=results/k4_adaptive_gm4_profiles.jsonl -A0 -r3 # adaptive.c sha256 3c9b6b13188f57bc
+results/k4_adaptive_gm4_profiles.jsonl: profiles=442 rot0=442 rot1=0 rot2=0 rot3=0 fail=0 uncov=0 time 0s
+# adaptive_run.py --profiles=results/k4_adaptive_gm4_profiles.jsonl -A16 -r3 # adaptive.c sha256 3c9b6b13188f57bc
+results/k4_adaptive_gm4_profiles.jsonl: profiles=442 rot0=442 rot1=0 rot2=0 rot3=0 fail=0 uncov=0 time 0s
+# adaptive_run.py --profiles=results/k4_adaptive_gm4_profiles.jsonl -A24 -r3 # adaptive.c sha256 3c9b6b13188f57bc
+results/k4_adaptive_gm4_profiles.jsonl: profiles=442 rot0=442 rot1=0 rot2=0 rot3=0 fail=0 uncov=0 time 0s

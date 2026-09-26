@@ -1,0 +1,225 @@
+# c4one_tau.py -X -P -i2 -u2 -o0 -r1 -w0 -c0 -f3
+results/k4_certs_2.json.gz: 2 cores, total 2592, profiles with no success 0, cores with one 0
+results/k4_certs_3.json.gz: 14 cores, total 119232, profiles with no success 24, cores with one 1
+results/k4_certs_4_n4_1.json.gz: 135 cores, total 7247232, profiles with no success 0, cores with one 0
+results/k4_certs_5_n4_1.json.gz: 1735 cores, total 574615296, profiles with no success 0, cores with one 0
+# c4one_tau.py -X -P -Q -i2 -u2 -o0 -r1 -w0 -c0 -f3
+results/k4_certs_2.json.gz: 2 cores, total 2592, profiles with no success 0, cores with one 0
+results/k4_certs_3.json.gz: 14 cores, total 119232, profiles with no success 260, cores with one 5
+    FAIL n=3 m=7 sets=[[0,2,4,5],[1,4,6],[3,5,6]] vals=[[3,5,7,6],[3,4,2],[2,3,4]] order=0 1 2  picks=4,1,6 blocks=0,0,1 upg= frozen=0  J=2d w=2
+    FAIL n=3 m=7 sets=[[0,2,4,5],[1,4,6],[3,5,6]] vals=[[3,6,7,5],[3,4,2],[2,3,4]] order=0 1 2  picks=4,1,6 blocks=0,0,1 upg= frozen=0  J=2d w=2
+results/k4_certs_4_n4_1.json.gz: 135 cores, total 7247232, profiles with no success 10786, cores with one 44
+    FAIL n=4 m=7 sets=[[0,4,5,6],[1,4,5],[2,3,6],[2,3,6]] vals=[[3,5,6,7],[2,3,4],[2,3,4],[2,3,4]] order=0 2 3 1  picks=6,5,3,2 blocks=0,1,0,0 upg= frozen=0 2  J=13 w=1
+    FAIL n=4 m=7 sets=[[0,4,5,6],[1,4,5],[2,3,6],[2,3,6]] vals=[[2,4,7,8],[2,3,4],[2,3,4],[2,3,4]] order=0 2 3 1  picks=6,5,3,2 blocks=0,1,0,0 upg= frozen=0 2  J=13 w=1
+    FAIL n=4 m=7 sets=[[0,5,6],[1,5,6],[2,3,4,6],[2,3,4]] vals=[[2,3,4],[2,3,4],[3,5,6,7],[2,3,4]] order=2 0 1 3  picks=5,1,6,4 blocks=0,0,0,1 upg= frozen=0 2  J=d w=1
+results/k4_certs_5_n4_1.json.gz: 1735 cores, total 574615296, profiles with no success 229492, cores with one 494
+    FAIL n=5 m=8 sets=[[0,1,4,6],[2,3,6],[2,5,7],[3,5,7],[4,6,7]] vals=[[3,5,6,7],[2,3,4],[2,3,4],[2,3,4],[2,3,4]] order=0 4 1 3 2  picks=6,3,2,5,7 blocks=0,0,0,0,0 upg= frozen=0 3 4  J=13 w=1
+    FAIL n=5 m=8 sets=[[0,1,4,6],[2,3,6],[2,5,7],[3,5,7],[4,6,7]] vals=[[3,6,5,7],[2,3,4],[2,3,4],[2,3,4],[2,3,4]] order=0 4 1 3 2  picks=6,3,2,5,7 blocks=0,0,0,0,0 upg= frozen=0 3 4  J=13 w=1
+    FAIL n=5 m=8 sets=[[0,2,3,4],[1,4,7],[3,6,7],[5,6,7],[5,6,7]] vals=[[3,5,6,7],[3,4,2],[2,3,4],[2,3,4],[2,3,4]] order=0 1 4 2 3  picks=4,1,6,5,7 blocks=0,0,1,1,1 upg= frozen=0 2 4  J=d w=1
+# c4one_tau.py -X -P2 -i2 -u2 -o0 -r1 -w0 -c0 -f3
+results/k4_certs_2.json.gz: 2 cores, total 2592, profiles with no success 0, cores with one 0
+results/k4_certs_3.json.gz: 14 cores, total 119232, profiles with no success 0, cores with one 0
+results/k4_certs_4_n4_1.json.gz: 135 cores, total 7247232, profiles with no success 0, cores with one 0
+results/k4_certs_5_n4_1.json.gz: 1735 cores, total 574615296, profiles with no success 0, cores with one 0
+# c4one_tau.py -X -P2 -Q -i2 -u2 -o0 -r1 -w0 -c0 -f3
+results/k4_certs_2.json.gz: 2 cores, total 2592, profiles with no success 0, cores with one 0
+results/k4_certs_3.json.gz: 14 cores, total 119232, profiles with no success 212, cores with one 5
+    FAIL n=3 m=7 sets=[[0,2,4,5],[1,4,6],[3,5,6]] vals=[[3,5,7,6],[3,4,2],[2,3,4]] order=0 1 2  picks=4,1,6 blocks=0,0,1 upg= frozen=0  J=2d w=2
+    FAIL n=3 m=7 sets=[[0,2,4,5],[1,4,6],[3,5,6]] vals=[[3,6,7,5],[3,4,2],[2,3,4]] order=0 1 2  picks=4,1,6 blocks=0,0,1 upg= frozen=0  J=2d w=2
+results/k4_certs_4_n4_1.json.gz: 135 cores, total 7247232, profiles with no success 6840, cores with one 41
+    FAIL n=4 m=7 sets=[[0,5,6],[1,5,6],[2,3,4,6],[2,3,4]] vals=[[2,3,4],[2,3,4],[3,5,6,7],[2,3,4]] order=2 0 1 3  picks=5,1,6,4 blocks=0,0,0,1 upg= frozen=0 2  J=d w=1
+    FAIL n=4 m=7 sets=[[0,5,6],[1,5,6],[2,3,4,6],[2,3,4]] vals=[[2,4,3],[2,3,4],[3,5,6,7],[2,3,4]] order=2 0 1 3  picks=5,1,6,4 blocks=0,0,0,1 upg= frozen=0 2  J=d w=1
+    FAIL n=4 m=7 sets=[[0,4,5,6],[1,4,5],[2,3,6],[2,3,6]] vals=[[3,5,6,7],[2,3,4],[2,3,4],[2,3,4]] order=0 2 3 1  picks=6,5,3,2 blocks=0,1,0,0 upg= frozen=0 2  J=13 w=1
+results/k4_certs_5_n4_1.json.gz: 1735 cores, total 574615296, profiles with no success 120260, cores with one 444
+    FAIL n=5 m=8 sets=[[0,1,4,6],[2,3,6],[2,5,7],[3,5,7],[4,6,7]] vals=[[3,5,6,7],[2,3,4],[2,3,4],[2,3,4],[2,3,4]] order=0 4 1 3 2  picks=6,3,2,5,7 blocks=0,0,0,0,0 upg= frozen=0 3 4  J=13 w=1
+    FAIL n=5 m=8 sets=[[0,1,4,6],[2,3,6],[2,5,7],[3,5,7],[4,6,7]] vals=[[3,6,5,7],[2,3,4],[2,3,4],[2,3,4],[2,3,4]] order=0 4 1 3 2  picks=6,3,2,5,7 blocks=0,0,0,0,0 upg= frozen=0 3 4  J=13 w=1
+    FAIL n=5 m=8 sets=[[0,2,3,4],[1,4,7],[3,6,7],[5,6,7],[5,6,7]] vals=[[3,5,6,7],[3,4,2],[2,3,4],[2,3,4],[2,3,4]] order=0 1 4 2 3  picks=4,1,6,5,7 blocks=0,0,1,1,1 upg= frozen=0 2 4  J=d w=1
+# c4one_tau.py -X -P2 -Q2 -i2 -u2 -o0 -r1 -w0 -c0 -f3
+results/k4_certs_2.json.gz: 2 cores, total 2592, profiles with no success 348, cores with one 2
+    FAIL n=2 m=5 sets=[[0,1,3,4],[2,3,4]] vals=[[2,3,4,8],[2,3,4]] order=1 0  picks=3,4 blocks=0,0 upg= frozen=1  J=7 w=2
+    FAIL n=2 m=5 sets=[[0,1,3,4],[2,3,4]] vals=[[2,4,5,8],[2,3,4]] order=1 0  picks=3,4 blocks=0,0 upg= frozen=1  J=7 w=2
+    FAIL n=2 m=4 sets=[[0,1,2,3],[1,2,3]] vals=[[2,4,5,8],[2,3,4]] order=1 0  picks=2,3 blocks=0,0 upg= frozen=1  J=3 w=1
+results/k4_certs_3.json.gz: 14 cores, total 119232, profiles with no success 272, cores with one 2
+results/k4_certs_4_n4_1.json.gz: 135 cores, total 7247232, profiles with no success 80, cores with one 2
+results/k4_certs_5_n4_1.json.gz: 1735 cores, total 574615296, profiles with no success 0, cores with one 0
+# c4one_tau.py -X -P2 -i0 -u2 -o0 -r1 -w0 -c0 -f3
+results/k4_certs_2.json.gz: 2 cores, total 2592, profiles with no success 0, cores with one 0
+results/k4_certs_3.json.gz: 14 cores, total 119232, profiles with no success 916, cores with one 7
+    FAIL n=3 m=7 sets=[[0,2,4,5],[1,4,6],[3,5,6]] vals=[[3,5,7,6],[3,4,2],[2,3,4]] order=0 1 2  picks=4,1,6 blocks=0,0,1 upg= frozen=0  J=2d w=2
+    FAIL n=3 m=7 sets=[[0,2,4,5],[1,4,6],[3,5,6]] vals=[[3,6,7,5],[3,4,2],[2,3,4]] order=0 1 2  picks=4,1,6 blocks=0,0,1 upg= frozen=0  J=2d w=2
+results/k4_certs_4_n4_1.json.gz: 135 cores, total 7247232, profiles with no success 12388, cores with one 58
+    FAIL n=4 m=7 sets=[[0,2,5],[1,5,6],[2,3,4,6],[3,4,6]] vals=[[2,3,4],[2,4,3],[3,5,6,7],[2,3,4]] order=0 1 3 2  picks=5,6,3,4 blocks=0,0,0,0 upg= frozen=0 1 3  J=7 w=2
+    FAIL n=4 m=7 sets=[[0,4,5,6],[1,4,5],[2,3,6],[2,3,6]] vals=[[3,5,6,7],[2,3,4],[2,3,4],[2,3,4]] order=0 2 3 1  picks=6,5,3,2 blocks=0,1,0,0 upg= frozen=0 2  J=13 w=1
+    FAIL n=4 m=7 sets=[[0,4,5,6],[1,4,5],[2,3,6],[2,3,6]] vals=[[3,6,5,7],[2,3,4],[2,3,4],[2,3,4]] order=0 2 3 1  picks=6,5,3,2 blocks=0,1,0,0 upg= frozen=0 2  J=13 w=1
+results/k4_certs_5_n4_1.json.gz: 1735 cores, total 574615296, profiles with no success 287418, cores with one 677
+    FAIL n=5 m=8 sets=[[0,1,2,3],[2,3,7],[4,5,6],[4,6,7],[5,6,7]] vals=[[3,5,6,7],[3,4,2],[2,3,4],[2,3,4],[2,3,4]] order=0 1 2 3 4  picks=3,2,6,7,5 blocks=0,0,1,1,1 upg= frozen=0 2 3  J=13 w=1
+    FAIL n=5 m=8 sets=[[0,1,2,3],[2,3,7],[4,5,6],[4,6,7],[5,6,7]] vals=[[3,6,5,7],[3,4,2],[2,3,4],[2,3,4],[2,3,4]] order=0 1 2 3 4  picks=3,2,6,7,5 blocks=0,0,1,1,1 upg= frozen=0 2 3  J=13 w=1
+    FAIL n=5 m=8 sets=[[0,1,4,6],[2,3,6],[2,5,7],[3,5,7],[4,6,7]] vals=[[3,5,6,7],[2,3,4],[2,3,4],[2,3,4],[2,3,4]] order=0 4 1 3 2  picks=6,3,2,5,7 blocks=0,0,0,0,0 upg= frozen=0 3 4  J=13 w=1
+# c4one_tau.py -X -P2 -Q -i0 -u2 -o0 -r1 -w0 -c0 -f3
+results/k4_certs_2.json.gz: 2 cores, total 2592, profiles with no success 0, cores with one 0
+results/k4_certs_3.json.gz: 14 cores, total 119232, profiles with no success 212, cores with one 5
+    FAIL n=3 m=7 sets=[[0,2,4,5],[1,4,6],[3,5,6]] vals=[[3,5,7,6],[3,4,2],[2,3,4]] order=0 1 2  picks=4,1,6 blocks=0,0,1 upg= frozen=0  J=2d w=2
+    FAIL n=3 m=7 sets=[[0,2,4,5],[1,4,6],[3,5,6]] vals=[[3,6,7,5],[3,4,2],[2,3,4]] order=0 1 2  picks=4,1,6 blocks=0,0,1 upg= frozen=0  J=2d w=2
+results/k4_certs_4_n4_1.json.gz: 135 cores, total 7247232, profiles with no success 6920, cores with one 41
+    FAIL n=4 m=7 sets=[[0,5,6],[1,5,6],[2,3,4,6],[2,3,4]] vals=[[2,3,4],[2,3,4],[3,5,6,7],[2,3,4]] order=2 0 1 3  picks=5,1,6,4 blocks=0,0,0,1 upg= frozen=0 2  J=d w=1
+    FAIL n=4 m=7 sets=[[0,5,6],[1,5,6],[2,3,4,6],[2,3,4]] vals=[[2,4,3],[2,3,4],[3,5,6,7],[2,3,4]] order=2 0 1 3  picks=5,1,6,4 blocks=0,0,0,1 upg= frozen=0 2  J=d w=1
+    FAIL n=4 m=7 sets=[[0,4,5,6],[1,4,5],[2,3,6],[2,3,6]] vals=[[3,5,6,7],[2,3,4],[2,3,4],[2,3,4]] order=0 2 3 1  picks=6,5,3,2 blocks=0,1,0,0 upg= frozen=0 2  J=13 w=1
+results/k4_certs_5_n4_1.json.gz: 1735 cores, total 574615296, profiles with no success 183016, cores with one 491
+    FAIL n=5 m=8 sets=[[0,1,2,3],[2,3,7],[4,5,6],[4,6,7],[5,6,7]] vals=[[3,5,6,7],[3,4,2],[2,3,4],[2,3,4],[2,3,4]] order=0 1 2 3 4  picks=3,2,6,7,5 blocks=0,0,1,1,1 upg= frozen=0 2 3  J=13 w=1
+    FAIL n=5 m=8 sets=[[0,1,2,3],[2,3,7],[4,5,6],[4,6,7],[5,6,7]] vals=[[3,6,5,7],[3,4,2],[2,3,4],[2,3,4],[2,3,4]] order=0 1 2 3 4  picks=3,2,6,7,5 blocks=0,0,1,1,1 upg= frozen=0 2 3  J=13 w=1
+    FAIL n=5 m=8 sets=[[0,1,4,6],[2,3,6],[2,5,7],[3,5,7],[4,6,7]] vals=[[3,5,6,7],[2,3,4],[2,3,4],[2,3,4],[2,3,4]] order=0 4 1 3 2  picks=6,3,2,5,7 blocks=0,0,0,0,0 upg= frozen=0 3 4  J=13 w=1
+# c4one_tau.py -X -P2 -Q2 -i0 -u2 -o0 -r1 -w0 -c0 -f3
+results/k4_certs_2.json.gz: 2 cores, total 2592, profiles with no success 348, cores with one 2
+    FAIL n=2 m=5 sets=[[0,1,3,4],[2,3,4]] vals=[[2,3,4,8],[2,3,4]] order=1 0  picks=3,4 blocks=0,0 upg= frozen=1  J=7 w=2
+    FAIL n=2 m=5 sets=[[0,1,3,4],[2,3,4]] vals=[[2,4,5,8],[2,3,4]] order=1 0  picks=3,4 blocks=0,0 upg= frozen=1  J=7 w=2
+    FAIL n=2 m=4 sets=[[0,1,2,3],[1,2,3]] vals=[[2,4,5,8],[2,3,4]] order=1 0  picks=2,3 blocks=0,0 upg= frozen=1  J=3 w=1
+results/k4_certs_3.json.gz: 14 cores, total 119232, profiles with no success 2308, cores with one 10
+    FAIL n=3 m=5 sets=[[0,1,2,3],[0,1,4],[2,3,4]] vals=[[2,4,5,8],[2,3,4],[2,3,4]] order=1 2 0  picks=2,4,3 blocks=0,0,0 upg= frozen=1 2  J=3 w=1
+    FAIL n=3 m=6 sets=[[0,2,4,5],[1,3,5],[3,4,5]] vals=[[3,5,6,7],[2,3,4],[2,3,4]] order=1 2 0  picks=2,5,4 blocks=0,0,0 upg= frozen=1 2  J=b w=2
+    FAIL n=3 m=6 sets=[[0,3,4,5],[1,3,5],[2,4,5]] vals=[[3,5,6,7],[2,3,4],[2,3,4]] order=1 2 0  picks=3,5,4 blocks=0,0,0 upg= frozen=1 2  J=7 w=2
+results/k4_certs_4_n4_1.json.gz: 135 cores, total 7247232, profiles with no success 22498, cores with one 82
+    FAIL n=4 m=6 sets=[[0,1,2,3],[0,2,5],[1,4,5],[3,4,5]] vals=[[2,4,5,8],[2,3,4],[2,3,4],[2,3,4]] order=1 2 3 0  picks=2,5,4,3 blocks=0,0,0,0 upg= frozen=1 2 3  J=3 w=1
+    FAIL n=4 m=6 sets=[[0,2,4,5],[0,2,4],[1,3,5],[1,3,5]] vals=[[2,3,8,4],[2,3,4],[2,3,4],[2,3,4]] order=1 0 2 3  picks=5,4,3,1 blocks=0,0,0,0 upg= frozen=0 1 2  J=5 w=1
+    FAIL n=4 m=6 sets=[[0,2,4,5],[0,2,4],[1,3,5],[1,3,5]] vals=[[3,5,7,6],[2,3,4],[2,3,4],[2,3,4]] order=1 0 2 3  picks=5,4,3,1 blocks=0,0,0,0 upg= frozen=0 1 2  J=5 w=1
+results/k4_certs_5_n4_1.json.gz: 1735 cores, total 574615296, profiles with no success 367828, cores with one 808
+    FAIL n=5 m=8 sets=[[0,4,5,7],[1,4,6],[2,5,7],[3,6,7],[3,6,7]] vals=[[3,5,7,6],[2,3,4],[2,3,4],[2,3,4],[2,3,4]] order=1 3 0 2 4  picks=5,6,2,7,3 blocks=0,0,0,0,0 upg= frozen=0 1 3  J=13 w=1
+    FAIL n=5 m=8 sets=[[0,5,6,7],[1,5,7],[2,6,7],[3,4,7],[3,4,7]] vals=[[3,5,7,6],[2,3,4],[2,3,4],[2,3,4],[2,3,4]] order=1 0 3 2 4  picks=6,7,2,4,3 blocks=0,0,0,0,0 upg= frozen=0 1 3  J=23 w=1
+    FAIL n=5 m=8 sets=[[0,1,2,4],[1,2,7],[3,4,5],[3,6,7],[5,6,7]] vals=[[2,3,4,8],[2,3,4],[2,3,4],[2,3,4],[2,3,4]] order=1 3 4 2 0  picks=2,7,4,6,5 blocks=0,0,0,0,0 upg= frozen=1 2 3 4  J=b w=2
+# c4one_tau.py -X -P2 -i6 -u2 -o0 -r1 -w0 -c0 -f3
+results/k4_certs_2.json.gz: 2 cores, total 2592, profiles with no success 0, cores with one 0
+results/k4_certs_3.json.gz: 14 cores, total 119232, profiles with no success 0, cores with one 0
+results/k4_certs_4_n4_1.json.gz: 135 cores, total 7247232, profiles with no success 0, cores with one 0
+results/k4_certs_5_n4_1.json.gz: 1735 cores, total 574615296, profiles with no success 0, cores with one 0
+# c4one_tau.py -X -P2 -i8 -u2 -o0 -r1 -w0 -c0 -f3
+results/k4_certs_2.json.gz: 2 cores, total 2592, profiles with no success 0, cores with one 0
+results/k4_certs_3.json.gz: 14 cores, total 119232, profiles with no success 112, cores with one 3
+    FAIL n=3 m=7 sets=[[0,2,4,5],[1,4,6],[3,5,6]] vals=[[3,5,7,6],[3,4,2],[2,3,4]] order=0 1 2  picks=4,1,6 blocks=0,0,1 upg= frozen=0  J=2d w=2
+    FAIL n=3 m=7 sets=[[0,2,4,5],[1,4,6],[3,5,6]] vals=[[3,6,7,5],[3,4,2],[2,3,4]] order=0 1 2  picks=4,1,6 blocks=0,0,1 upg= frozen=0  J=2d w=2
+results/k4_certs_4_n4_1.json.gz: 135 cores, total 7247232, profiles with no success 4508, cores with one 28
+    FAIL n=4 m=7 sets=[[0,4,5,6],[1,4,5],[2,3,6],[2,3,6]] vals=[[3,5,6,7],[2,3,4],[2,3,4],[2,3,4]] order=0 2 3 1  picks=6,5,3,2 blocks=0,1,0,0 upg= frozen=0 2  J=13 w=1
+    FAIL n=4 m=7 sets=[[0,4,5,6],[1,4,5],[2,3,6],[2,3,6]] vals=[[3,6,5,7],[2,3,4],[2,3,4],[2,3,4]] order=0 2 3 1  picks=6,5,3,2 blocks=0,1,0,0 upg= frozen=0 2  J=13 w=1
+    FAIL n=4 m=8 sets=[[0,4,6,7],[1,4,6],[2,5,7],[3,5,7]] vals=[[3,5,6,7],[2,3,4],[2,3,4],[2,3,4]] order=0 2 3 1  picks=7,6,5,3 blocks=0,1,0,0 upg= frozen=0 2  J=17 w=2
+results/k4_certs_5_n4_1.json.gz: 1735 cores, total 574615296, profiles with no success 82024, cores with one 303
+    FAIL n=5 m=8 sets=[[0,2,3,4],[1,4,7],[3,6,7],[5,6,7],[5,6,7]] vals=[[3,5,6,7],[3,4,2],[2,3,4],[2,3,4],[2,3,4]] order=0 1 4 2 3  picks=4,1,6,5,7 blocks=0,0,1,1,1 upg= frozen=0 2 4  J=d w=1
+    FAIL n=5 m=8 sets=[[0,2,3,4],[1,4,7],[3,6,7],[5,6,7],[5,6,7]] vals=[[3,6,5,7],[3,4,2],[2,3,4],[2,3,4],[2,3,4]] order=0 1 4 2 3  picks=4,1,6,5,7 blocks=0,0,1,1,1 upg= frozen=0 2 4  J=d w=1
+    FAIL n=5 m=9 sets=[[0,2,4,5],[1,3,5],[3,4,8],[6,7,8],[6,7,8]] vals=[[3,5,7,6],[2,3,4],[2,4,3],[2,3,4],[2,3,4]] order=0 2 3 4 1  picks=4,5,8,7,6 blocks=0,1,0,0,0 upg= frozen=0 2 3  J=f w=2
+# c4one_tau.py -X -P2 -i10 -u2 -o0 -r1 -w0 -c0 -f3
+results/k4_certs_2.json.gz: 2 cores, total 2592, profiles with no success 0, cores with one 0
+results/k4_certs_3.json.gz: 14 cores, total 119232, profiles with no success 0, cores with one 0
+results/k4_certs_4_n4_1.json.gz: 135 cores, total 7247232, profiles with no success 0, cores with one 0
+results/k4_certs_5_n4_1.json.gz: 1735 cores, total 574615296, profiles with no success 0, cores with one 0
+# c4one_tau.py -X -P2 -i11 -u2 -o0 -r1 -w0 -c0 -f3
+results/k4_certs_2.json.gz: 2 cores, total 2592, profiles with no success 0, cores with one 0
+results/k4_certs_3.json.gz: 14 cores, total 119232, profiles with no success 212, cores with one 5
+    FAIL n=3 m=7 sets=[[0,2,4,5],[1,4,6],[3,5,6]] vals=[[3,5,7,6],[3,4,2],[2,3,4]] order=2 1 0  picks=5,4,6 blocks=0,0,0 upg=0:24  frozen= J=b w=1
+    FAIL n=3 m=7 sets=[[0,2,4,5],[1,4,6],[3,5,6]] vals=[[4,5,8,6],[3,4,2],[2,3,4]] order=2 1 0  picks=5,4,6 blocks=0,0,0 upg= frozen=1  J=f w=2
+results/k4_certs_4_n4_1.json.gz: 135 cores, total 7247232, profiles with no success 5624, cores with one 33
+    FAIL n=4 m=7 sets=[[0,4,5,6],[1,4,5],[2,3,6],[2,3,6]] vals=[[3,5,6,7],[2,3,4],[2,3,4],[2,3,4]] order=3 2 0 1  picks=5,4,3,6 blocks=0,0,0,0 upg=1:12 2:c  frozen=3  J=1 w=0
+    FAIL n=4 m=7 sets=[[0,4,5,6],[1,4,5],[2,3,6],[2,3,6]] vals=[[3,6,5,7],[2,3,4],[2,3,4],[2,3,4]] order=3 2 0 1  picks=4,5,3,6 blocks=0,0,0,0 upg=2:c  frozen=3  J=3 w=0
+    FAIL n=4 m=8 sets=[[0,4,6,7],[1,4,6],[2,5,7],[3,5,7]] vals=[[3,5,6,7],[2,3,4],[2,3,4],[2,3,4]] order=3 2 0 1  picks=6,4,5,7 blocks=0,0,0,0 upg=1:12 2:24  frozen=3  J=9 w=1
+results/k4_certs_5_n4_1.json.gz: 1735 cores, total 574615296, profiles with no success 145832, cores with one 372
+    FAIL n=5 m=8 sets=[[0,1,2,3],[2,3,7],[4,5,6],[4,6,7],[5,6,7]] vals=[[3,5,6,7],[3,4,2],[2,3,4],[2,3,4],[2,3,4]] order=4 1 3 2 0  picks=2,3,5,6,7 blocks=0,0,0,0,0 upg=0:6 2:30  frozen=4  J=1 w=-1
+    FAIL n=5 m=8 sets=[[0,1,2,3],[2,3,7],[4,5,6],[4,6,7],[5,6,7]] vals=[[4,5,6,8],[3,4,2],[2,3,4],[2,3,4],[2,3,4]] order=4 1 3 2 0  picks=2,3,5,6,7 blocks=0,0,0,0,0 upg=2:30  frozen=1 4  J=3 w=0
+    FAIL n=5 m=8 sets=[[0,1,4,6],[2,3,6],[2,5,7],[3,5,7],[4,6,7]] vals=[[3,5,6,7],[2,3,4],[2,3,4],[2,3,4],[2,3,4]] order=4 2 3 1 0  picks=4,6,5,3,7 blocks=0,0,0,0,0 upg=0:12  frozen=2 4  J=5 w=0
+# c4one_tau.py -X -P2 -i4 -u2 -o0 -r1 -w0 -c0 -f3
+results/k4_certs_2.json.gz: 2 cores, total 2592, profiles with no success 0, cores with one 0
+results/k4_certs_3.json.gz: 14 cores, total 119232, profiles with no success 594, cores with one 6
+    FAIL n=3 m=6 sets=[[0,2,4,5],[1,3,5],[3,4,5]] vals=[[3,5,6,7],[2,3,4],[2,3,4]] order=1 2 0  picks=2,5,4 blocks=0,0,0 upg= frozen=1 2  J=b w=2
+results/k4_certs_4_n4_1.json.gz: 135 cores, total 7247232, profiles with no success 2294, cores with one 42
+    FAIL n=4 m=8 sets=[[0,2,5,7],[1,4,7],[3,6,7],[4,5,6]] vals=[[3,5,6,7],[2,3,4],[2,3,4],[2,3,4]] order=1 2 3 0  picks=2,7,6,5 blocks=0,0,0,0 upg= frozen=1 2 3  J=1b w=3
+    FAIL n=4 m=8 sets=[[0,3,7],[1,4,5,6],[2,4,5],[3,6,7]] vals=[[2,3,4],[3,4,6,8],[2,3,4],[2,3,4]] order=0 3 1 2  picks=7,5,4,6 blocks=0,0,0,0 upg=2:14  frozen=0 3  J=b w=2
+results/k4_certs_5_n4_1.json.gz: 1735 cores, total 574615296, profiles with no success 7402, cores with one 269
+    FAIL n=5 m=10 sets=[[0,4,9],[1,5,6,7],[2,5,6],[3,8,9],[4,7,8]] vals=[[2,3,4],[3,4,6,8],[2,3,4],[2,3,4],[2,3,4]] order=0 3 4 1 2  picks=9,6,5,8,7 blocks=0,0,0,0,0 upg=2:24  frozen=0 3 4  J=1b w=3
+# c4one_tau.py -X -P2 -i12 -u2 -o0 -r1 -w0 -c0 -f3
+results/k4_certs_2.json.gz: 2 cores, total 2592, profiles with no success 0, cores with one 0
+results/k4_certs_3.json.gz: 14 cores, total 119232, profiles with no success 136, cores with one 5
+    FAIL n=3 m=7 sets=[[0,2,4,5],[1,4,6],[3,5,6]] vals=[[4,5,8,6],[3,4,2],[2,3,4]] order=0 1 2  picks=4,1,6 blocks=0,0,1 upg= frozen=0  J=2d w=2
+    FAIL n=3 m=7 sets=[[0,2,4,5],[1,4,6],[3,5,6]] vals=[[4,6,8,5],[3,4,2],[2,3,4]] order=0 1 2  picks=4,1,6 blocks=0,0,1 upg= frozen=0  J=2d w=2
+results/k4_certs_4_n4_1.json.gz: 135 cores, total 7247232, profiles with no success 1000, cores with one 17
+    FAIL n=4 m=9 sets=[[0,2,6,7],[1,5,6],[3,5,8],[4,7,8]] vals=[[4,5,8,6],[3,2,4],[2,4,3],[2,3,4]] order=0 1 2 3  picks=6,1,5,8 blocks=0,0,1,2 upg= frozen=0  J=9d w=2
+    FAIL n=4 m=9 sets=[[0,2,6,7],[1,5,6],[3,5,8],[4,7,8]] vals=[[4,6,8,5],[3,2,4],[2,4,3],[2,3,4]] order=0 1 2 3  picks=6,1,5,8 blocks=0,0,1,2 upg= frozen=0  J=9d w=2
+results/k4_certs_5_n4_1.json.gz: 1735 cores, total 574615296, profiles with no success 3202, cores with one 76
+    FAIL n=5 m=9 sets=[[0,2,5,6],[1,6,7],[3,7,8],[4,7,8],[5,6,8]] vals=[[4,5,6,8],[3,4,2],[2,3,4],[2,3,4],[2,3,4]] order=0 4 1 2 3  picks=6,1,7,4,8 blocks=0,0,0,0,0 upg= frozen=0 2 4  J=2d w=2
+    FAIL n=5 m=9 sets=[[0,2,5,6],[1,6,7],[3,7,8],[4,7,8],[5,6,8]] vals=[[5,4,6,8],[3,4,2],[2,3,4],[2,3,4],[2,3,4]] order=0 4 1 2 3  picks=6,1,7,4,8 blocks=0,0,0,0,0 upg= frozen=0 2 4  J=2d w=2
+    FAIL n=5 m=11 sets=[[0,2,6,7],[1,6,9],[3,7,10],[4,8,9],[5,8,10]] vals=[[4,5,6,8],[4,2,3],[3,4,2],[4,2,3],[2,3,4]] order=0 2 1 3 4  picks=7,1,3,4,10 blocks=0,1,0,2,3 upg= frozen=0  J=365 w=2
+# c4one_tau.py -X -P2 -i13 -u2 -o0 -r1 -w0 -c0 -f3
+results/k4_certs_2.json.gz: 2 cores, total 2592, profiles with no success 0, cores with one 0
+results/k4_certs_3.json.gz: 14 cores, total 119232, profiles with no success 700, cores with one 7
+    FAIL n=3 m=7 sets=[[0,2,4,5],[1,4,6],[3,5,6]] vals=[[3,5,7,6],[3,4,2],[2,3,4]] order=0 1 2  picks=4,1,6 blocks=0,0,1 upg= frozen=0  J=2d w=2
+    FAIL n=3 m=7 sets=[[0,2,4,5],[1,4,6],[3,5,6]] vals=[[3,6,7,5],[3,4,2],[2,3,4]] order=0 1 2  picks=4,1,6 blocks=0,0,1 upg= frozen=0  J=2d w=2
+results/k4_certs_4_n4_1.json.gz: 135 cores, total 7247232, profiles with no success 2584, cores with one 32
+    FAIL n=4 m=7 sets=[[0,4,5,6],[1,4,5],[2,3,6],[2,3,6]] vals=[[3,5,6,7],[2,3,4],[2,3,4],[2,3,4]] order=0 2 3 1  picks=6,5,3,2 blocks=0,1,0,0 upg= frozen=0 2  J=13 w=1
+    FAIL n=4 m=8 sets=[[0,4,6,7],[1,4,6],[2,5,7],[3,5,7]] vals=[[3,5,6,7],[2,3,4],[2,3,4],[2,3,4]] order=0 2 3 1  picks=7,6,5,3 blocks=0,1,0,0 upg= frozen=0 2  J=17 w=2
+    FAIL n=4 m=9 sets=[[0,2,6,7],[1,5,6],[3,5,8],[4,7,8]] vals=[[3,5,7,6],[3,2,4],[2,4,3],[2,3,4]] order=0 1 2 3  picks=6,1,5,8 blocks=0,0,1,2 upg= frozen=0  J=9d w=2
+results/k4_certs_5_n4_1.json.gz: 1735 cores, total 574615296, profiles with no success 27276, cores with one 261
+    FAIL n=5 m=8 sets=[[0,1,2,3],[2,3,7],[4,5,6],[4,6,7],[5,6,7]] vals=[[3,5,6,7],[3,4,2],[2,3,4],[2,3,4],[2,3,4]] order=0 1 2 3 4  picks=3,2,6,7,5 blocks=0,0,1,1,1 upg= frozen=0 2 3  J=13 w=1
+    FAIL n=5 m=9 sets=[[0,2,5,6],[1,6,7],[3,7,8],[4,7,8],[5,6,8]] vals=[[3,5,6,7],[3,4,2],[2,3,4],[2,3,4],[2,3,4]] order=0 4 1 2 3  picks=6,1,7,4,8 blocks=0,0,0,0,0 upg= frozen=0 2 4  J=2d w=2
+    FAIL n=5 m=9 sets=[[0,2,5,6],[1,6,7],[3,7,8],[4,7,8],[5,6,8]] vals=[[5,3,6,7],[3,4,2],[2,3,4],[2,3,4],[2,3,4]] order=0 4 1 2 3  picks=6,1,7,4,8 blocks=0,0,0,0,0 upg= frozen=0 2 4  J=2d w=2
+# c4one_tau.py -X -P2 -i14 -u2 -o0 -r1 -w0 -c0 -f3
+results/k4_certs_2.json.gz: 2 cores, total 2592, profiles with no success 0, cores with one 0
+results/k4_certs_3.json.gz: 14 cores, total 119232, profiles with no success 0, cores with one 0
+results/k4_certs_4_n4_1.json.gz: 135 cores, total 7247232, profiles with no success 0, cores with one 0
+results/k4_certs_5_n4_1.json.gz: 1735 cores, total 574615296, profiles with no success 0, cores with one 0
+# c4one_tau.py -X -P -i14 -u2 -o0 -r1 -w0 -c0 -f3
+results/k4_certs_2.json.gz: 2 cores, total 2592, profiles with no success 0, cores with one 0
+results/k4_certs_3.json.gz: 14 cores, total 119232, profiles with no success 36, cores with one 1
+results/k4_certs_4_n4_1.json.gz: 135 cores, total 7247232, profiles with no success 48, cores with one 1
+    FAIL n=4 m=8 sets=[[0,2,5,7],[1,5,7],[3,6,7],[4,6,7]] vals=[[2,4,8,7],[3,4,2],[2,3,4],[2,3,4]] order=3 1 2 0  picks=2,5,6,7 blocks=0,0,0,0 upg=2:48  frozen=1 3  J=13 w=2
+    FAIL n=4 m=8 sets=[[0,2,5,7],[1,5,7],[3,6,7],[4,6,7]] vals=[[3,4,8,6],[3,4,2],[2,3,4],[2,3,4]] order=3 1 2 0  picks=2,5,6,7 blocks=0,0,0,0 upg=2:48  frozen=1 3  J=13 w=2
+results/k4_certs_5_n4_1.json.gz: 1735 cores, total 574615296, profiles with no success 349, cores with one 11
+# c4one_tau.py -X -P2 -i15 -u2 -o0 -r1 -w0 -c0 -f3
+results/k4_certs_2.json.gz: 2 cores, total 2592, profiles with no success 0, cores with one 0
+results/k4_certs_3.json.gz: 14 cores, total 119232, profiles with no success 0, cores with one 0
+results/k4_certs_4_n4_1.json.gz: 135 cores, total 7247232, profiles with no success 0, cores with one 0
+results/k4_certs_5_n4_1.json.gz: 1735 cores, total 574615296, profiles with no success 4, cores with one 1
+    FAIL n=5 m=8 sets=[[0,2,5,6],[1,4,7],[3,4,6],[3,5,7],[5,6,7]] vals=[[3,5,7,6],[2,3,4],[2,4,3],[3,4,2],[3,2,4]] order=0 4 3 2 1  picks=5,1,4,3,7 blocks=0,0,0,0,0 upg= frozen=0 2 4  J=45 w=1
+    FAIL n=5 m=8 sets=[[0,2,5,6],[1,4,7],[3,4,6],[3,5,7],[5,6,7]] vals=[[5,3,7,6],[2,3,4],[2,4,3],[3,4,2],[3,2,4]] order=0 4 3 2 1  picks=5,1,4,3,7 blocks=0,0,0,0,0 upg= frozen=0 2 4  J=45 w=1
+# c4one_tau.py -X -P2 -i17 -u2 -o0 -r1 -w0 -c0 -f3
+results/k4_certs_2.json.gz: 2 cores, total 2592, profiles with no success 0, cores with one 0
+results/k4_certs_3.json.gz: 14 cores, total 119232, profiles with no success 0, cores with one 0
+results/k4_certs_4_n4_1.json.gz: 135 cores, total 7247232, profiles with no success 0, cores with one 0
+results/k4_certs_5_n4_1.json.gz: 1735 cores, total 574615296, profiles with no success 0, cores with one 0
+# c4one_tau.py -X -P -i17 -u2 -o0 -r1 -w0 -c0 -f3
+results/k4_certs_2.json.gz: 2 cores, total 2592, profiles with no success 0, cores with one 0
+results/k4_certs_3.json.gz: 14 cores, total 119232, profiles with no success 44, cores with one 1
+    FAIL n=3 m=6 sets=[[0,3,4,5],[1,3,5],[2,4,5]] vals=[[2,8,4,7],[3,4,2],[2,3,4]] order=1 0 2  picks=5,3,4 blocks=0,0,0 upg=2:14  frozen=1  J=3 w=1
+    FAIL n=3 m=6 sets=[[0,3,4,5],[1,3,5],[2,4,5]] vals=[[3,8,4,6],[3,4,2],[2,3,4]] order=1 0 2  picks=5,3,4 blocks=0,0,0 upg=2:14  frozen=1  J=3 w=1
+results/k4_certs_4_n4_1.json.gz: 135 cores, total 7247232, profiles with no success 509, cores with one 9
+    FAIL n=4 m=7 sets=[[0,2,4,5],[1,4,6],[3,5,6],[4,5,6]] vals=[[2,4,3,8],[2,3,4],[2,3,4],[2,3,4]] order=1 2 0 3  picks=2,6,5,4 blocks=0,0,0,0 upg= frozen=1 2  J=b w=1
+    FAIL n=4 m=7 sets=[[0,2,4,5],[1,4,6],[3,5,6],[4,5,6]] vals=[[3,6,4,8],[2,3,4],[2,3,4],[2,3,4]] order=1 2 0 3  picks=2,6,5,4 blocks=0,0,0,0 upg= frozen=1 2  J=b w=1
+    FAIL n=4 m=7 sets=[[0,2,3,5],[1,3,6],[4,5,6],[4,5,6]] vals=[[2,4,3,8],[2,3,4],[2,3,4],[2,3,4]] order=1 2 0 3  picks=2,6,5,4 blocks=0,0,0,0 upg= frozen=1 2  J=b w=1
+results/k4_certs_5_n4_1.json.gz: 1735 cores, total 574615296, profiles with no success 4518, cores with one 71
+    FAIL n=5 m=8 sets=[[0,2,4,6],[1,4,7],[3,6,7],[5,6,7],[5,6,7]] vals=[[2,4,3,8],[2,3,4],[2,3,4],[4,2,3],[4,2,3]] order=1 3 2 0 4  picks=2,7,6,5,-1 blocks=0,0,0,0,0 upg= frozen=1 2 3  J=1b w=1
+    FAIL n=5 m=8 sets=[[0,2,4,6],[1,4,7],[3,6,7],[5,6,7],[5,6,7]] vals=[[2,5,4,8],[2,3,4],[2,3,4],[4,2,3],[4,2,3]] order=1 3 2 0 4  picks=2,7,6,5,-1 blocks=0,0,0,0,0 upg= frozen=1 2 3  J=1b w=1
+    FAIL n=5 m=8 sets=[[0,2,4,7],[1,4,5],[3,6,7],[5,6,7],[5,6,7]] vals=[[2,4,3,8],[2,3,4],[2,4,3],[4,2,3],[4,3,2]] order=1 3 2 0 4  picks=2,5,6,7,-1 blocks=0,0,0,0,0 upg= frozen=1 2 3  J=1b w=1
+# c4one_tau.py -X -P2 -i18 -u2 -o0 -r1 -w0 -c0 -f3
+results/k4_certs_2.json.gz: 2 cores, total 5184, profiles with no success 0, cores with one 0
+results/k4_certs_3.json.gz: 14 cores, total 407088, profiles with no success 0, cores with one 0
+results/k4_certs_4_n4_1.json.gz: 135 cores, total 42998976, profiles with no success 0, cores with one 0
+results/k4_certs_5_n4_1.json.gz: 1735 cores, total 5782149576, profiles with no success 288, cores with one 1
+    FAIL n=5 m=8 sets=[[0,3,7],[1,6,7],[2,6,7],[3,4,5],[4,5,6,7]] vals=[[3,4,2],[2,4,3],[2,4,3],[4,2,3],[3,5,6,7]] order=3 0 4 1 2  picks=0,6,2,3,7 blocks=0,1,1,0,1 upg= frozen=1 3 4  J=32 w=1
+    FAIL n=5 m=8 sets=[[0,3,7],[1,6,7],[2,6,7],[3,4,5],[4,5,6,7]] vals=[[3,4,2],[2,4,3],[2,4,3],[4,2,3],[3,5,6,7]] order=3 0 4 1 2  picks=0,6,2,3,7 blocks=0,1,1,0,1 upg= frozen=1 3 4  J=32 w=1
+# c4one_tau.py -X -P2 -i19 -u2 -o0 -r1 -w0 -c0 -f3
+results/k4_certs_2.json.gz: 2 cores, total 5184, profiles with no success 0, cores with one 0
+results/k4_certs_3.json.gz: 14 cores, total 407088, profiles with no success 0, cores with one 0
+results/k4_certs_4_n4_1.json.gz: 135 cores, total 42998976, profiles with no success 0, cores with one 0
+results/k4_certs_5_n4_1.json.gz: 1735 cores, total 5782149576, profiles with no success 0, cores with one 0
+# c4one_tau.py -X -P -i19 -u2 -o0 -r1 -w0 -c0 -f3
+results/k4_certs_2.json.gz: 2 cores, total 5184, profiles with no success 0, cores with one 0
+results/k4_certs_3.json.gz: 14 cores, total 407088, profiles with no success 24, cores with one 1
+    FAIL n=3 m=6 sets=[[0,3,4,5],[1,3,5],[2,4,5]] vals=[[3,7,5,6],[3,4,2],[2,3,4]] order=2 1 0  picks=4,3,5 blocks=0,0,0 upg= frozen=1 2  J=7 w=2
+    FAIL n=3 m=6 sets=[[0,3,4,5],[1,3,5],[2,4,5]] vals=[[3,8,4,6],[3,4,2],[2,3,4]] order=2 1 0  picks=4,3,5 blocks=0,0,0 upg= frozen=1 2  J=7 w=2
+results/k4_certs_4_n4_1.json.gz: 135 cores, total 42998976, profiles with no success 0, cores with one 0
+results/k4_certs_5_n4_1.json.gz: 1735 cores, total 5782149576, profiles with no success 0, cores with one 0
+# c4one_tau.py -X -P2 -i20 -u2 -o0 -r1 -w0 -c0 -f3
+results/k4_certs_2.json.gz: 2 cores, total 5184, profiles with no success 0, cores with one 0
+results/k4_certs_3.json.gz: 14 cores, total 407088, profiles with no success 0, cores with one 0
+results/k4_certs_4_n4_1.json.gz: 135 cores, total 42998976, profiles with no success 0, cores with one 0
+results/k4_certs_5_n4_1.json.gz: 1735 cores, total 5782149576, profiles with no success 0, cores with one 0
+# c4one_tau.py -X -P -i20 -u2 -o0 -r1 -w0 -c0 -f3
+results/k4_certs_2.json.gz: 2 cores, total 5184, profiles with no success 0, cores with one 0
+results/k4_certs_3.json.gz: 14 cores, total 407088, profiles with no success 72, cores with one 1
+    FAIL n=3 m=6 sets=[[0,3,4,5],[1,3,5],[2,4,5]] vals=[[3,7,5,6],[3,4,2],[2,3,4]] order=2 1 0  picks=4,3,5 blocks=0,0,0 upg= frozen=1 2  J=7 w=2
+    FAIL n=3 m=6 sets=[[0,3,4,5],[1,3,5],[2,4,5]] vals=[[3,8,4,6],[3,4,2],[2,3,4]] order=2 1 0  picks=4,3,5 blocks=0,0,0 upg= frozen=1 2  J=7 w=2
+results/k4_certs_4_n4_1.json.gz: 135 cores, total 42998976, profiles with no success 0, cores with one 0
+results/k4_certs_5_n4_1.json.gz: 1735 cores, total 5782149576, profiles with no success 0, cores with one 0

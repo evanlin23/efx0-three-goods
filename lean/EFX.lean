@@ -32,3 +32,9 @@ import EFX.C4minExamples
 import EFX.ThmZ
 import EFX.ThmF
 import EFX.ThmFExamples
+import EFX.K3Algo
+import EFX.Timed
+import EFX.K3CostLB
+import EFX.K3Cost
+import EFX.K3CostBound
+import EFX.K3Examples

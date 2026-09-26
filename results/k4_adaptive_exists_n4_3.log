@@ -1,0 +1,2 @@
+# adaptive_run.py results/k4_certs_4_n4_3.json.gz -i2 -r3 --show=20 # adaptive.c sha256 d6cca1be306de8c5
+k4_certs_4_n4_3.json.gz: cores=339 total=34971844608 fails=0 rawfails=0 badcores=0 rot=[34961492780, 10351828, 0, 0] (rotations 0..R) pol=[34948751328, 10654328, 12438952] uncov=0 covviol=0 time 318s
