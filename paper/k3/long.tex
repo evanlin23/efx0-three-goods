@@ -38,7 +38,7 @@
 \maketitle
 
 \begin{abstract}
-An allocation of indivisible goods is \efxz{} if no agent envies another agent's bundle after removing any single good from it, even a good that the envious agent values at zero. We prove that every instance with nonnegative additive valuations in which each agent positively values at most three goods has a complete \efxz{} allocation, and we give a polynomial-time algorithm, K3ALG, that computes one. K3ALG first lets agents leave with a good they value at least as much as all their other remaining goods together. The remaining agents pick goods in a serial dictatorship that serves agents who have lost a good first; the leftover goods fill free slots, and the surplus goes to a single owner, after at most one rotation of picks along a chain of agents. For natural-number values, the correctness of K3ALG and a polynomial bound on its number of operations are machine-checked in Lean~4 on the program itself; the existence results are machine-checked over any linearly ordered cancellative commutative monoid, such as the nonnegative reals. If every agent values exactly three goods, none more than the other two together, some \efxz{} allocation gives more than two goods to at most one agent. This long version is meant to be read on its own: it explains the approach informally, traces the algorithm on two examples, and gives every proof of the main theorems in full.
+An allocation of indivisible goods is \efxz{} if no agent envies another agent's bundle after removing any single good from it, even a good that the envious agent values at zero. We prove that every instance with nonnegative additive valuations in which each agent positively values at most three goods has a complete \efxz{} allocation, and we give a polynomial-time algorithm, K3ALG, that computes one. K3ALG first lets agents leave with a good they value at least as much as all their other remaining goods together. The remaining agents pick goods in a serial dictatorship that serves agents who have lost a good first; the leftover goods fill free slots, and the surplus goes to a single owner, after at most one rotation of picks along a chain of agents. For natural-number values, the correctness of K3ALG and a polynomial bound on its number of operations in an explicit unit-cost model are machine-checked in Lean~4 on the program itself; a bound on bit operations is written, not formalized. The existence results are machine-checked for values in an abstract ordered additive structure, any linearly ordered cancellative commutative monoid; instantiating them at the nonnegative reals $\mathbb{R}_{\ge0}$ uses the standard fact that $\mathbb{R}_{\ge0}$ is such a monoid (core Lean has no real numbers). If every agent values exactly three goods, none more than the other two together, there is a complete \efxz{} allocation in which all but at most one agent receive at most two goods. This long version is meant to be read on its own: it explains the approach informally, traces the algorithm on two examples, and gives every proof of the main theorems in full.
 \keywords{Fair division \and Indivisible goods \and EFX \and Serial dictatorship \and Formal verification \and Lean}
 \end{abstract}
 
@@ -46,22 +46,23 @@ An allocation of indivisible goods is \efxz{} if no agent envies another agent's
 
 \subsection{EFX and \efxz{}}\label{sec:intro-efx}
 
-We allocate a set $M$ of $m$ indivisible goods to a set $N$ of $n$ agents. Agent $i$ has an \emph{additive valuation}: a value $v_i(g)\ge0$ for each good $g$, and $v_i(S)=\sum_{g\in S}v_i(g)$ for every set $S$ of goods. An \emph{allocation} $X=(X_i)_{i\in N}$ gives agent $i$ the \emph{bundle} $X_i$; bundles are pairwise disjoint, and the allocation is \emph{complete} if they cover $M$. Every allocation in this paper is complete: no good may be thrown away.
+We allocate a set $M$ of $m$ indivisible goods to a set $N$ of $n$ agents. Agent $i$ has an \emph{additive valuation}: a value $v_i(g)\ge0$ for each good $g$, and $v_i(S)=\sum_{g\in S}v_i(g)$ for every set $S$ of goods. An \emph{allocation} $X$ is a function that assigns every good to exactly one agent; agent $i$'s \emph{bundle} $X_i$ is the set of goods assigned to $i$. So the bundles are pairwise disjoint and cover $M$: every allocation in this paper is \emph{complete}, and no good may be thrown away.
 
 Envy-freeness, $v_i(X_i)\ge v_i(X_j)$ for all agents $i$ and $j$, can be impossible with indivisible goods; think of one good and two agents who both value it. \emph{Envy-freeness up to any good} weakens it~\cite{AmanatidisBFV22}: agent $i$ may envy the bundle $X_j$, but the envy must disappear as soon as any single good is removed from $X_j$. Two versions of this idea are in use. They differ in which goods may be removed:
 \begin{align*}
 \text{EFX:}&\quad v_i(X_i)\ge v_i(X_j\setminus\{h\})\quad\text{for all } i\ne j \text{ and } h\in X_j \text{ with } v_i(h)>0;\\
 \text{\efxz{}:}&\quad v_i(X_i)\ge v_i(X_j\setminus\{h\})\quad\text{for all } i\ne j \text{ and } h\in X_j.
 \end{align*}
-Both conditions are vacuous when $X_j$ is empty. \efxz{} implies EFX, and the two coincide when all values are positive. Whether every instance with additive valuations has a complete EFX allocation is a central open question of fair division~\cite{AmanatidisBFV22}. Most known existence results (Section~\ref{sec:related}) are proved in the stronger form \efxz{}.
-
-The two notions differ exactly on goods that the envious agent values at zero, and such goods are what this paper is about.
+Both conditions are vacuous when $X_j$ is empty. \efxz{} implies EFX, and the two coincide when all values are positive. Whether every instance with additive valuations has a complete EFX allocation is a central open question of fair division~\cite{AmanatidisBFV22}. Most known existence results (Section~\ref{sec:related}) are proved in the stronger form \efxz{}. The one rule that separates the two notions, and that this paper is about, is the following.
+\begin{center}
+\fbox{\parbox{0.92\textwidth}{EFX and \efxz{} differ only in which goods may be removed from the other bundle. \emph{Under \efxz{}, if another agent's bundle contains a good that agent $i$ values at $0$, then $i$ must not envy that bundle at all.}}}
+\end{center}
 
 \begin{example}[EFX, but not \efxz{}]\label{ex:efx-vs-efx0}
 Two agents share three goods $a$, $b$, $c$. Agent~1 values $a$ at $3$, $b$ at $2$ and $c$ at $0$; agent~2 values only $c$, at $1$. Consider $X_1=\{b\}$ and $X_2=\{a,c\}$. Under EFX, agent~1 may remove only $a$ from $X_2$, since $c$ is worthless to it; what remains, $\{c\}$, is worth $0\le2$. Agent~2 holds $c$ and faces the single good $b$, which it values at $0$. So $X$ is EFX. It is not \efxz{}: removing $c$ from $X_2$ leaves $\{a\}$, worth $3>2$ to agent~1. The allocation $X_1=\{a\}$, $X_2=\{b,c\}$ is \efxz{}.
 \end{example}
 
-The example shows a general mechanism. If $X_j$ contains a good $h$ that agent $i$ values at zero, then $v_i(X_j\setminus\{h\})=v_i(X_j)$, so \efxz{} requires $v_i(X_i)\ge v_i(X_j)$: agent $i$ must not envy $X_j$ at all. When every agent values only a few goods, most bundles contain goods that a given agent values at zero, and \efxz{} is close to plain envy-freeness towards every bundle of two or more goods. Two consequences run through the whole paper:
+The rule holds because removing a good $h$ with $v_i(h)=0$ leaves $v_i(X_j\setminus\{h\})=v_i(X_j)$. When every agent values only a few goods, most bundles contain goods that a given agent values at zero, and \efxz{} is close to plain envy-freeness towards every bundle of two or more goods. Two consequences run through the whole paper:
 \begin{itemize}
 \item a good that nobody values cannot simply be handed to an arbitrary agent, because it turns every constraint towards that agent's bundle into envy-freeness; and
 \item a good that agent $j$ values but agent $i$ does not cannot join a bundle that $i$ envies.
@@ -80,10 +81,10 @@ Every instance with $n\ge1$ agents and nonnegative real additive valuations in w
 \noindent Call an agent that values exactly three goods, ranked $a\succ b\succ c$ by value, \emph{balanced} if it values $a$ at most as much as $b$ and $c$ together.
 
 \begin{theorem}[one large bundle]\label{thm:D}
-Every instance with $n\ge1$ agents and nonnegative real additive valuations in which every agent values exactly three goods and is balanced has a complete \efxz{} allocation in which every agent except at most one receives at most two goods.
+Every instance with $n\ge1$ agents and nonnegative real additive valuations in which every agent values exactly three goods and is balanced has a complete \efxz{} allocation in which all but at most one agent receive at most two goods.
 \end{theorem}
 
-\noindent The third result is an algorithm. We measure its running time in the \emph{unit-cost model}, where each list step, comparison of agents or goods, read of an input value or table entry, and comparison or addition of natural numbers of any size costs one operation (Section~\ref{sec:time} states the model precisely, and Corollary~\ref{cor:bits} removes the assumption that numbers of any size cost one unit).
+\noindent The third result is an algorithm. We measure its running time in an explicit \emph{unit-cost model}, where each list step, comparison of agents or goods, read of an input value or table entry, and comparison or addition of natural numbers of any size costs one operation (Section~\ref{sec:time} states the model precisely; Corollary~\ref{cor:bits}, written, not formalized, counts bit operations instead).
 
 \begin{theorem}[algorithm]\label{thm:algo}
 Given $n\ge1$ agents, $m$ goods and natural-number values in binary, algorithm K3ALG (Section~\ref{sec:algo}) performs at most $400(n+m+1)^4$ operations in the unit-cost model. If every agent positively values at most three goods, it returns a complete \efxz{} allocation.
@@ -93,43 +94,83 @@ Given $n\ge1$ agents, $m$ goods and natural-number values in binary, algorithm K
 By scaling each agent's values to integers, which preserves every comparison between sums of that agent's values, K3ALG applies to nonnegative rational valuations.
 \end{corollary}
 
-\noindent The proofs of Theorems~\ref{thm:target}--\ref{thm:algo} are written in full in this paper and are also machine-checked in Lean~4 (Section~\ref{sec:lean}). Table~\ref{tab:status} lists every claim of the paper with its status; the corollaries marked ``written, not formalized'' have complete written proofs but are not machine-checked.
+\noindent The proofs of Theorems~\ref{thm:target}--\ref{thm:algo} are written in full in this paper. They are also checked in Lean~4 (Section~\ref{sec:lean}): Theorem~\ref{thm:algo} for natural-number values, and Theorems~\ref{thm:target} and~\ref{thm:D} for values in any linearly ordered cancellative commutative monoid. Instantiating these at $\mathbb{R}_{\ge0}$ uses the standard fact that $\mathbb{R}_{\ge0}$ is such a monoid, which is not a Lean theorem, since core Lean has no real numbers.
+
+\paragraph{Kinds of evidence.} Every claim of this paper carries exactly one of five labels, and Table~\ref{tab:status} lists the claims with their labels.
+\begin{itemize}
+\item \emph{Lean-checked theorem}: its proof is written in this paper (for the operation bound of Theorem~\ref{thm:algo}, as a step-by-step outline in Appendix~\ref{app:cost}), and its statement is checked in Lean, over the trusted base of Section~\ref{sec:trusted}.
+\item \emph{Theorem (proof in this paper)}: the proof is written in this paper; it is not formalized.
+\item \emph{Written, not formalized}: a written argument that relies on material outside this paper's definitions, namely the text of a program (for counts of its operations and what they compute) or a proof recorded in the repository; it is not formalized.
+\item \emph{Verified by exhaustive computation}: every case is checked by programs, and the stored certificates are re-checked by an independently written checker.
+\item \emph{Measurement}: observed in runs of implementations; evidence, not a guarantee.
+\end{itemize}
+Every numbered lemma, theorem, proposition and corollary of Sections~\ref{sec:prelim}--\ref{sec:cert} is a Lean-checked theorem unless its heading gives another label. Lean checks these statements for natural-number values, except Theorems~\ref{thm:target} and~\ref{thm:D} and Lemma~\ref{lem:L12}, which it checks for any linearly ordered cancellative commutative monoid, as just explained; the written proofs apply verbatim to real values. Appendix~\ref{app:lean} names the Lean declarations.
 
 \begin{table}[tbp]
-\caption{The claims of this paper. \emph{In Lean}: machine-checked (Section~\ref{sec:lean}); $^*$over any linearly ordered cancellative commutative monoid, such as $\mathbb{R}_{\ge0}$ (the Lean library has no real numbers, and that $\mathbb{R}_{\ge0}$ is such a monoid is the textbook fact used). \emph{Proved}: a complete written proof in this paper. \emph{Computation}: exhaustive, with independently re-checked certificates. \emph{Measured}: evidence only.}\label{tab:status}
+\caption{The claims of this paper and their evidence (Section~\ref{sec:answer}). $^*$Lean-checked for values in any linearly ordered cancellative commutative monoid; that $\mathbb{R}_{\ge0}$ is such a monoid is a standard fact, not a Lean theorem (core Lean has no real numbers).}\label{tab:status}
 \centering\small
-\setlength{\tabcolsep}{4pt}\begin{tabular}{@{}llll@{}}
+\setlength{\tabcolsep}{4pt}\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.47\textwidth}ll@{}}
 \toprule
-Claim & Values & In Lean? & Status \\
+Claim & Values & Evidence \\
 \midrule
-Thm.~\ref{thm:target}: existence & $\mathbb{R}_{\ge0}$ & yes$^*$ & proved \\
-Thm.~\ref{thm:D}: one large bundle & $\mathbb{R}_{\ge0}$ & yes$^*$ & proved \\
-Thm.~\ref{thm:algo}: K3ALG is correct & $\mathbb{N}$ & yes & proved \\
-Thm.~\ref{thm:algo}: $400(n+m+1)^4$ operations (unit cost) & $\mathbb{N}$ & yes & proved \\
-Prop.~\ref{prop:size}: size of the large bundle & $\mathbb{R}_{\ge0}$ & no & proved \\
-Cor.~\ref{cor:bits}: bit complexity & $\mathbb{N}$ & no & proved \\
-Cor.~\ref{cor:rat}: rational values & $\mathbb{Q}_{\ge0}$ & no & proved \\
-Cor.~\ref{cor:real}: real values, comparison oracle & $\mathbb{R}_{\ge0}$ & no & proved \\
-Sect.~\ref{sec:finer}: $O(n^4+n^2m)$ operations & $\mathbb{N}$ & no & written analysis \\
-Sect.~\ref{sec:cert}: existence for $n\le7$ & $\mathbb{R}_{\ge0}$ & no & computation \\
-Sect.~\ref{sec:finer}: speed of an implementation & $\mathbb{N}$ & no & measured \\
+Thm.~\ref{thm:target}: existence & $\mathbb{R}_{\ge0}$ & Lean-checked theorem$^*$ \\
+Thm.~\ref{thm:D}: one large bundle & $\mathbb{R}_{\ge0}$ & Lean-checked theorem$^*$ \\
+Thm.~\ref{thm:algo}: K3ALG is correct & $\mathbb{N}$ & Lean-checked theorem \\
+Thm.~\ref{thm:algo}: $400(n+m+1)^4$ operations, unit cost & $\mathbb{N}$ & Lean-checked theorem \\
+Sects.~\ref{sec:prelim}, \ref{sec:correct}: the other lemmas and theorems & $\mathbb{N}$ & Lean-checked theorem \\
+Lem.~\ref{lem:threat}, \ref{lem:L5}, Cor.~\ref{cor:k2}: threats, safety, two goods & $\mathbb{R}_{\ge0}$ & theorem (proof in this paper) \\
+Prop.~\ref{prop:size}: size of the large bundle & $\mathbb{R}_{\ge0}$ & theorem (proof in this paper) \\
+Prop.~\ref{prop:neg}: limits of the shape & $\mathbb{R}_{\ge0}$ & theorem (proof in this paper) \\
+Cor.~\ref{cor:bits}: bit complexity & $\mathbb{N}$ & written, not formalized \\
+Cor.~\ref{cor:rat}: rational values & $\mathbb{Q}_{\ge0}$ & written, not formalized \\
+Cor.~\ref{cor:real}: real values, comparison oracle & $\mathbb{R}_{\ge0}$ & written, not formalized \\
+Sect.~\ref{sec:finer}: $O(n^4+n^2m)$ operations & $\mathbb{N}$ & written, not formalized \\
+Sect.~\ref{sec:finer}: Python, $O((n+m)\log n)$ after the input & $\mathbb{N}$ & written, not formalized \\
+Sect.~\ref{sec:cert}: existence for $n\le7$ & $\mathbb{R}_{\ge0}$ & verified by exhaustive computation \\
+App.~\ref{app:cert}: Thm.~\ref{thm:D}, cores with $n\le6$, connected $n=7$ & $\mathbb{R}_{\ge0}$ & verified by exhaustive computation \\
+Sect.~\ref{sec:finer}: speed of the Python implementation & $\mathbb{N}$ & measurement \\
+App.~\ref{app:cert}: tests of \LBp{} and K3ALG & $\mathbb{N}$ & measurement \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\paragraph{Why this is not a corollary of known results.} A $3$-relevant instance without a complete \efxz{} allocation would refute the additive EFX conjecture itself. Indeed, adding a small $\varepsilon>0$ to every value gives an instance with positive values, in which EFX and \efxz{} coincide. If each of these perturbed instances had an EFX allocation, one allocation would serve arbitrarily small $\varepsilon$, since there are finitely many allocations, and it would be \efxz{} for the original values, since the inequalities are closed (compare~\cite[Lemma~1]{ChaudhuryGM20}). But the perturbation makes every good relevant to every agent, so it destroys the structure we exploit, and no published result that we know of implies Theorem~\ref{thm:target}~\cite{Repo}. Theorem~\ref{thm:target} gives one, with a machine-checked polynomial-time algorithm.
+\paragraph{Why this is not a corollary of known results.} A $3$-relevant instance without a complete \efxz{} allocation would refute the additive EFX conjecture itself. Indeed, adding a small $\varepsilon>0$ to every value gives an instance with positive values, in which EFX and \efxz{} coincide. If each of these perturbed instances had an EFX allocation, one allocation would serve arbitrarily small $\varepsilon$, since there are finitely many allocations, and it would be \efxz{} for the original values, since the inequalities are closed (compare~\cite[Lemma~1]{ChaudhuryGM20}). But the perturbation makes every good relevant to every agent, so it destroys the structure we exploit, and no published result that we know of implies Theorem~\ref{thm:target}~\cite{Repo}. Theorem~\ref{thm:target} gives one, with a polynomial-time algorithm whose correctness and operation bound, in an explicit unit-cost model, are machine-checked.
 
 \subsection{Related work}\label{sec:related}
 
-For additive valuations, complete EFX allocations are known to exist only in special cases, several of them in recent preprints: for three agents~\cite{ChaudhuryGM20}; when $m\le n+3$~\cite{Mahara21}; for four agents and at most nine goods~\cite{AlkassarFM26}; when every good is valued by at most two agents (graphs and multigraphs of agents, with goods as edges)~\cite{AfshinmehrAMMS26,ChristodoulouFKS23,SgouritsaS25,KavianiSS24}; and for hypergraphs of girth at least four~\cite{LianeasSS26}. All of these use the all-goods form \efxz{}; the graph results allow goods of value zero to the agents they are incident to, and for results that bound $n$ and $m$ positive values suffice by the perturbation argument above. For monotone valuations that are not additive, EFX allocations need not exist~\cite{AkramiMMSW26,MackenzieS26}.
+For additive valuations, complete EFX allocations are known to exist only in special cases, several of them in recent preprints: for three agents~\cite{ChaudhuryGM20}; when $m\le n+3$~\cite{Mahara21}; for four agents and at most nine goods~\cite{AlkassarFM26}; when every good is valued by at most two agents (graphs and multigraphs of agents, with goods as edges)~\cite{AfshinmehrAMMS26,ChristodoulouFKS23,SgouritsaS25,KavianiSS24}; and for hypergraphs of girth at least four~\cite{LianeasSS26}. All of these use the all-goods form \efxz{}; the graph results allow goods of value zero to the agents they are incident to, and for results that bound $n$ and $m$ positive values suffice by the perturbation argument above. For monotone valuations that are not additive, EFX allocations need not exist~\cite{AkramiMMSW26,MackenzieS26}. Table~\ref{tab:rw} compares these results with ours.
 
 We restrict instead how many goods each agent values. For $k\le2$, serial dictatorship suffices and has been formalized in Lean~\cite{MrdEfx}. For $k\le4$, Viswanathan and Mehta~\cite{ViswanathanM24} announce the existence of ordinary EFX allocations, with a polynomial-time algorithm and a proof sketch in an extended abstract. Their first phase, which serves agents whose top good outweighs their other two goods, resembles our rule R1 (Section~\ref{sec:peel}). Their algorithm ends by giving the goods that nobody values to an arbitrary agent, which is harmless for EFX but can break \efxz{}, as Example~\ref{ex:efx-vs-efx0} illustrates. Goods that nobody values are in fact easy to place (Lemma~\ref{lem:junk}); the difficulty under \efxz{} comes from goods that one agent values and another does not, which their EFX argument does not need to address. Since \efxz{} implies EFX, Theorem~\ref{thm:target} proves the case $k=3$ of their result in full.
 
+\begin{table}[tbp]
+\caption{Existence results for complete allocations under restrictions, as recorded in the reading notes of the repository~\cite{Repo} (\texttt{proofs/citations.md}, \texttt{proofs/novelty.md}); ``--'' marks what the notes do not record. \emph{Status} is that of the version read. $^a$Goods nobody values go to an arbitrary agent. $^b$Includes additive. $^c$Extended abstract with a proof sketch.}\label{tab:rw}
+\centering\footnotesize
+\setlength{\tabcolsep}{3pt}\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.08\textwidth}>{\raggedright\arraybackslash}p{0.24\textwidth}>{\raggedright\arraybackslash}p{0.08\textwidth}>{\raggedright\arraybackslash}p{0.11\textwidth}>{\raggedright\arraybackslash}p{0.14\textwidth}>{\raggedright\arraybackslash}p{0.13\textwidth}>{\raggedright\arraybackslash}p{0.11\textwidth}@{}}
+\toprule
+Result & Restriction (agents, goods, who values what) & Notion & Complete & Valuations & Algorithm & Version cited \\
+\midrule
+\cite{ChaudhuryGM20} & $n=3$ & \efxz{} & -- & additive & -- & arXiv \\
+\cite{Mahara21} & $m\le n+3$ & \efxz{} & yes & monotone & -- & arXiv \\
+\cite{AlkassarFM26} & $n=4$, $m\le9$ & \efxz{} & yes & additive & -- & arXiv \\
+\cite{ChristodoulouFKS23} & graphs: at most two valuers per good, two agents share at most one good & \efxz{} & yes & monotone & polynomial time & EC 2023 \\
+\cite{AfshinmehrAMMS26} & multigraphs: at most two valuers per good & \efxz{} & yes & cancelable$^b$ & polynomial time & arXiv (EC 2026) \\
+\cite{SgouritsaS25} & multigraphs: bipartite, or at most $\lceil n/4\rceil-1$ neighbours per agent, or girth at least six (non-parallel edges) & \efxz{} & yes & monotone & pseudo-polynomial & arXiv \\
+\cite{KavianiSS24} & at most two valuers per good, $v_i(g)\in\{0,v_g\}$ & \efxz{} & yes & restricted additive & -- & arXiv \\
+\cite{LianeasSS26} & hypergraphs of girth at least four (a good joins its valuers) & \efxz{} & yes & monotone & polynomial time & arXiv \\
+\cite{ViswanathanM24} & at most four relevant goods per agent & EFX & yes$^a$ & -- & polynomial time, announced & AAMAS 2024$^c$ \\
+\cite{MrdEfx} & at most two relevant goods per agent & \efxz{} & yes & additive & serial dictatorship; Lean-checked & Lean repository \\
+this paper & at most three relevant goods per agent; any number of valuers per good & \efxz{} & yes & additive & $400(n+m+1)^4$ unit-cost steps; Lean-checked & this paper \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Where the difficulty lies.} Under ordinary EFX, a good that agent $i$ values at zero never constrains $i$, so goods valued by some agents and not others are harmless; this is why~\cite{ViswanathanM24} can give the goods nobody values to an arbitrary agent, and on multigraphs ordinary EFX is easy, so the difficulty there is \efxz{}~\cite{SgouritsaS25}. Under \efxz{} with complete allocations, every such good must go into some bundle, and it turns the constraint of each agent that does not value it into envy-freeness towards that bundle (the rule of Section~\ref{sec:intro-efx}). \emph{The difficulty of Theorem~\ref{thm:target} is exactly this combination: goods that some agents value and others do not, together with completeness.} The structural results of Table~\ref{tab:rw} cope with it when each good has at most two valuers or the valuers form a hypergraph of girth at least four; the others bound $n$ or $m$. Theorem~\ref{thm:target} bounds only the number of goods each agent values: a good may have any number of valuers, and any number of agents to whom it is worthless.
+
 \subsection{How to read this paper}\label{sec:roadmap}
 
-Section~\ref{sec:overview} explains the approach in plain words on one instance, with no formal definitions. Section~\ref{sec:prelim} gives the model and four basic lemmas: the ordinal description of when an agent is safe (Lemma~\ref{lem:L5}), on which the whole design rests; peeling; goods valued by nobody; and the reduction of real values to natural numbers. Section~\ref{sec:algo} defines the algorithm K3ALG one notion at a time, lists it as pseudocode, and traces it on two examples, one with an owner and one with a rotation. Section~\ref{sec:correct} proves it correct, with every case written out. Section~\ref{sec:time} bounds its running time. Section~\ref{sec:lean} describes the Lean formalization: what it covers, what must be trusted, and how to read its statements. Section~\ref{sec:cert} reports the exhaustive computations for small instances and shows, by counterexamples, that the shape of Theorem~\ref{thm:D} cannot be improved in the obvious ways. Section~\ref{sec:concl} concludes.
+Section~\ref{sec:overview} explains the approach in plain words on one instance, with no formal definitions. Section~\ref{sec:prelim} gives the model and four basic lemmas: the ordinal description of when an agent is safe (Lemma~\ref{lem:L5}), on which the whole design rests; peeling; goods valued by nobody; and the reduction of real values to natural numbers. Section~\ref{sec:algo} defines the algorithm K3ALG one notion at a time, lists it as pseudocode, and traces it on two examples, one with an owner and one with a rotation. Section~\ref{sec:correct} proves it correct, with every case written out. Section~\ref{sec:time} bounds its running time, in three separate layers. Section~\ref{sec:lean} describes the Lean formalization: what it covers, what must be trusted, how to read its statements, and what it leaves out. Section~\ref{sec:cert} explains what the exhaustive computations for small instances establish and shows, by counterexamples, that the shape of Theorem~\ref{thm:D} cannot be improved in the obvious ways. Section~\ref{sec:concl} concludes. The appendices hold material for checking the artifacts rather than for reading: the cost of each step, the verification of the examples, the repository's audit of the formalization, a table that maps every object of Section~\ref{sec:algo} to its Lean definition, and the run totals, certificates and reproducibility details of the computations.
 
-The paper is self-contained. Its claims are also recorded, each with its evidence, in the ledger of the public repository~\cite{Repo}. Every example in this paper was checked by running the repository's implementation of K3ALG together with a brute-force check of the \efxz{} definition; the two main examples were also evaluated by the Lean program itself (Appendix~\ref{app:examples}).
+The paper is self-contained. Its claims are also recorded, each with its evidence, in the ledger of the public repository~\cite{Repo}. Every example in this paper was checked by running the repository's implementations of K3ALG with a brute-force check of the \efxz{} definition, and by the Lean program itself (Appendix~\ref{app:examples}).
 
 \section{Overview of the Approach}\label{sec:overview}
 
@@ -195,7 +236,7 @@ So an agent that lost goods to earlier agents is safe as long as those goods sta
 
 \paragraph{Step 4: slots and upgrades.} An agent whose pick nobody needs, a \emph{terminal}, may receive one junk good (a \emph{slot}), and an agent without a pick may receive two. An agent that picked its $b$ and whose $c$ is junk may also take its $c$ (an \emph{upgrade}): holding $b$ and $c$ is always safe, and the agent then needs nothing. The upgrade is allowed only if nobody needs its $b$ alone, since $b$ will now share a bundle. In the example, agent~$2$ holds $b=g_1$, its $c=g_3$ is junk, and nobody needs $g_1$, so agent~$2$ takes $g_3$. Agent~$3$ cannot upgrade: its $c=g_1$ belongs to agent~$2$. Now agent~$0$ is frozen (agent~$3$ still needs $g_2$), agents~$1$ and~$3$ are terminals with one slot each, and the junk is $g_0$, $g_4$, $g_7$: three goods for two slots.
 
-\paragraph{Step 5: the owner.} When the junk exceeds the slots, one agent, the \emph{owner}, takes all the junk that does not fit, so its bundle has three or more goods. By Lemma~\ref{lem:L5}, and because goods needed alone never go to the owner, such a bundle can hurt only an agent $x$ that holds its top $a_x$ and would find both $b_x$ and $c_x$ in it. Such an agent is \emph{exposed}, and it is protected if one of $b_x$, $c_x$ goes into a slot instead. The natural candidate owner is $r$, the last agent served that is not upgraded; here $r=1$. Agent~$0$ is exposed for $r$: it holds its top $g_2$, its $b=g_4$ is junk, and its $c=g_6$ is $r$'s own pick. So $g_4$ goes into agent~$3$'s slot and the owner takes $g_0$ and $g_7$:
+\paragraph{Step 5: the owner.} When the junk exceeds the slots, one agent, the \emph{owner}, takes all the junk that does not fit, so its bundle has three or more goods. (Usually every other slot is then filled; when the list of protecting goods that K3ALG builds repeats a good, one slot can stay empty and the owner's bundle is larger, Remark~\ref{rem:repeat}.) By Lemma~\ref{lem:L5}, and because goods needed alone never go to the owner, such a bundle can hurt only an agent $x$ that holds its top $a_x$ and would find both $b_x$ and $c_x$ in it. Such an agent is \emph{exposed}, and it is protected if one of $b_x$, $c_x$ goes into a slot instead. The natural candidate owner is $r$, the last agent served that is not upgraded; here $r=1$. Agent~$0$ is exposed for $r$: it holds its top $g_2$, its $b=g_4$ is junk, and its $c=g_6$ is $r$'s own pick. So $g_4$ goes into agent~$3$'s slot and the owner takes $g_0$ and $g_7$:
 \[
 X_0=\{g_2\},\ X_1=\{g_6,g_0,g_7\},\ X_2=\{g_1,g_3\},\ X_3=\{g_8,g_4\},\ X_4=\{g_5\}.
 \]
@@ -221,7 +262,7 @@ It is convenient to name the largest right-hand side. For a nonempty set $B$ of 
 \]
 and $\theta_i(\emptyset)=0$. Agent $i$ is safe in $X$ if and only if $v_i(X_i)\ge\theta_i(X_j)$ for every $j\ne i$. A good is \emph{alone} in $X$ if it is the only good of its bundle.
 
-\begin{lemma}[threats]\label{lem:threat}
+\begin{lemma}[threats; theorem, proof in this paper]\label{lem:threat}
 Let $B$ be a set of goods and $i$ an agent. (a) If $|B|\le1$, then $\theta_i(B)=0$: a bundle of at most one good is never strongly envied. (b) If $B$ contains a good outside $R_i$, then $\theta_i(B)=v_i(B)$. (c) In every case $\theta_i(B)\le v_i(B)$, and $\theta_i(B)$ depends only on the values $v_i(g)$, $g\in B$.
 \end{lemma}
 
@@ -245,7 +286,7 @@ Much of the paper depends on the values only through the rankings. Given ranking
 
 The next lemma describes exactly when a strictly balanced agent with three relevant goods is safe. It is the key to the design of the algorithm: every notion of Section~\ref{sec:algo} comes from one of its cases.
 
-\begin{lemma}[cases of safety]\label{lem:L5}
+\begin{lemma}[cases of safety; theorem, proof in this paper]\label{lem:L5}
 Let agent $i$ have $R_i=\{a,b,c\}$ with $v_i(a)>v_i(b)>v_i(c)>0$ and $v_i(a)<v_i(b)+v_i(c)$, and let $X$ be an allocation.
 \begin{enumerate}
 \item[(i)] The eight sums of subsets of $\{a,b,c\}$ are ordered as $0<c<b<a<b+c<a+c<a+b<a+b+c$, writing $x$ for $v_i(x)$.
@@ -299,7 +340,7 @@ Agent $i$: every other bundle $Y_j$ lies in $M\setminus P$, so $\theta_i(Y_j)\le
 
 \noindent \emph{Rule R1} is the case $|P|\le1$ used by K3ALG. Let $p$ be agent $i$'s favourite good among the remaining goods $M$ (the first good of largest value $v_i(p)$). If $v_i(p)=0$, agent $i$ values no remaining good and leaves with $P=\emptyset$; then (i) reads $0\ge0$. If $v_i(p)>0$ and $v_i(M\setminus\{p\})\le v_i(p)$, agent $i$ leaves with $P=\{p\}$. Rule R1 applies, for instance, to every agent that values at most two remaining goods, and to every top-heavy agent. As a first consequence, serial dictatorship works for two relevant goods.
 
-\begin{corollary}[two relevant goods]\label{cor:k2}
+\begin{corollary}[two relevant goods; theorem, proof in this paper]\label{cor:k2}
 If $|R_i|\le2$ for every agent, then serial dictatorship, in any order, with the last agent taking all remaining goods, returns an \efxz{} allocation.
 \end{corollary}
 
@@ -307,7 +348,7 @@ If $|R_i|\le2$ for every agent, then serial dictatorship, in any order, with the
 By induction on the number of agents. One agent faces no constraint. Otherwise the first agent $i$ has at most two relevant goods among the remaining ones, and takes a favourite remaining good $p$; its other relevant good, if any, is worth at most $v_i(p)$, so $v_i(M\setminus\{p\})\le v_i(p)$. The rest of the procedure is serial dictatorship on the smaller instance, which is \efxz{} by induction, and Lemma~\ref{lem:peel} with $P=\{p\}$ finishes the proof. \qed
 \end{proof}
 
-\noindent When rule R1 applies to no agent, every agent has exactly the structure that the rest of the algorithm needs.
+\noindent The existence of an \efxz{} allocation under the hypothesis of Corollary~\ref{cor:k2} is a Lean-checked theorem (\lean{EFX.exists_efx0_of_count}). When rule R1 applies to no agent, every agent has exactly the structure that the rest of the algorithm needs.
 
 \begin{lemma}[when R1 applies to nobody]\label{lem:R1fail}
 Let agent $i$ value at most three of the goods $M$, and suppose that rule R1 does not apply to $i$. Then $i$ values exactly three goods of $M$, is strictly balanced, and $2v_i(g)<v_i(M)$ for every good $g\in M$.
@@ -345,11 +386,32 @@ Consequently an allocation is \efxz{} for $v$ if and only if it is \efxz{} for $
 Fix $i$. Goods outside $R_i$ contribute zero to both sides, and goods common to $S$ and $T$ can be cancelled, so only comparisons between disjoint subsets of the at most three relevant goods matter. With values $a\ge b\ge c>0$, those comparisons are decided by the ties among $a$, $b$, $c$ and by the sign of $a-(b+c)$, because $b<a+c$ and $c<a+b$ always hold. So it suffices to pick one natural-number triple for each of the finitely many patterns, such as $(4,3,2)$ for $a>b>c$ with $a<b+c$. \efxz{} and balance are conjunctions of such comparisons. \qed
 \end{proof}
 
-\noindent The written proofs of Theorems~\ref{thm:target} and~\ref{thm:D} below work verbatim for real values. Lemma~\ref{lem:L12} is what carries the Lean proofs, which are about natural numbers, over to real values (Section~\ref{sec:lean}); in Lean it is \lean{EFX.l12}, with \lean{EFX.efx0_iff_of_agree} for the transfer of \efxz{}.
+\noindent The written proofs of Theorems~\ref{thm:target} and~\ref{thm:D} below work verbatim for real values. Lemma~\ref{lem:L12} is what carries the Lean proofs, which are about natural numbers, over to any linearly ordered cancellative commutative monoid, and so, by the standard fact that $\mathbb{R}_{\ge0}$ is one, to real values (Section~\ref{sec:lean}); in Lean it is \lean{EFX.l12}, with \lean{EFX.efx0_iff_of_agree} for the transfer of \efxz{}.
 
 \section{The Algorithm K3ALG}\label{sec:algo}
 
 K3ALG has two stages. \emph{Stage R} peels agents by rule R1. \emph{Stage L} runs a construction called \LBp{} on the agents and goods that remain. This section introduces the notions of Stage L one at a time, each just before it is needed and each with the intuition behind it (Section~\ref{sec:overview} gave the big picture); Table~\ref{tab:dict} collects them. Algorithm~\ref{alg:k3} is the complete pseudocode, and Examples~\ref{ex:owner} and~\ref{ex:rot} trace it.
+
+\paragraph{Input.} As formalized, K3ALG receives $n\ge1$, $m$ and the valuation as a function $v$ that gives each agent $i$ and good $g$ a value $v_i(g)\in\mathbb{N}$ (the field \texttt{v} of the model's instance, Section~\ref{sec:trusted}). The program reads it as a dense $n\times m$ table, at one unit per read of a value $v_i(g)$ (Section~\ref{sec:leanbound}). Correctness needs every agent to value at most three goods; the operation bound holds for every input. Table~\ref{tab:glance} summarizes the algorithm and the invariant behind each of its steps.
+
+\begin{table}[tbp]
+\caption{K3ALG at a glance. Each invariant is proved at the place named in parentheses.}\label{tab:glance}
+\centering\small
+\setlength{\tabcolsep}{4pt}\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.14\textwidth}>{\raggedright\arraybackslash}p{0.44\textwidth}>{\raggedright\arraybackslash}p{0.36\textwidth}@{}}
+\toprule
+Step & What it does & Invariant \\
+\midrule
+Input & $n\ge1$ agents, $m$ goods, a table of values $v_i(g)\in\mathbb{N}$. Correctness assumes that every agent values at most three goods; the operation bound does not. & -- \\
+Stage R & Peel by rule R1: an agent whose favourite remaining good is worth at least all its other remaining goods takes it and leaves; an agent that values no remaining good leaves with nothing. & a peeled agent is safe, and nobody strongly envies its bundle (Lemma~\ref{lem:peel}); afterwards every agent values exactly three goods and is strictly balanced (Lemma~\ref{lem:R1fail}) \\
+Phase 1 & Serial dictatorship with R1 priority: an agent that has lost a good goes first; otherwise a new leader takes its top. Gives the picks, blocks and leaders. & losses stay inside a block: every good an agent ranks above its pick was picked earlier in its own block ((B2), Lemma~\ref{lem:inv}) \\
+Upgrades & An agent that picked its $b$, whose $c$ is junk and whose $b$ nobody needs alone, also takes its $c$. & junk and upgraded goods are not needed alone: the state is valid (Lemma~\ref{lem:upgrades}) \\
+Completion & Picks to their pickers, $c_u$ to each upgraded $u$, junk into the slots of the terminals, the rest of the junk to the owner, if any. & all non-owner bundles have at most two goods (Theorem~\ref{thm:sound}) \\
+Owner test & If the junk exceeds the slots: $r$, the last agent not upgraded, is a valid owner iff $\HitSet(E_r)$ fits the other agents' slots; then complete with owner $r$, putting $\HitSet(E_r)$ into slots. & owner constraint: no agent that holds its top $a_x$ and is not upgraded finds both $b_x$ and $c_x$ in the owner's bundle (Lemma~\ref{lem:owner}, Proposition~\ref{prop:O}) \\
+Rotation & Otherwise, rotate the picks along the need chain from $k^*$ to $r$; $k^*$ takes $b_{k^*}$ and $c_{k^*}$. Complete without owner if the junk now fits, else with owner $k^*$. & $\NA$ shrinks ($\NA'\subseteq\NA$) and $k^*$ becomes upgraded; the state stays valid, and $k^*$ is a valid owner if the junk still exceeds the slots (Theorem~\ref{thm:B}) \\
+Output & A complete allocation. & \efxz{} when every agent values at most three goods; at most one bundle of Stage L has more than two goods; at most $400(n+m+1)^4$ unit-cost operations (Theorem~\ref{thm:algo}) \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \subsection{Stage R}\label{sec:stageR}
 
@@ -565,7 +627,7 @@ Algorithm~\ref{alg:k3} lists K3ALG as it is formalized: the Lean program \lean{E
 
 \subsection{Two examples}\label{sec:examples}
 
-We trace K3ALG on two instances. For each we give the state after every stage, summarized in Tables~\ref{tab:ex1stages} and~\ref{tab:ex2stages}, and check the output by hand. Both were also checked by machine: the intermediate states were recomputed with the repository's literal transcription of the Lean program, the output was compared with that transcription, with a second, independent implementation, and with Lean's own evaluation of \lean{EFX.K3.algo}, and it was checked against the \efxz{} definition by brute force (Appendix~\ref{app:examples}).
+We trace K3ALG on two instances. For each we give the state after every stage, summarized in Tables~\ref{tab:ex1stages} and~\ref{tab:ex2stages}, and check the output by hand. Both were also checked by machine (Appendix~\ref{app:examples}).
 
 \begin{table}[tbp]
 \caption{Example~\ref{ex:owner}, stage by stage.}\label{tab:ex1stages}
@@ -584,14 +646,8 @@ completion & $L=(g_4,g_0,g_7)$: $g_4$ to agent~$3$, and $g_0$, $g_7$ to the owne
 \end{table}
 
 \begin{example}[owner $r$]\label{ex:owner}
-This is the instance of Section~\ref{sec:overview}: agents $0,\dots,4$, goods $g_0,\dots,g_8$, and the values
-\begin{center}
-\setlength{\tabcolsep}{4pt}\begin{tabular}{@{}l@{\ \ }l@{\qquad}l@{\ \ }l@{}}
-agent 0: & $g_2\mapsto6$, $g_4\mapsto5$, $g_6\mapsto2$ & agent 3: & $g_2\mapsto9$, $g_8\mapsto8$, $g_1\mapsto7$ \\
-agent 1: & $g_6\mapsto5$, $g_7\mapsto4$, $g_0\mapsto3$ & agent 4: & $g_5\mapsto6$ \\
-agent 2: & $g_2\mapsto9$, $g_1\mapsto7$, $g_3\mapsto5$ & & \\
-\end{tabular}
-\end{center}
+This is the instance of Section~\ref{sec:overview} (agents $0,\dots,4$, goods $g_0,\dots,g_8$, values listed there), now traced with the definitions.
+
 \emph{Stage R.} R1 fails for agent~$0$ (its favourite $g_2$ is worth $6$, the rest $7$), agent~$1$ ($5$ against $7$), agent~$2$ ($9$ against $12$) and agent~$3$ ($9$ against $15$). It applies to agent~$4$ (its favourite $g_5$ is worth $6$, the rest $0$), which leaves with $X_4=\{g_5\}$. In the next round R1 applies to none of agents $0$--$3$, so Stage L starts with $A=\{0,1,2,3\}$ and $M=\{g_0,\dots,g_8\}\setminus\{g_5\}$. The rankings are those of the value lists above.
 
 \emph{Phase 1} (turns in order):
@@ -880,16 +936,16 @@ Let $(Y,U)$ be valid. (a) If $\omega\le0$, a completion without owner exists, an
 From now on, until Proposition~\ref{prop:O}, fix a run of Phase 1 with R1 priority and of the upgrades, let $(Y,U)$ be the resulting valid pre-allocation (Lemma~\ref{lem:upgrades}), and assume $\omega\ge1$.
 
 \begin{lemma}[the candidate $r$]\label{lem:r}
-(A0) Some agent is not upgraded; let $r$ be the last processed agent that is not upgraded. (A1) $r$ is a terminal. (A2) Every agent processed after $r$ is upgraded, and $r$ lies in the last block.
+(A0) Some agent is not upgraded; let $r$ be the last processed agent that is not upgraded. (A1) $r$ is a terminal. (A2) Every agent processed after $r$ is upgraded.
 \end{lemma}
 
 \begin{proof}
 (A0) The first processed agent is a leader, so it picks its top $a$, while every upgraded agent picked its $b$.
 (A1) If $Y_r=\none$, then $r$ is a terminal by definition. Otherwise suppose $Y_r\in\NA$: some $j\notin U$ needs $Y_r$. Then $j\ne r$ (an agent does not need its own pick), and by (I1) $Y_r$ was picked before $j$'s turn; it was picked at $r$'s turn, so $j$ was processed after $r$. As $j\notin U$, this contradicts the choice of $r$. So $r$ is not frozen.
-(A2) The first claim is the choice of $r$. The leader of any block after $r$'s would pick its top and so would not be upgraded; hence there is no such block. \qed
+(A2) This is the choice of $r$. \qed
 \end{proof}
 
-\noindent Let $B^*$ denote $r$'s block. (That it is the last block is not needed below.) In Lean: \lean{EFX.LB.lastOut_exists}, \lean{EFX.LB.lastOut_terminal}.
+\noindent Let $B^*$ denote $r$'s block. It is the last block, since the leader of any later block would pick its top and so would not be upgraded; this is not needed below and not formalized. In Lean: \lean{EFX.LB.lastOut_exists}, \lean{EFX.LB.lastOut_terminal}.
 
 \begin{lemma}[exposed agents are leaders]\label{lem:lead}
 Let $x\in E_r$. Then $x$ was processed before $r$, $x$ is a leader, and $\pi_x\ne\emptyset$. Consequently each block contains at most one agent of $E_r$; in particular $|E_r\cap B^*|\le1$.
@@ -1102,8 +1158,8 @@ By Theorem~\ref{thm:C}, Stage L's output is \efxz{}. \qed
 
 \subsection{The size of the large bundle}\label{sec:size}
 
-\begin{proposition}[size of the large bundle; written, not formalized]\label{prop:size}
-Let $(Y,U)$ be a valid pre-allocation of an instance with $n$ agents and $m$ goods in which every agent values exactly three goods. Then $\omega=m-2n+|\NA|$. If $\omega\ge1$, every completion with owner $o$ in which all slots of the terminals other than $o$ are full gives $o$ exactly $\omega+2$ goods.
+\begin{proposition}[size of the large bundle; theorem, proof in this paper]\label{prop:size}
+Let $(Y,U)$ be a valid pre-allocation of an instance with $n$ agents and $m$ goods in which every agent values exactly three goods. Then $\omega=m-2n+|\NA|$. If $\omega\ge1$, every completion with owner $o$ gives $o$ at least $\omega+2$ goods, and exactly $\omega+2$ when all slots of the terminals other than $o$ are full.
 \end{proposition}
 
 \begin{proof}
@@ -1111,7 +1167,7 @@ In a valid pre-allocation, each good of $\NA$ is the pick of an agent outside $U
 \[
   \omega=|J|-S=m-2|U|-|F|-2|T_1|-2|T_0|=m-2n+|F|=m-2n+|\NA|.
 \]
-With the other slots full, the owner receives its base and the $|J|-(S-\capa(o))=\omega+\capa(o)$ remaining junk goods, and $|\base(o)|+\capa(o)=2$ for every terminal and every upgraded agent. \qed
+The other terminals receive at most $S-\capa(o)$ junk goods, exactly that many when their slots are full, so the owner receives its base and at least $|J|-(S-\capa(o))=\omega+\capa(o)$ junk goods, with equality when the other slots are full; and $|\base(o)|+\capa(o)=2$ for every terminal and every upgraded agent. \qed
 \end{proof}
 
 \noindent The rotation does not increase $\NA$ (Theorem~\ref{thm:B}), so it does not enlarge the large bundle. In Example~\ref{ex:owner}, $m-2n+|\NA|=8-8+1=1=\omega$ for the Stage-L instance, and the owner holds $3$ goods.
@@ -1122,13 +1178,19 @@ K3ALG's completion fills every slot of the terminals other than the owner when $
 
 \section{Running Time}\label{sec:time}
 
-This section proves the running-time part of Theorem~\ref{thm:algo} and its corollaries. Section~\ref{sec:owner-time} explains why the owner test is cheap; Section~\ref{sec:leanbound} describes the machine-checked bound and the cost model it is stated in; Sections~\ref{sec:bits} and~\ref{sec:ratreal} give written, not formalized, corollaries for the bit model and for rational and real values; and Section~\ref{sec:finer} separates a finer written bound from measurements of implementations.
+Running-time claims come in three layers, which we keep apart.
+\begin{enumerate}
+\item[(i)] \emph{Lean-checked}: on every input, the formalized program K3ALG performs, in the unit-cost model of Section~\ref{sec:leanbound}, at most $400(n+m+1)^4$ operations (Theorem~\ref{thm:time}). It takes the valuation as a function $v$, read as a dense $n\times m$ table at one unit per value.
+\item[(ii)] \emph{Written, not formalized}: the same program performs $O(n^4+n^2m)$ operations (Section~\ref{sec:finer}).
+\item[(iii)] \emph{A separate implementation}: an optimized Python program, not verified, for which a written analysis, not formalized, gives $O((n+m)\log n)$ operations after the input is read, and whose speed is measured (Section~\ref{sec:finer}). Reading a dense $n\times m$ table already costs $nm$ operations, so (iii) excludes the reading of the input; the implementation receives each agent's relevant goods as a list.
+\end{enumerate}
+Section~\ref{sec:owner-time} explains why the owner test is cheap; Section~\ref{sec:leanbound} describes layer (i) and its cost model; Sections~\ref{sec:bits} and~\ref{sec:ratreal} give written, not formalized, corollaries for the bit model and for rational and real values; and Section~\ref{sec:finer} gives layers (ii) and (iii).
 
 \subsection{The owner test in polynomial time}\label{sec:owner-time}
 
 The only step of \LBp{} that looks expensive is the owner test, since for an arbitrary candidate owner it is a vertex-cover question (Section~\ref{sec:propO}). Proposition~\ref{prop:O} removes the issue for the candidate $r$: $r$ is a valid owner if and only if the explicit list $\HitSet(E_r)$ has at most $S-\capa(r)$ entries. Computing $\HitSet(E)$ means finding the first pair of agents of $E$ whose sets $\pi$ share a junk good: $O(|E|^2)$ pair checks, so $O(|E|^2+m)$ steps with a junk flag per good, or $O(|E|^2m)$ as formalized, where membership in $J$ is a list scan. With an index from each junk good to the exposed agents whose pair contains it, $O(|E|+|J|)$ steps suffice. After the rotation no test is needed (Theorem~\ref{thm:B}). Whether the test is hard for an arbitrary owner, on the graphs that arise here, is open; \LBp{} never asks.
 
-\subsection{The machine-checked operation bound}\label{sec:leanbound}
+\subsection{Layer (i): the Lean-checked operation bound}\label{sec:leanbound}
 
 \paragraph{The program and its cost.} In Lean, K3ALG is written in a \emph{cost monad}, \lean{EFX.Timed}: a value of type \texttt{Timed}~$\alpha$ is a value of type $\alpha$ paired with a natural number, the count; \texttt{tick~$k$} adds $k$ to the count, and sequencing adds the counts of the steps actually evaluated. The algorithm is \lean{EFX.K3.algoC}, of type \texttt{Timed}~\texttt{Alloc}, and
 \begin{alltt}
@@ -1193,13 +1255,13 @@ Lemma~\ref{lem:L12} is constructive. For each agent, finding $R_i$ takes $m$ com
 
 \subsection{A finer bound and measurements}\label{sec:finer}
 
-\paragraph{A finer written bound.} Bounding each step by its own parameters instead of $N$ (Appendix~\ref{app:cost}, last column) gives $O(n^4+n^2m)$ operations for the formalized program. This analysis is written, not machine-checked; Lean states only the coarser $400(n+m+1)^4$.
+\paragraph{Layer (ii): a finer bound (written, not formalized).} Bounding each step by its own parameters instead of $N$ (Appendix~\ref{app:cost}, last column) gives $O(n^4+n^2m)$ operations for the formalized program. This analysis is written, not machine-checked; Lean states only the coarser $400(n+m+1)^4$.
 
-\paragraph{A faster implementation.} A Python implementation of the same algorithm (\texttt{fast} in the repository's \file{k3/k3algo.py}) replaces the naive scans by a heap of the agents to which R1 applies (under $3$-relevance, R1 keeps applying to an agent once it applies), a heap of the agents with a good missing (for Phase~1's order), per-good counters of the agents that rank a good above their pick (for the upgrades), and an index from junk goods to exposed agents (for $\HitSet$). Its written analysis, not formalized, gives $O((n+m)\log n)$ operations after the input is read.
+\paragraph{Layer (iii): a faster implementation (written, not formalized).} A Python implementation of the same algorithm, the function \texttt{fast} of the file \file{k3/k3algo.py} of the repository, replaces the naive scans by a heap of the agents to which R1 applies (under $3$-relevance, R1 keeps applying to an agent once it applies), a heap of the agents with a good missing (for Phase~1's order), per-good counters of the agents that rank a good above their pick (for the upgrades), and an index from junk goods to exposed agents (for $\HitSet$). Its input lists, for each agent, the goods it values with their values. Its written analysis, not formalized, gives $O((n+m)\log n)$ operations after the input is read; reading the input takes $O(n+m)$ steps in this form, and a dense $n\times m$ table would take $nm$.
 
-\paragraph{Measurements (evidence, not guarantees).} The following are measurements of implementations, recorded in the repository~\cite{Repo}; they are not part of any theorem.
+\paragraph{Measurements.} The repository~\cite{Repo} records the following measurements of implementations. None of them is part of a theorem.
 \begin{itemize}
-\item \texttt{fast} returns the same allocation as a literal transcription of the Lean definitions on $200{,}000$ random instances; on $675$ instances both agree with Lean's own evaluation of \lean{EFX.K3.algo}, every Lean output passes a raw \efxz{} check, and every Lean operation count is below the proved bound. The largest count divided by $(n+m+1)^4$ falls from $0.38$ at $n=2$ to $0.002$ at $n=30$, against the factor $400$ of the bound.
+\item \texttt{fast} returns the same allocation as a literal transcription of the Lean definitions on $200{,}000$ random instances; on $675$ instances both agree with Lean's own evaluation of \lean{EFX.K3.algo}, every Lean output passes a raw \efxz{} check, and every Lean operation count is below the Lean-checked bound. The largest count divided by $(n+m+1)^4$ falls from $0.38$ at $n=2$ to $0.002$ at $n=30$, against the factor $400$ of the bound.
 \item Median running times of \texttt{fast} (Python~3.11, one CPU, three instances per point), on random instances in which every agent values exactly three goods and is balanced, with $m=1.5n$ (``core'') and $m=2n$ (``core2m''), and on random instances in which each agent values between zero and three goods (``general''), in seconds:
 \begin{center}\small
 \setlength{\tabcolsep}{4pt}\begin{tabular}{@{}rrrrr@{}}
@@ -1218,14 +1280,14 @@ The log--log slopes of \texttt{fast} between consecutive sizes are between $1.0$
 
 \section{The Machine-Checked Proof}\label{sec:lean}
 
-This section describes the Lean~4 formalization~\cite{Repo}: what it covers, what a reader must trust, how to read its main statements, and what it leaves out. Appendix~\ref{app:lean} maps every result of this paper to its Lean names.
+This section describes the Lean~4 formalization~\cite{Repo}: what it covers, what a reader must trust, which axioms it uses, how to read its main statements, and what it leaves out. The further checks that the repository runs on it (a replay checker, an independently written statement, a second proof and a second kernel) are in Appendix~\ref{app:audit}; Appendix~\ref{app:lean} maps every result of this paper to its Lean names, and Appendix~\ref{app:spec} maps every object of Section~\ref{sec:algo} to its Lean definition.
 
 \subsection{What is formalized}\label{sec:lean-what}
 
 \begin{itemize}
 \item \emph{Theorems~\ref{thm:target} and~\ref{thm:D}}, for natural-number values (\lean{EFX.target}, \lean{EFX.LB.corollaryD}) and for values in any linearly ordered cancellative commutative monoid (\lean{EFX.target_ordered}, \lean{EFX.corollaryD_ordered}).
 \item \emph{Theorem~\ref{thm:algo}}: the algorithm, a computable function (\lean{EFX.K3.algo}); its correctness (\lean{EFX.K3.algo_efx0}); and its operation bound, for the counted program whose value is the algorithm (\lean{EFX.K3.algoC_cost}).
-\item \emph{Section~\ref{sec:correct}} in full, except Proposition~\ref{prop:size}, and except the remark that $r$ lies in the last block, which no proof uses: the invariants of Phase~1, the validity of the upgrades, soundness, the owner criterion, Lemmas~\ref{lem:r}--\ref{lem:count}, Theorems~\ref{thm:A}, \ref{thm:B} and~\ref{thm:C}, and Proposition~\ref{prop:O}. \LBp{} is formalized both as a relation over all its runs and as a computable function, the one K3ALG uses.
+\item \emph{Section~\ref{sec:correct}} in full, except Proposition~\ref{prop:size} and the remark after Lemma~\ref{lem:r} that $r$ lies in the last block, which no proof uses: the invariants of Phase~1, the validity of the upgrades, soundness, the owner criterion, Lemmas~\ref{lem:r}--\ref{lem:count}, Theorems~\ref{thm:A}, \ref{thm:B} and~\ref{thm:C}, and Proposition~\ref{prop:O}. \LBp{} is formalized both as a relation over all its runs and as a computable function, the one K3ALG uses.
 \item \emph{Section~\ref{sec:prelim}}: peeling (rules R1 and R2, and the general Lemma~\ref{lem:peel}); Lemmas~\ref{lem:R1fail}, \ref{lem:junk} and~\ref{lem:L12}; and Corollary~\ref{cor:k2}, as an existence statement. Also the reduction to cores of Section~\ref{sec:cert}.
 \item \emph{Examples}: three runs of K3ALG checked by \texttt{decide}, including one peel followed by the owner $r$ and one rotation with the owner $k^*$ (\lean{EFX.K3.Examples.peelOwner_algo}, \lean{EFX.K3.Examples.rotOwner_algo}; Appendix~\ref{app:examples}).
 \end{itemize}
@@ -1254,13 +1316,13 @@ def numRelevant (I : Inst) (i : Fin I.n) : Nat :=
 \end{alltt}
 In words: \texttt{finSum} is the sum over \texttt{Fin k}; an instance has $n$ agents, $m$ goods and values $v_i(g)\in\mathbb{N}$; an allocation assigns every good to one agent, so completeness and disjointness are built in; \texttt{bundleVal X i j ex} is agent $i$'s value for $j$'s bundle, without the good \texttt{ex} if one is given; \texttt{EFX0} is the definition of Section~\ref{sec:intro-efx}, for every good of $X_j$, including goods that $i$ values at zero; and \texttt{numRelevant} is $|R_i|$.
 
-For values in an ordered type, the trusted base is the class \lean{EFX.OrderedValue} and a mirror of the model above in which \texttt{Nat} is replaced by the value type (\texttt{OInst}, \texttt{finSumO}, and \texttt{OInst.bundleVal}, \texttt{OInst.EFX0}, \texttt{OInst.numRelevant}, word for word). The class requires $0$, $+$ and $\le$ such that $+$ is associative and commutative with identity $0$, $\le$ is a total order, and $a\le b\iff a+c\le b+c$: the axioms of a linearly ordered cancellative commutative monoid. Nonnegativity of values is a hypothesis of the theorems, a good is relevant when $v_i(g)\le0$ fails, and balance reads $v_i(g)+v_i(g)\le v_i(M)$. At $\mathbb{N}$ the mirrored model agrees with \texttt{Model.lean}, and the specializations of the ordered theorems have exactly the types of \lean{EFX.target} and \lean{EFX.LB.corollaryD} (\lean{EFX.target_of_ordered}, \lean{EFX.corollaryD_of_ordered}). That $\mathbb{R}_{\ge0}$ satisfies the axioms is the textbook fact; core Lean has no real numbers, so this last step is not a Lean theorem.
+For values in an ordered type, the trusted base is the class \lean{EFX.OrderedValue} and a mirror of the model above in which \texttt{Nat} is replaced by the value type (\texttt{OInst}, \texttt{finSumO}, and \texttt{OInst.bundleVal}, \texttt{OInst.EFX0}, \texttt{OInst.numRelevant}, word for word). The class requires $0$, $+$ and $\le$ such that $+$ is associative and commutative with identity $0$, $\le$ is a total order, and $a\le b\iff a+c\le b+c$: the axioms of a linearly ordered cancellative commutative monoid. Nonnegativity of values is a hypothesis of the theorems, a good is relevant when $v_i(g)\le0$ fails, and balance reads $v_i(g)+v_i(g)\le v_i(M)$. At $\mathbb{N}$ the mirrored model agrees with \texttt{Model.lean}, and the specializations of the ordered theorems have exactly the types of \lean{EFX.target} and \lean{EFX.LB.corollaryD} (\lean{EFX.target_of_ordered}, \lean{EFX.corollaryD_of_ordered}). That $\mathbb{R}_{\ge0}$ satisfies the axioms is a standard fact; core Lean has no real numbers, so this last step is not a Lean theorem. Thus Theorems~\ref{thm:target} and~\ref{thm:D} are Lean-checked for this abstract ordered additive structure, and their instance at $\mathbb{R}_{\ge0}$ rests on that standard fact.
 
 For the running time, the trusted base also contains the cost model: that every \texttt{tick} and \texttt{pure} of the counted program covers the work it stands for (Section~\ref{sec:leanbound}).
 
 \subsection{Axioms and checks}\label{sec:axioms}
 
-The formalization uses core Lean~4 (v4.34.0), with no packages. The word \texttt{sorry} appears nowhere, and the build is free of warnings. Every declaration of the library depends only on the three standard axioms \texttt{propext}, \texttt{Classical.choice} and \texttt{Quot.sound}; this excludes unfinished proofs, \texttt{native\_decide} (which would trust the compiler) and new axioms. The repository's check script verifies this for all declarations, and every main result also carries a \verb|#print axioms| certificate at the end of its file. The script also refuses debug options, metaprogramming and unsafe code, and it replays the whole library in Lean's replay checker \texttt{leanchecker~-{}-fresh}, which re-checks every declaration in a fresh kernel. It runs on every pull request.
+The formalization uses core Lean~4 (v4.34.0), with no packages. The word \texttt{sorry} appears nowhere, and the build is free of warnings. Every declaration of the library depends only on the three standard axioms \texttt{propext}, \texttt{Classical.choice} and \texttt{Quot.sound}; this excludes unfinished proofs, \texttt{native\_decide} (which would trust the compiler) and new axioms. The repository's check script verifies this for all declarations on every pull request, and every main result also carries a \verb|#print axioms| certificate at the end of its file (Appendix~\ref{app:audit} lists the script's further checks).
 
 \subsection{How to read the main statements}\label{sec:reading}
 
@@ -1302,29 +1364,20 @@ theorem EFX.corollaryD_ordered \{V : Type\} [OrderedValue V] (I : OInst V)
 \end{alltt}
 These are Theorems~\ref{thm:target} and~\ref{thm:D} over the ordered type $V$, derived from the statements over $\mathbb{N}$ by Lemma~\ref{lem:L12} (\lean{EFX.l12}, \lean{EFX.efx0_iff_of_agree}). The hypothesis \texttt{hv} is nonnegativity.
 
-\paragraph{Intermediate statements.} The Lean statements of Section~\ref{sec:correct}'s results are stated over the formalization's own definitions of the state of \LBp{} (picks, blocks, junk, slots, exposure, and so on, in \texttt{PreAlloc.lean}, \texttt{Blocks.lean}, \texttt{OwnerR.lean}, \texttt{Rotation.lean} and \texttt{LBPlus.lean}). To know that such a statement is the theorem of this paper, a reader must compare those definitions with Section~\ref{sec:algo}. This is not needed to trust Theorems~\ref{thm:target}--\ref{thm:algo}, whose statements use only the trusted base. For instance, \lean{EFX.LB.lbPlusRun_sound} quantifies over all runs of \LBp{}: every order of Phase~1 with R1 priority, every upgrade order, every need chain and every completion satisfying (OC).
-
-\subsection{An independent statement and a second proof}\label{sec:audit}
-
-The repository also contains an independently written statement of Theorems~\ref{thm:target} and~\ref{thm:D} (\lean{Audit.target_audit}, \lean{Audit.corollaryD_audit}). It represents bundles as lists that partition the goods, sums values by a hand-written recursion, and removes a good with \texttt{List.erase}; its definitions were committed before the model was read, and it is derived from \lean{EFX.target} and \lean{EFX.LB.corollaryD}. A second, independent Lean proof of Theorems~\ref{thm:target} and~\ref{thm:D}, through Pareto-maximal pre-allocations instead of \LBp{}, is \lean{EFX.C4min.target_K3} and \lean{EFX.C4min.corollaryD_K3} (the latter for cores, Section~\ref{sec:cores}).
-
-\subsection{A second kernel}\label{sec:kernel}
-
-At commit \texttt{ebf27a2} of~\cite{Repo}, the kernel nanoda~0.4.19, written in Rust and independent of Lean's C++ kernel, re-checked the export produced by \texttt{lean4export} of the $726$ named declarations of the library at that commit together with their dependencies, $4{,}186$ declarations in all, with no error, admitting only the three standard axioms; both nanoda and \texttt{leanchecker} rejected two negative controls. That library contained the natural-number development of Theorems~\ref{thm:target} and~\ref{thm:D} and the independent statement. The check does not cover K3ALG, its cost bound or the transfer to ordered values, which were added later; these are checked by Lean's kernel and by \texttt{leanchecker~-{}-fresh} on every pull request.
+\paragraph{Intermediate statements.} The Lean statements of Section~\ref{sec:correct}'s results are stated over the formalization's own definitions of the state of \LBp{} (picks, blocks, junk, slots, exposure, and so on, in \texttt{PreAlloc.lean}, \texttt{Blocks.lean}, \texttt{OwnerR.lean}, \texttt{Rotation.lean} and \texttt{LBPlus.lean}). To know that such a statement is the theorem of this paper, a reader must compare those definitions with Section~\ref{sec:algo}; Appendix~\ref{app:spec} lists, for each object of Section~\ref{sec:algo}, the Lean definition that formalizes it. This is not needed to trust Theorems~\ref{thm:target}--\ref{thm:algo}, whose statements use only the trusted base. For instance, \lean{EFX.LB.lbPlusRun_sound} quantifies over all runs of \LBp{}: every order of Phase~1 with R1 priority, every upgrade order, every need chain and every completion satisfying (OC).
 
 \subsection{What is not formalized}\label{sec:notformal}
 
 \begin{itemize}
 \item Corollaries~\ref{cor:rat}, \ref{cor:bits} and~\ref{cor:real} (rational values, bit complexity, the real-value algorithm), the finer bound $O(n^4+n^2m)$ and the analysis of the faster implementation (Section~\ref{sec:time}).
-\item Proposition~\ref{prop:size}, the size of the large bundle.
+\item Proposition~\ref{prop:size}, the size of the large bundle; Proposition~\ref{prop:neg}, the limits of the shape; Lemma~\ref{lem:threat}; and Corollary~\ref{cor:k2} as a statement about serial dictatorship (its existence form is formalized), and the remark that $r$ lies in the last block.
 \item That $\mathbb{R}_{\ge0}$ satisfies the axioms of \lean{EFX.OrderedValue} (core Lean has no reals), and that each \texttt{tick} of the counted program covers its work.
 \item Lemma~\ref{lem:L5} and the graph-theoretic facts about cores used in Section~\ref{sec:cert}; the computations of Section~\ref{sec:cert} are checked by separate programs, not by Lean.
 \end{itemize}
-The $25$ Lean files that Theorems~\ref{thm:target}--\ref{thm:algo}, their proofs, the independent statement and the examples use have about $9{,}700$ lines.
 
 \section{Computational Certification and the Limits of the Shape}\label{sec:cert}
 
-Independently of the proof of Section~\ref{sec:correct}, Theorem~\ref{thm:target} is certified by exhaustive computation for up to seven agents, and the shape of Theorem~\ref{thm:D} was first observed in these computations. This section reports them and shows, by small counterexamples, that the shape cannot be improved in the obvious ways.
+This section explains what exhaustive computation over small instances establishes, independently of the proof of Section~\ref{sec:correct}, and shows, by small counterexamples, that the shape of Theorem~\ref{thm:D} cannot be improved in the obvious ways. The sizes of the runs, the tests, the certificate format and how to reproduce the computations are in Appendix~\ref{app:cert}.
 
 \subsection{Cores}\label{sec:cores}
 
@@ -1352,38 +1405,22 @@ Each of (1)--(3) passes to a smaller $3$-relevant instance with at least one age
 \item \emph{Components.} The \emph{incidence graph} of an instance joins agent $i$ to good $g$ when $g\in R_i$. Agents in different connected components value nothing in each other's bundles, so \efxz{} allocations of the components of a core combine into one of the core, and each component is itself a core. So it suffices to certify \emph{connected} cores.
 \item \emph{Rankings suffice.} By Lemma~\ref{lem:L5}(ii), in a core with strict rankings \efxz{} depends only on the rankings: $6$ possible rankings per agent, $6^n$ \emph{ranking profiles} per core. By Lemma~\ref{lem:L5}(iii), an allocation that is \efxz{} for a strict profile consistent with tied values is \efxz{} for the tied values too. So certifying every strict profile covers all values.
 \end{itemize}
-Counting incidences, a core has $m\le2n$ goods. Cores with $m=2n$ are solved directly: an agent holding two of its own three goods is safe, by balance (\lean{EFX.Inst.safe_of_two_own}), and in a connected core with $m=2n$ every agent can be given its private good and one shared good (this second fact is proved in the repository but not formalized).
+Counting incidences, a core has $m\le2n$ goods. Cores with $m=2n$ are solved directly: an agent holding two of its own three goods is safe, by balance (\lean{EFX.Inst.safe_of_two_own}), and in a connected core with $m=2n$ every agent can be given its private good and one shared good (this second fact is written, not formalized: its proof is recorded in the repository).
 
-\subsection{Certification for at most seven agents}\label{sec:certn7}
+\subsection{What the computation establishes}\label{sec:certn7}
 
-For each number of agents $n$ and goods $m$, the connected cores were enumerated up to isomorphism, and the completeness of each list was checked by a second, independent method (a second generator, or counting orbits under relabelling). For each core and each of its $6^n$ strict ranking profiles, an \efxz{} allocation was found, by a SAT solver with counterexample-guided refinement or by construction LB below, and stored. A separate checker, which uses no SAT solver, re-checks the stored allocations from the raw \efxz{} definition, and that they cover every profile. Table~\ref{tab:cert} summarizes the results; with Proposition~\ref{prop:core}, the components argument and the cores with $m=2n$, they give Theorem~\ref{thm:target} for $n\le7$ independently of Section~\ref{sec:correct}.
-
-\begin{table}[tbp]
-\caption{Exhaustive certification. Every row covers every ranking profile of every listed core, and its certificates were re-checked from the raw \efxz{} definition.}\label{tab:cert}
-\centering\small
-\setlength{\tabcolsep}{4pt}\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.56\textwidth}>{\raggedright\arraybackslash}p{0.40\textwidth}@{}}
-\toprule
-Claim and scope & Size \\
-\midrule
-\efxz{} exists, every $3$-relevant instance, $n\le6$ & $251+3{,}182$ connected cores \\
-\efxz{} exists, every $3$-relevant instance, $n\le7$ & adds $n=7$, by the rows on $n=7$ below \\
-Theorem~\ref{thm:D}, every core with $n\le6$, connected or not & certificates, components combined \\
-Theorem~\ref{thm:D}, connected cores, $n=7$, $11\le m\le13$ & $3{,}103$, $541$ and $37$ cores ($m=11,12,13$) \\
-Theorem~\ref{thm:D}, connected cores, $n=8$, $m\in\{14,15\}$ & $1{,}232$ and $52$ cores \\
-LB never fails, cores with $n\le6$ & $3{,}436$ connected, $131$ disconnected \\
-LB never fails, connected cores with $n=7$ & $41{,}170$ cores, $1.15\times10^{10}$ core--profile pairs \\
-LB never fails, connected cores, $n=8$, $m\ge13$ & $12{,}763$ cores, $2.14\times10^{10}$ pairs \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\noindent LB is the repository's earlier construction: Phase~1 with a lookahead rule for insertion steps, the same upgrades, and a search over owners instead of the rotation. The rows on LB say that LB never fails for the labelling of each core stored in the certificates, since LB breaks ties by index; the certificates themselves, which consist of LB's outputs, confirm Theorem~\ref{thm:D} for every labelling. Whether LB never fails in general is open; \LBp{}'s rotation makes that question unnecessary.
+For every number of agents $n\le7$ and every number of goods $m$, the connected cores were listed up to isomorphism, and for every core and every one of its $6^n$ strict ranking profiles an \efxz{} allocation was found and stored. A separately written checker re-checks the stored allocations from the raw \efxz{} definition, and the completeness of each list of cores was checked by a second, independent method. Appendix~\ref{app:cert} gives the sizes of the runs, the methods, the certificate format and how to reproduce them. With Proposition~\ref{prop:core}, the components argument and the cores with $m=2n$, the computation establishes the following.
+\begin{itemize}
+\item \emph{Theorem~\ref{thm:target} for $n\le7$}, verified by exhaustive computation independently of Section~\ref{sec:correct}: neither the search nor the checker uses \LBp{} or its proof.
+\item \emph{Theorem~\ref{thm:D} for every core with $n\le6$, every connected core with $n=7$, and every connected core with $n=8$ and $m\ge13$}, verified by exhaustive computation in the same way. The shape of Theorem~\ref{thm:D} was first observed in these computations.
+\end{itemize}
+It establishes nothing for larger $n$. Some certificates were produced by an earlier construction, LB; what the runs show about LB itself is stated in Appendix~\ref{app:cert}.
 
 \subsection{The limits of the shape}\label{sec:limits}
 
 Could every core have an \efxz{} allocation with all bundles of at most two goods, or with one bundle of exactly three? No.
 
-\begin{proposition}[limits of the shape]\label{prop:neg}
+\begin{proposition}[limits of the shape; theorem, proof in this paper]\label{prop:neg}
 Take strict rankings and strictly balanced values.
 \begin{enumerate}
 \item[(a)] Let agents $0$, $1$, $2$ rank $g_0\succ g_1\succ p_i$, where $p_i$ is private to agent $i$. No \efxz{} allocation has all bundles of at most two goods, and $\{g_0\},\{g_1\},\{p_0,p_1,p_2\}$ (to the three agents in any order) is \efxz{}.
@@ -1405,13 +1442,9 @@ Take strict rankings and strictly balanced values.
 \item one bundle of three goods suffices: false for $n=4$, $m=7$ (Proposition~\ref{prop:neg}(b)); at $n=6$, $m=11$, $3$ of the $25$ connected cores need four.
 \end{itemize}
 
-\subsection{Tests of \LBp{} and K3ALG (evidence)}\label{sec:tests}
-
-A literal implementation of \LBp{} was run $5{,}844{,}263{,}904$ times: on every core with $n\le6$ under every ranking profile and every sequence of insertion choices, with random choices on larger cores, and on random instances that are not cores. It asserts every lemma of Section~\ref{sec:correct} along the way and checks every output against the raw definition: $1{,}327{,}101$ runs needed the rotation, and there were $0$ failures. An independent Python implementation gives identical tallies for $n\le5$. K3ALG itself returned an \efxz{} allocation on all $152{,}071{,}632$ ranking profiles of all cores with $n\le6$. These tests are evidence for the implementations, not part of the proof.
-
 \section{Conclusion and Open Problems}\label{sec:concl}
 
-Every instance in which each agent positively values at most three goods has a complete \efxz{} allocation, and one can be computed in polynomial time by K3ALG: peel agents by rule R1, run a serial dictatorship that serves agents who lost goods first, put the leftover goods into free slots, and give the surplus to one owner, after at most one rotation. When every agent values exactly three goods and is balanced, some \efxz{} allocation gives more than two goods to at most one agent. The correctness of K3ALG and its operation bound are machine-checked on the program itself.
+Every instance in which each agent positively values at most three goods has a complete \efxz{} allocation, and one can be computed in polynomial time by K3ALG: peel agents by rule R1, run a serial dictatorship that serves agents who lost goods first, put the leftover goods into free slots, and give the surplus to one owner, after at most one rotation. When every agent values exactly three goods and is balanced, there is a complete \efxz{} allocation in which all but at most one agent receive at most two goods. The correctness of K3ALG and its operation bound, in an explicit unit-cost model, are machine-checked on the program itself.
 
 Four relevant goods per agent remain open; there, one rotation of the kind used here is not enough, already for $n=5$ with a single agent valuing four goods~\cite{Repo}. We also do not determine the least possible size of the large bundle: Proposition~\ref{prop:size} gives the size that the construction produces, and Proposition~\ref{prop:neg}(b) shows that three goods do not always suffice.
 
@@ -1449,42 +1482,6 @@ Each representative has the ties of its pattern, and $a-(b+c)$ has the stated si
 \end{proof}
 
 \noindent In Lean, \lean{EFX.l12} proves this for values in any \lean{EFX.OrderedValue}, using all $31$ permutations of these representatives, checked by \texttt{decide}, instead of sorting; agents with one or two relevant goods are treated as three slots, one or two of them phantom. The choice of a pattern needs at most three comparisons to sort $a$, $b$, $c$, two for the ties and one of $a$ with $b+c$, as used in Corollary~\ref{cor:real}.
-
-\section{Lean Names}\label{app:lean}
-
-All names are in \file{lean/EFX/}; the file is in parentheses. Every declaration of the library depends only on \texttt{propext}, \texttt{Classical.choice} and \texttt{Quot.sound}, which the repository's check script verifies for all declarations; the main results also carry \verb|#print axioms| certificates.
-
-\medskip
-\noindent{\small\setlength{\tabcolsep}{4pt}\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.26\textwidth}>{\raggedright\arraybackslash}p{0.70\textwidth}@{}}
-\toprule
-Result & Lean names (file) \\
-\midrule
-Thm.~\ref{thm:target} & \lean{EFX.target} (\texttt{Target}); \lean{EFX.target_ordered} (\texttt{RealValues}) \\
-Thm.~\ref{thm:D} & \lean{EFX.LB.corollaryD} (\texttt{CorollaryD}); \lean{EFX.corollaryD_ordered} (\texttt{RealValues}) \\
-Thm.~\ref{thm:algo}, correctness & \lean{EFX.K3.algo_efx0}, \lean{EFX.K3.algo_eq_spec} (\texttt{K3Cost}); \lean{EFX.K3.algoSpec_efx0}, \lean{EFX.K3.reduce_sound}, \lean{EFX.K3.lbStage_sound} (\texttt{K3Algo}) \\
-Thm.~\ref{thm:algo}, operations (Thm.~\ref{thm:time}) & \lean{EFX.K3.algoC_cost}, \lean{EFX.K3.algoC_cost'}, \lean{EFX.K3.lbPlusC_cost}, \lean{EFX.K3.reduceC_cost} (\texttt{K3CostBound}); \lean{EFX.Timed.mkTable_cost} (\texttt{Timed}) \\
-Lem.~\ref{lem:peel}, rule R1, R2 & \lean{EFX.peel} (\texttt{Peeling}); \lean{EFX.peelBundle}, \lean{EFX.peelEmpty}, \lean{EFX.peelR2} (\texttt{PeelingR2}) \\
-Cor.~\ref{cor:k2} & \lean{EFX.exists_efx0_of_count} (\texttt{Bridge}) \\
-Lem.~\ref{lem:R1fail} & \lean{EFX.not_R1} (\texttt{Target}); \lean{EFX.K3.r1Step_eq_none} (\texttt{K3Algo}) \\
-Lem.~\ref{lem:junk} & \lean{EFX.Inst.exists_efx0_of_junk} (\texttt{Junk}) \\
-Lem.~\ref{lem:L12} & \lean{EFX.l12}, \lean{EFX.efx0_iff_of_agree} (\texttt{RealValues}) \\
-Lem.~\ref{lem:inv} & \lean{EFX.LB.phase1_spec} (\texttt{LBRun}); \lean{EFX.LB.phase1_run} (\texttt{Blocks}) \\
-Lem.~\ref{lem:upgrades} & \lean{EFX.LB.upFinal_valid} (\texttt{Blocks}) \\
-Thm.~\ref{thm:sound} & \lean{EFX.LB.Valid.sound} (\texttt{PreAlloc}) \\
-Lem.~\ref{lem:owner} & \lean{EFX.LB.complete_some}, \lean{EFX.LB.complete_none} (\texttt{PreAlloc}) \\
-Lem.~\ref{lem:r} & \lean{EFX.LB.lastOut_exists}, \lean{EFX.LB.lastOut_terminal} (\texttt{OwnerR}) \\
-Lem.~\ref{lem:lead}, \ref{lem:chains} & \lean{EFX.LB.exposed_lead}, \lean{EFX.LB.chainEnd_spec} (\texttt{OwnerR}) \\
-Lem.~\ref{lem:count}, Prop.~\ref{prop:O} & \lean{EFX.LB.hitSet_fits}, \lean{EFX.LB.validOwner_iff}, \lean{EFX.LB.hitSet_length} (\texttt{OwnerR}) \\
-Thm.~\ref{thm:A} & \lean{EFX.LB.theoremA_invalid}, \lean{EFX.LB.theoremA} (\texttt{OwnerR}) \\
-Thm.~\ref{thm:B} & \lean{EFX.LB.theoremB} (\texttt{Rotation}) \\
-Thm.~\ref{thm:C} & \lean{EFX.LB.lbPlusRun_sound}, \lean{EFX.LB.lbPlusOut_exists}, \lean{EFX.LB.lbPlusOut_exists_chain}, \lean{EFX.LB.lbPlus_sound} (\texttt{LBPlus}) \\
-Prop.~\ref{prop:core} & \lean{EFX.core_reduction} (\texttt{Target}) \\
-two own goods (Sect.~\ref{sec:cores}) & \lean{EFX.Inst.safe_of_two_own} (\texttt{TwoOwnGoods}) \\
-Examples (App.~\ref{app:examples}) & \lean{EFX.K3.Examples.peelOwner_algo}, \lean{EFX.K3.Examples.rotOwner_algo}, \lean{EFX.K3.Examples.rot_algo} (\texttt{K3Examples}) \\
-Independent statement & \lean{Audit.target_audit}, \lean{Audit.corollaryD_audit} (\texttt{Audit}) \\
-Second proof & \lean{EFX.C4min.target_K3}, \lean{EFX.C4min.corollaryD_K3} (\texttt{K3Theorem}) \\
-\bottomrule
-\end{tabular}}
 
 \section{The Cost of Each Step}\label{app:cost}
 
@@ -1528,5 +1525,148 @@ Remark~\ref{rem:repeat} & $0$, $0$, $2$, $1$, $3$, $2$, $3$, $3$, $3$ & $1{,}779
 \end{center}
 
 \paragraph{The examples in the Lean library.} The library itself checks three runs of K3ALG by \texttt{decide}, carried over to \lean{EFX.K3.algo} by \lean{EFX.K3.algo_eq_spec}. In \lean{EFX.K3.Examples.peelOwner_algo}, agent~0 values $g_2,g_4,g_5$ at $84,73,54$, agent~1 values only $g_1$, at $87$, and agent~2 values $g_4,g_2,g_3$ at $92,83,44$. Agent~1 is peeled with $g_1$; agents $0$ and $2$ form one block, picking $g_2$ and $g_4$; the junk $\{g_0,g_3,g_5\}$ exceeds the two slots; the owner is $r=2$, agent~0 is exposed with $\pi_0=\{g_5\}$, and the output is $X_0=\{g_2,g_5\}$, $X_1=\{g_1\}$, $X_2=\{g_4,g_0,g_3\}$. In \lean{EFX.K3.Examples.rotOwner_algo}, agent~0 values $g_1,g_2,g_0$ at $5,4,2$, and agents $1$ and $2$ both value $g_1,g_3,g_2$ at $3,3,2$ (so $a=g_1$, $b=g_3$, $c=g_2$, the tie broken by index). Agents $0,1,2$ form one block and pick $g_1,g_3,g_2$; agents $0$ and $1$ are frozen; $r=2$ fails, since agent~0 is exposed and no slot is free for the others; the rotation along $0\to1\to2$ gives agent~0 the goods $g_2$ and $g_0$ and makes it the owner, and the output is $X_0=\{g_0,g_2,g_5\}$, $X_1=\{g_1\}$, $X_2=\{g_3,g_4\}$. The trace script recomputes these runs as well.
+
+\section{The Formalization: Audit Layers and Lean Names}\label{app:audit}
+
+This appendix collects the checks that the repository runs on the formalization beyond those of Section~\ref{sec:lean}, and the Lean names of every result.
+
+\subsection{Checks run by the repository}
+
+The repository's check script, \file{lean/check.sh}, runs on every pull request. Besides the axiom check of Section~\ref{sec:axioms}, it requires a build free of warnings and of \texttt{sorry}, refuses debug options, metaprogramming and unsafe code, and replays the whole library in Lean's replay checker, \texttt{leanchecker} with the option \texttt{-{}-fresh}, which re-checks every declaration in a fresh kernel.
+
+\subsection{An independent statement and a second proof}\label{sec:audit}
+
+The repository also contains an independently written statement of Theorems~\ref{thm:target} and~\ref{thm:D} (\lean{Audit.target_audit}, \lean{Audit.corollaryD_audit}). It represents bundles as lists that partition the goods, sums values by a hand-written recursion, and removes a good with \texttt{List.erase}; its definitions were committed before the model was read, and it is derived from \lean{EFX.target} and \lean{EFX.LB.corollaryD}. A second, independent Lean proof of Theorems~\ref{thm:target} and~\ref{thm:D}, through Pareto-maximal pre-allocations instead of \LBp{}, is \lean{EFX.C4min.target_K3} and \lean{EFX.C4min.corollaryD_K3} (the latter for cores, Section~\ref{sec:cores}).
+
+\subsection{A second kernel}\label{sec:kernel}
+
+At commit \texttt{ebf27a2} of~\cite{Repo}, the kernel nanoda~0.4.19, written in Rust and independent of Lean's C++ kernel, re-checked the export produced by \texttt{lean4export} of the $726$ named declarations of the library at that commit together with their dependencies, $4{,}186$ declarations in all, with no error, admitting only the three standard axioms; both nanoda and \texttt{leanchecker} rejected two negative controls. That library contained the natural-number development of Theorems~\ref{thm:target} and~\ref{thm:D} and the independent statement. The check does not cover K3ALG, its cost bound or the transfer to ordered values, which were added later; these are checked by Lean's kernel and by \texttt{leanchecker~-{}-fresh} on every pull request.
+
+
+\subsection{Size}
+
+The $25$ Lean files that Theorems~\ref{thm:target}--\ref{thm:algo}, their proofs, the independent statement and the examples use have about $9{,}700$ lines.
+
+\subsection{Lean names}\label{app:lean}
+
+All names are in \file{lean/EFX/}; the file is in parentheses. Every declaration of the library depends only on \texttt{propext}, \texttt{Classical.choice} and \texttt{Quot.sound}, which the repository's check script verifies for all declarations; the main results also carry \verb|#print axioms| certificates.
+
+\medskip
+\noindent{\small\setlength{\tabcolsep}{4pt}\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.26\textwidth}>{\raggedright\arraybackslash}p{0.70\textwidth}@{}}
+\toprule
+Result & Lean names (file) \\
+\midrule
+Thm.~\ref{thm:target} & \lean{EFX.target} (\texttt{Target}); \lean{EFX.target_ordered} (\texttt{RealValues}) \\
+Thm.~\ref{thm:D} & \lean{EFX.LB.corollaryD} (\texttt{CorollaryD}); \lean{EFX.corollaryD_ordered} (\texttt{RealValues}) \\
+Thm.~\ref{thm:algo}, correctness & \lean{EFX.K3.algo_efx0}, \lean{EFX.K3.algo_eq_spec} (\texttt{K3Cost}); \lean{EFX.K3.algoSpec_efx0}, \lean{EFX.K3.reduce_sound}, \lean{EFX.K3.lbStage_sound} (\texttt{K3Algo}) \\
+Thm.~\ref{thm:algo}, operations (Thm.~\ref{thm:time}) & \lean{EFX.K3.algoC_cost}, \lean{EFX.K3.algoC_cost'}, \lean{EFX.K3.lbPlusC_cost}, \lean{EFX.K3.reduceC_cost} (\texttt{K3CostBound}); \lean{EFX.Timed.mkTable_cost} (\texttt{Timed}) \\
+Lem.~\ref{lem:peel}, rule R1, R2 & \lean{EFX.peel} (\texttt{Peeling}); \lean{EFX.peelBundle}, \lean{EFX.peelEmpty}, \lean{EFX.peelR2} (\texttt{PeelingR2}) \\
+Cor.~\ref{cor:k2} & \lean{EFX.exists_efx0_of_count} (\texttt{Bridge}) \\
+Lem.~\ref{lem:R1fail} & \lean{EFX.not_R1} (\texttt{Target}); \lean{EFX.K3.r1Step_eq_none} (\texttt{K3Algo}) \\
+Lem.~\ref{lem:junk} & \lean{EFX.Inst.exists_efx0_of_junk} (\texttt{Junk}) \\
+Lem.~\ref{lem:L12} & \lean{EFX.l12}, \lean{EFX.efx0_iff_of_agree} (\texttt{RealValues}) \\
+Lem.~\ref{lem:inv} & \lean{EFX.LB.phase1_spec} (\texttt{LBRun}); \lean{EFX.LB.phase1_run} (\texttt{Blocks}) \\
+Lem.~\ref{lem:upgrades} & \lean{EFX.LB.upFinal_valid} (\texttt{Blocks}) \\
+Thm.~\ref{thm:sound} & \lean{EFX.LB.Valid.sound} (\texttt{PreAlloc}) \\
+Lem.~\ref{lem:owner} & \lean{EFX.LB.complete_some}, \lean{EFX.LB.complete_none} (\texttt{PreAlloc}) \\
+Lem.~\ref{lem:r} & \lean{EFX.LB.lastOut_exists}, \lean{EFX.LB.lastOut_terminal} (\texttt{OwnerR}) \\
+Lem.~\ref{lem:lead}, \ref{lem:chains} & \lean{EFX.LB.exposed_lead}, \lean{EFX.LB.chainEnd_spec} (\texttt{OwnerR}) \\
+Lem.~\ref{lem:count}, Prop.~\ref{prop:O} & \lean{EFX.LB.hitSet_fits}, \lean{EFX.LB.validOwner_iff}, \lean{EFX.LB.hitSet_length} (\texttt{OwnerR}) \\
+Thm.~\ref{thm:A} & \lean{EFX.LB.theoremA_invalid}, \lean{EFX.LB.theoremA} (\texttt{OwnerR}) \\
+Thm.~\ref{thm:B} & \lean{EFX.LB.theoremB} (\texttt{Rotation}) \\
+Thm.~\ref{thm:C} & \lean{EFX.LB.lbPlusRun_sound}, \lean{EFX.LB.lbPlusOut_exists}, \lean{EFX.LB.lbPlusOut_exists_chain}, \lean{EFX.LB.lbPlus_sound} (\texttt{LBPlus}) \\
+Prop.~\ref{prop:core} & \lean{EFX.core_reduction} (\texttt{Target}) \\
+two own goods (Sect.~\ref{sec:cores}) & \lean{EFX.Inst.safe_of_two_own} (\texttt{TwoOwnGoods}) \\
+Examples (App.~\ref{app:examples}) & \lean{EFX.K3.Examples.peelOwner_algo}, \lean{EFX.K3.Examples.rotOwner_algo}, \lean{EFX.K3.Examples.rot_algo} (\texttt{K3Examples}) \\
+Independent statement & \lean{Audit.target_audit}, \lean{Audit.corollaryD_audit} (\texttt{Audit}) \\
+Second proof & \lean{EFX.C4min.target_K3}, \lean{EFX.C4min.corollaryD_K3} (\texttt{K3Theorem}) \\
+\bottomrule
+\end{tabular}}
+
+\section{Specification Correspondence}\label{app:spec}
+
+The Lean statements of Section~\ref{sec:correct}'s results use the formalization's own definitions of the state of Stage L. Table~\ref{tab:spec} maps each object of Section~\ref{sec:algo} to the Lean definition that formalizes it, so that a reader can compare them. Names are in the namespace \texttt{EFX.LB} unless they start with \texttt{EFX.K3}, and files are in \file{lean/EFX/}. The Lean state is a ranking profile \texttt{P} (the goods $a_i$, $b_i$, $c_i$ of each agent), the lists of agents and goods, the picks \texttt{Y}, a function from agents to optional goods, and the list \texttt{up} of upgraded agents; most objects below are functions of this state. Where no single Lean definition corresponds to an object, the table says so.
+
+\begin{table}[tbp]
+\caption{Objects of Section~\ref{sec:algo} and their Lean definitions.}\label{tab:spec}
+\centering\small
+\setlength{\tabcolsep}{4pt}\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.22\textwidth}>{\raggedright\arraybackslash}p{0.54\textwidth}>{\raggedright\arraybackslash}p{0.18\textwidth}@{}}
+\toprule
+Object & Lean definition & File \\
+\midrule
+rankings $a_i\succ_i b_i\succ_i c_i$ & \lean{Profile} (fields \texttt{a}, \texttt{b}, \texttt{c}), \lean{Profile.rank}; computed by \lean{EFX.K3.profileOf} & \texttt{LBSound}, \texttt{K3Algo} \\
+Stage R, rule R1 & \lean{EFX.K3.r1Step}, \lean{EFX.K3.findR1}, \lean{EFX.K3.reduce} & \texttt{K3Algo} \\
+R1 priority & \lean{R1Prio} (a property of an order); K3ALG's order \lean{r1Order} & \texttt{Blocks}, \texttt{CorollaryD} \\
+picks $Y$ & \lean{phase1} (Phase~1 in a given order) & \texttt{LBRun} \\
+blocks, leaders & \lean{blkAux} (block number), \lean{leadB} (leader test); what the proofs use of them: \lean{Run} & \texttt{Blocks} \\
+upgrades, $U$ & \lean{upgrades} (the loop), \lean{canUp} (its test), \lean{lbUp} (K3ALG's $U$), \lean{UpFinal} (any order) & \texttt{LBRun}, \texttt{Blocks} \\
+junk $J$ & \lean{junkList}; $J_0$: \lean{junk0} & \texttt{PreAlloc}, \texttt{Blocks} \\
+needs $N_i$ & no definition of the set; ``$i$ needs $g$'' is \lean{Profile.Prefers} & \texttt{LBSound} \\
+$\NA$ & \lean{Profile.NA} (a proposition), \lean{naB} (a Boolean) & \texttt{LBSound}, \texttt{LBRun} \\
+frozen & \lean{frozenB} & \texttt{LBRun} \\
+terminal & \lean{IsTerm} & \texttt{OwnerR} \\
+$\capa$, $S$ & \lean{cap}, \lean{slotSum}; the slots of all agents but the owner: \lean{slotsExcept} & \texttt{LBRun}, \texttt{PreAlloc} \\
+base & \lean{InBase} (membership in the base) & \texttt{PreAlloc} \\
+valid; (UT) & \lean{Valid}; the field \texttt{ut} of \lean{State} & \texttt{PreAlloc}, \texttt{OwnerR} \\
+completion, (OC) & \lean{Completion} (every completion; its field \texttt{oc} is (OC)); K3ALG's completion \lean{complete}, which places the junk by \lean{fill} & \texttt{PreAlloc}, \texttt{LBRun} \\
+owner $o$ & no single definition: the argument \texttt{o} of \lean{Completion} and \lean{complete} (an optional agent) & \texttt{PreAlloc} \\
+exposed $E_o$ & \lean{Exposed}, \lean{exposedL} & \texttt{OwnerR} \\
+$\pi_x$ & no single definition: one of its goods is \lean{pickOne}, and two meeting sets are found by \lean{meet} & \texttt{OwnerR} \\
+$\HitSet$ & \lean{hitSet} & \texttt{OwnerR} \\
+valid owner & \lean{ValidOwner}, with \lean{OwnerOK} & \texttt{OwnerR} \\
+candidate $r$; $k^*$ & \lean{lastOut}; \lean{kstar} & \texttt{OwnerR} \\
+need chain & \lean{IsChain}, \lean{NeedChain}; K3ALG's scan: \lean{chainFrom} with \lean{isNext} & \texttt{OwnerR}, \texttt{LBPlus} \\
+bad case & \lean{BadCase} & \texttt{Rotation} \\
+rotation & \lean{rotPicks} (with \lean{rotY}); the upgraded list becomes \texttt{k :: up} & \texttt{Rotation} \\
+\LBp{} & \lean{lbPlus} (K3ALG's run), \lean{LBPlusOut} and \lean{LBPlusRun} (all runs) & \texttt{LBPlus} \\
+K3ALG & \lean{EFX.K3.algoSpec} (specification), \lean{EFX.K3.algoC} (counted program), \lean{EFX.K3.algo} (its value) & \texttt{K3Algo}, \texttt{K3Cost} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Certification: Runs, Tests and Reproducibility}\label{app:cert}
+
+This appendix gives the details behind Section~\ref{sec:cert}: the sizes of the runs and the methods, the tests of \LBp{} and K3ALG, and what is needed to reproduce them.
+
+\subsection{Runs and methods}
+
+For each number of agents $n$ and goods $m$, the connected cores were enumerated up to isomorphism, and the completeness of each list was checked by a second, independent method (a second generator, or counting orbits under relabelling). For each core and each of its $6^n$ strict ranking profiles, an \efxz{} allocation was found, by a SAT solver with counterexample-guided refinement or by construction LB below, and stored. A separate checker, which uses no SAT solver, re-checks the stored allocations from the raw \efxz{} definition, and that they cover every profile. Table~\ref{tab:cert} summarizes the results; with Proposition~\ref{prop:core}, the components argument and the cores with $m=2n$, they give Theorem~\ref{thm:target} for $n\le7$ independently of Section~\ref{sec:correct}.
+
+\begin{table}[tbp]
+\caption{Exhaustive certification. Every row covers every ranking profile of every listed core, and its certificates were re-checked from the raw \efxz{} definition.}\label{tab:cert}
+\centering\small
+\setlength{\tabcolsep}{4pt}\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.56\textwidth}>{\raggedright\arraybackslash}p{0.40\textwidth}@{}}
+\toprule
+Claim and scope & Size \\
+\midrule
+\efxz{} exists, every $3$-relevant instance, $n\le6$ & $251+3{,}182$ connected cores \\
+\efxz{} exists, every $3$-relevant instance, $n\le7$ & adds $n=7$, by the rows on $n=7$ below \\
+Theorem~\ref{thm:D}, every core with $n\le6$, connected or not & certificates, components combined \\
+Theorem~\ref{thm:D}, connected cores, $n=7$, $11\le m\le13$ & $3{,}103$, $541$ and $37$ cores ($m=11,12,13$) \\
+Theorem~\ref{thm:D}, connected cores, $n=8$, $m\in\{14,15\}$ & $1{,}232$ and $52$ cores \\
+LB never fails, cores with $n\le6$ & $3{,}436$ connected, $131$ disconnected \\
+LB never fails, connected cores with $n=7$ & $41{,}170$ cores, $1.15\times10^{10}$ core--profile pairs \\
+LB never fails, connected cores, $n=8$, $m\ge13$ & $12{,}763$ cores, $2.14\times10^{10}$ pairs \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\noindent LB is the repository's earlier construction: Phase~1 with a lookahead rule for insertion steps, the same upgrades, and a search over owners instead of the rotation. The rows on LB say that LB never fails for the labelling of each core stored in the certificates, since LB breaks ties by index; the certificates themselves, which consist of LB's outputs, confirm Theorem~\ref{thm:D} for every labelling. Whether LB never fails in general is open; \LBp{}'s rotation makes that question unnecessary.
+
+\subsection{Tests of \LBp{} and K3ALG (measurement)}\label{sec:tests}
+
+A literal implementation of \LBp{} was run $5{,}844{,}263{,}904$ times: on every core with $n\le6$ under every ranking profile and every sequence of insertion choices, with random choices on larger cores, and on random instances that are not cores. It asserts every lemma of Section~\ref{sec:correct} along the way and checks every output against the raw definition: $1{,}327{,}101$ runs needed the rotation, and there were $0$ failures. An independent Python implementation gives identical tallies for $n\le5$. K3ALG itself returned an \efxz{} allocation on all $152{,}071{,}632$ ranking profiles of all cores with $n\le6$. These are measurements of the implementations, not part of the proof.
+
+\subsection{Reproducibility}
+
+\paragraph{Version.} The files named here are those of commit \texttt{a39b151} of the repository~\cite{Repo}, the commit cited in the bibliography; the certificates, scripts and Lean sources are unchanged between that commit and the version of this paper. The repository has no release tag.
+
+\paragraph{Scripts.} Enumeration of the connected cores: \file{src/cores_nauty.py}, with nauty's \texttt{genbg}, cross-checked against the independent generator of \file{src/frontier.py}; orbit counting: \file{tools/check_enum.py}. Search with a SAT solver and counterexample-guided refinement: \file{src/frontier.py}, driven by \file{src/run7.py} for $n\ge7$. Construction LB: \file{src/construct.c} with \file{src/construct_run.py}. The SAT-free certificate checker: \file{tools/check_certs.py}. Tests: \file{src/lbplus.c} and the independent \file{src/lbplus.py} for \LBp{}, and \file{k3/k3algo.py} for K3ALG.
+
+\paragraph{Certificate format.} Each certificate file, \file{results/certs_*.json.gz}, is a gzip-compressed JSON list with one record per connected core: the numbers \texttt{n} and \texttt{m}; \texttt{pi}, the number of private goods; \texttt{sets}, the three relevant goods of each agent; \texttt{mode}, a label (for the SAT runs, the shape of allocation searched for); and \texttt{allocations}, a list of allocations, each giving the agent of every good, which together must cover all $6^n$ ranking profiles. The checker decides, for every stored allocation, in which profiles it is \efxz{}, from the raw definition under three balanced realizations of the rankings, and checks that every profile is covered; with \texttt{-{}-require-d} it also checks that every stored allocation has at most one bundle of more than two goods.
+
+\paragraph{Machines and running times.} The logs in \file{results/} record the commands, their dates, the number of CPUs (four, or two for some re-checks) and some wall-clock times. For instance, the SAT search over the $3{,}103$ connected cores with $n=7$ and $m=11$ took $684$\,s on four CPUs (\file{results/frontier7_11.log}); K3ALG on every ranking profile of every core with $n\le6$ took $4{,}469$\,s on four CPUs (\file{results/k3_certs_2_6.log}); and construction LB on the connected cores with $n=8$ and $m\ge13$ took about $7$\,h on four CPUs (the repository's ledger). The processor model and the memory are not recorded. The measurements of Section~\ref{sec:finer} used Python~3.11.15 (\file{results/k3_timing.log}).
+
+\paragraph{Re-checking.} \texttt{python tools/check\_certs.py} \emph{file} \texttt{-{}-require-d} re-checks one certificate file. The repository's continuous integration re-checks some of the certificates and the orbit counts on every pull request; the larger files were re-checked locally, as the logs record.
 
 \end{document}
