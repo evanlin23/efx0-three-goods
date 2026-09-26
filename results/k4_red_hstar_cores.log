@@ -3,3 +3,6 @@
 # command: python3 k4/red_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz -x 100000 --jobs=2 | grep -E '^k4_certs_[23].json.gz#[0-9]+ (prof_some_key_every|bt_prof_no_psi_max_comp) ' | awk '{print $2, $1}' | sort | uniq -c
     128 bt_prof_no_psi_max_comp k4_certs_3.json.gz#46
     128 prof_some_key_every k4_certs_3.json.gz#46
+# the 384 failures of the two-level swap rule of k4/c4min_reduce.md §4.3 (counter FAIL_swap_some_terminal, example tag swap_some_terminal), counted per core the same way:
+# command: python3 k4/red_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz -x 100000 --jobs=1 | grep -E '^k4_certs_[23].json.gz#[0-9]+ (swap_some_terminal) ' | awk '{print $2, $1}' | sort | uniq -c
+    384 swap_some_terminal k4_certs_3.json.gz#46

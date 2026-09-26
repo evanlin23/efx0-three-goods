@@ -13,7 +13,7 @@ z freezes on g and x becomes free. Two variants:
   cycle is needed. It succeeds on H★ (instance A2 of `attempts/k4-c4min-reduce-a.md`): at the key (7, 0), the maximum's
   terminal 1 freezes and x takes {0, 6}.
 - The two-level rule holds for 424,168 of the 424,552 non-completable (r′, Λ′)-maxima with n ≤ 3
-  (`results/k4_red_n3.log`, counters `swap_*`). It fails for 384, among them those of H★, where every key fails.
+  (`results/k4_red_n3.log`, counters `swap_*`). It fails for 384, all in H★, where every key fails (`results/k4_red_hstar_cores.log`).
 
 **What it shows.** Swapping the frozen agent is necessary but must be combined with optimizing the new key's
 configuration under an x-aware potential, or with longer exchanges. `k4/c4min_reduce.md` §5 does both at once by

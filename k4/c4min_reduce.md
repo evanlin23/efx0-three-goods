@@ -1,8 +1,9 @@
 # C₄ᵐⁱⁿ at one frozen agent: reduction to Theorem Z
 
 Workstream `proof/k4-c4min-reduce`, ledger rows K4.C4MIN.RED.* (CONJECTURE / EVIDENCE only). It builds on PR #41
-(`k4/c4min.md` on branch `proof/k4-c4min`: configurations §1, Theorem Z §3, Theorem F §3.6, Conjecture Φ′ and the
-f = 1 roadmap §4) and uses the definitions of `k4/c4x.md` §1 (PR #36). It does not edit their files.
+(`k4/c4min.md`, merged into main and read there: configurations and Lemma 1 §1, Theorem Z §3, Theorem F §3.6,
+Conjecture Φ′ and the f = 1 roadmap §4) and uses the definitions of `k4/c4x.md` §1 (PR #36). It does not edit their
+files.
 
 **Target.** Prove C₄ᵐⁱⁿ on every strict profile whose fewest frozen agents is f = 1 by reducing to Theorem Z:
 1. remove the frozen agent x and its good g = φ(x);
@@ -307,8 +308,8 @@ So the repair of (b) is not inside one key: it needs a different frozen agent.
 Take a non-completable maximum of (r′, Λ′) at a key and a terminal z of it. By Lemma T, z has top g, and (g, z) is a key
 (each such z was a key in every case tested). Two versions of the swap:
 - **Two-level rule** "then every (r′, Λ′)-maximum at (g, z) is completable". It holds for 424,168 of the 424,552 such
-  maxima with n ≤ 3 and fails for 384 (`results/k4_red_n3.log`, counters `swap_*`), among them those of H★, where
-  every key fails.
+  maxima with n ≤ 3 and fails for 384 (`results/k4_red_n3.log`, counters `swap_*`), all in H★, where every key fails
+  (`results/k4_red_hstar_cores.log`).
 - **Narrow swap** "x takes an admissible pair from L ∪ Q_z, z freezes on g, everyone else keeps its pair". It succeeds
   on H★ (at the key (7, 0), the terminal 1 of the maximum freezes and x takes {0, 6};
   `attempts/k4_c4min_reduce_attempts.py`). It leaves 24 of the 392
@@ -536,9 +537,9 @@ So a maximum has no cycle, every free agent lies on the path, and so does every 
      configurations with t = 1, while its keys (6, 0) and (6, 2) have none with t = 1;
   5. every vertex threatened (r′ = 0): the owner that threatens two vertices may need a modified rotation that makes
      t = 1;
-  6. (GLOB only) x threatened by two owners (|D_x| = 2, x flat or of type c + d < a < b + d): then the owners threaten
-     at least |A| + 1 (owner, vertex) pairs among |A| + 1 vertices with x counted twice, and the path picture above
-     does not apply as stated.
+  6. (GLOB only) x threatened by two owners (|D_x| = 2, x flat or of type c + d < a < b + d, Lemma D(ii)): the count
+     above then allows every free agent to be threatened while x has two threateners, so the path picture does not
+     apply as stated.
 
 ### 5.3 A local improvement lemma
 
@@ -673,13 +674,13 @@ All counts are strict profiles of the certified core lists `results/k4_certs_*.j
 | claim | scope | result | log |
 |---|---|---|---|
 | f = 1 profiles, keys | n ≤ 3 all; n = 4 one 4-good agent all | 7,285,840 and 28,478, as #41's `k4/c4min.c` (`k4/c4min.md` §4 table); profiles with f ≥ 2 (any ω): 463,772, the number #46 reports for two frozen agents (`k4/hall.md` §5) | `results/k4_red_n3.log`, `results/k4_red_n4.log` |
-| Lemma T (a terminal in every configuration) | every configuration of every key: n ≤ 3 all, n = 4 with one or two 4-good agents all, n = 4, 5 samples | 0 violations (counters `configurations`, `FAIL_no_terminal_cfg`); the first logs checked the (r′, Λ′)-maxima only | `results/k4_red_lemmas.log` (`results/k4_red_n3.log` etc. for the maxima) |
+| Lemma T (a terminal in every configuration) | every configuration of every key: n ≤ 3 all (138,480,336 configurations), n = 4 with one or two 4-good agents all, n = 4, 5 samples | 0 violations (counters `configurations`, `FAIL_no_terminal_cfg`); the first logs checked the (r′, Λ′)-maxima only | `results/k4_red_lemmas.log` (`results/k4_red_n3.log` etc. for the maxima) |
 | Theorem Z′(ii) (free-valid owner at every (r′, Λ′)-maximum, which is pool-optimal) | every key of every f = 1 profile with n ≤ 3 (17,448,196 maxima); n = 4, 5 samples | 0 violations | `results/k4_red_n3.log`, `…_n4.log`, `…_n5.log`, `…_lemmas.log` |
 | Theorem Z′(i) (≥ r′ free-valid owners at every pool-optimal configuration) | every pool-optimal configuration of every key, same scopes | 0 violations | same |
 | Lemma C (certificate ⟹ an owner valid with C = ∅) | every configuration with the certificate, same scopes | 0 violations (`FAIL_cert_noncomp0`, `FAIL_cert2_noncomp0`); the first logs tested completability with unfreezing (`FAIL_cert_noncomp`, `FAIL_cert2_noncomp`), which is weaker | `results/k4_red_lemmas.log` (`results/k4_red_n3.log` etc. for the weaker test) |
 | §4 instances | 4 profiles (A1, A2, B1, C1) | both implementations agree (the narrow swap of C1: Python only) | `results/k4_red_attempts.log`, `results/k4_red_attempts_v2.log` |
 | key rules, narrow swap (§4.1, §4.3) | 6,000 random profiles per n = 3 core | as stated there | `results/k4_red_rules.log`, `results/k4_red_rules_ties.log` |
-| H★ holds the 128 profiles of §4.1 and §5.1 | n ≤ 3 | all in core 46 | `results/k4_red_hstar_cores.log` |
+| H★ holds the 128 profiles of §4.1 and §5.1 and the 384 two-level swap failures of §4.3 | n ≤ 3 | all in core 46 | `results/k4_red_hstar_cores.log` |
 | Conjecture GLOB | §5 | 0 failures | `results/k4_red_n3.log`, `…_n4.log`, `…_n4_2_all.log`, `…_n5.log`, `…_lemmas.log` |
 | Conjecture BT, big-top profiles | §5.1 | 0 failures | `results/k4_red_bt.log`, `results/k4_red_lemmas.log` |
 | Lemma PM | §5.2 | 0 failures (every robust P_x, every single modification) | `results/k4_red_pathmove_all.log` (first version: `results/k4_red_pathmove.log`) |
@@ -690,8 +691,10 @@ Provenance. Every log records the commands that wrote it. `k4/red_run.py` now al
 git commit. The logs written before the review carry a `# provenance` line, added at review, naming the commit whose
 `k4/red.c` (or script) wrote them: `results/k4_red_n3.log`, `…_n4.log` and `…_n5.log` come from the `k4/red.c` of
 a0505bd, which predates the big-top counters `bt_*`, `btx_*`, `anybt_*` (added at 02db2cf) and the counters added at
-review. `results/k4_red_lemmas.log` reruns all of their commands with the current `k4/red.c`; every counter that both
-versions print has the same value.
+review. `results/k4_red_lemmas.log` reruns their commands with the current `k4/red.c`, and `k4/red_logcmp.py` compares
+the counters (at its end): all 690 values that both versions print for the same command and first potential agree. The
+only differences are the `amax_*` counters of the second command of `results/k4_red_n3.log`, which uses another first
+potential and is not rerun.
 
 Independence: `k4/red.c` and `k4/red_lib.py` share no code with each other or with #41's `k4/c4min.c` and
 `k4/c4min_*.py`, only the type generator `k4/check4.py` and the core lists. The Python implementation's logged runs are
