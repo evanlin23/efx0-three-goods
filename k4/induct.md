@@ -459,9 +459,9 @@ agents, the margin θ_j(X′_w ∪ {d}) ≤ v_j(X′_j) for every other valuer j
 - *The existence form of the same rules is not refuted*: on every one of those 2,200 and 4,700 profiles some (w, d, h)
   has *some* minimizer admitting d → h (on the smallest configuration, 6 of its 12 triples). So a tie-break among the
   minimizers may still work; the only existence-form obstruction shown is GPS above, which concerns h = w only.
-- *B-form* for a Q4 agent (delete w and d; give w nothing but d): for the best d, repair r ≤ 1 on every sampled n = 5
-  profile (a core with one 4-good agent, a P4 core; `results/k4_induct_n5.log`), but r = 2 and r = 3 occur at n = 3
-  (267 and 2 of the 12,000 profiles with a Q4 agent).
+- *B-form* for a Q4 agent (delete w and d; give w nothing but d): for the best d, repair r ≤ 1 for every Q4 agent of
+  the sampled n = 5 profiles (601 of the 800 have one; cores with one or two 4-good agents, statistic B_Q4_everyw of
+  `results/k4_induct_n5.log`), but r = 2 and r = 3 occur at n = 3 (267 and 2 of the 12,000 profiles with a Q4 agent).
 
 What a proof of the Q4 step would have to supply is an X′ with *two* properties at once (h unenvied, and the valuers
 of d satisfied with margin), which is what Proposition 5 also cannot supply for a second agent. No insertion rule for
@@ -481,8 +481,9 @@ In the B-form with d = a_w (w's top), X′ + (w ↦ {a_w}) is EFX₀ iff no bund
 worth ≤ v_w(a_w)); so for a D2-shaped X′ the only obstruction is the large bundle containing a threatening set of
 {b_w, c_w, d_w}, which is LB₄'s owner constraint (OC₄) (`k4/lb4.md` §1). With the best (w, d) the B-form needed
 ρ ≤ 3 everywhere tested (n ≤ 5; §2's table): ρ = 3 on 1 of the 5,010 sampled n = 4 profiles, ρ = 2 on 1 of the 800
-sampled n = 5 profiles (cores with one or two 4-good agents), ρ ≤ 1 on the other 799; for the Q4 agents of those n = 5
-profiles, ρ ≤ 1 with the best d (§5). The statement "every X′, ρ ≤ 1" fails already at n = 3, and "ρ ≤ 2" at n = 4
+sampled n = 5 profiles (cores with one or two 4-good agents), ρ ≤ 1 on the other 799. That profile has no Q4 agent:
+a Q4 agent would bound its best ρ by 1 (B_Q4_everyw ≤ 1 in the same log), and the PR #43 verification places it in
+a P4 core. For the Q4 agents of those n = 5 profiles, ρ ≤ 1 with the best d (§5). The statement "every X′, ρ ≤ 1" fails already at n = 3, and "ρ ≤ 2" at n = 4
 (§2).
 
 ## 7. What remains
