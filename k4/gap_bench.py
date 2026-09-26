@@ -22,12 +22,15 @@ API (from the repository root):
   .pool_optimal .kind(i) .exposed .bigtop(x) .threat_edges .need_edges .chain_ends(x) .h7(x, o) .mult(x)
   .pool_moves() .cycle_moves(general, keep) .two_agent_moves() .downgrade_swaps() .pool_closure(); and prof: .n .m
   .R .v .f .omega .keys. gap_bench.pareto(cfgs) and gap_bench.reach(starts, swaps) are available to predicates.
+  gb.check_instances(pred, scope) runs a predicate on the versioned instance suite results/k4_gap/instances_v1.json
+  (every hard instance, with provenance, cross-checked between gap.c and gap_model; k4/gap.md section 5).
   Counterexamples are sorted by (n, m, number of configurations, catalog order): smallest first. --every=E keeps every
   E-th catalog record, --max-profiles=K the first K (after --every).
 
 CLI:
     python3 k4/gap_bench.py [--catalog=F1,F2] [--only=NAME,...] [--every=E] [--max-profiles=K] [--show=2] [--list]
     python3 k4/gap_bench.py --selftest [--catalog=...] [--every=E] [--max-profiles=K]
+    python3 k4/gap_bench.py --instances[=results/k4_gap/instances_v1.json] [--only=...]   # the versioned suite
     python3 k4/gap_bench.py --profile='{"sets": [[0,2,5,6], ...], "vals": [[2,6,3,10], ...]}' [--only=...]   # one profile     # gap.c vs gap_model, config by config
 The seeded statements (STATEMENTS below) are the candidate steps of k4/c4min.md section 4 (PR #41: Conjecture Phi',
 the roadmap steps (i)-(iv)) and of k4/hall.md section 5 (PR #46: BT, the trichotomy of Lemma H7)."""
@@ -152,6 +155,56 @@ def check_many(stmts, catalogs=None, max_profiles=None, recs=None, confirm=3):
             res[k].counterexamples.append((prof, c, detail))
     return res
 
+# ---------------------------------------------------------------- the instance suite
+INSTANCES = os.path.join(HERE, '..', 'results', 'k4_gap', 'instances_v1.json')
+
+def check_instances(pred, scope='all', path=INSTANCES, ids=None, quiet=False):
+    """Run pred on every instance of the versioned suite (k4/gap_instances.py; k4/gap.md section 5).
+
+    For each instance: gap.c (-C dump) and gap_model build the configurations independently and must agree (class, f,
+    omega, keys, every configuration's Phi', pool-optimality, owners with their least |C|, threat edges, H7 classes);
+    then pred is evaluated on gap_model's configurations with the given scope (as in check). Instances not in the gap
+    (e.g. cyc6, f = 0) are evaluated on gap_model's configurations only. Returns a list of dicts: id, tags,
+    provenance, in_gap, agree (number of gap.c/gap_model mismatches, 0 if they agree), tested, skipped, fails (the
+    failing configurations), highlighted (the outcome on the instance's highlighted configuration, if any)."""
+    data = json.load(open(path))
+    out = []
+    for d in data['instances']:
+        if ids and d['id'] not in ids: continue
+        rec = {'core': {'sets': d['sets'], 'm': d['m'], 'file': d['id'], 'pos': 0, 'idx': 0}, 'vals': d['vals'], 'prof': [0] * d['n']}
+        prof = gm.Profile(d['sets'], d['vals'], d['m'])
+        ingap = prof.in_gap
+        head, cl = next(((h, c) for _, h, c in dump([rec])), (None, []))
+        if ingap:
+            import io, contextlib
+            with contextlib.redirect_stdout(io.StringIO()):
+                bad = gm.selftest([rec], lambda r: (head, cl))
+        else:
+            bad = 0 if head is None else 1
+        cfgs = prof.configs()
+        for c in cfgs: c._phi_c = c.phi; c._own_c = c.owners
+        res = {'id': d['id'], 'tags': d.get('tags', []), 'provenance': d.get('provenance', ''), 'in_gap': ingap, 'agree': bad,
+               'tested': 0, 'skipped': 0, 'fails': [], 'highlighted': None}
+        hl = d.get('config')
+        hkey = (tuple(hl['key']), {int(y): frozenset(q) for y, q in hl['Q'].items()}) if hl else None
+        if scope == 'profile':
+            r = pred(prof, cfgs)
+            res['tested' if r is not None else 'skipped'] += 1
+            if r is False: res['fails'].append(None)
+        else:
+            for c in select(scope, prof, cfgs):
+                r = pred(prof, c)
+                if r is None: res['skipped'] += 1; continue
+                res['tested'] += 1
+                if r is False: res['fails'].append(c)
+                if hkey and c.key == hkey[0] and c.Q == hkey[1]: res['highlighted'] = r
+        out.append(res)
+        if not quiet:
+            print(f"  {d['id']}: {'in the gap' if ingap else 'NOT in the gap'}, gap.c/gap_model mismatches {bad}; tested "
+                  f"{res['tested']}, skipped {res['skipped']}, fails {len(res['fails'])}"
+                  + (f", highlighted configuration: {res['highlighted']}" if hl else '') + f"  [{', '.join(res['tags'])}]", flush=True)
+    return out
+
 # ---------------------------------------------------------------- seeded statements
 def _f1_setting(prof, c):
     """the setting of the f = 1 roadmap (c4min.md section 4): f = 1, the frozen agent x has three goods, no valid owner,
@@ -242,7 +295,7 @@ def st_t_local(prof, c):
     return raises(c)
 
 def st_bt(prof, c):
-    if c.completable: return None
+    if c.completable or not c.frozen: return None     # without frozen agents #46's alternative (a label collision) applies
     return any(c.bigtop(x) for x in c.frozen)
 
 def st_h7(prof, c):
@@ -368,7 +421,7 @@ def main():
     cats = opt['catalog'].split(',') if 'catalog' in opt else DEFAULT
     K = int(opt['max-profiles']) if 'max-profiles' in opt else None
     print("command: python3 k4/gap_bench.py " + ' '.join(sys.argv[1:]), flush=True)
-    print(f"gap.c sha256 {gap_run.SHA}" + ("" if 'profile' in opt else f"; catalogs {[os.path.basename(c) for c in cats]}"), flush=True)
+    print(f"gap.c sha256 {gap_run.SHA}" + ("" if 'profile' in opt or 'instances' in opt else f"; catalogs {[os.path.basename(c) for c in cats]}"), flush=True)
     if 'list' in opt:
         for k, (s, _, d) in STATEMENTS.items(): print(f"{k} [{s}]: {d}")
         return
@@ -386,6 +439,14 @@ def main():
         recs = load(cats)
     if 'every' in opt: recs = recs[::int(opt['every'])]
     if K: recs = recs[:K]
+    if 'instances' in opt:
+        path = opt['instances'] if isinstance(opt['instances'], str) else INSTANCES
+        names = opt['only'].split(',') if 'only' in opt else list(STATEMENTS)
+        print(f"instance suite {os.path.basename(path)}: {len(json.load(open(path))['instances'])} instances")
+        for nm in names:
+            print(f"== {nm}: {STATEMENTS[nm][2]}", flush=True)
+            check_instances(STATEMENTS[nm][1], STATEMENTS[nm][0], path)
+        return
     if 'selftest' in opt:
         def dmp(r):
             for _, head, cl in dump([r]): return head, cl
