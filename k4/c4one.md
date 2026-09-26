@@ -38,10 +38,11 @@ Lemma E, Theorems A₄, B₄, B₄ʷ, A₄ᵀ, A₄⁺ and the conventions of it
     the rotation along the chain, and ℓ then upgrades with {b_ℓ, c_ℓ}. So ω drops by at least 1, under five side
     conditions.
     - With x = q it proves every (Tc) case of Lemma X at n ≤ 4, and 97.7% at n = 5.
-    - With its variant Ω_q (ℓ = q, key decrease through q no longer frozen), over all uncovered runs with any agent
-      as x, it proves 86%, 75% and 75% of them (n = 3, 4, 5).
-    - The proof is for runs with P-steps in any order. Over those runs, Lemmas X and X′ also hold at n ≤ 5, and Ω
-      with Ω_q proves 86%, 62% and 50% of their uncovered runs (`k4/c4check.c -G`).
+    - Its variant Ω_q has ℓ = q and lowers the key because q is no longer frozen. Its mirror, **Lemma Ψ** (the
+      falling chain, with variant Ψ_q), moves a chain down. Together, over all uncovered runs with any agent as x,
+      they prove 90%, 80% and 80% of them (n = 3, 4, 5).
+    - The proofs are for runs with P-steps in any order. Over those runs, Lemmas X and X′ also hold at n ≤ 5, and the
+      four moves prove 90%, 73% and 62% of their uncovered runs (`k4/c4check.c -G`).
 - **The existence form C₄¹∃** (§1) is open. It is what TARGET₄ needs for these instances.
 
 ## 1. Statements
@@ -444,6 +445,60 @@ Then some run ρ′ with envy-free upgrades reaches P′ with ω(P′) ≤ ω(P)
 
 So ω(P″) ≤ ω(P), and q is not frozen. Further envy-free upgrades lower ω or keep it, and never freeze q. ∎
 
+**Lemma Ψ (the falling chain; written proof, not yet reviewed).** Lemma Ω moves a chain *up*: each agent takes the
+good it needed. Lemma Ψ moves a chain *down*. Let P be the state after a run ρ of Phase 1 and envy-free upgrades in any
+order. Let x ∉ U be an agent of a block β whose pick Y_x lies below its top a_x, and let y₀ be the agent holding a_x.
+
+The *fall chain* is y₀, y₁, …, y_k, defined as follows. Let g_i be y_i's best good outside {Y_{y₀}, …, Y_{y_i}}. If g_i
+is the pick of an agent y_{i+1}, continue from y_{i+1}. Stop at the first g_k that is junk in P or equals Y_x.
+
+Suppose:
+- **(Ψ1)** No agent ranks Y_x above its Phase 1 pick.
+- **(Ψ2)** Every y_i lies in β, is not upgraded, and is frozen in P. The chain never returns to an agent, and it never
+  reaches x.
+- **(Ψ3)** y_k has a good c ≠ g_k that is junk in P or equal to Y_x, such that {g_k, c} is envy-free for y_k.
+- **(Ψ4)** In P, no agent other than x and the y_i needs Y_{y_k}.
+- **(Ψ5)** (H4) and (H5′) of Lemma Ω hold, with the fall chain in place of Ω's chain, and g_k in place of b_ℓ. When
+  g_k = Y_x, no later agent has it (B1), so no block moves.
+
+Then some run ρ′ of Phase 1, equal to ρ before β, followed by envy-free upgrades, reaches a state P′ with
+ω(P′) ≤ ω(P) − 1. In ρ′, x takes a_x, each y_i takes g_i, and every other agent keeps its pick.
+
+**Variant Ψ_q.** If (Ψ3) fails but y_k = q, then without (Ψ3) and (Ψ4) some such run reaches P′ with ω(P′) ≤ ω(P) and
+q not frozen. So key(P′) < key(P).
+
+*Proof.*
+- *Step 1.* Process the prefix as ρ does. Insert x, which takes its top a_x.
+  - Then process y₀, …, y_k in this order. y_i has lost Y_{y_i}: x took it if i = 0, and y_{i−1} took it otherwise.
+    So this is a P-step.
+  - At y_i's turn, the goods taken in the block so far are Y_{y₀}, …, Y_{y_i}. So y_i takes g_i, by the definition
+    of g_i. g_i is still there: for i < k it is y_{i+1}'s pick, and g_k is junk (never picked) or is Y_x, which x gave
+    back.
+  - The rest (attached agents, moved blocks, detached agents, remaining blocks) is Lemma Ω's Step 1 word for word. The
+    chain's ρ-picks are all taken, and no agent ranks g_k above its pick: by (I2) when g_k is junk, by (Ψ1) when
+    g_k = Y_x.
+- *Step 2.*
+  - x needs nothing now. y_i needs the goods it ranks above g_i, which by definition lie in {Y_{y₀}, …, Y_{y_i}}. These
+    are picks of frozen agents (Ψ2), so they are in NA(P). Every other agent's needs are unchanged. So NA only shrinks.
+  - Replay ρ's upgrades as in Lemma Ω. The chain agents are frozen, hence never upgraded, and neither is x.
+  - Then upgrade y_k with {g_k, c}. g_k is needed by no one; y_k needs Y_{y_k}; c is junk; and the pair is envy-free
+    (Ψ3). Call the result P″.
+- *Counting.*
+  - J(P″) = (J(P) ∪ {Y_x}) ∖ {g_k, c}, so |J(P″)| = |J(P)| − 1. This holds whether or not one of g_k, c is Y_x.
+  - NA(P″) ⊆ NA(P), so no agent off the chain and other than x loses a slot.
+  - x had one slot. If k ≥ 1 it may lose it, since y₀ needs a_x.
+  - y_{k−1} (if k ≥ 1) now holds Y_{y_k}. By (Ψ4), no agent off the chain needs it. No y_j (j < k − 1) ranks it
+    above g_j, since it is not among Y_{y₀}, …, Y_{y_j}. And y_k is upgraded. So y_{k−1} gains a slot.
+  - If k = 0, (Ψ4) says that no agent other than x needs a_x, so x keeps its slot.
+  - So S(P″) ≥ S(P) and ω(P″) ≤ ω(P) − 1. Further upgrades never raise ω.
+- *Variant.* Skip y_k's upgrade.
+  - |J| does not change: Y_x comes in, and g_k goes out unless g_k = Y_x.
+  - x may lose its slot, and q = y_k gains one: it holds g_k, which no one needs.
+  - So ω(P″) ≤ ω(P), and q, frozen in P by (Ψ2), is no longer frozen. Further upgrades never freeze q. ∎
+
+When k = 0 and y₀ leads β, Lemma Ψ is Lemma Ω₁. The two lemmas can also combine along one chain; that is not
+needed here.
+
 *Checked* (`k4/c4tools/c4omega1.py` → `results/k4_c4one_omega1.log`). Take the (Tc) runs that the theorems leave open
 (every insertion sequence, n ≤ 5), with x = q. The hypotheses hold in:
 
@@ -455,20 +510,21 @@ So ω(P″) ≤ ω(P), and q is not frozen. Further envy-free upgrades lower ω 
 
 - In every one of these cases the script builds ρ′ order by order and checks that it is a run of Phase 1 with the
   stated picks. It then replays the upgrades and finds ω′ ≤ ω − 1.
-- *Every class* (`--any`: every uncovered run of §3's classes, every agent of the run tried as x). Lemma Ω or its
-  variant Ω_q applies to this many runs:
+- *Every class* (`--any`: every uncovered run of §3's classes, every agent of the run tried as x). Lemma Ω, Ω_q, Ψ
+  or Ψ_q (above) applies to this many runs:
 
   | class | n = 3 | n = 4 | n = 5 |
   |---|---|---|---|
-  | (Tc) | 388 / 388 | 6,976 / 6,976 | 201,440 / 203,592 |
-  | (Tb) | 512 / 512 | 2,920 / 3,080 | 54,562 / 74,128 |
-  | G2 | 812 / 1,102 | 6,894 / 10,703 | 103,708 / 154,893 |
-  | q frozen, (i)/(ii) of B₄ʷ fail | 12 / 12 | 1,050 / 2,290 | 27,958 / 71,040 |
-  | q frozen, no chain to r | 108 / 120 | 4,514 / 6,852 | 160,367 / 229,013 |
-  | all | 1,832 / 2,134 (86%) | 22,354 / 29,901 (75%) | 548,035 / 732,666 (75%) |
+  | (Tc) | 388 / 388 | 6,976 / 6,976 | 202,600 / 203,592 |
+  | (Tb) | 512 / 512 | 2,920 / 3,080 | 55,714 / 74,128 |
+  | G2 | 896 / 1,102 | 8,046 / 10,703 | 123,540 / 154,893 |
+  | q frozen, (i)/(ii) of B₄ʷ fail | 12 / 12 | 1,398 / 2,290 | 37,276 / 71,040 |
+  | q frozen, no chain to r | 108 / 120 | 4,718 / 6,852 | 170,635 / 229,013 |
+  | all | 1,916 / 2,134 (90%) | 24,058 / 29,901 (80%) | 589,765 / 732,666 (80%) |
 
-  The proof step fails nowhere. With q frozen, x is another agent, and ℓ is often q itself: the variant Ω_q alone
-  accounts for 40, 860 and 21,672 of these runs.
+  The proof step fails nowhere. With q frozen, x is another agent, and ℓ is often q itself. Of these runs:
+  - only the variant Ω_q applies to 40, 860 and 21,672;
+  - only Lemma Ψ or Ψ_q applies to 84, 1,704 and 41,730.
 - Where the hypotheses fail at n = 5 (4,664 cases):
   - (H2c) in 1,864;
   - (H5′) in 1,608 cases because a block in between has a good of a moved block, and in 762 because an agent after β
@@ -488,22 +544,23 @@ choice 0 is LB's key. So `-i19`/`-i20` start from every run of Phase 1 in the ge
 insertion or a P-step), and follow the defaults after it.
 - **Lemmas X′ and X hold over these runs:** 0 exceptions at n = 3, 4, 5, in 530,568, 86.0 million and 2.15·10¹⁰
   (run, profile) pairs.
-- **Lemma Ω or Ω_q applies** to 2,036 of 2,358 (86%), 37,891 of 60,659 (62%) and 1,677,489 of 3,331,360 (50%) of
-  their uncovered runs (n = 3, 4, 5; any agent as x). Its proof step never fails.
+- **Lemma Ω, Ω_q, Ψ or Ψ_q applies** to 2,132 of 2,358 (90%), 44,239 of 60,659 (73%) and 2,054,637 of 3,331,360
+  (62%) of their uncovered runs (n = 3, 4, 5; any agent as x). The proof step never fails.
 
 So on the data, the induction on the key can range over runs with P-steps in any order. On those runs Lemma X holds
 and Lemma Ω supplies the step for most of them.
 - (H5′) handles obstacle (D1) above when the agents pulled in are leaders: their whole blocks move. What is left at
   n = 5 is 2.3% of the (Tc) cases (1.4% if x may be any agent).
-- Beyond (Tc), Lemma Ω and Ω_q prove 75–86% of all uncovered runs at n ≤ 5 to be key-decreasing, in the general-run
-  sense.
+- Beyond (Tc), Lemmas Ω, Ψ and their variants prove 80–90% of all uncovered runs at n ≤ 5 to be key-decreasing, in
+  the general-run sense.
   Allowing x to hold any good below its top matters here: in the (Tb) runs where q already holds its top, x is another
   agent, one holding its c.
-- The rest needs other moves. One example is a G2 run with n = 3, m = 5: sets [[0,2,3,4],[1,3,4],[2,3,4]], values
+- The G2 run with n = 3, m = 5 is an example of Lemma Ψ: sets [[0,2,3,4],[1,3,4],[2,3,4]], values
   [[2,8,3,4],[2,3,4],[4,2,3]], agent 1 inserted first, so q = 0 = r holds its c.
-  - Inserting q first covers it. q moves up to its top, agent 2, which held q's top as its own top, falls to its b, and
-    the leader, agent 1, falls to its b.
+  - Inserting q first covers it. q moves up to its top. Agent 2, which held q's top as its own top, falls to its b.
+    The leader, agent 1, falls to its b and upgrades.
   - This is not a rotation along a need chain: agent 2 did not need anything.
+- What remains (10–20% of the LB-key runs, 10–38% of the general ones) needs moves beyond one chain up or down.
 
 So on the data, C₄¹∃ reduces to one local lemma about Phase 1 runs.
 - It does not mention rotations beyond single ones, and it does not rely on LB₄ʳ's search.

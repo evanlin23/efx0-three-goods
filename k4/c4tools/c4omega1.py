@@ -12,7 +12,8 @@ those runs (-X -Y -P2 -u2 -i20 -Z3 -K4, every insertion sequence). For each dist
   order) and checks ω' <= ω - 1.
 Counts distinct printed cases (not weighted by profiles).
 With --any: every class of uncovered run (G2, q frozen, (Tc), (Tb)), and every agent x of the run tried in turn;
-counts the runs to which Lemma Ω applies with x = q, with another x, or with none.
+counts the runs to which Lemma Ω applies with x = q, with another x, only its variant Ω_q, only Lemma Ψ (the falling
+chain, same kind of check), or nothing.
 With --general: the runs of Phase 1 with P-steps in any order (k4/c4check.c -G), not only LB's key.
 Usage: python3 k4/c4tools/c4omega1.py FILE [FILE ...] [--any] [--general]"""
 import os, re, sys, gzip, json, subprocess, collections
@@ -161,6 +162,97 @@ def check(line, x=None):
     return 'hypotheses hold; rho\' is a run of Phase 1 with the rotated picks; omega drops (chain length %d, %s%s)' % (
         s_, h5, ', %d detached' % len(det) if det else '')
 
+def check_psi(line, x):
+    """Lemma Ψ (the falling chain) for the agent x; returns a verdict string"""
+    sets, vals, order, blocks, picks, upg, Jpost, w = parse(line)
+    I = T.Inst(sets, vals); n = I.n
+    Y = [None if y < 0 else y for y in picks]
+    pos = {a: k for k, a in enumerate(order)}
+    q = next(i for i in range(n) if len(sets[i]) == 4)
+    blk = lambda b: sorted((i for i in range(n) if blocks[i] == b), key=lambda i: pos[i])
+    above = lambda i: set(I.ord[i][:I.rank[i][Y[i]]]) if Y[i] is not None else set(I.R[i])
+    NA = set().union(*[above(i) for i in range(n) if i not in upg])
+    # (Ψ1) x not upgraded, its pick Y_x below its top, and no agent ranks Y_x above its Phase 1 pick
+    if x in upg or Y[x] is None or Y[x] == I.ord[x][0]: return 'Psi1 fails'
+    y_x, a_x = Y[x], I.ord[x][0]
+    if any(y_x in above(i) for i in range(n) if i != x): return 'Psi1 fails'
+    holder = {Y[i]: i for i in range(n) if Y[i] is not None}
+    if a_x not in holder: return 'Psi2 fails: nobody holds a_x'
+    # (Ψ2) the fall chain y_0 = holder of a_x, ..., y_k, all in x's block, not upgraded, frozen in P; y_i falls to its
+    # best good outside {Y_{y_0}, ..., Y_{y_i}}, which is Y_{y_{i+1}} (i < k) or a good g_k of J ∪ {Y_x}
+    chain, cur = [], holder[a_x]
+    while True:
+        if cur in chain or cur == x or cur in upg or blocks[cur] != blocks[x]: return 'Psi2 fails: chain leaves the block'
+        if Y[cur] not in NA: return 'Psi2 fails: a chain agent is free in P'
+        chain.append(cur)
+        gone = {Y[z] for z in chain}
+        g = next((h for h in I.ord[cur] if h not in gone), None)
+        if g is None: return 'Psi2 fails: a chain agent has nothing left'
+        if g == y_x or Jpost >> g & 1: break
+        if g not in holder: return 'Psi2 fails: the fall reaches a good that is neither a pick nor junk in P'
+        cur = holder[g]
+    yk, gk = chain[-1], g
+    # (Ψ3) y_k has a good c, junk in P (or Y_x), with {g_k, c} envy-free for it
+    rest_k = [h for h in I.ord[yk] if h != gk]
+    cands = [c for c in rest_k if (Jpost >> c & 1 or c == y_x) and c != gk and
+             I.val(yk, [gk, c]) >= I.val(yk, [h for h in I.R[yk] if h not in (gk, c)])]
+    psi_q = not cands   # variant Ψ_q: no envy-free pair, but the last agent of the chain is q, which ends unfrozen
+    if psi_q and yk != q: return 'Psi3 fails: the last agent of the chain has no envy-free pair'
+    c_k = cands[0] if cands else None
+    # (Ψ4) in P no agent other than x and the chain agents needs Y_{y_k}
+    if any(Y[yk] in above(i) for i in range(n) if i not in chain and i != x and i not in upg): return 'Psi4 fails'
+    # (Ψ5) as (H4) and (H5') of Lemma Ω, with the only newly taken good g_k (if it was junk)
+    beta = blk(blocks[x]); new_good = {gk}   # taken by y_k in rho', also when g_k = Y_x
+    att, det = [], []
+    for p in beta:
+        if p == x or p in chain: continue
+        lost = new_good | {Y[z] for z in chain} | {Y[z] for z in att}
+        (att if I.R[p] & lost else det).append(p)
+    if any(Y[p] != I.ord[p][0] for p in det): return 'Psi5 fails: a detached agent does not hold its top'
+    if any(Y[d] in above(a) for a in att for d in det): return 'Psi5 fails: an attached agent ranks a detached pick above its own'
+    Z = [z for z in range(n) if blocks[z] > blocks[x] and gk in new_good and gk in I.R[z]]
+    if any(blk(blocks[z])[0] != z for z in Z): return "Psi5 fails: an agent after the block that is not a leader has g_k"
+    moved = sorted({blocks[z] for z in Z})
+    for g_ in moved:
+        picks_g = {Y[i] for i in blk(g_) if Y[i] is not None}
+        for d in range(blocks[x] + 1, g_):
+            if d not in moved and any(I.R[i] & picks_g for i in blk(d)): return "Psi5 fails: a block in between"
+    # the run: x inserted, the chain, the attached agents, the moved blocks, the detached agents, the rest
+    prefix = [a for a in order if blocks[a] < blocks[x]]
+    new = prefix + [x] + chain + att
+    leaders = {blk(b)[0] for b in set(blocks) if b != blocks[x] and b not in moved} | {x}
+    for g_ in moved: new += blk(g_)
+    taken = {Y[z] for z in new if z != x and z not in chain and Y[z] is not None} | {Y[z] for z in chain} | new_good
+    rest = list(det)
+    while rest:
+        lost = [p for p in rest if I.R[p] & taken]
+        p = lost[0] if lost else rest[0]
+        if not lost: leaders.add(p)
+        new.append(p); rest.remove(p); taken.add(Y[p])
+    new += [a for a in order if a not in new]
+    Y2 = simulate(I, new, leaders)
+    if isinstance(Y2, str): return 'PSI PROOF STEP 1 FAILS: ' + Y2
+    want = list(Y); want[x] = a_x
+    for i_, z in enumerate(chain): want[z] = Y[chain[i_ + 1]] if i_ + 1 < len(chain) else gk
+    if Y2 != want: return 'PSI PROOF STEP 1 FAILS: picks %s, expected %s' % (Y2, want)
+    # upgrades: rho's, then y_k with {g_k, c}, then envy-free upgrades to a fixpoint
+    st = T.State(I, [frozenset([y]) if y is not None else frozenset() for y in Y2], ['pick'] * n,
+                 frozenset(range(I.m)) - {y for y in Y2 if y is not None}, [pos[i] for i in range(n)], blocks, Y2)
+    for k, h in sorted(upg.items()):
+        B = frozenset(g for g in range(I.m) if h >> g & 1); g = next(iter(B - {Y2[k]}))
+        st.base[k] = B; st.kind[k] = 'upg'; st.J = st.J - {g}
+    if not st.valid(): return 'PSI PROOF STEP 2 FAILS: replaying the upgrades gives an invalid state'
+    if psi_q:
+        w1 = st.omega(); fin = T.upgrades(st, 2); w2 = fin.omega()
+        if w1 > w or w2 > w1: return 'PSI PROOF STEP 2 FAILS (variant): omega %d -> %d -> %d' % (w, w1, w2)
+        if fin.frozen()[q]: return 'PSI PROOF STEP 2 FAILS (variant): q is still frozen'
+        return 'Psi hypotheses hold (variant, q falls last); q unfrozen'
+    st.base[yk] = frozenset([gk, c_k]); st.kind[yk] = 'upg'; st.J = st.J - {c_k}
+    if not st.valid(): return 'PSI PROOF STEP 2 FAILS: the upgrade of y_k gives an invalid state'
+    w1 = st.omega(); w2 = T.upgrades(st, 2).omega()
+    if w1 > w - 1 or w2 > w1: return 'PSI PROOF STEP 2 FAILS: omega %d -> %d -> %d' % (w, w1, w2)
+    return 'Psi hypotheses hold; omega drops (fall chain of %d)' % len(chain)
+
 CLS = {1: 'G2', 2: 'q frozen, no chain to r', 3: 'q frozen, (i)/(ii) of B4w fail', 4: '(Tc)', 5: '(Tb)'}
 ANY = '--any' in sys.argv
 GENERAL = ['-G'] if '--general' in sys.argv else []   # runs with P-steps in any order (k4/c4check.c -G)
@@ -184,7 +276,12 @@ def run(c):
             elif vs[q].startswith('hypotheses hold'): out[(CLS[K], 'Lemma Omega applies with x = q')] += 1
             elif any(v.startswith('hypotheses hold') for v in vs.values()): out[(CLS[K], 'Lemma Omega applies with another x')] += 1
             elif any(v.startswith('hypotheses of the variant') for v in vs.values()): out[(CLS[K], 'only the variant (leader q) applies')] += 1
-            else: out[(CLS[K], 'Lemma Omega applies to no agent')] += 1
+            else:
+                ps = {x: check_psi(l, x) for x in range(n)}
+                badp = [v for v in ps.values() if v.startswith('PSI PROOF')]
+                if badp: out[(CLS[K], badp[0])] += 1
+                elif any(v.startswith('Psi hypotheses hold') for v in ps.values()): out[(CLS[K], 'only Lemma Psi applies')] += 1
+                else: out[(CLS[K], 'neither Omega nor Psi applies')] += 1
     return out
 
 def main():
