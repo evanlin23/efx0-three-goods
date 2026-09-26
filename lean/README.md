@@ -228,6 +228,9 @@ specializations) have exactly the types of `EFX.target`, `EFX.LB.corollaryD` (ch
   (`EFX.C4min.theoremF_min`, `EFX.C4min.theoremF`, `EFX.C4min.c4minRO_of_frobust`): C₄ᵐⁱⁿ's conclusion in both forms on
   every k = 4 core with a frozen-robust configuration at the fewest frozen agents. The choices where the prose leaves room
   are listed in the module doc.
+- `EFX/ThmFExamples.lean`: Theorem F is not vacuous (`EFX.C4min.ExF.c4min`): a strict k = 4 core with three agents and
+  five goods, and a frozen-robust configuration with two frozen agents, which is the fewest (all 1,024 base maps checked,
+  `EFX.C4min.ExF.hmin`), and `ω = 1`.
 - `EFX/RealValues.lean`: L12 (`proofs/real_values.md`) and TARGET and D over any `EFX.OrderedValue`. The value
   class and mirrored model above; `EFX.Agree` (same answer to every comparison between two subset sums);
   `EFX.OrderedValue.tri_le_iff` (for three positive values, every such comparison is decided by twelve basic
