@@ -1,0 +1,157 @@
+{
+ "id": "gap-ipoolopt-n4-m10-n4pc197",
+ "n": 4,
+ "m": 10,
+ "sets": [
+  [
+   0,
+   2,
+   8,
+   9
+  ],
+  [
+   1,
+   5,
+   8,
+   9
+  ],
+  [
+   3,
+   6,
+   7,
+   9
+  ],
+  [
+   4,
+   6,
+   7,
+   9
+  ]
+ ],
+ "vals": [
+  [
+   6,
+   3,
+   2,
+   10
+  ],
+  [
+   6,
+   3,
+   2,
+   10
+  ],
+  [
+   7,
+   8,
+   2,
+   4
+  ],
+  [
+   5,
+   7,
+   6,
+   3
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": "core 197 of results/k4_certs_4_pure.json.gz",
+ "core_ref_basis": "resolved by this extraction; exact sets match against results/k4_certs_4_pure.json.gz (0-based position 197, idx field 20; identical blob on main and all four branches)",
+ "source": {
+  "pr": 53,
+  "branch": "compute/k4-gap",
+  "head": "245040b",
+  "files": [
+   "results/k4_gap_bench_n4.log"
+  ],
+  "replay": "python3 k4/gap_bench.py --profile='{\"sets\": [[0, 2, 8, 9], [1, 5, 8, 9], [3, 6, 7, 9], [4, 6, 7, 9]], \"vals\": [[6, 3, 2, 10], [6, 3, 2, 10], [7, 8, 2, 4], [5, 7, 6, 3]], \"m\": 10}' --only=I_POOLOPT"
+ },
+ "refutes": [
+  {
+   "statement": "roadmap (i), first half: every Phi'-maximum is pool-optimal",
+   "ledger": null,
+   "smallest": true,
+   "name": "I_POOLOPT",
+   "smallest_scope": "first 'smallest' counterexample printed by results/k4_gap_bench_n4.log (catalogs gap_n4_1 (all), gap_n4_2/3/pure_s4000 (4,000 random profiles per core), every 5th record; sorted by n, m, number of configurations); 23 counterexamples in that run",
+   "basis": "stated",
+   "where": [
+    "results/k4_gap_bench_n4.log"
+   ],
+   "counterexamples_in_run": 23,
+   "witness": {
+    "key": [
+     null,
+     9,
+     null,
+     null
+    ],
+    "Q": {
+     "0": [
+      0,
+      8
+     ],
+     "2": [
+      3,
+      6
+     ],
+     "3": [
+      4,
+      7
+     ]
+    },
+    "L": [
+     1,
+     2,
+     5
+    ]
+   }
+  }
+ ],
+ "witness": {
+  "key": [
+   null,
+   9,
+   null,
+   null
+  ],
+  "Q": {
+   "0": [
+    0,
+    8
+   ],
+   "2": [
+    3,
+    6
+   ],
+   "3": [
+    4,
+    7
+   ]
+  },
+  "L": [
+   1,
+   2,
+   5
+  ],
+  "_from": "the first refuted statement's printed configuration"
+ },
+ "replay": {
+  "gap_bench_profile": {
+   "ran": "python3 k4/gap_bench.py --profile='{...}' --show=1 (all 25 seeded statements) on compute/k4-gap @245040b",
+   "gap_c_sha256_prefix": "74e1fae22153",
+   "in_gap": "True; f 1, omega 3, keys [[-1, 9, -1, -1], [9, -1, -1, -1]], 80 configurations, 76 with a vali",
+   "fails": [
+    "I_POOLOPT"
+   ],
+   "holds_count": 24,
+   "fails_not_stated_by_source": [],
+   "stated_but_holds_now": []
+  },
+  "witness_check_gap_model": [
+   "f 1 omega 3 in_gap True configs 80 completable 76",
+   "  refutes:I_POOLOPT: found; L [1, 2, 5] (given [1, 2, 5]) completable True owners [0, 2, 3] phi (0, 3, 32, -2) (max (0, 3, 32, -2)) pool_optimal False"
+  ]
+ },
+ "notes": ""
+}

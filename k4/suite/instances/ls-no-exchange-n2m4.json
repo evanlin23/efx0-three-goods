@@ -1,0 +1,77 @@
+{
+ "id": "ls-no-exchange-n2m4",
+ "n": 2,
+ "m": 4,
+ "sets": [
+  [
+   0,
+   1,
+   2,
+   3
+  ],
+  [
+   0,
+   1,
+   2,
+   3
+  ]
+ ],
+ "vals": [
+  [
+   4,
+   1,
+   6,
+   8
+  ],
+  [
+   2,
+   3,
+   4,
+   8
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": null,
+ "source": {
+  "pr": 27,
+  "branch": "main",
+  "files": [
+   "attempts/k4-ls-no-exchange.md",
+   "LEDGER.md"
+  ],
+  "replay": "k4/ls4_attempts.py"
+ },
+ "refutes": [
+  {
+   "statement": "The k = 3 Algorithm LS2 carried to k = 4 without cycle moves (Phase 1: M1 single-agent rebundles and R envy-cycle rotations; Phase 2 junk placement) completes",
+   "ledger": "K4.LS.VAR",
+   "smallest": true
+  }
+ ],
+ "witness": {
+  "Y": [
+   [
+    3
+   ],
+   [
+    1,
+    2
+   ]
+  ],
+  "pool": [
+   0
+  ],
+  "repair": [
+   [
+    0,
+    2
+   ],
+   [
+    1,
+    3
+   ]
+  ]
+ },
+ "notes": "n = 2, m = 4, 'the smallest k = 4 core size' (both agents on goods 0-3). Phase 1 reaches Y = {3} | {1,2}, U = {0} (values 8, 7): no M1/R move, no completion. Repair: exchange cycle 0 → 1 → 0: agent 0 takes {0,2}, agent 1 takes {3}, good 1 to the pool; {0,2} | {1,3} is EFX₀. 648 of 189,216 n = 2 profiles fail in k4/ls4.c without exchange cycles (732 in ls4alg.c -DNOX). Replay run: 'improving X moves: 2 ... e.g. [(0, [0, 2]), (1, [3])]', 'complete EFX0 allocations extending Y: 0'. [Certified-core lookup by the generator (not from the source): identical sets (same agent order and labels): core 1 of results/k4_certs_2.json.gz. Core k = 0-based position in the file's \"cores\" list, as the sources use it.]"
+}

@@ -1,0 +1,89 @@
+{
+ "id": "c4one-one-rotation-m8",
+ "n": 5,
+ "m": 8,
+ "sets": [
+  [
+   0,
+   2,
+   4,
+   7
+  ],
+  [
+   1,
+   2,
+   3
+  ],
+  [
+   1,
+   5,
+   6
+  ],
+  [
+   3,
+   5,
+   7
+  ],
+  [
+   4,
+   6,
+   7
+  ]
+ ],
+ "vals": [
+  [
+   2,
+   8,
+   3,
+   4
+  ],
+  [
+   3,
+   4,
+   2
+  ],
+  [
+   2,
+   4,
+   3
+  ],
+  [
+   2,
+   4,
+   3
+  ],
+  [
+   2,
+   4,
+   3
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": "core 1367 of results/k4_certs_5_n4_1.json.gz",
+ "source": {
+  "pr": 37,
+  "branch": "proof/k4-c4one",
+  "files": [
+   "attempts/k4-c4one-one-rotation.md",
+   "k4/c4one.md",
+   "attempts/k4_c4one_attempts.py"
+  ],
+  "replay": "attempts/k4_c4one_attempts.py (lb4.c on the core, all profiles)"
+ },
+ "refutes": [
+  {
+   "statement": "C4^1 in its LB4r form (k4/c4.md §6.2, restated in k4/c4one.md §1): take every run of Phase 1 on a k = 4 core with at most one 4-good agent, after envy-free upgrades. Then either some free agent is a valid owner with its needs from its base, or one rotation gives a valid pre-allocation that needs no owner or has a valid owner. The rotation may use any frozen k, any need chain, and any O ⊆ R_k ∩ (J ∪ B_{x_t}). Refuted for the processing order 1 0 3 4 2 (not the index order); lb4.c with every insertion sequence, all three upgrade policies, owner's needs from its bundle, chains to upgraded agents (-i1 -u3 -o0 -r1 -w1 -c1) fails on 2 (run, profile) pairs of this core.",
+   "ledger": "K4.C4.1",
+   "smallest": null
+  }
+ ],
+ "witness": {
+  "processing order (verbatim)": "1 0 3 4 2",
+  "c4trace tau": [
+   1
+  ],
+  "Phase 1 state (tracer, run here)": "agent1 pick 2 FROZEN; agent0 (q) pick 7 N=[2] free cap1; agent3 pick 5 FROZEN; agent4 pick 6 FROZEN; agent2 pick 1 N=[5, 6] free cap1; J = [0, 3, 4], omega = 1"
+ },
+ "notes": "'The every-sequence failure also occurs at m = 8: [[0,2,4,7],[1,2,3],[1,5,6],[3,5,7],[4,6,7]], values [[2,8,3,4],[3,4,2],[2,4,3],[2,4,3],[2,4,3]], processing order 1 0 3 4 2.' q = agent 0. Checked here: lb4.c -i1 -u3 -o0 -r1 -w1 -c1 on the core: 2 of 2,921,184 (run, profile) pairs fail, -r2: 0 (as recorded); the tracer (k4/c4tools/c4trace.py) on this profile with tau = [1] finds, under every upgrade policy (1, 2, 0) and all four owner/slot conventions, no owner and no working single rotation, and finds two nested rotations that work; brute force (k4/lb4_brute.py): 60 EFX0 allocations with at most one bundle of more than 2 goods. core_ref derived here (not stated in the source): exact match of n, m and every agent's goods in the same agent order, against results/k4_certs_5_n4_1.json.gz on main."
+}

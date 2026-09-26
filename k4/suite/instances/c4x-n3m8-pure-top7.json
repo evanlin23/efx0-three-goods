@@ -1,0 +1,87 @@
+{
+ "id": "c4x-n3m8-pure-top7",
+ "n": 3,
+ "m": 8,
+ "sets": [
+  [
+   0,
+   2,
+   6,
+   7
+  ],
+  [
+   1,
+   4,
+   6,
+   7
+  ],
+  [
+   3,
+   5,
+   6,
+   7
+  ]
+ ],
+ "vals": [
+  [
+   3,
+   4,
+   2,
+   8
+  ],
+  [
+   3,
+   4,
+   2,
+   8
+  ],
+  [
+   3,
+   4,
+   2,
+   8
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": null,
+ "source": {
+  "pr": 36,
+  "branch": "main",
+  "files": [
+   "attempts/k4-c4x-frozen-first.md",
+   "attempts/k4-c4x-pareto-potentials.md",
+   "LEDGER.md"
+  ],
+  "replay": "attempts/k4_c4x_attempts.py"
+ },
+ "refutes": [
+  {
+   "statement": "Over 𝒫, some maximum of (−frozen, Σℓ) is completable ('some' form)",
+   "ledger": "K4.C4X.PHI",
+   "smallest": true
+  },
+  {
+   "statement": "Over 𝒫, some leximin-maximum is completable ('some' form)",
+   "ledger": "K4.C4X.PHI",
+   "smallest": true
+  },
+  {
+   "statement": "Over 𝒫, some Σℓ-maximum is completable ('some' form)",
+   "ledger": "K4.C4X.PHI",
+   "smallest": true
+  },
+  {
+   "statement": "Over 𝒫, some Pareto-maximal pre-allocation is completable ('some' form of Pareto-maximality)",
+   "ledger": "K4.C4X.PHI",
+   "smallest": true
+  }
+ ],
+ "notes": "Instance 5 of k4-c4x-frozen-first.md and instance 3 of k4-c4x-pareto-potentials.md ('smallest m at n = 3; exhaustive'): pure core, good 7 is everyone's top, a > b + c for everyone. No maximum of these potentials and no Pareto-maximum is completable (36 valid pre-allocations, 33 completable; 3 Pareto maxima). Replay run: '(-frozen,sumlev): 36 valid, 33 completable; ... some-form failure confirmed', 'leximin: ... some-form failure confirmed', 'sumlev: ... some-form failure confirmed', '3 Pareto maxima; no Pareto maximum completable: py True, c True -> confirmed'. Sets are identical (same labels, same agent order) to core 46 of results/k4_certs_3.json.gz (lookup by me; the source does not name the core). [Certified-core lookup by the generator (not from the source): identical sets (same agent order and labels): core 46 of results/k4_certs_3.json.gz. Core k = 0-based position in the file's \"cores\" list, as the sources use it.]",
+ "expect_fail": [
+  "pre-some:(-frozen,sumlev)",
+  "pre-some:leximin",
+  "pre-some:pareto",
+  "pre-some:sumlev"
+ ]
+}

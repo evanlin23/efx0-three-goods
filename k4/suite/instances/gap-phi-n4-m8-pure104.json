@@ -1,0 +1,393 @@
+{
+ "id": "gap-phi-n4-m8-pure104",
+ "n": 4,
+ "m": 8,
+ "sets": [
+  [
+   0,
+   2,
+   5,
+   7
+  ],
+  [
+   1,
+   4,
+   6,
+   7
+  ],
+  [
+   2,
+   3,
+   4,
+   6
+  ],
+  [
+   3,
+   5,
+   6,
+   7
+  ]
+ ],
+ "vals": [
+  [
+   2,
+   3,
+   6,
+   10
+  ],
+  [
+   3,
+   2,
+   6,
+   10
+  ],
+  [
+   6,
+   10,
+   3,
+   2
+  ],
+  [
+   8,
+   4,
+   5,
+   2
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": "core 104 of results/k4_certs_4_pure.json.gz",
+ "core_ref_basis": "cited by attempts/k4-gap-phi-prime.md; exact sets match against results/k4_certs_4_pure.json.gz (0-based position 104, idx field 43; identical blob on main and all four branches)",
+ "source": {
+  "pr": 53,
+  "branch": "compute/k4-gap",
+  "head": "245040b",
+  "files": [
+   "results/k4_gap_bench_hard_hunt.log",
+   "results/k4_gap/hard_hunt_smallest.json.gz",
+   "results/k4_gap_hard_hunt.log",
+   "k4/gap.md",
+   "results/k4_gap/hard_hunt.json.gz",
+   "attempts/k4-gap-phi-prime.md",
+   "attempts/k4_gap_phi_prime.py",
+   "results/k4_gap_phi_prime.log"
+  ],
+  "replay": "python3 k4/gap_bench.py --profile='{\"sets\": [[0, 2, 5, 7], [1, 4, 6, 7], [2, 3, 4, 6], [3, 5, 6, 7]], \"vals\": [[2, 3, 6, 10], [3, 2, 6, 10], [6, 10, 3, 2], [8, 4, 5, 2]], \"m\": 8}' --only=PHI_PRIME,PHI_FIRST,LOCAL_ALL,SAME_N,MAX_SIMPLE,LOCAL,LOCAL_EXT,LOCAL_CLOSURE"
+ },
+ "refutes": [
+  {
+   "statement": "#41 Conjecture Phi' (K4.C4MIN.PHI): every Phi'-maximum has a valid owner",
+   "ledger": "K4.C4MIN.PHI",
+   "smallest": true,
+   "name": "PHI_PRIME",
+   "smallest_scope": "first 'smallest' counterexample printed by results/k4_gap_bench_hard_hunt.log (catalog hard_hunt.json.gz (the 117 hunt profiles of categories W and N); sorted by n, m, number of configurations); 7 counterexamples in that run || smallest N profile with n = 4 in the hunt catalogs hunt_n4_2_all (exhaustive), hunt_n4_3/pure_s400k, hunt_n5_*_s2000 (sampled), by (n, m, number of configurations) || smallest PHI profile of hard_hunt.json.gz (by n, m, #configurations); k4/gap.md section 3: 'PHI and N: n = 4, m = 8 ... pure core 104' || k4/gap.md section 3 / attempts/k4-gap-phi-prime.md: smallest known (n = 4, m = 8); none at n <= 3 or n = 4 with one or two 4-good agents (exhaustive); pure n = 4 sampled",
+   "basis": "stated",
+   "where": [
+    "results/k4_gap_bench_hard_hunt.log",
+    "results/k4_gap_hard_hunt.log / results/k4_gap/hard_hunt_smallest.json.gz",
+    "results/k4_gap/hard_hunt.json.gz (PHI test of k4/gap_hard.py: nmax_compl < nmax, applied by this extraction)",
+    "attempts/k4-gap-phi-prime.md (confirmed by gap.c, gap_model and #41's c4min_cfg.py: results/k4_gap_phi_prime.log)"
+   ],
+   "counterexamples_in_run": 7,
+   "witness": {
+    "key": [
+     7,
+     null,
+     null,
+     3
+    ],
+    "Q": {
+     "1": [
+      1,
+      6
+     ],
+     "2": [
+      2,
+      4
+     ]
+    },
+    "L": [
+     0,
+     5
+    ]
+   },
+   "note": "category N (k4/gap.md section 3): no Phi'-maximum has a valid owner, but some configuration has one || category PHI (k4/gap.md section 3): some Phi'-maximum has no valid owner: a counterexample to Conjecture Phi'"
+  },
+  {
+   "statement": "#41 section 4, the first form Phi = (-t, r, Lambda) (known false at n = 4): every maximum has a valid owner",
+   "ledger": "K4.C4MIN.X",
+   "smallest": true,
+   "name": "PHI_FIRST",
+   "smallest_scope": "first 'smallest' counterexample printed by results/k4_gap_bench_hard_hunt.log (catalog hard_hunt.json.gz (the 117 hunt profiles of categories W and N); sorted by n, m, number of configurations); 8 counterexamples in that run",
+   "basis": "stated",
+   "where": [
+    "results/k4_gap_bench_hard_hunt.log"
+   ],
+   "counterexamples_in_run": 8,
+   "witness": {
+    "key": [
+     7,
+     null,
+     null,
+     3
+    ],
+    "Q": {
+     "1": [
+      1,
+      6
+     ],
+     "2": [
+      2,
+      4
+     ]
+    },
+    "L": [
+     0,
+     5
+    ]
+   }
+  },
+  {
+   "statement": "every configuration without a valid owner has a Phi'-raising move, with LOCAL_CLOSURE's catalogue enlarged [source text: 'the same catalogue plus #52's downgrade swaps']",
+   "ledger": null,
+   "smallest": true,
+   "name": "LOCAL_ALL",
+   "smallest_scope": "first 'smallest' counterexample printed by results/k4_gap_bench_hard_hunt.log (catalog hard_hunt.json.gz (the 117 hunt profiles of categories W and N); sorted by n, m, number of configurations); 7 counterexamples in that run",
+   "basis": "stated",
+   "where": [
+    "results/k4_gap_bench_hard_hunt.log"
+   ],
+   "counterexamples_in_run": 7,
+   "witness": {
+    "key": [
+     7,
+     null,
+     null,
+     3
+    ],
+    "Q": {
+     "1": [
+      1,
+      6
+     ],
+     "2": [
+      2,
+      4
+     ]
+    },
+    "L": [
+     0,
+     5
+    ]
+   }
+  },
+  {
+   "statement": "needed for any move catalogue that keeps the needed set (pool, cycle, two-agent moves, downgrade swaps): at every configuration without a valid owner some configuration with the same needed set has a larger Phi'",
+   "ledger": null,
+   "smallest": true,
+   "name": "SAME_N",
+   "smallest_scope": "first 'smallest' counterexample printed by results/k4_gap_bench_hard_hunt.log (catalog hard_hunt.json.gz (the 117 hunt profiles of categories W and N); sorted by n, m, number of configurations); 7 counterexamples in that run",
+   "basis": "stated",
+   "where": [
+    "results/k4_gap_bench_hard_hunt.log"
+   ],
+   "counterexamples_in_run": 7,
+   "witness": {
+    "key": [
+     7,
+     null,
+     null,
+     3
+    ],
+    "Q": {
+     "1": [
+      1,
+      6
+     ],
+     "2": [
+      2,
+      4
+     ]
+    },
+    "L": [
+     0,
+     5
+    ]
+   }
+  },
+  {
+   "statement": "#41 section 4 (-U0): some Phi'-maximum has a valid owner with C empty (no withheld goods, no unfreezing)",
+   "ledger": null,
+   "smallest": null,
+   "name": "MAX_SIMPLE",
+   "basis": "category",
+   "where": [
+    "results/k4_gap_hard_hunt.log / results/k4_gap/hard_hunt_smallest.json.gz"
+   ],
+   "note": "N implies no Phi'-maximum is simple; also every one of the 117 hard_hunt profiles fails MAX_SIMPLE (results/k4_gap_bench_hard_hunt.log: 117 counterexamples)."
+  },
+  {
+   "statement": "#41 section 4, the local improvement lemma with pool moves and exchange-cycle moves (best pairs, every order of the receivers): every configuration without a valid owner has a Phi'-raising move",
+   "ledger": null,
+   "smallest": false,
+   "name": "LOCAL",
+   "basis": "stated",
+   "where": [
+    "results/k4_gap_bench_hard_hunt.log (printed as smallest #2)"
+   ],
+   "counterexamples_in_run": 147,
+   "witness": {
+    "key": [
+     7,
+     null,
+     null,
+     3
+    ],
+    "Q": {
+     "1": [
+      1,
+      6
+     ],
+     "2": [
+      2,
+      4
+     ]
+    },
+    "L": [
+     0,
+     5
+    ]
+   }
+  },
+  {
+   "statement": "every configuration without a valid owner has a Phi'-raising move, with LOCAL's catalogue (pool moves; exchange-cycle moves, best pairs, every order of the receivers) enlarged [source text: 'the same with a larger catalogue: also cycle moves with any admissible pairs, and re-partitions of two free agents' pairs and the pool (contains #41's pool-assisted two-agent exchange)']",
+   "ledger": null,
+   "smallest": false,
+   "name": "LOCAL_EXT",
+   "basis": "stated",
+   "where": [
+    "results/k4_gap_bench_hard_hunt.log (printed as smallest #2)"
+   ],
+   "counterexamples_in_run": 12,
+   "witness": {
+    "key": [
+     7,
+     null,
+     null,
+     3
+    ],
+    "Q": {
+     "1": [
+      1,
+      6
+     ],
+     "2": [
+      2,
+      4
+     ]
+    },
+    "L": [
+     0,
+     5
+    ]
+   }
+  },
+  {
+   "statement": "every configuration without a valid owner has a Phi'-raising move, with LOCAL_EXT's catalogue enlarged [source text: 'the same catalogue plus cycle moves followed by the pool closure (every free agent re-takes its best pair from the pool, repeatedly)']",
+   "ledger": null,
+   "smallest": false,
+   "name": "LOCAL_CLOSURE",
+   "basis": "stated",
+   "where": [
+    "results/k4_gap_bench_hard_hunt.log (printed as smallest #2)"
+   ],
+   "counterexamples_in_run": 12,
+   "witness": {
+    "key": [
+     7,
+     null,
+     null,
+     3
+    ],
+    "Q": {
+     "1": [
+      1,
+      6
+     ],
+     "2": [
+      2,
+      4
+     ]
+    },
+    "L": [
+     0,
+     5
+    ]
+   }
+  }
+ ],
+ "witness": {
+  "key": [
+   7,
+   null,
+   null,
+   3
+  ],
+  "Q": {
+   "1": [
+    1,
+    6
+   ],
+   "2": [
+    2,
+    4
+   ]
+  },
+  "L": [
+   0,
+   5
+  ],
+  "phi": [
+   0,
+   2,
+   25,
+   -3
+  ],
+  "source_text": "Config(key=[7, None, None, 3], Q={1: [1, 6], 2: [2, 4]}, L=[0, 5]) (results/k4_gap_phi_prime.log)"
+ },
+ "replay": {
+  "script": "attempts/k4_gap_phi_prime.py (compute/k4-gap): all three implementations agree, exit 0; output identical to results/k4_gap_phi_prime.log except the label '(tree)' for #41's modules (copied from origin/proof/k4-c4min into the scratch k4/)",
+  "gap_bench_profile": {
+   "ran": "python3 k4/gap_bench.py --profile='{...}' --show=1 (all 25 seeded statements) on compute/k4-gap @245040b",
+   "gap_c_sha256_prefix": "74e1fae22153",
+   "in_gap": "True; f 2, omega 2, keys [[-1, 7, -1, 3], [-1, 7, 3, -1], [7, -1, -1, 3]], 36 configurations, ",
+   "fails": [
+    "PHI_PRIME",
+    "PHI_FIRST",
+    "MAX_SIMPLE",
+    "LOCAL",
+    "LOCAL_EXT",
+    "LOCAL_CLOSURE",
+    "LOCAL_ALL",
+    "SAME_N"
+   ],
+   "holds_count": 17,
+   "fails_not_stated_by_source": [],
+   "stated_but_holds_now": []
+  },
+  "witness_check_gap_model": [
+   "f 2 omega 2 in_gap True configs 36 completable 34",
+   "  witness: found; L [0, 5] (given [0, 5]) completable False owners [] phi (0, 2, 25, -3) (max (0, 2, 25, -3)) pool_optimal True",
+   "  refutes:PHI_PRIME: found; L [0, 5] (given [0, 5]) completable False owners [] phi (0, 2, 25, -3) (max (0, 2, 25, -3)) pool_optimal True",
+   "  refutes:PHI_FIRST: found; L [0, 5] (given [0, 5]) completable False owners [] phi (0, 2, 25, -3) (max (0, 2, 25, -3)) pool_optimal True",
+   "  refutes:LOCAL_ALL: found; L [0, 5] (given [0, 5]) completable False owners [] phi (0, 2, 25, -3) (max (0, 2, 25, -3)) pool_optimal True",
+   "  refutes:SAME_N: found; L [0, 5] (given [0, 5]) completable False owners [] phi (0, 2, 25, -3) (max (0, 2, 25, -3)) pool_optimal True"
+  ]
+ },
+ "notes": "attempts/k4-gap-phi-prime.md: Conjecture Phi' (K4.C4MIN.PHI) fails. f = 2, omega = 2; the pool is L = {0, 5}, Phi' = (0, 2, 25, -3), the unique Phi'-maximum among the 36 configurations of the 3 keys, and it is Pareto-maximal. Owner 1 (X = {1, 6, 0, 5}) threatens frozen agent 3 (5 and 6 worth 9 > 8); owner 2 (X = {2, 4, 0, 5}) threatens frozen agent 0 (0, 2, 5 worth 11 > 10); both class L. 34 of 36 configurations have a valid owner (best completable Phi' = (0, 2, 24, -3)). Repairs: #52's downgrade swap (agent 0 gives 7 to agent 1 and takes e.g. {0, 5}); exchange cycles through big-top agent 0 (cycle 0 -> 1 -> 3 -> 2). Smallest known: no failure with n <= 3 (exhaustive) or n = 4 with one or two 4-good agents (exhaustive); pure n = 4 sampled. Found by the hunt: 400,000 random profiles per pure n = 4 core (results/k4_gap_hunt_n4_pure_s400k.log, 2 in category N).\nrecord (results/k4_gap/hard_hunt_smallest.json.gz, category field 'N'): f = 2, omega = 2, 36 configurations (34 with a valid owner, 30 with C empty), 1 Phi'-maxima at Phi' = [0, 2, 25, -3] (0 with a valid owner, 0 with C empty, 1 pool-optimal, 0 with a frozen agent threatened by two owners); core idx field 43\nrecord (results/k4_gap/hard_hunt.json.gz, category field 'N'): f = 2, omega = 2, 36 configurations (34 with a valid owner, 30 with C empty), 1 Phi'-maxima at Phi' = [0, 2, 25, -3] (0 with a valid owner, 0 with C empty, 1 pool-optimal, 0 with a frozen agent threatened by two owners); core idx field 43",
+ "expect_fail": [
+  "max-simple",
+  "phi",
+  "phi-prime"
+ ]
+}

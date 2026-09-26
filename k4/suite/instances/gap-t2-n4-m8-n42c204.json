@@ -1,0 +1,154 @@
+{
+ "id": "gap-t2-n4-m8-n42c204",
+ "n": 4,
+ "m": 8,
+ "sets": [
+  [
+   0,
+   2,
+   5,
+   6
+  ],
+  [
+   1,
+   5,
+   6,
+   7
+  ],
+  [
+   3,
+   5,
+   7
+  ],
+  [
+   4,
+   6,
+   7
+  ]
+ ],
+ "vals": [
+  [
+   3,
+   4,
+   6,
+   8
+  ],
+  [
+   5,
+   4,
+   8,
+   6
+  ],
+  [
+   2,
+   3,
+   4
+  ],
+  [
+   2,
+   3,
+   4
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": "core 204 of results/k4_certs_4_n4_2.json.gz",
+ "core_ref_basis": "cited by k4/gap.md section 3; exact sets match against results/k4_certs_4_n4_2.json.gz (0-based position 204, idx field 17; identical blob on main and all four branches)",
+ "source": {
+  "pr": 53,
+  "branch": "compute/k4-gap",
+  "head": "245040b",
+  "files": [
+   "results/k4_gap/hard_base.json.gz",
+   "results/k4_gap_hard_base.log",
+   "k4/gap.md"
+  ],
+  "replay": "python3 k4/gap_bench.py --profile='{\"sets\": [[0, 2, 5, 6], [1, 5, 6, 7], [3, 5, 7], [4, 6, 7]], \"vals\": [[3, 4, 6, 8], [5, 4, 8, 6], [2, 3, 4], [2, 3, 4]], \"m\": 8}' --only=IV_MAX"
+ },
+ "refutes": [
+  {
+   "statement": "roadmap (iv): at every Phi'-maximum each frozen agent is threatened by at most one owner",
+   "ledger": null,
+   "smallest": true,
+   "name": "IV_MAX",
+   "smallest_scope": "smallest T2 profile with n = 4 in the base catalogs gap_n2..gap_n5 (n = 2, 3 and n = 4 one 4-good agent exhaustive; the rest sampled), by (n, m, number of configurations)",
+   "basis": "stated",
+   "where": [
+    "results/k4_gap_hard_base.log / results/k4_gap/hard_base.json.gz",
+    "k4/gap.md section 3"
+   ],
+   "note": "category T2 (k4/gap.md section 3): some Phi'-maximum has a frozen agent threatened by two owners"
+  }
+ ],
+ "witness": {
+  "phi_prime_maxima (gap_model, as stored in the record py_maxima)": [
+   {
+    "key": [
+     null,
+     6,
+     null,
+     null
+    ],
+    "Q": {
+     "0": [
+      0,
+      2
+     ],
+     "2": [
+      3,
+      5
+     ],
+     "3": [
+      4,
+      7
+     ]
+    },
+    "L": [
+     1
+    ],
+    "phi": [
+     0,
+     3,
+     17,
+     -1
+    ],
+    "owners_least_C": {
+     "0": [
+      0,
+      []
+     ]
+    },
+    "threats_owner_agent_H7class": [
+     [
+      2,
+      1,
+      "L"
+     ],
+     [
+      3,
+      1,
+      "L"
+     ]
+    ]
+   }
+  ]
+ },
+ "replay": {
+  "gap_bench_profile": {
+   "ran": "python3 k4/gap_bench.py --profile='{...}' --show=1 (all 25 seeded statements) on compute/k4-gap @245040b",
+   "gap_c_sha256_prefix": "74e1fae22153",
+   "in_gap": "True; f 1, omega 1, keys [[-1, 6, -1, -1]], 2 configurations, 2 with a valid owner",
+   "fails": [
+    "IV_MAX"
+   ],
+   "holds_count": 24,
+   "fails_not_stated_by_source": [],
+   "stated_but_holds_now": []
+  },
+  "witness_check_gap_model": [
+   "f 1 omega 1 in_gap True configs 2 completable 2",
+   "  phi_prime_maxima (gap_model, as stored in the record py_maxima)[0]: found; L [1] (given [1]) completable True owners [0] phi (0, 3, 17, -1) (max (0, 3, 17, -1)) pool_optimal True"
+  ]
+ },
+ "notes": "k4/gap.md section 3, T2: 'n = 4, m = 8, core 204 of k4_certs_4_n4_2. The values are 0:3, 2:4, 5:6, 6:8 / 1:5, 5:4, 6:8, 7:6 / 3:2, 5:3, 7:4 / 4:2, 6:3, 7:4. Frozen agent 1 (on good 6) is threatened by owners 2 and 3, both class L. The maximum is still simple, with owner 0. No T2 exists at n <= 3.'\nrecord (results/k4_gap/hard_base.json.gz, category field 'S'): f = 1, omega = 1, 2 configurations (2 with a valid owner, 2 with C empty), 1 Phi'-maxima at Phi' = [0, 3, 17, -1] (1 with a valid owner, 1 with C empty, 1 pool-optimal, 1 with a frozen agent threatened by two owners); core idx field 17"
+}

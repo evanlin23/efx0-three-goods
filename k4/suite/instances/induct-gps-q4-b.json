@@ -1,0 +1,70 @@
+{
+ "id": "induct-gps-q4-b",
+ "n": 3,
+ "m": 5,
+ "sets": [
+  [
+   0,
+   2,
+   3,
+   4
+  ],
+  [
+   1,
+   2,
+   3,
+   4
+  ],
+  [
+   1,
+   3,
+   4
+  ]
+ ],
+ "vals": [
+  [
+   4,
+   8,
+   2,
+   3
+  ],
+  [
+   6,
+   10,
+   3,
+   2
+  ],
+  [
+   4,
+   2,
+   3
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": "core 8 of results/k4_certs_3.json.gz",
+ "source": {
+  "pr": 43,
+  "branch": "proof/k4-induct",
+  "files": [
+   "k4/induct.md",
+   "results/k4_induct_n3.log"
+  ],
+  "replay": "python3 k4/induct_run.py results/k4_certs_3.json.gz --samples=500 --seed=7 --jobs=2 --rmax=3 --no-a --v (statistic GPS_Q4_anyd)"
+ },
+ "refutes": [
+  {
+   "statement": "GPS for a Q4 agent (k4/induct.md §5): 'some X' in E(I - d) admits d -> w', for some d in R_w, where w is a 4-good agent without a private good. Refuted for the Q4 agent w = 1: for every d in R_1 no X' in E(I - d) makes X' + (d -> 1) EFX0 (d can only go to another agent). The source counts 119 of 12,000 sampled n = 3 profiles with a Q4 agent, and 134 of 3,275 at n = 4.",
+   "ledger": "K4.IND.Q4",
+   "smallest": null
+  }
+ ],
+ "witness": {
+  "log line (results/k4_induct_n3.log)": "FAIL GPS_Q4_anyd = False: n=3 m=5 sets=[[0, 2, 3, 4], [1, 2, 3, 4], [1, 3, 4]] prof=[[4, 8, 2, 3], [6, 10, 3, 2], [4, 2, 3]]",
+  "w": 1
+ },
+ "notes": "k4/induct.md gives only counts for GPS; this profile is one of the two 'smallest failing profiles' the log lists for GPS_Q4_anyd (induct.md §2: 'each log also lists, per statistic, its two smallest failing profiles'). n = 2 has no GPS failure (results/k4_induct_n2.log: GPS_Q4_anyd True: 82944). Agent 0 is P4 (good 0 private), agent 1 is Q4. Checked here with the branch's independent brute force k4/induct_bf.py: for w = 1 and each d in {1, 2, 3, 4}, 0 allocations X' in E(I - d) admit d -> 1. core_ref derived here (not stated in the source): exact match of n, m and every agent's goods in the same agent order, against results/k4_certs_3.json.gz on main.",
+ "expect_fail": [
+  "pareto-T:bt"
+ ]
+}

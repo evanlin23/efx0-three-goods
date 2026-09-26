@@ -1,0 +1,90 @@
+{
+ "id": "c4min-pareto-n3-m7",
+ "n": 3,
+ "m": 7,
+ "sets": [
+  [
+   0,
+   1,
+   2,
+   3
+  ],
+  [
+   2,
+   4,
+   5,
+   6
+  ],
+  [
+   3,
+   4,
+   5,
+   6
+  ]
+ ],
+ "vals": [
+  [
+   3,
+   2,
+   10,
+   6
+  ],
+  [
+   8,
+   4,
+   2,
+   3
+  ],
+  [
+   3,
+   2,
+   6,
+   10
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": "core 33 of results/k4_certs_3.json.gz",
+ "core_ref_basis": "resolved by this extraction; exact sets match against results/k4_certs_3.json.gz (0-based position 33, idx field 0; identical blob on main and all four branches)",
+ "source": {
+  "pr": 41,
+  "branch": "proof/k4-c4min",
+  "head": "b9ff629",
+  "files": [
+   "attempts/k4-c4min-potentials.md",
+   "attempts/k4_c4min_attempts.py",
+   "results/k4_c4min_attempts.log",
+   "k4/c4min.md"
+  ],
+  "replay": "attempts/k4_c4min_attempts.py"
+ },
+ "refutes": [
+  {
+   "statement": "Pareto-maximality, f = 1: every Pareto-maximal configuration has a valid owner",
+   "ledger": "K4.C4MIN.X",
+   "smallest": true,
+   "name": "#41 attempts instance 5",
+   "smallest_scope": "smallest n (every n = 2 profile checked by the replay: 0 failures); 'The m of an instance is the first one found and is not claimed to be the smallest.'",
+   "basis": "stated",
+   "where": [
+    "attempts/k4-c4min-potentials.md instance 5"
+   ]
+  }
+ ],
+ "replay": {
+  "script": "attempts/k4_c4min_attempts.py (proof/k4-c4min): ALL CONFIRMED (k4/c4min.c and k4/c4min_cfg.py); output identical to results/k4_c4min_attempts.log",
+  "gap_bench_profile": {
+   "ran": "python3 k4/gap_bench.py --profile='{...}' --show=1 (all 25 seeded statements) on compute/k4-gap @245040b",
+   "gap_c_sha256_prefix": "74e1fae22153",
+   "in_gap": "True; f 1, omega 2, keys [[2, -1, -1], [-1, 2, -1]], 24 configurations, 13 with a valid owner",
+   "fails": [],
+   "holds_count": 25,
+   "fails_not_stated_by_source": [],
+   "stated_but_holds_now": []
+  }
+ },
+ "notes": "attempts/k4-c4min-potentials.md instance 5: three of the five Pareto-maximal configurations have no valid owner (replay: f = 1, 24 configurations, 5 Pareto-maximal, 3 not completable, 13 completable in all). At f = 0 every Pareto-maximal configuration was completable on every profile tested.",
+ "expect_fail": [
+  "cfg:pareto"
+ ]
+}

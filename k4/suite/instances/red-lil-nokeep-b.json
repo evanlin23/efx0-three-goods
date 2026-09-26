@@ -1,0 +1,69 @@
+{
+ "id": "red-lil-nokeep-b",
+ "n": 3,
+ "m": 7,
+ "sets": [
+  [
+   0,
+   3,
+   4,
+   6
+  ],
+  [
+   1,
+   3,
+   5,
+   6
+  ],
+  [
+   2,
+   4,
+   5,
+   6
+  ]
+ ],
+ "vals": [
+  [
+   1,
+   8,
+   6,
+   4
+  ],
+  [
+   2,
+   10,
+   6,
+   3
+  ],
+  [
+   4,
+   8,
+   3,
+   6
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": "core 43 of results/k4_certs_3.json.gz",
+ "source": {
+  "pr": 51,
+  "branch": "proof/k4-c4min-reduce",
+  "files": [
+   "results/k4_red_lil_gapbench.log",
+   "k4/red_lil_gapbench.py"
+  ],
+  "replay": "k4/red_lil_gapbench.py (run from a checkout of compute/k4-gap at 245040b, PR #53; KEEP unset)"
+ },
+ "refutes": [
+  {
+   "statement": "LIL (Phi_r = (r', -t, Lambda)) with PR #53's move catalogue WITHOUT keeping: every f = 1 configuration without a valid owner has a move raising (r, -t, Lambda), the moves being one-agent re-pairings, exchange-digraph cycles with any admissible choice (rotations, path moves) in which a threat receiver may NOT keep part of its own pair, and downgrade swaps. Refuted: 'Without keeping there are 6 counterexamples at n = 3, m = 7.'",
+   "ledger": "K4.C4MIN.RED.LIL",
+   "smallest": true
+  }
+ ],
+ "witness": {
+  "configuration (results/k4_red_lil_gapbench.log, #53's encoding)": "Config(key=[None, 3, None], Q={0: [0, 4], 2: [2, 6]}, L=[1, 5])",
+  "meaning": "key (g, x) = (3, 1): agent 1 frozen on good 3; agent 0 holds {0, 4}, agent 2 holds {2, 6}; pool {1, 5}"
+ },
+ "notes": "Second of the two profiles the gapbench log prints under 'smallest:' (same n = 3, m = 7, same core as red-lil-nokeep-a); k4/c4min_reduce.md quotes only the first. 'Python re-check: confirmed' in the log. Checked here with k4/red_lib.py: f = 1, configuration valid at key (3, 1), not completable, r' = 1, t = 0. core_ref derived here (not stated in the source): exact match of n, m and every agent's goods in the same agent order, against results/k4_certs_3.json.gz on main."
+}

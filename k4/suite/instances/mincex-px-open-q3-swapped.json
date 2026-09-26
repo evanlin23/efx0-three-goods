@@ -1,0 +1,60 @@
+{
+ "id": "mincex-px-open-q3-swapped",
+ "n": 2,
+ "m": 5,
+ "sets": [
+  [
+   0,
+   1,
+   2
+  ],
+  [
+   0,
+   3,
+   4
+  ]
+ ],
+ "vals": [
+  [
+   4,
+   2,
+   3
+  ],
+  [
+   2,
+   4,
+   3
+  ]
+ ],
+ "kind": "local configuration (not a complete instance; the runner skips it)",
+ "core_ref": null,
+ "source": {
+  "pr": 23,
+  "branch": "main",
+  "files": [
+   "attempts/k4-mincex-px-open.md"
+  ],
+  "replay": "k4/mincex_attempts.py"
+ },
+ "refutes": [
+  {
+   "statement": "Minimal-counterexample reduction for configuration px (open), as for mincex-px-open-q3",
+   "ledger": "K4.MC5",
+   "smallest": null
+  }
+ ],
+ "witness": {
+  "good_names": [
+   "g",
+   "a",
+   "b",
+   "y",
+   "p_f"
+  ],
+  "agent_names": [
+   "e",
+   "f"
+  ]
+ },
+ "notes": "LOCAL CONFIGURATION, NOT A COMPLETE INSTANCE. 'The other profile left swaps a and b' (source); values as printed by the replay: e: g = 4, a = 2, b = 3; f: g = 2, y = 4, p_f = 3. Goods numbered as in mincex-px-open-q3: 0 = g, 1 = a, 2 = b, 3 = y, 4 = p_f. Replay run: 'not reduced: {'e': {'g': 4, 'a': 2, 'b': 3}, 'f': {'g': 2, 'y': 4, 'pf': 3}}', same DEL and CON-f failing states."
+}

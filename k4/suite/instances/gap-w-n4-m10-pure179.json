@@ -1,0 +1,167 @@
+{
+ "id": "gap-w-n4-m10-pure179",
+ "n": 4,
+ "m": 10,
+ "sets": [
+  [
+   0,
+   2,
+   4,
+   9
+  ],
+  [
+   1,
+   3,
+   8,
+   9
+  ],
+  [
+   4,
+   5,
+   6,
+   7
+  ],
+  [
+   5,
+   6,
+   7,
+   8
+  ]
+ ],
+ "vals": [
+  [
+   2,
+   6,
+   10,
+   3
+  ],
+  [
+   3,
+   4,
+   8,
+   2
+  ],
+  [
+   10,
+   3,
+   6,
+   2
+  ],
+  [
+   2,
+   3,
+   4,
+   8
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": "core 179 of results/k4_certs_4_pure.json.gz",
+ "core_ref_basis": "cited by k4/gap.md section 3; exact sets match against results/k4_certs_4_pure.json.gz (0-based position 179, idx field 2; identical blob on main and all four branches)",
+ "source": {
+  "pr": 53,
+  "branch": "compute/k4-gap",
+  "head": "245040b",
+  "files": [
+   "results/k4_gap/hard_base.json.gz",
+   "results/k4_gap_hard_base.log",
+   "k4/gap.md"
+  ],
+  "replay": "python3 k4/gap_bench.py --profile='{\"sets\": [[0, 2, 4, 9], [1, 3, 8, 9], [4, 5, 6, 7], [5, 6, 7, 8]], \"vals\": [[2, 6, 10, 3], [3, 4, 8, 2], [10, 3, 6, 2], [2, 3, 4, 8]], \"m\": 10}' --only=MAX_SIMPLE"
+ },
+ "refutes": [
+  {
+   "statement": "#41 section 4 (-U0): some Phi'-maximum has a valid owner with C empty (no withheld goods, no unfreezing)",
+   "ledger": null,
+   "smallest": true,
+   "name": "MAX_SIMPLE",
+   "smallest_scope": "smallest W profile with n = 4 in the base catalogs gap_n2..gap_n5 (n = 2, 3 and n = 4 one 4-good agent exhaustive; the rest sampled), by (n, m, number of configurations)",
+   "basis": "stated",
+   "where": [
+    "results/k4_gap_hard_base.log / results/k4_gap/hard_base.json.gz",
+    "k4/gap.md section 3"
+   ],
+   "note": "category W (k4/gap.md section 3): no Phi'-maximum is simple (valid owner with C empty), but some Phi'-maximum has a valid owner (it must withhold goods, which needs unfreezing) -- so #41's -U0 observation fails on it."
+  }
+ ],
+ "witness": {
+  "phi_prime_maxima (gap_model, as stored in the record py_maxima)": [
+   {
+    "key": [
+     null,
+     8,
+     4,
+     null
+    ],
+    "Q": {
+     "0": [
+      2,
+      9
+     ],
+     "3": [
+      6,
+      7
+     ]
+    },
+    "L": [
+     0,
+     1,
+     3,
+     5
+    ],
+    "phi": [
+     0,
+     2,
+     26,
+     -3
+    ],
+    "owners_least_C": {
+     "0": [
+      1,
+      [
+       1
+      ]
+     ]
+    },
+    "threats_owner_agent_H7class": [
+     [
+      0,
+      1,
+      "L"
+     ],
+     [
+      3,
+      2,
+      "L"
+     ]
+    ]
+   }
+  ]
+ },
+ "replay": {
+  "gap_bench_profile": {
+   "ran": "python3 k4/gap_bench.py --profile='{...}' --show=1 (all 25 seeded statements) on compute/k4-gap @245040b",
+   "gap_c_sha256_prefix": "74e1fae22153",
+   "in_gap": "True; f 2, omega 4, keys [[-1, -1, 4, 8], [-1, 8, 4, -1], [4, -1, -1, 8], [4, 8, -1, -1]], 135",
+   "fails": [
+    "MAX_SIMPLE",
+    "I_POOL_LOCAL",
+    "LOCAL"
+   ],
+   "holds_count": 22,
+   "fails_not_stated_by_source": [
+    "I_POOL_LOCAL",
+    "LOCAL"
+   ],
+   "stated_but_holds_now": []
+  },
+  "witness_check_gap_model": [
+   "f 2 omega 4 in_gap True configs 135 completable 90",
+   "  phi_prime_maxima (gap_model, as stored in the record py_maxima)[0]: found; L [0, 1, 3, 5] (given [0, 1, 3, 5]) completable True owners [0] phi (0, 2, 26, -3) (max (0, 2, 26, -3)) pool_optimal True"
+  ]
+ },
+ "notes": "k4/gap.md section 3: the smallest W with n >= 3 in the sampled base catalogs ('pure core 179 (m = 10, f = 2) in the sample'); the only W outside n = 2 in the base catalogs (results/k4_gap_hard_base.log: 721 = 720 + 1).\nrecord (results/k4_gap/hard_base.json.gz, category field 'W'): f = 2, omega = 4, 135 configurations (90 with a valid owner, 40 with C empty), 1 Phi'-maxima at Phi' = [0, 2, 26, -3] (1 with a valid owner, 0 with C empty, 1 pool-optimal, 0 with a frozen agent threatened by two owners); core idx field 2",
+ "expect_fail": [
+  "max-simple"
+ ]
+}

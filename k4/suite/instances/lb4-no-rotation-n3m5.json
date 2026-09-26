@@ -1,0 +1,61 @@
+{
+ "id": "lb4-no-rotation-n3m5",
+ "n": 3,
+ "m": 5,
+ "sets": [
+  [
+   0,
+   1,
+   3,
+   4
+  ],
+  [
+   2,
+   3,
+   4
+  ],
+  [
+   2,
+   3,
+   4
+  ]
+ ],
+ "vals": [
+  [
+   3,
+   5,
+   7,
+   6
+  ],
+  [
+   2,
+   3,
+   4
+  ],
+  [
+   2,
+   3,
+   4
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": null,
+ "source": {
+  "pr": 24,
+  "branch": "main",
+  "files": [
+   "attempts/lb4-no-rotation.md",
+   "LEDGER.md"
+  ],
+  "replay": "attempts/lb4_variants.py"
+ },
+ "refutes": [
+  {
+   "statement": "LB₄ without a rotation (every insertion sequence, every upgrade policy, every owner and completion, owner's needs from its whole bundle; lb4.c -i2 -u3 -r0 -w1) succeeds",
+   "ledger": "K4.LB4.X",
+   "smallest": true
+  }
+ ],
+ "notes": "Agent 0 is flat (7, 6, 5, 3 on 3, 4, 1, 0) and its private goods 0, 1 together (8) beat its top. Every EFX₀ allocation with at most one large bundle gives agent 0 its private pair and 3, 4 to agents 1 and 2; serial dictatorship always gives agent 0 a shared good; only a rotation reaches the private pair. 16 of 51 cores fail at n = 3; every n = 2 core passes. Replay run: 'profiles 5184, failing 52', first failing profile values [[3, 5, 7, 6], [2, 3, 4], [2, 3, 4]] ('order=2 0 1 picks=3,2,4 ... frozen=0 2'); brute force 4 allocations e.g. [[0, 1, 2], [3], [4]]. [Certified-core lookup by the generator (not from the source): identical sets (same agent order and labels): core 4 of results/k4_certs_3.json.gz. Core k = 0-based position in the file's \"cores\" list, as the sources use it.]"
+}

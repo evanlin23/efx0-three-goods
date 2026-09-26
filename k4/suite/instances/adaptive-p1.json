@@ -1,0 +1,154 @@
+{
+ "id": "adaptive-p1",
+ "n": 3,
+ "m": 6,
+ "sets": [
+  [
+   0,
+   1,
+   4,
+   5
+  ],
+  [
+   2,
+   3,
+   4,
+   5
+  ],
+  [
+   2,
+   3,
+   4,
+   5
+  ]
+ ],
+ "vals": [
+  [
+   1,
+   4,
+   6,
+   8
+  ],
+  [
+   2,
+   3,
+   4,
+   8
+  ],
+  [
+   2,
+   7,
+   8,
+   4
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": "core 17 of results/k4_certs_3.json.gz",
+ "source": {
+  "pr": 44,
+  "branch": "proof/k4-adaptive",
+  "files": [
+   "k4/adaptive.md",
+   "attempts/k4-adaptive-greedy-omega.md",
+   "attempts/k4-adaptive-local-features.md",
+   "attempts/k4-adaptive-matching.md",
+   "attempts/k4-adaptive-fewest-frozen.md",
+   "attempts/k4_adaptive_attempts.py",
+   "results/k4_adaptive_attempts.log",
+   "results/k4_adaptive_smallest.log"
+  ],
+  "replay": "attempts/k4_adaptive_attempts.py"
+ },
+ "refutes": [
+  {
+   "statement": "Insertion rule -A0 (index order): LB4r run on the insertion sequence this rule chooses succeeds with at most one nested rotation (R = 1) on every strict profile of every k = 4 core. Refuted: the rule's sequence needs two rotations (LB4r with at most one fails, with two succeeds).",
+   "ledger": "K4.AD.X",
+   "smallest": true
+  },
+  {
+   "statement": "Insertion rule -A1 (least |NA| of the new block, lb4.c's -i3): LB4r run on the insertion sequence this rule chooses succeeds with at most one nested rotation (R = 1) on every strict profile of every k = 4 core. Refuted: the rule's sequence needs two rotations (LB4r with at most one fails, with two succeeds).",
+   "ledger": "K4.AD.X",
+   "smallest": true
+  },
+  {
+   "statement": "Insertion rule -A2 (least omega after envy-free upgrades, rest in index order): LB4r run on the insertion sequence this rule chooses succeeds with at most one nested rotation (R = 1) on every strict profile of every k = 4 core. Refuted: the rule's sequence needs two rotations (LB4r with at most one fails, with two succeeds).",
+   "ledger": "K4.AD.X",
+   "smallest": true
+  },
+  {
+   "statement": "Insertion rule -A4 (least omega after need-shrinking upgrades): LB4r run on the insertion sequence this rule chooses succeeds with at most one nested rotation (R = 1) on every strict profile of every k = 4 core. Refuted: the rule's sequence needs two rotations (LB4r with at most one fails, with two succeeds).",
+   "ledger": "K4.AD.X",
+   "smallest": true
+  },
+  {
+   "statement": "Insertion rule -A5 (least omega after no upgrades): LB4r run on the insertion sequence this rule chooses succeeds with at most one nested rotation (R = 1) on every strict profile of every k = 4 core. Refuted: the rule's sequence needs two rotations (LB4r with at most one fails, with two succeeds).",
+   "ledger": "K4.AD.X",
+   "smallest": true
+  },
+  {
+   "statement": "Insertion rule -A6 (4-good first): LB4r run on the insertion sequence this rule chooses succeeds with at most one nested rotation (R = 1) on every strict profile of every k = 4 core. Refuted: the rule's sequence needs two rotations (LB4r with at most one fails, with two succeeds).",
+   "ledger": "K4.AD.X",
+   "smallest": true
+  },
+  {
+   "statement": "Insertion rule -A8 (least contested top): LB4r run on the insertion sequence this rule chooses succeeds with at most one nested rotation (R = 1) on every strict profile of every k = 4 core. Refuted: the rule's sequence needs two rotations (LB4r with at most one fails, with two succeeds).",
+   "ledger": "K4.AD.X",
+   "smallest": true
+  },
+  {
+   "statement": "Insertion rule -A10 (least omega, then fewest frozen 4-good agents): LB4r run on the insertion sequence this rule chooses succeeds with at most one nested rotation (R = 1) on every strict profile of every k = 4 core. Refuted: the rule's sequence needs two rotations (LB4r with at most one fails, with two succeeds).",
+   "ledger": "K4.AD.X",
+   "smallest": true
+  },
+  {
+   "statement": "Insertion rule -A11 (c4one's key generalized: (omega, frozen 4-good agents, -position of the last 4-good agent)): LB4r run on the insertion sequence this rule chooses succeeds with at most one nested rotation (R = 1) on every strict profile of every k = 4 core. Refuted: the rule's sequence needs two rotations (LB4r with at most one fails, with two succeeds).",
+   "ledger": "K4.AD.X",
+   "smallest": true
+  },
+  {
+   "statement": "Insertion rule -A13 (least omega at the first step only): LB4r run on the insertion sequence this rule chooses succeeds with at most one nested rotation (R = 1) on every strict profile of every k = 4 core. Refuted: the rule's sequence needs two rotations (LB4r with at most one fails, with two succeeds).",
+   "ledger": "K4.AD.X",
+   "smallest": true
+  },
+  {
+   "statement": "Insertion rule -A17 (matching: agents matched to their first choice first (adaptive.c's optimal matching)): LB4r run on the insertion sequence this rule chooses succeeds with at most one nested rotation (R = 1) on every strict profile of every k = 4 core. Refuted: the rule's sequence needs two rotations (LB4r with at most one fails, with two succeeds).",
+   "ledger": "K4.AD.X",
+   "smallest": true
+  },
+  {
+   "statement": "Insertion rule -A25 (matching recomputed at every insertion step (adaptive.c's optimal matching)): LB4r run on the insertion sequence this rule chooses succeeds with at most one nested rotation (R = 1) on every strict profile of every k = 4 core. Refuted: the rule's sequence needs two rotations (LB4r with at most one fails, with two succeeds).",
+   "ledger": "K4.AD.X",
+   "smallest": true
+  },
+  {
+   "statement": "Insertion rule -A28 (first agent whose run leaves the fewest frozen agents after need-shrinking upgrades): LB4r run on the insertion sequence this rule chooses succeeds with at most one nested rotation (R = 1) on every strict profile of every k = 4 core. Refuted: the rule's sequence needs two rotations (LB4r with at most one fails, with two succeeds).",
+   "ledger": "K4.AD.X",
+   "smallest": true
+  },
+  {
+   "statement": "Insertion rule -A29 (rule F restricted to the first agents with the fewest frozen agents): LB4r run on the insertion sequence this rule chooses succeeds with at most one nested rotation (R = 1) on every strict profile of every k = 4 core. Refuted: the rule's sequence needs two rotations (LB4r with at most one fails, with two succeeds).",
+   "ledger": "K4.AD.X",
+   "smallest": true
+  },
+  {
+   "statement": "Bridge to Theorem Z via the Phase 1 state (attempts/k4-adaptive-fewest-frozen.md): the fewest frozen agents over every run of Phase 1 (every insertion sequence) and every upgrade policy equals the fewest over the space P of k4/c4x.md, i.e. Theorem Z's pre-allocation is a state that Phase 1 and the upgrades reach. Refuted: over P it is 0, over every Phase 1 run and policy it is 1.",
+   "ledger": "K4.AD.X",
+   "smallest": true
+  }
+ ],
+ "witness": {
+  "rule's sequence (results/k4_adaptive_smallest.log)": "tau=0 order=0 2 1 picks=5,3,4 blocks=0,0,0 (first agent 0)",
+  "rule F (-A16)": "tau=[1] rot=1 (agent 1 first needs one rotation)",
+  "omega by first agent (verbatim)": "After envy-free upgrades (-A2) or none (-A5) every first agent gives omega = 2, so the tie goes to agent 0; after need-shrinking upgrades (-A4) the first agents 0, 1, 2 give omega = 1, 2, 1, so omega prefers a failing agent.",
+  "frozen agents after need-shrinking upgrades, first agent 0, 1, 2 (replay)": [
+   1,
+   2,
+   1
+  ],
+  "fewest frozen": "over P: 0; over every Phase 1 run and policy: 1 (replay)",
+  "matching (verbatim)": "adaptive.c gives agent 0 its first choice 5 (agents 1, 2 their second choices 4 and 3), so agent 0 is inserted first ...; the other optimal matching gives agent 1 its first choice, and agent 1 first needs one (rule F).",
+  "brute force (replay)": "5 EFX0 allocations, 5 with at most one bundle of > 2 goods"
+ },
+ "notes": "Profile P1: 'The smallest failure is the same profile for most rules' (k4/adaptive.md §5). 'Only agent 1 first needs one rotation; agents 0 and 2 first need two.' Smallest: n = 3, m = 6 for each rule (n = 2: none). -A17/-A25 fail here only with adaptive.c's choice among two optimal matchings (tie-dependent); see adaptive-t-matching for a profile where they fail under every optimal matching. Same core (other values) as red-a1-hopeless-key of PR #51. Replay rerun here (attempts/k4_adaptive_attempts.py, adaptive.c sha256 e5ed45c423467df0): output identical to results/k4_adaptive_attempts.log, 'ALL AS RECORDED' (each failure also confirmed in PR #33's independent model k4/c4_verify_H/lb4r.py, least rotations 2 on the rule's sequence, and by brute force k4/lb4_brute.py: K4.D holds). core_ref derived here (not stated in the source): exact match of n, m and every agent's goods in the same agent order, against results/k4_certs_3.json.gz on main."
+}

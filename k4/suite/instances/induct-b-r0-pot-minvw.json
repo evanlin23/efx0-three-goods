@@ -1,0 +1,68 @@
+{
+ "id": "induct-b-r0-pot-minvw",
+ "n": 2,
+ "m": 4,
+ "sets": [
+  [
+   0,
+   1,
+   2,
+   3
+  ],
+  [
+   1,
+   2,
+   3
+  ]
+ ],
+ "vals": [
+  [
+   4,
+   8,
+   6,
+   1
+  ],
+  [
+   4,
+   2,
+   3
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": "core 0 of results/k4_certs_2.json.gz",
+ "source": {
+  "pr": 43,
+  "branch": "proof/k4-induct",
+  "files": [
+   "k4/induct.md",
+   "attempts/k4-induct-remove-agent.md",
+   "attempts/k4_induct_attempts.py",
+   "results/k4_induct_attempts.log",
+   "attempts/k4-induct-potentials.md"
+  ],
+  "replay": "attempts/k4_induct_attempts.py B-r0 pot-minvw"
+ },
+ "refutes": [
+  {
+   "statement": "B-form insertion lemma with bounded repair rho = 0: for some 4-good agent w and some d in R_w, every X' in E(I - w - d) (agent w and good d deleted; w gets nothing but possibly d) has r(X') <= 0, r(X') = min over X in E(I) of #{g != d : X(g) != X'(g)}.",
+   "ledger": "K4.IND.X",
+   "smallest": true
+  },
+  {
+   "statement": "Extremal X' (G-form), potential Phi = -v_w(X'_w) (min v_w): for some (w, d), EVERY maximizer of Phi on E(I - d) admits a placement of d with no repair (r = 0). The weaker some-maximizer form (for some (w, d), SOME maximizer admits a placement) also fails on this instance.",
+   "ledger": "K4.IND.X",
+   "smallest": true
+  }
+ ],
+ "witness": {
+  "B-form worst r per (w, d) (replay)": {
+   "(0, 0)": 1,
+   "(0, 1)": 1,
+   "(0, 2)": 1,
+   "(0, 3)": 2
+  },
+  "potential -v_w (replay)": "some maximizer of E(I - d) admits no placement of d, for every (w, d): True; some-maximizer form also fails: True"
+ },
+ "notes": "The same profile is the smallest failure of the B-form with rho = 0 (attempts/k4-induct-remove-agent.md) and of the potential -v_w (attempts/k4-induct-potentials.md), n = 2, m = 4. Replay (independent brute force k4/induct_bf.py, no code shared with k4/induct.c) rerun here: output identical to results/k4_induct_attempts.log, ALL CLAIMS CONFIRMED. The replay script's docstring: 'Each instance is a strict k = 4 core profile'. Smallest sizes are 'the smallest found (n = 2 exhaustive, larger n sampled)' (ledger K4.IND.X). core_ref derived here (not stated in the source): exact match of n, m and every agent's goods in the same agent order, against results/k4_certs_2.json.gz on main."
+}

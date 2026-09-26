@@ -1,0 +1,127 @@
+{
+ "id": "c4-lbplus-rotation-n3m6",
+ "n": 3,
+ "m": 6,
+ "sets": [
+  [
+   0,
+   1,
+   2,
+   5
+  ],
+  [
+   2,
+   3,
+   4,
+   5
+  ],
+  [
+   3,
+   4,
+   5
+  ]
+ ],
+ "vals": [
+  [
+   2,
+   4,
+   8,
+   5
+  ],
+  [
+   8,
+   3,
+   4,
+   6
+  ],
+  [
+   2,
+   3,
+   4
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": null,
+ "source": {
+  "pr": 33,
+  "branch": "main",
+  "files": [
+   "attempts/k4-c4-lbplus-rotation.md",
+   "k4/c4.md"
+  ],
+  "replay": "attempts/k4_c4_attempts.py"
+ },
+ "refutes": [
+  {
+   "statement": "Theorem B₄ extended to a 4-good r: in LB⁺'s bad case, LB⁺'s rotation (the leader k* gives its top up a need chain to r and takes {b_k*, c_k*}) makes k* a valid owner also when r has four goods",
+   "ledger": "K4.C4.GAP",
+   "smallest": true
+  }
+ ],
+ "witness": {
+  "insertion_choices": [
+   5,
+   3,
+   7
+  ],
+  "bases": [
+   [
+    2
+   ],
+   [
+    4
+   ],
+   [
+    5
+   ]
+  ],
+  "J": [
+   0,
+   1,
+   3
+  ],
+  "r": 1,
+  "k_star": 2,
+  "chain": [
+   2,
+   1
+  ],
+  "after_rotation": {
+   "bases": [
+    [
+     2
+    ],
+    [
+     5
+    ],
+    [
+     3,
+     4
+    ]
+   ],
+   "J": [
+    0,
+    1
+   ]
+  },
+  "example_allocation": [
+   [
+    0,
+    1,
+    3
+   ],
+   [
+    2
+   ],
+   [
+    4,
+    5
+   ]
+  ]
+ },
+ "notes": "Case (G2) of k4/c4.md §6. Insertion choices (5, 3, 7): agent 2 takes 5, agent 0 (lost 5) takes its top 2, agent 1 (lost 2 and 5) takes 4 and is r. Only exposed agent is the 3-good leader 2; LB⁺'s bad case. LB⁺'s rotation: agent 1 takes 5, agent 2 takes O = {4, 3}; agent 1 then values O (its c and d) at 7 > 6 = v(5), so k* = 2 is not a valid owner (ω′ = 1). A different rotation works (agent 0 gives 2 to agent 1 and takes {0, 1}; owner 0); brute force finds 6 EFX₀ allocations with at most one large bundle, e.g. {0,1,3} | {2} | {4,5}. Recorded in ledger row K4.C4.GAP (EVIDENCE); K4.C4.AB's Theorem B₄ excludes this case (G2), so K4.C4.AB is not refuted. 'Smallest failing configuration' (n = 3, m = 6). Replay run: 'after the rotation: exposed [1], owner k* valid (needs from bundle): False'; 'lbplus-rotation: reproduced'. [Certified-core lookup by the generator (not from the source): identical sets (same agent order and labels): core 16 of results/k4_certs_3.json.gz. Core k = 0-based position in the file's \"cores\" list, as the sources use it.] [proof/k4-strategy: also the smallest core found on which PS-OWNER fails (agent 1 is never the unenvied owner of a D2 EFX0 allocation, while PS(I, 1) holds); attempts/k4-strat-psw.md.]",
+ "expect_fail": [
+  "psd2"
+ ]
+}

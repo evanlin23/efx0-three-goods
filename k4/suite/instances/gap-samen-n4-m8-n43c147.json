@@ -1,0 +1,292 @@
+{
+ "id": "gap-samen-n4-m8-n43c147",
+ "n": 4,
+ "m": 8,
+ "sets": [
+  [
+   0,
+   2,
+   4,
+   5
+  ],
+  [
+   1,
+   3,
+   6,
+   7
+  ],
+  [
+   4,
+   5,
+   6,
+   7
+  ],
+  [
+   5,
+   6,
+   7
+  ]
+ ],
+ "vals": [
+  [
+   6,
+   3,
+   2,
+   10
+  ],
+  [
+   2,
+   3,
+   6,
+   10
+  ],
+  [
+   4,
+   6,
+   3,
+   8
+  ],
+  [
+   2,
+   4,
+   3
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": "core 147 of results/k4_certs_4_n4_3.json.gz",
+ "core_ref_basis": "resolved by this extraction; exact sets match against results/k4_certs_4_n4_3.json.gz (0-based position 147, idx field 10; identical blob on main and all four branches)",
+ "source": {
+  "pr": 53,
+  "branch": "compute/k4-gap",
+  "head": "245040b",
+  "files": [
+   "results/k4_gap_bench_n4.log",
+   "results/k4_gap_bench_n4_b.log",
+   "results/k4_gap_bench_n4_c.log",
+   "k4/gap.md"
+  ],
+  "replay": "python3 k4/gap_bench.py --profile='{\"sets\": [[0, 2, 4, 5], [1, 3, 6, 7], [4, 5, 6, 7], [5, 6, 7]], \"vals\": [[6, 3, 2, 10], [2, 3, 6, 10], [4, 6, 3, 8], [2, 4, 3]], \"m\": 8}' --only=LOCAL,LOCAL_EXT,LOCAL_CLOSURE,LOCAL_ALL,SAME_N"
+ },
+ "refutes": [
+  {
+   "statement": "#41 section 4, the local improvement lemma with pool moves and exchange-cycle moves (best pairs, every order of the receivers): every configuration without a valid owner has a Phi'-raising move",
+   "ledger": null,
+   "smallest": true,
+   "name": "LOCAL",
+   "smallest_scope": "first 'smallest' counterexample printed by results/k4_gap_bench_n4.log (catalogs gap_n4_1 (all), gap_n4_2/3/pure_s4000 (4,000 random profiles per core), every 5th record; sorted by n, m, number of configurations); 109 counterexamples in that run",
+   "basis": "stated",
+   "where": [
+    "results/k4_gap_bench_n4.log"
+   ],
+   "counterexamples_in_run": 109,
+   "witness": {
+    "key": [
+     5,
+     7,
+     null,
+     null
+    ],
+    "Q": {
+     "2": [
+      0,
+      4
+     ],
+     "3": [
+      1,
+      6
+     ]
+    },
+    "L": [
+     2,
+     3
+    ]
+   }
+  },
+  {
+   "statement": "every configuration without a valid owner has a Phi'-raising move, with LOCAL's catalogue (pool moves; exchange-cycle moves, best pairs, every order of the receivers) enlarged [source text: 'the same with a larger catalogue: also cycle moves with any admissible pairs, and re-partitions of two free agents' pairs and the pool (contains #41's pool-assisted two-agent exchange)']",
+   "ledger": null,
+   "smallest": true,
+   "name": "LOCAL_EXT",
+   "smallest_scope": "first 'smallest' counterexample printed by results/k4_gap_bench_n4.log (catalogs gap_n4_1 (all), gap_n4_2/3/pure_s4000 (4,000 random profiles per core), every 5th record; sorted by n, m, number of configurations); 7 counterexamples in that run",
+   "basis": "stated",
+   "where": [
+    "results/k4_gap_bench_n4.log"
+   ],
+   "counterexamples_in_run": 7,
+   "witness": {
+    "key": [
+     5,
+     7,
+     null,
+     null
+    ],
+    "Q": {
+     "2": [
+      0,
+      4
+     ],
+     "3": [
+      1,
+      6
+     ]
+    },
+    "L": [
+     2,
+     3
+    ]
+   }
+  },
+  {
+   "statement": "every configuration without a valid owner has a Phi'-raising move, with LOCAL_EXT's catalogue enlarged [source text: 'the same catalogue plus cycle moves followed by the pool closure (every free agent re-takes its best pair from the pool, repeatedly)']",
+   "ledger": null,
+   "smallest": true,
+   "name": "LOCAL_CLOSURE",
+   "smallest_scope": "first 'smallest' counterexample printed by results/k4_gap_bench_n4.log (catalogs gap_n4_1 (all), gap_n4_2/3/pure_s4000 (4,000 random profiles per core), every 5th record; sorted by n, m, number of configurations); 7 counterexamples in that run",
+   "basis": "stated",
+   "where": [
+    "results/k4_gap_bench_n4.log"
+   ],
+   "counterexamples_in_run": 7,
+   "witness": {
+    "key": [
+     5,
+     7,
+     null,
+     null
+    ],
+    "Q": {
+     "2": [
+      0,
+      4
+     ],
+     "3": [
+      1,
+      6
+     ]
+    },
+    "L": [
+     2,
+     3
+    ]
+   }
+  },
+  {
+   "statement": "every configuration without a valid owner has a Phi'-raising move, with LOCAL_CLOSURE's catalogue enlarged [source text: 'the same catalogue plus #52's downgrade swaps']",
+   "ledger": null,
+   "smallest": true,
+   "name": "LOCAL_ALL",
+   "smallest_scope": "first 'smallest' counterexample printed by results/k4_gap_bench_n4_b.log (catalogs gap_n4_*, every 5th record; sorted by n, m, number of configurations); 7 counterexamples in that run",
+   "basis": "stated",
+   "where": [
+    "results/k4_gap_bench_n4_b.log"
+   ],
+   "counterexamples_in_run": 7,
+   "witness": {
+    "key": [
+     5,
+     7,
+     null,
+     null
+    ],
+    "Q": {
+     "2": [
+      0,
+      4
+     ],
+     "3": [
+      1,
+      6
+     ]
+    },
+    "L": [
+     2,
+     3
+    ]
+   }
+  },
+  {
+   "statement": "needed for any move catalogue that keeps the needed set (pool, cycle, two-agent moves, downgrade swaps): at every configuration without a valid owner some configuration with the same needed set has a larger Phi'",
+   "ledger": null,
+   "smallest": true,
+   "name": "SAME_N",
+   "smallest_scope": "first 'smallest' counterexample printed by results/k4_gap_bench_n4_c.log (catalogs gap_n4_*, every 5th record; sorted by n, m, number of configurations); 7 counterexamples in that run",
+   "basis": "stated",
+   "where": [
+    "results/k4_gap_bench_n4_c.log"
+   ],
+   "counterexamples_in_run": 7,
+   "witness": {
+    "key": [
+     5,
+     7,
+     null,
+     null
+    ],
+    "Q": {
+     "2": [
+      0,
+      4
+     ],
+     "3": [
+      1,
+      6
+     ]
+    },
+    "L": [
+     2,
+     3
+    ]
+   }
+  }
+ ],
+ "witness": {
+  "key": [
+   5,
+   7,
+   null,
+   null
+  ],
+  "Q": {
+   "2": [
+    0,
+    4
+   ],
+   "3": [
+    1,
+    6
+   ]
+  },
+  "L": [
+   2,
+   3
+  ]
+ },
+ "replay": {
+  "gap_bench_profile": {
+   "ran": "python3 k4/gap_bench.py --profile='{...}' --show=1 (all 25 seeded statements) on compute/k4-gap @245040b",
+   "gap_c_sha256_prefix": "74e1fae22153",
+   "in_gap": "True; f 2, omega 2, keys [[-1, 7, 5, -1], [-1, -1, 7, 6], [5, 7, -1, -1]], 36 configurations, ",
+   "fails": [
+    "LOCAL",
+    "LOCAL_EXT",
+    "LOCAL_CLOSURE",
+    "LOCAL_ALL",
+    "SAME_N"
+   ],
+   "holds_count": 20,
+   "fails_not_stated_by_source": [],
+   "stated_but_holds_now": []
+  },
+  "witness_check_gap_model": [
+   "f 2 omega 2 in_gap True configs 36 completable 30",
+   "  witness: found; L [2, 3] (given [2, 3]) completable False owners [] phi (0, 2, 19, -2) (max (0, 3, 23, -1)) pool_optimal True",
+   "  refutes:LOCAL: found; L [2, 3] (given [2, 3]) completable False owners [] phi (0, 2, 19, -2) (max (0, 3, 23, -1)) pool_optimal True",
+   "  refutes:LOCAL_EXT: found; L [2, 3] (given [2, 3]) completable False owners [] phi (0, 2, 19, -2) (max (0, 3, 23, -1)) pool_optimal True",
+   "  refutes:LOCAL_CLOSURE: found; L [2, 3] (given [2, 3]) completable False owners [] phi (0, 2, 19, -2) (max (0, 3, 23, -1)) pool_optimal True",
+   "  refutes:LOCAL_ALL: found; L [2, 3] (given [2, 3]) completable False owners [] phi (0, 2, 19, -2) (max (0, 3, 23, -1)) pool_optimal True",
+   "  refutes:SAME_N: found; L [2, 3] (given [2, 3]) completable False owners [] phi (0, 2, 19, -2) (max (0, 3, 23, -1)) pool_optimal True"
+  ]
+ },
+ "notes": "k4/gap.md section 3: 'Configurations that no needed-set-preserving move improves: n = 4, m = 8 ... The configuration has frozen 0 on 5, frozen 1 on 7, Q2 = {0, 4}, Q3 = {1, 6} and L = {2, 3}. It has no valid owner. Every configuration of larger Phi' has the needed set {6, 7} instead of {5, 7}. So no pool, cycle or two-agent move and no downgrade swap raises Phi' (section 4, SAME_N).'"
+}

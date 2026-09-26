@@ -1,0 +1,103 @@
+{
+ "id": "gm4-S",
+ "n": 4,
+ "m": 6,
+ "sets": [
+  [
+   0,
+   2,
+   3,
+   4
+  ],
+  [
+   1,
+   2,
+   5
+  ],
+  [
+   1,
+   4,
+   5
+  ],
+  [
+   3,
+   4,
+   5
+  ]
+ ],
+ "vals": [
+  [
+   1,
+   6,
+   4,
+   8
+  ],
+  [
+   2,
+   3,
+   4
+  ],
+  [
+   3,
+   4,
+   2
+  ],
+  [
+   3,
+   2,
+   4
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": null,
+ "source": {
+  "pr": 30,
+  "branch": "main",
+  "files": [
+   "attempts/k4-gm4-single-dump.md",
+   "k4/gm4_counterexample.py",
+   "LEDGER.md"
+  ],
+  "replay": "k4/gm4_counterexample.py"
+ },
+ "refutes": [
+  {
+   "statement": "Conjecture GM₄ˢ: every Σℓ-maximum with a nonempty pool admits the empty-bundle dump or a single dump (one agent takes the whole pool)",
+   "ledger": "K4.GM.S",
+   "smallest": true
+  }
+ ],
+ "witness": {
+  "Y": [
+   [
+    4
+   ],
+   [
+    5
+   ],
+   [
+    1
+   ],
+   [
+    3
+   ]
+  ],
+  "pool": [
+   0,
+   2
+  ],
+  "level_sum": 13,
+  "split_placements": [
+   {
+    "0": 2,
+    "2": 3
+   },
+   {
+    "0": 3,
+    "2": 2
+   }
+  ]
+ },
+ "notes": "Instance S. Y = {4} | {5} | {1} | {3}, pool {0, 2}, Σℓ = 13: no empty bundle, no agent can take the whole pool; the only placements split it: 0 → agent 2 and 2 → agent 3, or 0 → agent 3 and 2 → agent 2. Exhaustive (one implementation, k4/gm4_fast.c): smallest n (n ≤ 3 never) and fewest 4-good agents; at n = 4 with one 4-good agent 2 of 1,131,363 maxima with a pool, both in this core, both m = 6. Replay run: '[ok] junk placements (pool good -> agent) that are EFX0: [{0: 2, 2: 3}, {0: 3, 2: 2}]'. [Certified-core lookup by the generator (not from the source): identical sets (same agent order and labels): core 50 of results/k4_certs_4_n4_1.json.gz. Core k = 0-based position in the file's \"cores\" list, as the sources use it.]"
+}

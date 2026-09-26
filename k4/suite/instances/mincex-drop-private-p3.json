@@ -1,0 +1,65 @@
+{
+ "id": "mincex-drop-private-p3",
+ "n": 1,
+ "m": 3,
+ "sets": [
+  [
+   0,
+   1,
+   2
+  ]
+ ],
+ "vals": [
+  [
+   4,
+   3,
+   2
+  ]
+ ],
+ "kind": "local configuration (not a complete instance; the runner skips it)",
+ "core_ref": null,
+ "source": {
+  "pr": 23,
+  "branch": "main",
+  "files": [
+   "attempts/k4-mincex-drop-private.md"
+  ],
+  "replay": "k4/mincex_attempts.py"
+ },
+ "refutes": [
+  {
+   "statement": "Minimal-counterexample reduction (k = 4): removing the private good of a P3 agent (replace e on {s, t, p} by e′ on {s, t}) is a sound local reduction for some one-agent gadget e′ (Lemma M1 / M1(b) with the unenvied bundle)",
+   "ledger": null,
+   "smallest": true
+  }
+ ],
+ "witness": {
+  "good_names": [
+   "s",
+   "t",
+   "p"
+  ],
+  "gadget": {
+   "agent": "e′",
+   "goods": [
+    0,
+    1
+   ],
+   "vals": [
+    1,
+    1
+   ]
+  },
+  "failing_state": {
+   "e′": [
+    0
+   ],
+   "outside_bundle": [
+    "t",
+    "w (outside goods)"
+   ],
+   "unenvied": "that outside bundle"
+  }
+ },
+ "notes": "LOCAL CONFIGURATION, NOT A COMPLETE INSTANCE: one P3 agent e with goods s, t, p (p private). Goods numbered by me in the source's listing order: 0 = s, 1 = t, 2 = p (the source uses names only). Values s = 4, t = 3, p = 2 (ranking s > t > p). Gadget e′ values s = t = 1. Failing local state of Y: e′ holds {s}, t lies in an outside bundle {t, w} with outside goods w, which nobody envies; the extension must give s to e and p cannot join it; putting p in the unenvied bundle makes e face {t, w, p} with threat v(t) + v(p) = 5 > v(s) = 4. No type reduces for any gadget: 0 of 6 P3 types (5 gadgets) and 0 of 288 P4 types (43 gadgets). Replay run (cd k4 && python3 mincex_attempts.py drop-private): 'single-P3: 5 gadgets ..., 0 of 6 types reduced', 'single-P4: 43 gadgets ..., 0 of 288 types reduced', e.g. 'GAD110 under {'e': {'s': 4, 't': 3, 'p': 2}}: Y = S': {\"e'\": ['s']} | outside: [['t', 'W:0']] | unenvied: ('O', 0)'."
+}

@@ -1,0 +1,151 @@
+{
+ "id": "gap-iiinor-n4-m8-n43c170",
+ "n": 4,
+ "m": 8,
+ "sets": [
+  [
+   0,
+   2,
+   3,
+   6
+  ],
+  [
+   1,
+   3,
+   7
+  ],
+  [
+   4,
+   5,
+   6,
+   7
+  ],
+  [
+   4,
+   5,
+   6,
+   7
+  ]
+ ],
+ "vals": [
+  [
+   3,
+   4,
+   8,
+   10
+  ],
+  [
+   2,
+   3,
+   4
+  ],
+  [
+   2,
+   4,
+   5,
+   8
+  ],
+  [
+   1,
+   6,
+   4,
+   8
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": "core 170 of results/k4_certs_4_n4_3.json.gz",
+ "core_ref_basis": "resolved by this extraction; exact sets match against results/k4_certs_4_n4_3.json.gz (0-based position 170, idx field 33; identical blob on main and all four branches)",
+ "source": {
+  "pr": 53,
+  "branch": "compute/k4-gap",
+  "head": "245040b",
+  "files": [
+   "results/k4_gap_bench_n4.log"
+  ],
+  "replay": "python3 k4/gap_bench.py --profile='{\"sets\": [[0, 2, 3, 6], [1, 3, 7], [4, 5, 6, 7], [4, 5, 6, 7]], \"vals\": [[3, 4, 8, 10], [2, 3, 4], [2, 4, 5, 8], [1, 6, 4, 8]], \"m\": 8}' --only=III_NO_R"
+ },
+ "refutes": [
+  {
+   "statement": "roadmap (iii): in that setting [f = 1, x 3-good, no valid owner, pool-optimal, t = 0], the threat path into x has no free agent of kind (R)",
+   "ledger": null,
+   "smallest": true,
+   "name": "III_NO_R",
+   "smallest_scope": "first 'smallest' counterexample printed by results/k4_gap_bench_n4.log (catalogs gap_n4_1 (all), gap_n4_2/3/pure_s4000 (4,000 random profiles per core), every 5th record; sorted by n, m, number of configurations); 5 counterexamples in that run",
+   "basis": "stated",
+   "where": [
+    "results/k4_gap_bench_n4.log"
+   ],
+   "counterexamples_in_run": 5,
+   "witness": {
+    "key": [
+     null,
+     7,
+     null,
+     null
+    ],
+    "Q": {
+     "0": [
+      0,
+      3
+     ],
+     "2": [
+      2,
+      6
+     ],
+     "3": [
+      4,
+      5
+     ]
+    },
+    "L": [
+     1
+    ]
+   }
+  }
+ ],
+ "witness": {
+  "key": [
+   null,
+   7,
+   null,
+   null
+  ],
+  "Q": {
+   "0": [
+    0,
+    3
+   ],
+   "2": [
+    2,
+    6
+   ],
+   "3": [
+    4,
+    5
+   ]
+  },
+  "L": [
+   1
+  ],
+  "_from": "the first refuted statement's printed configuration"
+ },
+ "replay": {
+  "gap_bench_profile": {
+   "ran": "python3 k4/gap_bench.py --profile='{...}' --show=1 (all 25 seeded statements) on compute/k4-gap @245040b",
+   "gap_c_sha256_prefix": "74e1fae22153",
+   "in_gap": "True; f 1, omega 1, keys [[-1, 7, -1, -1], [-1, -1, -1, 7], [-1, -1, 7, -1]], 42 configuration",
+   "fails": [
+    "III_NO_R"
+   ],
+   "holds_count": 24,
+   "fails_not_stated_by_source": [],
+   "stated_but_holds_now": []
+  },
+  "witness_check_gap_model": [
+   "f 1 omega 1 in_gap True configs 42 completable 40",
+   "  refutes:III_NO_R: found; L [1] (given [1]) completable False owners [] phi (0, 1, 17, -1) (max (0, 3, 24, 0)) pool_optimal True"
+  ]
+ },
+ "notes": ""
+}

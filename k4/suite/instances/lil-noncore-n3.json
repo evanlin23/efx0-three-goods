@@ -1,0 +1,115 @@
+{
+ "id": "lil-noncore-n3",
+ "n": 3,
+ "m": 9,
+ "sets": [
+  [
+   0,
+   1,
+   2,
+   3
+  ],
+  [
+   0,
+   4,
+   5,
+   6
+  ],
+  [
+   0,
+   6,
+   7,
+   8
+  ]
+ ],
+ "vals": [
+  [
+   10,
+   5,
+   4,
+   2
+  ],
+  [
+   10,
+   5,
+   4,
+   2
+  ],
+  [
+   10,
+   2,
+   5,
+   4
+  ]
+ ],
+ "is_core": false,
+ "core_violations": [
+  "agent 0: 3 private goods of 4"
+ ],
+ "core_ref": null,
+ "source": {
+  "pr": 51,
+  "branch": "proof/k4-c4min-reduce",
+  "files": [
+   "attempts/k4-c4min-reduce-lil.md",
+   "attempts/k4_c4min_reduce_lil.py"
+  ],
+  "found_by": "the referee of PR #51 (reported to the coordinator)",
+  "replay": "k4/suite/run.py lil --only=lil-noncore-n3",
+  "on_main": "NC of main's attempts/k4-c4min-reduce-lil.md (#51, merged), replayed there with two implementations (red.c, red_lil.py); re-derived here independently before #51 merged"
+ },
+ "refutes": [
+  {
+   "statement": "The local improvement lemma LIL of k4/c4min_reduce.md §5.3 (#51) without the core's private-goods rule: every configuration without a valid owner has an M1, M4 or M5 move raising (r', -t, Lam)",
+   "ledger": "K4.C4MIN.RED.LIL (on #51)",
+   "smallest": null
+  }
+ ],
+ "witness": {
+  "kind": "configuration",
+  "key": [
+   0,
+   null,
+   null
+  ],
+  "Q": {
+   "1": [
+    4,
+    5
+   ],
+   "2": [
+    7,
+    8
+   ]
+  },
+  "L": [
+   1,
+   2,
+   3,
+   6
+  ],
+  "claims": {
+   "f": 1,
+   "omega": 4,
+   "t": 1,
+   "pool_optimal": true,
+   "completable": false,
+   "Phi_r": [
+    2,
+    -1,
+    19
+   ],
+   "global_max_Phi_r": [
+    2,
+    0,
+    18
+   ],
+   "global_max_completable": true
+  }
+ },
+ "notes": "x = agent 0 (goods 1, 2, 3 private: the only broken core condition), tau1 = agent 1, tau2 = agent 2; all three are big-top (10 > 5 + 4) and share their top 0. At key (0 frozen on agent 0) the configuration Q1 = {4,5}, Q2 = {7,8}, pool {1,2,3,6} has t = 1, is pool-optimal, has no valid owner, and no M1/M2/M4/M5 move (#51's k4/red_lil.py) and no pool/cycle(any pairs, keep)/two-agent/downgrade move (#53's k4/gap_model.py) raises (r', -t, Lam). The global maxima of (r', -t, Lam) are (2, 0, 18) at the keys of agents 1 and 2, both completable. So the statement 'every maximum is completable' survives here; only the local lemma fails. Re-derived with three implementations (k4/suite/model.py for the static facts).",
+ "strict": true,
+ "expect_fail": [
+  "lil"
+ ]
+}

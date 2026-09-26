@@ -1,0 +1,150 @@
+{
+ "id": "c4-one-rotation-two4-n3m6",
+ "n": 3,
+ "m": 6,
+ "sets": [
+  [
+   0,
+   1,
+   2,
+   5
+  ],
+  [
+   2,
+   3,
+   4,
+   5
+  ],
+  [
+   3,
+   4,
+   5
+  ]
+ ],
+ "vals": [
+  [
+   1,
+   4,
+   8,
+   6
+  ],
+  [
+   8,
+   2,
+   3,
+   4
+  ],
+  [
+   2,
+   3,
+   4
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": null,
+ "source": {
+  "pr": 33,
+  "branch": "main",
+  "files": [
+   "attempts/k4-c4-one-rotation.md",
+   "k4/c4.md"
+  ],
+  "replay": "attempts/k4_c4_attempts.py"
+ },
+ "refutes": [
+  {
+   "statement": "One rotation suffices at k = 4 (LB₄ʳ with every upgrade policy, every owner, every chain and subset O, one rotation: lb4.c -i1 -u3 -o0 -r1 -w1 -c1)",
+   "ledger": "K4.C4.E",
+   "smallest": true
+  }
+ ],
+ "witness": {
+  "insertion_order": [
+   2,
+   0,
+   1
+  ],
+  "bases": [
+   [
+    2
+   ],
+   [
+    4
+   ],
+   [
+    5
+   ]
+  ],
+  "frozen": [
+   0,
+   2
+  ],
+  "omega": 2,
+  "example_allocation": [
+   [
+    0,
+    1,
+    5
+   ],
+   [
+    2
+   ],
+   [
+    3,
+    4
+   ]
+  ]
+ },
+ "notes": "First case of k4-c4-one-rotation.md: fails on 2 of the 19 cores with n = 3 and two 4-good agents. Insertion order 2, 0, 1 (one block): agent 2 takes 5, agent 0 its top 2, agent 1 takes 4; agents 0 and 2 frozen, ω = 2. Every EFX₀ allocation with at most one large bundle gives agent 1 its top 2 and agent 0 its b = 5 (5 allocations, e.g. {0,1,5} | {2} | {3,4}); two rotations do it. Ledger row K4.C4.E: 'With two 4-good agents one rotation is not enough even with all three policies and every owner (n = 3), two are'. Replay run: '160 of 781056 (run, profile) pairs fail', first FAIL line has exactly these values ('order=2 0 1 picks=2,4,5 ... frozen=0 2'), 'with two rotations ... 0 failures'. [Certified-core lookup by the generator (not from the source): identical sets (same agent order and labels): core 16 of results/k4_certs_3.json.gz. Core k = 0-based position in the file's \"cores\" list, as the sources use it.]",
+ "aliases": [
+  "adaptive-a7-three-good-first",
+  "c4one-route2-two-4good"
+ ],
+ "also": [
+  {
+   "id": "adaptive-a7-three-good-first",
+   "source": {
+    "pr": 44,
+    "branch": "proof/k4-adaptive",
+    "files": [
+     "k4/adaptive.md",
+     "attempts/k4-adaptive-local-features.md",
+     "attempts/k4_adaptive_attempts.py",
+     "results/k4_adaptive_attempts.log",
+     "results/k4_adaptive_smallest.log"
+    ],
+    "replay": "attempts/k4_adaptive_attempts.py"
+   },
+   "refutes": [
+    {
+     "statement": "Insertion rule -A7 (3-good agents first): LB4r run on the insertion sequence this rule chooses succeeds with at most one nested rotation (R = 1) on every strict profile of every k = 4 core. Refuted: the rule's sequence needs two rotations (LB4r with at most one fails, with two succeeds).",
+     "ledger": "K4.AD.X",
+     "smallest": true
+    }
+   ],
+   "notes": "Same profile and same first agent (2) as c4one-route2-two-4good of PR #37 (route 2's smallest failure). Replay rerun here (attempts/k4_adaptive_attempts.py, adaptive.c sha256 e5ed45c423467df0): output identical to results/k4_adaptive_attempts.log, 'ALL AS RECORDED' (each failure also confirmed in PR #33's independent model k4/c4_verify_H/lb4r.py, least rotations 2 on the rule's sequence, and by brute force k4/lb4_brute.py: K4.D holds). core_ref derived here (not stated in the source): exact match of n, m and every agent's goods in the same agent order, against results/k4_certs_3.json.gz on main."
+  },
+  {
+   "id": "c4one-route2-two-4good",
+   "source": {
+    "pr": 37,
+    "branch": "proof/k4-c4one",
+    "files": [
+     "attempts/k4-c4one-potential.md",
+     "k4/c4one.md",
+     "attempts/k4_c4one_attempts.py"
+    ],
+    "replay": "attempts/k4_c4one_attempts.py potential"
+   },
+   "refutes": [
+    {
+     "statement": "Route 2's local step (k4/c4one.md §4): whenever, after Phase 1 and upgrades (or after earlier rotations), no owner is valid, some rotation along a need chain strictly raises the count, for Phi = the best A4+ slack over the non-frozen owners (Phi >= 0 gives a valid owner), and for Proposition H's owner-free count 'slots minus forced goods'. Refuted with two 4-good agents: Phase 1 has no valid owner, Phi = -1 and count = 1; all four valid rotations leave Phi = -1 and the count at 1 or 0; two nested rotations reach a valid owner.",
+     "ledger": "K4.C4.1",
+     "smallest": true
+    }
+   ],
+   "notes": "'Two 4-good agents, n = 3, m = 6 (smallest).' Outside C4^1's scope (two 4-good agents). Replay here: 'potential: reproduced'. Same profile and same first agent as adaptive-a7-three-good-first (PR #44), where rule -A7 needs two rotations. core_ref derived here (not stated in the source): exact match of n, m and every agent's goods in the same agent order, against results/k4_certs_3.json.gz on main."
+  }
+ ]
+}

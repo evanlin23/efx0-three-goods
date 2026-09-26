@@ -1,0 +1,67 @@
+{
+ "id": "count-n3m8",
+ "n": 3,
+ "m": 8,
+ "sets": [
+  [
+   0,
+   2,
+   6,
+   7
+  ],
+  [
+   1,
+   4,
+   6,
+   7
+  ],
+  [
+   3,
+   5,
+   6,
+   7
+  ]
+ ],
+ "vals": [
+  [
+   3,
+   6,
+   2,
+   10
+  ],
+  [
+   3,
+   6,
+   2,
+   10
+  ],
+  [
+   3,
+   6,
+   2,
+   10
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": null,
+ "source": {
+  "pr": null,
+  "branch": "proof/k4-strategy",
+  "files": [
+   "attempts/k4-strat-count.md"
+  ],
+  "replay": "python3 k4/suite/run.py count --only=count-n3m8"
+ },
+ "refutes": [
+  {
+   "statement": "COUNT (Route 1, this PR): some pool-optimal configuration at a min-frozen key has more robust free agents than free owners that threaten some frozen agent",
+   "ledger": "K4.STRAT.X",
+   "smallest": null
+  }
+ ],
+ "expect_fail": [
+  "count"
+ ],
+ "notes": "Three identical big-top agents (10 > 6 + 3) sharing goods 6 and 7 (7 is everyone's top), each with one private good (0, 1, 3) and one more (2, 4, 5). The first counterexample the scan of #53's n = 3 gap catalogue printed (1,408 of its 74,256 profiles fail COUNT; results/k4_strategy/count_sweep.log). C4min holds here (some configuration has a valid owner with C empty)."
+}

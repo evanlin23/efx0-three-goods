@@ -1,0 +1,111 @@
+{
+ "id": "ls-simple-split-n4m6",
+ "n": 4,
+ "m": 6,
+ "sets": [
+  [
+   0,
+   1,
+   3,
+   4
+  ],
+  [
+   1,
+   2,
+   5
+  ],
+  [
+   2,
+   3,
+   4,
+   5
+  ],
+  [
+   2,
+   3,
+   4,
+   5
+  ]
+ ],
+ "vals": [
+  [
+   1,
+   6,
+   8,
+   4
+  ],
+  [
+   3,
+   2,
+   4
+  ],
+  [
+   5,
+   3,
+   6,
+   7
+  ],
+  [
+   7,
+   10,
+   4,
+   2
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": null,
+ "source": {
+  "pr": 27,
+  "branch": "main",
+  "files": [
+   "attempts/k4-ls-simple-split.md",
+   "LEDGER.md"
+  ],
+  "replay": "k4/ls4_attempts.py"
+ },
+ "refutes": [
+  {
+   "statement": "LS4's Phase 2 (c) by the simplest polynomial split (the dump keeps every individually harmless pool good; the others matched one each to distinct other sources) completes whenever a dump plus solo goods does",
+   "ledger": "K4.LS.VAR",
+   "smallest": false
+  }
+ ],
+ "witness": {
+  "Y": [
+   [
+    3
+   ],
+   [
+    5
+   ],
+   [
+    4
+   ],
+   [
+    2
+   ]
+  ],
+  "pool": [
+   0,
+   1
+  ],
+  "dm_placement": [
+   [
+    3
+   ],
+   [
+    5
+   ],
+   [
+    0,
+    4
+   ],
+   [
+    1,
+    2
+   ]
+  ]
+ },
+ "notes": "Stable state Y = {3} | {5} | {4} | {2}, U = {0, 1}: no move; no single dump; the simple split fails; dump-plus-solo placements exist, e.g. {3} | {5} | {0,4} | {1,2}. 'Smallest found'. Replay run: 'single-dump completions: 0', 'simplest split succeeds: False', 'dump-plus-solo placements ...: [[[3], [5], [0, 4], [1, 2]], [[3], [5], [1, 4], [0, 2]]]'. [Certified-core lookup by the generator (not from the source): identical sets (same agent order and labels): core 23 of results/k4_certs_4_n4_3.json.gz. Core k = 0-based position in the file's \"cores\" list, as the sources use it.]"
+}

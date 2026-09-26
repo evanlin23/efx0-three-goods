@@ -1,0 +1,105 @@
+{
+ "id": "c4-gadget-stacking-1copy-n3m6",
+ "n": 3,
+ "m": 6,
+ "sets": [
+  [
+   0,
+   1,
+   4,
+   5
+  ],
+  [
+   2,
+   3,
+   4,
+   5
+  ],
+  [
+   2,
+   3,
+   4,
+   5
+  ]
+ ],
+ "vals": [
+  [
+   1,
+   4,
+   6,
+   8
+  ],
+  [
+   3,
+   5,
+   7,
+   6
+  ],
+  [
+   2,
+   3,
+   4,
+   8
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": null,
+ "source": {
+  "pr": 33,
+  "branch": "main",
+  "files": [
+   "attempts/k4-c4-gadget-stacking.md"
+  ],
+  "replay": "attempts/k4_c4_attempts.py"
+ },
+ "refutes": [
+  {
+   "statement": "LB₄ʳ with index insertion, every upgrade policy and one rotation (-i0 -u3 -r1 -w1 -c1) succeeds (this core needs two nested rotations)",
+   "ledger": "K4.C4.E",
+   "smallest": null
+  }
+ ],
+ "witness": {
+  "lb4c_fail_line_r1": "order=0 1 2  picks=5,4,3 blocks=0,0,0 upg= frozen=0 1  J=7 w=2"
+ },
+ "notes": "The one-copy core of k4-c4-gadget-stacking.md ('Smallest configuration': index insertion needs two rotations). The attempt itself (stacking copies to force more rotations) fails: see c4-gadget-stacking-2copies-n6m11. REPLAY DISCREPANCY: attempts/k4_c4_attempts.py gadget-stacking printed 'one copy fails with 1 rotation: False, passes with 2: True; ... NOT reproduced' because it reads field 7 of lb4.c's stdout, which now starts with an 'H ...' histogram line; running k4/lb4.c directly (-i0 -u3 -r1 -w1 -c1) printed 'FAIL ... order=0 1 2 picks=5,4,3 ... frozen=0 1 J=7 w=2' and 'fails 1', and with -r2 'fails 0 ... rot 1', so the claim holds. [Certified-core lookup by the generator (not from the source): identical sets (same agent order and labels): core 17 of results/k4_certs_3.json.gz. Core k = 0-based position in the file's \"cores\" list, as the sources use it.]",
+ "aliases": [
+  "adaptive-t-matching"
+ ],
+ "also": [
+  {
+   "id": "adaptive-t-matching",
+   "source": {
+    "pr": 44,
+    "branch": "proof/k4-adaptive",
+    "files": [
+     "k4/adaptive.md",
+     "attempts/k4-adaptive-matching.md",
+     "attempts/k4_adaptive_attempts.py",
+     "results/k4_adaptive_attempts.log",
+     "results/k4_adaptive_matching_ties.log"
+    ],
+    "replay": "attempts/k4_adaptive_attempts.py; k4/adaptive_matching_ties.py"
+   },
+   "refutes": [
+    {
+     "statement": "Insertion rule -A17 (matching: first-choice agents first): LB4r run on the insertion sequence this rule chooses succeeds with at most one nested rotation (R = 1) on every strict profile of every k = 4 core. Refuted: the rule's sequence needs two rotations (LB4r with at most one fails, with two succeeds). Refuted under EVERY optimal matching (not tie-dependent).",
+     "ledger": "K4.AD.X",
+     "smallest": true
+    },
+    {
+     "statement": "Insertion rule -A18 (matching: second-choice agents first): LB4r run on the insertion sequence this rule chooses succeeds with at most one nested rotation (R = 1) on every strict profile of every k = 4 core. Refuted: the rule's sequence needs two rotations (LB4r with at most one fails, with two succeeds). Refuted under EVERY optimal matching (not tie-dependent).",
+     "ledger": "K4.AD.X",
+     "smallest": true
+    },
+    {
+     "statement": "Insertion rule -A25 (matching recomputed at every step): LB4r run on the insertion sequence this rule chooses succeeds with at most one nested rotation (R = 1) on every strict profile of every k = 4 core. Refuted: the rule's sequence needs two rotations (LB4r with at most one fails, with two succeeds). Refuted under EVERY optimal matching (not tie-dependent).",
+     "ledger": "K4.AD.X",
+     "smallest": true
+    }
+   ],
+   "notes": "Profile T of attempts/k4-adaptive-matching.md (n = 3, m = 6). Replay rerun here (attempts/k4_adaptive_attempts.py, adaptive.c sha256 e5ed45c423467df0): output identical to results/k4_adaptive_attempts.log, 'ALL AS RECORDED' (each failure also confirmed in PR #33's independent model k4/c4_verify_H/lb4r.py, least rotations 2 on the rule's sequence, and by brute force k4/lb4_brute.py: K4.D holds). core_ref derived here (not stated in the source): exact match of n, m and every agent's goods in the same agent order, against results/k4_certs_3.json.gz on main."
+  }
+ ]
+}

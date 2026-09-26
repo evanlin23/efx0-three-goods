@@ -1,0 +1,139 @@
+{
+ "id": "gap-ivsetting-n4-m7-n41c75",
+ "n": 4,
+ "m": 7,
+ "sets": [
+  [
+   0,
+   2,
+   3,
+   5
+  ],
+  [
+   1,
+   5,
+   6
+  ],
+  [
+   3,
+   4,
+   6
+  ],
+  [
+   4,
+   5,
+   6
+  ]
+ ],
+ "vals": [
+  [
+   2,
+   4,
+   7,
+   8
+  ],
+  [
+   2,
+   3,
+   4
+  ],
+  [
+   3,
+   2,
+   4
+  ],
+  [
+   3,
+   4,
+   2
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": "core 75 of results/k4_certs_4_n4_1.json.gz",
+ "core_ref_basis": "resolved by this extraction; exact sets match against results/k4_certs_4_n4_1.json.gz (0-based position 75, idx field 11; identical blob on main and all four branches)",
+ "source": {
+  "pr": 53,
+  "branch": "compute/k4-gap",
+  "head": "245040b",
+  "files": [
+   "results/k4_gap_bench_n4.log"
+  ],
+  "replay": "python3 k4/gap_bench.py --profile='{\"sets\": [[0, 2, 3, 5], [1, 5, 6], [3, 4, 6], [4, 5, 6]], \"vals\": [[2, 4, 7, 8], [2, 3, 4], [3, 2, 4], [3, 4, 2]], \"m\": 7}' --only=IV_SETTING"
+ },
+ "refutes": [
+  {
+   "statement": "roadmap (iv) in the proof's setting: without a valid owner, pool-optimal, t = 0: a 4-good frozen agent is threatened by at most one owner",
+   "ledger": null,
+   "smallest": true,
+   "name": "IV_SETTING",
+   "smallest_scope": "first 'smallest' counterexample printed by results/k4_gap_bench_n4.log (catalogs gap_n4_1 (all), gap_n4_2/3/pure_s4000 (4,000 random profiles per core), every 5th record; sorted by n, m, number of configurations); 211 counterexamples in that run",
+   "basis": "stated",
+   "where": [
+    "results/k4_gap_bench_n4.log"
+   ],
+   "counterexamples_in_run": 211,
+   "witness": {
+    "key": [
+     5,
+     null,
+     6,
+     null
+    ],
+    "Q": {
+     "1": [
+      0,
+      1
+     ],
+     "3": [
+      2,
+      4
+     ]
+    },
+    "L": [
+     3
+    ]
+   }
+  }
+ ],
+ "witness": {
+  "key": [
+   5,
+   null,
+   6,
+   null
+  ],
+  "Q": {
+   "1": [
+    0,
+    1
+   ],
+   "3": [
+    2,
+    4
+   ]
+  },
+  "L": [
+   3
+  ],
+  "_from": "the first refuted statement's printed configuration"
+ },
+ "replay": {
+  "gap_bench_profile": {
+   "ran": "python3 k4/gap_bench.py --profile='{...}' --show=1 (all 25 seeded statements) on compute/k4-gap @245040b",
+   "gap_c_sha256_prefix": "74e1fae22153",
+   "in_gap": "True; f 2, omega 1, keys [[-1, -1, 6, 5], [-1, 5, 6, -1], [5, -1, 6, -1], [5, 6, -1, -1]], 24 ",
+   "fails": [
+    "IV_SETTING"
+   ],
+   "holds_count": 24,
+   "fails_not_stated_by_source": [],
+   "stated_but_holds_now": []
+  },
+  "witness_check_gap_model": [
+   "f 2 omega 1 in_gap True configs 24 completable 22",
+   "  refutes:IV_SETTING: found; L [3] (given [3]) completable False owners [] phi (0, 2, 11, -2) (max (0, 3, 15, 0)) pool_optimal True"
+  ]
+ },
+ "notes": ""
+}

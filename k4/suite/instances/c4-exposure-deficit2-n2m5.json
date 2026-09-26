@@ -1,0 +1,78 @@
+{
+ "id": "c4-exposure-deficit2-n2m5",
+ "n": 2,
+ "m": 5,
+ "sets": [
+  [
+   0,
+   2,
+   3,
+   4
+  ],
+  [
+   1,
+   2,
+   3,
+   4
+  ]
+ ],
+ "vals": [
+  [
+   2,
+   7,
+   10,
+   4
+  ],
+  [
+   6,
+   3,
+   7,
+   5
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": null,
+ "source": {
+  "pr": 33,
+  "branch": "main",
+  "files": [
+   "attempts/k4-c4-exposure-counting.md",
+   "k4/c4.md"
+  ],
+  "replay": "attempts/k4_c4_attempts.py"
+ },
+ "refutes": [
+  {
+   "statement": "At k = 4 owner r's deficit (the least number of extra slots that would make r valid) is at most 1, as at k = 3 (LB⁺'s Theorem A): one exposed agent needs at most one good kept out",
+   "ledger": "K4.C4.GAP",
+   "smallest": true
+  }
+ ],
+ "witness": {
+  "insertion_choices": [
+   2,
+   0
+  ],
+  "bases": [
+   [
+    2
+   ],
+   [
+    3
+   ]
+  ],
+  "J": [
+   0,
+   1,
+   4
+  ],
+  "r": 0,
+  "exposed": [
+   1
+  ],
+  "omega": 2,
+  "deficit_r": 2
+ },
+ "notes": "Case 2 of k4-c4-exposure-counting.md (k4/c4.md §6.1 item 2). Agent 1 inserted first (replay's insertion choices [2, 0]); agent 1 ranks 3 > 1 > 4 > 2 (values 7, 6, 5, 3), flat (7 < 5 + 3), takes 3 and is frozen; agent 0 takes 2 and is r. W = {2, 0, 1, 4} holds agent 1's goods 1, 4 and 2 = Y_r, so both 1 and 4 must stay out of X_r: owner r's deficit is 2. Replay run: 'r = 0, exposed [1], deficit of r = 2'. [Certified-core lookup by the generator (not from the source): identical sets (same agent order and labels): core 3 of results/k4_certs_2.json.gz. Core k = 0-based position in the file's \"cores\" list, as the sources use it.]"
+}

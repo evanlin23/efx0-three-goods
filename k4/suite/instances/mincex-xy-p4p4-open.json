@@ -1,0 +1,75 @@
+{
+ "id": "mincex-xy-p4p4-open",
+ "n": 2,
+ "m": 7,
+ "sets": [
+  [
+   0,
+   1,
+   2,
+   3
+  ],
+  [
+   4,
+   5,
+   2,
+   6
+  ]
+ ],
+ "vals": [
+  [
+   8,
+   6,
+   4,
+   1
+  ],
+  [
+   8,
+   6,
+   4,
+   1
+  ]
+ ],
+ "kind": "local configuration (not a complete instance; the runner skips it)",
+ "core_ref": null,
+ "source": {
+  "pr": 28,
+  "branch": "main",
+  "files": [
+   "attempts/k4-mincex-xy-pairs.md"
+  ],
+  "replay": "k4/mincex_attempts.py"
+ },
+ "refutes": [
+  {
+   "statement": "Minimal-counterexample reduction for configuration xy (open): two P4 agents e, f sharing only a good g of degree 2 are reducible by DEL or a one-agent gadget on the boundary goods (menu of 1,665 classes, unenvied bundle)",
+   "ledger": null,
+   "smallest": true
+  }
+ ],
+ "witness": {
+  "good_names": [
+   "a",
+   "b",
+   "g",
+   "p_e",
+   "x",
+   "y",
+   "p_f"
+  ],
+  "agent_names": [
+   "e",
+   "f"
+  ],
+  "DEL_failing_state": {
+   "outside_bundle": [
+    "a",
+    "b",
+    "x",
+    "y"
+   ],
+   "unenvied": true
+  }
+ },
+ "notes": "LOCAL CONFIGURATION, NOT A COMPLETE INSTANCE. Goods numbered by me in the source's listing order: 0 = a, 1 = b, 2 = g, 3 = p_e, 4 = x, 5 = y, 6 = p_f. e on (a, b, g, p_e) = (8, 6, 4, 1), f on (x, y, g, p_f) = (8, 6, 4, 1): each ranks its two boundary goods first. No one-agent gadget of the menu reduces it (none reduces any open P4–P4 profile: 0 of 82,944); DEL (9,692 of 82,944) fails at the state where a, b, x, y lie together in one outside bundle without outside goods that nobody envies (θ_e = 14 > v(g) + v(p_e) = 5). Not needed (β = 4 settled by certification, K4.MC7). Replay: I read results/k4_attempt_xy.log (did not rerun): '0 of 82944 profiles reduced; this profile: not reduced', 'DEL: 9692 of 82944 profiles reduced; this profile: not reduced', DEL state 'outside: [['a', 'b', 'x', 'y']]'."
+}

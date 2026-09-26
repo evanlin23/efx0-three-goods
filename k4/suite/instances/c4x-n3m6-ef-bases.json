@@ -1,0 +1,65 @@
+{
+ "id": "c4x-n3m6-ef-bases",
+ "n": 3,
+ "m": 6,
+ "sets": [
+  [
+   0,
+   3,
+   4,
+   5
+  ],
+  [
+   1,
+   3,
+   4,
+   5
+  ],
+  [
+   2,
+   3,
+   4,
+   5
+  ]
+ ],
+ "vals": [
+  [
+   3,
+   5,
+   6,
+   7
+  ],
+  [
+   4,
+   6,
+   5,
+   8
+  ],
+  [
+   5,
+   4,
+   6,
+   8
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": null,
+ "source": {
+  "pr": 36,
+  "branch": "main",
+  "files": [
+   "attempts/k4-c4x-variant-spaces.md",
+   "LEDGER.md"
+  ],
+  "replay": "attempts/k4_c4x_attempts.py"
+ },
+ "refutes": [
+  {
+   "statement": "Variant space of 𝒫 with only envy-free two-good bases (v_i(B) ≥ v_i(R_i ∖ B), LB₄ʳ's second upgrade policy): some valid pre-allocation is completable",
+   "ledger": "K4.C4X.PHI",
+   "smallest": true
+  }
+ ],
+ "notes": "Instance 2 of k4-c4x-variant-spaces.md: 'smallest n; found by sampling, so m is the smallest found' (none at n = 2, exhaustive). Pure core. Replay run: 'space ef: 5 valid, 0 completable (py); no completable pre-allocation (c): True -> confirmed'. [Certified-core lookup by the generator (not from the source): identical sets (same agent order and labels): core 23 of results/k4_certs_3.json.gz. Core k = 0-based position in the file's \"cores\" list, as the sources use it.]"
+}

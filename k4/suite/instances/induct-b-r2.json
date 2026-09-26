@@ -1,0 +1,81 @@
+{
+ "id": "induct-b-r2",
+ "n": 4,
+ "m": 7,
+ "sets": [
+  [
+   0,
+   2,
+   3,
+   5
+  ],
+  [
+   1,
+   4,
+   6
+  ],
+  [
+   2,
+   3,
+   6
+  ],
+  [
+   4,
+   5,
+   6
+  ]
+ ],
+ "vals": [
+  [
+   4,
+   7,
+   2,
+   8
+  ],
+  [
+   3,
+   2,
+   4
+  ],
+  [
+   3,
+   2,
+   4
+  ],
+  [
+   2,
+   3,
+   4
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": "core 95 of results/k4_certs_4_n4_1.json.gz",
+ "source": {
+  "pr": 43,
+  "branch": "proof/k4-induct",
+  "files": [
+   "k4/induct.md",
+   "attempts/k4-induct-remove-agent.md",
+   "attempts/k4_induct_attempts.py",
+   "results/k4_induct_attempts.log"
+  ],
+  "replay": "attempts/k4_induct_attempts.py B-r2"
+ },
+ "refutes": [
+  {
+   "statement": "B-form insertion lemma with bounded repair rho = 2: for some 4-good agent w and some d in R_w, every X' in E(I - w - d) (agent w and good d deleted; w gets nothing but possibly d) has r(X') <= 2, r(X') = min over X in E(I) of #{g != d : X(g) != X'(g)}.",
+   "ledger": "K4.IND.X",
+   "smallest": true
+  }
+ ],
+ "witness": {
+  "worst r per (w, d) (replay)": {
+   "(0, 0)": 3,
+   "(0, 2)": 4,
+   "(0, 3)": 4,
+   "(0, 5)": 3
+  }
+ },
+ "notes": "rho = 2, B-form (n = 4, m = 7). 'No failure of rho = 3 was found' for the B-form. Replay (independent brute force k4/induct_bf.py, no code shared with k4/induct.c) rerun here: output identical to results/k4_induct_attempts.log, ALL CLAIMS CONFIRMED. The replay script's docstring: 'Each instance is a strict k = 4 core profile'. Smallest sizes are 'the smallest found (n = 2 exhaustive, larger n sampled)' (ledger K4.IND.X). core_ref derived here (not stated in the source): exact match of n, m and every agent's goods in the same agent order, against results/k4_certs_4_n4_1.json.gz on main."
+}

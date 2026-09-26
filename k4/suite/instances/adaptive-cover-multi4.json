@@ -1,0 +1,62 @@
+{
+ "id": "adaptive-cover-multi4",
+ "n": 2,
+ "m": 4,
+ "sets": [
+  [
+   0,
+   1,
+   2,
+   3
+  ],
+  [
+   0,
+   1,
+   2,
+   3
+  ]
+ ],
+ "vals": [
+  [
+   2,
+   4,
+   5,
+   8
+  ],
+  [
+   2,
+   4,
+   5,
+   8
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": "core 1 of results/k4_certs_2.json.gz",
+ "source": {
+  "pr": 44,
+  "branch": "proof/k4-adaptive",
+  "files": [
+   "k4/adaptive.md",
+   "attempts/k4-adaptive-coverage-multi4.md",
+   "attempts/k4_adaptive_attempts.py",
+   "results/k4_adaptive_attempts.log"
+  ],
+  "replay": "attempts/k4_adaptive_attempts.py (last line)"
+ },
+ "refutes": [
+  {
+   "statement": "Choosing the insertion sequence so that the theorems cover the run, for every core (the multi-4-good extension of #37's finding): every strict profile has an insertion sequence whose run, after envy-free upgrades, is covered by the theorems of k4/c4.md and k4/c4one.md (omega <= 0, or one of A4, B4, B4w, A4T, A4+, A4+(o) applies). Refuted: no insertion sequence is covered (this holds with one 4-good agent, fails with two).",
+   "ledger": "K4.AD.COV",
+   "smallest": true
+  }
+ ],
+ "witness": {
+  "source text": "Either insertion order: the first agent takes 3, the second takes 2 and needs 3, so the first is frozen, exposed to W = {0, 1, 2} (5 + 4 > 8), and omega = 1; there is no envy-free upgrade ({2, 1} = 9 < 10). The only rotation makes the 4-good r exposed, so B4w does not apply, and A4+ counts one good against no slot. LB4r's first policy upgrades the second agent to {2, 1} (need-shrinking: 8 < 5 + 4); then nobody is frozen, omega = 0, no owner is needed, and the allocation {3, 0} | {2, 1} is EFX0.",
+  "replay": "no insertion sequence covered by the theorems: True; rule 16: rot=0"
+ },
+ "notes": "n = 2, m = 4, both agents 4-good with the same goods and values (2, 4, 5, 8). Replay rerun here (attempts/k4_adaptive_attempts.py, adaptive.c sha256 e5ed45c423467df0): output identical to results/k4_adaptive_attempts.log, 'ALL AS RECORDED' (each failure also confirmed in PR #33's independent model k4/c4_verify_H/lb4r.py, least rotations 2 on the rule's sequence, and by brute force k4/lb4_brute.py: K4.D holds). core_ref derived here (not stated in the source): exact match of n, m and every agent's goods in the same agent order, against results/k4_certs_2.json.gz on main.",
+ "expect_fail": [
+  "pareto-T:low"
+ ]
+}

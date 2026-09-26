@@ -1,0 +1,115 @@
+{
+ "id": "nsw-local-n3m5",
+ "n": 3,
+ "m": 5,
+ "sets": [
+  [
+   0,
+   1,
+   3,
+   4
+  ],
+  [
+   0,
+   2,
+   3,
+   4
+  ],
+  [
+   1,
+   2,
+   3,
+   4
+  ]
+ ],
+ "vals": [
+  [
+   8,
+   4,
+   5,
+   6
+  ],
+  [
+   10,
+   3,
+   4,
+   8
+  ],
+  [
+   2,
+   3,
+   4,
+   8
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": null,
+ "source": {
+  "pr": 40,
+  "branch": "main",
+  "files": [
+   "attempts/k4-nsw-local.md",
+   "LEDGER.md"
+  ],
+  "replay": null
+ },
+ "refutes": [
+  {
+   "statement": "Local form of the NSW potential for LB₄ʳ's rotations: in every stuck state reached from LB₄ʳ's Phase 1 (index insertion) and one upgrade policy, some RotStep strictly raises Φ = (z, Π v_i(B_i)) (z = number of agents with a nonempty base; lexicographic)",
+   "ledger": "K4.NSW",
+   "smallest": true
+  }
+ ],
+ "witness": {
+  "phase1_bases": [
+   [
+    0
+   ],
+   [
+    4
+   ],
+   [
+    3
+   ]
+  ],
+  "moves": [
+   {
+    "chain": [
+     1,
+     2
+    ],
+    "O": [
+     2,
+     3
+    ]
+   },
+   {
+    "chain": [
+     2,
+     1
+    ],
+    "O": [
+     1,
+     2,
+     3
+    ]
+   }
+  ],
+  "stuck_state_bases": [
+   [
+    0
+   ],
+   [
+    4
+   ],
+   [
+    1,
+    2,
+    3
+   ]
+  ],
+  "stuck_state_J": []
+ },
+ "notes": "Pure core. Run with policy u1 (no upgrade applies): Phase 1 bases 0:{0}, 1:{4}, 2:{3}, Φ = (3, 256); move 1: chain (1, 2) with O = {2, 3}; move 2: chain (2, 1) with O = {1, 2, 3}, reaching S: bases 0:{0}, 1:{4}, 2:{1,2,3} (agent 2 rotated), no junk, Φ = (3, 576). S is stuck (agent 2 must own, (OC₄) fails); its one RotStep successor has Φ = (3, 540). Same dead state under u2 and u0. The census k4/lb4_nsw.c -N6 shows n = 3, m = 5 is the smallest size (0 at n = 2 and at n = 3, m = 4). The existence form holds on this profile (steepest ascent succeeds after one rotation). PR #40 is named only as 'the #40 reviewer's own run'. No attempts/*.py replay; I ran the file's reproduce command (k4/lb4_nsw.c compiled in my scratchpad, -i0 -w1 -c1 -N2 -P0 -v): it printed 'DEADEND(no improving rotation)' for u1, u2, u0 and 'all_policies_fail 1'. [Certified-core lookup by the generator (not from the source): identical sets (same agent order and labels): core 14 of results/k4_certs_3.json.gz. Core k = 0-based position in the file's \"cores\" list, as the sources use it.]"
+}

@@ -1,0 +1,131 @@
+{
+ "id": "lb4-last-block-leader-index-n4m8",
+ "n": 4,
+ "m": 8,
+ "sets": [
+  [
+   0,
+   2,
+   4,
+   6
+  ],
+  [
+   0,
+   2,
+   5,
+   6
+  ],
+  [
+   1,
+   3,
+   4,
+   7
+  ],
+  [
+   1,
+   3,
+   5,
+   7
+  ]
+ ],
+ "vals": [
+  [
+   2,
+   4,
+   8,
+   7
+  ],
+  [
+   5,
+   6,
+   3,
+   7
+  ],
+  [
+   3,
+   5,
+   7,
+   6
+  ],
+  [
+   4,
+   5,
+   2,
+   8
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": null,
+ "source": {
+  "pr": 24,
+  "branch": "main",
+  "files": [
+   "attempts/lb4-last-block-leader.md",
+   "LEDGER.md"
+  ],
+  "replay": "attempts/lb4_variants.py"
+ },
+ "refutes": [
+  {
+   "statement": "LB₄ᴸ(index order): index insertion, and if it fails every other leader of its last block, LB₄ otherwise (lb4.c -i8 -u1 -r1 -w1 -c1) succeeds",
+   "ledger": "K4.LB4.X",
+   "smallest": true
+  }
+ ],
+ "witness": {
+  "insertion_order": [
+   0,
+   2,
+   3,
+   1
+  ],
+  "picks": [
+   4,
+   6,
+   7,
+   3
+  ],
+  "blocks": [
+   0,
+   1,
+   0,
+   0
+  ],
+  "upgrade": {
+   "agent": 3,
+   "base": [
+    1,
+    3
+   ]
+  },
+  "J": [
+   0,
+   2,
+   5
+  ],
+  "frozen": [
+   0
+  ],
+  "omega": 1,
+  "example_allocation": [
+   [
+    0,
+    6
+   ],
+   [
+    1,
+    2,
+    5
+   ],
+   [
+    3,
+    4
+   ],
+   [
+    7
+   ]
+  ]
+ },
+ "notes": "Pure core (agents 1 and 2 flat). By index: agent 0 takes its top 4; agent 2 takes 7; agent 3 takes 3 and is upgraded with 1 ({3,1} worth 9 > 8); agent 1 is inserted alone in a second block and takes 6. Agent 0 frozen (agent 2 needs 4), junk {0,2,5}, ω = 1; no owner or rotation works. 43,200 of this core's 6,879,707,136 profiles fail. Brute force: 63 EFX₀ allocations with ≤ 1 large bundle, e.g. {0,6} | {1,2,5} | {3,4} | {7}. -i8 fails nowhere with n ≤ 3, n = 4 with ≤ 3 four-good agents, n = 5 with ≤ 2 (so 'smallest' in n and number of 4-good agents; 4 of the 219 pure n = 4 cores fail, m = 8, 9, 9, 10). Replay run: 'profiles 6879707136, failing 43200', first failing profile values [[2, 4, 8, 7], [5, 6, 3, 7], [3, 5, 7, 6], [4, 5, 2, 8]] ('order=0 2 3 1 picks=4,6,7,3 blocks=0,1,0,0 upg=3:a frozen=0'). [Certified-core lookup by the generator (not from the source): identical sets (same agent order and labels): core 120 of results/k4_certs_4_pure.json.gz. Core k = 0-based position in the file's \"cores\" list, as the sources use it.]"
+}

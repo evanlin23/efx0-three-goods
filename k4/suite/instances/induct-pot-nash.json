@@ -1,0 +1,66 @@
+{
+ "id": "induct-pot-nash",
+ "n": 3,
+ "m": 6,
+ "sets": [
+  [
+   0,
+   2,
+   4,
+   5
+  ],
+  [
+   1,
+   4,
+   5
+  ],
+  [
+   3,
+   4,
+   5
+  ]
+ ],
+ "vals": [
+  [
+   4,
+   3,
+   6,
+   8
+  ],
+  [
+   2,
+   3,
+   4
+  ],
+  [
+   3,
+   4,
+   2
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": "core 18 of results/k4_certs_3.json.gz",
+ "source": {
+  "pr": 43,
+  "branch": "proof/k4-induct",
+  "files": [
+   "k4/induct.md",
+   "attempts/k4-induct-potentials.md",
+   "attempts/k4_induct_attempts.py",
+   "results/k4_induct_attempts.log"
+  ],
+  "replay": "attempts/k4_induct_attempts.py pot-nash"
+ },
+ "refutes": [
+  {
+   "statement": "Extremal X' (G-form), potential Phi = Nash welfare (#positive, then sum log v_i): for some (w, d), EVERY maximizer of Phi on E(I - d) admits a placement of d with no repair (r = 0). The weaker some-maximizer form holds on this instance (not refuted).",
+   "ledger": "K4.IND.X",
+   "smallest": true
+  }
+ ],
+ "witness": {
+  "replay": "True; some-maximizer form also fails: False"
+ },
+ "notes": "n = 3, m = 6. Replay (independent brute force k4/induct_bf.py, no code shared with k4/induct.c) rerun here: output identical to results/k4_induct_attempts.log, ALL CLAIMS CONFIRMED. The replay script's docstring: 'Each instance is a strict k = 4 core profile'. Smallest sizes are 'the smallest found (n = 2 exhaustive, larger n sampled)' (ledger K4.IND.X). core_ref derived here (not stated in the source): exact match of n, m and every agent's goods in the same agent order, against results/k4_certs_3.json.gz on main."
+}

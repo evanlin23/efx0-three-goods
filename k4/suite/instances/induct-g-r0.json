@@ -1,0 +1,62 @@
+{
+ "id": "induct-g-r0",
+ "n": 2,
+ "m": 4,
+ "sets": [
+  [
+   0,
+   1,
+   2,
+   3
+  ],
+  [
+   1,
+   2,
+   3
+  ]
+ ],
+ "vals": [
+  [
+   2,
+   3,
+   8,
+   4
+  ],
+  [
+   2,
+   4,
+   3
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": "core 0 of results/k4_certs_2.json.gz",
+ "source": {
+  "pr": 43,
+  "branch": "proof/k4-induct",
+  "files": [
+   "k4/induct.md",
+   "attempts/k4-induct-bounded-repair.md",
+   "attempts/k4_induct_attempts.py",
+   "results/k4_induct_attempts.log"
+  ],
+  "replay": "attempts/k4_induct_attempts.py G-r0"
+ },
+ "refutes": [
+  {
+   "statement": "G-form insertion lemma with bounded repair rho = 0: for some 4-good agent w and some d in R_w, every EFX0 allocation X' of I - d (d deleted) has repair distance r(X') <= 0, where r(X') = min over X in E(I) of the number of goods other than d whose owner differs in X and X'.",
+   "ledger": "K4.IND.X",
+   "smallest": true
+  }
+ ],
+ "witness": {
+  "worst r(X') per (w, d) (replay)": {
+   "(0, 0)": 3,
+   "(0, 1)": 2,
+   "(0, 2)": 1,
+   "(0, 3)": 2
+  },
+  "source text": "agent 0 on {0, 1, 2, 3} with values (2, 3, 8, 4) (good 0 private), agent 1 on {1, 2, 3} with (2, 4, 3). For d = 0, 1, 2, 3 the worst X' needs 3, 2, 1, 2 moved goods."
+ },
+ "notes": "rho = 0, G-form (n = 2, m = 4). Replay (independent brute force k4/induct_bf.py, no code shared with k4/induct.c) rerun here: output identical to results/k4_induct_attempts.log, ALL CLAIMS CONFIRMED. The replay script's docstring: 'Each instance is a strict k = 4 core profile'. Smallest sizes are 'the smallest found (n = 2 exhaustive, larger n sampled)' (ledger K4.IND.X). core_ref derived here (not stated in the source): exact match of n, m and every agent's goods in the same agent order, against results/k4_certs_2.json.gz on main."
+}

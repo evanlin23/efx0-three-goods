@@ -1,0 +1,99 @@
+{
+ "id": "hall-btown-core46",
+ "n": 3,
+ "m": 8,
+ "sets": [
+  [
+   0,
+   2,
+   6,
+   7
+  ],
+  [
+   1,
+   4,
+   6,
+   7
+  ],
+  [
+   3,
+   5,
+   6,
+   7
+  ]
+ ],
+ "vals": [
+  [
+   2,
+   3,
+   4,
+   8
+  ],
+  [
+   3,
+   4,
+   2,
+   8
+  ],
+  [
+   3,
+   4,
+   2,
+   8
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": "core 46 of results/k4_certs_3.json.gz",
+ "source": {
+  "pr": 52,
+  "branch": "main",
+  "files": [
+   "k4/hall_bt.md"
+  ],
+  "replay": null
+ },
+ "refutes": [
+  {
+   "statement": "BTOWN (the variant of K4.HALL.BTCYC with x as the owner): at every Pareto-maximal P ∈ 𝒫 inside the min-frozen class with ω ≥ 1, no removal-only owner and an exposed frozen big-top agent x, some cycle of #41's exchange digraph through x makes x itself a valid owner",
+   "ledger": "K4.HALL.BTCYC",
+   "smallest": null
+  }
+ ],
+ "witness": {
+  "bases": [
+   [
+    7
+   ],
+   [
+    1,
+    4
+   ],
+   [
+    3,
+    5
+   ]
+  ],
+  "J": [
+   0,
+   2,
+   6
+  ],
+  "frozen": [
+   0
+  ],
+  "cycle": {
+   "path": [
+    0,
+    1,
+    0
+   ],
+   "moves": {
+    "7": "to agent 1",
+    "[2,6]": "to agent 0"
+   },
+   "owner_after": 2
+  }
+ },
+ "notes": "Recorded in the notes of ledger row K4.HALL.BTCYC (a CONJECTURE, not refuted: a cycle through x still completes with another owner). All three agents are big-top agents with the same top 7. P: agent 0 holds {7}, frozen; agent 1 holds {1,4}; agent 2 holds {3,5}; J = {0,2,6}. The cycle 0 → 1 → 0 moves 7 to agent 1 and {2,6} to agent 0; the new frozen big-top agent 1 is then threatened by agent 0's bundle, and agent 2 is the owner (so a cycle through x completes, but not with x as owner). Found by k4/hall.c alone; one of 1,344 of the 377,832 such maxima at n ≤ 3 where BTOWN fails. No replay script names it. Note: its sets equal those of the pure n = 3, m = 8 instance c4x-n3m8-pure-top7 (different values). [Certified-core lookup by the generator (not from the source): identical sets (same agent order and labels): core 46 of results/k4_certs_3.json.gz. Core k = 0-based position in the file's \"cores\" list, as the sources use it.]"
+}

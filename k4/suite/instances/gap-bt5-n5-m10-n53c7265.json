@@ -1,0 +1,255 @@
+{
+ "id": "gap-bt5-n5-m10-n53c7265",
+ "n": 5,
+ "m": 10,
+ "sets": [
+  [
+   0,
+   2,
+   4,
+   8
+  ],
+  [
+   1,
+   3,
+   7,
+   9
+  ],
+  [
+   4,
+   6,
+   9
+  ],
+  [
+   5,
+   6,
+   7,
+   9
+  ],
+  [
+   5,
+   8,
+   9
+  ]
+ ],
+ "vals": [
+  [
+   2,
+   4,
+   5,
+   8
+  ],
+  [
+   3,
+   2,
+   6,
+   10
+  ],
+  [
+   2,
+   3,
+   4
+  ],
+  [
+   8,
+   6,
+   4,
+   3
+  ],
+  [
+   4,
+   3,
+   2
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": "core 7265 of results/k4_certs_5_n4_3.json.gz",
+ "core_ref_basis": "resolved by this extraction; exact sets match against results/k4_certs_5_n4_3.json.gz (0-based position 7265, idx field 44; identical blob on main and all four branches)",
+ "source": {
+  "pr": 53,
+  "branch": "compute/k4-gap",
+  "head": "245040b",
+  "files": [
+   "results/k4_gap_bench_n5.log",
+   "results/k4_gap_bt5.log",
+   "k4/gap.md"
+  ],
+  "replay": "python3 k4/gap_bench.py --profile='{\"sets\": [[0, 2, 4, 8], [1, 3, 7, 9], [4, 6, 9], [5, 6, 7, 9], [5, 8, 9]], \"vals\": [[2, 4, 5, 8], [3, 2, 6, 10], [2, 3, 4], [8, 6, 4, 3], [4, 3, 2]], \"m\": 10}' --only=LOCAL,REACH_EACH_CYC,BT"
+ },
+ "refutes": [
+  {
+   "statement": "#41 section 4, the local improvement lemma with pool moves and exchange-cycle moves (best pairs, every order of the receivers): every configuration without a valid owner has a Phi'-raising move",
+   "ledger": null,
+   "smallest": true,
+   "name": "LOCAL",
+   "smallest_scope": "first 'smallest' counterexample printed by results/k4_gap_bench_n5.log (catalogs gap_n5_*_s100 (100 random profiles per core), every 10th record; sorted by n, m, number of configurations); 33 counterexamples in that run",
+   "basis": "stated",
+   "where": [
+    "results/k4_gap_bench_n5.log"
+   ],
+   "counterexamples_in_run": 33,
+   "witness": {
+    "key": [
+     null,
+     null,
+     9,
+     5,
+     null
+    ],
+    "Q": {
+     "0": [
+      2,
+      4
+     ],
+     "1": [
+      1,
+      7
+     ],
+     "4": [
+      3,
+      8
+     ]
+    },
+    "L": [
+     0,
+     6
+    ]
+   }
+  },
+  {
+   "statement": "from each Pareto-maximal configuration without a valid owner, exchange-cycle moves alone reach one with a valid owner [source text: 'the per-start form without downgrade swaps', of REACH_EACH: 'the per-start form: from each Pareto-maximal configuration without a valid owner, exchange-cycle moves and downgrade swaps reach one with a valid owner']",
+   "ledger": null,
+   "smallest": true,
+   "name": "REACH_EACH_CYC",
+   "smallest_scope": "first 'smallest' counterexample printed by results/k4_gap_bench_n5.log (catalogs gap_n5_*_s100 (100 random profiles per core), every 10th record; sorted by n, m, number of configurations); 1 counterexamples in that run",
+   "basis": "stated",
+   "where": [
+    "results/k4_gap_bench_n5.log"
+   ],
+   "counterexamples_in_run": 1,
+   "witness": {
+    "key": [
+     null,
+     null,
+     9,
+     5,
+     null
+    ],
+    "Q": {
+     "0": [
+      2,
+      4
+     ],
+     "1": [
+      1,
+      7
+     ],
+     "4": [
+      3,
+      8
+     ]
+    },
+    "L": [
+     0,
+     6
+    ]
+   },
+   "status_with_final_code": "HOLDS on this profile with the final bench (compute/k4-gap @245040b, gap.c 74e1fae2...; this replay; also results/k4_gap_bt5.log): the failure above was logged by an earlier bench (gap.c 0c14f252...) whose form of the statement differed"
+  },
+  {
+   "statement": "#46 K4.HALL.BT in configuration form: a Pareto-maximal configuration without a valid owner has a frozen big-top agent",
+   "ledger": "K4.HALL.BT",
+   "smallest": true,
+   "name": "BT",
+   "smallest_scope": "first 'smallest' counterexample printed by results/k4_gap_bench_n5.log (catalogs gap_n5_*_s100 (100 random profiles per core), every 10th record; sorted by n, m, number of configurations); 1 counterexamples in that run",
+   "basis": "stated",
+   "where": [
+    "results/k4_gap_bench_n5.log",
+    "results/k4_gap_bt5.log"
+   ],
+   "counterexamples_in_run": 1,
+   "witness": {
+    "key": [
+     null,
+     null,
+     9,
+     5,
+     null
+    ],
+    "Q": {
+     "0": [
+      2,
+      4
+     ],
+     "1": [
+      1,
+      7
+     ],
+     "4": [
+      3,
+      8
+     ]
+    },
+    "L": [
+     0,
+     6
+    ]
+   }
+  }
+ ],
+ "witness": {
+  "key": [
+   null,
+   null,
+   9,
+   5,
+   null
+  ],
+  "Q": {
+   "0": [
+    2,
+    4
+   ],
+   "1": [
+    1,
+    7
+   ],
+   "4": [
+    3,
+    8
+   ]
+  },
+  "L": [
+   0,
+   6
+  ],
+  "_from": "the first refuted statement's printed configuration"
+ },
+ "replay": {
+  "gap_bench_profile": {
+   "ran": "python3 k4/gap_bench.py --profile='{...}' --show=1 (all 25 seeded statements) on compute/k4-gap @245040b",
+   "gap_c_sha256_prefix": "74e1fae22153",
+   "in_gap": "True; f 2, omega 2, keys [[-1, -1, -1, 5, 8], [-1, -1, 9, 5, -1], [-1, -1, 9, -1, 5], [-1, 9, ",
+   "fails": [
+    "LOCAL",
+    "BT"
+   ],
+   "holds_count": 23,
+   "fails_not_stated_by_source": [],
+   "stated_but_holds_now": [
+    "REACH_EACH_CYC"
+   ]
+  },
+  "witness_check_gap_model": [
+   "f 2 omega 2 in_gap True configs 99 completable 97",
+   "  refutes:LOCAL: found; L [0, 6] (given [0, 6]) completable False owners [] phi (0, 2, 23, -2) (max (0, 4, 27, 0)) pool_optimal True",
+   "  refutes:REACH_EACH_CYC: found; L [0, 6] (given [0, 6]) completable False owners [] phi (0, 2, 23, -2) (max (0, 4, 27, 0)) pool_optimal True",
+   "  refutes:BT: found; L [0, 6] (given [0, 6]) completable False owners [] phi (0, 2, 23, -2) (max (0, 4, 27, 0)) pool_optimal True"
+  ]
+ },
+ "notes": "k4/gap.md section 3, BT counterexamples: 'A second one found here: n = 5, m = 10 ... Its frozen agents are the 3-good agent 2 (on 9) and agent 3 (on 5). Two owners are blocked by class-L threats, and the third owner's threat falls on a free agent.' Found in the n = 5 bench (results/k4_gap_bench_n5.log).\nWith the final code (gap.c 74e1fae2..., gap_model at 245040b) the bench reports ['REACH_EACH_CYC'] as HOLDING on this profile; the source's failure was logged with an earlier bench (gap.c 0c14f252...) whose statement differed (II_T0/II_PHI were revised; REACH_* were changed in de63fca to accept a removal-only completable pre-allocation). The source statement recorded above is the one that failed.",
+ "expect_fail": [
+  "bt-cfg"
+ ]
+}

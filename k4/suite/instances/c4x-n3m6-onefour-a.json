@@ -1,0 +1,71 @@
+{
+ "id": "c4x-n3m6-onefour-a",
+ "n": 3,
+ "m": 6,
+ "sets": [
+  [
+   0,
+   2,
+   4,
+   5
+  ],
+  [
+   1,
+   3,
+   5
+  ],
+  [
+   3,
+   4,
+   5
+  ]
+ ],
+ "vals": [
+  [
+   2,
+   3,
+   4,
+   8
+  ],
+  [
+   2,
+   4,
+   3
+  ],
+  [
+   4,
+   2,
+   3
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": null,
+ "source": {
+  "pr": 36,
+  "branch": "main",
+  "files": [
+   "attempts/k4-c4x-frozen-first.md",
+   "attempts/k4-c4x-pareto-potentials.md",
+   "LEDGER.md"
+  ],
+  "replay": "attempts/k4_c4x_attempts.py"
+ },
+ "refutes": [
+  {
+   "statement": "Over 𝒫, every maximum of (−frozen, Σℓ) is completable ('every' form)",
+   "ledger": "K4.C4X.PHI",
+   "smallest": true
+  },
+  {
+   "statement": "Over 𝒫, every maximum of the level sum Σℓ is completable ('every' form)",
+   "ledger": "K4.C4X.PHI",
+   "smallest": true
+  }
+ ],
+ "notes": "Instance 4 of k4-c4x-frozen-first.md ('smallest m at n = 3; exhaustive') and the second profile of instance 1 of k4-c4x-pareto-potentials.md ('with values (2, 4, 3) and (4, 2, 3), a Σℓ-maximum is stuck'; that instance is labelled 'smallest n and m; exhaustive'). Agent 0 has a > b + c. Replay run: '(-frozen,sumlev): 10 valid, 8 completable; ... every-form failure confirmed' and 'sumlev: 10 valid, 8 completable; ... every-form failure confirmed'. [Certified-core lookup by the generator (not from the source): identical sets (same agent order and labels): core 19 of results/k4_certs_3.json.gz. Core k = 0-based position in the file's \"cores\" list, as the sources use it.]",
+ "expect_fail": [
+  "pre-every:(-frozen,sumlev)",
+  "pre-every:sumlev"
+ ]
+}

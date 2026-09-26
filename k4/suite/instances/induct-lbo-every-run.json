@@ -1,0 +1,76 @@
+{
+ "id": "induct-lbo-every-run",
+ "n": 4,
+ "m": 5,
+ "sets": [
+  [
+   0,
+   3,
+   4
+  ],
+  [
+   0,
+   2,
+   3
+  ],
+  [
+   1,
+   2,
+   3
+  ],
+  [
+   1,
+   2,
+   3
+  ]
+ ],
+ "vals": [
+  [
+   4,
+   2,
+   3
+  ],
+  [
+   3,
+   4,
+   2
+  ],
+  [
+   4,
+   2,
+   3
+  ],
+  [
+   4,
+   3,
+   2
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": null,
+ "source": {
+  "pr": 43,
+  "branch": "proof/k4-induct",
+  "files": [
+   "k4/induct.md",
+   "results/k4_induct_lbo_variants.log",
+   "k4/induct_lbo.py"
+  ],
+  "replay": "python3 k4/induct_lbo.py results/certs_lb_2_6.json.gz --n=4 --all --jobs=2 --every-run --partial --rot"
+ },
+ "refutes": [
+  {
+   "statement": "Conjecture LBO (K4.IND.LBO, k4/induct.md §4b; k = 3 setting: every agent other than w values three goods and is balanced, w values at most three goods): some run of Phase 1 with w last, some state of LB's upgrade loop (stopped anywhere; w not upgraded when top-heavy) and at most one LB⁺ rotation give a valid pre-allocation in which w is a valid owner (O) or a terminal with a free slot while another valid owner leaves a slot free (S). VARIANT (one ingredient dropped, 'every ingredient is needed'): EVERY run of Phase 1 with w last must give a witness on its own (the run is not chosen). Source: 'requiring every run of Phase 1 with w last to work fails on 2,188 of the 212,544 n = 4 pairs (smallest: n = 4, m = 5)'.",
+   "ledger": "K4.IND.LBO",
+   "smallest": true
+  }
+ ],
+ "witness": {
+  "targets w without a witness (log 'agents=')": [
+   1
+  ],
+  "command": "k4/induct_lbo.py results/certs_lb_2_6.json.gz --n=4 --all --jobs=2 --every-run --partial --rot"
+ },
+ "notes": "A k = 3 instance (every agent has three goods; a connected k = 3 core of the listed certificate file), not in the k4_certs lists (which contain only cores with at least one 4-good agent). Values are rank weights 2..4 listed parallel to sets (induct_lbo.py work(): R_i = goods sorted by value). k4/induct.md gives only the counts; the instance is the first 'no witness' line of results/k4_induct_lbo_variants.log for this command. Re-run here with the branch's k4/induct_lbo.work(): the variant misses exactly the listed targets, and full LBO (--last --partial --rot) has a witness for every w. Same core (sets) as induct-lbo-no-rot, other values. Exact match (derived here, not stated in the source): core 16 of results/certs_lb_2_6.json.gz on main."
+}

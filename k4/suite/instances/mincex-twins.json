@@ -1,0 +1,86 @@
+{
+ "id": "mincex-twins",
+ "n": 2,
+ "m": 4,
+ "sets": [
+  [
+   0,
+   1,
+   2
+  ],
+  [
+   0,
+   1,
+   3
+  ]
+ ],
+ "vals": [
+  [
+   4,
+   3,
+   2
+  ],
+  [
+   4,
+   3,
+   2
+  ]
+ ],
+ "kind": "local configuration (not a complete instance; the runner skips it)",
+ "core_ref": null,
+ "source": {
+  "pr": 28,
+  "branch": "main",
+  "files": [
+   "attempts/k4-mincex-twins.md"
+  ],
+  "replay": "k4/mincex_attempts.py"
+ },
+ "refutes": [
+  {
+   "statement": "Minimal-counterexample reduction for configuration twins (two P3 agents e, f with the same two shared goods G1, G2 and private p_e, p_f): reducible by DEL or a one-agent gadget h on G1, G2 and one gadget good z′ (menu of 43 classes, unenvied bundle)",
+   "ledger": null,
+   "smallest": true
+  }
+ ],
+ "witness": {
+  "good_names": [
+   "G1",
+   "G2",
+   "p_e",
+   "p_f"
+  ],
+  "agent_names": [
+   "e",
+   "f"
+  ],
+  "DEL_failing_state": {
+   "outside_bundle": [
+    "G1",
+    "G2"
+   ],
+   "unenvied": true
+  },
+  "gadget": {
+   "h": {
+    "G1": 2,
+    "G2": 2,
+    "z′": 3
+   }
+  },
+  "gadget_failing_state": {
+   "h": [
+    "G1",
+    "z′"
+   ],
+   "outside": [
+    [
+     "G2",
+     "outside goods"
+    ]
+   ],
+   "unenvied": "h"
+  }
+ },
+ "notes": "LOCAL CONFIGURATION, NOT A COMPLETE INSTANCE. Goods numbered by me: 0 = G1, 1 = G2, 2 = p_e, 3 = p_f. Both rank G1 > G2 > p (values 4, 3, 2). DEL fails where G1, G2 lie together in one outside bundle without outside goods that nobody envies (θ_e({G1, G2}) = 4 > v(p_e) = 2). Gadget h with G1 = G2 = 2, z′ = 3 fails where h holds {G1, z′}, G2 lies in an outside bundle with outside goods, and h's bundle is unenvied (the agent not getting G1 faces a threat of v(G2) = 3 with only its private good 2). 26 of 36 profiles reduce; 10 left (results/k4_attempt_twins.log). Not needed for K4.MC7. Replay: I read results/k4_attempt_twins.log (did not rerun): 'DEL under {'e': {'G1': 4, 'G2': 3, 'pe': 2}, 'f': {'G1': 4, 'G2': 3, 'pf': 2}}: Y = S': {} | outside: [['G1', 'G2']]' and 'GAD h(G1=2,G2=2,z'=3) ...: Y = S': {'h': ['G1', \"z'\"]} | outside: [['G2', 'W:0']] | unenvied: ('sp', 'h')'."
+}

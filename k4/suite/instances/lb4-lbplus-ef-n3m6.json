@@ -1,0 +1,95 @@
+{
+ "id": "lb4-lbplus-ef-n3m6",
+ "n": 3,
+ "m": 6,
+ "sets": [
+  [
+   0,
+   1,
+   2,
+   3
+  ],
+  [
+   0,
+   1,
+   4,
+   5
+  ],
+  [
+   2,
+   3,
+   4,
+   5
+  ]
+ ],
+ "vals": [
+  [
+   2,
+   7,
+   4,
+   8
+  ],
+  [
+   1,
+   8,
+   4,
+   6
+  ],
+  [
+   2,
+   8,
+   3,
+   4
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": null,
+ "source": {
+  "pr": 24,
+  "branch": "main",
+  "files": [
+   "attempts/lb4-lbplus-shape.md",
+   "LEDGER.md"
+  ],
+  "replay": "attempts/lb4_variants.py"
+ },
+ "refutes": [
+  {
+   "statement": "LB₄ in the shape of LB⁺ with envy-free upgrades only (SCOUT §5's rule; lb4.c -i0 -u2 -o2 -r1) succeeds",
+   "ledger": "K4.LB4.X",
+   "smallest": true
+  }
+ ],
+ "witness": {
+  "picks": [
+   3,
+   1,
+   5
+  ],
+  "J": [
+   0,
+   2,
+   4
+  ],
+  "frozen": [
+   0
+  ],
+  "omega": 1,
+  "example_allocation": [
+   [
+    0,
+    1,
+    2
+   ],
+   [
+    4,
+    5
+   ],
+   [
+    3
+   ]
+  ]
+ },
+ "notes": "Pure core. By index: agent 0 takes its top 3, agent 2 (lost its top) takes 5, agent 1 (lost 5) takes its top 1; agent 0 frozen, junk {0,2,4}, ω = 1; no envy-free upgrade of agent 2 (a > b + c); neither r nor a rotation works. Brute force: 7 EFX₀ allocations with at most one large bundle, e.g. {0,1,2} | {4,5} | {3}. Every n = 2 core passes. Replay run: 'profiles 23887872, failing 149632', first failing profile values [[2, 7, 4, 8], [1, 8, 4, 6], [2, 8, 3, 4]] ('order=0 2 1 picks=3,1,5 ... frozen=0'). [Certified-core lookup by the generator (not from the source): identical sets (same agent order and labels): core 32 of results/k4_certs_3.json.gz. Core k = 0-based position in the file's \"cores\" list, as the sources use it.]"
+}

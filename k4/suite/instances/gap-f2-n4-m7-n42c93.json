@@ -1,0 +1,142 @@
+{
+ "id": "gap-f2-n4-m7-n42c93",
+ "n": 4,
+ "m": 7,
+ "sets": [
+  [
+   0,
+   2,
+   5,
+   6
+  ],
+  [
+   1,
+   4,
+   5,
+   6
+  ],
+  [
+   3,
+   5,
+   6
+  ],
+  [
+   4,
+   5,
+   6
+  ]
+ ],
+ "vals": [
+  [
+   3,
+   2,
+   4,
+   8
+  ],
+  [
+   3,
+   10,
+   8,
+   6
+  ],
+  [
+   2,
+   4,
+   3
+  ],
+  [
+   4,
+   2,
+   3
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": "core 93 of results/k4_certs_4_n4_2.json.gz",
+ "core_ref_basis": "cited by k4/gap.md section 3; exact sets match against results/k4_certs_4_n4_2.json.gz (0-based position 93, idx field 13; identical blob on main and all four branches)",
+ "source": {
+  "pr": 53,
+  "branch": "compute/k4-gap",
+  "head": "245040b",
+  "files": [
+   "results/k4_gap/hard_base.json.gz",
+   "results/k4_gap_hard_base.log",
+   "k4/gap.md"
+  ],
+  "replay": "python3 k4/gap_bench.py --profile='{\"sets\": [[0, 2, 5, 6], [1, 4, 5, 6], [3, 5, 6], [4, 5, 6]], \"vals\": [[3, 2, 4, 8], [3, 10, 8, 6], [2, 4, 3], [4, 2, 3]], \"m\": 7}'"
+ },
+ "refutes": [
+  {
+   "statement": "[extremal flag, not a refutation] category F2 (k4/gap.md section 3): f >= 2 (the exposed-frozen gap beyond f = 1: every configuration at the fewest frozen agents has an exposed frozen agent); k4/gap.md: 'No gap profile with n <= 3 has f >= 2' (so this lies outside #41's f = 1 roadmap)",
+   "ledger": null,
+   "smallest": true,
+   "name": "F2",
+   "smallest_scope": "smallest F2 profile with n = 4 in the base catalogs gap_n2..gap_n5 (n = 2, 3 and n = 4 one 4-good agent exhaustive; the rest sampled), by (n, m, number of configurations)",
+   "basis": "stated",
+   "where": [
+    "results/k4_gap_hard_base.log / results/k4_gap/hard_base.json.gz",
+    "k4/gap.md section 3"
+   ]
+  }
+ ],
+ "witness": {
+  "phi_prime_maxima (gap_model, as stored in the record py_maxima)": [
+   {
+    "key": [
+     null,
+     4,
+     null,
+     6
+    ],
+    "Q": {
+     "0": [
+      0,
+      2
+     ],
+     "2": [
+      3,
+      5
+     ]
+    },
+    "L": [
+     1
+    ],
+    "phi": [
+     0,
+     3,
+     16,
+     -1
+    ],
+    "owners_least_C": {
+     "0": [
+      0,
+      []
+     ]
+    },
+    "threats_owner_agent_H7class": [
+     [
+      2,
+      1,
+      "L"
+     ]
+    ]
+   }
+  ]
+ },
+ "replay": {
+  "gap_bench_profile": {
+   "ran": "python3 k4/gap_bench.py --profile='{...}' --show=1 (all 25 seeded statements) on compute/k4-gap @245040b",
+   "gap_c_sha256_prefix": "74e1fae22153",
+   "in_gap": "True; f 2, omega 1, keys [[-1, 4, -1, 6]], 2 configurations, 2 with a valid owner",
+   "fails": [],
+   "holds_count": 25,
+   "fails_not_stated_by_source": [],
+   "stated_but_holds_now": []
+  },
+  "witness_check_gap_model": [
+   "f 2 omega 1 in_gap True configs 2 completable 2",
+   "  phi_prime_maxima (gap_model, as stored in the record py_maxima)[0]: found; L [1] (given [1]) completable True owners [0] phi (0, 3, 16, -1) (max (0, 3, 16, -1)) pool_optimal True"
+  ]
+ },
+ "notes": "k4/gap.md section 3: 'F2 (the gap with f >= 2): n = 4, m = 7, core 93 of k4_certs_4_n4_2. No gap profile with n <= 3 has f >= 2.' (gap.md names the core only; the values are those of the first F2 record of results/k4_gap/hard_base.json.gz.)\nrecord (results/k4_gap/hard_base.json.gz, category field 'S'): f = 2, omega = 1, 2 configurations (2 with a valid owner, 2 with C empty), 1 Phi'-maxima at Phi' = [0, 3, 16, -1] (1 with a valid owner, 1 with C empty, 1 pool-optimal, 0 with a frozen agent threatened by two owners); core idx field 13"
+}

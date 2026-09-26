@@ -1,0 +1,104 @@
+{
+ "id": "c4min-tleximin-n4-m7",
+ "n": 4,
+ "m": 7,
+ "sets": [
+  [
+   0,
+   1,
+   3,
+   6
+  ],
+  [
+   2,
+   3,
+   4
+  ],
+  [
+   2,
+   5,
+   6
+  ],
+  [
+   4,
+   5,
+   6
+  ]
+ ],
+ "vals": [
+  [
+   2,
+   3,
+   6,
+   10
+  ],
+  [
+   3,
+   2,
+   4
+  ],
+  [
+   3,
+   2,
+   4
+  ],
+  [
+   4,
+   3,
+   2
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": "core 66 of results/k4_certs_4_n4_1.json.gz",
+ "core_ref_basis": "resolved by this extraction; exact sets match against results/k4_certs_4_n4_1.json.gz (0-based position 66, idx field 2; identical blob on main and all four branches)",
+ "source": {
+  "pr": 41,
+  "branch": "proof/k4-c4min",
+  "head": "b9ff629",
+  "files": [
+   "attempts/k4-c4min-potentials.md",
+   "attempts/k4_c4min_attempts.py",
+   "results/k4_c4min_attempts.log",
+   "k4/c4min.md",
+   "results/k4_c4min_n4.log",
+   "results/k4_c4min_phi_n3.log"
+  ],
+  "replay": "attempts/k4_c4min_attempts.py"
+ },
+ "refutes": [
+  {
+   "statement": "(-t, leximin), f = 2: every configuration maximizing (-t, leximin of the levels) has a valid owner",
+   "ledger": "K4.C4MIN.X",
+   "smallest": true,
+   "name": "#41 attempts instance 8",
+   "smallest_scope": "smallest n (every n <= 3 profile with f >= 1 has 0 failures, results/k4_c4min_phi_n3.log); m not claimed smallest",
+   "basis": "stated",
+   "where": [
+    "attempts/k4-c4min-potentials.md instance 8"
+   ]
+  }
+ ],
+ "replay": {
+  "script": "attempts/k4_c4min_attempts.py (proof/k4-c4min): ALL CONFIRMED (k4/c4min.c and k4/c4min_cfg.py); output identical to results/k4_c4min_attempts.log",
+  "gap_bench_profile": {
+   "ran": "python3 k4/gap_bench.py --profile='{...}' --show=1 (all 25 seeded statements) on compute/k4-gap @245040b",
+   "gap_c_sha256_prefix": "74e1fae22153",
+   "in_gap": "True; f 2, omega 1, keys [[-1, -1, 6, 4], [-1, 4, 6, -1], [6, 4, -1, -1]], 18 configurations, ",
+   "fails": [
+    "LOCAL",
+    "BT"
+   ],
+   "holds_count": 23,
+   "fails_not_stated_by_source": [
+    "LOCAL",
+    "BT"
+   ],
+   "stated_but_holds_now": []
+  }
+ },
+ "notes": "attempts/k4-c4min-potentials.md instance 8: one of four maxima has no valid owner (4 profiles among all those of the n = 4 cores with one 4-good agent, results/k4_c4min_n4.log). Replay: f = 2, 18 configurations, 4 maxima, 1 not completable.",
+ "expect_fail": [
+  "cfg:-t,leximin"
+ ]
+}

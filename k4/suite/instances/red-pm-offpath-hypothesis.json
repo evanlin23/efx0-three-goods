@@ -1,0 +1,111 @@
+{
+ "id": "red-pm-offpath-hypothesis",
+ "n": 3,
+ "m": 7,
+ "sets": [
+  [
+   0,
+   2,
+   5,
+   6
+  ],
+  [
+   1,
+   4,
+   5,
+   6
+  ],
+  [
+   3,
+   4,
+   5,
+   6
+  ]
+ ],
+ "vals": [
+  [
+   3,
+   6,
+   2,
+   10
+  ],
+  [
+   5,
+   6,
+   4,
+   8
+  ],
+  [
+   2,
+   3,
+   4,
+   8
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": "core 38 of results/k4_certs_3.json.gz",
+ "source": {
+  "pr": 51,
+  "branch": "proof/k4-c4min-reduce",
+  "files": [
+   "k4/c4min_reduce.md"
+  ],
+  "replay": null
+ },
+ "refutes": [
+  {
+   "statement": "Lemma PM without its hypothesis that the terminal tau is threatened by some owner o not among p_1, ..., p_k: the path move along a threat path tau = p_0 -> ... -> p_k -> x keeps t = 0 at the new key (g, tau). Refuted: 'Without the hypothesis on o, t = 1 can follow (n = 3; n = 2 has a single free agent).'",
+   "ledger": "K4.C4MIN.RED.PM",
+   "smallest": null
+  }
+ ],
+ "witness": {
+  "key (g, x)": [
+   6,
+   0
+  ],
+  "configuration (verbatim)": "pairs {3, 4}, {1, 5}; pool {0, 2}",
+  "per-agent assignment (derived here, the only one matching the stated threats)": {
+   "Q": {
+    "1": [
+     3,
+     4
+    ],
+    "2": [
+     1,
+     5
+    ]
+   },
+   "pool": [
+    0,
+    2
+   ]
+  },
+  "threats (verbatim)": "Agents 1 and 2 threaten each other, and agent 2 also threatens x.",
+  "move (verbatim)": "The move along 1 -> 2 -> x puts agent 1's goods 1 and 5 in the pool, worth 9 > 8 to it.",
+  "after the move (recomputed here)": {
+   "key (g, tau)": [
+    6,
+    1
+   ],
+   "Q": {
+    "0": [
+     0,
+     2
+    ],
+    "2": [
+     3,
+     4
+    ]
+   },
+   "pool": [
+    1,
+    5
+   ],
+   "t": 1
+  },
+  "note (verbatim)": "That configuration is not a maximum: rotating the 2-cycle makes both robust."
+ },
+ "notes": "k4/c4min_reduce.md §5.2 (after the check of Lemma PM). No replay script in the source. Checked here with the branch's k4/red_lib.py: at key (6, 0) the assignment agent 1 {3, 4}, agent 2 {1, 5}, pool {0, 2} is a configuration with t = 0, mutual threats 1<->2, agent 2 threatens x, no valid owner, neither agent robust; the other assignment (agent 1 {1, 5}, agent 2 {3, 4}) has no threats and is completable, so it is not the one meant. After the path move with P_x = {0, 2} (x is big-top: 10 > 6 + 3; #50 takes x's best pair) the configuration at key (6, 1) has pool {1, 5} and t = 1 (v_1 = 5 + 4 = 9 > 8). Smallest n is 3 per the source; m = 7 is not claimed smallest."
+}

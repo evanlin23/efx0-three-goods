@@ -1,0 +1,194 @@
+{
+ "id": "gap-local-n3-m7-n3c43",
+ "n": 3,
+ "m": 7,
+ "sets": [
+  [
+   0,
+   3,
+   4,
+   6
+  ],
+  [
+   1,
+   3,
+   5,
+   6
+  ],
+  [
+   2,
+   4,
+   5,
+   6
+  ]
+ ],
+ "vals": [
+  [
+   3,
+   10,
+   6,
+   2
+  ],
+  [
+   2,
+   10,
+   3,
+   6
+  ],
+  [
+   4,
+   10,
+   7,
+   2
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": "core 43 of results/k4_certs_3.json.gz",
+ "core_ref_basis": "resolved by this extraction; exact sets match against results/k4_certs_3.json.gz (0-based position 43, idx field 10; identical blob on main and all four branches)",
+ "source": {
+  "pr": 53,
+  "branch": "compute/k4-gap",
+  "head": "245040b",
+  "files": [
+   "results/k4_gap_bench_n23.log"
+  ],
+  "replay": "python3 k4/gap_bench.py --profile='{\"sets\": [[0, 3, 4, 6], [1, 3, 5, 6], [2, 4, 5, 6]], \"vals\": [[3, 10, 6, 2], [2, 10, 3, 6], [4, 10, 7, 2]], \"m\": 7}' --only=LOCAL,LOCAL_EXT"
+ },
+ "refutes": [
+  {
+   "statement": "#41 section 4, the local improvement lemma with pool moves and exchange-cycle moves (best pairs, every order of the receivers): every configuration without a valid owner has a Phi'-raising move",
+   "ledger": null,
+   "smallest": true,
+   "name": "LOCAL",
+   "smallest_scope": "first 'smallest' counterexample printed by results/k4_gap_bench_n23.log (catalogs gap_n2 (every n = 2 gap profile) + gap_n3 (every 100th n = 3 gap profile and every hard one); sorted by n, m, number of configurations); 891 counterexamples in that run",
+   "basis": "stated",
+   "where": [
+    "results/k4_gap_bench_n23.log"
+   ],
+   "counterexamples_in_run": 891,
+   "witness": {
+    "key": [
+     null,
+     3,
+     null
+    ],
+    "Q": {
+     "0": [
+      0,
+      4
+     ],
+     "2": [
+      2,
+      5
+     ]
+    },
+    "L": [
+     1,
+     6
+    ]
+   }
+  },
+  {
+   "statement": "every configuration without a valid owner has a Phi'-raising move, with LOCAL's catalogue (pool moves; exchange-cycle moves, best pairs, every order of the receivers) enlarged [source text: 'the same with a larger catalogue: also cycle moves with any admissible pairs, and re-partitions of two free agents' pairs and the pool (contains #41's pool-assisted two-agent exchange)']",
+   "ledger": null,
+   "smallest": true,
+   "name": "LOCAL_EXT",
+   "smallest_scope": "first 'smallest' counterexample printed by results/k4_gap_bench_n23.log (catalogs gap_n2 (every n = 2 gap profile) + gap_n3 (every 100th n = 3 gap profile and every hard one); sorted by n, m, number of configurations); 4 counterexamples in that run",
+   "basis": "stated",
+   "where": [
+    "results/k4_gap_bench_n23.log"
+   ],
+   "counterexamples_in_run": 4,
+   "witness": {
+    "key": [
+     null,
+     3,
+     null
+    ],
+    "Q": {
+     "0": [
+      0,
+      4
+     ],
+     "2": [
+      2,
+      5
+     ]
+    },
+    "L": [
+     1,
+     6
+    ]
+   }
+  }
+ ],
+ "witness": {
+  "key": [
+   null,
+   3,
+   null
+  ],
+  "Q": {
+   "0": [
+    0,
+    4
+   ],
+   "2": [
+    2,
+    5
+   ]
+  },
+  "L": [
+   1,
+   6
+  ],
+  "_from": "the first refuted statement's printed configuration"
+ },
+ "replay": {
+  "gap_bench_profile": {
+   "ran": "python3 k4/gap_bench.py --profile='{...}' --show=1 (all 25 seeded statements) on compute/k4-gap @245040b",
+   "gap_c_sha256_prefix": "74e1fae22153",
+   "in_gap": "True; f 1, omega 2, keys [[3, -1, -1], [-1, 3, -1]], 18 configurations, 17 with a valid owner",
+   "fails": [
+    "LOCAL",
+    "LOCAL_EXT"
+   ],
+   "holds_count": 23,
+   "fails_not_stated_by_source": [],
+   "stated_but_holds_now": []
+  },
+  "witness_check_gap_model": [
+   "f 1 omega 2 in_gap True configs 18 completable 17",
+   "  refutes:LOCAL: found; L [1, 6] (given [1, 6]) completable False owners [] phi (0, 1, 20, -2) (max (0, 2, 24, -1)) pool_optimal True",
+   "  refutes:LOCAL_EXT: found; L [1, 6] (given [1, 6]) completable False owners [] phi (0, 1, 20, -2) (max (0, 2, 24, -1)) pool_optimal True"
+  ]
+ },
+ "notes": "",
+ "aliases": [
+  "red-lil-nokeep-a"
+ ],
+ "also": [
+  {
+   "id": "red-lil-nokeep-a",
+   "source": {
+    "pr": 51,
+    "branch": "proof/k4-c4min-reduce",
+    "files": [
+     "k4/c4min_reduce.md",
+     "results/k4_red_lil_gapbench.log",
+     "k4/red_lil_gapbench.py"
+    ],
+    "replay": "k4/red_lil_gapbench.py (run from a checkout of compute/k4-gap at 245040b, PR #53; KEEP unset)"
+   },
+   "refutes": [
+    {
+     "statement": "LIL (Phi_r = (r', -t, Lambda)) with PR #53's move catalogue WITHOUT keeping: every f = 1 configuration without a valid owner has a move raising (r, -t, Lambda), the moves being one-agent re-pairings, exchange-digraph cycles with any admissible choice (rotations, path moves) in which a threat receiver may NOT keep part of its own pair, and downgrade swaps. Refuted: 'Without keeping there are 6 counterexamples at n = 3, m = 7.'",
+     "ledger": "K4.C4MIN.RED.LIL",
+     "smallest": true
+    }
+   ],
+   "notes": "k4/c4min_reduce.md §5.3 ('The smallest is on the agents ...'). This refutes only the no-keep variant; Conjecture LIL itself (with M5's modified receiver / #53's keep=True) is not refuted. The log also says 'Python re-check: confirmed'. Checked here with the branch's k4/red_lib.py: f = 1, keys [(3, 0), (3, 1)], the configuration is valid at key (3, 1), not completable, r' = 1, t = 0. The source does not say whether the profile is a certified core (#53's gap catalogue is built from profiles of the certified cores [unverified]). core_ref derived here (not stated in the source): exact match of n, m and every agent's goods in the same agent order, against results/k4_certs_3.json.gz on main."
+  }
+ ]
+}

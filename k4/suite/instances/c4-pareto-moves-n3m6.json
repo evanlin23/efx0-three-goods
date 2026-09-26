@@ -1,0 +1,111 @@
+{
+ "id": "c4-pareto-moves-n3m6",
+ "n": 3,
+ "m": 6,
+ "sets": [
+  [
+   0,
+   1,
+   2,
+   3
+  ],
+  [
+   0,
+   1,
+   4,
+   5
+  ],
+  [
+   2,
+   3,
+   4,
+   5
+  ]
+ ],
+ "vals": [
+  [
+   8,
+   6,
+   4,
+   1
+  ],
+  [
+   4,
+   2,
+   8,
+   5
+  ],
+  [
+   4,
+   6,
+   8,
+   3
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": null,
+ "source": {
+  "pr": 33,
+  "branch": "main",
+  "files": [
+   "attempts/k4-c4-pareto-moves.md",
+   "k4/c4.md"
+  ],
+  "replay": "attempts/k4_c4_attempts.py"
+ },
+ "refutes": [
+  {
+   "statement": "Local-search proof of C₄ by Pareto-improving moves (upgrades: a free agent adds a junk good; rotations in which the rotated agent strictly gains): every reachable state where no owner is valid admits such a move (no dead ends)",
+   "ledger": "K4.C4.E",
+   "smallest": true
+  }
+ ],
+ "witness": {
+  "insertion_choices": [
+   2,
+   6,
+   0
+  ],
+  "phase1_bases": [
+   [
+    0
+   ],
+   [
+    5
+   ],
+   [
+    4
+   ]
+  ],
+  "phase1_J": [
+   1,
+   2,
+   3
+  ],
+  "dead_end": {
+   "bases": [
+    [
+     0,
+     3
+    ],
+    [
+     1,
+     5
+    ],
+    [
+     4
+    ]
+   ],
+   "J": [
+    2
+   ],
+   "omega": 1,
+   "path": [
+    "agent 1 adds 1",
+    "agent 0 adds 3"
+   ]
+  }
+ },
+ "notes": "Insertion choices (2, 6, 0), no upgrades in Phase 1: agent 2 takes 4; agent 1 (lost 4) takes 5; agent 0 (second block) takes its top 0. Of the 14 states reachable by these moves, 7 have a valid owner and 1 is a dead end: after the upgrades 'agent 1 adds 1' and 'agent 0 adds 3' no owner is valid and no move applies (junk {2}, ω = 1; agent 1 still needs 4). Replay run: 'reachable states 14, dead ends 1, states with a valid owner 7'; dead end reached by (('U', 1, 1), ('U', 0, 3)). [Certified-core lookup by the generator (not from the source): identical sets (same agent order and labels): core 32 of results/k4_certs_3.json.gz. Core k = 0-based position in the file's \"cores\" list, as the sources use it.]"
+}

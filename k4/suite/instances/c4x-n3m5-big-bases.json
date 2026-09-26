@@ -1,0 +1,64 @@
+{
+ "id": "c4x-n3m5-big-bases",
+ "n": 3,
+ "m": 5,
+ "sets": [
+  [
+   0,
+   1,
+   2,
+   4
+  ],
+  [
+   1,
+   3,
+   4
+  ],
+  [
+   2,
+   3,
+   4
+  ]
+ ],
+ "vals": [
+  [
+   2,
+   10,
+   6,
+   3
+  ],
+  [
+   4,
+   3,
+   2
+  ],
+  [
+   3,
+   4,
+   2
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": null,
+ "source": {
+  "pr": 36,
+  "branch": "main",
+  "files": [
+   "attempts/k4-c4x-variant-spaces.md",
+   "LEDGER.md"
+  ],
+  "replay": "attempts/k4_c4x_attempts.py"
+ },
+ "refutes": [
+  {
+   "statement": "Variant space of 𝒫 in which one base of three or four goods is allowed (its agent must be the owner; LB₄ʳ's rotated owner): some pre-allocation with the fewest frozen agents is completable ('some' form of −frozen)",
+   "ledger": "K4.C4X.PHI",
+   "smallest": true
+  }
+ ],
+ "notes": "Instance 3 of k4-c4x-variant-spaces.md ('smallest n'; none at n = 2, exhaustive). Replay run: '-frozen [big]: 9 valid, 7 completable; ... some-form failure confirmed'. [Certified-core lookup by the generator (not from the source): identical sets (same agent order and labels): core 7 of results/k4_certs_3.json.gz. Core k = 0-based position in the file's \"cores\" list, as the sources use it.]",
+ "expect_fail": [
+  "pareto-T:bt"
+ ]
+}

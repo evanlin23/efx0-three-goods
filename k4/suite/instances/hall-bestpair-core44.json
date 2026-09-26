@@ -1,0 +1,107 @@
+{
+ "id": "hall-bestpair-core44",
+ "n": 3,
+ "m": 7,
+ "sets": [
+  [
+   0,
+   2,
+   4,
+   6
+  ],
+  [
+   1,
+   3,
+   5,
+   6
+  ],
+  [
+   2,
+   3,
+   4,
+   5
+  ]
+ ],
+ "vals": [
+  [
+   2,
+   6,
+   3,
+   10
+  ],
+  [
+   3,
+   2,
+   6,
+   10
+  ],
+  [
+   2,
+   4,
+   7,
+   10
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": "core 44 of results/k4_certs_3.json.gz",
+ "source": {
+  "pr": 52,
+  "branch": "main",
+  "files": [
+   "k4/hall_bt.md"
+  ],
+  "replay": null
+ },
+ "refutes": [
+  {
+   "statement": "#41 §4's rule for the exchange-digraph cycle move: a receiver of a threat edge takes its *best* admissible pair (and this completes the configuration)",
+   "ledger": "K4.HALL.BTCYC",
+   "smallest": null
+  }
+ ],
+ "witness": {
+  "bases": [
+   [
+    6
+   ],
+   [
+    1,
+    5
+   ],
+   [
+    3,
+    4
+   ]
+  ],
+  "J": [
+   0,
+   2
+  ],
+  "frozen": [
+   0
+  ],
+  "cycle": [
+   0,
+   1,
+   2,
+   0
+  ],
+  "best_pair_choice": {
+   "agent2_takes": [
+    2,
+    5
+   ]
+  },
+  "repair_choice": {
+   "agent2_takes": [
+    5
+   ],
+   "agent0_takes": [
+    2
+   ],
+   "owner": 0
+  }
+ },
+ "notes": "Recorded in the notes of ledger row K4.HALL.BTCYC (a CONJECTURE, not refuted: that search tries every admissible choice). P: agent 0 holds {6} (big-top, frozen); agent 1 base {1,5}; agent 2 base {3,4}; J = {0,2}. On the cycle 0 → 1 → 2 → 0, agent 2's best admissible pair is {2,5}, and agent 0 is left with nothing admissible. A smaller choice repairs it: agent 2 takes {5} alone, agent 0 then takes {2}, and agent 0 is a valid owner; so does letting agent 2 keep its good 3 and take 5. 'Worked by hand (the #52 referee's enumeration agrees); it has no log of its own.' No replay script. [Certified-core lookup by the generator (not from the source): identical sets (same agent order and labels): core 44 of results/k4_certs_3.json.gz. Core k = 0-based position in the file's \"cores\" list, as the sources use it.]"
+}

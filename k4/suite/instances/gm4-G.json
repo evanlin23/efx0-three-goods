@@ -1,0 +1,112 @@
+{
+ "id": "gm4-G",
+ "n": 4,
+ "m": 7,
+ "sets": [
+  [
+   0,
+   2,
+   5,
+   6
+  ],
+  [
+   1,
+   4,
+   5,
+   6
+  ],
+  [
+   2,
+   3,
+   5,
+   6
+  ],
+  [
+   3,
+   4,
+   5,
+   6
+  ]
+ ],
+ "vals": [
+  [
+   3,
+   6,
+   2,
+   10
+  ],
+  [
+   1,
+   6,
+   8,
+   4
+  ],
+  [
+   3,
+   6,
+   8,
+   4
+  ],
+  [
+   6,
+   3,
+   4,
+   8
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": null,
+ "source": {
+  "pr": 30,
+  "branch": "main",
+  "files": [
+   "attempts/k4-gm4-existence.md",
+   "attempts/k4-gm4-potentials.md",
+   "attempts/k4-c4x-pareto-potentials.md",
+   "k4/gm4_counterexample.py",
+   "LEDGER.md"
+  ],
+  "replay": "k4/gm4_counterexample.py"
+ },
+ "refutes": [
+  {
+   "statement": "Conjecture GM₄∃: every strict profile of every k = 4 core has some Σℓ-maximum that admits a placement (equivalently, the largest Σℓ of a junk-free EFX₀ partial allocation is attained by the valued part of a complete EFX₀ allocation)",
+   "ledger": "K4.GM.E",
+   "smallest": false
+  },
+  {
+   "statement": "GM₄∃ with the Σℓ-maxima narrowed by a tie-break (largest Σℓ², leximax or leximin)",
+   "ledger": "K4.GM.VAR",
+   "smallest": false
+  },
+  {
+   "statement": "GM₄∃ for Σℓ² as the potential",
+   "ledger": "K4.GM.VAR",
+   "smallest": false
+  }
+ ],
+ "witness": {
+  "Y": [
+   [
+    0,
+    2
+   ],
+   [
+    1,
+    4
+   ],
+   [
+    5
+   ],
+   [
+    6
+   ]
+  ],
+  "pool": [
+   3
+  ],
+  "level_sum": 21
+ },
+ "notes": "Instance G (instance A with agent 2's type changed). attempts/k4-c4x-pareto-potentials.md adds that this dead end (k4/gm4.md §2.4) lies in 𝒫 and 'is stuck there too' (k4/c4x.c on its profile), without further detail. The only Σℓ-maximum is {0,2} | {1,4} | {5} | {6}, pool {3}, Σℓ = 21 (levels [6, 5, 5, 5]); 16 complete EFX₀ allocations, largest Σℓ of their valued parts 20; also the unique Σℓ²-maximum. Found in the neighbourhood search around the GM₄ counterexamples (148 such profiles, all in the core of A and G); 'smallest configuration found'; at n = 4 a counterexample needs at least three 4-good agents (exhaustive runs, one implementation). LS4⁺'s default rule completes it by stopping at Σℓ = 17. Replay run: '[ok] none of the 1 level-sum maxima admits a placement (GM4E fails)'; '16 complete EFX0 allocations exist; their largest level sum is 20 < 21'. [Certified-core lookup by the generator (not from the source): identical sets (same agent order and labels): core 34 of results/k4_certs_4_pure.json.gz. Core k = 0-based position in the file's \"cores\" list, as the sources use it.]"
+}

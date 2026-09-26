@@ -1,0 +1,59 @@
+{
+ "id": "induct-v-pot-env-util",
+ "n": 2,
+ "m": 5,
+ "sets": [
+  [
+   0,
+   2,
+   3,
+   4
+  ],
+  [
+   1,
+   2,
+   3,
+   4
+  ]
+ ],
+ "vals": [
+  [
+   8,
+   4,
+   3,
+   2
+  ],
+  [
+   8,
+   4,
+   3,
+   2
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": "core 3 of results/k4_certs_2.json.gz",
+ "source": {
+  "pr": 43,
+  "branch": "proof/k4-induct",
+  "files": [
+   "k4/induct.md",
+   "attempts/k4-induct-value-drop.md",
+   "attempts/k4_induct_attempts.py",
+   "results/k4_induct_attempts.log",
+   "attempts/k4-induct-potentials.md"
+  ],
+  "replay": "attempts/k4_induct_attempts.py V-pot-env-util"
+ },
+ "refutes": [
+  {
+   "statement": "V-form extremal Y: for some (w, d), every maximizer Y of (-#agents envying w, utilitarian) on E(I_{w,d}) (w's value of d set to 0; the potential evaluated with I_{w,d}'s values) is EFX0 for I.",
+   "ledger": "K4.IND.X",
+   "smallest": true
+  }
+ ],
+ "witness": {
+  "replay": "some maximizer is not EFX0 for I, for every (w, d): True"
+ },
+ "notes": "n = 2, m = 5; fails on 66 of the 189,216 n = 2 profiles, although that potential had no failure on 25,500 sampled n = 3 profiles (G-form). Replay (independent brute force k4/induct_bf.py, no code shared with k4/induct.c) rerun here: output identical to results/k4_induct_attempts.log, ALL CLAIMS CONFIRMED. The replay script's docstring: 'Each instance is a strict k = 4 core profile'. Smallest sizes are 'the smallest found (n = 2 exhaustive, larger n sampled)' (ledger K4.IND.X). core_ref derived here (not stated in the source): exact match of n, m and every agent's goods in the same agent order, against results/k4_certs_2.json.gz on main."
+}
