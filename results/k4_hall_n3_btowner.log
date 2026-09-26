@@ -1,0 +1,198 @@
+# k4/hall.c -N: for every profile with a non-completable Pareto-maximum (inside the min-frozen set) with frozen agents, is some min-frozen pre-allocation completable with an owner of big-top type (BTC line; K4.HALL.BT)? n = 2 and n = 3, every strict profile
+# command: python3 k4/hall_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz -N -Px 3 --jobs=4
+Fri Sep 25 21:15:45 UTC 2026
+FILE results/k4_certs_2.json.gz cores 5 profiles 189216 valid 2318524 minfrozen 2129840 minfrozen_omega1 0 minfrozen_posdef 0 profiles_c4min_ok 189216 bad_char 0
+  Pareto-maxima inside the min-frozen set, pareto F=0: profiles 187920, every maximum deficit <= 0: 187920, some: 187920 (334156 maxima)
+  Pareto-maxima inside the min-frozen set, pareto F=1: profiles 1296, every maximum deficit <= 0: 1296, some: 1296 (2592 maxima)
+  F0: F=0 Pareto-maxima with omega>=1 172108, Lemma U violated 0, Lemma U2 violated 0, no single-good holder 172012, exposure of another kind 0, label criterion != exact test 0, a single-good holder valid 96, a pair-holder valid 172012, no valid owner 0, every single-good holder valid 96, single-good holder invalid by an unhittable exposure 0, e2 exposures 20200, e1 exposures 96, e3 exposures 32136, e2 exposures at single-good owners 0
+  FZ: maxima with F>=1 and omega>=1 2592, with a globally exposed frozen agent 192, global exposure of another shape 0, no global exposure and no valid owner 0, global exposure and no valid owner 0, Lemma H6 violations 0, frozen agents exposed w.r.t. >= 2 owners 0, some owner valid 2592, no valid owner and no G1 configuration 0, no valid owner and no frozen big-top agent 0, frozen exposures (agent, owner): global 192, ... owner a chain end of x (G1-type) 1248, ... local, one label 0, ... local, two labels 0, ... local, unhittable 0
+  failing (P, owner) pairs 0, with an unhittable exposed agent 0; tau for the others: [0, 0, 0, 0, 0, 0, 0, 0]; minimal violator size (0 = none of size < 8): [0, 0, 0, 0, 0, 0, 0, 0]
+core 16: EXPARETO F=2: types [0:2,1:3,2:4,5:8] [2:1,3:4,4:8,5:6] [3:2,4:4,5:3] bases {5}F {2,3} {4}F J {0,1} omega 2 def 1
+core 16: EXPARETO F=2: types [0:2,1:3,2:4,5:8] [2:1,3:4,4:8,5:6] [3:2,4:4,5:3] bases {5}F {4}F {3} J {0,1,2} omega 2 def 1
+core 16: EXPARETO F=2: types [0:2,1:3,2:4,5:8] [2:1,3:8,4:4,5:6] [3:4,4:2,5:3] bases {5}F {3}F {4} J {0,1,2} omega 2 def 1
+core 17: EXPARETO F=2: types [0:2,1:3,4:4,5:8] [2:1,3:8,4:4,5:6] [2:1,3:8,4:4,5:6] bases {5}F {3}F {2,4} J {0,1} omega 2 def 1
+core 17: EXPARETO F=2: types [0:2,1:3,4:4,5:8] [2:1,3:8,4:4,5:6] [2:1,3:8,4:4,5:6] bases {5}F {2,4} {3}F J {0,1} omega 2 def 1
+core 17: EXPARETO F=2: types [0:2,1:3,4:4,5:8] [2:1,3:8,4:4,5:6] [2:2,3:8,4:4,5:7] bases {5}F {3}F {2,4} J {0,1} omega 2 def 1
+core 17: EXPARETO F=2: types [0:3,1:2,4:8,5:4] [2:1,3:8,4:6,5:4] [2:1,3:8,4:6,5:4] bases {4}F {3}F {2,5} J {0,1} omega 2 def 1
+core 17: EXPARETO F=2: types [0:3,1:2,4:8,5:4] [2:1,3:8,4:6,5:4] [2:1,3:8,4:6,5:4] bases {4}F {2,5} {3}F J {0,1} omega 2 def 1
+core 17: EXPARETO F=2: types [0:3,1:2,4:8,5:4] [2:1,3:8,4:6,5:4] [2:2,3:8,4:7,5:4] bases {4}F {3}F {2,5} J {0,1} omega 2 def 1
+core 17: EXPARETO F=2: types [0:4,1:3,4:2,5:8] [2:1,3:8,4:4,5:6] [2:1,3:8,4:4,5:6] bases {5}F {3}F {2,4} J {0,1} omega 2 def 1
+core 17: EXPARETO F=2: types [0:4,1:3,4:2,5:8] [2:1,3:8,4:4,5:6] [2:1,3:8,4:4,5:6] bases {5}F {2,4} {3}F J {0,1} omega 2 def 1
+core 17: EXPARETO F=2: types [0:4,1:3,4:2,5:8] [2:1,3:8,4:4,5:6] [2:2,3:8,4:4,5:7] bases {5}F {3}F {2,4} J {0,1} omega 2 def 1
+core 17: EXPARETO F=2: types [0:6,1:3,4:10,5:2] [2:1,3:8,4:6,5:4] [2:1,3:8,4:6,5:4] bases {4}F {3}F {2,5} J {0,1} omega 2 def 1
+core 17: EXPARETO F=2: types [0:6,1:3,4:10,5:2] [2:1,3:8,4:6,5:4] [2:1,3:8,4:6,5:4] bases {4}F {2,5} {3}F J {0,1} omega 2 def 1
+core 17: EXPARETO F=2: types [0:6,1:3,4:10,5:2] [2:1,3:8,4:6,5:4] [2:2,3:8,4:7,5:4] bases {4}F {3}F {2,5} J {0,1} omega 2 def 1
+core 19: EXPARETO F=2: types [0:2,2:3,4:4,5:8] [1:2,3:4,5:3] [3:4,4:2,5:3] bases {5}F {1} {3}F J {0,2,4} omega 2 def 1
+core 19: EXPARETO F=2: types [0:2,2:3,4:4,5:8] [1:2,3:4,5:3] [3:4,4:2,5:3] bases {5}F {3}F {4} J {0,1,2} omega 2 def 1
+core 19: EXPARETO F=2: types [0:2,2:3,4:6,5:10] [1:2,3:4,5:3] [3:4,4:2,5:3] bases {5}F {1} {3}F J {0,2,4} omega 2 def 1
+core 20: EXPARETO F=2: types [0:2,2:3,4:4,5:8] [1:1,3:8,4:4,5:6] [3:4,4:2,5:3] bases {5}F {3}F {4} J {0,1,2} omega 2 def 1
+core 20: EXPARETO F=2: types [0:2,2:3,4:4,5:8] [1:1,3:8,4:4,5:6] [3:4,4:2,5:3] bases {5}F {1,4} {3}F J {0,2} omega 2 def 1
+core 20: EXPARETO F=2: types [0:2,2:3,4:4,5:8] [1:2,3:8,4:4,5:7] [3:4,4:2,5:3] bases {5}F {3}F {4} J {0,1,2} omega 2 def 1
+core 25: EXPARETO F=2: types [0:1,2:8,4:4,5:6] [1:2,3:3,4:4,5:8] [2:4,3:2,5:3] bases {2}F {5}F {3} J {0,1,4} omega 2 def 1
+core 25: EXPARETO F=2: types [0:1,2:8,4:4,5:6] [1:2,3:3,4:4,5:8] [2:4,3:2,5:3] bases {0,4} {5}F {2}F J {1,3} omega 2 def 1
+core 25: EXPARETO F=2: types [0:1,2:8,4:4,5:6] [1:2,3:3,4:6,5:10] [2:4,3:2,5:3] bases {2}F {5}F {3} J {0,1,4} omega 2 def 1
+core 27: EXPARETO F=2: types [0:2,2:3,4:4,5:8] [1:2,3:4,5:3] [2:1,3:8,4:4,5:6] bases {5}F {1} {3}F J {0,2,4} omega 2 def 1
+core 27: EXPARETO F=2: types [0:2,2:3,4:4,5:8] [1:2,3:4,5:3] [2:1,3:8,4:4,5:6] bases {5}F {3}F {2,4} J {0,1} omega 2 def 1
+core 27: EXPARETO F=2: types [0:2,2:3,4:4,5:8] [1:2,3:4,5:3] [2:2,3:8,4:4,5:7] bases {5}F {1} {3}F J {0,2,4} omega 2 def 1
+core 28: EXPARETO F=2: types [0:1,2:8,4:4,5:6] [1:2,3:3,4:4,5:8] [2:8,3:1,4:4,5:6] bases {2}F {5}F {3,4} J {0,1} omega 2 def 1
+core 28: EXPARETO F=2: types [0:1,2:8,4:4,5:6] [1:2,3:3,4:4,5:8] [2:8,3:1,4:4,5:6] bases {0,4} {5}F {2}F J {1,3} omega 2 def 1
+core 28: EXPARETO F=2: types [0:1,2:8,4:4,5:6] [1:2,3:3,4:4,5:8] [2:8,3:2,4:4,5:7] bases {2}F {5}F {3,4} J {0,1} omega 2 def 1
+core 28: EXPARETO F=2: types [0:3,2:10,4:2,5:6] [1:2,3:3,4:4,5:8] [2:8,3:1,4:4,5:6] bases {2}F {5}F {3,4} J {0,1} omega 2 def 1
+core 28: EXPARETO F=2: types [0:3,2:10,4:2,5:6] [1:2,3:3,4:4,5:8] [2:8,3:1,4:4,5:6] bases {0,4} {5}F {2}F J {1,3} omega 2 def 1
+core 28: EXPARETO F=2: types [0:3,2:10,4:2,5:6] [1:2,3:3,4:4,5:8] [2:8,3:2,4:4,5:7] bases {2}F {5}F {3,4} J {0,1} omega 2 def 1
+core 28: EXPARETO F=2: types [0:6,2:2,4:3,5:10] [1:1,3:8,4:4,5:6] [2:1,3:8,4:4,5:6] bases {5}F {3}F {2,4} J {0,1} omega 2 def 1
+core 28: EXPARETO F=2: types [0:6,2:2,4:3,5:10] [1:1,3:8,4:4,5:6] [2:1,3:8,4:4,5:6] bases {5}F {1,4} {3}F J {0,2} omega 2 def 1
+core 28: EXPARETO F=2: types [0:6,2:2,4:3,5:10] [1:1,3:8,4:4,5:6] [2:2,3:8,4:4,5:7] bases {5}F {3}F {2,4} J {0,1} omega 2 def 1
+core 29: EXPARETO F=2: types [0:1,1:4,2:8,5:6] [1:2,3:3,4:4,5:8] [2:8,3:1,4:4,5:6] bases {0,1} {5}F {2}F J {3,4} omega 2 def 1
+core 29: EXPARETO F=2: types [0:1,1:4,2:8,5:6] [1:2,3:3,4:4,5:8] [2:8,3:1,4:4,5:6] bases {2}F {5}F {3,4} J {0,1} omega 2 def 1
+core 29: EXPARETO F=2: types [0:1,1:4,2:8,5:6] [1:2,3:3,4:4,5:8] [2:8,3:2,4:4,5:7] bases {0,1} {5}F {2}F J {3,4} omega 2 def 1
+core 29: EXPARETO F=2: types [0:3,1:10,2:2,5:6] [1:8,3:1,4:4,5:6] [2:2,3:3,4:4,5:8] bases {1}F {3,4} {5}F J {0,2} omega 2 def 1
+core 29: EXPARETO F=2: types [0:3,1:10,2:2,5:6] [1:8,3:1,4:4,5:6] [2:2,3:3,4:4,5:8] bases {0,2} {1}F {5}F J {3,4} omega 2 def 1
+core 29: EXPARETO F=2: types [0:3,1:10,2:2,5:6] [1:8,3:1,4:4,5:6] [2:2,3:3,4:6,5:10] bases {1}F {3,4} {5}F J {0,2} omega 2 def 1
+core 29: EXPARETO F=2: types [0:6,1:2,2:3,5:10] [1:1,3:4,4:8,5:6] [2:1,3:4,4:8,5:6] bases {5}F {1,3} {4}F J {0,2} omega 2 def 1
+core 29: EXPARETO F=2: types [0:6,1:2,2:3,5:10] [1:1,3:4,4:8,5:6] [2:1,3:4,4:8,5:6] bases {5}F {4}F {2,3} J {0,1} omega 2 def 1
+core 29: EXPARETO F=2: types [0:6,1:2,2:3,5:10] [1:1,3:4,4:8,5:6] [2:2,3:3,4:10,5:6] bases {5}F {1,3} {4}F J {0,2} omega 2 def 1
+core 33: EXF0 e2 at single owner 2 x 1: types [0:1,1:6,2:4,3:8] [2:2,4:4,5:5,6:8] [3:2,4:3,5:4,6:8] bases {1,3} {4,5} {6} J {0,2}
+core 33: EXF0 e2 at single owner 2 x 1: types [0:1,1:6,2:4,3:8] [2:2,4:4,5:5,6:8] [3:2,4:3,5:6,6:10] bases {1,3} {4,5} {6} J {0,2}
+core 33: EXF0 e2 at single owner 2 x 1: types [0:1,1:6,2:4,3:8] [2:2,4:4,5:5,6:8] [3:2,4:4,5:3,6:8] bases {1,3} {4,5} {6} J {0,2}
+core 33: EXPARETO F=1: types [0:3,1:2,2:8,3:4] [2:8,4:1,5:4,6:6] [3:1,4:4,5:8,6:6] bases {2}F {4,6} {3,5} J {0,1} omega 2 def 1
+core 33: EXPARETO F=1: types [0:3,1:2,2:8,3:4] [2:8,4:1,5:4,6:6] [3:1,4:6,5:8,6:4] bases {2}F {4,6} {3,5} J {0,1} omega 2 def 1
+core 33: EXPARETO F=1: types [0:3,1:2,2:8,3:4] [2:8,4:1,5:4,6:6] [3:2,4:4,5:7,6:8] bases {2}F {4,6} {3,5} J {0,1} omega 2 def 1
+core 33: EXPARETO F=1: types [0:4,1:3,2:2,3:8] [2:1,4:4,5:6,6:8] [3:8,4:1,5:6,6:4] bases {3}F {2,6} {4,5} J {0,1} omega 2 def 1
+core 33: EXPARETO F=1: types [0:4,1:3,2:2,3:8] [2:1,4:4,5:6,6:8] [3:8,4:2,5:3,6:4] bases {3}F {4,5} {6} J {0,1,2} omega 2 def 1
+core 33: EXPARETO F=1: types [0:4,1:3,2:2,3:8] [2:1,4:4,5:6,6:8] [3:8,4:2,5:3,6:4] bases {3}F {2,6} {4,5} J {0,1} omega 2 def 1
+core 33: EXF0 e2 at single owner 2 x 1: types [0:6,1:3,2:5,3:7] [2:2,4:4,5:5,6:8] [3:2,4:3,5:4,6:8] bases {0,3} {4,5} {6} J {1,2}
+core 33: EXF0 e2 at single owner 2 x 1: types [0:6,1:3,2:5,3:7] [2:2,4:4,5:5,6:8] [3:2,4:3,5:6,6:10] bases {0,3} {4,5} {6} J {1,2}
+core 33: EXF0 e2 at single owner 2 x 1: types [0:6,1:3,2:5,3:7] [2:2,4:4,5:5,6:8] [3:2,4:4,5:3,6:8] bases {0,3} {4,5} {6} J {1,2}
+core 34: EXF0 e2 at single owner 2 x 1: types [0:1,2:4,4:6,6:8] [1:2,3:4,5:5,6:8] [4:2,5:3,6:4] bases {2,4} {3,5} {6} J {0,1}
+core 34: EXF0 e2 at single owner 2 x 1: types [0:1,2:4,4:6,6:8] [1:2,3:4,5:5,6:8] [4:3,5:2,6:4] bases {2,4} {3,5} {6} J {0,1}
+core 34: EXF0 e2 at single owner 2 x 1: types [0:1,2:4,4:6,6:8] [1:2,3:4,5:7,6:10] [4:2,5:3,6:4] bases {2,4} {3,5} {6} J {0,1}
+core 37: EXPARETO F=2: types [0:2,2:3,4:4,6:8] [1:1,4:4,5:8,6:6] [3:2,5:4,6:3] bases {6}F {1,4} {5}F J {0,2,3} omega 3 def 1
+core 37: EXPARETO F=2: types [0:2,2:3,4:4,6:8] [1:1,4:4,5:8,6:6] [3:2,5:4,6:3] bases {6}F {5}F {3} J {0,1,2,4} omega 3 def 1
+core 37: EXPARETO F=2: types [0:2,2:3,4:4,6:8] [1:2,4:3,5:10,6:6] [3:2,5:4,6:3] bases {6}F {1,4} {5}F J {0,2,3} omega 3 def 1
+core 38: EXPARETO F=2: types [0:2,2:3,5:4,6:8] [1:1,4:8,5:4,6:6] [3:1,4:8,5:4,6:6] bases {6}F {4}F {3,5} J {0,1,2} omega 3 def 1
+core 38: EXPARETO F=2: types [0:2,2:3,5:4,6:8] [1:1,4:8,5:4,6:6] [3:1,4:8,5:4,6:6] bases {6}F {1,5} {4}F J {0,2,3} omega 3 def 1
+core 38: EXPARETO F=2: types [0:2,2:3,5:4,6:8] [1:1,4:8,5:4,6:6] [3:2,4:8,5:4,6:7] bases {6}F {4}F {3,5} J {0,1,2} omega 3 def 1
+core 38: EXPARETO F=2: types [0:3,2:2,5:8,6:4] [1:1,4:8,5:6,6:4] [3:1,4:8,5:6,6:4] bases {5}F {4}F {3,6} J {0,1,2} omega 3 def 1
+core 38: EXPARETO F=2: types [0:3,2:2,5:8,6:4] [1:1,4:8,5:6,6:4] [3:1,4:8,5:6,6:4] bases {5}F {1,6} {4}F J {0,2,3} omega 3 def 1
+core 38: EXPARETO F=2: types [0:3,2:2,5:8,6:4] [1:1,4:8,5:6,6:4] [3:2,4:8,5:7,6:4] bases {5}F {4}F {3,6} J {0,1,2} omega 3 def 1
+core 38: EXPARETO F=2: types [0:4,2:3,5:2,6:8] [1:1,4:8,5:4,6:6] [3:1,4:8,5:4,6:6] bases {6}F {4}F {3,5} J {0,1,2} omega 3 def 1
+core 38: EXPARETO F=2: types [0:4,2:3,5:2,6:8] [1:1,4:8,5:4,6:6] [3:1,4:8,5:4,6:6] bases {6}F {1,5} {4}F J {0,2,3} omega 3 def 1
+core 38: EXPARETO F=2: types [0:4,2:3,5:2,6:8] [1:1,4:8,5:4,6:6] [3:2,4:8,5:4,6:7] bases {6}F {4}F {3,5} J {0,1,2} omega 3 def 1
+core 38: EXPARETO F=2: types [0:6,2:3,5:10,6:2] [1:1,4:8,5:6,6:4] [3:1,4:8,5:6,6:4] bases {5}F {4}F {3,6} J {0,1,2} omega 3 def 1
+core 38: EXPARETO F=2: types [0:6,2:3,5:10,6:2] [1:1,4:8,5:6,6:4] [3:1,4:8,5:6,6:4] bases {5}F {1,6} {4}F J {0,2,3} omega 3 def 1
+core 38: EXPARETO F=2: types [0:6,2:3,5:10,6:2] [1:1,4:8,5:6,6:4] [3:2,4:8,5:7,6:4] bases {5}F {4}F {3,6} J {0,1,2} omega 3 def 1
+core 39: EXF0 e2 at single owner 2 x 1: types [0:1,2:4,3:6,6:8] [1:2,3:4,4:5,5:8] [4:2,5:4,6:3] bases {2,6} {3,4} {5} J {0,1}
+core 39: EXF0 e2 at single owner 2 x 1: types [0:1,2:4,3:6,6:8] [1:2,3:4,4:5,5:8] [4:3,5:4,6:2] bases {2,6} {3,4} {5} J {0,1}
+core 39: EXF0 e2 at single owner 2 x 1: types [0:1,2:4,3:6,6:8] [1:2,3:4,4:7,5:10] [4:2,5:4,6:3] bases {2,6} {3,4} {5} J {0,1}
+core 40: EXPARETO F=1: types [0:2,2:3,4:4,5:8] [1:2,3:3,6:4] [3:2,4:4,5:8,6:3] bases {5}F {3,6} {4} J {0,1,2} omega 2 def 1
+core 40: EXPARETO F=1: types [0:2,2:3,4:4,5:8] [1:2,3:3,6:4] [3:3,4:4,5:8,6:2] bases {5}F {3,6} {4} J {0,1,2} omega 2 def 1
+core 40: EXPARETO F=1: types [0:2,2:3,4:4,5:8] [1:2,3:4,6:3] [3:2,4:4,5:8,6:3] bases {5}F {3,6} {4} J {0,1,2} omega 2 def 1
+core 41: EXF0 e2 at single owner 2 x 1: types [0:1,2:4,5:6,6:8] [1:2,3:4,4:5,6:8] [3:1,4:4,5:6,6:8] bases {2,5} {3,4} {6} J {0,1}
+core 41: EXF0 e2 at single owner 2 x 1: types [0:1,2:4,5:6,6:8] [1:2,3:4,4:5,6:8] [3:1,4:6,5:4,6:8] bases {2,5} {3,4} {6} J {0,1}
+core 41: EXF0 e2 at single owner 2 x 1: types [0:1,2:4,5:6,6:8] [1:2,3:4,4:5,6:8] [3:2,4:3,5:4,6:8] bases {2,5} {3,4} {6} J {0,1}
+core 41: EXPARETO F=1: types [0:3,2:2,5:8,6:4] [1:1,3:4,4:6,6:8] [3:1,4:6,5:8,6:4] bases {5}F {1,6} {3,4} J {0,2} omega 2 def 1
+core 41: EXPARETO F=1: types [0:3,2:2,5:8,6:4] [1:1,3:4,4:6,6:8] [3:2,4:3,5:8,6:4] bases {5}F {3,4} {6} J {0,1,2} omega 2 def 1
+core 41: EXPARETO F=1: types [0:3,2:2,5:8,6:4] [1:1,3:4,4:6,6:8] [3:2,4:3,5:8,6:4] bases {5}F {1,6} {3,4} J {0,2} omega 2 def 1
+core 41: EXPARETO F=1: types [0:4,2:3,5:2,6:8] [1:1,3:4,4:6,6:8] [3:2,4:3,5:4,6:8] bases {6}F {3,4} {5} J {0,1,2} omega 2 def 1
+core 41: EXPARETO F=1: types [0:4,2:3,5:2,6:8] [1:1,3:4,4:6,6:8] [3:2,4:4,5:5,6:8] bases {6}F {3,4} {5} J {0,1,2} omega 2 def 1
+core 41: EXPARETO F=1: types [0:4,2:3,5:2,6:8] [1:1,3:4,4:6,6:8] [3:2,4:6,5:7,6:10] bases {6}F {3,4} {5} J {0,1,2} omega 2 def 1
+core 41: EXF0 e2 at single owner 2 x 1: types [0:6,2:3,5:5,6:7] [1:2,3:4,4:5,6:8] [3:1,4:4,5:6,6:8] bases {0,5} {3,4} {6} J {1,2}
+core 41: EXF0 e2 at single owner 2 x 1: types [0:6,2:3,5:5,6:7] [1:2,3:4,4:5,6:8] [3:1,4:6,5:4,6:8] bases {0,5} {3,4} {6} J {1,2}
+core 41: EXF0 e2 at single owner 2 x 1: types [0:6,2:3,5:5,6:7] [1:2,3:4,4:5,6:8] [3:2,4:3,5:4,6:8] bases {0,5} {3,4} {6} J {1,2}
+core 43: EXPARETO F=2: types [0:1,3:4,4:8,6:6] [1:2,3:3,5:4,6:8] [2:1,4:8,5:4,6:6] bases {0,3} {6}F {4}F J {1,2,5} omega 3 def 1
+core 43: EXPARETO F=2: types [0:1,3:4,4:8,6:6] [1:2,3:3,5:4,6:8] [2:1,4:8,5:4,6:6] bases {4}F {6}F {2,5} J {0,1,3} omega 3 def 1
+core 43: EXPARETO F=2: types [0:1,3:4,4:8,6:6] [1:2,3:3,5:4,6:8] [2:2,4:8,5:4,6:7] bases {0,3} {6}F {4}F J {1,2,5} omega 3 def 1
+core 43: EXPARETO F=2: types [0:3,3:10,4:2,6:6] [1:1,3:8,5:4,6:6] [2:2,4:3,5:4,6:8] bases {3}F {1,5} {6}F J {0,2,4} omega 3 def 1
+core 43: EXPARETO F=2: types [0:3,3:10,4:2,6:6] [1:1,3:8,5:4,6:6] [2:2,4:3,5:4,6:8] bases {0,4} {3}F {6}F J {1,2,5} omega 3 def 1
+core 43: EXPARETO F=2: types [0:3,3:10,4:2,6:6] [1:1,3:8,5:4,6:6] [2:2,4:3,5:6,6:10] bases {3}F {1,5} {6}F J {0,2,4} omega 3 def 1
+core 43: EXPARETO F=2: types [0:6,3:2,4:3,6:10] [1:1,3:4,5:8,6:6] [2:1,4:4,5:8,6:6] bases {6}F {1,3} {5}F J {0,2,4} omega 3 def 1
+core 43: EXPARETO F=2: types [0:6,3:2,4:3,6:10] [1:1,3:4,5:8,6:6] [2:1,4:4,5:8,6:6] bases {6}F {5}F {2,4} J {0,1,3} omega 3 def 1
+core 43: EXPARETO F=2: types [0:6,3:2,4:3,6:10] [1:1,3:4,5:8,6:6] [2:2,4:3,5:10,6:6] bases {6}F {1,3} {5}F J {0,2,4} omega 3 def 1
+core 43: EXPARETO F=1: types [0:8,3:3,4:10,6:4] [1:2,3:3,5:8,6:4] [2:2,4:4,5:8,6:3] bases {0,6} {5}F {2,4} J {1,3} omega 2 def 1
+core 43: EXPARETO F=1: types [0:8,3:3,4:10,6:4] [1:2,3:3,5:8,6:4] [2:2,4:6,5:10,6:3] bases {0,6} {5}F {2,4} J {1,3} omega 2 def 1
+core 43: EXPARETO F=1: types [0:8,3:3,4:10,6:4] [1:2,3:3,5:8,6:4] [2:3,4:4,5:8,6:2] bases {0,6} {5}F {2,4} J {1,3} omega 2 def 1
+core 44: EXPARETO F=1: types [0:1,2:4,4:6,6:8] [1:2,3:3,5:4,6:8] [2:4,3:2,4:8,5:5] bases {0,4} {6}F {2,5} J {1,3} omega 2 def 1
+core 44: EXPARETO F=1: types [0:1,2:4,4:6,6:8] [1:2,3:3,5:4,6:8] [2:4,3:2,4:10,5:7] bases {0,4} {6}F {2,5} J {1,3} omega 2 def 1
+core 44: EXPARETO F=1: types [0:1,2:4,4:6,6:8] [1:2,3:3,5:4,6:8] [2:4,3:5,4:8,5:2] bases {0,4} {6}F {2,3} J {1,5} omega 2 def 1
+core 44: EXPARETO F=1: types [0:3,2:10,4:2,6:6] [1:1,3:4,5:6,6:8] [2:8,3:3,4:2,5:4] bases {2}F {1,6} {3,5} J {0,4} omega 2 def 1
+core 44: EXPARETO F=1: types [0:3,2:10,4:2,6:6] [1:1,3:4,5:6,6:8] [2:8,3:4,4:2,5:3] bases {2}F {1,6} {3,5} J {0,4} omega 2 def 1
+core 44: EXPARETO F=1: types [0:3,2:10,4:2,6:6] [1:1,3:4,5:6,6:8] [2:10,3:3,4:2,5:6] bases {2}F {1,6} {3,5} J {0,4} omega 2 def 1
+core 44: EXPARETO F=1: types [0:6,2:2,4:3,6:10] [1:1,3:4,5:6,6:8] [2:2,3:4,4:5,5:8] bases {6}F {1,5} {3,4} J {0,2} omega 2 def 1
+core 44: EXPARETO F=1: types [0:6,2:2,4:3,6:10] [1:1,3:4,5:6,6:8] [2:2,3:4,4:7,5:10] bases {6}F {1,5} {3,4} J {0,2} omega 2 def 1
+core 44: EXPARETO F=1: types [0:6,2:2,4:3,6:10] [1:1,3:4,5:6,6:8] [2:2,3:5,4:4,5:8] bases {6}F {1,5} {3,4} J {0,2} omega 2 def 1
+core 44: EXPARETO F=1: types [0:8,2:3,4:10,6:4] [1:2,3:3,5:8,6:4] [2:3,3:2,4:4,5:8] bases {0,6} {5}F {2,4} J {1,3} omega 2 def 1
+core 44: EXPARETO F=1: types [0:8,2:3,4:10,6:4] [1:2,3:3,5:8,6:4] [2:3,3:2,4:6,5:10] bases {0,6} {5}F {2,4} J {1,3} omega 2 def 1
+core 44: EXPARETO F=1: types [0:8,2:3,4:10,6:4] [1:2,3:3,5:8,6:4] [2:4,3:2,4:3,5:8] bases {0,6} {5}F {2,4} J {1,3} omega 2 def 1
+core 45: EXPARETO F=1: types [0:1,2:4,4:6,6:8] [1:2,3:3,5:4,7:8] [4:2,5:4,6:3,7:8] bases {4,6} {7}F {5} J {0,1,2,3} omega 3 def 1
+core 45: EXPARETO F=1: types [0:1,2:4,4:6,6:8] [1:2,3:3,5:4,7:8] [4:3,5:4,6:2,7:8] bases {4,6} {7}F {5} J {0,1,2,3} omega 3 def 1
+core 45: EXPARETO F=1: types [0:1,2:4,4:6,6:8] [1:2,3:3,5:6,7:10] [4:2,5:4,6:3,7:8] bases {4,6} {7}F {5} J {0,1,2,3} omega 3 def 1
+core 45: EXPARETO F=1: types [0:3,2:2,4:8,6:4] [1:1,3:4,5:6,7:8] [4:8,5:2,6:4,7:3] bases {4}F {5,7} {6} J {0,1,2,3} omega 3 def 1
+core 45: EXPARETO F=1: types [0:3,2:2,4:8,6:4] [1:1,3:4,5:6,7:8] [4:8,5:3,6:4,7:2] bases {4}F {5,7} {6} J {0,1,2,3} omega 3 def 1
+core 45: EXPARETO F=1: types [0:3,2:2,4:8,6:4] [1:1,3:4,5:8,7:6] [4:8,5:2,6:4,7:3] bases {4}F {5,7} {6} J {0,1,2,3} omega 3 def 1
+core 45: EXPARETO F=1: types [0:4,2:3,4:2,6:8] [1:1,3:4,5:6,7:8] [4:4,5:2,6:8,7:3] bases {6}F {5,7} {4} J {0,1,2,3} omega 3 def 1
+core 45: EXPARETO F=1: types [0:4,2:3,4:2,6:8] [1:1,3:4,5:6,7:8] [4:4,5:3,6:8,7:2] bases {6}F {5,7} {4} J {0,1,2,3} omega 3 def 1
+core 45: EXPARETO F=1: types [0:4,2:3,4:2,6:8] [1:1,3:4,5:8,7:6] [4:4,5:2,6:8,7:3] bases {6}F {5,7} {4} J {0,1,2,3} omega 3 def 1
+core 45: EXPARETO F=1: types [0:6,2:3,4:5,6:7] [1:2,3:3,5:4,7:8] [4:3,5:2,6:4,7:8] bases {0,2} {7}F {4,6} J {1,3,5} omega 3 def 1
+core 45: EXPARETO F=1: types [0:6,2:3,4:5,6:7] [1:2,3:3,5:4,7:8] [4:3,5:2,6:6,7:10] bases {0,2} {7}F {4,6} J {1,3,5} omega 3 def 1
+core 45: EXPARETO F=1: types [0:6,2:3,4:5,6:7] [1:2,3:3,5:4,7:8] [4:4,5:2,6:3,7:8] bases {0,2} {7}F {4,6} J {1,3,5} omega 3 def 1
+core 46: EXPARETO F=1: types [0:2,2:3,6:4,7:8] [1:3,4:4,6:2,7:8] [3:3,5:4,6:2,7:8] bases {7}F {1,4} {3,5} J {0,2,6} omega 3 def 1
+core 46: EXPARETO F=1: types [0:2,2:3,6:4,7:8] [1:3,4:4,6:2,7:8] [3:3,5:6,6:2,7:10] bases {7}F {1,4} {3,5} J {0,2,6} omega 3 def 1
+core 46: EXPARETO F=1: types [0:2,2:3,6:4,7:8] [1:3,4:4,6:2,7:8] [3:4,5:3,6:2,7:8] bases {7}F {1,4} {3,5} J {0,2,6} omega 3 def 1
+core 46: EXPARETO F=1: types [0:3,2:2,6:8,7:4] [1:3,4:4,6:8,7:2] [3:3,5:4,6:8,7:2] bases {6}F {1,4} {3,5} J {0,2,7} omega 3 def 1
+core 46: EXPARETO F=1: types [0:3,2:2,6:8,7:4] [1:3,4:4,6:8,7:2] [3:3,5:6,6:10,7:2] bases {6}F {1,4} {3,5} J {0,2,7} omega 3 def 1
+core 46: EXPARETO F=1: types [0:3,2:2,6:8,7:4] [1:3,4:4,6:8,7:2] [3:4,5:3,6:8,7:2] bases {6}F {1,4} {3,5} J {0,2,7} omega 3 def 1
+core 46: EXPARETO F=1: types [0:4,2:3,6:2,7:8] [1:2,4:3,6:4,7:8] [3:3,5:4,6:2,7:8] bases {0,2} {7}F {3,5} J {1,4,6} omega 3 def 1
+core 46: EXPARETO F=1: types [0:4,2:3,6:2,7:8] [1:2,4:3,6:4,7:8] [3:3,5:6,6:2,7:10] bases {0,2} {7}F {3,5} J {1,4,6} omega 3 def 1
+core 46: EXPARETO F=1: types [0:4,2:3,6:2,7:8] [1:2,4:3,6:4,7:8] [3:4,5:3,6:2,7:8] bases {0,2} {7}F {3,5} J {1,4,6} omega 3 def 1
+core 46: EXPARETO F=1: types [0:6,2:3,6:10,7:2] [1:2,4:3,6:8,7:4] [3:3,5:4,6:8,7:2] bases {0,2} {6}F {3,5} J {1,4,7} omega 3 def 1
+core 46: EXPARETO F=1: types [0:6,2:3,6:10,7:2] [1:2,4:3,6:8,7:4] [3:3,5:6,6:10,7:2] bases {0,2} {6}F {3,5} J {1,4,7} omega 3 def 1
+core 46: EXPARETO F=1: types [0:6,2:3,6:10,7:2] [1:2,4:3,6:8,7:4] [3:4,5:3,6:8,7:2] bases {0,2} {6}F {3,5} J {1,4,7} omega 3 def 1
+core 47: EXPARETO F=1: types [0:2,2:3,5:8,6:4] [1:2,4:3,5:8,7:4] [3:3,6:2,7:4] bases {5}F {1,4} {3,7} J {0,2,6} omega 3 def 1
+core 47: EXPARETO F=1: types [0:2,2:3,5:8,6:4] [1:2,4:3,5:8,7:4] [3:3,6:4,7:2] bases {0,2} {5}F {3,6} J {1,4,7} omega 3 def 1
+core 47: EXPARETO F=1: types [0:2,2:3,5:8,6:4] [1:2,4:3,5:8,7:4] [3:4,6:2,7:3] bases {5}F {1,4} {3,7} J {0,2,6} omega 3 def 1
+core 48: EXPARETO F=2: types [0:1,2:4,5:8,7:6] [1:2,4:3,6:4,7:8] [3:1,5:8,6:4,7:6] bases {0,2} {7}F {5}F J {1,3,4,6} omega 4 def 1
+core 48: EXPARETO F=2: types [0:1,2:4,5:8,7:6] [1:2,4:3,6:4,7:8] [3:1,5:8,6:4,7:6] bases {5}F {7}F {3,6} J {0,1,2,4} omega 4 def 1
+core 48: EXPARETO F=2: types [0:1,2:4,5:8,7:6] [1:2,4:3,6:4,7:8] [3:2,5:8,6:4,7:7] bases {0,2} {7}F {5}F J {1,3,4,6} omega 4 def 1
+core 48: EXPARETO F=1: types [0:3,2:2,5:8,7:4] [1:2,4:4,6:8,7:5] [3:1,5:8,6:6,7:4] bases {5}F {4,7} {3,6} J {0,1,2} omega 3 def 1
+core 48: EXPARETO F=1: types [0:3,2:2,5:8,7:4] [1:2,4:4,6:8,7:5] [3:2,5:8,6:4,7:3] bases {5}F {4,7} {3,6} J {0,1,2} omega 3 def 1
+core 48: EXPARETO F=1: types [0:3,2:2,5:8,7:4] [1:2,4:4,6:8,7:5] [3:2,5:8,6:5,7:4] bases {5}F {4,7} {3,6} J {0,1,2} omega 3 def 1
+core 48: EXPARETO F=2: types [0:4,2:3,5:2,7:8] [1:1,4:4,6:8,7:6] [3:1,5:4,6:8,7:6] bases {7}F {1,4} {6}F J {0,2,3,5} omega 4 def 1
+core 48: EXPARETO F=2: types [0:4,2:3,5:2,7:8] [1:1,4:4,6:8,7:6] [3:1,5:4,6:8,7:6] bases {7}F {6}F {3,5} J {0,1,2,4} omega 4 def 1
+core 48: EXPARETO F=2: types [0:4,2:3,5:2,7:8] [1:1,4:4,6:8,7:6] [3:2,5:3,6:10,7:6] bases {7}F {1,4} {6}F J {0,2,3,5} omega 4 def 1
+core 48: EXPARETO F=1: types [0:6,2:3,5:8,7:4] [1:2,4:3,6:8,7:4] [3:2,5:4,6:8,7:3] bases {0,7} {6}F {3,5} J {1,2,4} omega 3 def 1
+core 48: EXPARETO F=1: types [0:6,2:3,5:8,7:4] [1:2,4:3,6:8,7:4] [3:2,5:6,6:10,7:3] bases {0,7} {6}F {3,5} J {1,2,4} omega 3 def 1
+core 48: EXPARETO F=1: types [0:6,2:3,5:8,7:4] [1:2,4:3,6:8,7:4] [3:3,5:4,6:8,7:2] bases {0,7} {6}F {3,5} J {1,2,4} omega 3 def 1
+core 49: EXPARETO F=1: types [0:1,2:6,4:4,5:8] [1:4,4:8,6:2,7:3] [3:2,5:8,6:3,7:4] bases {0,2} {1,4} {5}F J {3,6,7} omega 3 def 1
+core 49: EXPARETO F=1: types [0:1,2:6,4:4,5:8] [1:4,4:8,6:2,7:3] [3:2,5:8,6:4,7:3] bases {0,2} {1,4} {5}F J {3,6,7} omega 3 def 1
+core 49: EXPARETO F=1: types [0:1,2:6,4:4,5:8] [1:4,4:8,6:2,7:3] [3:2,5:10,6:3,7:6] bases {0,2} {1,4} {5}F J {3,6,7} omega 3 def 1
+core 49: EXPARETO F=1: types [0:3,2:2,4:8,5:4] [1:1,4:8,6:4,7:6] [3:2,5:4,6:5,7:8] bases {4}F {1,7} {5,6} J {0,2,3} omega 3 def 1
+core 49: EXPARETO F=1: types [0:3,2:2,4:8,5:4] [1:1,4:8,6:4,7:6] [3:2,5:4,6:7,7:10] bases {4}F {1,7} {5,6} J {0,2,3} omega 3 def 1
+core 49: EXPARETO F=1: types [0:3,2:2,4:8,5:4] [1:1,4:8,6:4,7:6] [3:2,5:5,6:4,7:8] bases {4}F {1,7} {5,6} J {0,2,3} omega 3 def 1
+core 49: EXPARETO F=1: types [0:4,2:3,4:2,5:8] [1:1,4:4,6:6,7:8] [3:4,5:8,6:2,7:3] bases {5}F {6,7} {3} J {0,1,2,4} omega 3 def 1
+core 49: EXPARETO F=1: types [0:4,2:3,4:2,5:8] [1:1,4:4,6:6,7:8] [3:4,5:8,6:3,7:2] bases {5}F {6,7} {3} J {0,1,2,4} omega 3 def 1
+core 49: EXPARETO F=1: types [0:4,2:3,4:2,5:8] [1:1,4:4,6:8,7:6] [3:4,5:8,6:2,7:3] bases {5}F {6,7} {3} J {0,1,2,4} omega 3 def 1
+core 49: EXPARETO F=1: types [0:6,2:3,4:8,5:10] [1:4,4:8,6:2,7:3] [3:2,5:8,6:3,7:4] bases {0,2} {1,4} {5}F J {3,6,7} omega 3 def 1
+core 49: EXPARETO F=1: types [0:6,2:3,4:8,5:10] [1:4,4:8,6:2,7:3] [3:2,5:8,6:4,7:3] bases {0,2} {1,4} {5}F J {3,6,7} omega 3 def 1
+core 49: EXPARETO F=1: types [0:6,2:3,4:8,5:10] [1:4,4:8,6:2,7:3] [3:2,5:10,6:3,7:6] bases {0,2} {1,4} {5}F J {3,6,7} omega 3 def 1
+core 50: EXPARETO F=1: types [0:1,2:6,6:4,7:8] [1:2,4:3,6:4,8:8] [3:2,5:3,7:4,8:8] bases {2,7} {8}F {3,5} J {0,1,4,6} omega 4 def 1
+core 50: EXPARETO F=1: types [0:1,2:6,6:4,7:8] [1:2,4:3,6:4,8:8] [3:2,5:4,7:3,8:8] bases {2,7} {8}F {3,5} J {0,1,4,6} omega 4 def 1
+core 50: EXPARETO F=1: types [0:1,2:6,6:4,7:8] [1:2,4:3,6:4,8:8] [3:2,5:6,7:3,8:10] bases {2,7} {8}F {3,5} J {0,1,4,6} omega 4 def 1
+core 50: EXPARETO F=1: types [0:3,2:2,6:8,7:4] [1:1,4:6,6:8,8:4] [3:2,5:4,7:3,8:8] bases {6}F {1,4} {5,8} J {0,2,3,7} omega 4 def 1
+core 50: EXPARETO F=1: types [0:3,2:2,6:8,7:4] [1:1,4:6,6:8,8:4] [3:2,5:6,7:3,8:10] bases {6}F {1,4} {5,8} J {0,2,3,7} omega 4 def 1
+core 50: EXPARETO F=1: types [0:3,2:2,6:8,7:4] [1:1,4:6,6:8,8:4] [3:3,5:4,7:2,8:8] bases {6}F {1,4} {5,8} J {0,2,3,7} omega 4 def 1
+core 50: EXPARETO F=1: types [0:4,2:3,6:2,7:8] [1:1,4:6,6:4,8:8] [3:2,5:3,7:8,8:4] bases {7}F {4,8} {3,5} J {0,1,2,6} omega 4 def 1
+core 50: EXPARETO F=1: types [0:4,2:3,6:2,7:8] [1:1,4:6,6:4,8:8] [3:2,5:4,7:8,8:3] bases {7}F {4,8} {3,5} J {0,1,2,6} omega 4 def 1
+core 50: EXPARETO F=1: types [0:4,2:3,6:2,7:8] [1:1,4:6,6:4,8:8] [3:2,5:6,7:10,8:3] bases {7}F {4,8} {3,5} J {0,1,2,6} omega 4 def 1
+core 50: EXPARETO F=1: types [0:6,2:3,6:5,7:7] [1:2,4:3,6:4,8:8] [3:2,5:3,7:4,8:8] bases {0,7} {8}F {3,5} J {1,2,4,6} omega 4 def 1
+core 50: EXPARETO F=1: types [0:6,2:3,6:5,7:7] [1:2,4:3,6:4,8:8] [3:2,5:4,7:3,8:8] bases {0,7} {8}F {3,5} J {1,2,4,6} omega 4 def 1
+core 50: EXPARETO F=1: types [0:6,2:3,6:5,7:7] [1:2,4:3,6:4,8:8] [3:2,5:6,7:3,8:10] bases {0,7} {8}F {3,5} J {1,2,4,6} omega 4 def 1
+FILE results/k4_certs_3.json.gz cores 51 profiles 299837376 valid 7845235502 minfrozen 6339279928 minfrozen_omega1 0 minfrozen_posdef 0 profiles_c4min_ok 299837376 bad_char 0
+  Pareto-maxima inside the min-frozen set, pareto F=0: profiles 283959584, every maximum deficit <= 0: 283959584, some: 283959584 (786313328 maxima)
+  Pareto-maxima inside the min-frozen set, pareto F=1: profiles 15414020, every maximum deficit <= 0: 15121508, some: 15413892 (43107700 maxima)
+  Pareto-maxima inside the min-frozen set, pareto F=2: profiles 463772, every maximum deficit <= 0: 436160, some: 463772 (1927768 maxima)
+  F0: F=0 Pareto-maxima with omega>=1 287013316, Lemma U violated 0, Lemma U2 violated 0, no single-good holder 256338692, exposure of another kind 0, label criterion != exact test 0, a single-good holder valid 29577984, a pair-holder valid 286881988, no valid owner 0, every single-good holder valid 29577984, single-good holder invalid by an unhittable exposure 0, e2 exposures 42384120, e1 exposures 15057000, e3 exposures 38416272, e2 exposures at single-good owners 1104640
+  BTC: profiles with a non-completable Pareto-maximum with frozen agents 320124, with a completable min-frozen pre-allocation whose owner is of big-top type 320124, with any completable min-frozen pre-allocation 320124
+  FZ: maxima with F>=1 and omega>=1 19259044, with a globally exposed frozen agent 255636, global exposure of another shape 0, no global exposure and no valid owner 180876, global exposure and no valid owner 196956, Lemma H6 violations 0, frozen agents exposed w.r.t. >= 2 owners 248904, some owner valid 18881212, no valid owner and no G1 configuration 113136, no valid owner and no frozen big-top agent 0, frozen exposures (agent, owner): global 504540, ... owner a chain end of x (G1-type) 1664700, ... local, one label 6052996, ... local, two labels 371136, ... local, unhittable 883312
+  failing (P, owner) pairs 0, with an unhittable exposed agent 0; tau for the others: [0, 0, 0, 0, 0, 0, 0, 0]; minimal violator size (0 = none of size < 8): [0, 0, 0, 0, 0, 0, 0, 0]
+Fri Sep 25 21:19:26 UTC 2026

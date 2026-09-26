@@ -1,0 +1,38 @@
+$ cd k4 && python3 d_stress_check.py --selftest pure 3 5 150
+selftest pure 3 5: 150 of 150 profiles decided alike (d_stress.py vs this encoding), for D2 and for all bundles <= 2 (the latter unsatisfiable in 2)
+$ cd k4 && python3 d_stress_check.py --selftest pure 4 7 150
+selftest pure 4 7: 150 of 150 profiles decided alike (d_stress.py vs this encoding), for D2 and for all bundles <= 2 (the latter unsatisfiable in 2)
+$ cd k4 && python3 d_stress_check.py --selftest pure 6 8 150
+selftest pure 6 8: 150 of 150 profiles decided alike (d_stress.py vs this encoding), for D2 and for all bundles <= 2 (the latter unsatisfiable in 0)
+$ cd k4 && python3 d_stress_check.py --selftest chain 1 150
+selftest chain 1: 150 of 150 profiles decided alike (d_stress.py vs this encoding), for D2 and for all bundles <= 2 (the latter unsatisfiable in 150)
+$ cd k4 && python3 d_stress_check.py --selftest chain 2 30
+selftest chain 2: 30 of 30 profiles decided alike (d_stress.py vs this encoding), for D2 and for all bundles <= 2 (the latter unsatisfiable in 30)
+$ cd k4 && python3 d_stress_check.py --selftest chain 3 30
+commit 78a81fa
+selftest chain 3: 30 of 30 profiles decided alike (d_stress.py vs this encoding), for D2 and for all bundles <= 2 (the latter unsatisfiable in 30; not run: m > 2n, unsatisfiable by counting)
+$ cd k4 && python3 d_stress_check.py --selftest tree 3 30
+commit af85fd1
+selftest tree 3: 30 of 30 profiles decided alike (d_stress.py vs this encoding), for D2 and for all bundles <= 2 (the latter unsatisfiable in 30; not run: m > 2n, unsatisfiable by counting)
+# The entries above without a commit line predate the commit printer: pure 3 5 to chain 1 were run at afc888c or earlier, chain 2 30 in this review round before 78a81fa (with the "all bundles <= 2" call still run for m > 2n). All seven self-tests were rerun at feee6c9 (second encoding solved by CaDiCaL):
+$ cd k4 && python3 d_stress_check.py --selftest pure 3 5 150
+commit feee6c9
+selftest pure 3 5: 150 of 150 profiles decided alike (d_stress.py vs this encoding), for D2 and for all bundles <= 2 (the latter unsatisfiable in 2)
+$ cd k4 && python3 d_stress_check.py --selftest pure 4 7 150
+commit feee6c9
+selftest pure 4 7: 150 of 150 profiles decided alike (d_stress.py vs this encoding), for D2 and for all bundles <= 2 (the latter unsatisfiable in 2)
+$ cd k4 && python3 d_stress_check.py --selftest pure 6 8 150
+commit feee6c9
+selftest pure 6 8: 150 of 150 profiles decided alike (d_stress.py vs this encoding), for D2 and for all bundles <= 2 (the latter unsatisfiable in 0)
+$ cd k4 && python3 d_stress_check.py --selftest chain 1 150
+commit feee6c9
+selftest chain 1: 150 of 150 profiles decided alike (d_stress.py vs this encoding), for D2 and for all bundles <= 2 (the latter unsatisfiable in 150; not run: m > 2n, unsatisfiable by counting)
+$ cd k4 && python3 d_stress_check.py --selftest chain 2 30
+commit feee6c9
+selftest chain 2: 30 of 30 profiles decided alike (d_stress.py vs this encoding), for D2 and for all bundles <= 2 (the latter unsatisfiable in 30; not run: m > 2n, unsatisfiable by counting)
+$ cd k4 && python3 d_stress_check.py --selftest chain 3 30
+commit feee6c9
+selftest chain 3: 30 of 30 profiles decided alike (d_stress.py vs this encoding), for D2 and for all bundles <= 2 (the latter unsatisfiable in 30; not run: m > 2n, unsatisfiable by counting)
+$ cd k4 && python3 d_stress_check.py --selftest tree 3 30
+commit feee6c9
+selftest tree 3: 30 of 30 profiles decided alike (d_stress.py vs this encoding), for D2 and for all bundles <= 2 (the latter unsatisfiable in 30; not run: m > 2n, unsatisfiable by counting)

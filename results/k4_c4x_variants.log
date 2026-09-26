@@ -1,0 +1,29 @@
+# attempts/k4-c4x-variant-spaces.md and k4-c4x-pareto-potentials.md: the variant spaces
+# command: python3 k4/c4x_run.py results/k4_certs_2.json.gz -w0 -R -p 6,17 --jobs=1
+FILE results/k4_certs_2.json.gz cores 5 profiles 189216 valid 2318524 tested 1958408 nocomp 720 ronone 720 ronone_any 720 paretomax 0 paretofail 0
+  (-frozen,-rodef)                 every-max fails          720   some-max fails          720
+
+# command: python3 k4/c4x_run.py results/k4_certs_2.json.gz -E -a -p 6 --jobs=1
+FILE results/k4_certs_2.json.gz cores 5 profiles 189216 valid 1285216 tested 1252628 nocomp 0 ronone 0 ronone_any 0 paretomax 0 paretofail 0
+  (-frozen)                        every-max fails         2880   some-max fails            0
+
+# command: python3 k4/c4x_run.py results/k4_certs_3.json.gz -E -a -p 6 --rand=20000 --jobs=2
+FILE results/k4_certs_3.json.gz cores 51 profiles 1020000 valid 10867035 tested 9357598 nocomp 50 ronone 0 ronone_any 0 paretomax 0 paretofail 0
+  (-frozen)                        every-max fails        35028   some-max fails          445
+
+# command: python3 k4/c4x_run.py results/k4_certs_2.json.gz -3 -R -p "6,17;6" --jobs=4
+FILE results/k4_certs_2.json.gz cores 5 profiles 189216 valid 3488500 tested 3290744 nocomp 0 ronone 0 ronone_any 0 paretomax 0 paretofail 0
+  (-frozen,-rodef)                 every-max fails            0   some-max fails            0
+  (-frozen)                        every-max fails       178992   some-max fails            0
+
+# command: python3 k4/c4x_run.py results/k4_certs_3.json.gz -3 -R -p "6,17;6" --rand=20000 --jobs=4
+FILE results/k4_certs_3.json.gz cores 51 profiles 1020000 valid 35715525 tested 29355050 nocomp 0 ronone 949 ronone_any 0 paretomax 0 paretofail 0
+  (-frozen,-rodef)                 every-max fails          949   some-max fails          949
+  (-frozen)                        every-max fails       578647   some-max fails          949
+
+# command: python3 k4/c4x_run.py results/k4_certs_3.json.gz --only=0,1,4,5,7,9,12,15,18,19,21,24,26,36 -3 -Q -p "3;0;2" --jobs=4
+FILE results/k4_certs_3.json.gz cores 14 profiles 119232 valid 1814530 tested 410725 nocomp 0 ronone 0 ronone_any 0 paretomax 313065 paretofail 48472
+  (leximin)                        every-max fails         1080   some-max fails          904
+  (sumlev)                         every-max fails        20746   some-max fails        11506
+  (leximax)                        every-max fails        30192   some-max fails        30160
+

@@ -1,0 +1,23 @@
+H_2: n=9 m=23
+Phase 1 (agent, pick, step): l->g1(I) x11->a11(P) x12->a12(P) x13->a13(P) y1->g2(P) x21->a21(P) x22->a22(P) x23->a23(P) y2->z(P)
+needs after Phase 1: {'y1': ['a11', 'a12', 'a13'], 'y2': ['a21', 'a22', 'a23']}
+junk: ['b11', 'b12', 'b13', 'b21', 'b22', 'b23', 'c11', 'c12', 'c13', 'c21', 'c22', 'c23', 'u', "u'"] omega = 11
+policy shrink: upgrades []; state unchanged: True
+policy envyFree: upgrades []; state unchanged: True
+policy none: upgrades []; state unchanged: True
+depth 0: 1 new states, 1 states with <= 0 rotations
+depth 1: 12 new states, 13 states with <= 1 rotations
+depth 2: 104 new states, 117 states with <= 2 rotations
+depth 3: 276 new states, 393 states with <= 3 rotations
+reachability done in 0.1s
+depth 0: states=1 omega in [11,11] | states with an output: bundle=0 base=0  (0.1s)
+depth 1: states=12 omega in [8,11] | states with an output: bundle=0 base=0  (0.1s)
+depth 2: states=104 omega in [5,11] | states with an output: bundle=60 base=52  (0.6s)
+  first success (bundle) at depth 2: owners ['l', 'x11', 'x12', 'x13', 'x21', 'x22', 'x23']
+   state: l:{g1} x11*:{b11} x12:{a12} x13:{a13} y1:{a11} x21*:{b21} x22:{a22} x23:{a23} y2:{a21}
+   path: chain ['x11', 'y1'] O=['b11'] ; chain ['x21', 'y2'] O=['b21']
+  first success (base) at depth 2: owners ['l', 'x11', 'x12', 'x13', 'x21', 'x22', 'x23']
+   state: l:{g1} x11*:{b11} x12:{a12} x13:{a13} y1:{a11} x21*:{b21} x22:{a22} x23:{a23} y2:{a21}
+   path: chain ['x11', 'y1'] O=['b11'] ; chain ['x21', 'y2'] O=['b21']
+depth 3: states=276 omega in [5,11] | states with an output: bundle=188 base=182  (1.6s)
+RESULT t=2 q<=3: least depth with an output: bundle=2 base=2 (Proposition H bound ceil(2t/3) = 2); total 1.6s

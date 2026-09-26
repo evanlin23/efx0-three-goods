@@ -12,7 +12,7 @@ Options (k4/lb4.md §2 and §6): LB4 is -i2 -u1 -r1 -w1 -c1.
       4 least omega, 5 "a > b + c" first, 6 index with one step changed, 7 index then the last block led by r,
       8 index then every leader of the last block, 9 every sequence then every leader of its last block;
   -uN upgrades: 0 none, 1 need-shrinking, 2 envy-free only, 3 policies 1, 2, 0 in turn;
-  -oN owner: 0 every owner, 1 r only, 2 r then rotation;  -rN up to N rotations in a row;
+  -oN owner: 0 every owner, 1 r only, 2 r then rotation;  -rN up to N rotations in a row; -d1 iterative deepening on N (0, 1, ..., N: same successes, least rotations) for each policy, -d2 with the bound outermost (least over all policies);
   -w1 owner needs from its bundle;  -c1 chains may end at upgraded agents;
   -s sensitivity (owner constraint ignored: must give raw failures);  -b brute force (every profile its own leaf);
   -a print the leaf allocations;  -fN print at most N failures per core. */
@@ -33,6 +33,7 @@ static uint32_t R[MAXN];
 static int nt[MAXN], tv[MAXN][MAXT][4];
 static int np[MAXN], pr[MAXN][24][4], pcnt[MAXN][24], pidx[MAXN][24][MAXG];
 static int OWN = 0, INS = 0, SENS = 0, MAXF = 3, UPG = 1, BRUTE = 0, ALLOC = 0;
+static long SAMPLE = 0;   /* -SN: N random profiles per core instead of all */
 /* -a: distinct leaf allocations per core (owners packed 3 bits per good), printed as "A o_0 .. o_{m-1}" lines */
 #define HBITS 22
 static uint64_t *htab; static long hcnt;
@@ -263,10 +264,12 @@ static int slots(void) {
 
 /* ---- rotation (exploration): a frozen agent k gives up its pick along a need chain k = x0 -> .. -> xt (terminal),
    every chain agent takes its predecessor's pick, xt's pick is released, and k takes its relevant junk as its base */
-static int ROT = 0, rot_depth = 0, CHUP = 0;
+static int ROT = 0, rot_depth = 0, CHUP = 0, rot_cap = 0, DEEPEN = 0;   /* rot_cap: the depth bound in force */
+static int used_pol, used_rot; static long effort;   /* how a run succeeded: policy index, rotations, rotation attempts */
 static int try_rotations(void);
 static int chain[MAXN], clen;
 static int apply_chain(int rot_pick, int *rot_more) {
+    effort++;
     int sY[MAXN], su[MAXN]; uint32_t sb[MAXN], sN[MAXN], sJ = J;
     memcpy(sY, Y, sizeof Y); memcpy(su, upg, sizeof upg); memcpy(sb, base, sizeof base); memcpy(sN, N_, sizeof N_);
     int k = chain[0], t = chain[clen - 1];
@@ -300,7 +303,8 @@ static int apply_chain(int rot_pick, int *rot_more) {
         if (!ok && nbig == 0 && popc(J) - S >= 1)
             for (int o = 0; o < n && !ok; o++) if (o != k && (cap[o] > 0 || upg[o])) ok = try_owner(o, S);
     }
-    if (!ok && valid && rot_depth + 1 < ROT) {    /* rotate again from the rotated state */
+    if (ok) used_rot = rot_depth + 1;             /* succeeded after rot_depth + 1 rotations */
+    if (!ok && valid && rot_depth + 1 < rot_cap) {    /* rotate again from the rotated state */
         int sc[MAXN], sl = clen; memcpy(sc, chain, sizeof sc);
         rot_depth++; ok = try_rotations(); rot_depth--;
         memcpy(chain, sc, sizeof sc); clen = sl;
@@ -420,10 +424,27 @@ static int construct(void) {
     }
 }
 static int construct2(void);
+/* one policy with rotation depth bound ROT; with -d1 (iterative deepening) bounds 0, 1, ..., ROT in turn, which
+   succeeds exactly when bound ROT does (each bound's search contains the previous one's) and finds the least depth */
+static int construct_rot(void) {
+    for (rot_cap = DEEPEN ? 0 : ROT; rot_cap <= ROT; rot_cap++) { used_rot = 0; if (construct2()) return 1; }
+    return 0;
+}
 static int construct1(void) {
-    if (UPG != 3) { upg_mode = UPG; return construct2(); }
-    for (upg_mode = 1; upg_mode >= 0; upg_mode = upg_mode == 1 ? 2 : upg_mode == 2 ? 0 : -1) {  /* -u3: 1, 2, 0 */
-        if (construct2()) return 1;
+    if (UPG != 3) { upg_mode = UPG; used_pol = 0; return construct_rot(); }
+    if (DEEPEN == 2) {                   /* -d2: bound outermost, every policy at each bound: the least rotations over all policies */
+        for (int cap = 0; cap <= ROT; cap++) {
+            int pi = 0;
+            for (upg_mode = 1; upg_mode >= 0; upg_mode = upg_mode == 1 ? 2 : upg_mode == 2 ? 0 : -1, pi++) {
+                rot_cap = cap; used_rot = 0;
+                if (construct2()) { used_pol = pi; fb_upg = pi > 0; return 1; }
+            }
+        }
+        fb_upg = 1; return 0;
+    }
+    int pi = 0;
+    for (upg_mode = 1; upg_mode >= 0; upg_mode = upg_mode == 1 ? 2 : upg_mode == 2 ? 0 : -1, pi++) {  /* -u3: 1, 2, 0 */
+        if (construct_rot()) { used_pol = pi; return 1; }
         fb_upg = 1;
     }
     return 0;
@@ -439,11 +460,11 @@ static int construct2(void) {
     if (SENS) { fill_bases(); for (int g = 0; g < m; g++) if (own[g] < 0) own[g] = r; last_status = 1; return 1; }
     if (!frz[r] && try_owner(r, S)) { last_status = 1; return 1; }
     if (OWN == 1) { last_status = -1; return 0; }
-    if (OWN == 2) { if (ROT && try_rotations()) { last_status = 3; return 1; } last_status = -1; return 0; }
+    if (OWN == 2) { if (rot_cap && try_rotations()) { last_status = 3; return 1; } last_status = -1; return 0; }
     int ordr[MAXN], k = 0;
     for (int p = n - 1; p >= 0; p--) for (int i = 0; i < n; i++) if (pos[i] == p && i != r && (cap[i] > 0 || upg[i])) ordr[k++] = i;
     for (int t = 0; t < k; t++) if (try_owner(ordr[t], S)) { last_status = 2; return 1; }
-    if (ROT && try_rotations()) { last_status = 3; return 1; }
+    if (rot_cap && try_rotations()) { last_status = 3; return 1; }
     last_status = -1; return 0;
 }
 
@@ -501,6 +522,82 @@ static int run_leaf(int *ok) {
     return 0;
 }
 
+
+static long HILL = 0;                    /* -HN: N hill-climbing steps per core (restart every 500) */
+static int PSCORE = 0;                   /* -P1: hardness = how few policies succeed on their own; -P2: rotations first;
+                                            -P3 (with -i1): the least rotations over all insertion sequences (exists tau) */
+static int DEEPREP = 0;                  /* -TN: report every run (-S, -H) needing at least N rotations */
+#define MAXROT 8                         /* largest rotation bound -rN; the histograms have MAXROT + 1 entries */
+static long hist_pol[3], hist_rot[MAXROT + 1];
+static long sstat[5], sbig[40], sfb_upg;   /* per-run counters of the -S and -H modes */
+/* set the rankings and singleton type sets for type indices ty[]; run LB4 (every insertion sequence when -i1);
+   *score = max over runs of policy * 1e8 + rotations * 1e6 + min(effort, 999999); returns 1 if every run succeeds */
+static int eval_profile(const int *ty, long *score, long *nruns) {
+    for (int i = 0; i < n; i++) {
+        int t = ty[i], p, kk = 0;
+        for (p = 0; p < np[i]; p++) { for (kk = 0; kk < pcnt[i][p]; kk++) if (pidx[i][p][kk] == t) break; if (kk < pcnt[i][p]) break; }
+        cp[i] = p; ts[i] = (u128)1 << kk;
+        for (int r = 0; r < d[i]; r++) ord[i][r] = gl[i][pr[i][cp[i]][r]];
+        for (int g = 0; g < m; g++) rp[i][g] = -1;
+        for (int r = 0; r < d[i]; r++) rp[i][ord[i][r]] = r;
+    }
+    long sc = 0; nchoice = 0;
+    int bchoice[MAXN], bnchoice = 0;     /* the hardest run's insertion sequence (-i1), re-run at the end for reports */
+    int xmin = 99, xnt = 0, xbad = 0;    /* -P3: least rotations over the insertion sequences, how many, how many need one */
+    for (;;) {
+        int ok; effort = 0;
+        long sc0 = sc;
+        if (PSCORE == 1 && UPG == 3) {   /* -P1: run each policy on its own; score by how few succeed */
+            int nsucc = 0, rmin = 99; long eff = 0;
+            for (UPG = 0; UPG < 3; UPG++) {
+                effort = 0;
+                if (run_leaf(&ok)) { fprintf(stderr, "split with singleton type sets\n"); exit(1); }
+                eff += effort;
+                if (ok) { nsucc++; if (used_rot < rmin) rmin = used_rot; if (!rawcheck()) { report("RAWFAIL"); exit(2); } }
+            }
+            UPG = 3;
+            (*nruns)++;
+            if (!nsucc) { *score = -1; return 0; }
+            long e = eff < 999999 ? eff : 999999, v = (3 - nsucc) * 100000000L + rmin * 1000000L + e;
+            if (v > sc) sc = v;
+            if (run_leaf(&ok) || !ok) { fprintf(stderr, "-P1: LB4r disagrees with its policies\n"); exit(1); }
+        } else {
+        if (run_leaf(&ok)) { fprintf(stderr, "split with singleton type sets\n"); exit(1); }
+        (*nruns)++;
+        if (!ok && PSCORE == 3) { xnt++; xbad++; goto next_seq; }   /* -P3: a failing sequence is allowed */
+        if (!ok) { *score = -1; return 0; }
+        }
+        if (!rawcheck()) { report("RAWFAIL"); exit(2); }
+        if (DEEPREP && used_rot >= DEEPREP) { char lab[48]; snprintf(lab, sizeof lab, "DEEP p=%d r=%d", used_pol, used_rot); report(lab); }
+        sstat[last_status]++; if (lastbig) sbig[lastbig]++; if (fb_upg) sfb_upg++;
+        hist_pol[used_pol]++; hist_rot[used_rot]++;
+        long e = effort < 999999 ? effort : 999999, v = used_pol * 100000000L + used_rot * 1000000L + e;
+        if (PSCORE == 2) v = used_rot * 100000000L + used_pol * 1000000L + e;   /* -P2: rotations first */
+        if (PSCORE == 3) {               /* keep the sequence with the fewest rotations */
+            xnt++; if (used_rot) xbad++;
+            if (used_rot < xmin) { xmin = used_rot; memcpy(bchoice, choice, sizeof bchoice); bnchoice = nchoice ? nchoice : -1; }
+        } else {
+        if (PSCORE != 1 && v > sc) sc = v;
+        if (sc > sc0 || !bnchoice) { memcpy(bchoice, choice, sizeof bchoice); bnchoice = nchoice ? nchoice : -1; }
+        }
+      next_seq:
+        if (INS != 1) break;
+        int j = nins - 1;                /* next insertion sequence */
+        while (j >= 0 && choice[j] + 1 >= maxchoice[j]) j--;
+        if (j < 0) break;
+        choice[j]++; nchoice = j + 1;
+    }
+    if (PSCORE == 3) {                   /* -P3 (exists tau): score = least rotations, then the share of sequences needing one */
+        if (xmin == 99) { *score = -1; return 0; }      /* no insertion sequence succeeds */
+        sc = xmin * 100000000L + xbad * 999999L / xnt;
+    }
+    if (INS == 1) {                      /* leave the state of the hardest run, for report() */
+        int ok; memcpy(choice, bchoice, sizeof bchoice); nchoice = bnchoice < 0 ? 0 : bnchoice;
+        if (run_leaf(&ok) || !ok) { fprintf(stderr, "re-run of the hardest run failed\n"); exit(1); }
+    }
+    *score = sc; return 1;
+}
+
 int main(int argc, char **argv) {
     for (int a = 1; a < argc; a++) {
         if (!strncmp(argv[a], "-o", 2)) OWN = atoi(argv[a] + 2);
@@ -510,10 +607,16 @@ int main(int argc, char **argv) {
         else if (!strncmp(argv[a], "-u", 2)) UPG = atoi(argv[a] + 2);
         else if (!strcmp(argv[a], "-b")) BRUTE = 1;
         else if (!strcmp(argv[a], "-a")) ALLOC = 1;
+        else if (!strncmp(argv[a], "-S", 2)) SAMPLE = atol(argv[a] + 2);
+        else if (!strncmp(argv[a], "-H", 2)) HILL = atol(argv[a] + 2);
         else if (!strncmp(argv[a], "-r", 2)) ROT = atoi(argv[a] + 2);
+        else if (!strncmp(argv[a], "-d", 2)) DEEPEN = atoi(argv[a] + 2);
+        else if (!strncmp(argv[a], "-P", 2)) PSCORE = atoi(argv[a] + 2);
+        else if (!strncmp(argv[a], "-T", 2)) DEEPREP = atoi(argv[a] + 2);
         else if (!strncmp(argv[a], "-w", 2)) OWNW = atoi(argv[a] + 2);
         else if (!strncmp(argv[a], "-c", 2)) CHUP = atoi(argv[a] + 2);
     }
+    if (ROT < 0 || ROT > MAXROT) { fprintf(stderr, "-r%d: the rotation bound must be 0 .. %d\n", ROT, MAXROT); return 1; }
     if (ALLOC) htab = calloc((size_t)1 << HBITS, sizeof(uint64_t));
     while (scanf("%d %d", &n, &m) == 2) {
         memset(loc, -1, sizeof loc);
@@ -537,6 +640,42 @@ int main(int argc, char **argv) {
         }
         long total = 0, leaves = 0, fails = 0, rawf = 0, runs = 0, shown = 0;
         long stat[5] = {0}, bigsz[40] = {0}, nfb_seq = 0, nfb_upg = 0;
+        if (SAMPLE > 0 || HILL > 0) {    /* random profiles (-S), or hill-climbing toward hard profiles (-H) */
+            uint64_t x = 88172645463325252ull ^ (uint64_t)(n * 131 + m);
+            for (int i = 0; i < n; i++) for (int k = 0; k < d[i]; k++) x = x * 6364136223846793005ull + (uint64_t)(gl[i][k] + 17 * k + 1);
+            int ty[MAXN], best[MAXN]; long cur = -1, top = -1;
+            long nsteps = SAMPLE > 0 ? SAMPLE : HILL;
+            for (long sidx = 0; sidx < nsteps; sidx++) {
+                int restart = SAMPLE > 0 || sidx % 500 == 0, mi = -1, mold = 0;
+                if (restart) for (int i = 0; i < n; i++) { x ^= x << 13; x ^= x >> 7; x ^= x << 17; ty[i] = (int)(x % (uint64_t)nt[i]); }
+                else {                   /* mutate one agent's type */
+                    x ^= x << 13; x ^= x >> 7; x ^= x << 17; mi = (int)(x % (uint64_t)n); mold = ty[mi];
+                    x ^= x << 13; x ^= x >> 7; x ^= x << 17; ty[mi] = (int)(x % (uint64_t)nt[mi]);
+                }
+                long sc; int ok = eval_profile(ty, &sc, &runs);
+                leaves++; total++;
+                if (!ok) {
+                    fails++; if (shown < MAXF) { report("FAIL"); shown++; }
+                    if (HILL > 0) break;
+                    continue;
+                }
+                if (sc > top) {          /* hardest so far on this core */
+                    top = sc; memcpy(best, ty, sizeof best);
+                    if (sc >= 2000000L) { char lab[64];
+                        if (PSCORE == 3) snprintf(lab, sizeof lab, "HARD minr=%ld bad_ppm=%ld", sc / 100000000L, sc % 100000000L);
+                        else snprintf(lab, sizeof lab, PSCORE == 2 ? "HARD r=%ld p=%ld e=%ld" : "HARD p=%ld r=%ld e=%ld", sc / 100000000L, (sc / 1000000L) % 100, sc % 1000000L);
+                        report(lab); }
+                }
+                if (HILL > 0 && !restart && sc < cur) ty[mi] = mold;   /* reject a downhill move */
+                else cur = sc;
+            }
+            (void)best;
+            for (int k = 0; k < 5; k++) stat[k] += sstat[k];
+            for (int k = 0; k < 40; k++) bigsz[k] += sbig[k];
+            nfb_upg += sfb_upg;
+            memset(sstat, 0, sizeof sstat); memset(sbig, 0, sizeof sbig); sfb_upg = 0;
+            goto core_done;
+        }
         /* odometer over ranking profiles */
         int rk[MAXN] = {0};
         for (;;) {
@@ -588,6 +727,7 @@ int main(int argc, char **argv) {
                     leaves++; total += w;
                     if (!ok) { fails += w; if (shown < MAXF) { report("FAIL"); shown++; } continue; }
                     stat[last_status] += w;
+                    hist_pol[used_pol] += w; hist_rot[used_rot] += w;
                     if (fb_seq) nfb_seq += w;
                     if (fb_upg) nfb_upg += w;
                     if (!rawcheck()) { rawf += w; if (shown < MAXF) { report("RAWFAIL"); shown++; } continue; }
@@ -606,6 +746,11 @@ int main(int argc, char **argv) {
             while (i < n && ++rk[i] == np[i]) rk[i++] = 0;
             if (i == n) break;
         }
+      core_done:
+        printf("H %ld %ld %ld", hist_pol[0], hist_pol[1], hist_pol[2]);   /* then rotations 0 .. max(3, N) */
+        for (int k = 0; k <= (ROT > 3 ? ROT : 3); k++) printf(" %ld", hist_rot[k]);
+        printf("\n");
+        memset(hist_pol, 0, sizeof hist_pol); memset(hist_rot, 0, sizeof hist_rot);
         if (ALLOC) {
             for (long h = 0; h < (1 << HBITS); h++) if (htab[h]) {
                 int o[MAXM]; uint64_t key = htab[h];

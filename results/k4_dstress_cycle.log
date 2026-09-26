@@ -1,0 +1,18 @@
+$ cd k4 && python3 d_stress.py cycle 2 --profiles=300 --seed=10 --witnesses=../results/k4_dstress_witnesses/cycle_2.json.gz
+commit bd5cb4d
+cycle 2: n = 8 (8 with 4 goods), m = 20, beta = 5; domains [144, 288]
+  300 random profiles: 0 without a D2 allocation (3.8 s); 300 witnesses re-checked by the raw definition and the D2 shape
+  witnesses written to ../results/k4_dstress_witnesses/cycle_2.json.gz
+
+$ cd k4 && python3 d_stress.py cycle 3 --profiles=200 --seed=21 --witnesses=../results/k4_dstress_witnesses/cycle_3.json.gz
+commit bd5cb4d
+cycle 3: n = 12 (12 with 4 goods), m = 30, beta = 7; domains [144, 288]
+  200 random profiles: 0 without a D2 allocation (9.6 s); 200 witnesses re-checked by the raw definition and the D2 shape
+  witnesses written to ../results/k4_dstress_witnesses/cycle_3.json.gz
+
+$ cd k4 && python3 d_stress.py cycle 4 --profiles=150 --seed=11 --witnesses=../results/k4_dstress_witnesses/cycle_4.json.gz
+commit bd5cb4d
+cycle 4: n = 16 (16 with 4 goods), m = 40, beta = 9; domains [144, 288]
+  150 random profiles: 0 without a D2 allocation (31.3 s); 150 witnesses re-checked by the raw definition and the D2 shape
+  witnesses written to ../results/k4_dstress_witnesses/cycle_4.json.gz
+

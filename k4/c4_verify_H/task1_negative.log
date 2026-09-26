@@ -1,0 +1,6 @@
+x11 values (8,6,5,3): tie 8 = 5+3: failures=['agent 1: p+q >= s+t', 'agent 1: tie 2 9']
+x11 private b+c=12 >= a+g=11: failures=['agent 1: p+q >= s+t', 'agent 1: tie 2 9']
+l top-heavy (16 vs 15): failures=['agent 0: not strictly balanced at good 0']
+y1 with 3 goods, g2 still valued by x2*: failures=[]
+g2 valued by nobody: failures=['agent 5: 2 private goods of 3', 'agent 5: p+q >= s+t']
+perturbed allocation (a11 to l, c12 to y1): EFX0 violations 18 [(1, 0, 1), (1, 0, 2), (1, 0, 3)]

@@ -1,0 +1,3 @@
+H_2 depth 0: cases=20 encB SAT=0 brute SAT=0 mismatches=0
+H_2 depth 1: cases=240 encB SAT=0 brute SAT=0 mismatches=0
+H_2 depth 2: cases=320 encB SAT=57 brute SAT=57 mismatches=0
