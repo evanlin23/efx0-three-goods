@@ -1,0 +1,16 @@
+# random connected k = 4 cores with random strict types; C4min: some min-frozen pre-allocation has deficit <= 0
+# command: for cfg in "6 9 1" "6 10 2" "6 11 3" "6 12 4" "6 13 6" "7 10 1" "7 11 2" "7 12 3" "7 13 4" "7 14 5" "8 12 2" "8 13 3" "8 14 4" "8 15 6"; do set -- $cfg; python3 k4/c4x_random.py $1 $2 $3 300 --seed=$(( $1 * 100 + $2 )); done
+RANDOM n=6 m=9 n4=1 profiles 300 fails 0 fewest-frozen distribution {0: 172, 1: 99, 2: 26, 3: 3}
+RANDOM n=6 m=10 n4=2 profiles 300 fails 0 fewest-frozen distribution {0: 215, 1: 76, 2: 8, 3: 1}
+RANDOM n=6 m=11 n4=3 profiles 300 fails 0 fewest-frozen distribution {0: 233, 1: 58, 2: 9}
+RANDOM n=6 m=12 n4=4 profiles 300 fails 0 fewest-frozen distribution {0: 269, 1: 25, 2: 6}
+RANDOM n=6 m=13 n4=6 profiles 300 fails 0 fewest-frozen distribution {0: 279, 1: 20, 2: 1}
+RANDOM n=7 m=10 n4=1 profiles 300 fails 0 fewest-frozen distribution {0: 113, 1: 120, 2: 60, 3: 7}
+RANDOM n=7 m=11 n4=2 profiles 300 fails 0 fewest-frozen distribution {0: 161, 1: 110, 2: 28, 3: 1}
+RANDOM n=7 m=12 n4=3 profiles 300 fails 0 fewest-frozen distribution {0: 204, 1: 80, 2: 13, 3: 3}
+RANDOM n=7 m=13 n4=4 profiles 300 fails 0 fewest-frozen distribution {0: 240, 1: 51, 2: 9}
+RANDOM n=7 m=14 n4=5 profiles 300 fails 0 fewest-frozen distribution {0: 256, 1: 40, 2: 4}
+RANDOM n=8 m=12 n4=2 profiles 300 fails 0 fewest-frozen distribution {0: 124, 1: 116, 2: 51, 3: 9}
+RANDOM n=8 m=13 n4=3 profiles 300 fails 0 fewest-frozen distribution {0: 166, 1: 94, 2: 40}
+RANDOM n=8 m=14 n4=4 profiles 300 fails 0 fewest-frozen distribution {0: 194, 1: 87, 2: 15, 3: 4}
+RANDOM n=8 m=15 n4=6 profiles 300 fails 0 fewest-frozen distribution {0: 228, 1: 60, 2: 12}
