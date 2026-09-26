@@ -1,0 +1,20 @@
+# k4/red_lil.py with NARROW=1 ANYPX=1 (the narrow catalogue of attempts/k4-c4min-reduce-lil.md, x any pair; Python, independent of red.c -Ln -Lx) on the scopes of results/k4_red_lil_python.log
+# source: k4/red_lil.py sha1 f4f8610ececbbef6653787bd7abeff9a711c3fd4, k4/red_lib.py sha1 035b94e3d6c8eab87caaf32aa88ee9a8740fee25; git HEAD 964c7798f8e80887e920066a6358360b14e779a9
+# command: RFIRST=1 NARROW=1 ANYPX=1 python3 k4/red_lil.py results/k4_certs_2.json.gz 0 1
+profiles considered 1296
+# command: RFIRST=1 NARROW=1 ANYPX=1 python3 k4/red_lil.py results/k4_certs_3.json.gz 6000 4
+STUCK 1
+non-completable configurations 26315
+profiles considered 8719
+('stuck', 't=0', '4big') 1
+example ([{0: 3, 3: 4, 4: 8, 6: 2}, {1: 6, 3: 8, 5: 5, 6: 4}, {2: 3, 4: 10, 5: 2, 6: 6}], 2, {0: [0, 3], 1: [1, 5]}, [2, 6], (1, 0, 20))
+# command: RFIRST=1 NARROW=1 ANYPX=1 python3 k4/red_lil.py results/k4_certs_4_n4_2.json.gz 100 5
+non-completable configurations 1029
+profiles considered 796
+# command: RFIRST=1 NARROW=1 ANYPX=1 python3 k4/red_lil.py results/k4_certs_4_n4_3.json.gz 100 5
+non-completable configurations 7250
+profiles considered 1396
+# command: RFIRST=1 NARROW=1 ANYPX=1 python3 k4/red_lil.py results/k4_certs_4_pure.json.gz 100 5
+non-completable configurations 15411
+profiles considered 1077
+# cross-check: the stuck profile of the n = 3 sample above (example line), run alone through k4/red.c -L -Lr -L2 -Ln -Lx (same source sha1 as in results/k4_red_lil_narrow.log): lil_noncomp 8, FAIL_lil_stuck 1, lil_stuck_xbig 1 -- the same single stuck configuration

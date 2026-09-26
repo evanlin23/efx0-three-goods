@@ -1,0 +1,43 @@
+# command: python3 c4min_sat.py --family=ht:3 --family=ht:4 --family=ht:5 --family=htc:4 --family=htx:4 --family=ht2:4 --family=grid:2:2 --family=tree:4 --family=cycle:4 --family=chain:2:2 --climb=200 --restarts=3 --stale=60 --seed=121 --jobs=1
+# commit eda7cc0, k4/c4min_hunt.c sha1 60fbc9be5f85, started Fri Sep 25 21:49:50 UTC 2026
+RESTART ht:3 #0: owner needed 1 d* -2 feasible owners 13 f* 0
+RESTART ht:3 #1: owner needed 1 d* -2 feasible owners 13 f* 0
+RESTART ht:3 #2: owner needed 1 d* -2 feasible owners 13 f* 0
+BEST ht:3 (n 13, m 33): owner needed 1 d* -2 feasible owners 13 f* 0 values [[5, 7, 6, 3], [7, 4, 2, 10], [5, 2, 4, 8], [10, 8, 4, 3], [6, 1, 4, 8], [6, 4, 1, 8], [8, 4, 6, 5], [4, 7, 2, 8], [2, 5, 4, 8], [6, 3, 2, 10], [8, 3, 4, 10], [10, 8, 3, 4], [2, 4, 5, 8]]
+RESTART ht:4 #0: owner needed 1 d* -4 feasible owners 17 f* 1
+RESTART ht:4 #1: owner needed 1 d* -2 feasible owners 17 f* 0
+RESTART ht:4 #2: owner needed 1 d* -4 feasible owners 17 f* 0
+BEST ht:4 (n 17, m 43): owner needed 1 d* -2 feasible owners 17 f* 0 values [[8, 4, 6, 1], [8, 6, 4, 5], [3, 4, 6, 8], [8, 1, 4, 6], [3, 4, 8, 2], [8, 7, 2, 4], [10, 3, 8, 6], [7, 5, 3, 6], [4, 8, 3, 6], [8, 3, 6, 4], [6, 3, 2, 10], [8, 3, 6, 4], [7, 2, 6, 10], [10, 2, 7, 4], [7, 2, 4, 8], [2, 4, 7, 10], [7, 2, 4, 8]]
+RESTART ht:5 #0: owner needed 1 d* -6 feasible owners 21 f* 0
+RESTART ht:5 #1: owner needed 1 d* -4 feasible owners 20 f* 1
+RESTART ht:5 #2: owner needed 1 d* -3 feasible owners 21 f* 0
+BEST ht:5 (n 21, m 53): owner needed 1 d* -3 feasible owners 21 f* 0 values [[4, 8, 5, 2], [7, 2, 6, 10], [4, 6, 5, 8], [10, 8, 3, 6], [8, 6, 3, 4], [7, 6, 3, 5], [8, 3, 4, 10], [10, 7, 2, 4], [4, 3, 8, 10], [4, 5, 6, 8], [4, 2, 3, 8], [10, 3, 8, 4], [6, 4, 5, 8], [7, 3, 6, 5], [4, 8, 3, 10], [8, 4, 5, 2], [10, 4, 2, 7], [6, 3, 2, 10], [5, 3, 7, 6], [4, 7, 2, 8], [6, 2, 3, 10]]
+RESTART htc:4 #0: owner needed 1 d* -2 feasible owners 15 f* 0
+RESTART htc:4 #1: owner needed 1 d* -3 feasible owners 16 f* 0
+RESTART htc:4 #2: owner needed 1 d* -4 feasible owners 14 f* 2
+BEST htc:4 (n 16, m 40): owner needed 1 d* -2 feasible owners 15 f* 0 values [[3, 6, 4, 8], [4, 6, 3, 8], [6, 4, 3, 8], [2, 5, 8, 4], [5, 6, 4, 8], [7, 2, 8, 4], [7, 2, 4, 8], [4, 5, 8, 6], [8, 4, 1, 6], [10, 8, 3, 6], [4, 6, 1, 8], [6, 4, 1, 8], [2, 4, 3, 8], [7, 3, 5, 6], [6, 4, 1, 8], [6, 2, 7, 10]]
+RESTART htx:4 #0: owner needed 0 d* -1 feasible owners 17 f* 2
+RESTART htx:4 #1: owner needed 1 d* -9 feasible owners 15 f* 4
+RESTART htx:4 #2: owner needed 0 d* -1 feasible owners 17 f* 2
+BEST htx:4 (n 17, m 31): owner needed 1 d* -9 feasible owners 15 f* 4 values [[8, 3, 2, 4], [1, 6, 8, 4], [3, 8, 4, 10], [10, 2, 7, 6], [2, 4, 8, 3], [6, 2, 3, 10], [6, 8, 10, 3], [4, 5, 2, 8], [4, 5, 8, 2], [5, 6, 4, 8], [8, 6, 5, 4], [6, 10, 3, 2], [8, 1, 6, 4], [3, 2, 10, 6], [4, 7, 10, 2], [2, 10, 6, 3], [2, 8, 7, 4]]
+RESTART ht2:4 #0: owner needed 1 d* -3 feasible owners 13 f* 0
+RESTART ht2:4 #1: owner needed 1 d* -2 feasible owners 13 f* 0
+RESTART ht2:4 #2: owner needed 1 d* -3 feasible owners 13 f* 0
+BEST ht2:4 (n 13, m 35): owner needed 1 d* -2 feasible owners 13 f* 0 values [[8, 7, 4, 2], [4, 7, 2, 8], [7, 2, 4, 8], [8, 4, 6, 1], [4, 3, 6, 8], [3, 4, 8, 10], [4, 8, 3, 10], [10, 7, 2, 6], [5, 4, 2, 8], [7, 2, 4, 8], [10, 7, 2, 6], [7, 2, 4, 8], [10, 6, 3, 2]]
+RESTART grid:2:2 #0: owner needed 1 d* -2 feasible owners 18 f* 0
+RESTART grid:2:2 #1: owner needed 1 d* -4 feasible owners 18 f* 0
+RESTART grid:2:2 #2: owner needed 1 d* -3 feasible owners 18 f* 0
+BEST grid:2:2 (n 18, m 45): owner needed 1 d* -2 feasible owners 18 f* 0 values [[4, 8, 6, 1], [7, 2, 4, 8], [10, 6, 2, 7], [8, 7, 2, 4], [5, 8, 6, 4], [5, 6, 4, 8], [10, 8, 3, 6], [4, 6, 5, 8], [6, 4, 3, 8], [4, 2, 5, 8], [10, 4, 3, 8], [6, 4, 3, 8], [8, 10, 4, 3], [5, 4, 2, 8], [4, 2, 7, 8], [3, 4, 2, 8], [10, 4, 2, 7], [10, 4, 3, 8]]
+RESTART tree:4 #0: owner needed 1 d* -2 feasible owners 18 f* 0
+RESTART tree:4 #1: owner needed 1 d* -3 feasible owners 18 f* 0
+RESTART tree:4 #2: owner needed 1 d* -2 feasible owners 18 f* 0
+BEST tree:4 (n 18, m 45): owner needed 1 d* -2 feasible owners 18 f* 0 values [[10, 2, 7, 4], [3, 8, 4, 10], [8, 5, 6, 4], [3, 4, 2, 8], [10, 8, 3, 4], [4, 8, 5, 6], [6, 3, 5, 7], [4, 3, 8, 10], [10, 7, 2, 4], [4, 2, 8, 5], [10, 3, 8, 6], [10, 4, 8, 3], [4, 6, 5, 8], [6, 7, 2, 10], [4, 2, 3, 8], [8, 3, 4, 10], [6, 3, 5, 7], [2, 10, 7, 6]]
+RESTART cycle:4 #0: owner needed 1 d* -4 feasible owners 17 f* 1
+RESTART cycle:4 #1: owner needed 1 d* -3 feasible owners 16 f* 1
+RESTART cycle:4 #2: owner needed 1 d* -3 feasible owners 16 f* 1
+BEST cycle:4 (n 17, m 43): owner needed 1 d* -3 feasible owners 16 f* 1 values [[8, 4, 6, 5], [2, 6, 3, 10], [8, 4, 5, 2], [10, 7, 4, 2], [7, 4, 8, 2], [8, 3, 6, 10], [10, 3, 8, 4], [2, 3, 6, 10], [10, 6, 8, 3], [10, 8, 4, 3], [7, 3, 5, 6], [4, 5, 6, 8], [3, 6, 8, 10], [10, 7, 2, 6], [6, 2, 7, 10], [3, 2, 4, 8], [10, 6, 3, 2]]
+RESTART chain:2:2 #0: owner needed 1 d* -1 feasible owners 15 f* 1
+RESTART chain:2:2 #1: owner needed 1 d* -4 feasible owners 18 f* 0
+RESTART chain:2:2 #2: owner needed 1 d* -3 feasible owners 18 f* 0
+BEST chain:2:2 (n 18, m 45): owner needed 1 d* -1 feasible owners 15 f* 1 values [[7, 8, 4, 2], [8, 4, 5, 2], [7, 5, 3, 6], [10, 8, 3, 4], [4, 3, 2, 8], [6, 1, 4, 8], [10, 3, 4, 8], [8, 2, 7, 4], [4, 8, 3, 2], [7, 10, 6, 2], [7, 4, 2, 10], [4, 6, 3, 8], [6, 3, 4, 8], [10, 8, 6, 3], [4, 3, 6, 8], [6, 4, 1, 8], [6, 4, 5, 8], [7, 2, 4, 8]]
+# finished Fri Sep 25 21:51:56 UTC 2026
