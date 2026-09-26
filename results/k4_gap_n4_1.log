@@ -1,5 +1,5 @@
 command: python3 k4/gap_run.py results/k4_certs_4_n4_1.json.gz -D --rec=1 --out=results/k4_gap/gap_n4_1.json.gz
-gap.c sha256 56713acd6f2f60753e98ee029ef976eb2006cc0732e6b3650e04381532c9c6f1
+gap.c sha256 0c14f252223c78d4fccbcfca4d048ca64b684980f6cec3f3cbb41742e3c38afa
 k4_certs_4_n4_1.json.gz: 135 cores, every profile [7 s]
-  prof=7247232 om1=102434 Z=31104 small=7144798 F=26942 gap=44388 gap_f1=28478 gap_f2=15910 catS=44388 catW=0 catN=0 catX=0 defmis=0 defover=0 trunc=0 cfg=1439336 cfg_compl=1423291 cfg_simple=1423291 max=86300 max_thr2=0 max_notpo=0 max_tpos=0 h7all_G=948 h7all_G1=1288 h7all_L=628947 h7all_O=118947 h7max_G=0 h7max_G1=0 h7max_L=37642 h7max_O=0 exp3=93198 exp4=17194 expbt=12734 keys=108360 thr2prof=0
+  prof=7247232 om1=102434 Z=31104 small=7144798 F=26942 gap=44388 gap_f1=28478 gap_f2=15910 catS=44388 catW=0 catN=0 catX=0 defmis=0 defover=0 trunc=0 cfg=1439336 cfg_compl=1423291 cfg_simple=1423291 max=86300 max_thr2=0 max_notpo=0 max_tpos=0 h7all_G=46415 h7all_G1=1288 h7all_L=628947 h7all_O=73480 h7max_G=0 h7max_G1=0 h7max_L=37642 h7max_O=0 exp3=93198 exp4=17194 expbt=12734 keys=108360 thr2prof=0
 wrote 44388 records to results/k4_gap/gap_n4_1.json.gz

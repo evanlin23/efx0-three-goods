@@ -1,5 +1,5 @@
-command: python3 k4/gap_run.py results/k4_certs_5_pure.json.gz --sample=100 --seed=5 --rec=1 --out=results/k4_gap/gap_n5_pure_s100.json.gz
-gap.c sha256 56713acd6f2f60753e98ee029ef976eb2006cc0732e6b3650e04381532c9c6f1
-k4_certs_5_pure.json.gz: 4674 cores, 100 random profiles per core [25 s]
-  prof=467400 om1=157719 Z=126442 small=309681 F=2191 gap=29086 gap_f1=26402 gap_f2=2684 catS=29086 catW=0 catN=0 catX=0 defmis=0 defover=0 trunc=0 cfg=12924091 cfg_compl=11724026 cfg_simple=11593930 max=39838 max_thr2=411 max_notpo=3 max_tpos=0 h7all_G=871679 h7all_G1=236641 h7all_L=3552596 h7all_O=1471037 h7max_G=22 h7max_G1=207 h7max_L=13981 h7max_O=0 exp3=0 exp4=38266 expbt=26332 keys=60515 thr2prof=397
+command: python3 k4/gap_run.py results/k4_certs_5_pure.json.gz --sample=100 --seed=5 -D --rec=1 --out=results/k4_gap/gap_n5_pure_s100.json.gz
+gap.c sha256 0c14f252223c78d4fccbcfca4d048ca64b684980f6cec3f3cbb41742e3c38afa
+k4_certs_5_pure.json.gz: 4674 cores, 100 random profiles per core [20 s]
+  prof=467400 om1=157719 Z=126442 small=309681 F=2191 gap=29086 gap_f1=26402 gap_f2=2684 catS=29086 catW=0 catN=0 catX=0 defmis=0 defover=0 trunc=0 cfg=12924091 cfg_compl=11724026 cfg_simple=11593930 max=39838 max_thr2=411 max_notpo=3 max_tpos=0 h7all_G=1990882 h7all_G1=236641 h7all_L=3481855 h7all_O=422575 h7max_G=22 h7max_G1=207 h7max_L=13981 h7max_O=0 exp3=0 exp4=38266 expbt=26332 keys=60515 thr2prof=397
 wrote 29086 records to results/k4_gap/gap_n5_pure_s100.json.gz
