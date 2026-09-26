@@ -1,0 +1,61 @@
+$ cd k4 && python3 d_stress.py chain 1 --values=paper --profiles=500 --seed=1 --witnesses=../results/k4_dstress_witnesses/chain_1.json.gz
+commit bd5cb4d
+chain 1: n = 5 (5 with 4 goods), m = 13, beta = 3; domains [144, 288]
+  paper values: D2 yes, count 32
+  500 random profiles: 0 without a D2 allocation (2.5 s); 501 witnesses re-checked by the raw definition and the D2 shape
+  witnesses written to ../results/k4_dstress_witnesses/chain_1.json.gz
+
+$ cd k4 && python3 d_stress.py chain 2 2 --profiles=200 --seed=8 --witnesses=../results/k4_dstress_witnesses/chain_2_heads2.json.gz
+commit bd5cb4d
+chain 2 2: n = 18 (18 with 4 goods), m = 45, beta = 10; domains [144, 288]
+  200 random profiles: 0 without a D2 allocation (83.5 s); 200 witnesses re-checked by the raw definition and the D2 shape
+  witnesses written to ../results/k4_dstress_witnesses/chain_2_heads2.json.gz
+
+$ cd k4 && python3 d_stress.py chain 2 3 --profiles=120 --seed=9 --witnesses=../results/k4_dstress_witnesses/chain_2_heads3.json.gz
+commit bd5cb4d
+chain 2 3: n = 27 (27 with 4 goods), m = 67, beta = 15; domains [144, 288]
+  120 random profiles: 0 without a D2 allocation (282.1 s); 120 witnesses re-checked by the raw definition and the D2 shape
+  witnesses written to ../results/k4_dstress_witnesses/chain_2_heads3.json.gz
+
+$ cd k4 && python3 d_stress.py chain 2 --values=paper --profiles=400 --seed=2 --witnesses=../results/k4_dstress_witnesses/chain_2.json.gz
+commit bd5cb4d
+chain 2: n = 9 (9 with 4 goods), m = 23, beta = 5; domains [144, 288]
+  paper values: D2 yes, count 32
+  400 random profiles: 0 without a D2 allocation (7.3 s); 401 witnesses re-checked by the raw definition and the D2 shape
+  witnesses written to ../results/k4_dstress_witnesses/chain_2.json.gz
+
+$ cd k4 && python3 d_stress.py chain 3 --values=paper --profiles=300 --seed=3 --witnesses=../results/k4_dstress_witnesses/chain_3.json.gz
+commit bd5cb4d
+chain 3: n = 13 (13 with 4 goods), m = 33, beta = 7; domains [144, 288]
+  paper values: D2 yes, count 32
+  300 random profiles: 0 without a D2 allocation (23.4 s); 301 witnesses re-checked by the raw definition and the D2 shape
+  witnesses written to ../results/k4_dstress_witnesses/chain_3.json.gz
+
+$ cd k4 && python3 d_stress.py chain 4 --values=paper --profiles=200 --seed=4 --witnesses=../results/k4_dstress_witnesses/chain_4.json.gz
+commit bd5cb4d
+chain 4: n = 17 (17 with 4 goods), m = 43, beta = 9; domains [144, 288]
+  paper values: D2 yes, count 32
+  200 random profiles: 0 without a D2 allocation (59.5 s); 201 witnesses re-checked by the raw definition and the D2 shape
+  witnesses written to ../results/k4_dstress_witnesses/chain_4.json.gz
+
+$ cd k4 && python3 d_stress.py chain 5 --values=paper --profiles=120 --seed=5 --witnesses=../results/k4_dstress_witnesses/chain_5.json.gz
+commit bd5cb4d
+chain 5: n = 21 (21 with 4 goods), m = 53, beta = 11; domains [144, 288]
+  paper values: D2 yes, count 32
+  120 random profiles: 0 without a D2 allocation (84.3 s); 121 witnesses re-checked by the raw definition and the D2 shape
+  witnesses written to ../results/k4_dstress_witnesses/chain_5.json.gz
+
+$ cd k4 && python3 d_stress.py chain 6 --values=paper --profiles=80 --seed=6 --witnesses=../results/k4_dstress_witnesses/chain_6.json.gz
+commit bd5cb4d
+chain 6: n = 25 (25 with 4 goods), m = 63, beta = 13; domains [144, 288]
+  paper values: D2 yes, count 32
+  80 random profiles: 0 without a D2 allocation (161.6 s); 81 witnesses re-checked by the raw definition and the D2 shape
+  witnesses written to ../results/k4_dstress_witnesses/chain_6.json.gz
+
+$ cd k4 && python3 d_stress.py chain 7 --values=paper --profiles=60 --seed=7 --witnesses=../results/k4_dstress_witnesses/chain_7.json.gz
+commit bd5cb4d
+chain 7: n = 29 (29 with 4 goods), m = 73, beta = 15; domains [144, 288]
+  paper values: D2 yes, count 32
+  60 random profiles: 0 without a D2 allocation (175.6 s); 61 witnesses re-checked by the raw definition and the D2 shape
+  witnesses written to ../results/k4_dstress_witnesses/chain_7.json.gz
+
