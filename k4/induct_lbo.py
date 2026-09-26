@@ -9,10 +9,9 @@ z to w. A completion (Theorem 1') of a valid pre-allocation P gives z to w when
 This script enumerates every run of Phase 1 (every choice at R1 steps and insertion steps), every order of LB's
 upgrades, and optionally LB⁺'s rotation (Theorem B, every need chain from k* to r), and reports, per (profile, w),
 whether some state gives (O) or (S). It never builds allocations; it only tests Lemma 1's exact condition, which
-Theorem 1' turns into an EFX0 allocation. A few witnesses are rebuilt and checked by the raw definition
-(k4/induct_bf.py) as a sanity check.
+Theorem 1' turns into an EFX0 allocation (every state tested is first checked to be a valid pre-allocation).
 
-Usage: python3 k4/induct_lbo.py CERTS_K3.json.gz [--n=N] [--samples=S] [--all] [--seed=K] [--jobs=J] [--rot] [--partial]
+Usage: python3 k4/induct_lbo.py CERTS_K3.json.gz [--n=N[,N...]] [--samples=S] [--all] [--seed=K] [--jobs=J] [--rot] [--partial]
          [--log=OUT]
   --partial: also the states where LB's upgrade loop stops early (still valid pre-allocations).
   --only-o: count only witnesses (O) (w a valid owner).
@@ -22,8 +21,8 @@ Usage: python3 k4/induct_lbo.py CERTS_K3.json.gz [--n=N] [--samples=S] [--all] [
           gives a witness (upgrade loop stopped anywhere), without and with the rotation.
   --every-run: (implies --last) every run of Phase 1 with w last must give a witness on its own.
   --from-k4: the files are k = 4 certificates; for every profile of every core whose only 4-good agent w is P4 (one
-          private good p), test J = I - p with target w (the input Theorem 4(a) needs at j = 0); w is never upgraded
-          when it is top-heavy in J. Options --all / --max-all=N / --samples=S as above.
+          private good p), test J = I - p with target w (the hypothesis of Theorem 4(b) at j = 0; PP4 cores are
+          skipped); w is never upgraded when it is top-heavy in J. Options --all / --max-all=N / --samples=S as above.
   --last: for the target w, only the runs of Phase 1 in which w is postponed to the very end (the other agents keep
           R1 priority and every choice).
 """
@@ -292,7 +291,7 @@ def main_bytype(files, opt, log):
     for fn in files:
         data = json.load(gzip.open(fn)); cores = data if isinstance(data, list) else data['cores']
         for c in cores:
-            if 'n' in opt and len(c['sets']) != int(opt['n']): continue
+            if 'n' in opt and len(c['sets']) not in [int(x) for x in str(opt['n']).split(',')]: continue
             if any(len(S) != 3 for S in c['sets']): continue
             perms = list(itertools.permutations(range(3)))
             for pr in itertools.product(perms, repeat=len(c['sets'])):
@@ -349,7 +348,7 @@ def main():
         for fn in files:
             data = json.load(gzip.open(fn)); cores = data if isinstance(data, list) else data['cores']
             for c in cores:
-                if 'n' in opt and len(c['sets']) != int(opt['n']): continue
+                if 'n' in opt and len(c['sets']) not in [int(x) for x in str(opt['n']).split(',')]: continue
                 perms = list(itertools.permutations(range(3)))
                 for pr in itertools.product(perms, repeat=len(c['sets'])):
                     tasks.append((c['sets'], [[p[0] + 2, p[1] + 2, p[2] + 2] for p in pr]))
@@ -392,7 +391,7 @@ def main():
     for fn in files:
         data = json.load(gzip.open(fn)); cores = data if isinstance(data, list) else data['cores']
         for c in cores:
-            if 'n' in opt and len(c['sets']) != int(opt['n']): continue
+            if 'n' in opt and len(c['sets']) not in [int(x) for x in str(opt['n']).split(',')]: continue
             sets = c['sets']
             if any(len(S) != 3 for S in sets): continue
             perms = list(itertools.permutations(range(3)))

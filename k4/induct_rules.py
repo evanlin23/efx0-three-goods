@@ -1,7 +1,8 @@
 """PS-selected placement rules H(w, d, h) for k4/induct.md §5 (k4/induct.c task H).
 
 Rule H(w, d, h): delete the good d ∈ R_w (w a 4-good agent); among the EFX0 allocations X' of I - d take those with
-the fewest agents envying h; the rule *works* if giving d to h keeps EFX0 for every such X'.
+the fewest agents envying h; the rule *works* if giving d to h keeps EFX0 for every such X' (the log also counts the
+profiles on which some (w, d, h) has at least one such X' admitting d -> h, the existence form).
 Per profile and 4-good agent w it records which kinds of rule work (h = w, h another valuer of d, h a non-valuer;
 d = w's least good, d private), split by the kind of w (P4/PP4: has a private good; Q4: none), and, over the cores
 whose 4-good agents are all Q4, whether any rule (w, d, h) works.
@@ -35,7 +36,7 @@ def run(batch):
         for (w, d, h) in T:
             f = out[k].split('|'); k += 1
             nmin, nok = int(f[3].split()[1]), int(f[3].split()[3])
-            rows.append((w, d, h, nmin == nok))
+            rows.append((w, d, h, nmin == nok, nok > 0))
         res.append((sets, m, prof, rows))
     return res
 
@@ -86,13 +87,15 @@ def main():
                     allq4['profiles'] += 1
                     ok = any(r[3] for r in rows)
                     allq4['some (w, d, h) works'] += ok
+                    allq4['some (w, d, h) has SOME minimizer admitting d -> h'] += any(r[4] for r in rows)
                     if not ok:
                         cand = (m, sets, [list(t) for t in prof])
                         ex.append(cand); ex.sort(key=lambda z: z[0]); del ex[3:]
     log(f'time {time.time() - t0:.1f}s')
     for k in sorted(C): log(f'{k[0]} agents: {k[1]}: {C[k]}')
-    log(f'cores whose 4-good agents are all Q4: {allq4["profiles"]} profiles; some rule (w, d, h) works on '
-        f'{allq4["some (w, d, h) works"]}')
+    log(f'cores whose 4-good agents are all Q4: {allq4["profiles"]} profiles; some rule (w, d, h) works (EVERY minimizer '
+        f'admits d -> h) on {allq4["some (w, d, h) works"]}; some (w, d, h) has SOME minimizer admitting d -> h on '
+        f'{allq4["some (w, d, h) has SOME minimizer admitting d -> h"]}')
     for m, sets, prof in ex: log(f'  no rule works: m={m} sets={sets} prof={prof}')
 
 

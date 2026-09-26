@@ -17,6 +17,8 @@ Input (stdin), repeated:  n m  /  n lines of m values  /  t  /  t task lines.   
 r is computed exactly: direct neighbourhood search up to radius RMAX (default 3, option -r), then a scan of every
 EFX0 allocation of I for the X' left; with -q the scan is skipped and those X' count as r = RMAX + 1 ("RMAX+").
 
+Bounds: n <= 24 agents, m <= 64 goods (checked on input; the unassigned marker is 255).
+
 Options: -r R (radius of the direct search), -q (no full scan), -D (only D2 X' are enumerated: at most one bundle of
 more than 2 goods), -v (print every X' with r >= 1).
 
@@ -236,6 +238,7 @@ int main(int argc, char **argv) {
         else if (!strcmp(argv[a], "-v")) VERBOSE = 1;
     }
     while (scanf("%d %d", &n, &m) == 2) {
+        if (n < 1 || n > MAXN || m < 1 || m > MAXM) { fprintf(stderr, "instance out of bounds (n <= %d, m <= %d)\n", MAXN, MAXM); return 2; }
         for (int i = 0; i < n; i++) for (int g = 0; g < m; g++) if (scanf("%lld", &v[i][g]) != 1) return 1;
         int t; if (scanf("%d", &t) != 1) return 1;
         u8 *bigE = NULL; long nbig = -1;   /* EFX0 allocations of I, computed lazily */

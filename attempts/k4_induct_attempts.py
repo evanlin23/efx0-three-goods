@@ -78,15 +78,18 @@ def check_potential(name, sets, prof, pot):
     """Claim: for EVERY 4-good w and d in R_w, some maximizer X' of the potential over E(I - d) has no placement
     of d that keeps EFX0 (r(X') >= 1)."""
     V, m = inst(sets, prof); n = len(sets); A = list(range(n))
-    res = {}
+    res = {}; some = {}
     for w in four_good(sets):
         for d in sets[w]:
             Es = all_efx0(V, [g for g in range(m) if g != d], A)
             vals = [POT[pot](V, X, w, A) for X in Es]
             best = max(vals)
             res[(w, d)] = any(v == best and not placements(V, X, d, A) for v, X in zip(vals, Es))
+            some[(w, d)] = any(v == best and placements(V, X, d, A) for v, X in zip(vals, Es))
     ok = all(res.values())
-    print(f'[{name}] potential "{pot}": some maximizer of E(I - d) admits no placement of d, for every (w, d)? {ok}')
+    print(f'[{name}] potential "{pot}": some maximizer of E(I - d) admits no placement of d, for every (w, d)? {ok}'
+          f'   (weaker, some-maximizer form also fails here, i.e. no (w, d) has a maximizer admitting a placement: '
+          f'{not any(some.values())})')
     return ok
 
 
@@ -113,15 +116,19 @@ def check_q4_rules(name, sets, prof):
     V, m = inst(sets, prof); n = len(sets); A = list(range(n))
     deg = [sum(g in S for S in sets) for g in range(m)]
     allq4 = all(all(deg[g] >= 2 for g in sets[w]) for w in four_good(sets))
-    fails = True
+    fails = True; some = []; tot = 0
     for w in four_good(sets):
         for d in sets[w]:
             Es = all_efx0(V, [g for g in range(m) if g != d], A)
             for h in A:
                 env = [len(enviers(V, X, h, A)) for X in Es]
-                mn = min(env)
-                if all(h in placements(V, X, d, A) for e, X in zip(env, Es) if e == mn): fails = False
+                mn = min(env); tot += 1
+                adm = [h in placements(V, X, d, A) for e, X in zip(env, Es) if e == mn]
+                if all(adm): fails = False
+                if any(adm): some.append((w, d, h))
     print(f'[{name}] every 4-good agent is Q4: {allq4}; no rule (w, d, h) works: {fails}')
+    print(f'[{name}]   (existence form, not a claim of failure: {len(some)} of {tot} triples (w, d, h) have SOME minimizer '
+          f'admitting d -> h: {some})')
     return fails and allq4
 
 

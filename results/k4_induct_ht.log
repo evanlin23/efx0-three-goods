@@ -1,4 +1,4 @@
-# command: (cd k4 && for t in 1 2 3 4 5; do python3 induct_sat.py ht $t --d2; done) > results/k4_induct_ht.log
+# command: (for t in 1 2 3 4 5; do python3 k4/induct_sat.py ht $t --d2; done) > results/k4_induct_ht.log
 H_1: n = 5, m = 13
   EFX0 (D2) exists: True
   PS(H, l): yes
@@ -156,3 +156,21 @@ H_5: n = 21, m = 53
   private insertion x22 + c22: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
   private insertion x23 + b23: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
   private insertion x23 + c23: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x31 + b31: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x31 + c31: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x32 + b32: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x32 + c32: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x33 + b33: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x33 + c33: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x41 + b41: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x41 + c41: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x42 + b42: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x42 + c42: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x43 + b43: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x43 + c43: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x51 + b51: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x51 + c51: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x52 + b52: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x52 + c52: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x53 + b53: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True
+  private insertion x53 + c53: PS(H - p, w) = yes ; X' + (p -> w) EFX0 (raw): True

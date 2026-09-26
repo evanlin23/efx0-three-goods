@@ -1,6 +1,6 @@
 command: python3 k4/induct_rules.py results/k4_certs_4_n4_1.json.gz --samples=100 --seed=2 --jobs=2 --log=results/k4_induct_rules_n4_1.log
 13500 (core, profile) pairs
-time 10.2s
+time 5.6s
 P4 agents: agents: 8800
 P4 agents: d = least, some h: 5959
 P4 agents: d private, h = w: 8800
@@ -14,7 +14,7 @@ Q4 agents: h = w, some d: 2313
 Q4 agents: h a non-valuer of d, some d: 1471
 Q4 agents: h another valuer of d, some d: 3399
 Q4 agents: some (d, h) works: 3887
-cores whose 4-good agents are all Q4: 4700 profiles; some rule (w, d, h) works on 3887
+cores whose 4-good agents are all Q4: 4700 profiles; some rule (w, d, h) works (EVERY minimizer admits d -> h) on 3887; some (w, d, h) has SOME minimizer admitting d -> h on 4700
   no rule works: m=5 sets=[[0, 1, 4], [1, 2, 3, 4], [2, 3, 4], [2, 3, 4]] prof=[[2, 3, 4], [6, 4, 5, 8], [3, 4, 2], [2, 4, 3]]
   no rule works: m=5 sets=[[0, 1, 4], [1, 2, 3, 4], [2, 3, 4], [2, 3, 4]] prof=[[2, 3, 4], [8, 5, 6, 4], [2, 3, 4], [3, 2, 4]]
   no rule works: m=5 sets=[[0, 1, 4], [1, 2, 3, 4], [2, 3, 4], [2, 3, 4]] prof=[[2, 4, 3], [10, 2, 7, 4], [4, 3, 2], [2, 4, 3]]
