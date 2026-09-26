@@ -435,7 +435,7 @@ No failure on:
 - 150 random profiles per n = 4 core (125 path moves).
 
 Without the hypothesis on o, t = 1 can follow (n = 3; n = 2 has a single free agent).
-- Example: core 46's sibling profile with agents {0, 2, 5, 6}, {1, 4, 5, 6}, {3, 4, 5, 6} and values 0:3, 2:6, 5:2, 6:10 |
+- Example: core 38 of `results/k4_certs_3.json.gz` (agents {0, 2, 5, 6}, {1, 4, 5, 6}, {3, 4, 5, 6}) with values 0:3, 2:6, 5:2, 6:10 |
   1:5, 4:6, 5:4, 6:8 | 3:2, 4:3, 5:4, 6:8; key (6, 0); pairs {3, 4}, {1, 5}; pool {0, 2}.
 - Agents 1 and 2 threaten each other, and agent 2 also threatens x.
 - The move along 1 → 2 → x puts agent 1's goods 1 and 5 in the pool, worth 9 > 8 to it.
@@ -450,18 +450,20 @@ In the first case the threats form a bijection: a path w → p₁ → … → p_
 vertex. If w = x, the whole bijection is cycles. Every cycle rotates with a gain in Φ:
 - plain rotations keep the pool;
 - a modified rotation cannot make t = 1. It would put the rotating owner's other good y′ into the pool, and a
-  threatening set of x inside L ∪ {y′} means that owner threatens x (then |L| ≥ 2, so its bundle is not inside R_x).
+  threatening set of x inside L ∪ {y′} means that owner threatens x. (A threatening set has at least two goods, so
+  ω ≥ 2, and the owner's bundle of ω + 2 goods is not inside R_x.)
   In the bijection it threatens only its successor.
 
-Every terminal lies on the path.
+So a maximum has no cycle, every free agent lies on the path, and so does every terminal.
 - A terminal p_j with j ≥ 1 is threatened by p_{j−1}, off the moved segment, so Lemma PM gives a larger Φ. For
   Conjecture BT this also needs p_j to be big-top.
 - What remains:
   1. the only terminal is the start w;
   2. the terminals on the path are not big-top (Conjecture BT only);
   3. a non-robust agent is not pool-optimal because its improvement would raise t (instance B1's mechanism);
-  4. t = 0 at the maximum (Lemma T0, not proved). For a flat x a key can have no configuration with t = 0: 208 keys at
-     n ≤ 3 (`results/k4_red_n3.log`, counter `key_no_t0`). An example is core 41 of `results/k4_certs_3.json.gz`
+  4. t = 0 at the maximum (Lemma T0, not proved). A key can have no configuration with t = 0: 208 keys at n ≤ 3
+     (`results/k4_red_n3.log`, counter `key_no_t0`); every profile has another key with one. An example, with a flat
+     x, is core 41 of `results/k4_certs_3.json.gz`
      with values 0:2, 2:3, 5:4, 6:8 | 1:3, 3:5, 4:6, 6:7 | 3:2, 4:3, 5:6, 6:10: its key (6, 1) has a flat x and only
      configurations with t = 1, while its keys (6, 0) and (6, 2) have none with t = 1;
   5. every vertex threatened (r′ = 0): the owner that threatens both x and a free agent may need a modified rotation
