@@ -17,7 +17,6 @@ This file defines the monad and the list operations used by the algorithm (`EFX.
 table it returns reads that array. Its cost is the cost of the `n` evaluations plus `n`. Reading a table is an
 array read, one unit, charged by the program that reads it.
 
-No axioms beyond Lean's standard ones; no `sorry`.
 -/
 
 set_option autoImplicit false
@@ -335,8 +334,9 @@ end deq
 /-! ## Tables -/
 
 /-- Evaluate `f` at every index of `Fin n` once and store the results in an array; the table reads the array.
-Cost: the `n` evaluations plus one unit per entry. -/
-def mkTable (n : Nat) (f : Fin n → Timed β) : Timed (Fin n → β) :=
+Cost: the `n` evaluations plus one unit per entry. Irreducible, so that proofs about costs do not unfold the
+array (its value and cost are given by `mkTable_val` and `mkTable_cost`). -/
+@[irreducible] def mkTable (n : Nat) (f : Fin n → Timed β) : Timed (Fin n → β) :=
   let arr := Array.ofFn f
   ⟨fun i => (arr[i.val]'(by simp [arr])).val, (arr.toList.map Timed.cost).sum + n⟩
 
