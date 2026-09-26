@@ -647,7 +647,9 @@ def num4 (v : A → G → Nat) (agents : List A) (goods : List G) : Nat :=
 cyclomatic number at most `b`, `𝒞_b`), each a fact that Lean does not re-check here:
 - `her`, `rel`: `𝒞_b` is closed under deleting agents and goods, and depends only on the relevant goods (graph
   facts, `proofs/min_counterexample.md` §1; not formalized);
-- `cyc`: a connected k = 4 core of `𝒞_b` has cyclomatic number `β = Σ_i |R_i| − n − m + 1 ≤ b`;
+- `cyc`: a connected k = 4 core of `𝒞_b`, listed without repeats, has cyclomatic number
+  `β = Σ_i |R_i| − n − m + 1 ≤ b` (without the `Nodup` premises this would fail: repeating an agent in the list
+  raises the list-level β);
 - `red` (K4.MC2, K4.MC3, K4.MC5: Lemma M1 (`m1_reduce`) with the reduction certificate
   `results/k4_min_cex_reductions.json.gz`, checked by `k4/check_reductions4.py`): a connected strict core of `C`
   with a 4-good agent whose smaller instances in `C` are all solvable, and which violates `GammaStruct` or the
@@ -656,19 +658,27 @@ cyclomatic number at most `b`, `𝒞_b`), each a fact that Lean does not re-chec
 - `enum` (the enumeration, `k4/mincex_shapes.py`, re-checked with orbit counting by `k4/check_mincex_cores.py`
   (`b = 3`) and `k4/check_mincex_cores4.py` (`b = 4`)): such a core satisfying `GammaStruct` and `Cut`, with `n ≥ 5`,
   `n ≤ 3(β − 1)` and `β ≤ b`, matches some entry `d` of the list `L` (isomorphic to it, with its profile in `d`'s
-  restricted domain; `Matches` is not defined in Lean);
+  restricted domain; `Matches` is not defined in Lean). For `b = 3`, `L` is the 9 cores of β = 3
+  (`k4/check_mincex_cores.py`); for `b = 4`, those 9 and the 5,558 of β = 4 (`k4/check_mincex_cores4.py`);
+  β ≤ 2 is excluded by the counting premise;
 - `cert` (`results/k4_min_cex_cores_3.json.gz`, `results/k4_min_cex_cores_4.json.gz`, checked by the same
   checkers): every instance matching a certified entry is solvable;
 - `lit` (the multigraph theorem of Afshinmehr et al., arXiv 2606.18665, `proofs/citations.md` item 4): every
   instance matching a graphical entry is solvable;
-- `cover`: every entry is certified or graphical (for `b = 3`, all 9 are certified; for `b = 4`, 5,552 are certified
-  and 6 graphical). -/
+- `cover`: every entry is certified or graphical (for `b = 3`, all 9 are certified; for `b = 4`, 5,561 are certified
+  and 6 graphical).
+
+`L`, `Matches`, `certified`, `graphical` and `Cut` are parameters that Lean does not relate to the files above, so
+`enum`, `cert`, `lit` and `cover` together amount to one hypothesis: every remaining core (connected, strict, with a
+4-good agent, satisfying `GammaStruct` and `Cut`, `n ≥ 5` with three 4-good agents if `n = 5`, `n ≤ 3(β − 1)`,
+`β ≤ b`) is solvable. -/
 structure ChainHyp (C : List A → List G → (A → G → Nat) → Prop) (b : Nat)
     (Cut : List A → List G → (A → G → Nat) → Prop) {D : Type} (L : List D)
     (Matches : D → List A → List G → (A → G → Nat) → Prop) (certified graphical : D → Prop) : Prop where
   her : Hereditary C
   rel : RelevanceInvariant C
-  cyc : ∀ agents goods v, C agents goods v → IsCore4 v agents goods → Connected v agents goods →
+  cyc : ∀ agents goods v, C agents goods v → agents.Nodup → goods.Nodup → IsCore4 v agents goods →
+    Connected v agents goods →
     (agents.map (fun i => (relevant v i goods).length)).sum + 1 ≤ b + agents.length + goods.length
   red : ∀ agents goods v, C agents goods v → agents.Nodup → goods.Nodup → IsCore4 v agents goods →
     Connected v agents goods → Strict v agents goods → 0 < num4 v agents goods → MinimalFor C agents goods →
@@ -713,7 +723,7 @@ theorem target4_chain {C : List A → List G → (A → G → Nat) → Prop} {b 
       obtain ⟨hd, h3, h5⟩ := hst.1
       have hcount := mc4_count v hag hcov hd h3 h5
       obtain ⟨d, hd, hm⟩ := h.enum agents goods v hC hag hgd hc hconn hs hn4 hst.1 hst.2 (by omega)
-        (fun hh => hsm (Or.inr hh)) hcount (h.cyc agents goods v hC hc hconn)
+        (fun hh => hsm (Or.inr hh)) hcount (h.cyc agents goods v hC hag hgd hc hconn)
       rcases h.cover d hd with hce | hgr
       · exact h.cert d hd hce agents goods v hm
       · exact h.lit d hd hgr agents goods v hm
