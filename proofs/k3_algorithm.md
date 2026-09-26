@@ -170,7 +170,9 @@ see the end of this remark); the first two points are written, not machine-check
 - *In Lean* (`EFX.K3.algoOrdC`, `EFX.K3.algoOrd`): the program computes w itself with a comparison oracle
   `le : V → V → Bool` over any `EFX.OrderedValue` type V (e.g. ℝ≥0) and then runs `EFX.K3.algoC` on w. Per agent it
   asks v_i(g) ≤ 0 for every good (its relevant goods, in index order), then the twelve basic comparisons of the
-  values of its first three relevant goods (`EFX.Pat`), and takes the first row of the 31-row table `EFX.Pat.reps`
+  values of its first three relevant goods (`EFX.Pat`; with one or two relevant goods, of the triple with the first
+  good repeated in the missing slots, so some compared sums count a good twice, and the surrogate can differ from the
+  written table's rows while still agreeing, e.g. (1, 3) for values (1, 3)), and takes the first row of the 31-row table `EFX.Pat.reps`
   with that pattern (`EFX.K3.surrogate`; L12 made constructive, `EFX.K3.agree_surrogate`). Correctness,
   `EFX.K3.algoOrd_efx0`: for a correct oracle, nonnegative values and |R_i| ≤ 3, the output is EFX₀ for v. Cost,
   `EFX.K3.surrogateC_cost` and `EFX.K3.algoOrdC_cost`: n(m + 12) oracle calls and at most

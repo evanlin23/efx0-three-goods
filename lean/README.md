@@ -248,7 +248,7 @@ specializations) have exactly the types of `EFX.target`, `EFX.LB.corollaryD` (ch
   `scripts/k3_eval.lean` runs `algo` and prints the count by `#eval`.
 - `EFX/K3Real.lean`: K3ALG on values in any `EFX.OrderedValue` type in the comparison model (ledger K3.ALG.REAL;
   `proofs/k3_algorithm.md` §3; the paper's Corollary "real values"). The program receives a comparison oracle
-  `le : V → V → Bool` and uses the values only through it; the theorems assume `le x y = true ↔ x ≤ y`. It computes
+  `le : V → V → Bool` and inspects the values only through it (plus unit-cost addition of two of one agent's values; for agents with one or two relevant goods some compared sums count a good twice); the theorems assume `le x y = true ↔ x ≤ y`. It computes
   L12's natural-number surrogate as an `n × m` table (`EFX.K3.surrogate`, `EFX.K3.surrogateC`: per agent, `m` oracle
   calls `v_i(g) ≤ 0` find the relevant goods, twelve more give the pattern of the first three, and the first row of
   `EFX.Pat.reps` with that pattern gives the values) and runs `EFX.K3.algoC` on it (`EFX.K3.algoOrdC`,

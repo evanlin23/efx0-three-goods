@@ -8,9 +8,13 @@ import EFX.RealValues
 axioms of a linearly ordered cancellative commutative monoid; `ℝ≥0` satisfies them by the textbook fact, core Lean
 has no reals) through the integer surrogate of Lemma L12 (`EFX.l12`), which it *computes* with a comparison oracle.
 
-**The oracle.** The program receives `le : V → V → Bool` and uses the values only through it: it asks whether
-`v_i(g) ≤ 0`, and whether `x ≤ y` for `x, y` single values or sums of two values of one agent (a comparison of two
-subset sums of one agent's values). The theorems assume the oracle is correct, `∀ x y, le x y = true ↔ x ≤ y`.
+**The oracle.** The program receives `le : V → V → Bool` and inspects the values only through it; otherwise it only
+reads them and adds two values of one agent in `V` (six additions per agent, `patC`, one unit each). It asks whether
+`v_i(g) ≤ 0`, and whether `x ≤ y` for `x, y` single values or sums of two values of one agent. With three relevant
+goods these are comparisons of two subset sums; with one or two, the phantom slot repeats the first good, so a side
+can be `2 v_i(g₁)` (e.g. `v_i(g₂) ≤ v_i(g₁) + v_i(g₁)`), a sum with repetition that subset-sum comparisons do not
+determine. So the oracle compares sums of one agent's values with repetition, as in the real-RAM model of
+`proofs/k3_algorithm.md` §3. The theorems assume the oracle is correct, `∀ x y, le x y = true ↔ x ≤ y`.
 A call is charged `c` units (`askC`); the algorithm fixes `c = 1`, and `surrogateC_cost` is stated for every `c`,
 so its coefficient of `c` bounds the number of calls.
 
