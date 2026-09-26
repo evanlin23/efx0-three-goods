@@ -3,7 +3,7 @@
 Workstream `formal/k3-algo`, Track B (the coordinator's request, relaying the owner): an independent review of §4 of
 `proofs/local_search.md` (Theorem C, Claims 1–5), with the lemmas of §1 it uses. It is backed by brute-force checks
 written from the raw definitions, not from `src/ls_alg.c` or `src/local_search.py`. Ledger rows: LS3 (unchanged,
-CONJECTURE), K3.LS2.REF (this review), K3.LS2.RUN (the computations).
+CONJECTURE), K3.LS2 (this review), K3.LS2.RUN (the computations).
 
 **Verdict.** I found no error in §4. Every step of Claims 1–5 follows from Lemmas 1–3 and L4 as written. The brute-force
 checks below confirm every claim, under exactly the preconditions the proof uses and at every choice point: on every
@@ -162,7 +162,8 @@ complete after Phase 1, 126,832 in Phase 2 (a) and 583,692 in Phase 2 (b). At mo
    - W has O(n²) vertices, and a shortest closed sub-walk is found in one pass;
    - Phase 2's maximum matching takes O(n · |edges|) by augmenting paths.
 
-   So a Phase-1 step costs O(n (n + m)), and LS2 costs O(n²(n + m)) = O(n³). The implementation `k3/ls2.py` does
+   So a Phase-1 step costs O(n (n + m)), and LS2 costs O(n²(n + m)), which is O(n³) on a core
+   (m ≤ 2n by L4). The implementation `k3/ls2.py` does
    exactly this (written analysis, not machine-checked).
 2. *The core conditions are used, through L4.*
    - Claim 2 (g) needs m ≤ 2n (L4). L4 holds in a core because every good is valued and every agent has at most one

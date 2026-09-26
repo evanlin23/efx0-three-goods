@@ -181,8 +181,9 @@ order), with ω = |J| − S ≥ 1, and let r and E = E_r be as in §2. Then r is
 
   |E| ≤ S − cap(r),  or some two agents x ≠ y of E have π_x ∩ π_y ≠ ∅.
 
-In either case `HITSET(J, E)` is a witness. Checking the condition takes O(|E|²) comparisons of goods, or O(|E| + |J|)
-with an index from goods to agents (`k3/k3algo.py`, `fast`).
+In either case `HITSET(J, E)` is a witness. Checking the condition takes O(|E|² + m) steps with a junk flag per good
+(O(|E|²·m) as formalized, where `meet` tests membership in J; §5), or O(|E| + |J|) with an index from goods to
+agents (`k3/k3algo.py`, `fast`).
 
 *Proof.*
 - (a) *Theorem A's counting.* S − cap(r) ≥ |E ∖ B*| ≥ |E| − 1, where B* is r's block. The first inequality is shown
