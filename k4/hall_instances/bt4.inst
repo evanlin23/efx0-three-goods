@@ -1,0 +1,6 @@
+# core 59 of results/k4_certs_4_pure.json.gz: a non-completable Pareto-maximum at the fewest frozen agents without a frozen big-top agent (k4/hall_bt.md §3)
+agent 0:2 2:6 5:3 6:10
+agent 0:6 3:3 4:10 6:8
+agent 1:8 2:6 4:10 6:3
+agent 1:6 3:4 5:1 6:8
+bases 2,5 | 0,3 | 4 | 6

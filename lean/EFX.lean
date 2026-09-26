@@ -29,6 +29,9 @@ import EFX.C4min
 import EFX.K3Pareto
 import EFX.K3Theorem
 import EFX.C4minExamples
+import EFX.ThmZ
+import EFX.ThmF
+import EFX.ThmFExamples
 import EFX.K3Algo
 import EFX.Timed
 import EFX.K3CostLB

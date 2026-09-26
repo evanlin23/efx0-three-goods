@@ -1,0 +1,62 @@
+# k4/c4x.c against the independent k4/c4x_check.py, profile by profile
+# command: python3 k4/c4x_crosscheck.py results/k4_certs_2.json.gz --all
+core 0: 1728 profiles checked
+core 1: 82944 profiles checked
+core 2: 864 profiles checked
+core 3: 82944 profiles checked
+core 4: 20736 profiles checked
+CROSSCHECK results/k4_certs_2.json.gz profiles 189216 mismatches 0
+
+# command: python3 k4/c4x_crosscheck.py results/k4_certs_3.json.gz --rand=100
+core 0: 100 profiles checked
+core 1: 100 profiles checked
+core 2: 100 profiles checked
+core 3: 100 profiles checked
+core 4: 100 profiles checked
+core 5: 100 profiles checked
+core 6: 100 profiles checked
+core 7: 100 profiles checked
+core 8: 100 profiles checked
+core 9: 100 profiles checked
+core 10: 100 profiles checked
+core 11: 100 profiles checked
+core 12: 100 profiles checked
+core 13: 100 profiles checked
+core 14: 100 profiles checked
+core 15: 100 profiles checked
+core 16: 100 profiles checked
+core 17: 100 profiles checked
+core 18: 100 profiles checked
+core 19: 100 profiles checked
+core 20: 100 profiles checked
+core 21: 100 profiles checked
+core 22: 100 profiles checked
+core 23: 100 profiles checked
+core 24: 100 profiles checked
+core 25: 100 profiles checked
+core 26: 100 profiles checked
+core 27: 100 profiles checked
+core 28: 100 profiles checked
+core 29: 100 profiles checked
+core 30: 100 profiles checked
+core 31: 100 profiles checked
+core 32: 100 profiles checked
+core 33: 100 profiles checked
+core 34: 100 profiles checked
+core 35: 100 profiles checked
+core 36: 100 profiles checked
+core 37: 100 profiles checked
+core 38: 100 profiles checked
+core 39: 100 profiles checked
+core 40: 100 profiles checked
+core 41: 100 profiles checked
+core 42: 100 profiles checked
+core 43: 100 profiles checked
+core 44: 100 profiles checked
+core 45: 100 profiles checked
+core 46: 100 profiles checked
+core 47: 100 profiles checked
+core 48: 100 profiles checked
+core 49: 100 profiles checked
+core 50: 100 profiles checked
+CROSSCHECK results/k4_certs_3.json.gz profiles 5100 mismatches 0

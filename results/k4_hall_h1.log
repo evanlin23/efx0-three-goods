@@ -1,0 +1,11 @@
+# k4/hall.c -H: Lemma H1 checked per (P, o, K) at every min-frozen P with omega >= 1: the slot count S - cap(o) + u_o(X) and the criterion |X| >= omega + 2 - u_o(X) against the direct removal-only test
+# command: python3 k4/hall_run.py results/k4_certs_2.json.gz -H --jobs=4
+  H1: (P, o, K) triples checked 10577280, disagreements with Lemma H1 (slot count, criterion) 0
+FILE results/k4_certs_2.json.gz cores 5 profiles 189216 valid 2318524 minfrozen 2129840 minfrozen_omega1 1402784 minfrozen_posdef 171432 profiles_c4min_ok 189216 bad_char 0
+  G0: F=0 P with U, U2, omega>=1 and no valid owner 5720, agent exposed w.r.t. two owners 0, owner exposing nobody 0, T>=2 0, exposure map not a bijection 0, rotation rule: valid Pareto improvement 5720, rotation rule fails 0, ... for want of labels 0
+  failing (P, owner) pairs 0, with an unhittable exposed agent 0; tau for the others: [0, 0, 0, 0, 0, 0, 0, 0]; minimal violator size (0 = none of size < 8): [0, 0, 0, 0, 0, 0, 0, 0]
+# command: python3 k4/hall_run.py results/k4_certs_3.json.gz -H --rand=2000 --seed=81 --jobs=4
+  H1: (P, o, K) triples checked 20994168, disagreements with Lemma H1 (slot count, criterion) 0
+FILE results/k4_certs_3.json.gz cores 51 profiles 102000 valid 2234373 minfrozen 1765325 minfrozen_omega1 1078121 minfrozen_posdef 14006 profiles_c4min_ok 102000 bad_char 0
+  G0: F=0 P with U, U2, omega>=1 and no valid owner 27, agent exposed w.r.t. two owners 0, owner exposing nobody 0, T>=2 0, exposure map not a bijection 0, rotation rule: valid Pareto improvement 27, rotation rule fails 0, ... for want of labels 0
+  failing (P, owner) pairs 0, with an unhittable exposed agent 0; tau for the others: [0, 0, 0, 0, 0, 0, 0, 0]; minimal violator size (0 = none of size < 8): [0, 0, 0, 0, 0, 0, 0, 0]

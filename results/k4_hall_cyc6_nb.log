@@ -1,0 +1,24 @@
+# profiles around the collision instance cyc6 (k4/hall.md §3.2): one agent's type varied (all strict balanced types), Pareto- vs level-sum maxima without frozen agents
+# command: python3 k4/hall_cyc6_nb.py 0
+agents 0 free, Pareto-maxima without frozen agents: profiles 288, every maximum completable 278, some 288, maxima 10354
+agents 0 free, level-sum maxima without frozen agents: profiles 288, every maximum completable 288, some 288, maxima 451
+# command: python3 k4/hall_cyc6_nb.py 1
+agents 1 free, Pareto-maxima without frozen agents: profiles 288, every maximum completable 278, some 288, maxima 10264
+agents 1 free, level-sum maxima without frozen agents: profiles 288, every maximum completable 288, some 288, maxima 650
+# command: python3 k4/hall_cyc6_nb.py 2
+agents 2 free, Pareto-maxima without frozen agents: profiles 144, every maximum completable 124, some 144, maxima 5166
+agents 2 free, level-sum maxima without frozen agents: profiles 144, every maximum completable 144, some 144, maxima 216
+# command: python3 k4/hall_cyc6_nb.py 3
+agents 3 free, Pareto-maxima without frozen agents: profiles 288, every maximum completable 278, some 288, maxima 10354
+agents 3 free, level-sum maxima without frozen agents: profiles 288, every maximum completable 288, some 288, maxima 451
+# command: python3 k4/hall_cyc6_nb.py 4
+agents 4 free, Pareto-maxima without frozen agents: profiles 288, every maximum completable 278, some 288, maxima 10264
+agents 4 free, level-sum maxima without frozen agents: profiles 288, every maximum completable 288, some 288, maxima 650
+# command: python3 k4/hall_cyc6_nb.py 5
+agents 5 free, Pareto-maxima without frozen agents: profiles 144, every maximum completable 124, some 144, maxima 5166
+agents 5 free, level-sum maxima without frozen agents: profiles 144, every maximum completable 144, some 144, maxima 216
+# two agents varied: w and w' (2, 5; 144 types each)
+# command: python3 k4/hall_cyc6_nb.py 25
+agents 25 free, Pareto-maxima without frozen agents: profiles 20736, every maximum completable 20336, some 20736, maxima 481400
+agents 25 free, level-sum maxima without frozen agents: profiles 20736, every maximum completable 20736, some 20736, maxima 32128
+Fri Sep 25 21:06:39 UTC 2026

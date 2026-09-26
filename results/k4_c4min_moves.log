@@ -1,0 +1,37 @@
+# k4/c4min.md §4: structure at the Phi-maxima and the move catalogue, profiles with f >= 1 (k4/c4min_moves.py)
+# command: python3 k4/c4min_moves.py results/k4_certs_3.json.gz --rand=100 --seed=45 --moves
+FILE results/k4_certs_3.json.gz (4 s)
+    ... else with a Phi-raising cycle move: 36
+    ... neither: 1
+    ... with a Phi-raising pool move: 403
+  configurations without valid owner: 440
+  profiles (f >= 1, omega >= 1): 162
+  example (neither): core 50 [0:4,2:7,6:10,7:2] [1:4,4:2,6:3,8:8] [3:2,5:4,7:3,8:8] frozen ['-', [8], '-'] pairs {0: [0, 2], 2: [5, 6]} pool [1, 3, 4, 7]
+# command: python3 k4/c4min_moves.py results/k4_certs_3.json.gz --rand=400 --seed=41 --maxima
+FILE results/k4_certs_3.json.gz (13 s)
+  maxima: 1209
+  maxima with a frozen agent threatened by some owner: 547
+  profiles (f >= 1, omega >= 1): 594
+# command: python3 k4/c4min_moves.py results/k4_certs_4_n4_1.json.gz --rand=10 --seed=44 --maxima
+FILE results/k4_certs_4_n4_1.json.gz (2 s)
+  maxima: 54
+  maxima with a frozen agent threatened by some owner: 18
+  profiles (f >= 1, omega >= 1): 16
+# command: python3 k4/c4min_moves.py results/k4_certs_4_n4_2.json.gz --rand=10 --seed=44 --maxima
+FILE results/k4_certs_4_n4_2.json.gz (6 s)
+  maxima: 272
+  maxima with a frozen agent threatened by some owner: 87
+  profiles (f >= 1, omega >= 1): 108
+# command: python3 k4/c4min_moves.py results/k4_certs_4_n4_3.json.gz --rand=10 --seed=44 --maxima
+FILE results/k4_certs_4_n4_3.json.gz (8 s)
+  maxima: 361
+  maxima with a frozen agent threatened by some owner: 157
+  maxima with an agent threatened by two owners: 2
+  profiles (f >= 1, omega >= 1): 173
+# command: python3 k4/c4min_moves.py results/k4_certs_4_pure.json.gz --rand=10 --seed=44 --maxima
+FILE results/k4_certs_4_pure.json.gz (8 s)
+  maxima: 185
+  maxima with a frozen agent threatened by some owner: 85
+  maxima with an agent threatened by two owners: 2
+  profiles (f >= 1, omega >= 1): 131
+# note (added in the PR #41 review fixes; not part of the run's output): this version of k4/c4min_moves.py printed only nonzero counters. The claims of k4/c4min.md §4 that rest on zero counters (every Phi-maximum has a valid owner, needs no unfreezing, is pool-optimal and has t = 0; at n = 3 no agent is threatened by two owners) are printed explicitly in results/k4_c4min_moves_zero.log (the same commands, every counter printed; the nonzero counts agree).
