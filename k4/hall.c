@@ -38,7 +38,7 @@ static inline int pc(mask_t x) { return __builtin_popcountll(x); }
 
 static int n, m, d[MAXN], gl[MAXN][4], nt[MAXN], tv[MAXN][MAXT][4], cur[MAXN];
 static mask_t R[MAXN];
-static int nex = 0, dump = 0, xcheck = 0, paretomode = 0, pex = 0, cyclemode = 0, paretoonly = 0, h1check = 0;
+static int nex = 0, dump = 0, xcheck = 0, paretomode = 0, pex = 0, cyclemode = 0, paretoonly = 0, btmode = 0, h1check = 0;
 static long long pm_prof[4], pm_every[4], pm_some[4], pm_n[4];
 static int potmode = 0; static long long *potv, potbest;
 static int level(int i, mask_t B);
@@ -433,6 +433,94 @@ static int bigtop_type(int i) {   /* four goods and a > b + c */
   return mx > tot - mx - mn;
 }
 
+/* ---- the big-top owner step (k4/hall_bt.md): exchange cycles through a frozen big-top agent ---- */
+static void mkst_masks(const mask_t *B, st_t *s) {
+  mask_t used = 0; s->NA = 0;
+  for (int i = 0; i < n; i++) {
+    s->B[i] = B[i]; used |= B[i]; int v = val(i, B[i]); mask_t N = 0;
+    for (int k = 0; k < d[i]; k++) { mask_t g = (mask_t)1 << gl[i][k]; if (!(g & B[i]) && tv[i][cur[i]][k] > v) N |= g; }
+    s->N[i] = N; s->NA |= N;
+  }
+  s->J = (((mask_t)1 << m) - 1) & ~used; s->S = 0;
+  for (int i = 0; i < n; i++) { s->fz[i] = pc(s->B[i]) == 1 && (s->B[i] & s->NA); s->cap[i] = s->fz[i] ? 0 : 2 - pc(s->B[i]); s->S += s->cap[i]; }
+  s->omega = pc(s->J) - s->S;
+}
+static int valid_st(const st_t *s) {   /* every needed good is a one-good base */
+  mask_t sing = 0; for (int i = 0; i < n; i++) if (pc(s->B[i]) == 1) sing |= s->B[i];
+  return !(s->NA & ~sing);
+}
+static long long btx[10]; static int btex = 0, bt_anymode = 0;
+static int cyc[MAXN + 1], cyclen, bt_ok_owner, bt_ok_any, bt_tried;
+static int bt_edge(const st_t *s, int u, int w) {   /* 1 threat edge u -> w, 2 need edge u -> w, 0 none */
+  if (u == w) return 0;
+  if (s->fz[u]) return (s->B[u] & s->N[w]) ? 2 : 0;
+  return threatens(w, s->B[u] | s->J, val(w, s->B[w])) ? 1 : 0;
+}
+/* move holdings along cyc[0..cyclen-1] (cyc[0] = x) and test x as the owner. A need edge u -> w: w takes u's frozen
+   good. A threat edge u -> w: w takes an admissible set (needs inside NA) of at most two goods from u's base, its own
+   base and the junk; all choices are tried (backtracking), goods used at most once. */
+static mask_t bt_B[MAXN];
+static void bt_try(const st_t *s, int x, int q, mask_t used) {
+  if (bt_ok_owner || (bt_anymode && bt_ok_any)) return;
+  if (q == cyclen) {
+    mask_t B[MAXN]; for (int i = 0; i < n; i++) B[i] = s->B[i];
+    for (int r = 0; r < cyclen; r++) B[cyc[r]] = bt_B[cyc[r]];
+    for (int i = 0; i < n; i++) if (i != x) { int on = 0; for (int r = 0; r < cyclen; r++) if (cyc[r] == i) on = 1; if (!on && (B[i] & used)) return; }
+    st_t t; mkst_masks(B, &t);
+    if (!valid_st(&t) || pc(t.NA) != best_frozen) return;
+    bt_tried = 1;
+    if (!bt_anymode && !t.fz[x] && (t.omega <= 0 || def_owner(&t, x, 0) <= 0)) bt_ok_owner = 1;
+    if (!bt_ok_any && deficit(&t, 0) <= 0) bt_ok_any = 1;
+    return;
+  }
+  int u = cyc[q], w = cyc[(q + 1) % cyclen];
+  if (s->fz[u]) { if (s->B[u] & used) return; bt_B[w] = s->B[u]; bt_try(s, x, q + 1, used | s->B[u]); return; }
+  mask_t pool = (s->B[u] | s->B[w] | s->J) & R[w] & ~s->NA & ~used;
+  for (mask_t A = pool; A; A = (A - 1) & pool) {
+    if (pc(A) > 2) continue;
+    int v = val(w, A); mask_t nd = 0;
+    for (int k = 0; k < d[w]; k++) { mask_t g = (mask_t)1 << gl[w][k]; if (!(g & A) && tv[w][cur[w]][k] > v) nd |= g; }
+    if (nd & ~s->NA) continue;
+    bt_B[w] = A; bt_try(s, x, q + 1, used | A);
+    if (bt_ok_owner) return;
+  }
+}
+static void bt_apply(const st_t *s, int x) { bt_try(s, x, 0, 0); }
+static void bt_dfs(const st_t *s, int x, int u, int used) {
+  if (bt_ok_owner || (bt_anymode && bt_ok_any)) return;
+  for (int w = 0; w < n; w++) {
+    int e = bt_edge(s, u, w); if (!e) continue;
+    if (w == x) { if (e == 1) bt_apply(s, x); continue; }   /* x's in-edge must be a threat edge */
+    if (used >> w & 1) continue;
+    cyc[cyclen++] = w; bt_dfs(s, x, w, used | 1 << w); cyclen--;
+  }
+}
+static void bt_analyze(const st_t *s) {   /* s: a Pareto-maximum inside the min-frozen set with no valid owner, F >= 1 */
+  btx[0]++;
+  int anybt = 0, expbt = 0, owner = 0, any = 0;
+  for (int x = 0; x < n; x++) if (s->fz[x] && bigtop_type(x)) {
+    int top = 1; for (int k = 0; k < d[x]; k++) if (tv[x][cur[x]][k] > val(x, s->B[x])) top = 0;
+    if (!top) continue;
+    anybt = 1;
+    for (int o = 0; o < n; o++) if (!s->fz[o] && threatens(x, s->B[o] | s->J, val(x, s->B[x]))) expbt = 1;
+    bt_ok_owner = bt_ok_any = bt_tried = 0; cyc[0] = x; cyclen = 1;
+    bt_dfs(s, x, x, 1 << x);
+    owner |= bt_ok_owner; any |= bt_ok_any;
+  }
+  btx[1] += anybt; btx[2] += expbt; btx[3] += owner; btx[4] += any;
+  /* 5: some cycle through any exposed frozen agent (big-top or not) gives a completable pre-allocation (any owner) */
+  int anyfz = any;
+  for (int x = 0; x < n && !anyfz; x++) if (s->fz[x]) {
+    int ex = 0; for (int o = 0; o < n; o++) if (!s->fz[o] && threatens(x, s->B[o] | s->J, val(x, s->B[x]))) ex = 1;
+    if (!ex) continue;
+    bt_ok_owner = bt_ok_any = bt_tried = 0; cyc[0] = x; cyclen = 1;
+    bt_anymode = 1; bt_dfs(s, x, x, 1 << x); bt_anymode = 0;
+    anyfz |= bt_ok_any;
+  }
+  btx[5] += anyfz;
+  if (!owner && btex > 0) { btex--; printf("EXBTC no big-top owner cycle%s:", anybt ? "" : " (no frozen big-top)"); print_profile(); print_pa(s); printf("\n"); }
+}
+
 static int gdemand(const st_t *s) {
   mask_t J = s->J; int best = 1 << 20;
   for (mask_t C = J;; C = (C - 1) & J) {
@@ -526,6 +614,7 @@ static void do_profile(void) {
       if (best_frozen == 0 && s.omega >= 1) f0_analyze(&s);
       if (best_frozen >= 1 && s.omega >= 1) frozen_analyze(&s);
       if (dump) { int T = 0; for (int i = 0; i < n; i++) T += pc(s.B[i]) == 1; printf("PM"); print_pa(&s); printf(" T %d omega %d def %d\n", T, s.omega, dd); }
+      if (dd > 0 && btmode && best_frozen >= 1 && s.omega >= 1) bt_analyze(&s);
       if (dd <= 0) so = 1; else { ev = 0; if (pex > 0) { pex--; printf("EXPARETO F=%d:", best_frozen); print_profile(); print_pa(&s); printf(" omega %d def %d\n", s.omega, dd); } }
     }
     pm_prof[fb]++; pm_every[fb] += ev; pm_some[fb] += so; pm_n[fb] += npm;
@@ -554,6 +643,8 @@ int main(int argc, char **argv) {
     else if (!strcmp(argv[i], "-X")) xcheck = 1;
     else if (!strcmp(argv[i], "-P")) { paretomode = 1; }
     else if (!strcmp(argv[i], "-G")) cyclemode = 1;
+    else if (!strcmp(argv[i], "-B")) { btmode = 1; paretoonly = 1; paretomode = 1; }
+    else if (!strcmp(argv[i], "-Bx")) { btmode = 1; paretoonly = 1; paretomode = 1; btex = atoi(argv[++i]); }
     else if (!strcmp(argv[i], "-H")) { h1check = 1; cyclemode = 1; }
     else if (!strcmp(argv[i], "-N")) { paretoonly = 1; paretomode = 1; }
     else if (!strcmp(argv[i], "-Q1")) potmode = 1;
@@ -600,6 +691,7 @@ int main(int argc, char **argv) {
   printf("FAILOWNERS %lld unhittable %lld tau", kfail_owner, kfail_owner_unhit);
   for (int t = 0; t < 8; t++) printf(" %lld", tauhist[t]);
   printf(" violsize"); for (int t = 0; t < 8; t++) printf(" %lld", kviol_size[t]); printf("\n");
+  if (btmode) printf("BTX %lld %lld %lld %lld %lld %lld\n", btx[0], btx[1], btx[2], btx[3], btx[4], btx[5]);
   if (h1check) printf("H1 %lld %lld\n", h1n, h1bad);
   if (paretomode) printf("BTC %lld %lld %lld\n", btc[0], btc[1], btc[2]);
   if (paretomode) { printf("FZ"); for (int q = 0; q < 10; q++) printf(" %lld", fc[q]); for (int q = 0; q < 5; q++) printf(" %lld", fzcls[q]); printf("\n"); }
