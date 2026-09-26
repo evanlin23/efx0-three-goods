@@ -30,7 +30,10 @@ the domains); P > 0: P random profiles (seeded by -S and tag); P < 0: the listed
 Options: -D deficit cross-check; -r R record every gap profile whose index is 0 mod R (and every hard one; R = 0:
 hard ones only); -C dump every configuration of every gap profile ("C {json}" lines, after a "P {json}" line);
 -S seed; -M max configurations per profile (default 3000000; beyond it the profile is counted as truncated).
-Output: "R {json}" profile records, "K tag counters..." per block.  */
+Output: "R {json}" profile records, "K tag counters..." per block. Categories of a gap profile: S some Phi'-maximum has
+a valid owner with C empty; W not S, some Phi'-maximum has a valid owner; N no Phi'-maximum has one, some configuration
+does; X no configuration has one. phibad counts the profiles where some Phi'-maximum has no valid owner (a
+counterexample to Conjecture Phi', whatever the category); such profiles are always recorded.  */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -303,7 +306,7 @@ static void configs(void) {
 /* ---------- per profile ---------- */
 typedef struct { long prof, om1, Z, small, F, gap, gap_f1, gap_f2, cat[4], defmis, defover, trunc,
                  cfg, cfg_compl, cfg_simple, max, max_thr2, max_notpo, max_tpos, h7all[4], h7max[4],
-                 exp3, exp4, expbt, keys, thr2prof; } cnt_t;
+                 exp3, exp4, expbt, keys, thr2prof, phibad; } cnt_t;
 static cnt_t CN;
 static long gapidx;
 
@@ -355,6 +358,7 @@ static void profile(void) {
     CN.cfg += PR.ncfg; CN.cfg_compl += PR.ncompl; CN.cfg_simple += PR.nsimple; CN.max += PR.nmax; CN.max_thr2 += PR.nmax_thr2;
     CN.max_notpo += PR.nmax - PR.nmax_po; CN.max_tpos += PR.nmax - PR.nmax_t0; CN.trunc += PR.trunc;
     if (PR.thrmax_max >= 2) CN.thr2prof++;
+    if (PR.nmax_compl < PR.nmax) CN.phibad++;          /* some Phi'-maximum without a valid owner: Conjecture Phi' fails */
     for (int k = 0; k < 4; k++) { CN.h7all[k] += PR.h7all[k]; CN.h7max[k] += PR.h7max[k]; }
     int dres = -1;
     if (DEF) {
@@ -362,7 +366,7 @@ static void profile(void) {
         if (pp_over) CN.defover++;
         if (dres != (PR.ncompl > 0)) CN.defmis++;
     }
-    int hard = cat != 0 || PR.nmax_thr2 || PR.nmax_po < PR.nmax || PR.nmax_t0 < PR.nmax || (dres >= 0 && dres != (PR.ncompl > 0));
+    int hard = cat != 0 || PR.nmax_compl < PR.nmax || PR.nmax_thr2 || PR.nmax_po < PR.nmax || PR.nmax_t0 < PR.nmax || (dres >= 0 && dres != (PR.ncompl > 0));
     long gi = gapidx++;
     if (hard || (REC > 0 && gi % REC == 0)) {
         printf("R {\"tag\":%d,\"prof\":[", tag); for (int i = 0; i < n; i++) printf(i ? ",%d" : "%d", cur[i]);
@@ -416,11 +420,11 @@ int main(int argc, char **argv) {
         }
         printf("K %d prof %ld om1 %ld Z %ld small %ld F %ld gap %ld gap_f1 %ld gap_f2 %ld catS %ld catW %ld catN %ld catX %ld "
                "defmis %ld defover %ld trunc %ld cfg %ld cfg_compl %ld cfg_simple %ld max %ld max_thr2 %ld max_notpo %ld max_tpos %ld "
-               "h7all %ld %ld %ld %ld h7max %ld %ld %ld %ld exp3 %ld exp4 %ld expbt %ld keys %ld thr2prof %ld\n",
+               "h7all %ld %ld %ld %ld h7max %ld %ld %ld %ld exp3 %ld exp4 %ld expbt %ld keys %ld thr2prof %ld phibad %ld\n",
                tag, CN.prof, CN.om1, CN.Z, CN.small, CN.F, CN.gap, CN.gap_f1, CN.gap_f2, CN.cat[0], CN.cat[1], CN.cat[2], CN.cat[3],
                CN.defmis, CN.defover, CN.trunc, CN.cfg, CN.cfg_compl, CN.cfg_simple, CN.max, CN.max_thr2, CN.max_notpo, CN.max_tpos,
                CN.h7all[0], CN.h7all[1], CN.h7all[2], CN.h7all[3], CN.h7max[0], CN.h7max[1], CN.h7max[2], CN.h7max[3],
-               CN.exp3, CN.exp4, CN.expbt, CN.keys, CN.thr2prof);
+               CN.exp3, CN.exp4, CN.expbt, CN.keys, CN.thr2prof, CN.phibad);
         fflush(stdout);
     }
     return 0;

@@ -1,0 +1,27 @@
+command: python3 k4/gap_bench.py --catalog=results/k4_gap/gap_n4_1.json.gz,results/k4_gap/gap_n4_2_s4000.json.gz,results/k4_gap/gap_n4_3_s4000.json.gz,results/k4_gap/gap_n4_pure_s4000.json.gz --every=5 --only=LOCAL_ALL,II_T0,II_PHI --show=3
+gap.c sha256 0c14f252223c78d4fccbcfca4d048ca64b684980f6cec3f3cbb41742e3c38afa; catalogs ['gap_n4_1.json.gz', 'gap_n4_2_s4000.json.gz', 'gap_n4_3_s4000.json.gz', 'gap_n4_pure_s4000.json.gz']
+== the same catalogue plus #52's downgrade swaps
+LOCAL_ALL: FAILS on the data; 179770 cases tested, 2102054 skipped (hypothesis not met), 36803 profiles; 7 counterexamples
+  smallest: n=4 m=8 sets=[[0, 2, 4, 5], [1, 3, 6, 7], [4, 5, 6, 7], [5, 6, 7]] values=[[6, 3, 2, 10], [2, 3, 6, 10], [4, 6, 3, 8], [2, 4, 3]]
+    Config(key=[5, 7, None, None], Q={2: [0, 4], 3: [1, 6]}, L=[2, 3]) Python re-check: confirmed
+  smallest: n=4 m=8 sets=[[0, 2, 4, 5], [1, 3, 6, 7], [4, 5, 6, 7], [5, 6, 7]] values=[[6, 3, 2, 10], [2, 3, 6, 10], [4, 6, 3, 8], [2, 4, 3]]
+    Config(key=[5, 7, None, None], Q={2: [0, 4], 3: [3, 6]}, L=[1, 2]) Python re-check: confirmed
+  smallest: n=4 m=8 sets=[[0, 2, 4, 5], [1, 3, 6, 7], [4, 5, 6, 7], [5, 6, 7]] values=[[6, 3, 2, 10], [2, 3, 6, 10], [4, 6, 3, 8], [2, 4, 3]]
+    Config(key=[5, 7, None, None], Q={2: [2, 4], 3: [1, 6]}, L=[0, 3]) Python re-check: confirmed
+== roadmap (ii): in that setting with x threatened, some exchange-cycle move through x leaves t = 0
+II_T0: FAILS on the data; 154 cases tested, 2281670 skipped (hypothesis not met), 36803 profiles; 129 counterexamples
+  smallest: n=4 m=8 sets=[[0, 1, 6, 7], [2, 3, 4, 5], [2, 3, 4, 7], [5, 6, 7]] values=[[2, 4, 10, 7], [10, 7, 4, 2], [6, 4, 3, 8], [2, 3, 4]]
+    Config(key=[None, None, None, 7], Q={0: [0, 6], 1: [3, 4], 2: [1, 2]}, L=[5]) Python re-check: confirmed
+  smallest: n=4 m=8 sets=[[0, 1, 6, 7], [2, 3, 4, 5], [2, 3, 4, 7], [5, 6, 7]] values=[[2, 4, 10, 7], [10, 7, 4, 2], [6, 4, 3, 8], [2, 3, 4]]
+    Config(key=[None, None, None, 7], Q={0: [1, 6], 1: [3, 4], 2: [0, 2]}, L=[5]) Python re-check: confirmed
+  smallest: n=4 m=8 sets=[[0, 4, 6, 7], [1, 4, 6], [2, 5, 7], [3, 5, 7]] values=[[2, 3, 4, 8], [2, 4, 3], [2, 4, 3], [2, 3, 4]]
+    Config(key=[None, None, None, 7], Q={0: [1, 6], 1: [0, 4], 2: [2, 5]}, L=[3]) Python re-check: confirmed
+== roadmap (ii) with (iii): in that setting with x threatened, some exchange-cycle move through x raises Phi'
+II_PHI: FAILS on the data; 154 cases tested, 2281670 skipped (hypothesis not met), 36803 profiles; 129 counterexamples
+  smallest: n=4 m=8 sets=[[0, 1, 6, 7], [2, 3, 4, 5], [2, 3, 4, 7], [5, 6, 7]] values=[[2, 4, 10, 7], [10, 7, 4, 2], [6, 4, 3, 8], [2, 3, 4]]
+    Config(key=[None, None, None, 7], Q={0: [0, 6], 1: [3, 4], 2: [1, 2]}, L=[5]) Python re-check: confirmed
+  smallest: n=4 m=8 sets=[[0, 1, 6, 7], [2, 3, 4, 5], [2, 3, 4, 7], [5, 6, 7]] values=[[2, 4, 10, 7], [10, 7, 4, 2], [6, 4, 3, 8], [2, 3, 4]]
+    Config(key=[None, None, None, 7], Q={0: [1, 6], 1: [3, 4], 2: [0, 2]}, L=[5]) Python re-check: confirmed
+  smallest: n=4 m=8 sets=[[0, 4, 6, 7], [1, 4, 6], [2, 5, 7], [3, 5, 7]] values=[[2, 3, 4, 8], [2, 4, 3], [2, 4, 3], [2, 3, 4]]
+    Config(key=[None, None, None, 7], Q={0: [1, 6], 1: [0, 4], 2: [2, 5]}, L=[3]) Python re-check: confirmed
+[776 s]

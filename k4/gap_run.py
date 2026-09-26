@@ -19,7 +19,7 @@ SHA = hashlib.sha256(open(SRC, 'rb').read()).hexdigest()
 BIN = os.path.join(tempfile.gettempdir(), 'k4_gap_' + SHA[:16])
 KEYS = ('prof om1 Z small F gap gap_f1 gap_f2 catS catW catN catX defmis defover trunc cfg cfg_compl cfg_simple max '
         'max_thr2 max_notpo max_tpos h7all_G h7all_G1 h7all_L h7all_O h7max_G h7max_G1 h7max_L h7max_O exp3 exp4 expbt '
-        'keys thr2prof').split()
+        'keys thr2prof phibad').split()
 
 def build():
     if not os.path.exists(BIN):

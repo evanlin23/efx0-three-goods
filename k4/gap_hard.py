@@ -10,6 +10,7 @@ has a valid owner with C empty, i.e. without withheld goods and without unfreezi
       needs frozen agents unfrozen by its bundle)
   N   no Phi'-maximum has a valid owner, some configuration has one (a counterexample to Conjecture Phi')
   X   no configuration has a valid owner (a counterexample to C4min in configuration form)
+  PHI some Phi'-maximum has no valid owner (a counterexample to Conjecture Phi'; N is the case where none has one)
   T2  some Phi'-maximum has a frozen agent threatened by two owners (roadmap step (iv))
   NPO some Phi'-maximum is not pool-optimal (roadmap step (i))
   F2  f >= 2 (the gap beyond f = 1: every configuration has an exposed frozen agent, none frozen-robust)
@@ -23,6 +24,7 @@ CATS = {
     'W': lambda r: r['cat'] == 'W',
     'N': lambda r: r['cat'] == 'N',
     'X': lambda r: r['cat'] == 'X',
+    'PHI': lambda r: r['nmax_compl'] < r['nmax'],
     'T2': lambda r: r['nmax_thr2'] > 0,
     'NPO': lambda r: r['nmax_po'] < r['nmax'],
     'F2': lambda r: r['f'] >= 2,
