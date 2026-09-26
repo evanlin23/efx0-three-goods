@@ -2,7 +2,7 @@
 
 Workstream `proof/k4-c4min-f1`, building on `k4/c4min.md` (PR #41): its configurations (§1), Theorem Z (§3),
 Theorem F (§3.6), and the f = 1 roadmap (§4). Ledger rows K4.C4MIN.F1* (F1 PROVED after the PR #50 review, not in Lean;
-F1E CONJECTURE; F1BT REFUTED), open item 23.
+F1E CONJECTURE; F1BT REFUTED), open item 25.
 Other PRs are cited in §6.
 
 **Target.** The local improvement lemma of `k4/c4min.md` §4 for configurations with an exposed frozen agent, for

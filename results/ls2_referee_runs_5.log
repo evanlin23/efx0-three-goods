@@ -1,0 +1,6 @@
+$ python3 k3/ls2_referee.py runs 5 --seed=1
+ls2_referee runs n <= 5: 360 cores {2: 2, 3: 7, 4: 44, 5: 307}; 307 s
+counts: {'complete': 1735316, 'phase2a': 126832, 'phase2b': 583692, 'runs': 2445840}
+most Phase-1 steps by n: {2: 8, 3: 11, 4: 16, 5: 19} (bound 7n)
+failures: 0
+(wall clock 308 s on 4 CPUs)

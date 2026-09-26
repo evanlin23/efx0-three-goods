@@ -1,0 +1,4 @@
+# certificate: results/k4_certs_6_n4_1.json.gz of branch compute/k4-frontier (PR #26, head b7291a4), sha256 60005771a4322ae3…; binary: k4/c4check.c at 1cf70cd
+# c4one_tau.py -X -P2 -u2 -i6 -o0 -r1 -w0 -c0 -f3
+results/k4_certs_6_n4_1.json.gz (PR #26): 26866 cores, total 54698374656, profiles with no success 0, cores with one 0
+# wall time 713 s on 4 CPUs

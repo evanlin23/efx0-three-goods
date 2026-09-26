@@ -1,0 +1,58 @@
+# c4one_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz results/k4_certs_4_n4_1.json.gz options -X -Y -i1 -u2 -o0 -r1 -w0 -c0 -f5
+results/k4_certs_2.json.gz: 2 cores with one 4-good agent, 1s
+  q not first: runs needing an owner 1116, proved 768
+    G2: 348; works: r 0, other owner 0, q owner 0, rotate q 0, any 1 rotation 348, owner t (end of a chain from q) 0
+      masks: 16:348
+  q first: runs needing an owner 864, proved 864
+  violation lines: 0
+results/k4_certs_3.json.gz: 14 cores with one 4-good agent, 2s
+  q not first: runs needing an owner 42972, proved 36692
+    G2: 3396; works: r 0, other owner 1376, q owner 0, rotate q 0, any 1 rotation 3396, owner t (end of a chain from q) 0
+      masks: 16:2020 18:1376
+    G1F_cond: 72; works: r 0, other owner 0, q owner 0, rotate q 72, any 1 rotation 72, owner t (end of a chain from q) 0
+      masks: 24:72
+    G1T_Tc: 1320; works: r 160, other owner 1320, q owner 1320, rotate q 0, any 1 rotation 816, owner t (end of a chain from q) 0
+      masks: 6:452 7:52 22:708 23:108
+    G1T_Tb: 1492; works: r 944, other owner 884, q owner 884, rotate q 0, any 1 rotation 1248, owner t (end of a chain from q) 0
+      masks: 6:204 7:40 17:608 22:344 23:296
+  q first: runs needing an owner 14336, proved 14076
+    G1F_nochain: 260; works: r 0, other owner 96, q owner 0, rotate q 212, any 1 rotation 236, owner t (end of a chain from q) 96
+      masks: 16:24 24:140 34:24 58:72
+  violation lines: 0
+results/k4_certs_4_n4_1.json.gz: 135 cores with one 4-good agent, 4s
+  q not first: runs needing an owner 2264380, proved 2133344
+    G2: 32232; works: r 0, other owner 10280, q owner 0, rotate q 0, any 1 rotation 32232, owner t (end of a chain from q) 0
+      masks: 16:21952 18:10280
+    G1F_nochain: 11428; works: r 6272, other owner 6948, q owner 0, rotate q 9420, any 1 rotation 11428, owner t (end of a chain from q) 6732
+      masks: 17:256 19:96 24:1488 25:2736 27:120 50:984 51:672 58:2684 59:2392
+    G1F_cond: 16592; works: r 8672, other owner 9908, q owner 0, rotate q 10196, any 1 rotation 16592, owner t (end of a chain from q) 8776
+      masks: 16:852 18:1240 24:4944 26:780 51:4304 57:888 58:104 59:3480
+    G1T_Tc: 46752; works: r 35896, other owner 46448, q owner 46448, rotate q 0, any 1 rotation 40946, owner t (end of a chain from q) 0
+      masks: 6:1394 7:4412 16:240 17:64 22:9222 23:31420
+    G1T_Tb: 24032; works: r 14680, other owner 20672, q owner 20672, rotate q 0, any 1 rotation 23413, owner t (end of a chain from q) 0
+      masks: 6:383 7:236 16:832 17:2528 22:8137 23:11916
+  q first: runs needing an owner 563668, proved 538812
+    G1F_nochain: 14812; works: r 3176, other owner 11772, q owner 0, rotate q 12628, any 1 rotation 14536, owner t (end of a chain from q) 10700
+      masks: 16:888 18:192 24:2072 25:80 26:880 34:204 35:72 50:484 51:344 58:6916 59:2680
+    G1T_Tb: 10044; works: r 8736, other owner 10044, q owner 10044, rotate q 0, any 1 rotation 10044, owner t (end of a chain from q) 0
+      masks: 22:1308 23:8736
+  violation lines: 0
+# c4one_run.py results/k4_certs_5_n4_1.json.gz options -X -Y -i1 -u2 -o0 -r1 -w0 -c0 -f5
+results/k4_certs_5_n4_1.json.gz: 1735 cores with one 4-good agent, 208s
+  q not first: runs needing an owner 144834348, proved 140228950
+    G2: 523192; works: r 0, other owner 246800, q owner 0, rotate q 0, any 1 rotation 523192, owner t (end of a chain from q) 0
+      masks: 16:276392 18:246800
+    G1F_nochain: 792708; works: r 560164, other owner 681084, q owner 0, rotate q 721404, any 1 rotation 792708, owner t (end of a chain from q) 655652
+      masks: 16:3424 17:6868 19:3112 24:44288 25:57044 26:8176 27:14144 50:16828 51:41072 58:159828 59:437924
+    G1F_cond: 596028; works: r 378516, other owner 433500, q owner 0, rotate q 379464, any 1 rotation 596028, owner t (end of a chain from q) 387388
+      masks: 16:15592 18:42988 24:125928 26:24132 49:600 51:157384 57:20408 58:8872 59:200124
+    G1T_Tc: 1484852; works: r 1240672, other owner 1478448, q owner 1478128, rotate q 0, any 1 rotation 1455281, owner t (end of a chain from q) 0
+      masks: 6:2201 7:27370 16:5316 17:1088 18:288 19:32 22:236375 23:1212182
+    G1T_Tb: 1208618; works: r 779122, other owner 1138886, q owner 1130258, rotate q 0, any 1 rotation 1203464, owner t (end of a chain from q) 0
+      masks: 0:140 6:4550 7:464 16:15352 17:54240 18:288 19:8340 22:409166 23:716078
+  q first: runs needing an owner 28935166, proved 27918370
+    G1F_nochain: 626364; works: r 262568, other owner 539756, q owner 0, rotate q 568488, any 1 rotation 625936, owner t (end of a chain from q) 506248
+      masks: 16:12232 17:1680 18:4248 24:65080 25:7616 26:27580 27:1680 34:428 50:7840 51:31448 58:246388 59:220144
+    G1T_Tb: 390432; works: r 340348, other owner 390432, q owner 390432, rotate q 0, any 1 rotation 390432, owner t (end of a chain from q) 0
+      masks: 22:50084 23:340348
+  violation lines: 0

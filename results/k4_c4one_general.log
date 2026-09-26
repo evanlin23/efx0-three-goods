@@ -1,0 +1,17 @@
+# Lemmas X' (-i20) and X (-i19) over runs of Phase 1 with P-steps in any order (k4/c4check.c -G)
+# c4one_tau.py -X -P2 -u2 -i20 -o0 -r1 -w0 -c0 -f3 -G
+results/k4_certs_3.json.gz: 14 cores, total 530568, profiles with no success 0, cores with one 0
+results/k4_certs_4_n4_1.json.gz: 135 cores, total 86035176, profiles with no success 0, cores with one 0
+results/k4_certs_5_n4_1.json.gz: 1735 cores, total 21452587992, profiles with no success 0, cores with one 0
+
+real	6m41.453s
+user	26m28.806s
+sys	0m2.728s
+# c4one_tau.py -X -P2 -u2 -i19 -o0 -r1 -w0 -c0 -f3 -G
+results/k4_certs_3.json.gz: 14 cores, total 530568, profiles with no success 0, cores with one 0
+results/k4_certs_4_n4_1.json.gz: 135 cores, total 86035176, profiles with no success 0, cores with one 0
+results/k4_certs_5_n4_1.json.gz: 1735 cores, total 21452587992, profiles with no success 0, cores with one 0
+
+real	6m38.477s
+user	26m16.902s
+sys	0m2.936s

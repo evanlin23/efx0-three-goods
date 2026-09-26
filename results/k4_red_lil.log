@@ -1,0 +1,272 @@
+# provenance (added at the PR #51 review; not output of the run): written by k4/red.c as committed at 1835559 (sha1 4314063dffa7f03bc5d1bf1cd8d71d981e2c219d).
+# k4/red.c -L (k4/c4min_reduce.md §5.3): local improvement lemma at f = 1
+# command: python3 k4/red_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz --lil -x 3
+# files: results/k4_certs_2.json.gz results/k4_certs_3.json.gz  rand=0 seed=1  cores=56  time=33.5s
+f0                                   284147504
+f1                                   7285840
+f1_keys_share_g                      7285840
+f1_omega_le0                         8129476
+f2plus                               463772
+lil_by_M1                            23912120
+lil_by_M4                            429872
+lil_by_M5                            1210152
+lil_noncomp                          25552144
+profiles                             300026592
+# failures: none
+# command: python3 k4/red_run.py results/k4_certs_4_n4_1.json.gz --lil -x 3
+k4_certs_4_n4_1.json.gz#115 keys_distinct_g n=4 m=8 vals=[{0:1,2:6,5:8,7:4},{1:2,5:4,7:3},{3:3,6:4,7:2},{4:2,6:4,7:3}]
+k4_certs_4_n4_1.json.gz#115 keys_distinct_g n=4 m=8 vals=[{0:2,2:3,5:8,7:4},{1:2,5:4,7:3},{3:3,6:4,7:2},{4:2,6:4,7:3}]
+k4_certs_4_n4_1.json.gz#115 keys_distinct_g n=4 m=8 vals=[{0:2,2:4,5:8,7:3},{1:2,5:4,7:3},{3:3,6:4,7:2},{4:2,6:4,7:3}]
+# files: results/k4_certs_4_n4_1.json.gz  rand=0 seed=1  cores=135  time=1.6s
+f0                                   5444704
+f1                                   28478
+f1_keys_distinct_g                   2256
+f1_keys_share_g                      26222
+f1_omega_le0                         1344598
+f2plus                               429452
+keys_distinct_g                      0
+lil_by_M1                            11120
+lil_by_M4                            384
+lil_by_M5                            16
+lil_noncomp                          11520
+profiles                             7247232
+# failures: none
+# command: python3 k4/red_run.py results/k4_certs_4_n4_2.json.gz --lil -x 3
+k4_certs_4_n4_2.json.gz#188 keys_distinct_g n=4 m=8 vals=[{0:2,1:3,3:4,4:8},{2:4,3:1,4:8,5:6},{2:2,6:3,7:4},{5:2,6:3,7:4}]
+k4_certs_4_n4_2.json.gz#188 keys_distinct_g n=4 m=8 vals=[{0:2,1:3,3:6,4:10},{2:4,3:1,4:8,5:6},{2:2,6:3,7:4},{5:2,6:3,7:4}]
+k4_certs_4_n4_2.json.gz#188 keys_distinct_g n=4 m=8 vals=[{0:2,1:4,3:3,4:8},{2:4,3:1,4:8,5:6},{2:2,6:3,7:4},{5:2,6:3,7:4}]
+# files: results/k4_certs_4_n4_2.json.gz  rand=0 seed=1  cores=309  time=120.4s
+f0                                   599431424
+f1                                   10723372
+f1_keys_distinct_g                   535108
+f1_keys_share_g                      10188264
+f1_omega_le0                         92495300
+f2plus                               22197520
+keys_distinct_g                      0
+lil_by_M1                            12498040
+lil_by_M4                            150208
+lil_by_M5                            96720
+lil_noncomp                          12744968
+profiles                             724847616
+# failures: none
+# command: python3 k4/red_run.py results/k4_certs_4_n4_3.json.gz results/k4_certs_4_pure.json.gz --rand=4000 --seed=7 --lil -x 3
+k4_certs_4_n4_3.json.gz#137 keys_distinct_g n=4 m=8 vals=[{0:4,1:2,2:8,3:3},{2:10,3:6,6:3,7:8},{4:8,5:4,6:1,7:6},{4:4,5:3,7:2}]
+k4_certs_4_n4_3.json.gz#137 keys_distinct_g n=4 m=8 vals=[{0:3,1:2,2:10,3:6},{2:10,3:4,6:2,7:7},{4:4,5:8,6:3,7:2},{4:3,5:4,7:2}]
+k4_certs_4_n4_3.json.gz#137 keys_distinct_g n=4 m=8 vals=[{0:2,1:3,2:4,3:8},{2:4,3:10,6:2,7:7},{4:7,5:10,6:2,7:6},{4:2,5:4,7:3}]
+# files: results/k4_certs_4_n4_3.json.gz results/k4_certs_4_pure.json.gz  rand=4000 seed=7  cores=558  time=2.9s
+f0                                   1960903
+f1                                   97991
+f1_keys_distinct_g                   3754
+f1_keys_share_g                      94237
+f1_omega_le0                         139304
+f2plus                               33802
+keys_distinct_g                      0
+lil_by_M1                            822971
+lil_by_M2                            244
+lil_by_M4                            1574
+lil_by_M5                            6883
+lil_noncomp                          831672
+profiles                             2232000
+# failures: none
+# command: python3 k4/red_run.py results/k4_certs_5_n4_1.json.gz --rand=3000 --seed=11 --lil -x 3
+k4_certs_5_n4_1.json.gz#1684 keys_distinct_g n=5 m=10 vals=[{0:3,2:2,6:8,7:4},{1:3,6:4,9:2},{3:3,7:4,9:2},{4:2,8:4,9:3},{5:3,8:4,9:2}]
+k4_certs_5_n4_1.json.gz#1684 keys_distinct_g n=5 m=10 vals=[{0:4,2:2,6:5,7:8},{1:3,6:2,9:4},{3:2,7:4,9:3},{4:2,8:3,9:4},{5:3,8:2,9:4}]
+k4_certs_5_n4_1.json.gz#1684 keys_distinct_g n=5 m=10 vals=[{0:1,2:6,6:4,7:8},{1:2,6:3,9:4},{3:3,7:4,9:2},{4:3,8:2,9:4},{5:2,8:3,9:4}]
+# files: results/k4_certs_5_n4_1.json.gz  rand=3000 seed=11  cores=1735  time=3.6s
+f0                                   3019315
+f1                                   6370
+f1_keys_distinct_g                   1153
+f1_keys_share_g                      5217
+f1_omega_le0                         1453488
+f2plus                               725827
+keys_distinct_g                      0
+lil_by_M1                            1344
+lil_by_M4                            11
+lil_by_M5                            1
+lil_noncomp                          1356
+profiles                             5205000
+# failures: none
+# command: python3 k4/red_run.py results/k4_certs_5_n4_2.json.gz --rand=600 --seed=11 --lil -x 3
+k4_certs_5_n4_2.json.gz#4803 keys_distinct_g n=5 m=10 vals=[{0:3,2:2,4:4,6:8},{1:3,3:6,5:8,9:10},{4:3,5:2,6:4},{7:2,8:4,9:3},{7:3,8:4,9:2}]
+k4_certs_5_n4_2.json.gz#4803 keys_distinct_g n=5 m=10 vals=[{0:3,2:2,4:6,6:10},{1:4,3:2,5:7,9:10},{4:3,5:2,6:4},{7:3,8:2,9:4},{7:3,8:4,9:2}]
+k4_certs_5_n4_2.json.gz#4803 keys_distinct_g n=5 m=10 vals=[{0:2,2:3,4:8,6:4},{1:4,3:2,5:10,9:7},{4:4,5:3,6:2},{7:4,8:3,9:2},{7:4,8:3,9:2}]
+# files: results/k4_certs_5_n4_2.json.gz  rand=600 seed=11  cores=5468  time=6.4s
+f0                                   2202837
+f1                                   32425
+f1_keys_distinct_g                   3418
+f1_keys_share_g                      29007
+f1_omega_le0                         759010
+f2plus                               286528
+keys_distinct_g                      0
+lil_by_M1                            44008
+lil_by_M4                            62
+lil_by_M5                            49
+lil_noncomp                          44119
+profiles                             3280800
+# failures: none
+# command: python3 k4/red_run.py results/k4_certs_5_n4_3.json.gz results/k4_certs_5_n4_4.json.gz results/k4_certs_5_pure.json.gz --rand=200 --seed=11 --lil -x 3
+k4_certs_5_n4_3.json.gz#7222 keys_distinct_g n=5 m=10 vals=[{0:3,1:2,2:4,3:8},{2:1,3:8,7:6,8:4},{4:3,5:6,7:4,8:8},{4:3,6:4,9:2},{5:2,6:4,9:3}]
+k4_certs_5_n4_3.json.gz#7223 keys_distinct_g n=5 m=10 vals=[{0:2,1:6,2:3,3:10},{2:3,3:4,9:2},{4:6,5:10,7:2,8:7},{4:8,6:1,7:4,8:6},{5:4,6:2,9:3}]
+k4_certs_5_n4_3.json.gz#7223 keys_distinct_g n=5 m=10 vals=[{0:2,1:3,2:6,3:10},{2:2,3:4,9:3},{4:7,5:10,7:2,8:6},{4:4,6:6,7:1,8:8},{5:4,6:3,9:2}]
+# files: results/k4_certs_5_n4_3.json.gz results/k4_certs_5_n4_4.json.gz results/k4_certs_5_pure.json.gz  rand=200 seed=11  cores=24381  time=35.9s
+f0                                   3778051
+f1                                   186178
+f1_keys_distinct_g                   13922
+f1_keys_share_g                      172256
+f1_omega_le0                         703181
+f2plus                               208790
+keys_distinct_g                      0
+lil_by_M1                            3953296
+lil_by_M2                            374
+lil_by_M4                            943
+lil_by_M5                            9463
+lil_noncomp                          3964076
+profiles                             4876200
+# failures: none
+# variant: potential (r', -t, Lambda) without two-agent re-pairings (M2)
+# command: python3 k4/red_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz --lil-rfirst --lil-nom2 -x 3
+# files: results/k4_certs_2.json.gz results/k4_certs_3.json.gz  rand=0 seed=1  cores=56  time=36.3s
+f0                                   284147504
+f1                                   7285840
+f1_keys_share_g                      7285840
+f1_omega_le0                         8129476
+f2plus                               463772
+lil_by_M1                            24341752
+lil_by_M4                            372528
+lil_by_M5                            837864
+lil_noncomp                          25552144
+profiles                             300026592
+# failures: none
+# command: python3 k4/red_run.py results/k4_certs_4_n4_1.json.gz --lil-rfirst --lil-nom2 -x 3
+k4_certs_4_n4_1.json.gz#115 keys_distinct_g n=4 m=8 vals=[{0:1,2:6,5:8,7:4},{1:2,5:4,7:3},{3:3,6:4,7:2},{4:2,6:4,7:3}]
+k4_certs_4_n4_1.json.gz#115 keys_distinct_g n=4 m=8 vals=[{0:2,2:3,5:8,7:4},{1:2,5:4,7:3},{3:3,6:4,7:2},{4:2,6:4,7:3}]
+k4_certs_4_n4_1.json.gz#115 keys_distinct_g n=4 m=8 vals=[{0:2,2:4,5:8,7:3},{1:2,5:4,7:3},{3:3,6:4,7:2},{4:2,6:4,7:3}]
+# files: results/k4_certs_4_n4_1.json.gz  rand=0 seed=1  cores=135  time=1.6s
+f0                                   5444704
+f1                                   28478
+f1_keys_distinct_g                   2256
+f1_keys_share_g                      26222
+f1_omega_le0                         1344598
+f2plus                               429452
+keys_distinct_g                      0
+lil_by_M1                            11120
+lil_by_M4                            384
+lil_by_M5                            16
+lil_noncomp                          11520
+profiles                             7247232
+# failures: none
+# command: python3 k4/red_run.py results/k4_certs_4_n4_2.json.gz --lil-rfirst --lil-nom2 -x 3
+k4_certs_4_n4_2.json.gz#188 keys_distinct_g n=4 m=8 vals=[{0:2,1:3,3:4,4:8},{2:4,3:1,4:8,5:6},{2:2,6:3,7:4},{5:2,6:3,7:4}]
+k4_certs_4_n4_2.json.gz#188 keys_distinct_g n=4 m=8 vals=[{0:2,1:3,3:6,4:10},{2:4,3:1,4:8,5:6},{2:2,6:3,7:4},{5:2,6:3,7:4}]
+k4_certs_4_n4_2.json.gz#188 keys_distinct_g n=4 m=8 vals=[{0:2,1:4,3:3,4:8},{2:4,3:1,4:8,5:6},{2:2,6:3,7:4},{5:2,6:3,7:4}]
+# files: results/k4_certs_4_n4_2.json.gz  rand=0 seed=1  cores=309  time=121.0s
+f0                                   599431424
+f1                                   10723372
+f1_keys_distinct_g                   535108
+f1_keys_share_g                      10188264
+f1_omega_le0                         92495300
+f2plus                               22197520
+keys_distinct_g                      0
+lil_by_M1                            12514456
+lil_by_M4                            149952
+lil_by_M5                            80560
+lil_noncomp                          12744968
+profiles                             724847616
+# failures: none
+# command: python3 k4/red_run.py results/k4_certs_4_n4_3.json.gz results/k4_certs_4_pure.json.gz --rand=4000 --seed=7 --lil-rfirst --lil-nom2 -x 3
+k4_certs_4_n4_3.json.gz#137 keys_distinct_g n=4 m=8 vals=[{0:4,1:2,2:8,3:3},{2:10,3:6,6:3,7:8},{4:8,5:4,6:1,7:6},{4:4,5:3,7:2}]
+k4_certs_4_n4_3.json.gz#137 keys_distinct_g n=4 m=8 vals=[{0:3,1:2,2:10,3:6},{2:10,3:4,6:2,7:7},{4:4,5:8,6:3,7:2},{4:3,5:4,7:2}]
+k4_certs_4_n4_3.json.gz#137 keys_distinct_g n=4 m=8 vals=[{0:2,1:3,2:4,3:8},{2:4,3:10,6:2,7:7},{4:7,5:10,6:2,7:6},{4:2,5:4,7:3}]
+# files: results/k4_certs_4_n4_3.json.gz results/k4_certs_4_pure.json.gz  rand=4000 seed=7  cores=558  time=2.9s
+f0                                   1960903
+f1                                   97991
+f1_keys_distinct_g                   3754
+f1_keys_share_g                      94237
+f1_omega_le0                         139304
+f2plus                               33802
+keys_distinct_g                      0
+lil_by_M1                            827756
+lil_by_M4                            1270
+lil_by_M5                            2646
+lil_noncomp                          831672
+profiles                             2232000
+# failures: none
+# command: python3 k4/red_run.py results/k4_certs_5_n4_1.json.gz --rand=3000 --seed=11 --lil-rfirst --lil-nom2 -x 3
+k4_certs_5_n4_1.json.gz#1684 keys_distinct_g n=5 m=10 vals=[{0:3,2:2,6:8,7:4},{1:3,6:4,9:2},{3:3,7:4,9:2},{4:2,8:4,9:3},{5:3,8:4,9:2}]
+k4_certs_5_n4_1.json.gz#1684 keys_distinct_g n=5 m=10 vals=[{0:4,2:2,6:5,7:8},{1:3,6:2,9:4},{3:2,7:4,9:3},{4:2,8:3,9:4},{5:3,8:2,9:4}]
+k4_certs_5_n4_1.json.gz#1684 keys_distinct_g n=5 m=10 vals=[{0:1,2:6,6:4,7:8},{1:2,6:3,9:4},{3:3,7:4,9:2},{4:3,8:2,9:4},{5:2,8:3,9:4}]
+# files: results/k4_certs_5_n4_1.json.gz  rand=3000 seed=11  cores=1735  time=3.5s
+f0                                   3019315
+f1                                   6370
+f1_keys_distinct_g                   1153
+f1_keys_share_g                      5217
+f1_omega_le0                         1453488
+f2plus                               725827
+keys_distinct_g                      0
+lil_by_M1                            1344
+lil_by_M4                            11
+lil_by_M5                            1
+lil_noncomp                          1356
+profiles                             5205000
+# failures: none
+# command: python3 k4/red_run.py results/k4_certs_5_n4_2.json.gz --rand=600 --seed=11 --lil-rfirst --lil-nom2 -x 3
+k4_certs_5_n4_2.json.gz#4803 keys_distinct_g n=5 m=10 vals=[{0:3,2:2,4:4,6:8},{1:3,3:6,5:8,9:10},{4:3,5:2,6:4},{7:2,8:4,9:3},{7:3,8:4,9:2}]
+k4_certs_5_n4_2.json.gz#4803 keys_distinct_g n=5 m=10 vals=[{0:3,2:2,4:6,6:10},{1:4,3:2,5:7,9:10},{4:3,5:2,6:4},{7:3,8:2,9:4},{7:3,8:4,9:2}]
+k4_certs_5_n4_2.json.gz#4803 keys_distinct_g n=5 m=10 vals=[{0:2,2:3,4:8,6:4},{1:4,3:2,5:10,9:7},{4:4,5:3,6:2},{7:4,8:3,9:2},{7:4,8:3,9:2}]
+# files: results/k4_certs_5_n4_2.json.gz  rand=600 seed=11  cores=5468  time=6.3s
+f0                                   2202837
+f1                                   32425
+f1_keys_distinct_g                   3418
+f1_keys_share_g                      29007
+f1_omega_le0                         759010
+f2plus                               286528
+keys_distinct_g                      0
+lil_by_M1                            44019
+lil_by_M4                            61
+lil_by_M5                            39
+lil_noncomp                          44119
+profiles                             3280800
+# failures: none
+# command: python3 k4/red_run.py results/k4_certs_5_n4_3.json.gz results/k4_certs_5_n4_4.json.gz results/k4_certs_5_pure.json.gz --rand=200 --seed=11 --lil-rfirst --lil-nom2 -x 3
+k4_certs_5_n4_3.json.gz#7222 keys_distinct_g n=5 m=10 vals=[{0:3,1:2,2:4,3:8},{2:1,3:8,7:6,8:4},{4:3,5:6,7:4,8:8},{4:3,6:4,9:2},{5:2,6:4,9:3}]
+k4_certs_5_n4_3.json.gz#7223 keys_distinct_g n=5 m=10 vals=[{0:2,1:6,2:3,3:10},{2:3,3:4,9:2},{4:6,5:10,7:2,8:7},{4:8,6:1,7:4,8:6},{5:4,6:2,9:3}]
+k4_certs_5_n4_3.json.gz#7223 keys_distinct_g n=5 m=10 vals=[{0:2,1:3,2:6,3:10},{2:2,3:4,9:3},{4:7,5:10,7:2,8:6},{4:4,6:6,7:1,8:8},{5:4,6:3,9:2}]
+# files: results/k4_certs_5_n4_3.json.gz results/k4_certs_5_n4_4.json.gz results/k4_certs_5_pure.json.gz  rand=200 seed=11  cores=24381  time=35.7s
+f0                                   3778051
+f1                                   186178
+f1_keys_distinct_g                   13922
+f1_keys_share_g                      172256
+f1_omega_le0                         703181
+f2plus                               208790
+keys_distinct_g                      0
+lil_by_M1                            3961911
+lil_by_M4                            557
+lil_by_M5                            1608
+lil_noncomp                          3964076
+profiles                             4876200
+# failures: none
+# variant: potential (-t, r', Lambda) without two-agent re-pairings (M2)
+# command: python3 k4/red_run.py results/k4_certs_4_n4_3.json.gz results/k4_certs_4_pure.json.gz --rand=4000 --seed=7 --lil --lil-nom2 -x 3
+k4_certs_4_n4_3.json.gz#137 keys_distinct_g n=4 m=8 vals=[{0:4,1:2,2:8,3:3},{2:10,3:6,6:3,7:8},{4:8,5:4,6:1,7:6},{4:4,5:3,7:2}]
+k4_certs_4_n4_3.json.gz#137 keys_distinct_g n=4 m=8 vals=[{0:3,1:2,2:10,3:6},{2:10,3:4,6:2,7:7},{4:4,5:8,6:3,7:2},{4:3,5:4,7:2}]
+k4_certs_4_n4_3.json.gz#137 keys_distinct_g n=4 m=8 vals=[{0:2,1:3,2:4,3:8},{2:4,3:10,6:2,7:7},{4:7,5:10,6:2,7:6},{4:2,5:4,7:3}]
+k4_certs_4_n4_3.json.gz#338 lil_stuck n=4 m=11 vals=[{0:2,2:4,7:3,9:8},{1:6,5:3,8:2,9:10},{3:8,6:3,8:10,10:4},{4:2,7:3,10:4}]
+k4_certs_4_n4_3.json.gz#338 lil_stuck n=4 m=11 vals=[{0:2,2:4,7:3,9:8},{1:6,5:3,8:2,9:10},{3:4,6:5,8:8,10:2},{4:4,7:3,10:2}]
+k4_certs_4_n4_3.json.gz#338 lil_stuck n=4 m=11 vals=[{0:3,2:6,7:4,9:8},{1:3,5:4,8:8,9:2},{3:4,6:2,8:8,10:3},{4:2,7:3,10:4}]
+# files: results/k4_certs_4_n4_3.json.gz results/k4_certs_4_pure.json.gz  rand=4000 seed=7  cores=558  time=3.0s
+FAIL_lil_stuck                       244
+f0                                   1960903
+f1                                   97991
+f1_keys_distinct_g                   3754
+f1_keys_share_g                      94237
+f1_omega_le0                         139304
+f2plus                               33802
+keys_distinct_g                      0
+lil_by_M1                            822971
+lil_by_M4                            1574
+lil_by_M5                            6883
+lil_noncomp                          831672
+lil_stuck                            0
+lil_stuck_xbig                       244
+profiles                             2232000
+# failures: {'FAIL_lil_stuck': 244}

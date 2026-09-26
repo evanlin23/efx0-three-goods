@@ -1,0 +1,185 @@
+# provenance (added at the PR #51 review; not output of the run): written by k4/red.c as committed at a0505bd (sha1 6acbee55ea0a5f7c459b2c4366ac3193a30e6d28). This red.c predates the big-top counters bt_*, btx_*, anybt_* (added at 02db2cf) and the counters added at review; results/k4_red_lemmas.log reruns these commands with the current red.c.
+# k4/red.c (k4/c4min_reduce.md): every strict profile of every core with n <= 3
+# command: python3 k4/red_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz --pots=mt,r,lamR;r,mt,lamR;mt,r,lamR,mp;r,mt,lamR,mp -x 3
+k4_certs_2.json.gz#3 prof_cert n=2 m=5 vals=[{0:2,2:3,3:4,4:8},{1:2,2:3,3:4,4:8}]
+k4_certs_2.json.gz#3 prof_cert2 n=2 m=5 vals=[{0:2,2:3,3:4,4:8},{1:2,2:3,3:4,4:8}]
+k4_certs_2.json.gz#3 amax_not_cert2 n=2 m=5 vals=[{0:2,2:3,3:4,4:8},{1:2,2:3,3:4,4:8}]
+k4_certs_2.json.gz#3 amax_not_cert2 n=2 m=5 vals=[{0:2,2:3,3:4,4:8},{1:2,2:3,3:4,4:8}]
+k4_certs_2.json.gz#3 prof_cert n=2 m=5 vals=[{0:2,2:3,3:6,4:10},{1:2,2:3,3:4,4:8}]
+k4_certs_2.json.gz#3 prof_cert2 n=2 m=5 vals=[{0:2,2:3,3:6,4:10},{1:2,2:3,3:4,4:8}]
+k4_certs_2.json.gz#3 amax_not_cert2 n=2 m=5 vals=[{0:2,2:3,3:6,4:10},{1:2,2:3,3:4,4:8}]
+k4_certs_2.json.gz#3 prof_cert n=2 m=5 vals=[{0:2,2:4,3:3,4:8},{1:2,2:3,3:4,4:8}]
+k4_certs_2.json.gz#3 prof_cert2 n=2 m=5 vals=[{0:2,2:4,3:3,4:8},{1:2,2:3,3:4,4:8}]
+k4_certs_3.json.gz#17 key_noncompletable n=3 m=6 vals=[{0:1,1:4,4:6,5:8},{2:2,3:3,4:4,5:8},{2:2,3:3,4:4,5:8}]
+k4_certs_3.json.gz#17 key_noncompletable n=3 m=6 vals=[{0:1,1:6,4:4,5:8},{2:2,3:3,4:4,5:8},{2:2,3:3,4:4,5:8}]
+k4_certs_3.json.gz#17 key_noncompletable n=3 m=6 vals=[{0:2,1:4,4:5,5:8},{2:2,3:3,4:4,5:8},{2:2,3:3,4:4,5:8}]
+k4_certs_3.json.gz#23 FAIL_glob_r,lamU n=3 m=6 vals=[{0:3,3:5,4:6,5:7},{1:1,3:6,4:4,5:8},{2:1,3:4,4:6,5:8}]
+k4_certs_3.json.gz#23 FAIL_glob_r,lamU n=3 m=6 vals=[{0:3,3:6,4:5,5:7},{1:1,3:6,4:4,5:8},{2:1,3:4,4:6,5:8}]
+k4_certs_3.json.gz#23 FAIL_glob_r,lamU n=3 m=6 vals=[{0:4,3:5,4:6,5:8},{1:1,3:6,4:4,5:8},{2:1,3:4,4:6,5:8}]
+k4_certs_3.json.gz#41 key_no_t0 n=3 m=7 vals=[{0:2,2:3,5:4,6:8},{1:3,3:5,4:6,6:7},{3:2,4:3,5:6,6:10}]
+k4_certs_3.json.gz#41 key_no_t0 n=3 m=7 vals=[{0:3,2:2,5:4,6:8},{1:3,3:5,4:6,6:7},{3:2,4:3,5:6,6:10}]
+k4_certs_3.json.gz#41 key_no_t0 n=3 m=7 vals=[{0:2,2:3,5:4,6:8},{1:3,3:6,4:5,6:7},{3:2,4:3,5:6,6:10}]
+k4_certs_3.json.gz#46 swap_some_terminal n=3 m=8 vals=[{0:3,2:4,6:2,7:8},{1:3,4:4,6:2,7:8},{3:3,5:4,6:2,7:8}]
+k4_certs_3.json.gz#46 swap_some_terminal n=3 m=8 vals=[{0:3,2:4,6:2,7:8},{1:3,4:4,6:2,7:8},{3:3,5:4,6:2,7:8}]
+k4_certs_3.json.gz#46 swap_some_terminal n=3 m=8 vals=[{0:3,2:4,6:2,7:8},{1:3,4:4,6:2,7:8},{3:3,5:4,6:2,7:8}]
+k4_certs_3.json.gz#46 prof_some_key_every n=3 m=8 vals=[{0:3,2:4,6:2,7:8},{1:3,4:4,6:2,7:8},{3:3,5:4,6:2,7:8}]
+k4_certs_3.json.gz#46 prof_some_key_every n=3 m=8 vals=[{0:3,2:6,6:2,7:10},{1:3,4:4,6:2,7:8},{3:3,5:4,6:2,7:8}]
+k4_certs_3.json.gz#46 prof_some_key_every n=3 m=8 vals=[{0:4,2:3,6:2,7:8},{1:3,4:4,6:2,7:8},{3:3,5:4,6:2,7:8}]
+# files: results/k4_certs_2.json.gz results/k4_certs_3.json.gz  rand=0 seed=1  cores=56  time=44.9s
+FAIL_glob_r,lamU                     123180
+FAIL_prof_cert                       2368
+FAIL_prof_cert2                      816
+FAIL_prof_some_key_every             128
+FAIL_swap_some_terminal              384
+amax                                 9823326
+amax_cert2                           9820566
+amax_not_cert2                       2760
+amax_not_poolopt                     4736
+amax_r1                              13182
+f0                                   284147504
+f1                                   7285840
+f1_keys_share_g                      7285840
+f1_omega_le0                         8129476
+f2plus                               463772
+glob_-t,r,lamR,-p_every              7285840
+glob_-t,r,lamR_every                 7285840
+glob_r,lamU_every                    7162660
+key_any                              14197216
+key_no_t0                            208
+key_noncompletable                   62208
+key_rl_every                         13909440
+key_rl_some                          13952388
+key_rlp_every                        13937956
+key_t0_exists                        14259216
+key_t0_poolopt_exists                14100632
+keys                                 14259424
+noncomp_t0_fv1                       96792
+noncomp_t0_fv2                       118880
+noncomp_t1                           208880
+pot[mt,r,lamR,mp]_every              7285840
+pot[mt,r,lamR,mp]_some               7285840
+pot[mt,r,lamR]_every                 7285840
+pot[mt,r,lamR]_some                  7285840
+pot[r,mt,lamR,mp]_every              7285840
+pot[r,mt,lamR,mp]_some               7285840
+pot[r,mt,lamR]_every                 7285840
+pot[r,mt,lamR]_some                  7285840
+prof_cert                            0
+prof_cert2                           0
+prof_cert2_exists                    7285024
+prof_cert_exists                     7283472
+prof_completable                     7285840
+prof_every_key_t0                    7285632
+prof_some_key_every                  7285712
+profiles                             300026592
+rl_max_noncomp                       424552
+rl_maxima                            17448196
+swap_all_terminals_good              421128
+swap_some_terminal                   0
+swap_some_terminal_good              424168
+tmax                                 17603288
+tmax_noncomp                         301728
+tmax_nonrobust_npo                   48872
+tmax_t1                              208
+# failures: {'FAIL_prof_cert': 2368, 'FAIL_prof_cert2': 816, 'FAIL_glob_r,lamU': 123180, 'FAIL_swap_some_terminal': 384, 'FAIL_prof_some_key_every': 128}
+# command: python3 k4/red_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz --pots=mt,r,lamU;mt,r,lamU,lx;mt,lx,r,lamU -x 3
+k4_certs_2.json.gz#3 prof_cert n=2 m=5 vals=[{0:2,2:3,3:4,4:8},{1:2,2:3,3:4,4:8}]
+k4_certs_2.json.gz#3 prof_cert2 n=2 m=5 vals=[{0:2,2:3,3:4,4:8},{1:2,2:3,3:4,4:8}]
+k4_certs_2.json.gz#3 amax_not_cert2 n=2 m=5 vals=[{0:2,2:3,3:4,4:8},{1:2,2:3,3:4,4:8}]
+k4_certs_2.json.gz#3 amax_not_cert2 n=2 m=5 vals=[{0:2,2:3,3:4,4:8},{1:2,2:3,3:4,4:8}]
+k4_certs_2.json.gz#3 prof_cert n=2 m=5 vals=[{0:2,2:3,3:6,4:10},{1:2,2:3,3:4,4:8}]
+k4_certs_2.json.gz#3 prof_cert2 n=2 m=5 vals=[{0:2,2:3,3:6,4:10},{1:2,2:3,3:4,4:8}]
+k4_certs_2.json.gz#3 amax_not_cert2 n=2 m=5 vals=[{0:2,2:3,3:6,4:10},{1:2,2:3,3:4,4:8}]
+k4_certs_2.json.gz#3 prof_cert n=2 m=5 vals=[{0:2,2:4,3:3,4:8},{1:2,2:3,3:4,4:8}]
+k4_certs_2.json.gz#3 prof_cert2 n=2 m=5 vals=[{0:2,2:4,3:3,4:8},{1:2,2:3,3:4,4:8}]
+k4_certs_3.json.gz#17 key_noncompletable n=3 m=6 vals=[{0:1,1:4,4:6,5:8},{2:2,3:3,4:4,5:8},{2:2,3:3,4:4,5:8}]
+k4_certs_3.json.gz#17 key_noncompletable n=3 m=6 vals=[{0:1,1:6,4:4,5:8},{2:2,3:3,4:4,5:8},{2:2,3:3,4:4,5:8}]
+k4_certs_3.json.gz#17 key_noncompletable n=3 m=6 vals=[{0:2,1:4,4:5,5:8},{2:2,3:3,4:4,5:8},{2:2,3:3,4:4,5:8}]
+k4_certs_3.json.gz#17 FAIL_pot[mt,lx,r,lamU] n=3 m=6 vals=[{0:1,1:4,4:6,5:8},{2:3,3:4,4:6,5:8},{2:3,3:4,4:6,5:8}]
+k4_certs_3.json.gz#17 FAIL_pot[mt,lx,r,lamU] n=3 m=6 vals=[{0:1,1:6,4:4,5:8},{2:3,3:4,4:6,5:8},{2:3,3:4,4:6,5:8}]
+k4_certs_3.json.gz#17 FAIL_pot[mt,lx,r,lamU] n=3 m=6 vals=[{0:2,1:4,4:5,5:8},{2:3,3:4,4:6,5:8},{2:3,3:4,4:6,5:8}]
+k4_certs_3.json.gz#23 FAIL_pot[mt,r,lamU] n=3 m=6 vals=[{0:3,3:5,4:6,5:7},{1:1,3:6,4:4,5:8},{2:1,3:4,4:6,5:8}]
+k4_certs_3.json.gz#23 amax_ndx2 n=3 m=6 vals=[{0:3,3:5,4:6,5:7},{1:1,3:6,4:4,5:8},{2:1,3:4,4:6,5:8}]
+k4_certs_3.json.gz#23 amax_noncomp n=3 m=6 vals=[{0:3,3:5,4:6,5:7},{1:1,3:6,4:4,5:8},{2:1,3:4,4:6,5:8}]
+k4_certs_3.json.gz#23 FAIL_glob_r,lamU n=3 m=6 vals=[{0:3,3:5,4:6,5:7},{1:1,3:6,4:4,5:8},{2:1,3:4,4:6,5:8}]
+k4_certs_3.json.gz#23 FAIL_pot[mt,r,lamU] n=3 m=6 vals=[{0:3,3:6,4:5,5:7},{1:1,3:6,4:4,5:8},{2:1,3:4,4:6,5:8}]
+k4_certs_3.json.gz#23 amax_ndx2 n=3 m=6 vals=[{0:3,3:6,4:5,5:7},{1:1,3:6,4:4,5:8},{2:1,3:4,4:6,5:8}]
+k4_certs_3.json.gz#23 amax_noncomp n=3 m=6 vals=[{0:3,3:6,4:5,5:7},{1:1,3:6,4:4,5:8},{2:1,3:4,4:6,5:8}]
+k4_certs_3.json.gz#23 FAIL_glob_r,lamU n=3 m=6 vals=[{0:3,3:6,4:5,5:7},{1:1,3:6,4:4,5:8},{2:1,3:4,4:6,5:8}]
+k4_certs_3.json.gz#23 FAIL_pot[mt,r,lamU] n=3 m=6 vals=[{0:4,3:5,4:6,5:8},{1:1,3:6,4:4,5:8},{2:1,3:4,4:6,5:8}]
+k4_certs_3.json.gz#23 amax_ndx2 n=3 m=6 vals=[{0:4,3:5,4:6,5:8},{1:1,3:6,4:4,5:8},{2:1,3:4,4:6,5:8}]
+k4_certs_3.json.gz#23 amax_noncomp n=3 m=6 vals=[{0:4,3:5,4:6,5:8},{1:1,3:6,4:4,5:8},{2:1,3:4,4:6,5:8}]
+k4_certs_3.json.gz#23 FAIL_glob_r,lamU n=3 m=6 vals=[{0:4,3:5,4:6,5:8},{1:1,3:6,4:4,5:8},{2:1,3:4,4:6,5:8}]
+k4_certs_3.json.gz#23 FAIL_pot[mt,r,lamU,lx] n=3 m=6 vals=[{0:3,3:6,4:5,5:7},{1:3,3:4,4:2,5:8},{2:1,3:4,4:6,5:8}]
+k4_certs_3.json.gz#23 FAIL_pot[mt,r,lamU,lx] n=3 m=6 vals=[{0:4,3:6,4:5,5:8},{1:3,3:4,4:2,5:8},{2:1,3:4,4:6,5:8}]
+k4_certs_3.json.gz#23 FAIL_pot[mt,r,lamU,lx] n=3 m=6 vals=[{0:3,3:6,4:5,5:7},{1:3,3:6,4:2,5:10},{2:1,3:4,4:6,5:8}]
+k4_certs_3.json.gz#41 key_no_t0 n=3 m=7 vals=[{0:2,2:3,5:4,6:8},{1:3,3:5,4:6,6:7},{3:2,4:3,5:6,6:10}]
+k4_certs_3.json.gz#41 key_no_t0 n=3 m=7 vals=[{0:3,2:2,5:4,6:8},{1:3,3:5,4:6,6:7},{3:2,4:3,5:6,6:10}]
+k4_certs_3.json.gz#41 key_no_t0 n=3 m=7 vals=[{0:2,2:3,5:4,6:8},{1:3,3:6,4:5,6:7},{3:2,4:3,5:6,6:10}]
+k4_certs_3.json.gz#46 swap_some_terminal n=3 m=8 vals=[{0:3,2:4,6:2,7:8},{1:3,4:4,6:2,7:8},{3:3,5:4,6:2,7:8}]
+k4_certs_3.json.gz#46 swap_some_terminal n=3 m=8 vals=[{0:3,2:4,6:2,7:8},{1:3,4:4,6:2,7:8},{3:3,5:4,6:2,7:8}]
+k4_certs_3.json.gz#46 swap_some_terminal n=3 m=8 vals=[{0:3,2:4,6:2,7:8},{1:3,4:4,6:2,7:8},{3:3,5:4,6:2,7:8}]
+k4_certs_3.json.gz#46 prof_some_key_every n=3 m=8 vals=[{0:3,2:4,6:2,7:8},{1:3,4:4,6:2,7:8},{3:3,5:4,6:2,7:8}]
+k4_certs_3.json.gz#46 prof_some_key_every n=3 m=8 vals=[{0:3,2:6,6:2,7:10},{1:3,4:4,6:2,7:8},{3:3,5:4,6:2,7:8}]
+k4_certs_3.json.gz#46 prof_some_key_every n=3 m=8 vals=[{0:4,2:3,6:2,7:8},{1:3,4:4,6:2,7:8},{3:3,5:4,6:2,7:8}]
+# files: results/k4_certs_2.json.gz results/k4_certs_3.json.gz  rand=0 seed=1  cores=56  time=43.5s
+FAIL_amax_noncomp                    46448
+FAIL_glob_r,lamU                     123180
+FAIL_pot[mt,lx,r,lamU]               15440
+FAIL_pot[mt,r,lamU,lx]               6448
+FAIL_pot[mt,r,lamU]                  44556
+FAIL_prof_cert                       2368
+FAIL_prof_cert2                      816
+FAIL_prof_some_key_every             128
+FAIL_swap_some_terminal              384
+amax                                 10270318
+amax_cert2                           10221734
+amax_ndx2                            46448
+amax_noncomp                         0
+amax_not_cert2                       48584
+amax_not_poolopt                     5892
+amax_r1                              11374
+f0                                   284147504
+f1                                   7285840
+f1_keys_share_g                      7285840
+f1_omega_le0                         8129476
+f2plus                               463772
+glob_-t,r,lamR,-p_every              7285840
+glob_-t,r,lamR_every                 7285840
+glob_r,lamU_every                    7162660
+key_any                              14197216
+key_no_t0                            208
+key_noncompletable                   62208
+key_rl_every                         13909440
+key_rl_some                          13952388
+key_rlp_every                        13937956
+key_t0_exists                        14259216
+key_t0_poolopt_exists                14100632
+keys                                 14259424
+noncomp_t0_fv1                       96792
+noncomp_t0_fv2                       118880
+noncomp_t1                           208880
+pot[mt,lx,r,lamU]_every              7270400
+pot[mt,lx,r,lamU]_some               7272944
+pot[mt,r,lamU,lx]_every              7279392
+pot[mt,r,lamU,lx]_some               7279392
+pot[mt,r,lamU]_every                 7241284
+pot[mt,r,lamU]_some                  7279392
+prof_cert                            0
+prof_cert2                           0
+prof_cert2_exists                    7285024
+prof_cert_exists                     7283472
+prof_completable                     7285840
+prof_every_key_t0                    7285632
+prof_some_key_every                  7285712
+profiles                             300026592
+rl_max_noncomp                       424552
+rl_maxima                            17448196
+swap_all_terminals_good              421128
+swap_some_terminal                   0
+swap_some_terminal_good              424168
+tmax                                 17603288
+tmax_noncomp                         301728
+tmax_nonrobust_npo                   48872
+tmax_t1                              208
+# failures: {'FAIL_prof_cert': 2368, 'FAIL_prof_cert2': 816, 'FAIL_pot[mt,lx,r,lamU]': 15440, 'FAIL_pot[mt,r,lamU]': 44556, 'FAIL_amax_noncomp': 46448, 'FAIL_glob_r,lamU': 123180, 'FAIL_pot[mt,r,lamU,lx]': 6448, 'FAIL_swap_some_terminal': 384, 'FAIL_prof_some_key_every': 128}

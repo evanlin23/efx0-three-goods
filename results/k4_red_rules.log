@@ -1,0 +1,15 @@
+# provenance (added at the PR #51 review; not output of the run): written by attempts/k4_c4min_reduce_rules.py as committed at a0505bd (sha1 48784299d897bfc14bda72db0ae59e546b246473), k4/red_lib.py as committed at a0505bd (sha1 035b94e3d6c8eab87caaf32aa88ee9a8740fee25).
+# command: python3 attempts/k4_c4min_reduce_rules.py results/k4_certs_3.json.gz 6000 11
+f1 profiles                                                  8402
+narrow swap fails                                            24
+non-completable (r', Lambda')-maxima                         392
+rule fails: best (r', Lambda')-maximum of I'                 120
+rule fails: fewest private goods                             239
+rule fails: largest a / v(U_x)                               215
+rule fails: largest a / v(U_x) - private share               157
+rule fails: least value of private goods / a                 145
+rule fails: max level of top (lx)                            241
+
+real	0m19.397s
+user	0m19.185s
+sys	0m0.049s

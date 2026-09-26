@@ -1,0 +1,36 @@
+# c4realize.py results/k4_certs_3.json.gz results/k4_certs_4_n4_1.json.gz results/k4_certs_5_n4_1.json.gz
+results/k4_certs_3.json.gz: 14 cores
+   (Tb)  realized: a rotation along a need chain from the old leader to q (length 1)      512
+   (Tc)  realized: a rotation along a need chain from the old leader to q (length 1)      388
+   G2    not a rotation: other                                                            234
+   G2    realized: a rotation along a need chain from the old leader to q (length 1)      336
+   G2    realized: a rotation along a need chain from the old leader to q (length 2)      520
+results/k4_certs_4_n4_1.json.gz: 135 cores
+   (Tb)  not a rotation: q already held its top                                           240
+   (Tb)  realized: a rotation along a need chain from the old leader to q (length 1)      160
+   (Tb)  realized: a rotation along a need chain from the old leader to q (length 2)      2680
+   (Tc)  realized: a rotation along a need chain from the old leader to q (length 1)      4320
+   (Tc)  realized: a rotation along a need chain from the old leader to q (length 2)      2656
+   G2    not a rotation: other                                                            3199
+   G2    realized: a rotation along a need chain from the old leader to q (length 1)      1564
+   G2    realized: a rotation along a need chain from the old leader to q (length 2)      3282
+   G2    realized: a rotation along a need chain from the old leader to q (length 3)      2636
+results/k4_certs_5_n4_1.json.gz: 1735 cores
+   (Tb)  not a rotation: other                                                            14572
+   (Tb)  not a rotation: q already held its top                                           5256
+   (Tb)  realized: a rotation along a need chain from the old leader to q (length 1)      29116
+   (Tb)  realized: a rotation along a need chain from the old leader to q (length 2)      5960
+   (Tb)  realized: a rotation along a need chain from the old leader to q (length 3)      19216
+   (Tc)  not a rotation: other                                                            8296
+   (Tc)  realized: a rotation along a need chain from the old leader to q (length 1)      117948
+   (Tc)  realized: a rotation along a need chain from the old leader to q (length 2)      56284
+   (Tc)  realized: a rotation along a need chain from the old leader to q (length 3)      21064
+   G2    not a rotation: other                                                            45206
+   G2    realized: a rotation along a need chain from the old leader to q (length 1)      29846
+   G2    realized: a rotation along a need chain from the old leader to q (length 2)      27585
+   G2    realized: a rotation along a need chain from the old leader to q (length 3)      33666
+   G2    realized: a rotation along a need chain from the old leader to q (length 4)      18112
+
+real	6m22.851s
+user	23m48.710s
+sys	1m0.562s
