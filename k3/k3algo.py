@@ -302,7 +302,9 @@ def mirror(n, m, v):
 # Efficient implementation (same output as mirror; assumes at most three relevant goods per agent)
 # ----------------------------------------------------------------------------------------------------------------
 
-def fast(n, m, v):
+def fast(n, m, v, naive_owner_test=False):
+    """naive_owner_test=True replaces the exact owner test by |E_r| <= S - cap(r) (one junk good per exposed pair, no
+    shared good): a WRONG variant, kept for attempts/k3-owner-test-no-shared-good.md."""
     assert n >= 1
     rel = [sorted(v[i]) for i in range(n)]          # relevant goods of i, by index
     assert all(len(r) <= 3 for r in rel), "fast assumes at most three relevant goods per agent"
@@ -382,9 +384,9 @@ def fast(n, m, v):
             in_pool[y] = False
             for j in holders[y]:
                 if not done[j]: heapq.heappush(nonfull, j)
-    return _lbplus_fast(agents, goods, order, a, b, c, rank, holders, Y, blk, X, info)
+    return _lbplus_fast(agents, goods, order, a, b, c, rank, holders, Y, blk, X, info, naive_owner_test)
 
-def _lbplus_fast(agents, goods, order, a, b, c, rank, holders, Y, blk, X, info):
+def _lbplus_fast(agents, goods, order, a, b, c, rank, holders, Y, blk, X, info, naive_owner_test=False):
     d = 0
     pickrank = lambda Yf, i: 3 if Yf[i] is None else rank[i][Yf[i]]
     def needs(Yf, i):
@@ -491,7 +493,9 @@ def _lbplus_fast(agents, goods, order, a, b, c, rank, holders, Y, blk, X, info):
     # Theorem A's counting (proofs/k3_algorithm.md section 4): S - cap(r) >= |E_r| - 1, which makes the owner test
     # exact without a minimum hitting set; asserted on every run as a check of the implementation
     assert S - cap[r] >= len(E) - 1, "Theorem A's counting violated"
-    if len(H) <= S - cap[r]:
+    info.update(r=r, E=list(E), H=list(H), free_slots=S - cap[r], junk=list(Jl), order=list(order), picks=dict(Y),
+                upgraded=list(uplist))
+    if (len(E) if naive_owner_test else len(H)) <= S - cap[r]:
         info['branch'] = 'owner_r'; return complete(Y, uplist, st, r, H), info
     k = next((x for x in exposed(Y, ups, Jset, r, pmf) if blk[x] == blk[r]), None)
     if k is None:
@@ -561,7 +565,7 @@ def cross(N, seed):
         else: m = rng.randint(3, 2 * n + 1); v = random_hard(n, m, rng)
         X1, i1 = mirror(n, m, v)
         X2, i2 = fast(n, m, v)
-        if X1 != X2 or i1 != i2:
+        if X1 != X2 or any(i1[k] != i2[k] for k in ('peeled', 'branch', 'core_n', 'core_m')):
             print("MISMATCH", n, m, v, X1, X2, i1, i2); sys.exit(1)
         if not raw_efx0(n, m, v, X1) or not raw_efx0_naive(n, m, v, X1):
             print("NOT EFX0", n, m, v, X1, i1); sys.exit(1)
