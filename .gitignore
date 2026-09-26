@@ -11,3 +11,4 @@ src/lb_*
 !src/lb_*.h
 !src/lb_*.py
 src/lbplus
+results/k4_c4min_hunt_climb_n5_b.jsonl
