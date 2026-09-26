@@ -166,8 +166,10 @@ def st_sigma_inj(prof, c):
     return all(len(_threat_pred(c, y)) <= 1 for y in range(prof.n))
 
 def _closing_moves(c):
+    """exchange-cycle moves through x: best pairs (every order) and any admissible pairs (this contains the roadmap's
+    plain rotation, where p_{i+1} takes Q_{p_i} and x takes {b_x, c_x})"""
     x = c.frozen[0]
-    return [(cyc, c2) for cyc, c2 in c.cycle_moves() if x in cyc]
+    return [(cyc, c2) for cyc, c2 in c.cycle_moves() + c.cycle_moves(general=True) if x in cyc]
 
 def st_ii_t0(prof, c):
     if not _f1_setting(prof, c) or not _threat_pred(c, c.frozen[0]): return None
@@ -211,6 +213,10 @@ def raises_closure(c):
 def st_local_closure(prof, c):
     if c.completable: return None
     return raises_closure(c)
+
+def st_local_all(prof, c):
+    if c.completable: return None
+    return raises_closure(c) or any(c2.phi > c.phi for _, _, c2 in c.downgrade_swaps())
 
 def st_local(prof, c):
     if c.completable: return None
@@ -322,6 +328,8 @@ STATEMENTS = {
                   "the same with a larger catalogue: also cycle moves with any admissible pairs, and re-partitions of two free agents' pairs and the pool (contains #41's pool-assisted two-agent exchange)"),
     'LOCAL_CLOSURE': ('all', st_local_closure,
                       "the same catalogue plus cycle moves followed by the pool closure (every free agent re-takes its best pair from the pool, repeatedly)"),
+    'LOCAL_ALL': ('all', st_local_all,
+                  "the same catalogue plus #52's downgrade swaps"),
     'BTCYC': ('pareto', st_btcyc,
               "#52 K4.HALL.BTCYC: at a Pareto-maximal configuration without a valid owner that has an exposed frozen big-top agent, some exchange-cycle move through it (any admissible pairs; threat receivers may keep part of their pair) has a valid owner"),
     'REACH': ('profile', st_reach,
