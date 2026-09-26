@@ -1,0 +1,5 @@
+$ lake env lean ../paper/k3/examples/lean_examples.lean   (Lean 4.34.0, run from lean/ after lake build)
+([1, 2, 0, 2, 3, 4, 1, 1, 3], 2407)
+([3, 1, 0, 1, 2, 0, 1, 3], 2659)
+([0, 0, 2, 1, 3, 2, 3, 3, 3], 1779)
+exit status: 0

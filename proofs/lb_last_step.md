@@ -271,7 +271,10 @@ Remarks.
 1. *Size of the large bundle.* X_o = base(o) ∪ (J ∖ C) has |base(o)| + cap(o) + ω = ω + 2 goods, for o ∈ T as for
    o ∈ U. In any valid pre-allocation each good of NA is the pick of exactly one frozen agent, so |F| = |NA|. Counting
    goods then gives ω = m − 2n + |NA| = |NA| − σ with σ = 2n − m, as in `proofs/construction.md` Lemma 2. The rotation
-   does not increase NA (Theorem B(b)), so it does not enlarge the large bundle.
+   does not increase NA (Theorem B(b)), so it does not enlarge the large bundle. This count assumes C fills every other
+   slot. K3ALG's formalized completion (`proofs/k3_algorithm.md`) can leave a slot empty when HitSet lists a good twice,
+   and its owner then gets more than ω + 2 goods (a four-agent instance with ω + 3, still EFX₀:
+   `paper/k3/examples/trace_examples.py`, Remark 1).
 2. LB⁺ is polynomial: Phase 1 is O(n) steps, the upgrades O(n²), and one rotation. With LB's lookahead, Phase 1 is
    O(n³) evaluations. *A sufficient shortcut for the test, not its definition:* one good per exposed pair gives a
    hitting set of size |E_r|. If |E_r| ≤ S − cap(r), r is valid. Otherwise the exact test needs a minimum hitting set.
