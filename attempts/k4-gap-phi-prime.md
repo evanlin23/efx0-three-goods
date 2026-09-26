@@ -40,6 +40,13 @@ The conjecture holds on every profile with n ≤ 3 and on every profile of the n
 The second profile (core 183, m = 10, f = 2, ω = 4) has the same structure: a unique Φ′-maximum, two frozen agents,
 each owner blocked by one local threat, and 91 of 125 configurations with a valid owner.
 
+**How often.** The final hunt counts, per profile, whether some Φ′-maximum has no valid owner (the counter `phibad` of
+`k4/gap.c`). It finds 33 such profiles: 30 among the 4,483,858 pure n = 4 gap profiles and 3 among the 5,826,602 with
+three 4-good agents (`results/k4_gap_hunt_n4_*.log`). They have 55 such maxima in all, re-derived by gap_model
+(`results/k4_gap_bench_hard_hunt.log`, statement PHI_PRIME). In 31 of them another Φ′-maximum has a valid owner, so
+only the "every maximum" form fails there. The two profiles above are the ones where no maximum has one. `phibad` is 0
+on every profile with n ≤ 3, on every profile at n = 4 with one or two 4-good agents, and on the n = 5 samples.
+
 **Checked three times, by independent implementations** (`results/k4_gap_phi_prime.log`):
 1. `k4/gap.c` (C, the catalog enumerator);
 2. `k4/gap_model.py` (Python, independent of gap.c);

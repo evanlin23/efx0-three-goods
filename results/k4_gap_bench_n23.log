@@ -1,5 +1,5 @@
 command: python3 k4/gap_bench.py --catalog=results/k4_gap/gap_n2.json.gz,results/k4_gap/gap_n3.json.gz --show=3
-gap.c sha256 0c14f252223c78d4fccbcfca4d048ca64b684980f6cec3f3cbb41742e3c38afa; catalogs ['gap_n2.json.gz', 'gap_n3.json.gz']
+gap.c sha256 74e1fae22153b5b57fd39e906f7cae5807e646fb01caf9a576acefc76cade120; catalogs ['gap_n2.json.gz', 'gap_n3.json.gz']
 == #41 Conjecture Phi' (K4.C4MIN.PHI): every Phi'-maximum has a valid owner
 PHI_PRIME: HOLDS on the data; 97146 cases tested, 0 skipped (hypothesis not met), 75552 profiles; 0 counterexamples
 == #41 section 4, the first form Phi = (-t, r, Lambda) (known false at n = 4): every maximum has a valid owner
@@ -40,10 +40,10 @@ I_T_LOCAL: FAILS on the data; 45699 cases tested, 1493880 skipped (hypothesis no
     Config(key=[7, None, None], Q={1: [1, 4], 2: [3, 5]}, L=[0, 2, 6]) Python re-check: confirmed
 == f = 1 roadmap, first bullet: in its setting (f = 1, x 3-good, no valid owner, pool-optimal, t = 0) every agent is threatened by at most one owner
 SIGMA_INJ: HOLDS on the data; 11 cases tested, 1539568 skipped (hypothesis not met), 75552 profiles; 0 counterexamples
-== roadmap (ii): in that setting with x threatened, some exchange-cycle move through x leaves t = 0
-II_T0: HOLDS on the data; 11 cases tested, 1539568 skipped (hypothesis not met), 75552 profiles; 0 counterexamples
-== roadmap (ii) with (iii): in that setting with x threatened, some exchange-cycle move through x raises Phi'
-II_PHI: HOLDS on the data; 11 cases tested, 1539568 skipped (hypothesis not met), 75552 profiles; 0 counterexamples
+== roadmap (ii): in that setting with x threatened, once no exchange-cycle move avoiding x raises Phi', some exchange-cycle move through x (best pairs or any pairs, e.g. the plain rotation) leaves t = 0
+II_T0: HOLDS on the data; 8 cases tested, 1539571 skipped (hypothesis not met), 75552 profiles; 0 counterexamples
+== roadmap (ii) with (iii): in the same setting, some exchange-cycle move through x raises Phi'
+II_PHI: HOLDS on the data; 8 cases tested, 1539571 skipped (hypothesis not met), 75552 profiles; 0 counterexamples
 == roadmap (iii): in that setting, the threat path into x has no free agent of kind (R)
 III_NO_R: HOLDS on the data; 11 cases tested, 1539568 skipped (hypothesis not met), 75552 profiles; 0 counterexamples
 == roadmap (iv): at every Phi'-maximum each frozen agent is threatened by at most one owner
@@ -74,6 +74,10 @@ LOCAL_EXT: FAILS on the data; 320282 cases tested, 1219297 skipped (hypothesis n
     Config(key=[None, 3, None], Q={0: [0, 4], 2: [2, 6]}, L=[1, 5]) Python re-check: confirmed
 == the same catalogue plus cycle moves followed by the pool closure (every free agent re-takes its best pair from the pool, repeatedly)
 LOCAL_CLOSURE: HOLDS on the data; 320282 cases tested, 1219297 skipped (hypothesis not met), 75552 profiles; 0 counterexamples
+== the same catalogue plus #52's downgrade swaps
+LOCAL_ALL: HOLDS on the data; 320282 cases tested, 1219297 skipped (hypothesis not met), 75552 profiles; 0 counterexamples
+== needed for any move catalogue that keeps the needed set (pool, cycle, two-agent moves, downgrade swaps): at every configuration without a valid owner some configuration with the same needed set has a larger Phi'
+SAME_N: HOLDS on the data; 320282 cases tested, 0 skipped (hypothesis not met), 75552 profiles; 0 counterexamples
 == #52 K4.HALL.BTCYC: at a Pareto-maximal configuration without a valid owner that has an exposed frozen big-top agent, some exchange-cycle move through it (any admissible pairs; threat receivers may keep part of their pair) has a valid owner
 BTCYC: HOLDS on the data; 5139 cases tested, 207725 skipped (hypothesis not met), 75552 profiles; 0 counterexamples
 == the coordinator's question (b): from the Pareto-maximal configurations, exchange-cycle moves (any admissible pairs, receivers may keep part of their pair) and #52's downgrade swaps reach a configuration with a valid owner
@@ -88,4 +92,4 @@ REACH_EACH_CYC: HOLDS on the data; 5139 cases tested, 207725 skipped (hypothesis
 BT: HOLDS on the data; 5139 cases tested, 207725 skipped (hypothesis not met), 75552 profiles; 0 counterexamples
 == #46 Lemma H7: at a Pareto-maximal configuration every threat on a frozen agent is global (G), owner at a chain end (G1) or local (L)
 H7: HOLDS on the data; 92682 cases tested, 120182 skipped (hypothesis not met), 75552 profiles; 0 counterexamples
-[753 s]
+[843 s]

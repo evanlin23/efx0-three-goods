@@ -1,5 +1,5 @@
 command: python3 k4/gap_bench.py --catalog=results/k4_gap/gap_n5_1_s100.json.gz,results/k4_gap/gap_n5_2_s100.json.gz,results/k4_gap/gap_n5_3_s100.json.gz,results/k4_gap/gap_n5_4_s100.json.gz,results/k4_gap/gap_n5_pure_s100.json.gz --every=10 --show=3
-gap.c sha256 0c14f252223c78d4fccbcfca4d048ca64b684980f6cec3f3cbb41742e3c38afa; catalogs ['gap_n5_1_s100.json.gz', 'gap_n5_2_s100.json.gz', 'gap_n5_3_s100.json.gz', 'gap_n5_4_s100.json.gz', 'gap_n5_pure_s100.json.gz']
+gap.c sha256 74e1fae22153b5b57fd39e906f7cae5807e646fb01caf9a576acefc76cade120; catalogs ['gap_n5_1_s100.json.gz', 'gap_n5_2_s100.json.gz', 'gap_n5_3_s100.json.gz', 'gap_n5_4_s100.json.gz', 'gap_n5_pure_s100.json.gz']
 == #41 Conjecture Phi' (K4.C4MIN.PHI): every Phi'-maximum has a valid owner
 PHI_PRIME: HOLDS on the data; 18022 cases tested, 0 skipped (hypothesis not met), 11581 profiles; 0 counterexamples
 == #41 section 4, the first form Phi = (-t, r, Lambda) (known false at n = 4): every maximum has a valid owner
@@ -28,22 +28,10 @@ I_POOL_LOCAL: FAILS on the data; 201505 cases tested, 3298511 skipped (hypothesi
 I_T_LOCAL: HOLDS on the data; 38072 cases tested, 3461944 skipped (hypothesis not met), 11581 profiles; 0 counterexamples
 == f = 1 roadmap, first bullet: in its setting (f = 1, x 3-good, no valid owner, pool-optimal, t = 0) every agent is threatened by at most one owner
 SIGMA_INJ: HOLDS on the data; 6 cases tested, 3500010 skipped (hypothesis not met), 11581 profiles; 0 counterexamples
-== roadmap (ii): in that setting with x threatened, some exchange-cycle move through x leaves t = 0
-II_T0: FAILS on the data; 6 cases tested, 3500010 skipped (hypothesis not met), 11581 profiles; 5 counterexamples
-  smallest: n=5 m=10 sets=[[0, 2, 8, 9], [1, 4, 5, 8], [3, 7, 9], [4, 5, 6, 7], [6, 7, 8, 9]] values=[[2, 7, 6, 10], [6, 5, 7, 3], [3, 4, 2], [4, 2, 3, 8], [2, 5, 8, 4]]
-    Config(key=[None, None, 7, None, None], Q={0: [0, 9], 1: [5, 6], 3: [1, 4], 4: [2, 8]}, L=[3]) Python re-check: confirmed
-  smallest: n=5 m=10 sets=[[0, 2, 8, 9], [1, 5, 6, 7], [3, 5, 7, 8], [4, 6, 9], [7, 8, 9]] values=[[2, 4, 7, 8], [2, 7, 10, 6], [7, 4, 8, 2], [3, 4, 2], [3, 4, 2]]
-    Config(key=[None, None, None, 6, None], Q={0: [0, 9], 1: [3, 5], 2: [1, 7], 4: [2, 8]}, L=[4]) Python re-check: confirmed
-  smallest: n=5 m=11 sets=[[0, 2, 8, 9], [1, 4, 6, 7], [3, 5, 10], [4, 5, 6, 7], [8, 9, 10]] values=[[4, 2, 7, 10], [6, 3, 10, 8], [3, 4, 2], [2, 10, 6, 7], [2, 3, 4]]
-    Config(key=[None, None, 5, None, None], Q={0: [8, 9], 1: [4, 6], 3: [1, 7], 4: [0, 10]}, L=[2, 3]) Python re-check: confirmed
-== roadmap (ii) with (iii): in that setting with x threatened, some exchange-cycle move through x raises Phi'
-II_PHI: FAILS on the data; 6 cases tested, 3500010 skipped (hypothesis not met), 11581 profiles; 5 counterexamples
-  smallest: n=5 m=10 sets=[[0, 2, 8, 9], [1, 4, 5, 8], [3, 7, 9], [4, 5, 6, 7], [6, 7, 8, 9]] values=[[2, 7, 6, 10], [6, 5, 7, 3], [3, 4, 2], [4, 2, 3, 8], [2, 5, 8, 4]]
-    Config(key=[None, None, 7, None, None], Q={0: [0, 9], 1: [5, 6], 3: [1, 4], 4: [2, 8]}, L=[3]) Python re-check: confirmed
-  smallest: n=5 m=10 sets=[[0, 2, 8, 9], [1, 5, 6, 7], [3, 5, 7, 8], [4, 6, 9], [7, 8, 9]] values=[[2, 4, 7, 8], [2, 7, 10, 6], [7, 4, 8, 2], [3, 4, 2], [3, 4, 2]]
-    Config(key=[None, None, None, 6, None], Q={0: [0, 9], 1: [3, 5], 2: [1, 7], 4: [2, 8]}, L=[4]) Python re-check: confirmed
-  smallest: n=5 m=11 sets=[[0, 2, 8, 9], [1, 4, 6, 7], [3, 5, 10], [4, 5, 6, 7], [8, 9, 10]] values=[[4, 2, 7, 10], [6, 3, 10, 8], [3, 4, 2], [2, 10, 6, 7], [2, 3, 4]]
-    Config(key=[None, None, 5, None, None], Q={0: [8, 9], 1: [4, 6], 3: [1, 7], 4: [0, 10]}, L=[2, 3]) Python re-check: confirmed
+== roadmap (ii): in that setting with x threatened, once no exchange-cycle move avoiding x raises Phi', some exchange-cycle move through x (best pairs or any pairs, e.g. the plain rotation) leaves t = 0
+II_T0: HOLDS on the data; 1 cases tested, 3500015 skipped (hypothesis not met), 11581 profiles; 0 counterexamples
+== roadmap (ii) with (iii): in the same setting, some exchange-cycle move through x raises Phi'
+II_PHI: HOLDS on the data; 1 cases tested, 3500015 skipped (hypothesis not met), 11581 profiles; 0 counterexamples
 == roadmap (iii): in that setting, the threat path into x has no free agent of kind (R)
 III_NO_R: HOLDS on the data; 6 cases tested, 3500010 skipped (hypothesis not met), 11581 profiles; 0 counterexamples
 == roadmap (iv): at every Phi'-maximum each frozen agent is threatened by at most one owner
@@ -74,6 +62,10 @@ LOCAL: FAILS on the data; 204278 cases tested, 3295738 skipped (hypothesis not m
 LOCAL_EXT: HOLDS on the data; 204278 cases tested, 3295738 skipped (hypothesis not met), 11581 profiles; 0 counterexamples
 == the same catalogue plus cycle moves followed by the pool closure (every free agent re-takes its best pair from the pool, repeatedly)
 LOCAL_CLOSURE: HOLDS on the data; 204278 cases tested, 3295738 skipped (hypothesis not met), 11581 profiles; 0 counterexamples
+== the same catalogue plus #52's downgrade swaps
+LOCAL_ALL: HOLDS on the data; 204278 cases tested, 3295738 skipped (hypothesis not met), 11581 profiles; 0 counterexamples
+== needed for any move catalogue that keeps the needed set (pool, cycle, two-agent moves, downgrade swaps): at every configuration without a valid owner some configuration with the same needed set has a larger Phi'
+SAME_N: HOLDS on the data; 204278 cases tested, 0 skipped (hypothesis not met), 11581 profiles; 0 counterexamples
 == #52 K4.HALL.BTCYC: at a Pareto-maximal configuration without a valid owner that has an exposed frozen big-top agent, some exchange-cycle move through it (any admissible pairs; threat receivers may keep part of their pair) has a valid owner
 BTCYC: HOLDS on the data; 158 cases tested, 91109 skipped (hypothesis not met), 11581 profiles; 0 counterexamples
 == the coordinator's question (b): from the Pareto-maximal configurations, exchange-cycle moves (any admissible pairs, receivers may keep part of their pair) and #52's downgrade swaps reach a configuration with a valid owner
@@ -83,13 +75,11 @@ REACH_CYC: HOLDS on the data; 0 cases tested, 11581 skipped (hypothesis not met)
 == the per-start form: from each Pareto-maximal configuration without a valid owner, exchange-cycle moves and downgrade swaps reach one with a valid owner
 REACH_EACH: HOLDS on the data; 159 cases tested, 91108 skipped (hypothesis not met), 11581 profiles; 0 counterexamples
 == the per-start form without downgrade swaps
-REACH_EACH_CYC: FAILS on the data; 159 cases tested, 91108 skipped (hypothesis not met), 11581 profiles; 1 counterexamples
-  smallest: n=5 m=10 sets=[[0, 2, 4, 8], [1, 3, 7, 9], [4, 6, 9], [5, 6, 7, 9], [5, 8, 9]] values=[[2, 4, 5, 8], [3, 2, 6, 10], [2, 3, 4], [8, 6, 4, 3], [4, 3, 2]]
-    Config(key=[None, None, 9, 5, None], Q={0: [2, 4], 1: [1, 7], 4: [3, 8]}, L=[0, 6]) Python re-check: confirmed
+REACH_EACH_CYC: HOLDS on the data; 159 cases tested, 91108 skipped (hypothesis not met), 11581 profiles; 0 counterexamples
 == #46 K4.HALL.BT in configuration form: a Pareto-maximal configuration without a valid owner has a frozen big-top agent
 BT: FAILS on the data; 159 cases tested, 91108 skipped (hypothesis not met), 11581 profiles; 1 counterexamples
   smallest: n=5 m=10 sets=[[0, 2, 4, 8], [1, 3, 7, 9], [4, 6, 9], [5, 6, 7, 9], [5, 8, 9]] values=[[2, 4, 5, 8], [3, 2, 6, 10], [2, 3, 4], [8, 6, 4, 3], [4, 3, 2]]
     Config(key=[None, None, 9, 5, None], Q={0: [2, 4], 1: [1, 7], 4: [3, 8]}, L=[0, 6]) Python re-check: confirmed
 == #46 Lemma H7: at a Pareto-maximal configuration every threat on a frozen agent is global (G), owner at a chain end (G1) or local (L)
 H7: HOLDS on the data; 35811 cases tested, 55456 skipped (hypothesis not met), 11581 profiles; 0 counterexamples
-[3691 s]
+[3708 s]

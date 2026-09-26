@@ -1,5 +1,5 @@
 command: python3 k4/gap_bench.py --catalog=results/k4_gap/gap_n4_1.json.gz,results/k4_gap/gap_n4_2_s4000.json.gz,results/k4_gap/gap_n4_3_s4000.json.gz,results/k4_gap/gap_n4_pure_s4000.json.gz --every=5 --show=3
-gap.c sha256 0c14f252223c78d4fccbcfca4d048ca64b684980f6cec3f3cbb41742e3c38afa; catalogs ['gap_n4_1.json.gz', 'gap_n4_2_s4000.json.gz', 'gap_n4_3_s4000.json.gz', 'gap_n4_pure_s4000.json.gz']
+gap.c sha256 74e1fae22153b5b57fd39e906f7cae5807e646fb01caf9a576acefc76cade120; catalogs ['gap_n4_1.json.gz', 'gap_n4_2_s4000.json.gz', 'gap_n4_3_s4000.json.gz', 'gap_n4_pure_s4000.json.gz']
 == #41 Conjecture Phi' (K4.C4MIN.PHI): every Phi'-maximum has a valid owner
 PHI_PRIME: HOLDS on the data; 57340 cases tested, 0 skipped (hypothesis not met), 36803 profiles; 0 counterexamples
 == #41 section 4, the first form Phi = (-t, r, Lambda) (known false at n = 4): every maximum has a valid owner
@@ -32,22 +32,10 @@ I_POOL_LOCAL: FAILS on the data; 176128 cases tested, 2105696 skipped (hypothesi
 I_T_LOCAL: HOLDS on the data; 32238 cases tested, 2249586 skipped (hypothesis not met), 36803 profiles; 0 counterexamples
 == f = 1 roadmap, first bullet: in its setting (f = 1, x 3-good, no valid owner, pool-optimal, t = 0) every agent is threatened by at most one owner
 SIGMA_INJ: HOLDS on the data; 156 cases tested, 2281668 skipped (hypothesis not met), 36803 profiles; 0 counterexamples
-== roadmap (ii): in that setting with x threatened, some exchange-cycle move through x leaves t = 0
-II_T0: FAILS on the data; 154 cases tested, 2281670 skipped (hypothesis not met), 36803 profiles; 129 counterexamples
-  smallest: n=4 m=8 sets=[[0, 1, 6, 7], [2, 3, 4, 5], [2, 3, 4, 7], [5, 6, 7]] values=[[2, 4, 10, 7], [10, 7, 4, 2], [6, 4, 3, 8], [2, 3, 4]]
-    Config(key=[None, None, None, 7], Q={0: [0, 6], 1: [3, 4], 2: [1, 2]}, L=[5]) Python re-check: confirmed
-  smallest: n=4 m=8 sets=[[0, 1, 6, 7], [2, 3, 4, 5], [2, 3, 4, 7], [5, 6, 7]] values=[[2, 4, 10, 7], [10, 7, 4, 2], [6, 4, 3, 8], [2, 3, 4]]
-    Config(key=[None, None, None, 7], Q={0: [1, 6], 1: [3, 4], 2: [0, 2]}, L=[5]) Python re-check: confirmed
-  smallest: n=4 m=8 sets=[[0, 4, 6, 7], [1, 4, 6], [2, 5, 7], [3, 5, 7]] values=[[2, 3, 4, 8], [2, 4, 3], [2, 4, 3], [2, 3, 4]]
-    Config(key=[None, None, None, 7], Q={0: [1, 6], 1: [0, 4], 2: [2, 5]}, L=[3]) Python re-check: confirmed
-== roadmap (ii) with (iii): in that setting with x threatened, some exchange-cycle move through x raises Phi'
-II_PHI: FAILS on the data; 154 cases tested, 2281670 skipped (hypothesis not met), 36803 profiles; 129 counterexamples
-  smallest: n=4 m=8 sets=[[0, 1, 6, 7], [2, 3, 4, 5], [2, 3, 4, 7], [5, 6, 7]] values=[[2, 4, 10, 7], [10, 7, 4, 2], [6, 4, 3, 8], [2, 3, 4]]
-    Config(key=[None, None, None, 7], Q={0: [0, 6], 1: [3, 4], 2: [1, 2]}, L=[5]) Python re-check: confirmed
-  smallest: n=4 m=8 sets=[[0, 1, 6, 7], [2, 3, 4, 5], [2, 3, 4, 7], [5, 6, 7]] values=[[2, 4, 10, 7], [10, 7, 4, 2], [6, 4, 3, 8], [2, 3, 4]]
-    Config(key=[None, None, None, 7], Q={0: [1, 6], 1: [3, 4], 2: [0, 2]}, L=[5]) Python re-check: confirmed
-  smallest: n=4 m=8 sets=[[0, 4, 6, 7], [1, 4, 6], [2, 5, 7], [3, 5, 7]] values=[[2, 3, 4, 8], [2, 4, 3], [2, 4, 3], [2, 3, 4]]
-    Config(key=[None, None, None, 7], Q={0: [1, 6], 1: [0, 4], 2: [2, 5]}, L=[3]) Python re-check: confirmed
+== roadmap (ii): in that setting with x threatened, once no exchange-cycle move avoiding x raises Phi', some exchange-cycle move through x (best pairs or any pairs, e.g. the plain rotation) leaves t = 0
+II_T0: HOLDS on the data; 18 cases tested, 2281806 skipped (hypothesis not met), 36803 profiles; 0 counterexamples
+== roadmap (ii) with (iii): in the same setting, some exchange-cycle move through x raises Phi'
+II_PHI: HOLDS on the data; 18 cases tested, 2281806 skipped (hypothesis not met), 36803 profiles; 0 counterexamples
 == roadmap (iii): in that setting, the threat path into x has no free agent of kind (R)
 III_NO_R: FAILS on the data; 154 cases tested, 2281670 skipped (hypothesis not met), 36803 profiles; 5 counterexamples
   smallest: n=4 m=8 sets=[[0, 2, 3, 6], [1, 3, 7], [4, 5, 6, 7], [4, 5, 6, 7]] values=[[3, 4, 8, 10], [2, 3, 4], [2, 4, 5, 8], [1, 6, 4, 8]]
@@ -96,6 +84,22 @@ LOCAL_CLOSURE: FAILS on the data; 179770 cases tested, 2102054 skipped (hypothes
     Config(key=[5, 7, None, None], Q={2: [0, 4], 3: [3, 6]}, L=[1, 2]) Python re-check: confirmed
   smallest: n=4 m=8 sets=[[0, 2, 4, 5], [1, 3, 6, 7], [4, 5, 6, 7], [5, 6, 7]] values=[[6, 3, 2, 10], [2, 3, 6, 10], [4, 6, 3, 8], [2, 4, 3]]
     Config(key=[5, 7, None, None], Q={2: [2, 4], 3: [1, 6]}, L=[0, 3]) Python re-check: confirmed
+== the same catalogue plus #52's downgrade swaps
+LOCAL_ALL: FAILS on the data; 179770 cases tested, 2102054 skipped (hypothesis not met), 36803 profiles; 7 counterexamples
+  smallest: n=4 m=8 sets=[[0, 2, 4, 5], [1, 3, 6, 7], [4, 5, 6, 7], [5, 6, 7]] values=[[6, 3, 2, 10], [2, 3, 6, 10], [4, 6, 3, 8], [2, 4, 3]]
+    Config(key=[5, 7, None, None], Q={2: [0, 4], 3: [1, 6]}, L=[2, 3]) Python re-check: confirmed
+  smallest: n=4 m=8 sets=[[0, 2, 4, 5], [1, 3, 6, 7], [4, 5, 6, 7], [5, 6, 7]] values=[[6, 3, 2, 10], [2, 3, 6, 10], [4, 6, 3, 8], [2, 4, 3]]
+    Config(key=[5, 7, None, None], Q={2: [0, 4], 3: [3, 6]}, L=[1, 2]) Python re-check: confirmed
+  smallest: n=4 m=8 sets=[[0, 2, 4, 5], [1, 3, 6, 7], [4, 5, 6, 7], [5, 6, 7]] values=[[6, 3, 2, 10], [2, 3, 6, 10], [4, 6, 3, 8], [2, 4, 3]]
+    Config(key=[5, 7, None, None], Q={2: [2, 4], 3: [1, 6]}, L=[0, 3]) Python re-check: confirmed
+== needed for any move catalogue that keeps the needed set (pool, cycle, two-agent moves, downgrade swaps): at every configuration without a valid owner some configuration with the same needed set has a larger Phi'
+SAME_N: FAILS on the data; 179770 cases tested, 0 skipped (hypothesis not met), 36803 profiles; 7 counterexamples
+  smallest: n=4 m=8 sets=[[0, 2, 4, 5], [1, 3, 6, 7], [4, 5, 6, 7], [5, 6, 7]] values=[[6, 3, 2, 10], [2, 3, 6, 10], [4, 6, 3, 8], [2, 4, 3]]
+    Config(key=[5, 7, None, None], Q={2: [0, 4], 3: [1, 6]}, L=[2, 3]) Python re-check: confirmed
+  smallest: n=4 m=8 sets=[[0, 2, 4, 5], [1, 3, 6, 7], [4, 5, 6, 7], [5, 6, 7]] values=[[6, 3, 2, 10], [2, 3, 6, 10], [4, 6, 3, 8], [2, 4, 3]]
+    Config(key=[5, 7, None, None], Q={2: [0, 4], 3: [3, 6]}, L=[1, 2]) Python re-check: confirmed
+  smallest: n=4 m=8 sets=[[0, 2, 4, 5], [1, 3, 6, 7], [4, 5, 6, 7], [5, 6, 7]] values=[[6, 3, 2, 10], [2, 3, 6, 10], [4, 6, 3, 8], [2, 4, 3]]
+    Config(key=[5, 7, None, None], Q={2: [2, 4], 3: [1, 6]}, L=[0, 3]) Python re-check: confirmed
 == #52 K4.HALL.BTCYC: at a Pareto-maximal configuration without a valid owner that has an exposed frozen big-top agent, some exchange-cycle move through it (any admissible pairs; threat receivers may keep part of their pair) has a valid owner
 BTCYC: HOLDS on the data; 711 cases tested, 176920 skipped (hypothesis not met), 36803 profiles; 0 counterexamples
 == the coordinator's question (b): from the Pareto-maximal configurations, exchange-cycle moves (any admissible pairs, receivers may keep part of their pair) and #52's downgrade swaps reach a configuration with a valid owner
@@ -110,4 +114,4 @@ REACH_EACH_CYC: HOLDS on the data; 711 cases tested, 176920 skipped (hypothesis 
 BT: HOLDS on the data; 711 cases tested, 176920 skipped (hypothesis not met), 36803 profiles; 0 counterexamples
 == #46 Lemma H7: at a Pareto-maximal configuration every threat on a frozen agent is global (G), owner at a chain end (G1) or local (L)
 H7: HOLDS on the data; 88449 cases tested, 89182 skipped (hypothesis not met), 36803 profiles; 0 counterexamples
-[1279 s]
+[1330 s]

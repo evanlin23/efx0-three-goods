@@ -125,10 +125,13 @@ and X or with a flagged maximum (`results/k4_gap/hunt_*.json.gz`):
 | n = 5, four, 2,000 per core | 19,692,000 | 4,195,843 | 829,179 / 114,355 | 0 | 0 | 0 | 1,428,110 | 142 | 8,222 |
 | n = 5, pure, 2,000 per core | 9,348,000 | 3,155,718 | 527,194 / 53,342 | 0 | 0 | 0 | 794,588 | 315 | 8,536 |
 
-- **Φ′ fails.** The two category-N profiles are counterexamples to Conjecture Φ′: a unique Φ′-maximum with no valid
-  owner (`attempts/k4-gap-phi-prime.md`, confirmed by gap.c, gap_model and #41's own `k4/c4min_cfg.py`).
+- **Φ′ fails.** In 33 hunt profiles some Φ′-maximum has no valid owner (the counter `phibad`): 30 pure and 3 with three
+  4-good agents, with 55 such maxima in all (`results/k4_gap_bench_hard_hunt.log`, re-derived by gap_model). In 2 of
+  them, the category-N profiles, no Φ′-maximum has a valid owner (`attempts/k4-gap-phi-prime.md`, confirmed by gap.c,
+  gap_model and #41's own `k4/c4min_cfg.py`). Every other run has `phibad` = 0, including every profile with n ≤ 3 and
+  every profile at n = 4 with one or two 4-good agents.
 - **C₄ᵐⁱⁿ in configuration form holds.** No profile anywhere is in category X.
-- **The records.** `results/k4_gap/hard_hunt.json.gz` collects the 117 hunt profiles of categories W and N.
+- **The records.** `results/k4_gap/hard_hunt.json.gz` collects the 144 hunt profiles of categories W, N or PHI.
 
 **The records.** Each catalog record is one gap profile. It has:
 - the core and the values;
@@ -276,7 +279,61 @@ print(res.summary()); res.counterexamples[0]          # (prof, config, detail), 
   - **BT**: a Pareto-maximal configuration without a valid owner has a frozen big-top agent;
   - **H7**: at Pareto-maximal configurations every threat on a frozen agent is of class G, G1 or L.
 
-(results table below)
+**Results** (`results/k4_gap_bench_n23.log`, `_n4.log`, `_n5.log`, `_hard_hunt.log`). The columns are:
+- all n = 2 profiles plus the n = 3 catalog (75,552 profiles);
+- every 5th record of the n = 4 catalogs (36,803);
+- every 10th of the n = 5 catalogs (11,581);
+- the 144 hunt profiles of categories W, N or PHI (`results/k4_gap/hard_hunt.json.gz`).
+
+Each entry counts the cases the statement's hypothesis selects: configurations, maxima or profiles.
+
+| statement | n ≤ 3 | n = 4 (every 5th) | n = 5 (every 10th) | hard hunt profiles |
+|---|---|---|---|---|
+| PHI_PRIME | holds (97,146) | holds (57,340) | holds (18,022) | **fails** (55 of 277) |
+| PHI_FIRST | holds (106,782) | **fails** (2 of 75,036) | holds (24,643) | **fails** (67 of 311) |
+| MAX_SIMPLE | **fails** (720 of 75,552) | holds (36,803) | holds (11,581) | **fails** (117 of 144) |
+| I_POOLOPT | **fails** (4,736 of 97,146) | **fails** (23 of 57,340) | **fails** (11 of 18,022) | **fails** (30 of 277) |
+| I_T0 | holds (97,146) | holds (57,340) | holds (18,022) | holds (277) |
+| I_POOL_LOCAL | **fails** (488 of 304,315) | **fails** (102 of 176,128) | **fails** (31 of 201,505) | **fails** (131 of 4,928) |
+| I_T_LOCAL | **fails** (384 of 45,699) | holds (32,238) | holds (38,072) | holds (2,958) |
+| SIGMA_INJ | holds (11) | holds (156) | holds (6) | — (no case) |
+| II_T0 | holds (8) | holds (18) | holds (1) | — (no case) |
+| II_PHI | holds (8) | holds (18) | holds (1) | — (no case) |
+| III_NO_R | holds (11) | **fails** (5 of 154) | holds (6) | — (no case) |
+| IV_MAX | holds (97,146) | **fails** (225 of 57,340) | **fails** (83 of 18,022) | holds (277) |
+| IV_SETTING | **fails** (1,927 of 11,427) | **fails** (211 of 1,158) | **fails** (58 of 130) | holds (134) |
+| LOCAL | **fails** (891 of 320,282) | **fails** (109 of 179,770) | **fails** (33 of 204,278) | **fails** (198 of 5,160) |
+| LOCAL_EXT | **fails** (4 of 320,282) | **fails** (7 of 179,770) | holds (204,278) | **fails** (60 of 5,160) |
+| LOCAL_CLOSURE | holds (320,282) | **fails** (7 of 179,770) | holds (204,278) | **fails** (60 of 5,160) |
+| LOCAL_ALL | holds (320,282) | **fails** (7 of 179,770) | holds (204,278) | **fails** (55 of 5,160) |
+| SAME_N | holds (320,282) | **fails** (7 of 179,770) | holds (204,278) | **fails** (55 of 5,160) |
+| BTCYC | holds (5,139) | holds (711) | holds (158) | **fails** (1 of 185) |
+| REACH | holds (75,552) | holds (36,803) | holds (11,581) | holds (144) |
+| REACH_CYC | holds (128) | — (no case) | — (no case) | — (no case) |
+| REACH_EACH | holds (5,139) | holds (711) | holds (159) | holds (186) |
+| REACH_EACH_CYC | holds (5,139) | holds (711) | holds (159) | **fails** (2 of 186) |
+| BT | holds (5,139) | holds (711) | **fails** (1 of 159) | **fails** (1 of 186) |
+| H7 | holds (92,682) | holds (88,449) | holds (35,811) | holds (767) |
+
+What the table says:
+- **Only existence and reachability survive everywhere.**
+  - C₄ᵐⁱⁿ in configuration form (no category X) holds everywhere.
+  - REACH_EACH holds everywhere: from each Pareto-maximal configuration without a valid owner, exchange cycles and
+    downgrade swaps reach one with a valid owner or a completable pre-allocation.
+  - Every potential-maximum form fails from n = 4 on: Φ′ fails, and Φ already failed.
+  - Every local-improvement catalogue fails at n = 4. LOCAL_ALL, the largest (with downgrade swaps), fails exactly
+    where SAME_N fails. So there no move that keeps the needed set can raise Φ′, and the next catalogue needs moves that
+    change the needed set.
+- **The f = 1 roadmap holds wherever its setting occurs**, but that setting is rare (1 to 156 cases).
+  - SIGMA_INJ and (ii), tested in its own setting, hold.
+  - (iii) fails at n = 4 (5 cases).
+  - (iv) fails from n = 4 at the maxima and from n = 3 in the proof's setting.
+- **Roadmap step (i).** t = 0 holds at every maximum. Pool-optimality fails at every n, rarely, and its local forms
+  fail too.
+- **#46 and #52.**
+  - H7's trichotomy holds everywhere.
+  - BT fails at n = 4 (#52's instance, and one hunt profile) and at n = 5 (`results/k4_gap_bt5.log`).
+  - BTCYC fails at n = 4 (`attempts/k4-gap-btcyc.md`).
 
 ## 5. The instance suite (for reuse)
 
@@ -310,6 +367,10 @@ python3 k4/gap_run.py results/k4_certs_4_n4_1.json.gz -D --rec=1 --out=results/k
 python3 k4/gap_run.py results/k4_certs_4_n4_2.json.gz --sample=4000 --seed=4 --rec=1 --out=results/k4_gap/gap_n4_2_s4000.json.gz
 python3 k4/gap_bench.py --selftest --catalog=results/k4_gap/gap_n2.json.gz
 python3 k4/gap_bench.py --catalog=results/k4_gap/gap_n2.json.gz,results/k4_gap/gap_n3.json.gz
-python3 k4/gap_hard.py results/k4_gap/*.json.gz --show=2
+python3 k4/gap_hard.py results/k4_gap/gap_*.json.gz --show=2                                     # section 3
+python3 k4/gap_run.py results/k4_certs_4_pure.json.gz --sample=400000 --seed=44 --rec=0 --out=results/k4_gap/hunt_n4_pure_s400k.json.gz
+python3 k4/gap_run.py results/k4_certs_4_n4_2.json.gz --rec=0 --out=results/k4_gap/hunt_n4_2_all.json.gz   # 13 min on 4 CPUs
+python3 k4/gap_instances.py; python3 k4/gap_bench.py --instances                                  # section 5
+python3 attempts/k4_gap_phi_prime.py; python3 attempts/k4_gap_btcyc.py                            # the refutations
 ```
 Every log under `results/k4_gap_*.log` starts with its command.
