@@ -246,6 +246,18 @@ specializations) have exactly the types of `EFX.target`, `EFX.LB.corollaryD` (ch
     on every instance.
   - `K3Examples`: three instances checked by `decide`.
   `scripts/k3_eval.lean` runs `algo` and prints the count by `#eval`.
+- `EFX/K3Real.lean`: K3ALG on values in any `EFX.OrderedValue` type in the comparison model (ledger K3.ALG.REAL;
+  `proofs/k3_algorithm.md` §3; the paper's Corollary "real values"). The program receives a comparison oracle
+  `le : V → V → Bool` and uses the values only through it; the theorems assume `le x y = true ↔ x ≤ y`. It computes
+  L12's natural-number surrogate as an `n × m` table (`EFX.K3.surrogate`, `EFX.K3.surrogateC`: per agent, `m` oracle
+  calls `v_i(g) ≤ 0` find the relevant goods, twelve more give the pattern of the first three, and the first row of
+  `EFX.Pat.reps` with that pattern gives the values) and runs `EFX.K3.algoC` on it (`EFX.K3.algoOrdC`,
+  `EFX.K3.algoOrd`; `EFX.K3.algoOrd_eq`: `algoOrd` is `algo` on the surrogate). Correctness:
+  `EFX.K3.algoOrd_efx0`, EFX₀ for the original values (via `EFX.K3.agree_surrogate`, the constructive L12, and
+  `EFX.efx0_iff_of_agree`). Cost: `EFX.K3.surrogateC_cost` charges `c` units per oracle call and bounds the surrogate
+  by `c · n (m + 12) + 10 n m + 971 n`, so at most `n (m + 12)` calls; `EFX.K3.algoOrdC_cost` (`c = 1`) bounds the
+  whole run by `n (m + 12) + 10 n m + 971 n + 400 (n + m + 1)⁴`. An example over `Int` checked by `decide`
+  (`EFX.K3.Examples.peelOwnerZ_algoOrd`).
 - `EFX/K4MinCex.lean`: the minimal-counterexample chain at k = 4 (`k4/MINCEX.md`, ledger K4.MC0–K4.MC7).
   K4.MC1: M1 and M1(b) in semantic form (`EFX.MinCex.Extension`, `EFX.MinCex.m1_efx0`, `EFX.MinCex.m1_reduce`);
   K4.MC0 (a)–(c) in inductive form over a hereditary class (`EFX.MinCex.core_reduction4_class`, `EFX.MinCex.mc0`);
@@ -317,6 +329,7 @@ name in the ledger's Lean column has one.
 | — | The list layer agrees with the model | Bridge : `EFX.Inst.efx0_iff` |
 | K3.ALG | Algorithm K3ALG (`proofs/k3_algorithm.md`): peel by R1 (or R1 with `P = ∅`), then LB⁺ with computed rankings and `r1Order`; for every instance with `n ≥ 1` in which every agent has at most three relevant goods, `algo I hn` is EFX₀; `algo` (computable) is the value of the counted program `algoC` and equals the specification | K3Cost : `EFX.K3.algo_efx0`, `EFX.K3.algo_eq_spec`; K3Algo : `EFX.K3.algoSpec_efx0`, `EFX.K3.reduce_sound`, `EFX.K3.lbStage_sound` |
 | K3.ALG.TIME | Running time: `(algoC I hn).cost ≤ 400 (n + m + 1)⁴` for every instance with `n ≥ 1` (cost model of `proofs/k3_algorithm.md` §6 and `EFX.K3CostLB`) | K3CostBound : `EFX.K3.algoC_cost`, `EFX.K3.algoC_cost'` (`≤ 6400 (n + m)⁴`), `EFX.K3.lbPlusC_cost`, `EFX.K3.reduceC_cost`; Timed : `EFX.Timed.mkTable_cost` |
+| K3.ALG.REAL | K3ALG on ordered values (e.g. ℝ≥0) in the comparison model: with a correct comparison oracle, computing L12's surrogate takes `n (m + 12)` oracle calls and `O(nm)` other operations, and K3ALG on it is EFX₀ for the original values when every agent has at most three relevant goods | K3Real : `EFX.K3.algoOrd_efx0`, `EFX.K3.algoOrd_eq`, `EFX.K3.agree_surrogate`, `EFX.K3.numRelevant_eq_relOf`, `EFX.K3.repOf_spec`, `EFX.K3.surrogateC_cost`, `EFX.K3.algoOrdC_cost`, `EFX.K3.Examples.peelOwnerZ_algoOrd` |
 | K3.OWNER | Proposition O: `r` is a valid owner (some `H` fits) exactly when `hitSet` fits, so LB⁺'s owner test needs no minimum hitting set | OwnerR : `EFX.LB.validOwner_iff` |
 | AUD | Independently written TARGET and D (list bundles partitioning the goods) follow from `EFX.target` and `EFX.LB.corollaryD` | Audit : `Audit.target_audit`, `Audit.corollaryD_audit` |
 
