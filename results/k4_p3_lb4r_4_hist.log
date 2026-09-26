@@ -1,0 +1,11 @@
+# python3 k4/lb4_run.py results/k4_p3/k4_certs_4_n4_1_p3.json.gz results/k4_p3/k4_certs_4_n4_2_p3.json.gz results/k4_p3/k4_certs_4_n4_3_p3.json.gz -i0 -u3 -r3 -w1 -c1 -d2 --jobs=2 --show=5   (k4/lb4.c sha256 139706156ae564ba98522ec65b4f9ed74741a321daee713cb949f8d1aff0683a; core lists: python3 k4/p3_run.py filter results/k4_certs_4_n4_{1,2,3}.json.gz --out=results/k4_p3)
+# lb4_run.py results/k4_p3/k4_certs_4_n4_1_p3.json.gz results/k4_p3/k4_certs_4_n4_2_p3.json.gz results/k4_p3/k4_certs_4_n4_3_p3.json.gz -i0 -u3 -r3 -w1 -c1 -d2 --jobs=2 --show=5
+results/k4_p3/k4_certs_4_n4_1_p3.json.gz: 95 cores, 1s
+  pol_needshrink=5100168 pol_envyfree=0 pol_none=888 rot0=5023990 rot1=77066 rot2=0 rot3=0 total=5101056 leaves=515360 runs=583168 fails=0 rawfails=0 nobig=4700228 owner_r=295310 owner_other=28452 rot=77066 later_seq=0 later_upg=888 big3=310035 big4=33879 big5=820
+  cores with a failure: 0
+results/k4_p3/k4_certs_4_n4_2_p3.json.gz: 219 cores, 9s
+  pol_needshrink=507416776 pol_envyfree=52126 pol_none=148378 rot0=498793142 rot1=8823858 rot2=280 rot3=0 total=507617280 leaves=6549010 runs=9257252 fails=0 rawfails=0 nobig=415462406 owner_r=77058564 owner_other=6272172 rot=8824138 later_seq=0 later_upg=200504 big3=72887442 big4=12945110 big5=1104058 big6=26168
+  cores with a failure: 0
+results/k4_p3/k4_certs_4_n4_3_p3.json.gz: 240 cores, 267s
+  pol_needshrink=24189679068 pol_envyfree=7026794 pol_none=7680442 rot0=23761119376 rot1=443237808 rot2=29120 rot3=0 total=24204386304 leaves=49992515 runs=84219526 fails=0 rawfails=0 nobig=16153800176 owner_r=7129040838 owner_other=478278362 rot=443266928 later_seq=0 later_upg=14707236 big3=5963279433 big4=1643868650 big5=236448228 big6=16486420 big7=251072
+  cores with a failure: 0
