@@ -4,7 +4,8 @@ Workstream `proof/k4-adaptive` (ledger open item 18; rows K4.AD.*). Notation as 
 and `k4/c4.md` (PR #33: exposure, Theorems A₄, B₄, B₄ʷ, A₄ᵀ, A₄⁺, the cores H_t of §7, Proposition H). Tools:
 `k4/adaptive.c` (LB₄ʳ with a swappable insertion rule), `k4/adaptive_run.py` (driver), `k4/adaptive_H.py` (H_t and
 relabeled copies), `k4/adaptive_verify_H.py` (Proposition H′ in PR #33's independent model), `k4/adaptive_mine.py`,
-`k4/adaptive_crosscheck.py`; logs `results/k4_adaptive_*`.
+`k4/adaptive_crosscheck.py`, `k4/adaptive_lb4check.py`, `k4/adaptive_uncovered.py`, `k4/adaptive_matching_ties.py`,
+`k4/adaptive_gm4_profiles.py`; logs `results/k4_adaptive_*`.
 
 **The question.** LB₄ʳ with a fixed insertion order needs unboundedly many nested rotations: on H_t, index order needs
 ⌈2t/3⌉ (Proposition H), and a relabeled H_5 defeats every fixed order (`k4/c4.md` §7). Is there a polynomial-time
@@ -14,15 +15,17 @@ at most R nested rotations, R as small as possible?
 **Status.**
 - **Rule F** (§1): choose the *first* agent by lookahead, then insert in index order. With at most **R = 1** rotation
   it fails on no profile tested: every strict profile of every certified core with n ≤ 4 and at most three 4-good agents
-  (exhaustive, 3.6·10¹⁰ profiles), pure n = 4 (random profiles and hill-climbing; the exhaustive run did not finish),
+  (exhaustive, 3.6·10¹⁰ profiles), pure n = 4 (4,380,000 random profiles and 1,095,000 hill-climbing steps; the
+  exhaustive run did not finish),
   1.6·10⁸ random profiles over the five n = 5 classes, hill-climbing towards profiles that need two
-  rotations on #32's hard and random cores up to n = 8, #30's GM₄ profiles, and H_1–H_8 with relabelings (§2). R = 1
+  rotations on #32's hard and random cores up to n = 8, #30's GM₄ profiles, and H_1–H_8 with relabelings (47 of 48
+  runs finished, none needing a rotation; the 48th is covered by Proposition H′) (§2). R = 1
   is the least possible: 263,336 profiles at n = 3 need a rotation under every insertion order (`attempts/lb4-no-rotation.md`).
 - **Rule F is optimal where it was compared** (§4): on every profile with n ≤ 4 and at most three 4-good agents, the
   fewest rotations of rule F equal the fewest over *all* insertion sequences. More: some first agent makes *every*
   continuation work with that fewest number (n ≤ 3, and n = 4 with one or two 4-good agents; conjecture
   **K4.AD.C1**, "Theorem C₄ after the first insertion").
-- **Proved (written proof, §3, unreviewed; checked in an independent model for t ≤ 5): Proposition H′.** On H_t, for
+- **Proved (written proof, §3, refereed in the #44 review; checked in an independent model for t ≤ 5): Proposition H′.** On H_t, for
   every t, every run of Phase 1 in which an agent of gadget 1 is processed before ℓ gives LB₄ʳ an allocation with **no
   rotation** (need-shrinking upgrades, owner r). So on every relabeling of H_t rule F needs no rotation: adaptivity at
   a single step removes #33's obstruction.
@@ -32,17 +35,24 @@ at most R nested rotations, R as small as possible?
 - **The theorems of #33 and #37 do not reach the multi-4-good case** (§6): with two or more 4-good agents some
   profiles have no insertion sequence whose run they cover (12,420 of 189,216 at n = 2). LB₄ʳ solves all of them, at
   n ≤ 3 with no rotation, mostly by need-shrinking upgrades, which those theorems do not treat. **Theorem A₄⁺ᴺ** (§6,
-  written proof, unreviewed; 0 violations against the exact owner test) extends #37's count to need-shrinking upgrades
-  and reduces the uncovered profiles about a hundredfold (n = 2: 12,420 → 1,020; n = 3: 7,503,039 → 119,616). The
-  rest needs the owner's needs taken from its bundle, which no counting theorem uses yet (§6).
+  written proof, found correct in the #44 review; 0 violations against the exact owner test on every run and every
+  owner it admits) extends #37's count to need-shrinking upgrades and reduces the uncovered profiles (n = 2: 12,420 →
+  1,020; n = 3: 7,503,039 → 119,616; n = 4 with two 4-good agents: 155,947 → 62,536). Most of the rest (300, 90,336
+  and 30,024) LB₄ʳ solves with the owner's needs from its base and no rotation, so there the gap is in the counting;
+  the others need one rotation with the needs from the base, and the owner's needs from its bundle avoid it at n ≤ 3
+  and on 1,200 profiles at n = 4 (§6).
 
 Nothing here changes K4.D or K4.T. Rows K4.AD.* are CONJECTURE or EVIDENCE.
 
-**Related work in progress** (open PRs, read from their descriptions only): #41 (`proof/k4-c4min`) proves, in its
-Theorem Z, the existence form C₄ᵐⁱⁿ on every profile whose fewest frozen agents is 0, which covers every H_t; Proposition
-H′ is the algorithmic counterpart (LB₄ʳ with a chosen first agent reaches a state with no frozen agent). #43
-(`proof/k4-induct`, induction on the number of 4-good agents) and #40 (`compute/k4-nsw`, unbounded rotations guided by
-Nash welfare) attack the same multi-4-good gap by other routes.
+**Related work** (as of this revision). #36 (merged) states C₄ᵐⁱⁿ (`k4/c4x.md`, conjecture K4.C4X.MIN): some valid
+pre-allocation with the fewest frozen agents is completable. #41 (`proof/k4-c4min`, open) proves it, in its Theorem Z,
+on every profile whose fewest frozen agents is 0, which covers every H_t; Theorem Z is machine-checked on main
+(#49, row K4.C4MIN.Z.LEAN), and #46 (merged, `k4/hall.md`) gives H_t a removal-only completable pre-allocation without
+frozen agent (K4.HALL.HT). Proposition H′ is the algorithmic counterpart: LB₄ʳ with a chosen first agent reaches a
+state with no frozen agent. #52 (merged, `k4/hall_bt.md`) treats the exposed frozen agents that remain. #43
+(`proof/k4-induct`, open, induction on the number of 4-good agents) and #40 (merged, `compute/k4-nsw`, unbounded
+rotations guided by Nash welfare) attack the multi-4-good gap by other routes. Read from their descriptions and ledger
+rows only.
 
 ## 1. The rules
 
@@ -50,14 +60,17 @@ Nash welfare) attack the same multi-4-good gap by other routes.
 P-step key; the three upgrade policies; the owner step, owner's needs from its bundle; nested rotations along need
 chains, chains may end at upgraded agents; `lb4.c -u3 -w1 -c1`) with the rotation bound outermost (every policy at
 bound 0, then at bound 1, …; `lb4.c -d2`), so a success reports the fewest rotations over the policies. It matches
-`lb4.c -d2` of #32 on every core with n ≤ 3, per core, for index order and for every order (`k4/adaptive.c` header;
-same rotation and policy histograms).
+`lb4.c -i0/-i1 -u3 -o0 -r3 -d2 -w1 -c1` of #32 on every core with n ≤ 3, per core, for index order and for every order:
+same profile counts, rotation and policy histograms on all 56 cores (`k4/adaptive_lb4check.py`,
+`results/k4_adaptive_lb4check.log`; n = 3, index order: 289,807,786 / 10,017,550 / 12,040 profiles needing 0 / 1 / 2
+rotations; every order: 982,611,638 / 22,021,602 / 25,240 runs).
 
 **Rule F (`-A16`).** For b = 0, 1, …, R: for each agent a in index order, let τ_a = (a, then index order at every later
 insertion step); if LB₄ʳ(τ_a) succeeds with at most b rotations, use τ_a. It runs LB₄ʳ at most n(R + 1) times.
 
 Variants with the same success set on every class tested (§2): `-A15` (the index run, or the index run with one
-insertion step changed: #37's Lemma X′ family); `-A12`, `-A14` (the same families, choosing by (rotations, ω));
+insertion step changed: #37's Lemma X′ family); `-A12`, `-A14` (the same families, choosing by (rotations, ω); `-A14`
+also on n = 4 with three 4-good agents, `results/k4_adaptive_A14_n4_3.log`);
 `-A3` (at every insertion step, the candidate whose continuation in index order needs the fewest rotations: a
 rollout, never worse than index order). `-A24` (statistics): the first agent minimizing the *largest* number of
 rotations over every continuation. `-i2`: the fewest rotations over every insertion sequence.
@@ -91,12 +104,14 @@ Adversarial and structured sets:
 - *Hill-climbing against rule F* (`-H`, score: rotations needed, then policy, then rotation attempts; change one
   agent's type, undo a change that makes the profile easier, restart every 500 steps) on #32's core lists
   (`results/k4_lb4r_cores_*.json.gz`): the two cores where need-shrinking needs three rotations, the 276 and 396 cores
-  where weaker variants fail (n ≤ 5), 5,000 cores grown from them (n = 4 to 7), and 5,700 random cores with n = 6, 7, 8:
+  where weaker variants fail (n ≤ 5), 5,000 cores grown from them (n = 4 to 7), and 6,000 random cores with n = 6, 7, 8:
   24,022,000 profiles, none needing two rotations (`results/k4_adaptive_hill.log`).
 - *Hill-climbing on pure n = 4* (the 219 certified cores, 5,000 steps each, 1,095,000 profiles): none needing two
   rotations (`results/k4_adaptive_A16_pure4.log`).
 - *#30's GM₄ profiles* (the 148 profiles whose level-sum maxima are all dead ends, the GM₄ seeds and failing maxima,
-  instances A–H, P, Q, S; 442 profiles): no rotation needed, by index order already (`results/k4_adaptive_hard.log`).
+  instances A–H, P, Q, S: 442 lines, 434 distinct profiles; `k4/adaptive_gm4_profiles.py` rebuilds
+  `results/k4_adaptive_gm4_profiles.jsonl` from #30's files, `results/k4_adaptive_gm4_profiles.log`): no rotation
+  needed, by index order already (`results/k4_adaptive_hard.log`).
 - *H_1–H_8 and five relabelings of each* (owner's needs from its base, `-w0`, as #33 and #32 do from t = 4; a `-w0`
   completion is also a `-w1` one): no rotation needed on 47 of the 48 (`results/k4_adaptive_A16_H.log`). The 48th,
   H_8 in #33's labeling, hit the 20-minute limit: rule F first tries ℓ, whose run is the cascade, and LB₄ʳ's exact
@@ -127,9 +142,12 @@ b_{j,i}; every y_j takes one of its a's. Suppose it holds before the next agent 
   x_{1,i}: the first agent of gadget 1 to be processed comes before ℓ (hypothesis) and has lost nothing, so it is
   inserted; if it is y_1, y_1 is processed with all its goods; if it is an x, it takes its a, so it is x_{1,i}.
 
-In particular no y_j takes e_j, and ℓ's goods other than g_1 stay junk. (If instead ℓ is inserted while gadget 1 is
-untouched, the x_{1,i} lose g_1 together, take their a's before y_1, and y_1 takes e_1 = g_2: the cascade of
-Proposition H.)
+In particular no y_j takes e_j, and ℓ's goods other than g_1 stay junk. (If instead ℓ is processed while gadget 1 is
+untouched, the x_{1,i} lose g_1 together and whether y_1 then takes e_1 = g_2 depends on the order of the P-steps,
+which LB's key breaks by index. In #33's labeling the x_{1,i} take their a's before y_1, and y_1 takes e_1: the
+cascade of Proposition H. On other labelings it need not happen: with ℓ inserted first and index order after it, #33's
+model finds the cascade on 60 of the 120 relabelings of H_1 and on 99 of 200 random relabelings of H_2 and of H_3,
+`k4/adaptive_verify_H.py 3 200 --relabel`, `results/k4_adaptive_verify_H_relabel.log`.)
 
 **Step 2: the Phase 1 state, gadget by gadget.** The first agent of gadget j to be processed has lost nothing (Step 1),
 so it is inserted. Then:
@@ -186,9 +204,9 @@ does afterwards. By Proposition H, index order needs ⌈2t/3⌉ rotations, and r
 
 **Checked independently** (`k4/adaptive_verify_H.py` → `results/k4_adaptive_verify_H.log`): in PR #33's model of LB₄ʳ
 written from `lean/EFX/LB4R.lean` (`k4/c4_verify_H/lb4r.py`, no shared code), for t ≤ 5 and 200 random insertion
-sequences each: every sequence that processes an agent of gadget 1 before ℓ (898 in all) has no cascade, no need after
+sequences each: every sequence that processes an agent of gadget 1 before ℓ (900 in all) has no cascade, no need after
 need-shrinking upgrades, and an output with owner r under both owner-needs conventions; every other sequence (100)
-has y_1 take e_1.
+has y_1 take e_1 (in #33's labeling, which the check uses; see the remark after Step 1).
 
 **Where the hypotheses enter.** |R_p| ≤ 4 < |X_r| lets (OC₄) be read as a bound on v_p(X_r ∩ R_p). One slot good
 protects an agent holding its top because the top plus one of its goods beats the other two (the mechanism of Lemma
@@ -215,11 +233,13 @@ where H_t's structure is used, and what a general theorem must replace by a coun
 insertion sequence τ that starts with a, LB₄ʳ(τ) succeeds with at most one rotation, and with none if some insertion
 sequence needs none.
 
-- *Which agent.* Where index order needs a rotation (n = 3, 2,556 profiles, `results/k4_adaptive_mine_n3.log`), rule F's
-  first agent is usually not the index leader; in two thirds of the cases it is an agent that the index leader's need
-  chain reaches, holding its second or third good in the index run: inserting it first realizes, inside Phase 1, the
-  rotation along that chain (the mechanism of #37's Lemma Ω). In the rest it is an agent holding its top, often
-  frozen. No single feature decides it (§5).
+- *Which agent.* Index order needs a rotation on 10,029,590 profiles at n = 3; `k4/adaptive_mine.py` takes up to 60
+  leaf representatives per core, 2,556 in all (`results/k4_adaptive_mine_n3.log`). Rule F's first agent is usually
+  not the index leader: on 1,703 of the 2,556 (two thirds) it is an agent that the index leader's need chain reaches,
+  holding its second or third good in the index run: inserting it first realizes, inside Phase 1, the rotation along
+  that chain (the mechanism of #37's Lemma Ω). Of the other 853, 137 are the index leader itself (there rule F also
+  needs a rotation), 576 hold their top (often frozen), and 140 hold their second good without being reachable from
+  the leader. No single feature decides it (§5).
 
 ## 5. Rejected rules (`attempts/k4-adaptive-*.md`)
 
@@ -239,8 +259,10 @@ has the counts, `results/k4_adaptive_smallest.log` the smallest failures, and `a
 | least ω at the first step only (`-A13`) | 11,520 | n = 3, m = 6 |
 
 The smallest failure is the same profile for most rules: agents {0, 1, 4, 5}, {2, 3, 4, 5}, {2, 3, 4, 5} with values
-(1, 4, 6, 8), (2, 3, 4, 8), (2, 7, 8, 4). Every first agent gives ω = 2, and only the second agent first needs one
-rotation; the others need two. ω does not see the difference, and neither does any single feature tried.
+(1, 4, 6, 8), (2, 3, 4, 8), (2, 7, 8, 4). Only agent 1 first needs one rotation; agents 0 and 2 first need two.
+After envy-free upgrades (`-A2`) or none (`-A5`) every first agent gives ω = 2, so the tie goes to agent 0; after
+need-shrinking upgrades (`-A4`) the first agents 0, 1, 2 give ω = 1, 2, 1, so ω prefers a failing agent. Neither ω
+nor any single feature tried sees the difference.
 `attempts/k4-adaptive-greedy-omega.md` and `attempts/k4-adaptive-local-features.md` have the details.
 
 **Matching-based orders** (the first round of Sgouritsa–Sotiriou, arXiv 2502.09777 §3, Lemma 3.7, as summarized in
@@ -266,10 +288,25 @@ matching recomputed at every insertion step. Fewest rotations LB₄ʳ needs on t
 (Profiles needing two rotations; none needs three. n = 2: none. Rule F needs at most one on every row. The `-A17` rows
 were run before a fix to `-A18`, which does not change `-A17`; the log records the source hash of each run.)
 
-All three fail with one rotation at n = 3, m = 6: `-A17` and `-A25` on the profile of the table above, `-A18` on
-`-A9`'s (confirmed in PR #33's model, `results/k4_adaptive_attempts.log`). On H_t the matching is forced (ℓ, y_j, x_{j,2}, x_{j,3} get their first choice,
-x_{j,1} its second), so `-A17` and `-A25` insert ℓ first in #33's labeling, which is index order (Proposition H:
-⌈2t/3⌉ rotations), while `-A18` inserts the x_{j,1} first and needs no rotation on every relabeling (Proposition H′).
+*Ties.* When a profile has several optimal matchings, `choice_matching` returns the one its successive-shortest-path
+computation ends with (Bellman–Ford over the edges in a fixed order: agents in index order, each agent's first-choice
+edge before its second; a strictly shorter path replaces the current one). That is deterministic but is not a
+tie-break by index, and the counts above depend on it. `k4/adaptive_matching_ties.py` enumerates every optimal
+matching by brute force and runs PR #33's model on every insertion sequence the rule can produce under some choice of
+them (for `-A25`, at every insertion step): at n = 3, 16 of the 96 failing leaves of `-A17` and `-A25` (weight 640 of
+11,520) and 88 of the 200 of `-A18` (weight 6,280 of 8,120) need two rotations under every optimal matching (checked
+on each leaf's representative profile; `results/k4_adaptive_matching_ties.log`, from the leaves in
+`results/k4_adaptive_matching_deep_n3.log`; on every leaf `adaptive.c`'s own sequence is among those derived and needs
+two in the model). The smallest failures recorded below (P1, P3 of `attempts/k4-adaptive-matching.md`) are
+tie-dependent; the profile T there fails for all three rules under every optimal matching.
+
+All three fail with one rotation at n = 3, m = 6: with `adaptive.c`'s matching, `-A17` and `-A25` on the profile of
+the table above and `-A18` on `-A9`'s; under every optimal matching, all three on T: agents {0, 1, 4, 5},
+{2, 3, 4, 5}, {2, 3, 4, 5} with values (1, 4, 6, 8), (3, 5, 7, 6), (2, 3, 4, 8) (confirmed in PR #33's model,
+`results/k4_adaptive_attempts.log`, `results/k4_adaptive_matching_ties.log`). On H_t the optimal matching is unique
+(ℓ, y_j, x_{j,2}, x_{j,3} get their first choice, x_{j,1} its second), so `-A17` and `-A25` insert ℓ first in #33's
+labeling, which is index order (Proposition H: ⌈2t/3⌉ rotations), while `-A18` inserts the x_{j,1} before ℓ, whatever
+the labels, and needs no rotation on every relabeling (Proposition H′).
 
 ## 6. The gap: the theorems do not cover the multi-4-good case
 
@@ -282,6 +319,7 @@ with c4check.c on every profile count (`k4/adaptive_crosscheck.py`, `results/k4_
 |---|---|---|
 | n = 2 (both agents 4-good) | 12,420 of 189,216 | 12,420 |
 | n = 3 | 7,503,039 of 299,837,376 | 7,503,039 |
+| n = 3, one / two / three 4-good agents | 0 / 48,492 / 7,454,547 | |
 | n = 4, one 4-good agent | 0 | 0 |
 | n = 4, two | 155,947 of 724,847,616 | 157,421 |
 
@@ -308,7 +346,7 @@ of its top, as in Proposition H′. Such an upgraded pair need not be envy-free,
 bundle (the reason #33's theorems used envy-free upgrades). The counting theorem carries over once such agents are
 counted like frozen ones:
 
-**Theorem A₄⁺ᴺ (written proof below, not yet reviewed).** Let P be the state after any run of Phase 1 and
+**Theorem A₄⁺ᴺ (written proof below, found correct in the #44 review).** Let P be the state after any run of Phase 1 and
 need-shrinking upgrades to a fixpoint (LB₄'s rule, any order), with ω ≥ 1. Let o be an agent that is not frozen and
 has a base of at most one good, or an upgraded agent. Put W_o := B_o ∪ J, and let E_o be the agents x ≠ o threatened
 by W_o with their base, *upgraded agents included*. Let dem(x) = 1 if x is free (neither frozen nor upgraded), holds a
@@ -336,23 +374,44 @@ frozen one (it holds exactly its base and has no slot).
   bases have two, free agents one good plus one slot good), so Theorem 1′₄ applies, with the owner's needs from its
   base. ∎
 
-*Checked* (`k4/adaptive.c -C3 -Z1`: every run A₄⁺ᴺ covers is re-run through the exact owner test with the owner it
-names, needs from the base, no rotation; `results/k4_adaptive_cover_N.log`): 0 violations. It covers much of the gap,
-not all of it (profiles with no covered insertion sequence, every sequence tried):
+*Checked* (`results/k4_adaptive_cover_N.log`), 0 violations in both modes:
+- `k4/adaptive.c -A22 -C3 -Z2`: on every insertion sequence of every strict profile (leaf by leaf), after
+  need-shrinking upgrades, the exact owner test with no owner when ω ≤ 0 and otherwise with *every* owner whose count
+  A₄⁺ᴺ admits (needs from the base, no rotation): 35,326 instances at n = 2, 82,725,197 at n = 3, 6,960,194 at n = 4
+  with one 4-good agent, 366,750,792 with two (an instance is a leaf, a sequence and an owner; a leaf is a set of
+  profiles on which every comparison made agrees).
+- `-Z1` (the first check): only the first covered sequence of each profile, where #33's and #37's theorems are
+  tried first, and only the owner found. (Its `rot` and `pol` columns in logs before the #44 review round were wrong:
+  a split inside the check left the upgrade policy and owner-needs convention it had set; fixed, and the log regenerated.)
+
+A₄⁺ᴺ covers much of the gap, not all of it (profiles with no covered insertion sequence, every sequence tried):
 
 | class | #33 + #37 | + A₄⁺ᴺ |
 |---|---|---|
 | n = 2 | 12,420 | 1,020 |
-| n = 3 | 7,503,039 | 119,616 |
+| n = 3 | 7,503,039 | 119,616 (0 / 280 / 119,336 with one / two / three 4-good agents) |
 | n = 4, one 4-good agent | 0 | 0 |
 | n = 4, two | 155,947 | 62,536 |
 
-What remains is solved by LB₄ʳ without rotation, with need-shrinking upgrades and an owner valid only with its needs
-from its bundle (the smallest: n = 2, m = 5, agents {0, 2, 3, 4} and {1, 2, 3, 4}, both with values (2, 3, 4, 8) on
-their goods in index order). At k = 4 the owner's large bundle can remove its own needs, which frees the holder of its
-top (`k4/lb4.md` §3, item 4); none of the counting theorems uses that. That, the rotations (the one-rotation profiles
-of §2), and a choice of the first agent that makes one of these theorems apply are what a proof of K4.AD.F still
-needs.
+What LB₄ʳ needs on these, over every insertion sequence (`k4/adaptive.c -A26`: `-i2` with the coverage recorded;
+`k4/adaptive_uncovered.py`, `results/k4_adaptive_basewants.log`):
+
+| class | uncovered | owner's needs from its base: no rotation | … one rotation | of those, no rotation with the owner's needs from its bundle | one rotation under both conventions |
+|---|---|---|---|---|---|
+| n = 2 | 1,020 | 300 | 720 | 720 | 0 |
+| n = 3 | 119,616 | 90,336 | 29,280 | 29,280 | 0 |
+| n = 4, two 4-good agents | 62,536 | 30,024 | 32,512 | 1,200 | 31,312 |
+
+(They agree with the plain runs over whole classes, in the same log: `-i2 -r0 -w0` fails on 720, 292,616 and 208,096
+profiles, the 720, 29,280 and 32,512 above plus 0, 263,336 and 175,584 covered ones; `-i2 -r3` needs a rotation on 0,
+263,336 and 206,880, the 0, 0 and 31,312 above plus covered ones.) So the larger part of what A₄⁺ᴺ leaves is a
+*counting* gap: LB₄ʳ's exact owner test finds an owner valid with its needs from its base, without rotation, and no
+count of the theorems certifies it. The rest needs either one rotation or the owner's needs from its bundle (the smallest: n = 2, m = 5, agents {0, 2, 3, 4} and
+{1, 2, 3, 4}, both with values (2, 3, 4, 8) on their goods in index order: with needs from the base it needs one
+rotation, with needs from the bundle none). At k = 4 the owner's large bundle can remove its own needs, which frees the
+holder of its top (`k4/lb4.md` §3, item 4); none of the counting theorems uses that. That, the rotations (the
+one-rotation profiles of §2, and the 31,312 above), and a choice of the first agent that makes one of these theorems
+apply are what a proof of K4.AD.F still needs.
 
 ## 7. Reproduce
 
@@ -367,8 +426,14 @@ python3 k4/adaptive_run.py results/k4_certs_3.json.gz -A24 -r3                  
 python3 k4/adaptive_H.py 1,2,3,4,5,6,7,8 --perms=5 -A16 -r1 -w0                   # H_t and relabelings
 python3 k4/adaptive_verify_H.py 5 200                                            # Proposition H', PR #33's model
 python3 attempts/k4_adaptive_attempts.py                                         # rejected rules, smallest failures
+python3 k4/adaptive_lb4check.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz   # per core against lb4.c -d2
+python3 k4/adaptive_run.py results/k4_certs_3.json.gz -A22 -C3 -Z2 -r3            # A4+N on every run and owner
+python3 k4/adaptive_uncovered.py results/k4_certs_3.json.gz -A26 -C3 -r0 -w0      # the gap A4+N leaves, needs from the base
+python3 k4/adaptive_matching_ties.py                                             # matching rules under every optimal matching
 bash k4/adaptive_runs.sh                                                         # every log of this file
 ```
+The driver's result lines give the histogram `rot=[…]` of rotations 0 … R; logs written before the #44 review round
+label it "(last entry: fails)", which was wrong: failures are the `fails=` count.
 `k4/adaptive_verify_H.py` and `attempts/k4_adaptive_attempts.py` use PR #33's `k4/c4_verify_H/` (on main since #33
 merged); `k4/adaptive_crosscheck.py` needs `k4/c4check.c` of branch proof/k4-c4one (PR #37) compiled (`C4CHECK_BIN`),
 which differs from main's `k4/c4check.c` (#33) by A₄⁺(o).

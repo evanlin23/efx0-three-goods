@@ -3,6 +3,7 @@ instances (n = 2..6, m = 4..9, agents with 3 or 4 goods), the matching of agents
 have the largest size and, among those, the most first choices. Usage: python3 k4/adaptive_matching_check.py"""
 import itertools, os, random, subprocess, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))); import adaptive_run as A; A.build()
+print('# adaptive_matching_check.py', ' '.join(sys.argv[1:]), '# adaptive.c sha256', A.SHA, flush=True)
 rng = random.Random(5); bad = 0
 for trial in range(300):
     n = rng.randint(2, 6); m = rng.randint(4, 9)

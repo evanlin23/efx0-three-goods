@@ -19,11 +19,13 @@ import adaptive_run as A
 sys.path.insert(0, os.environ.get('C4VERIFY_DIR') or os.path.join(ROOT, 'k4', 'c4_verify_H'))
 from lb4r import Inst, phase1_state, up_run, reach, any_output
 
-# (rules, sets, vals): the smallest failure (n = 3, m = 6) of each rule, from results/k4_adaptive_smallest.log
+# (rules, sets, vals): the smallest failure (n = 3, m = 6) of each rule, from results/k4_adaptive_smallest.log, and T
 CASES = [
     ([0, 1, 2, 4, 5, 6, 8, 10, 11, 13, 17, 25], [[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 6, 8], [2, 3, 4, 8], [2, 7, 8, 4]]),
     ([7], [[0, 1, 2, 5], [2, 3, 4, 5], [3, 4, 5]], [[1, 4, 8, 6], [8, 2, 3, 4], [2, 3, 4]]),
     ([9, 18], [[0, 1, 2, 5], [1, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 8, 6], [1, 4, 6, 8], [8, 2, 3, 4]]),
+    # T of attempts/k4-adaptive-matching.md: the matching rules fail under every optimal matching (k4/adaptive_matching_ties.py)
+    ([17, 18, 25], [[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 6, 8], [3, 5, 7, 6], [2, 3, 4, 8]]),
 ]
 COVER = ([[0, 1, 2, 3], [0, 1, 2, 3]], [[2, 4, 5, 8], [2, 4, 5, 8]])
 

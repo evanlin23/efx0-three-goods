@@ -1,4 +1,4 @@
-# attempts/k4_adaptive_attempts.py # adaptive.c sha256 4d1a35c2d037cdbd
+# attempts/k4_adaptive_attempts.py # adaptive.c sha256 d6cca1be306de8c5
 profile sets=[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]] vals=[[1, 4, 6, 8], [2, 3, 4, 8], [2, 7, 8, 4]]
   rule 0: tau=[0] adaptive.c -r1: fail, -r2: rot=2; independent model: least rotations 2 -> OK
   rule 1: tau=[0] adaptive.c -r1: fail, -r2: rot=2; independent model: least rotations 2 -> OK
@@ -22,6 +22,12 @@ profile sets=[[0, 1, 2, 5], [1, 3, 4, 5], [2, 3, 4, 5]] vals=[[1, 4, 8, 6], [1, 
   rule 9: tau=[1] adaptive.c -r1: fail, -r2: rot=2; independent model: least rotations 2 -> OK
   rule 18: tau=[1] adaptive.c -r1: fail, -r2: rot=2; independent model: least rotations 2 -> OK
   rule 16: tau=[2] rot=0; independent model: least rotations 0
+  brute force: 5 EFX0 allocations, 5 with at most one bundle of > 2 goods
+profile sets=[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]] vals=[[1, 4, 6, 8], [3, 5, 7, 6], [2, 3, 4, 8]]
+  rule 17: tau=[0] adaptive.c -r1: fail, -r2: rot=2; independent model: least rotations 2 -> OK
+  rule 18: tau=[0] adaptive.c -r1: fail, -r2: rot=2; independent model: least rotations 2 -> OK
+  rule 25: tau=[0] adaptive.c -r1: fail, -r2: rot=2; independent model: least rotations 2 -> OK
+  rule 16: tau=[2] rot=1; independent model: least rotations 1
   brute force: 5 EFX0 allocations, 5 with at most one bundle of > 2 goods
 coverage: sets=[[0, 1, 2, 3], [0, 1, 2, 3]] vals=[[2, 4, 5, 8], [2, 4, 5, 8]]: no insertion sequence covered by the theorems: True; rule 16: rot=0
 ALL AS RECORDED
