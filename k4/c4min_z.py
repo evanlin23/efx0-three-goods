@@ -9,6 +9,11 @@ Checked on every APA of every profile examined:
   B (Lemma R) at a pool-optimal APA without a valid owner, owner -> threatened agent is a permutation, and on each of
     its cycles the rotation (plain, or modified at a rich-pair agent) is an APA in which some agent is robust, unless
     every agent of the cycle is a 4-good agent holding its top with a good it does not value;
+  B' (Lemma R, case by case) on every such cycle the plain rotation is an APA, and for every agent c of the cycle,
+    with Q' the pair of its predecessor: (i) c 3-good, or of kind (D): Q' is robust for c; (ii) c of kind (R) with its
+    fourth good s in Q': Q' is robust for c; (iii) c of kind (R) with s in the pool: the plain rotation with c given
+    {a_c, s} instead (the other good of Q' to the pool) is an APA in which c is robust. Kind (R) agents with s
+    elsewhere, or without their top in Q', are violations; agents of kind (T) with four goods are only counted;
   C at a pool-optimal APA no pool good is irrelevant to everyone... (the pool of a core is always valued by someone,
     so an APA whose agents all hold top + junk is never pool-optimal);
   D (Theorem Z) every APA maximizing (number of robust agents, sum of levels) has a valid owner.
@@ -82,13 +87,51 @@ def rotation(pr, Q, L, cyc, sigma):
     return newQ, frozenset(newL), None
 
 
+def is_apa(pr, Q, L):
+    U = frozenset().union(*Q)
+    return (all(len(q) == 2 for q in Q) and len(U) == 2 * pr.n and not (U & L) and len(U | L) == pr.m
+            and all(admissible(pr.vals[i], Q[i]) for i in range(pr.n)))
+
+
+RKEYS = ['Lemma R (i), 3-good agent robust after the plain rotation', 'Lemma R (i), kind (D) robust after the plain rotation',
+         'Lemma R (ii), kind (R), s in the predecessor pair, robust after the plain rotation',
+         'Lemma R (iii), kind (R), s in the pool, robust in the modified rotation (an APA)',
+         'Lemma R, plain rotations that are APAs (cycles)', 'kind (T) 4-good agents on rotated cycles (no claim)',
+         'VIOLATION R: plain rotation not an APA', 'VIOLATION R (i): not robust', 'VIOLATION R (ii): not robust',
+         'VIOLATION R (iii): modified rotation not an APA, or not robust', "VIOLATION R: kind (R) without its top in Q', or s elsewhere"]
+
+
+def lemma_r_cases(pr, Q, L, cyc, sigma, C):
+    """B': Lemma R (i)-(iii) for each agent of the cycle separately (the counts are per agent and cycle)."""
+    pred = {sigma[c]: c for c in cyc}
+    newQ = list(Q)
+    for c in cyc: newQ[c] = Q[pred[c]]
+    if is_apa(pr, newQ, L): C[RKEYS[4]] += 1
+    else: C[RKEYS[6]] += 1
+    for c in cyc:
+        val = pr.vals[c]; k = kind(val, Q[c]); Qp = Q[pred[c]]
+        if len(val) == 3 or k == 'T4d':
+            ok = robust(val, Qp)
+            C[RKEYS[0 if len(val) == 3 else 1] if ok else RKEYS[7]] += 1
+        elif k == 'R':
+            a = top(val); s = [g for g in val if g not in Q[c] and g != a][0]
+            if a not in Qp: C[RKEYS[10]] += 1
+            elif s in Qp: C[RKEYS[2] if robust(val, Qp) else RKEYS[8]] += 1
+            elif s in L:
+                y = next(iter(Qp - {a})); mQ = list(newQ); mQ[c] = frozenset([a, s])
+                ok = is_apa(pr, mQ, (L - {s}) | {y}) and robust(val, mQ[c])
+                C[RKEYS[3] if ok else RKEYS[9]] += 1
+            else: C[RKEYS[10]] += 1
+        elif k == 'T4j': C[RKEYS[5]] += 1
+
+
 def main():
     files = [a for a in sys.argv[1:] if not a.startswith('--')]
     opt = dict(a[2:].split('=') for a in sys.argv[1:] if a.startswith('--'))
     rand = int(opt.get('rand', 0)); seed = int(opt.get('seed', 1))
     only = set(map(int, opt['only'].split(','))) if 'only' in opt else None
     for f in files:
-        C = collections.Counter(); t0 = time.time(); rng = random.Random(seed)
+        C = collections.Counter({k: 0 for k in RKEYS}); t0 = time.time(); rng = random.Random(seed)
         for ci, (n, m, sets) in enumerate(load_cores(f)):
             if only is not None and ci not in only: continue
             if m < 2 * n + 1: continue
@@ -126,6 +169,7 @@ def main():
                         if all(k == 'T4j' for k in kinds): C['cycles of top+junk 4-good agents'] += 1
                         elif not (ok and rob_new): C['VIOLATION B: rotation'] += 1
                         else: C['rotations checked (%s)' % ('modified' if mod is not None else 'plain')] += 1
+                        lemma_r_cases(pr, Q, L, cyc, sigma, C)
                 best = max(keyv)
                 for (Q, L), kv in zip(A, keyv):
                     if kv == best:

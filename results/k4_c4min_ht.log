@@ -1,0 +1,11 @@
+# k4/c4min.md §3.4, Corollary Z: k4/c4min.c on H_1 and H_2 (k4/c4.md §7; one profile each, built by k4/c4_verify_H/hcore.py): fewest frozen agents 0 with omega >= 1 (covZ 1), and every maximum of (r, Lambda) has a valid owner (every_fail 0). Corollary Z itself is a proof; this is a check.
+# command: python3 k4/c4min_ht.py 1 2 -f 0 -p 9,16
+# started Sat Sep 26 01:23:04 UTC 2026
+# k4/c4min.c sha1 01776e55c55cb8056804693ccea4c8e909848cc5
+H_1: n = 5, m = 13
+  RESULT profiles 1 omega>=1 1 configs 2532 none 0 keyfail 0 xbad 0 paretomax 0 paretoevery 0 paretosome 0 rmax0 0 allrobF 0 covZ 1 covF 0 f1 0 uncovered 0
+  PHI (rob,sumlev) every_fail 0 some_fail 0
+H_2: n = 9, m = 23
+  RESULT profiles 1 omega>=1 1 configs 21055808 none 0 keyfail 0 xbad 0 paretomax 0 paretoevery 0 paretosome 0 rmax0 0 allrobF 0 covZ 1 covF 0 f1 0 uncovered 0
+  PHI (rob,sumlev) every_fail 0 some_fail 0
+# finished Sat Sep 26 01:26:46 UTC 2026

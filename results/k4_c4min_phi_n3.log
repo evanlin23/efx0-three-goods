@@ -12,3 +12,4 @@ FILE results/k4_certs_3.json.gz cores 51 profiles 299837376 omega>=1 7599908 con
   (-thrL,rob,leximin)                      every-max fails          0   some-max fails          0
   (rob,sumlev)                             every-max fails      56928   some-max fails        128
 # finished Fri Sep 25 21:22:41 UTC 2026
+# note (added in the PR #41 review fixes; not part of the run's output): the build was not recorded at run time. The options (-F1) and counters (covZ, covF, f1, uncovered) used here exist only in the k4/c4min.c source committed in 0bb6a22 (sha1 01776e55c55cb8056804693ccea4c8e909848cc5, unchanged since), so this log is from that source or an uncommitted state with the same output.

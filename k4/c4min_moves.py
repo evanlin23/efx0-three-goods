@@ -7,6 +7,7 @@
              free agent re-picks its pair inside its pair and the pool), else some Phi-raising cycle move of the
              exchange digraph (threat and need edges; receivers take the predecessor's pair, or their best admissible
              pair inside it and the pool), else neither.
+Every counter of the chosen analysis is printed, zeros included.
 usage: python3 k4/c4min_moves.py FILE --maxima|--moves [--rand=N] [--seed=S]"""
 import collections, itertools, os, random, sys, time
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -25,12 +26,20 @@ def pool_moves(c):
                 yield Config(pr, c.NA, c.phi, Q, (c.L | c.Q[y]) - S)
 
 
+KEYS = {'maxima': ['maxima', 'maxima without valid owner (FAIL)', 'maxima needing unfreezing', 'maxima not pool-optimal',
+                  'maxima with t > 0', 'maxima with an agent threatened by two owners',
+                  'maxima with a frozen agent threatened by some owner'],
+        'moves': ['configurations without valid owner', '  ... with a Phi-raising pool move',
+                  '  ... else with a Phi-raising cycle move', '  ... neither']}
+
+
 def main():
     files = [a for a in sys.argv[1:] if not a.startswith('--')]
     opt = dict((a[2:].split('=') + [''])[:2] for a in sys.argv[1:] if a.startswith('--'))
     rand = int(opt.get('rand', 0) or 0); seed = int(opt.get('seed', 1) or 1)
     for fn in files:
-        C = collections.Counter(); ex = []; t0 = time.time(); rng = random.Random(seed)
+        C = collections.Counter({k: 0 for k in ['profiles (f >= 1, omega >= 1)'] + [k for mode in KEYS if mode in opt for k in KEYS[mode]]})
+        ex = []; t0 = time.time(); rng = random.Random(seed)
         for ci, (n, m, sets) in enumerate(load_cores(fn)):
             for vals in profiles(sets, m, rng, rand if rand else None):
                 pr = Profile(vals, m)
