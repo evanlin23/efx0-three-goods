@@ -14,10 +14,10 @@ most one bundle of more than two goods is a sound completion (every bundle a bas
 owner the agent with three or more goods if any, `sound_of_d2`). So the content of this file is the equivalence, the
 direction LB₄ʳ ⟹ C₄∃, and the reduction to TARGET₄ (a thin wrapper around `EFX.LB4.target4_of_completions`).
 
-**Theorem C₄ as stated here is claimed false**: PR #33 (`k4/c4.md` §7, Proposition H, unreviewed) claims that on a
-family of cores H_t LB₄ʳ with index insertion needs at least ⌈2t/3⌉ rotations, under each of the choices below (checked
-there against this PR's description), so it fails on H_5 (n = 21, m = 53). If so, `target4_of_C4`,
-`target4_of_C4index` and `k4D_of_C4index` have a false hypothesis; the implications themselves are proved.
+**Theorem C₄ as stated here is false** (ledger K4.C4.C, REFUTED): by Proposition H (`k4/c4.md` §7, ledger K4.C4.R,
+PROVED), on a family of cores H_t LB₄ʳ with index insertion needs at least ⌈2t/3⌉ rotations, under each of the
+choices below, so it fails on H_5 (n = 21, m = 53). So `target4_of_C4`, `target4_of_C4index` and `k4D_of_C4index`
+have a false hypothesis; the implications themselves are proved.
 
 **Representation.** A state `LState` records the bases (`base : G → Option A`), the picks (`pick`, used by the need
 chains) and the agents *marked* as upgraded or rotated. Needs are not stored but derived (`needsOf`):
@@ -254,9 +254,9 @@ def Succeeds (v : A → G → Nat) (agents : List A) (goods : List G) (τ : List
     Output v agents goods s o X
 
 /-- **Theorem C₄** (`k4/lb4.md` §5): for every strict profile of every k = 4 core and every insertion sequence τ,
-LB₄ʳ(τ) succeeds. Claimed false by PR #33 (`k4/c4.md` §7, Proposition H, unreviewed): with index insertion
-(τ = []) LB₄ʳ would need more than three rotations on the core H_5 (n = 21, m = 53), which refutes `TheoremC4index`
-and hence this statement. -/
+LB₄ʳ(τ) succeeds. False (ledger K4.C4.C, REFUTED) by Proposition H (`k4/c4.md` §7, ledger K4.C4.R, PROVED): with
+index insertion (τ = []) LB₄ʳ needs more than three rotations on the core H_5 (n = 21, m = 53), which refutes
+`TheoremC4index` and hence this statement. -/
 def TheoremC4 (A G : Type) [DecidableEq A] [DecidableEq G] : Prop :=
   ∀ (agents : List A) (goods : List G) (v : A → G → Nat), agents.Nodup → goods.Nodup → IsCore4 v agents goods →
     Strict v agents goods → ∀ τ : List Nat, Succeeds v agents goods τ

@@ -1,0 +1,22 @@
+# k4/c4min.md §3.5, §3.6: independent brute-force checks (Python, from the definitions) of every lemma of Theorems Z and F
+# command: python3 k4/c4min_z.py results/k4_certs_2.json.gz
+FILE results/k4_certs_2.json.gz (73 s)
+  (r, sum-level)-maxima: 113208
+  pool-optimal APAs: 210592
+  pool-optimal APAs without valid owner: 5720
+  profiles (f = 0, omega >= 1): 103824
+  rotations checked (modified): 5720
+# command: python3 k4/c4min_z.py results/k4_certs_3.json.gz --rand=10000 --seed=21
+FILE results/k4_certs_3.json.gz (626 s)
+  (r, sum-level)-maxima: 203136
+  pool-optimal APAs: 780737
+  pool-optimal APAs without valid owner: 333
+  profiles (f = 0, omega >= 1): 173126
+  rotations checked (modified): 333
+# command: python3 k4/c4min_f.py results/k4_certs_3.json.gz --rand=10000 --seed=22 --minf=1
+FILE results/k4_certs_3.json.gz (278 s)
+  (r, Lambda)-maximal F-configurations: 7097
+  pool-optimal F-configurations: 12762
+  profiles with an F-configuration, f = 2: 1681
+  profiles without an F-configuration (not covered): 14093
+# finished Fri Sep 25 21:26:28 UTC 2026

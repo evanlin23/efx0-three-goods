@@ -27,7 +27,7 @@ showed that a declaration added under `set_option debug.skipKernelTC true` is ne
 without warnings and has no axioms for `#print axioms` or `CheckAxioms.lean` to report; the tripwire refuses the
 option and the replay checker rejects such a declaration. On success the last line is
 
-    CHECK PASSED: 178 audited statements, 508 theorems, standard axioms only
+    CHECK PASSED: 292 audited statements, 788 theorems, standard axioms only
 
 CI runs it on every pull request (job `lean` in `.github/workflows/verify.yml`). In Claude Code on the web the
 session-start hook installs the toolchain (from GitHub when `release.lean-lang.org` is unreachable).
@@ -152,7 +152,7 @@ specializations) have exactly the types of `EFX.target`, `EFX.LB.corollaryD` (ch
 - `EFX/LB4R.lean`: construction LB₄ʳ (`k4/lb4.md` §5 with §2) and Theorem C₄ (ledger K4.C4.FRAME): states `EFX.LB4R.LState`
   (bases, picks, marked agents; needs derived by `EFX.LB4R.needsOf`), `EFX.LB4R.phase1`, `EFX.LB4R.UpRun`,
   `EFX.LB4R.RotStep`, `EFX.LB4R.Output`, `EFX.LB4R.Succeeds`; the statements `EFX.LB4R.TheoremC4` and
-  `EFX.LB4R.TheoremC4index` (C₄ as stated is claimed false by PR #33, `k4/c4.md` §7, unreviewed); the invariant
+  `EFX.LB4R.TheoremC4index` (C₄ as stated is false: ledger K4.C4.C, by Proposition H, `k4/c4.md` §7, K4.C4.R); the invariant
   `EFX.LB4R.Inv` of reachable states and `EFX.LB4R.sound_of_succeeds` (every output is a sound completion). C₄∃
   (`EFX.LB4R.TheoremC4exists`: every strict profile of every k = 4 core has a sound completion) ⟺ K4.D on strict
   cores (`EFX.LB4R.C4exists_iff`, with `EFX.LB4R.sound_of_d2`); the frame's content is the equivalence and the
@@ -166,6 +166,71 @@ specializations) have exactly the types of `EFX.target`, `EFX.LB.corollaryD` (ch
   upgrades, no rotation, an owner with four goods; also `W1.sound_direct`, `W1.sound_pr`) and
   `EFX.LB4R.Examples.W2.succeeds` (one `RotStep` along the chain [0, 1] with O = {0}, `W2.rotStep`; the rotated
   one-good agent owns three goods).
+- `EFX/K4One.lean`: TARGET₄ with at most one 4-good agent (ledger K4.ONE.FRAME). `EFX.AtMostOne4`;
+  `EFX.atMostOne4_sublist` (a sub-instance adds no 4-good agent); `EFX.core_reduction4_conn_of` and
+  `EFX.core_reduction4_mixed_of` (K4.CORE for any class of instances closed under sub-instances: the proof of
+  `EFX.core_reduction4_conn` with the class carried through each recursive call); `EFX.core_reduction4_one_strict`,
+  `EFX.target4one_of_strict_cores` (with K4.TIE); `EFX.LB4R.C4existsOne` (C₄∃ for connected strict cores with at
+  most one 4-good agent), `EFX.LB4R.C4existsOne_iff`, `EFX.LB4R.C4existsOne_of_C4exists`,
+  `EFX.LB4R.C4existsOne_of_C4existsConn` (with `EFX.LB4R.sound_of_three_cores`: Corollary D covers the cores whose
+  agents all have three goods) and `EFX.LB4R.target4one_of_C4existsOne` (`C4existsOne` as a hypothesis).
+- `EFX/LB4RRun.lean`: runs of Phase 1 for LB₄ʳ (`k4/c4.md` §1, `proofs/lb_last_step.md` §1). `EFX.LB4R.PhaseRun` (any
+  run, by the position of each step: favourite remaining good, P-step or insertion step) and `EFX.LB4R.phase1_phaseRun`
+  (LB₄ʳ's Phase 1 with LB's key and any τ is one); (I1) `EFX.LB4R.PhaseRun.pickedBefore_of_prefers`, (I3)
+  `EFX.LB4R.PhaseRun.insAt_of_not_lost`, (B2) `EFX.LB4R.PhaseRun.b2`, blocks (`EFX.LB4R.SameBlock`,
+  `EFX.LB4R.exists_leader`, `EFX.LB4R.leader_unique`); after envy-free upgrades (`EFX.LB4R.AfterUp`): envy-free bases
+  (`EFX.LB4R.upRun_efBase`), `r` (`EFX.LB4R.IsLast`) with (A1) `EFX.LB4R.AfterUp.last_pick_free`, (A2)
+  `EFX.LB4R.AfterUp.last_block`, need chains (A4) `EFX.LB4R.AfterUp.exists_chain`, and upgrades terminate
+  (`EFX.LB4R.upRun_exists`).
+- `EFX/K4C4AB.lean`: `k4/c4.md` §2–§4 for LB₄ʳ's states (ledger K4.C4.AB.L). Exposure (`EFX.LB4R.Wl`, `EFX.LB4R.Exposed`,
+  `EFX.LB4R.Threatened.mono`); Lemma E (`EFX.LB4R.lemmaE`, `EFX.LB4R.lemmaE_three`, `EFX.LB4R.lemmaE_four`); Lemma R
+  for LB₄ʳ's rotations (`EFX.LB4R.rotate_Wl`, `EFX.LB4R.needsOf_rotate`, `EFX.LB4R.rotate_valid`,
+  `EFX.LB4R.rotate_exposed`, `EFX.LB4R.rotate_exposed_chain`, `EFX.LB4R.rotate_last_not_exposed`); Theorem B₄
+  (`EFX.LB4R.theoremB4`, `EFX.LB4R.theoremB4c`); Theorem A₄ (`EFX.LB4R.theoremA4`, `EFX.LB4R.theoremA4_output`, with
+  `EFX.LB4R.BadCase`, the completion `EFX.LB4R.placeH` and LB⁺'s terminals `EFX.LB4R.AfterUp.terminals`); Corollary
+  C₄⁰ (`EFX.LB4R.corollaryC40'`, as `k4/c4.md` states it at 96ff1d0: `ω ≤ 0` or the hypotheses of A₄ and B₄;
+  `EFX.LB4R.corollaryC40`) and `EFX.LB4R.succeeds_of_three` (LB₄ʳ never fails on a strict profile of a core whose
+  agents all have three goods). Theorems B₄ʷ, A₄ᵀ, A₄⁺ are not formalized.
+- `EFX/C4min.lean`: the space 𝒫 of `k4/c4x.md` §1 and conjecture C₄ᵐⁱⁿ (§5; ledger K4.C4MIN.FRAME): `EFX.C4min.InP`
+  (bases of at most two goods inside `R_i`, value-based needs `EFX.C4min.vbNeeds`, (V1), (V2)), `EFX.C4min.nFrozen`,
+  `EFX.C4min.MinFrozen`, `EFX.C4min.Completable` (a `SoundCompletion` exists), `EFX.C4min.DeficitLE` and
+  `EFX.C4min.RemovalOnly`; the statements `EFX.C4min.TheoremC4min`, `EFX.C4min.TheoremC4minRO` and their connected forms;
+  `EFX.C4min.completable_of_removalOnly`, `EFX.C4min.inP_phase1`, `EFX.C4min.exists_minFrozen`, and the reductions to
+  C₄∃, K4.D and TARGET₄ (`EFX.C4min.C4exists_of_C4min`, `EFX.C4min.target4_of_C4min`, `EFX.C4min.target4_of_C4minConn`,
+  and the removal-only forms). The choices where the prose leaves room are listed in the module doc.
+- `EFX/K3Pareto.lean`, `EFX/K3Theorem.lean`: Theorem K3 (`k4/c4x.md` §3; ledger K4.C4X.K3.LEAN): Pareto-maximality
+  (`EFX.C4min.ParetoMax`), the transfer move and its instances (`EFX.C4min.transfer_inP_dominates`: from any `P ∈ 𝒫` the
+  move stays in 𝒫 and Pareto-dominates; `transfer_move`, `cycle_move`, `path_move` at a Pareto-maximum), Lemmas U, C, R,
+  E (with `EFX.C4min.exposed_top`), O, the walk (`EFX.C4min.exists_labelCycle`), the shortening
+  (`EFX.C4min.LabelCycle.disjoint`), the cycle move (`EFX.C4min.cycle_contra`), `EFX.C4min.theoremK3_owner` (`ω ≤ 0`, or
+  a terminal owner with Lemma O's removal-only completion), `EFX.C4min.theoremK3`, and a
+  second proof of D for k = 3 cores and of TARGET (`EFX.C4min.corollaryD_K3`, `EFX.C4min.target_K3`), independent of
+  LB⁺; `EFX.C4min.sigma_nonneg` is L4's bound `m ≤ 2n` for k = 3 cores.
+- `EFX/C4minExamples.lean`: non-vacuity by `decide` (part of K4.C4MIN.FRAME): a strict k = 3 core with a min-frozen,
+  Pareto-maximal, completable pre-allocation with two frozen agents and `ω = −1` (every base map checked,
+  `EFX.C4min.Ex3.c4min`, `EFX.C4min.Ex3.k3_hyps`); a k = 3 core with a Pareto-maximal pre-allocation with `ω = 1`, where
+  Theorem K3's terminal owner is reached (4,096 base maps checked, `EFX.C4min.ExOmega.k3_owner`); and the k = 4 core W1
+  with a min-frozen pre-allocation that is removal-only completable with an owner (`EFX.C4min.ExW.c4min`).
+- `EFX/ThmZ.lean`: Theorem Z (`k4/c4min.md` §3, PR #41; ledger K4.C4MIN.Z.LEAN): all-pairs allocations
+  (`EFX.C4min.IsAPA`), threats, valid owners, robust agents, pool-optimality; Lemma Z0 (`EFX.C4min.c4min_of_zvalid`,
+  removal-only form `EFX.C4min.removalOnly_of_zvalid`), Lemma Z1 (`EFX.C4min.exists_apa`, `EFX.C4min.exists_zmax`),
+  Lemma Z2 (`EFX.C4min.threat_unique`, `threat_adm`, `threat_gain`), Lemmas P and R (`EFX.C4min.zvalid_or_all4`,
+  `EFX.C4min.zvalid_of_zmax`), and Theorem Z: C₄ᵐⁱⁿ's conclusion in both forms on every k = 4 core whose fewest frozen
+  agents is 0 (`EFX.C4min.theoremZ_RO`, `EFX.C4min.theoremZ`; `EFX.C4min.theoremZ_min` with only the hypotheses used,
+  n ≥ 1, |R_i| ≤ 4, every good relevant; `EFX.C4min.efx0_of_f0`, the EFX₀ allocation with at most one bundle of more
+  than two goods). The choices where the prose leaves room are listed in the module doc.
+- `EFX/ThmF.lean`: Theorem F (`k4/c4min.md` §3.6, PR #41; ledger K4.C4MIN.F.LEAN): configurations with frozen agents
+  (`EFX.C4min.IsCfg`), frozen-robust configurations (`EFX.C4min.FRobust`), the rigidity of the needed set at the fewest
+  frozen agents (`EFX.C4min.rigid_NA`, `EFX.C4min.frozen_of_min`), Lemma 1(a) with unfreezing (`EFX.C4min.CfgOwner`,
+  `EFX.C4min.removalOnly_of_cfgOwner`, `EFX.C4min.c4min_of_cfgOwner`), the free agents as an all-pairs allocation over `M ∖ 𝒩` (`EFX.C4min.isAPA_sub`,
+  `EFX.C4min.isCfg_joinH`), a maximum of (robust free agents, welfare) (`EFX.C4min.fmax_poolOpt`,
+  `EFX.C4min.fmax_nRobust`), rotations of frozen cycles (`EFX.C4min.frozen_cycle`), and Theorem F
+  (`EFX.C4min.theoremF_min`, `EFX.C4min.theoremF`, `EFX.C4min.c4minRO_of_frobust`): C₄ᵐⁱⁿ's conclusion in both forms on
+  every k = 4 core with a frozen-robust configuration at the fewest frozen agents. The choices where the prose leaves room
+  are listed in the module doc.
+- `EFX/ThmFExamples.lean`: Theorem F is not vacuous (`EFX.C4min.ExF.c4min`): a strict k = 4 core with three agents and
+  five goods, and a frozen-robust configuration with two frozen agents, which is the fewest (all 1,024 base maps checked,
+  `EFX.C4min.ExF.hmin`), and `ω = 1`.
 - `EFX/RealValues.lean`: L12 (`proofs/real_values.md`) and TARGET and D over any `EFX.OrderedValue`. The value
   class and mirrored model above; `EFX.Agree` (same answer to every comparison between two subset sums);
   `EFX.OrderedValue.tri_le_iff` (for three positive values, every such comparison is decided by twelve basic
@@ -214,7 +279,13 @@ name in the ledger's Lean column has one.
 | K4.LB4.S | Lemma 2₄: with an owner whose base has at most one good, an agent with at most four relevant goods, a pick base and pick needs, whose slot takes its best junk good not yet placed, does not envy (so is not threatened by) the owner's bundle; also for agents filling their slots one at a time; with five relevant goods the value argument fails, and an instance of every other hypothesis has the agent threatened | PreAllocK : `EFX.LB4.selfProtect`, `EFX.LB4.selfProtect_seq`, `EFX.LB4.selfProtect_core`, `EFX.LB4.selfProtect_five`, `EFX.LB4.Ex5.counterexample` |
 | K4.LB4.S | Lemma 3₄: for a strictly balanced owner with at most four relevant goods, its base among them, and `\|B_o\| ≥ 3` or (free, other bases ≤ 2, `ω ≥ 1`): if a sound completion exists, one exists with at least `min(\|J\|, s₀)` slot goods and the same `N_o^X` | PreAllocK : `EFX.LB4.ownerSearch_exact_base`, `EFX.LB4.ownerSearch_exact`, `EFX.LB4.move_step` |
 | K4.LB4.S | Shape: a sound completion is EFX₀ with at most one bundle of more than two goods; hence a sound completion of every connected strict k = 4 core with a 4-good agent gives TARGET₄ (with K4.CORE, K4.TIE) | PreAllocK : `EFX.LB4.SoundCompletion.efx0_d2` (over lists), `EFX.LB4.d2_shape`, `EFX.LB4.k4D_of_completion`, `EFX.LB4.target4_of_completions` (model) |
-| K4.C4.FRAME | Theorem C₄ (LB₄ʳ, defined in Lean, succeeds on every strict profile of every k = 4 core, for every insertion sequence or for the index order; claimed false by PR #33, `k4/c4.md` §7, unreviewed) implies C₄∃ (every strict profile of every k = 4 core has a completion satisfying (OC₄) of a valid pre-allocation); C₄∃ ⟺ K4.D on strict cores (every strict k = 4 core has an EFX₀ allocation with at most one bundle of more than two goods), and C₄∃ implies K4.D (all k = 4 cores) and TARGET₄; the frame's content is the equivalence and the LB₄ʳ ⇒ C₄∃ direction | LB4R : `EFX.LB4R.target4_of_C4exists`, `EFX.LB4R.target4_of_C4existsConn`, `EFX.LB4R.target4_of_C4`, `EFX.LB4R.target4_of_C4index` (model), `EFX.LB4R.C4exists_iff`, `EFX.LB4R.sound_of_d2`, `EFX.LB4R.k4D_of_C4exists`, `EFX.LB4R.conn_of_C4exists`, `EFX.LB4R.C4exists_of_C4`, `EFX.LB4R.C4exists_of_C4index`, `EFX.LB4R.theoremC4index_of_C4`, `EFX.LB4R.k4D_of_C4index`, `EFX.LB4R.sound_of_succeeds`, `EFX.LB4R.Inv.sound`, `EFX.LB4R.phase1State_inv`, `EFX.LB4R.upgrade_inv`, `EFX.LB4R.rotStep_inv`, `EFX.LB4R.rotStep_valid`, `EFX.LB4R.output_big_base` (over lists) |
+| K4.C4.FRAME | Theorem C₄ (LB₄ʳ, defined in Lean, succeeds on every strict profile of every k = 4 core, for every insertion sequence or for the index order; false by Proposition H, `k4/c4.md` §7, ledger K4.C4.R and K4.C4.C) implies C₄∃ (every strict profile of every k = 4 core has a completion satisfying (OC₄) of a valid pre-allocation); C₄∃ ⟺ K4.D on strict cores (every strict k = 4 core has an EFX₀ allocation with at most one bundle of more than two goods), and C₄∃ implies K4.D (all k = 4 cores) and TARGET₄; the frame's content is the equivalence and the LB₄ʳ ⇒ C₄∃ direction | LB4R : `EFX.LB4R.target4_of_C4exists`, `EFX.LB4R.target4_of_C4existsConn`, `EFX.LB4R.target4_of_C4`, `EFX.LB4R.target4_of_C4index` (model), `EFX.LB4R.C4exists_iff`, `EFX.LB4R.sound_of_d2`, `EFX.LB4R.k4D_of_C4exists`, `EFX.LB4R.conn_of_C4exists`, `EFX.LB4R.C4exists_of_C4`, `EFX.LB4R.C4exists_of_C4index`, `EFX.LB4R.theoremC4index_of_C4`, `EFX.LB4R.k4D_of_C4index`, `EFX.LB4R.sound_of_succeeds`, `EFX.LB4R.Inv.sound`, `EFX.LB4R.phase1State_inv`, `EFX.LB4R.upgrade_inv`, `EFX.LB4R.rotStep_inv`, `EFX.LB4R.rotStep_valid`, `EFX.LB4R.output_big_base` (over lists) |
+| K4.ONE.FRAME | C₄∃ for connected strict k = 4 cores with at most one 4-good agent implies that every instance with at most four relevant goods per agent, at most one agent with exactly four, has an EFX₀ allocation; the K4.CORE reduction and K4.TIE's perturbation add no 4-good agent | K4One : `EFX.LB4R.target4one_of_C4existsOne`, `EFX.target4one_of_strict_cores` (model), `EFX.LB4R.C4existsOne_iff`, `EFX.LB4R.C4existsOne_of_C4exists`, `EFX.LB4R.C4existsOne_of_C4existsConn`, `EFX.LB4R.sound_of_three_cores`, `EFX.core_reduction4_one_strict`, `EFX.core_reduction4_mixed_of`, `EFX.core_reduction4_conn_of`, `EFX.atMostOne4_sublist` (over lists) |
+| K4.C4.AB.L | `k4/c4.md` §2–§4 for LB₄ʳ's states after any run of Phase 1 and envy-free upgrades: Lemma E (who can be exposed), Theorem A₄ (with no exposed 4-good agent, `r` is a valid owner unless LB⁺'s bad case), Lemma R and Theorem B₄ (a)–(c) (a rotation to `r` keeps W and exposes w.r.t. the head only agents exposed w.r.t. `r`, or `r` itself (only if 4-good); LB⁺'s rotation gives an output, with no owner or owner k*, unless `r` is exposed), Corollary C₄⁰ (LB₄ʳ(τ) succeeds if ω ≤ 0 or under these hypotheses; it never fails when every agent has three goods) | K4C4AB : `EFX.LB4R.lemmaE`, `EFX.LB4R.lemmaE_three`, `EFX.LB4R.lemmaE_four`, `EFX.LB4R.theoremA4`, `EFX.LB4R.theoremA4_output`, `EFX.LB4R.theoremB4`, `EFX.LB4R.theoremB4c`, `EFX.LB4R.rotate_Wl`, `EFX.LB4R.needsOf_rotate`, `EFX.LB4R.rotate_valid`, `EFX.LB4R.rotate_exposed`, `EFX.LB4R.rotate_exposed_chain`, `EFX.LB4R.rotate_last_not_exposed`, `EFX.LB4R.corollaryC40'`, `EFX.LB4R.corollaryC40`, `EFX.LB4R.succeeds_of_three`; LB4RRun : `EFX.LB4R.phase1_phaseRun`, `EFX.LB4R.PhaseRun.b2`, `EFX.LB4R.AfterUp.exists_chain`, `EFX.LB4R.AfterUp.last_pick_free`, `EFX.LB4R.AfterUp.last_block`, `EFX.LB4R.upRun_efBase`, `EFX.LB4R.upRun_exists` (over lists) |
+| K4.C4MIN.FRAME | 𝒫 (`k4/c4x.md` §1), min-frozen, completable, removal-only (deficit ≤ 0); C₄ᵐⁱⁿ (some min-frozen P ∈ 𝒫 is completable, or removal-only completable) ⟹ C₄∃ ⟹ K4.D, TARGET₄ (also on connected cores with a 4-good agent); removal-only ⟹ completable; Phase 1's picks are in 𝒫, so a min-frozen P exists | C4min : `EFX.C4min.C4exists_of_C4min`, `EFX.C4min.target4_of_C4min`, `EFX.C4min.k4D_of_C4min`, `EFX.C4min.C4min_of_C4minRO`, `EFX.C4min.target4_of_C4minRO`, `EFX.C4min.C4existsConn_of_C4minConn`, `EFX.C4min.target4_of_C4minConn`, `EFX.C4min.target4_of_C4minROConn`, `EFX.C4min.completable_of_removalOnly`, `EFX.C4min.inP_phase1`, `EFX.C4min.exists_minFrozen`; C4minExamples : `EFX.C4min.Ex3.c4min`, `EFX.C4min.Ex3.k3_hyps`, `EFX.C4min.ExW.c4min` |
+| K4.C4X.K3.LEAN | Theorem K3: every Pareto-maximal P ∈ 𝒫 of a k = 3 core has ω ≤ 0 or a terminal owner with a removal-only completion; Lemmas U, C (any k), R, E, O; the moves stay in 𝒫 and dominate (from any P ∈ 𝒫); hence D for k = 3 cores and TARGET without LB⁺ | K3Pareto : `EFX.C4min.lemmaU`, `EFX.C4min.no_edge_cycle`, `EFX.C4min.exists_needChain`, `EFX.C4min.threat_shape`, `EFX.C4min.lemmaR`, `EFX.C4min.lemmaE`, `EFX.C4min.transfer_inP_dominates`, `EFX.C4min.transfer_move`, `EFX.C4min.cycle_move`, `EFX.C4min.path_move`; K3Theorem : `EFX.C4min.exposed_top`, `EFX.C4min.lemmaO`, `EFX.C4min.exists_labelCycle`, `EFX.C4min.LabelCycle.disjoint`, `EFX.C4min.cycle_contra`, `EFX.C4min.theoremK3_owner`, `EFX.C4min.theoremK3`, `EFX.C4min.exists_paretoMax`, `EFX.C4min.corollaryD_K3`, `EFX.C4min.target_K3`; C4minExamples : `EFX.C4min.ExOmega.k3_owner` |
+| K4.C4MIN.Z.LEAN | Theorem Z: on every k = 4 core whose fewest frozen agents is 0, some min-frozen P ∈ 𝒫 has def(P) ≤ 0 and is completable (C₄ᵐⁱⁿ's conclusion, both forms); a pool-optimal all-pairs allocation with the most robust agents has a valid owner | ThmZ : `EFX.C4min.theoremZ_min`, `EFX.C4min.theoremZ_RO`, `EFX.C4min.theoremZ`, `EFX.C4min.c4minRO_of_f0`, `EFX.C4min.c4min_of_f0`, `EFX.C4min.efx0_of_f0`, `EFX.C4min.removalOnly_of_zvalid`, `EFX.C4min.zvalid_of_zmax`, `EFX.C4min.c4min_of_zvalid`, `EFX.C4min.exists_zmax`, `EFX.C4min.threat_unique`, `EFX.C4min.threat_gain`, `EFX.C4min.zvalid_or_all4`, `EFX.C4min.robust_of_rel_le2` |
+| K4.C4MIN.F.LEAN | Theorem F: on every k = 4 core with a frozen-robust configuration at the fewest frozen agents, some min-frozen P ∈ 𝒫 has def(P) ≤ 0 and is completable (C₄ᵐⁱⁿ's conclusion, both forms); rigidity of the needed set at the fewest frozen agents; Lemma 1(a): a valid owner of a configuration (with unfreezing) gives def(P) ≤ 0 | ThmF : `EFX.C4min.theoremF_min`, `EFX.C4min.theoremF`, `EFX.C4min.c4minRO_of_frobust`, `EFX.C4min.rigid_NA`, `EFX.C4min.frozen_of_min`, `EFX.C4min.removalOnly_of_cfgOwner`, `EFX.C4min.c4min_of_cfgOwner`, `EFX.C4min.isAPA_sub`, `EFX.C4min.not_threat_frozen`, `EFX.C4min.fmax_poolOpt`, `EFX.C4min.fmax_nRobust`, `EFX.C4min.frozen_cycle`; ThmZ : `EFX.C4min.zvalid_or_all4`; ThmFExamples : `EFX.C4min.ExF.c4min` |
 | T | TARGET (Corollary T): every instance with `\|R_i\| ≤ 3` for every agent has a complete EFX₀ allocation | Target : `EFX.target` (model), `EFX.target_lists` (over lists), values in ℕ; RealValues : `EFX.target_ordered` (values in any `EFX.OrderedValue`, e.g. ℝ≥0, via L12), `EFX.target_of_ordered` (its specialization to ℕ) |
 | L12 | Real values reduce to natural numbers: with ≤ 3 relevant goods per agent and nonnegative values, there are natural-number values with the same relevant goods and the same answer to every comparison between two subset sums; EFX₀, the relevant-goods count and balance transfer | RealValues : `EFX.l12`, `EFX.OrderedValue.exists_agree` (one agent), `EFX.OrderedValue.tri_rep` (three positive values), `EFX.numRelevant_eq_of_agree`, `EFX.OrderedValue.balanced_iff_of_agree`, `EFX.efx0_iff_of_agree` (EFX₀ for `v` iff for `w`) |
 | — | The list layer agrees with the model | Bridge : `EFX.Inst.efx0_iff` |
@@ -229,7 +300,10 @@ good), and extends it to monotone valuations.
   good and the next shared good around the cycle). The graph structure of cores (L4, L6, L7, L11) is not
   formalized.
 - L1, L4–L7 and L9–L11. (The reduction to cores, CORE, is formalized: `EFX.core_reduction`; for k = 4,
-  `EFX.core_reduction4_conn`, with L6's restriction to connected cores.)
+  `EFX.core_reduction4_conn`, with L6's restriction to connected cores.) L4's identity is not formalized; its bound
+  `m ≤ 2n` for k = 3 cores is (`EFX.C4min.sigma_nonneg`).
+- C₄ᵐⁱⁿ itself (`k4/c4x.md` §5) is not proved: it is the hypothesis of `EFX.C4min.target4_of_C4min`. The K3 building
+  blocks are formalized for k = 3; their k = 4 analogues of `k4/c4x.md` §4 (one 4-good agent) are not.
 - The peeling theorems are stated over lists: removing an agent and its goods changes the index types `Fin n`, `Fin m`,
   so a model-level statement needs sub-instances. `EFX.Inst.efx0_iff` connects the two for the full instance.
 - Real-valued utilities: core Lean has no `ℝ`, so that `ℝ≥0` satisfies the axioms of `EFX.OrderedValue` is the
@@ -242,7 +316,7 @@ good), and extends it to monotone valuations.
   trusted base; `EFX.LB.sound` needs only `Profile.Consistent`, `Profile.NA` and `Hyp`.
 - LB₄ʳ (`EFX/LB4R.lean`) is defined relationally where the text searches; where the prose leaves room, the choices
   are listed in that file's module doc. Theorem C₄ itself is not proved: it is the hypothesis of
-  `EFX.LB4R.target4_of_C4`, and PR #33 (`k4/c4.md` §7, unreviewed) claims it is false. C₄∃, equivalent to K4.D on
+  `EFX.LB4R.target4_of_C4`, and it is false (ledger K4.C4.C, by Proposition H, `k4/c4.md` §7, K4.C4.R). C₄∃, equivalent to K4.D on
   strict cores, is not proved either.
 - LB₄ (`k4/lb4.md` §2) is not defined in Lean: `EFX/PreAllocK.lean` proves what holds for every completion of
   every valid pre-allocation (`SoundCompletion`), and that every allocation LB₄ returns is one (its bases,
