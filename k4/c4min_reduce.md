@@ -395,8 +395,9 @@ With #50's Theorem F1 (including its case (E)), Conjecture BT would give C₄ᵐ
 
 The *path move* is #50's (`k4/c4min_f1.md` §2). Along a threat path τ = p₀ → p₁ → … → p_k → x through free agents
 (p_{i+1} threatened by p_i, x by p_k), from a terminal τ:
-- p_{i+1} receives Q_{p_i}. As in Lemma R, at most one receiver of kind (R) whose fourth good is in the pool takes
-  {a, s} instead, and the other good goes to the pool.
+- p_{i+1} receives Q_{p_i}. At most one receiver is *modified*: it takes {a, s} instead, with a ∈ Q_{p_i} and s from
+  the new pool, and the other good of Q_{p_i} goes to the pool. Lemma R's (R)-receiver is the case s = its fourth good.
+  Since the new pool contains the rest of Q_{p_k}, the last receiver p_k can keep one of its own goods this way.
 - x receives a pair P_x ⊆ (Q_{p_k} ∪ L) ∩ U_x and becomes free.
 - τ receives g and becomes frozen.
 - The rest of Q_{p_k} ∪ L is the new pool.
@@ -481,9 +482,12 @@ The moves used so far are all local:
 - **M1**: one free agent y re-pairs inside Q_y ∪ L. Its new pair is any pair whose part in U_y is admissible, so this
   includes pool improvements and swaps that lower y's value but change the pool.
 - **M2**: two free agents re-pair inside Q_y ∪ Q_z ∪ L (#41's pool-assisted exchange).
-- **M4**: the rotation along a threat cycle of free agents (Lemma R, plain or modified).
-- **M5**: #50's path move from a terminal along a threat path to x, with x taking any admissible pair inside
-  Q_{p_k} ∪ L and at most one modified receiver. The result is at the terminal's key.
+- **M4**: the rotation along a threat cycle of free agents. It is plain, or one receiver z takes {a, s} with a from its
+  predecessor's pair and s from the pool, and the other good of that pair goes to the pool (Lemma R's modified
+  rotation is a case).
+- **M5**: #50's path move from a terminal along a threat path to x (§5.2), with x taking any pair inside Q_{p_k} ∪ L
+  whose part in U_x is admissible, and at most one modified receiver as in §5.2. The result is at the terminal's
+  key.
 
 `k4/red.c -L` checks, for every configuration at every key that is not completable, whether one of these moves gives a
 configuration (at any key) with a larger potential.
@@ -510,6 +514,23 @@ An independent Python check (`k4/red_lil.py`: its own move generator on `k4/red_
 - every f = 1 profile with n = 2;
 - 6,000 random profiles per n = 3 core (26,315 non-completable configurations);
 - 100 per n = 4 core (23,723).
+
+A third check uses PR #53's independent model (`k4/gap_model.py`, `k4/gap_bench.py` on branch `compute/k4-gap`, head
+245040b). There `k4/red_lil_gapbench.py` tests the lemma with #53's own moves (`results/k4_red_lil_gapbench.log`):
+- one-agent re-pairings;
+- exchange-digraph cycles with any admissible choice, which include rotations and path moves;
+- downgrade swaps.
+
+Results:
+- No counterexample on the first 60,000 profiles of its n ≤ 3 gap catalogue (127,257 non-completable f = 1
+  configurations), and none on its n = 4 catalogues (5,493 configurations), **provided a threat receiver may keep part
+  of its own pair** (#53's `keep=True`, which #52 already needed for K4.HALL.BTCYC).
+- Without keeping there are 6 counterexamples at n = 3, m = 7. The smallest is on the agents {0, 3, 4, 6},
+  {1, 3, 5, 6}, {2, 4, 5, 6} with values 0:3, 3:10, 4:6, 6:2 | 1:2, 3:10, 5:3, 6:6 | 2:4, 4:10, 5:7, 6:2.
+  - Its only improving moves are path moves from terminal 0 in which agent 2, the last on the path, keeps its good 2
+    or 5 together with the good 4 it receives.
+  - In M5 that is the modified receiver taking s from the new pool.
+- So keeping a good is a necessary part of the catalogue.
 
 Putting r′ first lets a pool improvement that makes its agent robust count even when it puts a good of x into the pool;
 that is exactly the configuration of instance B1. With t first, the two-agent exchange M2 is needed there instead.
@@ -548,7 +569,7 @@ All counts are strict profiles of the certified core lists `results/k4_certs_*.j
 | Conjecture GLOB | §5 | 0 failures | `results/k4_red_n3.log`, `…_n4.log`, `…_n4_2_all.log`, `…_n5.log` |
 | Conjecture BT, big-top profiles | §5.1 | 0 failures | `results/k4_red_bt.log` |
 | Lemma PM | §5.2 | 0 failures | `results/k4_red_pathmove.log` |
-| Conjecture LIL | §5.3 | 0 stuck configurations | `results/k4_red_lil.log`, `results/k4_red_lil_python.log` |
+| Conjecture LIL | §5.3 | 0 stuck configurations | `results/k4_red_lil.log`, `results/k4_red_lil_python.log`, `results/k4_red_lil_gapbench.log` |
 
 Independence: `k4/red.c` and `k4/red_lib.py` share no code with each other or with #41's `k4/c4min.c` and
 `k4/c4min_*.py`, only the type generator `k4/check4.py` and the core lists. The Python library was run on the n = 2
