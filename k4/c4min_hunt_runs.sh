@@ -29,8 +29,10 @@ case "$1" in
   classes)     # n = 5 with four or five 4-good agents, every 4-good agent restricted to two order-type classes
                # (k4/c4min_common.py type_class): 10,11 = 'a > b + c' (G1 of k4/c4x.md §5); 0,1 = flat (a < c + d, G4)
     for cl in ${CLS:-10,11 0,1}; do
-      log $R/k4_c4min_hunt_classes.log python3 c4min_hunt_run.py ../$R/k4_certs_5_n4_4.json.gz ../$R/k4_certs_5_pure.json.gz \
-          --classes=$cl --jobs=${JOBS:-4} --ckpt=../$R/k4_c4min_hunt_classes_${cl/,/_}.ckpt
+      for f in ${FILES:-k4_certs_5_n4_4 k4_certs_5_pure}; do
+        log $R/k4_c4min_hunt_classes.log python3 c4min_hunt_run.py ../$R/$f.json.gz \
+            --classes=$cl --jobs=${JOBS:-4} --ckpt=../$R/k4_c4min_hunt_classes_${cl/,/_}.ckpt
+      done
     done ;;
   crosscheck)  # three implementations on random profiles
     log $R/k4_c4min_hunt_crosscheck.log python3 c4min_crosscheck.py ../$R/k4_certs_2.json.gz --per-core=40 --seed=1
