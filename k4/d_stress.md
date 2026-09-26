@@ -13,7 +13,8 @@ the cores H_t of `k4/c4.md` §7, on which LB₄ʳ at index order fails for t ≥
   definition and the D2 shape as it was found (5,407 with the 7 paper values). The 5,400 random-profile witnesses are
   committed, and `d_stress_check.py FILE` re-checks them from the files (§1).
 - **Paper values:** the values of H_t in `k4/c4.md` §7 (t ≤ 7) have one too. That section already gives an explicit D2
-  allocation for them, raw-checked for t ≤ 8 by `k4/c4_chain.py`. They each have at least 32 D2 allocations (the
+  allocation for them, raw-checked for t ≤ 8 by `k4/c4_chain.py`, and row K4.HALL.HT (`k4/hall.md`, PR #46)
+  proves K4.D on every H_t at these values with another one. They each have at least 32 D2 allocations (the
   counting cap); the reviewer's exhaustive C count for H_1 is 2,126.
 - **No counterexample**, so nothing is REFUTED.
 
@@ -140,7 +141,7 @@ certification was not attempted.
 - On the chains, cycles and trees (m > 2n) the large bundle is forced, and D2 held in every one of the 3,000 random
   profiles there. The 2,400 pure-core profiles do not exercise the large bundle (§2).
 - LB₄ʳ's failure on H_t (PR #33) is a failure of that construction's bounded rotations, not of the D2 shape.
-- Not done (handoff, also LEDGER open item 19):
+- Not done (handoff, also LEDGER open item 20):
   - gadgets of other sizes and shapes, and gadgets sharing goods;
   - exhaustive certification beyond n = 5;
   - an owner metric that counts an owner only when its bundle can have more than 2 goods, climbed on H_3+, the trees

@@ -1,0 +1,7 @@
+# k = 3, NOT a core (m = 5 > 2n): R_0 = {0, 1, 2}, R_1 = {2, 3, 4}, all 36 ranking profiles (values 4, 3, 2); section 3 of k4/c4x.md
+# expected: paretomax 52, paretofail 0; TERMSTATS field 9 (P without terminal) = field 11 (P with omega>=1) = 52
+# command: B=$(python3 -c "import sys; sys.path.insert(0, 'k4'); import c4x_run; print(c4x_run.binary())")
+# command: python3 -c "import sys; sys.path.insert(0, 'k4'); import c4x_run; inp, s = c4x_run.core_input({'n': 2, 'm': 5, 'sets': [[0, 1, 2], [2, 3, 4]]}, k3=True); print(inp); print(0, s[0])" | $B -T -Q -p 3 2>&1
+RESULT asg 40 profiles 36 valid 388 tested 52 nocomp 0 ronone 0 ronone_any 0 paretomax 52 paretofail 0 paretosomefail 0
+TERMSTATS 0 0 0 0 0 0 0 0 0 52 0 52 0 0 0 0 0 0 0 0 0
+PHI (leximin) every_fail 0 some_fail 0
