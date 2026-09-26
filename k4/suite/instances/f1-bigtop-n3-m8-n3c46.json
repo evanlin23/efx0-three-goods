@@ -1,0 +1,209 @@
+{
+ "id": "f1-bigtop-n3-m8-n3c46",
+ "n": 3,
+ "m": 8,
+ "sets": [
+  [
+   0,
+   2,
+   6,
+   7
+  ],
+  [
+   1,
+   4,
+   6,
+   7
+  ],
+  [
+   3,
+   5,
+   6,
+   7
+  ]
+ ],
+ "vals": [
+  [
+   3,
+   6,
+   10,
+   2
+  ],
+  [
+   3,
+   4,
+   8,
+   2
+  ],
+  [
+   3,
+   4,
+   8,
+   2
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": "core 46 of results/k4_certs_3.json.gz",
+ "core_ref_basis": "cited by attempts/k4-c4min-f1-bigtop.md (core 46); exact sets match against results/k4_certs_3.json.gz (0-based position 46, idx field 1; identical blob on main and all four branches)",
+ "source": {
+  "pr": 50,
+  "branch": "proof/k4-c4min-f1",
+  "head": "5028edf",
+  "files": [
+   "attempts/k4-c4min-f1-bigtop.md",
+   "attempts/k4_c4min_f1_bigtop.py",
+   "k4/c4min_f1.md",
+   "results/k4_c4min_f1_n3.log"
+  ],
+  "replay": "attempts/k4_c4min_f1_bigtop.py"
+ },
+ "refutes": [
+  {
+   "statement": "Psi = (r, Lambda) at f = 1: some (every) configuration maximizing Psi = (#robust agents, sum of levels) has a valid owner -- here NO maximum of Psi is completable, so no potential whose first two components are (r, Lambda) works (incl. (r, Lambda, -t) and (r, Lambda, -t, -p))",
+   "ledger": null,
+   "smallest": true,
+   "name": "#50 Psi = (r, Lambda)",
+   "smallest_scope": "attempts/k4-c4min-f1-bigtop.md: 'Smallest failing configuration'; n = 3 is the minimum (every n = 2 profile has a completable Psi-maximum, results/k4_c4min_f1_n3.log starfail 0)",
+   "basis": "stated",
+   "where": [
+    "attempts/k4-c4min-f1-bigtop.md; k4/c4min_f1.md section 3"
+   ]
+  },
+  {
+   "statement": "Theorem F1 extended to big-top frozen agents ('Theorem F1*' in results/k4_c4min_f1_n3.log): every Psi-maximum at f = 1 has an owner valid with C empty",
+   "ledger": null,
+   "smallest": null,
+   "name": "#50 Theorem F1*",
+   "basis": "stated",
+   "where": [
+    "results/k4_c4min_f1_n3.log (core 46 EX lines: starfail 128, rltfail 128)"
+   ]
+  }
+ ],
+ "witness": {
+  "psi_maxima_all_noncompletable": [
+   {
+    "key": [
+     null,
+     null,
+     6
+    ],
+    "Q": {
+     "0": [
+      0,
+      2
+     ],
+     "1": [
+      1,
+      4
+     ]
+    },
+    "L": [
+     3,
+     5,
+     7
+    ]
+   },
+   {
+    "key": [
+     null,
+     6,
+     null
+    ],
+    "Q": {
+     "0": [
+      0,
+      2
+     ],
+     "2": [
+      3,
+      5
+     ]
+    },
+    "L": [
+     1,
+     4,
+     7
+    ]
+   },
+   {
+    "key": [
+     6,
+     null,
+     null
+    ],
+    "Q": {
+     "1": [
+      1,
+      4
+     ],
+     "2": [
+      3,
+      5
+     ]
+    },
+    "L": [
+     0,
+     2,
+     7
+    ]
+   }
+  ],
+  "completable_contrast": {
+   "key": [
+    null,
+    null,
+    6
+   ],
+   "Q": {
+    "0": [
+     0,
+     2
+    ],
+    "1": [
+     1,
+     7
+    ]
+   },
+   "L (derived here: the rest of M minus 6)": [
+    3,
+    4,
+    5
+   ],
+   "source_text": "agent 1 takes {1, 7} instead of {1, 4}. Good 7 then protects agent 2, and agent 0 is a valid owner (k4/c4min_f1.md section 3)"
+  },
+  "source_text": "e.g. agent 2 frozen, pairs {0, 2} and {1, 4}, pool {3, 5, 7} (attempts/k4-c4min-f1-bigtop.md); the three maxima as printed by attempts/k4_c4min_f1_bigtop.py"
+ },
+ "replay": {
+  "script": "attempts/k4_c4min_f1_bigtop.py (proof/k4-c4min-f1): CONFIRMED (Psi, (r, Lambda, -t), (r, Lambda, -t, -p): 3 maxima, 0 completable; Phi': 6 maxima, 6 completable; k4/c4min_f1.c starfail 1, rltfail 1, phi1fail 0)",
+  "gap_bench_profile": {
+   "ran": "python3 k4/gap_bench.py --profile='{...}' --show=1 (all 25 seeded statements) on compute/k4-gap @245040b",
+   "gap_c_sha256_prefix": "74e1fae22153",
+   "in_gap": "True; f 1, omega 3, keys [[-1, -1, 6], [-1, 6, -1], [6, -1, -1]], 76 configurations, 52 with a",
+   "fails": [
+    "I_POOLOPT",
+    "I_T_LOCAL",
+    "LOCAL"
+   ],
+   "holds_count": 22,
+   "fails_not_stated_by_source": [
+    "I_POOLOPT",
+    "I_T_LOCAL",
+    "LOCAL"
+   ],
+   "stated_but_holds_now": []
+  },
+  "witness_check_gap_model": [
+   "f 1 omega 3 in_gap True configs 76 completable 52",
+   "  psi_maxima_all_noncompletable[0]: found; L [3, 5, 7] (given [3, 5, 7]) completable False owners [] phi (-1, 2, 19, -3) (max (0, 2, 18, -2)) pool_optimal True",
+   "  psi_maxima_all_noncompletable[1]: found; L [1, 4, 7] (given [1, 4, 7]) completable False owners [] phi (-1, 2, 19, -3) (max (0, 2, 18, -2)) pool_optimal True",
+   "  psi_maxima_all_noncompletable[2]: found; L [0, 2, 7] (given [0, 2, 7]) completable False owners [] phi (-1, 2, 19, -3) (max (0, 2, 18, -2)) pool_optimal True",
+   "  completable_contrast: found; L [3, 4, 5] (given [3, 4, 5]) completable True owners [0] phi (0, 2, 17, -2) (max (0, 2, 18, -2)) pool_optimal False"
+  ]
+ },
+ "notes": "All three agents are big-top with top 6 and share good 7. f = 1, omega = 3, 76 configurations, 52 completable; the three Psi-maxima (Psi = (2, 19)) are the same up to symmetry; every owner's bundle contains the frozen agent's other three goods and threatens it (k4/c4min_f1.md Lemma 8(a)); both free agents need 6, so the unfreezing clause does not apply. Phi' = (-t, r, Lambda, -p) maxima are all completable (a free agent keeps good 7). 128 of the 7,284,544 n = 3 profiles with f = 1 have no completable Psi-maximum, all on core 46 (results/k4_c4min_f1_n3.log prints 12 of them, with values relabelled: e.g. '[0:6,2:3,6:10,7:2] [1:3,4:4,6:8,7:2] [3:3,5:4,6:8,7:2] | x 2 H {0,2} {1,4} {6} L {3,5,7}'). The md's instance has agent 0 values 0:3, 2:6 (the log's EX line has 0:6, 2:3, an isomorphic profile under swapping agent 0's private goods 0 and 2). Relation: same core as #52's 'core 46' remark on K4.HALL.BTCYC's variant 'x becomes the owner' (main LEDGER) and #41's instance 3 (other values).",
+ "expect_fail": [
+  "cfg:r,lam"
+ ]
+}

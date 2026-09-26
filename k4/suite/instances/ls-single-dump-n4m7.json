@@ -1,0 +1,115 @@
+{
+ "id": "ls-single-dump-n4m7",
+ "n": 4,
+ "m": 7,
+ "sets": [
+  [
+   0,
+   2,
+   5,
+   6
+  ],
+  [
+   1,
+   2,
+   3,
+   4
+  ],
+  [
+   1,
+   4,
+   5,
+   6
+  ],
+  [
+   3,
+   4,
+   5,
+   6
+  ]
+ ],
+ "vals": [
+  [
+   1,
+   6,
+   4,
+   8
+  ],
+  [
+   4,
+   6,
+   8,
+   1
+  ],
+  [
+   7,
+   2,
+   6,
+   10
+  ],
+  [
+   10,
+   4,
+   7,
+   2
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": null,
+ "source": {
+  "pr": 27,
+  "branch": "main",
+  "files": [
+   "attempts/k4-ls-single-dump.md",
+   "LEDGER.md"
+  ],
+  "replay": "k4/ls4_attempts.py"
+ },
+ "refutes": [
+  {
+   "statement": "Two-phase local search whose Phase 2 is a single dump (the whole pool to one empty bundle or one source) completes after Phase 1 with M1, R, keep-exchange cycles and every coalition Pareto move G",
+   "ledger": "K4.LS.VAR",
+   "smallest": null
+  }
+ ],
+ "witness": {
+  "Y": [
+   [
+    6
+   ],
+   [
+    3
+   ],
+   [
+    1,
+    4
+   ],
+   [
+    5
+   ]
+  ],
+  "pool": [
+   0,
+   2
+  ],
+  "only_dominating_completion": [
+   [
+    6
+   ],
+   [
+    3
+   ],
+   [
+    0,
+    1,
+    4
+   ],
+   [
+    2,
+    5
+   ]
+  ]
+ },
+ "notes": "k4/ls4.c -x -k -g reaches Y = {6} | {3} | {1,4} | {5}, U = {0, 2}, values 8, 8, 9, 7; sources 2 and 3. No M1/R/X/coalition move; no single dump; the only complete EFX₀ allocation weakly better for everyone is the split {6} | {3} | {0,1,4} | {2,5}. 'The smallest n with such a state is 3 or 4' (not settled). Replay run: 'improving G moves: 0', 'single-dump completions: 0 (claim 0); junk completions: [[[6], [3], [0, 1, 4], [2, 5]]]'. [Certified-core lookup by the generator (not from the source): identical sets (same agent order and labels): core 49 of results/k4_certs_4_pure.json.gz. Core k = 0-based position in the file's \"cores\" list, as the sources use it.]"
+}

@@ -1,0 +1,129 @@
+{
+ "id": "c4min-phi-n4-m9-n43c274",
+ "n": 4,
+ "m": 9,
+ "sets": [
+  [
+   0,
+   2,
+   5,
+   7
+  ],
+  [
+   1,
+   5,
+   7,
+   8
+  ],
+  [
+   3,
+   6,
+   7,
+   8
+  ],
+  [
+   4,
+   6,
+   8
+  ]
+ ],
+ "vals": [
+  [
+   4,
+   2,
+   3,
+   8
+  ],
+  [
+   4,
+   2,
+   7,
+   10
+  ],
+  [
+   5,
+   8,
+   6,
+   4
+  ],
+  [
+   2,
+   4,
+   3
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": "core 274 of results/k4_certs_4_n4_3.json.gz",
+ "core_ref_basis": "cited by results/k4_c4min_phi2.log (core 274); exact sets match against results/k4_certs_4_n4_3.json.gz (0-based position 274, idx field 28; identical blob on main and all four branches)",
+ "source": {
+  "pr": 41,
+  "branch": "proof/k4-c4min",
+  "head": "b9ff629",
+  "files": [
+   "results/k4_c4min_phi2.log",
+   "attempts/k4-c4min-potentials.md",
+   "k4/c4min.md"
+  ],
+  "replay": "python3 k4/c4min_run.py results/k4_certs_4_n4_3.json.gz --rand=4000 --seed=33 -F1 -p \"8,9,16;8,9,16,3;8,9,16,21\" --jobs=4 (the whole sample; this extraction replayed the one profile with c4min_cfg.py)"
+ },
+ "refutes": [
+  {
+   "statement": "Conjecture Phi (first form): every configuration at the fewest frozen agents that maximizes Phi = (-t, r, Lambda) (lexicographic) has a valid owner",
+   "ledger": "K4.C4MIN.X",
+   "smallest": null,
+   "name": "#41 Phi (second failure)",
+   "basis": "stated",
+   "where": [
+    "results/k4_c4min_phi2.log"
+   ]
+  }
+ ],
+ "witness": {
+  "key": [
+   7,
+   null,
+   null,
+   6
+  ],
+  "Q": {
+   "1": [
+    1,
+    8
+   ],
+   "2": [
+    0,
+    3
+   ]
+  },
+  "L": [
+   2,
+   4,
+   5
+  ],
+  "source_text": "core 274: EX every (-thrL,rob,sumlev): [0:4,2:2,5:3,7:8] [1:4,5:2,7:7,8:10] [3:5,6:8,7:6,8:4] [4:2,6:4,8:3] | F{7} {1,8} {0,3} F{6} L{2,4,5}"
+ },
+ "replay": {
+  "gap_bench_profile": {
+   "ran": "python3 k4/gap_bench.py --profile='{...}' --show=1 (all 25 seeded statements) on compute/k4-gap @245040b",
+   "gap_c_sha256_prefix": "74e1fae22153",
+   "in_gap": "True; f 2, omega 3, keys [[-1, -1, 7, 6], [7, -1, -1, 6], [-1, 8, 6, -1]], 64 configurations, ",
+   "fails": [
+    "PHI_FIRST"
+   ],
+   "holds_count": 24,
+   "fails_not_stated_by_source": [
+    "PHI_FIRST"
+   ],
+   "stated_but_holds_now": []
+  },
+  "witness_check_gap_model": [
+   "f 2 omega 3 in_gap True configs 64 completable 48",
+   "  witness: found; L [2, 4, 5] (given [2, 4, 5]) completable False owners [] phi (0, 2, 22, -3) (max (0, 2, 22, -2)) pool_optimal True"
+  ]
+ },
+ "notes": "attempts/k4-c4min-potentials.md instance 7: 'A second failure of Phi, again fixed by -p, is in results/k4_c4min_phi2.log.' k4/c4min.md section 4: 'each sample contains one Phi counterexample, and Phi' holds on both'. The log's run (n = 4, three 4-good agents, 4,000 random profiles per core, f >= 1) reports (-thrL,rob,sumlev) every-max fails 1 and Phi' (-thrL,rob,sumlev,-poolexp) 0. Values decoded from the EX line (agent: good:value in the order of the core's sets); core 274 is the 0-based position in results/k4_certs_4_n4_3.json.gz (exact sets match, idx field 28). m = 9 (goods 0..8).",
+ "expect_fail": [
+  "phi"
+ ]
+}

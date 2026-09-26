@@ -1,0 +1,131 @@
+{
+ "id": "lb4-owner-needs-from-base-n4m8",
+ "n": 4,
+ "m": 8,
+ "sets": [
+  [
+   0,
+   2,
+   4,
+   6
+  ],
+  [
+   0,
+   2,
+   5,
+   6
+  ],
+  [
+   1,
+   3,
+   4,
+   7
+  ],
+  [
+   1,
+   3,
+   5,
+   7
+  ]
+ ],
+ "vals": [
+  [
+   2,
+   3,
+   8,
+   4
+  ],
+  [
+   2,
+   3,
+   8,
+   4
+  ],
+  [
+   2,
+   3,
+   8,
+   4
+  ],
+  [
+   2,
+   3,
+   8,
+   4
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": null,
+ "source": {
+  "pr": 24,
+  "branch": "main",
+  "files": [
+   "attempts/lb4-owner-needs-from-base.md",
+   "LEDGER.md"
+  ],
+  "replay": "attempts/lb4_variants.py"
+ },
+ "refutes": [
+  {
+   "statement": "LB₄ with the owner's needs taken from its base, as at k = 3 (every insertion sequence, every upgrade policy, every owner and completion, one rotation; lb4.c -i2 -u3 -r1 -w0) succeeds",
+   "ledger": "K4.LB4.X",
+   "smallest": true
+  }
+ ],
+ "witness": {
+  "example_allocation": [
+   [
+    0,
+    2,
+    6
+   ],
+   [
+    5
+   ],
+   [
+    1,
+    4
+   ],
+   [
+    3,
+    7
+   ]
+  ]
+ },
+ "notes": "Pure core, every agent type (8, 4, 3, 2) (a > b + c) with values (2, 3, 8, 4) on its goods in listed order. Tops: 4 (agents 0, 2), 5 (1, 3); second goods 6 (0, 1), 7 (2, 3). Every EFX₀ allocation with at most one large bundle has one agent holding {b, c, d} (worth 9 > 8), e.g. {0,2,6} | {5} | {1,4} | {3,7} (12 such). Fails nowhere for n ≤ 3 and n = 4 with ≤ 3 four-good agents; 13 of 219 pure n = 4 cores fail, the smallest at m = 8. Fix adopted in LB₄: N_o = {g ∉ X_o : v_o(g) > v_o(X_o)}. Same core as lb4-last-block-leader-index-n4m8. Replay run: 'profiles 6879707136, failing 1296', first failing profile values [[2, 3, 8, 4], [2, 3, 8, 4], [2, 3, 8, 4], [2, 3, 8, 4]] ('order=3 1 0 2 picks=4,6,7,5 ... frozen=0 3'). [Certified-core lookup by the generator (not from the source): identical sets (same agent order and labels): core 120 of results/k4_certs_4_pure.json.gz. Core k = 0-based position in the file's \"cores\" list, as the sources use it.]",
+ "aliases": [
+  "c4min-w0-n4-m8-n4pc120"
+ ],
+ "also": [
+  {
+   "id": "c4min-w0-n4-m8-n4pc120",
+   "source": {
+    "pr": 45,
+    "branch": "compute/k4-c4min-hunt",
+    "head": "765175e",
+    "files": [
+     "attempts/k4-c4min-w0-owner-base.md",
+     "attempts/k4_c4min_w0_replay.py",
+     "k4/c4min_hunt.md",
+     "results/k4_c4min_hunt_w0.log"
+    ],
+    "replay": "attempts/k4_c4min_w0_replay.py"
+   },
+   "refutes": [
+    {
+     "statement": "C4min with the owner's needs taken from its base instead of its bundle (the needs of LB4's -w0): for every strict profile of every k = 4 core with n >= 3, some valid pre-allocation with the fewest frozen agents has deficit <= 0 when the owner keeps its base needs",
+     "ledger": "K4.C4MINH.W0",
+     "smallest": true,
+     "name": "#45 -w0 (owner needs from base)",
+     "smallest_scope": "smallest failing configuration with n >= 3 (attempts/k4-c4min-w0-owner-base.md); exhaustive runs: 0 failures at n = 3, n = 4 with one to three 4-good agents, n = 5 with one or two",
+     "basis": "stated",
+     "where": [
+      "attempts/k4-c4min-w0-owner-base.md; k4/c4min_hunt.md section 5"
+     ]
+    }
+   ],
+   "notes": "attempts/k4-c4min-w0-owner-base.md: 'Smallest failing configuration with n >= 3: pure n = 4, m = 8 (core 120 of results/k4_certs_4_pure.json.gz): agents {0, 2, 4, 6}, {0, 2, 5, 6}, {1, 3, 4, 7}, {1, 3, 5, 7}, each of type (2, 3, 8, 4) in the order of its set, i.e. a > b + c (8 > 4 + 3). Goods 4 and 5 are each the top of two agents; 0, 1, 2, 3, 6, 7 are shared by two agents. f* = 2 = sigma + 2 (sigma = 0), 36 min-frozen pre-allocations. With the owner's needs from its base, every one of them has deficit >= 1 and none is completable even with protecting junk goods ...; with them from its bundle, 32 of the 36 have deficit <= 0.' Replay (this extraction): f* 2, sigma 0, d* 1 from base (0 of 36 with deficit <= 0, none completable) vs d* 0 from bundle (32 of 36); three implementations agree. 26,496 failing pure n = 4 profiles in 14 cores (m = 8-12); results/k4_c4min_hunt_w0_pure_cores.log prints 20 per core (280 lines; not extracted).\nC4min itself (owner's needs from its bundle) holds on this profile. No witness configuration: the failure is 'no min-frozen pre-allocation has deficit <= 0' over all 𝒫 at f*."
+  }
+ ]
+}

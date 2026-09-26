@@ -1,0 +1,163 @@
+{
+ "id": "gap-ivmax-n5-m9-n53c5848",
+ "n": 5,
+ "m": 9,
+ "sets": [
+  [
+   0,
+   4,
+   5,
+   6
+  ],
+  [
+   1,
+   5,
+   7,
+   8
+  ],
+  [
+   2,
+   6,
+   7,
+   8
+  ],
+  [
+   3,
+   7,
+   8
+  ],
+  [
+   4,
+   5,
+   6
+  ]
+ ],
+ "vals": [
+  [
+   2,
+   4,
+   8,
+   7
+  ],
+  [
+   3,
+   8,
+   6,
+   10
+  ],
+  [
+   3,
+   7,
+   6,
+   5
+  ],
+  [
+   2,
+   3,
+   4
+  ],
+  [
+   2,
+   3,
+   4
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": "core 5848 of results/k4_certs_5_n4_3.json.gz",
+ "core_ref_basis": "resolved by this extraction; exact sets match against results/k4_certs_5_n4_3.json.gz (0-based position 5848, idx field 1610; identical blob on main and all four branches)",
+ "source": {
+  "pr": 53,
+  "branch": "compute/k4-gap",
+  "head": "245040b",
+  "files": [
+   "results/k4_gap_bench_n5.log"
+  ],
+  "replay": "python3 k4/gap_bench.py --profile='{\"sets\": [[0, 4, 5, 6], [1, 5, 7, 8], [2, 6, 7, 8], [3, 7, 8], [4, 5, 6]], \"vals\": [[2, 4, 8, 7], [3, 8, 6, 10], [3, 7, 6, 5], [2, 3, 4], [2, 3, 4]], \"m\": 9}' --only=IV_MAX"
+ },
+ "refutes": [
+  {
+   "statement": "roadmap (iv): at every Phi'-maximum each frozen agent is threatened by at most one owner",
+   "ledger": null,
+   "smallest": true,
+   "name": "IV_MAX",
+   "smallest_scope": "first 'smallest' counterexample printed by results/k4_gap_bench_n5.log (catalogs gap_n5_*_s100 (100 random profiles per core), every 10th record; sorted by n, m, number of configurations); 83 counterexamples in that run",
+   "basis": "stated",
+   "where": [
+    "results/k4_gap_bench_n5.log"
+   ],
+   "counterexamples_in_run": 83,
+   "witness": {
+    "key": [
+     5,
+     null,
+     6,
+     null,
+     null
+    ],
+    "Q": {
+     "1": [
+      1,
+      8
+     ],
+     "3": [
+      3,
+      7
+     ],
+     "4": [
+      0,
+      4
+     ]
+    },
+    "L": [
+     2
+    ]
+   }
+  }
+ ],
+ "witness": {
+  "key": [
+   5,
+   null,
+   6,
+   null,
+   null
+  ],
+  "Q": {
+   "1": [
+    1,
+    8
+   ],
+   "3": [
+    3,
+    7
+   ],
+   "4": [
+    0,
+    4
+   ]
+  },
+  "L": [
+   2
+  ],
+  "_from": "the first refuted statement's printed configuration"
+ },
+ "replay": {
+  "gap_bench_profile": {
+   "ran": "python3 k4/gap_bench.py --profile='{...}' --show=1 (all 25 seeded statements) on compute/k4-gap @245040b",
+   "gap_c_sha256_prefix": "74e1fae22153",
+   "in_gap": "True; f 2, omega 1, keys [[-1, -1, 6, -1, 5], [5, -1, 6, -1, -1]], 12 configurations, 12 with ",
+   "fails": [
+    "IV_MAX"
+   ],
+   "holds_count": 24,
+   "fails_not_stated_by_source": [],
+   "stated_but_holds_now": []
+  },
+  "witness_check_gap_model": [
+   "f 2 omega 1 in_gap True configs 12 completable 12",
+   "  refutes:IV_MAX: found; L [2] (given [2]) completable True owners [4] phi (0, 4, 21, -1) (max (0, 4, 21, -1)) pool_optimal True"
+  ]
+ },
+ "notes": ""
+}

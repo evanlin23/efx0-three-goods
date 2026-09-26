@@ -1,0 +1,165 @@
+{
+ "id": "gap-w-n2-m5",
+ "n": 2,
+ "m": 5,
+ "sets": [
+  [
+   0,
+   2,
+   3,
+   4
+  ],
+  [
+   1,
+   2,
+   3,
+   4
+  ]
+ ],
+ "vals": [
+  [
+   2,
+   3,
+   6,
+   10
+  ],
+  [
+   2,
+   3,
+   6,
+   10
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": "core 3 of results/k4_certs_2.json.gz",
+ "core_ref_basis": "cited by the catalog record (core file/pos); exact sets match against results/k4_certs_2.json.gz (0-based position 3, idx field 1; identical blob on main and all four branches)",
+ "source": {
+  "pr": 53,
+  "branch": "compute/k4-gap",
+  "head": "245040b",
+  "files": [
+   "results/k4_gap_bench_n23.log",
+   "results/k4_gap/hard_base.json.gz",
+   "results/k4_gap_hard_base.log",
+   "k4/gap.md"
+  ],
+  "replay": "python3 k4/gap_bench.py --profile='{\"sets\": [[0, 2, 3, 4], [1, 2, 3, 4]], \"vals\": [[2, 3, 6, 10], [2, 3, 6, 10]], \"m\": 5}' --only=MAX_SIMPLE"
+ },
+ "refutes": [
+  {
+   "statement": "#41 section 4 (-U0): some Phi'-maximum has a valid owner with C empty (no withheld goods, no unfreezing)",
+   "ledger": null,
+   "smallest": true,
+   "name": "MAX_SIMPLE",
+   "smallest_scope": "first 'smallest' counterexample printed by results/k4_gap_bench_n23.log (catalogs gap_n2 (every n = 2 gap profile) + gap_n3 (every 100th n = 3 gap profile and every hard one); sorted by n, m, number of configurations); 720 counterexamples in that run || smallest W profile with n = 2 in the base catalogs gap_n2..gap_n5 (n = 2, 3 and n = 4 one 4-good agent exhaustive; the rest sampled), by (n, m, number of configurations)",
+   "basis": "stated",
+   "where": [
+    "results/k4_gap_bench_n23.log",
+    "results/k4_gap_hard_base.log / results/k4_gap/hard_base.json.gz"
+   ],
+   "counterexamples_in_run": 720,
+   "note": "category W (k4/gap.md section 3): no Phi'-maximum is simple (valid owner with C empty), but some Phi'-maximum has a valid owner (it must withhold goods, which needs unfreezing) -- so #41's -U0 observation fails on it."
+  }
+ ],
+ "witness": {
+  "phi_prime_maxima (gap_model, as stored in the record py_maxima)": [
+   {
+    "key": [
+     null,
+     4
+    ],
+    "Q": {
+     "0": [
+      2,
+      3
+     ]
+    },
+    "L": [
+     0,
+     1
+    ],
+    "phi": [
+     0,
+     1,
+     13,
+     -1
+    ],
+    "owners_least_C": {
+     "0": [
+      1,
+      [
+       1
+      ]
+     ]
+    },
+    "threats_owner_agent_H7class": [
+     [
+      0,
+      1,
+      "G1"
+     ]
+    ]
+   },
+   {
+    "key": [
+     4,
+     null
+    ],
+    "Q": {
+     "1": [
+      2,
+      3
+     ]
+    },
+    "L": [
+     0,
+     1
+    ],
+    "phi": [
+     0,
+     1,
+     13,
+     -1
+    ],
+    "owners_least_C": {
+     "1": [
+      1,
+      [
+       0
+      ]
+     ]
+    },
+    "threats_owner_agent_H7class": [
+     [
+      1,
+      0,
+      "G1"
+     ]
+    ]
+   }
+  ]
+ },
+ "replay": {
+  "gap_bench_profile": {
+   "ran": "python3 k4/gap_bench.py --profile='{...}' --show=1 (all 25 seeded statements) on compute/k4-gap @245040b",
+   "gap_c_sha256_prefix": "74e1fae22153",
+   "in_gap": "True; f 1, omega 2, keys [[-1, 4], [4, -1]], 6 configurations, 6 with a valid owner",
+   "fails": [
+    "MAX_SIMPLE"
+   ],
+   "holds_count": 24,
+   "fails_not_stated_by_source": [],
+   "stated_but_holds_now": []
+  },
+  "witness_check_gap_model": [
+   "f 1 omega 2 in_gap True configs 6 completable 6",
+   "  phi_prime_maxima (gap_model, as stored in the record py_maxima)[0]: found; L [0, 1] (given [0, 1]) completable True owners [0] phi (0, 1, 13, -1) (max (0, 1, 13, -1)) pool_optimal True",
+   "  phi_prime_maxima (gap_model, as stored in the record py_maxima)[1]: found; L [0, 1] (given [0, 1]) completable True owners [1] phi (0, 1, 13, -1) (max (0, 1, 13, -1)) pool_optimal True"
+  ]
+ },
+ "notes": "k4/gap.md section 3, W: 'n = 2, m = 5, with 720 profiles at n = 2 (#41 found them too). The smallest has sets {0, 2, 3, 4}, {1, 2, 3, 4} and values 0:2, 2:3, 3:6, 4:10 and 1:2, 2:3, 3:6, 4:10. Both Phi'-maxima have one frozen agent on good 4, which only the owner needs. The owner completes only by withholding its partner's private good into the unfrozen agent's slot.'\nrecord (results/k4_gap/hard_base.json.gz, category field 'W'): f = 1, omega = 2, 6 configurations (6 with a valid owner, 0 with C empty), 2 Phi'-maxima at Phi' = [0, 1, 13, -1] (2 with a valid owner, 0 with C empty, 2 pool-optimal, 0 with a frozen agent threatened by two owners); core idx field 1",
+ "expect_fail": [
+  "max-simple"
+ ]
+}

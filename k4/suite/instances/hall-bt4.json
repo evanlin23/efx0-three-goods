@@ -1,0 +1,308 @@
+{
+ "id": "hall-bt4",
+ "n": 4,
+ "m": 7,
+ "sets": [
+  [
+   0,
+   2,
+   5,
+   6
+  ],
+  [
+   0,
+   3,
+   4,
+   6
+  ],
+  [
+   1,
+   2,
+   4,
+   6
+  ],
+  [
+   1,
+   3,
+   5,
+   6
+  ]
+ ],
+ "vals": [
+  [
+   2,
+   6,
+   3,
+   10
+  ],
+  [
+   6,
+   3,
+   10,
+   8
+  ],
+  [
+   8,
+   6,
+   10,
+   3
+  ],
+  [
+   6,
+   4,
+   1,
+   8
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": "core 59 of results/k4_certs_4_pure.json.gz",
+ "source": {
+  "pr": 52,
+  "branch": "main",
+  "files": [
+   "k4/hall_instances/bt4.inst",
+   "attempts/k4-hall-bt-n4.md",
+   "k4/hall_bt.md",
+   "LEDGER.md"
+  ],
+  "replay": "attempts/k4_hall_attempts.py"
+ },
+ "refutes": [
+  {
+   "statement": "Conjecture BT (K4.HALL.BT): a Pareto-maximum inside the min-frozen class of 𝒫, with ω ≥ 1, that is not removal-only completable has a frozen big-top agent (four goods, holding its top a with a > b + c), or has no frozen agent and a label collision (K4.HALL.H0 (b)). Restated in k4/hall_bt.md §1: if P has ω ≥ 1, no removal-only owner, and frozen agents, then some frozen big-top agent is exposed w.r.t. some free owner",
+   "ledger": "K4.HALL.BT",
+   "smallest": false
+  },
+  {
+   "statement": "A frozen agent that is not big-top (exposed only locally) is repaired by the exchange cycle through the owner, as by Theorem K3's cycle move at k = 3; i.e. some cycle of #41's exchange digraph through an exposed frozen agent completes P (k4/hall_bt.md §1: 'At k = 4 it is not enough'; at bt4 no such cycle completes P, only a downgrade swap, which is not an exchange-digraph cycle)",
+   "ledger": "K4.HALL.BTCYC",
+   "smallest": null
+  }
+ ],
+ "witness": {
+  "bases": [
+   [
+    2,
+    5
+   ],
+   [
+    0,
+    3
+   ],
+   [
+    4
+   ],
+   [
+    6
+   ]
+  ],
+  "J": [
+   1
+  ],
+  "frozen": [
+   2,
+   3
+  ],
+  "omega": 1,
+  "repair_downgrade_swap": {
+   "agent1_takes": [
+    4
+   ],
+   "agent2_takes": [
+    1
+   ],
+   "new_junk": [
+    0,
+    3
+   ]
+  }
+ },
+ "notes": "Values are good:value as in bt4.inst. P: bases B_0={2,5} (free, needs 6), B_1={0,3} (free, needs 4), B_2={4} (frozen), B_3={6} (frozen); J={1}; no slots; ω=1; fewest frozen = 2. Agent 0 is big-top (10 > 6+3) but free; agents 1-3 are not big-top. P is Pareto-maximal among all 24 valid pre-allocations and not completable: owner 0: B_0 ∪ J = {2,5,1} gives agent 2 goods 1,2 worth 14 > 10; owner 1: {0,3,1} gives agent 3 goods 1,3 worth 10 > 8. Repair (downgrade swap, deficit −2): agent 1 takes 4, agent 2 takes {1}, {0,3} becomes junk. Found in the sample results/k4_hall_bt_samples.log (1 of the 303 pure n = 4 maxima there that are not removal-only completable); BT holds for all n ≤ 3 (exhaustive) and vacuously at n = 4 with one 4-good agent; m = 7 not claimed minimal ('smallest failing configuration found'). Replay run: attempts/k4_hall_attempts.py printed 'bt4: hall.c confirmed; hall_check.py confirmed', 'bt4 cycles: hall.c confirmed' (BTX 1 0 0 0 0 0), 'ALL CONFIRMED'. [Certified-core lookup by the generator (not from the source): identical sets (same agent order and labels): core 59 of results/k4_certs_4_pure.json.gz. Core k = 0-based position in the file's \"cores\" list, as the sources use it.]",
+ "aliases": [
+  "gap-bt4-n4-m7-pure59"
+ ],
+ "also": [
+  {
+   "id": "gap-bt4-n4-m7-pure59",
+   "source": {
+    "pr": 53,
+    "branch": "compute/k4-gap",
+    "head": "245040b",
+    "files": [
+     "results/k4_gap_bt4.log",
+     "k4/gap.md"
+    ],
+    "replay": "python3 k4/gap_bench.py --profile='{\"sets\": [[0, 2, 5, 6], [0, 3, 4, 6], [1, 2, 4, 6], [1, 3, 5, 6]], \"vals\": [[2, 6, 3, 10], [6, 3, 10, 8], [8, 6, 10, 3], [6, 4, 1, 8]], \"m\": 7}' --only=LOCAL,LOCAL_EXT,LOCAL_CLOSURE,REACH_EACH_CYC,BT"
+   },
+   "refutes": [
+    {
+     "statement": "#41 section 4, the local improvement lemma with pool moves and exchange-cycle moves (best pairs, every order of the receivers): every configuration without a valid owner has a Phi'-raising move",
+     "ledger": null,
+     "smallest": null,
+     "name": "LOCAL",
+     "basis": "stated",
+     "where": [
+      "results/k4_gap_bt4.log"
+     ],
+     "counterexamples_in_run": 1,
+     "witness": {
+      "key": [
+       null,
+       null,
+       4,
+       6
+      ],
+      "Q": {
+       "0": [
+        2,
+        5
+       ],
+       "1": [
+        0,
+        3
+       ]
+      },
+      "L": [
+       1
+      ]
+     }
+    },
+    {
+     "statement": "every configuration without a valid owner has a Phi'-raising move, with LOCAL's catalogue (pool moves; exchange-cycle moves, best pairs, every order of the receivers) enlarged [source text: 'the same with a larger catalogue: also cycle moves with any admissible pairs, and re-partitions of two free agents' pairs and the pool (contains #41's pool-assisted two-agent exchange)']",
+     "ledger": null,
+     "smallest": null,
+     "name": "LOCAL_EXT",
+     "basis": "stated",
+     "where": [
+      "results/k4_gap_bt4.log"
+     ],
+     "counterexamples_in_run": 1,
+     "witness": {
+      "key": [
+       null,
+       null,
+       4,
+       6
+      ],
+      "Q": {
+       "0": [
+        2,
+        5
+       ],
+       "1": [
+        0,
+        3
+       ]
+      },
+      "L": [
+       1
+      ]
+     }
+    },
+    {
+     "statement": "every configuration without a valid owner has a Phi'-raising move, with LOCAL_EXT's catalogue enlarged [source text: 'the same catalogue plus cycle moves followed by the pool closure (every free agent re-takes its best pair from the pool, repeatedly)']",
+     "ledger": null,
+     "smallest": null,
+     "name": "LOCAL_CLOSURE",
+     "basis": "stated",
+     "where": [
+      "results/k4_gap_bt4.log"
+     ],
+     "counterexamples_in_run": 1,
+     "witness": {
+      "key": [
+       null,
+       null,
+       4,
+       6
+      ],
+      "Q": {
+       "0": [
+        2,
+        5
+       ],
+       "1": [
+        0,
+        3
+       ]
+      },
+      "L": [
+       1
+      ]
+     }
+    },
+    {
+     "statement": "from each Pareto-maximal configuration without a valid owner, exchange-cycle moves alone reach one with a valid owner [source text: 'the per-start form without downgrade swaps', of REACH_EACH: 'the per-start form: from each Pareto-maximal configuration without a valid owner, exchange-cycle moves and downgrade swaps reach one with a valid owner']",
+     "ledger": null,
+     "smallest": null,
+     "name": "REACH_EACH_CYC",
+     "basis": "stated",
+     "where": [
+      "results/k4_gap_bt4.log"
+     ],
+     "counterexamples_in_run": 1,
+     "witness": {
+      "key": [
+       null,
+       null,
+       4,
+       6
+      ],
+      "Q": {
+       "0": [
+        2,
+        5
+       ],
+       "1": [
+        0,
+        3
+       ]
+      },
+      "L": [
+       1
+      ]
+     }
+    },
+    {
+     "statement": "#46 K4.HALL.BT in configuration form: a Pareto-maximal configuration without a valid owner has a frozen big-top agent",
+     "ledger": "K4.HALL.BT",
+     "smallest": null,
+     "name": "BT",
+     "basis": "stated",
+     "where": [
+      "results/k4_gap_bt4.log"
+     ],
+     "counterexamples_in_run": 1,
+     "witness": {
+      "key": [
+       null,
+       null,
+       4,
+       6
+      ],
+      "Q": {
+       "0": [
+        2,
+        5
+       ],
+       "1": [
+        0,
+        3
+       ]
+      },
+      "L": [
+       1
+      ]
+     }
+    }
+   ],
+   "notes": "k4/gap.md section 3, BT counterexamples: '#52's pure n = 4, m = 7 profile. It is in the gap with f = 2, and both implementations confirm it (results/k4_gap_bt4.log).' 'In both, exchange cycles alone never reach a configuration with a valid owner, and a downgrade swap does.' Main's LEDGER row K4.HALL.BT (REFUTED) cites pure core 59 (k4/hall_instances/bt4.inst, PR #52) -- same core; this extraction did not read bt4.inst, so equality of the values with #52's instance is [unverified] beyond gap.md's statement that this is #52's profile."
+  }
+ ],
+ "expect_fail": [
+  "bt",
+  "bt-cfg",
+  "pareto-minfrozen"
+ ]
+}

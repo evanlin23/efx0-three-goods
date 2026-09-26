@@ -1,0 +1,95 @@
+{
+ "id": "c4-exposure-earlier-block-n3m6",
+ "n": 3,
+ "m": 6,
+ "sets": [
+  [
+   0,
+   1,
+   2,
+   3
+  ],
+  [
+   2,
+   4,
+   5
+  ],
+  [
+   3,
+   4,
+   5
+  ]
+ ],
+ "vals": [
+  [
+   3,
+   4,
+   2,
+   8
+  ],
+  [
+   2,
+   4,
+   3
+  ],
+  [
+   4,
+   2,
+   3
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": null,
+ "source": {
+  "pr": 33,
+  "branch": "main",
+  "files": [
+   "attempts/k4-c4-exposure-counting.md",
+   "k4/c4.md"
+  ],
+  "replay": "attempts/k4_c4_attempts.py"
+ },
+ "refutes": [
+  {
+   "statement": "LB⁺'s Theorem A counting at k = 4: each earlier block has its own terminal for its exposed agents, so the deficit sits only in the last block (at k = 3 an earlier block never has a deficit)",
+   "ledger": "K4.C4.GAP",
+   "smallest": true
+  }
+ ],
+ "witness": {
+  "insertion_choices": [
+   6,
+   3,
+   1
+  ],
+  "bases": [
+   [
+    1
+   ],
+   [
+    4
+   ],
+   [
+    3
+   ]
+  ],
+  "blocks": [
+   0,
+   1,
+   0
+  ],
+  "J": [
+   0,
+   2,
+   5
+  ],
+  "r": 1,
+  "exposed": [
+   0,
+   2
+  ],
+  "omega": 1
+ },
+ "notes": "Case 3 of k4-c4-exposure-counting.md (k4/c4.md §6.1 item 3). Insertion choices (6, 3, 1). Block 0: agent 2 takes 3, agent 0 (lost its top 3) takes 1. Block 1: agent 1 takes 4 and is r. Agent 2 (3-good leader, frozen) needs 5 kept out; agent 0 (free, holding its b with c + d = 5 > 4 = b) is exposed by {0, 2} and must use its one slot for itself. One slot, two demands, both in block 0: r fails with deficit 1. Replay run: 'r = 1 (block 1), exposed [0, 2] in blocks [0, 0], owner r valid: False, deficit 1'. [Certified-core lookup by the generator (not from the source): identical sets (same agent order and labels): core 15 of results/k4_certs_3.json.gz. Core k = 0-based position in the file's \"cores\" list, as the sources use it.]"
+}

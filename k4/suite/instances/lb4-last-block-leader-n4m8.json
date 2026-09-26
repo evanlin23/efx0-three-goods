@@ -1,0 +1,129 @@
+{
+ "id": "lb4-last-block-leader-n4m8",
+ "n": 4,
+ "m": 8,
+ "sets": [
+  [
+   0,
+   2,
+   7
+  ],
+  [
+   1,
+   2,
+   3,
+   7
+  ],
+  [
+   1,
+   4,
+   5,
+   6
+  ],
+  [
+   3,
+   4,
+   5,
+   6
+  ]
+ ],
+ "vals": [
+  [
+   2,
+   3,
+   4
+  ],
+  [
+   8,
+   2,
+   4,
+   7
+  ],
+  [
+   7,
+   3,
+   5,
+   6
+  ],
+  [
+   2,
+   4,
+   5,
+   8
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": null,
+ "source": {
+  "pr": 24,
+  "branch": "main",
+  "files": [
+   "attempts/lb4-last-block-leader.md",
+   "LEDGER.md"
+  ],
+  "replay": "attempts/lb4_variants.py"
+ },
+ "refutes": [
+  {
+   "statement": "LB₄ with only the last block's leader searched, for every run of Phase 1 (lb4.c -i9 -u1 -r1 -w1 -c1): LB₄ on the run, or on the run with the last block's leader replaced by another agent of that block, succeeds",
+   "ledger": "K4.LB4.X",
+   "smallest": false
+  }
+ ],
+ "witness": {
+  "insertion_order": [
+   1,
+   2,
+   3,
+   0
+  ],
+  "picks": [
+   7,
+   1,
+   6,
+   5
+  ],
+  "blocks": [
+   1,
+   0,
+   0,
+   0
+  ],
+  "upgrade": {
+   "agent": 3,
+   "base": [
+    4,
+    5
+   ]
+  },
+  "J": [
+   0,
+   2,
+   3
+  ],
+  "frozen": [
+   1
+  ],
+  "omega": 1,
+  "example_allocation": [
+   [
+    0,
+    1,
+    2
+   ],
+   [
+    3,
+    7
+   ],
+   [
+    4,
+    5
+   ],
+   [
+    6
+   ]
+  ]
+ },
+ "notes": "Three 4-good agents. The failing run inserts agent 1 first: agent 1 takes its top 1; agent 2 takes 6; agent 3 takes 5 and is upgraded with 4 ({5,4} worth 9 > 8); agent 0 is inserted alone in a second block and takes 7. Agent 1 frozen (agent 2 needs 1), junk {0,2,3}, ω = 1; no owner or rotation works; the last block is agent 0 alone. Brute force: 50 EFX₀ allocations with at most one large bundle, e.g. {0,1,2} | {3,7} | {4,5} | {6}. 'Smallest failing configuration found' (-i9 not run on pure n = 4). Replay run: 'profiles 939589632, failing 8640', first failing profile values [[2, 3, 4], [8, 2, 4, 7], [7, 3, 5, 6], [2, 4, 5, 8]] ('order=1 2 3 0 picks=7,1,6,5 blocks=1,0,0,0 upg=3:30 frozen=1'). [Certified-core lookup by the generator (not from the source): identical sets (same agent order and labels): core 245 of results/k4_certs_4_n4_3.json.gz. Core k = 0-based position in the file's \"cores\" list, as the sources use it.]"
+}

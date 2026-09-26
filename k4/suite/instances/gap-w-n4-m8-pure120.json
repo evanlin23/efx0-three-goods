@@ -1,0 +1,221 @@
+{
+ "id": "gap-w-n4-m8-pure120",
+ "n": 4,
+ "m": 8,
+ "sets": [
+  [
+   0,
+   2,
+   4,
+   6
+  ],
+  [
+   0,
+   2,
+   5,
+   6
+  ],
+  [
+   1,
+   3,
+   4,
+   7
+  ],
+  [
+   1,
+   3,
+   5,
+   7
+  ]
+ ],
+ "vals": [
+  [
+   4,
+   2,
+   8,
+   3
+  ],
+  [
+   6,
+   3,
+   10,
+   2
+  ],
+  [
+   2,
+   3,
+   10,
+   6
+  ],
+  [
+   2,
+   3,
+   10,
+   6
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": "core 120 of results/k4_certs_4_pure.json.gz",
+ "core_ref_basis": "cited by the catalog record (core file/pos); exact sets match against results/k4_certs_4_pure.json.gz (0-based position 120, idx field 59; identical blob on main and all four branches)",
+ "source": {
+  "pr": 53,
+  "branch": "compute/k4-gap",
+  "head": "245040b",
+  "files": [
+   "results/k4_gap/hard_hunt_smallest.json.gz",
+   "results/k4_gap_hard_hunt.log",
+   "k4/gap.md",
+   "results/k4_gap_bench_hard_hunt.log"
+  ],
+  "replay": "python3 k4/gap_bench.py --profile='{\"sets\": [[0, 2, 4, 6], [0, 2, 5, 6], [1, 3, 4, 7], [1, 3, 5, 7]], \"vals\": [[4, 2, 8, 3], [6, 3, 10, 2], [2, 3, 10, 6], [2, 3, 10, 6]], \"m\": 8}' --only=MAX_SIMPLE"
+ },
+ "refutes": [
+  {
+   "statement": "#41 section 4 (-U0): some Phi'-maximum has a valid owner with C empty (no withheld goods, no unfreezing)",
+   "ledger": null,
+   "smallest": false,
+   "name": "MAX_SIMPLE",
+   "basis": "stated",
+   "where": [
+    "results/k4_gap_hard_hunt.log / results/k4_gap/hard_hunt_smallest.json.gz",
+    "results/k4_gap_bench_hard_hunt.log (printed as smallest #2)"
+   ],
+   "note": "category W (k4/gap.md section 3): no Phi'-maximum is simple (valid owner with C empty), but some Phi'-maximum has a valid owner (it must withhold goods, which needs unfreezing) -- so #41's -U0 observation fails on it."
+  }
+ ],
+ "witness": {
+  "phi_prime_maxima (gap_model, as stored in the record py_maxima)": [
+   {
+    "key": [
+     null,
+     5,
+     4,
+     null
+    ],
+    "Q": {
+     "0": [
+      0,
+      6
+     ],
+     "3": [
+      3,
+      7
+     ]
+    },
+    "L": [
+     1,
+     2
+    ],
+    "phi": [
+     0,
+     2,
+     26,
+     -2
+    ],
+    "owners_least_C": {
+     "0": [
+      1,
+      [
+       1
+      ]
+     ],
+     "3": [
+      1,
+      [
+       2
+      ]
+     ]
+    },
+    "threats_owner_agent_H7class": [
+     [
+      0,
+      1,
+      "L"
+     ],
+     [
+      3,
+      2,
+      "L"
+     ]
+    ]
+   },
+   {
+    "key": [
+     4,
+     null,
+     null,
+     5
+    ],
+    "Q": {
+     "1": [
+      0,
+      2
+     ],
+     "2": [
+      3,
+      7
+     ]
+    },
+    "L": [
+     1,
+     6
+    ],
+    "phi": [
+     0,
+     2,
+     26,
+     -2
+    ],
+    "owners_least_C": {
+     "1": [
+      1,
+      [
+       1
+      ]
+     ],
+     "2": [
+      1,
+      [
+       6
+      ]
+     ]
+    },
+    "threats_owner_agent_H7class": [
+     [
+      1,
+      0,
+      "L"
+     ],
+     [
+      2,
+      3,
+      "L"
+     ]
+    ]
+   }
+  ]
+ },
+ "replay": {
+  "gap_bench_profile": {
+   "ran": "python3 k4/gap_bench.py --profile='{...}' --show=1 (all 25 seeded statements) on compute/k4-gap @245040b",
+   "gap_c_sha256_prefix": "74e1fae22153",
+   "in_gap": "True; f 2, omega 2, keys [[-1, 5, 4, -1], [4, -1, -1, 5], [-1, -1, 4, 5]], 30 configurations, ",
+   "fails": [
+    "MAX_SIMPLE"
+   ],
+   "holds_count": 24,
+   "fails_not_stated_by_source": [],
+   "stated_but_holds_now": []
+  },
+  "witness_check_gap_model": [
+   "f 2 omega 2 in_gap True configs 30 completable 30",
+   "  phi_prime_maxima (gap_model, as stored in the record py_maxima)[0]: found; L [1, 2] (given [1, 2]) completable True owners [0, 3] phi (0, 2, 26, -2) (max (0, 2, 26, -2)) pool_optimal True",
+   "  phi_prime_maxima (gap_model, as stored in the record py_maxima)[1]: found; L [1, 6] (given [1, 6]) completable True owners [1, 2] phi (0, 2, 26, -2) (max (0, 2, 26, -2)) pool_optimal True"
+  ]
+ },
+ "notes": "Second-smallest W of the hunt (results/k4_gap_hard_hunt.log). Same core (pure core 120) as the -w0 counterexample of PR #45 (instance c4min-w0-n4-m8-pure120), with other values.\nrecord (results/k4_gap/hard_hunt_smallest.json.gz, category field 'W'): f = 2, omega = 2, 30 configurations (30 with a valid owner, 18 with C empty), 2 Phi'-maxima at Phi' = [0, 2, 26, -2] (2 with a valid owner, 0 with C empty, 2 pool-optimal, 0 with a frozen agent threatened by two owners); core idx field 59",
+ "expect_fail": [
+  "max-simple"
+ ]
+}

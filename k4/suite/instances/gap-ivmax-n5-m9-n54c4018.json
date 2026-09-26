@@ -1,0 +1,216 @@
+{
+ "id": "gap-ivmax-n5-m9-n54c4018",
+ "n": 5,
+ "m": 9,
+ "sets": [
+  [
+   0,
+   5,
+   6,
+   7
+  ],
+  [
+   1,
+   5,
+   8
+  ],
+  [
+   2,
+   6,
+   7,
+   8
+  ],
+  [
+   3,
+   6,
+   7,
+   8
+  ],
+  [
+   4,
+   6,
+   7,
+   8
+  ]
+ ],
+ "vals": [
+  [
+   2,
+   10,
+   4,
+   7
+  ],
+  [
+   2,
+   4,
+   3
+  ],
+  [
+   3,
+   2,
+   10,
+   6
+  ],
+  [
+   4,
+   5,
+   8,
+   2
+  ],
+  [
+   5,
+   4,
+   6,
+   8
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": "core 4018 of results/k4_certs_5_n4_4.json.gz",
+ "core_ref_basis": "cited by the catalog record (core file/pos); exact sets match against results/k4_certs_5_n4_4.json.gz (0-based position 4018, idx field 1176; identical blob on main and all four branches)",
+ "source": {
+  "pr": 53,
+  "branch": "compute/k4-gap",
+  "head": "245040b",
+  "files": [
+   "results/k4_gap/hard_base.json.gz",
+   "results/k4_gap_hard_base.log",
+   "k4/gap.md"
+  ],
+  "replay": "python3 k4/gap_bench.py --profile='{\"sets\": [[0, 5, 6, 7], [1, 5, 8], [2, 6, 7, 8], [3, 6, 7, 8], [4, 6, 7, 8]], \"vals\": [[2, 10, 4, 7], [2, 4, 3], [3, 2, 10, 6], [4, 5, 8, 2], [5, 4, 6, 8]], \"m\": 9}' --only=IV_MAX"
+ },
+ "refutes": [
+  {
+   "statement": "roadmap (iv): at every Phi'-maximum each frozen agent is threatened by at most one owner",
+   "ledger": null,
+   "smallest": true,
+   "name": "IV_MAX",
+   "smallest_scope": "smallest T2 profile with n = 5 in the base catalogs gap_n2..gap_n5 (n = 2, 3 and n = 4 one 4-good agent exhaustive; the rest sampled), by (n, m, number of configurations)",
+   "basis": "category",
+   "where": [
+    "results/k4_gap_hard_base.log / results/k4_gap/hard_base.json.gz"
+   ],
+   "note": "category T2 (k4/gap.md section 3): some Phi'-maximum has a frozen agent threatened by two owners"
+  }
+ ],
+ "witness": {
+  "phi_prime_maxima (gap_model, as stored in the record py_maxima)": [
+   {
+    "key": [
+     5,
+     null,
+     null,
+     null,
+     8
+    ],
+    "Q": {
+     "1": [
+      0,
+      1
+     ],
+     "2": [
+      2,
+      7
+     ],
+     "3": [
+      3,
+      6
+     ]
+    },
+    "L": [
+     4
+    ],
+    "phi": [
+     0,
+     3,
+     28,
+     -1
+    ],
+    "owners_least_C": {
+     "1": [
+      0,
+      []
+     ]
+    },
+    "threats_owner_agent_H7class": [
+     [
+      2,
+      4,
+      "L"
+     ],
+     [
+      3,
+      4,
+      "L"
+     ]
+    ]
+   },
+   {
+    "key": [
+     5,
+     null,
+     null,
+     null,
+     8
+    ],
+    "Q": {
+     "1": [
+      1,
+      4
+     ],
+     "2": [
+      2,
+      7
+     ],
+     "3": [
+      3,
+      6
+     ]
+    },
+    "L": [
+     0
+    ],
+    "phi": [
+     0,
+     3,
+     28,
+     -1
+    ],
+    "owners_least_C": {
+     "1": [
+      0,
+      []
+     ],
+     "2": [
+      0,
+      []
+     ],
+     "3": [
+      0,
+      []
+     ]
+    },
+    "threats_owner_agent_H7class": []
+   }
+  ]
+ },
+ "replay": {
+  "gap_bench_profile": {
+   "ran": "python3 k4/gap_bench.py --profile='{...}' --show=1 (all 25 seeded statements) on compute/k4-gap @245040b",
+   "gap_c_sha256_prefix": "74e1fae22153",
+   "in_gap": "True; f 2, omega 1, keys [[5, -1, -1, -1, 8]], 6 configurations, 6 with a valid owner",
+   "fails": [
+    "IV_MAX"
+   ],
+   "holds_count": 24,
+   "fails_not_stated_by_source": [],
+   "stated_but_holds_now": []
+  },
+  "witness_check_gap_model": [
+   "f 2 omega 1 in_gap True configs 6 completable 6",
+   "  phi_prime_maxima (gap_model, as stored in the record py_maxima)[0]: found; L [4] (given [4]) completable True owners [1] phi (0, 3, 28, -1) (max (0, 3, 28, -1)) pool_optimal True",
+   "  phi_prime_maxima (gap_model, as stored in the record py_maxima)[1]: found; L [0] (given [0]) completable True owners [1, 2, 3] phi (0, 3, 28, -1) (max (0, 3, 28, -1)) pool_optimal True"
+  ]
+ },
+ "notes": "record (results/k4_gap/hard_base.json.gz, category field 'S'): f = 2, omega = 1, 6 configurations (6 with a valid owner, 6 with C empty), 2 Phi'-maxima at Phi' = [0, 3, 28, -1] (2 with a valid owner, 2 with C empty, 2 pool-optimal, 1 with a frozen agent threatened by two owners); core idx field 1176"
+}

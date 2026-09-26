@@ -1,0 +1,105 @@
+{
+ "id": "ls-alt-rule-n4m7",
+ "n": 4,
+ "m": 7,
+ "sets": [
+  [
+   0,
+   1,
+   2,
+   3
+  ],
+  [
+   0,
+   2,
+   5,
+   6
+  ],
+  [
+   1,
+   4,
+   5,
+   6
+  ],
+  [
+   3,
+   4,
+   5,
+   6
+  ]
+ ],
+ "vals": [
+  [
+   3,
+   6,
+   10,
+   8
+  ],
+  [
+   2,
+   8,
+   4,
+   3
+  ],
+  [
+   4,
+   2,
+   5,
+   8
+  ],
+  [
+   4,
+   3,
+   2,
+   8
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": null,
+ "source": {
+  "pr": 27,
+  "branch": "main",
+  "files": [
+   "attempts/k4-ls-alt-rule.md",
+   "LEDGER.md"
+  ],
+  "replay": "k4/ls4_attempts.py"
+ },
+ "refutes": [
+  {
+   "statement": "LS4 with the alternative choice rule -DALT (most valuable improving set in M1, rotating agent scan start, longer exchange cycles first) always completes (the dead ends are an artifact of the default rule)",
+   "ledger": "K4.LS.VAR",
+   "smallest": false
+  }
+ ],
+ "witness": {
+  "Y": [
+   [
+    2
+   ],
+   [
+    0,
+    5
+   ],
+   [
+    6
+   ],
+   [
+    3,
+    4
+   ]
+  ],
+  "pool": [
+   1
+  ],
+  "trajectory_masks_hex": [
+   "4 0 0 0",
+   "4 20 0 0",
+   "4 20 40 0",
+   "4 20 40 18",
+   "4 21 40 18"
+  ]
+ },
+ "notes": "-DALT makes 5 single-agent rebundles to Y = {2} | {0,5} | {6} | {3,4}, U = {1}: no M1/R/X move, no completion. Not a dead end (coalition moves of ≥ 3 agents improve it). The default rule also fails on this profile, at the same final state. 'Smallest found' (23 failures in 21,900,000 random pure n = 4 profiles). Replay run: '5 steps replayed ... True', 'final Y = [[2], [0, 5], [6], [3, 4]] U = [1]', 'completions (pool goods anywhere): 0', 'coalition moves: 3'. [Certified-core lookup by the generator (not from the source): identical sets (same agent order and labels): core 53 of results/k4_certs_4_pure.json.gz. Core k = 0-based position in the file's \"cores\" list, as the sources use it.]"
+}

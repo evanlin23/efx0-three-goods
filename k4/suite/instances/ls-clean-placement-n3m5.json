@@ -1,0 +1,93 @@
+{
+ "id": "ls-clean-placement-n3m5",
+ "n": 3,
+ "m": 5,
+ "sets": [
+  [
+   0,
+   2,
+   3,
+   4
+  ],
+  [
+   1,
+   2,
+   3,
+   4
+  ],
+  [
+   2,
+   3,
+   4
+  ]
+ ],
+ "vals": [
+  [
+   1,
+   8,
+   6,
+   4
+  ],
+  [
+   2,
+   4,
+   10,
+   7
+  ],
+  [
+   4,
+   3,
+   2
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": null,
+ "source": {
+  "pr": 27,
+  "branch": "main",
+  "files": [
+   "attempts/k4-ls-clean-placement.md",
+   "LEDGER.md"
+  ],
+  "replay": "k4/ls4_attempts.py"
+ },
+ "refutes": [
+  {
+   "statement": "LS4's Phase 2 by 'clean' placement ignoring values (goods with a clean source go to one; dirty goods alone to distinct threat-free sources) completes every stable state",
+   "ledger": "K4.LS.VAR",
+   "smallest": false
+  }
+ ],
+ "witness": {
+  "Y": [
+   [
+    2
+   ],
+   [
+    3
+   ],
+   [
+    4
+   ]
+  ],
+  "pool": [
+   0,
+   1
+  ],
+  "completion": [
+   [
+    2
+   ],
+   [
+    3
+   ],
+   [
+    0,
+    1,
+    4
+   ]
+  ]
+ },
+ "notes": "Stable state Y = {2} | {3} | {4}, U = {0, 1}: no M1/R/X move; the clean rule finds no placement; LS4's Phase 2 completes it: agent 2 takes both pool goods, {2} | {3} | {0,1,4}. 'Smallest found'. Replay run: 'clean placement rule succeeds: False', 'dump-plus-solo placements ...: [[[2], [3], [0, 1, 4]]]'. [Certified-core lookup by the generator (not from the source): identical sets (same agent order and labels): core 6 of results/k4_certs_3.json.gz. Core k = 0-based position in the file's \"cores\" list, as the sources use it.]"
+}

@@ -1,0 +1,152 @@
+{
+ "id": "gap-phifirst-n4-m9-n4pc133",
+ "n": 4,
+ "m": 9,
+ "sets": [
+  [
+   0,
+   2,
+   6,
+   8
+  ],
+  [
+   1,
+   4,
+   7,
+   8
+  ],
+  [
+   3,
+   5,
+   7,
+   8
+  ],
+  [
+   5,
+   6,
+   7,
+   8
+  ]
+ ],
+ "vals": [
+  [
+   2,
+   3,
+   6,
+   10
+  ],
+  [
+   2,
+   4,
+   10,
+   7
+  ],
+  [
+   6,
+   10,
+   3,
+   8
+  ],
+  [
+   8,
+   3,
+   6,
+   4
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": "core 133 of results/k4_certs_4_pure.json.gz",
+ "core_ref_basis": "resolved by this extraction; exact sets match against results/k4_certs_4_pure.json.gz (0-based position 133, idx field 10; identical blob on main and all four branches)",
+ "source": {
+  "pr": 53,
+  "branch": "compute/k4-gap",
+  "head": "245040b",
+  "files": [
+   "results/k4_gap_bench_n4.log"
+  ],
+  "replay": "python3 k4/gap_bench.py --profile='{\"sets\": [[0, 2, 6, 8], [1, 4, 7, 8], [3, 5, 7, 8], [5, 6, 7, 8]], \"vals\": [[2, 3, 6, 10], [2, 4, 10, 7], [6, 10, 3, 8], [8, 3, 6, 4]], \"m\": 9}' --only=PHI_FIRST"
+ },
+ "refutes": [
+  {
+   "statement": "#41 section 4, the first form Phi = (-t, r, Lambda) (known false at n = 4): every maximum has a valid owner",
+   "ledger": "K4.C4MIN.X",
+   "smallest": true,
+   "name": "PHI_FIRST",
+   "smallest_scope": "first 'smallest' counterexample printed by results/k4_gap_bench_n4.log (catalogs gap_n4_1 (all), gap_n4_2/3/pure_s4000 (4,000 random profiles per core), every 5th record; sorted by n, m, number of configurations); 2 counterexamples in that run",
+   "basis": "stated",
+   "where": [
+    "results/k4_gap_bench_n4.log"
+   ],
+   "counterexamples_in_run": 2,
+   "witness": {
+    "key": [
+     8,
+     null,
+     null,
+     5
+    ],
+    "Q": {
+     "1": [
+      4,
+      7
+     ],
+     "2": [
+      0,
+      3
+     ]
+    },
+    "L": [
+     1,
+     2,
+     6
+    ]
+   }
+  }
+ ],
+ "witness": {
+  "key": [
+   8,
+   null,
+   null,
+   5
+  ],
+  "Q": {
+   "1": [
+    4,
+    7
+   ],
+   "2": [
+    0,
+    3
+   ]
+  },
+  "L": [
+   1,
+   2,
+   6
+  ],
+  "_from": "the first refuted statement's printed configuration"
+ },
+ "replay": {
+  "gap_bench_profile": {
+   "ran": "python3 k4/gap_bench.py --profile='{...}' --show=1 (all 25 seeded statements) on compute/k4-gap @245040b",
+   "gap_c_sha256_prefix": "74e1fae22153",
+   "in_gap": "True; f 2, omega 3, keys [[-1, -1, 8, 5], [8, -1, -1, 5]], 40 configurations, 34 with a valid ",
+   "fails": [
+    "PHI_FIRST"
+   ],
+   "holds_count": 24,
+   "fails_not_stated_by_source": [],
+   "stated_but_holds_now": []
+  },
+  "witness_check_gap_model": [
+   "f 2 omega 3 in_gap True configs 40 completable 34",
+   "  refutes:PHI_FIRST: found; L [1, 2, 6] (given [1, 2, 6]) completable False owners [] phi (0, 2, 24, -3) (max (0, 2, 24, -1)) pool_optimal True"
+  ]
+ },
+ "notes": "",
+ "expect_fail": [
+  "phi"
+ ]
+}

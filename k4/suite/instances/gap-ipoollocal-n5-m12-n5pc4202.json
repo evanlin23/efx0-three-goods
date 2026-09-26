@@ -1,0 +1,214 @@
+{
+ "id": "gap-ipoollocal-n5-m12-n5pc4202",
+ "n": 5,
+ "m": 12,
+ "sets": [
+  [
+   0,
+   2,
+   7,
+   11
+  ],
+  [
+   1,
+   4,
+   9,
+   10
+  ],
+  [
+   3,
+   6,
+   10,
+   11
+  ],
+  [
+   5,
+   7,
+   8,
+   11
+  ],
+  [
+   8,
+   9,
+   10,
+   11
+  ]
+ ],
+ "vals": [
+  [
+   3,
+   6,
+   5,
+   7
+  ],
+  [
+   3,
+   2,
+   4,
+   8
+  ],
+  [
+   2,
+   6,
+   10,
+   3
+  ],
+  [
+   3,
+   6,
+   10,
+   2
+  ],
+  [
+   10,
+   6,
+   7,
+   2
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": "core 4202 of results/k4_certs_5_pure.json.gz",
+ "core_ref_basis": "resolved by this extraction; exact sets match against results/k4_certs_5_pure.json.gz (0-based position 4202, idx field 57; identical blob on main and all four branches)",
+ "source": {
+  "pr": 53,
+  "branch": "compute/k4-gap",
+  "head": "245040b",
+  "files": [
+   "results/k4_gap_bench_n5.log"
+  ],
+  "replay": "python3 k4/gap_bench.py --profile='{\"sets\": [[0, 2, 7, 11], [1, 4, 9, 10], [3, 6, 10, 11], [5, 7, 8, 11], [8, 9, 10, 11]], \"vals\": [[3, 6, 5, 7], [3, 2, 4, 8], [2, 6, 10, 3], [3, 6, 10, 2], [10, 6, 7, 2]], \"m\": 12}' --only=I_POOL_LOCAL,LOCAL"
+ },
+ "refutes": [
+  {
+   "statement": "(i) as a local lemma: a configuration without a valid owner that is not pool-optimal has a Phi'-raising pool or cycle move",
+   "ledger": null,
+   "smallest": true,
+   "name": "I_POOL_LOCAL",
+   "smallest_scope": "first 'smallest' counterexample printed by results/k4_gap_bench_n5.log (catalogs gap_n5_*_s100 (100 random profiles per core), every 10th record; sorted by n, m, number of configurations); 31 counterexamples in that run",
+   "basis": "stated",
+   "where": [
+    "results/k4_gap_bench_n5.log"
+   ],
+   "counterexamples_in_run": 31,
+   "witness": {
+    "key": [
+     null,
+     10,
+     null,
+     null,
+     8
+    ],
+    "Q": {
+     "0": [
+      1,
+      11
+     ],
+     "2": [
+      3,
+      6
+     ],
+     "3": [
+      5,
+      7
+     ]
+    },
+    "L": [
+     0,
+     2,
+     4,
+     9
+    ]
+   }
+  },
+  {
+   "statement": "#41 section 4, the local improvement lemma with pool moves and exchange-cycle moves (best pairs, every order of the receivers): every configuration without a valid owner has a Phi'-raising move",
+   "ledger": null,
+   "smallest": false,
+   "name": "LOCAL",
+   "basis": "stated",
+   "where": [
+    "results/k4_gap_bench_n5.log (printed as smallest #3)"
+   ],
+   "counterexamples_in_run": 33,
+   "witness": {
+    "key": [
+     null,
+     10,
+     null,
+     null,
+     8
+    ],
+    "Q": {
+     "0": [
+      1,
+      11
+     ],
+     "2": [
+      3,
+      6
+     ],
+     "3": [
+      5,
+      7
+     ]
+    },
+    "L": [
+     0,
+     2,
+     4,
+     9
+    ]
+   }
+  }
+ ],
+ "witness": {
+  "key": [
+   null,
+   10,
+   null,
+   null,
+   8
+  ],
+  "Q": {
+   "0": [
+    1,
+    11
+   ],
+   "2": [
+    3,
+    6
+   ],
+   "3": [
+    5,
+    7
+   ]
+  },
+  "L": [
+   0,
+   2,
+   4,
+   9
+  ],
+  "_from": "the first refuted statement's printed configuration"
+ },
+ "replay": {
+  "gap_bench_profile": {
+   "ran": "python3 k4/gap_bench.py --profile='{...}' --show=1 (all 25 seeded statements) on compute/k4-gap @245040b",
+   "gap_c_sha256_prefix": "74e1fae22153",
+   "in_gap": "True; f 2, omega 4, keys [[-1, -1, -1, 8, 10], [-1, -1, 10, -1, 8], [-1, -1, 10, 8, -1], [-1, ",
+   "fails": [
+    "I_POOL_LOCAL",
+    "LOCAL"
+   ],
+   "holds_count": 23,
+   "fails_not_stated_by_source": [],
+   "stated_but_holds_now": []
+  },
+  "witness_check_gap_model": [
+   "f 2 omega 4 in_gap True configs 1205 completable 798",
+   "  refutes:I_POOL_LOCAL: found; L [0, 2, 4, 9] (given [0, 2, 4, 9]) completable False owners [] phi (0, 3, 28, -3) (max (0, 4, 35, -2)) pool_optimal False"
+  ]
+ },
+ "notes": ""
+}

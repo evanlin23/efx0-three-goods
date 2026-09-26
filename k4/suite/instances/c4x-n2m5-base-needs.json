@@ -1,0 +1,84 @@
+{
+ "id": "c4x-n2m5-base-needs",
+ "n": 2,
+ "m": 5,
+ "sets": [
+  [
+   0,
+   2,
+   3,
+   4
+  ],
+  [
+   1,
+   2,
+   3,
+   4
+  ]
+ ],
+ "vals": [
+  [
+   2,
+   3,
+   4,
+   8
+  ],
+  [
+   2,
+   3,
+   4,
+   8
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": null,
+ "source": {
+  "pr": 36,
+  "branch": "main",
+  "files": [
+   "attempts/k4-c4x-variant-spaces.md",
+   "LEDGER.md"
+  ],
+  "replay": "attempts/k4_c4x_attempts.py"
+ },
+ "refutes": [
+  {
+   "statement": "Variant space of 𝒫 with the owner's needs taken from its base (as at k = 3, LB₄'s -w0): some valid pre-allocation is completable",
+   "ledger": "K4.C4X.PHI",
+   "smallest": true
+  }
+ ],
+ "notes": "Instance 1 of k4-c4x-variant-spaces.md ('smallest n'). 8 valid pre-allocations, none completable with the owner's needs from its base; with them from its bundle, some are. Replay run: 'space w0: 8 valid, 0 completable (py); no completable pre-allocation (c): True -> confirmed'. [Certified-core lookup by the generator (not from the source): identical sets (same agent order and labels): core 3 of results/k4_certs_2.json.gz. Core k = 0-based position in the file's \"cores\" list, as the sources use it.]",
+ "aliases": [
+  "adaptive-gap-base-needs"
+ ],
+ "also": [
+  {
+   "id": "adaptive-gap-base-needs",
+   "source": {
+    "pr": 44,
+    "branch": "proof/k4-adaptive",
+    "files": [
+     "k4/adaptive.md",
+     "results/k4_adaptive_basewants.log",
+     "k4/adaptive_uncovered.py"
+    ],
+    "replay": null
+   },
+   "refutes": [
+    {
+     "statement": "The theorems of #33 and #37 plus Theorem A4+N (need-shrinking upgrades) cover some insertion sequence of every strict profile. Refuted: this profile is among the 1,020 n = 2 profiles A4+N leaves uncovered.",
+     "ledger": "K4.AD.AN",
+     "smallest": null
+    },
+    {
+     "statement": "On the profiles A4+N leaves uncovered, the gap is only in the counting: LB4r's exact owner test finds an owner valid with its needs from its base, without rotation. Refuted: 'The rest needs either one rotation or the owner's needs from its bundle (the smallest: n = 2, m = 5 ...)'.",
+     "ledger": "K4.AD.AN",
+     "smallest": true
+    }
+   ],
+   "notes": "k4/adaptive.md §6 (end). No replay script in the source; checked here with the branch's k4/adaptive.c in single-profile mode (-T1): with Theorem A4+N counted (-C3) no insertion sequence is covered (uncov=1); over every insertion sequence (-A26 = -i2) LB4r with the owner's needs from its base (-w0) fails with no rotation and succeeds with one; with the owner's needs from its bundle (-w1) it needs none. core_ref derived here (not stated in the source): exact match of n, m and every agent's goods in the same agent order, against results/k4_certs_2.json.gz on main."
+  }
+ ]
+}

@@ -1,0 +1,91 @@
+{
+ "id": "red-key-without-t0",
+ "n": 3,
+ "m": 7,
+ "sets": [
+  [
+   0,
+   2,
+   5,
+   6
+  ],
+  [
+   1,
+   3,
+   4,
+   6
+  ],
+  [
+   3,
+   4,
+   5,
+   6
+  ]
+ ],
+ "vals": [
+  [
+   2,
+   3,
+   4,
+   8
+  ],
+  [
+   3,
+   5,
+   6,
+   7
+  ],
+  [
+   2,
+   3,
+   6,
+   10
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": "core 41 of results/k4_certs_3.json.gz",
+ "source": {
+  "pr": 51,
+  "branch": "proof/k4-c4min-reduce",
+  "files": [
+   "k4/c4min_reduce.md",
+   "results/k4_red_n3.log"
+  ],
+  "replay": null
+ },
+ "refutes": [
+  {
+   "statement": "Lemma T0 at a fixed key: every key (g, x) has a configuration with t = 0 (the pool alone does not threaten x). Refuted: 'A key can have no configuration with t = 0: 208 keys at n <= 3 (results/k4_red_n3.log, counter key_no_t0); every profile has another key with one.'",
+   "ledger": null,
+   "smallest": null
+  }
+ ],
+ "witness": {
+  "keys (g, x)": [
+   [
+    6,
+    0
+   ],
+   [
+    6,
+    1
+   ],
+   [
+    6,
+    2
+   ]
+  ],
+  "key with only t = 1 configurations": [
+   6,
+   1
+  ],
+  "source text": "its key (6, 1) has a flat x and only configurations with t = 1, while its keys (6, 0) and (6, 2) have none with t = 1",
+  "counts recomputed here (red_lib)": {
+   "key (6, 0)": "15 configurations, all t = 0",
+   "key (6, 1)": "3 configurations, all t = 1",
+   "key (6, 2)": "19 configurations, all t = 0"
+  }
+ },
+ "notes": "k4/c4min_reduce.md §5.2, 'What this leaves', item 4 (Lemma T0 is open in its global form: every f = 1 profile tested has a configuration with t = 0 at some key). x = agent 1 is flat (a = 7 < c + d = 5 + 3). No replay script in the source; checked here with k4/red_lib.py. The source's other mention of core 41 (§3: one of 96 profiles where Lemma C's count misses a valid owner) gives no values and is not this record."
+}

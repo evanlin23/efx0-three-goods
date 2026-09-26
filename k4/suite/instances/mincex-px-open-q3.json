@@ -1,0 +1,92 @@
+{
+ "id": "mincex-px-open-q3",
+ "n": 2,
+ "m": 5,
+ "sets": [
+  [
+   0,
+   1,
+   2
+  ],
+  [
+   0,
+   3,
+   4
+  ]
+ ],
+ "vals": [
+  [
+   4,
+   3,
+   2
+  ],
+  [
+   2,
+   4,
+   3
+  ]
+ ],
+ "kind": "local configuration (not a complete instance; the runner skips it)",
+ "core_ref": null,
+ "source": {
+  "pr": 23,
+  "branch": "main",
+  "files": [
+   "attempts/k4-mincex-px-open.md",
+   "LEDGER.md"
+  ],
+  "replay": "k4/mincex_attempts.py"
+ },
+ "refutes": [
+  {
+   "statement": "Minimal-counterexample reduction for configuration px (open): a P3 agent f = {g, y, p_f} sharing a good g of degree 2 with a Q3 agent e that does not value y is reducible by DEL or by some one-agent gadget (e.g. CON-f: h = e with g renamed y), using the unenvied bundle (Lemma M1(b)). These failures are what K4.MC5's restriction records; K4.MC5 itself (CERTIFIED) is not refuted",
+   "ledger": "K4.MC5",
+   "smallest": true
+  }
+ ],
+ "witness": {
+  "good_names": [
+   "g",
+   "a",
+   "b",
+   "y",
+   "p_f"
+  ],
+  "agent_names": [
+   "e",
+   "f"
+  ],
+  "DEL_failing_state": {
+   "outside_bundle": [
+    "a",
+    "b",
+    "y"
+   ],
+   "unenvied": true
+  },
+  "CON_f_gadget": {
+   "h": {
+    "y": 4,
+    "a": 3,
+    "b": 2
+   }
+  },
+  "CON_f_failing_state": {
+   "h": [
+    "a"
+   ],
+   "outside": [
+    [
+     "b"
+    ],
+    [
+     "y"
+    ]
+   ],
+   "unenvied": [
+    "y"
+   ]
+  }
+ },
+ "notes": "LOCAL CONFIGURATION, NOT A COMPLETE INSTANCE. Goods numbered by me in the source's listing order: 0 = g, 1 = a, 2 = b, 3 = y, 4 = p_f. e = Q3 on {g, a, b} with g = 4, a = 3, b = 2; f on {g, y, p_f} with y = 4, p_f = 3, g = 2. DEL fails at the state where a, b, y form one outside bundle without outside goods that nobody envies (θ_e({a, b, y}) = 5 > v_e(g) = 4). CON-f (h values y = 4, a = 3, b = 2) fails at the state where h holds {a}, b and y are singletons in outside bundles, {y} unenvied. These failures are what K4.MC5's restriction records (f ranks y > p_f > g, e ranks g first); the source calls it the 'smallest failing configuration'. The other profile left swaps a and b: see mincex-px-open-q3-swapped. Replay run (cd k4 && python3 mincex_attempts.py px-open): 'not reduced: {'e': {'g': 4, 'a': 3, 'b': 2}, 'f': {'g': 2, 'y': 4, 'pf': 3}}' with DEL state 'outside: [['a', 'b', 'y']]' and CON-f state 'Y = S': {'h': ['a']} | outside: [['b'], ['y']]'."
+}

@@ -1,0 +1,171 @@
+{
+ "id": "red-a2-hstar",
+ "n": 3,
+ "m": 8,
+ "sets": [
+  [
+   0,
+   2,
+   6,
+   7
+  ],
+  [
+   1,
+   4,
+   6,
+   7
+  ],
+  [
+   3,
+   5,
+   6,
+   7
+  ]
+ ],
+ "vals": [
+  [
+   3,
+   4,
+   2,
+   8
+  ],
+  [
+   4,
+   3,
+   2,
+   8
+  ],
+  [
+   3,
+   4,
+   2,
+   8
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": "core 46 of results/k4_certs_3.json.gz",
+ "source": {
+  "pr": 51,
+  "branch": "proof/k4-c4min-reduce",
+  "files": [
+   "k4/c4min_reduce.md",
+   "attempts/k4-c4min-reduce-a.md",
+   "attempts/k4-c4min-reduce-c.md",
+   "attempts/k4_c4min_reduce_attempts.py",
+   "results/k4_red_attempts.log"
+  ],
+  "replay": "attempts/k4_c4min_reduce_attempts.py"
+ },
+ "refutes": [
+  {
+   "statement": "Reduction (a) with Theorem Z's potential at the best key: some key (g, x) has every maximum of (r', Lambda') completable (so a rule choosing the key, or a tie-break after (r', Lambda'), rescues a black-box use of Theorem Z). Refuted: at every key (7, 0), (7, 1), (7, 2) the maximum of (r', Lambda') is unique, has t = 1, and is not completable.",
+   "ledger": "K4.C4MIN.RED.X",
+   "smallest": true
+  },
+  {
+   "statement": "Reduction (c), one role swap, two-level rule: take a non-completable (r', Lambda')-maximum at a key (g, x) and a terminal z of it (a free agent needing g; (g, z) is a key); then every (r', Lambda')-maximum at (g, z) is completable. Refuted (all 384 failures with n <= 3 are in this core; every non-completable (r', Lambda')-maximum here has two terminals, and their keys fail too).",
+   "ledger": "K4.C4MIN.RED.X",
+   "smallest": true
+  },
+  {
+   "statement": "Conjecture GLOB without t: every maximum over the configurations of all keys of (r', Lambda') (Theorem Z's potential, levels over U_y) is completable. (k4/c4min_reduce.md §5 lists this variant as failing on 123,180 profiles with n <= 3, counter FAIL_glob_r,lamU, without naming an instance.)",
+   "ledger": "K4.C4MIN.RED.GLOB",
+   "smallest": null,
+   "derived": true,
+   "derived_how": "Implied by the source's per-key statement (a global maximum is a maximum at its own key); confirmed here with the branch's k4/red_lib.py: 3 global maxima of (r', Lambda'), 0 completable."
+  },
+  {
+   "statement": "#50's Psi = (r, Lambda) over all keys (Lambda over R_i including the frozen agent's level): some Psi-maximum is completable. (k4/c4min_reduce.md §5.1: 'In 128 (all in the core of H★) none is, so Psi cannot be kept there'; the source gives the count, not this profile.)",
+   "ledger": null,
+   "smallest": null,
+   "derived": true,
+   "derived_how": "Confirmed here with k4/red_lib.py: the 3 maxima of (r, Lambda_R) over all keys are the three unique per-key maxima above, none completable."
+  }
+ ],
+ "witness": {
+  "f": 1,
+  "keys (g, x)": [
+   [
+    7,
+    0
+   ],
+   [
+    7,
+    1
+   ],
+   [
+    7,
+    2
+   ]
+  ],
+  "unique (r', Lambda')-maximum per key (replayed with red_lib)": {
+   "key (7, 0)": {
+    "Q": {
+     "1": [
+      1,
+      4
+     ],
+     "2": [
+      3,
+      5
+     ]
+    },
+    "pool": [
+     0,
+     2,
+     6
+    ],
+    "r'": 2,
+    "t": 1,
+    "completable": false
+   },
+   "key (7, 1)": {
+    "Q": {
+     "0": [
+      0,
+      2
+     ],
+     "2": [
+      3,
+      5
+     ]
+    },
+    "pool": [
+     1,
+     4,
+     6
+    ],
+    "r'": 2,
+    "t": 1,
+    "completable": false
+   },
+   "key (7, 2)": {
+    "Q": {
+     "0": [
+      0,
+      2
+     ],
+     "1": [
+      1,
+      4
+     ]
+    },
+    "pool": [
+     3,
+     5,
+     6
+    ],
+    "r'": 2,
+    "t": 1,
+    "completable": false
+   }
+  },
+  "completable configuration at key (7, 0) (verbatim, attempts/k4-c4min-reduce-a.md)": "agent 1 holds {1, 6}, agent 2 holds {3, 5}, pool {0, 2, 4}, owner 2",
+  "(r', -t, Lambda')-maxima": "every one completable at every key (replay: yes)"
+ },
+ "notes": "Instance A2 = the core H★ (k4/c4min_reduce.md §4.1, §4.3, §5.1). 'All three agents have top 7, are of type a > b + c, and share good 6. Each has a private pair worth 7 < 8.' 'smallest n = 3, and the only failing core with n <= 3, m = 8'. '128 profiles with n <= 3 have no key at which every (r', Lambda')-maximum is completable, all in this core.' A completable configuration exists at every key; (r', -t, Lambda') fixes it. Replay ALL CONFIRMED (rerun here); C counters FAIL_prof_some_key_every = 1, FAIL_swap_some_terminal = 3. The per-key maxima listed in the witness were recomputed here with red_lib (the source describes them in words: free agents take their private pairs, pool = x's private pair plus 6). Refutes entries marked derived=true are my inferences, verified by a scratch run; the source states only counts for them.",
+ "expect_fail": [
+  "cfg:r,lam"
+ ]
+}

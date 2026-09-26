@@ -1,0 +1,90 @@
+{
+ "id": "red-a1-hopeless-key",
+ "n": 3,
+ "m": 6,
+ "sets": [
+  [
+   0,
+   1,
+   4,
+   5
+  ],
+  [
+   2,
+   3,
+   4,
+   5
+  ],
+  [
+   2,
+   3,
+   4,
+   5
+  ]
+ ],
+ "vals": [
+  [
+   4,
+   2,
+   7,
+   8
+  ],
+  [
+   2,
+   3,
+   4,
+   8
+  ],
+  [
+   3,
+   4,
+   6,
+   8
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": "core 17 of results/k4_certs_3.json.gz",
+ "source": {
+  "pr": 51,
+  "branch": "proof/k4-c4min-reduce",
+  "files": [
+   "k4/c4min_reduce.md",
+   "attempts/k4-c4min-reduce-a.md",
+   "attempts/k4_c4min_reduce_attempts.py",
+   "results/k4_red_attempts.log"
+  ],
+  "replay": "attempts/k4_c4min_reduce_attempts.py"
+ },
+ "refutes": [
+  {
+   "statement": "Reduction (a) at a fixed key: for a key (g, x) of a strict profile with fewest frozen agents f = 1 (x frozen on its top g), remove x and g, apply Theorem Z' to I' = I - x - g, reinsert x with {g}; i.e. every key has a completable configuration. Refuted: 'A key can be hopeless' - the key (5, 0) has no completable configuration at all (the keys (5, 1) and (5, 2) have one).",
+   "ledger": "K4.C4MIN.RED.X",
+   "smallest": true
+  }
+ ],
+ "witness": {
+  "f": 1,
+  "omega": 1,
+  "keys (g, x)": [
+   [
+    5,
+    0
+   ],
+   [
+    5,
+    1
+   ],
+   [
+    5,
+    2
+   ]
+  ],
+  "hopeless key": [
+   5,
+   0
+  ],
+  "source text": "There x = 0 has two private goods, which are worthless in I'. With omega = 1, one of them must enter the pool, and every free-valid owner's pair holds another good of x."
+ },
+ "notes": "Instance A1 (k4/c4min_reduce.md §4.1; attempts/k4-c4min-reduce-a.md). 'smallest n = 3, and m = 2n = 6, omega = 1' (at n = 2 every key works). Replay (both implementations, k4/red_lib.py and k4/red.c): 'key (5, 0) has no completable configuration (Python) yes', 'C: key_noncompletable = 1 yes', ALL CONFIRMED (rerun here). Scratch check with red_lib: key (5,0) has 4 configurations, 0 completable; keys (5,1), (5,2) have 2 configurations each, all completable. 'core N' = 0-based position in the file's 'cores' list (not its 'idx' field). The same core (with other values) is adaptive-p1 of PR #44."
+}

@@ -1,0 +1,100 @@
+{
+ "id": "c4-gadget-stacking-2copies-n6m11",
+ "n": 6,
+ "m": 11,
+ "sets": [
+  [
+   0,
+   1,
+   4,
+   5
+  ],
+  [
+   2,
+   3,
+   4,
+   5
+  ],
+  [
+   2,
+   3,
+   4,
+   5
+  ],
+  [
+   6,
+   0,
+   9,
+   10
+  ],
+  [
+   7,
+   8,
+   9,
+   10
+  ],
+  [
+   7,
+   8,
+   9,
+   10
+  ]
+ ],
+ "vals": [
+  [
+   1,
+   4,
+   6,
+   8
+  ],
+  [
+   3,
+   5,
+   7,
+   6
+  ],
+  [
+   2,
+   3,
+   4,
+   8
+  ],
+  [
+   1,
+   4,
+   6,
+   8
+  ],
+  [
+   3,
+   5,
+   7,
+   6
+  ],
+  [
+   2,
+   3,
+   4,
+   8
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": null,
+ "source": {
+  "pr": 33,
+  "branch": "main",
+  "files": [
+   "attempts/k4-c4-gadget-stacking.md"
+  ],
+  "replay": "attempts/k4_c4_attempts.py"
+ },
+ "refutes": [
+  {
+   "statement": "Stacking hard gadgets: several copies of a core that needs two nested rotations under LB₄ʳ with index insertion, joined into one connected core through a shared (private junk) good, need a rotation per copy (so more than three rotations would refute Theorem C₄)",
+   "ledger": "K4.C4.E",
+   "smallest": null
+  }
+ ],
+ "notes": "Two copies of c4-gadget-stacking-1copy-n3m6 (n = 6, m = 11): 'copy 2's private good 1 identified with copy 1's good 0'. Numbering from attempts/k4_c4_attempts.py: copy 2 goods map 0→6, 1→0, 2→7, 3→8, 4→9, 5→10 (so good 0 is copy 1's private good of agent 0 and copy 2's private good 1 of agent 3). Source: two copies 'need one' rotation. The replay script's check (fails with 1 rotation: False) agrees; my direct run of k4/lb4.c -i0 -u3 -r1 -w1 -c1 printed 'fails 0 ... owner_r 1 ... rot 0' (solved by owner r without any rotation on the single index run). [Certified-core lookup by the generator (not from the source): no certificate file covers this class. Core k = 0-based position in the file's \"cores\" list, as the sources use it.]"
+}

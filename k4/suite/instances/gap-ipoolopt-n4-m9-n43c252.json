@@ -1,0 +1,301 @@
+{
+ "id": "gap-ipoolopt-n4-m9-n43c252",
+ "n": 4,
+ "m": 9,
+ "sets": [
+  [
+   0,
+   2,
+   6,
+   8
+  ],
+  [
+   1,
+   4,
+   7,
+   8
+  ],
+  [
+   3,
+   5,
+   7,
+   8
+  ],
+  [
+   6,
+   7,
+   8
+  ]
+ ],
+ "vals": [
+  [
+   6,
+   3,
+   10,
+   2
+  ],
+  [
+   6,
+   3,
+   10,
+   2
+  ],
+  [
+   4,
+   3,
+   8,
+   2
+  ],
+  [
+   4,
+   2,
+   3
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": "core 252 of results/k4_certs_4_n4_3.json.gz",
+ "core_ref_basis": "cited by the catalog record (core file/pos); exact sets match against results/k4_certs_4_n4_3.json.gz (0-based position 252, idx field 6; identical blob on main and all four branches)",
+ "source": {
+  "pr": 53,
+  "branch": "compute/k4-gap",
+  "head": "245040b",
+  "files": [
+   "results/k4_gap/hard_base.json.gz",
+   "results/k4_gap_hard_base.log",
+   "k4/gap.md"
+  ],
+  "replay": "python3 k4/gap_bench.py --profile='{\"sets\": [[0, 2, 6, 8], [1, 4, 7, 8], [3, 5, 7, 8], [6, 7, 8]], \"vals\": [[6, 3, 10, 2], [6, 3, 10, 2], [4, 3, 8, 2], [4, 2, 3]], \"m\": 9}' --only=I_POOLOPT"
+ },
+ "refutes": [
+  {
+   "statement": "roadmap (i), first half: every Phi'-maximum is pool-optimal",
+   "ledger": null,
+   "smallest": true,
+   "name": "I_POOLOPT",
+   "smallest_scope": "smallest NPO profile with n = 4 in the base catalogs gap_n2..gap_n5 (n = 2, 3 and n = 4 one 4-good agent exhaustive; the rest sampled), by (n, m, number of configurations)",
+   "basis": "category",
+   "where": [
+    "results/k4_gap_hard_base.log / results/k4_gap/hard_base.json.gz"
+   ],
+   "note": "category NPO (k4/gap.md section 3): some Phi'-maximum is not pool-optimal"
+  }
+ ],
+ "witness": {
+  "phi_prime_maxima (gap_model, as stored in the record py_maxima)": [
+   {
+    "key": [
+     null,
+     null,
+     7,
+     6
+    ],
+    "Q": {
+     "0": [
+      0,
+      2
+     ],
+     "1": [
+      1,
+      8
+     ]
+    },
+    "L": [
+     3,
+     4,
+     5
+    ],
+    "phi": [
+     0,
+     3,
+     21,
+     -2
+    ],
+    "owners_least_C": {
+     "0": [
+      0,
+      []
+     ],
+     "1": [
+      1,
+      [
+       3
+      ]
+     ]
+    },
+    "threats_owner_agent_H7class": [
+     [
+      1,
+      2,
+      "G1"
+     ]
+    ]
+   },
+   {
+    "key": [
+     null,
+     null,
+     7,
+     6
+    ],
+    "Q": {
+     "0": [
+      0,
+      8
+     ],
+     "1": [
+      1,
+      4
+     ]
+    },
+    "L": [
+     2,
+     3,
+     5
+    ],
+    "phi": [
+     0,
+     3,
+     21,
+     -2
+    ],
+    "owners_least_C": {
+     "0": [
+      1,
+      [
+       3
+      ]
+     ],
+     "1": [
+      0,
+      []
+     ]
+    },
+    "threats_owner_agent_H7class": [
+     [
+      0,
+      2,
+      "L"
+     ]
+    ]
+   },
+   {
+    "key": [
+     null,
+     7,
+     null,
+     6
+    ],
+    "Q": {
+     "0": [
+      0,
+      2
+     ],
+     "2": [
+      3,
+      8
+     ]
+    },
+    "L": [
+     1,
+     4,
+     5
+    ],
+    "phi": [
+     0,
+     3,
+     21,
+     -2
+    ],
+    "owners_least_C": {
+     "0": [
+      0,
+      []
+     ],
+     "2": [
+      1,
+      [
+       1
+      ]
+     ]
+    },
+    "threats_owner_agent_H7class": [
+     [
+      2,
+      1,
+      "G1"
+     ]
+    ]
+   },
+   {
+    "key": [
+     null,
+     7,
+     null,
+     6
+    ],
+    "Q": {
+     "0": [
+      0,
+      8
+     ],
+     "2": [
+      3,
+      5
+     ]
+    },
+    "L": [
+     1,
+     2,
+     4
+    ],
+    "phi": [
+     0,
+     3,
+     21,
+     -2
+    ],
+    "owners_least_C": {
+     "0": [
+      1,
+      [
+       1
+      ]
+     ],
+     "2": [
+      0,
+      []
+     ]
+    },
+    "threats_owner_agent_H7class": [
+     [
+      0,
+      1,
+      "L"
+     ]
+    ]
+   }
+  ]
+ },
+ "replay": {
+  "gap_bench_profile": {
+   "ran": "python3 k4/gap_bench.py --profile='{...}' --show=1 (all 25 seeded statements) on compute/k4-gap @245040b",
+   "gap_c_sha256_prefix": "74e1fae22153",
+   "in_gap": "True; f 2, omega 3, keys [[-1, -1, 7, 6], [-1, 7, -1, 6], [6, -1, 7, -1], [6, 7, -1, -1]], 84 ",
+   "fails": [
+    "I_POOLOPT"
+   ],
+   "holds_count": 24,
+   "fails_not_stated_by_source": [],
+   "stated_but_holds_now": []
+  },
+  "witness_check_gap_model": [
+   "f 2 omega 3 in_gap True configs 84 completable 82",
+   "  phi_prime_maxima (gap_model, as stored in the record py_maxima)[0]: found; L [3, 4, 5] (given [3, 4, 5]) completable True owners [0, 1] phi (0, 3, 21, -2) (max (0, 3, 21, -2)) pool_optimal False",
+   "  phi_prime_maxima (gap_model, as stored in the record py_maxima)[1]: found; L [2, 3, 5] (given [2, 3, 5]) completable True owners [0, 1] phi (0, 3, 21, -2) (max (0, 3, 21, -2)) pool_optimal False",
+   "  phi_prime_maxima (gap_model, as stored in the record py_maxima)[2]: found; L [1, 4, 5] (given [1, 4, 5]) completable True owners [0, 2] phi (0, 3, 21, -2) (max (0, 3, 21, -2)) pool_optimal False",
+   "  phi_prime_maxima (gap_model, as stored in the record py_maxima)[3]: found; L [1, 2, 4] (given [1, 2, 4]) completable True owners [0, 2] phi (0, 3, 21, -2) (max (0, 3, 21, -2)) pool_optimal False"
+  ]
+ },
+ "notes": "record (results/k4_gap/hard_base.json.gz, category field 'S'): f = 2, omega = 3, 84 configurations (82 with a valid owner, 76 with C empty), 4 Phi'-maxima at Phi' = [0, 3, 21, -2] (4 with a valid owner, 4 with C empty, 0 pool-optimal, 0 with a frozen agent threatened by two owners); core idx field 6"
+}

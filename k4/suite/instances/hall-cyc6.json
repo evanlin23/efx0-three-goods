@@ -1,0 +1,139 @@
+{
+ "id": "hall-cyc6",
+ "n": 6,
+ "m": 15,
+ "sets": [
+  [
+   0,
+   2,
+   3,
+   12
+  ],
+  [
+   4,
+   2,
+   3,
+   5
+  ],
+  [
+   4,
+   6,
+   7,
+   13
+  ],
+  [
+   6,
+   8,
+   9,
+   12
+  ],
+  [
+   10,
+   8,
+   9,
+   11
+  ],
+  [
+   10,
+   0,
+   1,
+   14
+  ]
+ ],
+ "vals": [
+  [
+   8,
+   6,
+   5,
+   4
+  ],
+  [
+   10,
+   8,
+   6,
+   3
+  ],
+  [
+   8,
+   6,
+   5,
+   4
+  ],
+  [
+   8,
+   6,
+   5,
+   4
+  ],
+  [
+   10,
+   8,
+   6,
+   3
+  ],
+  [
+   8,
+   6,
+   5,
+   4
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": null,
+ "source": {
+  "pr": 46,
+  "branch": "main",
+  "files": [
+   "k4/hall_instances/cyc6.inst",
+   "attempts/k4-hall-pareto-no-frozen.md"
+  ],
+  "replay": "attempts/k4_hall_attempts.py"
+ },
+ "refutes": [
+  {
+   "statement": "Every Pareto-maximum of 𝒫 without frozen agents is removal-only completable (k = 4): Theorem K3's statement restricted to the case without frozen agents (k4/hall.md §3); the label collision of Lemma H5 / K4.HALL.H0 (b) occurs",
+   "ledger": "K4.HALL.H0",
+   "smallest": false
+  }
+ ],
+ "witness": {
+  "bases": [
+   [
+    2,
+    3
+   ],
+   [
+    4,
+    5
+   ],
+   [
+    6,
+    7
+   ],
+   [
+    8,
+    9
+   ],
+   [
+    10,
+    11
+   ],
+   [
+    0,
+    1
+   ]
+  ],
+  "J": [
+   12,
+   13,
+   14
+  ],
+  "frozen": [],
+  "omega": 3
+ },
+ "notes": "The ledger row K4.HALL.H0 (PROVED) records it: 'so \"every Pareto-maximum without frozen agents is completable\" is false (the some-form holds there)'; H0 itself is not refuted. Pure core, n = 6, m = 15. Agent names in the source: 0 = y, 1 = z, 2 = w, 3 = y′, 4 = z′, 5 = w′. Values are good:value in the order of cyc6.inst (not sorted by good). P: bases {2,3},{4,5},{6,7},{8,9},{10,11},{0,1}; J = {12,13,14}; every base need-free, nobody frozen; T = 0 slots; ω = 3; P is Pareto-maximal among all 4,015 valid pre-allocations and not completable (not even with slot protection). Rotation y→z→w→y′→z′→w′→y does not repair it (label collision: y and y′ both need 12). The profile satisfies C₄ᵐⁱⁿ; 55 of 56 Pareto-maxima without frozen agents are completable, and all three Σℓ-maxima. Built by hand from the collision pattern of k4/hall.md §3.1: 'not known to be smallest'. Not a certified core (n = 6 pure cores are not certified). Replay run: attempts/k4_hall_attempts.py printed 'cyc6: hall.c confirmed; hall_check.py confirmed'. [Certified-core lookup by the generator (not from the source): no certificate file covers this class. Core k = 0-based position in the file's \"cores\" list, as the sources use it.]",
+ "expect_fail": [
+  "pareto-nofrozen"
+ ]
+}

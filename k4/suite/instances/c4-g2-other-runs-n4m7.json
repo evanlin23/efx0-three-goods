@@ -1,0 +1,122 @@
+{
+ "id": "c4-g2-other-runs-n4m7",
+ "n": 4,
+ "m": 7,
+ "sets": [
+  [
+   0,
+   2,
+   5
+  ],
+  [
+   1,
+   5,
+   6
+  ],
+  [
+   2,
+   3,
+   4,
+   6
+  ],
+  [
+   3,
+   4,
+   6
+  ]
+ ],
+ "vals": [
+  [
+   2,
+   3,
+   4
+  ],
+  [
+   2,
+   4,
+   3
+  ],
+  [
+   8,
+   4,
+   3,
+   6
+  ],
+  [
+   2,
+   3,
+   4
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": null,
+ "source": {
+  "pr": 33,
+  "branch": "main",
+  "files": [
+   "attempts/k4-c4-g2-other-runs.md",
+   "k4/c4.md"
+  ],
+  "replay": "attempts/k4_c4_attempts.py"
+ },
+ "refutes": [
+  {
+   "statement": "k4/c4.md §6.1 item 4 as first written: with at most one 4-good agent, a 4-good r that is exposed after LB⁺'s rotation never makes k* fail (for runs of Phase 1 with any P-step order)",
+   "ledger": "K4.C4.GAP",
+   "smallest": true
+  }
+ ],
+ "witness": {
+  "processing_order": [
+   3,
+   1,
+   0,
+   2
+  ],
+  "bases": [
+   [
+    2
+   ],
+   [
+    5
+   ],
+   [
+    3
+   ],
+   [
+    6
+   ]
+  ],
+  "J": [
+   0,
+   1,
+   4
+  ],
+  "r": 2,
+  "k_star": 3,
+  "after_rotation": {
+   "bases": [
+    [
+     2
+    ],
+    [
+     5
+    ],
+    [
+     6
+    ],
+    [
+     3,
+     4
+    ]
+   ],
+   "J": [
+    0,
+    1
+   ],
+   "omega": 1
+  }
+ },
+ "notes": "Found by the referee of PR #33 (finding F4). Processing order 3, 1, 0, 2 (a P-step order other than LB's key): agent 3 takes 6; agent 1 takes 5; agent 0 takes 2 (agent 2's top); agent 2 (the only 4-good agent) takes 3 and is r. LB⁺'s bad case: E_r = {3}, k* = 3 frozen, only chain 3 → 2. After LB⁺'s rotation agent 3 takes O = {3, 4}, r = 2 takes 6, ω′ = 1; agent 2 values O at 7 > 6, so k* is not a valid owner. C₄¹ is not broken: rotating agent 0 along 0 → 2 with O = {0} works (owner 0), and so does 1 → 0 → 2 with O = {1}. 'Smallest configuration: the run above'. Replay run: 'r values O = [3, 4] at 7 > 6 ... k* a valid owner: False'; 'g2-other-runs: reproduced'. [Certified-core lookup by the generator (not from the source): identical sets (same agent order and labels): core 104 of results/k4_certs_4_n4_1.json.gz. Core k = 0-based position in the file's \"cores\" list, as the sources use it.]"
+}

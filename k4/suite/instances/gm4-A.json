@@ -1,0 +1,106 @@
+{
+ "id": "gm4-A",
+ "n": 4,
+ "m": 7,
+ "sets": [
+  [
+   0,
+   2,
+   5,
+   6
+  ],
+  [
+   1,
+   4,
+   5,
+   6
+  ],
+  [
+   2,
+   3,
+   5,
+   6
+  ],
+  [
+   3,
+   4,
+   5,
+   6
+  ]
+ ],
+ "vals": [
+  [
+   3,
+   6,
+   2,
+   10
+  ],
+  [
+   1,
+   6,
+   8,
+   4
+  ],
+  [
+   2,
+   7,
+   8,
+   4
+  ],
+  [
+   6,
+   3,
+   4,
+   8
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": null,
+ "source": {
+  "pr": 30,
+  "branch": "main",
+  "files": [
+   "attempts/k4-gm4-level-sum.md",
+   "attempts/k4-gm4-potentials.md",
+   "k4/gm4_counterexample.py",
+   "LEDGER.md"
+  ],
+  "replay": "k4/gm4_counterexample.py"
+ },
+ "refutes": [
+  {
+   "statement": "Conjecture GM₄: for every strict profile of every k = 4 core, every junk-free EFX₀ partial allocation that maximizes the level sum Σℓ among all junk-free EFX₀ partial allocations admits a placement of its pool (equivalently, no dead end maximizes Σℓ)",
+   "ledger": "K4.GM.CEX",
+   "smallest": null
+  },
+  {
+   "statement": "GM₄∃ with the Σℓ-maxima narrowed by the leximin tie-break: the leximin-largest Σℓ-maximum admits a placement",
+   "ledger": "K4.GM.VAR",
+   "smallest": false
+  }
+ ],
+ "witness": {
+  "Y": [
+   [
+    0,
+    2
+   ],
+   [
+    1,
+    4
+   ],
+   [
+    5
+   ],
+   [
+    6
+   ]
+  ],
+  "pool": [
+   3
+  ],
+  "level_sum": 21
+ },
+ "notes": "Instance A of k4/gm4_counterexample.py (kind GM4). Y = [[0, 2], [1, 4], [5], [6]] with pool [3] maximizes Σℓ (= 21) over all junk-free EFX₀ partial allocations, admits no placement, and no complete EFX₀ allocation weakly dominates it (dead end); reached from the empty allocation by 4 single-agent rebundles (M1), so LS4⁺_n fails under some valid choices. Values listed per agent in increasing good order (dict order of the script). The attempts file k4-gm4-level-sum.md gives only E explicitly; A–F are named there as 'instances A–F' of the replay script, whose data is transcribed here. Also: 'the leximin tie-break fails already on A (pure) and E (two 4-good agents), from the random runs' (k4-gm4-potentials.md). Replay run: k4/gm4_counterexample.py printed all [ok] for instance A and 'ALL CLAIMS HOLD'. [Certified-core lookup by the generator (not from the source): identical sets (same agent order and labels): core 34 of results/k4_certs_4_pure.json.gz. Core k = 0-based position in the file's \"cores\" list, as the sources use it.]"
+}

@@ -1,0 +1,117 @@
+{
+ "id": "hall-local3",
+ "n": 3,
+ "m": 7,
+ "sets": [
+  [
+   0,
+   1,
+   2,
+   3
+  ],
+  [
+   2,
+   4,
+   5,
+   6
+  ],
+  [
+   3,
+   4,
+   5,
+   6
+  ]
+ ],
+ "vals": [
+  [
+   3,
+   2,
+   10,
+   6
+  ],
+  [
+   8,
+   2,
+   3,
+   4
+  ],
+  [
+   7,
+   3,
+   5,
+   6
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": "core 33 of results/k4_certs_3.json.gz",
+ "source": {
+  "pr": 46,
+  "branch": "main",
+  "files": [
+   "k4/hall_instances/local3.inst",
+   "attempts/k4-hall-local-exposures.md",
+   "LEDGER.md"
+  ],
+  "replay": "attempts/k4_hall_attempts.py"
+ },
+ "refutes": [
+  {
+   "statement": "Theorem K3 at k = 4 when every frozen exposure is local: if no frozen exposure is of the big-top kinds (G) or (G1) of k4/hall.md §5 (Lemma H7), a Pareto-maximum of 𝒫 (inside the min-frozen class) is completable, as at k = 3",
+   "ledger": "K4.HALL.BT",
+   "smallest": false
+  },
+  {
+   "statement": "Pareto-maximality is the extremal principle for the big-top owner step (k = 4): the repair here is an exchange cycle that is not a Pareto-improvement in 𝒫",
+   "ledger": null,
+   "smallest": null
+  }
+ ],
+ "witness": {
+  "bases": [
+   [
+    2
+   ],
+   [
+    5,
+    6
+   ],
+   [
+    3,
+    4
+   ]
+  ],
+  "J": [
+   0,
+   1
+  ],
+  "frozen": [
+   0
+  ],
+  "omega": 2,
+  "repair_cycle": {
+   "agent0_gives": [
+    2
+   ],
+   "agent1_gives": [
+    5,
+    6
+   ],
+   "agent2_gives": [
+    3
+   ],
+   "owner": 0,
+   "owner_bundle": [
+    3,
+    0,
+    1,
+    4
+   ]
+  }
+ },
+ "notes": "Values are good:value as in local3.inst. Agent 0 is big-top (a = 10 > b + c = 9). P: bases {2} (agent 0, frozen: agent 1 needs 2), {5,6} (agent 1, needs 2), {3,4} (agent 2); J = {0,1}; slots S = 0; ω = 2; fewest frozen = 1. P is Pareto-maximal among all 22 valid pre-allocations and not completable: owner 1 leaves agent 2 threatened (agent 2 values {5,6} at 11 > 10, shape e3 of Lemma H3); owner 2 leaves agent 0 threatened (B_2 ∪ J ∋ 3,0,1 worth 11 > 10; a local exposure, agent 0's chain end is agent 1). Repair (deficit −1): agent 0 gives 2 to agent 1, agent 1 gives {5,6} to agent 2, agent 2 gives 3 to agent 0, agent 0 becomes owner of {3,0,1,4}. No ledger row of its own: the K4.HALL.BT row's notes record it ('some failing Pareto-maxima have only local frozen exposures'); local3 is NOT a counterexample to BT itself (agent 0 is a frozen big-top agent). 'Smallest failing configuration found' (n = 3, m = 7), not claimed minimal. Replay run: attempts/k4_hall_attempts.py printed 'local3: hall.c confirmed; hall_check.py confirmed'. [Certified-core lookup by the generator (not from the source): identical sets (same agent order and labels): core 33 of results/k4_certs_3.json.gz. Core k = 0-based position in the file's \"cores\" list, as the sources use it.]",
+ "expect_fail": [
+  "pareto",
+  "pre-every:pareto"
+ ]
+}

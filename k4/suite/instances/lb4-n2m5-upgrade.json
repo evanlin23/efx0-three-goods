@@ -1,0 +1,156 @@
+{
+ "id": "lb4-n2m5-upgrade",
+ "n": 2,
+ "m": 5,
+ "sets": [
+  [
+   0,
+   2,
+   3,
+   4
+  ],
+  [
+   1,
+   2,
+   3,
+   4
+  ]
+ ],
+ "vals": [
+  [
+   1,
+   4,
+   6,
+   8
+  ],
+  [
+   2,
+   4,
+   5,
+   8
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": null,
+ "source": {
+  "pr": 24,
+  "branch": "main",
+  "files": [
+   "attempts/lb4-lbplus-shape.md",
+   "attempts/lb4-fixed-insertion.md",
+   "attempts/lb4r-need-shrinking-only.md",
+   "attempts/k4-c4x-frozen-first.md",
+   "LEDGER.md"
+  ],
+  "replay": "attempts/lb4_variants.py"
+ },
+ "refutes": [
+  {
+   "statement": "LB₄ in the shape of LB⁺ (index insertion, need-shrinking upgrades, owner r, else one rotation with any chain and subset; lb4.c -i0 -u1 -o2 -r1) succeeds",
+   "ledger": "K4.LB4.X",
+   "smallest": true
+  },
+  {
+   "statement": "LB₄ with a fixed insertion rule (index insertion, -i0) with LB₄'s single upgrade policy and one rotation (-i0 -u1 -r1 -w1 -c1) succeeds",
+   "ledger": "K4.LB4.X",
+   "smallest": true
+  },
+  {
+   "statement": "LB₄ʳ with need-shrinking upgrades only (index insertion, every owner, up to three nested rotations; -i0 -u1 -r3 -w1 -c1) succeeds (no fallback policy needed)",
+   "ledger": "K4.LB4R",
+   "smallest": true
+  },
+  {
+   "statement": "Over 𝒫, every maximum of (−frozen, slots) is completable ('every' form)",
+   "ledger": "K4.C4X.PHI",
+   "smallest": true
+  }
+ ],
+ "witness": {
+  "insertion_order": [
+   0,
+   1
+  ],
+  "picks": [
+   4,
+   3
+  ],
+  "after_upgrade_bases": [
+   [
+    4
+   ],
+   [
+    2,
+    3
+   ]
+  ],
+  "J": [
+   0,
+   1
+  ],
+  "omega": 1,
+  "d2_allocations": [
+   [
+    [
+     0,
+     2,
+     3
+    ],
+    [
+     1,
+     4
+    ]
+   ],
+   [
+    [
+     2,
+     3
+    ],
+    [
+     0,
+     1,
+     4
+    ]
+   ]
+  ]
+ },
+ "notes": "Goods 0 and 1 private; both agents rank 4 > 3 > 2 > own private. Agent 0 is inserted and takes 4; agent 1 takes 3 and needs 4; agent 1's need-shrinking upgrade {3,2} (worth 9 > 8) removes its need and unfreezes agent 0: junk {0,1}, ω = 1; both owners fail; nothing to rotate. EFX₀ allocations with at most one large bundle: {0,2,3} | {1,4} and {2,3} | {0,1,4}. Envy-free upgrades do not take {2,3}, and LB₄ʳ succeeds. lb4-fixed-insertion.md adds that the other fixed insertion rules (-i3, -i4, -i5, -i7, with -u1 -r1 -w1 -c1) 'fail on the same core' (n = 2, m = 5), without stating on which profile. The same profile is instance 2 of k4-c4x-frozen-first.md ((−frozen, slots) every-form, n = 2, m = 5). Replay run (attempts/lb4_variants.py): lbplus-shape 'profiles 82944, failing 6480', fixed-insertion-lb4-steps 'failing 300', lb4r-need-shrinking-only 'failing 300'; first failing profile values [[1, 4, 6, 8], [2, 4, 5, 8]] in all three ('order=0 1 picks=4,3 ... upg=1:c'); k4_c4x_attempts.py '(-frozen,slots): 9 valid, 4 completable; ... every-form failure confirmed'. [Certified-core lookup by the generator (not from the source): identical sets (same agent order and labels): core 3 of results/k4_certs_2.json.gz. Core k = 0-based position in the file's \"cores\" list, as the sources use it.]",
+ "aliases": [
+  "c4min-poolopt-alone-n2-m5"
+ ],
+ "also": [
+  {
+   "id": "c4min-poolopt-alone-n2-m5",
+   "source": {
+    "pr": 41,
+    "branch": "proof/k4-c4min",
+    "head": "b9ff629",
+    "files": [
+     "attempts/k4-c4min-potentials.md",
+     "attempts/k4_c4min_attempts.py",
+     "results/k4_c4min_attempts.log",
+     "k4/c4min.md"
+    ],
+    "replay": "attempts/k4_c4min_attempts.py"
+   },
+   "refutes": [
+    {
+     "statement": "Pool-optimality alone, f = 0: every pool-optimal all-pairs allocation has a valid owner",
+     "ledger": "K4.C4MIN.X",
+     "smallest": true,
+     "name": "#41 attempts instance 2",
+     "smallest_scope": "attempts/k4-c4min-potentials.md: 'Instance 2 (n = 2, m = 5) for pool-optimality alone' (smallest failing configuration)",
+     "basis": "stated",
+     "where": [
+      "attempts/k4-c4min-potentials.md instance 2"
+     ]
+    }
+   ],
+   "notes": "attempts/k4-c4min-potentials.md instance 2 ('Smallest failing configuration. Instance 2 (n = 2, m = 5) for pool-optimality alone'). Neither agent is robust and each threatens the other (the permutation of Lemma P); the modified rotation of Lemma R gives agent 1 {4, 1} and agent 0 {2, 3}, both robust. 5,624 profiles with n = 2."
+  }
+ ],
+ "expect_fail": [
+  "pre-every:(-frozen,slots)"
+ ]
+}

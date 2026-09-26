@@ -1,0 +1,303 @@
+{
+ "id": "gap-itlocal-n3-m8-n3c46",
+ "n": 3,
+ "m": 8,
+ "sets": [
+  [
+   0,
+   2,
+   6,
+   7
+  ],
+  [
+   1,
+   4,
+   6,
+   7
+  ],
+  [
+   3,
+   5,
+   6,
+   7
+  ]
+ ],
+ "vals": [
+  [
+   3,
+   6,
+   2,
+   10
+  ],
+  [
+   3,
+   6,
+   2,
+   10
+  ],
+  [
+   3,
+   6,
+   2,
+   10
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": "core 46 of results/k4_certs_3.json.gz",
+ "core_ref_basis": "cited by the catalog record (core file/pos); exact sets match against results/k4_certs_3.json.gz (0-based position 46, idx field 1; identical blob on main and all four branches)",
+ "source": {
+  "pr": 53,
+  "branch": "compute/k4-gap",
+  "head": "245040b",
+  "files": [
+   "results/k4_gap_bench_n23.log",
+   "results/k4_gap/hard_base.json.gz",
+   "results/k4_gap_hard_base.log",
+   "k4/gap.md"
+  ],
+  "replay": "python3 k4/gap_bench.py --profile='{\"sets\": [[0, 2, 6, 7], [1, 4, 6, 7], [3, 5, 6, 7]], \"vals\": [[3, 6, 2, 10], [3, 6, 2, 10], [3, 6, 2, 10]], \"m\": 8}' --only=I_T_LOCAL,I_POOLOPT"
+ },
+ "refutes": [
+  {
+   "statement": "(i) as a local lemma: a configuration without a valid owner with t > 0 has a Phi'-raising pool or cycle move",
+   "ledger": null,
+   "smallest": true,
+   "name": "I_T_LOCAL",
+   "smallest_scope": "first 'smallest' counterexample printed by results/k4_gap_bench_n23.log (catalogs gap_n2 (every n = 2 gap profile) + gap_n3 (every 100th n = 3 gap profile and every hard one); sorted by n, m, number of configurations); 384 counterexamples in that run",
+   "basis": "stated",
+   "where": [
+    "results/k4_gap_bench_n23.log"
+   ],
+   "counterexamples_in_run": 384,
+   "witness": {
+    "key": [
+     null,
+     null,
+     7
+    ],
+    "Q": {
+     "0": [
+      0,
+      2
+     ],
+     "1": [
+      1,
+      4
+     ]
+    },
+    "L": [
+     3,
+     5,
+     6
+    ]
+   }
+  },
+  {
+   "statement": "roadmap (i), first half: every Phi'-maximum is pool-optimal",
+   "ledger": null,
+   "smallest": true,
+   "name": "I_POOLOPT",
+   "smallest_scope": "smallest NPO profile with n = 3 in the base catalogs gap_n2..gap_n5 (n = 2, 3 and n = 4 one 4-good agent exhaustive; the rest sampled), by (n, m, number of configurations)",
+   "basis": "category",
+   "where": [
+    "results/k4_gap_hard_base.log / results/k4_gap/hard_base.json.gz"
+   ],
+   "note": "category NPO (k4/gap.md section 3): some Phi'-maximum is not pool-optimal"
+  }
+ ],
+ "witness": {
+  "phi_prime_maxima (gap_model, as stored in the record py_maxima)": [
+   {
+    "key": [
+     null,
+     null,
+     7
+    ],
+    "Q": {
+     "0": [
+      0,
+      2
+     ],
+     "1": [
+      4,
+      6
+     ]
+    },
+    "L": [
+     1,
+     3,
+     5
+    ],
+    "phi": [
+     0,
+     2,
+     18,
+     -2
+    ],
+    "owners_least_C": {
+     "0": [
+      0,
+      []
+     ]
+    },
+    "threats_owner_agent_H7class": [
+     [
+      1,
+      2,
+      "G1"
+     ]
+    ]
+   },
+   {
+    "key": [
+     null,
+     null,
+     7
+    ],
+    "Q": {
+     "0": [
+      2,
+      6
+     ],
+     "1": [
+      1,
+      4
+     ]
+    },
+    "L": [
+     0,
+     3,
+     5
+    ],
+    "phi": [
+     0,
+     2,
+     18,
+     -2
+    ],
+    "owners_least_C": {
+     "1": [
+      0,
+      []
+     ]
+    },
+    "threats_owner_agent_H7class": [
+     [
+      0,
+      2,
+      "G1"
+     ]
+    ]
+   },
+   {
+    "key": [
+     null,
+     7,
+     null
+    ],
+    "Q": {
+     "0": [
+      0,
+      2
+     ],
+     "2": [
+      5,
+      6
+     ]
+    },
+    "L": [
+     1,
+     3,
+     4
+    ],
+    "phi": [
+     0,
+     2,
+     18,
+     -2
+    ],
+    "owners_least_C": {
+     "0": [
+      0,
+      []
+     ]
+    },
+    "threats_owner_agent_H7class": [
+     [
+      2,
+      1,
+      "G1"
+     ]
+    ]
+   },
+   {
+    "key": [
+     null,
+     7,
+     null
+    ],
+    "Q": {
+     "0": [
+      2,
+      6
+     ],
+     "2": [
+      3,
+      5
+     ]
+    },
+    "L": [
+     0,
+     1,
+     4
+    ],
+    "phi": [
+     0,
+     2,
+     18,
+     -2
+    ],
+    "owners_least_C": {
+     "2": [
+      0,
+      []
+     ]
+    },
+    "threats_owner_agent_H7class": [
+     [
+      0,
+      1,
+      "G1"
+     ]
+    ]
+   }
+  ]
+ },
+ "replay": {
+  "gap_bench_profile": {
+   "ran": "python3 k4/gap_bench.py --profile='{...}' --show=1 (all 25 seeded statements) on compute/k4-gap @245040b",
+   "gap_c_sha256_prefix": "74e1fae22153",
+   "in_gap": "True; f 1, omega 3, keys [[-1, -1, 7], [-1, 7, -1], [7, -1, -1]], 60 configurations, 54 with a",
+   "fails": [
+    "I_POOLOPT",
+    "I_T_LOCAL",
+    "LOCAL"
+   ],
+   "holds_count": 22,
+   "fails_not_stated_by_source": [
+    "LOCAL"
+   ],
+   "stated_but_holds_now": []
+  },
+  "witness_check_gap_model": [
+   "f 1 omega 3 in_gap True configs 60 completable 54",
+   "  phi_prime_maxima (gap_model, as stored in the record py_maxima)[0]: found; L [1, 3, 5] (given [1, 3, 5]) completable True owners [0] phi (0, 2, 18, -2) (max (0, 2, 18, -2)) pool_optimal False",
+   "  phi_prime_maxima (gap_model, as stored in the record py_maxima)[1]: found; L [0, 3, 5] (given [0, 3, 5]) completable True owners [1] phi (0, 2, 18, -2) (max (0, 2, 18, -2)) pool_optimal False",
+   "  phi_prime_maxima (gap_model, as stored in the record py_maxima)[2]: found; L [1, 3, 4] (given [1, 3, 4]) completable True owners [0] phi (0, 2, 18, -2) (max (0, 2, 18, -2)) pool_optimal False",
+   "  phi_prime_maxima (gap_model, as stored in the record py_maxima)[3]: found; L [0, 1, 4] (given [0, 1, 4]) completable True owners [2] phi (0, 2, 18, -2) (max (0, 2, 18, -2)) pool_optimal False",
+   "  refutes:I_T_LOCAL: found; L [3, 5, 6] (given [3, 5, 6]) completable False owners [] phi (-1, 2, 19, -3) (max (0, 2, 18, -2)) pool_optimal True"
+  ]
+ },
+ "notes": "record (results/k4_gap/hard_base.json.gz, category field 'S'): f = 1, omega = 3, 60 configurations (54 with a valid owner, 54 with C empty), 6 Phi'-maxima at Phi' = [0, 2, 18, -2] (6 with a valid owner, 6 with C empty, 0 pool-optimal, 0 with a frozen agent threatened by two owners); core idx field 1"
+}

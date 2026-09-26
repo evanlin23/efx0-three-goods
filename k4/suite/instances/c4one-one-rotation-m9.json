@@ -1,0 +1,101 @@
+{
+ "id": "c4one-one-rotation-m9",
+ "n": 5,
+ "m": 9,
+ "sets": [
+  [
+   0,
+   3,
+   7
+  ],
+  [
+   1,
+   5,
+   8
+  ],
+  [
+   2,
+   6,
+   7,
+   8
+  ],
+  [
+   3,
+   4,
+   5
+  ],
+  [
+   4,
+   6,
+   8
+  ]
+ ],
+ "vals": [
+  [
+   2,
+   3,
+   4
+  ],
+  [
+   2,
+   4,
+   3
+  ],
+  [
+   2,
+   3,
+   8,
+   4
+  ],
+  [
+   2,
+   3,
+   4
+  ],
+  [
+   4,
+   2,
+   3
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": "core 1648 of results/k4_certs_5_n4_1.json.gz",
+ "source": {
+  "pr": 37,
+  "branch": "proof/k4-c4one",
+  "files": [
+   "k4/c4one.md",
+   "attempts/k4-c4one-one-rotation.md",
+   "attempts/k4-c4one-potential.md",
+   "attempts/k4_c4one_attempts.py"
+  ],
+  "replay": "attempts/k4_c4one_attempts.py (functions one_rotation, potential)"
+ },
+ "refutes": [
+  {
+   "statement": "C4^1 in its LB4r form (k4/c4.md §6.2, restated in k4/c4one.md §1): take every run of Phase 1 on a k = 4 core with at most one 4-good agent, after envy-free upgrades. Then either some free agent is a valid owner with its needs from its base, or one rotation gives a valid pre-allocation that needs no owner or has a valid owner. The rotation may use any frozen k, any need chain, and any O ⊆ R_k ∩ (J ∪ B_{x_t}). Refuted with index insertion, under each upgrade policy and all four owner/slot conventions (owner's needs from its base or its bundle; rotated one-good base with or without a slot).",
+   "ledger": "K4.C4.1",
+   "smallest": true
+  },
+  {
+   "statement": "Route 2's local step (k4/c4one.md §4): whenever, after Phase 1 and upgrades (or after earlier rotations), no owner is valid, some rotation along a need chain strictly raises the count, for Phi = the best A4+ slack over the non-frozen owners (Phi >= 0 gives a valid owner), and for Proposition H's owner-free count 'slots minus forced goods'. Refuted with one 4-good agent: Phi = -1 and count = 1; the three valid rotations give Phi = -3, -1, -2 and count = -2, 0, 0.",
+   "ledger": "K4.C4.1",
+   "smallest": true
+  }
+ ],
+ "witness": {
+  "insertion": "index insertion (c4trace tau = []); processing order 0 2 1 4 3; Phase 1 is a single block",
+  "q": "agent 2 (values 8, 4, 3, 2 on its goods 7, 8, 6, 2)",
+  "Phase 1 state (replay output)": "agent0 pick 7 FROZEN; agent2 pick 8 N=[7] free cap1; agent1 pick 5 FROZEN; agent4 pick 4 FROZEN; agent3 pick 3 N=[4, 5] free cap1; J = [0, 1, 2, 6], omega = 2",
+  "mechanism (verbatim)": "Agent 0 takes 7, q's top. q takes 8, which the 3-good agents 1 and 4 lose. Agent 3, processed last, is r. Agent 0 (the leader) is frozen and exposed, and its only need chain ends at q. q is free and exposed, and protecting itself uses its own slot, which is the only slot other than r's. So owner r fails: one slot, two agents to protect (A4T's case (Tb)). Owner q fails too: its window J ∪ {8} exposes the frozen agents 1 and 4, which lost 8 to q, and they need two goods kept out while only r's slot is left.",
+  "route 2 rotations (replay output)": [
+   "rotation (0, 2) O = [0]: Phi -3, count -2",
+   "rotation (1, 3) O = [1]: Phi -1, count 0",
+   "rotation (4, 3) O = [6]: Phi -2, count 0"
+  ],
+  "two nested rotations": "work (tracer, every upgrade policy)",
+  "brute force": "167 EFX0 allocations with at most one bundle of more than 2 goods, e.g. [[0, 1, 2, 3, 6], [5], [7], [4], [8]] (K4.D holds)"
+ },
+ "notes": "'Smallest configuration. n = 5, m = 9 ... index insertion. There is no failure at n <= 4.' Note: with every insertion sequence C4^1 also fails on an m = 8 core (c4one-one-rotation-m8), so 'smallest' refers to the source's own label and to index insertion. One of the 1,735 certified n = 5 cores with one 4-good agent (results/k4_certs_5_n4_1.json.gz). Replay run here: tracer parts reproduced (policies 1, 2, 0: no owner, 0 working single rotations, two nested rotations work; brute force 167). The script's lb4.c cross-check printed 'NOT reproduced' only because main's current lb4.c emits an extra 'H ...' line before 'total ...', so the script's stdout.split()[7] is stale; parsing the 'fails' field of the 'total' line gives the recorded numbers: -i0 -u3 -o0 -r1 -w1 -c1: 4 of 373,248 fail; -r2: 0. Also -i0 -u2 -o0 -r1 -w0 -c0 (C4^1's own search, index order): 20 fail. core_ref derived here (not stated in the source): exact match of n, m and every agent's goods in the same agent order, against results/k4_certs_5_n4_1.json.gz on main."
+}

@@ -1,0 +1,160 @@
+{
+ "id": "c4min-phi-n4-m8-n4pc72",
+ "n": 4,
+ "m": 8,
+ "sets": [
+  [
+   0,
+   2,
+   4,
+   7
+  ],
+  [
+   1,
+   5,
+   6,
+   7
+  ],
+  [
+   3,
+   5,
+   6,
+   7
+  ],
+  [
+   4,
+   5,
+   6,
+   7
+  ]
+ ],
+ "vals": [
+  [
+   3,
+   4,
+   2,
+   8
+  ],
+  [
+   3,
+   6,
+   10,
+   2
+  ],
+  [
+   4,
+   8,
+   3,
+   6
+  ],
+  [
+   4,
+   8,
+   6,
+   5
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": "core 72 of results/k4_certs_4_pure.json.gz",
+ "core_ref_basis": "cited by results/k4_c4min_phi2.log (core 72); exact sets match against results/k4_certs_4_pure.json.gz (0-based position 72, idx field 11; identical blob on main and all four branches)",
+ "source": {
+  "pr": 41,
+  "branch": "proof/k4-c4min",
+  "head": "b9ff629",
+  "files": [
+   "attempts/k4-c4min-potentials.md",
+   "attempts/k4_c4min_attempts.py",
+   "results/k4_c4min_attempts.log",
+   "k4/c4min.md",
+   "results/k4_c4min_phi2.log",
+   "results/k4_c4min_n4.log",
+   "results/k4_c4min_phi_n3.log"
+  ],
+  "replay": "attempts/k4_c4min_attempts.py"
+ },
+ "refutes": [
+  {
+   "statement": "Conjecture Phi (first form), f = 2: every configuration at the fewest frozen agents that maximizes Phi = (-t, r, Lambda) (lexicographic) has a valid owner",
+   "ledger": "K4.C4MIN.X",
+   "smallest": true,
+   "name": "#41 attempts instance 7",
+   "smallest_scope": "smallest n (every n <= 3 profile with f >= 1 has 0 failures, results/k4_c4min_phi_n3.log); m not claimed smallest",
+   "basis": "stated",
+   "where": [
+    "attempts/k4-c4min-potentials.md instance 7"
+   ]
+  }
+ ],
+ "witness": {
+  "key": [
+   7,
+   null,
+   null,
+   5
+  ],
+  "Q": {
+   "1": [
+    1,
+    6
+   ],
+   "2": [
+    0,
+    3
+   ]
+  },
+  "L": [
+   2,
+   4
+  ],
+  "other_noncompletable_maximum": {
+   "key": [
+    7,
+    null,
+    null,
+    5
+   ],
+   "Q": {
+    "1": [
+     1,
+     6
+    ],
+    "2": [
+     2,
+     3
+    ]
+   },
+   "L (derived here: the rest of M minus {5, 7})": [
+    0,
+    4
+   ]
+  },
+  "completable_maximum_for_contrast": "agent 2 holding {3, 4} instead",
+  "source_text": "Two of the four Phi-maxima have no valid owner: agents 0 and 3 frozen on 7 and 5, agent 1 holding {1, 6}, agent 2 holding {0, 3} or {2, 3}. results/k4_c4min_phi2.log: 'core 72: EX every (-thrL,rob,sumlev): [0:3,2:4,4:2,7:8] [1:3,5:6,6:10,7:2] [3:4,5:8,6:3,7:6] [4:4,5:8,6:6,7:5] | F{7} {1,6} {0,3} F{5} L{2,4}'"
+ },
+ "replay": {
+  "script": "attempts/k4_c4min_attempts.py (proof/k4-c4min): ALL CONFIRMED (k4/c4min.c and k4/c4min_cfg.py); output identical to results/k4_c4min_attempts.log",
+  "gap_bench_profile": {
+   "ran": "python3 k4/gap_bench.py --profile='{...}' --show=1 (all 25 seeded statements) on compute/k4-gap @245040b",
+   "gap_c_sha256_prefix": "74e1fae22153",
+   "in_gap": "True; f 2, omega 2, keys [[-1, -1, 7, 5], [-1, -1, 5, 6], [7, -1, -1, 5]], 39 configurations, ",
+   "fails": [
+    "PHI_FIRST"
+   ],
+   "holds_count": 24,
+   "fails_not_stated_by_source": [
+    "PHI_FIRST"
+   ],
+   "stated_but_holds_now": []
+  },
+  "witness_check_gap_model": [
+   "f 2 omega 2 in_gap True configs 39 completable 34",
+   "  witness: found; L [2, 4] (given [2, 4]) completable False owners [] phi (0, 2, 23, -3) (max (0, 2, 23, -2)) pool_optimal True",
+   "  other_noncompletable_maximum: found; L [0, 4] (given [0, 4]) completable False owners [] phi (0, 2, 23, -3) (max (0, 2, 23, -2)) pool_optimal True"
+  ]
+ },
+ "notes": "attempts/k4-c4min-potentials.md instance 7 (N = {5, 7}); k4/c4min.md section 4. Good 4 is worthless to agent 2 but protects frozen agent 3 (its goods 4, 6 outside N threaten 5 together) and frozen agent 0 (goods 0, 2, 4 against 7). The tie-break -p makes every maximum completable: Phi' holds here (replay: c4min.c every-form fails = 0; c4min_cfg.py 2 maxima, 0 not completable). The core number 72 (0-based position in results/k4_certs_4_pure.json.gz) is from results/k4_c4min_phi2.log (c4min_run.py prints the enumerate position).",
+ "expect_fail": [
+  "phi"
+ ]
+}

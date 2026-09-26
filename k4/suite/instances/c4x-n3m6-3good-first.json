@@ -1,0 +1,63 @@
+{
+ "id": "c4x-n3m6-3good-first",
+ "n": 3,
+ "m": 6,
+ "sets": [
+  [
+   0,
+   1,
+   2,
+   5
+  ],
+  [
+   2,
+   3,
+   4,
+   5
+  ],
+  [
+   3,
+   4,
+   5
+  ]
+ ],
+ "vals": [
+  [
+   2,
+   3,
+   4,
+   8
+  ],
+  [
+   1,
+   4,
+   8,
+   6
+  ],
+  [
+   2,
+   4,
+   3
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": null,
+ "source": {
+  "pr": 36,
+  "branch": "main",
+  "files": [
+   "attempts/k4-c4x-pareto-potentials.md",
+   "LEDGER.md"
+  ],
+  "replay": "attempts/k4_c4x_attempts.py"
+ },
+ "refutes": [
+  {
+   "statement": "Over 𝒫, every maximum of Ψ = (Σℓ over 3-good agents, Σℓ over 4-good agents) is completable ('every' form; the '3-good agents first' potential, cf. K4.C4X.ONE for one 4-good agent)",
+   "ledger": "K4.C4X.PHI",
+   "smallest": null
+  }
+ ],
+ "notes": "Instance 4 of k4-c4x-pareto-potentials.md, two 4-good agents; listed under 'Smallest failing configurations' without an explicit minimality qualifier. With at most one 4-good agent this potential has no failure (n ≤ 4 exhaustive), so it does not refute K4.C4X.ONE. Replay run: 'sumlev3,sumlev4: 11 valid, 8 completable; ... every-form failure confirmed'. [Certified-core lookup by the generator (not from the source): identical sets (same agent order and labels): core 16 of results/k4_certs_3.json.gz. Core k = 0-based position in the file's \"cores\" list, as the sources use it.]"
+}

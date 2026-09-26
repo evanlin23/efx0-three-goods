@@ -1,0 +1,126 @@
+{
+ "id": "ls-one-pool-agent-n5m8",
+ "n": 5,
+ "m": 8,
+ "sets": [
+  [
+   0,
+   2,
+   6,
+   7
+  ],
+  [
+   1,
+   2,
+   5
+  ],
+  [
+   1,
+   6,
+   7
+  ],
+  [
+   3,
+   4,
+   5
+  ],
+  [
+   3,
+   4,
+   6,
+   7
+  ]
+ ],
+ "vals": [
+  [
+   2,
+   4,
+   7,
+   8
+  ],
+  [
+   3,
+   2,
+   4
+  ],
+  [
+   3,
+   2,
+   4
+  ],
+  [
+   2,
+   3,
+   4
+  ],
+  [
+   2,
+   8,
+   5,
+   4
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": null,
+ "source": {
+  "pr": 27,
+  "branch": "main",
+  "files": [
+   "attempts/k4-ls-one-pool-agent.md",
+   "LEDGER.md"
+  ],
+  "replay": "k4/ls4_attempts.py"
+ },
+ "refutes": [
+  {
+   "statement": "LS4 with exchange cycles restricted so that at most one agent on the cycle takes pool goods (k4/ls4.c -x -k -l -1) completes",
+   "ledger": "K4.LS.VAR",
+   "smallest": false
+  }
+ ],
+ "witness": {
+  "Y": [
+   [
+    7
+   ],
+   [
+    5
+   ],
+   [
+    1
+   ],
+   [
+    4
+   ],
+   [
+    3,
+    6
+   ]
+  ],
+  "pool": [
+   0,
+   2
+  ],
+  "repair": [
+   [
+    0,
+    6
+   ],
+   [
+    1,
+    2
+   ],
+   [
+    7
+   ],
+   [
+    5
+   ],
+   [
+    4
+   ]
+  ]
+ },
+ "notes": "Y = {7} | {5} | {1} | {4} | {3,6}, U = {0, 2}: no M1/R/one-pool-agent exchange cycle; no completion. Repair: an exchange cycle with two pool-using agents: 0 takes {0,6}, 4 takes {4}, 3 takes {5}, 1 takes {1,2}, 2 takes {7}. 'Smallest found' (3 failures in 5,468,000 n = 5 profiles with two 4-good agents; none in 51,000 n = 3 or 219,000 pure n = 4). Replay run: 'improving XK1P moves: 0', 'improving XK moves: 2', 'completions (pool goods anywhere): 0'. [Certified-core lookup by the generator (not from the source): identical sets (same agent order and labels): core 3143 of results/k4_certs_5_n4_2.json.gz. Core k = 0-based position in the file's \"cores\" list, as the sources use it.]"
+}

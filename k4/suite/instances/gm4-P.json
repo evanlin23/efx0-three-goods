@@ -1,0 +1,115 @@
+{
+ "id": "gm4-P",
+ "n": 4,
+ "m": 7,
+ "sets": [
+  [
+   0,
+   2,
+   5,
+   6
+  ],
+  [
+   1,
+   4,
+   5,
+   6
+  ],
+  [
+   2,
+   3,
+   4,
+   6
+  ],
+  [
+   3,
+   4,
+   5,
+   6
+  ]
+ ],
+ "vals": [
+  [
+   1,
+   6,
+   8,
+   4
+  ],
+  [
+   1,
+   6,
+   4,
+   8
+  ],
+  [
+   4,
+   5,
+   2,
+   8
+  ],
+  [
+   5,
+   4,
+   8,
+   2
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": null,
+ "source": {
+  "pr": 30,
+  "branch": "main",
+  "files": [
+   "attempts/k4-gm4-potentials.md",
+   "k4/gm4_counterexample.py",
+   "LEDGER.md"
+  ],
+  "replay": "k4/gm4_counterexample.py"
+ },
+ "refutes": [
+  {
+   "statement": "GM for Σ 2^ℓ and for leximax (Σ 16^ℓ): every maximum of the potential admits a placement ('every' form)",
+   "ledger": "K4.GM.VAR",
+   "smallest": false
+  }
+ ],
+ "witness": {
+  "Y": [
+   [
+    0,
+    2
+   ],
+   [
+    1,
+    4
+   ],
+   [
+    6
+   ],
+   [
+    5
+   ]
+  ],
+  "pool": [
+   3
+  ],
+  "other_maximum_with_placement": [
+   [
+    0,
+    2
+   ],
+   [
+    6
+   ],
+   [
+    3,
+    4
+   ],
+   [
+    5
+   ]
+  ]
+ },
+ "notes": "Instance P (pure). {0,2} | {1,4} | {6} | {5}, pool {3}, maximizes both Σ 2^ℓ and leximax and admits no placement; the other maximum of both, {0,2} | {6} | {3,4} | {5} (pool {1}), admits one (so the existence form K4.GM.POT is not refuted). Found by neighbourhood search. Replay run: 'Y maximizes sum 2^l ... (2 maxima)', 'Y maximizes leximax ... (2 maxima)', 'pool [3] of Y is nonempty and no assignment of it to any agents is EFX0'. [Certified-core lookup by the generator (not from the source): identical sets (same agent order and labels): core 35 of results/k4_certs_4_pure.json.gz. Core k = 0-based position in the file's \"cores\" list, as the sources use it.]"
+}

@@ -1,0 +1,71 @@
+{
+ "id": "c4x-n2m5-frozen",
+ "n": 2,
+ "m": 5,
+ "sets": [
+  [
+   0,
+   2,
+   3,
+   4
+  ],
+  [
+   1,
+   2,
+   3,
+   4
+  ]
+ ],
+ "vals": [
+  [
+   1,
+   4,
+   6,
+   8
+  ],
+  [
+   1,
+   4,
+   8,
+   6
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": null,
+ "source": {
+  "pr": 36,
+  "branch": "main",
+  "files": [
+   "attempts/k4-c4x-frozen-first.md",
+   "LEDGER.md"
+  ],
+  "replay": "attempts/k4_c4x_attempts.py"
+ },
+ "refutes": [
+  {
+   "statement": "Over 𝒫 (valid pre-allocations, bases ≤ 2 goods, value-based needs), every pre-allocation with the fewest frozen agents (potential −frozen) is completable ('every' form)",
+   "ledger": "K4.C4X.PHI",
+   "smallest": true
+  }
+ ],
+ "witness": {
+  "bases": [
+   [
+    0,
+    4
+   ],
+   [
+    1,
+    3
+   ]
+  ],
+  "J": [
+   2
+  ]
+ },
+ "notes": "Instance 1 of k4-c4x-frozen-first.md ('the smallest n; exhaustive'). The maximum B = {0,4} | {1,3}, J = {2} has no frozen agent (ω = 1); both agents hold non-envy-free pairs (9 < 10), and good 2 in either bundle threatens the other agent. Replay run: 'k4-c4x-frozen-first: n = 2, m = 5: -frozen: 9 valid, 7 completable; ... every-form failure confirmed'. [Certified-core lookup by the generator (not from the source): identical sets (same agent order and labels): core 3 of results/k4_certs_2.json.gz. Core k = 0-based position in the file's \"cores\" list, as the sources use it.]",
+ "expect_fail": [
+  "pre-every:-frozen"
+ ]
+}

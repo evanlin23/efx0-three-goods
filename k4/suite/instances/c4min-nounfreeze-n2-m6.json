@@ -1,0 +1,81 @@
+{
+ "id": "c4min-nounfreeze-n2-m6",
+ "n": 2,
+ "m": 6,
+ "sets": [
+  [
+   0,
+   1,
+   4,
+   5
+  ],
+  [
+   2,
+   3,
+   4,
+   5
+  ]
+ ],
+ "vals": [
+  [
+   6,
+   3,
+   10,
+   2
+  ],
+  [
+   4,
+   3,
+   8,
+   2
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": "core 4 of results/k4_certs_2.json.gz",
+ "core_ref_basis": "resolved by this extraction; exact sets match against results/k4_certs_2.json.gz (0-based position 4, idx field 0; identical blob on main and all four branches)",
+ "source": {
+  "pr": 41,
+  "branch": "proof/k4-c4min",
+  "head": "b9ff629",
+  "files": [
+   "attempts/k4-c4min-potentials.md",
+   "attempts/k4_c4min_attempts.py",
+   "results/k4_c4min_attempts.log",
+   "k4/c4min.md",
+   "results/k4_c4min_xcheck.log"
+  ],
+  "replay": "attempts/k4_c4min_attempts.py"
+ },
+ "refutes": [
+  {
+   "statement": "Lemma 1(b) with the owner test WITHOUT the unfreezing clause (-U0): on every profile on which C4min holds (some min-frozen P has deficit <= 0), some configuration at the fewest frozen agents has a valid owner without unfreezing (k4/c4min.md section 1: 'without it the configuration test fails on 720 profiles with n = 2 on which the deficit is <= 0')",
+   "ledger": "K4.C4MIN.X",
+   "smallest": null,
+   "name": "#41 attempts instance 6",
+   "basis": "stated",
+   "where": [
+    "attempts/k4-c4min-potentials.md instance 6"
+   ]
+  }
+ ],
+ "replay": {
+  "script": "attempts/k4_c4min_attempts.py (proof/k4-c4min): ALL CONFIRMED (k4/c4min.c and k4/c4min_cfg.py); output identical to results/k4_c4min_attempts.log",
+  "gap_bench_profile": {
+   "ran": "python3 k4/gap_bench.py --profile='{...}' --show=1 (all 25 seeded statements) on compute/k4-gap @245040b",
+   "gap_c_sha256_prefix": "74e1fae22153",
+   "in_gap": "True; f 1, omega 3, keys [[-1, 4], [4, -1]], 9 configurations, 9 with a valid owner",
+   "fails": [
+    "MAX_SIMPLE",
+    "I_POOLOPT"
+   ],
+   "holds_count": 23,
+   "fails_not_stated_by_source": [
+    "MAX_SIMPLE",
+    "I_POOLOPT"
+   ],
+   "stated_but_holds_now": []
+  }
+ },
+ "notes": "attempts/k4-c4min-potentials.md instance 6: both agents have top 4, f = 1; only the owner (the other agent) needs 4; the owner's bundle {2, 3} + pool is worth more to it than 4; so with the owner's needs taken from its bundle the holder of 4 is free, takes a slot good and is protected. No configuration is completable without the clause (720 profiles with n = 2, results/k4_c4min_xcheck.log). Replay: f = 1, 9 configurations, 9 completable, 0 without unfreezing. The md does not list instance 6 among the 'smallest failing configurations' (n = 2 is the least n anyway)."
+}

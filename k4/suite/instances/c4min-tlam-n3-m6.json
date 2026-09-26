@@ -1,0 +1,88 @@
+{
+ "id": "c4min-tlam-n3-m6",
+ "n": 3,
+ "m": 6,
+ "sets": [
+  [
+   0,
+   1,
+   2,
+   5
+  ],
+  [
+   2,
+   3,
+   4,
+   5
+  ],
+  [
+   3,
+   4,
+   5
+  ]
+ ],
+ "vals": [
+  [
+   4,
+   3,
+   2,
+   8
+  ],
+  [
+   4,
+   1,
+   8,
+   6
+  ],
+  [
+   2,
+   4,
+   3
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": "core 16 of results/k4_certs_3.json.gz",
+ "core_ref_basis": "resolved by this extraction; exact sets match against results/k4_certs_3.json.gz (0-based position 16, idx field 1; identical blob on main and all four branches)",
+ "source": {
+  "pr": 41,
+  "branch": "proof/k4-c4min",
+  "head": "b9ff629",
+  "files": [
+   "attempts/k4-c4min-potentials.md",
+   "attempts/k4_c4min_attempts.py",
+   "results/k4_c4min_attempts.log",
+   "k4/c4min.md"
+  ],
+  "replay": "attempts/k4_c4min_attempts.py"
+ },
+ "refutes": [
+  {
+   "statement": "(-t, Lambda), f = 2: every configuration maximizing (-t, Lambda) has a valid owner",
+   "ledger": "K4.C4MIN.X",
+   "smallest": true,
+   "name": "#41 attempts instance 4",
+   "smallest_scope": "smallest n (every n = 2 profile checked by the replay: 0 failures); 'The m of an instance is the first one found and is not claimed to be the smallest.'",
+   "basis": "stated",
+   "where": [
+    "attempts/k4-c4min-potentials.md instance 4"
+   ]
+  }
+ ],
+ "replay": {
+  "script": "attempts/k4_c4min_attempts.py (proof/k4-c4min): ALL CONFIRMED (k4/c4min.c and k4/c4min_cfg.py); output identical to results/k4_c4min_attempts.log",
+  "gap_bench_profile": {
+   "ran": "python3 k4/gap_bench.py --profile='{...}' --show=1 (all 25 seeded statements) on compute/k4-gap @245040b",
+   "gap_c_sha256_prefix": "74e1fae22153",
+   "in_gap": "False",
+   "fails": [],
+   "holds_count": 25,
+   "fails_not_stated_by_source": [],
+   "stated_but_holds_now": []
+  }
+ },
+ "notes": "attempts/k4-c4min-potentials.md instance 4: three of the four maxima have no valid owner; in them agent 0 is frozen on its top 5 and exposed (its goods 0, 1, 2 reach 9 > 8), and the only free agent must be the owner. Replay: f = 2, 14 configurations, 4 maxima, 3 not completable.",
+ "expect_fail": [
+  "cfg:-t,lam"
+ ]
+}

@@ -1,0 +1,90 @@
+{
+ "id": "c4x-n4m7-frozen-slots-some",
+ "n": 4,
+ "m": 7,
+ "sets": [
+  [
+   0,
+   2,
+   3,
+   6
+  ],
+  [
+   1,
+   5,
+   6
+  ],
+  [
+   3,
+   4,
+   5,
+   6
+  ],
+  [
+   4,
+   5,
+   6
+  ]
+ ],
+ "vals": [
+  [
+   2,
+   6,
+   3,
+   10
+  ],
+  [
+   2,
+   4,
+   3
+  ],
+  [
+   3,
+   10,
+   8,
+   6
+  ],
+  [
+   4,
+   3,
+   2
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": null,
+ "source": {
+  "pr": 36,
+  "branch": "main",
+  "files": [
+   "attempts/k4-c4x-frozen-first.md",
+   "LEDGER.md"
+  ],
+  "replay": "attempts/k4_c4x_attempts.py"
+ },
+ "refutes": [
+  {
+   "statement": "Over 𝒫, some maximum of (−frozen, slots) is completable ('some' form)",
+   "ledger": "K4.C4X.PHI",
+   "smallest": false
+  }
+ ],
+ "witness": {
+  "bases": [
+   [
+    6
+   ],
+   [
+    5
+   ],
+   [
+    4
+   ],
+   []
+  ]
+ },
+ "notes": "Instance 3 of k4-c4x-frozen-first.md (found in the review of PR #36 by sampling n = 4 cores with two 4-good agents; 'not known to be the smallest m'; the ledger says none at n ≤ 3). Of 16 valid pre-allocations 12 are completable, but the unique maximum B = {6} | {5} | {4} | ∅ (three frozen agents) is not. Replay run: '(-frozen,slots): 16 valid, 12 completable; ... some-form failure confirmed'. [Certified-core lookup by the generator (not from the source): identical sets (same agent order and labels): core 97 of results/k4_certs_4_n4_2.json.gz. Core k = 0-based position in the file's \"cores\" list, as the sources use it.]",
+ "expect_fail": [
+  "pre-some:(-frozen,slots)"
+ ]
+}

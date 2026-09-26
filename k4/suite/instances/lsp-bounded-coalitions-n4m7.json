@@ -1,0 +1,129 @@
+{
+ "id": "lsp-bounded-coalitions-n4m7",
+ "n": 4,
+ "m": 7,
+ "sets": [
+  [
+   0,
+   1,
+   2,
+   3
+  ],
+  [
+   0,
+   2,
+   5,
+   6
+  ],
+  [
+   1,
+   4,
+   5,
+   6
+  ],
+  [
+   3,
+   4,
+   5,
+   6
+  ]
+ ],
+ "vals": [
+  [
+   2,
+   4,
+   10,
+   7
+  ],
+  [
+   3,
+   10,
+   2,
+   6
+  ],
+  [
+   4,
+   3,
+   8,
+   6
+  ],
+  [
+   6,
+   3,
+   10,
+   2
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": null,
+ "source": {
+  "pr": 29,
+  "branch": "main",
+  "files": [
+   "attempts/k4-lsp-bounded-coalitions.md",
+   "LEDGER.md"
+  ],
+  "replay": "k4/lsp_attempts.py"
+ },
+ "refutes": [
+  {
+   "statement": "LS4⁺_k with coalition re-divisions of at most k = 2 or k = 3 agents (level-sum-raising, some may lose; k4/ls4alg.c -DCMOVE=k) completes",
+   "ledger": "K4.LSP.VAR",
+   "smallest": false
+  }
+ ],
+ "witness": {
+  "Y": [
+   [
+    2
+   ],
+   [
+    0,
+    6
+   ],
+   [
+    5
+   ],
+   [
+    3,
+    4
+   ]
+  ],
+  "pool": [
+   1
+  ],
+  "C4_example": {
+   "0": [
+    3
+   ],
+   "1": [
+    2
+   ],
+   "2": [
+    1,
+    6
+   ],
+   "3": [
+    5
+   ]
+  },
+  "trajectory_masks_hex": [
+   "1 0 0 0",
+   "2 0 0 0",
+   "8 0 0 0",
+   "4 0 0 0",
+   "4 20 0 0",
+   "4 1 0 0",
+   "4 40 0 0",
+   "4 40 10 0",
+   "4 40 2 0",
+   "4 40 20 0",
+   "4 40 20 10",
+   "4 41 20 10",
+   "4 41 20 8",
+   "4 41 20 18"
+  ]
+ },
+ "notes": "Pure core. LS4 makes 14 moves to Y = {2} | {0,6} | {5} | {3,4}, U = {1}: no M1/R/X move; no coalition of 2 or 3 agents raises Σℓ; no completion; 14 re-divisions by all four agents raise Σℓ, e.g. 0 ← {3}, 1 ← {2}, 2 ← {1,6}, 3 ← {5}. Not a dead end. 'Smallest found' (results/k4_ls4_failures_4_pure.tsv row 2). Replay run: 'level-sum-raising re-divisions by 2 agents (C_2): 0', '... by 3 agents (C_3): 0', '... by all 4 agents: 14', 'completions of Y: 0', 'Y is a dead end: False'. [Certified-core lookup by the generator (not from the source): identical sets (same agent order and labels): core 53 of results/k4_certs_4_pure.json.gz. Core k = 0-based position in the file's \"cores\" list, as the sources use it.]"
+}

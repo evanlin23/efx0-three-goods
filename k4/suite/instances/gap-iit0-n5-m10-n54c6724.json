@@ -1,0 +1,221 @@
+{
+ "id": "gap-iit0-n5-m10-n54c6724",
+ "n": 5,
+ "m": 10,
+ "sets": [
+  [
+   0,
+   2,
+   8,
+   9
+  ],
+  [
+   1,
+   4,
+   5,
+   8
+  ],
+  [
+   3,
+   7,
+   9
+  ],
+  [
+   4,
+   5,
+   6,
+   7
+  ],
+  [
+   6,
+   7,
+   8,
+   9
+  ]
+ ],
+ "vals": [
+  [
+   2,
+   7,
+   6,
+   10
+  ],
+  [
+   6,
+   5,
+   7,
+   3
+  ],
+  [
+   3,
+   4,
+   2
+  ],
+  [
+   4,
+   2,
+   3,
+   8
+  ],
+  [
+   2,
+   5,
+   8,
+   4
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": "core 6724 of results/k4_certs_5_n4_4.json.gz",
+ "core_ref_basis": "resolved by this extraction; exact sets match against results/k4_certs_5_n4_4.json.gz (0-based position 6724, idx field 1053; identical blob on main and all four branches)",
+ "source": {
+  "pr": 53,
+  "branch": "compute/k4-gap",
+  "head": "245040b",
+  "files": [
+   "results/k4_gap_bench_n5.log"
+  ],
+  "replay": "python3 k4/gap_bench.py --profile='{\"sets\": [[0, 2, 8, 9], [1, 4, 5, 8], [3, 7, 9], [4, 5, 6, 7], [6, 7, 8, 9]], \"vals\": [[2, 7, 6, 10], [6, 5, 7, 3], [3, 4, 2], [4, 2, 3, 8], [2, 5, 8, 4]], \"m\": 10}' --only=II_T0,II_PHI"
+ },
+ "refutes": [
+  {
+   "statement": "roadmap (ii): in that setting [SIGMA_INJ's: f = 1, x 3-good, no valid owner, pool-optimal, t = 0] with x threatened, some exchange-cycle move through x leaves t = 0",
+   "ledger": null,
+   "smallest": true,
+   "name": "II_T0",
+   "smallest_scope": "first 'smallest' counterexample printed by results/k4_gap_bench_n5.log (catalogs gap_n5_*_s100 (100 random profiles per core), every 10th record; sorted by n, m, number of configurations); 5 counterexamples in that run",
+   "basis": "stated",
+   "where": [
+    "results/k4_gap_bench_n5.log"
+   ],
+   "counterexamples_in_run": 5,
+   "witness": {
+    "key": [
+     null,
+     null,
+     7,
+     null,
+     null
+    ],
+    "Q": {
+     "0": [
+      0,
+      9
+     ],
+     "1": [
+      5,
+      6
+     ],
+     "3": [
+      1,
+      4
+     ],
+     "4": [
+      2,
+      8
+     ]
+    },
+    "L": [
+     3
+    ]
+   },
+   "note": "Old form of II_T0 (as printed in results/k4_gap_bench_n4.log, _n4_b.log, _n5.log). The revised form ('once no exchange-cycle move avoiding x raises Phi', some exchange-cycle move through x (best pairs or any pairs, e.g. the plain rotation) leaves t = 0') HOLDS on n <= 4 (results/k4_gap_bench_n4_c.log, _n23_c.log).",
+   "status_with_final_code": "HOLDS on this profile with the final bench (compute/k4-gap @245040b, gap.c 74e1fae2...; this replay): the failure above was logged by an earlier bench (gap.c 0c14f252...) whose form of the statement differed"
+  },
+  {
+   "statement": "roadmap (ii) with (iii): in that setting [f = 1, x 3-good, no valid owner, pool-optimal, t = 0] with x threatened, some exchange-cycle move through x raises Phi'",
+   "ledger": null,
+   "smallest": true,
+   "name": "II_PHI",
+   "smallest_scope": "first 'smallest' counterexample printed by results/k4_gap_bench_n5.log (catalogs gap_n5_*_s100 (100 random profiles per core), every 10th record; sorted by n, m, number of configurations); 5 counterexamples in that run",
+   "basis": "stated",
+   "where": [
+    "results/k4_gap_bench_n5.log"
+   ],
+   "counterexamples_in_run": 5,
+   "witness": {
+    "key": [
+     null,
+     null,
+     7,
+     null,
+     null
+    ],
+    "Q": {
+     "0": [
+      0,
+      9
+     ],
+     "1": [
+      5,
+      6
+     ],
+     "3": [
+      1,
+      4
+     ],
+     "4": [
+      2,
+      8
+     ]
+    },
+    "L": [
+     3
+    ]
+   },
+   "note": "Old form of II_PHI (bench_n4 / n4_b / n5 logs). The revised form (in the same setting after cycles avoiding x) HOLDS on n <= 4 (results/k4_gap_bench_n4_c.log).",
+   "status_with_final_code": "HOLDS on this profile with the final bench (compute/k4-gap @245040b, gap.c 74e1fae2...; this replay): the failure above was logged by an earlier bench (gap.c 0c14f252...) whose form of the statement differed"
+  }
+ ],
+ "witness": {
+  "key": [
+   null,
+   null,
+   7,
+   null,
+   null
+  ],
+  "Q": {
+   "0": [
+    0,
+    9
+   ],
+   "1": [
+    5,
+    6
+   ],
+   "3": [
+    1,
+    4
+   ],
+   "4": [
+    2,
+    8
+   ]
+  },
+  "L": [
+   3
+  ],
+  "_from": "the first refuted statement's printed configuration"
+ },
+ "replay": {
+  "gap_bench_profile": {
+   "ran": "python3 k4/gap_bench.py --profile='{...}' --show=1 (all 25 seeded statements) on compute/k4-gap @245040b",
+   "gap_c_sha256_prefix": "74e1fae22153",
+   "in_gap": "True; f 1, omega 1, keys [[-1, -1, -1, 7, -1], [-1, -1, 7, -1, -1]], 270 configurations, 264 w",
+   "fails": [],
+   "holds_count": 25,
+   "fails_not_stated_by_source": [],
+   "stated_but_holds_now": [
+    "II_T0",
+    "II_PHI"
+   ]
+  },
+  "witness_check_gap_model": [
+   "f 1 omega 1 in_gap True configs 270 completable 264",
+   "  refutes:II_T0: found; L [3] (given [3]) completable False owners [] phi (0, 1, 23, -1) (max (0, 4, 38, 0)) pool_optimal True",
+   "  refutes:II_PHI: found; L [3] (given [3]) completable False owners [] phi (0, 1, 23, -1) (max (0, 4, 38, 0)) pool_optimal True"
+  ]
+ },
+ "notes": "With the final code (gap.c 74e1fae2..., gap_model at 245040b) the bench reports ['II_T0', 'II_PHI'] as HOLDING on this profile; the source's failure was logged with an earlier bench (gap.c 0c14f252...) whose statement differed (II_T0/II_PHI were revised; REACH_* were changed in de63fca to accept a removal-only completable pre-allocation). The source statement recorded above is the one that failed."
+}

@@ -1,0 +1,112 @@
+{
+ "id": "gm4-E",
+ "n": 4,
+ "m": 7,
+ "sets": [
+  [
+   0,
+   2,
+   4,
+   6
+  ],
+  [
+   1,
+   3,
+   5,
+   6
+  ],
+  [
+   2,
+   3,
+   6
+  ],
+  [
+   4,
+   5,
+   6
+  ]
+ ],
+ "vals": [
+  [
+   3,
+   10,
+   6,
+   2
+  ],
+  [
+   3,
+   4,
+   8,
+   2
+  ],
+  [
+   4,
+   2,
+   3
+  ],
+  [
+   2,
+   4,
+   3
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": null,
+ "source": {
+  "pr": 30,
+  "branch": "main",
+  "files": [
+   "attempts/k4-gm4-level-sum.md",
+   "attempts/k4-gm4-potentials.md",
+   "k4/gm4_counterexample.py",
+   "LEDGER.md"
+  ],
+  "replay": "k4/gm4_counterexample.py"
+ },
+ "refutes": [
+  {
+   "statement": "Conjecture GM₄: for every strict profile of every k = 4 core, every junk-free EFX₀ partial allocation that maximizes the level sum Σℓ among all junk-free EFX₀ partial allocations admits a placement of its pool (equivalently, no dead end maximizes Σℓ)",
+   "ledger": "K4.GM.CEX",
+   "smallest": false
+  },
+  {
+   "statement": "GM₄∃ with the Σℓ-maxima narrowed by the leximin tie-break: the leximin-largest Σℓ-maximum admits a placement",
+   "ledger": "K4.GM.VAR",
+   "smallest": false
+  },
+  {
+   "statement": "GM∃ for the fixed-priority potential (the level vector read in a fixed agent order, compared lexicographically) for every agent order: here with agent order 2, 3, 0, 1 the unique fixed-priority maximum is E's dead end (instance Q)",
+   "ledger": "K4.GM.VAR",
+   "smallest": false
+  },
+  {
+   "statement": "A proof of GM₄ by an exchange argument in the style of Theorem C of proofs/local_search.md: following the Lemma-5 champions of sources around a cycle gives a Σℓ-raising exchange cycle (here the cycle 1 → 3 ⇒ 0 → 2 ⇒ 1 needs good 6 twice)",
+   "ledger": null,
+   "smallest": null
+  }
+ ],
+ "witness": {
+  "Y": [
+   [
+    0,
+    4
+   ],
+   [
+    1,
+    3
+   ],
+   [
+    2
+   ],
+   [
+    5
+   ]
+  ],
+  "pool": [
+   6
+  ],
+  "level_sum": 18
+ },
+ "notes": "Instance E of k4/gm4_counterexample.py (kind GM4). Y = [[0, 4], [1, 3], [2], [5]] with pool [6] maximizes Σℓ (= 18) over all junk-free EFX₀ partial allocations, admits no placement, and no complete EFX₀ allocation weakly dominates it (dead end); reached from the empty allocation by 4 single-agent rebundles (M1), so LS4⁺_n fails under some valid choices. Values listed per agent in increasing good order (dict order of the script). Refuted in PR #30 (row K4.GM.CEX). Also: 'the leximin tie-break fails already on A (pure) and E (two 4-good agents), from the random runs' (k4-gm4-potentials.md). E is instance Q of k4/gm4_counterexample.py under agent order 2, 3, 0, 1 (levels in that order [3, 3, 6, 6]; 1 maximum). Sources 0 and 1 have champions 3 (envying {4, 6}) and 2 (envying {3, 6}). Smallest found: exhaustive at n = 4 with two 4-good agents, failures only at m = 7 (128 maxima in 3 cores); n ≤ 3 and n = 4 with one 4-good agent have none; three or four 4-good agents with m ≤ 6 only sampled. Replay run: k4/gm4_counterexample.py printed all [ok] for instance E and 'ALL CLAIMS HOLD'. [Certified-core lookup by the generator (not from the source): identical sets (same agent order and labels): core 131 of results/k4_certs_4_n4_2.json.gz. Core k = 0-based position in the file's \"cores\" list, as the sources use it.]"
+}

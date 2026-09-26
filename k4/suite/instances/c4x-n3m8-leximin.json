@@ -1,0 +1,66 @@
+{
+ "id": "c4x-n3m8-leximin",
+ "n": 3,
+ "m": 8,
+ "sets": [
+  [
+   0,
+   2,
+   5,
+   6
+  ],
+  [
+   1,
+   4,
+   5,
+   7
+  ],
+  [
+   3,
+   6,
+   7
+  ]
+ ],
+ "vals": [
+  [
+   2,
+   3,
+   8,
+   4
+  ],
+  [
+   3,
+   4,
+   8,
+   2
+  ],
+  [
+   3,
+   2,
+   4
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": null,
+ "source": {
+  "pr": 36,
+  "branch": "main",
+  "files": [
+   "attempts/k4-c4x-pareto-potentials.md",
+   "LEDGER.md"
+  ],
+  "replay": "attempts/k4_c4x_attempts.py"
+ },
+ "refutes": [
+  {
+   "statement": "Over 𝒫, every leximin-maximum is completable ('every' form)",
+   "ledger": "K4.C4X.PHI",
+   "smallest": true
+  }
+ ],
+ "notes": "Instance 2 of k4-c4x-pareto-potentials.md ('smallest m at n = 3; exhaustive'), two 4-good agents. With at most one 4-good agent leximin has no failure (n ≤ 4 exhaustive). Replay run: 'leximin: 20 valid, 17 completable; ... every-form failure confirmed'. [Certified-core lookup by the generator (not from the source): identical sets (same agent order and labels): core 47 of results/k4_certs_3.json.gz. Core k = 0-based position in the file's \"cores\" list, as the sources use it.]",
+ "expect_fail": [
+  "pre-every:leximin"
+ ]
+}

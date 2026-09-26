@@ -1,0 +1,94 @@
+{
+ "id": "c4x-n3m6-onefour-b",
+ "n": 3,
+ "m": 6,
+ "sets": [
+  [
+   0,
+   2,
+   4,
+   5
+  ],
+  [
+   1,
+   3,
+   5
+  ],
+  [
+   3,
+   4,
+   5
+  ]
+ ],
+ "vals": [
+  [
+   2,
+   3,
+   4,
+   8
+  ],
+  [
+   2,
+   3,
+   4
+  ],
+  [
+   3,
+   2,
+   4
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": null,
+ "source": {
+  "pr": 36,
+  "branch": "main",
+  "files": [
+   "attempts/k4-c4x-pareto-potentials.md",
+   "LEDGER.md"
+  ],
+  "replay": "attempts/k4_c4x_attempts.py"
+ },
+ "refutes": [
+  {
+   "statement": "Over 𝒫, some maximum of Σ 2^ℓ is completable ('some' form)",
+   "ledger": "K4.C4X.PHI",
+   "smallest": true
+  },
+  {
+   "statement": "Over 𝒫, some leximax-maximum is completable ('some' form)",
+   "ledger": "K4.C4X.PHI",
+   "smallest": true
+  },
+  {
+   "statement": "Over 𝒫, every Pareto-maximal pre-allocation is completable (Pareto-maximality, 'every' form; true at k = 3 by Theorem K3)",
+   "ledger": "K4.C4X.PHI",
+   "smallest": true
+  }
+ ],
+ "witness": {
+  "bases": [
+   [
+    5
+   ],
+   [
+    1
+   ],
+   [
+    3
+   ]
+  ],
+  "J": [
+   0,
+   2,
+   4
+  ]
+ },
+ "notes": "Instance 1 of k4-c4x-pareto-potentials.md ('smallest n and m; exhaustive'), first profile: one 4-good agent (agent 0, a > b + c). The Pareto-maximum {5} | {1} | {3}, J = {0,2,4} is stuck (agent 0's b, c, d are all in the owner's bundle); the Σ 2^ℓ- and leximax-maxima are stuck too. Replay run: 'sum2lev: 15 valid, 13 completable; ... some-form failure confirmed', 'leximax: ... some-form failure confirmed', '4 Pareto maxima; some Pareto maximum not completable: py True, c True -> confirmed'. [Certified-core lookup by the generator (not from the source): identical sets (same agent order and labels): core 19 of results/k4_certs_3.json.gz. Core k = 0-based position in the file's \"cores\" list, as the sources use it.]",
+ "expect_fail": [
+  "pre-every:pareto",
+  "pre-some:leximax",
+  "pre-some:sum2l"
+ ]
+}

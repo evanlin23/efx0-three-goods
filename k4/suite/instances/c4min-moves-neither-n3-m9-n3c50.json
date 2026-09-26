@@ -1,0 +1,111 @@
+{
+ "id": "c4min-moves-neither-n3-m9-n3c50",
+ "n": 3,
+ "m": 9,
+ "sets": [
+  [
+   0,
+   2,
+   6,
+   7
+  ],
+  [
+   1,
+   4,
+   6,
+   8
+  ],
+  [
+   3,
+   5,
+   7,
+   8
+  ]
+ ],
+ "vals": [
+  [
+   4,
+   7,
+   10,
+   2
+  ],
+  [
+   4,
+   2,
+   3,
+   8
+  ],
+  [
+   2,
+   4,
+   3,
+   8
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": "core 50 of results/k4_certs_3.json.gz",
+ "core_ref_basis": "cited by results/k4_c4min_moves.log (core 50); exact sets match against results/k4_certs_3.json.gz (0-based position 50, idx field 0; identical blob on main and all four branches)",
+ "source": {
+  "pr": 41,
+  "branch": "proof/k4-c4min",
+  "head": "b9ff629",
+  "files": [
+   "results/k4_c4min_moves.log",
+   "k4/c4min.md"
+  ],
+  "replay": "python3 k4/c4min_moves.py results/k4_certs_3.json.gz --rand=100 --seed=45 --moves"
+ },
+ "refutes": [
+  {
+   "statement": "(k4/c4min.md section 4, measured move catalogue; k4/c4min_moves.py --moves) every configuration without a valid owner (in the --moves analysis: no owner valid with C = {} / without unfreezing) has a Phi-raising pool move (one free agent re-picks its pair inside its pair and the pool) or a Phi-raising cycle move of the exchange digraph (receivers take the predecessor's pair, or their best admissible pair inside it and the pool)",
+   "ledger": null,
+   "smallest": null,
+   "name": "#41 pool/cycle-move catalogue",
+   "basis": "stated",
+   "where": [
+    "results/k4_c4min_moves.log (example (neither))"
+   ]
+  }
+ ],
+ "witness": {
+  "key": [
+   null,
+   8,
+   null
+  ],
+  "Q": {
+   "0": [
+    0,
+    2
+   ],
+   "2": [
+    5,
+    6
+   ]
+  },
+  "L": [
+   1,
+   3,
+   4,
+   7
+  ],
+  "source_text": "example (neither): core 50 [0:4,2:7,6:10,7:2] [1:4,4:2,6:3,8:8] [3:2,5:4,7:3,8:8] frozen ['-', [8], '-'] pairs {0: [0, 2], 2: [5, 6]} pool [1, 3, 4, 7]"
+ },
+ "replay": {
+  "gap_bench_profile": {
+   "ran": "python3 k4/gap_bench.py --profile='{...}' --show=1 (all 25 seeded statements) on compute/k4-gap @245040b",
+   "gap_c_sha256_prefix": "74e1fae22153",
+   "in_gap": "True; f 1, omega 4, keys [[-1, -1, 8], [-1, 8, -1]], 77 configurations, 46 with a valid owner",
+   "fails": [],
+   "holds_count": 25,
+   "fails_not_stated_by_source": [],
+   "stated_but_holds_now": []
+  },
+  "witness_check_gap_model": [
+   "f 1 omega 4 in_gap True configs 77 completable 46",
+   "  witness: found; L [1, 3, 4, 7] (given [1, 3, 4, 7]) completable True owners [2] phi (0, 0, 17, -2) (max (0, 2, 25, -2)) pool_optimal False"
+  ]
+ },
+ "notes": "k4/c4min.md section 4: on the non-completable configurations of sampled n = 3, f >= 1 profiles, '403 of 440 have a Phi-raising (hence Phi'-raising) pool move ..., 36 more a Phi-raising cycle move, and 1 needs a third kind. In that one the pool move is blocked, because the released good completes a frozen agent's threatening triple in the pool. A two-agent exchange passes that good to the other free agent instead of the pool.' This is that one (printed by the log). NB: c4min_moves.py --moves counts a configuration as 'without valid owner' when no owner is valid with C = {} and without unfreezing (owner_ok(o, unfreeze=False)); with the unfreezing clause this configuration IS completable (owner 2, least C = {6}: checked here with gap_model and with #41's own c4min_cfg.owners()). Values decoded from the log line; core 50 = 0-based position in results/k4_certs_3.json.gz (exact sets match, idx 0); m = 9."
+}
