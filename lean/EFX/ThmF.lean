@@ -340,7 +340,7 @@ open Classical in
 not by `o` from its bundle `X ∖ C`. -/
 noncomputable def nUnfrozen (v : A → G → Nat) (agents : List A) (goods : List G) (fr : A → Bool)
     (hold : G → Option A) (o : A) (C : G → Bool) : Nat :=
-  agents.countP (fun x => fr x && decide (∀ g, hold g = some x →
+  agents.countP (fun x => fr x && decide (∀ g ∈ goods, hold g = some x →
     (∀ i ∈ agents, i ≠ o → ¬ vbNeeds v goods (apaBase v hold) i g) ∧ v o g ≤ value v o (cfgBundle goods hold o C)))
 
 /-- **A valid owner of a configuration** (`k4/c4min.md` §1): a free agent `o`, the goods `C` of `X = Q_o ∪ L` that it
@@ -642,8 +642,8 @@ theorem removalOnly_of_cfgOwner (hgd : goods.Nodup) (hC : IsCfg v agents goods f
         split
         · rename_i hu
           simp only [Bool.true_and, decide_eq_true_eq] at hu
-          have hyx : hold y = some j := (mem_baseOf.mp (by rw [hy]; simp : y ∈ baseOf goods hold j)).2
-          obtain ⟨hno, hle⟩ := hu y hyx
+          obtain ⟨hyg, hyx⟩ := mem_baseOf.mp (by rw [hy]; simp : y ∈ baseOf goods hold j)
+          obtain ⟨hno, hle⟩ := hu y hyg hyx
           have hnF : ¬ (j = o ∨ Frozen agents goods (ownBase v hold o Ao) (roNeeds v goods (ownBase v hold o Ao) o CP) j) := by
             rintro (h | ⟨y', hy', i, hi, hN⟩)
             · exact hjo h
@@ -1193,9 +1193,9 @@ end last
 /-! ## Theorem F -/
 
 /-- **Theorem F with the hypotheses it uses** (`k4/c4min.md` §3.6): let there be at least one agent, every agent have at
-most four relevant goods and every good be relevant to some agent. If some configuration with frozen agents `fr` is
-frozen-robust and no pre-allocation of 𝒫 has fewer frozen agents than `fr` has, then some pre-allocation of 𝒫 with the
-fewest frozen agents has `def(P) ≤ 0` and is completable.
+most four relevant goods and, if no agent is frozen, every good be relevant to some agent. If some configuration with
+frozen agents `fr` is frozen-robust and no pre-allocation of 𝒫 has fewer frozen agents than `fr` has, then some
+pre-allocation of 𝒫 with the fewest frozen agents has `def(P) ≤ 0` and is completable.
 
 With no frozen agent this is Theorem Z (`theoremZ_min`). Otherwise take a frozen-robust configuration with the largest
 potential: it is pool-optimal over `M′` with the most robust free agents (`fmax_poolOpt`, `fmax_nRobust`), so the free
@@ -1203,8 +1203,9 @@ agents have a valid owner or all hold four goods outside `𝒩` (`zvalid_or_all4
 latter is impossible (`frozen_cycle`), and a robust frozen agent is never threatened (`not_threat_frozen`), so the owner
 threatens nobody, so it is a valid owner (`cfgOwner_of_safe`) and Lemma 1(a) applies (`c4min_of_cfgOwner`). -/
 theorem theoremF_min (hag : agents.Nodup) (hgd : goods.Nodup) (hne : agents ≠ [])
-    (h4 : ∀ i ∈ agents, (relevant v i goods).length ≤ 4) (hrel : ∀ g ∈ goods, ∃ i ∈ agents, 0 < v i g)
-    {fr : A → Bool} {hold : G → Option A} (hC : IsCfg v agents goods fr hold) (hR : FRobust v agents goods fr hold)
+    (h4 : ∀ i ∈ agents, (relevant v i goods).length ≤ 4) {fr : A → Bool}
+    (hrel : (∀ x ∈ agents, fr x = false) → ∀ g ∈ goods, ∃ i ∈ agents, 0 < v i g)
+    {hold : G → Option A} (hC : IsCfg v agents goods fr hold) (hR : FRobust v agents goods fr hold)
     (hmin : ∀ base, InP v agents goods base → agents.countP fr ≤ nFrozen v agents goods base) :
     ∃ base, MinFrozen v agents goods base ∧ RemovalOnly v agents goods base ∧ Completable v agents goods base := by
   by_cases hf : ∃ x ∈ agents, fr x = true
@@ -1227,7 +1228,11 @@ theorem theoremF_min (hag : agents.Nodup) (hgd : goods.Nodup) (hne : agents ≠ 
       have h1 := nFrozen_cfg_le hC
       have h2 : agents.countP fr = 0 := List.countP_eq_zero.mpr fun x hx h => hf ⟨x, hx, h⟩
       omega
-    exact theoremZ_min hag hgd hne h4 hrel ⟨apaBase v hold, inP_cfg hC, h0⟩
+    have hfree : ∀ x ∈ agents, fr x = false := fun x hx => by
+      cases h : fr x
+      · rfl
+      · exact absurd ⟨x, hx, h⟩ hf
+    exact theoremZ_min hag hgd hne h4 (hrel hfree) ⟨apaBase v hold, inP_cfg hC, h0⟩
 
 /-- **Theorem F** (`k4/c4min.md` §3.6): on every k = 4 core, if some configuration at the fewest frozen agents is
 frozen-robust, then some pre-allocation of 𝒫 with the fewest frozen agents has `def(P) ≤ 0` and is completable
@@ -1237,7 +1242,7 @@ theorem theoremF (hag : agents.Nodup) (hgd : goods.Nodup) (hc : IsCore4 v agents
     (hmin : ∀ base, InP v agents goods base → agents.countP fr ≤ nFrozen v agents goods base) :
     ∃ base, MinFrozen v agents goods base ∧ RemovalOnly v agents goods base ∧ Completable v agents goods base :=
   theoremF_min hag hgd (fun e => by have := hc.1; rw [e] at this; simp at this) (fun i hi => (hc.2.1 i hi).2)
-    hc.2.2.2.2.2 hC hR hmin
+    (fun _ => hc.2.2.2.2.2) hC hR hmin
 
 /-- **Theorem F in C₄ᵐⁱⁿ's removal-only form** (`TheoremC4minRO`'s conclusion on the profiles with a frozen-robust
 configuration at the fewest frozen agents; the strictness hypothesis is carried but not used). -/
