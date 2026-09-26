@@ -1,0 +1,4 @@
+command: python3 k4/p3_run.py sample results/k4_certs_5_n4_4.json.gz results/k4_certs_5_pure.json.gz --profiles=1000 --seed=43 --jobs=2
+binary: /tmp/k4_lb4_nsw_dbcf85a21650ffde (sha256 of k4/lb4_nsw.c: dbcf85a21650ffdeca354563e30f97abae884ca594037aa1085c225cb33fcc5e), options -i0 -u3 -w1 -c1 -rR -b
+k4_certs_5_n4_4.json.gz: 4380 (4, 3) cores (m 7..14), 4380000 random profiles; least number of nested rotations that works, R = 0, 1, 2, 3: [4337772, 42227, 1, 0]; LB4r (R <= 3) fails: 0; raw EFX0/D2 failures: 0 [145 s]
+k4_certs_5_pure.json.gz: 1962 (4, 3) cores (m 7..15), 1962000 random profiles; least number of nested rotations that works, R = 0, 1, 2, 3: [1939368, 22632, 0, 0]; LB4r (R <= 3) fails: 0; raw EFX0/D2 failures: 0 [215 s]
