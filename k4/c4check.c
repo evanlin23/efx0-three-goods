@@ -449,7 +449,7 @@ static int construct(void) {
     }
     if (INS == 18 || INS == 19 || INS == 20) {   /* -i20: as -i19, but only a covered run counts (no key decrease) */    /* -i18 (k4/c4one.md §6): the given insertion sequence tau; if its run is not a success,
                                         try every other agent at the insertion step that started q's block (index order after
-                                        it); a success, or a run with a smaller key (omega, q frozen, q early), counts.
+                                        it); a success, or a run with a smaller key (omega, q frozen, q late), counts.
                                         -i19: the same at every insertion step */
         int sc[MAXN], smc[MAXN], sn = onchoice;
         memcpy(sc, ochoice, sizeof sc);

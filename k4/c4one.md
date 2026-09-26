@@ -12,7 +12,7 @@ Lemma E, Theorems A₄, B₄, B₄ʷ, A₄ᵀ, A₄⁺ and the conventions of it
 - **Route 2 fails as posed** (§4). The claim was: whenever no owner is valid, some rotation raises "slots minus forced
   goods". It fails first at n = 3 with two 4-good agents, and at n = 5 with one. Wherever two rotations are needed, the
   first one cannot raise it (`attempts/k4-c4one-potential.md`).
-- **New: Theorem A₄⁺ holds for every owner** (§5, written proof, not yet reviewed). Any non-frozen owner with a base of
+- **New: Theorem A₄⁺ holds for every owner** (§5, written proof, refereed in the PR #37 review). Any non-frozen owner with a base of
   at most one good, or an upgraded owner, is valid when the goods its exposed agents need kept out fit into the other
   slots. It is checked on the runs `lb4.c` makes with n ≤ 4 (≤ 2 four-good agents): 0 violations. It raises the share of
   runs proved from 94.5% to 97.6% (n = 4, one 4-good agent).
@@ -33,16 +33,17 @@ Lemma E, Theorems A₄, B₄, B₄ʷ, A₄ᵀ, A₄⁺ and the conventions of it
   - **n = 6:** on all 26,866 certified n = 6 cores with one 4-good agent (#26, now on main), for every strict profile, the
     index-order run is covered or one changed insertion step makes it covered. There are 0 exceptions in 5.47·10¹⁰
     profiles (`results/k4_c4one_n6.log`).
-  - **A first proved piece: Lemma Ω** (§6, written proof, not yet reviewed). Take a need chain from a block's leader
+  - **A first proved piece: Lemma Ω** (§6, written proof, refereed in the PR #37 review). Take a need chain from a block's leader
     ℓ to a free agent x that does not hold its top. Inserting x first in the block, then the chain backwards, realizes
     the rotation along the chain, and ℓ then upgrades with {b_ℓ, c_ℓ}. So ω drops by at least 1, under five side
     conditions.
-    - With x = q it proves every (Tc) case of Lemma X at n ≤ 4, and 97.7% at n = 5.
+    - With x = q it gives a key-decreasing move (a step of Lemma X*, §6) in every (Tc) case at n ≤ 4, and in 97.7%
+      at n = 5.
     - Its variant Ω_q has ℓ = q and lowers the key because q is no longer frozen. Its mirror, **Lemma Ψ** (the
       falling chain, with variant Ψ_q), moves a chain down. Together, over all uncovered runs with any agent as x,
-      they prove 90%, 80% and 80% of them (n = 3, 4, 5).
+      they give a key-decreasing move on 90%, 80% and 80% of them (n = 3, 4, 5).
     - The proofs are for runs with P-steps in any order. Over those runs, Lemmas X and X′ also hold at n ≤ 5, and the
-      four moves prove 90%, 73% and 62% of their uncovered runs (`k4/c4check.c -G`).
+      four moves give a key-decreasing move on 90%, 73% and 62% of their uncovered runs (`k4/c4check.c -G`).
 - **The existence form C₄¹∃** (§1) is open. It is what TARGET₄ needs for these instances.
 
 ## 1. Statements
@@ -53,7 +54,7 @@ exactly their bases and only the owner's bundle has more than two goods.
 - This is PR #35's `EFX.LB4R.TheoremC4exists` restricted to such cores.
 - With Theorem 1′₄ (K4.LB4.S), K4.CORE (whose peeling never adds a 4-good agent) and K4.TIE, it gives **TARGET₄ for
   every instance in which at most one agent values four goods**.
-- Related results on main, cited from the ledger (their files were not read here):
+- Related results on main, cited from the ledger [unverified] (their files were not read here):
   - **K4.ONE.FRAME** (#39, Lean): TARGET₄ for at most one 4-good agent follows from `EFX.LB4R.C4existsOne`, which is
     C₄¹∃ on connected cores.
   - **K4.C4MIN.Z** and **K4.C4MIN.F** (#41, PROVED, main claims in Lean): C₄ᵐⁱⁿ holds on every profile whose fewest
@@ -61,6 +62,8 @@ exactly their bases and only the owner's bundle has more than two goods.
     the fewest frozen agents. On those profiles this gives an EFX₀ allocation with at most one bundle of more than
     two goods, hence C₄¹∃ when at most one agent has four goods.
   - **K4.C4X.ONE** (conjecture): a different route to the same case, through maxima of Σℓ.
+  - **K4.C4MINH.EX** (#45, EVIDENCE): C₄ᵐⁱⁿ holds on every strict profile of every connected core with one 4-good
+    agent and n = 5 or 6, which is direct evidence for C₄¹∃ there.
   - This file's key also starts with the number of frozen agents, since ω = |F| − σ. So Lemma X is needed only on
     profiles that Theorems Z and F leave open.
 
@@ -185,7 +188,7 @@ needs are empty. ∎
 **Checked** (`k4/c4check.c -X`; every owner o ≠ r for which the count holds is run through the exact owner test;
 `results/k4_c4one_check_ext.log`): 0 violations, on the runs `lb4.c` makes (every insertion sequence) of every strict
 profile of every core with n ≤ 3 or
-n = 4 with at most two 4-good agents. Share of runs with ω ≥ 1 that are proved:
+n = 4 with one or two 4-good agents. Share of runs with ω ≥ 1 that are proved:
 
 | cores | with `k4/c4.md` | with A₄⁺(o) too |
 |---|---|---|
@@ -259,7 +262,15 @@ outcomes:
 - one rotation gives one (B₄, B₄ʷ).
 
 In each case there is a valid pre-allocation with a completion satisfying (OC₄), which is C₄¹∃'s witness
-(Theorem 1′₄). ∎
+(Theorem 1′₄). With no 4-good agent, C₄¹∃ is Corollary C₄⁰ (K4.C4.AB.L, PROVED). ∎
+
+**Lemma X\* (the form the proved moves give).** Over *states*, that is, the state after any run of Phase 1 (P-steps in
+any order) followed by any order of envy-free upgrades to a fixpoint: if the state is not covered, some other state has
+a smaller key. X\* also implies C₄¹∃, by the same induction, since the theorems of K4.C4.AB and K4.C4.AO hold at any
+such fixpoint. Lemmas Ω, Ω_q, Ψ and Ψ_q below prove steps of X\*, not of Lemma X as stated: their new run is not "one
+changed insertion step, then index order", and their upgrades come in a non-canonical order (ω at the fixpoint may
+depend on that order in principle). On the data this makes no difference: at n ≤ 4, recomputing ω with the canonical
+upgrades on every Ω, Ω_q, Ψ and Ψ_q instance, the key drops every time (PR #37 review).
 
 **Exchange Lemma X′ (stronger; conjecture).** If the run for τ is not covered, some τ′ has a covered run. Here τ′
 agrees with τ before one insertion step, takes another agent there, and follows index order after it.
@@ -335,7 +346,7 @@ by 1 and S does not. Lemma Ω makes this exact, for runs of Phase 1 in the sense
 and chains of any length. It handles (D1) when the agents pulled in lead their blocks, and (D2) through detached
 agents. Its case s = 1 is called Ω₁.
 
-**Lemma Ω (a move that lowers ω; written proof, not yet reviewed).** Let P be the state after a run ρ of Phase 1 and
+**Lemma Ω (a move that lowers ω; written proof, refereed in the PR #37 review).** Let P be the state after a run ρ of Phase 1 and
 envy-free upgrades in any order. Let β be a block of ρ with leader ℓ, and x ≠ ℓ an agent of β, such that:
 - **(H1)** Each of b_ℓ, c_ℓ is junk in P or is x's pick Y_x, and the pair {b_ℓ, c_ℓ} is envy-free for ℓ. This is
   automatic when ℓ has three goods (a < b + c in a core). When ℓ has four goods it means a_ℓ + d_ℓ ≤ b_ℓ + c_ℓ; ℓ can then
@@ -351,7 +362,8 @@ envy-free upgrades in any order. Let β be a block of ρ with leader ℓ, and x 
 - **(H5′)** Every agent processed after β that has b_ℓ among its goods leads its block in ρ. Call these blocks
   *moved*. For each moved block γ, no agent of a block between β and γ that is not moved has a good picked in γ.
 
-Then some run ρ′ of Phase 1, equal to ρ before β, followed by envy-free upgrades, reaches a state P′ with
+Then some run ρ′ of Phase 1, equal to ρ before β, followed by envy-free upgrades in some order (to a fixpoint),
+reaches a state P′ with
 ω(P′) ≤ ω(P) − 1. In ρ′ each x_i (1 ≤ i ≤ s) takes Y_{x_{i−1}}, ℓ takes b_ℓ, and every other agent keeps its pick. So
 ρ′ realizes the rotation along the chain.
 
@@ -451,17 +463,20 @@ Then some run ρ′ with envy-free upgrades reaches P′ with ω(P′) ≤ ω(P)
 - |J| is unchanged: Y_x comes in and b_q goes out, or b_q = Y_x.
 - q held a needed good, so it had no slot. It now holds b_q, which no agent ranks above its pick (F), so it is free
   with one slot.
-- x now holds a_q, which q needs, so x may lose its slot.
+- The holder of a_q (x if s = 1; x₁, already frozen, if s ≥ 2) now holds a good that q needs, so at most that agent
+  loses its slot.
 - No other agent loses a slot, since NA only shrinks elsewhere.
 
 So ω(P″) ≤ ω(P), and q is not frozen. Further envy-free upgrades lower ω or keep it, and never freeze q. ∎
 
-**Lemma Ψ (the falling chain; written proof, not yet reviewed).** Lemma Ω moves a chain *up*: each agent takes the
+**Lemma Ψ (the falling chain; written proof, refereed in the PR #37 review).** Lemma Ω moves a chain *up*: each agent takes the
 good it needed. Lemma Ψ moves a chain *down*. Let P be the state after a run ρ of Phase 1 and envy-free upgrades in any
 order. Let x ∉ U be an agent of a block β whose pick Y_x lies below its top a_x, and let y₀ be the agent holding a_x.
 
 The *fall chain* is y₀, y₁, …, y_k, defined as follows. Let g_i be y_i's best good outside {Y_{y₀}, …, Y_{y_i}}. If g_i
-is the pick of an agent y_{i+1}, continue from y_{i+1}. Stop at the first g_k that is junk in P or equals Y_x.
+is the pick of an agent y_{i+1}, continue from y_{i+1}. Stop at the first g_k that is junk in P or equals Y_x. The
+lemma assumes the chain is well defined: each g_i is a pick, junk in P, or Y_x (after upgrades a good can also be an
+upgraded agent's second base good, and then the chain is undefined; `k4/c4tools/c4omega1.py` checks this).
 
 Suppose:
 - **(Ψ1)** No agent ranks Y_x above its Phase 1 pick.
@@ -472,7 +487,8 @@ Suppose:
 - **(Ψ5)** (H4) and (H5′) of Lemma Ω hold, with the fall chain in place of Ω's chain, and g_k in place of b_ℓ. When
   g_k = Y_x, no later agent has it (B1), so no block moves.
 
-Then some run ρ′ of Phase 1, equal to ρ before β, followed by envy-free upgrades, reaches a state P′ with
+Then some run ρ′ of Phase 1, equal to ρ before β, followed by envy-free upgrades in some order (to a fixpoint),
+reaches a state P′ with
 ω(P′) ≤ ω(P) − 1. In ρ′, x takes a_x, each y_i takes g_i, and every other agent keeps its pick.
 
 **Variant Ψ_q.** If (Ψ3) fails but y_k = q, then without (Ψ3) and (Ψ4) some such run reaches P′ with ω(P′) ≤ ω(P) and
@@ -544,7 +560,7 @@ needed here.
 
 *What it gives.* Lemma Ω does not use that q has four goods, or case (Tc). It says that at a run and upgrade fixpoint
 minimizing ω, no chain satisfies (H1)–(H5′).
-- For Lemma X on these (Tc) runs it gives the key decrease directly, and so proves those cases of Lemma X.
+- On these (Tc) runs it gives a key-decreasing move directly: a step of Lemma X* (§6), not of Lemma X as stated.
 - The caveat: ρ′ is a run of Phase 1 in the general sense (P-steps in any order). So an induction on the key that uses
   Ω needs Lemma X for general runs. #33's theorems hold for general runs, so the covered case is fine. The next
   paragraph tests Lemma X on them.
@@ -561,9 +577,9 @@ insertion or a P-step), and follow the defaults after it.
 So on the data, the induction on the key can range over runs with P-steps in any order. On those runs Lemma X holds
 and Lemma Ω supplies the step for most of them.
 - (H5′) handles obstacle (D1) above when the agents pulled in are leaders: their whole blocks move. What is left at
-  n = 5 is 2.3% of the (Tc) cases (1.4% if x may be any agent).
-- Beyond (Tc), Lemmas Ω, Ψ and their variants prove 80–90% of all uncovered runs at n ≤ 5 to be key-decreasing, in
-  the general-run sense.
+  n = 5 is 2.3% of the (Tc) cases (1.06% if x may be any agent, 0.49% with Lemma Ψ too; `results/k4_c4one_omega1.log`).
+- Beyond (Tc), Lemmas Ω, Ψ and their variants give a key-decreasing move (a step of X*) on 80–90% of all uncovered
+  runs at n ≤ 5, in the general-run sense.
   Allowing x to hold any good below its top matters here: in the (Tb) runs where q already holds its top, x is another
   agent, one holding its c.
 - The G2 run with n = 3, m = 5 is an example of Lemma Ψ: sets [[0,2,3,4],[1,3,4],[2,3,4]], values
