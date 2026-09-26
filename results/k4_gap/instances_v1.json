@@ -1,0 +1,3104 @@
+{
+ "version": 1,
+ "description": "instance suite of the exposed-frozen gap of C4min (k4/gap.md section 5); built by python3 k4/gap_instances.py; never edited (a new version gets a new file)",
+ "instances": [
+  {
+   "id": "hall-bt4",
+   "tags": [
+    "BT fails",
+    "REACH_EACH_CYC fails"
+   ],
+   "n": 4,
+   "m": 7,
+   "sets": [
+    [
+     0,
+     2,
+     5,
+     6
+    ],
+    [
+     0,
+     3,
+     4,
+     6
+    ],
+    [
+     1,
+     2,
+     4,
+     6
+    ],
+    [
+     1,
+     3,
+     5,
+     6
+    ]
+   ],
+   "vals": [
+    [
+     2,
+     6,
+     3,
+     10
+    ],
+    [
+     6,
+     3,
+     10,
+     8
+    ],
+    [
+     8,
+     6,
+     10,
+     3
+    ],
+    [
+     6,
+     4,
+     1,
+     8
+    ]
+   ],
+   "bases": [
+    [
+     2,
+     5
+    ],
+    [
+     0,
+     3
+    ],
+    [
+     4
+    ],
+    [
+     6
+    ]
+   ],
+   "provenance": "k4/hall_instances/bt4.inst (#46/#52): core 59 of results/k4_certs_4_pure.json.gz: a non-completable Pareto-maximum at the fewest frozen agents without a frozen big-top agent (k4/hall_bt.md \u00a73)"
+  },
+  {
+   "id": "hall-cyc6",
+   "tags": [
+    "#46 label collision (f = 0)"
+   ],
+   "n": 6,
+   "m": 15,
+   "sets": [
+    [
+     0,
+     2,
+     3,
+     12
+    ],
+    [
+     4,
+     2,
+     3,
+     5
+    ],
+    [
+     4,
+     6,
+     7,
+     13
+    ],
+    [
+     6,
+     8,
+     9,
+     12
+    ],
+    [
+     10,
+     8,
+     9,
+     11
+    ],
+    [
+     10,
+     0,
+     1,
+     14
+    ]
+   ],
+   "vals": [
+    [
+     8,
+     6,
+     5,
+     4
+    ],
+    [
+     10,
+     8,
+     6,
+     3
+    ],
+    [
+     8,
+     6,
+     5,
+     4
+    ],
+    [
+     8,
+     6,
+     5,
+     4
+    ],
+    [
+     10,
+     8,
+     6,
+     3
+    ],
+    [
+     8,
+     6,
+     5,
+     4
+    ]
+   ],
+   "bases": [
+    [
+     2,
+     3
+    ],
+    [
+     4,
+     5
+    ],
+    [
+     6,
+     7
+    ],
+    [
+     8,
+     9
+    ],
+    [
+     10,
+     11
+    ],
+    [
+     0,
+     1
+    ]
+   ],
+   "provenance": "k4/hall_instances/cyc6.inst (#46/#52): the 6-agent core of attempts/k4-hall-pareto-no-frozen.md (goods 0-14)"
+  },
+  {
+   "id": "hall-local3",
+   "tags": [
+    "#46 local exposures"
+   ],
+   "n": 3,
+   "m": 7,
+   "sets": [
+    [
+     0,
+     1,
+     2,
+     3
+    ],
+    [
+     2,
+     4,
+     5,
+     6
+    ],
+    [
+     3,
+     4,
+     5,
+     6
+    ]
+   ],
+   "vals": [
+    [
+     3,
+     2,
+     10,
+     6
+    ],
+    [
+     8,
+     2,
+     3,
+     4
+    ],
+    [
+     7,
+     3,
+     5,
+     6
+    ]
+   ],
+   "bases": [
+    [
+     2
+    ],
+    [
+     5,
+     6
+    ],
+    [
+     3,
+     4
+    ]
+   ],
+   "provenance": "k4/hall_instances/local3.inst (#46/#52): core 33 of results/k4_certs_3.json.gz with a profile where a Pareto-maximum with only local frozen exposures fails (k4/hall.md \u00a75)"
+  },
+  {
+   "id": "phi-n4-m8",
+   "tags": [
+    "PHI",
+    "N",
+    "PHI_PRIME fails"
+   ],
+   "m": 8,
+   "sets": [
+    [
+     0,
+     2,
+     5,
+     7
+    ],
+    [
+     1,
+     4,
+     6,
+     7
+    ],
+    [
+     2,
+     3,
+     4,
+     6
+    ],
+    [
+     3,
+     5,
+     6,
+     7
+    ]
+   ],
+   "vals": [
+    [
+     2,
+     3,
+     6,
+     10
+    ],
+    [
+     3,
+     2,
+     6,
+     10
+    ],
+    [
+     6,
+     10,
+     3,
+     2
+    ],
+    [
+     8,
+     4,
+     5,
+     2
+    ]
+   ],
+   "config": {
+    "key": [
+     7,
+     null,
+     null,
+     3
+    ],
+    "Q": {
+     "1": [
+      1,
+      6
+     ],
+     "2": [
+      2,
+      4
+     ]
+    }
+   },
+   "provenance": "pure core 104 (0-based position) of results/k4_certs_4_pure.json.gz; hunt results/k4_gap_hunt_n4_pure_s400k.log; attempts/k4-gap-phi-prime.md (the unique Phi'-maximum has no valid owner; gap.c, gap_model, #41 c4min_cfg.py)",
+   "n": 4
+  },
+  {
+   "id": "phi-n4-m10",
+   "tags": [
+    "PHI",
+    "N",
+    "PHI_PRIME fails"
+   ],
+   "m": 10,
+   "sets": [
+    [
+     0,
+     2,
+     5,
+     8
+    ],
+    [
+     1,
+     4,
+     7,
+     9
+    ],
+    [
+     3,
+     5,
+     6,
+     9
+    ],
+    [
+     6,
+     7,
+     8,
+     9
+    ]
+   ],
+   "vals": [
+    [
+     2,
+     6,
+     10,
+     3
+    ],
+    [
+     6,
+     3,
+     10,
+     2
+    ],
+    [
+     3,
+     10,
+     2,
+     6
+    ],
+    [
+     3,
+     8,
+     4,
+     2
+    ]
+   ],
+   "config": {
+    "key": [
+     5,
+     7,
+     null,
+     null
+    ],
+    "Q": {
+     "2": [
+      3,
+      9
+     ],
+     "3": [
+      6,
+      8
+     ]
+    }
+   },
+   "provenance": "pure core 183 of results/k4_certs_4_pure.json.gz; same hunt; attempts/k4-gap-phi-prime.md",
+   "n": 4
+  },
+  {
+   "id": "btcyc-n4-m8",
+   "tags": [
+    "BTCYC fails",
+    "REACH_EACH_CYC fails"
+   ],
+   "m": 8,
+   "sets": [
+    [
+     0,
+     2,
+     5,
+     6
+    ],
+    [
+     0,
+     3,
+     4,
+     6
+    ],
+    [
+     1,
+     2,
+     4,
+     7
+    ],
+    [
+     1,
+     3,
+     5,
+     7
+    ]
+   ],
+   "vals": [
+    [
+     3,
+     10,
+     2,
+     6
+    ],
+    [
+     2,
+     10,
+     3,
+     6
+    ],
+    [
+     2,
+     10,
+     3,
+     6
+    ],
+    [
+     2,
+     8,
+     3,
+     4
+    ]
+   ],
+   "config": {
+    "key": [
+     2,
+     3,
+     null,
+     null
+    ],
+    "Q": {
+     "2": [
+      4,
+      7
+     ],
+     "3": [
+      1,
+      5
+     ]
+    }
+   },
+   "provenance": "pure n = 4 hunt (results/k4_gap/hard_hunt.json.gz, category W); attempts/k4-gap-btcyc.md; results/k4_gap_btcyc.log",
+   "n": 4
+  },
+  {
+   "id": "bt-n5-m10",
+   "tags": [
+    "BT fails"
+   ],
+   "m": 10,
+   "sets": [
+    [
+     0,
+     2,
+     4,
+     8
+    ],
+    [
+     1,
+     3,
+     7,
+     9
+    ],
+    [
+     4,
+     6,
+     9
+    ],
+    [
+     5,
+     6,
+     7,
+     9
+    ],
+    [
+     5,
+     8,
+     9
+    ]
+   ],
+   "vals": [
+    [
+     2,
+     4,
+     5,
+     8
+    ],
+    [
+     3,
+     2,
+     6,
+     10
+    ],
+    [
+     2,
+     3,
+     4
+    ],
+    [
+     8,
+     6,
+     4,
+     3
+    ],
+    [
+     4,
+     3,
+     2
+    ]
+   ],
+   "config": {
+    "key": [
+     null,
+     null,
+     9,
+     5,
+     null
+    ],
+    "Q": {
+     "0": [
+      2,
+      4
+     ],
+     "1": [
+      1,
+      7
+     ],
+     "4": [
+      3,
+      8
+     ]
+    }
+   },
+   "provenance": "n = 5 catalog with three 4-good agents (results/k4_gap/gap_n5_3_s100.json.gz), bench results/k4_gap_bench_n5.log; results/k4_gap_bt5.log",
+   "n": 5
+  },
+  {
+   "id": "samen-n4-m8",
+   "tags": [
+    "SAME_N fails",
+    "LOCAL_ALL fails"
+   ],
+   "m": 8,
+   "sets": [
+    [
+     0,
+     2,
+     4,
+     5
+    ],
+    [
+     1,
+     3,
+     6,
+     7
+    ],
+    [
+     4,
+     5,
+     6,
+     7
+    ],
+    [
+     5,
+     6,
+     7
+    ]
+   ],
+   "vals": [
+    [
+     6,
+     3,
+     2,
+     10
+    ],
+    [
+     2,
+     3,
+     6,
+     10
+    ],
+    [
+     4,
+     6,
+     3,
+     8
+    ],
+    [
+     2,
+     4,
+     3
+    ]
+   ],
+   "config": {
+    "key": [
+     5,
+     7,
+     null,
+     null
+    ],
+    "Q": {
+     "2": [
+      0,
+      4
+     ],
+     "3": [
+      1,
+      6
+     ]
+    }
+   },
+   "provenance": "n = 4 catalogs (every 5th record), bench results/k4_gap_bench_n4.log (LOCAL_ALL, SAME_N); k4/gap.md section 3",
+   "n": 4
+  },
+  {
+   "id": "w-n2-m5-k4_certs_2-3-7-7",
+   "tags": [
+    "W"
+   ],
+   "n": 2,
+   "m": 5,
+   "sets": [
+    [
+     0,
+     2,
+     3,
+     4
+    ],
+    [
+     1,
+     2,
+     3,
+     4
+    ]
+   ],
+   "vals": [
+    [
+     2,
+     3,
+     6,
+     10
+    ],
+    [
+     2,
+     3,
+     6,
+     10
+    ]
+   ],
+   "config": {
+    "key": [
+     null,
+     4
+    ],
+    "Q": {
+     "0": [
+      2,
+      3
+     ]
+    }
+   },
+   "provenance": "category W of k4/gap_hard.py, results/k4_gap/hard_base.json.gz: core k4_certs_2.json.gz position 3 (idx 1), profile (type indices) [7, 7]; f = 1, omega = 2"
+  },
+  {
+   "id": "w-n2-m5-k4_certs_2-3-7-20",
+   "tags": [
+    "W"
+   ],
+   "n": 2,
+   "m": 5,
+   "sets": [
+    [
+     0,
+     2,
+     3,
+     4
+    ],
+    [
+     1,
+     2,
+     3,
+     4
+    ]
+   ],
+   "vals": [
+    [
+     2,
+     3,
+     6,
+     10
+    ],
+    [
+     2,
+     6,
+     3,
+     10
+    ]
+   ],
+   "config": {
+    "key": [
+     null,
+     4
+    ],
+    "Q": {
+     "0": [
+      2,
+      3
+     ]
+    }
+   },
+   "provenance": "category W of k4/gap_hard.py, results/k4_gap/hard_base.json.gz: core k4_certs_2.json.gz position 3 (idx 1), profile (type indices) [7, 20]; f = 1, omega = 2"
+  },
+  {
+   "id": "w-n4-m10-k4_certs_4_pure-179-22-40-266-6",
+   "tags": [
+    "W"
+   ],
+   "n": 4,
+   "m": 10,
+   "sets": [
+    [
+     0,
+     2,
+     4,
+     9
+    ],
+    [
+     1,
+     3,
+     8,
+     9
+    ],
+    [
+     4,
+     5,
+     6,
+     7
+    ],
+    [
+     5,
+     6,
+     7,
+     8
+    ]
+   ],
+   "vals": [
+    [
+     2,
+     6,
+     10,
+     3
+    ],
+    [
+     3,
+     4,
+     8,
+     2
+    ],
+    [
+     10,
+     3,
+     6,
+     2
+    ],
+    [
+     2,
+     3,
+     4,
+     8
+    ]
+   ],
+   "config": {
+    "key": [
+     null,
+     8,
+     4,
+     null
+    ],
+    "Q": {
+     "0": [
+      2,
+      9
+     ],
+     "3": [
+      6,
+      7
+     ]
+    }
+   },
+   "provenance": "category W of k4/gap_hard.py, results/k4_gap/hard_base.json.gz: core k4_certs_4_pure.json.gz position 179 (idx 2), profile (type indices) [22, 40, 266, 6]; f = 2, omega = 4"
+  },
+  {
+   "id": "t2-n4-m8-k4_certs_4_n4_2-204-39-133-0-0",
+   "tags": [
+    "T2"
+   ],
+   "n": 4,
+   "m": 8,
+   "sets": [
+    [
+     0,
+     2,
+     5,
+     6
+    ],
+    [
+     1,
+     5,
+     6,
+     7
+    ],
+    [
+     3,
+     5,
+     7
+    ],
+    [
+     4,
+     6,
+     7
+    ]
+   ],
+   "vals": [
+    [
+     3,
+     4,
+     6,
+     8
+    ],
+    [
+     5,
+     4,
+     8,
+     6
+    ],
+    [
+     2,
+     3,
+     4
+    ],
+    [
+     2,
+     3,
+     4
+    ]
+   ],
+   "config": {
+    "key": [
+     null,
+     6,
+     null,
+     null
+    ],
+    "Q": {
+     "0": [
+      0,
+      2
+     ],
+     "2": [
+      3,
+      5
+     ],
+     "3": [
+      4,
+      7
+     ]
+    }
+   },
+   "provenance": "category T2 of k4/gap_hard.py, results/k4_gap/hard_base.json.gz: core k4_certs_4_n4_2.json.gz position 204 (idx 17), profile (type indices) [39, 133, 0, 0]; f = 1, omega = 1"
+  },
+  {
+   "id": "t2-n4-m8-k4_certs_4_n4_3-153-15-60-139-1",
+   "tags": [
+    "T2"
+   ],
+   "n": 4,
+   "m": 8,
+   "sets": [
+    [
+     0,
+     2,
+     5,
+     7
+    ],
+    [
+     1,
+     5,
+     6,
+     7
+    ],
+    [
+     3,
+     5,
+     6,
+     7
+    ],
+    [
+     4,
+     6,
+     7
+    ]
+   ],
+   "vals": [
+    [
+     2,
+     4,
+     8,
+     5
+    ],
+    [
+     3,
+     6,
+     10,
+     2
+    ],
+    [
+     5,
+     7,
+     6,
+     3
+    ],
+    [
+     2,
+     4,
+     3
+    ]
+   ],
+   "config": {
+    "key": [
+     null,
+     null,
+     5,
+     null
+    ],
+    "Q": {
+     "0": [
+      0,
+      2
+     ],
+     "1": [
+      1,
+      6
+     ],
+     "3": [
+      4,
+      7
+     ]
+    }
+   },
+   "provenance": "category T2 of k4/gap_hard.py, results/k4_gap/hard_base.json.gz: core k4_certs_4_n4_3.json.gz position 153 (idx 16), profile (type indices) [15, 60, 139, 1]; f = 1, omega = 1"
+  },
+  {
+   "id": "t2-n5-m9-k4_certs_5_n4_4-4018-37-1-45-96-131",
+   "tags": [
+    "T2"
+   ],
+   "n": 5,
+   "m": 9,
+   "sets": [
+    [
+     0,
+     5,
+     6,
+     7
+    ],
+    [
+     1,
+     5,
+     8
+    ],
+    [
+     2,
+     6,
+     7,
+     8
+    ],
+    [
+     3,
+     6,
+     7,
+     8
+    ],
+    [
+     4,
+     6,
+     7,
+     8
+    ]
+   ],
+   "vals": [
+    [
+     2,
+     10,
+     4,
+     7
+    ],
+    [
+     2,
+     4,
+     3
+    ],
+    [
+     3,
+     2,
+     10,
+     6
+    ],
+    [
+     4,
+     5,
+     8,
+     2
+    ],
+    [
+     5,
+     4,
+     6,
+     8
+    ]
+   ],
+   "config": {
+    "key": [
+     5,
+     null,
+     null,
+     null,
+     8
+    ],
+    "Q": {
+     "1": [
+      0,
+      1
+     ],
+     "2": [
+      2,
+      7
+     ],
+     "3": [
+      3,
+      6
+     ]
+    }
+   },
+   "provenance": "category T2 of k4/gap_hard.py, results/k4_gap/hard_base.json.gz: core k4_certs_5_n4_4.json.gz position 4018 (idx 1176), profile (type indices) [37, 1, 45, 96, 131]; f = 2, omega = 1"
+  },
+  {
+   "id": "t2-n5-m9-k4_certs_5_n4_4-4020-4-128-115-69-1",
+   "tags": [
+    "T2"
+   ],
+   "n": 5,
+   "m": 9,
+   "sets": [
+    [
+     0,
+     5,
+     6,
+     8
+    ],
+    [
+     1,
+     5,
+     7,
+     8
+    ],
+    [
+     2,
+     5,
+     7,
+     8
+    ],
+    [
+     3,
+     6,
+     7,
+     8
+    ],
+    [
+     4,
+     6,
+     8
+    ]
+   ],
+   "vals": [
+    [
+     1,
+     8,
+     4,
+     6
+    ],
+    [
+     5,
+     3,
+     6,
+     7
+    ],
+    [
+     4,
+     8,
+     5,
+     2
+    ],
+    [
+     3,
+     8,
+     6,
+     10
+    ],
+    [
+     2,
+     4,
+     3
+    ]
+   ],
+   "config": {
+    "key": [
+     null,
+     8,
+     null,
+     6,
+     null
+    ],
+    "Q": {
+     "0": [
+      0,
+      5
+     ],
+     "2": [
+      2,
+      7
+     ],
+     "4": [
+      1,
+      4
+     ]
+    }
+   },
+   "provenance": "category T2 of k4/gap_hard.py, results/k4_gap/hard_base.json.gz: core k4_certs_5_n4_4.json.gz position 4020 (idx 1178), profile (type indices) [4, 128, 115, 69, 1]; f = 2, omega = 1"
+  },
+  {
+   "id": "npo-n2-m6-k4_certs_2-4-46-46",
+   "tags": [
+    "NPO"
+   ],
+   "n": 2,
+   "m": 6,
+   "sets": [
+    [
+     0,
+     1,
+     4,
+     5
+    ],
+    [
+     2,
+     3,
+     4,
+     5
+    ]
+   ],
+   "vals": [
+    [
+     3,
+     6,
+     2,
+     10
+    ],
+    [
+     3,
+     6,
+     2,
+     10
+    ]
+   ],
+   "config": {
+    "key": [
+     null,
+     5
+    ],
+    "Q": {
+     "0": [
+      1,
+      4
+     ]
+    }
+   },
+   "provenance": "category NPO of k4/gap_hard.py, results/k4_gap/hard_base.json.gz: core k4_certs_2.json.gz position 4 (idx 0), profile (type indices) [46, 46]; f = 1, omega = 3"
+  },
+  {
+   "id": "npo-n2-m6-k4_certs_2-4-46-106",
+   "tags": [
+    "NPO"
+   ],
+   "n": 2,
+   "m": 6,
+   "sets": [
+    [
+     0,
+     1,
+     4,
+     5
+    ],
+    [
+     2,
+     3,
+     4,
+     5
+    ]
+   ],
+   "vals": [
+    [
+     3,
+     6,
+     2,
+     10
+    ],
+    [
+     6,
+     3,
+     2,
+     10
+    ]
+   ],
+   "config": {
+    "key": [
+     null,
+     5
+    ],
+    "Q": {
+     "0": [
+      1,
+      4
+     ]
+    }
+   },
+   "provenance": "category NPO of k4/gap_hard.py, results/k4_gap/hard_base.json.gz: core k4_certs_2.json.gz position 4 (idx 0), profile (type indices) [46, 106]; f = 1, omega = 3"
+  },
+  {
+   "id": "npo-n3-m8-k4_certs_3-46-46-46-46",
+   "tags": [
+    "NPO"
+   ],
+   "n": 3,
+   "m": 8,
+   "sets": [
+    [
+     0,
+     2,
+     6,
+     7
+    ],
+    [
+     1,
+     4,
+     6,
+     7
+    ],
+    [
+     3,
+     5,
+     6,
+     7
+    ]
+   ],
+   "vals": [
+    [
+     3,
+     6,
+     2,
+     10
+    ],
+    [
+     3,
+     6,
+     2,
+     10
+    ],
+    [
+     3,
+     6,
+     2,
+     10
+    ]
+   ],
+   "config": {
+    "key": [
+     null,
+     null,
+     7
+    ],
+    "Q": {
+     "0": [
+      0,
+      2
+     ],
+     "1": [
+      4,
+      6
+     ]
+    }
+   },
+   "provenance": "category NPO of k4/gap_hard.py, results/k4_gap/hard_base.json.gz: core k4_certs_3.json.gz position 46 (idx 1), profile (type indices) [46, 46, 46]; f = 1, omega = 3"
+  },
+  {
+   "id": "npo-n3-m8-k4_certs_3-46-46-46-86",
+   "tags": [
+    "NPO"
+   ],
+   "n": 3,
+   "m": 8,
+   "sets": [
+    [
+     0,
+     2,
+     6,
+     7
+    ],
+    [
+     1,
+     4,
+     6,
+     7
+    ],
+    [
+     3,
+     5,
+     6,
+     7
+    ]
+   ],
+   "vals": [
+    [
+     3,
+     6,
+     2,
+     10
+    ],
+    [
+     3,
+     6,
+     2,
+     10
+    ],
+    [
+     4,
+     7,
+     2,
+     10
+    ]
+   ],
+   "config": {
+    "key": [
+     null,
+     7,
+     null
+    ],
+    "Q": {
+     "0": [
+      2,
+      6
+     ],
+     "2": [
+      3,
+      5
+     ]
+    }
+   },
+   "provenance": "category NPO of k4/gap_hard.py, results/k4_gap/hard_base.json.gz: core k4_certs_3.json.gz position 46 (idx 1), profile (type indices) [46, 46, 86]; f = 1, omega = 3"
+  },
+  {
+   "id": "npo-n4-m9-k4_certs_4_n4_3-252-112-112-74-4",
+   "tags": [
+    "NPO"
+   ],
+   "n": 4,
+   "m": 9,
+   "sets": [
+    [
+     0,
+     2,
+     6,
+     8
+    ],
+    [
+     1,
+     4,
+     7,
+     8
+    ],
+    [
+     3,
+     5,
+     7,
+     8
+    ],
+    [
+     6,
+     7,
+     8
+    ]
+   ],
+   "vals": [
+    [
+     6,
+     3,
+     10,
+     2
+    ],
+    [
+     6,
+     3,
+     10,
+     2
+    ],
+    [
+     4,
+     3,
+     8,
+     2
+    ],
+    [
+     4,
+     2,
+     3
+    ]
+   ],
+   "config": {
+    "key": [
+     null,
+     null,
+     7,
+     6
+    ],
+    "Q": {
+     "0": [
+      0,
+      2
+     ],
+     "1": [
+      1,
+      8
+     ]
+    }
+   },
+   "provenance": "category NPO of k4/gap_hard.py, results/k4_gap/hard_base.json.gz: core k4_certs_4_n4_3.json.gz position 252 (idx 6), profile (type indices) [112, 112, 74, 4]; f = 2, omega = 3"
+  },
+  {
+   "id": "npo-n4-m10-k4_certs_4_n4_3-327-80-38-38-1",
+   "tags": [
+    "NPO"
+   ],
+   "n": 4,
+   "m": 10,
+   "sets": [
+    [
+     0,
+     2,
+     7,
+     9
+    ],
+    [
+     1,
+     5,
+     8,
+     9
+    ],
+    [
+     3,
+     6,
+     8,
+     9
+    ],
+    [
+     4,
+     7,
+     9
+    ]
+   ],
+   "vals": [
+    [
+     4,
+     5,
+     8,
+     2
+    ],
+    [
+     3,
+     4,
+     2,
+     8
+    ],
+    [
+     3,
+     4,
+     2,
+     8
+    ],
+    [
+     2,
+     4,
+     3
+    ]
+   ],
+   "config": {
+    "key": [
+     null,
+     null,
+     9,
+     null
+    ],
+    "Q": {
+     "0": [
+      0,
+      2
+     ],
+     "1": [
+      5,
+      8
+     ],
+     "3": [
+      4,
+      7
+     ]
+    }
+   },
+   "provenance": "category NPO of k4/gap_hard.py, results/k4_gap/hard_base.json.gz: core k4_certs_4_n4_3.json.gz position 327 (idx 9), profile (type indices) [80, 38, 38, 1]; f = 1, omega = 3"
+  },
+  {
+   "id": "npo-n5-m12-k4_certs_5_n4_4-9458-51-35-46-1-181",
+   "tags": [
+    "NPO"
+   ],
+   "n": 5,
+   "m": 12,
+   "sets": [
+    [
+     0,
+     2,
+     7,
+     9
+    ],
+    [
+     1,
+     4,
+     8,
+     11
+    ],
+    [
+     3,
+     6,
+     10,
+     11
+    ],
+    [
+     5,
+     7,
+     11
+    ],
+    [
+     8,
+     9,
+     10,
+     11
+    ]
+   ],
+   "vals": [
+    [
+     3,
+     6,
+     8,
+     10
+    ],
+    [
+     3,
+     2,
+     6,
+     10
+    ],
+    [
+     3,
+     6,
+     2,
+     10
+    ],
+    [
+     2,
+     4,
+     3
+    ],
+    [
+     6,
+     10,
+     2,
+     7
+    ]
+   ],
+   "config": {
+    "key": [
+     null,
+     null,
+     11,
+     null,
+     9
+    ],
+    "Q": {
+     "0": [
+      0,
+      2
+     ],
+     "1": [
+      1,
+      8
+     ],
+     "3": [
+      7,
+      10
+     ]
+    }
+   },
+   "provenance": "category NPO of k4/gap_hard.py, results/k4_gap/hard_base.json.gz: core k4_certs_5_n4_4.json.gz position 9458 (idx 45), profile (type indices) [51, 35, 46, 1, 181]; f = 2, omega = 4"
+  },
+  {
+   "id": "npo-n5-m12-k4_certs_5_n4_4-9494-102-72-38-158-2",
+   "tags": [
+    "NPO"
+   ],
+   "n": 5,
+   "m": 12,
+   "sets": [
+    [
+     0,
+     2,
+     8,
+     10
+    ],
+    [
+     1,
+     4,
+     9,
+     10
+    ],
+    [
+     3,
+     6,
+     9,
+     11
+    ],
+    [
+     5,
+     7,
+     10,
+     11
+    ],
+    [
+     7,
+     8,
+     11
+    ]
+   ],
+   "vals": [
+    [
+     6,
+     2,
+     3,
+     10
+    ],
+    [
+     4,
+     3,
+     2,
+     8
+    ],
+    [
+     3,
+     4,
+     2,
+     8
+    ],
+    [
+     6,
+     4,
+     1,
+     8
+    ],
+    [
+     3,
+     2,
+     4
+    ]
+   ],
+   "config": {
+    "key": [
+     null,
+     10,
+     null,
+     null,
+     11
+    ],
+    "Q": {
+     "0": [
+      0,
+      8
+     ],
+     "2": [
+      6,
+      9
+     ],
+     "3": [
+      5,
+      7
+     ]
+    }
+   },
+   "provenance": "category NPO of k4/gap_hard.py, results/k4_gap/hard_base.json.gz: core k4_certs_5_n4_4.json.gz position 9494 (idx 81), profile (type indices) [102, 72, 38, 158, 2]; f = 2, omega = 4"
+  },
+  {
+   "id": "f2-n4-m7-k4_certs_4_n4_2-93-34-77-1-4",
+   "tags": [
+    "F2"
+   ],
+   "n": 4,
+   "m": 7,
+   "sets": [
+    [
+     0,
+     2,
+     5,
+     6
+    ],
+    [
+     1,
+     4,
+     5,
+     6
+    ],
+    [
+     3,
+     5,
+     6
+    ],
+    [
+     4,
+     5,
+     6
+    ]
+   ],
+   "vals": [
+    [
+     3,
+     2,
+     4,
+     8
+    ],
+    [
+     3,
+     10,
+     8,
+     6
+    ],
+    [
+     2,
+     4,
+     3
+    ],
+    [
+     4,
+     2,
+     3
+    ]
+   ],
+   "config": {
+    "key": [
+     null,
+     4,
+     null,
+     6
+    ],
+    "Q": {
+     "0": [
+      0,
+      2
+     ],
+     "2": [
+      3,
+      5
+     ]
+    }
+   },
+   "provenance": "category F2 of k4/gap_hard.py, results/k4_gap/hard_base.json.gz: core k4_certs_4_n4_2.json.gz position 93 (idx 13), profile (type indices) [34, 77, 1, 4]; f = 2, omega = 1"
+  },
+  {
+   "id": "f2-n4-m7-k4_certs_4_n4_2-93-53-66-0-5",
+   "tags": [
+    "F2"
+   ],
+   "n": 4,
+   "m": 7,
+   "sets": [
+    [
+     0,
+     2,
+     5,
+     6
+    ],
+    [
+     1,
+     4,
+     5,
+     6
+    ],
+    [
+     3,
+     5,
+     6
+    ],
+    [
+     4,
+     5,
+     6
+    ]
+   ],
+   "vals": [
+    [
+     3,
+     6,
+     10,
+     8
+    ],
+    [
+     3,
+     8,
+     4,
+     6
+    ],
+    [
+     2,
+     3,
+     4
+    ],
+    [
+     4,
+     3,
+     2
+    ]
+   ],
+   "config": {
+    "key": [
+     null,
+     4,
+     null,
+     5
+    ],
+    "Q": {
+     "0": [
+      0,
+      2
+     ],
+     "2": [
+      3,
+      6
+     ]
+    }
+   },
+   "provenance": "category F2 of k4/gap_hard.py, results/k4_gap/hard_base.json.gz: core k4_certs_4_n4_2.json.gz position 93 (idx 13), profile (type indices) [53, 66, 0, 5]; f = 2, omega = 1"
+  },
+  {
+   "id": "f2-n5-m8-k4_certs_5_n4_2-1748-63-62-1-5-4",
+   "tags": [
+    "F2"
+   ],
+   "n": 5,
+   "m": 8,
+   "sets": [
+    [
+     0,
+     2,
+     6,
+     7
+    ],
+    [
+     1,
+     4,
+     5,
+     6
+    ],
+    [
+     3,
+     5,
+     7
+    ],
+    [
+     4,
+     6,
+     7
+    ],
+    [
+     5,
+     6,
+     7
+    ]
+   ],
+   "vals": [
+    [
+     4,
+     1,
+     8,
+     6
+    ],
+    [
+     3,
+     7,
+     5,
+     6
+    ],
+    [
+     2,
+     4,
+     3
+    ],
+    [
+     4,
+     3,
+     2
+    ],
+    [
+     4,
+     2,
+     3
+    ]
+   ],
+   "config": {
+    "key": [
+     6,
+     null,
+     null,
+     4,
+     5
+    ],
+    "Q": {
+     "1": [
+      0,
+      1
+     ],
+     "2": [
+      3,
+      7
+     ]
+    }
+   },
+   "provenance": "category F2 of k4/gap_hard.py, results/k4_gap/hard_base.json.gz: core k4_certs_5_n4_2.json.gz position 1748 (idx 186), profile (type indices) [63, 62, 1, 5, 4]; f = 3, omega = 1"
+  },
+  {
+   "id": "f2-n5-m8-k4_certs_5_n4_4-1277-1-4-91-58-216",
+   "tags": [
+    "F2"
+   ],
+   "n": 5,
+   "m": 8,
+   "sets": [
+    [
+     0,
+     4,
+     7
+    ],
+    [
+     1,
+     5,
+     6,
+     7
+    ],
+    [
+     2,
+     5,
+     6,
+     7
+    ],
+    [
+     3,
+     5,
+     6,
+     7
+    ],
+    [
+     4,
+     5,
+     6,
+     7
+    ]
+   ],
+   "vals": [
+    [
+     2,
+     4,
+     3
+    ],
+    [
+     1,
+     8,
+     4,
+     6
+    ],
+    [
+     4,
+     3,
+     8,
+     6
+    ],
+    [
+     3,
+     6,
+     8,
+     4
+    ],
+    [
+     8,
+     2,
+     5,
+     4
+    ]
+   ],
+   "config": {
+    "key": [
+     7,
+     null,
+     null,
+     6,
+     4
+    ],
+    "Q": {
+     "1": [
+      1,
+      5
+     ],
+     "2": [
+      0,
+      2
+     ]
+    }
+   },
+   "provenance": "category F2 of k4/gap_hard.py, results/k4_gap/hard_base.json.gz: core k4_certs_5_n4_4.json.gz position 1277 (idx 367), profile (type indices) [1, 4, 91, 58, 216]; f = 3, omega = 1"
+  },
+  {
+   "id": "w-n4-m8-k4_certs_4_pure-117-36-7-48-45",
+   "tags": [
+    "W"
+   ],
+   "n": 4,
+   "m": 8,
+   "sets": [
+    [
+     0,
+     4,
+     5,
+     7
+    ],
+    [
+     1,
+     2,
+     3,
+     4
+    ],
+    [
+     1,
+     3,
+     6,
+     7
+    ],
+    [
+     2,
+     5,
+     6,
+     7
+    ]
+   ],
+   "vals": [
+    [
+     2,
+     10,
+     3,
+     6
+    ],
+    [
+     2,
+     3,
+     6,
+     10
+    ],
+    [
+     3,
+     4,
+     8,
+     2
+    ],
+    [
+     3,
+     2,
+     10,
+     6
+    ]
+   ],
+   "config": {
+    "key": [
+     null,
+     4,
+     null,
+     6
+    ],
+    "Q": {
+     "0": [
+      5,
+      7
+     ],
+     "2": [
+      1,
+      3
+     ]
+    }
+   },
+   "provenance": "category W of k4/gap_hard.py, results/k4_gap/hard_hunt_smallest.json.gz: core k4_certs_4_pure.json.gz position 117 (idx 56), profile (type indices) [36, 7, 48, 45]; f = 2, omega = 2"
+  },
+  {
+   "id": "w-n4-m8-k4_certs_4_pure-120-84-156-9-9",
+   "tags": [
+    "W"
+   ],
+   "n": 4,
+   "m": 8,
+   "sets": [
+    [
+     0,
+     2,
+     4,
+     6
+    ],
+    [
+     0,
+     2,
+     5,
+     6
+    ],
+    [
+     1,
+     3,
+     4,
+     7
+    ],
+    [
+     1,
+     3,
+     5,
+     7
+    ]
+   ],
+   "vals": [
+    [
+     4,
+     2,
+     8,
+     3
+    ],
+    [
+     6,
+     3,
+     10,
+     2
+    ],
+    [
+     2,
+     3,
+     10,
+     6
+    ],
+    [
+     2,
+     3,
+     10,
+     6
+    ]
+   ],
+   "config": {
+    "key": [
+     null,
+     5,
+     4,
+     null
+    ],
+    "Q": {
+     "0": [
+      0,
+      6
+     ],
+     "3": [
+      3,
+      7
+     ]
+    }
+   },
+   "provenance": "category W of k4/gap_hard.py, results/k4_gap/hard_hunt_smallest.json.gz: core k4_certs_4_pure.json.gz position 120 (idx 59), profile (type indices) [84, 156, 9, 9]; f = 2, omega = 2"
+  },
+  {
+   "id": "phi-n4-m7-k4_certs_4_pure-53-226-264-182-172",
+   "tags": [
+    "PHI",
+    "F2"
+   ],
+   "n": 4,
+   "m": 7,
+   "sets": [
+    [
+     0,
+     1,
+     2,
+     3
+    ],
+    [
+     0,
+     2,
+     5,
+     6
+    ],
+    [
+     1,
+     4,
+     5,
+     6
+    ],
+    [
+     3,
+     4,
+     5,
+     6
+    ]
+   ],
+   "vals": [
+    [
+     8,
+     4,
+     1,
+     6
+    ],
+    [
+     10,
+     3,
+     2,
+     6
+    ],
+    [
+     6,
+     10,
+     3,
+     2
+    ],
+    [
+     6,
+     8,
+     1,
+     4
+    ]
+   ],
+   "config": {
+    "key": [
+     0,
+     null,
+     null,
+     4
+    ],
+    "Q": {
+     "1": [
+      2,
+      6
+     ],
+     "2": [
+      1,
+      5
+     ]
+    }
+   },
+   "provenance": "category PHI of k4/gap_hard.py, results/k4_gap/hard_hunt_smallest.json.gz: core k4_certs_4_pure.json.gz position 53 (idx 32), profile (type indices) [226, 264, 182, 172]; f = 2, omega = 1"
+  },
+  {
+   "id": "phi-n4-m8-k4_certs_4_pure-72-46-23-77-138",
+   "tags": [
+    "PHI",
+    "F2"
+   ],
+   "n": 4,
+   "m": 8,
+   "sets": [
+    [
+     0,
+     2,
+     4,
+     7
+    ],
+    [
+     1,
+     5,
+     6,
+     7
+    ],
+    [
+     3,
+     5,
+     6,
+     7
+    ],
+    [
+     4,
+     5,
+     6,
+     7
+    ]
+   ],
+   "vals": [
+    [
+     3,
+     6,
+     2,
+     10
+    ],
+    [
+     2,
+     6,
+     10,
+     7
+    ],
+    [
+     3,
+     10,
+     8,
+     6
+    ],
+    [
+     5,
+     7,
+     3,
+     6
+    ]
+   ],
+   "config": {
+    "key": [
+     7,
+     null,
+     5,
+     null
+    ],
+    "Q": {
+     "1": [
+      1,
+      6
+     ],
+     "3": [
+      0,
+      4
+     ]
+    }
+   },
+   "provenance": "category PHI of k4/gap_hard.py, results/k4_gap/hard_hunt_smallest.json.gz: core k4_certs_4_pure.json.gz position 72 (idx 11), profile (type indices) [46, 23, 77, 138]; f = 2, omega = 2"
+  },
+  {
+   "id": "t2-n4-m8-k4_certs_4_n4_2-203-8-53-0-0",
+   "tags": [
+    "T2"
+   ],
+   "n": 4,
+   "m": 8,
+   "sets": [
+    [
+     0,
+     2,
+     6,
+     7
+    ],
+    [
+     1,
+     5,
+     6,
+     7
+    ],
+    [
+     3,
+     5,
+     7
+    ],
+    [
+     4,
+     6,
+     7
+    ]
+   ],
+   "vals": [
+    [
+     2,
+     3,
+     8,
+     4
+    ],
+    [
+     3,
+     5,
+     7,
+     6
+    ],
+    [
+     2,
+     3,
+     4
+    ],
+    [
+     2,
+     3,
+     4
+    ]
+   ],
+   "config": {
+    "key": [
+     null,
+     6,
+     null,
+     null
+    ],
+    "Q": {
+     "0": [
+      0,
+      2
+     ],
+     "2": [
+      3,
+      5
+     ],
+     "3": [
+      4,
+      7
+     ]
+    }
+   },
+   "provenance": "category T2 of k4/gap_hard.py, results/k4_gap/hard_hunt_smallest.json.gz: core k4_certs_4_n4_2.json.gz position 203 (idx 16), profile (type indices) [8, 53, 0, 0]; f = 1, omega = 1"
+  },
+  {
+   "id": "t2-n4-m8-k4_certs_4_n4_2-203-8-57-0-0",
+   "tags": [
+    "T2"
+   ],
+   "n": 4,
+   "m": 8,
+   "sets": [
+    [
+     0,
+     2,
+     6,
+     7
+    ],
+    [
+     1,
+     5,
+     6,
+     7
+    ],
+    [
+     3,
+     5,
+     7
+    ],
+    [
+     4,
+     6,
+     7
+    ]
+   ],
+   "vals": [
+    [
+     2,
+     3,
+     8,
+     4
+    ],
+    [
+     3,
+     6,
+     7,
+     5
+    ],
+    [
+     2,
+     3,
+     4
+    ],
+    [
+     2,
+     3,
+     4
+    ]
+   ],
+   "config": {
+    "key": [
+     null,
+     6,
+     null,
+     null
+    ],
+    "Q": {
+     "0": [
+      0,
+      2
+     ],
+     "2": [
+      3,
+      5
+     ],
+     "3": [
+      4,
+      7
+     ]
+    }
+   },
+   "provenance": "category T2 of k4/gap_hard.py, results/k4_gap/hard_hunt_smallest.json.gz: core k4_certs_4_n4_2.json.gz position 203 (idx 16), profile (type indices) [8, 57, 0, 0]; f = 1, omega = 1"
+  },
+  {
+   "id": "t2-n5-m9-k4_certs_5_pure-1347-36-91-12-143-264",
+   "tags": [
+    "T2",
+    "F2"
+   ],
+   "n": 5,
+   "m": 9,
+   "sets": [
+    [
+     0,
+     4,
+     7,
+     8
+    ],
+    [
+     1,
+     5,
+     6,
+     8
+    ],
+    [
+     2,
+     5,
+     7,
+     8
+    ],
+    [
+     3,
+     6,
+     7,
+     8
+    ],
+    [
+     4,
+     6,
+     7,
+     8
+    ]
+   ],
+   "vals": [
+    [
+     2,
+     10,
+     3,
+     6
+    ],
+    [
+     4,
+     3,
+     8,
+     6
+    ],
+    [
+     2,
+     4,
+     7,
+     8
+    ],
+    [
+     5,
+     8,
+     6,
+     4
+    ],
+    [
+     10,
+     3,
+     2,
+     6
+    ]
+   ],
+   "config": {
+    "key": [
+     null,
+     null,
+     null,
+     6,
+     4
+    ],
+    "Q": {
+     "0": [
+      0,
+      8
+     ],
+     "1": [
+      1,
+      5
+     ],
+     "2": [
+      2,
+      7
+     ]
+    }
+   },
+   "provenance": "category T2 of k4/gap_hard.py, results/k4_gap/hard_hunt_smallest.json.gz: core k4_certs_5_pure.json.gz position 1347 (idx 420), profile (type indices) [36, 91, 12, 143, 264]; f = 2, omega = 1"
+  },
+  {
+   "id": "t2-n5-m9-k4_certs_5_n4_3-4568-53-53-177-0-5",
+   "tags": [
+    "T2",
+    "F2"
+   ],
+   "n": 5,
+   "m": 9,
+   "sets": [
+    [
+     0,
+     2,
+     7,
+     8
+    ],
+    [
+     1,
+     5,
+     6,
+     8
+    ],
+    [
+     3,
+     5,
+     7,
+     8
+    ],
+    [
+     4,
+     7,
+     8
+    ],
+    [
+     6,
+     7,
+     8
+    ]
+   ],
+   "vals": [
+    [
+     3,
+     6,
+     10,
+     8
+    ],
+    [
+     3,
+     5,
+     7,
+     6
+    ],
+    [
+     6,
+     8,
+     4,
+     5
+    ],
+    [
+     2,
+     3,
+     4
+    ],
+    [
+     4,
+     3,
+     2
+    ]
+   ],
+   "config": {
+    "key": [
+     null,
+     6,
+     null,
+     null,
+     7
+    ],
+    "Q": {
+     "0": [
+      0,
+      2
+     ],
+     "2": [
+      3,
+      5
+     ],
+     "3": [
+      4,
+      8
+     ]
+    }
+   },
+   "provenance": "category T2 of k4/gap_hard.py, results/k4_gap/hard_hunt_smallest.json.gz: core k4_certs_5_n4_3.json.gz position 4568 (idx 330), profile (type indices) [53, 53, 177, 0, 5]; f = 2, omega = 1"
+  },
+  {
+   "id": "npo-n4-m9-k4_certs_4_n4_3-247-38-106-54-3",
+   "tags": [
+    "NPO"
+   ],
+   "n": 4,
+   "m": 9,
+   "sets": [
+    [
+     0,
+     2,
+     4,
+     7
+    ],
+    [
+     1,
+     3,
+     6,
+     8
+    ],
+    [
+     4,
+     5,
+     6,
+     8
+    ],
+    [
+     5,
+     7,
+     8
+    ]
+   ],
+   "vals": [
+    [
+     3,
+     4,
+     2,
+     8
+    ],
+    [
+     6,
+     3,
+     2,
+     10
+    ],
+    [
+     3,
+     6,
+     2,
+     10
+    ],
+    [
+     3,
+     4,
+     2
+    ]
+   ],
+   "config": {
+    "key": [
+     null,
+     8,
+     null,
+     7
+    ],
+    "Q": {
+     "0": [
+      0,
+      2
+     ],
+     "2": [
+      5,
+      6
+     ]
+    }
+   },
+   "provenance": "category NPO of k4/gap_hard.py, results/k4_gap/hard_hunt_smallest.json.gz: core k4_certs_4_n4_3.json.gz position 247 (idx 1), profile (type indices) [38, 106, 54, 3]; f = 2, omega = 3"
+  },
+  {
+   "id": "npo-n4-m9-k4_certs_4_pure-149-52-54-88-140",
+   "tags": [
+    "NPO"
+   ],
+   "n": 4,
+   "m": 9,
+   "sets": [
+    [
+     0,
+     2,
+     5,
+     8
+    ],
+    [
+     1,
+     4,
+     7,
+     8
+    ],
+    [
+     3,
+     6,
+     7,
+     8
+    ],
+    [
+     4,
+     5,
+     6,
+     8
+    ]
+   ],
+   "vals": [
+    [
+     3,
+     6,
+     10,
+     2
+    ],
+    [
+     3,
+     6,
+     2,
+     10
+    ],
+    [
+     4,
+     3,
+     2,
+     8
+    ],
+    [
+     5,
+     8,
+     2,
+     4
+    ]
+   ],
+   "config": {
+    "key": [
+     null,
+     null,
+     8,
+     5
+    ],
+    "Q": {
+     "0": [
+      0,
+      2
+     ],
+     "1": [
+      4,
+      7
+     ]
+    }
+   },
+   "provenance": "category NPO of k4/gap_hard.py, results/k4_gap/hard_hunt_smallest.json.gz: core k4_certs_4_pure.json.gz position 149 (idx 26), profile (type indices) [52, 54, 88, 140]; f = 2, omega = 3"
+  },
+  {
+   "id": "npo-n5-m11-k4_certs_5_pure-3385-106-29-146-91-238",
+   "tags": [
+    "NPO"
+   ],
+   "n": 5,
+   "m": 11,
+   "sets": [
+    [
+     0,
+     2,
+     6,
+     10
+    ],
+    [
+     1,
+     4,
+     7,
+     9
+    ],
+    [
+     3,
+     6,
+     8,
+     10
+    ],
+    [
+     5,
+     8,
+     9,
+     10
+    ],
+    [
+     7,
+     8,
+     9,
+     10
+    ]
+   ],
+   "vals": [
+    [
+     6,
+     3,
+     2,
+     10
+    ],
+    [
+     2,
+     7,
+     10,
+     6
+    ],
+    [
+     6,
+     2,
+     3,
+     10
+    ],
+    [
+     4,
+     3,
+     8,
+     6
+    ],
+    [
+     8,
+     4,
+     7,
+     2
+    ]
+   ],
+   "config": {
+    "key": [
+     null,
+     null,
+     10,
+     null,
+     7
+    ],
+    "Q": {
+     "0": [
+      0,
+      2
+     ],
+     "1": [
+      1,
+      4
+     ],
+     "3": [
+      8,
+      9
+     ]
+    }
+   },
+   "provenance": "category NPO of k4/gap_hard.py, results/k4_gap/hard_hunt_smallest.json.gz: core k4_certs_5_pure.json.gz position 3385 (idx 102), profile (type indices) [106, 29, 146, 91, 238]; f = 2, omega = 3"
+  },
+  {
+   "id": "npo-n5-m11-k4_certs_5_n4_4-8659-38-72-54-108-4",
+   "tags": [
+    "NPO"
+   ],
+   "n": 5,
+   "m": 11,
+   "sets": [
+    [
+     0,
+     2,
+     7,
+     8
+    ],
+    [
+     1,
+     4,
+     9,
+     10
+    ],
+    [
+     3,
+     5,
+     7,
+     8
+    ],
+    [
+     5,
+     6,
+     9,
+     10
+    ],
+    [
+     6,
+     9,
+     10
+    ]
+   ],
+   "vals": [
+    [
+     3,
+     4,
+     2,
+     8
+    ],
+    [
+     4,
+     3,
+     2,
+     8
+    ],
+    [
+     3,
+     6,
+     2,
+     10
+    ],
+    [
+     4,
+     8,
+     1,
+     6
+    ],
+    [
+     4,
+     2,
+     3
+    ]
+   ],
+   "config": {
+    "key": [
+     8,
+     null,
+     null,
+     6,
+     10
+    ],
+    "Q": {
+     "1": [
+      1,
+      4
+     ],
+     "2": [
+      5,
+      7
+     ]
+    }
+   },
+   "provenance": "category NPO of k4/gap_hard.py, results/k4_gap/hard_hunt_smallest.json.gz: core k4_certs_5_n4_4.json.gz position 8659 (idx 536), profile (type indices) [38, 72, 54, 108, 4]; f = 3, omega = 4"
+  }
+ ]
+}
