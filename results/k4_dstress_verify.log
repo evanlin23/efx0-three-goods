@@ -1,4 +1,4 @@
-# Checks for k4/d_stress.md that do not use search4's model (review of PR #42, items N1-N4); each block starts with its command.
+# Checks for k4/d_stress.md (review of PR #42, items N1-N4); each block starts with its command. The brute, small, corrupt and iso blocks do not use search4's model; replay and reproduce rerun d_stress.py, whose Inst.shape is search4's model.
 $ cd k4 && python3 d_stress_verify.py brute
 commit feee6c9
 H_1 = chain 1: [[1, 0, 2, 3], [4, 7, 8, 1], [5, 9, 10, 1], [6, 11, 12, 1], [4, 5, 6, 0]]
