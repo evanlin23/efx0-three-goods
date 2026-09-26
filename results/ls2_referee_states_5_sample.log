@@ -1,0 +1,5 @@
+$ python3 k3/ls2_referee.py states 5 --sample=20 --seed=1
+ls2_referee states n <= 5: 360 cores {2: 2, 3: 7, 4: 44, 5: 307}; 360 s
+counts: {'claim2 states': 17165, 'ok phase2a': 7273, 'ok phase2b': 30103, 'ok step1': 17631589, 'ok step2': 408811, 'ok step3': 23737, 'ok step4': 91298, 'ok step5': 141071, 'ok step6': 3920, 'ok step7': 104, 'states': 3711362}
+failures: 0
+(wall clock 360 s on 4 CPUs)

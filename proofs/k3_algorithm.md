@@ -1,6 +1,7 @@
 # A polynomial-time algorithm for EFX₀ with at most three relevant goods (K3ALG)
 
-Workstream `formal/k3-algo`, ledger rows K3.ALG, K3.ALG.TIME, K3.OWNER and K3.ALG.RUN. Lean:
+Workstream `formal/k3-algo`, ledger rows K3.ALG, K3.ALG.TIME, K3.OWNER, K3.ALG.RUN, and for LS2 (§8) K3.LS2 and
+K3.LS2.RUN. Lean:
 `lean/EFX/K3Algo.lean`, `lean/EFX/Timed.lean`, `lean/EFX/K3CostLB.lean`, `lean/EFX/K3Cost.lean`,
 `lean/EFX/K3CostBound.lean`. Implementations: `k3/k3algo.py`; cross-check with Lean: `k3/lean_crosscheck.py`.
 
@@ -318,7 +319,7 @@ All logs are under `results/`, with their commands.
 | `k3_certs_5_6.log` | every ranking profile of every certified core of `certs_5_6` (251 cores, 11,127,456 profiles, 3 balanced realizations each) | 0 failures; 5,474 rotations; the three realizations always give the same allocation (the algorithm is ordinal on cores) |
 | `k3_certs_2_6.log` | every ranking profile of every core with n ≤ 6, connected or not (`certs_lb_2_6`, `certs_lb_disconnected_4_6`: 3,567 cores, 152,071,632 profiles) | 0 failures; 395,038 rotations; `mirror` = `fast` on every 1,000th profile |
 | `k3_certs_7_sample.log`, `k3_certs_8_sample.log` | 100 (n = 7) and 30 (n = 8) random ranking profiles of every certified connected core (41,170 and 12,763 cores) | 0 failures; 3,625 and 84 rotations |
-| `k3_timing.log` | `fast` on random instances with n up to 10⁵ agents, `mirror` up to n = 100 | see the log and §7.1 |
+| `k3_timing.log` | `fast` on random instances with n up to 10⁵ agents (three families), `mirror` up to n = 80 | every output raw EFX₀; `fast` = `mirror` wherever both ran; times in §7.1 |
 
 Every output in these runs is checked against the raw EFX₀ definition. For i ≠ j, the largest v_i(X_j ∖ {g}) over
 g ∈ X_j is v_i(X_j) minus i's smallest value in X_j (0 if X_j holds a good i does not value). A literal
@@ -326,9 +327,64 @@ triple-loop check runs on the random instances as well.
 
 ### 7.1 Timings
 
-See `results/k3_timing.log` (command in the log; `k3/timing.py`).
+`results/k3_timing.log` (`python3 k3/timing.py --max-n=100000 --mirror-max-n=80 --reps=3 --seed=1`): median seconds
+of three instances, Python 3.11, one CPU. The three families:
+- core: m = 1.5n, LB⁺ does the work and usually needs no owner;
+- core2m: m = 2n, LB⁺ usually gives an owner;
+- general: 0–3 goods per agent, and Stage R peels most agents.
 
-## 8. Summary for the ledger
+| n | core | core2m | general | `mirror` (core2m) |
+|---|---|---|---|---|
+| 80 | 0.0006 | 0.0007 | 0.0004 | 0.30 |
+| 1,000 | 0.0073 | 0.0074 | 0.0051 | – |
+| 10,000 | 0.082 | 0.089 | 0.062 | – |
+| 100,000 | 1.53 | 1.58 | 0.84 | – |
+
+- `fast` grows about linearly: the log-log slopes between consecutive sizes are 1.0–1.4, consistent with
+  O((n + m) log n).
+- The literal transcription `mirror` of the Lean definitions grows with slopes 2–3 on these instances, below its
+  worst case O(n⁴ + n²m).
+- An earlier version of `fast` was quadratic on the core2m and general families (40 s at n = 10⁵). It rebuilt a set
+  for every junk good in `complete` and prepended to a list at every upgrade. The fix does not change any output
+  (`k3algo.py --cross`, `k3/lean_crosscheck.py`).
+
+This is evidence about the implementations, not part of any theorem.
+
+## 8. Comparison with the local search LS2 (Track B)
+
+The coordinator asked, for the owner, to explore both algorithms: LB⁺ (this file) and the local search LS2 of
+`proofs/local_search.md` §4. The review of LS2 is `proofs/ls2_referee.md`.
+
+| | K3ALG (LB⁺) | LS2 |
+|---|---|---|
+| proof of correctness | Theorems 1′, A, B, C of `proofs/lb_last_step.md`: two written reviews, machine-checked (PR #18), plus this file's reduction (R1 only) | Theorem C of `proofs/local_search.md`: one written review (`proofs/ls2_referee.md`, no error found), brute force (`k3/ls2_referee.py`), not machine-checked (ledger LS3 CONJECTURE) |
+| what it needs from the instance | every agent values three goods and is balanced; goods nobody values allowed; any number of private goods; so only R1 in front | a core: L4's m ≤ 2n is used in Claim 2 (g), so the full CORE reduction (L3 with envy-cycle elimination, R1, R2) in front |
+| hardest step | the owner test, polynomial by Proposition O (`hitSet`; no vertex cover) | the augmented envy cycle (Claim 3) and Phase 2's maximum matching (Claim 4) |
+| number of main steps | one pass (Phase 1, upgrades, ≤ 1 rotation) | ≤ 7n Phase-1 steps (Σℓ rises) |
+| running time | formalized program: ≤ 400·(n + m + 1)⁴ (Lean); O(n⁴ + n²m) (written); `fast`: O((n + m) log n) after the input (written) | O(n²(n + m)) per core (written, `proofs/ls2_referee.md` remark 1, `k3/ls2.py`) |
+| measured on the same random cores (`results/k3_ls2_compare.log`, Python, `fast` vs `k3/ls2.py`) | 0.0072 s at n = 1,000, 0.040 s at n = 5,000 (slope ≈ 1) | 2.9 s at n = 1,000, 90 s at n = 5,000 (slope ≈ 2; about 2.1n Phase-1 steps, each O(n + m) here) |
+| output shape | EFX₀, ≤ 1 bundle of > 2 goods (on the core part) | EFX₀, ≤ 1 bundle of > 2 goods |
+| Lean | done: `EFX.K3.algo`, `algo_efx0`, `algoC_cost` | not started; handed to a second session (PR #54 comment, with a plan) |
+
+*Which is simpler to formalize.* K3ALG was: its correctness reused the existing Lean proof of LB⁺ unchanged. The new
+work was a counted program with value lemmas, computable rankings and the peeling loop, and the cost bounds.
+
+LS2 would need a new development:
+- partial allocations with a pool;
+- the envy graph and its paths;
+- the closed walk of Claim 3;
+- maximum matchings with the no-augmenting-path argument of Claim 4;
+- a computable CORE reduction with L3's envy-cycle elimination (its rotations are bounded by the sum of levels,
+  ≤ 7n);
+- R2.
+
+Its arguments are local and elementary, and its termination measure (Σℓ ≤ 7n) is simple. So it is a reasonable
+second target, and an independent machine-checked route to D and TARGET.
+
+LS2's Phase 2 does use a maximum matching, which is polynomial for sure. But K3ALG's owner test is polynomial too
+(Proposition O), so the vertex-cover concern does not separate the two algorithms.
+
+## 9. Summary for the ledger
 
 - **K3.ALG** (PROVED, Lean `EFX.K3.algo_efx0`, `EFX.K3.algo_eq_spec`, `EFX.K3.algoSpec_efx0`): K3ALG returns an
   EFX₀ allocation of every instance with n ≥ 1 agents and |R_i| ≤ 3 (natural-number values).
@@ -337,6 +393,9 @@ See `results/k3_timing.log` (command in the log; `k3/timing.py`).
 - **K3.OWNER** (PROVED; Lean `EFX.LB.validOwner_iff`, `EFX.LB.hitSet_fits`): Proposition O. The owner test of LB⁺ is
   exact with `hitSet` and needs no minimum vertex cover.
 - **K3.ALG.RUN** (EVIDENCE): the computations of §7.
+- **K3.LS2** (CONJECTURE): LS2 runs in polynomial time, O(n²(n + m)) per core (written). Its correctness is LS3
+  (CONJECTURE), refereed in `proofs/ls2_referee.md` with no error found, but not machine-checked.
+- **K3.LS2.RUN** (EVIDENCE): the brute-force referee of LS2 (`k3/ls2_referee.py`).
 - Not claimed:
   - the finer bound O(n⁴ + n²m) and the O((n + m) log n) implementation (written, §5);
   - the real-value remark of §3;

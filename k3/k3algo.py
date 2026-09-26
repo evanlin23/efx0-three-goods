@@ -415,11 +415,13 @@ def _lbplus_fast(agents, goods, order, a, b, c, rank, holders, Y, blk, X, info, 
         while cand and not ok(cand[0]): heapq.heappop(cand)
         if not cand: break
         k = heapq.heappop(cand)
-        upset.add(k); uplist.insert(0, k); J.discard(c[k])
+        upset.add(k); uplist.append(k); J.discard(c[k])     # uplist is reversed below (Lean prepends)
         cnt[a[k]] -= 1                                # k's only need was a_k
         if cnt[a[k]] == 0:
             for j in holders[a[k]]:
                 if b[j] == a[k] and ok(j): heapq.heappush(cand, j)
+
+    uplist.reverse()                                     # most recent upgrade first, as the Lean list
 
     def state(Yf, upl):
         ups = set(upl)
@@ -466,7 +468,8 @@ def _lbplus_fast(agents, goods, order, a, b, c, rank, holders, Y, blk, X, info, 
 
     def complete(Yf, upl, st, o, H):
         ups, pmf, upof, Jl, frozen, cap = st
-        L = list(H) + [j for j in Jl if j not in set(H)]
+        Hs = set(H)
+        L = list(H) + [j for j in Jl if j not in Hs]
         first = {}
         for t, g in enumerate(L):
             if g not in first: first[g] = t
@@ -497,7 +500,7 @@ def _lbplus_fast(agents, goods, order, a, b, c, rank, holders, Y, blk, X, info, 
                 upgraded=list(uplist))
     if (len(E) if naive_owner_test else len(H)) <= S - cap[r]:
         info['branch'] = 'owner_r'; return complete(Y, uplist, st, r, H), info
-    k = next((x for x in exposed(Y, ups, Jset, r, pmf) if blk[x] == blk[r]), None)
+    k = next((x for x in E if blk[x] == blk[r]), None)
     if k is None:
         info['branch'] = 'unreachable'; return complete(Y, uplist, st, r, H), info
     # need chain from k over the agents after k in the order

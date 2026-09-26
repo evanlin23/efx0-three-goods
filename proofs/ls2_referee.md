@@ -134,13 +134,25 @@ For each such state, it checks:
   - Claim 4 and Claim 5 for Phase 2 (a), with every empty bundle, and Phase 2 (b), with every maximum matching and
     every unmatched s*, including the facts about T, D(T) and M.
 
-Result (`results/ls2_referee_states_4.log`): see the log; 0 failures.
+Result (`results/ls2_referee_states_4.log`):
+- 53 cores (n = 2, 3, 4) and 10,650,186 junk-free EFX₀ states with a nonempty pool;
+- checked instances: 40,847,004 of step 1, 974,676 of step 2, 118,060 of step 3, 491,968 of step 4, 756,240 of
+  step 5, 19,876 of step 6 and 240 of step 7 (every choice), plus 14,976 Phase 2 (a) and 132,320 Phase 2 (b)
+  completions;
+- Claim 2 checked in 94,466 states;
+- 0 failures, including Lemma 1 against the raw definition on every junk-free state.
+
+Sampled n = 5 (`results/ls2_referee_states_5_sample.log`): every junk-free state for 20 random profiles of every core
+with n ≤ 5. This covers 3,711,362 states, 104 step-7 instances (every choice), 7,273 Phase 2 (a) and 30,103 Phase 2 (b)
+completions, with 0 failures.
 
 **Mode `runs`.** LS2 from the empty allocation, with a random choice at every choice point (including step 7's), on
 every profile of every core with n ≤ 5. Each output must be complete and EFX₀ (raw, three realizations), have at most
 one bundle of more than two goods, and take at most 7n Phase-1 steps.
 
-Result (`results/ls2_referee_runs_5.log`): see the log; 0 failures.
+Result (`results/ls2_referee_runs_5.log`): 360 cores (307 with n = 5) and 2,445,840 runs. Of these, 1,735,316 end
+complete after Phase 1, 126,832 in Phase 2 (a) and 583,692 in Phase 2 (b). At most 19 Phase-1 steps at n = 5 (bound
+35). 0 failures.
 
 ## 3. Remarks (imprecisions; none affects correctness)
 

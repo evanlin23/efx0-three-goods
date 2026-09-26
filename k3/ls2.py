@@ -1,6 +1,6 @@
 """Algorithm LS2 of proofs/local_search.md §4 (Theorem C), a polynomial-time implementation written from the text.
 
-For timings and for the comparison with K3ALG (proofs/k3_algorithm.md §9). Every choice is the first one in index
+For timings and for the comparison with K3ALG (proofs/k3_algorithm.md §8). Every choice is the first one in index
 order; envy paths are found by breadth-first search, systems of distinct representatives and maximum matchings by
 augmenting paths. `ls2(n, m, v)` takes a *core* (every agent values exactly three goods, is balanced, and every good
 is valued by some agent; at most one private good per agent) with numeric values, decides everything numerically,
