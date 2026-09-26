@@ -119,10 +119,16 @@ implementation (`k4/c4min_hunt.c`), so the status is EVIDENCE; the certificates 
 
 ### 2.1 n = 5 with four or five 4-good agents, two order-type classes
 
-(running; `results/k4_c4min_hunt_classes.log`) Every 4-good agent restricted to the 48 strict types of two order-type
-classes (`k4/c4min_common.py` `type_class`; the rest of the profile space is only climbed, §3): classes 10, 11
-(a > b + c, the kind of G1 in `k4/c4x.md` §5 and of the `-w0` counterexample of §5) and classes 0, 1 (flat, a < c + d,
-G4). 3-good agents keep all their types.
+`results/k4_c4min_hunt_classes.log` (resumable: `.ckpt` per class pair). Every 4-good agent restricted to the 48
+strict types of two order-type classes (`k4/c4min_common.py` `type_class`; the rest of the profile space is only
+climbed, §3): classes 10, 11 (a > b + c, the kind of G1 in `k4/c4x.md` §5 and of the `-w0` counterexample of §5) and
+classes 0, 1 (flat, a < c + d, G4). 3-good agents keep all their types.
+
+| class pair | cores | profiles | C₄ᵐⁱⁿ fails |
+|---|---|---|---|
+| 10, 11 (a > b + c), n = 5 with four 4-good agents | 9,846 | 223,148,556,288 | 0 |
+| 0, 1 (flat), n = 5 with four 4-good agents | 9,846 | (running) | |
+| 10, 11 and 0, 1, pure n = 5 | 4,674 | (running; about 1.2·10¹² profiles each, several hours) | |
 
 ## 3. Adversarial search
 
