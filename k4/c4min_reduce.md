@@ -490,8 +490,9 @@ configuration (at any key) with a larger potential.
 
 **Conjecture K4.C4MIN.RED.LIL.** On every strict profile with f = 1 and ω ≥ 1, every configuration without a valid
 owner has an M1, M4 or M5 move that raises Φ_r = (r′, −t, Λ). This is #50's Ψ = (r, Λ) with −t inserted. Then every
-maximum of Φ_r over all keys is completable, and C₄ᵐⁱⁿ holds at f = 1. The algorithm "apply improving moves until an
-owner is valid" takes at most (n + 1) · 2 · 16n steps.
+maximum of Φ_r over all keys is completable, and C₄ᵐⁱⁿ holds at f = 1. It would also give an algorithm: apply improving
+moves until an owner is valid. Φ_r takes at most 2n(15n + 1) values (r′ ≤ n − 1, t ∈ {0, 1}, every level ≤ 15), so
+that is a bound on the number of moves.
 
 Evidence and variants (`results/k4_red_lil.log`, counters `lil_*`; "stuck" = no improving move):
 
@@ -511,7 +512,11 @@ Proved parts:
 - Theorem Z′ (M1 pool improvements and M4 at a fixed key);
 - Lemma PM (M5 from a terminal threatened off the path keeps t = 0 and raises r′).
 
-The written proof of #50's Lemmas 2–7 covers M1, M4 and M5 under Ψ for a frozen agent that is not big-top.
+#50's Lemmas 2–7 (written proofs, unreviewed) show that these moves raise Ψ at a Ψ-maximum whose frozen agent is not
+big-top. A proof of LIL has to add:
+- the bookkeeping of t: Lemma PM is one piece, and the configurations where a pool improvement is blocked by t are
+  another;
+- the big-top case, where the path move ties in Ψ (§5.1–§5.2).
 
 ## 6. Checks and evidence
 
