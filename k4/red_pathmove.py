@@ -5,13 +5,15 @@ For every configuration c at every key of every f = 1 profile of a seeded random
   - t(c) = 0,
   - every free agent that is not robust is pool-optimal (no pair S ⊆ Q_y ∪ L worth more than Q_y),
   - no owner is valid with C = ∅,
-and for every threat path tau = p_j -> p_{j+1} -> ... -> p_k -> x through free agents (each threatened by the previous
-one, x by p_k) whose start tau is a terminal threatened by some owner that is not on the path (so tau is not robust,
-and its threatener keeps its pair), the path move gives:
-  - p_{i+1} the pair Q_{p_i} (i = j..k-1), or, for a receiver of kind (R) whose fourth good s lies in the pool, the pair
-    {a, s} with the other good of Q_{p_i} going to the pool (only if no receiver becomes robust by the plain move);
-  - x a robust admissible pair P_x inside (Q_{p_k} ∪ L) ∩ U_x (it exists by Lemma PM (i));
-  - tau the good g (frozen); the rest of Q_{p_k} ∪ L to the pool.
+(the first and the last hypotheses are not used by the proof; they are kept so that the checked scope is the lemma's)
+and for every simple threat path tau = p_0 -> p_1 -> ... -> p_k -> x through free agents (each threatened by the
+previous one, x by p_k) whose start tau is a terminal threatened by some owner that is not on the path, and for EVERY
+robust admissible pair P_x of x inside (Q_{p_k} ∪ L) ∩ U_x, the path move gives:
+  - p_{i+1} the pair Q_{p_i} (i = 0..k-1) (plain move), or, for exactly one receiver z = p_{i+1} of kind (R) (four goods,
+    g not relevant, holding a non-robust pair of R_z \ {a_z}) with a_z ∈ Q_{p_i} and s_z ∈ L \ P_x, the pair {a_z, s_z},
+    the other good of Q_{p_i} going to the pool (every such single modification is tested, with or without a receiver
+    that is robust after the plain move);
+  - x the pair P_x; tau the good g (frozen); the rest of Q_{p_k} ∪ L to the pool.
 Checked: the result is a configuration at the key (g, tau), t = 0 there, and r' rises by at least 1.
 Usage: python3 k4/red_pathmove.py results/k4_certs_3.json.gz 3000 5   (R = 0: every profile)"""
 import os, sys, random, itertools, collections
@@ -54,59 +56,57 @@ def check_profile(P, cnt, bad):
                 for path in paths_to_x(tau):
                     if any(o in path[1:] for o in tthr): cnt['skipped: a threatener of tau on the path'] += 1; continue
                     if tau not in Ks: cnt['FAIL terminal with a path is not a key'] += 1; continue
-                    cnt['path moves'] += 1
-                    ok, why = apply_move(P, K, Ks[tau], Q, L, path, r0)
-                    if not ok:
+                    cnt['paths'] += 1
+                    for why in apply_moves(P, K, Ks[tau], Q, L, path, r0, cnt):
                         cnt['FAIL ' + why] += 1
                         if len(bad) < 5: bad.append((P.vals, (g, x), {y: sorted(bits(q)) for y, q in Q.items()}, sorted(bits(L)), path, why))
 
 
-def apply_move(P, K, Kt, Q, L, path, r0):
+def kind_R(P, K, y, Qy):
+    """kind (R) at the key K: four goods, g not relevant, Q_y ⊆ R_y \\ {a_y}, not robust; returns s_y or None"""
+    if len(P.vals[y]) != 4 or (P.R[y] >> K.g) & 1: return None
+    if Qy & ~P.R[y] or (Qy >> P.top[y]) & 1 or K.robust(y, Qy): return None
+    return next(h for h in P.vals[y] if h != P.top[y] and not (Qy >> h) & 1)
+
+
+def apply_moves(P, K, Kt, Q, L, path, r0, cnt):
+    """every robust admissible P_x, the plain move and every single modification; yields failure reasons"""
     x, g = K.x, K.g
     tau = path[0]
-    newQ = {y: Q[y] for y in K.free if y not in path}
-    pool = L
-    # receivers p_{i+1} get Q_{p_i}
     recv = [(path[i + 1], Q[path[i]]) for i in range(len(path) - 1)]
-    plain_robust = any(Kt.robust(y, S) for y, S in recv if y in Kt.U)
-    for y, S in recv: newQ[y] = S
+    base = {y: Q[y] for y in K.free if y not in path}
+    for y, S in recv: base[y] = S
     last = Q[path[-1]]
-    # x's robust admissible pair inside (Q_{p_k} ∪ L) ∩ U_x (as a free agent at the key (g, tau))
-    Wx = (last | pool) & Kt.U[x]
+    Wx = (last | L) & Kt.U[x]
     cands = [(1 << a) | (1 << b) for a, b in itertools.combinations(list(bits(Wx)), 2)]
     cands = [S for S in cands if P.admissible(x, S, Kt.U[x]) and P.v(x, S) >= P.v(x, Kt.U[x] & ~S)]
-    if not cands: return False, 'no robust admissible pair for x in its threatening set'
-    Px = max(cands, key=lambda S: P.v(x, S))
-    newQ[x] = Px
-    newL = (last | pool) & ~Px
-    # modified (R) receiver, only if no receiver is robust after the plain move
-    if not plain_robust:
-        for i, (y, S) in enumerate(recv):
-            if len(P.vals[y]) != 4 or (P.R[y] >> g) & 1: continue
-            a = P.top[y]
-            if not (S >> a) & 1: continue
-            others = [h for h in P.vals[y] if h != a]
-            held = Q[y] & P.R[y]
-            if pc(held) != 2 or (held >> a) & 1: continue
-            s = [h for h in others if not (held >> h) & 1][0]
-            if (newL >> s) & 1:
-                ybar = S & ~(1 << a)
-                newQ[y] = (1 << a) | (1 << s)
-                newL = (newL & ~(1 << s)) | ybar
-                break
-    # validity at the key (g, tau)
+    if not cands: yield 'no robust admissible pair for x in its threatening set'; return
+    for Px in cands:
+        newQ = dict(base); newQ[x] = Px
+        newL = (last | L) & ~Px
+        variants = [('plain', newQ, newL)]
+        for y, S in recv:
+            s = kind_R(P, K, y, Q[y]); a = P.top[y]
+            if s is None or not ((L & ~Px) >> s) & 1 or not (S >> a) & 1: continue
+            Q3 = dict(newQ); Q3[y] = (1 << a) | (1 << s)
+            variants.append(('modified', Q3, (newL & ~(1 << s)) | (S & ~(1 << a))))
+        for kind, Q2, L2 in variants:
+            cnt['path moves (%s)' % kind] += 1
+            why = check_result(P, Kt, Q2, L2, tau, g, r0)
+            if why: yield why + ' (%s)' % kind
+
+
+def check_result(P, Kt, newQ, newL, tau, g, r0):
     used = 0
     for y, S in newQ.items():
-        if S & used or pc(S) != 2 or (S >> g) & 1: return False, 'pairs not disjoint'
+        if S & used or pc(S) != 2 or (S >> g) & 1: return 'pairs not disjoint'
         used |= S
-        if not P.admissible(y, S & Kt.U[y], Kt.U[y]): return False, 'not admissible'
-    if set(newQ) != set(Kt.free): return False, 'wrong agents'
-    if pc(newL) != Kt.omega: return False, 'pool size'
-    t1 = P.v(tau, newL & Kt.Ux) > P.vals[tau][g]
-    if t1: return False, 't = 1 after the move'
-    r1 = sum(Kt.robust(y, newQ[y]) for y in Kt.free)
-    if r1 < r0 + 1: return False, "r' does not rise"
-    return True, ''
+        if not P.admissible(y, S & Kt.U[y], Kt.U[y]): return 'not admissible'
+    if set(newQ) != set(Kt.free): return 'wrong agents'
+    if pc(newL) != Kt.omega or newL & used: return 'pool size'
+    if P.v(tau, newL & Kt.Ux) > P.vals[tau][g]: return 't = 1 after the move'
+    if sum(Kt.robust(y, newQ[y]) for y in Kt.free) < r0 + 1: return "r' does not rise"
+    return ''
 
 
 def main():
@@ -117,6 +117,7 @@ def main():
         for vals in profiles(sets, m, rand or None, rng):
             check_profile(Prof(vals, m), cnt, bad)
     for k, v in sorted(cnt.items()): print('%-70s %d' % (k, v))
+    if not cnt['paths']: print('(no path move in this scope: the check is vacuous here)')
     for b in bad: print('example', b)
     print('ALL PATH MOVES OK' if not any(k.startswith('FAIL') for k in cnt) else 'FAILURES')
 

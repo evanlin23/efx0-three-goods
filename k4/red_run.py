@@ -2,10 +2,12 @@
 (results/k4_certs_*.json.gz; types from k4/check4.py, as every k = 4 tool) and sums the counters.
 Usage: red_run.py FILE [FILE ...] [--rand=R] [--seed=S] [--jobs=J] [-x N] [--cores=a:b] [--pots='f,f;f']
   --lil: only the local improvement lemma check (k4/c4min_reduce.md §5.3), counters lil_*; --lil-rfirst uses the
-  potential (r', -t, Lambda); --lil-nom2 drops the two-agent re-pairings.
+  potential (r', -t, Lambda); --lil-nom2 drops the two-agent re-pairings; --lil-narrow restricts the modified receiver and
+  x's pair to Lemma R(iii) / #50 (red.c -Ln), --lil-recycle adds #50's recycling rule (red.c -Lc); --lil-anypx lets x take any pair (red.c -Lx).
   --pots: extra global potentials (features r lamU lamR mt mp mterm lx mvp mndx; lexicographic, maximized).
   --rand=R: R random profiles per core (seed S + core index); default every profile.
-  -x N: print up to N example profiles per counter (in core order)."""
+  -x N: print up to N example profiles per counter (in core order).
+The first output line records the provenance: the sha1 of k4/red.c and the git commit of the checkout."""
 import gzip, hashlib, json, os, subprocess, sys, tempfile, time
 from multiprocessing import Pool
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -30,10 +32,22 @@ def core_input(n, m, sets, rand, seed):
     return '\n'.join(lines) + '\n'
 
 LIL = '--lil' in sys.argv or '--lil-rfirst' in sys.argv
+LILFLAGS = [f for o, f in (('--lil-rfirst', '-Lr'), ('--lil-nom2', '-L2'), ('--lil-narrow', '-Ln'), ('--lil-recycle', '-Lc'), ('--lil-anypx', '-Lx'))
+            if o in sys.argv]
+
+def provenance():
+    src = os.path.join(HERE, 'red.c')
+    h = hashlib.sha1(open(src, 'rb').read()).hexdigest()
+    try:
+        c = subprocess.run(['git', '-C', HERE, 'rev-parse', 'HEAD'], capture_output=True, text=True).stdout.strip()
+        dirty = subprocess.run(['git', '-C', HERE, 'status', '--porcelain', '--', 'red.c'], capture_output=True, text=True).stdout.strip()
+    except OSError:
+        c, dirty = 'unknown', ''
+    return '# source: k4/red.c sha1 %s; git HEAD %s%s' % (h, c or 'unknown', ' (red.c modified)' if dirty else '')
 
 def run(task):
     b, n, m, sets, rand, seed, nex, tag, pots = task
-    p = subprocess.run([b, '-x', str(nex)] + (['-p', pots] if pots else []) + (['-L'] if LIL else []) + (['-Lr'] if '--lil-rfirst' in sys.argv else []) + (['-L2'] if '--lil-nom2' in sys.argv else []), input=core_input(n, m, sets, rand, seed), capture_output=True, text=True, check=True)
+    p = subprocess.run([b, '-x', str(nex)] + (['-p', pots] if pots else []) + (['-L'] + LILFLAGS if LIL else []), input=core_input(n, m, sets, rand, seed), capture_output=True, text=True, check=True)
     cnt, ex = {}, []
     for line in p.stdout.splitlines():
         if line.startswith('EX '): ex.append('%s %s' % (tag, line[3:])); continue
@@ -46,6 +60,7 @@ def main():
     nex = 0
     if '-x' in sys.argv: nex = int(sys.argv[sys.argv.index('-x') + 1]); args = [a for a in args if a != str(nex)]
     rand = int(opt.get('rand', 0)); seed = int(opt.get('seed', 1)); jobs = int(opt.get('jobs', os.cpu_count()))
+    print(provenance(), flush=True)
     b = binary(); tasks = []
     for f in args:
         data = json.load(gzip.open(f, 'rt'))

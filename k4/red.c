@@ -86,7 +86,7 @@ static int disjoint_system(int na, const int *ag, const mask_t *U, mask_t avoid)
 /* ---- configurations at a key ---- */
 typedef struct {
   mask_t Q[MAXN], L;
-  int r, lamU, lamR, t, p, nterm, poolopt, nfv, ndx, comp, inj, lx, vp, unthr;
+  int r, lamU, lamR, t, p, nterm, poolopt, nfv, ndx, comp, comp0, inj, lx, vp, unthr;  /* comp0: an owner valid with C = ∅ */
   mask_t terms, fv, dx, compo, npo, rob;  /* bitsets of agents (npo: not pool-optimal) */
 } cfg_t;
 typedef struct { int g, x, omega, nfree, free[MAXN], lx, xtype; mask_t U[MAXN], Mp; cfg_t *c; int nc, cap; } rkey_t;
@@ -114,7 +114,7 @@ static void eval_cfg(rkey_t *K, cfg_t *c) {
   c->vp = val(x, c->L & K->U[x]); c->lx = K->lx;
   c->t = c->vp > vg;
   c->p = pc(c->L & K->U[x]);
-  c->nfv = c->ndx = 0; c->fv = c->dx = 0; c->comp = 0; c->compo = 0;
+  c->nfv = c->ndx = 0; c->fv = c->dx = 0; c->comp = 0; c->comp0 = 0; c->compo = 0;
   { int nthr[MAXN] = {0};                /* threat-injectivity: every free agent threatened by at most one owner */
     for (int k = 0; k < K->nfree; k++) { int o = K->free[k]; mask_t X = c->Q[o] | c->L;
       for (int j = 0; j < K->nfree; j++) { int y = K->free[j]; if (y != o && threat(y, X, val(y, c->Q[y]))) nthr[y]++; } }
@@ -127,6 +127,7 @@ static void eval_cfg(rkey_t *K, cfg_t *c) {
     if (fvalid) { c->nfv++; c->fv |= 1u << o; }
     if (xt) { c->ndx++; c->dx |= 1u << o; }
     int ok = fvalid && !xt;
+    if (ok) c->comp0 = 1;
     if (!ok) {
       /* unfreezing: no other free agent needs g */
       int other = 0;
@@ -173,7 +174,7 @@ static void build_key(rkey_t *K) {
 }
 
 /* ---- counters ---- */
-#define NCNT 128
+#define NCNT 256
 static const char *cname[NCNT]; static long long cval[NCNT]; static int ncnt;
 static int cid(const char *s) { for (int i = 0; i < ncnt; i++) if (!strcmp(cname[i], s)) return i; cname[ncnt] = s; return ncnt++; }
 #define INC(s) (cval[cid(s)]++)
@@ -233,8 +234,15 @@ static const int P_G3[] = {F_R, F_LAMU, F_MP};
    M1: one free agent re-pairs inside Q_y ∪ L;  M2: two free agents re-pair inside Q_y ∪ Q_z ∪ L;
    M4: rotation along a threat cycle of free agents (plain, or one receiver takes {a, s} with s from the pool);
    M5: path move from a terminal tau along a threat path to x (x takes any pair inside Q_{p_k} ∪ L; one receiver may be
-       modified as in M4); the result is at the key of tau. ---- */
-static int lil_on = 0, lil_rfirst = 0, lil_nom2 = 0;
+       modified as in M4, with s from the new pool); the result is at the key of tau.
+   Narrow catalogue (-Ln; attempts/k4-c4min-reduce-lil-narrow.md): the modification only as in Lemma R(iii) of
+   k4/c4min.md and #50's Lemma 5 / path move: one receiver z of kind (R) (four goods, g not relevant, holding a non-robust
+   pair {p, q} of R_z \ {a_z}) with a_z in its received pair and s_z (its fourth good) in L (M5: in L \ P_x) takes
+   {a_z, s_z}, the other good of the received pair goes to the pool; in M5, x takes only its best pair inside
+   (Q_{p_k} ∪ L) ∩ U_x (#50's P_x). -Lc adds #50's recycling: the last receiver p_k of kind (R) takes a_{p_k} (from its
+   received pair) with its better good of Q_{p_k} \ P_x; the other good of the received pair goes to the pool. -Lx keeps
+   the narrow modification but lets x take any pair of Q_{p_k} ∪ L, as in the broad M5. ---- */
+static int lil_on = 0, lil_rfirst = 0, lil_nom2 = 0, lil_narrow = 0, lil_recycle = 0, lil_anypx = 0;
 typedef struct { int mt, r, lam; } phi_t;
 static int phi_cmp(phi_t a, phi_t b) {
   if (lil_rfirst) { if (a.r != b.r) return a.r < b.r ? -1 : 1; if (a.mt != b.mt) return a.mt < b.mt ? -1 : 1; }
@@ -264,10 +272,26 @@ static void lil_try(const rkey_t *K, const mask_t *Q, mask_t L, int kind) {
 static int thr_[MAXN][MAXN], xthr_[MAXN];
 static int cyc[MAXN], cycn, inpath[MAXN];
 static const rkey_t *LK; static const cfg_t *LC;
+/* kind (R) at the key K (U_y = R_y: y has four goods and does not value g; Q_y ⊆ R_y \ {a_y}, not robust):
+   returns the fourth good s_y, or -1 */
+static int kind_R(const rkey_t *K, int y, mask_t Qy) {
+  if (pc(Rm[y]) != 4 || (Rm[y] >> K->g & 1)) return -1;
+  if ((Qy & ~Rm[y]) || (Qy >> top[y] & 1)) return -1;
+  if (val(y, Qy) >= val(y, Rm[y] & ~Qy)) return -1;
+  return __builtin_ctz(Rm[y] & ~Qy & ~((mask_t)1 << top[y]));
+}
 static void lil_rotate(void) {
   mask_t Q[MAXN]; memcpy(Q, LC->Q, sizeof Q);
   for (int j = 0; j < cycn; j++) Q[cyc[(j + 1) % cycn]] = LC->Q[cyc[j]];
   lil_try(LK, Q, LC->L, 4);
+  if (lil_narrow) {                      /* Lemma R(iii): one (R) receiver with s in L takes {a, s} */
+    for (int j = 0; j < cycn && !lil_found; j++) {
+      int z = cyc[(j + 1) % cycn]; mask_t S = LC->Q[cyc[j]]; int sg = kind_R(LK, z, LC->Q[z]), a = top[z];
+      if (sg < 0 || !(LC->L >> sg & 1) || !(S >> a & 1)) continue;
+      mask_t Q2[MAXN]; memcpy(Q2, Q, sizeof Q2); Q2[z] = ((mask_t)1 << a) | ((mask_t)1 << sg);
+      lil_try(LK, Q2, (LC->L & ~((mask_t)1 << sg)) | (S & ~((mask_t)1 << a)), 4); }
+    return;
+  }
   for (int j = 0; j < cycn && !lil_found; j++) {
     int z = cyc[(j + 1) % cycn]; mask_t S = LC->Q[cyc[j]];
     for (mask_t ra = S; ra && !lil_found; ra &= ra - 1) { int a = __builtin_ctz(ra);
@@ -289,6 +313,37 @@ static void lil_pathmove(void) {           /* cyc[0..cycn-1] = tau .. p_k; p_k t
   mask_t Q[MAXN]; memcpy(Q, LC->Q, sizeof Q);
   for (int i = 0; i + 1 < cycn; i++) Q[cyc[i + 1]] = LC->Q[cyc[i]];
   mask_t W = LC->Q[cyc[cycn - 1]] | LC->L;
+  if (lil_narrow) {                      /* #50's path move: P_x = x's best pair inside W ∩ U_x */
+    mask_t cand[64]; int nc = 0, best = -1; mask_t WU = W & KT->U[x];
+    if (lil_anypx) {                      /* -Lx: x takes any pair of W (as in the broad M5) */
+      for (mask_t r1 = W; r1; r1 &= r1 - 1) for (mask_t r2 = r1 & (r1 - 1); r2; r2 &= r2 - 1)
+        cand[nc++] = ((mask_t)1 << __builtin_ctz(r1)) | ((mask_t)1 << __builtin_ctz(r2));
+    } else {
+      mask_t P = 0;
+      for (mask_t r1 = WU; r1; r1 &= r1 - 1) for (mask_t r2 = r1 & (r1 - 1); r2; r2 &= r2 - 1) {
+        mask_t S = ((mask_t)1 << __builtin_ctz(r1)) | ((mask_t)1 << __builtin_ctz(r2));
+        if (val(x, S) > best) { best = val(x, S); P = S; } }
+      if (!P) { INC("lil_narrow_no_Px"); return; }
+      cand[nc++] = P;
+    }
+    for (int ci = 0; ci < nc && !lil_found; ci++) { mask_t P = cand[ci];
+    mask_t Q2[MAXN]; memcpy(Q2, Q, sizeof Q2); Q2[x] = P; Q2[cyc[0]] = 0;
+    mask_t L2 = W & ~P;
+    lil_try(KT, Q2, L2, 5);
+    for (int i = 0; i + 1 < cycn && !lil_found; i++) {      /* modification: s in L \ P_x */
+      int z = cyc[i + 1]; mask_t S = LC->Q[cyc[i]]; int sg = kind_R(LK, z, LC->Q[z]), a = top[z];
+      if (sg < 0 || !((LC->L & ~P) >> sg & 1) || !(S >> a & 1)) continue;
+      mask_t Q3[MAXN]; memcpy(Q3, Q2, sizeof Q3); Q3[z] = ((mask_t)1 << a) | ((mask_t)1 << sg);
+      lil_try(KT, Q3, (L2 & ~((mask_t)1 << sg)) | (S & ~((mask_t)1 << a)), 5); }
+    if (lil_recycle && cycn >= 2 && !lil_found) {           /* recycling at the last receiver */
+      int z = cyc[cycn - 1]; mask_t S = LC->Q[cyc[cycn - 2]], E = LC->Q[z] & ~P; int a = top[z];
+      if (kind_R(LK, z, LC->Q[z]) >= 0 && (S >> a & 1) && E) {
+        int e = -1; for (mask_t r = E; r; r &= r - 1) { int h = __builtin_ctz(r); if (e < 0 || vv[z][h] > vv[z][e]) e = h; }
+        mask_t Q3[MAXN]; memcpy(Q3, Q2, sizeof Q3); Q3[z] = ((mask_t)1 << a) | ((mask_t)1 << e);
+        lil_try(KT, Q3, (L2 & ~((mask_t)1 << e)) | (S & ~((mask_t)1 << a)), 5); } }
+    }
+    return;
+  }
   for (mask_t r1 = W; r1 && !lil_found; r1 &= r1 - 1) { int a = __builtin_ctz(r1);
     for (mask_t r2 = r1 & (r1 - 1); r2 && !lil_found; r2 &= r2 - 1) { int b = __builtin_ctz(r2);
       mask_t P = ((mask_t)1 << a) | ((mask_t)1 << b);
@@ -433,8 +488,13 @@ static void do_profile(void) {
     for (int k = 0; k < nkeys; k++) { int t0 = 0, t0p = 0;
       for (int q = 0; q < keys[k].nc; q++) { cfg_t *c = &keys[k].c[q];
         if (!c->t) { t0 = 1; if (c->poolopt) t0p = 1; }
-        if (c->poolopt && c->r > c->ndx) { cert = 1; if (!c->comp) { INC("FAIL_cert_noncomp"); example("cert_noncomp"); } }
-        if (c->inj && c->r > c->ndx) { cert2 = 1; if (!c->comp) { INC("FAIL_cert2_noncomp"); example("cert2_noncomp"); } }
+        if (c->poolopt && c->r > c->ndx) { cert = 1; if (!c->comp) { INC("FAIL_cert_noncomp"); example("cert_noncomp"); }
+          if (!c->comp0) { INC("FAIL_cert_noncomp0"); example("cert_noncomp0"); } }
+        if (c->inj && c->r > c->ndx) { cert2 = 1; INC("cert2_configurations"); if (!c->comp) { INC("FAIL_cert2_noncomp"); example("cert2_noncomp"); }
+          /* Lemma C as stated: an owner valid with C = ∅ */
+          if (!c->comp0) { INC("FAIL_cert2_noncomp0"); example("cert2_noncomp0"); } }
+        /* Lemma T at every configuration (not only at the maxima) */
+        INC("configurations"); if (!c->nterm) { INC("FAIL_no_terminal_cfg"); example("no_terminal_cfg"); }
         if (c->poolopt && !c->inj) { INC("FAIL_poolopt_not_inj"); example("poolopt_not_inj"); } }
       if (t0) INC("key_t0_exists"); else { t0key = 0; INC("key_no_t0"); example("key_no_t0"); }
       if (t0p) INC("key_t0_poolopt_exists"); }
@@ -546,6 +606,9 @@ int main(int argc, char **argv) {
     else if (!strcmp(argv[a], "-L")) lil_on = 1;
     else if (!strcmp(argv[a], "-Lr")) { lil_on = 1; lil_rfirst = 1; }      /* potential (r', -t, lamR) */
     else if (!strcmp(argv[a], "-L2")) lil_nom2 = 1;                        /* without two-agent re-pairings */
+    else if (!strcmp(argv[a], "-Ln")) lil_narrow = 1;                      /* narrow modification and P_x (see above) */
+    else if (!strcmp(argv[a], "-Lc")) lil_recycle = 1;                     /* with -Ln: #50's recycling rule */
+    else if (!strcmp(argv[a], "-Lx")) lil_anypx = 1;                       /* with -Ln: x takes any pair of Q_{p_k} ∪ L */
   }
   if (scanf("%d %d", &n, &m) != 2) return 1;
   if (n > MAXN || m > MAXM) { fprintf(stderr, "too large\n"); return 1; }

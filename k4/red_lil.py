@@ -8,8 +8,14 @@ big-top profiles (§5.1). Catalogue:
   M4: rotation along a threat cycle of free agents (plain; and the modified variant for (R) receivers)
   M5: path move from any terminal tau along any simple threat path tau -> ... -> x (x takes any admissible pair in
       (Q_{p_k} ∪ L) ∩ U_x; the modified (R) variant allowed)
+NARROW=1 restricts the catalogue as in attempts/k4-c4min-reduce-lil-narrow.md (red.c -Ln): the modified receiver only as
+in Lemma R(iii) of k4/c4min.md / #50 (a receiver z of kind (R) with a_z in its received pair and s_z in L, in M5 in
+L \ P_x, takes {a_z, s_z}), and in M5 x takes only its best pair inside (Q_{p_k} ∪ L) ∩ U_x; RECYCLE=1 adds #50's
+recycling rule (the last receiver of kind (R) takes a with its better good of Q_{p_k} \ P_x); ANYPX=1 (with NARROW)
+lets x take any pair of Q_{p_k} ∪ L, as in the broad M5 (red.c -Lx).
 Reports non-completable configurations with no improving move ('STUCK'), classified.
-Usage: [RFIRST=1] [M2=1] [BIGTOP=1] python3 k4/red_lil.py results/k4_certs_3.json.gz R SEED   (R = 0: every profile)"""
+Usage: [RFIRST=1] [M2=1] [BIGTOP=1] [NARROW=1 [RECYCLE=1] [ANYPX=1]] python3 k4/red_lil.py results/k4_certs_3.json.gz R SEED
+(R = 0: every profile)"""
 import sys, os, random, itertools, collections
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from red_lib import Prof, Key, fewest_frozen_le1, bits, pc, load_cores, profiles
@@ -43,6 +49,18 @@ def is_config(P, K, Q, L):
         used |= S
         if not P.admissible(y, S & K.U[y], K.U[y]): return False
     return used | L == K.Mp and not used & L
+
+
+NARROW = os.environ.get('NARROW') == '1'
+RECYCLE = os.environ.get('RECYCLE') == '1'
+ANYPX = os.environ.get('ANYPX') == '1'
+
+
+def kind_R(P, K, y, Qy):
+    """kind (R) at the key K: four goods, g not relevant, Q_y ⊆ R_y \\ {a_y}, not robust; returns s_y or None"""
+    if len(P.vals[y]) != 4 or (P.R[y] >> K.g) & 1: return None
+    if Qy & ~P.R[y] or (Qy >> P.top[y]) & 1 or K.robust(y, Qy): return None
+    return next(h for h in P.vals[y] if h != P.top[y] and not (Qy >> h) & 1)
 
 
 def moves(P, Ks, K, Q, L):
@@ -88,6 +106,13 @@ def moves(P, Ks, K, Q, L):
         Q2 = dict(Q)
         for j in range(k): Q2[cyc[(j + 1) % k]] = Q[cyc[j]]
         yield K, Q2, L
+        if NARROW:           # Lemma R(iii): one (R) receiver with s in L takes {a, s}
+            for j in range(k):
+                z = cyc[(j + 1) % k]; S = Q[cyc[j]]; s = kind_R(P, K, z, Q[z]); a = P.top[z]
+                if s is None or not (L >> s) & 1 or not (S >> a) & 1: continue
+                Q3 = dict(Q2); Q3[z] = (1 << a) | (1 << s); L3 = (L & ~(1 << s)) | (S & ~(1 << a))
+                yield K, Q3, L3
+            continue
         for j in range(k):   # modified: receiver cyc[j+1] takes {a, s} with s in L
             z = cyc[(j + 1) % k]; S = Q[cyc[j]]
             for a in bits(S):
@@ -110,6 +135,28 @@ def moves(P, Ks, K, Q, L):
             base = {y: Q[y] for y in K.free if y not in path}
             for i in range(len(path) - 1): base[path[i + 1]] = Q[path[i]]
             last = Q[path[-1]]
+            if NARROW:       # #50's path move: P_x = x's best pair inside (Q_{p_k} ∪ L) ∩ U_x (ANYPX: any pair)
+                if ANYPX:
+                    cands = [(1 << a) | (1 << b) for a, b in itertools.combinations(list(bits(last | L)), 2)]
+                else:
+                    WU = list(bits((last | L) & Kt.U[x]))
+                    cands = [max(((1 << a) | (1 << b) for a, b in itertools.combinations(WU, 2)),
+                                 key=lambda S: P.v(x, S))] if len(WU) >= 2 else []
+                for Px in cands:
+                    Q2 = dict(base); Q2[x] = Px; L2 = (last | L) & ~Px
+                    yield Kt, Q2, L2
+                    for i in range(len(path) - 1):   # modification: s in L \ P_x
+                        z = path[i + 1]; S = Q[path[i]]; s = kind_R(P, K, z, Q[z]); a = P.top[z]
+                        if s is None or not ((L & ~Px) >> s) & 1 or not (S >> a) & 1: continue
+                        Q3 = dict(Q2); Q3[z] = (1 << a) | (1 << s)
+                        yield Kt, Q3, (L2 & ~(1 << s)) | (S & ~(1 << a))
+                    if RECYCLE and len(path) >= 2:     # recycling at the last receiver
+                        z = path[-1]; S = Q[path[-2]]; E = Q[z] & ~Px; a = P.top[z]
+                        if kind_R(P, K, z, Q[z]) is not None and (S >> a) & 1 and E:
+                            e = max(bits(E), key=lambda h: P.vals[z][h])
+                            Q3 = dict(Q2); Q3[z] = (1 << a) | (1 << e)
+                            yield Kt, Q3, (L2 & ~(1 << e)) | (S & ~(1 << a))
+                continue
             W = list(bits((last | L) & ~0))
             for a, b in itertools.combinations(W, 2):
                 Px = (1 << a) | (1 << b)
