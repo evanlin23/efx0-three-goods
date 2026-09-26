@@ -1,6 +1,6 @@
 # C₄ᵐⁱⁿ: all-pairs configurations at the fewest frozen agents
 
-Workstream `proof/k4-c4min`, ledger rows K4.C4MIN.* (K4.C4MIN.Z PROVED, K4.C4MIN.X REFUTED, the others CONJECTURE),
+Workstream `proof/k4-c4min`, ledger rows K4.C4MIN.* (K4.C4MIN.Z PROVED and in Lean; K4.C4MIN.CFG, K4.C4MIN.F and K4.C4MIN.K3 PROVED as written proofs, refereed; K4.C4MIN.X REFUTED; the others CONJECTURE),
 ledger open item 21. Starting point: conjecture C₄ᵐⁱⁿ of `k4/c4x.md` §5 (on main), with its space 𝒫 of valid
 pre-allocations, its completability test and its deficit. Notation as there and in `k4/lb4.md` §1. This file does not
 edit `k4/c4x.md`.
@@ -106,7 +106,7 @@ Hence def(P) ≤ 0. ∎
 
 *Proof of (b).* Let P be min-frozen with def(P) ≤ 0. As ω ≥ 1, |J| − S = ω > 0, so def(P) ≤ 0 is witnessed by an
 owner o (free in P) and a set C ⊆ J: W := B_o ∪ (J ∖ C) threatens no agent x ≠ o holding B_x, and |C| ≤ S_o(C).
-Keep 𝒩 = NA(P), F and φ from P. By (V1) and (V2) a free agent's base contains no good of 𝒩, so B_y ⊆ U_y, and
+Keep 𝒩 = NA(P), F and φ from P. A free agent's base contains no good of 𝒩 (a one-good base because the agent is free, so its good is not in NA; a two-good base by (V2)), so B_y ⊆ U_y, and
 N_y(B_y) ⊆ 𝒩 says that B_y is admissible. Let S′ = Σ_{y ≠ o free} (2 − |B_y|).
 - *The pairs Q_y, y ≠ o free.* Fill the slots of these agents with goods of C first. If |C| < S′, fill the rest with
   goods of W ∖ B_o = J ∖ C. There are enough, since |J ∖ C| = S′ + (2 − |B_o|) + ω − |C| ≥ S′ − |C| + ω. Each Q_y
