@@ -20,8 +20,8 @@ K4.T.
 
   The frozen agent is exposed at f = 1, which Theorems Z and F excluded. Status by type of x:
   - 3-good x: complete.
-  - 4-good x that is not big-top: complete except one sub-case (Lemma 7, case E), which needs n ≥ 5 agents. It never
-    occurs on any sampled profile with n ≤ 5 (§4).
+  - 4-good x that is not big-top: complete except one sub-case (Lemma 7, case E′), which needs n ≥ 6 agents. So the
+    proof is complete for n ≤ 5, and the sub-case never occurs on the samples (§4).
 - **The big-top case** (§3): a Ψ-maximum without an owner has a big-top frozen agent, and every path move from it is a
   tie in Ψ. When some terminal is not big-top, the tied move is again a Ψ-maximum, with a frozen agent that is not
   big-top, so Theorem F1 makes it completable. The remaining profiles are those where every Ψ-maximum has a big-top
@@ -151,13 +151,16 @@ with τ a terminal.
 - x receives P_x and becomes free. The goods of Q_{q_k} ∖ P_x go to the pool, and the goods of P_x ∩ L leave it.
 - τ receives g and becomes frozen.
 
-As in Lemma 5, at most one receiver of kind (R) with s ∈ L ∖ P_x takes {a, s} instead, the other good going to the
-pool, and only when no receiver becomes robust by the plain move.
+Two rules apply only when no receiver becomes robust by the plain move:
+- (*modification*) as in Lemma 5, at most one receiver of kind (R) with s ∈ L ∖ P_x takes {a, s} instead, and the
+  other good goes to the pool;
+- (*recycling*) otherwise, if the last receiver q_k is of kind (R), it takes its top together with its better good of
+  Q_{q_k} ∖ P_x, instead of Q_{q_{k−1}}; the other good of Q_{q_{k−1}} goes to the pool.
 
 **Lemma 7 (path moves, x not big-top).** Let the configuration be as in Lemma 6, with x not big-top. Let τ be a
 terminal with dist(τ) minimal, and τ = q₀ → … → q_k → x a threat path with k = dist(τ). Then the path move gives a
-configuration with larger Ψ. The one possible exception is case (E) below, which requires x to have four goods and at
-least two threatening owners.
+configuration with larger Ψ. The one possible exception is case (E′) below, which requires x to have four goods, at
+least two threatening owners and n ≥ 6.
 
 *Proof.* **Validity.**
 - Receivers of kinds (T3), (T4), (Tg), (D), or (R) with s in the pair get a pair worth more than their holding, hence
@@ -184,9 +187,15 @@ The cases:
   least 1.
 - **(D)** otherwise, every receiver is (T4): all levels on the path rise, r does not fall, and Λ rises by at least 2.
 - **(E)** what remains: τ robust, every receiver of kind (T4) or (R) with s ∈ L ∩ P_x, and at least one of the
-  latter.
+  latter. If the last receiver q_k is of kind (R), recycling makes it robust, and r rises by at least 1:
+  - q_k holds {p, q} ⊆ R ∖ {a}, and s < q by pool-optimality;
+  - it gets its top a (in Q_{q_{k−1}}, Lemma 3) and e ∈ {p, q};
+  - v(a + e) ≥ v(R_{q_k} ∖ {a, e}), since a exceeds the other good of {p, q} and e > s.
 
-**Case (E) with a single threatening owner of x is impossible.**
+  So the open case is **(E′)**: τ robust, every receiver of kind (T4) or (R) with s ∈ L ∩ P_x, at least one of the
+  latter, and q_k of kind (T4).
+
+**Case (E′) with a single threatening owner of x is impossible.**
 1. Free agents are threatened by at most one owner, and x only by q_k. So the threat walk from any terminal, read
    backwards from x, is q_k, q_{k−1}, …, q₁, τ.
 2. τ is robust, hence unthreatened, so the walk starts at τ.
@@ -194,18 +203,19 @@ The cases:
 4. After the plain path move nobody needs g: x holds P_x, worth more than g; τ holds g; nobody else changed or values
    g. This contradicts Lemma 1(c).
 
-**A 3-good x has at most one threatening owner in case (E).** Case (E) has a receiver, so k ≥ 1 and, since
+**A 3-good x has at most one threatening owner in case (E′).** Case (E′) has a receiver, so k ≥ 1 and, since
 dist(τ) is minimal, no terminal threatens x. If both goods of U_x lay in L, every owner would threaten x. So at most
-one of them lies in L, and x is threatened exactly by the holder of U_x ∖ L (Lemma 4: P = U_x). So case (E) does not
+one of them lies in L, and x is threatened exactly by the holder of U_x ∖ L (Lemma 4: P = U_x). So case (E′) does not
 occur for 3-good x. ∎
 
-**Case (E) for 4-good x (open, checked).**
+**Case (E′) for 4-good x (open, checked).**
 
 *Structure.*
 - x has at least two threatening owners.
 - A second terminal exists (Lemma 1(c) applied to the plain move). Its walk to x is disjoint from τ's path, since
-  threatened agents have one threatener and τ has none, and it enters x through another owner. So case (E) needs
-  n ≥ 5: τ, an (R) receiver, x, the second terminal and the second threatening owner.
+  threatened agents have one threatener and τ has none, and it enters x through another owner.
+- The path has an (R) receiver before the (T4) receiver q_k, so k ≥ 2. So case (E′) needs n ≥ 6: τ, an (R) receiver,
+  q_k, x, the second terminal and the second threatening owner.
 - Since k ≥ 1, t = 0. Every (R) receiver has the same fourth good s, which is the only good of P_x in L.
 
 *What is missing.* The plain move changes r by
@@ -217,18 +227,17 @@ in each receiver's own values. Each loss term is at most 3, since s is the recei
 This sum is not positive in general. The modified move would need a robust admissible pair of x without s, which may
 not exist.
 
-*Evidence.* On the samples of §4, case (E) does not occur for n ≤ 4, even with a non-robust terminal; nine case-(E)
-paths occur at n = 5. In every one of them the plain move raised Λ; the checker's L7fail counter, the shortest path
-moves that do not raise Ψ, is 0.
+*Evidence.* Case (E′) never occurs on the samples of §4 (the counter L7rconf is 0), and case (E) is always resolved
+by recycling (L7recycle).
 
-*What would close it.* A proof that in case (E) the plain move, or the path move of another terminal, raises Ψ.
-Lemma 1(c) is the natural tool: for example, when both terminals of a case-(E) pair of walks have three goods, their
-rich pairs {b, c} give a pre-allocation without frozen agents, which is impossible.
+*What would close it.* A proof that in case (E′) the plain move, or the path move of another terminal, raises Ψ.
+Lemma 1(c) is the natural tool: for example, when both terminals of two case-(E) walks have three goods, their rich
+pairs {b, c} give a pre-allocation without frozen agents, which is impossible.
 
 **Theorem F1.** Let a strict profile of a k = 4 core have fewest frozen agents 1 and ω ≥ 1. Let c maximize Ψ = (r, Λ)
 over all configurations. If c's frozen agent x is 3-good, then some owner of c is valid with C = ∅, and C₄ᵐⁱⁿ holds on
-the profile (`k4/c4min.md` Lemma 1(a)). The same holds when x has four goods and is not big-top, given case (E) of
-Lemma 7.
+the profile (`k4/c4min.md` Lemma 1(a)). The same holds when x has four goods and is not big-top, given case (E′) of
+Lemma 7, in particular whenever n ≤ 5.
 
 *Proof.* Suppose no owner is valid with C = ∅.
 - By Lemma 2, c is pool-optimal.
@@ -253,7 +262,7 @@ used; nor is the rule that every good is relevant to someone, which Theorem Z ne
 - (b) At a Ψ-maximum without an owner valid with C = ∅, some owner threatens x. So Theorem F1 also holds for a big-top x
   when ω = 1, and whenever no owner threatens x.
 - (c) At such a maximum, let τ be a terminal at minimal distance and consider the path move along a shortest path
-  (P_x = {b_x, c_x}). Then, except in case (E) of Lemma 7:
+  (P_x = {b_x, c_x}). Then, except in case (E′) of Lemma 7:
   - τ is robust and threatens x directly (k = 0);
   - the move is a tie in Ψ: r is unchanged, x's level falls by exactly 1 and τ's rises by exactly 1.
 - (d) In that tie, if τ is not big-top, the moved configuration c′ is again a Ψ-maximum whose frozen agent is not
@@ -316,15 +325,15 @@ potentials, owners with and without the unfreezing clause, kinds, threat digraph
 | pool-optimal ones without owner | 1,440 | 1,407,032 |
 | Lemma 3 (kinds, at most one threatener) violations | 0 | 0 |
 | Lemma 5: rotations / not raising Ψ | 0 / 0 | 367,488 / 0 |
-| Lemma 7: shortest path moves, x not big-top / not raising Ψ / case (E) | 0 / 0 / 0 | 671,672 / 0 / 0 |
+| Lemma 7: shortest path moves, x not big-top / not raising Ψ / case (E′) | 0 / 0 / 0 | 671,672 / 0 / 0 |
 | coverage: a Ψ-maximum with a 3-good frozen agent | 0 | 60,974 |
 | … else one with a 4-good frozen agent that is not big-top | 0 | 3,422,442 |
 | … else every Ψ-maximum big-top with ω = 1 (Lemma 8(b)) | 576 | 2,035,664 |
 | … else every Ψ-maximum big-top, ω ≥ 2 (§3): some Ψ-maximum completable / none | 720 / 0 | 1,765,336 / 128 |
 | Φ′ = (−t, r, Λ, −p): profiles with a non-completable maximum | 0 | 0 |
 
-So Theorem F1 and Lemma 8(b) prove C₄ᵐⁱⁿ on 5,519,080 of the 7,284,544 n = 3 profiles with f = 1 (75.8%). Case (E)
-cannot occur for n ≤ 4 (§2), so these proofs are complete there. With Theorems Z and F (`k4/c4min.md` §4 table), the
+So Theorem F1 and Lemma 8(b) prove C₄ᵐⁱⁿ on 5,519,080 of the 7,284,544 n = 3 profiles with f = 1 (75.8%). Case (E′)
+cannot occur for n ≤ 5 (§2), so these proofs are complete there. With Theorems Z and F (`k4/c4min.md` §4 table), the
 written proofs cover 117,875,052 of the 119,640,516 n = 3 profiles with ω ≥ 1 (98.5%). The rest are exactly the
 1,765,464 f = 1 profiles whose Ψ-maxima all have a big-top frozen agent and ω ≥ 2; n = 3 has no f ≥ 2 profile without
 a frozen-robust configuration.

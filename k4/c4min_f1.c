@@ -22,8 +22,9 @@
    non-completable ones): Lemma 1 (terminals have top g, some agent needs g); Lemma 2 (every value-raising pool move
    raises Psi); at pool-optimal ones Lemma 3 (robust free agents unthreatened, the others threatened by at most one
    owner, the kinds), Lemma 5 (every rotation of every cycle of the threat digraph through free agents raises Psi),
-   Lemma 7 (x not big-top: every shortest path move from a terminal raises Psi; L7rconf counts the moves with a
-   robust terminal and an (R) receiver whose fourth good lies in the pool and in x's pair), and for big-top x the
+   Lemma 7 (x not big-top: every shortest path move from a terminal raises Psi; L7recycle counts the moves in case
+   (E) resolved by recycling at the last receiver, L7rconf those in case (E'): a robust terminal and an (R) receiver
+   whose fourth good lies in the pool and in x's pair, the last receiver not of kind (R)), and for big-top x the
    outcomes of the path moves (Lemma 8).
    A failed assertion prints ASSERT and the profile and exits with code 4.
 
@@ -162,7 +163,7 @@ static void configs_for_key(const nkey_t *K) {
 /* ---- counters ---- */
 static long long cov3, cov4, covbt1, covbt, covbtc, phi1fail, phi1fail_bt;
 static long long nprof, nf1, ncfgs, nmaxrl, nmaxrl_bt, f1fail, starfail, rltfail, nnoown;
-static long long L2pool, L2fail, Lpo, L5cyc, L5fail, L7paths, L7fail, L7rconf, L8[4][3], nL8cfg;
+static long long L7rec, L8rec, L2pool, L2fail, Lpo, L5cyc, L5fail, L7paths, L7fail, L7rconf, L8[4][3], nL8cfg;
 static int exf1, exstar, exrlt, exl2, exl5, exl7, exrc;
 
 static void die(const char *what, const cfg_t *c) {
@@ -225,9 +226,10 @@ static mask_t best_pair(int i, mask_t S) {
   for (mask_t a = T; a; a &= a - 1) for (mask_t b = a & (a - 1); b; b &= b - 1) { mask_t P = (a & -a) | (b & -b); int w = val(i, P); if (w > bv) { bv = w; best = P; } }
   return best;
 }
-/* Lemma 7: path q[0] = tau -> q[1] -> ... -> q[k] -> x */
+/* Lemma 7: path q[0] = tau -> q[1] -> ... -> q[k] -> x. Returns 1 in case (E') (an (R) receiver whose fourth good lies
+   in L ∩ P_x and no other rule applies), 2 if the last receiver was recycled (case (E) with q_k of kind (R)), else 0. */
 static int path_move(const cfg_t *c, const int *q, int k, cfg_t *out) {
-  int x = c->xf, tau = q[0], pr = 0, mod = -1, rconf = 0;
+  int x = c->xf, tau = q[0], pr = 0, mod = -1, rconf = 0, rec = -1;
   mask_t Px = best_pair(x, c->H[q[k]] | c->L);
   if (pc(Px) != 2) die("Lemma 7: x has no pair", c);
   *out = *c;
@@ -235,16 +237,25 @@ static int path_move(const cfg_t *c, const int *q, int k, cfg_t *out) {
   if (!pr) {
     for (int j = 1; j <= k; j++) if (kind[q[j]] == K_R && (c->L & ~Px & BIT(sgood[q[j]]))) { mod = q[j]; break; }
     if (mod < 0) for (int j = 1; j <= k; j++) if (kind[q[j]] == K_R && (c->L & BIT(sgood[q[j]]))) rconf = 1;
+    if (mod < 0 && k >= 1 && kind[q[k]] == K_R && (c->L & Px & BIT(sgood[q[k]]))) rec = q[k];
   }
   for (int j = 1; j <= k; j++) {
     int y = q[j]; mask_t S = c->H[q[j - 1]];
     if (y == mod) { mask_t a = BIT(top(y)); out->L |= S & ~a; out->L &= ~BIT(sgood[y]); S = a | BIT(sgood[y]); }
+    if (y == rec) {   /* q_k keeps its better good of its old pair that x does not take, with its top */
+      mask_t a = BIT(top(y)), e = c->H[y] & ~Px;
+      if (!(S & a) || !e) die("Lemma 7: recycling", c);
+      if (pc(e) == 2) { mask_t e1 = e & -e, e2 = e & ~e1; e = vv[y][__builtin_ctzll(e1)] > vv[y][__builtin_ctzll(e2)] ? e1 : e2; }
+      out->L |= S & ~a; S = a | e;
+    }
     out->H[y] = S;
   }
-  out->L |= c->H[q[k]] & ~Px; out->L &= ~Px;
+  out->L |= c->H[q[k]] & ~Px & ~(rec >= 0 ? out->H[rec] : 0);
+  out->L &= ~Px;
   out->H[x] = Px; out->H[tau] = gbit; out->xf = tau;
   check_valid(out, "Lemma 7: path move is not a configuration");
-  return rconf;
+  if (rec >= 0 && !robust(out, rec)) die("Lemma 7: recycled receiver not robust", c);
+  return rec >= 0 ? 2 : rconf;
 }
 
 static int T[MAXN];   /* threat digraph: bitmask of victims of free owner o (with C = {}) */
@@ -262,7 +273,8 @@ static void paths_from(const cfg_t *c, int u, int len, int want, int *r0, int *l
   /* pth[0..len-1] is the path so far, ending at u */
   if (len - 1 == want) {
     if (!(T[u] >> c->xf & 1)) return;
-    cfg_t o; int rc = path_move(c, pth, len - 1, &o) && kind[pth[0]] == K_ROB; int r, l; psi(&o, &r, &l);
+    cfg_t o; int ret = path_move(c, pth, len - 1, &o), rc = ret == 1 && kind[pth[0]] == K_ROB; int r, l; psi(&o, &r, &l);
+    if (ret == 2 && kind[pth[0]] == K_ROB) { if (bt) L8rec++; else L7rec++; }
     int s = cmp2(r, l, *r0, *l0);
     if (!bt) { L7paths++; L7rconf += rc; if (s <= 0) { L7fail++; if (exl7 < nex) { exl7++; show("Lemma 7 shortest path move does not raise Psi", c); } }
       if (rc && exrc < nex) { exrc++; printf("EX Lemma 7 R-conflict, Psi %s, path", s > 0 ? "up" : s == 0 ? "tie" : "down"); for (int j = 0; j <= want; j++) printf(" %d", pth[j]); show("", c); } }
@@ -414,9 +426,9 @@ int main(int argc, char **argv) {
   }
   printf("RESULT profiles %lld f1 %lld configs %lld noowner0 %lld maxrl %lld maxrl_bt %lld f1fail %lld starfail %lld rltfail %lld"
          " cov3 %lld cov4 %lld btomega1 %lld btonly %lld btonly_comp %lld phi1fail %lld phi1fail_btonly %lld"
-         " L2pool %lld L2fail %lld poolopt %lld L5cyc %lld L5fail %lld L7paths %lld L7rconf %lld L7fail %lld L8cfg %lld"
+         " L2pool %lld L2fail %lld poolopt %lld L5cyc %lld L5fail %lld L7paths %lld L7recycle %lld L7rconf %lld L7fail %lld L8cfg %lld L8recycle %lld"
          " L8k0down %lld L8k0tie %lld L8k0up %lld L8k1down %lld L8k1tie %lld L8k1up %lld L8k2down %lld L8k2tie %lld L8k2up %lld L8rcdown %lld L8rctie %lld L8rcup %lld\n",
-         nprof, nf1, ncfgs, nnoown, nmaxrl, nmaxrl_bt, f1fail, starfail, rltfail, cov3, cov4, covbt1, covbt, covbtc, phi1fail, phi1fail_bt, L2pool, L2fail, Lpo, L5cyc, L5fail, L7paths, L7rconf, L7fail, nL8cfg,
+         nprof, nf1, ncfgs, nnoown, nmaxrl, nmaxrl_bt, f1fail, starfail, rltfail, cov3, cov4, covbt1, covbt, covbtc, phi1fail, phi1fail_bt, L2pool, L2fail, Lpo, L5cyc, L5fail, L7paths, L7rec, L7rconf, L7fail, nL8cfg, L8rec,
          L8[0][0], L8[0][1], L8[0][2], L8[1][0], L8[1][1], L8[1][2], L8[2][0], L8[2][1], L8[2][2], L8[3][0], L8[3][1], L8[3][2]);
   return 0;
 }

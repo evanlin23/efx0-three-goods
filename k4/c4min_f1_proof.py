@@ -9,7 +9,8 @@ For every configuration without an owner that is valid with C = {} (a superset o
      threatened by nobody, every other free agent by at most one owner (Lemma 3), with the kinds of Lemma 3;
   3. if the threat digraph has a cycle through free agents only, the rotation of Lemma 5 raises Psi;
   4. otherwise every walk from a terminal tau along threat edges reaches x, and the path move of Lemma 7 along it
-     raises Psi when x is not big-top. For big-top x the outcome is recorded by case (Lemma 8).
+     (with the modification and the recycling rules) raises Psi when x is not big-top. For big-top x the outcome is
+     recorded by case (Lemma 8).
 Every choice of cycle, terminal and path is checked, not only one.
 usage: python3 k4/c4min_f1_proof.py FILE [--rand=N] [--seed=S] [--ex=K]"""
 import collections, itertools, os, random, sys, time
@@ -85,25 +86,34 @@ def rotation(c, cyc, kinds):
 def path_move(c, path, x, kinds, xty):
     """Lemma 7: path = [tau = q_0, q_1, ..., q_k], q_{i+1} threatened by q_i, x threatened by q_k. q_{i+1} receives
     Q_{q_i}; x receives its best pair P_x inside (Q_{q_k} ∪ L) ∩ U_x (the rest of Q_{q_k} goes to the pool); tau
-    receives g and becomes frozen. At most one (R) receiver with s in L \\ P_x takes {a, s} instead, used only when no
-    receiver becomes robust by the plain move. Returns (config, case)."""
+    receives g and becomes frozen. When no receiver becomes robust by the plain move: at most one (R) receiver with s in
+    L \\ P_x takes {a, s} instead (case C); otherwise, if q_k is of kind (R) (its s then lies in L ∩ P_x), q_k keeps its
+    better good of Q_{q_k} \\ P_x with its top (recycling, case E). Returns (config, case)."""
     pr = c.pr; g = next(iter(c.NA)); tau = path[0]
     Q = dict(c.Q); L = set(c.L)
     Px = best_pair(pr, x, c.Q[path[-1]] | c.L, c.U[x])
     recv = path[1:]
     pred = {path[i + 1]: path[i] for i in range(len(path) - 1)}
     plain_robust = any(kinds[y][0] in ('T3', 'Tg', 'D') or (kinds[y][0] == 'R' and kinds[y][1] in c.Q[pred[y]]) for y in recv)
-    mod = None; case = []
+    mod = rec = None; case = []
     if not plain_robust:
         mod = next((y for y in recv if kinds[y][0] == 'R' and kinds[y][1] in c.L - Px), None)
-        if mod is None and any(kinds[y][0] == 'R' and kinds[y][1] in c.L for y in recv): case.append('R-conflict')
+        if mod is None and recv and kinds[recv[-1]][0] == 'R' and kinds[recv[-1]][1] in c.L & Px:
+            rec = recv[-1]; case.append('recycled')
+        elif mod is None and any(kinds[y][0] == 'R' and kinds[y][1] in c.L for y in recv): case.append('R-conflict')
+    keep = frozenset()
     for y in recv:
         S = c.Q[pred[y]]
+        a = max(pr.vals[y], key=lambda z: pr.vals[y][z])
         if y == mod:
-            a = max(pr.vals[y], key=lambda z: pr.vals[y][z]); s = kinds[y][1]
+            s = kinds[y][1]
             L |= S - {a}; L.discard(s); S = frozenset({a, s})
+        if y == rec:
+            e = max(c.Q[y] - Px, key=lambda z: pr.vals[y].get(z, 0))
+            assert a in S
+            L |= S - {a}; S = frozenset({a, e}); keep = frozenset({e})
         Q[y] = S
-    L |= c.Q[path[-1]] - Px; L -= Px
+    L |= (c.Q[path[-1]] - Px) - keep; L -= Px
     del Q[tau]; Q[x] = Px
     phi = list(c.phi); phi[x] = None; phi[tau] = frozenset({g})
     c2 = Config(pr, c.NA, tuple(phi), Q, frozenset(L))
@@ -112,6 +122,7 @@ def path_move(c, path, x, kinds, xty):
     assert len(used) == 2 * len(Q) and not (used & c.NA) and not (used & c2.L) and len(used) + len(c2.L) + 1 == pr.m
     for i in range(pr.n):
         assert not (needs(pr.vals[i], c2.H(i)) - c.NA), 'path move: needs outside N'
+    if rec is not None: assert c2.robust(rec), 'recycled receiver not robust'
     case.append('tau robust' if kinds[tau][0] == 'rob' else 'tau not robust')
     case.append(f'k={len(recv)}' if len(recv) <= 1 else 'k>=2')
     return c2, ' '.join(case)
