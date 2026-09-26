@@ -1,0 +1,4 @@
+H_1 depth 0: states=1 (state,owner,conv) cases=12 SAT=0 brute SAT=0 mismatches=0 max leaves=3393 total leaves=7242
+H_1 depth 1: states=6 (state,owner,conv) cases=72 SAT=28 brute SAT=28 mismatches=0 max leaves=3393 total leaves=25239
+H_1 depth 2: states=7 (state,owner,conv) cases=84 SAT=40 brute SAT=40 mismatches=0 max leaves=3393 total leaves=10093
+MISMATCHES: [] time 0s
