@@ -15,14 +15,17 @@ Workstream `proof/k4-strategy` (`k4/strategy.md` §2.1). Ledger row K4.STRAT.X.
 
 `k4/suite/predicates.py` (`count`) asserts that the certificate yields such an owner whenever it holds.
 
-**Result: it fails at n = 3.**
+**Result: it fails at n = 2.** COUNT implies SIMPLE, and SIMPLE fails on the 720 n = 2 category-W profiles of #53.
 - It fails on 1,408 of the 74,256 profiles of #53's n = 3 gap catalogue (every 100th gap profile plus every hard one).
 - It also fails on the n = 4 and n = 5 samples (`results/k4_strategy/count_sweep.log`, run with #53's bench, every
   counterexample re-derived by #53's `gap_model`).
 - SIMPLE (some configuration has a valid owner with C = ∅) holds on every one of those profiles. So the configurations
   that complete are not the ones the count sees.
 
-**Smallest failing configuration found:** n = 3, m = 8 (`k4/suite/instances/count-n3m8.json`).
+**Smallest failing configuration:** n = 2, m = 5 (`k4/suite/instances/gap-w-n2-m5.json`, core 3 of
+`results/k4_certs_2.json.gz`): agents {0, 2, 3, 4} and {1, 2, 3, 4}, both with values 2, 3, 6, 10; f = 1, ω = 2, best
+r′ − |D| = 0 (`python3 k4/suite/run.py count --only=gap-w-n2-m5`: FAILS in both implementations). The first n = 3 one
+in the catalogue sweep is `count-n3m8` (`k4/suite/instances/count-n3m8.json`):
 - Sets and values:
   - agent 0: goods {0, 2, 6, 7} with values 3, 6, 2, 10;
   - agent 1: goods {1, 4, 6, 7} with values 3, 6, 2, 10;

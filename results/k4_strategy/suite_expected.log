@@ -1,5 +1,7 @@
-# command: python3 k4/suite/run.py --expected --timeout=600
+# command: python3 k4/suite/run.py --expected
 # instances: 150
+adaptive-cover-multi4        pareto-T:low       refuted  suite: FAILS (4 Pareto-maxima, 2 not completable (removal-only))
+c4-lbplus-rotation-n3m6      psd2               refuted  suite: FAILS (fails for agents [1])  induct: FAILS (fails for agents [1])
 c4min-pareto-n3-m7           cfg:pareto         refuted  suite: FAILS (5 Pareto-maximal configurations, 3 not completable)  gap: FAILS (5 Pareto-maximal configurations, 3 not completable)
 c4min-phi-n4-m8-n4pc72       phi                refuted  suite: FAILS (4 maxima, 2 not completable (max (0, 2, 23)))  gap: FAILS (4 maxima, 2 not completable (max (0, 2, 23)))
 c4min-phi-n4-m9-n43c274      phi                refuted  suite: FAILS (8 maxima, 3 not completable (max (0, 2, 22)))  gap: FAILS (8 maxima, 3 not completable (max (0, 2, 22)))
@@ -9,6 +11,7 @@ c4min-rlam-n3-m8-n3c46       cfg:r,lam          refuted  suite: FAILS (3 maxima,
 c4min-tlam-n3-m6             cfg:-t,lam         refuted  suite: FAILS (4 maxima, 3 not completable (max (0, 14)))  gap: FAILS (4 maxima, 3 not completable (max (0, 14)))
 c4min-tleximin-n4-m7         cfg:-t,leximin     refuted  suite: FAILS (4 maxima, 1 not completable (max (0, (2, 3, 3, 6))))  gap: FAILS (4 maxima, 1 not completable (max (0, (2, 3, 3, 6))))
 c4x-n2m5-frozen              pre-every:-frozen  refuted  suite: FAILS (8 maxima, 7 completable)  c4x: FAILS (8 maxima, 7 completable)
+c4x-n3m5-big-bases           pareto-T:bt        refuted  suite: FAILS (3 Pareto-maxima, 1 not completable (removal-only))
 c4x-n3m6-onefour-a           pre-every:(-frozen,sumlev) refuted  suite: FAILS (4 maxima, 2 completable)  c4x: FAILS (4 maxima, 2 completable)
 c4x-n3m6-onefour-a           pre-every:sumlev   refuted  suite: FAILS (4 maxima, 2 completable)  c4x: FAILS (4 maxima, 2 completable)
 c4x-n3m6-onefour-b           pre-every:pareto   refuted  suite: FAILS (4 maxima, 2 completable)  c4x: FAILS (4 maxima, 2 completable)
@@ -35,6 +38,7 @@ gap-phi-w-n4-m10-pure178     phi                refuted  suite: FAILS (2 maxima,
 gap-phi-w-n4-m10-pure178     phi-prime          refuted  suite: FAILS (2 maxima, 1 not completable (max (0, 2, 26, -4)))  gap: FAILS (2 maxima, 1 not completable (max (0, 2, 26, -4)))
 gap-phifirst-n4-m9-n4pc133   phi                refuted  suite: FAILS (4 maxima, 2 not completable (max (0, 2, 24)))  gap: FAILS (4 maxima, 2 not completable (max (0, 2, 24)))
 gap-w-n2-m5                  max-simple         refuted  suite: FAILS (2 maxima)  gap: FAILS (2 maxima)
+gap-w-n2-m5                  count              refuted  suite: FAILS (best r'-|D| = (0,))  gap: FAILS ()
 gap-w-n4-m10-pure179         max-simple         refuted  suite: FAILS (1 maxima)  gap: FAILS (1 maxima)
 gap-w-n4-m8-pure117          max-simple         refuted  suite: FAILS (1 maxima)  gap: FAILS (1 maxima)
 gap-w-n4-m8-pure120          max-simple         refuted  suite: FAILS (2 maxima)  gap: FAILS (2 maxima)
@@ -47,6 +51,7 @@ hall-local3                  pareto             refuted  suite: FAILS (4 maxima,
 hall-local3                  pareto-T:bt        refuted  suite: FAILS (6 Pareto-maxima, 1 not completable (removal-only))
 hall-local3                  pareto-T:low       refuted  suite: FAILS (5 Pareto-maxima, 1 not completable (removal-only))
 hall-local3                  pre-every:pareto   refuted  suite: FAILS (4 maxima, 3 completable)  c4x: FAILS (4 maxima, 3 completable)
+induct-gps-q4-b              pareto-T:bt        refuted  suite: FAILS (4 Pareto-maxima, 1 not completable (removal-only))
 lb4-n2m5-upgrade             pre-every:(-frozen,slots) refuted  suite: FAILS (2 maxima, 1 completable)  c4x: FAILS (2 maxima, 1 completable)
 lil-noncore-n3               lil                refuted  red: FAILS (98 non-completable configurations, 1 stuck)  gap: FAILS (98 non-completable configurations, 1 stuck)
 lil-text-n3                  lil-text           refuted  suite+red_lib: FAILS (5 non-completable configurations, 1 stuck)

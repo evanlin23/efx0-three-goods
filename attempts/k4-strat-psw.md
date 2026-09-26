@@ -23,8 +23,13 @@ Workstream `proof/k4-strategy` (`k4/strategy.md` §2.2). Ledger row K4.STRAT.X.
 - So the induction that strips private goods one at a time reaches a false statement, starting from a core where
   everything holds.
 
+*Scope (PR #56 review).* As literally stated (every instance J and every W), PS_W is trivially false: two agents
+sharing one good, with W = both. The twins show more: it fails on an instance derived from a core by removing the
+private goods of the agents of W. If the induction never removes w*'s own private good (the step removes p of an agent
+i ≠ w*), the twins reach only PS_{0,1}(I − 1), which holds; whether that narrower form fails is not settled here.
+
 The restriction that would save it ("W = agents that had private goods in the original core") is not a property of the
-smaller instance, so it is not inductive. In the minimal-counterexample literature this configuration (a degree-2 good
+smaller instance, so it is not inductive. In `k4/MINCEX.md` this configuration (a degree-2 good
 shared by two P3 agents) is removed by a gadget reduction (K4.MC3), not by a hypothesis.
 
 **Replay.** `python3 attempts/k4_strat_attempts.py`, with this PR's SAT encoding (`k4/suite/model.py`) and #43's

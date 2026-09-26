@@ -160,6 +160,7 @@
  },
  "notes": "k4/gap.md section 3, W: 'n = 2, m = 5, with 720 profiles at n = 2 (#41 found them too). The smallest has sets {0, 2, 3, 4}, {1, 2, 3, 4} and values 0:2, 2:3, 3:6, 4:10 and 1:2, 2:3, 3:6, 4:10. Both Phi'-maxima have one frozen agent on good 4, which only the owner needs. The owner completes only by withholding its partner's private good into the unfrozen agent's slot.'\nrecord (results/k4_gap/hard_base.json.gz, category field 'W'): f = 1, omega = 2, 6 configurations (6 with a valid owner, 0 with C empty), 2 Phi'-maxima at Phi' = [0, 1, 13, -1] (2 with a valid owner, 0 with C empty, 2 pool-optimal, 0 with a frozen agent threatened by two owners); core idx field 1",
  "expect_fail": [
-  "max-simple"
+  "max-simple",
+  "count"
  ]
 }

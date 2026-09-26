@@ -24,6 +24,7 @@ def kstar(d, cap=6):
         dist = min((sum(1 for a, b in zip(Bs, B2) if a != b) for B2 in mp if df[B2] < df[Bs]), default=None)
         if dist is None: stuck.append(Bs); continue
         worst = max(worst, dist)
+    if stuck: worst = float('inf')   # a global minimum with def > 0: C4min fails, no finite k works
     mn = min(df.values())
     return worst, 'min def %s, %d min-frozen P, %d with def > 0, %d global minima of def > 0' % (
         mn if mn < INF else 'inf', len(mp), sum(1 for x in df.values() if x > 0), len(stuck))
@@ -34,6 +35,7 @@ if __name__ == '__main__':
     for f in sorted(glob.glob(os.path.join(HERE, 'instances', '*.json'))):
         d = json.load(open(f))
         if ids and d['id'] not in ids: continue
+        if 'kind' in d: continue   # local configurations of k4/MINCEX.md, not complete instances
         if len(d['sets']) > 6: continue
         k, det = kstar(d)
         print('%-36s n=%d  k*=%s  %s' % (d['id'], len(d['sets']), k, det), flush=True)

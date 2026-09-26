@@ -15,8 +15,15 @@ frozen big-top agent cannot be "rotated" onto a better base inside 𝒫. Add the
 
 **Statement tried** (Theorem K3's): every Pareto-maximal P of 𝒫_T is (removal-only) completable.
 
-**Result.** The triple spaces repair six of the eight Pareto counterexamples of 𝒫 tested: the n = 3 profiles of
-`attempts/k4-c4x-pareto-potentials.md` and `hall-btown-core46`. Two remain:
+**Result.** Of the eight Pareto counterexamples of 𝒫 first tested, the triple spaces repair six: the n = 3 profiles of
+`attempts/k4-c4x-pareto-potentials.md` and `hall-btown-core46`. Run on the whole suite, they fail on smaller instances
+(found by the PR #56 review, confirmed with `triples.pareto_every`):
+- **𝒫_low, n = 2, m = 4: `adaptive-cover-multi4`**: twins on {0, 1, 2, 3} valued 2, 4, 5, 8. At the Pareto-maximum
+  {3} | {0, 1, 2}, agent 0 values {0, 1, 2} ∖ 0 at 9 > 8, and there is no junk.
+- **𝒫_bt, n = 3, m = 5: `c4x-n3m5-big-bases`** (also `induct-gps-q4-b`): the big-top agent 0 holds {0, 2, 4}, which
+  agent 2 values at 5 > 4 after removing good 0.
+
+The two of the eight that remain:
 - **n = 3, m = 7: `hall-local3`**:
   - sets and values: agent 0 values {0, 1, 2, 3} at 3, 2, 10, 6; agent 1 values {2, 4, 5, 6} at 8, 2, 3, 4; agent 2
     values {3, 4, 5, 6} at 7, 3, 5, 6.
@@ -28,5 +35,9 @@ frozen big-top agent cannot be "rotated" onto a better base inside 𝒫. Add the
   {2, 5} | {0, 3} | {4} | {6} of 𝒫 stays Pareto-maximal and non-completable in every 𝒫_T.
 - 𝒫_any also breaks `c4-pareto-moves-n3m6`, which 𝒫 and 𝒫_bt pass.
 
+**Smallest failing configurations:** 𝒫_low at n = 2, m = 4 (`adaptive-cover-multi4`); 𝒫_bt at n = 3, m = 5
+(`c4x-n3m5-big-bases`); for frozen agents that are not big-top, n = 4 (`hall-bt4`).
+
 **Replay.** `python3 attempts/k4_strat_attempts.py` (single implementation: `k4/suite/triples.py`). The runner has
-`pareto-T:bt` and `pareto-T:low` (`python3 k4/suite/run.py --expected --only=hall-local3,hall-bt4`).
+`pareto-T:bt` and `pareto-T:low` (`python3 k4/suite/run.py --expected --only=hall-local3,hall-bt4,adaptive-cover-multi4,c4x-n3m5-big-bases,induct-gps-q4-b`).
+The claim about 𝒫_any and `c4-pareto-moves-n3m6` is not replayed by the script.

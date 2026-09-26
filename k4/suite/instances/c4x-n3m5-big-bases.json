@@ -57,5 +57,8 @@
    "smallest": true
   }
  ],
- "notes": "Instance 3 of k4-c4x-variant-spaces.md ('smallest n'; none at n = 2, exhaustive). Replay run: '-frozen [big]: 9 valid, 7 completable; ... some-form failure confirmed'. [Certified-core lookup by the generator (not from the source): identical sets (same agent order and labels): core 7 of results/k4_certs_3.json.gz. Core k = 0-based position in the file's \"cores\" list, as the sources use it.]"
+ "notes": "Instance 3 of k4-c4x-variant-spaces.md ('smallest n'; none at n = 2, exhaustive). Replay run: '-frozen [big]: 9 valid, 7 completable; ... some-form failure confirmed'. [Certified-core lookup by the generator (not from the source): identical sets (same agent order and labels): core 7 of results/k4_certs_3.json.gz. Core k = 0-based position in the file's \"cores\" list, as the sources use it.]",
+ "expect_fail": [
+  "pareto-T:bt"
+ ]
 }

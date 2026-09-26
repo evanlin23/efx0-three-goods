@@ -1,4 +1,4 @@
-# command: python3 k4/suite/deficit_local.py   (every suite instance with omega >= 1 and n <= 6; k* as defined in k4/strategy.md §2.1)
+# command: python3 k4/suite/deficit_local.py   (every suite instance with omega >= 1 and n <= 6, local configurations skipped; k* as defined in k4/strategy.md §2.1; inf if some global minimum of def is > 0)
 adaptive-cover-multi4                n=2  k*=None  omega<=0
 adaptive-p1                          n=3  k*=None  omega<=0
 adaptive-p3                          n=3  k*=None  omega<=0
@@ -138,11 +138,6 @@ ls-simple-split-n4m6                 n=4  k*=None  omega<=0
 ls-single-dump-n4m7                  n=4  k*=None  omega<=0
 lsp-bounded-coalitions-n4m7          n=4  k*=None  omega<=0
 lsp-early-stop-n4m7                  n=4  k*=None  omega<=0
-mincex-drop-private-p3               n=1  k*=0  min def 0, 4 min-frozen P, 0 with def > 0, 0 global minima of def > 0
-mincex-px-open-q3-swapped            n=2  k*=0  min def 0, 10 min-frozen P, 0 with def > 0, 0 global minima of def > 0
-mincex-px-open-q3                    n=2  k*=0  min def 0, 10 min-frozen P, 0 with def > 0, 0 global minima of def > 0
-mincex-twins                         n=2  k*=None  omega<=0
-mincex-xy-p4p4-open                  n=2  k*=1  min def 0, 21 min-frozen P, 1 with def > 0, 0 global minima of def > 0
 nsw-local-n3m5                       n=3  k*=None  omega<=0
 nsw-strict-n4m8                      n=4  k*=0  min def -2, 11 min-frozen P, 0 with def > 0, 0 global minima of def > 0
 nsw-strict-n4m9                      n=4  k*=0  min def -2, 10 min-frozen P, 0 with def > 0, 0 global minima of def > 0

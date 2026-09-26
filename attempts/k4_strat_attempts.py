@@ -27,11 +27,17 @@ a, b = PR.count_suite(d), PR.count_gap(d)
 c1, c2 = PR.cfg_suite(d), PR.cfg_gap(d)
 say('COUNT fails at n = 3, m = 8 (count-n3m8)', a[0] is False and b[0] is False and c1[0] and c2[0],
     'COUNT suite/gap: %s/%s; C4min configuration form suite/gap: %s/%s' % (a[0], b[0], c1[0], c2[0]))
+d = load('gap-w-n2-m5')   # the smallest: COUNT implies SIMPLE, and SIMPLE fails on #53's category-W profiles
+a, b = PR.count_suite(d), PR.count_gap(d)
+c1, c2 = PR.cfg_suite(d), PR.cfg_gap(d)
+say('COUNT fails at n = 2, m = 5 (gap-w-n2-m5, smallest)', a[0] is False and b[0] is False and c1[0] and c2[0],
+    'COUNT suite/gap: %s/%s; C4min configuration form suite/gap: %s/%s' % (a[0], b[0], c1[0], c2[0]))
 
 # 2. triple spaces (attempts/k4-strat-triples.md): Pareto-maxima of P_bt / P_low not completable
-for iid in ('hall-local3', 'hall-bt4'):
+for iid, modes in (('hall-local3', ('bt', 'low')), ('hall-bt4', ('bt', 'low')), ('adaptive-cover-multi4', ('low',)),
+                   ('c4x-n3m5-big-bases', ('bt',)), ('induct-gps-q4-b', ('bt',))):
     d = load(iid); I = M.Inst(d['sets'], d['vals'])
-    for mode in ('bt', 'low'):
+    for mode in modes:
         S = T.TSpace(I, mode)
         bad = [(Bs, NA) for Bs, NA in S.pareto_max() if not S.removal_only(Bs)[0]]
         full = [S.completable_full(Bs)[0] for Bs, NA in bad]

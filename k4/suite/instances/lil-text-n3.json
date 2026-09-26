@@ -76,9 +76,13 @@
  "source": {
   "pr": 51,
   "branch": "proof/k4-c4min-reduce",
-  "files": [],
-  "found_by": "an independent reviewer of PR #51 (relayed by the coordinator, session_01FedrY8zhKxDt2SPcFo2gQW); in no repository before this suite",
-  "replay": "k4/suite/run.py --expected --only=ID; k4/suite/lil_text.py"
+  "files": [
+   "attempts/k4-c4min-reduce-lil.md",
+   "attempts/k4_c4min_reduce_lil.py"
+  ],
+  "found_by": "an independent reviewer of PR #51 (relayed by the coordinator, session_01FedrY8zhKxDt2SPcFo2gQW)",
+  "replay": "k4/suite/run.py --expected --only=ID; k4/suite/lil_text.py",
+  "on_main": "N1 of main's attempts/k4-c4min-reduce-lil.md (#51, merged), replayed there with two implementations (red.c, red_lil.py); re-derived here independently before #51 merged"
  },
  "refutes": [
   {

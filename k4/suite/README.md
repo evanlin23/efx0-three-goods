@@ -10,18 +10,20 @@ test, not a certificate.
 
 - `instances/*.json`: 155 records, 150 complete instances and 5 local configurations of `k4/MINCEX.md` (marked
   `"kind"`, skipped by the runner). Collected from main and from the branches of PRs #37, #41, #43, #44, #45, #50, #51,
-  #53 (read with `git show`, never edited), plus three instances that were in no repository: the non-core counterexample
-  to #51's local improvement lemma found by #51's referee (`lil-noncore-n3`) and two counterexamples to its text
-  catalogue from #51's reviewers (`lil-text-n3`, `lil-text-n4`), all re-derived here; and this PR's own `count-n3m8`.
+  #53 (read with `git show`, never edited), plus three instances from #51's review, now on main in
+  `attempts/k4-c4min-reduce-lil.md` (N1 = `lil-text-n3`, N2 = `lil-text-n4`: #51's narrow catalogue; NC =
+  `lil-noncore-n3`: the broad catalogue without the private-goods rule), re-derived here independently; and this PR's
+  own `count-n3m8`.
 - `model.py`: this workstream's own implementation of the objects, written from the definitions (k4/c4x.md §1,
   k4/c4min.md §1, §3.6, §4, k4/hall.md §1): 𝒫, needs, frozen agents, keys, configurations, valid owners with the
   unfreezing clause, the removal-only deficit, completions, the potentials t, r, Λ, p, Φ, Φ′, and an own SAT encoding of
   EFX₀ / D2 / "w unenvied" (every model re-checked by the raw definition; self-test against plain enumeration: 1,800
-  random instances, 0 mismatches).
+  random instances, 0 mismatches; not logged).
 - `ext.py`: adapters to the other workstreams' independent tools, imported from the working tree when merged, else
   from the pinned branch head via `git show` into `.cache/` (gitignored): #53's `k4/gap_model.py` (245040b), #51's
   `k4/red_lib.py` and `k4/red_lil.py` (827c76f), #43's `k4/induct_sat.py` (29e91b4), #44's `k4/adaptive.c` (146d31b),
-  main's `k4/hall_check.py` and `k4/c4x_check.py`.
+  main's `k4/hall_check.py` and `k4/c4x_check.py`. All these PRs are now merged, so the working-tree files are used
+  (main's `red_lil.py` differs from the 827c76f pin; `run.py --expected` still passes).
 - `predicates.py`: the statements (`python3 k4/suite/run.py --list`), each with its implementations.
 - `run.py`: the runner. `table.py`: prints the provenance table below from the records.
 - `triples.py`, `deficit_local.py`, `deficit_sweep.py`, `count_bench.py`, `lil_text.py`: the experiments of
@@ -59,8 +61,9 @@ A line reads `holds`, `FAILS` or `n/a` (hypothesis not met, instance too large, 
 ## Results
 
 Logs in `results/k4_strategy/` (each starts with its command); `python3 k4/suite/summarize.py LOG` tabulates a log.
-- `suite_expected.log`: every refutation the runner can express reproduces. That is 52 checks on 34 instances: 46 with
-  two implementations, 6 with one (the 𝒫_T and LIL-text statements, new in this PR). There are 0 disagreements.
+- `suite_expected.log`: every refutation the runner can express reproduces. That is 57 checks on 38 instances: 48 with
+  two implementations, 9 with one (six 𝒫_T checks, two LIL-text checks, and `pre-some:sum2l` on `c4x-n3m6-onefour-b`, which
+  `c4x_check` does not implement). There are 0 disagreements.
 - `suite_baseline.log`: TARGET₄ (`efx0`), K4.D (`d2`) and PS for every agent (`ps`) hold on all 150 complete
   instances, cores and the non-core alike, with #43's `induct_sat`. They also hold with `model.py`'s SAT on all but
   H₅ (n = 21), where it is too slow and is skipped.
@@ -71,8 +74,8 @@ Logs in `results/k4_strategy/` (each starts with its command); `python3 k4/suite
     time out and read `n/a`. The configuration form (`c4min-cfg`) holds on all 95 instances with ω ≥ 1 where it finished.
 - `suite_rulef.log`: LB₄ʳ with rule F (#44) and at most one rotation succeeds on all 148 core instances it was run on
   (H₅ is left to #44's Proposition H′).
-- `deficit_local_suite.log`: Conjecture DL₂ of `k4/strategy.md` §3. k* ≤ 2 on every core with ω ≥ 1 and n ≤ 6;
-  k* = 3 on the non-core `lil-noncore-n3`.
+- `deficit_local_suite.log`: Conjecture DL₂ of `k4/strategy.md` §3. k* ≤ 2 on every core with ω ≥ 1 and n ≤ 6
+  (94 cores: 43 / 36 / 15 with k* = 0 / 1 / 2; local configurations skipped); k* = 3 on the non-core `lil-noncore-n3`.
 
 ## Instances
 

@@ -23,12 +23,13 @@ variants of specific algorithms (LB₄, LS4, GM₄, insertion lemmas) or, as fou
 - **"every maximum of Φ is completable"**: over 𝒫, over the configurations at min-frozen keys, over all keys, and over
   the spaces with three-good bases 𝒫_T. It fails for more than 40 potentials, from n = 2 to n = 6.
 - **a fixed catalogue of moves raising a proxy potential**:
-  - LIL, with the catalogue as #51's text states it, fails at n = 3 and n = 4 (#51's reviewers);
-  - LIL with #51's broader implemented catalogue fails on a non-core n = 3 instance;
+  - #51's narrow catalogue (Lemma R(iii)/#50 receivers) fails at n = 3 and n = 4 (N1, N2 of main's
+    `attempts/k4-c4min-reduce-lil.md`);
+  - the broad catalogue without the private-goods rule fails on a non-core n = 3 instance (NC, the same file);
   - #41's and #53's local lemmas fail at n = 3 and n = 4;
   - Φ′-raising moves that keep the needed set fail at n = 4 (SAME_N).
-- **counting certificates**: COUNT, the natural global count behind Theorem Z′ and #51's Lemma C, fails at n = 3,
-  m = 8 (§2.1).
+- **counting certificates**: COUNT, the natural global count behind Theorem Z′ and #51's Lemma C, fails at n = 2,
+  m = 5 (§2.1).
 
 Each failure has the same shape: the instance has a completable pre-allocation, but the proxy the argument climbs
 (r, Λ, t, Pareto order, a count) does not lead to it.
@@ -44,11 +45,11 @@ Each failure has the same shape: the instance has a completable pre-allocation, 
 
 | rank | target statement | implies TARGET₄ through (Lean) | proof architecture | status |
 |---|---|---|---|---|
-| **1** | **Conjecture DL₂** (§3): at the fewest frozen agents the removal-only deficit has no local minimum above 0 for exchanges of at most two agents' bases | DL₂ ⟹ C₄ᵐⁱⁿ (removal-only) by finite descent (to formalize; `EFX.C4min.DeficitLE` is the deficit), then `EFX.C4min.target4_of_C4minRO` / `…ROConn` (K4.C4MIN.FRAME) | one potential, the deficit itself (no proxy); moves unrestricted in form but of size ≤ 2; a case analysis over the covering obstruction of Lemma H1 (augmenting-path style) | CONJECTURE. k* ≤ 2 on every core of the suite and on 24,314 sampled gap profiles with n ≤ 5; k* = 3 only on the non-core LIL instance |
+| **1** | **Conjecture DL₂** (§3): at the fewest frozen agents the removal-only deficit has no local minimum above 0 for exchanges of at most two agents' bases | DL₂ ⟹ C₄ᵐⁱⁿ (removal-only) by finite descent (to formalize; `EFX.C4min.DeficitLE` is the deficit), then `EFX.C4min.target4_of_C4minROConn` (K4.C4MIN.FRAME; connected cores, as in the evidence); the descent is not yet machine-checked | one potential, the deficit itself (no proxy); moves unrestricted in form but of size ≤ 2; a case analysis over the covering obstruction of Lemma H1 (augmenting-path style) | CONJECTURE. k* ≤ 2 on every core of the suite with n ≤ 6 (H₂, H₅ not run) and on 24,314 sampled gap profiles with n ≤ 5; k* = 3 only on the non-core LIL instance |
 | 2 | LB₄ʳ with rule F and at most one rotation (#44, K4.AD.*; "some first agent, every continuation", K4.AD.C1) | `EFX.LB4R.Succeeds` (K4.C4.FRAME) with a first agent chosen per profile (a C₄∃-type statement) | the k = 3 architecture that worked: Phase 1 counting (A₄⁺ᴺ) plus one rotation (B₄), with the global choice of the first agent | CONJECTURE. #44 found no failure on 3.6·10¹⁰ exhaustive profiles (n ≤ 4, ≤ 3 four-good agents). It succeeds, with at most one rotation, on all 148 core instances of the suite that it was run on; H₅ is covered by #44's Proposition H′ (`results/k4_strategy/suite_rulef.log`) |
 
 **Recommendation.** Put the next proof effort on DL₂. It is the only candidate found that climbs the quantity C₄ᵐⁱⁿ
-is about (the deficit) rather than a proxy, so it is immune to the failure shape above. It is also stated with objects
+is about (the deficit) rather than a proxy, so it fails only if the deficit has a local minimum above 0. It is also stated with objects
 already in Lean. The price is that its moves are "any change of two agents' bases" rather than named moves. A proof
 must classify which two-agent change repairs each obstruction, and the data can guide that (§3). If DL₂ breaks at
 larger n (k* = 3 on a core), the honest conclusion is that no uniform candidate of the forms tested here survives.
@@ -56,7 +57,8 @@ The remaining route would then be rule F's construction, whose architecture is t
 
 **Not recommended as the main route.**
 - **PS (route 2).** It is uniform and survives, but it is strictly stronger than TARGET₄. Its induction stalls exactly at
-  the core structure. The only closed strengthening, PS_W, is false for twins at n = 2. The owner form PS-OWNER is
+  the core structure. The only closed strengthening, PS_W, is false for twins at n = 2 (as stated; `attempts/k4-strat-psw.md` gives its
+  scope). The owner form PS-OWNER is
   false at n = 3 (§2.2).
 - **The minimal-counterexample certification (route 3).** It needs an absolute bound on β. No known reduction touches
   Q4-dense cores (§2.3).
@@ -67,11 +69,9 @@ The remaining route would then be rule F's construction, whose architecture is t
 
 **Sources.**
 - main, and PRs #37, #41, #43, #44, #45, #50, #51 and #53, read with `git show`.
-- Three instances not in any repository:
-  - the non-core counterexample to LIL found by #51's referee;
-  - two LIL counterexamples from #51's reviewers (text catalogue).
-
-  All three were re-derived here.
+- Three instances from #51's review, now on main in `attempts/k4-c4min-reduce-lil.md` (replayed there with two
+  implementations): N1 = `lil-text-n3`, N2 = `lil-text-n4` and NC = `lil-noncore-n3`. This PR re-derived them
+  independently before #51 merged.
 - Each source instance was confirmed with its source's own replay script.
 
 **Implementations.** `k4/suite/model.py` is this workstream's own, written from the definitions. The runner
@@ -83,8 +83,9 @@ The remaining route would then be rule F's construction, whose architecture is t
 - main's `hall_check` and `c4x_check`.
 
 **Findings** (logs in `results/k4_strategy/`):
-- **Every refutation the runner can express reproduces**: 52 checks on 34 instances, 46 of them with two
-  implementations and 6 with one (the 𝒫_T and LIL-text checks, whose statements are new here), 0 disagreements
+- **Every refutation the runner can express reproduces**: 57 checks on 38 instances, 48 of them with two
+  implementations and 9 with one (six 𝒫_T checks, two LIL-text checks, and `pre-some:sum2l` on `c4x-n3m6-onefour-b`, which
+  `c4x_check` does not implement), 0 disagreements
   (`suite_expected.log`). The rest are statements about specific algorithms (LB₄ variants, LS4, GM₄,
   NSW, the insertion lemma). Those are confirmed by their sources' replay scripts, cited in each record.
 - **TARGET₄, K4.D and PS hold on every complete instance, cores and non-core alike**
@@ -123,25 +124,29 @@ core cannot carry it. Two things stand in the way.
    - It fails on 1,408 of the 74,256 profiles of #53's n = 3 catalogue, on 99 of the 184,014 sampled n = 4 gap
      profiles, and on 2 of 39,450 sampled n = 5 ones (`count_sweep.log`; the n = 5 catalogues with four 4-good agents
      and the pure ones were not reached before a container restart).
-   - The first counterexample is `count-n3m8`: three identical big-top agents sharing goods 6 and 7
+   - The smallest counterexample is n = 2, m = 5 (`gap-w-n2-m5`), since COUNT implies SIMPLE; the first n = 3 one is
+     `count-n3m8`: three identical big-top agents sharing goods 6 and 7
      (`attempts/k4-strat-count.md`).
-   - **SIMPLE** (some configuration has a valid owner with C = ∅) holds on every n ≥ 3 catalogue profile. It fails on
+   - **SIMPLE** (some configuration has a valid owner with C = ∅) holds on every catalogue profile tested with n ≥ 3. It fails on
      the 720 n = 2 profiles of category W, so the unfreezing clause is needed.
 
 **What survives: the deficit as its own potential.** For P with the fewest frozen agents and def(P) > 0, let k*(P) be
-the least number of agents whose base must change to reach a min-frozen P′ with def(P′) < def(P). Let k* of a profile
-be the maximum over such P. It is 0 if no P has def > 0. `k4/suite/deficit_local.py` computes it with `model.py`'s
+the least number of agents whose base must change to reach a min-frozen P′ with def(P′) < def(P) (the distance to the
+nearest such P′; ∞ if there is none). Let k* of a profile be the maximum over such P. It is 0 if no P has def > 0. `k4/suite/deficit_local.py` computes it with `model.py`'s
 deficit, a direct transcription of `k4/c4x.md` §1.
 
 | scope | profiles | k* = 0 | 1 | 2 | ≥ 3 | log |
 |---|---|---|---|---|---|---|
-| suite, every complete instance with ω ≥ 1 and n ≤ 6 (cores) | 98 | 46 | 37 | 15 | 0 | `deficit_local_suite.log` |
+| suite, every complete instance with ω ≥ 1 and n ≤ 6 (cores; local configurations skipped) | 94 | 43 | 36 | 15 | 0 | `deficit_local_suite.log` |
 | suite, the non-core LIL instance | 1 | | | | **1 (k* = 3)** | the same |
 | #53's n = 4 gap catalogues, every 10th record (one, two, three 4-good agents, pure) | 18,404 | 17,383 | 1,000 | 21 | 0 | `deficit_local_catalogs.log` |
 | #53's n = 5 gap catalogues, every 20th record | 5,793 | 5,545 | 246 | 2 | 0 | the same |
-| #53's hard hunt records (categories W and N, n = 4) | 117 | 41 | 61 | 15 | 0 | the same |
+| #53's hard hunt records at 245040b (categories W and N, n = 4) | 117 | 41 | 61 | 15 | 0 | the same |
 
 Notes:
+- The catalogue rows use #53's files at 245040b (the `git archive` command at the end of this file). Main's final
+  `hard_hunt.json.gz` has 144 records (27 more, category S, not run), and `gap_n5_4_s100`, `gap_n5_pure_s100` also
+  differ on main.
 - The suite rows include f = 0 profiles: H₁ has k* = 1 and cyc6 (n = 6) has k* = 1. Both are bounded-rotation or
   label-collision obstructions for the proxy potentials.
 - Every Φ′, BT, LIL and SAME_N counterexample has k* ≤ 2.
@@ -169,8 +174,8 @@ as K4.D on cores, plus a prescribed unenvied agent.
 
 **Where the induction stalls, and why strengthening does not close it.** A private good p of an agent i ≠ w* can only
 be removed if i stays unenvied too (Lemma 2). The closure of PS under this step is PS_W: some EFX₀ allocation leaves
-every agent of W unenvied, where W is the set of agents whose private goods were removed. PS_W is **false** at
-n = 2, m = 4 (`attempts/k4-strat-psw.md`):
+every agent of W unenvied, where W is the set of agents whose private goods were removed. PS_W, as stated, is **false**
+at n = 2, m = 4 (`attempts/k4-strat-psw.md`, which also gives its scope):
 - two P3 twins with the same shared pair and the same ranking;
 - stripping both private goods leaves two agents on one pair, and one of them envies the other;
 - the core itself (TARGET, PS(I, 0), PS(I, 1)) and the one-stripped instance are fine.
@@ -185,12 +190,12 @@ the unenvied owner of a D2 allocation, though PS(I, 1) holds. It fails on 28 sui
 implementations. So the owner-last route of Lemma 7 does not carry over as a statement about every agent
 (`attempts/k4-strat-psw.md`).
 
-**Verdict.** PS is a good *statement*: uniform, surviving, and it implies TARGET₄ with no extra Lean. It is not a
+**Verdict.** PS is a good *statement*: uniform, surviving, and it implies TARGET₄ trivially (PS is not in Lean). It is not a
 *proof architecture*: its own induction needs a multi-agent version that is false.
 
 ### 2.3 Route 3: minimal counterexample plus finite certification
 
-Proved and certified (`k4/MINCEX.md`): a minimal counterexample within 𝒞_β has n ≤ 3(β − 1) (K4.MC4). This gives
+Certified (`k4/MINCEX.md`; K4.MC4, K4.MC6, K4.MC7 are CERTIFIED): a minimal counterexample within 𝒞_β has n ≤ 3(β − 1) (K4.MC4). This gives
 TARGET₄ for β ≤ 4 (K4.MC6, K4.MC7).
 
 A finite certification of TARGET₄ needs an **absolute** bound: every connected k = 4 core with β ≥ β₀ contains a
@@ -214,9 +219,11 @@ suggests one.
 (`k4/c4x.md` §5): a big-top agent (a > b + c) has no base of at most two goods worth more than its top, only the triple
 {b, c, d}. 𝒫_bt lets big-top agents hold their lower triple; 𝒫_low lets every 4-good agent do so.
 - The extra condition is that no other agent strongly envies a triple; D2 is relaxed, TARGET₄ is not.
-- In both spaces, Theorem K3's statement ("every Pareto-maximum is completable") repairs the n = 3 failures of
-  `attempts/k4-c4x-pareto-potentials.md` (six of eight Pareto counterexamples tested).
-- It fails at n = 3 on `hall-local3`: the Pareto-maximum gives agent 1 its triple, which threatens agent 2.
+- In both spaces, Theorem K3's statement ("every Pareto-maximum is completable") repairs six of the eight Pareto
+  counterexamples of 𝒫 first tested (the n = 3 failures of `attempts/k4-c4x-pareto-potentials.md`).
+- Run on the whole suite it fails smaller: 𝒫_low at n = 2, m = 4 (`adaptive-cover-multi4`), 𝒫_bt at n = 3, m = 5
+  (`c4x-n3m5-big-bases`, also `induct-gps-q4-b`).
+- It also fails at n = 3 on `hall-local3`: the Pareto-maximum gives agent 1 its triple, which threatens agent 2.
 - It fails at n = 4 on `hall-bt4`: its frozen agents are not big-top, so triples change nothing.
 
 See `attempts/k4-strat-triples.md`. The space trades (G1) for a new obstruction.
@@ -230,9 +237,10 @@ summary.
   Proposition H′ covers), including every Φ′, BT, LIL and SAME_N counterexample (`suite_rulef.log`).
 
 **(c) Move catalogues.** Every fixed catalogue tested fails at the next n:
-- LIL as #51's text states it fails at n = 3 (`lil-text-n3`) and n = 4 (`lil-text-n4`, 3-good x). Both were
-  re-derived here with `k4/suite/lil_text.py` and are improvable with #51's broader catalogue.
-- The broader catalogue fails on the non-core `lil-noncore-n3`, so a proof would have to use the private-goods rule,
+- #51's narrow catalogue fails at n = 3 (`lil-text-n3`, N1 of main's `attempts/k4-c4min-reduce-lil.md`) and n = 4
+  (`lil-text-n4`, N2, 3-good x). Both are improvable with #51's broad catalogue, which is how main's §5.3 states LIL;
+  this PR re-derived them with `k4/suite/lil_text.py`.
+- The broad catalogue without the private-goods rule fails on the non-core `lil-noncore-n3` (NC), so a proof would have to use the private-goods rule,
   which none of the move lemmas uses.
 - #53's SAME_N shows that no needed-set-preserving move suffices.
 
@@ -240,15 +248,17 @@ DL₂ avoids naming moves, and so avoids this.
 
 ## 3. The plan
 
-**Conjecture DL₂ (K4.STRAT.DL2).** For every strict profile of every k = 4 core with ω ≥ 1, every P ∈ 𝒫 with the
-fewest frozen agents and def(P) > 0 has a P′ ∈ 𝒫 with the fewest frozen agents such that:
+**Conjecture DL₂ (K4.STRAT.DL2).** For every strict profile of every connected k = 4 core with ω := f − (2n − m) ≥ 1 (the same
+for every min-frozen P), every P ∈ 𝒫 with the fewest frozen agents and def(P) > 0 has a P′ ∈ 𝒫 with the fewest frozen agents such that:
 - P′ differs from P in the bases of at most two agents;
-- def(P′) < def(P), with def = +∞ when no free owner has a safe bundle.
+- def(P′) < def(P), with def = +∞ when no free owner has a safe bundle. That happens only when every agent is frozen:
+  with a free agent, C = J is safe, since by (V2) a two-good base contains no needed good.
 
 *DL₂ ⟹ C₄ᵐⁱⁿ (removal-only).* The min-frozen class is finite and nonempty (`EFX.C4min.exists_minFrozen`). A
-pre-allocation of least deficit in it cannot have def > 0 by DL₂, so it is removal-only completable. That is
-`TheoremC4minRO`, and TARGET₄ follows by `EFX.C4min.target4_of_C4minRO`. The same argument restricted to connected
-cores with a 4-good agent gives `C4minROConn` and `target4_of_C4minROConn`.
+pre-allocation of least deficit in it cannot have def > 0 by DL₂, so it is removal-only completable. On
+connected cores this is `C4minROConn`, and TARGET₄ follows by `EFX.C4min.target4_of_C4minROConn`. (The unrestricted
+`TheoremC4minRO`, for `target4_of_C4minRO`, would need DL₂ on every core, connected or not.) So DL₂ would imply
+TARGET₄; the descent is not yet machine-checked (item 27, step 4).
 
 *Why this and not another potential.* Every counterexample in the suite defeats a proxy: a potential that is maximal
 at a non-completable P while the deficit is not minimal there. DL₂ climbs the deficit itself. It asserts only that the

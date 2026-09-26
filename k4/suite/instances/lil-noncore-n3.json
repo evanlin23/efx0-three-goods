@@ -50,9 +50,13 @@
  "source": {
   "pr": 51,
   "branch": "proof/k4-c4min-reduce",
-  "files": [],
-  "found_by": "the referee of PR #51 (reported to the coordinator; in no repository before this suite)",
-  "replay": "k4/suite/run.py lil --only=lil-noncore-n3"
+  "files": [
+   "attempts/k4-c4min-reduce-lil.md",
+   "attempts/k4_c4min_reduce_lil.py"
+  ],
+  "found_by": "the referee of PR #51 (reported to the coordinator)",
+  "replay": "k4/suite/run.py lil --only=lil-noncore-n3",
+  "on_main": "NC of main's attempts/k4-c4min-reduce-lil.md (#51, merged), replayed there with two implementations (red.c, red_lil.py); re-derived here independently before #51 merged"
  },
  "refutes": [
   {
