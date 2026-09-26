@@ -8,3 +8,8 @@
 # 558 cores x 60 random profiles: 4 owner-rigid profiles (69 s)
 # glued pairs 80: merge profiles 5465 fails 0; link profiles 786960 fails 0 (121 s)
 # finished Fri Sep 25 22:13:32 UTC 2026
+# command: python3 c4min_rigid.py --gadgets=../results/k4_c4min_hunt_climb_n5_b.jsonl --pairs=200 --seed=83 --jobs=4
+# commit cd464c6, k4/c4min_hunt.c sha1 60fbc9be5f85, started Sat Sep 26 00:17:59 UTC 2026
+# 420 gadgets (owner needed, d* = 0) from ../results/k4_c4min_hunt_climb_n5_b.jsonl
+# glued pairs 200: merge profiles 12808 fails 0; link profiles 1844352 fails 0 (101 s)
+# finished Sat Sep 26 00:19:40 UTC 2026
