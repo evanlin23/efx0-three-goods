@@ -24,7 +24,8 @@ def lb4(opts, m, sets):
     lb4_run.build()
     p = subprocess.run([lb4_run.BIN] + opts.split() + ['-f0'], input=lb4_run.encode(sets, m, False),
                        capture_output=True, text=True, check=True)
-    return int(p.stdout.split()[7]), int(p.stdout.split()[1])
+    tot = next(l for l in p.stdout.splitlines() if l.startswith('total')).split()   # lb4.c prints an 'H ...' line first
+    return int(tot[tot.index('fails') + 1]), int(tot[1])
 
 def one_rotation():
     sets = [[0, 3, 7], [1, 5, 8], [2, 6, 7, 8], [3, 4, 5], [4, 6, 8]]

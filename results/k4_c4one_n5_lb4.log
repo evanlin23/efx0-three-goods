@@ -27,3 +27,17 @@ results/k4_certs_5_n4_1.json.gz: 1735 cores, 190s
 results/k4_certs_5_n4_1.json.gz: 1735 cores, 210s
   total=5782149576 leaves=665854724 runs=821043208 fails=0 rawfails=0 nobig=5608380062 owner_r=160955438 owner_other=4700388 rot=8113688 later_seq=0 later_upg=0 big3=150915727 big4=15939816 big5=743990 big6=15008
   cores with a failure: 0
+# k4/lb4.c -i1 -u3 -o0 -r1 -w1 -c1 -f0 on each of the 5 cores above with a failure (the §2 table rows with -u3; appended after the PR #37 review, via attempts/k4_c4one_attempts.py's lb4 helper)
+  m=8 sets=[[0, 2, 4], [1, 2, 3, 7], [1, 5, 7], [3, 6, 7], [4, 5, 6]]: total 3157920 fails 0
+  m=8 sets=[[0, 2, 4, 7], [1, 2, 3], [1, 5, 6], [3, 5, 7], [4, 6, 7]]: total 2921184 fails 2
+  m=9 sets=[[0, 2, 5, 8], [1, 4, 8], [3, 4, 7], [3, 6, 8], [5, 6, 7]]: total 1712592 fails 0
+  m=9 sets=[[0, 3, 7], [1, 5, 8], [2, 6, 7, 8], [3, 4, 5], [4, 6, 8]]: total 5672160 fails 4
+  m=10 sets=[[0, 2, 5, 9], [1, 5, 7], [3, 6, 9], [4, 8, 9], [6, 7, 8]]: total 3445992 fails 0
+  fails 6 on 2 cores
+# k4/lb4.c -i0 -u3 -o0 -r1 -w1 -c1 -f0 on each of the 5 cores above with a failure (the §2 table rows with -u3; appended after the PR #37 review, via attempts/k4_c4one_attempts.py's lb4 helper)
+  m=8 sets=[[0, 2, 4], [1, 2, 3, 7], [1, 5, 7], [3, 6, 7], [4, 5, 6]]: total 373248 fails 0
+  m=8 sets=[[0, 2, 4, 7], [1, 2, 3], [1, 5, 6], [3, 5, 7], [4, 6, 7]]: total 373248 fails 0
+  m=9 sets=[[0, 2, 5, 8], [1, 4, 8], [3, 4, 7], [3, 6, 8], [5, 6, 7]]: total 186624 fails 0
+  m=9 sets=[[0, 3, 7], [1, 5, 8], [2, 6, 7, 8], [3, 4, 5], [4, 6, 8]]: total 373248 fails 4
+  m=10 sets=[[0, 2, 5, 9], [1, 5, 7], [3, 6, 9], [4, 8, 9], [6, 7, 8]]: total 186624 fails 0
+  fails 4 on 1 cores
