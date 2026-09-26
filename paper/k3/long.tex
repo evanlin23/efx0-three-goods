@@ -183,7 +183,7 @@ When peeling stops, every remaining agent values exactly three of the remaining 
 
 In the example all four agents start with all their goods, so agent~$0$ (the first in index order) leads block~1 and picks $g_2$. Agents~$2$ and~$3$ have lost $g_2$: agent~$2$ picks its $b=g_1$, and then agent~$3$, which has lost $g_2$ and $g_1$, picks its $b=g_8$. The only agent still waiting, agent~$1$, has all its goods; it leads block~2 and picks its top, $g_6$. Four goods are left over: $g_0$, $g_3$, $g_4$, $g_7$.
 
-\paragraph{Step 3: why the leftovers are the whole difficulty.} If no good were left over, every agent would hold at most one good, and the allocation would be \efxz{} for the trivial reason that nobody can strongly envy a bundle of at most one good. The leftovers, which we call \emph{junk}, must go somewhere, and in general they create bundles of two or more goods, which can be strongly envied. Lemma~\ref{lem:L5} says exactly when a strictly balanced agent with $v(a)>v(b)>v(c)$ is safe:
+\paragraph{Step 3: why the leftovers are the whole difficulty.} If no good were left over, every agent would hold at most one good, and the allocation would be \efxz{} for the trivial reason that nobody can strongly envy a bundle of at most one good. The leftovers, which we call \emph{junk}, must go somewhere, and in general they create bundles of two or more goods, which can be strongly envied. Here the two notions part ways. Under ordinary EFX, adding to a bundle a good that agent $i$ does not value never creates a new constraint for $i$, since only goods that $i$ values may be removed. Under \efxz{}, it turns $i$'s constraint towards that bundle into envy-freeness, as in Example~\ref{ex:efx-vs-efx0}. Lemma~\ref{lem:L5} says exactly when a strictly balanced agent with $v(a)>v(b)>v(c)$ is safe:
 \begin{itemize}
 \item holding $a$, it is safe unless $b$ and $c$ lie together in a bundle of three or more goods;
 \item holding $b$ and $c$, it is always safe;
@@ -565,7 +565,23 @@ Algorithm~\ref{alg:k3} lists K3ALG as it is formalized: the Lean program \lean{E
 
 \subsection{Two examples}\label{sec:examples}
 
-We trace K3ALG on two instances. For each we give the state after every stage and check the output by hand. Both were also checked by machine: the intermediate states were recomputed with the repository's literal transcription of the Lean program, the output was compared with that transcription, with a second, independent implementation, and with Lean's own evaluation of \lean{EFX.K3.algo}, and it was checked against the \efxz{} definition by brute force (Appendix~\ref{app:examples}).
+We trace K3ALG on two instances. For each we give the state after every stage, summarized in Tables~\ref{tab:ex1stages} and~\ref{tab:ex2stages}, and check the output by hand. Both were also checked by machine: the intermediate states were recomputed with the repository's literal transcription of the Lean program, the output was compared with that transcription, with a second, independent implementation, and with Lean's own evaluation of \lean{EFX.K3.algo}, and it was checked against the \efxz{} definition by brute force (Appendix~\ref{app:examples}).
+
+\begin{table}[tbp]
+\caption{Example~\ref{ex:owner}, stage by stage.}\label{tab:ex1stages}
+\centering\small
+\setlength{\tabcolsep}{4pt}\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.17\textwidth}>{\raggedright\arraybackslash}p{0.79\textwidth}@{}}
+\toprule
+after & state \\
+\midrule
+Stage R & agent~$4$ peeled with $g_5$; $A=\{0,1,2,3\}$ \\
+Phase 1 & order $0,2,3,1$; picks $Y_0=g_2$, $Y_2=g_1$, $Y_3=g_8$, $Y_1=g_6$; blocks $\{0,2,3\}$ (leader $0$) and $\{1\}$ (leader $1$); leftovers $J_0=\{g_0,g_3,g_4,g_7\}$ \\
+upgrades & $U=\{2\}$ (agent~$2$ receives $g_3$); $J=\{g_0,g_4,g_7\}$; $\NA=\{g_2\}$; frozen: $0$; terminals: $1$, $3$, one slot each; $S=2$, $\omega=1$ \\
+owner test & $r=1$; $E_1=\{0\}$, $\pi_0=\{g_4\}$; $\HitSet(E_1)=(g_4)$ fits $S-\capa(1)=1$: owner $r=1$ \\
+completion & $L=(g_4,g_0,g_7)$: $g_4$ to agent~$3$, and $g_0$, $g_7$ to the owner \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \begin{example}[owner $r$]\label{ex:owner}
 This is the instance of Section~\ref{sec:overview}: agents $0,\dots,4$, goods $g_0,\dots,g_8$, and the values
@@ -631,6 +647,23 @@ agent & bundle $X_i$ & $v_i(X_i)$ & largest threat & cases \\
 2 & $\{g_1,g_3\}$ & $12$ & $0$ & P, B \\
 3 & $\{g_8,g_4\}$ & $8$ & $7$, from $X_2=\{g_1,g_3\}$ & B \\
 4 (peeled) & $\{g_5\}$ & $6$ & $0$ & -- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[tbp]
+\caption{Example~\ref{ex:rot}, stage by stage.}\label{tab:ex2stages}
+\centering\small
+\setlength{\tabcolsep}{4pt}\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.17\textwidth}>{\raggedright\arraybackslash}p{0.79\textwidth}@{}}
+\toprule
+after & state \\
+\midrule
+Stage R & nobody peeled \\
+Phase 1 & order $0,1,2,3$; picks $Y_0=g_2$, $Y_1=g_4$, $Y_2=g_7$, $Y_3=g_0$; blocks $\{0\}$ (leader $0$) and $\{1,2,3\}$ (leader $1$); leftovers $J_0=\{g_1,g_3,g_5,g_6\}$ \\
+upgrades & none: $U=\emptyset$, $J=J_0$; $\NA=\{g_4,g_7\}$; frozen: $1$, $2$; terminals: $0$, $3$, one slot each; $S=2$, $\omega=2$ \\
+owner test & $r=3$; $E_3=\{0,1\}$, $\pi_0=\{g_5\}$, $\pi_1=\{g_1,g_6\}$, disjoint; $\HitSet(E_3)=(g_5,g_6)$ does not fit $S-\capa(3)=1$: bad case, $k^*=1$ \\
+rotation & chain $1\to2\to3$: $Y'_2=g_4$, $Y'_3=g_7$, agent~$1$ holds $g_6$ and $g_1$; $U'=\{1\}$; $J'=\{g_0,g_3,g_5\}$; $\NA'=\{g_4\}$; frozen: $2$; terminals: $0$, $3$, one slot each; $S'=2$, $\omega'=1$ \\
+completion & owner $k^*=1$; $E'_1=\{0\}$, $\HitSet(E'_1)=(g_5)$; $L=(g_5,g_0,g_3)$: $g_5$ to agent~$0$, $g_0$ to agent~$3$, $g_3$ to the owner \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -1479,7 +1512,7 @@ total & $400N^4$ & $O(n^4+n^2m)$ \\
 
 \section{Verification of the Examples}\label{app:examples}
 
-\paragraph{Examples~\ref{ex:owner} and~\ref{ex:rot}.} The repository contains a script, \file{paper/k3/examples/trace.py}, that recomputes every intermediate state stated in Section~\ref{sec:examples}. It uses the methods of the literal transcription of the Lean definitions, \texttt{mirror} in the file \file{k3/k3algo.py}, in the order in which the Lean program calls them, and prints the states; its output is the file \file{trace_output.txt}. For each example it then checks that the allocation assembled from the trace equals the outputs of \texttt{mirror} and of the independent implementation \texttt{fast}, that it is \efxz{} by two brute-force checks of the definition (every agent $i$, every other bundle $X_j$ and every removed good $h\in X_j$), and the side claims made in the text: the \efxz{} violation (and EFX) of the wrong slot filling in Example~\ref{ex:owner}; that every completion with owner $r=3$ in Example~\ref{ex:rot} violates \efxz{}; the cases of Lemma~\ref{lem:L5} listed in Tables~\ref{tab:ex1check} and~\ref{tab:ex2check}; Example~\ref{ex:efx-vs-efx0}; Remark~\ref{rem:repeat}; and $\omega=m-2n+|\NA|$ before and after the rotation. All checks pass.
+\paragraph{Examples~\ref{ex:owner} and~\ref{ex:rot}.} The repository contains a script, \file{paper/k3/examples/trace_examples.py}, that recomputes every intermediate state stated in Section~\ref{sec:examples}. It uses the methods of the literal transcription of the Lean definitions, \texttt{mirror} in the file \file{k3/k3algo.py}, in the order in which the Lean program calls them, and prints the states; its output is the file \file{trace_output.txt}. For each example it then checks that the allocation assembled from the trace equals the outputs of \texttt{mirror} and of the independent implementation \texttt{fast}, that it is \efxz{} by two brute-force checks of the definition (every agent $i$, every other bundle $X_j$ and every removed good $h\in X_j$), and the side claims made in the text: the \efxz{} violation (and EFX) of the wrong slot filling in Example~\ref{ex:owner}; that every completion with owner $r=3$ in Example~\ref{ex:rot} violates \efxz{}; the cases of Lemma~\ref{lem:L5} listed in Tables~\ref{tab:ex1check} and~\ref{tab:ex2check}; Example~\ref{ex:efx-vs-efx0}; Remark~\ref{rem:repeat}; and $\omega=m-2n+|\NA|$ before and after the rotation. All checks pass.
 
 A second file, \file{paper/k3/examples/lean_examples.lean}, evaluates the Lean program \lean{EFX.K3.algo} with \texttt{\#eval} on the instances of Examples~\ref{ex:owner} and~\ref{ex:rot} and of Remark~\ref{rem:repeat}, and checks the outputs of the two examples by \texttt{decide}. Lean returns the following owners of the goods $g_0,g_1,\dots$, which are the allocations stated in the text, with the operation counts of \lean{EFX.K3.algoC}:
 \begin{center}\small

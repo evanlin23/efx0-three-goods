@@ -267,11 +267,11 @@ Result: branch rot_noowner
   EFX0 (raw_efx0_naive): True; EFX0 (efx0_brute): True
 CLAIM Example 1: ({g1}, {g0, g2}) is EFX, not EFX0; ({g0}, {g1, g2}) is EFX0                     OK
 CLAIM Example 2: slot of agent 3 filled with g0 gives an EFX, non-EFX0 allocation (agent 0 vs owner 1) OK
-CLAIM Example 2 (Table 3): cases of Lemma 2 (ledger L5) met by agents 0-3 in the output: T; T, P; P, B; B OK
-CLAIM Example 2 (Table 3): own values and largest threats 6/5 (X_3), 12/0, 12/0, 8/7 (X_2), 6/0  OK
+CLAIM Example 2 (check table): cases of Lemma 2 (ledger L5) met by agents 0-3 in the output: T; T, P; P, B; B OK
+CLAIM Example 2 (check table): own values and largest threats 6/5 (X_3), 12/0, 12/0, 8/7 (X_2), 6/0 OK
 CLAIM Example 3: every completion with owner r = 3 violates EFX0 (slot filled or empty)          OK
-CLAIM Example 3 (Table 4): own values and largest threats 15/3 (X_3), 10/0, 9/8 (X_3), 10/0      OK
-CLAIM Example 3 (Table 4): cases of Lemma 2 (ledger L5) met by agents 0-3 in the output: T; P, B; T; P, B OK
+CLAIM Example 3 (check table): own values and largest threats 15/3 (X_3), 10/0, 9/8 (X_3), 10/0  OK
+CLAIM Example 3 (check table): cases of Lemma 2 (ledger L5) met by agents 0-3 in the output: T; P, B; T; P, B OK
 CLAIM Remark 1: owner r = 3 gets 4 = omega + 3 goods, agent 1 keeps an empty slot, output EFX0   OK
 CLAIM omega = m - 2n + |NA| (Stage-L n, m) in every example, before and after a rotation         OK
 ALL CHECKS PASSED

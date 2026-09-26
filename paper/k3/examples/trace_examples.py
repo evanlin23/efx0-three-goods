@@ -9,7 +9,7 @@ Lean definition `EFX.K3.algoSpec`) calls them. The script then checks that
     from scratch for every removed good.
 It also checks the side claims the paper makes about each example (see `CLAIMS`).
 
-Usage: python3 paper/k3/examples/trace.py > paper/k3/examples/trace_output.txt
+Usage: python3 paper/k3/examples/trace_examples.py > paper/k3/examples/trace_output.txt
        (prints the traces and the checks; exit status 1 if any check fails)
 """
 import os, sys, itertools
@@ -329,11 +329,11 @@ def largest_threats(ex):
     return out
 
 def claim_ex1_threats():
-    # Table 3: own values 6, 12, 12, 8, 6; largest threats 5 (from X_3), 0, 0, 7 (from X_2), 0
+    # check table of Example 2: own values 6, 12, 12, 8, 6; largest threats 5 (from X_3), 0, 0, 7 (from X_2), 0
     return largest_threats(EX1) == [(6, 5, [3]), (12, 0, []), (12, 0, []), (8, 7, [2]), (6, 0, [])]
 
 def claim_ex2_threats():
-    # Table 4: own values 15, 10, 9, 10; largest threats 3 (from X_3), 0, 8 (from X_3), 0
+    # check table of Example 3: own values 15, 10, 9, 10; largest threats 3 (from X_3), 0, 8 (from X_3), 0
     return largest_threats(EX2) == [(15, 3, [3]), (10, 0, []), (9, 8, [3]), (10, 0, [])]
 
 def claim_omega():
@@ -342,11 +342,11 @@ def claim_omega():
 CLAIMS += [
     ('Example 1: ({g1}, {g0, g2}) is EFX, not EFX0; ({g0}, {g1, g2}) is EFX0', claim_intro),
     ('Example 2: slot of agent 3 filled with g0 gives an EFX, non-EFX0 allocation (agent 0 vs owner 1)', claim_ex1_wrong_slot),
-    ('Example 2 (Table 3): cases of Lemma 2 (ledger L5) met by agents 0-3 in the output: T; T, P; P, B; B', claim_ex1_cases),
-    ('Example 2 (Table 3): own values and largest threats 6/5 (X_3), 12/0, 12/0, 8/7 (X_2), 6/0', claim_ex1_threats),
+    ('Example 2 (check table): cases of Lemma 2 (ledger L5) met by agents 0-3 in the output: T; T, P; P, B; B', claim_ex1_cases),
+    ('Example 2 (check table): own values and largest threats 6/5 (X_3), 12/0, 12/0, 8/7 (X_2), 6/0', claim_ex1_threats),
     ('Example 3: every completion with owner r = 3 violates EFX0 (slot filled or empty)', claim_ex2_r_fails),
-    ('Example 3 (Table 4): own values and largest threats 15/3 (X_3), 10/0, 9/8 (X_3), 10/0', claim_ex2_threats),
-    ('Example 3 (Table 4): cases of Lemma 2 (ledger L5) met by agents 0-3 in the output: T; P, B; T; P, B', claim_ex2_cases),
+    ('Example 3 (check table): own values and largest threats 15/3 (X_3), 10/0, 9/8 (X_3), 10/0', claim_ex2_threats),
+    ('Example 3 (check table): cases of Lemma 2 (ledger L5) met by agents 0-3 in the output: T; P, B; T; P, B', claim_ex2_cases),
     ('Remark 1: owner r = 3 gets 4 = omega + 3 goods, agent 1 keeps an empty slot, output EFX0', claim_dup),
     ('omega = m - 2n + |NA| (Stage-L n, m) in every example, before and after a rotation', claim_omega),
 ]
