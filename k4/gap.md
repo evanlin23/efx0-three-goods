@@ -278,6 +278,30 @@ print(res.summary()); res.counterexamples[0]          # (prof, config, detail), 
 
 (results table below)
 
+## 5. The instance suite (for reuse)
+
+`results/k4_gap/instances_v1.json` is the versioned suite of every hard instance found here and in #46/#52. It is
+written once by `k4/gap_instances.py` and never edited; a new version gets a new file. It contains:
+- #52's instance files `k4/hall_instances/{bt4,local3,cyc6}.inst`;
+- the named counterexamples of this workstream: the two Φ′ profiles, the BTCYC profile, the n = 5 BT profile and the
+  SAME_N configuration;
+- the two smallest instances per n of every category of §3 (from the final catalogs and the hunt).
+
+Each instance has n, m, the goods and values of every agent, tags, its provenance (file, core position, type indices,
+run) and, where there is one, the configuration it is about (key, pairs).
+
+The entry point evaluates any predicate on every instance:
+```
+import sys; sys.path.insert(0, 'k4'); import gap_bench as gb
+res = gb.check_instances(lambda prof, c: <predicate>, scope='pareto')   # or 'all', 'max', 'noncompl', 'profile', ...
+python3 k4/gap_bench.py --instances [--only=BT,BTCYC]                   # the seeded statements on the suite
+```
+For every instance, gap.c and gap_model first build the configurations independently and must agree on the class, f,
+ω, the keys, and every configuration's Φ′, pool-optimality, owners (least |C|), threat edges and H7 classes. The result
+lists per instance: the mismatches (0 on every instance), the cases tested and skipped, the failing configurations, and
+the outcome on the highlighted configuration. `results/k4_gap_instances_v1.log` has every seeded statement on the
+suite.
+
 ## Reproduce
 ```
 python3 k4/gap_run.py results/k4_certs_2.json.gz -D --rec=1 --out=results/k4_gap/gap_n2.json.gz     # seconds
