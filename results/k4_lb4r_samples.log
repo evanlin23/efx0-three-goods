@@ -1,0 +1,17 @@
+# core lists: results/k4_certs_{5_n4_3,5_n4_4,5_pure,6_n4_1}.json.gz of branch compute/k4-frontier (PR #26) at 2809bb4, used read-only (copied to /tmp); random strict profiles, seeded from each core (lb4.c -S)
+# lb4_run.py /tmp/claude-0/lb4r/k4_certs_5_n4_3.json.gz -i0 -u3 -r3 -w1 -c1 -S20000 --show=5
+/tmp/claude-0/lb4r/k4_certs_5_n4_3.json.gz: 9861 cores, 91s
+  total=197220000 leaves=197220000 runs=197220000 fails=0 rawfails=0 nobig=150638647 owner_r=41108282 owner_other=2903602 rot=2569469 later_seq=0 later_upg=401 big3=31560692 big4=11291146 big5=2347215 big6=244030 big7=9538 big8=123
+  cores with a failure: 0
+# lb4_run.py /tmp/claude-0/lb4r/k4_certs_5_n4_4.json.gz -i0 -u3 -r3 -w1 -c1 -S20000 --show=5
+/tmp/claude-0/lb4r/k4_certs_5_n4_4.json.gz: 9846 cores, 117s
+  total=196920000 leaves=196920000 runs=196920000 fails=0 rawfails=0 nobig=127396520 owner_r=62197572 owner_other=4020924 rot=3304984 later_seq=0 later_upg=733 big3=41339298 big4=19820570 big5=6024814 big6=1098066 big7=104505 big8=3850 big9=33
+  cores with a failure: 0
+# lb4_run.py /tmp/claude-0/lb4r/k4_certs_5_pure.json.gz -i0 -u3 -r3 -w1 -c1 -S50000 --show=5
+/tmp/claude-0/lb4r/k4_certs_5_pure.json.gz: 4674 cores, 170s
+  total=233700000 leaves=233700000 runs=233700000 fails=0 rawfails=0 nobig=122731635 owner_r=99584656 owner_other=6336417 rot=5047292 later_seq=0 later_upg=1273 big3=55703607 big4=34680228 big5=14402467 big6=4027131 big7=715341 big8=72741 big9=3109 big10=38
+  cores with a failure: 0
+# lb4_run.py /tmp/claude-0/lb4r/k4_certs_6_n4_1.json.gz -i0 -u3 -r3 -w1 -c1 -S5000 --show=5
+/tmp/claude-0/lb4r/k4_certs_6_n4_1.json.gz: 26866 cores, 58s
+  total=134330000 leaves=134330000 runs=134330000 fails=0 rawfails=0 nobig=129977499 owner_r=3910656 owner_other=170443 rot=271402 later_seq=0 later_upg=0 big3=3630716 big4=498914 big5=35183 big6=1110 big7=11
+  cores with a failure: 0

@@ -1,0 +1,68 @@
+# LB4r (k4/lb4.md §5) stress runs, EVIDENCE only. Paths under /tmp/claude-0/lb4r/ are scratch copies:
+#   k4_certs_5_{n4_3,n4_4,pure}.json.gz = results/ files of the same name on branch compute/k4-frontier (PR #26) at 2809bb4 (read-only);
+#   every other core list is committed as results/k4_lb4r_cores_<name>.json.gz (hard4/hard5: the cores where a weaker variant fails,
+#   deep_cores: the two cores of deep5.log,
+#   written by lb4_run.py --badcores, see results/k4_lb4r_weak.log; grow*: k4/lb4_randcores.py --extend; rc*: k4/lb4_randcores.py).
+# -S: random profiles per core; -H: hill-climbing steps per core (restart every 500). HARD p=policy (0 need-shrinking, 1 envy-free,
+# 2 none; with -P1: the number of policies that fail on their own) r=least rotations (-d1: under that policy; -d2: over all
+# policies) e=rotation attempts; with -P2 the first two are swapped. Counters in -S/-H modes are per run (pol_*, rot* sum to
+# runs), otherwise per run-profile pair. With a single policy (-u0, -u1, -u2) pol_needshrink counts that policy.
+# The lines after 'hardest profiles found' show each profile with the state of its hardest run (for runs made before
+# commit 'hill-climbing with -i1: the reported run is the hardest one', the last run evaluated; every -i1 climb was re-run).
+# lb4_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz results/k4_certs_4_n4_1.json.gz results/k4_certs_4_n4_2.json.gz results/k4_certs_4_n4_3.json.gz -i1 -u3 -r3 -w1 -c1 -d2 --show=5
+results/k4_certs_2.json.gz: 5 cores, 2s
+  pol_needshrink=377832 pol_envyfree=600 pol_none=0 rot0=371640 rot1=6792 rot2=0 rot3=0 total=378432 leaves=8868 runs=14440 fails=0 rawfails=0 nobig=162360 owner_r=189360 owner_other=19920 rot=6792 later_seq=0 later_upg=600 big3=170496 big4=41472
+  cores with a failure: 0
+results/k4_certs_3.json.gz: 51 cores, 26s
+  pol_needshrink=1003799614 pol_envyfree=651134 pol_none=207732 rot0=982611638 rot1=22021602 rot2=25240 rot3=0 total=1004658480 leaves=3301029 runs=5726882 fails=0 rawfails=0 nobig=543361304 owner_r=411508656 owner_other=27741678 rot=22046842 later_seq=0 later_upg=858866 big3=320876807 big4=110330917 big5=18538678 big6=1153976
+  cores with a failure: 0
+results/k4_certs_4_n4_1.json.gz: 135 cores, 5s
+  pol_needshrink=42995958 pol_envyfree=172 pol_none=2846 rot0=42740438 rot1=258538 rot2=0 rot3=0 total=42998976 leaves=4606173 runs=5389122 fails=0 rawfails=0 nobig=40827236 owner_r=1798622 owner_other=114580 rot=258538 later_seq=0 later_upg=3018 big3=1809221 big4=159599 big5=3960
+  cores with a failure: 0
+results/k4_certs_4_n4_2.json.gz: 309 cores, 73s
+  pol_needshrink=4286875194 pol_envyfree=207706 pol_none=533228 rot0=4253054306 rot1=34561102 rot2=720 rot3=0 total=4287616128 leaves=51551802 runs=70117364 fails=0 rawfails=0 nobig=3659458432 owner_r=564517712 owner_other=29078162 rot=34561822 later_seq=0 later_upg=740934 big3=524283458 big4=76089110 big5=5568426 big6=123424
+  cores with a failure: 0
+results/k4_certs_4_n4_3.json.gz: 339 cores, 1811s
+  pol_needshrink=203785639125 pol_envyfree=30315341 pol_none=28422622 rot0=201844847930 rot1=1999453846 rot2=75312 rot3=0 total=203844377088 leaves=324913720 runs=514160560 fails=0 rawfails=0 nobig=145413695724 owner_r=54004499204 owner_other=2426653002 rot=1999529158 later_seq=0 later_upg=58737963 big3=44932437555 big4=11071060536 big5=1334456794 big6=76821828 big7=1215072
+  cores with a failure: 0
+# lb4_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz results/k4_certs_4_n4_1.json.gz results/k4_certs_4_n4_2.json.gz results/k4_certs_4_n4_3.json.gz -i1 -u3 -r3 -w1 -c1 -d1 --show=5
+results/k4_certs_2.json.gz: 5 cores, 2s
+  pol_needshrink=377832 pol_envyfree=600 pol_none=0 rot0=371640 rot1=6792 rot2=0 rot3=0 total=378432 leaves=8868 runs=14440 fails=0 rawfails=0 nobig=162360 owner_r=189360 owner_other=19920 rot=6792 later_seq=0 later_upg=600 big3=170496 big4=41472
+  cores with a failure: 0
+results/k4_certs_3.json.gz: 51 cores, 25s
+  pol_needshrink=1004353240 pol_envyfree=305240 pol_none=0 rot0=982061072 rot1=22569108 rot2=28300 rot3=0 total=1004658480 leaves=3173839 runs=5472502 fails=0 rawfails=0 nobig=543361304 owner_r=411179960 owner_other=27519808 rot=22597408 later_seq=0 later_upg=305240 big3=320683399 big4=110280797 big5=18478854 big6=1153976
+  cores with a failure: 0
+results/k4_certs_4_n4_1.json.gz: 135 cores, 6s
+  pol_needshrink=42998856 pol_envyfree=120 pol_none=0 rot0=42737540 rot1=261436 rot2=0 rot3=0 total=42998976 leaves=4606225 runs=5389226 fails=0 rawfails=0 nobig=40827236 owner_r=1795928 owner_other=114376 rot=261436 later_seq=0 later_upg=120 big3=1808013 big4=158833 big5=3960
+  cores with a failure: 0
+results/k4_certs_4_n4_2.json.gz: 309 cores, 91s
+  pol_needshrink=4287560228 pol_envyfree=55900 pol_none=0 rot0=4252373288 rot1=35238104 rot2=4736 rot3=0 total=4287616128 leaves=51492563 runs=69998886 fails=0 rawfails=0 nobig=3659455122 owner_r=563930426 owner_other=28987740 rot=35242840 later_seq=0 later_upg=55900 big3=524113245 big4=75895408 big5=5525478 big6=123104
+  cores with a failure: 0
+results/k4_certs_4_n4_3.json.gz: 339 cores, 1407s
+  pol_needshrink=203839897508 pol_envyfree=4479580 pol_none=0 rot0=201791055871 rot1=2052658353 rot2=657104 rot3=5760 total=203844377088 leaves=321559427 runs=507451974 fails=0 rawfails=0 nobig=145413376240 owner_r=53963690085 owner_other=2413989546 rot=2053321217 later_seq=0 later_upg=4479580 big3=44926288379 big4=11057498244 big5=1328910634 big6=76081724 big7=1203232
+  cores with a failure: 0
+# lb4_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz results/k4_certs_4_n4_1.json.gz results/k4_certs_4_n4_2.json.gz results/k4_certs_4_n4_3.json.gz results/k4_certs_5_n4_1.json.gz results/k4_certs_5_n4_2.json.gz results/k4_certs_4_pure.json.gz -i0 -u3 -r3 -w1 -c1 -d2 --show=5
+results/k4_certs_2.json.gz: 5 cores, 3s
+  pol_needshrink=188916 pol_envyfree=300 pol_none=0 rot0=185856 rot1=3360 rot2=0 rot3=0 total=189216 leaves=4512 runs=7376 fails=0 rawfails=0 nobig=81216 owner_r=94740 owner_other=9900 rot=3360 later_seq=0 later_upg=300 big3=85248 big4=20736
+  cores with a failure: 0
+results/k4_certs_3.json.gz: 51 cores, 13s
+  pol_needshrink=299416350 pol_envyfree=318838 pol_none=102188 rot0=289807786 rot1=10017550 rot2=12040 rot3=0 total=299837376 leaves=1190373 runs=2124970 fails=0 rawfails=0 nobig=164485016 owner_r=115877988 owner_other=9444782 rot=10029590 later_seq=0 later_upg=421026 big3=92605003 big4=32285327 big5=5655764 big6=371668
+  cores with a failure: 0
+results/k4_certs_4_n4_1.json.gz: 135 cores, 1s
+  pol_needshrink=7246050 pol_envyfree=0 pol_none=1182 rot0=7128718 rot1=118514 rot2=0 rot3=0 total=7247232 leaves=720383 runs=804862 fails=0 rawfails=0 nobig=6684788 owner_r=409188 owner_other=34742 rot=118514 later_seq=0 later_upg=1182 big3=426385 big4=42703 big5=1072
+  cores with a failure: 0
+results/k4_certs_4_n4_2.json.gz: 309 cores, 24s
+  pol_needshrink=724563022 pol_envyfree=70582 pol_none=214012 rot0=709754142 rot1=15093194 rot2=280 rot3=0 total=724847616 leaves=9040471 runs=12622766 fails=0 rawfails=0 nobig=605235024 owner_r=96027136 owner_other=8491982 rot=15093474 later_seq=0 later_upg=284594 big3=91763260 big4=16732090 big5=1369714 big6=31784
+  cores with a failure: 0
+results/k4_certs_4_n4_3.json.gz: 339 cores, 573s
+  pol_needshrink=34948909930 pol_envyfree=11022420 pol_none=11912258 rot0=34162713878 rot1=809100890 rot2=29840 rot3=0 total=34971844608 leaves=65908357 runs=109231370 fails=0 rawfails=0 nobig=24935861708 owner_r=8547746192 owner_other=679105978 rot=809130730 later_seq=0 later_upg=22934678 big3=7310058087 big4=2008313834 big5=289693180 big6=18527004 big7=293552
+  cores with a failure: 0
+results/k4_certs_5_n4_1.json.gz: 1735 cores, 41s
+  pol_needshrink=574573148 pol_envyfree=528 pol_none=41620 rot0=571221168 rot1=3394124 rot2=4 rot3=0 total=574615296 leaves=55161308 runs=60411064 fails=0 rawfails=0 nobig=547530326 owner_r=22292940 owner_other=1397902 rot=3394128 later_seq=0 later_upg=42148 big3=21894782 big4=2557506 big5=116044 big6=2044
+  cores with a failure: 0
+results/k4_certs_5_n4_2.json.gz: 5468 cores, 1441s
+  pol_needshrink=80009879633 pol_envyfree=2128995 pol_none=13855564 rot0=79365582838 rot1=660279114 rot2=2240 rot3=0 total=80025864192 leaves=835854561 runs=1076502978 fails=0 rawfails=0 nobig=72445114642 owner_r=6425902250 owner_other=494565946 rot=660281354 later_seq=0 later_upg=15984559 big3=5914828841 big4=1140827260 big5=107566056 big6=3873470 big7=48520
+  cores with a failure: 0
+results/k4_certs_4_pure.json.gz: 219 cores, 11297s
+  pol_needshrink=1021645217238 pol_envyfree=608693222 pol_none=242562628 rot0=995082845692 rot1=27412129876 rot2=1497520 rot3=0 total=1022496473088 leaves=397091355 runs=738329654 fails=0 rawfails=0 nobig=597659362992 owner_r=369924470050 owner_other=27499012650 rot=27413627396 later_seq=0 later_upg=851255850 big3=265834207376 big4=117263041906 big5=26435727212 big6=3432742892 big7=223652616 big8=4102848
+  cores with a failure: 0

@@ -1,0 +1,47 @@
+# LB4r on the profiles of PR #30 (k4/gm4.md): k4/lb4r_profiles.py; seeds results/k4_gm4_gmall_seeds_4.txt (GMALL, 148) and results/k4_gm4_seeds_4.txt (GMFAIL, 7); --vary=2: two-agent neighbourhoods as k4/gm4_run.py --around (overlaps counted more than once). EVIDENCE.
+# lb4r_profiles.py --named -i1 -u3 -r3 -w1 -c1 -d2 (11 inputs)
+  A: pure n=4, m=7: 4 run-profile pairs, fails 0, raw 0
+  B: pure n=4, m=7: 4 run-profile pairs, fails 0, raw 0
+  C: pure n=4, m=7: 4 run-profile pairs, fails 0, raw 0
+  D: pure n=4, m=7: 4 run-profile pairs, fails 0, raw 0
+  E: n=4, m=7, two 4-good agents: 4 run-profile pairs, fails 0, raw 0
+  F: n=4, m=7, two 4-good agents: 4 run-profile pairs, fails 0, raw 0
+  S: n=4, m=6, one 4-good agent (GM4S only: a split placement is needed): 4 run-profile pairs, fails 0, raw 0
+  H: n=4, m=6, one 4-good agent (H1 fails: an envier source cannot take the pool): 4 run-profile pairs, fails 0, raw 0
+  G: pure n=4, m=7 (GM4E fails: no maximum admits a placement; instance A with agent 2's type changed): 4 run-profile pairs, fails 0, raw 0
+  P: pure n=4, m=7 (a maximum of sum 2^l and of leximax without placement): 4 run-profile pairs, fails 0, raw 0
+  Q: instance E under fixed priority, agent order 2, 3, 0, 1 (no maximum admits a placement): 4 run-profile pairs, fails 0, raw 0
+  total=44 leaves=44 runs=44 fails=0 rawfails=0 nobig=3 owner_r=39 owner_other=2 rot=0 later_seq=0 later_upg=0
+  inputs with a failure: 0
+# lb4r_profiles.py --seeds=results/k4_gm4_gmall_seeds_4.txt:GMALL -i1 -u3 -r3 -w1 -c1 -d2 (148 inputs)
+  total=592 leaves=592 runs=592 fails=0 rawfails=0 nobig=0 owner_r=592 owner_other=0 rot=0 later_seq=0 later_upg=0
+  inputs with a failure: 0
+# lb4r_profiles.py --seeds=results/k4_gm4_seeds_4.txt:GMFAIL --vary=2 -i1 -u3 -r3 -w1 -c1 -d2 (42 inputs)
+  total=10395216 leaves=126962 runs=173716 fails=0 rawfails=0 nobig=8757962 owner_r=1068799 owner_other=189025 rot=379430 later_seq=0 later_upg=7536
+  inputs with a failure: 0
+# lb4r_profiles.py --seeds=results/k4_gm4_gmall_seeds_4.txt:GMALL --vary=2 -i1 -u3 -r3 -w1 -c1 -d2 (205 inputs)
+  total=80056512 leaves=883212 runs=1210476 fails=0 rawfails=0 nobig=64395510 owner_r=10232186 owner_other=1350616 rot=4078200 later_seq=0 later_upg=46656
+  inputs with a failure: 0
+# lb4r_profiles.py --named -i0 -u3 -r3 -w1 -c1 -d2 (11 inputs)
+  A: pure n=4, m=7: 1 run-profile pairs, fails 0, raw 0
+  B: pure n=4, m=7: 1 run-profile pairs, fails 0, raw 0
+  C: pure n=4, m=7: 1 run-profile pairs, fails 0, raw 0
+  D: pure n=4, m=7: 1 run-profile pairs, fails 0, raw 0
+  E: n=4, m=7, two 4-good agents: 1 run-profile pairs, fails 0, raw 0
+  F: n=4, m=7, two 4-good agents: 1 run-profile pairs, fails 0, raw 0
+  S: n=4, m=6, one 4-good agent (GM4S only: a split placement is needed): 1 run-profile pairs, fails 0, raw 0
+  H: n=4, m=6, one 4-good agent (H1 fails: an envier source cannot take the pool): 1 run-profile pairs, fails 0, raw 0
+  G: pure n=4, m=7 (GM4E fails: no maximum admits a placement; instance A with agent 2's type changed): 1 run-profile pairs, fails 0, raw 0
+  P: pure n=4, m=7 (a maximum of sum 2^l and of leximax without placement): 1 run-profile pairs, fails 0, raw 0
+  Q: instance E under fixed priority, agent order 2, 3, 0, 1 (no maximum admits a placement): 1 run-profile pairs, fails 0, raw 0
+  total=11 leaves=11 runs=11 fails=0 rawfails=0 nobig=2 owner_r=9 owner_other=0 rot=0 later_seq=0 later_upg=0
+  inputs with a failure: 0
+# lb4r_profiles.py --seeds=results/k4_gm4_gmall_seeds_4.txt:GMALL -i0 -u3 -r3 -w1 -c1 -d2 (148 inputs)
+  total=148 leaves=148 runs=148 fails=0 rawfails=0 nobig=0 owner_r=148 owner_other=0 rot=0 later_seq=0 later_upg=0
+  inputs with a failure: 0
+# lb4r_profiles.py --seeds=results/k4_gm4_seeds_4.txt:GMFAIL --vary=2 -i0 -u3 -r3 -w1 -c1 -d2 (42 inputs)
+  total=2260332 leaves=28246 runs=39104 fails=0 rawfails=0 nobig=1794412 owner_r=315534 owner_other=48222 rot=102164 later_seq=0 later_upg=4432
+  inputs with a failure: 0
+# lb4r_profiles.py --seeds=results/k4_gm4_gmall_seeds_4.txt:GMALL --vary=2 -i0 -u3 -r3 -w1 -c1 -d2 (205 inputs)
+  total=17003520 leaves=187880 runs=257680 fails=0 rawfails=0 nobig=12297954 owner_r=2992262 owner_other=367696 rot=1345608 later_seq=0 later_upg=44928
+  inputs with a failure: 0

@@ -1,0 +1,249 @@
+# LB4r (k4/lb4.md §5) stress runs, EVIDENCE only. Paths under /tmp/claude-0/lb4r/ are scratch copies:
+#   k4_certs_5_{n4_3,n4_4,pure}.json.gz = results/ files of the same name on branch compute/k4-frontier (PR #26) at 2809bb4 (read-only);
+#   every other core list is committed as results/k4_lb4r_cores_<name>.json.gz (hard4/hard5: the cores where a weaker variant fails,
+#   deep_cores: the two cores of deep5.log,
+#   written by lb4_run.py --badcores, see results/k4_lb4r_weak.log; grow*: k4/lb4_randcores.py --extend; rc*: k4/lb4_randcores.py).
+# -S: random profiles per core; -H: hill-climbing steps per core (restart every 500). HARD p=policy (0 need-shrinking, 1 envy-free,
+# 2 none; with -P1: the number of policies that fail on their own) r=least rotations (-d1: under that policy; -d2: over all
+# policies) e=rotation attempts; with -P2 the first two are swapped. Counters in -S/-H modes are per run (pol_*, rot* sum to
+# runs), otherwise per run-profile pair. With a single policy (-u0, -u1, -u2) pol_needshrink counts that policy.
+# The lines after 'hardest profiles found' show each profile with the state of its hardest run (for runs made before
+# commit 'hill-climbing with -i1: the reported run is the hardest one', the last run evaluated; every -i1 climb was re-run).
+# lb4_run.py /tmp/claude-0/lb4r/k4_certs_5_n4_3.json.gz /tmp/claude-0/lb4r/k4_certs_5_n4_4.json.gz /tmp/claude-0/lb4r/k4_certs_5_pure.json.gz -i1 -u3 -r2 -w1 -c1 -d2 -S3000 --show=5 --badcores=/tmp/claude-0/lb4r/bad_r2_5.json.gz
+/tmp/claude-0/lb4r/k4_certs_5_n4_3.json.gz: 9861 cores, 175s
+  pol_needshrink=297690238 pol_envyfree=13342 pol_none=25412 rot0=296671470 rot1=1057521 rot2=1 rot3=0 total=29583000 leaves=29583000 runs=297728992 fails=0 rawfails=0 nobig=234087635 owner_r=60706238 owner_other=1877597 rot=1057522 later_seq=0 later_upg=38754 big3=46827035 big4=13862440 big5=2269246 big6=202972 big7=7203 big8=103
+  cores with a failure: 0
+  hardest profiles found (8322 reported with >= 2 rotations or a later policy):
+    HARD p=2 r=0 e=0 n=5 m=8 sets=[[0,1,2,3],[2,5,7],[3,6,7],[4,5,6,7],[4,5,6,7]] vals=[[2,6,10,7],[4,3,2],[4,3,2],[1,4,8,6],[6,2,10,3]] order=4 2 0 1 3  picks=2,5,3,7,6 blocks=0,0,0,0,0 upg= frozen=0 4  J=13 w=0
+    HARD p=2 r=0 e=0 n=5 m=8 sets=[[0,1,2,3],[2,4,5,6],[3,4,5,7],[4,6,7],[5,6,7]] vals=[[3,6,4,8],[6,7,2,10],[10,8,6,3],[3,4,2],[3,4,2]] order=4 3 2 0 1  picks=1,2,3,4,6 blocks=0,0,0,0,0 upg=0:3 1:24 3:90  frozen=4  J=0 w=-1
+    HARD p=2 r=0 e=0 n=5 m=8 sets=[[0,1,2,3],[2,4,6],[3,5,7],[4,5,6,7],[4,5,6,7]] vals=[[3,6,7,5],[4,2,3],[3,2,4],[7,6,2,10],[4,2,5,8]] order=4 2 0 1 3  picks=2,6,3,4,7 blocks=0,0,0,0,0 upg=2:28  frozen=0 4  J=3 w=0
+    HARD p=2 r=0 e=0 n=5 m=8 sets=[[0,1,2,7],[2,4,5,7],[3,4,6,7],[3,6,7],[5,6,7]] vals=[[5,2,4,8],[4,5,6,8],[6,7,3,5],[3,2,4],[4,2,3]] order=4 1 2 3 0  picks=0,7,4,3,5 blocks=0,0,0,0,0 upg=0:5 3:48  frozen= J=2 w=-2
+    HARD p=2 r=0 e=0 n=5 m=8 sets=[[0,1,2,3],[2,4,5,7],[3,4,6,7],[5,6,7],[5,6,7]] vals=[[3,6,7,5],[10,4,3,8],[7,4,2,8],[3,2,4],[4,2,3]] order=4 3 1 0 2  picks=1,2,3,7,5 blocks=0,0,0,0,0 upg=0:3 2:18  frozen= J=40 w=-2
+/tmp/claude-0/lb4r/k4_certs_5_n4_4.json.gz: 9846 cores, 210s
+  pol_needshrink=295182609 pol_envyfree=30071 pol_none=25931 rot0=293831850 rot1=1406744 rot2=17 rot3=0 total=29538000 leaves=29538000 runs=295238611 fails=0 rawfails=0 nobig=190494511 owner_r=100562157 owner_other=2775182 rot=1406761 later_seq=0 later_upg=56002 big3=66023173 big4=29268133 big5=7702085 big6=1164014 big7=94924 big8=3102 big9=28
+  cores with a failure: 0
+  hardest profiles found (11029 reported with >= 2 rotations or a later policy):
+    HARD p=2 r=0 e=0 n=5 m=8 sets=[[0,1,2,3],[2,5,6,7],[3,5,6,7],[4,5,6,7],[4,6,7]] vals=[[3,2,4,8],[10,3,8,6],[10,2,7,4],[1,4,8,6],[3,4,2]] order=4 1 0 3 2  picks=3,2,5,7,6 blocks=0,0,0,0,0 upg= frozen=0 3 4  J=13 w=1
+    HARD p=2 r=0 e=0 n=5 m=8 sets=[[0,1,2,3],[2,5,6,7],[3,6,7],[4,5,6,7],[4,5,6,7]] vals=[[5,3,6,7],[8,6,3,10],[4,2,3],[8,6,4,1],[6,3,4,8]] order=4 2 3 0 1  picks=2,5,3,4,7 blocks=0,0,0,0,0 upg=0:5 1:60  frozen=4  J=2 w=-1
+    HARD p=2 r=0 e=0 n=5 m=8 sets=[[0,1,2,3],[2,4,6,7],[3,5,6,7],[4,5,6,7],[4,5,7]] vals=[[2,6,10,7],[10,2,6,3],[6,3,5,7],[4,6,1,8],[3,2,4]] order=4 1 0 3 2  picks=3,2,6,5,7 blocks=0,0,0,0,0 upg= frozen=0 1 4  J=13 w=1
+    HARD p=2 r=0 e=0 n=5 m=8 sets=[[0,1,2,5],[2,4,6,7],[3,4,6,7],[3,5,6,7],[5,6,7]] vals=[[3,6,10,8],[10,8,4,3],[2,8,4,3],[6,2,10,7],[3,4,2]] order=4 1 2 0 3  picks=5,2,4,7,6 blocks=0,0,0,0,0 upg=0:22 3:88  frozen= J=1 w=-2
+    HARD p=2 r=0 e=0 n=5 m=8 sets=[[0,1,2,7],[2,4,6,7],[3,4,5,7],[3,5,6,7],[5,6,7]] vals=[[4,5,8,2],[7,6,3,5],[4,10,3,8],[5,2,4,8],[2,3,4]] order=4 0 2 3 1  picks=2,6,4,3,7 blocks=0,0,0,0,0 upg= frozen=0 2 4  J=23 w=1
+/tmp/claude-0/lb4r/k4_certs_5_pure.json.gz: 4674 cores, 139s
+  pol_needshrink=138352766 pol_envyfree=25442 pol_none=9621 rot0=137510236 rot1=877572 rot2=21 rot3=0 total=14022000 leaves=14022000 runs=138387829 fails=0 rawfails=0 nobig=69458942 owner_r=66254120 owner_other=1797174 rot=877593 later_seq=0 later_upg=35063 big3=35422901 big4=22050291 big5=8619926 big6=2209048 big7=352108 big8=32098 big9=1191 big10=12
+  cores with a failure: 0
+  hardest profiles found (6061 reported with >= 2 rotations or a later policy):
+    HARD p=2 r=0 e=0 n=5 m=8 sets=[[0,1,2,3],[2,5,6,7],[3,5,6,7],[4,5,6,7],[4,5,6,7]] vals=[[7,4,2,10],[5,6,8,4],[10,2,7,6],[6,10,3,8],[4,8,2,7]] order=4 1 2 3 0  picks=0,6,3,7,5 blocks=0,0,0,0,0 upg=0:3 3:90  frozen= J=4 w=-2
+    HARD p=2 r=0 e=0 n=5 m=8 sets=[[0,1,2,3],[2,4,6,7],[3,5,6,7],[4,5,6,7],[4,5,6,7]] vals=[[4,2,5,8],[10,7,6,2],[10,3,4,8],[8,2,4,3],[8,4,1,6]] order=4 1 0 2 3  picks=3,2,7,6,4 blocks=0,0,0,0,0 upg=2:a0  frozen=4  J=3 w=-1
+    HARD p=2 r=0 e=0 n=5 m=8 sets=[[0,1,2,4],[2,4,6,7],[3,5,6,7],[3,5,6,7],[4,5,6,7]] vals=[[1,4,8,6],[10,3,2,6],[7,8,4,2],[6,8,4,1],[5,7,3,6]] order=4 2 3 1 0  picks=4,2,3,6,5 blocks=0,0,0,0,0 upg=0:12  frozen=2 4  J=81 w=0
+    HARD p=2 r=0 e=0 n=5 m=8 sets=[[0,1,2,4],[2,5,6,7],[3,4,6,7],[3,5,6,7],[4,5,6,7]] vals=[[2,7,4,10],[5,2,8,4],[6,7,3,5],[8,2,4,3],[7,5,3,6]] order=4 0 2 3 1  picks=1,2,3,6,4 blocks=0,0,0,0,0 upg=1:84  frozen=2 4  J=21 w=0
+    HARD p=2 r=0 e=0 n=5 m=8 sets=[[0,1,2,7],[2,4,5,7],[3,4,6,7],[3,5,6,7],[4,5,6,7]] vals=[[3,5,6,7],[7,4,2,8],[8,7,2,4],[7,3,5,6],[4,2,7,10]] order=4 2 0 1 3  picks=2,4,3,6,7 blocks=0,0,0,0,0 upg=3:60  frozen=0 4  J=3 w=0
+  cores with a failure written to /tmp/claude-0/lb4r/bad_r2_5.json.gz (0)
+# lb4_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz results/k4_certs_4_n4_1.json.gz results/k4_certs_4_n4_2.json.gz results/k4_certs_4_n4_3.json.gz -i1 -u2 -r2 -w1 -c1 -d1 --show=3 --badcores=/tmp/claude-0/lb4r/bad_simple_i1.json.gz
+results/k4_certs_2.json.gz: 5 cores, 2s
+  pol_needshrink=378432 pol_envyfree=0 pol_none=0 rot0=371640 rot1=6792 rot2=0 rot3=0 total=378432 leaves=11292 runs=19288 fails=0 rawfails=0 nobig=144900 owner_r=226740 owner_other=0 rot=6792 later_seq=0 later_upg=0 big3=173376 big4=41472
+  cores with a failure: 0
+results/k4_certs_3.json.gz: 51 cores, 47s
+  pol_needshrink=1004658480 pol_envyfree=0 pol_none=0 rot0=978122858 rot1=26507086 rot2=28536 rot3=0 total=1004658480 leaves=5709846 runs=10544516 fails=0 rawfails=0 nobig=472754988 owner_r=479634808 owner_other=25733062 rot=26535622 later_seq=0 later_upg=0 big3=335698513 big4=134877313 big5=31170034 big6=3451472
+  cores with a failure: 0
+results/k4_certs_4_n4_1.json.gz: 135 cores, 7s
+  pol_needshrink=42998976 pol_envyfree=0 pol_none=0 rot0=42737052 rot1=261924 rot2=0 rot3=0 total=42998976 leaves=5196891 runs=6570558 fails=0 rawfails=0 nobig=40170928 owner_r=2465874 owner_other=100250 rot=261924 later_seq=0 later_upg=0 big3=2364613 big4=233605 big5=7152
+  cores with a failure: 0
+results/k4_certs_4_n4_2.json.gz: 309 cores, 128s
+  pol_needshrink=4287616128 pol_envyfree=0 pol_none=0 rot0=4251672614 rot1=35942506 rot2=1008 rot3=0 total=4287616128 leaves=67716235 runs=102446230 fails=0 rawfails=0 nobig=3474463042 owner_r=751589928 owner_other=25619644 rot=35943514 later_seq=0 later_upg=0 big3=643462305 big4=127647166 big5=10988134 big6=296000
+  cores with a failure: 0
+results/k4_certs_4_n4_3.json.gz: 339 cores, 2509s
+  pol_needshrink=203844377088 pol_envyfree=0 pol_none=0 rot0=201674555400 rot1=2169674292 rot2=147396 rot3=0 total=203844377088 leaves=519166343 runs=902665806 fails=0 rawfails=0 nobig=131465212696 owner_r=68022759794 owner_other=2186582910 rot=2169821688 later_seq=0 later_upg=0 big3=50928221031 big4=16676949124 big5=2820027661 big6=191996914 big7=3508320
+  cores with a failure: 0
+  cores with a failure written to /tmp/claude-0/lb4r/bad_simple_i1.json.gz (0)
+# lb4_run.py results/k4_certs_5_n4_1.json.gz results/k4_certs_5_n4_2.json.gz /tmp/claude-0/lb4r/k4_certs_5_n4_3.json.gz /tmp/claude-0/lb4r/k4_certs_5_n4_4.json.gz /tmp/claude-0/lb4r/k4_certs_5_pure.json.gz -i0 -u2 -r2 -w1 -c1 -d1 -S5000 --show=3 --badcores=/tmp/claude-0/lb4r/bad_simple5_i0.json.gz
+results/k4_certs_5_n4_1.json.gz: 1735 cores, 11s
+  pol_needshrink=8675000 pol_envyfree=0 pol_none=0 rot0=8614818 rot1=60182 rot2=0 rot3=0 total=8675000 leaves=8675000 runs=8675000 fails=0 rawfails=0 nobig=8128877 owner_r=458901 owner_other=27040 rot=60182 later_seq=0 later_upg=0 big3=441156 big4=58292 big5=2895 big6=53
+  cores with a failure: 0
+results/k4_certs_5_n4_2.json.gz: 5468 cores, 33s
+  pol_needshrink=27340000 pol_envyfree=0 pol_none=0 rot0=27068974 rot1=271026 rot2=0 rot3=0 total=27340000 leaves=27340000 runs=27340000 fails=0 rawfails=0 nobig=23081646 owner_r=3771641 owner_other=215687 rot=271026 later_seq=0 later_upg=0 big3=3161548 big4=822043 big5=103331 big6=4972 big7=97
+  cores with a failure: 0
+/tmp/claude-0/lb4r/k4_certs_5_n4_3.json.gz: 9861 cores, 90s
+  pol_needshrink=49305000 pol_envyfree=0 pol_none=0 rot0=48656642 rot1=648354 rot2=4 rot3=0 total=49305000 leaves=49305000 runs=49305000 fails=0 rawfails=0 nobig=35393254 owner_r=12647618 owner_other=615770 rot=648358 later_seq=0 later_upg=0 big3=8937847 big4=3649810 big5=876646 big6=103854 big7=4762 big8=63
+  cores with a failure: 0
+  hardest profiles found (4 reported with >= 2 rotations or a later policy):
+    HARD p=0 r=2 e=18 n=5 m=9 sets=[[0,2,6],[1,5,7,8],[2,4,7,8],[3,4,5,7],[3,6,8]] vals=[[2,3,4],[3,6,4,8],[4,2,3,8],[8,2,4,3],[3,4,2]] order=0 4 3 1 2  picks=-2,-2,8,3,6 blocks=0,0,0,0,0 upg=0:5 1:82  frozen=2  J=30 w=0
+    HARD p=0 r=2 e=16 n=5 m=9 sets=[[0,3,5],[1,4,7,8],[2,3,4,7],[2,6,8],[5,6,7,8]] vals=[[2,4,3],[3,4,8,10],[2,8,4,5],[2,4,3],[5,8,4,6]] order=0 2 1 3 4  picks=-2,8,3,-2,6 blocks=0,0,0,0,0 upg=0:21 3:4  frozen=1 4  J=92 w=2
+    HARD p=0 r=2 e=10 n=5 m=10 sets=[[0,2,4,5],[1,3,9],[3,5,7,8],[4,6,7,9],[6,8,9]] vals=[[4,2,8,7],[2,4,3],[6,4,3,8],[8,4,2,5],[2,4,3]] order=0 3 1 4 2  picks=4,3,-2,9,8 blocks=0,0,0,0,0 upg=2:a0  frozen=0 4  J=47 w=2
+/tmp/claude-0/lb4r/k4_certs_5_n4_4.json.gz: 9846 cores, 131s
+  pol_needshrink=49230000 pol_envyfree=0 pol_none=0 rot0=48384318 rot1=845674 rot2=8 rot3=0 total=49230000 leaves=49230000 runs=49230000 fails=0 rawfails=0 nobig=28353629 owner_r=19196404 owner_other=834285 rot=845682 later_seq=0 later_upg=0 big3=11304974 big4=6327565 big5=2303562 big6=513346 big7=59184 big8=2476 big9=17
+  cores with a failure: 0
+  hardest profiles found (8 reported with >= 2 rotations or a later policy):
+    HARD p=0 r=2 e=28 n=5 m=11 sets=[[0,2,7,10],[1,4,8,10],[3,6,9,10],[5,9,10],[7,8,9,10]] vals=[[5,4,6,8],[2,7,8,4],[6,3,7,5],[2,3,4],[3,10,8,4]] order=0 1 2 3 4  picks=10,-2,-2,9,8 blocks=0,0,0,0,0 upg=1:12 2:48  frozen=0  J=a5 w=2
+    HARD p=0 r=2 e=18 n=5 m=9 sets=[[0,3,8],[1,5,6,7],[2,6,7,8],[3,4,5,8],[4,5,6,7]] vals=[[2,4,3],[3,5,6,7],[3,8,10,4],[8,3,6,4],[3,5,6,7]] order=0 3 1 4 2  picks=3,7,6,-2,5 blocks=0,0,0,0,0 upg=3:110  frozen=0 1 2  J=7 w=2
+    HARD p=0 r=2 e=16 n=5 m=10 sets=[[0,2,5,6],[1,4,5,7],[3,7,8,9],[4,7,8,9],[6,8,9]] vals=[[2,4,10,7],[2,3,8,4],[6,7,10,2],[3,6,5,7],[2,4,3]] order=0 1 2 3 4  picks=5,-2,8,7,9 blocks=0,0,0,0,0 upg=1:12  frozen=0 2 4  J=4d w=3
+/tmp/claude-0/lb4r/k4_certs_5_pure.json.gz: 4674 cores, 84s
+  pol_needshrink=23370000 pol_envyfree=0 pol_none=0 rot0=22844922 rot1=525061 rot2=17 rot3=0 total=23370000 leaves=23370000 runs=23370000 fails=0 rawfails=0 nobig=10259043 owner_r=12048558 owner_other=537321 rot=525078 later_seq=0 later_upg=0 big3=5775094 big4=4184415 big5=2081076 big6=708530 big7=157251 big8=20699 big9=1090 big10=17
+  cores with a failure: 0
+  hardest profiles found (15 reported with >= 2 rotations or a later policy):
+    HARD p=0 r=2 e=95 n=5 m=11 sets=[[0,2,6,9],[1,4,8,10],[3,5,9,10],[6,7,8,10],[7,8,9,10]] vals=[[4,5,6,8],[6,3,7,5],[5,3,7,6],[2,3,8,4],[2,5,8,4]] order=0 2 1 3 4  picks=-2,-2,9,8,10 blocks=0,0,0,0,0 upg=0:44 1:12  frozen=2 3  J=a9 w=3
+    HARD p=0 r=2 e=67 n=5 m=11 sets=[[0,2,7,10],[1,4,8,10],[3,6,9,10],[5,7,8,9],[7,8,9,10]] vals=[[4,6,3,8],[4,5,6,8],[6,3,7,5],[2,4,7,10],[3,6,10,8]] order=0 2 1 3 4  picks=10,-2,-2,9,8 blocks=0,0,0,0,0 upg=1:12 2:48  frozen=0 3  J=a5 w=3
+    HARD p=0 r=2 e=50 n=5 m=12 sets=[[0,2,8,9],[1,6,9,11],[3,7,10,11],[4,8,10,11],[5,9,10,11]] vals=[[5,3,6,7],[5,4,8,6],[6,3,7,5],[4,2,8,5],[2,8,4,3]] order=0 1 2 3 4  picks=-2,9,-2,10,11 blocks=0,0,0,0,0 upg=0:104 2:88  frozen=1 3  J=73 w=4
+  cores with a failure written to /tmp/claude-0/lb4r/bad_simple5_i0.json.gz (0)
+# lb4_run.py /tmp/claude-0/lb4r/k4_certs_5_n4_3.json.gz /tmp/claude-0/lb4r/k4_certs_5_n4_4.json.gz /tmp/claude-0/lb4r/k4_certs_5_pure.json.gz -i1 -u2 -r2 -w1 -c1 -d1 -S300 --show=3 --badcores=/tmp/claude-0/lb4r/bad_simple5_i1.json.gz
+/tmp/claude-0/lb4r/k4_certs_5_n4_3.json.gz: 9861 cores, 34s
+  pol_needshrink=29773321 pol_envyfree=0 pol_none=0 rot0=29662044 rot1=111277 rot2=0 rot3=0 total=2958300 leaves=2958300 runs=29773321 fails=0 rawfails=0 nobig=21736999 owner_r=7771312 owner_other=153733 rot=111277 later_seq=0 later_upg=0 big3=5469446 big4=2017758 big5=435920 big6=46804 big7=1867 big8=21
+  cores with a failure: 0
+/tmp/claude-0/lb4r/k4_certs_5_n4_4.json.gz: 9846 cores, 45s
+  pol_needshrink=29541982 pol_envyfree=0 pol_none=0 rot0=29390752 rot1=151226 rot2=4 rot3=0 total=2953800 leaves=2953800 runs=29541982 fails=0 rawfails=0 nobig=16891647 owner_r=12267417 owner_other=231688 rot=151230 later_seq=0 later_upg=0 big3=7181088 big4=3813442 big5=1287697 big6=265725 big7=27413 big8=986 big9=9
+  cores with a failure: 0
+  hardest profiles found (2 reported with >= 2 rotations or a later policy):
+    HARD p=0 r=2 e=14 n=5 m=10 sets=[[0,2,8,9],[1,4,9],[3,7,8,9],[4,5,6,7],[5,6,7,8]] vals=[[5,4,6,8],[2,4,3],[5,4,8,6],[8,4,3,6],[3,6,8,10]] order=4 0 1 3 2  picks=-2,4,9,7,8 blocks=0,0,0,0,0 upg=0:5  frozen=1 4  J=6a w=2
+    HARD p=0 r=2 e=12 n=5 m=10 sets=[[0,2,4,7],[1,4,8,9],[3,7,9],[5,6,8,9],[5,6,8,9]] vals=[[2,4,8,7],[2,10,7,6],[2,3,4],[5,4,8,6],[4,8,3,10]] order=4 1 3 2 0  picks=2,4,7,8,9 blocks=0,0,0,0,0 upg= frozen=1 2 4  J=6b w=3
+/tmp/claude-0/lb4r/k4_certs_5_pure.json.gz: 4674 cores, 30s
+  pol_needshrink=13840020 pol_envyfree=0 pol_none=0 rot0=13742318 rot1=97697 rot2=5 rot3=0 total=1402200 leaves=1402200 runs=13840020 fails=0 rawfails=0 nobig=5846763 owner_r=7736694 owner_other=158861 rot=97702 later_seq=0 later_upg=0 big3=3624895 big4=2593918 big5=1237605 big6=401807 big7=85141 big8=10725 big9=451 big10=2
+  cores with a failure: 0
+  hardest profiles found (5 reported with >= 2 rotations or a later policy):
+    HARD p=0 r=2 e=36 n=5 m=11 sets=[[0,2,7,9],[1,6,8,10],[3,7,9,10],[4,8,9,10],[5,8,9,10]] vals=[[3,6,5,7],[3,6,7,5],[4,5,6,8],[3,5,7,6],[2,4,8,7]] order=4 2 1 0 3  picks=2,-2,10,8,9 blocks=0,0,0,0,0 upg=0:84 1:42  frozen=2 4  J=39 w=3
+    HARD p=0 r=2 e=30 n=5 m=12 sets=[[0,2,8,11],[1,4,9,11],[3,6,10,11],[5,7,10,11],[8,9,10,11]] vals=[[6,4,8,3],[5,6,4,8],[4,2,5,8],[4,7,10,2],[8,3,4,6]] order=4 0 3 2 1  picks=0,4,11,10,8 blocks=0,1,1,1,0 upg= frozen=2 4  J=2ee w=4
+    HARD p=0 r=2 e=28 n=5 m=11 sets=[[0,2,8,9],[1,6,8,10],[3,7,9,10],[4,8,9,10],[5,8,9,10]] vals=[[4,5,8,6],[8,3,4,10],[3,6,7,5],[2,4,8,3],[2,10,6,7]] order=4 1 3 2 0  picks=2,10,7,9,8 blocks=0,0,0,0,0 upg= frozen=3 4  J=7b w=3
+  cores with a failure written to /tmp/claude-0/lb4r/bad_simple5_i1.json.gz (0)
+# lb4_run.py /tmp/claude-0/lb4r/rc6_big.json.gz /tmp/claude-0/lb4r/rc7.json.gz -i0 -u2 -r2 -w1 -c1 -d1 -S5000 --show=3 --badcores=/tmp/claude-0/lb4r/bad_simple67.json.gz
+/tmp/claude-0/lb4r/rc6_big.json.gz: 3000 cores, 48s
+  pol_needshrink=15000000 pol_envyfree=0 pol_none=0 rot0=14975444 rot1=24555 rot2=1 rot3=0 total=15000000 leaves=15000000 runs=15000000 fails=0 rawfails=0 nobig=11011128 owner_r=3907927 owner_other=56389 rot=24556 later_seq=0 later_upg=0 big3=1317264 big4=949122 big5=755498 big6=534144 big7=288319 big8=108654 big9=24195 big10=2015 big11=35
+  cores with a failure: 0
+  hardest profiles found (1 reported with >= 2 rotations or a later policy):
+    HARD p=0 r=2 e=22 n=6 m=16 sets=[[3,7,8,13],[0,4,7,10],[6,7,11,15],[0,5,13,14],[0,1,6,12],[0,2,9,12]] vals=[[3,7,5,6],[6,5,8,4],[7,6,3,5],[8,4,6,5],[3,6,10,8],[5,4,6,8]] order=0 2 1 5 3 4  picks=7,-2,6,0,12,-2 blocks=0,0,0,0,0,0 upg=1:410 5:204  frozen=2  J=e92a w=5
+/tmp/claude-0/lb4r/rc7.json.gz: 1500 cores, 30s
+  pol_needshrink=7500000 pol_envyfree=0 pol_none=0 rot0=7495953 rot1=4047 rot2=0 rot3=0 total=7500000 leaves=7500000 runs=7500000 fails=0 rawfails=0 nobig=5825284 owner_r=1657061 owner_other=13608 rot=4047 later_seq=0 later_upg=0 big3=540625 big4=406196 big5=292224 big6=201163 big7=135204 big8=71118 big9=22891 big10=3913 big11=179 big12=7
+  cores with a failure: 0
+  cores with a failure written to /tmp/claude-0/lb4r/bad_simple67.json.gz (0)
+# lb4_run.py /tmp/claude-0/lb4r/hard5.json.gz /tmp/claude-0/lb4r/grow1.json.gz /tmp/claude-0/lb4r/grow3.json.gz -i1 -u2 -r2 -w1 -c1 -d1 -H300 --show=5 --badcores=/tmp/claude-0/lb4r/bad_simple_hill.json.gz
+/tmp/claude-0/lb4r/hard5.json.gz: 396 cores, 5s
+  pol_needshrink=797589 pol_envyfree=0 pol_none=0 rot0=748500 rot1=48948 rot2=141 rot3=0 total=118800 leaves=118800 runs=797589 fails=0 rawfails=0 nobig=456563 owner_r=270944 owner_other=20993 rot=49089 later_seq=0 later_upg=0 big3=188285 big4=95147 big5=31337 big6=7531 big7=436
+  cores with a failure: 0
+  hardest profiles found (11 reported with >= 2 rotations or a later policy):
+    HARD p=0 r=2 e=65 n=5 m=11 sets=[[0,2,7,9],[1,4,8,10],[3,6,9,10],[5,8,9,10],[7,8,9,10]] vals=[[6,3,5,7],[4,5,6,8],[4,5,8,6],[3,5,7,6],[3,4,8,6]] order=0 2 1 3 4  picks=9,-2,-2,10,8 blocks=0,0,0,0,0 upg=1:12 2:40  frozen=0 3  J=ad w=4
+    HARD p=0 r=2 e=56 n=5 m=11 sets=[[0,2,6,9],[1,4,8,10],[3,5,9,10],[6,7,8,10],[7,8,9,10]] vals=[[2,7,8,4],[4,6,5,8],[5,3,7,6],[10,3,2,6],[3,2,10,6]] order=1 2 0 3 4  picks=-2,10,-2,6,9 blocks=0,0,0,0,0 upg=0:5 2:28  frozen= J=192 w=1
+    HARD p=0 r=2 e=50 n=5 m=10 sets=[[0,2,5,9],[1,4,7,8],[3,5,8,9],[6,7,8,9],[6,7,8,9]] vals=[[6,5,4,8],[2,3,4,8],[6,5,7,3],[2,3,10,6],[2,6,7,10]] order=0 2 1 3 4  picks=9,-2,-2,8,7 blocks=0,0,0,0,0 upg=1:12 2:28  frozen=0 3  J=45 w=2
+    HARD p=0 r=2 e=41 n=5 m=11 sets=[[0,2,7,9],[1,4,8,10],[3,6,9,10],[5,8,9,10],[7,8,9,10]] vals=[[6,3,5,7],[4,5,6,8],[2,7,4,8],[3,5,7,6],[3,4,8,6]] order=0 2 1 3 4  picks=9,-2,-2,10,8 blocks=0,0,0,0,0 upg=1:12 2:40  frozen=0 3  J=ad w=4
+    HARD p=0 r=2 e=40 n=5 m=11 sets=[[0,2,7,9],[1,4,8,10],[3,6,9,10],[5,8,9,10],[7,8,9,10]] vals=[[3,8,4,10],[4,5,6,8],[6,4,3,8],[2,6,10,7],[3,4,8,6]] order=0 2 1 3 4  picks=9,-2,-2,10,8 blocks=0,0,0,0,0 upg=1:12 2:48  frozen=0 3  J=a5 w=3
+/tmp/claude-0/lb4r/grow1.json.gz: 2000 cores, 12s
+  pol_needshrink=5196573 pol_envyfree=0 pol_none=0 rot0=4997100 rot1=199473 rot2=0 rot3=0 total=600000 leaves=600000 runs=5196573 fails=0 rawfails=0 nobig=4143338 owner_r=792291 owner_other=61471 rot=199473 later_seq=0 later_upg=0 big3=635241 big4=233403 big5=59678 big6=8149 big7=162
+  cores with a failure: 0
+/tmp/claude-0/lb4r/grow3.json.gz: 1000 cores, 7s
+  pol_needshrink=3313154 pol_envyfree=0 pol_none=0 rot0=3262245 rot1=50909 rot2=0 rot3=0 total=300000 leaves=300000 runs=3313154 fails=0 rawfails=0 nobig=3052999 owner_r=197484 owner_other=11762 rot=50909 later_seq=0 later_upg=0 big3=156349 big4=53212 big5=13090 big6=2356 big7=232
+  cores with a failure: 0
+  cores with a failure written to /tmp/claude-0/lb4r/bad_simple_hill.json.gz (0)
+# lb4_run.py results/k4_certs_4_pure.json.gz -i1 -u2 -r2 -w1 -c1 -d1 -S20000 --show=3 --badcores=/tmp/claude-0/lb4r/bad_simple_pure4.json.gz
+results/k4_certs_4_pure.json.gz: 219 cores, 47s
+  pol_needshrink=25604019 pol_envyfree=0 pol_none=0 rot0=25212005 rot1=391972 rot2=42 rot3=0 total=4380000 leaves=4380000 runs=25604019 fails=0 rawfails=0 nobig=9201848 owner_r=15478626 owner_other=531531 rot=392014 later_seq=0 later_upg=0 big3=7239585 big4=5504350 big5=2593312 big6=757325 big7=107796 big8=2696
+  cores with a failure: 0
+  hardest profiles found (20 reported with >= 2 rotations or a later policy):
+    HARD p=0 r=2 e=34 n=4 m=7 sets=[[0,4,5,6],[1,4,5,6],[2,3,4,6],[2,3,5,6]] vals=[[2,3,10,6],[3,6,8,4],[6,2,10,7],[3,5,7,6]] order=3 0 2 1  picks=5,6,4,-2 blocks=0,0,0,0 upg=3:c  frozen=0 2  J=3 w=1
+    HARD p=0 r=2 e=18 n=4 m=8 sets=[[0,1,4,5],[1,3,6,7],[2,3,4,7],[2,5,6,7]] vals=[[4,2,8,7],[5,4,8,2],[3,4,8,2],[4,6,8,3]] order=3 1 0 2  picks=-2,1,4,6 blocks=0,0,0,0 upg=0:21  frozen=3  J=8c w=1
+    HARD p=0 r=2 e=18 n=4 m=8 sets=[[0,4,5,7],[1,2,3,4],[1,3,6,7],[2,5,6,7]] vals=[[2,8,5,4],[6,2,7,10],[4,2,8,3],[2,7,8,4]] order=3 2 1 0  picks=-2,4,1,6 blocks=0,0,0,0 upg=0:a0  frozen=3  J=d w=1
+  cores with a failure written to /tmp/claude-0/lb4r/bad_simple_pure4.json.gz (0)
+# lb4_run.py results/k4_certs_4_pure.json.gz -i0 -u2 -r2 -w1 -c1 -d1 --show=3 --badcores=/tmp/claude-0/lb4r/bad_simple_pure4_i0.json.gz
+# not finished: the command above (-i0 -u2 -r2 on pure n = 4, exhaustive) had not completed when this log was committed
+# lb4_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz results/k4_certs_4_n4_1.json.gz results/k4_certs_4_n4_2.json.gz results/k4_certs_4_n4_3.json.gz -i0 -u0 -r3 -w1 -c1 -d1 --show=3 --badcores=/tmp/claude-0/lb4r/bad_u0.json.gz
+results/k4_certs_2.json.gz: 5 cores, 4s
+  pol_needshrink=189216 pol_envyfree=0 pol_none=0 rot0=185736 rot1=3480 rot2=0 rot3=0 total=189216 leaves=5050 runs=8452 fails=0 rawfails=0 nobig=63504 owner_r=122232 owner_other=0 rot=3480 later_seq=0 later_upg=0 big3=88200 big4=20736
+  cores with a failure: 0
+results/k4_certs_3.json.gz: 51 cores, 16s
+  pol_needshrink=299837376 pol_envyfree=0 pol_none=0 rot0=286895720 rot1=12924800 rot2=16856 rot3=0 total=299837376 leaves=1693032 runs=3130288 fails=0 rawfails=0 nobig=129904408 owner_r=145132016 owner_other=11859296 rot=12941656 later_seq=0 later_upg=0 big3=100841183 big4=44209985 big5=11012632 big6=1384140
+  cores with a failure: 0
+results/k4_certs_4_n4_1.json.gz: 135 cores, 1s
+  pol_needshrink=7247232 pol_envyfree=0 pol_none=0 rot0=7124482 rot1=122750 rot2=0 rot3=0 total=7247232 leaves=729932 runs=823960 fails=0 rawfails=0 nobig=6120012 owner_r=980014 owner_other=24456 rot=122750 later_seq=0 later_upg=0 big3=868925 big4=116553 big5=3808
+  cores with a failure: 0
+results/k4_certs_4_n4_2.json.gz: 309 cores, 26s
+  pol_needshrink=724847616 pol_envyfree=0 pol_none=0 rot0=708700872 rot1=16146124 rot2=620 rot3=0 total=724847616 leaves=9182251 runs=12906326 fails=0 rawfails=0 nobig=515374968 owner_r=185973300 owner_other=7352604 rot=16146744 later_seq=0 later_upg=0 big3=148084441 big4=41168315 big5=4538876 big6=135272
+  cores with a failure: 0
+results/k4_certs_4_n4_3.json.gz: 339 cores, 771s
+  pol_needshrink=34971844608 pol_envyfree=0 pol_none=0 rot0=34064114124 rot1=907633540 rot2=96944 rot3=0 total=34971844608 leaves=75095565 runs=127605786 fails=0 rawfails=0 nobig=19954677312 owner_r=13479985136 owner_other=629451676 rot=907730484 later_seq=0 later_upg=0 big3=9442032958 big4=3965881822 big5=812384942 big6=65819496 big7=1331792
+  cores with a failure: 0
+  cores with a failure written to /tmp/claude-0/lb4r/bad_u0.json.gz (0)
+# lb4_run.py results/k4_certs_5_n4_1.json.gz results/k4_certs_5_n4_2.json.gz /tmp/claude-0/lb4r/k4_certs_5_n4_3.json.gz /tmp/claude-0/lb4r/k4_certs_5_n4_4.json.gz /tmp/claude-0/lb4r/k4_certs_5_pure.json.gz -i0 -u0 -r3 -w1 -c1 -d1 -S3000 --show=3 --badcores=/tmp/claude-0/lb4r/bad5_u0.json.gz
+results/k4_certs_5_n4_1.json.gz: 1735 cores, 8s
+  pol_needshrink=5205000 pol_envyfree=0 pol_none=0 rot0=5168787 rot1=36213 rot2=0 rot3=0 total=5205000 leaves=5205000 runs=5205000 fails=0 rawfails=0 nobig=4636402 owner_r=521993 owner_other=10392 rot=36213 later_seq=0 later_upg=0 big3=452208 big4=78259 big5=5118 big6=94
+  cores with a failure: 0
+results/k4_certs_5_n4_2.json.gz: 5468 cores, 20s
+  pol_needshrink=16404000 pol_envyfree=0 pol_none=0 rot0=16240547 rot1=163453 rot2=0 rot3=0 total=16404000 leaves=16404000 runs=16404000 fails=0 rawfails=0 nobig=12664993 owner_r=3465076 owner_other=110478 rot=163453 later_seq=0 later_upg=0 big3=2633491 big4=845879 big5=131566 big6=7704 big7=133
+  cores with a failure: 0
+/tmp/claude-0/lb4r/k4_certs_5_n4_3.json.gz: 9861 cores, 53s
+  pol_needshrink=29583000 pol_envyfree=0 pol_none=0 rot0=29188292 rot1=394703 rot2=5 rot3=0 total=29583000 leaves=29583000 runs=29583000 fails=0 rawfails=0 nobig=18933250 owner_r=9901683 owner_other=353359 rot=394708 later_seq=0 later_upg=0 big3=6389100 big4=3058801 big5=848133 big6=117111 big7=6142 big8=85
+  cores with a failure: 0
+  hardest profiles found (5 reported with >= 2 rotations or a later policy):
+    HARD p=0 r=2 e=28 n=5 m=9 sets=[[0,1,5,8],[2,3,4,5],[2,3,4,7],[6,7,8],[6,7,8]] vals=[[2,4,10,7],[5,3,6,7],[3,4,8,10],[4,3,2],[4,3,2]] order=0 1 2 3 4  picks=5,-2,4,6,7 blocks=0,0,0,0,0 upg=1:c  frozen=3 4  J=103 w=1
+    HARD p=0 r=2 e=16 n=5 m=9 sets=[[0,3,5],[1,4,7,8],[2,3,4,7],[2,6,8],[5,6,7,8]] vals=[[2,4,3],[3,4,8,10],[2,8,4,5],[2,4,3],[5,8,4,6]] order=0 2 1 3 4  picks=-2,8,3,-2,6 blocks=0,0,0,0,0 upg=0:21 3:4  frozen=1 4  J=92 w=2
+    HARD p=0 r=2 e=12 n=5 m=9 sets=[[0,2,4,7],[1,3,6,8],[2,4,6],[3,5,7,8],[5,7,8]] vals=[[4,8,3,10],[4,3,10,8],[3,2,4],[2,10,6,3],[4,3,2]] order=0 4 3 1 2  picks=7,6,-2,8,5 blocks=0,0,0,0,0 upg=2:14  frozen=0 4  J=b w=1
+/tmp/claude-0/lb4r/k4_certs_5_n4_4.json.gz: 9846 cores, 76s
+  pol_needshrink=29538000 pol_envyfree=0 pol_none=0 rot0=29020556 rot1=517436 rot2=8 rot3=0 total=29538000 leaves=29538000 runs=29538000 fails=0 rawfails=0 nobig=15129219 owner_r=13378978 owner_other=512359 rot=517444 later_seq=0 later_upg=0 big3=7273234 big4=4559122 big5=1837217 big6=445664 big7=55652 big8=2586 big9=17
+  cores with a failure: 0
+  hardest profiles found (8 reported with >= 2 rotations or a later policy):
+    HARD p=0 r=2 e=28 n=5 m=11 sets=[[0,2,7,10],[1,4,8,10],[3,6,9,10],[5,9,10],[7,8,9,10]] vals=[[5,4,6,8],[2,7,8,4],[6,3,7,5],[2,3,4],[3,10,8,4]] order=0 1 2 3 4  picks=10,-2,-2,9,8 blocks=0,0,0,0,0 upg=1:12 2:48  frozen=0  J=a5 w=2
+    HARD p=0 r=2 e=16 n=5 m=10 sets=[[0,2,5,6],[1,4,5,7],[3,7,8,9],[4,7,8,9],[6,8,9]] vals=[[2,4,10,7],[2,3,8,4],[6,7,10,2],[3,6,5,7],[2,4,3]] order=0 1 2 3 4  picks=5,-2,8,7,9 blocks=0,0,0,0,0 upg=1:12  frozen=0 2 4  J=4d w=3
+    HARD p=0 r=2 e=16 n=5 m=10 sets=[[0,2,5,7],[1,6,8,9],[3,4,5,8],[3,4,8,9],[6,7,9]] vals=[[1,4,8,6],[3,7,6,5],[2,3,8,4],[2,7,4,10],[4,2,3]] order=0 2 1 3 4  picks=-2,6,5,-2,9 blocks=0,0,0,0,0 upg=0:84 3:18  frozen=1 4  J=103 w=2
+/tmp/claude-0/lb4r/k4_certs_5_pure.json.gz: 4674 cores, 52s
+  pol_needshrink=14022000 pol_envyfree=0 pol_none=0 rot0=13701136 rot1=320851 rot2=13 rot3=0 total=14022000 leaves=14022000 runs=14022000 fails=0 rawfails=0 nobig=5605695 owner_r=7750652 owner_other=344789 rot=320864 later_seq=0 later_upg=0 big3=3508189 big4=2711885 big5=1434458 big6=513828 big7=117883 big8=15926 big9=911 big10=14
+  cores with a failure: 0
+  hardest profiles found (11 reported with >= 2 rotations or a later policy):
+    HARD p=0 r=2 e=95 n=5 m=11 sets=[[0,2,6,9],[1,4,8,10],[3,5,9,10],[6,7,8,10],[7,8,9,10]] vals=[[4,5,6,8],[6,3,7,5],[5,3,7,6],[2,3,8,4],[2,5,8,4]] order=0 2 1 3 4  picks=-2,-2,9,8,10 blocks=0,0,0,0,0 upg=0:44 1:12  frozen=2 3  J=a9 w=3
+    HARD p=0 r=2 e=50 n=5 m=12 sets=[[0,2,8,9],[1,6,9,11],[3,7,10,11],[4,8,10,11],[5,9,10,11]] vals=[[5,3,6,7],[5,4,8,6],[6,3,7,5],[4,2,8,5],[2,8,4,3]] order=0 1 2 3 4  picks=-2,9,-2,10,11 blocks=0,0,0,0,0 upg=0:104 2:88  frozen=1 3  J=73 w=4
+    HARD p=0 r=2 e=46 n=5 m=12 sets=[[0,2,8,9],[1,6,10,11],[3,7,10,11],[4,8,9,11],[5,9,10,11]] vals=[[6,4,3,8],[6,5,8,4],[4,2,8,7],[5,3,7,6],[2,8,4,7]] order=0 3 1 2 4  picks=9,-2,10,-2,11 blocks=0,0,0,0,0 upg=1:42 3:110  frozen=0  J=ad w=3
+  cores with a failure written to /tmp/claude-0/lb4r/bad5_u0.json.gz (0)
+# lb4_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz -i1 -u0 -r3 -w1 -c1 -d1 --show=3
+results/k4_certs_2.json.gz: 5 cores, 2s
+  pol_needshrink=378432 pol_envyfree=0 pol_none=0 rot0=371400 rot1=7032 rot2=0 rot3=0 total=378432 leaves=9730 runs=16164 fails=0 rawfails=0 nobig=127008 owner_r=244392 owner_other=0 rot=7032 later_seq=0 later_upg=0 big3=176328 big4=41472
+  cores with a failure: 0
+results/k4_certs_3.json.gz: 51 cores, 42s
+  pol_needshrink=1004658480 pol_envyfree=0 pol_none=0 rot0=975598436 rot1=29029308 rot2=30736 rot3=0 total=1004658480 leaves=4516975 runs=8158774 fails=0 rawfails=0 nobig=429582152 owner_r=510256684 owner_other=35759600 rot=29060044 later_seq=0 later_upg=0 big3=346792411 big4=154947715 big5=38547118 big6=4364192
+  cores with a failure: 0
+# lb4_run.py /tmp/claude-0/lb4r/k4_certs_5_n4_3.json.gz /tmp/claude-0/lb4r/k4_certs_5_n4_4.json.gz /tmp/claude-0/lb4r/k4_certs_5_pure.json.gz -i1 -u0 -r2 -w1 -c1 -d1 -S300 --show=3 --badcores=/tmp/claude-0/lb4r/bad5_u0_i1.json.gz
+/tmp/claude-0/lb4r/k4_certs_5_n4_3.json.gz: 9861 cores, 35s
+  pol_needshrink=29773321 pol_envyfree=0 pol_none=0 rot0=29658744 rot1=114577 rot2=0 rot3=0 total=2958300 leaves=2958300 runs=29773321 fails=0 rawfails=0 nobig=19495112 owner_r=9990448 owner_other=173184 rot=114577 later_seq=0 later_upg=0 big3=6517889 big4=2861383 big5=721472 big6=91248 big7=3901 big8=47
+  cores with a failure: 0
+/tmp/claude-0/lb4r/k4_certs_5_n4_4.json.gz: 9846 cores, 48s
+  pol_needshrink=29541982 pol_envyfree=0 pol_none=0 rot0=29385499 rot1=156480 rot2=3 rot3=0 total=2953800 leaves=2953800 runs=29541982 fails=0 rawfails=0 nobig=15048784 owner_r=14070062 owner_other=266653 rot=156483 later_seq=0 later_upg=0 big3=7660496 big4=4575304 big5=1728398 big6=396224 big7=45390 big8=1691 big9=14
+  cores with a failure: 0
+  hardest profiles found (1 reported with >= 2 rotations or a later policy):
+    HARD p=0 r=2 e=14 n=5 m=10 sets=[[0,2,8,9],[1,4,9],[3,7,8,9],[4,5,6,7],[5,6,7,8]] vals=[[5,4,6,8],[2,4,3],[5,4,8,6],[8,4,3,6],[3,6,8,10]] order=1 3 2 0 4  picks=-2,4,9,7,8 blocks=0,0,0,0,0 upg=0:5  frozen=1 4  J=6a w=2
+/tmp/claude-0/lb4r/k4_certs_5_pure.json.gz: 4674 cores, 35s
+  pol_needshrink=13840020 pol_envyfree=0 pol_none=0 rot0=13739158 rot1=100857 rot2=5 rot3=0 total=1402200 leaves=1402200 runs=13840020 fails=0 rawfails=0 nobig=5273681 owner_r=8280802 owner_other=184675 rot=100862 later_seq=0 later_upg=0 big3=3654295 big4=2802593 big5=1440398 big6=500642 big7=111723 big8=14720 big9=715 big10=5
+  cores with a failure: 0
+  hardest profiles found (5 reported with >= 2 rotations or a later policy):
+    HARD p=0 r=2 e=36 n=5 m=11 sets=[[0,2,7,9],[1,6,8,10],[3,7,9,10],[4,8,9,10],[5,8,9,10]] vals=[[3,6,5,7],[3,6,7,5],[4,5,6,8],[3,5,7,6],[2,4,8,7]] order=0 2 1 3 4  picks=9,-2,-2,10,8 blocks=0,0,0,0,0 upg=1:42 2:88  frozen=0 3  J=35 w=3
+    HARD p=0 r=2 e=30 n=5 m=12 sets=[[0,2,8,11],[1,4,9,11],[3,6,10,11],[5,7,10,11],[8,9,10,11]] vals=[[6,4,8,3],[5,6,4,8],[4,2,5,8],[4,7,10,2],[8,3,4,6]] order=1 0 3 2 4  picks=-2,11,10,-2,8 blocks=0,0,0,0,0 upg=0:5 3:a0  frozen=1  J=25a w=3
+    HARD p=0 r=2 e=28 n=5 m=11 sets=[[0,2,8,9],[1,6,8,10],[3,7,9,10],[4,8,9,10],[5,8,9,10]] vals=[[4,5,8,6],[8,3,4,10],[3,6,7,5],[2,4,8,3],[2,10,6,7]] order=2 0 1 3 4  picks=-2,-2,9,8,10 blocks=0,0,0,0,0 upg=0:5 1:42  frozen=2 3  J=b8 w=3
+  cores with a failure written to /tmp/claude-0/lb4r/bad5_u0_i1.json.gz (0)
+# lb4_run.py /tmp/claude-0/lb4r/rc6_big.json.gz /tmp/claude-0/lb4r/rc7.json.gz -i1 -u0 -r2 -w1 -c1 -d1 -S300 --show=3 --badcores=/tmp/claude-0/lb4r/bad67_u0.json.gz
+/tmp/claude-0/lb4r/rc6_big.json.gz: 3000 cores, 63s
+  pol_needshrink=20897306 pol_envyfree=0 pol_none=0 rot0=20883882 rot1=13424 rot2=0 rot3=0 total=900000 leaves=900000 runs=20897306 fails=0 rawfails=0 nobig=9877516 owner_r=10926255 owner_other=80111 rot=13424 later_seq=0 later_upg=0 big3=3259430 big4=2614292 big5=2300559 big6=1666763 big7=846166 big8=276449 big9=49590 big10=2398 big11=30
+  cores with a failure: 0
+/tmp/claude-0/lb4r/rc7.json.gz: 1500 cores, 78s
+  pol_needshrink=24009766 pol_envyfree=0 pol_none=0 rot0=24006267 rot1=3499 rot2=0 rot3=0 total=450000 leaves=450000 runs=24009766 fails=0 rawfails=0 nobig=11323763 owner_r=12647732 owner_other=34772 rot=3499 later_seq=0 later_upg=0 big3=3691932 big4=3078457 big5=2449212 big6=1722625 big7=1130900 big8=484847 big9=115639 big10=11326 big11=381
+  cores with a failure: 0
+  cores with a failure written to /tmp/claude-0/lb4r/bad67_u0.json.gz (0)
+# lb4_run.py /tmp/claude-0/lb4r/hard5.json.gz /tmp/claude-0/lb4r/grow1.json.gz /tmp/claude-0/lb4r/grow3.json.gz -i1 -u0 -r2 -w1 -c1 -d1 -H300 --show=5 --badcores=/tmp/claude-0/lb4r/bad_u0_hill.json.gz
+/tmp/claude-0/lb4r/hard5.json.gz: 396 cores, 6s
+  pol_needshrink=793076 pol_envyfree=0 pol_none=0 rot0=743752 rot1=49183 rot2=141 rot3=0 total=118800 leaves=118800 runs=793076 fails=0 rawfails=0 nobig=372641 owner_r=348808 owner_other=22303 rot=49324 later_seq=0 later_upg=0 big3=231703 big4=118943 big5=40252 big6=9219 big7=546
+  cores with a failure: 0
+  hardest profiles found (11 reported with >= 2 rotations or a later policy):
+    HARD p=0 r=2 e=65 n=5 m=11 sets=[[0,2,7,9],[1,4,8,10],[3,6,9,10],[5,8,9,10],[7,8,9,10]] vals=[[6,3,5,7],[4,5,6,8],[4,5,8,6],[3,5,7,6],[3,4,8,6]] order=0 2 1 3 4  picks=9,-2,-2,10,8 blocks=0,0,0,0,0 upg=1:12 2:40  frozen=0 3  J=ad w=4
+    HARD p=0 r=2 e=56 n=5 m=11 sets=[[0,2,6,9],[1,4,8,10],[3,5,9,10],[6,7,8,10],[7,8,9,10]] vals=[[2,7,8,4],[4,6,5,8],[5,3,7,6],[10,3,2,6],[3,2,10,6]] order=1 2 0 3 4  picks=-2,10,-2,6,9 blocks=0,0,0,0,0 upg=0:5 2:28  frozen= J=192 w=1
+    HARD p=0 r=2 e=50 n=5 m=10 sets=[[0,2,5,9],[1,4,7,8],[3,5,8,9],[6,7,8,9],[6,7,8,9]] vals=[[6,5,4,8],[2,3,4,8],[6,5,7,3],[2,3,10,6],[2,6,7,10]] order=0 2 1 3 4  picks=9,-2,-2,8,7 blocks=0,0,0,0,0 upg=1:12 2:28  frozen=0 3  J=45 w=2
+    HARD p=0 r=2 e=41 n=5 m=11 sets=[[0,2,7,9],[1,4,8,10],[3,6,9,10],[5,8,9,10],[7,8,9,10]] vals=[[6,3,5,7],[4,5,6,8],[2,7,4,8],[3,5,7,6],[3,4,8,6]] order=0 2 1 3 4  picks=9,-2,-2,10,8 blocks=0,0,0,0,0 upg=1:12 2:40  frozen=0 3  J=ad w=4
+    HARD p=0 r=2 e=40 n=5 m=11 sets=[[0,2,7,9],[1,4,8,10],[3,6,9,10],[5,8,9,10],[7,8,9,10]] vals=[[3,8,4,10],[4,5,6,8],[6,4,3,8],[2,6,10,7],[3,4,8,6]] order=0 2 1 3 4  picks=9,-2,-2,10,8 blocks=0,0,0,0,0 upg=1:12 2:48  frozen=0 3  J=a5 w=3
+/tmp/claude-0/lb4r/grow1.json.gz: 2000 cores, 12s
+  pol_needshrink=5207462 pol_envyfree=0 pol_none=0 rot0=5008049 rot1=199379 rot2=34 rot3=0 total=600000 leaves=600000 runs=5207462 fails=0 rawfails=0 nobig=3908840 owner_r=1035767 owner_other=63442 rot=199413 later_seq=0 later_upg=0 big3=798953 big4=297833 big5=74901 big6=10836 big7=215
+  cores with a failure: 0
+  hardest profiles found (2 reported with >= 2 rotations or a later policy):
+    HARD p=0 r=2 e=64 n=6 m=12 sets=[[0,2,9,10],[1,6,9,10],[3,7,8,9],[4,7,8,10],[3,7,10,11],[5,8,9,10]] vals=[[3,5,7,6],[8,4,10,3],[2,5,4,8],[2,7,4,10],[6,8,1,4],[2,4,8,7]] order=1 0 4 2 3 5  picks=-2,9,-2,10,7,8 blocks=0,0,0,0,0,0 upg=0:5 2:8  frozen=1 3 4 5  J=872 w=5
+    HARD p=0 r=2 e=56 n=6 m=12 sets=[[0,2,9,10],[1,6,9,10],[3,7,8,9],[4,7,8,10],[3,7,10,11],[5,8,9,10]] vals=[[4,8,3,10],[3,8,10,6],[2,5,4,8],[2,7,4,10],[6,8,4,3],[2,4,10,7]] order=0 1 4 2 3 5  picks=10,-2,-2,8,7,9 blocks=0,0,0,0,0,0 upg=1:42 2:8  frozen=0 3 4 5  J=835 w=5
+/tmp/claude-0/lb4r/grow3.json.gz: 1000 cores, 7s
+  pol_needshrink=3327734 pol_envyfree=0 pol_none=0 rot0=3277543 rot1=50191 rot2=0 rot3=0 total=300000 leaves=300000 runs=3327734 fails=0 rawfails=0 nobig=3013759 owner_r=252224 owner_other=11560 rot=50191 later_seq=0 later_upg=0 big3=192371 big4=67499 big5=16231 big6=3034 big7=248
+  cores with a failure: 0
+  cores with a failure written to /tmp/claude-0/lb4r/bad_u0_hill.json.gz (0)
+# lb4_run.py results/k4_certs_4_pure.json.gz -i1 -u0 -r3 -w1 -c1 -d1 -S20000 --show=3 --badcores=/tmp/claude-0/lb4r/bad_u0_pure4.json.gz
+results/k4_certs_4_pure.json.gz: 219 cores, 49s
+  pol_needshrink=25604019 pol_envyfree=0 pol_none=0 rot0=25191233 rot1=412709 rot2=77 rot3=0 total=4380000 leaves=4380000 runs=25604019 fails=0 rawfails=0 nobig=8275299 owner_r=16296483 owner_other=619451 rot=412786 later_seq=0 later_upg=0 big3=7210146 big4=5848555 big5=2988242 big6=923349 big7=138979 big8=3901
+  cores with a failure: 0
+  hardest profiles found (34 reported with >= 2 rotations or a later policy):
+    HARD p=0 r=2 e=34 n=4 m=7 sets=[[0,4,5,6],[1,4,5,6],[2,3,4,6],[2,3,5,6]] vals=[[2,3,10,6],[3,6,8,4],[6,2,10,7],[3,5,7,6]] order=3 0 2 1  picks=5,6,4,-2 blocks=0,0,0,0 upg=3:c  frozen=0 2  J=3 w=1
+    HARD p=0 r=2 e=26 n=4 m=11 sets=[[0,2,8,10],[1,5,8,10],[3,6,9,10],[4,7,9,10]] vals=[[3,5,6,7],[3,6,5,7],[3,6,5,7],[5,6,4,8]] order=3 0 1 2  picks=-2,10,6,-2 blocks=0,0,0,0 upg=0:104 3:280  frozen=1  J=3b w=4
+    HARD p=0 r=2 e=18 n=4 m=8 sets=[[0,1,4,5],[1,3,6,7],[2,3,4,7],[2,5,6,7]] vals=[[4,2,8,7],[5,4,8,2],[3,4,8,2],[4,6,8,3]] order=3 1 0 2  picks=-2,1,4,6 blocks=0,0,0,0 upg=0:21  frozen=3  J=8c w=1
+  cores with a failure written to /tmp/claude-0/lb4r/bad_u0_pure4.json.gz (0)

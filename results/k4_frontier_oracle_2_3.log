@@ -1,0 +1,5 @@
+command: python3 k4/frontier/tester.py --oracle --n=2,3 --d2 --jobs=1
+cores: 56 from k4_certs_2.json.gz, k4_certs_3.json.gz
+types: 6 (3 goods), 288 (4 goods) [strict balanced]
+SUMMARY: 56 cores, 300026592 profiles, 0 cores with failures (EFX0 + D2)
+exit status 0
