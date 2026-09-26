@@ -1,0 +1,33 @@
+# k = 4, n = 4, one 4-good agent, every strict profile (section 2 of k4/c4x.md)
+# command: python3 k4/c4x_run.py results/k4_certs_4_n4_1.json.gz -R -p "6,17;3;6,3;6,8,3;6;6,8" -x 3
+core 24: EX every (-frozen): types [0:2,2:3,4:4,5:8] [1:2,4:4,5:3] [3:4,4:3,5:2] [3:4,4:3,5:2] bases {4} {1} {3} {5} J {0,2}
+core 24: EX every (-frozen,slots): types [0:2,2:3,4:4,5:8] [1:2,4:4,5:3] [3:4,4:3,5:2] [3:4,4:3,5:2] bases {4} {5} {} {3} J {0,1,2}
+core 24: EX every (-frozen): types [0:2,2:3,4:8,5:4] [1:2,4:3,5:4] [3:4,4:2,5:3] [3:4,4:2,5:3] bases {5} {1} {3} {4} J {0,2}
+core 24: EX every (-frozen,slots): types [0:2,2:3,4:8,5:4] [1:2,4:3,5:4] [3:4,4:2,5:3] [3:4,4:2,5:3] bases {5} {4} {} {3} J {0,1,2}
+core 24: EX every (-frozen): types [0:2,2:4,4:5,5:8] [1:2,4:4,5:3] [3:4,4:3,5:2] [3:4,4:3,5:2] bases {4} {1} {3} {5} J {0,2}
+core 24: EX every (-frozen,slots): types [0:2,2:4,4:5,5:8] [1:2,4:4,5:3] [3:4,4:3,5:2] [3:4,4:3,5:2] bases {4} {5} {} {3} J {0,1,2}
+core 25: EX every (-frozen): types [0:2,2:3,4:4,5:8] [1:2,3:4,5:3] [3:3,4:4,5:2] [3:3,4:4,5:2] bases {4} {1} {3} {5} J {0,2}
+core 25: EX every (-frozen,slots): types [0:2,2:3,4:4,5:8] [1:2,3:4,5:3] [3:3,4:4,5:2] [3:3,4:4,5:2] bases {4} {3} {} {5} J {0,1,2}
+core 25: EX every (-frozen): types [0:2,2:4,4:5,5:8] [1:2,3:4,5:3] [3:3,4:4,5:2] [3:3,4:4,5:2] bases {4} {1} {3} {5} J {0,2}
+core 25: EX every (-frozen,slots): types [0:2,2:4,4:5,5:8] [1:2,3:4,5:3] [3:3,4:4,5:2] [3:3,4:4,5:2] bases {4} {3} {} {5} J {0,1,2}
+core 25: EX every (-frozen): types [0:2,2:6,4:7,5:10] [1:2,3:4,5:3] [3:3,4:4,5:2] [3:3,4:4,5:2] bases {4} {1} {3} {5} J {0,2}
+core 25: EX every (-frozen,slots): types [0:2,2:6,4:7,5:10] [1:2,3:4,5:3] [3:3,4:4,5:2] [3:3,4:4,5:2] bases {4} {3} {} {5} J {0,1,2}
+core 69: EX every (-frozen): types [0:3,2:5,4:6,6:7] [1:2,5:3,6:4] [3:2,5:3,6:4] [4:2,5:3,6:4] bases {6} {1} {3} {5} J {0,2,4}
+core 69: EX every (-frozen,slots): types [0:3,2:5,4:6,6:7] [1:2,5:3,6:4] [3:2,5:3,6:4] [4:2,5:3,6:4] bases {6} {1} {3} {5} J {0,2,4}
+core 69: EX every (-frozen): types [0:3,2:5,4:6,6:7] [1:2,5:3,6:4] [3:2,5:3,6:4] [4:2,5:4,6:3] bases {6} {1} {3} {5} J {0,2,4}
+core 69: EX every (-frozen,slots): types [0:3,2:5,4:6,6:7] [1:2,5:3,6:4] [3:2,5:3,6:4] [4:2,5:4,6:3] bases {6} {1} {3} {5} J {0,2,4}
+core 69: EX every (-frozen): types [0:3,2:5,4:6,6:7] [1:2,5:3,6:4] [3:2,5:3,6:4] [4:3,5:4,6:2] bases {6} {1} {3} {5} J {0,2,4}
+core 69: EX every (-frozen,slots): types [0:3,2:5,4:6,6:7] [1:2,5:3,6:4] [3:2,5:3,6:4] [4:3,5:4,6:2] bases {6} {1} {3} {5} J {0,2,4}
+core 89: EX every (-frozen): types [0:3,3:5,4:6,5:7] [1:2,5:4,6:3] [2:2,5:4,6:3] [3:2,4:3,6:4] bases {5} {1} {2} {6} J {0,3,4}
+core 89: EX every (-frozen,slots): types [0:3,3:5,4:6,5:7] [1:2,5:4,6:3] [2:2,5:4,6:3] [3:2,4:3,6:4] bases {5} {1} {2} {6} J {0,3,4}
+core 89: EX every (-frozen): types [0:3,3:5,4:6,5:7] [1:2,5:4,6:3] [2:2,5:4,6:3] [3:3,4:2,6:4] bases {5} {1} {2} {6} J {0,3,4}
+core 89: EX every (-frozen,slots): types [0:3,3:5,4:6,5:7] [1:2,5:4,6:3] [2:2,5:4,6:3] [3:3,4:2,6:4] bases {5} {1} {2} {6} J {0,3,4}
+core 89: EX every (-frozen): types [0:3,3:6,4:5,5:7] [1:2,5:4,6:3] [2:2,5:4,6:3] [3:2,4:3,6:4] bases {5} {1} {2} {6} J {0,3,4}
+core 89: EX every (-frozen,slots): types [0:3,3:6,4:5,5:7] [1:2,5:4,6:3] [2:2,5:4,6:3] [3:2,4:3,6:4] bases {5} {1} {2} {6} J {0,3,4}
+FILE results/k4_certs_4_n4_1.json.gz cores 135 profiles 7247232 valid 137951940 tested 80813566 nocomp 0 ronone 0 ronone_any 0 paretomax 0 paretofail 0
+  (-frozen,-rodef)                 every-max fails            0   some-max fails            0
+  (leximin)                        every-max fails            0   some-max fails            0
+  (-frozen,leximin)                every-max fails            0   some-max fails            0
+  (-frozen,slots,leximin)          every-max fails            0   some-max fails            0
+  (-frozen)                        every-max fails          176   some-max fails            0
+  (-frozen,slots)                  every-max fails          176   some-max fails            0

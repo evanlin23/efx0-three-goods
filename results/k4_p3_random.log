@@ -1,0 +1,7 @@
+command: python3 k4/p3_run.py random --n=6,7,8,9,10 --cores=200 --profiles=500 --seed=43 --jobs=2
+binary: /tmp/k4_lb4_nsw_dbcf85a21650ffde (sha256 of k4/lb4_nsw.c: dbcf85a21650ffdeca354563e30f97abae884ca594037aa1085c225cb33fcc5e), options -i0 -u3 -w1 -c1 -rR -b
+random n=6: 200 (4, 3) cores (m 8..16), 100000 random profiles; least number of nested rotations that works, R = 0, 1, 2, 3: [99843, 157, 0, 0]; LB4r (R <= 3) fails: 0; raw EFX0/D2 failures: 0 [4 s]
+random n=7: 200 (4, 3) cores (m 10..19), 100000 random profiles; least number of nested rotations that works, R = 0, 1, 2, 3: [99947, 53, 0, 0]; LB4r (R <= 3) fails: 0; raw EFX0/D2 failures: 0 [8 s]
+random n=8: 200 (4, 3) cores (m 11..21), 100000 random profiles; least number of nested rotations that works, R = 0, 1, 2, 3: [99984, 16, 0, 0]; LB4r (R <= 3) fails: 0; raw EFX0/D2 failures: 0 [13 s]
+random n=9: 200 (4, 3) cores (m 11..23), 100000 random profiles; least number of nested rotations that works, R = 0, 1, 2, 3: [99998, 2, 0, 0]; LB4r (R <= 3) fails: 0; raw EFX0/D2 failures: 0 [18 s]
+random n=10: 200 (4, 3) cores (m 13..25), 100000 random profiles; least number of nested rotations that works, R = 0, 1, 2, 3: [99998, 2, 0, 0]; LB4r (R <= 3) fails: 0; raw EFX0/D2 failures: 0 [24 s]

@@ -1,0 +1,16 @@
+command: python3 k4/nsw_verify.py '[{"0":8,"1":4,"3":5,"4":6},{"0":10,"2":3,"3":4,"4":8},{"1":2,"2":3,"3":4,"4":8}]' POLICY, for POLICY = shrink, envyFree, none
+lb4r.py sha256 8eff47e6296610cc19519a72bf81df59776f80b8837e121a09455b57a6cfe460; profile [{"0": 8, "1": 4, "3": 5, "4": 6}, {"0": 10, "2": 3, "3": 4, "4": 8}, {"1": 2, "2": 3, "3": 4, "4": 8}]; policy shrink; potential (z, product)
+Phase 1 + upgrades []: 0:{0} 1:{4} 2:{3}, Phi (3, 256)
+explored 5 states by NSW-increasing RotSteps; states with an output: 2
+LOCAL FORM FAILS: 0:{0} 1:{4} 2:{1,2,3}* (* = marked), Phi (3, 576), no output (owner's needs from its bundle), 1 RotStep successors, largest Phi among them (3, 540); reached by (chain, O) moves [((1, 2), (2, 3)), ((2, 1), (1, 2, 3))]
+summary: existence form holds here; local form fails at 1 explored state(s)
+lb4r.py sha256 8eff47e6296610cc19519a72bf81df59776f80b8837e121a09455b57a6cfe460; profile [{"0": 8, "1": 4, "3": 5, "4": 6}, {"0": 10, "2": 3, "3": 4, "4": 8}, {"1": 2, "2": 3, "3": 4, "4": 8}]; policy envyFree; potential (z, product)
+Phase 1 + upgrades []: 0:{0} 1:{4} 2:{3}, Phi (3, 256)
+explored 5 states by NSW-increasing RotSteps; states with an output: 2
+LOCAL FORM FAILS: 0:{0} 1:{4} 2:{1,2,3}* (* = marked), Phi (3, 576), no output (owner's needs from its bundle), 1 RotStep successors, largest Phi among them (3, 540); reached by (chain, O) moves [((1, 2), (2, 3)), ((2, 1), (1, 2, 3))]
+summary: existence form holds here; local form fails at 1 explored state(s)
+lb4r.py sha256 8eff47e6296610cc19519a72bf81df59776f80b8837e121a09455b57a6cfe460; profile [{"0": 8, "1": 4, "3": 5, "4": 6}, {"0": 10, "2": 3, "3": 4, "4": 8}, {"1": 2, "2": 3, "3": 4, "4": 8}]; policy none; potential (z, product)
+Phase 1 + upgrades []: 0:{0} 1:{4} 2:{3}, Phi (3, 256)
+explored 5 states by NSW-increasing RotSteps; states with an output: 2
+LOCAL FORM FAILS: 0:{0} 1:{4} 2:{1,2,3}* (* = marked), Phi (3, 576), no output (owner's needs from its bundle), 1 RotStep successors, largest Phi among them (3, 540); reached by (chain, O) moves [((1, 2), (2, 3)), ((2, 1), (1, 2, 3))]
+summary: existence form holds here; local form fails at 1 explored state(s)
