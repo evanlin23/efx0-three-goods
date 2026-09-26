@@ -512,6 +512,13 @@ Proved parts:
 - Theorem Z′ (M1 pool improvements and M4 at a fixed key);
 - Lemma PM (M5 from a terminal threatened off the path keeps t = 0 and raises r′).
 
+Relation to the Hall route on main (`k4/hall_bt.md`, PR #52; ledger open item 19):
+- There, conjecture K4.HALL.BTCYC says that an exchange cycle through an exposed frozen big-top agent completes a
+  non-completable Pareto-maximum.
+- Item 19 asks for "a move catalogue (exchange cycles plus downgrade swaps) that covers every exposed frozen agent".
+- At f = 1, LIL is such a catalogue in the configuration framework, and it needs no downgrade swap. Hall's instance
+  bt4 (`attempts/k4-hall-bt-n4.md`), which needs one, has two frozen agents.
+
 #50's Lemmas 2–7 (written proofs, unreviewed) show that these moves raise Ψ at a Ψ-maximum whose frozen agent is not
 big-top. A proof of LIL has to add:
 - the bookkeeping of t: Lemma PM is one piece, and the configurations where a pool improvement is blocked by t are
