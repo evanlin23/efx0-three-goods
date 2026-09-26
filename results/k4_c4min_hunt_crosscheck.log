@@ -1,0 +1,33 @@
+# command: python3 c4min_crosscheck.py ../results/k4_certs_2.json.gz --per-core=40 --seed=1
+# commit cea5597, k4/c4min_hunt.c sha1 9c7ca0ffe25b, started Fri Sep 25 21:18:49 UTC 2026
+FILE ../results/k4_certs_2.json.gz profiles so far 200 mismatches 0 (brute-force comparisons 200)
+TOTAL profiles 200 mismatches 0 brute 200
+# finished Fri Sep 25 21:18:53 UTC 2026
+# command: python3 c4min_crosscheck.py ../results/k4_certs_3.json.gz --per-core=10 --seed=2
+# commit cea5597, k4/c4min_hunt.c sha1 9c7ca0ffe25b, started Fri Sep 25 21:18:53 UTC 2026
+FILE ../results/k4_certs_3.json.gz profiles so far 510 mismatches 0 (brute-force comparisons 500)
+TOTAL profiles 510 mismatches 0 brute 500
+# finished Fri Sep 25 21:19:02 UTC 2026
+# command: python3 c4min_crosscheck.py ../results/k4_certs_4_n4_1.json.gz ../results/k4_certs_4_n4_2.json.gz ../results/k4_certs_4_n4_3.json.gz ../results/k4_certs_4_pure.json.gz --per-core=2 --seed=3
+# commit cea5597, k4/c4min_hunt.c sha1 9c7ca0ffe25b, started Fri Sep 25 21:19:02 UTC 2026
+FILE ../results/k4_certs_4_n4_1.json.gz profiles so far 270 mismatches 0 (brute-force comparisons 268)
+FILE ../results/k4_certs_4_n4_2.json.gz profiles so far 888 mismatches 0 (brute-force comparisons 822)
+FILE ../results/k4_certs_4_n4_3.json.gz profiles so far 1566 mismatches 0 (brute-force comparisons 1314)
+FILE ../results/k4_certs_4_pure.json.gz profiles so far 2004 mismatches 0 (brute-force comparisons 1560)
+TOTAL profiles 2004 mismatches 0 brute 1560
+# finished Fri Sep 25 21:19:57 UTC 2026
+# command: python3 c4min_crosscheck.py ../results/k4_certs_5_n4_1.json.gz ../results/k4_certs_5_n4_2.json.gz ../results/k4_certs_5_n4_3.json.gz ../results/k4_certs_5_n4_4.json.gz ../results/k4_certs_5_pure.json.gz --cores=100 --per-core=2 --seed=4
+# commit 4127f70, k4/c4min_hunt.c sha1 9c7ca0ffe25b, started Fri Sep 25 21:19:57 UTC 2026
+FILE ../results/k4_certs_5_n4_1.json.gz profiles so far 200 mismatches 0 (brute-force comparisons 0)
+FILE ../results/k4_certs_5_n4_2.json.gz profiles so far 400 mismatches 0 (brute-force comparisons 0)
+FILE ../results/k4_certs_5_n4_3.json.gz profiles so far 600 mismatches 0 (brute-force comparisons 0)
+FILE ../results/k4_certs_5_n4_4.json.gz profiles so far 800 mismatches 0 (brute-force comparisons 0)
+FILE ../results/k4_certs_5_pure.json.gz profiles so far 1000 mismatches 0 (brute-force comparisons 0)
+TOTAL profiles 1000 mismatches 0 brute 0
+# finished Fri Sep 25 21:20:25 UTC 2026
+# command: python3 c4min_crosscheck.py ../results/k4_certs_3.json.gz ../results/k4_certs_4_pure.json.gz --w0 --per-core=2 --seed=5
+# commit 18e4847, k4/c4min_hunt.c sha1 9c7ca0ffe25b, started Fri Sep 25 21:20:25 UTC 2026
+FILE ../results/k4_certs_3.json.gz profiles so far 102 mismatches 0 (brute-force comparisons 100)
+FILE ../results/k4_certs_4_pure.json.gz profiles so far 540 mismatches 0 (brute-force comparisons 346)
+TOTAL profiles 540 mismatches 0 brute 346
+# finished Fri Sep 25 21:20:43 UTC 2026
