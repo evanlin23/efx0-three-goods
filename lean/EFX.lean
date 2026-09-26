@@ -38,5 +38,7 @@ import EFX.K3CostLB
 import EFX.K3Cost
 import EFX.K3CostBound
 import EFX.K3Examples
+import EFX.K3Real
+import EFX.K3CostFine
 import EFX.K4MinCex
 import EFX.K3Extras
