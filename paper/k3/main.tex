@@ -53,7 +53,7 @@ Every instance with $n\ge1$ agents and nonnegative real additive valuations in w
 For $n\ge1$ agents with nonnegative real additive valuations, each valuing exactly three goods, none more than the other two together (\emph{balanced}), some complete \efxz{} allocation gives every agent but at most one at most two goods.
 \end{theorem}
 
-\noindent In Section~\ref{sec:correct}, a bundle of more than two goods has $m-2n+|\NA|+2$ goods (Proposition~\ref{prop:size}; written, not formalized). In the \emph{unit-cost model}, each list step, comparison of agents or goods, read of an input value or table entry, and comparison or addition of natural numbers of any size costs one operation.
+\noindent In Section~\ref{sec:correct}, a bundle of more than two goods has at least $m-2n+|\NA|+2$ goods, exactly that many when every other slot is filled (Proposition~\ref{prop:size}; written, not formalized). In the \emph{unit-cost model}, each list step, comparison of agents or goods, read of an input value or table entry, and comparison or addition of natural numbers of any size costs one operation.
 
 \begin{theorem}[algorithm]\label{thm:algo}
 Given $n\ge1$ agents, $m$ goods and natural-number values in binary, K3ALG (Section~\ref{sec:algo}) performs at most $400(n+m+1)^4$ operations in the unit-cost model, and if every agent positively values at most three goods, it returns a complete \efxz{} allocation.
@@ -277,14 +277,14 @@ Let $k=k^*$, $W=J\cup\{Y_r\}$; the new junk is $J'=W\setminus\{b_k,c_k\}$, and e
 \end{proof}
 
 \begin{proposition}[size of the large bundle; written, not formalized]\label{prop:size}
-Let $(Y,U)$ be valid with $\omega=|J|-S\ge1$. Then $\omega=m-2n+|\NA|$ (with $n$, $m$ the agents and goods of Stage L), and every completion with owner $o$ in which the other terminals' slots are full gives $o$ exactly $\omega+2$ goods; so do the completions of Lemma~\ref{lem:owner} and of K3ALG.
+Let $(Y,U)$ be valid with $\omega=|J|-S\ge1$. Then $\omega=m-2n+|\NA|$ (with $n$, $m$ the agents and goods of Stage L), and every completion with owner $o$ in which the other terminals' slots are full gives $o$ exactly $\omega+2$ goods, and every completion gives $o$ at least $\omega+2$. K3ALG's completion can leave a slot empty when {\upshape\textsc{HitSet}} lists a good twice; its owner then gets more (four agents: $\omega+3$ goods, still \efxz{}; \texttt{paper/k3/examples/} of~\cite{Repo}).
 \end{proposition}
 
 \begin{proof}
 In a valid pre-allocation each good of $\NA$ is the pick of an agent outside $U$ (not junk by (V1), not $b_u,c_u$ by (V2)), which is then frozen, and each frozen agent's pick is in $\NA$; so $|F|=|\NA|$. Let $T_1$ and $T_0$ be the terminals with and without a pick. Then $m=|U|+|F|+|T_1|+|U|+|J|$ and $S=|T_1|+2|T_0|$, so $\omega=m-2(|U|+|F|+|T_1|+|T_0|)+|F|=m-2n+|\NA|$. The owner gets its base and $|J|-(S-\capa(o))=\omega+\capa(o)$ junk goods, and $|\base(o)|+\capa(o)=2$ for every terminal or upgraded agent.\qed
 \end{proof}
 
-\noindent The rotation does not increase $\NA$ (step (b) of the proof of Theorem~\ref{thm:B}), so it does not increase the large bundle.
+\noindent The rotation does not increase $\NA$ (step (b) of the proof of Theorem~\ref{thm:B}), so it does not increase this bound.
 
 \section{State Dictionary and Two Runs}\label{app:dict}
 
