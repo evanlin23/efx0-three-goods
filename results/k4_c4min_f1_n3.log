@@ -1,6 +1,6 @@
 # k4/c4min_f1.c, every strict profile (lemma checks -L); 2026-09-26
 FILE results/k4_certs_2.json.gz (5 cores, every profile, 1 s)
-  profiles 189216 f1 1296 configs 8496 noowner0 5616 maxrl 2592 maxrl_bt 2592 f1fail 0 starfail 0 rltfail 0 cov3 0 cov4 0 btomega1 576 btonly 720 btonly_comp 720 phi1fail 0 phi1fail_btonly 0 L2pool 7920 L2fail 0 poolopt 1440 L5cyc 0 L5fail 0 L7paths 0 L7rconf 0 L7fail 0 L8cfg 1440 L8k0down 0 L8k0tie 1440 L8k0up 0 L8k1down 0 L8k1tie 0 L8k1up 0 L8k2down 0 L8k2tie 0 L8k2up 0 L8rcdown 0 L8rctie 0 L8rcup 0
+  profiles 189216 f1 1296 configs 8496 noowner0 5616 maxrl 2592 maxrl_bt 2592 f1fail 0 starfail 0 rltfail 0 cov3 0 cov4 0 btomega1 576 btonly 720 btonly_comp 720 phi1fail 0 phi1fail_btonly 0 L2pool 7920 L2fail 0 poolopt 1440 L5cyc 0 L5fail 0 L7paths 0 L7recycle 0 L7rconf 0 L7fail 0 L8cfg 1440 L8recycle 0 L8k0down 0 L8k0tie 1440 L8k0up 0 L8k1down 0 L8k1tie 0 L8k1up 0 L8k2down 0 L8k2tie 0 L8k2up 0 L8rcdown 0 L8rctie 0 L8rcup 0
 core 46: EX Theorem F1* fails: [0:3,2:4,6:2,7:8] [1:3,4:4,6:2,7:8] [3:3,5:4,6:2,7:8]
 core 46: EX (r, Lambda, -t)-maximum not completable: [0:3,2:4,6:2,7:8] [1:3,4:4,6:2,7:8] [3:3,5:4,6:2,7:8] | x 2 H {0,2} {1,4} {7} L {3,5,6}
 core 46: EX Theorem F1* fails: [0:3,2:4,6:2,7:8] [1:3,4:4,6:2,7:8] [3:3,5:6,6:2,7:10]
@@ -25,5 +25,5 @@ core 46: EX Theorem F1* fails: [0:6,2:3,6:10,7:2] [1:3,4:4,6:8,7:2] [3:3,5:6,6:1
 core 46: EX (r, Lambda, -t)-maximum not completable: [0:6,2:3,6:10,7:2] [1:3,4:4,6:8,7:2] [3:3,5:6,6:10,7:2] | x 2 H {0,2} {1,4} {6} L {3,5,7}
 core 46: EX Theorem F1* fails: [0:6,2:3,6:10,7:2] [1:3,4:4,6:8,7:2] [3:4,5:3,6:8,7:2]
 core 46: EX (r, Lambda, -t)-maximum not completable: [0:6,2:3,6:10,7:2] [1:3,4:4,6:8,7:2] [3:4,5:3,6:8,7:2] | x 2 H {0,2} {1,4} {6} L {3,5,7}
-FILE results/k4_certs_3.json.gz (51 cores, every profile, 530 s)
-  profiles 299837376 f1 7284544 configs 138471840 noowner0 30290192 maxrl 9881182 maxrl_bt 5629664 f1fail 0 starfail 128 rltfail 128 cov3 60974 cov4 3422442 btomega1 2035664 btonly 1765464 btonly_comp 1765336 phi1fail 0 phi1fail_btonly 0 L2pool 72477432 L2fail 0 poolopt 1407032 L5cyc 367488 L5fail 0 L7paths 671672 L7rconf 0 L7fail 0 L8cfg 639984 L8k0down 0 L8k0tie 112992 L8k0up 304512 L8k1down 0 L8k1tie 0 L8k1up 199248 L8k2down 0 L8k2tie 0 L8k2up 0 L8rcdown 21824 L8rctie 3968 L8rcup 1280
+FILE results/k4_certs_3.json.gz (51 cores, every profile, 566 s)
+  profiles 299837376 f1 7284544 configs 138471840 noowner0 30290192 maxrl 9881182 maxrl_bt 5629664 f1fail 0 starfail 128 rltfail 128 cov3 60974 cov4 3422442 btomega1 2035664 btonly 1765464 btonly_comp 1765336 phi1fail 0 phi1fail_btonly 0 L2pool 72477432 L2fail 0 poolopt 1407032 L5cyc 367488 L5fail 0 L7paths 671672 L7recycle 0 L7rconf 0 L7fail 0 L8cfg 639984 L8recycle 27072 L8k0down 0 L8k0tie 112992 L8k0up 304512 L8k1down 0 L8k1tie 0 L8k1up 226320 L8k2down 0 L8k2tie 0 L8k2up 0 L8rcdown 0 L8rctie 0 L8rcup 0
