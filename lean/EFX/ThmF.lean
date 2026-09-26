@@ -22,7 +22,11 @@ is completable. With no frozen agent it is Theorem Z (`EFX/ThmZ.lean`).
 **Results.**
 - `rigid_NA` (Lemma 1, rigidity): at the fewest frozen agents, `NA(P′) ⊆ NA(P)` gives `NA(P′) = NA(P)`, and `P′` has
   the fewest frozen agents too.
-- `removalOnly_of_cfg` (Lemma 1(a) with `C = ∅`): a free agent that threatens nobody gives `def(P) ≤ 0`.
+- `removalOnly_of_cfgOwner`, `c4min_of_cfgOwner` (**Lemma 1(a)**): a valid owner of a configuration (`CfgOwner`: a free
+  agent `o`, goods `C ⊆ X = Q_o ∪ L` it leaves out, an admissible set `Ao ⊆ X ∖ C`, at most as many goods left out as
+  the frozen agents that `X ∖ C` unfreezes, and no threat by `X ∖ C`) gives a pre-allocation of 𝒫 (`ownBase`) with
+  `def(P) ≤ 0`, and at the fewest frozen agents one with the fewest frozen agents. `cfgOwner_of_safe`: a free agent that
+  threatens nobody is a valid owner with `C = ∅`.
 - `isAPA_sub`, `zthreat_outN`, `not_threat_frozen`: the free agents form an APA over `M′` (Theorem Z's setting, with
   `U_y` in place of `R_y`), threats among them are the same there, and a robust frozen agent is threatened by no free
   agent.
@@ -54,6 +58,10 @@ commit b9ff629).
 5. Hypotheses used (`theoremF_min`): at least one agent, `|R_i| ≤ 4`, a frozen-robust configuration, and `hmin`. With no
    frozen agent (Theorem Z), every good must also be relevant to some agent. Strict values, balance, the private-goods
    rule, connectivity and the text's `ω ≥ 1` are not used.
+6. Lemma 1(a) is formalized with the text's unfreezing clause (`CfgOwner`). Admissibility is again the weak form (no good
+   outside `Ao` and `𝒩` is worth more to `o` than `Ao`). "Needed by no agent other than `o`" uses the configuration's
+   needs, which are those of the owner's pre-allocation for every agent other than `o` (`vbNeeds_ownBase_other`).
+   Lemma 1(b), the converse, is not formalized.
 -/
 
 set_option autoImplicit false
@@ -316,88 +324,375 @@ theorem minFrozen_cfg (hC : IsCfg v agents goods fr hold)
     MinFrozen v agents goods (apaBase v hold) :=
   ⟨inP_cfg hC, fun b hb => Nat.le_trans (nFrozen_cfg_le hC) (hmin b hb)⟩
 
-/-- **Lemma 1(a) with `C = ∅`** (`k4/c4min.md` §1): if a free agent `o` of a configuration threatens nobody, the
-configuration's pre-allocation has `def(P) ≤ 0`: owner `o`, and the removed goods are the other free agents' pairs,
-whose irrelevant goods fill exactly those agents' slots; the owner keeps `Q_o ∪ L`. -/
-theorem removalOnly_of_cfg (hC : IsCfg v agents goods fr hold) {o : A} (ho : o ∈ agents) (hfo : fr o = false)
-    (hV : ∀ x ∈ agents, x ≠ o → ¬ ZThreat v goods hold o x) : RemovalOnly v agents goods (apaBase v hold) := by
+/-! ## Lemma 1(a): a valid owner of a configuration, with unfreezing -/
+
+/-- The pre-allocation of a configuration with owner `o` and base `Ao` for `o` (`k4/c4min.md` §1, proof of Lemma 1(a)):
+the goods of `Ao` go to `o`, the other goods of `Q_o` to nobody, every other good as in `apaBase`. -/
+def ownBase (v : A → G → Nat) (hold : G → Option A) (o : A) (Ao : List G) (g : G) : Option A :=
+  if g ∈ Ao then some o else if hold g = some o then none else apaBase v hold g
+
+/-- The owner's bundle `X ∖ C`, with `X = Q_o ∪ L`. -/
+def cfgBundle (goods : List G) (hold : G → Option A) (o : A) (C : G → Bool) : List G :=
+  (W goods hold o).filter (fun g => !C g)
+
+open Classical in
+/-- The number of frozen agents that the owner's bundle unfreezes: their good is needed by no agent other than `o`, and
+not by `o` from its bundle `X ∖ C`. -/
+noncomputable def nUnfrozen (v : A → G → Nat) (agents : List A) (goods : List G) (fr : A → Bool)
+    (hold : G → Option A) (o : A) (C : G → Bool) : Nat :=
+  agents.countP (fun x => fr x && decide (∀ g, hold g = some x →
+    (∀ i ∈ agents, i ≠ o → ¬ vbNeeds v goods (apaBase v hold) i g) ∧ v o g ≤ value v o (cfgBundle goods hold o C)))
+
+/-- **A valid owner of a configuration** (`k4/c4min.md` §1): a free agent `o`, the goods `C` of `X = Q_o ∪ L` that it
+leaves out, and an admissible set `Ao ⊆ X ∖ C` of `o` (at most two relevant goods; no good outside `Ao` and `𝒩` is worth
+more to `o`), such that no more goods are left out than the frozen agents that the bundle `X ∖ C` unfreezes, and `X ∖ C`
+threatens no other agent holding its holding. With `C = ∅` and `Ao` the relevant goods of `Q_o` it is a free agent that
+threatens nobody (`cfgOwner_of_safe`). -/
+structure CfgOwner (v : A → G → Nat) (agents : List A) (goods : List G) (fr : A → Bool) (hold : G → Option A)
+    (o : A) (C : G → Bool) (Ao : List G) : Prop where
+  mem : o ∈ agents
+  free : fr o = false
+  nd : Ao.Nodup
+  two : Ao.length ≤ 2
+  sub : ∀ g ∈ Ao, g ∈ W goods hold o ∧ C g = false ∧ 0 < v o g
+  adm : ∀ g ∈ goods, g ∉ Ao → value v o Ao < v o g → frG fr hold g = true
+  count : ((W goods hold o).filter C).length ≤ nUnfrozen v agents goods fr hold o C
+  safe : ∀ x ∈ agents, x ≠ o → ∀ h ∈ cfgBundle goods hold o C,
+    value v x ((cfgBundle goods hold o C).erase h) ≤ value v x (baseOf goods hold x)
+
+section owner
+variable {fr : A → Bool} {hold : G → Option A} {o : A} {C : G → Bool} {Ao : List G}
+
+theorem ownBase_eq_some_self {g : G} : ownBase v hold o Ao g = some o ↔ g ∈ Ao := by
+  unfold ownBase
+  by_cases hA : g ∈ Ao
+  · simp [hA]
+  · simp only [hA, ↓reduceIte, iff_false]
+    by_cases hh : hold g = some o
+    · simp [hh]
+    · simp only [hh, ↓reduceIte]
+      intro h
+      exact hh (apaBase_eq_some.mp h).1
+
+theorem ownBase_eq_some_other (hsub : ∀ g ∈ Ao, g ∈ W goods hold o) {g : G} {j : A} (hj : j ≠ o) :
+    ownBase v hold o Ao g = some j ↔ apaBase v hold g = some j := by
+  unfold ownBase
+  by_cases hA : g ∈ Ao
+  · simp only [hA, ↓reduceIte, Option.some.injEq]
+    constructor
+    · intro e; exact absurd e.symm hj
+    · intro h
+      rcases (mem_W.mp (hsub g hA)).2 with e | e <;> rw [(apaBase_eq_some.mp h).1] at e
+      · exact absurd (Option.some.inj e) hj
+      · cases e
+  · simp only [hA, ↓reduceIte]
+    by_cases hh : hold g = some o
+    · simp only [hh, ↓reduceIte, reduceCtorEq, false_iff]
+      intro h; rw [(apaBase_eq_some.mp h).1] at hh; exact hj (Option.some.inj hh)
+    · simp [hh]
+
+theorem baseOf_ownBase_other (hsub : ∀ g ∈ Ao, g ∈ W goods hold o) {j : A} (hj : j ≠ o) :
+    baseOf goods (ownBase v hold o Ao) j = baseOf goods (apaBase v hold) j :=
+  baseOf_congr fun _ _ => ownBase_eq_some_other hsub hj
+
+theorem vbNeeds_ownBase_other (hsub : ∀ g ∈ Ao, g ∈ W goods hold o) {i : A} (hi : i ≠ o) (g : G) :
+    vbNeeds v goods (ownBase v hold o Ao) i g ↔ vbNeeds v goods (apaBase v hold) i g := by
+  unfold vbNeeds
+  rw [baseOf_ownBase_other hsub hi]
+  constructor
+  · rintro ⟨hg, hb, hlt⟩; exact ⟨hg, fun h => hb ((ownBase_eq_some_other hsub hi).mpr h), hlt⟩
+  · rintro ⟨hg, hb, hlt⟩; exact ⟨hg, fun h => hb ((ownBase_eq_some_other hsub hi).mp h), hlt⟩
+
+theorem value_ownBase_self (hgd : goods.Nodup) (hO : CfgOwner v agents goods fr hold o C Ao) :
+    value v o (baseOf goods (ownBase v hold o Ao) o) = value v o Ao := by
+  have hsub : ∀ g ∈ Ao, g ∈ W goods hold o := fun g hg => (hO.sub g hg).1
+  apply value_perm
+  apply baseOf_perm hgd hO.nd
+  intro g
+  constructor
+  · intro hg
+    have hgg := (mem_W.mp (hsub g hg)).1
+    exact ⟨hgg, (ownBase_eq_some_self).mpr hg⟩
+  · rintro ⟨hgg, h⟩; exact (ownBase_eq_some_self).mp h
+
+/-- In the owner's pre-allocation every need is a good of `𝒩`. -/
+theorem needs_ownBase (hgd : goods.Nodup) (hC : IsCfg v agents goods fr hold) (hO : CfgOwner v agents goods fr hold o C Ao)
+    {i : A} (hi : i ∈ agents) {g : G} (hN : vbNeeds v goods (ownBase v hold o Ao) i g) : frG fr hold g = true := by
+  have hsub : ∀ g ∈ Ao, g ∈ W goods hold o := fun g hg => (hO.sub g hg).1
+  by_cases hio : i = o
+  · subst hio
+    obtain ⟨hg, hb, hlt⟩ := hN
+    rw [value_ownBase_self hgd hO] at hlt
+    exact hO.adm g hg (fun hA => hb ((ownBase_eq_some_self).mpr hA)) hlt
+  · exact needs_cfg hC hi ((vbNeeds_ownBase_other hsub hio g).mp hN)
+
+/-- A good of `𝒩` keeps its frozen holder in the owner's pre-allocation. -/
+theorem ownBase_frozen (hC : IsCfg v agents goods fr hold) (hO : CfgOwner v agents goods fr hold o C Ao) {g : G}
+    (hg : g ∈ goods) {x : A} (hx : hold g = some x) (hfx : fr x = true) : ownBase v hold o Ao g = some x := by
+  have hxo : x ≠ o := fun e => by rw [e, hO.free] at hfx; cases hfx
+  exact (ownBase_eq_some_other (fun g hg => (hO.sub g hg).1) hxo).mpr (apaBase_frozen hC hg hx hfx)
+
+/-- **The owner's pre-allocation is in 𝒫.** -/
+theorem inP_ownBase (hgd : goods.Nodup) (hC : IsCfg v agents goods fr hold)
+    (hO : CfgOwner v agents goods fr hold o C Ao) : InP v agents goods (ownBase v hold o Ao) := by
+  have hsub : ∀ g ∈ Ao, g ∈ W goods hold o := fun g hg => (hO.sub g hg).1
+  have hNA : ∀ g, NA agents (vbNeeds v goods (ownBase v hold o Ao)) g →
+      ∃ x, fr x = true ∧ ownBase v hold o Ao g = some x := fun g ⟨i, hi, hN⟩ => by
+    obtain ⟨x, hx, hfx⟩ := frG_eq_true.mp (needs_ownBase hgd hC hO hi hN)
+    exact ⟨x, hfx, ownBase_frozen hC hO hN.1 hx hfx⟩
+  have hP := inP_cfg hC
+  refine ⟨fun g hg i hb => ?_, fun g hg i hb => ?_, fun i => ?_, ⟨fun g hg hN => ?_, fun i h2 g hg hN => ?_⟩⟩
+  · by_cases hio : i = o
+    · rw [hio]; exact hO.mem
+    · exact hP.mem g hg i ((ownBase_eq_some_other hsub hio).mp hb)
+  · by_cases hio : i = o
+    · subst hio; exact (hO.sub g ((ownBase_eq_some_self).mp hb)).2.2
+    · exact hP.rel g hg i ((ownBase_eq_some_other hsub hio).mp hb)
+  · by_cases hio : i = o
+    · subst hio
+      have hp := baseOf_perm (base := ownBase v hold i Ao) hgd hO.nd fun g => ⟨fun hg =>
+        ⟨(mem_W.mp (hsub g hg)).1, (ownBase_eq_some_self).mpr hg⟩,
+        fun ⟨hgg, h⟩ => (ownBase_eq_some_self).mp h⟩
+      rw [hp.length_eq]; exact hO.two
+    · rw [baseOf_ownBase_other hsub hio]; exact hP.two i
+  · obtain ⟨x, -, hb⟩ := hNA g hN
+    rw [(mem_junk.mp hg).2] at hb; cases hb
+  · obtain ⟨x, hfx, hb⟩ := hNA g hN
+    obtain ⟨hgg, hgi⟩ := mem_baseOf.mp hg
+    rw [hgi] at hb; cases hb
+    have hio : i ≠ o := fun e => by rw [e, hO.free] at hfx; cases hfx
+    rw [baseOf_ownBase_other hsub hio] at h2 hg
+    have hia : i ∈ agents := hP.mem g hgg i ((ownBase_eq_some_other hsub hio).mp hgi)
+    obtain ⟨y, hy, -⟩ := hC.frz i hia hfx
+    rw [baseOf_apaBase, hy] at h2
+    have := List.length_filter_le (fun g => decide (0 < v i g)) [y]
+    simp only [List.length_singleton] at this
+    omega
+
+/-- Only agents of `fr` are frozen in the owner's pre-allocation. -/
+theorem fr_of_frozen_own (hC : IsCfg v agents goods fr hold)
+    (hO : CfgOwner v agents goods fr hold o C Ao) {M : A → G → Prop}
+    (hM : ∀ i ∈ agents, ∀ g, M i g → frG fr hold g = true) {j : A}
+    (hF : Frozen agents goods (ownBase v hold o Ao) M j) : fr j = true := by
+  obtain ⟨y, hy, i, hi, hN⟩ := hF
+  obtain ⟨x, hx, hfx⟩ := frG_eq_true.mp (hM i hi y hN)
+  have : y ∈ baseOf goods (ownBase v hold o Ao) j := by rw [hy]; simp
+  obtain ⟨hyg, hyb⟩ := mem_baseOf.mp this
+  rw [ownBase_frozen hC hO hyg hx hfx] at hyb
+  cases hyb; exact hfx
+
+/-- **The owner's pre-allocation has the fewest frozen agents** (at the fewest frozen agents). -/
+theorem minFrozen_ownBase (hgd : goods.Nodup) (hC : IsCfg v agents goods fr hold)
+    (hO : CfgOwner v agents goods fr hold o C Ao)
+    (hmin : ∀ base, InP v agents goods base → agents.countP fr ≤ nFrozen v agents goods base) :
+    MinFrozen v agents goods (ownBase v hold o Ao) := by
   classical
-  by_cases hω : omegaP v agents goods (apaBase v hold) ≤ 0
+  refine ⟨inP_ownBase hgd hC hO, fun b hb => Nat.le_trans ?_ (hmin b hb)⟩
+  unfold nFrozen numFrozen
+  apply List.countP_mono_left
+  intro j _ h
+  exact fr_of_frozen_own hC hO (fun i hi g hN => needs_ownBase hgd hC hO hi hN) (of_decide_eq_true h)
+
+theorem sum_map_add' {α : Type} (f g : α → Nat) :
+    ∀ l : List α, (l.map (fun a => f a + g a)).sum = (l.map f).sum + (l.map g).sum
+  | [] => by simp
+  | a :: l => by simp only [List.map_cons, List.sum_cons]; rw [sum_map_add' f g l]; omega
+
+theorem countP_le_add_sum {α : Type} (q r : α → Bool) (s : α → Nat) :
+    ∀ l : List α, (∀ a ∈ l, q a = true → r a = true ∨ 1 ≤ s a) → l.countP q ≤ l.countP r + (l.map s).sum
+  | [], _ => by simp
+  | a :: l, h => by
+    have ih := countP_le_add_sum q r s l fun b hb => h b (by simp [hb])
+    rw [List.countP_cons, List.countP_cons, List.map_cons, List.sum_cons]
+    cases hq : q a
+    · simp only [Bool.false_eq_true, ↓reduceIte]; omega
+    · rcases h a (by simp) hq with hr | hs
+      · simp only [hr, ↓reduceIte]; omega
+      · cases hr : r a <;> simp only [Bool.false_eq_true, ↓reduceIte] <;> omega
+
+/-- **Lemma 1(a)** (`k4/c4min.md` §1): a valid owner of a configuration gives `def(P) ≤ 0` for its pre-allocation
+`ownBase`. The owner keeps `X ∖ C`; the removed goods are `C` and the other agents' irrelevant pair goods; the latter
+fill those agents' slots, and the goods of `C` fill one slot each of the frozen agents that `X ∖ C` unfreezes. -/
+theorem removalOnly_of_cfgOwner (hgd : goods.Nodup) (hC : IsCfg v agents goods fr hold)
+    (hO : CfgOwner v agents goods fr hold o C Ao) : RemovalOnly v agents goods (ownBase v hold o Ao) := by
+  classical
+  have hsub : ∀ g ∈ Ao, g ∈ W goods hold o := fun g hg => (hO.sub g hg).1
+  by_cases hω : omegaP v agents goods (ownBase v hold o Ao) ≤ 0
   · exact Or.inl ⟨hω, hω⟩
-  have hNF : ∀ j, fr j = false → ¬ Frozen agents goods (apaBase v hold) (vbNeeds v goods (apaBase v hold)) j :=
-    fun j hj hF => by rw [fr_of_frozen hC hF] at hj; cases hj
-  let C : G → Bool := fun g => match hold g with
-    | some j => decide (j ≠ o)
-    | none => false
-  have hOB : ownerBundle goods (apaBase v hold) o C = W goods hold o := by
-    unfold ownerBundle W
-    apply List.filter_congr
+  -- the removed goods: `C` in `X`, and every good held by another agent (only its junk goods count)
+  let CP : G → Bool := fun g => match hold g with
+    | some j => if j = o then C g else true
+    | none => C g
+  have hkey : ∀ g ∈ goods, (ownBase v hold o Ao g = some o ∨ (ownBase v hold o Ao g = none ∧ CP g = false)) ↔
+      ((hold g = some o ∨ hold g = none) ∧ C g = false) := by
     intro g _
-    unfold apaBase
-    cases h : hold g with
-    | none => simp [C, h]
+    by_cases hA : g ∈ Ao
+    · have hs := hO.sub g hA
+      exact ⟨fun _ => ⟨(mem_W.mp hs.1).2, hs.2.1⟩, fun _ => Or.inl (ownBase_eq_some_self.mpr hA)⟩
+    · cases hh : hold g with
+      | none =>
+        have h1 : ownBase v hold o Ao g = none := by simp [ownBase, hA, hh, apaBase]
+        simp [h1, CP, hh]
+      | some j =>
+        by_cases hj : j = o
+        · subst hj
+          have h1 : ownBase v hold j Ao g = none := by simp [ownBase, hA, hh]
+          simp [h1, CP, hh]
+        · have h1 : ownBase v hold o Ao g ≠ some o := fun h => hA (ownBase_eq_some_self.mp h)
+          have h2 : CP g = true := by simp [CP, hh, hj]
+          simp [h1, h2, hj]
+  have hOB : ownerBundle goods (ownBase v hold o Ao) o CP = cfgBundle goods hold o C := by
+    unfold ownerBundle cfgBundle W
+    rw [List.filter_filter]
+    apply List.filter_congr
+    intro g hg
+    rw [Bool.eq_iff_iff]
+    simp only [decide_eq_true_eq, Bool.and_eq_true, Bool.not_eq_true']
+    rw [hkey g hg]
+    exact ⟨fun ⟨a, b⟩ => ⟨b, a⟩, fun ⟨a, b⟩ => ⟨b, a⟩⟩
+  have hbnd : (cfgBundle goods hold o C).Nodup := hgd.sublist (List.filter_sublist.trans List.filter_sublist)
+  have hAle : value v o Ao ≤ value v o (cfgBundle goods hold o C) :=
+    value_le_of_subset hO.nd hbnd (fun g hg => List.mem_filter.mpr ⟨(hO.sub g hg).1, by simp [(hO.sub g hg).2.1]⟩) o
+  -- with the owner's needs from `X ∖ C`, every need is still a good of `𝒩`
+  have hro : ∀ i ∈ agents, ∀ g, roNeeds v goods (ownBase v hold o Ao) o CP i g → frG fr hold g = true := by
+    intro i hi g hN
+    unfold roNeeds at hN
+    by_cases hio : i = o
+    · rw [ite_eq_left_of_eq_true _ _ (eq_true hio), hOB] at hN
+      obtain ⟨hg, hgb, hlt⟩ := hN
+      refine hO.adm g hg (fun hA => hgb (List.mem_filter.mpr ⟨(hO.sub g hA).1, by simp [(hO.sub g hA).2.1]⟩)) ?_
+      omega
+    · rw [ite_eq_right_of_eq_false _ _ (eq_false hio)] at hN
+      exact needs_ownBase hgd hC hO hi hN
+  have hU : Unthreatened v agents goods (ownBase v hold o Ao) o CP := by
+    intro x hx hxo h hh
+    rw [hOB] at hh ⊢
+    rw [baseOf_ownBase_other hsub hxo, value_apaBase]
+    exact hO.safe x hx hxo h hh
+  have hoF : ¬ Frozen agents goods (ownBase v hold o Ao) (vbNeeds v goods (ownBase v hold o Ao)) o := fun hF => by
+    have := fr_of_frozen_own hC hO (fun i hi g hN => needs_ownBase hgd hC hO hi hN) hF
+    rw [hO.free] at this; cases this
+  refine Or.inr ⟨by omega, o, hO.mem, hoF, CP, hU, ?_⟩
+  -- the count
+  let p : A → G → Bool := fun j g => decide (j ≠ o ∧ hold g = some j ∧ ¬ 0 < v j g)
+  have h1 : ((LB4.junk goods (ownBase v hold o Ao)).filter CP).length ≤
+      ((W goods hold o).filter C).length + (goods.map (fun g => agents.countP (fun j => p j g))).sum := by
+    have e : ((W goods hold o).filter C).length = goods.countP (fun g => C g && decide (hold g = some o ∨ hold g = none)) := by
+      unfold W; rw [← List.countP_eq_length_filter, List.countP_filter]
+    rw [e]
+    unfold LB4.junk
+    rw [List.filter_filter, ← List.countP_eq_length_filter]
+    apply countP_le_add_sum
+    intro g hg hq
+    simp only [Bool.and_eq_true, decide_eq_true_eq] at hq
+    obtain ⟨hCP, hPn⟩ := hq
+    cases hh : hold g with
+    | none => left; simp [CP, hh] at hCP; simp [hCP]
     | some j =>
       by_cases hj : j = o
-      · subst hj; by_cases hp : 0 < v j g <;> simp [C, h, hp]
-      · by_cases hp : 0 < v j g <;> simp [C, h, hp, hj]
-  refine removalOnly_of_owner (by omega) ho (hNF o hfo) C ?_ ?_
-  · intro x hx hxo h hh
-    rw [hOB] at hh ⊢
-    rw [value_apaBase]
+      · subst hj; left; simp [CP, hh] at hCP; simp [hCP]
+      · right
+        have hgA : g ∉ Ao := fun hA => by rw [ownBase_eq_some_self.mpr hA] at hPn; cases hPn
+        have hnp : ¬ 0 < v j g := fun hp => by
+          rw [(ownBase_eq_some_other hsub hj).mpr (apaBase_eq_some.mpr ⟨hh, hp⟩)] at hPn; cases hPn
+        exact List.countP_pos_iff.mpr ⟨j, hC.mem g hg j hh, by simp [p, hj, hh]; omega⟩
+  have h2 := LB4.sum_countP_comm p agents goods
+  have h3 : (agents.map (fun j => goods.countP (p j))).sum + nUnfrozen v agents goods fr hold o C ≤
+      otherSlots agents goods (ownBase v hold o Ao) (roNeeds v goods (ownBase v hold o Ao) o CP) o := by
+    unfold nUnfrozen otherSlots
+    rw [LB4.countP_eq_sum, ← sum_map_add']
+    apply LB4.sum_le_sum_of_le
+    intro j hj
+    by_cases hjo : j = o
+    · have : goods.countP (p j) = 0 := List.countP_eq_zero.mpr fun g _ h => by simp [p, hjo] at h
+      subst hjo
+      simp [this, hO.free]
+    · cases hfj : fr j
+      · -- a free agent: its irrelevant pair goods fill its slots
+        have hnF : ¬ (j = o ∨ Frozen agents goods (ownBase v hold o Ao) (roNeeds v goods (ownBase v hold o Ao) o CP) j) :=
+          fun h => h.elim hjo fun hF => by rw [fr_of_frozen_own hC hO hro hF] at hfj; cases hfj
+        simp only [hnF, ↓reduceIte, Bool.false_and, Bool.false_eq_true, Nat.add_zero]
+        rw [baseOf_ownBase_other hsub hjo, baseOf_apaBase]
+        have e : goods.countP (p j) = (baseOf goods hold j).countP (fun g => decide (¬ 0 < v j g)) := by
+          unfold baseOf
+          rw [List.countP_filter]
+          apply List.countP_congr
+          intro g _
+          simp only [p, Bool.and_eq_true, decide_eq_true_eq]
+          constructor
+          · rintro ⟨-, hh, hn⟩; exact ⟨hn, hh⟩
+          · rintro ⟨hn, hh⟩; exact ⟨hjo, hh, hn⟩
+        rw [e, ← List.countP_eq_length_filter]
+        have hl := List.length_eq_countP_add_countP (fun g => decide (0 < v j g)) (l := baseOf goods hold j)
+        simp only [decide_eq_true_eq] at hl
+        rw [hC.pair j hj hfj] at hl
+        omega
+      · -- a frozen agent: no junk; one slot if the owner's bundle unfreezes it
+        obtain ⟨y, hy, hpos⟩ := hC.frz j hj hfj
+        have h0 : goods.countP (p j) = 0 := List.countP_eq_zero.mpr fun g hg h => by
+          simp only [p, decide_eq_true_eq] at h
+          obtain ⟨-, hh, hn⟩ := h
+          have : g ∈ baseOf goods hold j := mem_baseOf.mpr ⟨hg, hh⟩
+          rw [hy, List.mem_singleton] at this
+          subst this; exact hn hpos
+        have hbj : baseOf goods (ownBase v hold o Ao) j = [y] := by
+          rw [baseOf_ownBase_other hsub hjo, baseOf_apaBase, hy]
+          simp [hpos]
+        rw [h0, Nat.zero_add]
+        split
+        · rename_i hu
+          simp only [Bool.true_and, decide_eq_true_eq] at hu
+          have hyx : hold y = some j := (mem_baseOf.mp (by rw [hy]; simp : y ∈ baseOf goods hold j)).2
+          obtain ⟨hno, hle⟩ := hu y hyx
+          have hnF : ¬ (j = o ∨ Frozen agents goods (ownBase v hold o Ao) (roNeeds v goods (ownBase v hold o Ao) o CP) j) := by
+            rintro (h | ⟨y', hy', i, hi, hN⟩)
+            · exact hjo h
+            · rw [hbj] at hy'
+              simp only [List.cons.injEq, and_true] at hy'
+              subst hy'
+              unfold roNeeds at hN
+              by_cases hio : i = o
+              · rw [ite_eq_left_of_eq_true _ _ (eq_true hio), hOB] at hN
+                have := hN.2.2
+                omega
+              · rw [ite_eq_right_of_eq_false _ _ (eq_false hio)] at hN
+                exact hno i hi hio ((vbNeeds_ownBase_other hsub hio y).mp hN)
+          simp only [hnF, ↓reduceIte, hbj, List.length_singleton]
+          exact Nat.le_refl _
+        · exact Nat.zero_le _
+  have h4 := hO.count
+  omega
+
+/-- **Lemma 1(a), C₄ᵐⁱⁿ's form**: at the fewest frozen agents, a configuration with a valid owner gives a pre-allocation
+of 𝒫 with the fewest frozen agents that has `def(P) ≤ 0` and is completable. -/
+theorem c4min_of_cfgOwner (hag : agents.Nodup) (hgd : goods.Nodup) (hC : IsCfg v agents goods fr hold)
+    (hO : CfgOwner v agents goods fr hold o C Ao)
+    (hmin : ∀ base, InP v agents goods base → agents.countP fr ≤ nFrozen v agents goods base) :
+    ∃ base, MinFrozen v agents goods base ∧ RemovalOnly v agents goods base ∧ Completable v agents goods base :=
+  ⟨ownBase v hold o Ao, minFrozen_ownBase hgd hC hO hmin, removalOnly_of_cfgOwner hgd hC hO,
+    completable_of_removalOnly hag hgd (List.ne_nil_of_mem hO.mem) (inP_ownBase hgd hC hO)
+      (removalOnly_of_cfgOwner hgd hC hO)⟩
+
+/-- **A free agent that threatens nobody is a valid owner** with `C = ∅` and the relevant goods of its pair (the owner
+of Theorems Z and F). -/
+theorem cfgOwner_of_safe (hgd : goods.Nodup) (hC : IsCfg v agents goods fr hold) (ho : o ∈ agents)
+    (hfo : fr o = false) (hV : ∀ x ∈ agents, x ≠ o → ¬ ZThreat v goods hold o x) :
+    CfgOwner v agents goods fr hold o (fun _ => false) (baseOf goods (apaBase v hold) o) := by
+  have hW : cfgBundle goods hold o (fun _ => false) = W goods hold o := by
+    unfold cfgBundle; exact List.filter_eq_self.mpr fun _ _ => rfl
+  refine ⟨ho, hfo, hgd.sublist List.filter_sublist, (inP_cfg hC).two o, fun g hg => ?_, fun g hg hgA hlt => ?_,
+    ?_, fun x hx hxo h hh => ?_⟩
+  · obtain ⟨hgg, hb⟩ := mem_baseOf.mp hg
+    obtain ⟨hh, hp⟩ := apaBase_eq_some.mp hb
+    exact ⟨mem_W.mpr ⟨hgg, Or.inl hh⟩, rfl, hp⟩
+  · rw [value_apaBase] at hlt
+    refine hC.adm o ho g hg (fun hh => hgA (mem_baseOf.mpr ⟨hg, apaBase_eq_some.mpr ⟨hh, by omega⟩⟩)) hlt
+  · have : ((W goods hold o).filter fun _ => false) = [] := List.filter_eq_nil_iff.mpr fun _ _ => by simp
+    rw [this]; exact Nat.zero_le _
+  · rw [hW] at hh ⊢
     exact Nat.le_of_not_lt fun hlt => hV x hx hxo ⟨h, hh, hlt⟩
-  · let p : A → G → Bool := fun j g => decide (j ≠ o ∧ hold g = some j ∧ ¬ 0 < v j g)
-    have h1 : ((LB4.junk goods (apaBase v hold)).filter C).length ≤
-        (goods.map (fun g => agents.countP (fun j => p j g))).sum := by
-      unfold LB4.junk
-      rw [List.filter_filter, ← List.countP_eq_length_filter]
-      apply countP_le_sum_of
-      intro g hg hpg
-      simp only [Bool.and_eq_true, decide_eq_true_eq] at hpg
-      obtain ⟨hCg, hb⟩ := hpg
-      cases h : hold g with
-      | none => simp [C, h] at hCg
-      | some j =>
-        have hjo : j ≠ o := by simpa [C, h] using hCg
-        have hnp : ¬ 0 < v j g := fun hp => by rw [apaBase_eq_some.mpr ⟨h, hp⟩] at hb; cases hb
-        exact List.countP_pos_iff.mpr ⟨j, hC.mem g hg j h, by simp [p, hjo, h]; omega⟩
-    have h2 := LB4.sum_countP_comm p agents goods
-    have h3 : (agents.map (fun j => goods.countP (p j))).sum ≤
-        otherSlots agents goods (apaBase v hold) (vbNeeds v goods (apaBase v hold)) o := by
-      unfold otherSlots
-      apply LB4.sum_le_sum_of_le
-      intro j hj
-      by_cases hjo : j = o
-      · have : goods.countP (p j) = 0 := List.countP_eq_zero.mpr fun g _ h => by simp [p, hjo] at h
-        rw [this]; exact Nat.zero_le _
-      · cases hfj : fr j
-        · have hif : ¬ (j = o ∨ Frozen agents goods (apaBase v hold) (vbNeeds v goods (apaBase v hold)) j) :=
-            fun h => h.elim hjo (hNF j hfj)
-          simp only [hif, ↓reduceIte]
-          rw [baseOf_apaBase]
-          have e : goods.countP (p j) = (baseOf goods hold j).countP (fun g => decide (¬ 0 < v j g)) := by
-            unfold baseOf
-            rw [List.countP_filter]
-            apply List.countP_congr
-            intro g _
-            simp only [p, Bool.and_eq_true, decide_eq_true_eq]
-            constructor
-            · rintro ⟨-, hh, hn⟩; exact ⟨hn, hh⟩
-            · rintro ⟨hn, hh⟩; exact ⟨hjo, hh, hn⟩
-          rw [e, ← List.countP_eq_length_filter]
-          have hl := List.length_eq_countP_add_countP (fun g => decide (0 < v j g)) (l := baseOf goods hold j)
-          simp only [decide_eq_true_eq] at hl
-          rw [hC.pair j hj hfj] at hl
-          omega
-        · -- a frozen agent's one good is relevant: it holds no junk
-          have : goods.countP (p j) = 0 := List.countP_eq_zero.mpr fun g hg h => by
-            simp only [p, decide_eq_true_eq] at h
-            obtain ⟨-, hh, hn⟩ := h
-            obtain ⟨y, hy, hpos⟩ := hC.frz j hj hfj
-            have : g ∈ baseOf goods hold j := mem_baseOf.mpr ⟨hg, hh⟩
-            rw [hy, List.mem_singleton] at this
-            subst this; exact hn hpos
-          rw [this]; exact Nat.zero_le _
-    omega
+
+end owner
 
 /-! ## Joining the frozen goods of one configuration with an APA of the free agents -/
 
@@ -906,7 +1201,7 @@ With no frozen agent this is Theorem Z (`theoremZ_min`). Otherwise take a frozen
 potential: it is pool-optimal over `M′` with the most robust free agents (`fmax_poolOpt`, `fmax_nRobust`), so the free
 agents have a valid owner or all hold four goods outside `𝒩` (`zvalid_or_all4` on the free agents over `M′`); the
 latter is impossible (`frozen_cycle`), and a robust frozen agent is never threatened (`not_threat_frozen`), so the owner
-threatens nobody and Lemma 1(a) applies (`removalOnly_of_cfg`). -/
+threatens nobody, so it is a valid owner (`cfgOwner_of_safe`) and Lemma 1(a) applies (`c4min_of_cfgOwner`). -/
 theorem theoremF_min (hag : agents.Nodup) (hgd : goods.Nodup) (hne : agents ≠ [])
     (h4 : ∀ i ∈ agents, (relevant v i goods).length ≤ 4) (hrel : ∀ g ∈ goods, ∃ i ∈ agents, 0 < v i g)
     {fr : A → Bool} {hold : G → Option A} (hC : IsCfg v agents goods fr hold) (hR : FRobust v agents goods fr hold)
@@ -923,11 +1218,10 @@ theorem theoremF_min (hag : agents.Nodup) (hgd : goods.Nodup) (hne : agents ≠ 
     rcases zvalid_or_all4 (hag.sublist List.filter_sublist) (hgd.sublist List.filter_sublist) (isAPA_sub hCh)
       (fmax_poolOpt hgd hCh hRh hmax') (fmax_nRobust hCh hRh hmax') h4' with ⟨o, ho, hV⟩ | hall
     · obtain ⟨hoa, hfo⟩ := mem_freeA.mp ho
-      have hRO := removalOnly_of_cfg hCh hoa hfo fun x hx hxo => by
+      exact c4min_of_cfgOwner hag hgd hCh (cfgOwner_of_safe hgd hCh hoa hfo fun x hx hxo => by
         cases hfx : fr x
         · exact fun hT => hV x (mem_freeA.mpr ⟨hx, hfx⟩) hxo ((zthreat_outN hfo hfx).mpr hT)
-        · exact not_threat_frozen hRh hfo hx hfx
-      exact ⟨apaBase v h, minFrozen_cfg hCh hmin, hRO, completable_of_removalOnly hag hgd hne (inP_cfg hCh) hRO⟩
+        · exact not_threat_frozen hRh hfo hx hfx) hmin
     · exact (frozen_cycle hag h4 hCh hRh hmin hmax' (fun j hj => (hall j hj).1) hf).elim
   · have h0 : nFrozen v agents goods (apaBase v hold) = 0 := by
       have h1 := nFrozen_cfg_le hC
@@ -966,7 +1260,11 @@ end EFX
 #print axioms EFX.C4min.inP_cfg
 #print axioms EFX.C4min.frozen_of_min
 #print axioms EFX.C4min.minFrozen_cfg
-#print axioms EFX.C4min.removalOnly_of_cfg
+#print axioms EFX.C4min.inP_ownBase
+#print axioms EFX.C4min.minFrozen_ownBase
+#print axioms EFX.C4min.removalOnly_of_cfgOwner
+#print axioms EFX.C4min.c4min_of_cfgOwner
+#print axioms EFX.C4min.cfgOwner_of_safe
 #print axioms EFX.C4min.isAPA_sub
 #print axioms EFX.C4min.not_threat_frozen
 #print axioms EFX.C4min.isCfg_joinH
