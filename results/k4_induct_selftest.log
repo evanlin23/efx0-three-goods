@@ -1,0 +1,4 @@
+command: python3 k4/induct_selftest.py --log=results/k4_induct_selftest.log
+(a) SAT vs brute force (existence and PS, with and without D2): 3162 checks, 0 mismatches
+(b) task Q vs task P (PS and PS in D2): 889 pairs, 0 mismatches
+(c) sanitizers (address, undefined): 5043 tasks, 5043 outputs, exit 0, stderr empty

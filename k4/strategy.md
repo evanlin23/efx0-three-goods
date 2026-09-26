@@ -1,6 +1,6 @@
 # k = 4: one target statement for TARGET₄
 
-Workstream `proof/k4-strategy` (PR #56). Ledger rows K4.STRAT.* (CONJECTURE / EVIDENCE only) and open item 22. Nothing
+Workstream `proof/k4-strategy` (PR #56). Ledger rows K4.STRAT.* (CONJECTURE / EVIDENCE only) and open item 27. Nothing
 here changes K4.D or K4.T. The test bed is the counterexample suite `k4/suite/` (README there). Evidence only
 (PROMPT.md §5 rule 3): every "survives" below means "no failure on the data named", never a proof.
 

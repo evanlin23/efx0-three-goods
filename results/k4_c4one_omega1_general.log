@@ -1,0 +1,53 @@
+# c4omega1.py results/k4_certs_3.json.gz results/k4_certs_4_n4_1.json.gz results/k4_certs_5_n4_1.json.gz --any --general
+results/k4_certs_3.json.gz: 14 cores, 2358 uncovered cases
+   ('(Tb)', 'Lemma Omega applies with x = q')                                                           512
+   ('(Tc)', 'Lemma Omega applies with x = q')                                                           388
+   ('G2', 'Lemma Omega applies with x = q')                                                             988
+   ('G2', 'neither Omega nor Psi applies')                                                              206
+   ('G2', 'only Lemma Psi applies')                                                                     84
+   ('q frozen, (i)/(ii) of B4w fail', 'Lemma Omega applies with another x')                             28
+   ('q frozen, (i)/(ii) of B4w fail', 'neither Omega nor Psi applies')                                  8
+   ('q frozen, (i)/(ii) of B4w fail', 'only Lemma Psi applies')                                         12
+   ('q frozen, no chain to r', 'Lemma Omega applies with another x')                                    76
+   ('q frozen, no chain to r', 'neither Omega nor Psi applies')                                         12
+   ('q frozen, no chain to r', 'only the variant (leader q) applies')                                   44
+results/k4_certs_4_n4_1.json.gz: 135 cores, 60659 uncovered cases
+   ('(Tb)', 'Lemma Omega applies with another x')                                                       240
+   ('(Tb)', 'Lemma Omega applies with x = q')                                                           2795
+   ('(Tb)', 'neither Omega nor Psi applies')                                                            1324
+   ('(Tc)', 'Lemma Omega applies with x = q')                                                           6976
+   ('G2', 'Lemma Omega applies with x = q')                                                             14458
+   ('G2', 'neither Omega nor Psi applies')                                                              5818
+   ('G2', 'only Lemma Psi applies')                                                                     2594
+   ('q frozen, (i)/(ii) of B4w fail', 'Lemma Omega applies with another x')                             3520
+   ('q frozen, (i)/(ii) of B4w fail', 'neither Omega nor Psi applies')                                  3732
+   ('q frozen, (i)/(ii) of B4w fail', 'only Lemma Psi applies')                                         1728
+   ('q frozen, no chain to r', 'Lemma Omega applies with another x')                                    8122
+   ('q frozen, no chain to r', 'neither Omega nor Psi applies')                                         5546
+   ('q frozen, no chain to r', 'only Lemma Psi applies')                                                2026
+   ('q frozen, no chain to r', 'only the variant (leader q) applies')                                   1780
+results/k4_certs_5_n4_1.json.gz: 1735 cores, 3331360 uncovered cases
+   ('(Tb)', 'Lemma Omega applies with another x')                                                       26079
+   ('(Tb)', 'Lemma Omega applies with x = q')                                                           92248
+   ('(Tb)', 'neither Omega nor Psi applies')                                                            121498
+   ('(Tb)', 'only Lemma Psi applies')                                                                   5493
+   ('(Tc)', 'Lemma Omega applies with another x')                                                       3218
+   ('(Tc)', 'Lemma Omega applies with x = q')                                                           214714
+   ('(Tc)', 'neither Omega nor Psi applies')                                                            2418
+   ('(Tc)', 'only Lemma Psi applies')                                                                   2730
+   ('G2', 'Lemma Omega applies with another x')                                                         190
+   ('G2', 'Lemma Omega applies with x = q')                                                             424278
+   ('G2', 'neither Omega nor Psi applies')                                                              241085
+   ('G2', 'only Lemma Psi applies')                                                                     103476
+   ('q frozen, (i)/(ii) of B4w fail', 'Lemma Omega applies with another x')                             228295
+   ('q frozen, (i)/(ii) of B4w fail', 'neither Omega nor Psi applies')                                  490319
+   ('q frozen, (i)/(ii) of B4w fail', 'only Lemma Psi applies')                                         116701
+   ('q frozen, (i)/(ii) of B4w fail', 'only the variant (leader q) applies')                            116
+   ('q frozen, no chain to r', 'Lemma Omega applies with another x')                                    603445
+   ('q frozen, no chain to r', 'neither Omega nor Psi applies')                                         421403
+   ('q frozen, no chain to r', 'only Lemma Psi applies')                                                148748
+   ('q frozen, no chain to r', 'only the variant (leader q) applies')                                   84906
+
+real	41m11.818s
+user	157m3.254s
+sys	6m8.181s

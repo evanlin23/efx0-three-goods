@@ -1,0 +1,13 @@
+# the least m at which each rule needs two rotations (LB4r with at most one fails): every strict profile of every n = 3 core; the first failing profile of least m; n = 2: none (results/k4_adaptive_rules_n23.log)
+rule 0 m=6 FAIL n=3 m=6 sets=[[0,1,4,5],[2,3,4,5],[2,3,4,5]] vals=[[1,4,6,8],[2,3,4,8],[2,7,8,4]] tau=0 order=0 2 1  picks=5,3,4 blocks=0,0,0
+rule 1 m=6 FAIL n=3 m=6 sets=[[0,1,4,5],[2,3,4,5],[2,3,4,5]] vals=[[1,4,6,8],[2,3,4,8],[2,7,8,4]] tau=0 order=0 2 1  picks=5,3,4 blocks=0,0,0
+rule 2 m=6 FAIL n=3 m=6 sets=[[0,1,4,5],[2,3,4,5],[2,3,4,5]] vals=[[1,4,6,8],[2,3,4,8],[2,7,8,4]] tau=0 order=0 2 1  picks=5,3,4 blocks=0,0,0
+rule 4 m=6 FAIL n=3 m=6 sets=[[0,1,4,5],[2,3,4,5],[2,3,4,5]] vals=[[1,4,6,8],[2,3,4,8],[2,7,8,4]] tau=0 order=0 2 1  picks=5,3,4 blocks=0,0,0
+rule 5 m=6 FAIL n=3 m=6 sets=[[0,1,4,5],[2,3,4,5],[2,3,4,5]] vals=[[1,4,6,8],[2,3,4,8],[2,7,8,4]] tau=0 order=0 2 1  picks=5,3,4 blocks=0,0,0
+rule 6 m=6 FAIL n=3 m=6 sets=[[0,1,4,5],[2,3,4,5],[2,3,4,5]] vals=[[1,4,6,8],[2,3,4,8],[2,7,8,4]] tau=0 order=0 2 1  picks=5,3,4 blocks=0,0,0
+rule 7 m=6 FAIL n=3 m=6 sets=[[0,1,2,5],[2,3,4,5],[3,4,5]] vals=[[1,4,8,6],[8,2,3,4],[2,3,4]] tau=2 order=2 0 1  picks=2,4,5 blocks=0,0,0
+rule 8 m=6 FAIL n=3 m=6 sets=[[0,1,4,5],[2,3,4,5],[2,3,4,5]] vals=[[1,4,6,8],[2,3,4,8],[2,7,8,4]] tau=0 order=0 2 1  picks=5,3,4 blocks=0,0,0
+rule 9 m=6 FAIL n=3 m=6 sets=[[0,1,2,5],[1,3,4,5],[2,3,4,5]] vals=[[1,4,8,6],[1,4,6,8],[8,2,3,4]] tau=1 order=1 0 2  picks=2,5,4 blocks=0,0,0
+rule 10 m=6 FAIL n=3 m=6 sets=[[0,1,4,5],[2,3,4,5],[2,3,4,5]] vals=[[1,4,6,8],[2,3,4,8],[2,7,8,4]] tau=0 order=0 2 1  picks=5,3,4 blocks=0,0,0
+rule 11 m=6 FAIL n=3 m=6 sets=[[0,1,4,5],[2,3,4,5],[2,3,4,5]] vals=[[1,4,6,8],[2,3,4,8],[2,7,8,4]] tau=0 order=0 2 1  picks=5,3,4 blocks=0,0,0
+rule 13 m=6 FAIL n=3 m=6 sets=[[0,1,4,5],[2,3,4,5],[2,3,4,5]] vals=[[1,4,6,8],[2,3,4,8],[2,7,8,4]] tau=0 order=0 2 1  picks=5,3,4 blocks=0,0,0

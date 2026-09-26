@@ -1,0 +1,120 @@
+command: python3 k4/gap_hard.py results/k4_gap/gap_n2.json.gz results/k4_gap/gap_n3.json.gz results/k4_gap/gap_n4_1.json.gz results/k4_gap/gap_n4_2_s4000.json.gz results/k4_gap/gap_n4_3_s4000.json.gz results/k4_gap/gap_n4_pure_s4000.json.gz results/k4_gap/gap_n5_1_s100.json.gz results/k4_gap/gap_n5_2_s100.json.gz results/k4_gap/gap_n5_3_s100.json.gz results/k4_gap/gap_n5_4_s100.json.gz results/k4_gap/gap_n5_pure_s100.json.gz --show=2 --out=results/k4_gap/hard_base.json.gz
+
+== W: 721 profiles in the catalogs {'gap_n2.json.gz': 720, 'gap_n4_pure_s4000.json.gz': 1}
+  n = 2: 720 profiles; the smallest 2:
+    n=2 m=5 f=1 omega=2 core k4_certs_2.json.gz#3 (idx 1); sets=[[0, 2, 3, 4], [1, 2, 3, 4]]
+    values: agent 0: 0:2, 2:3, 3:6, 4:10; agent 1: 1:2, 2:3, 3:6, 4:10
+    6 configurations (6 with a valid owner, 0 with C empty), 2 Phi'-maxima at Phi' = [0, 1, 13, -1] (2 with a valid owner, 0 with C empty, 2 pool-optimal, 0 with a frozen agent threatened by two owners)
+    max Config(key=[None, 4], Q={0: [2, 3]}, L=[0, 1]): owners (least |C|, C) {0: (1, [1])}; threats (owner, agent, H7 class or kind) [(0, 1, 'G1')]; needers {4: [0]}; pool-optimal True; kinds ['robust', 'frozen-exposed']
+    max Config(key=[4, None], Q={1: [2, 3]}, L=[0, 1]): owners (least |C|, C) {1: (1, [0])}; threats (owner, agent, H7 class or kind) [(1, 0, 'G1')]; needers {4: [1]}; pool-optimal True; kinds ['frozen-exposed', 'robust']
+    n=2 m=5 f=1 omega=2 core k4_certs_2.json.gz#3 (idx 1); sets=[[0, 2, 3, 4], [1, 2, 3, 4]]
+    values: agent 0: 0:2, 2:3, 3:6, 4:10; agent 1: 1:2, 2:6, 3:3, 4:10
+    6 configurations (6 with a valid owner, 0 with C empty), 2 Phi'-maxima at Phi' = [0, 1, 13, -1] (2 with a valid owner, 0 with C empty, 2 pool-optimal, 0 with a frozen agent threatened by two owners)
+    max Config(key=[None, 4], Q={0: [2, 3]}, L=[0, 1]): owners (least |C|, C) {0: (1, [1])}; threats (owner, agent, H7 class or kind) [(0, 1, 'G1')]; needers {4: [0]}; pool-optimal True; kinds ['robust', 'frozen-exposed']
+    max Config(key=[4, None], Q={1: [2, 3]}, L=[0, 1]): owners (least |C|, C) {1: (1, [0])}; threats (owner, agent, H7 class or kind) [(1, 0, 'G1')]; needers {4: [1]}; pool-optimal True; kinds ['frozen-exposed', 'robust']
+  n = 4: 1 profiles; the smallest 1:
+    n=4 m=10 f=2 omega=4 core k4_certs_4_pure.json.gz#179 (idx 2); sets=[[0, 2, 4, 9], [1, 3, 8, 9], [4, 5, 6, 7], [5, 6, 7, 8]]
+    values: agent 0: 0:2, 2:6, 4:10, 9:3; agent 1: 1:3, 3:4, 8:8, 9:2; agent 2: 4:10, 5:3, 6:6, 7:2; agent 3: 5:2, 6:3, 7:4, 8:8
+    135 configurations (90 with a valid owner, 40 with C empty), 1 Phi'-maxima at Phi' = [0, 2, 26, -3] (1 with a valid owner, 0 with C empty, 1 pool-optimal, 0 with a frozen agent threatened by two owners)
+    max Config(key=[None, 8, 4, None], Q={0: [2, 9], 3: [6, 7]}, L=[0, 1, 3, 5]): owners (least |C|, C) {0: (1, [1])}; threats (owner, agent, H7 class or kind) [(0, 1, 'L'), (3, 2, 'L')]; needers {8: [3], 4: [0]}; pool-optimal True; kinds ['robust', 'frozen-exposed', 'frozen-exposed', 'robust']
+
+== N: 0 profiles in the catalogs {}
+
+== X: 0 profiles in the catalogs {}
+
+== PHI: 0 profiles in the catalogs {}
+
+== T2: 2046 profiles in the catalogs {'gap_n4_2_s4000.json.gz': 88, 'gap_n4_3_s4000.json.gz': 369, 'gap_n4_pure_s4000.json.gz': 633, 'gap_n5_4_s100.json.gz': 397, 'gap_n5_3_s100.json.gz': 141, 'gap_n5_pure_s100.json.gz': 397, 'gap_n5_1_s100.json.gz': 1, 'gap_n5_2_s100.json.gz': 20}
+  n = 4: 1090 profiles; the smallest 2:
+    n=4 m=8 f=1 omega=1 core k4_certs_4_n4_2.json.gz#204 (idx 17); sets=[[0, 2, 5, 6], [1, 5, 6, 7], [3, 5, 7], [4, 6, 7]]
+    values: agent 0: 0:3, 2:4, 5:6, 6:8; agent 1: 1:5, 5:4, 6:8, 7:6; agent 2: 3:2, 5:3, 7:4; agent 3: 4:2, 6:3, 7:4
+    2 configurations (2 with a valid owner, 2 with C empty), 1 Phi'-maxima at Phi' = [0, 3, 17, -1] (1 with a valid owner, 1 with C empty, 1 pool-optimal, 1 with a frozen agent threatened by two owners)
+    max Config(key=[None, 6, None, None], Q={0: [0, 2], 2: [3, 5], 3: [4, 7]}, L=[1]): owners (least |C|, C) {0: (0, [])}; threats (owner, agent, H7 class or kind) [(2, 1, 'L'), (3, 1, 'L')]; needers {6: [0]}; pool-optimal True; kinds ['robust', 'frozen-exposed', 'robust', 'robust']
+    n=4 m=8 f=1 omega=1 core k4_certs_4_n4_3.json.gz#153 (idx 16); sets=[[0, 2, 5, 7], [1, 5, 6, 7], [3, 5, 6, 7], [4, 6, 7]]
+    values: agent 0: 0:2, 2:4, 5:8, 7:5; agent 1: 1:3, 5:6, 6:10, 7:2; agent 2: 3:5, 5:7, 6:6, 7:3; agent 3: 4:2, 6:4, 7:3
+    2 configurations (2 with a valid owner, 2 with C empty), 1 Phi'-maxima at Phi' = [0, 3, 22, -1] (1 with a valid owner, 1 with C empty, 1 pool-optimal, 1 with a frozen agent threatened by two owners)
+    max Config(key=[None, None, 5, None], Q={0: [0, 2], 1: [1, 6], 3: [4, 7]}, L=[3]): owners (least |C|, C) {0: (0, [])}; threats (owner, agent, H7 class or kind) [(1, 2, 'L'), (3, 2, 'L')]; needers {5: [0]}; pool-optimal True; kinds ['robust', 'robust', 'frozen-exposed', 'robust']
+  n = 5: 956 profiles; the smallest 2:
+    n=5 m=9 f=2 omega=1 core k4_certs_5_n4_4.json.gz#4018 (idx 1176); sets=[[0, 5, 6, 7], [1, 5, 8], [2, 6, 7, 8], [3, 6, 7, 8], [4, 6, 7, 8]]
+    values: agent 0: 0:2, 5:10, 6:4, 7:7; agent 1: 1:2, 5:4, 8:3; agent 2: 2:3, 6:2, 7:10, 8:6; agent 3: 3:4, 6:5, 7:8, 8:2; agent 4: 4:5, 6:4, 7:6, 8:8
+    6 configurations (6 with a valid owner, 6 with C empty), 2 Phi'-maxima at Phi' = [0, 3, 28, -1] (2 with a valid owner, 2 with C empty, 2 pool-optimal, 1 with a frozen agent threatened by two owners)
+    max Config(key=[5, None, None, None, 8], Q={1: [0, 1], 2: [2, 7], 3: [3, 6]}, L=[4]): owners (least |C|, C) {1: (0, [])}; threats (owner, agent, H7 class or kind) [(2, 4, 'L'), (3, 4, 'L')]; needers {5: [1], 8: [1]}; pool-optimal True; kinds ['frozen-exposed', 'robust', 'robust', 'robust', 'frozen-exposed']
+    max Config(key=[5, None, None, None, 8], Q={1: [1, 4], 2: [2, 7], 3: [3, 6]}, L=[0]): owners (least |C|, C) {1: (0, []), 2: (0, []), 3: (0, [])}; threats (owner, agent, H7 class or kind) []; needers {5: [1], 8: [1]}; pool-optimal True; kinds ['frozen-exposed', 'robust', 'robust', 'robust', 'frozen-exposed']
+    n=5 m=9 f=2 omega=1 core k4_certs_5_n4_4.json.gz#4020 (idx 1178); sets=[[0, 5, 6, 8], [1, 5, 7, 8], [2, 5, 7, 8], [3, 6, 7, 8], [4, 6, 8]]
+    values: agent 0: 0:1, 5:8, 6:4, 8:6; agent 1: 1:5, 5:3, 7:6, 8:7; agent 2: 2:4, 5:8, 7:5, 8:2; agent 3: 3:3, 6:8, 7:6, 8:10; agent 4: 4:2, 6:4, 8:3
+    6 configurations (6 with a valid owner, 6 with C empty), 2 Phi'-maxima at Phi' = [0, 3, 22, -1] (2 with a valid owner, 2 with C empty, 2 pool-optimal, 1 with a frozen agent threatened by two owners)
+    max Config(key=[None, 8, None, 6, None], Q={0: [0, 5], 2: [2, 7], 4: [1, 4]}, L=[3]): owners (least |C|, C) {0: (0, []), 4: (0, [])}; threats (owner, agent, H7 class or kind) [(2, 3, 'L')]; needers {8: [3, 4], 6: [4]}; pool-optimal True; kinds ['robust', 'frozen-exposed', 'robust', 'frozen-exposed', 'robust']
+    max Config(key=[None, 8, None, 6, None], Q={0: [0, 5], 2: [2, 7], 4: [3, 4]}, L=[1]): owners (least |C|, C) {4: (0, [])}; threats (owner, agent, H7 class or kind) [(0, 1, 'L'), (2, 1, 'L')]; needers {8: [3, 4], 6: [4]}; pool-optimal True; kinds ['robust', 'frozen-exposed', 'robust', 'frozen-exposed', 'robust']
+
+== NPO: 1486 profiles in the catalogs {'gap_n2.json.gz': 32, 'gap_n3.json.gz': 1408, 'gap_n4_3_s4000.json.gz': 11, 'gap_n4_pure_s4000.json.gz': 30, 'gap_n5_4_s100.json.gz': 3, 'gap_n5_pure_s100.json.gz': 2}
+  n = 2: 32 profiles; the smallest 2:
+    n=2 m=6 f=1 omega=3 core k4_certs_2.json.gz#4 (idx 0); sets=[[0, 1, 4, 5], [2, 3, 4, 5]]
+    values: agent 0: 0:3, 1:6, 4:2, 5:10; agent 1: 2:3, 3:6, 4:2, 5:10
+    8 configurations (8 with a valid owner, 0 with C empty), 2 Phi'-maxima at Phi' = [0, 1, 12, -2] (2 with a valid owner, 0 with C empty, 0 pool-optimal, 0 with a frozen agent threatened by two owners)
+    max Config(key=[None, 5], Q={0: [1, 4]}, L=[0, 2, 3]): owners (least |C|, C) {0: (1, [2])}; threats (owner, agent, H7 class or kind) [(0, 1, 'G1')]; needers {5: [0]}; pool-optimal False; kinds ['robust', 'frozen-exposed']
+    max Config(key=[5, None], Q={1: [3, 4]}, L=[0, 1, 2]): owners (least |C|, C) {1: (1, [0])}; threats (owner, agent, H7 class or kind) [(1, 0, 'G1')]; needers {5: [1]}; pool-optimal False; kinds ['frozen-exposed', 'robust']
+    n=2 m=6 f=1 omega=3 core k4_certs_2.json.gz#4 (idx 0); sets=[[0, 1, 4, 5], [2, 3, 4, 5]]
+    values: agent 0: 0:3, 1:6, 4:2, 5:10; agent 1: 2:6, 3:3, 4:2, 5:10
+    8 configurations (8 with a valid owner, 0 with C empty), 2 Phi'-maxima at Phi' = [0, 1, 12, -2] (2 with a valid owner, 0 with C empty, 0 pool-optimal, 0 with a frozen agent threatened by two owners)
+    max Config(key=[None, 5], Q={0: [1, 4]}, L=[0, 2, 3]): owners (least |C|, C) {0: (1, [2])}; threats (owner, agent, H7 class or kind) [(0, 1, 'G1')]; needers {5: [0]}; pool-optimal False; kinds ['robust', 'frozen-exposed']
+    max Config(key=[5, None], Q={1: [2, 4]}, L=[0, 1, 3]): owners (least |C|, C) {1: (1, [0])}; threats (owner, agent, H7 class or kind) [(1, 0, 'G1')]; needers {5: [1]}; pool-optimal False; kinds ['frozen-exposed', 'robust']
+  n = 3: 1408 profiles; the smallest 2:
+    n=3 m=8 f=1 omega=3 core k4_certs_3.json.gz#46 (idx 1); sets=[[0, 2, 6, 7], [1, 4, 6, 7], [3, 5, 6, 7]]
+    values: agent 0: 0:3, 2:6, 6:2, 7:10; agent 1: 1:3, 4:6, 6:2, 7:10; agent 2: 3:3, 5:6, 6:2, 7:10
+    60 configurations (54 with a valid owner, 54 with C empty), 6 Phi'-maxima at Phi' = [0, 2, 18, -2] (6 with a valid owner, 6 with C empty, 0 pool-optimal, 0 with a frozen agent threatened by two owners)
+    max Config(key=[None, None, 7], Q={0: [0, 2], 1: [4, 6]}, L=[1, 3, 5]): owners (least |C|, C) {0: (0, [])}; threats (owner, agent, H7 class or kind) [(1, 2, 'G1')]; needers {7: [0, 1]}; pool-optimal False; kinds ['robust', 'robust', 'frozen-exposed']
+    max Config(key=[None, None, 7], Q={0: [2, 6], 1: [1, 4]}, L=[0, 3, 5]): owners (least |C|, C) {1: (0, [])}; threats (owner, agent, H7 class or kind) [(0, 2, 'G1')]; needers {7: [0, 1]}; pool-optimal False; kinds ['robust', 'robust', 'frozen-exposed']
+    max Config(key=[None, 7, None], Q={0: [0, 2], 2: [5, 6]}, L=[1, 3, 4]): owners (least |C|, C) {0: (0, [])}; threats (owner, agent, H7 class or kind) [(2, 1, 'G1')]; needers {7: [0, 2]}; pool-optimal False; kinds ['robust', 'frozen-exposed', 'robust']
+    max Config(key=[None, 7, None], Q={0: [2, 6], 2: [3, 5]}, L=[0, 1, 4]): owners (least |C|, C) {2: (0, [])}; threats (owner, agent, H7 class or kind) [(0, 1, 'G1')]; needers {7: [0, 2]}; pool-optimal False; kinds ['robust', 'frozen-exposed', 'robust']
+    n=3 m=8 f=1 omega=3 core k4_certs_3.json.gz#46 (idx 1); sets=[[0, 2, 6, 7], [1, 4, 6, 7], [3, 5, 6, 7]]
+    values: agent 0: 0:3, 2:6, 6:2, 7:10; agent 1: 1:3, 4:6, 6:2, 7:10; agent 2: 3:4, 5:7, 6:2, 7:10
+    60 configurations (52 with a valid owner, 50 with C empty), 2 Phi'-maxima at Phi' = [0, 2, 19, -2] (2 with a valid owner, 2 with C empty, 0 pool-optimal, 0 with a frozen agent threatened by two owners)
+    max Config(key=[None, 7, None], Q={0: [2, 6], 2: [3, 5]}, L=[0, 1, 4]): owners (least |C|, C) {0: (1, [1]), 2: (0, [])}; threats (owner, agent, H7 class or kind) [(0, 1, 'G1')]; needers {7: [0]}; pool-optimal False; kinds ['robust', 'frozen-exposed', 'robust']
+    max Config(key=[7, None, None], Q={1: [4, 6], 2: [3, 5]}, L=[0, 1, 2]): owners (least |C|, C) {1: (1, [0]), 2: (0, [])}; threats (owner, agent, H7 class or kind) [(1, 0, 'G1')]; needers {7: [1]}; pool-optimal False; kinds ['frozen-exposed', 'robust', 'robust']
+  n = 4: 41 profiles; the smallest 2:
+    n=4 m=9 f=2 omega=3 core k4_certs_4_n4_3.json.gz#252 (idx 6); sets=[[0, 2, 6, 8], [1, 4, 7, 8], [3, 5, 7, 8], [6, 7, 8]]
+    values: agent 0: 0:6, 2:3, 6:10, 8:2; agent 1: 1:6, 4:3, 7:10, 8:2; agent 2: 3:4, 5:3, 7:8, 8:2; agent 3: 6:4, 7:2, 8:3
+    84 configurations (82 with a valid owner, 76 with C empty), 4 Phi'-maxima at Phi' = [0, 3, 21, -2] (4 with a valid owner, 4 with C empty, 0 pool-optimal, 0 with a frozen agent threatened by two owners)
+    max Config(key=[None, None, 7, 6], Q={0: [0, 2], 1: [1, 8]}, L=[3, 4, 5]): owners (least |C|, C) {0: (0, []), 1: (1, [3])}; threats (owner, agent, H7 class or kind) [(1, 2, 'G1')]; needers {7: [1], 6: [0]}; pool-optimal False; kinds ['robust', 'robust', 'frozen-exposed', 'frozen-robust']
+    max Config(key=[None, None, 7, 6], Q={0: [0, 8], 1: [1, 4]}, L=[2, 3, 5]): owners (least |C|, C) {0: (1, [3]), 1: (0, [])}; threats (owner, agent, H7 class or kind) [(0, 2, 'L')]; needers {7: [1], 6: [0]}; pool-optimal False; kinds ['robust', 'robust', 'frozen-exposed', 'frozen-robust']
+    max Config(key=[None, 7, None, 6], Q={0: [0, 2], 2: [3, 8]}, L=[1, 4, 5]): owners (least |C|, C) {0: (0, []), 2: (1, [1])}; threats (owner, agent, H7 class or kind) [(2, 1, 'G1')]; needers {7: [2], 6: [0]}; pool-optimal False; kinds ['robust', 'frozen-exposed', 'robust', 'frozen-robust']
+    max Config(key=[None, 7, None, 6], Q={0: [0, 8], 2: [3, 5]}, L=[1, 2, 4]): owners (least |C|, C) {0: (1, [1]), 2: (0, [])}; threats (owner, agent, H7 class or kind) [(0, 1, 'L')]; needers {7: [2], 6: [0]}; pool-optimal False; kinds ['robust', 'frozen-exposed', 'robust', 'frozen-robust']
+    n=4 m=10 f=1 omega=3 core k4_certs_4_n4_3.json.gz#327 (idx 9); sets=[[0, 2, 7, 9], [1, 5, 8, 9], [3, 6, 8, 9], [4, 7, 9]]
+    values: agent 0: 0:4, 2:5, 7:8, 9:2; agent 1: 1:3, 5:4, 8:2, 9:8; agent 2: 3:3, 6:4, 8:2, 9:8; agent 3: 4:2, 7:4, 9:3
+    48 configurations (46 with a valid owner, 40 with C empty), 2 Phi'-maxima at Phi' = [0, 3, 24, -2] (2 with a valid owner, 2 with C empty, 0 pool-optimal, 0 with a frozen agent threatened by two owners)
+    max Config(key=[None, None, 9, None], Q={0: [0, 2], 1: [5, 8], 3: [4, 7]}, L=[1, 3, 6]): owners (least |C|, C) {0: (0, []), 1: (1, [3]), 3: (0, [])}; threats (owner, agent, H7 class or kind) [(1, 2, 'G1')]; needers {9: [1]}; pool-optimal False; kinds ['robust', 'robust', 'frozen-exposed', 'robust']
+    max Config(key=[None, 9, None, None], Q={0: [0, 2], 2: [6, 8], 3: [4, 7]}, L=[1, 3, 5]): owners (least |C|, C) {0: (0, []), 2: (1, [1]), 3: (0, [])}; threats (owner, agent, H7 class or kind) [(2, 1, 'G1')]; needers {9: [2]}; pool-optimal False; kinds ['robust', 'frozen-exposed', 'robust', 'robust']
+  n = 5: 5 profiles; the smallest 2:
+    n=5 m=12 f=2 omega=4 core k4_certs_5_n4_4.json.gz#9458 (idx 45); sets=[[0, 2, 7, 9], [1, 4, 8, 11], [3, 6, 10, 11], [5, 7, 11], [8, 9, 10, 11]]
+    values: agent 0: 0:3, 2:6, 7:8, 9:10; agent 1: 1:3, 4:2, 8:6, 11:10; agent 2: 3:3, 6:6, 10:2, 11:10; agent 3: 5:2, 7:4, 11:3; agent 4: 8:6, 9:10, 10:2, 11:7
+    480 configurations (472 with a valid owner, 468 with C empty), 2 Phi'-maxima at Phi' = [0, 4, 26, -2] (2 with a valid owner, 2 with C empty, 0 pool-optimal, 0 with a frozen agent threatened by two owners)
+    max Config(key=[None, None, 11, None, 9], Q={0: [0, 2], 1: [1, 8], 3: [7, 10]}, L=[3, 4, 5, 6]): owners (least |C|, C) {0: (0, []), 1: (0, [])}; threats (owner, agent, H7 class or kind) [(3, 2, 'G')]; needers {11: [1], 9: [0]}; pool-optimal False; kinds ['robust', 'robust', 'frozen-exposed', 'robust', 'frozen-robust']
+    max Config(key=[None, None, 11, None, 9], Q={0: [0, 2], 1: [8, 10], 3: [5, 7]}, L=[1, 3, 4, 6]): owners (least |C|, C) {0: (0, []), 1: (1, [3]), 3: (0, [])}; threats (owner, agent, H7 class or kind) [(1, 2, 'G')]; needers {11: [1], 9: [0]}; pool-optimal False; kinds ['robust', 'robust', 'frozen-exposed', 'robust', 'frozen-robust']
+    n=5 m=12 f=2 omega=4 core k4_certs_5_n4_4.json.gz#9494 (idx 81); sets=[[0, 2, 8, 10], [1, 4, 9, 10], [3, 6, 9, 11], [5, 7, 10, 11], [7, 8, 11]]
+    values: agent 0: 0:6, 2:2, 8:3, 10:10; agent 1: 1:4, 4:3, 9:2, 10:8; agent 2: 3:3, 6:4, 9:2, 11:8; agent 3: 5:6, 7:4, 10:1, 11:8; agent 4: 7:3, 8:2, 11:4
+    1470 configurations (1089 with a valid owner, 814 with C empty), 1 Phi'-maxima at Phi' = [0, 3, 29, -2] (1 with a valid owner, 1 with C empty, 0 pool-optimal, 0 with a frozen agent threatened by two owners)
+    max Config(key=[None, 10, None, None, 11], Q={0: [0, 8], 2: [6, 9], 3: [5, 7]}, L=[1, 2, 3, 4]): owners (least |C|, C) {0: (0, []), 2: (1, [1]), 3: (0, [])}; threats (owner, agent, H7 class or kind) [(2, 1, 'L')]; needers {10: [0], 11: [2]}; pool-optimal False; kinds ['robust', 'frozen-exposed', 'robust', 'robust', 'frozen-exposed']
+
+== F2: 40482 profiles in the catalogs {'gap_n4_2_s4000.json.gz': 3252, 'gap_n4_3_s4000.json.gz': 3023, 'gap_n4_pure_s4000.json.gz': 1767, 'gap_n4_1.json.gz': 15910, 'gap_n5_2_s100.json.gz': 2286, 'gap_n5_4_s100.json.gz': 5661, 'gap_n5_pure_s100.json.gz': 2684, 'gap_n5_3_s100.json.gz': 5568, 'gap_n5_1_s100.json.gz': 331}
+  n = 4: 23952 profiles; the smallest 2:
+    n=4 m=7 f=2 omega=1 core k4_certs_4_n4_2.json.gz#93 (idx 13); sets=[[0, 2, 5, 6], [1, 4, 5, 6], [3, 5, 6], [4, 5, 6]]
+    values: agent 0: 0:3, 2:2, 5:4, 6:8; agent 1: 1:3, 4:10, 5:8, 6:6; agent 2: 3:2, 5:4, 6:3; agent 3: 4:4, 5:2, 6:3
+    2 configurations (2 with a valid owner, 2 with C empty), 1 Phi'-maxima at Phi' = [0, 3, 16, -1] (1 with a valid owner, 1 with C empty, 1 pool-optimal, 0 with a frozen agent threatened by two owners)
+    max Config(key=[None, 4, None, 6], Q={0: [0, 2], 2: [3, 5]}, L=[1]): owners (least |C|, C) {0: (0, [])}; threats (owner, agent, H7 class or kind) [(2, 1, 'L')]; needers {4: [3], 6: [0]}; pool-optimal True; kinds ['robust', 'frozen-exposed', 'robust', 'frozen-robust']
+    n=4 m=7 f=2 omega=1 core k4_certs_4_n4_2.json.gz#93 (idx 13); sets=[[0, 2, 5, 6], [1, 4, 5, 6], [3, 5, 6], [4, 5, 6]]
+    values: agent 0: 0:3, 2:6, 5:10, 6:8; agent 1: 1:3, 4:8, 5:4, 6:6; agent 2: 3:2, 5:3, 6:4; agent 3: 4:4, 5:3, 6:2
+    2 configurations (2 with a valid owner, 2 with C empty), 1 Phi'-maxima at Phi' = [0, 3, 16, -1] (1 with a valid owner, 1 with C empty, 1 pool-optimal, 0 with a frozen agent threatened by two owners)
+    max Config(key=[None, 4, None, 5], Q={0: [0, 2], 2: [3, 6]}, L=[1]): owners (least |C|, C) {0: (0, [])}; threats (owner, agent, H7 class or kind) [(2, 1, 'L')]; needers {4: [3], 5: [0]}; pool-optimal True; kinds ['robust', 'frozen-exposed', 'robust', 'frozen-robust']
+  n = 5: 16530 profiles; the smallest 2:
+    n=5 m=8 f=3 omega=1 core k4_certs_5_n4_2.json.gz#1748 (idx 186); sets=[[0, 2, 6, 7], [1, 4, 5, 6], [3, 5, 7], [4, 6, 7], [5, 6, 7]]
+    values: agent 0: 0:4, 2:1, 6:8, 7:6; agent 1: 1:3, 4:7, 5:5, 6:6; agent 2: 3:2, 5:4, 7:3; agent 3: 4:4, 6:3, 7:2; agent 4: 5:4, 6:2, 7:3
+    12 configurations (12 with a valid owner, 12 with C empty), 2 Phi'-maxima at Phi' = [0, 4, 17, -1] (2 with a valid owner, 2 with C empty, 2 pool-optimal, 0 with a frozen agent threatened by two owners)
+    max Config(key=[6, None, None, 4, 5], Q={1: [0, 1], 2: [3, 7]}, L=[2]): owners (least |C|, C) {1: (0, []), 2: (0, [])}; threats (owner, agent, H7 class or kind) []; needers {6: [1], 4: [1], 5: [1]}; pool-optimal True; kinds ['frozen-exposed', 'robust', 'robust', 'frozen-robust', 'frozen-robust']
+    max Config(key=[6, None, None, 4, 5], Q={1: [1, 2], 2: [3, 7]}, L=[0]): owners (least |C|, C) {1: (0, [])}; threats (owner, agent, H7 class or kind) [(2, 0, 'L')]; needers {6: [1], 4: [1], 5: [1]}; pool-optimal True; kinds ['frozen-exposed', 'robust', 'robust', 'frozen-robust', 'frozen-robust']
+    n=5 m=8 f=3 omega=1 core k4_certs_5_n4_4.json.gz#1277 (idx 367); sets=[[0, 4, 7], [1, 5, 6, 7], [2, 5, 6, 7], [3, 5, 6, 7], [4, 5, 6, 7]]
+    values: agent 0: 0:2, 4:4, 7:3; agent 1: 1:1, 5:8, 6:4, 7:6; agent 2: 2:4, 5:3, 6:8, 7:6; agent 3: 3:3, 5:6, 6:8, 7:4; agent 4: 4:8, 5:2, 6:5, 7:4
+    18 configurations (18 with a valid owner, 18 with C empty), 2 Phi'-maxima at Phi' = [0, 4, 22, -1] (2 with a valid owner, 2 with C empty, 2 pool-optimal, 0 with a frozen agent threatened by two owners)
+    max Config(key=[7, None, None, 6, 4], Q={1: [1, 5], 2: [0, 2]}, L=[3]): owners (least |C|, C) {2: (0, [])}; threats (owner, agent, H7 class or kind) [(1, 3, 'L')]; needers {7: [2], 6: [2], 4: [0]}; pool-optimal True; kinds ['frozen-robust', 'robust', 'robust', 'frozen-exposed', 'frozen-robust']
+    max Config(key=[7, None, None, 6, 4], Q={1: [1, 5], 2: [2, 3]}, L=[0]): owners (least |C|, C) {1: (0, []), 2: (0, [])}; threats (owner, agent, H7 class or kind) []; needers {7: [2], 6: [2], 4: [0]}; pool-optimal True; kinds ['frozen-robust', 'robust', 'robust', 'frozen-exposed', 'frozen-robust']
+
+wrote 19 records to results/k4_gap/hard_base.json.gz

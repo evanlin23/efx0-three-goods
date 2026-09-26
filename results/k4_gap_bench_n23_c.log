@@ -1,0 +1,9 @@
+command: python3 k4/gap_bench.py --catalog=results/k4_gap/gap_n2.json.gz,results/k4_gap/gap_n3.json.gz --only=II_T0,II_PHI,SAME_N --show=3
+gap.c sha256 0c14f252223c78d4fccbcfca4d048ca64b684980f6cec3f3cbb41742e3c38afa; catalogs ['gap_n2.json.gz', 'gap_n3.json.gz']
+== roadmap (ii): in that setting with x threatened, once no exchange-cycle move avoiding x raises Phi', some exchange-cycle move through x (best pairs or any pairs, e.g. the plain rotation) leaves t = 0
+II_T0: HOLDS on the data; 8 cases tested, 1539571 skipped (hypothesis not met), 75552 profiles; 0 counterexamples
+== roadmap (ii) with (iii): in the same setting, some exchange-cycle move through x raises Phi'
+II_PHI: HOLDS on the data; 8 cases tested, 1539571 skipped (hypothesis not met), 75552 profiles; 0 counterexamples
+== needed for any move catalogue that keeps the needed set (pool, cycle, two-agent moves, downgrade swaps): at every configuration without a valid owner some configuration with the same needed set has a larger Phi'
+SAME_N: HOLDS on the data; 320282 cases tested, 0 skipped (hypothesis not met), 75552 profiles; 0 counterexamples
+[30 s]

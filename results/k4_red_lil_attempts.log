@@ -1,0 +1,43 @@
+# attempts/k4_c4min_reduce_lil.py: replay of the local-improvement-lemma failures (attempts/k4-c4min-reduce-lil.md) by k4/red_lil.py + k4/red_lib.py and k4/red.c
+# source: attempts/k4_c4min_reduce_lil.py sha1 aea923bcff4b001c5e254056eec66b93516c12e3, k4/red_lil.py sha1 f4f8610ececbbef6653787bd7abeff9a711c3fd4, k4/red_lib.py sha1 035b94e3d6c8eab87caaf32aa88ee9a8740fee25, k4/red.c sha1 2528c3b1a5c8e11979b257bd12be6be86c04eebf; git HEAD 964c7798f8e80887e920066a6358360b14e779a9 (the replay script is committed with this log)
+# command: python3 attempts/k4_c4min_reduce_lil.py
+N1  results/k4_certs_3.json.gz#43  n=3 m=7  f=1  keys (g, x): [(5, 1), (5, 2)]
+  f = 1, omega >= 1, (5, 1) is a key                                                           yes
+  the given pairs and pool form a configuration at the key, not completable                    yes
+    Phi_r = (r', -t, Lambda) of the configuration: (1, 0, 19)
+  catalogue broad                       : the configuration is not stuck                       yes
+      e.g. to key (5, 2): pairs {0: [4, 6], 1: [0, 3]}, pool [1, 2], Phi_r (2, 0, 21)
+  catalogue broad                       : stuck configurations of the profile, Python 0 = C 0  yes
+  catalogue narrow, x any pair          : the configuration is stuck                           yes
+  catalogue narrow, x any pair          : stuck configurations of the profile, Python 1 = C 1  yes
+  catalogue narrow, x best pair         : the configuration is stuck                           yes
+  catalogue narrow, x best pair         : stuck configurations of the profile, Python 1 = C 1  yes
+  catalogue narrow+recycle, x any pair  : the configuration is not stuck                       yes
+      e.g. to key (5, 2): pairs {0: [4, 6], 1: [0, 3]}, pool [1, 2], Phi_r (2, 0, 21)
+  catalogue narrow+recycle, x any pair  : stuck configurations of the profile, Python 0 = C 0  yes
+  catalogue narrow+recycle, x best pair : the configuration is not stuck                       yes
+      e.g. to key (5, 2): pairs {0: [0, 4], 1: [3, 6]}, pool [1, 2], Phi_r (2, 0, 22)
+  catalogue narrow+recycle, x best pair : stuck configurations of the profile, Python 0 = C 0  yes
+N2  results/k4_certs_4_n4_2.json.gz#283  n=4 m=9  f=1  keys (g, x): [(8, 1), (8, 2), (8, 3)]
+  f = 1, omega >= 1, (8, 2) is a key                                                           yes
+  the given pairs and pool form a configuration at the key, not completable                    yes
+    Phi_r = (r', -t, Lambda) of the configuration: (2, 0, 14)
+  catalogue broad                       : the configuration is not stuck                       yes
+      e.g. to key (8, 1): pairs {3: [4, 7], 0: [1, 2], 2: [0, 5]}, pool [3, 6], Phi_r (2, 0, 15)
+  catalogue broad                       : stuck configurations of the profile, Python 0 = C 0  yes
+  catalogue narrow+recycle, x any pair  : the configuration is stuck                           yes
+  catalogue narrow+recycle, x any pair  : stuck configurations of the profile, Python 2 = C 2  yes
+  catalogue narrow+recycle, x best pair : the configuration is stuck                           yes
+  catalogue narrow+recycle, x best pair : stuck configurations of the profile, Python 2 = C 2  yes
+NC  not a core  n=3 m=9  f=1  keys (g, x): [(0, 0), (0, 1), (0, 2)]
+  f = 1, omega >= 1, (0, 0) is a key                                                           yes
+  the given pairs and pool form a configuration at the key, not completable                    yes
+    Phi_r = (r', -t, Lambda) of the configuration: (2, -1, 19)
+  catalogue broad                       : the configuration is stuck                           yes
+  catalogue broad                       : stuck configurations of the profile, Python 1 = C 1  yes
+  x = 0 has the private goods [1, 2, 3] (a k = 4 core allows at most two)                      yes
+  every key is big-top                                                                         yes
+  t = 1 and the configuration is pool-optimal                                                  yes
+  GLOB holds: every maximum of Phi_r over all keys ((2, 0, 18)) is completable                 yes
+  C: pot[r,mt,lamR]_every = 1 and glob_-t,r,lamR_every = 1                                     yes
+ALL CONFIRMED

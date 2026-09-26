@@ -1,0 +1,16 @@
+# adaptive_mine.py results/k4_certs_3.json.gz --per=60 # adaptive.c sha256 c42a46fe13e32e41
+results/k4_certs_3.json.gz: 2556 profiles on which index order needs a rotation; rule 16 needs: {'rot=0': 2419, 'rot=1': 137}
+  count  c=leader  |R_c|  rank of c's index pick  reachable from leader  frozen in index run
+     624  False         4                       1  True                   True
+     450  False         4                       2  True                   False
+     363  False         4                       0  False                  True
+     336  False         4                       1  True                   False
+     148  False         3                       0  False                  True
+     140  False         4                       1  False                  False
+     133  False         3                       1  True                   True
+     124  True          4                       0  True                   True
+      93  False         3                       1  True                   False
+      67  False         3                       2  True                   False
+      39  False         3                       0  False                  False
+      26  False         4                       0  False                  False
+      13  True          3                       0  True                   True

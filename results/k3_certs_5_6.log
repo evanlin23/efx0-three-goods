@@ -1,0 +1,5 @@
+$ cd k3 && python3 k3algo.py --certs ../results/certs_5_6.json.gz --jobs=4 --mirror-every=50
+certs ../results/certs_5_6.json.gz: 251 cores {(5, 9): 15, (6, 10): 211, (6, 11): 25}; 11127456 ranking profiles x 3 realizations = 33382368 runs; failures (raw EFX0, ordinality, mirror) 0; mirror compared on 222764 profiles; 700 s
+branches: {'noowner': 10672366, 'owner_r': 449616, 'rot_noowner': 4768, 'rot_owner_k': 706}
+bundles of > 2 goods per output: {0: 10677134, 1: 450322}
+(real 11m40s on 4 CPUs)

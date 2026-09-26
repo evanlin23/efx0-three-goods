@@ -1,0 +1,9 @@
+# command: python3 c4min_chains.py ../results/k4_c4min_hunt_climb_n5_b.jsonl --count=4000 --seed=131 --jobs=4
+# commit d6fbbb0, k4/c4min_hunt.c sha1 60fbc9be5f85, started Sat Sep 26 00:19:40 UTC 2026
+# 420 gadgets (owner needed, d* = 0) from ../results/k4_c4min_hunt_climb_n5_b.jsonl
+DONE composites 1000 (tries 1002) by (length, shape) {(2, 'cycle'): 91, (2, 'path'): 87, (2, 'star'): 83, (3, 'cycle'): 82, (3, 'path'): 70, (3, 'star'): 83, (4, 'cycle'): 87, (4, 'path'): 70, (4, 'star'): 93, (5, 'cycle'): 89, (5, 'path'): 89, (5, 'star'): 76}
+DONE composites 1000 (tries 1000) by (length, shape) {(2, 'cycle'): 80, (2, 'path'): 76, (2, 'star'): 84, (3, 'cycle'): 84, (3, 'path'): 87, (3, 'star'): 84, (4, 'cycle'): 82, (4, 'path'): 80, (4, 'star'): 83, (5, 'cycle'): 99, (5, 'path'): 84, (5, 'star'): 77}
+DONE composites 1000 (tries 1000) by (length, shape) {(2, 'cycle'): 90, (2, 'path'): 81, (2, 'star'): 84, (3, 'cycle'): 73, (3, 'path'): 66, (3, 'star'): 83, (4, 'cycle'): 70, (4, 'path'): 95, (4, 'star'): 90, (5, 'cycle'): 106, (5, 'path'): 76, (5, 'star'): 86}
+DONE composites 1000 (tries 1000) by (length, shape) {(2, 'cycle'): 66, (2, 'path'): 94, (2, 'star'): 80, (3, 'cycle'): 86, (3, 'path'): 85, (3, 'star'): 90, (4, 'cycle'): 74, (4, 'path'): 86, (4, 'star'): 94, (5, 'cycle'): 78, (5, 'path'): 89, (5, 'star'): 78}
+TOTAL composites 4000 fails 0 (44 s)
+# finished Sat Sep 26 00:20:31 UTC 2026

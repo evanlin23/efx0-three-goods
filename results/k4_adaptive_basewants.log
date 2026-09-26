@@ -1,0 +1,115 @@
+# adaptive_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz results/k4_certs_4_n4_2.json.gz -i2 -r0 -w0 --show=0 # adaptive.c sha256 d6cca1be306de8c5
+k4_certs_2.json.gz: cores=5 total=189216 fails=720 rawfails=0 badcores=2 rot=[188496] (rotations 0..R) pol=[188496, 0, 0] uncov=0 covviol=0 time 1s
+k4_certs_3.json.gz: cores=51 total=299837376 fails=292616 rawfails=0 badcores=24 rot=[299544760] (rotations 0..R) pol=[299316352, 131420, 96988] uncov=0 covviol=0 time 2s
+k4_certs_4_n4_2.json.gz: cores=309 total=724847616 fails=208096 rawfails=0 badcores=98 rot=[724639520] (rotations 0..R) pol=[724382410, 40354, 216756] uncov=0 covviol=0 time 5s
+# adaptive_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz results/k4_certs_4_n4_2.json.gz -i2 -r3 --show=0 # adaptive.c sha256 d6cca1be306de8c5
+k4_certs_2.json.gz: cores=5 total=189216 fails=0 rawfails=0 badcores=0 rot=[189216, 0, 0, 0] (rotations 0..R) pol=[189036, 180, 0] uncov=0 covviol=0 time 1s
+k4_certs_3.json.gz: cores=51 total=299837376 fails=0 rawfails=0 badcores=0 rot=[299574040, 263336, 0, 0] (rotations 0..R) pol=[299516084, 209888, 111404] uncov=0 covviol=0 time 12s
+k4_certs_4_n4_2.json.gz: cores=309 total=724847616 fails=0 rawfails=0 badcores=0 rot=[724640736, 206880, 0, 0] (rotations 0..R) pol=[724560286, 61512, 225818] uncov=0 covviol=0 time 10s
+# adaptive_uncovered.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz results/k4_certs_4_n4_2.json.gz -A26 -C3 -r0 -w0 # adaptive.c sha256 d6cca1be306de8c5
+results/k4_certs_2.json.gz
+  covered              policy=need-shrinking rotations=0 no owner needed  84096
+  covered              policy=need-shrinking rotations=0 owner r          92700
+  covered              policy=need-shrinking rotations=0 other owner      11400
+  no covered sequence  policy=need-shrinking rotations=0 other owner      300
+  no covered sequence  fails 720
+  total 189216 no covered sequence 1020
+results/k4_certs_3.json.gz
+  covered              policy=need-shrinking rotations=0 no owner needed  169858904
+  covered              policy=need-shrinking rotations=0 owner r          118473738
+  covered              policy=need-shrinking rotations=0 other owner      10893374
+  covered              policy=envy-free      rotations=0 owner r          65032
+  covered              policy=envy-free      rotations=0 other owner      66388
+  covered              policy=no upgrades    rotations=0 owner r          47340
+  covered              policy=no upgrades    rotations=0 other owner      49648
+  no covered sequence  policy=need-shrinking rotations=0 owner r          54200
+  no covered sequence  policy=need-shrinking rotations=0 other owner      36136
+  covered              fails 263336
+  no covered sequence  fails 29280
+  total 299837376 no covered sequence 119616
+results/k4_certs_4_n4_2.json.gz
+  covered              policy=need-shrinking rotations=0 no owner needed  618348702
+  covered              policy=need-shrinking rotations=0 owner r          97052452
+  covered              policy=need-shrinking rotations=0 other owner      8951232
+  covered              policy=envy-free      rotations=0 no owner needed  2252
+  covered              policy=envy-free      rotations=0 owner r          21810
+  covered              policy=envy-free      rotations=0 other owner      16292
+  covered              policy=no upgrades    rotations=0 owner r          187128
+  covered              policy=no upgrades    rotations=0 other owner      29628
+  no covered sequence  policy=need-shrinking rotations=0 owner r          22616
+  no covered sequence  policy=need-shrinking rotations=0 other owner      7408
+  covered              fails 175584
+  no covered sequence  fails 32512
+  total 724847616 no covered sequence 62536
+# adaptive_uncovered.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz results/k4_certs_4_n4_2.json.gz -A26 -C3 -r3 -w0 # adaptive.c sha256 d6cca1be306de8c5
+results/k4_certs_2.json.gz
+  covered              policy=need-shrinking rotations=0 no owner needed  84096
+  covered              policy=need-shrinking rotations=0 owner r          92700
+  covered              policy=need-shrinking rotations=0 other owner      11400
+  no covered sequence  policy=need-shrinking rotations=0 other owner      300
+  no covered sequence  policy=need-shrinking rotations=1 rotation         720
+  total 189216 no covered sequence 1020
+results/k4_certs_3.json.gz
+  covered              policy=need-shrinking rotations=0 no owner needed  169858904
+  covered              policy=need-shrinking rotations=0 owner r          118473738
+  covered              policy=need-shrinking rotations=0 other owner      10893374
+  covered              policy=need-shrinking rotations=1 rotation         263336
+  covered              policy=envy-free      rotations=0 owner r          65032
+  covered              policy=envy-free      rotations=0 other owner      66388
+  covered              policy=no upgrades    rotations=0 owner r          47340
+  covered              policy=no upgrades    rotations=0 other owner      49648
+  no covered sequence  policy=need-shrinking rotations=0 owner r          54200
+  no covered sequence  policy=need-shrinking rotations=0 other owner      36136
+  no covered sequence  policy=need-shrinking rotations=1 rotation         29280
+  total 299837376 no covered sequence 119616
+results/k4_certs_4_n4_2.json.gz
+  covered              policy=need-shrinking rotations=0 no owner needed  618348702
+  covered              policy=need-shrinking rotations=0 owner r          97052452
+  covered              policy=need-shrinking rotations=0 other owner      8951232
+  covered              policy=need-shrinking rotations=1 rotation         175584
+  covered              policy=envy-free      rotations=0 no owner needed  2252
+  covered              policy=envy-free      rotations=0 owner r          21810
+  covered              policy=envy-free      rotations=0 other owner      16292
+  covered              policy=no upgrades    rotations=0 owner r          187128
+  covered              policy=no upgrades    rotations=0 other owner      29628
+  no covered sequence  policy=need-shrinking rotations=0 owner r          22616
+  no covered sequence  policy=need-shrinking rotations=0 other owner      7408
+  no covered sequence  policy=need-shrinking rotations=1 rotation         32512
+  total 724847616 no covered sequence 62536
+# adaptive_uncovered.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz results/k4_certs_4_n4_2.json.gz -A26 -C3 -r3 # adaptive.c sha256 d6cca1be306de8c5
+results/k4_certs_2.json.gz
+  covered              policy=need-shrinking rotations=0 no owner needed  84096
+  covered              policy=need-shrinking rotations=0 owner r          94320
+  covered              policy=need-shrinking rotations=0 other owner      9600
+  covered              policy=envy-free      rotations=0 owner r          180
+  no covered sequence  policy=need-shrinking rotations=0 owner r          720
+  no covered sequence  policy=need-shrinking rotations=0 other owner      300
+  total 189216 no covered sequence 1020
+results/k4_certs_3.json.gz
+  covered              policy=need-shrinking rotations=0 no owner needed  169674280
+  covered              policy=need-shrinking rotations=0 owner r          119081060
+  covered              policy=need-shrinking rotations=0 other owner      10379184
+  covered              policy=need-shrinking rotations=1 rotation         263336
+  covered              policy=envy-free      rotations=0 owner r          146438
+  covered              policy=envy-free      rotations=0 other owner      62058
+  covered              policy=no upgrades    rotations=0 owner r          63150
+  covered              policy=no upgrades    rotations=0 other owner      48254
+  no covered sequence  policy=need-shrinking rotations=0 owner r          81296
+  no covered sequence  policy=need-shrinking rotations=0 other owner      36928
+  no covered sequence  policy=envy-free      rotations=0 owner r          1392
+  total 299837376 no covered sequence 119616
+results/k4_certs_4_n4_2.json.gz
+  covered              policy=need-shrinking rotations=0 no owner needed  618264606
+  covered              policy=need-shrinking rotations=0 owner r          97127378
+  covered              policy=need-shrinking rotations=0 other owner      8930270
+  covered              policy=need-shrinking rotations=1 rotation         175568
+  covered              policy=envy-free      rotations=0 no owner needed  2248
+  covered              policy=envy-free      rotations=0 owner r          43802
+  covered              policy=envy-free      rotations=0 other owner      15390
+  covered              policy=no upgrades    rotations=0 owner r          194416
+  covered              policy=no upgrades    rotations=0 other owner      31402
+  no covered sequence  policy=need-shrinking rotations=0 owner r          23744
+  no covered sequence  policy=need-shrinking rotations=0 other owner      7408
+  no covered sequence  policy=need-shrinking rotations=1 rotation         31312
+  no covered sequence  policy=envy-free      rotations=0 owner r          72
+  total 724847616 no covered sequence 62536

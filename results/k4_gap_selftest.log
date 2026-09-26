@@ -1,0 +1,10 @@
+command: python3 k4/gap_bench.py --selftest --catalog=results/k4_gap/gap_n2.json.gz
+gap.c sha256 0c14f252223c78d4fccbcfca4d048ca64b684980f6cec3f3cbb41742e3c38afa; catalogs ['gap_n2.json.gz']
+selftest: 1296 profiles, gap.c and gap_model agree on the class, f, omega, keys and every configuration's Phi', pool-optimality, owners (least |C|), threat edges and H7 classes: 0 mismatches [3 s]
+command: python3 k4/gap_bench.py --selftest --catalog=results/k4_gap/gap_n3.json.gz --every=25
+gap.c sha256 0c14f252223c78d4fccbcfca4d048ca64b684980f6cec3f3cbb41742e3c38afa; catalogs ['gap_n3.json.gz']
+selftest: 2971 profiles, gap.c and gap_model agree on the class, f, omega, keys and every configuration's Phi', pool-optimality, owners (least |C|), threat edges and H7 classes: 0 mismatches [27 s]
+command: python3 k4/gap_bench.py --selftest --catalog=results/k4_gap/gap_n4_1.json.gz,results/k4_gap/gap_n4_2_s4000.json.gz,results/k4_gap/gap_n4_3_s4000.json.gz,results/k4_gap/gap_n4_pure_s4000.json.gz --every=100
+gap.c sha256 0c14f252223c78d4fccbcfca4d048ca64b684980f6cec3f3cbb41742e3c38afa; catalogs ['gap_n4_1.json.gz', 'gap_n4_2_s4000.json.gz', 'gap_n4_3_s4000.json.gz', 'gap_n4_pure_s4000.json.gz']
+selftest: 1841 profiles, gap.c and gap_model agree on the class, f, omega, keys and every configuration's Phi', pool-optimality, owners (least |C|), threat edges and H7 classes: 0 mismatches [69 s]
+# note: made with gap.c 0c14f25; the final gap.c (74e1fae) differs only by the phibad counter, and the PR #53 review's rerun of --selftest on n = 2 with it gives 0 mismatches.

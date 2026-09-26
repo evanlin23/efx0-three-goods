@@ -279,7 +279,9 @@ Remarks.
    review of PR #13): n = 5, m = 8, rankings 0:(5,0,2), 1:(1,2,6), 2:(3,4,7), 3:(3,4,0), 4:(1,3,4), order 0, 1, 4, 3,
    2 with 0 and 1 inserted (an R1 order other than LB's, which §1 allows). Then r = 2, the sets π_x are {0, 2} and {2, 6}, one slot is available, and H = {2} works.
    The minimum is easy to compute here, since the sets π_x have at most two goods each. `src/lbplus.c` computes it by
-   brute force.
+   brute force. *(Correction, PR #54: that reason is not enough, since a minimum hitting set of sets of at most two
+   goods is vertex cover in general. The test is easy because of Theorem A's counting: r is valid iff |E_r| ≤ S − cap(r)
+   or two sets π_x meet; Proposition O of `proofs/k3_algorithm.md` §4, `EFX.LB.validOwner_iff` in Lean.)*
 3. What the proof uses about a core: each agent values exactly three goods and is balanced. It does not use that
    every good is valued, the private-good condition, connectivity, or L5.
 4. *Labellings.* LB breaks ties by index, so its output depends on how agents and goods are labelled. Theorem C does
