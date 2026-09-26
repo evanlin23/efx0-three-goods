@@ -20,7 +20,10 @@ EVIDENCE only (PROMPT.md §5 rule 3). Two leads for the open step of the k = 4 p
   - if none does, the state is a dead end.
 - Potentials (`-P`):
   - P0: Φ = (z, Π v_i(B_i)), where z is the number of agents with a nonempty base, the product runs over those
-    agents, and pairs are compared lexicographically; exact 128-bit integers;
+    agents, and pairs are compared lexicographically; exact 128-bit integers. Exactness assumes type
+    representatives in [1, 16] (each factor < 64, so a product of at most 21 factors is < 2^126; `-N` refuses
+    n > 21). Every run here uses such values (the smallest representatives; H_t's values are at most 8), but `-N`
+    does not check the range of other inputs;
   - P1: Π alone;
   - P2: Φ with the number of goods in bases as a tie-break;
   - P3: Φ with the leximin of the base values as a tie-break;
@@ -114,7 +117,7 @@ which every good is valued by at most 3 agents:
 | pure n = 4 (142 of 219 cores) | every profile | 0 (`results/k4_lb4_nested_pure4.log`) | no histogram for the (4, 3) subset; on all 219 pure cores none needs 3 (`results/k4_lb4r_hist.log`) |
 | n = 5, one or two 4-good agents (3,438 of 7,203) | every profile | 0 (`results/k4_lb4_nested_n5.log`) | no histogram for the (4, 3) subset; on all 7,203 cores none needs 3 (`results/k4_lb4r_hist.log`) |
 | n = 5, three 4-good agents (4,622 of 9,861) | every profile | 0 (the index-order run on all 9,861 cores, `results/k4_lb4r_ex_5_n4_3.log`) | no histogram |
-| n = 6, one 4-good agent (7,817 of 26,866) | every profile (1.58·10¹⁰) | 0 (`results/k4_p3_lb4r_6_n4_1.log`, 22 min on 2 CPUs) | no histogram |
+| n = 6, one 4-good agent (7,817 of 26,866) | every profile (1.58·10¹⁰) | 0 (`results/k4_p3_lb4r_6_n4_1.log`, 22 min on 2 CPUs; rerun with main's `k4/lb4.c`, identical counters: `results/k4_p3_lb4r_6_n4_1_mainlb4.log`) | no histogram |
 | n = 5, four 4-good agents (4,380 of 9,846) | 4,380,000 random draws | 0 | 4,337,772 / 42,227 / 1 / 0 |
 | pure n = 5 (1,962 of 4,674) | 1,962,000 random draws | 0 | 1,939,368 / 22,632 / 0 / 0 |
 | random, n = 6–10, 200 cores each | 500,000 random | 0 | at most 1 rotation |
