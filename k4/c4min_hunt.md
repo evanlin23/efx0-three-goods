@@ -208,7 +208,7 @@ htx 4 (m = 31 < 2n). f* reaches 4 on random profiles; near §7's values it is al
 encoding.
 
 **SAT encoding** (`k4/c4min_sat.py`, `results/k4_c4min_hunt_famsat.log`; every certificate re-checked by the brute force):
-- §7's values on H_T for T = 4, …, 10, 12, 16 (up to n = 65, m = 163): C₄ᵐⁱⁿ holds, f* = 0, in under a second each.
+- §7's values on H_T for every T = 1, …, 16 (up to n = 65, m = 163): C₄ᵐⁱⁿ holds, f* = 0, in under a second each.
 - 300 uniform random profiles each of H_6, H_8, H_10, ht2 8, htx 8, htc 8, grid 3×3 (n = 39), chain 3 2, chain 4 3
   (n = 51), cycle 8 (= H_8), tree 7 and tree 15 (n = 68, m = 167): 0 failures; f* up to 8 (tree 15).
 - 300 profiles each of H_6, H_8, H_10 and htc 8 at §7's values with 1, 2, 4, 8 or 16 agents re-typed: 0 failures

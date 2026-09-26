@@ -116,3 +116,23 @@ SAT ltp:4:4 (n 16, m 28, sigma 4, perturb:6) profiles 300 fails 0 fstar {3: 4, 4
 SAT ltp:5:5 (n 25, m 40, sigma 10, perturb:6) profiles 300 fails 0 fstar {9: 16, 10: 36, 11: 214, 12: 29, 13: 5} (24.1 s; every certificate re-checked by c4min_brute)
 TOTAL profiles 2100 fails 0
 # finished Fri Sep 25 22:48:31 UTC 2026
+# command: python3 c4min_sat.py --family=ht:1 --family=ht:2 --family=ht:3 --family=ht:4 --family=ht:5 --family=ht:6 --family=ht:7 --family=ht:8 --family=ht:9 --family=ht:10 --family=ht:11 --family=ht:12 --family=ht:13 --family=ht:14 --family=ht:15 --family=ht:16 --mode=paper --jobs=1
+# commit 758935f, k4/c4min_hunt.c sha1 60fbc9be5f85, started Sat Sep 26 00:33:09 UTC 2026
+SAT ht:1 (n 5, m 13, sigma -3, paper) profiles 1 fails 0 fstar {0: 1} (0.0 s; every certificate re-checked by c4min_brute)
+SAT ht:2 (n 9, m 23, sigma -5, paper) profiles 1 fails 0 fstar {0: 1} (0.0 s; every certificate re-checked by c4min_brute)
+SAT ht:3 (n 13, m 33, sigma -7, paper) profiles 1 fails 0 fstar {0: 1} (0.0 s; every certificate re-checked by c4min_brute)
+SAT ht:4 (n 17, m 43, sigma -9, paper) profiles 1 fails 0 fstar {0: 1} (0.0 s; every certificate re-checked by c4min_brute)
+SAT ht:5 (n 21, m 53, sigma -11, paper) profiles 1 fails 0 fstar {0: 1} (0.0 s; every certificate re-checked by c4min_brute)
+SAT ht:6 (n 25, m 63, sigma -13, paper) profiles 1 fails 0 fstar {0: 1} (0.0 s; every certificate re-checked by c4min_brute)
+SAT ht:7 (n 29, m 73, sigma -15, paper) profiles 1 fails 0 fstar {0: 1} (0.1 s; every certificate re-checked by c4min_brute)
+SAT ht:8 (n 33, m 83, sigma -17, paper) profiles 1 fails 0 fstar {0: 1} (0.1 s; every certificate re-checked by c4min_brute)
+SAT ht:9 (n 37, m 93, sigma -19, paper) profiles 1 fails 0 fstar {0: 1} (0.1 s; every certificate re-checked by c4min_brute)
+SAT ht:10 (n 41, m 103, sigma -21, paper) profiles 1 fails 0 fstar {0: 1} (0.1 s; every certificate re-checked by c4min_brute)
+SAT ht:11 (n 45, m 113, sigma -23, paper) profiles 1 fails 0 fstar {0: 1} (0.1 s; every certificate re-checked by c4min_brute)
+SAT ht:12 (n 49, m 123, sigma -25, paper) profiles 1 fails 0 fstar {0: 1} (0.1 s; every certificate re-checked by c4min_brute)
+SAT ht:13 (n 53, m 133, sigma -27, paper) profiles 1 fails 0 fstar {0: 1} (0.2 s; every certificate re-checked by c4min_brute)
+SAT ht:14 (n 57, m 143, sigma -29, paper) profiles 1 fails 0 fstar {0: 1} (0.2 s; every certificate re-checked by c4min_brute)
+SAT ht:15 (n 61, m 153, sigma -31, paper) profiles 1 fails 0 fstar {0: 1} (0.2 s; every certificate re-checked by c4min_brute)
+SAT ht:16 (n 65, m 163, sigma -33, paper) profiles 1 fails 0 fstar {0: 1} (0.2 s; every certificate re-checked by c4min_brute)
+TOTAL profiles 16 fails 0
+# finished Sat Sep 26 00:33:12 UTC 2026
