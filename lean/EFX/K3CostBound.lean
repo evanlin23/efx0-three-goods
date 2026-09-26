@@ -349,13 +349,14 @@ theorem sumExceptC_cost (s : A → Nat) (o : Option A) {agents : List A} (ha : a
 
 omit [DecidableEq G] in
 theorem lastOutC_cost (up : List A) (hu : up.length ≤ N) : ∀ order : List A,
-    (lastOutC up order).cost ≤ order.length * N
+    (lastOutC up order).cost ≤ order.length * (N + 1)
   | [] => by simp [lastOutC]
   | i :: order => by
     have ih := lastOutC_cost up hu order
     have := memC_cost i up
+    have e : (order.length + 1) * (N + 1) = order.length * (N + 1) + (N + 1) := Nat.succ_mul _ _
     unfold lastOutC
-    simp only [bind_cost, List.length_cons, Nat.succ_mul]
+    simp only [bind_cost, tick_cost, List.length_cons, e]
     split
     · simp only [pure_cost]; omega
     · simp only [bind_cost, pure_cost]; omega
@@ -726,11 +727,11 @@ theorem lbPlusC_cost (P : Profile (Fin n) (Fin m)) (hN : 1 ≤ N) {agents : List
   have hct := fun (o : Option (Fin n)) (H : List (Fin m)) (hH : H.length ≤ N) =>
     up4 hN (d := 2) (by omega)
       (completeTabC_cost P hN (up := up) Y _ hcap2 (J := junkList P agents up Y goods) o d hm ha' hu hJl hH)
-  have hlo : (lastOutC up order).cost ≤ 1 * N ^ 4 := by
+  have hlo : (lastOutC up order).cost ≤ 2 * N ^ 4 := by
     have h1 := lastOutC_cost up hu order
-    have h2 : order.length * N ≤ N * N := Nat.mul_le_mul_right N ho
-    refine up4 hN (d := 2) (by omega) ?_
-    rw [Nat.pow_two]; omega
+    have h2 : order.length * (N + 1) ≤ N * (2 * N) := Nat.mul_le_mul ho (by omega)
+    have e : N * (2 * N) = 2 * N ^ 2 := by rw [Nat.pow_two, Nat.mul_left_comm]
+    exact up4 hN (d := 2) (by omega) (by omega)
   unfold lbPlusC
   simp only [bind_cost, hYd, lbUpC_val, hupd, junkListC_val, tick_cost]
   clear hYd hupd

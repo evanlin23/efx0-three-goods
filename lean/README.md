@@ -211,6 +211,21 @@ specializations) have exactly the types of `EFX.target`, `EFX.LB.corollaryD` (ch
   `EFX.C4min.Ex3.c4min`, `EFX.C4min.Ex3.k3_hyps`); a k = 3 core with a Pareto-maximal pre-allocation with `ω = 1`, where
   Theorem K3's terminal owner is reached (4,096 base maps checked, `EFX.C4min.ExOmega.k3_owner`); and the k = 4 core W1
   with a min-frozen pre-allocation that is removal-only completable with an owner (`EFX.C4min.ExW.c4min`).
+- `EFX/K3Algo.lean`, `EFX/Timed.lean`, `EFX/K3CostLB.lean`, `EFX/K3Cost.lean`, `EFX/K3CostBound.lean`,
+  `EFX/K3Examples.lean`: algorithm K3ALG, a polynomial-time algorithm for k = 3 with its running time
+  (`proofs/k3_algorithm.md`; ledger K3.ALG, K3.ALG.TIME).
+  - `K3Algo`: the specification. `EFX.K3.reduce` peels by R1, or by R1 with `P = ∅`, taking the first agent to
+    which the rule applies. The rankings are computed (`EFX.K3.sort3`, `EFX.K3.profileOf`), and LB⁺ runs with
+    `r1Order` (`EFX.K3.lbStage`). Theorems: `EFX.K3.reduce_sound`, `EFX.K3.algoSpec_efx0`.
+  - `Timed`: the cost model. `EFX.Timed` pairs a value with an operation count. It provides list operations with
+    value and cost lemmas, and tables (`EFX.Timed.mkTable`: arrays filled once).
+  - `K3CostLB`: every step of LB⁺ as a counted program, whose value lemma says it computes the existing definition.
+  - `K3Cost`: `EFX.K3.algoC`, the algorithm as a counted program; `EFX.K3.algo`, its value, the algorithm;
+    `EFX.K3.algo_eq_spec` and `EFX.K3.algo_efx0`.
+  - `K3CostBound`: the running-time theorem `EFX.K3.algoC_cost`, at most `400 (n + m + 1)⁴` counted operations
+    on every instance.
+  - `K3Examples`: three instances checked by `decide`.
+  `scripts/k3_eval.lean` runs `algo` and prints the count by `#eval`.
 - `EFX/RealValues.lean`: L12 (`proofs/real_values.md`) and TARGET and D over any `EFX.OrderedValue`. The value
   class and mirrored model above; `EFX.Agree` (same answer to every comparison between two subset sums);
   `EFX.OrderedValue.tri_le_iff` (for three positive values, every such comparison is decided by twelve basic
@@ -267,6 +282,9 @@ name in the ledger's Lean column has one.
 | T | TARGET (Corollary T): every instance with `\|R_i\| ≤ 3` for every agent has a complete EFX₀ allocation | Target : `EFX.target` (model), `EFX.target_lists` (over lists), values in ℕ; RealValues : `EFX.target_ordered` (values in any `EFX.OrderedValue`, e.g. ℝ≥0, via L12), `EFX.target_of_ordered` (its specialization to ℕ) |
 | L12 | Real values reduce to natural numbers: with ≤ 3 relevant goods per agent and nonnegative values, there are natural-number values with the same relevant goods and the same answer to every comparison between two subset sums; EFX₀, the relevant-goods count and balance transfer | RealValues : `EFX.l12`, `EFX.OrderedValue.exists_agree` (one agent), `EFX.OrderedValue.tri_rep` (three positive values), `EFX.numRelevant_eq_of_agree`, `EFX.OrderedValue.balanced_iff_of_agree`, `EFX.efx0_iff_of_agree` (EFX₀ for `v` iff for `w`) |
 | — | The list layer agrees with the model | Bridge : `EFX.Inst.efx0_iff` |
+| K3.ALG | Algorithm K3ALG (`proofs/k3_algorithm.md`): peel by R1 (or R1 with `P = ∅`), then LB⁺ with computed rankings and `r1Order`; for every instance with `n ≥ 1` in which every agent has at most three relevant goods, `algo I hn` is EFX₀; `algo` (computable) is the value of the counted program `algoC` and equals the specification | K3Cost : `EFX.K3.algo_efx0`, `EFX.K3.algo_eq_spec`; K3Algo : `EFX.K3.algoSpec_efx0`, `EFX.K3.reduce_sound`, `EFX.K3.lbStage_sound` |
+| K3.ALG.TIME | Running time: `(algoC I hn).cost ≤ 400 (n + m + 1)⁴` for every instance with `n ≥ 1` (cost model of `proofs/k3_algorithm.md` §6 and `EFX.K3CostLB`) | K3CostBound : `EFX.K3.algoC_cost`, `EFX.K3.lbPlusC_cost`, `EFX.K3.reduceC_cost`; Timed : `EFX.Timed.mkTable_cost` |
+| K3.OWNER | Proposition O: `r` is a valid owner (some `H` fits) exactly when `hitSet` fits, so LB⁺'s owner test needs no minimum hitting set | OwnerR : `EFX.LB.validOwner_iff` |
 | AUD | Independently written TARGET and D (list bundles partitioning the goods) follow from `EFX.target` and `EFX.LB.corollaryD` | Audit : `Audit.target_audit`, `Audit.corollaryD_audit` |
 
 mrd-efx proves a stronger form of L2c (`MRD.main_theorem_L`: in addition, all bundles but one have at most one

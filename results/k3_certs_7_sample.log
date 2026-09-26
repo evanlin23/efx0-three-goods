@@ -1,0 +1,5 @@
+$ cd k3 && python3 k3algo.py --certs ../results/certs_lb_7_3_7.json.gz ../results/certs_lb_7_8.json.gz ../results/certs_lb_7_9.json.gz ../results/certs_lb_7_10.json.gz ../results/certs_lb_7_11_14.json.gz --realizations=1 --sample=100 --seed=1 --mirror-every=20 --jobs=4
+certs ../results/certs_lb_7_3_7.json.gz ../results/certs_lb_7_8.json.gz ../results/certs_lb_7_9.json.gz ../results/certs_lb_7_10.json.gz ../results/certs_lb_7_11_14.json.gz: 41170 cores {(7, 3): 1, (7, 4): 10, (7, 5): 137, (7, 6): 1097, (7, 7): 4632, (7, 8): 10343, (7, 9): 12699, (7, 10): 8569, (7, 11): 3103, (7, 12): 541, (7, 13): 37, (7, 14): 1}; 100 random ranking profiles per core (seed 1): 4117000 profiles x 1 realizations = 4117000 runs; failures (raw EFX0, ordinality, mirror) 0; mirror compared on 205850 profiles; 131 s
+branches: {'noowner': 4080993, 'owner_r': 32382, 'rot_noowner': 3518, 'rot_owner_k': 107}
+bundles of > 2 goods per output: {0: 4084511, 1: 32489}
+(wall clock 138 s on 4 CPUs)

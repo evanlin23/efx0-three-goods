@@ -18,8 +18,10 @@ Instances: n agents, m goods, v[i] a dict {good: positive integer value} (goods 
 
 Usage:
   k3algo.py --cross N [--seed S]            N random instances: mirror == fast, both raw EFX0 (both checks)
-  k3algo.py --certs FILE [--jobs J]         every ranking profile of every core in a certificate file (fast; raw
-                                            EFX0 under three balanced realizations; mirror on a sample)
+  k3algo.py --certs FILE... [--jobs=J] [--realizations=R] [--sample=K] [--seed=S] [--mirror-every=E]
+                                            every ranking profile (or K random ones) of every core in certificate
+                                            files: fast, raw EFX0 under R balanced realizations (default 3, which
+                                            must give the same allocation), mirror on every E-th profile
   k3algo.py --time n1 n2 ... [--reps R]     timing of fast on random instances (see timing.py for the logged runs)
 """
 import sys, random, heapq, itertools, time, json, gzip, collections
@@ -484,7 +486,11 @@ def _lbplus_fast(agents, goods, order, a, b, c, rank, holders, Y, blk, X, info):
         info['branch'] = 'noowner'; return complete(Y, uplist, st, None, []), info
     r = next((i for i in reversed(order) if i not in ups), None)
     Jset = set(Jl)
-    H = hit_set(Jset, exposed(Y, ups, Jset, r, pmf))
+    E = exposed(Y, ups, Jset, r, pmf)
+    H = hit_set(Jset, E)
+    # Theorem A's counting (proofs/k3_algorithm.md section 4): S - cap(r) >= |E_r| - 1, which makes the owner test
+    # exact without a minimum hitting set; asserted on every run as a check of the implementation
+    assert S - cap[r] >= len(E) - 1, "Theorem A's counting violated"
     if len(H) <= S - cap[r]:
         info['branch'] = 'owner_r'; return complete(Y, uplist, st, r, H), info
     k = next((x for x in exposed(Y, ups, Jset, r, pmf) if blk[x] == blk[r]), None)
@@ -571,13 +577,19 @@ PERMS = list(itertools.permutations(range(3)))
 REAL = [(4, 3, 2), (10, 9, 2), (10, 6, 5)]   # balanced realizations of a > b > c (as in tools/check_certs.py, x2)
 
 def _cert_worker(args):
-    rec, mirror_every = args
+    rec, mirror_every, nreal, sample, seed = args
     n, m, sets = rec['n'], rec['m'], rec['sets']
-    tally = collections.Counter(); fails = 0; runs = 0; big = collections.Counter(); mirrored = 0
-    for t, prof in enumerate(itertools.product(range(6), repeat=n)):
+    tally = collections.Counter(); fails = 0; runs = 0; big = collections.Counter(); mirrored = 0; nprof = 0
+    if sample:
+        rng = random.Random(seed * 1000003 + hash(tuple(map(tuple, sets))) % 1000003)
+        profiles = [tuple(rng.randrange(6) for _ in range(n)) for _ in range(sample)]
+    else:
+        profiles = itertools.product(range(6), repeat=n)
+    for t, prof in enumerate(profiles):
+        nprof += 1
         orders = [[sets[i][p] for p in PERMS[prof[i]]] for i in range(n)]
         X0 = None
-        for real in REAL:
+        for real in REAL[:nreal]:
             v = [dict(zip(orders[i], real)) for i in range(n)]
             X, info = fast(n, m, v)
             runs += 1
@@ -590,18 +602,20 @@ def _cert_worker(args):
             mirrored += 1
         cnt = collections.Counter(X0)
         big[sum(1 for s in cnt.values() if s > 2)] += 1
-    return n, m, runs, fails, tally, big, mirrored
+    return n, m, runs, fails, tally, big, mirrored, nprof
 
-def certs(path, jobs, mirror_every):
+def certs(paths, jobs, mirror_every, nreal, sample, seed):
     import multiprocessing
-    recs = json.load(gzip.open(path))
+    recs = [rec for path in paths for rec in json.load(gzip.open(path))]
     t0 = time.time()
-    tot = collections.Counter(); fails = runs = mirrored = 0; big = collections.Counter(); per = collections.Counter()
+    tot = collections.Counter(); fails = runs = mirrored = nprof = 0; big = collections.Counter(); per = collections.Counter()
     with multiprocessing.Pool(jobs) as pool:
-        for n, m, r, f, tally, bg, mi in pool.imap_unordered(_cert_worker, [(rec, mirror_every) for rec in recs]):
-            runs += r; fails += f; tot.update(tally); big.update(bg); per[(n, m)] += 1; mirrored += mi
-    print(f"certs {path}: {len(recs)} cores {dict(sorted(per.items()))}; {sum(tot.values())} ranking profiles x "
-          f"{len(REAL)} realizations = {runs} runs; failures (raw EFX0, ordinality, mirror) {fails}; "
+        for n, m, r, f, tally, bg, mi, np_ in pool.imap_unordered(
+                _cert_worker, [(rec, mirror_every, nreal, sample, seed) for rec in recs], chunksize=4):
+            runs += r; fails += f; tot.update(tally); big.update(bg); per[(n, m)] += 1; mirrored += mi; nprof += np_
+    what = f"{sample} random ranking profiles per core (seed {seed})" if sample else "every ranking profile"
+    print(f"certs {' '.join(paths)}: {len(recs)} cores {dict(sorted(per.items()))}; {what}: {nprof} profiles x "
+          f"{nreal} realizations = {runs} runs; failures (raw EFX0, ordinality, mirror) {fails}; "
           f"mirror compared on {mirrored} profiles; {time.time() - t0:.0f} s")
     print("branches:", dict(sorted(tot.items())))
     print("bundles of > 2 goods per output:", dict(sorted(big.items())))
@@ -614,6 +628,7 @@ if __name__ == '__main__':
     if '--cross' in args:
         cross(int(pos[0]), int(opt.get('--seed', 1)))
     elif '--certs' in args:
-        sys.exit(1 if certs(pos[0], int(opt.get('--jobs', 4)), int(opt.get('--mirror-every', 0))) else 0)
+        sys.exit(1 if certs(pos, int(opt.get('--jobs', 4)), int(opt.get('--mirror-every', 0)),
+                            int(opt.get('--realizations', 3)), int(opt.get('--sample', 0)), int(opt.get('--seed', 1))) else 0)
     else:
         print(__doc__)

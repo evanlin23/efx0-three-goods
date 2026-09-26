@@ -34,3 +34,4 @@ import EFX.Timed
 import EFX.K3CostLB
 import EFX.K3Cost
 import EFX.K3CostBound
+import EFX.K3Examples

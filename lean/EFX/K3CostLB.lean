@@ -261,10 +261,11 @@ def sumTabC (s : A → Nat) (agents : List A) : Timed Nat :=
 def sumExceptC (s : A → Nat) (o : Option A) (agents : List A) : Timed Nat :=
   sumMapC (fun k => do tick 2; pure (slotsExcept s o k)) agents
 
-/-- `lastOut up order`. -/
+/-- `lastOut up order`: one step per cell of `order`, and a membership test until `r` is found. -/
 def lastOutC (up : List A) : List A → Timed (Option A)
   | [] => pure none
   | i :: order => do
+    tick 1
     let r ← lastOutC up order
     match r with
     | some r => pure (some r)
