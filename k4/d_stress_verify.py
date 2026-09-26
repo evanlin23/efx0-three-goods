@@ -12,7 +12,9 @@
              their profiles have no D2 allocation
   reproduce  rerun three logged random-profile runs; compare the output (commit line and timings masked) with the
              logged block and the witnesses with the committed witness file
-Usage: python3 d_stress_verify.py brute|small|corrupt|replay|reproduce"""
+  iso        for t = 1..8: d_stress.chain(t) at the paper values (d_stress.paper_profile) is isomorphic to H_t as built
+             by k4/c4_chain.py (agents and goods relabelled, every agent's value for every good kept; networkx)
+Usage: python3 d_stress_verify.py brute|small|corrupt|replay|reproduce|iso"""
 import sys, os, re, json, gzip, random, subprocess, tempfile
 import d_stress as D
 import d_stress_check as DC
@@ -122,6 +124,27 @@ def reproduce():
             flush=True)
 
 
+def iso():
+    import networkx as nx
+    import c4_chain
+    def graph(sets, vals):
+        G = nx.Graph()
+        for i, (S, v) in enumerate(zip(sets, vals)):
+            G.add_node(('a', i), kind='agent')
+            for g, x in zip(S, v):
+                G.add_node(('g', g), kind='good')
+                G.add_edge(('a', i), ('g', g), value=x)
+        return G
+    for t in range(1, 9):
+        I = D.Inst(D.chain(t))
+        sets, vals, m = c4_chain.build(t)
+        same = nx.is_isomorphic(graph(I.sets, I.values(D.paper_profile(I))), graph(sets, vals),
+                                node_match=lambda a, b: a['kind'] == b['kind'],
+                                edge_match=lambda a, b: a['value'] == b['value'])
+        print('  t = %d (n = %d, m = %d): chain(t) at the paper values %s H_t of c4_chain.build' % (
+            t, I.n, I.m, 'is isomorphic to' if same else 'is NOT isomorphic to'), flush=True)
+
+
 if __name__ == '__main__':
     print('commit %s' % D.git_head(), flush=True)
-    {'brute': brute, 'small': small, 'corrupt': corrupt, 'replay': replay, 'reproduce': reproduce}[sys.argv[1]]()
+    {'brute': brute, 'small': small, 'corrupt': corrupt, 'replay': replay, 'reproduce': reproduce, 'iso': iso}[sys.argv[1]]()
