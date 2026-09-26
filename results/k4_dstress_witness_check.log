@@ -1,0 +1,153 @@
+# 1. Re-check of the committed witness files (results/k4_dstress_witnesses/, all 21): each profile a strict core profile (search4.domain), each allocation EFX0 by the raw definition and of D2 shape. Commands run from k4/.
+$ cd k4 && python3 d_stress_check.py ../results/k4_dstress_witnesses/chain_1.json.gz
+commit 78a81fa
+../results/k4_dstress_witnesses/chain_1.json.gz (chain 1): 500 witnesses; 0 failures of the domain, raw EFX0 and D2-shape checks
+$ cd k4 && python3 d_stress_check.py ../results/k4_dstress_witnesses/chain_2.json.gz
+commit 78a81fa
+../results/k4_dstress_witnesses/chain_2.json.gz (chain 2): 400 witnesses; 0 failures of the domain, raw EFX0 and D2-shape checks
+$ cd k4 && python3 d_stress_check.py ../results/k4_dstress_witnesses/chain_3.json.gz
+commit 78a81fa
+../results/k4_dstress_witnesses/chain_3.json.gz (chain 3): 300 witnesses; 0 failures of the domain, raw EFX0 and D2-shape checks
+$ cd k4 && python3 d_stress_check.py ../results/k4_dstress_witnesses/chain_4.json.gz
+commit 78a81fa
+../results/k4_dstress_witnesses/chain_4.json.gz (chain 4): 200 witnesses; 0 failures of the domain, raw EFX0 and D2-shape checks
+$ cd k4 && python3 d_stress_check.py ../results/k4_dstress_witnesses/chain_5.json.gz
+commit 78a81fa
+../results/k4_dstress_witnesses/chain_5.json.gz (chain 5): 120 witnesses; 0 failures of the domain, raw EFX0 and D2-shape checks
+$ cd k4 && python3 d_stress_check.py ../results/k4_dstress_witnesses/chain_6.json.gz
+commit 78a81fa
+../results/k4_dstress_witnesses/chain_6.json.gz (chain 6): 80 witnesses; 0 failures of the domain, raw EFX0 and D2-shape checks
+$ cd k4 && python3 d_stress_check.py ../results/k4_dstress_witnesses/chain_7.json.gz
+commit 78a81fa
+../results/k4_dstress_witnesses/chain_7.json.gz (chain 7): 60 witnesses; 0 failures of the domain, raw EFX0 and D2-shape checks
+$ cd k4 && python3 d_stress_check.py ../results/k4_dstress_witnesses/chain_2_heads2.json.gz
+commit 78a81fa
+../results/k4_dstress_witnesses/chain_2_heads2.json.gz (chain 2 2): 200 witnesses; 0 failures of the domain, raw EFX0 and D2-shape checks
+$ cd k4 && python3 d_stress_check.py ../results/k4_dstress_witnesses/chain_2_heads3.json.gz
+commit 78a81fa
+../results/k4_dstress_witnesses/chain_2_heads3.json.gz (chain 2 3): 120 witnesses; 0 failures of the domain, raw EFX0 and D2-shape checks
+$ cd k4 && python3 d_stress_check.py ../results/k4_dstress_witnesses/cycle_2.json.gz
+commit 78a81fa
+../results/k4_dstress_witnesses/cycle_2.json.gz (cycle 2): 300 witnesses; 0 failures of the domain, raw EFX0 and D2-shape checks
+$ cd k4 && python3 d_stress_check.py ../results/k4_dstress_witnesses/cycle_3.json.gz
+commit 78a81fa
+../results/k4_dstress_witnesses/cycle_3.json.gz (cycle 3): 200 witnesses; 0 failures of the domain, raw EFX0 and D2-shape checks
+$ cd k4 && python3 d_stress_check.py ../results/k4_dstress_witnesses/cycle_4.json.gz
+commit 78a81fa
+../results/k4_dstress_witnesses/cycle_4.json.gz (cycle 4): 150 witnesses; 0 failures of the domain, raw EFX0 and D2-shape checks
+$ cd k4 && python3 d_stress_check.py ../results/k4_dstress_witnesses/tree_3.json.gz
+commit 78a81fa
+../results/k4_dstress_witnesses/tree_3.json.gz (tree 3): 250 witnesses; 0 failures of the domain, raw EFX0 and D2-shape checks
+$ cd k4 && python3 d_stress_check.py ../results/k4_dstress_witnesses/tree_5.json.gz
+commit 78a81fa
+../results/k4_dstress_witnesses/tree_5.json.gz (tree 5): 120 witnesses; 0 failures of the domain, raw EFX0 and D2-shape checks
+$ cd k4 && python3 d_stress_check.py ../results/k4_dstress_witnesses/pure_6_8.json.gz
+commit 78a81fa
+../results/k4_dstress_witnesses/pure_6_8.json.gz (pure 6 8): 500 witnesses; 0 failures of the domain, raw EFX0 and D2-shape checks
+$ cd k4 && python3 d_stress_check.py ../results/k4_dstress_witnesses/pure_7_9.json.gz
+commit 78a81fa
+../results/k4_dstress_witnesses/pure_7_9.json.gz (pure 7 9): 500 witnesses; 0 failures of the domain, raw EFX0 and D2-shape checks
+$ cd k4 && python3 d_stress_check.py ../results/k4_dstress_witnesses/pure_8_10.json.gz
+commit 78a81fa
+../results/k4_dstress_witnesses/pure_8_10.json.gz (pure 8 10): 400 witnesses; 0 failures of the domain, raw EFX0 and D2-shape checks
+$ cd k4 && python3 d_stress_check.py ../results/k4_dstress_witnesses/pure_9_12.json.gz
+commit 78a81fa
+../results/k4_dstress_witnesses/pure_9_12.json.gz (pure 9 12): 300 witnesses; 0 failures of the domain, raw EFX0 and D2-shape checks
+$ cd k4 && python3 d_stress_check.py ../results/k4_dstress_witnesses/pure_10_13.json.gz
+commit 78a81fa
+../results/k4_dstress_witnesses/pure_10_13.json.gz (pure 10 13): 300 witnesses; 0 failures of the domain, raw EFX0 and D2-shape checks
+$ cd k4 && python3 d_stress_check.py ../results/k4_dstress_witnesses/pure_11_15.json.gz
+commit 78a81fa
+../results/k4_dstress_witnesses/pure_11_15.json.gz (pure 11 15): 200 witnesses; 0 failures of the domain, raw EFX0 and D2-shape checks
+$ cd k4 && python3 d_stress_check.py ../results/k4_dstress_witnesses/pure_12_16.json.gz
+commit 78a81fa
+../results/k4_dstress_witnesses/pure_12_16.json.gz (pure 12 16): 200 witnesses; 0 failures of the domain, raw EFX0 and D2-shape checks
+
+real	0m7.461s
+user	0m10.653s
+sys	0m0.752s
+# 2. The same files with --decide: every profile also decided by the second encoding (d_stress_check.encode, solved by CaDiCaL), 600 s per file.
+$ cd k4 && timeout 600 python3 d_stress_check.py ../results/k4_dstress_witnesses/chain_1.json.gz --decide
+commit af85fd1
+../results/k4_dstress_witnesses/chain_1.json.gz (chain 1): 500 witnesses; 0 failures of the domain, raw EFX0 and D2-shape checks; 500 profiles also decided D2-satisfiable by this encoding
+(time 4 s)
+$ cd k4 && timeout 600 python3 d_stress_check.py ../results/k4_dstress_witnesses/chain_2.json.gz --decide
+commit af85fd1
+../results/k4_dstress_witnesses/chain_2.json.gz (chain 2): 400 witnesses; 0 failures of the domain, raw EFX0 and D2-shape checks; 400 profiles also decided D2-satisfiable by this encoding
+(time 33 s)
+$ cd k4 && timeout 600 python3 d_stress_check.py ../results/k4_dstress_witnesses/cycle_2.json.gz --decide
+commit af85fd1
+../results/k4_dstress_witnesses/cycle_2.json.gz (cycle 2): 300 witnesses; 0 failures of the domain, raw EFX0 and D2-shape checks; 300 profiles also decided D2-satisfiable by this encoding
+(time 13 s)
+$ cd k4 && timeout 600 python3 d_stress_check.py ../results/k4_dstress_witnesses/pure_6_8.json.gz --decide
+commit af85fd1
+../results/k4_dstress_witnesses/pure_6_8.json.gz (pure 6 8): 500 witnesses; 0 failures of the domain, raw EFX0 and D2-shape checks; 500 profiles also decided D2-satisfiable by this encoding
+(time 4 s)
+$ cd k4 && timeout 600 python3 d_stress_check.py ../results/k4_dstress_witnesses/pure_7_9.json.gz --decide
+commit af85fd1
+../results/k4_dstress_witnesses/pure_7_9.json.gz (pure 7 9): 500 witnesses; 0 failures of the domain, raw EFX0 and D2-shape checks; 500 profiles also decided D2-satisfiable by this encoding
+(time 7 s)
+$ cd k4 && timeout 600 python3 d_stress_check.py ../results/k4_dstress_witnesses/pure_8_10.json.gz --decide
+commit af85fd1
+../results/k4_dstress_witnesses/pure_8_10.json.gz (pure 8 10): 400 witnesses; 0 failures of the domain, raw EFX0 and D2-shape checks; 400 profiles also decided D2-satisfiable by this encoding
+(time 12 s)
+$ cd k4 && timeout 600 python3 d_stress_check.py ../results/k4_dstress_witnesses/pure_9_12.json.gz --decide
+commit af85fd1
+../results/k4_dstress_witnesses/pure_9_12.json.gz (pure 9 12): 300 witnesses; 0 failures of the domain, raw EFX0 and D2-shape checks; 300 profiles also decided D2-satisfiable by this encoding
+(time 31 s)
+$ cd k4 && timeout 600 python3 d_stress_check.py ../results/k4_dstress_witnesses/pure_10_13.json.gz --decide
+commit af85fd1
+../results/k4_dstress_witnesses/pure_10_13.json.gz (pure 10 13): 300 witnesses; 0 failures of the domain, raw EFX0 and D2-shape checks; 300 profiles also decided D2-satisfiable by this encoding
+(time 18 s)
+$ cd k4 && timeout 600 python3 d_stress_check.py ../results/k4_dstress_witnesses/pure_11_15.json.gz --decide
+commit af85fd1
+../results/k4_dstress_witnesses/pure_11_15.json.gz (pure 11 15): 200 witnesses; 0 failures of the domain, raw EFX0 and D2-shape checks; 200 profiles also decided D2-satisfiable by this encoding
+(time 46 s)
+$ cd k4 && timeout 600 python3 d_stress_check.py ../results/k4_dstress_witnesses/pure_12_16.json.gz --decide
+commit af85fd1
+../results/k4_dstress_witnesses/pure_12_16.json.gz (pure 12 16): 200 witnesses; 0 failures of the domain, raw EFX0 and D2-shape checks; 200 profiles also decided D2-satisfiable by this encoding
+(time 66 s)
+$ cd k4 && timeout 600 python3 d_stress_check.py ../results/k4_dstress_witnesses/cycle_3.json.gz --decide
+commit af85fd1
+../results/k4_dstress_witnesses/cycle_3.json.gz (cycle 3): 200 witnesses; 0 failures of the domain, raw EFX0 and D2-shape checks; 200 profiles also decided D2-satisfiable by this encoding
+(time 69 s)
+$ cd k4 && timeout 600 python3 d_stress_check.py ../results/k4_dstress_witnesses/tree_3.json.gz --decide
+commit af85fd1
+../results/k4_dstress_witnesses/tree_3.json.gz (tree 3): 250 witnesses; 0 failures of the domain, raw EFX0 and D2-shape checks; 250 profiles also decided D2-satisfiable by this encoding
+(time 166 s)
+$ cd k4 && timeout 600 python3 d_stress_check.py ../results/k4_dstress_witnesses/chain_3.json.gz --decide
+commit af85fd1
+../results/k4_dstress_witnesses/chain_3.json.gz (chain 3): 300 witnesses; 0 failures of the domain, raw EFX0 and D2-shape checks; 300 profiles also decided D2-satisfiable by this encoding
+(time 117 s)
+$ cd k4 && timeout 600 python3 d_stress_check.py ../results/k4_dstress_witnesses/chain_2_heads2.json.gz --decide
+commit af85fd1
+../results/k4_dstress_witnesses/chain_2_heads2.json.gz (chain 2 2): 200 witnesses; 0 failures of the domain, raw EFX0 and D2-shape checks; 200 profiles also decided D2-satisfiable by this encoding
+(time 346 s)
+$ cd k4 && timeout 600 python3 d_stress_check.py ../results/k4_dstress_witnesses/cycle_4.json.gz --decide
+commit af85fd1
+../results/k4_dstress_witnesses/cycle_4.json.gz (cycle 4): 150 witnesses; 0 failures of the domain, raw EFX0 and D2-shape checks; 150 profiles also decided D2-satisfiable by this encoding
+(time 179 s)
+$ cd k4 && timeout 600 python3 d_stress_check.py ../results/k4_dstress_witnesses/chain_4.json.gz --decide
+commit af85fd1
+../results/k4_dstress_witnesses/chain_4.json.gz (chain 4): 200 witnesses; 0 failures of the domain, raw EFX0 and D2-shape checks; 200 profiles also decided D2-satisfiable by this encoding
+(time 302 s)
+$ cd k4 && timeout 600 python3 d_stress_check.py ../results/k4_dstress_witnesses/tree_5.json.gz --decide
+commit af85fd1
+(stopped by the 600 s timeout)
+(time 600 s)
+$ cd k4 && timeout 600 python3 d_stress_check.py ../results/k4_dstress_witnesses/chain_5.json.gz --decide
+commit af85fd1
+../results/k4_dstress_witnesses/chain_5.json.gz (chain 5): 120 witnesses; 0 failures of the domain, raw EFX0 and D2-shape checks; 120 profiles also decided D2-satisfiable by this encoding
+(time 404 s)
+$ cd k4 && timeout 600 python3 d_stress_check.py ../results/k4_dstress_witnesses/chain_2_heads3.json.gz --decide
+commit af85fd1
+(stopped by the 600 s timeout)
+(time 600 s)
+$ cd k4 && timeout 600 python3 d_stress_check.py ../results/k4_dstress_witnesses/chain_6.json.gz --decide
+commit af85fd1
+../results/k4_dstress_witnesses/chain_6.json.gz (chain 6): 80 witnesses; 0 failures of the domain, raw EFX0 and D2-shape checks; 80 profiles also decided D2-satisfiable by this encoding
+(time 589 s)
+$ cd k4 && timeout 600 python3 d_stress_check.py ../results/k4_dstress_witnesses/chain_7.json.gz --decide
+commit af85fd1
+(stopped by the 600 s timeout)
+(time 600 s)
