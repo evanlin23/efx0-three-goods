@@ -1,4 +1,4 @@
-# k4/red.c -L -Lr -L2 -Ln (k4/c4min_reduce.md §5.3, attempts/k4-c4min-reduce-lil-narrow.md): the local improvement lemma with the NARROW catalogue
+# k4/red.c -L -Lr -L2 -Ln (k4/c4min_reduce.md §5.3, attempts/k4-c4min-reduce-lil.md): the local improvement lemma with the NARROW catalogue
 # (potential (r', -t, Lambda), moves M1 M4 M5; the modified receiver only as in Lemma R(iii) / #50; -Lx: x any pair in M5, else #50's best P_x; -Lc: #50's recycling)
 # variant: --lil-narrow --lil-anypx
 # command: python3 k4/red_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz --lil --lil-rfirst --lil-nom2 --lil-narrow --lil-anypx -x 3

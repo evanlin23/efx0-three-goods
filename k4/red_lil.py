@@ -8,7 +8,7 @@ big-top profiles (§5.1). Catalogue:
   M4: rotation along a threat cycle of free agents (plain; and the modified variant for (R) receivers)
   M5: path move from any terminal tau along any simple threat path tau -> ... -> x (x takes any admissible pair in
       (Q_{p_k} ∪ L) ∩ U_x; the modified (R) variant allowed)
-NARROW=1 restricts the catalogue as in attempts/k4-c4min-reduce-lil-narrow.md (red.c -Ln): the modified receiver only as
+NARROW=1 restricts the catalogue as in attempts/k4-c4min-reduce-lil.md (red.c -Ln): the modified receiver only as
 in Lemma R(iii) of k4/c4min.md / #50 (a receiver z of kind (R) with a_z in its received pair and s_z in L, in M5 in
 L \ P_x, takes {a_z, s_z}), and in M5 x takes only its best pair inside (Q_{p_k} ∪ L) ∩ U_x; RECYCLE=1 adds #50's
 recycling rule (the last receiver of kind (R) takes a with its better good of Q_{p_k} \ P_x); ANYPX=1 (with NARROW)

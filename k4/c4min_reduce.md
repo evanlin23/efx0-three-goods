@@ -1,6 +1,6 @@
 # C₄ᵐⁱⁿ at one frozen agent: reduction to Theorem Z
 
-Workstream `proof/k4-c4min-reduce`, ledger rows K4.C4MIN.RED.* (CONJECTURE / EVIDENCE only). It builds on PR #41
+Workstream `proof/k4-c4min-reduce`, ledger rows K4.C4MIN.RED.* (RED.Z, RED.C, RED.PM PROVED as refereed written proofs; RED.X REFUTED; RED.GLOB, RED.BT, RED.LIL CONJECTURE). It builds on PR #41
 (`k4/c4min.md`, merged into main and read there: configurations and Lemma 1 §1, Theorem Z §3, Theorem F §3.6,
 Conjecture Φ′ and the f = 1 roadmap §4) and uses the definitions of `k4/c4x.md` §1 (PR #36). It does not edit their
 files.
