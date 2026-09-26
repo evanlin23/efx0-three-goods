@@ -56,11 +56,13 @@ For each configuration the catalog records:
 **Cross-checks.**
 - Every class count equals #41's table (`k4/c4min.md` §4), computed by different code. The rows that match are n = 2,
   n = 3 and n = 4 with one 4-good agent, where both runs cover every profile.
-- The deficit test and the configuration test agree on every gap profile of every run with `-D`: n ≤ 3, all 7,285,840
-  profiles; n = 4 with one 4-good agent, all 44,388.
+- The deficit test and the configuration test agree on every gap profile of every catalog run (all with `-D`). These
+  cover every gap profile with n ≤ 3 (7,285,840), the 44,388 at n = 4 with one 4-good agent, and every gap profile of
+  the n = 4 and n = 5 samples. The hunts do not run `-D`.
 - gap.c and gap_model agree configuration by configuration on the key set, f, ω, Φ′, pool-optimality, the valid owners
-  with their least |C|, the threat edges and the H7 classes: every n = 2 gap profile, and 2,971 n = 3 gap profiles
-  (every 25th catalog record) (`results/k4_gap_selftest.log`).
+  with their least |C|, the threat edges and the H7 classes (`results/k4_gap_selftest.log`). This covers every n = 2 gap
+  profile, 2,971 n = 3 gap profiles (every 25th catalog record) and 1,841 n = 4 profiles (every 100th). It also covers
+  every instance of the suite, on every statement (§5).
 - Every counterexample the bench reports is re-derived from scratch by gap_model (its own 𝒫, keys and configurations).
 
 ## 2. The catalog
