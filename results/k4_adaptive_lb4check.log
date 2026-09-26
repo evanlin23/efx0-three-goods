@@ -1,0 +1,6 @@
+# adaptive_lb4check.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz --jobs=2 # adaptive.c sha256 d6cca1be306de8c5 # lb4.c sha256 139706156ae564ba
+k4_certs_2.json.gz index: adaptive.c -A0 -r3 / lb4.c -i0 -u3 -o0 -r3 -d2 -w1 -c1: 5 of 5 cores agree; adaptive.c total=189216 fails=0 rot=[185856, 3360, 0, 0] pol=[188916, 300, 0]; lb4.c total=189216 fails=0 rot=[185856, 3360, 0, 0] pol=[188916, 300, 0] time 1s
+k4_certs_2.json.gz every sequence: adaptive.c -i1 -r3 / lb4.c -i1 -u3 -o0 -r3 -d2 -w1 -c1: 5 of 5 cores agree; adaptive.c total=378432 fails=0 rot=[371640, 6792, 0, 0] pol=[377832, 600, 0]; lb4.c total=378432 fails=0 rot=[371640, 6792, 0, 0] pol=[377832, 600, 0] time 1s
+k4_certs_3.json.gz index: adaptive.c -A0 -r3 / lb4.c -i0 -u3 -o0 -r3 -d2 -w1 -c1: 51 of 51 cores agree; adaptive.c total=299837376 fails=0 rot=[289807786, 10017550, 12040, 0] pol=[299416350, 318838, 102188]; lb4.c total=299837376 fails=0 rot=[289807786, 10017550, 12040, 0] pol=[299416350, 318838, 102188] time 21s
+k4_certs_3.json.gz every sequence: adaptive.c -i1 -r3 / lb4.c -i1 -u3 -o0 -r3 -d2 -w1 -c1: 51 of 51 cores agree; adaptive.c total=1004658480 fails=0 rot=[982611638, 22021602, 25240, 0] pol=[1003799614, 651134, 207732]; lb4.c total=1004658480 fails=0 rot=[982611638, 22021602, 25240, 0] pol=[1003799614, 651134, 207732] time 51s
+ALL CORES AGREE
