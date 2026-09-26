@@ -17,8 +17,9 @@ The task was to find one target statement S with a single proof architecture suc
 
 The alternative outcome was to say plainly that no candidate survives.
 
-**What the suite shows.** Three forms of candidate have never survived the next n, and all known instances refute
-one of them:
+**What the suite shows.** Three forms of candidate have never survived the next n. The other known instances refute
+variants of specific algorithms (LB₄, LS4, GM₄, insertion lemmas) or, as found here, strengthened induction hypotheses
+(PS_W, PS-OWNER):
 - **"every maximum of Φ is completable"**: over 𝒫, over the configurations at min-frozen keys, over all keys, and over
   the spaces with three-good bases 𝒫_T. It fails for more than 40 potentials, from n = 2 to n = 6.
 - **a fixed catalogue of moves raising a proxy potential**:
@@ -87,8 +88,8 @@ The remaining route would then be rule F's construction, whose architecture is t
   (`suite_expected.log`). The rest are statements about specific algorithms (LB₄ variants, LS4, GM₄,
   NSW, the insertion lemma). Those are confirmed by their sources' replay scripts, cited in each record.
 - **TARGET₄, K4.D and PS hold on every complete instance, cores and non-core alike**
-  (`suite_baseline.log`, both implementations where they finish). The same holds for C₄ᵐⁱⁿ in both forms wherever the
-  enumeration finishes (n ≤ 6).
+  (`suite_baseline.log`, both implementations where they finish). C₄ᵐⁱⁿ (deficit form) holds on 148 of the 150 complete instances with both
+  implementations; H₂ and H₅ time out (`suite_baseline2.log`). The configuration form is in the same log.
 - **PS-OWNER fails on cores.** PS-OWNER is K4.D with a prescribed owner who is unenvied: an EFX₀ allocation in which
   w is unenvied and every other bundle has at most two goods, for every agent w.
   - It fails on 28 cores of the suite, smallest n = 3, m = 6, and on the non-core LIL instance. Both implementations
