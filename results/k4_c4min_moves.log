@@ -34,3 +34,4 @@ FILE results/k4_certs_4_pure.json.gz (8 s)
   maxima with a frozen agent threatened by some owner: 85
   maxima with an agent threatened by two owners: 2
   profiles (f >= 1, omega >= 1): 131
+# note (added in the PR #41 review fixes; not part of the run's output): this version of k4/c4min_moves.py printed only nonzero counters. The claims of k4/c4min.md §4 that rest on zero counters (every Phi-maximum has a valid owner, needs no unfreezing, is pool-optimal and has t = 0; at n = 3 no agent is threatened by two owners) are printed explicitly in results/k4_c4min_moves_zero.log (the same commands, every counter printed; the nonzero counts agree).

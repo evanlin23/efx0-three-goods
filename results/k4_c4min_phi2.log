@@ -40,3 +40,4 @@ core 72: EX every (-thrL,rob,sumlev): [0:3,2:4,4:2,7:8] [1:3,5:6,6:10,7:2] [3:4,
 FILE results/k4_certs_4_pure.json.gz cores 219 profiles 219000 omega>=1 102033 configs 24419068 none 0 keyfail 57 xbad 0 paretomax 0 paretoevery 0 paretosome 0 rmax0 0 allrobF 0 covZ 90011 covF 751 f1 10819 uncovered 452
   (-thrL,rob,sumlev)                       every-max fails          1   some-max fails          0
   (-thrL,rob,sumlev,-poolexp)              every-max fails          0   some-max fails          0
+# note (added in the PR #41 review fixes; not part of the run's output): the build was not recorded at run time. The options (-F1) and counters (covZ, covF, f1, uncovered) used here exist only in the k4/c4min.c source committed in 0bb6a22 (sha1 01776e55c55cb8056804693ccea4c8e909848cc5, unchanged since), so this log is from that source or an uncommitted state with the same output.
