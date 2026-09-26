@@ -36,8 +36,11 @@ Options:
        rule 15 (index, or one step changed), of rule 16 (first agent), or among all sequences; -C1 without A4+(o),
        -C3 also the candidate A4+N after need-shrinking upgrades (see aplusN_owner),
        -Z1 check each covered run by LB4r (envy-free upgrades, needs from the base, one rotation), or for A4+N by the
-       exact owner test with the owner found (needs from the base, no rotation); 'uncov' counts
-       the profiles (weighted) where no sequence of the family is covered.
+       exact owner test with the owner found (needs from the base, no rotation); -Z2 check A4+N on every insertion
+       sequence and with every owner its count admits (cov_all; 'covchk' counts the instances checked, per leaf);
+       'uncov' counts the profiles (weighted) where no sequence of the family is covered; 'covviol' the leaves
+       where a check failed. 23: rule 16 and 26: -i2, each with rule 22's coverage recorded (lines 'U uncovered
+       policy rotations status count', status 0 no owner, 1 owner r, 2 another owner, 3 rotation).
   -i0 use -A (default);  -i1 every insertion sequence separately;  -i2 the fewest rotations over every insertion
        sequence (exists tau; bound outermost, sequences in lexicographic order);  -i10 -TN N random sequences (single profile)
   -uN upgrades: 0 none, 1 need-shrinking, 2 envy-free only, 3 policies 1, 2, 0 in turn (default 3)
@@ -67,7 +70,6 @@ static int n, m, d[MAXN], gl[MAXN][4];
 static gm R[MAXN], ALLG;
 static int nt[MAXN], tv[MAXN][MAXT][4];
 static int np[MAXN], pr[MAXN][24][4], pcnt[MAXN][24], pidx[MAXN][24][MAXG];
-static int EXISTS = 0;               /* -i2 given */
 static int OWN = 0, INS = 0, MAXF = 3, UPG = 3, BRUTE = 0, ARULE = 0, VERB = 0, LSR = 0, MINE = 0;
 static long TAU = 0, SAMPLE = 0, HILL = 0;
 static int DEEP = 0;                 /* -KN: report every leaf (profile) needing at least N rotations, up to -f per core */
@@ -636,7 +638,7 @@ static int deepen_family(int rule) {
    §1.1). -C1: theorems of k4/c4.md only; -C2 (default): with A4+(o) for every owner. With -Z1 every covered run is
    also checked: LB4r(tau) with envy-free upgrades only, the owner's needs from the base and at most one rotation must
    succeed (a violation is printed as COVVIOL and counted). */
-static int COVT = 2, COVZ = 0; static long covviol;
+static int COVT = 2, COVZ = 0; static long covviol, covchk, leaf_viol, leaf_chk;   /* leaf_*: this leaf, added when it completes */
 static int is_leader(int x) { for (int i = 0; i < n; i++) if (blk[i] == blk[x] && pos[i] < pos[x]) return 0; return 1; }
 static int nends; static int ends_[64]; static int ch2[MAXN], cl2;
 static void chain_ends(void) {
@@ -746,7 +748,7 @@ static int cov_AB1(int r, gm W, const int *E, int e4) {
         if (ne4 == 1 && frz[w4]) return cov_Bw(r, W, E, w4);
         return 0;
     }
-    for (int x = 0; x < n; x++) if (E[x] && (d[x] != 3 || Y[x] != ord[x][0] || !is_leader(x))) { printf("A3VIOL\n"); covviol++; return 0; }
+    for (int x = 0; x < n; x++) if (E[x] && (d[x] != 3 || Y[x] != ord[x][0] || !is_leader(x))) { printf("A3VIOL\n"); leaf_viol++; return 0; }
     int ks = -1;
     for (int i = 0; i < n; i++) if (blk[i] == blk[r] && (ks < 0 || pos[i] < pos[ks])) ks = i;
     int bad = E[ks] && ks != r && frz[ks];
@@ -766,30 +768,36 @@ static int cov_AB1(int r, gm W, const int *E, int e4) {
         slots(); int e42 = 0;
         for (int x = 0; x < n; x++) if (x != ks && !upg[x] && threatened(x, W, base[x]) && x == r && d[x] == 4) e42 = 1;
         pr = !e42;                                /* Theorem B4: r is not a 4-good agent exposed after the rotation */
-    } else { printf("ROTINV\n"); covviol++; }
+    } else { printf("ROTINV\n"); leaf_viol++; }
     snap_load(&sv);
     return pr;
 }
 /* -C3: candidate Theorem A4+N (k4/adaptive.md §6): A4+(o) after need-shrinking upgrades, where an upgraded agent can
    be threatened (its pair need not be envy-free); it holds its base and has no slot, so it is counted like a frozen
    one, by rho. Owner o: not frozen, with a base of at most one good, or upgraded. Returns the owner, or -1. */
-static int aplusN_owner(void) {
-    int r = -1;
+/* A4+N's owners in the order tried (r first when it is not upgraded and not frozen) */
+static int aplusN_cands(int *ordo) {
+    int r = -1, k = 0;
     for (int i = 0; i < n; i++) if (!upg[i] && (r < 0 || pos[i] > pos[r])) r = i;
-    int ordo[MAXN], k = 0;
     if (r >= 0 && !frz[r]) ordo[k++] = r;
     for (int o = 0; o < n; o++) if (o != r && !frz[o] && (cap[o] > 0 || upg[o])) ordo[k++] = o;
-    for (int q = 0; q < k; q++) {
-        int o = ordo[q]; gm Wo = base[o] | J; int dem = 0, tb = 0;
-        for (int x = 0; x < n && dem < 99; x++) {
-            if (x == o) continue;
-            if (!upg[x] && !frz[x]) tb += cap[x];
-            if (!threatened(x, Wo, base[x])) continue;
-            if (!upg[x] && !frz[x] && Y[x] >= 0 && cap[x] >= 1 && popc(base[o] & R[x]) <= 1) dem += 1;
-            else dem += rho4(x, Wo);
-        }
-        if (dem <= tb) return o;
+    return k;
+}
+/* A4+N's count for owner o: the threatened agents' demand is at most the non-frozen, non-upgraded agents' capacity */
+static int aplusN_ok(int o) {
+    gm Wo = base[o] | J; int dem = 0, tb = 0;
+    for (int x = 0; x < n && dem < 99; x++) {
+        if (x == o) continue;
+        if (!upg[x] && !frz[x]) tb += cap[x];
+        if (!threatened(x, Wo, base[x])) continue;
+        if (!upg[x] && !frz[x] && Y[x] >= 0 && cap[x] >= 1 && popc(base[o] & R[x]) <= 1) dem += 1;
+        else dem += rho4(x, Wo);
     }
+    return dem <= tb;
+}
+static int aplusN_owner(void) {
+    int ordo[MAXN], k = aplusN_cands(ordo);
+    for (int q = 0; q < k; q++) if (aplusN_ok(ordo[q])) return ordo[q];
     return -1;
 }
 /* is the run of Phase 1 on pre[] covered? (envy-free upgrades; the state is left after the upgrades) */
@@ -812,7 +820,7 @@ static int covered0(void) {
     if (w <= 0) { cov_last = 0; return 1; }
     int r = -1;
     for (int i = 0; i < n; i++) if (!upg[i] && (r < 0 || pos[i] > pos[r])) r = i;
-    if (frz[r]) { printf("A1VIOL\n"); covviol++; return 0; }
+    if (frz[r]) { printf("A1VIOL\n"); leaf_viol++; return 0; }
     gm W = base[r] | J;
     int E[MAXN], e4 = 0;
     for (int x = 0; x < n; x++) { E[x] = (x != r && !upg[x] && threatened(x, W, base[x])); if (E[x] && d[x] == 4) e4 = 1; }
@@ -830,7 +838,37 @@ static void cov_verify(void) {
         ok = cov_last == 4 ? try_owner(-1, S) : try_owner(cov_owner, S);
         OWNW = sw;
     } else { UPG = 2; OWNW = 0; ok = lb4r(1); UPG = su; OWNW = sw; }
-    if (!ok) { covviol++; report(cov_last >= 4 ? "COVVIOL_N" : "COVVIOL"); }
+    if (!ok) { leaf_viol++; report(cov_last >= 4 ? "COVVIOL_N" : "COVVIOL"); }
+}
+/* -Z2: Theorem A4+N on every run: for every insertion sequence, after need-shrinking upgrades to a fixpoint, if
+   omega <= 0 the exact owner test with no owner, else with every owner that A4+N's count admits (needs from the base,
+   no rotation); leaf_chk counts the (sequence, owner) instances, leaf_viol the failures (the first one reported) */
+static void cov_all(void) {
+    int si = INS, sw = OWNW, bad = 0, badpre[MAXN], nbad = 0, bado = -2;
+    nchoice = 0;
+    for (;;) {
+        INS = 1; npre = 0; stop_at = -1; phase1(); INS = si;
+        memcpy(pre, ins_seq, sizeof(int) * nins); npre = nins;
+        int ordo[MAXN], k, own_[MAXN + 1], no = 0;
+        OWNW = 0; phase1(); setup_state(); upg_mode = 1; upgrades();
+        if (popc(J) - slots() <= 0) own_[no++] = -1;
+        else { k = aplusN_cands(ordo); for (int q = 0; q < k; q++) if (aplusN_ok(ordo[q])) own_[no++] = ordo[q]; }
+        for (int q = 0; q < no; q++) {
+            phase1(); setup_state(); upg_mode = 1; upgrades();
+            leaf_chk++;
+            if (!try_owner(own_[q], slots())) { if (!bad++) { memcpy(badpre, pre, sizeof(int) * npre); nbad = npre; bado = own_[q]; } }
+        }
+        OWNW = sw;
+        int j = nins - 1;
+        while (j >= 0 && choice[j] + 1 >= maxchoice[j]) j--;
+        if (j < 0) break;
+        choice[j]++; nchoice = j + 1;
+    }
+    nchoice = 0;
+    if (bad) {
+        leaf_viol += bad; memcpy(pre, badpre, sizeof(int) * nbad); npre = nbad;
+        char lab[48]; snprintf(lab, sizeof lab, "COVVIOL_Z2 owner=%d", bado); report(lab);
+    }
 }
 /* rules 20-22: the first covered run in a family; if none, the family's first sequence (index run), counted as
    uncovered. 20: index run, then the index run with one insertion step changed (rule 15's family, #37's Lemma X');
@@ -908,14 +946,19 @@ static int construct(void) {
         }
         return 0;
     } else if (ARULE >= 20 && ARULE <= 22) {
+        if (COVZ == 2) cov_all();    /* before the family, which leaves pre[] at its run for lb4r below */
         last_uncov = !cover_family(ARULE);
-        if (!last_uncov && COVZ) cov_verify();
+        if (!last_uncov && COVZ == 1) cov_verify();
         return lb4r(ROT);
     } else if (ARULE == 24) {
         int b = minmax_first(), mx = b / 64;
         pre[0] = b % 64; npre = 1; TAILRULE = 0; phase1(); memcpy(pre, ins_seq, sizeof(int) * nins); npre = nins;
         if (mx > ROT) return 0;
         int ok = lb4r(ROT); used_rot = mx; return ok;
+    } else if (ARULE == 26) {        /* -i2 (every sequence), with the coverage of every sequence recorded (statistics) */
+        last_uncov = !cover_family(22);
+        INS = 2; int ok = construct(); INS = 0;
+        return ok;
     } else if (ARULE == 23) {        /* rule 16, with the coverage of every sequence recorded (statistics, -A23) */
         last_uncov = !cover_family(22);
         if (!deepen_family(16)) return 0;
@@ -973,11 +1016,16 @@ static void report(const char *what) {
     fflush(stdout);
 }
 
-/* one run of the construction on the current type sets; returns 1 if a comparison split them */
+/* one run of the construction on the current type sets; returns 1 if a comparison split them. The mode globals that
+   construct() overrides temporarily (INS in -i2 and rules 22-24, UPG and OWNW in cov_verify, TAILRULE, stop_at) are
+   restored when a split jumps out of it. */
+static int leaf_INS, leaf_UPG, leaf_OWNW;
 static int run_leaf(int *ok) {
-    if (setjmp(env)) { stop_at = -1; TAILRULE = 0; if (INS == 1 && EXISTS) INS = 2; return 1; }
-    rot_depth = 0; last_uncov = 0;
+    leaf_INS = INS; leaf_UPG = UPG; leaf_OWNW = OWNW;
+    if (setjmp(env)) { stop_at = -1; TAILRULE = 0; INS = leaf_INS; UPG = leaf_UPG; OWNW = leaf_OWNW; return 1; }
+    rot_depth = 0; last_uncov = 0; leaf_viol = leaf_chk = 0;
     *ok = construct();
+    covviol += leaf_viol; covchk += leaf_chk;
     return 0;
 }
 
@@ -1026,7 +1074,7 @@ static void mine(void) {
 int main(int argc, char **argv) {
     for (int a = 1; a < argc; a++) {
         if (!strncmp(argv[a], "-o", 2)) OWN = atoi(argv[a] + 2);
-        else if (!strncmp(argv[a], "-i", 2)) { INS = atoi(argv[a] + 2); EXISTS = INS == 2; }
+        else if (!strncmp(argv[a], "-i", 2)) INS = atoi(argv[a] + 2);
         else if (!strncmp(argv[a], "-f", 2)) MAXF = atoi(argv[a] + 2);
         else if (!strncmp(argv[a], "-u", 2)) UPG = atoi(argv[a] + 2);
         else if (!strcmp(argv[a], "-b")) BRUTE = 1;
@@ -1191,15 +1239,15 @@ int main(int argc, char **argv) {
             }
         }
       core_done:
-        if (ARULE == 23) {               /* U unc pol rot status count, status 0 no owner, 1 owner r, 2 other owner, 3 rotation */
+        if (ARULE == 23 || ARULE == 26) {   /* U unc pol rot status count, status 0 no owner, 1 owner r, 2 other owner, 3 rotation */
             for (int a = 0; a < 2; a++) for (int b = 0; b < 3; b++) for (int c = 0; c <= MAXROT; c++) for (int e = 0; e < 4; e++)
                 if (ustat[a][b][c][e]) printf("U %d %d %d %d %ld\n", a, b, c, e, ustat[a][b][c][e]);
             memset(ustat, 0, sizeof ustat);
         }
         printf("total %ld leaves %ld runs %ld fails %ld rawfails %ld rot", total, leaves, runs, fails, rawf);
         for (int k = 0; k <= ROT; k++) printf(" %ld", hist_rot[k]);
-        printf(" pol %ld %ld %ld uncov %ld covviol %ld\n", hist_pol[0], hist_pol[1], hist_pol[2], uncov, covviol);
-        uncov = covviol = 0;
+        printf(" pol %ld %ld %ld uncov %ld covviol %ld covchk %ld\n", hist_pol[0], hist_pol[1], hist_pol[2], uncov, covviol, covchk);
+        uncov = covviol = covchk = 0;
         fflush(stdout);
     }
     return 0;

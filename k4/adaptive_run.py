@@ -4,7 +4,7 @@ cores; or on single profiles (--profiles=FILE, one JSON object {"sets": [...], "
 lines of the logs of k4/gm4_*.py / k4/adaptive_*.py: "... sets=[[..]] vals=[[..]] ...").
 Usage: adaptive_run.py FILE [FILE ...] [--jobs=J] [--show=N] [--m=M] [--n4=K] [--first=N] [C options: -A2 -r2 -S100 ...]
        adaptive_run.py --profiles=FILE [C options]
-Sums the per-core result lines: total profiles (or runs), fails, and the histogram of the fewest rotations LB4r needs
+Sums the per-core result lines: total profiles (or runs), fails, and the histogram (rotations 0 .. R) of the fewest rotations LB4r needs
 on the rule's insertion sequence (over the three upgrade policies), and prints every FAIL line (up to --show)."""
 import gzip, hashlib, json, os, re, subprocess, sys, tempfile, time
 from multiprocessing import Pool
@@ -48,13 +48,14 @@ def run(task):
     return res, other
 
 def parse(line):
-    """'total T leaves L runs R fails F rawfails W rot r0 r1 .. pol p0 p1 p2' -> dict"""
+    """'total T leaves L runs R fails F rawfails W rot r0 r1 .. pol p0 p1 p2 [uncov U covviol V covchk C]' -> dict"""
     t = line.split(); d = {}
     d['total'] = int(t[1]); d['fails'] = int(t[7]); d['rawfails'] = int(t[9])
     i = t.index('rot'); j = t.index('pol')
     d['rot'] = list(map(int, t[i + 1:j])); d['pol'] = list(map(int, t[j + 1:j + 4]))
     d['uncov'] = int(t[t.index('uncov') + 1]) if 'uncov' in t else 0
     d['covviol'] = int(t[t.index('covviol') + 1]) if 'covviol' in t else 0
+    d['covchk'] = int(t[t.index('covchk') + 1]) if 'covchk' in t else 0
     return d
 
 def load_profiles(path):
@@ -122,12 +123,13 @@ def main():
                     if d['fails'] or d['rawfails']: badcores += 1
                     if tot is None: tot = d
                     else:
-                        for k in ('total', 'fails', 'rawfails', 'uncov', 'covviol'): tot[k] += d[k]
+                        for k in ('total', 'fails', 'rawfails', 'uncov', 'covviol', 'covchk'): tot[k] += d[k]
                         tot['rot'] = [a + b for a, b in zip(tot['rot'], d['rot'])]
                         tot['pol'] = [a + b for a, b in zip(tot['pol'], d['pol'])]
+        chk = f" covchk={tot['covchk']}" if tot['covchk'] else ''
         print(f"{os.path.basename(f)}{'' if n4 is None else f' n4={n4}'}{'' if monly is None else f' m={monly}'}: cores={len(cores)} "
               f"total={tot['total']} fails={tot['fails']} rawfails={tot['rawfails']} badcores={badcores} "
-              f"rot={tot['rot']} (last entry: fails) pol={tot['pol']} uncov={tot['uncov']} covviol={tot['covviol']} time {time.time() - t0:.0f}s", flush=True)
+              f"rot={tot['rot']} (rotations 0..R) pol={tot['pol']} uncov={tot['uncov']} covviol={tot['covviol']}{chk} time {time.time() - t0:.0f}s", flush=True)
 
 if __name__ == '__main__':
     main()
