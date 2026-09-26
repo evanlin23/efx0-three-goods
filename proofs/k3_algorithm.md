@@ -316,8 +316,8 @@ All logs are under `results/`, with their commands.
 | `k3_cross.log` | 200,000 random instances (n ≤ 9): balanced three-good instances, arbitrary instances with ≤ 3 relevant goods, few-level values; `mirror` (literal transcription of the Lean definitions) vs `fast` | identical outputs; every output EFX₀ by two raw checks |
 | `k3_lean_crosscheck.log` | 675 instances, including 62 on which LB⁺ rotates and random cores with n up to 30; Lean `#eval` of `EFX.K3.algo` vs `mirror` vs `fast` | identical outputs; every Lean output raw EFX₀; every operation count ≤ 400·(n + m + 1)⁴ |
 | `k3_certs_5_6.log` | every ranking profile of every certified core of `certs_5_6` (251 cores, 11,127,456 profiles, 3 balanced realizations each) | 0 failures; 5,474 rotations; the three realizations always give the same allocation (the algorithm is ordinal on cores) |
-| `k3_certs_2_6.log` | every ranking profile of every core with n ≤ 6 (`certs_lb_2_6`, `certs_lb_disconnected_4_6`) | see the log |
-| `k3_certs_7_sample.log`, `k3_certs_8_sample.log` | 100 (n = 7) and 30 (n = 8) random ranking profiles of every certified core | see the logs |
+| `k3_certs_2_6.log` | every ranking profile of every core with n ≤ 6, connected or not (`certs_lb_2_6`, `certs_lb_disconnected_4_6`: 3,567 cores, 152,071,632 profiles) | 0 failures; 395,038 rotations; `mirror` = `fast` on every 1,000th profile |
+| `k3_certs_7_sample.log`, `k3_certs_8_sample.log` | 100 (n = 7) and 30 (n = 8) random ranking profiles of every certified connected core (41,170 and 12,763 cores) | 0 failures; 3,625 and 84 rotations |
 | `k3_timing.log` | `fast` on random instances with n up to 10⁵ agents, `mirror` up to n = 100 | see the log and §7.1 |
 
 Every output in these runs is checked against the raw EFX₀ definition. For i ≠ j, the largest v_i(X_j ∖ {g}) over
