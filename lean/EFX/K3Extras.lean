@@ -1006,6 +1006,131 @@ theorem twoRel_serialDict :
 end Examples
 end K3
 
+/-! ## 4. Rational values -/
+
+/-- Core Lean's rationals satisfy the axioms of `OrderedValue` (so `OInst Rat` is the model with rational
+values; nonnegativity is a hypothesis of the theorems). -/
+instance : OrderedValue Rat where
+  add_assoc := Rat.add_assoc
+  add_comm := Rat.add_comm
+  zero_add := Rat.zero_add
+  le_refl _ := Rat.le_refl
+  le_trans _ _ _ := Rat.le_trans
+  le_antisymm _ _ := Rat.le_antisymm
+  le_total _ _ := Rat.le_total
+  add_le_add_iff_right _ _ _ := Rat.add_le_add_right.symm
+
+/-- The product of the denominators of the values `f`: a common positive multiple of them. -/
+def denProd : (k : Nat) → (Fin k → Rat) → Nat
+  | 0, _ => 1
+  | k + 1, f => denProd k (fun i => f i.castSucc) * (f (Fin.last k)).den
+
+theorem denProd_pos : ∀ (k : Nat) (f : Fin k → Rat), 0 < denProd k f
+  | 0, _ => Nat.one_pos
+  | k + 1, f => Nat.mul_pos (denProd_pos k _) (f (Fin.last k)).den_pos
+
+theorem den_dvd_denProd : ∀ (k : Nat) (f : Fin k → Rat) (g : Fin k), (f g).den ∣ denProd k f
+  | 0, _, g => g.elim0
+  | k + 1, f, g => by
+    unfold denProd
+    by_cases hg : g = Fin.last k
+    · subst hg; exact Nat.dvd_mul_left _ _
+    · have hlt : g.val < k := by
+        have h1 := g.isLt
+        have h2 : g.val ≠ k := fun h => hg (Fin.ext (by simp [h]))
+        omega
+      have e : g = Fin.castSucc ⟨g.val, hlt⟩ := Fin.ext rfl
+      rw [e]
+      exact Nat.dvd_trans (den_dvd_denProd k (fun i => f i.castSucc) ⟨g.val, hlt⟩) (Nat.dvd_mul_right _ _)
+
+/-- **The scaling.** Agent values `f` (nonnegative rationals) times `denProd k f`, as natural numbers: the good
+`g` gets `num(f g) · (D / den(f g))`, which is `f g · D` (`scaleNat_cast`). -/
+def scaleNat (k : Nat) (f : Fin k → Rat) (g : Fin k) : Nat :=
+  (f g).num.toNat * (denProd k f / (f g).den)
+
+/-- `q · den(q) = num(q)`. -/
+theorem mul_den_eq_num (q : Rat) : q * (q.den : Rat) = (q.num : Rat) := by
+  have h1 := Rat.num_divInt_den q
+  rw [Rat.divInt_eq_div, Rat.intCast_natCast] at h1
+  have h2 := Rat.div_mul_cancel (a := (q.num : Rat)) (b := (q.den : Rat))
+    (fun h => q.den_nz (Rat.natCast_eq_zero_iff.mp h))
+  rw [h1] at h2
+  exact h2
+
+/-- The scaled value is the rational value times `D = denProd k f`. -/
+theorem scaleNat_cast (k : Nat) (f : Fin k → Rat) (g : Fin k) (hf : 0 ≤ f g) :
+    ((scaleNat k f g : Nat) : Rat) = f g * (denProd k f : Rat) := by
+  have hd := Nat.mul_div_cancel' (den_dvd_denProd k f g)
+  have hnum : (((f g).num.toNat : Nat) : Rat) = ((f g).num : Rat) := by
+    rw [← Rat.intCast_natCast, Int.toNat_of_nonneg (Rat.num_nonneg.mpr hf)]
+  unfold scaleNat
+  rw [Rat.natCast_mul, hnum]
+  conv => rhs; rw [← hd, Rat.natCast_mul, ← Rat.mul_assoc, mul_den_eq_num]
+
+/-- A sum of natural numbers `h g = F g · c` is the sum of the `F g` times `c`. -/
+theorem finSum_cast : ∀ (k : Nat) (h : Fin k → Nat) (F : Fin k → Rat) (c : Rat),
+    (∀ g, (h g : Rat) = F g * c) → ((finSum k h : Nat) : Rat) = finSumO k F * c
+  | 0, _, _, c, _ => (Rat.zero_mul c).symm
+  | k + 1, h, F, c, hh => by
+    show (((finSum k (fun i => h i.castSucc) + h (Fin.last k) : Nat)) : Rat) =
+      (finSumO k (fun i => F i.castSucc) + F (Fin.last k)) * c
+    rw [Rat.natCast_add, finSum_cast k _ (fun i => F i.castSucc) c (fun g => hh g.castSucc), hh, Rat.add_mul]
+
+/-- **The scaling preserves every comparison of two subset sums of the agent's values** (`Agree`). -/
+theorem agree_scaleNat (k : Nat) (f : Fin k → Rat) (hf : ∀ g, 0 ≤ f g) : Agree f (scaleNat k f) := by
+  intro S T _ _
+  have hD : (0 : Rat) < (denProd k f : Rat) := Rat.natCast_pos.mpr (denProd_pos k f)
+  have e : ∀ (R : Fin k → Prop) [DecidablePred R], ((finSum k (fun g => if R g then scaleNat k f g else 0) : Nat) : Rat) =
+      finSumO k (fun g => if R g then f g else 0) * (denProd k f : Rat) := by
+    intro R _
+    apply finSum_cast
+    intro g
+    by_cases hR : R g
+    · simp only [hR, ↓reduceIte]; exact scaleNat_cast k f g (hf g)
+    · simp only [hR, ↓reduceIte]; exact (Rat.zero_mul _).symm
+  rw [← Rat.natCast_le_natCast, e S, e T]
+  exact ⟨fun h => Rat.mul_le_mul_of_nonneg_right h (Rat.le_of_lt hD), fun h => Rat.le_of_mul_le_mul_right h hD⟩
+
+/-- The scaled instance: agent `i`'s values multiplied by `denProd` of them, as natural numbers. -/
+def ratScale (I : OInst Rat) : Inst := ⟨I.n, I.m, fun i => scaleNat I.m (I.v i)⟩
+
+/-- The scaled value of `g` for `i` is `v i g · D_i`, with `D_i = denProd I.m (I.v i) > 0`. -/
+theorem ratScale_val (I : OInst Rat) (hv : ∀ i g, 0 ≤ I.v i g) (i : Fin I.n) (g : Fin I.m) :
+    (((ratScale I).v i g : Nat) : Rat) = I.v i g * (denProd I.m (I.v i) : Rat) ∧ 0 < denProd I.m (I.v i) :=
+  ⟨scaleNat_cast I.m (I.v i) g (hv i g), denProd_pos I.m (I.v i)⟩
+
+/-- Every comparison of two subset sums of one agent's values is the same before and after scaling. -/
+theorem ratScale_agree (I : OInst Rat) (hv : ∀ i g, 0 ≤ I.v i g) (i : Fin I.n) :
+    Agree (I.v i) ((ratScale I).v i) :=
+  agree_scaleNat I.m (I.v i) (hv i)
+
+/-- **The relevance structure is unchanged**: `g` is relevant to `i` after scaling iff before. -/
+theorem ratScale_relevant (I : OInst Rat) (hv : ∀ i g, 0 ≤ I.v i g) (i : Fin I.n) (g : Fin I.m) :
+    0 < (ratScale I).v i g ↔ 0 < I.v i g :=
+  (OrderedValue.relevant_iff_of_agree (ratScale_agree I hv i) g).symm.trans Rat.not_le
+
+theorem ratScale_numRelevant (I : OInst Rat) (hv : ∀ i g, 0 ≤ I.v i g) (i : Fin I.n) :
+    numRelevant (ratScale I) i = I.numRelevant i :=
+  numRelevant_eq_of_agree I _ (ratScale_agree I hv) i
+
+/-- An allocation is EFX₀ for the rational values iff it is EFX₀ for the scaled values. -/
+theorem ratScale_efx0_iff (I : OInst Rat) (hv : ∀ i g, 0 ≤ I.v i g) (X : I.Alloc) :
+    I.EFX0 X ↔ (ratScale I).EFX0 X :=
+  efx0_iff_of_agree I _ (ratScale_agree I hv) X
+
+namespace K3
+
+/-- **K3ALG on rational values**: scale each agent's values to natural numbers (`ratScale`) and run K3ALG. -/
+def algoRat (I : OInst Rat) (hn : 0 < I.n) : I.Alloc := algo (ratScale I) hn
+
+/-- **Corollary "rational values".** If every agent positively values at most three goods (values nonnegative
+rationals), K3ALG on the scaled values returns an allocation that is EFX₀ for the rational values. -/
+theorem algoRat_efx0 (I : OInst Rat) (hn : 0 < I.n) (hv : ∀ i g, 0 ≤ I.v i g) (h : ∀ i, I.numRelevant i ≤ 3) :
+    I.EFX0 (algoRat I hn) :=
+  (ratScale_efx0_iff I hv _).mpr (algo_efx0 (ratScale I) hn (fun i => (ratScale_numRelevant I hv i) ▸ h i))
+
+end K3
+
 /-! ### The remark "a repeated good": K3ALG's owner can get more than `ω + 2` goods -/
 
 namespace K3
@@ -1078,3 +1203,11 @@ end EFX
 #print axioms EFX.Inst.sdRun_efx0
 #print axioms EFX.Inst.serialDict_efx0
 #print axioms EFX.K3.Examples.twoRel_serialDict
+#print axioms EFX.scaleNat_cast
+#print axioms EFX.agree_scaleNat
+#print axioms EFX.ratScale_val
+#print axioms EFX.ratScale_agree
+#print axioms EFX.ratScale_relevant
+#print axioms EFX.ratScale_numRelevant
+#print axioms EFX.ratScale_efx0_iff
+#print axioms EFX.K3.algoRat_efx0
