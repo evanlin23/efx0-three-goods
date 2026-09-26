@@ -1,4 +1,5 @@
 # the same on every strict profile of the n = 4 cores with one 4-good agent
+# note (#52 review): written with k4/hall.c of commit 231d2ac, before the sixth BTX counter (cycles through any exposed frozen agent) was added in d9fae00, so BTX lines have five fields; the first five counters are the same in both versions.
 # command: python3 k4/hall_run.py results/k4_certs_4_n4_1.json.gz -Bx 5 --jobs=4
 Fri Sep 25 23:10:02 UTC 2026
 FILE results/k4_certs_4_n4_1.json.gz cores 135 profiles 7247232 valid 137951940 minfrozen 80473565 minfrozen_omega1 0 minfrozen_posdef 0 profiles_c4min_ok 7247232 bad_char 0

@@ -1,8 +1,10 @@
 # The big-top obstruction: exposed frozen agents and the big-top owner step
 
-Workstream `proof/k4-hall-bt`. It builds on `k4/hall.md` (PR #46: Lemmas H3, H6, H7, conjecture BT) and on
-`k4/c4min.md` (PR #41: configurations, Theorems Z and F, the exchange digraph). Ledger rows K4.HALL.BT*
-(CONJECTURE / EVIDENCE only). What is left of C₄ᵐⁱⁿ after Theorems Z and F is the case of an **exposed frozen agent**:
+Workstream `proof/k4-hall-bt`. It builds on `k4/hall.md` (PR #46, on main: Lemmas H3, H6, H7, conjecture BT) and on
+`k4/c4min.md` (PR #41, not merged, read at head b9ff629: configurations, Theorems Z and F, the exchange digraph). Theorem
+Z is machine-checked on main (row K4.C4MIN.Z.LEAN, PR #49); Theorem F is a written proof, refereed in #41's review, and
+not yet on main. Ledger rows K4.HALL.BT (REFUTED), K4.HALL.BTCYC (CONJECTURE, evidence) and K4.HALL.BT1 (PROVED,
+written proof, refereed). What is left of C₄ᵐⁱⁿ after Theorems Z and F is the case of an **exposed frozen agent**:
 - every profile with f = 1;
 - 7.28M of the 119.6M n = 3 profiles with ω ≥ 1;
 - a large share at n = 4 and 5.
@@ -10,8 +12,8 @@ Workstream `proof/k4-hall-bt`. It builds on `k4/hall.md` (PR #46: Lemmas H3, H6,
 This file attacks it from the side of the *big-top* agents: four goods, holding the top a, with a > b + c.
 
 **Status.** Nothing here changes K4.D or K4.T. What is here:
-- **§1 BT in #41's language: false at n = 4.** The conjecture says a non-completable Pareto-maximum at the fewest
-  frozen agents with frozen agents has an exposed frozen big-top agent.
+- **§1 BT in #41's language: false at n = 4.** The conjecture says a Pareto-maximum at the fewest frozen agents, with
+  frozen agents, that is not removal-only completable has an exposed frozen big-top agent.
   - It holds for all 377,832 such maxima with n ≤ 3, and vacuously on the n = 4 cores with one 4-good agent.
   - It fails on a pure core with n = 4 (`attempts/k4-hall-bt-n4.md`, both implementations). Two non-big-top frozen
     agents block the two owners by local exposures, with no slots. The repair is a *downgrade swap* (a frozen agent
@@ -21,8 +23,10 @@ This file attacks it from the side of the *big-top* agents: four goods, holding 
   At every such P, some cycle of #41's exchange digraph through an exposed frozen big-top agent x gives a completable
   configuration. Usually x becomes the owner, though not always: 1,344 of the 377,832 such maxima at n ≤ 3; the
   examples printed have several big-top agents sharing their top.
-  - The cycle move lets every receiver of a threat edge keep part of its own holding. #41's move, where each vertex
-    gives away everything, is not enough on one sampled n = 3 profile.
+  - The cycle move lets every receiver of a threat edge keep part of its own holding and tries every admissible
+    choice. The data does not show that keeping part is needed: on the samples the #52 referee checked, #41's plain
+    move (each vertex gives away everything) with some admissible choice does as well. #41 §4's rule of taking the
+    *best* admissible pair is weaker (core 44 below).
   - Lemma BT1 (proved) handles the plainest cycle, a need chain closed by one threat edge (LB⁺'s rotation). The new
     owner x faces exactly the old owner's set B_τ ∪ J. Its threatened agents are among the old ones, minus x, plus
     possibly τ. The other agents' slots are unchanged.
@@ -46,10 +50,11 @@ What is proved toward it:
   - A big-top agent exposed w.r.t. one of its chain ends.
   - Local: through a good of B_o, with o not a chain end.
 
-So a non-big-top frozen agent is exposed only locally: w.r.t. owners holding one of its lower goods. For such an agent
-the repairing move is the exchange cycle through the owner: the agent it blocks takes the goods it wants from B_o, and
-o is compensated along the cycle. At k = 3 this is Theorem K3's cycle move. What is missing is the proof that a
-suitable cycle exists when no big-top agent is exposed (§3: never violated).
+So a non-big-top frozen agent is exposed only locally: w.r.t. owners holding one of its lower goods. One repairing move
+for such an agent is the exchange cycle through the owner: the agent it blocks takes the goods it wants from B_o, and
+o is compensated along the cycle. At k = 3 this is Theorem K3's cycle move. At k = 4 it is not enough: at bt4 (§3) no
+big-top agent is exposed and no exchange cycle through any exposed frozen agent completes P
+(`results/k4_hall_bt4_cycles.log`); the downgrade swap does.
 
 ## 2. The big-top owner step
 
@@ -83,16 +88,20 @@ below, found by `k4/hall.c` alone, all three agents are big-top agents with the 
 The cycle 0 → 1 → 0 moves 7 to agent 1 and {2, 6} to agent 0. The new frozen big-top agent 1 is then threatened by
 agent 0's bundle, and agent 2 is the owner.
 
-Evidence (§3), in every profile tested with a non-completable Pareto-maximum with frozen agents:
-- the cycle exists;
-- `k4/hall.md` §5 found, in all 320,124 such profiles with n ≤ 3, a completable min-frozen pre-allocation owned by
-  a big-top agent.
+Evidence (§3):
+- at every maximum tested that has an exposed frozen big-top agent, the cycle exists (bt4, the one maximum tested
+  without one, is §1's counterexample to BT);
+- `k4/hall.md` §5 found, in all 320,124 profiles with n ≤ 3 that have a Pareto-maximum with frozen agents that is not
+  removal-only completable, a removal-only completable min-frozen pre-allocation with an owner of big-top type.
 
-#41's plain move (each vertex gives away all it holds) is not enough (core 44 of `results/k4_certs_3.json.gz`):
+#41 §4's rule, where a threat-edge receiver takes its *best* admissible pair, fails on core 44 of
+`results/k4_certs_3.json.gz`:
 - agents 0: 0:2 2:6 4:3 6:10 (big-top, frozen on 6), 1: 1:3 3:2 5:6 6:10 (base {1, 5}), 2: 2:2 3:4 4:7 5:10 (base
   {3, 4}), J = {0, 2};
-- on the cycle 0 → 1 → 2 → 0, agent 2 must keep its good 3 and take 5, leaving 2 for agent 0, who then owns
-  {2, 4, 0, 1}.
+- on the cycle 0 → 1 → 2 → 0, agent 2's best admissible pair is {2, 5}, and agent 0 is left with nothing admissible;
+- a smaller choice repairs it: agent 2 takes {5} alone, agent 0 then takes {2}, and agent 0 is a valid owner; so does
+  letting agent 2 keep its good 3 and take 5. `k4/hall.c -B` tries every admissible choice, so it covers both.
+This example is worked by hand (the #52 referee's enumeration agrees); it has no log of its own.
 
 **Lemma BT1 (the rotation of LB⁺ at k = 4: monotonicity).** Let P be Pareto-maximal at the fewest frozen agents, x a
 frozen big-top agent on its top a, τ a chain end of x, and suppose b_x, c_x ∈ J ∪ B_τ. Let P′ be the rotation:
@@ -147,11 +156,16 @@ implementation; the counterexample bt4 is confirmed by the independent `k4/hall_
 | n = 5, pure, 10 per core | 46,740 | 47 | 47 | 47 | 47 | the same |
 
 The one pure n = 4 maximum without an exposed frozen big-top agent is bt4 (`attempts/k4-hall-bt-n4.md`). No
-exchange-digraph cycle through any exposed frozen agent completes it; the downgrade swap does.
+exchange-digraph cycle through any exposed frozen agent completes it (`results/k4_hall_bt4_cycles.log`: BTX 1 0 0 0 0 0;
+replayed by `attempts/k4_hall_attempts.py`); the downgrade swap does.
+
+The three logs above were written with `k4/hall.c` of commit 231d2ac, before the sixth counter (cycles through any
+exposed frozen agent) was added in d9fae00, so their BTX lines have five fields; the first five counters are the
+same in both versions.
 
 Coordination: PR #50 (`proof/k4-c4min-f1`) builds the f = 1 move catalogue and PR #51 (`proof/k4-c4min-reduce`)
 reduces f = 1 to Theorem Z. Both were stubs when this was written. bt4 has f = 2. The rows (3) and (4) are the
-catalogue entry "cycle through a big-top agent"; the downgrade swap is an entry they need too.
+catalogue entry "cycle through a big-top agent"; whether an f = 1 catalogue also needs the downgrade swap is open.
 
 ## 4. Reproduce
 
@@ -166,4 +180,9 @@ removal-only owner it counts:
 - an exposed one;
 - a cycle of the exchange digraph through a frozen big-top agent x after which x is a valid owner (every choice of
   the receivers' admissible sets, by backtracking);
-- a cycle after which some owner is valid.
+- a cycle after which some owner is valid;
+- (sixth counter, `-B`) a cycle through any exposed frozen agent after which some owner is valid.
+
+Two restrictions of the search: a receiver never takes the empty set, and in the sixth counter the cycle's in-edge at
+the starting agent must be a threat edge, even when that agent could receive a need edge. The #52 referee's
+independent code, without either restriction, gets the same counts on the samples it checked.

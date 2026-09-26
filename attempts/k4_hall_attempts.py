@@ -47,6 +47,12 @@ def main():
     c2 = all(s in out2 for s in ('valid True frozen [2, 3]', 'fewest frozen 2, Pareto-maximal True', 'completable False', 'removal-only completable False'))
     print(f'bt4: hall.c {"confirmed" if c1 else "NOT confirmed"}; hall_check.py {"confirmed" if c2 else "NOT confirmed"}')
     ok &= c1 and c2
+    # 3b. k4/hall_bt.md §3: at bt4 no exchange-digraph cycle through any exposed frozen agent completes P
+    #     (BTX: 1 maximum without a removal-only owner, 0 with an exposed frozen big-top agent, 0 cycles of any kind).
+    out = subprocess.run([binary(), '-1', '-B'], input=hall_input(inst), capture_output=True, text=True, check=True).stdout
+    c3 = 'BTX 1 0 0 0 0 0' in out
+    print(f'bt4 cycles: hall.c {"confirmed" if c3 else "NOT confirmed"}')
+    ok &= c3
     print('ALL CONFIRMED' if ok else 'SOME NOT CONFIRMED')
     sys.exit(0 if ok else 1)
 

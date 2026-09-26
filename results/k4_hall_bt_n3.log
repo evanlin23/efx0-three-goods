@@ -1,4 +1,5 @@
 # k4/hall.c -B: at every non-completable Pareto-maximum inside the min-frozen set with frozen agents and omega >= 1: is some frozen big-top agent exposed, and does some exchange cycle through a frozen big-top agent x make x a valid owner (k4/hall_bt.md)? n = 2 and n = 3, every strict profile
+# note (#52 review): written with k4/hall.c of commit 231d2ac, before the sixth BTX counter (cycles through any exposed frozen agent) was added in d9fae00, so BTX lines have five fields; the first five counters are the same in both versions.
 # command: python3 k4/hall_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz -Bx 5 --jobs=4
 Fri Sep 25 23:06:15 UTC 2026
 FILE results/k4_certs_2.json.gz cores 5 profiles 189216 valid 2318524 minfrozen 2129840 minfrozen_omega1 0 minfrozen_posdef 0 profiles_c4min_ok 189216 bad_char 0

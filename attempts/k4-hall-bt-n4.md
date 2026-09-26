@@ -19,7 +19,7 @@ The frozen agent loses value, so no Pareto argument sees the move.
 ## Smallest failing configuration found
 
 Pure core, n = 4, m = 7 (core 59 of `results/k4_certs_4_pure.json.gz`; found in the sample of
-`results/k4_hall_bt_samples.log`, 1 of the 303 non-completable maxima there), `k4/hall_instances/bt4.inst`:
+`results/k4_hall_bt_samples.log`, 1 of the 303 maxima there that are not removal-only completable), `k4/hall_instances/bt4.inst`:
 
 | agent | goods and values | type | base in P |
 |---|---|---|---|
@@ -34,13 +34,14 @@ pre-allocations and not completable:
 - owner 1: {0, 3, 1} gives agent 3 the goods 1 and 3, worth 10 > 8.
 
 No frozen agent is a big-top agent. Among the Pareto-maxima inside the min-frozen class, 4 of 5 are completable. One of
-them, with deficit −2, is the downgrade swap: agent 1 takes 4, agent 2 takes {1}, and {0, 3} becomes junk. `k4/hall.c -B` finds no exchange-digraph cycle that completes P, through any exposed frozen agent.
+them, with deficit −2, is the downgrade swap: agent 1 takes 4, agent 2 takes {1}, and {0, 3} becomes junk. `k4/hall.c -B` finds no exchange-digraph cycle that completes P, through any exposed frozen agent (`results/k4_hall_bt4_cycles.log`).
 
 ## Replay
 
 `python3 attempts/k4_hall_attempts.py`:
 - `k4/hall.c`: this P is a Pareto-maximum with deficit 1;
 - `k4/hall_check.py` (independent): P is valid, has the fewest frozen agents, is Pareto-maximal and is not completable.
+- `k4/hall.c -B`: no exchange-digraph cycle through any exposed frozen agent completes P.
 
 ## What survives
 

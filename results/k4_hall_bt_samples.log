@@ -1,4 +1,5 @@
 # the same on random strict profiles per core (seeded)
+# note (#52 review): written with k4/hall.c of commit 231d2ac, before the sixth BTX counter (cycles through any exposed frozen agent) was added in d9fae00, so BTX lines have five fields; the first five counters are the same in both versions.
 # command: python3 k4/hall_run.py results/k4_certs_4_n4_2.json.gz -Bx 3 --rand=1000 --seed=62 --jobs=4
 FILE results/k4_certs_4_n4_2.json.gz cores 309 profiles 309000 valid 9578127 minfrozen 6082250 minfrozen_omega1 0 minfrozen_posdef 0 profiles_c4min_ok 309000 bad_char 0
   Pareto-maxima inside the min-frozen set, pareto F=0: profiles 256220, every maximum deficit <= 0: 256220, some: 256220 (850901 maxima)
