@@ -8,7 +8,7 @@ import EFX.PreAllocK
 
 Four statements the paper proves in writing, machine-checked here.
 
-1. **`r` lies in the last block** (the remark after Lemma 10, "the candidate `r`", of the long version).
+1. **`r` lies in the last block** (the remark after the long version's Lemma "the candidate `r`", `lem:r`).
    `EFX.LB.blk_le_lastOut`: in Phase 1 in any order, if no upgraded agent picks its top, every agent's
    block is at most the block of `r = lastOut up order`. `EFX.LB.lastOut_lastBlock`: in the paper's setting
    (a run of Phase 1 and a valid pre-allocation, `EFX.LB.State`, as in `EFX.LB.lastOut_terminal`) `r`'s
@@ -25,6 +25,7 @@ Four statements the paper proves in writing, machine-checked here.
    - `EFX.LB.largeBundle_size`: the three together, the Proposition. The paper assumes `ω ≥ 1`; the Lean
      statements hold for every `ω` (for `ω ≤ 0` the bound `ω + 2 ≤ |X_o|` still holds for a completion with
      an owner).
+   - `EFX.LB.BadCase.omega_le`: the rotation does not increase `ω` (the remark after the Proposition).
    - For K3ALG's completion `EFX.LB.complete` (`Complete(o, H)` in the paper): `EFX.LB.complete_owner_length`,
      if `H` lists no good twice (and `ω ≥ 1`), the other terminals' slots are full and the owner gets exactly
      `ω + 2` goods. Equality fails in general: `EFX.K3.Examples.repeatedGood` is the four-agent instance of the
@@ -275,10 +276,10 @@ theorem blk_le_lastOut {up : List A} : ∀ {order : List A} {pool : List G} {n :
         rw [blkAux_const hnd' (fun y hy => hup' y (lastOut_none hl y hy) hy) x hxo]
         exact Nat.le_refl _
 
-/-- **`r` lies in the last block** (the remark after the long version's Lemma 10). After a run of Phase 1 (its
-blocks numbered by `blkAux`) and with a valid pre-allocation (`State`, as in `lastOut_terminal`), let `r` be
-the last-processed agent that is not upgraded. Then every agent's block is at most `r`'s, and `r`'s block is
-the block of the last processed agent: `r` lies in the last block `B*`. -/
+/-- **`r` lies in the last block** (the remark after the long version's Lemma "the candidate `r`"). After a run
+of Phase 1 (its blocks numbered by `blkAux`) and with a valid pre-allocation (`State`, as in `lastOut_terminal`),
+let `r` be the last-processed agent that is not upgraded. Then every agent's block is at most `r`'s, and `r`'s
+block is the block of the last processed agent: `r` lies in the last block `B*`. -/
 theorem lastOut_lastBlock {agents : List A} {goods : List G} {order : List A} {lead : A → Prop}
     {up : List A} (hS : State P agents goods order (phase1 P order goods) (blkAux P order goods 0) lead up)
     {r : A} (hr : lastOut up order = some r) :
@@ -722,6 +723,21 @@ theorem largeBundle_size (hV : Valid P agents goods Y up) (hag : agents.Nodup) (
   ⟨omega_eq hV hag hgd, fun _ _ ho hoT hC =>
     ⟨Completion.owner_length_ge hV hC hag hgd ho hoT, Completion.owner_length_eq hV hC hag hgd ho hoT⟩⟩
 
+/-- **The rotation does not enlarge the large bundle** (the remark after the Proposition): in the bad case, the
+rotation of Theorem B does not increase `NA` (`BadCase.rot_NA`), so it does not increase `ω = m − 2n + |NA|`,
+hence the bound `ω + 2`. -/
+theorem BadCase.omega_le {order : List A} {blk : A → Nat} {lead : A → Prop} {r k : A} {ch : List A}
+    (hB : BadCase P agents goods order Y blk lead up r k ch) :
+    ((junkList P agents (k :: up) (rotPicks P Y k ch) goods).length : Int) -
+        slotSum P agents (k :: up) (rotPicks P Y k ch) ≤
+      ((junkList P agents up Y goods).length : Int) - slotSum P agents up Y := by
+  have hag := hB.state.agents_nodup
+  have hgd := hB.state.goods_nodup
+  rw [omega_eq (theoremB hB).1 hag hgd, omega_eq hB.state.valid hag hgd]
+  have : numNA P agents (k :: up) (rotPicks P Y k ch) goods ≤ numNA P agents up Y goods :=
+    List.countP_mono_left (fun _ _ h => naB_iff.mpr (hB.rot_NA (naB_iff.mp h)))
+  omega
+
 /-! ### K3ALG's completion fills every other slot when `H` lists no good twice -/
 
 omit [DecidableEq A] in
@@ -850,9 +866,65 @@ theorem complete_owner_length (hV : Valid P agents goods Y up) (hag : agents.Nod
       obtain ⟨-, hp, hu⟩ := mem_junkList.mp (hmemJ g (fill_some hf).2.1)
       refine ⟨fun hy => picker_none hp j hj hy, ?_⟩
       unfold complete; rw [hp, hu]; dsimp only; rw [hf]; rfl
+
 end size
 
 end LB
+
+/-! ### The remark "a repeated good": K3ALG's owner can get more than `ω + 2` goods -/
+
+namespace K3
+namespace Examples
+
+/-- The instance of the paper's remark "a repeated good" (`paper/k3/examples/`): four agents value `g₀` at 3,
+and agent `i` also values `g_{2i+1}` at 4 and `g_{2i+2}` at 2 (nine goods). -/
+def repeatedGood : Inst := mkInst 4 9 [[3, 4, 2, 0, 0, 0, 0, 0, 0], [3, 0, 0, 4, 2, 0, 0, 0, 0],
+  [3, 0, 0, 0, 0, 4, 2, 0, 0], [3, 0, 0, 0, 0, 0, 0, 4, 2]]
+
+/-- Stage L of K3ALG on `repeatedGood` (nobody is peeled): the rankings. -/
+def rgP : LB.Profile (Fin 4) (Fin 9) := profileOf repeatedGood.v (List.finRange 9) 0
+/-- Phase 1's order with R1 priority (`r1Order`). -/
+def rgOrder : List (Fin 4) := LB.r1Order rgP 4 (List.finRange 4) (List.finRange 9)
+/-- Phase 1's picks. -/
+def rgY : Fin 4 → Option (Fin 9) := LB.phase1 rgP rgOrder (List.finRange 9)
+/-- The upgraded agents (none). -/
+def rgUp : List (Fin 4) := LB.lbUp rgP (List.finRange 4) (List.finRange 9) rgY
+
+theorem repeatedGood_relevant : ∀ i, numRelevant repeatedGood i ≤ 3 := by decide
+
+/-- **The state.** K3ALG's output is Stage L's (LB⁺ on all agents and goods). All four agents pick their tops
+(`g₁, g₃, g₅, g₇`), nobody is upgraded, `NA = ∅`, `|J| = 5` and `S = 4`, so `ω = 1 = m − 2n + |NA|`. The owner
+is `r = 3`, and `HitSet(E₃)` is `(g₀, g₀)`: it lists `g₀` twice. -/
+theorem repeatedGood_state :
+    (∀ g, algoSpec repeatedGood (by decide) g = lbStage repeatedGood.v (List.finRange 4) (List.finRange 9)
+      (⟨0, by decide⟩ : Fin repeatedGood.m) (⟨0, by decide⟩ : Fin repeatedGood.n) g) ∧
+    (List.finRange 4).map rgY = [some 1, some 3, some 5, some 7] ∧ rgUp = [] ∧
+    LB.numNA rgP (List.finRange 4) rgUp rgY (List.finRange 9) = 0 ∧
+    (LB.junkList rgP (List.finRange 4) rgUp rgY (List.finRange 9)).length = 5 ∧
+    LB.slotSum rgP (List.finRange 4) rgUp rgY = 4 ∧
+    LB.lastOut rgUp rgOrder = some 3 ∧
+    LB.hitSet rgP (LB.junkList rgP (List.finRange 4) rgUp rgY (List.finRange 9))
+      (LB.exposedL rgP (List.finRange 4) rgUp rgY (List.finRange 9) 3) = [0, 0] := by
+  decide
+
+/-- **The owner gets `ω + 3` goods.** K3ALG's output on `repeatedGood`: agent 1's slot stays empty (its window
+holds the repeated `g₀`), and the owner, agent 3, gets `g₄, g₆, g₇, g₈`: four goods, while `ω + 2 = 3`. The output
+is EFX₀ (`algo_efx0`). So `Completion.owner_length_eq` needs its hypothesis that the other slots are full, and
+`complete_owner_length` its hypothesis that `H` repeats no good. -/
+theorem repeatedGood_algo :
+    (List.finRange 9).map (fun g => (algo repeatedGood (by decide) g).val) = [0, 0, 2, 1, 3, 2, 3, 3, 3] ∧
+    (bundle (List.finRange 9) (algo repeatedGood (by decide)) (⟨3, by decide⟩ : Fin repeatedGood.n)).length = 4 ∧
+    ((LB.junkList rgP (List.finRange 4) rgUp rgY (List.finRange 9)).length : Int) -
+      LB.slotSum rgP (List.finRange 4) rgUp rgY + 3 = 4 ∧
+    repeatedGood.EFX0 (algo repeatedGood (by decide)) := by
+  refine ⟨?_, ?_, ?_, algo_efx0 repeatedGood (by decide) repeatedGood_relevant⟩
+  · simp only [algo_eq_spec]; decide
+  · simp only [algo_eq_spec]; decide
+  · have := repeatedGood_state
+    rw [this.2.2.2.2.1, this.2.2.2.2.2.1]; rfl
+
+end Examples
+end K3
 
 /-! ## 3. At most two relevant goods: serial dictatorship in any order -/
 
@@ -1131,59 +1203,6 @@ theorem algoRat_efx0 (I : OInst Rat) (hn : 0 < I.n) (hv : ∀ i g, 0 ≤ I.v i g
 
 end K3
 
-/-! ### The remark "a repeated good": K3ALG's owner can get more than `ω + 2` goods -/
-
-namespace K3
-namespace Examples
-
-/-- The instance of the paper's remark "a repeated good" (`paper/k3/examples/`): four agents value `g₀` at 3,
-and agent `i` also values `g_{2i+1}` at 4 and `g_{2i+2}` at 2 (nine goods). -/
-def repeatedGood : Inst := mkInst 4 9 [[3, 4, 2, 0, 0, 0, 0, 0, 0], [3, 0, 0, 4, 2, 0, 0, 0, 0],
-  [3, 0, 0, 0, 0, 4, 2, 0, 0], [3, 0, 0, 0, 0, 0, 0, 4, 2]]
-
-/-- Stage L of K3ALG on `repeatedGood` (nobody is peeled): the rankings, Phase 1's order and picks, and the
-upgraded agents (none). -/
-def rgP : LB.Profile (Fin 4) (Fin 9) := profileOf repeatedGood.v (List.finRange 9) 0
-def rgOrder : List (Fin 4) := LB.r1Order rgP 4 (List.finRange 4) (List.finRange 9)
-def rgY : Fin 4 → Option (Fin 9) := LB.phase1 rgP rgOrder (List.finRange 9)
-def rgUp : List (Fin 4) := LB.lbUp rgP (List.finRange 4) (List.finRange 9) rgY
-
-theorem repeatedGood_relevant : ∀ i, numRelevant repeatedGood i ≤ 3 := by decide
-
-/-- **The state.** K3ALG's output is Stage L's (LB⁺ on all agents and goods). All four agents pick their tops
-(`g₁, g₃, g₅, g₇`), nobody is upgraded, `NA = ∅`, `|J| = 5` and `S = 4`, so `ω = 1 = m − 2n + |NA|`. The owner
-is `r = 3`, and `HitSet(E₃)` is `(g₀, g₀)`: it lists `g₀` twice. -/
-theorem repeatedGood_state :
-    (∀ g, algoSpec repeatedGood (by decide) g = lbStage repeatedGood.v (List.finRange 4) (List.finRange 9)
-      (⟨0, by decide⟩ : Fin repeatedGood.m) (⟨0, by decide⟩ : Fin repeatedGood.n) g) ∧
-    (List.finRange 4).map rgY = [some 1, some 3, some 5, some 7] ∧ rgUp = [] ∧
-    LB.numNA rgP (List.finRange 4) rgUp rgY (List.finRange 9) = 0 ∧
-    (LB.junkList rgP (List.finRange 4) rgUp rgY (List.finRange 9)).length = 5 ∧
-    LB.slotSum rgP (List.finRange 4) rgUp rgY = 4 ∧
-    LB.lastOut rgUp rgOrder = some 3 ∧
-    LB.hitSet rgP (LB.junkList rgP (List.finRange 4) rgUp rgY (List.finRange 9))
-      (LB.exposedL rgP (List.finRange 4) rgUp rgY (List.finRange 9) 3) = [0, 0] := by
-  decide
-
-/-- **The owner gets `ω + 3` goods.** K3ALG's output on `repeatedGood`: agent 1's slot stays empty (its window
-holds the repeated `g₀`), and the owner, agent 3, gets `g₄, g₆, g₇, g₈`: four goods, while `ω + 2 = 3`. The output
-is EFX₀ (`algo_efx0`). So `Completion.owner_length_eq` needs its hypothesis that the other slots are full, and
-`complete_owner_length` its hypothesis that `H` repeats no good. -/
-theorem repeatedGood_algo :
-    (List.finRange 9).map (fun g => (algo repeatedGood (by decide) g).val) = [0, 0, 2, 1, 3, 2, 3, 3, 3] ∧
-    (bundle (List.finRange 9) (algo repeatedGood (by decide)) (⟨3, by decide⟩ : Fin repeatedGood.n)).length = 4 ∧
-    ((LB.junkList rgP (List.finRange 4) rgUp rgY (List.finRange 9)).length : Int) -
-      LB.slotSum rgP (List.finRange 4) rgUp rgY + 3 = 4 ∧
-    repeatedGood.EFX0 (algo repeatedGood (by decide)) := by
-  refine ⟨?_, ?_, ?_, algo_efx0 repeatedGood (by decide) repeatedGood_relevant⟩
-  · simp only [algo_eq_spec]; decide
-  · simp only [algo_eq_spec]; decide
-  · have := repeatedGood_state
-    rw [this.2.2.2.2.1, this.2.2.2.2.2.1]; rfl
-
-end Examples
-end K3
-
 end EFX
 
 /-! ## Axiom certificates (audited by `check.sh`) -/
@@ -1195,6 +1214,7 @@ end EFX
 #print axioms EFX.LB.Completion.owner_length_ge
 #print axioms EFX.LB.Completion.owner_length_eq
 #print axioms EFX.LB.largeBundle_size
+#print axioms EFX.LB.BadCase.omega_le
 #print axioms EFX.LB.complete_owner_length
 #print axioms EFX.K3.Examples.repeatedGood_state
 #print axioms EFX.K3.Examples.repeatedGood_algo
