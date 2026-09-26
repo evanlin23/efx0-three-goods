@@ -9,7 +9,7 @@ Decisions: search4.Core's SAT model, built fresh for each profile with every age
                       the D2 shape; s = c = None: any shape);
   count(prof, cap)    the number of D2 EFX0 allocations, up to cap (blocking clauses; counts are not re-checked).
 Families:
-  chain t [heads h]    H_t of k4/c4.md section 7 (on PR #33's branch proof/k4-c4, not on main); with h > 1, several
+  chain t [heads h]    H_t of k4/c4.md section 7 (row K4.C4.R); with h > 1, several
                        heads, each starting a chain of t gadgets, all ends linked to the shared good z
   cycle t              gadgets only, in a cycle: e_j = g_{(j+1) mod t}, no head (a pure core, n = 4t, m = 10t)
   tree t               gadgets in a binary tree (heap order): gadget j's y links to its first child's g (a leaf's y to
