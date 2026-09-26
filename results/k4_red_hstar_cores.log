@@ -1,0 +1,8 @@
+# which cores hold the 128 profiles of k4/c4min_reduce.md §4.1 (no key at which every (r', Lambda')-maximum is completable; counter FAIL_prof_some_key_every, example tag prof_some_key_every) and §5.1 (big-top profiles without a completable Psi-maximum; tag bt_prof_no_psi_max_comp): every example is printed (-x 100000) and counted per core
+# source: k4/red.c sha1 2528c3b1a5c8e11979b257bd12be6be86c04eebf; git HEAD 964c7798f8e80887e920066a6358360b14e779a9
+# command: python3 k4/red_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz -x 100000 --jobs=2 | grep -E '^k4_certs_[23].json.gz#[0-9]+ (prof_some_key_every|bt_prof_no_psi_max_comp) ' | awk '{print $2, $1}' | sort | uniq -c
+    128 bt_prof_no_psi_max_comp k4_certs_3.json.gz#46
+    128 prof_some_key_every k4_certs_3.json.gz#46
+# the 384 failures of the two-level swap rule of k4/c4min_reduce.md §4.3 (counter FAIL_swap_some_terminal, example tag swap_some_terminal), counted per core the same way:
+# command: python3 k4/red_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz -x 100000 --jobs=1 | grep -E '^k4_certs_[23].json.gz#[0-9]+ (swap_some_terminal) ' | awk '{print $2, $1}' | sort | uniq -c
+    384 swap_some_terminal k4_certs_3.json.gz#46
