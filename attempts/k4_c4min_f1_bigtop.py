@@ -10,7 +10,7 @@ is the smallest n.
 2. A profile with n = 4 on which a maximum of Phi_BT = (-t, r, Lambda, -p), with t and p counted only for a big-top
    frozen agent, is not completable, while the maxima of Psi are (so Theorem F1 is not contradicted): Python lists the
    maxima; k4/c4min_f1.c reports phiBTfail 1 and f1fail 0.
-usage: python3 attempts/k4_c4min_f1_bigtop.py        (about a minute)"""
+usage: python3 attempts/k4_c4min_f1_bigtop.py        (under a second)"""
 import os, subprocess, sys
 HERE = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.dirname(HERE)
 sys.path.insert(0, os.path.join(ROOT, 'k4'))

@@ -28,7 +28,7 @@ The minimum is n = 3: every strict profile with n = 2 has a completable Ψ-maxim
 first FILE line: starfail 0). Among the n = 3 profiles, 128 of the 7,284,544 with f = 1 fail, all on core 46 (the same
 log). The samples with n = 4 and 5 (`results/k4_c4min_f1_samples.log`) have a few more.
 
-**Reproduce.** `python3 attempts/k4_c4min_f1_bigtop.py` (about two minutes). It replays the profile with both implementations:
+**Reproduce.** `python3 attempts/k4_c4min_f1_bigtop.py` (under a second). It replays the profile with both implementations:
 - the independent Python one (`k4/c4min_cfg.py`) lists the maxima of Ψ, (r, Λ, −t), (r, Λ, −t, −p) and Φ′;
 - `k4/c4min_f1.c` reports starfail 1, rltfail 1, phi1fail 0.
 

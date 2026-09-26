@@ -1,3 +1,4 @@
 # k4/c4min_f1.c, every strict profile of the n = 4 cores with one 4-good agent (lemma checks -L); 2026-09-26
 FILE results/k4_certs_4_n4_1.json.gz (135 cores, every profile, 19 s)
   profiles 7247232 f1 28478 configs 1070056 noowner0 11520 maxrl 69622 maxrl_bt 12652 f1fail 0 starfail 0 rltfail 0 cov3 24102 cov4 1436 btomega1 2940 btonly 0 btonly_comp 0 phi1fail 0 phi1fail_btonly 0 L2pool 16688 L2fail 0 poolopt 400 L5cyc 384 L5fail 0 L7paths 16 L7recycle 0 L7rconf 0 L7fail 0 L8cfg 0 L8recycle 0 L8k0down 0 L8k0tie 0 L8k0up 0 L8k1down 0 L8k1tie 0 L8k1up 0 L8k2down 0 L8k2tie 0 L8k2up 0 L8rcdown 0 L8rctie 0 L8rcup 0
+# note: the lines above come from k4/c4min_f1.c before the Φ_BT counter was added (no phiBTfail field); the only later change to the C file is that counter, so the lemma checks are unchanged since 5028edf (compared in the PR #50 review).

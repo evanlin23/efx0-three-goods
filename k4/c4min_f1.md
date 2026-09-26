@@ -1,14 +1,16 @@
 # C₄ᵐⁱⁿ with one frozen agent (f = 1)
 
 Workstream `proof/k4-c4min-f1`, building on `k4/c4min.md` (PR #41): its configurations (§1), Theorem Z (§3),
-Theorem F (§3.6), and the f = 1 roadmap (§4). Ledger rows K4.C4MIN.F1* (CONJECTURE / EVIDENCE only), open item 23.
+Theorem F (§3.6), and the f = 1 roadmap (§4). Ledger rows K4.C4MIN.F1* (F1 PROVED after the PR #50 review, not in Lean;
+F1E CONJECTURE; F1BT REFUTED), open item 23.
 Other PRs are cited in §6.
 
 **Target.** The local improvement lemma of `k4/c4min.md` §4 for configurations with an exposed frozen agent, for
 f = 1: every configuration at the fewest frozen agents without a valid owner has a move that raises a potential.
 Then every maximum of the potential is completable, and C₄ᵐⁱⁿ holds.
 
-**Status.** Written proofs, not yet reviewed; every lemma is checked by brute force (§4). Nothing here changes K4.D or
+**Status.** Written proofs, refereed in the PR #50 review (Lemmas 1–7, 8(a), 8(b) and Theorem F1 correct; 8(c), 8(d)
+correct except in case (E′)); every lemma is checked by brute force (§4). Nothing here changes K4.D or
 K4.T.
 - **Theorem F1** (§2): on every strict profile with fewest frozen agents 1 (and ω ≥ 1), every configuration that
   maximizes Ψ = (#robust agents, Σ levels) and whose frozen agent is **not big-top** has an owner, even without the
@@ -21,10 +23,11 @@ K4.T.
   The frozen agent is exposed at f = 1, which Theorems Z and F excluded. Status by type of x:
   - 3-good x: complete.
   - 4-good x that is not big-top: complete except one sub-case (Lemma 7, double case (E′)), which needs n ≥ 7 agents.
-    So the proof is complete for n ≤ 6, and the sub-case never occurs on the samples (§4).
-- **The big-top case** (§3): a Ψ-maximum without an owner has a big-top frozen agent, and every path move from it is a
-  tie in Ψ. When some terminal is not big-top, the tied move is again a Ψ-maximum, with a frozen agent that is not
-  big-top, so Theorem F1 makes it completable. The remaining profiles are those where every Ψ-maximum has a big-top
+    So the proof is complete for n ≤ 6. The sub-case has no computational evidence: no sample has n ≥ 7 (§4).
+- **The big-top case** (§3): a Ψ-maximum without an owner has a big-top frozen agent, and, except in case (E′) of
+  Lemma 7, every path move from it is a tie in Ψ. When some terminal is not big-top, the tied move is again a
+  Ψ-maximum, with a frozen agent that is not big-top, so Theorem F1 makes it completable (for a 4-good such agent,
+  provided K4.C4MIN.F1E holds; unconditionally for n ≤ 6). The remaining profiles are those where every Ψ-maximum has a big-top
   frozen agent. On some of them no Ψ-maximum is completable (the smallest: n = 3, §3), so no potential that starts
   with (r, Λ) can work there. Protecting only big-top frozen agents first (Φ_BT) fails at n = 4. Conjecture Φ′ of
   `k4/c4min.md` §4, which protects every frozen agent first, has no failure at f = 1 on the runs here, but PR #53
@@ -233,16 +236,19 @@ in each receiver's own values. Each loss term is at most 3, since s is the recei
 This sum is not positive in general. The modified move would need a robust admissible pair of x without s, which may
 not exist.
 
-*Evidence.* Case (E′) never occurs on the samples of §4 (the counter L7rconf is 0 at n ≤ 6), and case (E) is always
-resolved by recycling (L7recycle).
+*Evidence.* None for case (E′). It cannot occur with n ≤ 6: even a single (E′) has an (R) receiver and a (T4) last
+receiver, so k ≥ 2, and the second terminal's walk has at least three free agents, disjoint from τ's path (the PR #50
+referee's count: n ≥ 7 and at least three 4-good agents; the double case needs at least five). Every sample of §4 has
+n ≤ 6, so the counter L7rconf = 0 there follows from the proof and tests nothing. Case (E) is always resolved by
+recycling (L7recycle).
 
 *What would close it.* A proof that in the double case the plain move of one of the two walks raises Ψ, or that the
 double case contradicts f = 1. Lemma 1(c) is the natural tool: it already rules out a single threatening owner.
 
 **Theorem F1.** Let a strict profile of a k = 4 core have fewest frozen agents 1 and ω ≥ 1. Let c maximize Ψ = (r, Λ)
 over all configurations. If c's frozen agent x is 3-good, then some owner of c is valid with C = ∅, and C₄ᵐⁱⁿ holds on
-the profile (`k4/c4min.md` Lemma 1(a)). The same holds when x has four goods and is not big-top, given the double case
-(E′) of Lemma 7, in particular whenever n ≤ 6.
+the profile (`k4/c4min.md` Lemma 1(a)). The same holds when x has four goods and is not big-top, provided K4.C4MIN.F1E
+(the double case (E′) of Lemma 7) holds; unconditionally for n ≤ 6.
 
 *Proof.* Suppose no owner is valid with C = ∅.
 - By Lemma 2, c is pool-optimal.
@@ -250,11 +256,12 @@ the profile (`k4/c4min.md` Lemma 1(a)). The same holds when x has four goods and
 - By Lemma 1(c) some terminal exists, and by Lemma 6 every terminal reaches x.
 - Lemma 7 gives a configuration with larger Ψ (along τ's path or a second terminal's walk), a contradiction. ∎
 
-*An algorithm.* The proof is effective, as for Theorem Z. Repeat until an owner is valid:
+*An algorithm.* The proof is effective, as for Theorem Z. Repeat while no owner is valid and some step raises Ψ:
 - pool improvements;
 - then a rotation (Lemma 5) or a path move (Lemma 7).
 
-Each step raises Ψ, which takes at most (n + 1)(16n + 1) values (r ≤ n, and each level is below 2⁴).
+Each step raises Ψ, which takes at most (n + 1)(15n + 1) values (r ≤ n, and each level is at most 15). The loop ends at a
+valid owner, or at a big-top frozen agent with ω ≥ 2 where every remaining move is a tie (§3; core 46 is an example).
 
 *What is used.* Strict values, |R_i| ≤ 4, balance, f = 1 (Lemma 1(c)), ω ≥ 1. The core's private-goods rule is not
 used; nor is the rule that every good is relevant to someone, which Theorem Z needed.
@@ -271,7 +278,8 @@ used; nor is the rule that every good is relevant to someone, which Theorem Z ne
   - τ is robust and threatens x directly (k = 0);
   - the move is a tie in Ψ: r is unchanged, x's level falls by exactly 1 and τ's rises by exactly 1.
 - (d) In that tie, if τ is not big-top, the moved configuration c′ is again a Ψ-maximum whose frozen agent is not
-  big-top. So c′ has an owner by Theorem F1, and C₄ᵐⁱⁿ holds on the profile.
+  big-top. So c′ has an owner by Theorem F1 (if its frozen agent has four goods,
+  provided K4.C4MIN.F1E holds; unconditionally for n ≤ 6), and C₄ᵐⁱⁿ holds on the profile.
 
 *Proof.*
 - (a) X ∩ R_x ⊆ U_x. If U_x ⊄ X, every X ∖ h is worth at most a pair of U_x, and b + c < a. If U_x ⊆ X, dropping a
@@ -389,7 +397,8 @@ n = 4, 1,500 at n = 5, 200 at n = 6 (one 4-good agent).
 | n = 6, one | 631 | 0 | 0 | 552 / 28 / 51 | 0 / 0 |
 
 Other observations on these samples:
-- Case (E′) never occurs (L7rconf = 0).
+- Case (E′) never occurs (L7rconf = 0), as the proof predicts: it needs n ≥ 7 (§2). This is not evidence for
+  K4.C4MIN.F1E.
 - Case (E) occurs 9 times at n = 5, always resolved by recycling (L7recycle).
 - Φ′ has no failure on any sample.
 - Φ_BT (§3) fails once at n = 5. Its n = 4 failures are in `results/k4_c4min_f1_phibt.log`.
