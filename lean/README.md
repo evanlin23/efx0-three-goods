@@ -27,7 +27,7 @@ showed that a declaration added under `set_option debug.skipKernelTC true` is ne
 without warnings and has no axioms for `#print axioms` or `CheckAxioms.lean` to report; the tripwire refuses the
 option and the replay checker rejects such a declaration. On success the last line is
 
-    CHECK PASSED: 368 audited statements, 1035 theorems, standard axioms only
+    CHECK PASSED: 392 audited statements, 1092 theorems, standard axioms only
 
 CI runs it on every pull request (job `lean` in `.github/workflows/verify.yml`). In Claude Code on the web the
 session-start hook installs the toolchain (from GitHub when `release.lean-lang.org` is unreachable).
@@ -65,8 +65,9 @@ In `EFX/Model.lean` the docstring of `numRelevant` reads "The counting form of 2
 goods `g` with `0 < v i g` and has nothing to do with the bound 2 (`Model.lean` is left untouched, as copied).
 
 Values are natural numbers. EFX₀ only compares sums of values, so rational instances reduce to these by scaling
-each agent's values by a common denominator; nonnegative real values reduce to them by L12 (`proofs/real_values.md`),
-which is machine-checked: see the next section.
+each agent's values by a common denominator (machine-checked for K3ALG: `EFX.ratScale`, `EFX.K3.algoRat_efx0` in
+`EFX/K3Extras.lean`); nonnegative real values reduce to them by L12 (`proofs/real_values.md`), which is
+machine-checked: see the next section.
 
 ### Values in an ordered type (`EFX/RealValues.lean`)
 
@@ -90,7 +91,7 @@ model is mirrored for such values (`Model.lean` is unchanged):
 
 These are the axioms of a linearly ordered cancellative additive commutative monoid. `ℝ≥0`, `ℚ≥0` and `ℕ` satisfy
 them (so do `ℝ`, `ℚ`, `ℤ`); core Lean has no `ℝ`, so the `ℝ≥0` instance is the textbook fact, while the instances
-for `Nat` and `Int` are in the file. Nonnegativity is not an axiom but a hypothesis of the theorems
+for `Nat` and `Int` are in the file, and the one for core Lean's `Rat` in `EFX/K3Extras.lean`. Nonnegativity is not an axiom but a hypothesis of the theorems
 (`∀ i g, 0 ≤ I.v i g`), which keeps the class to the order-and-sum axioms and lets `Int` (or `ℝ`) values with that
 hypothesis in. A good is relevant iff `¬ v i g ≤ 0` (that is, `v i g > 0`), and balance is
 `I.v i g + I.v i g ≤ finSumO I.m (I.v i)`. At `V = Nat` the mirrored model is the trusted base
@@ -246,6 +247,27 @@ specializations) have exactly the types of `EFX.target`, `EFX.LB.corollaryD` (ch
     on every instance.
   - `K3Examples`: three instances checked by `decide`.
   `scripts/k3_eval.lean` runs `algo` and prints the count by `#eval`.
+- `EFX/K3Extras.lean`: four results of the k = 3 paper (`paper/k3/`) that were written only (ledger K3.LASTBLOCK,
+  K3.SIZE, K3.SD2, K3.RAT).
+  - `r` lies in the last block: `EFX.LB.lastOut_lastBlock` (in the setting of `EFX.LB.lastOut_terminal`) and the
+    general `EFX.LB.blk_le_lastOut` (Phase 1 in any order; no upgraded agent picks its top).
+  - The size of the large bundle, for every valid pre-allocation: `EFX.LB.numFrozen_eq_numNA` (`|F| = |NA|`),
+    `EFX.LB.omega_eq` (`ω = |J| − S = m − 2n + |NA|`), `EFX.LB.Completion.owner_length_ge` (every completion with an
+    owner gives it at least `ω + 2` goods), `EFX.LB.Completion.owner_length_eq` (exactly `ω + 2` when the other
+    terminals' slots are full), together `EFX.LB.largeBundle_size`; `EFX.LB.BadCase.omega_le` (the rotation does
+    not increase `ω`); `EFX.LB.complete_owner_length` (K3ALG's completion `complete` fills every other slot when `H`
+    repeats no good, so its owner gets exactly `ω + 2`); `EFX.K3.Examples.repeatedGood_state`,
+    `EFX.K3.Examples.repeatedGood_algo` (the paper's remark "a repeated good", by `decide`: `HitSet = (g₀, g₀)`,
+    `ω = 1`, and K3ALG's owner gets `ω + 3 = 4` goods).
+  - At most two relevant goods: `EFX.SDRun` (every run of serial dictatorship: any order, any favourite at every
+    step, the last agent takes the rest), `EFX.sdRun_efx0` (over lists) and `EFX.Inst.sdRun_efx0` (model): every
+    run is EFX₀; `EFX.Inst.serialDict`, a computable run, and `EFX.Inst.serialDict_efx0`; example
+    `EFX.K3.Examples.twoRel_serialDict`.
+  - Rational values: `OrderedValue Rat`; `EFX.denProd`, `EFX.scaleNat`, `EFX.ratScale` (each agent's values times
+    the product of their denominators, as natural numbers); `EFX.scaleNat_cast`, `EFX.agree_scaleNat`,
+    `EFX.ratScale_agree` (every subset-sum comparison preserved), `EFX.ratScale_relevant`,
+    `EFX.ratScale_numRelevant`, `EFX.ratScale_efx0_iff`; `EFX.K3.algoRat` (K3ALG on the scaled values) and
+    `EFX.K3.algoRat_efx0`.
 - `EFX/K4MinCex.lean`: the minimal-counterexample chain at k = 4 (`k4/MINCEX.md`, ledger K4.MC0–K4.MC7).
   K4.MC1: M1 and M1(b) in semantic form (`EFX.MinCex.Extension`, `EFX.MinCex.m1_efx0`, `EFX.MinCex.m1_reduce`);
   K4.MC0 (a)–(c) in inductive form over a hereditary class (`EFX.MinCex.core_reduction4_class`, `EFX.MinCex.mc0`);
@@ -318,6 +340,10 @@ name in the ledger's Lean column has one.
 | K3.ALG | Algorithm K3ALG (`proofs/k3_algorithm.md`): peel by R1 (or R1 with `P = ∅`), then LB⁺ with computed rankings and `r1Order`; for every instance with `n ≥ 1` in which every agent has at most three relevant goods, `algo I hn` is EFX₀; `algo` (computable) is the value of the counted program `algoC` and equals the specification | K3Cost : `EFX.K3.algo_efx0`, `EFX.K3.algo_eq_spec`; K3Algo : `EFX.K3.algoSpec_efx0`, `EFX.K3.reduce_sound`, `EFX.K3.lbStage_sound` |
 | K3.ALG.TIME | Running time: `(algoC I hn).cost ≤ 400 (n + m + 1)⁴` for every instance with `n ≥ 1` (cost model of `proofs/k3_algorithm.md` §6 and `EFX.K3CostLB`) | K3CostBound : `EFX.K3.algoC_cost`, `EFX.K3.algoC_cost'` (`≤ 6400 (n + m)⁴`), `EFX.K3.lbPlusC_cost`, `EFX.K3.reduceC_cost`; Timed : `EFX.Timed.mkTable_cost` |
 | K3.OWNER | Proposition O: `r` is a valid owner (some `H` fits) exactly when `hitSet` fits, so LB⁺'s owner test needs no minimum hitting set | OwnerR : `EFX.LB.validOwner_iff` |
+| K3.LASTBLOCK | `r`, the last agent of Phase 1 not upgraded, lies in the last block: every agent's block (`blkAux`) is at most `r`'s, and `r`'s block is the last processed agent's | K3Extras : `EFX.LB.lastOut_lastBlock`, `EFX.LB.blk_le_lastOut` |
+| K3.SIZE | Size of the large bundle: for a valid pre-allocation, `\|F\| = \|NA\|` and `ω = \|J\| − S = m − 2n + \|NA\|`; every completion with an owner (terminal or upgraded) gives it at least `ω + 2` goods, exactly `ω + 2` with the other terminals' slots full; the rotation does not increase `ω`; K3ALG's `complete` with `H` repeating no good gives exactly `ω + 2`; with a repeated good K3ALG's owner can get `ω + 3` (the paper's example) | K3Extras : `EFX.LB.largeBundle_size`, `EFX.LB.omega_eq`, `EFX.LB.numFrozen_eq_numNA`, `EFX.LB.Completion.owner_length_ge`, `EFX.LB.Completion.owner_length_eq`, `EFX.LB.BadCase.omega_le`, `EFX.LB.complete_owner_length`, `EFX.K3.Examples.repeatedGood_state`, `EFX.K3.Examples.repeatedGood_algo` |
+| K3.SD2 | `\|R_i\| ≤ 2` for all `i` (values in ℕ) ⟹ every run of serial dictatorship (any order of all agents, any favourite at every step, the last agent takes the rest) is EFX₀ | K3Extras : `EFX.Inst.sdRun_efx0`, `EFX.Inst.serialDict_efx0` (model), `EFX.sdRun_efx0`, `EFX.serialDict_run` (over lists), `EFX.K3.Examples.twoRel_serialDict` |
+| K3.RAT | Rational values: scaling each agent's nonnegative rational values by the product of their denominators preserves every comparison of subset sums (so relevance and EFX₀); K3ALG on the scaled values is EFX₀ for the rational values when every agent has at most three relevant goods | K3Extras : `EFX.K3.algoRat_efx0`, `EFX.ratScale_agree`, `EFX.agree_scaleNat`, `EFX.scaleNat_cast`, `EFX.ratScale_val`, `EFX.ratScale_relevant`, `EFX.ratScale_numRelevant`, `EFX.ratScale_efx0_iff` |
 | AUD | Independently written TARGET and D (list bundles partitioning the goods) follow from `EFX.target` and `EFX.LB.corollaryD` | Audit : `Audit.target_audit`, `Audit.corollaryD_audit` |
 
 mrd-efx proves a stronger form of L2c (`MRD.main_theorem_L`: in addition, all bundles but one have at most one
@@ -340,7 +366,8 @@ good), and extends it to monotone valuations.
 - S2.S: LB's rule for choosing Phase 1's processing order (R1 keys, insertion lookahead); the theorems hold for
   every order. That `EFX.LB.lb` is the algorithm of `src/construct.py` is checked by running both
   (`scripts/lb_crosscheck.py`), not proved. That LB never fails (S2.LB) is a conjecture. Lemma 2 (the size of the
-  large bundle) is not formalized. `EFX.LB.lb_sound` reads its conclusion through the definitions of
+  large bundle) is not formalized for LB's own output (its count `ω = |NA| − σ` holds for every valid pre-allocation,
+  `EFX.LB.omega_eq`, and LB's state after its upgrades is one, `EFX.LB.lbState_valid`). `EFX.LB.lb_sound` reads its conclusion through the definitions of
   `EFX/LBRun.lean` (what `lb` computes) and `EFX.LB.Profile.Consistent`, which a reader must accept along with the
   trusted base; `EFX.LB.sound` needs only `Profile.Consistent`, `Profile.NA` and `Hyp`.
 - LB₄ʳ (`EFX/LB4R.lean`) is defined relationally where the text searches; where the prose leaves room, the choices
@@ -354,8 +381,8 @@ good), and extends it to monotone valuations.
   uses the text's caps (`cap = 2 − |B|` for every free agent, a rotated one included); `ownerSearch_exact`
   takes any slot count `s` up to the other agents' slots and the hypothesis `|B_o| + |J| ≥ s + 3`, which also
   covers `k4/lb4.c`'s `s₀` (a rotated agent gets no slot there).
-- LB⁺ (`proofs/lb_last_step.md` §7 and Remark 1): the size of the large bundle (`ω + 2` goods), that the rotation
-  does not enlarge it, and S2.LB (LB's own lookahead never reaches the bad case, a conjecture). That `EFX.LB.lbPlus`
+- LB⁺ (`proofs/lb_last_step.md` §7): S2.LB (LB's own lookahead never reaches the bad case, a conjecture). (Remark 1,
+  the size of the large bundle and that the rotation does not enlarge it, is in `EFX/K3Extras.lean`.) That `EFX.LB.lbPlus`
   computes what `src/lbplus.py` computes is checked only on the two `decide` examples in `EFX/LBPlus.lean`.
 
 ## LB⁺, conjecture D and TARGET (`proofs/lb_last_step.md`)
@@ -394,7 +421,8 @@ Readings and deliberate differences:
   which can reject a valid `r` (example `exampleQ5` in `EFX/LBPlus.lean`: `r` is valid only through a shared
   good). `validOwner_iff` makes the test computable: `hitSet` fits.
 - `B*` is defined as `r`'s block, and `k*` as the agent exposed for `r` in it; (A2) (it is the last block) is not
-  needed, and in the bad case `k*` is its leader (`exposed_lead`).
+  needed (it is proved separately: `EFX.LB.lastOut_lastBlock`), and in the bad case `k*` is its leader
+  (`exposed_lead`).
 - Examples by `decide` (`EFX/LBPlus.lean`): a run on which LB fails and LB⁺ rotates (n = 3), a rotation with owner
   `k*` (n = 5), and the example above; the first two outputs equal `src/lbplus.py`'s.
 - Balance with ties: valuations consistent with the rankings have `a ≥ b ≥ c > 0` and `a ≤ b + c`
