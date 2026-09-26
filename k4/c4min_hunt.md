@@ -5,9 +5,24 @@ K4.C4MINH.* (EVIDENCE only). Target: conjecture C₄ᵐⁱⁿ of `k4/c4x.md` §5
 K4.C4X.MIN there): for every strict profile of every k = 4 core, some valid pre-allocation in 𝒫 with the fewest frozen
 agents has deficit ≤ 0 (is removal-only completable, with the owner's needs from its bundle).
 
-**Status (work in progress; numbers below are final only where a log is cited).** No counterexample found.
-
-Nothing here changes K4.D or K4.T.
+**Status. No counterexample to C₄ᵐⁱⁿ found.** Everything here is EVIDENCE (one exact implementation per exhaustive
+class, no stored certificates; random and local search elsewhere). Nothing here changes K4.D or K4.T.
+- **Exhaustive** (§2): C₄ᵐⁱⁿ holds on every strict profile of every k = 4 core with n ≤ 4 (with PR #36's runs), with
+  n = 5 and at most three 4-good agents, and with n = 6 and one 4-good agent: about 6.6·10¹² profiles, 0 failures.
+- **Adversarial** (§3): hill-climbing toward "an owner is needed and the best min-frozen pre-allocation has positive
+  deficit" on all 14,520 n = 5 cores with four or five 4-good agents (three objective orders, 13 restarts per core,
+  then 20 more on the 400 tightest), 1,600 random cores with n = 6–8, glued pairs of small cores, and from the hard
+  profiles of PR #36 and PR #30: the least deficit d* reaches 0 on many cores and never 1.
+- **Structured families** (§4): H_t of `k4/c4.md` §7 with §7's values up to t = 16 and about 24,000 random and
+  perturbed profiles of H_4–H_10, gadget chains, cycles, trees and grids (n up to 68, exact test, SAT for the large
+  ones); owner-rigid and tight gadgets glued in pairs (3.6 million glued profiles) and in chains, cycles and stars of
+  up to five (4,000): 0 failures.
+- **The weaker forms** (some min-frozen P completable with any deficit; K4.D by SAT) were never needed: C₄ᵐⁱⁿ itself
+  held everywhere. **A stronger form fails** (§5): with the owner's needs from its base instead of its bundle, beyond
+  PR #36's n = 2 cases, on 26,496 pure n = 4 profiles (smallest m = 8), confirmed by three implementations; C₄ᵐⁱⁿ holds
+  on all of them, so its bundle needs are essential.
+- Not done: n = 5 with four or five 4-good agents exhaustively (4·10¹⁴ and 9·10¹⁵ profiles; only two order-type
+  classes per agent, §2.1, running when this was written) and anything exhaustive with n ≥ 6 beyond one 4-good agent.
 
 ## 1. Definitions and tools
 
@@ -72,7 +87,12 @@ Tools (all in `k4/`):
   profiles of every class with n ≤ 5, `c4min_hunt.c -1` against `k4/c4x.c -1s -R -a` (f*, d*, the numbers of valid,
   min-frozen and good pre-allocations) and, for n ≤ 4 and m ≤ 8, against the brute force (the same, and (W1)); and
   `c4min_hunt.c` against itself with the plain enumeration of C (`-D`) and with static and dynamic agent orders
-  (`-Y0`, `-Y1`), on all outputs including a checksum of the deficits of all valid pre-allocations. (numbers below)
+  (`-Y0`, `-Y1`), on all outputs including a checksum of the deficits of all valid pre-allocations: 4,254 random
+  profiles (n = 2–5, both owner-needs conventions), 2,606 of them also against the brute force, 0 mismatches.
+- **The SAT encoding** (`k4/c4min_sat.py`, §4) against `c4min_hunt.c` (`k4/c4min_satcheck.py`,
+  `results/k4_c4min_hunt_satcheck.log`): f*, whether C₄ᵐⁱⁿ holds, d*, and, where an owner is needed, the exact set of
+  agents that can be the owner (`c4min_hunt.c -1o`), on 1,353 random profiles (n = 3–8; 445 with an owner needed):
+  0 mismatches.
 - The brute force is also the referee of certificates on large instances: `verify_certificate` rebuilds the completion
   from (bases, owner, C) and checks it EFX₀ by the raw definition; used on samples of every family in §4.
 
@@ -97,6 +117,13 @@ agents, and with n = 6 and one 4-good agent** (about 6.6·10¹² profiles in all
 agents (the classes of §3's climbing and of §2.1's restricted runs). Each row is one
 implementation (`k4/c4min_hunt.c`), so the status is EVIDENCE; the certificates (templates) are not stored.
 
+### 2.1 n = 5 with four or five 4-good agents, two order-type classes
+
+(running; `results/k4_c4min_hunt_classes.log`) Every 4-good agent restricted to the 48 strict types of two order-type
+classes (`k4/c4min_common.py` `type_class`; the rest of the profile space is only climbed, §3): classes 10, 11
+(a > b + c, the kind of G1 in `k4/c4x.md` §5 and of the `-w0` counterexample of §5) and classes 0, 1 (flat, a < c + d,
+G4). 3-good agents keep all their types.
+
 ## 3. Adversarial search
 
 **Climber** (`k4/c4min_hunt.c -H`, driver `k4/c4min_climb.py`). A profile is scored lexicographically by
@@ -117,6 +144,13 @@ No profile with d* > 0. Best score per core:
 
 So on 1,860 cores the climber reaches profiles where an owner is needed and the best witness has no slack at all
 (d* = 0), and on 3,802 cores profiles with a single witness; none goes further.
+
+**Second n = 5 campaign** (`results/k4_c4min_hunt_climb_n5_b.log`; per-core bests in `…_climb_n5_b.jsonl.gz`): the
+same 14,520 cores with the order (−good, d*) and 6 restarts, then with (owner needed, f*, −good, d*), annealing (3%)
+and 4 restarts of up to 4,000 moves, and PR #30's eight GM₄ profiles as starting points (20 restarts of up to 20,000
+moves): no profile with d* > 0 (d* = 0 on 227 and 193 cores). **The 400 tightest cores** of this campaign (an owner
+needed; highest d*, then fewest witnesses: from d* = 0 with two witnesses to d* = −1 with one) re-climbed with 20
+annealed restarts of up to 10,000 moves each (`results/k4_c4min_hunt_climb_tight.log`): d* = 0 on 222, never above.
 
 **Profiles where simpler potentials fail** (`results/k4_c4min_hunt_attempts.log`): the 11 distinct profiles of PR
 #36's `attempts/k4-c4x-*.md` (n ≤ 4) and PR #30's eight n = 5 GM₄ profiles (`k4/gm4.md`,
@@ -143,7 +177,13 @@ owner can absorb must be protected through slots instead; two such gadgets with 
 candidate for a failure that no small core shows. 83 owner-rigid profiles among 20,400 random profiles of the 51 n = 3
 cores, 4 among 33,480 of the n = 4 cores with three or four 4-good agents. 230 random pairs, glued in every way: every
 pair of goods identified (12,230 profiles), or a connector agent on every pair of goods with every one of its types
-(1,761,120 profiles, exhaustive over the connector's type with `-E`): **0 failures**.
+(1,761,120 profiles, exhaustive over the connector's type with `-E`): **0 failures**. The same with the 420 tightest
+n = 5 profiles of the second campaign as gadgets (an owner needed, d* = 0; 200 random pairs, n = 10–11): 12,808 merged
+and 1,844,352 connected profiles, 0 failures.
+
+**Chains, cycles and stars of tight gadgets** (`k4/c4min_chains.py`, `results/k4_c4min_hunt_chains.log`): 4,000
+composites of 2–5 of those 420 gadgets (random with repetition), joined along a path, a cycle or a star by shared goods
+or connector agents with random types (n up to about 30), each checked with the SAT encoding: 0 failures.
 
 ## 4. Structured families
 
@@ -214,7 +254,7 @@ Every log starts with its command, the commit and the sha1 of `k4/c4min_hunt.c`.
 | `attempts` | the hard profiles of PR #36 and PR #30 | `k4_c4min_hunt_attempts.log` | seconds |
 | `climb5`, `climb5b`, `climbtight` | climbing on n = 5 (§3) | `k4_c4min_hunt_climb_n5_45.log`, `k4_c4min_hunt_climb_n5_b.log` (+ `.jsonl.gz`), `k4_c4min_hunt_climb_tight.log` | 11 min (one CPU), 25 min, 10 min |
 | `climbrand`, `climbrand2`, `climbglue`, `climbfam` | climbing on random, glued and family cores | `k4_c4min_hunt_climb_rand.log`, `k4_c4min_hunt_climb_glue.log`, `k4_c4min_hunt_climb_fam.log` | about 1 h (one CPU) |
-| `rigid`, `rigid5`, `chains` | glued gadgets (§4.3) | `k4_c4min_hunt_rigid.log`, `k4_c4min_hunt_chains.log` | minutes |
+| `rigid`, `rigid5`, `chains` | glued gadgets (§3) | `k4_c4min_hunt_rigid.log`, `k4_c4min_hunt_chains.log` | minutes |
 | `families`, `famsat`, `famlt`, `climbsat` | structured families (§4) | `k4_c4min_hunt_families.log`, `k4_c4min_hunt_famsat.log`, `k4_c4min_hunt_climbsat.log` | about 1 h |
 
 `climbtight`, `rigid5` and `chains` read `results/k4_c4min_hunt_climb_n5_b.jsonl`, which is committed gzipped

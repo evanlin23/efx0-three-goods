@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Chains, cycles and stars of tight gadgets (k4/c4min_hunt.md §4.3), checked with the SAT encoding k4/c4min_sat.py.
+"""Chains, cycles and stars of tight gadgets (k4/c4min_hunt.md §3), checked with the SAT encoding k4/c4min_sat.py.
 
 Gadgets: the profiles of a climber dump (k4/c4min_climb.py --dump) where an owner is needed and d* = 0 (no slack at
 all), each a small core with its profile. A composite takes L gadgets (random, with repetition), relabels their goods

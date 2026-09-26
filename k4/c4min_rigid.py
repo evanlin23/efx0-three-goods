@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Owner-rigid gadgets glued in pairs (k4/c4min_hunt.md §4.3).
+"""Owner-rigid gadgets glued in pairs (k4/c4min_hunt.md §3).
 
 A profile of a small core is *owner-rigid* if an owner is needed (f* > sigma) and exactly one agent o has a
 min-frozen pre-allocation with deficit <= 0 when only o may own (k4/c4min_hunt.c -1o). Two rigid gadgets A, B with
