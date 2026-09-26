@@ -8,7 +8,7 @@ Profiles: every strict profile (--all, or when the product of the domains is at 
 ones per core. Cores: k = 4 certificates ({'cores': [...]}) or k = 3 certificates (list of records with 'sets').
 
 Usage: python3 k4/induct_ps.py FILE [FILE ...] [--samples=S] [--seed=K] [--jobs=J] [--all] [--max-all=N]
-         [--max-cores=C] [--log=OUT]
+         [--max-cores=C] [--n=N] [--log=OUT]      (--n: only the cores with N agents)
        python3 k4/induct_ps.py --general [--per=N] [--seed=K] [--jobs=J] [--log=OUT]
   --general: random general additive instances (not cores), n = 3 (m = 4..8) and n = 4 (m = 4..7), values 0..R
   (R = 2, 3, 10; each value 0 with probability pz = 0, 0.3, 0.6), N per (n, m, R, pz); PS(I, w) for every agent.
@@ -112,6 +112,7 @@ def main():
     work = []; nall = 0
     for fn in files:
         for sets, m in load_cores(fn)[:maxc]:
+            if 'n' in opt and len(sets) != int(opt['n']): continue
             deg = [sum(g in S for S in sets) for g in range(m)]
             doms = [domain(S, deg) for S in sets]
             tot = 1

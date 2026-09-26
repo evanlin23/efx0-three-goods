@@ -18,8 +18,8 @@ X′; an *insertion lemma* would turn X′ into an EFX₀ allocation of I by pla
   EFX₀ **iff nobody envies w in X′**. So the step needs the right X′, never a repair.
 - *Prescribed source* (PS(J, w)): J has an EFX₀ allocation in which nobody envies w. **Conjecture PS₄** (K4.IND.PS):
   PS holds for every agent of every instance with ≤ 4 relevant goods per agent. No failure in any test (§4): every
-  strict profile of every k = 4 core with n = 2 (630,720 tests), every profile of the 251 connected k = 3 cores with
-  n = 5, 6 of `results/certs_5_6.json.gz`, samples of k = 4 cores with n ≤ 6, the chain cores H_1–H_5 of `k4/c4.md` §7
+  strict profile of every k = 4 core with n = 2 (630,720 tests), 14.8 million profiles of the n = 3 k = 4 cores, samples
+  of the k = 4 cores with n ≤ 6, k = 3 cores with n = 5 (exhaustively) and 6, the chain cores H_1–H_5 of `k4/c4.md` §7
   (n ≤ 21, by SAT, D2 shape), and 162,000 random general additive instances (zeros and ties allowed).
 - *Conditional step* (§3, Theorem 4, written proof): if PS holds on the instances with ≤ j four-good agents, then every
   instance with ≤ j + 1 four-good agents in which some 4-good agent has a private good has an EFX₀ allocation, and a
@@ -244,7 +244,7 @@ chain cores:
 | k = 4 cores with n = 3: 14,782,912 profiles (35 cores exhaustively, 16 with 100,000 random profiles each) | 44,348,736 PS(I, w) + 49,737,600 PS(I − p, w) | 0 / 0 | `results/k4_induct_ps_k4_n3.log` |
 | every k = 4 core with n = 4 or 5 (32,586 cores): 20 random profiles each (651,720) | 3,238,560 PS(I, w) + 1,497,520 PS(I − p, w) | 0 / 0 | `results/k4_induct_ps_k4_n45.log` |
 | every k = 4 core with n = 6 and one 4-good agent (26,866 cores): 3 random profiles each (80,598) | 483,588 PS(I, w) + 57,453 PS(I − p, w) | 0 / 0 | `results/k4_induct_ps_k4_n6_1.log` |
-| every ranking profile of the 251 connected k = 3 cores of `results/certs_5_6.json.gz` (n = 5, m = 9; n = 6, m = 10, 11) | see log | see log | `results/k4_induct_ps_k3_56.log` |
+| k = 3 cores of `results/certs_5_6.json.gz`: every ranking profile of the 15 with n = 5 (116,640), 200 random profiles of each of the 236 with n = 6 (47,200) | 583,200 + 283,200 PS(I, w) | 0 / 0 | `results/k4_induct_ps_k3_n5.log`, `results/k4_induct_ps_k3_n6.log` |
 | H_1–H_5 (`k4/c4.md` §7; n = 5, 9, 13, 17, 21), SAT | every agent (65) and every private-good insertion | 0 (D2) | `results/k4_induct_ht.log` |
 | random general additive, n = 3 (m = 4..8), n = 4 (m = 4..7), values 0..R with zeros and ties | 162,000 instances, 558,000 tests | 0 | `results/k4_induct_ps_general.log` |
 
@@ -420,8 +420,13 @@ python3 k4/induct_run.py results/k4_certs_5_n4_1.json.gz results/k4_certs_5_n4_2
 python3 attempts/k4_induct_attempts.py                                    # every failure above, by brute force, < 1 s
 python3 k4/induct_ps.py results/k4_certs_2.json.gz --all --jobs=2 --log=results/k4_induct_ps_k4_n2.log
 python3 k4/induct_ps.py results/k4_certs_3.json.gz --max-all=3000000 --samples=100000 --jobs=2 --log=results/k4_induct_ps_k4_n3.log  # ~20 min
+python3 k4/induct_ps.py results/k4_certs_4_n4_1.json.gz results/k4_certs_4_n4_2.json.gz results/k4_certs_4_n4_3.json.gz \
+    results/k4_certs_4_pure.json.gz results/k4_certs_5_n4_1.json.gz results/k4_certs_5_n4_2.json.gz results/k4_certs_5_n4_3.json.gz \
+    results/k4_certs_5_n4_4.json.gz results/k4_certs_5_pure.json.gz --samples=20 --seed=5 --jobs=2 --log=results/k4_induct_ps_k4_n45.log  # ~20 min
 python3 k4/induct_ps.py --general --per=2000 --jobs=2 --log=results/k4_induct_ps_general.log
-python3 k4/induct_ps.py results/certs_5_6.json.gz --all --jobs=4 --log=results/k4_induct_ps_k3_56.log   # ~3 h
+python3 k4/induct_ps.py results/certs_5_6.json.gz --n=5 --all --jobs=4 --log=results/k4_induct_ps_k3_n5.log
+python3 k4/induct_ps.py results/certs_5_6.json.gz --n=6 --samples=200 --seed=8 --jobs=4 --log=results/k4_induct_ps_k3_n6.log
+python3 k4/induct_ps.py results/k4_certs_6_n4_1.json.gz --samples=3 --seed=6 --jobs=2 --log=results/k4_induct_ps_k4_n6_1.log
 (cd k4 && for t in 1 2 3 4 5; do python3 induct_sat.py ht $t --d2; done) > results/k4_induct_ht.log   # ~5 min
 (cd k4 && python3 induct_sat.py crosscheck 400 1 ../results/k4_certs_3.json.gz ../results/k4_certs_4_n4_2.json.gz \
     ../results/k4_certs_4_pure.json.gz) > results/k4_induct_ps_satcheck.log
@@ -431,6 +436,11 @@ python3 k4/induct_lbo.py results/certs_lb_2_6.json.gz --n=4 --all --jobs=2 --las
 python3 k4/induct_lbo.py results/certs_lb_2_6.json.gz --n=5 --all --jobs=2 --last --partial --rot --log=results/k4_induct_lbo_n5.log
 python3 k4/induct_lbo.py --from-k4 results/k4_certs_2.json.gz results/k4_certs_3.json.gz --all --jobs=2 --last --partial --rot \
     --log=results/k4_induct_lbo_k4_n23.log
+python3 k4/induct_lbo.py --from-k4 results/k4_certs_4_n4_1.json.gz --all --jobs=2 --last --partial --rot --log=results/k4_induct_lbo_k4_n4_all.log
+python3 k4/induct_lbo.py --from-k4 results/k4_certs_5_n4_1.json.gz --samples=20 --seed=5 --jobs=2 --last --partial --rot --log=results/k4_induct_lbo_k4_n5.log
+python3 k4/induct_lbo.py results/certs_lb_2_6.json.gz --n=6 --samples=20 --seed=3 --jobs=2 --last --partial --rot --log=results/k4_induct_lbo_n6.log
+python3 k4/induct_lbo.py --lemmas results/certs_lb_2_6.json.gz --n=5 --jobs=2 --log=results/k4_induct_lbo_lemmas_n5.log   # ~25 min
+python3 k4/induct_lbo.py --by-type results/certs_lb_2_6.json.gz --n=4 --jobs=2 --log=results/k4_induct_lbo_bytype_n4.log
 ```
 The variants of LBO (each ingredient dropped; every run) are listed with their commands in
 `results/k4_induct_lbo_variants.log`.
