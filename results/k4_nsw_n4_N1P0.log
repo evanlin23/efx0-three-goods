@@ -1,0 +1,25 @@
+command: python3 k4/nsw_run.py results/k4_certs_4_n4_1.json.gz results/k4_certs_4_n4_2.json.gz results/k4_certs_4_n4_3.json.gz results/k4_certs_4_pure.json.gz --sample=10000 --seed=4 -N1 -P0 -i0 -w1 -c1 -f3 --jobs=3 --show=6
+binary: /tmp/k4_lb4_nsw_0c5cf9b5d73668f2 (sha256 of k4/lb4_nsw.c: 0c5cf9b5d73668f2668a7441b103e925afad7298b8f5ded7c3211db14fd310de)
+  DEADEND(no improving rotation) policy u1 after 1 moves:  n=4 m=6 sets=[[0,1,2,5],[1,2,4,5],[3,4,5],[3,4,5]] vals=[[6,7,2,10],[8,3,10,4],[2,3,4],[3,2,4]] order=0 1 3 2  picks=-2,4,5,3 blocks=0,0,0,0 upg=0:7  frozen=2  J=0 w=-2
+  DEADEND(no improving rotation) policy u2 after 1 moves:  n=4 m=6 sets=[[0,1,2,5],[1,2,4,5],[3,4,5],[3,4,5]] vals=[[6,7,2,10],[8,3,10,4],[2,3,4],[3,2,4]] order=0 1 3 2  picks=-2,4,5,3 blocks=0,0,0,0 upg=0:7  frozen=2  J=0 w=-2
+  DEADEND(no improving rotation) policy u0 after 1 moves:  n=4 m=6 sets=[[0,1,2,5],[1,2,4,5],[3,4,5],[3,4,5]] vals=[[6,7,2,10],[8,3,10,4],[2,3,4],[3,2,4]] order=0 1 3 2  picks=-2,4,5,3 blocks=0,0,0,0 upg=0:7  frozen=2  J=0 w=-2
+  DEADEND(no improving rotation) policy u1 after 1 moves:  n=4 m=6 sets=[[0,1,2,5],[1,2,4,5],[3,4,5],[3,4,5]] vals=[[7,2,4,10],[6,5,8,4],[3,2,4],[3,2,4]] order=0 1 2 3  picks=-2,4,5,3 blocks=0,0,0,0 upg=0:7  frozen=2  J=0 w=-2
+  DEADEND(no improving rotation) policy u2 after 1 moves:  n=4 m=6 sets=[[0,1,2,5],[1,2,4,5],[3,4,5],[3,4,5]] vals=[[7,2,4,10],[6,5,8,4],[3,2,4],[3,2,4]] order=0 1 2 3  picks=-2,4,5,3 blocks=0,0,0,0 upg=0:7  frozen=2  J=0 w=-2
+  DEADEND(no improving rotation) policy u0 after 1 moves:  n=4 m=6 sets=[[0,1,2,5],[1,2,4,5],[3,4,5],[3,4,5]] vals=[[7,2,4,10],[6,5,8,4],[3,2,4],[3,2,4]] order=0 1 2 3  picks=-2,4,5,3 blocks=0,0,0,0 upg=0:7  frozen=2  J=0 w=-2
+k4_certs_4_n4_1.json.gz: profiles 1350000, all three policies fail 112 (of which with a no-improving-rotation dead end 0)
+    u1: ok 1349888, dead end without a valid rotation 112, without an improving one 0, undecided 0, raw failures 0; rotations used (0..6, 7+) [1322491, 27397, 0, 0, 0, 0, 0, 0], max 1
+    u2: ok 1349888, dead end without a valid rotation 112, without an improving one 0, undecided 0, raw failures 0; rotations used (0..6, 7+) [1322478, 27410, 0, 0, 0, 0, 0, 0], max 1
+    u0: ok 1349754, dead end without a valid rotation 246, without an improving one 0, undecided 0, raw failures 0; rotations used (0..6, 7+) [1321930, 27824, 0, 0, 0, 0, 0, 0], max 1
+k4_certs_4_n4_2.json.gz: profiles 3090000, all three policies fail 1881 (of which with a no-improving-rotation dead end 325)
+    u1: ok 3088046, dead end without a valid rotation 1573, without an improving one 381, undecided 0, raw failures 0; rotations used (0..6, 7+) [3011708, 76294, 44, 0, 0, 0, 0, 0], max 2
+    u2: ok 3088055, dead end without a valid rotation 1580, without an improving one 365, undecided 0, raw failures 0; rotations used (0..6, 7+) [3010727, 77244, 84, 0, 0, 0, 0, 0], max 2
+    u0: ok 3087612, dead end without a valid rotation 1984, without an improving one 404, undecided 0, raw failures 0; rotations used (0..6, 7+) [3007697, 79795, 120, 0, 0, 0, 0, 0], max 2
+k4_certs_4_n4_3.json.gz: profiles 3390000, all three policies fail 2273 (of which with a no-improving-rotation dead end 375)
+    u1: ok 3387572, dead end without a valid rotation 1959, without an improving one 469, undecided 0, raw failures 0; rotations used (0..6, 7+) [3297426, 90020, 124, 2, 0, 0, 0, 0], max 3
+    u2: ok 3387559, dead end without a valid rotation 2022, without an improving one 419, undecided 0, raw failures 0; rotations used (0..6, 7+) [3292987, 94319, 248, 5, 0, 0, 0, 0], max 3
+    u0: ok 3387147, dead end without a valid rotation 2392, without an improving one 461, undecided 0, raw failures 0; rotations used (0..6, 7+) [3288307, 98453, 381, 6, 0, 0, 0, 0], max 3
+k4_certs_4_pure.json.gz: profiles 2190000, all three policies fail 1808 (of which with a no-improving-rotation dead end 355)
+    u1: ok 2188029, dead end without a valid rotation 1536, without an improving one 435, undecided 0, raw failures 0; rotations used (0..6, 7+) [2120597, 67160, 267, 5, 0, 0, 0, 0], max 3
+    u2: ok 2187930, dead end without a valid rotation 1660, without an improving one 410, undecided 0, raw failures 0; rotations used (0..6, 7+) [2113825, 73560, 519, 24, 2, 0, 0, 0], max 4
+    u0: ok 2187706, dead end without a valid rotation 1856, without an improving one 438, undecided 0, raw failures 0; rotations used (0..6, 7+) [2110907, 76038, 722, 37, 2, 0, 0, 0], max 4
+[172 s]

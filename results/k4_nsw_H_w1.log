@@ -1,0 +1,30 @@
+command: python3 k4/nsw_run.py --h=1,2,3 -N5 -P4 -i0 -w1 -c1 --jobs=1 --show=0
+binary: /tmp/k4_lb4_nsw_b91a5ac1dca520d7 (sha256 of k4/lb4_nsw.c: b91a5ac1dca520d711ee26846c3372d5174bbe9fafd32de2cd09920913c9e61b)
+H_1: profiles 1, all three policies fail 0 (of which with a no-improving-rotation dead end 0)
+    u1: ok 1, dead end without a valid rotation 0, without an improving one 0, undecided 0, raw failures 0; rotations used (0..6, 7+) [0, 1, 0, 0, 0, 0, 0, 0], max 1
+    u2: ok 1, dead end without a valid rotation 0, without an improving one 0, undecided 0, raw failures 0; rotations used (0..6, 7+) [0, 1, 0, 0, 0, 0, 0, 0], max 1
+    u0: ok 1, dead end without a valid rotation 0, without an improving one 0, undecided 0, raw failures 0; rotations used (0..6, 7+) [0, 1, 0, 0, 0, 0, 0, 0], max 1
+H_2: profiles 1, all three policies fail 0 (of which with a no-improving-rotation dead end 0)
+    u1: ok 1, dead end without a valid rotation 0, without an improving one 0, undecided 0, raw failures 0; rotations used (0..6, 7+) [0, 0, 1, 0, 0, 0, 0, 0], max 2
+    u2: ok 1, dead end without a valid rotation 0, without an improving one 0, undecided 0, raw failures 0; rotations used (0..6, 7+) [0, 0, 1, 0, 0, 0, 0, 0], max 2
+    u0: ok 1, dead end without a valid rotation 0, without an improving one 0, undecided 0, raw failures 0; rotations used (0..6, 7+) [0, 0, 1, 0, 0, 0, 0, 0], max 2
+H_3: profiles 1, all three policies fail 0 (of which with a no-improving-rotation dead end 0)
+    u1: ok 1, dead end without a valid rotation 0, without an improving one 0, undecided 0, raw failures 0; rotations used (0..6, 7+) [0, 0, 1, 0, 0, 0, 0, 0], max 2
+    u2: ok 1, dead end without a valid rotation 0, without an improving one 0, undecided 0, raw failures 0; rotations used (0..6, 7+) [0, 0, 1, 0, 0, 0, 0, 0], max 2
+    u0: ok 1, dead end without a valid rotation 0, without an improving one 0, undecided 0, raw failures 0; rotations used (0..6, 7+) [0, 0, 1, 0, 0, 0, 0, 0], max 2
+[5 s]
+command: python3 k4/nsw_run.py --h=1,2,3 -N1 -P0 -i0 -w1 -c1 --jobs=1 --show=0
+binary: /tmp/k4_lb4_nsw_b91a5ac1dca520d7 (sha256 of k4/lb4_nsw.c: b91a5ac1dca520d711ee26846c3372d5174bbe9fafd32de2cd09920913c9e61b)
+H_1: profiles 1, all three policies fail 0 (of which with a no-improving-rotation dead end 0)
+    u1: ok 1, dead end without a valid rotation 0, without an improving one 0, undecided 0, raw failures 0; rotations used (0..6, 7+) [0, 1, 0, 0, 0, 0, 0, 0], max 1
+    u2: ok 1, dead end without a valid rotation 0, without an improving one 0, undecided 0, raw failures 0; rotations used (0..6, 7+) [0, 1, 0, 0, 0, 0, 0, 0], max 1
+    u0: ok 1, dead end without a valid rotation 0, without an improving one 0, undecided 0, raw failures 0; rotations used (0..6, 7+) [0, 1, 0, 0, 0, 0, 0, 0], max 1
+H_2: profiles 1, all three policies fail 0 (of which with a no-improving-rotation dead end 0)
+    u1: ok 1, dead end without a valid rotation 0, without an improving one 0, undecided 0, raw failures 0; rotations used (0..6, 7+) [0, 0, 1, 0, 0, 0, 0, 0], max 2
+    u2: ok 1, dead end without a valid rotation 0, without an improving one 0, undecided 0, raw failures 0; rotations used (0..6, 7+) [0, 0, 1, 0, 0, 0, 0, 0], max 2
+    u0: ok 1, dead end without a valid rotation 0, without an improving one 0, undecided 0, raw failures 0; rotations used (0..6, 7+) [0, 0, 1, 0, 0, 0, 0, 0], max 2
+H_3: profiles 1, all three policies fail 0 (of which with a no-improving-rotation dead end 0)
+    u1: ok 1, dead end without a valid rotation 0, without an improving one 0, undecided 0, raw failures 0; rotations used (0..6, 7+) [0, 0, 1, 0, 0, 0, 0, 0], max 2
+    u2: ok 1, dead end without a valid rotation 0, without an improving one 0, undecided 0, raw failures 0; rotations used (0..6, 7+) [0, 0, 1, 0, 0, 0, 0, 0], max 2
+    u0: ok 1, dead end without a valid rotation 0, without an improving one 0, undecided 0, raw failures 0; rotations used (0..6, 7+) [0, 0, 1, 0, 0, 0, 0, 0], max 2
+[3 s]
