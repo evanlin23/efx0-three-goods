@@ -1,0 +1,26 @@
+# adaptive_run.py results/k4_lb4r_cores_deep.json.gz -A16 -r3 -H3000 -K2 -f3 --show=50 # adaptive.c sha256 3c9b6b13188f57bc
+k4_lb4r_cores_deep.json.gz: cores=2 total=6000 fails=0 rawfails=0 badcores=0 rot=[6000, 0, 0, 0] (last entry: fails) pol=[5927, 3, 70] uncov=0 covviol=0 time 1s
+# adaptive_run.py results/k4_lb4r_cores_hard4.json.gz -A16 -r3 -H3000 -K2 -f3 --show=50 # adaptive.c sha256 3c9b6b13188f57bc
+k4_lb4r_cores_hard4.json.gz: cores=276 total=828000 fails=0 rawfails=0 badcores=0 rot=[827291, 709, 0, 0] (last entry: fails) pol=[813428, 3277, 11295] uncov=0 covviol=0 time 2s
+# adaptive_run.py results/k4_lb4r_cores_hard5.json.gz -A16 -r3 -H3000 -K2 -f3 --show=50 # adaptive.c sha256 3c9b6b13188f57bc
+k4_lb4r_cores_hard5.json.gz: cores=396 total=1188000 fails=0 rawfails=0 badcores=0 rot=[1186293, 1707, 0, 0] (last entry: fails) pol=[1164644, 8532, 14824] uncov=0 covviol=0 time 3s
+# adaptive_run.py results/k4_lb4r_cores_grow1.json.gz -A16 -r3 -H2000 -K2 -f3 --show=50 # adaptive.c sha256 3c9b6b13188f57bc
+k4_lb4r_cores_grow1.json.gz: cores=2000 total=4000000 fails=0 rawfails=0 badcores=0 rot=[3998685, 1315, 0, 0] (last entry: fails) pol=[3973470, 7144, 19386] uncov=0 covviol=0 time 8s
+# adaptive_run.py results/k4_lb4r_cores_grow2.json.gz -A16 -r3 -H2000 -K2 -f3 --show=50 # adaptive.c sha256 3c9b6b13188f57bc
+k4_lb4r_cores_grow2.json.gz: cores=2000 total=4000000 fails=0 rawfails=0 badcores=0 rot=[3998628, 1372, 0, 0] (last entry: fails) pol=[3984637, 4076, 11287] uncov=0 covviol=0 time 7s
+# adaptive_run.py results/k4_lb4r_cores_grow3.json.gz -A16 -r3 -H2000 -K2 -f3 --show=50 # adaptive.c sha256 3c9b6b13188f57bc
+k4_lb4r_cores_grow3.json.gz: cores=1000 total=2000000 fails=0 rawfails=0 badcores=0 rot=[2000000, 0, 0, 0] (last entry: fails) pol=[1996445, 1124, 2431] uncov=0 covviol=0 time 5s
+# adaptive_run.py results/k4_lb4r_cores_rc6_big.json.gz -A16 -r3 -H2000 -K2 -f3 --show=50 # adaptive.c sha256 3c9b6b13188f57bc
+k4_lb4r_cores_rc6_big.json.gz: cores=3000 total=6000000 fails=0 rawfails=0 badcores=0 rot=[5999883, 117, 0, 0] (last entry: fails) pol=[5980877, 6054, 13069] uncov=0 covviol=0 time 17s
+# adaptive_run.py results/k4_lb4r_cores_rc6_n4_2.json.gz -A16 -r3 -H2000 -K2 -f3 --show=50 # adaptive.c sha256 3c9b6b13188f57bc
+k4_lb4r_cores_rc6_n4_2.json.gz: cores=300 total=600000 fails=0 rawfails=0 badcores=0 rot=[600000, 0, 0, 0] (last entry: fails) pol=[599186, 25, 789] uncov=0 covviol=0 time 1s
+# adaptive_run.py results/k4_lb4r_cores_rc6_n4_4.json.gz -A16 -r3 -H2000 -K2 -f3 --show=50 # adaptive.c sha256 3c9b6b13188f57bc
+k4_lb4r_cores_rc6_n4_4.json.gz: cores=300 total=600000 fails=0 rawfails=0 badcores=0 rot=[600000, 0, 0, 0] (last entry: fails) pol=[597798, 529, 1673] uncov=0 covviol=0 time 2s
+# adaptive_run.py results/k4_lb4r_cores_rc6_n4_6.json.gz -A16 -r3 -H2000 -K2 -f3 --show=50 # adaptive.c sha256 3c9b6b13188f57bc
+k4_lb4r_cores_rc6_n4_6.json.gz: cores=300 total=600000 fails=0 rawfails=0 badcores=0 rot=[599971, 29, 0, 0] (last entry: fails) pol=[596672, 1431, 1897] uncov=0 covviol=0 time 4s
+# adaptive_run.py results/k4_lb4r_cores_rc6_rand.json.gz -A16 -r3 -H2000 -K2 -f3 --show=50 # adaptive.c sha256 3c9b6b13188f57bc
+k4_lb4r_cores_rc6_rand.json.gz: cores=300 total=600000 fails=0 rawfails=0 badcores=0 rot=[599960, 40, 0, 0] (last entry: fails) pol=[597293, 997, 1710] uncov=0 covviol=0 time 3s
+# adaptive_run.py results/k4_lb4r_cores_rc7.json.gz -A16 -r3 -H2000 -K2 -f3 --show=50 # adaptive.c sha256 3c9b6b13188f57bc
+k4_lb4r_cores_rc7.json.gz: cores=1500 total=3000000 fails=0 rawfails=0 badcores=0 rot=[3000000, 0, 0, 0] (last entry: fails) pol=[2995265, 1400, 3335] uncov=0 covviol=0 time 12s
+# adaptive_run.py results/k4_lb4r_cores_rc8.json.gz -A16 -r3 -H2000 -K2 -f3 --show=50 # adaptive.c sha256 3c9b6b13188f57bc
+k4_lb4r_cores_rc8.json.gz: cores=300 total=600000 fails=0 rawfails=0 badcores=0 rot=[600000, 0, 0, 0] (last entry: fails) pol=[599564, 81, 355] uncov=0 covviol=0 time 5s

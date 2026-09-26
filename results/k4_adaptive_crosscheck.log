@@ -1,0 +1,6 @@
+# c4check.c: branch proof/k4-c4one at 41e9ce3 (PR #37), compiled with gcc -O2 into C4CHECK_BIN
+# adaptive_crosscheck.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz results/k4_certs_4_n4_1.json.gz results/k4_certs_4_n4_2.json.gz # adaptive.c sha256 c42a46fe13e32e41
+results/k4_certs_2.json.gz: cores=5 uncovered by every sequence: c4check 12420 adaptive 12420; by index or one change: c4check 12420 adaptive 12420
+results/k4_certs_3.json.gz: cores=51 uncovered by every sequence: c4check 7503039 adaptive 7503039; by index or one change: c4check 7503039 adaptive 7503039
+results/k4_certs_4_n4_1.json.gz: cores=135 uncovered by every sequence: c4check 0 adaptive 0; by index or one change: c4check 0 adaptive 0
+results/k4_certs_4_n4_2.json.gz: cores=309 uncovered by every sequence: c4check 155947 adaptive 155947; by index or one change: c4check 157421 adaptive 157421
