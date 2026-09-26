@@ -1,0 +1,50 @@
+# Checks for k4/d_stress.md that do not use search4's model (review of PR #42, items N1-N4); each block starts with its command.
+$ cd k4 && python3 d_stress_verify.py brute
+commit feee6c9
+H_1 = chain 1: [[1, 0, 2, 3], [4, 7, 8, 1], [5, 9, 10, 1], [6, 11, 12, 1], [4, 5, 6, 0]]
+  paper values [[8, 6, 5, 4], [8, 6, 4, 3], [8, 6, 4, 3], [8, 6, 4, 3], [8, 6, 4, 3]]: D2 EFX0 allocations total 2126; by owner 471 818 360 391 86; none 0; feasible owners [0, 1, 2, 3, 4]
+  climb minimum 0 [[8, 6, 1, 4], [8, 2, 7, 4], [4, 3, 6, 8], [6, 7, 3, 5], [6, 10, 3, 2]]: D2 EFX0 allocations total 3558; by owner 975 691 1004 729 159; none 0; feasible owners [0, 1, 2, 3, 4]; logged owners [0, 1, 2, 3, 4]: agree
+  climb minimum 1 [[8, 2, 5, 4], [8, 4, 5, 6], [3, 4, 2, 8], [3, 4, 2, 8], [10, 6, 2, 3]]: D2 EFX0 allocations total 418; by owner 66 228 45 79 0; none 0; feasible owners [0, 1, 2, 3]; logged owners [0, 1, 2, 3]: agree
+  climb minimum 2 [[10, 4, 8, 3], [4, 6, 1, 8], [10, 3, 4, 8], [8, 2, 4, 3], [2, 6, 10, 7]]: D2 EFX0 allocations total 1394; by owner 567 497 109 129 92; none 0; feasible owners [0, 1, 2, 3, 4]; logged owners [0, 1, 2, 3, 4]: agree
+$ cd k4 && python3 d_stress_verify.py corrupt
+commit feee6c9
+  intact: exit 0, 0 failures of 3 records: as expected
+  allocation shifted (every good to the next agent): exit 1, 1 failures of 3 records: as expected
+  agent 0 values (9, 9, 9, 9), not a type: exit 1, 1 failures of 3 records: as expected
+  every good in agent 0 bundle: exit 1, 1 failures of 3 records: as expected
+  allocation missing its last good: exit 1, 1 failures of 3 records: as expected
+$ cd k4 && python3 d_stress_verify.py replay
+commit feee6c9
+  selftest pure 3 5 150: 0 profiles without a D2 allocation
+  selftest pure 4 7 150: 0 profiles without a D2 allocation
+  selftest pure 6 8 150: 0 profiles without a D2 allocation
+  selftest chain 1 150: 0 profiles without a D2 allocation
+  selftest chain 2 30: 0 profiles without a D2 allocation
+  selftest chain 3 30: 0 profiles without a D2 allocation
+  selftest tree 3 30: 0 profiles without a D2 allocation
+$ cd k4 && python3 d_stress_verify.py reproduce
+commit feee6c9
+  cd k4 && python3 d_stress.py chain 2 --values=paper --profiles=400 --seed=2 --witnesses=../results/k4_dstress_witnesses/chain_2.json.gz: output identical to the logged block of 4 lines (commit line dropped, timings masked); 400 witnesses identical to the committed file
+  cd k4 && python3 d_stress.py cycle 3 --profiles=200 --seed=21 --witnesses=../results/k4_dstress_witnesses/cycle_3.json.gz: output identical to the logged block of 3 lines (commit line dropped, timings masked); 200 witnesses identical to the committed file
+  cd k4 && python3 d_stress.py pure 6 8 --profiles=500 --seed=14 --witnesses=../results/k4_dstress_witnesses/pure_6_8.json.gz: output identical to the logged block of 4 lines (commit line dropped, timings masked); 500 witnesses identical to the committed file
+$ cd k4 && python3 d_stress_verify.py small
+commit feee6c9
+  pure_10_13.json.gz (pure 10 13): 300 profiles, 0 without an EFX0 allocation with every bundle <= 2
+  pure_11_15.json.gz (pure 11 15): 200 profiles, 0 without an EFX0 allocation with every bundle <= 2
+  pure_12_16.json.gz (pure 12 16): 200 profiles, 0 without an EFX0 allocation with every bundle <= 2
+  pure_6_8.json.gz (pure 6 8): 500 profiles, 0 without an EFX0 allocation with every bundle <= 2
+  pure_7_9.json.gz (pure 7 9): 500 profiles, 0 without an EFX0 allocation with every bundle <= 2
+  pure_8_10.json.gz (pure 8 10): 400 profiles, 0 without an EFX0 allocation with every bundle <= 2
+  pure_9_12.json.gz (pure 9 12): 300 profiles, 0 without an EFX0 allocation with every bundle <= 2
+  pure owner-climb minima (results/k4_dstress_climbs.log): 12 profiles, 0 without one
+total: 2412 pure-core profiles, 0 without an EFX0 allocation with every bundle <= 2
+$ cd k4 && python3 d_stress_verify.py iso
+commit ed8cac5
+  t = 1 (n = 5, m = 13): chain(t) at the paper values is isomorphic to H_t of c4_chain.build
+  t = 2 (n = 9, m = 23): chain(t) at the paper values is isomorphic to H_t of c4_chain.build
+  t = 3 (n = 13, m = 33): chain(t) at the paper values is isomorphic to H_t of c4_chain.build
+  t = 4 (n = 17, m = 43): chain(t) at the paper values is isomorphic to H_t of c4_chain.build
+  t = 5 (n = 21, m = 53): chain(t) at the paper values is isomorphic to H_t of c4_chain.build
+  t = 6 (n = 25, m = 63): chain(t) at the paper values is isomorphic to H_t of c4_chain.build
+  t = 7 (n = 29, m = 73): chain(t) at the paper values is isomorphic to H_t of c4_chain.build
+  t = 8 (n = 33, m = 83): chain(t) at the paper values is isomorphic to H_t of c4_chain.build
