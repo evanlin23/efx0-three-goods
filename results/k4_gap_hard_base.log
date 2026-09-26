@@ -22,6 +22,8 @@ command: python3 k4/gap_hard.py results/k4_gap/gap_n2.json.gz results/k4_gap/gap
 
 == X: 0 profiles in the catalogs {}
 
+== PHI: 0 profiles in the catalogs {}
+
 == T2: 2046 profiles in the catalogs {'gap_n4_2_s4000.json.gz': 88, 'gap_n4_3_s4000.json.gz': 369, 'gap_n4_pure_s4000.json.gz': 633, 'gap_n5_4_s100.json.gz': 397, 'gap_n5_3_s100.json.gz': 141, 'gap_n5_pure_s100.json.gz': 397, 'gap_n5_1_s100.json.gz': 1, 'gap_n5_2_s100.json.gz': 20}
   n = 4: 1090 profiles; the smallest 2:
     n=4 m=8 f=1 omega=1 core k4_certs_4_n4_2.json.gz#204 (idx 17); sets=[[0, 2, 5, 6], [1, 5, 6, 7], [3, 5, 7], [4, 6, 7]]
