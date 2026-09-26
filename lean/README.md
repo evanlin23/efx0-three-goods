@@ -27,7 +27,7 @@ showed that a declaration added under `set_option debug.skipKernelTC true` is ne
 without warnings and has no axioms for `#print axioms` or `CheckAxioms.lean` to report; the tripwire refuses the
 option and the replay checker rejects such a declaration. On success the last line is
 
-    CHECK PASSED: 368 audited statements, 1035 theorems, standard axioms only
+    CHECK PASSED: 392 audited statements, 1092 theorems, standard axioms only
 
 CI runs it on every pull request (job `lean` in `.github/workflows/verify.yml`). In Claude Code on the web the
 session-start hook installs the toolchain (from GitHub when `release.lean-lang.org` is unreachable).
@@ -342,7 +342,7 @@ name in the ledger's Lean column has one.
 | K3.OWNER | Proposition O: `r` is a valid owner (some `H` fits) exactly when `hitSet` fits, so LB⁺'s owner test needs no minimum hitting set | OwnerR : `EFX.LB.validOwner_iff` |
 | K3.LASTBLOCK | `r`, the last agent of Phase 1 not upgraded, lies in the last block: every agent's block (`blkAux`) is at most `r`'s, and `r`'s block is the last processed agent's | K3Extras : `EFX.LB.lastOut_lastBlock`, `EFX.LB.blk_le_lastOut` |
 | K3.SIZE | Size of the large bundle: for a valid pre-allocation, `\|F\| = \|NA\|` and `ω = \|J\| − S = m − 2n + \|NA\|`; every completion with an owner (terminal or upgraded) gives it at least `ω + 2` goods, exactly `ω + 2` with the other terminals' slots full; the rotation does not increase `ω`; K3ALG's `complete` with `H` repeating no good gives exactly `ω + 2`; with a repeated good K3ALG's owner can get `ω + 3` (the paper's example) | K3Extras : `EFX.LB.largeBundle_size`, `EFX.LB.omega_eq`, `EFX.LB.numFrozen_eq_numNA`, `EFX.LB.Completion.owner_length_ge`, `EFX.LB.Completion.owner_length_eq`, `EFX.LB.BadCase.omega_le`, `EFX.LB.complete_owner_length`, `EFX.K3.Examples.repeatedGood_state`, `EFX.K3.Examples.repeatedGood_algo` |
-| K3.SD2 | `\|R_i\| ≤ 2` for all `i` ⟹ every run of serial dictatorship (any order of all agents, any favourite at every step, the last agent takes the rest) is EFX₀ | K3Extras : `EFX.Inst.sdRun_efx0`, `EFX.Inst.serialDict_efx0` (model), `EFX.sdRun_efx0`, `EFX.serialDict_run` (over lists), `EFX.K3.Examples.twoRel_serialDict` |
+| K3.SD2 | `\|R_i\| ≤ 2` for all `i` (values in ℕ) ⟹ every run of serial dictatorship (any order of all agents, any favourite at every step, the last agent takes the rest) is EFX₀ | K3Extras : `EFX.Inst.sdRun_efx0`, `EFX.Inst.serialDict_efx0` (model), `EFX.sdRun_efx0`, `EFX.serialDict_run` (over lists), `EFX.K3.Examples.twoRel_serialDict` |
 | K3.RAT | Rational values: scaling each agent's nonnegative rational values by the product of their denominators preserves every comparison of subset sums (so relevance and EFX₀); K3ALG on the scaled values is EFX₀ for the rational values when every agent has at most three relevant goods | K3Extras : `EFX.K3.algoRat_efx0`, `EFX.ratScale_agree`, `EFX.agree_scaleNat`, `EFX.scaleNat_cast`, `EFX.ratScale_val`, `EFX.ratScale_relevant`, `EFX.ratScale_numRelevant`, `EFX.ratScale_efx0_iff` |
 | AUD | Independently written TARGET and D (list bundles partitioning the goods) follow from `EFX.target` and `EFX.LB.corollaryD` | Audit : `Audit.target_audit`, `Audit.corollaryD_audit` |
 
