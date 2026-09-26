@@ -505,6 +505,12 @@ Evidence and variants (`results/k4_red_lil.log`, counters `lil_*`; "stuck" = no 
 | (−t, r′, Λ), M1 M2 M4 M5 | all the scopes above | the same | 0 (M2 used 244 times at n = 4, 374 at n = 5, never at n ≤ 3 or in the exhaustive n = 4 classes) |
 | (−t, r′, Λ), M1 M4 M5 | n = 4, three or four 4-good agents, 4,000 per core | 831,672 | 244, all with a big-top x |
 
+An independent Python check (`k4/red_lil.py`: its own move generator on `k4/red_lib.py`, no code shared with
+`k4/red.c`; `results/k4_red_lil_python.log`) finds no stuck configuration for (r′, −t, Λ) with M1 M4 M5 on:
+- every f = 1 profile with n = 2;
+- 6,000 random profiles per n = 3 core (26,315 non-completable configurations);
+- 100 per n = 4 core (23,723).
+
 Putting r′ first lets a pool improvement that makes its agent robust count even when it puts a good of x into the pool;
 that is exactly the configuration of instance B1. With t first, the two-agent exchange M2 is needed there instead.
 
@@ -542,7 +548,7 @@ All counts are strict profiles of the certified core lists `results/k4_certs_*.j
 | Conjecture GLOB | §5 | 0 failures | `results/k4_red_n3.log`, `…_n4.log`, `…_n4_2_all.log`, `…_n5.log` |
 | Conjecture BT, big-top profiles | §5.1 | 0 failures | `results/k4_red_bt.log` |
 | Lemma PM | §5.2 | 0 failures | `results/k4_red_pathmove.log` |
-| Conjecture LIL | §5.3 | 0 stuck configurations | `results/k4_red_lil.log` |
+| Conjecture LIL | §5.3 | 0 stuck configurations | `results/k4_red_lil.log`, `results/k4_red_lil_python.log` |
 
 Independence: `k4/red.c` and `k4/red_lib.py` share no code with each other or with #41's `k4/c4min.c` and
 `k4/c4min_*.py`, only the type generator `k4/check4.py` and the core lists. The Python library was run on the n = 2
