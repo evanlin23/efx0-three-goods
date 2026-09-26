@@ -68,7 +68,7 @@ Logs in `results/k4_strategy/` (each starts with its command); `python3 k4/suite
   - **PS-OWNER** (`psd2`: every agent the unenvied owner of a D2 allocation) **fails on 28 cores and on the non-core**
     instance, smallest n = 3, m = 6. Both implementations agree. PS itself holds on all of them.
   - C₄ᵐⁱⁿ in deficit form (`c4min`) holds on 148 of the 150 complete instances with both implementations; H₂ and H₅
-    time out and read `n/a`. The configuration form (`c4min-cfg`) is in the same log.
+    time out and read `n/a`. The configuration form (`c4min-cfg`) holds on all 95 instances with ω ≥ 1 where it finished.
 - `suite_rulef.log`: LB₄ʳ with rule F (#44) and at most one rotation succeeds on all 148 core instances it was run on
   (H₅ is left to #44's Proposition H′).
 - `deficit_local_suite.log`: Conjecture DL₂ of `k4/strategy.md` §3. k* ≤ 2 on every core with ω ≥ 1 and n ≤ 6;

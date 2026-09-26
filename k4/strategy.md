@@ -89,7 +89,7 @@ The remaining route would then be rule F's construction, whose architecture is t
   NSW, the insertion lemma). Those are confirmed by their sources' replay scripts, cited in each record.
 - **TARGET₄, K4.D and PS hold on every complete instance, cores and non-core alike**
   (`suite_baseline.log`, both implementations where they finish). C₄ᵐⁱⁿ (deficit form) holds on 148 of the 150 complete instances with both
-  implementations; H₂ and H₅ time out (`suite_baseline2.log`). The configuration form is in the same log.
+  implementations; H₂ and H₅ time out (`suite_baseline2.log`). The configuration form holds on all 95 instances with ω ≥ 1 where it finished, both implementations.
 - **PS-OWNER fails on cores.** PS-OWNER is K4.D with a prescribed owner who is unenvied: an EFX₀ allocation in which
   w is unenvied and every other bundle has at most two goods, for every agent w.
   - It fails on 28 cores of the suite, smallest n = 3, m = 6, and on the non-core LIL instance. Both implementations
