@@ -201,4 +201,27 @@ proof of C₄ᵐⁱⁿ has to use the unfreezing that the owner's bundle needs a
 
 ## 6. Reproduce
 
-(to be filled)
+Every log starts with its command, the commit and the sha1 of `k4/c4min_hunt.c`. `k4/c4min_hunt_runs.sh SECTION`
+(run from the repository root; `JOBS=k` sets the parallelism) writes them:
+
+| section | what | log(s) | time (4 CPUs) |
+|---|---|---|---|
+| `n4` | exhaustive, n = 4 with three and four 4-good agents | `k4_c4min_hunt_n4_3.log`, `k4_c4min_hunt_n4_pure.log` | 25 min |
+| `n5a`, `n5b`, `n6a` | exhaustive, n = 5 with one/two and three 4-good agents, n = 6 with one | `k4_c4min_hunt_n5_12.log`, `k4_c4min_hunt_n5_3.log`, `k4_c4min_hunt_n6_1.log` | 3 min, 2.3 h, 8 min |
+| `classes` | exhaustive, n = 5 with four or five 4-good agents restricted to two order-type classes | `k4_c4min_hunt_classes.log` | ≈ 8 h |
+| `selfcheck`, `crosscheck`, `satcheck` | validation (§1.1) | `k4_c4min_hunt_selfcheck.log`, `k4_c4min_hunt_crosscheck.log`, `k4_c4min_hunt_satcheck.log` | 5 min, 20 min (one CPU), 1 min |
+| `w0small`, `w0big` | the `-w0` strengthening (§5) | `k4_c4min_hunt_w0.log` | 30 min |
+| `attempts` | the hard profiles of PR #36 and PR #30 | `k4_c4min_hunt_attempts.log` | seconds |
+| `climb5`, `climb5b`, `climbtight` | climbing on n = 5 (§3) | `k4_c4min_hunt_climb_n5_45.log`, `k4_c4min_hunt_climb_n5_b.log` (+ `.jsonl.gz`), `k4_c4min_hunt_climb_tight.log` | 11 min (one CPU), 25 min, 10 min |
+| `climbrand`, `climbrand2`, `climbglue`, `climbfam` | climbing on random, glued and family cores | `k4_c4min_hunt_climb_rand.log`, `k4_c4min_hunt_climb_glue.log`, `k4_c4min_hunt_climb_fam.log` | about 1 h (one CPU) |
+| `rigid`, `rigid5`, `chains` | glued gadgets (§4.3) | `k4_c4min_hunt_rigid.log`, `k4_c4min_hunt_chains.log` | minutes |
+| `families`, `famsat`, `famlt`, `climbsat` | structured families (§4) | `k4_c4min_hunt_families.log`, `k4_c4min_hunt_famsat.log`, `k4_c4min_hunt_climbsat.log` | about 1 h |
+
+`climbtight`, `rigid5` and `chains` read `results/k4_c4min_hunt_climb_n5_b.jsonl`, which is committed gzipped
+(`gunzip -k results/k4_c4min_hunt_climb_n5_b.jsonl.gz` first); `climbtight` writes the 400 cores it climbs to
+`results/k4_c4min_hunt_tight_n5.jsonl`. The `-w0` replay: `python3 attempts/k4_c4min_w0_replay.py`. The tools need
+python-sat (SAT encoding), gcc, and `k4/c4x.c` of PR #36 for the cross-checks (read from `origin/proof/k4-c4x` with
+`git show` until that PR is merged). Several logs carry a note that the wrapper shell was stopped and a watcher wrote
+the last line: `k4_c4min_hunt_runs.sh` had been edited in place while it ran (bash reads scripts incrementally), which
+also made one shell run a garbled `climbglue` fragment once (its output was discarded); the Python runs themselves were
+not affected.
