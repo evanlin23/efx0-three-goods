@@ -1,0 +1,25 @@
+# provenance (added at the PR #51 review; not output of the run): written by attempts/k4_c4min_reduce_attempts.py as committed at a0505bd (sha1 02d0b24420733896c1492aac77aa1a85e5a51784), k4/red.c as committed at a0505bd (sha1 6acbee55ea0a5f7c459b2c4366ac3193a30e6d28), k4/red_lib.py as committed at a0505bd (sha1 035b94e3d6c8eab87caaf32aa88ee9a8740fee25).
+# command: python3 attempts/k4_c4min_reduce_attempts.py
+A1  results/k4_certs_3.json.gz#17  n=3 m=6  f=1  keys (g, x): [(5, 0), (5, 1), (5, 2)]
+  f = 1 and omega >= 1 (Python; C: f1 = 1)                                         yes
+  C4min holds: some configuration completable (Python; C: prof_completable = 1)    yes
+  key (5, 0) has no completable configuration (Python)                             yes
+  C: key_noncompletable = 1                                                        yes
+A2  results/k4_certs_3.json.gz#46  n=3 m=8  f=1  keys (g, x): [(7, 0), (7, 1), (7, 2)]
+  f = 1 and omega >= 1 (Python; C: f1 = 1)                                         yes
+  C4min holds: some configuration completable (Python; C: prof_completable = 1)    yes
+  key (7, 0): unique (r', Lambda')-maximum, t = 1, not completable, has a free-valid owner yes
+  key (7, 0): every (r', -t, Lambda')-maximum completable                          yes
+  key (7, 1): unique (r', Lambda')-maximum, t = 1, not completable, has a free-valid owner yes
+  key (7, 1): every (r', -t, Lambda')-maximum completable                          yes
+  key (7, 2): unique (r', Lambda')-maximum, t = 1, not completable, has a free-valid owner yes
+  key (7, 2): every (r', -t, Lambda')-maximum completable                          yes
+  C: FAIL_prof_some_key_every = 1 and FAIL_swap_some_terminal = 3                  yes
+B1  results/k4_certs_4_pure.json.gz#214  n=4 m=11  f=1  keys (g, x): [(10, 0), (10, 1), (10, 2)]
+  f = 1 and omega >= 1 (Python; C: f1 = 1)                                         yes
+  C4min holds: some configuration completable (Python; C: prof_completable = 1)    yes
+  key (10, 1): some (-t, r', Lambda')-maximum has no free-valid owner (Python)     yes
+  C: tmax_no_freevalid >= 1                                                        yes
+    witness: pairs {0: [0, 2], 2: [1, 9], 3: [7, 8]}, pool [3, 4, 5, 6]
+    witness: pairs {0: [0, 2], 2: [5, 9], 3: [7, 8]}, pool [1, 3, 4, 6]
+ALL CONFIRMED
