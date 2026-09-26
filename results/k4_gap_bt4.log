@@ -1,5 +1,5 @@
 command: python3 k4/gap_bench.py --profile={"sets": [[0,2,5,6],[0,3,4,6],[1,2,4,6],[1,3,5,6]], "vals": [[2,6,3,10],[6,3,10,8],[8,6,10,3],[6,4,1,8]], "m": 7} --show=1
-gap.c sha256 0c14f252223c78d4fccbcfca4d048ca64b684980f6cec3f3cbb41742e3c38afa; catalogs ['gap_n2.json.gz', 'gap_n3.json.gz']
+gap.c sha256 74e1fae22153b5b57fd39e906f7cae5807e646fb01caf9a576acefc76cade120
 gap.c: in the gap True; f 2, omega 1, keys [[-1, -1, 4, 6], [-1, 4, -1, 6], [-1, 6, 4, -1], [6, -1, 4, -1]], 24 configurations, 23 with a valid owner
   C {"key": [-1, -1, 4, 6], "Q": [[1, 2], [0, 3], null, null], "L": [5], "phi": [0, 2, 19, -1], "po": 0, "own": [[1, []]], "thr": [[0, 2, 2]], "need": [[4, [1]], [6, [0]]]}
   C {"key": [-1, -1, 4, 6], "Q": [[1, 2], [0, 5], null, null], "L": [3], "phi": [0, 2, 17, -1], "po": 0, "own": [[1, []]], "thr": [[0, 2, 2], [0, 3, 0]], "need": [[4, [1]], [6, [0, 1]]]}
@@ -42,9 +42,9 @@ I_POOL_LOCAL: HOLDS on the data; 0 cases tested, 24 skipped (hypothesis not met)
 I_T_LOCAL: HOLDS on the data; 0 cases tested, 24 skipped (hypothesis not met), 1 profiles; 0 counterexamples
 == f = 1 roadmap, first bullet: in its setting (f = 1, x 3-good, no valid owner, pool-optimal, t = 0) every agent is threatened by at most one owner
 SIGMA_INJ: HOLDS on the data; 0 cases tested, 24 skipped (hypothesis not met), 1 profiles; 0 counterexamples
-== roadmap (ii): in that setting with x threatened, some exchange-cycle move through x leaves t = 0
+== roadmap (ii): in that setting with x threatened, once no exchange-cycle move avoiding x raises Phi', some exchange-cycle move through x (best pairs or any pairs, e.g. the plain rotation) leaves t = 0
 II_T0: HOLDS on the data; 0 cases tested, 24 skipped (hypothesis not met), 1 profiles; 0 counterexamples
-== roadmap (ii) with (iii): in that setting with x threatened, some exchange-cycle move through x raises Phi'
+== roadmap (ii) with (iii): in the same setting, some exchange-cycle move through x raises Phi'
 II_PHI: HOLDS on the data; 0 cases tested, 24 skipped (hypothesis not met), 1 profiles; 0 counterexamples
 == roadmap (iii): in that setting, the threat path into x has no free agent of kind (R)
 III_NO_R: HOLDS on the data; 0 cases tested, 24 skipped (hypothesis not met), 1 profiles; 0 counterexamples
@@ -64,6 +64,10 @@ LOCAL_EXT: FAILS on the data; 1 cases tested, 23 skipped (hypothesis not met), 1
 LOCAL_CLOSURE: FAILS on the data; 1 cases tested, 23 skipped (hypothesis not met), 1 profiles; 1 counterexamples
   smallest: n=4 m=7 sets=[[0, 2, 5, 6], [0, 3, 4, 6], [1, 2, 4, 6], [1, 3, 5, 6]] values=[[2, 6, 3, 10], [6, 3, 10, 8], [8, 6, 10, 3], [6, 4, 1, 8]]
     Config(key=[None, None, 4, 6], Q={0: [2, 5], 1: [0, 3]}, L=[1]) Python re-check: confirmed
+== the same catalogue plus #52's downgrade swaps
+LOCAL_ALL: HOLDS on the data; 1 cases tested, 23 skipped (hypothesis not met), 1 profiles; 0 counterexamples
+== needed for any move catalogue that keeps the needed set (pool, cycle, two-agent moves, downgrade swaps): at every configuration without a valid owner some configuration with the same needed set has a larger Phi'
+SAME_N: HOLDS on the data; 1 cases tested, 0 skipped (hypothesis not met), 1 profiles; 0 counterexamples
 == #52 K4.HALL.BTCYC: at a Pareto-maximal configuration without a valid owner that has an exposed frozen big-top agent, some exchange-cycle move through it (any admissible pairs; threat receivers may keep part of their pair) has a valid owner
 BTCYC: HOLDS on the data; 0 cases tested, 7 skipped (hypothesis not met), 1 profiles; 0 counterexamples
 == the coordinator's question (b): from the Pareto-maximal configurations, exchange-cycle moves (any admissible pairs, receivers may keep part of their pair) and #52's downgrade swaps reach a configuration with a valid owner

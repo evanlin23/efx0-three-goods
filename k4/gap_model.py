@@ -111,6 +111,22 @@ class Profile:
             rec(0, frozenset(), {})
         return out
 
+    def p_ok(self, Bs):
+        """the pre-allocation with bases Bs (a min-frozen P) is removal-only completable (c4x.md section 1)"""
+        N = [self.needs(i, Bs[i]) for i in range(self.n)]
+        NA = frozenset().union(*N)
+        J = self.M - frozenset().union(*Bs)
+        for o in range(self.n):
+            if len(Bs[o]) == 1 and Bs[o] <= NA: continue
+            for k in range(len(J) + 1):
+                for C in combinations(sorted(J), k):
+                    X = Bs[o] | (J - frozenset(C))
+                    if any(self.envies(x, X, self.val(x, Bs[x])) for x in range(self.n) if x != o): continue
+                    NAp = self.needs(o, X).union(*(N[j] for j in range(self.n) if j != o))
+                    S = sum(0 if (len(Bs[j]) == 1 and Bs[j] <= NAp) else 2 - len(Bs[j]) for j in range(self.n) if j != o)
+                    if k <= S: return True
+        return False
+
     def deficit_ok(self):
         """some min-frozen P is removal-only completable (c4x.md section 1)"""
         self.preallocs()
@@ -175,6 +191,12 @@ class Config:
     def owners(self): return [o for o in self.free if self.owner(o) is not None]
     @property
     def completable(self): return bool(self.owners)
+    @property
+    def p_completable(self):
+        """the pre-allocation of Lemma 1(a) (bases: phi(x) for frozen x, Q_y restricted to R_y for free y) is
+        removal-only completable; in it the owner may withhold junk into any free slot, so this is weaker than
+        .completable (which fixes the goods each free agent holds outside R_y)"""
+        return self.P.p_ok(tuple(self.H(i) & self.P.R[i] for i in range(self.P.n)))
     @property
     def simple(self): return any(self.owner(o)[0] == 0 for o in self.owners)
     # potentials

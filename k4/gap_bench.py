@@ -251,23 +251,24 @@ def st_h7(prof, c):
     return all(c.h7(x, o) != 'O' for o, x in edges)
 
 def st_btcyc(prof, c):
-    """#52 K4.HALL.BTCYC in configuration form"""
+    """#52 K4.HALL.BTCYC: success is a removal-only completable pre-allocation (Config.p_completable), as in #52"""
     if c.completable: return None
     X = [x for x in c.frozen if c.bigtop(x) and not c.robust(x)]
     if not X: return None
-    return any(c2.completable for cyc, c2 in c.cycle_moves(general=True, keep=True) if any(x in cyc for x in X))
+    return any(c2.p_completable for cyc, c2 in c.cycle_moves(general=True, keep=True) if any(x in cyc for x in X))
 
 def _sig(c): return (c.key, tuple(sorted((y, tuple(sorted(q))) for y, q in c.Q.items())))
 
 def reach(starts, swaps=True, cap=20000):
     """breadth-first search from the start configurations over exchange-cycle moves (any admissible pairs, receivers may
-    keep part of their pair) and, if swaps, downgrade swaps; True if a configuration with a valid owner is reached,
+    keep part of their pair) and, if swaps, downgrade swaps; True if a configuration with a valid owner, or whose
+    pre-allocation is removal-only completable, is reached,
     None if more than cap configurations are visited"""
     seen = {_sig(c) for c in starts}; front = list(starts)
     while front:
         nxt = []
         for c in front:
-            if c.completable: return True
+            if c.completable or c.p_completable: return True
             moves = [c2 for _, c2 in c.cycle_moves(general=True, keep=True)]
             if swaps: moves += [c2 for _, _, c2 in c.downgrade_swaps()]
             for c2 in moves:
@@ -367,7 +368,7 @@ def main():
     cats = opt['catalog'].split(',') if 'catalog' in opt else DEFAULT
     K = int(opt['max-profiles']) if 'max-profiles' in opt else None
     print("command: python3 k4/gap_bench.py " + ' '.join(sys.argv[1:]), flush=True)
-    print(f"gap.c sha256 {gap_run.SHA}; catalogs {[os.path.basename(c) for c in cats]}", flush=True)
+    print(f"gap.c sha256 {gap_run.SHA}" + ("" if 'profile' in opt else f"; catalogs {[os.path.basename(c) for c in cats]}"), flush=True)
     if 'list' in opt:
         for k, (s, _, d) in STATEMENTS.items(): print(f"{k} [{s}]: {d}")
         return
