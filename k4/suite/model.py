@@ -296,7 +296,7 @@ class Inst:
                 if j != i and self.threat(i, X[j], vi): return False
         return True
 
-    def efx0_search(self, d2=False, unenvied=(), owner_big=None, max_big_size=None):
+    def efx0_search(self, d2=False, unenvied=(), owner_big=None, max_big_size=None, time_limit=None):
         """an EFX0 allocation (list of masks) or None. d2: at most one bundle of > 2 goods. unenvied: agents nobody
         envies (v_j(X_w) <= v_j(X_j)). owner_big: with d2, the agent allowed a bundle of > 2 goods."""
         from pysat.solvers import Minisat22
@@ -349,7 +349,14 @@ class Inst:
                 if owner_big is not None and i != owner_big: cls.append([-b])
             for i, j in itertools.combinations(range(n), 2): cls.append([-V(('big', i)), -V(('big', j))])
         with Minisat22(bootstrap_with=cls) as s:
-            if not s.solve(): return None
+            if time_limit:
+                import threading
+                tm = threading.Timer(time_limit, s.interrupt); tm.start()
+                res = s.solve_limited(expect_interrupt=True); tm.cancel()
+                if res is None: raise TimeoutError('SAT interrupted after %ss' % time_limit)
+            else:
+                res = s.solve()
+            if not res: return None
             model = set(l for l in s.get_model() if l > 0)
         X = [0] * n
         for g in range(m):

@@ -1,0 +1,105 @@
+{
+ "id": "lil-text-n4",
+ "n": 4,
+ "m": 9,
+ "sets": [
+  [
+   0,
+   2,
+   6,
+   7
+  ],
+  [
+   1,
+   4,
+   6,
+   8
+  ],
+  [
+   3,
+   5,
+   8
+  ],
+  [
+   5,
+   7,
+   8
+  ]
+ ],
+ "vals": [
+  [
+   3,
+   7,
+   5,
+   6
+  ],
+  [
+   2,
+   3,
+   4,
+   8
+  ],
+  [
+   2,
+   3,
+   4
+  ],
+  [
+   2,
+   3,
+   4
+  ]
+ ],
+ "witness": {
+  "kind": "configuration",
+  "key_g": 8,
+  "key_x": 2,
+  "Q": {
+   "0": [
+    2,
+    5
+   ],
+   "1": [
+    1,
+    6
+   ],
+   "3": [
+    4,
+    7
+   ]
+  },
+  "L": [
+   0,
+   3
+  ],
+  "claims": {
+   "completable": false,
+   "Phi_r": [
+    2,
+    0,
+    14
+   ]
+  }
+ },
+ "notes": "f = 1, key (g = 8, x = agent 2, a 3-good agent). The configuration Q0 = {2,5}, Q1 = {1,6}, Q3 = {4,7}, pool {0,3} has no valid owner and no move of LIL's text catalogue raises (r', -t, Lam) = (2, 0, 14); the reviewer reports it stuck even with #50's recycling rule (not implemented here) and 992 such configurations in the exhaustive two-4-good n = 4 class. #51's broader red_lil catalogue improves it. So a 3-good x does not rescue the text catalogue.",
+ "is_core": true,
+ "strict": true,
+ "core_ref": null,
+ "source": {
+  "pr": 51,
+  "branch": "proof/k4-c4min-reduce",
+  "files": [],
+  "found_by": "an independent reviewer of PR #51 (relayed by the coordinator, session_01FedrY8zhKxDt2SPcFo2gQW); in no repository before this suite",
+  "replay": "k4/suite/run.py --expected --only=ID; k4/suite/lil_text.py"
+ },
+ "refutes": [
+  {
+   "statement": "#51's local improvement lemma LIL (k4/c4min_reduce.md §5.3) with the move catalogue as its text states it (M1; M4 plain or with one Lemma R (iii)-modified receiver; M5 = #50's path move with x's best pair), potential (r', -t, Lam), f = 1",
+   "ledger": "K4.C4MIN.RED.LIL (on #51)",
+   "smallest": null
+  }
+ ],
+ "expect_fail": [
+  "lil-text"
+ ]
+}

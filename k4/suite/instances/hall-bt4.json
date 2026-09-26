@@ -303,6 +303,7 @@
  "expect_fail": [
   "bt",
   "bt-cfg",
+  "pareto-T:bt",
   "pareto-minfrozen"
  ]
 }

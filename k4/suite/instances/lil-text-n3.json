@@ -1,0 +1,93 @@
+{
+ "id": "lil-text-n3",
+ "n": 3,
+ "m": 7,
+ "sets": [
+  [
+   0,
+   3,
+   4,
+   6
+  ],
+  [
+   1,
+   3,
+   5,
+   6
+  ],
+  [
+   2,
+   4,
+   5,
+   6
+  ]
+ ],
+ "vals": [
+  [
+   4,
+   2,
+   8,
+   5
+  ],
+  [
+   2,
+   6,
+   10,
+   3
+  ],
+  [
+   1,
+   6,
+   8,
+   4
+  ]
+ ],
+ "witness": {
+  "kind": "configuration",
+  "key_g": 5,
+  "key_x": 1,
+  "Q": {
+   "0": [
+    0,
+    6
+   ],
+   "2": [
+    2,
+    4
+   ]
+  },
+  "L": [
+   1,
+   3
+  ],
+  "claims": {
+   "completable": false,
+   "Phi_r": [
+    1,
+    0,
+    19
+   ]
+  }
+ },
+ "notes": "f = 1, key (g = 5, x = agent 1), big-top x (10 > 6 + 3). The configuration Q0 = {0,6}, Q2 = {2,4}, pool {1,3} has no valid owner and no move of LIL's catalogue as #51's text states it (k4/suite/lil_text.py) raises (r', -t, Lam) = (1, 0, 19); #51's red_lil.py catalogue (broader: a modified receiver trades any good of its pair for any pool good, x takes any admissible pair) has an improving move. The reviewer reports 4,208 such stuck configurations at n <= 3, all with a big-top x. Re-derived here: stuckness with lil_text.py (one implementation), non-completability and the improving broad move with #51's red_lib/red_lil.",
+ "is_core": true,
+ "strict": true,
+ "core_ref": null,
+ "source": {
+  "pr": 51,
+  "branch": "proof/k4-c4min-reduce",
+  "files": [],
+  "found_by": "an independent reviewer of PR #51 (relayed by the coordinator, session_01FedrY8zhKxDt2SPcFo2gQW); in no repository before this suite",
+  "replay": "k4/suite/run.py --expected --only=ID; k4/suite/lil_text.py"
+ },
+ "refutes": [
+  {
+   "statement": "#51's local improvement lemma LIL (k4/c4min_reduce.md §5.3) with the move catalogue as its text states it (M1; M4 plain or with one Lemma R (iii)-modified receiver; M5 = #50's path move with x's best pair), potential (r', -t, Lam), f = 1",
+   "ledger": "K4.C4MIN.RED.LIL (on #51)",
+   "smallest": null
+  }
+ ],
+ "expect_fail": [
+  "lil-text"
+ ]
+}

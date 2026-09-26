@@ -40,14 +40,35 @@ def _ok_size(d, lim=12):
 
 
 # ------------------------------------------------------------------ baseline: the targets themselves
-def efx0_suite(d): X = _inst(d).efx0_search(); return X is not None, ''
+SAT_LIMIT = 60
+BIG_N = 13        # model.py's SAT is slow beyond this (H_5, n = 21); #43's encoding covers those instances
+
+
+def _too_big(d): return len(d['sets']) > BIG_N
+
+
+BIGMSG = 'n > %d: left to the second implementation' % BIG_N
+
+
+def efx0_suite(d):
+    if _too_big(d): return None, BIGMSG
+    X = _inst(d).efx0_search(time_limit=SAT_LIMIT); return X is not None, ''
+
+
 def efx0_induct(d): V, a, g = _V(d); return ext.induct_sat().exists(V, a, g) is not None, ''
-def d2_suite(d): X = _inst(d).efx0_search(d2=True); return X is not None, ''
+
+
+def d2_suite(d):
+    if _too_big(d): return None, BIGMSG
+    X = _inst(d).efx0_search(d2=True, time_limit=SAT_LIMIT); return X is not None, ''
+
+
 def d2_induct(d): V, a, g = _V(d); return ext.induct_sat().exists(V, a, g, d2=True) is not None, ''
 
 
 def ps_suite(d):
-    I = _inst(d); bad = [w for w in range(I.n) if I.efx0_search(unenvied=[w]) is None]
+    if _too_big(d): return None, BIGMSG
+    I = _inst(d); bad = [w for w in range(I.n) if I.efx0_search(unenvied=[w], time_limit=SAT_LIMIT) is None]
     return not bad, ('fails for agents %s' % bad) if bad else ''
 
 
@@ -59,7 +80,8 @@ def ps_induct(d):
 
 def psd2_suite(d):
     """PS-OWNER: for every agent w, an EFX0 allocation in which w is unenvied and every other bundle has <= 2 goods"""
-    I = _inst(d); bad = [w for w in range(I.n) if I.efx0_search(unenvied=[w], owner_big=w) is None]
+    if _too_big(d): return None, BIGMSG
+    I = _inst(d); bad = [w for w in range(I.n) if I.efx0_search(unenvied=[w], owner_big=w, time_limit=SAT_LIMIT) is None]
     return not bad, ('fails for agents %s' % bad) if bad else ''
 
 
@@ -310,6 +332,26 @@ def lil_red(d):
     return stuck == 0, '%d non-completable configurations, %d stuck' % (tot, stuck)
 
 
+def lil_text(d):
+    """LIL with the catalogue as #51's text states it (k4/suite/lil_text.py): f = 1, every non-completable
+    configuration has an M1/M4/M5 move raising (r', -t, Lam)"""
+    import lil_text as LT
+    os.environ['RFIRST'] = '1'; os.environ.pop('M2', None)
+    RL, RB = ext.red_lil(), ext.red_lib()
+    P = RB.Prof([dict(zip(S, V)) for S, V in zip(d['sets'], d['vals'])], d['m'])
+    f, keys = RB.fewest_frozen_le1(P)
+    if f != 1 or d['m'] - 2 * P.n + 1 < 1: return None, 'f=%s' % f
+    Ks = {x: RB.Key(P, g, x) for g, x in keys}
+    stuck = tot = 0
+    for x, K in Ks.items():
+        for Q, L in K.configs():
+            if any(K.owner_status(Q, L, o)[2] for o in K.free): continue
+            tot += 1; p0 = RL.phi(P, K, Q, L)
+            if not any(RL.is_config(P, K2, Q2, L2) and RL.phi(P, K2, Q2, L2) > p0 for K2, Q2, L2 in LT.text_moves(P, Ks, K, Q, L)):
+                stuck += 1
+    return stuck == 0, '%d non-completable configurations, %d stuck' % (tot, stuck)
+
+
 def lil_gap(d):
     """the same statement with #53's move generator (pool moves, exchange-digraph cycles with any admissible pairs
     and receivers keeping part of their pair, two-agent re-partitions): a larger catalogue than M1 M4 M5, so a stuck
@@ -383,6 +425,7 @@ def _adaptive(d, opts):
 def rulef(d):
     """LB4r with rule F (-A16) and at most one nested rotation (-r1) succeeds (#44's k4/adaptive.c; raw EFX0 check)"""
     if _inst(d).core_violations(): return None, 'not a k = 4 core'
+    if len(d['sets']) > 13: return None, 'n > 13 (H_t for t <= 8: #44, K4.AD.*)'
     return _adaptive(d, ['-A16', '-r1'])
 
 
@@ -492,6 +535,12 @@ PREDICATES = {
                    impls={'suite': lambda d: _pre_every(d, 'sumlev')}),
     'f0s': dict(statement='K4.HALL.F0S: among the P without frozen agent (if any), every Σℓ-maximum is removal-only completable',
                 source='K4.HALL.F0S (#46)', impls={'suite': lambda d: _pre_every(d, 'f0s')}),
+    'pareto-T:bt': dict(statement='every Pareto-maximum of 𝒫_bt (big-top agents may hold their lower triple) is removal-only completable',
+                        source='this PR (k4/suite/triples.py)', impls={'suite': lambda d: __import__('triples').pareto_every(d, 'bt')}),
+    'pareto-T:low': dict(statement='every Pareto-maximum of 𝒫_low (every 4-good agent may hold its lower triple) is removal-only completable',
+                         source='this PR (k4/suite/triples.py)', impls={'suite': lambda d: __import__('triples').pareto_every(d, 'low')}),
+    'lil-text': dict(statement="LIL with the catalogue as #51's text states it (M1; M4 plain or one Lemma R (iii) receiver; M5 with x's best pair), potential (r′, −t, Λ)",
+                     source='#51 (reviews)', impls={'suite+red_lib': lil_text}),
     'pareto-nofrozen': dict(statement='every Pareto-maximal P in 𝒫 without frozen agent (omega >= 1) is removal-only completable',
                             source='attempts/k4-hall-pareto-no-frozen.md (#46)',
                             impls={'suite': lambda d: _pareto_nofrozen(d, 'suite'), 'hall': lambda d: _pareto_nofrozen(d, 'hall')}),

@@ -1,0 +1,21 @@
+# DEF-LOCAL_k over #53's gap catalogues (every 10th record at n = 4, every 20th at n = 5, every hard_hunt record)
+# command: python3 k4/suite/deficit_sweep.py k4/suite/.cache/gapbench/results/k4_gap/gap_n4_1.json.gz --every=10 --jobs=2
+profiles 4439 k* histogram {0: 4439}
+# command: python3 k4/suite/deficit_sweep.py k4/suite/.cache/gapbench/results/k4_gap/gap_n4_2_s4000.json.gz --every=10 --jobs=2
+profiles 3617 k* histogram {0: 3567, 1: 50}
+# command: python3 k4/suite/deficit_sweep.py k4/suite/.cache/gapbench/results/k4_gap/gap_n4_3_s4000.json.gz --every=10 --jobs=2
+profiles 5837 k* histogram {0: 5495, 1: 341, 2: 1}
+# command: python3 k4/suite/deficit_sweep.py k4/suite/.cache/gapbench/results/k4_gap/gap_n4_pure_s4000.json.gz --every=10 --jobs=2
+profiles 4511 k* histogram {0: 3882, 1: 609, 2: 20}
+# command: python3 k4/suite/deficit_sweep.py k4/suite/.cache/gapbench/results/k4_gap/hard_hunt.json.gz --every=1 --jobs=2
+profiles 117 k* histogram {0: 41, 1: 61, 2: 15}
+# command: python3 k4/suite/deficit_sweep.py k4/suite/.cache/gapbench/results/k4_gap/gap_n5_1_s100.json.gz --every=20 --jobs=2
+profiles 28 k* histogram {0: 28}
+# command: python3 k4/suite/deficit_sweep.py k4/suite/.cache/gapbench/results/k4_gap/gap_n5_2_s100.json.gz --every=20 --jobs=2
+profiles 386 k* histogram {0: 386}
+# command: python3 k4/suite/deficit_sweep.py k4/suite/.cache/gapbench/results/k4_gap/gap_n5_3_s100.json.gz --every=20 --jobs=2
+profiles 1560 k* histogram {0: 1540, 1: 20}
+# command: python3 k4/suite/deficit_sweep.py k4/suite/.cache/gapbench/results/k4_gap/gap_n5_4_s100.json.gz --every=20 --jobs=2
+profiles 2364 k* histogram {0: 2264, 1: 99, 2: 1}
+# command: python3 k4/suite/deficit_sweep.py k4/suite/.cache/gapbench/results/k4_gap/gap_n5_pure_s100.json.gz --every=20 --jobs=2
+profiles 1455 k* histogram {0: 1327, 1: 127, 2: 1}

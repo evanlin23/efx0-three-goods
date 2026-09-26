@@ -1,0 +1,61 @@
+# command: for c in gap_n3 gap_n4_1 gap_n4_2_s4000 gap_n4_3_s4000 gap_n4_pure_s4000 gap_n5_1_s100 gap_n5_2_s100 gap_n5_3_s100 gap_n5_4_s100 gap_n5_pure_s100 hard_hunt hard_base; do python3 k4/suite/count_bench.py k4/suite/.cache/gapbench $c.json.gz 0; done
+# (catalogues of #53, compute/k4-gap at 245040b; bench k4/gap_bench.py there; counterexamples re-checked by gap_model, 'Python re-check')
+== gap_n3.json.gz
+SIMPLE: HOLDS on the data; 74256 cases tested, 0 skipped (hypothesis not met), 74256 profiles; 0 counterexamples
+  time 50
+COUNT: FAILS on the data; 74256 cases tested, 0 skipped (hypothesis not met), 74256 profiles; 1408 counterexamples
+  time 79
+  CE [[0, 2, 6, 7], [1, 4, 6, 7], [3, 5, 6, 7]] [[3, 6, 2, 10], [3, 6, 2, 10], [3, 6, 2, 10]]
+  CE [[0, 2, 6, 7], [1, 4, 6, 7], [3, 5, 6, 7]] [[3, 6, 2, 10], [3, 6, 2, 10], [4, 7, 2, 10]]
+  CE [[0, 2, 6, 7], [1, 4, 6, 7], [3, 5, 6, 7]] [[3, 6, 2, 10], [3, 6, 2, 10], [4, 8, 3, 10]]
+  CE [[0, 2, 6, 7], [1, 4, 6, 7], [3, 5, 6, 7]] [[3, 6, 2, 10], [3, 6, 2, 10], [6, 3, 2, 10]]
+== gap_n4_1.json.gz
+SIMPLE: HOLDS on the data; 44388 cases tested, 0 skipped (hypothesis not met), 44388 profiles; 0 counterexamples
+  time 30
+COUNT: HOLDS on the data; 44388 cases tested, 0 skipped (hypothesis not met), 44388 profiles; 0 counterexamples
+  time 55
+== gap_n4_2_s4000.json.gz
+SIMPLE: HOLDS on the data; 36164 cases tested, 0 skipped (hypothesis not met), 36164 profiles; 0 counterexamples
+  time 35
+COUNT: FAILS on the data; 36164 cases tested, 0 skipped (hypothesis not met), 36164 profiles; 5 counterexamples
+  time 66
+  CE [[0, 2, 4, 5], [1, 3, 6, 7], [4, 6, 7], [5, 6, 7]] [[3, 4, 10, 8], [2, 4, 7, 10], [4, 2, 3], [4, 3, 2]]
+  CE [[0, 2, 4, 5], [1, 3, 6, 7], [4, 6, 7], [5, 6, 7]] [[3, 4, 10, 8], [7, 2, 4, 10], [4, 2, 3], [4, 3, 2]]
+  CE [[0, 2, 4, 5], [1, 3, 6, 7], [4, 6, 7], [5, 6, 7]] [[4, 2, 8, 7], [2, 4, 8, 5], [4, 3, 2], [4, 3, 2]]
+  CE [[0, 2, 4, 6], [1, 4, 7], [3, 5, 6, 7], [5, 6, 7]] [[2, 3, 10, 6], [2, 4, 3], [6, 3, 8, 4], [2, 3, 4]]
+== gap_n4_3_s4000.json.gz
+SIMPLE: HOLDS on the data; 58361 cases tested, 0 skipped (hypothesis not met), 58361 profiles; 0 counterexamples
+  time 93
+COUNT: FAILS on the data; 58361 cases tested, 0 skipped (hypothesis not met), 58361 profiles; 35 counterexamples
+  time 172
+  CE [[0, 2, 4, 7], [1, 4, 6, 7], [3, 5, 6, 7], [5, 6, 7]] [[2, 4, 8, 7], [4, 8, 2, 5], [6, 3, 7, 5], [2, 3, 4]]
+  CE [[0, 2, 4, 6], [1, 5, 6, 7], [3, 5, 7], [4, 5, 6, 7]] [[4, 2, 5, 8], [2, 7, 6, 10], [2, 3, 4], [5, 8, 4, 2]]
+  CE [[0, 2, 4, 7], [1, 3, 5, 6], [3, 4, 6, 7], [5, 6, 7]] [[2, 4, 8, 7], [7, 2, 4, 10], [6, 10, 2, 7], [3, 2, 4]]
+  CE [[0, 2, 6, 7], [1, 3, 4, 7], [3, 4, 5, 7], [5, 6, 7]] [[2, 4, 7, 10], [3, 10, 4, 8], [10, 6, 3, 8], [3, 2, 4]]
+== gap_n4_pure_s4000.json.gz
+SIMPLE: HOLDS on the data; 45101 cases tested, 0 skipped (hypothesis not met), 45101 profiles; 0 counterexamples
+  time 139
+COUNT: FAILS on the data; 45101 cases tested, 0 skipped (hypothesis not met), 45101 profiles; 59 counterexamples
+  time 251
+  CE [[0, 2, 4, 7], [1, 5, 6, 7], [3, 5, 6, 7], [4, 5, 6, 7]] [[2, 7, 4, 10], [2, 8, 7, 4], [3, 10, 8, 6], [3, 5, 7, 6]]
+  CE [[0, 2, 4, 5], [1, 4, 6, 7], [3, 5, 6, 7], [4, 5, 6, 7]] [[5, 2, 4, 8], [3, 4, 8, 10], [2, 3, 4, 8], [3, 8, 10, 6]]
+  CE [[0, 2, 3, 7], [1, 5, 6, 7], [3, 4, 5, 6], [4, 5, 6, 7]] [[1, 4, 8, 6], [4, 2, 5, 8], [8, 2, 4, 5], [3, 6, 8, 10]]
+  CE [[0, 2, 6, 7], [1, 3, 4, 5], [3, 5, 6, 7], [4, 5, 6, 7]] [[4, 1, 6, 8], [2, 4, 7, 8], [2, 4, 5, 8], [3, 5, 7, 6]]
+== gap_n5_1_s100.json.gz
+SIMPLE: HOLDS on the data; 547 cases tested, 0 skipped (hypothesis not met), 547 profiles; 0 counterexamples
+  time 1
+COUNT: HOLDS on the data; 547 cases tested, 0 skipped (hypothesis not met), 547 profiles; 0 counterexamples
+  time 2
+== gap_n5_2_s100.json.gz
+SIMPLE: HOLDS on the data; 7713 cases tested, 0 skipped (hypothesis not met), 7713 profiles; 0 counterexamples
+  time 36
+COUNT: FAILS on the data; 7713 cases tested, 0 skipped (hypothesis not met), 7713 profiles; 1 counterexamples
+  time 71
+  CE [[0, 3, 7, 8], [1, 5, 8], [2, 6, 7, 8], [3, 4, 5], [4, 6, 8]] [[3, 10, 4, 8], [2, 4, 3], [4, 10, 2, 7], [4, 2, 3], [2, 4, 3]]
+== gap_n5_3_s100.json.gz
+SIMPLE: HOLDS on the data; 31190 cases tested, 0 skipped (hypothesis not met), 31190 profiles; 0 counterexamples
+  time 200
+COUNT: FAILS on the data; 31190 cases tested, 0 skipped (hypothesis not met), 31190 profiles; 1 counterexamples
+  time 401
+  CE [[0, 2, 6, 9], [1, 4, 7, 9], [3, 5, 6, 8], [5, 8, 9], [7, 8, 9]] [[4, 6, 3, 8], [2, 4, 8, 7], [3, 8, 4, 10], [2, 3, 4], [4, 3, 2]]
+== gap_n5_4_s100.json.gz

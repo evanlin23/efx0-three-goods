@@ -8,10 +8,11 @@ test, not a certificate.
 
 ## Contents
 
-- `instances/*.json`: 152 records, 147 complete instances and 5 local configurations of `k4/MINCEX.md` (marked
+- `instances/*.json`: 155 records, 150 complete instances and 5 local configurations of `k4/MINCEX.md` (marked
   `"kind"`, skipped by the runner). Collected from main and from the branches of PRs #37, #41, #43, #44, #45, #50, #51,
-  #53 (read with `git show`, never edited), plus one instance that was in no repository: the non-core counterexample
-  to #51's local improvement lemma found by #51's referee (`lil-noncore-n3`, re-derived here, see below).
+  #53 (read with `git show`, never edited), plus three instances that were in no repository: the non-core counterexample
+  to #51's local improvement lemma found by #51's referee (`lil-noncore-n3`) and two counterexamples to its text
+  catalogue from #51's reviewers (`lil-text-n3`, `lil-text-n4`), all re-derived here; and this PR's own `count-n3m8`.
 - `model.py`: this workstream's own implementation of the objects, written from the definitions (k4/c4x.md §1,
   k4/c4min.md §1, §3.6, §4, k4/hall.md §1): 𝒫, needs, frozen agents, keys, configurations, valid owners with the
   unfreezing clause, the removal-only deficit, completions, the potentials t, r, Λ, p, Φ, Φ′, and an own SAT encoding of
@@ -23,7 +24,8 @@ test, not a certificate.
   main's `k4/hall_check.py` and `k4/c4x_check.py`.
 - `predicates.py`: the statements (`python3 k4/suite/run.py --list`), each with its implementations.
 - `run.py`: the runner. `table.py`: prints the provenance table below from the records.
-- `triples.py`, `deficit_local.py`, `deficit_sweep.py`: the Step 2 experiments of `k4/strategy.md` (§2.4, §2.1).
+- `triples.py`, `deficit_local.py`, `deficit_sweep.py`, `count_bench.py`, `lil_text.py`: the experiments of
+  `k4/strategy.md` §2. `summarize.py` tabulates a run log.
 
 ## Record format
 
@@ -56,12 +58,23 @@ A line reads `holds`, `FAILS` or `n/a` (hypothesis not met, instance too large, 
 
 ## Results
 
-(Being filled in: the baseline run of the candidate targets on every instance, `results/k4_strategy/suite_baseline.log`.)
+Logs in `results/k4_strategy/` (each starts with its command); `python3 k4/suite/summarize.py LOG` tabulates a log.
+- `suite_expected.log`: every refutation the runner can express reproduces. That is 52 checks on 34 instances: 46 with
+  two implementations, 6 with one (the 𝒫_T and LIL-text statements, new in this PR). There are 0 disagreements.
+- `suite_baseline.log`: TARGET₄ (`efx0`), K4.D (`d2`) and PS for every agent (`ps`) hold on all 150 complete
+  instances, cores and the non-core alike, with #43's `induct_sat`. They also hold with `model.py`'s SAT on all but
+  H₅ (n = 21), where it is too slow and is skipped. PS-OWNER (`psd2`) and C₄ᵐⁱⁿ in both forms (`c4min`, `c4min-cfg`):
+  see the log and `k4/strategy.md` §1.
+- `suite_rulef.log`: LB₄ʳ with rule F (#44) and at most one rotation succeeds on all 148 core instances it was run on
+  (H₅ is left to #44's Proposition H′).
+- `deficit_local_suite.log`: Conjecture DL₂ of `k4/strategy.md` §3. k* ≤ 2 on every core with ω ≥ 1 and n ≤ 6;
+  k* = 3 on the non-core `lil-noncore-n3`.
 
 ## Instances
 
 | id | n | m | core | PR | source files | refutes (as the source states it; full text in the record) | re-checked by `run.py --expected` |
 |---|---|---|---|---|---|---|---|
+| `count-n3m8` | 3 | 8 | yes | proof/k4-strategy | `attempts/k4-strat-count.md` | COUNT (Route 1, this PR): some pool-optimal configuration at a min-frozen key has more robust free agents tha… | `count` |
 | `mincex-drop-private-p3` | 1 | 3 | local | #23 | `attempts/k4-mincex-drop-private.md` | Minimal-counterexample reduction (k = 4): removing the private good of a P3 agent (replace e on {s, t, p} by … |  |
 | `mincex-px-open-q3` | 2 | 5 | local | #23 | `attempts/k4-mincex-px-open.md`, `LEDGER.md` | Minimal-counterexample reduction for configuration px (open): a P3 agent f = {g, y, p_f} sharing a good g of … |  |
 | `mincex-px-open-q3-swapped` | 2 | 5 | local | #23 | `attempts/k4-mincex-px-open.md` | Minimal-counterexample reduction for configuration px (open), as for mincex-px-open-q3 |  |
@@ -164,9 +177,11 @@ A line reads `holds`, `FAILS` or `n/a` (hypothesis not met, instance too large, 
 | `adaptive-p3` | 3 | 6 | yes | #44 | `k4/adaptive.md`, `attempts/k4-adaptive-local-features.md` | Insertion rule -A9 (most contested top): LB4r run on the insertion sequence this rule chooses succeeds with a…; Insertion rule -A18 (matching: agents matched to their second choice first (adaptive.c's optimal matching)): … |  |
 | `c4min-w0-n4-m11-n4pc217` | 4 | 11 | yes | #45 | `attempts/k4-c4min-w0-owner-base.md`, `attempts/k4_c4min_w0_replay.py` | C4min with the owner's needs taken from its base instead of its bundle (the needs of LB4's -w0): for every st… |  |
 | `hall-cyc6` | 6 | 15 | yes | #46 | `k4/hall_instances/cyc6.inst`, `attempts/k4-hall-pareto-no-frozen.md` | Every Pareto-maximum of 𝒫 without frozen agents is removal-only completable (k = 4): Theorem K3's statement r… | `pareto-nofrozen` |
-| `hall-local3` | 3 | 7 | yes | #46 | `k4/hall_instances/local3.inst`, `attempts/k4-hall-local-exposures.md` | Theorem K3 at k = 4 when every frozen exposure is local: if no frozen exposure is of the big-top kinds (G) or…; Pareto-maximality is the extremal principle for the big-top owner step (k = 4): the repair here is an exchang… | `pareto`, `pre-every:pareto` |
+| `hall-local3` | 3 | 7 | yes | #46 | `k4/hall_instances/local3.inst`, `attempts/k4-hall-local-exposures.md` | Theorem K3 at k = 4 when every frozen exposure is local: if no frozen exposure is of the big-top kinds (G) or…; Pareto-maximality is the extremal principle for the big-top owner step (k = 4): the repair here is an exchang… | `pareto`, `pareto-T:bt`, `pareto-T:low`, `pre-every:pareto` |
 | `f1-bigtop-n3-m8-n3c46` | 3 | 8 | yes | #50 | `attempts/k4-c4min-f1-bigtop.md`, `attempts/k4_c4min_f1_bigtop.py` | Psi = (r, Lambda) at f = 1: some (every) configuration maximizing Psi = (#robust agents, sum of levels) has a…; Theorem F1 extended to big-top frozen agents ('Theorem F1*' in results/k4_c4min_f1_n3.log): every Psi-maximum… | `cfg:r,lam` |
 | `lil-noncore-n3` | 3 | 9 | NO | #51 |  | The local improvement lemma LIL of k4/c4min_reduce.md §5.3 (#51) without the core's private-goods rule: every… | `lil` |
+| `lil-text-n3` | 3 | 7 | yes | #51 |  | #51's local improvement lemma LIL (k4/c4min_reduce.md §5.3) with the move catalogue as its text states it (M1… | `lil-text` |
+| `lil-text-n4` | 4 | 9 | yes | #51 |  | #51's local improvement lemma LIL (k4/c4min_reduce.md §5.3) with the move catalogue as its text states it (M1… | `lil-text` |
 | `red-a1-hopeless-key` | 3 | 6 | yes | #51 | `k4/c4min_reduce.md`, `attempts/k4-c4min-reduce-a.md` | Reduction (a) at a fixed key: for a key (g, x) of a strict profile with fewest frozen agents f = 1 (x frozen … |  |
 | `red-a2-hstar` | 3 | 8 | yes | #51 | `k4/c4min_reduce.md`, `attempts/k4-c4min-reduce-a.md` | Reduction (a) with Theorem Z's potential at the best key: some key (g, x) has every maximum of (r', Lambda') …; Reduction (c), one role swap, two-level rule: take a non-completable (r', Lambda')-maximum at a key (g, x) an… (+2 more) | `cfg:r,lam` |
 | `red-b1-blocked-improvement` | 4 | 11 | yes | #51 | `k4/c4min_reduce.md`, `attempts/k4-c4min-reduce-b.md` | Reduction (b): at a fixed key, rerun Theorem Z's argument with the constraint t = 0 first; every maximum of (… |  |
@@ -174,7 +189,7 @@ A line reads `holds`, `FAILS` or `n/a` (hypothesis not met, instance too large, 
 | `red-lil-nokeep-b` | 3 | 7 | yes | #51 | `results/k4_red_lil_gapbench.log`, `k4/red_lil_gapbench.py` | LIL (Phi_r = (r', -t, Lambda)) with PR #53's move catalogue WITHOUT keeping: every f = 1 configuration withou… |  |
 | `red-pm-offpath-hypothesis` | 3 | 7 | yes | #51 | `k4/c4min_reduce.md` | Lemma PM without its hypothesis that the terminal tau is threatened by some owner o not among p_1, ..., p_k: … |  |
 | `hall-bestpair-core44` | 3 | 7 | yes | #52 | `k4/hall_bt.md` | #41 §4's rule for the exchange-digraph cycle move: a receiver of a threat edge takes its *best* admissible pa… |  |
-| `hall-bt4` | 4 | 7 | yes | #52 | `k4/hall_instances/bt4.inst`, `attempts/k4-hall-bt-n4.md` | Conjecture BT (K4.HALL.BT): a Pareto-maximum inside the min-frozen class of 𝒫, with ω ≥ 1, that is not remova…; A frozen agent that is not big-top (exposed only locally) is repaired by the exchange cycle through the owner… | `bt`, `bt-cfg`, `pareto-minfrozen` |
+| `hall-bt4` | 4 | 7 | yes | #52 | `k4/hall_instances/bt4.inst`, `attempts/k4-hall-bt-n4.md` | Conjecture BT (K4.HALL.BT): a Pareto-maximum inside the min-frozen class of 𝒫, with ω ≥ 1, that is not remova…; A frozen agent that is not big-top (exposed only locally) is repaired by the exchange cycle through the owner… | `bt`, `bt-cfg`, `pareto-T:bt`, `pareto-minfrozen` |
 | `hall-btown-core46` | 3 | 8 | yes | #52 | `k4/hall_bt.md` | BTOWN (the variant of K4.HALL.BTCYC with x as the owner): at every Pareto-maximal P ∈ 𝒫 inside the min-frozen… |  |
 | `gap-bt5-n5-m10-n53c7265` | 5 | 10 | yes | #53 | `results/k4_gap_bench_n5.log`, `results/k4_gap_bt5.log` | #41 section 4, the local improvement lemma with pool moves and exchange-cycle moves (best pairs, every order …; from each Pareto-maximal configuration without a valid owner, exchange-cycle moves alone reach one with a val… (+1 more) | `bt-cfg` |
 | `gap-btcyc-n4-m8-pure122` | 4 | 8 | yes | #53 | `results/k4_gap_bench_hard_hunt.log`, `results/k4_gap_btcyc.log` | #41 section 4, the local improvement lemma with pool moves and exchange-cycle moves (best pairs, every order …; every configuration without a valid owner has a Phi'-raising move, with LOCAL's catalogue (pool moves; exchan… (+4 more) | `max-simple` |
