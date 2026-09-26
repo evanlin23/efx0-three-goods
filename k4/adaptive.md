@@ -42,15 +42,16 @@ at most R nested rotations, R as small as possible?
   the others need one rotation with the needs from the base, and the owner's needs from its bundle avoid it at n ≤ 3
   and on 1,200 profiles at n = 4 (§6).
 
-Nothing here changes K4.D or K4.T. Rows K4.AD.* are CONJECTURE or EVIDENCE.
+Nothing here changes K4.D or K4.T. K4.AD.H is PROVED (a refereed written proof, not in Lean); the other rows K4.AD.*
+are CONJECTURE or EVIDENCE.
 
 **Related work** (as of this revision). #36 (merged) states C₄ᵐⁱⁿ (`k4/c4x.md`, conjecture K4.C4X.MIN): some valid
-pre-allocation with the fewest frozen agents is completable. #41 (`proof/k4-c4min`, open) proves it, in its Theorem Z,
+pre-allocation with the fewest frozen agents is completable. #41 (`proof/k4-c4min`, merged) proves it, in its Theorem Z,
 on every profile whose fewest frozen agents is 0, which covers every H_t; Theorem Z is machine-checked on main
 (#49, row K4.C4MIN.Z.LEAN), and #46 (merged, `k4/hall.md`) gives H_t a removal-only completable pre-allocation without
 frozen agent (K4.HALL.HT). Proposition H′ is the algorithmic counterpart: LB₄ʳ with a chosen first agent reaches a
 state with no frozen agent. #52 (merged, `k4/hall_bt.md`) treats the exposed frozen agents that remain. #43
-(`proof/k4-induct`, open, induction on the number of 4-good agents) and #40 (merged, `compute/k4-nsw`, unbounded
+(`proof/k4-induct`, merged, induction on the number of 4-good agents) and #40 (merged, `compute/k4-nsw`, unbounded
 rotations guided by Nash welfare) attack the multi-4-good gap by other routes. Read from their descriptions and ledger
 rows only.
 
