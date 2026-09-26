@@ -1,6 +1,6 @@
 # Conjecture C₄¹: at most one 4-good agent
 
-Workstream `proof/k4-c4one` (ledger row K4.C4.1, open item 18). Builds on `k4/c4.md` (PR #33, under review): notation,
+Workstream `proof/k4-c4one` (ledger row K4.C4.1, open item 18). Builds on `k4/c4.md` (PR #33, merged): notation,
 Lemma E, Theorems A₄, B₄, B₄ʷ, A₄ᵀ, A₄⁺ and the conventions of its §1.1. Throughout, q is the unique 4-good agent.
 
 ## Status
@@ -53,10 +53,16 @@ exactly their bases and only the owner's bundle has more than two goods.
 - This is PR #35's `EFX.LB4R.TheoremC4exists` restricted to such cores.
 - With Theorem 1′₄ (K4.LB4.S), K4.CORE (whose peeling never adds a 4-good agent) and K4.TIE, it gives **TARGET₄ for
   every instance in which at most one agent values four goods**.
-- Related open PRs, not read here [unverified], as described by the coordinator:
-  - #39 (`formal/k4-one`) derives TARGET₄ for at most one 4-good agent from `C4existsOne` in Lean.
-  - #41 (`proof/k4-c4min`) claims a written proof of C₄ᵐⁱⁿ whenever the least number of frozen agents is 0.
-  - Both bear on this file's key, whose first component ω = |F| − σ counts frozen agents.
+- Related results on main, cited from the ledger (their files were not read here):
+  - **K4.ONE.FRAME** (#39, Lean): TARGET₄ for at most one 4-good agent follows from `EFX.LB4R.C4existsOne`, which is
+    C₄¹∃ on connected cores.
+  - **K4.C4MIN.Z** and **K4.C4MIN.F** (#41, PROVED, main claims in Lean): C₄ᵐⁱⁿ holds on every profile whose fewest
+    frozen agents (over the pre-allocation space of `k4/c4x.md`) is 0, or that has a frozen-robust configuration at
+    the fewest frozen agents. On those profiles this gives an EFX₀ allocation with at most one bundle of more than
+    two goods, hence C₄¹∃ when at most one agent has four goods.
+  - **K4.C4X.ONE** (conjecture): a different route to the same case, through maxima of Σℓ.
+  - This file's key also starts with the number of frozen agents, since ω = |F| − σ. So Lemma X is needed only on
+    profiles that Theorems Z and F leave open.
 
 **C₄¹ (LB₄ʳ form, `k4/c4.md` §6.2; false).** Take every run of Phase 1 on such a core, after envy-free upgrades. Then
 either some free agent is a valid owner with its needs from its base, or one rotation gives a valid pre-allocation that
