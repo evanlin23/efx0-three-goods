@@ -30,7 +30,7 @@ Lemma E, Theorems A₄, B₄, B₄ʷ, A₄ᵀ, A₄⁺ and the conventions of it
   - **Lemma X plus the theorems imply C₄¹∃.** So on the data, C₄¹∃ reduces to Lemma X, which is open.
   - The stronger **Lemma X′** also holds on the data: from every uncovered run, one changed insertion step gives a
     covered run directly, with no key needed.
-  - **n = 6:** on all 26,866 certified n = 6 cores with one 4-good agent (PR #26), for every strict profile, the
+  - **n = 6:** on all 26,866 certified n = 6 cores with one 4-good agent (#26, now on main), for every strict profile, the
     index-order run is covered or one changed insertion step makes it covered. There are 0 exceptions in 5.47·10¹⁰
     profiles (`results/k4_c4one_n6.log`).
   - **A first proved piece: Lemma Ω** (§6, written proof, not yet reviewed). Take a need chain from a block's leader
@@ -53,6 +53,10 @@ exactly their bases and only the owner's bundle has more than two goods.
 - This is PR #35's `EFX.LB4R.TheoremC4exists` restricted to such cores.
 - With Theorem 1′₄ (K4.LB4.S), K4.CORE (whose peeling never adds a 4-good agent) and K4.TIE, it gives **TARGET₄ for
   every instance in which at most one agent values four goods**.
+- Related open PRs, not read here [unverified], as described by the coordinator:
+  - #39 (`formal/k4-one`) derives TARGET₄ for at most one 4-good agent from `C4existsOne` in Lean.
+  - #41 (`proof/k4-c4min`) claims a written proof of C₄ᵐⁱⁿ whenever the least number of frozen agents is 0.
+  - Both bear on this file's key, whose first component ω = |F| − σ counts frozen agents.
 
 **C₄¹ (LB₄ʳ form, `k4/c4.md` §6.2; false).** Take every run of Phase 1 on such a core, after envy-free upgrades. Then
 either some free agent is a valid owner with its needs from its base, or one rotation gives a valid pre-allocation that
@@ -85,7 +89,7 @@ The mechanism is two agents to protect and only one slot, both for owner r and f
 At n ≤ 4, one rotation suffices on every run `lb4.c` makes (`results/k4_c4_variants.log`). The gadget chain H_t
 (`k4/c4.md` §7) needs many rotations, but its gadgets have three 4-good agents each, and a single 4-good agent cannot
 be repeated along a chain. Whether two rotations always suffice with one 4-good agent is open. The certified n = 6
-cores with one 4-good agent (PR #26, not merged) were not run here: every insertion sequence at n = 6 is out of reach.
+cores with one 4-good agent (#26, now on main) were not run here: every insertion sequence at n = 6 is out of reach.
 Only index order with one changed step was run there (§6).
 
 ## 3. The runs the theorems of `k4/c4.md` leave open, by case (`results/k4_c4one_classes.log`)
@@ -261,7 +265,8 @@ agrees with τ before one insertion step, takes another agent there, and follows
 - *n = 6, from index order* (`-i6`, `results/k4_c4one_n6.log`): on each of the 26,866 certified n = 6 cores with one
   4-good agent, every strict profile has its index-order run covered, or covered after one changed insertion step.
   That is 0 exceptions in 5.47·10¹⁰ profiles (713 s on 4 CPUs).
-  - The cores come from `results/k4_certs_6_n4_1.json.gz` of PR #26 (not merged); the log records its SHA-256 prefix.
+  - The cores are `results/k4_certs_6_n4_1.json.gz` (#26, now on main). The run used #26's branch copy, and its
+    SHA-256 prefix, recorded in the log, matches the file on main.
   - This tests X′ from index order only. Every insertion sequence at n = 6 is out of reach here.
 - The working change is always at or before the insertion step that started q's block (`-E`, searching from the first
   step on). At n = 5, of the 1,696,106 uncovered runs, 321,544 are covered by a change at an earlier step, and the
@@ -579,8 +584,7 @@ python3 k4/c4tools/c4potscan.py results/k4_certs_2.json.gz results/k4_certs_3.js
 python3 k4/c4check_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz results/k4_certs_4_n4_1.json.gz results/k4_certs_4_n4_2.json.gz   # §5
 bash k4/c4one_tau_runs.sh                                                 # §6, every row (~1 h)
 python3 k4/c4one_tau.py "-X -P2 -u2 -i20 -o0 -r1 -w0 -c0 -f3" results/k4_certs_5_n4_1.json.gz   # Lemma X', n = 5 (~5 min)
-git show origin/compute/k4-frontier:results/k4_certs_6_n4_1.json.gz > /tmp/k4_certs_6_n4_1.json.gz  # PR #26's n = 6 cores
-python3 k4/c4one_tau.py "-X -P2 -u2 -i6 -o0 -r1 -w0 -c0 -f3" /tmp/k4_certs_6_n4_1.json.gz          # X' from index order, n = 6 (~12 min)
+python3 k4/c4one_tau.py "-X -P2 -u2 -i6 -o0 -r1 -w0 -c0 -f3" results/k4_certs_6_n4_1.json.gz     # X' from index order, n = 6 (~12 min)
 bash k4/c4one_exchange_runs.sh                                            # §6, where the change is, by case (~10 min)
 python3 k4/c4tools/c4realize.py results/k4_certs_3.json.gz results/k4_certs_4_n4_1.json.gz results/k4_certs_5_n4_1.json.gz   # §6, realized rotations
 bash k4/c4one_omega_runs.sh                                               # §6, Lemma Ω and runs with P-steps in any order (~70 min)
