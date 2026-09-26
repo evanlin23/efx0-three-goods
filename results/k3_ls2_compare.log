@@ -1,0 +1,11 @@
+$ python3 k3/compare.py --max-n=5000 --reps=3 --seed=1
+python 3.11.15; 3 random cores per n; median seconds; slope = log-log growth
+     n      m     K3ALG  slope       LS2  slope LS2 steps/n  K3ALG branch / LS2 phase 2
+    20     23    0.0002           0.0012               2.00  noowner/none, noowner/a, noowner/a
+    50     67    0.0004   0.87    0.0072   1.98        2.02  noowner/b, noowner/b, noowner/none
+   100    120    0.0007   0.81    0.0217   1.60        2.14  noowner/a, noowner/a, noowner/b
+   200    273    0.0015   1.01    0.0980   2.17        2.10  noowner/a, noowner/a, noowner/a
+   500    740    0.0036   0.97    0.7818   2.27        2.16  noowner/a, noowner/a, noowner/b
+  1000   1402    0.0072   1.01    2.8777   1.88        2.15  noowner/a, noowner/a, noowner/a
+  2000   2656    0.0142   0.97   11.4222   1.99        1.91  noowner/a, noowner/a, noowner/a
+  5000   7577    0.0404   1.14   89.6228   2.25        2.14  noowner/a, noowner/a, noowner/a

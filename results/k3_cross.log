@@ -1,0 +1,4 @@
+$ cd k3 && python3 k3algo.py --cross 200000 --seed=2
+cross: 200000 random instances (seed 2): mirror == fast on every one; every output raw EFX0 (both checks)
+branches: {'no_goods': 11860, 'noowner': 86348, 'one_agent': 70527, 'owner_r': 30839, 'rot_noowner': 241, 'rot_owner_k': 185}
+(real 0m46.7s, 1 CPU)
