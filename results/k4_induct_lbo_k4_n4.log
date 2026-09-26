@@ -1,0 +1,3 @@
+command: python3 k4/induct_lbo.py --from-k4 results/k4_certs_4_n4_1.json.gz --samples=300 --seed=4 --jobs=2 --last --partial --rot --log=results/k4_induct_lbo_k4_n4.log
+15300 (k = 4 core, profile) pairs with one 4-good agent, a P4 agent w; test J = I - p with target w
+time 1.6s; tests: 15300 (w top-heavy in J: 7303); without a witness: 0
