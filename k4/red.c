@@ -86,10 +86,10 @@ static int disjoint_system(int na, const int *ag, const mask_t *U, mask_t avoid)
 /* ---- configurations at a key ---- */
 typedef struct {
   mask_t Q[MAXN], L;
-  int r, lamU, lamR, t, p, nterm, poolopt, nfv, ndx, comp, inj, lx, vp;
+  int r, lamU, lamR, t, p, nterm, poolopt, nfv, ndx, comp, inj, lx, vp, unthr;
   mask_t terms, fv, dx, compo, npo, rob;  /* bitsets of agents (npo: not pool-optimal) */
 } cfg_t;
-typedef struct { int g, x, omega, nfree, free[MAXN], lx; mask_t U[MAXN], Mp; cfg_t *c; int nc, cap; } rkey_t;
+typedef struct { int g, x, omega, nfree, free[MAXN], lx, xtype; mask_t U[MAXN], Mp; cfg_t *c; int nc, cap; } rkey_t;
 static rkey_t keys[MAXN]; static int nkeys;
 static int npairs[MAXN]; static mask_t pairs[MAXN][300];
 static mask_t curQ[MAXN];
@@ -118,7 +118,7 @@ static void eval_cfg(rkey_t *K, cfg_t *c) {
   { int nthr[MAXN] = {0};                /* threat-injectivity: every free agent threatened by at most one owner */
     for (int k = 0; k < K->nfree; k++) { int o = K->free[k]; mask_t X = c->Q[o] | c->L;
       for (int j = 0; j < K->nfree; j++) { int y = K->free[j]; if (y != o && threat(y, X, val(y, c->Q[y]))) nthr[y]++; } }
-    c->inj = 1; for (int j = 0; j < K->nfree; j++) if (nthr[K->free[j]] > 1) c->inj = 0; }
+    c->inj = 1; c->unthr = 0; for (int j = 0; j < K->nfree; j++) { if (nthr[K->free[j]] > 1) c->inj = 0; if (!nthr[K->free[j]]) c->unthr++; } }
   for (int k = 0; k < K->nfree; k++) {
     int o = K->free[k]; mask_t X = c->Q[o] | c->L;
     int fvalid = 1;
@@ -144,6 +144,7 @@ static void eval_cfg(rkey_t *K, cfg_t *c) {
     }
     if (ok) { c->comp = 1; c->compo |= 1u << o; }
   }
+  if (!c->ndx) c->unthr++;
 }
 static void gen_cfg(rkey_t *K, int k, mask_t used) {
   if (k == K->nfree) {
@@ -187,12 +188,12 @@ static int nexs[NCNT];
 static void example(const char *tag) { int i = cid(tag); if (nexs[i] < nex) { nexs[i]++; print_profile(tag); } }
 
 /* lexicographic potentials over a configuration (maximized) */
-enum { F_R, F_LAMU, F_LAMR, F_MT, F_MP, F_MTERM, F_LX, F_MVP, F_MNDX, NF };
-static const char *fnames[NF] = {"r", "lamU", "lamR", "mt", "mp", "mterm", "lx", "mvp", "mndx"};
+enum { F_R, F_LAMU, F_LAMR, F_MT, F_MP, F_MTERM, F_LX, F_MVP, F_MNDX, F_RS, F_UNTHR, NF };
+static const char *fnames[NF] = {"r", "lamU", "lamR", "mt", "mp", "mterm", "lx", "mvp", "mndx", "rs", "unthr"};
 static int feat(const cfg_t *c, int f) {
   switch (f) { case F_R: return c->r; case F_LAMU: return c->lamU; case F_LAMR: return c->lamR; case F_MT: return -c->t;
     case F_MP: return -c->p; case F_MTERM: return -c->nterm; case F_LX: return c->lx; case F_MVP: return -c->vp;
-    case F_MNDX: return -c->ndx; }
+    case F_MNDX: return -c->ndx; case F_RS: return c->r + (c->ndx == 0); case F_UNTHR: return c->unthr; }
   return 0;
 }
 /* user potentials (-p "f,f;f,f"): global over all keys */
@@ -243,6 +244,10 @@ static void do_profile(void) {
     K->g = g; K->x = x; K->nfree = na; memcpy(K->free, fr, sizeof fr); memcpy(K->U, U, sizeof U);
     K->Mp = (((mask_t)1 << m) - 1) & ~((mask_t)1 << g); K->omega = m - 2 * n + 1;
     K->lx = level(x, (mask_t)1 << g, Rm[x]);
+    { int w[3], nw = 0; mask_t r = U[x]; while (r) { w[nw++] = vv[x][__builtin_ctz(r)]; r &= r - 1; }
+      for (int i = 0; i < nw; i++) for (int j = i + 1; j < nw; j++) if (w[j] > w[i]) { int tt = w[i]; w[i] = w[j]; w[j] = tt; }
+      int a = vv[x][g];
+      K->xtype = nw == 2 ? 0 : a > w[0] + w[1] ? 1 : a > w[0] + w[2] ? 2 : a > w[1] + w[2] ? 3 : 4; }
   }
   if (!nkeys) { INC("f2plus"); return; }
   if (m - 2 * n + 1 <= 0) { INC("f1_omega_le0"); return; }
@@ -339,6 +344,51 @@ static void do_profile(void) {
       if (c->r == 0) { INC("amax_r0"); example("amax_r0"); } else if (c->r == 1) INC("amax_r1");
       if (c->inj && c->r > c->ndx) INC("amax_cert2"); else { INC("amax_not_cert2"); example("amax_not_cert2"); }
       if (!c->comp) { INC("FAIL_amax_noncomp"); example("amax_noncomp"); } } }
+  /* every profile with a big-top key: maxima of the analysis potential over the big-top configurations */
+  { int hasbt = 0; for (int k = 0; k < nkeys; k++) if (keys[k].xtype == 1) hasbt = 1;
+    if (hasbt) { const int *AP = nup ? up[0] : P_G1; int AN = nup ? upn[0] : 3; const cfg_t *b4 = NULL; INC("anybt_prof");
+      for (int k = 0; k < nkeys; k++) if (keys[k].xtype == 1) for (int q = 0; q < keys[k].nc; q++) if (!b4 || cmp_pot(&keys[k].c[q], b4, AP, AN) > 0) b4 = &keys[k].c[q];
+      int ev = 1, t1 = 0;
+      for (int k = 0; k < nkeys; k++) if (keys[k].xtype == 1) for (int q = 0; q < keys[k].nc; q++) { const cfg_t *c = &keys[k].c[q];
+        if (cmp_pot(c, b4, AP, AN)) continue; if (!c->comp) ev = 0; if (c->t) t1 = 1; }
+      if (ev) INC("anybt_prof_every"); else { INC("FAIL_anybt_prof_every"); example("anybt_prof_every"); }
+      if (t1) { INC("anybt_max_t1"); example("anybt_max_t1"); } } }
+  /* big-top profiles: every maximum of (r, lamR) over all keys has a big-top frozen agent (the case left by PR #50) */
+  { static const int PS[] = {F_R, F_LAMR}; const cfg_t *best = NULL; int bk = -1;
+    for (int k = 0; k < nkeys; k++) for (int q = 0; q < keys[k].nc; q++) if (!best || cmp_pot(&keys[k].c[q], best, PS, 2) > 0) { best = &keys[k].c[q]; bk = k; }
+    (void)bk;
+    int allbig = 1, anync = 0;
+    for (int k = 0; k < nkeys; k++) for (int q = 0; q < keys[k].nc; q++) if (!cmp_pot(&keys[k].c[q], best, PS, 2)) {
+      if (keys[k].xtype != 1) allbig = 0; if (!keys[k].c[q].comp) anync = 1; }
+    if (allbig) { INC("bt_prof");
+      { int allkeysbig = 1; for (int k = 0; k < nkeys; k++) if (keys[k].xtype != 1) allkeysbig = 0;
+        if (allkeysbig) INC("bt_prof_allkeys_big"); else { INC("bt_prof_some_key_notbig"); example("bt_prof_some_key_notbig"); } }
+      if (anync) { INC("bt_prof_psi_noncomp"); example("bt_prof_psi_noncomp"); }
+      int ev = 1; for (int k = 0; k < nkeys; k++) for (int q = 0; q < keys[k].nc; q++) if (!cmp_pot(&keys[k].c[q], best, PS, 2) && !keys[k].c[q].comp) ev = 0;
+      if (!ev) { int anyc2 = 0; for (int k = 0; k < nkeys; k++) for (int q = 0; q < keys[k].nc; q++) if (!cmp_pot(&keys[k].c[q], best, PS, 2) && keys[k].c[q].comp) anyc2 = 1;
+        if (!anyc2) { INC("bt_prof_no_psi_max_comp"); example("bt_prof_no_psi_max_comp"); } }
+      /* the analysis potential's maxima on these profiles */
+      const int *AP = nup ? up[0] : P_G1; int AN = nup ? upn[0] : 3; const cfg_t *b2 = NULL;
+      for (int k = 0; k < nkeys; k++) for (int q = 0; q < keys[k].nc; q++) if (!b2 || cmp_pot(&keys[k].c[q], b2, AP, AN) > 0) b2 = &keys[k].c[q];
+      for (int k = 0; k < nkeys; k++) for (int q = 0; q < keys[k].nc; q++) { const cfg_t *c = &keys[k].c[q]; if (cmp_pot(c, b2, AP, AN)) continue;
+        INC("bt_amax"); if (keys[k].xtype == 1) INC("bt_amax_xbig");
+        if (c->t) INC("bt_amax_t1"); if (!c->inj) INC("bt_amax_not_inj"); if (c->ndx >= 2) INC("bt_amax_ndx2");
+        if (c->r <= 1) { INC("bt_amax_r_le1"); example("bt_amax_r_le1"); if (c->ndx) INC("bt_amax_r_le1_xthr"); if (c->nterm >= 2) INC("bt_amax_r_le1_2terms"); } if (!(c->inj && c->r > c->ndx)) { INC("bt_amax_not_cert2"); example("bt_amax_not_cert2"); }
+        if (!c->comp) INC("FAIL_bt_amax_noncomp"); }
+      /* maxima of the analysis potential over the configurations whose frozen agent is big-top */
+      { const cfg_t *b3 = NULL;
+        for (int k = 0; k < nkeys; k++) if (keys[k].xtype == 1) for (int q = 0; q < keys[k].nc; q++) if (!b3 || cmp_pot(&keys[k].c[q], b3, AP, AN) > 0) b3 = &keys[k].c[q];
+        int ev = 1;
+        for (int k = 0; k < nkeys; k++) if (keys[k].xtype == 1) for (int q = 0; q < keys[k].nc; q++) { const cfg_t *c = &keys[k].c[q]; if (cmp_pot(c, b3, AP, AN)) continue;
+          INC("btx_amax"); if (c->t) INC("btx_amax_t1"); if (!c->inj) { INC("btx_amax_not_inj"); example("btx_amax_not_inj"); }
+          if (c->r <= c->ndx) INC("btx_amax_not_count");
+          if (!c->comp) { ev = 0; } }
+        if (ev) INC("btx_prof_every"); else { INC("FAIL_btx_prof_every"); example("btx_prof_every"); } }
+      /* terminals of the (r, lamR)-maxima: all big-top? */
+      for (int k = 0; k < nkeys; k++) for (int q = 0; q < keys[k].nc; q++) { const cfg_t *c = &keys[k].c[q]; if (cmp_pot(c, best, PS, 2)) continue;
+        int allbt = 1; for (int z = 0; z < n; z++) if (c->terms >> z & 1) { int kz = -1; for (int j = 0; j < nkeys; j++) if (keys[j].x == z) kz = j; if (kz < 0 || keys[kz].xtype != 1) allbt = 0; }
+        if (allbt) INC("bt_psimax_all_terms_big"); else INC("bt_psimax_some_term_notbig"); }
+    } }
   /* global potentials over all keys */
   const int *GP[] = {P_G1, P_G2, P_RL}; const int GN[] = {3, 4, 2}; const char *GE[] = {"glob_-t,r,lamR_every", "glob_-t,r,lamR,-p_every", "glob_r,lamU_every"};
   const char *GF[] = {"FAIL_glob_-t,r,lamR", "FAIL_glob_-t,r,lamR,-p", "FAIL_glob_r,lamU"};

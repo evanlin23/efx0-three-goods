@@ -41,8 +41,8 @@ unreviewed, and every lemma was checked by brute force before use (§6).
   - Maximize over the configurations of *all* keys a potential that has t before Λ. Then every maximum was completable
     on every profile tested. This holds for #41's Φ = (−t, r, Λ) restricted to f = 1, for (r, −t, Λ), and for both with
     #41's tie-break −p.
-  - Scope: every f = 1 profile with n ≤ 3 (7,285,840); every profile of the n = 4 cores with one 4-good agent (28,478);
-    random samples of every n = 4 and n = 5 class (490,837 f = 1 profiles).
+  - Scope: every f = 1 profile with n ≤ 3 (7,285,840); every profile of the n = 4 cores with one or two 4-good agents
+    (28,478 and 10,723,372); random samples of every n = 4 and n = 5 class (490,837 f = 1 profiles).
   - This is an independent confirmation, with a new implementation, of #41's Conjecture Φ′ at f = 1 on these sets.
   - At the maxima, Lemma C's counting certificate holds for 99.97% of maxima at n ≤ 3 (9,820,566 of 9,823,326); the
     exceptions are listed in §5.
@@ -50,6 +50,16 @@ unreviewed, and every lemma was checked by brute force before use (§6).
 So the reduction route turns into the global potential route of #41 and #50: Theorem Z′ handles the free agents.
 What remains is precisely the local improvement lemma at the fewest-frozen maxima, with x's goods and the role swaps.
 §5 states the exact gap.
+
+- **The big-top case** (§5.1–§5.2) is what PR #50's Theorem F1 leaves: profiles in which every (r, Λ)-maximum has a
+  big-top frozen agent.
+  - There, restricted to big-top keys, (−t, r′, Λ) has every maximum completable on every profile tested
+    (Conjecture K4.C4MIN.RED.BT). This includes every profile with n ≤ 3 and the n = 4 classes with one or two 4-good
+    agents.
+  - At those maxima t = 0 and the threats are injective, so Lemma C finishes whenever r′ ≥ 2.
+  - **Lemma PM** (written proof, checked) shows that #50's path move from a terminal threatened off the path keeps t = 0
+    and raises r′, for every type of x.
+  - §5.2 lists the cases a proof still has to handle.
 
 Nothing here changes K4.D or K4.T.
 
@@ -291,6 +301,7 @@ restricted to f = 1.
 Evidence (every maximum completable, 0 failures, `k4/red.c`):
 - every f = 1 profile with n ≤ 3 (7,285,840);
 - every profile of the n = 4 cores with one 4-good agent (28,478);
+- every profile of the n = 4 cores with two 4-good agents (10,723,372 f = 1 profiles, `results/k4_red_n4_2_all.log`);
 - two samples of 4,000 random profiles per core of the n = 4 cores (seeds 7 and 9; 265,864 f = 1 profiles);
 - n = 5 samples (224,973 f = 1 profiles).
 
@@ -331,6 +342,131 @@ g-top agents holding pairs worth more than g.
 Items 1–2 are where the reduction stops being a black box: Theorem Z′ covers the free agents only while their
 improvements do not move x's goods into the pool.
 
+### 5.1 The big-top case, which PR #50 leaves open
+
+PR #50 (branch `proof/k4-c4min-f1`, `k4/c4min_f1.md` §2, unreviewed) uses #41's Ψ = (r, Λ) over all keys. Its
+Theorem F1 proves that every Ψ-maximum whose frozen agent is not **big-top** has an owner valid with C = ∅ (big-top:
+four goods and a > b + c; for a 4-good x this is up to its case (E)). What remains at f = 1 are the **big-top
+profiles**, those in which every Ψ-maximum has a big-top frozen agent (`results/k4_red_bt.log`, counters `bt_*`):
+- 3,802,424 of the 7,285,840 f = 1 profiles with n ≤ 3;
+- 2,940 of 28,478 at n = 4 with one 4-good agent;
+- 2,204,312 of 10,723,372 at n = 4 with two 4-good agents (every profile).
+
+In 38,016 of the n ≤ 3 ones some Ψ-maximum is not completable. In 128 (all in the core of H★) none is, so Ψ cannot be
+kept there; #50 §3 reports the same obstruction.
+
+For a big-top x the reduction's lemmas specialize:
+- Θ_x = {U_x}, so t = [U_x ⊆ L]. With t = 0 at most one owner threatens x: the one holding all of U_x ∖ L
+  (Lemma D).
+- x's own level ℓ_x({g}) is 7 at every big-top key. The subsets ∅, {d}, {c}, {b}, {c, d}, {b, d}, {b, c} are worth
+  less than a, and {b, c, d} more. So over the big-top configurations, Λ ranks only the free agents.
+- A big-top agent whose top is g and which is not frozen is a terminal in every configuration: no pair of its other goods is
+  worth more than g.
+
+**Conjecture K4.C4MIN.RED.BT.** On every big-top profile, every maximum of (−t, r′, Λ) over the configurations whose
+frozen agent is big-top is completable.
+
+Evidence (counter `btx_prof_every`, 0 failures, `results/k4_red_bt.log`):
+- every big-top profile with n ≤ 3 (3,802,424);
+- every big-top profile of the n = 4 cores with one or two 4-good agents (2,940 and 2,204,312);
+- samples at n = 4 with three or four 4-good agents (34,875 big-top profiles);
+- samples at n = 5 (60,141).
+
+At all these maxima:
+- t = 0, and every free agent is threatened by at most one owner, so Lemma C finishes whenever r′ ≥ 2.
+- Lemma C's hypothesis r′ > |D_x| fails at 2,136 maxima with n ≤ 3 (among them those of the n = 2 profiles that need
+  unfreezing), at none in the n = 4 class with two 4-good agents, and at 7 and 3 in the samples.
+
+Scope of the conjecture:
+- It needs the big-top-profile hypothesis. On profiles that have a big-top key but are not big-top profiles, the
+  restricted maxima can fail: 14,928 profiles at n ≤ 3, and 10 in the n = 4 sample (counters `anybt_*`).
+- Not every key of a big-top profile is big-top: 1,052,984 of the 3,802,424 at n ≤ 3 have another key. So a path move
+  to a terminal that is not big-top leaves the restricted space. A proof along §5.2 has to handle that.
+
+With #50's Theorem F1 (including its case (E)), Conjecture BT would give C₄ᵐⁱⁿ at f = 1.
+
+### 5.2 The path move keeps t = 0 (Lemma PM)
+
+The *path move* is #50's (`k4/c4min_f1.md` §2). Along a threat path τ = p₀ → p₁ → … → p_k → x through free agents
+(p_{i+1} threatened by p_i, x by p_k), from a terminal τ:
+- p_{i+1} receives Q_{p_i}. As in Lemma R, at most one receiver of kind (R) whose fourth good is in the pool takes
+  {a, s} instead, and the other good goes to the pool.
+- x receives a pair P_x ⊆ (Q_{p_k} ∪ L) ∩ U_x and becomes free.
+- τ receives g and becomes frozen.
+- The rest of Q_{p_k} ∪ L is the new pool.
+
+For a big-top x, #50 takes P_x = x's best pair, which is worth less than g, so x's level drops and the move can tie in
+Ψ. The next lemma says the move nevertheless raises (−t, r′, ·) when τ is threatened from off the path, for every type
+of x.
+
+**Lemma PM.** Let a configuration at a key (g, x) have t = 0, every non-robust free agent pool-optimal, and no owner
+valid with C = ∅. Let τ = p₀ → … → p_k → x be a threat path from a terminal τ that is threatened by some owner o not
+among p₁, …, p_k. Let P_x be a robust admissible pair of x inside (Q_{p_k} ∪ L) ∩ U_x. Then P_x exists, and the path
+move gives a configuration at the key (g, τ) with t = 0 and with r′ larger by at least 1.
+
+*Proof.*
+- **P_x exists.** p_k threatens x, so Q_{p_k} ∪ L contains some S ∈ Θ_x (proof of Lemma D). A robust admissible pair
+  inside S ∪ (U_x ∩ (Q_{p_k} ∪ L)):
+  - {b, c} when S = {b, c} or S = U_x (it contains b, and b + c > d);
+  - {b, d} when S = {b, d} (b + d > c);
+  - for a flat x and S = {c, d}, the pair {c, d} itself: c + d > a > b makes it admissible and robust.
+- **Validity.** As in #50's Lemma 7:
+  - the receivers get pairs worth more than before, or pairs containing their top;
+  - x gets P_x;
+  - τ gets g, which is its top (Lemma T);
+  - the pairs stay disjoint.
+  
+  By Lemma K the result is a configuration at the key (g, τ).
+- **r′.** x is robust after the move. τ and p₁, …, p_k were threatened, so none was robust, and nobody else changes.
+  So r′ rises by at least 1.
+- **t = 0 at (g, τ).**
+  - τ is threatened, so it is not robust. A terminal with three goods is always robust in I′ (|U_τ| = 2), so τ has
+    four goods and is of kind (Tg): it holds u₁ and a good outside U_τ, with u₁ < u₂ + u₃. Pool-optimality gives
+    L ∩ U_τ = ∅, and the only owner that threatens τ holds {u₂, u₃}. That owner is o, which the move leaves alone.
+  - So u₂ and u₃ stay in o's pair, and u₁ lies in Q_τ.
+  - The new pool is ((Q_{p_k} ∪ L) ∖ P_x) plus possibly one good released by a modified receiver from some Q_{p_i}.
+    It meets U_τ in at most u₁, worth less than g. ∎
+
+Check (`k4/red_pathmove.py`, from the definitions with `k4/red_lib.py`; `results/k4_red_pathmove.log`). Scope: every
+configuration at every key with t = 0, every non-robust free agent pool-optimal, and no valid owner; every such path.
+No failure on:
+- every f = 1 profile with n = 2;
+- 20,000 random profiles per n = 3 core (2,244 path moves);
+- 150 random profiles per n = 4 core (125 path moves).
+
+Without the hypothesis on o, t = 1 can follow (n = 3; n = 2 has a single free agent).
+- Example: core 46's sibling profile with agents {0, 2, 5, 6}, {1, 4, 5, 6}, {3, 4, 5, 6} and values 0:3, 2:6, 5:2, 6:10 |
+  1:5, 4:6, 5:4, 6:8 | 3:2, 4:3, 5:4, 6:8; key (6, 0); pairs {3, 4}, {1, 5}; pool {0, 2}.
+- Agents 1 and 2 threaten each other, and agent 2 also threatens x.
+- The move along 1 → 2 → x puts agent 1's goods 1 and 5 in the pool, worth 9 > 8 to it.
+- That configuration is not a maximum: rotating the 2-cycle makes both robust.
+
+**What this leaves for Conjecture BT (and for GLOB).** Take a non-completable maximum with t = 0 at which every free
+agent and x are threatened by at most one owner each. There are |A| owners, each threatening someone, and |A| + 1
+vertices. So either exactly one vertex is unthreatened, or every vertex is threatened, r′ = 0, and one owner threatens
+both x and a free agent.
+
+In the first case the threats form a bijection: a path w → p₁ → … → p_k → x plus cycles, with w the unthreatened
+vertex. If w = x, the whole bijection is cycles. Every cycle rotates with a gain in Φ:
+- plain rotations keep the pool;
+- a modified rotation cannot make t = 1. It would put the rotating owner's other good y′ into the pool, and a
+  threatening set of x inside L ∪ {y′} means that owner threatens x (then |L| ≥ 2, so its bundle is not inside R_x).
+  In the bijection it threatens only its successor.
+
+Every terminal lies on the path.
+- A terminal p_j with j ≥ 1 is threatened by p_{j−1}, off the moved segment, so Lemma PM gives a larger Φ. For
+  Conjecture BT this also needs p_j to be big-top.
+- What remains:
+  1. the only terminal is the start w;
+  2. the terminals on the path are not big-top (Conjecture BT only);
+  3. a non-robust agent is not pool-optimal because its improvement would raise t (instance B1's mechanism);
+  4. t = 0 at the maximum (Lemma T0, not proved). For a flat x a key can have no configuration with t = 0: 208 keys at
+     n ≤ 3 (`results/k4_red_n3.log`, counter `key_no_t0`). An example is core 41 of `results/k4_certs_3.json.gz`
+     with values 0:2, 2:3, 5:4, 6:8 | 1:3, 3:5, 4:6, 6:7 | 3:2, 4:3, 5:6, 6:10: its key (6, 1) has a flat x and only
+     configurations with t = 1, while its keys (6, 0) and (6, 2) have none with t = 1;
+  5. every vertex threatened (r′ = 0): the owner that threatens both x and a free agent may need a modified rotation
+     that makes t = 1.
+
 ## 6. Checks and evidence
 
 All counts are strict profiles of the certified core lists `results/k4_certs_*.json.gz` (types from `k4/check4.py`).
@@ -345,7 +481,9 @@ All counts are strict profiles of the certified core lists `results/k4_certs_*.j
 | Lemma C (certificate ⟹ completable) | every configuration, same scopes | 0 violations | same |
 | §4 instances | 3 profiles | both implementations agree | `results/k4_red_attempts.log` |
 | key rules, narrow swap (§4.1, §4.3) | 6,000 random profiles per n = 3 core | as stated there | `results/k4_red_rules.log` |
-| Conjecture GLOB | §5 | 0 failures | `results/k4_red_n3.log`, `…_n4.log`, `…_n5.log` |
+| Conjecture GLOB | §5 | 0 failures | `results/k4_red_n3.log`, `…_n4.log`, `…_n4_2_all.log`, `…_n5.log` |
+| Conjecture BT, big-top profiles | §5.1 | 0 failures | `results/k4_red_bt.log` |
+| Lemma PM | §5.2 | 0 failures | `results/k4_red_pathmove.log` |
 
 Independence: `k4/red.c` and `k4/red_lib.py` share no code with each other or with #41's `k4/c4min.c` and
 `k4/c4min_*.py`, only the type generator `k4/check4.py` and the core lists. The Python library was run on the n = 2
