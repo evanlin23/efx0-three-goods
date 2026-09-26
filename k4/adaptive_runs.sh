@@ -31,6 +31,7 @@ python3 k4/adaptive_verify_H.py 3 200 --relabel > $R/k4_adaptive_verify_H_relabe
  for A in 0 1 2 4 5 6 7 8 9 10 11 13; do python3 k4/adaptive_run.py $C3 -A$A -r1 -f200 --show=100000 --jobs=2 2>/dev/null |
    grep "^FAIL" | awk -v a=$A '{match($0,/m=[0-9]+/); print "rule", a, "m=" substr($0,RSTART+2,RLENGTH-2), $0}' | sort -k3,3 -t= -n | head -1; done) > $R/k4_adaptive_smallest.log 2>&1
 python3 attempts/k4_adaptive_attempts.py > $R/k4_adaptive_attempts.log 2>&1
+python3 k4/adaptive_frozen.py $C2 $C3 $N41 $N42 > $R/k4_adaptive_frozen.log 2>&1   # fewest frozen agents (§4)
 python3 k4/adaptive_mine.py $C3 --per=60 > $R/k4_adaptive_mine_n3.log 2>&1
 # rule 2 alone (§5)
 (python3 k4/adaptive_run.py $N5 -A2 -r3 -S1000 -K3 -f3 --jobs=1 --show=50

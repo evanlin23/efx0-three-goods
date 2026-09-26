@@ -9,6 +9,8 @@ For each recorded configuration (a rule, a profile, the insertion sequence the r
      from its base), and some state reachable with two has one;
   3. k4/lb4_brute.py: the profile has EFX0 allocations with at most one bundle of more than two goods (so the rule
      fails, not K4.D).
+And for attempts/k4-adaptive-fewest-frozen.md, on its profile (the first above): the fewest frozen agents over the space
+P of k4/c4x.md (k4/c4x.c -1s) is 0, over every run of Phase 1 and every upgrade policy (PR #33's model) it is 1.
 And for attempts/k4-adaptive-coverage-multi4.md: on the n = 2 profile recorded there, no insertion sequence has a run
 covered by the theorems of k4/c4.md and k4/c4one.md (k4/adaptive.c -A22), while LB4r succeeds without rotation.
 Usage: python3 attempts/k4_adaptive_attempts.py"""
@@ -21,7 +23,7 @@ from lb4r import Inst, phase1_state, up_run, reach, any_output
 
 # (rules, sets, vals): the smallest failure (n = 3, m = 6) of each rule, from results/k4_adaptive_smallest.log, and T
 CASES = [
-    ([0, 1, 2, 4, 5, 6, 8, 10, 11, 13, 17, 25], [[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 6, 8], [2, 3, 4, 8], [2, 7, 8, 4]]),
+    ([0, 1, 2, 4, 5, 6, 8, 10, 11, 13, 17, 25, 28, 29], [[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 6, 8], [2, 3, 4, 8], [2, 7, 8, 4]]),
     ([7], [[0, 1, 2, 5], [2, 3, 4, 5], [3, 4, 5]], [[1, 4, 8, 6], [8, 2, 3, 4], [2, 3, 4]]),
     ([9, 18], [[0, 1, 2, 5], [1, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 8, 6], [1, 4, 6, 8], [8, 2, 3, 4]]),
     # T of attempts/k4-adaptive-matching.md: the matching rules fail under every optimal matching (k4/adaptive_matching_ties.py)
@@ -89,6 +91,18 @@ def main():
         print(f"  rule 16: tau={s16[1]} {s16[0]}; independent model: least rotations {ind16}")
         allok &= s16[0] in ('rot=0', 'rot=1') and ind16 is not None and ind16 <= 1
         print('  brute force:', brute_d2(sets, vals))
+    sets, vals = CASES[0][1], CASES[0][2]
+    import adaptive_frozen as F
+    if not os.path.exists(F.C4X): subprocess.run(['gcc', '-O2', '-o', F.C4X, F.C4X_SRC], check=True)
+    mP = int(subprocess.run([F.C4X, '-1s'], input=A.encode_profile(sets, vals), capture_output=True, text=True).stdout.split('minfrozen ')[1].split()[0])
+    mR = F.fewest_frozen_phase1(sets, vals)
+    inst = Inst(dense(sets, vals)); per = []
+    for a in range(len(sets)):              # tau = (a, then index order): LB4R.lean's tau [a, 0, 0, ...]
+        s1, _ = up_run(inst, phase1_state(inst, [a] + [0] * len(sets))[0], 'shrink')
+        per.append(sum(F.frozen_at(inst, s1, F.NA_of(F.all_needs(inst, s1)))))
+    print(f"fewest frozen: sets={sets} vals={vals}: over P {mP}, over every Phase 1 run and policy {mR}; "
+          f"after need-shrinking upgrades, first agent 0, 1, 2 (then index order): {per} frozen")
+    allok &= mP == 0 and mR == 1
     sets, vals = COVER
     p = subprocess.run([A.BIN, '-A22', '-r1', '-u2', '-w0', '-c0', '-T1'], input=A.encode_profile(sets, vals), capture_output=True, text=True)
     unc = 'uncov=1' in p.stdout

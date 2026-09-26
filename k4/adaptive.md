@@ -5,7 +5,7 @@ and `k4/c4.md` (PR #33: exposure, Theorems A₄, B₄, B₄ʷ, A₄ᵀ, A₄⁺,
 `k4/adaptive.c` (LB₄ʳ with a swappable insertion rule), `k4/adaptive_run.py` (driver), `k4/adaptive_H.py` (H_t and
 relabeled copies), `k4/adaptive_verify_H.py` (Proposition H′ in PR #33's independent model), `k4/adaptive_mine.py`,
 `k4/adaptive_crosscheck.py`, `k4/adaptive_lb4check.py`, `k4/adaptive_uncovered.py`, `k4/adaptive_matching_ties.py`,
-`k4/adaptive_gm4_profiles.py`; logs `results/k4_adaptive_*`.
+`k4/adaptive_gm4_profiles.py`, `k4/adaptive_frozen.py`; logs `results/k4_adaptive_*`.
 
 **The question.** LB₄ʳ with a fixed insertion order needs unboundedly many nested rotations: on H_t, index order needs
 ⌈2t/3⌉ (Proposition H), and a relabeled H_5 defeats every fixed order (`k4/c4.md` §7). Is there a polynomial-time
@@ -240,6 +240,14 @@ sequence needs none.
   that chain (the mechanism of #37's Lemma Ω). Of the other 853, 137 are the index leader itself (there rule F also
   needs a rotation), 576 hold their top (often frozen), and 140 hold their second good without being reachable from
   the leader. No single feature decides it (§5).
+- *Fewest frozen agents?* (The bridge to #41's Theorem Z, which proves C₄ᵐⁱⁿ when some pre-allocation of
+  `k4/c4x.md`'s space 𝒫 has no frozen agent; `attempts/k4-adaptive-fewest-frozen.md`, `k4/adaptive_frozen.py`,
+  `results/k4_adaptive_frozen.log`.) Rule F's first agent is not, in general, the one whose run leaves the fewest
+  frozen agents: rule F restricted to those first agents (`-A29`) needs two rotations on 11,520 profiles at n = 3,
+  and choosing the first of them (`-A28`) gives exactly `-A4`'s histogram. On all 96 leaves concerned the fewest
+  frozen agents over 𝒫 is 0 (Theorem Z applies) while every run of Phase 1, under every policy, leaves at least one
+  (PR #33's model): Theorem Z's pre-allocation is not a Phase 1 state, and LB₄ʳ reaches an allocation only through a
+  rotation. At n = 4 with one or two 4-good agents `-A29` never needs two rotations.
 
 ## 5. Rejected rules (`attempts/k4-adaptive-*.md`)
 
@@ -257,6 +265,7 @@ has the counts, `results/k4_adaptive_smallest.log` the smallest failures, and `a
 | least / most contested top (`-A8`, `-A9`) | 11,520; 13,720 | n = 3, m = 6 |
 | least ω, then fewest frozen 4-good agents (`-A10`); c4one's key generalized (`-A11`) | 11,520; 11,520 | n = 3, m = 6 |
 | least ω at the first step only (`-A13`) | 11,520 | n = 3, m = 6 |
+| fewest frozen agents at the first step (`-A28`); rule F among those first agents (`-A29`) | 11,520; 11,520 | n = 3, m = 6 |
 
 The smallest failure is the same profile for most rules: agents {0, 1, 4, 5}, {2, 3, 4, 5}, {2, 3, 4, 5} with values
 (1, 4, 6, 8), (2, 3, 4, 8), (2, 7, 8, 4). Only agent 1 first needs one rotation; agents 0 and 2 first need two.
@@ -430,6 +439,7 @@ python3 k4/adaptive_lb4check.py results/k4_certs_2.json.gz results/k4_certs_3.js
 python3 k4/adaptive_run.py results/k4_certs_3.json.gz -A22 -C3 -Z2 -r3            # A4+N on every run and owner
 python3 k4/adaptive_uncovered.py results/k4_certs_3.json.gz -A26 -C3 -r0 -w0      # the gap A4+N leaves, needs from the base
 python3 k4/adaptive_matching_ties.py                                             # matching rules under every optimal matching
+python3 k4/adaptive_frozen.py results/k4_certs_3.json.gz                         # fewest frozen agents vs rule F (§4)
 bash k4/adaptive_runs.sh                                                         # every log of this file
 ```
 The driver's result lines give the histogram `rot=[…]` of rotations 0 … R; logs written before the #44 review round

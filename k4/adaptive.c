@@ -41,6 +41,8 @@ Options:
        'uncov' counts the profiles (weighted) where no sequence of the family is covered; 'covviol' the leaves
        where a check failed. 23: rule 16 and 26: -i2, each with rule 22's coverage recorded (lines 'U uncovered
        policy rotations status count', status 0 no owner, 1 owner r, 2 another owner, 3 rotation).
+       28: the first agent a whose run tau_a = (a, then index order) leaves the fewest frozen agents after
+       need-shrinking upgrades (ties by index), then index order; 29: rule 16 restricted to those first agents.
   -i0 use -A (default);  -i1 every insertion sequence separately;  -i2 the fewest rotations over every insertion
        sequence (exists tau; bound outermost, sequences in lexicographic order);  -i10 -TN N random sequences (single profile)
   -uN upgrades: 0 none, 1 need-shrinking, 2 envy-free only, 3 policies 1, 2, 0 in turn (default 3)
@@ -955,6 +957,25 @@ static int construct(void) {
         pre[0] = b % 64; npre = 1; TAILRULE = 0; phase1(); memcpy(pre, ins_seq, sizeof(int) * nins); npre = nins;
         if (mx > ROT) return 0;
         int ok = lb4r(ROT); used_rot = mx; return ok;
+    } else if (ARULE == 28 || ARULE == 29) {   /* the first agents whose run leaves the fewest frozen agents */
+        int fz[MAXN], best = 1 << 20, fseq[MAXN][MAXN], fnn[MAXN];
+        for (int a = 0; a < n; a++) {   /* tau_a = (a, then index order); frozen after need-shrinking upgrades */
+            pre[0] = a; npre = 1; TAILRULE = 0; stop_at = -1; phase1();
+            memcpy(fseq[a], ins_seq, sizeof(int) * nins); fnn[a] = nins;
+            setup_state(); upg_mode = 1; upgrades(); slots();
+            fz[a] = 0; for (int i = 0; i < n; i++) fz[a] += frz[i];
+            if (fz[a] < best) best = fz[a];
+        }
+        if (ARULE == 28) {               /* 28: the first of them (index order) */
+            for (int a = 0; a < n; a++) if (fz[a] == best) { memcpy(pre, fseq[a], sizeof(int) * fnn[a]); npre = fnn[a]; break; }
+            return lb4r(ROT);
+        }
+        for (int c = 0; c <= ROT; c++) for (int a = 0; a < n; a++) if (fz[a] == best) {   /* 29: rule 16 among them */
+            memcpy(pre, fseq[a], sizeof(int) * fnn[a]); npre = fnn[a];
+            if (lb4r(c)) return 1;
+        }
+        for (int a = 0; a < n; a++) if (fz[a] == best) { memcpy(pre, fseq[a], sizeof(int) * fnn[a]); npre = fnn[a]; break; }
+        return 0;
     } else if (ARULE == 26) {        /* -i2 (every sequence), with the coverage of every sequence recorded (statistics) */
         last_uncov = !cover_family(22);
         INS = 2; int ok = construct(); INS = 0;
