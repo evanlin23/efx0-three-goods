@@ -1,0 +1,35 @@
+# k4/c4min.md §3.6: brute-force checks of Theorem F and its lemmas (k4/c4min_f.py), n = 4, 30 random strict profiles per core (seed 17)
+# command: for f in k4_certs_4_n4_1 k4_certs_4_n4_2 k4_certs_4_n4_3 k4_certs_4_pure; do python3 k4/c4min_f.py results/$f.json.gz --rand=30 --seed=17; done
+FILE results/k4_certs_4_n4_1.json.gz (5 s)
+  (r, Lambda)-maximal F-configurations: 227
+  pool-optimal F-configurations: 1004
+  profiles with an F-configuration, f = 0: 30
+  profiles with an F-configuration, f = 2: 27
+  profiles with an F-configuration, f = 3: 1
+  profiles without an F-configuration (not covered): 43
+FILE results/k4_certs_4_n4_2.json.gz (24 s)
+  (r, Lambda)-maximal F-configurations: 1570
+  pool-optimal F-configurations: 14128
+  profiles with an F-configuration, f = 0: 919
+  profiles with an F-configuration, f = 2: 58
+  profiles with an F-configuration, f = 3: 1
+  profiles without an F-configuration (not covered): 254
+FILE results/k4_certs_4_n4_3.json.gz (64 s)
+  (r, Lambda)-maximal F-configurations: 3880
+  pool-optimal F-configurations: 37092
+  pool-optimal F-configurations without valid owner: 4
+  profiles with an F-configuration, f = 0: 2600
+  profiles with an F-configuration, f = 2: 48
+  profiles with an F-configuration, f = 3: 7
+  profiles without an F-configuration (not covered): 434
+  rotations checked (modified): 4
+  rotations checked (plain): 1
+FILE results/k4_certs_4_pure.json.gz (92 s)
+  (r, Lambda)-maximal F-configurations: 3487
+  pool-optimal F-configurations: 33283
+  pool-optimal F-configurations without valid owner: 2
+  profiles with an F-configuration, f = 0: 2711
+  profiles with an F-configuration, f = 2: 16
+  profiles with an F-configuration, f = 3: 2
+  profiles without an F-configuration (not covered): 327
+  rotations checked (modified): 3

@@ -1,0 +1,15 @@
+# k4/c4min.md §4, Conjecture Phi (and variants) on every strict profile of every k = 4 core with n <= 3 whose fewest frozen agents is >= 1 (-F1)
+# command: python3 k4/c4min_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz -F1 -p "8,9,16;8,17;8,9,17;9,16" --jobs=3
+# started Fri Sep 25 21:10:01 UTC 2026
+FILE results/k4_certs_2.json.gz cores 5 profiles 189216 omega>=1 1296 configs 8496 none 0 keyfail 0 xbad 0 paretomax 0 paretoevery 0 paretosome 0 rmax0 0 allrobF 0 covZ 0 covF 0 f1 1296 uncovered 0
+  (-thrL,rob,sumlev)                       every-max fails          0   some-max fails          0
+  (-thrL,leximin)                          every-max fails          0   some-max fails          0
+  (-thrL,rob,leximin)                      every-max fails          0   some-max fails          0
+  (rob,sumlev)                             every-max fails          0   some-max fails          0
+FILE results/k4_certs_3.json.gz cores 51 profiles 299837376 omega>=1 7599908 configs 143125896 none 0 keyfail 255952 xbad 0 paretomax 0 paretoevery 0 paretosome 0 rmax0 0 allrobF 0 covZ 0 covF 315364 f1 7284544 uncovered 0
+  (-thrL,rob,sumlev)                       every-max fails          0   some-max fails          0
+  (-thrL,leximin)                          every-max fails          0   some-max fails          0
+  (-thrL,rob,leximin)                      every-max fails          0   some-max fails          0
+  (rob,sumlev)                             every-max fails      56928   some-max fails        128
+# finished Fri Sep 25 21:22:41 UTC 2026
+# note (added in the PR #41 review fixes; not part of the run's output): the build was not recorded at run time. The options (-F1) and counters (covZ, covF, f1, uncovered) used here exist only in the k4/c4min.c source committed in 0bb6a22 (sha1 01776e55c55cb8056804693ccea4c8e909848cc5, unchanged since), so this log is from that source or an uncommitted state with the same output.
