@@ -1,18 +1,21 @@
 # A polynomial-time algorithm for EFX₀ with at most three relevant goods (K3ALG)
 
 Workstream `formal/k3-algo`, ledger rows K3.ALG, K3.ALG.TIME, K3.OWNER, K3.ALG.RUN, and for LS2 (§8) K3.LS2 and
-K3.LS2.RUN. Lean:
+K3.LS2.RUN; workstream `formal/k3-real-cost`, rows K3.ALG.FINE and K3.ALG.REAL. Lean:
 `lean/EFX/K3Algo.lean`, `lean/EFX/Timed.lean`, `lean/EFX/K3CostLB.lean`, `lean/EFX/K3Cost.lean`,
-`lean/EFX/K3CostBound.lean`. Implementations: `k3/k3algo.py`; cross-check with Lean: `k3/lean_crosscheck.py`.
+`lean/EFX/K3CostBound.lean`, `lean/EFX/K3CostFine.lean`, `lean/EFX/K3Real.lean`. Implementations: `k3/k3algo.py`; cross-check with Lean: `k3/lean_crosscheck.py`.
 
 **Status.**
 - Machine-checked in core Lean, standard axioms only, `lean/check.sh` passes:
   - the algorithm `EFX.K3.algo`, a computable function (`#eval` runs it);
   - its correctness `EFX.K3.algo_efx0`;
-  - its running time `EFX.K3.algoC_cost`: at most 400·(n + m + 1)⁴ counted operations, in the cost model of §6.
+  - its running time `EFX.K3.algoC_cost`: at most 400·(n + m + 1)⁴ counted operations, in the cost model of §6;
+  - the finer bound of §5, `EFX.K3.algoC_cost_fine`: at most n⁴ + 20n³ + 25n²m + 124n² + 47nm + 119n + 22m + 3
+    counted operations, O(n⁴ + n²m);
+  - K3ALG on real values in the comparison model (the remark of §3, via L12's surrogate computed with an oracle):
+    `EFX.K3.algoOrd_efx0`, `EFX.K3.algoOrdC_cost`.
 - Written in this file, with a proof:
-  - the resolution of the owner-test issue (§4); its Lean form `EFX.LB.validOwner_iff` was already in the library;
-  - the finer bound O(n⁴ + n²m) of §5.
+  - the resolution of the owner-test issue (§4); its Lean form `EFX.LB.validOwner_iff` was already in the library.
 - Evidence only (§7):
   - the implementations agree with each other and with Lean's `#eval`;
   - raw EFX₀ checks on certified cores and random instances;
@@ -29,7 +32,8 @@ R_i = {g : v_i(g) > 0}.
 
 **Theorem K3ALG.** There is an algorithm that, given any instance with n ≥ 1 agents in which |R_i| ≤ 3 for every
 agent i, returns an EFX₀ allocation. On every instance (whatever |R_i|) it performs at most 400·(n + m + 1)⁴
-elementary operations, in the cost model of §6. More precisely, it performs O(n⁴ + n²m) of them (§5, written).
+elementary operations, in the cost model of §6. More precisely, it performs O(n⁴ + n²m) of them (§5; Lean
+`EFX.K3.algoC_cost_fine`).
 
 In Lean (`lean/EFX/K3Cost.lean`, `lean/EFX/K3CostBound.lean`), with the model's primitives only:
 
@@ -150,7 +154,8 @@ The theorems cited were proved before this workstream: L2 is PROVED with Lean, a
 This workstream adds only the computable rankings, the peeling loop and its induction, the counted program, and its
 agreement with the specification.
 
-*Remark (real values; written, not machine-checked).*
+*Remark (real values). The comparison-model form is machine-checked (`lean/EFX/K3Real.lean`, ledger K3.ALG.REAL;
+see the end of this remark); the first two points are written, not machine-checked.*
 - Every decision of the algorithm compares two subset sums of one agent's values:
   - relevance, 0 < v_i(g);
   - the favourite, v_i(g) ≤ v_i(h);
@@ -162,6 +167,16 @@ agreement with the specification.
   That allocation is EFX₀ for w by the theorem, hence for v (`EFX.efx0_iff_of_agree`).
 - The algorithm therefore works verbatim on real inputs in the real-RAM model, where a comparison or an addition of
   two reals costs one unit.
+- *In Lean* (`EFX.K3.algoOrdC`, `EFX.K3.algoOrd`): the program computes w itself with a comparison oracle
+  `le : V → V → Bool` over any `EFX.OrderedValue` type V (e.g. ℝ≥0) and then runs `EFX.K3.algoC` on w. Per agent it
+  asks v_i(g) ≤ 0 for every good (its relevant goods, in index order), then the twelve basic comparisons of the
+  values of its first three relevant goods (`EFX.Pat`), and takes the first row of the 31-row table `EFX.Pat.reps`
+  with that pattern (`EFX.K3.surrogate`; L12 made constructive, `EFX.K3.agree_surrogate`). Correctness,
+  `EFX.K3.algoOrd_efx0`: for a correct oracle, nonnegative values and |R_i| ≤ 3, the output is EFX₀ for v. Cost,
+  `EFX.K3.surrogateC_cost` and `EFX.K3.algoOrdC_cost`: n(m + 12) oracle calls and at most
+  n(m + 12) + 10nm + 971n + 400(n + m + 1)⁴ counted operations in all (with the finer bound,
+  `EFX.K3.algoOrdC_cost_fine`). w is stored as an n × m table, read at unit cost as the input is. The statement that
+  the run on v itself makes the same decisions as the run on w (the first two points) is not formalized.
 
 ## 4. The owner test (the known issue), resolved
 
@@ -235,7 +250,7 @@ builds. The facts used:
 
 The degree-4 term comes from one loop:
 
-| step | counted cost (Lean bound, N = n + m + 1) | finer (written) |
+| step | counted cost (Lean bound, N = n + m + 1) | finer (per step written; the total is `EFX.K3.algoC_cost_fine`) |
 |---|---|---|
 | Stage R: ≤ n rounds, each testing R1 for every agent (favourite, erase, value over M) | 15·N² per round | O(n²m) |
 | rankings (table over agents: relevant goods, `sort3`) | 14·N² | O(nm) |
@@ -245,11 +260,21 @@ The degree-4 term comes from one loop:
 | junk, slots (table: n × NA), sums | 8·N² + 21·N³ + … | O(nm + n³) |
 | owner test: exposed agents, `meet` (pairs of E × membership in J), `hitSet` | 20·N² + 24·N³ | O(n²m) |
 | blocks (table), k*, need chain (≤ n agents × frozen test O(n²)), rotated picks | 31·N³ + 34·N³ + … | O(n²m + n³) |
-| rotated state, second owner test, completion (≤ m goods × (picker, upgraded, `fill`)) | 21·N³ + 19·N² + … | O(n³ + nm) |
+| rotated state, second owner test (`meet` again), completion (≤ m goods × (picker, upgraded, `fill`)) | 21·N³ + 24·N³ + 19·N² + … | O(n²m + n³) (earlier written as O(n³ + nm); corrected below) |
 | output table (m goods × lookup among ≤ n peeled goods) | 4·N² | O(nm) |
 
-Summing the finer column gives O(n⁴ + n²m) for the formalized program. This column is written, not machine-checked;
-Lean states the coarser (n + m + 1)⁴.
+Summing the finer column gives O(n⁴ + n²m) for the formalized program.
+
+**Theorem (Lean, `EFX.K3.algoC_cost_fine`, `lean/EFX/K3CostFine.lean`).** For every instance with n ≥ 1 agents and m
+goods, `algoC` performs at most n⁴ + 20n³ + 25n²m + 124n² + 47nm + 119n + 22m + 3 counted operations; hence at most
+145n⁴ + 72n²m + 119n + 22m + 3 (`algoC_cost_fine'`) and at most 270(n⁴ + n²m) (`algoC_cost_fine''`).
+
+The proof re-bounds every stage with a bound a = n on the lists of agents (a + 1 for the upgraded agents after the
+rotation) and b = m on the lists of goods. The upgrade loop gives n⁴ + 17n³ + n²m + … (`EFX.K3.lbUpC_cost_fine`). One
+row of the table above is corrected by the formalization: in "rotated state, second owner test, completion" the
+second owner test runs `hitSet`, hence `meet` (pairs of exposed agents × membership in the junk), which the program's
+loops bound by 2n²m, as in the first owner test's row; that row is O(n²m + n³), not O(n³ + nm). The total is
+unaffected.
 
 *A faster implementation (written; EVIDENCE for its speed).* `fast` in `k3/k3algo.py` computes the same allocation
 (checked against the Lean `#eval` and the transcription `mirror`, §7) with worklists and counters:
@@ -391,6 +416,10 @@ LS2's Phase 2 does use a maximum matching, which is polynomial for sure. But K3A
   EFX₀ allocation of every instance with n ≥ 1 agents and |R_i| ≤ 3 (natural-number values).
 - **K3.ALG.TIME** (PROVED, Lean `EFX.K3.algoC_cost`): K3ALG performs at most 400·(n + m + 1)⁴ counted operations,
   in the cost model of §6.
+- **K3.ALG.FINE** (PROVED, Lean `EFX.K3.algoC_cost_fine`): at most n⁴ + 20n³ + 25n²m + 124n² + 47nm + 119n + 22m + 3
+  counted operations, O(n⁴ + n²m) (§5).
+- **K3.ALG.REAL** (PROVED, Lean `EFX.K3.algoOrd_efx0`, `EFX.K3.algoOrdC_cost`): K3ALG on real values (any
+  `EFX.OrderedValue`) in the comparison model, via L12's surrogate computed with n(m + 12) oracle calls (§3).
 - **K3.OWNER** (PROVED; Lean `EFX.LB.validOwner_iff`, `EFX.LB.hitSet_fits`): Proposition O. The owner test of LB⁺ is
   exact with `hitSet` and needs no minimum vertex cover.
 - **K3.ALG.RUN** (EVIDENCE): the computations of §7.
@@ -398,6 +427,6 @@ LS2's Phase 2 does use a maximum matching, which is polynomial for sure. But K3A
   (CONJECTURE), refereed in `proofs/ls2_referee.md` with no error found, but not machine-checked.
 - **K3.LS2.RUN** (EVIDENCE): the brute-force referee of LS2 (`k3/ls2_referee.py`).
 - Not claimed:
-  - the finer bound O(n⁴ + n²m) and the O((n + m) log n) implementation (written, §5);
-  - the real-value remark of §3;
+  - the O((n + m) log n) implementation (written, §5);
+  - the part of the real-value remark of §3 that the run on v itself makes the same decisions as the run on w;
   - the complexity of the owner test for arbitrary owners (open, not needed).
