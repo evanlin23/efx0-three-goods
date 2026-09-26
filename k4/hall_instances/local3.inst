@@ -1,0 +1,5 @@
+# core 33 of results/k4_certs_3.json.gz with a profile where a Pareto-maximum with only local frozen exposures fails (k4/hall.md §5)
+agent 0:3 1:2 2:10 3:6
+agent 2:8 4:2 5:3 6:4
+agent 3:7 4:3 5:5 6:6
+bases 2 | 5,6 | 3,4

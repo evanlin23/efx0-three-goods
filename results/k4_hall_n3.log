@@ -1,0 +1,17 @@
+# k4/hall.c -P -G: Pareto-maxima inside the min-frozen set, Theorem H0's lemmas (F0 counters) and the rotation rule (G0 counters); n = 2 and n = 3, every strict profile
+# command: python3 k4/hall_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz -P -G -Gx 2
+Fri Sep 25 20:33:47 UTC 2026
+FILE results/k4_certs_2.json.gz cores 5 profiles 189216 valid 2318524 minfrozen 2129840 minfrozen_omega1 1402784 minfrozen_posdef 171432 profiles_c4min_ok 189216 bad_char 0
+  Pareto-maxima inside the min-frozen set, pareto F=0: profiles 187920, every maximum deficit <= 0: 187920, some: 187920 (334156 maxima)
+  Pareto-maxima inside the min-frozen set, pareto F=1: profiles 1296, every maximum deficit <= 0: 1296, some: 1296 (2592 maxima)
+  F0: F=0 Pareto-maxima with omega>=1 172108, Lemma U violated 0, Lemma U2 violated 0, no single-good holder 172012, exposure of another kind 0, label criterion != exact test 0, a single-good holder valid 96, a pair-holder valid 172012, no valid owner 0, every single-good holder valid 96, single-good holder invalid by an unhittable exposure 0, e2 exposures 20200, e1 exposures 96, e3 exposures 32136, e2 exposures at single-good owners 0
+  G0: F=0 P with U, U2, omega>=1 and no valid owner 5720, agent exposed w.r.t. two owners 0, owner exposing nobody 0, T>=2 0, exposure map not a bijection 0, rotation rule: valid Pareto improvement 5720, rotation rule fails 0, ... for want of labels 0
+  failing (P, owner) pairs 0, with an unhittable exposed agent 0; tau for the others: [0, 0, 0, 0, 0, 0, 0, 0]; minimal violator size (0 = none of size < 8): [0, 0, 0, 0, 0, 0, 0, 0]
+FILE results/k4_certs_3.json.gz cores 51 profiles 299837376 valid 7845235502 minfrozen 6339279928 minfrozen_omega1 3928508100 minfrozen_posdef 36739800 profiles_c4min_ok 299837376 bad_char 0
+  Pareto-maxima inside the min-frozen set, pareto F=0: profiles 283959584, every maximum deficit <= 0: 283959584, some: 283959584 (786313328 maxima)
+  Pareto-maxima inside the min-frozen set, pareto F=1: profiles 15414020, every maximum deficit <= 0: 15121508, some: 15413892 (43107700 maxima)
+  Pareto-maxima inside the min-frozen set, pareto F=2: profiles 463772, every maximum deficit <= 0: 436160, some: 463772 (1927768 maxima)
+  F0: F=0 Pareto-maxima with omega>=1 287013316, Lemma U violated 0, Lemma U2 violated 0, no single-good holder 256338692, exposure of another kind 0, label criterion != exact test 0, a single-good holder valid 29577984, a pair-holder valid 286881988, no valid owner 0, every single-good holder valid 29577984, single-good holder invalid by an unhittable exposure 0, e2 exposures 42384120, e1 exposures 15057000, e3 exposures 38416272, e2 exposures at single-good owners 1104640
+  G0: F=0 P with U, U2, omega>=1 and no valid owner 187280, agent exposed w.r.t. two owners 0, owner exposing nobody 0, T>=2 0, exposure map not a bijection 0, rotation rule: valid Pareto improvement 187280, rotation rule fails 0, ... for want of labels 0
+  failing (P, owner) pairs 0, with an unhittable exposed agent 0; tau for the others: [0, 0, 0, 0, 0, 0, 0, 0]; minimal violator size (0 = none of size < 8): [0, 0, 0, 0, 0, 0, 0, 0]
+Fri Sep 25 20:53:32 UTC 2026

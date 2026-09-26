@@ -1,0 +1,111 @@
+# k4/hall.c on random strict profiles per core (seeded): -P (Pareto-maxima inside the min-frozen set; F0 and FZ counters) and -G (the rotation rule of Lemma H5)
+# command: python3 k4/hall_run.py results/k4_certs_4_n4_1.json.gz -P -G --rand=500 --seed=41 --jobs=4
+FILE results/k4_certs_4_n4_1.json.gz cores 135 profiles 67500 valid 1323418 minfrozen 769729 minfrozen_omega1 39091 minfrozen_posdef 4 profiles_c4min_ok 67500 bad_char 0
+  Pareto-maxima inside the min-frozen set, pareto F=0: profiles 50449, every maximum deficit <= 0: 50449, some: 50449 (148213 maxima)
+  Pareto-maxima inside the min-frozen set, pareto F=1: profiles 13118, every maximum deficit <= 0: 13118, some: 13118 (28273 maxima)
+  Pareto-maxima inside the min-frozen set, pareto F=2: profiles 3635, every maximum deficit <= 0: 3635, some: 3635 (12637 maxima)
+  Pareto-maxima inside the min-frozen set, pareto F=3+: profiles 298, every maximum deficit <= 0: 298, some: 298 (3108 maxima)
+  F0: F=0 Pareto-maxima with omega>=1 1785, Lemma U violated 0, Lemma U2 violated 0, no single-good holder 1157, exposure of another kind 0, label criterion != exact test 0, a single-good holder valid 628, a pair-holder valid 1785, no valid owner 0, every single-good holder valid 628, single-good holder invalid by an unhittable exposure 0, e2 exposures 188, e1 exposures 0, e3 exposures 0, e2 exposures at single-good owners 0
+  FZ: maxima with F>=1 and omega>=1 3445, with a globally exposed frozen agent 15, global exposure of another shape 0, no global exposure and no valid owner 0, global exposure and no valid owner 0, Lemma H6 violations 0, frozen agents exposed w.r.t. >= 2 owners 15, some owner valid 3445, no valid owner and no G1 configuration 0, no valid owner and no frozen big-top agent 0, frozen exposures (agent, owner): global 36, ... owner a chain end of x (G1-type) 21, ... local, one label 1551, ... local, two labels 55, ... local, unhittable 256
+  G0: F=0 P with U, U2, omega>=1 and no valid owner 0, agent exposed w.r.t. two owners 0, owner exposing nobody 0, T>=2 0, exposure map not a bijection 0, rotation rule: valid Pareto improvement 0, rotation rule fails 0, ... for want of labels 0
+  failing (P, owner) pairs 0, with an unhittable exposed agent 0; tau for the others: [0, 0, 0, 0, 0, 0, 0, 0]; minimal violator size (0 = none of size < 8): [0, 0, 0, 0, 0, 0, 0, 0]
+# command: python3 k4/hall_run.py results/k4_certs_4_n4_2.json.gz -P -G --rand=200 --seed=42 --jobs=4
+FILE results/k4_certs_4_n4_2.json.gz cores 309 profiles 61800 valid 1915886 minfrozen 1212682 minfrozen_omega1 345781 minfrozen_posdef 48 profiles_c4min_ok 61800 bad_char 0
+  Pareto-maxima inside the min-frozen set, pareto F=0: profiles 51272, every maximum deficit <= 0: 51272, some: 51272 (169688 maxima)
+  Pareto-maxima inside the min-frozen set, pareto F=1: profiles 8754, every maximum deficit <= 0: 8753, some: 8754 (21371 maxima)
+  Pareto-maxima inside the min-frozen set, pareto F=2: profiles 1683, every maximum deficit <= 0: 1682, some: 1683 (6256 maxima)
+  Pareto-maxima inside the min-frozen set, pareto F=3+: profiles 91, every maximum deficit <= 0: 91, some: 91 (922 maxima)
+  F0: F=0 Pareto-maxima with omega>=1 20322, Lemma U violated 0, Lemma U2 violated 0, no single-good holder 12544, exposure of another kind 0, label criterion != exact test 0, a single-good holder valid 7485, a pair-holder valid 20307, no valid owner 0, every single-good holder valid 7485, single-good holder invalid by an unhittable exposure 0, e2 exposures 3274, e1 exposures 1272, e3 exposures 1633, e2 exposures at single-good owners 310
+  FZ: maxima with F>=1 and omega>=1 6621, with a globally exposed frozen agent 52, global exposure of another shape 0, no global exposure and no valid owner 1, global exposure and no valid owner 1, Lemma H6 violations 0, frozen agents exposed w.r.t. >= 2 owners 74, some owner valid 6619, no valid owner and no G1 configuration 0, no valid owner and no frozen big-top agent 0, frozen exposures (agent, owner): global 114, ... owner a chain end of x (G1-type) 175, ... local, one label 3019, ... local, two labels 211, ... local, unhittable 512
+  G0: F=0 P with U, U2, omega>=1 and no valid owner 0, agent exposed w.r.t. two owners 0, owner exposing nobody 0, T>=2 0, exposure map not a bijection 0, rotation rule: valid Pareto improvement 0, rotation rule fails 0, ... for want of labels 0
+  failing (P, owner) pairs 0, with an unhittable exposed agent 0; tau for the others: [0, 0, 0, 0, 0, 0, 0, 0]; minimal violator size (0 = none of size < 8): [0, 0, 0, 0, 0, 0, 0, 0]
+# command: python3 k4/hall_run.py results/k4_certs_4_n4_3.json.gz -P -G --rand=100 --seed=43 --jobs=4
+FILE results/k4_certs_4_n4_3.json.gz cores 339 profiles 33900 valid 1598659 minfrozen 1082348 minfrozen_omega1 579123 minfrozen_posdef 1406 profiles_c4min_ok 33900 bad_char 0
+  Pareto-maxima inside the min-frozen set, pareto F=0: profiles 29580, every maximum deficit <= 0: 29580, some: 29580 (108608 maxima)
+  Pareto-maxima inside the min-frozen set, pareto F=1: profiles 3725, every maximum deficit <= 0: 3721, some: 3725 (10494 maxima)
+  Pareto-maxima inside the min-frozen set, pareto F=2: profiles 577, every maximum deficit <= 0: 569, some: 577 (2159 maxima)
+  Pareto-maxima inside the min-frozen set, pareto F=3+: profiles 18, every maximum deficit <= 0: 18, some: 18 (170 maxima)
+  F0: F=0 Pareto-maxima with omega>=1 30987, Lemma U violated 0, Lemma U2 violated 0, no single-good holder 20761, exposure of another kind 0, label criterion != exact test 0, a single-good holder valid 9742, a pair-holder valid 30972, no valid owner 0, every single-good holder valid 9742, single-good holder invalid by an unhittable exposure 0, e2 exposures 5674, e1 exposures 2456, e3 exposures 4036, e2 exposures at single-good owners 502
+  FZ: maxima with F>=1 and omega>=1 5025, with a globally exposed frozen agent 35, global exposure of another shape 0, no global exposure and no valid owner 3, global exposure and no valid owner 10, Lemma H6 violations 0, frozen agents exposed w.r.t. >= 2 owners 87, some owner valid 5012, no valid owner and no G1 configuration 0, no valid owner and no frozen big-top agent 0, frozen exposures (agent, owner): global 94, ... owner a chain end of x (G1-type) 246, ... local, one label 2136, ... local, two labels 178, ... local, unhittable 360
+  G0: F=0 P with U, U2, omega>=1 and no valid owner 0, agent exposed w.r.t. two owners 0, owner exposing nobody 0, T>=2 0, exposure map not a bijection 0, rotation rule: valid Pareto improvement 0, rotation rule fails 0, ... for want of labels 0
+  failing (P, owner) pairs 0, with an unhittable exposed agent 0; tau for the others: [0, 0, 0, 0, 0, 0, 0, 0]; minimal violator size (0 = none of size < 8): [0, 0, 0, 0, 0, 0, 0, 0]
+# command: python3 k4/hall_run.py results/k4_certs_4_pure.json.gz -P -G --rand=300 --seed=44 --jobs=4
+FILE results/k4_certs_4_pure.json.gz cores 219 profiles 65700 valid 4704890 minfrozen 3393979 minfrozen_omega1 2461199 minfrozen_posdef 27928 profiles_c4min_ok 65700 bad_char 0
+  Pareto-maxima inside the min-frozen set, pareto F=0: profiles 58290, every maximum deficit <= 0: 58290, some: 58290 (230444 maxima)
+  Pareto-maxima inside the min-frozen set, pareto F=1: profiles 6561, every maximum deficit <= 0: 6494, some: 6561 (20008 maxima)
+  Pareto-maxima inside the min-frozen set, pareto F=2: profiles 812, every maximum deficit <= 0: 804, some: 812 (2887 maxima)
+  Pareto-maxima inside the min-frozen set, pareto F=3+: profiles 37, every maximum deficit <= 0: 37, some: 37 (380 maxima)
+  F0: F=0 Pareto-maxima with omega>=1 100496, Lemma U violated 0, Lemma U2 violated 0, no single-good holder 75908, exposure of another kind 0, label criterion != exact test 0, a single-good holder valid 23470, a pair-holder valid 100479, no valid owner 0, every single-good holder valid 23470, single-good holder invalid by an unhittable exposure 0, e2 exposures 20388, e1 exposures 7535, e3 exposures 16130, e2 exposures at single-good owners 1158
+  FZ: maxima with F>=1 and omega>=1 11227, with a globally exposed frozen agent 200, global exposure of another shape 0, no global exposure and no valid owner 3, global exposure and no valid owner 84, Lemma H6 violations 0, frozen agents exposed w.r.t. >= 2 owners 329, some owner valid 11140, no valid owner and no G1 configuration 3, no valid owner and no frozen big-top agent 0, frozen exposures (agent, owner): global 586, ... owner a chain end of x (G1-type) 753, ... local, one label 4428, ... local, two labels 466, ... local, unhittable 687
+  G0: F=0 P with U, U2, omega>=1 and no valid owner 3, agent exposed w.r.t. two owners 0, owner exposing nobody 0, T>=2 0, exposure map not a bijection 0, rotation rule: valid Pareto improvement 3, rotation rule fails 0, ... for want of labels 0
+  failing (P, owner) pairs 0, with an unhittable exposed agent 0; tau for the others: [0, 0, 0, 0, 0, 0, 0, 0]; minimal violator size (0 = none of size < 8): [0, 0, 0, 0, 0, 0, 0, 0]
+# command: python3 k4/hall_run.py results/k4_certs_5_n4_1.json.gz -P -G --rand=20 --seed=51 --jobs=4
+FILE results/k4_certs_5_n4_1.json.gz cores 1735 profiles 34700 valid 1047514 minfrozen 452768 minfrozen_omega1 6577 minfrozen_posdef 0 profiles_c4min_ok 34700 bad_char 0
+  Pareto-maxima inside the min-frozen set, pareto F=0: profiles 20156, every maximum deficit <= 0: 20156, some: 20156 (68319 maxima)
+  Pareto-maxima inside the min-frozen set, pareto F=1: profiles 9685, every maximum deficit <= 0: 9685, some: 9685 (23863 maxima)
+  Pareto-maxima inside the min-frozen set, pareto F=2: profiles 4210, every maximum deficit <= 0: 4210, some: 4210 (14684 maxima)
+  Pareto-maxima inside the min-frozen set, pareto F=3+: profiles 649, every maximum deficit <= 0: 649, some: 649 (6237 maxima)
+  F0: F=0 Pareto-maxima with omega>=1 97, Lemma U violated 0, Lemma U2 violated 0, no single-good holder 48, exposure of another kind 0, label criterion != exact test 0, a single-good holder valid 49, a pair-holder valid 97, no valid owner 0, every single-good holder valid 49, single-good holder invalid by an unhittable exposure 0, e2 exposures 15, e1 exposures 0, e3 exposures 0, e2 exposures at single-good owners 0
+  FZ: maxima with F>=1 and omega>=1 793, with a globally exposed frozen agent 19, global exposure of another shape 0, no global exposure and no valid owner 0, global exposure and no valid owner 0, Lemma H6 violations 0, frozen agents exposed w.r.t. >= 2 owners 19, some owner valid 793, no valid owner and no G1 configuration 0, no valid owner and no frozen big-top agent 0, frozen exposures (agent, owner): global 49, ... owner a chain end of x (G1-type) 13, ... local, one label 424, ... local, two labels 12, ... local, unhittable 24
+  G0: F=0 P with U, U2, omega>=1 and no valid owner 0, agent exposed w.r.t. two owners 0, owner exposing nobody 0, T>=2 0, exposure map not a bijection 0, rotation rule: valid Pareto improvement 0, rotation rule fails 0, ... for want of labels 0
+  failing (P, owner) pairs 0, with an unhittable exposed agent 0; tau for the others: [0, 0, 0, 0, 0, 0, 0, 0]; minimal violator size (0 = none of size < 8): [0, 0, 0, 0, 0, 0, 0, 0]
+# command: python3 k4/hall_run.py results/k4_certs_5_n4_2.json.gz -P -G --rand=5 --seed=52 --jobs=4
+FILE results/k4_certs_5_n4_2.json.gz cores 5468 profiles 27340 valid 1222307 minfrozen 583732 minfrozen_omega1 63666 minfrozen_posdef 4 profiles_c4min_ok 27340 bad_char 0
+  Pareto-maxima inside the min-frozen set, pareto F=0: profiles 18336, every maximum deficit <= 0: 18336, some: 18336 (72421 maxima)
+  Pareto-maxima inside the min-frozen set, pareto F=1: profiles 6576, every maximum deficit <= 0: 6576, some: 6576 (18212 maxima)
+  Pareto-maxima inside the min-frozen set, pareto F=2: profiles 2202, every maximum deficit <= 0: 2202, some: 2202 (8208 maxima)
+  Pareto-maxima inside the min-frozen set, pareto F=3+: profiles 226, every maximum deficit <= 0: 226, some: 226 (1937 maxima)
+  F0: F=0 Pareto-maxima with omega>=1 2035, Lemma U violated 0, Lemma U2 violated 0, no single-good holder 933, exposure of another kind 0, label criterion != exact test 0, a single-good holder valid 1075, a pair-holder valid 2035, no valid owner 0, every single-good holder valid 1075, single-good holder invalid by an unhittable exposure 0, e2 exposures 370, e1 exposures 121, e3 exposures 135, e2 exposures at single-good owners 32
+  FZ: maxima with F>=1 and omega>=1 1905, with a globally exposed frozen agent 31, global exposure of another shape 0, no global exposure and no valid owner 0, global exposure and no valid owner 0, Lemma H6 violations 0, frozen agents exposed w.r.t. >= 2 owners 41, some owner valid 1905, no valid owner and no G1 configuration 0, no valid owner and no frozen big-top agent 0, frozen exposures (agent, owner): global 95, ... owner a chain end of x (G1-type) 33, ... local, one label 1041, ... local, two labels 67, ... local, unhittable 107
+  G0: F=0 P with U, U2, omega>=1 and no valid owner 0, agent exposed w.r.t. two owners 0, owner exposing nobody 0, T>=2 0, exposure map not a bijection 0, rotation rule: valid Pareto improvement 0, rotation rule fails 0, ... for want of labels 0
+  failing (P, owner) pairs 0, with an unhittable exposed agent 0; tau for the others: [0, 0, 0, 0, 0, 0, 0, 0]; minimal violator size (0 = none of size < 8): [0, 0, 0, 0, 0, 0, 0, 0]
+# the level-sum form (-N -Q1) and the big-top-last potential (-N -Q5) on the same samples
+# command: python3 k4/hall_run.py results/k4_certs_4_n4_1.json.gz -N -Q1 --rand=500 --seed=41 --jobs=4
+FILE results/k4_certs_4_n4_1.json.gz cores 135 profiles 67500 valid 1323418 minfrozen 769729 minfrozen_omega1 0 minfrozen_posdef 0 profiles_c4min_ok 67500 bad_char 0
+  Pareto-maxima inside the min-frozen set, pareto F=0: profiles 50449, every maximum deficit <= 0: 50449, some: 50449 (67635 maxima)
+  Pareto-maxima inside the min-frozen set, pareto F=1: profiles 13118, every maximum deficit <= 0: 13118, some: 13118 (17427 maxima)
+  Pareto-maxima inside the min-frozen set, pareto F=2: profiles 3635, every maximum deficit <= 0: 3635, some: 3635 (6533 maxima)
+  Pareto-maxima inside the min-frozen set, pareto F=3+: profiles 298, every maximum deficit <= 0: 298, some: 298 (878 maxima)
+# command: python3 k4/hall_run.py results/k4_certs_4_n4_1.json.gz -N -Q5 --rand=500 --seed=41 --jobs=4
+FILE results/k4_certs_4_n4_1.json.gz cores 135 profiles 67500 valid 1323418 minfrozen 769729 minfrozen_omega1 0 minfrozen_posdef 0 profiles_c4min_ok 67500 bad_char 0
+  Pareto-maxima inside the min-frozen set, pareto F=0: profiles 50449, every maximum deficit <= 0: 50449, some: 50449 (66617 maxima)
+  Pareto-maxima inside the min-frozen set, pareto F=1: profiles 13118, every maximum deficit <= 0: 13118, some: 13118 (16876 maxima)
+  Pareto-maxima inside the min-frozen set, pareto F=2: profiles 3635, every maximum deficit <= 0: 3635, some: 3635 (6353 maxima)
+  Pareto-maxima inside the min-frozen set, pareto F=3+: profiles 298, every maximum deficit <= 0: 298, some: 298 (858 maxima)
+# command: python3 k4/hall_run.py results/k4_certs_4_n4_2.json.gz -N -Q1 --rand=200 --seed=42 --jobs=4
+FILE results/k4_certs_4_n4_2.json.gz cores 309 profiles 61800 valid 1915886 minfrozen 1212682 minfrozen_omega1 0 minfrozen_posdef 0 profiles_c4min_ok 61800 bad_char 0
+  Pareto-maxima inside the min-frozen set, pareto F=0: profiles 51272, every maximum deficit <= 0: 51272, some: 51272 (65864 maxima)
+  Pareto-maxima inside the min-frozen set, pareto F=1: profiles 8754, every maximum deficit <= 0: 8754, some: 8754 (11237 maxima)
+  Pareto-maxima inside the min-frozen set, pareto F=2: profiles 1683, every maximum deficit <= 0: 1683, some: 1683 (2735 maxima)
+  Pareto-maxima inside the min-frozen set, pareto F=3+: profiles 91, every maximum deficit <= 0: 91, some: 91 (230 maxima)
+# command: python3 k4/hall_run.py results/k4_certs_4_n4_2.json.gz -N -Q5 --rand=200 --seed=42 --jobs=4
+FILE results/k4_certs_4_n4_2.json.gz cores 309 profiles 61800 valid 1915886 minfrozen 1212682 minfrozen_omega1 0 minfrozen_posdef 0 profiles_c4min_ok 61800 bad_char 0
+  Pareto-maxima inside the min-frozen set, pareto F=0: profiles 51272, every maximum deficit <= 0: 51272, some: 51272 (64198 maxima)
+  Pareto-maxima inside the min-frozen set, pareto F=1: profiles 8754, every maximum deficit <= 0: 8754, some: 8754 (10547 maxima)
+  Pareto-maxima inside the min-frozen set, pareto F=2: profiles 1683, every maximum deficit <= 0: 1683, some: 1683 (2581 maxima)
+  Pareto-maxima inside the min-frozen set, pareto F=3+: profiles 91, every maximum deficit <= 0: 91, some: 91 (212 maxima)
+# command: python3 k4/hall_run.py results/k4_certs_4_n4_3.json.gz -N -Q1 --rand=100 --seed=43 --jobs=4
+FILE results/k4_certs_4_n4_3.json.gz cores 339 profiles 33900 valid 1598659 minfrozen 1082348 minfrozen_omega1 0 minfrozen_posdef 0 profiles_c4min_ok 33900 bad_char 0
+  Pareto-maxima inside the min-frozen set, pareto F=0: profiles 29580, every maximum deficit <= 0: 29580, some: 29580 (36987 maxima)
+  Pareto-maxima inside the min-frozen set, pareto F=1: profiles 3725, every maximum deficit <= 0: 3724, some: 3725 (4635 maxima)
+  Pareto-maxima inside the min-frozen set, pareto F=2: profiles 577, every maximum deficit <= 0: 575, some: 577 (828 maxima)
+  Pareto-maxima inside the min-frozen set, pareto F=3+: profiles 18, every maximum deficit <= 0: 18, some: 18 (39 maxima)
+# command: python3 k4/hall_run.py results/k4_certs_4_n4_3.json.gz -N -Q5 --rand=100 --seed=43 --jobs=4
+FILE results/k4_certs_4_n4_3.json.gz cores 339 profiles 33900 valid 1598659 minfrozen 1082348 minfrozen_omega1 0 minfrozen_posdef 0 profiles_c4min_ok 33900 bad_char 0
+  Pareto-maxima inside the min-frozen set, pareto F=0: profiles 29580, every maximum deficit <= 0: 29580, some: 29580 (35619 maxima)
+  Pareto-maxima inside the min-frozen set, pareto F=1: profiles 3725, every maximum deficit <= 0: 3725, some: 3725 (4240 maxima)
+  Pareto-maxima inside the min-frozen set, pareto F=2: profiles 577, every maximum deficit <= 0: 577, some: 577 (757 maxima)
+  Pareto-maxima inside the min-frozen set, pareto F=3+: profiles 18, every maximum deficit <= 0: 18, some: 18 (37 maxima)
+# command: python3 k4/hall_run.py results/k4_certs_4_pure.json.gz -N -Q1 --rand=300 --seed=44 --jobs=4
+FILE results/k4_certs_4_pure.json.gz cores 219 profiles 65700 valid 4704890 minfrozen 3393979 minfrozen_omega1 0 minfrozen_posdef 0 profiles_c4min_ok 65700 bad_char 0
+  Pareto-maxima inside the min-frozen set, pareto F=0: profiles 58290, every maximum deficit <= 0: 58290, some: 58290 (73505 maxima)
+  Pareto-maxima inside the min-frozen set, pareto F=1: profiles 6561, every maximum deficit <= 0: 6537, some: 6561 (8206 maxima)
+  Pareto-maxima inside the min-frozen set, pareto F=2: profiles 812, every maximum deficit <= 0: 808, some: 812 (1128 maxima)
+  Pareto-maxima inside the min-frozen set, pareto F=3+: profiles 37, every maximum deficit <= 0: 37, some: 37 (60 maxima)
+# command: python3 k4/hall_run.py results/k4_certs_4_pure.json.gz -N -Q5 --rand=300 --seed=44 --jobs=4
+FILE results/k4_certs_4_pure.json.gz cores 219 profiles 65700 valid 4704890 minfrozen 3393979 minfrozen_omega1 0 minfrozen_posdef 0 profiles_c4min_ok 65700 bad_char 0
+  Pareto-maxima inside the min-frozen set, pareto F=0: profiles 58290, every maximum deficit <= 0: 58290, some: 58290 (70346 maxima)
+  Pareto-maxima inside the min-frozen set, pareto F=1: profiles 6561, every maximum deficit <= 0: 6561, some: 6561 (7484 maxima)
+  Pareto-maxima inside the min-frozen set, pareto F=2: profiles 812, every maximum deficit <= 0: 812, some: 812 (1021 maxima)
+  Pareto-maxima inside the min-frozen set, pareto F=3+: profiles 37, every maximum deficit <= 0: 37, some: 37 (60 maxima)
+Fri Sep 25 21:05:43 UTC 2026
