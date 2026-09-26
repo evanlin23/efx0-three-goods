@@ -1,0 +1,51 @@
+# k4/hall.c -B: at every non-completable Pareto-maximum inside the min-frozen set with frozen agents and omega >= 1: is some frozen big-top agent exposed, and does some exchange cycle through a frozen big-top agent x make x a valid owner (k4/hall_bt.md)? n = 2 and n = 3, every strict profile
+# note (#52 review): written with k4/hall.c of commit 231d2ac, before the sixth BTX counter (cycles through any exposed frozen agent) was added in d9fae00, so BTX lines have five fields; the first five counters are the same in both versions.
+# command: python3 k4/hall_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz -Bx 5 --jobs=4
+Fri Sep 25 23:06:15 UTC 2026
+FILE results/k4_certs_2.json.gz cores 5 profiles 189216 valid 2318524 minfrozen 2129840 minfrozen_omega1 0 minfrozen_posdef 0 profiles_c4min_ok 189216 bad_char 0
+  Pareto-maxima inside the min-frozen set, pareto F=0: profiles 187920, every maximum deficit <= 0: 187920, some: 187920 (334156 maxima)
+  Pareto-maxima inside the min-frozen set, pareto F=1: profiles 1296, every maximum deficit <= 0: 1296, some: 1296 (2592 maxima)
+  F0: F=0 Pareto-maxima with omega>=1 172108, Lemma U violated 0, Lemma U2 violated 0, no single-good holder 172012, exposure of another kind 0, label criterion != exact test 0, a single-good holder valid 96, a pair-holder valid 172012, no valid owner 0, every single-good holder valid 96, single-good holder invalid by an unhittable exposure 0, e2 exposures 20200, e1 exposures 96, e3 exposures 32136, e2 exposures at single-good owners 0
+  BTX: non-completable Pareto-maxima with frozen agents 0, with a frozen big-top agent 0, with an exposed frozen big-top agent 0, with an exchange cycle through a frozen big-top agent x after which x is a valid owner 0, after which some owner is valid 0
+  FZ: maxima with F>=1 and omega>=1 2592, with a globally exposed frozen agent 192, global exposure of another shape 0, no global exposure and no valid owner 0, global exposure and no valid owner 0, Lemma H6 violations 0, frozen agents exposed w.r.t. >= 2 owners 0, some owner valid 2592, no valid owner and no G1 configuration 0, no valid owner and no frozen big-top agent 0, frozen exposures (agent, owner): global 192, ... owner a chain end of x (G1-type) 1248, ... local, one label 0, ... local, two labels 0, ... local, unhittable 0
+  failing (P, owner) pairs 0, with an unhittable exposed agent 0; tau for the others: [0, 0, 0, 0, 0, 0, 0, 0]; minimal violator size (0 = none of size < 8): [0, 0, 0, 0, 0, 0, 0, 0]
+core 46: EXBTC no big-top owner cycle: types [0:2,2:3,6:4,7:8] [1:3,4:4,6:2,7:8] [3:3,5:4,6:2,7:8] bases {7}F {1,4} {3,5} J {0,2,6}
+core 46: EXBTC no big-top owner cycle: types [0:2,2:3,6:4,7:8] [1:3,4:4,6:2,7:8] [3:3,5:6,6:2,7:10] bases {7}F {1,4} {3,5} J {0,2,6}
+core 46: EXBTC no big-top owner cycle: types [0:2,2:3,6:4,7:8] [1:3,4:4,6:2,7:8] [3:4,5:3,6:2,7:8] bases {7}F {1,4} {3,5} J {0,2,6}
+core 46: EXBTC no big-top owner cycle: types [0:2,2:3,6:4,7:8] [1:3,4:4,6:2,7:8] [3:6,5:3,6:2,7:10] bases {7}F {1,4} {3,5} J {0,2,6}
+core 46: EXBTC no big-top owner cycle: types [0:2,2:3,6:4,7:8] [1:3,4:6,6:2,7:10] [3:3,5:4,6:2,7:8] bases {7}F {1,4} {3,5} J {0,2,6}
+core 46: EXBTC no big-top owner cycle: types [0:3,2:2,6:8,7:4] [1:3,4:4,6:8,7:2] [3:3,5:4,6:8,7:2] bases {6}F {1,4} {3,5} J {0,2,7}
+core 46: EXBTC no big-top owner cycle: types [0:3,2:2,6:8,7:4] [1:3,4:4,6:8,7:2] [3:3,5:6,6:10,7:2] bases {6}F {1,4} {3,5} J {0,2,7}
+core 46: EXBTC no big-top owner cycle: types [0:3,2:2,6:8,7:4] [1:3,4:4,6:8,7:2] [3:4,5:3,6:8,7:2] bases {6}F {1,4} {3,5} J {0,2,7}
+core 46: EXBTC no big-top owner cycle: types [0:3,2:2,6:8,7:4] [1:3,4:4,6:8,7:2] [3:6,5:3,6:10,7:2] bases {6}F {1,4} {3,5} J {0,2,7}
+core 46: EXBTC no big-top owner cycle: types [0:3,2:2,6:8,7:4] [1:3,4:6,6:10,7:2] [3:3,5:4,6:8,7:2] bases {6}F {1,4} {3,5} J {0,2,7}
+core 46: EXBTC no big-top owner cycle: types [0:4,2:3,6:2,7:8] [1:2,4:3,6:4,7:8] [3:3,5:4,6:2,7:8] bases {0,2} {7}F {3,5} J {1,4,6}
+core 46: EXBTC no big-top owner cycle: types [0:4,2:3,6:2,7:8] [1:2,4:3,6:4,7:8] [3:3,5:6,6:2,7:10] bases {0,2} {7}F {3,5} J {1,4,6}
+core 46: EXBTC no big-top owner cycle: types [0:4,2:3,6:2,7:8] [1:2,4:3,6:4,7:8] [3:4,5:3,6:2,7:8] bases {0,2} {7}F {3,5} J {1,4,6}
+core 46: EXBTC no big-top owner cycle: types [0:4,2:3,6:2,7:8] [1:2,4:3,6:4,7:8] [3:6,5:3,6:2,7:10] bases {0,2} {7}F {3,5} J {1,4,6}
+core 46: EXBTC no big-top owner cycle: types [0:4,2:3,6:2,7:8] [1:2,4:3,6:6,7:10] [3:3,5:4,6:2,7:8] bases {0,2} {7}F {3,5} J {1,4,6}
+core 46: EXBTC no big-top owner cycle: types [0:6,2:3,6:10,7:2] [1:2,4:3,6:8,7:4] [3:3,5:4,6:8,7:2] bases {0,2} {6}F {3,5} J {1,4,7}
+core 46: EXBTC no big-top owner cycle: types [0:6,2:3,6:10,7:2] [1:2,4:3,6:8,7:4] [3:3,5:6,6:10,7:2] bases {0,2} {6}F {3,5} J {1,4,7}
+core 46: EXBTC no big-top owner cycle: types [0:6,2:3,6:10,7:2] [1:2,4:3,6:8,7:4] [3:4,5:3,6:8,7:2] bases {0,2} {6}F {3,5} J {1,4,7}
+core 46: EXBTC no big-top owner cycle: types [0:6,2:3,6:10,7:2] [1:2,4:3,6:8,7:4] [3:6,5:3,6:10,7:2] bases {0,2} {6}F {3,5} J {1,4,7}
+core 46: EXBTC no big-top owner cycle: types [0:6,2:3,6:10,7:2] [1:2,4:3,6:10,7:6] [3:3,5:4,6:8,7:2] bases {0,2} {6}F {3,5} J {1,4,7}
+core 48: EXBTC no big-top owner cycle: types [0:3,2:4,5:2,7:8] [1:3,4:4,6:2,7:8] [3:2,5:3,6:4,7:8] bases {0,2} {1,4} {7}F J {3,5,6}
+core 48: EXBTC no big-top owner cycle: types [0:3,2:4,5:2,7:8] [1:3,4:4,6:2,7:8] [3:2,5:3,6:6,7:10] bases {0,2} {1,4} {7}F J {3,5,6}
+core 48: EXBTC no big-top owner cycle: types [0:3,2:4,5:2,7:8] [1:3,4:4,6:2,7:8] [3:2,5:4,6:3,7:8] bases {0,2} {1,4} {7}F J {3,5,6}
+core 48: EXBTC no big-top owner cycle: types [0:3,2:4,5:2,7:8] [1:3,4:4,6:2,7:8] [3:2,5:6,6:3,7:10] bases {0,2} {1,4} {7}F J {3,5,6}
+core 48: EXBTC no big-top owner cycle: types [0:3,2:4,5:2,7:8] [1:3,4:4,6:2,7:8] [3:3,5:2,6:4,7:8] bases {0,2} {1,4} {7}F J {3,5,6}
+core 48: EXBTC no big-top owner cycle: types [0:4,2:3,5:2,7:8] [1:3,4:4,6:2,7:8] [3:2,5:3,6:4,7:8] bases {0,2} {1,4} {7}F J {3,5,6}
+core 48: EXBTC no big-top owner cycle: types [0:4,2:3,5:2,7:8] [1:3,4:4,6:2,7:8] [3:2,5:3,6:6,7:10] bases {0,2} {1,4} {7}F J {3,5,6}
+core 48: EXBTC no big-top owner cycle: types [0:4,2:3,5:2,7:8] [1:3,4:4,6:2,7:8] [3:2,5:4,6:3,7:8] bases {0,2} {1,4} {7}F J {3,5,6}
+core 48: EXBTC no big-top owner cycle: types [0:4,2:3,5:2,7:8] [1:3,4:4,6:2,7:8] [3:2,5:6,6:3,7:10] bases {0,2} {1,4} {7}F J {3,5,6}
+core 48: EXBTC no big-top owner cycle: types [0:4,2:3,5:2,7:8] [1:3,4:4,6:2,7:8] [3:3,5:2,6:4,7:8] bases {0,2} {1,4} {7}F J {3,5,6}
+FILE results/k4_certs_3.json.gz cores 51 profiles 299837376 valid 7845235502 minfrozen 6339279928 minfrozen_omega1 0 minfrozen_posdef 0 profiles_c4min_ok 299837376 bad_char 0
+  Pareto-maxima inside the min-frozen set, pareto F=0: profiles 283959584, every maximum deficit <= 0: 283959584, some: 283959584 (786313328 maxima)
+  Pareto-maxima inside the min-frozen set, pareto F=1: profiles 15414020, every maximum deficit <= 0: 15121508, some: 15413892 (43107700 maxima)
+  Pareto-maxima inside the min-frozen set, pareto F=2: profiles 463772, every maximum deficit <= 0: 436160, some: 463772 (1927768 maxima)
+  F0: F=0 Pareto-maxima with omega>=1 287013316, Lemma U violated 0, Lemma U2 violated 0, no single-good holder 256338692, exposure of another kind 0, label criterion != exact test 0, a single-good holder valid 29577984, a pair-holder valid 286881988, no valid owner 0, every single-good holder valid 29577984, single-good holder invalid by an unhittable exposure 0, e2 exposures 42384120, e1 exposures 15057000, e3 exposures 38416272, e2 exposures at single-good owners 1104640
+  BTX: non-completable Pareto-maxima with frozen agents 377832, with a frozen big-top agent 377832, with an exposed frozen big-top agent 377832, with an exchange cycle through a frozen big-top agent x after which x is a valid owner 376488, after which some owner is valid 377832
+  BTC: profiles with a non-completable Pareto-maximum with frozen agents 320124, with a completable min-frozen pre-allocation whose owner is of big-top type 320124, with any completable min-frozen pre-allocation 320124
+  FZ: maxima with F>=1 and omega>=1 19259044, with a globally exposed frozen agent 255636, global exposure of another shape 0, no global exposure and no valid owner 180876, global exposure and no valid owner 196956, Lemma H6 violations 0, frozen agents exposed w.r.t. >= 2 owners 248904, some owner valid 18881212, no valid owner and no G1 configuration 113136, no valid owner and no frozen big-top agent 0, frozen exposures (agent, owner): global 504540, ... owner a chain end of x (G1-type) 1664700, ... local, one label 6052996, ... local, two labels 371136, ... local, unhittable 883312
+  failing (P, owner) pairs 0, with an unhittable exposed agent 0; tau for the others: [0, 0, 0, 0, 0, 0, 0, 0]; minimal violator size (0 = none of size < 8): [0, 0, 0, 0, 0, 0, 0, 0]
+Fri Sep 25 23:10:02 UTC 2026
