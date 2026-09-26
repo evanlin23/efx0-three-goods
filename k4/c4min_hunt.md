@@ -127,7 +127,7 @@ classes 0, 1 (flat, a < c + d, G4). 3-good agents keep all their types.
 | class pair | cores | profiles | C₄ᵐⁱⁿ fails |
 |---|---|---|---|
 | 10, 11 (a > b + c), n = 5 with four 4-good agents | 9,846 | 223,148,556,288 | 0 |
-| 0, 1 (flat), n = 5 with four 4-good agents | 9,846 | (running) | |
+| 0, 1 (flat), n = 5 with four 4-good agents | 9,846 | 223,148,556,288 | 0 |
 | 10, 11 and 0, 1, pure n = 5 | 4,674 | (running; about 1.2·10¹² profiles each, several hours) | |
 
 ## 3. Adversarial search
