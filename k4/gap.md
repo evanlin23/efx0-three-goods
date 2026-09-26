@@ -113,6 +113,23 @@ What the tables say:
 - **At n = 3 the exposed frozen agents are almost all 4-good** (big-top or not). At n = 4 with one 4-good agent they are
   mostly 3-good.
 
+**The hunt** (`results/k4_gap_hunt_*.log`). Larger runs that keep only the hard records, the ones of categories W, N
+and X or with a flagged maximum (`results/k4_gap/hunt_*.json.gz`):
+
+| class | profiles | ω ≥ 1 | gap (f = 1 / f ≥ 2) | W | N | X | Φ′-maxima | not pool-optimal | two owners on a frozen agent |
+|---|---|---|---|---|---|---|---|---|---|
+| n = 4, two 4-good agents, every profile | 724,847,616 | 54,488,316 | 10,723,372 / 1,543,950 | 0 | 0 | 0 | 19,989,556 | 0 | 33,756 |
+| n = 4, three, 400,000 per core | 135,600,000 | 41,409,949 | 5,516,567 / 310,035 | 2 | 0 | 0 | 8,213,208 | 1,624 | 41,121 |
+| n = 4, pure, 400,000 per core | 87,600,000 | 40,809,834 | 4,307,373 / 176,485 | 113 | **2** | 0 | 5,690,458 | 8,408 | 68,464 |
+| n = 5, three, 2,000 per core | 19,722,000 | 2,085,678 | 512,222 / 108,073 | 0 | 0 | 0 | 1,080,864 | 44 | 3,187 |
+| n = 5, four, 2,000 per core | 19,692,000 | 4,195,843 | 829,179 / 114,355 | 0 | 0 | 0 | 1,428,110 | 142 | 8,222 |
+| n = 5, pure, 2,000 per core | 9,348,000 | 3,155,718 | 527,194 / 53,342 | 0 | 0 | 0 | 794,588 | 315 | 8,536 |
+
+- **Φ′ fails.** The two category-N profiles are counterexamples to Conjecture Φ′: a unique Φ′-maximum with no valid
+  owner (`attempts/k4-gap-phi-prime.md`, confirmed by gap.c, gap_model and #41's own `k4/c4min_cfg.py`).
+- **C₄ᵐⁱⁿ in configuration form holds.** No profile anywhere is in category X.
+- **The records.** `results/k4_gap/hard_hunt.json.gz` collects the 117 hunt profiles of categories W and N.
+
 **The records.** Each catalog record is one gap profile. It has:
 - the core and the values;
 - f, ω and the keys (−1 marks a free agent);

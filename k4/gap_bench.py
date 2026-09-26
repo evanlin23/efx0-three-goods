@@ -171,12 +171,19 @@ def _closing_moves(c):
     x = c.frozen[0]
     return [(cyc, c2) for cyc, c2 in c.cycle_moves() + c.cycle_moves(general=True) if x in cyc]
 
+def _ii_setting(prof, c):
+    """the roadmap's setting for the path-closing step: f = 1 setting, x threatened, and no exchange-cycle move that
+    avoids x raises Phi' (the roadmap first rotates such cycles; what remains has its terminals on the path into x)"""
+    if not _f1_setting(prof, c) or not _threat_pred(c, c.frozen[0]): return False
+    x = c.frozen[0]
+    return not any(c2.phi > c.phi for cyc, c2 in c.cycle_moves() + c.cycle_moves(general=True) if x not in cyc)
+
 def st_ii_t0(prof, c):
-    if not _f1_setting(prof, c) or not _threat_pred(c, c.frozen[0]): return None
+    if not _ii_setting(prof, c): return None
     return any(c2.t == 0 for _, c2 in _closing_moves(c))
 
 def st_ii_phi(prof, c):
-    if not _f1_setting(prof, c) or not _threat_pred(c, c.frozen[0]): return None
+    if not _ii_setting(prof, c): return None
     return any(c2.phi > c.phi for _, c2 in _closing_moves(c))
 
 def st_iii(prof, c):
@@ -291,6 +298,13 @@ def st_reach_each_cyc(prof, c):
     if c._own_c: return None
     return reach([c], swaps=False)
 
+def scope_noncompl_samen(prof, cfgs):
+    """the configurations without a valid owner, each marked with whether some configuration with the same needed set
+    has a larger Phi'"""
+    out = [c for c in cfgs if not c._own_c]
+    for c in out: c._samen = any(x._phi_c > c._phi_c and x.N == c.N for x in cfgs)
+    return out
+
 def st_simple_max(prof, cfgs):
     b = max(c._phi_c for c in cfgs)
     return any(c.simple for c in cfgs if c._phi_c == b)
@@ -313,9 +327,9 @@ STATEMENTS = {
     'SIGMA_INJ': ('all', st_sigma_inj,
                   "f = 1 roadmap, first bullet: in its setting (f = 1, x 3-good, no valid owner, pool-optimal, t = 0) every agent is threatened by at most one owner"),
     'II_T0': ('all', st_ii_t0,
-              "roadmap (ii): in that setting with x threatened, some exchange-cycle move through x leaves t = 0"),
+              "roadmap (ii): in that setting with x threatened, once no exchange-cycle move avoiding x raises Phi', some exchange-cycle move through x (best pairs or any pairs, e.g. the plain rotation) leaves t = 0"),
     'II_PHI': ('all', st_ii_phi,
-               "roadmap (ii) with (iii): in that setting with x threatened, some exchange-cycle move through x raises Phi'"),
+               "roadmap (ii) with (iii): in the same setting, some exchange-cycle move through x raises Phi'"),
     'III_NO_R': ('all', st_iii,
                  "roadmap (iii): in that setting, the threat path into x has no free agent of kind (R)"),
     'IV_MAX': ('max', lambda p, c: all(c.mult(x) <= 1 for x in c.frozen),
@@ -330,6 +344,8 @@ STATEMENTS = {
                       "the same catalogue plus cycle moves followed by the pool closure (every free agent re-takes its best pair from the pool, repeatedly)"),
     'LOCAL_ALL': ('all', st_local_all,
                   "the same catalogue plus #52's downgrade swaps"),
+    'SAME_N': (scope_noncompl_samen, lambda p, c: c._samen,
+               "needed for any move catalogue that keeps the needed set (pool, cycle, two-agent moves, downgrade swaps): at every configuration without a valid owner some configuration with the same needed set has a larger Phi'"),
     'BTCYC': ('pareto', st_btcyc,
               "#52 K4.HALL.BTCYC: at a Pareto-maximal configuration without a valid owner that has an exposed frozen big-top agent, some exchange-cycle move through it (any admissible pairs; threat receivers may keep part of their pair) has a valid owner"),
     'REACH': ('profile', st_reach,
