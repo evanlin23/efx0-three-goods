@@ -26,7 +26,8 @@ X′; an *insertion lemma* would turn X′ into an EFX₀ allocation of I by pla
   strict profile of every k = 4 core with n = 2 (630,720 tests), 14.8 million profiles of the n = 3 k = 4 cores, samples
   of the k = 4 cores with n ≤ 6, the 251 k = 3 cores of `results/certs_5_6.json.gz` (every profile of the 15 with n = 5,
   m = 9; samples of the 236 with n = 6, m = 10, 11), the chain cores H_1–H_5 of `k4/c4.md` §7 (n ≤ 21, by SAT, D2 shape),
-  and 162,000 random general additive instances (zeros and ties allowed; up to 8 relevant goods per agent).
+  and 162,000 random general additive instances (zeros and ties allowed; up to 8 relevant goods per agent). §4a
+  states PS, where its own induction stops, and a candidate strengthening.
 - *Conditional step* (§3, Theorem 4, written proof): if PS holds on the instances with ≤ j four-good agents, then every
   instance with ≤ j + 1 four-good agents in which some 4-good agent has a private good has an EFX₀ allocation; and if
   PS(I − p, w) holds for the connected strict cores I, a minimal counterexample among all instances with ≤ j + 1
@@ -286,6 +287,50 @@ exhaustive searches; they are evidence for a conjecture, not a certificate of an
 *Literature.* Whether PS (for general additive valuations, or for EFX instead of EFX₀) appears in the literature, or is
 known to fail, was not checked [unverified]. For two agents it holds for any additive valuations with an EFX₀ split
 for w's valuation: w splits, the other agent chooses and envies nothing. Nothing here uses that remark.
+
+## 4a. PS in three statements (for comparing routes)
+
+**(1) The statement.** PS(J, w): some X ∈ E(J) has v_j(X_w) ≤ v_j(X_j) for every agent j (nobody envies w).
+**Conjecture PS₄** (K4.IND.PS): PS(J, w) for every instance J with |R_i| ≤ 4 for all i (any number of 4-good agents)
+and every agent w of J.
+- Equivalent form (Proposition 6(a)): J + z, where z is a new good valued by nobody, has an EFX₀ allocation giving z
+  to w.
+- PS₄ implies TARGET₄: PS for any one agent gives an EFX₀ allocation.
+- Proved cases: every agent other than w has ≤ 2 relevant goods (Proposition 6(c)); two agents, given an EFX₀ split
+  for w's valuation (§4, remark). At k = 3,
+  LB⁺ with w processed last covers the runs in which w still finds its top (Lemma 7), with any values of w, and one
+  configuration in which w ends with its second good (Lemma 8).
+- Evidence: §4 (no failure anywhere) and §4b.
+
+**(2) Where PS's own induction stops** (Proposition 5). A minimal counterexample (I, w*) is connected, every good
+has a valuer, w* has no private good, and no agent other than w* can be peeled by R1 or R2. Two configurations are
+not reduced:
+- *(i) R1 at the target.* w* is top-heavy (v_{w*}(a) ≥ v_{w*}(R_{w*} ∖ {a}) for its top a, which includes
+  |R_{w*}| ≤ 2). Peeling (w*, a) gives X = X′ + (w* ↦ {a}) for X′ ∈ E(I − w* − a). This X is EFX₀, but w* is
+  unenvied only if v_j(X′_j) ≥ v_j(a) for every valuer j of a. Minimality supplies no such floor.
+- *(ii) A private good p of another agent i* (not R2-peelable: v_i(p) < v_i(R_i ∖ {p})). Minimality gives
+  X′ ∈ E(I − p) with w* unenvied. By Lemma 2, p → i keeps EFX₀ iff i is also unenvied in X′. By Lemma 3, p → h ≠ i
+  needs a margin for i. Asking for two unenvied agents at once is false in general: of two identical agents whose
+  bundles have different values, the poorer envies the richer.
+
+**(3) The strongest PS-type hypothesis that might induct.** None is shown to induct. The two plain strengthenings are
+false:
+- two agents unenvied at once fails (identical agents);
+- a floor v_j(X_j) ≥ t_j fails already for two identical agents on two goods, with both thresholds just above the
+  smaller good's value.
+
+Obstacle (ii) consumes exactly the following *slack form*, which avoids the identical-agents counterexample:
+
+> **PS₂ˢ(J; w, i, s)** (w ≠ i, s ≥ 0): some X ∈ E(J) has: nobody envies i; nobody other than i envies w; and
+> v_i(X_w) ≤ v_i(X_i) + s.
+
+Take J = I − p and s = v_i(p). Then X′ + (p → i) is EFX₀ by Lemma 2, since i is unenvied. And w* is unenvied in it:
+agents j ≠ i see p as worthless, and for i, v_i(X′_w*) ≤ v_i(X′_i) + v_i(p). With s = 0, PS₂ˢ is the false two-agent
+form; with s = ∞ it asks only that i be unenvied and that w be unenvied by everyone except i. Whether the family
+{PS, PS₂ˢ} is closed under Proposition 5's reductions was not checked, and PS₂ˢ was not tested. Obstacle (i) looks better
+suited to a construction than to a hypothesis on a smaller instance: in LB⁺ with the target processed last, a
+top-heavy target is covered whenever it still finds its top (Lemma 7). Per the change of strategy for k = 4, neither is
+opened as new work here.
 
 ## 4b. PS at k = 3 through LB⁺ with the target processed last
 
