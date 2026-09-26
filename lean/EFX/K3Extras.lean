@@ -722,9 +722,190 @@ theorem largeBundle_size (hV : Valid P agents goods Y up) (hag : agents.Nodup) (
   ⟨omega_eq hV hag hgd, fun _ _ ho hoT hC =>
     ⟨Completion.owner_length_ge hV hC hag hgd ho hoT, Completion.owner_length_eq hV hC hag hgd ho hoT⟩⟩
 
+/-! ### K3ALG's completion fills every other slot when `H` lists no good twice -/
+
+omit [DecidableEq A] in
+/-- `fill` gives every agent exactly its slots when the list is long enough and has no repeated good. -/
+theorem fill_count_eq {s : A → Nat} [DecidableEq A] : ∀ {ks : List A} {rest : List G}, ks.Nodup → rest.Nodup →
+    (ks.map s).sum ≤ rest.length → ∀ j ∈ ks, rest.countP (fun g => decide (fill s ks rest g = some j)) = s j
+  | [], _, _, _, _, j, hj => by simp at hj
+  | k :: ks, rest, hks, hr, hsum, j, hj => by
+    obtain ⟨hk, hks'⟩ := List.nodup_cons.mp hks
+    simp only [List.map_cons, List.sum_cons] at hsum
+    have hdisj := (List.nodup_append.mp ((List.take_append_drop (s k) rest).symm ▸ hr)).2.2
+    have hdrop : (rest.drop (s k)).Nodup := hr.sublist (List.drop_sublist _ _)
+    have htake : (rest.take (s k)).Nodup := hr.sublist (List.take_sublist _ _)
+    have e : ∀ g, fill s (k :: ks) rest g =
+        if g ∈ rest.take (s k) then some k else fill s ks (rest.drop (s k)) g := fun g => rfl
+    by_cases hjk : j = k
+    · subst hjk
+      have : rest.countP (fun g => decide (fill s (j :: ks) rest g = some j)) =
+          rest.countP (fun g => decide (g ∈ rest.take (s j))) := by
+        apply List.countP_congr
+        intro g _
+        rw [e]
+        by_cases hg : g ∈ rest.take (s j)
+        · simp [hg]
+        · simp only [hg, ↓reduceIte, decide_eq_true_eq, iff_false]
+          intro hf
+          exact hk (fill_some hf).1
+      rw [this, countP_eq_of_mem_iff hr htake (fun g hg => by
+        simp only [decide_eq_true_eq] at hg
+        exact ⟨fun _ => hg, fun _ => List.mem_of_mem_take hg⟩)]
+      rw [List.countP_eq_length_filter, List.filter_eq_self.mpr (fun g hg => by simp [hg]),
+        List.length_take]
+      omega
+    · have hj' := (List.mem_cons.mp hj).resolve_left hjk
+      have : rest.countP (fun g => decide (fill s (k :: ks) rest g = some j)) =
+          rest.countP (fun g => decide (fill s ks (rest.drop (s k)) g = some j)) := by
+        apply List.countP_congr
+        intro g _
+        rw [e]
+        by_cases hg : g ∈ rest.take (s k)
+        · simp only [hg, ↓reduceIte, decide_eq_true_eq, Option.some.injEq]
+          constructor
+          · intro h; exact absurd h.symm hjk
+          · intro hf
+            exact absurd rfl (hdisj g hg g (fill_some hf).2.1)
+        · simp [hg]
+      rw [this, countP_eq_of_mem_iff hr hdrop (fun g hg => by
+        simp only [decide_eq_true_eq] at hg
+        exact ⟨fun _ => (fill_some hg).2.1, fun h => List.mem_of_mem_drop h⟩)]
+      exact fill_count_eq hks' hdrop (by rw [List.length_drop]; omega) j hj'
+
+/-- **K3ALG's completion, when `H` lists no good twice.** For `complete` (`Complete(o, H)`) with owner `o` under
+the hypotheses of Lemma 1 (`complete_some`) and `ω ≥ 1`: if `H` has no repeated good, the terminals other than
+`o` get their slots full, so the owner gets exactly `ω + 2 = |J| − S + 2` goods. -/
+theorem complete_owner_length (hV : Valid P agents goods Y up) (hag : agents.Nodup) (hgd : goods.Nodup)
+    {o : A} (ho : o ∈ agents) (hoT : o ∈ up ∨ ∀ y, Y o = some y → ¬ P.NA agents (· ∈ up) Y y)
+    {H : List G} (hH : ∀ h ∈ H, h ∈ junkList P agents up Y goods) (hHnd : H.Nodup)
+    (hHfit : H.length ≤ (agents.map (slotsExcept (cap P agents up Y) (some o))).sum)
+    (hhit : ∀ x ∈ agents, x ≠ o → x ∉ up → Y x = some (P.a x) →
+      (P.b x ∈ junkList P agents up Y goods ∨ InBase P up Y o (P.b x)) →
+      (P.c x ∈ junkList P agents up Y goods ∨ InBase P up Y o (P.c x)) → P.b x ∈ H ∨ P.c x ∈ H)
+    (hω : slotSum P agents up Y < (junkList P agents up Y goods).length) (d : A) :
+    ((bundle goods (complete P agents up Y goods (some o) H d) o).length : Int) =
+      ((junkList P agents up Y goods).length : Int) - slotSum P agents up Y + 2 := by
+  have hC := complete_some (d := d) hV hag hgd ho hoT hH hHfit hhit
+  refine Completion.owner_length_eq hV hC hag hgd ho hoT (fun j hj hjo hju hT => ?_)
+  -- the list of junk goods `fill` distributes
+  have hJnd : (junkList P agents up Y goods).Nodup := hgd.sublist List.filter_sublist
+  have hLnd : (H ++ (junkList P agents up Y goods).filter (fun g => g ∉ H)).Nodup := by
+    refine List.nodup_append.mpr ⟨hHnd, hJnd.sublist List.filter_sublist, fun a _ b hb e => ?_⟩
+    subst e
+    exact (by simpa using (List.mem_filter.mp hb).2 : a ∉ H) (by assumption)
+  have hLlen : (H ++ (junkList P agents up Y goods).filter (fun g => g ∉ H)).length =
+      (junkList P agents up Y goods).length := by
+    rw [List.length_append, List.length_eq_countP_add_countP (fun g => decide (g ∈ H))
+      (l := junkList P agents up Y goods), ← List.countP_eq_length_filter]
+    have : H.length = (junkList P agents up Y goods).countP (fun g => decide (g ∈ H)) := by
+      rw [← countP_eq_of_mem_iff hHnd hJnd (p := fun g => decide (g ∈ H)) (fun g hg => by
+        simp only [decide_eq_true_eq] at hg
+        exact ⟨fun _ => hH g hg, fun _ => hg⟩)]
+      rw [List.countP_eq_length_filter, List.filter_eq_self.mpr (fun g hg => by simp [hg])]
+    rw [this]
+    congr 1
+    exact List.countP_congr (fun g _ => by simp)
+  have hsl : (agents.map (slotsExcept (cap P agents up Y) (some o))).sum + cap P agents up Y o =
+      slotSum P agents up Y := by
+    have := sum_split (cap P agents up Y) hag ho
+    have e : (agents.map (slotsExcept (cap P agents up Y) (some o))).sum =
+        (agents.map (fun j => if j = o then 0 else cap P agents up Y j)).sum :=
+      sum_map_congr' (fun j _ => by
+        by_cases hjo : j = o
+        · simp [slotsExcept, hjo]
+        · have : some o ≠ some j := fun e => hjo (Option.some.inj e).symm
+          simp [slotsExcept, hjo, this])
+    unfold slotSum; omega
+  have hcnt := fill_count_eq (s := slotsExcept (cap P agents up Y) (some o)) hag hLnd
+    (by rw [hLlen]; omega) j hj
+  have hoj : some o ≠ some j := fun e => hjo (Option.some.inj e).symm
+  have hfz : frozenB P agents up Y j = false := not_frozen_iff.mpr hT
+  have hsj : slotsExcept (cap P agents up Y) (some o) j = if Y j = none then 2 else 1 := by
+    simp [slotsExcept, hoj, cap, hfz, hju]
+  rw [← hsj, ← hcnt, ← List.countP_eq_length_filter, bundle, List.countP_filter]
+  -- the goods `j` gets beyond its pick are exactly those `fill` places with it
+  have hmemJ : ∀ g, g ∈ H ++ (junkList P agents up Y goods).filter (fun g => g ∉ H) →
+      g ∈ junkList P agents up Y goods := by
+    intro g hgL
+    rcases List.mem_append.mp hgL with h | h
+    · exact hH g h
+    · exact (List.mem_filter.mp h).1
+  rw [List.countP_congr (l := goods) (q := fun g => decide (fill (slotsExcept (cap P agents up Y) (some o))
+      agents (H ++ (junkList P agents up Y goods).filter (fun g => g ∉ H)) g = some j)) (fun g _ => ?_)]
+  · refine countP_eq_of_mem_iff hgd hLnd (fun g hf => ?_)
+    simp only [decide_eq_true_eq] at hf
+    have hgL := (fill_some hf).2.1
+    exact ⟨fun _ => hgL, fun _ => (mem_junkList.mp (hmemJ g hgL)).1⟩
+  · simp only [Bool.and_eq_true, decide_eq_true_eq]
+    constructor
+    · rintro ⟨hy, hX⟩
+      rcases complete_cases (P := P) (agents := agents) (up := up) (Y := Y) (goods := goods) (o := some o)
+        (H := H) (d := d) g with ⟨k, hp, hX'⟩ | ⟨-, u, hu, hX'⟩ | ⟨-, -, j', hf, hX'⟩ | ⟨-, -, -, hX'⟩
+      · rw [hX'] at hX; subst hX; exact absurd (picker_some hp).2 hy
+      · rw [hX'] at hX; subst hX; exact absurd (upOf_some hu).1 hju
+      · rw [hX'] at hX; subst hX; exact hf
+      · rw [hX'] at hX; simp only [Option.getD_some] at hX; exact absurd hX.symm hjo
+    · intro hf
+      obtain ⟨-, hp, hu⟩ := mem_junkList.mp (hmemJ g (fill_some hf).2.1)
+      refine ⟨fun hy => picker_none hp j hj hy, ?_⟩
+      unfold complete; rw [hp, hu]; dsimp only; rw [hf]; rfl
 end size
 
 end LB
+
+/-! ### The remark "a repeated good": K3ALG's owner can get more than `ω + 2` goods -/
+
+namespace K3
+namespace Examples
+
+/-- The instance of the paper's remark "a repeated good" (`paper/k3/examples/`): four agents value `g₀` at 3,
+and agent `i` also values `g_{2i+1}` at 4 and `g_{2i+2}` at 2 (nine goods). -/
+def repeatedGood : Inst := mkInst 4 9 [[3, 4, 2, 0, 0, 0, 0, 0, 0], [3, 0, 0, 4, 2, 0, 0, 0, 0],
+  [3, 0, 0, 0, 0, 4, 2, 0, 0], [3, 0, 0, 0, 0, 0, 0, 4, 2]]
+
+/-- Stage L of K3ALG on `repeatedGood` (nobody is peeled): the rankings, Phase 1's order and picks, and the
+upgraded agents (none). -/
+def rgP : LB.Profile (Fin 4) (Fin 9) := profileOf repeatedGood.v (List.finRange 9) 0
+def rgOrder : List (Fin 4) := LB.r1Order rgP 4 (List.finRange 4) (List.finRange 9)
+def rgY : Fin 4 → Option (Fin 9) := LB.phase1 rgP rgOrder (List.finRange 9)
+def rgUp : List (Fin 4) := LB.lbUp rgP (List.finRange 4) (List.finRange 9) rgY
+
+theorem repeatedGood_relevant : ∀ i, numRelevant repeatedGood i ≤ 3 := by decide
+
+/-- **The state.** K3ALG's output is Stage L's (LB⁺ on all agents and goods). All four agents pick their tops
+(`g₁, g₃, g₅, g₇`), nobody is upgraded, `NA = ∅`, `|J| = 5` and `S = 4`, so `ω = 1 = m − 2n + |NA|`. The owner
+is `r = 3`, and `HitSet(E₃)` is `(g₀, g₀)`: it lists `g₀` twice. -/
+theorem repeatedGood_state :
+    (∀ g, algoSpec repeatedGood (by decide) g = lbStage repeatedGood.v (List.finRange 4) (List.finRange 9)
+      (⟨0, by decide⟩ : Fin repeatedGood.m) (⟨0, by decide⟩ : Fin repeatedGood.n) g) ∧
+    (List.finRange 4).map rgY = [some 1, some 3, some 5, some 7] ∧ rgUp = [] ∧
+    LB.numNA rgP (List.finRange 4) rgUp rgY (List.finRange 9) = 0 ∧
+    (LB.junkList rgP (List.finRange 4) rgUp rgY (List.finRange 9)).length = 5 ∧
+    LB.slotSum rgP (List.finRange 4) rgUp rgY = 4 ∧
+    LB.lastOut rgUp rgOrder = some 3 ∧
+    LB.hitSet rgP (LB.junkList rgP (List.finRange 4) rgUp rgY (List.finRange 9))
+      (LB.exposedL rgP (List.finRange 4) rgUp rgY (List.finRange 9) 3) = [0, 0] := by
+  decide
+
+/-- **The owner gets `ω + 3` goods.** K3ALG's output on `repeatedGood`: agent 1's slot stays empty (its window
+holds the repeated `g₀`), and the owner, agent 3, gets `g₄, g₆, g₇, g₈`: four goods, while `ω + 2 = 3`. The output
+is EFX₀ (`algo_efx0`). So `Completion.owner_length_eq` needs its hypothesis that the other slots are full, and
+`complete_owner_length` its hypothesis that `H` repeats no good. -/
+theorem repeatedGood_algo :
+    (List.finRange 9).map (fun g => (algo repeatedGood (by decide) g).val) = [0, 0, 2, 1, 3, 2, 3, 3, 3] ∧
+    (bundle (List.finRange 9) (algo repeatedGood (by decide)) (⟨3, by decide⟩ : Fin repeatedGood.n)).length = 4 ∧
+    ((LB.junkList rgP (List.finRange 4) rgUp rgY (List.finRange 9)).length : Int) -
+      LB.slotSum rgP (List.finRange 4) rgUp rgY + 3 = 4 ∧
+    repeatedGood.EFX0 (algo repeatedGood (by decide)) := by
+  refine ⟨?_, ?_, ?_, algo_efx0 repeatedGood (by decide) repeatedGood_relevant⟩
+  · simp only [algo_eq_spec]; decide
+  · simp only [algo_eq_spec]; decide
+  · have := repeatedGood_state
+    rw [this.2.2.2.2.1, this.2.2.2.2.2.1]; rfl
+
+end Examples
+end K3
 
 end EFX
 
@@ -737,3 +918,6 @@ end EFX
 #print axioms EFX.LB.Completion.owner_length_ge
 #print axioms EFX.LB.Completion.owner_length_eq
 #print axioms EFX.LB.largeBundle_size
+#print axioms EFX.LB.complete_owner_length
+#print axioms EFX.K3.Examples.repeatedGood_state
+#print axioms EFX.K3.Examples.repeatedGood_algo
