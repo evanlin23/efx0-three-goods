@@ -1,57 +1,49 @@
-$ python3 k4/d_stress.py pure 6 8 --profiles=500 --owners=60 --restarts=3 --seed=14
+$ cd k4 && python3 d_stress.py pure 6 8 --profiles=500 --seed=14 --witnesses=../results/k4_dstress_witnesses/pure_6_8.json.gz
+commit bd5cb4d
+  hypergraph (seed 14): [[1, 4, 5, 6], [2, 3, 5, 6], [0, 3, 4, 5], [3, 4, 5, 6], [0, 2, 6, 7], [2, 3, 5, 6]]
 pure 6 8: n = 6 (6 with 4 goods), m = 8, beta = 11; domains [288]
-  500 random profiles: 0 without a D2 allocation (2.8 s)
-  owner climb 0: min feasible owners 6 of 6 after 60 steps (0 s); trace [6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6]
-  owners at the minimum: [0, 1, 2, 3, 4, 5]; profile [[4, 3, 6, 8], [3, 4, 8, 2], [4, 8, 3, 2], [4, 6, 8, 5], [2, 8, 3, 4], [6, 3, 10, 8]]
-  owner climb 1: min feasible owners 6 of 6 after 60 steps (0 s); trace [6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6]
-  owners at the minimum: [0, 1, 2, 3, 4, 5]; profile [[2, 10, 6, 7], [2, 5, 8, 4], [6, 4, 8, 5], [4, 2, 7, 10], [1, 4, 6, 8], [4, 8, 7, 2]]
-  owner climb 2: min feasible owners 6 of 6 after 60 steps (0 s); trace [6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6]
-  owners at the minimum: [0, 1, 2, 3, 4, 5]; profile [[6, 3, 5, 7], [6, 8, 4, 5], [8, 10, 3, 4], [2, 7, 8, 4], [5, 6, 8, 4], [3, 6, 8, 10]]
-  min feasible owners over climbs: 6 of 6
+  500 random profiles: 0 without a D2 allocation (3.1 s); 500 witnesses re-checked by the raw definition and the D2 shape
+  witnesses written to ../results/k4_dstress_witnesses/pure_6_8.json.gz
 
-$ python3 k4/d_stress.py pure 7 9 --profiles=500 --owners=50 --restarts=3 --seed=15
+$ cd k4 && python3 d_stress.py pure 7 9 --profiles=500 --seed=15 --witnesses=../results/k4_dstress_witnesses/pure_7_9.json.gz
+commit bd5cb4d
+  hypergraph (seed 15): [[0, 3, 4, 5], [0, 1, 2, 8], [0, 2, 5, 6], [0, 2, 3, 5], [2, 3, 5, 7], [1, 4, 5, 6], [1, 2, 5, 8]]
 pure 7 9: n = 7 (7 with 4 goods), m = 9, beta = 13; domains [288]
-  500 random profiles: 0 without a D2 allocation (3.9 s)
-  owner climb 0: min feasible owners 7 of 7 after 50 steps (1 s); trace [7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7]
-  owners at the minimum: [0, 1, 2, 3, 4, 5, 6]; profile [[2, 3, 4, 8], [10, 7, 2, 4], [5, 2, 8, 4], [6, 3, 8, 4], [4, 8, 6, 3], [3, 6, 4, 8], [10, 8, 4, 3]]
-  owner climb 1: min feasible owners 7 of 7 after 50 steps (1 s); trace [7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7]
-  owners at the minimum: [0, 1, 2, 3, 4, 5, 6]; profile [[7, 10, 2, 6], [2, 8, 3, 4], [3, 10, 8, 6], [10, 2, 6, 3], [3, 8, 2, 4], [8, 1, 6, 4], [6, 7, 3, 5]]
-  owner climb 2: min feasible owners 7 of 7 after 50 steps (1 s); trace [7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7]
-  owners at the minimum: [0, 1, 2, 3, 4, 5, 6]; profile [[10, 2, 3, 6], [8, 10, 4, 3], [2, 3, 6, 10], [8, 4, 2, 5], [2, 6, 10, 7], [10, 2, 6, 7], [2, 5, 4, 8]]
-  min feasible owners over climbs: 7 of 7
+  500 random profiles: 0 without a D2 allocation (4.4 s); 500 witnesses re-checked by the raw definition and the D2 shape
+  witnesses written to ../results/k4_dstress_witnesses/pure_7_9.json.gz
 
-$ python3 k4/d_stress.py pure 8 10 --profiles=400 --owners=40 --restarts=2 --seed=16
+$ cd k4 && python3 d_stress.py pure 8 10 --profiles=400 --seed=16 --witnesses=../results/k4_dstress_witnesses/pure_8_10.json.gz
+commit bd5cb4d
+  hypergraph (seed 16): [[2, 5, 7, 8], [0, 3, 6, 7], [3, 4, 5, 6], [0, 2, 3, 4], [0, 2, 4, 5], [0, 1, 3, 4], [0, 3, 7, 9], [3, 4, 6, 9]]
 pure 8 10: n = 8 (8 with 4 goods), m = 10, beta = 15; domains [288]
-  400 random profiles: 0 without a D2 allocation (5.4 s)
-  owner climb 0: min feasible owners 8 of 8 after 40 steps (1 s); trace [8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8]
-  owners at the minimum: [0, 1, 2, 3, 4, 5, 6, 7]; profile [[2, 8, 4, 5], [4, 3, 8, 6], [7, 10, 2, 6], [3, 6, 7, 5], [6, 7, 2, 10], [4, 8, 1, 6], [10, 7, 2, 4], [3, 8, 6, 4]]
-  owner climb 1: min feasible owners 8 of 8 after 40 steps (1 s); trace [8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8]
-  owners at the minimum: [0, 1, 2, 3, 4, 5, 6, 7]; profile [[5, 7, 3, 6], [10, 4, 3, 8], [10, 2, 6, 7], [2, 8, 3, 4], [4, 8, 3, 6], [3, 2, 8, 4], [8, 4, 2, 5], [6, 3, 5, 7]]
-  min feasible owners over climbs: 8 of 8
+  400 random profiles: 0 without a D2 allocation (6.1 s); 400 witnesses re-checked by the raw definition and the D2 shape
+  witnesses written to ../results/k4_dstress_witnesses/pure_8_10.json.gz
 
-$ python3 k4/d_stress.py pure 9 12 --profiles=300 --owners=30 --restarts=2 --seed=17
+$ cd k4 && python3 d_stress.py pure 9 12 --profiles=300 --seed=17 --witnesses=../results/k4_dstress_witnesses/pure_9_12.json.gz
+commit bd5cb4d
+  hypergraph (seed 17): [[2, 7, 9, 10], [5, 6, 8, 10], [0, 5, 6, 11], [0, 5, 7, 11], [0, 5, 6, 9], [1, 3, 8, 11], [0, 3, 5, 8], [1, 3, 4, 11], [8, 9, 10, 11]]
 pure 9 12: n = 9 (9 with 4 goods), m = 12, beta = 16; domains [288]
-  300 random profiles: 0 without a D2 allocation (7.8 s)
-  owner climb 0: min feasible owners 9 of 9 after 30 steps (5 s); trace [9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9]
-  owners at the minimum: [0, 1, 2, 3, 4, 5, 6, 7, 8]; profile [[8, 4, 3, 6], [10, 6, 3, 2], [3, 10, 8, 6], [6, 8, 3, 4], [6, 10, 7, 2], [5, 6, 4, 8], [10, 8, 3, 4], [2, 6, 7, 10], [10, 2, 6, 3]]
-  owner climb 1: min feasible owners 9 of 9 after 30 steps (4 s); trace [9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9]
-  owners at the minimum: [0, 1, 2, 3, 4, 5, 6, 7, 8]; profile [[3, 8, 10, 4], [6, 7, 3, 5], [6, 10, 2, 7], [4, 5, 8, 6], [4, 3, 8, 6], [7, 10, 2, 4], [8, 3, 10, 6], [10, 8, 6, 3], [6, 8, 5, 4]]
-  min feasible owners over climbs: 9 of 9
+  300 random profiles: 0 without a D2 allocation (8.6 s); 300 witnesses re-checked by the raw definition and the D2 shape
+  witnesses written to ../results/k4_dstress_witnesses/pure_9_12.json.gz
 
-$ python3 k4/d_stress.py pure 10 13 --profiles=300 --owners=20 --restarts=2 --seed=18
+$ cd k4 && python3 d_stress.py pure 10 13 --profiles=300 --seed=18 --witnesses=../results/k4_dstress_witnesses/pure_10_13.json.gz
+commit bd5cb4d
+  hypergraph (seed 18): [[1, 2, 7, 10], [3, 5, 7, 11], [2, 7, 10, 11], [3, 4, 7, 12], [1, 4, 5, 11], [2, 3, 8, 10], [2, 3, 5, 11], [3, 7, 8, 9], [3, 4, 10, 11], [0, 3, 5, 6]]
 pure 10 13: n = 10 (10 with 4 goods), m = 13, beta = 18; domains [144, 288]
-  300 random profiles: 0 without a D2 allocation (5.4 s)
-  owner climb 0: min feasible owners 10 of 10 after 20 steps (6 s); trace [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10]
-  owners at the minimum: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]; profile [[8, 4, 3, 6], [6, 10, 8, 3], [7, 4, 2, 10], [7, 2, 10, 4], [2, 6, 10, 7], [3, 8, 10, 4], [4, 8, 1, 6], [2, 4, 8, 5], [7, 5, 3, 6], [5, 8, 2, 4]]
-  owner climb 1: min feasible owners 10 of 10 after 20 steps (5 s); trace [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10]
-  owners at the minimum: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]; profile [[6, 1, 8, 4], [7, 5, 3, 6], [3, 10, 2, 6], [6, 3, 10, 2], [2, 7, 10, 6], [4, 8, 3, 6], [5, 6, 3, 7], [4, 2, 3, 8], [4, 8, 6, 1], [8, 10, 4, 3]]
-  min feasible owners over climbs: 10 of 10
+  300 random profiles: 0 without a D2 allocation (6.3 s); 300 witnesses re-checked by the raw definition and the D2 shape
+  witnesses written to ../results/k4_dstress_witnesses/pure_10_13.json.gz
 
-$ python3 k4/d_stress.py pure 11 15 --profiles=200 --seed=19
+$ cd k4 && python3 d_stress.py pure 11 15 --profiles=200 --seed=19 --witnesses=../results/k4_dstress_witnesses/pure_11_15.json.gz
+commit bd5cb4d
+  hypergraph (seed 19): [[0, 8, 10, 12], [1, 3, 6, 8], [4, 5, 8, 9], [1, 2, 4, 9], [4, 5, 6, 14], [1, 5, 12, 13], [0, 4, 9, 14], [1, 3, 9, 13], [1, 6, 7, 8], [1, 11, 12, 13], [0, 1, 6, 9]]
 pure 11 15: n = 11 (11 with 4 goods), m = 15, beta = 19; domains [288]
-  200 random profiles: 0 without a D2 allocation (11.9 s)
+  200 random profiles: 0 without a D2 allocation (13.4 s); 200 witnesses re-checked by the raw definition and the D2 shape
+  witnesses written to ../results/k4_dstress_witnesses/pure_11_15.json.gz
 
-$ python3 k4/d_stress.py pure 12 16 --profiles=200 --seed=20
+$ cd k4 && python3 d_stress.py pure 12 16 --profiles=200 --seed=20 --witnesses=../results/k4_dstress_witnesses/pure_12_16.json.gz
+commit bd5cb4d
+  hypergraph (seed 20): [[3, 8, 11, 13], [0, 7, 12, 14], [2, 4, 9, 11], [7, 9, 10, 11], [4, 10, 14, 15], [2, 6, 13, 14], [2, 3, 11, 12], [1, 3, 5, 13], [1, 3, 6, 8], [1, 2, 5, 13], [0, 3, 4, 12], [6, 10, 11, 15]]
 pure 12 16: n = 12 (12 with 4 goods), m = 16, beta = 21; domains [288]
-  200 random profiles: 0 without a D2 allocation (21.8 s)
+  200 random profiles: 0 without a D2 allocation (24.8 s); 200 witnesses re-checked by the raw definition and the D2 shape
+  witnesses written to ../results/k4_dstress_witnesses/pure_12_16.json.gz
 

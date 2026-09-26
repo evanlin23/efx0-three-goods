@@ -6,3 +6,12 @@ $ cd k4 && python3 d_stress_check.py --selftest pure 6 8 150
 selftest pure 6 8: 150 of 150 profiles decided alike (d_stress.py vs this encoding), for D2 and for all bundles <= 2 (the latter unsatisfiable in 0)
 $ cd k4 && python3 d_stress_check.py --selftest chain 1 150
 selftest chain 1: 150 of 150 profiles decided alike (d_stress.py vs this encoding), for D2 and for all bundles <= 2 (the latter unsatisfiable in 150)
+$ cd k4 && python3 d_stress_check.py --selftest chain 2 30
+selftest chain 2: 30 of 30 profiles decided alike (d_stress.py vs this encoding), for D2 and for all bundles <= 2 (the latter unsatisfiable in 30)
+$ cd k4 && python3 d_stress_check.py --selftest chain 3 30
+commit 78a81fa
+selftest chain 3: 30 of 30 profiles decided alike (d_stress.py vs this encoding), for D2 and for all bundles <= 2 (the latter unsatisfiable in 30; not run: m > 2n, unsatisfiable by counting)
+$ cd k4 && python3 d_stress_check.py --selftest tree 3 30
+commit af85fd1
+selftest tree 3: 30 of 30 profiles decided alike (d_stress.py vs this encoding), for D2 and for all bundles <= 2 (the latter unsatisfiable in 30; not run: m > 2n, unsatisfiable by counting)
+# D2-unsatisfiable self-test profiles, from the same streams replayed with d_stress.py (Random(5), build, then random_profile N times; shape(p) is None counted): 0 in each of the 7 self-tests above (pure 3 5, pure 4 7, pure 6 8, chain 1, chain 2, chain 3, tree 3).

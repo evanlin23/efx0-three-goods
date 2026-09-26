@@ -1,59 +1,61 @@
-$ python3 k4/d_stress.py chain 1 --values=paper --profiles=500 --owners=60 --restarts=3 --seed=1
+$ cd k4 && python3 d_stress.py chain 1 --values=paper --profiles=500 --seed=1 --witnesses=../results/k4_dstress_witnesses/chain_1.json.gz
+commit bd5cb4d
 chain 1: n = 5 (5 with 4 goods), m = 13, beta = 3; domains [144, 288]
   paper values: D2 yes, count 32
-  500 random profiles: 0 without a D2 allocation (2.0 s)
-  paper values: feasible large-bundle owners 5 of 5
-  owner climb 0: min feasible owners 5 of 5 after 60 steps (0 s); trace [5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5]
-  owners at the minimum: [0, 1, 2, 3, 4]; profile [[8, 6, 1, 4], [8, 2, 7, 4], [4, 3, 6, 8], [6, 7, 3, 5], [6, 10, 3, 2]]
-  owner climb 1: min feasible owners 4 of 5 after 60 steps (1 s); trace [5, 5, 5, 5, 5, 4, 4, 4, 4, 4, 4, 4, 4]
-  owners at the minimum: [0, 1, 2, 3]; profile [[8, 2, 5, 4], [8, 4, 5, 6], [3, 4, 2, 8], [3, 4, 2, 8], [10, 6, 2, 3]]
-  owner climb 2: min feasible owners 5 of 5 after 60 steps (0 s); trace [5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5]
-  owners at the minimum: [0, 1, 2, 3, 4]; profile [[10, 4, 8, 3], [4, 6, 1, 8], [10, 3, 4, 8], [8, 2, 4, 3], [2, 6, 10, 7]]
-  min feasible owners over climbs: 4 of 5
+  500 random profiles: 0 without a D2 allocation (2.5 s); 501 witnesses re-checked by the raw definition and the D2 shape
+  witnesses written to ../results/k4_dstress_witnesses/chain_1.json.gz
 
-$ python3 k4/d_stress.py chain 2 2 --profiles=200 --seed=8
+$ cd k4 && python3 d_stress.py chain 2 2 --profiles=200 --seed=8 --witnesses=../results/k4_dstress_witnesses/chain_2_heads2.json.gz
+commit bd5cb4d
 chain 2 2: n = 18 (18 with 4 goods), m = 45, beta = 10; domains [144, 288]
-  200 random profiles: 0 without a D2 allocation (76.3 s)
+  200 random profiles: 0 without a D2 allocation (83.5 s); 200 witnesses re-checked by the raw definition and the D2 shape
+  witnesses written to ../results/k4_dstress_witnesses/chain_2_heads2.json.gz
 
-$ python3 k4/d_stress.py chain 2 3 --profiles=120 --seed=9
+$ cd k4 && python3 d_stress.py chain 2 3 --profiles=120 --seed=9 --witnesses=../results/k4_dstress_witnesses/chain_2_heads3.json.gz
+commit bd5cb4d
 chain 2 3: n = 27 (27 with 4 goods), m = 67, beta = 15; domains [144, 288]
-  120 random profiles: 0 without a D2 allocation (268.3 s)
+  120 random profiles: 0 without a D2 allocation (282.1 s); 120 witnesses re-checked by the raw definition and the D2 shape
+  witnesses written to ../results/k4_dstress_witnesses/chain_2_heads3.json.gz
 
-$ python3 k4/d_stress.py chain 2 --values=paper --profiles=400 --owners=30 --restarts=2 --seed=2
+$ cd k4 && python3 d_stress.py chain 2 --values=paper --profiles=400 --seed=2 --witnesses=../results/k4_dstress_witnesses/chain_2.json.gz
+commit bd5cb4d
 chain 2: n = 9 (9 with 4 goods), m = 23, beta = 5; domains [144, 288]
   paper values: D2 yes, count 32
-  400 random profiles: 0 without a D2 allocation (6.3 s)
-  paper values: feasible large-bundle owners 9 of 9
-  owner climb 0: min feasible owners 9 of 9 after 30 steps (107 s); trace [9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9]
-  owners at the minimum: [0, 1, 2, 3, 4, 5, 6, 7, 8]; profile [[10, 7, 2, 4], [8, 2, 3, 4], [8, 2, 4, 7], [8, 6, 1, 4], [3, 2, 8, 4], [6, 4, 3, 8], [10, 2, 7, 6], [3, 4, 2, 8], [4, 8, 6, 3]]
-  owner climb 1: min feasible owners 9 of 9 after 30 steps (69 s); trace [9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9]
-  owners at the minimum: [0, 1, 2, 3, 4, 5, 6, 7, 8]; profile [[8, 10, 3, 6], [8, 4, 3, 10], [8, 3, 6, 10], [10, 3, 6, 8], [3, 8, 4, 6], [3, 6, 2, 10], [6, 5, 4, 8], [6, 3, 5, 7], [2, 10, 6, 3]]
-  min feasible owners over climbs: 9 of 9
+  400 random profiles: 0 without a D2 allocation (7.3 s); 401 witnesses re-checked by the raw definition and the D2 shape
+  witnesses written to ../results/k4_dstress_witnesses/chain_2.json.gz
 
-$ python3 k4/d_stress.py chain 3 --values=paper --profiles=300 --owners=15 --restarts=2 --seed=3
+$ cd k4 && python3 d_stress.py chain 3 --values=paper --profiles=300 --seed=3 --witnesses=../results/k4_dstress_witnesses/chain_3.json.gz
+commit bd5cb4d
 chain 3: n = 13 (13 with 4 goods), m = 33, beta = 7; domains [144, 288]
   paper values: D2 yes, count 32
-  300 random profiles: 0 without a D2 allocation (23.3 s)
-  paper values: feasible large-bundle owners 13 of 13
+  300 random profiles: 0 without a D2 allocation (23.4 s); 301 witnesses re-checked by the raw definition and the D2 shape
+  witnesses written to ../results/k4_dstress_witnesses/chain_3.json.gz
 
-$ python3 k4/d_stress.py chain 4 --values=paper --profiles=200 --seed=4
+$ cd k4 && python3 d_stress.py chain 4 --values=paper --profiles=200 --seed=4 --witnesses=../results/k4_dstress_witnesses/chain_4.json.gz
+commit bd5cb4d
 chain 4: n = 17 (17 with 4 goods), m = 43, beta = 9; domains [144, 288]
   paper values: D2 yes, count 32
-  200 random profiles: 0 without a D2 allocation (57.2 s)
+  200 random profiles: 0 without a D2 allocation (59.5 s); 201 witnesses re-checked by the raw definition and the D2 shape
+  witnesses written to ../results/k4_dstress_witnesses/chain_4.json.gz
 
-$ python3 k4/d_stress.py chain 5 --values=paper --profiles=120 --seed=5
+$ cd k4 && python3 d_stress.py chain 5 --values=paper --profiles=120 --seed=5 --witnesses=../results/k4_dstress_witnesses/chain_5.json.gz
+commit bd5cb4d
 chain 5: n = 21 (21 with 4 goods), m = 53, beta = 11; domains [144, 288]
   paper values: D2 yes, count 32
-  120 random profiles: 0 without a D2 allocation (81.3 s)
+  120 random profiles: 0 without a D2 allocation (84.3 s); 121 witnesses re-checked by the raw definition and the D2 shape
+  witnesses written to ../results/k4_dstress_witnesses/chain_5.json.gz
 
-$ python3 k4/d_stress.py chain 6 --values=paper --profiles=80 --seed=6
+$ cd k4 && python3 d_stress.py chain 6 --values=paper --profiles=80 --seed=6 --witnesses=../results/k4_dstress_witnesses/chain_6.json.gz
+commit bd5cb4d
 chain 6: n = 25 (25 with 4 goods), m = 63, beta = 13; domains [144, 288]
   paper values: D2 yes, count 32
-  80 random profiles: 0 without a D2 allocation (155.0 s)
+  80 random profiles: 0 without a D2 allocation (161.6 s); 81 witnesses re-checked by the raw definition and the D2 shape
+  witnesses written to ../results/k4_dstress_witnesses/chain_6.json.gz
 
-$ python3 k4/d_stress.py chain 7 --values=paper --profiles=60 --seed=7
+$ cd k4 && python3 d_stress.py chain 7 --values=paper --profiles=60 --seed=7 --witnesses=../results/k4_dstress_witnesses/chain_7.json.gz
+commit bd5cb4d
 chain 7: n = 29 (29 with 4 goods), m = 73, beta = 15; domains [144, 288]
   paper values: D2 yes, count 32
-  60 random profiles: 0 without a D2 allocation (165.9 s)
+  60 random profiles: 0 without a D2 allocation (175.6 s); 61 witnesses re-checked by the raw definition and the D2 shape
+  witnesses written to ../results/k4_dstress_witnesses/chain_7.json.gz
 
-  (owner climbs stopped before finishing, to fit the session)

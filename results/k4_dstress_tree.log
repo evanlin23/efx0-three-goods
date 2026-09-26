@@ -1,9 +1,12 @@
-$ python3 k4/d_stress.py tree 3 --profiles=250 --owners=15 --restarts=2 --seed=12
+$ cd k4 && python3 d_stress.py tree 3 --profiles=250 --seed=12 --witnesses=../results/k4_dstress_witnesses/tree_3.json.gz
+commit bd5cb4d
 tree 3: n = 14 (14 with 4 goods), m = 35, beta = 8; domains [144, 288]
-  250 random profiles: 0 without a D2 allocation (20.1 s)
+  250 random profiles: 0 without a D2 allocation (22.5 s); 250 witnesses re-checked by the raw definition and the D2 shape
+  witnesses written to ../results/k4_dstress_witnesses/tree_3.json.gz
 
-$ python3 k4/d_stress.py tree 5 --profiles=120 --seed=13
+$ cd k4 && python3 d_stress.py tree 5 --profiles=120 --seed=13 --witnesses=../results/k4_dstress_witnesses/tree_5.json.gz
+commit bd5cb4d
 tree 5: n = 23 (23 with 4 goods), m = 57, beta = 13; domains [144, 288]
-  120 random profiles: 0 without a D2 allocation (188.0 s)
+  120 random profiles: 0 without a D2 allocation (194.5 s); 120 witnesses re-checked by the raw definition and the D2 shape
+  witnesses written to ../results/k4_dstress_witnesses/tree_5.json.gz
 
-  (owner climbs stopped before finishing, to fit the session)
