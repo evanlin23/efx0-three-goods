@@ -55,7 +55,8 @@ The remaining route would then be rule F's construction, whose architecture is t
 
 **Not recommended as the main route.**
 - **PS (route 2).** It is uniform and survives, but it is strictly stronger than TARGET₄. Its induction stalls exactly at
-  the core structure. The only closed strengthening, PS_W, is false for twins at n = 2 (§2.2).
+  the core structure. The only closed strengthening, PS_W, is false for twins at n = 2. The owner form PS-OWNER is
+  false at n = 3 (§2.2).
 - **The minimal-counterexample certification (route 3).** It needs an absolute bound on β. No known reduction touches
   Q4-dense cores (§2.3).
 
@@ -88,10 +89,11 @@ The remaining route would then be rule F's construction, whose architecture is t
 - **TARGET₄, K4.D and PS hold on every complete instance, cores and non-core alike**
   (`suite_baseline.log`, both implementations where they finish). The same holds for C₄ᵐⁱⁿ in both forms wherever the
   enumeration finishes (n ≤ 6).
-- **PS-OWNER** is K4.D with a prescribed owner who is unenvied: an EFX₀ allocation in which w is unenvied and every
-  other bundle has at most two goods, for every agent w.
-  - It fails on the non-core LIL instance, for agents 1 and 2, in both implementations.
-  - On the cores: see `suite_baseline.log` (§2.2).
+- **PS-OWNER fails on cores.** PS-OWNER is K4.D with a prescribed owner who is unenvied: an EFX₀ allocation in which
+  w is unenvied and every other bundle has at most two goods, for every agent w.
+  - It fails on 28 cores of the suite, smallest n = 3, m = 6, and on the non-core LIL instance. Both implementations
+    agree (`suite_baseline2.log`).
+  - PS itself holds on all of them (§2.2).
 
 ## 2. The routes
 
@@ -177,8 +179,10 @@ properties of the smaller instance, so they are not inductive. In the minimal-co
 configurations are handled by gadget reductions (K4.MC2, MC3, MC5), not by a hypothesis. That is route 3.
 
 **PS-OWNER** strengthens PS with the D2 shape and w as the owner. Lemma 7 of #43 is the k = 3 case of this, via LB⁺
-with w last. It fails on the non-core LIL instance. On the suite cores see `suite_baseline.log`. As a target it
-inherits PS's non-closure (a non-owner's private good), so it is not an architecture either.
+with w last. It is **false at k = 4 already at n = 3, m = 6 on cores**: in `c4-lbplus-rotation-n3m6`, agent 1 is never
+the unenvied owner of a D2 allocation, though PS(I, 1) holds. It fails on 28 suite cores in all, with both
+implementations. So the owner-last route of Lemma 7 does not carry over as a statement about every agent
+(`attempts/k4-strat-psw.md`).
 
 **Verdict.** PS is a good *statement*: uniform, surviving, and it implies TARGET₄ with no extra Lean. It is not a
 *proof architecture*: its own induction needs a multi-agent version that is false.

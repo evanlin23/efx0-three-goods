@@ -63,8 +63,12 @@ Logs in `results/k4_strategy/` (each starts with its command); `python3 k4/suite
   two implementations, 6 with one (the 𝒫_T and LIL-text statements, new in this PR). There are 0 disagreements.
 - `suite_baseline.log`: TARGET₄ (`efx0`), K4.D (`d2`) and PS for every agent (`ps`) hold on all 150 complete
   instances, cores and the non-core alike, with #43's `induct_sat`. They also hold with `model.py`'s SAT on all but
-  H₅ (n = 21), where it is too slow and is skipped. PS-OWNER (`psd2`) and C₄ᵐⁱⁿ in both forms (`c4min`, `c4min-cfg`):
-  see the log and `k4/strategy.md` §1.
+  H₅ (n = 21), where it is too slow and is skipped.
+- `suite_baseline2.log`:
+  - **PS-OWNER** (`psd2`: every agent the unenvied owner of a D2 allocation) **fails on 28 cores and on the non-core**
+    instance, smallest n = 3, m = 6. Both implementations agree. PS itself holds on all of them.
+  - C₄ᵐⁱⁿ in both forms (`c4min`, `c4min-cfg`) holds wherever the enumeration finished; large instances time out and
+    read `n/a`.
 - `suite_rulef.log`: LB₄ʳ with rule F (#44) and at most one rotation succeeds on all 148 core instances it was run on
   (H₅ is left to #44's Proposition H′).
 - `deficit_local_suite.log`: Conjecture DL₂ of `k4/strategy.md` §3. k* ≤ 2 on every core with ω ≥ 1 and n ≤ 6;
@@ -117,7 +121,7 @@ Logs in `results/k4_strategy/` (each starts with its command); `python3 k4/suite
 | `c4-g2-other-runs-n4m7` | 4 | 7 | yes | #33 | `attempts/k4-c4-g2-other-runs.md`, `k4/c4.md` | k4/c4.md §6.1 item 4 as first written: with at most one 4-good agent, a 4-good r that is exposed after LB⁺'s … |  |
 | `c4-gadget-stacking-1copy-n3m6` | 3 | 6 | yes | #33 | `attempts/k4-c4-gadget-stacking.md` | LB₄ʳ with index insertion, every upgrade policy and one rotation (-i0 -u3 -r1 -w1 -c1) succeeds (this core ne… |  |
 | `c4-gadget-stacking-2copies-n6m11` | 6 | 11 | yes | #33 | `attempts/k4-c4-gadget-stacking.md` | Stacking hard gadgets: several copies of a core that needs two nested rotations under LB₄ʳ with index inserti… |  |
-| `c4-lbplus-rotation-n3m6` | 3 | 6 | yes | #33 | `attempts/k4-c4-lbplus-rotation.md`, `k4/c4.md` | Theorem B₄ extended to a 4-good r: in LB⁺'s bad case, LB⁺'s rotation (the leader k* gives its top up a need c… |  |
+| `c4-lbplus-rotation-n3m6` | 3 | 6 | yes | #33 | `attempts/k4-c4-lbplus-rotation.md`, `k4/c4.md` | Theorem B₄ extended to a 4-good r: in LB⁺'s bad case, LB⁺'s rotation (the leader k* gives its top up a need c… | `psd2` |
 | `c4-one-rotation-owner-r-n3m6` | 3 | 6 | yes | #33 | `attempts/k4-c4-one-rotation.md`, `k4/c4.md` | With one 4-good agent, LB⁺'s exact shape suffices: envy-free upgrades, owner r, else one rotation (lb4.c -i1 … |  |
 | `c4-one-rotation-two4-n3m6` | 3 | 6 | yes | #33 | `attempts/k4-c4-one-rotation.md`, `k4/c4.md` | One rotation suffices at k = 4 (LB₄ʳ with every upgrade policy, every owner, every chain and subset O, one ro… |  |
 | `c4-owner-last-n3m8` | 3 | 8 | yes | #33 | `attempts/k4-c4-owner-last.md` | Owner processed last: choose the owner o first, run Phase 1 on the other agents, give o (all, or any part, of… |  |

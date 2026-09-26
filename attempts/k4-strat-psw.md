@@ -29,3 +29,23 @@ shared by two P3 agents) is removed by a gadget reduction (K4.MC3), not by a hyp
 
 **Replay.** `python3 attempts/k4_strat_attempts.py`, with this PR's SAT encoding (`k4/suite/model.py`) and #43's
 `k4/induct_sat.py` (an independent encoding) for the PS_W query.
+
+## PS-OWNER: a prescribed unenvied owner in the D2 shape
+
+A stronger target, and the k = 4 form of #43's Lemma 7 (LB⁺ with the target processed last makes it the owner):
+> **PS-OWNER.** For every agent w, some EFX₀ allocation leaves w unenvied and gives every other agent at most two goods.
+
+It would make w the owner of the large bundle, which is what an induction on private goods of w needs. **It fails at
+n = 3, m = 6 on cores**, with both implementations (this PR's SAT in `k4/suite/model.py` and a D2 extension of #43's
+`k4/induct_sat.py`, `k4/suite/predicates.py` `psd2`).
+- It fails on 28 of the suite's cores and on the non-core LIL instance (`results/k4_strategy/suite_baseline2.log`).
+- PS itself (no shape constraint) holds on every one of them.
+
+Smallest found: `c4-lbplus-rotation-n3m6`.
+- Sets and values: agent 0 values {0, 1, 2, 5} at 2, 4, 8, 5; agent 1 values {2, 3, 4, 5} at 8, 3, 4, 6; agent 2 values
+  {3, 4, 5} at 2, 3, 4.
+- Agent 1 is never the unenvied owner of a D2 EFX₀ allocation.
+
+So Lemma 7's route does not carry over to k = 4 as a statement about every agent.
+
+Replay: `python3 k4/suite/run.py psd2 --only=c4-lbplus-rotation-n3m6`.

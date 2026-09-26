@@ -453,9 +453,4 @@
   red-key-without-t0           n=3 m=7   suite: holds (0.0s)  induct: holds (0.0s)
   red-lil-nokeep-b             n=3 m=7   suite: holds (0.0s)  induct: holds (0.0s)
   red-pm-offpath-hypothesis    n=3 m=7   suite: holds (0.0s)  induct: holds (0.0s)
-## psd2: PS-OWNER: for every agent w, an EFX0 allocation in which w is unenvied and every other bundle has <= 2 goods [this PR (Route 2)]
-  adaptive-cover-multi4        n=2 m=4   suite: holds (0.0s)  induct: holds (0.0s)
-  adaptive-p1                  n=3 m=6   suite: holds (0.0s)  induct: holds (0.0s)
-  adaptive-p3                  n=3 m=6   suite: holds (0.0s)  induct: holds (0.0s)
-  c4-H1                        n=5 m=13  suite: holds (0.0s)  induct: holds (0.0s)
-  c4-H2                        n=9 m=23  suite: holds (3.0s)  induct: holds (0.5s)
+# (the psd2, c4min and c4min-cfg columns are in suite_baseline2.log)

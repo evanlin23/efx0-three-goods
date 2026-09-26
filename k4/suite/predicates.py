@@ -88,6 +88,7 @@ def psd2_suite(d):
 def psd2_induct(d):
     """the same with #43's encoding: w unenvied and D2, plus a check that the big bundle (if any) is w's; if the model
     has another agent's big bundle, retry with that agent's bundle size capped by padding (reported as None)"""
+    if _too_big(d): return None, 'n > %d: the triple clauses make this slow' % BIG_N
     V, a, g = _V(d); S = ext.induct_sat()
     bad, unk = [], []
     for w in a:
