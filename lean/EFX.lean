@@ -30,3 +30,6 @@ import EFX.K3Pareto
 import EFX.K3Theorem
 import EFX.C4minExamples
 import EFX.K3Algo
+import EFX.Timed
+import EFX.K3CostLB
+import EFX.K3Cost
