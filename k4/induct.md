@@ -1,8 +1,8 @@
 # k = 4: induction on the number of 4-good agents (insertion lemma)
 
 Workstream `proof/k4-induct`. Ledger rows `K4.IND.*`: the written proofs are K4.IND.INS (Lemmas 1–3), K4.IND.STEP
-(Theorem 4), K4.IND.PSRED (Propositions 5–6) and K4.IND.LAST (Lemmas 7–8), all CONJECTURE (two reviews of PR #43 found
-them correct; the status is left to a later change); the conjectures are K4.IND.PS and K4.IND.LBO; the evidence rows
+(Theorem 4), K4.IND.PSRED (Propositions 5–6) and K4.IND.LAST (Lemmas 7–8), all PROVED as written proofs (refereed in
+the PR #43 review; the computational review also read Lemmas 7–8 and Theorem 4(b); none is in Lean); the conjectures are K4.IND.PS and K4.IND.LBO; the evidence rows
 are K4.IND.PSE and K4.IND.Q4; the failures of §2 are K4.IND.X (REFUTED, re-derived by an independent brute force).
 K4.D and K4.T are unchanged.
 
@@ -203,7 +203,8 @@ or goods whose EFX₀ allocations extend. So it applies within 𝒟_{j+1}, and a
 k = 4 core. (Lean: `EFX.core_reduction4_conn_of`, PR #39, merged, ledger row K4.ONE.FRAME, proves this reduction in
 existence form for any class closed under sub-instances, so for 𝒟_{j+1} at every j: if every connected core of the
 class has an EFX₀ allocation, every instance of the class has one.) K4.TIE's perturbation I^ε of I has the same
-agents, goods and relevant sets, is again a counterexample (K4.TIE), hence again minimal, and has strict types. If a
+agents, goods and relevant sets, is again a counterexample (K4.TIE), hence again minimal, and has strict types; for
+small ε it is still a core, since the core inequalities are strict. If a
 4-good agent w of I had a private good p, then p would be private to w in I^ε too, and PS(I^ε − p, w) with Lemma 2
 would give an EFX₀ allocation of I^ε, a contradiction. ∎
 
@@ -414,7 +415,7 @@ agents, the margin θ_j(X′_w ∪ {d}) ≤ v_j(X′_j) for every other valuer j
   has *some* minimizer admitting d → h (on the smallest configuration, 6 of its 12 triples). So a tie-break among the
   minimizers may still work; the only existence-form obstruction shown is GPS above, which concerns h = w only.
 - *B-form* for a Q4 agent (delete w and d; give w nothing but d): for the best d, repair r ≤ 1 on every sampled n = 5
-  profile (cores with one or two 4-good agents, `results/k4_induct_n5.log`), but r = 2 and r = 3 occur at n = 3
+  profile (a core with one 4-good agent, a P4 core; `results/k4_induct_n5.log`), but r = 2 and r = 3 occur at n = 3
   (267 and 2 of the 12,000 profiles with a Q4 agent).
 
 What a proof of the Q4 step would have to supply is an X′ with *two* properties at once (h unenvied, and the valuers
@@ -446,7 +447,7 @@ profiles, ρ ≤ 1 with the best d (§5). The statement "every X′, ρ ≤ 1" f
    ends Phase 1 (w last) with its top. Open: the runs in which w ends with its second or third good or with nothing,
    where need chains from up to three blocks end at w; the upgrades (second good) and one rotation (third good,
    nothing) repair them in every test, but only for a well-chosen run, so a proof needs an exchange argument on
-   insertion sequences, like PR #37's Lemma X for C₄¹∃.
+   insertion sequences, like PR #37's Lemma X for C₄¹∃ (PR #37 is open, not merged).
 2. **PS on 𝒟_j in general**, whose own induction (Proposition 5) stops at R1 on the target and at a second agent's
    private good. Theorem 4 is stated for every j, but its hypothesis at level j is PS on 𝒟_j (or, for (b), PS(I − p, w)
    for the cores of 𝒟_{j+1}), which none of the results here supplies for any j ≥ 1; §4b targets only j = 0.
