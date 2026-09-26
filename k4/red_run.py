@@ -1,6 +1,8 @@
 """Driver for k4/red.c (k4/c4min_reduce.md): runs it on every core of the given certificate files
 (results/k4_certs_*.json.gz; types from k4/check4.py, as every k = 4 tool) and sums the counters.
 Usage: red_run.py FILE [FILE ...] [--rand=R] [--seed=S] [--jobs=J] [-x N] [--cores=a:b] [--pots='f,f;f']
+  --lil: only the local improvement lemma check (k4/c4min_reduce.md §5.3), counters lil_*; --lil-rfirst uses the
+  potential (r', -t, Lambda); --lil-nom2 drops the two-agent re-pairings.
   --pots: extra global potentials (features r lamU lamR mt mp mterm lx mvp mndx; lexicographic, maximized).
   --rand=R: R random profiles per core (seed S + core index); default every profile.
   -x N: print up to N example profiles per counter (in core order)."""
@@ -27,9 +29,11 @@ def core_input(n, m, sets, rand, seed):
     lines.append('%d %d' % (rand, seed))
     return '\n'.join(lines) + '\n'
 
+LIL = '--lil' in sys.argv or '--lil-rfirst' in sys.argv
+
 def run(task):
     b, n, m, sets, rand, seed, nex, tag, pots = task
-    p = subprocess.run([b, '-x', str(nex)] + (['-p', pots] if pots else []), input=core_input(n, m, sets, rand, seed), capture_output=True, text=True, check=True)
+    p = subprocess.run([b, '-x', str(nex)] + (['-p', pots] if pots else []) + (['-L'] if LIL else []) + (['-Lr'] if '--lil-rfirst' in sys.argv else []) + (['-L2'] if '--lil-nom2' in sys.argv else []), input=core_input(n, m, sets, rand, seed), capture_output=True, text=True, check=True)
     cnt, ex = {}, []
     for line in p.stdout.splitlines():
         if line.startswith('EX '): ex.append('%s %s' % (tag, line[3:])); continue

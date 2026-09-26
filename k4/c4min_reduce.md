@@ -60,6 +60,12 @@ What remains is precisely the local improvement lemma at the fewest-frozen maxim
   - **Lemma PM** (written proof, checked) shows that #50's path move from a terminal threatened off the path keeps t = 0
     and raises r′, for every type of x.
   - §5.2 lists the cases a proof still has to handle.
+- **A local improvement lemma** (§5.3, Conjecture K4.C4MIN.RED.LIL): every configuration without a valid owner has a
+  move that raises Φ_r = (r′, −t, Λ). The moves are #50's (rotation, path move), plus one free agent re-pairing inside
+  its pair and the pool, which may lower its value.
+  - No configuration is stuck on every profile with n ≤ 3 (25,552,144 non-completable configurations), on every profile
+    of the n = 4 cores with one or two 4-good agents, or on the n = 4, 5 samples.
+  - With −t first, a two-agent exchange is needed as well (244 stuck configurations at n = 4 otherwise).
 
 Nothing here changes K4.D or K4.T.
 
@@ -469,6 +475,44 @@ So a maximum has no cycle, every free agent lies on the path, and so does every 
   5. every vertex threatened (r′ = 0): the owner that threatens both x and a free agent may need a modified rotation
      that makes t = 1.
 
+### 5.3 A local improvement lemma
+
+The moves used so far are all local:
+- **M1**: one free agent y re-pairs inside Q_y ∪ L. Its new pair is any pair whose part in U_y is admissible, so this
+  includes pool improvements and swaps that lower y's value but change the pool.
+- **M2**: two free agents re-pair inside Q_y ∪ Q_z ∪ L (#41's pool-assisted exchange).
+- **M4**: the rotation along a threat cycle of free agents (Lemma R, plain or modified).
+- **M5**: #50's path move from a terminal along a threat path to x, with x taking any admissible pair inside
+  Q_{p_k} ∪ L and at most one modified receiver. The result is at the terminal's key.
+
+`k4/red.c -L` checks, for every configuration at every key that is not completable, whether one of these moves gives a
+configuration (at any key) with a larger potential.
+
+**Conjecture K4.C4MIN.RED.LIL.** On every strict profile with f = 1 and ω ≥ 1, every configuration without a valid
+owner has an M1, M4 or M5 move that raises Φ_r = (r′, −t, Λ). This is #50's Ψ = (r, Λ) with −t inserted. Then every
+maximum of Φ_r over all keys is completable, and C₄ᵐⁱⁿ holds at f = 1. The algorithm "apply improving moves until an
+owner is valid" takes at most (n + 1) · 2 · 16n steps.
+
+Evidence and variants (`results/k4_red_lil.log`, counters `lil_*`; "stuck" = no improving move):
+
+| potential, moves | scope | non-completable configurations | stuck |
+|---|---|---|---|
+| (r′, −t, Λ), M1 M4 M5 | every profile with n ≤ 3 | 25,552,144 | 0 |
+| (r′, −t, Λ), M1 M4 M5 | every profile, n = 4 with one or two 4-good agents | 11,520 + 12,744,968 | 0 |
+| (r′, −t, Λ), M1 M4 M5 | n = 4, three or four 4-good agents, 4,000 per core | 831,672 | 0 |
+| (r′, −t, Λ), M1 M4 M5 | n = 5 samples (3,000, 600, 200 per core) | 4,009,551 | 0 |
+| (−t, r′, Λ), M1 M2 M4 M5 | all the scopes above | the same | 0 (M2 used 244 times at n = 4, 374 at n = 5, never at n ≤ 3 or in the exhaustive n = 4 classes) |
+| (−t, r′, Λ), M1 M4 M5 | n = 4, three or four 4-good agents, 4,000 per core | 831,672 | 244, all with a big-top x |
+
+Putting r′ first lets a pool improvement that makes its agent robust count even when it puts a good of x into the pool;
+that is exactly the configuration of instance B1. With t first, the two-agent exchange M2 is needed there instead.
+
+Proved parts:
+- Theorem Z′ (M1 pool improvements and M4 at a fixed key);
+- Lemma PM (M5 from a terminal threatened off the path keeps t = 0 and raises r′).
+
+The written proof of #50's Lemmas 2–7 covers M1, M4 and M5 under Ψ for a frozen agent that is not big-top.
+
 ## 6. Checks and evidence
 
 All counts are strict profiles of the certified core lists `results/k4_certs_*.json.gz` (types from `k4/check4.py`).
@@ -486,6 +530,7 @@ All counts are strict profiles of the certified core lists `results/k4_certs_*.j
 | Conjecture GLOB | §5 | 0 failures | `results/k4_red_n3.log`, `…_n4.log`, `…_n4_2_all.log`, `…_n5.log` |
 | Conjecture BT, big-top profiles | §5.1 | 0 failures | `results/k4_red_bt.log` |
 | Lemma PM | §5.2 | 0 failures | `results/k4_red_pathmove.log` |
+| Conjecture LIL | §5.3 | 0 stuck configurations | `results/k4_red_lil.log` |
 
 Independence: `k4/red.c` and `k4/red_lib.py` share no code with each other or with #41's `k4/c4min.c` and
 `k4/c4min_*.py`, only the type generator `k4/check4.py` and the core lists. The Python library was run on the n = 2

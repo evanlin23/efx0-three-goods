@@ -228,6 +228,127 @@ static const int P_G1[] = {F_MT, F_R, F_LAMR};
 static const int P_G2[] = {F_MT, F_R, F_LAMR, F_MP};
 static const int P_G3[] = {F_R, F_LAMU, F_MP};
 
+/* ---- local improvement lemma (option -L): every non-completable configuration has a move that raises
+   Phi = (-t, r', lamR) (lamR: free agents' levels over R plus the frozen agent's level), among
+   M1: one free agent re-pairs inside Q_y ∪ L;  M2: two free agents re-pair inside Q_y ∪ Q_z ∪ L;
+   M4: rotation along a threat cycle of free agents (plain, or one receiver takes {a, s} with s from the pool);
+   M5: path move from a terminal tau along a threat path to x (x takes any pair inside Q_{p_k} ∪ L; one receiver may be
+       modified as in M4); the result is at the key of tau. ---- */
+static int lil_on = 0, lil_rfirst = 0, lil_nom2 = 0;
+typedef struct { int mt, r, lam; } phi_t;
+static int phi_cmp(phi_t a, phi_t b) {
+  if (lil_rfirst) { if (a.r != b.r) return a.r < b.r ? -1 : 1; if (a.mt != b.mt) return a.mt < b.mt ? -1 : 1; }
+  else { if (a.mt != b.mt) return a.mt < b.mt ? -1 : 1; if (a.r != b.r) return a.r < b.r ? -1 : 1; }
+  if (a.lam != b.lam) return a.lam < b.lam ? -1 : 1;
+  return 0;
+}
+static int phi_of(const rkey_t *K, const mask_t *Q, mask_t L, phi_t *out) {
+  mask_t used = 0; int r = 0, lam = K->lx, g = K->g, x = K->x;
+  for (int k = 0; k < K->nfree; k++) {
+    int y = K->free[k]; mask_t S = Q[y];
+    if (pc(S) != 2 || (S & used) || (S >> g & 1)) return 0;
+    used |= S;
+    if (!admissible(y, S & K->U[y], K->U[y])) return 0;
+    if (val(y, S) >= val(y, K->U[y] & ~S)) r++;
+    lam += level(y, S, Rm[y]);
+  }
+  if ((used | L) != K->Mp || (used & L)) return 0;
+  out->mt = -(val(x, L & K->U[x]) > vv[x][g]); out->r = r; out->lam = lam;
+  return 1;
+}
+static phi_t lil_base; static int lil_found, lil_kind;
+static void lil_try(const rkey_t *K, const mask_t *Q, mask_t L, int kind) {
+  phi_t p; if (lil_found) return;
+  if (phi_of(K, Q, L, &p) && phi_cmp(p, lil_base) > 0) { lil_found = 1; lil_kind = kind; }
+}
+static int thr_[MAXN][MAXN], xthr_[MAXN];
+static int cyc[MAXN], cycn, inpath[MAXN];
+static const rkey_t *LK; static const cfg_t *LC;
+static void lil_rotate(void) {
+  mask_t Q[MAXN]; memcpy(Q, LC->Q, sizeof Q);
+  for (int j = 0; j < cycn; j++) Q[cyc[(j + 1) % cycn]] = LC->Q[cyc[j]];
+  lil_try(LK, Q, LC->L, 4);
+  for (int j = 0; j < cycn && !lil_found; j++) {
+    int z = cyc[(j + 1) % cycn]; mask_t S = LC->Q[cyc[j]];
+    for (mask_t ra = S; ra && !lil_found; ra &= ra - 1) { int a = __builtin_ctz(ra);
+      for (mask_t rs = LC->L; rs && !lil_found; rs &= rs - 1) { int sg = __builtin_ctz(rs);
+        mask_t Q2[MAXN]; memcpy(Q2, Q, sizeof Q2); Q2[z] = ((mask_t)1 << a) | ((mask_t)1 << sg);
+        lil_try(LK, Q2, (LC->L & ~((mask_t)1 << sg)) | (S & ~((mask_t)1 << a)), 4); } }
+  }
+}
+static void lil_cycles(int start, int v) {
+  for (int k = 0; k < LK->nfree && !lil_found; k++) { int y = LK->free[k];
+    if (!thr_[v][y]) continue;
+    if (y == start && cycn >= 2) { lil_rotate(); continue; }
+    if (y <= start || inpath[y]) continue;
+    inpath[y] = 1; cyc[cycn++] = y; lil_cycles(start, y); cycn--; inpath[y] = 0; }
+}
+static int ktau;
+static void lil_pathmove(void) {           /* cyc[0..cycn-1] = tau .. p_k; p_k threatens x */
+  const rkey_t *KT = &keys[ktau]; int x = LK->x;
+  mask_t Q[MAXN]; memcpy(Q, LC->Q, sizeof Q);
+  for (int i = 0; i + 1 < cycn; i++) Q[cyc[i + 1]] = LC->Q[cyc[i]];
+  mask_t W = LC->Q[cyc[cycn - 1]] | LC->L;
+  for (mask_t r1 = W; r1 && !lil_found; r1 &= r1 - 1) { int a = __builtin_ctz(r1);
+    for (mask_t r2 = r1 & (r1 - 1); r2 && !lil_found; r2 &= r2 - 1) { int b = __builtin_ctz(r2);
+      mask_t P = ((mask_t)1 << a) | ((mask_t)1 << b);
+      mask_t Q2[MAXN]; memcpy(Q2, Q, sizeof Q2); Q2[x] = P; Q2[cyc[0]] = 0;
+      mask_t L2 = W & ~P;
+      lil_try(KT, Q2, L2, 5);
+      for (int i = 0; i + 1 < cycn && !lil_found; i++) {
+        int z = cyc[i + 1]; mask_t S = LC->Q[cyc[i]];
+        for (mask_t ra = S; ra && !lil_found; ra &= ra - 1) { int a2 = __builtin_ctz(ra);
+          for (mask_t rs = L2; rs && !lil_found; rs &= rs - 1) { int sg = __builtin_ctz(rs);
+            mask_t Q3[MAXN]; memcpy(Q3, Q2, sizeof Q3); Q3[z] = ((mask_t)1 << a2) | ((mask_t)1 << sg);
+            lil_try(KT, Q3, (L2 & ~((mask_t)1 << sg)) | (S & ~((mask_t)1 << a2)), 5); } } }
+    } }
+}
+static void lil_paths(int v) {
+  if (xthr_[v]) lil_pathmove();
+  for (int k = 0; k < LK->nfree && !lil_found; k++) { int y = LK->free[k];
+    if (!thr_[v][y] || inpath[y]) continue;
+    inpath[y] = 1; cyc[cycn++] = y; lil_paths(y); cycn--; inpath[y] = 0; }
+}
+static void lil_check(const rkey_t *K, const cfg_t *c) {
+  LK = K; LC = c; lil_found = 0; lil_kind = 0;
+  if (!phi_of(K, c->Q, c->L, &lil_base)) { INC("FAIL_lil_base_not_config"); return; }
+  int x = K->x, g = K->g;
+  /* M1 */
+  for (int k = 0; k < K->nfree && !lil_found; k++) { int y = K->free[k]; mask_t W = c->Q[y] | c->L;
+    for (mask_t r1 = W; r1 && !lil_found; r1 &= r1 - 1) { int a = __builtin_ctz(r1);
+      for (mask_t r2 = r1 & (r1 - 1); r2 && !lil_found; r2 &= r2 - 1) { int b = __builtin_ctz(r2);
+        mask_t S = ((mask_t)1 << a) | ((mask_t)1 << b); if (S == c->Q[y]) continue;
+        mask_t Q[MAXN]; memcpy(Q, c->Q, sizeof Q); Q[y] = S; lil_try(K, Q, W & ~S, 1); } } }
+  /* threat relation */
+  memset(thr_, 0, sizeof thr_); memset(xthr_, 0, sizeof xthr_);
+  for (int k = 0; k < K->nfree; k++) { int o = K->free[k]; mask_t X = c->Q[o] | c->L;
+    for (int j = 0; j < K->nfree; j++) { int y = K->free[j]; if (y != o && threat(y, X, val(y, c->Q[y]))) thr_[o][y] = 1; }
+    if (threat(x, X, vv[x][g])) xthr_[o] = 1; }
+  /* M4 */
+  memset(inpath, 0, sizeof inpath);
+  for (int k = 0; k < K->nfree && !lil_found; k++) { int s0 = K->free[k]; cycn = 1; cyc[0] = s0; inpath[s0] = 1; lil_cycles(s0, s0); inpath[s0] = 0; }
+  /* M5 */
+  for (int k = 0; k < K->nfree && !lil_found; k++) { int tau = K->free[k];
+    if (!((Rm[tau] >> g) & 1) || vv[tau][g] <= val(tau, c->Q[tau])) continue;
+    ktau = -1; for (int j = 0; j < nkeys; j++) if (keys[j].x == tau && keys[j].g == g) ktau = j;
+    if (ktau < 0) continue;
+    memset(inpath, 0, sizeof inpath); cycn = 1; cyc[0] = tau; inpath[tau] = 1; lil_paths(tau); }
+  /* M2 */
+  if (!lil_nom2) for (int k1 = 0; k1 < K->nfree && !lil_found; k1++) for (int k2 = k1 + 1; k2 < K->nfree && !lil_found; k2++) {
+    int y = K->free[k1], z = K->free[k2]; mask_t W = c->Q[y] | c->Q[z] | c->L;
+    for (mask_t r1 = W; r1 && !lil_found; r1 &= r1 - 1) { int a = __builtin_ctz(r1);
+      for (mask_t r2 = r1 & (r1 - 1); r2 && !lil_found; r2 &= r2 - 1) { int b = __builtin_ctz(r2);
+        mask_t S = ((mask_t)1 << a) | ((mask_t)1 << b);
+        if (!admissible(y, S & K->U[y], K->U[y])) continue;
+        mask_t W2 = W & ~S;
+        for (mask_t s1 = W2; s1 && !lil_found; s1 &= s1 - 1) { int c1 = __builtin_ctz(s1);
+          for (mask_t s2 = s1 & (s1 - 1); s2 && !lil_found; s2 &= s2 - 1) { int c2 = __builtin_ctz(s2);
+            mask_t T = ((mask_t)1 << c1) | ((mask_t)1 << c2);
+            mask_t Q[MAXN]; memcpy(Q, c->Q, sizeof Q); Q[y] = S; Q[z] = T; lil_try(K, Q, W2 & ~T, 2); } } } } }
+  if (lil_found) { static const char *kn[] = {"", "lil_by_M1", "lil_by_M2", "", "lil_by_M4", "lil_by_M5"}; INC(kn[lil_kind]); }
+  else { INC("FAIL_lil_stuck"); example("lil_stuck"); if (c->t) INC("lil_stuck_t1"); if (K->xtype == 1) INC("lil_stuck_xbig"); }
+}
+
 static void do_profile(void) {
   for (int i = 0; i < n; i++) { memset(vv[i], 0, sizeof vv[i]); int bt = -1;
     for (int k = 0; k < d[i]; k++) { vv[i][gl[i][k]] = tv[i][cur[i]][k]; if (bt < 0 || tv[i][cur[i]][k] > vv[i][bt]) bt = gl[i][k]; }
@@ -254,6 +375,8 @@ static void do_profile(void) {
   INC("f1");
   { int gg = keys[0].g, same = 1; for (int k = 1; k < nkeys; k++) if (keys[k].g != gg) same = 0; if (same) INC("f1_keys_share_g"); else { INC("f1_keys_distinct_g"); example("keys_distinct_g"); } }
   for (int k = 0; k < nkeys; k++) build_key(&keys[k]);
+  if (lil_on) { for (int k = 0; k < nkeys; k++) for (int q = 0; q < keys[k].nc; q++) if (!keys[k].c[q].comp) { INC("lil_noncomp"); lil_check(&keys[k], &keys[k].c[q]); }
+    return; }
   /* per key */
   int anyc[MAXN];
   int prof_every = 0, prof_any = 0;
@@ -420,6 +543,9 @@ int main(int argc, char **argv) {
   for (int a = 1; a < argc; a++) {
     if (!strcmp(argv[a], "-x") && a + 1 < argc) nex = atoi(argv[++a]);
     else if (!strcmp(argv[a], "-p") && a + 1 < argc) parse_pots(argv[++a]);
+    else if (!strcmp(argv[a], "-L")) lil_on = 1;
+    else if (!strcmp(argv[a], "-Lr")) { lil_on = 1; lil_rfirst = 1; }      /* potential (r', -t, lamR) */
+    else if (!strcmp(argv[a], "-L2")) lil_nom2 = 1;                        /* without two-agent re-pairings */
   }
   if (scanf("%d %d", &n, &m) != 2) return 1;
   if (n > MAXN || m > MAXM) { fprintf(stderr, "too large\n"); return 1; }
