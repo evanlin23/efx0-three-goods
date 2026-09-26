@@ -1,0 +1,43 @@
+# k4/c4min.md §4: Conjecture Phi and its refinements Phi' = (-t, r, Lambda, -p) (p: pool goods valued by frozen agents; feature 3) and (-t, r, Lambda, -frozthr) (feature 21) on larger samples with f >= 1
+# command: python3 k4/c4min_run.py results/k4_certs_4_pure.json.gz --rand=4000 --seed=33 -F1 -p "8,9,16;8,9,16,3;8,9,16,21" --jobs=4
+FILE results/k4_certs_4_pure.json.gz cores 219 profiles 876000 omega>=1 47929 configs 4757451 none 0 keyfail 196 xbad 0 paretomax 0 paretoevery 0 paretosome 0 rmax0 0 allrobF 0 covZ 0 covF 3147 f1 43048 uncovered 1734
+  (-thrL,rob,sumlev)                       every-max fails          0   some-max fails          0
+  (-thrL,rob,sumlev,-poolexp)              every-max fails          0   some-max fails          0
+  (-thrL,rob,sumlev,-frozthr)              every-max fails          0   some-max fails          0
+# command: python3 k4/c4min_run.py results/k4_certs_4_n4_3.json.gz --rand=4000 --seed=33 -F1 -p "8,9,16;8,9,16,3;8,9,16,21" --jobs=4
+core 274: EX every (-thrL,rob,sumlev): [0:4,2:2,5:3,7:8] [1:4,5:2,7:7,8:10] [3:5,6:8,7:6,8:4] [4:2,6:4,8:3] | F{7} {1,8} {0,3} F{6} L{2,4,5}
+FILE results/k4_certs_4_n4_3.json.gz cores 339 profiles 1356000 omega>=1 65106 configs 4170160 none 0 keyfail 195 xbad 0 paretomax 0 paretoevery 0 paretosome 0 rmax0 0 allrobF 0 covZ 0 covF 6778 f1 55191 uncovered 3137
+  (-thrL,rob,sumlev)                       every-max fails          1   some-max fails          0
+  (-thrL,rob,sumlev,-poolexp)              every-max fails          0   some-max fails          0
+  (-thrL,rob,sumlev,-frozthr)              every-max fails          0   some-max fails          0
+# command: python3 k4/c4min_run.py results/k4_certs_4_n4_2.json.gz --rand=4000 --seed=33 -F1 -p "8,9,16;8,9,16,3;8,9,16,21" --jobs=4
+FILE results/k4_certs_4_n4_2.json.gz cores 309 profiles 1236000 omega>=1 44448 configs 1973609 none 0 keyfail 256 xbad 0 paretomax 0 paretoevery 0 paretosome 0 rmax0 0 allrobF 0 covZ 0 covF 7916 f1 33285 uncovered 3247
+  (-thrL,rob,sumlev)                       every-max fails          0   some-max fails          0
+  (-thrL,rob,sumlev,-poolexp)              every-max fails          0   some-max fails          0
+  (-thrL,rob,sumlev,-frozthr)              every-max fails          0   some-max fails          0
+# command: python3 k4/c4min_run.py results/k4_certs_5_pure.json.gz --rand=150 --seed=34 -F1 -p "8,9,16;8,9,16,3;8,9,16,21" --jobs=4
+FILE results/k4_certs_5_pure.json.gz cores 4674 profiles 701100 omega>=1 46904 configs 20416102 none 0 keyfail 31 xbad 0 paretomax 0 paretoevery 0 paretosome 0 rmax0 0 allrobF 0 covZ 0 covF 3294 f1 39627 uncovered 3983
+  (-thrL,rob,sumlev)                       every-max fails          0   some-max fails          0
+  (-thrL,rob,sumlev,-poolexp)              every-max fails          0   some-max fails          0
+  (-thrL,rob,sumlev,-frozthr)              every-max fails          0   some-max fails          0
+# command: python3 k4/c4min_run.py results/k4_certs_5_n4_2.json.gz --rand=150 --seed=34 -F1 -p "8,9,16;8,9,16,3;8,9,16,21" --jobs=4
+FILE results/k4_certs_5_n4_2.json.gz cores 5468 profiles 820200 omega>=1 15280 configs 2267103 none 0 keyfail 5 xbad 0 paretomax 0 paretoevery 0 paretosome 0 rmax0 0 allrobF 0 covZ 0 covF 3685 f1 8121 uncovered 3474
+  (-thrL,rob,sumlev)                       every-max fails          0   some-max fails          0
+  (-thrL,rob,sumlev,-poolexp)              every-max fails          0   some-max fails          0
+  (-thrL,rob,sumlev,-frozthr)              every-max fails          0   some-max fails          0
+# command: python3 k4/c4min_run.py results/k4_certs_5_n4_3.json.gz --rand=60 --seed=34 -F1 -p "8,9,16;8,9,16,3;8,9,16,21" --jobs=4
+FILE results/k4_certs_5_n4_3.json.gz cores 9861 profiles 591660 omega>=1 22085 configs 4550003 none 0 keyfail 3 xbad 0 paretomax 0 paretoevery 0 paretosome 0 rmax0 0 allrobF 0 covZ 0 covF 3255 f1 15463 uncovered 3367
+  (-thrL,rob,sumlev)                       every-max fails          0   some-max fails          0
+  (-thrL,rob,sumlev,-poolexp)              every-max fails          0   some-max fails          0
+  (-thrL,rob,sumlev,-frozthr)              every-max fails          0   some-max fails          0
+# command: python3 k4/c4min_run.py results/k4_certs_5_n4_4.json.gz --rand=60 --seed=34 -F1 -p "8,9,16;8,9,16,3;8,9,16,21" --jobs=4
+FILE results/k4_certs_5_n4_4.json.gz cores 9846 profiles 590760 omega>=1 31575 configs 9070650 none 0 keyfail 4 xbad 0 paretomax 0 paretoevery 0 paretosome 0 rmax0 0 allrobF 0 covZ 0 covF 3193 f1 24850 uncovered 3532
+  (-thrL,rob,sumlev)                       every-max fails          0   some-max fails          0
+  (-thrL,rob,sumlev,-poolexp)              every-max fails          0   some-max fails          0
+  (-thrL,rob,sumlev,-frozthr)              every-max fails          0   some-max fails          0
+# command: python3 k4/c4min_run.py results/k4_certs_4_pure.json.gz --rand=1000 --seed=31 -p "8,9,16;8,9,16,3" --jobs=4   (the sample of results/k4_c4min_n4.log where Phi fails once)
+core 72: EX every (-thrL,rob,sumlev): [0:3,2:4,4:2,7:8] [1:3,5:6,6:10,7:2] [3:4,5:8,6:3,7:6] [4:4,5:8,6:6,7:5] | F{7} {1,6} {0,3} F{5} L{2,4}
+FILE results/k4_certs_4_pure.json.gz cores 219 profiles 219000 omega>=1 102033 configs 24419068 none 0 keyfail 57 xbad 0 paretomax 0 paretoevery 0 paretosome 0 rmax0 0 allrobF 0 covZ 90011 covF 751 f1 10819 uncovered 452
+  (-thrL,rob,sumlev)                       every-max fails          1   some-max fails          0
+  (-thrL,rob,sumlev,-poolexp)              every-max fails          0   some-max fails          0
+# note (added in the PR #41 review fixes; not part of the run's output): the build was not recorded at run time. The options (-F1) and counters (covZ, covF, f1, uncovered) used here exist only in the k4/c4min.c source committed in 0bb6a22 (sha1 01776e55c55cb8056804693ccea4c8e909848cc5, unchanged since), so this log is from that source or an uncommitted state with the same output.

@@ -1,0 +1,13 @@
+# k4/c4min.md §3, Theorem Z (fewest frozen agents 0): every all-pairs allocation maximizing (robust agents, sum of levels) has a valid owner; every strict profile of every k = 4 core with n <= 3
+# command: python3 k4/c4min_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz -f 0 -Q -p "9,16;9;16" --jobs=3
+# started Fri Sep 25 20:34:30 UTC 2026
+FILE results/k4_certs_2.json.gz cores 5 profiles 189216 omega>=1 103824 configs 1089368 none 0 keyfail 0 xbad 0 paretomax 172204 paretoevery 0 paretosome 0 rmax0 0
+  (rob,sumlev)                             every-max fails          0   some-max fails          0
+  (rob)                                    every-max fails          0   some-max fails          0
+  (sumlev)                                 every-max fails          0   some-max fails          0
+FILE results/k4_certs_3.json.gz cores 51 profiles 299837376 omega>=1 112040608 configs 4736580304 none 0 keyfail 0 xbad 0 paretomax 321213444 paretoevery 0 paretosome 0 rmax0 0
+  (rob,sumlev)                             every-max fails          0   some-max fails          0
+  (rob)                                    every-max fails       7968   some-max fails          0
+  (sumlev)                                 every-max fails          0   some-max fails          0
+# finished Fri Sep 25 21:06:42 UTC 2026
+# note (added in the PR #41 review fixes; not part of the run's output): written by a build of k4/c4min.c whose RESULT line lacks the allrobF, covZ, covF, f1 and uncovered counters, i.e. the source committed in 8774e08 (sha1 dc95b8cf35097c53dd3e254bce9e6ad5d683d04f) or an uncommitted state with the same output. The later sources (be6b27a; 0bb6a22, sha1 01776e55c55cb8056804693ccea4c8e909848cc5, current) only add feature 23 (allrobF), the options -A and -F1, those counters and example printing; no existing computation changes.
