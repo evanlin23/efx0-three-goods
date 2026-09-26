@@ -3,10 +3,12 @@ attempts/k4-c4min-reduce-c.md), with k4/red_lib.py only (Python, from the defini
 
 For every f = 1 profile of a seeded random sample (R profiles per core of the given certificate file):
   - a key-choice rule picks the keys (g, x) that maximize a score of x alone, or the best maximum of (r', Lambda') of I';
-    the rule succeeds if every (r', Lambda')-maximum at every picked key is completable ('all picked keys');
+    the rule succeeds if every (r', Lambda')-maximum at every picked key is completable ('all picked keys'), so a rule
+    counts as failing when ANY of the tied picked keys fails ('rule fails'); the tie-independent counts are also printed:
+    'rule fails at every tied key' (no tie-break rescues the rule) and 'rule fails, unique pick' (no tie at all);
   - the narrow role swap: at every non-completable (r', Lambda')-maximum, some terminal z (a key by Lemma T) and some
     admissible pair S of x inside L ∪ Q_z make the configuration 'x holds S, z frozen on g, everyone else unchanged'
-    completable.
+    completable; the first failures are printed as 'narrow swap example' (profile, key, pairs, pool).
 Usage: python3 attempts/k4_c4min_reduce_rules.py results/k4_certs_3.json.gz 6000 11   (about 20 s)"""
 import os, sys, random, itertools, collections
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -26,7 +28,7 @@ def completable(K, Q, L):
 def main():
     path, rand, seed = sys.argv[1], int(sys.argv[2]), int(sys.argv[3])
     rng = random.Random(seed)
-    cnt = collections.Counter()
+    cnt = collections.Counter(); examples = []
     for n, m, sets in load_cores(path):
         if m < 2 * n: continue
         deg = [sum(g in S for S in sets) for g in range(m)]
@@ -60,6 +62,8 @@ def main():
                 b = max(rf(i) for i in info)
                 sel = [i for i in info if rf(i) == b]
                 if not all(i['good'] for i in sel): cnt['rule fails: ' + rn] += 1
+                if not any(i['good'] for i in sel): cnt['rule fails at every tied key: ' + rn] += 1
+                if len(sel) == 1 and not sel[0]['good']: cnt['rule fails, unique pick: ' + rn] += 1
             if not any(i['good'] for i in info): cnt['no key has every (r\', Lambda\')-maximum completable'] += 1
             # narrow role swap
             for i in info:
@@ -77,8 +81,12 @@ def main():
                             Q2 = {y: Q[y] for y in K.free if y != z}; Q2[x] = S
                             if completable(Kz, Q2, pool & ~S): ok = True; break
                         if ok: break
-                    if not ok: cnt['narrow swap fails'] += 1
+                    if not ok:
+                        cnt['narrow swap fails'] += 1
+                        if len(examples) < 6:
+                            examples.append((vals, (g, x), {y: sorted(bits(q)) for y, q in Q.items()}, sorted(bits(L))))
     for k, v in sorted(cnt.items()): print('%-60s %d' % (k, v))
+    for e in examples: print('narrow swap example', e)
 
 
 if __name__ == '__main__':

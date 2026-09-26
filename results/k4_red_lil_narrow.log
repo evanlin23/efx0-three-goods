@@ -1,0 +1,462 @@
+# k4/red.c -L -Lr -L2 -Ln (k4/c4min_reduce.md §5.3, attempts/k4-c4min-reduce-lil-narrow.md): the local improvement lemma with the NARROW catalogue
+# (potential (r', -t, Lambda), moves M1 M4 M5; the modified receiver only as in Lemma R(iii) / #50; -Lx: x any pair in M5, else #50's best P_x; -Lc: #50's recycling)
+# variant: --lil-narrow --lil-anypx
+# command: python3 k4/red_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz --lil --lil-rfirst --lil-nom2 --lil-narrow --lil-anypx -x 3
+# source: k4/red.c sha1 2528c3b1a5c8e11979b257bd12be6be86c04eebf; git HEAD 964c7798f8e80887e920066a6358360b14e779a9
+k4_certs_3.json.gz#43 lil_stuck n=3 m=7 vals=[{0:4,3:2,4:8,6:5},{1:2,3:6,5:10,6:3},{2:1,4:6,5:8,6:4}]
+k4_certs_3.json.gz#43 lil_stuck n=3 m=7 vals=[{0:4,3:2,4:10,6:7},{1:2,3:6,5:10,6:3},{2:1,4:6,5:8,6:4}]
+k4_certs_3.json.gz#43 lil_stuck n=3 m=7 vals=[{0:4,3:3,4:8,6:6},{1:2,3:6,5:10,6:3},{2:1,4:6,5:8,6:4}]
+# files: results/k4_certs_2.json.gz results/k4_certs_3.json.gz  rand=0 seed=1  cores=56  time=47.9s
+FAIL_lil_stuck                       4208
+f1                                   7285840
+lil_by_M1                            24341752
+lil_by_M4                            372528
+lil_by_M5                            833656
+lil_noncomp                          25552144
+lil_stuck                            0
+lil_stuck_xbig                       4208
+profiles                             300026592
+# failures: {'FAIL_lil_stuck': 4208}
+# command: python3 k4/red_run.py results/k4_certs_4_n4_1.json.gz --lil --lil-rfirst --lil-nom2 --lil-narrow --lil-anypx -x 3
+# source: k4/red.c sha1 2528c3b1a5c8e11979b257bd12be6be86c04eebf; git HEAD 964c7798f8e80887e920066a6358360b14e779a9
+k4_certs_4_n4_1.json.gz#115 keys_distinct_g n=4 m=8 vals=[{0:1,2:6,5:8,7:4},{1:2,5:4,7:3},{3:3,6:4,7:2},{4:2,6:4,7:3}]
+k4_certs_4_n4_1.json.gz#115 keys_distinct_g n=4 m=8 vals=[{0:2,2:3,5:8,7:4},{1:2,5:4,7:3},{3:3,6:4,7:2},{4:2,6:4,7:3}]
+k4_certs_4_n4_1.json.gz#115 keys_distinct_g n=4 m=8 vals=[{0:2,2:4,5:8,7:3},{1:2,5:4,7:3},{3:3,6:4,7:2},{4:2,6:4,7:3}]
+# files: results/k4_certs_4_n4_1.json.gz  rand=0 seed=1  cores=135  time=2.0s
+f1                                   28478
+keys_distinct_g                      0
+lil_by_M1                            11120
+lil_by_M4                            384
+lil_by_M5                            16
+lil_noncomp                          11520
+profiles                             7247232
+# failures: none
+# command: python3 k4/red_run.py results/k4_certs_4_n4_2.json.gz --lil --lil-rfirst --lil-nom2 --lil-narrow --lil-anypx -x 3
+# source: k4/red.c sha1 2528c3b1a5c8e11979b257bd12be6be86c04eebf; git HEAD 964c7798f8e80887e920066a6358360b14e779a9
+k4_certs_4_n4_2.json.gz#188 keys_distinct_g n=4 m=8 vals=[{0:2,1:3,3:4,4:8},{2:4,3:1,4:8,5:6},{2:2,6:3,7:4},{5:2,6:3,7:4}]
+k4_certs_4_n4_2.json.gz#188 keys_distinct_g n=4 m=8 vals=[{0:2,1:3,3:6,4:10},{2:4,3:1,4:8,5:6},{2:2,6:3,7:4},{5:2,6:3,7:4}]
+k4_certs_4_n4_2.json.gz#188 keys_distinct_g n=4 m=8 vals=[{0:2,1:4,3:3,4:8},{2:4,3:1,4:8,5:6},{2:2,6:3,7:4},{5:2,6:3,7:4}]
+k4_certs_4_n4_2.json.gz#283 lil_stuck n=4 m=9 vals=[{0:3,2:7,6:5,7:6},{1:2,4:3,6:4,8:8},{3:2,5:3,8:4},{5:2,7:3,8:4}]
+k4_certs_4_n4_2.json.gz#283 lil_stuck n=4 m=9 vals=[{0:3,2:7,6:5,7:6},{1:2,4:3,6:4,8:8},{3:2,5:3,8:4},{5:2,7:3,8:4}]
+k4_certs_4_n4_2.json.gz#283 lil_stuck n=4 m=9 vals=[{0:3,2:7,6:6,7:5},{1:2,4:3,6:4,8:8},{3:2,5:3,8:4},{5:2,7:3,8:4}]
+# files: results/k4_certs_4_n4_2.json.gz  rand=0 seed=1  cores=309  time=137.6s
+FAIL_lil_stuck                       992
+f1                                   10723372
+keys_distinct_g                      0
+lil_by_M1                            12514456
+lil_by_M4                            149952
+lil_by_M5                            79568
+lil_noncomp                          12744968
+lil_stuck                            0
+profiles                             724847616
+# failures: {'FAIL_lil_stuck': 992}
+# command: python3 k4/red_run.py results/k4_certs_4_n4_3.json.gz results/k4_certs_4_pure.json.gz --rand=4000 --seed=7 --lil --lil-rfirst --lil-nom2 --lil-narrow --lil-anypx -x 3
+# source: k4/red.c sha1 2528c3b1a5c8e11979b257bd12be6be86c04eebf; git HEAD 964c7798f8e80887e920066a6358360b14e779a9
+k4_certs_4_n4_3.json.gz#137 keys_distinct_g n=4 m=8 vals=[{0:4,1:2,2:8,3:3},{2:10,3:6,6:3,7:8},{4:8,5:4,6:1,7:6},{4:4,5:3,7:2}]
+k4_certs_4_n4_3.json.gz#137 keys_distinct_g n=4 m=8 vals=[{0:3,1:2,2:10,3:6},{2:10,3:4,6:2,7:7},{4:4,5:8,6:3,7:2},{4:3,5:4,7:2}]
+k4_certs_4_n4_3.json.gz#137 keys_distinct_g n=4 m=8 vals=[{0:2,1:3,2:4,3:8},{2:4,3:10,6:2,7:7},{4:7,5:10,6:2,7:6},{4:2,5:4,7:3}]
+k4_certs_4_n4_3.json.gz#254 lil_stuck n=4 m=9 vals=[{0:5,2:3,5:7,6:6},{1:2,4:7,7:10,8:4},{3:6,5:1,7:8,8:4},{6:3,7:4,8:2}]
+k4_certs_4_n4_3.json.gz#254 lil_stuck n=4 m=9 vals=[{0:5,2:3,5:7,6:6},{1:2,4:7,7:10,8:4},{3:6,5:1,7:8,8:4},{6:3,7:4,8:2}]
+k4_certs_4_n4_3.json.gz#254 lil_stuck n=4 m=9 vals=[{0:7,2:3,5:5,6:6},{1:6,4:2,7:7,8:10},{3:3,5:6,7:2,8:10},{6:3,7:2,8:4}]
+# files: results/k4_certs_4_n4_3.json.gz results/k4_certs_4_pure.json.gz  rand=4000 seed=7  cores=558  time=2.8s
+FAIL_lil_stuck                       128
+f1                                   97991
+keys_distinct_g                      0
+lil_by_M1                            827756
+lil_by_M4                            1254
+lil_by_M5                            2534
+lil_noncomp                          831672
+lil_stuck                            0
+lil_stuck_xbig                       108
+profiles                             2232000
+# failures: {'FAIL_lil_stuck': 128}
+# command: python3 k4/red_run.py results/k4_certs_5_n4_1.json.gz --rand=3000 --seed=11 --lil --lil-rfirst --lil-nom2 --lil-narrow --lil-anypx -x 3
+# source: k4/red.c sha1 2528c3b1a5c8e11979b257bd12be6be86c04eebf; git HEAD 964c7798f8e80887e920066a6358360b14e779a9
+k4_certs_5_n4_1.json.gz#1684 keys_distinct_g n=5 m=10 vals=[{0:3,2:2,6:8,7:4},{1:3,6:4,9:2},{3:3,7:4,9:2},{4:2,8:4,9:3},{5:3,8:4,9:2}]
+k4_certs_5_n4_1.json.gz#1684 keys_distinct_g n=5 m=10 vals=[{0:4,2:2,6:5,7:8},{1:3,6:2,9:4},{3:2,7:4,9:3},{4:2,8:3,9:4},{5:3,8:2,9:4}]
+k4_certs_5_n4_1.json.gz#1684 keys_distinct_g n=5 m=10 vals=[{0:1,2:6,6:4,7:8},{1:2,6:3,9:4},{3:3,7:4,9:2},{4:3,8:2,9:4},{5:2,8:3,9:4}]
+# files: results/k4_certs_5_n4_1.json.gz  rand=3000 seed=11  cores=1735  time=3.6s
+f1                                   6370
+keys_distinct_g                      0
+lil_by_M1                            1344
+lil_by_M4                            11
+lil_by_M5                            1
+lil_noncomp                          1356
+profiles                             5205000
+# failures: none
+# command: python3 k4/red_run.py results/k4_certs_5_n4_2.json.gz --rand=600 --seed=11 --lil --lil-rfirst --lil-nom2 --lil-narrow --lil-anypx -x 3
+# source: k4/red.c sha1 2528c3b1a5c8e11979b257bd12be6be86c04eebf; git HEAD 964c7798f8e80887e920066a6358360b14e779a9
+k4_certs_5_n4_2.json.gz#4803 keys_distinct_g n=5 m=10 vals=[{0:3,2:2,4:4,6:8},{1:3,3:6,5:8,9:10},{4:3,5:2,6:4},{7:2,8:4,9:3},{7:3,8:4,9:2}]
+k4_certs_5_n4_2.json.gz#4803 keys_distinct_g n=5 m=10 vals=[{0:3,2:2,4:6,6:10},{1:4,3:2,5:7,9:10},{4:3,5:2,6:4},{7:3,8:2,9:4},{7:3,8:4,9:2}]
+k4_certs_5_n4_2.json.gz#4803 keys_distinct_g n=5 m=10 vals=[{0:2,2:3,4:8,6:4},{1:4,3:2,5:10,9:7},{4:4,5:3,6:2},{7:4,8:3,9:2},{7:4,8:3,9:2}]
+# files: results/k4_certs_5_n4_2.json.gz  rand=600 seed=11  cores=5468  time=6.2s
+f1                                   32425
+keys_distinct_g                      0
+lil_by_M1                            44019
+lil_by_M4                            61
+lil_by_M5                            39
+lil_noncomp                          44119
+profiles                             3280800
+# failures: none
+# command: python3 k4/red_run.py results/k4_certs_5_n4_3.json.gz results/k4_certs_5_n4_4.json.gz results/k4_certs_5_pure.json.gz --rand=200 --seed=11 --lil --lil-rfirst --lil-nom2 --lil-narrow --lil-anypx -x 3
+# source: k4/red.c sha1 2528c3b1a5c8e11979b257bd12be6be86c04eebf; git HEAD 964c7798f8e80887e920066a6358360b14e779a9
+k4_certs_5_n4_3.json.gz#7222 keys_distinct_g n=5 m=10 vals=[{0:3,1:2,2:4,3:8},{2:1,3:8,7:6,8:4},{4:3,5:6,7:4,8:8},{4:3,6:4,9:2},{5:2,6:4,9:3}]
+k4_certs_5_n4_3.json.gz#7223 keys_distinct_g n=5 m=10 vals=[{0:2,1:6,2:3,3:10},{2:3,3:4,9:2},{4:6,5:10,7:2,8:7},{4:8,6:1,7:4,8:6},{5:4,6:2,9:3}]
+k4_certs_5_n4_3.json.gz#7223 keys_distinct_g n=5 m=10 vals=[{0:2,1:3,2:6,3:10},{2:2,3:4,9:3},{4:7,5:10,7:2,8:6},{4:4,6:6,7:1,8:8},{5:4,6:3,9:2}]
+k4_certs_5_n4_3.json.gz#9226 lil_stuck n=5 m=11 vals=[{0:6,2:3,6:5,8:7},{1:8,4:3,9:4,10:10},{3:6,6:2,8:3,10:10},{5:3,7:2,10:4},{7:4,9:3,10:2}]
+k4_certs_5_n4_3.json.gz#9226 lil_stuck n=5 m=11 vals=[{0:6,2:3,6:5,8:7},{1:8,4:3,9:4,10:10},{3:6,6:2,8:3,10:10},{5:3,7:2,10:4},{7:4,9:3,10:2}]
+k4_certs_5_n4_3.json.gz#9226 lil_stuck n=5 m=11 vals=[{0:6,2:3,6:5,8:7},{1:8,4:3,9:4,10:10},{3:6,6:2,8:3,10:10},{5:3,7:2,10:4},{7:4,9:3,10:2}]
+# files: results/k4_certs_5_n4_3.json.gz results/k4_certs_5_n4_4.json.gz results/k4_certs_5_pure.json.gz  rand=200 seed=11  cores=24381  time=34.4s
+FAIL_lil_stuck                       79
+f1                                   186178
+keys_distinct_g                      0
+lil_by_M1                            3961911
+lil_by_M4                            552
+lil_by_M5                            1534
+lil_noncomp                          3964076
+lil_stuck                            0
+lil_stuck_xbig                       36
+profiles                             4876200
+# failures: {'FAIL_lil_stuck': 79}
+# variant: --lil-narrow 
+# command: python3 k4/red_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz --lil --lil-rfirst --lil-nom2 --lil-narrow  -x 3
+# source: k4/red.c sha1 2528c3b1a5c8e11979b257bd12be6be86c04eebf; git HEAD 964c7798f8e80887e920066a6358360b14e779a9
+k4_certs_3.json.gz#43 lil_stuck n=3 m=7 vals=[{0:4,3:2,4:8,6:5},{1:2,3:3,5:8,6:4},{2:1,4:6,5:8,6:4}]
+k4_certs_3.json.gz#43 lil_stuck n=3 m=7 vals=[{0:4,3:2,4:10,6:7},{1:2,3:3,5:8,6:4},{2:1,4:6,5:8,6:4}]
+k4_certs_3.json.gz#43 lil_stuck n=3 m=7 vals=[{0:4,3:3,4:8,6:6},{1:2,3:3,5:8,6:4},{2:1,4:6,5:8,6:4}]
+# files: results/k4_certs_2.json.gz results/k4_certs_3.json.gz  rand=0 seed=1  cores=56  time=37.3s
+FAIL_lil_stuck                       16832
+f1                                   7285840
+lil_by_M1                            24341752
+lil_by_M4                            372528
+lil_by_M5                            821032
+lil_noncomp                          25552144
+lil_stuck                            0
+lil_stuck_xbig                       16832
+profiles                             300026592
+# failures: {'FAIL_lil_stuck': 16832}
+# command: python3 k4/red_run.py results/k4_certs_4_n4_1.json.gz --lil --lil-rfirst --lil-nom2 --lil-narrow  -x 3
+# source: k4/red.c sha1 2528c3b1a5c8e11979b257bd12be6be86c04eebf; git HEAD 964c7798f8e80887e920066a6358360b14e779a9
+k4_certs_4_n4_1.json.gz#115 keys_distinct_g n=4 m=8 vals=[{0:1,2:6,5:8,7:4},{1:2,5:4,7:3},{3:3,6:4,7:2},{4:2,6:4,7:3}]
+k4_certs_4_n4_1.json.gz#115 keys_distinct_g n=4 m=8 vals=[{0:2,2:3,5:8,7:4},{1:2,5:4,7:3},{3:3,6:4,7:2},{4:2,6:4,7:3}]
+k4_certs_4_n4_1.json.gz#115 keys_distinct_g n=4 m=8 vals=[{0:2,2:4,5:8,7:3},{1:2,5:4,7:3},{3:3,6:4,7:2},{4:2,6:4,7:3}]
+# files: results/k4_certs_4_n4_1.json.gz  rand=0 seed=1  cores=135  time=1.5s
+f1                                   28478
+keys_distinct_g                      0
+lil_by_M1                            11120
+lil_by_M4                            384
+lil_by_M5                            16
+lil_noncomp                          11520
+profiles                             7247232
+# failures: none
+# command: python3 k4/red_run.py results/k4_certs_4_n4_2.json.gz --lil --lil-rfirst --lil-nom2 --lil-narrow  -x 3
+# source: k4/red.c sha1 2528c3b1a5c8e11979b257bd12be6be86c04eebf; git HEAD 964c7798f8e80887e920066a6358360b14e779a9
+k4_certs_4_n4_2.json.gz#188 keys_distinct_g n=4 m=8 vals=[{0:2,1:3,3:4,4:8},{2:4,3:1,4:8,5:6},{2:2,6:3,7:4},{5:2,6:3,7:4}]
+k4_certs_4_n4_2.json.gz#188 keys_distinct_g n=4 m=8 vals=[{0:2,1:3,3:6,4:10},{2:4,3:1,4:8,5:6},{2:2,6:3,7:4},{5:2,6:3,7:4}]
+k4_certs_4_n4_2.json.gz#188 keys_distinct_g n=4 m=8 vals=[{0:2,1:4,3:3,4:8},{2:4,3:1,4:8,5:6},{2:2,6:3,7:4},{5:2,6:3,7:4}]
+k4_certs_4_n4_2.json.gz#283 lil_stuck n=4 m=9 vals=[{0:3,2:7,6:5,7:6},{1:2,4:3,6:4,8:8},{3:2,5:3,8:4},{5:2,7:3,8:4}]
+k4_certs_4_n4_2.json.gz#283 lil_stuck n=4 m=9 vals=[{0:3,2:7,6:5,7:6},{1:2,4:3,6:4,8:8},{3:2,5:3,8:4},{5:2,7:3,8:4}]
+k4_certs_4_n4_2.json.gz#283 lil_stuck n=4 m=9 vals=[{0:3,2:7,6:6,7:5},{1:2,4:3,6:4,8:8},{3:2,5:3,8:4},{5:2,7:3,8:4}]
+# files: results/k4_certs_4_n4_2.json.gz  rand=0 seed=1  cores=309  time=179.1s
+FAIL_lil_stuck                       992
+f1                                   10723372
+keys_distinct_g                      0
+lil_by_M1                            12514456
+lil_by_M4                            149952
+lil_by_M5                            79568
+lil_noncomp                          12744968
+lil_stuck                            0
+profiles                             724847616
+# failures: {'FAIL_lil_stuck': 992}
+# command: python3 k4/red_run.py results/k4_certs_4_n4_3.json.gz results/k4_certs_4_pure.json.gz --rand=4000 --seed=7 --lil --lil-rfirst --lil-nom2 --lil-narrow  -x 3
+# source: k4/red.c sha1 2528c3b1a5c8e11979b257bd12be6be86c04eebf; git HEAD 964c7798f8e80887e920066a6358360b14e779a9
+k4_certs_4_n4_3.json.gz#137 keys_distinct_g n=4 m=8 vals=[{0:4,1:2,2:8,3:3},{2:10,3:6,6:3,7:8},{4:8,5:4,6:1,7:6},{4:4,5:3,7:2}]
+k4_certs_4_n4_3.json.gz#137 keys_distinct_g n=4 m=8 vals=[{0:3,1:2,2:10,3:6},{2:10,3:4,6:2,7:7},{4:4,5:8,6:3,7:2},{4:3,5:4,7:2}]
+k4_certs_4_n4_3.json.gz#137 keys_distinct_g n=4 m=8 vals=[{0:2,1:3,2:4,3:8},{2:4,3:10,6:2,7:7},{4:7,5:10,6:2,7:6},{4:2,5:4,7:3}]
+k4_certs_4_n4_3.json.gz#254 lil_stuck n=4 m=9 vals=[{0:5,2:3,5:7,6:6},{1:2,4:7,7:10,8:4},{3:6,5:1,7:8,8:4},{6:3,7:4,8:2}]
+k4_certs_4_n4_3.json.gz#254 lil_stuck n=4 m=9 vals=[{0:5,2:3,5:7,6:6},{1:2,4:7,7:10,8:4},{3:6,5:1,7:8,8:4},{6:3,7:4,8:2}]
+k4_certs_4_n4_3.json.gz#254 lil_stuck n=4 m=9 vals=[{0:7,2:3,5:5,6:6},{1:6,4:2,7:7,8:10},{3:3,5:6,7:2,8:10},{6:3,7:2,8:4}]
+# files: results/k4_certs_4_n4_3.json.gz results/k4_certs_4_pure.json.gz  rand=4000 seed=7  cores=558  time=5.0s
+FAIL_lil_stuck                       129
+f1                                   97991
+keys_distinct_g                      0
+lil_by_M1                            827756
+lil_by_M4                            1254
+lil_by_M5                            2533
+lil_noncomp                          831672
+lil_stuck                            0
+lil_stuck_xbig                       109
+profiles                             2232000
+# failures: {'FAIL_lil_stuck': 129}
+# command: python3 k4/red_run.py results/k4_certs_5_n4_1.json.gz --rand=3000 --seed=11 --lil --lil-rfirst --lil-nom2 --lil-narrow  -x 3
+# source: k4/red.c sha1 2528c3b1a5c8e11979b257bd12be6be86c04eebf; git HEAD 964c7798f8e80887e920066a6358360b14e779a9
+k4_certs_5_n4_1.json.gz#1684 keys_distinct_g n=5 m=10 vals=[{0:3,2:2,6:8,7:4},{1:3,6:4,9:2},{3:3,7:4,9:2},{4:2,8:4,9:3},{5:3,8:4,9:2}]
+k4_certs_5_n4_1.json.gz#1684 keys_distinct_g n=5 m=10 vals=[{0:4,2:2,6:5,7:8},{1:3,6:2,9:4},{3:2,7:4,9:3},{4:2,8:3,9:4},{5:3,8:2,9:4}]
+k4_certs_5_n4_1.json.gz#1684 keys_distinct_g n=5 m=10 vals=[{0:1,2:6,6:4,7:8},{1:2,6:3,9:4},{3:3,7:4,9:2},{4:3,8:2,9:4},{5:2,8:3,9:4}]
+# files: results/k4_certs_5_n4_1.json.gz  rand=3000 seed=11  cores=1735  time=6.4s
+f1                                   6370
+keys_distinct_g                      0
+lil_by_M1                            1344
+lil_by_M4                            11
+lil_by_M5                            1
+lil_noncomp                          1356
+profiles                             5205000
+# failures: none
+# command: python3 k4/red_run.py results/k4_certs_5_n4_2.json.gz --rand=600 --seed=11 --lil --lil-rfirst --lil-nom2 --lil-narrow  -x 3
+# source: k4/red.c sha1 2528c3b1a5c8e11979b257bd12be6be86c04eebf; git HEAD 964c7798f8e80887e920066a6358360b14e779a9
+k4_certs_5_n4_2.json.gz#4803 keys_distinct_g n=5 m=10 vals=[{0:3,2:2,4:4,6:8},{1:3,3:6,5:8,9:10},{4:3,5:2,6:4},{7:2,8:4,9:3},{7:3,8:4,9:2}]
+k4_certs_5_n4_2.json.gz#4803 keys_distinct_g n=5 m=10 vals=[{0:3,2:2,4:6,6:10},{1:4,3:2,5:7,9:10},{4:3,5:2,6:4},{7:3,8:2,9:4},{7:3,8:4,9:2}]
+k4_certs_5_n4_2.json.gz#4803 keys_distinct_g n=5 m=10 vals=[{0:2,2:3,4:8,6:4},{1:4,3:2,5:10,9:7},{4:4,5:3,6:2},{7:4,8:3,9:2},{7:4,8:3,9:2}]
+# files: results/k4_certs_5_n4_2.json.gz  rand=600 seed=11  cores=5468  time=11.0s
+f1                                   32425
+keys_distinct_g                      0
+lil_by_M1                            44019
+lil_by_M4                            61
+lil_by_M5                            39
+lil_noncomp                          44119
+profiles                             3280800
+# failures: none
+# command: python3 k4/red_run.py results/k4_certs_5_n4_3.json.gz results/k4_certs_5_n4_4.json.gz results/k4_certs_5_pure.json.gz --rand=200 --seed=11 --lil --lil-rfirst --lil-nom2 --lil-narrow  -x 3
+# source: k4/red.c sha1 2528c3b1a5c8e11979b257bd12be6be86c04eebf; git HEAD 964c7798f8e80887e920066a6358360b14e779a9
+k4_certs_5_n4_3.json.gz#7222 keys_distinct_g n=5 m=10 vals=[{0:3,1:2,2:4,3:8},{2:1,3:8,7:6,8:4},{4:3,5:6,7:4,8:8},{4:3,6:4,9:2},{5:2,6:4,9:3}]
+k4_certs_5_n4_3.json.gz#7223 keys_distinct_g n=5 m=10 vals=[{0:2,1:6,2:3,3:10},{2:3,3:4,9:2},{4:6,5:10,7:2,8:7},{4:8,6:1,7:4,8:6},{5:4,6:2,9:3}]
+k4_certs_5_n4_3.json.gz#7223 keys_distinct_g n=5 m=10 vals=[{0:2,1:3,2:6,3:10},{2:2,3:4,9:3},{4:7,5:10,7:2,8:6},{4:4,6:6,7:1,8:8},{5:4,6:3,9:2}]
+k4_certs_5_n4_3.json.gz#9226 lil_stuck n=5 m=11 vals=[{0:6,2:3,6:5,8:7},{1:8,4:3,9:4,10:10},{3:6,6:2,8:3,10:10},{5:3,7:2,10:4},{7:4,9:3,10:2}]
+k4_certs_5_n4_3.json.gz#9226 lil_stuck n=5 m=11 vals=[{0:6,2:3,6:5,8:7},{1:8,4:3,9:4,10:10},{3:6,6:2,8:3,10:10},{5:3,7:2,10:4},{7:4,9:3,10:2}]
+k4_certs_5_n4_3.json.gz#9226 lil_stuck n=5 m=11 vals=[{0:6,2:3,6:5,8:7},{1:8,4:3,9:4,10:10},{3:6,6:2,8:3,10:10},{5:3,7:2,10:4},{7:4,9:3,10:2}]
+# files: results/k4_certs_5_n4_3.json.gz results/k4_certs_5_n4_4.json.gz results/k4_certs_5_pure.json.gz  rand=200 seed=11  cores=24381  time=44.6s
+FAIL_lil_stuck                       79
+f1                                   186178
+keys_distinct_g                      0
+lil_by_M1                            3961911
+lil_by_M4                            552
+lil_by_M5                            1534
+lil_noncomp                          3964076
+lil_stuck                            0
+lil_stuck_xbig                       36
+profiles                             4876200
+# failures: {'FAIL_lil_stuck': 79}
+# variant: --lil-narrow --lil-anypx --lil-recycle
+# command: python3 k4/red_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz --lil --lil-rfirst --lil-nom2 --lil-narrow --lil-anypx --lil-recycle -x 3
+# source: k4/red.c sha1 2528c3b1a5c8e11979b257bd12be6be86c04eebf; git HEAD 964c7798f8e80887e920066a6358360b14e779a9
+# files: results/k4_certs_2.json.gz results/k4_certs_3.json.gz  rand=0 seed=1  cores=56  time=33.0s
+f1                                   7285840
+lil_by_M1                            24341752
+lil_by_M4                            372528
+lil_by_M5                            837864
+lil_noncomp                          25552144
+profiles                             300026592
+# failures: none
+# command: python3 k4/red_run.py results/k4_certs_4_n4_1.json.gz --lil --lil-rfirst --lil-nom2 --lil-narrow --lil-anypx --lil-recycle -x 3
+# source: k4/red.c sha1 2528c3b1a5c8e11979b257bd12be6be86c04eebf; git HEAD 964c7798f8e80887e920066a6358360b14e779a9
+k4_certs_4_n4_1.json.gz#115 keys_distinct_g n=4 m=8 vals=[{0:1,2:6,5:8,7:4},{1:2,5:4,7:3},{3:3,6:4,7:2},{4:2,6:4,7:3}]
+k4_certs_4_n4_1.json.gz#115 keys_distinct_g n=4 m=8 vals=[{0:2,2:3,5:8,7:4},{1:2,5:4,7:3},{3:3,6:4,7:2},{4:2,6:4,7:3}]
+k4_certs_4_n4_1.json.gz#115 keys_distinct_g n=4 m=8 vals=[{0:2,2:4,5:8,7:3},{1:2,5:4,7:3},{3:3,6:4,7:2},{4:2,6:4,7:3}]
+# files: results/k4_certs_4_n4_1.json.gz  rand=0 seed=1  cores=135  time=1.6s
+f1                                   28478
+keys_distinct_g                      0
+lil_by_M1                            11120
+lil_by_M4                            384
+lil_by_M5                            16
+lil_noncomp                          11520
+profiles                             7247232
+# failures: none
+# command: python3 k4/red_run.py results/k4_certs_4_n4_2.json.gz --lil --lil-rfirst --lil-nom2 --lil-narrow --lil-anypx --lil-recycle -x 3
+# source: k4/red.c sha1 2528c3b1a5c8e11979b257bd12be6be86c04eebf; git HEAD 964c7798f8e80887e920066a6358360b14e779a9
+k4_certs_4_n4_2.json.gz#188 keys_distinct_g n=4 m=8 vals=[{0:2,1:3,3:4,4:8},{2:4,3:1,4:8,5:6},{2:2,6:3,7:4},{5:2,6:3,7:4}]
+k4_certs_4_n4_2.json.gz#188 keys_distinct_g n=4 m=8 vals=[{0:2,1:3,3:6,4:10},{2:4,3:1,4:8,5:6},{2:2,6:3,7:4},{5:2,6:3,7:4}]
+k4_certs_4_n4_2.json.gz#188 keys_distinct_g n=4 m=8 vals=[{0:2,1:4,3:3,4:8},{2:4,3:1,4:8,5:6},{2:2,6:3,7:4},{5:2,6:3,7:4}]
+k4_certs_4_n4_2.json.gz#283 lil_stuck n=4 m=9 vals=[{0:3,2:7,6:5,7:6},{1:2,4:3,6:4,8:8},{3:2,5:3,8:4},{5:2,7:3,8:4}]
+k4_certs_4_n4_2.json.gz#283 lil_stuck n=4 m=9 vals=[{0:3,2:7,6:5,7:6},{1:2,4:3,6:4,8:8},{3:2,5:3,8:4},{5:2,7:3,8:4}]
+k4_certs_4_n4_2.json.gz#283 lil_stuck n=4 m=9 vals=[{0:3,2:7,6:6,7:5},{1:2,4:3,6:4,8:8},{3:2,5:3,8:4},{5:2,7:3,8:4}]
+# files: results/k4_certs_4_n4_2.json.gz  rand=0 seed=1  cores=309  time=112.5s
+FAIL_lil_stuck                       992
+f1                                   10723372
+keys_distinct_g                      0
+lil_by_M1                            12514456
+lil_by_M4                            149952
+lil_by_M5                            79568
+lil_noncomp                          12744968
+lil_stuck                            0
+profiles                             724847616
+# failures: {'FAIL_lil_stuck': 992}
+# command: python3 k4/red_run.py results/k4_certs_4_n4_3.json.gz results/k4_certs_4_pure.json.gz --rand=4000 --seed=7 --lil --lil-rfirst --lil-nom2 --lil-narrow --lil-anypx --lil-recycle -x 3
+# source: k4/red.c sha1 2528c3b1a5c8e11979b257bd12be6be86c04eebf; git HEAD 964c7798f8e80887e920066a6358360b14e779a9
+k4_certs_4_n4_3.json.gz#137 keys_distinct_g n=4 m=8 vals=[{0:4,1:2,2:8,3:3},{2:10,3:6,6:3,7:8},{4:8,5:4,6:1,7:6},{4:4,5:3,7:2}]
+k4_certs_4_n4_3.json.gz#137 keys_distinct_g n=4 m=8 vals=[{0:3,1:2,2:10,3:6},{2:10,3:4,6:2,7:7},{4:4,5:8,6:3,7:2},{4:3,5:4,7:2}]
+k4_certs_4_n4_3.json.gz#137 keys_distinct_g n=4 m=8 vals=[{0:2,1:3,2:4,3:8},{2:4,3:10,6:2,7:7},{4:7,5:10,6:2,7:6},{4:2,5:4,7:3}]
+k4_certs_4_n4_3.json.gz#254 lil_stuck n=4 m=9 vals=[{0:5,2:3,5:7,6:6},{1:2,4:7,7:10,8:4},{3:6,5:1,7:8,8:4},{6:3,7:4,8:2}]
+k4_certs_4_n4_3.json.gz#254 lil_stuck n=4 m=9 vals=[{0:5,2:3,5:7,6:6},{1:2,4:7,7:10,8:4},{3:6,5:1,7:8,8:4},{6:3,7:4,8:2}]
+k4_certs_4_n4_3.json.gz#254 lil_stuck n=4 m=9 vals=[{0:7,2:3,5:5,6:6},{1:6,4:2,7:7,8:10},{3:3,5:6,7:2,8:10},{6:3,7:2,8:4}]
+# files: results/k4_certs_4_n4_3.json.gz results/k4_certs_4_pure.json.gz  rand=4000 seed=7  cores=558  time=2.9s
+FAIL_lil_stuck                       128
+f1                                   97991
+keys_distinct_g                      0
+lil_by_M1                            827756
+lil_by_M4                            1254
+lil_by_M5                            2534
+lil_noncomp                          831672
+lil_stuck                            0
+lil_stuck_xbig                       108
+profiles                             2232000
+# failures: {'FAIL_lil_stuck': 128}
+# command: python3 k4/red_run.py results/k4_certs_5_n4_1.json.gz --rand=3000 --seed=11 --lil --lil-rfirst --lil-nom2 --lil-narrow --lil-anypx --lil-recycle -x 3
+# source: k4/red.c sha1 2528c3b1a5c8e11979b257bd12be6be86c04eebf; git HEAD 964c7798f8e80887e920066a6358360b14e779a9
+k4_certs_5_n4_1.json.gz#1684 keys_distinct_g n=5 m=10 vals=[{0:3,2:2,6:8,7:4},{1:3,6:4,9:2},{3:3,7:4,9:2},{4:2,8:4,9:3},{5:3,8:4,9:2}]
+k4_certs_5_n4_1.json.gz#1684 keys_distinct_g n=5 m=10 vals=[{0:4,2:2,6:5,7:8},{1:3,6:2,9:4},{3:2,7:4,9:3},{4:2,8:3,9:4},{5:3,8:2,9:4}]
+k4_certs_5_n4_1.json.gz#1684 keys_distinct_g n=5 m=10 vals=[{0:1,2:6,6:4,7:8},{1:2,6:3,9:4},{3:3,7:4,9:2},{4:3,8:2,9:4},{5:2,8:3,9:4}]
+# files: results/k4_certs_5_n4_1.json.gz  rand=3000 seed=11  cores=1735  time=3.6s
+f1                                   6370
+keys_distinct_g                      0
+lil_by_M1                            1344
+lil_by_M4                            11
+lil_by_M5                            1
+lil_noncomp                          1356
+profiles                             5205000
+# failures: none
+# command: python3 k4/red_run.py results/k4_certs_5_n4_2.json.gz --rand=600 --seed=11 --lil --lil-rfirst --lil-nom2 --lil-narrow --lil-anypx --lil-recycle -x 3
+# source: k4/red.c sha1 2528c3b1a5c8e11979b257bd12be6be86c04eebf; git HEAD 964c7798f8e80887e920066a6358360b14e779a9
+k4_certs_5_n4_2.json.gz#4803 keys_distinct_g n=5 m=10 vals=[{0:3,2:2,4:4,6:8},{1:3,3:6,5:8,9:10},{4:3,5:2,6:4},{7:2,8:4,9:3},{7:3,8:4,9:2}]
+k4_certs_5_n4_2.json.gz#4803 keys_distinct_g n=5 m=10 vals=[{0:3,2:2,4:6,6:10},{1:4,3:2,5:7,9:10},{4:3,5:2,6:4},{7:3,8:2,9:4},{7:3,8:4,9:2}]
+k4_certs_5_n4_2.json.gz#4803 keys_distinct_g n=5 m=10 vals=[{0:2,2:3,4:8,6:4},{1:4,3:2,5:10,9:7},{4:4,5:3,6:2},{7:4,8:3,9:2},{7:4,8:3,9:2}]
+# files: results/k4_certs_5_n4_2.json.gz  rand=600 seed=11  cores=5468  time=6.4s
+f1                                   32425
+keys_distinct_g                      0
+lil_by_M1                            44019
+lil_by_M4                            61
+lil_by_M5                            39
+lil_noncomp                          44119
+profiles                             3280800
+# failures: none
+# command: python3 k4/red_run.py results/k4_certs_5_n4_3.json.gz results/k4_certs_5_n4_4.json.gz results/k4_certs_5_pure.json.gz --rand=200 --seed=11 --lil --lil-rfirst --lil-nom2 --lil-narrow --lil-anypx --lil-recycle -x 3
+# source: k4/red.c sha1 2528c3b1a5c8e11979b257bd12be6be86c04eebf; git HEAD 964c7798f8e80887e920066a6358360b14e779a9
+k4_certs_5_n4_3.json.gz#7222 keys_distinct_g n=5 m=10 vals=[{0:3,1:2,2:4,3:8},{2:1,3:8,7:6,8:4},{4:3,5:6,7:4,8:8},{4:3,6:4,9:2},{5:2,6:4,9:3}]
+k4_certs_5_n4_3.json.gz#7223 keys_distinct_g n=5 m=10 vals=[{0:2,1:6,2:3,3:10},{2:3,3:4,9:2},{4:6,5:10,7:2,8:7},{4:8,6:1,7:4,8:6},{5:4,6:2,9:3}]
+k4_certs_5_n4_3.json.gz#7223 keys_distinct_g n=5 m=10 vals=[{0:2,1:3,2:6,3:10},{2:2,3:4,9:3},{4:7,5:10,7:2,8:6},{4:4,6:6,7:1,8:8},{5:4,6:3,9:2}]
+k4_certs_5_n4_3.json.gz#9226 lil_stuck n=5 m=11 vals=[{0:6,2:3,6:5,8:7},{1:8,4:3,9:4,10:10},{3:6,6:2,8:3,10:10},{5:3,7:2,10:4},{7:4,9:3,10:2}]
+k4_certs_5_n4_3.json.gz#9226 lil_stuck n=5 m=11 vals=[{0:6,2:3,6:5,8:7},{1:8,4:3,9:4,10:10},{3:6,6:2,8:3,10:10},{5:3,7:2,10:4},{7:4,9:3,10:2}]
+k4_certs_5_n4_3.json.gz#9226 lil_stuck n=5 m=11 vals=[{0:6,2:3,6:5,8:7},{1:8,4:3,9:4,10:10},{3:6,6:2,8:3,10:10},{5:3,7:2,10:4},{7:4,9:3,10:2}]
+# files: results/k4_certs_5_n4_3.json.gz results/k4_certs_5_n4_4.json.gz results/k4_certs_5_pure.json.gz  rand=200 seed=11  cores=24381  time=34.9s
+FAIL_lil_stuck                       79
+f1                                   186178
+keys_distinct_g                      0
+lil_by_M1                            3961911
+lil_by_M4                            552
+lil_by_M5                            1534
+lil_noncomp                          3964076
+lil_stuck                            0
+lil_stuck_xbig                       36
+profiles                             4876200
+# failures: {'FAIL_lil_stuck': 79}
+# variant: --lil-narrow --lil-recycle
+# command: python3 k4/red_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz --lil --lil-rfirst --lil-nom2 --lil-narrow --lil-recycle -x 3
+# source: k4/red.c sha1 2528c3b1a5c8e11979b257bd12be6be86c04eebf; git HEAD 964c7798f8e80887e920066a6358360b14e779a9
+# files: results/k4_certs_2.json.gz results/k4_certs_3.json.gz  rand=0 seed=1  cores=56  time=32.8s
+f1                                   7285840
+lil_by_M1                            24341752
+lil_by_M4                            372528
+lil_by_M5                            837864
+lil_noncomp                          25552144
+profiles                             300026592
+# failures: none
+# command: python3 k4/red_run.py results/k4_certs_4_n4_1.json.gz --lil --lil-rfirst --lil-nom2 --lil-narrow --lil-recycle -x 3
+# source: k4/red.c sha1 2528c3b1a5c8e11979b257bd12be6be86c04eebf; git HEAD 964c7798f8e80887e920066a6358360b14e779a9
+k4_certs_4_n4_1.json.gz#115 keys_distinct_g n=4 m=8 vals=[{0:1,2:6,5:8,7:4},{1:2,5:4,7:3},{3:3,6:4,7:2},{4:2,6:4,7:3}]
+k4_certs_4_n4_1.json.gz#115 keys_distinct_g n=4 m=8 vals=[{0:2,2:3,5:8,7:4},{1:2,5:4,7:3},{3:3,6:4,7:2},{4:2,6:4,7:3}]
+k4_certs_4_n4_1.json.gz#115 keys_distinct_g n=4 m=8 vals=[{0:2,2:4,5:8,7:3},{1:2,5:4,7:3},{3:3,6:4,7:2},{4:2,6:4,7:3}]
+# files: results/k4_certs_4_n4_1.json.gz  rand=0 seed=1  cores=135  time=1.4s
+f1                                   28478
+keys_distinct_g                      0
+lil_by_M1                            11120
+lil_by_M4                            384
+lil_by_M5                            16
+lil_noncomp                          11520
+profiles                             7247232
+# failures: none
+# command: python3 k4/red_run.py results/k4_certs_4_n4_2.json.gz --lil --lil-rfirst --lil-nom2 --lil-narrow --lil-recycle -x 3
+# source: k4/red.c sha1 2528c3b1a5c8e11979b257bd12be6be86c04eebf; git HEAD 964c7798f8e80887e920066a6358360b14e779a9
+k4_certs_4_n4_2.json.gz#188 keys_distinct_g n=4 m=8 vals=[{0:2,1:3,3:4,4:8},{2:4,3:1,4:8,5:6},{2:2,6:3,7:4},{5:2,6:3,7:4}]
+k4_certs_4_n4_2.json.gz#188 keys_distinct_g n=4 m=8 vals=[{0:2,1:3,3:6,4:10},{2:4,3:1,4:8,5:6},{2:2,6:3,7:4},{5:2,6:3,7:4}]
+k4_certs_4_n4_2.json.gz#188 keys_distinct_g n=4 m=8 vals=[{0:2,1:4,3:3,4:8},{2:4,3:1,4:8,5:6},{2:2,6:3,7:4},{5:2,6:3,7:4}]
+k4_certs_4_n4_2.json.gz#283 lil_stuck n=4 m=9 vals=[{0:3,2:7,6:5,7:6},{1:2,4:3,6:4,8:8},{3:2,5:3,8:4},{5:2,7:3,8:4}]
+k4_certs_4_n4_2.json.gz#283 lil_stuck n=4 m=9 vals=[{0:3,2:7,6:5,7:6},{1:2,4:3,6:4,8:8},{3:2,5:3,8:4},{5:2,7:3,8:4}]
+k4_certs_4_n4_2.json.gz#283 lil_stuck n=4 m=9 vals=[{0:3,2:7,6:6,7:5},{1:2,4:3,6:4,8:8},{3:2,5:3,8:4},{5:2,7:3,8:4}]
+# files: results/k4_certs_4_n4_2.json.gz  rand=0 seed=1  cores=309  time=128.3s
+FAIL_lil_stuck                       992
+f1                                   10723372
+keys_distinct_g                      0
+lil_by_M1                            12514456
+lil_by_M4                            149952
+lil_by_M5                            79568
+lil_noncomp                          12744968
+lil_stuck                            0
+profiles                             724847616
+# failures: {'FAIL_lil_stuck': 992}
+# command: python3 k4/red_run.py results/k4_certs_4_n4_3.json.gz results/k4_certs_4_pure.json.gz --rand=4000 --seed=7 --lil --lil-rfirst --lil-nom2 --lil-narrow --lil-recycle -x 3
+# source: k4/red.c sha1 2528c3b1a5c8e11979b257bd12be6be86c04eebf; git HEAD 964c7798f8e80887e920066a6358360b14e779a9
+k4_certs_4_n4_3.json.gz#137 keys_distinct_g n=4 m=8 vals=[{0:4,1:2,2:8,3:3},{2:10,3:6,6:3,7:8},{4:8,5:4,6:1,7:6},{4:4,5:3,7:2}]
+k4_certs_4_n4_3.json.gz#137 keys_distinct_g n=4 m=8 vals=[{0:3,1:2,2:10,3:6},{2:10,3:4,6:2,7:7},{4:4,5:8,6:3,7:2},{4:3,5:4,7:2}]
+k4_certs_4_n4_3.json.gz#137 keys_distinct_g n=4 m=8 vals=[{0:2,1:3,2:4,3:8},{2:4,3:10,6:2,7:7},{4:7,5:10,6:2,7:6},{4:2,5:4,7:3}]
+k4_certs_4_n4_3.json.gz#254 lil_stuck n=4 m=9 vals=[{0:5,2:3,5:7,6:6},{1:2,4:7,7:10,8:4},{3:6,5:1,7:8,8:4},{6:3,7:4,8:2}]
+k4_certs_4_n4_3.json.gz#254 lil_stuck n=4 m=9 vals=[{0:5,2:3,5:7,6:6},{1:2,4:7,7:10,8:4},{3:6,5:1,7:8,8:4},{6:3,7:4,8:2}]
+k4_certs_4_n4_3.json.gz#254 lil_stuck n=4 m=9 vals=[{0:7,2:3,5:5,6:6},{1:6,4:2,7:7,8:10},{3:3,5:6,7:2,8:10},{6:3,7:2,8:4}]
+# files: results/k4_certs_4_n4_3.json.gz results/k4_certs_4_pure.json.gz  rand=4000 seed=7  cores=558  time=2.9s
+FAIL_lil_stuck                       128
+f1                                   97991
+keys_distinct_g                      0
+lil_by_M1                            827756
+lil_by_M4                            1254
+lil_by_M5                            2534
+lil_noncomp                          831672
+lil_stuck                            0
+lil_stuck_xbig                       108
+profiles                             2232000
+# failures: {'FAIL_lil_stuck': 128}
+# command: python3 k4/red_run.py results/k4_certs_5_n4_1.json.gz --rand=3000 --seed=11 --lil --lil-rfirst --lil-nom2 --lil-narrow --lil-recycle -x 3
+# source: k4/red.c sha1 2528c3b1a5c8e11979b257bd12be6be86c04eebf; git HEAD 964c7798f8e80887e920066a6358360b14e779a9
+k4_certs_5_n4_1.json.gz#1684 keys_distinct_g n=5 m=10 vals=[{0:3,2:2,6:8,7:4},{1:3,6:4,9:2},{3:3,7:4,9:2},{4:2,8:4,9:3},{5:3,8:4,9:2}]
+k4_certs_5_n4_1.json.gz#1684 keys_distinct_g n=5 m=10 vals=[{0:4,2:2,6:5,7:8},{1:3,6:2,9:4},{3:2,7:4,9:3},{4:2,8:3,9:4},{5:3,8:2,9:4}]
+k4_certs_5_n4_1.json.gz#1684 keys_distinct_g n=5 m=10 vals=[{0:1,2:6,6:4,7:8},{1:2,6:3,9:4},{3:3,7:4,9:2},{4:3,8:2,9:4},{5:2,8:3,9:4}]
+# files: results/k4_certs_5_n4_1.json.gz  rand=3000 seed=11  cores=1735  time=3.5s
+f1                                   6370
+keys_distinct_g                      0
+lil_by_M1                            1344
+lil_by_M4                            11
+lil_by_M5                            1
+lil_noncomp                          1356
+profiles                             5205000
+# failures: none
+# command: python3 k4/red_run.py results/k4_certs_5_n4_2.json.gz --rand=600 --seed=11 --lil --lil-rfirst --lil-nom2 --lil-narrow --lil-recycle -x 3
+# source: k4/red.c sha1 2528c3b1a5c8e11979b257bd12be6be86c04eebf; git HEAD 964c7798f8e80887e920066a6358360b14e779a9
+k4_certs_5_n4_2.json.gz#4803 keys_distinct_g n=5 m=10 vals=[{0:3,2:2,4:4,6:8},{1:3,3:6,5:8,9:10},{4:3,5:2,6:4},{7:2,8:4,9:3},{7:3,8:4,9:2}]
+k4_certs_5_n4_2.json.gz#4803 keys_distinct_g n=5 m=10 vals=[{0:3,2:2,4:6,6:10},{1:4,3:2,5:7,9:10},{4:3,5:2,6:4},{7:3,8:2,9:4},{7:3,8:4,9:2}]
+k4_certs_5_n4_2.json.gz#4803 keys_distinct_g n=5 m=10 vals=[{0:2,2:3,4:8,6:4},{1:4,3:2,5:10,9:7},{4:4,5:3,6:2},{7:4,8:3,9:2},{7:4,8:3,9:2}]
+# files: results/k4_certs_5_n4_2.json.gz  rand=600 seed=11  cores=5468  time=6.3s
+f1                                   32425
+keys_distinct_g                      0
+lil_by_M1                            44019
+lil_by_M4                            61
+lil_by_M5                            39
+lil_noncomp                          44119
+profiles                             3280800
+# failures: none
+# command: python3 k4/red_run.py results/k4_certs_5_n4_3.json.gz results/k4_certs_5_n4_4.json.gz results/k4_certs_5_pure.json.gz --rand=200 --seed=11 --lil --lil-rfirst --lil-nom2 --lil-narrow --lil-recycle -x 3
+# source: k4/red.c sha1 2528c3b1a5c8e11979b257bd12be6be86c04eebf; git HEAD 964c7798f8e80887e920066a6358360b14e779a9
+k4_certs_5_n4_3.json.gz#7222 keys_distinct_g n=5 m=10 vals=[{0:3,1:2,2:4,3:8},{2:1,3:8,7:6,8:4},{4:3,5:6,7:4,8:8},{4:3,6:4,9:2},{5:2,6:4,9:3}]
+k4_certs_5_n4_3.json.gz#7223 keys_distinct_g n=5 m=10 vals=[{0:2,1:6,2:3,3:10},{2:3,3:4,9:2},{4:6,5:10,7:2,8:7},{4:8,6:1,7:4,8:6},{5:4,6:2,9:3}]
+k4_certs_5_n4_3.json.gz#7223 keys_distinct_g n=5 m=10 vals=[{0:2,1:3,2:6,3:10},{2:2,3:4,9:3},{4:7,5:10,7:2,8:6},{4:4,6:6,7:1,8:8},{5:4,6:3,9:2}]
+k4_certs_5_n4_3.json.gz#9226 lil_stuck n=5 m=11 vals=[{0:6,2:3,6:5,8:7},{1:8,4:3,9:4,10:10},{3:6,6:2,8:3,10:10},{5:3,7:2,10:4},{7:4,9:3,10:2}]
+k4_certs_5_n4_3.json.gz#9226 lil_stuck n=5 m=11 vals=[{0:6,2:3,6:5,8:7},{1:8,4:3,9:4,10:10},{3:6,6:2,8:3,10:10},{5:3,7:2,10:4},{7:4,9:3,10:2}]
+k4_certs_5_n4_3.json.gz#9226 lil_stuck n=5 m=11 vals=[{0:6,2:3,6:5,8:7},{1:8,4:3,9:4,10:10},{3:6,6:2,8:3,10:10},{5:3,7:2,10:4},{7:4,9:3,10:2}]
+# files: results/k4_certs_5_n4_3.json.gz results/k4_certs_5_n4_4.json.gz results/k4_certs_5_pure.json.gz  rand=200 seed=11  cores=24381  time=34.9s
+FAIL_lil_stuck                       79
+f1                                   186178
+keys_distinct_g                      0
+lil_by_M1                            3961911
+lil_by_M4                            552
+lil_by_M5                            1534
+lil_noncomp                          3964076
+lil_stuck                            0
+lil_stuck_xbig                       36
+profiles                             4876200
+# failures: {'FAIL_lil_stuck': 79}

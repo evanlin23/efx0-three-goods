@@ -1,3 +1,4 @@
+# provenance (added at the PR #51 review; not output of the run): written by k4/red_lil_gapbench.py as committed at 629fee1 (sha1 f25ec5210d6cb0548797880fdb700ab0e7990076). Run from a checkout of compute/k4-gap at 245040b (PR #53), as the next lines say.
 # k4/red_lil_gapbench.py, copied into a checkout of compute/k4-gap at 245040b (PR #53) and run from its root: LIL (k4/c4min_reduce.md §5.3) tested with #53's independent model
 # command: KEEP=1 python3 k4/red_lil_gapbench.py results/k4_gap/gap_n2.json.gz,results/k4_gap/gap_n3.json.gz 60000   (catalogs, max_profiles)
 LIL (r,-t,Lam), one-agent + cycles with keep + downgrade: HOLDS on the data; 127257 cases tested, 0 skipped (hypothesis not met), 60000 profiles; 0 counterexamples

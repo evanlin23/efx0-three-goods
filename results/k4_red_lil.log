@@ -1,3 +1,4 @@
+# provenance (added at the PR #51 review; not output of the run): written by k4/red.c as committed at 1835559 (sha1 4314063dffa7f03bc5d1bf1cd8d71d981e2c219d).
 # k4/red.c -L (k4/c4min_reduce.md §5.3): local improvement lemma at f = 1
 # command: python3 k4/red_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz --lil -x 3
 # files: results/k4_certs_2.json.gz results/k4_certs_3.json.gz  rand=0 seed=1  cores=56  time=33.5s

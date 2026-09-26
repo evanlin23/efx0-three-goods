@@ -29,5 +29,8 @@ At the key (10, 1) (x = agent 1, flat: 8 < 4 + 5), one maximum of (−t, r′, �
   pool, so every owner threatens it.
 - Swapping 1 for 3 would put 1 into the pool next to x's good 5, and 4 + 5 > 8 gives t = 1.
 - No owner is free-valid. The keys (10, 0) and (10, 2) (big-top agents) have completable maxima.
+- The key (10, 1) is itself hopeless: none of its 246 configurations is completable. So no argument at this fixed key
+  can succeed, whatever the potential; B1 shows the obstruction, not only a bad choice of maximum.
 
-Replay: `python3 attempts/k4_c4min_reduce_attempts.py` (log `results/k4_red_attempts.log`).
+Replay: `python3 attempts/k4_c4min_reduce_attempts.py` (logs `results/k4_red_attempts.log` and
+`results/k4_red_attempts_v2.log`, which adds the check that the key (10, 1) is hopeless).

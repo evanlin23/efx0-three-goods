@@ -1,3 +1,4 @@
+# provenance (added at the PR #51 review; not output of the run): written by k4/red_pathmove.py as committed at 02db2cf (sha1 bba5bd7952869b35f91f582c5024a3cd690d355c), k4/red_lib.py as committed at 02db2cf (sha1 035b94e3d6c8eab87caaf32aa88ee9a8740fee25).
 # command: python3 k4/red_pathmove.py results/k4_certs_2.json.gz 0 8
 configurations (t = 0, non-robust pool-optimal, no valid owner)        4128
 ALL PATH MOVES OK

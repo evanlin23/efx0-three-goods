@@ -1,3 +1,4 @@
+# provenance (added at the PR #51 review; not output of the run): written by k4/red.c as committed at 02db2cf (sha1 91968aa2250e664ffd8f6494b66fe4811fc061d3).
 # k4/red.c (k4/c4min_reduce.md §5.1): big-top profiles (every (r, Lambda)-maximum over all keys has a big-top frozen agent); counters bt_*, btx_*, anybt_*
 # command: python3 k4/red_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz --pots="mt,r,lamR" -x 3
 k4_certs_2.json.gz#1 bt_amax_r_le1 n=2 m=4 vals=[{0:2,1:3,2:4,3:8},{0:2,1:3,2:4,3:8}]

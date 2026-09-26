@@ -1,3 +1,4 @@
+# provenance (added at the PR #51 review; not output of the run): written by k4/red_lil.py as committed at 3fb6554 (sha1 25497278fb46a19b7ff2ebf0264c92b3badd4fbe), k4/red_lib.py as committed at 3fb6554 (sha1 035b94e3d6c8eab87caaf32aa88ee9a8740fee25).
 # k4/red_lil.py (Python, independent of k4/red.c -L): local improvement lemma, potential (r', -t, Lambda), moves M1 M4 M5
 # command: RFIRST=1 python3 k4/red_lil.py results/k4_certs_2.json.gz 0 1
 profiles considered 1296

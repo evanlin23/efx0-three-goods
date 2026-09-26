@@ -1,3 +1,4 @@
+# provenance (added at the PR #51 review; not output of the run): written by k4/red.c as committed at a0505bd (sha1 6acbee55ea0a5f7c459b2c4366ac3193a30e6d28). This red.c predates the big-top counters bt_*, btx_*, anybt_* (added at 02db2cf) and the counters added at review; results/k4_red_lemmas.log reruns these commands with the current red.c.
 # k4/red.c (k4/c4min_reduce.md): every strict profile of every core with n <= 3
 # command: python3 k4/red_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz --pots=mt,r,lamR;r,mt,lamR;mt,r,lamR,mp;r,mt,lamR,mp -x 3
 k4_certs_2.json.gz#3 prof_cert n=2 m=5 vals=[{0:2,2:3,3:4,4:8},{1:2,2:3,3:4,4:8}]
