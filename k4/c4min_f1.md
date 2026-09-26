@@ -296,7 +296,50 @@ frozen agent's protection first, and has no failure on these profiles (§4).
 
 ## 4. Evidence
 
-(In progress.)
+All counters come from `k4/c4min_f1.c` (driver `k4/c4min_f1_run.py`). It enumerates the valid pre-allocations and the
+configurations as `k4/c4min.md`'s tool does, and everything after that is written from this file's definitions:
+potentials, owners with and without the unfreezing clause, kinds, threat digraph, rotations, path moves, Φ′.
+- Its count of profiles with f = 1 (7,284,544 at n = 3) equals `k4/c4min.c`'s.
+- Its Φ′ counter agrees with `results/k4_c4min_phi_n3.log`: 0 failures.
+- An independent Python checker of the same lemma steps (`k4/c4min_f1_proof.py`, on `k4/c4min_cfg.py`) agrees on the
+  samples of `results/k4_c4min_f1_python.log`.
+
+**Theorem F1 and its lemmas, every strict profile with n ≤ 3** (`results/k4_c4min_f1_n3.log`):
+
+| | n = 2 | n = 3 |
+|---|---|---|
+| profiles with f = 1, ω ≥ 1 | 1,296 | 7,284,544 |
+| configurations | 8,496 | 138,471,840 |
+| … without an owner valid with C = ∅ (lemmas checked on each) | 5,616 | 30,290,192 |
+| Theorem F1 (with Lemma 8(b)) failures | 0 | 0 |
+| Lemma 2: value-raising pool moves / not raising Ψ | 7,920 / 0 | 72,477,432 / 0 |
+| pool-optimal ones without owner | 1,440 | 1,407,032 |
+| Lemma 3 (kinds, at most one threatener) violations | 0 | 0 |
+| Lemma 5: rotations / not raising Ψ | 0 / 0 | 367,488 / 0 |
+| Lemma 7: shortest path moves, x not big-top / not raising Ψ / case (E) | 0 / 0 / 0 | 671,672 / 0 / 0 |
+| coverage: a Ψ-maximum with a 3-good frozen agent | 0 | 60,974 |
+| … else one with a 4-good frozen agent that is not big-top | 0 | 3,422,442 |
+| … else every Ψ-maximum big-top with ω = 1 (Lemma 8(b)) | 576 | 2,035,664 |
+| … else every Ψ-maximum big-top, ω ≥ 2 (§3): some Ψ-maximum completable / none | 720 / 0 | 1,765,336 / 128 |
+| Φ′ = (−t, r, Λ, −p): profiles with a non-completable maximum | 0 | 0 |
+
+So Theorem F1 and Lemma 8(b) prove C₄ᵐⁱⁿ on 5,519,080 of the 7,284,544 n = 3 profiles with f = 1 (75.8%). Case (E)
+cannot occur for n ≤ 4 (§2), so these proofs are complete there. With Theorems Z and F (`k4/c4min.md` §4 table), the
+written proofs cover 117,875,052 of the 119,640,516 n = 3 profiles with ω ≥ 1 (98.5%). The rest are exactly the
+1,765,464 f = 1 profiles whose Ψ-maxima all have a big-top frozen agent and ω ≥ 2; n = 3 has no f ≥ 2 profile without
+a frozen-robust configuration.
+
+The 128 profiles without a completable Ψ-maximum are all on core 46 (the n = 3 example of §3). A job with a failure
+prints an example (`-x 3`), and only core 46's jobs do.
+
+**Every strict profile of the n = 4 cores with one 4-good agent** (`results/k4_c4min_f1_n4.log`): 28,478 profiles
+with f = 1.
+- 0 failures of Theorem F1 and of every lemma.
+- Coverage 100%: 24,102 by a 3-good frozen agent, 1,436 by a 4-good one, 2,940 by Lemma 8(b).
+- With Theorems Z and F, the written proofs cover 86,524 of the 102,434 profiles of this class with ω ≥ 1. The rest
+  have f ≥ 2 without a frozen-robust configuration.
+
+**Samples** (`results/k4_c4min_f1_samples.log`): SAMPLES_PLACEHOLDER
 
 ## 5. Reproduce
 
