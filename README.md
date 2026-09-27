@@ -2,29 +2,41 @@
 
 Question (CS 580 course project, Fall 2026; answered yes, see Status): does every fair-division instance with nonnegative real additive valuations in which each agent positively values at most three goods admit a complete EFX₀ allocation (envy-free up to any good, where the removed good may be worthless to the envious agent)?
 
-**Status** (details and evidence in [LEDGER.md](LEDGER.md)):
-- **Conjecture D, and hence TARGET, are proved: machine-checked in Lean over any ordered value type (ℝ≥0 by the textbook fact that it satisfies the axioms), via the reduction to natural numbers L12 ([proofs/real_values.md](proofs/real_values.md), machine-checked too)** ([proofs/lb_last_step.md](proofs/lb_last_step.md); Lean: `EFX.target_ordered` and `EFX.corollaryD_ordered` in [lean/EFX/RealValues.lean](lean/EFX/RealValues.lean), from `EFX.target` in [lean/EFX/Target.lean](lean/EFX/Target.lean) and `EFX.LB.corollaryD` in [lean/EFX/CorollaryD.lean](lean/EFX/CorollaryD.lean) over ℕ, see [lean/README.md](lean/README.md)). Every instance with nonnegative real additive valuations in which every agent positively values at most three goods has a complete EFX₀ allocation. The proof uses construction LB⁺: serial dictatorship with LB's junk placement, plus one "rotation" along a chain of agents when the natural owner of the large bundle fails. Two independent reviews of the written proof found no error. The items below are the partial results that came before.
-- **A polynomial-time algorithm, machine-checked with its running time** ([proofs/k3_algorithm.md](proofs/k3_algorithm.md); Lean: `EFX.K3.algo`, `EFX.K3.algo_efx0`, `EFX.K3.algoC_cost` in [lean/EFX/K3Cost.lean](lean/EFX/K3Cost.lean) and [lean/EFX/K3CostBound.lean](lean/EFX/K3CostBound.lean); ledger K3.ALG, K3.ALG.TIME, K3.OWNER). Algorithm K3ALG peels agents by rule R1, then runs LB⁺ with computed rankings. Whenever every agent values at most three goods, it returns an EFX₀ allocation. It uses at most 400·(n + m + 1)⁴ counted operations, in a cost model stated in the file. LB⁺'s owner test is exact without a minimum vertex cover (Proposition O). A Python implementation with the same output runs in about linear time on random instances with up to 10⁵ agents (evidence only; `k3/`).
-- Reduced to "cores" (agents with exactly three goods, balanced, at most one private good), where EFX₀ is a purely combinatorial condition.
-- Certified: EFX₀ exists for every such instance with at most 6 agents. Every connected core is covered, including those with m ≤ n + 3, which were first left to Mahara's theorem; nothing external is needed. With at most 7 agents it is certified too, again with nothing external: construction LB (below) certifies every connected core with 7 agents, including the 37,488 with at most 10 goods that were first left to Mahara's theorem.
-- From the literature (read in full, [proofs/citations.md](proofs/citations.md)): EFX₀ exists, for every n, for cores with m ≤ n + 3 and for cores in which every good is relevant to at most two agents (ledger T3). No published result implies TARGET or conjecture D.
-- Refuted: "bundles of at most two goods always suffice" (smallest counterexample n = 3), and its weaker form for m ≤ 2n − 2 (smallest n = 4).
-- Main conjecture D: some EFX₀ allocation has at most one bundle with more than two goods. Certified for every core with n ≤ 6, and for every connected core with n = 7 or n = 8, m ≥ 13.
-- Proved: conjecture D for every core with m = 2n − 1 (cyclomatic number β = 2), for all n ([proofs/beta2.md](proofs/beta2.md)); for every connected core in which every agent has a private good, for every β; and for every connected core with m = 2n − 2 (β = 3) and at most two agents without a private good ([proofs/beta3.md](proofs/beta3.md)).
-- Certified: conjecture D for every connected core with m = 2n − 2 (β = 3), for all n: a proved reduction to 394 small "reduced" cores (n ≤ 10), checked exhaustively with an independent checker ([proofs/beta3.md](proofs/beta3.md)).
-- Proved ([proofs/multigraph_extension.md](proofs/multigraph_extension.md), ledger T5): the multigraph theorem for cores, re-proved without the paper, and extended to goods with three or more valuers when each such good is the top of all its valuers and the ranking profile has a popular matching. The paper's allocation shape cannot survive a single good with three valuers (n = 3 example).
-- Step 2 ([proofs/construction.md](proofs/construction.md)): an explicit construction, LB, whose output is always EFX₀ with at most one large bundle (proved). It never fails on any core with n ≤ 6 or any connected core with n = 7 or n = 8, m ≥ 13 (certified, for the labelling the enumeration produces; LB breaks ties by index). The open gap is its last step. When a large bundle is needed (n ≤ 6), it can always go to an agent holding only its bottom good, together with goods private to agents that don't need them (conjecture K).
-- Certified independently of D3 (a second certification of the β ≤ 3 part of ledger T4): EFX₀ exists for every instance whose core components have β ≤ 3, with no appeal to the literature, via the structure of a minimal counterexample ([proofs/min_counterexample.md](proofs/min_counterexample.md)): no good relevant to exactly two agents is relevant to two agents with private goods, so a minimal counterexample has n ≤ 5(β − 1) agents.
+**Status** (every claim with its evidence is in [LEDGER.md](LEDGER.md), the source of truth; the row names are given in parentheses):
+
+- **The answer: yes, with machine-checked proofs.** Every instance with nonnegative real additive valuations in which each agent positively values at most three goods has a complete EFX₀ allocation (TARGET; row T, PROVED). If every agent values exactly three goods and none of them more than the other two together, there is one in which all but at most one agent receive at most two goods (conjecture D; row D, PROVED). Both are machine-checked in Lean for values in any type satisfying `EFX.OrderedValue`, the axioms of a linearly ordered cancellative commutative monoid (`EFX.target_ordered`, `EFX.corollaryD_ordered` in [lean/EFX/RealValues.lean](lean/EFX/RealValues.lean)), derived from `EFX.target` and `EFX.LB.corollaryD` over ℕ by the reduction L12 (`EFX.l12`; row L12, PROVED). ℝ≥0 is covered by the standard fact that it satisfies these axioms; core Lean has no real numbers, so that one step is not a Lean theorem. The proof is construction LB⁺ (row S2.LB+, PROVED; [proofs/lb_last_step.md](proofs/lb_last_step.md)): a serial dictatorship with R1 priority, leftover goods in free slots, and the surplus to one owner after at most one rotation of picks along a chain of agents. An independently written Lean statement of both theorems follows from them (row AUD).
+- **The algorithm K3ALG** ([proofs/k3_algorithm.md](proofs/k3_algorithm.md), `lean/EFX/K3*.lean`): peel agents by rule R1, then run LB⁺ with computed rankings; LB⁺'s owner test is exact without a minimum vertex cover (Proposition O; row K3.OWNER, PROVED). Machine-checked in Lean, every row PROVED:
+  - correctness: for natural-number values it returns an EFX₀ allocation whenever every agent values at most three goods (`EFX.K3.algo_efx0`; K3.ALG);
+  - at most 400·(n + m + 1)⁴ operations in the unit-cost model of [lean/EFX/Timed.lean](lean/EFX/Timed.lean), for the counted program whose value is the algorithm (`EFX.K3.algoC_cost`; K3.ALG.TIME), and the finer bound ≤ 270·(n⁴ + n²m) for the same program (`EFX.K3.algoC_cost_fine''`; K3.ALG.FINE);
+  - nonnegative rational values, scaled to natural numbers (`EFX.K3.algoRat_efx0`; K3.RAT);
+  - real values in the comparison model: from a correct comparison oracle, a computed natural-number surrogate (at most n(m + 12) oracle calls), then K3ALG on it; the output is EFX₀ for the original values, in any `EFX.OrderedValue` (`EFX.K3.algoOrd_efx0`, `EFX.K3.algoOrdC_cost`; K3.ALG.REAL);
+  - the candidate owner r lies in the last block of Phase 1 (`EFX.LB.lastOut_lastBlock`; K3.LASTBLOCK);
+  - the size of the large bundle: ω = m − 2n + |NA|, and the owner receives at least ω + 2 goods, exactly ω + 2 when the other slots are full (`EFX.LB.largeBundle_size`; K3.SIZE);
+  - serial dictatorship for k ≤ 2 (at most two relevant goods per agent), in every order and with every choice of favourite, for natural-number values (`EFX.Inst.sdRun_efx0`; K3.SD2).
+
+  A Python implementation (`fast` in [k3/k3algo.py](k3/k3algo.py)) gives the same output as a literal transcription of the Lean program on 200,000 random instances and runs in about linear time up to 10⁵ agents (row K3.ALG.RUN, EVIDENCE).
+- **Not formalized:** the bound on bit operations; the O((n + m) log n) analysis of the Python implementation; serial dictatorship for k ≤ 2 over ordered values (its Lean statement is for ℕ); and the ℝ≥0 instance of `EFX.OrderedValue` (the standard fact above). The full list is in [lean/README.md](lean/README.md), "Not formalized".
+- **The papers** ([paper/k3/](paper/k3/), build instructions in its README): `paper/k3/main.pdf` is the 8-page LLNCS submission (references and appendix after page 8); `paper/k3/long.pdf` is the long, readable version, with every proof of the main theorems in the body, the pseudocode and two examples traced step by step; `paper/k3/examples/` holds the checks of those examples (`trace_examples.py`, and `lean_examples.lean` for Lean's own evaluation).
+- **k = 4 (at most four relevant goods per agent) is open.** Work in progress is in `k4/` and LEDGER.md open items 18–27; the named next target is Conjecture DL₂ (row K4.STRAT.DL2, CONJECTURE).
+- **Earlier results**, partial results that came before the proof (details in the ledger):
+  - certified by exhaustive computation: EFX₀ exists for every instance with n ≤ 7 (R1, R5); conjecture D for every core with n ≤ 6 (R3), every connected core with n = 7 (R2, S2.N7) and every connected core with n = 8, m ≥ 13 (R4, S2.N8);
+  - proved: D for connected cores with β = 2 (D2) and for connected cores in which every agent has a private good (D3.0); certified: D for connected cores with β = 3 (D3);
+  - refuted: bundles of at most two goods always suffice (X1, smallest n = 3), also when m ≤ 2n − 2 (X2, smallest n = 4); one bundle of three goods always suffices (X4);
+  - from the literature, read in full ([proofs/citations.md](proofs/citations.md)): EFX₀ exists, for every n, for cores with m ≤ n + 3 and for cores in which every good is relevant to at most two agents (T3); no published result implies TARGET or D.
 
 ## Layout
 - `AGENTS.md`: how an AI agent gets oriented, sets up, branches, checks and opens a pull request (`CLAUDE.md` loads it for Claude Code)
 - `PROMPT.md`: the research brief every agent works from (problem, results, plan, rules, repository workflow)
 - `LEDGER.md`: every claim, its status, and the artifact behind it; the single source of truth
+- `CONTRIBUTING.md`: the contribution rules in short, for humans and agents
 - `src/`: tools; `frontier.py` is the main one (enumerate connected cores with `cores_nauty.py`, CEGAR over ranking profiles, save certificates)
 - `tools/`: checkers run by CI: `check_certs.py` (SAT-free certificate checker), `check_enum.py` (a certificate lists every connected core, by orbit counting), `check_ledger.py` (status ⇒ artifact)
 - `results/`: logs, result summaries, certificate files
 - `proofs/`: written proofs; `attempts/`: failed approaches with their smallest failing configuration
 - `lean/`: Lean formalization of ledger items (core Lean only, no `sorry`, standard axioms only; see `lean/README.md`)
+- `k3/`: Python implementations of K3ALG (`k3algo.py`: `fast` and the literal transcription `mirror`), the cross-check against Lean, timings, and the local search LS2
+- `k4/`: the k = 4 workstream (open; notes, searches, test suite)
+- `paper/k3/`: the papers on the k = 3 result (`main.tex`, `long.tex`) and the checks of their examples
 - `archive/`: superseded versions of code, kept verbatim (see `archive/README.md`)
 
 ## Reproduce
@@ -34,6 +46,9 @@ cd src
 python frontier.py 5 6        # ~10 s on 4 CPUs: enumerate cores (nauty genbg), search, certify; writes certs_5_6.json.gz
 python ../tools/check_certs.py certs_5_6.json.gz --expect 5:9:15 6:10:211 6:11:25   # re-check without SAT
 python verify_fail.py         # independent confirmation of the 57 refutations of conjecture A
+cd ..
+lean/check.sh                 # Lean: build, no sorry, standard axioms only, replay check (pinned toolchain)
+python3 paper/k3/examples/trace_examples.py   # recompute and check the examples of the papers
 ```
 
 ## Working here
