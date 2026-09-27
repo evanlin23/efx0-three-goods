@@ -308,7 +308,7 @@ specializations) have exactly the types of `EFX.target`, `EFX.LB.corollaryD` (ch
   partition the goods, a hand-written sum; written before the model was read), derived from `EFX.target` and
   `EFX.LB.corollaryD`, with non-vacuity examples checked by `decide`.
 - `scripts/audit_kernel.sh`: fresh-clone build, `leanchecker --fresh`, a second kernel (lean4export + nanoda) and
-  negative controls; log in `results/audit_kernel.log`.
+  negative controls; logs in `results/audit_kernel.log` (commit ebf27a2, the natural-number development of T and D) and `results/audit_kernel_2026-09-27.log` (commit bf81efb, the whole library: 2,934 named declarations, 8,762 with dependencies, including K3ALG, its cost bounds, the ordered-value transfer and the K3 corollaries).
 - `CheckAxioms.lean`: the all-declarations axiom check.
 
 ## Correspondence with the ledger
