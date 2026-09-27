@@ -150,7 +150,7 @@ Let $|J|>S$ after Phase 1 and the upgrades. Then $r$ is a valid owner unless the
 \end{theorem}
 
 \begin{proof}[sketch]
-Let $x\in E_r$. Each of $b_x,c_x$ is junk, so never picked, or $Y_r$, picked after $x$; so $x$ found all its goods available and is a leader (I3). So exposed agents lead distinct blocks, at most one, $k^*$, in $r$'s block, and $\pi_x\ne\emptyset$. The count $S-\capa(r)\ge|E_r|-1$ is an injection $x\mapsto\tau(x)$ from the exposed agents outside $r$'s block into the terminals other than $r$: $\tau(x)=x$ if $x$ is a terminal, and otherwise the end of a need chain from $x$, which exists and stays in $x$'s block, as by (B) an agent that needs a frozen agent's pick comes later in the same block. Distinct blocks give distinct terminals, each with $\capa\ge1$. One good of each $\pi_x$, one shared good if two sets meet, then fits in $S-\capa(r)$ unless $k^*$ exists, is frozen, has no need chain to another terminal, and the $\pi_x$ are disjoint (Appendix~\ref{app:proofs}).\qed
+Let $x\in E_r$. Each of $b_x,c_x$ is junk, so never picked, or $Y_r$, picked after $x$; so $x$ found all its goods available and is a leader (I3). So exposed agents lead distinct blocks, at most one, $k^*$, in $r$'s block, and $\pi_x\ne\emptyset$. The count $S-\capa(r)\ge|E_r|-1$ comes from an injection $x\mapsto\tau(x)$ from the exposed agents outside $r$'s block into the terminals other than $r$: $\tau(x)=x$ if $x$ is a terminal, and otherwise the end of a need chain from $x$, which exists and stays in $x$'s block, as by (B) an agent that needs a frozen agent's pick comes later in the same block. Distinct blocks give distinct terminals, each with $\capa\ge1$. One good of each $\pi_x$, one shared good if two sets meet, then fits in $S-\capa(r)$ unless $k^*$ exists, is frozen, has no need chain to another terminal, and the $\pi_x$ are disjoint (Appendix~\ref{app:proofs}).\qed
 \end{proof}
 
 \begin{theorem}[rotation]\label{thm:B}
@@ -185,7 +185,7 @@ With $b$ the largest bit length of an input value, K3ALG takes $O\big((n+m)^4(b+
 
 \section{Conclusion}\label{sec:concl}
 
-Four relevant goods per agent is open; there one rotation no longer suffices, already with one agent valuing four goods ($n=5$,~\cite{Repo}). The least size of the large bundle is open too.
+Four relevant goods per agent is open; there, one rotation no longer suffices, already with one agent valuing four goods ($n=5$,~\cite{Repo}). The least size of the large bundle is open too.
 
 \paragraph{Acknowledgments.} The proofs, code and Lean formalization were developed with the assistance of AI coding agents (Claude Code).
 
@@ -435,7 +435,7 @@ Second proof & \lean{EFX.C4min.corollaryD_K3}, \lean{EFX.C4min.target_K3} (\text
 \end{tabular}
 \medskip
 
-\noindent \lean{EFX.K3.algoRat_efx0} is for core Lean's rationals (\texttt{OInst Rat}), with values scaled by the product of their denominators; \lean{EFX.K3.algoOrd_efx0} assumes a correct oracle, \texttt{le x y = true} iff $x\le y$. \lean{EFX.LB.lbPlusRun_sound} quantifies over all runs of \LBp{} (any Phase~1 order with R1 priority, any upgrade order, any need chain, any completion satisfying (OC)); \lean{EFX.LB.lbPlusOut_exists} shows that an output always exists. The independent statement writes bundles as lists that partition the goods and \efxz{} with \texttt{List.erase}, and is derived from \lean{EFX.target} and \lean{EFX.LB.corollaryD}. The second proof establishes Theorems~\ref{thm:target} and~\ref{thm:D} again through Pareto-maximal pre-allocations, independently of \LBp{}.
+\noindent \lean{EFX.K3.algoRat_efx0} is for core Lean's rationals (\texttt{OInst Rat}), with values scaled by the product of their denominators; \lean{EFX.K3.algoOrd_efx0} assumes a correct oracle, \texttt{le x y = true} iff $x\le y$. \lean{EFX.LB.lbPlusRun_sound} quantifies over all runs of \LBp{} (any Phase~1 order with R1 priority, any upgrade order, any need chain, any completion satisfying (OC)); \lean{EFX.LB.lbPlusOut_exists} shows that an output always exists. The independent statement writes bundles as lists that partition the goods and \efxz{} with \texttt{List.erase}, and is derived from \lean{EFX.target} and \lean{EFX.LB.corollaryD}. The second proof establishes Theorem~\ref{thm:target} again, and Theorem~\ref{thm:D} for cores, through Pareto-maximal pre-allocations, independently of \LBp{}.
 
 \paragraph{Not formalized.} Corollary~\ref{cor:bits}; the analysis and the speed of the Python implementation; that K3ALG, run directly on rational or real values, would make the same decisions as on the scaled values or on $w$; the cost of computing the scaling; that $\mathbb{R}_{\ge0}$ satisfies the axioms of \texttt{EFX.OrderedValue}; serial dictatorship for $k\le2$ with values other than natural numbers; Lemma~\ref{lem:L5} and Proposition~\ref{prop:neg}; and that each \texttt{tick} of the counted program covers its work.
 
@@ -491,7 +491,7 @@ The subset sums are ordered $0<c<b<a<b+c<a+c<a+b<a+b+c$ (writing $x$ for $v_i(x)
 \begin{proposition}[limits of the shape; theorem, proof in this paper]\label{prop:neg}
 Take strict rankings and strictly balanced values.
 (a) Let agents $0,1,2$ rank $g_0\succ g_1\succ p_i$, where $p_i$ is private to agent $i$. No \efxz{} allocation has all bundles of at most two goods, while $\{g_0\},\{g_1\},\{p_0,p_1,p_2\}$ is \efxz{}.
-(b) Let agents $0,1,2,3$ rank $g_0\succ g_2\succ p_0$, $g_0\succ g_2\succ p_1$, $g_1\succ g_2\succ p_2$, $g_1\succ g_2\succ p_3$. Every \efxz{} allocation with at most one bundle of more than two goods has bundle sizes $4,1,1,1$.
+(b) Let agents $0,1,2,3$ rank $g_0\succ g_2\succ p_0$, $g_0\succ g_2\succ p_1$, $g_1\succ g_2\succ p_2$, $g_1\succ g_2\succ p_3$, with $p_i$ private to agent $i$. Every \efxz{} allocation with at most one bundle of more than two goods has bundle sizes $4,1,1,1$.
 \end{proposition}
 
 \noindent Exhaustive computation shows that no core with two agents needs a bundle of more than two goods, so (a) is a smallest example; see \lean{proofs/counterexamples.md} and Section~1 of \lean{proofs/construction.md} in~\cite{Repo}.
