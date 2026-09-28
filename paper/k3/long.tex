@@ -1455,7 +1455,7 @@ For every number of agents $n\le7$ and every number of goods $m$, the connected 
 \item \emph{Theorem~\ref{thm:target} for $n\le7$}, verified by exhaustive computation independently of Section~\ref{sec:correct}: neither the search nor the checker uses \LBp{} or its proof.
 \item \emph{Theorem~\ref{thm:D} for every core with $n\le6$, every connected core with $n=7$, and every connected core with $n=8$ and $m\ge13$}, verified by exhaustive computation in the same way. The shape of Theorem~\ref{thm:D} was first observed in these computations.
 \end{itemize}
-It establishes nothing for larger $n$. Some certificates were produced by an earlier construction, LB; what the runs show about LB itself is stated in Appendix~\ref{app:cert}.
+It establishes nothing else for $n\ge8$. Some certificates were produced by an earlier construction, LB; what the runs show about LB itself is stated in Appendix~\ref{app:cert}.
 
 \subsection{The limits of the shape}\label{sec:limits}
 
@@ -1477,10 +1477,10 @@ Take strict rankings and strictly balanced values.
 
 \noindent Exhaustive computation shows that no core with two agents needs a bundle of more than two goods, so (a) is a smallest example. The repository records the following counterexamples, each with a checker~\cite{Repo}:
 \begin{itemize}
-\item bundles of at most two goods suffice in a core: false for $n=3$, $m=5$ (Proposition~\ref{prop:neg}(a); $14$ of the $216$ ranking profiles of that core fail);
+\item bundles of at most two goods suffice in a core: false for $n=3$, $m=5$ (Proposition~\ref{prop:neg}(a); $14$ of the $216$ ranking profiles of that core fail, found by SAT and by a SAT-free brute force);
 \item bundles of at most two goods suffice when $m\le2n-2$: false; smallest $n=4$, $m=6$; at $n=6$, $m=10$, $57$ of the $211$ connected cores have a failing profile (confirmed by a second, independent encoding);
 \item the same for instances that are not cores: four agents with identical values $4,3,2$ on three goods, and three goods valued by nobody;
-\item one bundle of three goods suffices: false for $n=4$, $m=7$ (Proposition~\ref{prop:neg}(b)); at $n=6$, $m=11$, $3$ of the $25$ connected cores need four.
+\item one bundle of three goods suffices: false for $n=4$, $m=7$ (Proposition~\ref{prop:neg}(b)); at $n=6$, $m=11$, $3$ of the $25$ connected cores need four (confirmed by a second, independent encoding that enumerates every allocation with one large bundle).
 \end{itemize}
 
 \section{Conclusion and Open Problems}\label{sec:concl}
@@ -1721,11 +1721,11 @@ LB never fails, connected cores, $n=8$, $m\ge13$ & $12{,}763$ cores, $2.14\times
 \end{tabular}
 \end{table}
 
-\noindent LB is the repository's earlier construction: Phase~1 with a lookahead rule for insertion steps, the same upgrades, and a search over owners instead of the rotation. The rows on LB say that LB never fails for the labelling of each core stored in the certificates, since LB breaks ties by index; the certificates themselves, which consist of LB's outputs, confirm Theorem~\ref{thm:D} for every labelling. Whether LB never fails in general is open; \LBp{}'s rotation makes that question unnecessary.
+\noindent LB is the repository's earlier construction: Phase~1 with a lookahead rule for insertion steps, the same upgrades, and a search over owners instead of the rotation. The rows on LB say that LB never fails for the labelling of each core stored in the certificates, since LB breaks ties by index; this is counted by the construction program itself, which checks every output against the raw definition. The certificates, which consist of LB's outputs, are re-checked by the independent checker and confirm Theorem~\ref{thm:D} for every labelling. Whether LB never fails in general is open; \LBp{}'s rotation makes that question unnecessary.
 
 \subsection{Tests of \LBp{} and K3ALG (measurement)}\label{sec:tests}
 
-A literal implementation of \LBp{} was run $5{,}844{,}263{,}904$ times: on every core with $n\le6$ under every ranking profile and every sequence of insertion choices, with random choices on larger cores, and on random instances that are not cores. It asserts every lemma of Section~\ref{sec:correct} along the way and checks every output against the raw definition: $1{,}327{,}101$ runs needed the rotation, and there were $0$ failures. An independent Python implementation gives identical tallies for $n\le5$. K3ALG itself returned an \efxz{} allocation on all $152{,}071{,}632$ ranking profiles of all cores with $n\le6$. These are measurements of the implementations, not part of the proof.
+A literal implementation of \LBp{} was run $5{,}844{,}263{,}904$ times: on every core with $n\le6$ under every ranking profile, with every sequence of insertion choices and with LB's own Phase~1 order; with random choices on the cores with $n\in\{5,6\}$; with LB's order and random choices on the connected cores with $n=7$, $m\ge11$, and with $n=8$, $m\in\{15,16\}$; and on random instances that are not cores. It asserts every lemma of Section~\ref{sec:correct} along the way and checks every output against the raw definition: $1{,}327{,}101$ runs needed the rotation, and there were $0$ failures. An independent Python implementation gives identical tallies for $n\le5$. K3ALG itself returned an \efxz{} allocation on all $152{,}071{,}632$ ranking profiles of all cores with $n\le6$. These are measurements of the implementations, not part of the proof.
 
 \subsection{Reproducibility}
 
@@ -1733,10 +1733,10 @@ A literal implementation of \LBp{} was run $5{,}844{,}263{,}904$ times: on every
 
 \paragraph{Scripts.} Enumeration of the connected cores: \file{src/cores_nauty.py}, with nauty's \texttt{genbg}, cross-checked against the independent generator of \file{src/frontier.py}; orbit counting: \file{tools/check_enum.py}. Search with a SAT solver and counterexample-guided refinement: \file{src/frontier.py}, driven by \file{src/run7.py} for $n\ge7$. Construction LB: \file{src/construct.c} with \file{src/construct_run.py}. The SAT-free certificate checker: \file{tools/check_certs.py}. Tests: \file{src/lbplus.c} and the independent \file{src/lbplus.py} for \LBp{}, and \file{k3/k3algo.py} for K3ALG.
 
-\paragraph{Certificate format.} Each certificate file, \file{results/certs_*.json.gz}, is a gzip-compressed JSON list with one record per connected core: the numbers \texttt{n} and \texttt{m}; \texttt{pi}, the number of private goods; \texttt{sets}, the three relevant goods of each agent; \texttt{mode}, a label (for the SAT runs, the shape of allocation searched for); and \texttt{allocations}, a list of allocations, each giving the agent of every good, which together must cover all $6^n$ ranking profiles. The checker decides, for every stored allocation, in which profiles it is \efxz{}, from the raw definition under three balanced realizations of the rankings, and checks that every profile is covered; with \texttt{-{}-require-d} it also checks that every stored allocation has at most one bundle of more than two goods.
+\paragraph{Certificate format.} Each certificate file, \file{results/certs_*.json.gz}, is a gzip-compressed JSON list with one record per core, connected except that the files \file{certs_lb_disconnected_4_6.json.gz} and \file{certs_disconnected_6_10.json.gz} hold disconnected cores. A record has the numbers \texttt{n} and \texttt{m}; \texttt{pi}, the number of private goods; \texttt{sets}, the three relevant goods of each agent; \texttt{mode}, a label (for the SAT runs, the shape of allocation searched for); and \texttt{allocations}, a list of allocations, each giving the agent of every good, which together must cover all $6^n$ ranking profiles. The checker decides, for every stored allocation, in which profiles it is \efxz{}, from the raw definition under three balanced realizations of the rankings, and checks that every profile is covered; with \texttt{-{}-require-d} it also checks that every stored allocation has at most one bundle of more than two goods.
 
 \paragraph{Machines and running times.} The logs in \file{results/} record the commands, their dates, the number of CPUs (four, or two for some re-checks) and some wall-clock times. For instance, the SAT search over the $3{,}103$ connected cores with $n=7$ and $m=11$ took $684$\,s on four CPUs (\file{results/frontier7_11.log}); K3ALG on every ranking profile of every core with $n\le6$ took $4{,}469$\,s on four CPUs (\file{results/k3_certs_2_6.log}); and construction LB on the connected cores with $n=8$ and $m\ge13$ took about $7$\,h on four CPUs (the repository's ledger). The processor model and the memory are not recorded. The measurements of Section~\ref{sec:finer} used Python~3.11.15 (\file{results/k3_timing.log}).
 
-\paragraph{Re-checking.} \texttt{python tools/check\_certs.py} \emph{file} \texttt{-{}-require-d} re-checks one certificate file. The repository's continuous integration re-checks some of the certificates and the orbit counts on every pull request; the larger files were re-checked locally, as the logs record.
+\paragraph{Re-checking.} \texttt{python tools/check\_certs.py} \emph{file} \texttt{-{}-require-d} re-checks one certificate file; on the two files of disconnected cores it flags every core as not connected, as intended, and finds no uncovered profile and no second large bundle. The repository's continuous integration re-checks some of the certificates and the orbit counts on every pull request; the larger files were re-checked locally, as the logs record.
 
 \end{document}

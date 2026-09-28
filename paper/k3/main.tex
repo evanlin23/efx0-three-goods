@@ -181,7 +181,7 @@ With $|J|>S$ after Phase~1 and the upgrades, $r$ is a valid owner if and only if
 
 \section{Conclusion}\label{sec:concl}
 
-\efxz{} with four relevant goods per agent is open (for ordinary EFX, see~\cite{ViswanathanM24}); there, one rotation no longer suffices, already with one agent valuing four goods ($n=5$,~\cite{Repo}). The least size of the large bundle is open too.
+\efxz{} with four relevant goods per agent is open (for ordinary EFX, see~\cite{ViswanathanM24}); there, one rotation of the kind used here no longer suffices, already with one agent valuing four goods ($n=5$,~\cite{Repo}). The least size of the large bundle is open too.
 
 \paragraph{Acknowledgments.} The proofs, code and Lean formalization were developed with the assistance of AI coding agents (Claude Code).
 
@@ -466,16 +466,16 @@ LB never fails, connected cores, $n=8$, $m\ge13$ & $12{,}763$ cores, $2.14\times
 \end{tabular}
 \medskip
 
-\noindent LB is the repository's earlier construction (\texttt{proofs/construction.md} \S3 of~\cite{Repo}): Phase~1 with a lookahead insertion rule, the same upgrades, and a search over owners instead of the rotation. For the rows on LB, the certificates (LB's outputs) confirm Theorem~\ref{thm:D} in every labelling; that LB itself never fails holds for the labelling stored in the certificates, as LB breaks ties by index. Cores with $m=2n$ need no computation: counting shows that each agent then has one private good and values two shared goods, each valued by exactly two agents, so (a $2$-regular bipartite graph has a perfect matching) every agent can receive its private good and one shared good, and an agent holding two of its three relevant goods is safe (\lean{EFX.safe_of_two_own}).
+\noindent LB is the repository's earlier construction (\texttt{proofs/construction.md} \S3 of~\cite{Repo}): Phase~1 with a lookahead insertion rule, the same upgrades, and a search over owners instead of the rotation. For the rows on LB, the certificates (LB's outputs), re-checked independently, confirm Theorem~\ref{thm:D} in every labelling; that LB itself never fails is counted by the construction program, which checks each output against the raw definition, and holds for the labelling stored in the certificates, as LB breaks ties by index. Cores with $m=2n$ need no computation: counting shows that each agent then has one private good and values two shared goods, each valued by exactly two agents, so (a $2$-regular bipartite graph has a perfect matching) every agent can receive its private good and one shared good, and an agent holding two of its three relevant goods is safe (\lean{EFX.safe_of_two_own}).
 
-\paragraph{Tests (measurement).} $5{,}844{,}263{,}904$ runs of a literal implementation of \LBp{} (every core with $n\le6$ under every ranking profile and every sequence of insertion choices; random choices on larger cores; random non-core instances), asserting every lemma of Section~\ref{sec:correct} and checking every output against the raw definition: $1{,}327{,}101$ rotations, $0$ failures. An independent Python implementation gives identical tallies for $n\le5$. K3ALG itself returned an \efxz{} allocation on all $152{,}071{,}632$ ranking profiles of all cores with $n\le6$.
+\paragraph{Tests (measurement).} $5{,}844{,}263{,}904$ runs of a literal implementation of \LBp{} (every core with $n\le6$ under every ranking profile, with every sequence of insertion choices and with LB's own Phase~1 order; random choices on the cores with $n\in\{5,6\}$; LB's order and random choices on the connected cores with $n=7$, $m\ge11$, and with $n=8$, $m\in\{15,16\}$; random non-core instances), asserting every lemma of Section~\ref{sec:correct} and checking every output against the raw definition: $1{,}327{,}101$ rotations, $0$ failures. An independent Python implementation gives identical tallies for $n\le5$. K3ALG itself returned an \efxz{} allocation on all $152{,}071{,}632$ ranking profiles of all cores with $n\le6$.
 
 \paragraph{Counterexamples} (each with a checker in~\cite{Repo}):
 \begin{itemize}
-\item bundles of at most two goods suffice in a core: false for $n=3$, $m=5$ (Proposition~\ref{prop:neg}(a), $14$ of $216$ profiles); no core with $n=2$ fails;
+\item bundles of at most two goods suffice in a core: false for $n=3$, $m=5$ (Proposition~\ref{prop:neg}(a); $14$ of $216$ profiles, found by SAT and by a SAT-free brute force); no core with $n=2$ fails;
 \item bundles of at most two goods suffice when $m\le2n-2$: false, smallest $n=4$, $m=6$; at $n=6$, $m=10$, $57$ of the $211$ connected cores have a failing profile (confirmed by a second encoding);
 \item the same for instances that are not cores: four identical agents with values $4,3,2$ on three goods, and three goods valued by nobody;
-\item one bundle of three goods suffices: false for $n=4$, $m=7$ (Proposition~\ref{prop:neg}(b)); at $n=6$, $m=11$, $3$ of $25$ cores need four.
+\item one bundle of three goods suffices: false for $n=4$, $m=7$ (Proposition~\ref{prop:neg}(b)); at $n=6$, $m=11$, $3$ of $25$ cores need four (confirmed by a second encoding that enumerates every allocation with one large bundle).
 \end{itemize}
 
 \section{Ordinality of Cores and the Counterexamples}\label{app:neg}
