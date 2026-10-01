@@ -183,10 +183,13 @@ def run_units(fn, tasks, jobs, ck, ckey, onres):
     with Pool(jobs) as pool:
         for key, bl, secs in pool.imap_unordered(fn, tasks):
             onres(key, bl, secs)
-            if ck:
+            if ck:                     # one merged block per unit (a catalogue chunk has one block per record)
+                u = {}
+                for b in bl: merge(u, b)
+                mb = {'K': {k: u.get(k, 0) for k in KEYS}, 'L': {k: u.get(k, 0) for k in LKEYS}, 'tab': u.get('tab', {})}
+                if 'maxmin' not in u: mb['K']['maxmin'] = 0
                 with open(ck, 'a') as fo:
-                    fo.write(json.dumps({'ckey': ckey, 'key': key, 'secs': round(secs, 1),
-                                         'blocks': [{'K': b['K'], 'L': b['L'], 'tab': b['tab']} for b in bl]}) + '\n')
+                    fo.write(json.dumps({'ckey': ckey, 'key': key, 'secs': round(secs, 1), 'blocks': [mb]}) + '\n')
 
 
 def load_ckpt(ck, ckey):
