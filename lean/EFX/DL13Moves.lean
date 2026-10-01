@@ -1,9 +1,74 @@
 import EFX.DL2Moves
 
 /-!
-# Role swaps and frozen rotations: Lemmas 8–12 of `k4/dl13.md` §2 (work in progress)
+# Role swaps and frozen rotations: Lemmas 8–12 of `k4/dl13.md` §2
 
-(module doc written below)
+Ledger K4.DL13.SWAP.LEAN, K4.DL13.ROT.LEAN. The written proofs are those of `k4/dl13.md` §2.1, §2.2 (PR #75, refereed in
+its review; rows K4.DL13.SWAP, K4.DL13.ROT). Everything is stated over the definitions of `EFX/C4min.lean`,
+`EFX/PreAllocK.lean`, `EFX/C4minDescent.lean`, `EFX/DL13.lean` and `EFX/DL2Moves.lean` (bundles `IsBundle`, safety
+`SafeFor`, `N_o(Z)` = `setNeeds`, `u_o` = `uCount`, optimal bundles of best owners `OptimalBest`, `DeficitDrop`), with the
+conventions of `EFX/DL2Moves.lean`. Strictness is `EFX.Strict` (`EFX/K4Ties.lean`); `|R_x| ≤ 4` is
+`(relevant v x goods).length ≤ 4` (both hold on every strict profile of a k = 4 core, the setting of `k4/dl13.md`).
+
+**New definitions.**
+- `RoleSwap v agents goods base base' x z g H`: the role swap of `k4/dl13.md` §2.1 (Lemma 6's hypotheses): `x` frozen
+  with `B_x = {g}`, `z` free with `g ∈ R_z`, free helpers `H`; in `P′` `z` holds `{g}`, `x` and the helpers hold new bases
+  inside `G = J ∪ B_z ∪ ⋃ B_h` (`SwapPool`) and their relevant sets, of at most two goods, with needs inside `𝒩`; the
+  other listed agents keep their bases. `swapBase base x z g A` constructs the swap without helper
+  (`roleSwap_swapBase`).
+- `uBar` (`ū(Z)`), `iotaSwap` (`ι(Z)`) of Lemma 8; `eSwap` (`e`), `iotaNeed` (`ι`) of Lemma 9; `CountGood` (a good
+  counted by `u_o(Z)`).
+- `ParetoReassign v agents goods base base' π`: a Pareto reassignment of the frozen agents' goods (each frozen `x` takes
+  `B_{π(x)}`, `π(x)` frozen, `v_x(B_{π(x)}) ≥ v_x(B_x)`; every frozen agent is some `π(x)`; free agents keep their bases);
+  `IsParetoReassign`, `T4Optimal` (every Pareto reassignment is the identity), `ReassignChain` (finitely many in a row),
+  `frozenWelfare` (`Σ_{x ∈ F} v_x(B_x)`).
+
+**Results.**
+- *Lemma 8* (the unfrozen agent as owner): `RoleSwap.junk_iff` (`J′ = G ∖ (A ∪ ⋃ B′_h)`), `RoleSwap.lemma8_bundle`
+  (`x`'s bundles in `P′` are the `A ⊆ Z ⊆ G ∖ ⋃ B′_h`), `RoleSwap.lemma8_safe` (safety agent by agent),
+  `RoleSwap.lemma8_u` (`u′_x(Z) = ū(Z) + ι(Z)`), `RoleSwap.lemma8` (`x` free in `P′`, `def(P′) ≤ ω + 2 − |Z| − ū − ι`),
+  `RoleSwap.lemma8_val` (`Val_{P′}(x) = max (|Z| + ū(Z) + ι(Z))`); *Corollary 8.2*: `RoleSwap.cor8_2`.
+- *Lemma 9* (the owner swap from a needer): `lemma9_admissible` (`Z` contains a base admissible for `x`),
+  `RoleSwap.lemma9` (`def(P′) ≤ ω + 2 − |Z| − (u_o(X) − e) − ι`), `RoleSwap.eSwap_eq_zero` (`e = 0` when
+  `v_o(X) < v_o(g)`), `RoleSwap.eSwap_le_one` (`e ≤ 1` when `g` is `o`'s top); *Corollaries 9.1, 9.2*: `cor9_1` (the S1
+  repair: an admissible `A ⊆ X ∪ {c}` exists, and the constructed swap is a min-frozen (T3)-neighbour with
+  `def(P′) ≤ def(P) − 1 − ι`), `cor9_2`.
+- *Lemma 10* (the θ-dichotomy): `lemma10` (exactly one of (θ-a), (θ-b)), `lemma10_a` (under (θ-a), `Q` is an admissible
+  re-base of `o` not needing `g`, and some other agent needs `g`).
+- *Lemma 11* (an owner that does not move): `lemma11`; *Corollary 11.1* (the blocker swap): `cor11_1`, `cor11_1_auto`.
+- *Lemma 12* (frozen rotations): `lemma12_move` (min-frozen, same `NA`, `F`, `J`, `ω`, free agents' bases and needs),
+  `lemma12` (bundles unchanged, safety preserved, `u′_o ≥ u_o`, `def(P′) ≤ def(P)`), `lemma12_lt_iff` (the strict case,
+  exactly), `lemma12_lt` (its two particular cases), `uCount_eq_goods` (`u_o(Z) = #{h ∈ 𝒩 : h ∉ N_o(Z) ∪ 𝒩₋ₒ}` on `𝒫`);
+  *Corollary 12.1*: `cor12_1` (finitely many Pareto reassignments reach a T4-optimal `P*` with `def(P*) ≤ def(P)`).
+
+**Faithfulness** (paper statement; Lean statement; why they agree). Each theorem's docstring restates the paper
+statement. The Lean statements use the text's objects and conclusions with the same or weaker hypotheses. Where the
+prose leaves room:
+1. *The swap* is any base map meeting Lemma 6's conditions (`RoleSwap`); the text's `H = ∅` or `{h}` is a list `H`
+   (Lemma 8 holds for any list of helpers). The text's "z needs g" is used only where the text uses it (Lemma 6's
+   `N_z({g}) ⊆ 𝒩` is a field of `RoleSwap`; `roleSwap_swapBase` derives it from `g ∈ N_z`).
+2. *Lemma 8*: `ū(Z)`'s set `N_z({g}) ∪ N_h(B′_h) ∪ 𝒩_{−{x,z,h}}` is the needed set of the listed agents other than `x`
+   in `P′` (their needs there are `N_z({g})`, `N_h(B′_h)` and the unchanged `N_i`), and `ι`'s
+   `g ∉ N_h(B′_h) ∪ 𝒩_{−{x,z,h}}` is "no listed agent other than `x, z` needs `g` in `P′`". The text's
+   "`g ∉ N_x(Z)` iff `v_x(Z) > v_x(g)`, by strictness" is where `Strict` enters.
+3. *Corollary 8.2* uses only: `z` the only needer of `g` in `P`, no helper needing `g` in `P′`, `x` strictly balanced on
+   `g`, and `L_x ⊆ Z`; the text's "`x` big-top, `L_x ⊆ G`, `A ⊆ L_x`, `B′_h ∩ L_x = ∅`" say when such a `Z` exists. Its gain
+   is stated with `|Z| + 1 + ū(Z) > Val*(P)`, which the text's `|Z| + 1 > Val*(P)` implies.
+4. *Lemma 9*: the bound holds for every set `X` (the text takes a bundle of `o` in `P`; `eSwap_eq_zero` uses
+   `X ⊆ W_o`); "`g` is `o`'s top" is `∀ r, v_o(r) ≤ v_o(g)`. *Corollary 11.1*: "X ∪ {c} threatens exactly one agent other
+   than `o`, `z`" is used only as "threatens nobody outside `{o, z}`".
+5. *Lemma 10*: (θ-b)'s "`o` big-top (`v_o(g) > v_o(b_o) + v_o(c_o)`)" is "every pair of `o`'s other goods is worth less
+   than `g`" (the same, `b_o, c_o` being the best pair); "`Q` is a re-base admissible for `o`" is `N_o(Q) ⊆ 𝒩`,
+   `Q ⊆ (B_o ∪ J) ∩ R_o`, `|Q| ≤ 2`, `Q ≠ B_o`.
+6. *Lemma 11* is stated in the generality of Lemma 2* (any move keeping the needed set, with a newly frozen `z` on `g`):
+   `κ = 1` is the text's condition, and `e*` counts the agents whose base actually changes, a subset of the text's
+   `{x, z} ∪ H`, so it is at most the text's `e*` and the bound is at least as strong.
+7. *Lemma 12*: "π a permutation of `F`" is "`π` maps `F` to `F` and onto `F`" (one-to-one follows, `P′` being a map);
+   "`Val_{P′}(o) ≥ Val_P(o)`" is the three facts of `lemma12` together. Proposition 12.2 (DL₁₃^opt ⟹ TARGET₄) is not
+   formalized: DL₁₃^opt is refuted (K4.DL13.OPT).
+
+No statement of `k4/dl13.md` §2 turned out wrong or ambiguous; the differences above are weakenings of hypotheses or
+choices of encoding.
 -/
 
 set_option autoImplicit false
@@ -661,6 +726,30 @@ theorem lemma8 (hag : agents.Nodup) (hgd : goods.Nodup) (hM : MinFrozen v agents
   have hb := deficitLE_of_safe hag hM'.1 (by rw [hω']; exact hω) h.hx hxF hZ hS
   rw [hω', h.lemma8_u hag hgd hM hs hZ] at hb
   exact deficitLE_mono hb (by push_cast; omega)
+
+/-- **Lemma 8, the value of `x` as owner** (`k4/dl13.md` §2.1): on a strict profile, `Val_{P′}(x) ≥ k` iff some `Z` with
+`A ⊆ Z ⊆ G ∖ ⋃ B′_h` that threatens no agent outside the move holding its base, not `z` holding `{g}` and no helper
+holding its new base, has `|Z| + ū(Z) + ι(Z) ≥ k`; that is, `Val_{P′}(x) = max (|Z| + ū(Z) + ι(Z))` over those `Z`. -/
+theorem lemma8_val (hag : agents.Nodup) (hgd : goods.Nodup) (hM : MinFrozen v agents goods base)
+    (hs : Strict v agents goods) (h : RoleSwap v agents goods base base' x z g H) (k : Nat) :
+    (∃ Z, IsBundle goods base' x Z ∧ SafeFor v agents goods base' x Z ∧
+        k ≤ (goods.filter Z).length + uCount v agents goods base' x Z) ↔
+      (∃ Z : G → Bool, ((∀ g' ∈ goods, base' g' = some x → Z g' = true) ∧
+          (∀ g' ∈ goods, Z g' = true → SwapPool base z H g' ∧ ∀ w ∈ H, base' g' ≠ some w)) ∧
+        ((∀ w ∈ agents, w ≠ x → w ≠ z → w ∉ H → ∀ r ∈ goods.filter Z,
+          value v w ((goods.filter Z).erase r) ≤ value v w (baseOf goods base w)) ∧
+         (∀ r ∈ goods.filter Z, value v z ((goods.filter Z).erase r) ≤ v z g) ∧
+         (∀ w ∈ H, ∀ r ∈ goods.filter Z,
+          value v w ((goods.filter Z).erase r) ≤ value v w (baseOf goods base' w))) ∧
+        k ≤ (goods.filter Z).length + uBar v agents goods base base' x Z + iotaSwap v agents goods base' x z g Z) := by
+  constructor
+  · rintro ⟨Z, hZ, hS, hk⟩
+    refine ⟨Z, (h.lemma8_bundle hM.1 Z).mp hZ, (h.lemma8_safe Z).mp hS, ?_⟩
+    rw [h.lemma8_u hag hgd hM hs hZ] at hk; omega
+  · rintro ⟨Z, hZ, hS, hk⟩
+    have hZ' := (h.lemma8_bundle hM.1 Z).mpr hZ
+    refine ⟨Z, hZ', (h.lemma8_safe Z).mpr hS, ?_⟩
+    rw [h.lemma8_u hag hgd hM hs hZ']; omega
 
 omit [DecidableEq A] in
 /-- A good `x` values more than the rest: strict balance gives `v_x(g) < v_x(R_x ∖ {g})`, so `v_x(g) < v_x(Z)` for every
@@ -1577,6 +1666,7 @@ end EFX
 #print axioms EFX.C4min.RoleSwap.lemma8_safe
 #print axioms EFX.C4min.RoleSwap.lemma8_u
 #print axioms EFX.C4min.RoleSwap.lemma8
+#print axioms EFX.C4min.RoleSwap.lemma8_val
 #print axioms EFX.C4min.RoleSwap.lt_value_of_lower
 #print axioms EFX.C4min.RoleSwap.cor8_2
 #print axioms EFX.C4min.length_le_of_sub
