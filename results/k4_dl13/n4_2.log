@@ -1,0 +1,449 @@
+# command: python3 k4/dl13_run.py certs results/k4_certs_4_n4_2.json.gz --jobs=4 --ckpt=results/k4_dl13/ckpt_n4_2.jsonl --dump=results/k4_dl13/dump_n4_2.jsonl.gz --tables=results/k4_dl13/tables_n4_2.json --progress
+# dl13.c sha256 f891de3a228a63fcd05008c0e4d9202068fc0d2b41be5876775affd4b2131d65
+# k4_certs_4_n4_2.json.gz: cores 0..308, 309 units to run, 0 from the checkpoint; every profile
+#   unit {'pos': 2, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [4.3 s]
+#   unit {'pos': 3, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [4.5 s]
+#   unit {'pos': 1, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [6.0 s]
+#   unit {'pos': 0, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [6.2 s]
+#   unit {'pos': 4, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [3.8 s]
+#   unit {'pos': 5, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [4.3 s]
+#   unit {'pos': 6, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [3.6 s]
+#   unit {'pos': 7, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [4.8 s]
+#   unit {'pos': 8, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [3.7 s]
+#   unit {'pos': 9, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [3.8 s]
+#   unit {'pos': 10, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [4.7 s]
+#   unit {'pos': 11, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [3.6 s]
+#   unit {'pos': 12, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [3.6 s]
+#   unit {'pos': 13, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [3.4 s]
+#   unit {'pos': 14, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [3.7 s]
+#   unit {'pos': 15, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [3.6 s]
+#   unit {'pos': 16, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [3.9 s]
+#   unit {'pos': 18, 'blk': None}: om1 3024 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [2.0 s]
+#   unit {'pos': 17, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [4.2 s]
+#   unit {'pos': 19, 'blk': None}: om1 6528 pos 1920 st1 1920 fail1 0 t3only 1920 t3hOnly 0 [2.0 s]
+#   DL13 FAILS: core {'pos': 20, 'blk': None}: 240 states
+#   unit {'pos': 20, 'blk': None}: om1 2856 pos 720 st1 720 fail1 240 t3only 480 t3hOnly 0 [2.1 s]
+#   unit {'pos': 21, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [2.0 s]
+#   DL13 FAILS: core {'pos': 22, 'blk': None}: 480 states
+#   unit {'pos': 22, 'blk': None}: om1 32064 pos 22560 st1 22560 fail1 480 t3only 22080 t3hOnly 0 [2.1 s]
+#   unit {'pos': 23, 'blk': None}: om1 39744 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [4.0 s]
+#   DL13 FAILS: core {'pos': 24, 'blk': None}: 800 states
+#   unit {'pos': 24, 'blk': None}: om1 2440 pos 1600 st1 1600 fail1 800 t3only 800 t3hOnly 0 [3.8 s]
+#   unit {'pos': 25, 'blk': None}: om1 6728 pos 1920 st1 1920 fail1 0 t3only 1920 t3hOnly 0 [3.3 s]
+#   unit {'pos': 26, 'blk': None}: om1 7584 pos 960 st1 960 fail1 0 t3only 960 t3hOnly 0 [3.7 s]
+#   DL13 FAILS: core {'pos': 27, 'blk': None}: 240 states
+#   unit {'pos': 27, 'blk': None}: om1 2912 pos 720 st1 720 fail1 240 t3only 480 t3hOnly 0 [3.6 s]
+#   DL13 FAILS: core {'pos': 28, 'blk': None}: 240 states
+#   unit {'pos': 28, 'blk': None}: om1 2712 pos 720 st1 720 fail1 240 t3only 480 t3hOnly 0 [3.7 s]
+#   unit {'pos': 29, 'blk': None}: om1 720 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [3.9 s]
+#   unit {'pos': 30, 'blk': None}: om1 7160 pos 2400 st1 2400 fail1 0 t3only 2400 t3hOnly 0 [3.8 s]
+#   unit {'pos': 31, 'blk': None}: om1 8640 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [3.8 s]
+#   unit {'pos': 32, 'blk': None}: om1 3856 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [3.6 s]
+#   unit {'pos': 33, 'blk': None}: om1 3816 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [4.1 s]
+#   unit {'pos': 34, 'blk': None}: om1 3456 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [4.1 s]
+#   unit {'pos': 35, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [3.8 s]
+#   unit {'pos': 36, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [4.1 s]
+#   unit {'pos': 37, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [4.0 s]
+#   unit {'pos': 38, 'blk': None}: om1 1040 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [4.1 s]
+#   unit {'pos': 39, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [3.7 s]
+#   unit {'pos': 40, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [3.8 s]
+#   unit {'pos': 41, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [4.2 s]
+#   unit {'pos': 42, 'blk': None}: om1 660 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [4.1 s]
+#   unit {'pos': 43, 'blk': None}: om1 820 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [3.8 s]
+#   unit {'pos': 44, 'blk': None}: om1 460 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [3.8 s]
+#   unit {'pos': 45, 'blk': None}: om1 920 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [3.5 s]
+#   unit {'pos': 46, 'blk': None}: om1 400 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [3.8 s]
+#   unit {'pos': 47, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [3.9 s]
+#   unit {'pos': 48, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [3.8 s]
+#   unit {'pos': 49, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [4.4 s]
+#   unit {'pos': 50, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [3.8 s]
+#   unit {'pos': 51, 'blk': None}: om1 804 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [3.8 s]
+#   unit {'pos': 52, 'blk': None}: om1 760 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [4.0 s]
+#   unit {'pos': 53, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [4.0 s]
+#   unit {'pos': 54, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [4.2 s]
+#   unit {'pos': 55, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [4.0 s]
+#   unit {'pos': 56, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [3.8 s]
+#   unit {'pos': 57, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [3.8 s]
+#   unit {'pos': 58, 'blk': None}: om1 920 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [4.0 s]
+#   unit {'pos': 59, 'blk': None}: om1 720 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [3.8 s]
+#   unit {'pos': 60, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [3.8 s]
+#   unit {'pos': 61, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [4.3 s]
+#   unit {'pos': 62, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [4.2 s]
+#   unit {'pos': 63, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [4.5 s]
+#   unit {'pos': 64, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [4.2 s]
+#   unit {'pos': 65, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [3.9 s]
+#   unit {'pos': 66, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [4.0 s]
+#   unit {'pos': 67, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [3.9 s]
+#   unit {'pos': 68, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [3.9 s]
+#   unit {'pos': 69, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [4.1 s]
+#   unit {'pos': 70, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [4.1 s]
+#   unit {'pos': 71, 'blk': None}: om1 600 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [3.8 s]
+#   unit {'pos': 72, 'blk': None}: om1 400 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [4.1 s]
+#   unit {'pos': 73, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [3.8 s]
+#   unit {'pos': 74, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [3.6 s]
+#   unit {'pos': 75, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [3.8 s]
+#   unit {'pos': 76, 'blk': None}: om1 300 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [3.8 s]
+#   unit {'pos': 77, 'blk': None}: om1 200 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [3.9 s]
+#   unit {'pos': 78, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [3.6 s]
+#   unit {'pos': 80, 'blk': None}: om1 53568 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [2.6 s]
+#   unit {'pos': 79, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [3.7 s]
+#   unit {'pos': 81, 'blk': None}: om1 10456 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [1.9 s]
+#   unit {'pos': 82, 'blk': None}: om1 14656 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [1.9 s]
+#   unit {'pos': 83, 'blk': None}: om1 13632 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [1.9 s]
+#   unit {'pos': 84, 'blk': None}: om1 33840 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [2.3 s]
+#   unit {'pos': 85, 'blk': None}: om1 21404 pos 320 st1 320 fail1 0 t3only 280 t3hOnly 0 [2.1 s]
+#   unit {'pos': 86, 'blk': None}: om1 18136 pos 440 st1 440 fail1 0 t3only 400 t3hOnly 0 [2.1 s]
+#   unit {'pos': 87, 'blk': None}: om1 25400 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [1.9 s]
+#   unit {'pos': 88, 'blk': None}: om1 21728 pos 240 st1 240 fail1 0 t3only 160 t3hOnly 0 [2.1 s]
+#   unit {'pos': 90, 'blk': None}: om1 12640 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [1.9 s]
+#   unit {'pos': 89, 'blk': None}: om1 25200 pos 2640 st1 2640 fail1 0 t3only 2240 t3hOnly 0 [2.2 s]
+#   unit {'pos': 91, 'blk': None}: om1 111888 pos 2400 st1 2400 fail1 0 t3only 2400 t3hOnly 0 [1.9 s]
+#   DL13 FAILS: core {'pos': 92, 'blk': None}: 800 states
+#   unit {'pos': 92, 'blk': None}: om1 101768 pos 1600 st1 1600 fail1 800 t3only 800 t3hOnly 0 [2.1 s]
+#   DL13 FAILS: core {'pos': 94, 'blk': None}: 240 states
+#   unit {'pos': 94, 'blk': None}: om1 133272 pos 3150 st1 3150 fail1 240 t3only 2100 t3hOnly 0 [2.8 s]
+#   unit {'pos': 95, 'blk': None}: om1 85136 pos 5900 st1 5900 fail1 0 t3only 4240 t3hOnly 0 [2.7 s]
+#   unit {'pos': 93, 'blk': None}: om1 158176 pos 960 st1 960 fail1 0 t3only 960 t3hOnly 0 [3.3 s]
+#   unit {'pos': 96, 'blk': None}: om1 62320 pos 640 st1 640 fail1 0 t3only 560 t3hOnly 0 [2.7 s]
+#   unit {'pos': 97, 'blk': None}: om1 73620 pos 4566 st1 4566 fail1 0 t3only 3756 t3hOnly 0 [2.7 s]
+#   unit {'pos': 98, 'blk': None}: om1 54976 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [2.6 s]
+#   unit {'pos': 99, 'blk': None}: om1 53616 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [2.7 s]
+#   unit {'pos': 100, 'blk': None}: om1 64696 pos 1486 st1 1486 fail1 0 t3only 1486 t3hOnly 0 [2.8 s]
+#   unit {'pos': 103, 'blk': None}: om1 51628 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [2.4 s]
+#   unit {'pos': 101, 'blk': None}: om1 88432 pos 200 st1 200 fail1 0 t3only 200 t3hOnly 0 [2.9 s]
+#   unit {'pos': 102, 'blk': None}: om1 70832 pos 160 st1 160 fail1 0 t3only 140 t3hOnly 0 [2.8 s]
+#   unit {'pos': 104, 'blk': None}: om1 44712 pos 160 st1 160 fail1 0 t3only 140 t3hOnly 0 [2.4 s]
+#   unit {'pos': 105, 'blk': None}: om1 33024 pos 400 st1 400 fail1 0 t3only 0 t3hOnly 0 [2.2 s]
+#   unit {'pos': 106, 'blk': None}: om1 79312 pos 2320 st1 2320 fail1 0 t3only 0 t3hOnly 0 [2.5 s]
+#   unit {'pos': 107, 'blk': None}: om1 55712 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [2.5 s]
+#   unit {'pos': 108, 'blk': None}: om1 45736 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [2.4 s]
+#   unit {'pos': 109, 'blk': None}: om1 256336 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [5.9 s]
+#   unit {'pos': 110, 'blk': None}: om1 208824 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [5.4 s]
+#   unit {'pos': 112, 'blk': None}: om1 39088 pos 768 st1 768 fail1 0 t3only 144 t3hOnly 0 [4.8 s]
+#   unit {'pos': 111, 'blk': None}: om1 105472 pos 2916 st1 2916 fail1 0 t3only 1944 t3hOnly 0 [5.7 s]
+#   unit {'pos': 113, 'blk': None}: om1 29424 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [3.9 s]
+#   unit {'pos': 114, 'blk': None}: om1 57844 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [4.0 s]
+#   unit {'pos': 115, 'blk': None}: om1 43412 pos 864 st1 864 fail1 0 t3only 144 t3hOnly 0 [3.9 s]
+#   unit {'pos': 116, 'blk': None}: om1 145840 pos 3624 st1 3624 fail1 0 t3only 3624 t3hOnly 0 [5.1 s]
+#   unit {'pos': 118, 'blk': None}: om1 47236 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [4.4 s]
+#   unit {'pos': 117, 'blk': None}: om1 83816 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [4.7 s]
+#   unit {'pos': 119, 'blk': None}: om1 54220 pos 240 st1 240 fail1 0 t3only 160 t3hOnly 0 [4.4 s]
+#   unit {'pos': 120, 'blk': None}: om1 29448 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [4.4 s]
+#   unit {'pos': 121, 'blk': None}: om1 40320 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [3.9 s]
+#   unit {'pos': 122, 'blk': None}: om1 24672 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [4.3 s]
+#   unit {'pos': 123, 'blk': None}: om1 59504 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [4.3 s]
+#   unit {'pos': 124, 'blk': None}: om1 72144 pos 2880 st1 2880 fail1 0 t3only 80 t3hOnly 80 [4.8 s]
+#   unit {'pos': 125, 'blk': None}: om1 40864 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [4.1 s]
+#   unit {'pos': 126, 'blk': None}: om1 22696 pos 880 st1 880 fail1 0 t3only 80 t3hOnly 0 [3.7 s]
+#   unit {'pos': 127, 'blk': None}: om1 10216 pos 1480 st1 1480 fail1 0 t3only 240 t3hOnly 80 [3.8 s]
+#   unit {'pos': 128, 'blk': None}: om1 24592 pos 1520 st1 1520 fail1 0 t3only 0 t3hOnly 0 [4.2 s]
+#   unit {'pos': 129, 'blk': None}: om1 25968 pos 944 st1 944 fail1 0 t3only 144 t3hOnly 0 [4.2 s]
+#   unit {'pos': 130, 'blk': None}: om1 26536 pos 976 st1 976 fail1 0 t3only 352 t3hOnly 0 [4.1 s]
+#   unit {'pos': 131, 'blk': None}: om1 24104 pos 72 st1 72 fail1 0 t3only 0 t3hOnly 0 [4.1 s]
+#   unit {'pos': 132, 'blk': None}: om1 16132 pos 300 st1 300 fail1 0 t3only 0 t3hOnly 0 [4.2 s]
+#   unit {'pos': 134, 'blk': None}: om1 13584 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [3.8 s]
+#   unit {'pos': 133, 'blk': None}: om1 7360 pos 32 st1 32 fail1 0 t3only 0 t3hOnly 0 [4.0 s]
+#   unit {'pos': 135, 'blk': None}: om1 12224 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [3.8 s]
+#   unit {'pos': 136, 'blk': None}: om1 12240 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [3.9 s]
+#   unit {'pos': 139, 'blk': None}: om1 10036 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [3.5 s]
+#   unit {'pos': 138, 'blk': None}: om1 16480 pos 288 st1 288 fail1 0 t3only 0 t3hOnly 0 [3.9 s]
+#   unit {'pos': 137, 'blk': None}: om1 22396 pos 1664 st1 1664 fail1 0 t3only 336 t3hOnly 0 [4.0 s]
+#   unit {'pos': 140, 'blk': None}: om1 13680 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [3.9 s]
+#   unit {'pos': 141, 'blk': None}: om1 12968 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [3.6 s]
+#   unit {'pos': 142, 'blk': None}: om1 15264 pos 224 st1 224 fail1 0 t3only 0 t3hOnly 0 [3.6 s]
+#   unit {'pos': 143, 'blk': None}: om1 9892 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [3.9 s]
+#   unit {'pos': 144, 'blk': None}: om1 26768 pos 384 st1 384 fail1 0 t3only 336 t3hOnly 0 [4.0 s]
+#   unit {'pos': 145, 'blk': None}: om1 12336 pos 1288 st1 1288 fail1 0 t3only 0 t3hOnly 0 [3.9 s]
+#   unit {'pos': 146, 'blk': None}: om1 9348 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [3.7 s]
+#   unit {'pos': 147, 'blk': None}: om1 4368 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [3.9 s]
+#   unit {'pos': 148, 'blk': None}: om1 2080 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [3.6 s]
+#   unit {'pos': 149, 'blk': None}: om1 19472 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [3.6 s]
+#   unit {'pos': 150, 'blk': None}: om1 9256 pos 400 st1 400 fail1 0 t3only 0 t3hOnly 0 [3.6 s]
+#   unit {'pos': 151, 'blk': None}: om1 18832 pos 480 st1 480 fail1 0 t3only 160 t3hOnly 0 [3.6 s]
+#   unit {'pos': 152, 'blk': None}: om1 22512 pos 1520 st1 1520 fail1 0 t3only 0 t3hOnly 0 [3.5 s]
+#   unit {'pos': 153, 'blk': None}: om1 8428 pos 120 st1 120 fail1 0 t3only 0 t3hOnly 0 [4.2 s]
+#   unit {'pos': 154, 'blk': None}: om1 36624 pos 2112 st1 2112 fail1 0 t3only 288 t3hOnly 0 [4.4 s]
+#   unit {'pos': 155, 'blk': None}: om1 47280 pos 3456 st1 3456 fail1 0 t3only 576 t3hOnly 0 [4.1 s]
+#   unit {'pos': 156, 'blk': None}: om1 16992 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [4.0 s]
+#   unit {'pos': 157, 'blk': None}: om1 4240 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [3.7 s]
+#   unit {'pos': 158, 'blk': None}: om1 7496 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [3.9 s]
+#   unit {'pos': 159, 'blk': None}: om1 37404 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [4.0 s]
+#   unit {'pos': 160, 'blk': None}: om1 40080 pos 864 st1 864 fail1 0 t3only 864 t3hOnly 0 [3.9 s]
+#   unit {'pos': 161, 'blk': None}: om1 14928 pos 3072 st1 3072 fail1 0 t3only 480 t3hOnly 0 [4.1 s]
+#   unit {'pos': 162, 'blk': None}: om1 2944 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [3.9 s]
+#   unit {'pos': 163, 'blk': None}: om1 2080 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [4.0 s]
+#   unit {'pos': 164, 'blk': None}: om1 2080 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [4.1 s]
+#   unit {'pos': 165, 'blk': None}: om1 4320 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [3.6 s]
+#   unit {'pos': 166, 'blk': None}: om1 2400 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [3.6 s]
+#   unit {'pos': 167, 'blk': None}: om1 2680 pos 24 st1 24 fail1 0 t3only 0 t3hOnly 0 [3.6 s]
+#   unit {'pos': 168, 'blk': None}: om1 6048 pos 1280 st1 1280 fail1 0 t3only 0 t3hOnly 0 [3.6 s]
+#   unit {'pos': 169, 'blk': None}: om1 6936 pos 288 st1 288 fail1 0 t3only 0 t3hOnly 0 [3.5 s]
+#   unit {'pos': 170, 'blk': None}: om1 6608 pos 288 st1 288 fail1 0 t3only 0 t3hOnly 0 [3.6 s]
+#   unit {'pos': 171, 'blk': None}: om1 2672 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [3.9 s]
+#   unit {'pos': 172, 'blk': None}: om1 2432 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [3.7 s]
+#   unit {'pos': 173, 'blk': None}: om1 1536 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [3.7 s]
+#   unit {'pos': 174, 'blk': None}: om1 2340 pos 60 st1 60 fail1 0 t3only 0 t3hOnly 0 [3.5 s]
+#   unit {'pos': 175, 'blk': None}: om1 1440 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [3.8 s]
+#   unit {'pos': 176, 'blk': None}: om1 1040 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [3.5 s]
+#   unit {'pos': 177, 'blk': None}: om1 1432 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [3.6 s]
+#   unit {'pos': 178, 'blk': None}: om1 4304 pos 640 st1 640 fail1 0 t3only 0 t3hOnly 0 [3.9 s]
+#   unit {'pos': 179, 'blk': None}: om1 7608 pos 1440 st1 1440 fail1 0 t3only 240 t3hOnly 0 [4.2 s]
+#   unit {'pos': 180, 'blk': None}: om1 3024 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [4.0 s]
+#   unit {'pos': 181, 'blk': None}: om1 1628 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [4.1 s]
+#   unit {'pos': 182, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [3.7 s]
+#   unit {'pos': 183, 'blk': None}: om1 288 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [3.6 s]
+#   unit {'pos': 184, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [3.4 s]
+#   unit {'pos': 185, 'blk': None}: om1 576 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [3.6 s]
+#   unit {'pos': 186, 'blk': None}: om1 296 pos 16 st1 16 fail1 0 t3only 0 t3hOnly 0 [3.5 s]
+#   unit {'pos': 187, 'blk': None}: om1 44544 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [2.7 s]
+#   unit {'pos': 188, 'blk': None}: om1 64896 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [2.9 s]
+#   unit {'pos': 189, 'blk': None}: om1 37248 pos 288 st1 288 fail1 0 t3only 0 t3hOnly 0 [2.4 s]
+#   unit {'pos': 190, 'blk': None}: om1 41472 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [2.7 s]
+#   unit {'pos': 191, 'blk': None}: om1 225792 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [5.1 s]
+#   unit {'pos': 192, 'blk': None}: om1 156096 pos 3160 st1 3160 fail1 0 t3only 600 t3hOnly 0 [4.1 s]
+#   unit {'pos': 194, 'blk': None}: om1 163584 pos 360 st1 360 fail1 0 t3only 0 t3hOnly 0 [3.6 s]
+#   unit {'pos': 193, 'blk': None}: om1 170496 pos 1800 st1 1800 fail1 0 t3only 360 t3hOnly 0 [4.1 s]
+#   unit {'pos': 195, 'blk': None}: om1 177408 pos 1600 st1 1600 fail1 0 t3only 1440 t3hOnly 0 [3.8 s]
+#   unit {'pos': 197, 'blk': None}: om1 175104 pos 1600 st1 1600 fail1 0 t3only 0 t3hOnly 0 [3.5 s]
+#   unit {'pos': 196, 'blk': None}: om1 195840 pos 3200 st1 3200 fail1 0 t3only 2880 t3hOnly 0 [3.7 s]
+#   unit {'pos': 198, 'blk': None}: om1 247104 pos 4540 st1 4540 fail1 0 t3only 3500 t3hOnly 0 [5.0 s]
+#   unit {'pos': 199, 'blk': None}: om1 208512 pos 8720 st1 8720 fail1 0 t3only 720 t3hOnly 0 [4.1 s]
+#   unit {'pos': 200, 'blk': None}: om1 184896 pos 1520 st1 1520 fail1 0 t3only 720 t3hOnly 0 [3.7 s]
+#   unit {'pos': 201, 'blk': None}: om1 332928 pos 3200 st1 3200 fail1 0 t3only 3200 t3hOnly 0 [5.2 s]
+#   unit {'pos': 204, 'blk': None}: om1 267648 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [4.5 s]
+#   unit {'pos': 202, 'blk': None}: om1 364416 pos 6580 st1 6580 fail1 0 t3only 4960 t3hOnly 0 [6.9 s]
+#   unit {'pos': 203, 'blk': None}: om1 300288 pos 1760 st1 1760 fail1 0 t3only 600 t3hOnly 0 [5.3 s]
+#   unit {'pos': 205, 'blk': None}: om1 237888 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [6.5 s]
+#   unit {'pos': 207, 'blk': None}: om1 176640 pos 1600 st1 1600 fail1 0 t3only 932 t3hOnly 0 [4.6 s]
+#   unit {'pos': 206, 'blk': None}: om1 173760 pos 1160 st1 1160 fail1 0 t3only 1052 t3hOnly 0 [5.1 s]
+#   unit {'pos': 208, 'blk': None}: om1 224640 pos 1040 st1 1040 fail1 0 t3only 0 t3hOnly 0 [4.9 s]
+#   unit {'pos': 209, 'blk': None}: om1 135936 pos 280 st1 280 fail1 0 t3only 0 t3hOnly 0 [4.3 s]
+#   unit {'pos': 210, 'blk': None}: om1 149376 pos 360 st1 360 fail1 0 t3only 0 t3hOnly 0 [3.9 s]
+#   unit {'pos': 211, 'blk': None}: om1 159936 pos 520 st1 520 fail1 0 t3only 0 t3hOnly 0 [4.8 s]
+#   unit {'pos': 212, 'blk': None}: om1 151104 pos 400 st1 400 fail1 0 t3only 0 t3hOnly 0 [4.5 s]
+#   unit {'pos': 213, 'blk': None}: om1 174720 pos 3200 st1 3200 fail1 0 t3only 0 t3hOnly 0 [5.0 s]
+#   unit {'pos': 216, 'blk': None}: om1 74112 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [2.8 s]
+#   unit {'pos': 214, 'blk': None}: om1 134976 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [4.2 s]
+#   unit {'pos': 218, 'blk': None}: om1 69120 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [2.7 s]
+#   unit {'pos': 215, 'blk': None}: om1 285312 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [6.6 s]
+#   unit {'pos': 217, 'blk': None}: om1 148032 pos 180 st1 180 fail1 0 t3only 0 t3hOnly 0 [4.0 s]
+#   unit {'pos': 219, 'blk': None}: om1 214464 pos 800 st1 800 fail1 0 t3only 640 t3hOnly 0 [5.2 s]
+#   unit {'pos': 222, 'blk': None}: om1 74112 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [3.1 s]
+#   unit {'pos': 221, 'blk': None}: om1 142080 pos 780 st1 780 fail1 0 t3only 0 t3hOnly 0 [4.1 s]
+#   unit {'pos': 220, 'blk': None}: om1 212352 pos 4880 st1 4880 fail1 0 t3only 4480 t3hOnly 0 [5.5 s]
+#   unit {'pos': 223, 'blk': None}: om1 101760 pos 5760 st1 5760 fail1 0 t3only 0 t3hOnly 0 [3.9 s]
+#   unit {'pos': 224, 'blk': None}: om1 67392 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [2.5 s]
+#   unit {'pos': 226, 'blk': None}: om1 50112 pos 1536 st1 1536 fail1 0 t3only 0 t3hOnly 0 [2.5 s]
+#   unit {'pos': 225, 'blk': None}: om1 90240 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [4.0 s]
+#   unit {'pos': 227, 'blk': None}: om1 111744 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [4.0 s]
+#   unit {'pos': 229, 'blk': None}: om1 92928 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [3.1 s]
+#   unit {'pos': 228, 'blk': None}: om1 123072 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [4.4 s]
+#   unit {'pos': 230, 'blk': None}: om1 52416 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [2.5 s]
+#   unit {'pos': 232, 'blk': None}: om1 54912 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [2.4 s]
+#   unit {'pos': 231, 'blk': None}: om1 91008 pos 60 st1 60 fail1 0 t3only 0 t3hOnly 0 [3.2 s]
+#   unit {'pos': 233, 'blk': None}: om1 52032 pos 288 st1 288 fail1 0 t3only 0 t3hOnly 0 [2.6 s]
+#   unit {'pos': 234, 'blk': None}: om1 138240 pos 5632 st1 5632 fail1 0 t3only 0 t3hOnly 0 [4.7 s]
+#   unit {'pos': 236, 'blk': None}: om1 99840 pos 1152 st1 1152 fail1 0 t3only 0 t3hOnly 0 [3.7 s]
+#   unit {'pos': 235, 'blk': None}: om1 110400 pos 1568 st1 1568 fail1 0 t3only 0 t3hOnly 0 [3.8 s]
+#   unit {'pos': 237, 'blk': None}: om1 89280 pos 432 st1 432 fail1 0 t3only 0 t3hOnly 0 [4.2 s]
+#   unit {'pos': 238, 'blk': None}: om1 59328 pos 432 st1 432 fail1 0 t3only 0 t3hOnly 0 [2.9 s]
+#   unit {'pos': 239, 'blk': None}: om1 49920 pos 864 st1 864 fail1 0 t3only 0 t3hOnly 0 [2.4 s]
+#   unit {'pos': 240, 'blk': None}: om1 113088 pos 960 st1 960 fail1 0 t3only 0 t3hOnly 0 [3.7 s]
+#   unit {'pos': 241, 'blk': None}: om1 62208 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [3.2 s]
+#   unit {'pos': 243, 'blk': None}: om1 102784 pos 60 st1 60 fail1 0 t3only 0 t3hOnly 0 [4.7 s]
+#   unit {'pos': 242, 'blk': None}: om1 254080 pos 2144 st1 2144 fail1 0 t3only 896 t3hOnly 0 [7.1 s]
+#   unit {'pos': 244, 'blk': None}: om1 135424 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [5.6 s]
+#   unit {'pos': 245, 'blk': None}: om1 254656 pos 1728 st1 1728 fail1 0 t3only 288 t3hOnly 0 [7.0 s]
+#   unit {'pos': 246, 'blk': None}: om1 108160 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [4.4 s]
+#   unit {'pos': 248, 'blk': None}: om1 64896 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [3.8 s]
+#   unit {'pos': 247, 'blk': None}: om1 97984 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [4.6 s]
+#   unit {'pos': 249, 'blk': None}: om1 29952 pos 144 st1 144 fail1 0 t3only 0 t3hOnly 0 [3.9 s]
+#   unit {'pos': 250, 'blk': None}: om1 56576 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [4.6 s]
+#   unit {'pos': 251, 'blk': None}: om1 65600 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [5.5 s]
+#   unit {'pos': 252, 'blk': None}: om1 70720 pos 928 st1 928 fail1 0 t3only 0 t3hOnly 0 [5.5 s]
+#   unit {'pos': 253, 'blk': None}: om1 53696 pos 96 st1 96 fail1 0 t3only 0 t3hOnly 0 [4.4 s]
+#   unit {'pos': 254, 'blk': None}: om1 131328 pos 1008 st1 1008 fail1 0 t3only 0 t3hOnly 0 [6.1 s]
+#   unit {'pos': 255, 'blk': None}: om1 74880 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [4.7 s]
+#   unit {'pos': 257, 'blk': None}: om1 52416 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [4.3 s]
+#   unit {'pos': 256, 'blk': None}: om1 135104 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [5.8 s]
+#   unit {'pos': 258, 'blk': None}: om1 30144 pos 240 st1 240 fail1 0 t3only 0 t3hOnly 0 [3.8 s]
+#   unit {'pos': 259, 'blk': None}: om1 43264 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [4.3 s]
+#   unit {'pos': 261, 'blk': None}: om1 29568 pos 192 st1 192 fail1 0 t3only 0 t3hOnly 0 [4.1 s]
+#   unit {'pos': 260, 'blk': None}: om1 120000 pos 3696 st1 3696 fail1 0 t3only 240 t3hOnly 0 [6.3 s]
+#   unit {'pos': 262, 'blk': None}: om1 51200 pos 560 st1 560 fail1 0 t3only 0 t3hOnly 0 [4.4 s]
+#   unit {'pos': 263, 'blk': None}: om1 34944 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [4.0 s]
+#   unit {'pos': 264, 'blk': None}: om1 26304 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [3.9 s]
+#   unit {'pos': 266, 'blk': None}: om1 30784 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [4.2 s]
+#   unit {'pos': 265, 'blk': None}: om1 67776 pos 5376 st1 5376 fail1 0 t3only 0 t3hOnly 0 [5.3 s]
+#   unit {'pos': 267, 'blk': None}: om1 47680 pos 1152 st1 1152 fail1 0 t3only 0 t3hOnly 0 [4.4 s]
+#   unit {'pos': 268, 'blk': None}: om1 24192 pos 288 st1 288 fail1 0 t3only 0 t3hOnly 0 [3.9 s]
+#   unit {'pos': 269, 'blk': None}: om1 21632 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [4.0 s]
+#   unit {'pos': 270, 'blk': None}: om1 39936 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [4.8 s]
+#   unit {'pos': 271, 'blk': None}: om1 23808 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [4.0 s]
+#   unit {'pos': 272, 'blk': None}: om1 38976 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [4.4 s]
+#   unit {'pos': 274, 'blk': None}: om1 17280 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [3.9 s]
+#   unit {'pos': 275, 'blk': None}: om1 22464 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [4.2 s]
+#   unit {'pos': 273, 'blk': None}: om1 91968 pos 2304 st1 2304 fail1 0 t3only 0 t3hOnly 0 [5.9 s]
+#   unit {'pos': 276, 'blk': None}: om1 17856 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [4.1 s]
+#   unit {'pos': 280, 'blk': None}: om1 746496 pos 7776 st1 7776 fail1 0 t3only 0 t3hOnly 0 [35.9 s]
+#   unit {'pos': 279, 'blk': None}: om1 746496 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [38.2 s]
+#   unit {'pos': 278, 'blk': None}: om1 746496 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [39.7 s]
+#   unit {'pos': 277, 'blk': None}: om1 746496 pos 1152 st1 1152 fail1 0 t3only 0 t3hOnly 0 [40.4 s]
+#   unit {'pos': 281, 'blk': None}: om1 746496 pos 17440 st1 17440 fail1 0 t3only 0 t3hOnly 0 [35.8 s]
+#   unit {'pos': 282, 'blk': None}: om1 746496 pos 5120 st1 5120 fail1 0 t3only 0 t3hOnly 0 [34.2 s]
+#   unit {'pos': 283, 'blk': None}: om1 746496 pos 360 st1 360 fail1 0 t3only 0 t3hOnly 0 [33.3 s]
+#   unit {'pos': 284, 'blk': None}: om1 746496 pos 4360 st1 4360 fail1 0 t3only 0 t3hOnly 0 [34.5 s]
+#   unit {'pos': 287, 'blk': None}: om1 746496 pos 13936 st1 13936 fail1 0 t3only 0 t3hOnly 0 [27.9 s]
+#   unit {'pos': 286, 'blk': None}: om1 746496 pos 2224 st1 2224 fail1 0 t3only 2064 t3hOnly 0 [30.0 s]
+#   unit {'pos': 285, 'blk': None}: om1 746496 pos 1600 st1 1600 fail1 0 t3only 0 t3hOnly 0 [31.3 s]
+#   unit {'pos': 288, 'blk': None}: om1 746496 pos 6888 st1 6888 fail1 0 t3only 0 t3hOnly 0 [29.5 s]
+#   unit {'pos': 289, 'blk': None}: om1 746496 pos 3200 st1 3200 fail1 0 t3only 1440 t3hOnly 0 [26.8 s]
+#   unit {'pos': 290, 'blk': None}: om1 746496 pos 12216 st1 12216 fail1 0 t3only 0 t3hOnly 0 [27.5 s]
+#   unit {'pos': 291, 'blk': None}: om1 1492992 pos 2160 st1 2160 fail1 0 t3only 0 t3hOnly 0 [87.4 s]
+#   unit {'pos': 292, 'blk': None}: om1 1492992 pos 3272 st1 3272 fail1 0 t3only 0 t3hOnly 0 [90.2 s]
+#   unit {'pos': 294, 'blk': None}: om1 1492992 pos 8736 st1 8736 fail1 0 t3only 0 t3hOnly 0 [80.9 s]
+#   unit {'pos': 293, 'blk': None}: om1 1492992 pos 3120 st1 3120 fail1 0 t3only 0 t3hOnly 0 [89.4 s]
+#   unit {'pos': 295, 'blk': None}: om1 1492992 pos 768 st1 768 fail1 0 t3only 0 t3hOnly 0 [91.2 s]
+#   unit {'pos': 296, 'blk': None}: om1 1492992 pos 288 st1 288 fail1 0 t3only 0 t3hOnly 0 [91.0 s]
+#   unit {'pos': 297, 'blk': None}: om1 1492992 pos 576 st1 576 fail1 0 t3only 0 t3hOnly 0 [102.7 s]
+#   unit {'pos': 298, 'blk': None}: om1 1492992 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [97.2 s]
+#   unit {'pos': 299, 'blk': None}: om1 1492992 pos 7680 st1 7680 fail1 0 t3only 0 t3hOnly 0 [99.5 s]
+#   unit {'pos': 300, 'blk': None}: om1 1492992 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [103.1 s]
+#   unit {'pos': 302, 'blk': None}: om1 1492992 pos 21504 st1 21504 fail1 0 t3only 0 t3hOnly 0 [101.8 s]
+#   unit {'pos': 301, 'blk': None}: om1 1492992 pos 144 st1 144 fail1 0 t3only 0 t3hOnly 0 [105.1 s]
+#   unit {'pos': 303, 'blk': None}: om1 1492992 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [107.5 s]
+#   unit {'pos': 307, 'blk': None}: om1 746496 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [107.4 s]
+#   unit {'pos': 304, 'blk': None}: om1 2985984 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [256.5 s]
+#   unit {'pos': 306, 'blk': None}: om1 2985984 pos 288 st1 288 fail1 0 t3only 0 t3hOnly 0 [277.0 s]
+#   unit {'pos': 305, 'blk': None}: om1 2985984 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [283.9 s]
+#   unit {'pos': 308, 'blk': None}: om1 746496 pos 9216 st1 9216 fail1 0 t3only 0 t3hOnly 0 [107.2 s]
+k4_certs_4_n4_2.json.gz: profiles 724847616, omega >= 1: 54488316; k* = 0: 54284364, 1: 171340, 2: 32612, 3: 0, >= 4: 0, inf: 0; P with def > 0: 324658, at distance 1: 229032, 2: 95626, 3: 0, >= 4: 0, inf: 0; Pareto-maximal: 23676; largest least deficit 0
+  DL13: states (def > 0) with f = 0: 0 (R_13 fails at 0), with f >= 1: 324658; DL13 FAILS at 3040 of the f >= 1 states; T1 only 0, T3 only 92586 (of which T3 with a helper only 160), both 229032; with a plain T3 move 282138, with a helper T3 move 256772; nearest R_13 improvement at distance 1 / 2 / 3: 229032 / 92426 / 160; anomalies 0 [972 s]
+table B: f >= 1 states by f | signature | branch : count
+  B 1|G,D2|T1+T3p+T3h : 61584
+  B 2|G,D2|T1+T3p+T3h : 40838
+  B 3|G|T3p : 33640
+  B 1|fO,L|T1+T3h : 26368
+  B 1|fO,L|T1+T3p+T3h : 25888
+  B 2|G,D2|T3p : 24100
+  B 2|G,D2|T3p+T3h : 19434
+  B 2|fO,L|T1+T3p+T3h : 10760
+  B 2|G1,PM|T1+T3p+T3h : 7008
+  B 1|e1,fO,L|T1+T3h : 6240
+  B 2|G,L,D2|T1+T3p+T3h : 6156
+  B 2|G1,L,PM|T1+T3p+T3h : 6088
+  B 2|G1|T1+T3p+T3h : 5040
+  B 2|e1,fO|T1+T3p+T3h : 4816
+  B 2|fO,L|T1+T3h : 4640
+  B 2|G,L,D2|T3p+T3h : 3460
+  B 1|G,D2,PM|T1+T3p+T3h : 2880
+  B 2|G,L,D2,PM|T1+T3p+T3h : 2656
+  B 3|O|T3p : 2640
+  B 2|G,D2,PM|T1+T3p+T3h : 2592
+  B 2|fO,G,D2|T3p+T3h : 2456
+  B 2|G,O,D2|T1+T3p+T3h : 2388
+  B 2|fO,G,L,D2|T3p+T3h : 2240
+  B 3|G|none : 2200
+  B 2|L,O|T1+T3p+T3h : 1800
+  B 2|fO,G,D2|T1+T3p+T3h : 1648
+  B 1|e1,e2,L|T1+T3h : 1440
+  B 2|e1,G,D2|T1+T3p+T3h : 1320
+  B 2|fO|T1+T3p+T3h : 1264
+  B 3|G,PM|T3p : 960
+  B 2|e1,e2|T3p+T3h : 840
+  B 3|O|none : 840
+  B 1|G,D2|T1+T3p : 832
+  B 2|L,PM|T1+T3p+T3h : 820
+  B 2|O|T1+T3p+T3h : 760
+  B 3|G1,PM|T3p : 672
+  B 2|G,O,D2|T3p+T3h : 520
+  B 2|e1,O|T1+T3p+T3h : 520
+  B 2|G,G1,D2|T3p : 504
+  B 1|fO,L|T1+T3p : 480
+  B 2|e1,fO|T1+T3h : 472
+  B 2|e1,e2|T1+T3p+T3h : 440
+  B 2|G,O,D2|T3p : 400
+  B 2|e1,L|T1+T3p+T3h : 400
+  B 2|e2|T3p+T3h : 240
+  B 2|fO,L|T1+T3p : 240
+  B 2|fO,G,O,D2|T3p+T3h : 160
+  B 2|L|T1+T3p+T3h : 156
+  B 2|e2,L|T1+T3h : 120
+  B 2|e2|T1+T3p+T3h : 120
+  B 3|G1|T3p : 120
+  B 2|e1,fO|T1+T3p : 88
+  B 2|e1,e2|T3h : 80
+  B 2|e2,L|T3h : 80
+  B 2|fO,G,D2|T1+T3p : 64
+  B 2|G,D2|T1+T3p : 50
+  B 2|e1,e2|T1+T3h : 40
+  B 2|e1,e2|T3p : 40
+  B 2|L|T1+T3p : 8
+  B 2|fO|T1+T3p : 8
+table G: f >= 1 states by f | nearest distance k | branch : count
+  G 2|1|T1+T3p+T3h : 97590
+  G 1|1|T1+T3p+T3h : 90352
+  G 3|2|T3p : 38032
+  G 1|1|T1+T3h : 34048
+  G 2|2|T3p+T3h : 29350
+  G 2|2|T3p : 25044
+  G 2|1|T1+T3h : 5272
+  G 3|2|none : 3040
+  G 1|1|T1+T3p : 1312
+  G 2|1|T1+T3p : 458
+  G 2|2|T3h : 160
+table Y: f >= 1 states by f | branch | move type available : count
+  Y 1|T1+T3p+T3h|T1:pool : 90352
+  Y 1|T1+T3p+T3h|T3:xJ.h- : 90352
+  Y 2|T1+T3p+T3h|T3:xJ.h- : 90166
+  Y 2|T1+T3p+T3h|T1:rel : 88734
+  Y 1|T1+T3p+T3h|T1:rel : 87872
+  Y 1|T1+T3p+T3h|T3:xJ.hR : 84416
+  Y 2|T1+T3p+T3h|T3:xJ.hR : 73008
+  Y 1|T1+T3p+T3h|T3:xJ.hJ : 59584
+  Y 2|T1+T3p+T3h|T1:pool : 50448
+  Y 2|T1+T3p+T3h|T3:xZ.h- : 40824
+  Y 3|T3p|T3:xJ.h- : 36580
+  Y 2|T1+T3p+T3h|T3:xJ.hJ : 34916
+  Y 1|T1+T3h|T1:pool : 34048
+  Y 1|T1+T3h|T3:xH.hJ : 34048
+  Y 1|T1+T3h|T1:rel : 33088
+  Y 2|T3p+T3h|T3:xJ.h- : 29350
+  Y 2|T1+T3p+T3h|T3:xZ.hR : 29108
+  Y 1|T1+T3p+T3h|T3:xJ.hZ : 26688
+  Y 2|T3p|T3:xJ.h- : 25004
+  Y 2|T3p+T3h|T3:xJ.hR : 19844
+  Y 2|T1+T3p+T3h|T3:xH.hJ : 18196
+  Y 2|T1+T3p+T3h|T3:xZ.hJ : 17704
+  Y 2|T1+T3p+T3h|T3:xJ.hZ : 14772
+  Y 2|T3p+T3h|T3:xJ.hJ : 14400
+  Y 2|T3p+T3h|T3:xH.hR : 11550
+  Y 2|T3p+T3h|T3:xZ.h- : 10068
+  Y 2|T1+T3p+T3h|T3:xH.hR : 9701
+  Y 2|T3p+T3h|T3:xH.hJ : 9456
+  Y 2|T3p+T3h|T3:xJ.hZ : 6296
+  Y 2|T1+T3p+T3h|T3:xH.hZ : 5440
+  Y 2|T1+T3h|T1:pool : 5272
+  Y 2|T1+T3h|T3:xH.hJ : 4856
+  Y 1|T1+T3h|T3:xH.hR : 3840
+  Y 2|T3p+T3h|T3:xH.hZ : 3680
+  Y 3|T3p|T3:xZ.h- : 3432
+  Y 2|T1+T3h|T1:rel : 2928
+  Y 2|T1+T3h|T3:xJ.hJ : 2816
+  Y 2|T1+T3h|T3:xH.hZ : 2368
+  Y 2|T1+T3h|T3:xJ.hZ : 1360
+  Y 1|T1+T3p|T1:pool : 1312
+  Y 1|T1+T3p|T3:xJ.h- : 1312
+  Y 2|T1+T3p+T3h|T3:xZ.hZ : 1300
+  Y 2|T3p|T3:xZ.h- : 1090
+  Y 2|T1+T3h|T3:xJ.hR : 896
+  Y 2|T1+T3h|T3:xH.hR : 772
+  Y 1|T1+T3p|T1:rel : 512
+  Y 2|T1+T3p|T3:xJ.h- : 458
+  Y 2|T1+T3p|T1:pool : 408
+  Y 2|T1+T3p|T1:rel : 290
+  Y 2|T1+T3h|T3:xZ.hJ : 192
+  Y 2|T1+T3h|T3:xZ.hR : 192
+  Y 2|T3h|T3:xH.hZ : 160
+  Y 2|T3h|T3:xJ.hZ : 80
+  Y 2|T1+T3p|T3:xZ.h- : 50

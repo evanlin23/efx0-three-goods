@@ -1,0 +1,584 @@
+# command: python3 k4/dlrt4_run.py certs results/k4_certs_4_pure.json.gz --sample=500 --seed=3 --jobs=4 --ckpt=results/k4_rt4/ckpt_d_pure_s500_3.jsonl --dump=results/k4_rt4/dump_d_pure_s500_3.jsonl.gz --tables=results/k4_rt4/tables_d_pure_s500_3.json --progress
+# dlrt4.c sha256 fcde494a3161279d47a7b80e614f69c58894ebc7b40d00e461f677b8810d7cae
+# k4_certs_4_pure.json.gz: cores 0..218, 219 units to run, 0 from the checkpoint; 500 random profiles per unit, seed 3
+#   unit {'pos': 3, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.6 s]
+#   unit {'pos': 4, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 1, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.6 s]
+#   unit {'pos': 5, 'blk': None}: om1 3 pos 6 st1 6 fail1 0 t4 6 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 6, 'blk': None}: om1 4 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 7, 'blk': None}: om1 2 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 8, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 9, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 10, 'blk': None}: om1 2 pos 6 st1 6 fail1 0 t4 6 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 11, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 12, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 13, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 14, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 16, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 15, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 18, 'blk': None}: om1 1 pos 6 st1 6 fail1 0 t4 6 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 19, 'blk': None}: om1 1 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 20, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 21, 'blk': None}: om1 9 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 0, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.7 s]
+#   unit {'pos': 22, 'blk': None}: om1 5 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 24, 'blk': None}: om1 11 pos 4 st1 4 fail1 0 t4 4 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 23, 'blk': None}: om1 22 pos 2 st1 2 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 17, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.1 s]
+#   unit {'pos': 25, 'blk': None}: om1 1 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 28, 'blk': None}: om1 57 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 26, 'blk': None}: om1 38 pos 1 st1 1 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 27, 'blk': None}: om1 15 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 29, 'blk': None}: om1 20 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 31, 'blk': None}: om1 2 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 30, 'blk': None}: om1 13 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 32, 'blk': None}: om1 10 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 34, 'blk': None}: om1 10 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 33, 'blk': None}: om1 13 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 37, 'blk': None}: om1 7 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 36, 'blk': None}: om1 3 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 35, 'blk': None}: om1 6 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 38, 'blk': None}: om1 8 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 40, 'blk': None}: om1 7 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 39, 'blk': None}: om1 11 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 41, 'blk': None}: om1 1 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 42, 'blk': None}: om1 1 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 2, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.7 s]
+#   unit {'pos': 44, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 45, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 46, 'blk': None}: om1 4 pos 3 st1 3 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 47, 'blk': None}: om1 2 pos 3 st1 3 fail1 0 t4 3 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 48, 'blk': None}: om1 3 pos 1 st1 1 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 49, 'blk': None}: om1 2 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 51, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 50, 'blk': None}: om1 1 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 53, 'blk': None}: om1 1 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 54, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 52, 'blk': None}: om1 3 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 55, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 57, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 58, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 56, 'blk': None}: om1 2 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 43, 'blk': None}: om1 2 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 59, 'blk': None}: om1 1 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 60, 'blk': None}: om1 1 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 62, 'blk': None}: om1 37 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 61, 'blk': None}: om1 35 pos 6 st1 6 fail1 0 t4 6 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 64, 'blk': None}: om1 35 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 63, 'blk': None}: om1 50 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 65, 'blk': None}: om1 43 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 66, 'blk': None}: om1 37 pos 2 st1 2 fail1 0 t4 2 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 67, 'blk': None}: om1 38 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 69, 'blk': None}: om1 128 pos 11 st1 11 fail1 0 t4 3 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 70, 'blk': None}: om1 123 pos 5 st1 5 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 71, 'blk': None}: om1 156 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 72, 'blk': None}: om1 87 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 73, 'blk': None}: om1 113 pos 2 st1 2 fail1 0 t4 1 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 74, 'blk': None}: om1 70 pos 3 st1 3 fail1 0 t4 1 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 75, 'blk': None}: om1 76 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 76, 'blk': None}: om1 67 pos 2 st1 2 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 77, 'blk': None}: om1 44 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 78, 'blk': None}: om1 60 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 68, 'blk': None}: om1 153 pos 19 st1 19 fail1 0 t4 11 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 79, 'blk': None}: om1 55 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 80, 'blk': None}: om1 55 pos 2 st1 2 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 82, 'blk': None}: om1 55 pos 1 st1 1 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 83, 'blk': None}: om1 61 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 81, 'blk': None}: om1 43 pos 5 st1 5 fail1 0 t4 2 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 85, 'blk': None}: om1 49 pos 1 st1 1 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 84, 'blk': None}: om1 89 pos 1 st1 1 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 86, 'blk': None}: om1 42 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 89, 'blk': None}: om1 44 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 88, 'blk': None}: om1 58 pos 7 st1 7 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 87, 'blk': None}: om1 63 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 90, 'blk': None}: om1 40 pos 1 st1 1 fail1 0 t4 1 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 92, 'blk': None}: om1 31 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 91, 'blk': None}: om1 30 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 93, 'blk': None}: om1 42 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 94, 'blk': None}: om1 42 pos 1 st1 1 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 95, 'blk': None}: om1 44 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 97, 'blk': None}: om1 22 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 98, 'blk': None}: om1 21 pos 2 st1 2 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 96, 'blk': None}: om1 29 pos 1 st1 1 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 100, 'blk': None}: om1 19 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 99, 'blk': None}: om1 19 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 102, 'blk': None}: om1 23 pos 4 st1 4 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 101, 'blk': None}: om1 22 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 103, 'blk': None}: om1 23 pos 1 st1 1 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 105, 'blk': None}: om1 18 pos 1 st1 1 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 104, 'blk': None}: om1 25 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 106, 'blk': None}: om1 18 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 108, 'blk': None}: om1 27 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 109, 'blk': None}: om1 28 pos 2 st1 2 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 110, 'blk': None}: om1 28 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 107, 'blk': None}: om1 22 pos 1 st1 1 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 114, 'blk': None}: om1 21 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 112, 'blk': None}: om1 18 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 113, 'blk': None}: om1 20 pos 3 st1 3 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 111, 'blk': None}: om1 34 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 116, 'blk': None}: om1 16 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 115, 'blk': None}: om1 14 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 117, 'blk': None}: om1 17 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 120, 'blk': None}: om1 11 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 118, 'blk': None}: om1 17 pos 1 st1 1 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 119, 'blk': None}: om1 16 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 121, 'blk': None}: om1 12 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 122, 'blk': None}: om1 12 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 125, 'blk': None}: om1 500 pos 5 st1 5 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 126, 'blk': None}: om1 500 pos 18 st1 18 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.1 s]
+#   unit {'pos': 124, 'blk': None}: om1 500 pos 11 st1 11 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.1 s]
+#   unit {'pos': 123, 'blk': None}: om1 500 pos 10 st1 10 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.1 s]
+#   unit {'pos': 127, 'blk': None}: om1 500 pos 22 st1 22 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 128, 'blk': None}: om1 500 pos 9 st1 9 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 129, 'blk': None}: om1 500 pos 6 st1 6 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 130, 'blk': None}: om1 500 pos 2 st1 2 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 131, 'blk': None}: om1 500 pos 17 st1 17 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 132, 'blk': None}: om1 500 pos 14 st1 14 fail1 0 t4 5 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 133, 'blk': None}: om1 500 pos 20 st1 20 fail1 0 t4 2 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 134, 'blk': None}: om1 500 pos 39 st1 39 fail1 0 t4 1 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 135, 'blk': None}: om1 500 pos 22 st1 22 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 136, 'blk': None}: om1 500 pos 34 st1 34 fail1 0 t4 5 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 137, 'blk': None}: om1 500 pos 17 st1 17 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 138, 'blk': None}: om1 500 pos 21 st1 21 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 139, 'blk': None}: om1 500 pos 13 st1 13 fail1 0 t4 4 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 141, 'blk': None}: om1 500 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 140, 'blk': None}: om1 500 pos 9 st1 9 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.1 s]
+#   unit {'pos': 143, 'blk': None}: om1 500 pos 10 st1 10 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.1 s]
+#   unit {'pos': 142, 'blk': None}: om1 500 pos 6 st1 6 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.1 s]
+#   unit {'pos': 145, 'blk': None}: om1 500 pos 2 st1 2 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 144, 'blk': None}: om1 500 pos 9 st1 9 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.1 s]
+#   unit {'pos': 147, 'blk': None}: om1 500 pos 2 st1 2 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.1 s]
+#   unit {'pos': 146, 'blk': None}: om1 500 pos 4 st1 4 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.1 s]
+#   unit {'pos': 148, 'blk': None}: om1 500 pos 1 st1 1 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.1 s]
+#   unit {'pos': 149, 'blk': None}: om1 500 pos 9 st1 9 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.1 s]
+#   unit {'pos': 150, 'blk': None}: om1 500 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 151, 'blk': None}: om1 500 pos 5 st1 5 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.1 s]
+#   unit {'pos': 152, 'blk': None}: om1 500 pos 12 st1 12 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.1 s]
+#   unit {'pos': 153, 'blk': None}: om1 500 pos 16 st1 16 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.1 s]
+#   unit {'pos': 155, 'blk': None}: om1 500 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.1 s]
+#   unit {'pos': 154, 'blk': None}: om1 500 pos 7 st1 7 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.1 s]
+#   unit {'pos': 156, 'blk': None}: om1 500 pos 3 st1 3 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.1 s]
+#   unit {'pos': 157, 'blk': None}: om1 500 pos 9 st1 9 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.1 s]
+#   unit {'pos': 158, 'blk': None}: om1 500 pos 3 st1 3 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.1 s]
+#   unit {'pos': 159, 'blk': None}: om1 500 pos 9 st1 9 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.1 s]
+#   unit {'pos': 160, 'blk': None}: om1 500 pos 14 st1 14 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.1 s]
+#   unit {'pos': 161, 'blk': None}: om1 500 pos 18 st1 18 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.1 s]
+#   unit {'pos': 162, 'blk': None}: om1 500 pos 2 st1 2 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.1 s]
+#   unit {'pos': 163, 'blk': None}: om1 500 pos 6 st1 1 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.1 s]
+#   unit {'pos': 165, 'blk': None}: om1 500 pos 14 st1 12 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.1 s]
+#   unit {'pos': 164, 'blk': None}: om1 500 pos 10 st1 10 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.1 s]
+#   unit {'pos': 167, 'blk': None}: om1 500 pos 4 st1 3 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.1 s]
+#   unit {'pos': 166, 'blk': None}: om1 500 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.1 s]
+#   unit {'pos': 168, 'blk': None}: om1 500 pos 1 st1 1 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.1 s]
+#   unit {'pos': 169, 'blk': None}: om1 500 pos 4 st1 4 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.1 s]
+#   unit {'pos': 170, 'blk': None}: om1 500 pos 38 st1 22 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.1 s]
+#   unit {'pos': 171, 'blk': None}: om1 500 pos 4 st1 4 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.1 s]
+#   unit {'pos': 172, 'blk': None}: om1 500 pos 34 st1 15 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.1 s]
+#   unit {'pos': 173, 'blk': None}: om1 500 pos 23 st1 10 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.1 s]
+#   unit {'pos': 174, 'blk': None}: om1 500 pos 2 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.1 s]
+#   unit {'pos': 176, 'blk': None}: om1 500 pos 15 st1 15 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.1 s]
+#   unit {'pos': 175, 'blk': None}: om1 500 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.1 s]
+#   unit {'pos': 177, 'blk': None}: om1 500 pos 376 st1 8 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.1 s]
+#   unit {'pos': 180, 'blk': None}: om1 500 pos 526 st1 108 fail1 0 t4 8 t4only 0 t2only 0 rtfail 0 [0.1 s]
+#   unit {'pos': 179, 'blk': None}: om1 500 pos 69 st1 69 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.1 s]
+#   unit {'pos': 178, 'blk': None}: om1 500 pos 132 st1 25 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.1 s]
+#   unit {'pos': 181, 'blk': None}: om1 500 pos 320 st1 81 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.1 s]
+#   unit {'pos': 182, 'blk': None}: om1 500 pos 270 st1 45 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.1 s]
+#   unit {'pos': 183, 'blk': None}: om1 500 pos 296 st1 25 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.1 s]
+#   unit {'pos': 185, 'blk': None}: om1 500 pos 360 st1 93 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.1 s]
+#   unit {'pos': 184, 'blk': None}: om1 500 pos 408 st1 20 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.1 s]
+#   unit {'pos': 186, 'blk': None}: om1 500 pos 64 st1 64 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.1 s]
+#   unit {'pos': 189, 'blk': None}: om1 500 pos 506 st1 224 fail1 0 t4 41 t4only 0 t2only 0 rtfail 0 [0.0 s]
+#   unit {'pos': 190, 'blk': None}: om1 500 pos 519 st1 135 fail1 0 t4 4 t4only 0 t2only 0 rtfail 0 [0.1 s]
+#   unit {'pos': 187, 'blk': None}: om1 500 pos 145 st1 38 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.1 s]
+#   unit {'pos': 188, 'blk': None}: om1 500 pos 1293 st1 104 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.1 s]
+#   unit {'pos': 191, 'blk': None}: om1 500 pos 294 st1 54 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.1 s]
+#   unit {'pos': 192, 'blk': None}: om1 500 pos 448 st1 43 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.1 s]
+#   unit {'pos': 193, 'blk': None}: om1 500 pos 470 st1 3 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.1 s]
+#   unit {'pos': 194, 'blk': None}: om1 500 pos 445 st1 32 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.1 s]
+#   unit {'pos': 195, 'blk': None}: om1 500 pos 280 st1 30 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.1 s]
+#   unit {'pos': 196, 'blk': None}: om1 500 pos 16 st1 16 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.1 s]
+#   unit {'pos': 197, 'blk': None}: om1 500 pos 872 st1 116 fail1 0 t4 7 t4only 0 t2only 0 rtfail 0 [0.1 s]
+#   unit {'pos': 198, 'blk': None}: om1 500 pos 848 st1 33 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.1 s]
+#   unit {'pos': 199, 'blk': None}: om1 500 pos 665 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.1 s]
+#   unit {'pos': 200, 'blk': None}: om1 500 pos 304 st1 40 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.1 s]
+#   unit {'pos': 201, 'blk': None}: om1 500 pos 174 st1 32 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.1 s]
+#   unit {'pos': 202, 'blk': None}: om1 500 pos 827 st1 11 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.1 s]
+#   unit {'pos': 203, 'blk': None}: om1 500 pos 299 st1 8 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.1 s]
+#   unit {'pos': 204, 'blk': None}: om1 500 pos 1043 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.1 s]
+#   unit {'pos': 205, 'blk': None}: om1 500 pos 192 st1 8 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.1 s]
+#   unit {'pos': 206, 'blk': None}: om1 500 pos 791 st1 15 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.1 s]
+#   unit {'pos': 207, 'blk': None}: om1 500 pos 889 st1 4 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.1 s]
+#   unit {'pos': 208, 'blk': None}: om1 500 pos 24 st1 13 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.1 s]
+#   unit {'pos': 210, 'blk': None}: om1 500 pos 2654 st1 182 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.1 s]
+#   unit {'pos': 211, 'blk': None}: om1 500 pos 1909 st1 252 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.1 s]
+#   unit {'pos': 209, 'blk': None}: om1 500 pos 1727 st1 69 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.2 s]
+#   unit {'pos': 212, 'blk': None}: om1 500 pos 2390 st1 189 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.2 s]
+#   unit {'pos': 213, 'blk': None}: om1 500 pos 3417 st1 37 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.2 s]
+#   unit {'pos': 214, 'blk': None}: om1 500 pos 2171 st1 146 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.2 s]
+#   unit {'pos': 215, 'blk': None}: om1 500 pos 4126 st1 32 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.3 s]
+#   unit {'pos': 216, 'blk': None}: om1 500 pos 1911 st1 47 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.3 s]
+#   unit {'pos': 217, 'blk': None}: om1 500 pos 2804 st1 106 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.3 s]
+#   unit {'pos': 218, 'blk': None}: om1 500 pos 7937 st1 328 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [0.5 s]
+k4_certs_4_pure.json.gz: profiles 109500, omega >= 1: 51052; k* = 0: 43662, 1: 7348, 2: 42, 3: 0, >= 4: 0, inf: 0; P with def > 0: 45913, at distance 1: 45689, 2: 224, 3: 0, >= 4: 0, inf: 0; Pareto-maximal: 150; largest least deficit 0
+  DL_RT4: states (def > 0) with f = 0: 42384 (RT4 fails at 0), with f >= 1: 3529; DL_RT4 FAILS at 0 of the f >= 1 states; with an improving move T1 3310, T2 3309, T3p 3249, T3h 3468, T4 129; only T1 0, only T2 0, only T3 133, only T4 0; R_T fails at 0, R_13 at 0, R_13 + T4 at 0; smallest RT4 move size 1 / 2 / 3 / >= 4 / none: 3310 / 219 / 0 / 0 / 0; anomalies 0 + 0 [3 s]
+table B: f >= 1 states by f | signature | branch : count
+  B 1|G,D2|T1+T2+T3p+T3h : 1110
+  B 1|fO,G,D2|T1+T2+T3p+T3h : 956
+  B 1|fO,L|T1+T2+T3p+T3h : 283
+  B 1|fO,L|T1+T2+T3h : 141
+  B 1|G,D2,PM|T1+T2+T3p+T3h : 114
+  B 2|G,D2|T1+T2+T3p+T3h : 93
+  B 1|fO|T1+T2+T3p+T3h : 84
+  B 1|fO|T1+T2+T3h : 58
+  B 2|G,D2|T1+T2+T3p+T3h+T4 : 58
+  B 1|fO,G,D2|T3p+T3h : 50
+  B 1|fO,G1|T1+T2+T3p+T3h : 48
+  B 1|G,D2|T3p+T3h : 42
+  B 1|fO,G,D2|T1+T2+T3h : 41
+  B 1|fO,L,O,D2|T1+T2+T3p+T3h : 39
+  B 1|e2,fO,G,D2|T1+T2+T3p+T3h : 34
+  B 1|G,D2|T2+T3p+T3h : 28
+  B 1|e2,G,D2|T1+T2+T3p+T3h : 28
+  B 2|G,D2|T3p+T3h : 23
+  B 1|G,D2|T1+T3p+T3h : 19
+  B 1|fO,L,D2|T1+T2+T3p+T3h : 19
+  B 3|G|T3p+T4 : 15
+  B 1|e2,fO,G1|T1+T2+T3p+T3h : 14
+  B 1|e2,G,D2,PM|T1+T2+T3p+T3h : 13
+  B 2|G,D2|T3p+T3h+T4 : 13
+  B 2|fO,L|T1+T2+T3p+T3h : 13
+  B 1|fO,L,D2|T1+T2+T3h : 10
+  B 2|G,D2,PM|T1+T2+T3p+T3h : 9
+  B 2|G,D2|T3p : 9
+  B 3|O|T3p+T4 : 9
+  B 2|O,D2|T1+T2+T3p+T3h : 7
+  B 1|e2,fO,L|T1+T2+T3h : 5
+  B 1|e2,fO|T1+T2+T3p+T3h : 5
+  B 2|G,D2|T3p+T4 : 5
+  B 2|fO,G,D2|T1+T2+T3p+T3h : 5
+  B 2|fO,G,D2|T1+T2+T3p+T3h+T4 : 5
+  B 1|L|T1+T2+T3p+T3h : 4
+  B 1|e2,fO,G,D2|T1+T2+T3h : 4
+  B 2|G,L,D2|T1+T2+T3p+T3h : 4
+  B 2|fO,G,D2|T3p+T3h+T4 : 4
+  B 2|fO,L|T1+T2+T3h : 4
+  B 2|fO,L|T1+T2+T3h+T4 : 4
+  B 2|fO,L|T1+T2+T3p+T3h+T4 : 4
+  B 1|G,D2|T1+T3p : 3
+  B 1|e2,fO,L|T1+T2+T3p+T3h : 3
+  B 1|fO|T1+T2 : 3
+  B 2|G,L,D2,PM|T1+T2+T3p+T3h : 3
+  B 2|G1,PM|T1+T2+T3p+T3h : 3
+  B 1|L,PM|T1+T2+T3p+T3h : 2
+  B 1|e1,G,D2|T1+T2+T3p+T3h : 2
+  B 1|e1,fO,L|T1+T2+T3h : 2
+  B 1|e2,fO|T1+T2 : 2
+  B 1|e2,fO|T1+T2+T3h : 2
+  B 1|fO,G,D2|T2+T3p+T3h : 2
+  B 1|fO,L|T1+T2+T3p : 2
+  B 1|fO,O|T1+T2+T3p+T3h : 2
+  B 2|G,D2|T1+T3p+T3h : 2
+  B 2|G,L,D2|T3p+T3h : 2
+  B 2|G,L,D2|T3p+T3h+T4 : 2
+  B 2|G,O,D2|T1+T2+T3p+T3h : 2
+  B 2|G,O,D2|T3p+T3h : 2
+  B 2|G1|T1+T2+T3p+T3h : 2
+  B 2|G1|T1+T3p+T3h : 2
+  B 2|L,O|T1+T2+T3p+T3h+T4 : 2
+  B 2|L|T1+T2+T3p+T3h+T4 : 2
+  B 2|e2|T1+T2+T3p+T3h : 2
+  B 2|fO,G,L,D2|T3p+T3h+T4 : 2
+  B 1|G,D2,PM|T1+T3p+T3h : 1
+  B 1|G,D2|T1+T2+T3p : 1
+  B 1|G1|T1+T2+T3p+T3h : 1
+  B 1|G1|T2+T3p : 1
+  B 1|L|T2+T3h : 1
+  B 1|e1,e3,fO|T1+T2+T3p+T3h : 1
+  B 1|e1,fO,L|T1+T2+T3p+T3h : 1
+  B 1|e2,G,D2,PM|T1+T3p+T3h : 1
+  B 1|e2,G,D2|T1+T3p+T3h : 1
+  B 1|e2,G,D2|T2+T3p+T3h : 1
+  B 1|e2,G1|T2+T3p+T3h : 1
+  B 1|e2,fO,L|T1+T2 : 1
+  B 1|e2,fO,L|T1+T2+T3p : 1
+  B 1|e3,fO,L|T1+T2 : 1
+  B 1|e3,fO,L|T1+T2+T3p+T3h : 1
+  B 1|fO,G,D2|T1+T2+T3p : 1
+  B 1|fO,G,D2|T1+T3p+T3h : 1
+  B 1|fO,G1|T1+T2+T3p : 1
+  B 1|fO,L|T1+T2 : 1
+  B 2|G,D2,PM|T3p+T3h : 1
+  B 2|G,D2|T1+T3p+T3h+T4 : 1
+  B 2|G,G1,D2|T1+T3p+T3h : 1
+  B 2|G,L,D2|T1+T2+T3p+T3h+T4 : 1
+  B 2|G,L,D2|T1+T3p+T3h : 1
+  B 2|G,O,D2|T1+T3p+T3h : 1
+  B 2|G1,L,PM|T1+T3p+T3h : 1
+  B 2|G1,L|T1+T2+T3p+T3h : 1
+  B 2|G1,O|T1+T2+T3p+T3h : 1
+  B 2|G1,PM|T2+T3p+T3h : 1
+  B 2|G1|T2+T3p+T3h : 1
+  B 2|L,PM|T1+T2+T3p+T3h : 1
+  B 2|L|T1+T2+T3p+T3h : 1
+  B 2|L|T1+T2+T3p+T4 : 1
+  B 2|O,D2|T1+T3p+T3h : 1
+  B 2|O|T1+T3p+T3h+T4 : 1
+  B 2|e1,G,D2|T1+T2+T3p+T3h : 1
+  B 2|fO,G,D2|T3p : 1
+  B 2|fO,G,D2|T3p+T3h : 1
+  B 2|fO,G,L,D2|T1+T2+T3p : 1
+  B 2|fO,G,L,D2|T1+T2+T3p+T3h : 1
+  B 2|fO,G,L,D2|T3p : 1
+  B 2|fO,G,O,D2|T3p+T3h : 1
+  B 2|fO,G1|T1+T2+T3p : 1
+table G: f >= 1 states by f | nearest distance k | branch : count
+  G 1|1|T1+T2+T3p+T3h : 2764
+  G 1|1|T1+T2+T3h : 263
+  G 2|1|T1+T2+T3p+T3h : 149
+  G 1|2|T3p+T3h : 92
+  G 2|1|T1+T2+T3p+T3h+T4 : 72
+  G 1|2|T2+T3p+T3h : 32
+  G 2|2|T3p+T3h : 30
+  G 3|2|T3p+T4 : 24
+  G 1|1|T1+T3p+T3h : 23
+  G 2|2|T3p+T3h+T4 : 21
+  G 2|2|T3p : 11
+  G 2|1|T1+T3p+T3h : 9
+  G 1|1|T1+T2 : 8
+  G 1|1|T1+T2+T3p : 6
+  G 2|2|T3p+T4 : 5
+  G 2|1|T1+T2+T3h : 4
+  G 2|1|T1+T2+T3h+T4 : 4
+  G 1|1|T1+T3p : 3
+  G 2|1|T1+T2+T3p : 2
+  G 2|1|T1+T3p+T3h+T4 : 2
+  G 2|2|T2+T3p+T3h : 2
+  G 1|2|T2+T3h : 1
+  G 1|2|T2+T3p : 1
+  G 2|1|T1+T2+T3p+T4 : 1
+table M: f >= 1 states by f | branch | smallest RT4 move size : count
+  M 1|T1+T2+T3p+T3h|1 : 2764
+  M 1|T1+T2+T3h|1 : 263
+  M 2|T1+T2+T3p+T3h|1 : 149
+  M 1|T3p+T3h|2 : 92
+  M 2|T1+T2+T3p+T3h+T4|1 : 72
+  M 1|T2+T3p+T3h|2 : 32
+  M 2|T3p+T3h|2 : 30
+  M 3|T3p+T4|2 : 24
+  M 1|T1+T3p+T3h|1 : 23
+  M 2|T3p+T3h+T4|2 : 21
+  M 2|T3p|2 : 11
+  M 2|T1+T3p+T3h|1 : 9
+  M 1|T1+T2|1 : 8
+  M 1|T1+T2+T3p|1 : 6
+  M 2|T3p+T4|2 : 5
+  M 2|T1+T2+T3h+T4|1 : 4
+  M 2|T1+T2+T3h|1 : 4
+  M 1|T1+T3p|1 : 3
+  M 2|T1+T2+T3p|1 : 2
+  M 2|T1+T3p+T3h+T4|1 : 2
+  M 2|T2+T3p+T3h|2 : 2
+  M 1|T2+T3h|2 : 1
+  M 1|T2+T3p|2 : 1
+  M 2|T1+T2+T3p+T4|1 : 1
+table Z: f >= 1 states by f | branch available | its smallest move size : count
+  Z 1|T3h|3 : 3175
+  Z 1|T2|2 : 3074
+  Z 1|T1|1 : 3067
+  Z 1|T3p|2 : 2921
+  Z 2|T3p|2 : 304
+  Z 2|T3h|3 : 293
+  Z 2|T1|1 : 243
+  Z 2|T2|2 : 234
+  Z 2|T4|2 : 105
+  Z 3|T3p|2 : 24
+  Z 3|T4|2 : 24
+  Z 1|T2|3 : 1
+table C: f >= 1 states with T4 by f | smallest T4 size | cycle types at that size : count
+  C 2|2|2 : 105
+  C 3|2|2 : 24
+table Y: f >= 1 states by f | branch | move type available : count
+  Y 1|T1+T2+T3p+T3h|T2:k2 : 2763
+  Y 1|T1+T2+T3p+T3h|T3:xJ.h- : 2663
+  Y 1|T1+T2+T3p+T3h|T1:rel : 2504
+  Y 1|T1+T2+T3p+T3h|T2:k3 : 2480
+  Y 1|T1+T2+T3p+T3h|T3:xJ.hJ : 2411
+  Y 1|T1+T2+T3p+T3h|T1:pool : 2333
+  Y 1|T1+T2+T3p+T3h|T3:xJ.hR : 2310
+  Y 1|T1+T2+T3p+T3h|T3:xJ.hZ : 1076
+  Y 1|T1+T2+T3p+T3h|T3:xH.hJ : 750
+  Y 1|T1+T2+T3p+T3h|T3:xZ.h- : 562
+  Y 1|T1+T2+T3p+T3h|T3:xZ.hR : 450
+  Y 1|T1+T2+T3p+T3h|T3:xZ.hJ : 438
+  Y 1|T1+T2+T3h|T1:pool : 263
+  Y 1|T1+T2+T3h|T2:k2 : 263
+  Y 1|T1+T2+T3h|T2:k3 : 240
+  Y 1|T1+T2+T3p+T3h|T3:xH.hR : 222
+  Y 1|T1+T2+T3h|T1:rel : 214
+  Y 1|T1+T2+T3h|T3:xH.hJ : 207
+  Y 1|T1+T2+T3p+T3h|T1:grow : 166
+  Y 1|T1+T2+T3p+T3h|T3:xH.hZ : 165
+  Y 2|T1+T2+T3p+T3h|T2:k2 : 149
+  Y 2|T1+T2+T3p+T3h|T1:rel : 147
+  Y 2|T1+T2+T3p+T3h|T3:xJ.h- : 141
+  Y 1|T1+T2+T3p+T3h|T3:xZ.hZ : 134
+  Y 2|T1+T2+T3p+T3h|T3:xJ.hR : 126
+  Y 1|T3p+T3h|T3:xJ.h- : 92
+  Y 1|T3p+T3h|T3:xJ.hJ : 92
+  Y 1|T1+T2+T3h|T3:xJ.hJ : 78
+  Y 1|T3p+T3h|T3:xJ.hR : 77
+  Y 2|T1+T2+T3p+T3h+T4|T1:rel : 72
+  Y 2|T1+T2+T3p+T3h+T4|T2:k2 : 72
+  Y 2|T1+T2+T3p+T3h+T4|T4:2 : 72
+  Y 2|T1+T2+T3p+T3h+T4|T3:xJ.h- : 71
+  Y 2|T1+T2+T3p+T3h|T3:xJ.hJ : 61
+  Y 2|T1+T2+T3p+T3h+T4|T3:xJ.hR : 59
+  Y 2|T1+T2+T3p+T3h|T3:xZ.h- : 59
+  Y 1|T3p+T3h|T3:xJ.hZ : 57
+  Y 2|T1+T2+T3p+T3h|T1:pool : 57
+  Y 1|T3p+T3h|T3:xZ.h- : 46
+  Y 2|T1+T2+T3p+T3h|T3:xZ.hR : 43
+  Y 1|T3p+T3h|T3:xH.hJ : 37
+  Y 1|T1+T2+T3h|T3:xJ.hZ : 36
+  Y 1|T3p+T3h|T3:xZ.hJ : 34
+  Y 1|T1+T2+T3h|T3:xJ.hR : 33
+  Y 1|T1+T2+T3h|T3:xH.hR : 32
+  Y 1|T2+T3p+T3h|T2:k2 : 32
+  Y 1|T2+T3p+T3h|T3:xJ.h- : 32
+  Y 1|T3p+T3h|T3:xZ.hR : 31
+  Y 2|T3p+T3h|T3:xJ.h- : 30
+  Y 1|T2+T3p+T3h|T3:xJ.hJ : 29
+  Y 1|T3p+T3h|T3:xH.hR : 29
+  Y 1|T2+T3p+T3h|T2:k3 : 28
+  Y 2|T1+T2+T3p+T3h|T3:xZ.hJ : 28
+  Y 2|T3p+T3h|T3:xJ.hR : 27
+  Y 1|T2+T3p+T3h|T3:xJ.hR : 25
+  Y 2|T1+T2+T3p+T3h|T3:xH.hR : 24
+  Y 3|T3p+T4|T4:2 : 24
+  Y 1|T1+T3p+T3h|T3:xJ.h- : 23
+  Y 2|T1+T2+T3p+T3h+T4|T3:xJ.hJ : 22
+  Y 2|T1+T2+T3p+T3h|T3:xH.hJ : 22
+  Y 2|T1+T2+T3p+T3h|T3:xJ.hZ : 22
+  Y 1|T1+T3p+T3h|T3:xJ.hJ : 21
+  Y 2|T3p+T3h+T4|T3:xJ.h- : 21
+  Y 2|T3p+T3h+T4|T4:2 : 21
+  Y 3|T3p+T4|T3:xJ.h- : 21
+  Y 1|T2+T3p+T3h|T3:xJ.hZ : 20
+  Y 3|T3p+T4|T4:3 : 20
+  Y 1|T1+T3p+T3h|T1:rel : 18
+  Y 1|T1+T3p+T3h|T3:xJ.hR : 18
+  Y 2|T3p+T3h+T4|T3:xJ.hR : 17
+  Y 2|T1+T2+T3p+T3h+T4|T3:xZ.h- : 16
+  Y 1|T2+T3p+T3h|T3:xH.hJ : 14
+  Y 2|T1+T2+T3p+T3h+T4|T3:xJ.hZ : 14
+  Y 1|T1+T3p+T3h|T1:pool : 12
+  Y 2|T3p+T3h|T3:xJ.hJ : 12
+  Y 2|T1+T2+T3p+T3h+T4|T3:xZ.hJ : 11
+  Y 2|T1+T2+T3p+T3h+T4|T3:xZ.hR : 11
+  Y 2|T3p+T3h+T4|T3:xJ.hZ : 11
+  Y 2|T3p|T3:xJ.h- : 11
+  Y 1|T2+T3p+T3h|T3:xH.hZ : 10
+  Y 2|T1+T2+T3p+T3h+T4|T1:pool : 10
+  Y 2|T1+T3p+T3h|T1:rel : 9
+  Y 2|T1+T3p+T3h|T3:xJ.h- : 9
+  Y 2|T1+T3p+T3h|T3:xJ.hR : 9
+  Y 3|T3p+T4|T3:xZ.h- : 9
+  Y 1|T1+T2+T3h|T3:xZ.hJ : 8
+  Y 1|T1+T2|T1:pool : 8
+  Y 1|T1+T2|T1:rel : 8
+  Y 1|T1+T2|T2:k2 : 8
+  Y 1|T1+T3p+T3h|T3:xJ.hZ : 8
+  Y 2|T3p+T3h|T3:xH.hR : 8
+  Y 1|T1+T2+T3h|T1:grow : 7
+  Y 1|T2+T3p+T3h|T3:xZ.h- : 7
+  Y 2|T1+T2+T3p+T3h+T4|T3:xH.hJ : 7
+  Y 2|T1+T2+T3p+T3h|T3:xH.hZ : 7
+  Y 2|T3p+T3h|T3:xZ.h- : 7
+  Y 1|T1+T2+T3p|T2:k2 : 6
+  Y 1|T1+T2+T3p|T3:xJ.h- : 6
+  Y 1|T1+T2|T2:k3 : 6
+  Y 2|T1+T3p+T3h|T3:xJ.hJ : 6
+  Y 2|T3p+T3h|T3:xH.hJ : 6
+  Y 1|T1+T2+T3p|T1:pool : 5
+  Y 2|T1+T3p+T3h|T1:pool : 5
+  Y 2|T1+T3p+T3h|T3:xZ.h- : 5
+  Y 2|T3p+T3h|T3:xJ.hZ : 5
+  Y 2|T3p+T4|T3:xJ.h- : 5
+  Y 2|T3p+T4|T4:2 : 5
+  Y 1|T1+T2+T3p|T1:rel : 4
+  Y 1|T1+T2+T3p|T2:k3 : 4
+  Y 2|T1+T2+T3h+T4|T1:pool : 4
+  Y 2|T1+T2+T3h+T4|T2:k2 : 4
+  Y 2|T1+T2+T3h+T4|T3:xH.hJ : 4
+  Y 2|T1+T2+T3h+T4|T4:2 : 4
+  Y 2|T1+T2+T3h|T1:pool : 4
+  Y 2|T1+T2+T3h|T1:rel : 4
+  Y 2|T1+T2+T3h|T2:k2 : 4
+  Y 2|T1+T2+T3h|T3:xH.hJ : 4
+  Y 2|T1+T2+T3p+T3h+T4|T3:xH.hR : 4
+  Y 2|T1+T2+T3p+T3h|T1:grow : 4
+  Y 2|T1+T3p+T3h|T3:xZ.hR : 4
+  Y 2|T3p+T3h+T4|T3:xJ.hJ : 4
+  Y 1|T1+T2+T3h|T3:xH.hZ : 3
+  Y 1|T1+T3p|T1:pool : 3
+  Y 1|T1+T3p|T3:xJ.h- : 3
+  Y 1|T2+T3p+T3h|T3:xH.hR : 3
+  Y 2|T1+T2+T3p+T3h+T4|T3:xH.hZ : 3
+  Y 2|T1+T2+T3p+T3h|T3:xZ.hZ : 3
+  Y 2|T1+T3p+T3h|T3:xZ.hJ : 3
+  Y 1|T1+T3p+T3h|T3:xZ.h- : 2
+  Y 1|T2+T3p+T3h|T3:xZ.hZ : 2
+  Y 2|T1+T2+T3h+T4|T3:xH.hZ : 2
+  Y 2|T1+T2+T3h+T4|T3:xJ.hJ : 2
+  Y 2|T1+T2+T3h+T4|T3:xZ.hJ : 2
+  Y 2|T1+T2+T3p+T3h+T4|T1:grow : 2
+  Y 2|T1+T2+T3p|T1:rel : 2
+  Y 2|T1+T2+T3p|T2:k2 : 2
+  Y 2|T1+T2+T3p|T3:xJ.h- : 2
+  Y 2|T1+T3p+T3h+T4|T1:rel : 2
+  Y 2|T1+T3p+T3h+T4|T4:2 : 2
+  Y 2|T2+T3p+T3h|T2:k2 : 2
+  Y 2|T2+T3p+T3h|T3:xJ.h- : 2
+  Y 2|T2+T3p+T3h|T3:xJ.hJ : 2
+  Y 2|T2+T3p+T3h|T3:xJ.hR : 2
+  Y 2|T2+T3p+T3h|T3:xJ.hZ : 2
+  Y 2|T2+T3p+T3h|T3:xZ.h- : 2
+  Y 2|T2+T3p+T3h|T3:xZ.hJ : 2
+  Y 2|T2+T3p+T3h|T3:xZ.hR : 2
+  Y 2|T3p+T3h|T3:xZ.hR : 2
+  Y 1|T1+T2+T3h|T3:xZ.hR : 1
+  Y 1|T1+T2+T3p|T3:xZ.h- : 1
+  Y 1|T1+T3p+T3h|T3:xH.hR : 1
+  Y 1|T1+T3p+T3h|T3:xH.hZ : 1
+  Y 1|T2+T3h|T2:k2 : 1
+  Y 1|T2+T3h|T2:k3 : 1
+  Y 1|T2+T3h|T3:xJ.hR : 1
+  Y 1|T2+T3h|T3:xJ.hZ : 1
+  Y 1|T2+T3p+T3h|T3:xZ.hJ : 1
+  Y 1|T2+T3p+T3h|T3:xZ.hR : 1
+  Y 1|T2+T3p|T2:k2 : 1
+  Y 1|T2+T3p|T3:xJ.h- : 1
+  Y 1|T2+T3p|T3:xZ.h- : 1
+  Y 2|T1+T2+T3h+T4|T1:rel : 1
+  Y 2|T1+T2+T3h+T4|T3:xJ.hZ : 1
+  Y 2|T1+T2+T3h+T4|T3:xZ.hZ : 1
+  Y 2|T1+T2+T3p+T3h+T4|T3:xZ.hZ : 1
+  Y 2|T1+T2+T3p+T4|T1:rel : 1
+  Y 2|T1+T2+T3p+T4|T2:k2 : 1
+  Y 2|T1+T2+T3p+T4|T3:xJ.h- : 1
+  Y 2|T1+T2+T3p+T4|T3:xZ.h- : 1
+  Y 2|T1+T2+T3p+T4|T4:2 : 1
+  Y 2|T1+T2+T3p|T3:xZ.h- : 1
+  Y 2|T1+T3p+T3h+T4|T1:pool : 1
+  Y 2|T1+T3p+T3h+T4|T3:xH.hJ : 1
+  Y 2|T1+T3p+T3h+T4|T3:xH.hR : 1
+  Y 2|T1+T3p+T3h+T4|T3:xH.hZ : 1
+  Y 2|T1+T3p+T3h+T4|T3:xJ.h- : 1
+  Y 2|T1+T3p+T3h+T4|T3:xJ.hZ : 1
+  Y 2|T1+T3p+T3h+T4|T3:xZ.h- : 1
+  Y 2|T1+T3p+T3h+T4|T3:xZ.hJ : 1
+  Y 2|T1+T3p+T3h+T4|T3:xZ.hR : 1
+  Y 2|T1+T3p+T3h|T3:xH.hZ : 1
+  Y 2|T1+T3p+T3h|T3:xJ.hZ : 1
+  Y 2|T3p+T3h|T3:xH.hZ : 1

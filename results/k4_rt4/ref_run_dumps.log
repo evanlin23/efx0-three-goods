@@ -1,0 +1,7 @@
+# command: python3 k4/dlrt4_ref.py records results/k4_rt4/dump_a_nbhd123.jsonl.gz results/k4_rt4/dump_b_n4_1.jsonl.gz results/k4_rt4/dump_c_n4_2.jsonl.gz results/k4_rt4/dump_d_cat_gap_n4_pure_s4000.jsonl.gz results/k4_rt4/dump_d_pure_s500_1.jsonl.gz results/k4_rt4/dump_d_pure_s500_2.jsonl.gz results/k4_rt4/dump_d_pure_s500_3.jsonl.gz results/k4_rt4/dump_e_n4_3_s500_1.jsonl.gz results/k4_rt4/dump_e_n4_3_s500_2.jsonl.gz results/k4_rt4/dump_e_n4_3_s500_3.jsonl.gz --jobs=4 --x
+#  200 / 277 profiles: {'prof': 200, 'prof_pos': 200, 'prof_f1': 200, 'st': 238, 'st_f1': 238, 'f1_t2': 238, 'f1_t2only': 203, 'st_x': 238, 'f1_t1': 35}
+#  277 / 277 profiles: {'prof': 277, 'prof_pos': 277, 'prof_f1': 277, 'st': 724, 'st_f1': 724, 'f1_t2': 256, 'f1_t2only': 215, 'st_x': 724, 'f1_t1': 41, 'f1_t4': 468, 'f1_t4only': 200, 'f1_t3p': 268}
+# dlrt4.c sha256 fcde494a3161279d47a7b80e614f69c58894ebc7b40d00e461f677b8810d7cae
+profiles 277 (with a def > 0 state 277, with an f >= 1 state 277); states 724 (f = 0: 0, f >= 1: 724); DL_RT4 failures f >= 1: 0, RT4 failures f = 0: 0
+f >= 1 states with an improving move: T1 41, T2 256, T3p 268, T3h 0, T4 468; only T4 200, only T2 215
+mismatches: reference (model.py + dl2_relations.py + own T4) 0, reference assertions 0, dl13.c (K line and T1/T3 per state) 0 + 0, -DBIGPP=0 build 0, xcheck (dl134_xcheck.py, 724 states) 0

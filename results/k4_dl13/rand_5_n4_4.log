@@ -1,0 +1,68 @@
+# command: python3 k4/dl13_run.py certs results/k4_certs_5_n4_4.json.gz --sample=4 --seed=1 --jobs=1 --rt=1 --ro=1000 --ckpt=results/k4_dl13/ckpt_rand.jsonl --dump=results/k4_dl13/states_rand.jsonl.gz --tables=results/k4_dl13/tables_rand_5_n4_4.json
+# dl13.c sha256 f891de3a228a63fcd05008c0e4d9202068fc0d2b41be5876775affd4b2131d65
+# k4_certs_5_n4_4.json.gz: cores 0..9845, 9846 units to run, 0 from the checkpoint; 4 random profiles per unit, seed 1
+k4_certs_5_n4_4.json.gz: profiles 39384, omega >= 1: 8399; k* = 0: 8018, 1: 381, 2: 0, 3: 0, >= 4: 0, inf: 0; P with def > 0: 1736, at distance 1: 1736, 2: 0, 3: 0, >= 4: 0, inf: 0; Pareto-maximal: 10; largest least deficit -1
+  DL13: states (def > 0) with f = 0: 1446 (R_13 fails at 0), with f >= 1: 290; DL13 FAILS at 0 of the f >= 1 states; T1 only 14, T3 only 0 (of which T3 with a helper only 0), both 276; with a plain T3 move 253, with a helper T3 move 276; nearest R_13 improvement at distance 1 / 2 / 3: 290 / 0 / 0; anomalies 0 [41 s]
+table B: f >= 1 states by f | signature | branch : count
+  B 1|G,D2|T1+T3p+T3h : 85
+  B 1|fO,G,D2|T1+T3p+T3h : 54
+  B 2|G,D2|T1+T3p+T3h : 38
+  B 1|fO,L|T1+T3p+T3h : 37
+  B 1|fO,L|T1+T3h : 20
+  B 1|fO|T1 : 13
+  B 1|e2,G,D2|T1+T3p+T3h : 8
+  B 1|G,D2,PM|T1+T3p+T3h : 7
+  B 2|fO,G,D2|T1+T3p+T3h : 6
+  B 2|fO,L|T1+T3p+T3h : 4
+  B 2|fO|T1+T3p+T3h : 4
+  B 1|fO,G1|T1+T3p+T3h : 3
+  B 1|fO|T1+T3h : 2
+  B 2|G,D2,PM|T1+T3p+T3h : 2
+  B 1|e2,G,D2,PM|T1+T3p+T3h : 1
+  B 1|e2,fO,G,D2|T1+T3p+T3h : 1
+  B 1|e2,fO,L|T1+T3p+T3h : 1
+  B 1|e2,fO|T1+T3h : 1
+  B 1|fO,L|T1 : 1
+  B 1|fO|T1+T3p+T3h : 1
+  B 2|G,L,D2|T1+T3p+T3h : 1
+table G: f >= 1 states by f | nearest distance k | branch : count
+  G 1|1|T1+T3p+T3h : 198
+  G 2|1|T1+T3p+T3h : 55
+  G 1|1|T1+T3h : 23
+  G 1|1|T1 : 14
+table Y: f >= 1 states by f | branch | move type available : count
+  Y 1|T1+T3p+T3h|T3:xJ.h- : 197
+  Y 1|T1+T3p+T3h|T1:rel : 191
+  Y 1|T1+T3p+T3h|T3:xJ.hR : 186
+  Y 1|T1+T3p+T3h|T1:pool : 174
+  Y 1|T1+T3p+T3h|T3:xJ.hJ : 170
+  Y 1|T1+T3p+T3h|T3:xJ.hZ : 82
+  Y 2|T1+T3p+T3h|T1:rel : 55
+  Y 2|T1+T3p+T3h|T3:xJ.h- : 55
+  Y 2|T1+T3p+T3h|T3:xJ.hR : 52
+  Y 2|T1+T3p+T3h|T3:xJ.hJ : 43
+  Y 1|T1+T3p+T3h|T3:xH.hJ : 34
+  Y 2|T1+T3p+T3h|T1:pool : 29
+  Y 1|T1+T3h|T1:pool : 23
+  Y 1|T1+T3h|T1:rel : 23
+  Y 1|T1+T3h|T3:xH.hJ : 22
+  Y 2|T1+T3p+T3h|T3:xH.hJ : 22
+  Y 1|T1+T3p+T3h|T3:xZ.h- : 17
+  Y 1|T1+T3p+T3h|T3:xZ.hR : 17
+  Y 2|T1+T3p+T3h|T3:xZ.hR : 15
+  Y 1|T1|T1:pool : 14
+  Y 1|T1|T1:rel : 14
+  Y 2|T1+T3p+T3h|T3:xZ.hJ : 14
+  Y 2|T1+T3p+T3h|T3:xZ.h- : 13
+  Y 1|T1+T3p+T3h|T3:xH.hZ : 11
+  Y 1|T1+T3p+T3h|T3:xZ.hJ : 11
+  Y 1|T1+T3p+T3h|T1:grow : 10
+  Y 1|T1+T3p+T3h|T3:xH.hR : 10
+  Y 2|T1+T3p+T3h|T3:xJ.hZ : 8
+  Y 2|T1+T3p+T3h|T3:xH.hR : 7
+  Y 2|T1+T3p+T3h|T3:xH.hZ : 6
+  Y 1|T1+T3p+T3h|T3:xZ.hZ : 4
+  Y 1|T1+T3h|T3:xH.hR : 3
+  Y 1|T1|T1:grow : 2
+  Y 1|T1+T3h|T3:xH.hZ : 1
+  Y 2|T1+T3p+T3h|T1:grow : 1

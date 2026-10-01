@@ -1,0 +1,16 @@
+# command: python3 k4/dl13_run.py certs results/k4_certs_5_n4_2.json.gz --sample=4 --seed=1 --jobs=1 --rt=1 --ro=1000 --ckpt=results/k4_dl13/ckpt_rand.jsonl --dump=results/k4_dl13/states_rand.jsonl.gz --tables=results/k4_dl13/tables_rand_5_n4_2.json
+# dl13.c sha256 f891de3a228a63fcd05008c0e4d9202068fc0d2b41be5876775affd4b2131d65
+# k4_certs_5_n4_2.json.gz: cores 0..5467, 5468 units to run, 0 from the checkpoint; 4 random profiles per unit, seed 1
+k4_certs_5_n4_2.json.gz: profiles 21872, omega >= 1: 758; k* = 0: 757, 1: 1, 2: 0, 3: 0, >= 4: 0, inf: 0; P with def > 0: 1, at distance 1: 1, 2: 0, 3: 0, >= 4: 0, inf: 0; Pareto-maximal: 0; largest least deficit -1
+  DL13: states (def > 0) with f = 0: 0 (R_13 fails at 0), with f >= 1: 1; DL13 FAILS at 0 of the f >= 1 states; T1 only 0, T3 only 0 (of which T3 with a helper only 0), both 1; with a plain T3 move 1, with a helper T3 move 1; nearest R_13 improvement at distance 1 / 2 / 3: 1 / 0 / 0; anomalies 0 [19 s]
+table B: f >= 1 states by f | signature | branch : count
+  B 2|G,D2|T1+T3p+T3h : 1
+table G: f >= 1 states by f | nearest distance k | branch : count
+  G 2|1|T1+T3p+T3h : 1
+table Y: f >= 1 states by f | branch | move type available : count
+  Y 2|T1+T3p+T3h|T1:pool : 1
+  Y 2|T1+T3p+T3h|T1:rel : 1
+  Y 2|T1+T3p+T3h|T3:xH.hJ : 1
+  Y 2|T1+T3p+T3h|T3:xH.hR : 1
+  Y 2|T1+T3p+T3h|T3:xJ.h- : 1
+  Y 2|T1+T3p+T3h|T3:xJ.hR : 1

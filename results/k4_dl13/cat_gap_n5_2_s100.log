@@ -1,0 +1,31 @@
+# command: python3 k4/dl13_run.py catalog results/k4_gap/gap_n5_2_s100.json.gz --jobs=1 --rt=5 --ro=200 --ckpt=results/k4_dl13/ckpt_cat.jsonl --dump=results/k4_dl13/states_cat.jsonl.gz --tables=results/k4_dl13/tables_cat_gap_n5_2_s100.json
+# dl13.c sha256 f891de3a228a63fcd05008c0e4d9202068fc0d2b41be5876775affd4b2131d65
+# catalog results/k4_gap/gap_n5_2_s100.json.gz: 7713 instances, 4 units to run, 0 from the checkpoint
+catalog results/k4_gap/gap_n5_2_s100.json.gz: profiles 7713, omega >= 1: 7713; k* = 0: 7696, 1: 17, 2: 0, 3: 0, >= 4: 0, inf: 0; P with def > 0: 25, at distance 1: 25, 2: 0, 3: 0, >= 4: 0, inf: 0; Pareto-maximal: 0; largest least deficit -1
+  DL13: states (def > 0) with f = 0: 0 (R_13 fails at 0), with f >= 1: 25; DL13 FAILS at 0 of the f >= 1 states; T1 only 0, T3 only 0 (of which T3 with a helper only 0), both 25; with a plain T3 move 19, with a helper T3 move 25; nearest R_13 improvement at distance 1 / 2 / 3: 25 / 0 / 0; anomalies 0 [5 s]
+table B: f >= 1 states by f | signature | branch : count
+  B 1|G,D2|T1+T3p+T3h : 9
+  B 1|fO,L|T1+T3h : 6
+  B 1|fO,L|T1+T3p+T3h : 5
+  B 2|G,L,D2|T1+T3p+T3h : 4
+  B 2|fO,L|T1+T3p+T3h : 1
+table G: f >= 1 states by f | nearest distance k | branch : count
+  G 1|1|T1+T3p+T3h : 14
+  G 1|1|T1+T3h : 6
+  G 2|1|T1+T3p+T3h : 5
+table Y: f >= 1 states by f | branch | move type available : count
+  Y 1|T1+T3p+T3h|T1:pool : 14
+  Y 1|T1+T3p+T3h|T1:rel : 14
+  Y 1|T1+T3p+T3h|T3:xJ.h- : 14
+  Y 1|T1+T3p+T3h|T3:xJ.hR : 14
+  Y 1|T1+T3h|T1:pool : 6
+  Y 1|T1+T3h|T1:rel : 6
+  Y 1|T1+T3h|T3:xH.hJ : 6
+  Y 1|T1+T3p+T3h|T3:xJ.hJ : 6
+  Y 2|T1+T3p+T3h|T1:rel : 5
+  Y 2|T1+T3p+T3h|T3:xJ.h- : 5
+  Y 2|T1+T3p+T3h|T3:xJ.hR : 5
+  Y 2|T1+T3p+T3h|T1:pool : 2
+  Y 1|T1+T3p+T3h|T3:xJ.hZ : 1
+  Y 2|T1+T3p+T3h|T3:xH.hR : 1
+  Y 2|T1+T3p+T3h|T3:xJ.hJ : 1

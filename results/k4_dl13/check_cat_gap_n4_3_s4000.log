@@ -1,0 +1,6 @@
+# command: python3 k4/dl13_check.py catalog results/k4_gap/gap_n4_3_s4000.json.gz --every=200
+# dl13.c sha256 f891de3a228a63fcd05008c0e4d9202068fc0d2b41be5876775affd4b2131d65; dl2.c sha256 bf20adab485d04dd0a660b56c8337a3fdbe3471ac8178706af150932c82dcbd2
+#  200 / 292 profiles: {'prof': 200, 'prof_pos': 5, 'prof_f1': 5, 'st': 6, 'st_f0': 0, 'st_f1': 6, 'st_x': 6, 'mm_model': 0, 'mm_x': 0, 'mm_K': 0, 'mm_hash': 0, 'fail_f1': 0, 'fail_f0': 0}
+#  292 / 292 profiles: {'prof': 292, 'prof_pos': 20, 'prof_f1': 20, 'st': 37, 'st_f0': 0, 'st_f1': 37, 'st_x': 37, 'mm_model': 0, 'mm_x': 0, 'mm_K': 0, 'mm_hash': 0, 'fail_f1': 0, 'fail_f0': 0}
+profiles 292 (with a def > 0 state 20, with f >= 1 and a def > 0 state 20); states 37 (f = 0: 0, f >= 1: 37); DL13 failures f >= 1: 0, R_13 failures f = 0: 0
+mismatches: model (dl2_relations.py) 0, xcheck (c4x_check.py, 37 states with n <= 4) 0, K line vs dl2.c 0, hash build 0

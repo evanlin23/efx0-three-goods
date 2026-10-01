@@ -1,0 +1,233 @@
+# command: python3 k4/dl13_run.py certs results/k4_certs_2.json.gz results/k4_certs_3.json.gz --jobs=2 --rt=100 --ckpt=results/k4_dl13/ckpt_n3.jsonl --dump=results/k4_dl13/states_n3.jsonl.gz --tables=results/k4_dl13/tables_n3.json --progress
+# dl13.c sha256 e5ab32ae961795db80db8cd6222a99f5f4ad5396fead9f8d319369b8725e5615
+# k4_certs_2.json.gz: cores 0..4, 5 units to run, 0 from the checkpoint; every profile
+#   unit {'pos': 0, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [0.8 s]
+#   unit {'pos': 2, 'blk': None}: om1 864 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [0.0 s]
+#   unit {'pos': 1, 'blk': None}: om1 576 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [0.9 s]
+#   unit {'pos': 4, 'blk': None}: om1 20736 pos 48216 st1 0 fail1 0 t3only 0 t3hOnly 0 [0.1 s]
+#   unit {'pos': 3, 'blk': None}: om1 82944 pos 123216 st1 0 fail1 0 t3only 0 t3hOnly 0 [0.4 s]
+k4_certs_2.json.gz: profiles 189216, omega >= 1: 105120; k* = 0: 44192, 1: 52016, 2: 8912, 3: 0, >= 4: 0, inf: 0; P with def > 0: 171432, at distance 1: 158616, 2: 12816, 3: 0, >= 4: 0, inf: 0; Pareto-maximal: 0; largest least deficit 0
+  DL13: states (def > 0) with f = 0: 171432 (R_13 fails at 12816), with f >= 1: 0; DL13 FAILS at 0 of the f >= 1 states; T1 only 0, T3 only 0 (of which T3 with a helper only 0), both 0; with a plain T3 move 0, with a helper T3 move 0; nearest R_13 improvement at distance 1 / 2 / 3: 0 / 0 / 0; anomalies 0 [1 s]
+# k4_certs_3.json.gz: cores 0..50, 51 units to run, 0 from the checkpoint; every profile
+#   unit {'pos': 0, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [0.9 s]
+#   unit {'pos': 1, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [1.0 s]
+#   unit {'pos': 2, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [0.5 s]
+#   unit {'pos': 4, 'blk': None}: om1 196 pos 40 st1 40 fail1 0 t3only 40 t3hOnly 0 [0.0 s]
+#   unit {'pos': 5, 'blk': None}: om1 172 pos 40 st1 40 fail1 0 t3only 40 t3hOnly 0 [0.0 s]
+#   unit {'pos': 6, 'blk': None}: om1 6120 pos 3600 st1 3600 fail1 0 t3only 3600 t3hOnly 0 [0.5 s]
+#   unit {'pos': 7, 'blk': None}: om1 12 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [0.0 s]
+#   unit {'pos': 8, 'blk': None}: om1 2280 pos 1200 st1 1200 fail1 0 t3only 1200 t3hOnly 0 [0.5 s]
+#   unit {'pos': 9, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [0.0 s]
+#   unit {'pos': 10, 'blk': None}: om1 2040 pos 1200 st1 1200 fail1 0 t3only 1200 t3hOnly 0 [0.5 s]
+#   unit {'pos': 3, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [33.7 s]
+#   unit {'pos': 12, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [0.0 s]
+#   unit {'pos': 13, 'blk': None}: om1 240 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [0.5 s]
+#   unit {'pos': 11, 'blk': None}: om1 74400 pos 72000 st1 72000 fail1 0 t3only 72000 t3hOnly 0 [34.8 s]
+#   unit {'pos': 15, 'blk': None}: om1 192 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [0.0 s]
+#   unit {'pos': 16, 'blk': None}: om1 11232 pos 720 st1 720 fail1 0 t3only 720 t3hOnly 0 [0.3 s]
+#   unit {'pos': 17, 'blk': None}: om1 919680 pos 78048 st1 78048 fail1 0 t3only 56512 t3hOnly 0 [21.1 s]
+#   unit {'pos': 18, 'blk': None}: om1 1152 pos 40 st1 40 fail1 0 t3only 40 t3hOnly 0 [0.0 s]
+#   unit {'pos': 19, 'blk': None}: om1 288 pos 24 st1 24 fail1 0 t3only 24 t3hOnly 0 [0.0 s]
+#   unit {'pos': 20, 'blk': None}: om1 33024 pos 1920 st1 1920 fail1 0 t3only 1920 t3hOnly 0 [0.4 s]
+#   unit {'pos': 21, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [0.0 s]
+#   unit {'pos': 22, 'blk': None}: om1 23200 pos 1200 st1 1200 fail1 0 t3only 1200 t3hOnly 0 [0.7 s]
+#   unit {'pos': 14, 'blk': None}: om1 30800 pos 24000 st1 24000 fail1 0 t3only 24000 t3hOnly 0 [31.6 s]
+#   unit {'pos': 24, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [0.0 s]
+#   unit {'pos': 25, 'blk': None}: om1 11648 pos 2512 st1 2512 fail1 0 t3only 720 t3hOnly 0 [0.7 s]
+#   unit {'pos': 26, 'blk': None}: om1 0 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [0.0 s]
+#   unit {'pos': 27, 'blk': None}: om1 6240 pos 664 st1 664 fail1 0 t3only 360 t3hOnly 0 [0.5 s]
+#   unit {'pos': 23, 'blk': None}: om1 1520256 pos 254880 st1 254880 fail1 0 t3only 150192 t3hOnly 0 [37.9 s]
+#   unit {'pos': 28, 'blk': None}: om1 944128 pos 183552 st1 183552 fail1 0 t3only 61184 t3hOnly 1440 [35.8 s]
+#   unit {'pos': 30, 'blk': None}: om1 4800 pos 1792 st1 1792 fail1 0 t3only 0 t3hOnly 0 [0.6 s]
+#   unit {'pos': 31, 'blk': None}: om1 3168 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [0.5 s]
+#   unit {'pos': 29, 'blk': None}: om1 568192 pos 137552 st1 137552 fail1 0 t3only 30992 t3hOnly 1088 [39.8 s]
+#   unit {'pos': 32, 'blk': None}: om1 387072 pos 106752 st1 106752 fail1 0 t3only 0 t3hOnly 0 [40.9 s]
+#   unit {'pos': 34, 'blk': None}: om1 124416 pos 3352 st1 3352 fail1 0 t3only 720 t3hOnly 0 [1.2 s]
+#   unit {'pos': 35, 'blk': None}: om1 124416 pos 3904 st1 3904 fail1 0 t3only 1200 t3hOnly 0 [1.1 s]
+#   unit {'pos': 36, 'blk': None}: om1 5184 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [0.1 s]
+#   unit {'pos': 37, 'blk': None}: om1 248832 pos 1088 st1 1088 fail1 0 t3only 360 t3hOnly 0 [3.3 s]
+#   unit {'pos': 38, 'blk': None}: om1 11943936 pos 213824 st1 213824 fail1 0 t3only 76064 t3hOnly 0 [176.3 s]
+#   unit {'pos': 39, 'blk': None}: om1 248832 pos 1280 st1 1280 fail1 0 t3only 0 t3hOnly 0 [3.7 s]
+#   unit {'pos': 40, 'blk': None}: om1 248832 pos 768 st1 768 fail1 0 t3only 0 t3hOnly 0 [3.7 s]
+#   unit {'pos': 33, 'blk': None}: om1 11943936 pos 327936 st1 327936 fail1 0 t3only 85824 t3hOnly 38592 [220.9 s]
+#   unit {'pos': 42, 'blk': None}: om1 497664 pos 0 st1 0 fail1 0 t3only 0 t3hOnly 0 [8.5 s]
+#   unit {'pos': 41, 'blk': None}: om1 11943936 pos 228328 st1 228328 fail1 0 t3only 37960 t3hOnly 6320 [195.3 s]
+#   unit {'pos': 43, 'blk': None}: om1 23887872 pos 1151904 st1 405408 fail1 0 t3only 77520 t3hOnly 18576 [478.3 s]
+#   unit {'pos': 45, 'blk': None}: om1 5971968 pos 4290432 st1 60288 fail1 0 t3only 0 t3hOnly 0 [261.5 s]
+#   unit {'pos': 44, 'blk': None}: om1 23887872 pos 3969664 st1 361600 fail1 0 t3only 36288 t3hOnly 27072 [581.1 s]
+#   unit {'pos': 47, 'blk': None}: om1 124416 pos 2016 st1 2016 fail1 0 t3only 0 t3hOnly 0 [3.9 s]
+#   unit {'pos': 46, 'blk': None}: om1 2985984 pos 3300912 st1 314928 fail1 0 t3only 112800 t3hOnly 0 [87.1 s]
+#   unit {'pos': 48, 'blk': None}: om1 5971968 pos 4629200 st1 351824 fail1 0 t3only 65856 t3hOnly 5504 [227.9 s]
+#   unit {'pos': 50, 'blk': None}: om1 2985984 pos 9261216 st1 278496 fail1 0 t3only 0 t3hOnly 0 [248.8 s]
+#   unit {'pos': 49, 'blk': None}: om1 11943936 pos 8482240 st1 523072 fail1 0 t3only 86304 t3hOnly 30336 [530.6 s]
+k4_certs_3.json.gz: profiles 299837376, omega >= 1: 119640516; k* = 0: 106103948, 1: 13033872, 2: 449768, 3: 52928, >= 4: 0, inf: 0; P with def > 0: 36739800, at distance 1: 35427840, 2: 1224904, 3: 87056, >= 4: 0, inf: 0; Pareto-maximal: 377832; largest least deficit 0
+  DL13: states (def > 0) with f = 0: 32789952 (R_13 fails at 325120), with f >= 1: 3949848; DL13 FAILS at 0 of the f >= 1 states; T1 only 39568, T3 only 986840 (of which T3 with a helper only 128928), both 2923440; with a plain T3 move 3161312, with a helper T3 move 3468744; nearest R_13 improvement at distance 1 / 2 / 3: 2963008 / 857912 / 128928; anomalies 0 [1725 s]
+total: profiles 300026592, omega >= 1: 119745636; k* = 0: 106148140, 1: 13085888, 2: 458680, 3: 52928, >= 4: 0, inf: 0; P with def > 0: 36911232, at distance 1: 35586456, 2: 1237720, 3: 87056, >= 4: 0, inf: 0; Pareto-maximal: 377832; largest least deficit 0
+  DL13: states (def > 0) with f = 0: 32961384 (R_13 fails at 337936), with f >= 1: 3949848; DL13 FAILS at 0 of the f >= 1 states; T1 only 39568, T3 only 986840 (of which T3 with a helper only 128928), both 2923440; with a plain T3 move 3161312, with a helper T3 move 3468744; nearest R_13 improvement at distance 1 / 2 / 3: 2963008 / 857912 / 128928; anomalies 0 [1727 s]
+table B: f >= 1 states by f | signature | branch : count
+  B 1|G,D2|T1+T3p+T3h : 759872
+  B 1|fO,L|T1+T3h : 507472
+  B 1|fO,G,D2|T1+T3p+T3h : 488272
+  B 1|fO,L|T1+T3p+T3h : 363328
+  B 1|G,D2,PM|T1+T3p+T3h : 167376
+  B 2|O|T3p : 159420
+  B 1|O,D2|T1+T3p+T3h : 148688
+  B 1|G,D2|T3p+T3h : 139064
+  B 2|G|T3p : 136160
+  B 1|fO,G,D2|T3p+T3h : 109744
+  B 1|O,D2|T3p+T3h : 83712
+  B 1|L|T1+T3p+T3h : 73720
+  B 2|G1,PM|T3p : 48492
+  B 1|fO,O,D2|T1+T3p+T3h : 47968
+  B 1|fO,L|T3h : 40384
+  B 1|fO,O,D2|T3p+T3h : 38832
+  B 1|e1,fO|T1+T3p+T3h : 37472
+  B 1|L|T1+T3h : 33464
+  B 1|G1|T1+T3p+T3h : 29408
+  B 1|e1,O|T1+T3p+T3h : 28456
+  B 2|G1|T3p : 28140
+  B 1|fO,L|T1 : 26816
+  B 1|L|T3h : 26096
+  B 1|fO,L|T1+T3p : 24336
+  B 1|L,PM|T3h : 23552
+  B 1|L,PM|T1+T3h : 22352
+  B 1|L,PM|T1+T3p+T3h : 22048
+  B 1|G1,PM|T1+T3p+T3h : 18768
+  B 1|fO,L|T3p+T3h : 18272
+  B 1|G,D2,PM|T3p+T3h : 17616
+  B 1|G,D2|T1+T3p : 14160
+  B 1|e2,L|T3h : 12792
+  B 1|fO,G,D2|T1+T3h : 12144
+  B 1|fO|T1+T3h : 12128
+  B 1|e1,fO,L|T1+T3p+T3h : 12032
+  B 1|L|T3p+T3h : 11968
+  B 1|e2,L,PM|T1+T3h : 11832
+  B 1|e2,L,PM|T3h : 11352
+  B 1|e2,fO,L|T3h : 11328
+  B 1|e1,fO,L|T1+T3h : 10928
+  B 1|L,PM|T3p+T3h : 10240
+  B 1|fO,G,D2|T1+T3p : 9888
+  B 1|e1,G,D2|T1+T3p+T3h : 9848
+  B 1|fO,G,D2|T1 : 9744
+  B 1|e1,O|T3p+T3h : 9600
+  B 1|fO,G1|T1+T3p+T3h : 8816
+  B 1|e2,L,PM|T1+T3p+T3h : 7080
+  B 2|G,PM|T3p : 6732
+  B 1|e2,G,D2|T3p+T3h : 6336
+  B 1|e1,G,D2|T3p+T3h : 5248
+  B 1|e2,L|T3p+T3h : 5160
+  B 1|e2,L|T1+T3p+T3h : 5080
+  B 1|e2,fO,L|T3p+T3h : 4992
+  B 1|fO|T1+T3p+T3h : 4896
+  B 1|e2,L,PM|T3p+T3h : 4680
+  B 1|e2,L|T1+T3h : 4520
+  B 1|G,D2|T3p : 4032
+  B 2|O|T1+T3p : 4000
+  B 1|e1,O,D2|T1+T3p+T3h : 3200
+  B 1|e2,G,D2,PM|T1+T3p+T3h : 2976
+  B 1|L|T1+T3p : 2880
+  B 1|e1,fO|T1+T3h : 2784
+  B 1|e1,e2|T3p+T3h : 2720
+  B 1|e2,G,D2,PM|T3p+T3h : 2016
+  B 1|e2,G,D2|T1+T3p+T3h : 1920
+  B 1|e1,e2,L|T3h : 1888
+  B 1|O|T1+T3p+T3h : 1600
+  B 1|fO|T1 : 1568
+  B 1|e2,fO,G,D2|T3p+T3h : 1536
+  B 1|e1,e2|T1+T3p+T3h : 1472
+  B 1|L|T1 : 1440
+  B 1|e2,fO,L|T1+T3h : 1248
+  B 1|e1,e2,L|T3p+T3h : 992
+  B 1|O,D2|T1+T3p : 800
+  B 1|e1,e2|T3p : 800
+  B 1|e2|T3h : 768
+  B 1|e1,e2,L|T1+T3h : 752
+  B 1|e1,e2,L|T1+T3p+T3h : 688
+  B 1|e1,e2|T3h : 640
+  B 1|e1,fO,L|T1+T3p : 496
+  B 1|e1,fO|T1+T3p : 480
+  B 1|e2,fO,L|T1+T3p+T3h : 480
+  B 1|G1,PM|T3p+T3h : 400
+  B 1|e2,G1|T3p+T3h : 400
+  B 1|e2|T3p+T3h : 384
+  B 1|G,D2,PM|T1+T3p : 240
+  B 1|e2,G1|T1+T3p+T3h : 240
+  B 1|e1,e2|T1+T3h : 224
+  B 1|e2|T1+T3h : 192
+  B 1|fO|T1+T3p : 192
+  B 1|fO|T3h : 128
+  B 1|e2|T1+T3p+T3h : 96
+  B 1|G1,PM|T3p : 80
+  B 1|e2,G1|T3p : 80
+  B 1|G1|T1+T3p : 64
+  B 1|fO,G1|T1+T3p : 64
+  B 1|fO|T3p+T3h : 64
+table G: f >= 1 states by f | nearest distance k | branch : count
+  G 1|1|T1+T3p+T3h : 2245800
+  G 1|1|T1+T3h : 620040
+  G 1|2|T3p+T3h : 473976
+  G 2|2|T3p : 378944
+  G 1|2|T3h : 99856
+  G 1|1|T1+T3p : 53600
+  G 1|1|T1 : 39568
+  G 1|3|T3h : 29072
+  G 1|2|T3p : 4992
+  G 2|1|T1+T3p : 4000
+table Y: f >= 1 states by f | branch | move type available : count
+  Y 1|T1+T3p+T3h|T3:xJ.h- : 2110124
+  Y 1|T1+T3p+T3h|T1:pool : 1849096
+  Y 1|T1+T3p+T3h|T1:rel : 1573568
+  Y 1|T1+T3p+T3h|T3:xJ.hR : 1288784
+  Y 1|T1+T3p+T3h|T3:xJ.hJ : 1278412
+  Y 1|T1+T3p+T3h|T3:xJ.hZ : 1070252
+  Y 1|T1+T3p+T3h|T3:xZ.h- : 746192
+  Y 1|T1+T3p+T3h|T3:xH.hZ : 533688
+  Y 1|T1+T3h|T1:pool : 526328
+  Y 1|T1+T3p+T3h|T3:xZ.hR : 475152
+  Y 1|T1+T3p+T3h|T3:xH.hJ : 468544
+  Y 1|T1+T3h|T3:xH.hJ : 461504
+  Y 1|T3p+T3h|T3:xJ.h- : 413912
+  Y 1|T1+T3h|T3:xH.hZ : 395960
+  Y 1|T3p+T3h|T3:xJ.hZ : 323136
+  Y 1|T1+T3h|T1:rel : 321568
+  Y 1|T1+T3p+T3h|T3:xZ.hJ : 311040
+  Y 1|T3p+T3h|T3:xZ.h- : 299024
+  Y 2|T3p|T3:xJ.h- : 276002
+  Y 1|T1+T3p+T3h|T1:grow : 245584
+  Y 2|T3p|T3:xZ.h- : 236052
+  Y 1|T3p+T3h|T3:xJ.hR : 232544
+  Y 1|T3p+T3h|T3:xH.hZ : 227424
+  Y 1|T3p+T3h|T3:xJ.hJ : 225336
+  Y 1|T1+T3p+T3h|T3:xH.hR : 221968
+  Y 1|T1+T3h|T3:xJ.hZ : 169736
+  Y 1|T1+T3h|T3:xJ.hJ : 167424
+  Y 1|T3p+T3h|T3:xH.hJ : 165584
+  Y 1|T3p+T3h|T3:xZ.hR : 154672
+  Y 1|T3h|T3:xH.hZ : 127200
+  Y 1|T3p+T3h|T3:xH.hR : 126992
+  Y 1|T1+T3p+T3h|T3:xZ.hZ : 106912
+  Y 1|T3h|T3:xJ.hZ : 80840
+  Y 1|T3p+T3h|T3:xZ.hJ : 76216
+  Y 1|T1+T3h|T3:xH.hR : 73808
+  Y 1|T1+T3h|T3:xJ.hR : 64208
+  Y 1|T1+T3p|T3:xJ.h- : 53600
+  Y 1|T1+T3h|T1:grow : 51056
+  Y 1|T1+T3p|T1:pool : 50720
+  Y 1|T3h|T3:xH.hJ : 37776
+  Y 1|T3p+T3h|T3:xZ.hZ : 32864
+  Y 1|T1|T1:pool : 32368
+  Y 1|T1|T1:rel : 24272
+  Y 1|T3h|T3:xJ.hJ : 22416
+  Y 1|T3h|T3:xH.hR : 19712
+  Y 1|T3h|T3:xJ.hR : 17080
+  Y 1|T1+T3p|T1:rel : 16624
+  Y 1|T1|T1:grow : 11904
+  Y 1|T1+T3p|T3:xZ.h- : 11424
+  Y 1|T1+T3p|T1:grow : 8640
+  Y 1|T3p|T3:xJ.h- : 4032
+  Y 2|T1+T3p|T1:rel : 4000
+  Y 2|T1+T3p|T3:xJ.h- : 4000
+  Y 2|T1+T3p|T3:xZ.h- : 4000
+  Y 1|T3p|T3:xZ.h- : 960
+  Y 1|T1+T3h|T3:xZ.hR : 384
+  Y 1|T1+T3h|T3:xZ.hZ : 384

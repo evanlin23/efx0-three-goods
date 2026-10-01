@@ -1,0 +1,6 @@
+# command: python3 k4/dl13_run.py ht 3 --wide --jobs=1 --rt=1 --ro=20 --dump=results/k4_dl13/states_ht.jsonl.gz --tables=results/k4_dl13/tables_h3.json
+# dl13.c sha256 f891de3a228a63fcd05008c0e4d9202068fc0d2b41be5876775affd4b2131d65
+# ht 3: 1 instances, 1 units to run, 0 from the checkpoint
+Terminated
+exit 143
+# stopped by hand after 12 minutes of CPU time on the one profile (four processes were sharing the CPUs); no result

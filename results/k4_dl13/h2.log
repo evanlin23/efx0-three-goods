@@ -1,0 +1,8 @@
+# command: python3 k4/dl13_run.py ht 2 --jobs=1 --rt=1 --ro=20 --dump=results/k4_dl13/states_ht.jsonl.gz --tables=results/k4_dl13/tables_h2.json
+# dl13.c sha256 f891de3a228a63fcd05008c0e4d9202068fc0d2b41be5876775affd4b2131d65
+# ht 2: 1 instances, 1 units to run, 0 from the checkpoint
+ht 2: profiles 1, omega >= 1: 1; k* = 0: 0, 1: 0, 2: 1, 3: 0, >= 4: 0, inf: 0; P with def > 0: 4939, at distance 1: 4933, 2: 6, 3: 0, >= 4: 0, inf: 0; Pareto-maximal: 0; largest least deficit -2
+  DL13: states (def > 0) with f = 0: 4939 (R_13 fails at 6), with f >= 1: 0; DL13 FAILS at 0 of the f >= 1 states; T1 only 0, T3 only 0 (of which T3 with a helper only 0), both 0; with a plain T3 move 0, with a helper T3 move 0; nearest R_13 improvement at distance 1 / 2 / 3: 0 / 0 / 0; anomalies 0 [4 s]
+table B: f >= 1 states by f | signature | branch : count
+table G: f >= 1 states by f | nearest distance k | branch : count
+table Y: f >= 1 states by f | branch | move type available : count

@@ -1,0 +1,42 @@
+# command: python3 k4/dlrt4_run.py inst results/k4_rt4/dl13_failure_profiles.json --chunk=100 --jobs=3 --rt=1 --ro=1 --dump=results/k4_rt4/dump_a_failures.jsonl.gz --tables=results/k4_rt4/tables_a_failures.json --progress
+# dlrt4.c sha256 fcde494a3161279d47a7b80e614f69c58894ebc7b40d00e461f677b8810d7cae
+# inst results/k4_rt4/dl13_failure_profiles.json: 1131 instances, 12 units to run, 0 from the checkpoint
+#   unit {'chunk': 2} done [0.0 s]
+#   unit {'chunk': 1} done [0.0 s]
+#   unit {'chunk': 0} done [0.0 s]
+#   unit {'chunk': 3} done [0.1 s]
+#   unit {'chunk': 4} done [0.1 s]
+#   unit {'chunk': 6} done [0.0 s]
+#   unit {'chunk': 7} done [0.0 s]
+#   unit {'chunk': 8} done [0.0 s]
+#   unit {'chunk': 5} done [0.1 s]
+#   unit {'chunk': 9} done [0.0 s]
+#   unit {'chunk': 10} done [0.0 s]
+#   unit {'chunk': 11} done [0.0 s]
+inst results/k4_rt4/dl13_failure_profiles.json: profiles 1131, omega >= 1: 1131; k* = 0: 0, 1: 0, 2: 1131, 3: 0, >= 4: 0, inf: 0; P with def > 0: 7586, at distance 1: 0, 2: 7586, 3: 0, >= 4: 0, inf: 0; Pareto-maximal: 0; largest least deficit 0
+  DL_RT4: states (def > 0) with f = 0: 0 (RT4 fails at 0), with f >= 1: 7586; DL_RT4 FAILS at 0 of the f >= 1 states; with an improving move T1 0, T2 0, T3p 4524, T3h 0, T4 7586; only T1 0, only T2 0, only T3 0, only T4 3062; R_T fails at 3062, R_13 at 3062, R_13 + T4 at 0; smallest RT4 move size 1 / 2 / 3 / >= 4 / none: 0 / 7586 / 0 / 0 / 0; anomalies 0 + 0 [1 s]
+table B: f >= 1 states by f | signature | branch : count
+  B 3|G|T3p+T4 : 4284
+  B 3|G|T4 : 2222
+  B 3|O|T4 : 840
+  B 3|O|T3p+T4 : 240
+table G: f >= 1 states by f | nearest distance k | branch : count
+  G 3|2|T3p+T4 : 4524
+  G 3|2|T4 : 3062
+table M: f >= 1 states by f | branch | smallest RT4 move size : count
+  M 3|T3p+T4|2 : 4524
+  M 3|T4|2 : 3062
+table Z: f >= 1 states by f | branch available | its smallest move size : count
+  Z 3|T4|2 : 5324
+  Z 3|T3p|2 : 4524
+  Z 3|T4|3 : 2262
+table C: f >= 1 states with T4 by f | smallest T4 size | cycle types at that size : count
+  C 3|2|2 : 5324
+  C 3|3|3 : 2262
+table Y: f >= 1 states by f | branch | move type available : count
+  Y 3|T3p+T4|T3:xJ.h- : 4404
+  Y 3|T4|T4:2 : 3062
+  Y 3|T4|T4:3 : 3062
+  Y 3|T3p+T4|T4:2 : 2262
+  Y 3|T3p+T4|T4:3 : 2262
+  Y 3|T3p+T4|T3:xZ.h- : 240

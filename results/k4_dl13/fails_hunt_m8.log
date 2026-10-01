@@ -1,0 +1,17 @@
+# command: python3 k4/dl13_fails.py results/k4_dl13/hunt_n4_3_m8.jsonl.gz results/k4_dl13/hunt_pure_m8.jsonl.gz --out=results/k4_dl13/fails_hunt_m8.jsonl.gz
+# 19 failing states dumped in 8 profiles; recomputing 8 profiles
+profiles recomputed 8, failing states 19, mismatches with the dump 0
+nearest distance k of the failing states: {2: 19}
+move kinds available (any distance), states:
+  ['key(U0Z0W2Y0)', 'key(U0Z0W3Y0)', 'key(U1Z1W1Y0)chain', 'key(U1Z1W2Y0)chain']: 10
+  ['key(U0Z0W2Y0)', 'key(U0Z0W2Y1)', 'key(U0Z0W3Y0)', 'key(U0Z0W3Y1)', 'key(U1Z1W1Y0)chain', 'key(U1Z1W2Y0)chain']: 8
+  ['key(U1Z1W0Y0)chain', 'key(U1Z1W0Y2)chain', 'rot2', 'swap+2h']: 1
+move kinds at the nearest distance, states:
+  ['key(U0Z0W2Y0)']: 18
+  ['key(U1Z1W0Y0)chain', 'rot2']: 1
+candidate enlargements of R_13: failing states they repair / do not repair
+  RTr       repairs 1, does not repair 18
+  R13+tr    repairs 1, does not repair 18
+  R13+rot3  repairs 1, does not repair 18
+  R13+h2    repairs 1, does not repair 18
+  R13+hA    repairs 1, does not repair 18

@@ -1,0 +1,29 @@
+# command: python3 k4/dl13_fails.py results/k4_dl13/dump_n4_1.jsonl.gz results/k4_dl13/dump_n4_2.jsonl.gz results/k4_dl13/dump_n4_3_s200b.jsonl.gz results/k4_dl13/states_cat.jsonl.gz results/k4_dl13/states_nbhd123.jsonl.gz results/k4_dl13/hunt_n4_3_m8.jsonl.gz results/k4_dl13/hunt_pure_m8.jsonl.gz results/k4_dl13/hunt_n4_3_m6.jsonl.gz results/k4_dl13/hunt_pure_m6.jsonl.gz results/k4_dl13/hunt_n5.jsonl.gz --out=results/k4_dl13/fails_all.jsonl.gz
+# 7154 failing states dumped in 5119 profiles; recomputing 5119 profiles
+profiles recomputed 5119, failing states 7154, mismatches with the dump 0
+nearest distance k of the failing states: {2: 4163, 3: 2991}
+move kinds available (any distance), states:
+  ['rot3', 'swap+2h']: 2991
+  ['key(U0Z0W2Y0)', 'key(U0Z0W2Y1)', 'key(U0Z0W3Y0)', 'key(U0Z0W3Y1)', 'key(U1Z1W1Y0)chain', 'key(U1Z1W2Y0)chain']: 1612
+  ['key(U0Z0W2Y0)', 'key(U0Z0W3Y0)', 'key(U1Z1W1Y0)chain', 'key(U1Z1W2Y0)chain']: 1546
+  ['rot2', 'rot3', 'swap+2h']: 980
+  ['key(U0Z0W2Y0)', 'key(U0Z0W2Y1)', 'key(U0Z0W2Y2)', 'key(U0Z0W3Y0)', 'key(U0Z0W3Y1)', 'key(U0Z0W3Y2)', 'key(U1Z1W1Y0)chain', 'key(U1Z1W1Y1)chain', 'key(U1Z1W2Y0)chain', 'key(U1Z1W2Y1)chain', 'key(U2Z2W1Y0)']: 20
+  ['key(U0Z0W2Y2)', 'key(U0Z0W2Y3)', 'key(U1Z1W1Y1)', 'key(U1Z1W1Y2)', 'rot2', 'rot3']: 3
+  ['key(U1Z1W0Y0)chain', 'key(U1Z1W0Y2)chain', 'rot2', 'swap+2h']: 1
+  ['key(U0Z0W2Y2)', 'key(U0Z0W2Y3)', 'need-transfer(k3)', 'need-transfer(k4)', 'rot2', 'rot3']: 1
+move kinds at the nearest distance, states:
+  ['key(U0Z0W2Y0)']: 3178
+  ['rot3']: 2991
+  ['rot2']: 984
+  ['key(U1Z1W0Y0)chain', 'rot2']: 1
+candidate enlargements of R_13: failing states they repair / do not repair
+  R13       repairs 0, does not repair 7154
+  RTr       repairs 3976, does not repair 3178
+  R13+tr    repairs 985, does not repair 6169
+  R13+rot3  repairs 3976, does not repair 3178
+  R13+h2    repairs 3972, does not repair 3182
+  R13+hA    repairs 3972, does not repair 3182
+  R134      repairs 3178, does not repair 3976
+  R134s2    repairs 3178, does not repair 3976
+  RT4       repairs 7154, does not repair 0
+  RT4s2     repairs 7154, does not repair 0

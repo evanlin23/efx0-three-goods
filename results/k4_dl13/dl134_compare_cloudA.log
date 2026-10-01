@@ -1,0 +1,3 @@
+# TSV: results/k4_dl134/dl13fail_states.tsv of compute/k4-dl134 at 07e5059 (dl134.c sha256 2a24ba50...), extracted with git show
+# command: python3 k4/dl134_compare.py --tsv=/tmp/claude-0/-home-user-efx0-three-goods/891575f8-e905-5025-9feb-2c6293ea3e11/scratchpad/dl13fail_states.tsv results/k4_dl13/dl134_xcheck_n4.jsonl.gz
+states in the TSV 3062; found in the xcheck output 3062; agreeing on R134 3062, T1 3062, T3 3062, T4 3062, T4s2 3062, def 3062; states with a mismatch 0, missing 0

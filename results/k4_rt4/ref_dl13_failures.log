@@ -1,0 +1,12 @@
+# command: python3 k4/dlrt4_ref.py tsv results/k4_dl13/n4_failures_n4_1.tsv results/k4_dl13/n4_failures_n4_2.tsv results/k4_dl13/n4_failures_n4_3_s200b.tsv --jobs=4 --x
+#  200 / 1131 profiles: {'prof': 200, 'prof_pos': 200, 'prof_f1': 200, 'st': 1200, 'st_f1': 1200, 'f1_t4': 1200, 'f1_t4only': 400, 'f1_t3p': 800, 'st_x': 1200}
+#  400 / 1131 profiles: {'prof': 400, 'prof_pos': 400, 'prof_f1': 400, 'st': 2460, 'st_f1': 2460, 'f1_t4': 2460, 'f1_t4only': 860, 'f1_t3p': 1600, 'st_x': 2460}
+#  600 / 1131 profiles: {'prof': 600, 'prof_pos': 600, 'prof_f1': 600, 'st': 4000, 'st_f1': 4000, 'f1_t4': 4000, 'f1_t4only': 1600, 'f1_t3p': 2400, 'st_x': 4000}
+#  800 / 1131 profiles: {'prof': 800, 'prof_pos': 800, 'prof_f1': 800, 'st': 5200, 'st_f1': 5200, 'f1_t4': 5200, 'f1_t4only': 2000, 'f1_t3p': 3200, 'st_x': 5200}
+#  1000 / 1131 profiles: {'prof': 1000, 'prof_pos': 1000, 'prof_f1': 1000, 'st': 6780, 'st_f1': 6780, 'f1_t4': 6780, 'f1_t4only': 2780, 'f1_t3p': 4000, 'st_x': 6780}
+#  1131 / 1131 profiles: {'prof': 1131, 'prof_pos': 1131, 'prof_f1': 1131, 'st': 7586, 'st_f1': 7586, 'f1_t4': 7586, 'f1_t4only': 3062, 'f1_t3p': 4524, 'st_x': 7586}
+# dlrt4.c sha256 fcde494a3161279d47a7b80e614f69c58894ebc7b40d00e461f677b8810d7cae
+# listed failing states: 3062, found as states 3062, R_13 fails there (dlrt4.c) 3062, DL_RT4 fails there 0
+profiles 1131 (with a def > 0 state 1131, with an f >= 1 state 1131); states 7586 (f = 0: 0, f >= 1: 7586); DL_RT4 failures f >= 1: 0, RT4 failures f = 0: 0
+f >= 1 states with an improving move: T1 0, T2 0, T3p 4524, T3h 0, T4 7586; only T4 3062, only T2 0
+mismatches: reference (model.py + dl2_relations.py + own T4) 0, reference assertions 0, dl13.c (K line and T1/T3 per state) 0 + 0, -DBIGPP=0 build 0, xcheck (dl134_xcheck.py, 7586 states) 0

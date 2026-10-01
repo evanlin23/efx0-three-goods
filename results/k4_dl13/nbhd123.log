@@ -1,0 +1,131 @@
+# command: python3 k4/dl13_nbhd.py results/k4_certs_4_pure.json.gz 123 7,196,164,44 --radius=2 --jobs=1 --rt=20 --ro=2000 --ckpt=results/k4_dl13/ckpt_nbhd123.jsonl --dump=results/k4_dl13/states_nbhd123.jsonl.gz --tables=results/k4_dl13/tables_nbhd123.json
+# dl13.c sha256 f891de3a228a63fcd05008c0e4d9202068fc0d2b41be5876775affd4b2131d65
+# core 123 of k4_certs_4_pure.json.gz (m = 9, idx 0), profile [7, 196, 164, 44], radius 2: 11 units to run, 0 from the checkpoint
+#   unit {'pos': 123, 'S': []}: profiles 1, f >= 1 states 1, DL13 FAILS at 1 [1.2 s]
+#   unit {'pos': 123, 'S': [0]}: profiles 143, f >= 1 states 55, DL13 FAILS at 1 [0.1 s]
+#   unit {'pos': 123, 'S': [1]}: profiles 287, f >= 1 states 143, DL13 FAILS at 61 [0.1 s]
+#   unit {'pos': 123, 'S': [2]}: profiles 287, f >= 1 states 143, DL13 FAILS at 51 [0.1 s]
+#   unit {'pos': 123, 'S': [3]}: profiles 287, f >= 1 states 13, DL13 FAILS at 5 [0.1 s]
+#   unit {'pos': 123, 'S': [0, 1]}: profiles 41041, f >= 1 states 4697, DL13 FAILS at 61 [7.0 s]
+#   unit {'pos': 123, 'S': [0, 2]}: profiles 41041, f >= 1 states 6617, DL13 FAILS at 51 [5.6 s]
+#   unit {'pos': 123, 'S': [0, 3]}: profiles 41041, f >= 1 states 627, DL13 FAILS at 5 [7.3 s]
+#   unit {'pos': 123, 'S': [1, 2]}: profiles 82369, f >= 1 states 44209, DL13 FAILS at 3111 [6.9 s]
+#   unit {'pos': 123, 'S': [1, 3]}: profiles 82369, f >= 1 states 1859, DL13 FAILS at 305 [9.1 s]
+#   unit {'pos': 123, 'S': [2, 3]}: profiles 82369, f >= 1 states 1075, DL13 FAILS at 319 [7.2 s]
+neighbourhood of [7, 196, 164, 44]: profiles 371235, omega >= 1: 371235; k* = 0: 338192, 1: 24524, 2: 4200, 3: 4319, >= 4: 0, inf: 0; P with def > 0: 59439, at distance 1: 48928, 2: 6160, 3: 4351, >= 4: 0, inf: 0; Pareto-maximal: 8296; largest least deficit 0
+  DL13: states (def > 0) with f = 0: 0 (R_13 fails at 0), with f >= 1: 59439; DL13 FAILS at 3971 of the f >= 1 states; T1 only 7352, T3 only 6540 (of which T3 with a helper only 1652), both 41576; with a plain T3 move 28144, with a helper T3 move 47692; nearest R_13 improvement at distance 1 / 2 / 3: 48928 / 4888 / 1652; anomalies 0 [45 s]
+table B: f >= 1 states by f | signature | branch : count
+  B 1|fO,L|T1+T3h : 9676
+  B 1|fO,G,D2|T1+T3p+T3h : 8464
+  B 1|G,D2|T1+T3p+T3h : 7800
+  B 1|fO|T1+T3h : 5780
+  B 1|G,D2,PM|T1+T3p+T3h : 4344
+  B 1|L|T1 : 4200
+  B 1|L|none : 3675
+  B 1|e2,fO,L|T1+T3h : 2272
+  B 1|fO,L|T1 : 2144
+  B 1|G,D2,PM|T3p+T3h : 1560
+  B 1|G,D2|T3p+T3h : 696
+  B 1|L|T3h : 696
+  B 1|L,PM|T3h : 668
+  B 1|L,PM|T1 : 664
+  B 1|e2,fO,G,D2|T1+T3p+T3h : 640
+  B 1|e2,G,D2|T3p+T3h : 520
+  B 1|L|T3p+T3h : 464
+  B 1|L|T1+T3p+T3h : 448
+  B 2|fO,G,D2|T3p+T3h : 432
+  B 1|fO,G,D2|T3p+T3h : 416
+  B 1|fO,L|T1+T3p+T3h : 328
+  B 1|L,PM|none : 264
+  B 1|L,PM|T1+T3h : 260
+  B 2|G,D2,PM|T3p+T3h : 216
+  B 1|G,D2|T1+T3p : 208
+  B 1|e2,fO,L|T3h : 208
+  B 1|fO,G,D2|T1+T3p : 208
+  B 1|e2,G,D2|T1+T3p+T3h : 200
+  B 1|fO|T1 : 200
+  B 2|fO,G,D2|T1+T3p+T3h : 192
+  B 2|fO,G,L,D2|T3p+T3h : 192
+  B 2|G,D2,PM|T1+T3p+T3h : 168
+  B 1|L|T1+T3h : 132
+  B 1|e2,L|T1+T3h : 120
+  B 1|e2,fO|T1 : 120
+  B 1|fO|T1+T3p+T3h : 120
+  B 2|G,L,D2|T3p+T3h : 96
+  B 1|e2,L|T3h : 80
+  B 1|e2,fO,G,D2|T3p+T3h : 80
+  B 1|e2,fO|T1+T3h : 80
+  B 2|G,D2|T3p+T3h : 72
+  B 1|L,PM|T3p+T3h : 48
+  B 2|G,G1,D2|T3p+T3h : 48
+  B 2|G,L,D2,PM|T1+T3p+T3h : 48
+  B 2|G,L,D2,PM|T3p+T3h : 48
+  B 2|G,L,D2|T1+T3p+T3h : 48
+  B 1|e2,fO,L|none : 32
+  B 1|e2,fO,L|T1 : 24
+  B 2|G,D2|T1+T3p+T3h : 24
+  B 1|L,PM|T1+T3p+T3h : 8
+  B 1|fO,L|T1+T3p : 8
+table G: f >= 1 states by f | nearest distance k | branch : count
+  G 1|1|T1+T3p+T3h : 22352
+  G 1|1|T1+T3h : 18320
+  G 1|1|T1 : 7352
+  G 1|2|T3p+T3h : 3784
+  G 1|3|none : 2991
+  G 1|3|T3h : 1360
+  G 2|2|T3p+T3h : 1104
+  G 1|2|none : 980
+  G 2|1|T1+T3p+T3h : 480
+  G 1|1|T1+T3p : 424
+  G 1|2|T3h : 292
+table Y: f >= 1 states by f | branch | move type available : count
+  Y 1|T1+T3p+T3h|T3:xJ.h- : 22352
+  Y 1|T1+T3p+T3h|T3:xJ.hZ : 21776
+  Y 1|T1+T3p+T3h|T1:pool : 18456
+  Y 1|T1+T3h|T1:pool : 17928
+  Y 1|T1+T3h|T3:xH.hJ : 14564
+  Y 1|T1+T3p+T3h|T3:xJ.hR : 13944
+  Y 1|T1+T3p+T3h|T1:rel : 11664
+  Y 1|T1+T3h|T3:xH.hZ : 11520
+  Y 1|T1+T3h|T1:rel : 9652
+  Y 1|T1+T3p+T3h|T1:grow : 6812
+  Y 1|T1+T3p+T3h|T3:xJ.hJ : 6224
+  Y 1|T1|T1:pool : 5440
+  Y 1|T1|T1:rel : 3884
+  Y 1|T3p+T3h|T3:xJ.h- : 3784
+  Y 1|T3p+T3h|T3:xJ.hZ : 3784
+  Y 1|T1+T3h|T3:xH.hR : 2496
+  Y 1|T1+T3h|T1:grow : 2460
+  Y 1|T1|T1:grow : 2132
+  Y 1|T3p+T3h|T3:xJ.hR : 1120
+  Y 2|T3p+T3h|T3:xJ.h- : 1104
+  Y 2|T3p+T3h|T3:xH.hZ : 912
+  Y 2|T3p+T3h|T3:xJ.hZ : 824
+  Y 1|T3h|T3:xJ.hZ : 768
+  Y 1|T3h|T3:xH.hR : 736
+  Y 2|T3p+T3h|T3:xZ.h- : 648
+  Y 2|T3p+T3h|T3:xJ.hJ : 624
+  Y 2|T3p+T3h|T3:xJ.hR : 624
+  Y 2|T1+T3p+T3h|T1:rel : 480
+  Y 2|T1+T3p+T3h|T3:xH.hZ : 480
+  Y 2|T1+T3p+T3h|T3:xJ.h- : 480
+  Y 2|T1+T3p+T3h|T3:xJ.hR : 480
+  Y 2|T3p+T3h|T3:xZ.hZ : 480
+  Y 1|T1+T3p|T1:pool : 424
+  Y 1|T1+T3p|T3:xJ.h- : 424
+  Y 1|T1+T3h|T3:xJ.hR : 392
+  Y 1|T1+T3p+T3h|T3:xH.hJ : 360
+  Y 2|T1+T3p+T3h|T3:xJ.hZ : 336
+  Y 2|T1+T3p+T3h|T3:xZ.h- : 320
+  Y 2|T1+T3p+T3h|T3:xZ.hZ : 320
+  Y 2|T3p+T3h|T3:xZ.hR : 320
+  Y 1|T3h|T3:xH.hZ : 288
+  Y 2|T1+T3p+T3h|T3:xJ.hJ : 288
+  Y 1|T3h|T3:xH.hJ : 224
+  Y 1|T1+T3h|T3:xJ.hZ : 168
+  Y 2|T1+T3p+T3h|T3:xZ.hR : 160
+  Y 2|T3p+T3h|T3:xZ.hJ : 160
+  Y 2|T3p+T3h|T3:xH.hJ : 144
+  Y 1|T3h|T3:xJ.hR : 120
+  Y 1|T1+T3h|T3:xJ.hJ : 80
+  Y 1|T3p+T3h|T3:xH.hR : 40

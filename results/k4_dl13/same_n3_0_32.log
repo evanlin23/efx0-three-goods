@@ -1,0 +1,37 @@
+# command: python3 k4/dl13u_same.py certs results/k4_certs_3.json.gz --cores=0:33 --copts=-r100,-o0 --nohash --progress
+# dl13.c sha256 f891de3a228a63fcd05008c0e4d9202068fc0d2b41be5876775affd4b2131d65
+# dl13u.c sha256 e5ab32ae961795db80db8cd6222a99f5f4ad5396fead9f8d319369b8725e5615
+#   k4_certs_3.json.gz#0: ok so far, 0 differences
+#   k4_certs_3.json.gz#1: ok so far, 0 differences
+#   k4_certs_3.json.gz#2: ok so far, 0 differences
+#   k4_certs_3.json.gz#3: ok so far, 0 differences
+#   k4_certs_3.json.gz#4: ok so far, 0 differences
+#   k4_certs_3.json.gz#5: ok so far, 0 differences
+#   k4_certs_3.json.gz#6: ok so far, 0 differences
+#   k4_certs_3.json.gz#7: ok so far, 0 differences
+#   k4_certs_3.json.gz#8: ok so far, 0 differences
+#   k4_certs_3.json.gz#9: ok so far, 0 differences
+#   k4_certs_3.json.gz#10: ok so far, 0 differences
+#   k4_certs_3.json.gz#11: ok so far, 0 differences
+#   k4_certs_3.json.gz#12: ok so far, 0 differences
+#   k4_certs_3.json.gz#13: ok so far, 0 differences
+#   k4_certs_3.json.gz#14: ok so far, 0 differences
+#   k4_certs_3.json.gz#15: ok so far, 0 differences
+#   k4_certs_3.json.gz#16: ok so far, 0 differences
+#   k4_certs_3.json.gz#17: ok so far, 0 differences
+#   k4_certs_3.json.gz#18: ok so far, 0 differences
+#   k4_certs_3.json.gz#19: ok so far, 0 differences
+#   k4_certs_3.json.gz#20: ok so far, 0 differences
+#   k4_certs_3.json.gz#21: ok so far, 0 differences
+#   k4_certs_3.json.gz#22: ok so far, 0 differences
+#   k4_certs_3.json.gz#23: ok so far, 0 differences
+#   k4_certs_3.json.gz#24: ok so far, 0 differences
+#   k4_certs_3.json.gz#25: ok so far, 0 differences
+#   k4_certs_3.json.gz#26: ok so far, 0 differences
+#   k4_certs_3.json.gz#27: ok so far, 0 differences
+#   k4_certs_3.json.gz#28: ok so far, 0 differences
+#   k4_certs_3.json.gz#29: ok so far, 0 differences
+#   k4_certs_3.json.gz#30: ok so far, 0 differences
+#   k4_certs_3.json.gz#31: ok so far, 0 differences
+#   k4_certs_3.json.gz#32: ok so far, 0 differences
+33 inputs, option sets [['-r100', '-o0']], builds [('dl13.c', ''), ('dl13u.c', '')]: 4656 output lines per build compared, 0 differences

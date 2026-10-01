@@ -1,0 +1,14 @@
+# command: python3 k4/dl13_check.py catalog results/k4_gap/gap_n3.json.gz --every=40
+# dl13.c sha256 f891de3a228a63fcd05008c0e4d9202068fc0d2b41be5876775affd4b2131d65; dl2.c sha256 bf20adab485d04dd0a660b56c8337a3fdbe3471ac8178706af150932c82dcbd2
+#  200 / 1857 profiles: {'prof': 200, 'prof_pos': 2, 'prof_f1': 2, 'st': 4, 'st_f0': 0, 'st_f1': 4, 'st_x': 4, 'mm_model': 0, 'mm_x': 0, 'mm_K': 0, 'mm_hash': 0, 'fail_f1': 0, 'fail_f0': 0}
+#  400 / 1857 profiles: {'prof': 400, 'prof_pos': 8, 'prof_f1': 8, 'st': 15, 'st_f0': 0, 'st_f1': 15, 'st_x': 15, 'mm_model': 0, 'mm_x': 0, 'mm_K': 0, 'mm_hash': 0, 'fail_f1': 0, 'fail_f0': 0}
+#  600 / 1857 profiles: {'prof': 600, 'prof_pos': 23, 'prof_f1': 23, 'st': 52, 'st_f0': 0, 'st_f1': 52, 'st_x': 52, 'mm_model': 0, 'mm_x': 0, 'mm_K': 0, 'mm_hash': 0, 'fail_f1': 0, 'fail_f0': 0}
+#  800 / 1857 profiles: {'prof': 800, 'prof_pos': 37, 'prof_f1': 37, 'st': 75, 'st_f0': 0, 'st_f1': 75, 'st_x': 75, 'mm_model': 0, 'mm_x': 0, 'mm_K': 0, 'mm_hash': 0, 'fail_f1': 0, 'fail_f0': 0}
+#  1000 / 1857 profiles: {'prof': 1000, 'prof_pos': 70, 'prof_f1': 70, 'st': 138, 'st_f0': 0, 'st_f1': 138, 'st_x': 138, 'mm_model': 0, 'mm_x': 0, 'mm_K': 0, 'mm_hash': 0, 'fail_f1': 0, 'fail_f0': 0}
+#  1200 / 1857 profiles: {'prof': 1200, 'prof_pos': 123, 'prof_f1': 123, 'st': 297, 'st_f0': 0, 'st_f1': 297, 'st_x': 297, 'mm_model': 0, 'mm_x': 0, 'mm_K': 0, 'mm_hash': 0, 'fail_f1': 0, 'fail_f0': 0}
+#  1400 / 1857 profiles: {'prof': 1400, 'prof_pos': 164, 'prof_f1': 164, 'st': 417, 'st_f0': 0, 'st_f1': 417, 'st_x': 417, 'mm_model': 0, 'mm_x': 0, 'mm_K': 0, 'mm_hash': 0, 'fail_f1': 0, 'fail_f0': 0}
+#  1600 / 1857 profiles: {'prof': 1600, 'prof_pos': 255, 'prof_f1': 255, 'st': 630, 'st_f0': 0, 'st_f1': 630, 'st_x': 630, 'mm_model': 0, 'mm_x': 0, 'mm_K': 0, 'mm_hash': 0, 'fail_f1': 0, 'fail_f0': 0}
+#  1800 / 1857 profiles: {'prof': 1800, 'prof_pos': 347, 'prof_f1': 347, 'st': 1114, 'st_f0': 0, 'st_f1': 1114, 'st_x': 1114, 'mm_model': 0, 'mm_x': 0, 'mm_K': 0, 'mm_hash': 0, 'fail_f1': 0, 'fail_f0': 0}
+#  1857 / 1857 profiles: {'prof': 1857, 'prof_pos': 385, 'prof_f1': 385, 'st': 1316, 'st_f0': 0, 'st_f1': 1316, 'st_x': 1316, 'mm_model': 0, 'mm_x': 0, 'mm_K': 0, 'mm_hash': 0, 'fail_f1': 0, 'fail_f0': 0}
+profiles 1857 (with a def > 0 state 385, with f >= 1 and a def > 0 state 385); states 1316 (f = 0: 0, f >= 1: 1316); DL13 failures f >= 1: 0, R_13 failures f = 0: 0
+mismatches: model (dl2_relations.py) 0, xcheck (c4x_check.py, 1316 states with n <= 4) 0, K line vs dl2.c 0, hash build 0
