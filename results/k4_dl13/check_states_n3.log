@@ -1,0 +1,10 @@
+# command: python3 k4/dl13_check.py records results/k4_dl13/states_n3.jsonl.gz --every=10
+# dl13.c sha256 f891de3a228a63fcd05008c0e4d9202068fc0d2b41be5876775affd4b2131d65; dl2.c sha256 bf20adab485d04dd0a660b56c8337a3fdbe3471ac8178706af150932c82dcbd2
+#  200 / 1023 profiles: {'prof': 200, 'prof_pos': 200, 'prof_f1': 199, 'st': 758, 'st_f0': 1, 'st_f1': 757, 'st_x': 758, 'mm_model': 0, 'mm_x': 0, 'mm_K': 0, 'mm_hash': 0, 'fail_f1': 0, 'fail_f0': 1}
+#  400 / 1023 profiles: {'prof': 400, 'prof_pos': 400, 'prof_f1': 399, 'st': 1606, 'st_f0': 1, 'st_f1': 1605, 'st_x': 1606, 'mm_model': 0, 'mm_x': 0, 'mm_K': 0, 'mm_hash': 0, 'fail_f1': 0, 'fail_f0': 1}
+#  600 / 1023 profiles: {'prof': 600, 'prof_pos': 600, 'prof_f1': 599, 'st': 2719, 'st_f0': 1, 'st_f1': 2718, 'st_x': 2719, 'mm_model': 0, 'mm_x': 0, 'mm_K': 0, 'mm_hash': 0, 'fail_f1': 0, 'fail_f0': 1}
+#  800 / 1023 profiles: {'prof': 800, 'prof_pos': 800, 'prof_f1': 798, 'st': 4166, 'st_f0': 2, 'st_f1': 4164, 'st_x': 4166, 'mm_model': 0, 'mm_x': 0, 'mm_K': 0, 'mm_hash': 0, 'fail_f1': 0, 'fail_f0': 2}
+#  1000 / 1023 profiles: {'prof': 1000, 'prof_pos': 1000, 'prof_f1': 996, 'st': 6173, 'st_f0': 4, 'st_f1': 6169, 'st_x': 6173, 'mm_model': 0, 'mm_x': 0, 'mm_K': 0, 'mm_hash': 0, 'fail_f1': 0, 'fail_f0': 4}
+#  1023 / 1023 profiles: {'prof': 1023, 'prof_pos': 1023, 'prof_f1': 1019, 'st': 6439, 'st_f0': 4, 'st_f1': 6435, 'st_x': 6439, 'mm_model': 0, 'mm_x': 0, 'mm_K': 0, 'mm_hash': 0, 'fail_f1': 0, 'fail_f0': 4}
+profiles 1023 (with a def > 0 state 1023, with f >= 1 and a def > 0 state 1019); states 6439 (f = 0: 4, f >= 1: 6435); DL13 failures f >= 1: 0, R_13 failures f = 0: 4
+mismatches: model (dl2_relations.py) 0, xcheck (c4x_check.py, 6439 states with n <= 4) 0, K line vs dl2.c 0, hash build 0

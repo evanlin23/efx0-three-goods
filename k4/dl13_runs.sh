@@ -18,7 +18,7 @@ check)          # cross-checks of dl13.c (k4/dl13_check.py: dl2_relations.py, c4
   python3 k4/dl13_check.py records $R/states_n3.jsonl.gz --every=10 > $R/check_states_n3.log 2>&1
   for c in gap_n4_1 gap_n4_2_s4000 gap_n4_3_s4000 gap_n4_pure_s4000; do
     python3 k4/dl13_check.py catalog $G/$c.json.gz --every=200 > $R/check_cat_${c}.log 2>&1; done
-  python3 k4/dl13_check.py catalog $G/hard_hunt.json.gz > $R/check_cat_hard_hunt.log 2>&1
+  python3 k4/dl13_check.py catalog $G/hard_hunt.json.gz --no-x > $R/check_cat_hard_hunt.log 2>&1    # c4x_check: too slow at m = 12
   for c in gap_n5_2_s100 gap_n5_3_s100 gap_n5_4_s100 gap_n5_pure_s100; do
     python3 k4/dl13_check.py catalog $G/$c.json.gz --every=500 --no-x > $R/check_cat_${c}.log 2>&1; done
   ;;

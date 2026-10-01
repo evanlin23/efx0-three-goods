@@ -13,7 +13,8 @@ neighbours stay in check4.core_domains), so every state met counts as tested; th
 the distinct profiles evaluated.
 
 usage: python3 k4/dl13_hunt.py certs FILE [--climbs=C] [--steps=S] [--nb=NB] [--patience=Q] [--bt] [--seed=s]
-                                          [--cores=A:B] [--jobs=J] [--out=FILE.jsonl.gz] [--ckpt=PATH] [--tables=PATH]
+                                          [--cores=A:B] [--mmin=M] [--mmax=M] [--jobs=J] [--out=FILE.jsonl.gz]
+                                          [--ckpt=PATH] [--tables=PATH]          (--mmin/--mmax: cores with m in range)
        python3 k4/dl13_hunt.py suite [--maxn=N] ...      (climbs start at the suite's core instances, own profile first)
        python3 k4/dl13_hunt.py catalog FILE.json.gz [--every=E] [--max=N] ...  (climbs start at catalogue profiles of
                                           k4/gap_run.py, shuffled with --seed)
@@ -150,8 +151,9 @@ def main(argv):
         cores = json.load(gzip.open(rest[0], 'rt'))['cores']
         lo, hi = 0, len(cores)
         if 'cores' in opt: a, b = opt['cores'].split(':'); lo, hi = int(a or 0), int(b or len(cores))
+        okc = [k for k in range(lo, hi) if int(opt.get('mmin', 0)) <= cores[k]['m'] <= int(opt.get('mmax', 99))]
         for c in range(C):
-            k = rng.randrange(lo, hi)
+            k = rng.choice(okc)
             tasks.append(({'climb': c, 'pos': k, 'file': os.path.basename(rest[0])}, cores[k]['sets'], cores[k]['m'], None,
                           S, NB, Q, bt, rng.randrange(1 << 30), I))
     else:
@@ -166,6 +168,7 @@ def main(argv):
             recs = json.load(gzip.open(rest[0], 'rt'))['records'][::int(opt.get('every', 1))]
             for r in recs:
                 c_ = r['core']
+                if not int(opt.get('mmin', 0)) <= c_['m'] <= int(opt.get('mmax', 99)): continue
                 starts.append((f"{c_['file']}#{c_.get('pos')}:{','.join(map(str, r['prof']))}", c_['sets'], c_['m'], r['vals']))
             rng.shuffle(starts)
             if 'max' in opt: starts = starts[:int(opt['max'])]
