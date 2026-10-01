@@ -27,7 +27,8 @@ Objects, for one strict profile:
                    x big-top (four goods, g its top a, a > b + c), R_x \ {a} inside J + B_o;
                 L  not G, o not a chain end of x;  O otherwise.
       the signature of P: the classes of the exposures w.r.t. its best owners, plus "D2" if some frozen agent is
-      exposed w.r.t. two or more free owners (k4/c4min_reduce.md Lemma D(ii)); "allfrozen" if def = +inf.
+      exposed w.r.t. two or more free owners (k4/c4min_reduce.md Lemma D(ii)); "allfrozen" if def = +inf; "PM" if P
+      is Pareto-maximal in P (the setting of Lemmas H3 and H7; such P' are min-frozen, k4/hall.md section 2).
       nn(P): the distance to the nearest other min-frozen P' of any deficit (P is isolated if nn(P) >= 3).
       the witness: among the P' at the least distance with def(P') < def(P), the one moving the fewest goods
       (sum of |B_i xor B'_i|), then the smallest def(P'), then the first in the enumeration order of P. Per changed
@@ -43,17 +44,19 @@ of d values (in the order of its goods) / "P" and, if P < 0, -P lines of n domai
 P > 0: P random profiles (seeded by -S and tag); P < 0: the listed profiles.
 Options:
   -v       one line per evaluated profile: "V tag p_0 .. p_{n-1} kstar nmin npos mindef" (kstar -1 = inf, -2: omega <= 0)
-  -w       with -v: one line per min-frozen P: "W bases(masks) def dist nn" (def 999999 = inf; dist -1: def <= 0, 99:
-           none; nn: the distance to the nearest other min-frozen P, -1 when def <= 0, 99: none)
+  -w       with -v: one line per min-frozen P: "W bases(masks) def dist nn pm" (def 999999 = inf; dist -1: def <= 0,
+           99: none; nn: the distance to the nearest other min-frozen P, 99: none; pm: Pareto-maximal; nn, pm -1 when
+           def <= 0)
   -rR      dump "D {json}" records: every profile with k* >= 3 (or inf); the profiles with k* = 1 whose rank among the
            k* = 1 profiles of the block is 0 mod R (the first, the (R+1)-th, ...; R = 0: none)
   -qQ      the same for k* = 2 with Q (default 1: every one)
   -SS      seed for P > 0.
 Output per block: "K tag prof N om1 N small N kstar0 N .. kstar3 N kstar4 N kstarinf N kstarn N kiso N ktrap N pos N
-pd1 N .. pd4 N pdinf N piso N ptrap N maxmin N": profiles (all, omega >= 1, omega <= 0); profiles with k* = 0, 1, 2,
+pd1 N .. pd4 N pdinf N piso N ptrap N pmpos N pm3 N maxmin N": profiles (all, omega >= 1, omega <= 0); profiles with k* = 0, 1, 2,
 3, >= 4, inf, k* = n; profiles with 3 <= k* < inf whose P at distance >= 3 are all isolated (kiso: no other min-frozen
 P within distance 2) or not (ktrap); P with def > 0 (pos), by distance (1, 2, 3, >= 4, inf) and, at distance >= 3,
-isolated or not (piso, ptrap); the largest least deficit over the profiles (maxmin). Then
+isolated or not (piso, ptrap); the Pareto-maximal P with def > 0 (pmpos), those at distance >= 3 (pm3); the largest
+least deficit over the profiles (maxmin). Then
 "T sig|type|roles count" (the canonical witness of every P with def > 0) and "A sig|type count" (every repair type
 available at the least distance, counted once per P).
 Build: gcc -O2 k4/dl2.c (m <= 32, n <= 16); -DWIDE for m <= 64 (H_3). With more than BIGPP (3000) min-frozen P the
@@ -189,8 +192,8 @@ static msk chain_ends(const unsigned char *ix, int x, msk F) {
     return ends;
 }
 
-enum { C_E1, C_E2, C_E3, C_FO, C_G, C_G1, C_L, C_O, C_D2, C_ALLF, NCLS };
-static const char *CLSNAME[NCLS] = {"e1", "e2", "e3", "fO", "G", "G1", "L", "O", "D2", "allfrozen"};
+enum { C_E1, C_E2, C_E3, C_FO, C_G, C_G1, C_L, C_O, C_D2, C_ALLF, C_PM, NCLS };
+static const char *CLSNAME[NCLS] = {"e1", "e2", "e3", "fO", "G", "G1", "L", "O", "D2", "allfrozen", "PM"};
 
 static int classify(const unsigned char *ix, const pinfo_t *pi, int x, int o) {
     msk Bx = opt[x][ix[x]], Bo = opt[o][ix[o]], J = pi->J;
@@ -298,10 +301,11 @@ static void fill_cand(long p, int all) {
 }
 
 /* ---------- per profile ---------- */
-typedef struct { long prof, om1, small, ks[6], kn, kiso, ktrap, pos, pd[6], piso, ptrap, maxmin; } cnt_t;
+typedef struct { long prof, om1, small, ks[6], kn, kiso, ktrap, pos, pd[6], piso, ptrap, pmpos, pm3, maxmin; } cnt_t;
 /* ks: profiles with k* = 0, 1, 2, 3, >= 4, inf; kn: with k* = n; kiso / ktrap: with k* >= 3 (finite) where every P
    at distance >= 3 is isolated (no other min-frozen P within distance 2) / some is not; pd: P with def > 0 at
-   distance 1, 2, 3, >= 4, inf (index 0 unused); piso / ptrap: P at distance >= 3, isolated / not */
+   distance 1, 2, 3, >= 4, inf (index 0 unused); piso / ptrap: P at distance >= 3, isolated / not; pmpos / pm3: P with
+   def > 0 that are Pareto-maximal / and at distance >= 3 */
 static cnt_t CN;
 static long evalidx;
 
@@ -340,12 +344,12 @@ static void profile(void) {
     int dumpit = 0;
     char *dbuf = 0; size_t dlen = 0; FILE *df = 0;
     /* first pass: distances */
-    static int *dd = 0, *nn = 0; static long capd = 0;
-    if (npp > capd) { capd = npp; dd = realloc(dd, sizeof(int) * capd); nn = realloc(nn, sizeof(int) * capd); }
+    static int *dd = 0, *nn = 0, *pmv = 0; static long capd = 0;
+    if (npp > capd) { capd = npp; dd = realloc(dd, sizeof(int) * capd); nn = realloc(nn, sizeof(int) * capd); pmv = realloc(pmv, sizeof(int) * capd); }
     int anytrap = 0;
     if (npp > BIGPP) hbuild();
     for (long p = 0; p < npp; p++) {
-        dd[p] = -1; nn[p] = -1;
+        dd[p] = -1; nn[p] = -1; pmv[p] = -1;
         if (PI[p].def <= 0) continue;
         int best = 99, near = 99; const unsigned char *ia = PP + p * MAXN;
         for (int pass = 0; pass < 2 && best == 99; pass++) {    /* pass 1 (large classes only): every other P */
@@ -387,6 +391,17 @@ static void profile(void) {
         else for (int o = 0; o < n; o++) if (PI[p].bestown[o] == PI[p].def) best |= BIT(o);
         for (int o = 0; o < n; o++) if (best >> o & 1) for (int x = 0; x < n; x++) if (PI[p].expo[o] >> x & 1) { sig |= 1 << classify(ia, &PI[p], x, o); xm |= BIT(x); }
         for (int x = 0; x < n; x++) if (PI[p].frozen >> x & 1) { int c = 0; for (int o = 0; o < n; o++) if (PI[p].expo[o] >> x & 1) c++; if (c >= 2) sig |= 1 << C_D2; }
+        /* Pareto-maximal in P: no P' with v_i(B'_i) >= v_i(B_i) for all i, one strict. Such a P' has NA' inside NA
+           (needs shrink when the base value does not drop), so it is min-frozen too and the scan of the class suffices */
+        int pm = 1;
+        for (long q = 0; q < npp && pm; q++) {
+            if (q == p) continue;
+            const unsigned char *ib = PP + q * MAXN; int ge = 1, gt = 0;
+            for (int i = 0; i < n && ge; i++) { int a = optv[i][ia[i]], b = optv[i][ib[i]]; if (b < a) ge = 0; else if (b > a) gt = 1; }
+            if (ge && gt) pm = 0;
+        }
+        pmv[p] = pm;
+        if (pm) { sig |= 1 << C_PM; CN.pmpos++; if (dd[p] >= 3) CN.pm3++; }
         char sigs[128]; sigs[0] = 0;
         for (int c = 0; c < NCLS; c++) if (sig >> c & 1) { if (sigs[0]) strcat(sigs, ","); strcat(sigs, CLSNAME[c]); }
         char key[1024], type[256], roles[256], ctype[256] = "", croles[256] = "";
@@ -417,7 +432,7 @@ static void profile(void) {
             int f1 = 1; for (int o = 0; o < n; o++) if (!(PI[p].frozen >> o & 1)) { fprintf(df, f1 ? "[%d,%d]" : ",[%d,%d]", o, PI[p].bestown[o] >= INF ? -1 : PI[p].bestown[o]); f1 = 0; }
             fprintf(df, "],\"exp\":["); f1 = 1;
             for (int o = 0; o < n; o++) for (int x = 0; x < n; x++) if (PI[p].expo[o] >> x & 1) { fprintf(df, f1 ? "[%d,%d,\"%s\"]" : ",[%d,%d,\"%s\"]", o, x, CLSNAME[classify(ia, &PI[p], x, o)]); f1 = 0; }
-            fprintf(df, "],\"sig\":\"%s\",\"k\":%d,\"nn\":%d", sigs, dd[p] == 99 ? -1 : dd[p], nn[p] == 99 ? -1 : nn[p]);
+            fprintf(df, "],\"sig\":\"%s\",\"pm\":%d,\"k\":%d,\"nn\":%d", sigs, pm, dd[p] == 99 ? -1 : dd[p], nn[p] == 99 ? -1 : nn[p]);
             if (wit >= 0) {
                 const unsigned char *ib = PP + wit * MAXN;
                 fprintf(df, ",\"W\":["); for (int i = 0; i < n; i++) { if (i) fputc(',', df); pmaskj(df, opt[i][ib[i]]); }
@@ -436,7 +451,7 @@ static void profile(void) {
         if (WVERB) for (long p = 0; p < npp; p++) {
             const unsigned char *ia = PP + p * MAXN;
             printf("W"); for (int i = 0; i < n; i++) printf(" %llu", (unsigned long long)opt[i][ia[i]]);
-            printf(" %d %d %d\n", PI[p].def, dd[p], nn[p]);
+            printf(" %d %d %d %d\n", PI[p].def, dd[p], nn[p], pmv[p]);
         }
     }
 }
@@ -481,9 +496,9 @@ int main(int argc, char **argv) {
             for (long q = 0; q < -P; q++) { for (int i = 0; i < n; i++) if (scanf("%d", &cur[i]) != 1) return 2; profile(); }
         }
         printf("K %d prof %ld om1 %ld small %ld kstar0 %ld kstar1 %ld kstar2 %ld kstar3 %ld kstar4 %ld kstarinf %ld kstarn %ld "
-               "kiso %ld ktrap %ld pos %ld pd1 %ld pd2 %ld pd3 %ld pd4 %ld pdinf %ld piso %ld ptrap %ld maxmin %ld\n",
+               "kiso %ld ktrap %ld pos %ld pd1 %ld pd2 %ld pd3 %ld pd4 %ld pdinf %ld piso %ld ptrap %ld pmpos %ld pm3 %ld maxmin %ld\n",
                tag, CN.prof, CN.om1, CN.small, CN.ks[0], CN.ks[1], CN.ks[2], CN.ks[3], CN.ks[4], CN.ks[5], CN.kn,
-               CN.kiso, CN.ktrap, CN.pos, CN.pd[1], CN.pd[2], CN.pd[3], CN.pd[4], CN.pd[5], CN.piso, CN.ptrap, CN.maxmin);
+               CN.kiso, CN.ktrap, CN.pos, CN.pd[1], CN.pd[2], CN.pd[3], CN.pd[4], CN.pd[5], CN.piso, CN.ptrap, CN.pmpos, CN.pm3, CN.maxmin);
         for (long i = 0; i < hcap; i++) if (HT[i].k) printf("%s %ld\n", HT[i].k, HT[i].c);
         fflush(stdout);
     }

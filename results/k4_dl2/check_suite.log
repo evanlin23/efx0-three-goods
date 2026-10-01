@@ -1,5 +1,5 @@
 # command: python3 k4/dl2_check.py suite
-# dl2.c sha256 867fdcb906c52ccc1495f44347d6f870712fa82a860e7d81ff111a1af6388a61
+# dl2.c sha256 0e4e2410b1219cbd3353b1607b8dd93f5394e1491a47f19ed6e2281cad1b78d6
 adaptive-cover-multi4                        n=2  k*=None  0 min-frozen P  AGREE
 adaptive-p1                                  n=3  k*=None  0 min-frozen P  AGREE
 adaptive-p3                                  n=3  k*=None  0 min-frozen P  AGREE

@@ -4,6 +4,7 @@
   python3 k4/dl2_run.py catalog FILE [--every=E] [--max=N] [--jobs=J] [--rec=R] [--dump=PATH]
   python3 k4/dl2_run.py suite [IDS...] [--maxn=N] [--rec=R] [--dump=PATH]
   python3 k4/dl2_run.py inst FILE.json [--sample=P] [--seed=S] [--rec=R] [--dump=PATH]   (a {"sets", "vals"|"m"} list)
+  python3 k4/dl2_run.py ht T [--sample=P] [--seed=S] [--wide] [--rec=R] [--dump=PATH]     (H_T of k4/c4_chain.py)
 
 certs: every strict profile (check4.core_domains: one integer representative per strict balanced type, with the
 private-pair condition) of every core of a certificate file results/k4_certs_*.json.gz, or P random ones per core.
@@ -11,6 +12,8 @@ catalog: the profiles of a catalogue written by k4/gap_run.py (records with "cor
 suite: the complete instances of k4/suite/instances (local configurations skipped).
 inst: a JSON list of instances {"id", "sets", "vals"} (one profile each), or with --sample=P and "m", P random strict
 profiles of each instance's hypergraph.
+ht: the core H_T of k4/c4.md §7 (k4/c4_chain.py build(T)) with §7's values, or with --sample=P, P random strict
+profiles of it (H_3 has m = 33: use --wide).
 
 --wide builds dl2.c with 64-bit masks (m <= 64; H_3 has m = 33).
 Prints the command, the SHA-256 of dl2.c, per file the counters of dl2.c (k* histogram: 0, 1, 2, >= 3, inf; profiles with
@@ -31,7 +34,7 @@ SHA = hashlib.sha256(open(SRC, 'rb').read()).hexdigest()
 WIDE = '--wide' in sys.argv                     # 64-bit masks (m <= 64), for H_3
 BIN = os.path.join(tempfile.gettempdir(), 'k4_dl2_' + SHA[:16] + ('_w' if WIDE else ''))
 KEYS = ('prof om1 small kstar0 kstar1 kstar2 kstar3 kstar4 kstarinf kstarn kiso ktrap pos pd1 pd2 pd3 pd4 pdinf piso '
-        'ptrap maxmin').split()
+        'ptrap pmpos pm3 maxmin').split()
 
 
 def build():
@@ -104,7 +107,7 @@ def report(name, tot, secs):
           f"2: {K['kstar2']}, 3: {K['kstar3']}, >= 4: {K['kstar4']}, inf: {K['kstarinf']} (k* = n: {K['kstarn']}; "
           f"k* >= 3 isolated / trapped: {K['kiso']} / {K['ktrap']}); P with def > 0: {K['pos']}, at distance 1: {K['pd1']}, "
           f"2: {K['pd2']}, 3: {K['pd3']}, >= 4: {K['pd4']}, inf: {K['pdinf']} (distance >= 3, isolated / trapped: "
-          f"{K['piso']} / {K['ptrap']}); largest least deficit {K['maxmin'] if K['om1'] else '-'} [{secs:.0f} s]", flush=True)
+          f"{K['piso']} / {K['ptrap']}; Pareto-maximal: {K['pmpos']}, at distance >= 3: {K['pm3']}); largest least deficit {K['maxmin'] if K['om1'] else '-'} [{secs:.0f} s]", flush=True)
 
 
 def print_tables(tot):
@@ -180,6 +183,13 @@ def main():
                 insts.append(d)
         elif mode == 'inst':
             insts = json.load(open(args[0]))
+        elif mode == 'ht':
+            import c4_chain
+            t = int(args[0]); sets, vals, m = c4_chain.build(t)
+            insts = [{'id': f'H_{t}', 'sets': sets, 'vals': vals, 'm': m}]
+            if int(opt.get('sample', 0)):              # split the sample over the workers (distinct tags, distinct streams)
+                insts = [dict(insts[0], id=f'H_{t}#{j}') for j in range(jobs)]
+                opt['sample'] = str(-(-int(opt['sample']) // jobs))
         P = int(opt.get('sample', 0)); seed = int(opt.get('seed', 1))
         out = []
         tasks = []
@@ -192,8 +202,10 @@ def main():
                 doms = [[dict(zip(S, V))] for S, V in zip(sets, d['vals'])]
                 tasks.append((k, block(sets, m, doms, k, 0), doms))
         chunks = [tasks[i::jobs] for i in range(jobs)]
+        rec2 = int(opt.get('rec2', 1)); seen = {1: 0, 2: 0}
+        topts = (copts if P else ['-r1', '-q1']) + [f'-S{seed}'] + (['-v'] if not P else [])
         with Pool(jobs) as pool:
-            res = pool.map(_run_chunk, [(c, copts + [f'-S{seed}'] + (['-v'] if not P else [])) for c in chunks])
+            res = pool.map(_run_chunk, [(c, topts) for c in chunks])
         bymap = {}
         for blocks in res:
             for b in blocks: bymap[b['tag']] = b
@@ -206,10 +218,16 @@ def main():
                 if mode != 'catalog' or opt.get('verbose'):
                     print(f"{d['id']:<44} n={len(d['sets'])}  k*={ks}  " + (f"{b['V'][0][n_of(d) + 1]} min-frozen P, {b['V'][0][n_of(d) + 2]} with def > 0, least def {b['V'][0][n_of(d) + 3]}" if ks is not None else 'omega<=0'), flush=True)
             for r in b['D']:
+                if not P and r['kstar'] in (1, 2):         # one profile per block: sample here
+                    seen[r['kstar']] += 1; every = rec if r['kstar'] == 1 else rec2
+                    if every <= 0 or (seen[r['kstar']] - 1) % every: continue
                 r['vals'] = [[D[p][g] for g in S] for S, D, p in zip(d['sets'], doms, r['prof'])]
                 r['core'] = {'id': d.get('id'), 'm': d.get('m') or 1 + max(g for S in d['sets'] for g in S), 'sets': d['sets']}
                 if dumpf: dumpf.write(json.dumps(r, separators=(',', ':')) + '\n')
         report(mode + (' ' + args[0] if args and mode != 'suite' else ''), tot, time.time() - t0)
+        if mode in ('catalog', 'suite', 'inst', 'ht') and not P:
+            print(f'# dumped: every profile with k* >= 3, every {rec}-th with k* = 1 (0: none), every {rec2}-th with k* = 2',
+                  flush=True)
     if mode == 'certs' and len(args) > 1: report('total', tot, time.time() - t0)
     print_tables(tot)
     if 'tables' in opt:

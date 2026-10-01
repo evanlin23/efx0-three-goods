@@ -1,0 +1,3 @@
+# command: python3 k4/dl2_check.py catalog k4/suite/.cache/gapbench/results/k4_gap/gap_n5_1_s100.json.gz --every=20
+# dl2.c sha256 0e4e2410b1219cbd3353b1607b8dd93f5394e1491a47f19ed6e2281cad1b78d6
+instances 28, min-frozen P compared 668, k* histogram (C) {0: 28}, disagreements 0

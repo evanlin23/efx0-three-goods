@@ -1,10 +1,10 @@
 # command: python3 k4/dl2_selftest.py
-# dl2.c sha256 bbcd97717b16c6c58092e3299a1694026814791ea8b64b2a9464202d41ad66b4
+# dl2.c sha256 0e4e2410b1219cbd3353b1607b8dd93f5394e1491a47f19ed6e2281cad1b78d6
 158 blocks
-n 5.9 s 149701 lines
-h 6.2 s 149701 lines
-w 6.2 s 149701 lines
-wh 6.4 s 149701 lines
+n 6.3 s 149724 lines
+h 6.0 s 149724 lines
+w 6.6 s 149724 lines
+wh 6.8 s 149724 lines
 h identical to n
 w identical to n
 wh identical to n
