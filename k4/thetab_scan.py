@@ -87,7 +87,6 @@ def plain_swaps(pr, ctx):
         for A in swaps(ctx, z):
             b2 = ctx.new(x, z, A)
             if pr.D[b2] < ctx.D: exact = True
-            if not bigtop(ctx.I, z): continue
             for o in ctx.P.free:
                 if o == z: continue
                 sb = swap_bound(ctx, z, A, o)
@@ -134,6 +133,8 @@ def run(items, label):
             if not H and st != 'T3stage': continue
             typ = '(H)' if H else 'needers ' + '+'.join(sorted(ntype(I, y) for y in nd))
             thm = theorems(pr, ctx)
+            if H and I.n == 3:
+                assert thm == 'W', ('Corollary N3: the hypotheses of Theorem W fail at n = 3', src, Bs, gw1_hyp(ctx))
             exact, cert = plain_swaps(pr, ctx)
             res = 'plain swap' if exact else 'NO plain swap'
             if not exact and st == 'T3stage':

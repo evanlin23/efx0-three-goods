@@ -18,11 +18,12 @@ from thetab_lib import *
 
 def main(argv):
     print('# command: python3 k4/thetab_targets.py ' + ' '.join(argv), flush=True)
-    cnt = collections.Counter(); small = {}
+    cnt = collections.Counter(); small = {}; distinct = set()
     f1 = '--f1' in argv
     for r, pr, ctx, cls in targets(fpred=(lambda r: r['f'] == 1) if f1 else None):
         I, P, Bs = ctx.I, ctx.P, ctx.Bs
         cnt[('all', cls, 'f=%d' % r['f'])] += 1
+        distinct.add((cls, r['f'], json.dumps([r['sets'], r['vals'], r['Bs']])))
         k = (cls, r['f'])
         if k not in small or (I.n, I.m) < small[k][0]: small[k] = ((I.n, I.m), r, ctx)
         if r['f'] != 1: continue
@@ -80,6 +81,8 @@ def main(argv):
             first = sorted(modes, key=lambda t: (t[1] != 'quiet', ['W1', 'K', 'S'].index(t[0]), t[2]))[0]
             cnt[('f=1', cls, 'n=%d' % I.n, 'first Lemma G mode', first)] += 1
     for k in sorted(cnt, key=str): print('  %-100s %d' % (' | '.join(map(str, k)), cnt[k]))
+    dc = collections.Counter((c, f) for c, f, _ in distinct)
+    print('distinct states per (class, f):', ', '.join('%s f=%d: %d' % (c, f, v) for (c, f), v in sorted(dc.items())))
     print('smallest target per (class, f):')
     for k, ((n, m), r, ctx) in sorted(small.items(), key=str):
         print('  %s f=%d: n=%d m=%d %s sets=%s vals=%s P=%s' % (k[0], k[1], n, m, r['src'], r['sets'], r['vals'], r['Bs']))
