@@ -1,0 +1,3 @@
+# exact Hq3: encoding A, n = 14, m = 34
+first 13: 19 states (<= 1 rotation, 3 policies): no output (2s)
+RESULT exact Hq3 encoding A: first agents with an output after <= 1 rotation: 0 of 1

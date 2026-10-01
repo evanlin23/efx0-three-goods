@@ -10,10 +10,13 @@ Usage:
   python3 k4/lemmam_bt_hh.py classes NAME [A,B,..]       Lemma K classes of every first agent (k4/lemmam_bt.py):
                                                          least deficit at the Phase 1 + upgrade state (K0) and after
                                                          every single RotStep (K1), each policy; C40's hypothesis
-  python3 k4/lemmam_bt_hh.py rk NAME                     the same classes by k4/rulef.c (-A41 -E1 -Y1 -N1, single
-                                                         profile; LB4r itself is skipped: its owner search enumerates
-                                                         subsets of the junk, out of reach at m = 65). Needs the
-                                                         source of k4/rulef.c (PR #72): k4/rulef.c or $RULEF_SRC
+  python3 k4/lemmam_bt_hh.py rk NAME                     k4/rulef.c's first big-top agent (-A42 -Q0) and rule RK
+                                                         (-A41) with the class of the agent each chooses
+  python3 k4/lemmam_bt_hh.py rkall NAME [A,B,..]         the classes K0, K1, C40 of every first agent by k4/rulef.c
+                                                         (-A41 -E1 -Y1 -N1, single profile), one first agent per run;
+                                                         LB4r itself is skipped (its owner search enumerates subsets
+                                                         of the junk, out of reach at m = 65). Both need the source
+                                                         of k4/rulef.c (PR #72): k4/rulef.c or $RULEF_SRC
   python3 k4/lemmam_bt_hh.py exact NAME A|B [A,B,..]     LB4r(tau_a) with at most one rotation, exactly: every policy,
                                                          every state one RotStep away, every owner and no owner, Lean's
                                                          Output with the owner's needs from its bundle; encoding A
@@ -21,7 +24,11 @@ Usage:
   python3 k4/lemmam_bt_hh.py d2 NAME                     K4.D on the instance: a two-step insertion sequence whose
                                                          state has an Output (encoding A), checked by the raw EFX0
                                                          definition
-With --log=FILE, classes and exact append their lines to FILE and skip the first agents FILE already has (resumable);
+  python3 k4/lemmam_bt_hh.py suite NAME                  write the suite record k4/suite/instances/lmbt-NAME.json
+                                                         (core and strictness by k4/suite/model.py; witness: an EFX0
+                                                         allocation with one large bundle from LB4r without rotation
+                                                         on a sequence that chooses the right agents)
+With --log=FILE, classes, rkall and exact append their lines to FILE and skip the first agents FILE already has (resumable);
 one worker process throughout.
 """
 import hashlib, json, os, subprocess, sys, tempfile, time
@@ -137,24 +144,71 @@ def classes(name, agents=None):
         out(f'RESULT classes {name}: first agents in no class (K0, K1, RK3 policies; C40): {bad} of {N}')
 
 
-def rk(name):
+def rulef_bin():
+    """k4/rulef.c (PR #72) with two switches added for these instances: RULEF_NOLB4R skips LB4r itself (its owner
+    search enumerates subsets of the junk, out of reach at m = 65), RULEF_ONLY=a evaluates rule RK's classes for the
+    first agent a only (so the run can go one first agent at a time). Returns (binary, sha256 prefix of the source)."""
     src = os.environ.get('RULEF_SRC') or os.path.join(HERE, 'rulef.c')
     code = open(src).read()
+    sha = hashlib.sha256(code.encode()).hexdigest()[:16]
     old = 'static int lb4r(int maxrot) {\n'
     assert code.count(old) == 1
     code = code.replace(old, old + '    if (getenv("RULEF_NOLB4R")) return 0;\n')
+    loop = 'for (int a = 0; a < n && (rk_choice < 0 || FULL41); a++) {'
+    assert code.count(loop) == 3
+    code = code.replace(loop, loop + ' if (only_a() >= 0 && a != only_a()) continue;')
+    head = 'static void rulef_leaf41(void) {'
+    code = code.replace(head, 'static int only_a(void) { const char *s = getenv("RULEF_ONLY"); return s ? atoi(s) : -1; }\n'
+                        + head)
     d = tempfile.mkdtemp()
     open(os.path.join(d, 'r.c'), 'w').write(code)
     subprocess.run(['gcc', '-O2', '-o', os.path.join(d, 'r'), os.path.join(d, 'r.c')], check=True)
+    return os.path.join(d, 'r'), sha
+
+
+def rk_agents(name, agents=None):
+    """Rule RK's classes K0, K1, C40 of each first agent by k4/rulef.c, one first agent per process (resumable)."""
+    binary, sha = rulef_bin()
+    sets, vals, m = build(name)
+    n = len(sets)
+    done = done_agents()
+    opts = ['-A41', '-E1', '-Y1', '-N1', '-r1', '-T1', '-D7']
+    if not done:
+        out(f'# rk {name}: k4/rulef.c (sha256 {sha}) {" ".join(opts)}, one first agent per run (RULEF_ONLY), '
+            f'LB4r skipped; fields: Lemma K deficit after need-shrinking upgrades, after envy-free or no upgrades, '
+            f'K1, C40')
+    bad = sum('in no class' in l for l in done.values())
+    for a in (agents if agents is not None else range(n)):
+        if a in done:
+            continue
+        t0 = time.time()
+        p = subprocess.run([binary] + opts, input=AR.encode_profile(sets, vals), capture_output=True, text=True,
+                           env=dict(os.environ, RULEF_NOLB4R='1', RULEF_ONLY=str(a)))
+        idx = [l for l in p.stdout.split('\n') if l.startswith('IDX')]
+        if not idx:
+            out(f'first {a}: no IDX line (rule RK chose an agent in K0): in a class ({time.time() - t0:.0f}s)')
+            continue
+        kN, kE, c, om, k1 = [list(map(int, x.split(':')[1].split(',')))
+                             for x in idx[0].split('fa=')[1].strip().split(';')][a]
+        ok = kN <= 0 or kE <= 0 or k1 == 1 or c == 1
+        bad += not ok
+        out(f'first {a}: {kN}, {kE}, K1 {k1}, C40 {c} -> {"in a class" if ok else "in no class"} '
+            f'({time.time() - t0:.0f}s)')
+    N = len(agents) if agents is not None else n
+    if finished(N):
+        out(f'RESULT rk {name}: first agents in no class: {bad} of {N}')
+
+
+def rk(name):
+    binary, sha = rulef_bin()
     sets, vals, m = build(name)
     env = dict(os.environ, RULEF_NOLB4R='1')
-    # HH: rule RK with every first agent evaluated (-A41 -E1); Hq: the first big-top agent q (-A42 -Q0), then rule RK
-    modes = [['-A41', '-E1']] if name.startswith('HH') else [['-A42', '-Q0'], ['-A41']]
+    # the first big-top agent q (-A42 -Q0), then rule RK (-A41)
+    modes = [['-A42', '-Q0'], ['-A41']]
     for mo in modes:
         opts = mo + ['-Y1', '-N1', '-r1', '-T1', '-D7', '-v']
-        p = subprocess.run([os.path.join(d, 'r')] + opts, input=AR.encode_profile(sets, vals), capture_output=True,
+        p = subprocess.run([binary] + opts, input=AR.encode_profile(sets, vals), capture_output=True,
                            text=True, env=env)
-        sha = hashlib.sha256(open(src, 'rb').read()).hexdigest()[:16]
         print(f'# rk {name}: k4/rulef.c (sha256 {sha}) {" ".join(opts)}, LB4r skipped')
         rk41 = [l for l in p.stdout.split('\n') if l.startswith('RK41')]
         cls = '?'
@@ -167,18 +221,6 @@ def rk(name):
         run = [l for l in p.stdout.split('\n') if l.startswith('RUN')]
         tau = run[0].split('tau=')[1].split()[0] if run and 'tau=' in run[0] else '?'
         print(f'rule {" ".join(mo)}: chosen first agent {tau.split(",")[0]}, its class {cls}')
-        idx = [l for l in p.stdout.split('\n') if l.startswith('IDX')]
-        if not idx:
-            continue
-        fa = [list(map(int, x.split(':')[1].split(','))) for x in idx[0].split('fa=')[1].strip().split(';')]
-        if mo[0] == '-A41':
-            bad = 0
-            for a, (kN, kE, c, om, k1) in enumerate(fa):
-                ok = kN <= 0 or kE <= 0 or k1 == 1 or c == 1
-                bad += not ok
-                print(f'first {a}: Lemma K deficit need-shrinking {kN}, envy-free/none {kE}, K1 {k1}, C40 {c} -> '
-                      f'{"in a class" if ok else "in no class"}')
-            print(f'RESULT rk {name}: first agents in no class: {bad} of {len(fa)}')
 
 
 def exact(name, enc, agents=None):
@@ -261,6 +303,84 @@ def lemmas(name):
     print(f'lemmas {name}: {checked} gadget states checked (every first agent, every policy), {bad} mismatches')
 
 
+def witness(name):
+    """An EFX0 allocation with at most one bundle above two goods: LB4r without rotation on the insertion sequence
+    (x^A_{1,2}, x^B_{1,2}) for HH_t, (x_{1,1}) for H_t + q (rule RK's agent); encoding A, checked by the raw definition."""
+    sets, vals, m = build(name)
+    inst = L.make_inst(sets, vals)
+    t = int(name[2:])
+    if name.startswith('HH'):
+        for h in range(inst.n):
+            s0, run = M.phase1_state(inst, (3, h))
+            ins = [x for x, f, k in run if k == 'I']
+            if len(ins) >= 2 and ins[1] == 2 + 4 * t + 1:
+                break
+    else:
+        s0, run = M.phase1_state(inst, (1,))
+        ins = [x for x, f, k in run if k == 'I']
+    for pol in L.POLS:
+        s2, _ = M.up_run(inst, s0, pol)
+        for o in [None] + list(range(inst.n)):
+            ok, X = M.output_sat(inst, s2, o, 'bundle', want_model=True)
+            if ok:
+                bund = [[g for g in range(inst.m) if X[g] == i] for i in range(inst.n)]
+                efx = all(check4.efx0_safe(i, {g: inst.v[i][g] for g in range(inst.m)}, bund) for i in range(inst.n))
+                return dict(sequence=ins[:2] if name.startswith('HH') else ins[:1], policy=pol, owner=o,
+                            allocation=bund, efx0=efx, large=sum(len(b) > 2 for b in bund))
+    return None
+
+
+SUITE_TEXT = {
+    'Hq3': dict(
+        refutes=[{'statement': 'Step (a) of the big-top programme for Lemma M (k4/rulef.md §6, PR #72): with exactly one '
+                  'big-top agent q, the run of tau_q = (q, then index order) is in class K0 or K1 of rule RK (q first '
+                  'needs at most one rotation)', 'ledger': 'K4.LMBT.A', 'smallest': False}],
+        notes='H_3 (k4/c4.md §7, built by k4/adaptive_H.py) plus agent 13 = q = {p, b_11, c_11, u} with values '
+              '(8, 4, 3, 2), p = good 33 private; q is the only big-top agent. q takes p and nobody loses a good, so the '
+              'rest of tau_q is H_3\'s index run (Proposition Q of k4/lemmam_bt.md §2): LB4r(tau_q) has no output with '
+              'at most one rotation (PR #33\'s encodings A and B, results/k4_lemmam_bt/exactA_Hq3.log, exactB_Hq3.log); '
+              'Lemma K deficit 5, >= 2 after every RotStep; rule RK takes x_11 (agent 1) in K0. Smallest of its family '
+              '(H_2 + q allows one rotation); n <= 4 data satisfy the statement. Too large for the exhaustive '
+              'predicates of predicates.py; replay: python3 k4/lemmam_bt_hh.py exact Hq3 A 13. Witness: LB4r without '
+              'rotation on rule RK\'s sequence (x_11 first), an EFX0 allocation with one large bundle.'),
+    'HH3': dict(
+        refutes=[{'statement': 'Lemma M (k4/rulef.md §4, K4.RF.M): some first agent a is in class K0 or K1 of rule RK; '
+                  'and rule F with at most one rotation (K4.AD.F; Lean EFX.LB4R.TheoremRuleF, RuleFConn): some a with '
+                  'LB4r(tau_a), tau_a = (a, then index order), succeeding with at most one rotation',
+                  'ledger': 'K4.LMBT.M', 'smallest': False}],
+        notes='Two copies A, B of H_3 (k4/c4.md §7) with l_B\'s good u identified with l_A\'s good u (good 4); agents '
+              'l_A, l_B, A\'s gadget agents, B\'s gadget agents (H_3 order); every agent has four goods, none big-top. '
+              'Every first agent leaves one copy to index order (Proposition HH of k4/lemmam_bt.md §3): for each of the '
+              '26 first agents, LB4r(tau_a) has no output with at most one rotation (PR #33\'s encodings A and B, '
+              'results/k4_lemmam_bt/exactA_HH3.log, exactB_HH3.log), and Lemma K puts none in K0 or K1 '
+              '(k4/lemmam_bt.py and k4/rulef.c, classes_HH3.log, rk_HH3.log). Smallest known (two copies of H_2 have '
+              'K1 agents). Too large for the exhaustive predicates of predicates.py; replay: python3 '
+              'k4/lemmam_bt_hh.py exact HH3 A. Witness (K4.D holds): LB4r without rotation on the insertion sequence '
+              '(x^A_12, x^B_12) = agents (3, 15).'),
+}
+
+
+def suite_record(name):
+    sets, vals, m = build(name)
+    from suite import model as SM          # k4/suite/model.py: the suite's own core and strictness checks
+    I = SM.Inst(sets, vals, m)
+    w = witness(name)
+    rec = {'id': 'lmbt-' + name, 'n': len(sets), 'm': m, 'sets': sets, 'vals': vals,
+           'is_core': not I.core_violations(), 'strict': I.strict(), 'core_ref': None,
+           'source': {'pr': 83, 'branch': 'proof/k4-lemmam-bt',
+                      'files': ['k4/lemmam_bt.md', 'k4/lemmam_bt_hh.py', 'results/k4_lemmam_bt/'],
+                      'replay': 'bash k4/lemmam_bt_runs.sh'},
+           'refutes': SUITE_TEXT[name]['refutes'],
+           'witness': {'allocation': w['allocation'], 'insertion_sequence': w['sequence'], 'policy': w['policy'],
+                       'owner': w['owner'], 'raw_efx0': w['efx0'], 'bundles_above_two': w['large']},
+           'expect_fail': [], 'notes': SUITE_TEXT[name]['notes']}
+    path = os.path.join(HERE, 'suite', 'instances', rec['id'] + '.json')
+    with open(path, 'w') as f:
+        json.dump(rec, f, ensure_ascii=False)
+        f.write('\n')
+    print(path, 'is_core', rec['is_core'], 'strict', rec['strict'], 'witness EFX0', w['efx0'], 'large', w['large'])
+
+
 def d2(name):
     sets, vals, m = build(name)
     inst = L.make_inst(sets, vals)
@@ -298,9 +418,13 @@ if __name__ == '__main__':
         classes(name, ag(rest[0]) if rest else None)
     elif mode == 'rk':
         rk(name)
+    elif mode == 'rkall':
+        rk_agents(name, ag(rest[0]) if rest else None)
     elif mode == 'exact':
         exact(name, rest[0], ag(rest[1]) if len(rest) > 1 else None)
     elif mode == 'd2':
         d2(name)
     elif mode == 'lemmas':
         lemmas(name)
+    elif mode == 'suite':
+        suite_record(name)
