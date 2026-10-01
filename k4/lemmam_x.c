@@ -1,6 +1,7 @@
 /* lemmam_x.c (workstream proof/k4-lemmam-x, k4/lemmam_x.md): k4/rulef.c of PR #72 (branch proof/k4-rulef at
-   aebd620; that file is unchanged since b0f4ee5) with one added mode, -A43, and the options -U and (with -H) a
-   hill-climbing score for it. Everything else is rulef.c verbatim; its own header follows.
+   aebd620; that file is unchanged since b0f4ee5) with the modes -A43 to -A46 added, the options -U and -V, a
+   hill-climbing score for -A43 and -A44, and MAXN raised from 40 to 48. Everything else is rulef.c verbatim; its own
+   header follows.
 
    -A43: for every first agent a (tau_a = (a, then index order), LB's P-step key) the class of rule RK's tests
    (k4/rulef.md §4): K0 (Lemma K deficit <= 0, or omega <= 0, after need-shrinking or envy-free upgrades; with -N1 also
@@ -8,8 +9,14 @@
    <= 0), or bad. Use -Y1 for Lemma K's kept-out sets of rulef.md §2 Remark 4 (the full Lemma K). For every bad a:
    the class of its envy-free run (k4/c4.md's cases), the roles the other agents play in it, and the candidates a'
    of k4/lemmam_x.md §2 (cand43); statistics in LMX / LMXC / LMXR lines, and with -D43 one BAD line per bad pair.
-   -U2 (default) roles from the envy-free run, -U1 from the need-shrinking run. -A43 -SN -HM climbs toward profiles
-   with bad first agents (score: 1000 per bad first agent plus 1 per first agent not in K0). */
+   -U2 (default) roles from the envy-free run, -U1 from the need-shrinking run.
+   -A44: the adaptive rule of k4/lemmam_x.md §7: at every insertion step the agent whose block has the least block
+   count (Lemma 5), ties by index; then the least number d <= -r of nested rotations after which Lemma K certifies the
+   run under some policy (none, need-shrinking, envy-free). -V1: when every block count is 0, take Lemma 5's
+   certificate instead of the search. ADP lines; -D44 the runs with d >= 1, -D47 every run.
+   -A45: for every first agent the least d as above (the rotation bound of rule F, k4/lemmam_x.md §6); FA lines (-D45).
+   -A46: a search over insertion sequences in which every block but the last has count 0; the least d over them (L46).
+   -A43/-A44 with -SN -HM climb toward bad first agents / runs needing rotations. */
 /* adaptive.c: LB4r (k4/lb4.md §5, lean/EFX/LB4R.lean) with an adaptive insertion rule (k4/adaptive.md).
 
 Derived from k4/lb4r_tau.c of branch proof/k4-lb4 (itself k4/c4_lb4w.c of proof/k4-c4, which is k4/lb4.c with
@@ -1889,6 +1896,63 @@ static void print45(void) {
     memset(hist45, 0, sizeof hist45); fflush(stdout);
 }
 
+/* ==== mode 46 (k4/lemmam_x.md §7): does SOME insertion sequence give every block but the last count 0? ====
+   Depth-first search over the insertion choices, a choice being allowed only if its block has count 0 or is the last
+   block; at the end of a complete run the least rotations d of least_rot_seq (Lemma K, three policies) is taken.
+   Result per profile: the least d over the allowed runs (-r + 1 if none is certified, -r + 2 if no allowed run
+   exists: some prefix has every non-last choice at positive count). */
+static int s46_best, s46_tau[MAXN], s46_runs;
+static void dfs46(int bid, int nt) {
+    if (s46_best == 0) return;
+    int any = 0; for (int i = 0; i < n; i++) if (!b_done[i]) any = 1;
+    if (!any) {
+        s46_runs++;
+        int dd = least_rot_seq(s46_tau, nt);
+        if (dd < s46_best) s46_best = dd;
+        return;
+    }
+    int sd[MAXN], sY[MAXN], sp[MAXN], sb[MAXN], sstep; gm sG;
+    memcpy(sd, b_done, sizeof sd); memcpy(sY, b_Y, sizeof sY); memcpy(sp, b_pos, sizeof sp); memcpy(sb, b_blk, sizeof sb);
+    sG = b_G; sstep = b_step;
+    for (int c = 0; c < n && s46_best > 0; c++) if (!sd[c]) {
+        memcpy(b_done, sd, sizeof sd); memcpy(b_Y, sY, sizeof sY); memcpy(b_pos, sp, sizeof sp); memcpy(b_blk, sb, sizeof sb);
+        b_G = sG; b_step = sstep;
+        bsim_block(c, bid);
+        int last = 1; for (int i = 0; i < n; i++) if (!b_done[i]) last = 0;
+        if (!last && block_count(bid, 0) > 0) continue;
+        s46_tau[nt] = c;
+        dfs46(bid + 1, nt + 1);
+    }
+    memcpy(b_done, sd, sizeof sd); memcpy(b_Y, sY, sizeof sY); memcpy(b_pos, sp, sizeof sp); memcpy(b_blk, sb, sizeof sb);
+    b_G = sG; b_step = sstep;
+}
+static long hist46[MAXROT + 3];
+static void leaf46(void) {
+    for (int i = 0; i < n; i++) { b_done[i] = 0; b_Y[i] = -1; }
+    b_G = ALLG; b_step = 0; s46_best = ROT + 2; s46_runs = 0;
+    dfs46(0, 0);
+    if (s46_runs > 0 && s46_best > ROT + 1) s46_best = ROT + 1;
+}
+static void stat46(long w) {
+    hist46[s46_best] += w;
+    if (DUMP == 46 && s46_best >= 1 && dumped < DUMPMAX) {
+        dumped++;
+        printf("L46 w=%ld best=%d runs=%d sets=[", w, s46_best, s46_runs);
+        for (int i = 0; i < n; i++) { printf("["); for (int q = 0; q < d[i]; q++) printf("%d%s", gl[i][q], q + 1 < d[i] ? "," : ""); printf("]%s", i + 1 < n ? "," : ""); }
+        printf("] vals=[");
+        for (int i = 0; i < n; i++) {
+            int q = 0; while (!(ts[i] >> q & 1)) q++;
+            int t = pidx[i][cp[i]][q];
+            printf("["); for (int z = 0; z < d[i]; z++) printf("%d%s", tv[i][t][z], z + 1 < d[i] ? "," : ""); printf("]%s", i + 1 < n ? "," : "");
+        }
+        printf("]\n");
+    }
+}
+static void print46(void) {
+    printf("L46 hist"); for (int k = 0; k <= ROT + 2; k++) printf(" %ld", hist46[k]); printf("\n");
+    memset(hist46, 0, sizeof hist46); fflush(stdout);
+}
+
 /* the whole construction for the current profile: tau by the rule (or tree / random choices), then LB4r(tau) */
 static int construct(void) {
     if (INS == 1 || INS == 10) {     /* tree or random: Phase 1 draws/extends choice[]; fix tau from it */
@@ -1948,6 +2012,9 @@ static int construct(void) {
         return 0;
     } else if (ARULE == 45) {        /* every first agent: least rotations with Lemma K (k4/lemmam_x.md §6) */
         leaf45();
+        return 0;
+    } else if (ARULE == 46) {        /* some sequence with every non-last block count 0 (k4/lemmam_x.md §7) */
+        leaf46();
         return 0;
     } else if (ARULE == 41) {        /* rule RK (k4/rulef.md), fast */
         rulef_leaf41();
@@ -2145,6 +2212,7 @@ int main(int argc, char **argv) {
                 if (ARULE == 43) { stat43(1); leaves++; total++; continue; }
                 if (ARULE == 44) { stat44(1); leaves++; total++; continue; }
                 if (ARULE == 45) { stat45(1); leaves++; total++; continue; }
+                if (ARULE == 46) { stat46(1); leaves++; total++; continue; }
                 hist_rot[k]++; if (ok) hist_pol[used_pol]++;
                 if (VERB || !ok) { char lab[64]; snprintf(lab, sizeof lab, ok ? "RUN rot=%d pol=%d" : "RUN fail", k, used_pol); report(lab); }
                 if (INS == 10) printf("sample %ld: %s %d\n", smp, ok ? "rot" : "fail", k);
@@ -2158,6 +2226,7 @@ int main(int argc, char **argv) {
             if (ARULE == 43) print43();
             if (ARULE == 44) print44();
             if (ARULE == 45) print45();
+            if (ARULE == 46) print46();
             continue;
         }
         if (SAMPLE > 0 || HILL > 0) {    /* random profiles (-S), or hill-climbing toward hard profiles (-H) */
@@ -2195,6 +2264,7 @@ int main(int argc, char **argv) {
                     continue;
                 }
                 if (ARULE == 45) { stat45(1); continue; }
+                if (ARULE == 46) { stat46(1); continue; }
                 if (last_uncov) { uncov++; if (DEEP && shown < MAXF) { report("UNCOV"); shown++; } }
                 if (!ok) { fails++; hist_rot[ROT + 1]++; if (shown < MAXF) { report("FAIL"); shown++; } if (HILL > 0) break; continue; }
                 if (!rawcheck()) { rawf++; if (shown < MAXF) { report("RAWFAIL"); shown++; } continue; }
@@ -2257,6 +2327,7 @@ int main(int argc, char **argv) {
                         if (ARULE == 43) { stat43(w); leaves++; total += w; continue; }
                         if (ARULE == 44) { stat44(w); leaves++; total += w; continue; }
                         if (ARULE == 45) { stat45(w); leaves++; total += w; continue; }
+                        if (ARULE == 46) { stat46(w); leaves++; total += w; continue; }
                         if (last_uncov) { uncov += w; if (DEEP && shown < MAXF) { report("UNCOV"); shown++; } }
                         leaves++; total += w;
                         if (!ok) { fails += w; hist_rot[ROT + 1] += w; if (shown < MAXF) { report("FAIL"); shown++; } continue; }
@@ -2290,6 +2361,7 @@ int main(int argc, char **argv) {
         if (ARULE == 43) print43();
         if (ARULE == 44) print44();
         if (ARULE == 45) print45();
+        if (ARULE == 46) print46();
         printf("total %ld leaves %ld runs %ld fails %ld rawfails %ld rot", total, leaves, runs, fails, rawf);
         for (int k = 0; k <= ROT; k++) printf(" %ld", hist_rot[k]);
         printf(" pol %ld %ld %ld uncov %ld covviol %ld covchk %ld\n", hist_pol[0], hist_pol[1], hist_pol[2], uncov, covviol, covchk);

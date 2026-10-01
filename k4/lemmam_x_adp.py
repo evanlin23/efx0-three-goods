@@ -13,6 +13,8 @@ import lemmam_x_run as LR
 
 def parse_adp(lines):
     for l in lines:
+        if l.startswith('L46 hist'):     # mode 46: profiles by the least d over the runs whose non-last blocks have count 0
+            return {'l46': list(map(int, l.split()[2:]))}
         if l.startswith('ADP '):
             t = l.split()
             i = t.index('hist'); j = t.index('hist_all0'); k = t.index('bad_with_last_delta1')
@@ -51,7 +53,8 @@ def main():
             fa = next(l for l in lines if l.startswith('FA '))
             print(f"{o.get('name', 'profile')}: n={len(o['sets'])} {fa}  time {time.time() - t1:.1f}s", flush=True)
         return
-    opts = ['-A44'] + opts
+    if '-A46' not in opts:
+        opts = ['-A44'] + opts
     LR.build()
     print('#', 'lemmam_x_adp.py', ' '.join(args), '# lemmam_x.c sha256', LR.SHA, flush=True)
     fo = open(out, 'a') if out else None
@@ -68,6 +71,12 @@ def main():
                 sets = json.loads(re.search(r'sets=(\[\[.*?\]\])', line).group(1))
                 vals = json.loads(re.search(r'vals=(\[\[.*?\]\])', line).group(1)); name = ''
             t1 = time.time()
+            if '-A46' in opts:
+                lines = LR.run(AR.encode_profile(sets, vals), opts + ['-T1'])
+                st = parse_adp(lines); tot = add(tot, st)
+                print(f"{name or 'profile'}: n={len(sets)} {next(l for l in lines if l.startswith('L46 hist'))}"
+                      f" time {time.time() - t1:.1f}s", flush=True)
+                continue
             lines = LR.run(AR.encode_profile(sets, vals), opts + ['-T1', '-D47'])
             runl = [l for l in lines if l.startswith(('ADPBAD', 'ADPRUN'))]
             bad = [l for l in runl if l.startswith('ADPBAD')]
@@ -113,7 +122,11 @@ def main():
                     fc.write(json.dumps({'key': key, 'core': i, 'st': st}) + '\n'); fc.flush()
             print(f"{os.path.basename(f)}{'' if n4 is None else f' n4={n4}'}{'' if rng is None else f' cores[{rng}]'}:"
                   f" cores={len(idxs)} time {time.time() - t0:.0f}s", flush=True)
-    if tot:
+    if tot and 'l46' in tot:
+        h = tot['l46']
+        print(f"  profiles {sum(h)}; the least rotations d over the runs whose blocks other than the last all have count 0"
+              f" (0, 1, ..., cap; none certified within the cap; no such run): {h}")
+    elif tot:
         print(f"  profiles {tot['prof']}; every block count 0: {tot['all0']}")
         print(f"  rotations d needed after the adaptive run (0, 1, ..., cap, none within the cap): {tot['hist']}")
         print(f"  ... among the runs with every block count 0: {tot['hist0']}")

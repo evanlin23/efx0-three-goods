@@ -376,4 +376,22 @@ so Lemma 5 and the data are statements about `SucceedsR 0` and `SucceedsR 1`.
 
 ## 8. Reproduce
 
-PLACEHOLDER_REPRO
+One worker throughout; each line under ~20 minutes except where noted. `k4/lemmam_x_run.py` and `k4/lemmam_x_adp.py`
+compile `k4/lemmam_x.c` into the temporary directory under a name made from a hash of the source and print the hash
+at the top of every log; `--checkpoint=FILE` makes the exhaustive runs resumable.
+```
+# §2: classes of every first agent, roles and candidates in the bad runs (exhaustive, ~32 min)
+python3 k4/lemmam_x_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz results/k4_certs_4_n4_1.json.gz \
+    results/k4_certs_4_n4_2.json.gz -A43 -r1 -Y1 -D43 --data=BAD.txt --checkpoint=CK.jsonl
+python3 k4/lemmam_x_check.py --profiles=BAD.txt            # second implementation on the bad leaves (§2)
+python3 k4/lemmam_x_inst.py H5 HH3 > HT.txt                # H_5 and HH_3 (PR #83's core, rebuilt from its text)
+python3 k4/lemmam_x_run.py --profiles=HT.txt -A43 -r1 -Y1  # every first agent of H_5 and HH_3
+python3 k4/lemmam_x_realize.py BAD.txt --cand=r            # §5: how the exchange agent's run relates (Psi, cycles)
+# §7: the adaptive rule (block counts) on H_t, HH_t with relabelings, and exhaustively
+python3 k4/lemmam_x_inst.py H1 H2 H3 H4 H5 --relabel=2 > HT2.txt; python3 k4/lemmam_x_adp.py --profiles=HT2.txt -Y1 -r1
+python3 k4/lemmam_x_inst.py HH3 HH4 --relabel=1 > HH.txt;  python3 k4/lemmam_x_adp.py --profiles=HH.txt -Y1 -r1 -V1
+python3 k4/lemmam_x_adp.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz results/k4_certs_4_n4_1.json.gz \
+    results/k4_certs_4_n4_2.json.gz -Y1 -r1 --checkpoint=CK2.jsonl --data=ADPBAD.txt
+```
+`-V1` takes Lemma 5's certificate when every block count is 0 instead of searching Lemma K's classes again (on HH₄,
+m = 85, that search exceeds the time allowed; on the exhaustive data it is run, and agrees, §7.3).
