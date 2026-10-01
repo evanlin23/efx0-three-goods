@@ -1,7 +1,7 @@
 import EFX.DL13
 
 /-!
-# The key frame: DL on the key graph ⟹ TARGET₄, for any move relation (`k4/dl13.md` §2.3; ledger K4.KEY.LEAN)
+# The key frame: DL on the key graph ⟹ TARGET₄, for any move relation (`k4/dl13.md` §2.3; ledger K4.DL2.KEY.LEAN)
 
 The Remark "DL on the key graph" of `k4/dl13.md` §2.3 (PR #75, branch `proof/k4-dl13`) says that a descent for TARGET₄
 needs only the least deficits of the *keys*: if every key with a positive least deficit has a neighbouring key with a
@@ -39,7 +39,8 @@ moves. `DLKey M` is a hypothesis of every theorem here, never an axiom. Everythi
   frame loses nothing against DL for `RKey M`.
 - Plugging in a move relation: `rKey_of_move` (`M ⊆ RKey M` on min-frozen pairs), `DefLocalAt.mono_minFrozen` (DL for
   `R` ⟹ DL for `R′` if `R ⊆ R′` on min-frozen pairs), and `dlKeyAt_of_defLocalAt_keep`: if `K` keeps the key on
-  min-frozen pairs, DL for `K ∪ M` at `f ≥ 1` gives `DLKeyAt M` (used in `EFX/MovesC.lean` with `K = (T1) ∪ (T2)`).
+  min-frozen pairs, DL for `K ∪ M` at `f ≥ 1` gives `DLKeyAt M` (`EFX/MovesC.lean` does this with `K = (T1) ∪ (T2)`,
+  through `rc_rKey`).
 - `exists_least_keyDeficit`, `exists_keyMin`: def\*(κ) is attained (a min-frozen P of key κ with
   `def(P) = def*(κ)`), from `deficitLE_lower`.
 

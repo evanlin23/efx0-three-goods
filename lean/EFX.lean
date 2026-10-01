@@ -46,3 +46,4 @@ import EFX.K4MinCex
 import EFX.K3Extras
 import EFX.KeyFrame
 import EFX.MovesC
+import EFX.MovesCExamples

@@ -31,6 +31,7 @@ is a hypothesis of every theorem here, never an axiom; nothing of the model is r
 
 **Results.**
 - `moveT3_moveT3plus`, `r13_rc`: on 𝒫, **(T3) ⊆ (T3⁺)** (with `W = ∅`, `Y = H`) and **R₁₃ ⊆ R_C**; `DLRC_of_DL13`.
+  `moveT3_of_moveT3plus`, `moveT3_iff`: (T3⁺) with `W = ∅` is (T3), so on 𝒫 (T3) is exactly the case `W = ∅` of (T3⁺).
 - `moveT1_key`, `moveT2_key`: on 𝒫, **(T1) and (T2) keep the key** (`key_eq_of_free_changes`: if NA is unchanged and
   every changed agent is free in P, the key is unchanged). `rc_rKey`: hence R_C ⊆ `RKey RC34` on min-frozen pairs.
 - `defLocal_RCZ_of_DLRC`, `dlrc_iff_defLocal_RCZ`, `C4minROConn_of_DLRC`, `target4_of_DLRC`: **DL_RC (with Theorem Z
@@ -63,7 +64,7 @@ is a hypothesis of every theorem here, never an axiom; nothing of the model is r
    free in P′ uses (V1), (V2) of P (`exists_frozen_of_NA`). The relations matter only between min-frozen
    pre-allocations, so `DLRC_of_DL13` is unconditional.
 5. "(T1) ∪ (T2) keep the key" (`k4/dl2.md` §3, "R_T is local only in the frozen agents") is proved in the direction
-   used here (a (T1) or (T2) move between pre-allocations of 𝒫 keeps the key); the converse of the text (same key ⟹ a
+   used here (a (T1) or (T2) move from a pre-allocation of 𝒫 keeps the key); the converse of the text (same key ⟹ a
    (T1) or (T2) move) is not formalized.
 -/
 
@@ -260,10 +261,10 @@ theorem moveT2_key (hP : InP v agents goods base) (h : MoveT2 v agents goods bas
 /-! ## (T3) ⊆ (T3⁺), R₁₃ ⊆ R_C -/
 
 omit [DecidableEq G] in
-/-- **(T3) ⊆ (T3⁺)** on 𝒫: a (T3) move from `P ∈ 𝒫` is a (T3⁺) move with `W = ∅` and `Y` the helper list. That `x` and
-the helper are free in `P′` uses (V1), (V2) of `P`. -/
-theorem moveT3_moveT3plus (hP : InP v agents goods base) (h : MoveT3 v agents goods base base') :
-    MoveT3plus v agents goods base base' := by
+/-- A (T3) move from `P ∈ 𝒫` is a (T3⁺) move with `W = ∅` and `Y` the helper list. That `x` and the helper are free in
+`P′` uses (V1), (V2) of `P`. -/
+theorem moveT3_moveT3plus_W (hP : InP v agents goods base) (h : MoveT3 v agents goods base base') :
+    MoveT3plus v agents goods base base' ∧ ∀ w, ¬ ChangedFrozen v agents goods base base' w := by
   obtain ⟨x, hx, z, hz, g, hbx, hNAg, hzf, hzg, hbz', H, hH, hHp, hsame, hNA⟩ := h
   have hxF : Frozen agents goods base (vbNeeds v goods base) x := ⟨g, hbx, hNAg⟩
   have hgz : g ∈ baseOf goods base' z := by rw [hbz']; exact List.mem_singleton_self g
@@ -297,8 +298,8 @@ theorem moveT3_moveT3plus (hP : InP v agents goods base) (h : MoveT3 v agents go
     by_cases hwH : w ∈ H
     · exact (hHp w hwH).2.2.2.1 hF
     exact hne (hsame w hw hwx hwz hwH)
-  refine ⟨x, hx, z, hz, hxF, hx', hzf, ⟨g, hbz', (hNA g).mp hNAg⟩, ⟨g, hbz', hzg⟩, H, hH, fun h hhH => ?_,
-    fun i hi hix hiz hiH hne => absurd (hsame i hi hix hiz hiH) hne, fun B => ?_, hNA⟩
+  refine ⟨⟨x, hx, z, hz, hxF, hx', hzf, ⟨g, hbz', (hNA g).mp hNAg⟩, ⟨g, hbz', hzg⟩, H, hH, fun h hhH => ?_,
+    fun i hi hix hiz hiH hne => absurd (hsame i hi hix hiz hiH) hne, fun B => ?_, hNA⟩, hW⟩
   · obtain ⟨hha, -, hhz, hhf, hgive⟩ := hHp h hhH
     exact ⟨hha, hhf, fun hF' => (hfr h hhz hF').2 hhH, hgive⟩
   · constructor
@@ -308,6 +309,41 @@ theorem moveT3_moveT3plus (hP : InP v agents goods base) (h : MoveT3 v agents go
     · rintro (e | ⟨w, hw, -⟩)
       · exact Or.inl (hbz'.trans (hbx.symm.trans e))
       · exact absurd hw (hW w)
+
+omit [DecidableEq G] in
+/-- **(T3) ⊆ (T3⁺)** on 𝒫 (with `W = ∅` and `Y` the helper list). -/
+theorem moveT3_moveT3plus (hP : InP v agents goods base) (h : MoveT3 v agents goods base base') :
+    MoveT3plus v agents goods base base' :=
+  (moveT3_moveT3plus_W hP h).1
+
+omit [DecidableEq G] in
+/-- **(T3⁺) with `W = ∅` is (T3)** (for any base maps): then `B′_z = B_x = {g}`, the agents of `Y` are the helpers,
+and every other agent keeps its base. With `moveT3_moveT3plus`, (T3) is exactly the case `W = ∅` of (T3⁺) on 𝒫
+(`moveT3_iff`). -/
+theorem moveT3_of_moveT3plus (h : MoveT3plus v agents goods base base')
+    (hW : ∀ w, ¬ ChangedFrozen v agents goods base base' w) : MoveT3 v agents goods base base' := by
+  obtain ⟨x, hx, z, hz, hxF, hx', hzf, hzF', ⟨g, hbz', hzg⟩, Y, hY, hYp, hcl, hB, hNA⟩ := h
+  have hzx : baseOf goods base' z = baseOf goods base x := by
+    rcases (hB (baseOf goods base x)).mpr (Or.inl rfl) with e | ⟨w, hw, -⟩
+    · exact e
+    · exact absurd hw (hW w)
+  have hbx : baseOf goods base x = [g] := hzx.symm.trans hbz'
+  obtain ⟨g', hbx', hN'⟩ := hxF
+  have hgg : g' = g := (List.cons.inj (hbx'.symm.trans hbx)).1
+  subst hgg
+  refine ⟨x, hx, z, hz, g', hbx, hN', hzf, hzg, hbz', Y, hY, fun h hhY => ?_, fun i hi hix hiz hiY => ?_, hNA⟩
+  · obtain ⟨hha, hhf, hhf', hgive⟩ := hYp h hhY
+    exact ⟨hha, fun e => hhf (e ▸ ⟨g', hbx', hN'⟩), fun e => hhf' (e ▸ hzF'), hhf, hgive⟩
+  · refine Classical.byContradiction fun hne => ?_
+    obtain ⟨hF, hF'⟩ := hcl i hi hix hiz hiY hne
+    exact hW i ⟨hi, hne, hF, hF'⟩
+
+omit [DecidableEq G] in
+/-- **On 𝒫, (T3) is exactly (T3⁺) with `W = ∅`.** -/
+theorem moveT3_iff (hP : InP v agents goods base) :
+    MoveT3 v agents goods base base' ↔
+      MoveT3plus v agents goods base base' ∧ ∀ w, ¬ ChangedFrozen v agents goods base base' w :=
+  ⟨moveT3_moveT3plus_W hP, fun h => moveT3_of_moveT3plus h.1 h.2⟩
 
 omit [DecidableEq G] in
 /-- **R₁₃ ⊆ R_C** on 𝒫. -/
@@ -432,7 +468,10 @@ end EFX
 #print axioms EFX.C4min.key_eq_of_free_changes
 #print axioms EFX.C4min.moveT1_key
 #print axioms EFX.C4min.moveT2_key
+#print axioms EFX.C4min.moveT3_moveT3plus_W
 #print axioms EFX.C4min.moveT3_moveT3plus
+#print axioms EFX.C4min.moveT3_of_moveT3plus
+#print axioms EFX.C4min.moveT3_iff
 #print axioms EFX.C4min.r13_rc
 #print axioms EFX.C4min.rc34_rc
 #print axioms EFX.C4min.rc_rKey
