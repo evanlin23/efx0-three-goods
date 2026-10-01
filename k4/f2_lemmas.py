@@ -18,12 +18,20 @@ dl2_classify.py):
   C2+  Corollary 11.1+ (the blocker swap through a need path): X ∪ {c} threatens only a free z, z the free end of a
        need path to a frozen x, theta_z(X ∪ {c}) <= v_z(g_k), A ⊆ (J ∪ B_z) minus (X ∪ {c}) admissible with
        theta_x(X ∪ {c}) <= v_x(A) and no good counted in u_o(X) in N_x(A): def(P') <= def(P) - 1.
+  C    Lemma C: a (T4) move followed by a (T3+) move is a (T3+) move (every composition through every (T4) neighbour);
+  N    Proposition N: at a def > 0 state no (T4) move improves, frozen rotations reach a T4-optimal state, equal deficit.
+  C8+  certificate: some chain swap along a need path (helper giving up a good, or none) makes x an owner with
+       Val_{P'}(x) > Val*(P) (Lemma 8+, exact);
+  C11+ certificate: some such chain swap keeps an unmoved best owner o, an optimal X of o misses A ∪ B'_h, and Lemma
+       11+'s value max over Y ⊇ X safe in P' of |Y| + (u_o(X) - e*) + kappa exceeds Val*(P) (the bound is asserted);
   C3+  Corollary 8.2+ (the Lemma 7 swap through a need path): x big-top on its top g, a_1 the only needer of g, a need
        path through a_1, L_x ⊆ G, B'_h ⊆ G minus L_x admissible with g ∉ N_h(B'_h), Z ⊇ L_x a safe bundle of x in P':
        def(P') <= omega + 1 - |Z|; certified when |Z| + 1 > Val*(P).
 usage: python3 k4/f2_lemmas.py DUMP.jsonl.gz ...            (T3-stage dumps of k4/f2_shapes.py: coverage, all checks)
        python3 k4/f2_lemmas.py --random N [--seed=S] [--nmax=5] [--mmax=12]   (random strict instances, not cores,
-                                   biased to f >= 2; every check at every def > 0 state with f >= 1)"""
+                                   biased to f >= 2; every check at every def > 0 state with f >= 1)
+       python3 k4/f2_lemmas.py --profiles SOURCE ... [--every=E] [--max=N] [--all]   (the f >= 2 profiles of the sources,
+                                   as k4/f2_shapes.py reads them; --all: Lemmas P, 6+, 8+, C at every min-frozen state)"""
 import collections, gzip, itertools, json, os, random, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -117,6 +125,60 @@ class Ctx:
                                 if I.needs(h, Bh) & ~P.NA: continue
                                 yield path, A, h, Bh
 
+    def lemma11_value(self, o, X, path, A, h=None, Bh=None):
+        """Lemma 11+ at an unmoved free o with a bundle X of P missing A ∪ B'_h: the largest |Y| + (u_o(X) - e*) + kappa
+        over the bundles Y ⊇ X of o in P' that are safe in P', all from P's data; -1 if none"""
+        I, P, Bs = self.I, self.P, self.Bs
+        x, z = path[-1], path[0]
+        hd = self.hold(path, h, Bh); hd[x] = A
+        G = P.J | Bs[z] | (Bs[h] if h is not None else 0)
+        Jn = G & ~A & ~(Bh or 0)                              # J(P')
+        NxA = I.needs(x, A); Nh = I.needs(h, Bh) if h is not None else 0
+        cnt = [q for q in bits(P.NA) if not ((1 << q) & (I.needs(o, X) | self.Nminus(o)))]   # counted in u_o(X)
+        es = sum(1 for q in cnt if (1 << q) & (NxA | Nh))
+        Nm = 0
+        for i in range(I.n):
+            if i == o: continue
+            Nm |= I.needs(i, hd[i]) if i in hd else P.N[i]
+        rest = list(bits(Jn & ~X)); best = -1
+        for k in range(len(rest), -1, -1):
+            for K in itertools.combinations(rest, k):
+                Y = X | mask(K)
+                if any(self.thr(w, Y, hd.get(w, Bs[w])) for w in range(I.n) if w != o): continue
+                NY = I.needs(o, Y)
+                kappa = sum(1 for q in bits(P.NA) if q not in cnt and not ((1 << q) & (NY | Nm)))
+                best = max(best, pc(Y) + len(cnt) - es + kappa)
+        return best
+
+    def Nminus(self, o):
+        out = 0
+        for i in range(self.I.n):
+            if i != o: out |= self.P.N[i]
+        return out
+
+    def certificates(self):
+        """C8+: some chain swap along a need path makes x an owner with Val > V (Lemma 8+); C11+: some chain swap keeps
+        an unmoved best owner o with an optimal X (missing A ∪ B'_h) whose Lemma 11+ value exceeds V. Each conclusion
+        (def(P') <= omega + 2 - value) is asserted against the exact deficit."""
+        pr, Bs = self.pr, self.Bs
+        c8 = c11 = False
+        for path, A, h, Bh in self.moves():
+            if h is not None and not (Bs[h] & ~Bh): continue          # (T3+) helpers give up a good
+            b2 = self.swap(path, A, h, Bh); x = path[-1]
+            if not c8 and pr.OWN[b2][x][0] > self.V: c8 = (len(path) - 2,)
+            if not c11:
+                for o in self.best:
+                    if o in path or o == h: continue
+                    for X in pr.OWN[Bs][o][1]:
+                        if X & (A | (Bh or 0)): continue
+                        val = self.lemma11_value(o, X, path, A, h, Bh)
+                        if val < 0: continue
+                        assert pr.D[b2] <= self.omega + 2 - val, ('Lemma 11+', Bs, b2, val)
+                        if val > self.V: c11 = (len(path) - 2,); break
+                    if c11: break
+            if c8 and c11: break
+        return c8, c11
+
     def check_6_8(self):
         pr, I, P, Bs = self.pr, self.I, self.P, self.Bs
         n6 = n8 = 0
@@ -147,6 +209,40 @@ class Ctx:
             assert best == pr.OWN[b2][x][0], ('Lemma 8+', Bs, b2, best, pr.OWN[b2][x][0])
             n8 += 1
         return n6, n8
+
+    # ------------------------------------------------------------ Lemma C and Proposition N
+    def check_closure(self):
+        """Lemma C: for every (T4) move P -> P* and every (T3⁺) move P* -> P' (all min-frozen), P -> P' is (T3⁺).
+        Proposition N (at a state where no T4 move lowers def): repeated frozen rotations reach a T4-optimal P* with
+        def(P*) = def(P). Returns (number of compositions checked, 1 if P was not T4-optimal)."""
+        pr, Bs = self.pr, self.Bs
+        P = self.P; n = 0
+        t4s = [B2 for B2 in pr.mp if B2 != Bs and kind(P, pr.PA[B2]) == 't4']
+        for B2 in t4s:
+            P2 = pr.PA[B2]
+            for B3 in pr.mp:
+                if B3 == B2 or t3plus(P2, pr.PA[B3]) is None: continue
+                if B3 == Bs: continue
+                assert t3plus(P, pr.PA[B3]) is not None, ('Lemma C', Bs, B2, B3)
+                n += 1
+        rot = 0
+        if pr.D[Bs] > 0 and not pr.t4_optimal(Bs) and not any(pr.D[B2] < pr.D[Bs] for B2 in t4s):
+            rot = 1
+            cur = Bs
+            while not pr.t4_optimal(cur):          # a Pareto reassignment along a cycle (Lemma 12)
+                Pc = pr.PA[cur]; F = [i for i in range(self.I.n) if Pc.frozen[i]]
+                nxt = None
+                for B2 in pr.mp:
+                    ch = [i for i in range(self.I.n) if cur[i] != B2[i]]
+                    if ch and all(i in F for i in ch) and kind(Pc, pr.PA[B2]) == 't4' and \
+                            all(self.I.val(i, B2[i]) > self.I.val(i, cur[i]) for i in ch):
+                        nxt = B2; break
+                assert nxt is not None, ('Proposition N: no rotation at a cyclic state', cur)
+                assert pr.D[nxt] <= pr.D[cur], ('Lemma 12', cur, nxt)
+                cur = nxt
+            assert pr.D[cur] == pr.D[Bs], ('Proposition N: def(P*) != def(P)', Bs, cur)
+            assert kind(P, pr.PA[cur]) == 't4', ('Proposition N: P -> P* not (T4)', Bs, cur)
+        return n, rot
 
     # ------------------------------------------------------------ the corollaries
     def single_blocks(self):
@@ -243,10 +339,16 @@ def coverage(files):
             cnt['states'] += 1
             cnt['Lemma P: a frozen agent without a need path (not T4-optimal)'] += ctx.lemmaP()
             n6, n8 = ctx.check_6_8(); cnt['Lemma 6+ chain swaps checked'] += n6; cnt['Lemma 8+ values checked'] += n8
+            nc, rot = ctx.check_closure(); cnt['Lemma C compositions checked'] += nc
+            cnt['Proposition N: not T4-optimal, rotated to a T4-optimal state of equal deficit'] += rot
             sb = ctx.single_blocks()
             c1 = ctx.C1p(sb); c2 = ctx.C2p(sb); c3 = ctx.C3p()
             plain = any(t[-1] == 0 for t in c1) or any(t[-1] == 0 for t in c2) or any(len(t[1]) == 2 for t in c3)
             first = ('C1+' if c1 else ('C2+' if c2 else ('C3+' if c3 else 'none')))
+            if first == 'none':
+                c8, c11 = ctx.certificates()
+                first = 'C8+' if c8 else ('C11+' if c11 else 'none')
+                if first != 'none': plain = (c8 or c11)[0] == 0
             chain_only = not any(rp['k'] == 0 for rp in r['reps'])
             row = (r['case'], 'chain-only' if chain_only else 'plain T3 exists')
             cnt[row + (first,)] += 1
@@ -265,7 +367,7 @@ def rand_inst(rng, nmax, mmax):
     """strict, strictly balanced 3- and 4-good agents, every good valued; a few 'hot' goods are many agents' tops"""
     while True:
         n = rng.randint(3, nmax)
-        m = rng.randint(n + 2, min(mmax, 3 * n))
+        m = rng.randint(min(2 * n - 2, mmax), min(mmax, 3 * n))      # omega = f - (2n - m) >= 1 needs m large
         goods = list(range(m)); hot = rng.sample(goods, rng.randint(2, 3))
         sets, vals = [], []
         for _ in range(n):
@@ -282,10 +384,10 @@ def rand_inst(rng, nmax, mmax):
             return {'sets': sets, 'vals': vals, 'm': m}
 
 
-def random_run(N, seed, nmax, mmax):
-    rng = random.Random(seed); cnt = collections.Counter()
-    for _ in range(N):
-        d = rand_inst(rng, nmax, mmax)
+def check_run(profiles, all_states=False):
+    """every check at every def > 0 state (with all_states: Lemmas P, 6+, 8+, C at every min-frozen state)"""
+    cnt = collections.Counter()
+    for d in profiles:
         pr = Prof(d, fmin=1)
         cnt['instances'] += 1
         if not pr.ok: continue
@@ -293,10 +395,12 @@ def random_run(N, seed, nmax, mmax):
         for Bs in pr.mp:
             ctx = Ctx(pr, Bs)
             cnt['Lemma P: frozen agent without a need path (not T4-optimal)'] += ctx.lemmaP()
+            if pr.D[Bs] <= 0 and not all_states: continue
+            cnt['states checked'] += 1
+            n6, n8 = ctx.check_6_8(); cnt['Lemma 6+ chain swaps'] += n6; cnt['Lemma 8+ values'] += n8
+            nc, rot = ctx.check_closure(); cnt['Lemma C compositions'] += nc; cnt['Proposition N rotations'] += rot
             if pr.D[Bs] <= 0: continue
             cnt['def>0 states'] += 1; cnt['def>0 states f=%d' % pr.I.f] += 1
-            n6, n8 = ctx.check_6_8(); cnt['Lemma 6+ chain swaps'] += n6; cnt['Lemma 8+ values'] += n8
-            cnt['Lemma 6+ chain swaps with k >= 1 checked at f >= 2'] += 0
             sb = ctx.single_blocks()
             c1 = ctx.C1p(sb); c2 = ctx.C2p(sb); c3 = ctx.C3p()
             cnt['C1+ applies'] += bool(c1); cnt['C1+ applies with k >= 1'] += any(t[-1] >= 1 for t in c1)
@@ -310,7 +414,11 @@ def main(argv):
     rest = [a for a in argv if not a.startswith('--')]
     print('# command: python3 k4/f2_lemmas.py ' + ' '.join(argv), flush=True)
     if 'random' in opt:
-        random_run(int(rest[0]), int(opt.get('seed', 1)), int(opt.get('nmax', 5)), int(opt.get('mmax', 12)))
+        rng = random.Random(int(opt.get('seed', 1)))
+        check_run((rand_inst(rng, int(opt.get('nmax', 5)), int(opt.get('mmax', 12))) for _ in range(int(rest[0]))))
+    elif 'profiles' in opt:
+        from f2_shapes import collect
+        check_run((d for d, _ in collect(rest, opt)), all_states='all' in opt)
     else:
         coverage(rest)
     print('# no assertion failed')
