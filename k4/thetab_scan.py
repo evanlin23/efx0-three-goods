@@ -9,7 +9,8 @@ For every profile of the input with f = 1 and omega >= 1 and every min-frozen P 
     plain swap (a needer z takes g, x takes an admissible A ⊆ J ∪ B_z, nobody else moves) lowers the deficit (exact);
     whether Lemma G certifies one (k4/thetab_lib.swap_bound, any z, A and unmoved owner o; its bound is asserted);
   - at a T3-stage state where no plain swap lowers the deficit: whether any (T3) move does (if none: a failure of the
-    T3 stage, i.e. of DL_RT4 at f = 1, printed as T3-STAGE-FAILURE).
+    T3 stage, i.e. of DL_RT4 at f = 1, printed as T3-STAGE-FAILURE);
+  - at the def > 0 states whose frozen good has one needer: whether Corollary G1 applies (its conclusion asserted).
 usage: python3 k4/thetab_scan.py catalog FILE [--every=E] [--off=O]    (FILE in k4/suite/.cache/gapbench/results/k4_gap)
        python3 k4/thetab_scan.py hunt SEED N [--nmin=4] [--nmax=5] [--tlim=SECONDS]   (structured random instances)
        python3 k4/thetab_scan.py suite | certs FILE --rand=K [--seed=S]               (as k4/dl2_relations.py)"""
@@ -126,7 +127,13 @@ def run(items, label):
             if pr.D[Bs] <= 0: continue
             ctx = Ctx(pr, Bs)
             x, g, nd, third = setting(ctx)
-            if len(nd) < 2: continue
+            if len(nd) < 2:
+                # one needer: only Corollary G1 can apply (it needs a big-top needer); its conclusion is asserted
+                gs = g1_swaps(ctx)
+                for z, A, o in gs:
+                    assert pr.D[ctx.new(x, z, A)] <= 0, ('Corollary G1 violated', src, Bs, z, A, o)
+                cnt[('n=%d' % I.n, 'one needer', 'Corollary G1 applies' if gs else 'Corollary G1 does not apply')] += 1
+                continue
             H = in_H(ctx)
             kopt = ctx.key_optimal()
             st = 'T3stage' if kopt else ('T1stuck' if not pr.t1_moves(Bs) else 'other')

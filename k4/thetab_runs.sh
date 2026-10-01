@@ -16,9 +16,9 @@ done
 for c in hunt_n4_2_all hunt_n4_3_s400k hunt_n4_pure_s400k; do
   run scan_${c}_e4 k4/thetab_scan.py catalog $c.json.gz --every=4
 done
-for c in gap_n5_1_s100 gap_n5_2_s100 gap_n5_3_s100 gap_n5_4_s100 gap_n5_pure_s100; do
-  run scan_${c}_e10 k4/thetab_scan.py catalog $c.json.gz --every=10
-done
 for s in 1 2 3; do
   run scan_hunt_s$s k4/thetab_scan.py hunt $s 1000000 --nmin=4 --nmax=5 --tlim=1100
+done
+for c in gap_n5_1_s100 gap_n5_2_s100 gap_n5_3_s100 gap_n5_4_s100 gap_n5_pure_s100; do
+  run scan_${c}_e10 k4/thetab_scan.py catalog $c.json.gz --every=10
 done
