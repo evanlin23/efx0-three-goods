@@ -232,6 +232,21 @@ specializations) have exactly the types of `EFX.target`, `EFX.LB.corollaryD` (ch
 - `EFX/ThmFExamples.lean`: Theorem F is not vacuous (`EFX.C4min.ExF.c4min`): a strict k = 4 core with three agents and
   five goods, and a frozen-robust configuration with two frozen agents, which is the fewest (all 1,024 base maps checked,
   `EFX.C4min.ExF.hmin`), and `ω = 1`.
+- `EFX/C4minDescent.lean`: step 4 of `k4/strategy.md` §3 (ledger K4.STRAT.DL2.LEAN): conjecture DL₂ for any
+  neighbourhood relation `R` on pre-allocations (`EFX.C4min.Nbhd`): `EFX.C4min.DefLocalAt` (if `ω = f − (2n − m) ≥ 1`,
+  every min-frozen P with `def(P) > 0`, `+∞` included, has a min-frozen neighbour P′ with `def(P′) < def(P)`,
+  `EFX.C4min.DeficitLT`), `EFX.C4min.DefLocal` (DL_R on every strict profile of every connected k = 4 core, DL₂'s scope),
+  `EFX.C4min.DefLocalAll` (every core), `EFX.C4min.BasesDiffer` (the bases of at most k agents differ) and
+  `EFX.C4min.DefLocal2` (DL₂). The deficit is an element of ℤ ∪ {+∞} (`EFX.C4min.deficitLE_mono`,
+  `EFX.C4min.deficitLE_lower`, `EFX.C4min.exists_least_deficit`, `EFX.C4min.deficitLT_iff`); `ω(P) = f(P) − (2n − m)` on
+  𝒫, the same for every min-frozen P, and `def(P) > 0` forces `ω(P) ≥ 1` (`EFX.C4min.omegaP_eq`,
+  `EFX.C4min.omegaP_minFrozen_eq`, `EFX.C4min.omegaP_pos`). The descent (`EFX.C4min.exists_removalOnly_of_defLocalAt`)
+  and DL_R ⟹ `C4minROConn` ⟹ TARGET₄ for every R (`EFX.C4min.C4minROConn_of_defLocal`, `EFX.C4min.target4_of_defLocal`),
+  in particular DL₂ ⟹ TARGET₄ (`EFX.C4min.C4minROConn_of_defLocal2`, `EFX.C4min.target4_of_defLocal2`); on every core,
+  DL_R ⟹ `TheoremC4minRO` (`EFX.C4min.C4minRO_of_defLocalAll`). For the full relation DL_R is exactly C₄ᵐⁱⁿ's conclusion
+  (`EFX.C4min.defLocalAt_top_iff`), and widening R weakens DL_R (`EFX.C4min.DefLocal.mono`, `EFX.C4min.basesDiffer_mono`).
+  The differences from the prose (descent on the deficit instead of finiteness of the min-frozen class; the scope) are
+  listed in the module doc.
 - `EFX/K3Algo.lean`, `EFX/Timed.lean`, `EFX/K3CostLB.lean`, `EFX/K3Cost.lean`, `EFX/K3CostBound.lean`,
   `EFX/K3Examples.lean`: algorithm K3ALG, a polynomial-time algorithm for k = 3 with its running time
   (`proofs/k3_algorithm.md`; ledger K3.ALG, K3.ALG.TIME).
@@ -351,6 +366,7 @@ name in the ledger's Lean column has one.
 | K4.C4X.K3.LEAN | Theorem K3: every Pareto-maximal P ∈ 𝒫 of a k = 3 core has ω ≤ 0 or a terminal owner with a removal-only completion; Lemmas U, C (any k), R, E, O; the moves stay in 𝒫 and dominate (from any P ∈ 𝒫); hence D for k = 3 cores and TARGET without LB⁺ | K3Pareto : `EFX.C4min.lemmaU`, `EFX.C4min.no_edge_cycle`, `EFX.C4min.exists_needChain`, `EFX.C4min.threat_shape`, `EFX.C4min.lemmaR`, `EFX.C4min.lemmaE`, `EFX.C4min.transfer_inP_dominates`, `EFX.C4min.transfer_move`, `EFX.C4min.cycle_move`, `EFX.C4min.path_move`; K3Theorem : `EFX.C4min.exposed_top`, `EFX.C4min.lemmaO`, `EFX.C4min.exists_labelCycle`, `EFX.C4min.LabelCycle.disjoint`, `EFX.C4min.cycle_contra`, `EFX.C4min.theoremK3_owner`, `EFX.C4min.theoremK3`, `EFX.C4min.exists_paretoMax`, `EFX.C4min.corollaryD_K3`, `EFX.C4min.target_K3`; C4minExamples : `EFX.C4min.ExOmega.k3_owner` |
 | K4.C4MIN.Z.LEAN | Theorem Z: on every k = 4 core whose fewest frozen agents is 0, some min-frozen P ∈ 𝒫 has def(P) ≤ 0 and is completable (C₄ᵐⁱⁿ's conclusion, both forms); a pool-optimal all-pairs allocation with the most robust agents has a valid owner | ThmZ : `EFX.C4min.theoremZ_min`, `EFX.C4min.theoremZ_RO`, `EFX.C4min.theoremZ`, `EFX.C4min.c4minRO_of_f0`, `EFX.C4min.c4min_of_f0`, `EFX.C4min.efx0_of_f0`, `EFX.C4min.removalOnly_of_zvalid`, `EFX.C4min.zvalid_of_zmax`, `EFX.C4min.c4min_of_zvalid`, `EFX.C4min.exists_zmax`, `EFX.C4min.threat_unique`, `EFX.C4min.threat_gain`, `EFX.C4min.zvalid_or_all4`, `EFX.C4min.robust_of_rel_le2` |
 | K4.C4MIN.F.LEAN | Theorem F: on every k = 4 core with a frozen-robust configuration at the fewest frozen agents, some min-frozen P ∈ 𝒫 has def(P) ≤ 0 and is completable (C₄ᵐⁱⁿ's conclusion, both forms); rigidity of the needed set at the fewest frozen agents; Lemma 1(a): a valid owner of a configuration (with unfreezing) gives def(P) ≤ 0 | ThmF : `EFX.C4min.theoremF_min`, `EFX.C4min.theoremF`, `EFX.C4min.c4minRO_of_frobust`, `EFX.C4min.rigid_NA`, `EFX.C4min.frozen_of_min`, `EFX.C4min.removalOnly_of_cfgOwner`, `EFX.C4min.c4min_of_cfgOwner`, `EFX.C4min.isAPA_sub`, `EFX.C4min.not_threat_frozen`, `EFX.C4min.fmax_poolOpt`, `EFX.C4min.fmax_nRobust`, `EFX.C4min.frozen_cycle`; ThmZ : `EFX.C4min.zvalid_or_all4`; ThmFExamples : `EFX.C4min.ExF.c4min` |
+| K4.STRAT.DL2.LEAN | DL_R ⟹ TARGET₄ for every neighbourhood relation R, by finite descent on the deficit: DL_R on an instance gives a min-frozen P ∈ 𝒫 with def(P) ≤ 0; DL_R on connected cores ⟹ `C4minROConn` ⟹ TARGET₄; in particular DL₂ ⟹ TARGET₄; DL_R on every core ⟹ `TheoremC4minRO`; the deficit is an element of ℤ ∪ {+∞}; ω(P) = f − (2n − m) on 𝒫, the same for every min-frozen P | C4minDescent : `EFX.C4min.exists_removalOnly_of_defLocalAt`, `EFX.C4min.C4minROConn_of_defLocal`, `EFX.C4min.target4_of_defLocal`, `EFX.C4min.C4minROConn_of_defLocal2`, `EFX.C4min.target4_of_defLocal2`, `EFX.C4min.C4minRO_of_defLocalAll`, `EFX.C4min.defLocalAt_top_iff`, `EFX.C4min.deficitLT_iff`, `EFX.C4min.exists_least_deficit`, `EFX.C4min.omegaP_eq`, `EFX.C4min.omegaP_minFrozen_eq`, `EFX.C4min.omegaP_pos` |
 | K4.MC1 | M1, M1(b): an extension of an EFX₀ allocation of the smaller instance (outside agents keep their goods outside `I ∪ I′`, agents of `S` safe, every bundle dominated by a bundle of `Y` or with its `U`-part inside that of a bundle no outside agent envies) is EFX₀; any number of relevant goods | K4MinCex : `EFX.MinCex.m1_efx0`, `EFX.MinCex.m1_reduce`, `EFX.MinCex.threat_le_of_dominated` (over lists) |
 | K4.MC0 | (a)–(c): within a hereditary, relevance-invariant class, a minimal counterexample is a connected strict k = 4 core with a 4-good agent | K4MinCex : `EFX.MinCex.mc0`, `EFX.MinCex.core_reduction4_class` (over lists) |
 | K4.MC4 | the counting: with K4.MC3 and K4.MC5(iii) on `Γ′`, `4n + 3m ≤ 3 Σ_i \|R_i\|`, i.e. `n ≤ 3(β − 1)` | K4MinCex : `EFX.MinCex.mc4_count` (over lists) |
@@ -382,6 +398,7 @@ good), and extends it to monotone valuations.
   `m ≤ 2n` for k = 3 cores is (`EFX.C4min.sigma_nonneg`).
 - C₄ᵐⁱⁿ itself (`k4/c4x.md` §5) is not proved: it is the hypothesis of `EFX.C4min.target4_of_C4min`. The K3 building
   blocks are formalized for k = 3; their k = 4 analogues of `k4/c4x.md` §4 (one 4-good agent) are not.
+- DL₂ itself (`k4/strategy.md` §3) is not proved: it is the hypothesis of `EFX.C4min.target4_of_defLocal2`.
 - The peeling theorems are stated over lists: removing an agent and its goods changes the index types `Fin n`, `Fin m`,
   so a model-level statement needs sub-instances. `EFX.Inst.efx0_iff` connects the two for the full instance.
 - Real-valued utilities: core Lean has no `ℝ`, so that `ℝ≥0` satisfies the axioms of `EFX.OrderedValue` is the
