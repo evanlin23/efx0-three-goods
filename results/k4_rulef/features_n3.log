@@ -1,0 +1,18 @@
+/tmp/claude-0/-home-user-efx0-three-goods/891575f8-e905-5025-9feb-2c6293ea3e11/scratchpad/rulef/ck/idx_n3.txt: leaves 90111, profiles 507228 (index order not in class K0)
+  bigtop first                                         not covered:          0
+  index, else end of a chain from agent 0              not covered:         15   smallest n=3 m=6 sets=[[0, 2, 4, 5], [1, 3, 5], [2, 3, 4, 5]] vals=[[2, 7, 6, 10], [2, 4, 3], [2, 8, 3, 4]] agent=None
+  end of a chain from the frozen agent processed last  not covered:         41   smallest n=3 m=7 sets=[[0, 2, 4, 6], [1, 3, 5, 6], [2, 3, 4, 5]] vals=[[1, 4, 6, 8], [2, 4, 5, 8], [4, 2, 5, 8]] agent=None
+  end of a chain from a frozen 4-good agent            not covered:        354   smallest n=3 m=5 sets=[[0, 3, 4], [1, 2, 3, 4], [1, 2, 4]] vals=[[2, 3, 4], [6, 1, 4, 8], [3, 2, 4]] agent=None
+  last agent r of the index run                        not covered:        720   smallest n=3 m=6 sets=[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]] vals=[[4, 1, 6, 8], [5, 3, 7, 6], [2, 3, 4, 8]] agent=1
+  top shared by most tops                              not covered:        720   smallest n=3 m=6 sets=[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]] vals=[[4, 1, 6, 8], [5, 3, 7, 6], [2, 3, 4, 8]] agent=0
+  least contested top                                  not covered:        720   smallest n=3 m=6 sets=[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]] vals=[[4, 1, 6, 8], [5, 3, 7, 6], [2, 3, 4, 8]] agent=0
+  3good first                                          not covered:        730   smallest n=3 m=6 sets=[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]] vals=[[4, 1, 6, 8], [5, 3, 7, 6], [2, 3, 4, 8]] agent=0
+  most private goods                                   not covered:        735   smallest n=3 m=6 sets=[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]] vals=[[4, 1, 6, 8], [5, 3, 7, 6], [2, 3, 4, 8]] agent=0
+  4good first                                          not covered:        735   smallest n=3 m=6 sets=[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]] vals=[[4, 1, 6, 8], [5, 3, 7, 6], [2, 3, 4, 8]] agent=0
+  top is lowest for fewest                             not covered:        735   smallest n=3 m=6 sets=[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]] vals=[[4, 1, 6, 8], [5, 3, 7, 6], [2, 3, 4, 8]] agent=0
+  index                                                not covered:        735   smallest n=3 m=6 sets=[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]] vals=[[4, 1, 6, 8], [5, 3, 7, 6], [2, 3, 4, 8]] agent=0
+  most contested top                                   not covered:        785   smallest n=3 m=6 sets=[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]] vals=[[4, 1, 6, 8], [5, 3, 7, 6], [2, 3, 4, 8]] agent=0
+  top shared by fewest tops                            not covered:        785   smallest n=3 m=6 sets=[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]] vals=[[4, 1, 6, 8], [5, 3, 7, 6], [2, 3, 4, 8]] agent=1
+  successor of agent 0 on a chain                      not covered:      19952   smallest n=3 m=6 sets=[[0, 3, 4, 5], [1, 3, 4, 5], [2, 3, 4, 5]] vals=[[2, 8, 7, 4], [5, 3, 6, 7], [2, 3, 4, 8]] agent=None
+  end of a chain from agent 0                          not covered:      19952   smallest n=3 m=6 sets=[[0, 3, 4, 5], [1, 3, 4, 5], [2, 3, 4, 5]] vals=[[2, 8, 7, 4], [5, 3, 6, 7], [2, 3, 4, 8]] agent=None
+  start of a chain ending at r                         not covered:      85634   smallest n=3 m=6 sets=[[0, 1, 2, 3], [2, 4, 5], [3, 4, 5]] vals=[[5, 3, 7, 6], [4, 3, 2], [2, 3, 4]] agent=None
