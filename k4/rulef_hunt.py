@@ -30,7 +30,8 @@ Usage:
                 [--first=K] [--every=K] [--evals=E] [--jobs=J] [--seed=S] [-Y0] [-N1]   the selected cores (every K-th,
                 the first K), E evaluations each
   rulef_hunt.py RUN --seeds=JSONL [--evals=E] ...      each {"sets", "vals", "tag"} line: its core, starting at it
-Search options: --key=M|R|S|W|E (below), --samep=P (ranking-preserving redraws), --kick=P (a restart starts from two
+Search options: --exhaust (seed runs: all one- and two-agent type changes of the current profile, descending while the
+key improves, at most 6 rounds; 'restarts' in the record counts the rounds), --key=M|R|S|W|E (below), --samep=P (ranking-preserving redraws), --kick=P (a restart starts from two
 redraws of the best profile so far with probability P; default: every third restart).
 The run writes (resumable: rerun the same command) results/k4_rulef_hunt/ck/RUN.jsonl (one line per finished unit) and
 results/k4_rulef_hunt/tight_RUN.jsonl.gz (every profile with nwork <= 1, details included). The log goes to stdout."""
@@ -50,6 +51,7 @@ BIN = os.path.join(tempfile.gettempdir(), 'k4_rulef_hunt_' + hashlib.sha256((SHA
 B, R0, STAG = 48, 96, 25
 KICK = None                               # --kick=P: a restart kicks the best profile so far with probability P
 SAMEP = 0.0                               # --samep=P: probability of a ranking-preserving redraw
+EXR = 6                                   # --exhaust: at most this many descent rounds
 SAEV = 4000                               # evaluations per annealing restart (--key=E)
 
 
@@ -277,6 +279,53 @@ def unit_sa(task):
     return finish(uid, meta, sets, m, doms, tight, best, hist, restarts, extra, nev0, t0)
 
 
+def unit_exh(task):
+    """--exhaust (seed runs): every profile that differs from the current one in the types of one or two agents is
+    evaluated; if the best of them has a smaller key, it becomes current and the enumeration is repeated (at most
+    EXR rounds, and the unit's evaluation budget)."""
+    uid, sets, m, evals, seed, start, meta = task
+    t0 = time.time()
+    doms, start, extra = domains_with(sets, m, start)
+    EV.set_core(sets, m, doms)
+    nev0 = EV.nev
+    tight = {}
+    n = len(sets)
+    cur = start if start is not None else tuple(0 for _ in sets)
+    ck = EV.evaluate([cur])[0]
+    best = (cur, ck[0], ck[1])
+    hist = [0] * (n + 1)
+    rounds = 0
+    while rounds < EXR and EV.nev - nev0 < evals:
+        rounds += 1
+        rb = None
+
+        def gen():
+            for i in range(n):
+                for x in range(len(doms[i])):
+                    if x != cur[i]:
+                        t = list(cur); t[i] = x; yield tuple(t)
+            for i, j in itertools.combinations(range(n), 2):
+                for x in range(len(doms[i])):
+                    if x == cur[i]: continue
+                    for y in range(len(doms[j])):
+                        if y == cur[j]: continue
+                        t = list(cur); t[i] = x; t[j] = y; yield tuple(t)
+        it = gen()
+        while EV.nev - nev0 < evals:
+            chunk = list(itertools.islice(it, 2000))
+            if not chunk: break
+            res = EV.evaluate(chunk)
+            for p, r in zip(chunk, res):
+                if r[1] <= 1 and p not in tight and len(tight) < 200: tight[p] = r
+                if rb is None or r[0] < rb[1]: rb = (p, r[0], r[1])
+        hist[rb[2]] += 1
+        if rb[1] < best[1]:
+            best = rb; cur = rb[0]
+        else:
+            break
+    return finish(uid, meta, sets, m, doms, tight, best, hist, rounds, extra, nev0, t0)
+
+
 def domains_with(sets, m, start):
     doms = check4.core_domains(sets, m, False)
     extra = 0
@@ -382,7 +431,8 @@ def main():
     t0 = time.time()
     nd = 0; tev = 0; ntl = 0; bestk = None; besthist = {}
     with Pool(jobs, initializer=init, initargs=(opts, key, samep, kick)) as pool, open(ckp, 'a') as fc:
-        for rec, tl in pool.imap_unordered(unit_sa if key == 'E' else unit, todo, chunksize=1):
+        fn = unit_exh if '--exhaust' in args else (unit_sa if key == 'E' else unit)
+        for rec, tl in pool.imap_unordered(fn, todo, chunksize=1):
             nd += 1; tev += rec['evals']
             k = rec['best_nwork']; besthist[k] = besthist.get(k, 0) + 1
             if tl:
