@@ -1,0 +1,79 @@
+# command: python3 k4/dlrt4_run.py catalog k4/suite/.cache/gapbench/results/k4_gap/hard_hunt.json.gz --every=1 --jobs=4 --ckpt=results/k4_rt4/ckpt_n5c_cat_hard_hunt.jsonl --dump=results/k4_rt4/dump_n5c_cat_hard_hunt.jsonl.gz --tables=results/k4_rt4/tables_n5c_cat_hard_hunt.json
+# dlrt4.c sha256 fcde494a3161279d47a7b80e614f69c58894ebc7b40d00e461f677b8810d7cae
+# catalog k4/suite/.cache/gapbench/results/k4_gap/hard_hunt.json.gz: 117 instances, 1 units to run, 0 from the checkpoint
+catalog k4/suite/.cache/gapbench/results/k4_gap/hard_hunt.json.gz: profiles 117, omega >= 1: 117; k* = 0: 41, 1: 61, 2: 15, 3: 0, >= 4: 0, inf: 0; P with def > 0: 192, at distance 1: 121, 2: 71, 3: 0, >= 4: 0, inf: 0; Pareto-maximal: 69; largest least deficit 0
+  DL_RT4: states (def > 0) with f = 0: 0 (RT4 fails at 0), with f >= 1: 192; DL_RT4 FAILS at 0 of the f >= 1 states; with an improving move T1 121, T2 117, T3p 192, T3h 191, T4 0; only T1 0, only T2 0, only T3 71, only T4 0; R_T fails at 0, R_13 at 0, R_13 + T4 at 0; smallest RT4 move size 1 / 2 / 3 / >= 4 / none: 121 / 71 / 0 / 0 / 0; anomalies 0 + 0 [0 s]
+table B: f >= 1 states by f | signature | branch : count
+  B 2|G,D2|T1+T2+T3p+T3h : 51
+  B 2|G,D2,PM|T1+T2+T3p+T3h : 26
+  B 2|fO,G,D2|T3p+T3h : 16
+  B 2|fO,G,L,D2|T3p+T3h : 12
+  B 2|G,D2,PM|T3p+T3h : 10
+  B 2|L,PM|T3p+T3h : 10
+  B 2|fO,G,D2|T1+T2+T3p+T3h : 10
+  B 2|fO,L|T3p+T3h : 8
+  B 2|L,PM|T1+T2+T3p+T3h : 6
+  B 2|G,L,D2,PM|T3p+T3h : 5
+  B 2|fO,G,L,D2|T1+T2+T3p+T3h : 5
+  B 2|G,L,D2,PM|T1+T2+T3p+T3h : 4
+  B 2|G,L,D2|T1+T2+T3p+T3h : 4
+  B 2|L|T1+T2+T3p+T3h : 4
+  B 2|G,D2|T3p+T3h : 3
+  B 2|G,G1,D2,PM|T1+T2+T3p+T3h : 3
+  B 2|G,L,D2|T3p+T3h : 3
+  B 2|G,L,D2,PM|T1+T3p+T3h : 2
+  B 2|L,PM|T1+T3p+T3h : 2
+  B 2|fO,L|T1+T2+T3p+T3h : 2
+  B 2|G,G1,D2|T1+T2+T3p+T3h : 1
+  B 2|G,G1,D2|T3p+T3h : 1
+  B 2|G1,PM|T3p+T3h : 1
+  B 2|L|T3p+T3h : 1
+  B 2|fO,G,D2|T3p : 1
+  B 2|fO,G,G1,D2|T1+T2+T3p+T3h : 1
+table G: f >= 1 states by f | nearest distance k | branch : count
+  G 2|1|T1+T2+T3p+T3h : 117
+  G 2|2|T3p+T3h : 70
+  G 2|1|T1+T3p+T3h : 4
+  G 2|2|T3p : 1
+table M: f >= 1 states by f | branch | smallest RT4 move size : count
+  M 2|T1+T2+T3p+T3h|1 : 117
+  M 2|T3p+T3h|2 : 70
+  M 2|T1+T3p+T3h|1 : 4
+  M 2|T3p|2 : 1
+table Z: f >= 1 states by f | branch available | its smallest move size : count
+  Z 2|T3p|2 : 192
+  Z 2|T3h|3 : 191
+  Z 2|T1|1 : 121
+  Z 2|T2|2 : 117
+table C: f >= 1 states with T4 by f | smallest T4 size | cycle types at that size : count
+table Y: f >= 1 states by f | branch | move type available : count
+  Y 2|T1+T2+T3p+T3h|T2:k2 : 117
+  Y 2|T1+T2+T3p+T3h|T3:xJ.h- : 117
+  Y 2|T1+T2+T3p+T3h|T1:rel : 111
+  Y 2|T1+T2+T3p+T3h|T3:xJ.hR : 105
+  Y 2|T1+T2+T3p+T3h|T3:xJ.hJ : 76
+  Y 2|T3p+T3h|T3:xJ.h- : 70
+  Y 2|T1+T2+T3p+T3h|T1:pool : 68
+  Y 2|T3p+T3h|T3:xJ.hZ : 65
+  Y 2|T1+T2+T3p+T3h|T3:xJ.hZ : 57
+  Y 2|T3p+T3h|T3:xH.hZ : 42
+  Y 2|T3p+T3h|T3:xJ.hR : 41
+  Y 2|T3p+T3h|T3:xJ.hJ : 24
+  Y 2|T1+T2+T3p+T3h|T3:xH.hZ : 18
+  Y 2|T3p+T3h|T3:xH.hR : 15
+  Y 2|T3p+T3h|T3:xH.hJ : 8
+  Y 2|T1+T2+T3p+T3h|T3:xH.hR : 6
+  Y 2|T3p+T3h|T3:xZ.h- : 6
+  Y 2|T1+T2+T3p+T3h|T3:xZ.h- : 5
+  Y 2|T3p+T3h|T3:xZ.hZ : 5
+  Y 2|T1+T2+T3p+T3h|T3:xZ.hR : 4
+  Y 2|T1+T3p+T3h|T1:rel : 4
+  Y 2|T1+T3p+T3h|T3:xH.hZ : 4
+  Y 2|T1+T3p+T3h|T3:xJ.h- : 4
+  Y 2|T1+T3p+T3h|T3:xJ.hR : 4
+  Y 2|T1+T3p+T3h|T3:xJ.hZ : 4
+  Y 2|T1+T3p+T3h|T3:xH.hR : 3
+  Y 2|T3p+T3h|T3:xZ.hR : 3
+  Y 2|T1+T2+T3p+T3h|T3:xZ.hJ : 2
+  Y 2|T1+T2+T3p+T3h|T3:xZ.hZ : 2
+  Y 2|T3p|T3:xJ.h- : 1
