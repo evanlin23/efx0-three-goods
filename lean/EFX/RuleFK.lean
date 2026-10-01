@@ -3,9 +3,91 @@ import EFX.C4min
 import EFX.RuleF
 
 /-!
-# The counting lemmas of rule F (`k4/rulef.md` §2, §3, §6; ledger K4.RF.K.LEAN)
+# The counting lemmas of rule F (`k4/rulef.md` §2, §3, §6, §7; ledger K4.RF.K.LEAN, K4.RF.S.LEAN, K4.RF.KR.LEAN, K4.RF.M.LEAN)
 
-(module docstring: to be completed)
+The text is `k4/rulef.md` of PR #72 (branch `proof/k4-rulef`, read at 719c911). This file proves Lemma K and Lemma K′
+(§2), Lemma S (§6) and Lemma KR (§3), states Lemma M (§4, open) as a `def`, and proves Lemma M ⟹ rule F with at most
+one rotation (`EFX.LB4R.TheoremRuleF`, `lean/EFX/RuleF.lean`) ⟹ TARGET₄. Everything is stated over the existing model:
+pre-allocations of `EFX/PreAllocK.lean` (`baseOf`, `junk`, `NA`, `Needs`, `Valid`, `Frozen`, `Completion`, `OC`,
+`ownerNeeds`, `SoundCompletion`, `otherSlots`), LB₄ʳ's states, needs and steps of `EFX/LB4R.lean` (`LState`, `needsOf`,
+`Inv`, `UpRun`, `rotate`, `RotStep`, `Output`, `omega`), `W` and threats of `EFX/K4C4AB.lean` (`Wl`, `Threatened`), and
+`B_o ∪ K` as `EFX.C4min.ownerBundle`.
+
+## Definitions (`k4/rulef.md` §2) and why they are the text's
+
+A pre-allocation is the base map `s.base` of a state `s` with needs `N : A → G → Prop` (any needs for Lemmas K, K′ and S,
+those of the Definition, `EFX.LB4.Needs`; LB₄ʳ's `needsOf` for Lemma KR and for the outputs). The owner is `o`.
+- `needsK v goods base N o K` is `N^K`: `N_o^K = {g ∈ N_o : v_o(g) > v_o(B_o ∪ K)}`, the other agents' needs unchanged,
+  so `NA^K = NA agents (needsK …)` and `F^K` is `Frozen` with `needsK`. `K` is a predicate on goods; `B_o ∪ K` is
+  `C4min.ownerBundle goods base o (¬K)`, the goods of `B_o` and the junk goods of `K` (so only `K ∩ J` matters, the
+  text's `K ⊆ J`). `κ^K` is `kappaK`, `EFX.LB4.otherSlots` with `N^K`: `Σ_{x ≠ o, x ∉ F^K} (2 − |B_x|)` (in `ℕ`; the
+  bases other than `B_o` have at most two goods).
+- `InE … o x` is `x ∈ E`: a listed agent `x ≠ o` with threatened(x, W_o, B_x), `W_o = Wl goods s o = B_o ∪ J`.
+- `Serves … x G_x D_x` is Lemma K′'s service condition (Remark 5): `D_x ⊆ J ∖ K`; `G_x ⊆ J ∖ (K ∪ D_x)`, a list
+  without repetitions (a set); `G_x = ∅` unless `x ∉ F^K` and `|G_x| ≤ 2 − |B_x|`; not threatened(x, W_o ∖ (D_x ∪ G_x),
+  B_x ∪ G_x). Lemma K's options are its two separated shapes, word for word (`serves_slot_iff`: (s) is `G_x = [g]`,
+  `D_x = []`, i.e. `g ∈ J ∖ K`, `x ∉ F^K`, `|B_x| ≤ 1`, not threatened(x, W_o ∖ {g}, B_x ∪ {g});
+  `serves_keep_iff`: (r) is `G_x = []`).
+- `ServiceOn … T Gs Ds`: every agent of `E` satisfying `T` is served, and distinct such agents have disjoint slot sets
+  (for Lemma K: the slot goods are distinct). `T` is "everyone" except in Lemma S (the agents that are not free).
+  `Separated`: every served agent uses (s) or (r) (a K-service). `sizeOn` is the size `|⋃ G_x ∪ ⋃ D_x|`, the number
+  of goods used.
+- `KDefLE … o K d` (`KPDefLE`): "the deficit of `(o, K)` of Lemma K (K′) is at most `d`": some K-service (K′-service)
+  has size at most `κ^K + d`. The deficit is `+∞` exactly when no service exists, and then no `d` works.
+
+## Results
+
+- **Lemma K′** (`lemmaK'_if`, `lemmaK'_onlyIf`, `lemmaK'`): for a valid pre-allocation (needs of the Definition,
+  (V1), (V2)) whose bases belong to listed agents, a listed owner `o` that is not frozen and every other base of at
+  most two goods: a completion with owner `o`, the owner's needs from its bundle, satisfying (OC₄) exists iff some `K`
+  and some K′-service have size at most `κ^K`. The "if" half builds the completion of the proof (`svcX`: slot goods to
+  their agents, the other used goods into unused places by `EFX.LB.fill`) and gives a `SoundCompletion`; the "only if"
+  half takes `K = J ∩ X_o`, `G_x = X_x ∖ B_x`, `D_x = (J ∖ X_o) ∖ G_x` and needs no validity.
+- **Lemma K** (`lemmaK`): deficit ≤ 0 gives a sound completion with owner `o`: EFX₀, frozen agents (with the owner's
+  needs from its bundle) holding exactly their bases, only `X_o` above two goods (Theorem 1′₄).
+- **States of LB₄ʳ** (`Inv`, needs `needsOf`): `output_iff_lemmaK'` (if `ω ≥ 1` or some base has three goods: an
+  `Output` with owner `o` iff some `K` has Lemma K′ deficit ≤ 0), `output_of_lemmaK`, and `output_none_of_omega`
+  (bases of at most two goods and `ω ≤ 0`: an `Output` without owner). The text's "ω ≥ 1 or |B_o| ≥ 3" is the
+  hypothesis `(∀ i, |B_i| ≤ 2) → 0 < ω`, the same when the other bases have at most two goods.
+- **Lemma S** (`serve_free`, `lemmaS_extend`, `lemmaS`): `Free` (unmarked, not frozen, one-good base) and `kappa0`
+  (`κ₀`); for `o` not frozen with `|B_o| ≤ 1`, a ∅-service (separated) of the agents of `E` that are not free extends,
+  unchanged on them, to a ∅-service of `E` whose size exceeds it by at most the number of free agents of `E`
+  (`nFreeE`), and `deficit(o, ∅) ≤ |σ| − κ₀`.
+- **Lemma KR** (`lemmaKR`, `lemmaKR_output`), for states of LB₄ʳ: with the chain, `O`, (i), (ii) and `ε` of the text,
+  the rotation is a `RotStep` and the deficit of `(P′, k, ∅)` is at most `|σ| − κ − 1 − c_k + ε` (`onlyFor` is `c_k`;
+  `δ = |σ| − κ`); if that is ≤ 0, the rotated state has an `Output` (owner `k`, or none when `ω′ ≤ 0` and every base
+  has at most two goods). On the way: (iii) holds in every state of LB₄ʳ (`Inv.needs_value`), `N^∅ = N` there
+  (`needsK_empty`), and Lemma R(b) for any state of LB₄ʳ (`needsOf_rotate_inv`, `rotate_valid_inv`; the versions in
+  `K4C4AB.lean` are for the envy-free run).
+- **Lemma M** (§4): `CertK` (Lemma K's certificate at a state: an owner `o`, not frozen, the other bases of at most two
+  goods, a `K` with deficit ≤ 0; or every base of at most two goods and `ω ≤ 0`), `ClassK0`, `ClassK1` (the state after
+  Phase 1(`[a]`) and upgrades of an allowed policy, or after one more `RotStep`, has a certificate), `RKPolicy`
+  (need-shrinking, envy-free), `LemmaM` (every strict profile of every k = 4 core has a first agent in K0 or K1; a
+  `Prop`, open, not an axiom), `LemmaMConn`, and `LemmaMExact` (with Lemma K′'s count and all three policies).
+  Theorems: `ruleF_of_lemmaM`, `ruleFConn_of_lemmaMConn`, `target4_of_lemmaM`, `target4_of_lemmaMConn` (Lemma M ⟹
+  TARGET₄, machine-checked), and `ruleF_iff_lemmaMExact` (the exact form is equivalent to `TheoremRuleF`, as §4 says);
+  `certK_iff_of_upRun` (at the state after upgrades the bases have at most two goods, so class K0's certificate is the
+  text's "Lemma K deficit ≤ 0 for some owner and `K`, or `ω ≤ 0`").
+
+## Differences from the text
+
+1. **Lemma KR needs one more hypothesis**: every marked agent's base avoids `NA` (`MarkedOK`, `hmk`), because
+   `RotStep`'s `RotChecks` asks (V2) of every marked agent, also one with a one-good base off the chain. It holds in
+   every state LB₄ʳ reaches (`upRun_facts`, `markedOK_of_rotStep`) but not in every state with `Inv`
+   (`attempts/k4-rulef-kr-marked.md`: n = 3, m = 4, the deficit bound holds and the rotation is not a `RotStep`).
+   Lemma KR is stated for states of LB₄ʳ (needs `needsOf`), as the task asks; the text's (iii) is then a theorem
+   (`Inv.needs_value`). The text's `ε = 1` case also asks `o` to be threatened; the bound holds without that. `O` is a
+   list without repetitions (a set), `k`'s chain is `RotStep`'s.
+2. **Lemma S** is proved under weaker hypotheses than the text's (a valid pre-allocation of a strict k = 4 core): any
+   needs of the Definition, (V1), (V2), and `|R_x| ≤ 4` for the listed agents; no strictness and no core. Its
+   extension bound counts all free agents of `E` (the text: those that use their own slot place); that is the bound
+   the deficit inequality uses, and the deficit inequality is the text's.
+3. **Bases belong to listed agents** (`hmem`) is a hypothesis of Lemma K′'s "if" half and of the outputs: a completion
+   gives every good to a listed agent. It holds in every state LB₄ʳ reaches (`upRun_facts`, `rotate_base_mem_gen`).
+4. **Lemma M** is the text's current form (K0 or K1; the earlier class C40 is not included, `k4/rulef.md` §4 shows
+   C40 ⊆ K0 ∪ K1, not formalized here). A first agent `a` is an index `a < n` and its insertion sequence is `[a]`
+   (choice 2 of `LB4R.lean`), as in `TheoremRuleF`; `P_a^pol` is the end of an `UpRun` (LB₄ʳ's order).
+5. Lemma S, K and K′ allow any state `s : LState`; only `s.base` is used, and `s.marked` in Lemma S's "free".
 -/
 
 set_option autoImplicit false
