@@ -2,10 +2,10 @@
 
   python3 k4/dl13_run.py certs FILE... [--sample=P] [--seed=S] [--cores=A:B] [--bt=all|one] [--jobs=J] [--ckpt=PATH]
   python3 k4/dl13_run.py catalog FILE [--every=E] [--max=N] [--chunk=C] [--jobs=J] [--ckpt=PATH]
-  python3 k4/dl13_run.py suite [IDS...] [--maxn=N] [--sample=P] [--seed=S] [--bt=...]
+  python3 k4/dl13_run.py suite [IDS...] [--minn=N] [--maxn=N] [--sample=P] [--seed=S] [--bt=...]
   python3 k4/dl13_run.py inst FILE.json [--sample=P] [--seed=S]       (a JSON list of {"id", "sets", "vals"|"m"})
   python3 k4/dl13_run.py ht T [--sample=P] [--seed=S] [--wide]           (H_T of k4/c4_chain.py)
-common: [--dump=PATH.jsonl.gz] [--tables=PATH.json] [--rt=R] [--ro=O] [--progress]
+common: [--dump=PATH.jsonl.gz] [--tables=PATH.json] [--rt=R] [--ro=O] [--progress] [--src=dl13u.c]
 
 certs: every strict profile (check4.core_domains: one integer representative per strict balanced type, with the
 private-pair condition) of every core of a certificate file results/k4_certs_*.json.gz, or P random ones per core
@@ -31,11 +31,21 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import check4
 
-SRC = os.path.join(HERE, 'dl13.c')
-SHA = hashlib.sha256(open(SRC, 'rb').read()).hexdigest()
 WIDE = '--wide' in sys.argv
 BIGPP = next((a.split('=', 1)[1] for a in sys.argv if a.startswith('--bigpp=')), None)   # test builds only
-BIN = os.path.join(tempfile.gettempdir(), 'k4_dl13_' + SHA[:16] + ('_w' if WIDE else '') + (f'_b{BIGPP}' if BIGPP else ''))
+
+
+def configure(src):
+    """the C source to build and run: k4/dl13.c (default) or k4/dl13u.c (--src=dl13u.c; the same program plus the -v
+    line "U" used by k4/dl13_hunt.py and a dedupe of the hashed candidates; identical output without -v, checked by
+    k4/dl13u_same.py)"""
+    global SRC, SHA, BIN
+    SRC = os.path.join(HERE, src)
+    SHA = hashlib.sha256(open(SRC, 'rb').read()).hexdigest()
+    BIN = os.path.join(tempfile.gettempdir(), 'k4_dl13_' + SHA[:16] + ('_w' if WIDE else '') + (f'_b{BIGPP}' if BIGPP else ''))
+
+
+configure(next((a.split('=', 1)[1] for a in sys.argv if a.startswith('--src=')), 'dl13.c'))
 KEYS = ('prof om1 small kstar0 kstar1 kstar2 kstar3 kstar4 kstarinf kstarn kiso ktrap pos pd1 pd2 pd3 pd4 pdinf piso '
         'ptrap pmpos pm3 maxmin').split()
 LKEYS = 'st0 st1 fail0 fail1 t1only t3only both t3p t3h t3hOnly anom r13dnone r13d1 r13d2 r13d3'.split()
@@ -195,7 +205,7 @@ def main():
     args = [a for a in argv[1:] if not a.startswith('--')]
     opt = dict(a[2:].split('=', 1) if '=' in a else (a[2:], True) for a in argv[1:] if a.startswith('--'))
     print('# command: python3 k4/dl13_run.py ' + ' '.join(argv), flush=True)
-    print(f'# dl13.c sha256 {SHA}', flush=True)
+    print(f'# {os.path.basename(SRC)} sha256 {SHA}', flush=True)
     build()
     jobs = int(opt.get('jobs', 2)); ck = opt.get('ckpt'); dump = opt.get('dump')
     copts = [f"-r{int(opt.get('rt', 50))}", f"-o{int(opt.get('ro', 0))}"]
@@ -261,9 +271,10 @@ def main():
             for fn in sorted(glob.glob(os.path.join(HERE, 'suite', 'instances', '*.json'))):
                 d = json.load(open(fn))
                 if 'kind' in d or (ids and d['id'] not in ids): continue
-                if len(d['sets']) > int(opt.get('maxn', 16)): continue
+                if not int(opt.get('minn', 1)) <= len(d['sets']) <= int(opt.get('maxn', 16)): continue
                 if P and not d.get('is_core', True): continue
                 d['m'] = d.get('m') or 1 + max(g for S in d['sets'] for g in S)
+                if d['m'] > (64 if WIDE else 32): continue          # the build's limit (--wide: m <= 64)
                 insts.append(d)
         elif mode == 'inst':
             insts = json.load(open(args[0]))

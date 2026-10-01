@@ -16,8 +16,9 @@ For a list of single profiles, compares per state (min-frozen P with def(P) > 0)
 usage: python3 k4/dl13_check.py suite [--maxn=N]
        python3 k4/dl13_check.py certs FILE [--rand=K] [--seed=S] [--cores=A:B]    (K random profiles per core)
        python3 k4/dl13_check.py catalog FILE [--every=E] [--max=N]
+       python3 k4/dl13_check.py records DUMP.jsonl.gz [--every=E] [--max=N]       (the profiles of dl13_run.py dump records)
 options: --no-model (skip (a)), --no-x (skip (b)), --fge1 (count only profiles with f >= 1 towards --want), --want=W
-(stop after W profiles with a def > 0 state, after the shuffle of --rand)"""
+(stop after the chunk of 200 profiles in which W profiles with a def > 0 state are reached)"""
 import gzip, hashlib, json, os, random, subprocess, sys, tempfile
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
@@ -132,6 +133,17 @@ def items(mode, rest, opt):
                 out.append({'sets': sets, 'm': m, 'vals': [[doms[i][ts[i]][g] for g in sets[i]] for i in range(len(sets))],
                             'id': '%s[m=%d,idx=%d]:%s' % (base, m, core['idx'], ','.join(map(str, ts)))})
         return out
+    if mode == 'records':                       # the distinct profiles of a dl13 dump (dl13_run.py --dump), every E-th
+        seen = {}
+        for l in gzip.open(rest[0], 'rt'):
+            r = json.loads(l)
+            if 'core' not in r or 'vals' not in r or r.get('best'): continue
+            key = json.dumps([r['core']['sets'], r['vals']])
+            if key not in seen:
+                seen[key] = {'sets': r['core']['sets'], 'm': r['core']['m'], 'vals': r['vals'],
+                             'id': '%s:%s' % (r['core'].get('pos', r['core'].get('id')), ','.join(map(str, r.get('prof', []))))}
+        out = list(seen.values())[::int(opt.get('every', 1))]
+        return out[:int(opt['max'])] if 'max' in opt else out
     out = []
     for d, src in DR.items_of('catalog', rest, opt):
         out.append(dict(d, id=src))
