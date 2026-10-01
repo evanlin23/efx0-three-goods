@@ -1,0 +1,11 @@
+# command: python3 k4/rulef_run.py results/k4_certs_4_n4_3.json.gz -A41 -r1 -Y1 -N1 --jobs=4 --checkpoint=/tmp/claude-0/-home-user-efx0-three-goods/5bf3657e-f28c-5efe-a73c-9847f1c2b435/scratchpad/ck/step1_rk_4_n4_3_n1.jsonl > results/k4_rulef/rk_n4_n4_3_n1.log 2>&1
+# started 2026-10-01T20:46:29Z on 4 CPUs
+# rulef_run.py results/k4_certs_4_n4_3.json.gz -A41 -r1 -Y1 -N1 --jobs=4 --checkpoint=/tmp/claude-0/-home-user-efx0-three-goods/5bf3657e-f28c-5efe-a73c-9847f1c2b435/scratchpad/ck/step1_rk_4_n4_3_n1.jsonl # rulef.c sha256 5721abf3bc9e25b1
+k4_certs_4_n4_3.json.gz: cores=339 profiles=34971844608 fails or raw-check failures of the rule run=0 time 471s
+  rule (-A41: RK; -A42: static, -Q), rotations LB4r needs on its sequence (0, 1, fails with <= 1) by the class of its agent:
+    K0  (Lemma K at the Phase 1 state)           [34961492780, 0, 0]
+    K1  (Lemma K after one rotation)             [0, 10351828, 0]
+    C40 (Corollary C4^0's hypothesis)            [0, 0, 0]
+    open (none of them; -A41: for any first agent) [0, 0, 0]
+    violations (a class's promise not met by LB4r): 0
+# finished 2026-10-01T20:54:24Z
