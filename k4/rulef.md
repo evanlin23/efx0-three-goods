@@ -31,7 +31,7 @@ independent model `k4/c4_verify_H/lb4r.py`, with the completion of its proof bui
   K0, K1 or C40), the one statement left open (§6 says which cases a proof attempt closes and which it does not).
 - **Data (§5)**: Lemma M holds, with K0 and K1 alone, on every strict profile of every certified core with n ≤ 4 and at
   most three 4-good agents (3.6·10¹⁰ profiles, exhaustive), on random samples of n = 4 with four 4-good agents
-  (4.4·10⁶ profiles) and of n = 5 (6.3·10⁶), on H_t and on all 149 cores of the suite. **What the working first agent has in
+  (4.4·10⁶ profiles) and of n = 5 (6.3·10⁶), on H_t and on all 150 cores of the suite. **What the working first agent has in
   common** (§5.2): it is the agent that needs its top most. If exactly one agent is *big-top* (four goods, top worth
   more than the next two together), that agent is in K0 or K1 on all these classes; with several big-top agents the
   first one can fail (n = 4, m = 8), and without one, index order fails (9,632 n = 3 profiles); there, of two agents
@@ -327,8 +327,8 @@ PROMPT.md §5 rule 3; `results/k4_rulef/rk_pure4_sample.log`, `rk_n5_*_sample.lo
 
 On the cores H_t of `k4/c4.md` §7 (t = 1, …, 5, each with three random relabelings, `k4/rulef_H.py`,
 `results/k4_rulef/rk_H.log`) rule RK's agent is in K0 every time and LB₄ʳ needs no rotation (Proposition H″). On the
-counterexample suite (`k4/suite/`, 150 instances, 149 of them k = 4 cores; `k4/rulef_suite.py`,
-`results/k4_rulef/suite_rk.log`) rule RK succeeds with at most one rotation on all 149: 142 in K0, 7 in K1. One of
+counterexample suite (`k4/suite/`, 151 instances, 150 of them k = 4 cores; `k4/rulef_suite.py`,
+`results/k4_rulef/suite_rk.log`) rule RK succeeds with at most one rotation on all 150: 143 in K0, 7 in K1. One of
 them, `lb4-owner-needs-from-base-n4m8`, needs Remark 4 of §2 (kept-out sets holding goods outside R_x): without it no
 first agent is certified (`attempts/k4-rulef-keptout-in-R.md`).
 
