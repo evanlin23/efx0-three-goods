@@ -322,17 +322,19 @@ def lemma_checks(I, P, Bs, PAs, D, OWN):
             for y in P.free:
                 if y == o: continue
                 for B2 in rebases(I, P, y):
-                    if B2 & X: continue
                     b2 = new(y, B2)
                     assert b2 in PAs, ('Lemma 1 violated', Bs, y, B2)
                     P2 = PAs[b2]
                     Ny = I.needs(y, B2)
-                    e = sum(1 for x in cnt if P.Bs[x] & Ny)
-                    ext = max_ext(P2, o, X)
-                    if ext - e > gap:
-                        assert D[b2] <= D[Bs] - (ext - e - gap), ('Lemma 2 violated', Bs, o, y, B2)
+                    # Lemma 2 with the bundle X0 = X \ B2 of o (X0 ∩ B2 = ∅) and Y = X0 ∪ K, K maximal
+                    X0 = X & ~B2
+                    cnt0 = cnt if X0 == X else counted(P, o, X0)
+                    e = sum(1 for x in cnt0 if P.Bs[x] & Ny)
+                    gain = pc(X0) + max_ext(P2, o, X0) + len(cnt0) - e - vs
+                    if gain > 0:
+                        assert D[b2] <= D[Bs] - gain, ('Lemma 2 violated', Bs, o, y, B2)
                         out.setdefault('L2' if gap == 0 else 'L2o', (o, y, sorted(bits(B2))))
-                    if gap: continue                               # the corollaries are stated at best owners
+                    if gap or B2 & X: continue                     # the corollaries: best owners, B2 ∩ X = ∅
                     # Corollary 4 (release): B_y = {p, q}, B2 = {p}
                     if pc(P.Bs[y]) == 2 and pc(B2) == 1 and B2 & P.Bs[y]:
                         q = P.Bs[y] & ~B2; qg = next(bits(q))
