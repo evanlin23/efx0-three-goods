@@ -1,0 +1,45 @@
+# command: python3 k4/dl13_lemmas.py --stats results/k4_dl13_stuck/stuck_certs_3_r2000.jsonl.gz results/k4_dl13_stuck/stuck_certs_4_n4_1_r100.jsonl.gz results/k4_dl13_stuck/stuck_certs_4_n4_2_r100.jsonl.gz results/k4_dl13_stuck/stuck_certs_4_n4_3_r100.jsonl.gz results/k4_dl13_stuck/stuck_certs_4_pure_r100.jsonl.gz results/k4_dl13_stuck/stuck_certs_5_n4_1_r4.jsonl.gz results/k4_dl13_stuck/stuck_certs_5_n4_2_r4.jsonl.gz results/k4_dl13_stuck/stuck_certs_5_n4_3_r4.jsonl.gz results/k4_dl13_stuck/stuck_certs_5_n4_4_r4.jsonl.gz results/k4_dl13_stuck/stuck_certs_5_pure_r4.jsonl.gz results/k4_dl13_stuck/stuck_gap_n3.jsonl.gz results/k4_dl13_stuck/stuck_gap_n4_1_e4.jsonl.gz results/k4_dl13_stuck/stuck_gap_n4_1_f2.jsonl.gz results/k4_dl13_stuck/stuck_gap_n4_2_s4000_e4.jsonl.gz results/k4_dl13_stuck/stuck_gap_n4_2_s4000_f2.jsonl.gz results/k4_dl13_stuck/stuck_gap_n4_3_s4000_e4.jsonl.gz results/k4_dl13_stuck/stuck_gap_n4_3_s4000_f2.jsonl.gz results/k4_dl13_stuck/stuck_gap_n4_pure_s4000_e4.jsonl.gz results/k4_dl13_stuck/stuck_gap_n4_pure_s4000_f2.jsonl.gz results/k4_dl13_stuck/stuck_gap_n5_1_s100_e20.jsonl.gz results/k4_dl13_stuck/stuck_gap_n5_1_s100_f2e4.jsonl.gz results/k4_dl13_stuck/stuck_gap_n5_2_s100_e20.jsonl.gz results/k4_dl13_stuck/stuck_gap_n5_2_s100_f2e4.jsonl.gz results/k4_dl13_stuck/stuck_gap_n5_3_s100_e20.jsonl.gz results/k4_dl13_stuck/stuck_gap_n5_3_s100_f2e4.jsonl.gz results/k4_dl13_stuck/stuck_gap_n5_4_s100_e20.jsonl.gz results/k4_dl13_stuck/stuck_gap_n5_4_s100_f2e4.jsonl.gz results/k4_dl13_stuck/stuck_gap_n5_pure_s100_e20.jsonl.gz results/k4_dl13_stuck/stuck_gap_n5_pure_s100_f2e4.jsonl.gz results/k4_dl13_stuck/stuck_hard_hunt.jsonl.gz results/k4_dl13_stuck/stuck_hunt_n4_2_all_e10.jsonl.gz results/k4_dl13_stuck/stuck_hunt_n4_3_s400k_e10.jsonl.gz results/k4_dl13_stuck/stuck_hunt_n4_3_s400k_f2.jsonl.gz results/k4_dl13_stuck/stuck_hunt_n4_pure_s400k_e10.jsonl.gz results/k4_dl13_stuck/stuck_hunt_n4_pure_s400k_f2.jsonl.gz results/k4_dl13_stuck/stuck_hunt_n5_3_s2000_e2.jsonl.gz results/k4_dl13_stuck/stuck_hunt_n5_4_s2000_e2.jsonl.gz results/k4_dl13_stuck/stuck_hunt_n5_pure_s2000_e2.jsonl.gz results/k4_dl13_stuck/stuck_suite.jsonl.gz
+  f=1, 1 needer | S1 shape                                               405
+  f=1, 1 needer | n=3 | S1 shape                                         375
+  f=1, 1 needer | n=3 | states                                           2734
+  f=1, 1 needer | n>=4 | S1 shape                                        30
+  f=1, 1 needer | n>=4 | states                                          32
+  f=1, 1 needer | states                                                 2766
+  f=1, 1 needer | x big-top on its top                                   2753
+  f=1, 1 needer | x big-top, L_x in J+J+J                                694
+  f=1, 1 needer | x big-top, L_x in J+J+best owner                       1702
+  f=1, 1 needer | x big-top, L_x in J+J+other                            19
+  f=1, 1 needer | x big-top, L_x in J+J+z                                15
+  f=1, 1 needer | x big-top, L_x in J+best owner+best owner              312
+  f=1, 1 needer | x big-top, L_x in J+best owner+z                       9
+  f=1, 1 needer | x big-top, L_x in J+z+z                                2
+  f=1, 1 needer | x big-top, some best owner has a junk good blocked by x alone 2667
+  f=1, >=2 needers | S1 shape                                            10352
+  f=1, >=2 needers | S1 shape, every triple theta-fails                  1434
+  f=1, >=2 needers | S1 shape, every triple theta-fails, kinds theta-a   3
+  f=1, >=2 needers | S1 shape, every triple theta-fails, kinds theta-a/theta-b 5
+  f=1, >=2 needers | S1 shape, every triple theta-fails, kinds theta-b   1426
+  f=1, >=2 needers | n=3 | S1 shape                                      9743
+  f=1, >=2 needers | n=3 | states                                        9743
+  f=1, >=2 needers | n>=4 | S1 shape                                     609
+  f=1, >=2 needers | n>=4 | states                                       662
+  f=1, >=2 needers | some triple theta-a                                 44
+  f=1, >=2 needers | some triple theta-a, most needers of a frozen good = 3 44
+  f=1, >=2 needers | states                                              10405
+  f>=2, T4-optimal | ... and every such frozen agent has only frozen needers 97
+  f>=2, T4-optimal | S1 shape                                            407
+  f>=2, T4-optimal | S1 shape, every triple theta-fails                  69
+  f>=2, T4-optimal | S1 shape, every triple theta-fails, kinds theta-b   69
+  f>=2, T4-optimal | a junk good of a best owner blocked by one frozen agent alone 602
+  f>=2, T4-optimal | n=3 | S1 shape                                      57
+  f>=2, T4-optimal | n=3 | states                                        57
+  f>=2, T4-optimal | n>=4 | S1 shape                                     350
+  f>=2, T4-optimal | n>=4 | states                                       615
+  f>=2, T4-optimal | states                                              672
+  f>=2, not T4-optimal | S1 shape                                        128
+  f>=2, not T4-optimal | a junk good of a best owner blocked by one frozen agent alone 128
+  f>=2, not T4-optimal | n=3 | S1 shape                                  126
+  f>=2, not T4-optimal | n=3 | states                                    126
+  f>=2, not T4-optimal | n>=4 | S1 shape                                 2
+  f>=2, not T4-optimal | n>=4 | states                                   2
+  f>=2, not T4-optimal | states                                          128
