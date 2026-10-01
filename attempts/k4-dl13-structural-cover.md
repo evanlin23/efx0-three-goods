@@ -21,8 +21,8 @@ needer, agent 1 satisfied.
 DL₁₃ holds there through a role swap with a helper that is not of shape C3 (`attempts/k4-dl13-frozen-obstruction.md`).
 
 **Frequency** (the runs of `k4/dl13.md` §4): C1, C2, C3 together miss a repair at the states counted in
-`results/k4_dl13/candidates.log` (row A7); the certificates C1* and C2* (Corollary 9.2, Lemma 11) reach most of them,
+`results/k4_dl13_stuck/candidates.log` (row A7); the certificates C1* and C2* (Corollary 9.2, Lemma 11) reach most of them,
 and the rest are listed in `k4/dl13.md` §4.
 
 **Reproduce.** `python3 attempts/k4_dl13_attempts.py` (case 1, implementation A); the count: row A7 of
-`results/k4_dl13/candidates.log`.
+`results/k4_dl13_stuck/candidates.log`.

@@ -1,0 +1,1 @@
+# command: python3 k4/dl13_lemmas.py --swaps random 1000 --seed=7 --nmax=4 --mmax=10

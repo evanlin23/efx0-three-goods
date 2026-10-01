@@ -134,6 +134,21 @@ class Ctx:
             n += 1
         return n
 
+    # ------------------------------------------------------------- key-optimal, T4-stuck (the RT4 architecture)
+    def key(self, Bs=None):
+        Bs = self.Bs if Bs is None else Bs
+        P = self.pr.PA[Bs]
+        return tuple(Bs[i] if P.frozen[i] else None for i in range(self.I.n))
+
+    def key_optimal(self):
+        """no (T1) or (T2) move lowers the deficit: def(P) is the least deficit over the min-frozen P' with P's key
+        (needed set, frozen agents and their goods; k4/dl2.md §3: (T1) ∪ (T2) are exactly the moves inside a key)"""
+        k = self.key()
+        return all(self.pr.D[B2] >= self.D for B2 in self.pr.mp if self.key(B2) == k)
+
+    def t4_stuck(self):
+        return not self.pr.t4_moves(self.Bs)
+
     # ------------------------------------------------------------- Proposition T (b), (c), (d)
     def check_propT(self, stuck):
         """(b) every best owner's optimal X misses a junk good, and every such good has a blocker; (c) at a T1-stuck
@@ -309,6 +324,49 @@ class Ctx:
                             out.append((o, x, z)); return out
         return out
 
+    # ------------------------------------------------------------- Lemma 11 at any owner, any swap (certificate)
+    def lemma11_value(self, o, x, z, A, h=None, Bh=None):
+        """max over bundles Y of o in P' that are safe in P' of |Y| + (u_o(X) - e*) + kappa with X = Y ∩ W_o (a bundle
+        of o in P missing the new bases), all from P's data (k4/dl13.md Lemma 11); the bound is asserted"""
+        I, P, Bs = self.I, self.P, self.Bs
+        g = Bs[x]
+        G = P.J | Bs[z] | (Bs[h] if h is not None else 0)
+        Jn = G & ~A & ~(Bh or 0)
+        hold = {x: A, z: g}
+        if h is not None: hold[h] = Bh
+        Nch = I.needs(x, A) | I.needs(z, g) | (I.needs(h, Bh) if h is not None else 0)
+        Nrest0 = Nch
+        for i in range(I.n):
+            if i not in (o, x, z, h): Nrest0 |= P.N[i]
+        ch = {x, z} | ({h} if h is not None else set())
+        b2 = self.new(x, z, A, h, Bh)
+        rest = list(bits(Jn)); best = -1
+        for k in range(len(rest) + 1):
+            for K in itertools.combinations(rest, k):
+                Y = Bs[o] | mask(K)
+                if self.blockers(o, Y, hold): continue
+                X = Y & P.W(o)
+                cnt = counted(P, o, X)
+                es = sum(1 for w in cnt if w in ch or Bs[w] & Nch)
+                kappa = 0 if g & (I.needs(o, Y) | Nrest0) else 1
+                val = pc(Y) + len(cnt) - es + kappa
+                assert self.pr.D[b2] <= self.omega + 2 - val, ('Lemma 11 violated', Bs, b2, o)
+                best = max(best, val)
+        return best
+
+    def certified_by_8_11(self, moves):
+        """some improving (T3) move whose deficit drop Lemma 8 (x the owner) or Lemma 11 (an owner that does not
+        move) accounts for: 'L8', 'L11', or None"""
+        I, Bs = self.I, self.Bs
+        out = None
+        for B2, x, z, h in moves:
+            A = B2[x]; Bh = B2[h] if h is not None else None
+            if self.lemma8_value(x, z, A, h, Bh) > self.V: return 'L8'
+            for o in self.P.free:
+                if o in (x, z, h): continue
+                if self.lemma11_value(o, x, z, A, h, Bh) > self.V: out = 'L11'
+        return out
+
     # ------------------------------------------------------------- C3: the Lemma 7 swap of a big-top x
     def C3(self):
         I, P, Bs = self.I, self.P, self.Bs
@@ -369,7 +427,8 @@ def mechanism(pr, Bs, t3):
 
 def regime(ctx):
     P, I = ctx.P, ctx.I
-    if sum(P.frozen) >= 2: return 'f>=2'
+    if sum(P.frozen) >= 2:
+        return 'f>=2, T4-optimal' if ctx.pr.t4_optimal(ctx.Bs) else 'f>=2, not T4-optimal'
     x = P.frozen.index(True)
     return 'f=1, %s needer%s' % (('1', '') if len(ctx.needers(x)) == 1 else ('>=2', 's'))
 
@@ -391,6 +450,10 @@ def coverage(files, check=False, check8=False):
             c3 = ctx.C3() if not (c1 or c2) else []
             c2s = ctx.C2star() if not (c1 or c1s or c2 or c3) else []
             first = 'C1' if c1 else ('C2' if c2 else ('C3' if c3 else ('C1*' if c1s else ('C2*' if c2s else 'none'))))
+            if first == 'none':
+                moves = [(tup(m['Bs']), m['x'], m['z'], m['h']) for m in r['t3']]
+                l = ctx.certified_by_8_11(moves)
+                if l: first = l
             shape = 'S1 ' + '/'.join(sorted(kinds)) if kinds else 'no S1 shape'
             rg = regime(ctx); mech = mechanism(pr, Bs, r['t3'])
             for key2 in [('all', first), (rg, first), (rg, shape, first), ('uncovered', rg, mech) if first == 'none' else None]:
@@ -426,6 +489,14 @@ def stats(files):
                 cnt[(rg, 'some triple theta-a')] += 1
                 nn = max(len(ctx.needers(x)) for x in range(I.n) if P.frozen[x])
                 cnt[(rg, 'some triple theta-a, most needers of a frozen good = %d' % nn)] += 1
+            if rg.startswith('f>=2'):
+                single = [ctx.blockers(o, X | (1 << c))[0] for o in ctx.best for X in pr.OWN[Bs][o][1]
+                          for c in bits(P.J & ~X) if len(ctx.blockers(o, X | (1 << c))) == 1]
+                fz = [w for w in single if P.frozen[w]]
+                if fz:
+                    cnt[(rg, 'a junk good of a best owner blocked by one frozen agent alone')] += 1
+                    if all(not ctx.free_needers(w) for w in fz):
+                        cnt[(rg, '... and every such frozen agent has only frozen needers')] += 1
             if rg == 'f=1, 1 needer':
                 x = P.frozen.index(True); g = Bs[x]
                 bt = bigtop(I, x) and max(I.sets[x], key=lambda q: I.v[x][q]) == next(bits(g))
@@ -468,12 +539,17 @@ def candidates(files):
                      'A5 f = 1, >= 2 needers => S1 shape': regime(ctx) == 'f=1, >=2 needers' and not trip,
                      'A6 theta-fail => theta-b': 'theta-a' in kinds,
                      'A7 C1, C2 or C3': not (c1 or c2 or c3)}
+            kopt = ctx.key_optimal() and ctx.t4_stuck()
+            if kopt: cnt['(states where no (T1), (T2) or (T4) move lowers def)'] += 1
             for k, v in fails.items():
                 if not v: continue
-                cnt[k] += 1
-                cand = (len(r['sets']), r['m'], r['def'], r['src'], r['sets'], r['vals'], r['Bs'], r['f'])
-                if k not in best or cand[:3] < best[k][:3]: best[k] = cand
-    print('T1-stuck states: %d' % tot)
+                for k2 in ([k, k + ' | at states where no T1, T2, T4 move lowers def'] if kopt else [k]):
+                    cnt[k2] += 1
+                    cand = (len(r['sets']), r['m'], r['def'], r['src'], r['sets'], r['vals'], r['Bs'], r['f'])
+                    if k2 not in best or cand[:3] < best[k2][:3]: best[k2] = cand
+    print('T1-stuck states: %d; of them %d with no improving (T1), (T2) or (T4) move' % (
+        tot, cnt['(states where no (T1), (T2) or (T4) move lowers def)']))
+    del cnt['(states where no (T1), (T2) or (T4) move lowers def)']
     for k in sorted(cnt):
         n, m, d, src, sets, vals, Bs, f = best[k]
         print('  %-45s fails at %5d states; smallest: n=%d m=%d f=%d def=%d %s sets=%s vals=%s P=%s' % (
@@ -549,7 +625,8 @@ def main(argv):
     cnt, ex, n8 = coverage(args, '--check' in argv, '--lemma8' in argv)
     if '--lemma8' in argv: print('Lemma 8 equality checked at %d swaps (all moves of Lemma 6 at the stuck states)' % n8)
     print('T1-stuck states: %d; Proposition T (b), (c), (d) checked %d times' % (cnt[('states',)], cnt[('propT checks',)]))
-    print('\nfirst certifying construction (order C1, C2, C3 (structural), then the certificates C1*, C2*):')
+    print('\nfirst certifying construction (order C1, C2, C3 (structural), then the certificates C1*, C2*, then Lemma 8 or '
+          'Lemma 11 evaluated at the repairs found, L8 / L11):')
     for k in sorted(k for k in cnt if len(k) == 2 and k[0] != 'uncovered'):
         print('  %-28s %-6s %d' % (k[0], k[1], cnt[k]))
     print('\nby S1 shape (theta-ok / theta-a / theta-b of Lemma 10):')

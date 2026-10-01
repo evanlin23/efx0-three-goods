@@ -9,7 +9,8 @@ A T1-stuck state: a min-frozen P (fewest frozen agents f >= 1, omega >= 1) with 
   Implementation B: main's k4/c4x_check.py (`analyse`: every base map, (V1), (V2) literally, its own removal-only
     deficit `rodef`), with the T1 test, the owner values and the blockers written separately below (frozensets).
 Each candidate is checked to FAIL at its state by both implementations, and DL13 (a (T3) move lowering the deficit)
-is checked to HOLD there by both.
+is checked to HOLD there by both (cases 1-4). Case 5 is a state where DL13 itself fails at f = 1, refuting this
+file's Conjecture DL13-opt (K4.DL13.OPT); the instance was found by compute/k4-dl13.
 usage: python3 attempts/k4_dl13_attempts.py"""
 import itertools, os, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -195,5 +196,25 @@ for o, (val, Xs) in tab.items():
                 Q = [q for q in Y if q in b.vl[o]]
                 if any(b.v(o, set(p)) > b.v(o, g) for k in (1, 2) for p in itertools.combinations(Q, k)): pairB = True
 say('  "a theta-fail is always of kind (b)" fails', 'theta-a' in kinds and pairB, 'kinds %s' % sorted(kinds))
+
+# 5. DL13-opt (k4/dl13.md §2.2, ledger K4.DL13.OPT): DL13 at T4-optimal states fails at f = 1, n = 4, m = 9
+#    (attempts/k4-dl13-opt.md). Instance dl13-n4m9-rot of compute/k4-dl13 (attempts/k4_dl13_refuted.py on its branch):
+#    #53's gap_n4_pure_s4000 catalogue, core 123 (m = 9, idx 0) of k4_certs_4_pure, profile 7,196,164,44. At f = 1 every
+#    state is T4-optimal (one frozen agent: no frozen rotation). The better states need a rotation of the free agents.
+sets = [[0, 1, 2, 7], [2, 4, 5, 8], [3, 4, 5, 6], [3, 6, 7, 8]]
+vals = [[2, 3, 6, 10], [7, 4, 8, 2], [6, 5, 3, 7], [3, 2, 8, 4]]; m = 9
+P0 = [[7], [2, 8], [4, 5], [3, 6]]
+pr, ctx, b, PB, core = state(sets, vals, m, P0)
+Bs = ctx.Bs
+a_ok = Bs in pr.D and pr.D[Bs] == 1 and pr.I.f == 1 and not pr.t1_moves(Bs) and not pr.t3_moves(Bs) \
+    and pr.t4_optimal(Bs) and not pr.t4_moves(Bs)
+b_ok = PB in b.mp and b.mp[PB] == 1 and b.f == 1 and b.t1_stuck(PB) and not b.t3_repairs(PB)
+better = [P2 for P2, d2 in b.mp.items() if d2 < b.mp[PB]]
+fzB = b.frozen(PB)
+rot = [P2 for P2 in better if all(P2[i] == PB[i] for i in range(b.n) if fzB[i])]   # frozen agent unchanged
+say('n = 4, m = 9 (dl13-n4m9-rot): DL13-opt fails', core and a_ok and b_ok,
+    'core %s; def %s / %s; f %s / %s; no (T1), (T3) repair (both); %d better min-frozen states (B), %d of them keep the '
+    'frozen agent and change all three free agents' % (core, pr.D.get(Bs), b.mp.get(PB), pr.I.f, b.f, len(better),
+                                                       sum(1 for P2 in rot if all(P2[i] != PB[i] for i in range(b.n) if not fzB[i]))))
 
 print('ALL CONFIRMED' if ok_all else 'SOME NOT REPRODUCED')

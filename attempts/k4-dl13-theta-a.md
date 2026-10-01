@@ -5,7 +5,8 @@ Workstream `proof/k4-dl13` (`k4/dl13.md` §2 Lemma 10, §5). Ledger row K4.DL13.
 **Candidate.** Whenever the S1 repair (Corollary 9.1) fails at an S1 triple (o, X, c) of a T1-stuck state because o
 holding the frozen good g is threatened by X ∪ {c}, the failure is of kind (θ-b) of Lemma 10 (o big-top on g with its
 lower goods in X ∪ {c}), never (θ-a) (a set of at most two of o's goods in X ∪ {c} worth more than g). At n = 3 it
-holds at every S1 triple of the runs; it would have confined the θ-failures to big-top owners.
+holds at every S1 triple of every T1-stuck state of the runs (off the T1-stuck states (θ-a) occurs at n = 3 already:
+`results/k4_dl13_stuck/lemmas_gap_n3.log`); it would have confined the θ-failures at T1-stuck states to big-top owners.
 
 **Smallest failing configuration: `dl13-n4m10-theta-a`** (n = 4, m = 10; #53's catalogue `gap_n4_pure_s4000`, core
 (m = 10, idx 12) of `results/k4_certs_4_pure.json.gz`, profile 10,88,73,21).
@@ -20,8 +21,8 @@ holds at every S1 triple of the runs; it would have confined the θ-failures to 
 - DL₁₃ holds (44 (T3) moves lower the deficit), e.g. ({2}, {5}, {9}, {4, 7}): agent 2 takes 9, agent 1 takes 5,
   agent 0 (helper) gives up 0 and keeps 2, and owner 3 owns a 6-good bundle (def −1).
 
-**Frequency** (the runs of `k4/dl13.md` §4): row A6 of `results/k4_dl13/candidates.log`. Lemma 10(θ-a) forces a
+**Frequency** (the runs of `k4/dl13.md` §4): row A6 of `results/k4_dl13_stuck/candidates.log`. Lemma 10(θ-a) forces a
 second needer besides o; in the runs every such state has three needers of the frozen good (`k4/dl13_lemmas.py
---stats`, regime counts in `results/k4_dl13/stats.log`).
+--stats`, regime counts in `results/k4_dl13_stuck/stats.log`).
 
 **Reproduce.** `python3 attempts/k4_dl13_attempts.py` (case 4, both implementations).
