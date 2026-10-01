@@ -9,7 +9,9 @@ dl2_relations.profile (model.py). Checks that the C tool's failing states are ex
 R13 fails (a mismatch is printed), and for each failing state records the moves available among all min-frozen P' with
 a smaller deficit (dl2_relations.shape): the nearest distance k, rotations (only free agents change, the needed set
 kept; by the number of agents), role swaps with a needer (by the number of helpers and whether every helper gives up
-a good of its base), and other moves. Then tests candidate enlargements of R_13 (every move must also lower the
+a good of its base), need transfers (an agent with an unchanged base changes its frozen status) and moves that change
+the key otherwise (key(U.Z.W.Y.): U agents unfreeze, Z freeze, W stay frozen with another good, Y free agents change;
+"chain": the frozen goods move along a chain ending at a free agent). Then tests candidate enlargements of R_13 (every move must also lower the
 deficit):
   RTr       R_T of k4/dl2.md: (T1), (T2) rotations of any number of free agents, (T3);
   R13+tr    R_13 plus trades (rotations of two free agents);
@@ -45,7 +47,9 @@ def kind(s):
     if DR._one(s, nt_ok=False): return 'T1'
     if rot(s): return f"rot{s['k']}"
     if DR._swap(s, None): return f"swap+{len(s['Y'])}h" + ('' if s['gives'] else '(keep)')
-    return 'other'
+    if s['nt']: return f"need-transfer(k{s['k']})"
+    # frozen goods move between agents (the key changes): U unfrozen, Z newly frozen, W frozen in both, Y free in both
+    return f"key(U{s['U']}Z{s['Z']}W{s['W']}Y{len(s['Y'])})" + ('chain' if s['chain'] else '')
 
 
 def main(argv):
