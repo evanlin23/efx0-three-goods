@@ -1322,6 +1322,241 @@ theorem cor9_2 (hag : agents.Nodup) (hgd : goods.Nodup) (hM : MinFrozen v agents
   exact deficitLT_of_drop (k := 1) (Int.le_refl 1) (fun d hd => deficitLE_mono hb (by
     have := hleast d hd; push_cast at hlen ⊢; omega)) hd0
 
+/-! ## `k4/dl13.md` §2.1, Corollary 11.1 (the blocker swap) -/
+
+/-- **Corollary 11.1 (the blocker swap)** (`k4/dl13.md` §2.1). Let `X` be an optimal bundle of a best owner `o`, `c` a
+junk good outside `X`, and suppose `X ∪ {c}` threatens no listed agent other than `o` and a free `z ≠ o` that needs the
+good `g` of a frozen `x` (`B_x = {g}`), with `θ_z(X ∪ {c}) ≤ v_z(g)`. Let `A ⊆ (J ∪ B_z) ∖ (X ∪ {c})` be admissible for
+`x` with `θ_x(X ∪ {c}) ≤ v_x(A)`, and let no agent counted in `u_o(X)` have its good in `N_x(A)` (`cor11_1_auto`: this
+holds when `v_x(A) ≥ v_x(g)` or when `x` is the only frozen agent). Then the swap (`z` takes `{g}`, `x` takes `A`;
+`swapBase`) is a min-frozen (T3)-neighbour of `P` with `def(P′) ≤ def(P) − 1`. -/
+theorem cor11_1 (hag : agents.Nodup) (hgd : goods.Nodup) (hM : MinFrozen v agents goods base)
+    (hω : 0 < omegaP v agents goods base) {o x z : A} {g : G} {X : G → Bool}
+    (hX : OptimalBest v agents goods base o X) {c : G} (hc : c ∈ goods) (hcJ : base c = none) (hcX : X c = false)
+    (hx : x ∈ agents) (hxg : baseOf goods base x = [g]) (hz : z ∈ agents)
+    (hzF : ¬ Frozen agents goods base (vbNeeds v goods base) z) (hzN : vbNeeds v goods base z g) (hzo : z ≠ o)
+    (hnone : ∀ w ∈ agents, w ≠ o → w ≠ z → ∀ k ∈ goods.filter (fun r => X r || decide (r = c)),
+      value v w ((goods.filter (fun r => X r || decide (r = c))).erase k) ≤ value v w (baseOf goods base w))
+    (hθz : ∀ k ∈ goods.filter (fun r => X r || decide (r = c)),
+      value v z ((goods.filter (fun r => X r || decide (r = c))).erase k) ≤ v z g)
+    {Ax : G → Bool} (hA : ∀ r ∈ goods, Ax r = true → (base r = none ∨ base r = some z) ∧ 0 < v x r)
+    (hAY : ∀ r ∈ goods, Ax r = true → (X r || decide (r = c)) = false)
+    (hA2 : (goods.filter Ax).length ≤ 2) (hAN : ∀ r, setNeeds v goods x Ax r → NA agents (vbNeeds v goods base) r)
+    (hθx : ∀ k ∈ goods.filter (fun r => X r || decide (r = c)),
+      value v x ((goods.filter (fun r => X r || decide (r = c))).erase k) ≤ value v x (goods.filter Ax))
+    (hcnt : ∀ w ∈ agents, Counted v agents goods base o X w → ∀ g' ∈ baseOf goods base w, ¬ setNeeds v goods x Ax g') :
+    MinFrozen v agents goods (swapBase base x z g Ax) ∧ MoveT3 v agents goods base (swapBase base x z g Ax) ∧
+      DeficitDrop v agents goods (swapBase base x z g Ax) base 1 := by
+  classical
+  obtain ⟨ho, hoF, hXb, hXs, hmax⟩ := hX
+  have hP := hM.1
+  have hgN : NA agents (vbNeeds v goods base) g := ⟨z, hz, hzN⟩
+  have hxF : Frozen agents goods base (vbNeeds v goods base) x := ⟨g, hxg, hgN⟩
+  have hxo : x ≠ o := fun e => hoF (e ▸ hxF)
+  obtain ⟨hRS, hx'⟩ := roleSwap_swapBase hgd hP hx hxg hgN hz hzF hzN hA hA2 hAN
+  obtain ⟨hM', hNA, -, -⟩ := hRS.lemma6' hag hgd hM
+  have hoB : baseOf goods base o = baseOf goods (swapBase base x z g Ax) o := hRS.hsame o ho (Ne.symm hxo) (Ne.symm hzo) (by simp)
+  let Y : G → Bool := fun r => X r || decide (r = c)
+  have hXY : ∀ r ∈ goods, X r = true → Y r = true := fun r _ hr => by simp [Y, hr]
+  -- `Y` is a bundle of `o` in `P′`
+  have hY : IsBundle goods (swapBase base x z g Ax) o Y := by
+    intro r hr
+    refine ⟨fun hb => hXY r hr ((hXb r hr).1 ((base_eq_some_iff hoB.symm hr).mp hb)), fun hy => ?_⟩
+    have hrW : base r = some o ∨ base r = none := by
+      rcases Bool.or_eq_true _ _ |>.mp hy with h | e
+      · exact (hXb r hr).2 h
+      · have : r = c := of_decide_eq_true e
+        subst this; exact Or.inr hcJ
+    rcases hrW with e | e
+    · exact Or.inl ((base_eq_some_iff hoB.symm hr).mpr e)
+    · refine Or.inr ((hRS.junk_iff hP hr).mpr ⟨Or.inl e, fun hb => ?_, by simp⟩)
+      have : r ∈ baseOf goods (swapBase base x z g Ax) x := mem_baseOf.mpr ⟨hr, hb⟩
+      rw [hx'] at this
+      have h2 := hAY r hr (List.mem_filter.mp this).2
+      have hy' : (X r || decide (r = c)) = true := hy
+      rw [hy'] at h2; cases h2
+  -- `Y` is safe in `P′`
+  have hS : SafeFor v agents goods (swapBase base x z g Ax) o Y := by
+    intro w hw hwo k hk
+    by_cases hwz : w = z
+    · subst hwz; rw [hRS.hz']; have := hθz k hk; simpa [value] using this
+    by_cases hwx : w = x
+    · subst hwx; rw [hx']; exact hθx k hk
+    · rw [← hRS.hsame w hw hwx hwz (by simp)]; exact hnone w hw hwo hwz k hk
+  -- `e* = 0`
+  have he : eStar v agents goods base (swapBase base x z g Ax) o X = 0 := by
+    unfold eStar
+    apply List.countP_eq_zero.mpr
+    intro w hw hwp
+    obtain ⟨hc', hch⟩ := of_decide_eq_true hwp
+    -- `x` and `z` are not counted
+    have hwx : w ≠ x := fun e => by
+      subst e
+      exact (hc'.2 g (by rw [hxg]; exact List.mem_singleton_self g)).2 z hz hzo hzN
+    have hwz : w ≠ z := fun e => by subst e; exact hzF hc'.1
+    rcases hch with hne | ⟨i, hi, hne, g', hg', hN⟩
+    · exact hne (hRS.hsame w hw hwx hwz (by simp))
+    · by_cases hix : i = x
+      · subst hix
+        refine hcnt w hw hc' g' hg' ⟨hN.1, ?_, by have h3 := hN.2.2; rw [hx'] at h3; exact h3⟩
+        cases h : Ax g' with
+        | false => rfl
+        | true =>
+          exfalso; apply hN.2.1
+          have : g' ∈ baseOf goods (swapBase base i z g Ax) i := by rw [hx']; exact List.mem_filter.mpr ⟨hN.1, h⟩
+          exact (mem_baseOf.mp this).2
+      by_cases hiz : i = z
+      · subst hiz
+        -- `N_z({g}) ⊆ N_z`
+        obtain ⟨hgg', -, hlt⟩ := hN
+        rw [hRS.hz'] at hlt
+        have hlt' : v i g < v i g' := by simpa [value] using hlt
+        have hBz := hzN.2.2
+        refine (hc'.2 g' hg').2 i hi hzo ⟨hgg', fun hb => ?_, by omega⟩
+        have := le_value_of_mem v i (mem_baseOf.mpr ⟨hgg', hb⟩ : g' ∈ baseOf goods base i)
+        omega
+      · exact hne (hRS.hsame i hi hix hiz (by simp))
+  have hd := lemma2star_drop hag hgd hP hM'.1 hNA hω ⟨ho, hoF, hXb, hXs, hmax⟩ hoB hXY hY hS
+  rw [he] at hd
+  have hlen := (filter_insert_perm hgd hc hcX).length_eq
+  simp only [List.length_cons] at hlen
+  refine ⟨hM', ⟨x, hx, z, hz, g, hxg, hgN, hzF, hzN, hRS.hz', [], by simp, by simp,
+    fun i hi hix hiz _ => hRS.hsame i hi hix hiz (by simp), fun g' => (hNA g').symm⟩, fun d hdd => ?_⟩
+  have := hd d hdd
+  rw [hlen] at this
+  exact deficitLE_mono this (by push_cast; omega)
+
+omit [DecidableEq G] in
+/-- **Corollary 11.1, the counted hypothesis is automatic** when `v_x(A) ≥ v_x(g)` (then `N_x(A) ⊆ N_x({g}) ⊆ 𝒩₋ₒ`) or
+when `x` is the only frozen agent (`f = 1`: nobody is counted, since `x` is not). Here `z ≠ o` needs `g`. -/
+theorem cor11_1_auto {o x z : A} {g : G} {X Ax : G → Bool} (hx : x ∈ agents) (hxg : baseOf goods base x = [g])
+    (hxo : x ≠ o) (hz : z ∈ agents) (hzN : vbNeeds v goods base z g) (hzo : z ≠ o)
+    (h : value v x [g] ≤ value v x (goods.filter Ax) ∨
+      ∀ w ∈ agents, Frozen agents goods base (vbNeeds v goods base) w → w = x) :
+    ∀ w ∈ agents, Counted v agents goods base o X w → ∀ g' ∈ baseOf goods base w, ¬ setNeeds v goods x Ax g' := by
+  intro w hw hc g' hg' hN
+  have hwx : w ≠ x := fun e => by
+    subst e
+    exact (hc.2 g (by rw [hxg]; exact List.mem_singleton_self g)).2 z hz hzo hzN
+  rcases h with hv | hone
+  · obtain ⟨hgg', -, hlt⟩ := hN
+    have hb : base g' ≠ some x := fun e => by
+      rw [(mem_baseOf.mp hg').2] at e; exact hwx (Option.some.inj e)
+    exact (hc.2 g' hg').2 x hx hxo ⟨hgg', hb, by rw [hxg]; omega⟩
+  · exact hwx (hone w hw hc.1)
+
+/-! ## `k4/dl13.md` §2.2, Corollary 12.1 (normalization by frozen rotations) -/
+
+/-- `P′` is a Pareto reassignment of `P` (for some `π`). -/
+def IsParetoReassign (v : A → G → Nat) (agents : List A) (goods : List G) (base base' : G → Option A) : Prop :=
+  ∃ π : A → A, ParetoReassign v agents goods base base' π
+
+/-- **T4-optimal** (`k4/dl13.md` §2.2): no Pareto reassignment other than the identity, i.e. every Pareto reassignment of
+`P` leaves every listed agent's base unchanged (the frozen need digraph is acyclic). -/
+def T4Optimal (v : A → G → Nat) (agents : List A) (goods : List G) (base : G → Option A) : Prop :=
+  ∀ base', IsParetoReassign v agents goods base base' → ∀ i ∈ agents, baseOf goods base' i = baseOf goods base i
+
+/-- Finitely many Pareto reassignments, one after the other. -/
+inductive ReassignChain (v : A → G → Nat) (agents : List A) (goods : List G) :
+    (G → Option A) → (G → Option A) → Prop
+  | refl (base : G → Option A) : ReassignChain v agents goods base base
+  | step {base base' base'' : G → Option A} : IsParetoReassign v agents goods base base' →
+      ReassignChain v agents goods base' base'' → ReassignChain v agents goods base base''
+
+open Classical in
+/-- The potential of Corollary 12.1: `Σ_{x ∈ F} v_x(B_x)`. -/
+noncomputable def frozenWelfare (v : A → G → Nat) (agents : List A) (goods : List G) (base : G → Option A) : Nat :=
+  (agents.map (fun x => if Frozen agents goods base (vbNeeds v goods base) x then value v x (baseOf goods base x)
+    else 0)).sum
+
+theorem sum_lt_sum_of_le_of_lt {α : Type} (f g : α → Nat) :
+    ∀ l : List α, (∀ a ∈ l, f a ≤ g a) → (∃ a ∈ l, f a < g a) → (l.map f).sum < (l.map g).sum
+  | [], _, ⟨_, ha, _⟩ => by simp at ha
+  | b :: l, h, ⟨a, ha, hlt⟩ => by
+    simp only [List.map_cons, List.sum_cons]
+    have hb := h b (by simp)
+    have hle := sum_le_sum_of_le f g l (fun c hc => h c (by simp [hc]))
+    rcases List.mem_cons.mp ha with e | e
+    · subst e; omega
+    · have := sum_lt_sum_of_le_of_lt f g l (fun c hc => h c (by simp [hc])) ⟨a, e, hlt⟩
+      omega
+
+omit [DecidableEq G] in
+open Classical in
+theorem frozenWelfare_le : frozenWelfare v agents goods base ≤ (agents.map (fun x => value v x goods)).sum := by
+  unfold frozenWelfare
+  refine sum_le_sum_of_le _ _ agents fun x _ => ?_
+  split
+  · exact value_sublist v x List.filter_sublist
+  · exact Nat.zero_le _
+
+omit [DecidableEq G] in
+/-- A Pareto reassignment that changes some base strictly raises `Σ_{x ∈ F} v_x(B_x)` on a strict profile (a frozen
+agent that moves strictly prefers its new good). -/
+theorem frozenWelfare_lt (hag : agents.Nodup) (hgd : goods.Nodup) (hM : MinFrozen v agents goods base)
+    (hs : Strict v agents goods) {π : A → A} (hR : ParetoReassign v agents goods base base' π) {i : A}
+    (hi : i ∈ agents) (hne : baseOf goods base' i ≠ baseOf goods base i) :
+    frozenWelfare v agents goods base < frozenWelfare v agents goods base' := by
+  classical
+  obtain ⟨-, -, hFF, -, -, -⟩ := lemma12_move hag hgd hM hR
+  unfold frozenWelfare
+  apply sum_lt_sum_of_le_of_lt
+  · intro x hx
+    by_cases hF : Frozen agents goods base (vbNeeds v goods base) x
+    · obtain ⟨-, -, hB', hle⟩ := hR.frozen x hx hF
+      simp only [hF, (hFF x hx).mpr hF, ↓reduceIte, hB']
+      exact hle
+    · have : ¬ Frozen agents goods base' (vbNeeds v goods base') x := fun h => hF ((hFF x hx).mp h)
+      simp [hF, this]
+  · refine ⟨i, hi, ?_⟩
+    have hF : Frozen agents goods base (vbNeeds v goods base) i :=
+      Classical.byContradiction fun hF => hne (hR.free i hi hF).symm
+    obtain ⟨-, ⟨g', hBπ, -⟩, hB', hle⟩ := hR.frozen i hi hF
+    obtain ⟨g, hB, -⟩ := id hF
+    simp only [hF, (hFF i hi).mpr hF, ↓reduceIte, hB']
+    rw [hB, hBπ] at hle ⊢
+    rw [hB', hBπ, hB] at hne
+    have hgg' : g ≠ g' := fun e => hne (by rw [e])
+    have hg : g ∈ goods ∧ base g = some i := mem_baseOf.mp (by rw [hB]; exact List.mem_singleton_self g)
+    have hg' : g' ∈ goods := (mem_baseOf.mp (by rw [hBπ]; exact List.mem_singleton_self g' :
+      g' ∈ baseOf goods base (π i))).1
+    have hpos := hM.1.rel g hg.1 i hg.2
+    refine Nat.lt_of_le_of_ne hle fun e => ?_
+    have := hs i hi [g] [g'] (List.singleton_sublist.mpr hg.1) (List.singleton_sublist.mpr hg')
+      (by simpa using hgg') e
+    simp [value] at this; omega
+
+/-- **Corollary 12.1 (normalization)** (`k4/dl13.md` §2.2). On a strict profile, from every min-frozen `P` with `ω ≥ 1`,
+finitely many Pareto reassignments (frozen rotations) reach a T4-optimal min-frozen `P*` with `def(P*) ≤ def(P)`. -/
+theorem cor12_1 (hag : agents.Nodup) (hgd : goods.Nodup) (hs : Strict v agents goods)
+    (hM : MinFrozen v agents goods base) (hω : 0 < omegaP v agents goods base) :
+    ∃ base₁, ReassignChain v agents goods base base₁ ∧ MinFrozen v agents goods base₁ ∧
+      T4Optimal v agents goods base₁ ∧ DeficitDrop v agents goods base₁ base 0 := by
+  classical
+  have key : ∀ n : Nat, ∀ b, MinFrozen v agents goods b → 0 < omegaP v agents goods b →
+      (agents.map (fun x => value v x goods)).sum - frozenWelfare v agents goods b = n →
+      ∃ b₁, ReassignChain v agents goods b b₁ ∧ MinFrozen v agents goods b₁ ∧ T4Optimal v agents goods b₁ ∧
+        DeficitDrop v agents goods b₁ b 0 := by
+    intro n
+    induction n using Nat.strongRecOn with
+    | ind n ih =>
+      intro b hMb hωb hn
+      by_cases hT : T4Optimal v agents goods b
+      · exact ⟨b, ReassignChain.refl b, hMb, hT, fun d hd => by simpa using hd⟩
+      · obtain ⟨b', ⟨π, hR⟩, hch⟩ : ∃ b', IsParetoReassign v agents goods b b' ∧
+            ∃ i ∈ agents, baseOf goods b' i ≠ baseOf goods b i := by
+          refine Classical.byContradiction fun hno => hT fun b' hb' i hi => ?_
+          exact Classical.byContradiction fun hne => hno ⟨b', hb', i, hi, hne⟩
+        obtain ⟨i, hi, hne⟩ := hch
+        obtain ⟨hM', -, -, -, hω', -⟩ := lemma12_move hag hgd hMb hR
+        obtain ⟨-, -, -, hdrop⟩ := lemma12 hag hgd hMb hωb hR
+        have hlt := frozenWelfare_lt hag hgd hMb hs hR hi hne
+        have hle := frozenWelfare_le (v := v) (agents := agents) (goods := goods) (base := b')
+        obtain ⟨b₁, hch₁, hM₁, hT₁, hd₁⟩ := ih _ (by omega) b' hM' (by rw [hω']; exact hωb) rfl
+        exact ⟨b₁, ReassignChain.step ⟨π, hR⟩ hch₁, hM₁, hT₁, fun d hd => by
+          have := hd₁ (d - 0) (hdrop d hd); simpa using this⟩
+  exact key _ base hM hω rfl
+
 end C4min
 end EFX
 
@@ -1356,3 +1591,9 @@ end EFX
 #print axioms EFX.C4min.RoleSwap.eSwap_le_one
 #print axioms EFX.C4min.cor9_1
 #print axioms EFX.C4min.cor9_2
+#print axioms EFX.C4min.cor11_1
+#print axioms EFX.C4min.cor11_1_auto
+#print axioms EFX.C4min.sum_lt_sum_of_le_of_lt
+#print axioms EFX.C4min.frozenWelfare_le
+#print axioms EFX.C4min.frozenWelfare_lt
+#print axioms EFX.C4min.cor12_1
