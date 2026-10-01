@@ -1,0 +1,6 @@
+n4_3_x3 estimate (printed before the run finished), 4 CPUs.
+Slice: cores 114..170 of k4_certs_4_n4_3.json.gz (--cores=114:171; dlrt4_run.py's range is exclusive of B), every profile.
+Profiles: 23 cores x 143,327,232 + 28 cores x 71,663,616 + 6 cores x 35,831,808 = 5,518,098,432
+  (domain sizes from check4.core_domains: m = 7 cores 288 x 288 x 288 x 6; m = 8 cores 144 x 288 x 288 x 6 or 144 x 144 x 288 x 6).
+Timing: the first four units (cores 114..117, 143,327,232 profiles each) took 183.6 to 184.6 s each, about 780,000 profiles/s per process.
+Estimate: 5,518,098,432 / 780,000 / 4 = about 1,770 s = 30 min wall time (under the 4-hour limit, so the whole slice is run).
