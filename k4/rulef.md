@@ -19,8 +19,8 @@ independent model `k4/c4_verify_H/lb4r.py`, with the completion of its proof bui
   A₄⁺(o), A₄⁺ᴺ and LB⁺'s hitting set. **Lemma K′** (Remark 5): letting an agent take slot goods and keep goods out at
   once makes the count *exact* (deficit ≤ 0 iff LB₄ʳ's owner test succeeds with that owner), so the counting gap
   closes by construction. Lemma K itself, robust and the form the other lemmas use, leaves no gap at n ≤ 3 and 4, 720 and 35,028
-  profiles at n = 4 with one, two, three 4-good agents (§5.1); the 4 are runs that succeed only without upgrades,
-  which Lemma K certifies under that policy. Written proofs; a
+  profiles at n = 4 with one, two, three 4-good agents (§5.1); the 4 and the 720 are runs that succeed only
+  without upgrades, which Lemma K certifies under that policy (n = 4 with three: RK₃ is being run, see §5.1). Written proofs; a
   second implementation builds the completions and checks them against Lean's `Output` and the raw definition.
 - **Lemma KR (§3)**, LB⁺'s Theorem B in Lemma K's count: rotating a frozen agent along a need chain to the owner
   lowers the deficit by one under two explicit conditions. **Lemma S (§6)**: free exposed agents never raise the
@@ -145,7 +145,8 @@ EFX₀. For a state of LB₄ʳ with ω ≥ 1, `Output` asks exactly for such a c
    Lemma K′ (K0′) holds exactly the runs that LB₄ʳ solves without rotation under those policies. Checked on the gap
    profiles of §5.1 (`k4/rulef_gap.py`, every first agent and all three policies, on PR #33's model): Lemma K′ and
    LB₄ʳ's exact owner test agree on every state, and every Lemma K′ completion passes `output_check` and the raw
-   definition (`results/k4_rulef/gap_check_n4_n4_1.log`; n = 4 with two 4-good agents in progress).
+   definition (`results/k4_rulef/gap_check_n4_n4_1.log`, `gap_check_n4_n4_2.log`: 2 and 100 gap leaves, 0
+   disagreements, 0 failing completions).
 
 *Second implementation.* `k4/rulef_model.py` computes the same deficit (without `k4/rulef.c`'s restriction of slot
 goods outside R_x to one representative) on PR #33's model, builds the completion of the proof and checks it with
@@ -217,6 +218,10 @@ and upgrades of pol to their fixpoint (LB₄ʳ's order: smallest-index eligible 
    LB⁺'s bad case r is not a 4-good agent exposed after LB⁺'s rotation);
 
 and a = 0 if none applies (the *open* class). Run LB₄ʳ(τ_a).
+
+*Variant RK₃* (`k4/rulef.c -N1`): pol also ranges over LB₄ʳ's third policy, no upgrades (P_a^none is the Phase 1
+state; Lean's `Policy.none`). Every class keeps its proof (Lemma K applies to any valid pre-allocation), and RK₃'s K0 and
+K1 contain RK's. The data of §5.1 are for RK unless they say RK₃.
 
 RK never runs LB₄ʳ's owner search: it runs Phase 1, the two upgrade fixpoints, the rotations of R(1), and evaluates
 Lemma K's count. Each class carries its own proof that LB₄ʳ(τ_a) succeeds: K0 with no rotation (Lemma K), K1 with at
@@ -293,11 +298,17 @@ and LB₄ʳ's exact owner search confirms every class on every profile):
   4-good agents) in the table, whose kept-out sets hold only goods the agent values. With the kept-out sets of
   Remark 4 (`-Y1`, `results/k4_rulef/rk_*_y1.log`: K0 grows to 299,574,040 at n = 3 and to 34,961,457,752 at n = 4
   with three 4-good agents, K1 shrinks accordingly, the other rows are unchanged, no violation) the gap is 0, 0, 4,
-  720 and 35,028. #44's gap for A₄⁺ᴺ, over *every* insertion sequence (K4.AD.AN), was 1,020 (n = 2), 119,616 (n = 3)
+  720 and 35,028. **With RK₃ the gap vanishes** where it has been run (`-Y1 -N1`, `results/k4_rulef/rk_*_n1.log`):
+  on n = 2, n = 3 and n = 4 with one and two 4-good agents RK₃'s K0 and K1 are exactly rule F's no-rotation and
+  one-rotation profiles (189,216; 299,574,040 / 263,336; 7,246,416 / 816; 724,640,736 / 206,880), so RK₃ is as good
+  as rule F there, without running LB₄ʳ's owner search (n = 4 with three 4-good agents: being run on a separate machine).
+  #44's gap for A₄⁺ᴺ, over *every* insertion sequence (K4.AD.AN), was 1,020 (n = 2), 119,616 (n = 3)
   and 31,224 (n = 4, two 4-good agents) profiles that LB₄ʳ solves without rotation under some owner-needs convention.
   K1 covers the gap anyway: with one rotation and Lemma K every profile is certified. Lemma K′ (Remark 5 of §2) is
-  exact, so it leaves no gap by construction; at n = 4 with one 4-good agent the 4 gap profiles are runs that succeed
-  only without upgrades, and Lemma K certifies them under that policy (`results/k4_rulef/gap_check_n4_n4_1.log`).
+  exact, so it leaves no gap by construction. And Lemma K's own gap is a matter of policy, not of counting: at n = 4
+  with one and two 4-good agents every gap profile (4 and 720) is a run that LB₄ʳ solves without rotation only
+  without upgrades, and Lemma K certifies it under that policy (`k4/rulef_gap.py`,
+  `results/k4_rulef/gap_check_n4_n4_1.log`, `gap_check_n4_n4_2.log`).
 - **RK is not optimal, but never needs two rotations.** It uses a rotation where some first agent needs none on 0
   (n ≤ 3), 4, 688 and 21,456 profiles (n = 4 with one, two, three 4-good agents; 21,408 with `-Y1`): these are the
   profiles of the counting gap on which the first K1 agent in index order is not one of those that need no rotation.
@@ -493,6 +504,8 @@ bash k4/rulef_runs.sh featdump feat  # n = 3: classes of every first agent where
 bash k4/rulef_runs.sh btrk bigtop    # a big-top agent first (else RK; else index order) and the failures of the fallback
 bash k4/rulef_runs.sh samp H suite  # pure n = 4 and n = 5 samples, H_t with relabelings, the suite
 bash k4/rulef_runs.sh y1            # rule RK with kept-out sets holding goods outside R_x (Remark 4 of §2; ~35 min)
+bash k4/rulef_runs.sh n1            # rule RK3 (also no upgrades) with -Y1 on every exhaustive class (~37 min)
+bash k4/rulef_runs.sh gap           # the gap profiles of -Y1 at n = 4 (one, two 4-good agents) against Lemma K' (~2 h)
 bash k4/rulef_runs.sh rules         # the explicit rules of -A40 on n = 2 and n = 3 with m <= 5 (none fails there)
 bash k4/rulef_runs.sh check attempts      # Lemma K's second implementation; the failed candidates
 python3 k4/rulef_run.py --profiles=FILE -A41 -r1        # rule RK on given profiles ({"sets", "vals"} per line)
@@ -503,5 +516,5 @@ python3 k4/suite/run.py --pred=k4/rulef_suite.py:rule_rk  # rule RK on the count
 `-A40` (every first agent, the explicit rules of `rulef_rules`, `-Q` selects the one whose sequence is run) and `-A41`
 (rule RK), `-A42` (static rules), the dumps `-D1`…`-D7` and `-E1` are documented in its header and in
 `k4/rulef_run.py`; everything else is `k4/adaptive.c` (#44) unchanged. The class logs of §5.1 were made with earlier
-revisions of `k4/rulef.c` whose `-A41` code is the present one (later changes add dump options, `-A42` and `-Y1`,
-which is off by default).
+revisions of `k4/rulef.c` whose `-A41` code is the present one (later changes add dump options, `-A42`, `-Y1` and
+`-N1`, which are off by default).
