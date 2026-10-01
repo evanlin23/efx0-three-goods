@@ -1,3 +1,4 @@
 # command: python3 k4/dlrt4_split.py results/k4_certs_4_n4_3.json.gz --cores=260:285 --split=8 --jobs=4 --ckpt=results/k4_rt4/ckpt_n4_3_x5_split.jsonl --dump=results/k4_rt4/dump_n4_3_x5_split.jsonl.gz --tables=results/k4_rt4/tables_n4_3_x5_split.json
 # dlrt4.c sha256 fcde494a3161279d47a7b80e614f69c58894ebc7b40d00e461f677b8810d7cae
 # k4_certs_4_n4_3.json.gz: cores 260..284, split 8, 200 sub-units to run, 0 from the checkpoint; every profile
+#   core 260 complete
