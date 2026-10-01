@@ -9,6 +9,11 @@ workstream to weigh.
 **Status: written while run n5b_4 was still running** (`k4_certs_5_n4_4`, 16,000 random profiles per core, seed 1). The counts below cover the
 failures found up to then; `n5b_SUMMARY.md` gives the final counts of the whole slice.
 
+*Note (2026-10-01, compute/k4-rt4-n5, PR #86 audit):* run n5b_4 has since finished. `n5b_4.log` lines 9855–9856 give
+157,536,000 profiles (all 9,846 cores) and 1,122,391 f ≥ 1 states with def > 0. DL_RT4 fails at 3 of them, the same 3
+states listed below. `n5b_SUMMARY.md` was never written. The text above is kept unchanged, since ledger row K4.DL2.RT4
+cites this file.
+
 ## The failures
 
 | run | core (file, pos, idx, m) | sets | profile | values | failing state P | f | def(P) | nearest k |

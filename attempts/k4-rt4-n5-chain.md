@@ -38,8 +38,9 @@ N_3 = {6, 8}, N_4 = {7}, so NA = {6, 7, 8}. Agents 0, 1 and 4 are frozen (on 7, 
 min-frozen P of the profile has three frozen agents), so ω = 2. The profile has 58 min-frozen P, 14 of them with def > 0.
 
 def(P) = 1. Only the free agents 2 and 3 can own. Their bundle B_o ∪ J threatens agent 0, which is frozen on 7 (worth 7)
-and values 0, 2, 4 at 6, 3, 5. A safe bundle can hold good 4 but neither 0 nor 2, and leaving out both junk goods 0
-and 2 needs two slots. Only one is free: the other free agent's second slot.
+and values 0, 2, 4 at 6, 3, 5. A safe bundle of either owner can keep the junk good 1 and any one of 0, 2, 4 ({0, 1},
+{1, 2} or {1, 4}), but never two of them, since any two are worth more than 7 to agent 0. So two junk goods are left
+out, and they need two slots. Only one is free: the other free agent's second slot.
 
 **No RT4 move lowers the deficit.** Every min-frozen P′ with a smaller deficit changes at least three bases. All 16 at
 distance 3 have one shape, a **frozen chain**:
@@ -92,14 +93,16 @@ def(P′) = −1. DL_RT4 fails at P and at its image under the twin swap.
 Every failure has f = 3, def(P) = 1 and nearest distance 3. Every one of the 692 better states at distance 3 is a
 frozen chain (48 at n5b, 644 at n5c), and one T3⁺ move repairs each. The unrestricted sample `n5c_pure` (5,000 random
 profiles per pure core, 23,370,000 profiles) found none, and n5b's other runs found none
-(`results/k4_rt4/n5b_3.log`, `n5b_3bt.log`). Three implementations agree at all 67 states:
+(`results/k4_rt4/n5b_3.log`, `n5b_3bt.log`). Four implementations agree at all 67 states:
 - `k4/dlrt4.c` (sha256 fcde494a…, the runs);
 - `k4/dlrt4_ref.py` on `k4/suite/model.py` (`results/k4_rt4/ref_n5b_failures.log`, `ref_n5c_fails.log`: every state
   of the 10 profiles, 0 mismatches);
 - `k4/rt4_n5_xcheck.py` on main's `k4/c4x_check.py`, through `k4/dl134_xcheck.py`, without model.py or dlrt4.c
-  (`results/k4_rt4/xcheck_n5_failures.log`).
+  (`results/k4_rt4/xcheck_n5_failures.log`);
+- `k4/rt4_n5_indep.py`, written independently in the PR #86 audit, which imports nothing from the repository
+  (`results/k4_rt4/indep_n5_failures.log`: the same 168 states, 67 failures, 692 chains and 10 failing keys of 41).
 
-The last tool also gives the key-graph verdicts: DL with single T3/T4 edges fails at 10 of the 41 keys with def* > 0
+The last two tools also give the key-graph verdicts: DL with single T3/T4 edges fails at 10 of the 41 keys with def* > 0
 (one per profile). With T3⁺ ∪ T4 edges it fails at none, and DL_RC holds at all 168 def > 0 states of the 10 profiles.
 
 ## Smallest failing configuration and reproduction
@@ -111,6 +114,8 @@ m < 9 fails is not known: the n = 5 runs are samples.
 
 ```
 python3 k4/rt4_n5_xcheck.py results/k4_rt4/n5b_failures_inst.json results/k4_rt4/n5c_fail_inst.json   # ~3 min, one process
+python3 k4/rt4_n5_indep.py                                                # the audit's own checker, this instance
+python3 k4/rt4_n5_indep.py results/k4_rt4/n5b_failures_inst.json results/k4_rt4/n5c_fail_inst.json   # and all 10 profiles
 python3 k4/dlrt4_ref.py inst results/k4_rt4/n5b_failures_inst.json        # dlrt4.c against the model.py reference, seconds
 python3 k4/suite/run.py --only=rt4-n5m9-chain,rt4-n5m10-chain --pred=k4/rt4_pred.py:rt4_c --pred=k4/rt4_pred.py:rt4_x \
     --pred=k4/rt4_pred.py:key_x --pred=k4/rt4_pred.py:rc_x                # FAILS, FAILS, FAILS, holds

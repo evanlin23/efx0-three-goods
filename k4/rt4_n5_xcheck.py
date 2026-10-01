@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Independent check of the n = 5 DL_RT4 failures, of DL on the key graph, and of the widened role swap T3+
-(compute/k4-rt4-n5; the coordinator's two checks, xverify.py and xverify2.py, merged into one pass). EVIDENCE tooling.
+(compute/k4-rt4-n5). The coordinator's two checks, its scratch scripts xverify.py and xverify2.py (never committed),
+merged into one pass. EVIDENCE tooling.
 
 Model. k4/dl134_xcheck.py's `Prof` on main's k4/c4x_check.py: its own enumeration of every base map, (V1), (V2)
 literally, its own removal-only deficit `rodef`, and the move kinds T1, T2, T3p, T3h, T4 written there from the
