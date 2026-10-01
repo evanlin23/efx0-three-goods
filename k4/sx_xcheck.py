@@ -13,7 +13,8 @@ pairwise from the definitions (no generation):
 For every profile it prints the keys with def* and, for each key with def* > 0, whether DLK holds for the edge sets
 T3, T3+, T3T4, T3+T4 (as k4/sx_keygraph.py).
 
-usage: python3 k4/sx_xcheck.py DUMP.jsonl.gz [--every=E]       compare with the per-key records of a sx_keygraph dump
+usage: python3 k4/sx_xcheck.py DUMP.jsonl.gz [--every=E] [--mmax=M]   compare with the per-key records of a sx_keygraph
+       dump (or, for a k4/sx_hunt.py dump, with sx_keygraph.run_one)
        python3 k4/sx_xcheck.py catalog FILE [--every=E] [--max=N]   compare with sx_keygraph.run_one on the same profiles
        (the second form imports k4/sx_keygraph.py only to compare, after this module has computed its own verdicts)"""
 import collections, gzip, itertools, json, os, sys
@@ -129,6 +130,10 @@ def main(argv):
             for i, line in enumerate(gzip.open(fn, 'rt')):
                 if i % int(opt.get('every', 1)): continue
                 r = json.loads(line)
+                if r['m'] > int(opt.get('mmax', 99)): cnt['skipped (m > mmax)'] += 1; continue
+                if 'keys' not in r:                  # a sx_hunt.py dump: compare with sx_keygraph.run_one
+                    import sx_keygraph as SK
+                    r['keys'] = SK.run_one({'sets': r['sets'], 'vals': r['vals'], 'm': r['m']})[1]
                 res = keygraph(r['sets'], r['vals'], r['m'])
                 cnt['profiles'] += 1
                 if res is None: cnt['MISMATCH (scope)'] += 1; continue
