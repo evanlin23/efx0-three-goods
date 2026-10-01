@@ -102,9 +102,9 @@ agent i's only private good, 8 < 5 + 4 + 2, and the 15 subset sums of 8, 5, 4, 2
 differs from P_n in all n bases. Hence k*(C_n) = n.
 
 *Argument (not refereed).*
-- Agent i's need-free bases are the nonempty subsets of R_i worth at least 8 that contain no good worth more than
-  themselves. These are the bases containing t_i, plus the single pair {x_i, t_{i+1}} (5 + 4 = 9 > 8); {x_i, j} = 7 and
-  {t_{i+1}, j} = 6 are not need-free.
+- A base is need-free iff no good of R_i outside it is worth more than it. For agent i, a base containing t_i is
+  need-free (8 is the top). A base without t_i is need-free iff it is worth more than 8. Among the bases of at most
+  two goods, only the pair {x_i, t_{i+1}} (5 + 4 = 9) is; {x_i, j} = 7, {t_{i+1}, j} = 6 and the singletons are not.
 - The bases {t_i} form a valid P without needs, so f = 0, the min-frozen P are exactly the P whose bases are all
   need-free, and ω = 0 − σ = 1.
 - If agent i holds {x_i, t_{i+1}}, agent i + 1 cannot hold t_{i+1}, so it must hold {x_{i+1}, t_{i+2}}. Around the
@@ -158,8 +158,11 @@ suffice is untested here beyond n = 4.
 
 **All P with def > 0** (`k4/dl2_table.py results/k4_dl2/tables_n3.json`; n ≤ 3, 36,911,232 P, canonical repair):
 - 96.4% have a one-agent repair (S shrink 19.4M, W swap with the pool 12.4M, G grow 3.9M), and 3.4% need two agents.
-  Of the two-agent repairs, 1.18M are T+T: two agents trade, mostly a role swap (F > f with f > F) or two free agents
-  exchanging. 87,056 need three.
+  87,056 need three.
+- The 1,237,720 two-agent repairs (canonical witness, roles table (3)) split three ways:
+  - a role swap (a frozen agent unfreezes and a free one freezes): 580,534;
+  - two free agents: 457,136;
+  - two frozen agents exchanging their frozen goods, which changes the key: 200,050.
 - At the 377,832 Pareto-maximal P with def > 0 (the same number as `k4/hall.md`'s count of not removal-only
   completable Pareto-maxima with frozen agents at n ≤ 3), the signature contains G for 196,956, L for 113,136, G1 for
   67,740 and e2 for 39,936 of them (a P counts under each of its classes). 8,736 of them need three agents; every one
@@ -180,8 +183,13 @@ suffice is untested here beyond n = 4.
 ```
 sh k4/dl2_runs.sh check        # cross-checks (about 20 min, 2 processes)
 sh k4/dl2_runs.sh n3           # n <= 3, every profile (about 40 min, 2 processes; resumes from the checkpoint)
-sh k4/dl2_runs.sh n4_1; sh k4/dl2_runs.sh n4_2; sh k4/dl2_runs.sh cycle 4
+sh k4/dl2_runs.sh n4_1; sh k4/dl2_runs.sh n4_2     # n = 4 with one / two 4-good agents (n4_2: hours; checkpointed)
+sh k4/dl2_runs.sh n4cat; sh k4/dl2_runs.sh n5cat   # #53's catalogues and hunts (minutes)
+sh k4/dl2_runs.sh cycle 4      # cyclic n = 4 cores (about 1 h; the log here covers the first 16 cores)
 python3 k4/dl2_cn.py 3,4,5,6,7,8,9,10,11,12 --py=7
 python3 k4/dl2_shapes.py results/k4_dl2/trapped_n3.jsonl.gz results/k4_dl2/repairs_n3.jsonl.gz
+python3 k4/dl2_shapes.py results/k4_dl2/trapped_cycle_n4.jsonl.gz results/k4_dl2/repairs_cycle.jsonl.gz
+python3 k4/dl2_shapes.py results/k4_dl2/trapped_n4cat.jsonl.gz results/k4_dl2/repairs_n4cat.jsonl.gz
 python3 k4/dl2_table.py results/k4_dl2/tables_n3.json
+python3 k4/dl2_dumpfix.py results/k4_dl2/repairs_n3.jsonl.gz --ckpt=results/k4_dl2/ckpt_n3.jsonl   # after a killed run
 ```
