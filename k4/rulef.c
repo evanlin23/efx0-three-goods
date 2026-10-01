@@ -1272,15 +1272,25 @@ static void rulef_stat41(long w, int ok, int rot) {
    -Q1 the same, else the first agent whose least good is another agent's top, else agent 0;
    -Q2 the first big-top agent, else rule RK (mode 41);
    -Q3 the first big-top agent, else among the agents whose top is another agent's top one with the fewest private
-       goods (ties by index), else agent 0. The class statistics and dumps are mode 41's. */
+       goods (ties by index), else agent 0;
+   -Q4 the big-top agent with the fewest private goods (ties by index), else as -Q3. The class statistics and dumps
+       are mode 41's. */
 static int bigtop_agent(int a) { return d[a] == 4 && cmpv(a, BIT(ord[a][0]), BIT(ord[a][1]) | BIT(ord[a][2])) > 0; }
 static void rulef_leaf42(void) {
     int dummy, om, fz, c = -1;
+    if (QRULE == 4) {                /* the big-top agent with the fewest private goods; else -Q3's fallback */
+        int bp = 99;
+        for (int a = 0; a < n; a++) if (bigtop_agent(a)) {
+            gm oth = 0; for (int b = 0; b < n; b++) if (b != a) oth |= R[b];
+            int pv = popc(R[a] & ~oth);
+            if (pv < bp) { bp = pv; c = a; }
+        }
+    } else
     for (int a = 0; a < n && c < 0; a++) if (bigtop_agent(a)) c = a;
     if (c < 0 && QRULE == 2) { rulef_leaf41(); return; }
     if (c < 0 && QRULE == 1)
         for (int a = 0; a < n && c < 0; a++) for (int b = 0; b < n; b++) if (b != a && ord[a][d[a] - 1] == ord[b][0]) { c = a; break; }
-    if (c < 0 && QRULE == 3) {       /* an agent whose top is another agent's top, fewest private goods, ties by index */
+    if (c < 0 && (QRULE == 3 || QRULE == 4)) {       /* an agent whose top is another agent's top, fewest private goods, ties by index */
         int bp = 99;
         for (int a = 0; a < n; a++) {
             int sh = 0; for (int b = 0; b < n; b++) if (b != a && ord[b][0] == ord[a][0]) sh = 1;

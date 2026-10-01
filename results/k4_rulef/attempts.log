@@ -1,0 +1,35 @@
+# attempts/k4_rulef_attempts.py # rulef.c sha256 8bd39c5559ae46b6
+1. least-count rules; profile sets=[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]] vals=[[1, 4, 6, 8], [2, 3, 4, 8], [2, 7, 8, 4]]
+  rule  3 (least A4+N deficit): first agent 0; rulef.c -r1: fail, -r2: rot=2; independent model: least rotations 2 -> OK
+  rule  4 (least A4+(o) deficit (envy-free)): first agent 0; rulef.c -r1: fail, -r2: rot=2; independent model: least rotations 2 -> OK
+  rule  5 (least of the two): first agent 0; rulef.c -r1: fail, -r2: rot=2; independent model: least rotations 2 -> OK
+  rule  6 (least refined (H) deficit, need-shrinking): first agent 0; rulef.c -r1: fail, -r2: rot=2; independent model: least rotations 2 -> OK
+  rule  7 (least refined (H) deficit): first agent 0; rulef.c -r1: fail, -r2: rot=2; independent model: least rotations 2 -> OK
+  rule  9 (least omega after need-shrinking upgrades): first agent 0; rulef.c -r1: fail, -r2: rot=2; independent model: least rotations 2 -> OK
+  rule 10 (least refined deficit, then fewest frozen): first agent 0; rulef.c -r1: fail, -r2: rot=2; independent model: least rotations 2 -> OK
+  rule 11 (a 4-good agent first): first agent 0; rulef.c -r1: fail, -r2: rot=2; independent model: least rotations 2 -> OK
+  rule 12 (least refined deficit, then fewest exposed 4-good agents): first agent 2; rulef.c -r1: fail, -r2: rot=2; independent model: least rotations 2 -> OK
+  rule 13 (least refined-with-kept-set deficit, need-shrinking): first agent 0; rulef.c -r1: fail, -r2: rot=2; independent model: least rotations 2 -> OK
+  rule 14 (least refined-with-kept-set deficit): first agent 0; rulef.c -r1: fail, -r2: rot=2; independent model: least rotations 2 -> OK
+  rule 16 (least Lemma K deficit, need-shrinking): first agent 0; rulef.c -r1: fail, -r2: rot=2; independent model: least rotations 2 -> OK
+  rule 17 (least Lemma K deficit): first agent 0; rulef.c -r1: fail, -r2: rot=2; independent model: least rotations 2 -> OK
+  rule  0 (index order): first agent 0; rulef.c -r1: fail, -r2: rot=2; independent model: least rotations 2 -> OK
+  rule RK: first agent 1, rot=1; independent model: least rotations 1
+  brute force: 5 EFX0 allocations, 5 with at most one bundle of > 2 goods
+2. frozen-free state without owner; profile sets=[[0, 2, 3, 4], [1, 2, 3, 4]] vals=[[2, 4, 7, 8], [2, 4, 5, 8]], first agent 0, need-shrinking upgrades: frozen agents 0, omega 1, outputs (any owner or none, both conventions) [] -> OK
+  brute force: 3 EFX0 allocations, 3 with at most one bundle of > 2 goods
+3. a big-top agent first, else index order (also: else an agent whose least good is another's top); profile sets=[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]] vals=[[1, 4, 6, 8], [3, 5, 7, 6], [2, 4, 5, 8]]
+  -Q0: first agent 0; rulef.c -r1: fail, -r2: rot=2; independent model: least rotations 2 -> OK
+  -Q1: first agent 0; rulef.c -r1: fail, -r2: rot=2; independent model: least rotations 2 -> OK
+  big-top agents: []
+  rule RK: first agent 2, rot=1; independent model: least rotations 1
+  brute force: 5 EFX0 allocations, 5 with at most one bundle of > 2 goods
+4. the first big-top agent (else rule RK), two or more big-top agents; profile sets=[[0, 1, 3, 4], [2, 3, 6, 7], [2, 5, 7], [4, 5, 6, 7]] vals=[[2, 3, 10, 6], [2, 8, 3, 4], [2, 4, 3], [4, 8, 2, 3]]
+  -Q2: first agent 0 (big-top agents [0, 1, 3]); rulef.c -r1: fail, -r2: rot=2; independent model: least rotations 2 -> OK
+  rule RK: first agent 1, rot=0; independent model: least rotations 0
+  brute force: 49 EFX0 allocations, 32 with at most one bundle of > 2 goods
+5. a big-top agent with the fewest private goods, else a shared-top agent with the fewest private goods; profile sets=[[0, 2, 5, 6], [1, 4, 5, 6], [2, 3, 5], [3, 4, 6]] vals=[[2, 8, 4, 5], [2, 8, 5, 4], [4, 2, 3], [2, 4, 3]]
+  -Q4: first agent 2 (big-top agents []); rulef.c -r1: fail, -r2: rot=2; independent model: least rotations 2 -> OK
+  rule RK: first agent 0, rot=0; independent model: least rotations 0
+  brute force: 24 EFX0 allocations, 24 with at most one bundle of > 2 goods
+ALL AS RECORDED

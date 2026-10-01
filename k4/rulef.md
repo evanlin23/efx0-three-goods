@@ -5,11 +5,39 @@ Workstream `proof/k4-rulef` (ledger rows K4.RF.*, open items 18 and 27; rank 2 o
 and `proofs/lb_last_step.md`. Notation as there. Nothing here changes K4.D or K4.T.
 
 Tools: `k4/rulef.c` (`k4/adaptive.c` of #44 plus the modes `-A40`, every first agent with its counts and the explicit
-rules, and `-A41`, rule RK alone), `k4/rulef_run.py` (driver, one worker), `k4/rulef_model.py` and `k4/rulef_check.py`
-(Lemma K written again from the text on PR #33's independent model `k4/c4_verify_H/lb4r.py`, with the completion of
-its proof built and checked against `Output` of `lean/EFX/LB4R.lean` and the raw EFX₀ definition).
+rules, `-A41`, rule RK, and `-A42`, static rules), `k4/rulef_run.py` (driver, one worker, resumable), `k4/rulef_runs.sh`
+(every log of this file), `k4/rulef_model.py` and `k4/rulef_check.py` (Lemma K written again from the text on PR #33's
+independent model `k4/c4_verify_H/lb4r.py`, with the completion of its proof built and checked against `Output` of
+`lean/EFX/LB4R.lean` and the raw EFX₀ definition), `k4/rulef_rot.py` (which rotations repair, Lemma KR),
+`k4/rulef_features.py` and `k4/rulef_bigtop.py` (what the working first agent has in common), `k4/rulef_H.py` (H_t),
+`k4/rulef_suite.py` (rule RK as predicates of the suite `k4/suite/`).
 
-DRAFT (numbers being filled in).
+**Status** (nothing here is PROVED in the ledger's sense: the written proofs are not yet refereed; rows K4.RF.*).
+- **Lemma K (§2)**, an owner count for any valid pre-allocation: an owner, a set K of goods it keeps (its needs taken
+  from B_o ∪ K, which can unfreeze agents), and every threatened agent served either by a slot good of its own that
+  protects it whatever else happens or by a set of goods kept out of the owner's bundle. It contains the counts of
+  A₄⁺(o), A₄⁺ᴺ and LB⁺'s hitting set, and closes almost all of A₄⁺ᴺ's counting gap (§5.1). Written proof; a second
+  implementation builds the completion of the proof and checks it against Lean's `Output` and the raw definition.
+- **Lemma KR (§3)**, LB⁺'s Theorem B in Lemma K's count: rotating a frozen agent along a need chain to the owner
+  lowers the deficit by one under two explicit conditions. **Lemma S (§6)**: free exposed agents never raise the
+  deficit. **Proposition H″ (§4.1)**: on every relabeling of H_t a gadget-1 first agent is certified without rotation.
+- **Rule RK (§4)**, an explicit first-agent rule whose every test is a certificate: the first agent whose run Lemma K
+  certifies (class K0), else whose run Lemma K certifies after one rotation (K1), else whose run satisfies Corollary
+  C₄⁰ (C40). It never runs LB₄ʳ's owner search. **It is correct exactly when Lemma M holds** (some first agent is in
+  K0, K1 or C40), the one statement left open (§6 says which cases a proof attempt closes and which it does not).
+- **Data (§5)**: Lemma M holds, with K0 and K1 alone, on every strict profile of every certified core with n ≤ 4 and at
+  most three 4-good agents (3.6·10¹⁰ profiles, exhaustive), SAMPSUMMARY. **What the working first agent has in
+  common** (§5.2): it is the agent that needs its top most. If exactly one agent is *big-top* (four goods, top worth
+  more than the next two together), that agent is in K0 or K1 on all these classes; with several big-top agents the
+  first one can fail (n = 4, m = 8), and without one, index order fails (9,632 n = 3 profiles); there, of two agents
+  sharing a top, the one with a private fallback fails. Every static or one-step rule tried fails somewhere (the best
+  at n = 4, m = 7), and on H_t the agent must be found in gadget 1. Rule RK finds it by its certificate.
+- **Lean (§7)**: `lean/EFX/RuleF.lean` states rule F's target (`TheoremRuleF`, `RuleFConn`, `RuleFOne`: some first agent
+  a with LB₄ʳ([a]) succeeding with at most one rotation) and proves it gives C₄∃ and TARGET₄; Lemma M with Lemma K would
+  discharge `RuleFConn`.
+- **Failed** (`attempts/k4-rulef-*.md`, §5.3): the least-deficit rules (every count, n = 3, m = 6), "no frozen agent ⟹ a
+  valid owner" (n = 2, m = 5), static rules built on big-top agents ("the first big-top agent, else index order":
+  n = 3, m = 6; "the first big-top agent" with two or more: n = 4, m = 8; with a shared-top fallback: n = 4, m = 7).
 
 ## 1. Setting
 
@@ -21,7 +49,7 @@ Its success with at most one rotation on every profile tested is K4.AD.F/K4.AD.E
 2. the counting theorem that closes the gap A₄⁺ᴺ leaves (K4.AD.AN, K4.C4.GAP);
 3. a rotation statement for what remains.
 
-A state P is valid pre-allocation in the sense of `k4/lb4.md` §1 (bases B_i, needs N_i containing every good of
+A state P is a valid pre-allocation in the sense of `k4/lb4.md` §1 (bases B_i, needs N_i containing every good of
 R_i ∖ B_i worth more than B_i, (V1), (V2)); J is its junk, F its frozen agents (a one-good base in NA), and a free
 agent x has cap(x) = 2 − |B_x| slot places. Every state LB₄ʳ reaches is one (`EFX.LB4R.Inv`, K4.C4.FRAME). For an
 agent x, a bundle L and a holding H, *threatened(x, L, H)* means max_{h ∈ L} v_x(L ∖ h) > v_x(H); it is monotone
@@ -242,21 +270,51 @@ other agents (`results/k4_rulef/features_n3.log`; a rule *covers* a profile when
 | the successor or the end of a need chain from agent 0 | 19,952 |
 
 (The static rules are those of #44 at the first insertion step, `attempts/k4-adaptive-local-features.md`, plus new
-ones; the one-step rules read an agent off the index run, in the spirit of #37's Lemma X′.)
+ones; the one-step rules read an agent off the index run, in the spirit of #37's Lemma X′. A sample: it happens to
+contain none of the 9,632 profiles on which the first rule fails, found exhaustively below.)
 
-**Big-top agents.** Exhaustively (`k4/rulef.c -A42`):
-- *with a big-top agent the first one works*: "the first big-top agent if there is one, else rule RK" (`-Q2`) leaves
-  no profile open on n ≤ 3 and on n = 4 with one, two or three 4-good agents (`results/k4_rulef/btrk_*.log`); so
-  whenever a big-top agent exists, the first big-top agent in index order is in class K0 or K1 — a static rule;
-- *without one, index order does not*: "the first big-top agent, else agent 0" (`-Q0`) fails with one rotation on 9,632
-  profiles at n = 3, every one without a big-top agent (`attempts/k4-rulef-bigtop-first.md`). There the working first
-  agent's top is also another agent's top, and among two agents sharing their top the one that works is the one
-  *without* two private goods (`k4/rulef.md` data of 136 leaves, table in `results/k4_rulef/bigtop_fallback_n3.log`).
+**Big-top agents.** Exhaustively (`k4/rulef.c -A42`, `results/k4_rulef/btrk_*.log`, `bt*_n*.log`):
+- *one big-top agent: it works*. "The first big-top agent if there is one, else rule RK" (`-Q2`) leaves no profile
+  open on n ≤ 3 and on n = 4 with one or two 4-good agents. With three 4-good agents it leaves 1,096 profiles
+  uncertified (on 480 of them LB₄ʳ needs two rotations on that sequence), and every one of them has two or three
+  big-top agents. So on all the data: **if exactly one agent is big-top, that agent is in class K0 or K1**.
+- *several big-top agents: not the first one*. On the smallest failure (n = 4, m = 8, three big-top agents) agents 0
+  and 1 are big-top with the same top; agent 0, which has two private goods, fails, and agent 1, which has none, is in
+  K0 (`attempts/k4-rulef-bigtop-first.md`).
+- *no big-top agent: index order does not work*. "The first big-top agent, else agent 0" (`-Q0`) fails with one
+  rotation on 9,632 profiles at n = 3, every one without a big-top agent. There the working first agent's top is also
+  another agent's top, and of two agents sharing a top the one with two private goods fails (table:
+  `results/k4_rulef/bigtop_fallback_n3.log`). The static rules built on that (`-Q3`: the first big-top agent, else a
+  shared-top agent with the fewest private goods; `-Q4`: the big-top agent with the fewest private goods, else the
+  same) survive n = 3 and n = 4 with one 4-good agent, and fail on 4 profiles with two (n = 4, m = 7: the rule picks a
+  3-good agent sharing its top with a 4-good one, which works; `results/k4_rulef/bt4_n34.log`).
 
-Why a big-top agent: its loss of its top is not repaired by a pair (b + c < a), so a need-shrinking upgrade never
-removes its need and the agent holding its top stays frozen until a rotation; inserted first, it holds its top from the
-start. On the cores H_t (no big-top agent) the first agent must lie in gadget 1 (Propositions H′, H″), which no static
+So the working first agent is "the agent that needs its top most" — a big-top agent, and among agents sharing a top,
+one without a private fallback — but no static rule tried captures it on all the data; rule RK does, by certificate.
+
+Why a big-top agent. *Remark (a two-line proof).* In every state after Phase 1 and upgrades of either policy, a
+big-top agent q that does not hold its top a_q still needs it, and the agent holding a_q is frozen. Indeed q's base is
+then one good below a_q (or empty) or an upgraded pair {Y, g} with Y, g ∈ R_q ∖ {a_q}, worth at most b + c < a; so
+a_q ∈ N_q. The holder of a_q holds it as a pick (an upgraded base avoids NA by (V2)), hence is frozen. So with q not
+first, Phase 1 can leave a frozen agent that no upgrade removes and that only a rotation, or q's own large bundle as
+owner, releases; inserted first, q holds its top and needs nothing. This explains why big-top agents matter; it is not
+a proof that the first big-top agent is in K0 or K1. On the cores H_t (no big-top agent) the first agent must lie in gadget 1 (Propositions H′, H″), which no static
 feature tried identifies on every relabeling; rule RK finds it by its certificate.
+
+### 5.3 Candidates that fail (`attempts/`, replayed by `attempts/k4_rulef_attempts.py`)
+
+- `attempts/k4-rulef-least-count.md`: the first agent with the least deficit of a count (A₄⁺ᴺ, A₄⁺(o), the refined
+  counts, Lemma K, ω; ties by index, by frozen or by exposed 4-good agents), and "a 4-good agent first": n = 3, m = 6,
+  where all three first agents have deficit 1 and only one of them is in K1.
+- `attempts/k4-rulef-frozen-free-owner.md`: "after Phase 1 and need-shrinking upgrades with no frozen agent and ω ≥ 1
+  some owner is valid without rotation" (the step of Proposition H′ that a general theorem would need): n = 2, m = 5.
+- `attempts/k4-rulef-bigtop-first.md`: static rules built on big-top agents: "the first big-top agent, else index order"
+  (n = 3, m = 6, no big-top agent); "the first big-top agent" when two or more are big-top (n = 4, m = 8); the
+  refinements with a shared-top fallback and fewest private goods (n = 4, m = 7).
+
+Each smallest failure is confirmed in PR #33's independent model (`k4/c4_verify_H/lb4r.py`: least rotations 2 on the
+rule's sequence under every policy and both owner-needs conventions; for the lemma, no output at the state), and K4.D
+holds there by brute force.
 
 ## 6. Lemma M: a proof attempt, and the cases it does not close
 
@@ -315,6 +373,16 @@ The first agent enters only through Phase 1: changing it changes which agents ar
 relates the runs of two first agents; the exchange lemmas of `k4/c4one.md` §6 (Lemmas Ω, Ψ, PROVED, K4.C4.OM,
 K4.C4.PSI) do so for runs with P-steps in any order and one 4-good agent, and are the natural tool for M1–M3.
 
+*What the data say about M1–M3* (n ≤ 4, at most three 4-good agents). M3 is never needed (class C40 is empty). Where
+no first agent satisfies M1 (the class K1 of §5.1), Lemma KR itself, with o = r, gives M2 for some first agent and
+policy on every profile of a sample at n = 3 (every 5th leaf: 53,638 profiles, `results/k4_rulef/rotations_n3.log`),
+almost always with o unthreatened after the rotation, and the rotated agent is an exposed frozen 4-good agent with
+O = R_k ∩ W (B₄ʷ's shape). For M1 the big-top agents point to the induction to try: a big-top agent that does not hold
+its top keeps a frozen agent no upgrade removes (§5.2), and with exactly one big-top agent inserting it first gives K0
+or K1 on all the data. A proof of M along these lines would show: (a) with exactly one big-top agent q, the run of
+τ_q satisfies M1 or Lemma KR's hypotheses; (b) with several, some big-top agent does (not always the first); (c)
+without one, some agent sharing its top does — and (c) must contain Proposition H″'s choice of gadget 1 on H_t.
+
 ## 7. How a proof plugs into Lean
 
 The frame is `lean/EFX/LB4R.lean` (K4.C4.FRAME, PROVED) and `lean/EFX/K4One.lean` (K4.ONE.FRAME, PROVED).
@@ -340,3 +408,21 @@ A proof of rule RK would discharge `RuleFConn` as follows; nothing of it is in L
 3. Lemma M — the existence of a first agent in K0 ∪ K1 ∪ C40 — is the open statement; with 1–2 it is `RuleFConn`.
 `EFX.LB4R.TheoremC4` (every τ) is false (K4.C4.C); `TheoremRuleF` asks for one τ per profile, of length one, and is
 not affected by Proposition H (on H_t rule RK needs no rotation, §4.1).
+
+## 8. Reproduce
+
+```
+bash k4/rulef_runs.sh rk            # rule RK on every strict profile, n <= 4, at most three 4-good agents (~35 min, one CPU)
+bash k4/rulef_runs.sh featdump feat  # n = 3: classes of every first agent where index order is not K0; features; Lemma KR
+bash k4/rulef_runs.sh btrk bigtop    # a big-top agent first (else RK; else index order) and the failures of the fallback
+bash k4/rulef_runs.sh samp hill H suite   # pure n = 4 and n = 5 samples, hill-climbing, H_t with relabelings, the suite
+bash k4/rulef_runs.sh check attempts      # Lemma K's second implementation; the failed candidates
+python3 k4/rulef_run.py --profiles=FILE -A41 -r1        # rule RK on given profiles ({"sets", "vals"} per line)
+python3 k4/suite/run.py --pred=k4/rulef_suite.py:rule_rk  # rule RK on the counterexample suite
+```
+`k4/rulef_run.py` compiles `k4/rulef.c` into the temporary directory under a name made from a hash of the source
+(`RULEF_BIN` overrides); its result lines and every log start with the command and that hash. `k4/rulef.c`'s modes
+`-A40` (every first agent, the explicit rules of `rulef_rules`, `-Q` selects the one whose sequence is run) and `-A41`
+(rule RK), `-A42` (static rules), the dumps `-D1`…`-D7` and `-E1` are documented in its header and in
+`k4/rulef_run.py`; everything else is `k4/adaptive.c` (#44) unchanged. The class logs of §5.1 were made with earlier
+revisions of `k4/rulef.c` whose `-A41` code is the present one (later changes add dump options and `-A42`).

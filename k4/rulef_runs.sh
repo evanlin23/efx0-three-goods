@@ -3,7 +3,7 @@
 # $CK (default: a scratch folder) let an interrupted step resume. Usage: bash k4/rulef_runs.sh [STEP ...]
 # Steps: rk (rule RK, exhaustive n <= 4 with at most three 4-good agents), featdump (n = 3 profiles where index order is
 # not in K0, every first agent's classes), feat (first-agent features and Lemma KR on samples of them), samp (pure n = 4 and n = 5, random profiles), hill (hill-climbing against RK), H (cores H_t), suite,
-# rules (explicit rules against rule F, n = 3), check (second implementation of Lemma K), attempts, btrk (a big-top
+# rules (explicit rules against rule F, n = 2 and n = 3 with m <= 5), check (second implementation of Lemma K), attempts, btrk (a big-top
 # agent first, else RK), bigtop (a big-top agent first, else a static fallback; the failures of the fallback).
 set -u
 cd "$(dirname "$0")/.."
@@ -32,7 +32,8 @@ btrk)
 bigtop)
   python3 k4/rulef_run.py results/k4_certs_3.json.gz -A42 -Q0 -r1 > $R/bt_n3.log
   python3 k4/rulef_run.py results/k4_certs_3.json.gz -A42 -Q1 -r1 > $R/bt1_n3.log
-  python3 k4/rulef_run.py results/k4_certs_3.json.gz -A42 -Q3 -r1 > $R/bt3_n3.log
+  python3 k4/rulef_run.py results/k4_certs_3.json.gz results/k4_certs_4_n4_1.json.gz results/k4_certs_4_n4_2.json.gz -A42 -Q3 -r1 > $R/bt3_n34.log
+  python3 k4/rulef_run.py results/k4_certs_3.json.gz results/k4_certs_4_n4_1.json.gz results/k4_certs_4_n4_2.json.gz -A42 -Q4 -r1 > $R/bt4_n34.log
   python3 k4/rulef_bigtop.py results/k4_certs_3.json.gz > $R/bigtop_fallback_n3.log ;;
 samp)
   python3 k4/rulef_run.py results/k4_certs_4_pure.json.gz -A41 -r1 -S20000 -D1 --data=$D/open_pure4.txt --checkpoint=$CK/rk_pure4.jsonl > $R/rk_pure4_sample.log
@@ -50,7 +51,8 @@ H)
 suite)
   python3 k4/suite/run.py --pred=k4/rulef_suite.py:rule_rk --pred=k4/rulef_suite.py:lemma_k0 --timeout=900 > $R/suite_rk.log ;;
 rules)
-  for m in 4 5 6; do
+  python3 k4/rulef_run.py results/k4_certs_2.json.gz -A40 -C3 -r1 > $R/rules_n2.log
+  for m in 4 5; do
     python3 k4/rulef_run.py results/k4_certs_3.json.gz --m=$m -A40 -C3 -r1 -D6 --data=$D/rules_n3_m$m.txt --checkpoint=$CK/rules_n3_m$m.jsonl > $R/rules_n3_m$m.log
   done ;;
 check)
