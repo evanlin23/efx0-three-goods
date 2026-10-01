@@ -45,7 +45,7 @@ Each failure has the same shape: the instance has a completable pre-allocation, 
 
 | rank | target statement | implies TARGET₄ through (Lean) | proof architecture | status |
 |---|---|---|---|---|
-| **1** | **Conjecture DL₂** (§3): at the fewest frozen agents the removal-only deficit has no local minimum above 0 for exchanges of at most two agents' bases | DL₂ ⟹ C₄ᵐⁱⁿ (removal-only) by finite descent (to formalize; `EFX.C4min.DeficitLE` is the deficit), then `EFX.C4min.target4_of_C4minROConn` (K4.C4MIN.FRAME; connected cores, as in the evidence); the descent is not yet machine-checked | one potential, the deficit itself (no proxy); moves unrestricted in form but of size ≤ 2; a case analysis over the covering obstruction of Lemma H1 (augmenting-path style) | CONJECTURE. k* ≤ 2 on every core of the suite with n ≤ 6 (H₂, H₅ not run) and on 24,314 sampled gap profiles with n ≤ 5; k* = 3 only on the non-core LIL instance |
+| **1** | **Conjecture DL₂** (§3): at the fewest frozen agents the removal-only deficit has no local minimum above 0 for exchanges of at most two agents' bases | DL₂ ⟹ C₄ᵐⁱⁿ (removal-only) by descent on the deficit (`EFX.C4min.DeficitLE`), then `EFX.C4min.target4_of_C4minROConn` (K4.C4MIN.FRAME; connected cores, as in the evidence); the descent is machine-checked for every neighbourhood relation (K4.STRAT.DL2.LEAN, `EFX.C4min.target4_of_defLocal2`) | one potential, the deficit itself (no proxy); moves unrestricted in form but of size ≤ 2; a case analysis over the covering obstruction of Lemma H1 (augmenting-path style) | CONJECTURE. k* ≤ 2 on every core of the suite with n ≤ 6 (H₂, H₅ not run) and on 24,314 sampled gap profiles with n ≤ 5; k* = 3 only on the non-core LIL instance |
 | 2 | LB₄ʳ with rule F and at most one rotation (#44, K4.AD.*; "some first agent, every continuation", K4.AD.C1) | `EFX.LB4R.Succeeds` (K4.C4.FRAME) with a first agent chosen per profile (a C₄∃-type statement) | the k = 3 architecture that worked: Phase 1 counting (A₄⁺ᴺ) plus one rotation (B₄), with the global choice of the first agent | CONJECTURE. #44 found no failure on 3.6·10¹⁰ exhaustive profiles (n ≤ 4, ≤ 3 four-good agents). It succeeds, with at most one rotation, on all 148 core instances of the suite that it was run on; H₅ is covered by #44's Proposition H′ (`results/k4_strategy/suite_rulef.log`) |
 
 **Recommendation.** Put the next proof effort on DL₂. It is the only candidate found that climbs the quantity C₄ᵐⁱⁿ
@@ -258,7 +258,8 @@ for every min-frozen P), every P ∈ 𝒫 with the fewest frozen agents and def(
 pre-allocation of least deficit in it cannot have def > 0 by DL₂, so it is removal-only completable. On
 connected cores this is `C4minROConn`, and TARGET₄ follows by `EFX.C4min.target4_of_C4minROConn`. (The unrestricted
 `TheoremC4minRO`, for `target4_of_C4minRO`, would need DL₂ on every core, connected or not.) So DL₂ would imply
-TARGET₄; the descent is not yet machine-checked (item 27, step 4).
+TARGET₄. The descent is machine-checked (`lean/EFX/C4minDescent.lean`, K4.STRAT.DL2.LEAN): it descends on the integer
+deficit and needs only that the min-frozen class is nonempty, for any neighbourhood relation R (`target4_of_defLocal`).
 
 *Why this and not another potential.* Every counterexample in the suite defeats a proxy: a potential that is maximal
 at a non-completable P while the deficit is not minimal there. DL₂ climbs the deficit itself. It asserts only that the
