@@ -10,7 +10,9 @@ common: [--dump=PATH.jsonl.gz] [--rep=R] (dump every R-th one-needer T3-stage st
 
 certs: every strict profile (check4.core_domains) of every core of a certificate file, or P random ones per core with
 k4/dlrt4.c's generator (seeded by --seed and the core's position); --bt=all restricts every 4-good agent to its big-top
-types; --every=E takes every E-th core. catalog: the profiles of a k4/gap_run.py catalogue. One k4/oneneeder.c process
+types; --every=E takes every E-th core. --target: instead, one block per (x, z, g) with g a good valued by exactly two
+agents x, z and |R_x| = 4: x restricted to its big-top types with top g, z to its types with top g (the shape of the
+one-needer regime: only z can need g); P random profiles per block. catalog: the profiles of a k4/gap_run.py catalogue. One k4/oneneeder.c process
 at a time (one CPU). Prints the command, the SHA-256 of k4/oneneeder.c, the counters per file and in total, and writes
 the "D" records (with the core and the values) to --dump."""
 import gzip, hashlib, json, os, subprocess, sys, tempfile, time
@@ -76,7 +78,8 @@ def main():
     fo = gzip.open(dump, 'wt') if dump and not ck else None
     tot = {}; t0 = time.time()
     if mode == 'certs':
-        ckey = {'P': P, 'seed': int(opt.get('seed', 1)), 'bt': opt.get('bt'), 'rep': int(opt.get('rep', 0)), 'sha': SHA}
+        ckey = {'P': P, 'seed': int(opt.get('seed', 1)), 'bt': opt.get('bt'), 'rep': int(opt.get('rep', 0)), 'sha': SHA,
+                'target': 'target' in opt}
         done = {}
         if ck and os.path.exists(ck):
             for l in open(ck):
@@ -92,14 +95,29 @@ def main():
                 if (os.path.basename(f), k) in done:
                     add(ftot, done[(os.path.basename(f), k)]); nd += 1; continue
                 c = cores[k]
-                doms = check4.core_domains(c['sets'], c['m'], False)
-                if opt.get('bt') == 'all': doms = [bt_dom(D, S) for D, S in zip(doms, c['sets'])]
+                doms0 = check4.core_domains(c['sets'], c['m'], False)
+                if opt.get('bt') == 'all': doms0 = [bt_dom(D, S) for D, S in zip(doms0, c['sets'])]
+                units = [doms0]
+                if 'target' in opt:
+                    units = []
+                    for g in range(c['m']):
+                        who = [i for i, S in enumerate(c['sets']) if g in S]
+                        if len(who) != 2: continue
+                        for x, z in (who, who[::-1]):
+                            if len(c['sets'][x]) != 4: continue
+                            d = list(doms0)
+                            d[x] = [t for t in bt_dom(doms0[x], c['sets'][x]) if max(t, key=t.get) == g]
+                            d[z] = [t for t in doms0[z] if max(t, key=t.get) == g]
+                            if d[x] and d[z]: units.append(d)
                 kt = {}; recs = []
-                for b in run(block(c['sets'], c['m'], doms, k, P), copts):
+                bl = run(''.join(block(c['sets'], c['m'], d, u, P) for u, d in enumerate(units)), copts) if units else []
+                for b in bl:
+                    doms = units[b['tag']]
                     add(kt, b['K'])
                     for d in b['D']:
                         d['vals'] = [[D[p][g] for g in S] for S, D, p in zip(c['sets'], doms, d['prof'])]
                         d['core'] = {'file': os.path.basename(f), 'pos': k, 'idx': c.get('idx', k), 'm': c['m'], 'sets': c['sets']}
+                        d['unit'] = b['tag']
                         recs.append(d)
                         if d['why'] != 'sample': print('# ' + json.dumps(d, separators=(',', ':')), flush=True)
                 if fo:

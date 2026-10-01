@@ -155,11 +155,11 @@ static int optindex(int i, msk B) { for (int t = 0; t < nopt[i]; t++) if (opt[i]
 
 /* ---------- counters ---------- */
 enum { C_PROF, C_F1, C_ST, C_T3S, C_T3S1, C_T3SM, C_BT, C_NBT, C_D1, C_SX1, C_SX1O, C_SX1Z, C_NOSX1, C_U, C_C3, C_NOC3,
-       C_C3N, C_C3O, C_C3Y, C_T3, C_NOT3, C_NOT3ANY, C_TWIN, C_ZBT, C_DEF2, NC };
+       C_C3N, C_C3O, C_C3Y, C_T3, C_NOT3, C_NOT3ANY, C_TWIN, C_ZBT, C_DEF2, C_RC, C_RE, C_RCE, C_RNONE, NC };
 static const char *CNAME[NC] = {"prof", "f1om1", "states", "t3stage", "t3stage_1needer", "t3stage_more_needers", "bt",
     "not_bt", "def1", "sx1", "sx1_o_not_z", "sx1_o_is_z", "no_sx1", "u_at_best", "c3", "no_c3", "c3_nohelper",
     "c3_helper_best", "c3_helper_other", "t3move", "no_t3move_1needer", "no_t3move_any_t3stage", "twin", "z_bigtop",
-    "def_ge2"};
+    "def_ge2", "propC", "escape", "propC_or_escape", "no_rule"};
 static long CNT[NC];
 
 static void pmaskj(FILE *f, msk M) { int first = 1; fputc('[', f); for (int g = 0; g < MAXM; g++) if (M >> g & 1) { fprintf(f, first ? "%d" : ",%d", g); first = 0; } fputc(']', f); }
@@ -274,12 +274,88 @@ static int sx1test(long p, int z, int *uflag) {
     return res;
 }
 
+/* the two constructions of k4/oneneeder.md section 4 at the x-alone triples of P: bit 1 Proposition C (o = z, u = 0, and Y
+   safe for z, or z big-top with L_z != L, or L_z = L and omega = 2); bit 2 an escape of o != z (a need-free B' inside
+   (Y + Rest) minus L, Rest = (J minus Y) + B_z, with |B' cap Y| <= 1, B' missing a good of B_o or B' = B_o = one good
+   outside L, and Y minus B' not threatening o holding B'). Each construction's swap is checked: Z threatens nobody in P'
+   and def(P') <= omega + 1 - |Z| for the swapped state looked up in the class. */
+static int swapcheck(long p, int x, int z, int h, msk Bh, msk Z) {
+    const unsigned char *ia = PP + p * MAXN; int g = PI[p].g;
+    int hold[MAXN]; for (int w = 0; w < n; w++) hold[w] = optv[w][ia[w]];
+    hold[z] = v[z][g]; if (h >= 0) hold[h] = val(h, Bh);
+    for (int w = 0; w < n; w++) if (w != x && threat(w, Z, hold[w])) return 0;
+    msk A = BIT(rk[x][1]) | BIT(rk[x][2]);
+    unsigned char ib[MAXN]; memcpy(ib, ia, MAXN);
+    ib[z] = (unsigned char)optindex(z, BIT(g)); ib[x] = (unsigned char)optindex(x, A);
+    if (h >= 0) ib[h] = (unsigned char)optindex(h, Bh);
+    long q = hfind(pkey(ib));
+    if (q < 0) { fprintf(stderr, "swap not in the class (tag %d)\n", tag); exit(3); }
+    if (PI[q].def > omega + 1 - pc(Z)) { fprintf(stderr, "Corollary 8.2 bound violated in rules (tag %d)\n", tag); exit(3); }
+    return 1;
+}
+static int rules(long p, int z) {
+    const unsigned char *ia = PP + p * MAXN; const pinfo_t *a = &PI[p];
+    int x = a->x, g = a->g; msk B[MAXN], N[MAXN]; int hv[MAXN];
+    for (int i = 0; i < n; i++) { B[i] = opt[i][ia[i]]; N[i] = optN[i][ia[i]]; hv[i] = optv[i][ia[i]]; }
+    if (!bigtop[x] || topg[x] != g) return 0;
+    msk L = Rm[x] & ~BIT(g);
+    int res = 0;
+    for (int o = 0; o < n; o++) {
+        if ((a->F >> o & 1) || a->val[o] != a->V) continue;
+        msk NAo = 0; for (int j = 0; j < n; j++) if (j != o) NAo |= N[j];
+        msk J = a->J;
+        for (msk K = J;; K = (K - 1) & J) {
+            msk X = B[o] | K; int ok = 1;
+            for (int w = 0; w < n && ok; w++) if (w != o && threat(w, X, hv[w])) ok = 0;
+            if (ok) {
+                msk NA2 = NAo | needs(o, X); int u = 0;
+                for (int j = 0; j < n; j++) if (j != o && (a->F >> j & 1) && !(B[j] & NA2)) u++;
+                if (pc(X) + u == a->V) {
+                    msk C = J & ~X;
+                    for (int c = 0; c < MAXM; c++) if (C >> c & 1) {
+                        msk Y = X | BIT(c); int onlyx = threat(x, Y, hv[x]);
+                        for (int w = 0; w < n && onlyx; w++) if (w != o && w != x && threat(w, Y, hv[w])) onlyx = 0;
+                        if (!onlyx) continue;
+                        if (o == z) {
+                            if (u) continue;
+                            if (!threat(z, Y, v[z][g])) { if (!swapcheck(p, x, z, -1, 0, Y)) { fprintf(stderr, "Prop C (Y) fails (tag %d)\n", tag); exit(3); } res |= 1; continue; }
+                            if (!(bigtop[z] && topg[z] == g)) { fprintf(stderr, "Corollary B2 violated (tag %d)\n", tag); exit(3); }
+                            msk Lz = Rm[z] & ~BIT(g);
+                            if (Lz != L) {
+                                int l = ctz(Lz & ~L);
+                                if (!swapcheck(p, x, z, -1, 0, Y & ~BIT(l))) { fprintf(stderr, "Prop C (Y - l) fails (tag %d)\n", tag); exit(3); }
+                                res |= 1;
+                            } else if (omega == 2) {
+                                if (!swapcheck(p, x, z, -1, 0, L)) { fprintf(stderr, "Prop C (twin) fails (tag %d)\n", tag); exit(3); }
+                                res |= 1;
+                            }
+                        } else {
+                            msk Rest = (J & ~Y) | B[z];
+                            msk reg = (Y | Rest) & ~L & Rm[o] & ~BIT(g);
+                            for (msk S = reg; S; S = (S - 1) & reg) {
+                                if (pc(S) > 2 || pc(S & Y) > 1 || needs(o, S)) continue;
+                                int helper = (B[o] & ~S) != 0;
+                                if (!helper && !(S == B[o] && !(L & B[o]) && pc(B[o]) == 1)) continue;
+                                if (threat(o, Y & ~S, val(o, S))) continue;
+                                if (!swapcheck(p, x, z, helper ? o : -1, helper ? S : 0, Y & ~S)) { fprintf(stderr, "escape swap fails (tag %d)\n", tag); exit(3); }
+                                res |= 2; break;
+                            }
+                        }
+                    }
+                }
+            }
+            if (!K) break;
+        }
+    }
+    return res;
+}
+
 static void dump(long p, int z, const char *why, int fl[8]) {
     const pinfo_t *a = &PI[p];
     printf("D {\"tag\":%d,\"prof\":[", tag); for (int i = 0; i < n; i++) printf(i ? ",%d" : "%d", cur[i]);
     printf("],\"why\":\"%s\",\"B\":", why); pbases(stdout, PP + p * MAXN);
     printf(",\"def\":%d,\"V\":%d,\"omega\":%d,\"x\":%d,\"g\":%d,\"z\":%d,\"J\":", a->def, a->V, omega, a->x, a->g, z); pmaskj(stdout, a->J);
-    printf(",\"bt\":%d,\"sx1\":%d,\"u\":%d,\"c3\":%d,\"c3Z\":%d,\"t3\":%d,\"twin\":%d}\n", fl[0], fl[1], fl[2], fl[3], fl[4], fl[5], fl[6]);
+    printf(",\"bt\":%d,\"sx1\":%d,\"u\":%d,\"c3\":%d,\"c3Z\":%d,\"t3\":%d,\"twin\":%d,\"rules\":%d}\n", fl[0], fl[1], fl[2], fl[3], fl[4], fl[5], fl[6], fl[7]);
 }
 
 static long nrep = 0;
@@ -346,6 +422,10 @@ static void profile(void) {
         fl[5] = t3; if (t3) CNT[C_T3]++; else CNT[C_NOT3]++;
         fl[6] = Rm[z] == Rm[x]; if (fl[6]) CNT[C_TWIN]++;
         if (bigtop[z] && topg[z] == g) CNT[C_ZBT]++;
+        fl[7] = rules(p, z);
+        if (fl[7] & 1) CNT[C_RC]++;
+        if (fl[7] & 2) CNT[C_RE]++;
+        if (fl[7]) CNT[C_RCE]++; else CNT[C_RNONE]++;
         const char *why = 0;
         if (!fl[0]) why = "x not big-top";
         else if (a->def != 1) why = "def != 1";
@@ -353,6 +433,7 @@ static void profile(void) {
         else if (!fl[3]) why = "Corollary 8.2 fails";
         else if (!t3) why = "no T3 move";
         else if (fl[6]) why = "twin";
+        else if (!fl[7]) why = "no rule";
         else if (RR > 0 && nrep++ % RR == 0) why = "sample";
         if (why) dump(p, z, why, fl);
     }

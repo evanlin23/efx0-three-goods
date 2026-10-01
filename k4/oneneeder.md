@@ -110,7 +110,22 @@ P′ (the other agents keep their needs). Y threatens no agent w ∉ {x, z} hold
   so c ∈ L and Z := L is a safe bundle of x in P′ (it is not a proper superset of L_z = L, and L ⊆ Y), with
   |Z| = 3 = ω + 1: def(P′) ≤ 0. ∎
 
-The cases u_z(X) = 1, R_z = R_x with ω ≥ 3, and best owners o ≠ z are treated in §5 (to come).
+**Proposition D (an escape for the owner).** Let P be at the T3 stage (f = 1), x big-top, z the only needer of g, and
+(o, X, c) an x-alone triple with o ≠ z; Y := X ∪ {c} and Rest := (J ∖ Y) ∪ B_z. An *escape* of o is a need-free base
+B′ ⊆ ((Y ∖ L) ∪ Rest) ∩ R_o (so g ∉ B′) with |B′ ∩ Y| ≤ 1 and θ_o(Y ∖ B′) ≤ v_o(B′), such that B_o ⊄ B′ (o is the
+helper) or B′ = B_o is a single good outside L (no helper). If o has an escape B′, the swap (z takes {g}, x takes A,
+o takes B′) gives def(P′) ≤ 0 < def(P), with x's bundle Z := Y ∖ B′.
+
+*Proof.* def(P) = 1 and |X| = ω + 1 by Lemma A (u_o(X) = 0: z ≠ o needs g), so |Y| = ω + 2 and L ⊆ Y ⊆ B_o ∪ J. Let
+G := J ∪ B_z ∪ B_o. Then L ⊆ G (with no helper, L ∩ B_o = ∅ gives L ⊆ J ⊆ J ∪ B_z), B′ ⊆ G ∖ L is need-free (admissible
+and g ∉ N_o(B′)), and the helper gives up a good of B_o: Corollary 8.2's hypotheses on x, z, A and the helper hold.
+Z = Y ∖ B′ satisfies A ⊆ L ⊆ Z ⊆ G ∖ B′, so it is a bundle of x in P′. It is safe in P′: it threatens no w ∉ {x, z, o}
+(Z ⊆ Y, x-alone triple); it misses B_z ≠ ∅ (Z ⊆ B_o ∪ J), so it does not threaten z holding {g} (Corollary B2); and it
+does not threaten o holding B′ (escape). |Z| = ω + 2 − |B′ ∩ Y| ≥ ω + 1, and Corollary 8.2 gives
+def(P′) ≤ ω + 1 − |Z| ≤ 0. ∎
+
+So, given an x-alone triple, the content of the one-needer regime is whether the owner o (if o ≠ z) has an escape.
+The cases u_z(X) = 1 and R_z = R_x with ω ≥ 3 of Proposition C, and triples without an escape, are discussed in §5.
 
 ## 6. Data (EVIDENCE)
 
