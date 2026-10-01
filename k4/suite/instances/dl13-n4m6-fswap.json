@@ -55,7 +55,7 @@
   "pr": 74,
   "branch": "compute/k4-dl13 (the n = 4 runs of compute/k4-dl13-n4, merged into it)",
   "files": [
-   "attempts/k4-dl13-refuted.md",
+   "attempts/k4-dl13-frozen-swap.md",
    "attempts/k4_dl13_refuted.py",
    "k4/dl13.c",
    "results/k4_dl13/n4_1.log",
@@ -71,7 +71,7 @@
    "smallest": true
   },
   {
-   "statement": "Conjecture DL_T (k4/dl2.md §3): the same with (T2) rotations of free agents allowed as well; none of the improvements keeps the key or is a role swap with at most one helper (this PR does not change the row's status; it belongs to proof/k4-dl2-k1)",
+   "statement": "Conjecture DL_T (k4/dl2.md §3): the same with (T2) rotations of free agents allowed as well; none of the improvements keeps the key or is a role swap with at most one helper (K4.DL2.T REFUTED by #74; DL_T still holds at f = 0 by Theorem Z)",
    "ledger": "K4.DL2.T",
    "smallest": true
   }
