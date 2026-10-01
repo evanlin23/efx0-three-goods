@@ -4,7 +4,9 @@ is in class K0 or K1 of rule RK. A profile where that number is 0 refutes Lemma 
 
 Evaluation: k4/rulef_hunt_eval.c, which #includes k4/rulef.c unchanged and applies its own Lemma K / one-rotation tests
 to every first agent (as rulef.c -A41 -E1; options -Y1: kept-out sets of Remark 4, i.e. Lemma K itself, default on;
--N1: RK3's third policy). One persistent evaluator process per worker; profiles are sent in batches.
+-T1: K1 as Lemma K's text counts slots (a rotated agent with a one-good base has one; rulef.c's k1_run gives it none),
+default on, -T0 for rulef.c's k1_run; -N1: RK3's third policy). One persistent evaluator process per worker; profiles
+are sent in batches.
 
 Objective (lexicographic, minimized; --key=M, the default): key = (nwork, -mindef, nK0, -sumdef), where nwork =
 |K0 ∪ K1| over the first agents, mindef = least Lemma K deficit over all first agents and policies (clamped to [-3, 12]:
@@ -28,6 +30,8 @@ Usage:
                 [--first=K] [--every=K] [--evals=E] [--jobs=J] [--seed=S] [-Y0] [-N1]   the selected cores (every K-th,
                 the first K), E evaluations each
   rulef_hunt.py RUN --seeds=JSONL [--evals=E] ...      each {"sets", "vals", "tag"} line: its core, starting at it
+Search options: --key=M|R|S|W|E (below), --samep=P (ranking-preserving redraws), --kick=P (a restart starts from two
+redraws of the best profile so far with probability P; default: every third restart).
 The run writes (resumable: rerun the same command) results/k4_rulef_hunt/ck/RUN.jsonl (one line per finished unit) and
 results/k4_rulef_hunt/tight_RUN.jsonl.gz (every profile with nwork <= 1, details included). The log goes to stdout."""
 import gzip, hashlib, itertools, json, math, os, random, subprocess, sys, tempfile, time
@@ -44,6 +48,7 @@ SHA = hashlib.sha256(open(SRC, 'rb').read()).hexdigest()
 ESHA = hashlib.sha256(open(EVAL_SRC, 'rb').read()).hexdigest()
 BIN = os.path.join(tempfile.gettempdir(), 'k4_rulef_hunt_' + hashlib.sha256((SHA + ESHA).encode()).hexdigest()[:16])
 B, R0, STAG = 48, 96, 25
+KICK = None                               # --kick=P: a restart kicks the best profile so far with probability P
 SAMEP = 0.0                               # --samep=P: probability of a ranking-preserving redraw
 SAEV = 4000                               # evaluations per annealing restart (--key=E)
 
@@ -119,9 +124,9 @@ OPTS = None
 KEY = 'M'
 
 
-def init(opts, key='M', samep=0.0):
-    global EV, OPTS, KEY, SAMEP
-    OPTS, KEY, SAMEP = opts, key, samep
+def init(opts, key='M', samep=0.0, kick=None):
+    global EV, OPTS, KEY, SAMEP, KICK
+    OPTS, KEY, SAMEP, KICK = opts, key, samep, kick
     EV = Evaluator(opts)
 
 
@@ -193,7 +198,7 @@ def unit(task):
     while EV.nev - nev0 < evals:
         if restarts == 0 and start is not None:
             profs = [start]
-        elif best is not None and restarts % 3 == 2:
+        elif best is not None and (rng.random() < KICK if KICK is not None else restarts % 3 == 2):
             profs = [mutate(rng, mutate(rng, best[0], doms), doms) for _ in range(B)]
         else:
             profs = [tuple(rng.randrange(len(D)) for D in doms) for _ in range(R0)]
@@ -218,8 +223,8 @@ def unit(task):
         det = EV.detail(p)
         tl.append({'unit': uid, **meta, 'sets': sets, 'm': m, 'vals': vals_of(sets, doms, p), 'types': list(p),
                    'nwork': r[1], 'nK0': r[2], 'cls': r[3], 'def': r[4], 'detail': det})
-    return {'unit': uid, **meta, 'm': m, 'n': len(sets), 'evals': EV.nev - nev0, 'restarts': restarts,
-            'best_key': list(best[1]), 'best_nwork': best[2], 'best_types': list(best[0]), 'best_vals': vals_of(sets, doms, best[0]),
+    return {'unit': uid, **meta, **({} if 'file' in meta else {'sets': sets}), 'm': m, 'n': len(sets),
+            'evals': EV.nev - nev0, 'restarts': restarts, 'best_key': list(best[1]), 'best_nwork': best[2], 'best_types': list(best[0]), 'best_vals': vals_of(sets, doms, best[0]),
             'hist': hist, 'ntight': len(tight), 'extra_types': extra, 'time': round(time.time() - t0, 2)}, tl
 
 
@@ -293,8 +298,8 @@ def finish(uid, meta, sets, m, doms, tight, best, hist, restarts, extra, nev0, t
         det = EV.detail(p)
         tl.append({'unit': uid, **meta, 'sets': sets, 'm': m, 'vals': vals_of(sets, doms, p), 'types': list(p),
                    'nwork': r[1], 'nK0': r[2], 'cls': r[3], 'def': r[4], 'detail': det})
-    return {'unit': uid, **meta, 'm': m, 'n': len(sets), 'evals': EV.nev - nev0, 'restarts': restarts,
-            'best_key': list(best[1]), 'best_nwork': best[2], 'best_types': list(best[0]),
+    return {'unit': uid, **meta, **({} if 'file' in meta else {'sets': sets}), 'm': m, 'n': len(sets),
+            'evals': EV.nev - nev0, 'restarts': restarts, 'best_key': list(best[1]), 'best_nwork': best[2], 'best_types': list(best[0]),
             'best_vals': vals_of(sets, doms, best[0]), 'hist': hist, 'ntight': len(tight), 'extra_types': extra,
             'time': round(time.time() - t0, 2)}, tl
 
@@ -320,9 +325,11 @@ def main():
     seed = arg(args, 'seed', 1, int)
     key = arg(args, 'key', 'M')
     samep = arg(args, 'samep', 0.0, float)
+    kick = arg(args, 'kick', None, float)
     opts = [a for a in args[1:] if a.startswith('-') and not a.startswith('--')]
     if not any(o.startswith('-Y') for o in opts): opts.append('-Y1')
     if not any(o.startswith('-r') for o in opts): opts.append('-r2')
+    if not any(o.startswith('-T') for o in opts): opts.append('-T1')
     if key in 'RE' and '-K1' not in opts: opts += ['-K1', '-c30']
     build()
     os.makedirs(os.path.join(OUT, 'ck'), exist_ok=True)
@@ -330,7 +337,7 @@ def main():
     dump = os.path.join(OUT, f'tight_{run}.jsonl.gz')
     print('# command: python3 k4/rulef_hunt.py ' + ' '.join(args), flush=True)
     print(f'# k4/rulef.c sha256 {SHA}', flush=True)
-    print(f'# k4/rulef_hunt_eval.c sha256 {ESHA}; evaluator options {" ".join(opts)}; B={B} R0={R0} STAG={STAG}; key {key}; samep {samep}',
+    print(f'# k4/rulef_hunt_eval.c sha256 {ESHA}; evaluator options {" ".join(opts)}; B={B} R0={R0} STAG={STAG}; key {key}; samep {samep}; kick {kick}',
           flush=True)
     tasks = []
     if arg(args, 'seeds'):
@@ -374,7 +381,7 @@ def main():
           f'jobs {jobs}', flush=True)
     t0 = time.time()
     nd = 0; tev = 0; ntl = 0; bestk = None; besthist = {}
-    with Pool(jobs, initializer=init, initargs=(opts, key, samep)) as pool, open(ckp, 'a') as fc:
+    with Pool(jobs, initializer=init, initargs=(opts, key, samep, kick)) as pool, open(ckp, 'a') as fc:
         for rec, tl in pool.imap_unordered(unit_sa if key == 'E' else unit, todo, chunksize=1):
             nd += 1; tev += rec['evals']
             k = rec['best_nwork']; besthist[k] = besthist.get(k, 0) + 1

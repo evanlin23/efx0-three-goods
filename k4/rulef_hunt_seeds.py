@@ -3,6 +3,8 @@
   rulef_hunt_seeds.py H OUT        H_1 (k4/adaptive_H.py, n = 5, m = 13) under all 120 orders of its agents, and H_2
                                    (n = 9) under 8 random agent-and-goods relabelings (k4/adaptive_H.py relabel, seed 1)
   rulef_hunt_seeds.py suite OUT    every complete, strict k = 4 core instance of k4/suite/instances with 4 <= n <= 9
+  rulef_hunt_seeds.py best OUT K CK..  the best profile of every unit of the checkpoint files CK (k4/rulef_hunt.py
+                                   ck/RUN.jsonl) with best_nwork <= K, least nwork first
   rulef_hunt_seeds.py tight OUT F.. the profiles of the dumps F (tight_*.jsonl.gz) with nwork <= 1, one per core
                                    (the one with the least key), to search around them
 The relabeling of agents matters to rule RK (index order after the first agent); of goods it does not (strict types)."""
@@ -33,6 +35,22 @@ def main():
             r = json.load(open(f))
             if 'kind' in r or not r.get('is_core') or not r.get('strict') or not 4 <= r['n'] <= 9: continue
             rows.append({'sets': r['sets'], 'vals': r['vals'], 'tag': 'suite ' + r['id']})
+    elif what == 'best':
+        K = int(sys.argv[3]); recs = []
+        cache = {}
+        for f in sys.argv[4:]:
+            for line in open(f):
+                r = json.loads(line)
+                if r['best_nwork'] > K: continue
+                if 'file' in r:
+                    if r['file'] not in cache:
+                        cache[r['file']] = json.load(gzip.open(os.path.join(HERE, '..', 'results', r['file']), 'rt'))['cores']
+                    sets = cache[r['file']][r['core']]['sets']
+                else:
+                    sets = r['sets']
+                recs.append((r['best_nwork'], r['best_key'], {'sets': sets, 'vals': r['best_vals'], 'tag': 'best ' + r['unit']}))
+        recs.sort(key=lambda z: (z[0], z[1]))
+        rows = [z[2] for z in recs]
     elif what == 'tight':
         best = {}
         for f in sys.argv[3:]:

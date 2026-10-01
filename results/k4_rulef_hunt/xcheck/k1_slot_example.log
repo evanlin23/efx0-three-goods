@@ -1,0 +1,3 @@
+# command: python3 k4/rulef_hunt_check.py results/k4_rulef_hunt/xcheck/k1_slot_example.jsonl --nwork=5 --jobs=1
+k4_certs_5_n4_4.json.gz:7942 nwork C=2 python=5 classes C=[0, 9, 9, 0, 9] python=[0, 1, 1, 0, 1] RK3 python=[0, 1, 1, 0, 1] deficits(shrink,envyFree,none)=[['neg', '-2', '-2'], ['1', '1', '1'], ['1', '1', '1'], ['neg', '-2', '-2'], ['1', '1', '1']] DISAGREE witness failures 0 time 0.0s sets=[[0, 2, 4, 6], [1, 3, 5, 9], [2, 4, 5, 9], [3, 7, 8, 9], [6, 7, 8]] vals=[[2, 4, 3, 8], [4, 2, 10, 7], [4, 5, 8, 6], [3, 2, 4, 8], [4, 2, 3]]
+# profiles 1: classes agree 0, disagree 1, witness failures 0, no first agent in K0 or K1 by the second implementation: 0

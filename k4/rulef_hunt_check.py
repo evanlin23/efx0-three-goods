@@ -5,8 +5,8 @@ of Remark 4, as rulef_hunt's default -Y1):
   K0: deficit_K(state after Phase 1(tau_a) and upgrades of pol) <= 0 for pol = shrink or envyFree (omega <= 0 included);
   K1: rot_deficit_K(that state) <= 0 (some single RotStep reaches a state of deficit <= 0) for one of those policies;
   and, for RK3 (rulef.c -N1), the same with pol = none.
-Every deficit <= 0 found at a non-rotated state gets its completion built (witness_K) and checked by lb4r.output_check
-(Output of LB4R.lean) and the raw EFX0 definition.
+Every deficit <= 0 found (at the state, or at the best state one RotStep reaches) gets its completion built (witness_K)
+and checked by lb4r.output_check (Output of LB4R.lean, owner's needs from the bundle) and the raw EFX0 definition.
 Compares with the classes the dump records (cls, from k4/rulef_hunt_eval.c) and prints one line per profile.
 Usage: rulef_hunt_check.py DUMP.jsonl.gz [...] [--max=N] [--nwork=K] (profiles with nwork <= K, default 1) [--jobs=J]"""
 import gzip, json, os, sys, time
@@ -35,7 +35,12 @@ def classes(o):
                     bad += 1
                 r['k1_' + pol] = None
             else:
-                r['k1_' + pol] = RM.rot_deficit_K(inst, s)[0] <= 0
+                d1, arg = RM.rot_deficit_K(inst, s)
+                r['k1_' + pol] = d1 <= 0
+                if d1 <= 0:              # the completion at the rotated state, checked like the others
+                    o_, X = RM.witness_K(inst, arg[0])
+                    if not ((o_ is None or M.output_check(inst, arg[0], o_, X, 'bundle')) and RM.check_efx0(inst, X)):
+                        bad += 1
         k0 = r['d_shrink'] <= 0 or r['d_envyFree'] <= 0
         k1 = (not k0) and bool(r['k1_shrink'] or r['k1_envyFree'])
         k03 = k0 or r['d_none'] <= 0
