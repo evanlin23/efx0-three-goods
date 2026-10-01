@@ -130,7 +130,7 @@ def main():
     build()
     rec = int(opt.get('rec', 0)); jobs = int(opt.get('jobs', 2))
     copts = [f'-r{rec}', f"-q{int(opt.get('rec2', 1))}"]
-    dumpf = gzip.open(opt['dump'], 'at') if 'dump' in opt else None
+    dumped = []
     tot = {}
     t0 = time.time()
     if mode == 'certs':
@@ -157,8 +157,7 @@ def main():
                     for d in b['D']:
                         c = cores[tag]
                         d['core'] = {'file': os.path.basename(f), 'pos': tag, 'idx': c.get('idx', tag), 'm': c['m'], 'sets': c['sets']}
-                        if dumpf: dumpf.write(json.dumps(d, separators=(',', ':')) + '\n')
-                    if dumpf: dumpf.flush()
+                    dump_write(opt.get('dump'), b['D'])          # one complete gzip member per core, before the checkpoint
                     if ck:
                         with open(ck, 'a') as fo:
                             fo.write(json.dumps({'file': os.path.basename(f), 'pos': tag, 'P': P, 'seed': seed, 'secs': round(secs, 1),
@@ -223,7 +222,8 @@ def main():
                     if every <= 0 or (seen[r['kstar']] - 1) % every: continue
                 r['vals'] = [[D[p][g] for g in S] for S, D, p in zip(d['sets'], doms, r['prof'])]
                 r['core'] = {'id': d.get('id'), 'm': d.get('m') or 1 + max(g for S in d['sets'] for g in S), 'sets': d['sets']}
-                if dumpf: dumpf.write(json.dumps(r, separators=(',', ':')) + '\n')
+                dumped.append(r)
+        dump_write(opt.get('dump'), dumped)
         report(mode + (' ' + args[0] if args and mode != 'suite' else ''), tot, time.time() - t0)
         if mode in ('catalog', 'suite', 'inst', 'ht') and not P:
             print(f'# dumped: every profile with k* >= 3, every {rec}-th with k* = 1 (0: none), every {rec2}-th with k* = 2',
@@ -234,7 +234,13 @@ def main():
         json.dump({'command': 'python3 k4/dl2_run.py ' + ' '.join(argv), 'dl2_c_sha256': SHA,
                    'counters': {k: tot.get(k, 0) for k in KEYS}, 'T': tot.get('T', {}), 'A': tot.get('A', {})},
                   open(opt['tables'], 'w'), indent=0, sort_keys=True)
-    if dumpf: dumpf.close()
+
+
+def dump_write(path, recs):
+    """append the records to PATH as one complete gzip member (a killed run loses at most the member being written)"""
+    if not path or not recs: return
+    with gzip.open(path, 'at') as fo:
+        for r in recs: fo.write(json.dumps(r, separators=(',', ':')) + '\n')
 
 
 def merge_tot(tot, ftot):

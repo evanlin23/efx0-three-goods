@@ -10,6 +10,8 @@
 #   n5cat   every record of #53's n = 5 gap catalogues and hunts (f >= 1 gap profiles)
 #   n5rand P  P random strict profiles of every connected core with n = 5 (the certificate files)
 #   n6rand P CORES  P random strict profiles of every n = 6 core with one 4-good agent, and of CORES random n = 6 cores
+#   cycle N [P]  the cyclic cores of k4/dl2_cycle.py (the f = 0 rotation trap generalized to n = N), every profile
+#           with the cyclic order of top and second goods, or P random ones per core
 #   ht P    H_2 of k4/c4.md §7 with §7's values and P random strict profiles of it;  h3: H_3 with §7's values
 # Dumps (repairs_*.jsonl.gz): every profile with k* >= 3, a sample of k* = 1 and k* = 2 (rates in each command).
 # The catalogues are #53's files at 245040b, extracted read-only under k4/suite/.cache/gapbench (k4/strategy.md §4):
@@ -83,8 +85,12 @@ ht)
   python3 k4/dl2_run.py ht 2 --rec=1 --dump=$O/repairs_ht.jsonl.gz --tables=$O/tables_h2.json > $O/h2.log 2>&1
   python3 k4/dl2_run.py ht 2 --sample=$2 --seed=1 --rec=0 --rec2=1 --dump=$O/repairs_ht.jsonl.gz --tables=$O/tables_h2_rand.json > $O/h2_rand.log 2>&1
   ;;
+cycle)
+  python3 k4/dl2_cycle.py $2 --jobs=2 ${3:+--sample=$3} --dump=$O/repairs_cycle.jsonl.gz \
+    --tables=$O/tables_cycle_n$2.json > $O/cycle_n$2.log 2>&1
+  ;;
 h3)
   python3 k4/dl2_run.py ht 3 --wide --rec=1 --dump=$O/repairs_ht.jsonl.gz --tables=$O/tables_h3.json > $O/h3.log 2>&1
   ;;
-*) echo "usage: sh k4/dl2_runs.sh check|n3|n4_1|n4_2|n4rand P|n4cat|n5cat|n5rand P|n6rand P CORES|ht P|h3"; exit 2 ;;
+*) echo "usage: sh k4/dl2_runs.sh check|n3|n4_1|n4_2|n4rand P|n4cat|n5cat|n5rand P|n6rand P CORES|cycle N [P]|ht P|h3"; exit 2 ;;
 esac

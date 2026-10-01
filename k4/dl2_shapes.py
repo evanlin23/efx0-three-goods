@@ -17,6 +17,8 @@ def(P') < def(P) whose bases differ from P's in exactly k(P) agents. For each re
                 unfreezing agent, a takeN receiver, or a release; the role-swap agents form need chains
                 (receiver y of x's good g had g in N_y(P)); releases recorded with whether a released good is valued by
                 a role-swap agent ("adjacent");
+      SWAP+FREE as SWAP+REL, but every changed agent outside the role swap gives up (to the junk or to anyone) a
+                good valued by a role-swap agent ("frees"), not necessarily by a pure release;
       ROT       no agent frozen in P or P' among the changed agents, and the transfer digraph on the changed agents
                 is one directed cycle through all of them (a rotation along a cycle);
       ROT+REL   a rotation through some changed agents plus releases;
@@ -102,8 +104,14 @@ def analyse(rec):
             rot_ag = [i for i in ch if 'rot' in agents[i]['lab']]
             has_unf = any('unfreeze' in agents[i]['lab'] for i in ch)
             has_take = any('takeN' in agents[i]['lab'] for i in ch)
+            Rswap = 0
+            for j in swap_ag: Rswap |= I.R[j]
+            free_ag = [i for i in ch if i not in swap_ag and Bs[i] & ~B2[i] & Rswap]
+            for i in free_ag: agents[i]['lab'].append('frees')
             if has_unf and has_take and all(i in swap_ag or i in rel_ag for i in ch):
                 shape = 'SWAP+REL' if rel_ag else 'SWAP'
+            elif has_unf and has_take and all(i in swap_ag or i in free_ag for i in ch):
+                shape = 'SWAP+FREE'
             elif rot_ag and not any(frozen[i] or frozen2[i] for i in ch) and len(rot_ag) == len(ch) and \
                     all(len(T.get(i, ())) == 1 for i in ch):
                 shape = 'ROT'
@@ -116,8 +124,14 @@ def analyse(rec):
             for i in rel_ag:
                 relg = Bs[i] & ~B2[i]
                 adj.append(any(relg & I.R[j] for j in swap_ag + rot_ag if j != i))
+            # transfers along exposure edges: j -> i (i takes a good of B_j) with i exposed w.r.t. owner j in P
+            expset = {(o, x) for o, x, c in Prec.get('exp', [])}
+            tr = [(j, i) for j in T for i in T[j]]
+            along = sum(1 for j, i in tr if (j, i) in expset)
+            single = all(M.pc(Bs[i] & ~B2[i]) == 1 for i in rel_ag)
             reps.append({'B2': [bl(B) for B in B2], 'def2': df[B2], 'changed': ch, 'flows': flows, 'agents': agents,
-                         'shape': shape, 'swap': swap_ag, 'release': rel_ag, 'rot': rot_ag, 'release_adjacent': adj})
+                         'shape': shape, 'swap': swap_ag, 'release': rel_ag, 'rot': rot_ag, 'release_adjacent': adj,
+                         'release_single': single, 'transfers': tr, 'transfers_along_exposures': along})
         exp = Prec.get('exp', [])
         out.append({'core': rec['core'], 'vals': vals, 'prof': rec.get('prof'), 'n': n, 'm': m, 'f': I.f, 'omega': I.omega,
                     'P': Prec['B'], 'J': bl(J), 'def': d0 if d0 < INF else -1, 'k': k, 'nn': Prec.get('nn'), 'pm': Prec.get('pm'),
@@ -140,7 +154,8 @@ def main():
             if key in seen: continue             # a resumed run may have written a record twice
             seen.add(key); recs.append(r)
     print(f'profiles with k* >= 3 in the dumps: {len(recs)}', flush=True)
-    some, every = Counter(), Counter(); nP = Counter(); mism = 0; chains = Counter(); per_inst = Counter(); kk = Counter()
+    some, every = Counter(), Counter(); nP = Counter(); mism = 0; chains = Counter(); rots = Counter(); kk = Counter()
+    famc = Counter()
     other_ex = []
     with gzip.open(out, 'wt') as fo, Pool(int(opt.get('jobs', 2))) as pool:
         for res in pool.imap(analyse, recs, chunksize=4):
@@ -152,19 +167,35 @@ def main():
                 mism += t['mismatch']
                 for s in t['shapes']: some[key + (s,)] += 1
                 if len(t['shapes']) == 1: every[key + (t['shapes'][0],)] += 1
+                fam = sorted({s.split('+')[0] for s in t['shapes']})
+                famc[key + ('/'.join(fam),)] += 1
                 for r in t['repairs']:
-                    if r['shape'].startswith('SWAP'): chains[(t['n'], len(r['swap']), len(r['release']))] += 1
+                    if r['shape'].startswith('SWAP'):
+                        chains[(t['n'], len(r['swap']), len(r['release']), r['release_single'], all(r['release_adjacent']))] += 1
+                    if r['shape'].startswith('ROT'):
+                        rots[(t['n'], len(r['rot']), len(r['release']), r['transfers_along_exposures'] == len(r['transfers']))] += 1
                 if t['shapes'] == ['OTHER'] and len(other_ex) < 5: other_ex.append(t)
     print(f'trapped P (distance >= 3): {sum(nP.values())}; mismatches with dl2.c (def or k): {mism}')
     print('by (n, k): ' + ', '.join(f'n={a} k={b}: {c}' for (a, b), c in sorted(kk.items())))
     print('\n| n | f | trapped P | shape | P with some repair of this shape | P with every repair of this shape |')
     print('|---|---|---|---|---|---|')
     for key in sorted(nP):
-        for s in ['SWAP', 'SWAP+REL', 'ROT', 'ROT+REL', 'OTHER']:
+        for s in ['SWAP', 'SWAP+REL', 'SWAP+FREE', 'ROT', 'ROT+REL', 'OTHER']:
             if some[key + (s,)]:
                 print(f'| {key[0]} | {key[1]} | {nP[key]} | {s} | {some[key + (s,)]} | {every[key + (s,)]} |')
-    print('\nrole-swap repairs: (n, agents in the swap, releasing agents): count of repairs')
-    for key, c in sorted(chains.items()): print(f'  n={key[0]} swap={key[1]} release={key[2]}: {c}')
+    print('\nfamilies of the least-distance repairs of each trapped P (SWAP: SWAP, SWAP+REL, SWAP+FREE; ROT: ROT, ROT+REL)\n')
+    print('| n | f | families of its repairs | trapped P |')
+    print('|---|---|---|---|')
+    for key, c in sorted(famc.items()): print(f'| {key[0]} | {key[1]} | {key[2]} | {c} |')
+    print('\nrole-swap repairs (SWAP, SWAP+REL, SWAP+FREE): n, agents in the swap (unfreezing or taking a needed frozen good), '
+          'releasing agents, every release of one good, every release adjacent (a released good valued by a swap '
+          'agent): number of repairs')
+    for key, c in sorted(chains.items()):
+        print(f'  n={key[0]} swap={key[1]} release={key[2]} single={key[3]} adjacent={key[4]}: {c}')
+    print('\nrotations (ROT, ROT+REL): n, agents on the cycle, releasing agents, every transfer j -> i along an exposure '
+          '(i exposed w.r.t. owner j in P): number of repairs')
+    for key, c in sorted(rots.items()):
+        print(f'  n={key[0]} cycle={key[1]} release={key[2]} along_exposures={key[3]}: {c}')
     for t in other_ex:
         print('\nOTHER example:', json.dumps({k: t[k] for k in ('core', 'vals', 'P', 'J', 'def', 'k', 'exp', 'need', 'frozen')}))
         for r in t['repairs'][:3]: print('   repair', json.dumps({k: r[k] for k in ('B2', 'def2', 'flows', 'agents')}))
