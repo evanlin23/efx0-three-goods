@@ -47,4 +47,5 @@ this session lasts, with the checkpoint pushed at least every 30 minutes; the co
 
 ## Progress
 
-(updated at each push)
+Last update 2026-10-01 22:05 UTC: 0 of 54 cores finished; 5 dlrt4.c processes running.
+
