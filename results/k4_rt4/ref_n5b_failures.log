@@ -1,6 +1,6 @@
-# command: python3 k4/dlrt4_ref.py inst results/k4_rt4/n5b_failures_inst.json
-#  3 / 3 profiles: {'prof': 3, 'prof_pos': 3, 'prof_f1': 3, 'st': 39, 'st_f1': 39, 'f1_t3p': 31, 'f1_t3h': 12, 'fail_f1': 8}
+# command: python3 k4/dlrt4_ref.py inst results/k4_rt4/n5b_failures_inst.json --jobs=2
+#  7 / 7 profiles: {'prof': 7, 'prof_pos': 7, 'prof_f1': 7, 'st': 102, 'st_f1': 102, 'f1_t3p': 63, 'f1_t3h': 44, 'fail_f1': 39}
 # dlrt4.c sha256 fcde494a3161279d47a7b80e614f69c58894ebc7b40d00e461f677b8810d7cae
-profiles 3 (with a def > 0 state 3, with an f >= 1 state 3); states 39 (f = 0: 0, f >= 1: 39); DL_RT4 failures f >= 1: 8, RT4 failures f = 0: 0
-f >= 1 states with an improving move: T1 0, T2 0, T3p 31, T3h 12, T4 0; only T4 0, only T2 0
+profiles 7 (with a def > 0 state 7, with an f >= 1 state 7); states 102 (f = 0: 0, f >= 1: 102); DL_RT4 failures f >= 1: 39, RT4 failures f = 0: 0
+f >= 1 states with an improving move: T1 0, T2 0, T3p 63, T3h 44, T4 0; only T4 0, only T2 0
 mismatches: reference (model.py + dl2_relations.py + own T4) 0, reference assertions 0, dl13.c (K line and T1/T3 per state) 0 + 0, -DBIGPP=0 build 0, xcheck (dl134_xcheck.py, 0 states) -

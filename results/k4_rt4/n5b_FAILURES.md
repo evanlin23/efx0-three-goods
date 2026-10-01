@@ -8,35 +8,37 @@ workstream to weigh.
 
 **Status: written while run n5b_4bt was still running** (`k4_certs_5_n4_4 --bt=all`, 16,000 random profiles per core, seed 2). The counts
 below cover the failures found up to then; `n5b_SUMMARY.md` gives the final counts of the whole slice. Runs n5b_3 and n5b_3bt (three 4-good
-agents) have no failure; run n5b_4 (four 4-good agents, unrestricted) has 3, and run n5b_4bt (big-top restricted) has 5 so far.
+agents) have no failure; run n5b_4 (four 4-good agents, unrestricted) has 3, and run n5b_4bt (big-top restricted) has 36 so far.
 
 ## The failures
 
-| run | core (file, pos, idx, m) | sets | profile | values | failing state P | f | def(P) | nearest k |
-|---|---|---|---|---|---|---:|---:|---:|
-| n5b_4 | `k4_certs_5_n4_4`, 3206, 364, 9 | [[0,2,4,7],[1,4,7,8],[3,6,8],[5,6,7,8],[5,6,7,8]] | 108,86,1,108,27 | [[6,3,5,7],[4,2,8,7],[2,4,3],[4,8,1,6],[2,7,8,4]] | ({7}, {8}, {3}, {5}, {6}) | 3 | 1 | 3 |
-| n5b_4 | `k4_certs_5_n4_4`, 3521, 679, 9 | [[0,2,3,7],[1,6,8],[3,5,7,8],[4,5,6,8],[4,6,7,8]] | 98,1,16,17,15 | [[5,6,4,8],[2,4,3],[2,4,8,7],[2,4,10,7],[2,4,8,5]] | ({7}, {1}, {8}, {5}, {6}) | 3 | 1 | 3 |
-| n5b_4 | (same) | | | | ({7}, {1}, {8}, {4,5}, {6}) | 3 | 1 | 3 |
-| n5b_4bt | `k4_certs_5_n4_4`, 9004, 881, 11 | [[0,2,6,10],[1,5,9,10],[3,7,8,9],[4,7,8,9],[5,6,10]] | 18,10,0,16,4 | [[4,3,2,8],[2,10,3,6],[2,3,4,8],[3,4,2,8],[4,2,3]] | ({10}, {9}, {3,7}, {4,8}, {5}) | 3 | 1 | 3 |
-| n5b_4bt | (same) | | | | ({10}, {9}, {8}, {7}, {5}) | 3 | 1 | 3 |
-| n5b_4bt | (same) | | | | ({10}, {9}, {8}, {4,7}, {5}) | 3 | 1 | 3 |
-| n5b_4bt | (same) | | | | ({10}, {9}, {3,8}, {7}, {5}) | 3 | 1 | 3 |
-| n5b_4bt | (same) | | | | ({10}, {9}, {3,8}, {4,7}, {5}) | 3 | 1 | 3 |
+39 failing states in 7 profiles of 4 cores, one row per profile. Every state is one line of `n5b_failures.tsv` (file, pos, idx, m, sets,
+profile, values, bases, f, def, k); the dumps `dump_n5b_4.jsonl.gz` and `dump_n5b_4bt.jsonl.gz` hold each as a dlrt4.c "D" record
+(`"br": "none"`) with every better min-frozen state. The profile is given as indices into the domains the driver used
+(`check4.core_domains(sets, m, False)`, for n5b_4bt restricted to the big-top types of the 4-good agents), the values agent by agent in the
+order of its set. "Chains" lists the nearest moves as x(g₁) → w(g₂) → z (see below).
 
-8 failing states in 3 profiles (3 cores). The profile is given as indices into `check4.core_domains(sets, m, False)` (as in the dump; for
-n5b_4bt they index the big-top-restricted domains of `k4/dlrt4_run.py --bt=all`, the values being what count), and the values agent by agent in the
-order of its set. The same lines are in `n5b_failures.tsv`; the dumps `dump_n5b_4.jsonl.gz` and `dump_n5b_4bt.jsonl.gz` hold each failing
-state as a dlrt4.c "D" record (`"br": "none"`) with every better min-frozen state.
+| run | core pos, idx, m (`k4_certs_5_n4_4`) | sets | profile | values | failing states | f, def, NA, frozen, nearest k, # nearest | chains |
+|---|---|---|---|---|---:|---|---|
+| n5b_4 | 3206, 364, 9 | [[0,2,4,7],[1,4,7,8],[3,6,8],[5,6,7,8],[5,6,7,8]] | 108,86,1,108,27 | [[6,3,5,7],[4,2,8,7],[2,4,3],[4,8,1,6],[2,7,8,4]] | 1 | 3, 1, {6,7,8}, {0,1,4}, 3, 16 | 0(7)→1(8)→2, 0(7)→1(8)→3, 0(7)→4(6)→2, 0(7)→4(6)→3 |
+| n5b_4 | 3521, 679, 9 | [[0,2,3,7],[1,6,8],[3,5,7,8],[4,5,6,8],[4,6,7,8]] | 98,1,16,17,15 | [[5,6,4,8],[2,4,3],[2,4,8,7],[2,4,10,7],[2,4,8,5]] | 2 | 3, 1, {6,7,8}, {0,2,4}, 3, 16 | 0(7)→2(8)→1, 0(7)→2(8)→3, 0(7)→4(6)→1, 0(7)→4(6)→3 |
+| n5b_4bt | 9004, 881, 11 | [[0,2,6,10],[1,5,9,10],[3,7,8,9],[4,7,8,9],[5,6,10]] | 18,10,0,16,4 | [[4,3,2,8],[2,10,3,6],[2,3,4,8],[3,4,2,8],[4,2,3]] | 5 | 3, 1, {5,9,10}, {0,1,4}, 3, 10 | 0(10)→1(9)→2, 0(10)→1(9)→3, 4(5)→1(9)→2, 4(5)→1(9)→3 |
+| n5b_4bt | 9495, 82, 12 | [[0,2,8,11],[1,4,9,10],[3,6,9,10],[5,7,10,11],[7,8,11]] | 1,0,8,8,4 | [[2,3,6,10],[2,3,4,8],[3,2,4,8],[2,8,3,4],[4,2,3]] | 7 | 3, 1, {7,10,11}, {0,3,4}, 3, 8 | 0(11)→3(10)→1, 0(11)→3(10)→2, 4(7)→3(10)→1, 4(7)→3(10)→2 |
+| n5b_4bt | 9495, 82, 12 | (same) | 20,8,18,8,4 | [[6,2,3,10],[3,2,4,8],[4,3,2,8],[2,8,3,4],[4,2,3]] | 10 | 3, 1, {7,10,11}, {0,3,4}, 3, 8 | (same) |
+| n5b_4bt | 9495, 82, 12 | (same) | 18,0,8,8,4 | [[4,3,2,8],[2,3,4,8],[3,2,4,8],[2,8,3,4],[4,2,3]] | 7 | 3, 1, {7,10,11}, {0,3,4}, 3, 10 | (same) |
+| n5b_4bt | 9495, 82, 12 | (same) | 0,8,8,8,4 | [[2,3,4,8],[3,2,4,8],[3,2,4,8],[2,8,3,4],[4,2,3]] | 7 | 3, 1, {7,10,11}, {0,3,4}, 3, 10 | (same) |
+
+Within a profile the failing states share the frozen agents and their goods and differ only in the bases of the two free agents.
 
 ## The shape of the nearest better states
 
 `k4/dlrt4_failures.py` (new, log `n5b_failures_shapes.log`) recomputes each failing state with the suite's model (`k4/suite/model.py`), lists
-every better min-frozen state, checks that this set equals dlrt4.c's "better" list in the dump (it does for all eight), and gives the shape
-of each nearest move with `k4/dl2_relations.py`'s `shape` (U: frozen → free, Z: free → frozen, W: frozen → frozen, Y: free → free).
+every better min-frozen state, checks that this set equals dlrt4.c's "better" list in the dump (it does for all 39), and gives the shape of
+each nearest move with `k4/dl2_relations.py`'s `shape` (U: frozen → free, Z: free → frozen, W: frozen → frozen, Y: free → free).
 
-All eight failing states have f = 3, def(P) = 1, no better state at distance 1 or 2, and their nearest better states at distance 3 (16 each
-for the cores pos 3206 and 3521, 10 each for pos 9004). **Every one of these 98 nearest moves has the same shape: a chain of frozen goods
-through one frozen intermediary**, |U| = |Z| = |W| = 1, Y = ∅, NA unchanged:
+All 39 failing states have f = 3, def(P) = 1, no better state at distance 1 or 2, and 8 to 16 nearest better states at distance 3.
+**Every one of these 374 nearest moves has the same shape: a chain of frozen goods through one frozen intermediary**, |U| = |Z| = |W| = 1,
+Y = ∅, NA unchanged:
 
 - x (frozen in P, U) gives up its frozen good g₁ and becomes free (taking one or two goods of J);
 - w (frozen in P and P′, W) takes g₁ and gives up its own frozen good g₂;
@@ -46,6 +48,8 @@ So z does not take x's good itself (the role swap T3 needs P′(z) = P(x) and W 
 frozen in P and in P′). In dl2_relations.py's terms the move satisfies RC ("a chain of frozen goods, |U| = |Z| = 1, plus pure releases") and
 R3; no other relation of `dl2_relations.RELATIONS` holds for any better move of these states. It reads as a T3 role swap composed with a
 T4 transposition (x's good to z, then z ↔ w), where the intermediate state is not a better min-frozen state (there is none at distance ≤ 2).
+In every profile both free agents can play z, and either two frozen agents can play x with one w (cores 9004, 9495) or one x with two w
+(cores 3206, 3521).
 
 The smallest example, core pos 3206 (idx 364, m = 9) of `k4_certs_5_n4_4`, profile (108, 86, 1, 108, 27):
 
@@ -56,17 +60,9 @@ The smallest example, core pos 3206 (idx 364, m = 9) of `k4_certs_5_n4_4`, profi
   moves from 5 to 6 (z); NA stays {6, 7, 8}. The other 15 nearest states vary x's new base ({0}, {0,2}, {0,4}, {2,4}), the intermediary
   (agent 4 passing 6, or agent 1 passing 8) and z (agent 3, or agent 2 taking 8 or 6).
 
-Core pos 3521 (idx 679, m = 9) has the same pattern with x = agent 0 (good 7), w = agent 2 (good 8) or agent 4 (good 6), z = agent 3 or agent 1;
-its two failing states differ only in agent 3's free base ({5} or {4, 5}).
-
-Core pos 9004 (idx 881, m = 11), the big-top profile (18, 10, 0, 16, 4) of n5b_4bt: NA = {5, 9, 10}, frozen agents 0 (good 10), 1 (good 9),
-4 (good 5); the intermediary is always agent 1 (good 9): either x = agent 0 gives up 10 (for {0}, {0,2}, {0,6} or {2,6}) and agent 1 moves
-from 9 to 10, or x = agent 4 gives up 5 (for {6}) and agent 1 moves from 9 to 5; then z = agent 2 or agent 3 takes 9.
-Its five failing states differ only in the free bases of agents 2 and 3 ({3,7}/{8}/{3,8} and {4,8}/{7}/{4,7}).
-
 ## Confirmation
 
-`python3 k4/dlrt4_ref.py inst results/k4_rt4/n5b_failures_inst.json` (log `ref_n5b_failures.log`; the inst list is written by
-`k4/dlrt4_failures.py --inst`): the reference (model.py + dl2_relations.py + its own T4 test) re-derives all 39 def > 0 states of the three
+`python3 k4/dlrt4_ref.py inst results/k4_rt4/n5b_failures_inst.json --jobs=2` (log `ref_n5b_failures.log`; the inst list is written by
+`k4/dlrt4_failures.py --inst`): the reference (model.py + dl2_relations.py + its own T4 test) re-derives all 102 def > 0 states of the seven
 profiles, agrees with dlrt4.c on every field of every state (0 mismatches, 0 assertions; dl13.c and the -DBIGPP=0 build agree too), and
-finds **8 DL_RT4 failures at f ≥ 1**, the eight states above.
+finds **39 DL_RT4 failures at f ≥ 1**, the 39 states above.
