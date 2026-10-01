@@ -1,0 +1,11 @@
+# command: python3 k4/dl13_stuck.py catalog k4/suite/.cache/gapbench/results/k4_gap/gap_n4_3_s4000.json.gz --fmin=2 --out=results/k4_dl13_stuck/t4_gap_n4_3_s4000_f2.jsonl.gz
+T1-stuck                                      25
+T1-stuck f=2                                  25
+def>0 states                                  296
+def>0 states f=2                              296
+def>0 states, not T4-optimal                  8
+def>0 states, not T4-optimal, a (T4) move lowers def 8
+def>0 states, not T4-optimal, a frozen rotation lowers def 8
+profiles                                      3023
+profiles f>=1, omega>=1                       3023
+DL13 failures: 0 (of which at T4-optimal states: 0)

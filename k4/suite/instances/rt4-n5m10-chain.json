@@ -1,0 +1,202 @@
+{
+ "id": "rt4-n5m10-chain",
+ "n": 5,
+ "m": 10,
+ "sets": [
+  [
+   0,
+   2,
+   4,
+   8
+  ],
+  [
+   1,
+   3,
+   8,
+   9
+  ],
+  [
+   3,
+   4,
+   8,
+   9
+  ],
+  [
+   5,
+   6,
+   7,
+   9
+  ],
+  [
+   5,
+   6,
+   7,
+   9
+  ]
+ ],
+ "vals": [
+  [
+   2,
+   6,
+   3,
+   10
+  ],
+  [
+   2,
+   8,
+   4,
+   3
+  ],
+  [
+   10,
+   2,
+   6,
+   3
+  ],
+  [
+   4,
+   2,
+   3,
+   8
+  ],
+  [
+   4,
+   2,
+   3,
+   8
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": "core pos 2614 (m = 10, idx 568) of results/k4_certs_5_pure.json.gz (pure: five 4-good agents), profile 6,9,43,24,24 of the big-top domains (check4.core_domains(sets, m, False) with every 4-good agent restricted to its big-top types, k4/dlrt4_run.py --bt=all)",
+ "source": {
+  "pr": null,
+  "branch": "compute/k4-rt4-n5 (found by run n5c_purebt of compute/k4-rt4-n5c, merged into it)",
+  "files": [
+   "results/k4_rt4/n5c_FAILURES.md",
+   "results/k4_rt4/n5c_fail_inst.json",
+   "results/k4_rt4/n5c_purebt.log",
+   "results/k4_rt4/ref_n5c_fails.log",
+   "results/k4_rt4/xcheck_n5_failures.log",
+   "attempts/k4-rt4-n5-chain.md",
+   "k4/rt4_n5_xcheck.py",
+   "k4/dlrt4.c",
+   "k4/dlrt4_ref.py"
+  ],
+  "replay": "python3 k4/rt4_n5_xcheck.py results/k4_rt4/n5c_fail_inst.json"
+ },
+ "refutes": [
+  {
+   "statement": "Conjecture DL_RT4 (k4/dlrt4.c header; k4/dl2.md §3 with T4), as for rt4-n5m9-chain: f = 3, def(P) = 1, no better state within two base changes, and all 8 at distance 3 are frozen chains",
+   "ledger": "K4.DL2.RT4",
+   "smallest": false
+  },
+  {
+   "statement": "DL on the key graph with single T3 / T4 edges (k4/dl13.md §2.3 Remark): P's key (NA {3, 8, 9}; agents 0, 1, 2 frozen on 8, 9, 3) has def* 1 and no T3 or T4 neighbour with a smaller def*",
+   "ledger": "K4.DL13.KEY",
+   "smallest": false
+  }
+ ],
+ "witness": {
+  "bases": [
+   [
+    8
+   ],
+   [
+    9
+   ],
+   [
+    3
+   ],
+   [
+    5
+   ],
+   [
+    6,
+    7
+   ]
+  ],
+  "J": [
+   0,
+   1,
+   2,
+   4
+  ],
+  "NA": [
+   3,
+   8,
+   9
+  ],
+  "frozen": [
+   0,
+   1,
+   2
+  ],
+  "f": 3,
+  "omega": 3,
+  "def": 1,
+  "k": 3,
+  "failing_states": [
+   [
+    [
+     8
+    ],
+    [
+     9
+    ],
+    [
+     3
+    ],
+    [
+     5
+    ],
+    [
+     6,
+     7
+    ]
+   ],
+   [
+    [
+     8
+    ],
+    [
+     9
+    ],
+    [
+     3
+    ],
+    [
+     6,
+     7
+    ],
+    [
+     5
+    ]
+   ]
+  ],
+  "repair": {
+   "bases": [
+    [
+     2
+    ],
+    [
+     8
+    ],
+    [
+     3
+    ],
+    [
+     9
+    ],
+    [
+     6,
+     7
+    ]
+   ],
+   "def": -1,
+   "move": "frozen chain (T3+): agent 0 (frozen on its top good 8, which only the frozen agent 1 needs) gives up 8 and takes the junk good 2, becoming free; frozen agent 1 moves from 9 to 8; free agent 3, which needs 9, takes 9 and freezes; NA = {3, 8, 9} kept. Agent 0 then owns {0, 1, 2, 4, 5} safely"
+  }
+ },
+ "expect_fail": [],
+ "notes": "The smallest failure of the pure-core family (every agent 4-good, every agent big-top: top > second + third): found by k4/dlrt4.c (run n5c_purebt: 5,000 big-top profiles per pure n = 5 core, seed 2; results/k4_rt4/n5c_FAILURES.md, its \"smallest example\"), confirmed by k4/dlrt4_ref.py on k4/suite/model.py (results/k4_rt4/ref_n5c_fails.log) and k4/rt4_n5_xcheck.py on main's k4/c4x_check.py (results/k4_rt4/xcheck_n5_failures.log). Agent 0: 0:2 2:6 4:3 8:10; agent 1: 1:2 3:8 8:4 9:3; agent 2: 3:10 4:2 8:6 9:3; agents 3 and 4 (twins): 5:4 6:2 7:3 9:8. f = 3, omega = 3, 68 min-frozen P, 12 with def > 0; DL_RT4 fails at 2 (P and its image under the twin swap). No free agent needs 8, so no T3 swap releases agent 0. Check with python3 k4/suite/run.py --pred=k4/rt4_pred.py:rt4_c (and :rt4_ref, :rt4_x) and --pred=k4/rt4_pred.py:key_x (and :key_ref), which must give FAILS, and --pred=k4/rt4_pred.py:rc_x and :keyplus_x, which must give holds (results/k4_rt4/suite_rt4_pred.log)."
+}

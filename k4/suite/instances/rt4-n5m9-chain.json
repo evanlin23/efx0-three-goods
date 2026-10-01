@@ -1,0 +1,179 @@
+{
+ "id": "rt4-n5m9-chain",
+ "n": 5,
+ "m": 9,
+ "sets": [
+  [
+   0,
+   2,
+   4,
+   7
+  ],
+  [
+   1,
+   4,
+   7,
+   8
+  ],
+  [
+   3,
+   6,
+   8
+  ],
+  [
+   5,
+   6,
+   7,
+   8
+  ],
+  [
+   5,
+   6,
+   7,
+   8
+  ]
+ ],
+ "vals": [
+  [
+   6,
+   3,
+   5,
+   7
+  ],
+  [
+   4,
+   2,
+   8,
+   7
+  ],
+  [
+   2,
+   4,
+   3
+  ],
+  [
+   4,
+   8,
+   1,
+   6
+  ],
+  [
+   2,
+   7,
+   8,
+   4
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": "core pos 3206 (m = 9, idx 364) of results/k4_certs_5_n4_4.json.gz (four 4-good agents), profile 108,86,1,108,27 (indices into check4.core_domains(sets, m, False))",
+ "source": {
+  "pr": null,
+  "branch": "compute/k4-rt4-n5 (found by run n5b_4 of compute/k4-rt4-n5b, merged into it)",
+  "files": [
+   "results/k4_rt4/n5b_FAILURES.md",
+   "results/k4_rt4/n5b_failures_inst.json",
+   "results/k4_rt4/n5b_4.log",
+   "results/k4_rt4/ref_n5b_failures.log",
+   "results/k4_rt4/xcheck_n5_failures.log",
+   "attempts/k4-rt4-n5-chain.md",
+   "k4/rt4_n5_xcheck.py",
+   "k4/dlrt4.c",
+   "k4/dlrt4_ref.py"
+  ],
+  "replay": "python3 k4/rt4_n5_xcheck.py results/k4_rt4/n5b_failures_inst.json"
+ },
+ "refutes": [
+  {
+   "statement": "Conjecture DL_RT4 (k4/dlrt4.c header; k4/dl2.md §3 with T4): at f >= 1 every min-frozen P with def(P) > 0 has a min-frozen P' with def(P') < def(P) reached by T1 (re-base), T2 (rotation of free agents), T3 (role swap with a needer and at most one helper giving up a good) or T4 (frozen agents permute their goods), NA kept. Here f = 3, def(P) = 1, no better state within two base changes, and all 16 at distance 3 are frozen chains (x frozen -> free frees g, frozen w moves from h to g, free z takes h), neither T3 nor T4",
+   "ledger": "K4.DL2.RT4",
+   "smallest": true
+  },
+  {
+   "statement": "DL on the key graph with single T3 / T4 edges (k4/dl13.md §2.3 Remark): every key with def* > 0 has a key with a smaller def* reached by one T3 or T4 move from some state of the key. P's key (NA {6, 7, 8}; agents 0, 1, 4 frozen on 7, 8, 6) has def* 1 and no such neighbour",
+   "ledger": "K4.DL13.KEY",
+   "smallest": true
+  }
+ ],
+ "witness": {
+  "bases": [
+   [
+    7
+   ],
+   [
+    8
+   ],
+   [
+    3
+   ],
+   [
+    5
+   ],
+   [
+    6
+   ]
+  ],
+  "J": [
+   0,
+   1,
+   2,
+   4
+  ],
+  "NA": [
+   6,
+   7,
+   8
+  ],
+  "frozen": [
+   0,
+   1,
+   4
+  ],
+  "f": 3,
+  "omega": 2,
+  "def": 1,
+  "k": 3,
+  "failing_states": [
+   [
+    [
+     7
+    ],
+    [
+     8
+    ],
+    [
+     3
+    ],
+    [
+     5
+    ],
+    [
+     6
+    ]
+   ]
+  ],
+  "repair": {
+   "bases": [
+    [
+     0
+    ],
+    [
+     8
+    ],
+    [
+     3
+    ],
+    [
+     6
+    ],
+    [
+     7
+    ]
+   ],
+   "def": -1,
+   "move": "frozen chain (T3+): agent 0 (frozen on its top good 7, which only the frozen agents 1 and 4 need) gives up 7 and takes the junk good 0, becoming free; frozen agent 4 moves from 6 to 7; free agent 3, which needs 6, takes 6 and freezes; NA = {6, 7, 8} kept. Agent 0 then owns {0, 1, 2, 4, 5} safely"
+  }
+ },
+ "expect_fail": [],
+ "notes": "Found by k4/dlrt4.c (run n5b_4: 16,000 random profiles per core of results/k4_certs_5_n4_4.json.gz, seed 1; results/k4_rt4/n5b_FAILURES.md) and confirmed by k4/dlrt4_ref.py on k4/suite/model.py (results/k4_rt4/ref_n5b_failures.log) and k4/rt4_n5_xcheck.py on main's k4/c4x_check.py (results/k4_rt4/xcheck_n5_failures.log). Agent 0: 0:6 2:3 4:5 7:7; agent 1: 1:4 4:2 7:8 8:7; agent 2: 3:2 6:4 8:3; agent 3: 5:4 6:8 7:1 8:6; agent 4: 5:2 6:7 7:8 8:4. f = 3, omega = 2, 58 min-frozen P, 14 with def > 0; DL_RT4 fails at 1 (P). At P the free agents 2 and 3 are the possible owners; B_o + J threatens agent 0 (frozen on 7, worth 7, and valuing 0, 2, 4 at 6, 3, 5), so a safe bundle of either owner keeps the junk good 1 and at most one of 0, 2, 4 ({0, 1}, {1, 2} or {1, 4}; any two are worth more than 7 to agent 0); two junk goods are left out and only one slot is left: def(P) = 1. No free agent needs 7, so no T3 swap releases agent 0. The smallest DL_RT4 failure found (n = 5, m = 9); n <= 4 has none on the data of K4.DL2.RT4E. Check with python3 k4/suite/run.py --pred=k4/rt4_pred.py:rt4_c (and :rt4_ref, :rt4_x) and --pred=k4/rt4_pred.py:key_x (and :key_ref), which must give FAILS, and --pred=k4/rt4_pred.py:rc_x and :keyplus_x, which must give holds (results/k4_rt4/suite_rt4_pred.log)."
+}

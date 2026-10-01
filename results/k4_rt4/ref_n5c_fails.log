@@ -1,0 +1,6 @@
+# command: python3 k4/dlrt4_ref.py inst results/k4_rt4/n5c_fail_inst.json
+#  8 / 8 profiles: {'prof': 8, 'prof_pos': 8, 'prof_f1': 8, 'st': 142, 'st_f1': 142, 'f1_t3p': 78, 'f1_t3h': 78, 'fail_f1': 64}
+# dlrt4.c sha256 fcde494a3161279d47a7b80e614f69c58894ebc7b40d00e461f677b8810d7cae
+profiles 8 (with a def > 0 state 8, with an f >= 1 state 8); states 142 (f = 0: 0, f >= 1: 142); DL_RT4 failures f >= 1: 64, RT4 failures f = 0: 0
+f >= 1 states with an improving move: T1 0, T2 0, T3p 78, T3h 78, T4 0; only T4 0, only T2 0
+mismatches: reference (model.py + dl2_relations.py + own T4) 0, reference assertions 0, dl13.c (K line and T1/T3 per state) 0 + 0, -DBIGPP=0 build 0, xcheck (dl134_xcheck.py, 0 states) -

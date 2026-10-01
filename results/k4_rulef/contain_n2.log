@@ -1,0 +1,3 @@
+/tmp/claude-0/-home-user-efx0-three-goods/891575f8-e905-5025-9feb-2c6293ea3e11/scratchpad/rulef/ck/all_n2.txt: leaves 27896, profiles 189216
+(1) count <= 0 implies Lemma K <= 0: 334752 checks, 0 exceptions
+(2) no frozen agent after need-shrinking upgrades, omega >= 1, Lemma K deficit > 0: 600 (profile, first agent) pairs; LB4r needs a rotation on 240 of them
