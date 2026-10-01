@@ -27,7 +27,7 @@ showed that a declaration added under `set_option debug.skipKernelTC true` is ne
 without warnings and has no axioms for `#print axioms` or `CheckAxioms.lean` to report; the tripwire refuses the
 option and the replay checker rejects such a declaration. On success the last line is
 
-    CHECK PASSED: 439 audited statements, 1197 theorems, standard axioms only
+    CHECK PASSED: 483 audited statements, 1271 theorems, standard axioms only
 
 CI runs it on every pull request (job `lean` in `.github/workflows/verify.yml`). In Claude Code on the web the
 session-start hook installs the toolchain (from GitHub when `release.lean-lang.org` is unreachable).
@@ -261,7 +261,25 @@ specializations) have exactly the types of `EFX.target`, `EFX.LB.corollaryD` (ch
   subset clause of (T1) is automatic (`EFX.C4min.moveT1_of_inP`), `x` takes a new base in (T3)
   (`EFX.C4min.moveT3_new_base`), and R₁₃ changes at most three bases (`EFX.C4min.r13_basesDiffer`). How the relation
   compares with the code `R13` of `k4/dl2_relations.py` (frozen-status changes instead of the needed set; the same
-  pairs of min-frozen pre-allocations by the text's Lemmas 1 and 6, not formalized) is in the module doc.
+  pairs of min-frozen pre-allocations by the text's Lemmas 1 and 6) is in the module doc; that agreement is machine-checked
+  in `EFX/DL2Moves.lean` (`EFX.C4min.moveT1_iff_code`, `EFX.C4min.moveT3_iff_code`).
+- `EFX/DL2Moves.lean`: the move lemmas of the deficit-descent route (`k4/dl2.md` §4, ledger K4.DL2.MOVES.LEAN and
+  K4.DL2.DEF.LEAN) and Lemma H1 (`k4/hall.md` §1, ledger K4.HALL.H1.LEAN), over `InP`, `MinFrozen`, `NA`, `Frozen`,
+  `DeficitLE` and the moves `MoveT1`, `MoveT3`. New definitions name the sets of `k4/dl2.md` §4: bundles
+  (`EFX.C4min.IsBundle`, `B_o ⊆ Z ⊆ B_o ∪ J`), safety (`EFX.C4min.SafeFor`), `N_o(Z)` (`EFX.C4min.setNeeds`), `u_o(Z)`
+  (`EFX.C4min.Counted`, `EFX.C4min.uCount`), optimal bundles of best owners (`EFX.C4min.OptimalBest`) and
+  `def(P′) ≤ def(P) − k` (`EFX.C4min.DeficitDrop`). Moves inside the min-frozen class: `EFX.C4min.minFrozen_of_cover`
+  (the common core), Lemma 1 (`EFX.C4min.lemma1a`, `EFX.C4min.lemma1b`, `EFX.C4min.lemma1c`), Lemma 1′
+  (`EFX.C4min.lemma1'`), Lemma 6 (`EFX.C4min.lemma6`, `EFX.C4min.needs_single_sub`); (T1) and (T3) are well defined
+  (`EFX.C4min.minFrozen_of_moveT1`, `EFX.C4min.moveT1_of_admissible`, `EFX.C4min.moveT1_iff_needs`,
+  `EFX.C4min.minFrozen_of_moveT3`, `EFX.C4min.moveT3_of_lemma6`) and agree with the code's phrasing by frozen-status
+  changes (`EFX.C4min.moveT1_iff_status`, `EFX.C4min.moveT1_iff_code`, `EFX.C4min.moveT3_iff_code`; this settles the
+  point `EFX/DL13.lean` left to the text). Lemma H1: `def(P) = ω + 2 − Val*(P)` on 𝒫 with `ω ≥ 1`
+  (`EFX.C4min.lemmaH1`, from the slot identity `EFX.C4min.h1_core`; per owner, `EFX.C4min.lemmaH1_owner`). Deficit
+  criteria: Lemma 2* (`EFX.C4min.lemma2star`, `_drop`, `_lt`), Lemma 2 (`EFX.C4min.lemma2`, `_drop`, `_lt`), Lemma 3
+  (`EFX.C4min.lemma3`, `EFX.C4min.lemma3_val`, `EFX.C4min.lemma3_lt`), Lemma 7 (`EFX.C4min.lemma7`,
+  `EFX.C4min.lemma7_bigTop`), Corollaries 4 and 5 (`EFX.C4min.cor4`, `EFX.C4min.cor4_i_of_i'`, `EFX.C4min.cor5`). The
+  module doc lists, for each, where the Lean hypotheses are weaker than the text's.
 - `EFX/K3Algo.lean`, `EFX/Timed.lean`, `EFX/K3CostLB.lean`, `EFX/K3Cost.lean`, `EFX/K3CostBound.lean`,
   `EFX/K3Examples.lean`: algorithm K3ALG, a polynomial-time algorithm for k = 3 with its running time
   (`proofs/k3_algorithm.md`; ledger K3.ALG, K3.ALG.TIME).

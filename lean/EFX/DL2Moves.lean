@@ -1,11 +1,95 @@
 import EFX.DL13
 
 /-!
-# The move lemmas of the deficit-descent route (`k4/dl2.md` §4; ledger K4.DL2.MOVES.LEAN)
+# The move lemmas of the deficit-descent route (`k4/dl2.md` §4; Lemma H1 of `k4/hall.md` §1)
 
-Work in progress (branch `formal/k4-dl2-moves`): Lemmas 1, 1′ and 6 of `k4/dl2.md` §4 (moves inside the min-frozen
-class), stated over `InP`, `MinFrozen`, `NA` and `Frozen` of `EFX/C4min.lean` and the moves `MoveT1`, `MoveT3` of
-`EFX/DL13.lean`. The deficit criteria follow.
+Ledger K4.DL2.MOVES.LEAN, K4.DL2.DEF.LEAN, K4.HALL.H1.LEAN. The written proofs are those of `k4/dl2.md` §4 (refereed
+in the PR #69 review; rows K4.DL2.MOVES, K4.DL2.DEF) and of Lemma H1 in `k4/hall.md` §1 (refereed in PR #46; row
+K4.HALL.COVER). Every statement is over the existing definitions: `InP`, `MinFrozen`, `vbNeeds`, `omegaP`, `DeficitLE`,
+`ownerBundle`, `roNeeds`, `Unthreatened` (`EFX/C4min.lean`), `baseOf`, `junk`, `NA`, `Frozen`, `cap`, `capSum`,
+`otherSlots` (`EFX/PreAllocK.lean`), `DeficitLT`, `Nbhd` (`EFX/C4minDescent.lean`), `MoveT1`, `MoveT3`
+(`EFX/DL13.lean`). Nothing of the model is redefined; the new definitions below name the sets of `k4/dl2.md` §4.
+
+**Conventions.** `P` is `base`, `P′` is `base'`; `B_i = baseOf goods base i`, `J = LB4.junk goods base`,
+`N_i = vbNeeds v goods base i`, `𝒩 = NA(P) = NA agents (vbNeeds v goods base)`, `F` the listed agents with
+`Frozen agents goods base (vbNeeds v goods base)`, `ω = omegaP v agents goods base`. A move `P → P′` is any base map
+`base'` such that the listed agents outside the move keep their bases (`baseOf` compared on `goods`, as `MoveT1` and
+`MoveT3` do), every base good of `P′` goes to a listed agent (`hmem'`), and the new bases satisfy the stated membership
+conditions (e.g. `B′_y ⊆ (B_y ∪ J) ∩ R_y`: `base' g = some y → (base g = some y ∨ base g = none) ∧ 0 < v y g`). New
+bases are pairwise disjoint because `P′` is a map. `N_y(B′_y) ⊆ 𝒩` reads `vbNeeds v goods base' y g → NA(P) g`.
+`def(P) ≤ d` is `DeficitLE`, `def(P′) < def(P)` is `DeficitLT` (both in `ℤ ∪ {+∞}`).
+
+**New definitions** (`k4/dl2.md` §4, Setting). A set of goods is a test `Z : G → Bool`, read on `goods` (the list
+`goods.filter Z`; `|Z|` is its length, `v_x(Z)` its value).
+- `IsBundle goods base o Z`: `Z` is a bundle of `o`, `B_o ⊆ Z ⊆ W_o = B_o ∪ J`.
+- `SafeFor v agents goods base o Z`: `Z` threatens no listed `x ≠ o` holding `B_x`, `v_x(Z ∖ h) ≤ v_x(B_x)` for every
+  `h ∈ Z` (so `θ_x(Z) ≤ v_x(B_x)`; the empty set is safe). It is `Unthreatened` for an arbitrary set
+  (`unthreatened_iff`).
+- `setNeeds v goods o Z`: `N_o(Z) = {g ∈ R_o ∖ Z : v_o(g) > v_o(Z)}`.
+- `Counted … o Z x`: `x ∈ F` and `B_x ∩ (N_o(Z) ∪ 𝒩₋ₒ) = ∅`, `𝒩₋ₒ = ⋃_{listed i ≠ o} N_i`; `uCount … o Z = u_o(Z)`,
+  the number of counted listed agents.
+- `OptimalBest … o X`: `X` is an optimal bundle of a best owner `o` (a safe bundle of a free listed `o` with
+  `|X| + u_o(X) = Val*(P)`: no free listed `o′` has a safe bundle `Z` with a larger `|Z| + u_{o′}(Z)`).
+- `DeficitDrop … P′ P k`: `def(P′) ≤ def(P) − k` in `ℤ ∪ {+∞}` (every integer `d ≥ def(P)` gives `def(P′) ≤ d − k`).
+- `eStar` (`e*` of Lemma 2*), `eCount` (`e` of Lemma 2), `obPred` (the test of `ownerBundle`).
+- `MoveT1Code`, `MoveT3Code`: (T1), (T3) as the code `k4/dl2_relations.py` phrases them (frozen-status changes
+  instead of `NA`), as described in `EFX/DL13.lean`, module doc, item 2.
+
+**Results.**
+- *Facts about 𝒫*: `exists_base_of_NA`, `frozen_of_NA` (every needed good is the one-good base of a frozen agent),
+  `not_NA_of_mem_free`, `not_NA_of_junk` (free bases and the junk miss `𝒩`), `vbNeeds_congr`, `frozen_congr`.
+- *The core of Lemmas 1(c), 1′, 6*: `minFrozen_of_cover` (a base map with bases inside the relevant sets, of at most two
+  goods, needs inside `𝒩`, and every good of `𝒩` a one-good base, is min-frozen with `NA(P′) = 𝒩`).
+- *Lemma 1*: `lemma1a` ((a): `y` free in `P` and `P′`, `B′_y ⊆ (B_y ∪ J) ∩ R_y`), `lemma1b` ((b): `NA(P′) = 𝒩` iff
+  `N_y(B′_y) ⊆ 𝒩`, then `F(P′) = F`; otherwise an agent with unchanged base changes status), `lemma1c` ((c):
+  min-frozen, same `NA`, `F`, `ω`, and `J(P′) = (J ∖ B′) ∪ (B_y ∖ B′)`); *Lemma 1′*: `lemma1'`; *Lemma 6*: `lemma6`
+  (min-frozen, same `NA` and `ω`, `F(P′) = (F ∖ {x}) ∪ {z}`) and `needs_single_sub` (`g ∈ N_z` gives `N_z({g}) ⊆ 𝒩`).
+- *(T1), (T3) well defined*: `minFrozen_of_moveT1` (a `MoveT1` move from a min-frozen `P` to a base map with listed
+  owners and bases of at most two goods is min-frozen, same `F`), `moveT1_of_admissible` (an admissible re-base is a
+  `MoveT1` move), `moveT1_iff_needs` (on min-frozen pairs differing in one base, `MoveT1` iff `N_y(B′_y) ⊆ 𝒩`),
+  `minFrozen_of_moveT3` (a `MoveT3` move to a base map with listed owners that value their goods and bases of at most two
+  goods is min-frozen, `F(P′) = (F ∖ {x}) ∪ {z}`), `moveT3_of_lemma6` (a role swap with a needer and at most one helper
+  giving up a good, under Lemma 6's hypotheses, is a `MoveT3` move); and the code's phrasing: `moveT1_iff_status`,
+  `moveT1_iff_code` (on min-frozen pairs), `moveT3_iff_code` (on `𝒫`), `free_of_swap`.
+- *Lemma H1*: `h1_core` (`|C| − S_o(C) = ω + 2 − |X_o| − u_o(X_o)` for `X_o = B_o ∪ (J ∖ C)`), `otherSlots_roNeeds`
+  (`S_o(C) = s₀ + u_o(X_o)`), `deficitLE_of_safe` and `exists_safe_of_deficitLE` (the two inequalities), `lemmaH1`
+  (`def(P) ≤ d` iff some free listed `o` has a safe bundle `Z` with `ω + 2 − |Z| − u_o(Z) ≤ d`: `def(P) = ω + 2 − Val*(P)`),
+  `lemmaH1_owner` (the per-owner covering form), `deficit_of_optimalBest`, `not_deficitLE_of_val_lt`.
+- *Lemma 2\**: `lemma2star` (`def(P′) ≤ ω + 2 − |Y| − u_o(X) + e*`), `lemma2star_drop` (at an optimal bundle of a best
+  owner, `def(P′) ≤ def(P) − (|Y ∖ X| − e*)`), `lemma2star_lt` (`def(P′) < def(P)` once `|Y| + u_o(X) − e* > Val*(P)`),
+  `setNeeds_mono` ((M1)), `isBundle_of_disjoint`.
+- *Lemma 2*: `lemma2` (`def(P′) ≤ ω + 2 − |Y| − u_o(X) + e`, and `e = 0` if `v_y(B′) ≥ v_y(B_y)`), `lemma2_drop`,
+  `lemma2_lt`.
+- *Lemma 3*: `W_rebase` (`W′_y = W_y`), `lemma3` (bundles of `y` in `P′` are the `Z` with `B′ ⊆ Z ⊆ W_y`; safety and
+  `u_y` are those of `P`), `lemma3_val` (`Val_{P′}(y)` is the max over those `Z`), `lemma3_lt` (the gain).
+- *Lemma 7*: `lemma7` (`z` counted, `u′_x(Z) ≥ 1`, `def(P′) ≤ ω + 1 − |Z|`), `lemma7_bigTop` (`R_x ∖ {g} ⊆ Z`).
+- *Corollaries 4, 5*: `cor4` (release, `def(P′) ≤ def(P) − 1`), `cor4_i_of_i'` ((i′) ⟹ (i)), `cor5` (unblocking).
+
+**Faithfulness** (paper statement; Lean statement; why they agree). Each theorem's docstring restates the paper
+statement it formalizes. They agree because the Lean statement uses the same objects (the definitions above are the
+text's, word for word: `B_o ⊆ Z ⊆ B_o ∪ J`; `θ_x(Z) ≤ v_x(B_x)` as `∀ h ∈ Z`; `u_o(Z)` as the count of `x ∈ F` with
+`B_x ∩ (N_o(Z) ∪ 𝒩₋ₒ) = ∅`), the same conclusions, and the same or *weaker* hypotheses. Where the prose leaves room:
+1. *Weaker hypotheses* (each Lean theorem implies the text's): Lemma 1(a) and Lemma 7 need `P, P′ ∈ 𝒫`, not min-frozen;
+   Lemma 7 does not use `g ∈ R_x`; Lemma 2* needs `P, P′ ∈ 𝒫` with `NA(P′) = NA(P)`, not min-frozen; in Lemmas 2 and 2*
+   the bound needs only `X ⊆ Y` (the text's "X a bundle of o in P missing the new bases" implies it lies in a bundle of
+   `P′`, `isBundle_of_disjoint`, and is what the gain forms use through `OptimalBest`); Lemma 1(c) does not use
+   `B′ ≠ B_y`; Corollaries 4, 5 do not use `def(P) > 0` (nor, for 5, `B′ ≠ B_y`); Lemma H1 holds on all of `𝒫` with
+   `ω ≥ 1` (the text of `k4/dl2.md` assumes min-frozen and a free agent; without a free agent both sides are `+∞`).
+2. *`Val_P(o)` and `Val*(P)`* are not defined as numbers: "`|X| + u_o(X) = Val*(P)`" is `OptimalBest`, "`k > Val*(P)`" is
+   "every free listed `o′` and safe bundle `Z` of `o′` have `|Z| + u_{o′}(Z) < k`", and `Val_{P′}(y) = max{…}` is
+   `lemma3_val` (the same values `≥ k` are reached on both sides, for every `k`).
+3. *`|Y ∖ X|`* is `|Y| − |X|` (`X ⊆ Y` on `goods`, `goods` without duplicates).
+4. *Corollary 4*: `B_y = {p, q}` is `∀ g ∈ goods, base g = some y ↔ g = p ∨ g = q` with `p ≠ q`; the release is a base
+   map giving `y` exactly `p`; `v_y(X ∩ R_y)` is `v_y(X)` (irrelevant goods are worth 0); (i′) "no agent outside
+   `{o, y}` values `q`" is `v_z(q) = 0` and "`X ⊄ R_z`" is "some `h₀ ∈ X` has `v_z(h₀) = 0`".
+5. *Lemma 7, big-top*: "`x` has four goods, `g` its top, `b, c` its second and third" is "every good `x` values is one of
+   `g, b, c, d`" with `b, c, d` distinct and `v_x(d) ≤ v_x(c) ≤ v_x(b)`, `v_x(b) + v_x(c) < v_x(g)`; the conclusion
+   `R_x ∖ {g} ⊆ Z` is "every good `x` values other than `g` is in `Z`".
+6. *The code's phrasing* (`MoveT1Code`, `MoveT3Code`) is the description in `EFX/DL13.lean`; the code itself
+   (`k4/dl2_relations.py`) is not read here.
+
+No statement of `k4/dl2.md` §4 or of Lemma H1 turned out wrong or ambiguous; the differences above are all weakenings
+of hypotheses or choices of encoding.
 -/
 
 set_option autoImplicit false
@@ -716,6 +800,120 @@ theorem moveT3_of_lemma6 (hag : agents.Nodup) (hgd : goods.Nodup) (hM : MinFroze
   exact ⟨hM', x, hx, z, hz, g, hxg, hgN, hzF, hzN, hz', H, hHlen,
     fun h hh => ⟨(hH h hh).1, (hH h hh).2.2.1, (hH h hh).2.2.2, (hH h hh).2.1, hgive h hh⟩, hsame,
     fun g' => (hNA g').symm⟩
+
+/-! ## (T1) and (T3) in the code's form (`EFX/DL13.lean`, module doc, item 2) -/
+
+/-- **(T1) as the code phrases it** (`k4/dl2_relations.py`, `_one(s, nt_ok=False)`, as described in `EFX/DL13.lean`):
+exactly one listed agent's base changes, and no listed agent with an unchanged base changes its frozen status. -/
+def MoveT1Code : Nbhd A G := fun v agents goods base base' =>
+  ∃ y ∈ agents, baseOf goods base y ≠ baseOf goods base' y ∧
+    (∀ i ∈ agents, i ≠ y → baseOf goods base i = baseOf goods base' i) ∧
+    (∀ i ∈ agents, baseOf goods base i = baseOf goods base' i →
+      (Frozen agents goods base' (vbNeeds v goods base') i ↔ Frozen agents goods base (vbNeeds v goods base) i))
+
+/-- **(T3) as the code phrases it** (`k4/dl2_relations.py`, `_swap(s, 1, gives=True)`, as described in
+`EFX/DL13.lean`): `x` frozen in `P` and free in `P′`; `z` free in `P` and frozen in `P′`, with `B′_z = B_x = {g}` and `z`
+needing `g`; at most one further changed agent, free in `P` and `P′`, giving up a good; every other listed agent keeps its
+base; no listed agent with an unchanged base changes its frozen status. -/
+def MoveT3Code : Nbhd A G := fun v agents goods base base' =>
+  ∃ x ∈ agents, ∃ z ∈ agents, ∃ g : G, baseOf goods base x = [g] ∧
+    Frozen agents goods base (vbNeeds v goods base) x ∧ ¬ Frozen agents goods base' (vbNeeds v goods base') x ∧
+    ¬ Frozen agents goods base (vbNeeds v goods base) z ∧ Frozen agents goods base' (vbNeeds v goods base') z ∧
+    baseOf goods base' z = baseOf goods base x ∧ vbNeeds v goods base z g ∧
+    ∃ H : List A, H.length ≤ 1 ∧
+      (∀ h ∈ H, h ∈ agents ∧ h ≠ x ∧ h ≠ z ∧ ¬ Frozen agents goods base (vbNeeds v goods base) h ∧
+        ¬ Frozen agents goods base' (vbNeeds v goods base') h ∧ ∃ g' ∈ baseOf goods base h, g' ∉ baseOf goods base' h) ∧
+      (∀ i ∈ agents, i ≠ x → i ≠ z → i ∉ H → baseOf goods base i = baseOf goods base' i) ∧
+      (∀ i ∈ agents, baseOf goods base i = baseOf goods base' i →
+        (Frozen agents goods base' (vbNeeds v goods base') i ↔ Frozen agents goods base (vbNeeds v goods base) i))
+
+omit [DecidableEq G] in
+/-- **(T1): the text's form and the code's agree on min-frozen pairs** (Lemma 1(a), (b)). -/
+theorem moveT1_iff_code (hag : agents.Nodup) (hgd : goods.Nodup) (hM : MinFrozen v agents goods base)
+    (hM' : MinFrozen v agents goods base') :
+    MoveT1 v agents goods base base' ↔ MoveT1Code v agents goods base base' := by
+  constructor
+  · rintro ⟨y, hy, hyF, hne, hsub, hsame, hNA⟩
+    exact ⟨y, hy, hne, hsame, fun i _ hB => frozen_congr hB.symm fun g => (hNA g).symm⟩
+  · rintro ⟨y, hy, hne, hsame, hst⟩
+    exact (moveT1_iff_status hag hgd hM hM' hy hne hsame).mpr fun i hi hiy => hst i hi (hsame i hi hiy)
+
+omit [DecidableEq G] in
+/-- In a role swap that keeps the needed set, `x` and the helpers are free in `P′`: a needed good of `P` is `g`, now
+`z`'s, or the base of a frozen agent of `P` outside the move. -/
+theorem free_of_swap (hP : InP v agents goods base) {x z : A} {g : G} {H : List A}
+    (hxg : baseOf goods base x = [g]) (hzF : ¬ Frozen agents goods base (vbNeeds v goods base) z)
+    (hHF : ∀ h ∈ H, ¬ Frozen agents goods base (vbNeeds v goods base) h)
+    (hz' : baseOf goods base' z = [g])
+    (hsame : ∀ i ∈ agents, i ≠ x → i ≠ z → i ∉ H → baseOf goods base i = baseOf goods base' i)
+    (hNA : ∀ g', NA agents (vbNeeds v goods base') g' ↔ NA agents (vbNeeds v goods base) g')
+    {i : A} (hi : i = x ∨ i ∈ H) (hiz : i ≠ z) : ¬ Frozen agents goods base' (vbNeeds v goods base') i := by
+  rintro ⟨g', hB, hN⟩
+  have hgi : g' ∈ baseOf goods base' i := by rw [hB]; exact List.mem_singleton_self g'
+  obtain ⟨hg', hb'⟩ := mem_baseOf.mp hgi
+  obtain ⟨w, hw, -, hBw, hF⟩ := frozen_of_NA hP ((hNA g').mp hN)
+  by_cases hwx : w = x
+  · subst hwx; rw [hxg] at hBw
+    have e : g = g' := List.singleton_inj.mp hBw
+    have hgz : g' ∈ baseOf goods base' z := by rw [hz', e]; exact List.mem_singleton_self g'
+    rw [(mem_baseOf.mp hgz).2] at hb'
+    exact hiz (Option.some.inj hb').symm
+  · have hwz : w ≠ z := fun e => hzF (e ▸ hF)
+    have hwH : w ∉ H := fun h => hHF w h hF
+    have hgw : g' ∈ baseOf goods base' w := by
+      rw [← hsame w hw hwx hwz hwH, hBw]; exact List.mem_singleton_self g'
+    rw [(mem_baseOf.mp hgw).2] at hb'
+    have hwi : w = i := Option.some.inj hb'
+    subst hwi
+    rcases hi with e | e
+    · exact hwx e
+    · exact hwH e
+
+omit [DecidableEq G] in
+/-- **(T3): the text's form and the code's agree on `𝒫`** (the argument `EFX/DL13.lean` leaves to the text: on `𝒫`, `NA`
+is the set of the frozen agents' goods, and `F(P′) = (F ∖ {x}) ∪ {z}`). Only `P, P′ ∈ 𝒫` is used. -/
+theorem moveT3_iff_code (hP : InP v agents goods base) (hP' : InP v agents goods base') :
+    MoveT3 v agents goods base base' ↔ MoveT3Code v agents goods base base' := by
+  constructor
+  · rintro ⟨x, hx, z, hz, g, hxg, hgN, hzF, hzN, hz', H, hHlen, hH, hsame, hNA⟩
+    have hNA' : ∀ g', NA agents (vbNeeds v goods base') g' ↔ NA agents (vbNeeds v goods base) g' :=
+      fun g' => (hNA g').symm
+    have hxF : Frozen agents goods base (vbNeeds v goods base) x := ⟨g, hxg, hgN⟩
+    have hxz : x ≠ z := fun e => hzF (e ▸ hxF)
+    have hHF : ∀ h ∈ H, ¬ Frozen agents goods base (vbNeeds v goods base) h := fun h hh => (hH h hh).2.2.2.1
+    refine ⟨x, hx, z, hz, g, hxg, hxF, free_of_swap hP hxg hzF hHF hz' hsame hNA' (Or.inl rfl) hxz, hzF,
+      ⟨g, hz', (hNA g).mp hgN⟩, hz'.trans hxg.symm, hzN, H, hHlen, fun h hh => ?_, hsame,
+      fun i _ hB => frozen_congr hB.symm hNA'⟩
+    obtain ⟨h1, h2, h3, h4, h5⟩ := hH h hh
+    exact ⟨h1, h2, h3, h4, free_of_swap hP hxg hzF hHF hz' hsame hNA' (Or.inr hh) h3, h5⟩
+  · rintro ⟨x, hx, z, hz, g, hxg, hxF, hxF', hzF, hzF', hz', hzN, H, hHlen, hH, hsame, hst⟩
+    rw [hxg] at hz'
+    have hgN : NA agents (vbNeeds v goods base) g := by
+      obtain ⟨y, hy, hN⟩ := hxF; rw [hxg] at hy; cases hy; exact hN
+    refine ⟨x, hx, z, hz, g, hxg, hgN, hzF, hzN, hz', H, hHlen,
+      fun h hh => ⟨(hH h hh).1, (hH h hh).2.1, (hH h hh).2.2.1, (hH h hh).2.2.2.1, (hH h hh).2.2.2.2.2⟩, hsame,
+      fun g' => ⟨fun hN => ?_, fun hN => ?_⟩⟩
+    · obtain ⟨w, hw, -, hBw, hF⟩ := frozen_of_NA hP hN
+      by_cases hwx : w = x
+      · subst hwx; rw [hxg] at hBw
+        have e : g = g' := List.singleton_inj.mp hBw
+        subst e
+        obtain ⟨y, hy, hN'⟩ := hzF'; rw [hz'] at hy; cases hy; exact hN'
+      · have hwz : w ≠ z := fun e => hzF (e ▸ hF)
+        have hwH : w ∉ H := fun h => (hH w h).2.2.2.1 hF
+        have hB := hsame w hw hwx hwz hwH
+        obtain ⟨y, hy, hN'⟩ := (hst w hw hB).mpr hF
+        rw [← hB, hBw] at hy; cases hy; exact hN'
+    · obtain ⟨w, hw, -, hBw, hF⟩ := frozen_of_NA hP' hN
+      by_cases hwz : w = z
+      · subst hwz; rw [hz'] at hBw
+        have e : g = g' := List.singleton_inj.mp hBw
+        subst e; exact hgN
+      · have hwx : w ≠ x := fun e => hxF' (e ▸ hF)
+        have hwH : w ∉ H := fun h => (hH w h).2.2.2.2.1 hF
+        have hB := hsame w hw hwx hwz hwH
+        obtain ⟨y, hy, hN'⟩ := (hst w hw hB).mp hF
+        rw [hB, hBw] at hy; cases hy; exact hN'
 
 /-! ## Bundles, safety and the count `u_o` (`k4/dl2.md` §4, Setting; `k4/hall.md` §1) -/
 
@@ -1699,3 +1897,6 @@ end EFX
 #print axioms EFX.C4min.cor4
 #print axioms EFX.C4min.cor4_i_of_i'
 #print axioms EFX.C4min.cor5
+#print axioms EFX.C4min.moveT1_iff_code
+#print axioms EFX.C4min.free_of_swap
+#print axioms EFX.C4min.moveT3_iff_code
