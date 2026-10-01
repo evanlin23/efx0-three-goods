@@ -167,29 +167,30 @@ def lower_sorted(I, x, g):
     return sorted(bits(I.R[x] & ~g), key=lambda q: -I.v[x][q])
 
 
-def tame_set(ctx, w):
-    """(H) only. A free agent w other than the needers is *tame* (k4/thetab.md §3) if some H_w ⊆ J, of at most
-    2 - |B_w| goods valued by neither x nor a needer, has v_w(R_w ∖ ({g} ∪ B_T ∪ H_w)) <= v_w(B_w), where B_T is the
-    union of the bases of the free agents other than the needers (B_w included). Returns a least such H_w, or None.
-    H_w = ∅ (w *inert*): no set of goods avoiding g and B_T threatens w holding B_w."""
+def tame_set(ctx, w, pool, A=0):
+    """(H) only. A free agent w other than the needers is *tame in pool, after A* (k4/thetab.md §3) if some
+    H_w ⊆ pool, |H_w| <= 2 - |B_w|, has v_w(R_w ∖ ({g} ∪ B_T ∪ A ∪ H_w)) <= v_w(B_w), where B_T is the union of the
+    bases of the free agents other than the needers (B_w included). Then no set of goods avoiding g, B_T, A and H_w
+    threatens w holding B_w. Returns a least such H_w, or None. (H_w = ∅: w is *inert*.)"""
     I, P, Bs = ctx.I, ctx.P, ctx.Bs
     x, g, nd, third = setting(ctx)
     BT = 0
     for u in third: BT |= Bs[u]
-    D = I.R[w] & ~g & ~BT
-    avail = list(bits(D & P.J & ~I.R[x] & ~I.R[nd[0]] & ~I.R[nd[1]]))
+    D = I.R[w] & ~g & ~BT & ~A
+    avail = list(bits(D & pool))
     for k in range(0, 2 - pc(Bs[w]) + 1):
         for H in itertools.combinations(avail, k):
             if I.val(w, D & ~mask(H)) <= P.bv[w]: return mask(H)
     return None
 
 
-def tame(ctx):
-    """every free agent other than the needers is tame; returns the union of the sets H_w, or None"""
+def tame(ctx, pool=None, A=0):
+    """every free agent other than the needers is tame in pool (default J), after A; the union of the H_w, or None"""
     x, g, nd, third = setting(ctx)
+    if pool is None: pool = ctx.P.J
     H = 0
     for w in third:
-        h = tame_set(ctx, w)
+        h = tame_set(ctx, w, pool, A)
         if h is None: return None
         H |= h
     return H
@@ -243,13 +244,13 @@ def w1_construction(ctx):
 
 
 def k_swaps(ctx):
-    """Theorem K (k4/thetab.md §3): setting (H), every free agent other than the needers tame, and a needer z (o the
-    other one) with a pair A ⊆ (J ∪ B_z) ∩ R_x, admissible, v_x(A) > v_x(g), A ∩ L_o = ∅, L_o ∩ B_T = ∅, and either
-    L_z ∩ (A ∪ B_T) ≠ ∅ or some e ∈ L_z \\ (L_o ∪ B_T ∪ A). Returns the list of such (z, A); each gives def(P') <= 0."""
+    """Theorem K (k4/thetab.md §3): setting (H); a needer z (o the other one) and a pair A ⊆ (J ∪ B_z) ∩ R_x with
+    v_x(A) > v_x(g), A ∩ L_o = ∅, L_o ∩ B_T = ∅; every free agent other than the needers tame in J' ∖ L_o after A
+    (J' = (J ∪ B_z) ∖ A); and either L_z ∩ (A ∪ B_T) ≠ ∅ or some e ∈ L_z ∖ (L_o ∪ B_T ∪ A). Returns the list of such
+    (z, A); each gives def(P') <= 0."""
     if not in_H(ctx): return []
     I, P, Bs = ctx.I, ctx.P, ctx.Bs
     x, g, nd, third = setting(ctx)
-    if tame(ctx) is None: return []
     BT = 0
     for u in third: BT |= Bs[u]
     out = []
@@ -259,19 +260,20 @@ def k_swaps(ctx):
         if Lo & BT: continue
         for A in swaps(ctx, z):
             if pc(A) != 2 or I.val(x, A) <= I.val(x, g) or A & Lo: continue
-            if (Lz & (A | BT)) or (Lz & ~Lo & ~BT & ~A):
-                out.append((z, A))
+            if not ((Lz & (A | BT)) or (Lz & ~Lo & ~BT & ~A)): continue
+            if tame(ctx, ((P.J | Bs[z]) & ~A) & ~Lo, A) is None: continue
+            out.append((z, A))
     return out
 
 
 def s_swaps(ctx):
-    """Theorem S (k4/thetab.md §3): setting (H), every free agent other than the needers tame, a needer z (o the
-    other one) with p := x's best lower good in J ∪ B_z, and the threat edges inside W'_o (L_z if L_z ⊆ W'_o; the
-    subsets of L_x ∖ {p} worth more than p inside W'_o) met by one good of J'. Returns [(z, {p})]; def(P') <= 0."""
+    """Theorem S (k4/thetab.md §3): setting (H); a needer z (o the other one) with p := x's best lower good in J ∪ B_z,
+    A = {p}, J' = (J ∪ B_z) ∖ {p}; every free agent other than the needers tame in J' after A; the threat edges
+    inside W'_o = B_o ∪ J' (L_z if L_z ⊆ W'_o; the minimal subsets of (L_x ∖ {p}) ∩ W'_o worth more than p) met by
+    one good of J'. Returns [(z, {p})]; each gives def(P') <= 0."""
     if not in_H(ctx): return []
     I, P, Bs = ctx.I, ctx.P, ctx.Bs
     x, g, nd, third = setting(ctx)
-    if tame(ctx) is None: return []
     p = lower_sorted(I, x, g)[0]
     out = []
     for z in nd:
@@ -279,10 +281,41 @@ def s_swaps(ctx):
         if not ((P.J | Bs[z]) >> p & 1): continue
         A = 1 << p
         Jn = (P.J | Bs[z]) & ~A
+        if tame(ctx, Jn, A) is None: continue
         U = Bs[o] | Jn
         edges = minimal_edges(I, z, U, I.val(z, g)) + minimal_edges(I, x, U, I.val(x, A))
         h, C = least_hitting(edges, Jn)
         if h is not None and h <= 1: out.append((z, A))
+    return out
+
+
+def g1_swaps(ctx):
+    """Corollary G1 (k4/thetab.md §2): f = 1; a big-top needer z of g (top g); a pair A ⊆ (J ∪ B_z) ∩ R_x admissible
+    with A ∩ L_z ≠ ∅; a free agent o ≠ z; every free agent w ∉ {o, z} tame in J' after A (pool J' = (J ∪ B_z) ∖ A,
+    with B_T := the union of the bases of those w). Returns the list of (z, A, o); each gives def(P') <= 0."""
+    s = setting(ctx)
+    if s is None: return []
+    I, P, Bs = ctx.I, ctx.P, ctx.Bs
+    x, g, nd, third = s
+    out = []
+    for z in nd:
+        if not bigtop(I, z) or I.top(z) != next(bits(g)): continue
+        Lz = I.R[z] & ~g
+        for A in swaps(ctx, z):
+            if pc(A) != 2 or not (A & Lz): continue
+            Jn = (P.J | Bs[z]) & ~A
+            for o in P.free:
+                if o == z: continue
+                rest = [w for w in P.free if w not in (o, z)]
+                BR = 0
+                for w in rest: BR |= Bs[w]
+                ok = True
+                for w in rest:
+                    D = I.R[w] & ~g & ~BR & ~A
+                    if not any(I.val(w, D & ~mask(H)) <= P.bv[w]
+                               for k in range(0, 2 - pc(Bs[w]) + 1) for H in itertools.combinations(list(bits(D & Jn)), k)):
+                        ok = False; break
+                if ok: out.append((z, A, o))
     return out
 
 

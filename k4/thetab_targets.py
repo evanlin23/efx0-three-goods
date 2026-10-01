@@ -48,11 +48,14 @@ def main(argv):
             z, A = zA
             b2 = ctx.new(x, z, A)
             assert pr.D[b2] <= pc(A) - 2 and pr.D[b2] < ctx.D, ('Theorem W violated', r['src'], z, A, pr.D[b2])
-        ks = k_swaps(ctx); ss = s_swaps(ctx)
+        ks = k_swaps(ctx); ss = s_swaps(ctx); gs = g1_swaps(ctx)
+        for z, A, o in gs:
+            b2 = ctx.new(x, z, A)
+            assert pr.D[b2] <= 0, ('Corollary G1 violated', r['src'], z, A, o, pr.D[b2])
         for z, A in ks + ss:
             b2 = ctx.new(x, z, A)
             assert pr.D[b2] <= 0, ('Theorem K/S violated', r['src'], z, A, pr.D[b2])
-        thm = 'W' if not bad else ('K' if ks else ('S' if ss else 'none'))
+        thm = 'W' if not bad else ('K' if ks else ('G1' if gs else ('S' if ss else 'none')))
         cnt[('f=1', cls, 'n=%d' % I.n, 'first theorem', thm)] += 1
         # Lemma G at every no-helper swap, owner every free agent other than z
         modes = set()

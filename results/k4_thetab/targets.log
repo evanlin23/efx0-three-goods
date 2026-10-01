@@ -6,7 +6,7 @@
   all | noS1 | f=2                                                                                     77
   f=1 | S1 theta-a | n=4 | Theorem W hypotheses | not (H)                                              2
   f=1 | S1 theta-a | n=4 | first Lemma G mode | ('W1', 'quiet', 'other needer')                        2
-  f=1 | S1 theta-a | n=4 | first theorem | none                                                        2
+  f=1 | S1 theta-a | n=4 | first theorem | G1                                                          2
   f=1 | S1 theta-a | n=4 | needers 4+4+BT | x 4                                                        2
   f=1 | S1 theta-a | some repair: | helper | helper                                                    2
   f=1 | S1 theta-a | some repair: | helper | other needer                                              2
@@ -26,9 +26,10 @@
   f=1 | S1 theta-b | n=4 | first Lemma G mode | ('S', 'quiet', 'other needer')                         2
   f=1 | S1 theta-b | n=4 | first Lemma G mode | ('W1', 'quiet', 'other needer')                        20
   f=1 | S1 theta-b | n=4 | first Lemma G mode | ('W1', 'quiet', 'third agent')                         1
-  f=1 | S1 theta-b | n=4 | first theorem | K                                                           27
+  f=1 | S1 theta-b | n=4 | first theorem | G1                                                          1
+  f=1 | S1 theta-b | n=4 | first theorem | K                                                           28
   f=1 | S1 theta-b | n=4 | first theorem | W                                                           15
-  f=1 | S1 theta-b | n=4 | first theorem | none                                                        3
+  f=1 | S1 theta-b | n=4 | first theorem | none                                                        1
   f=1 | S1 theta-b | n=4 | needers 4+BT | x 4                                                          1
   f=1 | S1 theta-b | n=4 | needers 4+BT+BT | x 4                                                       1
   f=1 | S1 theta-b | n=4 | needers BT+BT | x 4                                                         43
@@ -44,8 +45,7 @@
   f=1 | noS1 | n=4 | first Lemma G mode | ('K', 'quiet', 'other needer')                               4
   f=1 | noS1 | n=4 | first Lemma G mode | ('W1', 'quiet', 'other needer')                              2
   f=1 | noS1 | n=4 | first Lemma G mode | ('W1', 'quiet', 'third agent')                               16
-  f=1 | noS1 | n=4 | first theorem | K                                                                 20
-  f=1 | noS1 | n=4 | first theorem | none                                                              2
+  f=1 | noS1 | n=4 | first theorem | K                                                                 22
   f=1 | noS1 | n=4 | needers BT+BT | x 4                                                               22
   f=1 | noS1 | some repair: | helper | helper                                                          22
   f=1 | noS1 | some repair: | helper | other needer                                                    22

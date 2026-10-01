@@ -98,7 +98,7 @@ def plain_swaps(pr, ctx):
 
 
 def theorems(pr, ctx):
-    """the first of W, K, S whose hypotheses hold ('-' if none); conclusions asserted"""
+    """the first of W, K, G1, S whose hypotheses hold ('-' if none); conclusions asserted"""
     x, g, nd, third = setting(ctx)
     first = '-'
     if not gw1_hyp(ctx):
@@ -106,10 +106,11 @@ def theorems(pr, ctx):
         b2 = ctx.new(x, z, A)
         assert pr.D[b2] <= pc(A) - 2, ('Theorem W violated', ctx.Bs, z, A, pr.D[b2])
         first = 'W'
-    for name, sw in (('K', k_swaps(ctx)), ('S', s_swaps(ctx))):
-        for z, A in sw:
+    for name, sw in (('K', k_swaps(ctx)), ('G1', g1_swaps(ctx)), ('S', s_swaps(ctx))):
+        for t in sw:
+            z, A = t[0], t[1]
             b2 = ctx.new(x, z, A)
-            assert pr.D[b2] <= 0, ('Theorem %s violated' % name, ctx.Bs, z, A, pr.D[b2])
+            assert pr.D[b2] <= 0, ('Theorem %s violated' % name, ctx.Bs, t, pr.D[b2])
         if sw and first == '-': first = name
     return first
 
@@ -132,7 +133,7 @@ def run(items, label):
             st = 'T3stage' if kopt else ('T1stuck' if not pr.t1_moves(Bs) else 'other')
             if not H and st != 'T3stage': continue
             typ = '(H)' if H else 'needers ' + '+'.join(sorted(ntype(I, y) for y in nd))
-            thm = theorems(pr, ctx) if H else '-'
+            thm = theorems(pr, ctx)
             exact, cert = plain_swaps(pr, ctx)
             res = 'plain swap' if exact else 'NO plain swap'
             if not exact and st == 'T3stage':
