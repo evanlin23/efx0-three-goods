@@ -1,0 +1,16 @@
+# command: python3 k4/rulef_hunt.py n5hi --file=results/k4_certs_5_n4_3.json.gz --file=results/k4_certs_5_n4_4.json.gz --file=results/k4_certs_5_pure.json.gz --mmin=9 --evals=20000 --key=M
+# k4/rulef.c sha256 5721abf3bc9e25b101412aeb6b602db24d80e1991beee9a367a01cf9ccfc424e
+# k4/rulef_hunt_eval.c sha256 5d7c62157e4daf0cfad93985eecee273bb9fd7408ffdf6636304cb285254944b; evaluator options -Y1 -r2 -T1; B=48 R0=96 STAG=25; key M; samep 0.0; kick None
+# units 16374, done before 0, to do 16374, evals per unit 20000, jobs 4
+[      1s] units 1/16374 evals 20016 (14321/s) est. total 381.4 min; best nwork per unit {5: 1}; tight profiles 0; best key [5, 0, 5, 0] at k4_certs_5_n4_3.json.gz:4238
+[      1s] units 2/16374 evals 40032 (28639/s) est. total 190.7 min; best nwork per unit {5: 2}; tight profiles 0; best key [5, 0, 5, 0] at k4_certs_5_n4_3.json.gz:4238
+[      1s] units 4/16374 evals 80064 (54634/s) est. total 100.0 min; best nwork per unit {5: 4}; tight profiles 0; best key [5, 0, 5, 0] at k4_certs_5_n4_3.json.gz:4238
+[      2s] units 8/16374 evals 160176 (73118/s) est. total 74.7 min; best nwork per unit {5: 8}; tight profiles 0; best key [5, -1, 0, -6] at k4_certs_5_n4_3.json.gz:4243
+[     30s] units 200/16374 evals 4003392 (135150/s) est. total 40.4 min; best nwork per unit {5: 200}; tight profiles 0; best key [5, -2, 0, -10] at k4_certs_5_n4_3.json.gz:4412
+[     58s] units 400/16374 evals 8006784 (138434/s) est. total 39.5 min; best nwork per unit {5: 400}; tight profiles 0; best key [5, -2, 0, -10] at k4_certs_5_n4_3.json.gz:4412
+[     87s] units 600/16374 evals 12010176 (138324/s) est. total 39.5 min; best nwork per unit {4: 1, 5: 599}; tight profiles 0; best key [4, 3, 3, 7] at k4_certs_5_n4_3.json.gz:4701
+[    121s] units 800/16374 evals 16013520 (132550/s) est. total 41.2 min; best nwork per unit {4: 1, 5: 799}; tight profiles 0; best key [4, 3, 3, 7] at k4_certs_5_n4_3.json.gz:4701
+[    148s] units 1000/16374 evals 20016768 (134971/s) est. total 40.5 min; best nwork per unit {4: 1, 5: 999}; tight profiles 0; best key [4, 3, 3, 7] at k4_certs_5_n4_3.json.gz:4701
+[    178s] units 1200/16374 evals 24020016 (134579/s) est. total 40.6 min; best nwork per unit {4: 1, 5: 1199}; tight profiles 0; best key [4, 3, 3, 7] at k4_certs_5_n4_3.json.gz:4701
+[    207s] units 1400/16374 evals 28023504 (135403/s) est. total 40.3 min; best nwork per unit {4: 1, 5: 1399}; tight profiles 0; best key [4, 3, 3, 7] at k4_certs_5_n4_3.json.gz:4701
+[    230s] units 1600/16374 evals 32026896 (138977/s) est. total 39.3 min; best nwork per unit {4: 1, 5: 1599}; tight profiles 0; best key [4, 3, 3, 7] at k4_certs_5_n4_3.json.gz:4701

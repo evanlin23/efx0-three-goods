@@ -10,9 +10,11 @@
 #   seedsH  H_1 under all 120 agent orders, H_2 under 8 relabelings: 60,000 each, starting at H_t's own profile
 #   suite   the suite's strict k = 4 core instances with 4 <= n <= 9: 60,000 each, starting at the instance
 #   n4pure  n = 4 with four 4-good agents (the class only sampled before): 100,000 each
-#   deep5   long climbs (300,000, key R, kicks) from every n = 5 best profile with nwork <= 3 of the runs above
+#   deep5   from every n = 5 best profile with nwork <= 4 of the runs above: the exhaustive two-change descent (all
+#           profiles differing in one or two agents' types, repeated while the key improves; deep5x) and a long climb
+#           (300,000, key R, kicks; deep5r)
 #   n6      n = 6 (one 4-good agent; the only n = 6 certificate file): m >= 10: 10,000 each, m <= 9: 2,000 each
-#   deep6   as deep5 for the n = 6 runs
+#   deep6   the exhaustive two-change descent from every n = 6 best profile with nwork <= 5
 #   check   the profiles with nwork <= 1 against the second implementation (k4/rulef_hunt_check.py)
 set -u
 cd "$(dirname "$0")/.."
@@ -37,16 +39,16 @@ suite)
 n4pure)
   $H n4pure --file=$C/k4_certs_4_pure.json.gz --evals=100000 --key=M >> $R/n4pure.log 2>&1 ;;
 deep5)
-  [ -f $R/seeds_deep5.jsonl ] || python3 k4/rulef_hunt_seeds.py best $R/seeds_deep5.jsonl 3 $R/ck/n5hi.jsonl $R/ck/n5lo.jsonl \
-     $R/ck/n5n12.jsonl $R/ck/seedsH.jsonl $R/ck/suite.jsonl $R/ck/pilot2_M.jsonl $R/ck/pilot2_R.jsonl $R/ck/pilot3_M.jsonl \
-     $R/ck/pilot3_R.jsonl $R/ck/pilot3_Rs.jsonl
-  $H deep5 --seeds=$R/seeds_deep5.jsonl --evals=300000 --key=R --kick=0.7 >> $R/deep5.log 2>&1 ;;
+  [ -f $R/seeds_deep5.jsonl ] || python3 k4/rulef_hunt_seeds.py best $R/seeds_deep5.jsonl 4 $R/ck/n5hi.jsonl $R/ck/n5lo.jsonl \
+     $R/ck/n5n12.jsonl $R/ck/seedsH.jsonl $R/ck/suite.jsonl
+  $H deep5x --seeds=$R/seeds_deep5.jsonl --exhaust --evals=6000000 --key=M >> $R/deep5x.log 2>&1
+  $H deep5r --seeds=$R/seeds_deep5.jsonl --evals=300000 --key=R --kick=0.7 >> $R/deep5r.log 2>&1 ;;
 n6)
   $H n6hi --file=$C/k4_certs_6_n4_1.json.gz --mmin=10 --evals=10000 --key=M >> $R/n6hi.log 2>&1
   $H n6lo --file=$C/k4_certs_6_n4_1.json.gz --mmax=9 --evals=2000 --key=M >> $R/n6lo.log 2>&1 ;;
 deep6)
-  [ -f $R/seeds_deep6.jsonl ] || python3 k4/rulef_hunt_seeds.py best $R/seeds_deep6.jsonl 3 $R/ck/n6hi.jsonl $R/ck/n6lo.jsonl
-  $H deep6 --seeds=$R/seeds_deep6.jsonl --evals=200000 --key=R --kick=0.7 >> $R/deep6.log 2>&1 ;;
+  [ -f $R/seeds_deep6.jsonl ] || python3 k4/rulef_hunt_seeds.py best $R/seeds_deep6.jsonl 5 $R/ck/n6hi.jsonl $R/ck/n6lo.jsonl
+  $H deep6x --seeds=$R/seeds_deep6.jsonl --exhaust --evals=3000000 --key=M >> $R/deep6x.log 2>&1 ;;
 check)
   ls $R/tight_*.jsonl.gz >/dev/null 2>&1 && python3 k4/rulef_hunt_check.py $R/tight_*.jsonl.gz > $R/check.log 2>&1 ;;
 *) echo "unknown step $s"; exit 1 ;;
