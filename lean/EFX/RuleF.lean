@@ -9,8 +9,9 @@ step takes the `a`-th unprocessed agent in index order, and every later step the
 file states what a proof of rule F (or of any explicit first-agent rule, `k4/rulef.md` §4) has to deliver, and proves
 that it gives C₄∃, hence K4.D and TARGET₄:
 
-- `SucceedsR d`: LB₄ʳ(τ) succeeds with at most `d` rotations (`Succeeds` is the case `d = 3`), and
-  `succeeds_of_succeedsR`: at most `d ≤ 3` rotations is a success of `Succeeds` (`rotReach_mono`);
+- `SucceedsR d`: LB₄ʳ(τ) succeeds with at most `d` rotations (`Succeeds` is the case `d = 3`,
+  `succeeds_iff_succeedsR3`), and `succeeds_of_succeedsR`: at most `d ≤ 3` rotations is a success of `Succeeds`
+  (`rotReach_mono`);
 - `TheoremRuleF`: every strict profile of every k = 4 core has a first agent `a` with `SucceedsR 1 … [a]` (rule F with
   at most one rotation succeeds); `RuleFConn`: the same for connected cores with a 4-good agent; `RuleFOne`: for
   connected cores with at most one 4-good agent;
@@ -52,6 +53,11 @@ theorem succeeds_of_succeedsR {v : A → G → Nat} {agents : List A} {goods : L
     (hd : d ≤ 3) (h : SucceedsR d v agents goods τ) : Succeeds v agents goods τ := by
   obtain ⟨pol, s₁, s, o, X, hup, hrot, hout⟩ := h
   exact ⟨pol, s₁, s, o, X, hup, rotReach_mono hrot hd, hout⟩
+
+/-- `Succeeds` is `SucceedsR 3` (the same proposition, by unfolding). -/
+theorem succeeds_iff_succeedsR3 {v : A → G → Nat} {agents : List A} {goods : List G} {τ : List Nat} :
+    Succeeds v agents goods τ ↔ SucceedsR 3 v agents goods τ :=
+  Iff.rfl
 
 /-- **Rule F's target** (`k4/rulef.md` §7): for every strict profile of every k = 4 core some agent `a` makes
 LB₄ʳ([a]) (`a` first, then index order) succeed with at most one rotation. Open (K4.AD.F). -/
@@ -113,6 +119,7 @@ end EFX
 
 #print axioms EFX.LB4R.rotReach_mono
 #print axioms EFX.LB4R.succeeds_of_succeedsR
+#print axioms EFX.LB4R.succeeds_iff_succeedsR3
 #print axioms EFX.LB4R.C4exists_of_ruleF
 #print axioms EFX.LB4R.C4existsConn_of_ruleFConn
 #print axioms EFX.LB4R.C4existsOne_of_ruleFOne

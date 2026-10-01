@@ -1,4 +1,4 @@
-# attempts/k4_rulef_attempts.py # rulef.c sha256 a9bbe5d6d989fb4a
+# attempts/k4_rulef_attempts.py # rulef.c sha256 5721abf3bc9e25b1
 1. least-count rules; profile sets=[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]] vals=[[1, 4, 6, 8], [2, 3, 4, 8], [2, 7, 8, 4]]
   rule  3 (least A4+N deficit): first agent 0; rulef.c -r1: fail, -r2: rot=2; independent model: least rotations 2 -> OK
   rule  4 (least A4+(o) deficit (envy-free)): first agent 0; rulef.c -r1: fail, -r2: rot=2; independent model: least rotations 2 -> OK
@@ -37,4 +37,7 @@
   k4/rulef_model.py XKEEP=False: a=0 shrink: deficit 1, after one RotStep 1; a=0 envyFree: deficit 1, after one RotStep 1; a=1 shrink: deficit 1, after one RotStep 1; a=1 envyFree: deficit 1, after one RotStep 1; a=2 shrink: deficit 1, after one RotStep 1; a=2 envyFree: deficit 1, after one RotStep 1; a=3 shrink: deficit 1, after one RotStep 1; a=3 envyFree: deficit 1, after one RotStep 1
   k4/rulef_model.py XKEEP=True: a=0 shrink: deficit 0, owner 1, completion checked; a=0 envyFree: deficit 0, owner 1, completion checked; a=1 shrink: deficit 0, owner 0, completion checked; a=1 envyFree: deficit 0, owner 0, completion checked; a=2 shrink: deficit 0, owner 0, completion checked; a=2 envyFree: deficit 0, owner 0, completion checked; a=3 shrink: deficit 0, owner 1, completion checked; a=3 envyFree: deficit 0, owner 1, completion checked
   LB4r on index order (independent model): least rotations 0; brute force: 32 EFX0 allocations, 12 with at most one bundle of > 2 goods
+7. Lemma KR without (iii); state B = [{0}, {1}], J = {2, 3}, N = [{1}, {}], k = 1, o = 0, O = {2, 3}
+  P valid: True; E = [1], served by the kept-out set [2] (kappa = 0, delta = 1); (i) holds; (ii) o not frozen in P': True; P': J' = [0], NA' = [0], (V1) holds: False
+  with value-based needs agent 0 needs good 1: False (so the chain 1 -> 0 does not exist)
 ALL AS RECORDED

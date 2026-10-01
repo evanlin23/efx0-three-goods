@@ -20,7 +20,8 @@ rotation under any first agent, nor at n = 3 with m ≤ 5: `results/k4_rulef/rul
 `rules_n3_m5.log`):
 agents {0, 1, 4, 5}, {2, 3, 4, 5}, {2, 3, 4, 5} with values (1, 4, 6, 8), (2, 3, 4, 8), (2, 7, 8, 4) (the profile on
 which #44's ω rules fail, `attempts/k4-adaptive-greedy-omega.md`). Confirmed in PR #33's independent model of LB₄ʳ
-(`k4/c4_verify_H/lb4r.py`): least rotations 2 on τ = [0], every policy, both owner-needs conventions; brute force finds
+(`k4/c4_verify_H/lb4r.py`): least rotations 2 on the rule's sequence, τ = [0] for every rule but rule 12 and τ = [2]
+for rule 12, under every policy and both owner-needs conventions; brute force finds
 EFX₀ allocations with at most one large bundle (the rule fails, not K4.D).
 
 Reproduce: `python3 attempts/k4_rulef_attempts.py` (part 1; `results/k4_rulef/attempts.log`).

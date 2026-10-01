@@ -14,8 +14,9 @@ agent 1 takes 3 and upgrades with 2 (need-shrinking: 5 + 4 > 8), so nobody is fr
 {4, 0, 1} threatens agent 1 ({4, 1} is worth 8 + 2 > 5 + 4 to it), and only the owner has a slot, so 1 cannot be kept
 out; owner 1 (base {3, 2}) threatens agent 0, whose goods 3 and 2 in that base are worth 7 + 4 > 8 + 2. No completion exists; a rotation is needed. (First
 agent 1 needs none: there agent 0 upgrades to {3, 2} and owner 1 is valid.) Counted on the n = 2 leaves
-(`k4/rulef.c -A40 -D3`): 600 (profile, first agent) pairs with no frozen agent after need-shrinking upgrades and Lemma
-K's deficit positive, 240 of them with no output at all before a rotation.
+(`k4/rulef.c -A40 -C3 -r1 -D3`, then `k4/rulef_n2stats.py`; `results/k4_rulef/contain_n2.log`): 600 (profile, first
+agent) pairs with no frozen agent after need-shrinking upgrades, ω ≥ 1 and Lemma K's deficit positive, 240 of them
+with no output at all before a rotation.
 
 **Smallest failing configuration** (n = 2, m = 5): agents {0, 2, 3, 4}, {1, 2, 3, 4} with values (2, 4, 7, 8),
 (2, 4, 5, 8), first agent 0. Confirmed in PR #33's independent model of LB₄ʳ: the state after Phase 1([0]) and

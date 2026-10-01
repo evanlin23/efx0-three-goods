@@ -1,5 +1,5 @@
 # command: python3 k4/suite/run.py --pred=k4/rulef_suite.py:rule_rk --pred=k4/rulef_suite.py:lemma_k0 --timeout=900
-# instances: 151
+# instances: 153
 ## rule_rk: LB4r with rule RK's first agent (k4/rulef.md §4) and at most one rotation succeeds [k4/rulef_suite.py]
   adaptive-cover-multi4        n=2 m=4   custom: holds (class K0, rotations 0; 0.0s)
   adaptive-p1                  n=3 m=6   custom: holds (class K1, rotations 1; 0.0s)
@@ -42,6 +42,8 @@
   c4x-n3m8-pure-top7           n=3 m=8   custom: holds (class K0, rotations 0; 0.0s)
   c4x-n4m7-frozen-slots-some   n=4 m=7   custom: holds (class K0, rotations 0; 0.0s)
   count-n3m8                   n=3 m=8   custom: holds (class K0, rotations 0; 0.0s)
+  dl13-n4m6-fswap              n=4 m=6   custom: holds (class K0, rotations 0; 0.0s)
+  dl13-n4m9-rot                n=4 m=9   custom: holds (class K0, rotations 0; 0.0s)
   dl2-rot-n3m7                 n=3 m=7   custom: holds (class K0, rotations 0; 0.0s)
   f1-bigtop-n3-m8-n3c46        n=3 m=8   custom: holds (class K0, rotations 0; 0.0s)
   gap-bt5-n5-m10-n53c7265      n=5 m=10  custom: holds (class K0, rotations 0; 0.0s)
@@ -194,6 +196,8 @@
   c4x-n3m8-pure-top7           n=3 m=8   custom: holds (class K0; 0.0s)
   c4x-n4m7-frozen-slots-some   n=4 m=7   custom: holds (class K0; 0.0s)
   count-n3m8                   n=3 m=8   custom: holds (class K0; 0.0s)
+  dl13-n4m6-fswap              n=4 m=6   custom: holds (class K0; 0.0s)
+  dl13-n4m9-rot                n=4 m=9   custom: holds (class K0; 0.0s)
   dl2-rot-n3m7                 n=3 m=7   custom: holds (class K0; 0.0s)
   f1-bigtop-n3-m8-n3c46        n=3 m=8   custom: holds (class K0; 0.0s)
   gap-bt5-n5-m10-n53c7265      n=5 m=10  custom: holds (class K0; 0.0s)

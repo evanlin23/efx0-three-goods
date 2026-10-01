@@ -2,15 +2,15 @@
 # Every log of k4/rulef.md (results/k4_rulef/), one worker. Each step appends its own log; per-core checkpoints in
 # $CK (default: a scratch folder) let an interrupted step resume. Usage: bash k4/rulef_runs.sh [STEP ...]
 # Steps: rk (rule RK, exhaustive n <= 4 with at most three 4-good agents), featdump (n = 3 profiles where index order is
-# not in K0, every first agent's classes), feat (first-agent features and Lemma KR on samples of them), samp (pure n = 4 and n = 5, random profiles), hill (hill-climbing against RK), H (cores H_t), suite,
-# rules (explicit rules against rule F, n = 2 and n = 3 with m <= 5), y1 (Lemma K with kept-out sets holding goods outside R_x), n1 (as y1, and classes K0, K1 also try the run without upgrades), gap (the profiles Lemma K misses, checked against Lemma K'), check (second implementation of Lemma K), attempts, btrk (a big-top
+# not in K0, every first agent's classes), feat (first-agent features and Lemma KR on samples of them), samp (pure n = 4 and n = 5, random profiles), H (cores H_t), suite,
+# rules (explicit rules against rule F, n = 2 and n = 3 with m <= 5), y1 (Lemma K with kept-out sets holding goods outside R_x), n1 (as y1, and classes K0, K1 also try the run without upgrades), gap (the profiles Lemma K misses, checked against Lemma K'), check (second implementation of Lemma K on every n = 2 leaf and on n = 3; the n = 2 counts of rulef.md §2 Remark 1), attempts, btrk (a big-top
 # agent first, else RK), bigtop (a big-top agent first, else a static fallback; the failures of the fallback).
 set -u
 cd "$(dirname "$0")/.."
 R=results/k4_rulef; mkdir -p $R
 CK=${CK:-${TMPDIR:-/tmp}/rulef_ck}; mkdir -p $CK
 D=${DATA:-$CK}
-steps=${*:-rk featdump feat btrk bigtop samp hill H suite rules check attempts}
+steps=${*:-rk featdump feat btrk bigtop samp H suite y1 n1 gap rules check attempts}
 for s in $steps; do case $s in
 rk)
   python3 k4/rulef_run.py results/k4_certs_2.json.gz -A41 -r1 -D1 --data=$D/open_n2.txt > $R/rk_n2.log
@@ -20,7 +20,8 @@ rk)
   done ;;
 featdump)
   rm -f $D/idx_n3.txt $CK/idx_n3.jsonl
-  python3 k4/rulef_run.py results/k4_certs_3.json.gz -A41 -E1 -r1 -D5 --data=$D/idx_n3.txt --checkpoint=$CK/idx_n3.jsonl > $R/rk_idx_n3.log ;;
+  python3 k4/rulef_run.py results/k4_certs_3.json.gz -A41 -E1 -r1 -D5 --data=$D/idx_n3.txt --checkpoint=$CK/idx_n3.jsonl > $R/rk_idx_n3.log
+  awk '/^IDX/{n++; split($2,a,"="); w+=a[2]} END{print "idx_n3.txt (k4/rulef.c -A41 -E1 -r1 -D5 on results/k4_certs_3.json.gz, see rk_idx_n3.log): IDX leaves " n ", profiles " w}' $D/idx_n3.txt > $R/idx_n3_count.log ;;
 feat)
   python3 k4/rulef_features.py $D/idx_n3.txt --every=20 > $R/features_n3.log
   grep -v "class=0" $D/idx_n3.txt > $D/k1_n3.txt
@@ -40,12 +41,6 @@ samp)
   for f in 5_n4_1 5_n4_2 5_n4_3 5_n4_4 5_pure; do
     python3 k4/rulef_run.py results/k4_certs_$f.json.gz -A41 -r1 -S200 -D1 --data=$D/open_$f.txt --checkpoint=$CK/rk_$f.jsonl > $R/rk_n${f}_sample.log
   done ;;
-hill)
-  for spec in hard4:1000:0 hard5:1000:0 deep:5000:0 grow1:1000:300 grow3:1000:200 rc7:1000:200 rc8:1000:200; do
-    IFS=: read f h first <<< "$spec"
-    python3 k4/rulef_run.py results/k4_lb4r_cores_$f.json.gz -A41 -r1 -H$h $( [ $first != 0 ] && echo --first=$first ) -D1 \
-      --data=$D/open_hill_$f.txt --checkpoint=$CK/rk_hill_$f.jsonl > $R/rk_hill_$f.log
-  done ;;
 H)
   python3 k4/rulef_H.py 1,2,3,4,5 --perms=3 -w0 --timeout=900 > $R/rk_H.log ;;
 suite)
@@ -58,9 +53,11 @@ y1)
   done
   python3 k4/rulef_run.py results/k4_certs_4_pure.json.gz -A41 -r1 -Y1 -S2000 > $R/rk_pure4_y1_sample.log ;;
 n1)
-  for f in 2 3 4_n4_1 4_n4_2 4_n4_3; do
+  for f in 2 3 4_n4_1 4_n4_2; do
     python3 k4/rulef_run.py results/k4_certs_$f.json.gz -A41 -r1 -Y1 -N1 --checkpoint=$CK/rk_${f}_n1.jsonl > $R/rk_n${f}_n1.log
-  done ;;
+  done
+  # rk_n4_n4_3_n1.log is the same run with --jobs=4 (on a separate machine, results/k4_rulef/CLOUD_SUMMARY.md)
+  python3 k4/rulef_run.py results/k4_certs_4_n4_3.json.gz -A41 -r1 -Y1 -N1 --checkpoint=$CK/rk_4_n4_3_n1.jsonl > $R/rk_n4_n4_3_n1_runs.log ;;
 gap)
   for f in 4_n4_1 4_n4_2; do
     rm -f $D/gap_$f.txt $CK/gap_$f.jsonl
@@ -73,6 +70,10 @@ rules)
     python3 k4/rulef_run.py results/k4_certs_3.json.gz --m=$m -A40 -C3 -r1 -D6 --data=$D/rules_n3_m$m.txt --checkpoint=$CK/rules_n3_m$m.jsonl > $R/rules_n3_m$m.log
   done ;;
 check)
+  rm -f $D/all_n2.txt
+  python3 k4/rulef_run.py results/k4_certs_2.json.gz -A40 -C3 -r1 -D3 --data=$D/all_n2.txt > $R/all_n2.log
+  python3 k4/rulef_check.py $D/all_n2.txt > $R/check_lemmaK_n2.log
+  python3 k4/rulef_n2stats.py $D/all_n2.txt > $R/contain_n2.log
   python3 k4/rulef_check.py $D/idx_n3.txt --every=200 > $R/check_lemmaK_n3.log ;;
 attempts)
   python3 attempts/k4_rulef_attempts.py > $R/attempts.log ;;

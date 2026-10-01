@@ -20,6 +20,9 @@
    agent is in K0. Checked in k4/rulef.c (-A41 with and without -Y1) and in k4/rulef_model.py (XKEEP False / True,
    every first agent and policy, every single RotStep of PR #33's model, completions checked with output_check and the
    raw EFX0 definition).
+7. attempts/k4-rulef-kr-superset-needs.md: Lemma KR for a valid pre-allocation whose needs are only a superset of the
+   value-based ones (without hypothesis (iii)): on the recorded n = 2 state every hypothesis holds and the rotated
+   state violates (V1); with value-based needs the need chain does not exist.
 Usage: python3 attempts/k4_rulef_attempts.py"""
 import os, subprocess, sys
 HERE = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.dirname(HERE)
@@ -50,6 +53,43 @@ def rk_class(sets, vals, opts):
         i = t.index('c%d' % c)
         if sum(map(int, t[i + 1:i + 4])):
             return CLASSES[c]
+
+
+def part7():
+    # goods 0..3; agent 0 values (7, 6, 5, 3) on 0..3, agent 1 values (0, 4, 3, 2)
+    v = [[7, 6, 5, 3], [0, 4, 3, 2]]
+    R = [{g for g in range(4) if v[i][g] > 0} for i in range(2)]
+    val = lambda i, S: sum(v[i][g] for g in S)
+    def thr(i, L, H):
+        L = list(L)
+        return bool(L) and max(val(i, L) - v[i][h] for h in L) > val(i, H)
+    vb = lambda i, B: {g for g in R[i] - B if v[i][g] > val(i, B)}
+    B = [{0}, {1}]
+    J = {2, 3}
+    N = [{1}, set()]                                     # N_0 = {1}: a superset of agent 0's value-based needs (none)
+    print("7. Lemma KR without (iii); state B = [{0}, {1}], J = {2, 3}, N = [{1}, {}], k = 1, o = 0, O = {2, 3}")
+    ok = all(vb(i, B[i]) <= N[i] <= R[i] - B[i] for i in range(2))
+    NA = N[0] | N[1]
+    frz = [len(B[i]) == 1 and B[i] <= NA for i in range(2)]
+    ok &= not (J & NA) and frz == [False, True]
+    k, o, O = 1, 0, {2, 3}
+    W = B[o] | J
+    ok &= 1 in N[o] and O <= R[k] & W and val(k, O) > val(k, B[k])
+    E = [x for x in range(2) if x != o and thr(x, W, B[x])]
+    D = {2}
+    kappa = sum(0 if frz[x] else 2 - len(B[x]) for x in range(2) if x != o)
+    ok &= E == [1] and not thr(1, W - D, B[1]) and kappa == 0
+    B2 = [{1}, O]
+    J2 = W - O
+    N2 = [vb(0, B2[0]), vb(1, B2[1])]
+    NA2 = N2[0] | N2[1]
+    o_free = not (B2[o] <= N2[k])
+    v1 = not (J2 & NA2)
+    print(f"  P valid: {ok}; E = {E}, served by the kept-out set {sorted(D)} (kappa = {kappa}, delta = 1); (i) holds; (ii) o "
+          f"not frozen in P': {o_free}; P': J' = {sorted(J2)}, NA' = {sorted(NA2)}, (V1) holds: {v1}")
+    chain_vb = 1 in vb(0, B[0])
+    print(f"  with value-based needs agent 0 needs good 1: {chain_vb} (so the chain 1 -> 0 does not exist)")
+    return ok and o_free and not v1 and not chain_vb
 
 
 def part6():
@@ -159,6 +199,7 @@ def main():
         allok &= srk in ('rot=0', 'rot=1') and indk is not None and indk <= 1
         print('  brute force:', AA.brute_d2(sets, vals))
     allok &= part6()
+    allok &= part7()
     print('ALL AS RECORDED' if allok else 'MISMATCH')
 
 
