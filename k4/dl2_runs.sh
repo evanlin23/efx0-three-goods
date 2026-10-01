@@ -5,6 +5,8 @@
 #   n3      every strict profile of every connected core with n <= 3
 #   n4_1    every strict profile, n = 4, one 4-good agent
 #   n4_2    every strict profile, n = 4, two 4-good agents (with a checkpoint)
+#   n4rand P  P random strict profiles of every n = 4 core with three or four 4-good agents
+#   n4cat   every record of #53's n = 4 catalogues with three or four 4-good agents and of its n = 4 hunts
 #   n5cat   every record of #53's n = 5 gap catalogues and hunts (f >= 1 gap profiles)
 #   n5rand P  P random strict profiles of every connected core with n = 5 (the certificate files)
 #   n6rand P CORES  P random strict profiles of every n = 6 core with one 4-good agent, and of CORES random n = 6 cores
@@ -46,6 +48,18 @@ n4_2)
   python3 k4/dl2_run.py certs results/k4_certs_4_n4_2.json.gz --jobs=2 --rec=1000 --rec2=20 \
     --ckpt=$O/ckpt_n4_2.jsonl --dump=$O/repairs_n4_2.jsonl.gz --tables=$O/tables_n4_2.json --progress > $O/n4_2.log 2>&1
   ;;
+n4rand)
+  for f in k4_certs_4_n4_3 k4_certs_4_pure; do
+    python3 k4/dl2_run.py certs results/$f.json.gz --sample=$2 --seed=1 --jobs=2 --rec=0 --rec2=20 \
+      --ckpt=$O/ckpt_n4rand.jsonl --dump=$O/repairs_n4rand.jsonl.gz --tables=$O/tables_n4rand_$f.json > $O/n4rand_$f.log 2>&1
+  done
+  ;;
+n4cat)
+  for f in gap_n4_3_s4000 gap_n4_pure_s4000 hunt_n4_2_all hunt_n4_3_s400k hunt_n4_pure_s400k; do
+    python3 k4/dl2_run.py catalog $C/$f.json.gz --jobs=2 --rec=500 --rec2=5 \
+      --dump=$O/repairs_n4cat.jsonl.gz --tables=$O/tables_n4cat_$f.json > $O/n4cat_$f.log 2>&1
+  done
+  ;;
 n5cat)
   for f in gap_n5_1_s100 gap_n5_2_s100 gap_n5_3_s100 gap_n5_4_s100 gap_n5_pure_s100 hunt_n5_3_s2000 hunt_n5_4_s2000 hunt_n5_pure_s2000; do
     python3 k4/dl2_run.py catalog $C/$f.json.gz --jobs=2 --rec=500 --rec2=5 \
@@ -72,5 +86,5 @@ ht)
 h3)
   python3 k4/dl2_run.py ht 3 --wide --rec=1 --dump=$O/repairs_ht.jsonl.gz --tables=$O/tables_h3.json > $O/h3.log 2>&1
   ;;
-*) echo "usage: sh k4/dl2_runs.sh check|n3|n4_1|n4_2|n5cat|n5rand P|n6rand P CORES|ht P|h3"; exit 2 ;;
+*) echo "usage: sh k4/dl2_runs.sh check|n3|n4_1|n4_2|n4rand P|n4cat|n5cat|n5rand P|n6rand P CORES|ht P|h3"; exit 2 ;;
 esac
