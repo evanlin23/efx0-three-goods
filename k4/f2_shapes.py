@@ -40,7 +40,7 @@ import collections, glob, gzip, itertools, json, os, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
-from f2_lib import Prof, bits, pc, mask, tup, lst, counted, bigtop, kind, INF, profile_items, chain_shape
+from f2_lib import Prof, bits, pc, mask, tup, lst, counted, bigtop, kind, t3plus, INF, profile_items, chain_shape
 
 
 # ------------------------------------------------------------------ inputs
@@ -284,18 +284,38 @@ class State:
                 'best2': ''.join(sorted(who)), 'def2': pr.D[B2], 'Bs2': lst(B2)}
 
 
+def edge_kind(P, P2):
+    """'t3', 't3c', 't4' or None for a move between min-frozen states (the (T3⁺) and (T4) tests of k4/f2_lib.py, without
+    the shape computation; both keep NA)"""
+    if P.NA != P2.NA: return None
+    tp = t3plus(P, P2)
+    if tp is not None: return 't3' if not tp[2] else 't3c'
+    n = P.I.n
+    ch = [i for i in range(n) if P.Bs[i] != P2.Bs[i]]
+    if len(ch) >= 2 and all(P.frozen[i] and P2.frozen[i] for i in ch) \
+            and sorted(P.Bs[i] for i in ch) == sorted(P2.Bs[i] for i in ch):
+        return 't4'
+    return None
+
+
 def keygraph(pr):
-    """per key with def* > 0: (an RT4 edge (T3 or T4) to a key with a smaller def*, an R_C edge (T3⁺ or T4) to one)"""
+    """per key κ with def*(κ) > 0: (some state of κ has a (T3) or (T4) move (RT4's edges) to some state of a key with a
+    smaller def*, the same with (T3⁺) or (T4) moves (R_C's edges)): DL on the key graph, k4/dl13.md §2.3, Remark"""
     out = {}
+    lower = {}
     for k, states in pr.bykey.items():
         ds = pr.dstar[k]
         if ds <= 0: continue
+        if ds not in lower:
+            lower[ds] = [B2 for B2 in pr.mp if pr.dstar[pr.key[B2]] < ds]
         rt4 = rc = False
         for Bs in states:
-            for B2, kd in pr.improving(Bs):
-                if pr.dstar[pr.key[B2]] >= ds: continue
+            P = pr.PA[Bs]
+            for B2 in lower[ds]:
+                kd = edge_kind(P, pr.PA[B2])
                 if kd in ('t3', 't4'): rt4 = True
                 if kd in ('t3', 't3c', 't4'): rc = True
+                if rt4 and rc: break
             if rt4 and rc: break
         out[k] = (rt4, rc)
     return out

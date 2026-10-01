@@ -20,6 +20,9 @@ dl2_classify.py):
        theta_x(X ∪ {c}) <= v_x(A) and no good counted in u_o(X) in N_x(A): def(P') <= def(P) - 1.
   C    Lemma C: a (T4) move followed by a (T3+) move is a (T3+) move (every composition through every (T4) neighbour);
   N    Proposition N: at a def > 0 state no (T4) move improves, frozen rotations reach a T4-optimal state, equal deficit.
+  C4+  Corollary 11.2+ (the kappa swap): a best owner o keeps an optimal X; a frozen x whose good g has exactly one
+       needer a_1 besides o, g ∉ N_o(X); a need path z, ..., a_1, x avoiding o; x takes a pair A ⊆ (J ∪ B_z) minus X with
+       v_x(A) > v_x(g) and theta_x(X) <= v_x(A): def(P') <= def(P) - 1 (g becomes counted at o).
   C8+  certificate: some chain swap along a need path (helper giving up a good, or none) makes x an owner with
        Val_{P'}(x) > Val*(P) (Lemma 8+, exact);
   C11+ certificate: some such chain swap keeps an unmoved best owner o, an optimal X of o misses A ∪ B'_h, and Lemma
@@ -288,6 +291,34 @@ class Ctx:
                         out.append((o, z, x, c, len(path) - 2))
         return out
 
+    def C4p(self):
+        """Corollary 11.2+ (the kappa swap): a best owner o keeps an optimal X; a frozen x whose good g is needed by
+        exactly one agent a_1 other than o, and g ∉ N_o(X); a need path z, ..., a_1, x with o not on it; x takes a pair
+        A ⊆ ((J ∪ B_z) minus X) ∩ R_x with v_x(A) > v_x(g) and theta_x(X) <= v_x(A): def(P') <= def(P) - 1.
+        Returns the (o, x, k) certified."""
+        I, P, Bs, pr = self.I, self.P, self.Bs, self.pr
+        out = []
+        for o in self.best:
+            for X in pr.OWN[Bs][o][1]:
+                NoX = I.needs(o, X)
+                for x in self.F:
+                    g = Bs[x]
+                    if g & NoX: continue
+                    others = [i for i in range(I.n) if i != o and P.N[i] & g]
+                    if len(others) != 1: continue
+                    a1 = others[0]; vg = I.val(x, g)
+                    for path in self.paths_to(x):
+                        if path[-2] != a1 or o in path: continue
+                        z = path[0]
+                        pool = ((P.J | Bs[z]) & ~X) & I.R[x]
+                        for A in itertools.combinations(list(bits(pool)), 2):
+                            A = mask(A)
+                            if I.val(x, A) <= vg or self.thr(x, X, A): continue
+                            b2 = self.swap(path, A)
+                            assert b2 in pr.D and pr.D[b2] <= self.D - 1, ('Corollary 11.2+', Bs, b2)
+                            out.append((o, x, len(path) - 2))
+        return out
+
     def C3p(self):
         """Corollary 8.2+; returns the (x, path, h) certified (first found)"""
         I, P, Bs, pr = self.I, self.P, self.Bs, self.pr
@@ -345,9 +376,9 @@ def coverage(files):
             nc, rot = ctx.check_closure(); cnt['Lemma C compositions checked'] += nc
             cnt['Proposition N: not T4-optimal, rotated to a T4-optimal state of equal deficit'] += rot
             sb = ctx.single_blocks()
-            c1 = ctx.C1p(sb); c2 = ctx.C2p(sb); c3 = ctx.C3p()
-            plain = any(t[-1] == 0 for t in c1) or any(t[-1] == 0 for t in c2) or any(len(t[1]) == 2 for t in c3)
-            first = ('C1+' if c1 else ('C2+' if c2 else ('C3+' if c3 else 'none')))
+            c1 = ctx.C1p(sb); c2 = ctx.C2p(sb); c3 = ctx.C3p(); c4 = ctx.C4p()
+            plain = any(t[-1] == 0 for t in c1 + c2 + c4) or any(len(t[1]) == 2 for t in c3)
+            first = ('C1+' if c1 else ('C2+' if c2 else ('C3+' if c3 else ('C4+' if c4 else 'none'))))
             if first == 'none':
                 c8, c11 = ctx.certificates()
                 first = 'C8+' if c8 else ('C11+' if c11 else 'none')
@@ -405,7 +436,8 @@ def check_run(profiles, all_states=False):
             if pr.D[Bs] <= 0: continue
             cnt['def>0 states'] += 1; cnt['def>0 states f=%d' % pr.I.f] += 1
             sb = ctx.single_blocks()
-            c1 = ctx.C1p(sb); c2 = ctx.C2p(sb); c3 = ctx.C3p()
+            c1 = ctx.C1p(sb); c2 = ctx.C2p(sb); c3 = ctx.C3p(); c4 = ctx.C4p()
+            cnt['C4+ applies'] += bool(c4); cnt['C4+ applies with k >= 1'] += any(t[-1] >= 1 for t in c4)
             cnt['C1+ applies'] += bool(c1); cnt['C1+ applies with k >= 1'] += any(t[-1] >= 1 for t in c1)
             cnt['C2+ applies'] += bool(c2); cnt['C2+ applies with k >= 1'] += any(t[-1] >= 1 for t in c2)
             cnt['C3+ applies'] += bool(c3); cnt['C3+ applies with k >= 1'] += any(len(t[1]) > 2 for t in c3)
