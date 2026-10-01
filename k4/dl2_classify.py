@@ -203,10 +203,182 @@ def repair_type(P, P2, o, exposed):
     for i in ch:
         oth = [j for j in ch if j != i]
         parts.append(rl[i] + '[' + change(P, P2, i, oth) + ']')
+    for i in range(P.I.n):          # agents whose base is unchanged but whose frozen status changes
+        if i not in ch and P.frozen[i] != P2.frozen[i]:
+            parts.append(rl[i] + '[' + ('F>f' if P.frozen[i] else 'f>F') + ':same base]')
     return ' '.join(sorted(parts))
 
 
-def analyze(d, want_repairs=True, maxrep=6):
+def best_owners(res):
+    if not res: return []
+    mx = max(b for b, _ in res.values())
+    return sorted(o for o, (b, _) in res.items() if b == mx)
+
+
+def repair_kind(P, P2, res2):
+    """coarse kind of a repair P -> P2 (res2: the owner table of P2):
+    R1:release  one free agent y changes; some best owner o' != y of P2 has an optimal bundle holding a good y gave up
+    R1:unblock  one free agent y changes; some best owner o' != y of P2, none of whose optimal bundles holds such a good
+    R1:owner    one free agent y changes and only y is a best owner of P2
+    R1:need-transfer  one agent changes and the needed set changes (an unchanged agent freezes, another unfreezes)
+    R2:role-swap      two agents change, one unfreezes and the other freezes (/needer: it needed the other's good;
+                      /J: the unfrozen agent's new base is junk only, /T: it takes a good of the other)
+    R2:two-free       two free agents change, the needed set is unchanged
+    Rk:...            otherwise, the sorted status changes of the changed agents (/nt: the needed set changes)"""
+    n = P.I.n
+    ch = [i for i in range(n) if P.Bs[i] != P2.Bs[i]]
+    k = len(ch)
+    nt = P2.NA != P.NA
+    if k == 1:
+        y = ch[0]
+        if nt: return 'R1:need-transfer'
+        b2 = best_owners(res2)
+        rel = P.Bs[y] & ~P2.Bs[y]
+        others = [o for o in b2 if o != y]
+        if any(X & rel for o in others for X in res2[o][1]): return 'R1:release'
+        if others: return 'R1:unblock'
+        return 'R1:owner'
+    st = sorted(('F' if P.frozen[i] else 'f') + '>' + ('F' if P2.frozen[i] else 'f') for i in ch)
+    if k == 2:
+        if st == ['F>f', 'f>F']:
+            x = next(i for i in ch if P.frozen[i]); z = next(i for i in ch if not P.frozen[i])
+            sub = '/needer' if P.N[z] & P.Bs[x] else '/other'
+            sub += '/T' if P2.Bs[x] & P.Bs[z] else '/J'
+            return 'R2:role-swap' + sub + ('/nt' if nt else '')
+        if st == ['f>f', 'f>f']:
+            return 'R2:two-free' + ('/nt' if nt else '')
+    return 'R%d:' % k + ','.join(st) + ('/nt' if nt else '')
+
+
+KIND_ORDER = ['R1:release', 'R1:unblock', 'R1:owner', 'R1:need-transfer']
+
+
+def primary_kind(kinds):
+    for k in KIND_ORDER:
+        if k in kinds: return k
+    return sorted(kinds)[0] if kinds else None
+
+
+# ------------------------------------------------------------------ the lemmas of k4/dl2.md, checked on every state
+def rebases(I, P, y):
+    """Lemma 1: the bases B' != B_y with B' ⊆ (B_y ∪ J) ∩ R_y, |B'| <= 2, N_y(B') ⊆ 𝒩"""
+    pool = list(bits((P.Bs[y] | P.J) & I.R[y]))
+    out = []
+    for k in range(3):
+        for c in itertools.combinations(pool, k):
+            B = mask(c)
+            if B != P.Bs[y] and not (I.needs(y, B) & ~P.NA): out.append(B)
+    return out
+
+
+def counted(P, o, X):
+    """the frozen agents counted in u_o(X)"""
+    I = P.I
+    NA2 = I.needs(o, X)
+    for j in range(I.n):
+        if j != o: NA2 |= P.N[j]
+    return [j for j in range(I.n) if j != o and P.frozen[j] and not (P.Bs[j] & NA2)]
+
+
+def max_ext(P2, o, X):
+    """the largest |K| with K ⊆ W'_o \\ X and X ∪ K safe in P2"""
+    rest = list(bits(P2.W(o) & ~X))
+    for k in range(len(rest), 0, -1):
+        for K in itertools.combinations(rest, k):
+            if P2.safe(o, X | mask(K)): return k
+    return 0
+
+
+def lemma_checks(I, P, Bs, PAs, D, OWN):
+    """which lemmas of k4/dl2.md apply at P (def(P) > 0); every conclusion is asserted against the exact deficits.
+    L2: extension (Lemma 2) at a best owner o and an optimal X; L2o: Lemma 2 at another free agent o and one of its
+    optimal X (the gain must exceed Val(P) - Val_o(P)); L3: owner re-base (Lemma 3);
+    C4: release (Corollary 4, hypotheses (i)-(iii)); C4s: its structural form (q valued by nobody outside {o, y}, and
+    X ⊄ R_z for every z outside {o, y}); C5: unblocking (Corollary 5)."""
+    res = OWN[Bs]; best = best_owners(res)
+    vs = res[best[0]][0]
+    out = {}
+
+    def new(y, B2):
+        b = list(Bs); b[y] = B2; return tuple(b)
+    # Lemma 3: owner re-base
+    for y in P.free:
+        if 'L3' in out: break
+        for B2 in rebases(I, P, y):
+            W = P.W(y); rest = list(bits(W & ~B2)); bestv = -1
+            for k in range(len(rest) + 1):
+                for K in itertools.combinations(rest, k):
+                    Z = B2 | mask(K)
+                    if P.safe(y, Z): bestv = max(bestv, pc(Z) + P.u(y, Z))
+            if bestv > vs:
+                b2 = new(y, B2)
+                assert b2 in PAs and D[b2] <= D[Bs] - (bestv - vs), ('Lemma 3 violated', Bs, y, B2)
+                out['L3'] = (y, sorted(bits(B2))); break
+    for o in sorted(res, key=lambda o: (o not in best, o)):       # best owners first, then the other free agents
+        gap = vs - res[o][0]                                       # 0 for a best owner
+        for X in res[o][1]:
+            cnt = counted(P, o, X)
+            C = P.J & ~X
+            for y in P.free:
+                if y == o: continue
+                for B2 in rebases(I, P, y):
+                    if B2 & X: continue
+                    b2 = new(y, B2)
+                    assert b2 in PAs, ('Lemma 1 violated', Bs, y, B2)
+                    P2 = PAs[b2]
+                    Ny = I.needs(y, B2)
+                    e = sum(1 for x in cnt if P.Bs[x] & Ny)
+                    ext = max_ext(P2, o, X)
+                    if ext - e > gap:
+                        assert D[b2] <= D[Bs] - (ext - e - gap), ('Lemma 2 violated', Bs, o, y, B2)
+                        out.setdefault('L2' if gap == 0 else 'L2o', (o, y, sorted(bits(B2))))
+                    if gap: continue                               # the corollaries are stated at best owners
+                    # Corollary 4 (release): B_y = {p, q}, B2 = {p}
+                    if pc(P.Bs[y]) == 2 and pc(B2) == 1 and B2 & P.Bs[y]:
+                        q = P.Bs[y] & ~B2; qg = next(bits(q))
+                        h_i = not any(I.threat(z, X | q, P.bv[z]) for z in range(I.n) if z not in (o, y))
+                        h_ii = I.val(y, X & I.R[y]) + I.v[y][qg] <= I.val(y, B2)
+                        h_iii = e == 0
+                        if h_i and h_ii and h_iii:
+                            assert D[b2] <= D[Bs] - 1, ('Corollary 4 violated', Bs, o, y, B2)
+                            out.setdefault('C4', (o, y, qg))
+                            if all(not (I.R[z] >> qg) & 1 and (X & ~I.R[z]) for z in range(I.n) if z not in (o, y)):
+                                out.setdefault('C4s', (o, y, qg))
+                    # Corollary 5 (unblocking): B2 ⊆ B_y ∪ C, v_y(B2) >= v_y(B_y), some c ∈ C \ B2 blocked only by y
+                    if not (B2 & ~(P.Bs[y] | C)) and I.val(y, B2) >= P.bv[y]:
+                        for c in bits(C & ~B2):
+                            Y = X | (1 << c)
+                            if any(I.threat(z, Y, P.bv[z]) for z in range(I.n) if z not in (o, y)): continue
+                            if I.threat(y, Y, I.val(y, B2)): continue
+                            assert D[b2] <= D[Bs] - 1, ('Corollary 5 violated', Bs, o, y, B2, c)
+                            out.setdefault('C5', (o, y, sorted(bits(B2)), c))
+                            break
+    return out
+
+
+def signature(obs):
+    """the obstruction class of P: the classes of the exposures at the best owner with the fewest exposures"""
+    if not obs: return 'none'
+    ob = min(obs, key=lambda ob: (len(ob['exp']), ob['o']))
+    return '+'.join(sorted(set(v[0] for v in ob['exp'].values()))) or 'none'
+
+
+def group(sig):
+    """a coarse obstruction group of a signature"""
+    parts = sig.split('+')
+    if any(p.startswith('O') for p in parts): return 'other: frozen exposure not G/G1/L'
+    if 'fO' in parts: return 'other: free exposure not e1-e3 with (U), (U2)'
+    if 'fU' in parts or 'fU2' in parts: return 'free exposed agent violating (U)/(U2)'
+    fr = [p for p in parts if p[0] in 'GL']
+    fe = [p for p in parts if p[0] == 'e']
+    dbl = any(p.endswith('2') for p in fr)
+    if fr and fe: return 'H3 + H7 mixed' + (', double threat' if dbl else '')
+    if fe: return 'H3 only (' + '/'.join(sorted(set(fe))) + ')'
+    if fr: return 'H7 only, ' + ('double threat (Lemma D)' if dbl else 'single threats')
+    return 'none'
+
+
+def analyze(d, want_repairs=True, maxrep=6, lemmas=True):
     """list of records, one per min-frozen P with def(P) > 0"""
     I = M.Inst(d['sets'], d['vals'], d.get('m'))
     I.preallocs()
@@ -227,8 +399,7 @@ def analyze(d, want_repairs=True, maxrep=6):
         if D[Bs] <= 0: continue
         P = PAs[Bs]
         res = OWN[Bs]
-        mx = max((b for b, _ in res.values()), default=None)
-        best = sorted(o for o, (b, _) in res.items() if b == mx) if mx is not None else []
+        best = best_owners(res)
         pareto = not any(all(a >= b for a, b in zip(vec[B2], vec[Bs])) and vec[B2] != vec[Bs] for B2 in mp)
         obs = []
         for o in best:
@@ -245,9 +416,10 @@ def analyze(d, want_repairs=True, maxrep=6):
             X = res[o][1][0]
             obs.append({'o': o, 'X': sorted(bits(X)), 'C': sorted(bits(P.J & ~X)), 'u': P.u(o, X),
                         'exp': {str(x): list(v) for x, v in cls.items()}})
+        sig = signature(obs)
         rec = {'Bs': [sorted(bits(B)) for B in Bs], 'def': D[Bs], 'f': I.f, 'omega': I.omega,
                'frozen': [i for i in range(I.n) if P.frozen[i]], 'J': sorted(bits(P.J)), 'pareto': pareto,
-               'best': best, 'obs': obs}
+               'best': best, 'obs': obs, 'sig': sig, 'group': group(sig)}
         if want_repairs:
             dist = None; reps = []
             for B2 in mp:
@@ -256,19 +428,25 @@ def analyze(d, want_repairs=True, maxrep=6):
                 if dist is None or k < dist: dist, reps = k, [B2]
                 elif k == dist: reps.append(B2)
             rec['k'] = dist
-            o0 = obs[0]['o'] if obs else None
-            exp0 = set(int(x) for x in obs[0]['exp']) if obs else set()
+            ob0 = min(obs, key=lambda ob: (len(ob['exp']), ob['o'])) if obs else None
+            o0 = ob0['o'] if ob0 else None
+            exp0 = set(int(x) for x in ob0['exp']) if ob0 else set()
             rr = []
             for B2 in reps:
                 P2 = PAs[B2]
-                mx2 = max(b for b, _ in OWN[B2].values()) if OWN[B2] else None
-                best2 = sorted(o for o, (b, _) in OWN[B2].items() if b == mx2) if mx2 is not None else []
-                rr.append({'Bs': [sorted(bits(B)) for B in B2], 'def': D[B2], 'best': best2,
-                           'type': repair_type(P, P2, o0, exp0)})
-            rr.sort(key=lambda r: (r['def'], r['type']))
+                rr.append({'Bs': [sorted(bits(B)) for B in B2], 'def': D[B2], 'best': best_owners(OWN[B2]),
+                           'type': repair_type(P, P2, o0, exp0), 'kind': repair_kind(P, P2, OWN[B2])})
+            rr.sort(key=lambda r: (KIND_ORDER.index(r['kind']) if r['kind'] in KIND_ORDER else 9, r['def'], r['type']))
             rec['nrep'] = len(rr)
             rec['types'] = sorted(set(r['type'] for r in rr))
+            rec['kinds'] = sorted(set(r['kind'] for r in rr))
+            rec['kind'] = primary_kind(rec['kinds'])
             rec['reps'] = rr[:maxrep]
+        if lemmas:
+            lc = lemma_checks(I, P, Bs, PAs, D, OWN)
+            rec['lemmas'] = lc
+            if lc and want_repairs:
+                assert rec['k'] == 1, ('a lemma applies at a state with k > 1', Bs, lc)
         recs.append(rec)
     return recs, {'omega': I.omega, 'f': I.f, 'nmin': len(mp)}
 
