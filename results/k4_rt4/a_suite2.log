@@ -1,0 +1,32 @@
+# command: python3 k4/dlrt4_run.py suite dl13-n4m9-rot dl13-n4m6-fswap --jobs=1 --rt=1 --ro=1 --dump=results/k4_rt4/dump_a_suite2.jsonl.gz --tables=results/k4_rt4/tables_a_suite2.json
+# dlrt4.c sha256 fcde494a3161279d47a7b80e614f69c58894ebc7b40d00e461f677b8810d7cae
+# suite dl13-n4m9-rot dl13-n4m6-fswap: 2 instances, 1 units to run, 0 from the checkpoint
+suite dl13-n4m9-rot dl13-n4m6-fswap: profiles 2, omega >= 1: 2; k* = 0: 0, 1: 0, 2: 1, 3: 1, >= 4: 0, inf: 0; P with def > 0: 7, at distance 1: 0, 2: 6, 3: 1, >= 4: 0, inf: 0; Pareto-maximal: 0; largest least deficit 0
+  DL_RT4: states (def > 0) with f = 0: 0 (RT4 fails at 0), with f >= 1: 7; DL_RT4 FAILS at 0 of the f >= 1 states; with an improving move T1 0, T2 1, T3p 4, T3h 0, T4 6; only T1 0, only T2 1, only T3 0, only T4 2; R_T fails at 2, R_13 at 3, R_13 + T4 at 1; smallest RT4 move size 1 / 2 / 3 / >= 4 / none: 0 / 6 / 1 / 0 / 0; anomalies 0 + 0 [0 s]
+table B: f >= 1 states by f | signature | branch : count
+  B 3|G|T3p+T4 : 4
+  B 3|G|T4 : 2
+  B 1|L|T2 : 1
+table G: f >= 1 states by f | nearest distance k | branch : count
+  G 3|2|T3p+T4 : 4
+  G 3|2|T4 : 2
+  G 1|3|T2 : 1
+table M: f >= 1 states by f | branch | smallest RT4 move size : count
+  M 3|T3p+T4|2 : 4
+  M 3|T4|2 : 2
+  M 1|T2|3 : 1
+table Z: f >= 1 states by f | branch available | its smallest move size : count
+  Z 3|T3p|2 : 4
+  Z 3|T4|2 : 4
+  Z 3|T4|3 : 2
+  Z 1|T2|3 : 1
+table C: f >= 1 states with T4 by f | smallest T4 size | cycle types at that size : count
+  C 3|2|2 : 4
+  C 3|3|3 : 2
+table Y: f >= 1 states by f | branch | move type available : count
+  Y 3|T3p+T4|T3:xJ.h- : 4
+  Y 3|T3p+T4|T4:2 : 2
+  Y 3|T3p+T4|T4:3 : 2
+  Y 3|T4|T4:2 : 2
+  Y 3|T4|T4:3 : 2
+  Y 1|T2|T2:k3 : 1

@@ -1,0 +1,12 @@
+# command: python3 k4/dlrt4_ref.py random results/k4_certs_3.json.gz --states=2000 --neg=300 --seed=1 --jobs=2 --x
+# random: 180000 profiles drawn, 790 with an f >= 1 state (2001 such states), 300 without one kept
+#  200 / 1090 profiles: {'prof': 200, 'prof_pos': 200, 'prof_f1': 200, 'st': 475, 'st_f1': 475, 'f1_t1': 376, 'f1_t2': 361, 'f1_t3h': 389, 'st_x': 475, 'f1_t3p': 437, 'f1_t4': 58}
+#  400 / 1090 profiles: {'prof': 400, 'prof_pos': 400, 'prof_f1': 400, 'st': 954, 'st_f1': 954, 'f1_t1': 711, 'f1_t2': 680, 'f1_t3h': 792, 'st_x': 954, 'f1_t3p': 865, 'f1_t4': 110}
+#  600 / 1090 profiles: {'prof': 600, 'prof_pos': 600, 'prof_f1': 600, 'st': 1502, 'st_f1': 1502, 'f1_t1': 1063, 'f1_t2': 1031, 'f1_t3h': 1261, 'st_x': 1502, 'f1_t3p': 1347, 'f1_t4': 170}
+#  800 / 1090 profiles: {'prof': 800, 'prof_pos': 792, 'prof_f1': 790, 'st': 2004, 'st_f1': 2001, 'f1_t1': 1414, 'f1_t2': 1383, 'f1_t3h': 1674, 'st_x': 2004, 'f1_t3p': 1764, 'f1_t4': 220, 'st_f0': 3}
+#  1000 / 1090 profiles: {'prof': 1000, 'prof_pos': 800, 'prof_f1': 790, 'st': 2020, 'st_f1': 2001, 'f1_t1': 1414, 'f1_t2': 1383, 'f1_t3h': 1674, 'st_x': 2020, 'f1_t3p': 1764, 'f1_t4': 220, 'st_f0': 19}
+#  1090 / 1090 profiles: {'prof': 1090, 'prof_pos': 802, 'prof_f1': 790, 'st': 2034, 'st_f1': 2001, 'f1_t1': 1414, 'f1_t2': 1383, 'f1_t3h': 1674, 'st_x': 2034, 'f1_t3p': 1764, 'f1_t4': 220, 'st_f0': 33}
+# dlrt4.c sha256 fcde494a3161279d47a7b80e614f69c58894ebc7b40d00e461f677b8810d7cae
+profiles 1090 (with a def > 0 state 802, with an f >= 1 state 790); states 2034 (f = 0: 33, f >= 1: 2001); DL_RT4 failures f >= 1: 0, RT4 failures f = 0: 0
+f >= 1 states with an improving move: T1 1414, T2 1383, T3p 1764, T3h 1674, T4 220; only T4 0, only T2 0
+mismatches: reference (model.py + dl2_relations.py + own T4) 0, reference assertions 0, dl13.c (K line and T1/T3 per state) 0 + 0, -DBIGPP=0 build 0, xcheck (dl134_xcheck.py, 2034 states) 0
