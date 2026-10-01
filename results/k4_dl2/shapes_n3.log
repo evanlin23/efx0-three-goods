@@ -1,0 +1,27 @@
+# command: python3 k4/dl2_shapes.py results/k4_dl2/trapped_n3.jsonl.gz results/k4_dl2/repairs_n3.jsonl.gz --jobs=1
+profiles with k* >= 3 in the dumps: 52928
+trapped P (distance >= 3): 87056; mismatches with dl2.c (def or k): 0
+by (n, k): n=3 k=3: 87056
+
+| n | f | trapped P | shape | P with some repair of this shape | P with every repair of this shape |
+|---|---|---|---|---|---|
+| 3 | 0 | 57984 | ROT | 57984 | 57984 |
+| 3 | 1 | 29072 | SWAP+REL | 17904 | 0 |
+| 3 | 1 | 29072 | SWAP+FREE | 29072 | 11168 |
+| 3 | 1 | 29072 | OTHER | 304 | 0 |
+
+families of the least-distance repairs of each trapped P (SWAP: SWAP, SWAP+REL, SWAP+FREE; ROT: ROT, ROT+REL)
+
+| n | f | families of its repairs | trapped P |
+|---|---|---|---|
+| 3 | 0 | ROT | 57984 |
+| 3 | 1 | OTHER/SWAP | 304 |
+| 3 | 1 | SWAP | 28768 |
+
+role-swap repairs (SWAP, SWAP+REL, SWAP+FREE): n, agents in the swap (unfreezing or taking a needed frozen good), releasing agents, every release of one good, every release adjacent (a released good valued by a swap agent): number of repairs
+  n=3 swap=2 release=0 single=True adjacent=True: 363888
+  n=3 swap=2 release=1 single=True adjacent=False: 528
+  n=3 swap=2 release=1 single=True adjacent=True: 65712
+
+rotations (ROT, ROT+REL): n, agents on the cycle, releasing agents, every transfer j -> i along an exposure (i exposed w.r.t. owner j in P): number of repairs
+  n=3 cycle=3 release=0 along_exposures=True: 1525248
