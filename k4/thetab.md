@@ -31,12 +31,12 @@ f = 1. The f ≥ 2 targets are left to proof/k4-f2 (§6).
   - **Corollary N3**: at n = 3 these hypotheses always hold. So **at n = 3, f = 1, with two big-top needers, every
     state with def > 0 has a (T3) move without helper that lowers the deficit**, with no stuckness hypothesis.
   - **Theorem K**: a pair worth more than g to x unfreezes z for the other needer (κ = 1).
-  - **Corollary G1**: any owner, any number of needers.
-- **Coverage** (§4, EVIDENCE):
-  - W, K and G1 apply at 1,222 of the 1,223 f = 1 targets: W at all 1,154 at n = 3 and at 15 at n = 4, K at 50, G1 at
-    3.
-  - Lemma G, with the least removal set computed from P, applies at all 1,223.
-  - Every bound is asserted against the exact deficit, with no violation.
+  - **Corollary G1** (the budget form of Lemma G at f = 1): any owner, any number of needers.
+
+  Each of W, K, G1 is a condition on P alone that names the swap.
+- **Coverage** (§4, EVIDENCE): **every one of the 1,223 f = 1 targets satisfies the hypotheses of W, K or G1** (W at
+  all 1,154 at n = 3 and at 15 at n = 4, K at 50, G1 at 4). Every bound is asserted against the exact deficit, with no
+  violation. At the 120 f = 2 targets Lemma G (which holds at every f) certifies a plain swap too (§6).
 - **Open** (§5): the existence step at n ≥ 4. The hypotheses of W and K are not consequences of the T3 stage as stated
   (smallest failures in §5). They hold at every target, and Lemma G certifies a plain swap at every T3-stage state of
   the scans (Conjecture PS, EVIDENCE).
@@ -159,16 +159,26 @@ Consequently:
 *Proof.* By Fact 0(a) g beats every good of L_x, so N_x(A) ⊆ {g} iff no good of L_x ∖ A beats v_x(A). Every other
 good of L_x is worth less than p ≤ v_x(A) when p ∈ A, and the singletons other than {p} fail against p. ∎
 
-**Corollary G1 (a swap that meets L_z).** Let f = 1 and let z be a needer of g that is big-top on g. Let A be an
-admissible pair for x inside J ∪ B_z with A ∩ L_z ≠ ∅, and let o ≠ z be free. Let T be the set of free agents other
-than o and z, and let B_T be the union of their bases. Suppose every w ∈ T is **tame in J′ after A**: some
-H_w ⊆ J′ with |H_w| ≤ 2 − |B_w| has v_w(R_w ∖ ({g} ∪ B_T ∪ A ∪ H_w)) ≤ v_w(B_w). Then def(σ(z, A)) ≤ 0.
+**Corollary G1 (the budget form at f = 1).** Let f = 1 and let z be a needer of g that is big-top on g. Let A be an
+admissible pair for x inside J ∪ B_z, and let o ≠ z be free. Let R be the set of free agents other than o and z, let
+B_R be the union of their bases and S_R := Σ_{w ∈ R} (2 − |B_w|) (= S_oz). Suppose some C ⊆ J′ with |C| ≤ S_R
+satisfies:
+- L_z ∩ (A ∪ B_R ∪ C) ≠ ∅;
+- v_w(R_w ∖ ({g} ∪ B_R ∪ A ∪ C)) ≤ v_w(B_w) for every w ∈ R.
 
-*Proof.* Lemma G with C := ⋃_{w ∈ T} H_w ⊆ J′. Then |C| ≤ S_oz, and def(P′) ≤ |C| − 0 − S_oz ≤ 0. Y avoids g (z's
-base), A (x's base) and B_T. Safety of Y:
-- z: Y ∩ L_z ⊆ L_z ∖ A has at most two goods; apply (BT);
+Then def(σ(z, A)) ≤ 0.
+
+*Proof.* At f = 1 the bases of P′ are {g} (z), A (x), B_o, and B_R, and the rest is J′. So
+Y := (B_o ∪ J′) ∖ C = M ∖ ({g} ∪ A ∪ B_R ∪ C). Safety of Y:
+- z: Y misses a good of L_z, so |Y ∩ L_z| ≤ 2; apply (BT);
 - x: (s2);
-- w ∈ T: Y ∩ R_w ⊆ R_w ∖ ({g} ∪ B_T ∪ A ∪ H_w); apply (θ). ∎
+- w ∈ R: Y ∩ R_w = R_w ∖ ({g} ∪ B_R ∪ A ∪ C); apply (θ).
+
+Lemma G: def(P′) ≤ |C| − 0 − S_R ≤ 0. ∎
+
+The removal set C may serve several agents at once. In the simplest case every w ∈ R is **tame in J′ after A**: some
+H_w ⊆ J′ with |H_w| ≤ 2 − |B_w| has v_w(R_w ∖ ({g} ∪ B_R ∪ A ∪ H_w)) ≤ v_w(B_w). If moreover A ∩ L_z ≠ ∅, then
+C := ⋃ H_w works.
 
 ## 3. Existence in setting (H)
 
@@ -229,33 +239,31 @@ the instance of Theorem K below.
 **Theorem K (the unfreezing swap).** Assume (H), and let z ∈ {y1, y2} with o the other needer. Let A ⊆ (J ∪ B_z) ∩ L_x
 be a pair with v_x(A) > v_x(g) (so N_x(A) = ∅), and set J′ := (J ∪ B_z) ∖ A. Suppose:
 - (K1) A ∩ L_o = ∅ and L_o ∩ B_T = ∅;
-- (K2) L_z ∩ (A ∪ B_T) ≠ ∅, or some e ∈ L_z ∖ (L_o ∪ B_T ∪ A) exists;
-- (K3) every w ∈ T is tame in J′ ∖ L_o after A: some H_w ⊆ J′ ∖ L_o with |H_w| ≤ 2 − |B_w| has
-  v_w(R_w ∖ ({g} ∪ B_T ∪ A ∪ H_w)) ≤ v_w(B_w).
+- (K2) some C ⊆ J′ ∖ L_o with |C| ≤ S_T + 1 satisfies L_z ∩ (A ∪ B_T ∪ C) ≠ ∅ and
+  v_w(R_w ∖ ({g} ∪ B_T ∪ A ∪ C)) ≤ v_w(B_w) for every w ∈ T.
 
 Then def(σ(z, A)) ≤ 0.
 
-*Proof.* Let H := ⋃ H_w (|H| ≤ S_T). Let E := ∅ in the first case of (K2), and E := {e} otherwise. Since e ≠ g,
-e ∉ B_T ∪ A and e ∉ B_o ⊆ L_o, we have e ∈ J′. Put C := H ∪ E ⊆ J′ ∖ L_o, so |C| ≤ S_T + 1, and Y := (B_o ∪ J′) ∖ C.
+(K2) holds in particular when every w ∈ T is tame in J′ ∖ L_o after A (sets H_w as in Corollary G1, inside J′ ∖ L_o)
+and either L_z ∩ (A ∪ B_T) ≠ ∅ or some e ∈ L_z ∖ (L_o ∪ B_T ∪ A) exists. In that case take C := ⋃ H_w ∪ {e}. Such
+an e lies in J′: it is not g, not in B_T ∪ A, and not in B_o ⊆ L_o.
 
-Safety of Y:
-- z: in the first case of (K2), Y misses A ∪ B_T, which meets L_z; in the second, e ∉ Y. Either way
-  |Y ∩ L_z| ≤ 2, and (BT) applies.
-- x: (s2).
-- w ∈ T: Y ∩ R_w ⊆ R_w ∖ ({g} ∪ B_T ∪ A ∪ H_w); apply (θ) and (K3).
+*Proof.* As in Corollary G1, Y := (B_o ∪ J′) ∖ C = M ∖ ({g} ∪ A ∪ B_T ∪ C). Safety of Y:
+- z: |Y ∩ L_z| ≤ 2 by (K2); apply (BT);
+- x: (s2);
+- w ∈ T: by (K2) and (θ).
 
 z is counted (κ = 1 in Lemma G):
 - v_x(A) > v_x(g);
 - the agents of T do not need g (only y1, y2 do);
-- L_o ⊆ Y. Every good of L_o lies in J ∪ B_o ∪ B_z ∪ B_T (it is not g, and B_x = {g}). It is not in B_T or A (K1),
-  not in C ⊆ J′ ∖ L_o, so it lies in B_o ∪ (J′ ∖ C) = Y. So v_o(Y) ≥ v_o(L_o) > v_o(g) (strict balance), and
+- L_o ⊆ Y, since L_o misses g, A, B_T (K1) and C ⊆ J′ ∖ L_o. So v_o(Y) ≥ v_o(L_o) > v_o(g) (strict balance), and
   g ∉ N_o(Y).
 
 Lemma G: def(P′) ≤ |C| − 0 − S_T − 1 ≤ 0. ∎
 
 **Theorem S (the single-good swap).** Assume (H), and let z ∈ {y1, y2} with o the other needer and p ∈ J ∪ B_z. Put
-A := {p}, J′ := (J ∪ B_z) ∖ {p} and W′ := B_o ∪ J′. Suppose every w ∈ T is tame in J′ after A (as in (K3), without
-"∖ L_o"). Suppose also that one good e ∈ J′ meets:
+A := {p}, J′ := (J ∪ B_z) ∖ {p} and W′ := B_o ∪ J′. Suppose every w ∈ T is tame in J′ after A (as after Corollary G1,
+with R = T). Suppose also that one good e ∈ J′ meets:
 - L_z, if L_z ⊆ W′;
 - every subset Q ⊆ (L_x ∖ {p}) ∩ W′ with v_x(Q) > v_x(p).
 
@@ -279,18 +287,23 @@ Lemma G's bound for every (z, A, o) with the least removal set computed from P. 
 | f = 1 targets | Theorem W | Theorem K | Corollary G1 | none of these | Lemma G, least C computed |
 |---|---|---|---|---|---|
 | θ-b, n = 3: 1,154 | 1,154 | | | 0 | 1,154 |
-| θ-b, n = 4: 45 | 15 | 28 | 1 | 1 | 45 |
+| θ-b, n = 4: 45 | 15 | 28 | 2 | 0 | 45 |
 | θ-a, n = 4: 2 | | | 2 | 0 | 2 |
 | no S1 shape, n = 4: 22 | | 22 | | 0 | 22 |
-| **all: 1,223** | **1,169** | **50** | **3** | **1** | **1,223** |
+| **all: 1,223** | **1,169** | **50** | **4** | **0** | **1,223** |
 
-(First applicable theorem in the order W, K, G1.) The record that none of them covers
-(`hunt_n4_pure_s400k`, core (m = 11, idx 1), profile 72,38,83,120; n = 4) has three needers of g, two of them
-big-top. In Lemma G for the swap of the big-top needer 0 (x takes {3, 6}, owner the needer 1), z's edge L_0 needs one
-removal. The third needer has a slot (its base is one good) and pays for it: |C| = 1 = S_oz, so def(P′) ≤ 0.
+(First applicable statement in the order W, K, G1.) So **every f = 1 target satisfies the hypotheses of Theorem W,
+Theorem K or Corollary G1**, each of which is a condition on P alone, and is repaired by the plain swap it names.
 
-At f = 1 every target is in (H) or has a big-top needer, and every one is repaired by a plain swap of a big-top needer
-with an unmoved owner whose removal set fits the budget of Lemma G.
+The four targets outside (H) are covered by G1: each has a big-top needer z, and a third or second needer whose slot
+pays for the removal that z's edge needs. Example: `hunt_n4_pure_s400k`, core (m = 11, idx 1), profile
+72,38,83,120, P = ({0}, {5}, {10}, {4}). There g = 10 has three needers. The swap:
+- the big-top needer 0 takes g;
+- x = agent 2 takes {3, 6};
+- owner 1 keeps its base.
+
+z's edge L_0 = {0, 2, 8} needs one removal. The needer 3 (base {4}, one slot) pays for it: |C| = 1 = S_R, so
+def(P′) ≤ 0.
 
 **Scans** (`k4/thetab_scan.py`, `results/k4_thetab/scan_*.log`; inputs as in `k4/dl13.md` §1): every def > 0 state
 with f = 1 and at least two needers, at every stage. *Counts to be filled in when the runs of `k4/thetab_runs.sh`
@@ -321,11 +334,19 @@ Z′ of `k4/c4min_reduce.md` §2 is the natural tool).
 
 *To be completed with the scans.*
 
-## 6. f ≥ 2
+## 6. f ≥ 2 (for proof/k4-f2)
 
-The 43 θ-b and 77 non-S1 targets at f = 2 are not treated here. They are left to proof/k4-f2, and there (T3⁺) replaces
-(T3). Lemma G holds at every f as stated (the other frozen agents are among the agents Y must not threaten, with no
-slots).
+The 43 θ-b and 77 non-S1 targets at f = 2 are left to proof/k4-f2, and there (T3⁺) replaces (T3). Two observations
+come for free.
+- Lemma G holds at every f as stated. Its proof never uses f = 1: the other frozen agents are among the agents Y must
+  not threaten, and they have no slots.
+- On the data (`results/k4_thetab/targets.log`, rows "f>=2"):
+  - every one of the 120 f = 2 target records has a plain swap (a (T3) move without helper) that lowers the deficit;
+    by PR #75's dumps, so does every one of the 800 T1-stuck records with f ≥ 2;
+  - Lemma G, with the least removal set computed from P (`k4/thetab_lib.swap_bound_any_f`; other frozen agents
+    counted only through κ), certifies such a swap at all 120.
+
+The structural existence statements of §3 are not extended to f ≥ 2 here.
 
 ## 7. Reproduce
 

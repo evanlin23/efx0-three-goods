@@ -139,6 +139,20 @@ def main():
     say('X1: no plain swap lowers the deficit (the candidate fails)', not fa['plain'])
     say('X1: P is not T1-stuck (a (T1) move lowers the deficit)', not fa['stuck'])
     print('  W/K/G1 hypotheses (A):', gw1_hyp(ctx), k_swaps(ctx), g1_swaps(ctx))
+
+    # X2: every f = 1 target of k4/dl13.md §6 item 2 is in setting (H) (two needers, both big-top)
+    d = {'sets': [[0, 2, 7, 8], [1, 3, 7, 8], [4, 5, 6, 8], [4, 5, 6]],
+         'vals': [[6, 3, 2, 10], [3, 6, 5, 7], [4, 5, 2, 8], [3, 4, 2]], 'm': 9}
+    P0 = [[0, 7], [8], [4, 6], [5]]
+    fa, pr, ctx = both('X2 (k4_certs_4_n4_3 m=9 idx=5 106,48,94,3)', d, P0)
+    say('X2: strict core, f = 1, def(P) > 0, at the T3 stage (T1-stuck and key-optimal)',
+        fa['core'] and fa['f'] == 1 and fa['d'] > 0 and fa['stuck'] and fa['kopt'])
+    say('X2: a target (C1, C2, C3 of k4/dl13.md do not apply; implementation A only)', target_class(ctx) is not None,
+        str(target_class(ctx)))
+    say('X2: two needers, one of them not big-top (the candidate fails)',
+        len(fa['needers']) == 2 and sorted(fa['bt']) == [False, True])
+    say('X2: a plain swap lowers the deficit', bool(fa['plain']), str(fa['plain'][:3]))
+    print('  Corollary G1 applies (A):', g1_swaps(ctx))
     print('ALL CONFIRMED' if ok_all else 'SOME CASE NOT REPRODUCED')
 
 
