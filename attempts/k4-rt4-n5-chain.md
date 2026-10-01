@@ -82,7 +82,7 @@ def(P′) = −1. DL_RT4 fails at P and at its image under the twin swap.
 
 | run (branch) | core file, pos (idx, m) | failing profiles | failing states |
 |---|---|---:|---:|
-| n5b_4 (compute/k4-rt4-n5b; still running when merged) | `k4_certs_5_n4_4`, 3206 (364, 9) | 1 | 1 |
+| n5b_4 (compute/k4-rt4-n5b; 157,536,000 profiles, finished) | `k4_certs_5_n4_4`, 3206 (364, 9) | 1 | 1 |
 | | `k4_certs_5_n4_4`, 3521 (679, 9) | 1 | 2 |
 | n5c_purebt (compute/k4-rt4-n5c) | `k4_certs_5_pure`, 2614 (568, 10) | 3 | 8 |
 | | `k4_certs_5_pure`, 4170 (25, 12) | 3 | 32 |
