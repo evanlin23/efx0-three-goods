@@ -27,7 +27,7 @@ showed that a declaration added under `set_option debug.skipKernelTC true` is ne
 without warnings and has no axioms for `#print axioms` or `CheckAxioms.lean` to report; the tripwire refuses the
 option and the replay checker rejects such a declaration. On success the last line is
 
-    CHECK PASSED: 409 audited statements, 1165 theorems, standard axioms only
+    CHECK PASSED: 439 audited statements, 1197 theorems, standard axioms only
 
 CI runs it on every pull request (job `lean` in `.github/workflows/verify.yml`). In Claude Code on the web the
 session-start hook installs the toolchain (from GitHub when `release.lean-lang.org` is unreachable).
@@ -247,6 +247,21 @@ specializations) have exactly the types of `EFX.target`, `EFX.LB.corollaryD` (ch
   (`EFX.C4min.defLocalAt_top_iff`), and widening R weakens DL_R (`EFX.C4min.DefLocal.mono`, `EFX.C4min.basesDiffer_mono`).
   The differences from the prose (descent on the deficit instead of finiteness of the min-frozen class; the scope) are
   listed in the module doc.
+- `EFX/DL13.lean`: DL₁₃ with Theorem Z at f = 0 ⟹ TARGET₄ (`k4/dl2.md` §3; ledger K4.DL2.T13.LEAN). The moves of
+  `k4/dl2.md` §3 as relations on base maps: `EFX.C4min.MoveT1` ((T1): one listed agent, free in P, re-bases inside
+  `(B_y ∪ J) ∩ R_y`, the other bases and the needed set unchanged), `EFX.C4min.MoveT3` ((T3): a frozen `x` with base
+  `{g}` and a free `z` needing `g` swap roles, `z` taking `{g}`, plus at most one free helper whose new base misses a
+  good of its old one, the other bases and the needed set unchanged), `EFX.C4min.R13` (their union, R₁₃);
+  `EFX.C4min.FewestFrozenZero` (some P ∈ 𝒫 has no frozen agent), `EFX.C4min.R13Z` (every pair when f = 0, R₁₃
+  otherwise) and `EFX.C4min.DL13` (conjecture DL₁₃: `DefLocalAt R13` on every strict profile of every connected k = 4
+  core with fewest frozen agents ≥ 1). At f = 0 Theorem Z gives DL for the full relation
+  (`EFX.C4min.defLocalAt_top_of_f0`, `EFX.C4min.defLocalAt_R13Z_of_f0`); so DL₁₃ ⟹ `DefLocal R13Z`
+  (`EFX.C4min.defLocal_R13Z_of_DL13`, and the converse: `EFX.C4min.dl13_iff_defLocal_R13Z`) ⟹ `C4minROConn` ⟹
+  TARGET₄ (`EFX.C4min.C4minROConn_of_DL13`, `EFX.C4min.target4_of_DL13`). Sanity facts on the moves: on 𝒫 the
+  subset clause of (T1) is automatic (`EFX.C4min.moveT1_of_inP`), `x` takes a new base in (T3)
+  (`EFX.C4min.moveT3_new_base`), and R₁₃ changes at most three bases (`EFX.C4min.r13_basesDiffer`). How the relation
+  compares with the code `R13` of `k4/dl2_relations.py` (frozen-status changes instead of the needed set; the same
+  pairs of min-frozen pre-allocations by the text's Lemmas 1 and 6, not formalized) is in the module doc.
 - `EFX/K3Algo.lean`, `EFX/Timed.lean`, `EFX/K3CostLB.lean`, `EFX/K3Cost.lean`, `EFX/K3CostBound.lean`,
   `EFX/K3Examples.lean`: algorithm K3ALG, a polynomial-time algorithm for k = 3 with its running time
   (`proofs/k3_algorithm.md`; ledger K3.ALG, K3.ALG.TIME).
@@ -367,6 +382,7 @@ name in the ledger's Lean column has one.
 | K4.C4MIN.Z.LEAN | Theorem Z: on every k = 4 core whose fewest frozen agents is 0, some min-frozen P ∈ 𝒫 has def(P) ≤ 0 and is completable (C₄ᵐⁱⁿ's conclusion, both forms); a pool-optimal all-pairs allocation with the most robust agents has a valid owner | ThmZ : `EFX.C4min.theoremZ_min`, `EFX.C4min.theoremZ_RO`, `EFX.C4min.theoremZ`, `EFX.C4min.c4minRO_of_f0`, `EFX.C4min.c4min_of_f0`, `EFX.C4min.efx0_of_f0`, `EFX.C4min.removalOnly_of_zvalid`, `EFX.C4min.zvalid_of_zmax`, `EFX.C4min.c4min_of_zvalid`, `EFX.C4min.exists_zmax`, `EFX.C4min.threat_unique`, `EFX.C4min.threat_gain`, `EFX.C4min.zvalid_or_all4`, `EFX.C4min.robust_of_rel_le2` |
 | K4.C4MIN.F.LEAN | Theorem F: on every k = 4 core with a frozen-robust configuration at the fewest frozen agents, some min-frozen P ∈ 𝒫 has def(P) ≤ 0 and is completable (C₄ᵐⁱⁿ's conclusion, both forms); rigidity of the needed set at the fewest frozen agents; Lemma 1(a): a valid owner of a configuration (with unfreezing) gives def(P) ≤ 0 | ThmF : `EFX.C4min.theoremF_min`, `EFX.C4min.theoremF`, `EFX.C4min.c4minRO_of_frobust`, `EFX.C4min.rigid_NA`, `EFX.C4min.frozen_of_min`, `EFX.C4min.removalOnly_of_cfgOwner`, `EFX.C4min.c4min_of_cfgOwner`, `EFX.C4min.isAPA_sub`, `EFX.C4min.not_threat_frozen`, `EFX.C4min.fmax_poolOpt`, `EFX.C4min.fmax_nRobust`, `EFX.C4min.frozen_cycle`; ThmZ : `EFX.C4min.zvalid_or_all4`; ThmFExamples : `EFX.C4min.ExF.c4min` |
 | K4.STRAT.DL2.LEAN | DL_R ⟹ TARGET₄ for every neighbourhood relation R, by finite descent on the deficit: DL_R on an instance gives a min-frozen P ∈ 𝒫 with def(P) ≤ 0; DL_R on connected cores ⟹ `C4minROConn` ⟹ TARGET₄; in particular DL₂ ⟹ TARGET₄; DL_R on every core ⟹ `TheoremC4minRO`; the deficit is an element of ℤ ∪ {+∞}; ω(P) = f − (2n − m) on 𝒫, the same for every min-frozen P | C4minDescent : `EFX.C4min.exists_removalOnly_of_defLocalAt`, `EFX.C4min.C4minROConn_of_defLocal`, `EFX.C4min.target4_of_defLocal`, `EFX.C4min.C4minROConn_of_defLocal2`, `EFX.C4min.target4_of_defLocal2`, `EFX.C4min.C4minRO_of_defLocalAll`, `EFX.C4min.defLocalAt_top_iff`, `EFX.C4min.deficitLT_iff`, `EFX.C4min.exists_least_deficit`, `EFX.C4min.omegaP_eq`, `EFX.C4min.omegaP_minFrozen_eq`, `EFX.C4min.omegaP_pos` |
+| K4.DL2.T13.LEAN | DL₁₃ (DL for R₁₃ = (T1) ∪ (T3) on connected k = 4 cores with fewest frozen agents ≥ 1) and Theorem Z at f = 0 ⟹ DL for R13Z (every pair at f = 0, R₁₃ otherwise), and conversely ⟹ `C4minROConn` ⟹ TARGET₄ | DL13 : `EFX.C4min.target4_of_DL13`, `EFX.C4min.C4minROConn_of_DL13`, `EFX.C4min.defLocal_R13Z_of_DL13`, `EFX.C4min.dl13_iff_defLocal_R13Z`, `EFX.C4min.defLocalAt_R13Z_of_f0`, `EFX.C4min.defLocalAt_top_of_f0`, `EFX.C4min.moveT1_of_inP`, `EFX.C4min.moveT3_new_base`, `EFX.C4min.r13_basesDiffer` |
 | K4.MC1 | M1, M1(b): an extension of an EFX₀ allocation of the smaller instance (outside agents keep their goods outside `I ∪ I′`, agents of `S` safe, every bundle dominated by a bundle of `Y` or with its `U`-part inside that of a bundle no outside agent envies) is EFX₀; any number of relevant goods | K4MinCex : `EFX.MinCex.m1_efx0`, `EFX.MinCex.m1_reduce`, `EFX.MinCex.threat_le_of_dominated` (over lists) |
 | K4.MC0 | (a)–(c): within a hereditary, relevance-invariant class, a minimal counterexample is a connected strict k = 4 core with a 4-good agent | K4MinCex : `EFX.MinCex.mc0`, `EFX.MinCex.core_reduction4_class` (over lists) |
 | K4.MC4 | the counting: with K4.MC3 and K4.MC5(iii) on `Γ′`, `4n + 3m ≤ 3 Σ_i \|R_i\|`, i.e. `n ≤ 3(β − 1)` | K4MinCex : `EFX.MinCex.mc4_count` (over lists) |
