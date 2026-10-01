@@ -21,6 +21,8 @@ Usage:
   python3 k4/lemmam_bt_hh.py d2 NAME                     K4.D on the instance: a two-step insertion sequence whose
                                                          state has an Output (encoding A), checked by the raw EFX0
                                                          definition
+With --log=FILE, classes and exact append their lines to FILE and skip the first agents FILE already has (resumable);
+one worker process throughout.
 """
 import json, os, subprocess, sys, tempfile, time
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -76,12 +78,41 @@ def c40(inst, a):
     return M.omega(inst, s), [x for x in A['E'] if len(inst.R[x]) == 4], A['frozen_r']
 
 
+LOG = None
+
+
+def out(line):
+    print(line, flush=True)
+    if LOG:
+        with open(LOG, 'a') as f:
+            f.write(line + '\n')
+
+
+def done_agents():
+    """first agents already in the log (resumable runs)"""
+    if not LOG or not os.path.exists(LOG):
+        return {}
+    res = {}
+    for l in open(LOG):
+        if l.startswith('first '):
+            res[int(l.split()[1].rstrip(':'))] = l
+    return res
+
+
+def finished(n):
+    return len(done_agents()) == n if LOG else True
+
+
 def classes(name, agents=None):
     sets, vals, m = build(name)
     inst = L.make_inst(sets, vals)
-    print(f'# classes {name}: n = {inst.n}, m = {inst.m} (k4/lemmam_bt.py, Lemma K with Remark 4)', flush=True)
-    bad = 0
+    done = done_agents()
+    if not done:
+        out(f'# classes {name}: n = {inst.n}, m = {inst.m} (k4/lemmam_bt.py, Lemma K with Remark 4)')
+    bad = sum('in no class' in l for l in done.values())
     for a in (agents if agents is not None else range(inst.n)):
+        if a in done:
+            continue
         t0 = time.time()
         res, inK = [], False
         for pol in L.POLS:
@@ -99,9 +130,11 @@ def classes(name, agents=None):
         om, e4, rfz = c40(inst, a)
         isc40 = om <= 0 or (not e4 and not rfz)
         bad += not inK and not isc40
-        print(f'first {a}: ' + ' | '.join(res) + f' | C40: omega {om}, exposed 4-good {len(e4)}, r frozen {rfz}'
-              f' -> {"in K0/K1/C40" if inK or isc40 else "in no class"} ({time.time() - t0:.0f}s)', flush=True)
-    print(f'RESULT classes {name}: first agents in no class (K0, K1, RK3 policies; C40): {bad}')
+        out(f'first {a}: ' + ' | '.join(res) + f' | C40: omega {om}, exposed 4-good {len(e4)}, r frozen {rfz}'
+            f' -> {"in K0/K1/C40" if inK or isc40 else "in no class"} ({time.time() - t0:.0f}s)')
+    N = len(agents) if agents is not None else inst.n
+    if finished(N):
+        out(f'RESULT classes {name}: first agents in no class (K0, K1, RK3 policies; C40): {bad} of {N}')
 
 
 def rk(name):
@@ -135,9 +168,13 @@ def rk(name):
 def exact(name, enc, agents=None):
     sets, vals, m = build(name)
     inst = L.make_inst(sets, vals)
-    print(f'# exact {name}: encoding {enc}, n = {inst.n}, m = {inst.m}', flush=True)
-    nok = 0
+    done = done_agents()
+    if not done:
+        out(f'# exact {name}: encoding {enc}, n = {inst.n}, m = {inst.m}')
+    nok = sum('no output' not in l for l in done.values())
     for a in (agents if agents is not None else range(inst.n)):
+        if a in done:
+            continue
         t0 = time.time()
         st = {}
         for pol in L.POLS:
@@ -157,9 +194,55 @@ def exact(name, enc, agents=None):
             if found:
                 break
         nok += found is not None
-        print(f'first {a}: {len(st)} states (<= 1 rotation, 3 policies): '
-              f'{"output " + str(found) if found else "no output"} ({time.time() - t0:.0f}s)', flush=True)
-    print(f'RESULT exact {name} encoding {enc}: first agents with an output after <= 1 rotation: {nok}')
+        out(f'first {a}: {len(st)} states (<= 1 rotation, 3 policies): '
+            f'{"output " + str(found) if found else "no output"} ({time.time() - t0:.0f}s)')
+    N = len(agents) if agents is not None else inst.n
+    if finished(N):
+        out(f'RESULT exact {name} encoding {enc}: first agents with an output after <= 1 rotation: {nok} of {N}')
+
+
+def lemmas(name):
+    """Lemmas 1 and 2 of k4/lemmam_bt.md §3 on HH_t: for every first agent and policy, the bases of every gadget (as
+    ranks in the agent's order: 0 = a, 1 = b, ...) are those the lemmas state."""
+    sets, vals, m = build(name)
+    t = int(name[2:])
+    inst = L.make_inst(sets, vals)
+
+    def role(i):
+        if i < 2:
+            return ('l', 'AB'[i], 0, 0)
+        c = 'A' if i < 2 + 4 * t else 'B'
+        k = (i - 2) % (4 * t)
+        j, r = k // 4 + 1, k % 4
+        return ('y', c, j, 0) if r == 3 else ('x', c, j, r + 1)
+    idx = {role(i): i for i in range(inst.n)}
+    bad = checked = 0
+    for a in range(inst.n):
+        ra = role(a)
+        D = ra[1]
+        C = 'B' if D == 'A' else 'A'
+        for pol in L.POLS:
+            s, _, _ = L.run_state(inst, a, pol)
+            B = L.bases(inst, s)
+
+            def conf(cp, j):
+                ag = [idx[('y', cp, j, 0)]] + [idx[('x', cp, j, i)] for i in (1, 2, 3)]
+                return [sorted(L.ranking(inst, x).index(g) for g in B[x]) for x in ag]
+            for j in range(1, t + 1):
+                checked += 2
+                if conf(C, j) != [[3], [0], [0], [0]]:
+                    bad += 1
+                    print('copy C, first agent', a, pol, 'gadget', j, conf(C, j))
+                if ra[0] == 'l' or j < ra[2]:
+                    exp = [[3], [0], [0], [0]]                                            # (alpha)
+                elif j == ra[2] and ra[0] == 'y' or ra[3] in (2, 3) and j == ra[2]:
+                    exp = [[0], [1, 2], [0], [0]] if pol == 'shrink' else [[0], [1], [0], [0]]   # (beta1)
+                else:
+                    exp = [[1, 3], [0], [1, 2], [0]] if pol == 'shrink' else [[1], [0], [1], [0]]  # (beta2)
+                if conf(D, j) != exp:
+                    bad += 1
+                    print('copy D, first agent', a, pol, 'gadget', j, conf(D, j), 'expected', exp)
+    print(f'lemmas {name}: {checked} gadget states checked (every first agent, every policy), {bad} mismatches')
 
 
 def d2(name):
@@ -188,8 +271,10 @@ def d2(name):
 
 
 if __name__ == '__main__':
-    mode, name = sys.argv[1], sys.argv[2]
-    rest = sys.argv[3:]
+    LOG = next((x.split('=', 1)[1] for x in sys.argv if x.startswith('--log=')), None)
+    argv = [x for x in sys.argv if not x.startswith('--log=')]
+    mode, name = argv[1], argv[2]
+    rest = argv[3:]
     ag = lambda s: [int(x) for x in s.split(',')]
     if mode == 'core':
         core(name)
@@ -201,3 +286,5 @@ if __name__ == '__main__':
         exact(name, rest[0], ag(rest[1]) if len(rest) > 1 else None)
     elif mode == 'd2':
         d2(name)
+    elif mode == 'lemmas':
+        lemmas(name)
