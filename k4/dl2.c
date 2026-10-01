@@ -1,4 +1,5 @@
-/* k4/dl2.c -- Conjecture DL2 of k4/strategy.md section 3 on data (compute/k4-dl2; ledger K4.STRAT.DL2). EVIDENCE only.
+/* k4/dl2.c -- Conjecture DL2 of k4/strategy.md section 3 on data (compute/k4-dl2). EVIDENCE only.
+Ledger rows K4.DL2.KN (k* against n) and K4.DL2.SHAPE (the traps); summary in k4/dl2_data.md.
 
 Written from the definitions of k4/c4x.md section 1 (the space P, value-based needs, the removal-only deficit),
 k4/hall.md sections 1, 2, 5 (Lemma H1's exposures; Lemma H3's free shapes e1-e3; Lemma H7's frozen classes G, G1, L)

@@ -10,26 +10,31 @@ The proof workstream (`k4/dl2.md`, `k4/dl2_classify.py`) reads the dumps listed 
 ## Summary
 
 1. **k* is not bounded: k* = n occurs for every n tested.**
-   - n = 2: 8,912 of the 105,120 profiles with ω ≥ 1, exhaustive.
-   - n = 3: 52,928 of the 119,640,516 profiles with ω ≥ 1, exhaustive (k* ≤ n always).
+   - n = 2: 8,912 of the 105,120 profiles with ω ≥ 1, and n = 3: 52,928 of 119,640,516 (k* ≤ n always). Both are
+     exhaustive over every connected k = 4 core with a 4-good agent (K4.R3's lists; cores without one are k = 3
+     cores).
    - n = 4: 1,072 profiles of 4 cyclic cores (16 of the 46 cyclic cores run, §3.1), including C_4. In the classes
-     run exhaustively, k* ≤ 2: with one 4-good agent (102,434 profiles with ω ≥ 1) and with two (54,488,316). So at
-     n = 4 the traps need three or four 4-good agents. In #53's n = 4 and n = 5 gap catalogues (f ≥ 1), k* ≤ 3 and
-     k* ≤ 2.
+     run exhaustively, k* ≤ 2: with one 4-good agent (102,434 profiles with ω ≥ 1) and with two (54,488,316). So
+     every n = 4 trap found is on a core with three or four 4-good agents. In #53's n = 4 and n = 5 gap catalogues
+     (f ≥ 1), k* ≤ 3 and k* ≤ 2.
    - The family C_n (§4): one strict profile of one core for each n. k* = n is checked by `k4/dl2.c` for 3 ≤ n ≤ 12,
      and by `k4/suite/model.py` as well for n ≤ 7. A short argument (§4, not refereed) gives it for every n.
 
    So DL_k fails for every fixed k. In C_n the only repairs of the trap P_n change all n bases: they rotate goods
    around the n-cycle of exposures. A neighbourhood relation R for `EFX.C4min.target4_of_defLocal` (PR #68) must
    therefore contain rotations along exposure cycles of every length as single moves.
-2. **The traps (k(P) ≥ 3) come in two shapes**, on every one of the 87,056 traps at n ≤ 3 and the 1,074 found at
-   n = 4 (§5):
-   - **ROT** (every f = 0 trap; also the two f = 1 traps of the n = 4 catalogues, among their free agents): every
-     least-distance repair rotates goods along a cycle of the exposure relation. Each agent takes a good from the base
-     of the owner it is exposed to, so transfers follow the exposure edges.
-   - **SWAP+FREE** (f ≥ 1): a frozen agent unfreezes and an agent that needed its good takes it (a role swap along a
-     need edge). The third agent gives up a good that a role-swap agent values. In some repairs this is a pure
-     single-good release (SWAP+REL), in others a swap with the pool or a hand-over to the unfreezing agent.
+2. **The traps (k(P) ≥ 3) come in two shapes** (§5; every least-distance repair of the 87,056 traps at n ≤ 3 and of
+   the 1,074 found at n = 4):
+   - **ROT**, every f = 0 trap: every least-distance repair rotates goods along a cycle of the exposure relation. Each
+     agent takes a good from the base of the owner it is exposed to, so transfers follow the exposure edges (all
+     1,525,248 repairs at n = 3 and all 94,764 on the cyclic n = 4 cores).
+   - **SWAP+FREE**, every f = 1 trap at n = 3. Some repair is a role swap along a need edge (a frozen agent unfreezes,
+     an agent that needed its good takes it) plus a third agent that gives up a good valued by a role-swap agent. It
+     does so by a pure single-good release, a swap with the pool, or a hand-over to the unfreezing agent.
+     - Repairs where the third agent only releases goods (SWAP+REL) exist for 17,904 of the 29,072 traps.
+     - In 528 of those 66,240 SWAP+REL repairs the released good is not valued by a swap agent.
+   - The two f = 1 traps of the n = 4 catalogues are different. Their 27 rotation repairs are 3-cycles among free
+     agents that do **not** follow exposure edges, and one of them also has 8 SWAP+FREE repairs.
 3. **Pareto-maximal P.** The setting of Lemmas H3 and H7 still has traps: 8,736 Pareto-maximal P at n = 3 need three
    agents. All have a local frozen exposure (H7's class L), and all are role-swap traps. None of the f = 0 rotation
    traps is Pareto-maximal (in `dl2-rot-n3m7` and C_n the rotation is a Pareto-improvement). The 377,832
@@ -58,7 +63,8 @@ For a strict profile of a connected k = 4 core with ω ≥ 1 (definitions of `k4
 - `k4/suite/deficit_local.py` with `k4/suite/model.py`: the strategy workstream's independent k*.
 - `k4/dl2_check.py` compares the two **per P**: bases, deficit, distance, nearest neighbour and the Pareto flag.
   `model.py`'s Pareto flag is computed over all of 𝒫; `dl2.c` scans the min-frozen class.
-  - Scope: 34,964 instances, 603,858 min-frozen P, **0 disagreements**.
+  - Scope: 34,964 instances, 603,858 min-frozen P, **0 disagreements**. 10,553 of the instances have ω ≤ 0, where
+    only that verdict is compared; the per-P comparison covers the other 24,411.
   - Sources: the suite (148 instances); #53's catalogues at 245040b (every 1st–40th record, n = 2–5, hard hunt);
     random strict profiles of every certified core list with n ≤ 4, and of n = 5 with one 4-good agent.
   - Logs: `results/k4_dl2/check_*.log`.
@@ -66,13 +72,16 @@ For a strict profile of a connected k = 4 core with ω ≥ 1 (definitions of `k4
   (`selftest.log`).
 - `attempts/k4_dl2_rotation.py`: a third, raw re-derivation, used on `dl2-rot-n3m7`.
 - Every trap in §5 is re-derived from scratch with `model.py` by `k4/dl2_shapes.py`, which reports 0 mismatches.
+- The logs carry the SHA-256 of the `dl2.c` they ran. Most show 0e4e2410…; the later ones (`cycle_n3.log`,
+  `suite_dl2_pred.log`) show bf20adab…. The two sources differ only in the header comment, which now cites the
+  ledger rows. Compiled under the same file name with `gcc -O2 -c`, they give byte-identical object files.
 
 ## 3. k* against n
 
 | scope | profiles with ω ≥ 1 | k* = 0 | 1 | 2 | 3 | ≥ 4 | k* = n | P with def > 0 | traps: P at distance ≥ 3 (isolated / non-isolated) | log |
 |---|---|---|---|---|---|---|---|---|---|---|
-| n = 2, every profile (5 cores) | 105,120 | 44,192 | 52,016 | 8,912 | — | — | 8,912 | 171,432 | — | `n3.log` |
-| n = 3, every profile (51 cores) | 119,640,516 | 106,103,948 | 13,033,872 | 449,768 | 52,928 | — | 52,928 | 36,739,800 | 87,056 (29,952 / 57,104) | `n3.log`, `n3_part1.log` |
+| n = 2, every profile of K4.R3's 5 cores (connected k = 4 cores with a 4-good agent) | 105,120 | 44,192 | 52,016 | 8,912 | — | — | 8,912 | 171,432 | — | `n3.log` |
+| n = 3, every profile of K4.R3's 51 cores (the same) | 119,640,516 | 106,103,948 | 13,033,872 | 449,768 | 52,928 | — | 52,928 | 36,739,800 | 87,056 (29,952 / 57,104) | `n3.log`, `n3_part1.log` |
 | n = 4, one 4-good agent, every profile (135 cores) | 102,434 | 102,258 | 0 | 176 | 0 | 0 | 0 | 286 | 0 | `n4_1.log` |
 | n = 4, two 4-good agents, every profile (309 cores) | 54,488,316 | 54,284,364 | 171,340 | 32,612 | 0 | 0 | 0 | 324,658 | 0 | `n4_2.log` |
 | n = 4, cyclic cores (§3.1), 16 of the 46, every profile with top t_i and second x_i | 5,308,416 | 5,221,489 | 80,905 | 4,950 | 0 | 1,072 | 1,072 | | 1,072 (all isolated) | `cycle_n4_part.log` |
@@ -86,14 +95,18 @@ The cyclic n = 4 run was stopped after 16 of its 46 cores to free the CPU for th
 are in the log; the tables were not written). #53's catalogues hold only gap profiles (f ≥ 1, no frozen-robust key),
 so they contain no f = 0 profile, where the rotation traps live.
 
-The largest least deficit over all profiles is 0 in every row, so C₄ᵐⁱⁿ (removal-only) holds on all of them.
+C₄ᵐⁱⁿ (removal-only) holds on every profile of every row.
+- Where the log reports the largest least deficit over the profiles, it is ≤ 0: 0, −1 or −2.
+- In the cyclic row the tables were not written, but no profile has k* = ∞ (every per-core line of the log ends in
+  0 for inf). A least deficit above 0 would make k* = ∞, since the P attaining it has no P′ with a smaller deficit.
+- For C_n, `cn.log` prints the least deficit of each n (−1 to −10).
 
 ### 3.1 Cyclic cores
 
 `k4/dl2_cycle.py N` builds the cores that generalize `dl2-rot-n3m7`. Agents i = 0..n−1 sit on a cycle, and agent i
 values {t_i, x_i, t_{i+1}, y_i}, with y_i the shared junk good j or some x_k. There are 7 such cores at n = 3 and 46 at
 n = 4 (up to rotation). The script runs every profile whose top is t_i and second good x_i. At n = 3 this finds 294
-profiles with k* = 3; the n = 4 results are in the table.
+of the 93,888 profiles with k* = 3, all isolated (`cycle_n3.log`); the n = 4 results are in the table.
 
 ## 4. The family C_n: k* = n for every n
 
@@ -114,12 +127,14 @@ differs from P_n in all n bases. Hence k*(C_n) = n.
   cycle, every agent holds its pair, and the P is P_n. Every other min-frozen P gives every agent a base containing its
   own top, so it differs from P_n in all n bases.
 - In P_n, J = {j} and S = 0. An owner bundle must have ω + 2 = 3 goods, so it is B_o ∪ {j}. That bundle threatens
-  agent o + 1, which holds 9 and sees t_{o+1} + j = 10 (x_o ∉ R_{o+1}, so nothing is removed). Removing j leaves 2
-  goods, so def(P_n) = 3 − 2 = 1 (u = 0, nobody is frozen).
+  agent o + 1, which holds 9 and sees t_{o+1} + j = 10 (x_o ∉ R_{o+1}, so nothing is removed). Removing j leaves
+  X = B_o, which is safe: agent o + 1 sees t_{o+1} alone (8 ≤ 9), and no agent but o and o + 1 values x_o or
+  t_{o+1}. So the best owner bundle has 2 goods and def(P_n) = 3 − 2 = 1 (u = 0, nobody is frozen).
 - A P′ with def(P′) ≤ 0: every agent holds {t_i}, J = {x_0, …, x_{n−1}, j}, and owner o takes X = {t_o, x_o, j}.
   Agent o − 1 sees t_o + j = 6 ≤ 8, and agent i sees at most j = 2. So X is safe, |X| = 3 = ω + 2, and def(P′) ≤ 0.
 - Every exposure in P_n is H3's e2 with the same label j: a label collision in a cycle of length n. P_n is not
-  Pareto-maximal; the rotation in which every agent takes its top improves everyone.
+  Pareto-maximal. The rotation that gives every agent {t_i, x_i} (13 > 9) improves everyone; {t_i} alone (8) would
+  not.
 
 The min-frozen class has 2ⁿ + n·2ⁿ⁻¹ + 1 elements (each agent holds {t_i} or {t_i, x_i}, at most one also holds
 {t_i, j}, plus P_n). `k4/dl2_cn.py` confirms the claim with `dl2.c` for n = 3..12, and with `model.py` for n ≤ 7
@@ -141,7 +156,7 @@ per-agent labels and a shape:
 | n = 3, f = 0, every profile | 57,984 (k = 3) | **every** repair is ROT: 1,525,248 repairs, each a 3-cycle with every transfer j → i along an exposure edge (i exposed w.r.t. owner j in P) | `shapes_n3.log` |
 | n = 3, f = 1, every profile | 29,072 (k = 3) | **every P has a SWAP+FREE repair** (a role swap along a need edge, chain length 1, plus a third free agent giving up a good a swap agent values); 17,904 also have SWAP+REL (a single-good release); 304 also have OTHER repairs (the third agent trades one of its goods for a good the receiver released) | `shapes_n3.log` |
 | n = 4 cyclic cores, f = 0 | 1,072 (k = 4) | every repair is ROT: 94,764 repairs, 4-cycles along exposure edges | `shapes_cycle_n4.log` |
-| n = 4 catalogues, f = 1 | 2 (k = 3, isolated) | both have ROT repairs among three free agents (the frozen agent does not change); one also has a SWAP+FREE repair | `shapes_n4cat.log` |
+| n = 4 catalogues, f = 1 | 2 (k = 3, isolated) | their 27 ROT repairs are 3-cycles among free agents (the frozen agent does not change) that do **not** follow exposure edges; one trap also has 8 SWAP+FREE repairs | `shapes_n4cat.log` |
 | C_n | 1 per n (k = n) | rotation of the whole n-cycle (§4) | `cn.log` |
 
 Every trap was re-derived by `model.py` with 0 mismatches against `dl2.c` (def and k).
@@ -153,7 +168,8 @@ its good, propagated along a need chain or threat walk, plus single-good release
   the 29,072 P; otherwise it swaps with the pool, or hands the good to the unfreezing agent.
 - Without frozen agents (f = 0, Theorem Z's case), no. There is nothing to swap. The repair is a rotation along a
   cycle of the exposure relation (a threat walk that closes up), and C_n makes that cycle as long as n.
-- Rotations also occur at f = 1 (the two n = 4 catalogue traps), among the free agents.
+- Rotations also occur at f = 1 (the two n = 4 catalogue traps), among the free agents, but there they do not follow
+  exposure edges.
 
 So a relation R that makes DL_R true must contain at least (i) rotations along exposure cycles of every length and
 (ii) role swaps along a need edge together with one freeing change of an adjacent agent. Whether (i) and (ii)

@@ -1,14 +1,14 @@
 #!/bin/sh
-# The runs of compute/k4-dl2 (k4/dl2.c; ledger K4.STRAT.DL2, K4.STRAT.DL2E). Every log in results/k4_dl2/ starts with
+# The runs of compute/k4-dl2 (k4/dl2.c; ledger K4.DL2.KN, K4.DL2.SHAPE). Every log in results/k4_dl2/ starts with
 # its command. EVIDENCE only. Usage: sh k4/dl2_runs.sh STEP   (from the repository root; 2 worker processes)
 #   check   cross-checks of dl2.c against k4/suite/deficit_local.py and model.py (suite, catalogues, random profiles)
-#   n3      every strict profile of every connected core with n <= 3
+#   n3      every strict profile of every connected k = 4 core with n <= 3 and a 4-good agent (K4.R3's lists)
 #   n4_1    every strict profile, n = 4, one 4-good agent
 #   n4_2    every strict profile, n = 4, two 4-good agents (with a checkpoint)
 #   n4rand P  P random strict profiles of every n = 4 core with three or four 4-good agents
 #   n4cat   every record of #53's n = 4 catalogues with three or four 4-good agents and of its n = 4 hunts
 #   n5cat   every record of #53's n = 5 gap catalogues and hunts (f >= 1 gap profiles)
-#   n5rand P  P random strict profiles of every connected core with n = 5 (the certificate files)
+#   n5rand P  P random strict profiles of every n = 5 core of the certificate files (connected, a 4-good agent)
 #   n6rand P CORES  P random strict profiles of every n = 6 core with one 4-good agent, and of CORES random n = 6 cores
 #   cycle N [P]  the cyclic cores of k4/dl2_cycle.py (the f = 0 rotation trap generalized to n = N), every profile
 #           with the cyclic order of top and second goods, or P random ones per core
