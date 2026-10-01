@@ -1,0 +1,6 @@
+# command: python3 k4/dlrt4_ref.py suite --jobs=4 --x
+#  150 / 150 profiles: {'prof': 150, 'prof_pos': 54, 'st': 367, 'st_f0': 198, 'st_x': 166, 'prof_f1': 46, 'st_f1': 169, 'f1_t1': 104, 'f1_t2': 105, 'f1_t3p': 159, 'f1_t3h': 148, 'f1_t4': 6, 'f1_t4only': 2, 'f1_t2only': 1}
+# dlrt4.c sha256 fcde494a3161279d47a7b80e614f69c58894ebc7b40d00e461f677b8810d7cae
+profiles 150 (with a def > 0 state 54, with an f >= 1 state 46); states 367 (f = 0: 198, f >= 1: 169); DL_RT4 failures f >= 1: 0, RT4 failures f = 0: 0
+f >= 1 states with an improving move: T1 104, T2 105, T3p 159, T3h 148, T4 6; only T4 2, only T2 1
+mismatches: reference (model.py + dl2_relations.py + own T4) 0, reference assertions 0, dl13.c (K line and T1/T3 per state) 0 + 0, -DBIGPP=0 build 0, xcheck (dl134_xcheck.py, 166 states) 0
