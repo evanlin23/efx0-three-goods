@@ -1,0 +1,2 @@
+# command: python3 k4/dl2_lemma_random.py 3000 --catalog=k4/suite/.cache/gapbench/results/k4_gap/gap_n3.json.gz --every=24
+no violation; instances 3000, omega>=1 3000, states 1757, L2 1240, L2o 48, L3 193, C4 891, C5 62, moves16 841830, lemma7 26216

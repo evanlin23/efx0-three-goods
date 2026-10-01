@@ -1,0 +1,33 @@
+# command: python3 attempts/k4_dl2_attempts.py
+DL2 fails: n = 3, m = 7 core, k* = 3 (dl2-n3m7)                confirmed  core True; k* model/c4x_check: 3/3; P0 = [[3], [2, 5], [4, 6]]: def 1, distance 3 (B: (1, 3)); 21 min-frozen P (B: 21)
+DL_RSY fails: n = 2, m = 5, f = 0 (induct-g-r1)                confirmed  core True; P0 = [[0, 3], [1, 2]] def 1 (B: 1); model / c4x_check: no RSY-neighbour with a smaller deficit: True / True
+DL_RSYa fails: n = 2, m = 5, f = 0 (induct-g-r1)               confirmed  core True; P0 = [[0, 3], [1, 2]] def 1 (B: 1); model / c4x_check: no RSYa-neighbour with a smaller deficit: True / True
+DL_R13 fails: n = 2, m = 5, f = 0 (induct-g-r1)                confirmed  core True; P0 = [[0, 3], [1, 2]] def 1 (B: 1); model / c4x_check: no R13-neighbour with a smaller deficit: True / True
+   ... while DL_T holds at the same state                      confirmed  model / c4x_check: True / True
+DL_RB2 fails: n = 3, m = 7 (dl2-n3m7)                          confirmed  core True; P0 = [[3], [2, 5], [4, 6]] def 1 (B: 1); model / c4x_check: no RB2-neighbour with a smaller deficit: True / True
+   ... while DL_T holds at the same state                      confirmed  model / c4x_check: True / True
+   ... while DL_13 holds at the same state                     confirmed  model / c4x_check: True / True
+DL_RB fails: n = 3, m = 6, f = 1 (dl2-n3m6-take)               confirmed  core True; P0 = [[2], [3, 5], [4]] def 1 (B: 1); model / c4x_check: no RB-neighbour with a smaller deficit: True / True
+DL_RS1 fails: n = 3, m = 6, f = 1 (dl2-n3m6-take)              confirmed  core True; P0 = [[2], [3, 5], [4]] def 1 (B: 1); model / c4x_check: no RS1-neighbour with a smaller deficit: True / True
+   ... while DL_T holds at the same state                      confirmed  model / c4x_check: True / True
+   ... while DL_13 holds at the same state                     confirmed  model / c4x_check: True / True
+DL_RS1+2 fails: n = 3, m = 7 (dl2-n3m7-trade)                  confirmed  core True; P0 = [[3], [2, 4], [5, 6]] def 1 (B: 1); model / c4x_check: no RS1+2-neighbour with a smaller deficit: True / True
+DL_RSR+2 fails: n = 3, m = 7 (dl2-n3m7-trade)                  confirmed  core True; P0 = [[3], [2, 4], [5, 6]] def 1 (B: 1); model / c4x_check: no RSR+2-neighbour with a smaller deficit: True / True
+DL_RC fails: n = 3, m = 7 (dl2-n3m7-trade)                     confirmed  core True; P0 = [[3], [2, 4], [5, 6]] def 1 (B: 1); model / c4x_check: no RC-neighbour with a smaller deficit: True / True
+   ... while DL_T holds at the same state                      confirmed  model / c4x_check: True / True
+   ... while DL_13 holds at the same state                     confirmed  model / c4x_check: True / True
+DL_RT fails: n = 3, m = 7, f = 0 (dl2-rot-n3m7, compute/k4-dl2) confirmed  core True; P0 = [[0, 6], [3, 5], [2, 4]] def 1 (B: 1); model / c4x_check: no RT-neighbour with a smaller deficit: True / True
+DL_RSY+2 fails: n = 3, m = 7, f = 0 (dl2-rot-n3m7, compute/k4-dl2) confirmed  core True; P0 = [[0, 6], [3, 5], [2, 4]] def 1 (B: 1); model / c4x_check: no RSY+2-neighbour with a smaller deficit: True / True
+DL_R13 fails: n = 3, m = 7, f = 0 (dl2-rot-n3m7, compute/k4-dl2) confirmed  core True; P0 = [[0, 6], [3, 5], [2, 4]] def 1 (B: 1); model / c4x_check: no R13-neighbour with a smaller deficit: True / True
+   ... while DL_T holds at the same state                      confirmed  model / c4x_check: True / True
+DL_RT fails: n = 3, m = 8, f = 0 (core (m = 8, idx 4), profile 19,197,115) confirmed  core True; P0 = [[2, 5], [1, 4], [3, 6]] def 1 (B: 1); model / c4x_check: no RT-neighbour with a smaller deficit: True / True
+DL_RSY+2 fails: n = 3, m = 8, f = 0 (core (m = 8, idx 4), profile 19,197,115) confirmed  core True; P0 = [[2, 5], [1, 4], [3, 6]] def 1 (B: 1); model / c4x_check: no RSY+2-neighbour with a smaller deficit: True / True
+   ... while DL_T holds at the same state                      confirmed  model / c4x_check: True / True
+DL_RT fails: n = 3, m = 9, f = 0 (core (m = 9, idx 0), profile 17,25,41) confirmed  core True; P0 = [[2, 7], [4, 6], [3, 8]] def 1 (B: 1); model / c4x_check: no RT-neighbour with a smaller deficit: True / True
+DL_RSY+2 fails: n = 3, m = 9, f = 0 (core (m = 9, idx 0), profile 17,25,41) confirmed  core True; P0 = [[2, 7], [4, 6], [3, 8]] def 1 (B: 1); model / c4x_check: no RSY+2-neighbour with a smaller deficit: True / True
+   ... while DL_T holds at the same state                      confirmed  model / c4x_check: True / True
+DL_RSYz+2 fails: n = 3, m = 8 (dl2-n3m8-junk)                  confirmed  core True; P0 = [[4], [1], [3, 5]] def 1 (B: 1); model / c4x_check: no RSYz+2-neighbour with a smaller deficit: True / True
+DL_RSYgz+2 fails: n = 3, m = 8 (dl2-n3m8-junk)                 confirmed  core True; P0 = [[4], [1], [3, 5]] def 1 (B: 1); model / c4x_check: no RSYgz+2-neighbour with a smaller deficit: True / True
+   ... while DL_T holds at the same state                      confirmed  model / c4x_check: True / True
+   ... while DL_13 holds at the same state                     confirmed  model / c4x_check: True / True
+all confirmed
