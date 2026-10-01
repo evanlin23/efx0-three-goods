@@ -1,0 +1,9 @@
+# command: python3 k4/dlrt4_ref.py records results/k4_rt4/dump_n4_3_x6s.jsonl.gz --allrec --jobs=4 --x
+#  200 / 653 profiles: {'prof': 200, 'prof_pos': 200, 'prof_f1': 200, 'st': 548, 'st_f1': 548, 'f1_t1': 409, 'f1_t2': 383, 'f1_t3p': 493, 'f1_t3h': 499, 'st_x': 548}
+#  400 / 653 profiles: {'prof': 400, 'prof_pos': 400, 'prof_f1': 400, 'st': 1142, 'st_f1': 1142, 'f1_t1': 918, 'f1_t2': 848, 'f1_t3p': 986, 'f1_t3h': 1029, 'st_x': 1142}
+#  600 / 653 profiles: {'prof': 600, 'prof_pos': 600, 'prof_f1': 600, 'st': 2035, 'st_f1': 2035, 'f1_t1': 1581, 'f1_t2': 1502, 'f1_t3p': 1847, 'f1_t3h': 1856, 'st_x': 2035, 'f1_t4': 34}
+#  653 / 653 profiles: {'prof': 653, 'prof_pos': 653, 'prof_f1': 653, 'st': 2203, 'st_f1': 2203, 'f1_t1': 1739, 'f1_t2': 1650, 'f1_t3p': 1999, 'f1_t3h': 2004, 'st_x': 2203, 'f1_t4': 34}
+# dlrt4.c sha256 fcde494a3161279d47a7b80e614f69c58894ebc7b40d00e461f677b8810d7cae
+profiles 653 (with a def > 0 state 653, with an f >= 1 state 653); states 2203 (f = 0: 0, f >= 1: 2203); DL_RT4 failures f >= 1: 0, RT4 failures f = 0: 0
+f >= 1 states with an improving move: T1 1739, T2 1650, T3p 1999, T3h 2004, T4 34; only T4 0, only T2 0
+mismatches: reference (model.py + dl2_relations.py + own T4) 0, reference assertions 0, dl13.c (K line and T1/T3 per state) 0 + 0, -DBIGPP=0 build 0, xcheck (dl134_xcheck.py, 2203 states) 0
