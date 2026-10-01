@@ -1,0 +1,182 @@
+# command: python3 k4/dlrt4_nbhd.py results/k4_certs_4_pure.json.gz 123 7,196,164,44 --radius=2 --jobs=3 --rt=20 --ro=2000 --ckpt=results/k4_rt4/ckpt_nbhd123.jsonl --dump=results/k4_rt4/dump_a_nbhd123.jsonl.gz --tables=results/k4_rt4/tables_a_nbhd123.json
+# dlrt4.c sha256 fcde494a3161279d47a7b80e614f69c58894ebc7b40d00e461f677b8810d7cae
+# core 123 of k4_certs_4_pure.json.gz (m = 9, idx 0), profile [7, 196, 164, 44], radius 2: 11 units to run, 0 from the checkpoint
+#   unit {'pos': 123, 'S': [0]}: profiles 143, f >= 1 states 55, DL_RT4 FAILS at 0; R_T fails at 0, R_13 at 1 [0.7 s]
+#   unit {'pos': 123, 'S': [2]}: profiles 287, f >= 1 states 143, DL_RT4 FAILS at 0; R_T fails at 0, R_13 at 51 [0.0 s]
+#   unit {'pos': 123, 'S': [3]}: profiles 287, f >= 1 states 13, DL_RT4 FAILS at 0; R_T fails at 0, R_13 at 5 [0.0 s]
+#   unit {'pos': 123, 'S': [1]}: profiles 287, f >= 1 states 143, DL_RT4 FAILS at 0; R_T fails at 0, R_13 at 61 [0.9 s]
+#   unit {'pos': 123, 'S': []}: profiles 1, f >= 1 states 1, DL_RT4 FAILS at 0; R_T fails at 0, R_13 at 1 [1.1 s]
+#   unit {'pos': 123, 'S': [0, 2]}: profiles 41041, f >= 1 states 6617, DL_RT4 FAILS at 0; R_T fails at 0, R_13 at 51 [5.1 s]
+#   unit {'pos': 123, 'S': [0, 1]}: profiles 41041, f >= 1 states 4697, DL_RT4 FAILS at 0; R_T fails at 0, R_13 at 61 [5.9 s]
+#   unit {'pos': 123, 'S': [0, 3]}: profiles 41041, f >= 1 states 627, DL_RT4 FAILS at 0; R_T fails at 0, R_13 at 5 [7.0 s]
+#   unit {'pos': 123, 'S': [1, 2]}: profiles 82369, f >= 1 states 44209, DL_RT4 FAILS at 0; R_T fails at 0, R_13 at 3111 [6.6 s]
+#   unit {'pos': 123, 'S': [1, 3]}: profiles 82369, f >= 1 states 1859, DL_RT4 FAILS at 0; R_T fails at 0, R_13 at 305 [7.7 s]
+#   unit {'pos': 123, 'S': [2, 3]}: profiles 82369, f >= 1 states 1075, DL_RT4 FAILS at 0; R_T fails at 0, R_13 at 319 [6.7 s]
+neighbourhood of [7, 196, 164, 44]: profiles 371235, omega >= 1: 371235; k* = 0: 338192, 1: 24524, 2: 4200, 3: 4319, >= 4: 0, inf: 0; P with def > 0: 59439, at distance 1: 48928, 2: 6160, 3: 4351, >= 4: 0, inf: 0; Pareto-maximal: 8296; largest least deficit 0
+  DL_RT4: states (def > 0) with f = 0: 0 (RT4 fails at 0), with f >= 1: 59439; DL_RT4 FAILS at 0 of the f >= 1 states; with an improving move T1 48928, T2 58207, T3p 28144, T3h 47692, T4 0; only T1 32, only T2 3971, only T3 1104, only T4 0; R_T fails at 0, R_13 at 3971, R_13 + T4 at 3971; smallest RT4 move size 1 / 2 / 3 / >= 4 / none: 48928 / 6160 / 4351 / 0 / 0; anomalies 0 + 0 [15 s]
+table B: f >= 1 states by f | signature | branch : count
+  B 1|fO,L|T1+T2+T3h : 9676
+  B 1|fO,G,D2|T1+T2+T3p+T3h : 8464
+  B 1|G,D2|T1+T2+T3p+T3h : 7752
+  B 1|fO|T1+T2+T3h : 5780
+  B 1|G,D2,PM|T1+T2+T3p+T3h : 4296
+  B 1|L|T1+T2 : 4200
+  B 1|L|T2 : 3675
+  B 1|e2,fO,L|T1+T2+T3h : 2272
+  B 1|fO,L|T1+T2 : 2144
+  B 1|G,D2,PM|T2+T3p+T3h : 1560
+  B 1|G,D2|T2+T3p+T3h : 696
+  B 1|L|T2+T3h : 696
+  B 1|L,PM|T2+T3h : 668
+  B 1|e2,fO,G,D2|T1+T2+T3p+T3h : 640
+  B 1|L,PM|T1+T2 : 632
+  B 1|e2,G,D2|T2+T3p+T3h : 520
+  B 1|L|T2+T3p+T3h : 464
+  B 1|L|T1+T2+T3p+T3h : 448
+  B 2|fO,G,D2|T3p+T3h : 432
+  B 1|fO,G,D2|T2+T3p+T3h : 416
+  B 1|fO,L|T1+T2+T3p+T3h : 328
+  B 1|L,PM|T2 : 264
+  B 1|L,PM|T1+T2+T3h : 260
+  B 2|G,D2,PM|T3p+T3h : 216
+  B 1|G,D2|T1+T2+T3p : 208
+  B 1|e2,fO,L|T2+T3h : 208
+  B 1|fO,G,D2|T1+T2+T3p : 208
+  B 1|e2,G,D2|T1+T2+T3p+T3h : 200
+  B 1|fO|T1+T2 : 200
+  B 2|fO,G,D2|T1+T2+T3p+T3h : 192
+  B 2|fO,G,L,D2|T3p+T3h : 192
+  B 2|G,D2,PM|T1+T2+T3p+T3h : 168
+  B 1|L|T1+T2+T3h : 132
+  B 1|e2,L|T1+T2+T3h : 120
+  B 1|e2,fO|T1+T2 : 120
+  B 1|fO|T1+T2+T3p+T3h : 120
+  B 2|G,L,D2|T3p+T3h : 96
+  B 1|e2,L|T2+T3h : 80
+  B 1|e2,fO,G,D2|T2+T3p+T3h : 80
+  B 1|e2,fO|T1+T2+T3h : 80
+  B 2|G,D2|T3p+T3h : 72
+  B 1|G,D2,PM|T1+T3p+T3h : 48
+  B 1|G,D2|T1+T3p+T3h : 48
+  B 1|L,PM|T2+T3p+T3h : 48
+  B 2|G,G1,D2|T3p+T3h : 48
+  B 2|G,L,D2,PM|T1+T2+T3p+T3h : 48
+  B 2|G,L,D2,PM|T3p+T3h : 48
+  B 2|G,L,D2|T1+T2+T3p+T3h : 48
+  B 1|L,PM|T1 : 32
+  B 1|e2,fO,L|T2 : 32
+  B 1|e2,fO,L|T1+T2 : 24
+  B 2|G,D2|T1+T2+T3p+T3h : 24
+  B 1|L,PM|T1+T2+T3p+T3h : 8
+  B 1|fO,L|T1+T2+T3p : 8
+table G: f >= 1 states by f | nearest distance k | branch : count
+  G 1|1|T1+T2+T3p+T3h : 22256
+  G 1|1|T1+T2+T3h : 18320
+  G 1|1|T1+T2 : 7320
+  G 1|2|T2+T3p+T3h : 3784
+  G 1|3|T2 : 2991
+  G 1|3|T2+T3h : 1360
+  G 2|2|T3p+T3h : 1104
+  G 1|2|T2 : 980
+  G 2|1|T1+T2+T3p+T3h : 480
+  G 1|1|T1+T2+T3p : 424
+  G 1|2|T2+T3h : 292
+  G 1|1|T1+T3p+T3h : 96
+  G 1|1|T1 : 32
+table M: f >= 1 states by f | branch | smallest RT4 move size : count
+  M 1|T1+T2+T3p+T3h|1 : 22256
+  M 1|T1+T2+T3h|1 : 18320
+  M 1|T1+T2|1 : 7320
+  M 1|T2+T3p+T3h|2 : 3784
+  M 1|T2|3 : 2991
+  M 1|T2+T3h|3 : 1360
+  M 2|T3p+T3h|2 : 1104
+  M 1|T2|2 : 980
+  M 2|T1+T2+T3p+T3h|1 : 480
+  M 1|T1+T2+T3p|1 : 424
+  M 1|T2+T3h|2 : 292
+  M 1|T1+T3p+T3h|1 : 96
+  M 1|T1|1 : 32
+table Z: f >= 1 states by f | branch available | its smallest move size : count
+  Z 1|T2|2 : 49720
+  Z 1|T1|1 : 48448
+  Z 1|T3h|3 : 46108
+  Z 1|T3p|2 : 26560
+  Z 1|T2|3 : 8007
+  Z 2|T3h|3 : 1584
+  Z 2|T3p|2 : 1584
+  Z 2|T1|1 : 480
+  Z 2|T2|2 : 480
+table C: f >= 1 states with T4 by f | smallest T4 size | cycle types at that size : count
+table Y: f >= 1 states by f | branch | move type available : count
+  Y 1|T1+T2+T3p+T3h|T2:k3 : 22256
+  Y 1|T1+T2+T3p+T3h|T3:xJ.h- : 22256
+  Y 1|T1+T2+T3p+T3h|T3:xJ.hZ : 21680
+  Y 1|T1+T2+T3p+T3h|T2:k2 : 20344
+  Y 1|T1+T2+T3p+T3h|T1:pool : 18360
+  Y 1|T1+T2+T3h|T2:k2 : 18320
+  Y 1|T1+T2+T3h|T2:k3 : 18264
+  Y 1|T1+T2+T3h|T1:pool : 17928
+  Y 1|T1+T2+T3h|T3:xH.hJ : 14564
+  Y 1|T1+T2+T3p+T3h|T3:xJ.hR : 13848
+  Y 1|T1+T2+T3p+T3h|T1:rel : 11568
+  Y 1|T1+T2+T3h|T3:xH.hZ : 11520
+  Y 1|T1+T2+T3h|T1:rel : 9652
+  Y 1|T1+T2|T2:k3 : 7320
+  Y 1|T1+T2|T2:k2 : 7240
+  Y 1|T1+T2+T3p+T3h|T1:grow : 6812
+  Y 1|T1+T2+T3p+T3h|T3:xJ.hJ : 6224
+  Y 1|T1+T2|T1:pool : 5440
+  Y 1|T2|T2:k3 : 3971
+  Y 1|T1+T2|T1:rel : 3852
+  Y 1|T2+T3p+T3h|T2:k3 : 3784
+  Y 1|T2+T3p+T3h|T3:xJ.h- : 3784
+  Y 1|T2+T3p+T3h|T3:xJ.hZ : 3784
+  Y 1|T1+T2+T3h|T3:xH.hR : 2496
+  Y 1|T1+T2+T3h|T1:grow : 2460
+  Y 1|T1+T2|T1:grow : 2132
+  Y 1|T2+T3p+T3h|T2:k2 : 2120
+  Y 1|T2+T3h|T2:k3 : 1652
+  Y 1|T2+T3p+T3h|T3:xJ.hR : 1120
+  Y 2|T3p+T3h|T3:xJ.h- : 1104
+  Y 1|T2|T2:k2 : 980
+  Y 2|T3p+T3h|T3:xH.hZ : 912
+  Y 2|T3p+T3h|T3:xJ.hZ : 824
+  Y 1|T2+T3h|T3:xJ.hZ : 768
+  Y 1|T2+T3h|T3:xH.hR : 736
+  Y 2|T3p+T3h|T3:xZ.h- : 648
+  Y 2|T3p+T3h|T3:xJ.hJ : 624
+  Y 2|T3p+T3h|T3:xJ.hR : 624
+  Y 2|T1+T2+T3p+T3h|T1:rel : 480
+  Y 2|T1+T2+T3p+T3h|T2:k2 : 480
+  Y 2|T1+T2+T3p+T3h|T3:xH.hZ : 480
+  Y 2|T1+T2+T3p+T3h|T3:xJ.h- : 480
+  Y 2|T1+T2+T3p+T3h|T3:xJ.hR : 480
+  Y 2|T3p+T3h|T3:xZ.hZ : 480
+  Y 1|T1+T2+T3p|T1:pool : 424
+  Y 1|T1+T2+T3p|T2:k2 : 424
+  Y 1|T1+T2+T3p|T2:k3 : 424
+  Y 1|T1+T2+T3p|T3:xJ.h- : 424
+  Y 1|T1+T2+T3h|T3:xJ.hR : 392
+  Y 1|T1+T2+T3p+T3h|T3:xH.hJ : 360
+  Y 2|T1+T2+T3p+T3h|T3:xJ.hZ : 336
+  Y 2|T1+T2+T3p+T3h|T3:xZ.h- : 320
+  Y 2|T1+T2+T3p+T3h|T3:xZ.hZ : 320
+  Y 2|T3p+T3h|T3:xZ.hR : 320
+  Y 1|T2+T3h|T2:k2 : 292
+  Y 1|T2+T3h|T3:xH.hZ : 288
+  Y 2|T1+T2+T3p+T3h|T3:xJ.hJ : 288
+  Y 1|T2+T3h|T3:xH.hJ : 224
+  Y 1|T1+T2+T3h|T3:xJ.hZ : 168
+  Y 2|T1+T2+T3p+T3h|T3:xZ.hR : 160
+  Y 2|T3p+T3h|T3:xZ.hJ : 160
+  Y 2|T3p+T3h|T3:xH.hJ : 144
+  Y 1|T2+T3h|T3:xJ.hR : 120
+  Y 1|T1+T3p+T3h|T1:pool : 96
+  Y 1|T1+T3p+T3h|T1:rel : 96
+  Y 1|T1+T3p+T3h|T3:xJ.h- : 96
+  Y 1|T1+T3p+T3h|T3:xJ.hR : 96
+  Y 1|T1+T3p+T3h|T3:xJ.hZ : 96
+  Y 1|T1+T2+T3h|T3:xJ.hJ : 80
+  Y 1|T2+T3p+T3h|T3:xH.hR : 40
+  Y 1|T1|T1:rel : 32

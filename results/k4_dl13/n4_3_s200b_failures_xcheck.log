@@ -1,0 +1,10 @@
+# command: python3 results/k4_dl13/n4_failures_xcheck.py results/k4_dl13/dump_n4_3_s200b.jsonl.gz
+# dl13.c sha256 f891de3a228a63fcd05008c0e4d9202068fc0d2b41be5876775affd4b2131d65
+k4_certs_4_n4_3.json.gz pos 64 idx 17 m 7 sets [[0, 2, 5, 6], [1, 4, 6], [3, 4, 5, 6], [3, 4, 5, 6]] prof [6, 1, 19, 27] vals [[2, 3, 4, 8], [2, 4, 3], [2, 5, 8, 4], [2, 7, 8, 4]]: def > 0 states: dl13.c 6, model 6, xcheck 6
+  B [[5], [1], [4], [6]]: dl13.c f 3 def 1 k 2 R13 False; model f 3 def 1 k 2 R13 False; xcheck def 1 k 2 R13 False  -> all agree: DL13 fails
+    R_T (DL_T): model False, xcheck False
+    nearest better (k 2, def 0): [[6], [1], [4], [5]]; agent 0: [5] -> [6] (frozen 1 -> 1); agent 3: [6] -> [5] (frozen 1 -> 1); NA [4, 5, 6] -> [4, 5, 6]
+  B [[5], [1], [6], [4]]: dl13.c f 3 def 1 k 2 R13 False; model f 3 def 1 k 2 R13 False; xcheck def 1 k 2 R13 False  -> all agree: DL13 fails
+    R_T (DL_T): model False, xcheck False
+    nearest better (k 2, def 0): [[6], [1], [5], [4]]; agent 0: [5] -> [6] (frozen 1 -> 1); agent 2: [6] -> [5] (frozen 1 -> 1); NA [4, 5, 6] -> [4, 5, 6]
+failing states: 2 confirmed by every implementation, 0 not; profiles 1; R_T fails (model and xcheck) at 2 of them

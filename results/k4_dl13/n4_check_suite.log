@@ -1,0 +1,9 @@
+# command: python3 k4/dl13_check.py suite
+# dl13.c sha256 f891de3a228a63fcd05008c0e4d9202068fc0d2b41be5876775affd4b2131d65; dl2.c sha256 bf20adab485d04dd0a660b56c8337a3fdbe3471ac8178706af150932c82dcbd2
+#  148 / 148 profiles: {'prof': 148, 'prof_pos': 52, 'prof_f1': 44, 'st': 360, 'st_f0': 198, 'st_f1': 162, 'st_x': 159, 'mm_model': 0, 'mm_x': 0, 'mm_K': 0, 'mm_hash': 0, 'fail_f1': 0, 'fail_f0': 6}
+profiles 148 (with a def > 0 state 52, with f >= 1 and a def > 0 state 44); states 360 (f = 0: 198, f >= 1: 162); DL13 failures f >= 1: 0, R_13 failures f = 0: 6
+mismatches: model (dl2_relations.py) 0, xcheck (c4x_check.py, 159 states with n <= 4) 0, K line vs dl2.c 0, hash build 0
+
+real	0m20.686s
+user	0m19.940s
+sys	0m0.155s

@@ -1,0 +1,28 @@
+# command: python3 results/k4_dl13/n4_failures_list.py n4_1=results/k4_dl13/dump_n4_1.jsonl.gz,results/k4_dl13/tables_n4_1.json n4_2=results/k4_dl13/dump_n4_2.jsonl.gz,results/k4_dl13/tables_n4_2.json n4_3_s200b=results/k4_dl13/dump_n4_3_s200b.jsonl.gz,results/k4_dl13/tables_n4_3_s200b.json --tsv=results/k4_dl13/n4_failures --nearest
+
+## n4_1 (dump_n4_1.jsonl.gz)
+command: python3 k4/dl13_run.py certs results/k4_certs_4_n4_1.json.gz --jobs=4 --ckpt=results/k4_dl13/ckpt_n4_1.jsonl --dump=results/k4_dl13/dump_n4_1.jsonl.gz --tables=results/k4_dl13/tables_n4_1.json --progress
+profiles 7247232, omega >= 1 102434, def > 0 states with f = 0 0 (R_13 fails at 0), with f >= 1 286; DL13 fails at 20; T1 only 0, T3 only 266 (T3 with a helper only 0), both 0; anomalies 0
+failing: 20 states, 10 profiles, 1 cores
+- core pos 25 (idx 5, m = 6, sets [[0, 2, 4, 5], [1, 3, 5], [3, 4, 5], [3, 4, 5]]): 10 profiles, 20 states; (f, def, k, sig): (3, 1, 2, 'G'): 20; nearest repairs: k2:FF=NA: 20
+nearest repairs over the run: k2:FF=NA: 20
+
+## n4_2 (dump_n4_2.jsonl.gz)
+command: python3 k4/dl13_run.py certs results/k4_certs_4_n4_2.json.gz --jobs=4 --ckpt=results/k4_dl13/ckpt_n4_2.jsonl --dump=results/k4_dl13/dump_n4_2.jsonl.gz --tables=results/k4_dl13/tables_n4_2.json --progress
+profiles 724847616, omega >= 1 54488316, def > 0 states with f = 0 0 (R_13 fails at 0), with f >= 1 324658; DL13 fails at 3040; T1 only 0, T3 only 92586 (T3 with a helper only 160), both 229032; anomalies 0
+failing: 3040 states, 1120 profiles, 7 cores
+- core pos 20 (idx 2, m = 6, sets [[0, 1, 3, 5], [2, 3, 4, 5], [2, 4, 5], [3, 4, 5]]): 120 profiles, 240 states; (f, def, k, sig): (3, 1, 2, 'G'): 240; nearest repairs: k2:FF=NA: 240
+- core pos 22 (idx 4, m = 6, sets [[0, 2, 4, 5], [1, 3, 4, 5], [3, 4, 5], [3, 4, 5]]): 240 profiles, 480 states; (f, def, k, sig): (3, 1, 2, 'G'): 480; nearest repairs: k2:FF=NA: 480
+- core pos 24 (idx 6, m = 6, sets [[0, 2, 3, 5], [1, 2, 4, 5], [3, 4, 5], [3, 4, 5]]): 200 profiles, 800 states; (f, def, k, sig): (3, 1, 2, 'O'): 600, (3, 1, 2, 'G'): 200; nearest repairs: k2:FF=NA: 800
+- core pos 27 (idx 9, m = 6, sets [[0, 2, 3, 5], [1, 3, 4, 5], [2, 4, 5], [3, 4, 5]]): 120 profiles, 240 states; (f, def, k, sig): (3, 1, 2, 'O'): 240; nearest repairs: k2:FF=NA: 240
+- core pos 28 (idx 10, m = 6, sets [[0, 2, 3, 5], [1, 4, 5], [2, 3, 4, 5], [3, 4, 5]]): 120 profiles, 240 states; (f, def, k, sig): (3, 1, 2, 'G'): 240; nearest repairs: k2:FF=NA: 240
+- core pos 92 (idx 12, m = 7, sets [[0, 2, 4, 6], [1, 3, 5, 6], [4, 5, 6], [4, 5, 6]]): 200 profiles, 800 states; (f, def, k, sig): (3, 1, 2, 'G'): 800; nearest repairs: k2:FF=NA: 800
+- core pos 94 (idx 14, m = 7, sets [[0, 2, 5, 6], [1, 4, 5, 6], [3, 4, 6], [4, 5, 6]]): 120 profiles, 240 states; (f, def, k, sig): (3, 1, 2, 'G'): 240; nearest repairs: k2:FF=NA: 240
+nearest repairs over the run: k2:FF=NA: 3040
+
+## n4_3_s200b (dump_n4_3_s200b.jsonl.gz)
+command: python3 k4/dl13_run.py certs results/k4_certs_4_n4_3.json.gz --sample=200 --seed=2 --jobs=4 --ckpt=results/k4_dl13/ckpt_n4_3_s200b.jsonl --dump=results/k4_dl13/dump_n4_3_s200b.jsonl.gz --tables=results/k4_dl13/tables_n4_3_s200b.json --progress
+profiles 67800, omega >= 1 20677, def > 0 states with f = 0 2205 (R_13 fails at 0), with f >= 1 437; DL13 fails at 2; T1 only 1, T3 only 17 (T3 with a helper only 0), both 417; anomalies 0
+failing: 2 states, 1 profiles, 1 cores
+- core pos 64 (idx 17, m = 7, sets [[0, 2, 5, 6], [1, 4, 6], [3, 4, 5, 6], [3, 4, 5, 6]]): 1 profiles, 2 states; (f, def, k, sig): (3, 1, 2, 'G'): 2; nearest repairs: k2:FF=NA: 2
+nearest repairs over the run: k2:FF=NA: 2
