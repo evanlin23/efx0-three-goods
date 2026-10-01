@@ -49,7 +49,9 @@ is a hypothesis of every theorem here, never an axiom; nothing of the model is r
    least two listed agents free in P; every good of `B′_y` was junk or in a base of `Y` (`base g = none ∨ ∃ w ∈ Y,
    base g = some w`) and is relevant to `y`; every listed agent outside `Y` keeps its base; NA unchanged. Disjointness is
    automatic for a base map. "Takes new bases" is not read as "every base of `Y` changes" (the wider reading; the code
-   `RTr` asks only that every changed agent be free in P and P′).
+   `RTr` asks only that every changed agent be free in P and P′). The two readings give the same R_C up to pairs with
+   the same bases on `goods` (if two or more agents of `Y` change, they form a (T2) move of the strict reading; if one
+   does, a (T1) move), and such a pair never lowers the deficit, so DL_RC is the same (an argument, not formalized).
 2. (T4): LEDGER K4.DL2.T134, "every agent whose base changes is frozen in P and in P′ and NA(P′) = NA(P)". Lean: the
    same, for listed agents, word for word.
 3. (T3⁺): the coordinator's definition, clause by clause. "Exactly one changed agent `x` frozen in P and free in P′":

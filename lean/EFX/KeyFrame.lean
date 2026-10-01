@@ -3,7 +3,7 @@ import EFX.DL13
 /-!
 # The key frame: DL on the key graph ⟹ TARGET₄, for any move relation (`k4/dl13.md` §2.3; ledger K4.DL2.KEY.LEAN)
 
-The Remark "DL on the key graph" of `k4/dl13.md` §2.3 (PR #75, branch `proof/k4-dl13`) says that a descent for TARGET₄
+The Remark "DL on the key graph" of `k4/dl13.md` §2.3 (merged in PR #75) says that a descent for TARGET₄
 needs only the least deficits of the *keys*: if every key with a positive least deficit has a neighbouring key with a
 smaller one, the deficit descends. This file writes that frame for an **arbitrary** move relation `M` on
 pre-allocations (`M : Nbhd A G`, as in `EFX/C4minDescent.lean`), so that the proof workstreams can plug in any set of
