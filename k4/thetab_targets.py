@@ -39,6 +39,21 @@ def main(argv):
                 shapes.add(('helper' if mv['h'] is not None else 'no helper', who))
         if not any(s[0] == 'no helper' for s in shapes): cnt[('f=1', cls, 'every repair has a helper')] += 1
         for s in shapes: cnt[('f=1', cls, 'some repair:') + s] += 1
+        # Theorem W: its hypotheses, and its construction where they hold
+        bad = gw1_hyp(ctx)
+        cnt[('f=1', cls, 'n=%d' % I.n, 'Theorem W hypotheses', 'hold' if not bad else '; '.join(bad))] += 1
+        if not bad:
+            zA = w1_construction(ctx)
+            assert zA is not None, ('Theorem W: no construction', r['src'])
+            z, A = zA
+            b2 = ctx.new(x, z, A)
+            assert pr.D[b2] <= pc(A) - 2 and pr.D[b2] < ctx.D, ('Theorem W violated', r['src'], z, A, pr.D[b2])
+        ks = k_swaps(ctx); ss = s_swaps(ctx)
+        for z, A in ks + ss:
+            b2 = ctx.new(x, z, A)
+            assert pr.D[b2] <= 0, ('Theorem K/S violated', r['src'], z, A, pr.D[b2])
+        thm = 'W' if not bad else ('K' if ks else ('S' if ss else 'none'))
+        cnt[('f=1', cls, 'n=%d' % I.n, 'first theorem', thm)] += 1
         # Lemma G at every no-helper swap, owner every free agent other than z
         modes = set()
         for z in nd:

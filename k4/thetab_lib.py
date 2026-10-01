@@ -163,6 +163,129 @@ def swap_bound(ctx, z, A, o=None):
     return out
 
 
+def lower_sorted(I, x, g):
+    return sorted(bits(I.R[x] & ~g), key=lambda q: -I.v[x][q])
+
+
+def tame_set(ctx, w):
+    """(H) only. A free agent w other than the needers is *tame* (k4/thetab.md §3) if some H_w ⊆ J, of at most
+    2 - |B_w| goods valued by neither x nor a needer, has v_w(R_w ∖ ({g} ∪ B_T ∪ H_w)) <= v_w(B_w), where B_T is the
+    union of the bases of the free agents other than the needers (B_w included). Returns a least such H_w, or None.
+    H_w = ∅ (w *inert*): no set of goods avoiding g and B_T threatens w holding B_w."""
+    I, P, Bs = ctx.I, ctx.P, ctx.Bs
+    x, g, nd, third = setting(ctx)
+    BT = 0
+    for u in third: BT |= Bs[u]
+    D = I.R[w] & ~g & ~BT
+    avail = list(bits(D & P.J & ~I.R[x] & ~I.R[nd[0]] & ~I.R[nd[1]]))
+    for k in range(0, 2 - pc(Bs[w]) + 1):
+        for H in itertools.combinations(avail, k):
+            if I.val(w, D & ~mask(H)) <= P.bv[w]: return mask(H)
+    return None
+
+
+def tame(ctx):
+    """every free agent other than the needers is tame; returns the union of the sets H_w, or None"""
+    x, g, nd, third = setting(ctx)
+    H = 0
+    for w in third:
+        h = tame_set(ctx, w)
+        if h is None: return None
+        H |= h
+    return H
+
+
+def gw1_hyp(ctx):
+    """the hypotheses of Theorem W (k4/thetab.md §3): setting (H); the lower goods of x lie in J ∪ B_y1 ∪ B_y2; one of
+    them is valued by a needer; every other free agent is tame. Returns a list of the failing conditions."""
+    bad = []
+    if not in_H(ctx): return ['not (H)']
+    I, P, Bs = ctx.I, ctx.P, ctx.Bs
+    x, g, nd, third = setting(ctx)
+    Lx = I.R[x] & ~g
+    if Lx & ~(P.J | Bs[nd[0]] | Bs[nd[1]]): bad.append('a lower good of x in another base')
+    if not (Lx & (I.R[nd[0]] | I.R[nd[1]])): bad.append('no lower good of x valued by a needer')
+    if tame(ctx) is None: bad.append('a free agent other than the needers is not tame')
+    return bad
+
+
+def w1_construction(ctx):
+    """the swap of the proof of Theorem W (k4/thetab.md §3): (z, A) with A a pair meeting L_z, or A = {p} with p ∈ L_z;
+    under the hypotheses, def(P') <= |A| - 2. Returns (z, A) or None if the case analysis does not apply."""
+    I, P, Bs = ctx.I, ctx.P, ctx.Bs
+    x, g, nd, third = setting(ctx)
+    L = lower_sorted(I, x, g)
+    p, rest = L[0], L[1:]
+    y1, y2 = nd
+
+    def other(i): return y2 if i == y1 else y1
+
+    def from_i(i):
+        """p ∈ L_i, p ∈ J ∪ B_i: a pair {p, s} with s outside B_j, else {q, r} at j, else {p}"""
+        j = other(i)
+        for s in rest:
+            if not (Bs[j] >> s & 1) and ((P.J | Bs[i]) >> s & 1):
+                return i, mask([p, s])
+        if len(rest) == 2 and all(Bs[j] >> s & 1 for s in rest) and I.val(x, mask(rest)) > I.v[x][p]:
+            return j, mask(rest)
+        return i, mask([p])
+    for i in nd:
+        if Bs[i] >> p & 1: return from_i(i)
+    if P.J >> p & 1:
+        for i in nd:
+            if I.R[i] >> p & 1: return from_i(i)
+        for s in rest:
+            for i in nd:
+                j = other(i)
+                if (I.R[i] >> s & 1) and not (Bs[j] >> s & 1) and ((P.J | Bs[i]) >> s & 1):
+                    return i, mask([p, s])
+    return None
+
+
+def k_swaps(ctx):
+    """Theorem K (k4/thetab.md §3): setting (H), every free agent other than the needers tame, and a needer z (o the
+    other one) with a pair A ⊆ (J ∪ B_z) ∩ R_x, admissible, v_x(A) > v_x(g), A ∩ L_o = ∅, L_o ∩ B_T = ∅, and either
+    L_z ∩ (A ∪ B_T) ≠ ∅ or some e ∈ L_z \\ (L_o ∪ B_T ∪ A). Returns the list of such (z, A); each gives def(P') <= 0."""
+    if not in_H(ctx): return []
+    I, P, Bs = ctx.I, ctx.P, ctx.Bs
+    x, g, nd, third = setting(ctx)
+    if tame(ctx) is None: return []
+    BT = 0
+    for u in third: BT |= Bs[u]
+    out = []
+    for z in nd:
+        o = [w for w in nd if w != z][0]
+        Lz, Lo = I.R[z] & ~g, I.R[o] & ~g
+        if Lo & BT: continue
+        for A in swaps(ctx, z):
+            if pc(A) != 2 or I.val(x, A) <= I.val(x, g) or A & Lo: continue
+            if (Lz & (A | BT)) or (Lz & ~Lo & ~BT & ~A):
+                out.append((z, A))
+    return out
+
+
+def s_swaps(ctx):
+    """Theorem S (k4/thetab.md §3): setting (H), every free agent other than the needers tame, a needer z (o the
+    other one) with p := x's best lower good in J ∪ B_z, and the threat edges inside W'_o (L_z if L_z ⊆ W'_o; the
+    subsets of L_x ∖ {p} worth more than p inside W'_o) met by one good of J'. Returns [(z, {p})]; def(P') <= 0."""
+    if not in_H(ctx): return []
+    I, P, Bs = ctx.I, ctx.P, ctx.Bs
+    x, g, nd, third = setting(ctx)
+    if tame(ctx) is None: return []
+    p = lower_sorted(I, x, g)[0]
+    out = []
+    for z in nd:
+        o = [w for w in nd if w != z][0]
+        if not ((P.J | Bs[z]) >> p & 1): continue
+        A = 1 << p
+        Jn = (P.J | Bs[z]) & ~A
+        U = Bs[o] | Jn
+        edges = minimal_edges(I, z, U, I.val(z, g)) + minimal_edges(I, x, U, I.val(x, A))
+        h, C = least_hitting(edges, Jn)
+        if h is not None and h <= 1: out.append((z, A))
+    return out
+
+
 def swaps(ctx, z):
     """the admissible A for x after z takes g: A ⊆ (J ∪ B_z) ∩ R_x, 1 or 2 goods, N_x(A) ⊆ NA"""
     x = setting(ctx)[0]

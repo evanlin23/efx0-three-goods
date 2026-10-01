@@ -4,19 +4,31 @@
   all | S1 theta-b | f=2                                                                               43
   all | noS1 | f=1                                                                                     22
   all | noS1 | f=2                                                                                     77
+  f=1 | S1 theta-a | n=4 | Theorem W hypotheses | not (H)                                              2
   f=1 | S1 theta-a | n=4 | first Lemma G mode | ('W1', 'quiet', 'other needer')                        2
+  f=1 | S1 theta-a | n=4 | first theorem | none                                                        2
   f=1 | S1 theta-a | n=4 | needers 4+4+BT | x 4                                                        2
   f=1 | S1 theta-a | some repair: | helper | helper                                                    2
   f=1 | S1 theta-a | some repair: | helper | other needer                                              2
   f=1 | S1 theta-a | some repair: | helper | x                                                         2
   f=1 | S1 theta-a | some repair: | no helper | other needer                                           2
   f=1 | S1 theta-a | some repair: | no helper | x                                                      1
+  f=1 | S1 theta-b | n=3 | Theorem W hypotheses | hold                                                 1154
   f=1 | S1 theta-b | n=3 | first Lemma G mode | ('W1', 'quiet', 'other needer')                        1154
+  f=1 | S1 theta-b | n=3 | first theorem | W                                                           1154
   f=1 | S1 theta-b | n=3 | needers BT+BT | x 4                                                         1154
+  f=1 | S1 theta-b | n=4 | Theorem W hypotheses | a free agent other than the needers is not tame      1
+  f=1 | S1 theta-b | n=4 | Theorem W hypotheses | a lower good of x in another base; no lower good of x valued by a needer 22
+  f=1 | S1 theta-b | n=4 | Theorem W hypotheses | hold                                                 15
+  f=1 | S1 theta-b | n=4 | Theorem W hypotheses | no lower good of x valued by a needer                5
+  f=1 | S1 theta-b | n=4 | Theorem W hypotheses | not (H)                                              2
   f=1 | S1 theta-b | n=4 | first Lemma G mode | ('K', 'quiet', 'other needer')                         22
   f=1 | S1 theta-b | n=4 | first Lemma G mode | ('S', 'quiet', 'other needer')                         2
   f=1 | S1 theta-b | n=4 | first Lemma G mode | ('W1', 'quiet', 'other needer')                        20
   f=1 | S1 theta-b | n=4 | first Lemma G mode | ('W1', 'quiet', 'third agent')                         1
+  f=1 | S1 theta-b | n=4 | first theorem | K                                                           27
+  f=1 | S1 theta-b | n=4 | first theorem | W                                                           15
+  f=1 | S1 theta-b | n=4 | first theorem | none                                                        3
   f=1 | S1 theta-b | n=4 | needers 4+BT | x 4                                                          1
   f=1 | S1 theta-b | n=4 | needers 4+BT+BT | x 4                                                       1
   f=1 | S1 theta-b | n=4 | needers BT+BT | x 4                                                         43
@@ -27,9 +39,13 @@
   f=1 | S1 theta-b | some repair: | no helper | other needer                                           1199
   f=1 | S1 theta-b | some repair: | no helper | third agent                                            17
   f=1 | S1 theta-b | some repair: | no helper | x                                                      470
+  f=1 | noS1 | n=4 | Theorem W hypotheses | no lower good of x valued by a needer                      20
+  f=1 | noS1 | n=4 | Theorem W hypotheses | no lower good of x valued by a needer; a free agent other than the needers is not tame 2
   f=1 | noS1 | n=4 | first Lemma G mode | ('K', 'quiet', 'other needer')                               4
   f=1 | noS1 | n=4 | first Lemma G mode | ('W1', 'quiet', 'other needer')                              2
   f=1 | noS1 | n=4 | first Lemma G mode | ('W1', 'quiet', 'third agent')                               16
+  f=1 | noS1 | n=4 | first theorem | K                                                                 20
+  f=1 | noS1 | n=4 | first theorem | none                                                              2
   f=1 | noS1 | n=4 | needers BT+BT | x 4                                                               22
   f=1 | noS1 | some repair: | helper | helper                                                          22
   f=1 | noS1 | some repair: | helper | other needer                                                    22
