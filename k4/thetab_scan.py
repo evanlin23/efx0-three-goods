@@ -13,6 +13,7 @@ For every profile of the input with f = 1 and omega >= 1 and every min-frozen P 
   - at the def > 0 states whose frozen good has one needer: whether Corollary G1 applies (its conclusion asserted).
 usage: python3 k4/thetab_scan.py catalog FILE [--every=E] [--off=O]    (FILE in k4/suite/.cache/gapbench/results/k4_gap)
        python3 k4/thetab_scan.py hunt SEED N [--nmin=4] [--nmax=5] [--tlim=SECONDS]   (structured random instances)
+       python3 k4/thetab_scan.py twin SEED N [...]     (the same, two needers with the same goods: gen_twin)
        python3 k4/thetab_scan.py suite | certs FILE --rand=K [--seed=S]               (as k4/dl2_relations.py)"""
 import random, sys, time
 from thetab_lib import *
@@ -68,11 +69,35 @@ def gen(rng, n):
     return {'sets': sets, 'vals': vals, 'm': nxt[0]}
 
 
-def hunt_items(seed, N, nmin, nmax, tlim):
+def gen_twin(rng, n):
+    """the configuration that defeats W, K, G1 and S when the third agents are quiet: two big-top needers with the
+    same goods {0, 1, 2, 3} (g = 0), x = {0, p, q, r} with p, q private (new goods) and r shared with the third
+    agents, which take r and old or new goods (never good 0)"""
+    sets = [[0, 4, 5, 6], [0, 1, 2, 3], [0, 1, 2, 3]]
+    nxt = [7]
+
+    def new():
+        q = nxt[0]; nxt[0] += 1; return q
+    for t in range(n - 3):
+        k = rng.choice([3, 4]); S = [6] if t == 0 or rng.random() < 0.5 else []
+        while len(S) < k:
+            q = rng.choice([1, 2, 3, 6] + list(range(7, nxt[0]))) if rng.random() < 0.5 else new()
+            if q not in S: S.append(q)
+        sets.append(S)
+    perm = rng.sample(range(3), 3)                    # which of x's lower goods is p, q, r (values)
+    vx = bal_vals(rng, 4, True, None)
+    if vx is None: return None
+    vals = [[vx[0]] + [vx[1 + perm[i]] for i in range(3)], bal_vals(rng, 4, True, True), bal_vals(rng, 4, True, True)]
+    vals += [bal_vals(rng, len(S)) for S in sets[3:]]
+    if any(v is None for v in vals): return None
+    return {'sets': sets, 'vals': vals, 'm': nxt[0]}
+
+
+def hunt_items(seed, N, nmin, nmax, tlim, twin=False):
     rng = random.Random(seed); t0 = time.time()
     for it in range(N):
         if time.time() - t0 > tlim: return
-        d = gen(rng, rng.randint(nmin, nmax))
+        d = (gen_twin if twin else gen)(rng, rng.randint(nmin, nmax))
         if d is None: continue
         I = M.Inst(d['sets'], d['vals'], d['m'])
         if I.core_violations() or not I.strict(): continue
@@ -174,9 +199,9 @@ def main(argv):
         items = (({'sets': r['core']['sets'], 'vals': r['vals'], 'm': r['core']['m']},
                   '%s:%s[m=%d,idx=%d]:%s' % (args[1], r['core']['file'], r['core']['m'], r['core']['idx'],
                                              ','.join(map(str, r['prof'])))) for r in recs)
-    elif args[0] == 'hunt':
+    elif args[0] in ('hunt', 'twin'):
         items = hunt_items(int(args[1]), int(args[2]), int(opt.get('nmin', 4)), int(opt.get('nmax', 5)),
-                           float(opt.get('tlim', 1e9)))
+                           float(opt.get('tlim', 1e9)), twin=args[0] == 'twin')
     else:
         from dl2_relations import items_of
         items = items_of(args[0], args[1:], opt)
