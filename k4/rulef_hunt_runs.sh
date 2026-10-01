@@ -9,7 +9,7 @@
 #   n5lo    the same classes with m <= 8: 4,000 each;   n5n12   n = 5 with one or two 4-good agents: 6,000 each
 #   seedsH  H_1 under all 120 agent orders, H_2 under 8 relabelings: 60,000 each, starting at H_t's own profile
 #   suite   the suite's strict k = 4 core instances with 4 <= n <= 9: 60,000 each, starting at the instance
-#   n4pure  n = 4 with four 4-good agents (the class only sampled before): 100,000 each
+#   n4pure  n = 4 with four 4-good agents (the class only sampled before): 500,000 each
 #   deep5   from every n = 5 best profile with nwork <= 4 of the runs above: the exhaustive two-change descent (all
 #           profiles differing in one or two agents' types, repeated while the key improves; deep5x) and a long climb
 #           (300,000, key R, kicks; deep5r)
@@ -37,7 +37,7 @@ suite)
   [ -f $R/seeds_suite.jsonl ] || python3 k4/rulef_hunt_seeds.py suite $R/seeds_suite.jsonl
   $H suite --seeds=$R/seeds_suite.jsonl --evals=60000 --key=M >> $R/suite.log 2>&1 ;;
 n4pure)
-  $H n4pure --file=$C/k4_certs_4_pure.json.gz --evals=100000 --key=M >> $R/n4pure.log 2>&1 ;;
+  $H n4pure --file=$C/k4_certs_4_pure.json.gz --evals=500000 --key=M >> $R/n4pure.log 2>&1 ;;
 deep5)
   [ -f $R/seeds_deep5.jsonl ] || python3 k4/rulef_hunt_seeds.py best $R/seeds_deep5.jsonl 4 $R/ck/n5hi.jsonl $R/ck/n5lo.jsonl \
      $R/ck/n5n12.jsonl $R/ck/seedsH.jsonl $R/ck/suite.jsonl
