@@ -1,0 +1,2 @@
+# command: python3 k4/dl2_lemma_random.py 3000 --seed=7 --nmax=4 --mmax=10
+no violation; instances 3000, omega>=1 1855, states 5635, L2 5577, L2o 6, L3 106, C4 2222, C5 1820, moves16 5656122, lemma7 50
