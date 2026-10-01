@@ -355,5 +355,12 @@ The structural existence statements of §3 are not extended to f ≥ 2 here.
 ```
 mkdir -p k4/suite/.cache/gapbench
 git archive 245040b results/k4_gap | tar -x -C k4/suite/.cache/gapbench      # #53's catalogues (k4/strategy.md §4)
-sh k4/thetab_runs.sh                     # results/k4_thetab/: targets.log (§1, §4) and the scans (§4, §5)
+sh k4/thetab_runs.sh                     # results/k4_thetab/: targets.log (§1, §4, §6) and the scans (§4, §5)
+sh k4/thetab_runs2.sh                    # random n = 3 profiles, the twin hunts, attempts.log (§5.1)
+python3 k4/thetab_targets.py --show      # the smallest target of each class, printed in full
 ```
+
+Code: `k4/thetab_lib.py` (setting (H), the swaps, Lemma G's least removal set `swap_bound`, the hypotheses of W, K, S,
+G1 and W's construction), `k4/thetab_targets.py` (§1, §4, §6), `k4/thetab_scan.py` (§4, §5),
+`attempts/k4_thetab_attempts.py` (§5.1, two implementations). They use PR #75's `k4/dl13_stuck.py` (`Profile`) and
+`k4/dl13_lemmas.py` (`Ctx`) and `k4/suite/model.py`.
