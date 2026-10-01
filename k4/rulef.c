@@ -1208,6 +1208,8 @@ static int k1_run(int pol) {
     return ok;
 }
 static int FULL41 = 0;               /* -E1: mode 41 computes the counts of every first agent (for -D5 dumps) */
+static int NONEPOL = 0;              /* -N1: classes K0 and K1 also try the run without upgrades (LB4r's third policy, Lean's
+                                        Policy.none); fa_kE then holds the least of the envy-free and no-upgrade deficits */
 static void rulef_leaf41(void) {
     int dummy, om, fz;
     KONLY = 1;
@@ -1217,6 +1219,9 @@ static void rulef_leaf41(void) {
         pre[0] = a; npre = 1; TAILRULE = 0; stop_at = -1;
         deficits(1, &dummy, &dummy, &om, &fz); fa_kN[a] = fa_dK_tmp; fa_omN[a] = om;
         if (fa_kN[a] > 0 || FULL41) { deficits(2, &dummy, &dummy, &om, &fz); fa_kE[a] = fa_dK_tmp; }
+        if (NONEPOL && ((fa_kN[a] > 0 && fa_kE[a] > 0) || FULL41)) {
+            deficits(0, &dummy, &dummy, &om, &fz); if (fa_dK_tmp < fa_kE[a]) fa_kE[a] = fa_dK_tmp;
+        }
         if ((fa_kN[a] <= 0 || fa_kE[a] <= 0) && rk_choice < 0) { rk_choice = a; rk_class = 0; }
     }
     KONLY = 0;
@@ -1224,7 +1229,7 @@ static void rulef_leaf41(void) {
     if (rk_choice < 0 || FULL41)
         for (int a = 0; a < n && (rk_choice < 0 || FULL41); a++) {
             pre[0] = a; npre = 1; TAILRULE = 0; stop_at = -1;
-            fa_k1[a] = k1_run(1) || k1_run(2);
+            fa_k1[a] = k1_run(1) || k1_run(2) || (NONEPOL && k1_run(0));
             if (fa_k1[a] && rk_choice < 0) { rk_choice = a; rk_class = 1; }
         }
     if (rk_choice < 0 || FULL41)
@@ -1607,6 +1612,7 @@ int main(int argc, char **argv) {
         else if (!strncmp(argv[a], "-Q", 2)) QRULE = atoi(argv[a] + 2);
         else if (!strncmp(argv[a], "-Y", 2)) XKEEP = atoi(argv[a] + 2);
         else if (!strncmp(argv[a], "-E", 2)) FULL41 = atoi(argv[a] + 2);
+        else if (!strncmp(argv[a], "-N", 2)) NONEPOL = atoi(argv[a] + 2);
         else if (!strncmp(argv[a], "-D", 2)) DUMP = atoi(argv[a] + 2);
         else if (!strncmp(argv[a], "-c", 2)) CHUP = atoi(argv[a] + 2);
         else { fprintf(stderr, "unknown option %s\n", argv[a]); return 1; }

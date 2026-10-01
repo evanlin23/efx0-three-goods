@@ -1,4 +1,4 @@
-# attempts/k4_rulef_attempts.py # rulef.c sha256 8bd39c5559ae46b6
+# attempts/k4_rulef_attempts.py # rulef.c sha256 a9bbe5d6d989fb4a
 1. least-count rules; profile sets=[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]] vals=[[1, 4, 6, 8], [2, 3, 4, 8], [2, 7, 8, 4]]
   rule  3 (least A4+N deficit): first agent 0; rulef.c -r1: fail, -r2: rot=2; independent model: least rotations 2 -> OK
   rule  4 (least A4+(o) deficit (envy-free)): first agent 0; rulef.c -r1: fail, -r2: rot=2; independent model: least rotations 2 -> OK
@@ -32,4 +32,9 @@
   -Q4: first agent 2 (big-top agents []); rulef.c -r1: fail, -r2: rot=2; independent model: least rotations 2 -> OK
   rule RK: first agent 0, rot=0; independent model: least rotations 0
   brute force: 24 EFX0 allocations, 24 with at most one bundle of > 2 goods
+6. Lemma K with kept-out sets inside R_x; profile sets=[[0, 2, 4, 6], [0, 2, 5, 6], [1, 3, 4, 7], [1, 3, 5, 7]] vals=[[2, 3, 8, 4], [2, 3, 8, 4], [2, 3, 8, 4], [2, 3, 8, 4]]
+  rulef.c -A41: class open (kept-out sets inside R_x), K0 with -Y1
+  k4/rulef_model.py XKEEP=False: a=0 shrink: deficit 1, after one RotStep 1; a=0 envyFree: deficit 1, after one RotStep 1; a=1 shrink: deficit 1, after one RotStep 1; a=1 envyFree: deficit 1, after one RotStep 1; a=2 shrink: deficit 1, after one RotStep 1; a=2 envyFree: deficit 1, after one RotStep 1; a=3 shrink: deficit 1, after one RotStep 1; a=3 envyFree: deficit 1, after one RotStep 1
+  k4/rulef_model.py XKEEP=True: a=0 shrink: deficit 0, owner 1, completion checked; a=0 envyFree: deficit 0, owner 1, completion checked; a=1 shrink: deficit 0, owner 0, completion checked; a=1 envyFree: deficit 0, owner 0, completion checked; a=2 shrink: deficit 0, owner 0, completion checked; a=2 envyFree: deficit 0, owner 0, completion checked; a=3 shrink: deficit 0, owner 1, completion checked; a=3 envyFree: deficit 0, owner 1, completion checked
+  LB4r on index order (independent model): least rotations 0; brute force: 32 EFX0 allocations, 12 with at most one bundle of > 2 goods
 ALL AS RECORDED

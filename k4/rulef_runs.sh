@@ -3,7 +3,7 @@
 # $CK (default: a scratch folder) let an interrupted step resume. Usage: bash k4/rulef_runs.sh [STEP ...]
 # Steps: rk (rule RK, exhaustive n <= 4 with at most three 4-good agents), featdump (n = 3 profiles where index order is
 # not in K0, every first agent's classes), feat (first-agent features and Lemma KR on samples of them), samp (pure n = 4 and n = 5, random profiles), hill (hill-climbing against RK), H (cores H_t), suite,
-# rules (explicit rules against rule F, n = 2 and n = 3 with m <= 5), y1 (Lemma K with kept-out sets holding goods outside R_x), check (second implementation of Lemma K), attempts, btrk (a big-top
+# rules (explicit rules against rule F, n = 2 and n = 3 with m <= 5), y1 (Lemma K with kept-out sets holding goods outside R_x), n1 (as y1, and classes K0, K1 also try the run without upgrades), gap (the profiles Lemma K misses, checked against Lemma K'), check (second implementation of Lemma K), attempts, btrk (a big-top
 # agent first, else RK), bigtop (a big-top agent first, else a static fallback; the failures of the fallback).
 set -u
 cd "$(dirname "$0")/.."
@@ -57,6 +57,16 @@ y1)
     python3 k4/rulef_run.py results/k4_certs_$f.json.gz -A41 -r1 -Y1 --checkpoint=$CK/rk_${f}_y1.jsonl > $R/rk_n${f}_y1.log
   done
   python3 k4/rulef_run.py results/k4_certs_4_pure.json.gz -A41 -r1 -Y1 -S2000 > $R/rk_pure4_y1_sample.log ;;
+n1)
+  for f in 2 3 4_n4_1 4_n4_2 4_n4_3; do
+    python3 k4/rulef_run.py results/k4_certs_$f.json.gz -A41 -r1 -Y1 -N1 --checkpoint=$CK/rk_${f}_n1.jsonl > $R/rk_n${f}_n1.log
+  done ;;
+gap)
+  for f in 4_n4_1 4_n4_2; do
+    rm -f $D/gap_$f.txt $CK/gap_$f.jsonl
+    python3 k4/rulef_run.py results/k4_certs_$f.json.gz -A40 -C3 -r1 -Y1 -D4 --data=$D/gap_$f.txt --checkpoint=$CK/gap_$f.jsonl > $R/gap_n$f.log
+    python3 k4/rulef_gap.py $D/gap_$f.txt > $R/gap_check_n$f.log
+  done ;;
 rules)
   python3 k4/rulef_run.py results/k4_certs_2.json.gz -A40 -C3 -r1 > $R/rules_n2.log
   for m in 4 5; do

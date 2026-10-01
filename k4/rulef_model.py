@@ -13,6 +13,7 @@ import lb4r as M
 
 NEG = float('-inf')
 XKEEP = False   # as k4/rulef.c -Y1: kept-out sets may also hold every allowed good outside R_x
+COMBO = False   # Lemma K' (k4/rulef.md §2, Remark 5): an agent may take a slot good and keep a set out at once
 INF = float('inf')
 
 
@@ -104,10 +105,38 @@ def services(inst, s, o, K, needs):
                         if not threatened(inst, x, Wo - D, bases[x]):
                             mins.append(D)
         ox += [('r', D) for D in mins]
+        if COMBO and capK[x] >= 1:
+            for g in JK:
+                if not threatened(inst, x, Wo - {g}, bases[x] + [g]):
+                    continue
+                Wg = Wo - {g}
+                cg = [h for h in cand if h != g]
+                ming = []
+                extra = [frozenset()]
+                if XKEEP:
+                    nong = frozenset(h for h in JKX if inst.v[x][h] == 0 and h != g)
+                    if nong:
+                        extra.append(nong)
+                for ex in extra:
+                    for r in range(len(cg) + 1):
+                        for D in itertools.combinations(cg, r):
+                            D = frozenset(D) | ex
+                            if any(E <= D for E in ming):
+                                continue
+                            if not threatened(inst, x, Wg - D, bases[x] + [g]):
+                                ming.append(D)
+                ox += [(('sr', g), D | {g}) for D in ming]
         if not ox:
             return INF, None
         opts.append((x, ox))
     best = [INF, None]
+
+    def slot_of(kind, S):
+        if kind == 's':
+            return S
+        if isinstance(kind, tuple):
+            return frozenset([kind[1]])
+        return frozenset()
 
     def dfs(i, U, G, ch):
         if len(U) >= best[0]:
@@ -116,9 +145,10 @@ def services(inst, s, o, K, needs):
             best[0] = len(U); best[1] = list(ch); return
         x, ox = opts[i]
         for kind, S in ox:
-            if kind == 's' and (S & G):
+            sl = slot_of(kind, S)
+            if sl & G:
                 continue
-            dfs(i + 1, U | S, G | S if kind == 's' else G, ch + [(x, kind, S)])
+            dfs(i + 1, U | S, G | sl, ch + [(x, kind, S)])
     dfs(0, frozenset(), frozenset(), [])
     if best[1] is None:
         return INF, None
@@ -229,11 +259,11 @@ def witness_K(inst, s):
     left[o] = 0
     used = set()
     for x, kind, S in ch:
-        if kind == 's':
-            (g,) = tuple(S)
+        if kind == 's' or isinstance(kind, tuple):
+            g = kind[1] if isinstance(kind, tuple) else next(iter(S))
             X[g] = x; left[x] -= 1; used.add(g)
     for x, kind, S in ch:
-        if kind == 'r':
+        if kind != 's':
             for g in S:
                 if g in used:
                     continue

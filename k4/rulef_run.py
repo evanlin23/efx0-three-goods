@@ -12,6 +12,8 @@ Usage: rulef_run.py FILE [FILE ...] [--jobs=J] [--n4=K] [--m=M] [--first=N] [--d
   -A42 -Q0 -r1  a static rule: the first big-top agent, else agent 0 (-Q1: else an agent whose least good is another's
                 top; -Q2: else rule RK), with the class of its agent (K0, K1, C40, none)
   -E1           (with -A41) evaluate every first agent (for -D5 dumps of the profiles where index order is not K0)
+  -Y1           Lemma K's kept-out sets may also hold the junk goods the served agent does not value (k4/rulef.md §2,
+                Remark 4); off by default: the restricted count is at least Lemma K's deficit, so it is sound
   --data=OUT    append the DATA lines (-A40 with -D1/-D2/-D4/-D5/-D6), OPEN lines (-A41 -D1) or IDX lines (-A41 -E1 -D5)
 One worker by default (--jobs=1): the machine is shared."""
 import gzip, hashlib, json, os, subprocess, sys, tempfile, time

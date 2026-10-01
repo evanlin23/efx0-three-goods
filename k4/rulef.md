@@ -16,8 +16,12 @@ independent model `k4/c4_verify_H/lb4r.py`, with the completion of its proof bui
 - **Lemma K (§2)**, an owner count for any valid pre-allocation: an owner, a set K of goods it keeps (its needs taken
   from B_o ∪ K, which can unfreeze agents), and every threatened agent served either by a slot good of its own that
   protects it whatever else happens or by a set of goods kept out of the owner's bundle. It contains the counts of
-  A₄⁺(o), A₄⁺ᴺ and LB⁺'s hitting set, and closes almost all of A₄⁺ᴺ's counting gap (§5.1). Written proof; a second
-  implementation builds the completion of the proof and checks it against Lean's `Output` and the raw definition.
+  A₄⁺(o), A₄⁺ᴺ and LB⁺'s hitting set. **Lemma K′** (Remark 5): letting an agent take slot goods and keep goods out at
+  once makes the count *exact* (deficit ≤ 0 iff LB₄ʳ's owner test succeeds with that owner), so the counting gap
+  closes by construction. Lemma K itself, robust and the form the other lemmas use, leaves no gap at n ≤ 3 and 4, 720 and 35,028
+  profiles at n = 4 with one, two, three 4-good agents (§5.1); the 4 are runs that succeed only without upgrades,
+  which Lemma K certifies under that policy. Written proofs; a
+  second implementation builds the completions and checks them against Lean's `Output` and the raw definition.
 - **Lemma KR (§3)**, LB⁺'s Theorem B in Lemma K's count: rotating a frozen agent along a need chain to the owner
   lowers the deficit by one under two explicit conditions. **Lemma S (§6)**: free exposed agents never raise the
   deficit. **Proposition H″ (§4.1)**: on every relabeling of H_t a gadget-1 first agent is certified without rotation.
@@ -34,11 +38,12 @@ independent model `k4/c4_verify_H/lb4r.py`, with the completion of its proof bui
   sharing a top, the one with a private fallback fails. Every static or one-step rule tried fails somewhere (the best
   at n = 4, m = 7), and on H_t the agent must be found in gadget 1. Rule RK finds it by its certificate.
 - **Lean (§7)**: `lean/EFX/RuleF.lean` states rule F's target (`TheoremRuleF`, `RuleFConn`, `RuleFOne`: some first agent
-  a with LB₄ʳ([a]) succeeding with at most one rotation) and proves it gives C₄∃ and TARGET₄; Lemma M with Lemma K would
-  discharge `RuleFConn`.
+  a with LB₄ʳ([a]) succeeding with at most one rotation) and proves it gives C₄∃ and TARGET₄ (`lean/check.sh` passes);
+  Lemma M with Lemma K would discharge `RuleFConn`.
 - **Failed** (`attempts/k4-rulef-*.md`, §5.3): the least-deficit rules (every count, n = 3, m = 6), "no frozen agent ⟹ a
   valid owner" (n = 2, m = 5), static rules built on big-top agents ("the first big-top agent, else index order":
-  n = 3, m = 6; "the first big-top agent" with two or more: n = 4, m = 8; with a shared-top fallback: n = 4, m = 7).
+  n = 3, m = 6; "the first big-top agent" with two or more: n = 4, m = 8; with a shared-top fallback: n = 4, m = 7),
+  and Lemma K with kept-out sets restricted to goods the agent values (n = 4, m = 8, a suite core).
 
 ## 1. Setting
 
@@ -106,7 +111,8 @@ EFX₀. For a state of LB₄ʳ with ω ≥ 1, `Output` asks exactly for such a c
    Lemma H1, `k4/hall.md` §1, there for removal-only completions). On every leaf of the n = 2 classes the A₄⁺ᴺ,
    A₄⁺(o) and intermediate counts being ≤ 0 imply Lemma K's deficit ≤ 0 (334,752 checks, 0 exceptions).
 2. *Not exact.* Lemma K is a sufficient condition. LB₄ʳ's owner test is exact for a given C (`k4/lb4.md` Lemma 3₄);
-   it allows a slot good that protects only against the final X_o, and the owner's needs from the final bundle.
+   it allows a slot good that protects x only together with other goods kept out (and, rarely, two slot goods for an
+   agent with an empty base). Remark 5 adds exactly that and gets an exact count.
 3. *Where it is used.* Any valid pre-allocation: the state after Phase 1 and upgrades of either policy, and the state
    after rotations (a `RotStep` result passes (V1), (V2) and has at most one base of three or more goods, which must
    then be the owner's).
@@ -118,10 +124,28 @@ EFX₀. For a state of LB₄ʳ with ω ≥ 1, `Output` asks exactly for such a c
    goods of J ∖ K outside R_x, the only extension that can matter). The restricted deficit is at least the full one, so
    every certificate of the restricted search is one of Lemma K, and the logs of §5.1 (made restricted) stand. The
    difference shows on the suite instance `lb4-owner-needs-from-base-n4m8` (n = 4, m = 8, four big-top agents with
-   values (2, 3, 8, 4)): no first agent is certified by the restricted search, every one with `-Y1` (owner 1), and
+   values (2, 3, 8, 4)): no first agent is certified by the restricted search, every one with `-Y1` (owner 0 or 1), and
    `k4/rulef_model.py` with `XKEEP = True` builds that completion and checks it against `Output` and the raw
-   definition. With `-Y1`: n = 2 all K0 (`results/k4_rulef/rk_n2_y1.log`), n = 3 in `results/k4_rulef/rk_n3_y1.log`,
-   pure n = 4 sample in `results/k4_rulef/rk_pure4_y1_sample.log`; no violations.
+   definition. Rerun with `-Y1` on every exhaustive class of §5.1 (`results/k4_rulef/rk_*_y1.log`) and on a pure n = 4
+   sample (`results/k4_rulef/rk_pure4_y1_sample.log`), Lemma K certifies 1,152 more n = 3 profiles without rotation
+   (all of rule F's, §5.1) and 1,160 more at n = 4 with three 4-good agents; no violations.
+5. *Lemma K′: the exact count.* Let a *K′-service* choose for every x ∈ E a kept-out set D_x ⊆ J ∖ K and, if x ∉ F^K
+   and |B_x| ≤ 1, a set G_x ⊆ J ∖ (K ∪ D_x) of at most 2 − |B_x| slot goods (possibly empty), such that
+   not threatened(x, W_o ∖ (D_x ∪ G_x), B_x ∪ G_x), the sets G_x pairwise disjoint; its size is |⋃ G_x ∪ ⋃ D_x|.
+   ((s) is |G_x| = 1, D_x = ∅; (r) is G_x = ∅.) **Lemma K′.** P has a completion X with owner o and the owner's needs
+   from its bundle (OC₄, frozen agents holding their bases, only X_o above two goods; for a state of LB₄ʳ with ω ≥ 1:
+   an `Output` with owner o) **if and only if** some K ⊆ J and some K′-service have size at most κ^K.
+   *Proof.* "If": the proof of Lemma K, word for word (put G_x into x's slot places; X_x ⊇ B_x ∪ G_x and X_o ⊆ W_o ∖
+   (D_x ∪ G_x), then monotonicity). "Only if": let C := J ∖ X_o, K := J ∩ X_o, G_x := X_x ∖ B_x and D_x := C ∖ G_x.
+   Then B_o ∪ K = X_o, and N_o^K equals the owner's needs from X_o: a good of N_o^K is worth more than v_o(X_o), so it
+   is not in X_o; the converse is the second step of Lemma K's proof. So F^K is the set of agents frozen in X, every
+   good of C fills a slot place of an agent outside F^K ∪ {o} (|C| ≤ κ^K), the G_x are disjoint, an agent of F^K holds
+   B_x (G_x = ∅), and W_o ∖ (D_x ∪ G_x) = W_o ∖ C = X_o: (OC₄) is the service condition. ∎
+   So Lemma K's deficit misses LB₄ʳ's owner test only through its separated options, and the class K0 of rule RK with
+   Lemma K′ (K0′) holds exactly the runs that LB₄ʳ solves without rotation under those policies. Checked on the gap
+   profiles of §5.1 (`k4/rulef_gap.py`, every first agent and all three policies, on PR #33's model): Lemma K′ and
+   LB₄ʳ's exact owner test agree on every state, and every Lemma K′ completion passes `output_check` and the raw
+   definition (`results/k4_rulef/gap_check_n4_n4_1.log`; n = 4 with two 4-good agents in progress).
 
 *Second implementation.* `k4/rulef_model.py` computes the same deficit (without `k4/rulef.c`'s restriction of slot
 goods outside R_x to one representative) on PR #33's model, builds the completion of the proof and checks it with
@@ -204,6 +228,13 @@ the existence statement
 
 What a proof of rule F still needs is Lemma M; §5 gives the data, §6 what is known about a proof.
 
+*How strong Lemma M is.* Read with Lemma K′ (Remark 5 of §2, exact) in place of Lemma K and with all three policies
+of LB₄ʳ (need-shrinking, envy-free, no upgrades: Lean's `Policy`), K0 is exactly "LB₄ʳ(τ_a) succeeds without
+rotation" and K1 exactly "with one `RotStep`", so Lemma M is then *equivalent* to rule F with at most one rotation
+(`EFX.LB4R.TheoremRuleF`, K4.AD.F): nothing is lost, and the open statement is put in counting form. With Lemma K's
+robust options (and two policies) it is a stronger statement, which the data of §5 still support; that strength is
+what makes it usable, since Lemmas S, KR and Proposition H″ are statements about Lemma K's count.
+
 ### 4.1 Rule RK on the cores H_t needs no rotation
 
 **Proposition H″.** On every relabeling of the cores H_t of `k4/c4.md` §7, every agent a of gadget 1 is in class K0
@@ -259,12 +290,17 @@ and LB₄ʳ's exact owner search confirms every class on every profile):
   is not needed by the data, and every profile is certified by Lemma K, before or after one rotation.
 - **Lemma K closes almost all of the counting gap.** A profile is in the gap when some first agent needs no rotation
   (rule F) but no first agent is in K0: 0 (n = 2), 1,152 (n = 3), 4, 720 and 36,188 (n = 4 with one, two, three
-  4-good agents). #44's gap for A₄⁺ᴺ, over *every* insertion sequence (K4.AD.AN), was 1,020 (n = 2), 119,616 (n = 3)
+  4-good agents) in the table, whose kept-out sets hold only goods the agent values. With the kept-out sets of
+  Remark 4 (`-Y1`, `results/k4_rulef/rk_*_y1.log`: K0 grows to 299,574,040 at n = 3 and to 34,961,457,752 at n = 4
+  with three 4-good agents, K1 shrinks accordingly, the other rows are unchanged, no violation) the gap is 0, 0, 4,
+  720 and 35,028. #44's gap for A₄⁺ᴺ, over *every* insertion sequence (K4.AD.AN), was 1,020 (n = 2), 119,616 (n = 3)
   and 31,224 (n = 4, two 4-good agents) profiles that LB₄ʳ solves without rotation under some owner-needs convention.
-  K1 covers the gap anyway: with one rotation and Lemma K every profile is certified.
+  K1 covers the gap anyway: with one rotation and Lemma K every profile is certified. Lemma K′ (Remark 5 of §2) is
+  exact, so it leaves no gap by construction; at n = 4 with one 4-good agent the 4 gap profiles are runs that succeed
+  only without upgrades, and Lemma K certifies them under that policy (`results/k4_rulef/gap_check_n4_n4_1.log`).
 - **RK is not optimal, but never needs two rotations.** It uses a rotation where some first agent needs none on 0
-  (n ≤ 3), 4, 688 and 21,456 profiles (n = 4 with one, two, three 4-good agents): these are the profiles of the
-  counting gap on which the first K1 agent in index order is not one of those that need no rotation.
+  (n ≤ 3), 4, 688 and 21,456 profiles (n = 4 with one, two, three 4-good agents; 21,408 with `-Y1`): these are the
+  profiles of the counting gap on which the first K1 agent in index order is not one of those that need no rotation.
 
 **Beyond the exhaustive classes** (random strict profiles of every certified core, `-SN`: N per core; EVIDENCE only,
 PROMPT.md §5 rule 3; `results/k4_rulef/rk_pure4_sample.log`, `rk_n5_*_sample.log`):
@@ -346,10 +382,14 @@ feature tried identifies on every relabeling; rule RK finds it by its certificat
 - `attempts/k4-rulef-bigtop-first.md`: static rules built on big-top agents: "the first big-top agent, else index order"
   (n = 3, m = 6, no big-top agent); "the first big-top agent" when two or more are big-top (n = 4, m = 8); the
   refinements with a shared-top fallback and fewest private goods (n = 4, m = 7).
+- `attempts/k4-rulef-keptout-in-R.md`: Lemma M for Lemma K with kept-out sets restricted to goods the agent values
+  (the first implementation): a suite core with n = 4, m = 8 and four big-top agents is in no class; with Remark 4's
+  kept-out sets every first agent is in K0.
 
 Each smallest failure is confirmed in PR #33's independent model (`k4/c4_verify_H/lb4r.py`: least rotations 2 on the
-rule's sequence under every policy and both owner-needs conventions; for the lemma, no output at the state), and K4.D
-holds there by brute force.
+rule's sequence under every policy and both owner-needs conventions; for the lemma, no output at the state; for the
+restricted kept-out sets, deficit 1 at every first agent and policy and after every single `RotStep`, while LB₄ʳ
+needs no rotation), and K4.D holds there by brute force.
 
 ## 6. Lemma M: a proof attempt, and the cases it does not close
 
@@ -436,7 +476,8 @@ A proof of rule RK would discharge `RuleFConn` as follows; nothing of it is in L
    `Frozen`, K and a K-service of size ≤ κ^K, there is X with `Output … s (some o) X` (the completion of §2; its
    validity part is `EFX.LB4.Valid.sound_ownerNeeds` once the completion is built); and `EFX.LB4.complete_none_exists`
    for ω ≤ 0. Then class K0 gives `SucceedsR 0 … [a]` (no rotation: `RotReach.refl`) and class K1 gives
-   `SucceedsR 1 … [a]` (one `RotStep`, which `EFX.LB4R.rotStep_inv` keeps inside `Inv`).
+   `SucceedsR 1 … [a]` (one `RotStep`, which `EFX.LB4R.rotStep_inv` keeps inside `Inv`). Lemma K′ (Remark 5) is the
+   cleaner statement to formalize: an iff with `∃ X, Output … s (some o) X`, whose "only if" half unfolds `Output`.
 2. Class C40 is nearly a Lean theorem: `EFX.LB4R.corollaryC40'` (K4.C4.AB.L) gives `Succeeds` on its hypotheses;
    its proof uses at most one `RotStep`, so restating its conclusion as `SucceedsR 1` is a small change. (On the data
    the class C40 is never needed, §5.)
@@ -450,7 +491,9 @@ not affected by Proposition H (on H_t rule RK needs no rotation, §4.1).
 bash k4/rulef_runs.sh rk            # rule RK on every strict profile, n <= 4, at most three 4-good agents (~35 min, one CPU)
 bash k4/rulef_runs.sh featdump feat  # n = 3: classes of every first agent where index order is not K0; features; Lemma KR
 bash k4/rulef_runs.sh btrk bigtop    # a big-top agent first (else RK; else index order) and the failures of the fallback
-bash k4/rulef_runs.sh samp hill H suite   # pure n = 4 and n = 5 samples, hill-climbing, H_t with relabelings, the suite
+bash k4/rulef_runs.sh samp H suite  # pure n = 4 and n = 5 samples, H_t with relabelings, the suite
+bash k4/rulef_runs.sh y1            # rule RK with kept-out sets holding goods outside R_x (Remark 4 of §2; ~35 min)
+bash k4/rulef_runs.sh rules         # the explicit rules of -A40 on n = 2 and n = 3 with m <= 5 (none fails there)
 bash k4/rulef_runs.sh check attempts      # Lemma K's second implementation; the failed candidates
 python3 k4/rulef_run.py --profiles=FILE -A41 -r1        # rule RK on given profiles ({"sets", "vals"} per line)
 python3 k4/suite/run.py --pred=k4/rulef_suite.py:rule_rk  # rule RK on the counterexample suite
@@ -460,4 +503,5 @@ python3 k4/suite/run.py --pred=k4/rulef_suite.py:rule_rk  # rule RK on the count
 `-A40` (every first agent, the explicit rules of `rulef_rules`, `-Q` selects the one whose sequence is run) and `-A41`
 (rule RK), `-A42` (static rules), the dumps `-D1`…`-D7` and `-E1` are documented in its header and in
 `k4/rulef_run.py`; everything else is `k4/adaptive.c` (#44) unchanged. The class logs of §5.1 were made with earlier
-revisions of `k4/rulef.c` whose `-A41` code is the present one (later changes add dump options and `-A42`).
+revisions of `k4/rulef.c` whose `-A41` code is the present one (later changes add dump options, `-A42` and `-Y1`,
+which is off by default).
