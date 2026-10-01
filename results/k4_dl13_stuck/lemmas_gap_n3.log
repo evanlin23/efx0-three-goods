@@ -1,0 +1,13 @@
+# command: python3 k4/dl13_lemmas.py --swaps catalog k4/suite/.cache/gapbench/results/k4_gap/gap_n3.json.gz --every=5
+C1 applies                     4735
+C1* applies                    5263
+C2 applies                     1377
+C3 applies                     3540
+Proposition T checks (b), (d)  54038
+S1 shape ok                    4735
+S1 shape theta-a               672
+S1 shape theta-b               3125
+def>0 states f>=1              9588
+profiles                       14852
+swaps checked (Lemma 8)        134153
+no assertion failed

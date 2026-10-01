@@ -1,0 +1,10 @@
+# command: python3 k4/dl13_stuck.py catalog k4/suite/.cache/gapbench/results/k4_gap/gap_n4_3_s4000.json.gz --every=4 --out=results/k4_dl13_stuck/stuck_gap_n4_3_s4000_e4.jsonl.gz
+T1-stuck                                      56
+T1-stuck f=1                                  43
+T1-stuck f=2                                  13
+def>0 states                                  1698
+def>0 states f=1                              1606
+def>0 states f=2                              92
+profiles                                      14591
+profiles f>=1, omega>=1                       14591
+DL13 failures: 0
