@@ -1,0 +1,6 @@
+# command: python3 k4/dl2_run.py catalog k4/suite/.cache/gapbench/results/k4_gap/hunt_n4_2_all.json.gz --jobs=2 --rec=500 --rec2=5 --dump=results/k4_dl2/repairs_n4cat.jsonl.gz --tables=results/k4_dl2/tables_n4cat_hunt_n4_2_all.json
+# dl2.c sha256 0e4e2410b1219cbd3353b1607b8dd93f5394e1491a47f19ed6e2281cad1b78d6
+catalog k4/suite/.cache/gapbench/results/k4_gap/hunt_n4_2_all.json.gz: profiles 32124, omega >= 1: 32124; k* = 0: 32124, 1: 0, 2: 0, 3: 0, >= 4: 0, inf: 0 (k* = n: 0; k* >= 3 isolated / trapped: 0 / 0); P with def > 0: 0, at distance 1: 0, 2: 0, 3: 0, >= 4: 0, inf: 0 (distance >= 3, isolated / trapped: 0 / 0; Pareto-maximal: 0, at distance >= 3: 0); largest least deficit -1 [4 s]
+# dumped: every profile with k* >= 3, every 500-th with k* = 1 (0: none), every 5-th with k* = 2
+repair table (canonical witness per P with def > 0): signature | type | roles : count
+available repair types (counted once per P): signature | type : count

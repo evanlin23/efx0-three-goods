@@ -1,0 +1,31 @@
+{
+"A": {},
+"T": {},
+"command": "python3 k4/dl2_run.py catalog k4/suite/.cache/gapbench/results/k4_gap/gap_n5_1_s100.json.gz --jobs=2 --rec=500 --rec2=5 --dump=results/k4_dl2/repairs_n5cat.jsonl.gz --tables=results/k4_dl2/tables_n5cat_gap_n5_1_s100.json",
+"counters": {
+"kiso": 0,
+"kstar0": 547,
+"kstar1": 0,
+"kstar2": 0,
+"kstar3": 0,
+"kstar4": 0,
+"kstarinf": 0,
+"kstarn": 0,
+"ktrap": 0,
+"maxmin": -1,
+"om1": 547,
+"pd1": 0,
+"pd2": 0,
+"pd3": 0,
+"pd4": 0,
+"pdinf": 0,
+"piso": 0,
+"pm3": 0,
+"pmpos": 0,
+"pos": 0,
+"prof": 547,
+"ptrap": 0,
+"small": 0
+},
+"dl2_c_sha256": "0e4e2410b1219cbd3353b1607b8dd93f5394e1491a47f19ed6e2281cad1b78d6"
+}

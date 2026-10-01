@@ -1,0 +1,26 @@
+# command: python3 k4/dl2_run.py catalog k4/suite/.cache/gapbench/results/k4_gap/hunt_n5_3_s2000.json.gz --jobs=2 --rec=500 --rec2=5 --dump=results/k4_dl2/repairs_n5cat.jsonl.gz --tables=results/k4_dl2/tables_n5cat_hunt_n5_3_s2000.json
+# dl2.c sha256 0e4e2410b1219cbd3353b1607b8dd93f5394e1491a47f19ed6e2281cad1b78d6
+catalog k4/suite/.cache/gapbench/results/k4_gap/hunt_n5_3_s2000.json.gz: profiles 2839, omega >= 1: 2839; k* = 0: 2793, 1: 46, 2: 0, 3: 0, >= 4: 0, inf: 0 (k* = n: 0; k* >= 3 isolated / trapped: 0 / 0); P with def > 0: 113, at distance 1: 113, 2: 0, 3: 0, >= 4: 0, inf: 0 (distance >= 3, isolated / trapped: 0 / 0; Pareto-maximal: 0, at distance >= 3: 0); largest least deficit -1 [0 s]
+# dumped: every profile with k* >= 3, every 500-th with k* = 1 (0: none), every 5-th with k* = 2
+repair table (canonical witness per P with def > 0): signature | type | roles : count
+  T G,D2|S2>1|f>fo : 69
+  T fO,G,D2|S2>1|f>fo : 14
+  T fO,L,D2|S2>1|f>fo : 12
+  T fO,L,D2|S2>1|f>fox : 9
+  T fO,L|S2>1|f>fo : 6
+  T G,O,D2|S2>1|f>fo : 1
+  T fO,L|W2>2|f>fox : 1
+  T fO,L,D2|W2>2|f>fox : 1
+available repair types (counted once per P): signature | type : count
+  A G,D2|S2>1 : 69
+  A G,D2|W2>2 : 47
+  A G,D2|W2>1 : 27
+  A fO,L,D2|W2>2 : 22
+  A fO,L,D2|S2>1 : 21
+  A fO,G,D2|S2>1 : 14
+  A fO,G,D2|W2>2 : 14
+  A fO,L,D2|W2>1 : 11
+  A fO,L|W2>1 : 7
+  A fO,L|W2>2 : 7
+  A fO,L|S2>1 : 6
+  A G,O,D2|S2>1 : 1
