@@ -1,0 +1,12 @@
+# command: python3 k4/rulef_hunt.py n5n12 --file=results/k4_certs_5_n4_1.json.gz --file=results/k4_certs_5_n4_2.json.gz --evals=6000 --key=M
+# k4/rulef.c sha256 5721abf3bc9e25b101412aeb6b602db24d80e1991beee9a367a01cf9ccfc424e
+# k4/rulef_hunt_eval.c sha256 5d7c62157e4daf0cfad93985eecee273bb9fd7408ffdf6636304cb285254944b; evaluator options -Y1 -r2 -T1; B=48 R0=96 STAG=25; key M; samep 0.0; kick None; relabel False
+# units 7203, done before 0, to do 7203, evals per unit 6000, jobs 4
+[      1s] units 1/7203 evals 6000 (6343/s) est. total 113.6 min; best nwork per unit {5: 1}; tight profiles 0; best key [5, 3, 5, 15] at k4_certs_5_n4_1.json.gz:2
+[      1s] units 2/7203 evals 12000 (12685/s) est. total 56.8 min; best nwork per unit {5: 2}; tight profiles 0; best key [5, 3, 5, 15] at k4_certs_5_n4_1.json.gz:2
+[      1s] units 4/7203 evals 24000 (24986/s) est. total 28.8 min; best nwork per unit {5: 4}; tight profiles 0; best key [5, 3, 5, 15] at k4_certs_5_n4_1.json.gz:2
+[      1s] units 8/7203 evals 48000 (45745/s) est. total 15.7 min; best nwork per unit {5: 8}; tight profiles 0; best key [5, 3, 5, 15] at k4_certs_5_n4_1.json.gz:2
+[      6s] units 200/7203 evals 1200000 (212044/s) est. total 3.4 min; best nwork per unit {5: 200}; tight profiles 0; best key [5, 3, 5, 15] at k4_certs_5_n4_1.json.gz:2
+[     10s] units 400/7203 evals 2400048 (230319/s) est. total 3.1 min; best nwork per unit {5: 400}; tight profiles 0; best key [5, -1, 0, -5] at k4_certs_5_n4_1.json.gz:307
+[     17s] units 600/7203 evals 3600432 (208710/s) est. total 3.5 min; best nwork per unit {5: 600}; tight profiles 0; best key [5, -1, 0, -5] at k4_certs_5_n4_1.json.gz:307
+[     23s] units 800/7203 evals 4800624 (207544/s) est. total 3.5 min; best nwork per unit {5: 800}; tight profiles 0; best key [5, -1, 0, -5] at k4_certs_5_n4_1.json.gz:307
