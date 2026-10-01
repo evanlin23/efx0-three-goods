@@ -3,9 +3,9 @@
 Usage: lemmam_table.py [DIR]   (default results/k4_m_portfolio; the datasets are listed in ORDER below)"""
 import glob, json, os, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from lemmam_portfolio import CANDS, VARS
+from lemmam_portfolio import CANDS, VARS, SETS, PREDS, ALIAS
 
-ORDER = ['n2', 'n3', 'n4_1_all', 'n4_2_all', 'n4_s50', 'n5_s20', 'H', 'suite', 'seeds']
+ORDER = ['n2', 'n3', 'n4_1_all', 'n4_2_all', 'n4_s50', 'n4_s2000', 'n5_s20', 'n5_s200', 'H', 'suite']
 DESC = {
     'M': 'Lemma M: some first agent in K0 ∪ K1',
     'M_K0': 'control: some first agent in K0',
@@ -46,17 +46,37 @@ def main():
     L.append('')
     L.append('| candidate | statement | ' + ' | '.join(f'`{k}`' for k in keys) + ' |')
     L.append('|---|---|' + '---|' * len(keys))
-    for c in CANDS:
-        row = [f'**{c}**', DESC[c]]
+    for al, c in ALIAS.items():
+        row = [f'**{al}** (`{c}`)', DESC[al]]
         for k in keys:
             t = S[k]['counters'].get(c)
             row.append('–' if not t else f'**{fmt(t[1])}** / {fmt(t[0])}')
+        L.append('| ' + ' | '.join(row) + ' |')
+    L += ['', '## The whole grid: allowed set × predicate (failures, summed over all datasets)', '',
+          'Sets: all; bt = big-top agents (if any); bt1 = the big-top agent (if exactly one); nobt = agents sharing their '
+          'top (no big-top agent, some shared top); nobt0 = all (no big-top, no shared top); gap / gapn = the argmax of '
+          'a − (b + c) / of (a − b − c)/(a + b + c + d); btp = big-top agents with the fewest private goods; shp = '
+          'shared-top agents with the fewest private goods (no big-top); bt2 = big-top agents (if two or more). '
+          'Predicates (some policy): W = K0 ∪ K1; K0; M1; KRb (Lemma KR, o = r, δ ≤ 1 form = M2); M1|KRb; K0|KRa (KR\'s '
+          'full bound, o = r); K0|KRo (KR, any owner); K0|KRb. Cell: **failures** / applicable over every dataset of '
+          'this table (datasets overlap in kind, not in profiles); per-dataset counts are in the JSON files.', '']
+    L.append('| set | ' + ' | '.join(f'`{q}`' for q in PREDS) + ' |')
+    L.append('|---|' + '---|' * len(PREDS))
+    for a in SETS:
+        row = [f'`{a}`']
+        for q in PREDS:
+            c = f'{a}:{q}'; ap = fl = 0
+            for k in keys:
+                t = S[k]['counters'].get(c)
+                if t: ap += t[0]; fl += t[1]
+            row.append(f'**{fmt(fl)}** / {fmt(ap)}' if fl else f'0 / {fmt(ap)}')
         L.append('| ' + ' | '.join(row) + ' |')
     L += ['', '## Slack of the survivors (tight / only, per dataset)', '']
     L.append('| candidate | ' + ' | '.join(f'`{k}`' for k in keys) + ' |')
     L.append('|---|' + '---|' * len(keys))
     for c in CANDS:
-        row = [c]
+        if any(S[k]['counters'].get(c, [0, 0])[1] for k in keys): continue
+        row = [f'`{c}`']
         for k in keys:
             t = S[k]['counters'].get(c)
             row.append('–' if not t else f'{fmt(t[2])} / {fmt(t[3])}')
@@ -94,9 +114,10 @@ def main():
     for k in keys:
         for nm, o in S[k].get('smallest', {}).items():
             if nm not in allf or tuple(allf[nm][0]) > tuple(o['key']): allf[nm] = (o['key'], o['line'], k)
-    for nm in sorted(allf, key=lambda x: (x.startswith('partner'), x)):
+    inv = {v: k for k, v in ALIAS.items()}
+    for nm in sorted(allf, key=lambda x: (x.startswith('partner'), x not in inv, x)):
         key, line, k = allf[nm]
-        L.append(f'- **{nm}** (dataset `{k}`, n = {key[0]}, m = {key[1]}): `{line[:700]}`')
+        L.append(f'- **{nm}**' + (f' ({inv[nm]})' if nm in inv else '') + f' (dataset `{k}`, n = {key[0]}, m = {key[1]}): `{line[:700]}`')
     L.append('')
     L += ['## Runs', '']
     for k in keys:

@@ -1,0 +1,21 @@
+# lemmam_portfolio.py --H=1,2,3,4,5 --perms=3 -Y1 --jobs=4 --checkpoint=/tmp/claude-0/-home-user-efx0-three-goods/7fff145a-b58d-5b73-9280-767e7c858b47/scratchpad/ck/H.jsonl --out=results/k4_m_portfolio/H.json --label=H_t, t=1..5, 3 relabelings each # source sha 429e382316e0fc51 # rulef.c sha256 5721abf3bc9e25b101412aeb6b602db24d80e1991beee9a367a01cf9ccfc424e
+# 20 tasks, 4 workers
+# 1/20 tasks, 0s
+# 2/20 tasks, 0s
+# 3/20 tasks, 0s
+# 4/20 tasks, 0s
+# 5/20 tasks, 0s
+# 6/20 tasks, 0s
+# 7/20 tasks, 0s
+# 8/20 tasks, 0s
+# 9/20 tasks, 0s
+# 10/20 tasks, 0s
+# 11/20 tasks, 0s
+# 12/20 tasks, 0s
+# 13/20 tasks, 0s
+# 14/20 tasks, 0s
+# 15/20 tasks, 0s
+# 16/20 tasks, 1s
+# 17/20 tasks, 5s
+# 18/20 tasks, 5s
+# 19/20 tasks, 8s

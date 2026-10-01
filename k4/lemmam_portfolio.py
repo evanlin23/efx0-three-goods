@@ -26,8 +26,13 @@ RULEF = os.path.join(HERE, 'rulef.c')
 SHA = hashlib.sha256(open(SRC, 'rb').read() + open(RULEF, 'rb').read()).hexdigest()[:16]
 RULEF_SHA = hashlib.sha256(open(RULEF, 'rb').read()).hexdigest()
 BIN = os.environ.get('LEMMAM_BIN') or os.path.join(tempfile.gettempdir(), 'k4_lemmam_' + SHA)
-CANDS = ["M", "M_K0", "M_bt", "M_bt1", "M_nobt", "M_gap", "M_gapn", "M_kappa", "M_def1", "M_12", "M_K0KR", "M_K0KRo",
-         "M_bt12", "M_nobt0", "M_btK0KR"]
+SETS = ["all", "bt", "bt1", "nobt", "nobt0", "gap", "gapn", "btp", "shp", "bt2"]
+PREDS = ["W", "K0", "M1", "KRb", "M1|KRb", "K0|KRa", "K0|KRo", "K0|KRb"]
+CANDS = [f'{a}:{q}' for a in SETS for q in PREDS]
+ALIAS = {'M': 'all:W', 'M_K0': 'all:K0', 'M_bt': 'bt:W', 'M_bt1': 'bt1:W', 'M_nobt': 'nobt:W', 'M_gap': 'gap:W',
+         'M_gapn': 'gapn:W', 'M_kappa': 'all:M1', 'M_def1': 'all:KRb', 'M_12': 'all:M1|KRb', 'M_K0KR': 'all:K0|KRa',
+         'M_K0KRo': 'all:K0|KRo', 'M_bt12': 'bt:M1|KRb', 'M_nobt0': 'nobt0:W', 'M_btK0KR': 'bt:K0|KRa'}
+KEEP = 10                             # failure lines kept per candidate: the KEEP smallest (online, exact)
 VARS = [k + p for p in ('N', 'E', '0') for k in ('x1', 'x2', 'x3', 'x3b', 'x3c', 'x4')]
 FAILTAGS = ('PFAIL', 'XFAIL', 'C40VIOL', 'M1VIOL', 'KRVIOL', 'KROVIOL', 'HFAIL', 'HTIGHT', 'HDONE')
 
@@ -97,11 +102,15 @@ def summarize(tot, fails, label, out=None, extra=None):
     T = tot.get('tot', [0])[0]
     print(f"== {label}: profiles {T}, exactly one first agent in K0 or K1: {tot.get('tightM', [0])[0]}, "
           f"no agent in K0 but some in K1: {tot.get('K1only', [0])[0]}")
-    print(f"  {'candidate':10s} {'applicable':>16s} {'fails':>14s} {'tight':>14s} {'only':>14s}")
-    for c in CANDS:
+    print("  task's candidates (alias = set:predicate): applicable / fails / tight / only")
+    for al, c in ALIAS.items():
         if c in tot:
             a, f, t, o = tot[c]
-            print(f"  {c:10s} {a:16d} {f:14d} {t:14d} {o:14d}")
+            print(f"  {al:9s} {c:12s} {a:16d} {f:14d} {t:14d} {o:14d}")
+    print("  grid: fails / applicable (set x predicate)")
+    print('  ' + ' ' * 6 + ''.join(f'{q:>22s}' for q in PREDS))
+    for a in SETS:
+        print(f'  {a:6s}' + ''.join(f"{(str(tot[a + ':' + q][1]) + '/' + str(tot[a + ':' + q][0])) if a + ':' + q in tot else '-':>22s}" for q in PREDS))
     print(f"  {'partner':10s} {'pairs (a not W)':>16s} {'undefined':>14s} {'some works':>14s} {'all work':>14s} {'none works':>12s}")
     for v in VARS:
         if v in tot:
@@ -114,11 +123,26 @@ def summarize(tot, fails, label, out=None, extra=None):
         print(f"  smallest {nm} ({S['nfail_lines'][nm]} lines): {S['smallest'][nm]['line'][:900]}")
     if out:
         json.dump(S, open(out, 'w'), indent=1)
+        per = {}
+        for l in fails:
+            if l.startswith(('HTIGHT', 'HDONE')): continue
+            per.setdefault(fail_name(l), []).append(l)
         with open(os.path.splitext(out)[0] + '.fails.txt', 'w') as ff:
-            for l in fails:
-                if not l.startswith(('HTIGHT', 'HDONE')): ff.write(l + '\n')
+            for nm in sorted(per):
+                for l in sorted(set(per[nm]), key=prof_key)[:KEEP]: ff.write(l + '\n')
     sys.stdout.flush()
     return S
+
+
+def keep_line(top, l):
+    """online top-KEEP per failure name (exact: a line not kept is never among the final KEEP smallest)"""
+    if not l.startswith(('PFAIL', 'XFAIL', 'HFAIL')): return True
+    nm = fail_name(l); k = prof_key(l)
+    L = top.setdefault(nm, [])
+    if len(L) < KEEP or k < L[-1]:
+        L.append(k); L.sort(); del L[KEEP:]
+        return True
+    return False
 
 
 def load_ck(ck, keyprefix):
@@ -137,20 +161,21 @@ def drive(tasks, jobs, ck, label, out, extra=None):
     todo = [t for t in tasks if t[0] not in done]
     if len(todo) < len(tasks): print(f"# resuming: {len(tasks) - len(todo)} of {len(tasks)} tasks from {ck}", flush=True)
     fc = open(ck, 'a') if ck else None
-    tot = {}; fails = []; leaves = 0; cpu = 0.0
+    tot = {}; fails = []; leaves = 0; cpu = 0.0; top = {}
     for t in tasks:
         if t[0] in done:
             o = done[t[0]]
             for l in o['pm']: add(tot, parse_pm(l))
-            fails += o['fl']; cpu += o.get('time', 0)
+            fails += [l for l in o['fl'] if keep_line(top, l)]; cpu += o.get('time', 0)
     t0 = time.time(); nd = 0
     with Pool(jobs) as pool:
         for key, pm, lv, fl, dt in pool.imap_unordered(run, todo):
             nd += 1; cpu += dt
             for l in pm: add(tot, parse_pm(l))
+            fl = [l for l in fl if keep_line(top, l)]
             fails += fl
             for l in fl:
-                if l.startswith(('HFAIL',)) or (l.startswith('PFAIL') and 'cand=M ' in l): print('!!', l[:1500], flush=True)
+                if l.startswith(('HFAIL', 'C40VIOL', 'M1VIOL', 'KRVIOL', 'KROVIOL')) or (l.startswith('PFAIL') and 'cand=all:W ' in l): print('!!', l[:1500], flush=True)
             if fc: fc.write(json.dumps({'key': key, 'pm': pm, 'lv': lv, 'fl': fl, 'time': dt}) + '\n'); fc.flush()
             if nd % max(1, len(todo) // 20) == 0:
                 print(f"# {nd}/{len(todo)} tasks, {time.time() - t0:.0f}s", flush=True)

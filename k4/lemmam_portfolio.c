@@ -62,14 +62,17 @@
 #include "rulef.c"
 #undef main
 
-#define NCAND 15
+#define NSET 10
+#define NPRED 8
+#define NCAND (NSET * NPRED)          /* candidate c = set (c / NPRED) x predicate (c % NPRED), named "set:pred" */
+static const char *SNAME[NSET] = {"all", "bt", "bt1", "nobt", "nobt0", "gap", "gapn", "btp", "shp", "bt2"};
+static const char *QNAME[NPRED] = {"W", "K0", "M1", "KRb", "M1|KRb", "K0|KRa", "K0|KRo", "K0|KRb"};
+static char CNAMEbuf[NCAND][40]; static const char *CNAME[NCAND];
 #define NVAR 18                       /* partner variants: 6 kinds x 3 policies */
-static const char *CNAME[NCAND] = {"M", "M_K0", "M_bt", "M_bt1", "M_nobt", "M_gap", "M_gapn", "M_kappa", "M_def1",
-                                   "M_12", "M_K0KR", "M_K0KRo", "M_bt12", "M_nobt0", "M_btK0KR"};
 static const char *VKIND[6] = {"x1", "x2", "x3", "x3b", "x3c", "x4"};
 static const char *PNAME[3] = {"N", "E", "0"};   /* need-shrinking, envy-free, none (index into polv) */
 static int npols = 2, polv[3] = {1, 2, 0};
-static int DO_KRO = 1, PMVERB = 0, FAILMAX = 3;
+static int DO_KRO = 1, PMVERB = 0, FAILMAX = 2;
 
 typedef struct {
     int K0, K1, W;
@@ -78,7 +81,7 @@ typedef struct {
     int c40, g2, g2bad;
 } pa_t;
 static pa_t PA[MAXN];
-static int BT[MAXN], SHT[MAXN];
+static int BT[MAXN], SHT[MAXN], PRIV[MAXN];
 
 /* ---- Lemma K options (unrestricted slot goods: Lemma K as written), K = ∅ ---- */
 static gm po_opt[MAXN][MAXM + 40]; static int po_slot[MAXN][MAXM + 40], po_n[MAXN];
@@ -289,6 +292,7 @@ static void pm_agent(int a) {
 static void pm_leaf(void) {
     for (int a = 0; a < n; a++) BT[a] = bigtop_agent(a);
     for (int a = 0; a < n; a++) { SHT[a] = 0; for (int b = 0; b < n; b++) if (b != a && ord[b][0] == ord[a][0]) SHT[a] = 1; }
+    for (int a = 0; a < n; a++) { gm oth = 0; for (int b = 0; b < n; b++) if (b != a) oth |= R[b]; PRIV[a] = popc(R[a] & ~oth); }
     for (int a = 0; a < n; a++) pm_agent(a);
 }
 static int pm_run_leaf(void) {
@@ -304,29 +308,37 @@ static long st_g2, st_g2W, st_g2bad, st_c40, st_c40notW, st_profc40, st_profnoc4
 static long st_K1only, st_wK0, st_wK1, st_wKR, st_wK1noKR;
 static int fails_shown[NCAND], xfails_shown[NVAR];
 
-static int predP(int c, int a) {     /* the candidate's predicate on agent a */
+static int predQ(int q, int a) {     /* predicate q on agent a (some policy) */
     pa_t *p = &PA[a];
     int m1 = 0, krb = 0, kra = 0, kro = 0;
     for (int pi = 0; pi < npols; pi++) { m1 |= p->M1[pi]; krb |= p->KRb[pi]; kra |= p->KRa[pi]; kro |= p->KRo[pi]; }
-    switch (c) {
+    switch (q) {
+    case 0: return p->W;
     case 1: return p->K0;
-    case 7: return m1;
-    case 8: return krb;
-    case 9: case 12: return m1 || krb;
-    case 10: case 14: return p->K0 || kra;
-    case 11: return p->K0 || kro;
-    default: return p->W;
+    case 2: return m1;
+    case 3: return krb;
+    case 4: return m1 || krb;
+    case 5: return p->K0 || kra;
+    case 6: return p->K0 || kro;
+    default: return p->K0 || krb;
     }
 }
-/* allowed set of candidate c (static candidates only; 5, 6 are per profile); returns 0 if not applicable */
-static int allowed(int c, uint64_t *A) {
-    int nbt = 0, q = -1, nsh = 0; uint64_t bt = 0, sh = 0, all = n == 64 ? ~0ull : ((1ull << n) - 1);
-    for (int a = 0; a < n; a++) { if (BT[a]) { nbt++; q = a; bt |= 1ull << a; } if (SHT[a]) { nsh++; sh |= 1ull << a; } }
-    switch (c) {
-    case 2: case 12: case 14: *A = bt; return nbt > 0;
-    case 3: *A = q >= 0 ? 1ull << q : 0; return nbt == 1;
-    case 4: *A = sh; return nbt == 0 && nsh > 0;
-    case 13: *A = all; return nbt == 0 && nsh == 0;
+/* allowed set s (static sets; 5, 6 are per profile); returns 0 if not applicable */
+static int allowedS(int s, uint64_t *A) {
+    int nbt = 0, q = -1, nsh = 0, pb = 99, ps = 99; uint64_t bt = 0, sh = 0, btp = 0, shp = 0, all = n == 64 ? ~0ull : ((1ull << n) - 1);
+    for (int a = 0; a < n; a++) {
+        if (BT[a]) { nbt++; q = a; bt |= 1ull << a; if (PRIV[a] < pb) pb = PRIV[a]; }
+        if (SHT[a]) { nsh++; sh |= 1ull << a; if (PRIV[a] < ps) ps = PRIV[a]; }
+    }
+    for (int a = 0; a < n; a++) { if (BT[a] && PRIV[a] == pb) btp |= 1ull << a; if (SHT[a] && PRIV[a] == ps) shp |= 1ull << a; }
+    switch (s) {
+    case 1: *A = bt; return nbt > 0;
+    case 2: *A = q >= 0 ? 1ull << q : 0; return nbt == 1;
+    case 3: *A = sh; return nbt == 0 && nsh > 0;
+    case 4: *A = all; return nbt == 0 && nsh == 0;
+    case 7: *A = btp; return nbt > 0;
+    case 8: *A = shp; return nbt == 0 && nsh > 0;
+    case 9: *A = bt; return nbt >= 2;
     default: *A = all; return 1;
     }
 }
@@ -374,45 +386,47 @@ static void pm_stat(long w) {
     if (nW != 1) only = -1;
     nW_last = nW;
     if (w) st_tot += w;
-    for (int c = 0; c < NCAND; c++) {
-        if (c == 5 || c == 6) {          /* per profile: exact counts over the leaf's type tuples */
-            int norm = c == 6;
-            long fw = 0, tw = 0;
-            cand_app[c] = 1; cand_nok[c] = -1;
-            for (int i = 0; i < n; i++) {
-                if (PA[i].W && i != only) continue;
-                for (int k = 0; k < pcnt[i][cp[i]]; k++) if (ts[i] >> k & 1) {
-                    double g = gapval(i, pidx[i][cp[i]][k], norm);
-                    long prod = 1;
-                    for (int j = 0; j < n && prod; j++) if (j != i) prod *= cnt_gap(j, g, norm, j > i);
-                    if (!prod) continue;
-                    if (!PA[i].W) {
-                        fw += prod;
-                        if (w && fails_shown[c] < FAILMAX) {   /* one failing type tuple */
-                            int ty[MAXN];
-                            for (int j = 0; j < n; j++) {
-                                if (j == i) { ty[j] = pidx[i][cp[i]][k]; continue; }
-                                for (int kk = 0; kk < pcnt[j][cp[j]]; kk++) if (ts[j] >> kk & 1) {
-                                    double x = gapval(j, pidx[j][cp[j]][kk], norm);
-                                    if (x < g || (j > i && x == g)) { ty[j] = pidx[j][cp[j]][kk]; break; }
-                                }
+    for (int sidx = 5; sidx <= 6; sidx++) {   /* per profile: exact counts over the leaf's type tuples */
+        int norm = sidx == 6, c0 = sidx * NPRED;
+        long fw[NPRED] = {0}, ow[NPRED] = {0};
+        int am = -1; double gm_ = -1e18;
+        for (int i = 0; i < n; i++) {
+            for (int k = 0; k < pcnt[i][cp[i]]; k++) if (ts[i] >> k & 1) {
+                double g = gapval(i, pidx[i][cp[i]][k], norm);
+                if (g > gm_) { gm_ = g; am = i; }      /* singleton sets: the argmax (ties: lowest index) */
+                long prod = 1;
+                for (int j = 0; j < n && prod; j++) if (j != i) prod *= cnt_gap(j, g, norm, j > i);
+                if (!prod) continue;
+                for (int q = 0; q < NPRED; q++) {
+                    if (predQ(q, i)) { if (i == only) ow[q] += prod; continue; }
+                    fw[q] += prod;
+                    if (w && fails_shown[c0 + q] < FAILMAX) {   /* one failing type tuple */
+                        int ty[MAXN];
+                        for (int j = 0; j < n; j++) {
+                            if (j == i) { ty[j] = pidx[i][cp[i]][k]; continue; }
+                            for (int kk = 0; kk < pcnt[j][cp[j]]; kk++) if (ts[j] >> kk & 1) {
+                                double x = gapval(j, pidx[j][cp[j]][kk], norm);
+                                if (x < g || (j > i && x == g)) { ty[j] = pidx[j][cp[j]][kk]; break; }
                             }
-                            fails_shown[c]++;
-                            printf("PFAIL cand=%s w=1 agent=%d ", CNAME[c], i); print_profile(ty); print_fa(); printf("\n");
                         }
-                    } else tw += prod;
+                        fails_shown[c0 + q]++;
+                        printf("PFAIL cand=%s w=1 agent=%d ", CNAME[c0 + q], i); print_profile(ty); print_fa(); printf("\n");
+                    }
                 }
             }
-            if (w) { st_app[c] += w; st_fail[c] += fw; st_tight[c] += tw; st_only[c] += tw; }
-            if (!w) {                        /* single profile (hill climb): weight 1, fw/tw are 0 or 1 */
-                cand_nok[c] = fw ? 0 : 1;
-            }
-            continue;
         }
-        uint64_t A; int app = allowed(c, &A);
+        for (int q = 0; q < NPRED; q++) {
+            cand_app[c0 + q] = 1; cand_nok[c0 + q] = am >= 0 && predQ(q, am);
+            if (w) { st_app[c0 + q] += w; st_fail[c0 + q] += fw[q]; st_tight[c0 + q] += w - fw[q]; st_only[c0 + q] += ow[q]; }
+        }
+    }
+    for (int c = 0; c < NCAND; c++) {
+        int sidx = c / NPRED, q = c % NPRED;
+        if (sidx == 5 || sidx == 6) continue;
+        uint64_t A; int app = allowedS(sidx, &A);
         cand_app[c] = app;
         int nok = 0, okag = -1;
-        for (int a = 0; a < n; a++) if ((A >> a & 1) && predP(c, a)) { nok++; okag = a; }
+        for (int a = 0; a < n; a++) if ((A >> a & 1) && predQ(q, a)) { nok++; okag = a; }
         cand_nok[c] = nok;
         if (!w || !app) continue;
         st_app[c] += w;
@@ -557,6 +571,7 @@ int main(int argc, char **argv) {
         else { fprintf(stderr, "unknown option %s\n", argv[a]); return 1; }
     }
     if (HRESTART < 1) HRESTART = 1;
+    for (int c = 0; c < NCAND; c++) { snprintf(CNAMEbuf[c], sizeof CNAMEbuf[c], "%s:%s", SNAME[c / NPRED], QNAME[c % NPRED]); CNAME[c] = CNAMEbuf[c]; }
     while (scanf("%d %d", &n, &m) == 2) {
         if (n > MAXN || n > 64 || m > MAXM) { fprintf(stderr, "n = %d or m = %d too large\n", n, m); return 1; }
         ALLG = m == 128 ? ~(gm)0 : (BIT(m) - 1);

@@ -204,7 +204,7 @@ def chain_ends(inst, s, needs, fr, k):
 
 
 def agent_data(inst, a, want_k1=True):
-    d = {'K0': False, 'K1': False, 'M1': False, 'KRa': False, 'KRb': False, 'part': {}}
+    d = {'K0': False, 'K1': False, 'M1': False, 'KRa': False, 'KRb': False, 'KRo': False, 'part': {}}
     states = {}
     for pol in POLS:
         s, pos, blk = run_info(inst, a, pol)
@@ -219,6 +219,7 @@ def agent_data(inst, a, want_k1=True):
         r = last_r(inst, s, pos)
         ra, rb = kr(inst, s, r)
         d['KRa'] |= ra; d['KRb'] |= rb
+        d['KRo'] |= ra or any(kr(inst, s, o)[0] for o in range(inst.n) if o != r)
         W = set(bases[r]) | set(J)
         E = [x for x in range(inst.n) if x != r and thr(inst, x, W, bases[x])]
         ks = min((x for x in range(inst.n) if blk[x] == blk[r]), key=lambda x: pos[x])
@@ -245,25 +246,32 @@ def gap(inst, i, norm):
     return g / sum(v) if norm else g
 
 
+SETS = ["all", "bt", "bt1", "nobt", "nobt0", "gap", "gapn", "btp", "shp", "bt2"]
+PREDS = ["W", "K0", "M1", "KRb", "M1|KRb", "K0|KRa", "K0|KRo", "K0|KRb"]
+
+
 def candidates(inst, D):
-    """verdicts: name -> (applicable, number of allowed agents satisfying the predicate)"""
+    """verdicts: 'set:pred' -> (applicable, number of allowed agents satisfying the predicate)"""
     n = inst.n
     bt = [bigtop(inst, i) for i in range(n)]
     tops = [max(inst.R[i], key=lambda g: inst.v[i][g]) for i in range(n)]
     sh = [any(j != i and tops[j] == tops[i] for j in range(n)) for i in range(n)]
-    W = [D[a]['W'] for a in range(n)]
-    P = {'W': W, 'K0': [D[a]['K0'] for a in range(n)], 'M1': [D[a]['M1'] for a in range(n)],
-         'KRb': [D[a]['KRb'] for a in range(n)], 'M12': [D[a]['M1'] or D[a]['KRb'] for a in range(n)],
-         'K0KR': [D[a]['K0'] or D[a]['KRa'] for a in range(n)]}
+    priv = [sum(1 for g in inst.R[i] if all(inst.v[j][g] == 0 for j in range(n) if j != i)) for i in range(n)]
+    P = {'W': [D[a]['W'] for a in range(n)], 'K0': [D[a]['K0'] for a in range(n)], 'M1': [D[a]['M1'] for a in range(n)],
+         'KRb': [D[a]['KRb'] for a in range(n)], 'M1|KRb': [D[a]['M1'] or D[a]['KRb'] for a in range(n)],
+         'K0|KRa': [D[a]['K0'] or D[a]['KRa'] for a in range(n)], 'K0|KRo': [D[a]['K0'] or D[a]['KRo'] for a in range(n)],
+         'K0|KRb': [D[a]['K0'] or D[a]['KRb'] for a in range(n)]}
     allag = list(range(n)); bts = [a for a in allag if bt[a]]; shs = [a for a in allag if sh[a]]
     ga = max(allag, key=lambda a: (gap(inst, a, False), -a)); gn = max(allag, key=lambda a: (gap(inst, a, True), -a))
-    spec = {'M': (True, allag, 'W'), 'M_K0': (True, allag, 'K0'), 'M_bt': (bool(bts), bts, 'W'),
-            'M_bt1': (len(bts) == 1, bts, 'W'), 'M_nobt': (not bts and bool(shs), shs, 'W'),
-            'M_gap': (True, [ga], 'W'), 'M_gapn': (True, [gn], 'W'), 'M_kappa': (True, allag, 'M1'),
-            'M_def1': (True, allag, 'KRb'), 'M_12': (True, allag, 'M12'), 'M_K0KR': (True, allag, 'K0KR'),
-            'M_bt12': (bool(bts), bts, 'M12'), 'M_nobt0': (not bts and not shs, allag, 'W'),
-            'M_btK0KR': (bool(bts), bts, 'K0KR')}
-    return {c: (app, sum(1 for a in A if P[p][a])) for c, (app, A, p) in spec.items()}, bt
+    btp = [a for a in bts if priv[a] == min(priv[b] for b in bts)] if bts else []
+    shp = [a for a in shs if priv[a] == min(priv[b] for b in shs)] if shs else []
+    S = {'all': (True, allag), 'bt': (bool(bts), bts), 'bt1': (len(bts) == 1, bts), 'nobt': (not bts and bool(shs), shs),
+         'nobt0': (not bts and not shs, allag), 'gap': (True, [ga]), 'gapn': (True, [gn]), 'btp': (bool(bts), btp),
+         'shp': (not bts and bool(shs), shp), 'bt2': (len(bts) >= 2, bts)}
+    out = {}
+    for sn, (app, A) in S.items():
+        for q in PREDS: out[f'{sn}:{q}'] = (app, sum(1 for a in A if P[q][a]))
+    return out, bt
 
 
 def parse_line(line):
@@ -363,6 +371,8 @@ def main():
             ver, bt = candidates(inst, D)
             if tag.startswith('cand='):
                 c = tag[5:]
+                import lemmam_portfolio as LP
+                c = LP.ALIAS.get(c, c)
                 app, nok = ver[c]
                 ok = app and nok == 0
             else:

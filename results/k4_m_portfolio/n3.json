@@ -1,6 +1,6 @@
 {
  "label": "n=3 exhaustive",
- "sha": "5a9134d965ac1c0c",
+ "sha": "429e382316e0fc51",
  "rulef_sha256": "5721abf3bc9e25b101412aeb6b602db24d80e1991beee9a367a01cf9ccfc424e",
  "counters": {
   "tot": [
@@ -12,95 +12,485 @@
   "K1only": [
    263336
   ],
-  "M": [
+  "all:W": [
    299837376,
    0,
    11520,
    11520
   ],
-  "M_K0": [
+  "all:K0": [
    299837376,
    263336,
    3445664,
    0
   ],
-  "M_bt": [
-   125469216,
-   0,
-   103596192,
-   2304
-  ],
-  "M_bt1": [
-   103596192,
-   0,
-   103596192,
-   2304
-  ],
-  "M_nobt": [
-   78475400,
-   0,
-   9216,
-   9216
-  ],
-  "M_gap": [
-   299837376,
-   7488,
-   4368,
-   4368
-  ],
-  "M_gapn": [
-   299837376,
-   6720,
-   5056,
-   5056
-  ],
-  "M_kappa": [
+  "all:M1": [
    299837376,
    1077922,
    10965052,
    0
   ],
-  "M_def1": [
+  "all:KRb": [
    299837376,
    239320255,
    40842910,
    11520
   ],
-  "M_12": [
+  "all:M1|KRb": [
    299837376,
    118771,
    2422612,
    11520
   ],
-  "M_K0KR": [
+  "all:K0|KRa": [
    299837376,
    0,
    39568,
    11520
   ],
-  "M_K0KRo": [
+  "all:K0|KRo": [
    299837376,
    0,
    39568,
    11520
   ],
-  "M_bt12": [
+  "all:K0|KRb": [
+   299837376,
+   0,
+   849456,
+   11520
+  ],
+  "bt:W": [
+   125469216,
+   0,
+   103596192,
+   2304
+  ],
+  "bt:K0": [
+   125469216,
+   1356100,
+   102810284,
+   0
+  ],
+  "bt:M1": [
+   125469216,
+   3305880,
+   103018704,
+   0
+  ],
+  "bt:KRb": [
+   125469216,
+   114016892,
+   10824020,
+   2304
+  ],
+  "bt:M1|KRb": [
    125469216,
    983512,
    103730808,
    2304
   ],
-  "M_nobt0": [
+  "bt:K0|KRa": [
+   125469216,
+   28656,
+   103659216,
+   2304
+  ],
+  "bt:K0|KRo": [
+   125469216,
+   23856,
+   103657776,
+   2304
+  ],
+  "bt:K0|KRb": [
+   125469216,
+   210912,
+   103524432,
+   2304
+  ],
+  "bt1:W": [
+   103596192,
+   0,
+   103596192,
+   2304
+  ],
+  "bt1:K0": [
+   103596192,
+   1344372,
+   102251820,
+   0
+  ],
+  "bt1:M1": [
+   103596192,
+   2870352,
+   100725840,
+   0
+  ],
+  "bt1:KRb": [
+   103596192,
+   95378628,
+   8217564,
+   2304
+  ],
+  "bt1:M1|KRb": [
+   103596192,
+   796968,
+   102799224,
+   2304
+  ],
+  "bt1:K0|KRa": [
+   103596192,
+   28656,
+   103567536,
+   2304
+  ],
+  "bt1:K0|KRo": [
+   103596192,
+   23856,
+   103572336,
+   2304
+  ],
+  "bt1:K0|KRb": [
+   103596192,
+   210912,
+   103385280,
+   2304
+  ],
+  "nobt:W": [
+   78475400,
+   0,
+   9216,
+   9216
+  ],
+  "nobt:K0": [
+   78475400,
+   169680,
+   6982274,
+   0
+  ],
+  "nobt:M1": [
+   78475400,
+   532098,
+   12315734,
+   0
+  ],
+  "nobt:KRb": [
+   78475400,
+   53526427,
+   19250900,
+   9216
+  ],
+  "nobt:M1|KRb": [
+   78475400,
+   56363,
+   5767168,
+   9216
+  ],
+  "nobt:K0|KRa": [
+   78475400,
+   0,
+   1032724,
+   9216
+  ],
+  "nobt:K0|KRo": [
+   78475400,
+   0,
+   365736,
+   9216
+  ],
+  "nobt:K0|KRb": [
+   78475400,
+   0,
+   3447856,
+   9216
+  ],
+  "nobt0:W": [
    95892760,
    0,
    0,
    0
   ],
-  "M_btK0KR": [
+  "nobt0:K0": [
+   95892760,
+   0,
+   0,
+   0
+  ],
+  "nobt0:M1": [
+   95892760,
+   0,
+   0,
+   0
+  ],
+  "nobt0:KRb": [
+   95892760,
+   95892760,
+   0,
+   0
+  ],
+  "nobt0:M1|KRb": [
+   95892760,
+   0,
+   0,
+   0
+  ],
+  "nobt0:K0|KRa": [
+   95892760,
+   0,
+   0,
+   0
+  ],
+  "nobt0:K0|KRo": [
+   95892760,
+   0,
+   0,
+   0
+  ],
+  "nobt0:K0|KRb": [
+   95892760,
+   0,
+   0,
+   0
+  ],
+  "gap:W": [
+   299837376,
+   7488,
+   299829888,
+   4368
+  ],
+  "gap:K0": [
+   299837376,
+   5031460,
+   294805916,
+   0
+  ],
+  "gap:M1": [
+   299837376,
+   11256608,
+   288580768,
+   0
+  ],
+  "gap:KRb": [
+   299837376,
+   274607682,
+   25229694,
+   4368
+  ],
+  "gap:M1|KRb": [
+   299837376,
+   3725708,
+   296111668,
+   4368
+  ],
+  "gap:K0|KRa": [
+   299837376,
+   370144,
+   299467232,
+   4368
+  ],
+  "gap:K0|KRo": [
+   299837376,
+   260080,
+   299577296,
+   4368
+  ],
+  "gap:K0|KRb": [
+   299837376,
+   1674584,
+   298162792,
+   4368
+  ],
+  "gapn:W": [
+   299837376,
+   6720,
+   299830656,
+   5056
+  ],
+  "gapn:K0": [
+   299837376,
+   4754334,
+   295083042,
+   0
+  ],
+  "gapn:M1": [
+   299837376,
+   10648034,
+   289189342,
+   0
+  ],
+  "gapn:KRb": [
+   299837376,
+   275569444,
+   24267932,
+   5056
+  ],
+  "gapn:M1|KRb": [
+   299837376,
+   3418920,
+   296418456,
+   5056
+  ],
+  "gapn:K0|KRa": [
+   299837376,
+   315238,
+   299522138,
+   5056
+  ],
+  "gapn:K0|KRo": [
+   299837376,
+   229822,
+   299607554,
+   5056
+  ],
+  "gapn:K0|KRb": [
+   299837376,
+   1521484,
+   298315892,
+   5056
+  ],
+  "btp:W": [
+   125469216,
+   0,
+   112021920,
+   2304
+  ],
+  "btp:K0": [
+   125469216,
+   1402276,
+   110907980,
+   0
+  ],
+  "btp:M1": [
+   125469216,
+   3685504,
+   109756736,
+   0
+  ],
+  "btp:KRb": [
+   125469216,
+   115009652,
+   10099980,
+   2304
+  ],
+  "btp:M1|KRb": [
+   125469216,
+   1246776,
+   111347744,
+   2304
+  ],
+  "btp:K0|KRa": [
    125469216,
    28656,
-   103659216,
+   112036752,
    2304
+  ],
+  "btp:K0|KRo": [
+   125469216,
+   23856,
+   112041552,
+   2304
+  ],
+  "btp:K0|KRb": [
+   125469216,
+   213696,
+   111866496,
+   2304
+  ],
+  "shp:W": [
+   78475400,
+   0,
+   29293840,
+   9216
+  ],
+  "shp:K0": [
+   78475400,
+   941264,
+   32204790,
+   0
+  ],
+  "shp:M1": [
+   78475400,
+   2465400,
+   33810792,
+   0
+  ],
+  "shp:KRb": [
+   78475400,
+   59495276,
+   15717236,
+   9216
+  ],
+  "shp:M1|KRb": [
+   78475400,
+   1070615,
+   31187732,
+   9216
+  ],
+  "shp:K0|KRa": [
+   78475400,
+   190392,
+   29497464,
+   9216
+  ],
+  "shp:K0|KRo": [
+   78475400,
+   125688,
+   29274400,
+   9216
+  ],
+  "shp:K0|KRb": [
+   78475400,
+   356728,
+   30614064,
+   9216
+  ],
+  "bt2:W": [
+   21873024,
+   0,
+   0,
+   0
+  ],
+  "bt2:K0": [
+   21873024,
+   11728,
+   558464,
+   0
+  ],
+  "bt2:M1": [
+   21873024,
+   435528,
+   2292864,
+   0
+  ],
+  "bt2:KRb": [
+   21873024,
+   18638264,
+   2606456,
+   0
+  ],
+  "bt2:M1|KRb": [
+   21873024,
+   186544,
+   931584,
+   0
+  ],
+  "bt2:K0|KRa": [
+   21873024,
+   0,
+   91680,
+   0
+  ],
+  "bt2:K0|KRo": [
+   21873024,
+   0,
+   85440,
+   0
+  ],
+  "bt2:K0|KRb": [
+   21873024,
+   0,
+   139152,
+   0
   ],
   "x1N": [
    25240,
@@ -218,7 +608,7 @@
   ]
  },
  "smallest": {
-  "M_def1": {
+  "gap:KRb": {
    "key": [
     3,
     4,
@@ -226,9 +616,89 @@
     8,
     35
    ],
-   "line": "PFAIL cand=M_def1 w=1 n=3 m=4 sets=[[0,1,2,3],[1,2,3],[1,2,3]] vals=[[2,3,4,8],[2,3,4],[2,3,4]] fa=0:K0=1,K1=0,bt=1,sh=1,c40=1,g2=0,N[om=0,r=2,rfz=0,ks=0,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=0,r=2,rfz=0,ks=0,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0];1:K0=1,K1=0,bt=0,sh=1,c40=1,g2=0,N[om=-1,r=2,rfz=0,ks=1,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=0,r=0,rfz=0,ks=1,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0];2:K0=1,K1=0,bt=0,sh=1,c40=1,g2=0,N[om=-1,r=1,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=0,r=0,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0]"
+   "line": "PFAIL cand=gap:KRb w=1 agent=0 n=3 m=4 sets=[[0,1,2,3],[0,2,3],[1,2,3]] vals=[[2,3,4,8],[2,3,4],[2,3,4]] fa=0:K0=1,K1=0,bt=1,sh=1,c40=1,g2=0,N[om=0,r=2,rfz=0,ks=0,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=0,r=2,rfz=0,ks=0,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0];1:K0=1,K1=0,bt=0,sh=1,c40=1,g2=0,N[om=-1,r=2,rfz=0,ks=1,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=0,r=0,rfz=0,ks=1,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0];2:K0=1,K1=0,bt=0,sh=1,c40=1,g2=0,N[om=-1,r=1,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=0,r=0,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0]"
   },
-  "M_K0": {
+  "gapn:KRb": {
+   "key": [
+    3,
+    4,
+    10,
+    8,
+    35
+   ],
+   "line": "PFAIL cand=gapn:KRb w=1 agent=0 n=3 m=4 sets=[[0,1,2,3],[0,2,3],[1,2,3]] vals=[[2,3,4,8],[2,3,4],[2,3,4]] fa=0:K0=1,K1=0,bt=1,sh=1,c40=1,g2=0,N[om=0,r=2,rfz=0,ks=0,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=0,r=2,rfz=0,ks=0,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0];1:K0=1,K1=0,bt=0,sh=1,c40=1,g2=0,N[om=-1,r=2,rfz=0,ks=1,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=0,r=0,rfz=0,ks=1,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0];2:K0=1,K1=0,bt=0,sh=1,c40=1,g2=0,N[om=-1,r=1,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=0,r=0,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0]"
+  },
+  "all:KRb": {
+   "key": [
+    3,
+    4,
+    10,
+    8,
+    35
+   ],
+   "line": "PFAIL cand=all:KRb w=1 n=3 m=4 sets=[[0,1,2,3],[0,2,3],[1,2,3]] vals=[[2,3,4,8],[2,3,4],[2,3,4]] fa=0:K0=1,K1=0,bt=1,sh=1,c40=1,g2=0,N[om=0,r=2,rfz=0,ks=0,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=0,r=2,rfz=0,ks=0,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0];1:K0=1,K1=0,bt=0,sh=1,c40=1,g2=0,N[om=-1,r=2,rfz=0,ks=1,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=0,r=0,rfz=0,ks=1,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0];2:K0=1,K1=0,bt=0,sh=1,c40=1,g2=0,N[om=-1,r=1,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=0,r=0,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0]"
+  },
+  "bt:KRb": {
+   "key": [
+    3,
+    4,
+    10,
+    8,
+    35
+   ],
+   "line": "PFAIL cand=bt:KRb w=1 n=3 m=4 sets=[[0,1,2,3],[0,2,3],[1,2,3]] vals=[[2,3,4,8],[2,3,4],[2,3,4]] fa=0:K0=1,K1=0,bt=1,sh=1,c40=1,g2=0,N[om=0,r=2,rfz=0,ks=0,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=0,r=2,rfz=0,ks=0,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0];1:K0=1,K1=0,bt=0,sh=1,c40=1,g2=0,N[om=-1,r=2,rfz=0,ks=1,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=0,r=0,rfz=0,ks=1,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0];2:K0=1,K1=0,bt=0,sh=1,c40=1,g2=0,N[om=-1,r=1,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=0,r=0,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0]"
+  },
+  "bt1:KRb": {
+   "key": [
+    3,
+    4,
+    10,
+    8,
+    35
+   ],
+   "line": "PFAIL cand=bt1:KRb w=1 n=3 m=4 sets=[[0,1,2,3],[0,2,3],[1,2,3]] vals=[[2,3,4,8],[2,3,4],[2,3,4]] fa=0:K0=1,K1=0,bt=1,sh=1,c40=1,g2=0,N[om=0,r=2,rfz=0,ks=0,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=0,r=2,rfz=0,ks=0,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0];1:K0=1,K1=0,bt=0,sh=1,c40=1,g2=0,N[om=-1,r=2,rfz=0,ks=1,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=0,r=0,rfz=0,ks=1,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0];2:K0=1,K1=0,bt=0,sh=1,c40=1,g2=0,N[om=-1,r=1,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=0,r=0,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0]"
+  },
+  "btp:KRb": {
+   "key": [
+    3,
+    4,
+    10,
+    8,
+    35
+   ],
+   "line": "PFAIL cand=btp:KRb w=1 n=3 m=4 sets=[[0,1,2,3],[0,2,3],[1,2,3]] vals=[[2,3,4,8],[2,3,4],[2,3,4]] fa=0:K0=1,K1=0,bt=1,sh=1,c40=1,g2=0,N[om=0,r=2,rfz=0,ks=0,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=0,r=2,rfz=0,ks=0,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0];1:K0=1,K1=0,bt=0,sh=1,c40=1,g2=0,N[om=-1,r=2,rfz=0,ks=1,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=0,r=0,rfz=0,ks=1,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0];2:K0=1,K1=0,bt=0,sh=1,c40=1,g2=0,N[om=-1,r=1,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=0,r=0,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0]"
+  },
+  "nobt:KRb": {
+   "key": [
+    3,
+    4,
+    10,
+    8,
+    37
+   ],
+   "line": "PFAIL cand=nobt:KRb w=4 n=3 m=4 sets=[[0,1,2,3],[0,2,3],[1,2,3]] vals=[[1,4,6,8],[2,3,4],[2,3,4]] fa=0:K0=1,K1=0,bt=0,sh=1,c40=1,g2=0,N[om=0,r=2,rfz=0,ks=0,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=0,r=2,rfz=0,ks=0,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0];1:K0=1,K1=0,bt=0,sh=1,c40=1,g2=0,N[om=0,r=0,rfz=0,ks=1,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=0,r=0,rfz=0,ks=1,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0];2:K0=1,K1=0,bt=0,sh=1,c40=1,g2=0,N[om=0,r=0,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=0,r=0,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0]"
+  },
+  "shp:KRb": {
+   "key": [
+    3,
+    4,
+    10,
+    8,
+    37
+   ],
+   "line": "PFAIL cand=shp:KRb w=4 n=3 m=4 sets=[[0,1,2,3],[0,2,3],[1,2,3]] vals=[[1,4,6,8],[2,3,4],[2,3,4]] fa=0:K0=1,K1=0,bt=0,sh=1,c40=1,g2=0,N[om=0,r=2,rfz=0,ks=0,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=0,r=2,rfz=0,ks=0,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0];1:K0=1,K1=0,bt=0,sh=1,c40=1,g2=0,N[om=0,r=0,rfz=0,ks=1,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=0,r=0,rfz=0,ks=1,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0];2:K0=1,K1=0,bt=0,sh=1,c40=1,g2=0,N[om=0,r=0,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=0,r=0,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0]"
+  },
+  "nobt0:KRb": {
+   "key": [
+    3,
+    4,
+    10,
+    8,
+    37
+   ],
+   "line": "PFAIL cand=nobt0:KRb w=10 n=3 m=4 sets=[[0,1,2,3],[0,2,3],[1,2,3]] vals=[[1,8,4,6],[2,4,3],[2,3,4]] fa=0:K0=1,K1=0,bt=0,sh=0,c40=1,g2=0,N[om=-2,r=1,rfz=0,ks=0,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=-2,r=1,rfz=0,ks=0,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0];1:K0=1,K1=0,bt=0,sh=0,c40=1,g2=0,N[om=-2,r=0,rfz=0,ks=1,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=-2,r=0,rfz=0,ks=1,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0];2:K0=1,K1=0,bt=0,sh=0,c40=1,g2=0,N[om=-2,r=0,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=-2,r=0,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0]"
+  },
+  "gap:K0": {
    "key": [
     3,
     5,
@@ -236,9 +706,9 @@
     7,
     39
    ],
-   "line": "PFAIL cand=M_K0 w=2 n=3 m=5 sets=[[0,1,3,4],[2,3,4],[2,3,4]] vals=[[3,5,7,6],[2,3,4],[2,3,4]] fa=0:K0=0,K1=1,bt=0,sh=0,c40=0,g2=0,N[om=1,r=2,rfz=0,ks=0,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=4],E[om=1,r=2,rfz=0,ks=0,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=4];1:K0=0,K1=1,bt=0,sh=1,c40=0,g2=0,N[om=1,r=2,rfz=0,ks=1,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=4],E[om=1,r=2,rfz=0,ks=1,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=4];2:K0=0,K1=1,bt=0,sh=1,c40=0,g2=0,N[om=1,r=1,rfz=0,ks=2,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=2],E[om=1,r=1,rfz=0,ks=2,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=2]"
+   "line": "PFAIL cand=gap:K0 w=1 agent=1 n=3 m=5 sets=[[0,1,3,4],[2,3,4],[2,3,4]] vals=[[3,5,7,6],[2,3,4],[2,3,4]] fa=0:K0=0,K1=1,bt=0,sh=0,c40=0,g2=0,N[om=1,r=2,rfz=0,ks=0,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=4],E[om=1,r=2,rfz=0,ks=0,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=4];1:K0=0,K1=1,bt=0,sh=1,c40=0,g2=0,N[om=1,r=2,rfz=0,ks=1,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=4],E[om=1,r=2,rfz=0,ks=1,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=4];2:K0=0,K1=1,bt=0,sh=1,c40=0,g2=0,N[om=1,r=1,rfz=0,ks=2,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=2],E[om=1,r=1,rfz=0,ks=2,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=2]"
   },
-  "M_kappa": {
+  "gap:M1": {
    "key": [
     3,
     5,
@@ -246,9 +716,279 @@
     7,
     39
    ],
-   "line": "PFAIL cand=M_kappa w=2 n=3 m=5 sets=[[0,1,3,4],[2,3,4],[2,3,4]] vals=[[3,5,7,6],[2,3,4],[2,3,4]] fa=0:K0=0,K1=1,bt=0,sh=0,c40=0,g2=0,N[om=1,r=2,rfz=0,ks=0,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=4],E[om=1,r=2,rfz=0,ks=0,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=4];1:K0=0,K1=1,bt=0,sh=1,c40=0,g2=0,N[om=1,r=2,rfz=0,ks=1,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=4],E[om=1,r=2,rfz=0,ks=1,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=4];2:K0=0,K1=1,bt=0,sh=1,c40=0,g2=0,N[om=1,r=1,rfz=0,ks=2,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=2],E[om=1,r=1,rfz=0,ks=2,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=2]"
+   "line": "PFAIL cand=gap:M1 w=1 agent=1 n=3 m=5 sets=[[0,1,3,4],[2,3,4],[2,3,4]] vals=[[3,5,7,6],[2,3,4],[2,3,4]] fa=0:K0=0,K1=1,bt=0,sh=0,c40=0,g2=0,N[om=1,r=2,rfz=0,ks=0,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=4],E[om=1,r=2,rfz=0,ks=0,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=4];1:K0=0,K1=1,bt=0,sh=1,c40=0,g2=0,N[om=1,r=2,rfz=0,ks=1,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=4],E[om=1,r=2,rfz=0,ks=1,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=4];2:K0=0,K1=1,bt=0,sh=1,c40=0,g2=0,N[om=1,r=1,rfz=0,ks=2,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=2],E[om=1,r=1,rfz=0,ks=2,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=2]"
   },
-  "M_bt12": {
+  "gapn:K0": {
+   "key": [
+    3,
+    5,
+    10,
+    7,
+    39
+   ],
+   "line": "PFAIL cand=gapn:K0 w=1 agent=1 n=3 m=5 sets=[[0,1,3,4],[2,3,4],[2,3,4]] vals=[[3,5,7,6],[2,3,4],[2,3,4]] fa=0:K0=0,K1=1,bt=0,sh=0,c40=0,g2=0,N[om=1,r=2,rfz=0,ks=0,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=4],E[om=1,r=2,rfz=0,ks=0,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=4];1:K0=0,K1=1,bt=0,sh=1,c40=0,g2=0,N[om=1,r=2,rfz=0,ks=1,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=4],E[om=1,r=2,rfz=0,ks=1,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=4];2:K0=0,K1=1,bt=0,sh=1,c40=0,g2=0,N[om=1,r=1,rfz=0,ks=2,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=2],E[om=1,r=1,rfz=0,ks=2,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=2]"
+  },
+  "gapn:M1": {
+   "key": [
+    3,
+    5,
+    10,
+    7,
+    39
+   ],
+   "line": "PFAIL cand=gapn:M1 w=1 agent=1 n=3 m=5 sets=[[0,1,3,4],[2,3,4],[2,3,4]] vals=[[3,5,7,6],[2,3,4],[2,3,4]] fa=0:K0=0,K1=1,bt=0,sh=0,c40=0,g2=0,N[om=1,r=2,rfz=0,ks=0,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=4],E[om=1,r=2,rfz=0,ks=0,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=4];1:K0=0,K1=1,bt=0,sh=1,c40=0,g2=0,N[om=1,r=2,rfz=0,ks=1,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=4],E[om=1,r=2,rfz=0,ks=1,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=4];2:K0=0,K1=1,bt=0,sh=1,c40=0,g2=0,N[om=1,r=1,rfz=0,ks=2,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=2],E[om=1,r=1,rfz=0,ks=2,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=2]"
+  },
+  "all:K0": {
+   "key": [
+    3,
+    5,
+    10,
+    7,
+    39
+   ],
+   "line": "PFAIL cand=all:K0 w=2 n=3 m=5 sets=[[0,1,3,4],[2,3,4],[2,3,4]] vals=[[3,5,7,6],[2,3,4],[2,3,4]] fa=0:K0=0,K1=1,bt=0,sh=0,c40=0,g2=0,N[om=1,r=2,rfz=0,ks=0,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=4],E[om=1,r=2,rfz=0,ks=0,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=4];1:K0=0,K1=1,bt=0,sh=1,c40=0,g2=0,N[om=1,r=2,rfz=0,ks=1,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=4],E[om=1,r=2,rfz=0,ks=1,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=4];2:K0=0,K1=1,bt=0,sh=1,c40=0,g2=0,N[om=1,r=1,rfz=0,ks=2,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=2],E[om=1,r=1,rfz=0,ks=2,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=2]"
+  },
+  "all:M1": {
+   "key": [
+    3,
+    5,
+    10,
+    7,
+    39
+   ],
+   "line": "PFAIL cand=all:M1 w=2 n=3 m=5 sets=[[0,1,3,4],[2,3,4],[2,3,4]] vals=[[3,5,7,6],[2,3,4],[2,3,4]] fa=0:K0=0,K1=1,bt=0,sh=0,c40=0,g2=0,N[om=1,r=2,rfz=0,ks=0,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=4],E[om=1,r=2,rfz=0,ks=0,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=4];1:K0=0,K1=1,bt=0,sh=1,c40=0,g2=0,N[om=1,r=2,rfz=0,ks=1,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=4],E[om=1,r=2,rfz=0,ks=1,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=4];2:K0=0,K1=1,bt=0,sh=1,c40=0,g2=0,N[om=1,r=1,rfz=0,ks=2,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=2],E[om=1,r=1,rfz=0,ks=2,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=2]"
+  },
+  "nobt:K0": {
+   "key": [
+    3,
+    5,
+    10,
+    7,
+    39
+   ],
+   "line": "PFAIL cand=nobt:K0 w=2 n=3 m=5 sets=[[0,1,3,4],[2,3,4],[2,3,4]] vals=[[3,5,7,6],[2,3,4],[2,3,4]] fa=0:K0=0,K1=1,bt=0,sh=0,c40=0,g2=0,N[om=1,r=2,rfz=0,ks=0,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=4],E[om=1,r=2,rfz=0,ks=0,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=4];1:K0=0,K1=1,bt=0,sh=1,c40=0,g2=0,N[om=1,r=2,rfz=0,ks=1,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=4],E[om=1,r=2,rfz=0,ks=1,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=4];2:K0=0,K1=1,bt=0,sh=1,c40=0,g2=0,N[om=1,r=1,rfz=0,ks=2,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=2],E[om=1,r=1,rfz=0,ks=2,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=2]"
+  },
+  "nobt:M1": {
+   "key": [
+    3,
+    5,
+    10,
+    7,
+    39
+   ],
+   "line": "PFAIL cand=nobt:M1 w=2 n=3 m=5 sets=[[0,1,3,4],[2,3,4],[2,3,4]] vals=[[3,5,7,6],[2,3,4],[2,3,4]] fa=0:K0=0,K1=1,bt=0,sh=0,c40=0,g2=0,N[om=1,r=2,rfz=0,ks=0,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=4],E[om=1,r=2,rfz=0,ks=0,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=4];1:K0=0,K1=1,bt=0,sh=1,c40=0,g2=0,N[om=1,r=2,rfz=0,ks=1,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=4],E[om=1,r=2,rfz=0,ks=1,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=4];2:K0=0,K1=1,bt=0,sh=1,c40=0,g2=0,N[om=1,r=1,rfz=0,ks=2,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=2],E[om=1,r=1,rfz=0,ks=2,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=2]"
+  },
+  "shp:K0": {
+   "key": [
+    3,
+    5,
+    10,
+    7,
+    39
+   ],
+   "line": "PFAIL cand=shp:K0 w=2 n=3 m=5 sets=[[0,1,3,4],[2,3,4],[2,3,4]] vals=[[3,5,7,6],[2,3,4],[2,3,4]] fa=0:K0=0,K1=1,bt=0,sh=0,c40=0,g2=0,N[om=1,r=2,rfz=0,ks=0,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=4],E[om=1,r=2,rfz=0,ks=0,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=4];1:K0=0,K1=1,bt=0,sh=1,c40=0,g2=0,N[om=1,r=2,rfz=0,ks=1,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=4],E[om=1,r=2,rfz=0,ks=1,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=4];2:K0=0,K1=1,bt=0,sh=1,c40=0,g2=0,N[om=1,r=1,rfz=0,ks=2,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=2],E[om=1,r=1,rfz=0,ks=2,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=2]"
+  },
+  "shp:M1": {
+   "key": [
+    3,
+    5,
+    10,
+    7,
+    39
+   ],
+   "line": "PFAIL cand=shp:M1 w=2 n=3 m=5 sets=[[0,1,3,4],[2,3,4],[2,3,4]] vals=[[3,5,7,6],[2,3,4],[2,3,4]] fa=0:K0=0,K1=1,bt=0,sh=0,c40=0,g2=0,N[om=1,r=2,rfz=0,ks=0,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=4],E[om=1,r=2,rfz=0,ks=0,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=4];1:K0=0,K1=1,bt=0,sh=1,c40=0,g2=0,N[om=1,r=2,rfz=0,ks=1,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=4],E[om=1,r=2,rfz=0,ks=1,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=4];2:K0=0,K1=1,bt=0,sh=1,c40=0,g2=0,N[om=1,r=1,rfz=0,ks=2,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=2],E[om=1,r=1,rfz=0,ks=2,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=2]"
+  },
+  "bt2:KRb": {
+   "key": [
+    3,
+    4,
+    11,
+    10,
+    47
+   ],
+   "line": "PFAIL cand=bt2:KRb w=1 n=3 m=4 sets=[[0,1,2,3],[0,1,2,3],[1,2,3]] vals=[[2,3,4,8],[2,3,6,10],[2,3,4]] fa=0:K0=1,K1=0,bt=1,sh=1,c40=1,g2=0,N[om=0,r=1,rfz=0,ks=0,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=0,r=1,rfz=0,ks=0,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0];1:K0=1,K1=0,bt=1,sh=1,c40=1,g2=0,N[om=-1,r=2,rfz=0,ks=1,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=0,r=0,rfz=0,ks=1,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0];2:K0=1,K1=0,bt=0,sh=1,c40=1,g2=0,N[om=0,r=1,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=0,r=1,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0]"
+  },
+  "shp:M1|KRb": {
+   "key": [
+    3,
+    5,
+    10,
+    7,
+    39
+   ],
+   "line": "PFAIL cand=shp:M1|KRb w=2 n=3 m=5 sets=[[0,3,4],[1,2,3,4],[1,2,4]] vals=[[2,3,4],[3,5,7,6],[2,3,4]] fa=0:K0=1,K1=0,bt=0,sh=1,c40=1,g2=0,N[om=-1,r=1,rfz=0,ks=0,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=-1,r=1,rfz=0,ks=0,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0];1:K0=1,K1=0,bt=0,sh=0,c40=1,g2=0,N[om=-1,r=0,rfz=0,ks=1,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=-1,r=0,rfz=0,ks=1,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0];2:K0=0,K1=1,bt=0,sh=1,c40=0,g2=0,N[om=1,r=0,rfz=0,ks=2,M1=0,KRb=0,KRa=0,KRo=0,x1=2,x3=1],E[om=1,r=0,rfz=0,ks=2,M1=0,KRb=0,KRa=0,KRo=0,x1=2,x3=1]"
+  },
+  "shp:K0|KRa": {
+   "key": [
+    3,
+    5,
+    10,
+    7,
+    39
+   ],
+   "line": "PFAIL cand=shp:K0|KRa w=2 n=3 m=5 sets=[[0,3,4],[1,2,3,4],[1,2,4]] vals=[[2,3,4],[3,5,7,6],[2,3,4]] fa=0:K0=1,K1=0,bt=0,sh=1,c40=1,g2=0,N[om=-1,r=1,rfz=0,ks=0,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=-1,r=1,rfz=0,ks=0,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0];1:K0=1,K1=0,bt=0,sh=0,c40=1,g2=0,N[om=-1,r=0,rfz=0,ks=1,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=-1,r=0,rfz=0,ks=1,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0];2:K0=0,K1=1,bt=0,sh=1,c40=0,g2=0,N[om=1,r=0,rfz=0,ks=2,M1=0,KRb=0,KRa=0,KRo=0,x1=2,x3=1],E[om=1,r=0,rfz=0,ks=2,M1=0,KRb=0,KRa=0,KRo=0,x1=2,x3=1]"
+  },
+  "shp:K0|KRo": {
+   "key": [
+    3,
+    5,
+    10,
+    7,
+    39
+   ],
+   "line": "PFAIL cand=shp:K0|KRo w=2 n=3 m=5 sets=[[0,3,4],[1,2,3,4],[1,2,4]] vals=[[2,3,4],[3,5,7,6],[2,3,4]] fa=0:K0=1,K1=0,bt=0,sh=1,c40=1,g2=0,N[om=-1,r=1,rfz=0,ks=0,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=-1,r=1,rfz=0,ks=0,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0];1:K0=1,K1=0,bt=0,sh=0,c40=1,g2=0,N[om=-1,r=0,rfz=0,ks=1,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=-1,r=0,rfz=0,ks=1,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0];2:K0=0,K1=1,bt=0,sh=1,c40=0,g2=0,N[om=1,r=0,rfz=0,ks=2,M1=0,KRb=0,KRa=0,KRo=0,x1=2,x3=1],E[om=1,r=0,rfz=0,ks=2,M1=0,KRb=0,KRa=0,KRo=0,x1=2,x3=1]"
+  },
+  "shp:K0|KRb": {
+   "key": [
+    3,
+    5,
+    10,
+    7,
+    39
+   ],
+   "line": "PFAIL cand=shp:K0|KRb w=2 n=3 m=5 sets=[[0,3,4],[1,2,3,4],[1,2,4]] vals=[[2,3,4],[3,5,7,6],[2,3,4]] fa=0:K0=1,K1=0,bt=0,sh=1,c40=1,g2=0,N[om=-1,r=1,rfz=0,ks=0,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=-1,r=1,rfz=0,ks=0,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0];1:K0=1,K1=0,bt=0,sh=0,c40=1,g2=0,N[om=-1,r=0,rfz=0,ks=1,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=-1,r=0,rfz=0,ks=1,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0];2:K0=0,K1=1,bt=0,sh=1,c40=0,g2=0,N[om=1,r=0,rfz=0,ks=2,M1=0,KRb=0,KRa=0,KRo=0,x1=2,x3=1],E[om=1,r=0,rfz=0,ks=2,M1=0,KRb=0,KRa=0,KRo=0,x1=2,x3=1]"
+  },
+  "bt:K0": {
+   "key": [
+    3,
+    5,
+    11,
+    8,
+    47
+   ],
+   "line": "PFAIL cand=bt:K0 w=2 n=3 m=5 sets=[[0,2,3,4],[1,2,3,4],[2,3,4]] vals=[[3,5,7,6],[2,3,4,8],[2,3,4]] fa=0:K0=1,K1=0,bt=0,sh=0,c40=0,g2=0,N[om=0,r=2,rfz=1,ks=0,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=1,r=1,rfz=0,ks=0,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=2];1:K0=0,K1=1,bt=1,sh=1,c40=0,g2=0,N[om=1,r=2,rfz=0,ks=1,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=4],E[om=1,r=2,rfz=0,ks=1,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=4];2:K0=1,K1=0,bt=0,sh=1,c40=0,g2=0,N[om=0,r=0,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=1,r=1,rfz=0,ks=2,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=2]"
+  },
+  "bt:M1": {
+   "key": [
+    3,
+    5,
+    11,
+    8,
+    47
+   ],
+   "line": "PFAIL cand=bt:M1 w=2 n=3 m=5 sets=[[0,2,3,4],[1,2,3,4],[2,3,4]] vals=[[3,5,7,6],[2,3,4,8],[2,3,4]] fa=0:K0=1,K1=0,bt=0,sh=0,c40=0,g2=0,N[om=0,r=2,rfz=1,ks=0,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=1,r=1,rfz=0,ks=0,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=2];1:K0=0,K1=1,bt=1,sh=1,c40=0,g2=0,N[om=1,r=2,rfz=0,ks=1,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=4],E[om=1,r=2,rfz=0,ks=1,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=4];2:K0=1,K1=0,bt=0,sh=1,c40=0,g2=0,N[om=0,r=0,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=1,r=1,rfz=0,ks=2,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=2]"
+  },
+  "bt1:K0": {
+   "key": [
+    3,
+    5,
+    11,
+    8,
+    47
+   ],
+   "line": "PFAIL cand=bt1:K0 w=2 n=3 m=5 sets=[[0,2,3,4],[1,2,3,4],[2,3,4]] vals=[[3,5,7,6],[2,3,4,8],[2,3,4]] fa=0:K0=1,K1=0,bt=0,sh=0,c40=0,g2=0,N[om=0,r=2,rfz=1,ks=0,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=1,r=1,rfz=0,ks=0,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=2];1:K0=0,K1=1,bt=1,sh=1,c40=0,g2=0,N[om=1,r=2,rfz=0,ks=1,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=4],E[om=1,r=2,rfz=0,ks=1,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=4];2:K0=1,K1=0,bt=0,sh=1,c40=0,g2=0,N[om=0,r=0,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=1,r=1,rfz=0,ks=2,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=2]"
+  },
+  "bt1:M1": {
+   "key": [
+    3,
+    5,
+    11,
+    8,
+    47
+   ],
+   "line": "PFAIL cand=bt1:M1 w=2 n=3 m=5 sets=[[0,2,3,4],[1,2,3,4],[2,3,4]] vals=[[3,5,7,6],[2,3,4,8],[2,3,4]] fa=0:K0=1,K1=0,bt=0,sh=0,c40=0,g2=0,N[om=0,r=2,rfz=1,ks=0,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=1,r=1,rfz=0,ks=0,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=2];1:K0=0,K1=1,bt=1,sh=1,c40=0,g2=0,N[om=1,r=2,rfz=0,ks=1,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=4],E[om=1,r=2,rfz=0,ks=1,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=4];2:K0=1,K1=0,bt=0,sh=1,c40=0,g2=0,N[om=0,r=0,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=1,r=1,rfz=0,ks=2,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=2]"
+  },
+  "btp:K0": {
+   "key": [
+    3,
+    5,
+    11,
+    8,
+    47
+   ],
+   "line": "PFAIL cand=btp:K0 w=2 n=3 m=5 sets=[[0,2,3,4],[1,2,3,4],[2,3,4]] vals=[[3,5,7,6],[2,3,4,8],[2,3,4]] fa=0:K0=1,K1=0,bt=0,sh=0,c40=0,g2=0,N[om=0,r=2,rfz=1,ks=0,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=1,r=1,rfz=0,ks=0,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=2];1:K0=0,K1=1,bt=1,sh=1,c40=0,g2=0,N[om=1,r=2,rfz=0,ks=1,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=4],E[om=1,r=2,rfz=0,ks=1,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=4];2:K0=1,K1=0,bt=0,sh=1,c40=0,g2=0,N[om=0,r=0,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=1,r=1,rfz=0,ks=2,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=2]"
+  },
+  "btp:M1": {
+   "key": [
+    3,
+    5,
+    11,
+    8,
+    47
+   ],
+   "line": "PFAIL cand=btp:M1 w=2 n=3 m=5 sets=[[0,2,3,4],[1,2,3,4],[2,3,4]] vals=[[3,5,7,6],[2,3,4,8],[2,3,4]] fa=0:K0=1,K1=0,bt=0,sh=0,c40=0,g2=0,N[om=0,r=2,rfz=1,ks=0,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=1,r=1,rfz=0,ks=0,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=2];1:K0=0,K1=1,bt=1,sh=1,c40=0,g2=0,N[om=1,r=2,rfz=0,ks=1,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=4],E[om=1,r=2,rfz=0,ks=1,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=4];2:K0=1,K1=0,bt=0,sh=1,c40=0,g2=0,N[om=0,r=0,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=1,r=1,rfz=0,ks=2,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=2]"
+  },
+  "gap:M1|KRb": {
+   "key": [
+    3,
+    5,
+    11,
+    8,
+    49
+   ],
+   "line": "PFAIL cand=gap:M1|KRb w=1 agent=2 n=3 m=5 sets=[[0,2,3,4],[1,2,3,4],[1,3,4]] vals=[[4,6,1,8],[3,7,5,6],[2,3,4]] fa=0:K0=1,K1=0,bt=0,sh=1,c40=1,g2=0,N[om=-1,r=1,rfz=0,ks=0,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=-1,r=1,rfz=0,ks=0,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0];1:K0=1,K1=0,bt=0,sh=0,c40=1,g2=0,N[om=-1,r=0,rfz=0,ks=1,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=-1,r=0,rfz=0,ks=1,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0];2:K0=0,K1=1,bt=0,sh=1,c40=0,g2=0,N[om=1,r=0,rfz=0,ks=2,M1=0,KRb=0,KRa=0,KRo=0,x1=2,x3=1],E[om=1,r=0,rfz=0,ks=2,M1=0,KRb=0,KRa=0,KRo=0,x1=2,x3=1]"
+  },
+  "gap:K0|KRa": {
+   "key": [
+    3,
+    5,
+    11,
+    8,
+    49
+   ],
+   "line": "PFAIL cand=gap:K0|KRa w=1 agent=2 n=3 m=5 sets=[[0,2,3,4],[1,2,3,4],[1,3,4]] vals=[[4,6,1,8],[3,7,5,6],[2,3,4]] fa=0:K0=1,K1=0,bt=0,sh=1,c40=1,g2=0,N[om=-1,r=1,rfz=0,ks=0,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=-1,r=1,rfz=0,ks=0,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0];1:K0=1,K1=0,bt=0,sh=0,c40=1,g2=0,N[om=-1,r=0,rfz=0,ks=1,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=-1,r=0,rfz=0,ks=1,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0];2:K0=0,K1=1,bt=0,sh=1,c40=0,g2=0,N[om=1,r=0,rfz=0,ks=2,M1=0,KRb=0,KRa=0,KRo=0,x1=2,x3=1],E[om=1,r=0,rfz=0,ks=2,M1=0,KRb=0,KRa=0,KRo=0,x1=2,x3=1]"
+  },
+  "gap:K0|KRo": {
+   "key": [
+    3,
+    5,
+    11,
+    8,
+    49
+   ],
+   "line": "PFAIL cand=gap:K0|KRo w=1 agent=2 n=3 m=5 sets=[[0,2,3,4],[1,2,3,4],[1,3,4]] vals=[[4,6,1,8],[3,7,5,6],[2,3,4]] fa=0:K0=1,K1=0,bt=0,sh=1,c40=1,g2=0,N[om=-1,r=1,rfz=0,ks=0,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=-1,r=1,rfz=0,ks=0,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0];1:K0=1,K1=0,bt=0,sh=0,c40=1,g2=0,N[om=-1,r=0,rfz=0,ks=1,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=-1,r=0,rfz=0,ks=1,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0];2:K0=0,K1=1,bt=0,sh=1,c40=0,g2=0,N[om=1,r=0,rfz=0,ks=2,M1=0,KRb=0,KRa=0,KRo=0,x1=2,x3=1],E[om=1,r=0,rfz=0,ks=2,M1=0,KRb=0,KRa=0,KRo=0,x1=2,x3=1]"
+  },
+  "gap:K0|KRb": {
+   "key": [
+    3,
+    5,
+    11,
+    8,
+    49
+   ],
+   "line": "PFAIL cand=gap:K0|KRb w=1 agent=2 n=3 m=5 sets=[[0,2,3,4],[1,2,3,4],[1,3,4]] vals=[[4,6,1,8],[3,7,5,6],[2,3,4]] fa=0:K0=1,K1=0,bt=0,sh=1,c40=1,g2=0,N[om=-1,r=1,rfz=0,ks=0,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=-1,r=1,rfz=0,ks=0,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0];1:K0=1,K1=0,bt=0,sh=0,c40=1,g2=0,N[om=-1,r=0,rfz=0,ks=1,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=-1,r=0,rfz=0,ks=1,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0];2:K0=0,K1=1,bt=0,sh=1,c40=0,g2=0,N[om=1,r=0,rfz=0,ks=2,M1=0,KRb=0,KRa=0,KRo=0,x1=2,x3=1],E[om=1,r=0,rfz=0,ks=2,M1=0,KRb=0,KRa=0,KRo=0,x1=2,x3=1]"
+  },
+  "gapn:M1|KRb": {
+   "key": [
+    3,
+    5,
+    11,
+    8,
+    49
+   ],
+   "line": "PFAIL cand=gapn:M1|KRb w=1 agent=0 n=3 m=5 sets=[[0,1,3,4],[0,2,3,4],[1,2,4]] vals=[[4,1,6,8],[3,7,5,6],[2,3,4]] fa=0:K0=0,K1=1,bt=0,sh=1,c40=0,g2=0,N[om=1,r=2,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,x1=3,x3=4],E[om=1,r=2,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,x1=3,x3=4];1:K0=1,K1=0,bt=0,sh=0,c40=1,g2=0,N[om=-1,r=2,rfz=0,ks=1,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=-1,r=2,rfz=0,ks=1,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0];2:K0=1,K1=0,bt=0,sh=1,c40=1,g2=0,N[om=-1,r=1,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=-1,r=1,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0]"
+  },
+  "gapn:K0|KRa": {
+   "key": [
+    3,
+    5,
+    11,
+    8,
+    49
+   ],
+   "line": "PFAIL cand=gapn:K0|KRa w=1 agent=0 n=3 m=5 sets=[[0,1,3,4],[0,2,3,4],[1,2,4]] vals=[[4,1,6,8],[3,7,5,6],[2,3,4]] fa=0:K0=0,K1=1,bt=0,sh=1,c40=0,g2=0,N[om=1,r=2,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,x1=3,x3=4],E[om=1,r=2,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,x1=3,x3=4];1:K0=1,K1=0,bt=0,sh=0,c40=1,g2=0,N[om=-1,r=2,rfz=0,ks=1,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=-1,r=2,rfz=0,ks=1,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0];2:K0=1,K1=0,bt=0,sh=1,c40=1,g2=0,N[om=-1,r=1,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=-1,r=1,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0]"
+  },
+  "gapn:K0|KRo": {
+   "key": [
+    3,
+    5,
+    11,
+    8,
+    49
+   ],
+   "line": "PFAIL cand=gapn:K0|KRo w=1 agent=0 n=3 m=5 sets=[[0,1,3,4],[0,2,3,4],[1,2,4]] vals=[[4,1,6,8],[3,7,5,6],[2,3,4]] fa=0:K0=0,K1=1,bt=0,sh=1,c40=0,g2=0,N[om=1,r=2,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,x1=3,x3=4],E[om=1,r=2,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,x1=3,x3=4];1:K0=1,K1=0,bt=0,sh=0,c40=1,g2=0,N[om=-1,r=2,rfz=0,ks=1,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=-1,r=2,rfz=0,ks=1,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0];2:K0=1,K1=0,bt=0,sh=1,c40=1,g2=0,N[om=-1,r=1,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=-1,r=1,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0]"
+  },
+  "gapn:K0|KRb": {
+   "key": [
+    3,
+    5,
+    11,
+    8,
+    49
+   ],
+   "line": "PFAIL cand=gapn:K0|KRb w=1 agent=0 n=3 m=5 sets=[[0,1,3,4],[0,2,3,4],[1,2,4]] vals=[[4,1,6,8],[3,7,5,6],[2,3,4]] fa=0:K0=0,K1=1,bt=0,sh=1,c40=0,g2=0,N[om=1,r=2,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,x1=3,x3=4],E[om=1,r=2,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,x1=3,x3=4];1:K0=1,K1=0,bt=0,sh=0,c40=1,g2=0,N[om=-1,r=2,rfz=0,ks=1,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=-1,r=2,rfz=0,ks=1,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0];2:K0=1,K1=0,bt=0,sh=1,c40=1,g2=0,N[om=-1,r=1,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=-1,r=1,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0]"
+  },
+  "bt:M1|KRb": {
    "key": [
     3,
     6,
@@ -256,9 +996,59 @@
     8,
     43
    ],
-   "line": "PFAIL cand=M_bt12 w=1 n=3 m=6 sets=[[0,4,5],[1,2,3,4],[1,2,3,5]] vals=[[4,2,3],[2,3,8,4],[2,3,8,4]] fa=0:K0=1,K1=0,bt=0,sh=0,c40=0,g2=0,N[om=1,r=2,rfz=0,ks=1,M1=0,KRb=0,KRa=0,KRo=0,x1=2,x3=4],E[om=1,r=2,rfz=0,ks=1,M1=0,KRb=0,KRa=0,KRo=0,x1=2,x3=4];1:K0=1,K1=0,bt=1,sh=1,c40=0,g2=0,N[om=1,r=0,rfz=0,ks=1,M1=0,KRb=0,KRa=0,KRo=0,x1=2,x3=4],E[om=1,r=0,rfz=0,ks=1,M1=0,KRb=0,KRa=0,KRo=0,x1=2,x3=4];2:K0=1,K1=0,bt=1,sh=1,c40=0,g2=0,N[om=1,r=0,rfz=0,ks=2,M1=0,KRb=0,KRa=0,KRo=0,x1=4,x3=2],E[om=1,r=0,rfz=0,ks=2,M1=0,KRb=0,KRa=0,KRo=0,x1=4,x3=2]"
+   "line": "PFAIL cand=bt:M1|KRb w=1 n=3 m=6 sets=[[0,4,5],[1,2,3,4],[1,2,3,5]] vals=[[4,2,3],[2,3,8,4],[2,3,8,4]] fa=0:K0=1,K1=0,bt=0,sh=0,c40=0,g2=0,N[om=1,r=2,rfz=0,ks=1,M1=0,KRb=0,KRa=0,KRo=0,x1=2,x3=4],E[om=1,r=2,rfz=0,ks=1,M1=0,KRb=0,KRa=0,KRo=0,x1=2,x3=4];1:K0=1,K1=0,bt=1,sh=1,c40=0,g2=0,N[om=1,r=0,rfz=0,ks=1,M1=0,KRb=0,KRa=0,KRo=0,x1=2,x3=4],E[om=1,r=0,rfz=0,ks=1,M1=0,KRb=0,KRa=0,KRo=0,x1=2,x3=4];2:K0=1,K1=0,bt=1,sh=1,c40=0,g2=0,N[om=1,r=0,rfz=0,ks=2,M1=0,KRb=0,KRa=0,KRo=0,x1=4,x3=2],E[om=1,r=0,rfz=0,ks=2,M1=0,KRb=0,KRa=0,KRo=0,x1=4,x3=2]"
   },
-  "M_gap": {
+  "bt:K0|KRb": {
+   "key": [
+    3,
+    6,
+    11,
+    8,
+    47
+   ],
+   "line": "PFAIL cand=bt:K0|KRb w=2 n=3 m=6 sets=[[0,1,2,5],[2,3,4,5],[3,4,5]] vals=[[2,3,4,8],[3,5,7,6],[2,3,4]] fa=0:K0=0,K1=1,bt=1,sh=1,c40=0,g2=0,N[om=2,r=2,rfz=0,ks=0,M1=0,KRb=0,KRa=1,KRo=1,x1=3,x3=4],E[om=2,r=2,rfz=0,ks=0,M1=0,KRb=0,KRa=1,KRo=1,x1=3,x3=4];1:K0=1,K1=0,bt=0,sh=0,c40=0,g2=0,N[om=1,r=0,rfz=0,ks=1,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=1,r=0,rfz=0,ks=1,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0];2:K0=1,K1=0,bt=0,sh=1,c40=0,g2=0,N[om=1,r=0,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=1,r=0,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0]"
+  },
+  "bt1:M1|KRb": {
+   "key": [
+    3,
+    6,
+    11,
+    8,
+    45
+   ],
+   "line": "PFAIL cand=bt1:M1|KRb w=2 n=3 m=6 sets=[[0,3,4,5],[1,3,4,5],[2,4,5]] vals=[[5,8,2,4],[2,8,3,4],[2,3,4]] fa=0:K0=1,K1=0,bt=0,sh=1,c40=0,g2=0,N[om=1,r=1,rfz=0,ks=0,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=2],E[om=1,r=1,rfz=0,ks=0,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=2];1:K0=1,K1=0,bt=1,sh=1,c40=0,g2=0,N[om=1,r=2,rfz=0,ks=2,M1=0,KRb=0,KRa=0,KRo=0,x1=2,x3=1],E[om=1,r=2,rfz=0,ks=2,M1=0,KRb=0,KRa=0,KRo=0,x1=2,x3=1];2:K0=1,K1=0,bt=0,sh=0,c40=0,g2=1,N[om=1,r=0,rfz=1,ks=2,M1=0,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=2,r=1,rfz=0,ks=2,M1=0,KRb=1,KRa=1,KRo=1,x1=0,x3=0]"
+  },
+  "bt1:K0|KRb": {
+   "key": [
+    3,
+    6,
+    11,
+    8,
+    47
+   ],
+   "line": "PFAIL cand=bt1:K0|KRb w=2 n=3 m=6 sets=[[0,1,2,5],[2,3,4,5],[3,4,5]] vals=[[2,3,4,8],[3,5,7,6],[2,3,4]] fa=0:K0=0,K1=1,bt=1,sh=1,c40=0,g2=0,N[om=2,r=2,rfz=0,ks=0,M1=0,KRb=0,KRa=1,KRo=1,x1=3,x3=4],E[om=2,r=2,rfz=0,ks=0,M1=0,KRb=0,KRa=1,KRo=1,x1=3,x3=4];1:K0=1,K1=0,bt=0,sh=0,c40=0,g2=0,N[om=1,r=0,rfz=0,ks=1,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=1,r=0,rfz=0,ks=1,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0];2:K0=1,K1=0,bt=0,sh=1,c40=0,g2=0,N[om=1,r=0,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=1,r=0,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0]"
+  },
+  "btp:M1|KRb": {
+   "key": [
+    3,
+    6,
+    11,
+    8,
+    43
+   ],
+   "line": "PFAIL cand=btp:M1|KRb w=1 n=3 m=6 sets=[[0,2,4,5],[1,3,5],[2,3,4,5]] vals=[[4,2,8,3],[2,3,4],[2,3,8,4]] fa=0:K0=1,K1=0,bt=1,sh=1,c40=1,g2=0,N[om=1,r=2,rfz=0,ks=0,M1=1,KRb=1,KRa=1,KRo=1,x1=0,x3=0],E[om=1,r=2,rfz=0,ks=0,M1=1,KRb=1,KRa=1,KRo=1,x1=0,x3=0];1:K0=1,K1=0,bt=0,sh=0,c40=0,g2=1,N[om=1,r=0,rfz=1,ks=1,M1=0,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=2,r=2,rfz=0,ks=1,M1=0,KRb=1,KRa=1,KRo=1,x1=0,x3=0];2:K0=1,K1=0,bt=1,sh=1,c40=0,g2=0,N[om=1,r=1,rfz=0,ks=1,M1=0,KRb=0,KRa=0,KRo=0,x1=4,x3=1],E[om=1,r=1,rfz=0,ks=1,M1=0,KRb=0,KRa=0,KRo=0,x1=4,x3=1]"
+  },
+  "btp:K0|KRb": {
+   "key": [
+    3,
+    6,
+    11,
+    8,
+    47
+   ],
+   "line": "PFAIL cand=btp:K0|KRb w=2 n=3 m=6 sets=[[0,1,2,5],[2,3,4,5],[3,4,5]] vals=[[2,3,4,8],[3,5,7,6],[2,3,4]] fa=0:K0=0,K1=1,bt=1,sh=1,c40=0,g2=0,N[om=2,r=2,rfz=0,ks=0,M1=0,KRb=0,KRa=1,KRo=1,x1=3,x3=4],E[om=2,r=2,rfz=0,ks=0,M1=0,KRb=0,KRa=1,KRo=1,x1=3,x3=4];1:K0=1,K1=0,bt=0,sh=0,c40=0,g2=0,N[om=1,r=0,rfz=0,ks=1,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=1,r=0,rfz=0,ks=1,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0];2:K0=1,K1=0,bt=0,sh=1,c40=0,g2=0,N[om=1,r=0,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=1,r=0,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0]"
+  },
+  "gap:W": {
    "key": [
     3,
     6,
@@ -266,9 +1056,9 @@
     8,
     49
    ],
-   "line": "PFAIL cand=M_gap w=1 agent=2 n=3 m=6 sets=[[0,1,2,5],[2,3,4,5],[3,4,5]] vals=[[1,4,8,6],[8,3,4,6],[2,3,4]] fa=0:K0=0,K1=1,bt=0,sh=1,c40=0,g2=0,N[om=1,r=1,rfz=0,ks=0,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=2],E[om=1,r=1,rfz=0,ks=0,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=2];1:K0=1,K1=0,bt=0,sh=1,c40=1,g2=0,N[om=0,r=1,rfz=0,ks=1,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=0,r=1,rfz=0,ks=1,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0];2:K0=0,K1=0,bt=0,sh=0,c40=0,g2=1,N[om=1,r=0,rfz=1,ks=2,M1=0,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=2,r=1,rfz=0,ks=2,M1=0,KRb=0,KRa=0,KRo=0,x1=0,x3=0]"
+   "line": "PFAIL cand=gap:W w=1 agent=2 n=3 m=6 sets=[[0,1,2,5],[2,3,4,5],[3,4,5]] vals=[[1,4,8,6],[8,3,4,6],[2,3,4]] fa=0:K0=0,K1=1,bt=0,sh=1,c40=0,g2=0,N[om=1,r=1,rfz=0,ks=0,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=2],E[om=1,r=1,rfz=0,ks=0,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=2];1:K0=1,K1=0,bt=0,sh=1,c40=1,g2=0,N[om=0,r=1,rfz=0,ks=1,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=0,r=1,rfz=0,ks=1,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0];2:K0=0,K1=0,bt=0,sh=0,c40=0,g2=1,N[om=1,r=0,rfz=1,ks=2,M1=0,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=2,r=1,rfz=0,ks=2,M1=0,KRb=0,KRa=0,KRo=0,x1=0,x3=0]"
   },
-  "M_gapn": {
+  "gapn:W": {
    "key": [
     3,
     6,
@@ -276,9 +1066,19 @@
     10,
     53
    ],
-   "line": "PFAIL cand=M_gapn w=1 agent=0 n=3 m=6 sets=[[0,2,4,5],[1,3,5],[2,3,4,5]] vals=[[1,4,6,8],[2,4,3],[2,10,6,7]] fa=0:K0=0,K1=0,bt=0,sh=0,c40=0,g2=0,N[om=1,r=1,rfz=1,ks=0,M1=0,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=2,r=2,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,x1=1,x3=4];1:K0=0,K1=1,bt=0,sh=1,c40=1,g2=0,N[om=1,r=2,rfz=0,ks=1,M1=0,KRb=1,KRa=1,KRo=1,x1=0,x3=0],E[om=1,r=2,rfz=0,ks=1,M1=0,KRb=1,KRa=1,KRo=1,x1=0,x3=0];2:K0=1,K1=0,bt=0,sh=1,c40=1,g2=0,N[om=0,r=2,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=0,r=2,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0]"
+   "line": "PFAIL cand=gapn:W w=1 agent=0 n=3 m=6 sets=[[0,2,4,5],[1,3,5],[2,3,4,5]] vals=[[1,4,6,8],[2,4,3],[2,10,6,7]] fa=0:K0=0,K1=0,bt=0,sh=0,c40=0,g2=0,N[om=1,r=1,rfz=1,ks=0,M1=0,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=2,r=2,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,x1=1,x3=4];1:K0=0,K1=1,bt=0,sh=1,c40=1,g2=0,N[om=1,r=2,rfz=0,ks=1,M1=0,KRb=1,KRa=1,KRo=1,x1=0,x3=0],E[om=1,r=2,rfz=0,ks=1,M1=0,KRb=1,KRa=1,KRo=1,x1=0,x3=0];2:K0=1,K1=0,bt=0,sh=1,c40=1,g2=0,N[om=0,r=2,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=0,r=2,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0]"
   },
-  "M_12": {
+  "bt2:M1": {
+   "key": [
+    3,
+    5,
+    12,
+    8,
+    53
+   ],
+   "line": "PFAIL cand=bt2:M1 w=4 n=3 m=5 sets=[[0,2,3,4],[1,2,3,4],[1,2,3,4]] vals=[[2,3,4,8],[2,3,4,8],[1,4,6,8]] fa=0:K0=0,K1=1,bt=1,sh=1,c40=0,g2=0,N[om=1,r=2,rfz=0,ks=0,M1=0,KRb=1,KRa=1,KRo=1,x1=2,x3=4],E[om=1,r=2,rfz=0,ks=0,M1=0,KRb=1,KRa=1,KRo=1,x1=2,x3=4];1:K0=0,K1=1,bt=1,sh=1,c40=0,g2=0,N[om=1,r=2,rfz=0,ks=1,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=4],E[om=1,r=2,rfz=0,ks=1,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=4];2:K0=1,K1=0,bt=0,sh=1,c40=0,g2=0,N[om=0,r=0,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=1,r=1,rfz=0,ks=2,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=2]"
+  },
+  "bt2:M1|KRb": {
    "key": [
     3,
     6,
@@ -286,7 +1086,37 @@
     8,
     43
    ],
-   "line": "PFAIL cand=M_12 w=1 n=3 m=6 sets=[[0,3,4,5],[1,3,4,5],[2,4,5]] vals=[[4,8,2,3],[4,8,2,3],[4,2,3]] fa=0:K0=1,K1=0,bt=1,sh=1,c40=0,g2=0,N[om=1,r=2,rfz=0,ks=2,M1=0,KRb=0,KRa=0,KRo=0,x1=1,x3=2],E[om=1,r=2,rfz=0,ks=2,M1=0,KRb=0,KRa=0,KRo=0,x1=1,x3=2];1:K0=1,K1=0,bt=1,sh=1,c40=0,g2=0,N[om=1,r=2,rfz=0,ks=2,M1=0,KRb=0,KRa=0,KRo=0,x1=2,x3=1],E[om=1,r=2,rfz=0,ks=2,M1=0,KRb=0,KRa=0,KRo=0,x1=2,x3=1];2:K0=1,K1=0,bt=0,sh=0,c40=0,g2=0,N[om=1,r=1,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,x1=1,x3=2],E[om=1,r=1,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,x1=1,x3=2]"
+   "line": "PFAIL cand=bt2:M1|KRb w=1 n=3 m=6 sets=[[0,1,2,5],[2,3,4,5],[3,4,5]] vals=[[2,4,8,3],[8,2,4,3],[2,3,4]] fa=0:K0=1,K1=0,bt=1,sh=1,c40=0,g2=0,N[om=1,r=2,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,x1=1,x3=2],E[om=1,r=2,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,x1=1,x3=2];1:K0=1,K1=0,bt=1,sh=1,c40=0,g2=0,N[om=1,r=2,rfz=0,ks=2,M1=0,KRb=0,KRa=0,KRo=0,x1=2,x3=1],E[om=1,r=2,rfz=0,ks=2,M1=0,KRb=0,KRa=0,KRo=0,x1=2,x3=1];2:K0=1,K1=0,bt=0,sh=0,c40=1,g2=0,N[om=1,r=1,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=1,r=1,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0]"
+  },
+  "nobt:M1|KRb": {
+   "key": [
+    3,
+    6,
+    11,
+    8,
+    47
+   ],
+   "line": "PFAIL cand=nobt:M1|KRb w=4 n=3 m=6 sets=[[0,1,2,5],[2,3,4,5],[3,4,5]] vals=[[2,5,8,4],[8,2,5,4],[2,3,4]] fa=0:K0=1,K1=0,bt=0,sh=1,c40=0,g2=0,N[om=1,r=2,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,x1=1,x3=2],E[om=1,r=2,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,x1=1,x3=2];1:K0=1,K1=0,bt=0,sh=1,c40=0,g2=0,N[om=1,r=2,rfz=0,ks=2,M1=0,KRb=0,KRa=0,KRo=0,x1=2,x3=1],E[om=1,r=2,rfz=0,ks=2,M1=0,KRb=0,KRa=0,KRo=0,x1=2,x3=1];2:K0=1,K1=0,bt=0,sh=0,c40=1,g2=0,N[om=1,r=1,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=1,r=1,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0]"
+  },
+  "all:M1|KRb": {
+   "key": [
+    3,
+    6,
+    11,
+    8,
+    43
+   ],
+   "line": "PFAIL cand=all:M1|KRb w=1 n=3 m=6 sets=[[0,3,4,5],[1,3,4,5],[2,4,5]] vals=[[4,8,2,3],[4,8,2,3],[4,2,3]] fa=0:K0=1,K1=0,bt=1,sh=1,c40=0,g2=0,N[om=1,r=2,rfz=0,ks=2,M1=0,KRb=0,KRa=0,KRo=0,x1=1,x3=2],E[om=1,r=2,rfz=0,ks=2,M1=0,KRb=0,KRa=0,KRo=0,x1=1,x3=2];1:K0=1,K1=0,bt=1,sh=1,c40=0,g2=0,N[om=1,r=2,rfz=0,ks=2,M1=0,KRb=0,KRa=0,KRo=0,x1=2,x3=1],E[om=1,r=2,rfz=0,ks=2,M1=0,KRb=0,KRa=0,KRo=0,x1=2,x3=1];2:K0=1,K1=0,bt=0,sh=0,c40=0,g2=0,N[om=1,r=1,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,x1=1,x3=2],E[om=1,r=1,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,x1=1,x3=2]"
+  },
+  "bt2:K0": {
+   "key": [
+    3,
+    5,
+    12,
+    8,
+    53
+   ],
+   "line": "PFAIL cand=bt2:K0 w=4 n=3 m=5 sets=[[0,2,3,4],[1,2,3,4],[1,2,3,4]] vals=[[2,3,4,8],[2,3,4,8],[1,4,6,8]] fa=0:K0=0,K1=1,bt=1,sh=1,c40=0,g2=0,N[om=1,r=2,rfz=0,ks=0,M1=0,KRb=1,KRa=1,KRo=1,x1=2,x3=4],E[om=1,r=2,rfz=0,ks=0,M1=0,KRb=1,KRa=1,KRo=1,x1=2,x3=4];1:K0=0,K1=1,bt=1,sh=1,c40=0,g2=0,N[om=1,r=2,rfz=0,ks=1,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=4],E[om=1,r=2,rfz=0,ks=1,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=4];2:K0=1,K1=0,bt=0,sh=1,c40=0,g2=0,N[om=0,r=0,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=1,r=1,rfz=0,ks=2,M1=0,KRb=1,KRa=1,KRo=1,x1=1,x3=2]"
   },
   "partner:x4N": {
    "key": [
@@ -308,7 +1138,7 @@
    ],
    "line": "XFAIL var=x1E a=0 partners=2 w=8 n=3 m=6 sets=[[0,1,4,5],[2,3,4,5],[2,3,4,5]] vals=[[1,4,6,8],[3,5,7,6],[2,3,4,8]] fa=0:K0=0,K1=0,bt=0,sh=1,c40=0,g2=0,N[om=1,r=1,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,x1=1,x3=4],E[om=2,r=2,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,x1=2,x3=4];1:K0=0,K1=0,bt=0,sh=0,c40=0,g2=0,N[om=1,r=0,rfz=1,ks=1,M1=0,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=2,r=2,rfz=0,ks=1,M1=0,KRb=0,KRa=0,KRo=0,x1=2,x3=4];2:K0=0,K1=1,bt=1,sh=1,c40=0,g2=0,N[om=2,r=0,rfz=0,ks=2,M1=0,KRb=1,KRa=1,KRo=1,x1=2,x3=1],E[om=2,r=0,rfz=0,ks=2,M1=0,KRb=1,KRa=1,KRo=1,x1=2,x3=1]"
   },
-  "M_btK0KR": {
+  "bt:K0|KRa": {
    "key": [
     3,
     6,
@@ -316,20 +1146,119 @@
     8,
     57
    ],
-   "line": "PFAIL cand=M_btK0KR w=4 n=3 m=6 sets=[[0,2,4,5],[1,3,4,5],[2,3,4,5]] vals=[[2,8,4,5],[2,8,3,4],[6,7,3,5]] fa=0:K0=1,K1=0,bt=0,sh=0,c40=0,g2=0,N[om=1,r=1,rfz=0,ks=0,M1=0,KRb=1,KRa=1,KRo=1,x1=4,x3=2],E[om=1,r=1,rfz=0,ks=0,M1=0,KRb=1,KRa=1,KRo=1,x1=4,x3=2];1:K0=0,K1=1,bt=1,sh=1,c40=0,g2=0,N[om=1,r=2,rfz=0,ks=1,M1=0,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=2,r=0,rfz=0,ks=1,M1=0,KRb=0,KRa=0,KRo=0,x1=6,x3=1];2:K0=1,K1=0,bt=0,sh=1,c40=0,g2=0,N[om=1,r=0,rfz=0,ks=2,M1=0,KRb=0,KRa=0,KRo=1,x1=4,x3=2],E[om=1,r=0,rfz=0,ks=2,M1=0,KRb=0,KRa=0,KRo=1,x1=4,x3=2]"
+   "line": "PFAIL cand=bt:K0|KRa w=4 n=3 m=6 sets=[[0,2,4,5],[1,3,4,5],[2,3,4,5]] vals=[[2,8,4,5],[2,8,3,4],[6,7,3,5]] fa=0:K0=1,K1=0,bt=0,sh=0,c40=0,g2=0,N[om=1,r=1,rfz=0,ks=0,M1=0,KRb=1,KRa=1,KRo=1,x1=4,x3=2],E[om=1,r=1,rfz=0,ks=0,M1=0,KRb=1,KRa=1,KRo=1,x1=4,x3=2];1:K0=0,K1=1,bt=1,sh=1,c40=0,g2=0,N[om=1,r=2,rfz=0,ks=1,M1=0,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=2,r=0,rfz=0,ks=1,M1=0,KRb=0,KRa=0,KRo=0,x1=6,x3=1];2:K0=1,K1=0,bt=0,sh=1,c40=0,g2=0,N[om=1,r=0,rfz=0,ks=2,M1=0,KRb=0,KRa=0,KRo=1,x1=4,x3=2],E[om=1,r=0,rfz=0,ks=2,M1=0,KRb=0,KRa=0,KRo=1,x1=4,x3=2]"
+  },
+  "bt:K0|KRo": {
+   "key": [
+    3,
+    6,
+    12,
+    8,
+    57
+   ],
+   "line": "PFAIL cand=bt:K0|KRo w=4 n=3 m=6 sets=[[0,2,4,5],[1,3,4,5],[2,3,4,5]] vals=[[2,8,4,5],[2,8,3,4],[6,7,3,5]] fa=0:K0=1,K1=0,bt=0,sh=0,c40=0,g2=0,N[om=1,r=1,rfz=0,ks=0,M1=0,KRb=1,KRa=1,KRo=1,x1=4,x3=2],E[om=1,r=1,rfz=0,ks=0,M1=0,KRb=1,KRa=1,KRo=1,x1=4,x3=2];1:K0=0,K1=1,bt=1,sh=1,c40=0,g2=0,N[om=1,r=2,rfz=0,ks=1,M1=0,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=2,r=0,rfz=0,ks=1,M1=0,KRb=0,KRa=0,KRo=0,x1=6,x3=1];2:K0=1,K1=0,bt=0,sh=1,c40=0,g2=0,N[om=1,r=0,rfz=0,ks=2,M1=0,KRb=0,KRa=0,KRo=1,x1=4,x3=2],E[om=1,r=0,rfz=0,ks=2,M1=0,KRb=0,KRa=0,KRo=1,x1=4,x3=2]"
+  },
+  "bt1:K0|KRa": {
+   "key": [
+    3,
+    6,
+    12,
+    8,
+    57
+   ],
+   "line": "PFAIL cand=bt1:K0|KRa w=4 n=3 m=6 sets=[[0,2,4,5],[1,3,4,5],[2,3,4,5]] vals=[[2,8,4,5],[2,8,3,4],[6,7,3,5]] fa=0:K0=1,K1=0,bt=0,sh=0,c40=0,g2=0,N[om=1,r=1,rfz=0,ks=0,M1=0,KRb=1,KRa=1,KRo=1,x1=4,x3=2],E[om=1,r=1,rfz=0,ks=0,M1=0,KRb=1,KRa=1,KRo=1,x1=4,x3=2];1:K0=0,K1=1,bt=1,sh=1,c40=0,g2=0,N[om=1,r=2,rfz=0,ks=1,M1=0,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=2,r=0,rfz=0,ks=1,M1=0,KRb=0,KRa=0,KRo=0,x1=6,x3=1];2:K0=1,K1=0,bt=0,sh=1,c40=0,g2=0,N[om=1,r=0,rfz=0,ks=2,M1=0,KRb=0,KRa=0,KRo=1,x1=4,x3=2],E[om=1,r=0,rfz=0,ks=2,M1=0,KRb=0,KRa=0,KRo=1,x1=4,x3=2]"
+  },
+  "bt1:K0|KRo": {
+   "key": [
+    3,
+    6,
+    12,
+    8,
+    57
+   ],
+   "line": "PFAIL cand=bt1:K0|KRo w=4 n=3 m=6 sets=[[0,2,4,5],[1,3,4,5],[2,3,4,5]] vals=[[2,8,4,5],[2,8,3,4],[6,7,3,5]] fa=0:K0=1,K1=0,bt=0,sh=0,c40=0,g2=0,N[om=1,r=1,rfz=0,ks=0,M1=0,KRb=1,KRa=1,KRo=1,x1=4,x3=2],E[om=1,r=1,rfz=0,ks=0,M1=0,KRb=1,KRa=1,KRo=1,x1=4,x3=2];1:K0=0,K1=1,bt=1,sh=1,c40=0,g2=0,N[om=1,r=2,rfz=0,ks=1,M1=0,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=2,r=0,rfz=0,ks=1,M1=0,KRb=0,KRa=0,KRo=0,x1=6,x3=1];2:K0=1,K1=0,bt=0,sh=1,c40=0,g2=0,N[om=1,r=0,rfz=0,ks=2,M1=0,KRb=0,KRa=0,KRo=1,x1=4,x3=2],E[om=1,r=0,rfz=0,ks=2,M1=0,KRb=0,KRa=0,KRo=1,x1=4,x3=2]"
+  },
+  "btp:K0|KRa": {
+   "key": [
+    3,
+    6,
+    12,
+    8,
+    57
+   ],
+   "line": "PFAIL cand=btp:K0|KRa w=4 n=3 m=6 sets=[[0,2,4,5],[1,3,4,5],[2,3,4,5]] vals=[[2,8,4,5],[2,8,3,4],[6,7,3,5]] fa=0:K0=1,K1=0,bt=0,sh=0,c40=0,g2=0,N[om=1,r=1,rfz=0,ks=0,M1=0,KRb=1,KRa=1,KRo=1,x1=4,x3=2],E[om=1,r=1,rfz=0,ks=0,M1=0,KRb=1,KRa=1,KRo=1,x1=4,x3=2];1:K0=0,K1=1,bt=1,sh=1,c40=0,g2=0,N[om=1,r=2,rfz=0,ks=1,M1=0,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=2,r=0,rfz=0,ks=1,M1=0,KRb=0,KRa=0,KRo=0,x1=6,x3=1];2:K0=1,K1=0,bt=0,sh=1,c40=0,g2=0,N[om=1,r=0,rfz=0,ks=2,M1=0,KRb=0,KRa=0,KRo=1,x1=4,x3=2],E[om=1,r=0,rfz=0,ks=2,M1=0,KRb=0,KRa=0,KRo=1,x1=4,x3=2]"
+  },
+  "btp:K0|KRo": {
+   "key": [
+    3,
+    6,
+    12,
+    8,
+    57
+   ],
+   "line": "PFAIL cand=btp:K0|KRo w=4 n=3 m=6 sets=[[0,2,4,5],[1,3,4,5],[2,3,4,5]] vals=[[2,8,4,5],[2,8,3,4],[6,7,3,5]] fa=0:K0=1,K1=0,bt=0,sh=0,c40=0,g2=0,N[om=1,r=1,rfz=0,ks=0,M1=0,KRb=1,KRa=1,KRo=1,x1=4,x3=2],E[om=1,r=1,rfz=0,ks=0,M1=0,KRb=1,KRa=1,KRo=1,x1=4,x3=2];1:K0=0,K1=1,bt=1,sh=1,c40=0,g2=0,N[om=1,r=2,rfz=0,ks=1,M1=0,KRb=0,KRa=0,KRo=0,x1=0,x3=0],E[om=2,r=0,rfz=0,ks=1,M1=0,KRb=0,KRa=0,KRo=0,x1=6,x3=1];2:K0=1,K1=0,bt=0,sh=1,c40=0,g2=0,N[om=1,r=0,rfz=0,ks=2,M1=0,KRb=0,KRa=0,KRo=1,x1=4,x3=2],E[om=1,r=0,rfz=0,ks=2,M1=0,KRb=0,KRa=0,KRo=1,x1=4,x3=2]"
   }
  },
  "nfail_lines": {
-  "M_def1": 153,
-  "M_K0": 48,
-  "M_kappa": 105,
-  "M_bt12": 81,
-  "M_gap": 15,
-  "M_gapn": 18,
-  "M_12": 57,
-  "partner:x4N": 3,
-  "partner:x1E": 3,
-  "M_btK0KR": 24
+  "gap:KRb": 16,
+  "gapn:KRb": 16,
+  "all:KRb": 15,
+  "bt:KRb": 14,
+  "bt1:KRb": 14,
+  "btp:KRb": 14,
+  "nobt:KRb": 14,
+  "shp:KRb": 14,
+  "nobt0:KRb": 14,
+  "gap:K0": 12,
+  "gap:M1": 12,
+  "gapn:K0": 11,
+  "gapn:M1": 11,
+  "all:K0": 10,
+  "all:M1": 10,
+  "nobt:K0": 10,
+  "nobt:M1": 10,
+  "shp:K0": 10,
+  "shp:M1": 10,
+  "bt2:KRb": 12,
+  "shp:M1|KRb": 14,
+  "shp:K0|KRa": 13,
+  "shp:K0|KRo": 12,
+  "shp:K0|KRb": 13,
+  "bt:K0": 15,
+  "bt:M1": 15,
+  "bt1:K0": 15,
+  "bt1:M1": 15,
+  "btp:K0": 15,
+  "btp:M1": 15,
+  "gap:M1|KRb": 17,
+  "gap:K0|KRa": 12,
+  "gap:K0|KRo": 12,
+  "gap:K0|KRb": 16,
+  "gapn:M1|KRb": 18,
+  "gapn:K0|KRa": 14,
+  "gapn:K0|KRo": 12,
+  "gapn:K0|KRb": 17,
+  "bt:M1|KRb": 14,
+  "bt:K0|KRb": 13,
+  "bt1:M1|KRb": 12,
+  "bt1:K0|KRb": 13,
+  "btp:M1|KRb": 14,
+  "btp:K0|KRb": 13,
+  "gap:W": 10,
+  "gapn:W": 10,
+  "bt2:M1": 10,
+  "bt2:M1|KRb": 12,
+  "nobt:M1|KRb": 10,
+  "all:M1|KRb": 11,
+  "bt2:K0": 10,
+  "partner:x4N": 2,
+  "partner:x1E": 2,
+  "bt:K0|KRa": 14,
+  "bt:K0|KRo": 14,
+  "bt1:K0|KRa": 14,
+  "bt1:K0|KRo": 14,
+  "btp:K0|KRa": 14,
+  "btp:K0|KRo": 14
  },
  "options": [
   "-Y1"
@@ -343,6 +1272,6 @@
   "--label=n=3 exhaustive"
  ],
  "tasks": 51,
- "cpu_seconds": 1804.2,
- "wall_seconds_this_run": 0.0
+ "cpu_seconds": 1935.4,
+ "wall_seconds_this_run": 537.1
 }
