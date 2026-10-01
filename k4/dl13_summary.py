@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Summary tables of the DL13 runs (compute/k4-dl13; k4/dl13.c, k4/dl13_run.py, k4/dl13_hunt.py). EVIDENCE only.
 
-usage: python3 k4/dl13_summary.py [@GROUP] NAME=TABLES.json ... [@GROUP NAME=TABLES.json ...] > results/k4_dl13/summary.md
+usage: python3 k4/dl13_summary.py [--note=TEXT ...] [@GROUP] NAME=TABLES.json ... [@GROUP NAME=TABLES.json ...] > summary.md
 Each TABLES.json is written by `k4/dl13_run.py --tables=...` or `k4/dl13_hunt.py --tables=...`.
 Prints, in Markdown: per input the profiles, the f >= 1 states (min-frozen P with def > 0 on a profile with f >= 1),
 the DL13 failures and the branches; then, summed over the inputs, the branch by obstruction class (each class counted
@@ -29,8 +29,12 @@ def fmt(x): return f'{x:,}'
 
 
 def main(argv):
-    ins = []; group = 'all inputs'; groups = []
+    ins = []; group = 'all inputs'; groups = []; notes = []; distinct = None
     for a in argv:
+        if a.startswith('--note='):            # a paragraph printed under the table of the inputs
+            notes.append(a[7:]); continue
+        if a.startswith('--distinct-fail='):   # the number of distinct failing states (the inputs may overlap)
+            distinct = int(a.split('=', 1)[1]); continue
         if a.startswith('@'):                  # "@TITLE" starts a group: the tables below are printed per group
             group = a[1:]; continue
         name, path = a.rsplit('=', 1)
@@ -49,10 +53,12 @@ def main(argv):
             if k != 'maxmin': tot[k] += v
         print(f"| {name} | `{d.get('command', '')}` | {fmt(c['prof'])} ({fmt(c['om1'])}) | {fmt(c['st1'])} | **{fmt(c['fail1'])}** | "
               f"{fmt(c['t1only'])} | {fmt(c['t3only'])} | {fmt(c['t3hOnly'])} | {fmt(c['both'])} | {fmt(c['st0'])} ({fmt(c['fail0'])}) |")
-    print(f"| **total** | | {fmt(tot['prof'])} ({fmt(tot['om1'])}) | {fmt(tot['st1'])} | **{fmt(tot['fail1'])}** | {fmt(tot['t1only'])} | "
+    failcell = (f"**{fmt(distinct)} distinct** ({fmt(tot['fail1'])} summed)" if distinct is not None else f"**{fmt(tot['fail1'])}**")
+    print(f"| **sum over the inputs** (they overlap) | | {fmt(tot['prof'])} ({fmt(tot['om1'])}) | {fmt(tot['st1'])} | {failcell} | {fmt(tot['t1only'])} | "
           f"{fmt(tot['t3only'])} | {fmt(tot['t3hOnly'])} | {fmt(tot['both'])} | {fmt(tot['st0'])} ({fmt(tot['fail0'])}) |\n")
     print(f"(Profiles are summed over the inputs; the hunts and samples may repeat profiles. Anomalies (a one-agent move "
           f"of a frozen agent, impossible by Lemma 1(a)): {tot['anom']}.)\n")
+    for t in notes: print(t + '\n')
 
     for scope in groups:
         B = Counter(); G = Counter(); Y = Counter(); F = Counter(); sig = Counter()

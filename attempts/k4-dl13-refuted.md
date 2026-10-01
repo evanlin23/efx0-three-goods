@@ -69,15 +69,17 @@ R_13 with two helpers each repair all 3,971; R_13 plus trades repairs 980.
 ## 3. What DL₁₃ would have to grow into
 
 On every failure found (7,130 f ≥ 1 states of n = 4 cores: the 3,062 of the n = 4 certificate runs, the 3,971 near
-`dl13-n4m9-rot` and the 97 of the hunts; and 24 states of 3 profiles of one n = 5 core (pure, m = 11) found by the hunt
-from #53's `gap_n5_pure_s100` profiles, re-derived by model.py (`results/k4_dl13/fails_hunt_n5.log`; c4x_check does not
-run at n = 5). None at n ≤ 3, none in #53's n = 5 catalogues and hunts themselves, none on H₂ or on random n = 5, 6
-profiles):
+`dl13-n4m9-rot` and the 97 of the hunts; and 24 states in 3 profiles of two n = 5 cores (pure, m = 11: start #3389 of
+the hunt, 2 profiles with 20 states with f = 3, and #3868, 1 profile with 4 states with f = 2) found by the hunt from
+#53's `gap_n5_pure_s100` profiles, re-derived by model.py (`results/k4_dl13/fails_hunt_n5.log`) and by
+`k4/dl134_xcheck.py` on c4x_check.py (`results/k4_dl13/dl134_xcheck_n5.log`). None at n ≤ 3, none in #53's n = 5
+catalogues and hunts themselves, none on H₂ or on random n = 5, 6 profiles):
 - **with three free agents** (f = 1 at n = 4; 3,972 states; and f = 2 at n = 5, 4 states): rotations of three free
   agents (T2) or trades, or role swaps with two helpers (n = 4 only);
 - **with one or two free agents** (f = 3 at n = 4, 3,158 states; f = 3 at n = 5, 20 states, where the two free agents
   could also trade): moves that change the frozen agents' goods without the T3 shape: an exchange of the goods of two
-  frozen agents (both stay frozen; distance 2, the nearest repair at every one of them), a 3-cycle of frozen goods, or a role swap along a need chain of length ≥ 2 (x unfreezes, a frozen w takes x's
+  frozen agents (both stay frozen; distance 2, the nearest repair at every one of them), a 3-cycle of frozen goods,
+  or a role swap along a need chain of length ≥ 2 (x unfreezes, a frozen w takes x's
   good, the free z takes w's good). None of these is in R_T, so **DL_T is refuted too** (by the same instance; K4.DL2.T is
   set to REFUTED in #74, at f ≥ 1; it still holds at f = 0 by Theorem Z; issue #76).
 

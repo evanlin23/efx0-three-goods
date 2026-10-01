@@ -2,6 +2,8 @@
 # The DL13 runs of compute/k4-dl13 (results/k4_dl13/; ledger K4.DL2.T13, K4.DL2.T13X). Two worker processes.
 # Every run is resumable: rerun the same command after a kill (per-unit checkpoints results/k4_dl13/ckpt_*.jsonl;
 # the logs are appended to, so a log may show a restart). Usage: sh k4/dl13_runs.sh STEP   (STEP below)
+# The checkpoints are resume aids only: ckpt_cat.jsonl and ckpt_rand.jsonl are not committed (too large); the summary is
+# rebuilt from the committed tables_*.json (step summary).
 # The n = 4 certificate runs (classes with one and two 4-good agents exhaustively, three and four sampled) are made
 # by the branch compute/k4-dl13-n4 with the same tools (results/k4_dl13/n4_*.log there).
 set -e
@@ -54,7 +56,11 @@ ht)             # H_2 of k4/c4.md §7 (n = 9) with §7's values and 200 random s
       --tables=$R/tables_h2_s200.json >> $R/h2_s200.log 2>&1 ;;
 summary)        # results/k4_dl13/summary.md: every run, and T1 / T3 by obstruction class per group of inputs
   T=$R/tables
-  python3 k4/dl13_summary.py "@n <= 3, every profile (exhaustive)" "n <= 3=${T}_n3.json" \
+  python3 k4/dl13_summary.py --distinct-fail=7154 \
+    "--note=Distinct failing states (f ≥ 1, DL13 fails) over these inputs: 7,154. The sum row counts 7,155 because the failing state of gap_n4_pure_s4000 (dl13-n4m9-rot) is also a state of the neighbourhood run; in general the hunts and samples may repeat profiles." \
+    "--note=n3.log's header labels its binary 'dl13.c sha256 e5ab32ae…': that run used the source now in k4/dl13u.c (dl13.c plus the hunts' slack line and a dedupe of hashed candidates), output-identical to dl13.c (sha256 f891de3a…) without -v; see k4/dl13u_same.py and results/k4_dl13/same_*.log." \
+    "--note=The commands below name checkpoint files (--ckpt=…): they are resume aids only. ckpt_cat.jsonl and ckpt_rand.jsonl are not committed (too large); this summary is rebuilt from the committed tables_*.json (sh k4/dl13_runs.sh summary)." \
+    "@n <= 3, every profile (exhaustive)" "n <= 3=${T}_n3.json" \
     "@n = 4, one and two 4-good agents, every profile (exhaustive; compute/k4-dl13-n4)" "n4_1=${T}_n4_1.json" "n4_2=${T}_n4_2.json" \
     "@n = 4, three and four 4-good agents, 200 random profiles per core, seeds 1, 2 (compute/k4-dl13-n4)" \
       "n4_3 s1=${T}_n4_3_s200.json" "n4_3 s2=${T}_n4_3_s200b.json" "pure s1=${T}_n4_pure_s200.json" "pure s2=${T}_n4_pure_s200b.json" \

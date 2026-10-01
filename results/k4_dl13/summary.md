@@ -43,9 +43,15 @@ Counts are states: min-frozen P with def(P) > 0 on a profile whose fewest frozen
 | rand_6_n4_1 | `python3 k4/dl13_run.py certs results/k4_certs_6_n4_1.json.gz --sample=2 --seed=1 --jobs=1 --rt=1 --ro=1000 --ckpt=results/k4_dl13/ckpt_rand.jsonl --dump=results/k4_dl13/states_rand.jsonl.gz --tables=results/k4_dl13/tables_rand_6_n4_1.json` | 53,732 (46) | 0 | **0** | 0 | 0 | 0 | 0 | 0 (0) |
 | h2 | `python3 k4/dl13_run.py ht 2 --jobs=1 --rt=1 --ro=20 --dump=results/k4_dl13/states_ht.jsonl.gz --tables=results/k4_dl13/tables_h2.json` | 1 (1) | 0 | **0** | 0 | 0 | 0 | 0 | 4,939 (6) |
 | h2_s200 | `python3 k4/dl13_run.py ht 2 --sample=200 --seed=1 --jobs=1 --rt=1 --ro=50 --ckpt=results/k4_dl13/ckpt_ht.jsonl --dump=results/k4_dl13/states_ht.jsonl.gz --tables=results/k4_dl13/tables_h2_s200.json` | 200 (200) | 9,955 | **0** | 442 | 0 | 0 | 9,513 | 27,692 (0) |
-| **total** | | 1,036,181,793 (176,004,094) | 4,764,516 | **7,155** | 60,039 | 1,156,991 | 131,327 | 3,540,331 | 33,039,721 (337,944) |
+| **sum over the inputs** (they overlap) | | 1,036,181,793 (176,004,094) | 4,764,516 | **7,154 distinct** (7,155 summed) | 60,039 | 1,156,991 | 131,327 | 3,540,331 | 33,039,721 (337,944) |
 
 (Profiles are summed over the inputs; the hunts and samples may repeat profiles. Anomalies (a one-agent move of a frozen agent, impossible by Lemma 1(a)): 0.)
+
+Distinct failing states (f ≥ 1, DL13 fails) over these inputs: 7,154. The sum row counts 7,155 because the failing state of gap_n4_pure_s4000 (dl13-n4m9-rot) is also a state of the neighbourhood run; in general the hunts and samples may repeat profiles.
+
+n3.log's header labels its binary 'dl13.c sha256 e5ab32ae…': that run used the source now in k4/dl13u.c (dl13.c plus the hunts' slack line and a dedupe of hashed candidates), output-identical to dl13.c (sha256 f891de3a…) without -v; see k4/dl13u_same.py and results/k4_dl13/same_*.log.
+
+The commands below name checkpoint files (--ckpt=…): they are resume aids only. ckpt_cat.jsonl and ckpt_rand.jsonl are not committed (too large); this summary is rebuilt from the committed tables_*.json (sh k4/dl13_runs.sh summary).
 
 # n <= 3, every profile (exhaustive)
 

@@ -79,5 +79,6 @@ commit that added dl13.c.
   - (a): 10 of core 25's 31,104 profiles;
   - (b): 120 to 240 of each failing core's 746,496 to 2,985,984 profiles, at most 0.03 %;
   - (c), (e): 1 of the 135,600 draws over both seeds for three 4-good agents.
-- A relation that adds the frozen–frozen exchange keeping NA (both agents stay frozen) would cover every failing state here. That is
-  conjecture, not tested.
+- A relation that adds the frozen–frozen exchange keeping NA (both agents stay frozen) covers every failing state here. This was
+  tested afterwards: R_13 plus such permutations (T4) repairs all 3,062 but fails at `dl13-n4m9-rot` (K4.DL2.T134, REFUTED), and
+  R_T plus T4 holds on every state tested (K4.DL2.RT4E, EVIDENCE).
