@@ -12,6 +12,8 @@ dl13-n4m6-fswap: n = 4, m = 6; the exhaustive run on the n = 4 cores with one 4-
   B: no R_13 move lowers the deficit (DL13 fails)            confirmed  
   B: no R_T move does either (DL_T fails)                    confirmed  
   B: nearest other min-frozen P': distance 2; nearest with a smaller deficit: distance 2
+  A, B: R_134 (T1 + T3 + T4) has an improving move           confirmed  least T4 move: 2 agents (A), 2 (B); 0 = none
+  A, B: R_T + T4 has an improving move                       confirmed  
   C: P is a state (def > 0) with f >= 1                      confirmed  def 1, k 2
   C: t1 = t3p = t3h = 0 (DL13 fails)                         confirmed  
   A, B, C agree on every def > 0 state of the profile (def, DL13) confirmed  6 states
@@ -42,6 +44,8 @@ n4_3-core12-m6: n = 4, m = 6; k4/dl13_hunt.py (climb 328 of results/k4_dl13/hunt
   B: no R_13 move lowers the deficit (DL13 fails)            confirmed  
   B: no R_T move does either (DL_T fails)                    confirmed  
   B: nearest other min-frozen P': distance 2; nearest with a smaller deficit: distance 2
+  A, B: R_134 (T1 + T3 + T4) has an improving move           confirmed  least T4 move: 2 agents (A), 2 (B); 0 = none
+  A, B: R_T + T4 has an improving move                       confirmed  
   C: P is a state (def > 0) with f >= 1                      confirmed  def 1, k 2
   C: t1 = t3p = t3h = 0 (DL13 fails)                         confirmed  
   A, B, C agree on every def > 0 state of the profile (def, DL13) confirmed  6 states
@@ -72,6 +76,8 @@ dl13-n4m9-rot: n = 4, m = 9; #53's gap_n4_pure_s4000 catalogue: core 123 (m = 9,
   B: no R_13 move lowers the deficit (DL13 fails)            confirmed  
   B: an R_T move does (DL_T holds)                           confirmed  
   B: nearest other min-frozen P': distance 3; nearest with a smaller deficit: distance 3
+  A, B: R_134 (T1 + T3 + T4) has no improving move           confirmed  least T4 move: 0 agents (A), 0 (B); 0 = none
+  A, B: R_T + T4 has an improving move                       confirmed  
   C: P is a state (def > 0) with f >= 1                      confirmed  def 1, k 3
   C: t1 = t3p = t3h = 0 (DL13 fails)                         confirmed  
   A, B, C agree on every def > 0 state of the profile (def, DL13) confirmed  1 states
@@ -144,6 +150,8 @@ n4_3-core58-m7: n = 4, m = 7; k4/dl13_hunt.py (climb 42 of results/k4_dl13/hunt_
   B: no R_13 move lowers the deficit (DL13 fails)            confirmed  
   B: no R_T move does either (DL_T fails)                    confirmed  
   B: nearest other min-frozen P': distance 2; nearest with a smaller deficit: distance 2
+  A, B: R_134 (T1 + T3 + T4) has an improving move           confirmed  least T4 move: 2 agents (A), 2 (B); 0 = none
+  A, B: R_T + T4 has an improving move                       confirmed  
   C: P is a state (def > 0) with f >= 1                      confirmed  def 1, k 2
   C: t1 = t3p = t3h = 0 (DL13 fails)                         confirmed  
   A, B, C agree on every def > 0 state of the profile (def, DL13) confirmed  6 states

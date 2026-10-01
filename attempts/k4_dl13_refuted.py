@@ -8,6 +8,8 @@ with three implementations, and prints every min-frozen P' with a smaller defici
      from A);
   C: k4/dl13.c (compute/k4-dl13; a copy of k4/dl2.c's enumeration and deficit with the R_13 test added), its per-state
      line (-s): the branch flags t1, t3p, t3h.
+For R_134 = T1 + T3 + T4 (T4: frozen agents permute their singleton bases, NA kept, every other base unchanged) and
+R_T + T4, A uses k4/dl13_fails.t4_moves (model.py) and B k4/dl134_xcheck.py (c4x_check.py).
 Each instance must be a connected k = 4 core with strict values (model.py's core_violations, strict, connected) with
 fewest frozen agents f >= 1 and omega >= 1, and at the listed P all three must find def(P) > 0 and no R_13 move to a
 min-frozen P' with a smaller deficit. Also checked: whether R_T (DL_T's relation: R_13 plus rotations of free agents)
@@ -22,6 +24,8 @@ import dl2_relations as DR
 from dl2_classify import PA, INF
 import c4x_check as CX
 from dl2_relations_xcheck import rel_B
+from dl134_xcheck import Prof as XProf          # B's T4 test (c4x_check.py, no model.py)
+from dl13_fails import t4_moves                  # A's T4 test (model.py)
 
 INSTANCES = [
     # (id, source, sets, vals, m, P, whether R_T (DL_T's relation) has an improving move at P)
@@ -42,6 +46,10 @@ INSTANCES = [
      [[0, 2, 5, 6], [1, 4, 5, 6], [3, 4, 5, 6], [4, 5, 6]], [[3, 2, 4, 8], [2, 6, 10, 3], [4, 10, 2, 7], [3, 4, 2]], 7,
      [[5], [4], [3], [6]], False),
 ]
+
+# whether R_134 = T1 + T3 + T4 (T4: frozen agents permute their goods, NA kept) has an improving move at P; R_T + T4 has
+# one at every instance
+R134 = {'dl13-n4m6-fswap': True, 'n4_3-core12-m6': True, 'dl13-n4m9-rot': False, 'n4_3-core58-m7': True}
 
 ok_all = True
 
@@ -109,6 +117,18 @@ def main():
         else: say('B: no R_T move does either (DL_T fails)', P is not None and not any(rel_B('RTr', sets, vals, P, Q) for Q in better))
         print(f'  B: nearest other min-frozen P\': distance {min(dist(Q) for Q, _ in mp if Q != P)}; nearest with a smaller '
               f'deficit: distance {min(dist(Q) for Q in better)}' if P is not None else '')
+        # R_134 and R_T + T4 (A: model.py's pre-allocations; B: k4/dl134_xcheck.py on c4x_check.py)
+        t4A = t4_moves({'sets': sets, 'vals': vals, 'm': m, 'fails': {key}}).get(key, 0)
+        xp = XProf(sets, vals, m)
+        dPx = next((d for Q, d in xp.mp if tuple(tuple(sorted(B)) for B in Q) == key), None)
+        Px = next((Q for Q, d in xp.mp if tuple(tuple(sorted(B)) for B in Q) == key), None)
+        fl, hB, t4B, _, okB = xp.state(Px, dPx) if Px is not None else ({}, {}, 0, None, False)
+        hA134 = bool(a and a['holds']['R13']) or t4A > 0
+        hAT4 = bool(a and a['holds']['RTr']) or t4A > 0
+        want = R134[iid]
+        say('A, B: R_134 (T1 + T3 + T4) has an improving move' if want else 'A, B: R_134 (T1 + T3 + T4) has no improving move',
+            hA134 == want and hB.get('R134') == want and okB, f'least T4 move: {t4A} agents (A), {t4B} (B); 0 = none')
+        say('A, B: R_T + T4 has an improving move', hAT4 and hB.get('RT4') is True)
         # C
         st = run_c(binary, sets, vals, m)
         c = st.get(key)

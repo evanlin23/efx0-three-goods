@@ -62,9 +62,10 @@
   "branch": "compute/k4-dl13",
   "files": [
    "attempts/k4-dl13-refuted.md",
+   "attempts/k4-dl134-rotation.md",
    "attempts/k4_dl13_refuted.py",
    "k4/dl13.c",
-   "k4/dl13_hunt.py",
+   "k4/dl134_xcheck.py",
    "results/k4_dl13/attempts_replay.log"
   ],
   "replay": "python3 attempts/k4_dl13_refuted.py"
@@ -74,6 +75,11 @@
    "statement": "Conjecture DL13 (k4/dl2.md §3) at f = 1: the min-frozen P = ({7},{2,8},{4,5},{3,6}) with def 1 has no min-frozen P' within two base changes at all; its improvements are rotations of the three free agents (in R_T, so DL_T holds here) and role swaps with two helpers",
    "ledger": "K4.DL2.T13",
    "smallest": false
+  },
+  {
+   "statement": "Conjecture DL134 (the extension of DL13 by T4: frozen agents permute their singleton bases, NA kept; attempts/k4-dl134-rotation.md): at f = 1 no T4 move exists and no R_13 move lowers the deficit; only rotations of the three free agents (and role swaps with two helpers) do",
+   "ledger": "K4.DL2.T134",
+   "smallest": true
   }
  ],
  "witness": {
