@@ -220,6 +220,24 @@ def analyse_key(kp, k, cnt, ex, nex, nb):
                     continue
                 break
         cnt['%s OS succeeds' % tag] += os_ok
+        # PM0 (the path move of length 0 with a theta-b terminal leaf): tau takes g, x takes a pair inside Q_tau ∪ L
+        # whose admissible part is admissible, everything else unchanged; is some such configuration completable?
+        if VT and not os_ok_nothb:
+            pm0 = collections.Counter()
+            for o in VT:
+                key2 = tuple(g if i == o else None for i in range(I.n))
+                for pr in itertools.combinations(list(bits(X[o])), 2):
+                    P2 = mask(pr)
+                    if not (P2 & U[x] and I.admissible(x, P2 & U[x], U[x])): continue
+                    Q2 = dict(c.Q); del Q2[o]; Q2[x] = P2
+                    c2 = M.Config(I, key2, Q2)
+                    ok0 = any(c2.owner(w) == 0 for w in c2.free)
+                    okc = c2.completable
+                    pm0['x-pair'] += 1; pm0['C=0'] += ok0; pm0['compl'] += okc
+                    own = [w for w in c2.free if c2.owner(w) == 0]
+                    if ok0: pm0['own=x'] += x in own; pm0['own=V'] += any(w in V for w in own)
+            cnt['%s thetab-only PM0 some completable=%s, some C=0=%s, some owner x=%s, some owner in V=%s, x=%s, |T|=%d' % (
+                tag, pm0['compl'] > 0, pm0['C=0'] > 0, pm0['own=x'] > 0, pm0['own=V'] > 0, xt, len(T))] += 1
         case = gpm_check(kp, k, c, V, T, X, nb['T3'][k], cnt, ex, nex, tag)
         if os_ok_nothb: case.add('A')
         if os_ok: case.add('A*')
