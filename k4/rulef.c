@@ -1267,6 +1267,50 @@ static void rulef_stat41(long w, int ok, int rot) {
         printf("\n");
     }
 }
+/* mode 42: a static first-agent rule (k4/rulef.md §5.2), and the class of its agent (K0, K1, C40 or none):
+   -Q0 the first big-top agent (four goods, top worth more than the next two together) in index order, else agent 0;
+   -Q1 the same, else the first agent whose least good is another agent's top, else agent 0;
+   -Q2 the first big-top agent, else rule RK (mode 41);
+   -Q3 the first big-top agent, else among the agents whose top is another agent's top one with the fewest private
+       goods (ties by index), else agent 0. The class statistics and dumps are mode 41's. */
+static int bigtop_agent(int a) { return d[a] == 4 && cmpv(a, BIT(ord[a][0]), BIT(ord[a][1]) | BIT(ord[a][2])) > 0; }
+static void rulef_leaf42(void) {
+    int dummy, om, fz, c = -1;
+    for (int a = 0; a < n && c < 0; a++) if (bigtop_agent(a)) c = a;
+    if (c < 0 && QRULE == 2) { rulef_leaf41(); return; }
+    if (c < 0 && QRULE == 1)
+        for (int a = 0; a < n && c < 0; a++) for (int b = 0; b < n; b++) if (b != a && ord[a][d[a] - 1] == ord[b][0]) { c = a; break; }
+    if (c < 0 && QRULE == 3) {       /* an agent whose top is another agent's top, fewest private goods, ties by index */
+        int bp = 99;
+        for (int a = 0; a < n; a++) {
+            int sh = 0; for (int b = 0; b < n; b++) if (b != a && ord[b][0] == ord[a][0]) sh = 1;
+            if (!sh) continue;
+            gm oth = 0; for (int b = 0; b < n; b++) if (b != a) oth |= R[b];
+            int pv = popc(R[a] & ~oth);
+            if (pv < bp) { bp = pv; c = a; }
+        }
+    }
+    if (c < 0) c = 0;
+    for (int a = 0; a < n; a++) { fa_kN[a] = fa_kE[a] = DINF; fa_c40[a] = -1; fa_rot[a] = -1; fa_omN[a] = 99; fa_k1[a] = -1; }
+    rk_choice = c; rk_class = 3;
+    pre[0] = c; npre = 1; TAILRULE = 0; stop_at = -1;
+    KONLY = 1;
+    deficits(1, &dummy, &dummy, &om, &fz); fa_kN[c] = fa_dK_tmp; fa_omN[c] = om;
+    if (fa_kN[c] > 0) { deficits(2, &dummy, &dummy, &om, &fz); fa_kE[c] = fa_dK_tmp; }
+    KONLY = 0;
+    if (fa_kN[c] <= 0 || fa_kE[c] <= 0) rk_class = 0;
+    else {
+        pre[0] = c; npre = 1; TAILRULE = 0; stop_at = -1;
+        fa_k1[c] = k1_run(1) || k1_run(2);
+        if (fa_k1[c]) rk_class = 1;
+        else {
+            pre[0] = c; npre = 1; TAILRULE = 0; stop_at = -1;
+            fa_c40[c] = c40_run();
+            if (fa_c40[c]) rk_class = 2;
+        }
+    }
+    pre[0] = c; npre = 1; TAILRULE = 0; stop_at = -1;
+}
 static void rulef_print41(void) {
     printf("RK41");
     for (int c = 0; c < 4; c++) { printf(" c%d", c); for (int k = 0; k <= ROT + 1; k++) printf(" %ld", rk_cls[c][k]); }
@@ -1393,6 +1437,9 @@ static int construct(void) {
         }
         for (int a = 0; a < n; a++) if (fz[a] == best) { memcpy(pre, fseq[a], sizeof(int) * fnn[a]); npre = fnn[a]; break; }
         return 0;
+    } else if (ARULE == 42) {        /* a static first-agent rule (k4/rulef.md §5.2) */
+        rulef_leaf42();
+        return lb4r(ROT);
     } else if (ARULE == 41) {        /* rule RK (k4/rulef.md), fast */
         rulef_leaf41();
         return lb4r(ROT);
@@ -1581,7 +1628,7 @@ int main(int argc, char **argv) {
                 int k = ok ? used_rot : ROT + 1;
                 if (ok && !rawcheck()) { report("RAWFAIL"); return 2; }
                 if (ARULE == 40) rulef_stat(1);
-                if (ARULE == 41) rulef_stat41(1, ok, used_rot);
+                if (ARULE == 41 || ARULE == 42) rulef_stat41(1, ok, used_rot);
                 hist_rot[k]++; if (ok) hist_pol[used_pol]++;
                 if (VERB || !ok) { char lab[64]; snprintf(lab, sizeof lab, ok ? "RUN rot=%d pol=%d" : "RUN fail", k, used_pol); report(lab); }
                 if (INS == 10) printf("sample %ld: %s %d\n", smp, ok ? "rot" : "fail", k);
@@ -1591,7 +1638,7 @@ int main(int argc, char **argv) {
             for (int k = 0; k <= ROT; k++) printf(" rot%d=%ld", k, hist_rot[k]);
             printf(" fail=%ld uncov=%d\n", hist_rot[ROT + 1], last_uncov); fflush(stdout);
             if (ARULE == 40) rulef_print();
-            if (ARULE == 41) rulef_print41();
+            if (ARULE == 41 || ARULE == 42) rulef_print41();
             continue;
         }
         if (SAMPLE > 0 || HILL > 0) {    /* random profiles (-S), or hill-climbing toward hard profiles (-H) */
@@ -1611,7 +1658,7 @@ int main(int argc, char **argv) {
                 int ok; if (run_leaf(&ok)) { fprintf(stderr, "split with singleton type sets\n"); return 1; }
                 runs++; leaves++; total++;
                 if (ARULE == 40) rulef_stat(1);
-                if (ARULE == 41) rulef_stat41(1, ok, used_rot);
+                if (ARULE == 41 || ARULE == 42) rulef_stat41(1, ok, used_rot);
                 if (last_uncov) { uncov++; if (DEEP && shown < MAXF) { report("UNCOV"); shown++; } }
                 if (!ok) { fails++; hist_rot[ROT + 1]++; if (shown < MAXF) { report("FAIL"); shown++; } if (HILL > 0) break; continue; }
                 if (!rawcheck()) { rawf++; if (shown < MAXF) { report("RAWFAIL"); shown++; } continue; }
@@ -1670,7 +1717,7 @@ int main(int argc, char **argv) {
                         lastnins = nins; memcpy(lastmax, maxchoice, sizeof lastmax);
                         long w = weight();
                         if (ARULE == 40) rulef_stat(w);
-                        if (ARULE == 41) rulef_stat41(w, ok, used_rot);
+                        if (ARULE == 41 || ARULE == 42) rulef_stat41(w, ok, used_rot);
                         if (last_uncov) { uncov += w; if (DEEP && shown < MAXF) { report("UNCOV"); shown++; } }
                         leaves++; total += w;
                         if (!ok) { fails += w; hist_rot[ROT + 1] += w; if (shown < MAXF) { report("FAIL"); shown++; } continue; }
@@ -1700,7 +1747,7 @@ int main(int argc, char **argv) {
             memset(ustat, 0, sizeof ustat);
         }
         if (ARULE == 40) rulef_print();
-        if (ARULE == 41) rulef_print41();
+        if (ARULE == 41 || ARULE == 42) rulef_print41();
         printf("total %ld leaves %ld runs %ld fails %ld rawfails %ld rot", total, leaves, runs, fails, rawf);
         for (int k = 0; k <= ROT; k++) printf(" %ld", hist_rot[k]);
         printf(" pol %ld %ld %ld uncov %ld covviol %ld covchk %ld\n", hist_pol[0], hist_pol[1], hist_pol[2], uncov, covviol, covchk);

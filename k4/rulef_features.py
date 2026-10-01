@@ -7,17 +7,19 @@ and tests candidate first-agent rules that need no Lemma K computation for other
   k4/c4_verify_H/lb4r.py: an agent read off its state, e.g. the end of a need chain from agent 0).
 A rule *covers* a profile when its agent is in class K0 or K1 (LB4r succeeds with at most one rotation, by Lemma K).
 Prints, per rule, the weight of profiles it does not cover and the smallest such profile.
-Usage: rulef_features.py IDXFILE [--max=N]"""
+Usage: rulef_features.py IDXFILE [--max=N] [--every=K]  (--every=K: every K-th line only)"""
 import collections, json, re, sys, os
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import rulef_model as RM
 import lb4r as M
 
 
-def load(path, mx):
-    out = []
+def load(path, mx, every=1):
+    out = []; seen = 0
     for line in open(path):
         if not line.startswith('IDX'): continue
+        seen += 1
+        if (seen - 1) % every: continue
         if len(out) >= mx: break
         w = int(re.search(r'w=(\d+)', line).group(1))
         sets = json.loads(re.search(r'sets=(\[\[.*?\]\])', line).group(1))
@@ -103,7 +105,8 @@ def onestep(inst):
 def main():
     path = sys.argv[1]
     mx = int(next((a.split('=')[1] for a in sys.argv[2:] if a.startswith('--max=')), 10 ** 9))
-    D = load(path, mx)
+    every = int(next((a.split('=')[1] for a in sys.argv[2:] if a.startswith('--every=')), 1))
+    D = load(path, mx, every)
     miss = collections.Counter(); small = {}; tot = 0
     for d in D:
         tot += d['w']

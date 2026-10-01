@@ -7,7 +7,7 @@ the Lemma K deficit of the state P after Phase 1(tau_a) and upgrades, and of eve
 (rulef_model.rot_deficit_K). For the rotations that bring the deficit to <= 0 it records the shape: the rotated agent
 k (3 or 4 goods; big-top a > b + c; exposed w.r.t. r, i.e. threatened by W = B_r ∪ J with its base), the chain end
 (r, the last-processed agent that is not marked, or another agent), and the base O (O = R_k ∩ W, {b_k, c_k}, other).
-Usage: rulef_rot.py DATAFILE [--max=N]"""
+Usage: rulef_rot.py DATAFILE [--max=N] [--every=K]  (--every=K: every K-th line only)"""
 import collections, json, re, sys, os
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import rulef_model as RM
@@ -103,11 +103,14 @@ def kr_certified(inst, s):
 def main():
     path = sys.argv[1]
     mx = int(next((a.split('=')[1] for a in sys.argv[2:] if a.startswith('--max=')), 10 ** 9))
+    every = int(next((a.split('=')[1] for a in sys.argv[2:] if a.startswith('--every=')), 1)); seen = 0
     F = ['rot', 'cov', 'dN', 'dE', 'hN', 'hE', 'omN', 'omE', 'fz', 'e4', 'r', 'uN', 'uE', 'kN', 'kE', 'c40']
     nprof = 0
     W = collections.Counter(); S = collections.Counter(); per = collections.Counter(); KRs = collections.Counter()
     for line in open(path):
         if not (line.startswith('DATA') or line.startswith('IDX')): continue
+        seen += 1
+        if (seen - 1) % every: continue
         if nprof >= mx: break
         nprof += 1
         w = int(re.search(r'w=(\d+)', line).group(1))

@@ -192,6 +192,72 @@ takes it, Step 3 of H′). Every good of the service is charged to a distinct sl
 So on H_t (where index order needs ⌈2t/3⌉ rotations, Proposition H) RK is certified without rotation, by a proof
 that does not run LB₄ʳ.
 
+## 5. Data
+
+### 5.1 Rule RK, exhaustive (`k4/rulef.c -A41 -r1`, `results/k4_rulef/rk_*.log`)
+
+Every strict profile of every certified core with n ≤ 4 and at most three 4-good agents (#44's exhaustive classes,
+K4.AD.E; lazy type splitting as in `k4/lb4.c`, leaf weights adding up to every profile). For each profile RK's class,
+then LB₄ʳ (all three policies, at most one rotation) on RK's sequence, its output checked against the raw EFX₀
+definition; a *violation* is a class whose promise LB₄ʳ does not meet (K0 but a rotation needed, K1 or C40 but more
+than one).
+
+| class | profiles | K0 | K1: LB₄ʳ needs 0 / 1 rotation | C40 | open | violations | rule F (#44): 0 / 1 rotation |
+|---|---|---|---|---|---|---|---|
+| n = 2 | 189,216 | 189,216 | 0 / 0 | 0 | 0 | 0 | 189,216 / 0 |
+| n = 3 | 299,837,376 | 299,572,888 | 1,152 / 263,336 | 0 | 0 | 0 | 299,574,040 / 263,336 |
+| n = 4, one 4-good agent | 7,247,232 | 7,246,412 | 0 / 820 | 0 | 0 | 0 | 7,246,416 / 816 |
+| n = 4, two | 724,847,616 | 724,640,016 | 32 / 207,568 | 0 | 0 | 0 | 724,640,736 / 206,880 |
+| n = 4, three | 34,971,844,608 | 34,961,456,592 | 14,732 / 10,373,284 | 0 | 0 | 0 | 34,961,492,780 / 10,351,828 |
+
+Findings (EVIDENCE: one implementation of the classes, `k4/rulef.c`; the outputs are checked by the raw definition,
+and LB₄ʳ's exact owner search confirms every class on every profile):
+- **Lemma M holds on all 3.6·10¹⁰ profiles, with K0 and K1 alone**: the class C40 is never reached, so Corollary C₄⁰
+  is not needed by the data, and every profile is certified by Lemma K, before or after one rotation.
+- **Lemma K closes almost all of the counting gap.** A profile is in the gap when some first agent needs no rotation
+  (rule F) but no first agent is in K0: 0 (n = 2), 1,152 (n = 3), 4, 720 and 36,188 (n = 4 with one, two, three
+  4-good agents). #44's gap for A₄⁺ᴺ, over *every* insertion sequence (K4.AD.AN), was 1,020 (n = 2), 119,616 (n = 3)
+  and 31,224 (n = 4, two 4-good agents) profiles that LB₄ʳ solves without rotation under some owner-needs convention.
+  K1 covers the gap anyway: with one rotation and Lemma K every profile is certified.
+- **RK is not optimal, but never needs two rotations.** It uses a rotation where some first agent needs none on 0
+  (n ≤ 3), 4, 688 and 21,456 profiles (n = 4 with one, two, three 4-good agents): these are the profiles of the
+  counting gap on which the first K1 agent in index order is not one of those that need no rotation.
+
+### 5.2 What the first agents of classes K0 and K1 have in common
+
+`k4/rulef.c -A41 -E1 -D5` lists, for every n = 3 profile on which index order (agent 0 first) is not in class K0, the
+classes of every first agent (1,802,206 leaves, `results/k4_rulef/rk_idx_n3.log`). `k4/rulef_features.py` tests on
+every 20th of them (90,111 leaves, 507,228 profiles) rules that choose the first agent without computing Lemma K for
+other agents (`results/k4_rulef/features_n3.log`; a rule *covers* a profile when its agent is in K0 or K1):
+
+| rule | profiles not covered (of 507,228) |
+|---|---|
+| **the first big-top agent** (four goods, a > b + c), else agent 0 | **0** |
+| index order, else the end of a need chain from agent 0 in the index run | 15 |
+| the end of a need chain from the frozen agent processed last (index run) | 41 |
+| the end of a need chain from a frozen 4-good agent (index run) | 354 |
+| the last agent r of the index run; least contested top; top shared by most tops | 720 each |
+| 3-good first; most private goods; 4-good first; top is the least good of fewest; index order | 730–735 |
+| most contested top; top shared by fewest tops | 785 each |
+| the successor or the end of a need chain from agent 0 | 19,952 |
+
+(The static rules are those of #44 at the first insertion step, `attempts/k4-adaptive-local-features.md`, plus new
+ones; the one-step rules read an agent off the index run, in the spirit of #37's Lemma X′.)
+
+**Big-top agents.** Exhaustively (`k4/rulef.c -A42`):
+- *with a big-top agent the first one works*: "the first big-top agent if there is one, else rule RK" (`-Q2`) leaves
+  no profile open on n ≤ 3 and on n = 4 with one, two or three 4-good agents (`results/k4_rulef/btrk_*.log`); so
+  whenever a big-top agent exists, the first big-top agent in index order is in class K0 or K1 — a static rule;
+- *without one, index order does not*: "the first big-top agent, else agent 0" (`-Q0`) fails with one rotation on 9,632
+  profiles at n = 3, every one without a big-top agent (`attempts/k4-rulef-bigtop-first.md`). There the working first
+  agent's top is also another agent's top, and among two agents sharing their top the one that works is the one
+  *without* two private goods (`k4/rulef.md` data of 136 leaves, table in `results/k4_rulef/bigtop_fallback_n3.log`).
+
+Why a big-top agent: its loss of its top is not repaired by a pair (b + c < a), so a need-shrinking upgrade never
+removes its need and the agent holding its top stays frozen until a rotation; inserted first, it holds its top from the
+start. On the cores H_t (no big-top agent) the first agent must lie in gadget 1 (Propositions H′, H″), which no static
+feature tried identifies on every relabeling; rule RK finds it by its certificate.
+
 ## 6. Lemma M: a proof attempt, and the cases it does not close
 
 Fix a first agent a and a policy, let P be the state, ω ≥ 1, r the last-processed agent that is not upgraded (it is

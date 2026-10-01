@@ -7,7 +7,7 @@ from the text on PR #33's independent model of LB4r). Checks:
       (lb4r.output_check, owner's needs from the bundle) and is EFX0 by the raw definition;
   (2) the C deficit (k4/rulef.c, slot goods restricted) is never below the Python one (both count the same object;
       the C version only drops options), and agrees on the sign (<= 0 or not) unless noted as a C restriction.
-Usage: rulef_check.py DATAFILE [--max=N]"""
+Usage: rulef_check.py DATAFILE [--max=N] [--every=K]  (--every=K: every K-th line only)"""
 import json, re, sys, os
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import rulef_model as RM
@@ -19,9 +19,12 @@ F = ['rot', 'cov', 'dN', 'dE', 'hN', 'hE', 'omN', 'omE', 'fz', 'e4', 'r', 'uN', 
 def main():
     path = sys.argv[1]
     mx = int(next((a.split('=')[1] for a in sys.argv[2:] if a.startswith('--max=')), 10 ** 9))
+    every = int(next((a.split('=')[1] for a in sys.argv[2:] if a.startswith('--every=')), 1)); seen = 0
     nprof = nchk = nwit = bad = below = signdiff = 0
     for line in open(path):
         if not (line.startswith('DATA') or line.startswith('IDX')): continue
+        seen += 1
+        if (seen - 1) % every: continue
         if nprof >= mx: break
         nprof += 1
         sets = json.loads(re.search(r'sets=(\[\[.*?\]\])', line).group(1))

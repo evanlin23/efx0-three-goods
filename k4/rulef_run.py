@@ -9,6 +9,8 @@ Usage: rulef_run.py FILE [FILE ...] [--jobs=J] [--n4=K] [--m=M] [--first=N] [--d
   -A41 -r1      (rule RK, fast) the first agent with Lemma K deficit <= 0, else the first whose run one rotation
                 brings to Lemma K deficit <= 0, else the first whose envy-free run satisfies
                 C4^0's hypothesis, else the least Lemma K deficit; LB4r run on it
+  -A42 -Q0 -r1  a static rule: the first big-top agent, else agent 0 (-Q1: else an agent whose least good is another's
+                top; -Q2: else rule RK), with the class of its agent (K0, K1, C40, none)
   -E1           (with -A41) evaluate every first agent (for -D5 dumps of the profiles where index order is not K0)
   --data=OUT    append the DATA lines (-A40 with -D1/-D2/-D4/-D5/-D6), OPEN lines (-A41 -D1) or IDX lines (-A41 -E1 -D5)
 One worker by default (--jobs=1): the machine is shared."""
@@ -86,11 +88,11 @@ def summary(tot):
             out.append(f"  rule {i:2d} {RULES[i]:12s} worse-than-F={tot['rel'][i]:>12d} fails-with-<=1={tot['abs'][i]:>12d}"
                        f"   on uncovered: worse={tot['urel'][i]:>10d} fails={tot['uabs'][i]:>10d}")
     if 'c0' in tot:
-        out.append(f"  rule RK, rotations LB4r needs on its sequence (0, 1, fails with <= 1) by class:")
+        out.append(f"  rule (-A41: RK; -A42: static, -Q), rotations LB4r needs on its sequence (0, 1, fails with <= 1) by the class of its agent:")
         out.append(f"    K0  (Lemma K at the Phase 1 state)           {tot['c0']}")
         out.append(f"    K1  (Lemma K after one rotation)             {tot['c1']}")
         out.append(f"    C40 (Corollary C4^0's hypothesis)            {tot['c2']}")
-        out.append(f"    open (none of them for any first agent)      {tot['c3']}")
+        out.append(f"    open (none of them; -A41: for any first agent) {tot['c3']}")
         out.append(f"    violations (a class's promise not met by LB4r): {tot['viol'][0]}")
     return '\n'.join(out)
 

@@ -10,6 +10,9 @@
 2. attempts/k4-rulef-frozen-free-owner.md: "a state of LB4r after Phase 1 and need-shrinking upgrades with no frozen
    agent and omega >= 1 has a valid owner (no rotation)". On the recorded n = 2 profile, first agent 0: in PR #33's
    model the state has no frozen agent, omega = 1, and no Output (no owner, every owner, both conventions).
+3. attempts/k4-rulef-bigtop-first.md: "a big-top agent first (four goods, top worth more than the next two together),
+   else index order" (k4/rulef.c -A42 -Q0; -Q1: else an agent whose least good is another agent's top). On the
+   recorded profile (no big-top agent) the rule's sequence needs two rotations, in rulef.c and in PR #33's model.
 Usage: python3 attempts/k4_rulef_attempts.py"""
 import os, subprocess, sys
 HERE = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.dirname(HERE)
@@ -26,6 +29,7 @@ RULES = {3: 'least A4+N deficit', 4: 'least A4+(o) deficit (envy-free)', 5: 'lea
          14: 'least refined-with-kept-set deficit', 16: 'least Lemma K deficit, need-shrinking', 17: 'least Lemma K deficit', 0: 'index order'}
 P1 = ([[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 6, 8], [2, 3, 4, 8], [2, 7, 8, 4]])
 FF = ([[0, 2, 3, 4], [1, 2, 3, 4]], [[2, 4, 7, 8], [2, 4, 5, 8]])
+BT = ([[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 6, 8], [3, 5, 7, 6], [2, 4, 5, 8]])
 
 
 def tool(sets, vals, opts):
@@ -66,6 +70,23 @@ def main():
     allok &= ok
     print(f"2. frozen-free state without owner; profile sets={sets} vals={vals}, first agent 0, need-shrinking upgrades: "
           f"frozen agents {nfz}, omega {om}, outputs (any owner or none, both conventions) {outs} -> {'OK' if ok else 'MISMATCH'}")
+    print('  brute force:', AA.brute_d2(sets, vals))
+    sets, vals = BT
+    v = AA.dense(sets, vals)
+    print(f"3. a big-top agent first, else index order (also: else an agent whose least good is another's top); profile sets={sets} vals={vals}")
+    for q in (0, 1):
+        s1, tau = tool(sets, vals, ['-A42', f'-Q{q}', '-r1'])
+        s2, _ = tool(sets, vals, ['-A42', f'-Q{q}', '-r2'])
+        ind = AA.least_rotations(v, [tau[0]])
+        ok = s1 == 'fail' and s2 == 'rot=2' and ind == 2
+        allok &= ok
+        print(f"  -Q{q}: first agent {tau[0]}; rulef.c -r1: {s1}, -r2: {s2}; independent model: least rotations {ind} -> {'OK' if ok else 'MISMATCH'}")
+    big = [i for i, V in enumerate(vals) if len(V) == 4 and sorted(V)[3] > sorted(V)[2] + sorted(V)[1]]
+    print(f"  big-top agents: {big}")
+    srk, tauk = tool(sets, vals, ['-A41', '-r1'])
+    indk = AA.least_rotations(v, [tauk[0]])
+    print(f"  rule RK: first agent {tauk[0]}, {srk}; independent model: least rotations {indk}")
+    allok &= srk in ('rot=0', 'rot=1') and indk is not None and indk <= 1 and not big
     print('  brute force:', AA.brute_d2(sets, vals))
     print('ALL AS RECORDED' if allok else 'MISMATCH')
 
