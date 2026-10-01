@@ -1,0 +1,24 @@
+# lemmam_portfolio.py results/k4_certs_4_n4_1.json.gz -Y1 --jobs=4 --checkpoint=/tmp/claude-0/-home-user-efx0-three-goods/7fff145a-b58d-5b73-9280-767e7c858b47/scratchpad/ck/n4_1_all.jsonl --out=results/k4_m_portfolio/n4_1_all.json --label=n=4 one 4-good agent, exhaustive # source sha 5a9134d965ac1c0c # rulef.c sha256 5721abf3bc9e25b101412aeb6b602db24d80e1991beee9a367a01cf9ccfc424e
+# 135 tasks, 4 workers
+# 6/135 tasks, 0s
+# 12/135 tasks, 0s
+# 18/135 tasks, 0s
+# 24/135 tasks, 0s
+# 30/135 tasks, 1s
+# 36/135 tasks, 1s
+# 42/135 tasks, 1s
+# 48/135 tasks, 1s
+# 54/135 tasks, 1s
+# 60/135 tasks, 1s
+# 66/135 tasks, 2s
+# 72/135 tasks, 2s
+# 78/135 tasks, 2s
+# 84/135 tasks, 2s
+# 90/135 tasks, 2s
+# 96/135 tasks, 3s
+# 102/135 tasks, 3s
+# 108/135 tasks, 3s
+# 114/135 tasks, 3s
+# 120/135 tasks, 4s
+# 126/135 tasks, 4s
+# 132/135 tasks, 5s
