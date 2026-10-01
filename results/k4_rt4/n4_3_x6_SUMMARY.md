@@ -40,12 +40,20 @@ every profile goes through the full evaluation. Measured on this 4-CPU container
 | 335..337 (3) | 144 x 288 x 288 x 6 | 71,663,616 | 4.9 to 5.1 |
 
 The pool takes the cores in order (285, 286, ...), one dlrt4.c process per core, so a core counts only once its whole
-process finishes; a kill loses the cores in progress. Under the estimate, cores 285..288 finish after about 2 h, 289..292
-after about 4 h, 293..296 after about 6 h. As the slice text allows for an estimate above 4 h, the run goes as far as
-this session lasts, with the checkpoint pushed at least every 30 minutes; the cores covered are the `pos` keys in
-`ckpt_n4_3_x6.jsonl`, and anyone can resume the rest with the same command and checkpoint.
+process finishes; a kill loses the cores in progress. As the slice text allows for an estimate above 4 h, the run goes
+as far as this session lasts, with the checkpoint pushed at least every 30 minutes; the cores covered are the `pos` keys
+in `ckpt_n4_3_x6.jsonl`, and anyone can resume the rest with the same command and checkpoint.
+
+**Restart and segment order.** The first segment (the command above, started 21:36 UTC) ran cores 285..288 for about
+85 min and was killed by a container restart (before 23:03 UTC) with no core finished, so none of it is in the
+checkpoint. With units of 0.5 to 6 CPU-h and a container that may restart, the run then resumed in segments, cheap cores
+first: the same command with `--cores=` 318:321, 326:329, 321:335, 285:308, 335:339, 308:318 and finally 285:339. The
+driver's checkpoint key (mode, file, P, seed, bt, copts) does not contain the core range, so every segment is the same
+run resumed (same options, same checkpoint, dump and tables files; the log is appended, each segment starting with its
+command line), and the final 285:339 segment reports the whole slice from the checkpoint. Until that final segment, the
+tables file holds only the last segment's cores; the Progress section below is computed from the checkpoint.
 
 ## Progress
 
-Last update 2026-10-01 22:35 UTC: 0 of 54 cores finished; 4 dlrt4.c processes running.
+Last update 2026-10-01 23:05 UTC: 0 of 54 cores finished; 3 dlrt4.c processes running.
 
