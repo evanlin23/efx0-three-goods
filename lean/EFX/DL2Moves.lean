@@ -1018,6 +1018,110 @@ theorem safeFor_congr {o : A} {Z Z' : G → Bool} (h : ∀ g ∈ goods, Z g = Z'
 theorem unthreatened_iff (o : A) (C : G → Bool) :
     Unthreatened v agents goods base o C ↔ SafeFor v agents goods base o (obPred base o C) := Iff.rfl
 
+/-! ## The re-base, constructed (Lemma 1(c)) -/
+
+/-- **Re-basing `y` to `B′`** (the move of Lemma 1(c), as a base map): `y` holds exactly the goods of `B′`, the goods of
+`B_y ∖ B′` become junk, every other good keeps its owner. -/
+def rebase (base : G → Option A) (y : A) (B' : G → Bool) : G → Option A :=
+  fun g => if B' g then some y else if base g = some y then none else base g
+
+omit [DecidableEq G] in
+theorem rebase_eq_some_self {y : A} {B' : G → Bool} {g : G} : rebase base y B' g = some y ↔ B' g = true := by
+  unfold rebase
+  by_cases hb : B' g = true
+  · simp [hb]
+  · by_cases hy : base g = some y
+    · simp [hb, hy]
+    · simp [hb, hy]
+
+omit [DecidableEq G] in
+theorem rebase_eq_some_other {y i : A} (hiy : i ≠ y) {B' : G → Bool} {g : G} :
+    rebase base y B' g = some i ↔ B' g = false ∧ base g = some i := by
+  unfold rebase
+  by_cases hb : B' g = true
+  · simp [hb, Ne.symm hiy]
+  · by_cases hy : base g = some y
+    · simp only [hb, hy, Bool.false_eq_true, ↓reduceIte, reduceCtorEq, false_iff, not_and]
+      intro _ e; exact hiy (Option.some.inj e).symm
+    · simp [hb, hy]
+
+omit [DecidableEq G] in
+theorem baseOf_rebase_self {y : A} {B' : G → Bool} : baseOf goods (rebase base y B') y = goods.filter B' := by
+  unfold baseOf
+  apply List.filter_congr
+  intro g _
+  simp only [rebase_eq_some_self]
+  cases B' g <;> rfl
+
+omit [DecidableEq G] in
+theorem baseOf_rebase_other {y i : A} (hiy : i ≠ y) {B' : G → Bool}
+    (hB' : ∀ g ∈ goods, B' g = true → base g = some y ∨ base g = none) :
+    baseOf goods base i = baseOf goods (rebase base y B') i := by
+  unfold baseOf
+  apply List.filter_congr
+  intro g hg
+  refine decide_eq_decide.mpr ?_
+  rw [rebase_eq_some_other hiy]
+  by_cases hb : B' g = true
+  · have : ¬ base g = some i := by
+      rcases hB' g hg hb with e | e <;> rw [e]
+      · exact fun h => hiy (Option.some.inj h).symm
+      · simp
+    simp [hb, this]
+  · simp [hb]
+
+omit [DecidableEq G] in
+/-- The needs of `y` holding `B′` are `N_y(B′)`. -/
+theorem vbNeeds_rebase_self {y : A} {B' : G → Bool} (g : G) :
+    vbNeeds v goods (rebase base y B') y g ↔ setNeeds v goods y B' g := by
+  unfold vbNeeds setNeeds
+  rw [baseOf_rebase_self]
+  have : rebase base y B' g ≠ some y ↔ B' g = false := by rw [Ne, rebase_eq_some_self]; simp
+  rw [this]
+
+omit [DecidableEq G] in
+/-- **Lemma 1(c), with the move constructed**: if `y` is free in the min-frozen `P` and `B′ ⊆ (B_y ∪ J) ∩ R_y` has at most
+two goods and `N_y(B′) ⊆ 𝒩`, then `rebase base y B′` is a min-frozen pre-allocation with `NA(P′) = 𝒩`, `F(P′) = F(P)`
+and the same `ω`, in which `y` holds `B′` and every other agent keeps its base. -/
+theorem lemma1c_rebase (hag : agents.Nodup) (hgd : goods.Nodup) (hM : MinFrozen v agents goods base) {y : A}
+    (hy : y ∈ agents) (hyF : ¬ Frozen agents goods base (vbNeeds v goods base) y) {B' : G → Bool}
+    (hB' : ∀ g ∈ goods, B' g = true → (base g = some y ∨ base g = none) ∧ 0 < v y g)
+    (htwo : (goods.filter B').length ≤ 2)
+    (hadm : ∀ g, setNeeds v goods y B' g → NA agents (vbNeeds v goods base) g) :
+    MinFrozen v agents goods (rebase base y B') ∧
+      (∀ g, NA agents (vbNeeds v goods (rebase base y B')) g ↔ NA agents (vbNeeds v goods base) g) ∧
+      (∀ i ∈ agents, Frozen agents goods (rebase base y B') (vbNeeds v goods (rebase base y B')) i ↔
+        Frozen agents goods base (vbNeeds v goods base) i) ∧
+      baseOf goods (rebase base y B') y = goods.filter B' ∧
+      (∀ i ∈ agents, i ≠ y → baseOf goods base i = baseOf goods (rebase base y B') i) ∧
+      omegaP v agents goods (rebase base y B') = omegaP v agents goods base := by
+  have hsame : ∀ i ∈ agents, i ≠ y → baseOf goods base i = baseOf goods (rebase base y B') i :=
+    fun i _ hiy => baseOf_rebase_other hiy fun g hg hb => (hB' g hg hb).1
+  have hmem' : ∀ g ∈ goods, ∀ i, rebase base y B' g = some i → i ∈ agents := by
+    intro g hg i hb
+    by_cases hiy : i = y
+    · rw [hiy]; exact hy
+    · exact hM.1.mem g hg i ((rebase_eq_some_other hiy).mp hb).2
+  obtain ⟨hM', hNA, hF, -, hω⟩ := lemma1c hag hgd hM hy hyF hsame hmem'
+    (fun g hg hb => hB' g hg (rebase_eq_some_self.mp hb)) (by rw [baseOf_rebase_self]; exact htwo)
+    (fun g hN => hadm g ((vbNeeds_rebase_self g).mp hN))
+  exact ⟨hM', hNA, hF, baseOf_rebase_self, hsame, hω⟩
+
+omit [DecidableEq G] in
+/-- **An admissible re-base, constructed, is a (T1) move**: under the hypotheses of `lemma1c_rebase` and
+`B′ ≠ B_y`, `rebase base y B′` is a min-frozen (T1)-neighbour of `P`. -/
+theorem moveT1_rebase (hag : agents.Nodup) (hgd : goods.Nodup) (hM : MinFrozen v agents goods base) {y : A}
+    (hy : y ∈ agents) (hyF : ¬ Frozen agents goods base (vbNeeds v goods base) y) {B' : G → Bool}
+    (hB' : ∀ g ∈ goods, B' g = true → (base g = some y ∨ base g = none) ∧ 0 < v y g)
+    (htwo : (goods.filter B').length ≤ 2)
+    (hadm : ∀ g, setNeeds v goods y B' g → NA agents (vbNeeds v goods base) g)
+    (hne : baseOf goods base y ≠ goods.filter B') :
+    MinFrozen v agents goods (rebase base y B') ∧ MoveT1 v agents goods base (rebase base y B') := by
+  obtain ⟨hM', hNA, -, hB, hsame, -⟩ := lemma1c_rebase hag hgd hM hy hyF hB' htwo hadm
+  refine ⟨hM', y, hy, hyF, by rw [hB]; exact hne, fun g hg => ?_, hsame, fun g => (hNA g).symm⟩
+  obtain ⟨hgg, hb⟩ := mem_baseOf.mp hg
+  exact hB' g hgg (rebase_eq_some_self.mp hb)
+
 /-! ## Lemma H1 -/
 
 omit [DecidableEq G] in
@@ -1900,3 +2004,5 @@ end EFX
 #print axioms EFX.C4min.moveT1_iff_code
 #print axioms EFX.C4min.free_of_swap
 #print axioms EFX.C4min.moveT3_iff_code
+#print axioms EFX.C4min.lemma1c_rebase
+#print axioms EFX.C4min.moveT1_rebase
