@@ -5,13 +5,14 @@ import EFX.ThmZ
 # DL₁₃ at f ≥ 1 and Theorem Z at f = 0 ⟹ TARGET₄ (`k4/dl2.md` §3; ledger K4.DL2.T13.LEAN)
 
 Conjecture DL₁₃ of `k4/dl2.md` §3 (K4.DL2.T13, PR #69) is DL_R for the relation R₁₃ = (T1) ∪ (T3) (re-bases and role
-swaps, no rotations), stated only on the profiles whose fewest frozen agents is `f ≥ 1`. At `f = 0` DL for R₁₃ is false
-(`induct-g-r1`, `dl2-rot-n3m7`: free agents must rotate), but there Theorem Z (`EFX.C4min.theoremZ_RO`, K4.C4MIN.Z)
-gives C₄ᵐⁱⁿ's removal-only conclusion, which is DL for the full relation (`EFX.C4min.defLocalAt_top_iff`). This file
-writes the combination of `k4/dl2.md` §3: for the relation `R13Z` = "every pair on a profile with `f = 0`, R₁₃
-otherwise", DL₁₃ gives DL_{R13Z} (`DefLocal R13Z`), hence TARGET₄ by `EFX.C4min.target4_of_defLocal`. DL₁₃ is a
-hypothesis of every theorem here, never an axiom. Everything is stated with the definitions of `EFX/C4min.lean`,
-`EFX/PreAllocK.lean` and `EFX/C4minDescent.lean`; nothing of the model is redefined.
+swaps, no rotations), stated only on the profiles whose fewest frozen agents is `f ≥ 1`. At `f = 0` DL for R₁₃ fails
+(K4.DL2.RX: `induct-g-r1`, `dl2-rot-n3m7`, where free agents must rotate), but there Theorem Z
+(`EFX.C4min.theoremZ_RO`, K4.C4MIN.Z) gives C₄ᵐⁱⁿ's removal-only conclusion, which is DL for the full relation
+(`EFX.C4min.defLocalAt_top_iff`). This file writes the combination of `k4/dl2.md` §3: for the relation `R13Z` = "every
+pair on a profile with `f = 0`, R₁₃ otherwise", DL₁₃ gives DL_{R13Z} (`DefLocal R13Z`), hence TARGET₄ by
+`EFX.C4min.target4_of_defLocal`. DL₁₃ is a hypothesis of every theorem here, never an axiom. Everything is stated with
+the definitions of `EFX/C4min.lean`, `EFX/PreAllocK.lean` and `EFX/C4minDescent.lean`; nothing of the model is
+redefined.
 
 **Definitions** (P = `base`, P′ = `base'`; `B_i = baseOf goods base i`, `N_i(B_i) = vbNeeds v goods base i`,
 `NA = NA agents (vbNeeds v goods base)`, frozen = `Frozen agents goods base (vbNeeds v goods base)`; "keeps its base"
