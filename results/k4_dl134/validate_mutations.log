@@ -1,0 +1,215 @@
+# command: python3 results/k4_dl134/validate_mutations.py
+# mutation: T4 limited to 2-swaps: dl134.c sha256 8b2b15d2c5130bef44601ab3112d0b4f6ec1661d35547bf2dac259c5d12bb411; dl13.c sha256 f891de3a228a63fcd05008c0e4d9202068fc0d2b41be5876775affd4b2131d65; dl2.c sha256 bf20adab485d04dd0a660b56c8337a3fdbe3471ac8178706af150932c82dcbd2
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:6,1,3,3 ((4,), (1,), (3,), (5,)) {'t4types': ({'2'}, {'2', '3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:6,1,3,3 ((4,), (1,), (5,), (3,)) {'t4types': ({'2'}, {'2', '3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:6,1,3,3 ((4,), (5,), (), (3,)) {'t4': (0, 1), 't4types': (set(), {'3'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:6,1,3,3 ((4,), (5,), (3,), ()) {'t4': (0, 1), 't4types': (set(), {'3'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:11,1,3,3 ((4,), (1,), (3,), (5,)) {'t4types': ({'2'}, {'2', '3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:11,1,3,3 ((4,), (1,), (5,), (3,)) {'t4types': ({'2'}, {'2', '3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:11,1,3,3 ((4,), (5,), (), (3,)) {'t4': (0, 1), 't4types': (set(), {'3'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:11,1,3,3 ((4,), (5,), (3,), ()) {'t4': (0, 1), 't4types': (set(), {'3'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:21,1,3,3 ((4,), (1,), (3,), (5,)) {'t4types': ({'2'}, {'2', '3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:21,1,3,3 ((4,), (1,), (5,), (3,)) {'t4types': ({'2'}, {'2', '3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:21,1,3,3 ((4,), (5,), (), (3,)) {'t4': (0, 1), 't4types': (set(), {'3'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:21,1,3,3 ((4,), (5,), (3,), ()) {'t4': (0, 1), 't4types': (set(), {'3'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:34,1,3,3 ((4,), (1,), (3,), (5,)) {'t4types': ({'2'}, {'2', '3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:34,1,3,3 ((4,), (1,), (5,), (3,)) {'t4types': ({'2'}, {'2', '3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:34,1,3,3 ((4,), (5,), (), (3,)) {'t4': (0, 1), 't4types': (set(), {'3'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:34,1,3,3 ((4,), (5,), (3,), ()) {'t4': (0, 1), 't4types': (set(), {'3'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:39,1,3,3 ((4,), (1,), (3,), (5,)) {'t4types': ({'2'}, {'2', '3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:39,1,3,3 ((4,), (1,), (5,), (3,)) {'t4types': ({'2'}, {'2', '3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:39,1,3,3 ((4,), (5,), (), (3,)) {'t4': (0, 1), 't4types': (set(), {'3'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:39,1,3,3 ((4,), (5,), (3,), ()) {'t4': (0, 1), 't4types': (set(), {'3'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:51,1,3,3 ((4,), (1,), (3,), (5,)) {'t4types': ({'2'}, {'2', '3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:51,1,3,3 ((4,), (1,), (5,), (3,)) {'t4types': ({'2'}, {'2', '3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:51,1,3,3 ((4,), (5,), (), (3,)) {'t4': (0, 1), 't4types': (set(), {'3'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:51,1,3,3 ((4,), (5,), (3,), ()) {'t4': (0, 1), 't4types': (set(), {'3'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:65,1,3,3 ((4,), (1,), (3,), (5,)) {'t4types': ({'2'}, {'2', '3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:65,1,3,3 ((4,), (1,), (5,), (3,)) {'t4types': ({'2'}, {'2', '3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:65,1,3,3 ((4,), (5,), (), (3,)) {'t4': (0, 1), 't4types': (set(), {'3'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:65,1,3,3 ((4,), (5,), (3,), ()) {'t4': (0, 1), 't4types': (set(), {'3'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:73,1,3,3 ((4,), (1,), (3,), (5,)) {'t4types': ({'2'}, {'2', '3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:73,1,3,3 ((4,), (1,), (5,), (3,)) {'t4types': ({'2'}, {'2', '3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:73,1,3,3 ((4,), (5,), (), (3,)) {'t4': (0, 1), 't4types': (set(), {'3'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:73,1,3,3 ((4,), (5,), (3,), ()) {'t4': (0, 1), 't4types': (set(), {'3'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:103,1,3,3 ((4,), (1,), (3,), (5,)) {'t4types': ({'2'}, {'2', '3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:103,1,3,3 ((4,), (1,), (5,), (3,)) {'t4types': ({'2'}, {'2', '3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:103,1,3,3 ((4,), (5,), (), (3,)) {'t4': (0, 1), 't4types': (set(), {'3'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:103,1,3,3 ((4,), (5,), (3,), ()) {'t4': (0, 1), 't4types': (set(), {'3'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:111,1,3,3 ((4,), (1,), (3,), (5,)) {'t4types': ({'2'}, {'2', '3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:111,1,3,3 ((4,), (1,), (5,), (3,)) {'t4types': ({'2'}, {'2', '3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:111,1,3,3 ((4,), (5,), (), (3,)) {'t4': (0, 1), 't4types': (set(), {'3'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:111,1,3,3 ((4,), (5,), (3,), ()) {'t4': (0, 1), 't4types': (set(), {'3'}), 'dT4': (999999, 0)} overlap 0
+#  10 / 10 profiles [0 s]: {'prof': 10, 'prof_pos': 10, 'prof_f1': 10, 'st': 60, 'st_f0': 0, 'st_f1': 60, 'fail134_f1': 0, 'fail13_f1': 20, 't4only': 20, 't4only2': 20, 'st_t4': 40, 'st_t4long': 0, 'mm_ref': 40, 'mm_K': 0, 'mm_L': 0, 'mm_hash': 0, 'listed': 20, 'listed_bad': 0}
+mutation: T4 limited to 2-swaps: profiles 10 (with a def > 0 state 10, with f >= 1 and a def > 0 state 10); states 60 (f = 0: 0, f >= 1: 60); DL13 fails at 20 f >= 1 states, DL134 at 0; repaired by T4 only 20 (with a 2-swap 20); states with an improving T4 move 40 (with one that is not a single 2-swap 0); listed failing states 20, not DL13 failures 0
+mutation: T4 limited to 2-swaps: mismatches: reference 40, K line vs dl2.c 0, L line vs dl13.c 0, hash build 0 [0 s]
+=> mutation "T4 limited to 2-swaps": CAUGHT
+# mutation: no T4: dl134.c sha256 705f630a584c1107da19543e191d4f432991459b5bc95b853f8c2d8cad435edd; dl13.c sha256 f891de3a228a63fcd05008c0e4d9202068fc0d2b41be5876775affd4b2131d65; dl2.c sha256 bf20adab485d04dd0a660b56c8337a3fdbe3471ac8178706af150932c82dcbd2
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:6,1,3,3 ((4,), (1,), (3,), (5,)) {'rd': (99, 2), 't4': (0, 1), 't4types': (set(), {'2', '3'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:6,1,3,3 ((4,), (1,), (5,), (3,)) {'rd': (99, 2), 't4': (0, 1), 't4types': (set(), {'2', '3'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:6,1,3,3 ((4,), (3,), (), (5,)) {'t4': (0, 1), 't4types': (set(), {'2'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:6,1,3,3 ((4,), (3,), (5,), ()) {'t4': (0, 1), 't4types': (set(), {'2'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:6,1,3,3 ((4,), (5,), (), (3,)) {'t4': (0, 1), 't4types': (set(), {'3'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:6,1,3,3 ((4,), (5,), (3,), ()) {'t4': (0, 1), 't4types': (set(), {'3'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:11,1,3,3 ((4,), (1,), (3,), (5,)) {'rd': (99, 2), 't4': (0, 1), 't4types': (set(), {'2', '3'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:11,1,3,3 ((4,), (1,), (5,), (3,)) {'rd': (99, 2), 't4': (0, 1), 't4types': (set(), {'2', '3'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:11,1,3,3 ((4,), (3,), (), (5,)) {'t4': (0, 1), 't4types': (set(), {'2'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:11,1,3,3 ((4,), (3,), (5,), ()) {'t4': (0, 1), 't4types': (set(), {'2'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:11,1,3,3 ((4,), (5,), (), (3,)) {'t4': (0, 1), 't4types': (set(), {'3'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:11,1,3,3 ((4,), (5,), (3,), ()) {'t4': (0, 1), 't4types': (set(), {'3'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:21,1,3,3 ((4,), (1,), (3,), (5,)) {'rd': (99, 2), 't4': (0, 1), 't4types': (set(), {'2', '3'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:21,1,3,3 ((4,), (1,), (5,), (3,)) {'rd': (99, 2), 't4': (0, 1), 't4types': (set(), {'2', '3'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:21,1,3,3 ((4,), (3,), (), (5,)) {'t4': (0, 1), 't4types': (set(), {'2'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:21,1,3,3 ((4,), (3,), (5,), ()) {'t4': (0, 1), 't4types': (set(), {'2'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:21,1,3,3 ((4,), (5,), (), (3,)) {'t4': (0, 1), 't4types': (set(), {'3'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:21,1,3,3 ((4,), (5,), (3,), ()) {'t4': (0, 1), 't4types': (set(), {'3'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:34,1,3,3 ((4,), (1,), (3,), (5,)) {'rd': (99, 2), 't4': (0, 1), 't4types': (set(), {'2', '3'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:34,1,3,3 ((4,), (1,), (5,), (3,)) {'rd': (99, 2), 't4': (0, 1), 't4types': (set(), {'2', '3'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:34,1,3,3 ((4,), (3,), (), (5,)) {'t4': (0, 1), 't4types': (set(), {'2'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:34,1,3,3 ((4,), (3,), (5,), ()) {'t4': (0, 1), 't4types': (set(), {'2'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:34,1,3,3 ((4,), (5,), (), (3,)) {'t4': (0, 1), 't4types': (set(), {'3'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:34,1,3,3 ((4,), (5,), (3,), ()) {'t4': (0, 1), 't4types': (set(), {'3'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:39,1,3,3 ((4,), (1,), (3,), (5,)) {'rd': (99, 2), 't4': (0, 1), 't4types': (set(), {'2', '3'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:39,1,3,3 ((4,), (1,), (5,), (3,)) {'rd': (99, 2), 't4': (0, 1), 't4types': (set(), {'2', '3'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:39,1,3,3 ((4,), (3,), (), (5,)) {'t4': (0, 1), 't4types': (set(), {'2'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:39,1,3,3 ((4,), (3,), (5,), ()) {'t4': (0, 1), 't4types': (set(), {'2'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:39,1,3,3 ((4,), (5,), (), (3,)) {'t4': (0, 1), 't4types': (set(), {'3'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:39,1,3,3 ((4,), (5,), (3,), ()) {'t4': (0, 1), 't4types': (set(), {'3'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:51,1,3,3 ((4,), (1,), (3,), (5,)) {'rd': (99, 2), 't4': (0, 1), 't4types': (set(), {'2', '3'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:51,1,3,3 ((4,), (1,), (5,), (3,)) {'rd': (99, 2), 't4': (0, 1), 't4types': (set(), {'2', '3'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:51,1,3,3 ((4,), (3,), (), (5,)) {'t4': (0, 1), 't4types': (set(), {'2'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:51,1,3,3 ((4,), (3,), (5,), ()) {'t4': (0, 1), 't4types': (set(), {'2'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:51,1,3,3 ((4,), (5,), (), (3,)) {'t4': (0, 1), 't4types': (set(), {'3'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:51,1,3,3 ((4,), (5,), (3,), ()) {'t4': (0, 1), 't4types': (set(), {'3'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:65,1,3,3 ((4,), (1,), (3,), (5,)) {'rd': (99, 2), 't4': (0, 1), 't4types': (set(), {'2', '3'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:65,1,3,3 ((4,), (1,), (5,), (3,)) {'rd': (99, 2), 't4': (0, 1), 't4types': (set(), {'2', '3'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:65,1,3,3 ((4,), (3,), (), (5,)) {'t4': (0, 1), 't4types': (set(), {'2'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:65,1,3,3 ((4,), (3,), (5,), ()) {'t4': (0, 1), 't4types': (set(), {'2'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:65,1,3,3 ((4,), (5,), (), (3,)) {'t4': (0, 1), 't4types': (set(), {'3'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:65,1,3,3 ((4,), (5,), (3,), ()) {'t4': (0, 1), 't4types': (set(), {'3'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:73,1,3,3 ((4,), (1,), (3,), (5,)) {'rd': (99, 2), 't4': (0, 1), 't4types': (set(), {'2', '3'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:73,1,3,3 ((4,), (1,), (5,), (3,)) {'rd': (99, 2), 't4': (0, 1), 't4types': (set(), {'2', '3'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:73,1,3,3 ((4,), (3,), (), (5,)) {'t4': (0, 1), 't4types': (set(), {'2'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:73,1,3,3 ((4,), (3,), (5,), ()) {'t4': (0, 1), 't4types': (set(), {'2'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:73,1,3,3 ((4,), (5,), (), (3,)) {'t4': (0, 1), 't4types': (set(), {'3'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:73,1,3,3 ((4,), (5,), (3,), ()) {'t4': (0, 1), 't4types': (set(), {'3'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:103,1,3,3 ((4,), (1,), (3,), (5,)) {'rd': (99, 2), 't4': (0, 1), 't4types': (set(), {'2', '3'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:103,1,3,3 ((4,), (1,), (5,), (3,)) {'rd': (99, 2), 't4': (0, 1), 't4types': (set(), {'2', '3'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:103,1,3,3 ((4,), (3,), (), (5,)) {'t4': (0, 1), 't4types': (set(), {'2'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:103,1,3,3 ((4,), (3,), (5,), ()) {'t4': (0, 1), 't4types': (set(), {'2'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:103,1,3,3 ((4,), (5,), (), (3,)) {'t4': (0, 1), 't4types': (set(), {'3'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:103,1,3,3 ((4,), (5,), (3,), ()) {'t4': (0, 1), 't4types': (set(), {'3'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:111,1,3,3 ((4,), (1,), (3,), (5,)) {'rd': (99, 2), 't4': (0, 1), 't4types': (set(), {'2', '3'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:111,1,3,3 ((4,), (1,), (5,), (3,)) {'rd': (99, 2), 't4': (0, 1), 't4types': (set(), {'2', '3'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:111,1,3,3 ((4,), (3,), (), (5,)) {'t4': (0, 1), 't4types': (set(), {'2'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:111,1,3,3 ((4,), (3,), (5,), ()) {'t4': (0, 1), 't4types': (set(), {'2'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:111,1,3,3 ((4,), (5,), (), (3,)) {'t4': (0, 1), 't4types': (set(), {'3'}), 'dT4': (999999, 0)} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:111,1,3,3 ((4,), (5,), (3,), ()) {'t4': (0, 1), 't4types': (set(), {'3'}), 'dT4': (999999, 0)} overlap 0
+#  10 / 10 profiles [0 s]: {'prof': 10, 'prof_pos': 10, 'prof_f1': 10, 'st': 60, 'st_f0': 0, 'st_f1': 60, 'fail134_f1': 20, 'fail13_f1': 20, 't4only': 0, 't4only2': 0, 'st_t4': 0, 'st_t4long': 0, 'mm_ref': 60, 'mm_K': 0, 'mm_L': 0, 'mm_hash': 0, 'listed': 20, 'listed_bad': 0}
+mutation: no T4: profiles 10 (with a def > 0 state 10, with f >= 1 and a def > 0 state 10); states 60 (f = 0: 0, f >= 1: 60); DL13 fails at 20 f >= 1 states, DL134 at 20; repaired by T4 only 0 (with a 2-swap 0); states with an improving T4 move 0 (with one that is not a single 2-swap 0); listed failing states 20, not DL13 failures 0
+mutation: no T4: mismatches: reference 60, K line vs dl2.c 0, L line vs dl13.c 0, hash build 0 [0 s]
+=> mutation "no T4": CAUGHT
+# mutation: T4 without the NA / frozen-status conditions: dl134.c sha256 8246627433347b294189184630aa30817afa355b2402abd3120eae7052557f78; dl13.c sha256 f891de3a228a63fcd05008c0e4d9202068fc0d2b41be5876775affd4b2131d65; dl2.c sha256 bf20adab485d04dd0a660b56c8337a3fdbe3471ac8178706af150932c82dcbd2
+MISMATCH hash build, chunk at 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:6,1,3,3 ((4,), (3,), (), (5,)) {'t4types': ({'2', '3'}, {'2'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:6,1,3,3 ((4,), (3,), (5,), ()) {'t4types': ({'2', '3'}, {'2'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:6,1,3,3 ((4,), (5,), (), (3,)) {'t4types': ({'4', '3'}, {'3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:6,1,3,3 ((4,), (5,), (3,), ()) {'t4types': ({'4', '3'}, {'3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:11,1,3,3 ((4,), (3,), (), (5,)) {'t4types': ({'2', '3'}, {'2'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:11,1,3,3 ((4,), (3,), (5,), ()) {'t4types': ({'2', '3'}, {'2'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:11,1,3,3 ((4,), (5,), (), (3,)) {'t4types': ({'4', '3'}, {'3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:11,1,3,3 ((4,), (5,), (3,), ()) {'t4types': ({'4', '3'}, {'3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:21,1,3,3 ((4,), (3,), (), (5,)) {'t4types': ({'2', '3'}, {'2'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:21,1,3,3 ((4,), (3,), (5,), ()) {'t4types': ({'2', '3'}, {'2'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:21,1,3,3 ((4,), (5,), (), (3,)) {'t4types': ({'4', '3'}, {'3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:21,1,3,3 ((4,), (5,), (3,), ()) {'t4types': ({'4', '3'}, {'3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:34,1,3,3 ((4,), (3,), (), (5,)) {'t4types': ({'2', '3'}, {'2'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:34,1,3,3 ((4,), (3,), (5,), ()) {'t4types': ({'2', '3'}, {'2'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:34,1,3,3 ((4,), (5,), (), (3,)) {'t4types': ({'4', '3'}, {'3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:34,1,3,3 ((4,), (5,), (3,), ()) {'t4types': ({'4', '3'}, {'3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:39,1,3,3 ((4,), (3,), (), (5,)) {'t4types': ({'2', '3'}, {'2'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:39,1,3,3 ((4,), (3,), (5,), ()) {'t4types': ({'2', '3'}, {'2'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:39,1,3,3 ((4,), (5,), (), (3,)) {'t4types': ({'4', '3'}, {'3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:39,1,3,3 ((4,), (5,), (3,), ()) {'t4types': ({'4', '3'}, {'3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:51,1,3,3 ((4,), (3,), (), (5,)) {'t4types': ({'2', '3'}, {'2'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:51,1,3,3 ((4,), (3,), (5,), ()) {'t4types': ({'2', '3'}, {'2'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:51,1,3,3 ((4,), (5,), (), (3,)) {'t4types': ({'4', '3'}, {'3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:51,1,3,3 ((4,), (5,), (3,), ()) {'t4types': ({'4', '3'}, {'3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:65,1,3,3 ((4,), (3,), (), (5,)) {'t4types': ({'2', '3'}, {'2'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:65,1,3,3 ((4,), (3,), (5,), ()) {'t4types': ({'2', '3'}, {'2'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:65,1,3,3 ((4,), (5,), (), (3,)) {'t4types': ({'4', '3'}, {'3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:65,1,3,3 ((4,), (5,), (3,), ()) {'t4types': ({'4', '3'}, {'3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:73,1,3,3 ((4,), (3,), (), (5,)) {'t4types': ({'2', '3'}, {'2'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:73,1,3,3 ((4,), (3,), (5,), ()) {'t4types': ({'2', '3'}, {'2'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:73,1,3,3 ((4,), (5,), (), (3,)) {'t4types': ({'4', '3'}, {'3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:73,1,3,3 ((4,), (5,), (3,), ()) {'t4types': ({'4', '3'}, {'3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:103,1,3,3 ((4,), (3,), (), (5,)) {'t4types': ({'2', '3'}, {'2'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:103,1,3,3 ((4,), (3,), (5,), ()) {'t4types': ({'2', '3'}, {'2'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:103,1,3,3 ((4,), (5,), (), (3,)) {'t4types': ({'4', '3'}, {'3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:103,1,3,3 ((4,), (5,), (3,), ()) {'t4types': ({'4', '3'}, {'3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:111,1,3,3 ((4,), (3,), (), (5,)) {'t4types': ({'2', '3'}, {'2'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:111,1,3,3 ((4,), (3,), (5,), ()) {'t4types': ({'2', '3'}, {'2'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:111,1,3,3 ((4,), (5,), (), (3,)) {'t4types': ({'4', '3'}, {'3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:111,1,3,3 ((4,), (5,), (3,), ()) {'t4types': ({'4', '3'}, {'3'})} overlap 0
+#  10 / 10 profiles [0 s]: {'prof': 10, 'prof_pos': 10, 'prof_f1': 10, 'st': 60, 'st_f0': 0, 'st_f1': 60, 'fail134_f1': 0, 'fail13_f1': 20, 't4only': 20, 't4only2': 20, 'st_t4': 60, 'st_t4long': 60, 'mm_ref': 40, 'mm_K': 0, 'mm_L': 0, 'mm_hash': 1, 'listed': 20, 'listed_bad': 0}
+mutation: T4 without the NA / frozen-status conditions: profiles 10 (with a def > 0 state 10, with f >= 1 and a def > 0 state 10); states 60 (f = 0: 0, f >= 1: 60); DL13 fails at 20 f >= 1 states, DL134 at 0; repaired by T4 only 20 (with a 2-swap 20); states with an improving T4 move 60 (with one that is not a single 2-swap 60); listed failing states 20, not DL13 failures 0
+mutation: T4 without the NA / frozen-status conditions: mismatches: reference 40, K line vs dl2.c 0, L line vs dl13.c 0, hash build 1 [0 s]
+=> mutation "T4 without the NA / frozen-status conditions": CAUGHT
+# mutation: wrong cycle names (3 -> 4): dl134.c sha256 0474d9adc1766dd2816ac83368916cfb65174ce549a45744eee75c3879022037; dl13.c sha256 f891de3a228a63fcd05008c0e4d9202068fc0d2b41be5876775affd4b2131d65; dl2.c sha256 bf20adab485d04dd0a660b56c8337a3fdbe3471ac8178706af150932c82dcbd2
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:6,1,3,3 ((4,), (1,), (3,), (5,)) {'t4types': ({'4', '2'}, {'2', '3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:6,1,3,3 ((4,), (1,), (5,), (3,)) {'t4types': ({'4', '2'}, {'2', '3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:6,1,3,3 ((4,), (5,), (), (3,)) {'t4types': ({'4'}, {'3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:6,1,3,3 ((4,), (5,), (3,), ()) {'t4types': ({'4'}, {'3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:11,1,3,3 ((4,), (1,), (3,), (5,)) {'t4types': ({'4', '2'}, {'2', '3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:11,1,3,3 ((4,), (1,), (5,), (3,)) {'t4types': ({'4', '2'}, {'2', '3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:11,1,3,3 ((4,), (5,), (), (3,)) {'t4types': ({'4'}, {'3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:11,1,3,3 ((4,), (5,), (3,), ()) {'t4types': ({'4'}, {'3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:21,1,3,3 ((4,), (1,), (3,), (5,)) {'t4types': ({'4', '2'}, {'2', '3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:21,1,3,3 ((4,), (1,), (5,), (3,)) {'t4types': ({'4', '2'}, {'2', '3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:21,1,3,3 ((4,), (5,), (), (3,)) {'t4types': ({'4'}, {'3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:21,1,3,3 ((4,), (5,), (3,), ()) {'t4types': ({'4'}, {'3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:34,1,3,3 ((4,), (1,), (3,), (5,)) {'t4types': ({'4', '2'}, {'2', '3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:34,1,3,3 ((4,), (1,), (5,), (3,)) {'t4types': ({'4', '2'}, {'2', '3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:34,1,3,3 ((4,), (5,), (), (3,)) {'t4types': ({'4'}, {'3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:34,1,3,3 ((4,), (5,), (3,), ()) {'t4types': ({'4'}, {'3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:39,1,3,3 ((4,), (1,), (3,), (5,)) {'t4types': ({'4', '2'}, {'2', '3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:39,1,3,3 ((4,), (1,), (5,), (3,)) {'t4types': ({'4', '2'}, {'2', '3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:39,1,3,3 ((4,), (5,), (), (3,)) {'t4types': ({'4'}, {'3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:39,1,3,3 ((4,), (5,), (3,), ()) {'t4types': ({'4'}, {'3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:51,1,3,3 ((4,), (1,), (3,), (5,)) {'t4types': ({'4', '2'}, {'2', '3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:51,1,3,3 ((4,), (1,), (5,), (3,)) {'t4types': ({'4', '2'}, {'2', '3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:51,1,3,3 ((4,), (5,), (), (3,)) {'t4types': ({'4'}, {'3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:51,1,3,3 ((4,), (5,), (3,), ()) {'t4types': ({'4'}, {'3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:65,1,3,3 ((4,), (1,), (3,), (5,)) {'t4types': ({'4', '2'}, {'2', '3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:65,1,3,3 ((4,), (1,), (5,), (3,)) {'t4types': ({'4', '2'}, {'2', '3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:65,1,3,3 ((4,), (5,), (), (3,)) {'t4types': ({'4'}, {'3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:65,1,3,3 ((4,), (5,), (3,), ()) {'t4types': ({'4'}, {'3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:73,1,3,3 ((4,), (1,), (3,), (5,)) {'t4types': ({'4', '2'}, {'2', '3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:73,1,3,3 ((4,), (1,), (5,), (3,)) {'t4types': ({'4', '2'}, {'2', '3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:73,1,3,3 ((4,), (5,), (), (3,)) {'t4types': ({'4'}, {'3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:73,1,3,3 ((4,), (5,), (3,), ()) {'t4types': ({'4'}, {'3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:103,1,3,3 ((4,), (1,), (3,), (5,)) {'t4types': ({'4', '2'}, {'2', '3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:103,1,3,3 ((4,), (1,), (5,), (3,)) {'t4types': ({'4', '2'}, {'2', '3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:103,1,3,3 ((4,), (5,), (), (3,)) {'t4types': ({'4'}, {'3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:103,1,3,3 ((4,), (5,), (3,), ()) {'t4types': ({'4'}, {'3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:111,1,3,3 ((4,), (1,), (3,), (5,)) {'t4types': ({'4', '2'}, {'2', '3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:111,1,3,3 ((4,), (1,), (5,), (3,)) {'t4types': ({'4', '2'}, {'2', '3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:111,1,3,3 ((4,), (5,), (), (3,)) {'t4types': ({'4'}, {'3'})} overlap 0
+MISMATCH ref k4_certs_4_n4_1.json.gz#25:111,1,3,3 ((4,), (5,), (3,), ()) {'t4types': ({'4'}, {'3'})} overlap 0
+#  10 / 10 profiles [0 s]: {'prof': 10, 'prof_pos': 10, 'prof_f1': 10, 'st': 60, 'st_f0': 0, 'st_f1': 60, 'fail134_f1': 0, 'fail13_f1': 20, 't4only': 20, 't4only2': 20, 'st_t4': 60, 'st_t4long': 40, 'mm_ref': 40, 'mm_K': 0, 'mm_L': 0, 'mm_hash': 0, 'listed': 20, 'listed_bad': 0}
+mutation: wrong cycle names (3 -> 4): profiles 10 (with a def > 0 state 10, with f >= 1 and a def > 0 state 10); states 60 (f = 0: 0, f >= 1: 60); DL13 fails at 20 f >= 1 states, DL134 at 0; repaired by T4 only 20 (with a 2-swap 20); states with an improving T4 move 60 (with one that is not a single 2-swap 40); listed failing states 20, not DL13 failures 0
+mutation: wrong cycle names (3 -> 4): mismatches: reference 40, K line vs dl2.c 0, L line vs dl13.c 0, hash build 0 [0 s]
+=> mutation "wrong cycle names (3 -> 4)": CAUGHT
+# mutation: hash mode: no T4 candidates when f < 4: dl134.c sha256 aeb54730e065ee80083773f85e54722c0d16226da4b958d243535eccd20c00a6; dl13.c sha256 f891de3a228a63fcd05008c0e4d9202068fc0d2b41be5876775affd4b2131d65; dl2.c sha256 bf20adab485d04dd0a660b56c8337a3fdbe3471ac8178706af150932c82dcbd2
+MISMATCH hash build, chunk at 0
+#  10 / 10 profiles [0 s]: {'prof': 10, 'prof_pos': 10, 'prof_f1': 10, 'st': 60, 'st_f0': 0, 'st_f1': 60, 'fail134_f1': 0, 'fail13_f1': 20, 't4only': 20, 't4only2': 20, 'st_t4': 60, 'st_t4long': 40, 'mm_ref': 0, 'mm_K': 0, 'mm_L': 0, 'mm_hash': 1, 'listed': 20, 'listed_bad': 0}
+mutation: hash mode: no T4 candidates when f < 4: profiles 10 (with a def > 0 state 10, with f >= 1 and a def > 0 state 10); states 60 (f = 0: 0, f >= 1: 60); DL13 fails at 20 f >= 1 states, DL134 at 0; repaired by T4 only 20 (with a 2-swap 20); states with an improving T4 move 60 (with one that is not a single 2-swap 40); listed failing states 20, not DL13 failures 0
+mutation: hash mode: no T4 candidates when f < 4: mismatches: reference 0, K line vs dl2.c 0, L line vs dl13.c 0, hash build 1 [0 s]
+=> mutation "hash mode: no T4 candidates when f < 4": CAUGHT
+# mutation: hash mode: first frozen agent takes only the least good: dl134.c sha256 f8840a4b3f851cf59d0149b50724a3e97325006bd5f5dacf77112c8e820f42b8; dl13.c sha256 f891de3a228a63fcd05008c0e4d9202068fc0d2b41be5876775affd4b2131d65; dl2.c sha256 bf20adab485d04dd0a660b56c8337a3fdbe3471ac8178706af150932c82dcbd2
+MISMATCH hash build, chunk at 0
+#  10 / 10 profiles [0 s]: {'prof': 10, 'prof_pos': 10, 'prof_f1': 10, 'st': 60, 'st_f0': 0, 'st_f1': 60, 'fail134_f1': 0, 'fail13_f1': 20, 't4only': 20, 't4only2': 20, 'st_t4': 60, 'st_t4long': 40, 'mm_ref': 0, 'mm_K': 0, 'mm_L': 0, 'mm_hash': 1, 'listed': 20, 'listed_bad': 0}
+mutation: hash mode: first frozen agent takes only the least good: profiles 10 (with a def > 0 state 10, with f >= 1 and a def > 0 state 10); states 60 (f = 0: 0, f >= 1: 60); DL13 fails at 20 f >= 1 states, DL134 at 0; repaired by T4 only 20 (with a 2-swap 20); states with an improving T4 move 60 (with one that is not a single 2-swap 40); listed failing states 20, not DL13 failures 0
+mutation: hash mode: first frozen agent takes only the least good: mismatches: reference 0, K line vs dl2.c 0, L line vs dl13.c 0, hash build 1 [0 s]
+=> mutation "hash mode: first frozen agent takes only the least good": CAUGHT
+every mutation caught

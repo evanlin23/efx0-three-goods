@@ -1,0 +1,14 @@
+# command: python3 k4/dl134_ref.py tsv results/k4_dl13/n4_failures_n4_1.tsv results/k4_dl13/n4_failures_n4_2.tsv results/k4_dl13/n4_failures_n4_3_s200b.tsv --jobs=4
+# tsv: dl134.c sha256 2a24ba5045b25414530928ea81b7a6bbd9aef6d33c7fa52e39fffe9293267cee; dl13.c sha256 f891de3a228a63fcd05008c0e4d9202068fc0d2b41be5876775affd4b2131d65; dl2.c sha256 bf20adab485d04dd0a660b56c8337a3fdbe3471ac8178706af150932c82dcbd2
+#  200 / 1131 profiles [0 s]: {'prof': 200, 'prof_pos': 200, 'prof_f1': 200, 'st': 1200, 'st_f0': 0, 'st_f1': 1200, 'fail134_f1': 0, 'fail13_f1': 400, 't4only': 400, 't4only2': 400, 'st_t4': 1200, 'st_t4long': 800, 'mm_ref': 0, 'mm_K': 0, 'mm_L': 0, 'mm_hash': 0, 'listed': 400, 'listed_bad': 0}
+#  400 / 1131 profiles [1 s]: {'prof': 400, 'prof_pos': 400, 'prof_f1': 400, 'st': 2460, 'st_f0': 0, 'st_f1': 2460, 'fail134_f1': 0, 'fail13_f1': 860, 't4only': 860, 't4only2': 860, 'st_t4': 2460, 'st_t4long': 1660, 'mm_ref': 0, 'mm_K': 0, 'mm_L': 0, 'mm_hash': 0, 'listed': 860, 'listed_bad': 0}
+#  600 / 1131 profiles [1 s]: {'prof': 600, 'prof_pos': 600, 'prof_f1': 600, 'st': 4000, 'st_f0': 0, 'st_f1': 4000, 'fail134_f1': 0, 'fail13_f1': 1600, 't4only': 1600, 't4only2': 1600, 'st_t4': 4000, 'st_t4long': 2800, 'mm_ref': 0, 'mm_K': 0, 'mm_L': 0, 'mm_hash': 0, 'listed': 1600, 'listed_bad': 0}
+#  800 / 1131 profiles [1 s]: {'prof': 800, 'prof_pos': 800, 'prof_f1': 800, 'st': 5200, 'st_f0': 0, 'st_f1': 5200, 'fail134_f1': 0, 'fail13_f1': 2000, 't4only': 2000, 't4only2': 2000, 'st_t4': 5200, 'st_t4long': 3600, 'mm_ref': 0, 'mm_K': 0, 'mm_L': 0, 'mm_hash': 0, 'listed': 2000, 'listed_bad': 0}
+#  1000 / 1131 profiles [2 s]: {'prof': 1000, 'prof_pos': 1000, 'prof_f1': 1000, 'st': 6780, 'st_f0': 0, 'st_f1': 6780, 'fail134_f1': 0, 'fail13_f1': 2780, 't4only': 2780, 't4only2': 2780, 'st_t4': 6780, 'st_t4long': 4780, 'mm_ref': 0, 'mm_K': 0, 'mm_L': 0, 'mm_hash': 0, 'listed': 2780, 'listed_bad': 0}
+#  1131 / 1131 profiles [2 s]: {'prof': 1131, 'prof_pos': 1131, 'prof_f1': 1131, 'st': 7586, 'st_f0': 0, 'st_f1': 7586, 'fail134_f1': 0, 'fail13_f1': 3062, 't4only': 3062, 't4only2': 3062, 'st_t4': 7586, 'st_t4long': 5324, 'mm_ref': 0, 'mm_K': 0, 'mm_L': 0, 'mm_hash': 0, 'listed': 3062, 'listed_bad': 0}
+tsv: profiles 1131 (with a def > 0 state 1131, with f >= 1 and a def > 0 state 1131); states 7586 (f = 0: 0, f >= 1: 7586); DL13 fails at 3062 f >= 1 states, DL134 at 0; repaired by T4 only 3062 (with a 2-swap 3062); states with an improving T4 move 7586 (with one that is not a single 2-swap 5324); listed failing states 3062, not DL13 failures 0
+tsv: mismatches: reference 0, K line vs dl2.c 0, L line vs dl13.c 0, hash build 0 [2 s]
+
+real	0m2.276s
+user	0m5.942s
+sys	0m0.159s

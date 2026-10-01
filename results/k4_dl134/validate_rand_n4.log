@@ -1,0 +1,18 @@
+# command: python3 k4/dl134_ref.py rand results/k4_certs_4_n4_1.json.gz results/k4_certs_4_n4_2.json.gz results/k4_certs_4_n4_3.json.gz results/k4_certs_4_pure.json.gz --want=2000 --seed=1 --per=400 --plain=300 --jobs=4
+# screened: 1137 profiles with an f >= 1 state with def > 0; taken 647 with 2031 such states [22 s]
+# rand (screened, f >= 1): dl134.c sha256 2a24ba5045b25414530928ea81b7a6bbd9aef6d33c7fa52e39fffe9293267cee; dl13.c sha256 f891de3a228a63fcd05008c0e4d9202068fc0d2b41be5876775affd4b2131d65; dl2.c sha256 bf20adab485d04dd0a660b56c8337a3fdbe3471ac8178706af150932c82dcbd2
+#  200 / 647 profiles [2 s]: {'prof': 200, 'prof_pos': 200, 'prof_f1': 200, 'st': 636, 'st_f0': 0, 'st_f1': 636, 'fail134_f1': 0, 'fail13_f1': 0, 't4only': 0, 't4only2': 0, 'st_t4': 34, 'st_t4long': 4, 'mm_ref': 0, 'mm_K': 0, 'mm_L': 0, 'mm_hash': 0, 'listed': 0, 'listed_bad': 0}
+#  400 / 647 profiles [3 s]: {'prof': 400, 'prof_pos': 400, 'prof_f1': 400, 'st': 1193, 'st_f0': 0, 'st_f1': 1193, 'fail134_f1': 0, 'fail13_f1': 0, 't4only': 0, 't4only2': 0, 'st_t4': 56, 'st_t4long': 4, 'mm_ref': 0, 'mm_K': 0, 'mm_L': 0, 'mm_hash': 0, 'listed': 0, 'listed_bad': 0}
+#  600 / 647 profiles [5 s]: {'prof': 600, 'prof_pos': 600, 'prof_f1': 600, 'st': 1786, 'st_f0': 0, 'st_f1': 1786, 'fail134_f1': 0, 'fail13_f1': 0, 't4only': 0, 't4only2': 0, 'st_t4': 85, 'st_t4long': 14, 'mm_ref': 0, 'mm_K': 0, 'mm_L': 0, 'mm_hash': 0, 'listed': 0, 'listed_bad': 0}
+#  647 / 647 profiles [6 s]: {'prof': 647, 'prof_pos': 647, 'prof_f1': 647, 'st': 2031, 'st_f0': 0, 'st_f1': 2031, 'fail134_f1': 0, 'fail13_f1': 0, 't4only': 0, 't4only2': 0, 'st_t4': 91, 'st_t4long': 14, 'mm_ref': 0, 'mm_K': 0, 'mm_L': 0, 'mm_hash': 0, 'listed': 0, 'listed_bad': 0}
+rand (screened, f >= 1): profiles 647 (with a def > 0 state 647, with f >= 1 and a def > 0 state 647); states 2031 (f = 0: 0, f >= 1: 2031); DL13 fails at 0 f >= 1 states, DL134 at 0; repaired by T4 only 0 (with a 2-swap 0); states with an improving T4 move 91 (with one that is not a single 2-swap 14)
+rand (screened, f >= 1): mismatches: reference 0, K line vs dl2.c 0, L line vs dl13.c 0, hash build 0 [6 s]
+# rand (plain): dl134.c sha256 2a24ba5045b25414530928ea81b7a6bbd9aef6d33c7fa52e39fffe9293267cee; dl13.c sha256 f891de3a228a63fcd05008c0e4d9202068fc0d2b41be5876775affd4b2131d65; dl2.c sha256 bf20adab485d04dd0a660b56c8337a3fdbe3471ac8178706af150932c82dcbd2
+#  200 / 300 profiles [0 s]: {'prof': 200, 'prof_pos': 1, 'prof_f1': 0, 'st': 4, 'st_f0': 4, 'st_f1': 0, 'fail134_f1': 0, 'fail13_f1': 0, 't4only': 0, 't4only2': 0, 'st_t4': 0, 'st_t4long': 0, 'mm_ref': 0, 'mm_K': 0, 'mm_L': 0, 'mm_hash': 0, 'listed': 0, 'listed_bad': 0}
+#  300 / 300 profiles [1 s]: {'prof': 300, 'prof_pos': 4, 'prof_f1': 0, 'st': 11, 'st_f0': 11, 'st_f1': 0, 'fail134_f1': 0, 'fail13_f1': 0, 't4only': 0, 't4only2': 0, 'st_t4': 0, 'st_t4long': 0, 'mm_ref': 0, 'mm_K': 0, 'mm_L': 0, 'mm_hash': 0, 'listed': 0, 'listed_bad': 0}
+rand (plain): profiles 300 (with a def > 0 state 4, with f >= 1 and a def > 0 state 0); states 11 (f = 0: 11, f >= 1: 0); DL13 fails at 0 f >= 1 states, DL134 at 0; repaired by T4 only 0 (with a 2-swap 0); states with an improving T4 move 0 (with one that is not a single 2-swap 0)
+rand (plain): mismatches: reference 0, K line vs dl2.c 0, L line vs dl13.c 0, hash build 0 [1 s]
+
+real	0m28.325s
+user	0m41.248s
+sys	0m0.798s
