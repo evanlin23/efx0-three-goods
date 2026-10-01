@@ -1,0 +1,4 @@
+# command: python3 k4/dl13u_same.py suite
+# dl13.c sha256 f891de3a228a63fcd05008c0e4d9202068fc0d2b41be5876775affd4b2131d65
+# dl13u.c sha256 e5ab32ae961795db80db8cd6222a99f5f4ad5396fead9f8d319369b8725e5615
+1 inputs, option sets [['-r10', '-o10'], ['-s', '-r0', '-o0']], builds [('dl13.c', ''), ('dl13.c', '-DBIGPP=0'), ('dl13u.c', ''), ('dl13u.c', '-DBIGPP=0')]: 7005 output lines per build compared, 0 differences
