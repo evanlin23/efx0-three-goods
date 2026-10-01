@@ -19,7 +19,7 @@ The moves are generated from each state (x, z, W, the bijection, helper h and it
 J ∪ B_z ∪ B_h minus B'_h) and looked up among the min-frozen states; the deficit of every min-frozen state is Lemma H1's
 (k4/dl2_classify.PA.deficit; --check asserts it against k4/suite/model.py's direct removal-only deficit).
 
-usage: python3 k4/sx_keygraph.py catalog FILE [--every=E] [--max=N] [--fmin=F] [--fmax=F] [--dump=OUT.jsonl.gz] [--check]
+usage: python3 k4/sx_keygraph.py catalog FILE [--every=E] [--start=S] [--max=N] [--fmin=F] [--fmax=F] [--dump=OUT.jsonl.gz] [--check]
        python3 k4/sx_keygraph.py certs FILE --rand=K [--seed=S] [...]     (random strict profiles per core)
        python3 k4/sx_keygraph.py certs FILE [...]                         (every strict profile of every core)
        python3 k4/sx_keygraph.py suite [...]
@@ -164,6 +164,7 @@ def items(mode, rest, opt):
         recs = json.load(gzip.open(rest[0], 'rt'))['records']
         fmin = int(opt.get('fmin', 1)); fmax = int(opt.get('fmax', 99))
         recs = [r for r in recs if fmin <= r.get('f', 1) <= fmax][::int(opt.get('every', 1))]
+        recs = recs[int(opt.get('start', 0)):]
         if 'max' in opt: recs = recs[:int(opt['max'])]
         base = os.path.basename(rest[0]).replace('.json.gz', '')
         return [({'sets': r['core']['sets'], 'vals': r['vals'], 'm': r['core']['m']},
