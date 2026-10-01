@@ -1,0 +1,74 @@
+"""Failed candidates of the workstream proof/k4-rulef (k4/rulef.md §5.3; attempts/k4-rulef-*.md), reproduced.
+
+1. attempts/k4-rulef-least-count.md: the first agent minimizing a count (A4+N's or A4+(o)'s deficit, the refined
+   counts, Lemma K's deficit, omega; ties by index or by frozen / exposed 4-good agents; also "a 4-good agent first").
+   On the recorded profile, for each rule of k4/rulef.c -A40 (-Q selects the rule): LB4r on the rule's sequence fails
+   with at most one rotation (-r1) and succeeds with two (-r2); independently, in PR #33's model of LB4r
+   (k4/c4_verify_H/lb4r.py, written from lean/EFX/LB4R.lean) the least number of rotations on tau = [a] is 2, under
+   every policy and both owner-needs conventions (attempts/k4_adaptive_attempts.least_rotations); rule RK (-A41) needs
+   one; and k4/lb4_brute.py finds EFX0 allocations with at most one large bundle (the rule fails, not K4.D).
+2. attempts/k4-rulef-frozen-free-owner.md: "a state of LB4r after Phase 1 and need-shrinking upgrades with no frozen
+   agent and omega >= 1 has a valid owner (no rotation)". On the recorded n = 2 profile, first agent 0: in PR #33's
+   model the state has no frozen agent, omega = 1, and no Output (no owner, every owner, both conventions).
+Usage: python3 attempts/k4_rulef_attempts.py"""
+import os, subprocess, sys
+HERE = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.dirname(HERE)
+sys.path.insert(0, HERE)
+sys.path.insert(0, os.path.join(ROOT, 'k4'))
+import k4_adaptive_attempts as AA
+import rulef_run as RR
+import adaptive_run as AR
+from lb4r import Inst, phase1_state, up_run, any_output, all_needs, NA_of, frozen_pre, omega
+
+RULES = {3: 'least A4+N deficit', 4: 'least A4+(o) deficit (envy-free)', 5: 'least of the two', 6: 'least refined (H) deficit, need-shrinking',
+         7: 'least refined (H) deficit', 9: 'least omega after need-shrinking upgrades', 10: 'least refined deficit, then fewest frozen',
+         11: 'a 4-good agent first', 12: 'least refined deficit, then fewest exposed 4-good agents', 13: 'least refined-with-kept-set deficit, need-shrinking',
+         14: 'least refined-with-kept-set deficit', 16: 'least Lemma K deficit, need-shrinking', 17: 'least Lemma K deficit', 0: 'index order'}
+P1 = ([[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 6, 8], [2, 3, 4, 8], [2, 7, 8, 4]])
+FF = ([[0, 2, 3, 4], [1, 2, 3, 4]], [[2, 4, 7, 8], [2, 4, 5, 8]])
+
+
+def tool(sets, vals, opts):
+    p = subprocess.run([RR.BIN] + opts + ['-T1', '-v'], input=AR.encode_profile(sets, vals), capture_output=True, text=True)
+    run = [l for l in p.stdout.split('\n') if l.startswith('RUN')][0]
+    tau = [int(x) for x in run.split('tau=')[1].split()[0].split(',') if x]
+    return run.split()[1], tau
+
+
+def main():
+    RR.build()
+    print('# attempts/k4_rulef_attempts.py # rulef.c sha256', RR.SHA, flush=True)
+    allok = True
+    sets, vals = P1
+    v = AA.dense(sets, vals)
+    print(f"1. least-count rules; profile sets={sets} vals={vals}")
+    for r, name in RULES.items():
+        s1, tau = tool(sets, vals, ['-A40', '-C3', f'-Q{r}', '-r1'])
+        s2, _ = tool(sets, vals, ['-A40', '-C3', f'-Q{r}', '-r2'])
+        ind = AA.least_rotations(v, [tau[0]])
+        ok = s1 == 'fail' and s2 == 'rot=2' and ind == 2
+        allok &= ok
+        print(f"  rule {r:2d} ({name}): first agent {tau[0]}; rulef.c -r1: {s1}, -r2: {s2}; independent model: least "
+              f"rotations {ind} -> {'OK' if ok else 'MISMATCH'}")
+    srk, tauk = tool(sets, vals, ['-A41', '-r1'])
+    indk = AA.least_rotations(v, [tauk[0]])
+    print(f"  rule RK: first agent {tauk[0]}, {srk}; independent model: least rotations {indk}")
+    allok &= srk in ('rot=0', 'rot=1') and indk is not None and indk <= 1
+    print('  brute force:', AA.brute_d2(sets, vals))
+    sets, vals = FF
+    inst = Inst(AA.dense(sets, vals))
+    s, _ = up_run(inst, phase1_state(inst, [0])[0], 'shrink')
+    needs = all_needs(inst, s)
+    nfz = sum(frozen_pre(inst, s, NA_of(needs)))
+    om = omega(inst, s, needs)
+    outs = [o for conv in ('bundle', 'base') for o in any_output(inst, s, conv)]
+    ok = nfz == 0 and om >= 1 and not outs
+    allok &= ok
+    print(f"2. frozen-free state without owner; profile sets={sets} vals={vals}, first agent 0, need-shrinking upgrades: "
+          f"frozen agents {nfz}, omega {om}, outputs (any owner or none, both conventions) {outs} -> {'OK' if ok else 'MISMATCH'}")
+    print('  brute force:', AA.brute_d2(sets, vals))
+    print('ALL AS RECORDED' if allok else 'MISMATCH')
+
+
+if __name__ == '__main__':
+    main()

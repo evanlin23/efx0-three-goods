@@ -21,12 +21,13 @@ def main():
     mx = int(next((a.split('=')[1] for a in sys.argv[2:] if a.startswith('--max=')), 10 ** 9))
     nprof = nchk = nwit = bad = below = signdiff = 0
     for line in open(path):
-        if not line.startswith('DATA'): continue
+        if not (line.startswith('DATA') or line.startswith('IDX')): continue
         if nprof >= mx: break
         nprof += 1
         sets = json.loads(re.search(r'sets=(\[\[.*?\]\])', line).group(1))
         vals = json.loads(re.search(r'vals=(\[\[.*?\]\])', line).group(1))
-        fa = [dict(zip(F, map(int, x.split(':')[1].split(',')))) for x in line.split('fa=')[1].strip().split(';')]
+        names = F if line.startswith('DATA') else ['kN', 'kE', 'c40', 'omN', 'k1']
+        fa = [dict(zip(names, map(int, x.split(':')[1].split(',')))) for x in line.split('fa=')[1].strip().split(';')]
         inst = RM.make_inst(sets, vals)
         for a in range(inst.n):
             for pol, key in (('shrink', 'kN'), ('envyFree', 'kE')):

@@ -2,12 +2,15 @@
 of the given certificate files (core lists loaded as in k4/check4.py), on random profiles (-SN) or on single profiles
 (--profiles=FILE, one JSON object {"sets": [...], "vals": [...]} per line, or tagged log lines with sets=/vals=).
 
-Usage: rulef_run.py FILE [FILE ...] [--jobs=J] [--n4=K] [--m=M] [--first=N] [--data=OUT] [C options]
+Usage: rulef_run.py FILE [FILE ...] [--jobs=J] [--n4=K] [--m=M] [--first=N] [--data=OUT] [--checkpoint=CK] [C options]
+  --checkpoint=CK  append each core's result lines to CK and, when rerun with the same options, skip the cores in CK
   -A40 -C3 -r1  (data mode) every first agent: fewest rotations up to one, coverage by the theorems with A4+N, the
                 deficits, Lemma K, Corollary C4^0's hypothesis, and the explicit rules of rulef_rules
-  -A41 -r1      (rule RK, fast) the first agent with Lemma K deficit <= 0, else the first whose envy-free run satisfies
+  -A41 -r1      (rule RK, fast) the first agent with Lemma K deficit <= 0, else the first whose run one rotation
+                brings to Lemma K deficit <= 0, else the first whose envy-free run satisfies
                 C4^0's hypothesis, else the least Lemma K deficit; LB4r run on it
-  --data=OUT    append the DATA lines (-A40 with -D1/-D2/-D4) or OPEN lines (-A41 with -D1) to OUT
+  -E1           (with -A41) evaluate every first agent (for -D5 dumps of the profiles where index order is not K0)
+  --data=OUT    append the DATA lines (-A40 with -D1/-D2/-D4/-D5/-D6), OPEN lines (-A41 -D1) or IDX lines (-A41 -E1 -D5)
 One worker by default (--jobs=1): the machine is shared."""
 import gzip, hashlib, json, os, subprocess, sys, tempfile, time
 from multiprocessing import Pool
@@ -40,6 +43,11 @@ def run(task):
     data = [l for l in lines if l.startswith('DATA ') or l.startswith('OPEN ') or l.startswith('IDX ')]
     other = [l for l in lines if not l.startswith(tags)]
     return rf, tot, data, other
+
+
+def run_idx(task):
+    inp, opts, k, i = task
+    return run((inp, opts, k)) + (i,)
 
 
 def parse_rf(line):
@@ -116,24 +124,43 @@ def main():
         print(f"{prof}: profiles={len(P)} fails={fails}", flush=True)
         if tot: print(summary(tot), flush=True)
         return
+    ck = next((a.split('=', 1)[1] for a in args if a.startswith('--checkpoint=')), None)
     for f in files:
         t0 = time.time()
         data_ = json.load(gzip.open(f, 'rt'))
-        cores = [c for c in data_['cores'] if (monly is None or c['m'] == monly)
-                 and (n4 is None or sum(len(S) == 4 for S in c['sets']) == n4)]
-        if first: cores = cores[:first]
-        tasks = [(AR.encode_core(c['sets'], c['m']), opts, 1) for c in cores]
+        idxs = [i for i, c in enumerate(data_['cores']) if (monly is None or c['m'] == monly)
+                and (n4 is None or sum(len(S) == 4 for S in c['sets']) == n4)]
+        if first: idxs = idxs[:first]
+        cores = [data_['cores'][i] for i in idxs]
+        key = f"{os.path.basename(f)} {' '.join(opts)} {SHA}"
+        done = {}
+        if ck and os.path.exists(ck):      # --checkpoint: per-core results of an interrupted run with the same key
+            for line in open(ck):
+                o = json.loads(line)
+                if o['key'] == key: done[o['core']] = o
+        if done: print(f"# resuming: {len(done)} cores from {ck}", flush=True)
+        tasks = [(AR.encode_core(data_['cores'][i]['sets'], data_['cores'][i]['m']), opts, 1, i) for i in idxs if i not in done]
         tot = None; fails = 0; total = 0; shown = 0
-        with Pool(jobs) as pool:
-            for rf, tl, data, other in pool.imap_unordered(run, tasks):
-                for l in other:
-                    if shown < 20 and (l.startswith('FAIL') or 'VIOL' in l or l.startswith('RAWFAIL')): print(l); shown += 1
-                if fo:
-                    for l in data: fo.write(l + '\n')
-                    fo.flush()
-                for l in rf: tot = add(tot, parse_rf(l))
-                for l in tl:
-                    d = AR.parse(l); fails += d['fails'] + d['rawfails']; total += d['total']
+        fc = open(ck, 'a') if ck else None
+
+        def results():
+            for o in done.values():
+                yield o['rf'], o['tl'], [], [], None
+            with Pool(jobs) as pool:
+                for r in pool.imap_unordered(run_idx, tasks):
+                    yield r
+        for rf, tl, data, other, i in results():
+            for l in other:
+                if shown < 20 and (l.startswith('FAIL') or 'VIOL' in l or l.startswith('RAWFAIL')): print(l); shown += 1
+            if fo:
+                for l in data: fo.write(l + '\n')
+                fo.flush()
+            if fc and i is not None:
+                fc.write(json.dumps({'key': key, 'core': i, 'rf': rf, 'tl': tl}) + '\n'); fc.flush()
+            for l in rf: tot = add(tot, parse_rf(l))
+            for l in tl:
+                d = AR.parse(l); fails += d['fails'] + d['rawfails']; total += d['total']
+        if fc: fc.close()
         lab = os.path.basename(f) + ('' if n4 is None else f' n4={n4}') + ('' if monly is None else f' m={monly}')
         print(f"{lab}: cores={len(cores)} profiles={total} fails or raw-check failures of the rule run={fails} time {time.time() - t0:.0f}s", flush=True)
         if tot: print(summary(tot), flush=True)

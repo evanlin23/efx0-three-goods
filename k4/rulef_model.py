@@ -113,6 +113,58 @@ def services(inst, s, o, K, needs):
     return best[0] - kappa, (best[1], capK)
 
 
+def all_min_services(inst, s, o, needs):
+    """every least ∅-service of the agents threatened by W_o (K = ∅): (deficit, [service, ...], capK, E)"""
+    base, pick, marked = s
+    n, m = inst.n, inst.m
+    J = [g for g in range(m) if base[g] == -1]
+    Bo = M.base_of(inst, s, o)
+    Wo = set(Bo) | set(J)
+    NA = set(needs[o])
+    for i in range(n):
+        if i != o:
+            NA |= needs[i]
+    bases = [M.base_of(inst, s, i) for i in range(n)]
+    capK = [0 if (len(bases[x]) == 1 and bases[x][0] in NA) else max(0, 2 - len(bases[x])) for x in range(n)]
+    kappa = sum(capK[x] for x in range(n) if x != o)
+    opts = []
+    for x in range(n):
+        if x == o or not threatened(inst, x, Wo, bases[x]):
+            continue
+        ox = []
+        if capK[x] >= 1:
+            ox += [('s', frozenset([g])) for g in J if not threatened(inst, x, Wo - {g}, bases[x] + [g])]
+        cand = [g for g in J if inst.v[x][g] > 0]
+        mins = []
+        for r in range(len(cand) + 1):
+            for D in itertools.combinations(cand, r):
+                D = frozenset(D)
+                if any(E <= D for E in mins):
+                    continue
+                if not threatened(inst, x, Wo - D, bases[x]):
+                    mins.append(D)
+        ox += [('r', D) for D in mins]
+        if not ox:
+            return INF, [], capK, [x for x, _ in opts] + [x]
+        opts.append((x, ox))
+    best = [INF, []]
+
+    def dfs(i, U, G, ch):
+        if len(U) > best[0]:
+            return
+        if i == len(opts):
+            if len(U) < best[0]:
+                best[0] = len(U); best[1] = []
+            best[1].append(list(ch)); return
+        x, ox = opts[i]
+        for kind, S in ox:
+            if kind == 's' and (S & G):
+                continue
+            dfs(i + 1, U | S, G | S if kind == 's' else G, ch + [(x, kind, S)])
+    dfs(0, frozenset(), frozenset(), [])
+    return best[0] - kappa, best[1], capK, [x for x, _ in opts]
+
+
 def deficit_K(inst, s, want=False):
     needs = M.all_needs(inst, s)
     NA = M.NA_of(needs)

@@ -160,3 +160,117 @@ the existence statement
 **Lemma M (missing).** For every strict profile of every k = 4 core some first agent a is in class K0, K1 or C40.
 
 What a proof of rule F still needs is Lemma M; §5 gives the data, §6 what is known about a proof.
+
+### 4.1 Rule RK on the cores H_t needs no rotation
+
+**Proposition H″.** On every relabeling of the cores H_t of `k4/c4.md` §7, every agent a of gadget 1 is in class K0
+(need-shrinking upgrades). Hence rule RK takes an agent of class K0 (the first in index order; it need not be in gadget
+1) and LB₄ʳ(τ_a) succeeds without rotation.
+
+*Proof.* Proposition H′ (`k4/adaptive.md` §3, K4.AD.H, PROVED), Steps 1–3, applies to the run of τ_a, since a, an
+agent of gadget 1, is processed before ℓ: after need-shrinking upgrades no agent is frozen, every free x_{j,i} holds
+a_{j,i}, every free y_j holds a_{j,1}, ℓ holds g_1, and the upgraded agents hold {b_{j,i}, c_{j,i}} (x) or
+{a_{j,2}, e_j} (y). Let r be the last-processed agent that is not upgraded, W = B_r ∪ J. Serve E (Lemma K, K = ∅):
+- a free x_{j,i} ≠ r by the slot good b_{j,i}: W ∖ {b} meets R_x in at most {c_{j,i}, g_j}, worth 4 + 3 < 8 + 6;
+- ℓ ≠ r by u: W ∖ {u} meets R_ℓ in at most {z, u′}, worth 6 + 4 < 8 + 5;
+- a free y_j ≠ r by e_j: its goods a_{j,2}, a_{j,3} are picks of other agents, at most one of them (r's) in W, so
+  W ∖ {e_j} meets R_y in at most one good, worth less than a_{j,1};
+- an upgraded x_{j,i} ({b, c}, worth 10): W meets R_x in at most {a_{j,i}, g_j}, and in a_{j,i} only if r holds it.
+  It is threatened only if both are in W (8 + 3 > 10); then g_j is junk, so j ≥ 2 (g_1 is ℓ's pick) and y_{j−1} is
+  free (an upgraded y_{j−1} holds e_{j−1} = g_j) and not r (r = y_j holds a_{j,1}); serve x by the kept-out set {g_j}.
+  If y_{j−1} is served, g_j is its slot good e_{j−1} and costs nothing more; otherwise y_{j−1}'s slot place is unused
+  and takes g_j. Only x_{j,1} can be in this case (a_{j,i} ∈ W needs r = y_j holding a_{j,i}, so i = 1), so distinct
+  such agents use distinct places;
+- an upgraded y_j ({a_{j,2}, e_j}, worth 9): its other goods a_{j,1}, a_{j,3} are picks, at most one in W: not
+  threatened.
+
+The slot goods b_{j,i}, u, e_j are distinct junk goods (b, u private; e_j is junk since y_j is free and nobody else
+takes it, Step 3 of H′). Every good of the service is charged to a distinct slot place of a free agent other than r
+(its own, or y_{j−1}'s), and free agents hold one good, so the service has size at most κ: the deficit of (r, ∅) is
+≤ 0. ∎
+
+So on H_t (where index order needs ⌈2t/3⌉ rotations, Proposition H) RK is certified without rotation, by a proof
+that does not run LB₄ʳ.
+
+## 6. Lemma M: a proof attempt, and the cases it does not close
+
+Fix a first agent a and a policy, let P be the state, ω ≥ 1, r the last-processed agent that is not upgraded (it is
+not frozen when the policy is envy-free, (A1) of `k4/c4.md` §1), W = B_r ∪ J and E the agents threatened by W with
+their base ("exposed"). Lemma K with owner r and K = ∅ reduces K0 for a to a count. Three steps close most of it.
+
+**Step 1 (no exposed 4-good agent; envy-free policy): K0, K1, or (G2).** By Lemma E(i) (K4.C4.AB.L, Lean
+`EFX.LB4R.lemmaE_three`) every exposed agent is a 3-good block leader holding its top with W ∩ R_x = {b_x, c_x}. By
+Theorem A₄ (`EFX.LB4R.theoremA4`), outside LB⁺'s bad case some H ⊆ J with |H| ≤ S − cap(r) = κ meets every
+π_x = {b_x, c_x} ∩ J; serving each x by the kept-out set {h} (h ∈ H ∩ π_x; then W ∖ {h} meets R_x in one good, worth
+less than a_x) is a ∅-service of size ≤ κ: a ∈ K0. In the bad case, Theorem B₄ (`EFX.LB4R.theoremB4`,
+`EFX.LB4R.theoremB4c`) gives, after LB⁺'s rotation along a need chain k* → r (a `RotStep`), ω′ ≤ 0 or the completion
+of B₄(c), whose hitting set H′ serves E′ the same way: a ∈ K1 — unless r has four goods and is exposed after the
+rotation along every chain ((G2) of `k4/c4.md` §6). This is Corollary C₄⁰ read in Lemma K's terms, and it is why the
+class C40 of rule RK is contained in K0 ∪ K1 except for profiles where C₄⁰ uses a chain that Lemma K's search does not.
+
+**Step 2 (free exposed agents cost nothing).**
+
+*Lemma S.* Let |B_o| ≤ 1 and let σ be a K-service of the exposed agents that are not free (frozen or upgraded), with
+K = ∅. Then σ extends to a ∅-service of all of E whose size exceeds |σ| by at most the number of free exposed agents
+that use their own slot place; the others leave their slot place unused. Hence
+deficit(r, ∅) ≤ |σ| − κ₀, where κ₀ is the number of slot places of the free agents other than r that are not exposed.
+
+*Proof.* Take the free exposed agents x one at a time; G is the set of goods used so far. W ∩ NA = ∅ (J by (V1),
+B_o since o is not frozen), so the goods of R_x ranked above x's pick are not in W; a threat needs two goods of R_x in
+W, both ranked below the pick; so x holds a pick Y_x, which is a_x (three goods) or a_x or b_x (four goods), and at
+most one good of R_x ∩ W is the owner's (Lemma E's argument, `k4/c4.md` §2, which uses only W ∩ NA = ∅ and holds for
+either upgrade policy).
+- x holds a_x of three goods: W ∩ R_x ⊆ {b, c}. If one of them, g, is junk and not in G, take it as slot good:
+  W ∖ {g} meets R_x in one good, worth less than a. Otherwise both junk goods of R_x ∩ W are in G (at least one is
+  junk, since |B_o ∩ R_x| ≤ 1): serve x by the kept-out set of those goods, at no cost.
+- x holds b_x of four goods: W ∩ R_x ⊆ {c, d}; the same argument (one remaining good is worth less than b).
+- x holds a_x of four goods: W ∩ R_x ⊆ {b, c, d}. If b is junk and not in G: slot good b (a + b > c + d). Else if c
+  is junk and not in G: slot good c (W ∖ {c} meets R_x in at most {b, d}, and a + c > b + d). Else the junk goods
+  among b, c are in G; let D be them plus d if d is junk. Then W ∖ D meets R_x in at most one good (the one of B_o, if
+  any), so D serves x, and it costs at most one new good (d), which x's own unused slot place can take.
+Each x adds at most one good, and only if it uses its own place (as slot good, or for d). ∎
+
+So the free exposed agents (the case A₄ᵀ of `k4/c4.md` treats one at a time) never raise Lemma K's deficit: what
+counts is the set F_E of exposed agents that are frozen or upgraded, against the places of free unexposed agents.
+
+**Step 3 (frozen and upgraded exposed agents; open).** With σ_F a least service of F_E,
+deficit(r, ∅) ≤ |σ_F| − κ₀, and K0 holds for a when |σ_F| ≤ κ₀ (or when a kept set K unfreezes enough agents, or
+another owner does better). At k = 3 this is LB⁺'s Theorem A: every exposed frozen agent is a block leader whose need
+chain ends at a free agent of its own block, which is not exposed (it is not a leader), so the blocks give
+|σ_F| ≤ κ₀ except in the last block (the bad case, then Step 1's rotation). At k = 4 the count breaks in three ways
+(`k4/c4.md` §6.1, K4.C4.GAP): an exposed 4-good agent need not lead its block, so a block can hold several exposed
+agents and one free terminal; a flat agent needs two goods kept out; and the free terminal of a block can itself be
+exposed. Lemma KR is the rotation that repairs a deficit of 1 when a frozen agent k has a need chain to r (it removes
+k from F_E and adds r's place to κ₀). **What is not proved** is that for *some first agent* one of these succeeds:
+- (M1) |σ_F| ≤ κ₀ (K0), for some a and some policy;
+- (M2) else deficit 1 and a rotation as in Lemma KR, or another single rotation after which Lemma K applies (K1);
+- (M3) and (G2) of Step 1 does not block every first agent.
+The first agent enters only through Phase 1: changing it changes which agents are frozen and exposed. No argument here
+relates the runs of two first agents; the exchange lemmas of `k4/c4one.md` §6 (Lemmas Ω, Ψ, PROVED, K4.C4.OM,
+K4.C4.PSI) do so for runs with P-steps in any order and one 4-good agent, and are the natural tool for M1–M3.
+
+## 7. How a proof plugs into Lean
+
+The frame is `lean/EFX/LB4R.lean` (K4.C4.FRAME, PROVED) and `lean/EFX/K4One.lean` (K4.ONE.FRAME, PROVED).
+`lean/EFX/RuleF.lean` (this workstream) adds the statement a proof of rule F (or of rule RK) has to deliver and its
+consequences, machine-checked:
+- `EFX.LB4R.SucceedsR d v agents goods τ`: LB₄ʳ(τ) succeeds with at most d rotations (`Succeeds` is d = 3), and
+  `succeeds_of_succeedsR` (d ≤ 3, via `rotReach_mono`);
+- `EFX.LB4R.TheoremRuleF`: every strict profile of every k = 4 core has an agent a with `SucceedsR 1 … [a]`; τ = [a]
+  is "a first, then index order" (choice 2 of `LB4R.lean`); `RuleFConn` (connected cores with a 4-good agent) and
+  `RuleFOne` (connected cores with at most one 4-good agent) are the weaker forms TARGET₄ needs;
+- `C4exists_of_ruleF`, `C4existsConn_of_ruleFConn`, `C4existsOne_of_ruleFOne` (through `sound_of_succeeds`), and
+  `target4_of_ruleF`, `target4_of_ruleFConn`, `target4one_of_ruleFOne`.
+
+A proof of rule RK would discharge `RuleFConn` as follows; nothing of it is in Lean yet:
+1. Lemma K as a Lean theorem: for a state s with `Inv` (`EFX.LB4R.Inv`, every reachable state), an owner o that is not
+   `Frozen`, K and a K-service of size ≤ κ^K, there is X with `Output … s (some o) X` (the completion of §2; its
+   validity part is `EFX.LB4.Valid.sound_ownerNeeds` once the completion is built); and `EFX.LB4.complete_none_exists`
+   for ω ≤ 0. Then class K0 gives `SucceedsR 0 … [a]` (no rotation: `RotReach.refl`) and class K1 gives
+   `SucceedsR 1 … [a]` (one `RotStep`, which `EFX.LB4R.rotStep_inv` keeps inside `Inv`).
+2. Class C40 is nearly a Lean theorem: `EFX.LB4R.corollaryC40'` (K4.C4.AB.L) gives `Succeeds` on its hypotheses;
+   its proof uses at most one `RotStep`, so restating its conclusion as `SucceedsR 1` is a small change. (On the data
+   the class C40 is never needed, §5.)
+3. Lemma M — the existence of a first agent in K0 ∪ K1 ∪ C40 — is the open statement; with 1–2 it is `RuleFConn`.
+`EFX.LB4R.TheoremC4` (every τ) is false (K4.C4.C); `TheoremRuleF` asks for one τ per profile, of length one, and is
+not affected by Proposition H (on H_t rule RK needs no rotation, §4.1).

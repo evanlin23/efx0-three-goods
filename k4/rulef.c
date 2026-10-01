@@ -957,9 +957,9 @@ static int QRULE = 1;
 static int fa_rot[MAXN], fa_cov[MAXN], fa_dN[MAXN], fa_dE[MAXN], fa_hN[MAXN], fa_hE[MAXN], fa_omN[MAXN], fa_omE[MAXN];
 static int fa_fz[MAXN], fa_e4[MAXN], fa_r[MAXN], fa_rfz[MAXN], fa_uN[MAXN], fa_uE[MAXN], fa_kN[MAXN], fa_kE[MAXN];
 static int fa_choice[NRULES];
-static long rs_kpos[MAXROT + 2], rs_kneg[MAXROT + 2], rs_c40[MAXROT + 2], rs_open[MAXROT + 2], rs_kviol, rs_cviol; static int rs_kpos_last;   /* by rule F's fewest rotations: some first agent has Lemma K deficit <= 0 (kneg) or none (kpos) */
+static long rs_kpos[MAXROT + 2], rs_kneg[MAXROT + 2], rs_c40[MAXROT + 2], rs_open[MAXROT + 2], rs_kviol, rs_cviol; static int rs_kpos_last, rs_anyabs;   /* by rule F's fewest rotations: some first agent has Lemma K deficit <= 0 (kneg) or none (kpos) */
 static long rs_tot, rs_unc, rs_min[MAXROT + 2], rs_umin[MAXROT + 2], rs_rel[NRULES], rs_urel[NRULES], rs_abs[NRULES], rs_uabs[NRULES];
-static int DUMP = 0;                 /* -DN: print DATA lines: N=1 allunc leaves, N=2 leaves needing a rotation, N=3 all, N=4 no first agent with Lemma K deficit <= 0, N=5 agent 0 (index order) has Lemma K deficit > 0 */
+static int DUMP = 0;                 /* -DN: print DATA lines: N=1 allunc leaves, N=2 leaves needing a rotation, N=3 all, N=4 no first agent with Lemma K deficit <= 0, N=5 agent 0 (index order) has Lemma K deficit > 0, N=6 some rule of rulef_rules fails with at most one rotation */
 static long dumped = 0, DUMPMAX = 2000000;
 static int defA_owner(int o) {       /* A4+N / A4+(o) count for owner o in the current state */
     gm Wo = base[o] | J; int dem = 0, tb = 0;
@@ -1238,7 +1238,7 @@ static void rulef_stat41(long w, int ok, int rot) {
     rk_cls[rk_class][k] += w;
     if (rk_class == 0 && k != 0) rk_viol += w;        /* Lemma K promises an owner without rotation */
     if (rk_class >= 1 && rk_class <= 2 && k > 1) rk_viol += w;   /* Lemma K after one rotation, C4^0: at most one */
-    if (DUMP == 5 && dumped < DUMPMAX && fa_kN[0] > 0 && fa_kE[0] > 0) {
+    if (dumped < DUMPMAX && ((DUMP == 5 && fa_kN[0] > 0 && fa_kE[0] > 0) || (DUMP == 7 && rk_class >= 1))) {
         dumped++;
         printf("IDX w=%ld rot=%d class=%d choice=%d sets=[", w, k, rk_class, rk_choice);
         for (int i = 0; i < n; i++) { printf("["); for (int q = 0; q < d[i]; q++) printf("%d%s", gl[i][q], q + 1 < d[i] ? "," : ""); printf("]%s", i + 1 < n ? "," : ""); }
@@ -1303,12 +1303,13 @@ static void rulef_stat(long w) {     /* after a completed leaf in mode 40 */
       if (kp && cp_) rs_c40[mn] += w;
       if (kp && !cp_) rs_open[mn] += w; }
     if (unc) { rs_unc += w; rs_umin[mn] += w; }
+    rs_anyabs = 0;
     for (int k = 0; k < NRULES; k++) {
         int c = fa_choice[k];
         if (fa_rot[c] > mn) { rs_rel[k] += w; if (unc) rs_urel[k] += w; }
-        if (fa_rot[c] > 1) { rs_abs[k] += w; if (unc) rs_uabs[k] += w; }
+        if (fa_rot[c] > 1) { rs_abs[k] += w; if (unc) rs_uabs[k] += w; if (k < 19 && k != 1) rs_anyabs = 1; }
     }
-    if (DUMP && dumped < DUMPMAX && ((DUMP == 1 && unc) || (DUMP == 2 && mn >= 1) || DUMP == 3 || (DUMP == 4 && rs_kpos_last) || (DUMP == 5 && fa_kN[0] > 0 && fa_kE[0] > 0))) {
+    if (DUMP && dumped < DUMPMAX && ((DUMP == 1 && unc) || (DUMP == 2 && mn >= 1) || DUMP == 3 || (DUMP == 4 && rs_kpos_last) || (DUMP == 5 && fa_kN[0] > 0 && fa_kE[0] > 0) || (DUMP == 6 && rs_anyabs))) {
         dumped++;
         printf("DATA w=%ld unc=%d min=%d sets=[", w, unc, mn);
         for (int i = 0; i < n; i++) { printf("["); for (int k = 0; k < d[i]; k++) printf("%d%s", gl[i][k], k + 1 < d[i] ? "," : ""); printf("]%s", i + 1 < n ? "," : ""); }
