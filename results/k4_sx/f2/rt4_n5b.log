@@ -1,0 +1,13 @@
+# command: python3 k4/sx_f2.py --inst=results/k4_sx/f2/rt4_n5b_inst.json
+A+ applies, chain length j=0                                                               24
+A+ applies, chain length j=1                                                               57
+Zmax                                                                                       81
+Zmax: Lemma A+ applies=True                                                                81
+Zmax: direct T3 move=False, direct T3+ move=True, direct T4 move=False                     15
+Zmax: direct T3 move=True, direct T3+ move=True, direct T4 move=False                      66
+Zmax: free-valid owner exists=True                                                         81
+free-valid owner: frozen agents threatened=1                                               162
+keys f=3                                                                                   15
+keys: Lemma A+ at some Zmax=True                                                           15
+profiles f=3                                                                               2
+# time 0.2 s

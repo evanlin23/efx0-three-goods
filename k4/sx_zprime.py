@@ -12,16 +12,21 @@ For each Q the tool records:
   every (T3) move from P_Q (role swap with a needer z, at most one helper h giving up a good) with def(P') < def*(κ)
   ("direct" moves), classified by the role of z (zV: in V; zT: a terminal outside V), the helper (none, in V, other),
   and who is a best owner of P';
-  the canonical moves of k4/sx.md:
-    OS  (owner swap) for o in V ∩ T: o takes {g}, x takes an admissible A ⊆ Q_o ∪ L, x owns Q_o ∪ L;
-        "theta-b" when o is big-top on g with U_o ⊆ Q_o ∪ L and omega >= 2;
-    OSd (owner swap, d dropped) for a theta-b o: x owns (Q_o ∪ L) minus o's fourth good;
-    L7  (Lemma 7 swap, regime II) z the unique terminal takes {g}, the helper o in V gives up the goods of R_x it holds
-        (keeps the rest of its pair as base when admissible, or its best admissible set otherwise), x takes its two best
-        lower goods and owns R_x minus g plus the pool plus what o released, minus o's kept base.
-Each canonical move is evaluated exactly (the deficit of P' by Lemma H1) and, for OS/OSd, also by the explicit bundle.
+  the repair lemmas of k4/sx.md §3, each asserted whenever its hypotheses hold (configuration built, owner valid with
+  C = ∅, def* <= 0 at the target key, deficit <= 0 at the (T3) image):
+    Lemma F  the threat forest (in-degree <= 1, no cycle, V = the leaves, robust agents unthreatened, kinds);
+    A   (owner swap) o in V ∩ T without theta-b: o takes {g}, x takes an admissible set inside X_o = Q_o ∪ L and owns
+        X_o; "theta-b" = o big-top on g with U_o ⊆ X_o and omega >= 2 (then only the exact deficit is recorded);
+    B   (generalized path move) every threat path from a terminal outside V to a leaf o not of kind (R) with s_o in L;
+    B'  (the modified path move) the same for an (R) leaf with s_o in L, under (H_B'): y valued by nobody but x;
+    C   (another leaf owns) a theta-b terminal leaf tau1, another leaf o, a robust pair P_x inside X_tau1 meeting
+        U_tau1, under (H): no agent but x, o, tau1 values a good of Q_tau1 minus P_x;
+    C'  (two terminals, paid for by unfreezing) under (H');
+  and the first lemma that applies, in the order A, B (k = 1), C, C', B' (k = 1), B/B' with longer paths ("MAIN CASE";
+  "rest" = none applies).
 
-usage: python3 k4/sx_zprime.py DUMP.jsonl.gz ... [--examples=K]      (dumps of k4/sx_keygraph.py --dump)
+usage: python3 k4/sx_zprime.py DUMP.jsonl.gz ... [--examples=K] [--start=S] [--max=N]   (dumps of k4/sx_keygraph.py
+       --dump or k4/sx_hunt.py; the f = 1 profiles, from the S-th, at most N)
        python3 k4/sx_zprime.py catalog FILE [--every=E] [--max=N] [--examples=K]"""
 import collections, gzip, itertools, json, os, sys, time
 
@@ -331,6 +336,8 @@ def main(argv):
                 r = json.loads(line)
                 if r['f'] == 1: profs.append({'sets': r['sets'], 'vals': r['vals'], 'm': r['m']})
     cnt = collections.Counter(); ex = collections.defaultdict(list); t0 = time.time()
+    profs = profs[int(opt.get('start', 0)):]
+    if 'max' in opt: profs = profs[:int(opt['max'])]
     for d in profs:
         kp = KeyProfile(d)
         if not kp.ok or kp.I.f != 1: continue

@@ -1,0 +1,4 @@
+1. theta-b owner swap (n = 4, m = 10): def* = 1 (both); x's admissible bases inside X_o and def(P') (model, c4x_check): [((0, 2), 1, 1)]  CONFIRMED
+2. plain path move to an (R) leaf with s in L (n = 4, m = 8): def* = (1, 1) (model, c4x_check); X_o = {0, 4, 5} threatens o = 0 holding {1, 6}: True (theta = 10 > 8)  CONFIRMED
+3. Lemma A+ at an n = 5, f = 3 key: def* = (1, 1) (model, c4x_check); maxima 6, with Lemma A+ 0; DLK with T3+ edges holds there: True  CONFIRMED
+ALL CONFIRMED

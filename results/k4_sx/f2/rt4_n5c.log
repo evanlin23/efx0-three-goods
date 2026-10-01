@@ -1,0 +1,20 @@
+# command: python3 k4/sx_f2.py --inst=results/k4_sx/f2/rt4_n5c_inst.json
+A+ applies, chain length j=0                                                               54
+A+ applies, chain length j=1                                                               32
+A+ chain found but theta fails                                                             35
+Zmax                                                                                       118
+Zmax: Lemma A+ applies=False                                                               32
+Zmax: Lemma A+ applies=True                                                                86
+Zmax: direct T3 move=False, direct T3+ move=True, direct T4 move=False                     25
+Zmax: direct T3 move=True, direct T3+ move=True, direct T4 move=False                      93
+Zmax: free-valid owner exists=True                                                         118
+free-valid owner: frozen agents threatened=1                                               173
+free-valid owner: frozen agents threatened=2                                               35
+keys f=3                                                                                   26
+keys: Lemma A+ at some Zmax=False                                                          7
+keys: Lemma A+ at some Zmax=True                                                           19
+profiles f=3                                                                               8
+EX noAplus ({'sets': [[0, 2, 6, 10], [1, 4, 9, 11], [3, 5, 9, 11], [6, 7, 8, 10], [7, 8, 10, 11]], 'vals': [[2, 3, 6, 10], [3, 4, 2, 8], [3, 2, 4, 8], [2, 3, 10, 6], [2, 10, 6, 3]], 'm': 12}, (10, None, 11, 8, None), 'Config(key=[10, None, 11, 8, None], Q={1: [1, 4], 4: [0, 7]}, L=[2, 3, 5, 6, 9])', 'V', [1, 4])
+EX noAplus ({'sets': [[0, 2, 6, 10], [1, 4, 9, 11], [3, 5, 9, 11], [6, 7, 8, 10], [7, 8, 10, 11]], 'vals': [[2, 3, 6, 10], [3, 4, 2, 8], [3, 2, 4, 8], [2, 3, 10, 6], [2, 10, 6, 3]], 'm': 12}, (10, None, 11, 8, None), 'Config(key=[10, None, 11, 8, None], Q={1: [1, 4], 4: [2, 7]}, L=[0, 3, 5, 6, 9])', 'V', [1, 4])
+EX noAplus ({'sets': [[0, 2, 6, 10], [1, 4, 9, 11], [3, 5, 9, 11], [6, 7, 8, 10], [7, 8, 10, 11]], 'vals': [[2, 3, 6, 10], [3, 4, 2, 8], [3, 2, 4, 8], [2, 3, 10, 6], [2, 10, 6, 3]], 'm': 12}, (10, None, 11, 8, None), 'Config(key=[10, None, 11, 8, None], Q={1: [1, 4], 4: [3, 7]}, L=[0, 2, 5, 6, 9])', 'V', [1, 4])
+# time 1.5 s
