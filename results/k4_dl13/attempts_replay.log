@@ -1,4 +1,34 @@
 # k4/dl13.c sha256 f891de3a228a63fcd05008c0e4d9202068fc0d2b41be5876775affd4b2131d65
+dl13-n4m6-fswap: n = 4, m = 6; k4/dl13_hunt.py (climb 328 of results/k4_dl13/hunt_n4_3_m6.log): core 12 (m = 6, idx 3) of results/k4_certs_4_n4_3.json.gz, profile 8,10,65,2
+  sets [[0, 2, 4, 5], [1, 3, 4, 5], [2, 3, 4, 5], [3, 4, 5]]
+  vals [[2, 3, 8, 4], [2, 4, 3, 8], [3, 8, 4, 2], [3, 2, 4]]
+  P = [[5], [3], [2], [4]]
+  connected k = 4 core, strict values (model.py)             confirmed  
+  f >= 1 and omega >= 1 (model.py)                           confirmed  f = 3, omega = 1
+  A: P is min-frozen with def(P) > 0                         confirmed  def 1, nearest smaller deficit at distance 2
+  A: no R_13 move lowers the deficit (DL13 fails)            confirmed  
+  A: no R_T move does either (DL_T fails)                    confirmed  
+  B: P is min-frozen with def(P) > 0                         confirmed  def 1, 18 min-frozen P, 12 with a smaller deficit
+  B: no R_13 move lowers the deficit (DL13 fails)            confirmed  
+  B: no R_T move does either (DL_T fails)                    confirmed  
+  B: nearest other min-frozen P': distance 2; nearest with a smaller deficit: distance 2
+  C: P is a state (def > 0) with f >= 1                      confirmed  def 1, k 2
+  C: t1 = t3p = t3h = 0 (DL13 fails)                         confirmed  
+  A, B, C agree on every def > 0 state of the profile (def, DL13) confirmed  6 states
+  frozen agents of P: [0, 1, 3]; J = [0, 1]; needs: [[4], [5], [3, 4], [3, 5]]
+  every min-frozen P' with def(P') < def(P), by distance (A's shapes: U unfrozen, Z newly frozen, Y the free agents that change, with their kind):
+    k = 2  def  0  [[4], [3], [2], [5]]  frozen goods move: 0 unfreeze, 0 freeze, 2 frozen agents change their good, 0 free agents change; free changed agents []
+    k = 3  def  0  [[0, 2], [3], [4], [5]]  frozen goods move: 1 unfreeze, 1 freeze, 1 frozen agents change their good, 0 free agents change (a chain ending at a free agent); free changed agents []
+    k = 3  def  0  [[0, 2], [5], [3], [4]]  frozen goods move: 1 unfreeze, 1 freeze, 1 frozen agents change their good, 0 free agents change (a chain ending at a free agent); free changed agents []
+    k = 3  def  0  [[2], [3], [4], [5]]  frozen goods move: 1 unfreeze, 1 freeze, 1 frozen agents change their good, 0 free agents change (a chain ending at a free agent); free changed agents []
+    k = 3  def  0  [[2], [5], [3], [4]]  frozen goods move: 1 unfreeze, 1 freeze, 1 frozen agents change their good, 0 free agents change (a chain ending at a free agent); free changed agents []
+    k = 3  def  0  [[4], [5], [2], [3]]  frozen goods move: 0 unfreeze, 0 freeze, 3 frozen agents change their good, 0 free agents change; free changed agents []
+    k = 4  def  0  [[0, 2], [4], [3], [5]]  frozen goods move: 1 unfreeze, 1 freeze, 2 frozen agents change their good, 0 free agents change (a chain ending at a free agent); free changed agents []
+    k = 4  def  0  [[0, 2], [5], [4], [3]]  frozen goods move: 1 unfreeze, 1 freeze, 2 frozen agents change their good, 0 free agents change (a chain ending at a free agent); free changed agents []
+    k = 4  def  0  [[2], [4], [3], [5]]  frozen goods move: 1 unfreeze, 1 freeze, 2 frozen agents change their good, 0 free agents change (a chain ending at a free agent); free changed agents []
+    k = 4  def  0  [[2], [5], [4], [3]]  frozen goods move: 1 unfreeze, 1 freeze, 2 frozen agents change their good, 0 free agents change (a chain ending at a free agent); free changed agents []
+    k = 4  def  0  [[4], [1], [3], [5]]  frozen goods move: 1 unfreeze, 1 freeze, 2 frozen agents change their good, 0 free agents change (a chain ending at a free agent); free changed agents []
+    k = 4  def  0  [[4], [5], [3], []]  frozen goods move: 1 unfreeze, 1 freeze, 2 frozen agents change their good, 0 free agents change (a chain ending at a free agent); free changed agents []
 dl13-n4m9-rot: n = 4, m = 9; #53's gap_n4_pure_s4000 catalogue: core 123 (m = 9, idx 0) of results/k4_certs_4_pure.json.gz, profile 7,196,164,44
   sets [[0, 1, 2, 7], [2, 4, 5, 8], [3, 4, 5, 6], [3, 6, 7, 8]]
   vals [[2, 3, 6, 10], [7, 4, 8, 2], [6, 5, 3, 7], [3, 2, 8, 4]]
@@ -71,7 +101,7 @@ dl13-n4m9-rot: n = 4, m = 9; #53's gap_n4_pure_s4000 catalogue: core 123 (m = 9,
     k = 4  def  0  [[0, 2], [5, 8], [3, 6], [7]]  role swap with a needer and 2 helpers; free changed agents ['trade', 'trade']
     k = 4  def  0  [[1, 2], [5], [3, 6], [7]]  role swap with a needer and 2 helpers; free changed agents ['trade', 'trade']
     k = 4  def  0  [[1, 2], [5, 8], [3, 6], [7]]  role swap with a needer and 2 helpers; free changed agents ['trade', 'trade']
-dl13-n4m7-fswap: n = 4, m = 7; k4/dl13_hunt.py (climb 42 of results/k4_dl13/hunt_n4_3_m8.log): core 58 of results/k4_certs_4_n4_3.json.gz (m = 7), profile 34,22,122,3
+dl13-n4m7-fswap: n = 4, m = 7; k4/dl13_hunt.py (climb 42 of results/k4_dl13/hunt_n4_3_m8.log): core 58 (m = 7, idx 11) of results/k4_certs_4_n4_3.json.gz, profile 34,22,122,3
   sets [[0, 2, 5, 6], [1, 4, 5, 6], [3, 4, 5, 6], [4, 5, 6]]
   vals [[3, 2, 4, 8], [2, 6, 10, 3], [4, 10, 2, 7], [3, 4, 2]]
   P = [[5], [4], [3], [6]]

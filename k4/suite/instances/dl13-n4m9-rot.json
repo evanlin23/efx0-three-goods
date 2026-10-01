@@ -1,0 +1,146 @@
+{
+ "id": "dl13-n4m9-rot",
+ "n": 4,
+ "m": 9,
+ "sets": [
+  [
+   0,
+   1,
+   2,
+   7
+  ],
+  [
+   2,
+   4,
+   5,
+   8
+  ],
+  [
+   3,
+   4,
+   5,
+   6
+  ],
+  [
+   3,
+   6,
+   7,
+   8
+  ]
+ ],
+ "vals": [
+  [
+   2,
+   3,
+   6,
+   10
+  ],
+  [
+   7,
+   4,
+   8,
+   2
+  ],
+  [
+   6,
+   5,
+   3,
+   7
+  ],
+  [
+   3,
+   2,
+   8,
+   4
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": "core 123 (m = 9, idx 0) of results/k4_certs_4_pure.json.gz, profile 7,196,164,44 (#53's gap_n4_pure_s4000)",
+ "source": {
+  "pr": 74,
+  "branch": "compute/k4-dl13",
+  "files": [
+   "attempts/k4-dl13-refuted.md",
+   "attempts/k4_dl13_refuted.py",
+   "k4/dl13.c",
+   "k4/dl13_hunt.py",
+   "results/k4_dl13/attempts_replay.log"
+  ],
+  "replay": "python3 attempts/k4_dl13_refuted.py"
+ },
+ "refutes": [
+  {
+   "statement": "Conjecture DL13 (k4/dl2.md §3) at f = 1: the min-frozen P = ({7},{2,8},{4,5},{3,6}) with def 1 has no min-frozen P' within two base changes at all; its improvements are rotations of the three free agents (in R_T, so DL_T holds here) and role swaps with two helpers",
+   "ledger": "K4.DL2.T13",
+   "smallest": false
+  }
+ ],
+ "witness": {
+  "bases": [
+   [
+    7
+   ],
+   [
+    2,
+    8
+   ],
+   [
+    4,
+    5
+   ],
+   [
+    3,
+    6
+   ]
+  ],
+  "J": [
+   0,
+   1
+  ],
+  "frozen": [
+   0
+  ],
+  "f": 1,
+  "omega": 2,
+  "def": 1,
+  "k": 3,
+  "exposures": [
+   [
+    1,
+    0,
+    "L"
+   ],
+   [
+    2,
+    1,
+    "e3"
+   ],
+   [
+    3,
+    2,
+    "e3"
+   ]
+  ],
+  "repair": {
+   "bases": [
+    [
+     7
+    ],
+    [
+     5
+    ],
+    [
+     6
+    ],
+    [
+     8
+    ]
+   ],
+   "def": 0,
+   "move": "rotation of the free agents 1, 2, 3"
+  }
+ },
+ "expect_fail": [],
+ "notes": "Found by k4/dl13.c on #53's gap_n4_pure_s4000 catalogue (every record; the earlier DL13 runs took every 10th) and confirmed by k4/dl2_relations.py (model.py) and main's k4/c4x_check.py with rel_B (attempts/k4_dl13_refuted.py). It is the n = 4 catalogue trap of compute/k4-dl2 whose repairs are only 3-cycles of free agents (k4/dl2_data.md §5). 3,971 failing states lie within two type changes of this profile (results/k4_dl13/nbhd123.log), 264 of them Pareto-maximal. Check with python3 k4/suite/run.py --pred=k4/dl13_pred.py:dl13_c (or :dl13_model, :dl13_x), which must give FAILS."
+}

@@ -39,4 +39,17 @@ cat)            # #53's n = 4 and n = 5 catalogues and hunts and the hard hunt, 
     run catalog $G/$c.json.gz --jobs=${J:-1} --rt=5 --ro=200 --ckpt=$R/ckpt_cat.jsonl --dump=$R/states_cat.jsonl.gz \
         --tables=$R/tables_cat_$c.json >> $R/cat_$c.log 2>&1
   done ;;
+rand)           # random strict profiles: every n = 5 core 4 each, every n = 6 core with one 4-good agent 2 each
+  for f in 5_n4_1 5_n4_2 5_n4_3 5_n4_4 5_pure; do
+    run certs results/k4_certs_$f.json.gz --sample=4 --seed=1 --jobs=${J:-1} --rt=1 --ro=1000 --ckpt=$R/ckpt_rand.jsonl \
+        --dump=$R/states_rand.jsonl.gz --tables=$R/tables_rand_$f.json >> $R/rand_$f.log 2>&1
+  done
+  run certs results/k4_certs_6_n4_1.json.gz --sample=2 --seed=1 --jobs=${J:-1} --rt=1 --ro=1000 --ckpt=$R/ckpt_rand.jsonl \
+      --dump=$R/states_rand.jsonl.gz --tables=$R/tables_rand_6_n4_1.json >> $R/rand_6_n4_1.log 2>&1 ;;
+ht)             # H_2 of k4/c4.md §7 (n = 9) with §7's values and 200 random strict profiles; H_3 (n = 13, m = 33)
+  run ht 2 --jobs=1 --rt=1 --ro=20 --dump=$R/states_ht.jsonl.gz --tables=$R/tables_h2.json >> $R/h2.log 2>&1
+  run ht 2 --sample=200 --seed=1 --jobs=${J:-1} --rt=1 --ro=50 --ckpt=$R/ckpt_ht.jsonl --dump=$R/states_ht.jsonl.gz \
+      --tables=$R/tables_h2_s200.json >> $R/h2_s200.log 2>&1 ;;
+h3)
+  run ht 3 --wide --jobs=1 --rt=1 --ro=20 --dump=$R/states_ht.jsonl.gz --tables=$R/tables_h3.json >> $R/h3.log 2>&1 ;;
 esac

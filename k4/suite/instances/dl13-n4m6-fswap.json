@@ -1,0 +1,138 @@
+{
+ "id": "dl13-n4m6-fswap",
+ "n": 4,
+ "m": 6,
+ "sets": [
+  [
+   0,
+   2,
+   4,
+   5
+  ],
+  [
+   1,
+   3,
+   4,
+   5
+  ],
+  [
+   2,
+   3,
+   4,
+   5
+  ],
+  [
+   3,
+   4,
+   5
+  ]
+ ],
+ "vals": [
+  [
+   2,
+   3,
+   8,
+   4
+  ],
+  [
+   2,
+   4,
+   3,
+   8
+  ],
+  [
+   3,
+   8,
+   4,
+   2
+  ],
+  [
+   3,
+   2,
+   4
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": "core 12 (m = 6, idx 3) of results/k4_certs_4_n4_3.json.gz, profile 8,10,65,2",
+ "source": {
+  "pr": 74,
+  "branch": "compute/k4-dl13",
+  "files": [
+   "attempts/k4-dl13-refuted.md",
+   "attempts/k4_dl13_refuted.py",
+   "k4/dl13.c",
+   "k4/dl13_hunt.py",
+   "results/k4_dl13/attempts_replay.log"
+  ],
+  "replay": "python3 attempts/k4_dl13_refuted.py"
+ },
+ "refutes": [
+  {
+   "statement": "Conjecture DL13 (k4/dl2.md §3): at f >= 1 every min-frozen P with def(P) > 0 has a min-frozen P' with def(P') < def(P) reached by (T1) a re-base keeping the needed set or (T3) a role swap with a needer and at most one helper giving up a good. Here f = 3 (one free agent) and every improvement moves frozen goods between frozen agents (an exchange of two frozen goods, or a chain ending at the free agent)",
+   "ledger": "K4.DL2.T13",
+   "smallest": true
+  },
+  {
+   "statement": "Conjecture DL_T (k4/dl2.md §3): the same with (T2) rotations of free agents allowed as well; none of the improvements keeps the key or is a role swap with at most one helper (this PR does not change the row's status; it belongs to proof/k4-dl2-k1)",
+   "ledger": "K4.DL2.T",
+   "smallest": true
+  }
+ ],
+ "witness": {
+  "bases": [
+   [
+    5
+   ],
+   [
+    3
+   ],
+   [
+    2
+   ],
+   [
+    4
+   ]
+  ],
+  "J": [
+   0,
+   1
+  ],
+  "frozen": [
+   0,
+   1,
+   3
+  ],
+  "f": 3,
+  "omega": 1,
+  "def": 1,
+  "k": 2,
+  "exposures": [
+   [
+    2,
+    0,
+    "O"
+   ]
+  ],
+  "repair": {
+   "bases": [
+    [
+     4
+    ],
+    [
+     3
+    ],
+    [
+     2
+    ],
+    [
+     5
+    ]
+   ],
+   "def": 0,
+   "move": "frozen agents 0 and 3 exchange their goods 5 and 4"
+  }
+ },
+ "expect_fail": [],
+ "notes": "Found by k4/dl13_hunt.py (compute/k4-dl13) on random strict profiles of the n = 4 cores with three 4-good agents and m <= 6; confirmed by k4/dl13.c, k4/dl2_relations.py (model.py) and main's k4/c4x_check.py with k4/dl2_relations_xcheck.rel_B (attempts/k4_dl13_refuted.py). f = 3, omega = 1, 18 min-frozen P, 6 with def > 0. P = ({5},{3},{2},{4}): agents 0, 1, 3 frozen (needs {4}, {5}, {3,4}, {3,5}), the free agent 2 the only owner, its bundle {0,1,2} threatens agent 0 (2 + 3 > 4), so def(P) = 1. Exchanging the frozen goods of agents 0 and 3 gives each its top good and makes {0,1,2} safe: def 0. No min-frozen P' with a smaller deficit has P's key or arises by a role swap with at most one helper. Smallest m for this shape at n = 4 (f = 3 with omega >= 1 needs m >= 6; n <= 3 has no DL13 failure, results/k4_dl13/n3.log). Not in predicates.py: check with python3 k4/suite/run.py --pred=k4/dl13_pred.py:dl13_c (or :dl13_model, :dl13_x), which must give FAILS."
+}

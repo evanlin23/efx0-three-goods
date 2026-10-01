@@ -25,12 +25,16 @@ from dl2_relations_xcheck import rel_B
 
 INSTANCES = [
     # (id, source, sets, vals, m, P, whether R_T (DL_T's relation) has an improving move at P)
+    ('dl13-n4m6-fswap', 'k4/dl13_hunt.py (climb 328 of results/k4_dl13/hunt_n4_3_m6.log): core 12 (m = 6, idx 3) of '
+                        'results/k4_certs_4_n4_3.json.gz, profile 8,10,65,2',
+     [[0, 2, 4, 5], [1, 3, 4, 5], [2, 3, 4, 5], [3, 4, 5]], [[2, 3, 8, 4], [2, 4, 3, 8], [3, 8, 4, 2], [3, 2, 4]], 6,
+     [[5], [3], [2], [4]], False),
     ('dl13-n4m9-rot', "#53's gap_n4_pure_s4000 catalogue: core 123 (m = 9, idx 0) of results/k4_certs_4_pure.json.gz, "
                       'profile 7,196,164,44',
      [[0, 1, 2, 7], [2, 4, 5, 8], [3, 4, 5, 6], [3, 6, 7, 8]], [[2, 3, 6, 10], [7, 4, 8, 2], [6, 5, 3, 7], [3, 2, 8, 4]], 9,
      [[7], [2, 8], [4, 5], [3, 6]], True),
-    ('dl13-n4m7-fswap', 'k4/dl13_hunt.py (climb 42 of results/k4_dl13/hunt_n4_3_m8.log): core 58 of '
-                        'results/k4_certs_4_n4_3.json.gz (m = 7), profile 34,22,122,3',
+    ('dl13-n4m7-fswap', 'k4/dl13_hunt.py (climb 42 of results/k4_dl13/hunt_n4_3_m8.log): core 58 (m = 7, idx 11) of '
+                        'results/k4_certs_4_n4_3.json.gz, profile 34,22,122,3',
      [[0, 2, 5, 6], [1, 4, 5, 6], [3, 4, 5, 6], [4, 5, 6]], [[3, 2, 4, 8], [2, 6, 10, 3], [4, 10, 2, 7], [3, 4, 2]], 7,
      [[5], [4], [3], [6]], False),
 ]
