@@ -1,0 +1,11 @@
+# command: python3 k4/dl2_cycle.py 3 --jobs=2 --dump=results/k4_dl2/repairs_cycle_n3.jsonl.gz --tables=results/k4_dl2/tables_cycle_n3.json
+# dl2.c sha256 bf20adab485d04dd0a660b56c8337a3fdbe3471ac8178706af150932c82dcbd2
+# n = 3: 7 cyclic cores (up to rotation), every profile with top t_i and second good x_i
+core 1 ys=[6, 6, 3]: profiles 13824, omega >= 1 13824, k* = 0/1/2/3/>=4/inf: 13120/616/88/0/0/0, k* = n: 0 [0.3 s]
+core 0 ys=[6, 6, 6]: profiles 13824, omega >= 1 13824, k* = 0/1/2/3/>=4/inf: 12493/1323/0/8/0/0, k* = n: 8 [0.3 s]
+core 2 ys=[6, 6, 4]: profiles 13824, omega >= 1 13824, k* = 0/1/2/3/>=4/inf: 11788/1662/330/44/0/0, k* = n: 44 [0.4 s]
+core 3 ys=[6, 3, 3]: profiles 13824, omega >= 1 13824, k* = 0/1/2/3/>=4/inf: 13340/484/0/0/0/0, k* = n: 0 [0.3 s]
+core 4 ys=[6, 3, 4]: profiles 13824, omega >= 1 13824, k* = 0/1/2/3/>=4/inf: 11263/1593/726/242/0/0, k* = n: 242 [0.3 s]
+core 6 ys=[6, 5, 4]: profiles 10944, omega >= 1 10944, k* = 0/1/2/3/>=4/inf: 10944/0/0/0/0/0, k* = n: 0 [0.3 s]
+core 5 ys=[6, 5, 3]: profiles 13824, omega >= 1 13824, k* = 0/1/2/3/>=4/inf: 13568/224/32/0/0/0, k* = n: 0 [0.5 s]
+cyclic cores n = 3: profiles 93888, omega >= 1: 93888; k* = 0: 86516, 1: 5902, 2: 1176, 3: 294, >= 4: 0, inf: 0 (k* = n: 294; k* >= 3 isolated / trapped: 294 / 0); P with def > 0: 10667, at distance 1: 9109, 2: 1264, 3: 294, >= 4: 0, inf: 0 (distance >= 3, isolated / trapped: 294 / 0; Pareto-maximal: 0, at distance >= 3: 0); largest least deficit 0 [2 s]

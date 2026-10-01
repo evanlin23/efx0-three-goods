@@ -1,0 +1,19 @@
+# command: python3 k4/dl2_shapes.py results/k4_dl2/trapped_cycle_n4.jsonl.gz results/k4_dl2/repairs_cycle.jsonl.gz --jobs=1
+profiles with k* >= 3 in the dumps: 1072
+trapped P (distance >= 3): 1072; mismatches with dl2.c (def or k): 0
+by (n, k): n=4 k=4: 1072
+
+| n | f | trapped P | shape | P with some repair of this shape | P with every repair of this shape |
+|---|---|---|---|---|---|
+| 4 | 0 | 1072 | ROT | 1072 | 1072 |
+
+families of the least-distance repairs of each trapped P (SWAP: SWAP, SWAP+REL, SWAP+FREE; ROT: ROT, ROT+REL)
+
+| n | f | families of its repairs | trapped P |
+|---|---|---|---|
+| 4 | 0 | ROT | 1072 |
+
+role-swap repairs (SWAP, SWAP+REL, SWAP+FREE): n, agents in the swap (unfreezing or taking a needed frozen good), releasing agents, every release of one good, every release adjacent (a released good valued by a swap agent): number of repairs
+
+rotations (ROT, ROT+REL): n, agents on the cycle, releasing agents, every transfer j -> i along an exposure (i exposed w.r.t. owner j in P): number of repairs
+  n=4 cycle=4 release=0 along_exposures=True: 94764

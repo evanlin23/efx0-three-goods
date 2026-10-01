@@ -1,0 +1,53 @@
+{
+"A": {
+"G,D2|S2>1": 69,
+"G,D2|W2>1": 27,
+"G,D2|W2>2": 47,
+"G,O,D2|S2>1": 1,
+"fO,G,D2|S2>1": 14,
+"fO,G,D2|W2>2": 14,
+"fO,L,D2|S2>1": 21,
+"fO,L,D2|W2>1": 11,
+"fO,L,D2|W2>2": 22,
+"fO,L|S2>1": 6,
+"fO,L|W2>1": 7,
+"fO,L|W2>2": 7
+},
+"T": {
+"G,D2|S2>1|f>fo": 69,
+"G,O,D2|S2>1|f>fo": 1,
+"fO,G,D2|S2>1|f>fo": 14,
+"fO,L,D2|S2>1|f>fo": 12,
+"fO,L,D2|S2>1|f>fox": 9,
+"fO,L,D2|W2>2|f>fox": 1,
+"fO,L|S2>1|f>fo": 6,
+"fO,L|W2>2|f>fox": 1
+},
+"command": "python3 k4/dl2_run.py catalog k4/suite/.cache/gapbench/results/k4_gap/hunt_n5_3_s2000.json.gz --jobs=2 --rec=500 --rec2=5 --dump=results/k4_dl2/repairs_n5cat.jsonl.gz --tables=results/k4_dl2/tables_n5cat_hunt_n5_3_s2000.json",
+"counters": {
+"kiso": 0,
+"kstar0": 2793,
+"kstar1": 46,
+"kstar2": 0,
+"kstar3": 0,
+"kstar4": 0,
+"kstarinf": 0,
+"kstarn": 0,
+"ktrap": 0,
+"maxmin": -1,
+"om1": 2839,
+"pd1": 113,
+"pd2": 0,
+"pd3": 0,
+"pd4": 0,
+"pdinf": 0,
+"piso": 0,
+"pm3": 0,
+"pmpos": 0,
+"pos": 113,
+"prof": 2839,
+"ptrap": 0,
+"small": 0
+},
+"dl2_c_sha256": "0e4e2410b1219cbd3353b1607b8dd93f5394e1491a47f19ed6e2281cad1b78d6"
+}
