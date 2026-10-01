@@ -1,0 +1,9 @@
+# command: python3 k4/sx_xcheck.py results/k4_sx/f2/keys_rt4_n5b.jsonl.gz
+DLK_T3 fails                   2
+DLK_T3+ fails                  0
+DLK_T3+T4 fails                0
+DLK_T3T4 fails                 2
+MISMATCH                       0
+keys                           35
+keys def*>0                    15
+profiles                       2

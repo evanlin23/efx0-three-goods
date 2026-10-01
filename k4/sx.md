@@ -275,7 +275,65 @@ Tools (EVIDENCE tooling; every assertion below is checked against exact deficits
 
 ## 6. f ≥ 2
 
-(To be filled in.)
+**The (T3) ∪ (T4) form is false; the target is (T3⁺) ∪ (T4).** The coordinator checked the DL_RT4 failures of
+compute/k4-rt4-n5b and -n5c (67 states in 10 profiles, all with f = 3, def = 1 and nearest distance 3) on
+`k4/dl134_xcheck.py`'s model. In each profile some key with def* = 1 has no neighbour of smaller def* by one (T3) or
+(T4) move from any of its states. Every repair there is a (T3⁺) move: x frees g, a frozen w moves from h to g, and a
+free z takes h. `k4/sx_keygraph.py` reproduces this on the smallest profile, core pos 3206 of `k4_certs_5_n4_4`
+(`python3 k4/sx_keygraph.py one '{"m": 9, "sets": [[0,2,4,7],[1,4,7,8],[3,6,8],[5,6,7,8],[5,6,7,8]], "vals":
+[[6,3,5,7],[4,2,8,7],[2,4,3],[4,8,1,6],[2,7,8,4]]}'`). The key (7, 8, –, –, 6) has def* = 1. Its (T3) ∪ (T4) neighbours
+all have def* = 1, and DLK holds there with (T3⁺) edges. The ledger status of that refutation is the coordinator's.
+
+**Lemma A⁺ (the owner swap along a need chain; one (T3⁺) move).** Let f ≥ 1 and ω ≥ 1, and let κ = (𝒩, φ) be a key
+with frozen set F. Let Q be a pool-optimal configuration at κ (U_y = R_y ∖ 𝒩). Let o be a free agent such that
+X_o = Q_o ∪ L threatens no free agent and exactly one frozen agent x. Let x = w₀, w₁, …, w_j (j ≥ 0) be distinct frozen
+agents with φ(w_{i−1}) ∈ N_{w_i}({φ(w_i)}) for 1 ≤ i ≤ j (w_i needs w_{i−1}'s good), with φ(w_j) ∈ N_o(H_o), and with
+θ_o(X_o) ≤ v_o(φ(w_j)). Q′: w_i holds φ(w_{i−1}) (1 ≤ i ≤ j), o holds φ(w_j), x holds a pair for x inside X_o, the other
+agents keep their holdings, and the pool is X_o ∖ Q′_x. Then Q′ is a configuration at the key with frozen set
+F ∖ {x} ∪ {o}, x is a valid owner of Q′ with C = ∅, and P_Q → P_{Q′} is one (T3⁺) move with W = {w₁, …, w_j}. For j = 0
+it is a (T3) move, and at f = 1 it is Lemma A. The condition on θ_o holds automatically when |X_o ∩ R_o| ≤ 2: pool-optimality
+bounds every pair of X_o by v_o(H_o) < v_o(φ(w_j)).
+
+*Proof.*
+- *A pair for x.* Some h has v_x(X_o ∖ h) > v_x(φ(x)). Every good of U_x is worth less than φ(x) to x: one worth more
+  would be a need of x outside 𝒩. So S := (X_o ∖ h) ∩ U_x, or its two best goods, is a set whose needs lie in 𝒩. Complete
+  it inside X_o as in §3.
+- *Q′ is a configuration.* The state P_{Q′} has these bases.
+  - The frozen agents off the chain keep their needs.
+  - Each w_i holds a good worth more to it than before, so its needs shrink (`k4/dl2.md` (M2)).
+  - o holds φ(w_j), which it needed. Every good of R_o worth more than φ(w_j) is worth more than H_o, so it lies in
+    N_o(H_o) ⊆ 𝒩.
+  - x's new base and the unchanged free bases need only goods of 𝒩.
+
+  So NA(P_{Q′}) ⊆ 𝒩. Every good of 𝒩 is the one-good base of an agent of F ∖ {x} ∪ {o}, and the free bases miss 𝒩. By
+  (V), P_{Q′} ∈ 𝒫, and |F(P_{Q′})| = |NA(P_{Q′})| ≤ f. Minimality forces NA(P_{Q′}) = 𝒩, with frozen set F ∖ {x} ∪ {o}.
+- *x is valid.* X_o threatens none of these:
+  - the unchanged free agents (o threatens no free agent);
+  - the frozen agents off the chain other than x (x is the only frozen agent X_o threatens);
+  - w_i holding φ(w_{i−1}), since θ_{w_i}(X_o) ≤ v(φ(w_i)) < v(φ(w_{i−1}));
+  - o holding φ(w_j), by hypothesis.
+
+  Lemma 0 then gives def(P_{Q′}) ≤ 0.
+- *The move.* x goes from frozen to free, o from free to frozen and takes a good it needs in P_Q, and the agents of W
+  stay frozen. The bases of W ∪ {o} in P_{Q′} are those of W ∪ {x} in P_Q, there is no helper, and NA is unchanged. ∎
+
+**Data (EVIDENCE, `k4/sx_f2.py`).** At every key with def* > 0 of the 10 profiles of compute/k4-rt4-n5b and -n5c
+(`results/k4_sx/f2/rt4_n5b.log`, `rt4_n5c.log`; instance lists `results/k4_sx/f2/rt4_n5*_inst.json`, copied from the
+coordinator's checks), at every maximum of (r′, Λ′), a free-valid owner exists. At n5b, at all 15 keys and all 81
+maxima, its bundle threatens one frozen agent and Lemma A⁺ applies: 24 times with j = 0 and 57 with j = 1. 15 of the 81
+maxima have no direct (T3) repair but a (T3⁺) one. At n5c, Lemma A⁺ applies at 86 of 118 maxima and at some maximum of
+19 of the 26 keys. The other 7 keys are the failed candidate `attempts/k4-sx-aplus-f3.md`. There some free-valid
+owner's bundle threatens two frozen agents (35 owner–maximum pairs), or the owner at the chain's end is threatened by
+its own bundle (35 chains, the analogue of θ-b). DLK with (T3⁺) ∪ (T4) edges holds at all of them (`k4/sx_keygraph.py`,
+`k4/sx_xcheck.py`). The repairs there have the shape of Lemmas C and C′: another free-valid owner owns after the swap.
+
+**What f ≥ 2 still needs.**
+- A form of Lemma F: Theorem Z′'s free-valid owner exists at every f ≥ 2 key on these data, but it is not proved. The
+  last step of Theorem Z′ uses f = 1. At f ≥ 2 it yields either a free-valid owner, or free agents all of kind (T4)
+  whose frozen goods are needed only by frozen agents, i.e. a cycle of the frozen need digraph and hence a (T4) move.
+- The analogues of Lemmas B, C and C′ along need chains.
+- A count of the frozen agents a leaf's bundle threatens: at f = 1 it is one by definition, and at f ≥ 2 it is two in
+  the failing case above.
 
 ## 7. Reproduce
 

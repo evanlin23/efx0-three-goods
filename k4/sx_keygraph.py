@@ -24,6 +24,7 @@ usage: python3 k4/sx_keygraph.py catalog FILE [--every=E] [--start=S] [--max=N] 
        python3 k4/sx_keygraph.py certs FILE [...]                         (every strict profile of every core)
        python3 k4/sx_keygraph.py suite [...]
        python3 k4/sx_keygraph.py one '{"sets": ..., "vals": ..., "m": ...}'
+       python3 k4/sx_keygraph.py inst LIST.json [...]                      (a JSON list of {id, sets, vals, m})
 --dump writes one JSON line per profile that has a key with def* > 0 (the profile, every key with def* and its
 neighbours per edge set). Prints counters and every failure."""
 import collections, gzip, itertools, json, os, sys, time
@@ -160,6 +161,9 @@ def items(mode, rest, opt):
     if mode == 'one':
         d = json.loads(rest[0]); d.setdefault('m', 1 + max(g for S in d['sets'] for g in S))
         return [(d, 'one')]
+    if mode == 'inst':                        # a JSON list of {id, sets, vals, m}
+        return [({'sets': d['sets'], 'vals': d['vals'], 'm': d['m']}, d.get('id', 'inst%d' % i))
+                for i, d in enumerate(json.load(open(rest[0])))]
     if mode == 'catalog':
         recs = json.load(gzip.open(rest[0], 'rt'))['records']
         fmin = int(opt.get('fmin', 1)); fmax = int(opt.get('fmax', 99))
