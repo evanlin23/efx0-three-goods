@@ -1,0 +1,14 @@
+# command: python3 k4/dl13_lemmas.py --swaps random 1000 --seed=7 --nmax=4 --mmax=10
+# 1000 instances with f >= 1 and omega >= 1 from 136628 draws
+C1 applies                     332
+C1* applies                    347
+C2 applies                     83
+C3 applies                     101
+Proposition T checks (b), (d)  3891
+S1 shape ok                    332
+S1 shape theta-a               97
+S1 shape theta-b               283
+def>0 states f>=1              556
+profiles                       1000
+swaps checked (Lemma 8)        9973
+no assertion failed

@@ -1,0 +1,27 @@
+# rulef_run.py results/k4_certs_2.json.gz -A40 -C3 -r1 -D3 --data=/tmp/claude-0/-home-user-efx0-three-goods/891575f8-e905-5025-9feb-2c6293ea3e11/scratchpad/rulef/ck/all_n2.txt # rulef.c sha256 5721abf3bc9e25b1
+# rules: 0=index 1=F 2=firstcov 3=minA4N 4=minA4o 5=minA4+ 6=minHN 7=minH 8=cov|minH 9=minomegaN 10=minH,frz 11=4good 12=minHN,e4 13=minUN 14=minU 15=cov|minU 16=minKN 17=minK 18=cov|minK
+k4_certs_2.json.gz: cores=5 profiles=189216 fails or raw-check failures of the rule run=0 time 2s
+  total=189216 no covered first agent (theorems + A4+N)=1020
+  rule F's fewest rotations (0, 1, fails with <= 1): [189216, 0, 0]; on the uncovered: [1020, 0, 0]
+  ... where some first agent has Lemma K deficit <= 0: [189216, 0, 0]; none: [0, 0, 0]
+  ... none, but some first agent satisfies C4^0: [0, 0, 0]; neither: [0, 0, 0]
+  violations: Lemma K deficit <= 0 but a rotation needed: 0; C4^0 but > 1 rotation: 0
+  rule  0 index        worse-than-F=        3360 fails-with-<=1=           0   on uncovered: worse=         0 fails=         0
+  rule  1 F            worse-than-F=           0 fails-with-<=1=           0   on uncovered: worse=         0 fails=         0
+  rule  2 firstcov     worse-than-F=        2880 fails-with-<=1=           0   on uncovered: worse=         0 fails=         0
+  rule  3 minA4N       worse-than-F=           0 fails-with-<=1=           0   on uncovered: worse=         0 fails=         0
+  rule  4 minA4o       worse-than-F=           0 fails-with-<=1=           0   on uncovered: worse=         0 fails=         0
+  rule  5 minA4+       worse-than-F=           0 fails-with-<=1=           0   on uncovered: worse=         0 fails=         0
+  rule  6 minHN        worse-than-F=           0 fails-with-<=1=           0   on uncovered: worse=         0 fails=         0
+  rule  7 minH         worse-than-F=           0 fails-with-<=1=           0   on uncovered: worse=         0 fails=         0
+  rule  8 cov|minH     worse-than-F=        2880 fails-with-<=1=           0   on uncovered: worse=         0 fails=         0
+  rule  9 minomegaN    worse-than-F=         120 fails-with-<=1=           0   on uncovered: worse=         0 fails=         0
+  rule 10 minH,frz     worse-than-F=           0 fails-with-<=1=           0   on uncovered: worse=         0 fails=         0
+  rule 11 4good        worse-than-F=        3360 fails-with-<=1=           0   on uncovered: worse=         0 fails=         0
+  rule 12 minHN,e4     worse-than-F=           0 fails-with-<=1=           0   on uncovered: worse=         0 fails=         0
+  rule 13 minUN        worse-than-F=           0 fails-with-<=1=           0   on uncovered: worse=         0 fails=         0
+  rule 14 minU         worse-than-F=           0 fails-with-<=1=           0   on uncovered: worse=         0 fails=         0
+  rule 15 cov|minU     worse-than-F=        2880 fails-with-<=1=           0   on uncovered: worse=         0 fails=         0
+  rule 16 minKN        worse-than-F=           0 fails-with-<=1=           0   on uncovered: worse=         0 fails=         0
+  rule 17 minK         worse-than-F=           0 fails-with-<=1=           0   on uncovered: worse=         0 fails=         0
+  rule 18 cov|minK     worse-than-F=        2880 fails-with-<=1=           0   on uncovered: worse=         0 fails=         0
