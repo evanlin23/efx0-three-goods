@@ -311,6 +311,8 @@ static int slots(void) {
 /* ---- rotation: a frozen agent k gives up its pick along a need chain k = x0 -> .. -> xt (not frozen), every chain
    agent takes its predecessor's pick, xt's base is released, and k takes a nonempty O of its goods in J as its base */
 static int ROT = 2, rot_depth = 0, CHUP = 1, rot_cap = 0, used_rot = 0;
+static int KMODE = 0;                /* apply_chain tests Lemma K instead of the owner search (k4/rulef.md) */
+static int hdefK_owner(int o);
 static long effort;
 static int try_rotations(void);
 static int chain[MAXN], clen;
@@ -340,7 +342,15 @@ static int apply_chain(int rot_pick, int *rot_more) {
     int nbig = 0, big = -1;
     for (int i = 0; i < n; i++) if (popc(base[i]) >= 3) { nbig++; big = i; }
     if (nbig >= 2) valid = 0;
-    if (valid) {
+    if (valid && KMODE) {             /* Lemma K at the rotated state (k4/rulef.md): no owner search */
+        int S = slots();
+        if (nbig == 1) ok = hdefK_owner(big) <= 0;
+        else if (popc(J) - S <= 0) ok = 1;
+        else {
+            ok = hdefK_owner(k) <= 0;
+            for (int o = 0; o < n && !ok; o++) if (o != k && !frz[o] && (cap[o] > 0 || upg[o])) ok = hdefK_owner(o) <= 0;
+        }
+    } else if (valid) {
         int S = slots();
         if (nbig == 1) ok = try_owner(big, S);
         else if (popc(J) - S >= 1) ok = try_owner(k, S);
@@ -945,10 +955,11 @@ static int minmax_first(void) {
 #define NRULES 24
 static int QRULE = 1;
 static int fa_rot[MAXN], fa_cov[MAXN], fa_dN[MAXN], fa_dE[MAXN], fa_hN[MAXN], fa_hE[MAXN], fa_omN[MAXN], fa_omE[MAXN];
-static int fa_fz[MAXN], fa_e4[MAXN], fa_r[MAXN], fa_rfz[MAXN], fa_uN[MAXN], fa_uE[MAXN];
+static int fa_fz[MAXN], fa_e4[MAXN], fa_r[MAXN], fa_rfz[MAXN], fa_uN[MAXN], fa_uE[MAXN], fa_kN[MAXN], fa_kE[MAXN];
 static int fa_choice[NRULES];
+static long rs_kpos[MAXROT + 2], rs_kneg[MAXROT + 2], rs_c40[MAXROT + 2], rs_open[MAXROT + 2], rs_kviol, rs_cviol; static int rs_kpos_last;   /* by rule F's fewest rotations: some first agent has Lemma K deficit <= 0 (kneg) or none (kpos) */
 static long rs_tot, rs_unc, rs_min[MAXROT + 2], rs_umin[MAXROT + 2], rs_rel[NRULES], rs_urel[NRULES], rs_abs[NRULES], rs_uabs[NRULES];
-static int DUMP = 0;                 /* -DN: print DATA lines: N=1 allunc leaves, N=2 leaves needing a rotation, N=3 all */
+static int DUMP = 0;                 /* -DN: print DATA lines: N=1 allunc leaves, N=2 leaves needing a rotation, N=3 all, N=4 no first agent with Lemma K deficit <= 0, N=5 agent 0 (index order) has Lemma K deficit > 0 */
 static long dumped = 0, DUMPMAX = 2000000;
 static int defA_owner(int o) {       /* A4+N / A4+(o) count for owner o in the current state */
     gm Wo = base[o] | J; int dem = 0, tb = 0;
@@ -1047,22 +1058,81 @@ static int hdefU_owner(int o) {
     }
     return best;
 }
+/* Lemma K (k4/rulef.md §2): owner o, kept set K inside J ∩ R_o, the owner's needs from B_o ∪ K (agents frozen only
+   by o's needs and no longer needed become free, one slot each); every agent x threatened by W_o = B_o ∪ J with its
+   base is served either by a good g of J minus K in its own slot (x free with a slot, and not threatened by W_o minus g
+   when holding B_x ∪ {g}), or by a set D inside (J minus K) ∩ R_x kept out of X_o (x not threatened by W_o minus D
+   with its base); slot goods distinct. deficit = least |slot goods ∪ removal sets| - (slots of the agents other than
+   o under the needs from B_o ∪ K). <= 0: o is a valid owner. */
+static gm hk_opt[MAXN][MAXM + 16]; static int hk_nopt[MAXN], hk_isslot[MAXN][MAXM + 16], hk_cnt, hk_best;
+static void hk_dfs(int i, gm U, gm G) {
+    if (popc(U) >= hk_best) return;
+    if (i == hk_cnt) { hk_best = popc(U); return; }
+    for (int q = 0; q < hk_nopt[i]; q++) {
+        gm O = hk_opt[i][q];
+        if (hk_isslot[i][q] && (G & O)) continue;           /* slot goods distinct */
+        hk_dfs(i + 1, U | O, hk_isslot[i][q] ? (G | O) : G);
+    }
+}
+static int hdefK_owner(int o) {
+    gm cand = J & R[o]; int best = DINF;
+    gm Wo = base[o] | J;
+    gm NAo = 0; for (int i = 0; i < n; i++) if (i != o) NAo |= N_[i];
+    int thr[MAXN]; for (int x = 0; x < n; x++) thr[x] = x != o && threatened(x, Wo, base[x]);
+    for (gm K = cand;; K = (K - 1) & cand) {
+        gm XK = base[o] | K, no = 0;
+        for (int g = 0; g < m; g++) if ((N_[o] >> g & 1) && cmpv(o, BIT(g), XK) > 0) no |= BIT(g);
+        gm NA2 = NAo | no;
+        int tb = 0, dead = 0;
+        hk_cnt = 0;
+        for (int x = 0; x < n; x++) {
+            int fz2 = !upg[x] && Y[x] >= 0 && (NA2 >> Y[x] & 1);
+            int cp2 = (upg[x] || fz2) ? 0 : (Y[x] >= 0 ? 1 : 2);
+            if (x != o) tb += cp2;
+            if (!thr[x]) continue;
+            int k = 0;
+            if (cp2 >= 1) {          /* slot goods: those of R_x, and one good outside R_x (a restriction: sound) */
+                int outside = 0;
+                for (int g = 0; g < m; g++) if ((J & ~K) >> g & 1) {
+                    if (!(R[x] >> g & 1)) { if (outside) continue; outside = 1; }
+                    if (!threatened(x, Wo & ~BIT(g), base[x] | BIT(g))) { hk_opt[hk_cnt][k] = BIT(g); hk_isslot[hk_cnt][k] = 1; k++; }
+                }
+            }
+            gm sets[16]; int ns = prot_sets_in(x, Wo, J & ~K, sets);
+            for (int q = 0; q < ns; q++) { hk_opt[hk_cnt][k] = sets[q]; hk_isslot[hk_cnt][k] = 0; k++; }
+            if (!k) { dead = 1; break; }
+            hk_nopt[hk_cnt++] = k;
+        }
+        if (!dead) {
+            hk_best = 1 << 20; hk_dfs(0, 0, 0);
+            int v = hk_best - tb;
+            if (v < best) best = v;
+        }
+        if (!K) break;
+    }
+    return best;
+}
 /* deficits of the current tau (pre[]) after upgrades of policy pol: A4+ count (*dA), refined (*dH) and refined with
    the owner's needs from a kept set (*dU), least over owners; omega <= 0 gives DNEG */
-static int fa_dU_tmp;
+static int fa_dU_tmp, fa_dK_tmp;
+static int KONLY = 0;                /* deficits(): compute only the Lemma K count (mode 41) */
 static void deficits(int pol, int *dA, int *dH, int *om, int *nfz) {
     phase1(); setup_state(); upg_mode = pol; upgrades();
     int S = slots(), w = popc(J) - S; *om = w;
     *nfz = 0; for (int i = 0; i < n; i++) *nfz += frz[i];
-    if (w <= 0) { *dA = *dH = DNEG; fa_dU_tmp = DNEG; return; }
-    int ordo[MAXN], k = aplusN_cands(ordo), ba = DINF, bh = DINF, bu = DINF;
+    if (w <= 0) { *dA = *dH = DNEG; fa_dU_tmp = fa_dK_tmp = DNEG; return; }
+    int ordo[MAXN], k = aplusN_cands(ordo), ba = DINF, bh = DINF, bu = DINF, bk = DINF;
     for (int q = 0; q < k; q++) {
         int o = ordo[q];
-        int a = defA_owner(o); if (a < ba) ba = a;
-        int h = hdef_owner(o); if (h < bh) bh = h;
-        int u = hdefU_owner(o); if (u < bu) bu = u;
+        if (!KONLY) {
+            int a = defA_owner(o); if (a < ba) ba = a;
+            int h = hdef_owner(o); if (h < bh) bh = h;
+            int u = hdefU_owner(o); if (u < bu) bu = u;
+        }
+        int kk = hdefK_owner(o); if (kk < bk) bk = kk;
+        if (KONLY && bk <= 0) break;
     }
-    *dA = ba; *dH = bh; fa_dU_tmp = bu;
+    *dA = ba; *dH = bh; fa_dU_tmp = bu; fa_dK_tmp = bk;
 }
 static int argmin_agent(const int *key) { int b = 0; for (int a = 1; a < n; a++) if (key[a] < key[b]) b = a; return b; }
 static int fa_firstcov(void) { for (int a = 0; a < n; a++) if (fa_cov[a]) return a; return -1; }
@@ -1091,6 +1161,117 @@ static void rulef_rules(void) {
     for (int a = 0; a < n; a++) k1[a] = fa_uN[a] < fa_uE[a] ? fa_uN[a] : fa_uE[a];
     fa_choice[14] = argmin_agent(k1);                    /* least A4+HU deficit, either policy */
     { int c = fa_firstcov(); fa_choice[15] = c >= 0 ? c : argmin_agent(k1); }   /* first covered, else rule 14 */
+    fa_choice[16] = argmin_agent(fa_kN);                 /* least Lemma K deficit, need-shrinking */
+    for (int a = 0; a < n; a++) k2[a] = fa_kN[a] < fa_kE[a] ? fa_kN[a] : fa_kE[a];
+    fa_choice[17] = argmin_agent(k2);                    /* least Lemma K deficit, either policy */
+    { int c = fa_firstcov(); fa_choice[18] = c >= 0 ? c : argmin_agent(k2); }   /* first covered, else rule 17 */
+}
+/* Corollary C4^0's hypothesis on the run of pre[] (k4/c4.md §4, Lean EFX.LB4R.corollaryC40'; ledger K4.C4.AB.L):
+   after envy-free upgrades omega <= 0, or no 4-good agent is exposed w.r.t. r and r is valid (Theorem A4) or, in
+   LB+'s bad case, r is not a 4-good agent exposed after LB+'s rotation along the first need chain k* -> r */
+static int c40_run(void) {
+    phase1(); setup_state(); upg_mode = 2; upgrades();
+    int S = slots(), w = popc(J) - S;
+    if (w <= 0) return 1;
+    int r = -1;
+    for (int i = 0; i < n; i++) if (!upg[i] && (r < 0 || pos[i] > pos[r])) r = i;
+    if (frz[r]) return 0;
+    gm W = base[r] | J;
+    int E[MAXN], e4 = 0;
+    for (int x = 0; x < n; x++) { E[x] = (x != r && !upg[x] && threatened(x, W, base[x])); if (E[x] && d[x] == 4) e4 = 1; }
+    if (e4) return 0;
+    return cov_AB1(r, W, E, 0);
+}
+/* mode 41 (fast): rule RK = the first agent a (index order) whose run has Lemma K deficit <= 0 under need-shrinking or
+   envy-free upgrades (omega <= 0 included); else the first whose run reaches, by one rotation, a state with Lemma K
+   deficit <= 0 (k1_run); else the first whose envy-free run satisfies C4^0's hypothesis; else the agent of least
+   Lemma K deficit (ties by index). rk_class: 0 Lemma K, 1 Lemma K after one rotation, 2 C4^0, 3 none (open). */
+static int rk_class, rk_choice, fa_c40[MAXN], fa_k1[MAXN];
+static long rk_cls[4][MAXROT + 2], rk_viol;
+/* K1 of the run of pre[] under policy pol: some single rotation (every frozen k, need chain, base O, as LB4r) reaches a
+   state with Lemma K deficit <= 0 (or omega <= 0 without a base of three goods) */
+static int k1_run(int pol) {
+    phase1(); setup_state(); upg_mode = pol; upgrades(); slots();
+    int sr = rot_cap, sd = rot_depth, su = used_rot;
+    KMODE = 1; rot_cap = 1; rot_depth = 0;
+    int ok = try_rotations();
+    KMODE = 0; rot_cap = sr; rot_depth = sd; used_rot = su;
+    return ok;
+}
+static int FULL41 = 0;               /* -E1: mode 41 computes the counts of every first agent (for -D5 dumps) */
+static void rulef_leaf41(void) {
+    int dummy, om, fz;
+    KONLY = 1;
+    rk_class = 3; rk_choice = -1;
+    for (int a = 0; a < n; a++) { fa_kN[a] = fa_kE[a] = DINF; fa_c40[a] = -1; fa_rot[a] = -1; fa_omN[a] = 99; }
+    for (int a = 0; a < n && (rk_choice < 0 || FULL41); a++) {
+        pre[0] = a; npre = 1; TAILRULE = 0; stop_at = -1;
+        deficits(1, &dummy, &dummy, &om, &fz); fa_kN[a] = fa_dK_tmp; fa_omN[a] = om;
+        if (fa_kN[a] > 0 || FULL41) { deficits(2, &dummy, &dummy, &om, &fz); fa_kE[a] = fa_dK_tmp; }
+        if ((fa_kN[a] <= 0 || fa_kE[a] <= 0) && rk_choice < 0) { rk_choice = a; rk_class = 0; }
+    }
+    KONLY = 0;
+    for (int a = 0; a < n; a++) fa_k1[a] = -1;
+    if (rk_choice < 0 || FULL41)
+        for (int a = 0; a < n && (rk_choice < 0 || FULL41); a++) {
+            pre[0] = a; npre = 1; TAILRULE = 0; stop_at = -1;
+            fa_k1[a] = k1_run(1) || k1_run(2);
+            if (fa_k1[a] && rk_choice < 0) { rk_choice = a; rk_class = 1; }
+        }
+    if (rk_choice < 0 || FULL41)
+        for (int a = 0; a < n && (rk_choice < 0 || FULL41); a++) {
+            pre[0] = a; npre = 1; TAILRULE = 0; stop_at = -1;
+            fa_c40[a] = c40_run();
+            if (fa_c40[a] && rk_choice < 0) { rk_choice = a; rk_class = 2; }
+        }
+    if (rk_choice < 0) rk_class = 3;
+    if (rk_class == 3) {
+        int b = 0;
+        for (int a = 1; a < n; a++) { int ka = fa_kN[a] < fa_kE[a] ? fa_kN[a] : fa_kE[a], kb = fa_kN[b] < fa_kE[b] ? fa_kN[b] : fa_kE[b]; if (ka < kb) b = a; }
+        rk_choice = b;
+        for (int a = 0; a < n; a++) { pre[0] = a; npre = 1; TAILRULE = 0; stop_at = -1; int ok = lb4r(ROT); fa_rot[a] = ok ? used_rot : ROT + 1; }
+    }
+    pre[0] = rk_choice; npre = 1; TAILRULE = 0; stop_at = -1;
+}
+static void rulef_stat41(long w, int ok, int rot) {
+    int k = ok ? rot : ROT + 1;
+    rk_cls[rk_class][k] += w;
+    if (rk_class == 0 && k != 0) rk_viol += w;        /* Lemma K promises an owner without rotation */
+    if (rk_class >= 1 && rk_class <= 2 && k > 1) rk_viol += w;   /* Lemma K after one rotation, C4^0: at most one */
+    if (DUMP == 5 && dumped < DUMPMAX && fa_kN[0] > 0 && fa_kE[0] > 0) {
+        dumped++;
+        printf("IDX w=%ld rot=%d class=%d choice=%d sets=[", w, k, rk_class, rk_choice);
+        for (int i = 0; i < n; i++) { printf("["); for (int q = 0; q < d[i]; q++) printf("%d%s", gl[i][q], q + 1 < d[i] ? "," : ""); printf("]%s", i + 1 < n ? "," : ""); }
+        printf("] vals=[");
+        for (int i = 0; i < n; i++) {
+            int q = 0; while (!(ts[i] >> q & 1)) q++;
+            int t = pidx[i][cp[i]][q];
+            printf("["); for (int z = 0; z < d[i]; z++) printf("%d%s", tv[i][t][z], z + 1 < d[i] ? "," : ""); printf("]%s", i + 1 < n ? "," : "");
+        }
+        printf("] fa=");
+        for (int a = 0; a < n; a++) printf("%d:%d,%d,%d,%d,%d%s", a, fa_kN[a], fa_kE[a], fa_c40[a], fa_omN[a], fa_k1[a], a + 1 < n ? ";" : "");
+        printf("\n");
+    }
+    if (DUMP == 1 && dumped < DUMPMAX && rk_class == 3) {
+        dumped++;
+        printf("OPEN w=%ld rot=%d choice=%d sets=[", w, k, rk_choice);
+        for (int i = 0; i < n; i++) { printf("["); for (int q = 0; q < d[i]; q++) printf("%d%s", gl[i][q], q + 1 < d[i] ? "," : ""); printf("]%s", i + 1 < n ? "," : ""); }
+        printf("] vals=[");
+        for (int i = 0; i < n; i++) {
+            int q = 0; while (!(ts[i] >> q & 1)) q++;
+            int t = pidx[i][cp[i]][q];
+            printf("["); for (int z = 0; z < d[i]; z++) printf("%d%s", tv[i][t][z], z + 1 < d[i] ? "," : ""); printf("]%s", i + 1 < n ? "," : "");
+        }
+        printf("] fa=");
+        for (int a = 0; a < n; a++) printf("%d:%d,%d,%d,%d%s", a, fa_rot[a], fa_kN[a], fa_kE[a], fa_c40[a], a + 1 < n ? ";" : "");
+        printf("\n");
+    }
+}
+static void rulef_print41(void) {
+    printf("RK41");
+    for (int c = 0; c < 4; c++) { printf(" c%d", c); for (int k = 0; k <= ROT + 1; k++) printf(" %ld", rk_cls[c][k]); }
+    printf(" viol %ld\n", rk_viol);
+    memset(rk_cls, 0, sizeof rk_cls); rk_viol = 0;
 }
 static void rulef_leaf(void) {       /* fills fa_* for every first agent, then the rule's sequence in pre[] */
     for (int a = 0; a < n; a++) {
@@ -1098,13 +1279,14 @@ static void rulef_leaf(void) {       /* fills fa_* for every first agent, then t
         int ok = lb4r(ROT); fa_rot[a] = ok ? used_rot : ROT + 1;
         fa_cov[a] = covered();
         int fz;
-        deficits(1, &fa_dN[a], &fa_hN[a], &fa_omN[a], &fa_fz[a]); fa_uN[a] = fa_dU_tmp;
+        deficits(1, &fa_dN[a], &fa_hN[a], &fa_omN[a], &fa_fz[a]); fa_uN[a] = fa_dU_tmp; fa_kN[a] = fa_dK_tmp;
         {   /* features of the need-shrinking state */
             int r = -1; for (int i = 0; i < n; i++) if (!upg[i] && (r < 0 || pos[i] > pos[r])) r = i;
             fa_r[a] = r; fa_rfz[a] = r >= 0 ? frz[r] : 0; fa_e4[a] = 0;
             if (r >= 0) { gm W = base[r] | J; for (int x = 0; x < n; x++) if (x != r && d[x] == 4 && !upg[x] && threatened(x, W, base[x])) fa_e4[a]++; }
         }
-        deficits(2, &fa_dE[a], &fa_hE[a], &fa_omE[a], &fz); fa_uE[a] = fa_dU_tmp;
+        deficits(2, &fa_dE[a], &fa_hE[a], &fa_omE[a], &fz); fa_uE[a] = fa_dU_tmp; fa_kE[a] = fa_dK_tmp;
+        fa_c40[a] = c40_run();
     }
     rulef_rules();
     pre[0] = fa_choice[QRULE]; npre = 1; TAILRULE = 0; stop_at = -1;
@@ -1113,13 +1295,20 @@ static void rulef_stat(long w) {     /* after a completed leaf in mode 40 */
     int mn = ROT + 1, unc = 1;
     for (int a = 0; a < n; a++) { if (fa_rot[a] < mn) mn = fa_rot[a]; if (fa_cov[a]) unc = 0; }
     rs_tot += w; rs_min[mn] += w;
+    { int kp = 1; for (int a = 0; a < n; a++) if (fa_kN[a] <= 0 || fa_kE[a] <= 0) kp = 0;
+      if (kp) rs_kpos[mn] += w; else rs_kneg[mn] += w; rs_kpos_last = kp; }
+    for (int a = 0; a < n; a++) if ((fa_kN[a] <= 0 || fa_kE[a] <= 0) && fa_rot[a] != 0) { rs_kviol += w; break; }
+    for (int a = 0; a < n; a++) if (fa_c40[a] && fa_rot[a] > 1) { rs_cviol += w; break; }
+    { int kp = 1, cp_ = 0; for (int a = 0; a < n; a++) { if (fa_kN[a] <= 0 || fa_kE[a] <= 0) kp = 0; if (fa_c40[a]) cp_ = 1; }
+      if (kp && cp_) rs_c40[mn] += w;
+      if (kp && !cp_) rs_open[mn] += w; }
     if (unc) { rs_unc += w; rs_umin[mn] += w; }
     for (int k = 0; k < NRULES; k++) {
         int c = fa_choice[k];
         if (fa_rot[c] > mn) { rs_rel[k] += w; if (unc) rs_urel[k] += w; }
         if (fa_rot[c] > 1) { rs_abs[k] += w; if (unc) rs_uabs[k] += w; }
     }
-    if (DUMP && dumped < DUMPMAX && ((DUMP == 1 && unc) || (DUMP == 2 && mn >= 1) || DUMP == 3)) {
+    if (DUMP && dumped < DUMPMAX && ((DUMP == 1 && unc) || (DUMP == 2 && mn >= 1) || DUMP == 3 || (DUMP == 4 && rs_kpos_last) || (DUMP == 5 && fa_kN[0] > 0 && fa_kE[0] > 0))) {
         dumped++;
         printf("DATA w=%ld unc=%d min=%d sets=[", w, unc, mn);
         for (int i = 0; i < n; i++) { printf("["); for (int k = 0; k < d[i]; k++) printf("%d%s", gl[i][k], k + 1 < d[i] ? "," : ""); printf("]%s", i + 1 < n ? "," : ""); }
@@ -1130,7 +1319,7 @@ static void rulef_stat(long w) {     /* after a completed leaf in mode 40 */
             printf("["); for (int q = 0; q < d[i]; q++) printf("%d%s", tv[i][t][q], q + 1 < d[i] ? "," : ""); printf("]%s", i + 1 < n ? "," : "");
         }
         printf("] fa=");
-        for (int a = 0; a < n; a++) printf("%d:%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d%s", a, fa_rot[a], fa_cov[a], fa_dN[a], fa_dE[a], fa_hN[a], fa_hE[a], fa_omN[a], fa_omE[a], fa_fz[a], fa_e4[a], fa_r[a], fa_uN[a], fa_uE[a], a + 1 < n ? ";" : "");
+        for (int a = 0; a < n; a++) printf("%d:%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d%s", a, fa_rot[a], fa_cov[a], fa_dN[a], fa_dE[a], fa_hN[a], fa_hE[a], fa_omN[a], fa_omE[a], fa_fz[a], fa_e4[a], fa_r[a], fa_uN[a], fa_uE[a], fa_kN[a], fa_kE[a], fa_c40[a], a + 1 < n ? ";" : "");
         printf("\n");
     }
 }
@@ -1139,11 +1328,18 @@ static void rulef_print(void) {
     for (int k = 0; k <= ROT + 1; k++) printf(" %ld", rs_min[k]);
     printf(" umin");
     for (int k = 0; k <= ROT + 1; k++) printf(" %ld", rs_umin[k]);
+    printf(" kneg"); for (int k = 0; k <= ROT + 1; k++) printf(" %ld", rs_kneg[k]);
+    printf(" kpos"); for (int k = 0; k <= ROT + 1; k++) printf(" %ld", rs_kpos[k]);
+    printf(" c40"); for (int k = 0; k <= ROT + 1; k++) printf(" %ld", rs_c40[k]);
+    printf(" open"); for (int k = 0; k <= ROT + 1; k++) printf(" %ld", rs_open[k]);
+    printf(" kviol %ld cviol %ld", rs_kviol, rs_cviol);
     printf(" rel"); for (int k = 0; k < NRULES; k++) printf(" %ld", rs_rel[k]);
     printf(" urel"); for (int k = 0; k < NRULES; k++) printf(" %ld", rs_urel[k]);
     printf(" abs"); for (int k = 0; k < NRULES; k++) printf(" %ld", rs_abs[k]);
     printf(" uabs"); for (int k = 0; k < NRULES; k++) printf(" %ld", rs_uabs[k]);
     printf("\n");
+    memset(rs_kpos, 0, sizeof rs_kpos); memset(rs_kneg, 0, sizeof rs_kneg);
+    memset(rs_c40, 0, sizeof rs_c40); memset(rs_open, 0, sizeof rs_open); rs_kviol = rs_cviol = 0;
     rs_tot = rs_unc = 0; memset(rs_min, 0, sizeof rs_min); memset(rs_umin, 0, sizeof rs_umin);
     memset(rs_rel, 0, sizeof rs_rel); memset(rs_urel, 0, sizeof rs_urel); memset(rs_abs, 0, sizeof rs_abs); memset(rs_uabs, 0, sizeof rs_uabs);
 }
@@ -1196,6 +1392,9 @@ static int construct(void) {
         }
         for (int a = 0; a < n; a++) if (fz[a] == best) { memcpy(pre, fseq[a], sizeof(int) * fnn[a]); npre = fnn[a]; break; }
         return 0;
+    } else if (ARULE == 41) {        /* rule RK (k4/rulef.md), fast */
+        rulef_leaf41();
+        return lb4r(ROT);
     } else if (ARULE == 40) {        /* rule F data (k4/rulef.md): every first agent, then the rule -Q */
         rulef_leaf();
         return lb4r(ROT);
@@ -1339,6 +1538,7 @@ int main(int argc, char **argv) {
         else if (!strncmp(argv[a], "-X", 2)) rng_x ^= (uint64_t)atol(argv[a] + 2) * 0x9E3779B97F4A7C15ull;
         else if (!strncmp(argv[a], "-w", 2)) OWNW = atoi(argv[a] + 2);
         else if (!strncmp(argv[a], "-Q", 2)) QRULE = atoi(argv[a] + 2);
+        else if (!strncmp(argv[a], "-E", 2)) FULL41 = atoi(argv[a] + 2);
         else if (!strncmp(argv[a], "-D", 2)) DUMP = atoi(argv[a] + 2);
         else if (!strncmp(argv[a], "-c", 2)) CHUP = atoi(argv[a] + 2);
         else { fprintf(stderr, "unknown option %s\n", argv[a]); return 1; }
@@ -1380,6 +1580,7 @@ int main(int argc, char **argv) {
                 int k = ok ? used_rot : ROT + 1;
                 if (ok && !rawcheck()) { report("RAWFAIL"); return 2; }
                 if (ARULE == 40) rulef_stat(1);
+                if (ARULE == 41) rulef_stat41(1, ok, used_rot);
                 hist_rot[k]++; if (ok) hist_pol[used_pol]++;
                 if (VERB || !ok) { char lab[64]; snprintf(lab, sizeof lab, ok ? "RUN rot=%d pol=%d" : "RUN fail", k, used_pol); report(lab); }
                 if (INS == 10) printf("sample %ld: %s %d\n", smp, ok ? "rot" : "fail", k);
@@ -1388,6 +1589,8 @@ int main(int argc, char **argv) {
             printf("single rule=%d samples=%ld", ARULE, nsm);
             for (int k = 0; k <= ROT; k++) printf(" rot%d=%ld", k, hist_rot[k]);
             printf(" fail=%ld uncov=%d\n", hist_rot[ROT + 1], last_uncov); fflush(stdout);
+            if (ARULE == 40) rulef_print();
+            if (ARULE == 41) rulef_print41();
             continue;
         }
         if (SAMPLE > 0 || HILL > 0) {    /* random profiles (-S), or hill-climbing toward hard profiles (-H) */
@@ -1407,6 +1610,7 @@ int main(int argc, char **argv) {
                 int ok; if (run_leaf(&ok)) { fprintf(stderr, "split with singleton type sets\n"); return 1; }
                 runs++; leaves++; total++;
                 if (ARULE == 40) rulef_stat(1);
+                if (ARULE == 41) rulef_stat41(1, ok, used_rot);
                 if (last_uncov) { uncov++; if (DEEP && shown < MAXF) { report("UNCOV"); shown++; } }
                 if (!ok) { fails++; hist_rot[ROT + 1]++; if (shown < MAXF) { report("FAIL"); shown++; } if (HILL > 0) break; continue; }
                 if (!rawcheck()) { rawf++; if (shown < MAXF) { report("RAWFAIL"); shown++; } continue; }
@@ -1465,6 +1669,7 @@ int main(int argc, char **argv) {
                         lastnins = nins; memcpy(lastmax, maxchoice, sizeof lastmax);
                         long w = weight();
                         if (ARULE == 40) rulef_stat(w);
+                        if (ARULE == 41) rulef_stat41(w, ok, used_rot);
                         if (last_uncov) { uncov += w; if (DEEP && shown < MAXF) { report("UNCOV"); shown++; } }
                         leaves++; total += w;
                         if (!ok) { fails += w; hist_rot[ROT + 1] += w; if (shown < MAXF) { report("FAIL"); shown++; } continue; }
@@ -1494,6 +1699,7 @@ int main(int argc, char **argv) {
             memset(ustat, 0, sizeof ustat);
         }
         if (ARULE == 40) rulef_print();
+        if (ARULE == 41) rulef_print41();
         printf("total %ld leaves %ld runs %ld fails %ld rawfails %ld rot", total, leaves, runs, fails, rawf);
         for (int k = 0; k <= ROT; k++) printf(" %ld", hist_rot[k]);
         printf(" pol %ld %ld %ld uncov %ld covviol %ld covchk %ld\n", hist_pol[0], hist_pol[1], hist_pol[2], uncov, covviol, covchk);
