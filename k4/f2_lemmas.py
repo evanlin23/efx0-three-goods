@@ -337,6 +337,9 @@ def coverage(files):
             pr = cache[key]; Bs = tup(r['Bs']); ctx = Ctx(pr, Bs)
             assert pr.t3_stage(Bs)
             cnt['states'] += 1
+            P = ctx.P
+            if not any(P.frozen[x] and any(ctx.I.threat(x, P.W(o), P.bv[x]) for o in P.free) for x in range(ctx.I.n)):
+                cnt['SX fails: no frozen agent exposed w.r.t. a free agent'] += 1
             cnt['Lemma P: a frozen agent without a need path (not T4-optimal)'] += ctx.lemmaP()
             n6, n8 = ctx.check_6_8(); cnt['Lemma 6+ chain swaps checked'] += n6; cnt['Lemma 8+ values checked'] += n8
             nc, rot = ctx.check_closure(); cnt['Lemma C compositions checked'] += nc
