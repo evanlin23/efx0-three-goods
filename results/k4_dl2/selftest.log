@@ -1,0 +1,11 @@
+# command: python3 k4/dl2_selftest.py
+# dl2.c sha256 bbcd97717b16c6c58092e3299a1694026814791ea8b64b2a9464202d41ad66b4
+158 blocks
+n 5.9 s 149701 lines
+h 6.2 s 149701 lines
+w 6.2 s 149701 lines
+wh 6.4 s 149701 lines
+h identical to n
+w identical to n
+wh identical to n
+{'prof': 2049, 'om1': 1414, 'kstar0': 1001, 'kstar1': 391, 'kstar2': 21, 'kstar3': 1, 'kstar4': 0, 'kstarinf': 0, 'kstarn': 3, 'kiso': 0, 'ktrap': 1, 'piso': 0, 'ptrap': 1}

@@ -12,10 +12,12 @@ suite: the complete instances of k4/suite/instances (local configurations skippe
 inst: a JSON list of instances {"id", "sets", "vals"} (one profile each), or with --sample=P and "m", P random strict
 profiles of each instance's hypergraph.
 
+--wide builds dl2.c with 64-bit masks (m <= 64; H_3 has m = 33).
 Prints the command, the SHA-256 of dl2.c, per file the counters of dl2.c (k* histogram: 0, 1, 2, >= 3, inf; profiles with
 omega >= 1; P with def > 0; the largest least deficit), and the repair table (k4/dl2.c's header defines the
-signature, the repair type and the roles). --rec=R and --dump write dl2.c's "D" records (every profile with k* >= 2,
-every R-th evaluated profile with k* = 1) as gzip JSON lines with the core and the values added. --ckpt appends one
+signature, the repair type and the roles). --dump writes dl2.c's "D" records (every profile with k* >= 3 or inf, every
+R-th profile with k* = 1 for --rec=R (default 0: none), every Q-th with k* = 2 for --rec2=Q (default 1: all)) as gzip
+JSON lines with the core and the values added. --ckpt appends one
 JSON line per finished core and skips the cores already in it (resume after a restart). --tables=PATH writes the
 merged T/A tables as JSON."""
 import gzip, hashlib, json, os, random, subprocess, sys, tempfile, time
@@ -26,13 +28,15 @@ import check4
 
 SRC = os.path.join(HERE, 'dl2.c')
 SHA = hashlib.sha256(open(SRC, 'rb').read()).hexdigest()
-BIN = os.path.join(tempfile.gettempdir(), 'k4_dl2_' + SHA[:16])
-KEYS = 'prof om1 small kstar0 kstar1 kstar2 kstar3 kstarinf pos maxmin'.split()
+WIDE = '--wide' in sys.argv                     # 64-bit masks (m <= 64), for H_3
+BIN = os.path.join(tempfile.gettempdir(), 'k4_dl2_' + SHA[:16] + ('_w' if WIDE else ''))
+KEYS = ('prof om1 small kstar0 kstar1 kstar2 kstar3 kstar4 kstarinf kstarn kiso ktrap pos pd1 pd2 pd3 pd4 pdinf piso '
+        'ptrap maxmin').split()
 
 
 def build():
     if not os.path.exists(BIN):
-        subprocess.run(['gcc', '-O2', '-o', BIN + '.tmp', SRC], check=True)
+        subprocess.run(['gcc', '-O2'] + (['-DWIDE'] if WIDE else []) + ['-o', BIN + '.tmp', SRC], check=True)
         os.replace(BIN + '.tmp', BIN)
 
 
@@ -97,8 +101,10 @@ def merge(tot, b):
 def report(name, tot, secs):
     K = {k: tot.get(k, 0) for k in KEYS}
     print(f"{name}: profiles {K['prof']}, omega >= 1: {K['om1']}; k* = 0: {K['kstar0']}, 1: {K['kstar1']}, "
-          f"2: {K['kstar2']}, >= 3: {K['kstar3']}, inf: {K['kstarinf']}; P with def > 0: {K['pos']}; "
-          f"largest least deficit {K['maxmin'] if K['om1'] else '-'} [{secs:.0f} s]", flush=True)
+          f"2: {K['kstar2']}, 3: {K['kstar3']}, >= 4: {K['kstar4']}, inf: {K['kstarinf']} (k* = n: {K['kstarn']}; "
+          f"k* >= 3 isolated / trapped: {K['kiso']} / {K['ktrap']}); P with def > 0: {K['pos']}, at distance 1: {K['pd1']}, "
+          f"2: {K['pd2']}, 3: {K['pd3']}, >= 4: {K['pd4']}, inf: {K['pdinf']} (distance >= 3, isolated / trapped: "
+          f"{K['piso']} / {K['ptrap']}); largest least deficit {K['maxmin'] if K['om1'] else '-'} [{secs:.0f} s]", flush=True)
 
 
 def print_tables(tot):
@@ -120,7 +126,7 @@ def main():
     print(f'# dl2.c sha256 {SHA}', flush=True)
     build()
     rec = int(opt.get('rec', 0)); jobs = int(opt.get('jobs', 2))
-    copts = [f'-r{rec}']
+    copts = [f'-r{rec}', f"-q{int(opt.get('rec2', 1))}"]
     dumpf = gzip.open(opt['dump'], 'at') if 'dump' in opt else None
     tot = {}
     t0 = time.time()

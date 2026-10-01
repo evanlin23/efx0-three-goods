@@ -1,8 +1,9 @@
 """Cross-check of k4/dl2.c against k4/suite/deficit_local.py and k4/suite/model.py (compute/k4-dl2). EVIDENCE only.
 
 For each instance (one strict profile): k* from deficit_local.kstar (the suite's own Python, written from the
-definitions independently of dl2.c) and from dl2.c; and, per min-frozen pre-allocation P, the bases, def(P) and the
-distance to the nearest min-frozen P' with smaller deficit, model.py (the suite's model) against dl2.c's "W" lines.
+definitions independently of dl2.c) and from dl2.c; and, per min-frozen pre-allocation P, the bases, def(P), the
+distance to the nearest min-frozen P' with smaller deficit and (def > 0) to the nearest other min-frozen P', model.py
+(the suite's model) against dl2.c's "W" lines.
 Every disagreement is printed; the exit status is nonzero if there is one.
 
   python3 k4/dl2_check.py suite [--maxn=N]                       every complete suite instance with n <= N (default 6)
@@ -31,9 +32,10 @@ def py_side(d):
     df = {Bs: (INF if x is None else x) for Bs, x in ((Bs, I.deficit(Bs)) for Bs in mp)}
     per = {}
     for Bs in mp:
-        if df[Bs] <= 0: per[Bs] = (df[Bs], -1); continue
+        if df[Bs] <= 0: per[Bs] = (df[Bs], -1, -1); continue
         dist = min((sum(1 for a, b in zip(Bs, B2) if a != b) for B2 in mp if df[B2] < df[Bs]), default=99)
-        per[Bs] = (df[Bs], dist)
+        near = min((sum(1 for a, b in zip(Bs, B2) if a != b) for B2 in mp if B2 != Bs), default=99)
+        per[Bs] = (df[Bs], dist, near)
     return k, per
 
 
@@ -46,8 +48,8 @@ def one(d):
     ck = None if ck == -2 else (float('inf') if ck == -1 else ck)
     cper = {}
     for w in b['W'][0]:
-        Bs = tuple(w[:n]); dfv = w[n]; dist = w[n + 1]
-        cper[Bs] = ((INF if dfv >= 999999 else dfv), dist)
+        Bs = tuple(w[:n]); dfv = w[n]; dist = w[n + 1]; near = w[n + 2]
+        cper[Bs] = ((INF if dfv >= 999999 else dfv), dist, near)
     pk, pper = py_side(d)
     bad = []
     if pk != ck: bad.append(f'k*: python {pk} C {ck}')
@@ -56,7 +58,7 @@ def one(d):
         if set(pp) != set(cper):
             bad.append(f'min-frozen P sets differ: python {len(pp)}, C {len(cper)}, only python {sorted(set(pp) - set(cper))[:3]}, only C {sorted(set(cper) - set(pp))[:3]}')
         for Bs in set(pp) & set(cper):
-            if pp[Bs] != cper[Bs]: bad.append(f'P {Bs}: python (def, dist) {pp[Bs]}, C {cper[Bs]}')
+            if pp[Bs] != cper[Bs]: bad.append(f'P {Bs}: python (def, dist, nn) {pp[Bs]}, C {cper[Bs]}')
     return d.get('id'), n, ck, len(cper), bad
 
 
