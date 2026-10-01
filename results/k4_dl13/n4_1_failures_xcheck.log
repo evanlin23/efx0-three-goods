@@ -1,0 +1,73 @@
+# command: python3 results/k4_dl13/n4_failures_xcheck.py results/k4_dl13/dump_n4_1.jsonl.gz
+# dl13.c sha256 f891de3a228a63fcd05008c0e4d9202068fc0d2b41be5876775affd4b2131d65
+k4_certs_4_n4_1.json.gz pos 25 idx 5 m 6 sets [[0, 2, 4, 5], [1, 3, 5], [3, 4, 5], [3, 4, 5]] prof [103, 1, 3, 3] vals [[6, 2, 7, 10], [2, 4, 3], [3, 4, 2], [3, 4, 2]]: def > 0 states: dl13.c 6, model 6, xcheck 6
+  B [[4], [1], [3], [5]]: dl13.c f 3 def 1 k 2 R13 False; model f 3 def 1 k 2 R13 False; xcheck def 1 k 2 R13 False  -> all agree: DL13 fails
+    R_T (DL_T): model False, xcheck False
+    nearest better (k 2, def 0): [[5], [1], [3], [4]]; agent 0: [4] -> [5] (frozen 1 -> 1); agent 3: [5] -> [4] (frozen 1 -> 1); NA [3, 4, 5] -> [3, 4, 5]
+  B [[4], [1], [5], [3]]: dl13.c f 3 def 1 k 2 R13 False; model f 3 def 1 k 2 R13 False; xcheck def 1 k 2 R13 False  -> all agree: DL13 fails
+    R_T (DL_T): model False, xcheck False
+    nearest better (k 2, def 0): [[5], [1], [4], [3]]; agent 0: [4] -> [5] (frozen 1 -> 1); agent 2: [5] -> [4] (frozen 1 -> 1); NA [3, 4, 5] -> [3, 4, 5]
+k4_certs_4_n4_1.json.gz pos 25 idx 5 m 6 sets [[0, 2, 4, 5], [1, 3, 5], [3, 4, 5], [3, 4, 5]] prof [11, 1, 3, 3] vals [[2, 4, 5, 8], [2, 4, 3], [3, 4, 2], [3, 4, 2]]: def > 0 states: dl13.c 6, model 6, xcheck 6
+  B [[4], [1], [3], [5]]: dl13.c f 3 def 1 k 2 R13 False; model f 3 def 1 k 2 R13 False; xcheck def 1 k 2 R13 False  -> all agree: DL13 fails
+    R_T (DL_T): model False, xcheck False
+    nearest better (k 2, def 0): [[5], [1], [3], [4]]; agent 0: [4] -> [5] (frozen 1 -> 1); agent 3: [5] -> [4] (frozen 1 -> 1); NA [3, 4, 5] -> [3, 4, 5]
+  B [[4], [1], [5], [3]]: dl13.c f 3 def 1 k 2 R13 False; model f 3 def 1 k 2 R13 False; xcheck def 1 k 2 R13 False  -> all agree: DL13 fails
+    R_T (DL_T): model False, xcheck False
+    nearest better (k 2, def 0): [[5], [1], [4], [3]]; agent 0: [4] -> [5] (frozen 1 -> 1); agent 2: [5] -> [4] (frozen 1 -> 1); NA [3, 4, 5] -> [3, 4, 5]
+k4_certs_4_n4_1.json.gz pos 25 idx 5 m 6 sets [[0, 2, 4, 5], [1, 3, 5], [3, 4, 5], [3, 4, 5]] prof [111, 1, 3, 3] vals [[6, 3, 8, 10], [2, 4, 3], [3, 4, 2], [3, 4, 2]]: def > 0 states: dl13.c 6, model 6, xcheck 6
+  B [[4], [1], [3], [5]]: dl13.c f 3 def 1 k 2 R13 False; model f 3 def 1 k 2 R13 False; xcheck def 1 k 2 R13 False  -> all agree: DL13 fails
+    R_T (DL_T): model False, xcheck False
+    nearest better (k 2, def 0): [[5], [1], [3], [4]]; agent 0: [4] -> [5] (frozen 1 -> 1); agent 3: [5] -> [4] (frozen 1 -> 1); NA [3, 4, 5] -> [3, 4, 5]
+  B [[4], [1], [5], [3]]: dl13.c f 3 def 1 k 2 R13 False; model f 3 def 1 k 2 R13 False; xcheck def 1 k 2 R13 False  -> all agree: DL13 fails
+    R_T (DL_T): model False, xcheck False
+    nearest better (k 2, def 0): [[5], [1], [4], [3]]; agent 0: [4] -> [5] (frozen 1 -> 1); agent 2: [5] -> [4] (frozen 1 -> 1); NA [3, 4, 5] -> [3, 4, 5]
+k4_certs_4_n4_1.json.gz pos 25 idx 5 m 6 sets [[0, 2, 4, 5], [1, 3, 5], [3, 4, 5], [3, 4, 5]] prof [21, 1, 3, 3] vals [[2, 6, 7, 10], [2, 4, 3], [3, 4, 2], [3, 4, 2]]: def > 0 states: dl13.c 6, model 6, xcheck 6
+  B [[4], [1], [3], [5]]: dl13.c f 3 def 1 k 2 R13 False; model f 3 def 1 k 2 R13 False; xcheck def 1 k 2 R13 False  -> all agree: DL13 fails
+    R_T (DL_T): model False, xcheck False
+    nearest better (k 2, def 0): [[5], [1], [3], [4]]; agent 0: [4] -> [5] (frozen 1 -> 1); agent 3: [5] -> [4] (frozen 1 -> 1); NA [3, 4, 5] -> [3, 4, 5]
+  B [[4], [1], [5], [3]]: dl13.c f 3 def 1 k 2 R13 False; model f 3 def 1 k 2 R13 False; xcheck def 1 k 2 R13 False  -> all agree: DL13 fails
+    R_T (DL_T): model False, xcheck False
+    nearest better (k 2, def 0): [[5], [1], [4], [3]]; agent 0: [4] -> [5] (frozen 1 -> 1); agent 2: [5] -> [4] (frozen 1 -> 1); NA [3, 4, 5] -> [3, 4, 5]
+k4_certs_4_n4_1.json.gz pos 25 idx 5 m 6 sets [[0, 2, 4, 5], [1, 3, 5], [3, 4, 5], [3, 4, 5]] prof [34, 1, 3, 3] vals [[3, 2, 4, 8], [2, 4, 3], [3, 4, 2], [3, 4, 2]]: def > 0 states: dl13.c 6, model 6, xcheck 6
+  B [[4], [1], [3], [5]]: dl13.c f 3 def 1 k 2 R13 False; model f 3 def 1 k 2 R13 False; xcheck def 1 k 2 R13 False  -> all agree: DL13 fails
+    R_T (DL_T): model False, xcheck False
+    nearest better (k 2, def 0): [[5], [1], [3], [4]]; agent 0: [4] -> [5] (frozen 1 -> 1); agent 3: [5] -> [4] (frozen 1 -> 1); NA [3, 4, 5] -> [3, 4, 5]
+  B [[4], [1], [5], [3]]: dl13.c f 3 def 1 k 2 R13 False; model f 3 def 1 k 2 R13 False; xcheck def 1 k 2 R13 False  -> all agree: DL13 fails
+    R_T (DL_T): model False, xcheck False
+    nearest better (k 2, def 0): [[5], [1], [4], [3]]; agent 0: [4] -> [5] (frozen 1 -> 1); agent 2: [5] -> [4] (frozen 1 -> 1); NA [3, 4, 5] -> [3, 4, 5]
+k4_certs_4_n4_1.json.gz pos 25 idx 5 m 6 sets [[0, 2, 4, 5], [1, 3, 5], [3, 4, 5], [3, 4, 5]] prof [39, 1, 3, 3] vals [[3, 4, 6, 8], [2, 4, 3], [3, 4, 2], [3, 4, 2]]: def > 0 states: dl13.c 6, model 6, xcheck 6
+  B [[4], [1], [3], [5]]: dl13.c f 3 def 1 k 2 R13 False; model f 3 def 1 k 2 R13 False; xcheck def 1 k 2 R13 False  -> all agree: DL13 fails
+    R_T (DL_T): model False, xcheck False
+    nearest better (k 2, def 0): [[5], [1], [3], [4]]; agent 0: [4] -> [5] (frozen 1 -> 1); agent 3: [5] -> [4] (frozen 1 -> 1); NA [3, 4, 5] -> [3, 4, 5]
+  B [[4], [1], [5], [3]]: dl13.c f 3 def 1 k 2 R13 False; model f 3 def 1 k 2 R13 False; xcheck def 1 k 2 R13 False  -> all agree: DL13 fails
+    R_T (DL_T): model False, xcheck False
+    nearest better (k 2, def 0): [[5], [1], [4], [3]]; agent 0: [4] -> [5] (frozen 1 -> 1); agent 2: [5] -> [4] (frozen 1 -> 1); NA [3, 4, 5] -> [3, 4, 5]
+k4_certs_4_n4_1.json.gz pos 25 idx 5 m 6 sets [[0, 2, 4, 5], [1, 3, 5], [3, 4, 5], [3, 4, 5]] prof [51, 1, 3, 3] vals [[3, 6, 8, 10], [2, 4, 3], [3, 4, 2], [3, 4, 2]]: def > 0 states: dl13.c 6, model 6, xcheck 6
+  B [[4], [1], [3], [5]]: dl13.c f 3 def 1 k 2 R13 False; model f 3 def 1 k 2 R13 False; xcheck def 1 k 2 R13 False  -> all agree: DL13 fails
+    R_T (DL_T): model False, xcheck False
+    nearest better (k 2, def 0): [[5], [1], [3], [4]]; agent 0: [4] -> [5] (frozen 1 -> 1); agent 3: [5] -> [4] (frozen 1 -> 1); NA [3, 4, 5] -> [3, 4, 5]
+  B [[4], [1], [5], [3]]: dl13.c f 3 def 1 k 2 R13 False; model f 3 def 1 k 2 R13 False; xcheck def 1 k 2 R13 False  -> all agree: DL13 fails
+    R_T (DL_T): model False, xcheck False
+    nearest better (k 2, def 0): [[5], [1], [4], [3]]; agent 0: [4] -> [5] (frozen 1 -> 1); agent 2: [5] -> [4] (frozen 1 -> 1); NA [3, 4, 5] -> [3, 4, 5]
+k4_certs_4_n4_1.json.gz pos 25 idx 5 m 6 sets [[0, 2, 4, 5], [1, 3, 5], [3, 4, 5], [3, 4, 5]] prof [6, 1, 3, 3] vals [[2, 3, 4, 8], [2, 4, 3], [3, 4, 2], [3, 4, 2]]: def > 0 states: dl13.c 6, model 6, xcheck 6
+  B [[4], [1], [3], [5]]: dl13.c f 3 def 1 k 2 R13 False; model f 3 def 1 k 2 R13 False; xcheck def 1 k 2 R13 False  -> all agree: DL13 fails
+    R_T (DL_T): model False, xcheck False
+    nearest better (k 2, def 0): [[5], [1], [3], [4]]; agent 0: [4] -> [5] (frozen 1 -> 1); agent 3: [5] -> [4] (frozen 1 -> 1); NA [3, 4, 5] -> [3, 4, 5]
+  B [[4], [1], [5], [3]]: dl13.c f 3 def 1 k 2 R13 False; model f 3 def 1 k 2 R13 False; xcheck def 1 k 2 R13 False  -> all agree: DL13 fails
+    R_T (DL_T): model False, xcheck False
+    nearest better (k 2, def 0): [[5], [1], [4], [3]]; agent 0: [4] -> [5] (frozen 1 -> 1); agent 2: [5] -> [4] (frozen 1 -> 1); NA [3, 4, 5] -> [3, 4, 5]
+k4_certs_4_n4_1.json.gz pos 25 idx 5 m 6 sets [[0, 2, 4, 5], [1, 3, 5], [3, 4, 5], [3, 4, 5]] prof [65, 1, 3, 3] vals [[4, 2, 5, 8], [2, 4, 3], [3, 4, 2], [3, 4, 2]]: def > 0 states: dl13.c 6, model 6, xcheck 6
+  B [[4], [1], [3], [5]]: dl13.c f 3 def 1 k 2 R13 False; model f 3 def 1 k 2 R13 False; xcheck def 1 k 2 R13 False  -> all agree: DL13 fails
+    R_T (DL_T): model False, xcheck False
+    nearest better (k 2, def 0): [[5], [1], [3], [4]]; agent 0: [4] -> [5] (frozen 1 -> 1); agent 3: [5] -> [4] (frozen 1 -> 1); NA [3, 4, 5] -> [3, 4, 5]
+  B [[4], [1], [5], [3]]: dl13.c f 3 def 1 k 2 R13 False; model f 3 def 1 k 2 R13 False; xcheck def 1 k 2 R13 False  -> all agree: DL13 fails
+    R_T (DL_T): model False, xcheck False
+    nearest better (k 2, def 0): [[5], [1], [4], [3]]; agent 0: [4] -> [5] (frozen 1 -> 1); agent 2: [5] -> [4] (frozen 1 -> 1); NA [3, 4, 5] -> [3, 4, 5]
+k4_certs_4_n4_1.json.gz pos 25 idx 5 m 6 sets [[0, 2, 4, 5], [1, 3, 5], [3, 4, 5], [3, 4, 5]] prof [73, 1, 3, 3] vals [[4, 3, 6, 8], [2, 4, 3], [3, 4, 2], [3, 4, 2]]: def > 0 states: dl13.c 6, model 6, xcheck 6
+  B [[4], [1], [3], [5]]: dl13.c f 3 def 1 k 2 R13 False; model f 3 def 1 k 2 R13 False; xcheck def 1 k 2 R13 False  -> all agree: DL13 fails
+    R_T (DL_T): model False, xcheck False
+    nearest better (k 2, def 0): [[5], [1], [3], [4]]; agent 0: [4] -> [5] (frozen 1 -> 1); agent 3: [5] -> [4] (frozen 1 -> 1); NA [3, 4, 5] -> [3, 4, 5]
+  B [[4], [1], [5], [3]]: dl13.c f 3 def 1 k 2 R13 False; model f 3 def 1 k 2 R13 False; xcheck def 1 k 2 R13 False  -> all agree: DL13 fails
+    R_T (DL_T): model False, xcheck False
+    nearest better (k 2, def 0): [[5], [1], [4], [3]]; agent 0: [4] -> [5] (frozen 1 -> 1); agent 2: [5] -> [4] (frozen 1 -> 1); NA [3, 4, 5] -> [3, 4, 5]
+failing states: 20 confirmed by every implementation, 0 not; profiles 10; R_T fails (model and xcheck) at 20 of them

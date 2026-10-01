@@ -1,0 +1,1 @@
+(b) estimate: 724847616 profiles = 100x (a); at (a)'s 340246 profiles/CPU-s: 2130 CPU-s, about 9 min wall on 4 workers (more if two 4-good agents cost more per profile)
