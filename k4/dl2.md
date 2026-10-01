@@ -226,6 +226,10 @@ following moves, the needed set NA staying the same:
 By Lemmas 1′ and 6 every such move stays in the min-frozen class as soon as the new bases are disjoint, inside the
 relevant sets, of at most two goods, and need only goods of NA. DL_T implies TARGET₄ (K4.STRAT.DL2.LEAN).
 
+*Note (2026-10-01, compute/k4-rt4-n5):* DL_RT4 (DL_T with (T4) added: frozen agents permute their goods; K4.DL2.RT4E)
+and its key-graph form (`k4/dl13.md` §2.3) are refuted at n = 5 (K4.DL2.RT4, K4.DL13.KEY); see
+`attempts/k4-rt4-n5-chain.md`.
+
 **R_T is local only in the frozen agents, and DL_T holds at f = 0.** The *key* of a min-frozen P is its needed set
 with the frozen agents and their goods (𝒩, φ) (`k4/c4min.md` §1). A min-frozen P′ ≠ P has the same key as P iff only
 agents free in both change and NA is unchanged, i.e. iff P → P′ is a (T1) or (T2) move. So R_T(P, P′) holds iff P′ has
