@@ -304,7 +304,10 @@ and LB₄ʳ's exact owner search confirms every class on every profile):
   one-rotation profiles (189,216; 299,574,040 / 263,336; 7,246,416 / 816; 724,640,736 / 206,880), so RK₃ is as good
   as rule F there, without running LB₄ʳ's owner search; and at n = 4 with three 4-good agents too: K0
   34,961,492,780, K1 0 / 10,351,828, again rule F's counts (`results/k4_rulef/rk_n4_n4_3_n1.log`, run with four
-  workers on a separate machine). So on all 3.6·10¹⁰ profiles RK₃ has no counting gap and is optimal.
+  workers on a separate machine, and `rk_n4_n4_3_n1_runs.log`, a second run with one worker that agrees on every
+  counter; `results/k4_rulef/CLOUD_SUMMARY.md`). Since K0's promise is checked on every profile (0 violations), K0 is
+  contained in rule F's no-rotation set, and equal counts make the two sets equal. So on all 3.6·10¹⁰ profiles RK₃
+  has no counting gap and is optimal.
   #44's gap for A₄⁺ᴺ, over *every* insertion sequence (K4.AD.AN), was 1,020 (n = 2), 119,616 (n = 3)
   and 31,224 (n = 4, two 4-good agents) profiles that LB₄ʳ solves without rotation under some owner-needs convention.
   K1 covers the gap anyway: with one rotation and Lemma K every profile is certified. Lemma K′ (Remark 5 of §2) is
