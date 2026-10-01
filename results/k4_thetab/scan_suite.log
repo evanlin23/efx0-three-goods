@@ -1,0 +1,21 @@
+# command: python3 k4/thetab_scan.py suite
+# input suite
+  n=3 | (H) | T1stuck | theorem W | Lemma G certifies | plain swap                                               1
+  n=3 | (H) | T3stage | theorem W | Lemma G certifies | plain swap                                               3
+  n=3 | (H) | other | theorem W | Lemma G certifies | plain swap                                                 23
+  n=3 | needers 4+BT | T3stage | theorem - | Lemma G certifies | plain swap                                      1
+  n=3 | needers 4+BT | T3stage | theorem G1 | Lemma G certifies | plain swap                                     1
+  n=4 | (H) | T1stuck | theorem K | Lemma G certifies | plain swap                                               3
+  n=4 | (H) | T3stage | theorem - | Lemma G certifies | plain swap                                               7
+  n=4 | (H) | T3stage | theorem K | Lemma G certifies | plain swap                                               11
+  n=4 | (H) | T3stage | theorem S | Lemma G certifies | plain swap                                               1
+  n=4 | (H) | other | theorem - | Lemma G certifies | plain swap                                                 1
+  n=4 | (H) | other | theorem K | Lemma G certifies | plain swap                                                 6
+  n=4 | (H) | other | theorem S | Lemma G certifies | plain swap                                                 1
+  profiles                                                                                                       150
+  profiles with f = 1, omega >= 1                                                                                40
+smallest state per uncovered cell (no theorem, or no certified / exact plain swap):
+  n=3 | needers 4+BT | T3stage | - | True | plain swap: n=3 m=6 red-a1-hopeless-key {"sets": [[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], "vals": [[4, 2, 7, 8], [2, 3, 4, 8], [3, 4, 6, 8]], "m": 6} P=[[5], [2, 3], [4]]
+  n=4 | (H) | T3stage | - | True | plain swap: n=4 m=11 red-b1-blocked-improvement {"sets": [[0, 2, 7, 10], [1, 5, 8, 10], [3, 6, 9, 10], [4, 7, 8, 9]], "vals": [[4, 3, 2, 8], [4, 5, 6, 8], [3, 2, 4, 8], [4, 8, 1, 6]], "m": 11} P=[[0], [10], [9], [7, 8]]
+  n=4 | (H) | other | - | True | plain swap: n=4 m=11 red-b1-blocked-improvement {"sets": [[0, 2, 7, 10], [1, 5, 8, 10], [3, 6, 9, 10], [4, 7, 8, 9]], "vals": [[4, 3, 2, 8], [4, 5, 6, 8], [3, 2, 4, 8], [4, 8, 1, 6]], "m": 11} P=[[0, 2], [10], [3, 6], [7, 8]]
+no assertion failed

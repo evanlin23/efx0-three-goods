@@ -319,6 +319,36 @@ def g1_swaps(ctx):
     return out
 
 
+def swap_bound_any_f(ctx, x, z, A, o):
+    """Lemma G at any f (k4/thetab.md §2, §6): frozen x on g, free needer z of g, admissible A ⊆ J ∪ B_z, free o != z.
+    Least C ⊆ J' meeting the threat edges inside W'_o of every agent other than o (x holding A, z holding g, the
+    others holding their bases; frozen ones included); bound |C| - (2 - |A|) - S_oz - kappa, kappa as in Lemma G
+    (for o big-top on its top with L_o ⊆ Y, or o not valuing g). Other frozen agents counted in u' are ignored."""
+    I, P, Bs = ctx.I, ctx.P, ctx.Bs
+    g = Bs[x]
+    Jn = (P.J | Bs[z]) & ~A
+    U = Bs[o] | Jn
+    hold = {i: Bs[i] for i in range(I.n)}
+    hold[x] = A; hold[z] = g
+    edges = []
+    for w in range(I.n):
+        if w == o: continue
+        edges += minimal_edges(I, w, U, I.val(w, hold[w]))
+    S_oz = sum(2 - pc(Bs[w]) for w in P.free if w not in (o, z))
+    h0, _ = least_hitting(edges, Jn)
+    bounds = []
+    if h0 is not None: bounds.append(h0 - (2 - pc(A)) - S_oz)
+    others_need_g = any(P.N[w] & g for w in range(I.n) if w not in (o, z, x))
+    if I.val(x, A) > I.val(x, g) and not others_need_g:
+        Lo = I.R[o] & ~g
+        hk = None
+        if not (g & I.R[o]): hk = h0
+        elif bigtop(I, o) and I.top(o) == next(bits(g)) and not (Lo & ~U):
+            hk, _ = least_hitting(edges, Jn & ~Lo)
+        if hk is not None: bounds.append(hk - (2 - pc(A)) - S_oz - 1)
+    return min(bounds) if bounds else None
+
+
 def swaps(ctx, z):
     """the admissible A for x after z takes g: A ⊆ (J ∪ B_z) ∩ R_x, 1 or 2 goods, N_x(A) ⊆ NA"""
     x = setting(ctx)[0]

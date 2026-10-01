@@ -26,7 +26,24 @@ def main(argv):
         distinct.add((cls, r['f'], json.dumps([r['sets'], r['vals'], r['Bs']])))
         k = (cls, r['f'])
         if k not in small or (I.n, I.m) < small[k][0]: small[k] = ((I.n, I.m), r, ctx)
-        if r['f'] != 1: continue
+        if r['f'] != 1:
+            # f >= 2 (k4/thetab.md §6): Lemma G at any f, plain swaps of a frozen x with a free needer z
+            plain = any(mv['h'] is None for mv in r['t3'])
+            cert = False
+            for x in range(I.n):
+                if not P.frozen[x]: continue
+                for z in ctx.free_needers(x):
+                    for A in ctx.admissible(x, P.J | Bs[z]):
+                        b2 = ctx.new(x, z, A)
+                        for o in P.free:
+                            if o == z: continue
+                            bd = swap_bound_any_f(ctx, x, z, A, o)
+                            if bd is None: continue
+                            assert pr.D[b2] <= bd, ('Lemma G (any f) violated', r['src'], x, z, A, o)
+                            if bd < ctx.D: cert = True
+            cnt[('f>=2', cls, 'a plain swap lowers def' if plain else 'NO plain swap',
+                 'Lemma G certifies one' if cert else 'Lemma G certifies none')] += 1
+            continue
         x, g, nd, third = setting(ctx)
         typ = '+'.join(sorted(ntype(I, y) for y in nd))
         cnt[('f=1', cls, 'n=%d' % I.n, 'needers %s' % typ, 'x ' + ntype(I, x))] += 1

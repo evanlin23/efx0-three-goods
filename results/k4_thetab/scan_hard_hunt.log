@@ -1,0 +1,5 @@
+# command: python3 k4/thetab_scan.py catalog hard_hunt.json.gz
+# input catalog hard_hunt.json.gz
+  profiles                                                                                                       117
+smallest state per uncovered cell (no theorem, or no certified / exact plain swap):
+no assertion failed
