@@ -1,0 +1,16 @@
+# command: python3 k4/thetab_scan.py catalog gap_n3.json.gz
+# input catalog gap_n3.json.gz
+  n=3 | (H) | T1stuck | theorem W | Lemma G certifies | plain swap                                               419
+  n=3 | (H) | T3stage | theorem W | Lemma G certifies | plain swap                                               8734
+  n=3 | (H) | other | theorem W | Lemma G certifies | plain swap                                                 8678
+  n=3 | needers 4+4 | T3stage | theorem - | Lemma G certifies | plain swap                                       88
+  n=3 | needers 4+BT | T3stage | theorem - | Lemma G certifies | plain swap                                      17
+  n=3 | needers 4+BT | T3stage | theorem G1 | Lemma G certifies | plain swap                                     326
+  n=3 | one needer | Corollary G1 applies                                                                        4837
+  n=3 | one needer | Corollary G1 does not apply                                                                 19675
+  profiles                                                                                                       74256
+  profiles with f = 1, omega >= 1                                                                                74256
+smallest state per uncovered cell (no theorem, or no certified / exact plain swap):
+  n=3 | needers 4+4 | T3stage | - | True | plain swap: n=3 m=6 gap_n3.json.gz:k4_certs_3.json.gz[m=6,idx=8]:11,11,246 {"sets": [[0, 3, 4, 5], [1, 3, 4, 5], [2, 3, 4, 5]], "vals": [[2, 4, 5, 8], [2, 4, 5, 8], [8, 6, 3, 10]], "m": 6} P=[[4], [1, 3], [5]]
+  n=3 | needers 4+BT | T3stage | - | True | plain swap: n=3 m=6 gap_n3.json.gz:k4_certs_3.json.gz[m=6,idx=2]:2,11,6 {"sets": [[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], "vals": [[1, 6, 4, 8], [2, 4, 5, 8], [2, 3, 4, 8]], "m": 6} P=[[5], [4], [2, 3]]
+no assertion failed
