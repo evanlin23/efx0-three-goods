@@ -4911,3 +4911,6 @@
 #   unit {'pos': 4904, 'blk': None}: om1 281903 pos 664 st1 664 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [22.8 s]
 #   unit {'pos': 4905, 'blk': None}: om1 281872 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [24.8 s]
 #   unit {'pos': 4906, 'blk': None}: om1 282070 pos 0 st1 0 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [25.1 s]
+# command: python3 k4/dlrt4_run.py certs results/k4_certs_5_n4_2.json.gz --sample=350000 --seed=2 --bt=all --jobs=4 --ckpt=results/k4_rt4/ckpt_n5a_2bt.jsonl --dump=results/k4_rt4/dump_n5a_2bt.jsonl.gz --tables=results/k4_rt4/tables_n5a_2bt.json --progress
+# dlrt4.c sha256 fcde494a3161279d47a7b80e614f69c58894ebc7b40d00e461f677b8810d7cae
+# k4_certs_5_n4_2.json.gz: cores 0..5467, 561 units to run, 4907 from the checkpoint; 350000 random profiles per unit, seed 2; big-top restriction all
