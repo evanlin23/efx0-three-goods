@@ -10,8 +10,13 @@ move kinds at the nearest distance, states:
   ['key(U0Z0W2Y0)']: 20
   ['rot2']: 4
 candidate enlargements of R_13: failing states they repair / do not repair
+  R13       repairs 0, does not repair 24
   RTr       repairs 4, does not repair 20
   R13+tr    repairs 4, does not repair 20
   R13+rot3  repairs 4, does not repair 20
   R13+h2    repairs 0, does not repair 24
   R13+hA    repairs 0, does not repair 24
+  R134      repairs 20, does not repair 4
+  R134s2    repairs 20, does not repair 4
+  RT4       repairs 24, does not repair 0
+  RT4s2     repairs 24, does not repair 0

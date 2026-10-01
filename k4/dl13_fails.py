@@ -17,12 +17,40 @@ deficit):
   R13+tr    R_13 plus trades (rotations of two free agents);
   R13+rot3  R_13 plus rotations of at most three free agents;
   R13+h2    (T1) plus role swaps with a needer and at most two helpers, each giving up a good;
-  R13+hA    (T1) plus role swaps with a needer and any number of helpers, each giving up a good.
+  R13+hA    (T1) plus role swaps with a needer and any number of helpers, each giving up a good;
+  R134      R_13 plus T4: the changed agents are all frozen in P and P' and NA(P') = NA(P) (frozen agents permute their
+            goods), computed from model.py's pre-allocations; RT4 = RTr plus T4; R134s2, RT4s2: T4 by two agents only.
 Prints the counts (states, profiles) and, per candidate, how many failing states it repairs."""
 import collections, gzip, json, os, sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import dl2_relations as DR
+from dl2_classify import PA, M, INF
+
+
+def t4_moves(it):
+    """model.py's T4 at the failing states of a profile: {bases: least |ch| of an improving T4 move (0: none)}, where
+    T4 = the changed agents are all frozen in P and in P' and NA(P') = NA(P) (frozen agents permute their goods)"""
+    I = M.Inst(it['sets'], it['vals'], it['m']); I.preallocs()
+    mp = [Bs for Bs, NA in I.minP]
+    D = {}
+    for Bs in mp:
+        x = I.deficit(Bs); D[Bs] = INF if x is None else x
+    PAs = {Bs: PA(I, Bs) for Bs in mp}
+    NAof = lambda P: __import__('functools').reduce(lambda a, b: a | b, P.N, 0)
+    out = {}
+    for Bs in mp:
+        key = tuple(tuple(M.bits(B)) for B in Bs)
+        if key not in it['fails']: continue
+        P = PAs[Bs]; best = 0
+        for B2 in mp:
+            if D[B2] >= D[Bs]: continue
+            P2 = PAs[B2]
+            ch = [i for i in range(I.n) if Bs[i] != B2[i]]
+            if ch and all(P.frozen[i] and P2.frozen[i] for i in ch) and NAof(P) == NAof(P2):
+                best = len(ch) if best == 0 else min(best, len(ch))
+        out[key] = best
+    return out
 
 
 def rot(s, kmax=None):
@@ -35,6 +63,7 @@ def swaph(s, hmax=None):
 
 
 CANDS = collections.OrderedDict([
+    ('R13', lambda s: DR._one(s, nt_ok=False) or swaph(s, 1)),
     ('RTr', lambda s: DR._one(s, nt_ok=False) or rot(s) or swaph(s, 1)),
     ('R13+tr', lambda s: DR._one(s, nt_ok=False) or rot(s, 2) or swaph(s, 1)),
     ('R13+rot3', lambda s: DR._one(s, nt_ok=False) or rot(s, 3) or swaph(s, 1)),
@@ -73,6 +102,7 @@ def main(argv):
     cand = collections.Counter(); sig = collections.Counter(); minsz = None
     for it in items:
         recs = DR.profile({'sets': it['sets'], 'vals': it['vals'], 'm': it['m']})
+        t4 = t4_moves(it)
         mf = {tuple(tuple(b) for b in r['Bs']) for r in recs if r['f'] >= 1 and not r['holds']['R13']}
         if mf != it['fails']:
             mism += 1; print('MISMATCH', it['core'].get('pos', it['core'].get('id')), it['prof'], sorted(mf ^ it['fails'])[:3], flush=True)
@@ -84,6 +114,8 @@ def main(argv):
             kinds[tuple(ks)] += 1
             nearest[tuple(sorted({kind(s) for s in r['shapes'] if s['k'] == r['k']}))] += 1
             ok = {c: any(p(s) for s in r['shapes']) for c, p in CANDS.items()}
+            ok['R134'] = ok['R13'] or bool(t4.get(key)); ok['RT4'] = ok['RTr'] or bool(t4.get(key))
+            ok['R134s2'] = ok['R13'] or t4.get(key) == 2; ok['RT4s2'] = ok['RTr'] or t4.get(key) == 2
             for c, v in ok.items(): cand[(c, v)] += 1
             if fo:
                 fo.write(json.dumps({'core': it['core'], 'prof': it['prof'], 'vals': it['vals'], 'B': r['Bs'], 'def': r['def'],
@@ -97,7 +129,8 @@ def main(argv):
     print('move kinds at the nearest distance, states:')
     for k, c in nearest.most_common(): print(f'  {list(k)}: {c}')
     print('candidate enlargements of R_13: failing states they repair / do not repair')
-    for c in CANDS: print(f'  {c:<9} repairs {cand[(c, True)]}, does not repair {cand[(c, False)]}')
+    for c in list(CANDS) + ['R134', 'R134s2', 'RT4', 'RT4s2']:
+        print(f'  {c:<9} repairs {cand[(c, True)]}, does not repair {cand[(c, False)]}')
 
 
 if __name__ == '__main__':
