@@ -65,6 +65,16 @@ summary)        # results/k4_dl13/summary.md: every run, and T1 / T3 by obstruct
       $(for c in hunt_pure_m8 hunt_n4_3_m8 hunt_pure_m6 hunt_n4_3_m6 hunt_gap_n5_pure_s100 hunt_gap_n5_4_s100 hunt_gap_n5_3_s100; do echo "$c=${T}_$c.json"; done) \
     "@random n = 5, 6 profiles and H_2" $(for c in rand_5_n4_1 rand_5_n4_2 rand_5_n4_3 rand_5_n4_4 rand_5_pure rand_6_n4_1 h2 h2_s200; do echo "$c=${T}_$c.json"; done) \
     > $R/summary.md ;;
+fails)          # every DL13 failure found, re-derived with model.py, with the candidate relations (R_134, R_T + T4, ...)
+  python3 k4/dl13_fails.py $R/dump_n4_1.jsonl.gz $R/dump_n4_2.jsonl.gz $R/dump_n4_3_s200b.jsonl.gz $R/states_cat.jsonl.gz \
+      $R/states_nbhd123.jsonl.gz $R/hunt_n4_3_m8.jsonl.gz $R/hunt_pure_m8.jsonl.gz $R/hunt_n4_3_m6.jsonl.gz \
+      $R/hunt_pure_m6.jsonl.gz $R/hunt_n5.jsonl.gz --out=$R/fails_all.jsonl.gz > $R/fails_all.log 2>&1 ;;
+xcheck134)      # T4 / R_134 / R_T + T4 on c4x_check.py (no model.py): the n = 4 certificate-run failures, this branch's, n = 5
+  python3 k4/dl134_xcheck.py $R/dump_n4_1.jsonl.gz $R/dump_n4_2.jsonl.gz $R/dump_n4_3_s200b.jsonl.gz \
+      --out=$R/dl134_xcheck_n4.jsonl.gz > $R/dl134_xcheck_n4.log 2>&1
+  python3 k4/dl134_xcheck.py $R/states_cat.jsonl.gz $R/states_nbhd123.jsonl.gz $R/hunt_n4_3_m8.jsonl.gz $R/hunt_pure_m8.jsonl.gz \
+      $R/hunt_n4_3_m6.jsonl.gz $R/hunt_pure_m6.jsonl.gz --out=$R/dl134_xcheck_own.jsonl.gz > $R/dl134_xcheck_own.log 2>&1
+  python3 k4/dl134_xcheck.py $R/hunt_n5.jsonl.gz --out=$R/dl134_xcheck_n5.jsonl.gz > $R/dl134_xcheck_n5.log 2>&1 ;;
 h3)
   run ht 3 --wide --jobs=1 --rt=1 --ro=20 --dump=$R/states_ht.jsonl.gz --tables=$R/tables_h3.json >> $R/h3.log 2>&1 ;;
 esac
