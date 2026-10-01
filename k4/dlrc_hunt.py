@@ -7,6 +7,8 @@ condition), evaluating every profile with k4/dlrc.c (-v -H; dlrc.c's header defi
 nearness-to-failure score, compared lexicographically:
   std:  (rcf, kf, chain, chain3, -gap, c3, kstar, -minmv, st1)
   w2:   (rcf, kf, chainw2, chain, chain3, -gap, c3, kstar, -minmv, st1)
+  k3:   (rcf, kf, chain, chain3, c3, kstar, -gap, -minmv, st1)  (an addition: the distance terms first, as a gradient
+        towards states whose nearest repair changes >= 3 agents, where every chain state found lies)
 where, over the profile's def > 0 states with f >= 1: rcf = the states where DL_RC fails (a counterexample), kf = those
 where the key form fails, chain = those whose only improving R_C moves are T3+ moves with |W| >= 1 (DL_RT4 fails, DL_RC
 holds), chain3 = those with f >= 3, chainw2 = those whose least improving |W| is >= 2, gap = the least deficit gap
@@ -92,6 +94,7 @@ def score(h, obj):
     mv = h['mv'] if h['st1'] else 10 ** 6
     s = (h['rcf'], h['kf'], h['ch'], h['ch3'], -gap, h['c3'], h['kstar'] if h['st1'] else 0, -mv, h['st1'])
     if obj == 'w2': s = s[:2] + (h['chw2'],) + s[2:]
+    elif obj == 'k3': s = s[:4] + (s[5], s[6], s[4]) + s[7:]      # distance terms (c3, kstar) before -gap
     return s
 
 
@@ -311,8 +314,9 @@ def main(argv):
              sum(1 for s in S if s['chain_profiles']), sum(s['chain_profiles'] for s in S), sum(s['chain_states'] for s in S),
              max([s['maxw'] for s in S] or [0]), sum(1 for s in S if s['rcfail_profiles']),
              sum(1 for s in S if s['keyfail_profiles'])), flush=True)
-    print('best units (score order %s):' % ('rcf kf chainw2 chain chain3 -gap c3 kstar -minmv st1' if o['obj'] == 'w2' else
-                                            'rcf kf chain chain3 -gap c3 kstar -minmv st1'))
+    print('best units (score order %s):' % {'w2': 'rcf kf chainw2 chain chain3 -gap c3 kstar -minmv st1',
+                                            'k3': 'rcf kf chain chain3 c3 kstar -gap -minmv st1'}.get(
+                                                o['obj'], 'rcf kf chain chain3 -gap c3 kstar -minmv st1'))
     for s in sorted(S, key=lambda s: s['best_score'], reverse=True)[:15]:
         print('  %s %s n=%d m=%d best %s prof %s H %s' % (json.dumps(s['key']), s['label'], s['n'], s['m'], s['best_score'],
                                                           s['best_prof'], s['best_H']), flush=True)
