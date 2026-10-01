@@ -9547,3 +9547,8 @@
 #   unit {'pos': 9541, 'blk': None}: om1 16000 pos 893 st1 893 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [9.9 s]
 #   unit {'pos': 9543, 'blk': None}: om1 16000 pos 1972 st1 1972 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [9.5 s]
 #   unit {'pos': 9542, 'blk': None}: om1 16000 pos 744 st1 744 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [10.0 s]
+#   unit {'pos': 9544, 'blk': None}: om1 16000 pos 799 st1 799 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [7.7 s]
+#   unit {'pos': 9545, 'blk': None}: om1 16000 pos 1818 st1 1818 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [7.8 s]
+#   unit {'pos': 9546, 'blk': None}: om1 16000 pos 2104 st1 2104 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [8.2 s]
+#   unit {'pos': 9547, 'blk': None}: om1 16000 pos 1701 st1 1701 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [8.1 s]
+#   unit {'pos': 9548, 'blk': None}: om1 16000 pos 5099 st1 5099 fail1 0 t4 0 t4only 0 t2only 0 rtfail 0 [7.8 s]
