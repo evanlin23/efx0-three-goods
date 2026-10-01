@@ -30,7 +30,9 @@ Usage:
                 [--first=K] [--every=K] [--evals=E] [--jobs=J] [--seed=S] [-Y0] [-N1]   the selected cores (every K-th,
                 the first K), E evaluations each
   rulef_hunt.py RUN --seeds=JSONL [--evals=E] ...      each {"sets", "vals", "tag"} line: its core, starting at it
-Search options: --exhaust (seed runs: all one- and two-agent type changes of the current profile, descending while the
+Search options: --relabel (after each restart, and after an --exhaust descent, the best profile is evaluated under all
+n! orders of the agents: rule RK depends on the index order, and the certificate files list one labeling per core;
+the best relabeling is recorded, every relabeled profile with nwork <= 1 dumped with its order 'relabel'), --exhaust (seed runs: all one- and two-agent type changes of the current profile, descending while the
 key improves, at most 6 rounds; 'restarts' in the record counts the rounds), --key=M|R|S|W|E (below), --samep=P (ranking-preserving redraws), --kick=P (a restart starts from two
 redraws of the best profile so far with probability P; default: every third restart).
 The run writes (resumable: rerun the same command) results/k4_rulef_hunt/ck/RUN.jsonl (one line per finished unit) and
@@ -89,6 +91,13 @@ class Evaluator:
             for _ in chunk:
                 t = self.p.stdout.readline().split()
                 if not t or t[0] != 'R': raise RuntimeError('evaluator: ' + ' '.join(t))
+                out.append(self.parse(t))
+        self.nev += len(profs)
+        return out
+
+    def parse(self, t):
+        if True:
+            if True:
                 nwork, nk0, mind, sumd = int(t[2]), int(t[3]), int(t[4]), int(t[5])
                 cls = [int(x) for x in t[6][4:].split(',')]
                 defs = [int(x) for x in t[7][4:].split(',')]
@@ -106,9 +115,43 @@ class Evaluator:
                 elif KEY == 'S': key = (nwork, nk0, -sumd, -clamp(mind))
                 elif KEY == 'W': key = (10 * nwork + 3 * nk0 - sum(max(-3, min(4, x)) for x in defs), nwork, -clamp(mind))
                 else: key = (nwork, -clamp(mind), nk0, -sumd)
-                out.append((key, nwork, nk0, cls, defs))
-        self.nev += len(profs)
-        return out
+                return (key, nwork, nk0, cls, defs)
+
+    def relabeled(self, sets, m, vals, perms, want_detail):
+        """evaluate the profile (sets, vals) under each agent order pi (agent i becomes agent pi[i]), each as its own
+        one-type core; the current core is lost (call set_core again). Returns [(pi, S, V, key-tuple)], and the
+        detail lines for those with nwork <= 1 when want_detail."""
+        n = len(sets)
+        jobs = []
+        for pi in perms:
+            S = [None] * n; V = [None] * n
+            for i in range(n): S[pi[i]] = sets[i]; V[pi[i]] = vals[i]
+            jobs.append((pi, S, V))
+        out = []
+        for c0 in range(0, len(jobs), 100):
+            chunk = jobs[c0:c0 + 100]
+            txt = []
+            for pi, S, V in chunk:
+                txt.append(f"C {n} {m}")
+                for Sx, Vx in zip(S, V):
+                    txt.append(f"{len(Sx)} {' '.join(map(str, Sx))} 1"); txt.append(' '.join(map(str, Vx)))
+                txt.append('P 0 ' + ' '.join('0' * n))
+            self.p.stdin.write('\n'.join(txt) + '\n'); self.p.stdin.flush()
+            for pi, S, V in chunk:
+                t = self.p.stdout.readline().split()
+                if not t or t[0] != 'R': raise RuntimeError('evaluator: ' + ' '.join(t))
+                out.append((pi, S, V, self.parse(t)))
+        self.nev += len(jobs)
+        dets = {}
+        if want_detail:
+            for pi, S, V, r in out:
+                if r[1] <= 1:
+                    txt = [f"C {n} {m}"]
+                    for Sx, Vx in zip(S, V):
+                        txt.append(f"{len(Sx)} {' '.join(map(str, Sx))} 1"); txt.append(' '.join(map(str, Vx)))
+                    self.p.stdin.write('\n'.join(txt) + '\n'); self.p.stdin.flush()
+                    dets[tuple(pi)] = self.detail(tuple(0 for _ in range(n)))
+        return out, dets
 
     def detail(self, prof):
         self.p.stdin.write(f"D 0 {' '.join(map(str, prof))}\n"); self.p.stdin.flush()
@@ -126,9 +169,9 @@ OPTS = None
 KEY = 'M'
 
 
-def init(opts, key='M', samep=0.0, kick=None):
-    global EV, OPTS, KEY, SAMEP, KICK
-    OPTS, KEY, SAMEP, KICK = opts, key, samep, kick
+def init(opts, key='M', samep=0.0, kick=None, relabel=False):
+    global EV, OPTS, KEY, SAMEP, KICK, RELABEL
+    OPTS, KEY, SAMEP, KICK, RELABEL = opts, key, samep, kick, relabel
     EV = Evaluator(opts)
 
 
@@ -197,6 +240,7 @@ def unit(task):
                 tight[p] = r
 
     restarts = 0
+    rel = RelScan(uid, meta, sets, m, doms) if RELABEL else None
     while EV.nev - nev0 < evals:
         if restarts == 0 and start is not None:
             profs = [start]
@@ -219,15 +263,42 @@ def unit(task):
                 stag += 1
         hist[cnw] += 1
         if best is None or ck < best[1]: best = (cur, ck, cnw)
+        if rel is not None: rel.scan(cur)
         restarts += 1
-    tl = []
-    for p, r in sorted(tight.items(), key=lambda z: z[1][0]):
-        det = EV.detail(p)
-        tl.append({'unit': uid, **meta, 'sets': sets, 'm': m, 'vals': vals_of(sets, doms, p), 'types': list(p),
-                   'nwork': r[1], 'nK0': r[2], 'cls': r[3], 'def': r[4], 'detail': det})
-    return {'unit': uid, **meta, **({} if 'file' in meta else {'sets': sets}), 'm': m, 'n': len(sets),
-            'evals': EV.nev - nev0, 'restarts': restarts, 'best_key': list(best[1]), 'best_nwork': best[2], 'best_types': list(best[0]), 'best_vals': vals_of(sets, doms, best[0]),
-            'hist': hist, 'ntight': len(tight), 'extra_types': extra, 'time': round(time.time() - t0, 2)}, tl
+    return finish(uid, meta, sets, m, doms, tight, best, hist, restarts, extra, nev0, t0, rel)
+
+
+RELABEL = False                           # --relabel: scan every agent order of each restart's best profile
+
+
+class RelScan:
+    """the agent orders of restart-best profiles (--relabel): the best relabeled profile, and every relabeled
+    profile with nwork <= 1 (dumped with its order and details)"""
+    def __init__(self, uid, meta, sets, m, doms):
+        self.uid, self.meta, self.sets, self.m, self.doms = uid, meta, sets, m, doms
+        self.best = None; self.tl = []; self.seen = set(); self.scans = 0
+        self.perms = list(itertools.permutations(range(len(sets))))
+
+    def scan(self, prof):
+        if prof in self.seen: return
+        self.seen.add(prof); self.scans += 1
+        vals = vals_of(self.sets, self.doms, prof)
+        out, dets = EV.relabeled(self.sets, self.m, vals, self.perms, True)
+        EV.set_core(self.sets, self.m, self.doms)
+        for pi, S, V, r in out:
+            if self.best is None or r[0] < self.best[0]:
+                self.best = (r[0], r[1], list(pi), S, V)
+            if r[1] <= 1 and len(self.tl) < 200:
+                self.tl.append({'unit': self.uid, **self.meta, 'sets': S, 'm': self.m, 'vals': V, 'types': None,
+                                'relabel': list(pi), 'base_types': list(prof), 'nwork': r[1], 'nK0': r[2],
+                                'cls': r[3], 'def': r[4], 'detail': dets[tuple(pi)]})
+
+    def record(self, rec):
+        if self.best is not None:
+            rec.update({'relabel_scans': self.scans, 'relabel_best_key': list(self.best[0]),
+                        'relabel_best_nwork': self.best[1], 'relabel_best_perm': self.best[2],
+                        'relabel_best_sets': self.best[3], 'relabel_best_vals': self.best[4]})
+        return rec
 
 
 def unit_sa(task):
@@ -323,7 +394,10 @@ def unit_exh(task):
             best = rb; cur = rb[0]
         else:
             break
-    return finish(uid, meta, sets, m, doms, tight, best, hist, rounds, extra, nev0, t0)
+    rel = None
+    if RELABEL:
+        rel = RelScan(uid, meta, sets, m, doms); rel.scan(best[0])
+    return finish(uid, meta, sets, m, doms, tight, best, hist, rounds, extra, nev0, t0, rel)
 
 
 def domains_with(sets, m, start):
@@ -341,16 +415,18 @@ def domains_with(sets, m, start):
     return doms, start, extra
 
 
-def finish(uid, meta, sets, m, doms, tight, best, hist, restarts, extra, nev0, t0):
+def finish(uid, meta, sets, m, doms, tight, best, hist, restarts, extra, nev0, t0, rel=None):
     tl = []
     for p, r in sorted(tight.items(), key=lambda z: z[1][0]):
         det = EV.detail(p)
         tl.append({'unit': uid, **meta, 'sets': sets, 'm': m, 'vals': vals_of(sets, doms, p), 'types': list(p),
                    'nwork': r[1], 'nK0': r[2], 'cls': r[3], 'def': r[4], 'detail': det})
-    return {'unit': uid, **meta, **({} if 'file' in meta else {'sets': sets}), 'm': m, 'n': len(sets),
-            'evals': EV.nev - nev0, 'restarts': restarts, 'best_key': list(best[1]), 'best_nwork': best[2], 'best_types': list(best[0]),
-            'best_vals': vals_of(sets, doms, best[0]), 'hist': hist, 'ntight': len(tight), 'extra_types': extra,
-            'time': round(time.time() - t0, 2)}, tl
+    if rel is not None: tl += rel.tl
+    rec = {'unit': uid, **meta, **({} if 'file' in meta else {'sets': sets}), 'm': m, 'n': len(sets),
+           'evals': EV.nev - nev0, 'restarts': restarts, 'best_key': list(best[1]), 'best_nwork': best[2], 'best_types': list(best[0]),
+           'best_vals': vals_of(sets, doms, best[0]), 'hist': hist, 'ntight': len(tight) + (len(rel.tl) if rel else 0),
+           'extra_types': extra, 'time': round(time.time() - t0, 2)}
+    return (rel.record(rec) if rel is not None else rec), tl
 
 
 def same_type(dv, vd, S):
@@ -386,7 +462,7 @@ def main():
     dump = os.path.join(OUT, f'tight_{run}.jsonl.gz')
     print('# command: python3 k4/rulef_hunt.py ' + ' '.join(args), flush=True)
     print(f'# k4/rulef.c sha256 {SHA}', flush=True)
-    print(f'# k4/rulef_hunt_eval.c sha256 {ESHA}; evaluator options {" ".join(opts)}; B={B} R0={R0} STAG={STAG}; key {key}; samep {samep}; kick {kick}',
+    print(f'# k4/rulef_hunt_eval.c sha256 {ESHA}; evaluator options {" ".join(opts)}; B={B} R0={R0} STAG={STAG}; key {key}; samep {samep}; kick {kick}; relabel {"--relabel" in args}',
           flush=True)
     tasks = []
     if arg(args, 'seeds'):
@@ -430,7 +506,7 @@ def main():
           f'jobs {jobs}', flush=True)
     t0 = time.time()
     nd = 0; tev = 0; ntl = 0; bestk = None; besthist = {}
-    with Pool(jobs, initializer=init, initargs=(opts, key, samep, kick)) as pool, open(ckp, 'a') as fc:
+    with Pool(jobs, initializer=init, initargs=(opts, key, samep, kick, '--relabel' in args)) as pool, open(ckp, 'a') as fc:
         fn = unit_exh if '--exhaust' in args else (unit_sa if key == 'E' else unit)
         for rec, tl in pool.imap_unordered(fn, todo, chunksize=1):
             nd += 1; tev += rec['evals']
