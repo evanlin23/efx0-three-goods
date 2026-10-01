@@ -7,8 +7,10 @@
    Implementation A: k4/suite/model.py (the suite's model; deficit_local.kstar).
    Implementation B: k4/c4x_check.py (main's independent checker of k4/c4x.c: it enumerates every base map good ->
    agent or junk, validity (V1), (V2) literally, and its own removal-only deficit `rodef`).
-2. The failed lemma versions of k4/dl2.md (each with its smallest failing configuration), with implementation A and
-   the brute-force deficit of k4/dl2_classify.py's Lemma H1 formula (asserted equal to model.Inst.deficit).
+2. The structured relations R of k4/dl2.md §3 for which DL_R fails (attempts/k4-dl2-relations.md), each at its
+   smallest failing state found: implementation A is k4/dl2_relations.py (shapes of every improving move, on
+   k4/suite/model.py), implementation B is c4x_check.analyse with membership tests written separately here. At each
+   such state both implementations also find a move of R_T (DL_T holds there).
 usage: python3 attempts/k4_dl2_attempts.py"""
 import os, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

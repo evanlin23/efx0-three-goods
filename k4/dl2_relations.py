@@ -158,6 +158,23 @@ def items_of(mode, rest, opt):
             if not d.get('is_core', True): continue         # DL_R is about cores; non-core instances are skipped
             d.setdefault('m', 1 + max(g for S in d['sets'] for g in S))
             items.append(({'sets': d['sets'], 'vals': d['vals'], 'm': d['m']}, d['id']))
+    elif mode == 'certs':                                    # every strict profile (or --rand=K per core) of a certs file
+        import random
+        from check4 import core_domains
+        data = json.load(gzip.open(rest[0], 'rt'))
+        rng = random.Random(int(opt.get('seed', 1)))
+        base = os.path.basename(rest[0]).replace('.json.gz', '')
+        for core in data['cores']:
+            sets, m = core['sets'], core['m']
+            doms = core_domains(sets, m, False)
+            if 'rand' in opt:
+                profs = [tuple(rng.randrange(len(D)) for D in doms) for _ in range(int(opt['rand']))]
+            else:
+                profs = itertools.product(*[range(len(D)) for D in doms])
+            for ts in profs:
+                vals = [[doms[i][ts[i]][g] for g in sets[i]] for i in range(len(sets))]
+                items.append(({'sets': sets, 'vals': vals, 'm': m},
+                              '%s#%d:%s' % (base, core['idx'], ','.join(map(str, ts)))))
     else:
         recs = json.load(gzip.open(rest[0], 'rt'))['records'][::int(opt.get('every', 1))]
         if 'max' in opt: recs = recs[:int(opt['max'])]

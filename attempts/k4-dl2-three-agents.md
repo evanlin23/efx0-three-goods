@@ -66,8 +66,11 @@ B_o ⊆ X ⊆ B_o ∪ J):
   one good of its base** (in 159 of the 311 states some minimal repair has the third agent only dropping goods, a pure
   release). `k4/dl2.md` records this; a corrected target has to allow it (for example: a role swap together with one
   more base change counts as one move).
-- The two-agent role swap is exactly what Lemma F1's path move (`k4/c4min_f1.md`) and #51's Lemma PM do with a pair
-  for x; here the pair for x has to be freed first.
+- The two-agent role swap has the shape of Lemma F1's path move (`k4/c4min_f1.md`) and #51's Lemma PM; here x's goods
+  have to be freed first. The mechanism (`k4/dl2.md` Lemma 7): agent 0 is big-top, and as the owner it unfreezes
+  agent 2 only with all three of its lower goods 0, 1, 2 in its bundle (2 + 4 + 3 > 8); good 2 is in agent 1's base.
+- The successor target is DL_T (`k4/dl2.md` §3: re-bases, trades, role swaps with at most one helper), which holds
+  here and on every state tested; the narrower relations that fail are in `attempts/k4-dl2-relations.md`.
 
 ## Reproduce
 

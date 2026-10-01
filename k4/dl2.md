@@ -13,12 +13,13 @@ Workstream `proof/k4-dl2-k1` (PR #69). Ledger rows K4.DL2.* (and K4.STRAT.DL2, n
 - **The repairs, classified** (§2, EVIDENCE): on 52,166 states with def > 0 (the suite and #53's catalogues), the
   nearest repairs are one-agent changes in 76%, two-agent changes in 24% and three-agent changes in 0.6% (all at n = 3);
   one-agent repairs are almost always *releases* (an agent gives up a good that an owner's safe bundle absorbs);
-  two-agent repairs are role swaps (85%) or *trades* between two free agents; every three-agent repair is a role swap
-  plus one more agent's change.
+  two-agent repairs are role swaps with an agent that needs the frozen good (91%) or *trades* between two free agents;
+  every three-agent repair is a role swap plus one more agent's change.
 - **The successor target** (§3): DL_R for a structured neighbourhood relation R. Since PR #68
   (`EFX.C4min.target4_of_defLocal`, K4.STRAT.DL2.LEAN), DL_R implies TARGET₄ for every R. The relation **R_T** (one
   re-base; a trade of two free agents; or a role swap with a needer and at most one helper that gives up a good)
-  survives every state tested; every narrower relation tested fails (§3, `attempts/k4-dl2-relations.md`).
+  survives every state tested; every narrower relation tested fails, smallest failures at n = 2 and n = 3
+  (§3, `attempts/k4-dl2-relations.md`).
 - **The moves, in writing** (§4; written proofs, not refereed, CONJECTURE rows): the moves of R_T stay in the
   min-frozen class and keep its needed set (Lemmas 1 and 6); a one-agent move lowers the deficit exactly through an
   owner's bundle growing (Lemma 2, extension) or the moving agent becoming a better owner (Lemma 3, owner re-base);
@@ -87,13 +88,14 @@ The non-core suite instance `lil-noncore-n3` (20 states, one with k = 3) is coun
 | H3 + H7 mixed | 11 | 30 | 0 |
 | H3 only: e3 | 0 | 1 | 0 |
 
-At the Pareto-maximal states (where Lemmas H3 and H7 describe every exposure; 4,042 states): double threat
+At the Pareto-maximal states (where Lemmas H3 and H7 describe every exposure; 3,962 states): double threat
 2,368 / 203 / 0, single H7 threats 821 / 315 / **80**, e2 only 100 / 75 / 0 (k = 1 / 2 / 3). So:
 - **no obstruction class forces k = 1**; every class with more than a few states has two-agent cells;
 - the **three-agent cells** are single local frozen threats (L, 161 states; 80 of them Pareto-maximal) and free agents
   violating (U₂) (150), all at n = 3, f = 1, with a big-top frozen agent;
 - the **"other" classes** (fO never occurs; frozen O 3,377 states) are not covered by H3/H7 because those lemmas need
-  Pareto-maximality; they are repaired like the rest (release 1,689, owner 259, role swap 1,368).
+  Pareto-maximality; they are repaired like the rest (nearest repair: release 1,690, owner re-base 259, role swap
+  1,428).
 
 ### 2.2 Repair kinds
 
@@ -107,9 +109,10 @@ At the Pareto-maximal states (where Lemmas H3 and H7 describe every exposure; 4,
 | two agents: trade between two free agents | 1,123 |
 | three agents: role swap + a third agent | 311 |
 
-(For two-agent states the column is the kind listed first; 6,469 states have both kinds of role swap, 1,159 a role swap
-and a trade.) Every role swap in a minimal repair uses an agent that *needs* the frozen good, except 12 states that also
-have a swap with a needer. In every three-agent repair the unfrozen agent x is a best owner afterwards.
+(For two-agent states the row is the first kind in the order listed; 6,822 states have both kinds of role swap with a
+needer, 1,159 a role swap and a trade.) Every role swap in a minimal repair uses an agent that *needs* the frozen good,
+except at 12 states that also have a swap with a needer. In every three-agent repair (4,779 moves at the 311 states) the
+unfrozen agent x is a best owner afterwards.
 
 ### 2.3 How far the one-agent lemmas reach
 
@@ -144,38 +147,44 @@ The moves (P, P′ both min-frozen; "needed set unchanged" means NA(P′) = NA(P
 | relation | moves | fails on |
 |---|---|---|
 | R2 | at most two agents change (DL₂) | n = 3 (311 states) |
-| RB | re-base, or a plain role swap with a needer | n = 2, f = 0 (`induct-g-r1`), n = 3 |
+| RB | re-base, or a plain role swap with a needer | n = 2, f = 0 (`induct-g-r1`); n = 3 |
 | RB2 | RB or a trade | n = 3 (the 311 states of R2) |
 | RS1 / RS1+2 | re-base, (trade,) or a role swap with any number of helpers each giving up one good and taking nothing | n = 2, n = 3 / n = 3 |
 | RSR+2 | re-base, trade, or a role swap with helpers that only give up goods (any number) | n = 3 |
-| RC | re-base, trade, or a chain of frozen goods ending at a needer (as LB⁺'s rotation) with releasing helpers | n = 3 |
-| RSY, RSYa | re-base, or a role swap with at most one (any number of) helper(s) re-basing in any way, **no trades** | n = 2, f = 0 (`induct-g-r1`) |
+| RC | re-base, trade, or a chain of frozen goods ending at a free agent (LB⁺'s rotation shape) with releasing helpers | n = 3 |
+| RSY, RSYa, RSYg | re-base, or a role swap with at most one (RSYa: any number of) helper(s); **no trades** | n = 2, f = 0 (`induct-g-r1`) |
+| RSYz+2, RSYgz+2 | re-base, trade, or a role swap with at most one helper that takes goods only from its own base and B_z (and gives up a good) | n = 3 (13 states) |
 | RSY+2 | re-base, trade, or a role swap with at most one helper re-basing in any way | none |
-| RSYg+2, RSYz+2, RSYgz+2 | RSY+2 with the helper giving up a good of its base / taking goods only from its own base and B_z / both | none |
-| **R_T** | RSYgz+2 with re-bases that keep the needed set and trades in which a good passes between the two agents | **none** |
+| RSYg+2 | RSY+2, the helper giving up at least one good of its base | none |
+| **R_T** | RSYg+2 with re-bases that keep the needed set and trades in which a good passes between the two agents | **none** |
 
 The failures, each confirmed by two implementations (`k4/dl2_relations.py` on `k4/suite/model.py`, and main's
-`k4/c4x_check.py` with separately written membership tests in `attempts/k4_dl2_attempts.py`):
-- **trades are needed** (RB, RS1, RSY, RSYa): `induct-g-r1` (#43), n = 2, m = 5, f = 0: no agent is frozen, so there is
-  no role swap, and the only improvement exchanges goods 2 and 3 between the two agents (Theorem Z's rotation of a
-  2-cycle);
+`k4/c4x_check.py` with separately written membership tests in `attempts/k4_dl2_attempts.py`; at each failing state both
+implementations also find an R_T move):
+- **trades are needed** (RB, RS1, RSY, RSYa, RSYg): `induct-g-r1` (#43), n = 2, m = 5, f = 0: no agent is frozen, so
+  there is no role swap, and every improvement exchanges goods 2 and 3 between the two agents (Theorem Z's rotation of
+  a 2-cycle);
 - **two agents are not enough** (R2, RB2): `dl2-n3m7` of §1;
-- **releasing helpers are not enough** (RS1+2, RSR+2, RC): at n = 3 a helper must also take a good, from the needer's
-  old base (`attempts/k4-dl2-relations.md`).
+- **releasing helpers are not enough** (RS1+2, RSR+2, RC): `dl2-n3m7-trade` (n = 3, m = 7), where the helper must also
+  take a good of the needer's old base;
+- **the helper needs junk** (RSYz+2, RSYgz+2): `dl2-n3m8-junk` (n = 3, m = 8), where the helper gives up the unfrozen
+  agent's good and takes a junk good.
+
+`attempts/k4-dl2-relations.md` has the instances and what every improving move of each does.
 
 **Conjecture DL_T (K4.DL2.T).** For every strict profile of every connected k = 4 core with ω ≥ 1, every min-frozen
 P ∈ 𝒫 with def(P) > 0 (+∞ included) has a min-frozen P′ ∈ 𝒫 with def(P′) < def(P) that arises from P by one of the
 following moves, the needed set NA staying the same:
-- **(T1) re-base**: one free agent y replaces its base by another base B′ ⊆ B_y ∪ J;
+- **(T1) re-base**: one free agent y replaces its base by another base inside B_y ∪ J;
 - **(T2) trade**: two free agents y, y′ replace their bases by bases inside B_y ∪ B_{y′} ∪ J, and some good of one of
   the two old bases ends in the other agent's new base;
-- **(T3) swap with at most one helper**: a frozen agent x with base {g} and a free agent z with g ∈ N_z(B_z): z takes
-  {g}; x takes a new base inside J ∪ B_z ∪ (B_h ∖ B′_h); and at most one helper h (free) replaces its base by
-  B′_h ⊆ B_h ∪ B_z with B_h ⊄ B′_h (it gives up at least one good, and takes only goods of its own base and of z's old
-  base).
+- **(T3) role swap with at most one helper**: a frozen agent x with base {g} and a free agent z with g ∈ N_z(B_z):
+  z takes {g}, x takes a new base, and at most one further free agent h (the *helper*) replaces its base by one that
+  misses at least one good of B_h. (The new bases then lie in the goods the move frees, J ∪ B_z ∪ B_h, since the other
+  bases do not move.)
 
-By Lemmas 1′ and 6 every such move stays in the min-frozen class (it suffices that the new bases are disjoint, inside
-the relevant sets, of at most two goods, and need only goods of NA). DL_T implies TARGET₄ (K4.STRAT.DL2.LEAN).
+By Lemmas 1′ and 6 every such move stays in the min-frozen class as soon as the new bases are disjoint, inside the
+relevant sets, of at most two goods, and need only goods of NA. DL_T implies TARGET₄ (K4.STRAT.DL2.LEAN).
 
 *Evidence* (EVIDENCE row K4.DL2.TE; single implementation for the survivals): every state of §2's inputs and of #53's
 hunt catalogues (`results/k4_dl2_relations/`; table below). Not exhaustive at any n ≥ 3.
@@ -183,10 +192,14 @@ hunt catalogues (`results/k4_dl2_relations/`; table below). Not exhaustive at an
 RESULTS_TABLE_PLACEHOLDER
 
 *What a proof of DL_T needs.* A case analysis on the obstruction (§2.1) showing that when no (T1) move lowers the
-deficit, a (T2) or (T3) move does. §4 handles the (T1) side exactly (Lemmas 2, 3). For (T2) and (T3) only validity is
-proved (Lemmas 1′, 6); their effect on the deficit is again Lemma H1 applied to P′, and the data say who gains: after a
-(T3) move in a three-agent trap the unfrozen agent x is always a best owner (its bundle is J ∪ B_z minus what it must
-leave out), as in Lemma F1's path move (`k4/c4min_f1.md`), where x becomes free and robust.
+deficit, a (T2) or (T3) move does. §4 handles the (T1) side exactly (Lemmas 2, 3). For (T2) and (T3) validity is proved
+(Lemmas 1′, 6); their effect on the deficit is again Lemma H1 applied to P′. For the three-agent cells the data and
+Lemma 7 give the mechanism: the frozen agent x is big-top, the swap frees it, and x becomes the owner of a bundle that
+holds its three lower goods, which unfreezes the needer z; the helper is the agent holding one of those goods. The
+swap has the shape of Lemma F1's path move of length 0 (`k4/c4min_f1.md` §2: x becomes free, a terminal takes g), and big-top frozen
+agents are exactly where F1's potential Ψ = (r, Λ) stalls (every path move from a big-top x ties in Ψ, `k4/c4min_f1.md`
+§3; no potential starting with (r, Λ) works, K4.C4MIN.F1BT). The deficit counts the unfreezing, which Ψ does not see;
+that is an observation, not a proof that it always suffices.
 
 ## 4. The moves, in writing
 
@@ -195,8 +208,9 @@ checks them). They use only the definitions of `k4/c4x.md` §1 and Lemma H1 of `
 PROVED). Every statement is checked at every def > 0 state of the data (§2): `k4/dl2_classify.py` evaluates the
 hypotheses and, whenever they hold, asserts the conclusion against the exact deficits.
 
-**Setting.** A strict profile of an instance in which every agent has three or four relevant goods (every k = 4 core
-is one; strict balance is not used below). 𝒫, bases B_i, junk J, needs N_i(B) = {g ∈ R_i ∖ B : v_i(g) > v_i(B)},
+**Setting.** A strict profile of an instance in which every agent has three or four relevant goods and is strictly
+balanced: the setting of Lemma H1; every k = 4 core is one. (Balance enters only through Lemma H1; the random checks of
+§5 use such instances that are not cores.) 𝒫, bases B_i, junk J, needs N_i(B) = {g ∈ R_i ∖ B : v_i(g) > v_i(B)},
 N_i := N_i(B_i), NA = ⋃ N_i, frozen agents F, slots and ω are those of `k4/c4x.md` §1. Recall:
 - (V) P ∈ 𝒫 iff its bases are disjoint subsets of the agents' relevant sets with at most two goods each and every
   needed good is the whole base of one agent ((V1) and (V2), `k4/c4x.md` §1). Hence |F| = |NA|, and
@@ -339,24 +353,67 @@ Lemma 6 makes the (T3) moves of §3 well defined: a role swap with a needer stay
 the unfrozen agent's new base and the helper's are admissible for 𝒩 (for x, in practice, its best one or two goods
 outside 𝒩 among the freed goods G).
 
-## 5. What remains
+**Lemma 7 (the unfrozen agent as owner).** Let P′ ∈ 𝒫 be min-frozen with ω ≥ 1, x free in P′, and z ∈ F(P′) with base
+{g}, g ∈ R_x, such that no agent other than x needs g in P′. If Z is a safe bundle of x in P′ with v_x(Z) > v_x(g),
+then z is counted in u′_x(Z), and def(P′) ≤ ω + 1 − |Z|. If x has four goods and g is its top with
+v_x(g) > v_x(b) + v_x(c) (x is *big-top*: b, c its second and third goods), then v_x(Z) > v_x(g) forces
+R_x ∖ {g} ⊆ Z; so every good of R_x ∖ {g} must lie in x's base or in J(P′).
 
-- A proof of DL_T, or a smaller relation that survives. The data say where the difficulty sits: the two-agent cells
-  (role swaps at frozen agents threatened by one or two owners, trades for e2 exposures and at f = 0) and the
-  three-agent cells (a single local threat on a big-top frozen agent whose needer's pair blocks the owner).
-- The deficit side of (T2) and (T3): a structural lemma in the style of Corollaries 4–5 for role swaps, e.g. "if the
-  frozen agent is big-top with its three other goods in J (class G), the swap with any needer makes it a better owner".
-- n ≥ 6, and exhaustive n ≤ 3 (the parallel `compute/k4-dl2` workstream).
-- A referee for §4.
+*Proof.* g ∉ Z (g is z's base, and Z ⊆ B′_x ∪ J(P′) misses the other bases), and v_x(Z) > v_x(g), so g ∉ N_x(Z); by
+hypothesis g ∉ N′_i for i ≠ x. So z's base misses N_x(Z) ∪ 𝒩′₋ₓ, i.e. z is counted, u′_x(Z) ≥ 1, and Lemma H1 gives
+def(P′) ≤ ω + 2 − |Z| − 1. For the big-top case: Z ∩ R_x ⊆ R_x ∖ {g} = {b, c, d}, and every proper subset of {b, c, d}
+is worth at most v(b) + v(c) < v(g) (a pair; a single good is worth less than its pair), so v_x(Z) > v_x(g) needs all
+three. ∎
 
-## 6. Reproduce
+This is the mechanism of every three-agent trap found (§1, §3): the frozen agent x is big-top (all 311 states), the
+role swap makes it free, and it lowers the deficit by becoming the owner of a bundle that holds its three lower goods
+and so unfreezes z (Lemma 7). One of those goods sits in a third agent's base, which must give it up: that agent is
+the helper. On the data, in 4,767 of the 4,779 improving moves at the 311 trap states, x is a best owner afterwards with
+an optimal bundle containing R_x ∖ {g} that counts z, and the helper gives up one of x's lower goods; in the other 12
+the helper (which also holds a lower good of x) keeps it, and x's bundle gains otherwise.
+
+## 5. Coverage: what the lemmas reach, and what remains
+
+On the 52,166 def > 0 states of §2 (cores; the suite and #53's catalogues):
+
+| states | share | what is proved about them (written, not refereed) | what is only data |
+|---|---|---|---|
+| k = 1: 39,466 | 75.7% | the move stays in the class (Lemma 1); it lowers the deficit by Lemma 2 or Lemma 3 at COV_L23 of them (an exact sufficient criterion, checked to hold); structural hypotheses (Corollaries 4, 5) at COV_C45 | that a one-agent repair exists at all |
+| k = 2: 12,389 | 23.7% | the move stays in the class (Lemma 1′ for trades, Lemma 6 for role swaps) | that it lowers the deficit (no structural lemma) |
+| k = 3: 311 | 0.6% | the move stays in the class (Lemma 6); the mechanism (Lemma 7: the unfrozen big-top agent, as owner of its three lower goods, unfreezes its needer) | that it always works; it does in 4,767 of the 4,779 improving moves |
+
+So the lemmas *certify* a repair (hypotheses checked on the state, conclusion proved) at COV_CERT of all def > 0
+states, all of them one-agent states; no lemma certifies a two- or three-agent repair. What a proof of DL_T still needs:
+- **existence**: a reason why some (T1), (T2) or (T3) move lowers the deficit at every def > 0 state. No obstruction
+  class guarantees a one-agent repair (§2.1), so the case analysis must be on finer structure;
+- **the deficit side of (T2) and (T3)**: a lemma that a role swap (with its helper) lowers the deficit under structural
+  hypotheses, extending Lemma 7 (which gives the unfreezing, not the safety of the new owner's bundle); and the same
+  for trades, which on the data are needed only when no agent is frozen (§3);
+- **more data**: exhaustive n ≤ 3 (the parallel `compute/k4-dl2` workstream), n ≥ 6, more n = 5;
+- **a referee** for §4.
+
+## 6. Checks of the lemmas
+
+- At every state of §2 (`k4/dl2_classify.py`, `lemma_checks`): Lemma 1(c) (every allowed re-base is a min-frozen P with
+  the same needed set), Lemmas 2, 3 and Corollaries 4, 5 (conclusion asserted whenever the hypotheses hold); no lemma
+  applies at a state with k > 1. No assertion fails.
+- On random strict instances with 3- and 4-good strictly balanced agents that need not be cores (n ≤ 4, m ≤ 10), and
+  on #53's n = 3 catalogue (`k4/dl2_lemma_random.py`; `results/k4_dl2_classify/lemma_random.log`,
+  `results/k4_dl2_classify/lemma_catalog_n3.log`): the same, plus Lemma 1′ (every trade it allows), Lemma 6 (every role
+  swap with at most one helper it allows) and Lemma 7 (every safe bundle it applies to). No violation.
+
+## 7. Reproduce
 
 ```
 git archive 245040b k4 results/k4_gap results/k4_certs_2.json.gz results/k4_certs_3.json.gz \
   results/k4_certs_4_n4_1.json.gz results/k4_certs_4_n4_2.json.gz results/k4_certs_4_n4_3.json.gz \
   results/k4_certs_4_pure.json.gz | tar -x -C k4/suite/.cache/gapbench        # #53's catalogues (k4/strategy.md §4)
-sh k4/dl2_runs.sh             # classification + table (results/k4_dl2_classify/; ~25 min on 2 CPUs)
-sh k4/dl2_relations_runs.sh   # DL_R for every relation (results/k4_dl2_relations/; hunts included)
-python3 attempts/k4_dl2_attempts.py    # every failure of §1 and §3 with two implementations
+sh k4/dl2_runs.sh              # classification + table (results/k4_dl2_classify/; ~15 min on 2 CPUs)
+sh k4/dl2_relations_runs.sh    # DL_R on the suite, the catalogues and the hunts (results/k4_dl2_relations/)
+sh k4/dl2_relations_runs2.sh   # DL_R on whole certificate files: every n = 2 profile, random n = 3, 4 profiles
+python3 k4/dl2_relations_table.py results/k4_dl2_relations/*.log > results/k4_dl2_relations/table.md
+python3 k4/dl2_lemma_random.py 3000 --seed=7 --nmax=4 --mmax=10       # results/k4_dl2_classify/lemma_random.log
+python3 k4/dl2_lemma_random.py 3000 --catalog=k4/suite/.cache/gapbench/results/k4_gap/gap_n3.json.gz --every=24
+python3 attempts/k4_dl2_attempts.py     # every failure of §1 and §3 with two implementations
 python3 k4/dl2_classify.py one '{"sets": [[0,1,2,3],[2,4,5,6],[3,4,5,6]], "vals": [[2,4,3,8],[2,6,10,7],[8,3,4,2]], "m": 7}'
 ```
