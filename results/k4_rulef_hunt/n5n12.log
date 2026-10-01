@@ -10,3 +10,5 @@
 [     10s] units 400/7203 evals 2400048 (230319/s) est. total 3.1 min; best nwork per unit {5: 400}; tight profiles 0; best key [5, -1, 0, -5] at k4_certs_5_n4_1.json.gz:307
 [     17s] units 600/7203 evals 3600432 (208710/s) est. total 3.5 min; best nwork per unit {5: 600}; tight profiles 0; best key [5, -1, 0, -5] at k4_certs_5_n4_1.json.gz:307
 [     23s] units 800/7203 evals 4800624 (207544/s) est. total 3.5 min; best nwork per unit {5: 800}; tight profiles 0; best key [5, -1, 0, -5] at k4_certs_5_n4_1.json.gz:307
+[     29s] units 1000/7203 evals 6000768 (208009/s) est. total 3.5 min; best nwork per unit {5: 1000}; tight profiles 0; best key [5, -1, 0, -5] at k4_certs_5_n4_1.json.gz:307
+[     34s] units 1200/7203 evals 7201200 (211414/s) est. total 3.4 min; best nwork per unit {5: 1200}; tight profiles 0; best key [5, -1, 0, -5] at k4_certs_5_n4_1.json.gz:307
