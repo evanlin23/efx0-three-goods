@@ -385,6 +385,7 @@ def main(argv):
     for k in sorted(ex):
         tag, label, d, Bs = ex[k]
         print('smallest %-40s n=%d m=%d %s sets=%s vals=%s P=%s' % (k, tag[0], tag[1], label, d['sets'], d['vals'], Bs))
+    print('# done')
     sys.stdout.flush()
 
 
