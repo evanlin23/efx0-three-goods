@@ -27,15 +27,19 @@ conventions of `EFX/DL2Moves.lean`. Strictness is `EFX.Strict` (`EFX/K4Ties.lean
 - *Lemma 8* (the unfrozen agent as owner): `RoleSwap.junk_iff` (`J′ = G ∖ (A ∪ ⋃ B′_h)`), `RoleSwap.lemma8_bundle`
   (`x`'s bundles in `P′` are the `A ⊆ Z ⊆ G ∖ ⋃ B′_h`), `RoleSwap.lemma8_safe` (safety agent by agent),
   `RoleSwap.lemma8_u` (`u′_x(Z) = ū(Z) + ι(Z)`), `RoleSwap.lemma8` (`x` free in `P′`, `def(P′) ≤ ω + 2 − |Z| − ū − ι`),
-  `RoleSwap.lemma8_val` (`Val_{P′}(x) = max (|Z| + ū(Z) + ι(Z))`); *Corollary 8.2*: `RoleSwap.cor8_2`.
+  `RoleSwap.lemma8_val` (`Val_{P′}(x) = max (|Z| + ū(Z) + ι(Z))`); *Corollary 8.2*: `RoleSwap.cor8_2`, and its
+  "e.g. `A = {b_x, c_x}`": `bigTop_pair_admissible`.
 - *Lemma 9* (the owner swap from a needer): `lemma9_admissible` (`Z` contains a base admissible for `x`),
   `RoleSwap.lemma9` (`def(P′) ≤ ω + 2 − |Z| − (u_o(X) − e) − ι`), `RoleSwap.eSwap_eq_zero` (`e = 0` when
-  `v_o(X) < v_o(g)`), `RoleSwap.eSwap_le_one` (`e ≤ 1` when `g` is `o`'s top); *Corollaries 9.1, 9.2*: `cor9_1` (the S1
-  repair: an admissible `A ⊆ X ∪ {c}` exists, and the constructed swap is a min-frozen (T3)-neighbour with
+  `v_o(X) < v_o(g)`), `RoleSwap.eSwap_le_one` (when `g` is `o`'s top: `N_o({g}) = ∅`, only `x` can be counted, `e ≤ 1`);
+  *Corollaries 9.1, 9.2*: `cor9_1_drop` (the S1 repair's bound for every swap with `A ⊆ X ∪ {c}`), `cor9_1` (an
+  admissible `A ⊆ X ∪ {c}` exists, and for every such `A` the constructed swap is a min-frozen (T3)-neighbour with
   `def(P′) ≤ def(P) − 1 − ι`), `cor9_2`.
 - *Lemma 10* (the θ-dichotomy): `lemma10` (exactly one of (θ-a), (θ-b)), `lemma10_a` (under (θ-a), `Q` is an admissible
   re-base of `o` not needing `g`, and some other agent needs `g`).
-- *Lemma 11* (an owner that does not move): `lemma11`; *Corollary 11.1* (the blocker swap): `cor11_1`, `cor11_1_auto`.
+- *Lemma 11* (an owner that does not move): `lemma11` (`def(P′) ≤ ω + 2 − |Y| − (u_o(X) − e*) − κ`, `κ` = `kappaSwap`),
+  `lemma11_one` (the case `κ = 1`), and its two remarks `not_counted_of_needer`, `not_counted_needs_single`;
+  *Corollary 11.1* (the blocker swap): `cor11_1`, `cor11_1_auto`.
 - *Lemma 12* (frozen rotations): `lemma12_move` (min-frozen, same `NA`, `F`, `J`, `ω`, free agents' bases and needs),
   `lemma12` (bundles unchanged, safety preserved, `u′_o ≥ u_o`, `def(P′) ≤ def(P)`), `lemma12_lt_iff` (the strict case,
   exactly), `lemma12_lt` (its two particular cases), `uCount_eq_goods` (`u_o(Z) = #{h ∈ 𝒩 : h ∉ N_o(Z) ∪ 𝒩₋ₒ}` on `𝒫`);
@@ -52,8 +56,9 @@ prose leaves room:
    `g ∉ N_h(B′_h) ∪ 𝒩_{−{x,z,h}}` is "no listed agent other than `x, z` needs `g` in `P′`". The text's
    "`g ∉ N_x(Z)` iff `v_x(Z) > v_x(g)`, by strictness" is where `Strict` enters.
 3. *Corollary 8.2* uses only: `z` the only needer of `g` in `P`, no helper needing `g` in `P′`, `x` strictly balanced on
-   `g`, and `L_x ⊆ Z`; the text's "`x` big-top, `L_x ⊆ G`, `A ⊆ L_x`, `B′_h ∩ L_x = ∅`" say when such a `Z` exists. Its gain
-   is stated with `|Z| + 1 + ū(Z) > Val*(P)`, which the text's `|Z| + 1 > Val*(P)` implies.
+   `g`, and `L_x ⊆ Z`; the text's "`x` big-top, `L_x ⊆ G`, `A ⊆ L_x`, `B′_h ∩ L_x = ∅`" say when such a `Z` exists, and
+   its "e.g. `A = {b_x, c_x}`" is `bigTop_pair_admissible`. Its gain is stated with `|Z| + 1 + ū(Z) > Val*(P)`, which the
+   text's `|Z| + 1 > Val*(P)` implies.
 4. *Lemma 9*: the bound holds for every set `X` (the text takes a bundle of `o` in `P`; `eSwap_eq_zero` uses
    `X ⊆ W_o`); "`g` is `o`'s top" is `∀ r, v_o(r) ≤ v_o(g)`. *Corollary 11.1*: "X ∪ {c} threatens exactly one agent other
    than `o`, `z`" is used only as "threatens nobody outside `{o, z}`".
@@ -61,7 +66,7 @@ prose leaves room:
    than `g`" (the same, `b_o, c_o` being the best pair); "`Q` is a re-base admissible for `o`" is `N_o(Q) ⊆ 𝒩`,
    `Q ⊆ (B_o ∪ J) ∩ R_o`, `|Q| ≤ 2`, `Q ≠ B_o`.
 6. *Lemma 11* is stated in the generality of Lemma 2* (any move keeping the needed set, with a newly frozen `z` on `g`):
-   `κ = 1` is the text's condition, and `e*` counts the agents whose base actually changes, a subset of the text's
+   `κ` (`kappaSwap`) is the text's, and `e*` counts the agents whose base actually changes, a subset of the text's
    `{x, z} ∪ H`, so it is at most the text's `e*` and the bound is at least as strong.
 7. *Lemma 12*: "π a permutation of `F`" is "`π` maps `F` to `F` and onto `F`" (one-to-one follows, `P′` being a map);
    "`Val_{P′}(o) ≥ Val_P(o)`" is the three facts of `lemma12` together. Proposition 12.2 (DL₁₃^opt ⟹ TARGET₄) is not
@@ -104,14 +109,14 @@ theorem countP_succ_le_add {α : Type} {p q r : α → Bool} {z : α} :
         · simp only [hp, hr, ↓reduceIte]; split <;> omega
       · simp only [hp, Bool.false_eq_true, ↓reduceIte]; split <;> split <;> omega
 
-/-- **Lemma 11 of `k4/dl13.md` §2.1 (an owner that does not move)**, in the generality of Lemma 2*: let `P, P′ ∈ 𝒫`
+/-- **Lemma 11 of `k4/dl13.md` §2.1, the case `κ = 1`**, in the generality of Lemma 2*: let `P, P′ ∈ 𝒫`
 have the same needed set, `ω ≥ 1`, `o` free in `P` with an unchanged base, `X ⊆ Y` with `Y` a bundle of `o` in `P′`
 that is safe in `P′`; let `z` be free in `P` with `B′_z = {g}`, `g ∈ 𝒩` (the needer of a role swap), and `κ = 1`:
 `g ∉ N_o(Y)` and no listed agent other than `o, z` needs `g` in `P′` (the text's
 `g ∉ N_o(Y) ∪ N_x(A) ∪ N_h(B′_h) ∪ 𝒩_{−{o,x,z,h}}`; `g ∉ N_z({g})` always). Then
 `def(P′) ≤ ω + 2 − |Y| − (u_o(X) − e*) − 1`. (With `κ = 0` the bound is Lemma 2*, `lemma2star`. Here `e*` counts the
 agents whose base actually changes, a subset of the text's `{x, z} ∪ H`, so it is at most the text's `e*`.) -/
-theorem lemma11 (hag : agents.Nodup) (hgd : goods.Nodup) (hP : InP v agents goods base)
+theorem lemma11_one (hag : agents.Nodup) (hgd : goods.Nodup) (hP : InP v agents goods base)
     (hP' : InP v agents goods base')
     (hNA : ∀ g, NA agents (vbNeeds v goods base') g ↔ NA agents (vbNeeds v goods base) g)
     (hω : 0 < omegaP v agents goods base) {o : A} (ho : o ∈ agents)
@@ -158,6 +163,61 @@ theorem lemma11 (hag : agents.Nodup) (hgd : goods.Nodup) (hP : InP v agents good
       · exact (hx.2 g hg).2 i hi hio ((vbNeeds_congr hiB.symm g).mp hN)
       · exact he (Or.inr ⟨i, hi, hiB, g, hg, hN⟩)
   exact deficitLE_mono hb (by push_cast; omega)
+
+open Classical in
+/-- **`κ`** (Lemma 11): `1` if `g ∉ N_o(Y)` and no listed agent other than `o, z` needs `g` in `P′` (the text's
+`g ∉ N_o(Y) ∪ N_x(A) ∪ N_h(B′_h) ∪ 𝒩_{−{o,x,z,h}}`), `0` otherwise. -/
+noncomputable def kappaSwap (v : A → G → Nat) (agents : List A) (goods : List G) (base' : G → Option A) (o z : A)
+    (g : G) (Y : G → Bool) : Nat :=
+  if ¬ setNeeds v goods o Y g ∧ ∀ i ∈ agents, i ≠ o → i ≠ z → ¬ vbNeeds v goods base' i g then 1 else 0
+
+/-- **Lemma 11 (an owner that does not move)** (`k4/dl13.md` §2.1), in the generality of Lemma 2*: let `P, P′ ∈ 𝒫` have
+the same needed set, `ω ≥ 1`, `o` free in `P` with an unchanged base, `X ⊆ Y` with `Y` a bundle of `o` in `P′` that is
+safe in `P′`, and `z` free in `P` with `B′_z = {g}`, `g ∈ 𝒩` (the needer of a role swap). Then
+`def(P′) ≤ ω + 2 − |Y| − (u_o(X) − e*) − κ`. (`κ = 1` is `lemma11_one`, `κ = 0` is Lemma 2*, `lemma2star`. `e*` counts
+the agents whose base actually changes, a subset of the text's `{x, z} ∪ H`, so it is at most the text's `e*`; the two
+remarks of the text are `not_counted_of_needer` and `not_counted_needs_single`.) -/
+theorem lemma11 (hag : agents.Nodup) (hgd : goods.Nodup) (hP : InP v agents goods base)
+    (hP' : InP v agents goods base')
+    (hNA : ∀ g, NA agents (vbNeeds v goods base') g ↔ NA agents (vbNeeds v goods base) g)
+    (hω : 0 < omegaP v agents goods base) {o : A} (ho : o ∈ agents)
+    (hoF : ¬ Frozen agents goods base (vbNeeds v goods base) o) (hoB : baseOf goods base o = baseOf goods base' o)
+    {X Y : G → Bool} (hXY : ∀ g ∈ goods, X g = true → Y g = true) (hY : IsBundle goods base' o Y)
+    (hS : SafeFor v agents goods base' o Y) {z : A} {g : G} (hz : z ∈ agents)
+    (hzF : ¬ Frozen agents goods base (vbNeeds v goods base) z) (hz' : baseOf goods base' z = [g])
+    (hgN : NA agents (vbNeeds v goods base) g) :
+    DeficitLE v agents goods base'
+      (omegaP v agents goods base + 2 - ((goods.filter Y).length : Int) -
+        ((uCount v agents goods base o X : Int) - (eStar v agents goods base base' o X : Int)) -
+        (kappaSwap v agents goods base' o z g Y : Int)) := by
+  unfold kappaSwap
+  split
+  · rename_i hκ
+    exact lemma11_one hag hgd hP hP' hNA hω ho hoF hoB hXY hY hS hz hzF hz' hgN hκ.1 hκ.2
+  · have := lemma2star hag hgd hP hP' hNA hω ho hoF hoB hXY hY hS
+    exact deficitLE_mono this (by push_cast; omega)
+
+omit [DecidableEq G] in
+/-- **Lemma 11, first remark**: if a listed `z ≠ o` needs `g` in `P`, the frozen `x` with `B_x = {g}` is never counted
+in `u_o(X)` (its good lies in `𝒩₋ₒ`). -/
+theorem not_counted_of_needer {o x z : A} {g : G} {X : G → Bool} (hz : z ∈ agents) (hzo : z ≠ o)
+    (hzN : vbNeeds v goods base z g) (hxg : baseOf goods base x = [g]) :
+    ¬ Counted v agents goods base o X x := fun hc =>
+  (hc.2 g (by rw [hxg]; exact List.mem_singleton_self g)).2 z hz hzo hzN
+
+omit [DecidableEq G] in
+/-- **Lemma 11, second remark**: if a listed `z ≠ o` needs `g` in `P` and holds `{g}` in `P′`, no agent counted in
+`u_o(X)` has its good in `N_z({g})` (`N_z({g}) ⊆ N_z ⊆ 𝒩₋ₒ`). -/
+theorem not_counted_needs_single {o z w : A} {g : G} {X : G → Bool} (hz : z ∈ agents) (hzo : z ≠ o)
+    (hzN : vbNeeds v goods base z g) (hz' : baseOf goods base' z = [g]) (hc : Counted v agents goods base o X w) :
+    ∀ g' ∈ baseOf goods base w, ¬ vbNeeds v goods base' z g' := by
+  rintro g' hg' ⟨hgg', -, hlt⟩
+  rw [hz'] at hlt
+  have hlt' : v z g < v z g' := by simpa [value] using hlt
+  have hBz := hzN.2.2
+  refine (hc.2 g' hg').2 z hz hzo ⟨hgg', fun hb => ?_, by omega⟩
+  have := le_value_of_mem v z (mem_baseOf.mpr ⟨hgg', hb⟩ : g' ∈ baseOf goods base z)
+  omega
 
 /-! ## `u_o` counted over the goods (the bijection `F → 𝒩` on `𝒫`) -/
 
@@ -965,6 +1025,27 @@ theorem lemma10 (hgd : goods.Nodup) (hP : InP v agents goods base) (hs : Strict 
       simp [value] at hQv; omega
     | _ :: _ :: _ :: _, h2, _, _ => simp at h2
 
+/-- **Corollary 8.2, "e.g. `A = {b_x, c_x}`"** (`k4/dl13.md` §2.1): if every good `x` values is one of `g, b, c, d`, with
+`b ≠ c` and `v_x(d) ≤ v_x(c)`, and `g ∈ 𝒩`, then `{b, c}` is admissible for `x`: two goods, and its needs (the goods worth
+more than `v_x(b) + v_x(c)`) are at most `g`. -/
+theorem bigTop_pair_admissible (hgd : goods.Nodup) {x : A} {g b c d : G} (hb : b ∈ goods)
+    (hc : c ∈ goods) (hbc : b ≠ c) (hR : ∀ h ∈ goods, 0 < v x h → h = g ∨ h = b ∨ h = c ∨ h = d)
+    (hdc : v x d ≤ v x c) (hgN : NA agents (vbNeeds v goods base) g) :
+    (goods.filter (fun t => decide (t ∈ [b, c]))).length = 2 ∧
+      ∀ r, setNeeds v goods x (fun t => decide (t ∈ [b, c])) r → NA agents (vbNeeds v goods base) r := by
+  have hp := filter_mem_perm hgd (L := [b, c]) (by simpa using hbc) (by simp [hb, hc])
+  refine ⟨by rw [hp.length_eq]; simp, ?_⟩
+  rintro r ⟨hr, hrA, hlt⟩
+  rw [value_perm hp] at hlt
+  simp [value] at hlt
+  have hrb : r ≠ b := fun e => by subst e; simp at hrA
+  have hrc : r ≠ c := fun e => by subst e; simp at hrA
+  rcases hR r hr (by omega) with e | e | e | e
+  · subst e; exact hgN
+  · exact absurd e hrb
+  · exact absurd e hrc
+  · subst e; omega
+
 /-! ## `k4/dl13.md` §2.1, Lemma 9 (the owner swap from a needer) and Corollaries 9.1, 9.2 -/
 
 /-- **The role swap without helper, constructed**: `z` takes `{g}`, `x` takes `A`, the goods of `B_z` not in `A` become
@@ -1292,33 +1373,99 @@ theorem eSwap_eq_zero (h : RoleSwap v agents goods base base' x o g []) {X : G �
         · cases e
     exact (hc.2 g' hg').1 ⟨hg'g, hXg', by omega⟩
 
-/-- **Lemma 9, `e` when `g` is `o`'s top**: then `N_o({g}) = ∅` and `e ≤ 1` (only `x` can be counted). -/
+/-- **Lemma 9, `e` when `g` is `o`'s top** (`k4/dl13.md` §2.1): then `N_o({g}) = ∅` (no need of `o` in `P′`), so the
+only agent `e` can count is `x`, and `e ≤ 1`. -/
 theorem eSwap_le_one (hag : agents.Nodup) (h : RoleSwap v agents goods base base' x o g []) {X : G → Bool}
-    (htop : ∀ r ∈ goods, v o r ≤ v o g) : eSwap v agents goods base base' o x X ≤ 1 := by
+    (htop : ∀ r ∈ goods, v o r ≤ v o g) :
+    (∀ g', ¬ vbNeeds v goods base' o g') ∧
+      (∀ w ∈ agents, Counted v agents goods base o X w ∧
+        (w = x ∨ ∃ g' ∈ baseOf goods base w, vbNeeds v goods base' o g') → w = x) ∧
+      eSwap v agents goods base base' o x X ≤ 1 := by
   classical
+  have hno : ∀ g', ¬ vbNeeds v goods base' o g' := by
+    rintro g' ⟨hg', -, hlt⟩
+    rw [h.hz'] at hlt
+    have := htop g' hg'
+    simp [value] at hlt; omega
+  have honly : ∀ w ∈ agents, Counted v agents goods base o X w ∧
+      (w = x ∨ ∃ g' ∈ baseOf goods base w, vbNeeds v goods base' o g') → w = x := by
+    rintro w _ ⟨-, e | ⟨g', -, hN⟩⟩
+    · exact e
+    · exact absurd hN (hno g')
+  refine ⟨hno, honly, ?_⟩
   unfold eSwap
   have : agents.countP (fun w => decide (Counted v agents goods base o X w ∧
       (w = x ∨ ∃ g' ∈ baseOf goods base w, vbNeeds v goods base' o g'))) ≤
       agents.countP (fun w => decide (some x = some w)) := by
     apply List.countP_mono_left
-    intro w _ hw
-    obtain ⟨-, he⟩ := of_decide_eq_true hw
-    rcases he with e | ⟨g', -, hN⟩
-    · simp [e]
-    · obtain ⟨hg', -, hlt⟩ := hN
-      rw [h.hz'] at hlt
-      have := htop g' hg'
-      simp [value] at hlt; omega
+    intro w hw hp
+    simp [honly w hw (of_decide_eq_true hp)]
   rw [countP_base agents hag (b := some x) (fun k hk => by cases hk; exact h.hx)] at this
   simpa using this
 
 end RoleSwap
 
-/-- **Corollary 9.1 (the S1 repair)** (`k4/dl13.md` §2.1). Let `X` be an optimal bundle of a best owner `o`, `c` a junk
-good outside `X`, and suppose `X ∪ {c}` threatens exactly one listed agent other than `o`: a frozen `x` with
-`B_x = {g}` whose good `o` needs (the *S1 shape*); and `θ_o(X ∪ {c}) ≤ v_o(g)` (*θ-ok*). On a strict profile with
-`ω ≥ 1` and `|R_x| ≤ 4`, some `A ⊆ X ∪ {c}` is admissible for `x`, and the swap (`o` takes `{g}`, `x` takes `A`;
-`swapBase`) is a min-frozen (T3)-neighbour of `P` with `def(P′) ≤ def(P) − 1 − ι`. -/
+/-- **Corollary 9.1 (the S1 repair), the bound** (`k4/dl13.md` §2.1). Let `X` be an optimal bundle of a best owner `o`
+that needs `g`, `c` a junk good outside `X`, and suppose `X ∪ {c}` threatens exactly one listed agent other than `o`: the
+frozen `x` with `B_x = {g}` (the *S1 shape*; used as: it threatens `x` holding `{g}`, and nobody outside `{o, x}`), and
+`θ_o(X ∪ {c}) ≤ v_o(g)` (*θ-ok*). Then, on a strict profile with `ω ≥ 1`, **every** swap in which `o` takes `{g}` and `x`
+takes a base `A ⊆ X ∪ {c}` (a `RoleSwap` without helper) has `def(P′) ≤ def(P) − 1 − ι`. -/
+theorem cor9_1_drop (hag : agents.Nodup) (hgd : goods.Nodup) (hM : MinFrozen v agents goods base)
+    (hω : 0 < omegaP v agents goods base) (hs : Strict v agents goods) {o x : A} {g : G} {X : G → Bool}
+    (hX : OptimalBest v agents goods base o X) (hog : vbNeeds v goods base o g) {c : G} (hc : c ∈ goods)
+    (hcJ : base c = none) (hcX : X c = false)
+    (hthr : ∃ k ∈ goods.filter (fun r => X r || decide (r = c)),
+      v x g < value v x ((goods.filter (fun r => X r || decide (r = c))).erase k))
+    (hnone : ∀ w ∈ agents, w ≠ o → w ≠ x → ∀ k ∈ goods.filter (fun r => X r || decide (r = c)),
+      value v w ((goods.filter (fun r => X r || decide (r = c))).erase k) ≤ value v w (baseOf goods base w))
+    (hθ : ∀ k ∈ goods.filter (fun r => X r || decide (r = c)),
+      value v o ((goods.filter (fun r => X r || decide (r = c))).erase k) ≤ v o g)
+    (h : RoleSwap v agents goods base base' x o g [])
+    (hAY : ∀ r ∈ goods, base' r = some x → (X r || decide (r = c)) = true) :
+    DeficitDrop v agents goods base' base (1 + (iotaNeed v agents goods base o x g : Int)) := by
+  classical
+  obtain ⟨ho, hoF, hXb, hXs, hmax⟩ := hX
+  have hP := hM.1
+  have hgN : NA agents (vbNeeds v goods base) g := ⟨o, ho, hog⟩
+  have hYW : ∀ r ∈ goods, (X r || decide (r = c)) = true → base r = some o ∨ base r = none := by
+    intro r hr hy
+    rcases Bool.or_eq_true _ _ |>.mp hy with hx' | e
+    · exact (hXb r hr).2 hx'
+    · have : r = c := of_decide_eq_true e
+      subst this; exact Or.inr hcJ
+  have hb := h.lemma9 hag hgd hM hω hs (X := X) (Z := fun r => X r || decide (r = c)) hAY hYW hthr hnone hθ
+  -- `e = 0`: `v_o(X) < v_o(g)` (drop `c` in θ-ok; strictness)
+  have hperm := filter_insert_perm hgd hc hcX
+  have hcY : c ∈ goods.filter (fun r => X r || decide (r = c)) := List.mem_filter.mpr ⟨hc, by simp⟩
+  have hXv : value v o (goods.filter X) ≤ v o g := by
+    have := hθ c hcY
+    rwa [value_perm (hperm.erase c), List.erase_cons_head] at this
+  have hXg : X g = false := by
+    cases hx : X g with
+    | false => rfl
+    | true =>
+      rcases (hXb g hog.1).2 hx with e | e
+      · exact absurd hgN (not_NA_of_mem_free hP hoF (mem_baseOf.mpr ⟨hog.1, e⟩))
+      · exact absurd hgN (not_NA_of_junk hP hog.1 e)
+  have hXlt : value v o (goods.filter X) < v o g := by
+    refine Nat.lt_of_le_of_ne hXv fun e => ?_
+    have := hs o ho (goods.filter X) [g] List.filter_sublist (List.singleton_sublist.mpr hog.1)
+      (fun r hr hrg => by
+        rw [List.mem_singleton] at hrg; subst hrg; rw [(List.mem_filter.mp hr).2] at hXg; cases hXg)
+      (by simp [value] at e ⊢; exact e)
+    have := hog.2.2; omega
+  have he := h.eSwap_eq_zero (fun r hr hx'' => (hXb r hr).2 hx'') hXlt
+  rw [he] at hb
+  have hlen := hperm.length_eq
+  simp only [List.length_cons] at hlen
+  intro d hd
+  have := (deficit_of_optimalBest hag hP hω ⟨ho, hoF, hXb, hXs, hmax⟩).2 d hd
+  exact deficitLE_mono hb (by rw [hlen]; push_cast; omega)
+
+/-- **Corollary 9.1 (the S1 repair)** (`k4/dl13.md` §2.1). Under the S1 shape and θ-ok (as in `cor9_1_drop`), on a strict
+profile with `ω ≥ 1` and `|R_x| ≤ 4`: some `A ⊆ X ∪ {c}` is admissible for `x` (inside `R_x`, at most two goods,
+`N_x(A) ⊆ 𝒩`), and for **every** such `A` the swap (`o` takes `{g}`, `x` takes `A`; `swapBase`) is a min-frozen
+(T3)-neighbour of `P` with `def(P′) ≤ def(P) − 1 − ι`. -/
 theorem cor9_1 (hag : agents.Nodup) (hgd : goods.Nodup) (hM : MinFrozen v agents goods base)
     (hω : 0 < omegaP v agents goods base) (hs : Strict v agents goods) {o x : A} {g : G} {X : G → Bool}
     (hX : OptimalBest v agents goods base o X) (hog : vbNeeds v goods base o g) (hx : x ∈ agents)
@@ -1330,27 +1477,29 @@ theorem cor9_1 (hag : agents.Nodup) (hgd : goods.Nodup) (hM : MinFrozen v agents
       value v w ((goods.filter (fun r => X r || decide (r = c))).erase k) ≤ value v w (baseOf goods base w))
     (hθ : ∀ k ∈ goods.filter (fun r => X r || decide (r = c)),
       value v o ((goods.filter (fun r => X r || decide (r = c))).erase k) ≤ v o g) :
-    ∃ Ax : G → Bool, (∀ r ∈ goods, Ax r = true → (X r || decide (r = c)) = true ∧ 0 < v x r) ∧
-      (goods.filter Ax).length ≤ 2 ∧ (∀ r, setNeeds v goods x Ax r → NA agents (vbNeeds v goods base) r) ∧
+    (∃ Ax : G → Bool, (∀ r ∈ goods, Ax r = true → (X r || decide (r = c)) = true ∧ 0 < v x r) ∧
+      (goods.filter Ax).length ≤ 2 ∧ ∀ r, setNeeds v goods x Ax r → NA agents (vbNeeds v goods base) r) ∧
+    ∀ Ax : G → Bool, (∀ r ∈ goods, Ax r = true → (X r || decide (r = c)) = true ∧ 0 < v x r) →
+      (goods.filter Ax).length ≤ 2 → (∀ r, setNeeds v goods x Ax r → NA agents (vbNeeds v goods base) r) →
       MinFrozen v agents goods (swapBase base x o g Ax) ∧ MoveT3 v agents goods base (swapBase base x o g Ax) ∧
       DeficitDrop v agents goods (swapBase base x o g Ax) base (1 + (iotaNeed v agents goods base o x g : Int)) := by
   classical
-  obtain ⟨ho, hoF, hXb, hXs, hmax⟩ := hX
+  have hX' := hX
+  obtain ⟨ho, hoF, hXb, -, -⟩ := hX'
   have hP := hM.1
   have hgN : NA agents (vbNeeds v goods base) g := ⟨o, ho, hog⟩
-  let Y : G → Bool := fun r => X r || decide (r = c)
-  have hYW : ∀ r ∈ goods, Y r = true → base r = some o ∨ base r = none := by
+  have hYW : ∀ r ∈ goods, (X r || decide (r = c)) = true → base r = some o ∨ base r = none := by
     intro r hr hy
     rcases Bool.or_eq_true _ _ |>.mp hy with hx' | e
     · exact (hXb r hr).2 hx'
     · have : r = c := of_decide_eq_true e
       subst this; exact Or.inr hcJ
-  have hYN : ∀ r ∈ goods, Y r = true → ¬ NA agents (vbNeeds v goods base) r := by
+  have hYN : ∀ r ∈ goods, (X r || decide (r = c)) = true → ¬ NA agents (vbNeeds v goods base) r := by
     intro r hr hy
     rcases hYW r hr hy with e | e
     · exact not_NA_of_mem_free hP hoF (mem_baseOf.mpr ⟨hr, e⟩)
     · exact not_NA_of_junk hP hr e
-  obtain ⟨Ax, hA, hA2, hAN⟩ := lemma9_admissible hgd hP hx hxg hgN hR4 hYN hthr
+  refine ⟨lemma9_admissible hgd hP hx hxg hgN hR4 hYN hthr, fun Ax hA hA2 hAN => ?_⟩
   have hA' : ∀ r ∈ goods, Ax r = true → (base r = none ∨ base r = some o) ∧ 0 < v x r := by
     intro r hr ha
     refine ⟨?_, (hA r hr ha).2⟩
@@ -1359,36 +1508,11 @@ theorem cor9_1 (hag : agents.Nodup) (hgd : goods.Nodup) (hM : MinFrozen v agents
     · exact Or.inl e
   obtain ⟨hRS, hx'⟩ := roleSwap_swapBase hgd hP hx hxg hgN ho hoF hog hA' hA2 hAN
   obtain ⟨hM', hNA, -, -⟩ := hRS.lemma6' hag hgd hM
-  have hb := hRS.lemma9 hag hgd hM hω hs (X := X) (Z := Y)
-    (fun r hr hb => by
-      have : r ∈ baseOf goods (swapBase base x o g Ax) x := mem_baseOf.mpr ⟨hr, hb⟩
-      rw [hx'] at this; exact (hA r hr (List.mem_filter.mp this).2).1)
-    hYW hthr hnone hθ
-  -- `e = 0`: `v_o(X) < v_o(g)` (drop `c` in θ-ok; strictness)
-  have hperm := filter_insert_perm hgd hc hcX
-  have hcY : c ∈ goods.filter Y := List.mem_filter.mpr ⟨hc, by simp [Y]⟩
-  have hXv : value v o (goods.filter X) ≤ v o g := by
-    have := hθ c hcY
-    rwa [value_perm (hperm.erase c), List.erase_cons_head] at this
-  have hXg : X g = false := by
-    cases h : X g with
-    | false => rfl
-    | true => exact absurd hgN (hYN g hog.1 (by simp [Y, h]))
-  have hXlt : value v o (goods.filter X) < v o g := by
-    refine Nat.lt_of_le_of_ne hXv fun e => ?_
-    have := hs o ho (goods.filter X) [g] List.filter_sublist (List.singleton_sublist.mpr hog.1)
-      (fun r hr hrg => by
-        rw [List.mem_singleton] at hrg; subst hrg; rw [(List.mem_filter.mp hr).2] at hXg; cases hXg)
-      (by simp [value] at e ⊢; exact e)
-    have := hog.2.2; omega
-  have he := hRS.eSwap_eq_zero (fun r hr hx'' => (hXb r hr).2 hx'') hXlt
-  rw [he] at hb
-  have hlen := hperm.length_eq
-  simp only [List.length_cons] at hlen
-  refine ⟨Ax, hA, hA2, hAN, hM', ⟨x, hx, o, ho, g, hxg, hgN, hoF, hog, hRS.hz', [], by simp, by simp,
-    fun i hi hix hio _ => hRS.hsame i hi hix hio (by simp), fun g' => (hNA g').symm⟩, fun d hd => ?_⟩
-  have := (deficit_of_optimalBest hag hP hω ⟨ho, hoF, hXb, hXs, hmax⟩).2 d hd
-  exact deficitLE_mono hb (by rw [hlen]; push_cast; omega)
+  refine ⟨hM', ⟨x, hx, o, ho, g, hxg, hgN, hoF, hog, hRS.hz', [], by simp, by simp,
+    fun i hi hix hio _ => hRS.hsame i hi hix hio (by simp), fun g' => (hNA g').symm⟩,
+    cor9_1_drop hag hgd hM hω hs hX hog hc hcJ hcX hthr hnone hθ hRS fun r hr hb => ?_⟩
+  have : r ∈ baseOf goods (swapBase base x o g Ax) x := mem_baseOf.mpr ⟨hr, hb⟩
+  rw [hx'] at this; exact (hA r hr (List.mem_filter.mp this).2).1
 
 /-- **Corollary 9.2 (Lemma 9 at a best owner)** (`k4/dl13.md` §2.1). If `X` is an optimal bundle of a best owner `o`
 that needs `g`, `e = 0`, and the swap (`o` takes `{g}`, `x` takes `A ⊆ Z`) uses a `Z ⊆ W_o` with (i)–(iii) of Lemma 9 and
@@ -1652,7 +1776,10 @@ end EFX
 /-! ## Axiom certificates (audited by `check.sh`) -/
 
 #print axioms EFX.C4min.countP_succ_le_add
+#print axioms EFX.C4min.lemma11_one
 #print axioms EFX.C4min.lemma11
+#print axioms EFX.C4min.not_counted_of_needer
+#print axioms EFX.C4min.not_counted_needs_single
 #print axioms EFX.C4min.counted_iff
 #print axioms EFX.C4min.uCount_eq_goods
 #print axioms EFX.C4min.lemma12_move
@@ -1679,6 +1806,8 @@ end EFX
 #print axioms EFX.C4min.RoleSwap.lemma9
 #print axioms EFX.C4min.RoleSwap.eSwap_eq_zero
 #print axioms EFX.C4min.RoleSwap.eSwap_le_one
+#print axioms EFX.C4min.bigTop_pair_admissible
+#print axioms EFX.C4min.cor9_1_drop
 #print axioms EFX.C4min.cor9_1
 #print axioms EFX.C4min.cor9_2
 #print axioms EFX.C4min.cor11_1

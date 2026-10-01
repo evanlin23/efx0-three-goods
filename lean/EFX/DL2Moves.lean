@@ -367,8 +367,8 @@ omit [DecidableEq G] in
 /-- **Lemma 1(c)** (`k4/dl2.md` §4; an admissible re-base). Let `P` be min-frozen with needed set `𝒩`, `y` free in `P`,
 and `P′` the base map in which `y` holds `B′ ⊆ (B_y ∪ J) ∩ R_y` with `|B′| ≤ 2` and `N_y(B′) ⊆ 𝒩` (`B′` admissible for
 `𝒩`) and every other listed agent keeps its base. Then `P′` is min-frozen, `NA(P′) = 𝒩`, `F(P′) = F(P)`,
-`J(P′) = (J ∖ B′) ∪ (B_y ∖ B′)` and `ω` is the same. (The text also asks `B′ ≠ B_y`, which the conclusion does not
-use.) -/
+`J(P′) = (J ∖ B′) ∪ (B_y ∖ B′)` and `ω` is the same; every other agent keeps its base, needs and value `v_i(B_i)`. (The
+text also asks `B′ ≠ B_y`, which the conclusion does not use.) -/
 theorem lemma1c (hag : agents.Nodup) (hgd : goods.Nodup) (hM : MinFrozen v agents goods base) {y : A}
     (hy : y ∈ agents) (hyF : ¬ Frozen agents goods base (vbNeeds v goods base) y)
     (hsame : ∀ i ∈ agents, i ≠ y → baseOf goods base i = baseOf goods base' i)
@@ -381,7 +381,9 @@ theorem lemma1c (hag : agents.Nodup) (hgd : goods.Nodup) (hM : MinFrozen v agent
       (∀ i ∈ agents, Frozen agents goods base' (vbNeeds v goods base') i ↔
         Frozen agents goods base (vbNeeds v goods base) i) ∧
       (∀ g, g ∈ LB4.junk goods base' ↔ g ∈ goods ∧ base' g ≠ some y ∧ (base g = none ∨ base g = some y)) ∧
-      omegaP v agents goods base' = omegaP v agents goods base := by
+      omegaP v agents goods base' = omegaP v agents goods base ∧
+      (∀ i ∈ agents, i ≠ y → (∀ g, vbNeeds v goods base' i g ↔ vbNeeds v goods base i g) ∧
+        value v i (baseOf goods base' i) = value v i (baseOf goods base i)) := by
   have hsame' : ∀ i ∈ agents, i ∉ [y] → baseOf goods base i = baseOf goods base' i :=
     fun i hi hiy => hsame i hi fun e => hiy (e ▸ List.mem_singleton_self i)
   obtain ⟨hM', hNA, hF, hω⟩ := lemma1' hag hgd hM (Y := [y])
@@ -393,7 +395,8 @@ theorem lemma1c (hag : agents.Nodup) (hgd : goods.Nodup) (hM : MinFrozen v agent
       · exact ⟨Or.inl h1, h2⟩)
     (fun w hw => by rw [List.mem_singleton] at hw; subst hw; exact htwo)
     (fun w hw => by rw [List.mem_singleton] at hw; subst hw; exact hadm)
-  refine ⟨hM', hNA, hF, fun g => ?_, hω⟩
+  refine ⟨hM', hNA, hF, fun g => ?_, hω, fun i _ hiy =>
+    ⟨vbNeeds_congr (hsame i (by assumption) hiy).symm, by rw [hsame i (by assumption) hiy]⟩⟩
   rw [mem_junk]
   constructor
   · rintro ⟨hg, hb'⟩
@@ -1102,7 +1105,7 @@ theorem lemma1c_rebase (hag : agents.Nodup) (hgd : goods.Nodup) (hM : MinFrozen 
     by_cases hiy : i = y
     · rw [hiy]; exact hy
     · exact hM.1.mem g hg i ((rebase_eq_some_other hiy).mp hb).2
-  obtain ⟨hM', hNA, hF, -, hω⟩ := lemma1c hag hgd hM hy hyF hsame hmem'
+  obtain ⟨hM', hNA, hF, -, hω, -⟩ := lemma1c hag hgd hM hy hyF hsame hmem'
     (fun g hg hb => hB' g hg (rebase_eq_some_self.mp hb)) (by rw [baseOf_rebase_self]; exact htwo)
     (fun g hN => hadm g ((vbNeeds_rebase_self g).mp hN))
   exact ⟨hM', hNA, hF, baseOf_rebase_self, hsame, hω⟩
@@ -1690,7 +1693,7 @@ theorem lemma3_lt (hag : agents.Nodup) (hgd : goods.Nodup) (hM : MinFrozen v age
         ((goods.filter Z').length : Int) + (uCount v agents goods base o' Z' : Int) <
           ((goods.filter Z).length : Int) + (uCount v agents goods base y Z : Int)) :
     DeficitLT v agents goods base' base := by
-  obtain ⟨hM', hNA, hF, -, hω'⟩ := lemma1c hag hgd hM hy hyF hsame hmem' hnew htwo hadm
+  obtain ⟨hM', hNA, hF, -, hω', -⟩ := lemma1c hag hgd hM hy hyF hsame hmem' hnew htwo hadm
   obtain ⟨hb, hs, hu⟩ := lemma3 hag hgd hM hy hyF hsame hmem' hnew htwo hadm
   have hyF' : ¬ Frozen agents goods base' (vbNeeds v goods base') y := fun h => hyF ((hF y hy).mp h)
   have hd := deficitLE_of_safe hag hM'.1 (by rw [hω']; exact hω) hy hyF' ((hb Z).mpr ⟨h1, h2⟩) ((hs Z).mpr hS)

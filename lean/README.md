@@ -27,7 +27,7 @@ showed that a declaration added under `set_option debug.skipKernelTC true` is ne
 without warnings and has no axioms for `#print axioms` or `CheckAxioms.lean` to report; the tripwire refuses the
 option and the replay checker rejects such a declaration. On success the last line is
 
-    CHECK PASSED: 530 audited statements, 1330 theorems, standard axioms only
+    CHECK PASSED: 535 audited statements, 1335 theorems, standard axioms only
 
 CI runs it on every pull request (job `lean` in `.github/workflows/verify.yml`). In Claude Code on the web the
 session-start hook installs the toolchain (from GitHub when `release.lean-lang.org` is unreachable).
@@ -284,10 +284,12 @@ specializations) have exactly the types of `EFX.target`, `EFX.LB.corollaryD` (ch
   K4.DL13.ROT.LEAN), on top of `EFX/DL2Moves.lean`. The swap of Lemma 6 as a structure (`EFX.C4min.RoleSwap`; constructed
   without helper by `EFX.C4min.swapBase`, `EFX.C4min.roleSwap_swapBase`). Lemma 8 (`EFX.C4min.RoleSwap.lemma8_bundle`,
   `_safe`, `_u`, `EFX.C4min.RoleSwap.lemma8`, `_val`: the unfrozen agent's owner value after a swap, `u′_x = ū + ι`, on
-  strict profiles) and Corollary 8.2 (`EFX.C4min.RoleSwap.cor8_2`); Lemma 9 (`EFX.C4min.lemma9_admissible`,
+  strict profiles) and Corollary 8.2 (`EFX.C4min.RoleSwap.cor8_2`, `EFX.C4min.bigTop_pair_admissible`); Lemma 9 (`EFX.C4min.lemma9_admissible`,
   `EFX.C4min.RoleSwap.lemma9`, `EFX.C4min.RoleSwap.eSwap_eq_zero`, `EFX.C4min.RoleSwap.eSwap_le_one`) with Corollaries
-  9.1 (`EFX.C4min.cor9_1`, the S1 repair as a min-frozen (T3) neighbour) and 9.2 (`EFX.C4min.cor9_2`); Lemma 10
-  (`EFX.C4min.lemma10`, `EFX.C4min.lemma10_a`); Lemma 11 (`EFX.C4min.lemma11`) and Corollary 11.1
+  9.1 (`EFX.C4min.cor9_1_drop`, `EFX.C4min.cor9_1`: the S1 repair, for every admissible `A`, as a min-frozen (T3)
+  neighbour) and 9.2 (`EFX.C4min.cor9_2`); Lemma 10
+  (`EFX.C4min.lemma10`, `EFX.C4min.lemma10_a`); Lemma 11 (`EFX.C4min.lemma11` with `κ`, `EFX.C4min.lemma11_one`,
+  `EFX.C4min.not_counted_of_needer`, `EFX.C4min.not_counted_needs_single`) and Corollary 11.1
   (`EFX.C4min.cor11_1`, `EFX.C4min.cor11_1_auto`); Lemma 12 for a Pareto reassignment of the frozen goods
   (`EFX.C4min.ParetoReassign`; `EFX.C4min.lemma12_move`, `EFX.C4min.lemma12`, `EFX.C4min.lemma12_lt_iff`,
   `EFX.C4min.lemma12_lt`, with `u_o` counted over the goods, `EFX.C4min.uCount_eq_goods`) and Corollary 12.1
