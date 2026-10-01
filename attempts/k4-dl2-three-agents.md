@@ -5,7 +5,8 @@ K4.STRAT.DL2): for every strict profile of every connected k = 4 core with ω �
 def(P) > 0 has a min-frozen P′ whose bases differ from P's for at most two agents and def(P′) < def(P).
 
 **Result: false at n = 3, m = 7**, on a connected k = 4 core. Found by `k4/dl2_classify.py` on #53's n = 3 catalogue
-(`results/k4_gap/gap_n3.json.gz` at 245040b, record of core 0 of `results/k4_certs_3.json.gz`, profile 10,23,219);
+(`results/k4_gap/gap_n3.json.gz` at 245040b, record of core (m = 7, idx 0) of `results/k4_certs_3.json.gz`, profile
+10,23,219);
 confirmed by two implementations (`attempts/k4_dl2_attempts.py`: `k4/suite/model.py` with
 `k4/suite/deficit_local.kstar`, and main's independent checker `k4/c4x_check.py`, whose `analyse` enumerates every base
 map and computes its own removal-only deficit `rodef`) and by hand below. The ledger row K4.STRAT.DL2E did not run the
@@ -30,7 +31,7 @@ set is always {3}: agents 0 and 2 both have top 3), ω = 2. There are 21 min-fro
 |---|---|---|
 | κ₀ | {3}, {5}, {4,6} · {3}, {2,5}, {4,6} · {3}, {4,6}, {5} | 1, 1, 1 |
 | κ₂ | agent 1 holds {2,5}: {1}, {2,5}, {3} · {0,1}, {2,5}, {3} | 1, 1 |
-| κ₂ | agent 1 holds {5}, {4,5}, {4,6} or {5,6}; agent 0 holds {1}, {0,1}, {0,2} or {1,2} (16 P, agent 0 holds a good of {0,2} only if agent 1 does not hold 2) | −1 |
+| κ₂ | agent 1 holds {5}, {4,5}, {4,6} or {5,6}; agent 0 holds {1}, {0,1}, {0,2} or {1,2} (all 16 combinations) | −1 |
 
 ## Why P₀ needs three agents
 
@@ -57,10 +58,13 @@ B_o ⊆ X ⊆ B_o ∪ J):
 
 ## What this says
 
-- DL₂ as stated is false; the smallest failure found is n = 3, m = 7 (no n = 2 profile of the catalogue has a state
-  with def > 0, and every n = 3 failure found has m ∈ {7, 8}). On #53's n = 3 catalogue (74,256 gap profiles: every
+- DL₂ as stated is false; the smallest failure found is n = 3, m = 7 (at n = 2 every move changes at most two
+  agents, so n = 3 is the least possible). On #53's n = 3 catalogue (74,256 gap profiles: every
   100th n = 3 gap profile plus the hard ones), 89 profiles have k* = 3, with 311 states at distance 3
-  (`results/k4_dl2_classify/`). Not exhaustive; the parallel `compute/k4-dl2` workstream runs every n ≤ 3 profile.
+  (`results/k4_dl2_classify/`), all with f = 1 and m ∈ {7, 8}. The parallel `compute/k4-dl2` workstream ran every
+  strict n = 3 profile (`results/k4_dl2/n3.log` on its branch): 52,928 profiles have k* = 3, at m = 7 (39,296), 8
+  (10,176) and 9 (3,456); the f = 1 ones have m ∈ {7, 8}, the f = 0 ones (rotation traps, like `dl2-rot-n3m7`) occur at
+  m = 7, 8 and 9 (`results/k4_dl2_relations/trapped_n3_compute.log`).
 - Every distance-3 repair found (all minimal repairs of all 311 states) has the same shape: a **role swap** (the
   frozen agent unfreezes, a free agent takes its good and freezes) **plus a third, free agent that gives up at least
   one good of its base** (in 159 of the 311 states some minimal repair has the third agent only dropping goods, a pure
@@ -69,8 +73,9 @@ B_o ⊆ X ⊆ B_o ∪ J):
 - The two-agent role swap has the shape of Lemma F1's path move (`k4/c4min_f1.md`) and #51's Lemma PM; here x's goods
   have to be freed first. The mechanism (`k4/dl2.md` Lemma 7): agent 0 is big-top, and as the owner it unfreezes
   agent 2 only with all three of its lower goods 0, 1, 2 in its bundle (2 + 4 + 3 > 8); good 2 is in agent 1's base.
-- The successor target is DL_T (`k4/dl2.md` §3: re-bases, trades, role swaps with at most one helper), which holds
-  here and on every state tested; the narrower relations that fail are in `attempts/k4-dl2-relations.md`.
+- The successor targets are DL_T (`k4/dl2.md` §3: re-bases, rotations among free agents, role swaps with at most one
+  helper) and, at f ≥ 1, DL₁₃ (re-bases and role swaps only), which hold here and on every state tested; the other
+  relations (no rotations, or restricted helpers) that fail are in `attempts/k4-dl2-relations.md`.
 
 ## Reproduce
 

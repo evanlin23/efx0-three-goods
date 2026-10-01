@@ -1,49 +1,71 @@
-# command: python3 k4/dl2_relations.py certs results/k4_certs_3.json.gz --rand=400 --seed=3 --jobs=2 --out=results/k4_dl2_relations/certs_3_r400.jsonl.gz
+# command: python3 k4/dl2_relations.py certs results/k4_certs_3.json.gz --rand=400 --seed=3 --jobs=1 --out=results/k4_dl2_relations/certs_3_r400.jsonl.gz
 profiles 20400, def>0 states 2862, nearest-distance histogram {1: 2782, 2: 77, 3: 3}
+def>0 states by fewest frozen agents f: {0: 2632, 1: 198, 2: 32}
 R2     fails at 3 states of 2 profiles  -- at most two agents change (DL2, refuted)
-       e.g. n=3 m=8 k4_certs_3#4:19,197,115 sets=[[0, 2, 4, 5], [1, 4, 6, 7], [3, 5, 6, 7]] vals=[[2, 5, 8, 4], [7, 4, 10, 2], [4, 8, 5, 2]] P=[[2, 5], [1, 4], [3, 6]] def=1 k=3
-       e.g. n=3 m=9 k4_certs_3#0:17,25,41 sets=[[0, 2, 6, 7], [1, 4, 6, 8], [3, 5, 7, 8]] vals=[[2, 4, 10, 7], [2, 7, 4, 10], [3, 4, 8, 6]] P=[[2, 7], [4, 6], [3, 8]] def=1 k=3
+       failures by f: {0: 3}
+       e.g. n=3 m=8 k4_certs_3[m=8,idx=4]:19,197,115 sets=[[0, 2, 4, 5], [1, 4, 6, 7], [3, 5, 6, 7]] vals=[[2, 5, 8, 4], [7, 4, 10, 2], [4, 8, 5, 2]] P=[[2, 5], [1, 4], [3, 6]] def=1 k=3
+       e.g. n=3 m=9 k4_certs_3[m=9,idx=0]:17,25,41 sets=[[0, 2, 6, 7], [1, 4, 6, 8], [3, 5, 7, 8]] vals=[[2, 4, 10, 7], [2, 7, 4, 10], [3, 4, 8, 6]] P=[[2, 7], [4, 6], [3, 8]] def=1 k=3
 R3     fails at 0 states of 0 profiles  -- at most three agents change
+       failures by f: {}
 RB     fails at 32 states of 15 profiles  -- one re-base or a plain role swap with a needer
-       e.g. n=3 m=7 k4_certs_3#8:40,154,84 sets=[[0, 2, 5, 6], [1, 3, 4, 6], [3, 4, 5, 6]] vals=[[3, 4, 8, 2], [6, 3, 8, 4], [4, 2, 8, 3]] P=[[5], [1, 6], [3, 4]] def=1 k=2
-       e.g. n=3 m=7 k4_certs_3#11:95,279,202 sets=[[0, 2, 4, 6], [1, 3, 5, 6], [2, 3, 4, 5]] vals=[[4, 5, 6, 8], [10, 6, 8, 3], [7, 6, 5, 3]] P=[[2, 4], [1, 6], [3, 5]] def=1 k=2
+       failures by f: {0: 31, 1: 1}
+       e.g. n=3 m=7 k4_certs_3[m=7,idx=8]:40,154,84 sets=[[0, 2, 5, 6], [1, 3, 4, 6], [3, 4, 5, 6]] vals=[[3, 4, 8, 2], [6, 3, 8, 4], [4, 2, 8, 3]] P=[[5], [1, 6], [3, 4]] def=1 k=2
+       e.g. n=3 m=7 k4_certs_3[m=7,idx=11]:95,279,202 sets=[[0, 2, 4, 6], [1, 3, 5, 6], [2, 3, 4, 5]] vals=[[4, 5, 6, 8], [10, 6, 8, 3], [7, 6, 5, 3]] P=[[2, 4], [1, 6], [3, 5]] def=1 k=2
 RB2    fails at 3 states of 2 profiles  -- RB, or a trade (two free agents re-base, needed set unchanged)
-       e.g. n=3 m=8 k4_certs_3#4:19,197,115 sets=[[0, 2, 4, 5], [1, 4, 6, 7], [3, 5, 6, 7]] vals=[[2, 5, 8, 4], [7, 4, 10, 2], [4, 8, 5, 2]] P=[[2, 5], [1, 4], [3, 6]] def=1 k=3
-       e.g. n=3 m=9 k4_certs_3#0:17,25,41 sets=[[0, 2, 6, 7], [1, 4, 6, 8], [3, 5, 7, 8]] vals=[[2, 4, 10, 7], [2, 7, 4, 10], [3, 4, 8, 6]] P=[[2, 7], [4, 6], [3, 8]] def=1 k=3
+       failures by f: {0: 3}
+       e.g. n=3 m=8 k4_certs_3[m=8,idx=4]:19,197,115 sets=[[0, 2, 4, 5], [1, 4, 6, 7], [3, 5, 6, 7]] vals=[[2, 5, 8, 4], [7, 4, 10, 2], [4, 8, 5, 2]] P=[[2, 5], [1, 4], [3, 6]] def=1 k=3
+       e.g. n=3 m=9 k4_certs_3[m=9,idx=0]:17,25,41 sets=[[0, 2, 6, 7], [1, 4, 6, 8], [3, 5, 7, 8]] vals=[[2, 4, 10, 7], [2, 7, 4, 10], [3, 4, 8, 6]] P=[[2, 7], [4, 6], [3, 8]] def=1 k=3
 RS1    fails at 32 states of 15 profiles  -- one re-base; or a role swap with a needer plus single-good releases by any number of free agents
-       e.g. n=3 m=7 k4_certs_3#8:40,154,84 sets=[[0, 2, 5, 6], [1, 3, 4, 6], [3, 4, 5, 6]] vals=[[3, 4, 8, 2], [6, 3, 8, 4], [4, 2, 8, 3]] P=[[5], [1, 6], [3, 4]] def=1 k=2
-       e.g. n=3 m=7 k4_certs_3#11:95,279,202 sets=[[0, 2, 4, 6], [1, 3, 5, 6], [2, 3, 4, 5]] vals=[[4, 5, 6, 8], [10, 6, 8, 3], [7, 6, 5, 3]] P=[[2, 4], [1, 6], [3, 5]] def=1 k=2
+       failures by f: {0: 31, 1: 1}
+       e.g. n=3 m=7 k4_certs_3[m=7,idx=8]:40,154,84 sets=[[0, 2, 5, 6], [1, 3, 4, 6], [3, 4, 5, 6]] vals=[[3, 4, 8, 2], [6, 3, 8, 4], [4, 2, 8, 3]] P=[[5], [1, 6], [3, 4]] def=1 k=2
+       e.g. n=3 m=7 k4_certs_3[m=7,idx=11]:95,279,202 sets=[[0, 2, 4, 6], [1, 3, 5, 6], [2, 3, 4, 5]] vals=[[4, 5, 6, 8], [10, 6, 8, 3], [7, 6, 5, 3]] P=[[2, 4], [1, 6], [3, 5]] def=1 k=2
 RS1+2  fails at 3 states of 2 profiles  -- RS1, or a trade
-       e.g. n=3 m=8 k4_certs_3#4:19,197,115 sets=[[0, 2, 4, 5], [1, 4, 6, 7], [3, 5, 6, 7]] vals=[[2, 5, 8, 4], [7, 4, 10, 2], [4, 8, 5, 2]] P=[[2, 5], [1, 4], [3, 6]] def=1 k=3
-       e.g. n=3 m=9 k4_certs_3#0:17,25,41 sets=[[0, 2, 6, 7], [1, 4, 6, 8], [3, 5, 7, 8]] vals=[[2, 4, 10, 7], [2, 7, 4, 10], [3, 4, 8, 6]] P=[[2, 7], [4, 6], [3, 8]] def=1 k=3
+       failures by f: {0: 3}
+       e.g. n=3 m=8 k4_certs_3[m=8,idx=4]:19,197,115 sets=[[0, 2, 4, 5], [1, 4, 6, 7], [3, 5, 6, 7]] vals=[[2, 5, 8, 4], [7, 4, 10, 2], [4, 8, 5, 2]] P=[[2, 5], [1, 4], [3, 6]] def=1 k=3
+       e.g. n=3 m=9 k4_certs_3[m=9,idx=0]:17,25,41 sets=[[0, 2, 6, 7], [1, 4, 6, 8], [3, 5, 7, 8]] vals=[[2, 4, 10, 7], [2, 7, 4, 10], [3, 4, 8, 6]] P=[[2, 7], [4, 6], [3, 8]] def=1 k=3
 RSR+2  fails at 3 states of 2 profiles  -- one re-base; a trade; or a role swap with a needer plus pure releases (any number, any size)
-       e.g. n=3 m=8 k4_certs_3#4:19,197,115 sets=[[0, 2, 4, 5], [1, 4, 6, 7], [3, 5, 6, 7]] vals=[[2, 5, 8, 4], [7, 4, 10, 2], [4, 8, 5, 2]] P=[[2, 5], [1, 4], [3, 6]] def=1 k=3
-       e.g. n=3 m=9 k4_certs_3#0:17,25,41 sets=[[0, 2, 6, 7], [1, 4, 6, 8], [3, 5, 7, 8]] vals=[[2, 4, 10, 7], [2, 7, 4, 10], [3, 4, 8, 6]] P=[[2, 7], [4, 6], [3, 8]] def=1 k=3
+       failures by f: {0: 3}
+       e.g. n=3 m=8 k4_certs_3[m=8,idx=4]:19,197,115 sets=[[0, 2, 4, 5], [1, 4, 6, 7], [3, 5, 6, 7]] vals=[[2, 5, 8, 4], [7, 4, 10, 2], [4, 8, 5, 2]] P=[[2, 5], [1, 4], [3, 6]] def=1 k=3
+       e.g. n=3 m=9 k4_certs_3[m=9,idx=0]:17,25,41 sets=[[0, 2, 6, 7], [1, 4, 6, 8], [3, 5, 7, 8]] vals=[[2, 4, 10, 7], [2, 7, 4, 10], [3, 4, 8, 6]] P=[[2, 7], [4, 6], [3, 8]] def=1 k=3
 RC     fails at 3 states of 2 profiles  -- one re-base; a trade; or a chain of frozen goods (|U| = |Z| = 1) plus pure releases
-       e.g. n=3 m=8 k4_certs_3#4:19,197,115 sets=[[0, 2, 4, 5], [1, 4, 6, 7], [3, 5, 6, 7]] vals=[[2, 5, 8, 4], [7, 4, 10, 2], [4, 8, 5, 2]] P=[[2, 5], [1, 4], [3, 6]] def=1 k=3
-       e.g. n=3 m=9 k4_certs_3#0:17,25,41 sets=[[0, 2, 6, 7], [1, 4, 6, 8], [3, 5, 7, 8]] vals=[[2, 4, 10, 7], [2, 7, 4, 10], [3, 4, 8, 6]] P=[[2, 7], [4, 6], [3, 8]] def=1 k=3
+       failures by f: {0: 3}
+       e.g. n=3 m=8 k4_certs_3[m=8,idx=4]:19,197,115 sets=[[0, 2, 4, 5], [1, 4, 6, 7], [3, 5, 6, 7]] vals=[[2, 5, 8, 4], [7, 4, 10, 2], [4, 8, 5, 2]] P=[[2, 5], [1, 4], [3, 6]] def=1 k=3
+       e.g. n=3 m=9 k4_certs_3[m=9,idx=0]:17,25,41 sets=[[0, 2, 6, 7], [1, 4, 6, 8], [3, 5, 7, 8]] vals=[[2, 4, 10, 7], [2, 7, 4, 10], [3, 4, 8, 6]] P=[[2, 7], [4, 6], [3, 8]] def=1 k=3
 RSY    fails at 31 states of 14 profiles  -- one re-base; or a role swap with a needer plus at most one free agent re-basing in any way
-       e.g. n=3 m=7 k4_certs_3#11:95,279,202 sets=[[0, 2, 4, 6], [1, 3, 5, 6], [2, 3, 4, 5]] vals=[[4, 5, 6, 8], [10, 6, 8, 3], [7, 6, 5, 3]] P=[[2, 4], [1, 6], [3, 5]] def=1 k=2
-       e.g. n=3 m=7 k4_certs_3#11:257,165,194 sets=[[0, 2, 4, 6], [1, 3, 5, 6], [2, 3, 4, 5]] vals=[[8, 10, 6, 3], [6, 5, 4, 8], [7, 4, 2, 8]] P=[[0, 6], [3, 5], [2, 4]] def=1 k=2
+       failures by f: {0: 31}
+       e.g. n=3 m=7 k4_certs_3[m=7,idx=11]:95,279,202 sets=[[0, 2, 4, 6], [1, 3, 5, 6], [2, 3, 4, 5]] vals=[[4, 5, 6, 8], [10, 6, 8, 3], [7, 6, 5, 3]] P=[[2, 4], [1, 6], [3, 5]] def=1 k=2
+       e.g. n=3 m=7 k4_certs_3[m=7,idx=11]:257,165,194 sets=[[0, 2, 4, 6], [1, 3, 5, 6], [2, 3, 4, 5]] vals=[[8, 10, 6, 3], [6, 5, 4, 8], [7, 4, 2, 8]] P=[[0, 6], [3, 5], [2, 4]] def=1 k=2
 RSYa   fails at 31 states of 14 profiles  -- one re-base; or a role swap with a needer plus any number of free agents re-basing in any way
-       e.g. n=3 m=7 k4_certs_3#11:95,279,202 sets=[[0, 2, 4, 6], [1, 3, 5, 6], [2, 3, 4, 5]] vals=[[4, 5, 6, 8], [10, 6, 8, 3], [7, 6, 5, 3]] P=[[2, 4], [1, 6], [3, 5]] def=1 k=2
-       e.g. n=3 m=7 k4_certs_3#11:257,165,194 sets=[[0, 2, 4, 6], [1, 3, 5, 6], [2, 3, 4, 5]] vals=[[8, 10, 6, 3], [6, 5, 4, 8], [7, 4, 2, 8]] P=[[0, 6], [3, 5], [2, 4]] def=1 k=2
+       failures by f: {0: 31}
+       e.g. n=3 m=7 k4_certs_3[m=7,idx=11]:95,279,202 sets=[[0, 2, 4, 6], [1, 3, 5, 6], [2, 3, 4, 5]] vals=[[4, 5, 6, 8], [10, 6, 8, 3], [7, 6, 5, 3]] P=[[2, 4], [1, 6], [3, 5]] def=1 k=2
+       e.g. n=3 m=7 k4_certs_3[m=7,idx=11]:257,165,194 sets=[[0, 2, 4, 6], [1, 3, 5, 6], [2, 3, 4, 5]] vals=[[8, 10, 6, 3], [6, 5, 4, 8], [7, 4, 2, 8]] P=[[0, 6], [3, 5], [2, 4]] def=1 k=2
 RSY+2  fails at 3 states of 2 profiles  -- one re-base; a trade; or a role swap with a needer plus at most one free agent re-basing in any way
-       e.g. n=3 m=8 k4_certs_3#4:19,197,115 sets=[[0, 2, 4, 5], [1, 4, 6, 7], [3, 5, 6, 7]] vals=[[2, 5, 8, 4], [7, 4, 10, 2], [4, 8, 5, 2]] P=[[2, 5], [1, 4], [3, 6]] def=1 k=3
-       e.g. n=3 m=9 k4_certs_3#0:17,25,41 sets=[[0, 2, 6, 7], [1, 4, 6, 8], [3, 5, 7, 8]] vals=[[2, 4, 10, 7], [2, 7, 4, 10], [3, 4, 8, 6]] P=[[2, 7], [4, 6], [3, 8]] def=1 k=3
+       failures by f: {0: 3}
+       e.g. n=3 m=8 k4_certs_3[m=8,idx=4]:19,197,115 sets=[[0, 2, 4, 5], [1, 4, 6, 7], [3, 5, 6, 7]] vals=[[2, 5, 8, 4], [7, 4, 10, 2], [4, 8, 5, 2]] P=[[2, 5], [1, 4], [3, 6]] def=1 k=3
+       e.g. n=3 m=9 k4_certs_3[m=9,idx=0]:17,25,41 sets=[[0, 2, 6, 7], [1, 4, 6, 8], [3, 5, 7, 8]] vals=[[2, 4, 10, 7], [2, 7, 4, 10], [3, 4, 8, 6]] P=[[2, 7], [4, 6], [3, 8]] def=1 k=3
 RSYg+2 fails at 3 states of 2 profiles  -- RSY+2, the extra agent giving up at least one good of its base
-       e.g. n=3 m=8 k4_certs_3#4:19,197,115 sets=[[0, 2, 4, 5], [1, 4, 6, 7], [3, 5, 6, 7]] vals=[[2, 5, 8, 4], [7, 4, 10, 2], [4, 8, 5, 2]] P=[[2, 5], [1, 4], [3, 6]] def=1 k=3
-       e.g. n=3 m=9 k4_certs_3#0:17,25,41 sets=[[0, 2, 6, 7], [1, 4, 6, 8], [3, 5, 7, 8]] vals=[[2, 4, 10, 7], [2, 7, 4, 10], [3, 4, 8, 6]] P=[[2, 7], [4, 6], [3, 8]] def=1 k=3
+       failures by f: {0: 3}
+       e.g. n=3 m=8 k4_certs_3[m=8,idx=4]:19,197,115 sets=[[0, 2, 4, 5], [1, 4, 6, 7], [3, 5, 6, 7]] vals=[[2, 5, 8, 4], [7, 4, 10, 2], [4, 8, 5, 2]] P=[[2, 5], [1, 4], [3, 6]] def=1 k=3
+       e.g. n=3 m=9 k4_certs_3[m=9,idx=0]:17,25,41 sets=[[0, 2, 6, 7], [1, 4, 6, 8], [3, 5, 7, 8]] vals=[[2, 4, 10, 7], [2, 7, 4, 10], [3, 4, 8, 6]] P=[[2, 7], [4, 6], [3, 8]] def=1 k=3
 RSYz+2 fails at 3 states of 2 profiles  -- RSY+2, the extra agent taking goods only from its own base and the needer's old base
-       e.g. n=3 m=8 k4_certs_3#4:19,197,115 sets=[[0, 2, 4, 5], [1, 4, 6, 7], [3, 5, 6, 7]] vals=[[2, 5, 8, 4], [7, 4, 10, 2], [4, 8, 5, 2]] P=[[2, 5], [1, 4], [3, 6]] def=1 k=3
-       e.g. n=3 m=9 k4_certs_3#0:17,25,41 sets=[[0, 2, 6, 7], [1, 4, 6, 8], [3, 5, 7, 8]] vals=[[2, 4, 10, 7], [2, 7, 4, 10], [3, 4, 8, 6]] P=[[2, 7], [4, 6], [3, 8]] def=1 k=3
+       failures by f: {0: 3}
+       e.g. n=3 m=8 k4_certs_3[m=8,idx=4]:19,197,115 sets=[[0, 2, 4, 5], [1, 4, 6, 7], [3, 5, 6, 7]] vals=[[2, 5, 8, 4], [7, 4, 10, 2], [4, 8, 5, 2]] P=[[2, 5], [1, 4], [3, 6]] def=1 k=3
+       e.g. n=3 m=9 k4_certs_3[m=9,idx=0]:17,25,41 sets=[[0, 2, 6, 7], [1, 4, 6, 8], [3, 5, 7, 8]] vals=[[2, 4, 10, 7], [2, 7, 4, 10], [3, 4, 8, 6]] P=[[2, 7], [4, 6], [3, 8]] def=1 k=3
 RSYgz+2 fails at 3 states of 2 profiles  -- RSY+2 with both restrictions on the extra agent
-       e.g. n=3 m=8 k4_certs_3#4:19,197,115 sets=[[0, 2, 4, 5], [1, 4, 6, 7], [3, 5, 6, 7]] vals=[[2, 5, 8, 4], [7, 4, 10, 2], [4, 8, 5, 2]] P=[[2, 5], [1, 4], [3, 6]] def=1 k=3
-       e.g. n=3 m=9 k4_certs_3#0:17,25,41 sets=[[0, 2, 6, 7], [1, 4, 6, 8], [3, 5, 7, 8]] vals=[[2, 4, 10, 7], [2, 7, 4, 10], [3, 4, 8, 6]] P=[[2, 7], [4, 6], [3, 8]] def=1 k=3
+       failures by f: {0: 3}
+       e.g. n=3 m=8 k4_certs_3[m=8,idx=4]:19,197,115 sets=[[0, 2, 4, 5], [1, 4, 6, 7], [3, 5, 6, 7]] vals=[[2, 5, 8, 4], [7, 4, 10, 2], [4, 8, 5, 2]] P=[[2, 5], [1, 4], [3, 6]] def=1 k=3
+       e.g. n=3 m=9 k4_certs_3[m=9,idx=0]:17,25,41 sets=[[0, 2, 6, 7], [1, 4, 6, 8], [3, 5, 7, 8]] vals=[[2, 4, 10, 7], [2, 7, 4, 10], [3, 4, 8, 6]] P=[[2, 7], [4, 6], [3, 8]] def=1 k=3
 RSYg   fails at 31 states of 14 profiles  -- RSYg+2 without trades
-       e.g. n=3 m=7 k4_certs_3#11:95,279,202 sets=[[0, 2, 4, 6], [1, 3, 5, 6], [2, 3, 4, 5]] vals=[[4, 5, 6, 8], [10, 6, 8, 3], [7, 6, 5, 3]] P=[[2, 4], [1, 6], [3, 5]] def=1 k=2
-       e.g. n=3 m=7 k4_certs_3#11:257,165,194 sets=[[0, 2, 4, 6], [1, 3, 5, 6], [2, 3, 4, 5]] vals=[[8, 10, 6, 3], [6, 5, 4, 8], [7, 4, 2, 8]] P=[[0, 6], [3, 5], [2, 4]] def=1 k=2
-RT     fails at 3 states of 2 profiles  -- R_T of k4/dl2.md: re-bases that keep the needed set, trades in which a good passes between the two agents, role swaps with a needer and at most one helper that gives up a good
-       e.g. n=3 m=8 k4_certs_3#4:19,197,115 sets=[[0, 2, 4, 5], [1, 4, 6, 7], [3, 5, 6, 7]] vals=[[2, 5, 8, 4], [7, 4, 10, 2], [4, 8, 5, 2]] P=[[2, 5], [1, 4], [3, 6]] def=1 k=3
-       e.g. n=3 m=9 k4_certs_3#0:17,25,41 sets=[[0, 2, 6, 7], [1, 4, 6, 8], [3, 5, 7, 8]] vals=[[2, 4, 10, 7], [2, 7, 4, 10], [3, 4, 8, 6]] P=[[2, 7], [4, 6], [3, 8]] def=1 k=3
-RTr    fails at 0 states of 0 profiles  -- R_T with rotations: any number of free agents re-basing with the needed set unchanged, in place of trades (only in the runs on whole certificate files)
+       failures by f: {0: 31}
+       e.g. n=3 m=7 k4_certs_3[m=7,idx=11]:95,279,202 sets=[[0, 2, 4, 6], [1, 3, 5, 6], [2, 3, 4, 5]] vals=[[4, 5, 6, 8], [10, 6, 8, 3], [7, 6, 5, 3]] P=[[2, 4], [1, 6], [3, 5]] def=1 k=2
+       e.g. n=3 m=7 k4_certs_3[m=7,idx=11]:257,165,194 sets=[[0, 2, 4, 6], [1, 3, 5, 6], [2, 3, 4, 5]] vals=[[8, 10, 6, 3], [6, 5, 4, 8], [7, 4, 2, 8]] P=[[0, 6], [3, 5], [2, 4]] def=1 k=2
+RT     fails at 3 states of 2 profiles  -- R_T2 of k4/dl2.md: re-bases that keep the needed set, trades in which a good passes between the two agents, role swaps with a needer and at most one helper that gives up a good
+       failures by f: {0: 3}
+       e.g. n=3 m=8 k4_certs_3[m=8,idx=4]:19,197,115 sets=[[0, 2, 4, 5], [1, 4, 6, 7], [3, 5, 6, 7]] vals=[[2, 5, 8, 4], [7, 4, 10, 2], [4, 8, 5, 2]] P=[[2, 5], [1, 4], [3, 6]] def=1 k=3
+       e.g. n=3 m=9 k4_certs_3[m=9,idx=0]:17,25,41 sets=[[0, 2, 6, 7], [1, 4, 6, 8], [3, 5, 7, 8]] vals=[[2, 4, 10, 7], [2, 7, 4, 10], [3, 4, 8, 6]] P=[[2, 7], [4, 6], [3, 8]] def=1 k=3
+RTr    fails at 0 states of 0 profiles  -- R_T of k4/dl2.md: (T1) a re-base keeping the needed set, (T2) a rotation (any number of free agents re-basing, needed set unchanged), (T3) a role swap with a needer and at most one helper giving up a good
+       failures by f: {}
+R13    fails at 31 states of 14 profiles  -- R_13 of k4/dl2.md: (T1) a re-base keeping the needed set or (T3) a role swap with a needer and at most one helper that gives up a good; no rotations
+       failures by f: {0: 31}
+       e.g. n=3 m=7 k4_certs_3[m=7,idx=11]:95,279,202 sets=[[0, 2, 4, 6], [1, 3, 5, 6], [2, 3, 4, 5]] vals=[[4, 5, 6, 8], [10, 6, 8, 3], [7, 6, 5, 3]] P=[[2, 4], [1, 6], [3, 5]] def=1 k=2
+       e.g. n=3 m=7 k4_certs_3[m=7,idx=11]:257,165,194 sets=[[0, 2, 4, 6], [1, 3, 5, 6], [2, 3, 4, 5]] vals=[[8, 10, 6, 3], [6, 5, 4, 8], [7, 4, 2, 8]] P=[[0, 6], [3, 5], [2, 4]] def=1 k=2

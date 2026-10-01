@@ -111,13 +111,16 @@ RELATIONS = collections.OrderedDict([
     ('RSYgz+2', ('RSY+2 with both restrictions on the extra agent',
                  lambda s: _one(s) or _trade(s) or _swap(s, 1, gives=True, yz=True))),
     ('RSYg', ('RSYg+2 without trades', lambda s: _one(s) or _swap(s, 1, gives=True))),
-    ('RT', ('R_T of k4/dl2.md: re-bases that keep the needed set, trades in which a good passes between the two '
+    ('RT', ('R_T2 of k4/dl2.md: re-bases that keep the needed set, trades in which a good passes between the two '
             'agents, role swaps with a needer and at most one helper that gives up a good',
             lambda s: _one(s, nt_ok=False) or _trade(s, exch=True) or _swap(s, 1, gives=True))),
-    ('RTr', ('R_T with rotations: any number of free agents re-basing with the needed set unchanged, in place of trades '
-             '(only in the runs on whole certificate files)',
+    ('RTr', ('R_T of k4/dl2.md: (T1) a re-base keeping the needed set, (T2) a rotation (any number of free agents '
+             're-basing, needed set unchanged), (T3) a role swap with a needer and at most one helper giving up a good',
              lambda s: _one(s, nt_ok=False) or (s['k'] >= 2 and len(s['Y']) == s['k'] and not s['nt'])
              or _swap(s, 1, gives=True))),
+    ('R13', ('R_13 of k4/dl2.md: (T1) a re-base keeping the needed set or (T3) a role swap with a needer and at most one '
+             'helper that gives up a good; no rotations',
+             lambda s: _one(s, nt_ok=False) or _swap(s, 1, gives=True))),
 ])
 
 
@@ -178,7 +181,7 @@ def items_of(mode, rest, opt):
             for ts in profs:
                 vals = [[doms[i][ts[i]][g] for g in sets[i]] for i in range(len(sets))]
                 items.append(({'sets': sets, 'vals': vals, 'm': m},
-                              '%s#%d:%s' % (base, core['idx'], ','.join(map(str, ts)))))
+                              '%s[m=%d,idx=%d]:%s' % (base, m, core['idx'], ','.join(map(str, ts)))))
     else:
         recs = json.load(gzip.open(rest[0], 'rt'))['records'][::int(opt.get('every', 1))]
         if 'max' in opt: recs = recs[:int(opt['max'])]
@@ -186,7 +189,7 @@ def items_of(mode, rest, opt):
         for r in recs:
             c = r['core']
             items.append(({'sets': c['sets'], 'vals': r['vals'], 'm': c['m']},
-                          '%s:%s#%d:%s' % (base, c['file'], c['idx'], ','.join(map(str, r['prof'])))))
+                          '%s:%s[m=%d,idx=%d]:%s' % (base, c['file'], c['m'], c['idx'], ','.join(map(str, r['prof'])))))
     return items
 
 
@@ -199,24 +202,26 @@ def main(argv):
     print('# command: python3 k4/dl2_relations.py ' + ' '.join(argv), flush=True)
     fo = gzip.open(out, 'wt') if out else None
     fail = {r: [] for r in RELATIONS}; failprof = {r: set() for r in RELATIONS}; nfail = collections.Counter()
-    nst = 0; nprof = 0; kh = collections.Counter()
+    nst = 0; nprof = 0; kh = collections.Counter(); fh = collections.Counter(); ff = {r: collections.Counter() for r in RELATIONS}
     it = map(one, items) if jobs <= 1 else Pool(jobs).imap(one, items, chunksize=4)
     for src, d, recs in it:
         nprof += 1
         for r in recs:
-            nst += 1; kh[r['k']] += 1
+            nst += 1; kh[r['k']] += 1; fh[r['f']] += 1
             for rel, h in r['holds'].items():
                 if not h:
-                    failprof[rel].add(src); nfail[rel] += 1
+                    failprof[rel].add(src); nfail[rel] += 1; ff[rel][r['f']] += 1
                     if len(fail[rel]) < 200: fail[rel].append((len(d['sets']), d['m'], src, d, r))
             if fo and not all(r['holds'].values()):      # only the states where some relation fails
                 r2 = dict(r); r2['src'] = src; r2['sets'] = d['sets']; r2['vals'] = d['vals']; r2['m'] = d['m']
                 fo.write(json.dumps(r2, separators=(',', ':')) + '\n')
     if fo: fo.close()
     print('profiles %d, def>0 states %d, nearest-distance histogram %s' % (nprof, nst, dict(sorted(kh.items(), key=lambda x: (x[0] is None, x[0] or 0)))))
+    print('def>0 states by fewest frozen agents f: %s' % dict(sorted(fh.items())))
     for rel, (desc, _) in RELATIONS.items():
         fl = fail[rel]
         print('%-6s fails at %d states of %d profiles  -- %s' % (rel, nfail[rel], len(failprof[rel]), desc))
+        print('       failures by f: %s' % dict(sorted(ff[rel].items())))
         for nn, m, src, d, r in sorted(fl, key=lambda t: (t[0], t[1]))[:2]:
             print('       e.g. n=%d m=%d %s sets=%s vals=%s P=%s def=%s k=%s' % (nn, m, src, d['sets'], d['vals'],
                                                                                 r['Bs'], r['def'], r['k']))

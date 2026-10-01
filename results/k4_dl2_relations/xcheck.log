@@ -1,14 +1,14 @@
 # command: python3 k4/dl2_relations_xcheck.py suite
-profiles 128 (n <= 4), def>0 states 158, mismatches 0 (deficit, nearest distance, DL_R for R2, RB2, RSY+2, RT, RTr)
+profiles 128 (n <= 4), def>0 states 158, mismatches 0 (deficit, nearest distance, DL_R for R2, RB2, RSY+2, RT, RTr, R13)
 # command: python3 k4/dl2_relations_xcheck.py catalog k4/suite/.cache/gapbench/results/k4_gap/gap_n3.json.gz --every=10
-profiles 7426 (n <= 4), def>0 states 4592, mismatches 0 (deficit, nearest distance, DL_R for R2, RB2, RSY+2, RT, RTr)
+profiles 7426 (n <= 4), def>0 states 4592, mismatches 0 (deficit, nearest distance, DL_R for R2, RB2, RSY+2, RT, RTr, R13)
 # command: python3 k4/dl2_relations_xcheck.py catalog k4/suite/.cache/gapbench/results/k4_gap/hard_hunt.json.gz
-profiles 117 (n <= 4), def>0 states 192, mismatches 0 (deficit, nearest distance, DL_R for R2, RB2, RSY+2, RT, RTr)
+profiles 117 (n <= 4), def>0 states 192, mismatches 0 (deficit, nearest distance, DL_R for R2, RB2, RSY+2, RT, RTr, R13)
 # command: python3 k4/dl2_relations_xcheck.py catalog k4/suite/.cache/gapbench/results/k4_gap/gap_n4_pure_s4000.json.gz --every=40
-profiles 1128 (n <= 4), def>0 states 643, mismatches 0 (deficit, nearest distance, DL_R for R2, RB2, RSY+2, RT, RTr)
+profiles 1128 (n <= 4), def>0 states 643, mismatches 0 (deficit, nearest distance, DL_R for R2, RB2, RSY+2, RT, RTr, R13)
 # command: python3 k4/dl2_relations_xcheck.py catalog k4/suite/.cache/gapbench/results/k4_gap/gap_n4_3_s4000.json.gz --every=40
-profiles 1460 (n <= 4), def>0 states 160, mismatches 0 (deficit, nearest distance, DL_R for R2, RB2, RSY+2, RT, RTr)
+profiles 1460 (n <= 4), def>0 states 160, mismatches 0 (deficit, nearest distance, DL_R for R2, RB2, RSY+2, RT, RTr, R13)
 # command: python3 k4/dl2_relations_xcheck.py certs results/k4_certs_2.json.gz --rand=200 --seed=5
-profiles 1000 (n <= 4), def>0 states 767, mismatches 0 (deficit, nearest distance, DL_R for R2, RB2, RSY+2, RT, RTr)
+profiles 1000 (n <= 4), def>0 states 767, mismatches 0 (deficit, nearest distance, DL_R for R2, RB2, RSY+2, RT, RTr, R13)
 # command: python3 k4/dl2_relations_xcheck.py certs results/k4_certs_3.json.gz --rand=100 --seed=5
-profiles 5100 (n <= 4), def>0 states 698, mismatches 0 (deficit, nearest distance, DL_R for R2, RB2, RSY+2, RT, RTr)
+profiles 5100 (n <= 4), def>0 states 698, mismatches 0 (deficit, nearest distance, DL_R for R2, RB2, RSY+2, RT, RTr, R13)

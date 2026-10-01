@@ -18,37 +18,36 @@ def main(argv):
     opt = dict(a[2:].split('=', 1) for a in argv[1:] if a.startswith('--'))
     E = int(opt.get('model', 0))
     print('# command: python3 k4/dl2_relations_trapped.py ' + ' '.join(argv), flush=True)
-    fails = {r: Counter() for r in REL_B}; nst = Counter(); profs = {}; mism = 0; nmod = 0
+    fails = {r: Counter() for r in REL_B}; nst = Counter(); profs = {}; verdict = {}; mism = 0; nmod = 0
     for l in gzip.open(argv[0], 'rt'):
         x = json.loads(l)
         sets = x['core']['sets']; vals = x['vals']; f = x['f']
         P = tuple(frozenset(b) for b in x['P'])
-        key = (x['core']['file'], x['core']['pos'], tuple(x['prof']))
+        key = (x['core']['file'], x['core']['m'], x['core']['idx'], tuple(x['prof']))     # core named by (m, idx)
         profs.setdefault(key, (sets, vals, x['m'], f)); nst[f] += 1
+        v = verdict[(key, tuple(tuple(sorted(b)) for b in x['P']))] = {}
         for r in REL_B:
-            if not any(rel_B(r, sets, vals, P, tuple(frozenset(b) for b in rp['B2'])) for rp in x['repairs']
-                       if rp['def2'] < x['def']):
+            v[r] = any(rel_B(r, sets, vals, P, tuple(frozenset(b) for b in rp['B2'])) for rp in x['repairs']
+                       if rp['def2'] < x['def'])
+            if not v[r]:
                 fails[r][f] += 1
-                if r == 'RTr': print('RTr FAILS', key, x['P'], flush=True)
-    print('states (P with k* >= 3) %d in %d profiles; by f: %s' % (sum(nst.values()), len(profs), dict(nst)))
+                if r == 'RTr' or (r == 'R13' and f >= 1 and fails[r][f] <= 20):
+                    print('%s FAILS' % r, key, 'f', f, 'P', x['P'], flush=True)
+    print('states (P with k* >= 3) %d in %d profiles; by f: %s' % (sum(nst.values()), len(profs), dict(sorted(nst.items()))))
     for r in REL_B:
-        print('%-6s fails at %d states %s' % (r, sum(fails[r].values()), dict(fails[r])), flush=True)
+        print('%-6s fails at %d states, by f: %s' % (r, sum(fails[r].values()), dict(sorted(fails[r].items()))), flush=True)
     if E:
         import dl2_relations as DR
-        trapped = {}
-        for l in gzip.open(argv[0], 'rt'):
-            x = json.loads(l)
-            key = (x['core']['file'], x['core']['pos'], tuple(x['prof']))
-            trapped.setdefault(key, set()).add(tuple(tuple(sorted(b)) for b in x['P']))
         for i, (key, (sets, vals, m, f)) in enumerate(sorted(profs.items())):
             if i % E: continue
             nmod += 1
             st = {tuple(tuple(b) for b in r['Bs']): r for r in DR.profile({'sets': sets, 'vals': vals, 'm': m})}
             got = {P for P, r in st.items() if r['k'] is not None and r['k'] >= 3}
-            if got != trapped[key] or any(not st[P]['holds']['RTr'] for P in got):
-                mism += 1; print('MODEL MISMATCH', key, sorted(got ^ trapped[key])[:3], flush=True)
-        print('model recheck: %d profiles, mismatches %d (the set of P with k* >= 3; DL_T there)' % (nmod, mism))
-
+            mine = {P for (k2, P) in verdict if k2 == key}
+            if got != mine or any(st[P]['holds'][r] != verdict[(key, P)][r] for P in got for r in REL_B):
+                mism += 1; print('MODEL MISMATCH', key, sorted(got ^ mine)[:3], flush=True)
+        print('model recheck: %d profiles, mismatches %d (the set of P with k* >= 3, and DL_R there for %s)' % (
+            nmod, mism, ', '.join(REL_B)))
 
 if __name__ == '__main__':
     main(sys.argv[1:])
