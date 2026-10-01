@@ -1,0 +1,9 @@
+# command: python3 k4/portfolio_ref.py compare /tmp/claude-0/-home-user-efx0-three-goods/c45b51fe-4ba6-5125-83f2-27473b98a7c1/scratchpad/v10.json
+# 10 profiles
+compared: profiles 10 (f >= 1, omega >= 1), states 168, keys def* > 0 41; 2520 state-predicate and 328 key-predicate repair counts compared; mismatching profiles 0; skipped: f = 0 0, omega <= 0 0 [126 s]
+failures (reference): RT4 67, RC_W1 0, RC 0, RC_noneed 0, RC_Yfree 0, RC_Yany 0, RC_U0 0, NA1 0, NAbal 0, NAall 0, U1Z1 0, D2 67, D3 0, D4 0, FR3 0, K1 10, K3 0, K2 0, K2_noneed 0, K2_Yany 0, K4 0, K5 0, KU1 0
+# modules of the model.py side loaded: none
+
+real	2m5.762s
+user	2m3.870s
+sys	0m0.051s
