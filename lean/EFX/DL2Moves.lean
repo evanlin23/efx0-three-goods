@@ -717,6 +717,484 @@ theorem moveT3_of_lemma6 (hag : agents.Nodup) (hgd : goods.Nodup) (hM : MinFroze
     fun h hh => ⟨(hH h hh).1, (hH h hh).2.2.1, (hH h hh).2.2.2, (hH h hh).2.1, hgive h hh⟩, hsame,
     fun g' => (hNA g').symm⟩
 
+/-! ## Bundles, safety and the count `u_o` (`k4/dl2.md` §4, Setting; `k4/hall.md` §1) -/
+
+/-- **`Z` is a bundle of `o` in `P`**: `B_o ⊆ Z ⊆ W_o = B_o ∪ J`, for a set of goods given by its test `Z` on `goods`
+(the set is `goods.filter Z`). -/
+def IsBundle (goods : List G) (base : G → Option A) (o : A) (Z : G → Bool) : Prop :=
+  ∀ g ∈ goods, (base g = some o → Z g = true) ∧ (Z g = true → base g = some o ∨ base g = none)
+
+/-- **`Z` is safe for `o` in `P`**: `Z` threatens no listed agent `x ≠ o` holding its base,
+`θ_x(Z) = max_{h ∈ Z} v_x(Z ∖ h) ≤ v_x(B_x)` (the empty set threatens nobody). This is `Unthreatened` of
+`EFX/C4min.lean` for an arbitrary set in place of `B_o ∪ (J ∖ C)`. -/
+def SafeFor (v : A → G → Nat) (agents : List A) (goods : List G) (base : G → Option A) (o : A) (Z : G → Bool) :
+    Prop :=
+  ∀ x ∈ agents, x ≠ o → ∀ h ∈ goods.filter Z, value v x ((goods.filter Z).erase h) ≤ value v x (baseOf goods base x)
+
+/-- **`N_o(Z)`** (`k4/dl2.md` §4): the goods outside `Z` worth more to `o` than `Z`,
+`N_o(Z) = {g ∈ R_o ∖ Z : v_o(g) > v_o(Z)}`. -/
+def setNeeds (v : A → G → Nat) (goods : List G) (o : A) (Z : G → Bool) (g : G) : Prop :=
+  g ∈ goods ∧ Z g = false ∧ value v o (goods.filter Z) < v o g
+
+/-- **`x` is counted in `u_o(Z)`** (`k4/dl2.md` §4): `x` is frozen in `P` and its base misses `N_o(Z) ∪ 𝒩₋ₒ`, where
+`𝒩₋ₒ = ⋃_{i ≠ o} N_i` over the listed agents. -/
+def Counted (v : A → G → Nat) (agents : List A) (goods : List G) (base : G → Option A) (o : A) (Z : G → Bool)
+    (x : A) : Prop :=
+  Frozen agents goods base (vbNeeds v goods base) x ∧
+    ∀ g ∈ baseOf goods base x, ¬ setNeeds v goods o Z g ∧ ∀ i ∈ agents, i ≠ o → ¬ vbNeeds v goods base i g
+
+open Classical in
+/-- **`u_o(Z)`** (`k4/dl2.md` §4): the number of listed agents counted in `u_o(Z)`, i.e. the frozen agents that `o`'s
+needs from `Z` unfreeze. -/
+noncomputable def uCount (v : A → G → Nat) (agents : List A) (goods : List G) (base : G → Option A) (o : A)
+    (Z : G → Bool) : Nat :=
+  agents.countP (fun x => decide (Counted v agents goods base o Z x))
+
+/-- The test of the owner's bundle `X_o = B_o ∪ (J ∖ C)` of `EFX/C4min.lean` (`ownerBundle`). -/
+def obPred (base : G → Option A) (o : A) (C : G → Bool) : G → Bool :=
+  fun g => decide (base g = some o ∨ (base g = none ∧ C g = false))
+
+omit [DecidableEq G] in
+theorem ownerBundle_eq (o : A) (C : G → Bool) : ownerBundle goods base o C = goods.filter (obPred base o C) := rfl
+
+omit [DecidableEq G] in
+theorem isBundle_obPred (o : A) (C : G → Bool) : IsBundle goods base o (obPred base o C) := by
+  intro g _
+  unfold obPred
+  constructor
+  · intro h; simp [h]
+  · intro h
+    rcases of_decide_eq_true h with h | h
+    · exact Or.inl h
+    · exact Or.inr h.1
+
+omit [DecidableEq G] in
+/-- A bundle `Z` is the owner's bundle `B_o ∪ (J ∖ C)` for `C = J ∖ Z` (the test `!Z`). -/
+theorem obPred_not_eq {o : A} {Z : G → Bool} (hZ : IsBundle goods base o Z) :
+    ∀ g ∈ goods, obPred base o (fun g => !Z g) g = Z g := by
+  intro g hg
+  obtain ⟨h1, h2⟩ := hZ g hg
+  unfold obPred
+  cases hb : base g with
+  | none => cases hz : Z g <;> simp [hz]
+  | some i =>
+    by_cases hio : i = o
+    · subst hio; simp [h1 hb]
+    · have : Z g = false := by
+        cases hz : Z g with
+        | false => rfl
+        | true => rcases h2 hz with e | e <;> rw [hb] at e <;> first | exact absurd (Option.some.inj e) hio | cases e
+      simp [hio, this]
+
+omit [DecidableEq G] in
+theorem filter_congr_goods {Z Z' : G → Bool} (h : ∀ g ∈ goods, Z g = Z' g) : goods.filter Z = goods.filter Z' :=
+  List.filter_congr h
+
+omit [DecidableEq A] [DecidableEq G] in
+/-- `N_o(Z)` depends only on `Z ∩ goods`. -/
+theorem setNeeds_congr {o : A} {Z Z' : G → Bool} (h : ∀ g ∈ goods, Z g = Z' g) (g : G) :
+    setNeeds v goods o Z g ↔ setNeeds v goods o Z' g := by
+  unfold setNeeds
+  rw [filter_congr_goods h]
+  exact ⟨fun ⟨hg, hz, hlt⟩ => ⟨hg, (h g hg) ▸ hz, hlt⟩, fun ⟨hg, hz, hlt⟩ => ⟨hg, (h g hg).symm ▸ hz, hlt⟩⟩
+
+omit [DecidableEq G] in
+/-- `u_o(Z)` depends only on `Z ∩ goods`. -/
+theorem uCount_congr {o : A} {Z Z' : G → Bool} (h : ∀ g ∈ goods, Z g = Z' g) :
+    uCount v agents goods base o Z = uCount v agents goods base o Z' := by
+  classical
+  unfold uCount
+  congr 1
+  funext x
+  apply decide_eq_decide.mpr
+  unfold Counted
+  simp only [setNeeds_congr (v := v) h]
+
+/-- Safety depends only on `Z ∩ goods`. -/
+theorem safeFor_congr {o : A} {Z Z' : G → Bool} (h : ∀ g ∈ goods, Z g = Z' g) :
+    SafeFor v agents goods base o Z ↔ SafeFor v agents goods base o Z' := by
+  unfold SafeFor
+  rw [filter_congr_goods h]
+
+/-- `Unthreatened` of `EFX/C4min.lean` is safety of the owner's bundle. -/
+theorem unthreatened_iff (o : A) (C : G → Bool) :
+    Unthreatened v agents goods base o C ↔ SafeFor v agents goods base o (obPred base o C) := Iff.rfl
+
+/-! ## Lemma H1 -/
+
+omit [DecidableEq G] in
+/-- The needs with the owner's taken from its bundle only shrink: `N_o^X ⊆ N_o(B_o)` (`v_o(X) ≥ v_o(B_o)`). -/
+theorem roNeeds_sub {o : A} {C : G → Bool} {i : A} {g : G} (h : roNeeds v goods base o C i g) :
+    vbNeeds v goods base i g := by
+  unfold roNeeds at h
+  by_cases hio : i = o
+  · subst hio
+    simp only [↓reduceIte] at h
+    obtain ⟨hg, hX, hlt⟩ := h
+    refine ⟨hg, fun hb => hX ?_, ?_⟩
+    · exact List.mem_filter.mpr ⟨hg, by simp [hb]⟩
+    · refine Nat.lt_of_le_of_lt (value_sublist v i ?_) hlt
+      exact filter_sublist_of_imp fun g' _ hb => by simp at hb; simp [hb]
+  · simpa [hio] using h
+
+omit [DecidableEq G] in
+/-- The needed set with the owner's needs from `X_o = B_o ∪ (J ∖ C)`: `N_o(X_o) ∪ 𝒩₋ₒ`. -/
+theorem NA_roNeeds_iff {o : A} (ho : o ∈ agents) (C : G → Bool) (g : G) :
+    NA agents (roNeeds v goods base o C) g ↔
+      setNeeds v goods o (obPred base o C) g ∨ ∃ i ∈ agents, i ≠ o ∧ vbNeeds v goods base i g := by
+  constructor
+  · rintro ⟨i, hi, hN⟩
+    unfold roNeeds at hN
+    by_cases hio : i = o
+    · subst hio
+      simp only [↓reduceIte] at hN
+      obtain ⟨hg, hX, hlt⟩ := hN
+      refine Or.inl ⟨hg, ?_, hlt⟩
+      cases hz : obPred base i C g with
+      | false => rfl
+      | true => exact absurd (List.mem_filter.mpr ⟨hg, hz⟩) hX
+    · simp only [hio, ↓reduceIte] at hN
+      exact Or.inr ⟨i, hi, hio, hN⟩
+  · rintro (⟨hg, hz, hlt⟩ | ⟨i, hi, hio, hN⟩)
+    · refine ⟨o, ho, ?_⟩
+      unfold roNeeds
+      simp only [↓reduceIte]
+      refine ⟨hg, fun hm => ?_, hlt⟩
+      rw [ownerBundle_eq, List.mem_filter, hz] at hm
+      exact Bool.false_ne_true hm.2
+    · refine ⟨i, hi, ?_⟩
+      unfold roNeeds
+      simpa [hio] using hN
+
+theorem sum_eq_add_countP {α : Type} (f g : α → Nat) (p : α → Bool) :
+    ∀ l : List α, (∀ a ∈ l, f a = g a + if p a then 1 else 0) → (l.map f).sum = (l.map g).sum + l.countP p
+  | [], _ => by simp
+  | a :: l, h => by
+    simp only [List.map_cons, List.sum_cons, List.countP_cons]
+    rw [sum_eq_add_countP f g p l (fun b hb => h b (by simp [hb])), h a (by simp)]
+    omega
+
+omit [DecidableEq G] in
+open Classical in
+/-- **The slots of the other agents with the owner's needs from its bundle**: `S_o(C) = s₀ + u_o(X_o)`, where `s₀` is
+the other agents' slots with the needs from the bases (`k4/hall.md` §1: taking `o`'s needs from `X` only unfreezes
+agents, each unfrozen agent holds one good and gains one slot). -/
+theorem otherSlots_roNeeds {o : A} (ho : o ∈ agents)
+    (hoF : ¬ Frozen agents goods base (vbNeeds v goods base) o) (C : G → Bool) :
+    otherSlots agents goods base (roNeeds v goods base o C) o =
+      otherSlots agents goods base (vbNeeds v goods base) o + uCount v agents goods base o (obPred base o C) := by
+  unfold otherSlots uCount
+  apply sum_eq_add_countP
+  intro j _
+  by_cases hjo : j = o
+  · subst hjo
+    have : ¬ Counted v agents goods base j (obPred base j C) j := fun h => hoF h.1
+    simp [this]
+  by_cases hF : Frozen agents goods base (vbNeeds v goods base) j
+  · obtain ⟨y, hB, hN⟩ := id hF
+    have hro : Frozen agents goods base (roNeeds v goods base o C) j ↔
+        NA agents (roNeeds v goods base o C) y := by
+      unfold Frozen; rw [hB]
+      exact ⟨fun ⟨y', e, h⟩ => by cases e; exact h, fun h => ⟨y, rfl, h⟩⟩
+    have hc : Counted v agents goods base o (obPred base o C) j ↔ ¬ NA agents (roNeeds v goods base o C) y := by
+      rw [NA_roNeeds_iff ho C y]
+      unfold Counted
+      rw [hB]
+      simp only [List.mem_singleton, forall_eq]
+      constructor
+      · rintro ⟨-, h1, h2⟩ (h | ⟨i, hi, hio, hN⟩)
+        · exact h1 h
+        · exact h2 i hi hio hN
+      · intro h
+        exact ⟨hF, fun h1 => h (Or.inl h1), fun i hi hio hN => h (Or.inr ⟨i, hi, hio, hN⟩)⟩
+    by_cases hNro : NA agents (roNeeds v goods base o C) y
+    · have : Frozen agents goods base (roNeeds v goods base o C) j := hro.mpr hNro
+      have hnc : ¬ Counted v agents goods base o (obPred base o C) j := fun h => hc.mp h hNro
+      simp [hjo, this, hF, hnc]
+    · have : ¬ Frozen agents goods base (roNeeds v goods base o C) j := fun h => hNro (hro.mp h)
+      have hcc : Counted v agents goods base o (obPred base o C) j := hc.mpr hNro
+      simp [hjo, this, hF, hcc, hB]
+  · have hro : ¬ Frozen agents goods base (roNeeds v goods base o C) j := fun ⟨y, hB, i, hi, hN⟩ =>
+      hF ⟨y, hB, i, hi, roNeeds_sub hN⟩
+    have hnc : ¬ Counted v agents goods base o (obPred base o C) j := fun h => hF h.1
+    simp [hjo, hro, hF, hnc]
+
+/-- Two sums of counts agree when they agree on each element. -/
+theorem countP_add_eq {α : Type} {p q r s : α → Bool} :
+    ∀ {l : List α}, (∀ a ∈ l, (if p a then 1 else 0) + (if q a then 1 else 0) =
+        (if r a then 1 else 0) + (if s a then 1 else 0)) →
+      l.countP p + l.countP q = l.countP r + l.countP s
+  | [], _ => by simp
+  | a :: l, h => by
+    have ih := countP_add_eq (l := l) fun b hb => h b (by simp [hb])
+    have ha := h a (by simp)
+    simp only [List.countP_cons]
+    omega
+
+omit [DecidableEq G] in
+/-- Splitting the goods of `W_o`: `|Z| + |J ∖ Z| = |J| + |B_o|` for a bundle `Z` of `o`. -/
+theorem length_bundle {o : A} {Z : G → Bool} (hZ : IsBundle goods base o Z) :
+    (goods.filter Z).length + ((LB4.junk goods base).filter (fun g => !Z g)).length =
+      (LB4.junk goods base).length + (baseOf goods base o).length := by
+  unfold LB4.junk baseOf
+  rw [List.filter_filter, ← List.countP_eq_length_filter, ← List.countP_eq_length_filter,
+    ← List.countP_eq_length_filter, ← List.countP_eq_length_filter]
+  apply countP_add_eq
+  intro g hg
+  obtain ⟨h1, h2⟩ := hZ g hg
+  cases hb : base g with
+  | none => cases Z g <;> simp
+  | some i =>
+    by_cases hio : i = o
+    · subst hio; simp [h1 hb]
+    · have hz : Z g = false := by
+        cases hz : Z g with
+        | false => rfl
+        | true => rcases h2 hz with e | e <;> rw [hb] at e <;> first | exact absurd (Option.some.inj e) hio | cases e
+      simp [hz, hio]
+
+omit [DecidableEq G] in
+open Classical in
+/-- **Lemma H1, the slot identity** (`k4/hall.md` §1). For `P ∈ 𝒫`, a free listed owner `o` and any `C`, with
+`X_o = B_o ∪ (J ∖ C)`: `|C| − S_o(C) = ω + 2 − |X_o| − u_o(X_o)` (`|C|` counts the junk goods of `C`). -/
+theorem h1_core (hag : agents.Nodup) (hP : InP v agents goods base) {o : A} (ho : o ∈ agents)
+    (hoF : ¬ Frozen agents goods base (vbNeeds v goods base) o) (C : G → Bool) :
+    (((LB4.junk goods base).filter C).length : Int) -
+        (otherSlots agents goods base (roNeeds v goods base o C) o : Int) =
+      omegaP v agents goods base + 2 - ((ownerBundle goods base o C).length : Int) -
+        (uCount v agents goods base o (obPred base o C) : Int) := by
+  have hs := otherSlots_roNeeds (v := v) (agents := agents) (goods := goods) ho hoF C
+  have hcap := otherSlots_add_cap (M := vbNeeds v goods base) (base := base) (goods := goods) hag ho
+    (fun j _ _ => hP.two j)
+  have hcapo : cap agents goods base (vbNeeds v goods base) o = 2 - ((baseOf goods base o).length : Int) := by
+    unfold cap; simp [hoF]
+  have hsplit := length_bundle (base := base) (goods := goods) (isBundle_obPred o C)
+  have hJ : (LB4.junk goods base).filter C = (LB4.junk goods base).filter (fun g => !obPred base o C g) := by
+    apply List.filter_congr
+    intro g hg
+    have hb := (mem_junk.mp hg).2
+    unfold obPred
+    cases C g <;> simp [hb]
+  rw [hJ, ownerBundle_eq, hs]
+  unfold omegaP
+  push_cast
+  omega
+
+/-- **Lemma H1, ≤** (`k4/hall.md` §1; `k4/dl2.md` §4). If `P ∈ 𝒫`, `ω ≥ 1`, `o` is a free listed agent and `Z` a safe
+bundle of `o`, then `def(P) ≤ ω + 2 − |Z| − u_o(Z)`. -/
+theorem deficitLE_of_safe (hag : agents.Nodup) (hP : InP v agents goods base)
+    (hω : 0 < omegaP v agents goods base) {o : A} (ho : o ∈ agents)
+    (hoF : ¬ Frozen agents goods base (vbNeeds v goods base) o) {Z : G → Bool} (hZ : IsBundle goods base o Z)
+    (hS : SafeFor v agents goods base o Z) :
+    DeficitLE v agents goods base
+      (omegaP v agents goods base + 2 - ((goods.filter Z).length : Int) - (uCount v agents goods base o Z : Int)) := by
+  have he := obPred_not_eq hZ
+  refine Or.inr ⟨hω, o, ho, hoF, fun g => !Z g, ?_, ?_⟩
+  · rw [unthreatened_iff, safeFor_congr he]; exact hS
+  · rw [h1_core hag hP ho hoF, ownerBundle_eq, filter_congr_goods he, uCount_congr he]
+    exact Int.le_refl _
+
+/-- **Lemma H1, ≥**: if `P ∈ 𝒫`, `ω ≥ 1` and `def(P) ≤ d`, some free listed `o` has a safe bundle `Z` with
+`ω + 2 − |Z| − u_o(Z) ≤ d`. -/
+theorem exists_safe_of_deficitLE (hag : agents.Nodup) (hP : InP v agents goods base)
+    (hω : 0 < omegaP v agents goods base) {d : Int} (h : DeficitLE v agents goods base d) :
+    ∃ o ∈ agents, ¬ Frozen agents goods base (vbNeeds v goods base) o ∧ ∃ Z : G → Bool,
+      IsBundle goods base o Z ∧ SafeFor v agents goods base o Z ∧
+        omegaP v agents goods base + 2 - ((goods.filter Z).length : Int) - (uCount v agents goods base o Z : Int) ≤ d := by
+  rcases h with ⟨h1, -⟩ | ⟨-, o, ho, hoF, C, hU, hle⟩
+  · omega
+  refine ⟨o, ho, hoF, obPred base o C, isBundle_obPred o C, (unthreatened_iff o C).mp hU, ?_⟩
+  rw [h1_core hag hP ho hoF, ownerBundle_eq] at hle
+  exact hle
+
+/-- **Lemma H1** (`k4/hall.md` §1, K4.HALL.COVER, as used in `k4/dl2.md` §4): for `P ∈ 𝒫` with `ω ≥ 1`,
+`def(P) = ω + 2 − Val*(P)`, where `Val*(P)` is the largest `|Z| + u_o(Z)` over the free listed `o` and the safe bundles
+`Z` of `o`; read through `DeficitLE` (`def(P) ≤ d`), and with `def(P) = +∞` when there is no such pair. -/
+theorem lemmaH1 (hag : agents.Nodup) (hP : InP v agents goods base) (hω : 0 < omegaP v agents goods base) (d : Int) :
+    DeficitLE v agents goods base d ↔
+      ∃ o ∈ agents, ¬ Frozen agents goods base (vbNeeds v goods base) o ∧ ∃ Z : G → Bool,
+        IsBundle goods base o Z ∧ SafeFor v agents goods base o Z ∧
+          omegaP v agents goods base + 2 - ((goods.filter Z).length : Int) - (uCount v agents goods base o Z : Int) ≤ d :=
+  ⟨exists_safe_of_deficitLE hag hP hω, fun ⟨_, ho, hoF, _, hZ, hS, hle⟩ =>
+    deficitLE_mono (deficitLE_of_safe hag hP hω ho hoF hZ hS) hle⟩
+
+/-- **Lemma H1, per owner** (`k4/hall.md` §1, the covering form): for `P ∈ 𝒫`, a free listed `o` and a bundle `Z` of
+`o` (`Z = B_o ∪ K`, `K ⊆ J`), the removal of `C = J ∖ Z` is a removal-only completion with owner `o` and owner bundle
+`Z` (`Z` threatens nobody holding its base, and `|C| ≤ S_o(C)`) iff `Z` is safe and `|Z| ≥ ω + 2 − u_o(Z)`. -/
+theorem lemmaH1_owner (hag : agents.Nodup) (hP : InP v agents goods base) {o : A} (ho : o ∈ agents)
+    (hoF : ¬ Frozen agents goods base (vbNeeds v goods base) o) {Z : G → Bool} (hZ : IsBundle goods base o Z) :
+    (Unthreatened v agents goods base o (fun g => !Z g) ∧
+        ((LB4.junk goods base).filter (fun g => !Z g)).length ≤
+          otherSlots agents goods base (roNeeds v goods base o (fun g => !Z g)) o) ↔
+      SafeFor v agents goods base o Z ∧
+        omegaP v agents goods base + 2 ≤ ((goods.filter Z).length : Int) + (uCount v agents goods base o Z : Int) := by
+  have he := obPred_not_eq hZ
+  have hc := h1_core hag hP ho hoF (fun g => !Z g)
+  rw [ownerBundle_eq, filter_congr_goods he, uCount_congr he] at hc
+  rw [unthreatened_iff, safeFor_congr he]
+  constructor
+  · rintro ⟨hS, hle⟩; exact ⟨hS, by omega⟩
+  · rintro ⟨hS, hle⟩; exact ⟨hS, by omega⟩
+
+/-! ## Deficit comparisons -/
+
+/-- **`def(P′) ≤ def(P) − k`** in `ℤ ∪ {+∞}`: every integer bound `d ≥ def(P)` gives `def(P′) ≤ d − k` (vacuous when
+`def(P) = +∞`). -/
+def DeficitDrop (v : A → G → Nat) (agents : List A) (goods : List G) (base' base : G → Option A) (k : Int) : Prop :=
+  ∀ d, DeficitLE v agents goods base d → DeficitLE v agents goods base' (d - k)
+
+/-- A drop by `k ≥ 1` from a finite deficit is a strict decrease. -/
+theorem deficitLT_of_drop {k : Int} (hk : 1 ≤ k) (h : DeficitDrop v agents goods base' base k) {d : Int}
+    (hd : DeficitLE v agents goods base d) : DeficitLT v agents goods base' base := by
+  obtain ⟨d₀, hd₀, hleast⟩ := exists_least_deficit hd
+  exact ⟨d₀ - k, h d₀ hd₀, fun hle => by have := hleast _ hle; omega⟩
+
+/-- **`X` is an optimal bundle of a best owner `o` of `P`** (`k4/dl2.md` §4): `o` is a free listed agent, `X` a safe
+bundle of `o`, and `|X| + u_o(X) = Val*(P)`, i.e. no free listed `o′` has a safe bundle `Z` with a larger `|Z| + u_{o′}(Z)`. -/
+def OptimalBest (v : A → G → Nat) (agents : List A) (goods : List G) (base : G → Option A) (o : A) (X : G → Bool) :
+    Prop :=
+  o ∈ agents ∧ ¬ Frozen agents goods base (vbNeeds v goods base) o ∧ IsBundle goods base o X ∧
+    SafeFor v agents goods base o X ∧
+    ∀ o' ∈ agents, ¬ Frozen agents goods base (vbNeeds v goods base) o' → ∀ Z, IsBundle goods base o' Z →
+      SafeFor v agents goods base o' Z →
+        (goods.filter Z).length + uCount v agents goods base o' Z ≤ (goods.filter X).length + uCount v agents goods base o X
+
+/-- `Val*(P) < k`, through Lemma H1: if every free listed `o′` and safe bundle `Z` of `o′` have `|Z| + u_{o′}(Z) < k`,
+then `def(P) > ω + 2 − k`. -/
+theorem not_deficitLE_of_val_lt (hag : agents.Nodup) (hP : InP v agents goods base)
+    (hω : 0 < omegaP v agents goods base) {k : Int}
+    (hval : ∀ o' ∈ agents, ¬ Frozen agents goods base (vbNeeds v goods base) o' → ∀ Z, IsBundle goods base o' Z →
+      SafeFor v agents goods base o' Z → ((goods.filter Z).length : Int) + (uCount v agents goods base o' Z : Int) < k) :
+    ¬ DeficitLE v agents goods base (omegaP v agents goods base + 2 - k) := fun h => by
+  obtain ⟨o', ho', hoF', Z, hZ, hS, hle⟩ := exists_safe_of_deficitLE hag hP hω h
+  have := hval o' ho' hoF' Z hZ hS
+  omega
+
+/-- For an optimal bundle `X` of a best owner `o`, `def(P) = ω + 2 − |X| − u_o(X)` (Lemma H1). -/
+theorem deficit_of_optimalBest (hag : agents.Nodup) (hP : InP v agents goods base)
+    (hω : 0 < omegaP v agents goods base) {o : A} {X : G → Bool} (hX : OptimalBest v agents goods base o X) :
+    DeficitLE v agents goods base
+        (omegaP v agents goods base + 2 - ((goods.filter X).length : Int) - (uCount v agents goods base o X : Int)) ∧
+      ∀ d, DeficitLE v agents goods base d →
+        omegaP v agents goods base + 2 - ((goods.filter X).length : Int) - (uCount v agents goods base o X : Int) ≤ d := by
+  obtain ⟨ho, hoF, hXb, hXs, hmax⟩ := hX
+  refine ⟨deficitLE_of_safe hag hP hω ho hoF hXb hXs, fun d hd => ?_⟩
+  obtain ⟨o', ho', hoF', Z, hZ, hS, hle⟩ := exists_safe_of_deficitLE hag hP hω hd
+  have := hmax o' ho' hoF' Z hZ hS
+  omega
+
+/-! ## Lemma 2* (extension through any move keeping the needed set) -/
+
+omit [DecidableEq A] [DecidableEq G] in
+/-- **(M1)** (`k4/dl2.md` §4): `X ⊆ Y` implies `N_o(Y) ⊆ N_o(X)`. -/
+theorem setNeeds_mono {o : A} {X Y : G → Bool} (hXY : ∀ g ∈ goods, X g = true → Y g = true) {g : G}
+    (h : setNeeds v goods o Y g) : setNeeds v goods o X g := by
+  obtain ⟨hg, hY, hlt⟩ := h
+  refine ⟨hg, ?_, Nat.lt_of_le_of_lt (value_sublist v o (filter_sublist_of_imp hXY)) hlt⟩
+  cases hX : X g with
+  | false => rfl
+  | true => rw [hXY g hg hX] at hY; cases hY
+
+open Classical in
+/-- **`e*`** (Lemma 2*): the number of listed agents counted in `u_o(X)` that change their base (lie in `Ch`) or whose
+good lies in `N_i(B′_i)` for some listed `i` whose base changes. -/
+noncomputable def eStar (v : A → G → Nat) (agents : List A) (goods : List G) (base base' : G → Option A) (o : A)
+    (X : G → Bool) : Nat :=
+  agents.countP (fun x => decide (Counted v agents goods base o X x ∧
+    (baseOf goods base x ≠ baseOf goods base' x ∨
+      ∃ i ∈ agents, baseOf goods base i ≠ baseOf goods base' i ∧
+        ∃ g ∈ baseOf goods base x, vbNeeds v goods base' i g)))
+
+omit [DecidableEq G] in
+/-- In Lemma 2*, the bundle `X` of `o` in `P` is a bundle of `o` in `P′` when it misses every new base (the text's
+"X ⊆ B_o ∪ J(P′)"; so is every `Y` with `X ⊆ Y ⊆ B_o ∪ J(P′)`). -/
+theorem isBundle_of_disjoint {o : A} {X : G → Bool} (hX : IsBundle goods base o X)
+    (hoB : baseOf goods base o = baseOf goods base' o)
+    (hmiss : ∀ g ∈ goods, X g = true → ∀ i, base' g = some i → i = o) : IsBundle goods base' o X := by
+  intro g hg
+  refine ⟨fun hb => (hX g hg).1 ((base_eq_some_iff hoB.symm hg).mp hb), fun hx => ?_⟩
+  cases hb : base' g with
+  | none => exact Or.inr rfl
+  | some i => exact Or.inl (by rw [hmiss g hg hx i hb])
+
+/-- **Lemma 2\* (extension through any move)** (`k4/dl2.md` §4). Let `P, P′ ∈ 𝒫` with `NA(P′) = NA(P)` and `ω ≥ 1`,
+`o` a listed agent free in `P` whose base does not change, `X ⊆ Y` with `Y` a bundle of `o` in `P′` that is safe in
+`P′`. Then `def(P′) ≤ ω + 2 − |Y| − u_o(X) + e*`. (The text takes `P, P′` min-frozen and `X` a bundle of `o` in `P`
+missing every new base; the bound needs neither, see `isBundle_of_disjoint` for why such an `X` lies in a bundle of
+`P′`.) -/
+theorem lemma2star (hag : agents.Nodup) (hgd : goods.Nodup) (hP : InP v agents goods base)
+    (hP' : InP v agents goods base')
+    (hNA : ∀ g, NA agents (vbNeeds v goods base') g ↔ NA agents (vbNeeds v goods base) g)
+    (hω : 0 < omegaP v agents goods base) {o : A} (ho : o ∈ agents)
+    (hoF : ¬ Frozen agents goods base (vbNeeds v goods base) o) (hoB : baseOf goods base o = baseOf goods base' o)
+    {X Y : G → Bool} (hXY : ∀ g ∈ goods, X g = true → Y g = true) (hY : IsBundle goods base' o Y)
+    (hS : SafeFor v agents goods base' o Y) :
+    DeficitLE v agents goods base'
+      (omegaP v agents goods base + 2 - ((goods.filter Y).length : Int) - (uCount v agents goods base o X : Int) +
+        (eStar v agents goods base base' o X : Int)) := by
+  classical
+  have hω' := omegaP_eq_of_NA hag hgd hP hP' hNA
+  have hoF' : ¬ Frozen agents goods base' (vbNeeds v goods base') o := fun h =>
+    hoF ((frozen_congr hoB.symm hNA).mp h)
+  have hb := deficitLE_of_safe hag hP' (by rw [hω']; exact hω) ho hoF' hY hS
+  rw [hω'] at hb
+  -- `u_o(X) ≤ u′_o(Y) + e*`
+  have hu : uCount v agents goods base o X ≤ uCount v agents goods base' o Y + eStar v agents goods base base' o X := by
+    unfold uCount eStar
+    apply countP_le_add
+    intro x _ hx
+    have hx := of_decide_eq_true hx
+    by_cases he : baseOf goods base x ≠ baseOf goods base' x ∨
+        ∃ i ∈ agents, baseOf goods base i ≠ baseOf goods base' i ∧ ∃ g ∈ baseOf goods base x, vbNeeds v goods base' i g
+    · exact Or.inr (decide_eq_true ⟨hx, he⟩)
+    refine Or.inl (decide_eq_true ⟨(frozen_congr ?_ hNA).mpr hx.1, fun g hg => ⟨fun hN => ?_, fun i hi hio hN => ?_⟩⟩)
+    · exact Classical.byContradiction fun h => he (Or.inl fun e => h e.symm)
+    · have hxB : baseOf goods base x = baseOf goods base' x :=
+        Classical.byContradiction fun h => he (Or.inl h)
+      rw [← hxB] at hg
+      exact (hx.2 g hg).1 (setNeeds_mono hXY hN)
+    · have hxB : baseOf goods base x = baseOf goods base' x :=
+        Classical.byContradiction fun h => he (Or.inl h)
+      rw [← hxB] at hg
+      by_cases hiB : baseOf goods base i = baseOf goods base' i
+      · exact (hx.2 g hg).2 i hi hio ((vbNeeds_congr hiB.symm g).mp hN)
+      · exact he (Or.inr ⟨i, hi, hiB, g, hg, hN⟩)
+  exact deficitLE_mono hb (by push_cast; omega)
+
+/-- **Lemma 2\*, the gain** (`k4/dl2.md` §4): when `X` is an optimal bundle of a best owner `o` of `P`,
+`def(P′) ≤ def(P) − (|Y ∖ X| − e*)` (`|Y ∖ X| = |Y| − |X|` as `X ⊆ Y`). -/
+theorem lemma2star_drop (hag : agents.Nodup) (hgd : goods.Nodup) (hP : InP v agents goods base)
+    (hP' : InP v agents goods base')
+    (hNA : ∀ g, NA agents (vbNeeds v goods base') g ↔ NA agents (vbNeeds v goods base) g)
+    (hω : 0 < omegaP v agents goods base) {o : A} {X Y : G → Bool} (hX : OptimalBest v agents goods base o X)
+    (hoB : baseOf goods base o = baseOf goods base' o)
+    (hXY : ∀ g ∈ goods, X g = true → Y g = true) (hY : IsBundle goods base' o Y)
+    (hS : SafeFor v agents goods base' o Y) :
+    DeficitDrop v agents goods base' base
+      (((goods.filter Y).length : Int) - ((goods.filter X).length : Int) - (eStar v agents goods base base' o X : Int)) := by
+  have hb := lemma2star hag hgd hP hP' hNA hω hX.1 hX.2.1 hoB hXY hY hS
+  intro d hd
+  have := (deficit_of_optimalBest hag hP hω hX).2 d hd
+  exact deficitLE_mono hb (by omega)
+
+/-- **Lemma 2\*, any owner**: `def(P′) < def(P)` as soon as `|Y| + u_o(X) − e* > Val*(P)`. -/
+theorem lemma2star_lt (hag : agents.Nodup) (hgd : goods.Nodup) (hP : InP v agents goods base)
+    (hP' : InP v agents goods base')
+    (hNA : ∀ g, NA agents (vbNeeds v goods base') g ↔ NA agents (vbNeeds v goods base) g)
+    (hω : 0 < omegaP v agents goods base) {o : A} (ho : o ∈ agents)
+    (hoF : ¬ Frozen agents goods base (vbNeeds v goods base) o) (hoB : baseOf goods base o = baseOf goods base' o)
+    {X Y : G → Bool} (hXY : ∀ g ∈ goods, X g = true → Y g = true) (hY : IsBundle goods base' o Y)
+    (hS : SafeFor v agents goods base' o Y)
+    (hval : ∀ o' ∈ agents, ¬ Frozen agents goods base (vbNeeds v goods base) o' → ∀ Z, IsBundle goods base o' Z →
+      SafeFor v agents goods base o' Z →
+        ((goods.filter Z).length : Int) + (uCount v agents goods base o' Z : Int) <
+          ((goods.filter Y).length : Int) + (uCount v agents goods base o X : Int) -
+            (eStar v agents goods base base' o X : Int)) :
+    DeficitLT v agents goods base' base := by
+  have hb := lemma2star hag hgd hP hP' hNA hω ho hoF hoB hXY hY hS
+  have hn := not_deficitLE_of_val_lt hag hP hω hval
+  exact ⟨_, hb, fun h => hn (deficitLE_mono h (by omega))⟩
+
 end C4min
 end EFX
 
@@ -735,3 +1213,17 @@ end EFX
 #print axioms EFX.C4min.moveT1_iff_status
 #print axioms EFX.C4min.minFrozen_of_moveT3
 #print axioms EFX.C4min.moveT3_of_lemma6
+#print axioms EFX.C4min.otherSlots_roNeeds
+#print axioms EFX.C4min.h1_core
+#print axioms EFX.C4min.deficitLE_of_safe
+#print axioms EFX.C4min.exists_safe_of_deficitLE
+#print axioms EFX.C4min.lemmaH1
+#print axioms EFX.C4min.lemmaH1_owner
+#print axioms EFX.C4min.deficitLT_of_drop
+#print axioms EFX.C4min.not_deficitLE_of_val_lt
+#print axioms EFX.C4min.deficit_of_optimalBest
+#print axioms EFX.C4min.setNeeds_mono
+#print axioms EFX.C4min.isBundle_of_disjoint
+#print axioms EFX.C4min.lemma2star
+#print axioms EFX.C4min.lemma2star_drop
+#print axioms EFX.C4min.lemma2star_lt
