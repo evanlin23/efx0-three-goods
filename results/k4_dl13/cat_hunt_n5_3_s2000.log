@@ -1,0 +1,42 @@
+# command: python3 k4/dl13_run.py catalog results/k4_gap/hunt_n5_3_s2000.json.gz --jobs=1 --rt=5 --ro=200 --ckpt=results/k4_dl13/ckpt_cat.jsonl --dump=results/k4_dl13/states_cat.jsonl.gz --tables=results/k4_dl13/tables_cat_hunt_n5_3_s2000.json
+# dl13.c sha256 f891de3a228a63fcd05008c0e4d9202068fc0d2b41be5876775affd4b2131d65
+# catalog results/k4_gap/hunt_n5_3_s2000.json.gz: 2839 instances, 2 units to run, 0 from the checkpoint
+catalog results/k4_gap/hunt_n5_3_s2000.json.gz: profiles 2839, omega >= 1: 2839; k* = 0: 2793, 1: 46, 2: 0, 3: 0, >= 4: 0, inf: 0; P with def > 0: 113, at distance 1: 113, 2: 0, 3: 0, >= 4: 0, inf: 0; Pareto-maximal: 0; largest least deficit -1
+  DL13: states (def > 0) with f = 0: 0 (R_13 fails at 0), with f >= 1: 113; DL13 FAILS at 0 of the f >= 1 states; T1 only 10, T3 only 0 (of which T3 with a helper only 0), both 103; with a plain T3 move 89, with a helper T3 move 103; nearest R_13 improvement at distance 1 / 2 / 3: 113 / 0 / 0; anomalies 0 [5 s]
+table B: f >= 1 states by f | signature | branch : count
+  B 1|G,D2|T1+T3p+T3h : 69
+  B 1|fO,G,D2|T1+T3p+T3h : 14
+  B 1|fO,L,D2|T1 : 10
+  B 1|fO,L|T1+T3h : 7
+  B 1|fO,L,D2|T1+T3h : 6
+  B 1|fO,L,D2|T1+T3p+T3h : 5
+  B 2|G,O,D2|T1+T3p+T3h : 1
+  B 2|fO,L,D2|T1+T3h : 1
+table G: f >= 1 states by f | nearest distance k | branch : count
+  G 1|1|T1+T3p+T3h : 88
+  G 1|1|T1+T3h : 13
+  G 1|1|T1 : 10
+  G 2|1|T1+T3h : 1
+  G 2|1|T1+T3p+T3h : 1
+table Y: f >= 1 states by f | branch | move type available : count
+  Y 1|T1+T3p+T3h|T1:rel : 88
+  Y 1|T1+T3p+T3h|T3:xJ.h- : 88
+  Y 1|T1+T3p+T3h|T3:xJ.hR : 88
+  Y 1|T1+T3p+T3h|T3:xJ.hJ : 76
+  Y 1|T1+T3p+T3h|T1:pool : 66
+  Y 1|T1+T3p+T3h|T3:xJ.hZ : 27
+  Y 1|T1+T3p+T3h|T3:xH.hR : 14
+  Y 1|T1+T3h|T1:pool : 13
+  Y 1|T1+T3h|T3:xH.hJ : 13
+  Y 1|T1+T3p+T3h|T3:xH.hJ : 13
+  Y 1|T1+T3h|T1:rel : 11
+  Y 1|T1|T1:pool : 10
+  Y 1|T1|T1:rel : 10
+  Y 2|T1+T3h|T1:pool : 1
+  Y 2|T1+T3h|T1:rel : 1
+  Y 2|T1+T3h|T3:xH.hR : 1
+  Y 2|T1+T3p+T3h|T1:rel : 1
+  Y 2|T1+T3p+T3h|T3:xJ.h- : 1
+  Y 2|T1+T3p+T3h|T3:xJ.hR : 1
+  Y 2|T1+T3p+T3h|T3:xZ.h- : 1
+  Y 2|T1+T3p+T3h|T3:xZ.hR : 1

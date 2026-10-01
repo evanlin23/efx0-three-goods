@@ -32,4 +32,11 @@ n3)             # every profile of every core with n <= 3 and a 4-good agent (ab
                 # k4/dl13u.c, see k4/dl13u_same.py: add --src=dl13u.c to rerun with it)
   run certs results/k4_certs_2.json.gz results/k4_certs_3.json.gz --jobs=2 --rt=100 --ckpt=$R/ckpt_n3.jsonl \
       --dump=$R/states_n3.jsonl.gz --tables=$R/tables_n3.json --progress >> $R/n3.log 2>&1 ;;
+cat)            # #53's n = 4 and n = 5 catalogues and hunts and the hard hunt, every record (gap profiles, f >= 1)
+  for c in gap_n4_1 gap_n4_2_s4000 gap_n4_3_s4000 gap_n4_pure_s4000 hard_hunt hunt_n4_2_all hunt_n4_3_s400k \
+           hunt_n4_pure_s400k gap_n5_1_s100 gap_n5_2_s100 gap_n5_3_s100 gap_n5_4_s100 gap_n5_pure_s100 hunt_n5_3_s2000 \
+           hunt_n5_4_s2000 hunt_n5_pure_s2000; do
+    run catalog $G/$c.json.gz --jobs=${J:-1} --rt=5 --ro=200 --ckpt=$R/ckpt_cat.jsonl --dump=$R/states_cat.jsonl.gz \
+        --tables=$R/tables_cat_$c.json >> $R/cat_$c.log 2>&1
+  done ;;
 esac
