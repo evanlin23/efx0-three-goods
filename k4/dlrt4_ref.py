@@ -30,6 +30,8 @@ usage:
       files (one file after the other in turn), screened with dlrt4.c until N states with f >= 1 are found; those profiles
       and K screened profiles without such a state are compared
   python3 k4/dlrt4_ref.py inst FILE.json                                 a JSON list of {"id", "sets", "vals", "m"}
+  python3 k4/dlrt4_ref.py records DUMP.jsonl.gz ... [--allrec]           the profiles of the dump records of states
+      without a T1 or T3 move (needing T2 or T4, or failing); --allrec: of every record
   python3 k4/dlrt4_ref.py write-tsv-inst OUT.json FILE.tsv ...           write the TSV profiles as an inst list (for dlrt4_run.py)
 options: --x (also k4/dl134_xcheck.py, n <= 4), --jobs=J, --every=E (every E-th profile)"""
 import collections, gzip, hashlib, json, os, random, subprocess, sys, tempfile
@@ -306,6 +308,24 @@ def random_items(files, opt, log):
     return pos + negs
 
 
+def records_items(files, opt):
+    """the distinct profiles of dlrt4_run.py / dlrt4_nbhd.py dump records whose state has no T1 or T3 move (DL_RT4 needs
+    T2 or T4 there, or fails); with --allrec, of every record"""
+    seen = collections.OrderedDict()
+    for fn in files:
+        for l in gzip.open(fn, 'rt'):
+            r = json.loads(l)
+            if 'core' not in r or 'vals' not in r: continue
+            brs = r['br'].split('+')
+            if 'allrec' not in opt and any(b in ('T1', 'T3p', 'T3h') for b in brs): continue
+            c = r['core']
+            key = json.dumps([c['sets'], r['vals']])
+            if key not in seen:
+                seen[key] = {'sets': c['sets'], 'm': c['m'], 'vals': r['vals'],
+                             'id': '%s#%s:%s' % (c.get('file', c.get('id')), c.get('pos', ''), ','.join(map(str, r.get('prof', []))))}
+    return list(seen.values())
+
+
 def main(argv):
     mode = argv[0]; rest = [a for a in argv[1:] if not a.startswith('--')]
     opt = dict(a[2:].split('=', 1) if '=' in a else (a[2:], True) for a in argv[1:] if a.startswith('--'))
@@ -322,6 +342,8 @@ def main(argv):
         insts, fails = tsv_items(rest)
     elif mode == 'random':
         insts = random_items(rest, opt, log)
+    elif mode == 'records':
+        insts = records_items(rest, opt)
     elif mode == 'inst':
         insts = json.load(open(rest[0]))
         for d in insts: d['m'] = d.get('m') or 1 + max(g for S in d['sets'] for g in S)
