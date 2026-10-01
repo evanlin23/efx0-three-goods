@@ -35,12 +35,12 @@ def is_t3(s):
 class Profile:
     """the min-frozen class of one strict profile, with deficits and owner tables"""
 
-    def __init__(self, d, check=False):
+    def __init__(self, d, check=False, skip_f0=False):
         I = M.Inst(d['sets'], d['vals'], d.get('m'))
         I.preallocs()
         self.I = I
         self.ok = I.omega >= 1
-        if not self.ok: return
+        if not self.ok or (skip_f0 and I.f == 0): self.ok = False; return
         self.mp = [Bs for Bs, NA in I.minP]
         self.PA = {Bs: PA(I, Bs) for Bs in self.mp}
         self.D, self.OWN = {}, {}
@@ -77,7 +77,7 @@ class Profile:
 
 def run_profile(args):
     d, src, check = args
-    pr = Profile(d, check)
+    pr = Profile(d, check, skip_f0=True)
     if not pr.ok or pr.I.f == 0: return src, d, None, []
     recs = []
     for Bs in pr.mp:

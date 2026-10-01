@@ -19,3 +19,9 @@ for c in gap_n5_1_s100 gap_n5_2_s100 gap_n5_3_s100 gap_n5_4_s100 gap_n5_pure_s10
   python3 k4/dl13_stuck.py catalog $G/$c.json.gz --every=20 --out=$R/stuck_${c}_e20.jsonl.gz > $R/stuck_${c}_e20.log
   python3 k4/dl13_stuck.py catalog $G/$c.json.gz --fmin=2 --every=4 --out=$R/stuck_${c}_f2e4.jsonl.gz > $R/stuck_${c}_f2e4.log
 done
+for c in hunt_n4_3_s400k hunt_n4_pure_s400k; do
+  python3 k4/dl13_stuck.py catalog $G/$c.json.gz --fmin=2 --out=$R/stuck_${c}_f2.jsonl.gz > $R/stuck_${c}_f2.log
+done
+for c in hunt_n5_3_s2000 hunt_n5_4_s2000 hunt_n5_pure_s2000; do
+  python3 k4/dl13_stuck.py catalog $G/$c.json.gz --every=2 --out=$R/stuck_${c}_e2.jsonl.gz > $R/stuck_${c}_e2.log
+done
