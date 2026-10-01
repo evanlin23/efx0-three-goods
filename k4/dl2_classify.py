@@ -20,7 +20,7 @@ usage:
   python3 k4/dl2_classify.py suite [--out=FILE]                     every suite instance with omega >= 1, n <= 6
   python3 k4/dl2_classify.py catalog FILE [--every=E] [--max=N] [--jobs=J] [--out=FILE]
   python3 k4/dl2_classify.py one '{"sets": ..., "vals": ...}'        one profile, verbose
-Output: one JSON line per def > 0 state (gzip if FILE ends in .gz); the table is made by k4/dl2_table.py."""
+Output: one JSON line per def > 0 state (gzip if FILE ends in .gz); the table is made by k4/dl2_classify_table.py."""
 import gzip, itertools, json, os, sys
 from multiprocessing import Pool
 

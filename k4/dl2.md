@@ -74,7 +74,7 @@ Inputs (all strict profiles of each record; the catalogues are #53's at 245040b,
 | **total** | | **52,166** | **39,466** | **12,389** | **311** |
 
 The non-core suite instance `lil-noncore-n3` (20 states, one with k = 3) is counted apart. Full tables:
-`results/k4_dl2_classify/table.md` (made by `k4/dl2_table.py`).
+`results/k4_dl2_classify/table.md` (made by `k4/dl2_classify_table.py`).
 
 ### 2.1 Obstruction × k
 
@@ -437,7 +437,7 @@ What a proof of DL_T still needs:
 git archive 245040b k4 results/k4_gap results/k4_certs_2.json.gz results/k4_certs_3.json.gz \
   results/k4_certs_4_n4_1.json.gz results/k4_certs_4_n4_2.json.gz results/k4_certs_4_n4_3.json.gz \
   results/k4_certs_4_pure.json.gz | tar -x -C k4/suite/.cache/gapbench        # #53's catalogues (k4/strategy.md §4)
-sh k4/dl2_runs.sh              # classification + table (results/k4_dl2_classify/; ~15 min on 2 CPUs)
+sh k4/dl2_classify_runs.sh             # classification + table (results/k4_dl2_classify/; ~15 min on 2 CPUs)
 sh k4/dl2_relations_runs.sh    # DL_R on the suite, the catalogues and the hunts (results/k4_dl2_relations/)
 sh k4/dl2_relations_runs2.sh   # DL_R on whole certificate files: every n = 2 profile, random n = 3, 4 profiles
 python3 k4/dl2_relations_table.py results/k4_dl2_relations/*.log > results/k4_dl2_relations/table.md

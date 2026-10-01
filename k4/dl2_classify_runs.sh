@@ -12,4 +12,4 @@ for spec in "gap_n2 1" "gap_n3 1" "gap_n4_1 10" "gap_n4_2_s4000 10" "gap_n4_3_s4
   set -- $spec
   python3 k4/dl2_classify.py catalog $G/$1.json.gz --every=$2 --jobs=2 --out=$R/$1_e$2.jsonl.gz > $R/$1_e$2.log 2>&1
 done
-python3 k4/dl2_table.py $R/*.jsonl.gz > $R/table.md
+python3 k4/dl2_classify_table.py $R/*.jsonl.gz > $R/table.md

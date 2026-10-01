@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Tables of the DL2 classification (k4/dl2.md §2) from the per-state records of k4/dl2_classify.py.
-usage: python3 k4/dl2_table.py FILE.jsonl.gz [...] > results/k4_dl2_classify/table.md
+usage: python3 k4/dl2_classify_table.py FILE.jsonl.gz [...] > results/k4_dl2_classify/table.md
 Suite instances that are not k = 4 cores (k4/suite/instances/*.json, "is_core": false) are counted apart."""
 import collections, glob, gzip, json, os, sys
 
@@ -41,7 +41,7 @@ def ex(r):
 def main(files):
     cores = suite_cores()
     print('# DL2 classification tables (generated)\n')
-    print('command: `python3 k4/dl2_table.py %s`\n' % ' '.join(files))
+    print('command: `python3 k4/dl2_classify_table.py %s`\n' % ' '.join(files))
     print('Every min-frozen P with def(P) > 0 of every profile in the inputs is one *state*. k = the least number of agents')
     print('whose bases change to reach a min-frozen P\' with a smaller deficit. Obstruction signature: the H3/H7 classes')
     print('(e1, e2, e3, G, G1, L; fU/fU2: a free exposed agent violating (U)/(U2); fO, O: other) of the agents exposed')
