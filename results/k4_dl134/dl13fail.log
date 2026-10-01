@@ -1,0 +1,34 @@
+# command: python3 k4/dl134_run.py tsv results/k4_dl13/n4_failures_n4_1.tsv results/k4_dl13/n4_failures_n4_2.tsv results/k4_dl13/n4_failures_n4_3_s200b.tsv --jobs=4 --out=results/k4_dl134/dl13fail_states.tsv --dump=results/k4_dl134/dump_dl13fail.jsonl.gz --tables=results/k4_dl134/tables_dl13fail.json
+# dl134.c sha256 2a24ba5045b25414530928ea81b7a6bbd9aef6d33c7fa52e39fffe9293267cee
+# tsv results/k4_dl13/n4_failures_n4_1.tsv results/k4_dl13/n4_failures_n4_2.tsv results/k4_dl13/n4_failures_n4_3_s200b.tsv: 1131 instances, 1 units to run, 0 from the checkpoint
+tsv results/k4_dl13/n4_failures_n4_1.tsv results/k4_dl13/n4_failures_n4_2.tsv results/k4_dl13/n4_failures_n4_3_s200b.tsv: profiles 1131, omega >= 1: 1131; k* = 0: 0, 1: 0, 2: 1131, 3: 0, >= 4: 0, inf: 0; P with def > 0: 7586, at distance 1: 0, 2: 7586, 3: 0, >= 4: 0, inf: 0; Pareto-maximal: 0; largest least deficit 0
+  DL13 (dl13.c's counters): states (def > 0) with f = 0: 0 (R_13 fails at 0), with f >= 1: 7586; DL13 fails at 3062 of the f >= 1 states; T1 only 0, T3 only 4524 (of which T3 with a helper only 0), both 0; with a plain T3 move 4524, with a helper T3 move 0; nearest R_13 improvement at distance 1 / 2 / 3: 0 / 4524 / 0; anomalies 0
+  DL134: R_134 fails at 0 of the f = 0 states; DL134 FAILS at 0 of the 7586 f >= 1 states; f >= 1 states with an improving T1 move 0, T3 move 4524, T4 move 7586 (a 2-swap 5324); repaired by T4 only 3062 (= the DL13 failures repaired; with a 2-swap 3062, longer cycles only 0); nearest R_134 improvement at distance 1 / 2 / 3 / >= 4 / none: 0 / 7586 / 0 / 0 / 0 [1 s]
+listed failing states (DL13 failures of results/k4_dl13): 3062 in 9 cores
+  k4_certs_4_n4_1.json.gz pos 25 (idx 5, m 6): profiles 10; DL13 holds (T1 or T3) 0, DL134 fails 0, T4 repairs 20, T4 types 2,3 20, a 2-swap repairs 20, f >= 1 20, nearest R_134 distance 2 20, states 20
+  k4_certs_4_n4_2.json.gz pos 20 (idx 2, m 6): profiles 120; DL13 holds (T1 or T3) 0, DL134 fails 0, T4 repairs 240, T4 types 2,3 240, a 2-swap repairs 240, f >= 1 240, nearest R_134 distance 2 240, states 240
+  k4_certs_4_n4_2.json.gz pos 22 (idx 4, m 6): profiles 240; DL13 holds (T1 or T3) 0, DL134 fails 0, T4 repairs 480, T4 types 2,3 480, a 2-swap repairs 480, f >= 1 480, nearest R_134 distance 2 480, states 480
+  k4_certs_4_n4_2.json.gz pos 24 (idx 6, m 6): profiles 200; DL13 holds (T1 or T3) 0, DL134 fails 0, T4 repairs 800, T4 types 2,3 800, a 2-swap repairs 800, f >= 1 800, nearest R_134 distance 2 800, states 800
+  k4_certs_4_n4_2.json.gz pos 27 (idx 9, m 6): profiles 120; DL13 holds (T1 or T3) 0, DL134 fails 0, T4 repairs 240, T4 types 2,3 240, a 2-swap repairs 240, f >= 1 240, nearest R_134 distance 2 240, states 240
+  k4_certs_4_n4_2.json.gz pos 28 (idx 10, m 6): profiles 120; DL13 holds (T1 or T3) 0, DL134 fails 0, T4 repairs 240, T4 types 2,3 240, a 2-swap repairs 240, f >= 1 240, nearest R_134 distance 2 240, states 240
+  k4_certs_4_n4_2.json.gz pos 92 (idx 12, m 7): profiles 200; DL13 holds (T1 or T3) 0, DL134 fails 0, T4 repairs 800, T4 types 2,3 800, a 2-swap repairs 800, f >= 1 800, nearest R_134 distance 2 800, states 800
+  k4_certs_4_n4_2.json.gz pos 94 (idx 14, m 7): profiles 120; DL13 holds (T1 or T3) 0, DL134 fails 0, T4 repairs 240, T4 types 2,3 240, a 2-swap repairs 240, f >= 1 240, nearest R_134 distance 2 240, states 240
+  k4_certs_4_n4_3.json.gz pos 64 (idx 17, m 7): profiles 1; DL13 holds (T1 or T3) 0, DL134 fails 0, T4 repairs 2, T4 types 2,3 2, a 2-swap repairs 2, f >= 1 2, nearest R_134 distance 2 2, states 2
+  total: DL13 holds (T1 or T3) 0, DL134 fails 0, T4 repairs 3062, T4 types 2,3 3062, a 2-swap repairs 3062, f >= 1 3062, nearest R_134 distance 2 3062, states 3062
+table B: f >= 1 states by f | signature | R_134 branch : count
+  B 3|G|T3p+T4 : 4284
+  B 3|G|T4 : 2222
+  B 3|O|T4 : 840
+  B 3|O|T3p+T4 : 240
+table G: f >= 1 states by f | nearest distance k | R_134 branch : count
+  G 3|2|T3p+T4 : 4524
+  G 3|2|T4 : 3062
+table Y: f >= 1 states by f | R_134 branch | move type available : count
+  Y 3|T3p+T4|T3:xJ.h- : 4404
+  Y 3|T4|T4:2 : 3062
+  Y 3|T4|T4:3 : 3062
+  Y 3|T3p+T4|T4:2 : 2262
+  Y 3|T3p+T4|T4:3 : 2262
+  Y 3|T3p+T4|T3:xZ.h- : 240
+table Q: f >= 1 states repaired by T4 only, by f | k | T4 cycle types available : count
+  Q 3|2|2,3 : 3062
