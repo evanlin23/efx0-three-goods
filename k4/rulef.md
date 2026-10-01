@@ -464,7 +464,9 @@ The first agent enters only through Phase 1: changing it changes which agents ar
 relates the runs of two first agents; the exchange lemmas of `k4/c4one.md` §6 (Lemmas Ω, Ψ, PROVED, K4.C4.OM,
 K4.C4.PSI) do so for runs with P-steps in any order and one 4-good agent, and are the natural tool for M1–M3.
 
-*What the data say about M1–M3* (n ≤ 4, at most three 4-good agents). M3 is never needed (class C40 is empty). Where
+*What the data say about M1–M3* (n ≤ 4, at most three 4-good agents). With RK₃ (§4), M1 holds for some first agent
+exactly on the profiles where rule F needs no rotation, so M2 is needed exactly where rule F needs one: no counting
+slack is left, and what remains is the existence over first agents. M3 is never needed (class C40 is empty). Where
 no first agent satisfies M1 (the class K1 of §5.1), Lemma KR itself, with o = r, gives M2 for some first agent and
 policy on every profile of a sample at n = 3 (every 5th leaf: 53,638 profiles, `results/k4_rulef/rotations_n3.log`),
 almost always with o unthreatened after the rotation, and the rotated agent is an exposed frozen 4-good agent with
