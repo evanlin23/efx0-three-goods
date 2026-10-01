@@ -24,8 +24,9 @@ hypotheses; (b) with several, some big-top agent works; (c) with none, some agen
 - **Computations** (§4): Lemma K's classes of every first agent on HH_3 by two implementations (`k4/lemmam_bt.py`,
   written from the text of `k4/rulef.md` §2 on PR #33's model; `k4/rulef.c` of PR #72); LB₄ʳ with at most one rotation
   exactly, by PR #33's two independent encodings of Lean's `Output` (`k4/c4_verify_H/lb4r.py`, `enc_b.py`).
-- What it means for the route (§5): a rule that chooses only the first agent does not work with one rotation, and we
-  expect the same for any fixed number of rotations or of chosen insertion steps (several copies of H_t; not proved).
+- What it means for the route (§5): a rule that chooses only the first agent needs at least (t − 1)/2 rotations on
+  HH_t (Corollary HH), so no fixed rotation bound saves it; we expect the same for any fixed number of chosen insertion
+  steps (several copies of H_t; not proved).
   The insertion agent has to be chosen adaptively at every insertion step, as LB₄'s search over insertion sequences
   does.
 
@@ -197,6 +198,27 @@ For t ≥ 3 each is at most −2 < −1, so no such completion exists. Every out
 owner (or none, excluded by ω ≥ 1 when every base has at most two goods; a base of three or more goods makes its agent
 the owner), so LB₄ʳ(τ_a) has no output with at most one rotation. ∎
 
+**Corollary HH (rotations grow with t).** For every first agent a of HH_t, LB₄ʳ(τ_a) has no output with fewer than
+(t − 1)/2 rotations (nested RotSteps, every policy, every owner). So no fixed bound on the rotations makes "one chosen
+first agent, then index order" work.
+
+*Proof.* Needs stay in gadgets in every state reached by any number of rotations: an x's goods are worth at least 3 and
+its base is never empty, so it never needs g_j (worth 3), and its other goods are in its gadget; likewise a y never needs
+e_j, and ℓ_A, ℓ_B keep g_1 and need nothing (nobody ever needs g_1). So every RotStep touches one gadget, bases stay
+nonempty (chain agents take picks, the head a nonempty O), and each agent has at most one slot place. With R_C rotations
+touching C and R_D touching D: C's balance is at most −2t + 3R_C (Proposition H holds for any number of rotations:
+untouched −2, touched at most +1, ℓ at most 0); in D the untouched gadgets keep the bounds of the proof above (at most
++1 for the gadget of a, at most 0 or −2 for the others), ℓ_D gives 0, and a touched gadget at most 4 (four agents, at
+most one slot place each). Lemma P with c = 1 needs −2t + 3R_C + 1 + 4R_D ≥ −1, so 3R_C + 4R_D ≥ 2t − 2 and
+R_C + R_D ≥ (t − 1)/2. ∎
+
+All rotations in C (the copy left to index order) would need R_C ≥ (2t − 2)/3; with the bound "a touched gadget of D
+has balance at most +1", which holds for one rotation (proof above) but is not shown for several, the same bound
+(2t − 2)/3 would hold in general. This is the count that matters for a rule with a rotation budget: the copy left to
+index order is a single block of Phase 1 (ℓ's insertion and then P-steps only), and it needs about 2t/3 rotations. A rule
+that chooses the inserted agent at every insertion step avoids that block on HH_t altogether (two choices, no rotation,
+below); HH_t does not decide whether such a rule can always keep one rotation per block.
+
 *K4.D holds on HH_3.* The insertion sequence (x^A_{1,2}, x^B_{1,2}, then index order) runs both copies as in Lemma 1(iii)
 with j = 1, and its state has an `Output` without rotation (`k4/lemmam_bt_hh.py d2 HH3`, checked against the raw EFX₀
 definition): what fails is the restriction to one chosen insertion step.
@@ -214,18 +236,28 @@ All on one worker; `k4/lemmam_bt_hh.py` (instances, drivers), `k4/lemmam_bt.py` 
   at every first agent (ω ≥ 1 and 4-good agents exposed). So none of the 26 first agents is in K0 or K1, also for RK₃
   (`results/k4_lemmam_bt/classes_HH3.log`). On H_3 + q, q: least deficit 5, at least 2 after each of the 18 RotSteps
   (`classes_Hq3.log`).
-- `rk`, HH_3 (`k4/rulef.c` -A41 -E1 -Y1 -N1, LB₄ʳ's owner search skipped): [to come].
-- `exact`, H_3 + q (first agent q) and HH_3 (every first agent), encodings A and B: [to come].
+- `rk`, H_3 + q (`k4/rulef.c` of PR #72, LB₄ʳ's own owner search skipped): the first big-top agent (`-A42 -Q0`) is q,
+  in no class; rule RK (`-A41`) takes agent 1 in K0 (`results/k4_lemmam_bt/rk_Hq3.log`).
+- `rkall`, HH_3 (`k4/rulef.c -A41 -E1 -Y1 -N1`, one first agent per run, LB₄ʳ's owner search skipped):
+  `results/k4_lemmam_bt/rk_HH3.log` (running, one worker; it follows the exact checks).
+- `exact`, encodings A (`k4/c4_verify_H/lb4r.py`, SAT) and B (`k4/c4_verify_H/enc_b.py`, MILP), Lean's `Output` with
+  the owner's needs from its bundle, every owner and none, every state of the three policies and every state one
+  RotStep away: H_3 + q, first agent q: 19 states, no output (`exactA_Hq3.log`; B: `exactB_Hq3.log`). HH_3, every first
+  agent (37 to 100 states each): `exactA_HH3.log`, `exactB_HH3.log` (running, one worker, about 3 minutes per first
+  agent and encoding).
+- `d2`, HH_3: the insertion sequence (x^A_{1,2}, x^B_{1,2}) = agents (3, 15), need-shrinking upgrades, owner ℓ_A: an
+  `Output` without rotation, EFX₀ by the raw definition, one bundle above two goods (`d2_HH3.log`). The suite records
+  `k4/suite/instances/lmbt-HH3.json` and `lmbt-Hq3.json` carry these witnesses (H_3 + q: rule RK's sequence, x_{1,1}
+  first).
 
 ## 5. What this means for the route
 
 - Lemma M, rule F with one rotation (K4.AD.F), `TheoremRuleF` and `RuleFConn` are false. Their implications in Lean
   (K4.RF.LEAN) stay proved, with a false hypothesis at every instance size that holds HH_3 (n ≥ 26, m ≥ 65).
-- We expect the same for any fixed number of rotations and any fixed number of chosen insertion steps (not proved
-  here, not checked by computation): with R rotations the copy of HH_t left to index order still needs about 2t/3 of
-  them (Proposition H) while the other copy returns one slot place; and if the first L insertion steps are chosen, L + 1
-  copies of H_t glued in a chain leave one copy to index order. The count of §3 would have to be redone for several
-  chosen agents in one copy.
+- With R rotations rule F still fails on HH_t once t > 2R + 1 (Corollary HH): a single chosen first agent needs a
+  number of rotations that grows linearly with the core. We expect the same for any fixed number L of chosen insertion
+  steps (not proved, not checked by computation): L + 1 copies of H_t glued in a chain leave one copy to index order;
+  the count of §3 would have to be redone for several chosen agents in one copy.
 - The big-top programme of `k4/rulef.md` §6 cannot be repaired by a better choice of the single first agent: the
   obstruction is not where the big-top agent is, but that the profile can need two independent choices. An existence
   statement over longer insertion sequences, chosen at every insertion step (LB₄'s search, K4.LB4; or rule F applied
