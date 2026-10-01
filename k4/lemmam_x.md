@@ -10,7 +10,31 @@ bad first agent the roles of the other agents in its run and the candidates a′
 one worker, resumable), `k4/lemmam_x_check.py` (second implementation on PR #33's model `k4/c4_verify_H/lb4r.py` with
 #72's `k4/rulef_model.py`, without code from `k4/lemmam_x.c`).
 
-**Status.** STATUS_PLACEHOLDER
+**Status** (rows K4.LMX.*; the written proofs here are not yet refereed).
+- **Lemma M is false** (Proposition HH of `k4/lemmam_bt.md` §3, PR #83, under review: on HH₃, two copies of H₃ sharing
+  one good, n = 26, no first agent is in K0 or K1). So no exchange between first agents can prove it. Before HH₃, on
+  every strict profile with n ≤ 3 and n = 4 with at most two 4-good agents, on the suite and on H₅, the exchange works
+  with the right partner (§2): the **needer at the end of a need chain** from an exposed frozen agent — the end shared
+  by the most exposed frozen agents, or of least index — is good whenever a is bad (26,248 bad pairs, exhaustive). The
+  other proposed partners fail: the exposed frozen 4-good agent and the leader of r's block at n = 3, m = 6 (never good
+  on the exhaustive data), r itself on H₅ (n = 21) (`attempts/k4-lemmam-x-exchange.md`).
+- **Proved here** (written proofs, using K4.C4.AB.L and #72's Lemmas K, S): **Lemma 1**, a bad first agent's envy-free
+  run has ω ≥ 1, an exposed frozen agent, and an exposed 4-good agent or (G2) (M3 reduces to (G2)); **Lemma 2**, in
+  (G2) a bad first agent forces k*'s two lower goods to be goods of r (r moves up to its top or its b and is then
+  threatened by k*'s new base itself), and otherwise LB⁺'s rotation along a longest chain is certified (K1) with r
+  served by a slot good of its own; **Lemma 3**, the failure of M1 is a Hall violation: a set of exposed frozen agents
+  needing more kept-out goods than their non-exposed chain ends other than r; **Lemma 4**, the first block decides
+  (two runs whose first blocks have the same agents and goods agree afterwards).
+- **The repair: choose the inserted agent at every insertion step** (§6–§7). **Proposition R** (written proof,
+  extending Proposition HH's count): on HH_t with 2t − 2 > 3d no first agent works with at most d rotations, so no
+  fixed rotation bound saves a single chosen first agent. **Lemma 5**: a *block count* computed when each block of a
+  run closes (from the block and the goods still unpicked) certifies the run without rotation when every block has
+  count 0; at k = 3 every block but the last has count 0 (LB⁺'s Theorem A, block by block). **Conjecture M_ad**: at
+  every insertion step some agent starts a block of count 0 (except the last block, which may need one rotation).
+- **Data for M_ad** (§7.3, EVIDENCE): the greedy rule "insert the agent whose block has the least count" leaves every
+  block at count 0 and needs no rotation on H₁–H₅ and HH₃ with relabelings PLACEHOLDER_STATUSDATA.
+- **Lean** (§7.4): M_ad's global form is `∃ τ, EFX.LB4R.SucceedsR 1 v agents goods τ` (`TheoremRuleF` is the case
+  τ = [a]); it implies C₄∃ and TARGET₄ by the existing proofs (`sound_of_succeeds`, `succeeds_of_succeedsR`).
 
 ## 1. Setting
 
@@ -39,7 +63,42 @@ x_{t−1} ∈ F and x_t ∈ T; it lies in x's block and increases in processing 
 
 ## 2. Which a′ works: the data
 
-PLACEHOLDER_DATA
+`k4/lemmam_x.c -A43 -r1 -Y1` (driver `k4/lemmam_x_run.py`) computes the class of every first agent, and for every bad
+a the class of its envy-free run (`k4/c4.md`'s cases) and the candidates a′:
+- (x1) *EF4*: the exposed frozen 4-good agent of least index;
+- (x2) *the leader of r's block*;
+- (x3) *the needer at the end of a need chain* from an exposed frozen agent, chosen in five ways: the end into which the
+  most exposed frozen agents chain (ties: earliest processed; *maxload*), the end of least index, the end of a chain
+  from the exposed frozen agent of least index, the earliest-processed end, the end of a chain from the
+  earliest-processed exposed frozen agent;
+- (x4) *r*;
+- the earliest-processed free agent that does not hold its top.
+
+| data | profiles | with a bad first agent | bad pairs (profile, a) | (x1) good | (x2) good | (x3) maxload, least index, end of least-index EF | (x3) earliest end | (x4) r good |
+|---|---|---|---|---|---|---|---|---|
+| every strict profile, n ≤ 3 and n = 4 with ≤ 2 four-good agents | 1,032,121,440 | 14,408 | 26,248 | 0 (of 25,448) | 0 | 26,248 | 26,248 | 26,248 |
+| the suite's 151 cores (all but H₅) | 151 | 9 | 11 | 1 | 0 | 11 | 11 | 11 |
+| H₅ (n = 21) | 1 | 1 | 10 | 10 | 0 | 10 | 7 (10 iterated) | 0 |
+| HH₃ (n = 26) | 1 | 1 | 26 | — | — | — | — | — |
+
+(`results/k4_lemmam_x/exh_n2_n3_n4_12.log`, `suite.log`, `H5.log`, `HH3_classes.log`. On HH₃ every first agent is bad:
+Lemma M fails there, Proposition HH of PR #83; no partner can be good.)
+
+Findings on the exhaustive data:
+- No profile without a good first agent (Lemma M holds there, as `k4/rulef.md` §5.1 found).
+- Every bad run is in (G2) (160 pairs) or has exactly one exposed 4-good agent (25,448 frozen, 640 free); none is of
+  class A₄ or B₄ (Lemma 1(c) predicts none); every bad run is a single block, and r is a 4-good agent holding its b or
+  c.
+- (x1) is never good where it is defined; (x2) is a itself on every bad pair; every rule of (x3) and r are good on every
+  bad pair. At n ≤ 4 the end of the chain *is* r.
+- The second implementation (`k4/lemmam_x_check.py`, PR #33's model with #72's `rulef_model.py`) recomputes the classes
+  of every first agent, the run classes, the candidates and the conclusions of Lemmas 1–3 on every bad leaf profile of
+  the exhaustive run: PLACEHOLDER_CHECK.
+
+So on these data the exchange works with a′ = the needer at the end of the chain, but which end matters beyond
+n = 4: on H₅ r (the last end) is bad, while the end shared by the most exposed frozen agents (y₁, the y of the first
+gadget the cascade from ℓ reaches) is good. And on HH₃ there is nothing to exchange with. The failed partners are
+recorded in `attempts/k4-lemmam-x-exchange.md`.
 
 ## 3. What the run of a bad first agent looks like
 

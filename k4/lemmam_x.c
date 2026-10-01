@@ -1690,7 +1690,7 @@ static void print43(void) {
    (ADP lines): profiles, how many had every block with delta = 0, the histogram of d, and d by whether every block had
    delta = 0 (soundness of the block count: those should have d = 0 under the no-upgrade policy). -D44 prints the
    profiles with d >= 1 (ADPBAD lines, with tau and the deltas). */
-static int b_done[MAXN], b_Y[MAXN], b_pos[MAXN], b_blk[MAXN], b_step;
+static int b_done[MAXN], b_Y[MAXN], b_pos[MAXN], b_blk[MAXN], b_step, LEM5SKIP = 0;
 static gm b_G;
 static void bsim_block(int c, int bid) {
     int i = c;
@@ -1827,7 +1827,8 @@ static void adaptive44(void) {
         adp_lastdelta = bestd;
         { int lc = 1; for (int i = 0; i < n; i++) if (!b_done[i]) lc = 0; if (bestd > 0 && !lc) adp_nonlast++; }
     }
-    adp_d = least_rot_seq(adp_tau, adp_ntau);
+    /* -V1: when every block count is 0, Lemma 5 certifies the run (no upgrades, no rotation): skip the search */
+    adp_d = (LEM5SKIP && adp_all0) ? 0 : least_rot_seq(adp_tau, adp_ntau);
 }
 static long adp_prof, adp_all0cnt, adp_hist[MAXROT + 2], adp_hist0[MAXROT + 2], adp_lastd1, adp_nlcnt, adp_nlhist[MAXROT + 2];
 static void stat44(long w) {
@@ -2100,6 +2101,7 @@ int main(int argc, char **argv) {
         else if (!strncmp(argv[a], "-D", 2)) DUMP = atoi(argv[a] + 2);
         else if (!strncmp(argv[a], "-c", 2)) CHUP = atoi(argv[a] + 2);
         else if (!strncmp(argv[a], "-U", 2)) ROLEPOL = atoi(argv[a] + 2);
+        else if (!strncmp(argv[a], "-V", 2)) LEM5SKIP = atoi(argv[a] + 2);
         else { fprintf(stderr, "unknown option %s\n", argv[a]); return 1; }
     }
     if (ROT < 0 || ROT > MAXROT) { fprintf(stderr, "-r: the rotation bound must be 0 .. %d\n", MAXROT); return 1; }

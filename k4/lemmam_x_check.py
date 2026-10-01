@@ -238,6 +238,16 @@ def lemma_checks(inst, a):
     return bad
 
 
+def shape(inst, a):
+    """(number of blocks of tau_a's run, |R_r|, rank of r's pick: 0 top, 1 b, 2 c, 3 d, -1 none)"""
+    v = envyfree_view(inst, a)
+    nb = sum(1 for _, _, t in v['run'] if t == 'I')
+    r = v['r']
+    rk = sorted(inst.R[r], key=lambda g: -inst.v[r][g])
+    y = v['s'][1][r]
+    return nb, len(inst.R[r]), rk.index(y) if y >= 0 else -1
+
+
 def analyse(sets, vals):
     inst = RM.make_inst(sets, vals)
     cls = [klass(inst, a) for a in range(inst.n)]
@@ -245,7 +255,7 @@ def analyse(sets, vals):
     for a in range(inst.n):
         if cls[a] == 2:
             c, v = candidates(inst, a)
-            out.append((a, runclass(inst, a), c, lemma_checks(inst, a)))
+            out.append((a, runclass(inst, a), c, lemma_checks(inst, a), shape(inst, a)))
     return cls, out
 
 
@@ -272,7 +282,7 @@ def main():
         P = [(json.loads(args[0]), json.loads(args[1]))]
     mism = 0
     seen = set(); tot = {'profiles': 0, 'nogood': 0, 'bad': 0}
-    good = {k: 0 for k in CANDS}; undef = {k: 0 for k in CANDS}; lfail = {}; rcs = {}
+    good = {k: 0 for k in CANDS}; undef = {k: 0 for k in CANDS}; lfail = {}; rcs = {}; shapes = {}
     for sets, vals in P:
         key = json.dumps([sets, vals])
         if key in seen:
@@ -291,8 +301,9 @@ def main():
         if all(c == 2 for c in cls):
             tot['nogood'] += 1
             print('NOGOOD', json.dumps({'sets': sets, 'vals': vals}))
-        for a, rc, c, lf in out:
+        for a, rc, c, lf, sh in out:
             tot['bad'] += 1
+            shapes[sh] = shapes.get(sh, 0) + 1
             for k in CANDS:
                 if c[k] is None:
                     undef[k] += 1
@@ -309,6 +320,8 @@ def main():
     print('  bad pairs by run class (0 omega<=0, 1 A4, 2 B4, 3 G2, 4 one exposed 4-good frozen, 5 free, 6 two or more):',
           dict(sorted(rcs.items())))
     print('  conclusions of Lemmas 1-3 that fail (must be none):', lfail or 'none')
+    print('  bad pairs by (blocks of the run, |R_r|, rank of r\'s pick: 0 top, 1 b, 2 c, 3 d, -1 none):',
+          dict(sorted(shapes.items())))
     for k in CANDS:
         print(f"  candidate {k:20s} good {good[k]} undefined {undef[k]} of {tot['bad']}")
 
