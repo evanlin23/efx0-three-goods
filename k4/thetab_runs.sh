@@ -6,7 +6,7 @@ set -e
 R=results/k4_thetab
 mkdir -p $R
 run() { out=$R/$1.log; shift; [ -s $out ] && return 0; python3 "$@" > $out.tmp && mv $out.tmp $out; }
-run targets k4/thetab_targets.py
+run targets k4/thetab_targets.py --check
 run scan_suite k4/thetab_scan.py suite
 run scan_gap_n3 k4/thetab_scan.py catalog gap_n3.json.gz
 run scan_hard_hunt k4/thetab_scan.py catalog hard_hunt.json.gz

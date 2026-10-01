@@ -11,7 +11,8 @@ there), keeps the T3-stage states that C1, C2, C3 of k4/dl13.md §4 do not certi
     each target is classified by the first mode that certifies it: W1 (a pair A meeting L_{y_i}: no edge of y_i or x),
     K (kappa = 1), S (any other), with "quiet" when every other free agent's edges are met by its own slots;
   - with --show: the smallest target of each class.
-usage: python3 k4/thetab_targets.py [--show] [--f1]"""
+usage: python3 k4/thetab_targets.py [--show] [--f1] [--check]   (--check: every deficit also by k4/suite/model.py's direct
+       removal-only test, asserted equal)"""
 import sys
 from thetab_lib import *
 
@@ -20,7 +21,7 @@ def main(argv):
     print('# command: python3 k4/thetab_targets.py ' + ' '.join(argv), flush=True)
     cnt = collections.Counter(); small = {}; distinct = set()
     f1 = '--f1' in argv
-    for r, pr, ctx, cls in targets(fpred=(lambda r: r['f'] == 1) if f1 else None):
+    for r, pr, ctx, cls in targets(fpred=(lambda r: r['f'] == 1) if f1 else None, check='--check' in argv):
         I, P, Bs = ctx.I, ctx.P, ctx.Bs
         cnt[('all', cls, 'f=%d' % r['f'])] += 1
         distinct.add((cls, r['f'], json.dumps([r['sets'], r['vals'], r['Bs']])))

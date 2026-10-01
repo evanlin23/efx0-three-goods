@@ -22,8 +22,8 @@ f = 1. The f ≥ 2 targets are left to proof/k4-f2 (§6).
   def(P′) ≤ |C| − (2 − |A|) − S_oz − κ.
   Here C is a set of junk goods whose removal leaves o's bundle safe, S_oz counts the slots of the other free agents,
   and κ = 1 when the swap unfreezes z for o. A big-top z holding its top is threatened only by bundles that contain all
-  three of its lower goods. x holding an admissible pair is never threatened. So the only real constraints come from
-  the other free agents.
+  three of its lower goods. x holding an admissible pair is never threatened by a set avoiding g and that pair. So the
+  only real constraints come from the other free agents.
 - **Structural existence theorems** (§3, written proofs, not yet refereed):
   - **Theorem W** (in (H)): if the lower goods of x lie in J ∪ B_y1 ∪ B_y2, one of them is valued by a needer, and
     every other free agent is *tame* (its threats can be removed within its own slots), then an explicit plain swap
@@ -65,10 +65,12 @@ At f = 1 (frozen agent x on g):
   without a helper owned by x itself (Lemma 8's mechanism) occur at 470 θ-b records.
 
 So the repair to explain is a **plain swap**: z needs g and takes it, x takes A ⊆ J ∪ B_z, nobody else moves, and an
-agent that did not move owns the bundle. In the θ-b case the S1 owner o (big-top on g, its lower goods in X ∪ {c})
-cannot take g itself (`k4/dl13.md` Lemma 10). Either the *other* needer takes g and o (or a third agent) owns, or o
-takes g and the other needer owns. In both cases the swapped needer is big-top. Holding its top, it is threatened by
-almost nothing.
+agent that did not move owns the bundle.
+
+In the θ-b case the S1 repair fails (`k4/dl13.md` Lemma 10). That repair has the S1 owner o take g and x own
+X ∪ {c}, but o is big-top on g and X ∪ {c} holds o's three lower goods. The plain swap does something else. Either
+the *other* needer takes g and o (or a third agent) owns, or o takes g and the other needer owns. In both cases the
+swapped needer is big-top, and holding its top it is threatened by almost nothing.
 
 ## 2. The deficit after a plain swap
 

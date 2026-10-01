@@ -153,6 +153,34 @@ def main():
         len(fa['needers']) == 2 and sorted(fa['bt']) == [False, True])
     say('X2: a plain swap lowers the deficit', bool(fa['plain']), str(fa['plain'][:3]))
     print('  Corollary G1 applies (A):', g1_swaps(ctx))
+
+    # X3: W, K or G1 applies at every T3-stage state whose frozen good has two or more needers
+    d = {'sets': [[0, 3, 4, 5], [1, 3, 4, 5], [2, 3, 4, 5]], 'vals': [[2, 4, 5, 8], [2, 4, 5, 8], [8, 6, 3, 10]],
+         'm': 6}
+    P0 = [[4], [1, 3], [5]]
+    fa, pr, ctx = both('X3 (k4_certs_3 m=6 idx=8 11,11,246)', d, P0)
+    say('X3: strict core, f = 1, def(P) > 0, at the T3 stage',
+        fa['core'] and fa['f'] == 1 and fa['d'] > 0 and fa['stuck'] and fa['kopt'])
+    say('X3: two needers, neither big-top', len(fa['needers']) == 2 and not any(fa['bt']))
+    say('X3: W, K, G1 do not apply (implementation A; they need a big-top needer)',
+        bool(gw1_hyp(ctx)) and not k_swaps(ctx) and not g1_swaps(ctx))
+    say('X3: a plain swap lowers the deficit', bool(fa['plain']), str(fa['plain'][:3]))
+
+    # Y: the theorems' swaps at dl13-n3m7-theta (k4/dl13.md §5), deficits of P' by both implementations
+    d = {'sets': [[0, 2, 5, 6], [1, 4, 5, 6], [3, 4, 5, 6]], 'vals': [[2, 6, 3, 10], [6, 2, 3, 10], [4, 6, 5, 8]],
+         'm': 7}
+    P0 = [[0, 2], [1, 4], [6]]
+    fa, pr, ctx = both('Y (dl13-n3m7-theta)', d, P0)
+    from thetab_lib import w1_construction
+    zA = w1_construction(ctx); kk = k_swaps(ctx)
+    b = B(d['sets'], d['vals'], d['m'])
+    x = fa['x']
+    for name, (z, A), bound in [('Theorem W', zA, None)] + [('Theorem K', t, 0) for t in kk]:
+        P2 = [frozenset(S) for S in P0]; P2[z] = frozenset(P0[x]); P2[x] = frozenset(bits(A)); P2 = tuple(P2)
+        dA = pr.D[ctx.new(x, z, A)]; dB = b.mp[P2]
+        bd = len(list(bits(A))) - 2 if bound is None else bound
+        say('Y: %s swap z=%d A=%s: def(P\') by A and B, <= %d' % (name, z, sorted(bits(A)), bd),
+            dA == dB and dA <= bd, 'def(P\') = %d / %d' % (dA, dB))
     print('ALL CONFIRMED' if ok_all else 'SOME CASE NOT REPRODUCED')
 
 

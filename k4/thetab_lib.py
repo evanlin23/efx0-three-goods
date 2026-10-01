@@ -53,7 +53,7 @@ def target_class(ctx):
     return ('S1 ' + '/'.join(sorted(k for k in kinds))) if trip else 'noS1'
 
 
-def targets(files=None, fpred=None):
+def targets(files=None, fpred=None, check=False):
     """yield (record, Profile, Ctx, class) for every target state record of the dumps (records, not distinct states:
     a state found by two runs counts twice, as in k4/dl13.md)"""
     cache = {}
@@ -62,7 +62,7 @@ def targets(files=None, fpred=None):
             if fpred and not fpred(r): continue
             key = json.dumps([r['sets'], r['vals']])
             if key not in cache:
-                cache.clear(); cache[key] = Profile({'sets': r['sets'], 'vals': r['vals'], 'm': r['m']})
+                cache.clear(); cache[key] = Profile({'sets': r['sets'], 'vals': r['vals'], 'm': r['m']}, check)
             pr = cache[key]; ctx = Ctx(pr, tup(r['Bs']))
             if not t3_stage(ctx): continue
             cls = target_class(ctx)
