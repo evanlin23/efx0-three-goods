@@ -78,6 +78,8 @@ For a strict profile of a connected k = 4 core with ω ≥ 1 (definitions of `k4
 | n = 4, cyclic cores (§3.1), 16 of the 46, every profile with top t_i and second x_i | 5,308,416 | 5,221,489 | 80,905 | 4,950 | 0 | 1,072 | 1,072 | | 1,072 (all isolated) | `cycle_n4_part.log` |
 | n = 4, #53's catalogues with three or four 4-good agents (every 1st record) and hunts (gap profiles, f ≥ 1) | 245,963 | 227,413 | 18,109 | 439 | 2 | 0 | 0 | 70,333 | 2 (2 / 0) | `n4cat_*.log` |
 | n = 5, #53's catalogues and hunts (every record; gap profiles, f ≥ 1) | 134,587 | 128,663 | 5,879 | 45 | 0 | 0 | 0 | 26,632 | 0 | `n5cat_*.log` |
+| H₂ of `k4/c4.md` §7 (n = 9, m = 23), §7's values | 1 | 0 | 0 | 1 | 0 | 0 | 0 | 4,939 | 0 | `h2.log` |
+| H₂, 100 random strict profiles | 100 | 46 | 54 | 0 | 0 | 0 | 0 | 23,858 | 0 | `h2_rand.log` |
 | C_n, 3 ≤ n ≤ 12 (one profile each) | 10 | 0 | 0 | 0 | 1 (n = 3) | 9 | 10 | 10 | 10 (10 / 0) | `cn.log` |
 
 The cyclic n = 4 run was stopped after 16 of its 46 cores to free the CPU for the exhaustive rows (its per-core lines

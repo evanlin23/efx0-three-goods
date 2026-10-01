@@ -1,0 +1,43 @@
+# command: python3 k4/dl2_run.py ht 2 --rec=1 --dump=results/k4_dl2/repairs_ht.jsonl.gz --tables=results/k4_dl2/tables_h2.json
+# dl2.c sha256 0e4e2410b1219cbd3353b1607b8dd93f5394e1491a47f19ed6e2281cad1b78d6
+H_2                                          n=9  k*=2  68876 min-frozen P, 4939 with def > 0, least def -2
+ht 2: profiles 1, omega >= 1: 1; k* = 0: 0, 1: 0, 2: 1, 3: 0, >= 4: 0, inf: 0 (k* = n: 0; k* >= 3 isolated / trapped: 0 / 0); P with def > 0: 4939, at distance 1: 4933, 2: 6, 3: 0, >= 4: 0, inf: 0 (distance >= 3, isolated / trapped: 0 / 0; Pareto-maximal: 0, at distance >= 3: 0); largest least deficit -2 [6 s]
+# dumped: every profile with k* >= 3, every 1-th with k* = 1 (0: none), every 1-th with k* = 2
+repair table (canonical witness per P with def > 0): signature | type | roles : count
+  T fO|S2>1|f>fo : 889
+  T e2,fO|S2>1|f>fo : 687
+  T fO|S2>1|f>f : 610
+  T fO|W2>2|f>fox : 570
+  T e2,fO|W2>2|f>fox : 527
+  T fO|W2>2|f>fx : 272
+  T e2,fO|S2>1|f>f : 262
+  T fO|W2>2|f>fo : 241
+  T fO|G1>2|f>fox : 204
+  T fO|G1>2|f>fx : 176
+  T e2,fO|G1>2|f>fox : 125
+  T e2,fO|W2>2|f>fo : 100
+  T e2,fO|G1>2|f>fx : 90
+  T fO|W2>2|f>f : 86
+  T e2,fO|W2>2|f>fx : 81
+  T e2,fO|W2>2|f>f : 13
+  T fO|S2>1+W2>2|f>f+f>fx : 4
+  T fO|W2>2+W2>2|f>fo+f>fx : 2
+available repair types (counted once per P): signature | type : count
+  A fO|W2>2 : 3023
+  A fO|W2>1 : 2700
+  A e2,fO|W2>2 : 1885
+  A e2,fO|W2>1 : 1789
+  A fO|S2>1 : 1499
+  A e2,fO|S2>1 : 949
+  A fO|G1>2 : 716
+  A e2,fO|G1>2 : 395
+  A e2,fO|W1>2 : 18
+  A fO|W1>2 : 12
+  A fO|T2>2+T2>2 : 6
+  A fO|W2>1+W2>1 : 6
+  A fO|T2>1+T2>1 : 6
+  A fO|W2>1+W2>2 : 6
+  A fO|T2>1+T2>2 : 6
+  A fO|W2>2+W2>2 : 6
+  A fO|S2>1+W2>1 : 4
+  A fO|S2>1+W2>2 : 4
