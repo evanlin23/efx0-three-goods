@@ -114,7 +114,33 @@ def gpm_check(kp, k, c, V, T, X, nb_T3, cnt, ex, nex, tag):
                 s4 = next(bits(U[o] & ~(c.Q[o] | (1 << ao))))   # o's fourth good s_o (R_o = {a, p, q, s})
                 sL = bool(c.L >> s4 & 1)
             cnt['%s GPM paths k=%d leaf kind=%s%s' % (tag, kk, kinds[o], ' s in L' if sL else '')] += 1
-            if sL: case.add('Rs'); continue
+            if sL:
+                case.add('Rs')
+                # the modified move (Proposition B'): o takes {a_o, s_o}, the other good y of Q_{q_{k-1}} joins x's bundle
+                Q2 = dict(c.Q)
+                for i in range(1, len(path) - 1): Q2[path[i]] = c.Q[path[i - 1]]
+                prev = c.Q[path[-2]]
+                assert prev >> ao & 1
+                Q2[o] = (1 << ao) | (1 << s4)
+                y = prev & ~(1 << ao)
+                X2 = (X[o] & ~(1 << s4)) | y
+                del Q2[tau]
+                key2 = tuple(g if i == tau else None for i in range(I.n))
+                okB2 = False
+                hB = not any(I.R[w] & y for w in range(I.n) if w != x)
+                cnt["%s Prop B' k=%d hypothesis (y valued only by x) holds=%s" % (tag, kk, hB)] += 1
+                for pr in itertools.combinations(list(bits(X2)), 2):
+                    P2 = mask(pr)
+                    if not (P2 & U[x] and I.admissible(x, P2 & U[x], U[x])): continue
+                    Q3 = dict(Q2); Q3[x] = P2
+                    c2 = M.Config(I, key2, Q3)
+                    assert all(I.admissible(w, c2.Q[w] & U[w], U[w]) for w in c2.free)
+                    if c2.owner(x) == 0: okB2 = True; break
+                    assert not hB, ("Proposition B' failed under its hypothesis", kp.d, k, repr(c), path, sorted(bits(P2)))
+                cnt["%s Prop B' (modified path move) k=%d works=%s" % (tag, kk, okB2)] += 1
+                if okB2 and hB:
+                    case.add("B1'" if kk == 1 else "Bk'")
+                continue
             # build the configuration at (g, tau)
             Q2 = dict(c.Q)
             for i in range(1, len(path)): Q2[path[i]] = c.Q[path[i - 1]]
@@ -220,29 +246,65 @@ def analyse_key(kp, k, cnt, ex, nex, nb):
                     continue
                 break
         cnt['%s OS succeeds' % tag] += os_ok
-        # PM0 (the path move of length 0 with a theta-b terminal leaf): tau takes g, x takes a pair inside Q_tau ∪ L
-        # whose admissible part is admissible, everything else unchanged; is some such configuration completable?
-        if VT and not os_ok_nothb:
-            pm0 = collections.Counter()
-            for o in VT:
-                key2 = tuple(g if i == o else None for i in range(I.n))
-                for pr in itertools.combinations(list(bits(X[o])), 2):
-                    P2 = mask(pr)
-                    if not (P2 & U[x] and I.admissible(x, P2 & U[x], U[x])): continue
-                    Q2 = dict(c.Q); del Q2[o]; Q2[x] = P2
+        # Proposition C (a theta-b terminal leaf tau1 hands g over, x takes a robust pair P_x inside X_tau1 meeting U_tau1,
+        # another leaf o owns Q_o ∪ (X_tau1 minus P_x)); hypothesis (H): that bundle threatens no free agent outside {o, tau1}
+        caseC = False; caseCH = False
+        for t1 in VT:
+            if not (bigtop_on(I, t1, g) and not (U[t1] & ~X[t1]) and om >= 2): continue
+            key2 = tuple(g if i == t1 else None for i in range(I.n))
+            for o in V:
+                if o == t1: continue
+                for pr in itertools.combinations(list(bits(X[t1])), 2):
+                    Px = mask(pr)
+                    if not (Px & U[x] and I.admissible(x, Px & U[x], U[x])): continue
+                    if I.val(x, Px) < I.val(x, U[x] & ~Px) or not Px & U[t1]: continue
+                    Y = c.Q[o] | (X[t1] & ~Px)
+                    hstar = not any(I.R[y] & c.Q[t1] & ~Px for y in free if y not in (o, t1))
+                    if hstar:
+                        assert not any(I.threat(y, Y, c.hv(y)) for y in free if y not in (o, t1)), "(H*) does not give (H)"
+                    else:
+                        caseCH = True; continue
+                    Q2 = dict(c.Q); del Q2[t1]; Q2[x] = Px
                     c2 = M.Config(I, key2, Q2)
-                    ok0 = any(c2.owner(w) == 0 for w in c2.free)
-                    okc = c2.completable
-                    pm0['x-pair'] += 1; pm0['C=0'] += ok0; pm0['compl'] += okc
-                    own = [w for w in c2.free if c2.owner(w) == 0]
-                    if ok0: pm0['own=x'] += x in own; pm0['own=V'] += any(w in V for w in own)
-            cnt['%s thetab-only PM0 some completable=%s, some C=0=%s, some owner x=%s, some owner in V=%s, x=%s, |T|=%d' % (
-                tag, pm0['compl'] > 0, pm0['C=0'] > 0, pm0['own=x'] > 0, pm0['own=V'] > 0, xt, len(T))] += 1
+                    assert key2 in kp.K and c2.owner(o) == 0, ('Proposition C failed', kp.d, k, repr(c), t1, o, Px)
+                    b2 = list(Bs); b2[t1] = gm; b2[x] = Px & U[x]; b2 = tuple(b2)
+                    assert b2 in kp.S and kp.D[b2] <= 0, 'Proposition C: the T3 image'
+                    caseC = True
+        cnt['%s Prop C applies=%s (only (H) missing=%s)' % (tag, caseC, caseCH and not caseC)] += 1
+        # Proposition C' (two terminals, both leaves, tau1 theta-b): T = {tau1, tau2}; x takes a robust pair P inside
+        # X_tau1 worth more than g to x; tau2 owns Y = (X_tau2 ∪ Q_tau1) minus P and one good w of U_tau1 outside P,
+        # with U_tau2 ⊆ Y (tau2 stops needing g, tau1 is unfrozen); (H'): Y threatens no free agent outside {tau1, tau2}
+        caseC2 = False; caseC2H = False
+        if len(T) == 2 and set(T) <= set(V):
+            for t1 in T:
+                t2 = next(z for z in T if z != t1)
+                if not (bigtop_on(I, t1, g) and not (U[t1] & ~X[t1]) and om >= 2): continue
+                for pr in itertools.combinations(list(bits(X[t1])), 2):
+                    Px = mask(pr)
+                    if not (Px & U[x] and I.admissible(x, Px & U[x], U[x])): continue
+                    if I.val(x, Px) < I.val(x, U[x] & ~Px) or I.val(x, Px) <= I.v[x][g]: continue
+                    for w in bits(U[t1] & ~Px):
+                        Y = (X[t2] | c.Q[t1]) & ~Px & ~(1 << w)
+                        if U[t2] & ~Y: continue
+                        hstar = not any(I.R[y] & c.Q[t1] & ~Px & ~(1 << w) for y in free if y not in (t1, t2))
+                        if hstar:
+                            assert not any(I.threat(y, Y, c.hv(y)) for y in free if y not in (t1, t2)), "(H'*) does not give (H')"
+                        else:
+                            caseC2H = True; continue
+                        b2 = list(Bs); b2[t1] = gm; b2[x] = Px & U[x]; b2 = tuple(b2)
+                        assert b2 in kp.S, "Proposition C': the T3 image is not a state"
+                        val = owner_value(kp.PA[b2], t2, Y)
+                        assert val is not None and val >= om + 2 and kp.D[b2] <= 0, ("Proposition C' failed", kp.d, k, repr(c), t1, Px, w)
+                        caseC2 = True
+        cnt["%s Prop C' applies=%s (only (H') missing=%s)" % (tag, caseC2, caseC2H and not caseC2)] += 1
         case = gpm_check(kp, k, c, V, T, X, nb['T3'][k], cnt, ex, nex, tag)
         if os_ok_nothb: case.add('A')
         if os_ok: case.add('A*')
+        if caseC: case.add('C')
+        if caseC2: case.add("C'")
+        if caseCH: case.add('C-H')
         cnt['%s cases %s' % (tag, ','.join(sorted(case)) or 'none')] += 1
-        main_case = 'A' if 'A' in case else ('B1' if 'B1' in case else ('A*' if 'A*' in case else ('Bk-adj' if 'Bk-adj' in case else 'rest')))
+        main_case = next((cc for cc in ('A', 'B1', 'C', "C'", "B1'", 'Bk-adj', 'Bk-nonadj', "Bk'") if cc in case), 'rest')
         cnt['MAIN CASE %s' % main_case] += 1
         if main_case == 'rest' and len(ex['rest']) < nex: ex['rest'].append((kp.d, k, repr(c), 'V', V, 'T', T, sorted(case)))
         if regime == 'I' and not os_ok and len(ex['I-no-OS']) < nex:
