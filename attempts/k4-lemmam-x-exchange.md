@@ -1,0 +1,39 @@
+# Lemma M by exchange between first agents: which partner a′ fails, and why no partner can work
+
+Workstream `proof/k4-lemmam-x` (PR #77, `k4/lemmam_x.md` §2). Ledger rows K4.LMX.X (refuted partners) and K4.RF.M.
+
+**The idea.** Lemma M of `k4/rulef.md` (PR #72): every strict profile of every k = 4 core has a first agent a in
+class K0 or K1 of rule RK (Lemma K certifies the run of τ_a = (a, then index order) without rotation, or after one
+rotation). Prove it by an exchange: if a is *bad* (in neither class), an agent a′ read off a's run is *good*. Four
+partners were proposed (`k4/rulef.md` §6 Step 3): (x1) the exposed frozen 4-good agent, (x2) the leader of r's block,
+(x3) the needer at the end of a need chain from an exposed frozen agent, (x4) r itself.
+
+**Where it breaks.**
+- *(x1) and (x2) never work on the data.* On every strict profile of every core with n ≤ 3 and n = 4 with at most two
+  4-good agents (1.03·10⁹ profiles, `results/k4_lemmam_x/exh_n2_n3_n4_12.log`), 26,248 (profile, bad first agent)
+  pairs: the exposed frozen 4-good agent, where it exists (25,448 pairs), is bad on every one; the leader of r's block
+  is a itself on every one (every bad run there is a single block). Smallest failure (n = 3, m = 6): agents
+  {0, 1, 4, 5}, {2, 3, 4, 5}, {2, 3, 4, 5} with values (1, 4, 6, 8), (2, 3, 4, 8), (2, 7, 8, 4) (the profile of
+  `attempts/k4-rulef-least-count.md`). τ₀: 0 takes 5, 2 takes 4, 1 takes 3; agent 2 is the exposed frozen 4-good agent
+  (1 needs 4; {2, 3} worth 9 > 8 is junk plus r's pick), r = 1 leads no block, the only block is led by 0. Agents 0 and
+  2 are bad, 1 is good (K1: 2 → 0 rotation is a downgrade of 2 to {3}).
+- *(x4) works up to n = 4 but fails on H₅.* On the data above r is good for every bad a (r is the needer at the end
+  there). On the core H₅ of `k4/c4.md` §7 (n = 21, m = 53) ten first agents are bad (ℓ and agents 9, 13–20), and for
+  each of them r (the y of the last gadget its run reaches) is bad too (`results/k4_lemmam_x/H5.log`).
+- *(x3) depends on which end, and survives where a good agent exists.* The ends chosen by most chains into them, or of
+  least index, or of the exposed frozen agent of least index, are good on all 26,248 pairs above, on the suite and on
+  H₅; the earliest-processed end fails on 3 of H₅'s 10 bad agents but reaches a good agent when iterated.
+- *But no partner can work in general: Lemma M is false.* On HH₃ (two copies of H₃ sharing ℓ's good u, n = 26,
+  m = 65; `k4/lemmam_bt.md` §3, PR #83, Proposition HH) every first agent is bad, so an exchange has no good agent to
+  reach. `k4/lemmam_x.c -A43 -Y1` agrees (all 26 first agents bad; `results/k4_lemmam_x/HH3_classes.log`).
+
+**What survives** (`k4/lemmam_x.md`): the structure of bad runs (Lemmas 1–3: an exposed frozen agent, an exposed 4-good
+agent or (G2), a Hall violator among the exposed frozen agents; for (G2), k*'s lower goods are goods of r), the
+locality Lemma 4, and the repaired target, adaptive insertion (§6).
+
+**Smallest failing configurations.** (x1), (x2): n = 3, m = 6 above. (x4): H₅, n = 21 (smallest found; H₂ (n = 9) is
+fine: r is in K1 there; H₃, H₄ not run separately). Every partner: HH₃, n = 26.
+
+Reproduce: `python3 k4/lemmam_x_check.py '[[0,1,4,5],[2,3,4,5],[2,3,4,5]]' '[[1,4,6,8],[2,3,4,8],[2,7,8,4]]'`
+(second implementation; the candidates line shows EF4_minidx = 2 bad), `python3 k4/lemmam_x_run.py
+--profiles=FILE -A43 -r1 -Y1` on H₅ and HH₃ (`python3 k4/lemmam_x_inst.py H5 HH3 > FILE`).

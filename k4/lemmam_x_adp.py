@@ -16,8 +16,10 @@ def parse_adp(lines):
         if l.startswith('ADP '):
             t = l.split()
             i = t.index('hist'); j = t.index('hist_all0'); k = t.index('bad_with_last_delta1')
+            q = t.index('nonlast_positive'); h = t.index('nonlast_hist')
             return {'prof': int(t[2]), 'all0': int(t[4]), 'hist': list(map(int, t[i + 1:j])),
-                    'hist0': list(map(int, t[j + 1:k])), 'lastd1': int(t[k + 1])}
+                    'hist0': list(map(int, t[j + 1:k])), 'lastd1': int(t[k + 1]), 'nonlast': int(t[q + 1]),
+                    'nonlast_hist': list(map(int, t[h + 1:]))}
     return None
 
 
@@ -38,6 +40,16 @@ def main():
     opts = [a for a in args if a.startswith('-') and not a.startswith('--')]
     if not any(o.startswith('-r') for o in opts):
         opts.append('-r2')
+    if '-A45' in opts:           # every first agent: the least rotations with Lemma K (the rotation bound of rule F)
+        LR.build()
+        print('#', 'lemmam_x_adp.py', ' '.join(args), '# lemmam_x.c sha256', LR.SHA, flush=True)
+        for line in open(prof):
+            o = json.loads(line)
+            t1 = time.time()
+            lines = LR.run(AR.encode_profile(o['sets'], o['vals']), opts + ['-T1', '-D45'])
+            fa = next(l for l in lines if l.startswith('FA '))
+            print(f"{o.get('name', 'profile')}: n={len(o['sets'])} {fa}  time {time.time() - t1:.1f}s", flush=True)
+        return
     opts = ['-A44'] + opts
     LR.build()
     print('#', 'lemmam_x_adp.py', ' '.join(args), '# lemmam_x.c sha256', LR.SHA, flush=True)
@@ -103,6 +115,8 @@ def main():
         print(f"  rotations d needed after the adaptive run (0, 1, ..., cap, none within the cap): {tot['hist']}")
         print(f"  ... among the runs with every block count 0: {tot['hist0']}")
         print(f"  runs with d >= 1 whose last block has count 1: {tot['lastd1']}")
+        print(f"  runs where some block other than the last has count > 0 (the local step fails there): {tot['nonlast']};"
+              f" their d: {tot['nonlast_hist']}")
 
 
 if __name__ == '__main__':
