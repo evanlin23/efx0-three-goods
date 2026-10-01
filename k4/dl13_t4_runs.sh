@@ -1,8 +1,8 @@
 #!/bin/sh
 # DL13 at f >= 2 with the frozen rotations of Lemma 12 (k4/dl13.md §2.2): every def > 0 state records whether it is
 # T4-optimal and its improving (T4) moves, and Lemma 12 is asserted at every state. Inputs: compute/k4-dl13's DL13
-# failures at n = 4 (branch compute/k4-dl13-n4 at 0617abf, results/k4_dl13/n4_failures_*.tsv, copied to
-# k4/suite/.cache/compute_k4_dl13/ with `git show`), and the inputs of k4/dl13_stuck_runs.sh that have f >= 2.
+# failures at n = 4 (results/k4_dl13/n4_failures_*.tsv, on main since #74 and identical to those of 0617abf, which
+# made the logs; copy them to k4/suite/.cache/compute_k4_dl13/), and the inputs of k4/dl13_stuck_runs.sh with f >= 2.
 # One worker, sequential; about an hour. Needs #53's catalogues in k4/suite/.cache/gapbench (k4/strategy.md §4).
 set -e
 G=k4/suite/.cache/gapbench/results/k4_gap

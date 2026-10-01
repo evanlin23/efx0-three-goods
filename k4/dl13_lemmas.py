@@ -539,21 +539,35 @@ def candidates(files):
                      'A5 f = 1, >= 2 needers => S1 shape': regime(ctx) == 'f=1, >=2 needers' and not trip,
                      'A6 theta-fail => theta-b': 'theta-a' in kinds,
                      'A7 C1, C2 or C3': not (c1 or c2 or c3)}
-            kopt = ctx.key_optimal() and ctx.t4_stuck()
+            kin = ctx.key_optimal(); t4s = ctx.t4_stuck()
+            kopt = kin and t4s
             if kopt: cnt['(states where no (T1), (T2) or (T4) move lowers def)'] += 1
+            if not ex:      # the states without an exposed frozen agent: their f and which move lowers the deficit
+                cnt['(no frozen exposure: f = %d, %s, %s)' % (
+                    r['f'], 'a (T1)/(T2) move lowers def' if not kin else 'key-optimal',
+                    'a (T4) move lowers def' if not t4s else 'no (T4) move lowers def')] += 1
             for k, v in fails.items():
                 if not v: continue
                 for k2 in ([k, k + ' | at states where no T1, T2, T4 move lowers def'] if kopt else [k]):
                     cnt[k2] += 1
                     cand = (len(r['sets']), r['m'], r['def'], r['src'], r['sets'], r['vals'], r['Bs'], r['f'])
                     if k2 not in best or cand[:3] < best[k2][:3]: best[k2] = cand
-    print('T1-stuck states: %d; of them %d with no improving (T1), (T2) or (T4) move' % (
+    print('T1-stuck states (records): %d; of them %d with no improving (T1), (T2) or (T4) move (the T3 stage)' % (
         tot, cnt['(states where no (T1), (T2) or (T4) move lowers def)']))
     del cnt['(states where no (T1), (T2) or (T4) move lowers def)']
-    for k in sorted(cnt):
-        n, m, d, src, sets, vals, Bs, f = best[k]
-        print('  %-45s fails at %5d states; smallest: n=%d m=%d f=%d def=%d %s sets=%s vals=%s P=%s' % (
-            k, cnt[k], n, m, f, d, src, sets, vals, Bs))
+    names = ['A1 S1 shape', 'A2 S1 shape => Corollary 9.1', 'A3 some frozen agent exposed',
+             'A4 single frozen blocker at a best owner', 'A5 f = 1, >= 2 needers => S1 shape',
+             'A6 theta-fail => theta-b', 'A7 C1, C2 or C3']
+    for k in names:
+        for k2 in (k, k + ' | at states where no T1, T2, T4 move lowers def'):
+            if cnt[k2]:
+                n, m, d, src, sets, vals, Bs, f = best[k2]
+                print('  %-45s fails at %5d states; smallest: n=%d m=%d f=%d def=%d %s sets=%s vals=%s P=%s' % (
+                    k2, cnt[k2], n, m, f, d, src, sets, vals, Bs))
+            else:
+                print('  %-45s fails at %5d states' % (k2, 0))
+    for k in sorted(c for c in cnt if c.startswith('(no frozen exposure')):
+        print('  %-45s %d' % (k, cnt[k]))
 
 
 def swaps_mode(argv, opt):

@@ -1,8 +1,8 @@
 # DL₁₃^opt: "at T4-optimal states, (T1) or (T3) always lowers the deficit"
 
 Workstream `proof/k4-dl13` (`k4/dl13.md` §2.2). Ledger row K4.DL13.OPT (REFUTED). The instance was found by the
-compute workstream (`dl13-n4m9-rot` of `attempts/k4-dl13-refuted.md` on branch `compute/k4-dl13`); it is replayed here
-with this workstream's two implementations.
+compute workstream (`dl13-n4m9-rot` of `attempts/k4-dl13-refuted.md`, merged in #74, where it refutes DL₁₃₄,
+K4.DL2.T134); it is replayed here with this workstream's two implementations.
 
 **Candidate.** After DL₁₃ failed at n = 4, f = 3 (every failure has a cycle in the need digraph of the frozen
 agents, and a frozen rotation repairs it; Lemma 12), the proposed repair of the conjecture was DL₁₃^opt: at f ≥ 1,
@@ -33,7 +33,8 @@ P = ({7}, {2, 8}, {4, 5}, {3, 6}), J = {0, 1}.
   3, agent 3 takes 8 from agent 1), a (T2) move.
 
 So rotations of free agents are needed at f ≥ 1 as well; the coordinator's successor target is R_T4 = (T1) ∪ (T2) ∪
-(T3) ∪ (T4) (`k4/dl13.md` §2.2).
+(T3) ∪ (T4) (`k4/dl13.md` §2.3; Conjecture DL_RT4, K4.DL2.RT4E).
 
 **Reproduce.** `python3 attempts/k4_dl13_attempts.py` (case 5: `k4/dl13_stuck.py`'s Profile and main's
-`k4/c4x_check.py` with the separately written (T1), (T3) tests of the script).
+`k4/c4x_check.py` with the separately written (T1), (T3) tests of the script; the check that the instance is a strict
+core uses `k4/suite/model.py`).

@@ -18,6 +18,7 @@ core (m = 10, idx 18) of `results/k4_certs_4_pure.json.gz`, profile 115,72,285,1
 - DL₁₃ holds (38 (T3) moves lower the deficit), e.g. the plain swap ({0}, {9}, {3, 7}, {4, 8}): agent 1 takes 9,
   agent 0 takes 0 and becomes an owner of a 5-good bundle (def 0; Lemma 8).
 
-**Frequency** (the runs of `k4/dl13.md` §4): row A5 of `results/k4_dl13_stuck/candidates.log` (all at n ≥ 4).
+**Frequency** (the T1-stuck state records of the runs of `k4/dl13.md` §1): 53, row A5 of
+`results/k4_dl13_stuck/candidates_runs.log` (all at n ≥ 4).
 
 **Reproduce.** `python3 attempts/k4_dl13_attempts.py` (case 3, both implementations).

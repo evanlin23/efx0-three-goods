@@ -21,7 +21,8 @@ holds at every S1 triple of every T1-stuck state of the runs (off the T1-stuck s
 - DL₁₃ holds (44 (T3) moves lower the deficit), e.g. ({2}, {5}, {9}, {4, 7}): agent 2 takes 9, agent 1 takes 5,
   agent 0 (helper) gives up 0 and keeps 2, and owner 3 owns a 6-good bundle (def −1).
 
-**Frequency** (the runs of `k4/dl13.md` §4): row A6 of `results/k4_dl13_stuck/candidates.log`. Lemma 10(θ-a) forces a
+**Frequency** (the T1-stuck state records of the runs of `k4/dl13.md` §1): 44, row A6 of
+`results/k4_dl13_stuck/candidates_runs.log`. Lemma 10(θ-a) forces a
 second needer besides o; in the runs every such state has three needers of the frozen good (`k4/dl13_lemmas.py
 --stats`, regime counts in `results/k4_dl13_stuck/stats.log`).
 

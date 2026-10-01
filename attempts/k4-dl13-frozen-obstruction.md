@@ -40,16 +40,20 @@ and owner 0 has the safe bundle {0, 1, 5} (agent 1 holding 4: θ = 2 + 7 = 9 ≤
 def(P′) = 0. The move is a 3-cycle x → z → h → x of the exchange digraph of `k4/c4min.md` §4 (need edge 0 → 2, then
 agent 1 takes from agent 2's old base, agent 0 from agent 1's).
 
-**Frequency** (the 13,971 T1-stuck states of the runs of `k4/dl13.md` §1): 2,679 have no S1 shape, 170 have no
+**Frequency** (the 13,971 T1-stuck state records of the runs of `k4/dl13.md` §1, rows A1, A4, A3 of
+`results/k4_dl13_stuck/candidates_runs.log`, which reads those runs' dumps only): 2,679 have no S1 shape, 170 have no
 single frozen blocker at a best owner, 29 have no exposed frozen agent; DL₁₃ holds at all of them. (The log's
 smallest instance for these rows is another profile of the same core, also n = 3, m = 6.)
 
 **After the move to the target R_T4** (`k4/dl13.md` §2.3): every one of these 29 states has f = 1 and a (T2) move
 (a rotation of the free agents inside the key) that lowers the deficit, and the weakest form, restricted to states
 where no (T1), (T2) or (T4) move lowers the deficit, has no failure in the runs: that restricted form is Conjecture SX
-(ledger K4.DL13.SX). The two stronger forms still fail there (rows A1, A4 of `results/k4_dl13_stuck/candidates.log`,
-restricted lines).
+(ledger K4.DL13.SX; the restricted row A3 of `candidates_runs.log` reads 0, and its last line counts the 29 states by
+f and by the kind of move that lowers the deficit). The two stronger forms still fail there (rows A1, A4 of
+`candidates_runs.log`, restricted lines: 918 and 70 states).
 
 **Reproduce.** `python3 attempts/k4_dl13_attempts.py` (case 1: both implementations, `k4/dl13_lemmas.py` and main's
-`k4/c4x_check.py` with separately written tests); the frequencies: the `A1`/`A3`/`A4` counts of
-`results/k4_dl13_stuck/candidates.log`.
+`k4/c4x_check.py` with separately written tests; the check that the instance is a strict core uses
+`k4/suite/model.py`); the frequencies: rows A1, A3, A4 of `results/k4_dl13_stuck/candidates_runs.log`
+(`python3 k4/dl13_lemmas.py --candidates results/k4_dl13_stuck/stuck_*.jsonl.gz`). `candidates.log` adds the T1-stuck
+states of compute/k4-dl13's failing n = 4 profiles to the input, so its unrestricted row A1 is larger.

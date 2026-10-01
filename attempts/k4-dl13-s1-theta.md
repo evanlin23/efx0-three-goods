@@ -31,7 +31,7 @@ so agent 2 needs nothing); owner 0 keeps its base and owns {0, 1, 2, 5}, which t
 agent 1 holding 6: θ = 6 + 3 = 9 ≤ 10), and its value 11 > 10 means agent 0 no longer needs 6, so agent 1 (frozen on
 6, needed by nobody else) is counted: Val = 4 + 1 = 5, def(P′) = −1 (Lemma 11 with κ = 1).
 
-**Frequency** (the runs of `k4/dl13.md` §4): row A2 of `results/k4_dl13_stuck/candidates.log` (every one with two or more
-needers of the frozen good; almost all θ-b).
+**Frequency** (the T1-stuck state records of the runs of `k4/dl13.md` §1): 1,503, row A2 of
+`results/k4_dl13_stuck/candidates_runs.log` (every one with two or more needers of the frozen good; almost all θ-b).
 
 **Reproduce.** `python3 attempts/k4_dl13_attempts.py` (case 2, both implementations).

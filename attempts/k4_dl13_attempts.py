@@ -8,6 +8,7 @@ A T1-stuck state: a min-frozen P (fewest frozen agents f >= 1, omega >= 1) with 
     Lemma H1, k4/dl2_classify.PA).
   Implementation B: main's k4/c4x_check.py (`analyse`: every base map, (V1), (V2) literally, its own removal-only
     deficit `rodef`), with the T1 test, the owner values and the blockers written separately below (frozensets).
+  The check that an instance is a strict core (`state`, the flag `core`) uses k4/suite/model.py for both.
 Each candidate is checked to FAIL at its state by both implementations, and DL13 (a (T3) move lowering the deficit)
 is checked to HOLD there by both (cases 1-4). Case 5 is a state where DL13 itself fails at f = 1, refuting this
 file's Conjecture DL13-opt (K4.DL13.OPT); the instance was found by compute/k4-dl13.
@@ -139,8 +140,7 @@ def common(label, sets, vals, m, P0):
 
 
 # 1. m = 6: no S1 shape, no single frozen blocker, the frozen agent not exposed, none of C1, C2, C3
-#    (attempts/k4-dl13-s1-shape.md, k4-dl13-frozen-exposed.md, k4-dl13-single-frozen-blocker.md,
-#    k4-dl13-structural-cover.md). #53's n = 3 catalogue: core (m = 6, idx 13) of k4_certs_3, profile 4,17,236.
+#    (attempts/k4-dl13-frozen-obstruction.md, its three nested forms; attempts/k4-dl13-structural-cover.md). #53's n = 3 catalogue: core (m = 6, idx 13) of k4_certs_3, profile 4,17,236.
 sets = [[0, 2, 4, 5], [1, 3, 4, 5], [2, 3, 4, 5]]; vals = [[1, 8, 4, 6], [2, 4, 10, 7], [8, 4, 6, 3]]; m = 6
 P0 = [[2], [3, 5], [4]]
 pr, ctx, b, PB = common('n = 3, m = 6 (dl13-n3m6)', sets, vals, m, P0)
@@ -198,7 +198,7 @@ for o, (val, Xs) in tab.items():
 say('  "a theta-fail is always of kind (b)" fails', 'theta-a' in kinds and pairB, 'kinds %s' % sorted(kinds))
 
 # 5. DL13-opt (k4/dl13.md §2.2, ledger K4.DL13.OPT): DL13 at T4-optimal states fails at f = 1, n = 4, m = 9
-#    (attempts/k4-dl13-opt.md). Instance dl13-n4m9-rot of compute/k4-dl13 (attempts/k4_dl13_refuted.py on its branch):
+#    (attempts/k4-dl13-opt.md). Instance dl13-n4m9-rot of compute/k4-dl13 (attempts/k4_dl13_refuted.py, merged in #74):
 #    #53's gap_n4_pure_s4000 catalogue, core 123 (m = 9, idx 0) of k4_certs_4_pure, profile 7,196,164,44. At f = 1 every
 #    state is T4-optimal (one frozen agent: no frozen rotation). The better states need a rotation of the free agents.
 sets = [[0, 1, 2, 7], [2, 4, 5, 8], [3, 4, 5, 6], [3, 6, 7, 8]]
