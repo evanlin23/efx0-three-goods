@@ -8,9 +8,19 @@ run() { name=$1; shift; python3 k4/portfolio.py "$@" --name=$name --ckpt >> $R/$
 case "$1" in
 suite)  python3 k4/portfolio.py suite --name=suite --jobs=3 --chunk=5 > $R/suite.log 2>&1 ;;
 dumps)  # every distinct profile of the D records (dlrt4.c, dl13.c, dl2.c dumps) under results/k4_rt4, k4_dl13*, k4_dl2*
-        run dumps dumps results/k4_rt4/dump_*.jsonl.gz results/k4_dl13*/*.jsonl.gz results/k4_dl2*/*.jsonl.gz --chunk=500 --jobs=${J:-4} ;;
+        run dumps dumps results/k4_rt4/dump_*.jsonl.gz results/k4_dl13*/*.jsonl.gz results/k4_dl2*/*.jsonl.gz --chunk=500 --jobs=${J:-4} --maxpairs=1000000 ;;
 r3)     run r3 certs results/k4_certs_3.json.gz --sample=20 --seed=101 --jobs=${J:-4} ;;
 r4)     run r4 certs results/k4_certs_4_n4_1.json.gz results/k4_certs_4_n4_2.json.gz results/k4_certs_4_n4_3.json.gz \
             results/k4_certs_4_pure.json.gz --sample=20 --seed=101 --jobs=${J:-4} ;;
+r3b)    run r3b certs results/k4_certs_3.json.gz --sample=2000 --seed=102 --jobs=${J:-4} ;;
+r4b)    run r4b certs results/k4_certs_4_n4_1.json.gz results/k4_certs_4_n4_2.json.gz results/k4_certs_4_n4_3.json.gz \
+            results/k4_certs_4_pure.json.gz --sample=1000 --seed=102 --jobs=${J:-4} ;;
+n5_4)   run n5_4 certs results/k4_certs_5_n4_4.json.gz --sample=4000 --seed=3 --jobs=${J:-4} --maxst=600 ;;
+n5_purebt) run n5_purebt certs results/k4_certs_5_pure.json.gz --sample=5000 --seed=5 --bt=all --jobs=${J:-4} --maxst=600 ;;
+n5_3)   run n5_3 certs results/k4_certs_5_n4_3.json.gz --sample=2000 --seed=3 --jobs=${J:-4} --maxst=600 ;;
+n5_pure) run n5_pure certs results/k4_certs_5_pure.json.gz --sample=1000 --seed=6 --jobs=${J:-4} --maxst=600 ;;
+n5_12)  run n5_12 certs results/k4_certs_5_n4_1.json.gz results/k4_certs_5_n4_2.json.gz --sample=500 --seed=3 --jobs=${J:-4} --maxst=600 ;;
+n6_1)   run n6_1 certs results/k4_certs_6_n4_1.json.gz --sample=100 --seed=3 --jobs=${J:-4} --maxst=600 ;;
+phase2) for r in dumps r3 r4 r3b r4b n5_4 n5_purebt n5_3 n5_12 n5_pure n6_1; do J=${J:-4} sh "$0" $r; done ;;
 *)      echo "unknown run $1"; exit 2 ;;
 esac

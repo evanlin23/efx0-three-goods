@@ -28,7 +28,8 @@ both give the same verdict for every predicate at every state and key.
 common: --name=LABEL (the dataset; writes results/k4_portfolio/LABEL.json, the aggregate, and LABEL_fails.jsonl.gz,
 every failing state or key with its profile) --jobs=J --ckpt (resume from results/k4_portfolio/ckpt_LABEL.jsonl)
 --chunk=C (profiles per unit in the list modes, default 300) --maxst=S (skip profiles with more than S states,
-counted) --progress
+counted) --maxpairs=X (skip profiles with more than X (state, P) pairs, counted; not part of the checkpoint key)
+--progress
 
 The aggregate per dataset: profiles screened, dumped, states and keys with def* > 0 by f; per predicate the states
 (keys) tested, the failures, the least margin (repairs at the worst state), the smallest-repair shapes "U|W|Z|Y"
@@ -124,11 +125,15 @@ def nearest(pd, p):
     return min(ds) if ds else None
 
 
+MAXPAIRS = None       # --maxpairs: skip (and count) profiles with more than this many (state, min-frozen P) pairs
+
+
 def eval_into(agg, fails, ident, sets, vals, m, cls, maxst=None):
     """evaluate one profile (the class cls from portfolio_dump.c) into the aggregate; failures appended to `fails`"""
-    pd = PR.ProfData(sets, vals, m, [(B, (INF if d >= INF else d)) for B, d in cls])
-    if maxst is not None and sum(1 for d in pd.d if d > 0) > maxst:
+    nst = sum(1 for _, d in cls if d > 0)
+    if (maxst is not None and nst > maxst) or (MAXPAIRS is not None and nst * len(cls) > MAXPAIRS):
         agg['skipped_big'] += 1; return None
+    pd = PR.ProfData(sets, vals, m, [(B, (INF if d >= INF else d)) for B, d in cls])
     r = PR.evaluate(pd)
     agg['dumped'] += 1; agg['states'] += r['states']; agg['keys_pos'] += r['keys_pos']
     fk = str(pd.f)
@@ -293,6 +298,8 @@ def main():
     build(); build(True)
     jobs = int(opt.get('jobs', os.cpu_count() or 2)); fmin = int(opt.get('fmin', 1))
     maxst = int(opt['maxst']) if 'maxst' in opt else None
+    global MAXPAIRS
+    if 'maxpairs' in opt: MAXPAIRS = int(opt['maxpairs'])
     ck = os.path.join(OUT, f'ckpt_{name}.jsonl') if 'ckpt' in opt else None
     fails_path = os.path.join(OUT, f'{name}_fails.jsonl.gz')
     P, seed = int(opt.get('sample', 0)), int(opt.get('seed', 1))

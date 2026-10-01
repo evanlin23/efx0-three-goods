@@ -1,0 +1,9 @@
+# command: python3 k4/portfolio_ref.py compare results/k4_portfolio/ref_subsample.json
+# 428 profiles
+compared: profiles 352 (f >= 1, omega >= 1), states 1401, keys def* > 0 471; 21015 state-predicate and 3768 key-predicate repair counts compared; mismatching profiles 0; skipped: f = 0 10, omega <= 0 66 [70 s]
+failures (reference): RT4 3, RC_W1 0, RC 0, RC_noneed 0, RC_Yfree 0, RC_Yany 0, RC_U0 0, NA1 0, NAbal 0, NAall 0, U1Z1 0, D2 151, D3 0, D4 0, FR3 0, K1 2, K3 0, K2 0, K2_noneed 0, K2_Yany 0, K4 0, K5 0, KU1 0
+# modules of the model.py side loaded: none
+
+real	1m10.247s
+user	1m8.870s
+sys	0m0.286s
