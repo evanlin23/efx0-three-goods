@@ -984,7 +984,7 @@ static int prot_sets(int x, gm Wo, gm *out) {
     }
     return k;
 }
-static gm hs_sets[MAXN][16]; static int hs_ns[MAXN], hs_cnt, hs_best; static gm hs_P;
+static gm hs_sets[MAXN][32]; static int hs_ns[MAXN], hs_cnt, hs_best; static gm hs_P;
 static void hs_dfs(int i, gm U) {
     int c = popc(U & ~hs_P);
     if (c >= hs_best) return;
@@ -1012,6 +1012,7 @@ static int hdef_owner(int o) {       /* the refined count A4+H for owner o */
 /* A4+HU (k4/rulef.md): A4+H with the owner's needs taken from a kept set B_o ∪ K, K inside J ∩ R_o (Lemma H1's
    unfreezing, k4/hall.md §1): the agents frozen only because o needs their pick, and no longer needed by o once o
    holds B_o ∪ K, become free with one slot each; slot goods (self-protection and the set H) avoid K */
+static int XKEEP = 0;                /* -Y1: kept-out sets may also hold every allowed good outside R_x (k4/rulef.md §2, remark 4) */
 static int prot_sets_in(int x, gm Wo, gm allow, gm *out) {
     gm cand = allow & R[x]; int k = 0;
     gm subs[16]; int ns = 0;
@@ -1020,6 +1021,14 @@ static int prot_sets_in(int x, gm Wo, gm allow, gm *out) {
         int sup = 0; for (int t = 0; t < k; t++) if ((out[t] & subs[q]) == out[t]) sup = 1;
         if (sup) continue;
         if (!threatened(x, Wo & ~subs[q], base[x])) out[k++] = subs[q];
+    }
+    gm non = allow & ~R[x];          /* removing every allowed good outside R_x can leave a bundle inside R_x, where x
+                                        discounts its least good (EFX0) */
+    if (XKEEP && non) for (int sz = 0; sz <= 4; sz++) for (int q = 0; q < ns; q++) if (popc(subs[q]) == sz) {
+        gm D = subs[q] | non;
+        int sup = 0; for (int t = 0; t < k; t++) if ((out[t] & D) == out[t]) sup = 1;
+        if (sup) continue;
+        if (!threatened(x, Wo & ~D, base[x])) out[k++] = D;
     }
     return k;
 }
@@ -1064,7 +1073,7 @@ static int hdefU_owner(int o) {
    when holding B_x ∪ {g}), or by a set D inside (J minus K) ∩ R_x kept out of X_o (x not threatened by W_o minus D
    with its base); slot goods distinct. deficit = least |slot goods ∪ removal sets| - (slots of the agents other than
    o under the needs from B_o ∪ K). <= 0: o is a valid owner. */
-static gm hk_opt[MAXN][MAXM + 16]; static int hk_nopt[MAXN], hk_isslot[MAXN][MAXM + 16], hk_cnt, hk_best;
+static gm hk_opt[MAXN][MAXM + 32]; static int hk_nopt[MAXN], hk_isslot[MAXN][MAXM + 32], hk_cnt, hk_best;
 static void hk_dfs(int i, gm U, gm G) {
     if (popc(U) >= hk_best) return;
     if (i == hk_cnt) { hk_best = popc(U); return; }
@@ -1098,7 +1107,7 @@ static int hdefK_owner(int o) {
                     if (!threatened(x, Wo & ~BIT(g), base[x] | BIT(g))) { hk_opt[hk_cnt][k] = BIT(g); hk_isslot[hk_cnt][k] = 1; k++; }
                 }
             }
-            gm sets[16]; int ns = prot_sets_in(x, Wo, J & ~K, sets);
+            gm sets[32]; int ns = prot_sets_in(x, Wo, J & ~K, sets);
             for (int q = 0; q < ns; q++) { hk_opt[hk_cnt][k] = sets[q]; hk_isslot[hk_cnt][k] = 0; k++; }
             if (!k) { dead = 1; break; }
             hk_nopt[hk_cnt++] = k;
@@ -1596,6 +1605,7 @@ int main(int argc, char **argv) {
         else if (!strncmp(argv[a], "-X", 2)) rng_x ^= (uint64_t)atol(argv[a] + 2) * 0x9E3779B97F4A7C15ull;
         else if (!strncmp(argv[a], "-w", 2)) OWNW = atoi(argv[a] + 2);
         else if (!strncmp(argv[a], "-Q", 2)) QRULE = atoi(argv[a] + 2);
+        else if (!strncmp(argv[a], "-Y", 2)) XKEEP = atoi(argv[a] + 2);
         else if (!strncmp(argv[a], "-E", 2)) FULL41 = atoi(argv[a] + 2);
         else if (!strncmp(argv[a], "-D", 2)) DUMP = atoi(argv[a] + 2);
         else if (!strncmp(argv[a], "-c", 2)) CHUP = atoi(argv[a] + 2);

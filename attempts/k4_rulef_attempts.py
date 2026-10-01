@@ -15,6 +15,11 @@
    recorded profile (no big-top agent) the rule's sequence needs two rotations, in rulef.c and in PR #33's model.
 4.-5. (same file) the first big-top agent fails when two or more agents are big-top (n = 4, m = 8, with rule RK as the
    fallback, -Q2), and the static refinements -Q3 / -Q4 (a shared top, fewest private goods) fail at n = 4, m = 7.
+6. attempts/k4-rulef-keptout-in-R.md: Lemma K with kept-out sets restricted to goods the served agent values (the
+   default of k4/rulef.c; -Y1 lifts it) leaves a suite core in no class of rule RK; with the full Lemma K every first
+   agent is in K0. Checked in k4/rulef.c (-A41 with and without -Y1) and in k4/rulef_model.py (XKEEP False / True,
+   every first agent and policy, every single RotStep of PR #33's model, completions checked with output_check and the
+   raw EFX0 definition).
 Usage: python3 attempts/k4_rulef_attempts.py"""
 import os, subprocess, sys
 HERE = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.dirname(HERE)
@@ -34,6 +39,49 @@ FF = ([[0, 2, 3, 4], [1, 2, 3, 4]], [[2, 4, 7, 8], [2, 4, 5, 8]])
 BT = ([[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 6, 8], [3, 5, 7, 6], [2, 4, 5, 8]])
 BT2 = ([[0, 1, 3, 4], [2, 3, 6, 7], [2, 5, 7], [4, 5, 6, 7]], [[2, 3, 10, 6], [2, 8, 3, 4], [2, 4, 3], [4, 8, 2, 3]])
 BT3 = ([[0, 2, 5, 6], [1, 4, 5, 6], [2, 3, 5], [3, 4, 6]], [[2, 8, 4, 5], [2, 8, 5, 4], [4, 2, 3], [2, 4, 3]])
+ONB = ([[0, 2, 4, 6], [0, 2, 5, 6], [1, 3, 4, 7], [1, 3, 5, 7]], [[2, 3, 8, 4]] * 4)   # suite: lb4-owner-needs-from-base-n4m8
+CLASSES = ['K0', 'K1', 'C40', 'open']
+
+
+def rk_class(sets, vals, opts):
+    p = subprocess.run([RR.BIN, '-A41', '-r1', '-T1'] + opts, input=AR.encode_profile(sets, vals), capture_output=True, text=True)
+    t = next(l for l in p.stdout.split('\n') if l.startswith('RK41')).split()
+    for c in range(4):
+        i = t.index('c%d' % c)
+        if sum(map(int, t[i + 1:i + 4])):
+            return CLASSES[c]
+
+
+def part6():
+    import rulef_model as RM
+    from lb4r import output_check
+    sets, vals = ONB
+    print(f"6. Lemma K with kept-out sets inside R_x; profile sets={sets} vals={vals}")
+    c0, c1 = rk_class(sets, vals, []), rk_class(sets, vals, ['-Y1'])
+    print(f"  rulef.c -A41: class {c0} (kept-out sets inside R_x), {c1} with -Y1")
+    ok = c0 == 'open' and c1 == 'K0'
+    inst = RM.make_inst(sets, vals)
+    for xk in (False, True):
+        RM.XKEEP = xk
+        row = []
+        for a in range(inst.n):
+            for pol in ('shrink', 'envyFree'):
+                s, _ = RM.run_state(inst, a, pol)
+                d = RM.deficit_K(inst, s)
+                if d > 0:
+                    dr = RM.rot_deficit_K(inst, s)[0]
+                    row.append(f"a={a} {pol}: deficit {d}, after one RotStep {dr}")
+                    ok &= (not xk) and dr > 0
+                else:
+                    o, X = RM.witness_K(inst, s)
+                    good = output_check(inst, s, o, X, 'bundle') and RM.check_efx0(inst, X)
+                    row.append(f"a={a} {pol}: deficit {d}, owner {o}, completion {'checked' if good else 'FAILS'}")
+                    ok &= xk and good
+        print(f"  k4/rulef_model.py XKEEP={xk}: " + '; '.join(row))
+    RM.XKEEP = False
+    ind = AA.least_rotations(AA.dense(sets, vals), [0])
+    print(f"  LB4r on index order (independent model): least rotations {ind}; brute force: {AA.brute_d2(sets, vals)}")
+    return ok and ind == 0
 
 
 def tool(sets, vals, opts):
@@ -110,6 +158,7 @@ def main():
         print(f"  rule RK: first agent {tauk[0]}, {srk}; independent model: least rotations {indk}")
         allok &= srk in ('rot=0', 'rot=1') and indk is not None and indk <= 1
         print('  brute force:', AA.brute_d2(sets, vals))
+    allok &= part6()
     print('ALL AS RECORDED' if allok else 'MISMATCH')
 
 

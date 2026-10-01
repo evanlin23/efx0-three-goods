@@ -1,0 +1,23 @@
+# rulef_run.py results/k4_certs_3.json.gz results/k4_certs_4_n4_1.json.gz results/k4_certs_4_n4_2.json.gz -A42 -Q4 -r1 # rulef.c sha256 8bd39c5559ae46b6
+k4_certs_3.json.gz: cores=51 profiles=299837376 fails or raw-check failures of the rule run=0 time 28s
+  rule (-A41: RK; -A42: static, -Q), rotations LB4r needs on its sequence (0, 1, fails with <= 1) by the class of its agent:
+    K0  (Lemma K at the Phase 1 state)           [295306696, 0, 0]
+    K1  (Lemma K after one rotation)             [31864, 4498816, 0]
+    C40 (Corollary C4^0's hypothesis)            [0, 0, 0]
+    open (none of them; -A41: for any first agent) [0, 0, 0]
+    violations (a class's promise not met by LB4r): 0
+k4_certs_4_n4_1.json.gz: cores=135 profiles=7247232 fails or raw-check failures of the rule run=0 time 3s
+  rule (-A41: RK; -A42: static, -Q), rotations LB4r needs on its sequence (0, 1, fails with <= 1) by the class of its agent:
+    K0  (Lemma K at the Phase 1 state)           [7209580, 0, 0]
+    K1  (Lemma K after one rotation)             [572, 37080, 0]
+    C40 (Corollary C4^0's hypothesis)            [0, 0, 0]
+    open (none of them; -A41: for any first agent) [0, 0, 0]
+    violations (a class's promise not met by LB4r): 0
+FAIL n=4 m=7 sets=[[0,2,5,6],[1,4,5,6],[2,3,5],[3,4,6]] vals=[[2,8,4,5],[2,8,5,4],[4,2,3],[2,4,3]] tau=2 order=2 0 3 1  picks=6,5,2,4 blocks=0,0,0,0
+k4_certs_4_n4_2.json.gz: cores=309 profiles=724847616 fails or raw-check failures of the rule run=4 time 102s
+  rule (-A41: RK; -A42: static, -Q), rotations LB4r needs on its sequence (0, 1, fails with <= 1) by the class of its agent:
+    K0  (Lemma K at the Phase 1 state)           [718730444, 0, 0]
+    K1  (Lemma K after one rotation)             [97776, 6019392, 0]
+    C40 (Corollary C4^0's hypothesis)            [0, 0, 0]
+    open (none of them; -A41: for any first agent) [0, 0, 4]
+    violations (a class's promise not met by LB4r): 0

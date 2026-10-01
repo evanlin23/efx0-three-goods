@@ -26,7 +26,8 @@ independent model `k4/c4_verify_H/lb4r.py`, with the completion of its proof bui
   C₄⁰ (C40). It never runs LB₄ʳ's owner search. **It is correct exactly when Lemma M holds** (some first agent is in
   K0, K1 or C40), the one statement left open (§6 says which cases a proof attempt closes and which it does not).
 - **Data (§5)**: Lemma M holds, with K0 and K1 alone, on every strict profile of every certified core with n ≤ 4 and at
-  most three 4-good agents (3.6·10¹⁰ profiles, exhaustive), SAMPSUMMARY. **What the working first agent has in
+  most three 4-good agents (3.6·10¹⁰ profiles, exhaustive), on random samples of n = 4 with four 4-good agents
+  (4.4·10⁶ profiles) and of n = 5 (6.3·10⁶), on H_t and on all 149 cores of the suite. **What the working first agent has in
   common** (§5.2): it is the agent that needs its top most. If exactly one agent is *big-top* (four goods, top worth
   more than the next two together), that agent is in K0 or K1 on all these classes; with several big-top agents the
   first one can fail (n = 4, m = 8), and without one, index order fails (9,632 n = 3 profiles); there, of two agents
@@ -109,12 +110,26 @@ EFX₀. For a state of LB₄ʳ with ω ≥ 1, `Output` asks exactly for such a c
 3. *Where it is used.* Any valid pre-allocation: the state after Phase 1 and upgrades of either policy, and the state
    after rotations (a `RotStep` result passes (V1), (V2) and has at most one base of three or more goods, which must
    then be the owner's).
+4. *Kept-out sets may hold goods x does not value.* threatened(x, L, H) discounts the least good of L only when
+   L ⊆ R_x: if L has a good outside R_x, dropping that good is the best removal and costs x nothing. So a kept-out set
+   may have to contain every good of W_o ∖ R_x, to make W_o ∖ D_x ⊆ R_x; Lemma K allows it (D_x ⊆ J ∖ K is arbitrary,
+   and the proof places the goods of H in slot places without looking at who values them). `k4/rulef.c` restricts
+   kept-out sets to goods of R_x unless `-Y1` is given (then it also tries each subset of J ∩ R_x together with all
+   goods of J ∖ K outside R_x, the only extension that can matter). The restricted deficit is at least the full one, so
+   every certificate of the restricted search is one of Lemma K, and the logs of §5.1 (made restricted) stand. The
+   difference shows on the suite instance `lb4-owner-needs-from-base-n4m8` (n = 4, m = 8, four big-top agents with
+   values (2, 3, 8, 4)): no first agent is certified by the restricted search, every one with `-Y1` (owner 1), and
+   `k4/rulef_model.py` with `XKEEP = True` builds that completion and checks it against `Output` and the raw
+   definition. With `-Y1`: n = 2 all K0 (`results/k4_rulef/rk_n2_y1.log`), n = 3 in `results/k4_rulef/rk_n3_y1.log`,
+   pure n = 4 sample in `results/k4_rulef/rk_pure4_y1_sample.log`; no violations.
 
 *Second implementation.* `k4/rulef_model.py` computes the same deficit (without `k4/rulef.c`'s restriction of slot
 goods outside R_x to one representative) on PR #33's model, builds the completion of the proof and checks it with
 `lb4r.output_check` (the literal `Output` of `lean/EFX/LB4R.lean`) and the raw EFX₀ definition. On every leaf
 representative of the n = 2 classes (27,896 profiles, both policies, every first agent): 108,056 completions built,
-0 failures; the two implementations agree on the sign of the deficit everywhere (`k4/rulef_check.py`).
+0 failures; the two implementations agree on the sign of the deficit everywhere (`k4/rulef_check.py`). On every 200th
+n = 3 leaf where index order is not in K0 (9,012 profiles, 54,072 pairs of first agent and policy): 33,388 completions
+built, 0 failures, no sign difference (`results/k4_rulef/check_lemmaK_n3.log`).
 
 ## 3. Lemma KR: one rotation, in count form
 
@@ -251,6 +266,25 @@ and LB₄ʳ's exact owner search confirms every class on every profile):
   (n ≤ 3), 4, 688 and 21,456 profiles (n = 4 with one, two, three 4-good agents): these are the profiles of the
   counting gap on which the first K1 agent in index order is not one of those that need no rotation.
 
+**Beyond the exhaustive classes** (random strict profiles of every certified core, `-SN`: N per core; EVIDENCE only,
+PROMPT.md §5 rule 3; `results/k4_rulef/rk_pure4_sample.log`, `rk_n5_*_sample.log`):
+
+| class | profiles | K0 | K1: LB₄ʳ needs 0 / 1 rotation | C40 | open | violations |
+|---|---|---|---|---|---|---|
+| n = 4, four 4-good agents (219 cores × 20,000) | 4,380,000 | 4,378,166 | 9 / 1,825 | 0 | 0 | 0 |
+| n = 5, one 4-good agent (1,735 × 200) | 347,000 | 346,997 | 0 / 3 | 0 | 0 | 0 |
+| n = 5, two (5,468 × 200) | 1,093,600 | 1,093,583 | 0 / 17 | 0 | 0 | 0 |
+| n = 5, three (9,861 × 200) | 1,972,200 | 1,972,140 | 0 / 60 | 0 | 0 | 0 |
+| n = 5, four (9,846 × 200) | 1,969,200 | 1,969,042 | 2 / 156 | 0 | 0 | 0 |
+| n = 5, five (4,674 × 200) | 934,800 | 934,634 | 0 / 166 | 0 | 0 | 0 |
+
+On the cores H_t of `k4/c4.md` §7 (t = 1, …, 5, each with three random relabelings, `k4/rulef_H.py`,
+`results/k4_rulef/rk_H.log`) rule RK's agent is in K0 every time and LB₄ʳ needs no rotation (Proposition H″). On the
+counterexample suite (`k4/suite/`, 150 instances, 149 of them k = 4 cores; `k4/rulef_suite.py`,
+`results/k4_rulef/suite_rk.log`) rule RK succeeds with at most one rotation on all 149: 142 in K0, 7 in K1. One of
+them, `lb4-owner-needs-from-base-n4m8`, needs Remark 4 of §2 (kept-out sets holding goods outside R_x): without it no
+first agent is certified (`attempts/k4-rulef-keptout-in-R.md`).
+
 ### 5.2 What the first agents of classes K0 and K1 have in common
 
 `k4/rulef.c -A41 -E1 -D5` lists, for every n = 3 profile on which index order (agent 0 first) is not in class K0, the
@@ -287,7 +321,8 @@ contain none of the 9,632 profiles on which the first rule fails, found exhausti
   `results/k4_rulef/bigtop_fallback_n3.log`). The static rules built on that (`-Q3`: the first big-top agent, else a
   shared-top agent with the fewest private goods; `-Q4`: the big-top agent with the fewest private goods, else the
   same) survive n = 3 and n = 4 with one 4-good agent, and fail on 4 profiles with two (n = 4, m = 7: the rule picks a
-  3-good agent sharing its top with a 4-good one, which works; `results/k4_rulef/bt4_n34.log`).
+  3-good agent without private goods whose top is also a 4-good agent's top; that 4-good agent is in K0;
+  `results/k4_rulef/bt4_n34.log`).
 
 So the working first agent is "the agent that needs its top most" — a big-top agent, and among agents sharing a top,
 one without a private fallback — but no static rule tried captures it on all the data; rule RK does, by certificate.

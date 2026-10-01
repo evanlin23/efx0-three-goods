@@ -12,6 +12,7 @@ sys.path.insert(0, os.path.join(HERE, 'c4_verify_H'))
 import lb4r as M
 
 NEG = float('-inf')
+XKEEP = False   # as k4/rulef.c -Y1: kept-out sets may also hold every allowed good outside R_x
 INF = float('inf')
 
 
@@ -83,6 +84,7 @@ def services(inst, s, o, K, needs):
                 if not threatened(inst, x, Wo - {g}, bases[x] + [g]):
                     ox.append(('s', frozenset([g])))
         cand = [g for g in JK if inst.v[x][g] > 0]
+        JKX = JK
         mins = []
         for r in range(len(cand) + 1):
             for D in itertools.combinations(cand, r):
@@ -91,6 +93,16 @@ def services(inst, s, o, K, needs):
                     continue
                 if not threatened(inst, x, Wo - D, bases[x]):
                     mins.append(D)
+        if XKEEP:
+            non = frozenset(g for g in JKX if inst.v[x][g] == 0)
+            if non:
+                for r in range(len(cand) + 1):
+                    for D in itertools.combinations(cand, r):
+                        D = frozenset(D) | non
+                        if any(E <= D for E in mins):
+                            continue
+                        if not threatened(inst, x, Wo - D, bases[x]):
+                            mins.append(D)
         ox += [('r', D) for D in mins]
         if not ox:
             return INF, None
@@ -135,6 +147,7 @@ def all_min_services(inst, s, o, needs):
         if capK[x] >= 1:
             ox += [('s', frozenset([g])) for g in J if not threatened(inst, x, Wo - {g}, bases[x] + [g])]
         cand = [g for g in J if inst.v[x][g] > 0]
+        JKX = J
         mins = []
         for r in range(len(cand) + 1):
             for D in itertools.combinations(cand, r):
@@ -143,6 +156,16 @@ def all_min_services(inst, s, o, needs):
                     continue
                 if not threatened(inst, x, Wo - D, bases[x]):
                     mins.append(D)
+        if XKEEP:
+            non = frozenset(g for g in JKX if inst.v[x][g] == 0)
+            if non:
+                for r in range(len(cand) + 1):
+                    for D in itertools.combinations(cand, r):
+                        D = frozenset(D) | non
+                        if any(E <= D for E in mins):
+                            continue
+                        if not threatened(inst, x, Wo - D, bases[x]):
+                            mins.append(D)
         ox += [('r', D) for D in mins]
         if not ox:
             return INF, [], capK, [x for x, _ in opts] + [x]

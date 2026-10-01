@@ -1,7 +1,7 @@
 """Rule RK (k4/rulef.md §4) as predicates of the counterexample suite (k4/suite/run.py --pred=...).
 
   python3 k4/suite/run.py --pred=k4/rulef_suite.py:rule_rk      LB4r with rule RK's first agent and at most one rotation
-                                                               succeeds (k4/rulef.c -A41 -r1, raw EFX0 check)
+                                                               succeeds (k4/rulef.c -A41 -r1 -Y1, raw EFX0 check)
   python3 k4/suite/run.py --pred=k4/rulef_suite.py:lemma_m      some first agent is in class K0, K1 or C40 (Lemma M)
   python3 k4/suite/run.py --pred=k4/rulef_suite.py:lemma_k0     some first agent is in class K0 (no rotation needed)
 Each returns (verdict, detail); detail gives RK's class (K0, K1, C40, open) and the rotations LB4r needed."""
@@ -21,7 +21,7 @@ def _run(d):
     if I.core_violations(): return None
     if len(d['sets']) > 40 or (d.get('m') or 1 + max(g for S in d['sets'] for g in S)) > 128: return None
     RR.build()
-    p = subprocess.run([RR.BIN, '-A41', '-r1', '-T1'], input=AR.encode_profile(d['sets'], d['vals']),
+    p = subprocess.run([RR.BIN, '-A41', '-r1', '-T1', '-Y1'], input=AR.encode_profile(d['sets'], d['vals']),
                        capture_output=True, text=True)
     if p.returncode: return ('error', p.stdout[-300:] + p.stderr[-300:])
     rk = next((l for l in p.stdout.split('\n') if l.startswith('RK41')), None)
