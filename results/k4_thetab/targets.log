@@ -26,10 +26,9 @@
   f=1 | S1 theta-b | n=4 | first Lemma G mode | ('S', 'quiet', 'other needer')                         2
   f=1 | S1 theta-b | n=4 | first Lemma G mode | ('W1', 'quiet', 'other needer')                        20
   f=1 | S1 theta-b | n=4 | first Lemma G mode | ('W1', 'quiet', 'third agent')                         1
-  f=1 | S1 theta-b | n=4 | first theorem | G1                                                          1
+  f=1 | S1 theta-b | n=4 | first theorem | G1                                                          2
   f=1 | S1 theta-b | n=4 | first theorem | K                                                           28
   f=1 | S1 theta-b | n=4 | first theorem | W                                                           15
-  f=1 | S1 theta-b | n=4 | first theorem | none                                                        1
   f=1 | S1 theta-b | n=4 | needers 4+BT | x 4                                                          1
   f=1 | S1 theta-b | n=4 | needers 4+BT+BT | x 4                                                       1
   f=1 | S1 theta-b | n=4 | needers BT+BT | x 4                                                         43
@@ -54,6 +53,8 @@
   f=1 | noS1 | some repair: | no helper | other needer                                                 22
   f=1 | noS1 | some repair: | no helper | third agent                                                  20
   f=1 | noS1 | some repair: | no helper | x                                                            20
+  f>=2 | S1 theta-b | a plain swap lowers def | Lemma G certifies one                                  43
+  f>=2 | noS1 | a plain swap lowers def | Lemma G certifies one                                        77
 distinct states per (class, f): S1 theta-a f=1: 2, S1 theta-b f=1: 1199, S1 theta-b f=2: 43, noS1 f=1: 22, noS1 f=2: 72
 smallest target per (class, f):
   S1 theta-a f=1: n=4 m=11 gap_n4_pure_s4000:k4_certs_4_pure.json.gz[m=11,idx=1]:90,51,46,95 sets=[[0, 2, 8, 10], [1, 5, 8, 10], [3, 6, 9, 10], [4, 7, 9, 10]] vals=[[5, 2, 4, 8], [3, 6, 8, 10], [3, 6, 2, 10], [5, 4, 6, 8]] P=[[0, 2], [1, 5], [6], [10]]

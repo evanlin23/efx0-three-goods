@@ -243,16 +243,27 @@ def w1_construction(ctx):
     return None
 
 
+def rest_edges(ctx, rest, banned, A):
+    """for each agent w in rest (free, holding B_w): the minimal subsets Z of R_w ∖ (banned ∪ A) with
+    v_w(Z) > v_w(B_w). A set C meets all of them iff v_w(R_w ∖ (banned ∪ A ∪ C)) <= v_w(B_w) for every w."""
+    I, P = ctx.I, ctx.P
+    out = []
+    for w in rest:
+        out += minimal_edges(I, w, I.ALL & ~banned & ~A, P.bv[w])
+    return out
+
+
 def k_swaps(ctx):
     """Theorem K (k4/thetab.md §3): setting (H); a needer z (o the other one) and a pair A ⊆ (J ∪ B_z) ∩ R_x with
-    v_x(A) > v_x(g), A ∩ L_o = ∅, L_o ∩ B_T = ∅; every free agent other than the needers tame in J' ∖ L_o after A
-    (J' = (J ∪ B_z) ∖ A); and either L_z ∩ (A ∪ B_T) ≠ ∅ or some e ∈ L_z ∖ (L_o ∪ B_T ∪ A). Returns the list of such
-    (z, A); each gives def(P') <= 0."""
+    v_x(A) > v_x(g); (K1) A ∩ L_o = ∅ and L_o ∩ B_T = ∅; (K2) some C ⊆ J' ∖ L_o (J' = (J ∪ B_z) ∖ A) with
+    |C| <= S_T + 1, L_z ∩ (A ∪ B_T ∪ C) ≠ ∅ and v_w(R_w ∖ ({g} ∪ B_T ∪ A ∪ C)) <= v_w(B_w) for every w ∈ T.
+    Returns the list of such (z, A); each gives def(P') <= 0."""
     if not in_H(ctx): return []
     I, P, Bs = ctx.I, ctx.P, ctx.Bs
     x, g, nd, third = setting(ctx)
     BT = 0
     for u in third: BT |= Bs[u]
+    ST = sum(2 - pc(Bs[w]) for w in third)
     out = []
     for z in nd:
         o = [w for w in nd if w != z][0]
@@ -260,9 +271,11 @@ def k_swaps(ctx):
         if Lo & BT: continue
         for A in swaps(ctx, z):
             if pc(A) != 2 or I.val(x, A) <= I.val(x, g) or A & Lo: continue
-            if not ((Lz & (A | BT)) or (Lz & ~Lo & ~BT & ~A)): continue
-            if tame(ctx, ((P.J | Bs[z]) & ~A) & ~Lo, A) is None: continue
-            out.append((z, A))
+            Jn = (P.J | Bs[z]) & ~A
+            edges = rest_edges(ctx, third, g | BT, A)
+            if not (Lz & (A | BT)): edges.append(Lz)
+            h, C = least_hitting(edges, Jn & ~Lo)
+            if h is not None and h <= ST + 1: out.append((z, A))
     return out
 
 
@@ -290,9 +303,10 @@ def s_swaps(ctx):
 
 
 def g1_swaps(ctx):
-    """Corollary G1 (k4/thetab.md §2): f = 1; a big-top needer z of g (top g); a pair A ⊆ (J ∪ B_z) ∩ R_x admissible
-    with A ∩ L_z ≠ ∅; a free agent o ≠ z; every free agent w ∉ {o, z} tame in J' after A (pool J' = (J ∪ B_z) ∖ A,
-    with B_T := the union of the bases of those w). Returns the list of (z, A, o); each gives def(P') <= 0."""
+    """Corollary G1 (k4/thetab.md §2): f = 1; a big-top needer z of g (top g); an admissible pair A ⊆ (J ∪ B_z) ∩ R_x;
+    a free agent o ≠ z; R the free agents other than o, z, B_R their bases, S_R their slots; some C ⊆ J' = (J ∪ B_z) ∖ A
+    with |C| <= S_R, L_z ∩ (A ∪ B_R ∪ C) ≠ ∅ and v_w(R_w ∖ ({g} ∪ B_R ∪ A ∪ C)) <= v_w(B_w) for every w ∈ R.
+    Returns the list of (z, A, o); each gives def(P') <= 0."""
     s = setting(ctx)
     if s is None: return []
     I, P, Bs = ctx.I, ctx.P, ctx.Bs
@@ -302,20 +316,18 @@ def g1_swaps(ctx):
         if not bigtop(I, z) or I.top(z) != next(bits(g)): continue
         Lz = I.R[z] & ~g
         for A in swaps(ctx, z):
-            if pc(A) != 2 or not (A & Lz): continue
+            if pc(A) != 2: continue
             Jn = (P.J | Bs[z]) & ~A
             for o in P.free:
                 if o == z: continue
                 rest = [w for w in P.free if w not in (o, z)]
                 BR = 0
                 for w in rest: BR |= Bs[w]
-                ok = True
-                for w in rest:
-                    D = I.R[w] & ~g & ~BR & ~A
-                    if not any(I.val(w, D & ~mask(H)) <= P.bv[w]
-                               for k in range(0, 2 - pc(Bs[w]) + 1) for H in itertools.combinations(list(bits(D & Jn)), k)):
-                        ok = False; break
-                if ok: out.append((z, A, o))
+                SR = sum(2 - pc(Bs[w]) for w in rest)
+                edges = rest_edges(ctx, rest, g | BR, A)
+                if not (Lz & (A | BR)): edges.append(Lz)
+                h, C = least_hitting(edges, Jn)
+                if h is not None and h <= SR: out.append((z, A, o))
     return out
 
 

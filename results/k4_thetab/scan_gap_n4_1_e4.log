@@ -1,6 +1,0 @@
-# command: python3 k4/thetab_scan.py catalog gap_n4_1.json.gz --every=4
-# input catalog gap_n4_1.json.gz --every=4
-  profiles                                                                                                       11097
-  profiles with f = 1, omega >= 1                                                                                7123
-smallest state per uncovered cell (no theorem, or no certified / exact plain swap):
-no assertion failed
