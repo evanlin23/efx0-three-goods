@@ -1,0 +1,11 @@
+# command: python3 k4/dl13_stuck.py catalog k4/suite/.cache/gapbench/results/k4_gap/hunt_n4_pure_s400k.json.gz --every=10 --out=results/k4_dl13_stuck/stuck_hunt_n4_pure_s400k_e10.jsonl.gz
+T1-stuck                                      405
+T1-stuck f=1                                  386
+T1-stuck f=2                                  19
+T1-stuck, every T3 repair has a helper        2
+def>0 states                                  3728
+def>0 states f=1                              3649
+def>0 states f=2                              79
+profiles                                      6936
+profiles f>=1, omega>=1                       6936
+DL13 failures: 0

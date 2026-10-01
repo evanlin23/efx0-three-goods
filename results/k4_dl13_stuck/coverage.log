@@ -1,0 +1,68 @@
+# command: python3 k4/dl13_lemmas.py results/k4_dl13_stuck/stuck_certs_3_r2000.jsonl.gz results/k4_dl13_stuck/stuck_certs_4_n4_1_r100.jsonl.gz results/k4_dl13_stuck/stuck_certs_4_n4_2_r100.jsonl.gz results/k4_dl13_stuck/stuck_certs_4_n4_3_r100.jsonl.gz results/k4_dl13_stuck/stuck_certs_4_pure_r100.jsonl.gz results/k4_dl13_stuck/stuck_certs_5_n4_1_r4.jsonl.gz results/k4_dl13_stuck/stuck_certs_5_n4_2_r4.jsonl.gz results/k4_dl13_stuck/stuck_certs_5_n4_3_r4.jsonl.gz results/k4_dl13_stuck/stuck_certs_5_n4_4_r4.jsonl.gz results/k4_dl13_stuck/stuck_certs_5_pure_r4.jsonl.gz results/k4_dl13_stuck/stuck_gap_n3.jsonl.gz results/k4_dl13_stuck/stuck_gap_n4_1_e4.jsonl.gz results/k4_dl13_stuck/stuck_gap_n4_1_f2.jsonl.gz results/k4_dl13_stuck/stuck_gap_n4_2_s4000_e4.jsonl.gz results/k4_dl13_stuck/stuck_gap_n4_2_s4000_f2.jsonl.gz results/k4_dl13_stuck/stuck_gap_n4_3_s4000_e4.jsonl.gz results/k4_dl13_stuck/stuck_gap_n4_3_s4000_f2.jsonl.gz results/k4_dl13_stuck/stuck_gap_n4_pure_s4000_e4.jsonl.gz results/k4_dl13_stuck/stuck_gap_n4_pure_s4000_f2.jsonl.gz results/k4_dl13_stuck/stuck_gap_n5_1_s100_e20.jsonl.gz results/k4_dl13_stuck/stuck_gap_n5_1_s100_f2e4.jsonl.gz results/k4_dl13_stuck/stuck_gap_n5_2_s100_e20.jsonl.gz results/k4_dl13_stuck/stuck_gap_n5_2_s100_f2e4.jsonl.gz results/k4_dl13_stuck/stuck_gap_n5_3_s100_e20.jsonl.gz results/k4_dl13_stuck/stuck_gap_n5_3_s100_f2e4.jsonl.gz results/k4_dl13_stuck/stuck_gap_n5_4_s100_e20.jsonl.gz results/k4_dl13_stuck/stuck_gap_n5_4_s100_f2e4.jsonl.gz results/k4_dl13_stuck/stuck_gap_n5_pure_s100_e20.jsonl.gz results/k4_dl13_stuck/stuck_gap_n5_pure_s100_f2e4.jsonl.gz results/k4_dl13_stuck/stuck_hard_hunt.jsonl.gz results/k4_dl13_stuck/stuck_hunt_n4_2_all_e10.jsonl.gz results/k4_dl13_stuck/stuck_hunt_n4_3_s400k_e10.jsonl.gz results/k4_dl13_stuck/stuck_hunt_n4_3_s400k_f2.jsonl.gz results/k4_dl13_stuck/stuck_hunt_n4_pure_s400k_e10.jsonl.gz results/k4_dl13_stuck/stuck_hunt_n4_pure_s400k_f2.jsonl.gz results/k4_dl13_stuck/stuck_hunt_n5_3_s2000_e2.jsonl.gz results/k4_dl13_stuck/stuck_hunt_n5_4_s2000_e2.jsonl.gz results/k4_dl13_stuck/stuck_hunt_n5_pure_s2000_e2.jsonl.gz results/k4_dl13_stuck/stuck_suite.jsonl.gz --lemma8
+Lemma 8 equality checked at 239872 swaps (all moves of Lemma 6 at the stuck states)
+T1-stuck states: 13971; Proposition T (b), (c), (d) checked 73722 times
+
+first certifying construction (order C1, C2, C3 (structural), then the certificates C1*, C2*, then Lemma 8 or Lemma 11 evaluated at the repairs found, L8 / L11):
+  all                          C1     9789
+  all                          C1*    266
+  all                          C2     367
+  all                          C2*    1052
+  all                          C3     2337
+  all                          L11    8
+  all                          L8     152
+  f=1, 1 needer                C1     405
+  f=1, 1 needer                C2     154
+  f=1, 1 needer                C3     2204
+  f=1, 1 needer                L8     3
+  f=1, >=2 needers             C1     8918
+  f=1, >=2 needers             C1*    266
+  f=1, >=2 needers             C2     142
+  f=1, >=2 needers             C2*    929
+  f=1, >=2 needers             L11    2
+  f=1, >=2 needers             L8     148
+  f>=2, T4-optimal             C1     338
+  f>=2, T4-optimal             C2     71
+  f>=2, T4-optimal             C2*    123
+  f>=2, T4-optimal             C3     133
+  f>=2, T4-optimal             L11    6
+  f>=2, T4-optimal             L8     1
+  f>=2, not T4-optimal         C1     128
+
+by S1 shape (theta-ok / theta-a / theta-b of Lemma 10):
+  f=1, 1 needer                S1 ok                            C1     405
+  f=1, 1 needer                no S1 shape                      C2     154
+  f=1, 1 needer                no S1 shape                      C3     2204
+  f=1, 1 needer                no S1 shape                      L8     3
+  f=1, >=2 needers             S1 ok                            C1     3531
+  f=1, >=2 needers             S1 ok/theta-a                    C1     11
+  f=1, >=2 needers             S1 ok/theta-a/theta-b            C1     25
+  f=1, >=2 needers             S1 ok/theta-b                    C1     5351
+  f=1, >=2 needers             S1 theta-a                       C1*    1
+  f=1, >=2 needers             S1 theta-a                       C2*    1
+  f=1, >=2 needers             S1 theta-a                       L8     1
+  f=1, >=2 needers             S1 theta-a/theta-b               C2     2
+  f=1, >=2 needers             S1 theta-a/theta-b               C2*    3
+  f=1, >=2 needers             S1 theta-b                       C1*    265
+  f=1, >=2 needers             S1 theta-b                       C2     137
+  f=1, >=2 needers             S1 theta-b                       C2*    880
+  f=1, >=2 needers             S1 theta-b                       L11    2
+  f=1, >=2 needers             S1 theta-b                       L8     142
+  f=1, >=2 needers             no S1 shape                      C2     3
+  f=1, >=2 needers             no S1 shape                      C2*    45
+  f=1, >=2 needers             no S1 shape                      L8     5
+  f>=2, T4-optimal             S1 ok                            C1     203
+  f>=2, T4-optimal             S1 ok/theta-b                    C1     135
+  f>=2, T4-optimal             S1 theta-b                       C2     13
+  f>=2, T4-optimal             S1 theta-b                       C2*    53
+  f>=2, T4-optimal             S1 theta-b                       C3     3
+  f>=2, T4-optimal             no S1 shape                      C2     58
+  f>=2, T4-optimal             no S1 shape                      C2*    70
+  f>=2, T4-optimal             no S1 shape                      C3     130
+  f>=2, T4-optimal             no S1 shape                      L11    6
+  f>=2, T4-optimal             no S1 shape                      L8     1
+  f>=2, not T4-optimal         S1 ok                            C1     128
+
+uncovered, by mechanism of the repairs (A: no helper, x owner; B*: no helper, unmoved best owner; B: no helper, other unmoved owner; H: helper needed):
+
+smallest uncovered instance per (regime, mechanism):
+no assertion failed
