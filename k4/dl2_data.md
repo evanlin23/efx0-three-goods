@@ -13,8 +13,9 @@ The proof workstream (`k4/dl2.md`, `k4/dl2_classify.py`) reads the dumps listed 
    - n = 2: 8,912 of the 105,120 profiles with ω ≥ 1, exhaustive.
    - n = 3: 52,928 of the 119,640,516 profiles with ω ≥ 1, exhaustive (k* ≤ n always).
    - n = 4: 1,072 profiles of 4 cyclic cores (16 of the 46 cyclic cores run, §3.1), including C_4. In the classes
-     run exhaustively, k* ≤ 2 with one 4-good agent (102,434 profiles), and the two-4-good row is in §3. In #53's
-     n = 4 and n = 5 gap catalogues (f ≥ 1), k* ≤ 3 and k* ≤ 2.
+     run exhaustively, k* ≤ 2: with one 4-good agent (102,434 profiles with ω ≥ 1) and with two (54,488,316). So at
+     n = 4 the traps need three or four 4-good agents. In #53's n = 4 and n = 5 gap catalogues (f ≥ 1), k* ≤ 3 and
+     k* ≤ 2.
    - The family C_n (§4): one strict profile of one core for each n. k* = n is checked by `k4/dl2.c` for 3 ≤ n ≤ 12,
      and by `k4/suite/model.py` as well for n ≤ 7. A short argument (§4, not refereed) gives it for every n.
 
@@ -73,7 +74,7 @@ For a strict profile of a connected k = 4 core with ω ≥ 1 (definitions of `k4
 | n = 2, every profile (5 cores) | 105,120 | 44,192 | 52,016 | 8,912 | — | — | 8,912 | 171,432 | — | `n3.log` |
 | n = 3, every profile (51 cores) | 119,640,516 | 106,103,948 | 13,033,872 | 449,768 | 52,928 | — | 52,928 | 36,739,800 | 87,056 (29,952 / 57,104) | `n3.log`, `n3_part1.log` |
 | n = 4, one 4-good agent, every profile (135 cores) | 102,434 | 102,258 | 0 | 176 | 0 | 0 | 0 | 286 | 0 | `n4_1.log` |
-| n = 4, two 4-good agents, every profile (309 cores) | TBD | | | | | | | | | `n4_2.log` |
+| n = 4, two 4-good agents, every profile (309 cores) | 54,488,316 | 54,284,364 | 171,340 | 32,612 | 0 | 0 | 0 | 324,658 | 0 | `n4_2.log` |
 | n = 4, cyclic cores (§3.1), 16 of the 46, every profile with top t_i and second x_i | 5,308,416 | 5,221,489 | 80,905 | 4,950 | 0 | 1,072 | 1,072 | | 1,072 (all isolated) | `cycle_n4_part.log` |
 | n = 4, #53's catalogues with three or four 4-good agents (every 1st record) and hunts (gap profiles, f ≥ 1) | 245,963 | 227,413 | 18,109 | 439 | 2 | 0 | 0 | 70,333 | 2 (2 / 0) | `n4cat_*.log` |
 | n = 5, #53's catalogues and hunts (every record; gap profiles, f ≥ 1) | 134,587 | 128,663 | 5,879 | 45 | 0 | 0 | 0 | 26,632 | 0 | `n5cat_*.log` |
