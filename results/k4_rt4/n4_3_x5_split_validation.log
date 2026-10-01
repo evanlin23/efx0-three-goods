@@ -1,0 +1,33 @@
+Validation of k4/dlrt4_split.py against dlrt4_run.py (n4_3_x5), 2026-10-01 23:12 UTC.
+Each core below was run whole by the main command (results/k4_rt4/ckpt_n4_3_x5.jsonl) and again by dlrt4_split.py with --split=4
+(scratch checkpoint, dump and tables, not committed). Comparison: every K and L counter and every B/G/M/Z/C/Y table entry of the
+split run equals the main checkpoint's unit for that core; every dumped profile's vals equal the core's full-domain values at prof.
+
+== core 244
+# command: python3 k4/dlrt4_split.py results/k4_certs_4_n4_3.json.gz --cores=244:245 --split=4 --jobs=4 --ckpt=<scratch>/val_ck_244.jsonl --dump=<scratch>/val_dump_244.jsonl.gz --tables=<scratch>/val_tab_244.json
+# dlrt4.c sha256 fcde494a3161279d47a7b80e614f69c58894ebc7b40d00e461f677b8810d7cae
+# k4_certs_4_n4_3.json.gz: cores 244..244, split 4, 4 sub-units to run, 0 from the checkpoint; every profile
+#   core 244 complete
+# cores complete: 1 of 1 (244..244)
+k4_certs_4_n4_3.json.gz cores 244..244 (split 4): profiles 143327232, omega >= 1: 2128896; k* = 0: 2125440, 1: 3456, 2: 0, 3: 0, >= 4: 0, inf: 0; P with def > 0: 3456, at distance 1: 3456, 2: 0, 3: 0, >= 4: 0, inf: 0; Pareto-maximal: 1152; largest least deficit -1
+  DL_RT4: states (def > 0) with f = 0: 0 (RT4 fails at 0), with f >= 1: 3456; DL_RT4 FAILS at 0 of the f >= 1 states; with an improving move T1 3456, T2 0, T3p 3456, T3h 3456, T4 0; only T1 0, only T2 0, only T3 0, only T4 0; R_T fails at 0, R_13 at 0, R_13 + T4 at 0; smallest RT4 move size 1 / 2 / 3 / >= 4 / none: 3456 / 0 / 0 / 0 / 0; anomalies 0 + 0 [124 s]
+  sub-unit {"pos": 244, "agent": 1, "lo": 72, "hi": 144} 111.6 s
+  sub-unit {"pos": 244, "agent": 1, "lo": 144, "hi": 216} 112.4 s
+  sub-unit {"pos": 244, "agent": 1, "lo": 216, "hi": 288} 114.8 s
+  sub-unit {"pos": 244, "agent": 1, "lo": 0, "hi": 72} 124.2 s
+core 244: IDENTICAL counters and tables (12 table keys, prof 143327232, st1 3456); split cores_complete [244]
+
+== core 252
+# command: python3 k4/dlrt4_split.py results/k4_certs_4_n4_3.json.gz --cores=252:253 --split=4 --jobs=4 --ckpt=<scratch>/val_ck_252.jsonl --dump=<scratch>/val_dump_252.jsonl.gz --tables=<scratch>/val_tab_252.json
+# dlrt4.c sha256 fcde494a3161279d47a7b80e614f69c58894ebc7b40d00e461f677b8810d7cae
+# k4_certs_4_n4_3.json.gz: cores 252..252, split 4, 4 sub-units to run, 0 from the checkpoint; every profile
+#   core 252 complete
+# cores complete: 1 of 1 (252..252)
+k4_certs_4_n4_3.json.gz cores 252..252 (split 4): profiles 17915904, omega >= 1: 17915904; k* = 0: 16932744, 1: 949320, 2: 33840, 3: 0, >= 4: 0, inf: 0; P with def > 0: 1701912, at distance 1: 1598592, 2: 103320, 3: 0, >= 4: 0, inf: 0; Pareto-maximal: 120432; largest least deficit 0
+  DL_RT4: states (def > 0) with f = 0: 0 (RT4 fails at 0), with f >= 1: 1701912; DL_RT4 FAILS at 0 of the f >= 1 states; with an improving move T1 1598592, T2 1590832, T3p 1498888, T3h 1656352, T4 264280; only T1 0, only T2 0, only T3 90800, only T4 0; R_T fails at 0, R_13 at 0, R_13 + T4 at 0; smallest RT4 move size 1 / 2 / 3 / >= 4 / none: 1598592 / 103320 / 0 / 0 / 0; anomalies 0 + 0 [279 s]
+  sub-unit {"pos": 252, "agent": 0, "lo": 72, "hi": 108} 262.9 s
+  sub-unit {"pos": 252, "agent": 0, "lo": 0, "hi": 36} 265.0 s
+  sub-unit {"pos": 252, "agent": 0, "lo": 36, "hi": 72} 268.5 s
+  sub-unit {"pos": 252, "agent": 0, "lo": 108, "hi": 144} 279.0 s
+core 252: IDENTICAL counters and tables (177 table keys, prof 17915904, st1 1701912); split cores_complete [252]
+
