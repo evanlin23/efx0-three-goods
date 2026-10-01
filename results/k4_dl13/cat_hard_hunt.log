@@ -1,0 +1,72 @@
+# command: python3 k4/dl13_run.py catalog results/k4_gap/hard_hunt.json.gz --jobs=1 --rt=5 --ro=200 --ckpt=results/k4_dl13/ckpt_cat.jsonl --dump=results/k4_dl13/states_cat.jsonl.gz --tables=results/k4_dl13/tables_cat_hard_hunt.json
+# dl13.c sha256 f891de3a228a63fcd05008c0e4d9202068fc0d2b41be5876775affd4b2131d65
+# catalog results/k4_gap/hard_hunt.json.gz: 144 instances, 1 units to run, 0 from the checkpoint
+catalog results/k4_gap/hard_hunt.json.gz: profiles 144, omega >= 1: 144; k* = 0: 57, 1: 71, 2: 16, 3: 0, >= 4: 0, inf: 0; P with def > 0: 247, at distance 1: 173, 2: 74, 3: 0, >= 4: 0, inf: 0; Pareto-maximal: 84; largest least deficit 0
+  DL13: states (def > 0) with f = 0: 0 (R_13 fails at 0), with f >= 1: 247; DL13 FAILS at 0 of the f >= 1 states; T1 only 0, T3 only 74 (of which T3 with a helper only 0), both 173; with a plain T3 move 246, with a helper T3 move 244; nearest R_13 improvement at distance 1 / 2 / 3: 173 / 74 / 0; anomalies 0 [2 s]
+table B: f >= 1 states by f | signature | branch : count
+  B 2|G,D2|T1+T3p+T3h : 51
+  B 2|G,D2,PM|T1+T3p+T3h : 26
+  B 2|fO,G,D2|T3p+T3h : 16
+  B 2|fO,G,L,D2|T3p+T3h : 13
+  B 2|G,D2,PM|T3p+T3h : 11
+  B 2|G1|T1+T3p+T3h : 11
+  B 2|L,PM|T1+T3p+T3h : 11
+  B 2|fO,G,G1,D2|T1+T3p+T3h : 11
+  B 2|L,PM|T3p+T3h : 10
+  B 2|fO,G,D2|T1+T3p+T3h : 10
+  B 2|G,L,D2,PM|T1+T3p+T3h : 8
+  B 2|fO,L|T3p+T3h : 8
+  B 2|G1,PM|T1+T3p+T3h : 7
+  B 2|fO,G,L,D2|T1+T3p+T3h : 7
+  B 2|fO,L|T1+T3p+T3h : 7
+  B 2|G,L,D2,PM|T3p+T3h : 6
+  B 2|L|T1+T3p+T3h : 6
+  B 2|G,G1,D2|T1+T3p+T3h : 5
+  B 2|G,L,D2|T1+T3p+T3h : 4
+  B 2|G,D2|T3p+T3h : 3
+  B 2|G,G1,D2,PM|T1+T3p+T3h : 3
+  B 2|G,L,D2|T3p+T3h : 3
+  B 2|fO,G1|T1+T3p+T3h : 3
+  B 2|G,L,D2|T1+T3p : 2
+  B 2|G,G1,D2|T3p+T3h : 1
+  B 2|G1,PM|T3p+T3h : 1
+  B 2|L,PM|T1+T3h : 1
+  B 2|L|T3p+T3h : 1
+  B 2|fO,G,D2|T3p : 1
+table G: f >= 1 states by f | nearest distance k | branch : count
+  G 2|1|T1+T3p+T3h : 170
+  G 2|2|T3p+T3h : 73
+  G 2|1|T1+T3p : 2
+  G 2|1|T1+T3h : 1
+  G 2|2|T3p : 1
+table Y: f >= 1 states by f | branch | move type available : count
+  Y 2|T1+T3p+T3h|T3:xJ.h- : 170
+  Y 2|T1+T3p+T3h|T3:xJ.hR : 150
+  Y 2|T1+T3p+T3h|T1:rel : 138
+  Y 2|T1+T3p+T3h|T3:xJ.hJ : 112
+  Y 2|T1+T3p+T3h|T1:pool : 108
+  Y 2|T1+T3p+T3h|T3:xJ.hZ : 83
+  Y 2|T3p+T3h|T3:xJ.h- : 73
+  Y 2|T3p+T3h|T3:xJ.hZ : 68
+  Y 2|T3p+T3h|T3:xH.hZ : 45
+  Y 2|T3p+T3h|T3:xJ.hR : 42
+  Y 2|T1+T3p+T3h|T3:xZ.h- : 39
+  Y 2|T1+T3p+T3h|T3:xH.hZ : 31
+  Y 2|T1+T3p+T3h|T3:xZ.hR : 24
+  Y 2|T3p+T3h|T3:xJ.hJ : 24
+  Y 2|T1+T3p+T3h|T3:xZ.hJ : 22
+  Y 2|T1+T3p+T3h|T3:xZ.hZ : 22
+  Y 2|T3p+T3h|T3:xH.hR : 15
+  Y 2|T1+T3p+T3h|T3:xH.hR : 14
+  Y 2|T3p+T3h|T3:xH.hJ : 8
+  Y 2|T3p+T3h|T3:xZ.h- : 6
+  Y 2|T3p+T3h|T3:xZ.hZ : 5
+  Y 2|T3p+T3h|T3:xZ.hR : 3
+  Y 2|T1+T3p|T1:rel : 2
+  Y 2|T1+T3p|T3:xJ.h- : 2
+  Y 2|T1+T3h|T1:rel : 1
+  Y 2|T1+T3h|T3:xH.hR : 1
+  Y 2|T1+T3h|T3:xH.hZ : 1
+  Y 2|T1+T3h|T3:xJ.hR : 1
+  Y 2|T1+T3h|T3:xJ.hZ : 1
+  Y 2|T3p|T3:xJ.h- : 1

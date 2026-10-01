@@ -1,0 +1,8 @@
+# command: python3 k4/dl13_run.py catalog results/k4_gap/gap_n4_1.json.gz --jobs=1 --rt=5 --ro=200 --ckpt=results/k4_dl13/ckpt_cat.jsonl --dump=results/k4_dl13/states_cat.jsonl.gz --tables=results/k4_dl13/tables_cat_gap_n4_1.json
+# dl13.c sha256 f891de3a228a63fcd05008c0e4d9202068fc0d2b41be5876775affd4b2131d65
+# catalog results/k4_gap/gap_n4_1.json.gz: 44388 instances, 23 units to run, 0 from the checkpoint
+catalog results/k4_gap/gap_n4_1.json.gz: profiles 44388, omega >= 1: 44388; k* = 0: 44388, 1: 0, 2: 0, 3: 0, >= 4: 0, inf: 0; P with def > 0: 0, at distance 1: 0, 2: 0, 3: 0, >= 4: 0, inf: 0; Pareto-maximal: 0; largest least deficit 0
+  DL13: states (def > 0) with f = 0: 0 (R_13 fails at 0), with f >= 1: 0; DL13 FAILS at 0 of the f >= 1 states; T1 only 0, T3 only 0 (of which T3 with a helper only 0), both 0; with a plain T3 move 0, with a helper T3 move 0; nearest R_13 improvement at distance 1 / 2 / 3: 0 / 0 / 0; anomalies 0 [8 s]
+table B: f >= 1 states by f | signature | branch : count
+table G: f >= 1 states by f | nearest distance k | branch : count
+table Y: f >= 1 states by f | branch | move type available : count

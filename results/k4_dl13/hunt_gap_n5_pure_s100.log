@@ -1,0 +1,545 @@
+# command: python3 k4/dl13_hunt.py catalog results/k4_gap/gap_n5_pure_s100.json.gz --max=200 --steps=40 --nb=32 --patience=10 --bt --seed=3 --jobs=1 --out=results/k4_dl13/hunt_n5.jsonl.gz --ckpt=results/k4_dl13/ckpt_hunt.jsonl --tables=results/k4_dl13/tables_hunt_gap_n5_pure_s100.json
+# dl13u.c sha256 e5ab32ae961795db80db8cd6222a99f5f4ad5396fead9f8d319369b8725e5615
+# 200 climbs to run, 0 from the checkpoint; steps <= 40, 32 neighbours per step, patience 10, big-top bias True
+#   climb {'climb': 0, 'pos': 0, 'start': 'k4_certs_5_pure.json.gz#4018:284,48,150,3,129'}: best score [1, 0, -1] after 34 steps, 1034 profiles, 949 f >= 1 states, DL13 failures 0 [0.6 s]
+#   climb {'climb': 1, 'pos': 1, 'start': 'k4_certs_5_pure.json.gz#2203:9,25,55,165,70'}: best score [1000000000, 0, 0] after 0 steps, 247 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 2, 'pos': 2, 'start': 'k4_certs_5_pure.json.gz#3474:72,8,274,6,93'}: best score [6, 0, 0] after 13 steps, 631 profiles, 195 f >= 1 states, DL13 failures 0 [0.2 s]
+#   climb {'climb': 3, 'pos': 3, 'start': 'k4_certs_5_pure.json.gz#3405:68,63,81,31,225'}: best score [2, 0, -1] after 18 steps, 785 profiles, 874 f >= 1 states, DL13 failures 0 [0.3 s]
+#   climb {'climb': 4, 'pos': 4, 'start': 'k4_certs_5_pure.json.gz#2358:34,24,33,77,31'}: best score [13, 0, 0] after 20 steps, 821 profiles, 144 f >= 1 states, DL13 failures 0 [0.2 s]
+#   climb {'climb': 5, 'pos': 5, 'start': 'k4_certs_5_pure.json.gz#2726:12,24,7,9,154'}: best score [4, 0, 0] after 14 steps, 663 profiles, 474 f >= 1 states, DL13 failures 0 [0.2 s]
+#   climb {'climb': 6, 'pos': 6, 'start': 'k4_certs_5_pure.json.gz#3632:105,115,84,126,27'}: best score [1000000000, 0, 0] after 0 steps, 251 profiles, 0 f >= 1 states, DL13 failures 0 [0.1 s]
+#   climb {'climb': 7, 'pos': 7, 'start': 'k4_certs_5_pure.json.gz#4185:4,43,82,102,99'}: best score [8, 0, -1] after 15 steps, 444 profiles, 1163 f >= 1 states, DL13 failures 0 [0.3 s]
+#   climb {'climb': 8, 'pos': 8, 'start': 'k4_certs_5_pure.json.gz#2455:90,175,46,90,36'}: best score [1000000000, 0, 0] after 0 steps, 252 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 9, 'pos': 9, 'start': 'k4_certs_5_pure.json.gz#3088:95,79,276,30,182'}: best score [1000000000, 0, 0] after 0 steps, 255 profiles, 0 f >= 1 states, DL13 failures 0 [0.1 s]
+#   climb {'climb': 10, 'pos': 10, 'start': 'k4_certs_5_pure.json.gz#4379:33,112,48,20,41'}: best score [5, 0, 0] after 16 steps, 729 profiles, 275 f >= 1 states, DL13 failures 0 [0.3 s]
+#   climb {'climb': 11, 'pos': 11, 'start': 'k4_certs_5_pure.json.gz#3448:34,121,99,127,237'}: best score [7, 0, 0] after 22 steps, 662 profiles, 477 f >= 1 states, DL13 failures 0 [0.2 s]
+#   climb {'climb': 12, 'pos': 12, 'start': 'k4_certs_5_pure.json.gz#2133:28,36,241,228,227'}: best score [1000000000, 0, 0] after 0 steps, 249 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 13, 'pos': 13, 'start': 'k4_certs_5_pure.json.gz#4184:141,109,121,68,83'}: best score [3, 0, 0] after 13 steps, 633 profiles, 1665 f >= 1 states, DL13 failures 0 [0.3 s]
+#   climb {'climb': 14, 'pos': 14, 'start': 'k4_certs_5_pure.json.gz#2155:14,98,138,275,275'}: best score [1000000000, 0, 0] after 0 steps, 253 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 15, 'pos': 15, 'start': 'k4_certs_5_pure.json.gz#2311:8,8,0,123,162'}: best score [1000000000, 0, 0] after 0 steps, 252 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 16, 'pos': 16, 'start': 'k4_certs_5_pure.json.gz#4008:26,109,261,212,278'}: best score [5, 0, 0] after 16 steps, 735 profiles, 381 f >= 1 states, DL13 failures 0 [0.3 s]
+#   climb {'climb': 17, 'pos': 17, 'start': 'k4_certs_5_pure.json.gz#4029:246,54,15,112,108'}: best score [14, 0, 0] after 24 steps, 994 profiles, 402 f >= 1 states, DL13 failures 0 [0.3 s]
+#   climb {'climb': 18, 'pos': 18, 'start': 'k4_certs_5_pure.json.gz#2672:38,179,12,130,106'}: best score [1000000000, 0, 0] after 0 steps, 246 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 19, 'pos': 19, 'start': 'k4_certs_5_pure.json.gz#2827:132,6,11,237,94'}: best score [1000000000, 0, 0] after 0 steps, 253 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 20, 'pos': 20, 'start': 'k4_certs_5_pure.json.gz#2374:20,112,254,182,282'}: best score [1000000000, 0, 0] after 0 steps, 248 profiles, 0 f >= 1 states, DL13 failures 0 [0.1 s]
+#   climb {'climb': 21, 'pos': 21, 'start': 'k4_certs_5_pure.json.gz#2299:60,22,17,42,6'}: best score [5, 0, -4] after 11 steps, 564 profiles, 264 f >= 1 states, DL13 failures 0 [0.1 s]
+#   climb {'climb': 22, 'pos': 22, 'start': 'k4_certs_5_pure.json.gz#3473:20,39,23,142,161'}: best score [4, 0, 0] after 19 steps, 814 profiles, 693 f >= 1 states, DL13 failures 0 [0.2 s]
+#   climb {'climb': 23, 'pos': 23, 'start': 'k4_certs_5_pure.json.gz#2376:46,215,156,271,127'}: best score [1000000000, 0, 0] after 0 steps, 250 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 24, 'pos': 24, 'start': 'k4_certs_5_pure.json.gz#3068:64,278,35,277,203'}: best score [1000000000, 0, 0] after 0 steps, 252 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 25, 'pos': 25, 'start': 'k4_certs_5_pure.json.gz#2322:124,106,158,39,146'}: best score [1000000000, 0, 0] after 0 steps, 252 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 26, 'pos': 26, 'start': 'k4_certs_5_pure.json.gz#3961:49,153,48,33,156'}: best score [4, 0, 0] after 21 steps, 641 profiles, 677 f >= 1 states, DL13 failures 0 [0.6 s]
+#   climb {'climb': 27, 'pos': 27, 'start': 'k4_certs_5_pure.json.gz#3358:13,129,14,221,149'}: best score [4, 0, 0] after 13 steps, 628 profiles, 217 f >= 1 states, DL13 failures 0 [0.2 s]
+#   climb {'climb': 28, 'pos': 28, 'start': 'k4_certs_5_pure.json.gz#2225:76,103,174,199,252'}: best score [1000000000, 0, 0] after 0 steps, 248 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 29, 'pos': 29, 'start': 'k4_certs_5_pure.json.gz#2236:117,9,106,135,34'}: best score [1000000000, 0, 0] after 0 steps, 248 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 30, 'pos': 30, 'start': 'k4_certs_5_pure.json.gz#3046:149,150,80,279,170'}: best score [1000000000, 0, 0] after 0 steps, 251 profiles, 0 f >= 1 states, DL13 failures 0 [0.1 s]
+#   climb {'climb': 31, 'pos': 31, 'start': 'k4_certs_5_pure.json.gz#3340:104,26,101,9,162'}: best score [11, 0, 0] after 12 steps, 612 profiles, 388 f >= 1 states, DL13 failures 0 [0.2 s]
+#   climb {'climb': 32, 'pos': 32, 'start': 'k4_certs_5_pure.json.gz#3983:104,76,22,101,126'}: best score [1000000000, 0, 0] after 0 steps, 249 profiles, 0 f >= 1 states, DL13 failures 0 [0.1 s]
+#   climb {'climb': 33, 'pos': 33, 'start': 'k4_certs_5_pure.json.gz#3437:73,113,8,47,128'}: best score [13, 0, 0] after 11 steps, 580 profiles, 104 f >= 1 states, DL13 failures 0 [0.1 s]
+#   climb {'climb': 34, 'pos': 34, 'start': 'k4_certs_5_pure.json.gz#3161:39,20,253,43,221'}: best score [1000000000, 0, 0] after 0 steps, 252 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 35, 'pos': 35, 'start': 'k4_certs_5_pure.json.gz#2183:69,80,25,158,37'}: best score [4, 0, -8] after 16 steps, 723 profiles, 933 f >= 1 states, DL13 failures 0 [0.1 s]
+#   climb {'climb': 36, 'pos': 36, 'start': 'k4_certs_5_pure.json.gz#2195:69,25,15,107,24'}: best score [1000000000, 0, 0] after 0 steps, 249 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 37, 'pos': 37, 'start': 'k4_certs_5_pure.json.gz#2815:115,88,114,42,0'}: best score [1000000000, 0, 0] after 0 steps, 256 profiles, 0 f >= 1 states, DL13 failures 0 [0.1 s]
+#   climb {'climb': 38, 'pos': 38, 'start': 'k4_certs_5_pure.json.gz#3329:10,84,43,8,274'}: best score [4, 0, 0] after 21 steps, 882 profiles, 762 f >= 1 states, DL13 failures 0 [0.4 s]
+#   climb {'climb': 39, 'pos': 39, 'start': 'k4_certs_5_pure.json.gz#3868:77,28,254,99,71'}: best score [0, 0, 0] after 30 steps, 912 profiles, 963 f >= 1 states, DL13 failures 4 [0.4 s]
+#   DL13 FAILS in climb {'climb': 39, 'pos': 39, 'start': 'k4_certs_5_pure.json.gz#3868:77,28,254,99,71'}: {'tag': 39, 'prof': [7, 15, 108, 55, 237], 'f': 2, 'omega': 3, 'nmin': 60, 'B': [[10], [4, 6], [7], [5], [9]], 'def': 1, 'k': 2, 'nn': 1, 'pm': 0, 'sig': 'e2,fO,L', 'br': 'none', 'r13d': -1, 'dT1': -1, 'dT3': -1, 't1types': [], 't3types': [], 'frozen': [2, 4], 'J': [0, 1, 2, 3, 8], 'own': [[0, 1], [1, 3], [3, 1]], 'exp': [[0, 2, 'L'], [0, 4, 'L'], [1, 0, 'fO'], [1, 3, 'e1'], [3, 0, 'fO'], [3, 1, 'e2']], 'better': [{'B': [[8], [5], [10], [9], [7]], 'def': -2}, {'B': [[8], [5], [10], [4, 9], [7]], 'def': -2}, {'B': [[8], [5], [10], [6, 9], [7]], 'def': -2}, {'B': [[8], [1, 5], [10], [9], [7]], 'def': -2}, {'B': [[8], [1, 5], [10], [4, 9], [7]], 'def': -1}, {'B': [[8], [1, 5], [10], [6, 9], [7]], 'def': -1}, {'B': [[8], [4, 5], [10], [9], [7]], 'def': -2}, {'B': [[8], [4, 5], [10], [6, 9], [7]], 'def': -1}, {'B': [[8], [4, 6], [10], [9], [7]], 'def': -1}, {'B': [[8], [4, 6], [10], [5, 9], [7]], 'def': -1}, {'B': [[8], [5, 6], [10], [9], [7]], 'def': -2}, {'B': [[8], [5, 6], [10], [4, 9], [7]], 'def': -1}, {'B': [[0, 8], [5], [10], [9], [7]], 'def': -2}, {'B': [[0, 8], [5], [10], [4, 9], [7]], 'def': -2}, {'B': [[0, 8], [5], [10], [6, 9], [7]], 'def': -2}, {'B': [[0, 8], [1, 5], [10], [9], [7]], 'def': -2}, {'B': [[0, 8], [1, 5], [10], [4, 9], [7]], 'def': -1}, {'B': [[0, 8], [1, 5], [10], [6, 9], [7]], 'def': -1}, {'B': [[0, 8], [4, 5], [10], [9], [7]], 'def': -2}, {'B': [[0, 8], [4, 5], [10], [6, 9], [7]], 'def': -1}, {'B': [[0, 8], [4, 6], [10], [9], [7]], 'def': -1}, {'B': [[0, 8], [4, 6], [10], [5, 9], [7]], 'def': -1}, {'B': [[0, 8], [5, 6], [10], [9], [7]], 'def': -2}, {'B': [[0, 8], [5, 6], [10], [4, 9], [7]], 'def': -1}, {'B': [[2, 8], [5], [10], [9], [7]], 'def': -2}, {'B': [[2, 8], [5], [10], [4, 9], [7]], 'def': -2}, {'B': [[2, 8], [5], [10], [6, 9], [7]], 'def': -2}, {'B': [[2, 8], [1, 5], [10], [9], [7]], 'def': -2}, {'B': [[2, 8], [1, 5], [10], [4, 9], [7]], 'def': -1}, {'B': [[2, 8], [1, 5], [10], [6, 9], [7]], 'def': -1}, {'B': [[2, 8], [4, 5], [10], [9], [7]], 'def': -2}, {'B': [[2, 8], [4, 5], [10], [6, 9], [7]], 'def': -1}, {'B': [[2, 8], [4, 6], [10], [9], [7]], 'def': -1}, {'B': [[2, 8], [4, 6], [10], [5, 9], [7]], 'def': -1}, {'B': [[2, 8], [5, 6], [10], [9], [7]], 'def': -2}, {'B': [[2, 8], [5, 6], [10], [4, 9], [7]], 'def': -1}, {'B': [[10], [5], [3], [9], [7]], 'def': 0}, {'B': [[10], [5], [3], [4, 9], [7]], 'def': 0}, {'B': [[10], [5], [3], [6, 9], [7]], 'def': 0}, {'B': [[10], [5], [7], [4, 6], [9]], 'def': 0}, {'B': [[10], [1, 5], [3], [9], [7]], 'def': 0}, {'B': [[10], [1, 5], [3], [4, 9], [7]], 'def': 0}, {'B': [[10], [1, 5], [3], [6, 9], [7]], 'def': 0}, {'B': [[10], [1, 5], [7], [4, 6], [9]], 'def': 0}, {'B': [[10], [4, 5], [3], [9], [7]], 'def': 0}, {'B': [[10], [4, 5], [3], [6, 9], [7]], 'def': 0}, {'B': [[10], [4, 6], [3], [9], [7]], 'def': 0}, {'B': [[10], [4, 6], [3], [5, 9], [7]], 'def': 0}, {'B': [[10], [5, 6], [3], [9], [7]], 'def': 0}, {'B': [[10], [5, 6], [3], [4, 9], [7]], 'def': 0}, {'B': [[0, 10], [5], [7], [4, 6], [9]], 'def': 0}, {'B': [[0, 10], [1, 5], [7], [4, 6], [9]], 'def': 0}, {'B': [[2, 10], [5], [7], [4, 6], [9]], 'def': 0}, {'B': [[2, 10], [1, 5], [7], [4, 6], [9]], 'def': 0}, {'B': [[8, 10], [5], [7], [4, 6], [9]], 'def': 0}, {'B': [[8, 10], [1, 5], [7], [4, 6], [9]], 'def': 0}], 'vals': [[2, 3, 6, 10], [2, 4, 8, 5], [4, 8, 1, 6], [3, 6, 4, 8], [8, 4, 6, 5]], 'core': {'key': {'climb': 39, 'pos': 39, 'start': 'k4_certs_5_pure.json.gz#3868:77,28,254,99,71'}, 'm': 11, 'sets': [[0, 2, 8, 10], [1, 4, 5, 6], [3, 7, 9, 10], [4, 5, 6, 9], [7, 8, 9, 10]]}}
+#   climb {'climb': 40, 'pos': 40, 'start': 'k4_certs_5_pure.json.gz#2363:86,134,87,150,180'}: best score [9, 0, 0] after 19 steps, 807 profiles, 197 f >= 1 states, DL13 failures 0 [0.1 s]
+#   climb {'climb': 41, 'pos': 41, 'start': 'k4_certs_5_pure.json.gz#2557:87,238,48,3,6'}: best score [5, 0, -2] after 32 steps, 1215 profiles, 693 f >= 1 states, DL13 failures 0 [0.3 s]
+#   climb {'climb': 42, 'pos': 42, 'start': 'k4_certs_5_pure.json.gz#3527:50,9,6,276,109'}: best score [9, 0, 0] after 27 steps, 1061 profiles, 260 f >= 1 states, DL13 failures 0 [0.4 s]
+#   climb {'climb': 43, 'pos': 43, 'start': 'k4_certs_5_pure.json.gz#2660:123,36,184,125,31'}: best score [1000000000, 0, 0] after 0 steps, 249 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 44, 'pos': 44, 'start': 'k4_certs_5_pure.json.gz#3941:66,262,146,202,88'}: best score [9, 0, -2] after 24 steps, 965 profiles, 1518 f >= 1 states, DL13 failures 0 [0.5 s]
+#   climb {'climb': 45, 'pos': 45, 'start': 'k4_certs_5_pure.json.gz#3364:7,102,54,229,204'}: best score [2, 0, -1] after 15 steps, 681 profiles, 817 f >= 1 states, DL13 failures 0 [0.3 s]
+#   climb {'climb': 46, 'pos': 46, 'start': 'k4_certs_5_pure.json.gz#2080:41,127,43,200,238'}: best score [1000000000, 0, 0] after 0 steps, 250 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 47, 'pos': 47, 'start': 'k4_certs_5_pure.json.gz#2209:9,112,91,75,140'}: best score [1000000000, 0, 0] after 0 steps, 249 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 48, 'pos': 48, 'start': 'k4_certs_5_pure.json.gz#4551:55,72,95,69,88'}: best score [3, 0, -67] after 39 steps, 1130 profiles, 15978 f >= 1 states, DL13 failures 0 [1.4 s]
+#   climb {'climb': 49, 'pos': 49, 'start': 'k4_certs_5_pure.json.gz#2467:72,147,96,47,3'}: best score [18, 0, 0] after 16 steps, 719 profiles, 73 f >= 1 states, DL13 failures 0 [0.1 s]
+#   climb {'climb': 50, 'pos': 50, 'start': 'k4_certs_5_pure.json.gz#2367:17,284,16,148,64'}: best score [5, 0, 0] after 14 steps, 666 profiles, 268 f >= 1 states, DL13 failures 0 [0.1 s]
+#   climb {'climb': 51, 'pos': 51, 'start': 'k4_certs_5_pure.json.gz#2280:68,104,162,185,42'}: best score [1000000000, 0, 0] after 0 steps, 248 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 52, 'pos': 52, 'start': 'k4_certs_5_pure.json.gz#3302:14,84,226,211,48'}: best score [2, 0, 0] after 14 steps, 670 profiles, 395 f >= 1 states, DL13 failures 0 [0.3 s]
+#   climb {'climb': 53, 'pos': 53, 'start': 'k4_certs_5_pure.json.gz#3707:20,89,244,54,100'}: best score [5, 0, 0] after 11 steps, 573 profiles, 140 f >= 1 states, DL13 failures 0 [0.2 s]
+#   climb {'climb': 54, 'pos': 54, 'start': 'k4_certs_5_pure.json.gz#3713:122,106,14,51,111'}: best score [1000000000, 0, 0] after 0 steps, 250 profiles, 0 f >= 1 states, DL13 failures 0 [0.1 s]
+#   climb {'climb': 55, 'pos': 55, 'start': 'k4_certs_5_pure.json.gz#4226:52,14,3,176,166'}: best score [3, 0, -1] after 23 steps, 918 profiles, 1383 f >= 1 states, DL13 failures 0 [0.5 s]
+#   climb {'climb': 56, 'pos': 56, 'start': 'k4_certs_5_pure.json.gz#3850:135,92,8,51,54'}: best score [11, 0, 0] after 14 steps, 663 profiles, 235 f >= 1 states, DL13 failures 0 [0.2 s]
+#   climb {'climb': 57, 'pos': 57, 'start': 'k4_certs_5_pure.json.gz#2162:28,39,88,62,153'}: best score [1000000000, 0, 0] after 0 steps, 246 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 58, 'pos': 58, 'start': 'k4_certs_5_pure.json.gz#2660:59,172,279,273,44'}: best score [1000000000, 0, 0] after 0 steps, 248 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 59, 'pos': 59, 'start': 'k4_certs_5_pure.json.gz#2162:90,124,12,18,249'}: best score [1000000000, 0, 0] after 0 steps, 249 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 60, 'pos': 60, 'start': 'k4_certs_5_pure.json.gz#4164:124,38,34,144,70'}: best score [3, 0, -1] after 17 steps, 752 profiles, 561 f >= 1 states, DL13 failures 0 [0.4 s]
+#   climb {'climb': 61, 'pos': 61, 'start': 'k4_certs_5_pure.json.gz#3618:84,22,168,169,112'}: best score [5, 0, -2] after 32 steps, 1170 profiles, 1261 f >= 1 states, DL13 failures 0 [0.4 s]
+#   climb {'climb': 62, 'pos': 62, 'start': 'k4_certs_5_pure.json.gz#2863:148,126,22,10,135'}: best score [1000000000, 0, 0] after 0 steps, 253 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 63, 'pos': 63, 'start': 'k4_certs_5_pure.json.gz#2673:15,21,227,7,253'}: best score [18, 0, 0] after 16 steps, 738 profiles, 73 f >= 1 states, DL13 failures 0 [0.1 s]
+#   climb {'climb': 64, 'pos': 64, 'start': 'k4_certs_5_pure.json.gz#3510:40,70,15,276,29'}: best score [1000000000, 0, 0] after 0 steps, 248 profiles, 0 f >= 1 states, DL13 failures 0 [0.1 s]
+#   climb {'climb': 65, 'pos': 65, 'start': 'k4_certs_5_pure.json.gz#3475:18,8,54,97,251'}: best score [1, 0, 0] after 19 steps, 809 profiles, 1154 f >= 1 states, DL13 failures 0 [0.3 s]
+#   climb {'climb': 66, 'pos': 66, 'start': 'k4_certs_5_pure.json.gz#2791:118,54,4,206,48'}: best score [1000000000, 0, 0] after 0 steps, 255 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 67, 'pos': 67, 'start': 'k4_certs_5_pure.json.gz#2838:150,237,207,15,234'}: best score [1000000000, 0, 0] after 0 steps, 253 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 68, 'pos': 68, 'start': 'k4_certs_5_pure.json.gz#2429:8,8,167,187,126'}: best score [1000000000, 0, 0] after 0 steps, 246 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 69, 'pos': 69, 'start': 'k4_certs_5_pure.json.gz#3218:81,163,267,22,148'}: best score [1000000000, 0, 0] after 0 steps, 250 profiles, 0 f >= 1 states, DL13 failures 0 [0.1 s]
+#   climb {'climb': 70, 'pos': 70, 'start': 'k4_certs_5_pure.json.gz#2266:136,104,51,10,40'}: best score [1000000000, 0, 0] after 0 steps, 248 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 71, 'pos': 71, 'start': 'k4_certs_5_pure.json.gz#3622:68,83,90,93,49'}: best score [17, 0, 0] after 12 steps, 615 profiles, 97 f >= 1 states, DL13 failures 0 [0.2 s]
+#   climb {'climb': 72, 'pos': 72, 'start': 'k4_certs_5_pure.json.gz#4297:77,2,180,180,217'}: best score [5, 0, 0] after 22 steps, 915 profiles, 1178 f >= 1 states, DL13 failures 0 [0.5 s]
+#   climb {'climb': 73, 'pos': 73, 'start': 'k4_certs_5_pure.json.gz#3599:7,124,251,80,137'}: best score [1000000000, 0, 0] after 0 steps, 244 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 74, 'pos': 74, 'start': 'k4_certs_5_pure.json.gz#2228:9,25,100,41,94'}: best score [6, 0, -10] after 12 steps, 600 profiles, 1016 f >= 1 states, DL13 failures 0 [0.1 s]
+#   climb {'climb': 75, 'pos': 75, 'start': 'k4_certs_5_pure.json.gz#3435:34,71,51,197,67'}: best score [2, 0, -1] after 17 steps, 765 profiles, 933 f >= 1 states, DL13 failures 0 [0.2 s]
+#   climb {'climb': 76, 'pos': 76, 'start': 'k4_certs_5_pure.json.gz#2752:104,118,207,254,54'}: best score [1000000000, 0, 0] after 0 steps, 254 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 77, 'pos': 77, 'start': 'k4_certs_5_pure.json.gz#2548:62,77,91,15,60'}: best score [6, 0, 0] after 15 steps, 703 profiles, 218 f >= 1 states, DL13 failures 0 [0.1 s]
+#   climb {'climb': 78, 'pos': 78, 'start': 'k4_certs_5_pure.json.gz#2522:19,26,54,139,243'}: best score [7, 0, 0] after 14 steps, 665 profiles, 122 f >= 1 states, DL13 failures 0 [0.2 s]
+#   climb {'climb': 79, 'pos': 79, 'start': 'k4_certs_5_pure.json.gz#3923:106,234,146,264,59'}: best score [3, 0, -1] after 24 steps, 933 profiles, 1383 f >= 1 states, DL13 failures 0 [0.4 s]
+#   climb {'climb': 80, 'pos': 80, 'start': 'k4_certs_5_pure.json.gz#1101:17,267,115,35,61'}: best score [1000000000, 0, 0] after 0 steps, 249 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 81, 'pos': 81, 'start': 'k4_certs_5_pure.json.gz#2878:75,44,116,127,191'}: best score [20, 0, 0] after 30 steps, 1160 profiles, 115 f >= 1 states, DL13 failures 0 [0.2 s]
+#   climb {'climb': 82, 'pos': 82, 'start': 'k4_certs_5_pure.json.gz#2516:63,40,167,258,96'}: best score [1000000000, 0, 0] after 0 steps, 256 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 83, 'pos': 83, 'start': 'k4_certs_5_pure.json.gz#3508:13,6,223,200,130'}: best score [1000000000, 0, 0] after 0 steps, 243 profiles, 0 f >= 1 states, DL13 failures 0 [0.1 s]
+#   climb {'climb': 84, 'pos': 84, 'start': 'k4_certs_5_pure.json.gz#3394:104,111,208,128,96'}: best score [1000000000, 0, 0] after 0 steps, 251 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 85, 'pos': 85, 'start': 'k4_certs_5_pure.json.gz#3374:91,47,102,39,67'}: best score [7, 0, -1] after 16 steps, 712 profiles, 1294 f >= 1 states, DL13 failures 0 [0.2 s]
+#   climb {'climb': 86, 'pos': 86, 'start': 'k4_certs_5_pure.json.gz#4063:4,179,146,10,21'}: best score [3, 0, 0] after 28 steps, 848 profiles, 400 f >= 1 states, DL13 failures 0 [0.4 s]
+#   climb {'climb': 87, 'pos': 87, 'start': 'k4_certs_5_pure.json.gz#2967:258,160,177,88,26'}: best score [1000000000, 0, 0] after 0 steps, 255 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 88, 'pos': 88, 'start': 'k4_certs_5_pure.json.gz#3770:12,153,144,89,14'}: best score [5, 0, 0] after 29 steps, 1110 profiles, 1547 f >= 1 states, DL13 failures 0 [0.5 s]
+#   climb {'climb': 89, 'pos': 89, 'start': 'k4_certs_5_pure.json.gz#2231:143,42,66,91,80'}: best score [6, 0, 0] after 14 steps, 661 profiles, 275 f >= 1 states, DL13 failures 0 [0.1 s]
+#   climb {'climb': 90, 'pos': 90, 'start': 'k4_certs_5_pure.json.gz#2444:54,8,259,146,9'}: best score [1000000000, 0, 0] after 0 steps, 254 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 91, 'pos': 91, 'start': 'k4_certs_5_pure.json.gz#3358:52,9,99,263,169'}: best score [1000000000, 0, 0] after 0 steps, 247 profiles, 0 f >= 1 states, DL13 failures 0 [0.1 s]
+#   climb {'climb': 92, 'pos': 92, 'start': 'k4_certs_5_pure.json.gz#4445:108,156,60,69,207'}: best score [5, 0, 0] after 32 steps, 955 profiles, 1190 f >= 1 states, DL13 failures 0 [0.7 s]
+#   climb {'climb': 93, 'pos': 93, 'start': 'k4_certs_5_pure.json.gz#3282:218,244,115,85,7'}: best score [1000000000, 0, 0] after 0 steps, 254 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 94, 'pos': 94, 'start': 'k4_certs_5_pure.json.gz#2185:20,38,116,137,215'}: best score [9, 0, 0] after 11 steps, 588 profiles, 390 f >= 1 states, DL13 failures 0 [0.1 s]
+#   climb {'climb': 95, 'pos': 95, 'start': 'k4_certs_5_pure.json.gz#2248:9,54,39,271,137'}: best score [1000000000, 0, 0] after 0 steps, 254 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 96, 'pos': 96, 'start': 'k4_certs_5_pure.json.gz#3136:128,37,129,218,146'}: best score [2, 0, -2] after 26 steps, 1044 profiles, 424 f >= 1 states, DL13 failures 0 [0.3 s]
+#   climb {'climb': 97, 'pos': 97, 'start': 'k4_certs_5_pure.json.gz#2427:10,6,258,97,30'}: best score [7, 0, 0] after 30 steps, 1157 profiles, 373 f >= 1 states, DL13 failures 0 [0.3 s]
+#   climb {'climb': 98, 'pos': 98, 'start': 'k4_certs_5_pure.json.gz#3162:47,176,43,83,4'}: best score [14, 0, 0] after 14 steps, 678 profiles, 51 f >= 1 states, DL13 failures 0 [0.1 s]
+#   climb {'climb': 99, 'pos': 99, 'start': 'k4_certs_5_pure.json.gz#4317:113,46,97,80,166'}: best score [3, 0, 0] after 24 steps, 931 profiles, 3731 f >= 1 states, DL13 failures 0 [1.4 s]
+#   climb {'climb': 100, 'pos': 100, 'start': 'k4_certs_5_pure.json.gz#2531:8,102,49,186,239'}: best score [1000000000, 0, 0] after 0 steps, 250 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 101, 'pos': 101, 'start': 'k4_certs_5_pure.json.gz#3360:64,26,2,273,10'}: best score [23, 0, 0] after 14 steps, 666 profiles, 244 f >= 1 states, DL13 failures 0 [0.2 s]
+#   climb {'climb': 102, 'pos': 102, 'start': 'k4_certs_5_pure.json.gz#2193:22,68,112,264,202'}: best score [12, 0, 0] after 16 steps, 711 profiles, 105 f >= 1 states, DL13 failures 0 [0.1 s]
+#   climb {'climb': 103, 'pos': 103, 'start': 'k4_certs_5_pure.json.gz#2472:8,121,203,127,228'}: best score [1000000000, 0, 0] after 0 steps, 250 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 104, 'pos': 104, 'start': 'k4_certs_5_pure.json.gz#2547:62,20,200,284,79'}: best score [1000000000, 0, 0] after 0 steps, 250 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 105, 'pos': 105, 'start': 'k4_certs_5_pure.json.gz#2452:43,38,148,105,145'}: best score [1000000000, 0, 0] after 0 steps, 251 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 106, 'pos': 106, 'start': 'k4_certs_5_pure.json.gz#3443:42,34,110,236,220'}: best score [6, 0, -2] after 20 steps, 853 profiles, 792 f >= 1 states, DL13 failures 0 [0.3 s]
+#   climb {'climb': 107, 'pos': 107, 'start': 'k4_certs_5_pure.json.gz#3118:259,114,17,171,84'}: best score [1000000000, 0, 0] after 0 steps, 252 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 108, 'pos': 108, 'start': 'k4_certs_5_pure.json.gz#2184:61,20,140,116,98'}: best score [1000000000, 0, 0] after 0 steps, 247 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 109, 'pos': 109, 'start': 'k4_certs_5_pure.json.gz#3498:74,131,134,209,258'}: best score [5, 0, 0] after 28 steps, 1081 profiles, 160 f >= 1 states, DL13 failures 0 [0.5 s]
+#   climb {'climb': 110, 'pos': 110, 'start': 'k4_certs_5_pure.json.gz#4566:38,18,65,88,6'}: best score [6, 0, 0] after 11 steps, 573 profiles, 2214 f >= 1 states, DL13 failures 0 [0.7 s]
+#   climb {'climb': 111, 'pos': 111, 'start': 'k4_certs_5_pure.json.gz#2302:14,194,111,7,152'}: best score [1000000000, 0, 0] after 0 steps, 250 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 112, 'pos': 112, 'start': 'k4_certs_5_pure.json.gz#2123:6,56,206,5,286'}: best score [1000000000, 0, 0] after 0 steps, 248 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 113, 'pos': 113, 'start': 'k4_certs_5_pure.json.gz#2417:68,273,137,112,180'}: best score [1000000000, 0, 0] after 0 steps, 245 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 114, 'pos': 114, 'start': 'k4_certs_5_pure.json.gz#3687:104,53,9,56,54'}: best score [5, 0, 0] after 16 steps, 732 profiles, 533 f >= 1 states, DL13 failures 0 [0.2 s]
+#   climb {'climb': 115, 'pos': 115, 'start': 'k4_certs_5_pure.json.gz#2665:42,3,10,251,42'}: best score [1000000000, 0, 0] after 0 steps, 248 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 116, 'pos': 116, 'start': 'k4_certs_5_pure.json.gz#2116:126,18,15,198,76'}: best score [1000000000, 0, 0] after 0 steps, 248 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 117, 'pos': 117, 'start': 'k4_certs_5_pure.json.gz#3589:73,42,0,178,96'}: best score [6, 0, 0] after 19 steps, 826 profiles, 1050 f >= 1 states, DL13 failures 0 [0.3 s]
+#   climb {'climb': 118, 'pos': 118, 'start': 'k4_certs_5_pure.json.gz#3384:94,65,46,32,228'}: best score [5, 0, 0] after 24 steps, 965 profiles, 254 f >= 1 states, DL13 failures 0 [0.3 s]
+#   climb {'climb': 119, 'pos': 119, 'start': 'k4_certs_5_pure.json.gz#4388:61,44,124,72,34'}: best score [4, 0, -6] after 15 steps, 697 profiles, 733 f >= 1 states, DL13 failures 0 [0.3 s]
+#   climb {'climb': 120, 'pos': 120, 'start': 'k4_certs_5_pure.json.gz#3385:104,112,75,28,94'}: best score [3, 0, 0] after 17 steps, 752 profiles, 699 f >= 1 states, DL13 failures 0 [0.3 s]
+#   climb {'climb': 121, 'pos': 121, 'start': 'k4_certs_5_pure.json.gz#3344:4,18,103,108,151'}: best score [4, 0, 0] after 30 steps, 897 profiles, 1360 f >= 1 states, DL13 failures 0 [0.4 s]
+#   climb {'climb': 122, 'pos': 122, 'start': 'k4_certs_5_pure.json.gz#2481:111,95,2,248,105'}: best score [1000000000, 0, 0] after 0 steps, 244 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 123, 'pos': 123, 'start': 'k4_certs_5_pure.json.gz#2370:62,137,23,92,218'}: best score [1000000000, 0, 0] after 0 steps, 253 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 124, 'pos': 124, 'start': 'k4_certs_5_pure.json.gz#2066:22,236,139,281,74'}: best score [1000000000, 0, 0] after 0 steps, 250 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 125, 'pos': 125, 'start': 'k4_certs_5_pure.json.gz#4309:108,20,49,50,203'}: best score [3, 0, -1] after 17 steps, 762 profiles, 1084 f >= 1 states, DL13 failures 0 [0.5 s]
+#   climb {'climb': 126, 'pos': 126, 'start': 'k4_certs_5_pure.json.gz#2269:46,278,67,89,23'}: best score [1000000000, 0, 0] after 0 steps, 249 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 127, 'pos': 127, 'start': 'k4_certs_5_pure.json.gz#2507:26,154,183,42,229'}: best score [1000000000, 0, 0] after 0 steps, 251 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 128, 'pos': 128, 'start': 'k4_certs_5_pure.json.gz#3588:6,26,261,21,82'}: best score [3, 0, 0] after 18 steps, 539 profiles, 909 f >= 1 states, DL13 failures 0 [0.2 s]
+#   climb {'climb': 129, 'pos': 129, 'start': 'k4_certs_5_pure.json.gz#3529:75,22,60,92,1'}: best score [5, 0, 0] after 20 steps, 843 profiles, 142 f >= 1 states, DL13 failures 0 [0.3 s]
+#   climb {'climb': 130, 'pos': 130, 'start': 'k4_certs_5_pure.json.gz#3488:44,93,67,123,146'}: best score [4, 0, 0] after 21 steps, 870 profiles, 1365 f >= 1 states, DL13 failures 0 [0.4 s]
+#   climb {'climb': 131, 'pos': 131, 'start': 'k4_certs_5_pure.json.gz#2298:77,194,239,21,51'}: best score [7, 0, 0] after 19 steps, 833 profiles, 211 f >= 1 states, DL13 failures 0 [0.1 s]
+#   climb {'climb': 132, 'pos': 132, 'start': 'k4_certs_5_pure.json.gz#3574:66,17,67,263,168'}: best score [1000000000, 0, 0] after 0 steps, 248 profiles, 0 f >= 1 states, DL13 failures 0 [0.1 s]
+#   climb {'climb': 133, 'pos': 133, 'start': 'k4_certs_5_pure.json.gz#2802:25,106,54,230,22'}: best score [9, 0, 0] after 27 steps, 1047 profiles, 348 f >= 1 states, DL13 failures 0 [0.2 s]
+#   climb {'climb': 134, 'pos': 134, 'start': 'k4_certs_5_pure.json.gz#2386:77,108,60,271,7'}: best score [1000000000, 0, 0] after 0 steps, 246 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 135, 'pos': 135, 'start': 'k4_certs_5_pure.json.gz#3518:48,85,90,213,182'}: best score [23, 0, 0] after 22 steps, 874 profiles, 119 f >= 1 states, DL13 failures 0 [0.4 s]
+#   climb {'climb': 136, 'pos': 136, 'start': 'k4_certs_5_pure.json.gz#982:12,159,6,49,160'}: best score [1000000000, 0, 0] after 0 steps, 249 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 137, 'pos': 137, 'start': 'k4_certs_5_pure.json.gz#4113:148,90,45,119,86'}: best score [6, 0, 0] after 16 steps, 733 profiles, 591 f >= 1 states, DL13 failures 0 [0.4 s]
+#   climb {'climb': 138, 'pos': 138, 'start': 'k4_certs_5_pure.json.gz#2069:36,121,81,51,89'}: best score [23, 0, 0] after 10 steps, 291 profiles, 40 f >= 1 states, DL13 failures 0 [0.1 s]
+#   climb {'climb': 139, 'pos': 139, 'start': 'k4_certs_5_pure.json.gz#4642:112,72,254,54,142'}: best score [3, 0, 0] after 26 steps, 760 profiles, 6964 f >= 1 states, DL13 failures 0 [1.3 s]
+#   climb {'climb': 140, 'pos': 140, 'start': 'k4_certs_5_pure.json.gz#4247:17,70,225,31,240'}: best score [4, 0, 0] after 25 steps, 749 profiles, 343 f >= 1 states, DL13 failures 0 [0.4 s]
+#   climb {'climb': 141, 'pos': 141, 'start': 'k4_certs_5_pure.json.gz#2815:141,276,161,17,185'}: best score [1000000000, 0, 0] after 0 steps, 252 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 142, 'pos': 142, 'start': 'k4_certs_5_pure.json.gz#2552:33,268,146,261,42'}: best score [1000000000, 0, 0] after 0 steps, 252 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 143, 'pos': 143, 'start': 'k4_certs_5_pure.json.gz#3748:47,27,10,12,238'}: best score [14, 0, 0] after 19 steps, 818 profiles, 241 f >= 1 states, DL13 failures 0 [0.3 s]
+#   climb {'climb': 144, 'pos': 144, 'start': 'k4_certs_5_pure.json.gz#3361:10,106,54,0,162'}: best score [2, 0, -1] after 24 steps, 956 profiles, 1477 f >= 1 states, DL13 failures 0 [0.3 s]
+#   climb {'climb': 145, 'pos': 145, 'start': 'k4_certs_5_pure.json.gz#2872:87,45,29,141,180'}: best score [1000000000, 0, 0] after 0 steps, 246 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 146, 'pos': 146, 'start': 'k4_certs_5_pure.json.gz#2069:83,171,14,112,85'}: best score [1000000000, 0, 0] after 0 steps, 249 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 147, 'pos': 147, 'start': 'k4_certs_5_pure.json.gz#2567:139,46,22,100,240'}: best score [1000000000, 0, 0] after 0 steps, 249 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 148, 'pos': 148, 'start': 'k4_certs_5_pure.json.gz#2115:51,36,67,89,209'}: best score [1000000000, 0, 0] after 0 steps, 251 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 149, 'pos': 149, 'start': 'k4_certs_5_pure.json.gz#3776:85,70,112,16,115'}: best score [5, 0, 0] after 21 steps, 627 profiles, 218 f >= 1 states, DL13 failures 0 [0.3 s]
+#   climb {'climb': 150, 'pos': 150, 'start': 'k4_certs_5_pure.json.gz#2899:136,97,89,11,96'}: best score [1000000000, 0, 0] after 0 steps, 251 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 151, 'pos': 151, 'start': 'k4_certs_5_pure.json.gz#4418:17,17,17,72,115'}: best score [1000000000, 0, 0] after 0 steps, 245 profiles, 0 f >= 1 states, DL13 failures 0 [0.1 s]
+#   climb {'climb': 152, 'pos': 152, 'start': 'k4_certs_5_pure.json.gz#4435:118,10,47,264,24'}: best score [11, 0, 0] after 30 steps, 907 profiles, 1664 f >= 1 states, DL13 failures 0 [0.4 s]
+#   climb {'climb': 153, 'pos': 153, 'start': 'k4_certs_5_pure.json.gz#3564:102,128,31,270,221'}: best score [1000000000, 0, 0] after 0 steps, 252 profiles, 0 f >= 1 states, DL13 failures 0 [0.1 s]
+#   climb {'climb': 154, 'pos': 154, 'start': 'k4_certs_5_pure.json.gz#3358:100,76,14,165,80'}: best score [8, 0, 0] after 21 steps, 876 profiles, 1851 f >= 1 states, DL13 failures 0 [0.3 s]
+#   climb {'climb': 155, 'pos': 155, 'start': 'k4_certs_5_pure.json.gz#4188:97,66,102,124,203'}: best score [2, 0, -2] after 17 steps, 495 profiles, 1649 f >= 1 states, DL13 failures 0 [0.2 s]
+#   climb {'climb': 156, 'pos': 156, 'start': 'k4_certs_5_pure.json.gz#3346:35,105,131,206,13'}: best score [1000000000, 0, 0] after 0 steps, 251 profiles, 0 f >= 1 states, DL13 failures 0 [0.1 s]
+#   climb {'climb': 157, 'pos': 157, 'start': 'k4_certs_5_pure.json.gz#2341:60,156,75,105,78'}: best score [1000000000, 0, 0] after 0 steps, 251 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 158, 'pos': 158, 'start': 'k4_certs_5_pure.json.gz#3377:66,30,62,183,52'}: best score [5, 0, 0] after 14 steps, 659 profiles, 293 f >= 1 states, DL13 failures 0 [0.2 s]
+#   climb {'climb': 159, 'pos': 159, 'start': 'k4_certs_5_pure.json.gz#1317:72,51,107,79,102'}: best score [1000000000, 0, 0] after 0 steps, 249 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 160, 'pos': 160, 'start': 'k4_certs_5_pure.json.gz#2080:132,183,56,30,180'}: best score [1000000000, 0, 0] after 0 steps, 253 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 161, 'pos': 161, 'start': 'k4_certs_5_pure.json.gz#2271:65,195,163,279,10'}: best score [1000000000, 0, 0] after 0 steps, 251 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 162, 'pos': 162, 'start': 'k4_certs_5_pure.json.gz#2679:41,66,271,10,176'}: best score [5, 0, 0] after 11 steps, 574 profiles, 181 f >= 1 states, DL13 failures 0 [0.1 s]
+#   climb {'climb': 163, 'pos': 163, 'start': 'k4_certs_5_pure.json.gz#2376:38,205,225,286,218'}: best score [1000000000, 0, 0] after 0 steps, 249 profiles, 0 f >= 1 states, DL13 failures 0 [0.1 s]
+#   climb {'climb': 164, 'pos': 164, 'start': 'k4_certs_5_pure.json.gz#2266:17,122,180,89,161'}: best score [1000000000, 0, 0] after 0 steps, 244 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 165, 'pos': 165, 'start': 'k4_certs_5_pure.json.gz#4217:124,99,68,14,66'}: best score [2, 0, -1] after 20 steps, 838 profiles, 2297 f >= 1 states, DL13 failures 0 [0.5 s]
+#   climb {'climb': 166, 'pos': 166, 'start': 'k4_certs_5_pure.json.gz#2206:14,19,88,250,218'}: best score [1000000000, 0, 0] after 0 steps, 248 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 167, 'pos': 167, 'start': 'k4_certs_5_pure.json.gz#4122:210,54,46,126,171'}: best score [1, 0, -1] after 25 steps, 998 profiles, 1068 f >= 1 states, DL13 failures 0 [0.6 s]
+#   climb {'climb': 168, 'pos': 168, 'start': 'k4_certs_5_pure.json.gz#4246:39,76,42,150,257'}: best score [6, 0, 0] after 17 steps, 761 profiles, 1257 f >= 1 states, DL13 failures 0 [0.5 s]
+#   climb {'climb': 169, 'pos': 169, 'start': 'k4_certs_5_pure.json.gz#3389:133,13,7,161,37'}: best score [0, 0, -21] after 18 steps, 785 profiles, 941 f >= 1 states, DL13 failures 20 [0.3 s]
+#   DL13 FAILS in climb {'climb': 169, 'pos': 169, 'start': 'k4_certs_5_pure.json.gz#3389:133,13,7,161,37'}: {'tag': 169, 'prof': [34, 34, 6, 14, 22], 'f': 3, 'omega': 4, 'nmin': 98, 'B': [[0, 2], [9], [3, 6], [8], [10]], 'def': 1, 'k': 2, 'nn': 1, 'pm': 0, 'sig': 'G,D2', 'br': 'none', 'r13d': -1, 'dT1': -1, 'dT3': -1, 't1types': [], 't3types': [], 'frozen': [1, 3, 4], 'J': [1, 4, 5, 7], 'own': [[0, 1], [2, 1]], 'exp': [[0, 1, 'G'], [2, 1, 'G']], 'better': [{'B': [[0, 2], [1], [8], [9], [10]], 'def': 0}, {'B': [[0, 2], [1], [8], [10], [9]], 'def': 0}, {'B': [[0, 2], [9], [8], [10], [7]], 'def': 0}, {'B': [[0, 2], [10], [3, 6], [8], [9]], 'def': -1}, {'B': [[0, 2], [10], [3, 6], [9], [8]], 'def': -1}, {'B': [[0, 2], [10], [7], [8], [9]], 'def': -1}, {'B': [[0, 2], [10], [7], [9], [8]], 'def': -1}, {'B': [[0, 2], [10], [3, 7], [8], [9]], 'def': -1}, {'B': [[0, 2], [10], [3, 7], [9], [8]], 'def': -1}, {'B': [[0, 2], [10], [6, 7], [8], [9]], 'def': -1}, {'B': [[0, 2], [10], [6, 7], [9], [8]], 'def': -1}, {'B': [[0, 2], [10], [8], [5], [9]], 'def': 0}, {'B': [[0, 2], [10], [8], [9], [7]], 'def': -1}, {'B': [[6], [1], [8], [9], [10]], 'def': 0}, {'B': [[6], [1], [8], [10], [9]], 'def': 0}, {'B': [[6], [1, 4], [8], [9], [10]], 'def': 0}, {'B': [[6], [1, 4], [8], [10], [9]], 'def': 0}, {'B': [[6], [9], [8], [10], [7]], 'def': 0}, {'B': [[6], [10], [7], [8], [9]], 'def': -1}, {'B': [[6], [10], [7], [9], [8]], 'def': -1}, {'B': [[6], [10], [3, 7], [8], [9]], 'def': -1}, {'B': [[6], [10], [3, 7], [9], [8]], 'def': -1}, {'B': [[6], [10], [8], [5], [9]], 'def': 0}, {'B': [[6], [10], [8], [9], [7]], 'def': -1}, {'B': [[0, 6], [1], [8], [9], [10]], 'def': 0}, {'B': [[0, 6], [1], [8], [10], [9]], 'def': 0}, {'B': [[0, 6], [1, 4], [8], [9], [10]], 'def': 0}, {'B': [[0, 6], [1, 4], [8], [10], [9]], 'def': 0}, {'B': [[0, 6], [9], [8], [10], [7]], 'def': 0}, {'B': [[0, 6], [10], [7], [8], [9]], 'def': -1}, {'B': [[0, 6], [10], [7], [9], [8]], 'def': -1}, {'B': [[0, 6], [10], [3, 7], [8], [9]], 'def': -1}, {'B': [[0, 6], [10], [3, 7], [9], [8]], 'def': -1}, {'B': [[0, 6], [10], [8], [5], [9]], 'def': 0}, {'B': [[0, 6], [10], [8], [9], [7]], 'def': -1}, {'B': [[2, 6], [1], [8], [9], [10]], 'def': 0}, {'B': [[2, 6], [1], [8], [10], [9]], 'def': 0}, {'B': [[2, 6], [1, 4], [8], [9], [10]], 'def': 0}, {'B': [[2, 6], [1, 4], [8], [10], [9]], 'def': 0}, {'B': [[2, 6], [9], [8], [10], [7]], 'def': 0}, {'B': [[2, 6], [10], [7], [8], [9]], 'def': -1}, {'B': [[2, 6], [10], [7], [9], [8]], 'def': -1}, {'B': [[2, 6], [10], [3, 7], [8], [9]], 'def': -1}, {'B': [[2, 6], [10], [3, 7], [9], [8]], 'def': -1}, {'B': [[2, 6], [10], [8], [5], [9]], 'def': 0}, {'B': [[2, 6], [10], [8], [9], [7]], 'def': -1}, {'B': [[10], [1], [3, 6], [8], [9]], 'def': -1}, {'B': [[10], [1], [3, 6], [9], [8]], 'def': -1}, {'B': [[10], [1], [7], [8], [9]], 'def': -1}, {'B': [[10], [1], [7], [9], [8]], 'def': -1}, {'B': [[10], [1], [3, 7], [8], [9]], 'def': -1}, {'B': [[10], [1], [3, 7], [9], [8]], 'def': -1}, {'B': [[10], [1], [6, 7], [8], [9]], 'def': -1}, {'B': [[10], [1], [6, 7], [9], [8]], 'def': -1}, {'B': [[10], [1], [8], [5], [9]], 'def': 0}, {'B': [[10], [1], [8], [9], [7]], 'def': 0}, {'B': [[10], [1, 4], [3, 6], [8], [9]], 'def': 0}, {'B': [[10], [1, 4], [3, 6], [9], [8]], 'def': 0}, {'B': [[10], [1, 4], [7], [8], [9]], 'def': 0}, {'B': [[10], [1, 4], [7], [9], [8]], 'def': 0}, {'B': [[10], [1, 4], [3, 7], [8], [9]], 'def': 0}, {'B': [[10], [1, 4], [3, 7], [9], [8]], 'def': 0}, {'B': [[10], [1, 4], [6, 7], [8], [9]], 'def': 0}, {'B': [[10], [1, 4], [6, 7], [9], [8]], 'def': 0}, {'B': [[10], [1, 4], [8], [5], [9]], 'def': 0}, {'B': [[10], [1, 4], [8], [9], [7]], 'def': 0}], 'vals': [[3, 2, 4, 8], [3, 2, 4, 8], [2, 3, 4, 8], [2, 4, 8, 3], [2, 6, 10, 3]], 'core': {'key': {'climb': 169, 'pos': 169, 'start': 'k4_certs_5_pure.json.gz#3389:133,13,7,161,37'}, 'm': 11, 'sets': [[0, 2, 6, 10], [1, 4, 9, 10], [3, 6, 7, 8], [5, 8, 9, 10], [7, 8, 9, 10]]}}
+#   climb {'climb': 170, 'pos': 170, 'start': 'k4_certs_5_pure.json.gz#2501:125,20,23,47,133'}: best score [8, 0, 0] after 19 steps, 823 profiles, 98 f >= 1 states, DL13 failures 0 [0.1 s]
+#   climb {'climb': 171, 'pos': 171, 'start': 'k4_certs_5_pure.json.gz#3001:264,176,180,140,260'}: best score [1000000000, 0, 0] after 0 steps, 247 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 172, 'pos': 172, 'start': 'k4_certs_5_pure.json.gz#4257:112,40,46,49,25'}: best score [9, 0, -3] after 14 steps, 640 profiles, 912 f >= 1 states, DL13 failures 0 [0.3 s]
+#   climb {'climb': 173, 'pos': 173, 'start': 'k4_certs_5_pure.json.gz#4357:19,124,2,189,0'}: best score [3, 0, 0] after 26 steps, 778 profiles, 2248 f >= 1 states, DL13 failures 0 [0.5 s]
+#   climb {'climb': 174, 'pos': 174, 'start': 'k4_certs_5_pure.json.gz#2957:15,63,41,41,179'}: best score [1000000000, 0, 0] after 0 steps, 254 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 175, 'pos': 175, 'start': 'k4_certs_5_pure.json.gz#2729:30,36,5,179,0'}: best score [1000000000, 0, 0] after 0 steps, 251 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 176, 'pos': 176, 'start': 'k4_certs_5_pure.json.gz#3568:69,25,48,47,14'}: best score [8, 0, 0] after 14 steps, 674 profiles, 124 f >= 1 states, DL13 failures 0 [0.2 s]
+#   climb {'climb': 177, 'pos': 177, 'start': 'k4_certs_5_pure.json.gz#3692:34,12,51,112,139'}: best score [4, 0, 0] after 18 steps, 794 profiles, 715 f >= 1 states, DL13 failures 0 [0.3 s]
+#   climb {'climb': 178, 'pos': 178, 'start': 'k4_certs_5_pure.json.gz#4374:119,106,102,128,51'}: best score [5, 0, -7] after 17 steps, 493 profiles, 2724 f >= 1 states, DL13 failures 0 [0.2 s]
+#   climb {'climb': 179, 'pos': 179, 'start': 'k4_certs_5_pure.json.gz#4387:102,99,8,180,91'}: best score [5, 0, -28] after 19 steps, 791 profiles, 5326 f >= 1 states, DL13 failures 0 [0.4 s]
+#   climb {'climb': 180, 'pos': 180, 'start': 'k4_certs_5_pure.json.gz#3291:22,15,192,42,147'}: best score [5, 0, 0] after 15 steps, 694 profiles, 138 f >= 1 states, DL13 failures 0 [0.3 s]
+#   climb {'climb': 181, 'pos': 181, 'start': 'k4_certs_5_pure.json.gz#2175:125,66,263,134,97'}: best score [10, 0, 0] after 18 steps, 785 profiles, 189 f >= 1 states, DL13 failures 0 [0.1 s]
+#   climb {'climb': 182, 'pos': 182, 'start': 'k4_certs_5_pure.json.gz#3078:150,7,117,26,37'}: best score [1000000000, 0, 0] after 0 steps, 253 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 183, 'pos': 183, 'start': 'k4_certs_5_pure.json.gz#3629:101,257,174,146,42'}: best score [14, 0, 0] after 15 steps, 704 profiles, 725 f >= 1 states, DL13 failures 0 [0.3 s]
+#   climb {'climb': 184, 'pos': 184, 'start': 'k4_certs_5_pure.json.gz#2476:111,174,30,5,257'}: best score [1000000000, 0, 0] after 0 steps, 257 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 185, 'pos': 185, 'start': 'k4_certs_5_pure.json.gz#2287:128,146,130,168,92'}: best score [1000000000, 0, 0] after 0 steps, 252 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 186, 'pos': 186, 'start': 'k4_certs_5_pure.json.gz#2410:100,256,10,186,78'}: best score [1000000000, 0, 0] after 0 steps, 252 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 187, 'pos': 187, 'start': 'k4_certs_5_pure.json.gz#4386:110,20,102,260,33'}: best score [6, 0, 0] after 20 steps, 581 profiles, 381 f >= 1 states, DL13 failures 0 [0.3 s]
+#   climb {'climb': 188, 'pos': 188, 'start': 'k4_certs_5_pure.json.gz#3490:95,101,43,206,165'}: best score [9, 0, 0] after 17 steps, 760 profiles, 123 f >= 1 states, DL13 failures 0 [0.3 s]
+#   climb {'climb': 189, 'pos': 189, 'start': 'k4_certs_5_pure.json.gz#2812:81,84,237,127,97'}: best score [1000000000, 0, 0] after 0 steps, 248 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 190, 'pos': 190, 'start': 'k4_certs_5_pure.json.gz#3457:0,40,87,184,34'}: best score [3, 0, 0] after 20 steps, 849 profiles, 785 f >= 1 states, DL13 failures 0 [0.3 s]
+#   climb {'climb': 191, 'pos': 191, 'start': 'k4_certs_5_pure.json.gz#2239:25,71,151,143,147'}: best score [5, 0, 0] after 21 steps, 868 profiles, 257 f >= 1 states, DL13 failures 0 [0.2 s]
+#   climb {'climb': 192, 'pos': 192, 'start': 'k4_certs_5_pure.json.gz#2225:25,11,41,131,274'}: best score [6, 0, 0] after 19 steps, 828 profiles, 157 f >= 1 states, DL13 failures 0 [0.1 s]
+#   climb {'climb': 193, 'pos': 193, 'start': 'k4_certs_5_pure.json.gz#2171:53,41,51,142,168'}: best score [1000000000, 0, 0] after 0 steps, 251 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 194, 'pos': 194, 'start': 'k4_certs_5_pure.json.gz#3615:130,198,39,19,38'}: best score [1000000000, 0, 0] after 0 steps, 248 profiles, 0 f >= 1 states, DL13 failures 0 [0.1 s]
+#   climb {'climb': 195, 'pos': 195, 'start': 'k4_certs_5_pure.json.gz#2747:141,89,80,249,7'}: best score [1000000000, 0, 0] after 0 steps, 253 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 196, 'pos': 196, 'start': 'k4_certs_5_pure.json.gz#3078:84,25,99,211,49'}: best score [1000000000, 0, 0] after 0 steps, 245 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 197, 'pos': 197, 'start': 'k4_certs_5_pure.json.gz#2961:49,20,76,29,98'}: best score [1000000000, 0, 0] after 0 steps, 247 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 198, 'pos': 198, 'start': 'k4_certs_5_pure.json.gz#2343:14,87,54,102,27'}: best score [1000000000, 0, 0] after 0 steps, 252 profiles, 0 f >= 1 states, DL13 failures 0 [0.0 s]
+#   climb {'climb': 199, 'pos': 199, 'start': 'k4_certs_5_pure.json.gz#3753:64,12,249,90,182'}: best score [7, 0, 0] after 18 steps, 796 profiles, 338 f >= 1 states, DL13 failures 0 [0.2 s]
+hunt catalog results/k4_gap/gap_n5_pure_s100.json.gz: profiles 105268, omega >= 1: 89825; k* = 0: 68025, 1: 20305, 2: 1493, 3: 2, >= 4: 0, inf: 0; P with def > 0: 100676, at distance 1: 90911, 2: 9757, 3: 8, >= 4: 0, inf: 0; Pareto-maximal: 3191; largest least deficit 0
+  DL13: states (def > 0) with f = 0: 296 (R_13 fails at 0), with f >= 1: 100380; DL13 FAILS at 24 of the f >= 1 states; T1 only 3772, T3 only 9741 (of which T3 with a helper only 15), both 86843; with a plain T3 move 85041, with a helper T3 move 95237; nearest R_13 improvement at distance 1 / 2 / 3: 90615 / 9726 / 15; anomalies 0 [37 s]
+# profiles evaluated in this session (distinct within a climb): 105268; the 5 smallest scores: [((0, 0, -21), {'climb': 169, 'pos': 169, 'start': 'k4_certs_5_pure.json.gz#3389:133,13,7,161,37'}), ((0, 0, 0), {'climb': 39, 'pos': 39, 'start': 'k4_certs_5_pure.json.gz#3868:77,28,254,99,71'}), ((1, 0, -1), {'climb': 0, 'pos': 0, 'start': 'k4_certs_5_pure.json.gz#4018:284,48,150,3,129'}), ((1, 0, -1), {'climb': 167, 'pos': 167, 'start': 'k4_certs_5_pure.json.gz#4122:210,54,46,126,171'}), ((1, 0, 0), {'climb': 65, 'pos': 65, 'start': 'k4_certs_5_pure.json.gz#3475:18,8,54,97,251'})]
+table B: f >= 1 states by f | signature | branch : count
+  B 1|G,D2|T1+T3p+T3h : 23749
+  B 2|G,D2|T1+T3p+T3h : 14563
+  B 1|fO,G,D2|T1+T3p+T3h : 13719
+  B 1|fO|T1+T3h : 4446
+  B 1|fO,L|T1+T3h : 4053
+  B 1|fO,L|T1+T3p+T3h : 3772
+  B 2|fO,G,D2|T1+T3p+T3h : 3660
+  B 1|G,D2|T3p+T3h : 3137
+  B 1|fO,G,D2|T3p+T3h : 2559
+  B 1|G,D2,PM|T1+T3p+T3h : 1842
+  B 2|fO,L|T1+T3p+T3h : 1725
+  B 2|G,D2|T3p+T3h : 1441
+  B 3|G,D2|T1+T3p+T3h : 1416
+  B 1|fO|T1 : 1311
+  B 2|G,L,D2|T1+T3p+T3h : 1215
+  B 1|fO|T1+T3p+T3h : 1044
+  B 1|e2,fO|T1 : 1023
+  B 2|fO|T1+T3p+T3h : 1019
+  B 2|fO,L|T1+T3h : 1017
+  B 1|fO,L,O,D2|T1+T3p+T3h : 776
+  B 2|G,O,D2|T1+T3p+T3h : 753
+  B 1|e2,G,D2|T1+T3p+T3h : 733
+  B 2|fO|T1+T3h : 663
+  B 2|G,G1,D2|T1+T3p+T3h : 616
+  B 2|fO,G,D2|T3p+T3h : 576
+  B 3|G,D2|T3p+T3h : 572
+  B 1|e2,fO,G,D2|T1+T3p+T3h : 497
+  B 2|fO,G,L,D2|T1+T3p+T3h : 453
+  B 3|G,D2|T3p : 429
+  B 1|e2,fO|T1+T3h : 428
+  B 2|G,D2,PM|T1+T3p+T3h : 425
+  B 1|e2,G,D2,PM|T1+T3p+T3h : 360
+  B 1|fO,L|T1 : 269
+  B 1|G,D2|T1+T3p : 202
+  B 2|e2,fO|T1+T3p+T3h : 194
+  B 2|G,D2|T1+T3h : 177
+  B 1|fO,L,D2|T1+T3p+T3h : 175
+  B 1|G,D2|T3p : 159
+  B 3|fO,G,D2|T1+T3p+T3h : 157
+  B 2|fO,L|T1 : 146
+  B 1|fO,L,D2|T1 : 145
+  B 3|G,G1,D2|T3p+T3h : 140
+  B 1|e2,fO,L,O,D2|T1+T3p+T3h : 137
+  B 3|G,D2,PM|T1+T3p+T3h : 137
+  B 2|fO,G,O,D2|T1+T3p+T3h : 133
+  B 1|e2,fO,L|T1+T3h : 132
+  B 1|e2,fO|T1+T3p+T3h : 132
+  B 1|e2,fO,L|T1 : 120
+  B 2|fO,G,G1,D2|T1+T3p+T3h : 120
+  B 2|fO,G,O,D2|T3p+T3h : 119
+  B 2|fO|T1 : 119
+  B 2|e2,G,D2|T1+T3p+T3h : 115
+  B 2|e2,fO|T1 : 114
+  B 1|fO,L,D2|T1+T3h : 101
+  B 2|G,O,D2|T3p+T3h : 101
+  B 1|fO,L|T1+T3p : 99
+  B 1|fO,D2|T1+T3p+T3h : 93
+  B 2|G,D2,PM|T1 : 91
+  B 2|G,G1,D2,PM|T1+T3p+T3h : 89
+  B 2|G,D2|T1 : 88
+  B 2|L,O,D2|T1+T3h : 87
+  B 2|G,L,D2|T1 : 86
+  B 1|fO,O,D2|T1+T3p+T3h : 81
+  B 1|e2,G,D2|T3p : 72
+  B 2|G,D2|T1+T3p : 72
+  B 2|G,L,D2|T1+T3h : 67
+  B 3|G1,L|T1+T3p+T3h : 65
+  B 2|fO,L|T1+T3p : 64
+  B 1|e2,fO,L|T1+T3p+T3h : 51
+  B 2|G,L,D2,PM|T1+T3p+T3h : 51
+  B 2|fO,G,D2|T1+T3h : 48
+  B 1|fO,G1|T1+T3p+T3h : 47
+  B 2|e2,G,D2,PM|T1+T3p+T3h : 47
+  B 2|e2,L|T1+T3p+T3h : 46
+  B 3|G,G1,D2|T1+T3p+T3h : 46
+  B 1|e2,G,D2|T1+T3p : 45
+  B 1|e2,L,O,D2|T3p+T3h : 44
+  B 2|G1|T1+T3h : 44
+  B 2|L,O,D2|T1+T3p+T3h : 43
+  B 2|e2|T1 : 43
+  B 1|fO,G,D2|T1+T3p : 42
+  B 2|e2,L|T1 : 41
+  B 1|fO,O|T1+T3p+T3h : 40
+  B 2|e2,fO,G,D2|T1+T3p+T3h : 40
+  B 2|G,L,D2|T3p+T3h : 39
+  B 1|e2,G,D2|T3p+T3h : 38
+  B 2|e2,L,O,D2|T1+T3p+T3h : 38
+  B 2|e2,fO,L|T1+T3p+T3h : 38
+  B 1|fO,G,D2|T1+T3h : 37
+  B 2|G1|T1 : 37
+  B 2|e2,L|T3p+T3h : 36
+  B 2|e2|T1+T3h : 36
+  B 2|G,L,D2,PM|T1 : 35
+  B 3|G,L,D2|T1+T3p+T3h : 35
+  B 1|e2,fO,G,D2|T3p+T3h : 33
+  B 2|G,D2,PM|T1+T3h : 33
+  B 2|fO,L,O,D2|T1+T3p+T3h : 31
+  B 2|L|T1+T3p+T3h : 30
+  B 3|fO,G,D2|T3p+T3h : 29
+  B 1|e2,L,O,D2|T1+T3p+T3h : 28
+  B 3|G,D2|T1 : 27
+  B 2|e2,fO,L|T1 : 25
+  B 1|e2,fO,L|T1+T3p : 23
+  B 2|G,D2|T3p : 23
+  B 1|G,D2|T1+T3h : 22
+  B 1|e2,fO,L,D2|T1 : 22
+  B 2|e2,L|T1+T3h : 20
+  B 2|e2,fO|T1+T3h : 20
+  B 2|e2|T1+T3p+T3h : 17
+  B 3|G,L,D2,PM|T1+T3p+T3h : 17
+  B 1|e2,L,O,D2|T3p : 16
+  B 2|e2,G,D2|T3p : 16
+  B 2|e2,G,L,D2|T1+T3p+T3h : 16
+  B 2|fO,G,L,D2|T1+T3h : 16
+  B 2|G1,PM|T1+T3h : 15
+  B 2|fO,G1,L|T1+T3h : 15
+  B 2|fO,L,O,D2|T1+T3h : 14
+  B 3|G,G1,D2|T3p : 14
+  B 2|e2,fO,L|T3p+T3h : 13
+  B 2|fO,G,D2|T1+T3p : 13
+  B 3|fO,G,G1,D2|T3p+T3h : 13
+  B 2|G,L,D2,PM|T1+T3h : 12
+  B 2|e2|T3p+T3h : 12
+  B 2|fO,L,O|T1+T3p+T3h : 12
+  B 3|G,O,D2|T3p+T3h : 12
+  B 1|e2,fO,O|T1+T3p+T3h : 11
+  B 2|e2,fO,L|T3p : 11
+  B 2|fO,G,L,D2|T3p+T3h : 11
+  B 2|e2,fO,L|T1+T3h : 10
+  B 2|fO,L,D2|T1+T3p+T3h : 10
+  B 2|fO,O|T1+T3p+T3h : 10
+  B 3|G,D2|none : 10
+  B 3|fO,G,D2|none : 10
+  B 1|fO,G,D2|T3p : 9
+  B 2|e2,fO,G,D2|T3p+T3h : 9
+  B 2|e2,fO,G,L,D2|T1+T3p+T3h : 9
+  B 1|e2,G,D2,PM|T3p+T3h : 8
+  B 1|e2,L,O,D2|T1+T3p : 8
+  B 1|e2,fO,G,D2|T3p : 8
+  B 1|fO,L,O,D2|T3p+T3h : 8
+  B 2|L|T3p+T3h : 8
+  B 2|e2,G,G1,D2,PM|T1+T3p+T3h : 8
+  B 2|e2,fO,L|T1+T3p : 8
+  B 2|fO,L,D2|T1 : 8
+  B 3|fO,G,D2|T1 : 8
+  B 2|e2,G,L,D2,PM|T1+T3p+T3h : 7
+  B 3|G,O,D2|T1+T3p+T3h : 7
+  B 1|G,D2|T3h : 6
+  B 2|G1|T1+T3p+T3h : 6
+  B 2|L,O,D2|T1 : 6
+  B 2|e2,G,D2|T3p+T3h : 6
+  B 2|G1,PM|T1 : 5
+  B 2|fO|T1+T3p : 5
+  B 1|e2,fO,D2|T1+T3p+T3h : 4
+  B 2|G,L,O,D2|T1+T3p+T3h : 4
+  B 2|e2,L,PM|T1+T3h : 4
+  B 2|fO,L,D2|T1+T3h : 4
+  B 1|e2,fO,L,D2|T1+T3h : 3
+  B 1|e2,fO,L,D2|T1+T3p+T3h : 3
+  B 2|e2,L,PM|T1+T3p+T3h : 3
+  B 2|e2,fO,O|T1+T3p+T3h : 3
+  B 2|fO,L,O,D2|T1 : 3
+  B 1|e2,G,D2|T1+T3h : 2
+  B 1|e2,G,D2|T3h : 2
+  B 1|e2,fO,L,D2|T1+T3p : 2
+  B 1|e2,fO,L,O,D2|T3p+T3h : 2
+  B 1|e2,fO|T1+T3p : 2
+  B 1|fO,G,D2|T3h : 2
+  B 1|fO|T1+T3p : 2
+  B 2|G,D2|T3h : 2
+  B 2|e2,L|T3h : 2
+  B 2|e2,L|none : 2
+  B 2|e2,fO|T1+T3p : 2
+  B 2|fO,L|T3p+T3h : 2
+  B 3|G,D2|T1+T3h : 2
+  B 1|e2,L|T1+T3p+T3h : 1
+  B 2|e2,G1,L,PM|T1+T3p+T3h : 1
+  B 2|e2,L|T3p : 1
+  B 2|e2,fO,L|T3h : 1
+  B 2|e2,fO,L|none : 1
+  B 2|e2|none : 1
+  B 3|G1,L,PM|T1+T3p+T3h : 1
+table G: f >= 1 states by f | nearest distance k | branch : count
+  G 1|1|T1+T3p+T3h : 47295
+  G 2|1|T1+T3p+T3h : 25550
+  G 1|1|T1+T3h : 9224
+  G 1|2|T3p+T3h : 5829
+  G 1|1|T1 : 2890
+  G 2|2|T3p+T3h : 2373
+  G 2|1|T1+T3h : 2302
+  G 3|1|T1+T3p+T3h : 1881
+  G 2|1|T1 : 847
+  G 3|2|T3p+T3h : 766
+  G 3|2|T3p : 443
+  G 1|1|T1+T3p : 425
+  G 1|2|T3p : 264
+  G 2|1|T1+T3p : 164
+  G 2|2|T3p : 51
+  G 3|1|T1 : 35
+  G 3|2|none : 20
+  G 1|3|T3h : 8
+  G 2|2|T3h : 5
+  G 2|2|none : 4
+  G 1|2|T3h : 2
+  G 3|1|T1+T3h : 2
+table Y: f >= 1 states by f | branch | move type available : count
+  Y 1|T1+T3p+T3h|T3:xJ.h- : 46354
+  Y 1|T1+T3p+T3h|T1:rel : 43557
+  Y 1|T1+T3p+T3h|T3:xJ.hR : 43360
+  Y 1|T1+T3p+T3h|T3:xJ.hJ : 35560
+  Y 1|T1+T3p+T3h|T1:pool : 34326
+  Y 1|T1+T3p+T3h|T3:xJ.hZ : 25702
+  Y 2|T1+T3p+T3h|T1:rel : 24827
+  Y 2|T1+T3p+T3h|T3:xJ.h- : 24519
+  Y 2|T1+T3p+T3h|T3:xJ.hR : 22786
+  Y 2|T1+T3p+T3h|T3:xJ.hJ : 19167
+  Y 2|T1+T3p+T3h|T1:pool : 11926
+  Y 1|T1+T3p+T3h|T3:xH.hJ : 9680
+  Y 1|T1+T3h|T1:pool : 9183
+  Y 2|T1+T3p+T3h|T3:xJ.hZ : 9084
+  Y 1|T1+T3h|T3:xH.hJ : 8955
+  Y 1|T1+T3p+T3h|T3:xZ.h- : 7886
+  Y 1|T1+T3h|T1:rel : 7749
+  Y 1|T1+T3p+T3h|T3:xZ.hR : 7189
+  Y 1|T1+T3p+T3h|T3:xH.hR : 6059
+  Y 1|T3p+T3h|T3:xJ.h- : 5756
+  Y 2|T1+T3p+T3h|T3:xH.hJ : 5605
+  Y 2|T1+T3p+T3h|T3:xZ.h- : 5555
+  Y 1|T1+T3p+T3h|T3:xZ.hJ : 5395
+  Y 1|T3p+T3h|T3:xJ.hJ : 5240
+  Y 2|T1+T3p+T3h|T3:xZ.hR : 4942
+  Y 1|T3p+T3h|T3:xJ.hR : 4713
+  Y 2|T1+T3p+T3h|T3:xH.hR : 4693
+  Y 1|T1+T3p+T3h|T3:xH.hZ : 4145
+  Y 1|T3p+T3h|T3:xJ.hZ : 4107
+  Y 2|T1+T3p+T3h|T3:xZ.hJ : 4054
+  Y 1|T1|T1:pool : 2768
+  Y 2|T3p+T3h|T3:xJ.h- : 2339
+  Y 2|T1+T3h|T1:rel : 2234
+  Y 1|T1|T1:rel : 2211
+  Y 2|T3p+T3h|T3:xJ.hJ : 2163
+  Y 1|T3p+T3h|T3:xH.hR : 2108
+  Y 2|T1+T3h|T1:pool : 2102
+  Y 2|T1+T3h|T3:xH.hJ : 2065
+  Y 3|T1+T3p+T3h|T1:rel : 1881
+  Y 3|T1+T3p+T3h|T3:xJ.h- : 1830
+  Y 2|T3p+T3h|T3:xJ.hR : 1819
+  Y 2|T1+T3p+T3h|T3:xH.hZ : 1747
+  Y 3|T1+T3p+T3h|T3:xJ.hR : 1698
+  Y 1|T1+T3p+T3h|T3:xZ.hZ : 1598
+  Y 1|T1+T3p+T3h|T1:grow : 1334
+  Y 1|T3p+T3h|T3:xH.hZ : 1308
+  Y 1|T1+T3h|T1:grow : 1236
+  Y 1|T1+T3h|T3:xH.hR : 1188
+  Y 1|T3p+T3h|T3:xH.hJ : 1027
+  Y 2|T3p+T3h|T3:xJ.hZ : 922
+  Y 3|T1+T3p+T3h|T3:xJ.hJ : 904
+  Y 2|T1|T1:rel : 847
+  Y 3|T3p+T3h|T3:xJ.h- : 752
+  Y 2|T1+T3p+T3h|T3:xZ.hZ : 695
+  Y 3|T3p+T3h|T3:xJ.hR : 681
+  Y 2|T1|T1:pool : 628
+  Y 2|T3p+T3h|T3:xZ.h- : 620
+  Y 2|T3p+T3h|T3:xZ.hR : 557
+  Y 2|T1+T3p+T3h|T1:grow : 553
+  Y 1|T3p+T3h|T3:xZ.h- : 526
+  Y 3|T3p|T3:xJ.h- : 443
+  Y 1|T1|T1:grow : 442
+  Y 3|T1+T3p+T3h|T3:xH.hJ : 427
+  Y 1|T1+T3p|T3:xJ.h- : 417
+  Y 2|T3p+T3h|T3:xH.hR : 370
+  Y 1|T1+T3p|T1:pool : 356
+  Y 1|T3p+T3h|T3:xZ.hJ : 352
+  Y 2|T1+T3h|T3:xH.hR : 344
+  Y 1|T3p+T3h|T3:xZ.hR : 329
+  Y 1|T3p+T3h|T3:xZ.hZ : 325
+  Y 3|T3p+T3h|T3:xJ.hJ : 280
+  Y 2|T3p+T3h|T3:xZ.hJ : 269
+  Y 2|T1+T3h|T3:xH.hZ : 266
+  Y 3|T1+T3p+T3h|T3:xH.hR : 260
+  Y 1|T3p|T3:xJ.h- : 248
+  Y 1|T1+T3h|T3:xH.hZ : 215
+  Y 2|T1+T3h|T3:xJ.hR : 211
+  Y 3|T1+T3p+T3h|T3:xZ.h- : 185
+  Y 1|T1+T3p|T1:rel : 169
+  Y 3|T1+T3p+T3h|T3:xZ.hR : 164
+  Y 2|T3p+T3h|T3:xH.hJ : 156
+  Y 2|T1+T3h|T1:grow : 154
+  Y 2|T1+T3p|T3:xJ.h- : 148
+  Y 1|T1+T3h|T3:xJ.hZ : 135
+  Y 2|T1+T3p|T1:rel : 131
+  Y 2|T1+T3p|T1:pool : 127
+  Y 3|T1+T3p+T3h|T1:pool : 95
+  Y 3|T1+T3p+T3h|T3:xZ.hJ : 90
+  Y 1|T1+T3h|T3:xJ.hJ : 87
+  Y 2|T3p+T3h|T3:xH.hZ : 81
+  Y 2|T1+T3h|T3:xJ.hJ : 58
+  Y 1|T1+T3h|T3:xJ.hR : 57
+  Y 3|T3p+T3h|T3:xZ.hR : 54
+  Y 3|T1+T3p+T3h|T3:xJ.hZ : 51
+  Y 1|T1+T3h|T3:xZ.hJ : 45
+  Y 2|T3p|T3:xJ.h- : 39
+  Y 2|T1|T1:grow : 38
+  Y 3|T3p+T3h|T3:xZ.h- : 38
+  Y 3|T3p|T3:xZ.h- : 36
+  Y 3|T1|T1:rel : 35
+  Y 1|T3p|T3:xZ.h- : 34
+  Y 2|T1+T3h|T3:xJ.hZ : 31
+  Y 3|T3p+T3h|T3:xJ.hZ : 31
+  Y 3|T3p+T3h|T3:xH.hR : 28
+  Y 1|T1+T3h|T3:xZ.hR : 24
+  Y 2|T1+T3p|T3:xZ.h- : 18
+  Y 2|T1+T3p|T1:grow : 12
+  Y 2|T3p|T3:xZ.h- : 12
+  Y 3|T3p+T3h|T3:xZ.hJ : 12
+  Y 1|T3h|T3:xJ.hJ : 10
+  Y 1|T3h|T3:xJ.hZ : 10
+  Y 3|T1+T3p+T3h|T3:xH.hZ : 10
+  Y 1|T1+T3p|T3:xZ.h- : 8
+  Y 1|T3h|T3:xH.hJ : 8
+  Y 1|T3h|T3:xZ.hJ : 8
+  Y 1|T3h|T3:xZ.hZ : 8
+  Y 3|T1+T3p+T3h|T3:xZ.hZ : 7
+  Y 1|T3h|T3:xJ.hR : 5
+  Y 1|T3h|T3:xH.hR : 4
+  Y 2|T3p+T3h|T3:xZ.hZ : 4
+  Y 2|T3h|T3:xH.hZ : 3
+  Y 3|T3p+T3h|T3:xH.hJ : 3
+  Y 2|T3h|T3:xH.hJ : 2
+  Y 2|T3h|T3:xH.hR : 2
+  Y 2|T3h|T3:xJ.hJ : 2
+  Y 2|T3h|T3:xJ.hR : 2
+  Y 3|T1+T3h|T1:rel : 2
+  Y 3|T3p+T3h|T3:xZ.hZ : 2
+  Y 3|T1+T3h|T3:xH.hR : 1
+  Y 3|T1+T3h|T3:xJ.hR : 1

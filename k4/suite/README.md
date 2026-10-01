@@ -8,7 +8,7 @@ test, not a certificate.
 
 ## Contents
 
-- `instances/*.json`: 156 records, 151 complete instances and 5 local configurations of `k4/MINCEX.md` (marked
+- `instances/*.json`: 158 records, 153 complete instances and 5 local configurations of `k4/MINCEX.md` (marked
   `"kind"`, skipped by the runner). Collected from main and from the branches of PRs #37, #41, #43, #44, #45, #50, #51,
   #53 (read with `git show`, never edited), plus three instances from #51's review, now on main in
   `attempts/k4-c4min-reduce-lil.md` (N1 = `lil-text-n3`, N2 = `lil-text-n4`: #51's narrow catalogue; NC =
@@ -16,6 +16,11 @@ test, not a certificate.
   own `count-n3m8`. Added later by compute/k4-dl2 (#70): `dl2-rot-n3m7`, an f = 0 counterexample to DL₂
   (`attempts/k4-dl2-rotation.md`; no predicate of `predicates.py` expresses DL₂, so it is checked with
   `python3 k4/suite/run.py --pred=k4/dl2_pred.py:dl2_c` and `:dl2_suite`, `results/k4_dl2/suite_dl2_pred.log`).
+  Added by compute/k4-dl13 (#74): `dl13-n4m6-fswap` and `dl13-n4m9-rot`, counterexamples to DL₁₃ (n = 4, f = 3 and
+  f = 1; the first also to DL_T, the second to DL₁₃₄; `attempts/k4-dl13-frozen-swap.md`, `attempts/k4-dl13-refuted.md`,
+  `attempts/k4-dl134-rotation.md`), checked with
+  `python3 k4/suite/run.py --pred=k4/dl13_pred.py:dl13_c` (and `:dl13_model`, `:dl13_x`),
+  `results/k4_dl13/suite_dl13_pred.log`.
 - `model.py`: this workstream's own implementation of the objects, written from the definitions (k4/c4x.md §1,
   k4/c4min.md §1, §3.6, §4, k4/hall.md §1): 𝒫, needs, frozen agents, keys, configurations, valid owners with the
   unfreezing clause, the removal-only deficit, completions, the potentials t, r, Λ, p, Φ, Φ′, and an own SAT encoding of
@@ -239,3 +244,5 @@ Logs in `results/k4_strategy/` (each starts with its command); `python3 k4/suite
 | `gap-w-n4-m8-pure117` | 4 | 8 | yes | #53 | `results/k4_gap_bench_hard_hunt.log`, `results/k4_gap/hard_hunt_smallest.json.gz` | #41 section 4 (-U0): some Phi'-maximum has a valid owner with C empty (no withheld goods, no unfreezing); [extremal flag, not a refutation] category F2 (k4/gap.md section 3): f >= 2 (the exposed-frozen gap beyond f … | `max-simple` |
 | `gap-w-n4-m8-pure120` | 4 | 8 | yes | #53 | `results/k4_gap/hard_hunt_smallest.json.gz`, `results/k4_gap_hard_hunt.log` | #41 section 4 (-U0): some Phi'-maximum has a valid owner with C empty (no withheld goods, no unfreezing) | `max-simple` |
 | `dl2-rot-n3m7` | 3 | 7 | yes | #70 | `attempts/k4-dl2-rotation.md`, `attempts/k4_dl2_rotation.py` | Conjecture DL2 (k4/strategy.md §3): every min-frozen P with def(P) > 0 has a min-frozen P' with def(P') < def… |  |
+| `dl13-n4m6-fswap` | 4 | 6 | yes | #74 | `attempts/k4-dl13-frozen-swap.md`, `attempts/k4_dl13_refuted.py` | Conjecture DL13 (k4/dl2.md §3): at f >= 1 every min-frozen P with def(P) > 0 has a min-frozen P' with def(P')…; Conjecture DL_T (k4/dl2.md §3): the same with (T2) rotations of free agents allowed as well; none of the impr… |  |
+| `dl13-n4m9-rot` | 4 | 9 | yes | #74 | `attempts/k4-dl13-refuted.md`, `attempts/k4-dl134-rotation.md` | Conjecture DL13 (k4/dl2.md §3) at f = 1: the min-frozen P = ({7},{2,8},{4,5},{3,6}) with def 1 has no min-fro…; Conjecture DL134 (the extension of DL13 by T4: frozen agents permute their singleton bases, NA kept; attempts… |  |

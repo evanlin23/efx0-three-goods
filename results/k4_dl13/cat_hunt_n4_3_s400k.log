@@ -1,0 +1,74 @@
+# command: python3 k4/dl13_run.py catalog results/k4_gap/hunt_n4_3_s400k.json.gz --jobs=1 --rt=5 --ro=200 --ckpt=results/k4_dl13/ckpt_cat.jsonl --dump=results/k4_dl13/states_cat.jsonl.gz --tables=results/k4_dl13/tables_cat_hunt_n4_3_s400k.json
+# dl13.c sha256 f891de3a228a63fcd05008c0e4d9202068fc0d2b41be5876775affd4b2131d65
+# catalog results/k4_gap/hunt_n4_3_s400k.json.gz: 41027 instances, 21 units to run, 0 from the checkpoint
+catalog results/k4_gap/hunt_n4_3_s400k.json.gz: profiles 41027, omega >= 1: 41027; k* = 0: 38969, 1: 2054, 2: 4, 3: 0, >= 4: 0, inf: 0; P with def > 0: 3552, at distance 1: 3537, 2: 15, 3: 0, >= 4: 0, inf: 0; Pareto-maximal: 21; largest least deficit 0
+  DL13: states (def > 0) with f = 0: 0 (R_13 fails at 0), with f >= 1: 3552; DL13 FAILS at 0 of the f >= 1 states; T1 only 149, T3 only 15 (of which T3 with a helper only 0), both 3388; with a plain T3 move 3032, with a helper T3 move 3376; nearest R_13 improvement at distance 1 / 2 / 3: 3537 / 15 / 0; anomalies 0 [11 s]
+table B: f >= 1 states by f | signature | branch : count
+  B 1|G,D2|T1+T3p+T3h : 2229
+  B 1|fO,G,D2|T1+T3p+T3h : 342
+  B 1|fO,L,D2|T1+T3p+T3h : 333
+  B 1|fO,L,D2|T1+T3h : 219
+  B 1|fO,L|T1+T3h : 152
+  B 1|fO,L,D2|T1 : 149
+  B 2|G,D2|T1+T3p+T3h : 42
+  B 1|fO,L,D2|T1+T3p : 27
+  B 2|fO,G,D2|T1+T3p+T3h : 14
+  B 1|e1,G,D2|T1+T3p+T3h : 9
+  B 2|G,D2,PM|T1+T3p+T3h : 9
+  B 1|G,D2,PM|T1+T3p+T3h : 8
+  B 2|fO,G,D2|T3p+T3h : 7
+  B 2|G,D2|T3p+T3h : 4
+  B 1|G,D2|T3p+T3h : 3
+  B 2|G,L,D2,PM|T1+T3p+T3h : 3
+  B 2|G,D2,PM|T3p+T3h : 1
+  B 2|G,G1,D2|T1+T3p+T3h : 1
+table G: f >= 1 states by f | nearest distance k | branch : count
+  G 1|1|T1+T3p+T3h : 2921
+  G 1|1|T1+T3h : 371
+  G 1|1|T1 : 149
+  G 2|1|T1+T3p+T3h : 69
+  G 1|1|T1+T3p : 27
+  G 2|2|T3p+T3h : 12
+  G 1|2|T3p+T3h : 3
+table Y: f >= 1 states by f | branch | move type available : count
+  Y 1|T1+T3p+T3h|T3:xJ.h- : 2921
+  Y 1|T1+T3p+T3h|T3:xJ.hR : 2794
+  Y 1|T1+T3p+T3h|T1:pool : 2690
+  Y 1|T1+T3p+T3h|T1:rel : 2664
+  Y 1|T1+T3p+T3h|T3:xJ.hJ : 2162
+  Y 1|T1+T3p+T3h|T3:xH.hJ : 1616
+  Y 1|T1+T3p+T3h|T3:xJ.hZ : 731
+  Y 1|T1+T3h|T1:pool : 371
+  Y 1|T1+T3h|T1:rel : 370
+  Y 1|T1+T3h|T3:xH.hJ : 368
+  Y 1|T1+T3p+T3h|T3:xH.hR : 357
+  Y 1|T1|T1:pool : 149
+  Y 1|T1|T1:rel : 148
+  Y 1|T1+T3p+T3h|T3:xH.hZ : 87
+  Y 2|T1+T3p+T3h|T1:rel : 58
+  Y 2|T1+T3p+T3h|T3:xJ.h- : 52
+  Y 2|T1+T3p+T3h|T3:xJ.hJ : 48
+  Y 2|T1+T3p+T3h|T3:xJ.hR : 48
+  Y 2|T1+T3p+T3h|T1:pool : 40
+  Y 1|T1+T3p+T3h|T3:xZ.h- : 27
+  Y 1|T1+T3p+T3h|T3:xZ.hJ : 27
+  Y 1|T1+T3p|T1:pool : 27
+  Y 1|T1+T3p|T3:xJ.h- : 27
+  Y 1|T1+T3p+T3h|T3:xZ.hR : 26
+  Y 2|T1+T3p+T3h|T3:xJ.hZ : 26
+  Y 1|T1+T3p|T1:rel : 23
+  Y 2|T1+T3p+T3h|T3:xH.hJ : 19
+  Y 2|T1+T3p+T3h|T3:xZ.h- : 18
+  Y 1|T1+T3h|T3:xH.hZ : 15
+  Y 2|T1+T3p+T3h|T3:xZ.hJ : 15
+  Y 2|T1+T3p+T3h|T3:xZ.hR : 12
+  Y 2|T3p+T3h|T3:xJ.h- : 12
+  Y 2|T3p+T3h|T3:xJ.hJ : 12
+  Y 2|T3p+T3h|T3:xJ.hR : 9
+  Y 2|T1+T3p+T3h|T3:xH.hR : 8
+  Y 2|T3p+T3h|T3:xJ.hZ : 8
+  Y 1|T1+T3h|T3:xH.hR : 3
+  Y 1|T3p+T3h|T3:xH.hJ : 3
+  Y 1|T3p+T3h|T3:xJ.h- : 3
+  Y 1|T3p+T3h|T3:xJ.hJ : 3
+  Y 1|T3p+T3h|T3:xJ.hR : 3
