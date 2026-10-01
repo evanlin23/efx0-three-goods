@@ -246,8 +246,8 @@ that arises from P by a (T1) or a (T3) move.
 
 DL₁₃ implies DL_T at f ≥ 1 (R_13 ⊆ R_T), and with Theorem Z at f = 0 it implies TARGET₄: for the relation R* := "(T1)
 or (T3) when the profile has f ≥ 1, any pair of min-frozen pre-allocations when f = 0", DL_{R*} holds at f = 0 by
-Theorem Z (as above) and at f ≥ 1 by DL₁₃, and `EFX.C4min.target4_of_defLocal` turns DL_{R*} into TARGET₄. (Writing
-R* and this combination in Lean is a separate small task, not done here.)
+Theorem Z (as above) and at f ≥ 1 by DL₁₃, and `EFX.C4min.target4_of_defLocal` turns DL_{R*} into TARGET₄. (This
+combination is machine-checked: `lean/EFX/DL13.lean`, `EFX.C4min.target4_of_DL13`, row K4.DL2.T13.LEAN.)
 
 *Evidence* (EVIDENCE rows K4.DL2.TE for DL_T, K4.DL2.T13E for DL₁₃). The runs (`results/k4_dl2_relations/`, table
 below): the suite; #53's catalogues (n = 2, 3 every record; n = 4 every 10th; n = 5 every 20th), its hard hunt and its
