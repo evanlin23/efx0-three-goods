@@ -1,0 +1,3 @@
+# command: python3 k4/dlrt4_run.py certs results/k4_certs_4_n4_3.json.gz --cores=228:285 --jobs=4 --ckpt=results/k4_rt4/ckpt_n4_3_x5.jsonl --dump=results/k4_rt4/dump_n4_3_x5.jsonl.gz --tables=results/k4_rt4/tables_n4_3_x5.json
+# dlrt4.c sha256 fcde494a3161279d47a7b80e614f69c58894ebc7b40d00e461f677b8810d7cae
+# k4_certs_4_n4_3.json.gz: cores 228..284, 57 units to run, 0 from the checkpoint; every profile

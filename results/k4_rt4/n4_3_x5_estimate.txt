@@ -1,0 +1,18 @@
+n4_3_x5 estimate (printed before the run started), 4 CPUs.
+Slice: cores 228..284 of k4_certs_4_n4_3.json.gz (--cores=228:285; dlrt4_run.py's range(lo, hi) is exclusive of B), every profile.
+Profiles: 18 cores x 143,327,232 (m = 8, domains 288 x 288 x 288 x 6; positions 228..245)
+        + 22 cores x 35,831,808 + 3 cores x 17,915,904 (m = 9, domains 144 x 144 x 288 x 6 / 144 x 144 x 144 x 6; 246..270)
+        + 14 cores x 71,663,616 (m = 9, domains 144 x 288 x 288 x 6; 271..284)
+        = 4,425,228,288 profiles in 57 units.
+Timing (scratch runs with --sample, not committed; random profiles cost what the exhaustive enumeration costs per profile):
+  1,000,000 random profiles of one core, one process: core 228 2.5 s, core 246 64 s, core 252 36 s, core 271 74 s
+  (2.5, 64, 36, 74 microseconds per profile: the m = 9 cores cost 15 to 30 times as much as the m = 8 ones).
+  100,000 random profiles of every core 228..284 (4 jobs), scaled to the core's profile count:
+  228..245 2 to 21 min each (overhead-inflated; ~6 min from the 1M timing), 246..270 10 to 38 min each,
+  271..284 75 to 100 min each.
+Estimate: about 36 CPU-hours = about 9 h wall on 4 jobs; the largest single units (271..284) take 75 to 100 min.
+This exceeds the 4-hour guideline, so (per the slice text) the run goes as far as it can, with the checkpoint, log and
+dump pushed at least every 30 minutes; units run in core order (Pool.imap_unordered over positions 228..284), and the
+summary reports the positions covered. The driver runs detached (setsid nohup) so that a 30-minute background kill
+cannot cut the 75 to 100 min units.
+Started 2026-10-01 21:19 UTC.
