@@ -10,22 +10,25 @@ Workstream `proof/k4-dl2-k1` (PR #69). Ledger rows K4.DL2.* (and K4.STRAT.DL2, n
   min-frozen P with def(P) = 1 has no min-frozen P′ with a smaller deficit within two agents' base changes. The nearest
   one is a *role swap* (the frozen agent gives its good to an agent that needs it) plus a third agent that gives up a
   good. 89 of the 74,256 profiles of #53's n = 3 catalogue have such a state (311 states).
-- **The repairs, classified** (§2, EVIDENCE): on 52,166 states with def > 0 (the suite and #53's catalogues), the
-  nearest repairs are one-agent changes in 76%, two-agent changes in 24% and three-agent changes in 0.6% (all at n = 3);
-  one-agent repairs are almost always *releases* (an agent gives up a good that an owner's safe bundle absorbs);
-  two-agent repairs are role swaps with an agent that needs the frozen good (91%) or *trades* between two free agents;
-  every three-agent repair is a role swap plus one more agent's change.
-- **The successor target** (§3): DL_R for a structured neighbourhood relation R. Since PR #68
-  (`EFX.C4min.target4_of_defLocal`, K4.STRAT.DL2.LEAN), DL_R implies TARGET₄ for every R. The relation **R_T** (one
-  re-base; a rotation among free agents; or a role swap with a needer and at most one helper that gives up a good)
-  survives every state tested; every narrower relation tested fails, smallest failures at n = 2 and n = 3, one of them
-  (rotations of three agents are needed at f = 0) found by the parallel workstream compute/k4-dl2
-  (§3, `attempts/k4-dl2-relations.md`).
+- **The repairs, classified** (§2, EVIDENCE row K4.DL2.CLASS): on 52,166 states with def > 0 (the suite and #53's
+  catalogues), the nearest repairs are one-agent changes in 76%, two-agent changes in 24% and three-agent changes in
+  0.6% (all at n = 3); one-agent repairs are almost always *releases* (an agent gives up a good that an owner's safe
+  bundle absorbs); two-agent repairs are role swaps with an agent that needs the frozen good (91%) or *trades* between
+  two free agents; every three-agent repair is a role swap plus one more agent's change.
+- **The successor target** (§3, CONJECTURE row K4.DL2.T, evidence K4.DL2.TE): DL_R for a structured neighbourhood
+  relation R. Since PR #68 (`EFX.C4min.target4_of_defLocal`, K4.STRAT.DL2.LEAN), DL_R implies TARGET₄ for every R. The
+  relation **R_T** (one re-base; a rotation among free agents; or a role swap with a needer and at most one helper that
+  gives up a good) survives all 272,858 def > 0 states tested (490,947 profiles, n ≤ 6) and all 87,056 states at
+  distance 3 of the exhaustive n = 3 enumeration of compute/k4-dl2; every narrower relation tested fails (K4.DL2.RX),
+  smallest failures at n = 2 and n = 3, one of them (rotations of three agents are needed at f = 0) found by the
+  parallel workstream compute/k4-dl2 (§3, `attempts/k4-dl2-relations.md`).
 - **The moves, in writing** (§4; written proofs, not refereed, CONJECTURE rows): the moves of R_T stay in the
   min-frozen class and keep its needed set (Lemmas 1 and 6); a one-agent move lowers the deficit exactly through an
   owner's bundle growing (Lemma 2, extension) or the moving agent becoming a better owner (Lemma 3, owner re-base);
   releases and unblocking pool improvements are the two structural instances (Corollaries 4, 5). On the data,
-  Lemmas 2 and 3 cover every one-agent repair (§2.3).
+  Lemmas 2 and 3 certify all but one of the 39,466 one-agent repairs, and Lemmas 2* and 7 (an owner that keeps its role
+  absorbs what the swap frees, or the unfrozen agent unfreezes its needer) 90.8% of the two-agent and all three-agent
+  ones: 97.8% of the def > 0 states (§5). Why a repair *exists* is not proved.
 
 ## 1. DL₂ fails at n = 3
 
@@ -121,15 +124,29 @@ Each lemma of §4 is checked at every state: whenever its hypotheses hold, its c
 deficits (`k4/dl2_classify.py lemma_checks`; no assertion fails on any input), and no lemma ever applies at a state with
 k > 1.
 
-| | k = 1 states | Corollary 4 (release), structural form (i′) | Corollary 4 | Corollary 5 (unblocking) | Lemma 2 at a best owner | Lemma 2 at another owner | Lemma 3 (owner re-base) | Lemma 2 or 3 |
+| k = 1 states | Corollary 4, structural form (i′) | Corollary 4 (release) | Corollary 5 (unblocking) | Corollary 4 or 5 | Lemma 2 at a best owner | Lemma 2 at another owner | Lemma 3 (owner re-base) | Lemma 2 or 3 |
 |---|---|---|---|---|---|---|---|---|
-| all inputs | 39,466 | 23,719 (60.1%) | 26,324 (66.7%) | 2,354 (6.0%) | see `table.md` | | 4,139 (10.5%) | see `table.md` |
-| Pareto-maximal states | 3,289 | 2,580 (78.4%) | 2,606 (79.2%) | 0 | | | 365 (11.1%) | 3,289 (100%) |
+| all inputs: 39,466 | 23,719 (60.1%) | 26,324 (66.7%) | 2,354 (6.0%) | 27,937 (70.8%) | 37,821 (95.8%) | 1,060 (2.7%) | 4,139 (10.5%) | 39,465 (100.0%) |
+| Pareto-maximal: 3,289 | 2,580 (78.4%) | 2,606 (79.2%) | 0 | | 3,044 (92.6%) | 0 | 365 (11.1%) | 3,289 (100%) |
 
-(The Lemma 2 columns are those of the final run, `results/k4_dl2_classify/table.md`, which uses the form of Lemma 2
-with X ∖ B′ in place of X.) So the one-agent repairs are understood: every one is an extension of an owner's bundle
-(Lemma 2) or an owner re-base (Lemma 3), and two thirds are releases satisfying the hypotheses of Corollary 4. What is
-**not** understood is why a one-agent repair exists when it does; no obstruction class guarantees one.
+(Lemma 2 is applied to X ∖ B′ for each optimal bundle X of each free agent; "another owner" means a free agent that is
+not a best owner of P, so its gain must exceed Val*(P) − Val_P(o).) So the one-agent repairs are understood: every one
+but one (`gap_n4_pure_s4000` core 5, profile 83,6,64,235, where the bound of Lemma 2 loses the unfreezing term e) is an
+extension of an owner's bundle (Lemma 2) or an owner re-base (Lemma 3), and 71% satisfy the structural hypotheses of a
+release or an unblocking (Corollaries 4, 5). What is **not** understood is why a one-agent repair exists when it does;
+no obstruction class guarantees one.
+
+For the states with k ≥ 2, Lemma 2* (a best owner of P that does not move extends its bundle) and Lemma 7 (the unfrozen
+agent as owner unfreezes its needer) are checked at every minimal repair (`table.md` section C′):
+
+| | states | Lemma 2* | Lemma 7 | either | neither |
+|---|---|---|---|---|---|
+| k = 2 | 12,389 | 10,682 (86.2%) | 9,726 (78.5%) | 11,250 (90.8%) | 1,139: the 1,123 states whose only minimal repairs are trades, and 16 role-swap states |
+| k = 3 | 311 | 0 | 311 (100%) | 311 (100%) | 0 |
+
+So the two-agent role swaps are mostly explained by an owner that keeps its role and absorbs what the swap frees, or by
+the unfrozen agent unfreezing its needer; trades, where the new owner is one of the two trading agents, are not
+explained by any lemma here.
 
 ## 3. Structured relations R (`k4/dl2_relations.py`, `results/k4_dl2_relations/`)
 
@@ -175,7 +192,7 @@ implementations also find an R_T move):
 - **the helper needs junk** (RSYz+2, RSYgz+2): `dl2-n3m8-junk` (n = 3, m = 8), where the helper gives up the unfrozen
   agent's good and takes a junk good.
 
-`attempts/k4-dl2-relations.md` has the instances and what every improving move of each does.
+`attempts/k4-dl2-relations.md` (REFUTED row K4.DL2.RX) has the instances and what every improving move of each does.
 
 **Conjecture DL_T (K4.DL2.T).** For every strict profile of every connected k = 4 core with ω ≥ 1, every min-frozen
 P ∈ 𝒫 with def(P) > 0 (+∞ included) has a min-frozen P′ ∈ 𝒫 with def(P′) < def(P) that arises from P by one of the
@@ -190,26 +207,69 @@ following moves, the needed set NA staying the same:
 
 By Lemmas 1′ and 6 every such move stays in the min-frozen class as soon as the new bases are disjoint, inside the
 relevant sets, of at most two goods, and need only goods of NA. DL_T implies TARGET₄ (K4.STRAT.DL2.LEAN). On the data
-the rotations needed have two agents (trades) except at `dl2-rot-n3m7`, and are needed only when no agent is frozen.
+rotations are needed only when no agent is frozen (every state where DL_R fails for the relations without trades has
+f = 0); two agents (a trade) suffice on the samples except at three n = 3 profiles (`dl2-rot-n3m7` and two random
+ones, below), but in the exhaustive n = 3 data every f = 0 state at distance 3 (57,984 states) needs a three-agent
+rotation (below).
 
-*Evidence* (EVIDENCE row K4.DL2.TE; single implementation for the survivals): every state of §2's inputs and of #53's
-hunt catalogues (`results/k4_dl2_relations/`; table below). Not exhaustive at any n ≥ 3.
+*Evidence* (EVIDENCE row K4.DL2.TE): every state of §2's inputs, of #53's hunt catalogues, of every profile of every
+n = 2 core and of random n = 3 and n = 4 profiles (`results/k4_dl2_relations/`; table below): 272,858 def > 0 states of
+490,947 profiles. Exhaustive at n = 2; at n = 3 only for the states at distance 3 (below). The survivals are computed
+by one implementation (`k4/dl2_relations.py`); a second one (main's `k4/c4x_check.py` with separately written
+membership tests, `k4/dl2_relations_xcheck.py`) agrees on deficits, nearest distances and DL_R for R_T, R_T2, R2, RB2
+and RSY+2 on 16,359 profiles with n ≤ 4 (7,210 def > 0 states: the suite's cores with n ≤ 4, every 10th record of
+#53's n = 3 catalogue, its hard hunt, every 40th record of two n = 4 catalogues, 200 random profiles of each n = 2 core
+and 100 of each n = 3 core; `results/k4_dl2_relations/xcheck.log`), and every failure above is replayed by both
+(`attempts/k4_dl2_attempts.py`).
+On every profile of every n = 2 core the C tool of compute/k4-dl2 (`results/k4_dl2/n3.log` on that branch) finds the
+same 171,432 def > 0 states, 158,616 at distance 1 and 12,816 at distance 2.
 
-RESULTS_TABLE_PLACEHOLDER
+*Exhaustive n = 3, three-agent states.* compute/k4-dl2 enumerated every strict profile of every n = 3 core with its C
+tool and dumped every P at distance 3 with all its improvements (`results/k4_dl2/trapped_n3.jsonl.gz` on that branch at
+baf3b9f: 87,056 states of 52,928 profiles, out of 36,739,800 def > 0 states). At n = 3 these improvements are all the
+min-frozen P′ with a smaller deficit. `k4/dl2_relations_trapped.py` tests the relations on them with the membership
+tests of `k4/dl2_relations_xcheck.py` (`results/k4_dl2_relations/trapped_n3_compute.log`): R2 and RB2 fail at all
+87,056 (they are at distance 3), RSY+2 and R_T2 at the 57,984 with f = 0, and **R_T at none**. Recomputing every 20th
+of the 52,928 profiles with `k4/dl2_relations.py` gives the same states at distance 3 and DL_T at each (2,647
+profiles, no mismatch). So DL_T holds at every n = 3 state whose nearest repair needs three agents (on compute's
+enumeration); the states at distance 1 and 2 of the exhaustive n = 3 run are not tested here. Reproduce:
+`git show baf3b9f:results/k4_dl2/trapped_n3.jsonl.gz > k4/suite/.cache/compute_k4_dl2/trapped_n3.jsonl.gz`, then the
+command on the log's first line.
+
+Failures of DL_R, as states (profiles) where it fails; 0 = DL_R holds at every state of the input. Inputs: the suite;
+#53's catalogues (n = 2, 3 every record; n = 4 every 10th; n = 5 every 20th), its hard hunt and its hunt catalogues
+(every record); and, f = 0 profiles included, **every** strict profile of every n = 2 core (`results/k4_certs_2.json.gz`),
+400 random profiles of each n = 3 core and 20 of each n = 4 core (seeded). Per-input rows and every relation:
+`results/k4_dl2_relations/table.md`.
+
+| inputs | profiles | def > 0 states | R2 | RB | RB2 | RS1+2, RSR+2, RC | RSY, RSYa, RSYg | RSYz+2, RSYgz+2 | RSY+2, RSYg+2, R_T2 | **R_T** |
+|---|---|---|---|---|---|---|---|---|---|---|
+| suite (cores, n ≤ 6) | 147 | 359 | 0 | 7 (3) | 0 | 0 | 5 (2) | 0 | 0 | **0** |
+| n = 2: every profile of every core; catalogue | 190,512 | 171,432 | 0 | 12,816 (8,912) | 0 | 0 | 12,816 (8,912) | 0 | 0 | **0** |
+| n = 3: catalogue; 400 random profiles per core | 94,656 | 49,942 | 314 (91) | 1,459 (764) | 314 (91) | 155 (53) | 31 (14) | 16 (9) | 3 (2) | **0** |
+| n = 4: catalogues, hard hunt, hunts; 20 random per core | 181,062 | 44,489 | 0 | 3 (2) | 0 | 0 | 0 | 0 | 0 | **0** |
+| n = 5: catalogues, hunts | 24,570 | 6,636 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **0** |
+| **total** | **490,947** | **272,858** | 314 (91) | 14,285 (9,681) | 314 (91) | 155 (53) | 12,852 (8,928) | 16 (9) | 3 (2) | **0** |
+
+(Relations grouped in one column fail at the same states. R_T was added after R_T2's failure became known; on the
+inputs run before that, R_T is not evaluated directly, but R_T2 ⊆ R_T (a trade is a rotation of two agents) and R_T2
+holds at every state of those inputs. The relation "at most three agents change" (R3) also never fails.) The R_T2
+failures at n = 3 are two random profiles of the same kind as `dl2-rot-n3m7`: f = 0, nearest repair three agents, all
+free, a three-agent rotation. Every state where some relation fails is dumped to `results/k4_dl2_relations/*.jsonl.gz`.
 
 *What a proof of DL_T needs.* A case analysis on the obstruction (§2.1) showing that when no (T1) move lowers the
 deficit, a (T2) or (T3) move does. §4 handles the (T1) side exactly (Lemmas 2, 3). For (T2) and (T3) validity is proved
 (Lemmas 1′, 6); their effect on the deficit is again Lemma H1 applied to P′. For the three-agent cells the data and
 Lemma 7 give the mechanism: the frozen agent x is big-top, the swap frees it, and x becomes the owner of a bundle that
 holds its three lower goods, which unfreezes the needer z; the helper is the agent holding one of those goods. The
-swap has the shape of Lemma F1's path move of length 0 (`k4/c4min_f1.md` §2: x becomes free, a terminal takes g), and big-top frozen
-agents are exactly where F1's potential Ψ = (r, Λ) stalls (every path move from a big-top x ties in Ψ, `k4/c4min_f1.md`
-§3; no potential starting with (r, Λ) works, K4.C4MIN.F1BT). The deficit counts the unfreezing, which Ψ does not see;
+swap has the shape of Lemma F1's path move of length 0 (`k4/c4min_f1.md` §2: x becomes free, a terminal takes g), and
+big-top frozen agents are exactly where F1's potential Ψ = (r, Λ) stalls (every path move from a big-top x ties in Ψ,
+`k4/c4min_f1.md` §3; no potential starting with (r, Λ) works, K4.C4MIN.F1BT). The deficit counts the unfreezing, which Ψ does not see;
 that is an observation, not a proof that it always suffices.
 
 ## 4. The moves, in writing
 
-Written proofs, **not refereed** (ledger rows K4.DL2.MOVES, K4.DL2.ONE: CONJECTURE until an independent referee
+Written proofs, **not refereed** (ledger rows K4.DL2.MOVES, K4.DL2.DEF: CONJECTURE until an independent referee
 checks them). They use only the definitions of `k4/c4x.md` §1 and Lemma H1 of `k4/hall.md` §1 (ledger K4.HALL.COVER,
 PROVED). Every statement is checked at every def > 0 state of the data (§2): `k4/dl2_classify.py` evaluates the
 hypotheses and, whenever they hold, asserts the conclusion against the exact deficits.
@@ -406,11 +466,11 @@ conclusion is asserted against the exact deficit (`results/k4_dl2_classify/table
 
 | states | share | moves stay in the min-frozen class | certified (the repair lowers the deficit by a lemma) | not certified |
 |---|---|---|---|---|
-| k = 1: 39,466 | 75.7% | Lemma 1 | COV_K1 (Lemma 2 or 3); structural hypotheses (Corollary 4 or 5): COV_C45 | COV_K1N |
-| k = 2: 12,389 | 23.7% | Lemma 1′ (trades), Lemma 6 (role swaps) | COV_K2 (Lemma 2* or Lemma 7) | COV_K2N |
-| k = 3: 311 | 0.6% | Lemma 6 | COV_K3 (Lemma 7) | COV_K3N |
+| k = 1: 39,466 | 75.7% | Lemma 1 | 39,465 (100.0%) (Lemma 2 or 3); structural hypotheses (Corollary 4 or 5): 27,937 (70.8%) | 1 (`gap_n4_pure_s4000` core 5, §2.3) |
+| k = 2: 12,389 | 23.7% | Lemma 1′ (trades), Lemma 6 (role swaps) | 11,250 (90.8%) (Lemma 2* or Lemma 7) | 1,139: 1,123 trade-only states, 16 role-swap states |
+| k = 3: 311 | 0.6% | Lemma 6 | 311 (100%) (Lemma 7) | 0 |
 
-So the lemmas certify a repair at COV_CERT of the 52,166 def > 0 states; the rest are COV_REST. What is not proved
+So the lemmas certify a repair at 51,026 (97.8%) of the 52,166 def > 0 states; the rest are 1,140 (2.2%): the 1,123 states whose only minimal repairs are trades, 16 role-swap states and the one k = 1 state. What is not proved
 anywhere is that a repair *exists*: the certificates are checked on each state, not derived from the obstruction.
 What a proof of DL_T still needs:
 - **existence**: a reason why some (T1), (T2) or (T3) move lowers the deficit at every def > 0 state. No obstruction
@@ -418,7 +478,8 @@ What a proof of DL_T still needs:
 - **the deficit side of (T2) and (T3)**: a lemma that a role swap (with its helper) lowers the deficit under structural
   hypotheses, extending Lemma 7 (which gives the unfreezing, not the safety of the new owner's bundle); and the same
   for trades, which on the data are needed only when no agent is frozen (§3);
-- **more data**: exhaustive n ≤ 3 (the parallel `compute/k4-dl2` workstream), n ≥ 6, more n = 5;
+- **more data**: DL_T at the exhaustive n = 3 states at distance 1 and 2 (the distance-3 ones are done, §3, on the
+  parallel compute/k4-dl2 workstream's dump), n ≥ 6, more n = 5;
 - **a referee** for §4.
 
 ## 6. Checks of the lemmas
@@ -429,7 +490,9 @@ What a proof of DL_T still needs:
 - On random strict instances with 3- and 4-good strictly balanced agents that need not be cores (n ≤ 4, m ≤ 10), and
   on #53's n = 3 catalogue (`k4/dl2_lemma_random.py`; `results/k4_dl2_classify/lemma_random.log`,
   `results/k4_dl2_classify/lemma_catalog_n3.log`): the same, plus Lemma 1′ (every trade it allows), Lemma 6 (every role
-  swap with at most one helper it allows) and Lemma 7 (every safe bundle it applies to). No violation.
+  swap with at most one helper it allows) and Lemma 7 (every safe bundle it applies to). No violation. Random: 3,000
+  instances (1,855 with ω ≥ 1), 5,635 def > 0 states, 5,656,122 trades and role swaps checked, Lemma 7 at 50 bundles;
+  catalogue: 3,000 records (every 24th), 1,757 states, 841,830 moves, Lemma 7 at 26,216 bundles.
 
 ## 7. Reproduce
 
@@ -441,6 +504,9 @@ sh k4/dl2_classify_runs.sh             # classification + table (results/k4_dl2_
 sh k4/dl2_relations_runs.sh    # DL_R on the suite, the catalogues and the hunts (results/k4_dl2_relations/)
 sh k4/dl2_relations_runs2.sh   # DL_R on whole certificate files: every n = 2 profile, random n = 3, 4 profiles
 python3 k4/dl2_relations_table.py results/k4_dl2_relations/*.log > results/k4_dl2_relations/table.md
+sh k4/dl2_xcheck_runs.sh       # second implementation on samples (results/k4_dl2_relations/xcheck.log)
+git show baf3b9f:results/k4_dl2/trapped_n3.jsonl.gz > k4/suite/.cache/compute_k4_dl2/trapped_n3.jsonl.gz
+python3 k4/dl2_relations_trapped.py k4/suite/.cache/compute_k4_dl2/trapped_n3.jsonl.gz --model=20   # exhaustive n = 3, distance 3
 python3 k4/dl2_lemma_random.py 3000 --seed=7 --nmax=4 --mmax=10       # results/k4_dl2_classify/lemma_random.log
 python3 k4/dl2_lemma_random.py 3000 --catalog=k4/suite/.cache/gapbench/results/k4_gap/gap_n3.json.gz --every=24
 python3 attempts/k4_dl2_attempts.py     # every failure of §1 and §3 with two implementations

@@ -1,0 +1,36 @@
+# command: python3 k4/dl2_relations.py catalog k4/suite/.cache/gapbench/results/k4_gap/gap_n3.json.gz --every=1 --jobs=2 --out=results/k4_dl2_relations/gap_n3_e1.jsonl.gz
+profiles 74256, def>0 states 47080, nearest-distance histogram {1: 34732, 2: 12037, 3: 311}
+R2     fails at 311 states of 89 profiles  -- at most two agents change (DL2, refuted)
+       e.g. n=3 m=7 gap_n3:k4_certs_3.json.gz#0:6,62,212 sets=[[0, 1, 2, 3], [2, 4, 5, 6], [3, 4, 5, 6]] vals=[[2, 3, 4, 8], [3, 7, 5, 6], [8, 2, 3, 4]] P=[[3], [2, 4], [6]] def=1 k=3
+       e.g. n=3 m=7 gap_n3:k4_certs_3.json.gz#0:6,62,212 sets=[[0, 1, 2, 3], [2, 4, 5, 6], [3, 4, 5, 6]] vals=[[2, 3, 4, 8], [3, 7, 5, 6], [8, 2, 3, 4]] P=[[3], [2, 4], [5, 6]] def=1 k=3
+R3     fails at 0 states of 0 profiles  -- at most three agents change
+RB     fails at 1427 states of 749 profiles  -- one re-base or a plain role swap with a needer
+       e.g. n=3 m=6 gap_n3:k4_certs_3.json.gz#13:4,17,236 sets=[[0, 2, 4, 5], [1, 3, 4, 5], [2, 3, 4, 5]] vals=[[1, 8, 4, 6], [2, 4, 10, 7], [8, 4, 6, 3]] P=[[2], [3, 5], [4]] def=1 k=2
+       e.g. n=3 m=6 gap_n3:k4_certs_3.json.gz#13:5,13,228 sets=[[0, 2, 4, 5], [1, 3, 4, 5], [2, 3, 4, 5]] vals=[[1, 8, 6, 4], [2, 4, 7, 10], [8, 4, 2, 5]] P=[[2], [3, 4], [5]] def=1 k=2
+RB2    fails at 311 states of 89 profiles  -- RB, or a trade (two free agents re-base, needed set unchanged)
+       e.g. n=3 m=7 gap_n3:k4_certs_3.json.gz#0:6,62,212 sets=[[0, 1, 2, 3], [2, 4, 5, 6], [3, 4, 5, 6]] vals=[[2, 3, 4, 8], [3, 7, 5, 6], [8, 2, 3, 4]] P=[[3], [2, 4], [6]] def=1 k=3
+       e.g. n=3 m=7 gap_n3:k4_certs_3.json.gz#0:6,62,212 sets=[[0, 1, 2, 3], [2, 4, 5, 6], [3, 4, 5, 6]] vals=[[2, 3, 4, 8], [3, 7, 5, 6], [8, 2, 3, 4]] P=[[3], [2, 4], [5, 6]] def=1 k=3
+RS1    fails at 1212 states of 655 profiles  -- one re-base; or a role swap with a needer plus single-good releases by any number of free agents
+       e.g. n=3 m=6 gap_n3:k4_certs_3.json.gz#13:4,17,236 sets=[[0, 2, 4, 5], [1, 3, 4, 5], [2, 3, 4, 5]] vals=[[1, 8, 4, 6], [2, 4, 10, 7], [8, 4, 6, 3]] P=[[2], [3, 5], [4]] def=1 k=2
+       e.g. n=3 m=6 gap_n3:k4_certs_3.json.gz#13:5,13,228 sets=[[0, 2, 4, 5], [1, 3, 4, 5], [2, 3, 4, 5]] vals=[[1, 8, 6, 4], [2, 4, 7, 10], [8, 4, 2, 5]] P=[[2], [3, 4], [5]] def=1 k=2
+RS1+2  fails at 152 states of 51 profiles  -- RS1, or a trade
+       e.g. n=3 m=7 gap_n3:k4_certs_3.json.gz#0:6,62,212 sets=[[0, 1, 2, 3], [2, 4, 5, 6], [3, 4, 5, 6]] vals=[[2, 3, 4, 8], [3, 7, 5, 6], [8, 2, 3, 4]] P=[[3], [2, 5], [6]] def=1 k=3
+       e.g. n=3 m=7 gap_n3:k4_certs_3.json.gz#0:6,62,212 sets=[[0, 1, 2, 3], [2, 4, 5, 6], [3, 4, 5, 6]] vals=[[2, 3, 4, 8], [3, 7, 5, 6], [8, 2, 3, 4]] P=[[3], [2, 5], [4, 6]] def=1 k=3
+RSR+2  fails at 152 states of 51 profiles  -- one re-base; a trade; or a role swap with a needer plus pure releases (any number, any size)
+       e.g. n=3 m=7 gap_n3:k4_certs_3.json.gz#0:6,62,212 sets=[[0, 1, 2, 3], [2, 4, 5, 6], [3, 4, 5, 6]] vals=[[2, 3, 4, 8], [3, 7, 5, 6], [8, 2, 3, 4]] P=[[3], [2, 5], [6]] def=1 k=3
+       e.g. n=3 m=7 gap_n3:k4_certs_3.json.gz#0:6,62,212 sets=[[0, 1, 2, 3], [2, 4, 5, 6], [3, 4, 5, 6]] vals=[[2, 3, 4, 8], [3, 7, 5, 6], [8, 2, 3, 4]] P=[[3], [2, 5], [4, 6]] def=1 k=3
+RC     fails at 152 states of 51 profiles  -- one re-base; a trade; or a chain of frozen goods (|U| = |Z| = 1) plus pure releases
+       e.g. n=3 m=7 gap_n3:k4_certs_3.json.gz#0:6,62,212 sets=[[0, 1, 2, 3], [2, 4, 5, 6], [3, 4, 5, 6]] vals=[[2, 3, 4, 8], [3, 7, 5, 6], [8, 2, 3, 4]] P=[[3], [2, 5], [6]] def=1 k=3
+       e.g. n=3 m=7 gap_n3:k4_certs_3.json.gz#0:6,62,212 sets=[[0, 1, 2, 3], [2, 4, 5, 6], [3, 4, 5, 6]] vals=[[2, 3, 4, 8], [3, 7, 5, 6], [8, 2, 3, 4]] P=[[3], [2, 5], [4, 6]] def=1 k=3
+RSY    fails at 0 states of 0 profiles  -- one re-base; or a role swap with a needer plus at most one free agent re-basing in any way
+RSYa   fails at 0 states of 0 profiles  -- one re-base; or a role swap with a needer plus any number of free agents re-basing in any way
+RSY+2  fails at 0 states of 0 profiles  -- one re-base; a trade; or a role swap with a needer plus at most one free agent re-basing in any way
+RSYg+2 fails at 0 states of 0 profiles  -- RSY+2, the extra agent giving up at least one good of its base
+RSYz+2 fails at 13 states of 7 profiles  -- RSY+2, the extra agent taking goods only from its own base and the needer's old base
+       e.g. n=3 m=8 gap_n3:k4_certs_3.json.gz#4:14,112,152 sets=[[0, 2, 4, 5], [1, 4, 6, 7], [3, 5, 6, 7]] vals=[[2, 4, 8, 3], [4, 8, 3, 2], [6, 3, 5, 7]] P=[[4], [1], [3, 5]] def=1 k=3
+       e.g. n=3 m=8 gap_n3:k4_certs_3.json.gz#4:14,112,152 sets=[[0, 2, 4, 5], [1, 4, 6, 7], [3, 5, 6, 7]] vals=[[2, 4, 8, 3], [4, 8, 3, 2], [6, 3, 5, 7]] P=[[4], [1], [5, 6]] def=1 k=3
+RSYgz+2 fails at 13 states of 7 profiles  -- RSY+2 with both restrictions on the extra agent
+       e.g. n=3 m=8 gap_n3:k4_certs_3.json.gz#4:14,112,152 sets=[[0, 2, 4, 5], [1, 4, 6, 7], [3, 5, 6, 7]] vals=[[2, 4, 8, 3], [4, 8, 3, 2], [6, 3, 5, 7]] P=[[4], [1], [3, 5]] def=1 k=3
+       e.g. n=3 m=8 gap_n3:k4_certs_3.json.gz#4:14,112,152 sets=[[0, 2, 4, 5], [1, 4, 6, 7], [3, 5, 6, 7]] vals=[[2, 4, 8, 3], [4, 8, 3, 2], [6, 3, 5, 7]] P=[[4], [1], [5, 6]] def=1 k=3
+RSYg   fails at 0 states of 0 profiles  -- RSYg+2 without trades
+RT     fails at 0 states of 0 profiles  -- R_T of k4/dl2.md: re-bases that keep the needed set, trades in which a good passes between the two agents, role swaps with a needer and at most one helper that gives up a good

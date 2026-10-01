@@ -1,0 +1,2 @@
+# command: python3 k4/dl2_classify.py catalog k4/suite/.cache/gapbench/results/k4_gap/hard_hunt.json.gz --every=1 --jobs=2 --out=results/k4_dl2_classify/hard_hunt_e1.jsonl.gz
+profiles 117, def>0 states 192, errors 0, k histogram {1: 121, 2: 71}

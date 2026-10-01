@@ -1,0 +1,8 @@
+# command: python3 k4/dl2_relations_trapped.py k4/suite/.cache/compute_k4_dl2/trapped_n3.jsonl.gz --model=20
+states (P with k* >= 3) 87056 in 52928 profiles; by f: {1: 29072, 0: 57984}
+R2     fails at 87056 states {1: 29072, 0: 57984}
+RB2    fails at 87056 states {1: 29072, 0: 57984}
+RSY+2  fails at 57984 states {0: 57984}
+RT     fails at 57984 states {0: 57984}
+RTr    fails at 0 states {}
+model recheck: 2647 profiles, mismatches 0 (the set of P with k* >= 3; DL_T there)

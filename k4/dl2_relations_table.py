@@ -9,7 +9,7 @@ def parse(fn):
     for l in open(fn):
         if l.startswith('profiles'):
             m = re.match(r'profiles (\d+), def>0 states (\d+), nearest-distance histogram (.*)', l.strip())
-            head = (int(m.group(1)), int(m.group(2)), m.group(3))
+            if m: head = (int(m.group(1)), int(m.group(2)), m.group(3))   # other logs (xcheck.log) are skipped
         m = re.match(r'(\S+)\s+fails at (\d+) states of (\d+) profiles', l)
         if m: rel[m.group(1)] = (int(m.group(2)), int(m.group(3)))
     return head, rel
@@ -27,16 +27,22 @@ def compact(rows, cols):
     """rows grouped by n, selected relations"""
     G = {}
     for name, (np_, ns, hist), rel in rows:
-        g = G.setdefault(group_of(name), [0, 0, {c: [0, 0] for c in cols}, []])
+        g = G.setdefault(group_of(name), [0, 0, {c: [0, 0] for c in cols}, [], set()])
         g[0] += np_; g[1] += ns; g[3].append(name)
         for c in cols:
+            if c not in rel: g[4].add(c)
             a, b = rel.get(c, (0, 0)); g[2][c][0] += a; g[2][c][1] += b
     print('| inputs | profiles | def > 0 states | ' + ' | '.join(cols) + ' |')
     print('|---|---|---|' + '---|' * len(cols))
+    note = False
     for k in sorted(G):
-        np_, ns, rel, names = G[k]
+        np_, ns, rel, names, miss = G[k]
+        note = note or bool(miss)
         print('| %s (%s) | %d | %d | %s |' % (k, ', '.join(names), np_, ns, ' | '.join(
-            '0' if rel[c][0] == 0 else '%d (%d)' % tuple(rel[c]) for c in cols)))
+            ('0' if rel[c][0] == 0 else '%d (%d)' % tuple(rel[c])) + ('†' if c in miss else '') for c in cols)))
+    if note:
+        print('\n† Some inputs of the group were run before this relation was added and do not count it (for RTr: RT ⊆ RTr, a trade being a rotation of'
+              ' two agents, and RT holds at every state of those inputs, so RTr does too).')
 
 
 def main(files):
@@ -54,7 +60,9 @@ def main(files):
     print('# DL_R on the data (generated)\n')
     print('command: `python3 k4/dl2_relations_table.py %s`\n' % ' '.join(files))
     print('Entries: states (profiles) at which DL_R fails, i.e. a min-frozen P with def(P) > 0 has no min-frozen R-neighbour')
-    print('with a smaller deficit. Relations: `k4/dl2_relations.py` RELATIONS; R_T is `RT`.\n')
+    print('with a smaller deficit. Relations: `k4/dl2_relations.py` RELATIONS; R_T is `RTr`, R_T2 is `RT`. A dash: the')
+    print('run predates the relation (for RTr: RT ⊆ RTr, a trade being a rotation of two agents, and RT holds at every')
+    print('state of those inputs, so RTr does too).\n')
     print('| input | profiles | def > 0 states | nearest distance | ' + ' | '.join(names) + ' |')
     print('|---|---|---|---|' + '---|' * len(names))
     tot = [0, 0]; totf = {k: [0, 0] for k in names}

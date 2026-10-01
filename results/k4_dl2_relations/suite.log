@@ -1,0 +1,28 @@
+# command: python3 k4/dl2_relations.py suite
+profiles 147, def>0 states 359, nearest-distance histogram {1: 296, 2: 63}
+R2     fails at 0 states of 0 profiles  -- at most two agents change (DL2, refuted)
+R3     fails at 0 states of 0 profiles  -- at most three agents change
+RB     fails at 7 states of 3 profiles  -- one re-base or a plain role swap with a needer
+       e.g. n=2 m=5 induct-g-r1 sets=[[0, 2, 3, 4], [1, 2, 3, 4]] vals=[[4, 10, 8, 3], [4, 8, 10, 3]] P=[[0, 3], [1, 2]] def=1 k=2
+       e.g. n=2 m=5 induct-g-r1 sets=[[0, 2, 3, 4], [1, 2, 3, 4]] vals=[[4, 10, 8, 3], [4, 8, 10, 3]] P=[[0, 3], [2, 4]] def=1 k=2
+RB2    fails at 0 states of 0 profiles  -- RB, or a trade (two free agents re-base, needed set unchanged)
+RS1    fails at 7 states of 3 profiles  -- one re-base; or a role swap with a needer plus single-good releases by any number of free agents
+       e.g. n=2 m=5 induct-g-r1 sets=[[0, 2, 3, 4], [1, 2, 3, 4]] vals=[[4, 10, 8, 3], [4, 8, 10, 3]] P=[[0, 3], [1, 2]] def=1 k=2
+       e.g. n=2 m=5 induct-g-r1 sets=[[0, 2, 3, 4], [1, 2, 3, 4]] vals=[[4, 10, 8, 3], [4, 8, 10, 3]] P=[[0, 3], [2, 4]] def=1 k=2
+RS1+2  fails at 0 states of 0 profiles  -- RS1, or a trade
+RSR+2  fails at 0 states of 0 profiles  -- one re-base; a trade; or a role swap with a needer plus pure releases (any number, any size)
+RC     fails at 0 states of 0 profiles  -- one re-base; a trade; or a chain of frozen goods (|U| = |Z| = 1) plus pure releases
+RSY    fails at 5 states of 2 profiles  -- one re-base; or a role swap with a needer plus at most one free agent re-basing in any way
+       e.g. n=2 m=5 induct-g-r1 sets=[[0, 2, 3, 4], [1, 2, 3, 4]] vals=[[4, 10, 8, 3], [4, 8, 10, 3]] P=[[0, 3], [1, 2]] def=1 k=2
+       e.g. n=2 m=5 induct-g-r1 sets=[[0, 2, 3, 4], [1, 2, 3, 4]] vals=[[4, 10, 8, 3], [4, 8, 10, 3]] P=[[0, 3], [2, 4]] def=1 k=2
+RSYa   fails at 5 states of 2 profiles  -- one re-base; or a role swap with a needer plus any number of free agents re-basing in any way
+       e.g. n=2 m=5 induct-g-r1 sets=[[0, 2, 3, 4], [1, 2, 3, 4]] vals=[[4, 10, 8, 3], [4, 8, 10, 3]] P=[[0, 3], [1, 2]] def=1 k=2
+       e.g. n=2 m=5 induct-g-r1 sets=[[0, 2, 3, 4], [1, 2, 3, 4]] vals=[[4, 10, 8, 3], [4, 8, 10, 3]] P=[[0, 3], [2, 4]] def=1 k=2
+RSY+2  fails at 0 states of 0 profiles  -- one re-base; a trade; or a role swap with a needer plus at most one free agent re-basing in any way
+RSYg+2 fails at 0 states of 0 profiles  -- RSY+2, the extra agent giving up at least one good of its base
+RSYz+2 fails at 0 states of 0 profiles  -- RSY+2, the extra agent taking goods only from its own base and the needer's old base
+RSYgz+2 fails at 0 states of 0 profiles  -- RSY+2 with both restrictions on the extra agent
+RSYg   fails at 5 states of 2 profiles  -- RSYg+2 without trades
+       e.g. n=2 m=5 induct-g-r1 sets=[[0, 2, 3, 4], [1, 2, 3, 4]] vals=[[4, 10, 8, 3], [4, 8, 10, 3]] P=[[0, 3], [1, 2]] def=1 k=2
+       e.g. n=2 m=5 induct-g-r1 sets=[[0, 2, 3, 4], [1, 2, 3, 4]] vals=[[4, 10, 8, 3], [4, 8, 10, 3]] P=[[0, 3], [2, 4]] def=1 k=2
+RT     fails at 0 states of 0 profiles  -- R_T of k4/dl2.md: re-bases that keep the needed set, trades in which a good passes between the two agents, role swaps with a needer and at most one helper that gives up a good

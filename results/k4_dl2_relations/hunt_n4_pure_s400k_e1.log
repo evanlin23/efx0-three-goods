@@ -1,0 +1,20 @@
+# command: python3 k4/dl2_relations.py catalog k4/suite/.cache/gapbench/results/k4_gap/hunt_n4_pure_s400k.json.gz --every=1 --jobs=2 --out=results/k4_dl2_relations/hunt_n4_pure_s400k_e1.jsonl.gz
+profiles 69353, def>0 states 35023, nearest-distance histogram {1: 32751, 2: 2272}
+R2     fails at 0 states of 0 profiles  -- at most two agents change (DL2, refuted)
+R3     fails at 0 states of 0 profiles  -- at most three agents change
+RB     fails at 3 states of 2 profiles  -- one re-base or a plain role swap with a needer
+       e.g. n=4 m=11 hunt_n4_pure_s400k:k4_certs_4_pure.json.gz#2:94,127,40,40 sets=[[0, 2, 8, 9], [1, 5, 8, 10], [3, 6, 9, 10], [4, 7, 9, 10]] vals=[[5, 4, 2, 8], [7, 3, 6, 5], [3, 4, 8, 2], [3, 4, 8, 2]] P=[[9], [1, 5], [3, 6], [4, 7]] def=1 k=2
+       e.g. n=4 m=11 hunt_n4_pure_s400k:k4_certs_4_pure.json.gz#8:34,72,145,140 sets=[[0, 2, 6, 10], [1, 5, 9, 10], [3, 6, 7, 8], [4, 7, 8, 9]] vals=[[3, 2, 4, 8], [4, 3, 2, 8], [6, 1, 8, 4], [5, 8, 2, 4]] P=[[10], [1], [6, 7], [4, 9]] def=1 k=2
+RB2    fails at 0 states of 0 profiles  -- RB, or a trade (two free agents re-base, needed set unchanged)
+RS1    fails at 0 states of 0 profiles  -- one re-base; or a role swap with a needer plus single-good releases by any number of free agents
+RS1+2  fails at 0 states of 0 profiles  -- RS1, or a trade
+RSR+2  fails at 0 states of 0 profiles  -- one re-base; a trade; or a role swap with a needer plus pure releases (any number, any size)
+RC     fails at 0 states of 0 profiles  -- one re-base; a trade; or a chain of frozen goods (|U| = |Z| = 1) plus pure releases
+RSY    fails at 0 states of 0 profiles  -- one re-base; or a role swap with a needer plus at most one free agent re-basing in any way
+RSYa   fails at 0 states of 0 profiles  -- one re-base; or a role swap with a needer plus any number of free agents re-basing in any way
+RSY+2  fails at 0 states of 0 profiles  -- one re-base; a trade; or a role swap with a needer plus at most one free agent re-basing in any way
+RSYg+2 fails at 0 states of 0 profiles  -- RSY+2, the extra agent giving up at least one good of its base
+RSYz+2 fails at 0 states of 0 profiles  -- RSY+2, the extra agent taking goods only from its own base and the needer's old base
+RSYgz+2 fails at 0 states of 0 profiles  -- RSY+2 with both restrictions on the extra agent
+RSYg   fails at 0 states of 0 profiles  -- RSYg+2 without trades
+RT     fails at 0 states of 0 profiles  -- R_T of k4/dl2.md: re-bases that keep the needed set, trades in which a good passes between the two agents, role swaps with a needer and at most one helper that gives up a good

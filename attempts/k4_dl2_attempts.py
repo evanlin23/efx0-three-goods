@@ -150,6 +150,12 @@ relation_fails('n = 3, m = 7 (dl2-n3m7-trade)', [[0, 1, 2, 3], [2, 4, 5, 6], [3,
 #     results/k4_certs_3.json.gz): no agent is frozen, and every improvement rotates goods around a 3-cycle
 relation_fails('n = 3, m = 7, f = 0 (dl2-rot-n3m7, compute/k4-dl2)', [[0, 2, 4, 6], [1, 3, 5, 6], [2, 3, 4, 5]],
                [[6, 4, 8, 5], [2, 7, 4, 10], [7, 4, 2, 8]], 7, [[0, 6], [3, 5], [2, 4]], ['RT', 'RSY+2'])
+#     the same kind of trap in the random n = 3 sample (results/k4_dl2_relations/certs_3_r400.jsonl.gz): core 4,
+#     profile 19,197,115 (m = 8) and core 0, profile 17,25,41 (m = 9), f = 0, every improvement a three-agent rotation
+relation_fails('n = 3, m = 8, f = 0 (core 4, profile 19,197,115)', [[0, 2, 4, 5], [1, 4, 6, 7], [3, 5, 6, 7]],
+               [[2, 5, 8, 4], [7, 4, 10, 2], [4, 8, 5, 2]], 8, [[2, 5], [1, 4], [3, 6]], ['RT', 'RSY+2'])
+relation_fails('n = 3, m = 9, f = 0 (core 0, profile 17,25,41)', [[0, 2, 6, 7], [1, 4, 6, 8], [3, 5, 7, 8]],
+               [[2, 4, 10, 7], [2, 7, 4, 10], [3, 4, 8, 6]], 9, [[2, 7], [4, 6], [3, 8]], ['RT', 'RSY+2'])
 # 2d. a helper restricted to its own base and the needer's old base: DL_RSYgz+2 fails at n = 3, m = 8 (core 4 of
 #     results/k4_certs_3.json.gz, profile 14,112,152): the helper must take a junk good
 relation_fails('n = 3, m = 8 (dl2-n3m8-junk)', [[0, 2, 4, 5], [1, 4, 6, 7], [3, 5, 6, 7]],

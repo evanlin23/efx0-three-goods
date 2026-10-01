@@ -9,8 +9,13 @@ evidence are in `k4/dl2.md` §3.
 Moves (P, P′ min-frozen; "needed set unchanged": NA(P′) = NA(P)):
 - *re-base*: one agent's base changes;
 - *trade*: two agents' bases change, both free in P and P′, needed set unchanged;
+- *rotation*: any number of agents' bases change, all free in P and P′, needed set unchanged (a trade is a rotation of
+  two agents);
 - *role swap with a needer*: a frozen agent x with base {g} unfreezes, a free agent z with g ∈ N_z(B_z) takes {g} and
   freezes, needed set unchanged; *helpers*: further changed agents, free in P and P′.
+
+R_T (the surviving relation, code `RTr`): re-bases keeping the needed set, rotations, and role swaps with a needer and at
+most one helper that gives up a good of its base.
 
 Tool: `k4/dl2_relations.py` enumerates, for each def > 0 state, **every** min-frozen P′ with a smaller deficit and
 tests each relation on the move P → P′; the runs are `results/k4_dl2_relations/*.log`. Each failure below is replayed
@@ -29,10 +34,11 @@ attempts script.
 | RS1+2, RSR+2 | re-base, trade, role swap with a needer and helpers that only give up goods (one good each, or any) | `dl2-n3m7-trade` (n = 3, m = 7) | n = 3: 152 states of 51 profiles |
 | RC | re-base, trade, a chain of frozen goods ending at a free agent (LB⁺'s rotation shape, no needer condition) with releasing helpers | `dl2-n3m7-trade` | n = 3: 152 states of 51 profiles |
 | RSYz+2, RSYgz+2 | re-base, trade, role swap with a needer and at most one helper that takes goods only from its own base and the needer's old base | `dl2-n3m8-junk` (n = 3, m = 8) | n = 3: 13 states of 7 profiles |
-| RSY+2, RSYg+2, R_T2 (code `RT`) | re-base, trade (two free agents), role swap with a needer and at most one helper | `dl2-rot-n3m7` (n = 3, m = 7, f = 0; found by compute/k4-dl2, PR #70) | that profile; no state of our inputs (they run before the instance was known, and #53's catalogues have f ≥ 1 only) |
+| RSY+2, RSYg+2, R_T2 (code `RT`) | re-base, trade (two free agents), role swap with a needer and at most one helper | `dl2-rot-n3m7` (n = 3, m = 7, f = 0; found by compute/k4-dl2, PR #70) | that profile; random n = 3 profiles (`certs_3_r400`): 3 states of 2 profiles of the same kind (f = 0, three-agent rotations), below; none in #53's catalogues (f ≥ 1 only); exhaustive n = 3 (compute/k4-dl2's dump of every state at distance 3, `trapped_n3_compute.log`): all 57,984 states with f = 0 |
 
-At each of these states DL_T (`k4/dl2.md` §3: rotations of any number of free agents in place of trades; code `RTr`)
-holds, by both implementations.
+At each of these states DL_T (R_T) holds, by both implementations. On compute/k4-dl2's exhaustive n = 3 dump (every
+state at distance 3 with all its improvements, `results/k4_dl2_relations/trapped_n3_compute.log`), R2 and RB2 fail at
+all 87,056 states, RSY+2 and R_T2 at the 57,984 with f = 0, and R_T at none.
 
 **`dl2-rot-n3m7`** (from the parallel workstream compute/k4-dl2, PR #70, `attempts/k4-dl2-rotation.md` and
 `k4/suite/instances/dl2-rot-n3m7.json` on its branch; core 44 of `results/k4_certs_3.json.gz`): agent 0 = 0:6, 2:4,
@@ -41,7 +47,12 @@ J = {1}, deficit 1; every min-frozen P′ with a smaller deficit changes all thr
 around a cycle (each agent's top lies in another agent's base: 4 ∈ B_2, 6 ∈ B_0, 5 ∈ B_1; e.g. P′ = ({0,4}, {3,6},
 {2,5}) with deficit 0). No agent is frozen, so there is no role swap;
 **rotations of three free agents are needed**. Replayed here with both implementations (`attempts/k4_dl2_attempts.py`,
-check 2e).
+check 2e). Two more of the same kind are in the random n = 3 sample (`results/k4_dl2_relations/certs_3_r400.jsonl.gz`,
+also replayed in check 2e): core 4 of `results/k4_certs_3.json.gz`, profile 19,197,115 (m = 8; agent 0 = 0:2, 2:5,
+4:8, 5:4; agent 1 = 1:7, 4:4, 6:10, 7:2; agent 2 = 3:4, 5:8, 6:5, 7:2; P₀ = ({2,5}, {1,4}, {3,6}), deficit 1), and core 0,
+profile 17,25,41 (m = 9; agent 0 = 0:2, 2:4, 6:10, 7:7; agent 1 = 1:2, 4:7, 6:4, 8:10; agent 2 = 3:3, 5:4, 7:8, 8:6;
+P₀ = ({2,7}, {4,6}, {3,8}) or ({2,7}, {4,6}, {5,8}), deficit 1). In both f = 0 and every improvement moves all three
+agents, all free.
 
 **`induct-g-r1`** (suite, from #43; n = 2, m = 5; agent: good:value): agent 0 = 0:4, 2:10, 3:8, 4:3; agent 1 = 1:4, 2:8,
 3:10, 4:3. No agent is frozen at the fewest frozen agents (f = 0, ω = 1). P₀ = ({0,3}, {1,2}) has deficit 1. Every
@@ -67,7 +78,8 @@ good** (6 or 7); agent 1's old base {1} is worthless to it. So the helper must b
 ## Reproduce
 
 ```
-python3 attempts/k4_dl2_attempts.py          # every failure above, two implementations
+python3 attempts/k4_dl2_attempts.py          # every failure above, two implementations (results/k4_dl2_relations/attempts.log)
 python3 k4/dl2_relations.py suite             # all relations on the suite (results/k4_dl2_relations/suite.log)
 sh k4/dl2_relations_runs.sh                   # all relations on #53's catalogues and hunts
+sh k4/dl2_relations_runs2.sh                  # on whole certificate files (every n = 2 profile, random n = 3, 4)
 ```

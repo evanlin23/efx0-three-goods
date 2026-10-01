@@ -2,7 +2,7 @@
 """Second implementation for the DL_R runs (k4/dl2.md §3): main's k4/c4x_check.py enumerates 𝒫 and its deficit
 `rodef` on its own (every base map good -> agent or junk, (V1), (V2) literally), and the relation memberships below are
 written separately from k4/dl2_relations.py. For sampled profiles, compares per def > 0 state: the deficit, the nearest
-distance k, and whether DL_R holds, for R in REL_B (R2, RB2, RSY+2, RT).
+distance k, and whether DL_R holds, for R in REL_B (R2, RB2, RSY+2, RT = R_T2, RTr = R_T).
 usage: python3 k4/dl2_relations_xcheck.py suite | catalog FILE [--every=E] [--max=N]"""
 import gzip, json, os, sys
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -21,7 +21,7 @@ def rel_B(name, sets, vals, P, P2):
     fz1 = [len(B) == 1 and B <= NA1 for B in P]; fz2 = [len(B) == 1 and B <= NA2 for B in P2]
     ch = [i for i in range(len(P)) if P[i] != P2[i]]
     if name == 'R2': return len(ch) <= 2
-    if len(ch) == 1: return NA1 == NA2 or name != 'RT'
+    if len(ch) == 1: return NA1 == NA2 or name not in ('RT', 'RTr')
     trade = len(ch) == 2 and NA1 == NA2 and not any(fz1[i] or fz2[i] for i in ch)
     xs = [i for i in ch if fz1[i] and not fz2[i]]; zs = [i for i in ch if fz2[i] and not fz1[i]]
     ws = [i for i in ch if fz1[i] and fz2[i]]; ys = [i for i in ch if not fz1[i] and not fz2[i]]
@@ -32,10 +32,13 @@ def rel_B(name, sets, vals, P, P2):
     if name == 'RT':
         exch = trade and bool(P2[ch[0]] & P[ch[1]] or P2[ch[1]] & P[ch[0]])
         return exch or (swap and len(ys) <= 1 and all(P[y] - P2[y] for y in ys))
+    if name == 'RTr':                     # R_T: a rotation (changed agents free before and after, NA kept) or the swap
+        rot = NA1 == NA2 and not any(fz1[i] or fz2[i] for i in ch)
+        return rot or (swap and len(ys) <= 1 and all(P[y] - P2[y] for y in ys))
     raise ValueError(name)
 
 
-REL_B = ('R2', 'RB2', 'RSY+2', 'RT')
+REL_B = ('R2', 'RB2', 'RSY+2', 'RT', 'RTr')
 
 
 def states_B(sets, vals, m):
