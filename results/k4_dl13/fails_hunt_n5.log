@@ -1,0 +1,17 @@
+# command: python3 k4/dl13_fails.py results/k4_dl13/hunt_n5.jsonl.gz --out=results/k4_dl13/fails_hunt_n5.jsonl.gz
+# 24 failing states dumped in 3 profiles; recomputing 3 profiles
+profiles recomputed 3, failing states 24, mismatches with the dump 0
+nearest distance k of the failing states: {2: 24}
+move kinds available (any distance), states:
+  ['key(U0Z0W2Y0)', 'key(U0Z0W2Y1)', 'key(U0Z0W2Y2)', 'key(U0Z0W3Y0)', 'key(U0Z0W3Y1)', 'key(U0Z0W3Y2)', 'key(U1Z1W1Y0)chain', 'key(U1Z1W1Y1)chain', 'key(U1Z1W2Y0)chain', 'key(U1Z1W2Y1)chain', 'key(U2Z2W1Y0)']: 20
+  ['key(U0Z0W2Y2)', 'key(U0Z0W2Y3)', 'key(U1Z1W1Y1)', 'key(U1Z1W1Y2)', 'rot2', 'rot3']: 3
+  ['key(U0Z0W2Y2)', 'key(U0Z0W2Y3)', 'need-transfer(k3)', 'need-transfer(k4)', 'rot2', 'rot3']: 1
+move kinds at the nearest distance, states:
+  ['key(U0Z0W2Y0)']: 20
+  ['rot2']: 4
+candidate enlargements of R_13: failing states they repair / do not repair
+  RTr       repairs 4, does not repair 20
+  R13+tr    repairs 4, does not repair 20
+  R13+rot3  repairs 4, does not repair 20
+  R13+h2    repairs 0, does not repair 24
+  R13+hA    repairs 0, does not repair 24

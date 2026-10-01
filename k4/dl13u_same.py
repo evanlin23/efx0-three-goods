@@ -11,6 +11,7 @@ The exhaustive n <= 3 run (results/k4_dl13/n3.log, its header shows dl13.c sha25
 that is now k4/dl13u.c (same SHA-256); every other run of k4/dl13_run.py uses k4/dl13.c.
 
 usage: python3 k4/dl13u_same.py certs FILE [--cores=A:B] [--sample=P]   (every profile of each core, or P random ones)
+       options: --copts=-r100,-o0 (one option set instead of the two defaults), --nohash (default builds only)
        python3 k4/dl13u_same.py catalog FILE [--every=E]
        python3 k4/dl13u_same.py suite"""
 import gzip, hashlib, json, os, subprocess, sys, tempfile
@@ -42,9 +43,10 @@ def main(argv):
     mode = argv[0]; rest = [a for a in argv[1:] if not a.startswith('--')]
     opt = dict(a[2:].split('=', 1) if '=' in a else (a[2:], True) for a in argv[1:] if a.startswith('--'))
     print('# command: python3 k4/dl13u_same.py ' + ' '.join(argv), flush=True)
+    OPTS = [opt['copts'].split(',')] if 'copts' in opt else [['-r10', '-o10'], ['-s', '-r0', '-o0']]
     bins = {}
     for src in ('dl13.c', 'dl13u.c'):
-        for extra in ((), ('-DBIGPP=0',)):
+        for extra in ((),) if 'nohash' in opt else ((), ('-DBIGPP=0',)):
             b, sha = build(src, extra); bins[(src, extra)] = b
         print(f'# {src} sha256 {sha}', flush=True)
     inputs = []
@@ -75,13 +77,13 @@ def main(argv):
             inputs.append((f'{mode} chunk {i // C}', inp))
     bad = 0; lines = 0
     for name, inp in inputs:
-        for opts in (['-r10', '-o10'], ['-s', '-r0', '-o0']):
+        for opts in OPTS:
             ds = {k: digest(b, inp, opts) for k, b in bins.items()}
             if len({d for d, _ in ds.values()}) != 1:
                 bad += 1; print('DIFFERENT', name, opts, ds, flush=True)
             lines += next(iter(ds.values()))[1]
         if 'progress' in opt: print(f'#   {name}: ok so far, {bad} differences', flush=True)
-    print(f'{len(inputs)} inputs, 2 option sets (-r10 -o10; -s), 4 builds (dl13.c, dl13u.c; default, -DBIGPP=0): '
+    print(f'{len(inputs)} inputs, option sets {OPTS}, builds {sorted((s_, " ".join(e)) for s_, e in bins)}: '
           f'{lines} output lines per build compared, {bad} differences', flush=True)
 
 

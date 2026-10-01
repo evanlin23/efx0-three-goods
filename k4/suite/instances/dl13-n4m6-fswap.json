@@ -12,11 +12,9 @@
   [
    1,
    3,
-   4,
    5
   ],
   [
-   2,
    3,
    4,
    5
@@ -31,38 +29,37 @@
   [
    2,
    3,
-   8,
-   4
+   4,
+   8
   ],
   [
    2,
    4,
-   3,
-   8
+   3
   ],
   [
    3,
-   8,
    4,
    2
   ],
   [
    3,
-   2,
-   4
+   4,
+   2
   ]
  ],
  "is_core": true,
  "strict": true,
- "core_ref": "core 12 (m = 6, idx 3) of results/k4_certs_4_n4_3.json.gz, profile 8,10,65,2",
+ "core_ref": "core 25 (m = 6, idx 5) of results/k4_certs_4_n4_1.json.gz, profile 6,1,3,3",
  "source": {
   "pr": 74,
-  "branch": "compute/k4-dl13",
+  "branch": "compute/k4-dl13 (the n = 4 runs of compute/k4-dl13-n4, merged into it)",
   "files": [
    "attempts/k4-dl13-refuted.md",
    "attempts/k4_dl13_refuted.py",
    "k4/dl13.c",
-   "k4/dl13_hunt.py",
+   "results/k4_dl13/n4_1.log",
+   "results/k4_dl13/n4_FAILURES.md",
    "results/k4_dl13/attempts_replay.log"
   ],
   "replay": "python3 attempts/k4_dl13_refuted.py"
@@ -82,25 +79,25 @@
  "witness": {
   "bases": [
    [
-    5
+    4
+   ],
+   [
+    1
    ],
    [
     3
    ],
    [
-    2
-   ],
-   [
-    4
+    5
    ]
   ],
   "J": [
    0,
-   1
+   2
   ],
   "frozen": [
    0,
-   1,
+   2,
    3
   ],
   "f": 3,
@@ -109,30 +106,30 @@
   "k": 2,
   "exposures": [
    [
-    2,
+    1,
     0,
-    "O"
+    "G"
    ]
   ],
   "repair": {
    "bases": [
     [
-     4
+     5
+    ],
+    [
+     1
     ],
     [
      3
     ],
     [
-     2
-    ],
-    [
-     5
+     4
     ]
    ],
    "def": 0,
-   "move": "frozen agents 0 and 3 exchange their goods 5 and 4"
+   "move": "frozen agents 0 and 3 exchange their goods 4 and 5"
   }
  },
  "expect_fail": [],
- "notes": "Found by k4/dl13_hunt.py (compute/k4-dl13) on random strict profiles of the n = 4 cores with three 4-good agents and m <= 6; confirmed by k4/dl13.c, k4/dl2_relations.py (model.py) and main's k4/c4x_check.py with k4/dl2_relations_xcheck.rel_B (attempts/k4_dl13_refuted.py). f = 3, omega = 1, 18 min-frozen P, 6 with def > 0. P = ({5},{3},{2},{4}): agents 0, 1, 3 frozen (needs {4}, {5}, {3,4}, {3,5}), the free agent 2 the only owner, its bundle {0,1,2} threatens agent 0 (2 + 3 > 4), so def(P) = 1. Exchanging the frozen goods of agents 0 and 3 gives each its top good and makes {0,1,2} safe: def 0. No min-frozen P' with a smaller deficit has P's key or arises by a role swap with at most one helper. Smallest m for this shape at n = 4 (f = 3 with omega >= 1 needs m >= 6; n <= 3 has no DL13 failure, results/k4_dl13/n3.log). Not in predicates.py: check with python3 k4/suite/run.py --pred=k4/dl13_pred.py:dl13_c (or :dl13_model, :dl13_x), which must give FAILS."
+ "notes": "Found by the exhaustive run of k4/dl13.c over every strict profile of the n = 4 cores with one 4-good agent (compute/k4-dl13-n4, results/k4_dl13/n4_1.log: DL13 fails at 20 states, all on this core); confirmed by k4/dl13.c, k4/dl2_relations.py (model.py) and main's k4/c4x_check.py with k4/dl2_relations_xcheck.rel_B (attempts/k4_dl13_refuted.py). Agents 2 and 3 are twins. f = 3, omega = 1, 18 min-frozen P. P = ({4},{1},{3},{5}): agents 0, 2, 3 frozen (needs {5}, {3,5}, {4}, {3,4}; NA = {3,4,5}), the free agent 1 the only owner, its bundle {0,1,2} threatens agent 0 (2 + 3 > 4), so def(P) = 1. Exchanging the frozen goods of agents 0 and 3 gives each its top good and makes {0,1,2} safe: def 0. No min-frozen P' with a smaller deficit has P's key or arises by a role swap with at most one helper, so DL_T fails here too. Least m for this shape at n = 4 (f = 3 with omega >= 1 needs m >= 6); n <= 3 has no DL13 failure (results/k4_dl13/n3.log). Not in predicates.py: check with python3 k4/suite/run.py --pred=k4/dl13_pred.py:dl13_c (or :dl13_model, :dl13_x), which must give FAILS."
 }

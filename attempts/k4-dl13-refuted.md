@@ -12,8 +12,8 @@ with g ∈ N_z(B_z), x takes a new base) with at most one helper that gives up a
 **It is false.** Two kinds of counterexamples, both on connected k = 4 cores with n = 4 (at n ≤ 3 DL₁₃ holds at every
 f ≥ 1 state, exhaustively: `results/k4_dl13/n3.log`):
 
-1. **`dl13-n4m6-fswap`** (smallest found: n = 4, m = 6, f = 3): the only improvements move frozen goods between frozen
-   agents. This is also a counterexample to **DL_T** (K4.DL2.T, `k4/dl2.md` §3), whose relation R_T adds rotations of
+1. **`dl13-n4m6-fswap`** (smallest found: n = 4, m = 6, one 4-good agent, f = 3; from the exhaustive run on the n = 4
+   cores with one 4-good agent): the only improvements move frozen goods between frozen agents. This is also a counterexample to **DL_T** (K4.DL2.T, `k4/dl2.md` §3), whose relation R_T adds rotations of
    free agents to R_13: no improvement keeps the key or is a role swap with at most one helper.
 2. **`dl13-n4m9-rot`** (n = 4, m = 9, f = 1; #53's `gap_n4_pure_s4000` catalogue): no min-frozen P′ at all lies within
    two base changes; the improvements are rotations of the three free agents (in R_T, so DL_T holds here) and role
@@ -29,33 +29,35 @@ Each is confirmed by three implementations (`python3 attempts/k4_dl13_refuted.py
 
 ## 1. `dl13-n4m6-fswap`: frozen agents must exchange goods
 
-Core 12 (m = 6, idx 3) of `results/k4_certs_4_n4_3.json.gz` (three 4-good agents), profile 8,10,65,2; found by
-`k4/dl13_hunt.py` (`results/k4_dl13/hunt_n4_3_m6.log`, climb 328).
+Core 25 (m = 6, idx 5) of `results/k4_certs_4_n4_1.json.gz` (one 4-good agent), profile 6,1,3,3. Found by the
+exhaustive run over every strict profile of the n = 4 cores with one 4-good agent (`results/k4_dl13/n4_1.log`, made on
+the branch compute/k4-dl13-n4 with this workstream's tools and merged here; `results/k4_dl13/n4_FAILURES.md`): DL₁₃
+fails there at 20 states, all on this core.
 
 | agent | goods : values |
 |---|---|
-| 0 | 0:2, 2:3, 4:8, 5:4 |
-| 1 | 1:2, 3:4, 4:3, 5:8 |
-| 2 | 2:3, 3:8, 4:4, 5:2 |
-| 3 | 3:3, 4:2, 5:4 |
+| 0 | 0:2, 2:3, 4:4, 5:8 |
+| 1 | 1:2, 3:4, 5:3 |
+| 2 | 3:3, 4:4, 5:2 |
+| 3 | 3:3, 4:4, 5:2 (a twin of agent 2) |
 
-Goods 0 and 1 are private (agents 0 and 1). Every agent is strictly balanced (top < sum of the others: 8 < 9, 8 < 9,
-8 < 9, 4 < 5) with distinct subset sums; the hypergraph is a connected k = 4 core (model.py's `core_violations` is
-empty). σ = 2n − m = 2.
+Goods 0 and 1 are private (agents 0 and 1). Every agent is strictly balanced (top < sum of the others: 8 < 9, 4 < 5,
+4 < 5) with distinct subset sums; the hypergraph is a connected k = 4 core (model.py's `core_violations` is empty).
+σ = 2n − m = 2.
 
-**P = ({5}, {3}, {2}, {4})**, J = {0, 1}. Needs: N_0 = {4} (8 > 4), N_1 = {5} (8 > 4), N_2 = {3, 4} (8, 4 > 3),
-N_3 = {3, 5} (3, 4 > 2); NA = {3, 4, 5}. So agents 0, 1, 3 are frozen (on 5, 3, 4) and agent 2 (base {2}, not needed)
+**P = ({4}, {1}, {3}, {5})**, J = {0, 2}. Needs: N_0 = {5} (8 > 4), N_1 = {3, 5} (4, 3 > 2), N_2 = {4} (4 > 3),
+N_3 = {3, 4} (3, 4 > 2); NA = {3, 4, 5}. So agents 0, 2, 3 are frozen (on 4, 3, 5) and agent 1 (base {1}, not needed)
 is free; f = 3 (every min-frozen P of the profile has three frozen agents), ω = 3 − 2 = 1.
 
-def(P) = 1: the only owner is agent 2, with W_2 = {2} ∪ J = {0, 1, 2}. The bundle {0, 1, 2} threatens agent 0
-(θ_0 = v_0({0, 2}) = 2 + 3 = 5 > v_0({5}) = 4; good 1 is worth 0 to agent 0), while {0, 2} and {1, 2} are safe
-(agent 0 sees at most 3, agent 1 at most 2, agent 3 values none of 0, 1, 2). No frozen agent is counted (every frozen
-good is needed by an agent other than the owner: 5 by 1 and 3, 3 by 3, 4 by 0), so Val*(P) = 2 and, by Lemma H1,
+def(P) = 1: the only owner is agent 1, with W_1 = {1} ∪ J = {0, 1, 2}. The bundle {0, 1, 2} threatens agent 0
+(θ_0 = v_0({0, 2}) = 2 + 3 = 5 > v_0({4}) = 4; good 1 is worth 0 to agent 0), while {0, 1} and {1, 2} are safe
+(agent 0 sees at most 3; agents 2 and 3 value none of 0, 1, 2). No frozen agent is counted (every frozen good is needed
+by an agent other than the owner: 4 by 2 and 3, 3 by 3, 5 by 0), so Val*(P) = 2 and, by Lemma H1,
 def(P) = ω + 2 − 2 = 1.
 
-**The repair.** Agents 0 and 3 exchange their frozen goods: P′ = ({4}, {3}, {2}, {5}). Now agent 0 holds its top
-good 4 (8) and agent 3 its top good 5 (4); the needed set is still {3, 4, 5} (agent 2 needs 3 and 4, agent 1 needs 5),
-the frozen agents are the same, and {0, 1, 2} no longer threatens agent 0 (5 ≤ 8), so agent 2 owns three goods and
+**The repair.** Agents 0 and 3 exchange their frozen goods: P′ = ({5}, {1}, {3}, {4}). Now agent 0 holds its top
+good 5 (8) and agent 3 its top good 4 (4); the needed set is still {3, 4, 5} (agent 1 needs 3 and 5, agent 2 needs 4),
+the frozen agents are the same, and {0, 1, 2} no longer threatens agent 0 (5 ≤ 8), so agent 1 owns three goods and
 def(P′) = 0. This move is neither (T1) (two agents change), (T2) (the changed agents are frozen), nor (T3) (nobody
 unfreezes). The 18 min-frozen P of the profile and their deficits (B: 12 with a smaller deficit than P) give every
 improvement (`attempts_replay.log` lists them):
@@ -63,17 +65,20 @@ improvement (`attempts_replay.log` lists them):
 | distance | improvements of P (all have def 0) |
 |---|---|
 | 2 | the exchange of the frozen goods of agents 0 and 3 |
-| 3 | a 3-cycle of the three frozen goods; four chains: agent 0 unfreezes (takes 2 or {0, 2}), one frozen agent takes agent 0's good 5 and the free agent 2 takes that agent's good (a role swap along a need chain of length 2) |
+| 3 | a 3-cycle of the three frozen goods; four chains: agent 0 unfreezes (takes 2 or {0, 2}), a frozen agent takes agent 0's good 4 and the free agent 1 takes that agent's good (a role swap along a need chain of length 2) |
 | 4 | six chains through two frozen agents |
 
 No improvement keeps the key (needed set, frozen agents and their goods) and none is a role swap with at most one
 helper, so **R_T (DL_T) has no improving move at P** either (A and B). DL₂ (two base changes) holds here.
 
-m = 6 is the least m at which n = 4 admits this shape (f = 3 with ω = f − (2n − m) ≥ 1 needs m ≥ 6). The hunts found
-78 such states (38 profiles of 10 cores with m = 6, five with three 4-good agents and five pure,
-`results/k4_dl13/fails_hunt_m6.log`) and 18 more at m = 7, 8 (`fails_hunt_m8.log`); at every one f = 3, the nearest improvement is an
-exchange of two frozen goods, and no relation tested (R_T, R_13 plus trades, plus 3-rotations, plus two helpers, plus
-any number of helpers) has an improving move.
+m = 6 is the least m at which n = 4 admits this shape (f = 3 with ω = f − (2n − m) ≥ 1 needs m ≥ 6). The same shape
+(f = 3, def 1, nearest improvement an exchange of two frozen goods, distance 2, R_T failing too) is every DL₁₃ failure
+of the exhaustive n = 4 runs with one and two 4-good agents (20 and 3,040 states, 9 cores with m = 6, 7,
+`results/k4_dl13/n4_FAILURES.md`, re-checked there by A, B and C), of the sampled three-4-good-agent cores (2 states),
+and of this workstream's hunts: 78 states in 38 profiles of 10 cores with m = 6 (five with three 4-good agents, five
+pure; `results/k4_dl13/fails_hunt_m6.log`) and 18 at m = 7, 8 (`fails_hunt_m8.log`). At those 96 hunt states no relation
+tested (R_T, R_13 plus trades, plus 3-rotations, plus two helpers, plus any number of helpers) has an improving move;
+`attempts/k4_dl13_refuted.py` also replays core 12 (m = 6) and core 58 (m = 7) of `results/k4_certs_4_n4_3.json.gz`.
 
 ## 2. `dl13-n4m9-rot`: three free agents must rotate
 
@@ -106,13 +111,17 @@ R_13 with two helpers each repair all 3,971; R_13 plus trades repairs 980.
 
 ## 3. What DL₁₃ would have to grow into
 
-On every failure found (4,068 f ≥ 1 states in 3,985 profiles of n = 4 cores; none at n ≤ 3 and none in #53's n = 5
-catalogues and hunts):
-- **with three free agents** (f = 1 at n = 4): rotations of three free agents (T2), or role swaps with two helpers;
-- **with one free agent** (f = 3 at n = 4): moves that change the frozen agents' goods without the T3 shape: an exchange
-  of the goods of two frozen agents (both stay frozen; distance 2, the nearest repair at all 96 states), a 3-cycle of
-  frozen goods, or a role swap along a need chain of length ≥ 2 (x unfreezes, a frozen w takes x's good, the free z
-  takes w's good). None of these is in R_T, so **DL_T is refuted too** (by the same instance; its row K4.DL2.T belongs
+On every failure found (7,130 f ≥ 1 states of n = 4 cores: the 3,062 of the n = 4 certificate runs, the 3,971 near
+`dl13-n4m9-rot` and the 97 of the hunts; and 24 states of 3 profiles of one n = 5 core (pure, m = 11) found by the hunt
+from #53's `gap_n5_pure_s100` profiles, re-derived by model.py (`results/k4_dl13/fails_hunt_n5.log`; c4x_check does not
+run at n = 5). None at n ≤ 3, none in #53's n = 5 catalogues and hunts themselves, none on H₂ or on random n = 5, 6
+profiles):
+- **with three free agents** (f = 1 at n = 4; 3,972 states; and f = 2 at n = 5, 4 states): rotations of three free
+  agents (T2) or trades, or role swaps with two helpers (n = 4 only);
+- **with one or two free agents** (f = 3 at n = 4, 3,158 states; f = 3 at n = 5, 20 states, where the two free agents
+  could also trade): moves that change the frozen agents' goods without the T3 shape: an exchange of the goods of two
+  frozen agents (both stay frozen; distance 2, the nearest repair at every one of them), a 3-cycle of frozen goods, or a role swap along a need chain of length ≥ 2 (x unfreezes, a frozen w takes x's
+  good, the free z takes w's good). None of these is in R_T, so **DL_T is refuted too** (by the same instance; its row K4.DL2.T belongs
   to proof/k4-dl2-k1 and is not changed here).
 
 So a neighbourhood relation R for `EFX.C4min.target4_of_defLocal` must, at f ≥ 1, contain rotations of at least three
@@ -124,11 +133,13 @@ the failures listed (all are repaired by an exchange or by R_T).
 
 ## Smallest failing configuration and reproduction
 
-Smallest found: `dl13-n4m6-fswap` (n = 4, m = 6, f = 3, ω = 1, 18 min-frozen P), in the suite
-(`k4/suite/instances/dl13-n4m6-fswap.json`, with `dl13-n4m9-rot.json`).
+Smallest found: `dl13-n4m6-fswap` (n = 4, m = 6, one 4-good agent, f = 3, ω = 1, 18 min-frozen P), in the suite
+(`k4/suite/instances/dl13-n4m6-fswap.json`, with `dl13-n4m9-rot.json`). No smaller n fails (n ≤ 3 exhaustive) and no
+smaller m can carry this shape at n = 4.
 
 ```
-python3 attempts/k4_dl13_refuted.py                                    # both instances (and core 58, m = 7), A, B, C
+python3 attempts/k4_dl13_refuted.py                                    # both instances (and cores 12, 58 of n4_3), A, B, C
+python3 k4/dl13_run.py certs results/k4_certs_4_n4_1.json.gz --jobs=2   # every n = 4 profile with one 4-good agent: 20 failures
 python3 k4/suite/run.py --pred=k4/dl13_pred.py:dl13_c                  # FAILS at the two suite instances (also :dl13_model, :dl13_x)
 python3 k4/dl13_hunt.py certs results/k4_certs_4_n4_3.json.gz --mmax=6 --climbs=400 --init=2000 --steps=60 --nb=48 \
   --patience=15 --bt --seed=2 --jobs=1                                 # finds the m = 6 failures (results/k4_dl13/hunt_n4_3_m6.log)
