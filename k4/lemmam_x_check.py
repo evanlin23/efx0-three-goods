@@ -167,6 +167,77 @@ def runclass(inst, a):
     return 3
 
 
+def rho(inst, s, x, W, J):
+    """least size of a kept-out set D of junk goods with x not threatened by W - D with its base"""
+    import itertools
+    B = M.base_of(inst, s, x)
+    for k in range(len(J) + 1):
+        for D in itertools.combinations(J, k):
+            if not RM.threatened(inst, x, W - set(D), B):
+                return k
+    return float('inf')
+
+
+def lemma_checks(inst, a):
+    """the conclusions of Lemmas 1, 2, 3 of k4/lemmam_x.md for a bad first agent a; returns a list of failures"""
+    import itertools
+    v = envyfree_view(inst, a)
+    s, E, frz, r, W, J, needs, pos = v['s'], v['E'], v['frz'], v['r'], v['W'], v['J'], v['needs'], v['pos']
+    bad = []
+    if M.omega(inst, s) <= 0:
+        bad.append('L1a')
+    X = [x for x in E if frz[x]]
+    if not X:
+        bad.append('L1b')
+    rc = runclass(inst, a)
+    if rc in (0, 1, 2):
+        bad.append('L1c')
+    # Lemma 3: a Hall violator among the exposed frozen agents
+    Dx = {x: {e for e in chain_ends(inst, s, needs, frz, x) if e != r and e not in E} for x in X}
+    rh = {x: rho(inst, s, x, W, J) for x in X}
+    found = False
+    for k in range(1, len(X) + 1):
+        for Xp in itertools.combinations(X, k):
+            U = set().union(*(Dx[x] for x in Xp))
+            if sum(rh[x] for x in Xp) > len(U):
+                found = True
+                break
+        if found:
+            break
+    if not found:
+        bad.append('L3')
+    if rc == 3:   # Lemma 2 on a longest chain from k*
+        blk = v['blk']
+        ks = min((x for x in range(inst.n) if blk[x] == blk[r]), key=lambda x: pos[x])
+        pick = s[1]
+        best = []
+
+        def ext(chain):
+            nonlocal best
+            y = pick[chain[-1]]
+            for j in range(inst.n):
+                if j in chain or s[2][j] or y not in needs[j]:
+                    continue
+                if j == r:
+                    if len(chain) + 1 > len(best):
+                        best = chain + [j]
+                elif frz[j]:
+                    ext(chain + [j])
+        ext([ks])
+        Yp = pick[best[-2]]
+        rk = sorted(inst.R[r], key=lambda g: -inst.v[r][g])
+        rks = sorted(inst.R[ks], key=lambda g: -inst.v[ks][g])
+        O = set(rks[1:])
+        L = set(inst.R[r]) & W
+        ok = (Yp == rk[1] and O == {rk[2], rk[3]}) or (Yp == rk[0] and O <= set(rk[1:]) and L <= O | {rk[3]})
+        others = [z for z in range(inst.n) if z != r and Yp in needs[z]]
+        if not ok:
+            bad.append('L2b')
+        if others:
+            bad.append('L2a')
+    return bad
+
+
 def analyse(sets, vals):
     inst = RM.make_inst(sets, vals)
     cls = [klass(inst, a) for a in range(inst.n)]
@@ -174,7 +245,7 @@ def analyse(sets, vals):
     for a in range(inst.n):
         if cls[a] == 2:
             c, v = candidates(inst, a)
-            out.append((a, runclass(inst, a), c))
+            out.append((a, runclass(inst, a), c, lemma_checks(inst, a)))
     return cls, out
 
 
@@ -182,6 +253,7 @@ def main():
     args = sys.argv[1:]
     prof = next((x.split('=', 1)[1] for x in args if x.startswith('--profiles=')), None)
     mx = int(next((x.split('=')[1] for x in args if x.startswith('--max=')), 10 ** 9))
+    expect = {}      # classes reported by k4/lemmam_x.c (BAD lines with cls=), compared below
     if prof:
         P = []
         for line in open(prof):
@@ -193,10 +265,14 @@ def main():
             ms = re.search(r'sets=(\[\[.*?\]\])', line); mv = re.search(r'vals=(\[\[.*?\]\])', line)
             if ms and mv:
                 P.append((json.loads(ms.group(1)), json.loads(mv.group(1))))
+                mc = re.search(r'cls=(\d+)', line)
+                if mc:
+                    expect[json.dumps(P[-1])] = mc.group(1)
     else:
         P = [(json.loads(args[0]), json.loads(args[1]))]
+    mism = 0
     seen = set(); tot = {'profiles': 0, 'nogood': 0, 'bad': 0}
-    good = {k: 0 for k in CANDS}; undef = {k: 0 for k in CANDS}
+    good = {k: 0 for k in CANDS}; undef = {k: 0 for k in CANDS}; lfail = {}; rcs = {}
     for sets, vals in P:
         key = json.dumps([sets, vals])
         if key in seen:
@@ -206,19 +282,33 @@ def main():
             break
         tot['profiles'] += 1
         cls, out = analyse(sets, vals)
+        ce = expect.get(json.dumps([sets, vals]))
+        if ce is not None and ce != ''.join(map(str, cls)):
+            # K0 and K1 can both hold; compare good/bad only
+            if [c == '2' for c in ce] != [c == 2 for c in cls]:
+                mism += 1
+                print('MISMATCH lemmam_x.c', ce, 'here', ''.join(map(str, cls)), json.dumps({'sets': sets, 'vals': vals}))
         if all(c == 2 for c in cls):
             tot['nogood'] += 1
             print('NOGOOD', json.dumps({'sets': sets, 'vals': vals}))
-        for a, rc, c in out:
+        for a, rc, c, lf in out:
             tot['bad'] += 1
             for k in CANDS:
                 if c[k] is None:
                     undef[k] += 1
                 elif cls[c[k]] <= 1:
                     good[k] += 1
+            for f in lf:
+                lfail[f] = lfail.get(f, 0) + 1
+            rcs[rc] = rcs.get(rc, 0) + 1
             print('BAD', 'cls=' + ''.join(map(str, cls)), 'a=%d' % a, 'runclass=%d' % rc,
-                  'cand=' + ','.join('-1' if c[k] is None else str(c[k]) for k in CANDS), json.dumps({'sets': sets, 'vals': vals}))
-    print('profiles', tot['profiles'], 'with no good first agent', tot['nogood'], 'bad pairs', tot['bad'])
+                  'cand=' + ','.join('-1' if c[k] is None else str(c[k]) for k in CANDS),
+                  'lemmafail=' + (','.join(lf) or '-'), json.dumps({'sets': sets, 'vals': vals}))
+    print('profiles', tot['profiles'], 'with no good first agent', tot['nogood'], 'bad pairs', tot['bad'],
+          'good/bad disagreements with lemmam_x.c', mism, 'of', len(expect))
+    print('  bad pairs by run class (0 omega<=0, 1 A4, 2 B4, 3 G2, 4 one exposed 4-good frozen, 5 free, 6 two or more):',
+          dict(sorted(rcs.items())))
+    print('  conclusions of Lemmas 1-3 that fail (must be none):', lfail or 'none')
     for k in CANDS:
         print(f"  candidate {k:20s} good {good[k]} undefined {undef[k]} of {tot['bad']}")
 

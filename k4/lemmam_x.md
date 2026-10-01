@@ -158,6 +158,23 @@ What is open for (G2) is the exchange itself (§5).
 
 ## 5. The exchange: mechanism, Ω and Ψ, and what remains
 
+### 5.1 A standalone step: the first block decides
+
+**Lemma 4.** Let a, a′ be agents, β and β′ the first blocks of the runs of τ_a and τ_{a′}. If β and β′ have the same
+agents and their agents pick the same set of goods (in any assignment), then after the first block the two runs
+process the same agents in the same order with the same picks. Their Phase 1 states differ only in which agent of β
+holds which good of the common set, and they have the same junk J₀.
+
+*Proof.* When the first block ends, both runs have the same set G of remaining goods and the same unprocessed agents.
+From there Phase 1 is a function of (G, unprocessed agents): a P-step takes the agent of least LB key (rank of its
+favourite good of G, number of its goods in G, index), an insertion step the first unprocessed agent in index order
+(τ_a and τ_{a′} have length one), and every agent takes its favourite good of G. By induction the two runs agree. ∎
+
+(The upgrades can still differ outside β, since NA changes with the picks of β.) Lemma 4 reduces an exchange whose
+first block keeps its agents and goods to a statement about that block. On the data this is the common case at
+n ≤ 4, where the bad runs are single blocks and the exchange permutes the picks (§5.2); on H_t it is not (the exchange
+agent lies in another gadget, and its run has a different block structure).
+
 PLACEHOLDER_EXCHANGE
 
 ## 6. Reproduce

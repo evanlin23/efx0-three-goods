@@ -1673,6 +1673,159 @@ static void print43(void) {
     memset(st_callg, 0, sizeof st_callg); memset(st_cfirstg, 0, sizeof st_cfirstg); memset(st_clastg, 0, sizeof st_clastg);
     fflush(stdout);
 }
+/* ==== mode 44 (k4/lemmam_x.md §6, adaptive Lemma M): choose the inserted agent at every insertion step ====
+   A run is built block by block. At each insertion step every unprocessed agent c is tried: the block it starts is
+   simulated (c inserted, then P-steps by LB's key until no unprocessed agent has lost a good) and its *block count*
+   delta(c) is computed (below); the agent with the least delta is inserted (ties: least index). The block count is
+   pessimistic, computed when the block ends, from the block alone and the set G of goods still unpicked:
+     frozen: an agent of the block whose pick is needed by another agent of the block (no upgrades; nobody outside
+             the block can need it, (B2));
+     X:      the frozen agents x of the block threatened by G with their pick (the final W is a subset of G);
+     rho(x): the least |D|, D a set of goods of G valued by x, with x not threatened by G - D;
+     D(x):   the ends of need chains from x inside the block that are not threatened by G with their pick, and, in the
+             last block, other than its last-processed agent r (the owner);
+     delta:  max over nonempty X' of X of (sum of rho(x) - |union of D(x)|), at least 0 (Hall's condition, Lemma 3).
+   At the end the run's sequence tau is evaluated: the least d <= -r such that some policy (none, need-shrinking,
+   envy-free) and at most d nested rotations reach Lemma K deficit <= 0 (or omega <= 0), else -r + 1. Statistics
+   (ADP lines): profiles, how many had every block with delta = 0, the histogram of d, and d by whether every block had
+   delta = 0 (soundness of the block count: those should have d = 0 under the no-upgrade policy). -D44 prints the
+   profiles with d >= 1 (ADPBAD lines, with tau and the deltas). */
+static int b_done[MAXN], b_Y[MAXN], b_pos[MAXN], b_blk[MAXN], b_step;
+static gm b_G;
+static void bsim_block(int c, int bid) {
+    int i = c;
+    for (;;) {
+        b_Y[i] = favr(i, b_G); if (b_Y[i] >= 0) b_G &= ~BIT(b_Y[i]);
+        b_done[i] = 1; b_pos[i] = b_step++; b_blk[i] = bid;
+        i = pstep(b_G, b_done); if (i < 0) break;
+    }
+}
+static int bc_mem[MAXN], bc_nm, bc_fz[MAXN], bc_ex[MAXN], bc_rho[MAXN], bc_ch[MAXN], bc_cl, bc_last;
+static gm bc_N[MAXN], bc_ends;
+static void bc_dfs(void) {
+    int x = bc_ch[bc_cl - 1];
+    if (bc_cl > 1 && !bc_fz[x]) { if (!bc_ex[x] && x != bc_last) bc_ends |= BIT(x); return; }
+    for (int q = 0; q < bc_nm; q++) {
+        int y = bc_mem[q], in = 0;
+        for (int k = 0; k < bc_cl; k++) if (bc_ch[k] == y) in = 1;
+        if (in || b_Y[x] < 0 || !(bc_N[y] >> b_Y[x] & 1)) continue;
+        bc_ch[bc_cl++] = y; bc_dfs(); bc_cl--;
+    }
+}
+static int block_count(int bid, int last) {
+    bc_nm = 0;
+    for (int i = 0; i < n; i++) if (b_done[i] && b_blk[i] == bid) bc_mem[bc_nm++] = i;
+    for (int q = 0; q < bc_nm; q++) { int x = bc_mem[q]; bc_N[x] = b_Y[x] >= 0 ? above(x, b_Y[x]) : R[x]; }
+    bc_last = -1;
+    if (last) for (int q = 0; q < bc_nm; q++) if (bc_last < 0 || b_pos[bc_mem[q]] > b_pos[bc_last]) bc_last = bc_mem[q];
+    int X[MAXN], nx = 0;
+    for (int q = 0; q < bc_nm; q++) {
+        int x = bc_mem[q];
+        bc_fz[x] = 0;
+        if (b_Y[x] >= 0) for (int p = 0; p < bc_nm; p++) if (bc_mem[p] != x && (bc_N[bc_mem[p]] >> b_Y[x] & 1)) bc_fz[x] = 1;
+        bc_ex[x] = b_Y[x] >= 0 && x != bc_last && threatened(x, b_G, BIT(b_Y[x]));
+    }
+    gm endsX[MAXN];
+    for (int q = 0; q < bc_nm; q++) {
+        int x = bc_mem[q];
+        if (!bc_fz[x] || !bc_ex[x]) continue;
+        gm cand = b_G & R[x]; int best = 99;
+        for (gm D = cand;; D = (D - 1) & cand) {
+            if (popc(D) < best && !threatened(x, b_G & ~D, BIT(b_Y[x]))) best = popc(D);
+            if (!D) break;
+        }
+        bc_rho[x] = best;
+        bc_ends = 0; bc_ch[0] = x; bc_cl = 1; bc_dfs();
+        endsX[nx] = bc_ends; X[nx++] = x;
+    }
+    int worst = 0;
+    if (nx > 20) nx = 20;            /* (never reached on the instances run) */
+    for (long s = 1; s < (1L << nx); s++) {
+        int sum = 0; gm U = 0;
+        for (int k = 0; k < nx; k++) if (s >> k & 1) { sum += bc_rho[X[k]]; U |= endsX[k]; }
+        int v = sum - popc(U);
+        if (v > worst) worst = v;
+    }
+    return worst;
+}
+static int adp_tau[MAXN], adp_ntau, adp_delta[MAXN], adp_d, adp_all0, adp_lastdelta;
+static void adaptive44(void) {
+    for (int i = 0; i < n; i++) { b_done[i] = 0; b_Y[i] = -1; }
+    b_G = ALLG; b_step = 0; adp_ntau = 0; adp_all0 = 1;
+    int sd[MAXN], sY[MAXN], sp[MAXN], sb[MAXN], sstep; gm sG;
+    for (int bid = 0;; bid++) {
+        int any = 0; for (int i = 0; i < n; i++) if (!b_done[i]) any = 1;
+        if (!any) break;
+        memcpy(sd, b_done, sizeof sd); memcpy(sY, b_Y, sizeof sY); memcpy(sp, b_pos, sizeof sp); memcpy(sb, b_blk, sizeof sb);
+        sG = b_G; sstep = b_step;
+        int bestc = -1, bestd = 1 << 20;
+        for (int c = 0; c < n; c++) if (!sd[c]) {
+            memcpy(b_done, sd, sizeof sd); memcpy(b_Y, sY, sizeof sY); memcpy(b_pos, sp, sizeof sp); memcpy(b_blk, sb, sizeof sb);
+            b_G = sG; b_step = sstep;
+            bsim_block(c, bid);
+            int last = 1; for (int i = 0; i < n; i++) if (!b_done[i]) last = 0;
+            int dl = block_count(bid, last);
+            if (dl < bestd) { bestd = dl; bestc = c; }
+        }
+        memcpy(b_done, sd, sizeof sd); memcpy(b_Y, sY, sizeof sY); memcpy(b_pos, sp, sizeof sp); memcpy(b_blk, sb, sizeof sb);
+        b_G = sG; b_step = sstep;
+        bsim_block(bestc, bid);
+        adp_delta[adp_ntau] = bestd; adp_tau[adp_ntau++] = bestc;
+        if (bestd > 0) adp_all0 = 0;
+        adp_lastdelta = bestd;
+    }
+    /* evaluate tau: the least d with a Lemma K certificate after at most d nested rotations, any of the three policies */
+    memcpy(pre, adp_tau, sizeof(int) * adp_ntau); npre = adp_ntau; TAILRULE = 0; stop_at = -1;
+    int pols[3] = {0, 1, 2}, dummy, om, fz;
+    adp_d = ROT + 1;
+    KONLY = 1;
+    for (int q = 0; q < 3 && adp_d > 0; q++) {
+        memcpy(pre, adp_tau, sizeof(int) * adp_ntau); npre = adp_ntau;
+        deficits(pols[q], &dummy, &dummy, &om, &fz);
+        if (fa_dK_tmp <= 0) adp_d = 0;
+    }
+    KONLY = 0;
+    for (int d = 1; d <= ROT && adp_d > d; d++)
+        for (int q = 0; q < 3 && adp_d > d; q++) {
+            memcpy(pre, adp_tau, sizeof(int) * adp_ntau); npre = adp_ntau;
+            phase1(); setup_state(); upg_mode = pols[q]; upgrades(); slots();
+            int sr = rot_cap, sdp = rot_depth, su = used_rot;
+            KMODE = 1; rot_cap = d; rot_depth = 0;
+            if (try_rotations()) adp_d = d;
+            KMODE = 0; rot_cap = sr; rot_depth = sdp; used_rot = su;
+        }
+}
+static long adp_prof, adp_all0cnt, adp_hist[MAXROT + 2], adp_hist0[MAXROT + 2], adp_lastd1;
+static void stat44(long w) {
+    adp_prof += w; if (adp_all0) adp_all0cnt += w;
+    adp_hist[adp_d] += w; if (adp_all0) adp_hist0[adp_d] += w;
+    if (adp_d >= 1 && adp_lastdelta == 1) adp_lastd1 += w;
+    if (DUMP == 44 && adp_d >= 1 && dumped < DUMPMAX) {
+        dumped++;
+        printf("ADPBAD w=%ld d=%d sets=[", w, adp_d);
+        for (int i = 0; i < n; i++) { printf("["); for (int q = 0; q < d[i]; q++) printf("%d%s", gl[i][q], q + 1 < d[i] ? "," : ""); printf("]%s", i + 1 < n ? "," : ""); }
+        printf("] vals=[");
+        for (int i = 0; i < n; i++) {
+            int q = 0; while (!(ts[i] >> q & 1)) q++;
+            int t = pidx[i][cp[i]][q];
+            printf("["); for (int z = 0; z < d[i]; z++) printf("%d%s", tv[i][t][z], z + 1 < d[i] ? "," : ""); printf("]%s", i + 1 < n ? "," : "");
+        }
+        printf("] tau=");
+        for (int k = 0; k < adp_ntau; k++) printf("%d%s", adp_tau[k], k + 1 < adp_ntau ? "," : "");
+        printf(" deltas=");
+        for (int k = 0; k < adp_ntau; k++) printf("%d%s", adp_delta[k], k + 1 < adp_ntau ? "," : "");
+        printf("\n");
+    }
+}
+static void print44(void) {
+    printf("ADP prof %ld all_blocks_delta0 %ld hist", adp_prof, adp_all0cnt);
+    for (int k = 0; k <= ROT + 1; k++) printf(" %ld", adp_hist[k]);
+    printf(" hist_all0");
+    for (int k = 0; k <= ROT + 1; k++) printf(" %ld", adp_hist0[k]);
+    printf(" bad_with_last_delta1 %ld\n", adp_lastd1);
+    adp_prof = adp_all0cnt = adp_lastd1 = 0; memset(adp_hist, 0, sizeof adp_hist); memset(adp_hist0, 0, sizeof adp_hist0);
+    fflush(stdout);
+}
 
 /* the whole construction for the current profile: tau by the rule (or tree / random choices), then LB4r(tau) */
 static int construct(void) {
@@ -1727,6 +1880,9 @@ static int construct(void) {
         return lb4r(ROT);
     } else if (ARULE == 43) {        /* Lemma M by exchange (k4/lemmam_x.md): classes and roles of every first agent */
         leaf43();
+        return 0;
+    } else if (ARULE == 44) {        /* adaptive insertion by the block count (k4/lemmam_x.md §6) */
+        adaptive44();
         return 0;
     } else if (ARULE == 41) {        /* rule RK (k4/rulef.md), fast */
         rulef_leaf41();
@@ -1921,6 +2077,7 @@ int main(int argc, char **argv) {
                 if (ARULE == 40) rulef_stat(1);
                 if (ARULE == 41 || ARULE == 42) rulef_stat41(1, ok, used_rot);
                 if (ARULE == 43) { stat43(1); leaves++; total++; continue; }
+                if (ARULE == 44) { stat44(1); leaves++; total++; continue; }
                 hist_rot[k]++; if (ok) hist_pol[used_pol]++;
                 if (VERB || !ok) { char lab[64]; snprintf(lab, sizeof lab, ok ? "RUN rot=%d pol=%d" : "RUN fail", k, used_pol); report(lab); }
                 if (INS == 10) printf("sample %ld: %s %d\n", smp, ok ? "rot" : "fail", k);
@@ -1932,6 +2089,7 @@ int main(int argc, char **argv) {
             if (ARULE == 40) rulef_print();
             if (ARULE == 41 || ARULE == 42) rulef_print41();
             if (ARULE == 43) print43();
+            if (ARULE == 44) print44();
             continue;
         }
         if (SAMPLE > 0 || HILL > 0) {    /* random profiles (-S), or hill-climbing toward hard profiles (-H) */
@@ -1956,6 +2114,14 @@ int main(int argc, char **argv) {
                     stat43(1);
                     if (HILL > 0) {      /* climb toward bad first agents: score (bad agents, agents not in K0) */
                         long sc = 0; for (int q = 0; q < n; q++) sc += (cls43[q] == 2) * 1000 + (cls43[q] >= 1);
+                        if (!restart && sc < cur) ty[mi] = mold; else cur = sc;
+                    }
+                    continue;
+                }
+                if (ARULE == 44) {
+                    stat44(1);
+                    if (HILL > 0) {      /* climb toward profiles the adaptive rule certifies only with rotations */
+                        long sc = adp_d * 100 + (adp_all0 ? 0 : 1);
                         if (!restart && sc < cur) ty[mi] = mold; else cur = sc;
                     }
                     continue;
@@ -2020,6 +2186,7 @@ int main(int argc, char **argv) {
                         if (ARULE == 40) rulef_stat(w);
                         if (ARULE == 41 || ARULE == 42) rulef_stat41(w, ok, used_rot);
                         if (ARULE == 43) { stat43(w); leaves++; total += w; continue; }
+                        if (ARULE == 44) { stat44(w); leaves++; total += w; continue; }
                         if (last_uncov) { uncov += w; if (DEEP && shown < MAXF) { report("UNCOV"); shown++; } }
                         leaves++; total += w;
                         if (!ok) { fails += w; hist_rot[ROT + 1] += w; if (shown < MAXF) { report("FAIL"); shown++; } continue; }
@@ -2051,6 +2218,7 @@ int main(int argc, char **argv) {
         if (ARULE == 40) rulef_print();
         if (ARULE == 41 || ARULE == 42) rulef_print41();
         if (ARULE == 43) print43();
+        if (ARULE == 44) print44();
         printf("total %ld leaves %ld runs %ld fails %ld rawfails %ld rot", total, leaves, runs, fails, rawf);
         for (int k = 0; k <= ROT; k++) printf(" %ld", hist_rot[k]);
         printf(" pol %ld %ld %ld uncov %ld covviol %ld covchk %ld\n", hist_pol[0], hist_pol[1], hist_pol[2], uncov, covviol, covchk);
