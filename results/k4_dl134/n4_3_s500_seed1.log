@@ -1,0 +1,534 @@
+# command: python3 k4/dl134_run.py certs results/k4_certs_4_n4_3.json.gz --sample=500 --seed=1 --jobs=4 --ckpt=results/k4_dl134/ckpt_n4_3_s500_seed1.jsonl --dump=results/k4_dl134/dump_n4_3_s500_seed1.jsonl.gz --tables=results/k4_dl134/tables_n4_3_s500_seed1.json --progress
+# dl134.c sha256 2a24ba5045b25414530928ea81b7a6bbd9aef6d33c7fa52e39fffe9293267cee
+# k4_certs_4_n4_3.json.gz: cores 0..338, 339 units to run, 0 from the checkpoint; 500 random profiles per unit, seed 1
+#   unit {'pos': 1, 'blk': None}: om1 0 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.7 s]
+#   unit {'pos': 4, 'blk': None}: om1 0 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 5, 'blk': None}: om1 0 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 6, 'blk': None}: om1 0 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 3, 'blk': None}: om1 0 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.7 s]
+#   unit {'pos': 7, 'blk': None}: om1 0 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 8, 'blk': None}: om1 0 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 9, 'blk': None}: om1 4 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 0, 'blk': None}: om1 0 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.7 s]
+#   unit {'pos': 11, 'blk': None}: om1 26 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 10, 'blk': None}: om1 0 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 12, 'blk': None}: om1 1 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 13, 'blk': None}: om1 4 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 14, 'blk': None}: om1 1 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 15, 'blk': None}: om1 0 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 16, 'blk': None}: om1 1 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 17, 'blk': None}: om1 0 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 18, 'blk': None}: om1 0 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 21, 'blk': None}: om1 0 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 20, 'blk': None}: om1 0 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 22, 'blk': None}: om1 0 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 23, 'blk': None}: om1 0 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 24, 'blk': None}: om1 0 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 25, 'blk': None}: om1 0 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 27, 'blk': None}: om1 0 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 26, 'blk': None}: om1 0 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 19, 'blk': None}: om1 1 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 30, 'blk': None}: om1 0 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 29, 'blk': None}: om1 0 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 31, 'blk': None}: om1 0 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 33, 'blk': None}: om1 0 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 28, 'blk': None}: om1 1 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 34, 'blk': None}: om1 0 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 35, 'blk': None}: om1 0 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 37, 'blk': None}: om1 0 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 36, 'blk': None}: om1 0 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 39, 'blk': None}: om1 0 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 32, 'blk': None}: om1 0 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 38, 'blk': None}: om1 0 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 40, 'blk': None}: om1 0 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 41, 'blk': None}: om1 0 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 42, 'blk': None}: om1 0 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 44, 'blk': None}: om1 0 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 43, 'blk': None}: om1 0 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 45, 'blk': None}: om1 0 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 46, 'blk': None}: om1 0 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 49, 'blk': None}: om1 9 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 48, 'blk': None}: om1 4 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 47, 'blk': None}: om1 11 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 2, 'blk': None}: om1 0 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.8 s]
+#   unit {'pos': 52, 'blk': None}: om1 2 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 50, 'blk': None}: om1 7 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 51, 'blk': None}: om1 6 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 53, 'blk': None}: om1 12 pos 1 st1 1 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 1 [0.0 s]
+#   unit {'pos': 56, 'blk': None}: om1 7 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 55, 'blk': None}: om1 9 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 54, 'blk': None}: om1 6 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 57, 'blk': None}: om1 6 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 58, 'blk': None}: om1 56 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 59, 'blk': None}: om1 19 pos 2 st1 2 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 60, 'blk': None}: om1 34 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 61, 'blk': None}: om1 34 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 63, 'blk': None}: om1 31 pos 3 st1 3 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 62, 'blk': None}: om1 44 pos 2 st1 2 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 2 [0.0 s]
+#   unit {'pos': 64, 'blk': None}: om1 31 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 65, 'blk': None}: om1 15 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 66, 'blk': None}: om1 8 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 68, 'blk': None}: om1 12 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 67, 'blk': None}: om1 36 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 69, 'blk': None}: om1 11 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 70, 'blk': None}: om1 19 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 71, 'blk': None}: om1 19 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 72, 'blk': None}: om1 11 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 73, 'blk': None}: om1 7 pos 2 st1 2 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 76, 'blk': None}: om1 2 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 74, 'blk': None}: om1 6 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 75, 'blk': None}: om1 3 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 77, 'blk': None}: om1 7 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 78, 'blk': None}: om1 6 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 80, 'blk': None}: om1 3 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 79, 'blk': None}: om1 5 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 83, 'blk': None}: om1 6 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 82, 'blk': None}: om1 3 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 81, 'blk': None}: om1 7 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 85, 'blk': None}: om1 4 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 84, 'blk': None}: om1 2 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 86, 'blk': None}: om1 2 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 88, 'blk': None}: om1 8 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 89, 'blk': None}: om1 4 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 90, 'blk': None}: om1 4 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 92, 'blk': None}: om1 7 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 91, 'blk': None}: om1 7 pos 2 st1 2 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 1 [0.0 s]
+#   unit {'pos': 93, 'blk': None}: om1 0 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 94, 'blk': None}: om1 5 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 95, 'blk': None}: om1 5 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 96, 'blk': None}: om1 3 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 97, 'blk': None}: om1 1 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 98, 'blk': None}: om1 4 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 100, 'blk': None}: om1 3 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 87, 'blk': None}: om1 7 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 99, 'blk': None}: om1 3 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 101, 'blk': None}: om1 7 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 104, 'blk': None}: om1 6 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 102, 'blk': None}: om1 4 pos 1 st1 1 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 1 [0.0 s]
+#   unit {'pos': 103, 'blk': None}: om1 3 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 105, 'blk': None}: om1 0 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 108, 'blk': None}: om1 8 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 106, 'blk': None}: om1 0 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 107, 'blk': None}: om1 0 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 110, 'blk': None}: om1 1 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 109, 'blk': None}: om1 1 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 112, 'blk': None}: om1 2 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 114, 'blk': None}: om1 2 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 111, 'blk': None}: om1 4 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 113, 'blk': None}: om1 3 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 116, 'blk': None}: om1 0 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 117, 'blk': None}: om1 0 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 115, 'blk': None}: om1 6 pos 1 st1 1 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 119, 'blk': None}: om1 2 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 120, 'blk': None}: om1 1 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 118, 'blk': None}: om1 0 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 121, 'blk': None}: om1 3 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 123, 'blk': None}: om1 1 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 122, 'blk': None}: om1 0 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 124, 'blk': None}: om1 1 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 125, 'blk': None}: om1 0 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 126, 'blk': None}: om1 0 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 127, 'blk': None}: om1 0 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 129, 'blk': None}: om1 0 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 128, 'blk': None}: om1 0 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 130, 'blk': None}: om1 0 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 132, 'blk': None}: om1 2 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 131, 'blk': None}: om1 0 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 134, 'blk': None}: om1 0 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 136, 'blk': None}: om1 0 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 133, 'blk': None}: om1 1 pos 1 st1 1 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 135, 'blk': None}: om1 0 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 138, 'blk': None}: om1 35 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 137, 'blk': None}: om1 15 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 139, 'blk': None}: om1 30 pos 1 st1 1 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 140, 'blk': None}: om1 25 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 142, 'blk': None}: om1 24 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 143, 'blk': None}: om1 28 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 144, 'blk': None}: om1 23 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 141, 'blk': None}: om1 27 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 145, 'blk': None}: om1 30 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 146, 'blk': None}: om1 137 pos 2 st1 2 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 1 [0.0 s]
+#   unit {'pos': 148, 'blk': None}: om1 148 pos 6 st1 6 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 1 [0.0 s]
+#   unit {'pos': 147, 'blk': None}: om1 128 pos 5 st1 5 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 1 [0.0 s]
+#   unit {'pos': 149, 'blk': None}: om1 122 pos 1 st1 1 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 1 [0.0 s]
+#   unit {'pos': 150, 'blk': None}: om1 195 pos 16 st1 16 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 6 [0.0 s]
+#   unit {'pos': 151, 'blk': None}: om1 154 pos 4 st1 4 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 4 [0.0 s]
+#   unit {'pos': 153, 'blk': None}: om1 128 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 152, 'blk': None}: om1 150 pos 4 st1 4 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 3 [0.0 s]
+#   unit {'pos': 154, 'blk': None}: om1 107 pos 1 st1 1 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 1 [0.0 s]
+#   unit {'pos': 155, 'blk': None}: om1 75 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 156, 'blk': None}: om1 100 pos 4 st1 4 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 3 [0.0 s]
+#   unit {'pos': 157, 'blk': None}: om1 55 pos 6 st1 6 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 159, 'blk': None}: om1 71 pos 2 st1 2 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 161, 'blk': None}: om1 71 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 160, 'blk': None}: om1 62 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 158, 'blk': None}: om1 72 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 162, 'blk': None}: om1 100 pos 1 st1 1 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 164, 'blk': None}: om1 59 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 163, 'blk': None}: om1 73 pos 2 st1 2 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 1 [0.0 s]
+#   unit {'pos': 166, 'blk': None}: om1 47 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 165, 'blk': None}: om1 57 pos 1 st1 1 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 167, 'blk': None}: om1 47 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 169, 'blk': None}: om1 30 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 168, 'blk': None}: om1 63 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 170, 'blk': None}: om1 25 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 171, 'blk': None}: om1 56 pos 3 st1 3 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 3 [0.0 s]
+#   unit {'pos': 173, 'blk': None}: om1 50 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 172, 'blk': None}: om1 43 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 174, 'blk': None}: om1 37 pos 5 st1 5 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 176, 'blk': None}: om1 47 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 177, 'blk': None}: om1 50 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 175, 'blk': None}: om1 53 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 178, 'blk': None}: om1 36 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 181, 'blk': None}: om1 55 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 180, 'blk': None}: om1 69 pos 5 st1 5 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 5 [0.0 s]
+#   unit {'pos': 182, 'blk': None}: om1 51 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 179, 'blk': None}: om1 57 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 183, 'blk': None}: om1 39 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 185, 'blk': None}: om1 36 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 186, 'blk': None}: om1 21 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 188, 'blk': None}: om1 42 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 187, 'blk': None}: om1 45 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 184, 'blk': None}: om1 42 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 189, 'blk': None}: om1 46 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 191, 'blk': None}: om1 43 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 190, 'blk': None}: om1 47 pos 1 st1 1 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 192, 'blk': None}: om1 38 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 193, 'blk': None}: om1 35 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 196, 'blk': None}: om1 27 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 197, 'blk': None}: om1 31 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 194, 'blk': None}: om1 60 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 195, 'blk': None}: om1 51 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 198, 'blk': None}: om1 36 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 199, 'blk': None}: om1 29 pos 5 st1 5 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 5 [0.0 s]
+#   unit {'pos': 201, 'blk': None}: om1 19 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 202, 'blk': None}: om1 32 pos 2 st1 2 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 200, 'blk': None}: om1 45 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 204, 'blk': None}: om1 12 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 206, 'blk': None}: om1 21 pos 2 st1 2 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 203, 'blk': None}: om1 12 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 205, 'blk': None}: om1 13 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 210, 'blk': None}: om1 22 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 209, 'blk': None}: om1 21 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 207, 'blk': None}: om1 46 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 208, 'blk': None}: om1 37 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 211, 'blk': None}: om1 14 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 212, 'blk': None}: om1 20 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 213, 'blk': None}: om1 23 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 214, 'blk': None}: om1 31 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 215, 'blk': None}: om1 25 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 218, 'blk': None}: om1 11 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 217, 'blk': None}: om1 26 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 216, 'blk': None}: om1 14 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 221, 'blk': None}: om1 16 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 219, 'blk': None}: om1 19 pos 6 st1 6 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 220, 'blk': None}: om1 15 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 222, 'blk': None}: om1 15 pos 1 st1 1 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 223, 'blk': None}: om1 10 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 224, 'blk': None}: om1 9 pos 1 st1 1 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 225, 'blk': None}: om1 16 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 226, 'blk': None}: om1 17 pos 2 st1 2 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 227, 'blk': None}: om1 13 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 230, 'blk': None}: om1 8 pos 1 st1 1 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 231, 'blk': None}: om1 20 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 229, 'blk': None}: om1 8 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 228, 'blk': None}: om1 21 pos 1 st1 1 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 232, 'blk': None}: om1 25 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 234, 'blk': None}: om1 9 pos 3 st1 3 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 233, 'blk': None}: om1 14 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 236, 'blk': None}: om1 17 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 235, 'blk': None}: om1 12 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 237, 'blk': None}: om1 14 pos 7 st1 7 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 238, 'blk': None}: om1 5 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 239, 'blk': None}: om1 10 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 240, 'blk': None}: om1 9 pos 1 st1 1 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 241, 'blk': None}: om1 9 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 243, 'blk': None}: om1 7 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 242, 'blk': None}: om1 8 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 244, 'blk': None}: om1 13 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 245, 'blk': None}: om1 10 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 246, 'blk': None}: om1 500 pos 3 st1 3 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 247, 'blk': None}: om1 500 pos 6 st1 6 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 248, 'blk': None}: om1 500 pos 1 st1 1 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 249, 'blk': None}: om1 500 pos 12 st1 12 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 252, 'blk': None}: om1 500 pos 38 st1 38 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 6 [0.0 s]
+#   unit {'pos': 251, 'blk': None}: om1 500 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 253, 'blk': None}: om1 500 pos 32 st1 32 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 250, 'blk': None}: om1 500 pos 6 st1 6 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.1 s]
+#   unit {'pos': 254, 'blk': None}: om1 500 pos 9 st1 9 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 255, 'blk': None}: om1 500 pos 26 st1 26 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 256, 'blk': None}: om1 500 pos 17 st1 17 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 257, 'blk': None}: om1 500 pos 16 st1 16 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.1 s]
+#   unit {'pos': 259, 'blk': None}: om1 500 pos 5 st1 5 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 260, 'blk': None}: om1 500 pos 1 st1 1 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 258, 'blk': None}: om1 500 pos 6 st1 6 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.1 s]
+#   unit {'pos': 261, 'blk': None}: om1 500 pos 15 st1 15 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.1 s]
+#   unit {'pos': 262, 'blk': None}: om1 500 pos 8 st1 8 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 263, 'blk': None}: om1 500 pos 7 st1 7 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 264, 'blk': None}: om1 500 pos 9 st1 9 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.1 s]
+#   unit {'pos': 267, 'blk': None}: om1 500 pos 58 st1 58 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 10 [0.0 s]
+#   unit {'pos': 265, 'blk': None}: om1 500 pos 16 st1 16 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 266, 'blk': None}: om1 500 pos 13 st1 13 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.1 s]
+#   unit {'pos': 269, 'blk': None}: om1 500 pos 26 st1 26 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 1 [0.0 s]
+#   unit {'pos': 268, 'blk': None}: om1 500 pos 14 st1 14 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.1 s]
+#   unit {'pos': 270, 'blk': None}: om1 500 pos 3 st1 3 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.0 s]
+#   unit {'pos': 272, 'blk': None}: om1 500 pos 5 st1 5 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.1 s]
+#   unit {'pos': 271, 'blk': None}: om1 500 pos 2 st1 2 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.1 s]
+#   unit {'pos': 274, 'blk': None}: om1 500 pos 3 st1 3 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.1 s]
+#   unit {'pos': 273, 'blk': None}: om1 500 pos 8 st1 8 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.1 s]
+#   unit {'pos': 275, 'blk': None}: om1 500 pos 7 st1 7 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.1 s]
+#   unit {'pos': 277, 'blk': None}: om1 500 pos 6 st1 6 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.1 s]
+#   unit {'pos': 276, 'blk': None}: om1 500 pos 1 st1 1 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.1 s]
+#   unit {'pos': 278, 'blk': None}: om1 500 pos 5 st1 5 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.1 s]
+#   unit {'pos': 279, 'blk': None}: om1 500 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.1 s]
+#   unit {'pos': 280, 'blk': None}: om1 500 pos 2 st1 2 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.1 s]
+#   unit {'pos': 282, 'blk': None}: om1 500 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.1 s]
+#   unit {'pos': 281, 'blk': None}: om1 500 pos 2 st1 2 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.1 s]
+#   unit {'pos': 283, 'blk': None}: om1 500 pos 4 st1 4 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.1 s]
+#   unit {'pos': 284, 'blk': None}: om1 500 pos 2 st1 2 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.1 s]
+#   unit {'pos': 285, 'blk': None}: om1 500 pos 1 st1 1 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.1 s]
+#   unit {'pos': 286, 'blk': None}: om1 500 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.1 s]
+#   unit {'pos': 288, 'blk': None}: om1 500 pos 10 st1 10 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.1 s]
+#   unit {'pos': 289, 'blk': None}: om1 500 pos 1 st1 1 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.1 s]
+#   unit {'pos': 287, 'blk': None}: om1 500 pos 3 st1 3 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.1 s]
+#   unit {'pos': 290, 'blk': None}: om1 500 pos 4 st1 4 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.1 s]
+#   unit {'pos': 291, 'blk': None}: om1 500 pos 14 st1 14 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.1 s]
+#   unit {'pos': 293, 'blk': None}: om1 500 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.1 s]
+#   unit {'pos': 292, 'blk': None}: om1 500 pos 6 st1 6 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.1 s]
+#   unit {'pos': 294, 'blk': None}: om1 500 pos 4 st1 4 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.1 s]
+#   unit {'pos': 295, 'blk': None}: om1 500 pos 26 st1 26 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.1 s]
+#   unit {'pos': 296, 'blk': None}: om1 500 pos 1 st1 1 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.1 s]
+#   unit {'pos': 298, 'blk': None}: om1 500 pos 2 st1 2 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.1 s]
+#   unit {'pos': 297, 'blk': None}: om1 500 pos 2 st1 2 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.1 s]
+#   unit {'pos': 299, 'blk': None}: om1 500 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.1 s]
+#   unit {'pos': 301, 'blk': None}: om1 500 pos 13 st1 13 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.1 s]
+#   unit {'pos': 300, 'blk': None}: om1 500 pos 5 st1 5 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.1 s]
+#   unit {'pos': 302, 'blk': None}: om1 500 pos 3 st1 3 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.1 s]
+#   unit {'pos': 304, 'blk': None}: om1 500 pos 1 st1 1 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.1 s]
+#   unit {'pos': 303, 'blk': None}: om1 500 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.1 s]
+#   unit {'pos': 306, 'blk': None}: om1 500 pos 2 st1 2 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.1 s]
+#   unit {'pos': 305, 'blk': None}: om1 500 pos 10 st1 10 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.1 s]
+#   unit {'pos': 307, 'blk': None}: om1 500 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.1 s]
+#   unit {'pos': 309, 'blk': None}: om1 500 pos 1 st1 1 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.1 s]
+#   unit {'pos': 308, 'blk': None}: om1 500 pos 5 st1 5 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.1 s]
+#   unit {'pos': 310, 'blk': None}: om1 500 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.1 s]
+#   unit {'pos': 311, 'blk': None}: om1 500 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.1 s]
+#   unit {'pos': 312, 'blk': None}: om1 500 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.1 s]
+#   unit {'pos': 313, 'blk': None}: om1 500 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.1 s]
+#   unit {'pos': 314, 'blk': None}: om1 500 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.1 s]
+#   unit {'pos': 315, 'blk': None}: om1 500 pos 16 st1 16 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.1 s]
+#   unit {'pos': 318, 'blk': None}: om1 500 pos 27 st1 27 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.1 s]
+#   unit {'pos': 316, 'blk': None}: om1 500 pos 1 st1 1 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.1 s]
+#   unit {'pos': 317, 'blk': None}: om1 500 pos 0 st1 0 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.1 s]
+#   unit {'pos': 319, 'blk': None}: om1 500 pos 474 st1 76 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.1 s]
+#   unit {'pos': 320, 'blk': None}: om1 500 pos 9 st1 9 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.1 s]
+#   unit {'pos': 321, 'blk': None}: om1 500 pos 290 st1 16 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.1 s]
+#   unit {'pos': 323, 'blk': None}: om1 500 pos 6 st1 6 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.1 s]
+#   unit {'pos': 322, 'blk': None}: om1 500 pos 260 st1 5 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.2 s]
+#   unit {'pos': 324, 'blk': None}: om1 500 pos 22 st1 22 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.1 s]
+#   unit {'pos': 326, 'blk': None}: om1 500 pos 29 st1 29 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.1 s]
+#   unit {'pos': 325, 'blk': None}: om1 500 pos 22 st1 22 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.1 s]
+#   unit {'pos': 327, 'blk': None}: om1 500 pos 394 st1 52 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.1 s]
+#   unit {'pos': 328, 'blk': None}: om1 500 pos 384 st1 27 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.1 s]
+#   unit {'pos': 329, 'blk': None}: om1 500 pos 289 st1 7 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.1 s]
+#   unit {'pos': 331, 'blk': None}: om1 500 pos 8 st1 8 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.1 s]
+#   unit {'pos': 330, 'blk': None}: om1 500 pos 271 st1 5 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.1 s]
+#   unit {'pos': 332, 'blk': None}: om1 500 pos 34 st1 34 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.1 s]
+#   unit {'pos': 333, 'blk': None}: om1 500 pos 338 st1 9 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.1 s]
+#   unit {'pos': 334, 'blk': None}: om1 500 pos 1099 st1 48 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.1 s]
+#   unit {'pos': 335, 'blk': None}: om1 500 pos 6 st1 6 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.2 s]
+#   unit {'pos': 337, 'blk': None}: om1 500 pos 194 st1 15 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.1 s]
+#   unit {'pos': 336, 'blk': None}: om1 500 pos 845 st1 3 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.2 s]
+#   unit {'pos': 338, 'blk': None}: om1 500 pos 1161 st1 42 fail13 0 fail134 0 t4only 0 (2-swap 0, longer 0) t4 0 [0.2 s]
+k4_certs_4_n4_3.json.gz: profiles 169500, omega >= 1: 51758; k* = 0: 49355, 1: 2386, 2: 17, 3: 0, >= 4: 0, inf: 0; P with def > 0: 6804, at distance 1: 6749, 2: 55, 3: 0, >= 4: 0, inf: 0; Pareto-maximal: 51; largest least deficit 0
+  DL13 (dl13.c's counters): states (def > 0) with f = 0: 5694 (R_13 fails at 0), with f >= 1: 1110; DL13 fails at 0 of the f >= 1 states; T1 only 8, T3 only 55 (of which T3 with a helper only 0), both 1047; with a plain T3 move 926, with a helper T3 move 1079; nearest R_13 improvement at distance 1 / 2 / 3: 1055 / 55 / 0; anomalies 0
+  DL134: R_134 fails at 0 of the f = 0 states; DL134 FAILS at 0 of the 1110 f >= 1 states; f >= 1 states with an improving T1 move 1055, T3 move 1102, T4 move 57 (a 2-swap 57); repaired by T4 only 0 (= the DL13 failures repaired; with a 2-swap 0, longer cycles only 0); nearest R_134 improvement at distance 1 / 2 / 3 / >= 4 / none: 1055 / 55 / 0 / 0 / 0 [3 s]
+table B: f >= 1 states by f | signature | R_134 branch : count
+  B 1|G,D2|T1+T3p+T3h : 328
+  B 1|fO,L|T1+T3p+T3h : 154
+  B 1|fO,L|T1+T3h : 152
+  B 1|fO,G,D2|T1+T3p+T3h : 148
+  B 2|G,D2|T1+T3p+T3h : 66
+  B 2|G,D2|T1+T3p+T3h+T4 : 30
+  B 1|G,D2,PM|T1+T3p+T3h : 26
+  B 1|fO|T1+T3h : 12
+  B 1|G,D2|T3p+T3h : 11
+  B 1|e2,G,D2|T1+T3p+T3h : 10
+  B 2|G,D2,PM|T1+T3p+T3h : 10
+  B 2|G,D2|T3p+T3h : 10
+  B 2|G1,L|T1+T3p+T3h : 10
+  B 2|G,L,D2|T1+T3p+T3h : 9
+  B 1|fO,G,D2|T3p+T3h : 8
+  B 1|fO,L,D2|T1+T3p+T3h : 8
+  B 1|fO|T1+T3p+T3h : 6
+  B 2|G,D2|T3p : 6
+  B 1|e1,G,D2|T1+T3p+T3h : 5
+  B 2|fO,L|T1+T3p+T3h : 5
+  B 2|G,O,D2|T1+T3p+T3h : 4
+  B 2|G1,PM|T1+T3p+T3h : 4
+  B 2|G1|T1+T3p+T3h : 4
+  B 1|e2,G,D2,PM|T1+T3p+T3h : 3
+  B 1|e2,fO,L|T1+T3p+T3h : 3
+  B 1|fO|T1 : 3
+  B 2|G,D2|T3p+T3h+T4 : 3
+  B 2|G,D2|T3p+T4 : 3
+  B 2|G,L,D2,PM|T1+T3p+T3h : 3
+  B 2|G,L,D2|T3p+T3h+T4 : 3
+  B 2|G1,L,PM|T1+T3p+T3h : 3
+  B 2|fO,G,D2|T1+T3p+T3h : 3
+  B 2|fO,G,D2|T1+T3p+T3h+T4 : 3
+  B 2|fO,L|T1+T3h : 3
+  B 2|fO,L|T1+T3h+T4 : 3
+  B 1|e1,fO,G,D2|T1+T3p+T3h : 2
+  B 1|e2,fO,L|T1 : 2
+  B 1|e2,fO,L|T1+T3h : 2
+  B 1|e2,fO|T1 : 2
+  B 1|fO,L|T1+T3p : 2
+  B 2|G,L,D2|T1+T3p+T3h+T4 : 2
+  B 2|G,L,D2|T3p+T3h : 2
+  B 2|G,O,D2|T1+T3p+T3h+T4 : 2
+  B 2|G1,L|T3p+T3h : 2
+  B 2|G1,PM|T3p+T3h : 2
+  B 2|fO,L|T1+T3p : 2
+  B 1|G,D2|T1+T3p : 1
+  B 1|e1,e3,O|T1+T3p+T3h : 1
+  B 1|e1,fO,L|T1+T3h : 1
+  B 1|e2,G,D2|T1+T3p : 1
+  B 1|e2,fO,L|T1+T3p : 1
+  B 1|e2,fO|T1+T3h : 1
+  B 1|e3,fO,L|T1+T3h : 1
+  B 1|fO,L,D2|T1+T3h : 1
+  B 1|fO,L|T1 : 1
+  B 2|G,D2|T1+T3p+T4 : 1
+  B 2|G,G1,D2|T1+T3p+T3h : 1
+  B 2|G,G1,D2|T3p : 1
+  B 2|G,G1,D2|T3p+T3h : 1
+  B 2|G,L,D2|T1+T3p : 1
+  B 2|O,D2|T1+T3p+T3h : 1
+  B 2|O|T1+T3p+T3h+T4 : 1
+  B 2|e1,G,D2|T1+T3p+T3h+T4 : 1
+  B 2|e1,O|T1+T3p+T3h : 1
+  B 2|e1,O|T1+T3p+T3h+T4 : 1
+  B 2|e3,L|T1+T3p+T3h+T4 : 1
+  B 2|fO,G,L,D2|T3p : 1
+  B 2|fO,G,L,D2|T3p+T3h+T4 : 1
+  B 2|fO,G1,L|T1+T3p : 1
+  B 2|fO,G1,L|T3p : 1
+  B 2|fO,L|T1+T3p+T3h+T4 : 1
+  B 2|fO,L|T1+T3p+T4 : 1
+table G: f >= 1 states by f | nearest distance k | R_134 branch : count
+  G 1|1|T1+T3p+T3h : 694
+  G 1|1|T1+T3h : 170
+  G 2|1|T1+T3p+T3h : 124
+  G 2|1|T1+T3p+T3h+T4 : 42
+  G 1|2|T3p+T3h : 19
+  G 2|2|T3p+T3h : 17
+  G 2|2|T3p : 9
+  G 1|1|T1 : 8
+  G 2|2|T3p+T3h+T4 : 7
+  G 1|1|T1+T3p : 5
+  G 2|1|T1+T3p : 4
+  G 2|1|T1+T3h : 3
+  G 2|1|T1+T3h+T4 : 3
+  G 2|2|T3p+T4 : 3
+  G 2|1|T1+T3p+T4 : 2
+table Y: f >= 1 states by f | R_134 branch | move type available : count
+  Y 1|T1+T3p+T3h|T3:xJ.h- : 692
+  Y 1|T1+T3p+T3h|T1:rel : 656
+  Y 1|T1+T3p+T3h|T3:xJ.hR : 634
+  Y 1|T1+T3p+T3h|T1:pool : 624
+  Y 1|T1+T3p+T3h|T3:xJ.hJ : 541
+  Y 1|T1+T3p+T3h|T3:xJ.hZ : 256
+  Y 1|T1+T3h|T1:pool : 170
+  Y 1|T1+T3h|T3:xH.hJ : 170
+  Y 1|T1+T3h|T1:rel : 151
+  Y 2|T1+T3p+T3h|T1:rel : 123
+  Y 2|T1+T3p+T3h|T3:xJ.h- : 110
+  Y 2|T1+T3p+T3h|T3:xJ.hR : 105
+  Y 1|T1+T3p+T3h|T3:xH.hJ : 94
+  Y 1|T1+T3p+T3h|T3:xZ.h- : 51
+  Y 1|T1+T3p+T3h|T3:xH.hR : 48
+  Y 2|T1+T3p+T3h|T1:pool : 48
+  Y 2|T1+T3p+T3h|T3:xZ.h- : 46
+  Y 2|T1+T3p+T3h|T3:xJ.hJ : 43
+  Y 1|T1+T3p+T3h|T3:xZ.hR : 42
+  Y 2|T1+T3p+T3h+T4|T1:rel : 42
+  Y 2|T1+T3p+T3h+T4|T4:2 : 42
+  Y 2|T1+T3p+T3h+T4|T3:xJ.h- : 41
+  Y 2|T1+T3p+T3h|T3:xZ.hR : 40
+  Y 2|T1+T3p+T3h+T4|T3:xJ.hR : 32
+  Y 2|T1+T3p+T3h|T3:xZ.hJ : 27
+  Y 1|T3p+T3h|T3:xJ.h- : 19
+  Y 1|T3p+T3h|T3:xJ.hJ : 17
+  Y 2|T3p+T3h|T3:xJ.h- : 17
+  Y 2|T3p+T3h|T3:xJ.hR : 17
+  Y 1|T1+T3p+T3h|T3:xH.hZ : 15
+  Y 1|T3p+T3h|T3:xJ.hZ : 15
+  Y 2|T1+T3p+T3h|T3:xJ.hZ : 15
+  Y 1|T3p+T3h|T3:xJ.hR : 14
+  Y 2|T1+T3p+T3h+T4|T3:xJ.hZ : 14
+  Y 2|T1+T3p+T3h|T3:xH.hR : 14
+  Y 2|T3p+T3h|T3:xJ.hJ : 13
+  Y 1|T1+T3p+T3h|T1:grow : 12
+  Y 2|T1+T3p+T3h+T4|T3:xJ.hJ : 11
+  Y 1|T1+T3p+T3h|T3:xZ.hJ : 10
+  Y 2|T1+T3p+T3h+T4|T3:xH.hR : 10
+  Y 2|T1+T3p+T3h|T3:xH.hJ : 10
+  Y 1|T3p+T3h|T3:xH.hJ : 9
+  Y 2|T3p|T3:xJ.h- : 9
+  Y 1|T1+T3h|T3:xH.hR : 8
+  Y 1|T1|T1:pool : 8
+  Y 1|T1|T1:rel : 8
+  Y 1|T3p+T3h|T3:xZ.h- : 8
+  Y 2|T1+T3p+T3h+T4|T1:pool : 8
+  Y 2|T1+T3p+T3h+T4|T3:xZ.h- : 8
+  Y 2|T1+T3p+T3h|T3:xZ.hZ : 7
+  Y 2|T3p+T3h+T4|T3:xJ.h- : 7
+  Y 2|T3p+T3h+T4|T4:2 : 7
+  Y 2|T3p+T3h|T3:xZ.h- : 7
+  Y 1|T1+T3p+T3h|T3:xZ.hZ : 6
+  Y 2|T1+T3p+T3h+T4|T3:xH.hJ : 6
+  Y 2|T1+T3p+T3h+T4|T3:xH.hZ : 6
+  Y 2|T3p+T3h|T3:xH.hR : 6
+  Y 1|T1+T3h|T1:grow : 5
+  Y 1|T1+T3p|T3:xJ.h- : 5
+  Y 1|T3p+T3h|T3:xH.hR : 5
+  Y 2|T1+T3p+T3h+T4|T3:xZ.hR : 5
+  Y 2|T3p+T3h+T4|T3:xJ.hR : 5
+  Y 2|T3p+T3h|T3:xH.hJ : 5
+  Y 2|T3p+T3h|T3:xZ.hR : 5
+  Y 1|T1+T3p|T1:pool : 4
+  Y 1|T3p+T3h|T3:xZ.hR : 4
+  Y 2|T1+T3p+T3h|T3:xH.hZ : 4
+  Y 2|T1+T3p|T1:rel : 4
+  Y 2|T1+T3p|T3:xJ.h- : 4
+  Y 2|T3p+T3h+T4|T3:xJ.hJ : 4
+  Y 2|T3p+T3h|T3:xZ.hJ : 4
+  Y 2|T1+T3h+T4|T1:pool : 3
+  Y 2|T1+T3h+T4|T3:xH.hJ : 3
+  Y 2|T1+T3h+T4|T4:2 : 3
+  Y 2|T1+T3h|T1:pool : 3
+  Y 2|T1+T3h|T1:rel : 3
+  Y 2|T1+T3h|T3:xH.hJ : 3
+  Y 2|T1+T3p|T1:pool : 3
+  Y 2|T3p+T3h+T4|T3:xH.hJ : 3
+  Y 2|T3p+T3h+T4|T3:xJ.hZ : 3
+  Y 2|T3p+T4|T3:xJ.h- : 3
+  Y 2|T3p+T4|T4:2 : 3
+  Y 1|T1+T3p|T1:rel : 2
+  Y 2|T1+T3h+T4|T1:rel : 2
+  Y 2|T1+T3p+T3h+T4|T1:grow : 2
+  Y 2|T1+T3p+T4|T1:pool : 2
+  Y 2|T1+T3p+T4|T1:rel : 2
+  Y 2|T1+T3p+T4|T3:xJ.h- : 2
+  Y 2|T1+T3p+T4|T4:2 : 2
+  Y 1|T1|T1:grow : 1
+  Y 2|T1+T3h+T4|T3:xH.hZ : 1
+  Y 2|T1+T3h|T3:xH.hZ : 1
+  Y 2|T1+T3p+T3h+T4|T3:xZ.hJ : 1
+  Y 2|T1+T3p|T3:xZ.h- : 1
+  Y 2|T3p+T3h+T4|T3:xH.hR : 1
+  Y 2|T3p+T3h|T3:xJ.hZ : 1
+  Y 2|T3p+T3h|T3:xZ.hZ : 1
+  Y 2|T3p|T3:xZ.h- : 1
+table Q: f >= 1 states repaired by T4 only, by f | k | T4 cycle types available : count
