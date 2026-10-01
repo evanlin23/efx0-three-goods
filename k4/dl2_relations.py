@@ -114,6 +114,10 @@ RELATIONS = collections.OrderedDict([
     ('RT', ('R_T of k4/dl2.md: re-bases that keep the needed set, trades in which a good passes between the two '
             'agents, role swaps with a needer and at most one helper that gives up a good',
             lambda s: _one(s, nt_ok=False) or _trade(s, exch=True) or _swap(s, 1, gives=True))),
+    ('RTr', ('R_T with rotations: any number of free agents re-basing with the needed set unchanged, in place of trades '
+             '(only in the runs on whole certificate files)',
+             lambda s: _one(s, nt_ok=False) or (s['k'] >= 2 and len(s['Y']) == s['k'] and not s['nt'])
+             or _swap(s, 1, gives=True))),
 ])
 
 

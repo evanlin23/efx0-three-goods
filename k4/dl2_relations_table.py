@@ -15,9 +15,38 @@ def parse(fn):
     return head, rel
 
 
+def group_of(name):
+    if name.startswith('suite'): return 'suite (cores, n ≤ 6)'
+    for n in '2345':
+        if name.startswith(('gap_n' + n, 'certs_' + n, 'hunt_n' + n)): return 'n = ' + n
+    if name.startswith('hard_hunt'): return 'n = 4'
+    return name
+
+
+def compact(rows, cols):
+    """rows grouped by n, selected relations"""
+    G = {}
+    for name, (np_, ns, hist), rel in rows:
+        g = G.setdefault(group_of(name), [0, 0, {c: [0, 0] for c in cols}, []])
+        g[0] += np_; g[1] += ns; g[3].append(name)
+        for c in cols:
+            a, b = rel.get(c, (0, 0)); g[2][c][0] += a; g[2][c][1] += b
+    print('| inputs | profiles | def > 0 states | ' + ' | '.join(cols) + ' |')
+    print('|---|---|---|' + '---|' * len(cols))
+    for k in sorted(G):
+        np_, ns, rel, names = G[k]
+        print('| %s (%s) | %d | %d | %s |' % (k, ', '.join(names), np_, ns, ' | '.join(
+            '0' if rel[c][0] == 0 else '%d (%d)' % tuple(rel[c]) for c in cols)))
+
+
 def main(files):
+    cols = None
+    if files and files[0].startswith('--compact='):
+        cols = files[0][10:].split(','); files = files[1:]
     rows = [(os.path.basename(f).replace('.log', ''),) + parse(f) for f in files]
     rows = [r for r in rows if r[1]]
+    if cols:
+        compact(rows, cols); return
     names = []
     for r in rows:
         for k in r[2]:

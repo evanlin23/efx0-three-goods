@@ -358,6 +358,52 @@ def lemma_checks(I, P, Bs, PAs, D, OWN):
     return out
 
 
+def multi_checks(I, P, Bs, PAs, D, OWN, reps):
+    """certificates for a multi-agent repair P -> P' (P' among `reps`), checked and asserted:
+    E2: Lemma 2* (extension through any move keeping the needed set) at a best owner o of P that does not move, an
+        optimal bundle X, X0 = X minus the new bases: def(P') <= def(P) - (|Y| - |X0| ... ) as in k4/dl2.md;
+    L7: Lemma 7 (the unfrozen agent x as owner unfreezes z frozen on g ∈ R_x that nobody else needs)."""
+    res = OWN[Bs]; best = best_owners(res)
+    vs = res[best[0]][0]
+    out = {}
+    omega = pc(P.J) - P.S
+    for B2 in reps:
+        P2 = PAs[B2]
+        if P2.NA != P.NA: continue
+        ch = [i for i in range(I.n) if Bs[i] != B2[i]]
+        newb = 0
+        NC = 0
+        for i in ch: newb |= B2[i]; NC |= P2.N[i]
+        for o in best:
+            if o in ch or 'E2' in out: continue
+            for X in res[o][1]:
+                X0 = X & ~newb
+                cnt0 = counted(P, o, X0)
+                e = sum(1 for x in cnt0 if x in ch or not P2.frozen[x] or P.Bs[x] & NC)
+                gain = pc(X0) + max_ext(P2, o, X0) + len(cnt0) - e - vs
+                if gain > 0:
+                    assert D[B2] <= D[Bs] - gain, ('Lemma 2* violated', Bs, B2, o)
+                    out['E2'] = (o, [sorted(bits(b)) for b in B2]); break
+        if 'L7' not in out:
+            for z in range(I.n):
+                if not P2.frozen[z]: continue
+                g = P2.Bs[z]
+                for x in P2.free:
+                    if not (I.R[x] & g) or any(P2.N[i] & g for i in range(I.n) if i != x): continue
+                    rest = list(bits(P2.J)); vg = I.val(x, g); bestv = -1
+                    for k in range(len(rest) + 1):
+                        for K in itertools.combinations(rest, k):
+                            Z = P2.Bs[x] | mask(K)
+                            if I.val(x, Z) > vg and P2.safe(x, Z):
+                                cz = counted(P2, x, Z)
+                                assert z in cz and D[B2] <= omega + 1 - pc(Z), ('Lemma 7 violated', B2, x, z)
+                                bestv = max(bestv, pc(Z) + len(cz))
+                    if bestv > vs:
+                        assert D[B2] <= D[Bs] - (bestv - vs)
+                        out['L7'] = (x, z, [sorted(bits(b)) for b in B2])
+    return out
+
+
 def signature(obs):
     """the obstruction class of P: the classes of the exposures at the best owner with the fewest exposures"""
     if not obs: return 'none'
@@ -449,6 +495,8 @@ def analyze(d, want_repairs=True, maxrep=6, lemmas=True):
             rec['lemmas'] = lc
             if lc and want_repairs:
                 assert rec['k'] == 1, ('a lemma applies at a state with k > 1', Bs, lc)
+            if want_repairs and rec['k'] is not None and rec['k'] >= 2:
+                rec['multi'] = multi_checks(I, P, Bs, PAs, D, OWN, reps)
         recs.append(rec)
     return recs, {'omega': I.omega, 'f': I.f, 'nmin': len(mp)}
 

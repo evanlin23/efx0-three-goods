@@ -29,8 +29,19 @@ attempts script.
 | RS1+2, RSR+2 | re-base, trade, role swap with a needer and helpers that only give up goods (one good each, or any) | `dl2-n3m7-trade` (n = 3, m = 7) | n = 3: 152 states of 51 profiles |
 | RC | re-base, trade, a chain of frozen goods ending at a free agent (LB⁺'s rotation shape, no needer condition) with releasing helpers | `dl2-n3m7-trade` | n = 3: 152 states of 51 profiles |
 | RSYz+2, RSYgz+2 | re-base, trade, role swap with a needer and at most one helper that takes goods only from its own base and the needer's old base | `dl2-n3m8-junk` (n = 3, m = 8) | n = 3: 13 states of 7 profiles |
+| RSY+2, RSYg+2, R_T2 (code `RT`) | re-base, trade (two free agents), role swap with a needer and at most one helper | `dl2-rot-n3m7` (n = 3, m = 7, f = 0; found by compute/k4-dl2, PR #70) | that profile; no state of our inputs (they run before the instance was known, and #53's catalogues have f ≥ 1 only) |
 
-At each of these states DL_T (`k4/dl2.md` §3) holds, by both implementations.
+At each of these states DL_T (`k4/dl2.md` §3: rotations of any number of free agents in place of trades; code `RTr`)
+holds, by both implementations.
+
+**`dl2-rot-n3m7`** (from the parallel workstream compute/k4-dl2, PR #70, `attempts/k4-dl2-rotation.md` and
+`k4/suite/instances/dl2-rot-n3m7.json` on its branch; core 44 of `results/k4_certs_3.json.gz`): agent 0 = 0:6, 2:4,
+4:8, 6:5; agent 1 = 1:2, 3:7, 5:4, 6:10; agent 2 = 2:7, 3:4, 4:2, 5:8. f = 0, ω = 1. P₀ = ({0,6}, {3,5}, {2,4}),
+J = {1}, deficit 1; every min-frozen P′ with a smaller deficit changes all three bases, and the improvements rotate goods
+around a cycle (each agent's top lies in another agent's base: 4 ∈ B_2, 6 ∈ B_0, 5 ∈ B_1; e.g. P′ = ({0,4}, {3,6},
+{2,5}) with deficit 0). No agent is frozen, so there is no role swap;
+**rotations of three free agents are needed**. Replayed here with both implementations (`attempts/k4_dl2_attempts.py`,
+check 2e).
 
 **`induct-g-r1`** (suite, from #43; n = 2, m = 5; agent: good:value): agent 0 = 0:4, 2:10, 3:8, 4:3; agent 1 = 1:4, 2:8,
 3:10, 4:3. No agent is frozen at the fewest frozen agents (f = 0, ω = 1). P₀ = ({0,3}, {1,2}) has deficit 1. Every

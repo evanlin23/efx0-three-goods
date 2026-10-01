@@ -134,6 +134,24 @@ def main(files):
         print('\nk = 1 states that no lemma covers, by primary kind: %s; first examples:' % dict(
             collections.Counter(r['kind'] for r in unc)))
         for r in unc[:5]: print('- %s (%s)' % (ex(r), r['kind']))
+    # C': multi-agent certificates
+    print('\n## C′. Certificates for the states with k ≥ 2 (Lemma 2*, extension through any move; Lemma 7)\n')
+    print('A state is certified if some minimal repair satisfies the hypotheses of Lemma 2* at a best owner that does not')
+    print('move (E2) or of Lemma 7 with a gain over Val*(P) (L7); the conclusion is asserted against the exact deficits.\n')
+    print('| input | k | states | Lemma 2* | Lemma 7 | either | neither |')
+    print('|---|---|---|---|---|---|---|')
+    def mrow(name, rs, k):
+        n = len(rs)
+        if not n: return
+        e2 = sum(1 for r in rs if 'E2' in (r.get('multi') or {}))
+        l7 = sum(1 for r in rs if 'L7' in (r.get('multi') or {}))
+        ei = sum(1 for r in rs if r.get('multi'))
+        pct = lambda x: '%d (%.1f%%)' % (x, 100.0 * x / n)
+        print('| %s | %d | %d | %s | %s | %s | %s |' % (name, k, n, pct(e2), pct(l7), pct(ei), pct(n - ei)))
+    for k in (2, 3):
+        for name in per_src:
+            mrow(name, [r for r in states if r['_file'] == name and r['k'] == k], k)
+        mrow('**all**', [r for r in states if r['k'] == k], k)
     # D: the two- and three-agent cells
     print('\n## D. The states with k ≥ 2: kinds of their minimal repairs\n')
     D = collections.defaultdict(collections.Counter)

@@ -94,11 +94,15 @@ def rel_B(name, sets, vals, P, P2):
     if name == 'RSR+2': return trade or (swap and rel)
     if name == 'RSY': return swap and len(ys) <= 1
     if name == 'RSYa': return swap
+    if name == 'RSY+2': return trade or (swap and len(ys) <= 1)
     if name == 'RSYgz+2':                 # the helper gives up a good and takes goods only from its base and B_z
         return trade or (swap and len(ys) <= 1 and all(P[y] - P2[y] and P2[y] <= P[y] | P[zs[0]] for y in ys))
-    if name == 'RT':                      # R_T: exchanging trades; swaps with at most one helper giving up a good
+    if name == 'RT':                      # R_T2: exchanging trades; swaps with at most one helper giving up a good
         exch = trade and (P2[ch[0]] & P[ch[1]] or P2[ch[1]] & P[ch[0]])
         return bool(exch) or (swap and len(ys) <= 1 and all(P[y] - P2[y] for y in ys))
+    if name == 'RTr':                     # R_T: rotations (free agents re-basing, needed set unchanged) in place of trades
+        rot = NA1 == NA2 and not any(fz1[i] or fz2[i] for i in ch)
+        return rot or (swap and len(ys) <= 1 and all(P[y] - P2[y] for y in ys))
     if name == 'RC':                      # a chain of frozen goods ending at a free agent, releasing helpers
         if len(xs) != 1 or len(zs) != 1 or NA1 != NA2 or not rel: return trade
         src = {P[i] for i in xs + ws}
@@ -125,8 +129,9 @@ def relation_fails(label, sets, vals, m, P0, names, smallest=''):
             'core %s; P0 = %s def %s (B: %s); model / c4x_check: no %s-neighbour with a smaller deficit: %s / %s%s' % (
                 core, [sorted(b) for b in P0], stA[0]['def'] if stA else None, dB, nm, a, b, smallest))
     # and R_T holds there, by both implementations
-    a = bool(stA) and stA[0]['holds']['RT'] is True
-    b = dB is not None and any(d2 < dB and rel_B('RT', sets, vals, PB, B2) for B2, d2 in mp)
+    rt = 'RTr'
+    a = bool(stA) and stA[0]['holds'][rt] is True
+    b = dB is not None and any(d2 < dB and rel_B(rt, sets, vals, PB, B2) for B2, d2 in mp)
     say('   ... while DL_T holds at the same state', a and b, 'model / c4x_check: %s / %s' % (a, b))
 
 
@@ -140,6 +145,11 @@ relation_fails('n = 3, m = 7 (dl2-n3m7)', sets, vals, m, [[3], [2, 5], [4, 6]], 
 #     results/k4_certs_3.json.gz, profile 10,57,227): the helper must also take a good of the needer's old base
 relation_fails('n = 3, m = 7 (dl2-n3m7-trade)', [[0, 1, 2, 3], [2, 4, 5, 6], [3, 4, 5, 6]],
                [[2, 4, 3, 8], [3, 6, 7, 5], [8, 4, 2, 3]], 7, [[3], [2, 4], [5, 6]], ['RS1+2', 'RSR+2', 'RC'])
+# 2e. trades of two agents instead of rotations: DL_R_T2 (code name RT) fails at n = 3, m = 7, f = 0 on the rotation trap
+#     dl2-rot-n3m7 found by the compute/k4-dl2 workstream (PR #70, attempts/k4-dl2-rotation.md there; core 44 of
+#     results/k4_certs_3.json.gz): no agent is frozen, and every improvement rotates goods around a 3-cycle
+relation_fails('n = 3, m = 7, f = 0 (dl2-rot-n3m7, compute/k4-dl2)', [[0, 2, 4, 6], [1, 3, 5, 6], [2, 3, 4, 5]],
+               [[6, 4, 8, 5], [2, 7, 4, 10], [7, 4, 2, 8]], 7, [[0, 6], [3, 5], [2, 4]], ['RT', 'RSY+2'])
 # 2d. a helper restricted to its own base and the needer's old base: DL_RSYgz+2 fails at n = 3, m = 8 (core 4 of
 #     results/k4_certs_3.json.gz, profile 14,112,152): the helper must take a junk good
 relation_fails('n = 3, m = 8 (dl2-n3m8-junk)', [[0, 2, 4, 5], [1, 4, 6, 7], [3, 5, 6, 7]],

@@ -17,8 +17,9 @@ Workstream `proof/k4-dl2-k1` (PR #69). Ledger rows K4.DL2.* (and K4.STRAT.DL2, n
   every three-agent repair is a role swap plus one more agent's change.
 - **The successor target** (§3): DL_R for a structured neighbourhood relation R. Since PR #68
   (`EFX.C4min.target4_of_defLocal`, K4.STRAT.DL2.LEAN), DL_R implies TARGET₄ for every R. The relation **R_T** (one
-  re-base; a trade of two free agents; or a role swap with a needer and at most one helper that gives up a good)
-  survives every state tested; every narrower relation tested fails, smallest failures at n = 2 and n = 3
+  re-base; a rotation among free agents; or a role swap with a needer and at most one helper that gives up a good)
+  survives every state tested; every narrower relation tested fails, smallest failures at n = 2 and n = 3, one of them
+  (rotations of three agents are needed at f = 0) found by the parallel workstream compute/k4-dl2
   (§3, `attempts/k4-dl2-relations.md`).
 - **The moves, in writing** (§4; written proofs, not refereed, CONJECTURE rows): the moves of R_T stay in the
   min-frozen class and keep its needed set (Lemmas 1 and 6); a one-agent move lowers the deficit exactly through an
@@ -141,10 +142,12 @@ needed it, what the other changed agents do), and evaluates each relation.
 The moves (P, P′ both min-frozen; "needed set unchanged" means NA(P′) = NA(P)):
 - **re-base**: exactly one agent's base changes (it is free, Lemma 1);
 - **trade**: exactly two agents' bases change, both free in P and in P′, needed set unchanged (Lemma 1′);
+- **rotation**: any number of agents' bases change, all free in P and in P′, needed set unchanged (Lemma 1′; a trade is
+  a rotation of two agents);
 - **role swap with a needer**: a frozen agent x with base {g} unfreezes, a free agent z with g ∈ N_z(B_z) takes {g}
   and freezes, needed set unchanged (Lemma 6); *helpers*: further changed agents, free in P and P′.
 
-| relation | moves | fails on |
+| relation (code name) | moves | fails on |
 |---|---|---|
 | R2 | at most two agents change (DL₂) | n = 3 (311 states) |
 | RB | re-base, or a plain role swap with a needer | n = 2, f = 0 (`induct-g-r1`); n = 3 |
@@ -154,16 +157,18 @@ The moves (P, P′ both min-frozen; "needed set unchanged" means NA(P′) = NA(P
 | RC | re-base, trade, or a chain of frozen goods ending at a free agent (LB⁺'s rotation shape) with releasing helpers | n = 3 |
 | RSY, RSYa, RSYg | re-base, or a role swap with at most one (RSYa: any number of) helper(s); **no trades** | n = 2, f = 0 (`induct-g-r1`) |
 | RSYz+2, RSYgz+2 | re-base, trade, or a role swap with at most one helper that takes goods only from its own base and B_z (and gives up a good) | n = 3 (13 states) |
-| RSY+2 | re-base, trade, or a role swap with at most one helper re-basing in any way | none |
-| RSYg+2 | RSY+2, the helper giving up at least one good of its base | none |
-| **R_T** | RSYg+2 with re-bases that keep the needed set and trades in which a good passes between the two agents | **none** |
+| RSY+2, RSYg+2, R_T2 (RT) | re-base, trade, or a role swap with at most one helper (RSYg+2: giving up a good; R_T2: also re-bases keeping the needed set, trades passing a good) | n = 3, f = 0 (`dl2-rot-n3m7` of compute/k4-dl2, PR #70): a three-agent rotation is needed |
+| **R_T** (RTr) | re-base keeping the needed set; **rotation**; role swap with a needer and at most one helper giving up a good | **none** |
 
 The failures, each confirmed by two implementations (`k4/dl2_relations.py` on `k4/suite/model.py`, and main's
 `k4/c4x_check.py` with separately written membership tests in `attempts/k4_dl2_attempts.py`; at each failing state both
 implementations also find an R_T move):
-- **trades are needed** (RB, RS1, RSY, RSYa, RSYg): `induct-g-r1` (#43), n = 2, m = 5, f = 0: no agent is frozen, so
-  there is no role swap, and every improvement exchanges goods 2 and 3 between the two agents (Theorem Z's rotation of
-  a 2-cycle);
+- **free agents must be able to rotate** (RB, RS1, RSY, RSYa, RSYg: no trades; RSY+2, R_T2: trades of two agents only):
+  `induct-g-r1` (#43), n = 2, m = 5, f = 0: no agent is frozen, so there is no role swap, and every improvement exchanges
+  goods 2 and 3 between the two agents (Theorem Z's rotation of a 2-cycle). The parallel workstream compute/k4-dl2
+  (PR #70, `attempts/k4-dl2-rotation.md` on its branch) found `dl2-rot-n3m7` (core 44 of `results/k4_certs_3.json.gz`,
+  n = 3, m = 7, f = 0): a P with deficit 1 whose every improvement rotates goods around the 3-cycle of exposures
+  (e2, e3, e3); it refutes every relation here whose free moves have at most two agents;
 - **two agents are not enough** (R2, RB2): `dl2-n3m7` of §1;
 - **releasing helpers are not enough** (RS1+2, RSR+2, RC): `dl2-n3m7-trade` (n = 3, m = 7), where the helper must also
   take a good of the needer's old base;
@@ -176,15 +181,16 @@ implementations also find an R_T move):
 P ∈ 𝒫 with def(P) > 0 (+∞ included) has a min-frozen P′ ∈ 𝒫 with def(P′) < def(P) that arises from P by one of the
 following moves, the needed set NA staying the same:
 - **(T1) re-base**: one free agent y replaces its base by another base inside B_y ∪ J;
-- **(T2) trade**: two free agents y, y′ replace their bases by bases inside B_y ∪ B_{y′} ∪ J, and some good of one of
-  the two old bases ends in the other agent's new base;
+- **(T2) rotation**: some free agents re-partition among themselves the goods of their bases and of the junk (each new
+  base inside the union of their old bases and J);
 - **(T3) role swap with at most one helper**: a frozen agent x with base {g} and a free agent z with g ∈ N_z(B_z):
   z takes {g}, x takes a new base, and at most one further free agent h (the *helper*) replaces its base by one that
   misses at least one good of B_h. (The new bases then lie in the goods the move frees, J ∪ B_z ∪ B_h, since the other
   bases do not move.)
 
 By Lemmas 1′ and 6 every such move stays in the min-frozen class as soon as the new bases are disjoint, inside the
-relevant sets, of at most two goods, and need only goods of NA. DL_T implies TARGET₄ (K4.STRAT.DL2.LEAN).
+relevant sets, of at most two goods, and need only goods of NA. DL_T implies TARGET₄ (K4.STRAT.DL2.LEAN). On the data
+the rotations needed have two agents (trades) except at `dl2-rot-n3m7`, and are needed only when no agent is frozen.
 
 *Evidence* (EVIDENCE row K4.DL2.TE; single implementation for the survivals): every state of §2's inputs and of #53's
 hunt catalogues (`results/k4_dl2_relations/`; table below). Not exhaustive at any n ≥ 3.
@@ -210,7 +216,7 @@ hypotheses and, whenever they hold, asserts the conclusion against the exact def
 
 **Setting.** A strict profile of an instance in which every agent has three or four relevant goods and is strictly
 balanced: the setting of Lemma H1; every k = 4 core is one. (Balance enters only through Lemma H1; the random checks of
-§5 use such instances that are not cores.) 𝒫, bases B_i, junk J, needs N_i(B) = {g ∈ R_i ∖ B : v_i(g) > v_i(B)},
+§6 use such instances that are not cores.) 𝒫, bases B_i, junk J, needs N_i(B) = {g ∈ R_i ∖ B : v_i(g) > v_i(B)},
 N_i := N_i(B_i), NA = ⋃ N_i, frozen agents F, slots and ω are those of `k4/c4x.md` §1. Recall:
 - (V) P ∈ 𝒫 iff its bases are disjoint subsets of the agents' relevant sets with at most two goods each and every
   needed good is the whole base of one agent ((V1) and (V2), `k4/c4x.md` §1). Hence |F| = |NA|, and
@@ -290,8 +296,26 @@ B_o ∪ J(P′). Lemma H1 in P′ gives def(P′) ≤ ω + 2 − |Y| − u′_o(
 u′_o(Y) = #{x ∈ F : B_x ∩ (N_o(Y) ∪ 𝒩′₋ₒ) = ∅} with 𝒩′₋ₒ = ⋃_{i ∉ {o, y}} N_i ∪ N_y(B′). Let x be counted in u_o(X) with
 its good outside N_y(B′). Then B_x misses N_o(Y) ⊆ N_o(X) (Y ⊇ X), misses N_i for i ∉ {o, y}, and misses N_y(B′); so x
 is counted in u′_o(Y). Hence u′_o(Y) ≥ u_o(X) − e. If v_y(B′) ≥ v_y(B_y), then N_y(B′) ⊆ N_y(B_y) ⊆ 𝒩₋ₒ, which no
-counted agent's good meets, so e = 0. The last two claims follow from def(P) = ω + 2 − Val*(P) (Lemma H1) and
-|X| + u_o(X) ≤ Val*(P), with equality for an optimal X of a best owner. ∎
+counted agent's good meets, so e = 0. The last claim is the bound together with def(P) = ω + 2 − Val*(P) (Lemma H1);
+the one before it uses in addition |X| + u_o(X) = Val*(P) for an optimal X of a best owner. ∎
+
+**Lemma 2* (extension through any move).** Let P, P′ ∈ 𝒫 be min-frozen with NA(P′) = NA(P) =: 𝒩 and ω ≥ 1, let Ch be
+the set of agents whose base changes, and o ∉ Ch an agent free in P. Let X be a bundle of o in P that misses every new
+base B′_i (i ∈ Ch), and Y ⊇ X a bundle of o in P′ that is safe in P′. Let e* be the number of agents counted in u_o(X)
+that lie in Ch or whose good lies in N_i(B′_i) for some i ∈ Ch. Then
+
+  def(P′) ≤ ω + 2 − |Y| − u_o(X) + e*,
+
+and def(P′) ≤ def(P) − (|Y ∖ X| − e*) when X is optimal for a best owner o of P. Lemma 2 is the case Ch = {y}; the
+lemma applies as well to trades (Lemma 1′) and role swaps (Lemma 6), whose moves keep the needed set.
+
+*Proof.* o keeps its base, and its base is a single good of 𝒩 = NA(P′) iff it is one of NA(P); so o is free in P′, and
+an agent outside Ch is frozen in P′ iff it is frozen in P. ω(P′) = |NA(P′)| − (2n − m) = ω. A good of J that lies in no
+new base lies in no base of P′ (the other bases did not move), so X ⊆ B_o ∪ J(P′) and Y is a bundle of o in P′. Lemma H1
+in P′: def(P′) ≤ ω + 2 − |Y| − u′_o(Y). Let x be counted in u_o(X), x ∉ Ch, with its good outside every N_i(B′_i),
+i ∈ Ch. Then x is frozen in P′ with the same base; its good misses N_o(Y) ⊆ N_o(X) (M1), misses N_i for i ∉ Ch ∪ {o}
+(unchanged needs; x is counted in u_o(X)), and misses N_i(B′_i) for i ∈ Ch. So x is counted in u′_o(Y), and
+u′_o(Y) ≥ u_o(X) − e*. The last claim follows from def(P) = ω + 2 − |X| − u_o(X). ∎
 
 **Lemma 3 (owner re-base).** Let P be min-frozen with ω ≥ 1, y free, B′ admissible for 𝒩 and P′ the result. Then
 Val_{P′}(y) = max{|Z| + u_y(Z) : B′ ⊆ Z ⊆ W_y, Z safe in P}, with W_y = B_y ∪ J and u_y computed in P. So
@@ -376,14 +400,19 @@ the helper (which also holds a lower good of x) keeps it, and x's bundle gains o
 
 On the 52,166 def > 0 states of §2 (cores; the suite and #53's catalogues):
 
-| states | share | what is proved about them (written, not refereed) | what is only data |
-|---|---|---|---|
-| k = 1: 39,466 | 75.7% | the move stays in the class (Lemma 1); it lowers the deficit by Lemma 2 or Lemma 3 at COV_L23 of them (an exact sufficient criterion, checked to hold); structural hypotheses (Corollaries 4, 5) at COV_C45 | that a one-agent repair exists at all |
-| k = 2: 12,389 | 23.7% | the move stays in the class (Lemma 1′ for trades, Lemma 6 for role swaps) | that it lowers the deficit (no structural lemma) |
-| k = 3: 311 | 0.6% | the move stays in the class (Lemma 6); the mechanism (Lemma 7: the unfrozen big-top agent, as owner of its three lower goods, unfreezes its needer) | that it always works; it does in 4,767 of the 4,779 improving moves |
+A state is *certified* when some minimal repair of it satisfies the hypotheses of one of the lemmas of §4 with a gain,
+so that the lemma (written proof) shows the repair lowers the deficit; the hypotheses are checked on the state, the
+conclusion is asserted against the exact deficit (`results/k4_dl2_classify/table.md`, sections C and C′).
 
-So the lemmas *certify* a repair (hypotheses checked on the state, conclusion proved) at COV_CERT of all def > 0
-states, all of them one-agent states; no lemma certifies a two- or three-agent repair. What a proof of DL_T still needs:
+| states | share | moves stay in the min-frozen class | certified (the repair lowers the deficit by a lemma) | not certified |
+|---|---|---|---|---|
+| k = 1: 39,466 | 75.7% | Lemma 1 | COV_K1 (Lemma 2 or 3); structural hypotheses (Corollary 4 or 5): COV_C45 | COV_K1N |
+| k = 2: 12,389 | 23.7% | Lemma 1′ (trades), Lemma 6 (role swaps) | COV_K2 (Lemma 2* or Lemma 7) | COV_K2N |
+| k = 3: 311 | 0.6% | Lemma 6 | COV_K3 (Lemma 7) | COV_K3N |
+
+So the lemmas certify a repair at COV_CERT of the 52,166 def > 0 states; the rest are COV_REST. What is not proved
+anywhere is that a repair *exists*: the certificates are checked on each state, not derived from the obstruction.
+What a proof of DL_T still needs:
 - **existence**: a reason why some (T1), (T2) or (T3) move lowers the deficit at every def > 0 state. No obstruction
   class guarantees a one-agent repair (§2.1), so the case analysis must be on finer structure;
 - **the deficit side of (T2) and (T3)**: a lemma that a role swap (with its helper) lowers the deficit under structural
