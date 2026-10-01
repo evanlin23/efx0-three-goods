@@ -143,6 +143,9 @@ nothing, g_k being junk) takes a_{k,2}; x_{k,2} takes b_{k,2}; then x_{k,3} is i
   free, with no needs; a (β2) gadget has x_2 on {b_2, c_2}, y on {a_2, e}, and x_1, x_3 on their a's, nobody frozen;
   (α) gadgets are unchanged.
 
+(Lemmas 1 and 2 checked on HH_3 and HH_4, every first agent and every policy, against PR #33's model of Phase 1 and the
+upgrades: `k4/lemmam_bt_hh.py lemmas`, `results/k4_lemmam_bt/lemmas.log`, 0 mismatches.)
+
 **Lemma 3 (rotations).** Needs stay in gadgets: an x needs at most its a, a y only a's of its gadget, ℓ nothing (it
 holds its top). So every need chain lies in one gadget, ℓ_A and ℓ_B are never on a chain, and one RotStep touches one
 gadget, of C or of D.
@@ -213,11 +216,11 @@ All on one worker; `k4/lemmam_bt_hh.py` (instances, drivers), `k4/lemmam_bt.py` 
 
 - Lemma M, rule F with one rotation (K4.AD.F), `TheoremRuleF` and `RuleFConn` are false. Their implications in Lean
   (K4.RF.LEAN) stay proved, with a false hypothesis at every instance size that holds HH_3 (n ≥ 26, m ≥ 65).
-- With R rotations, HH_t for large t defeats rule F as well: the copy left to index order needs about 2t/3 rotations
-  (Proposition H) and the other copy returns one slot place. And choosing the first L insertion steps does not help
-  against L + 1 copies of H_t glued in a chain (each copy shares one ℓ-good with the next): one copy is left to index
-  order. (Sketch: the count of §3 with L copies of balance at most 1 and L shared goods; t ≥ L + 2 suffices. Not
-  checked by computation.)
+- We expect the same for any fixed number of rotations and any fixed number of chosen insertion steps (not proved
+  here, not checked by computation): with R rotations the copy of HH_t left to index order still needs about 2t/3 of
+  them (Proposition H) while the other copy returns one slot place; and if the first L insertion steps are chosen, L + 1
+  copies of H_t glued in a chain leave one copy to index order. The count of §3 would have to be redone for several
+  chosen agents in one copy.
 - The big-top programme of `k4/rulef.md` §6 cannot be repaired by a better choice of the single first agent: the
   obstruction is not where the big-top agent is, but that the profile can need two independent choices. An existence
   statement over longer insertion sequences, chosen at every insertion step (LB₄'s search, K4.LB4; or rule F applied

@@ -18,11 +18,11 @@ e_j} (8, 6, 4, 3) as built by `k4/adaptive_H.py` (t = 3); q = agent 13 {33, 9, 1
 9 and 12 are b_{1,1} and c_{1,1}, 4 is u. A connected k = 4 core with a strict profile; q is its only big-top agent.
 - Lemma K (`k4/lemmam_bt.py`): least deficit 5 at q's run under each policy, at least 2 after every single RotStep (18
   of them): q is in neither K0 nor K1 (`results/k4_lemmam_bt/classes_Hq3.log`); `k4/rulef.c -A42 -Q0` (first big-top
-  agent) puts q in no class (`results/k4_lemmam_bt/rk_Hq3.log` has every first agent's class).
+  agent) puts q in no class (`results/k4_lemmam_bt/rk_Hq3.log`).
 - LB₄ʳ(τ_q) with at most one rotation has no output, by PR #33's two encodings of Lean's `Output`
-  (`results/k4_lemmam_bt/exactA_Hq3.log`, `exactB_Hq3.log`); `k4/rulef.c` agrees (`-A42 -Q0 -r1 -T1`: fail).
-- Rule RK takes agent 1 (x_{1,1}, gadget 1) in K0, as Proposition H″ predicts: the first agent has to be where the run
-  is decided, not where the big-top agent is.
+  (`results/k4_lemmam_bt/exactA_Hq3.log`, `exactB_Hq3.log`).
+- Rule RK (`k4/rulef.c -A41`, same log) takes agent 1 (x_{1,1}, gadget 1) in K0, as Proposition H″ predicts: the first
+  agent has to be where the run is decided, not where the big-top agent is.
 
 Reproduce: `python3 attempts/k4_lemmam_bt_attempts.py` (part 1), or `bash k4/lemmam_bt_runs.sh core classes exactA
 exactB`.

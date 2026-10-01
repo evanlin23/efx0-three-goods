@@ -148,21 +148,36 @@ def rk(name):
     subprocess.run(['gcc', '-O2', '-o', os.path.join(d, 'r'), os.path.join(d, 'r.c')], check=True)
     sets, vals, m = build(name)
     env = dict(os.environ, RULEF_NOLB4R='1')
-    p = subprocess.run([os.path.join(d, 'r'), '-A41', '-E1', '-Y1', '-N1', '-r1', '-T1', '-D7'],
-                       input=AR.encode_profile(sets, vals), capture_output=True, text=True, env=env)
-    idx = [l for l in p.stdout.split('\n') if l.startswith('IDX')]
-    print(f'# rk {name}: k4/rulef.c ({src}) -A41 -E1 -Y1 -N1 -r1 -T1 -D7, LB4r skipped')
-    if not idx:
-        print('no IDX line: the first agent of rule RK is in K0;', p.stdout[-500:])
-        return
-    fa = [list(map(int, x.split(':')[1].split(','))) for x in idx[0].split('fa=')[1].strip().split(';')]
-    bad = 0
-    for a, (kN, kE, c, om, k1) in enumerate(fa):
-        ok = kN <= 0 or kE <= 0 or k1 == 1 or c == 1
-        bad += not ok
-        print(f'first {a}: Lemma K deficit need-shrinking {kN}, envy-free/none {kE}, K1 {k1}, C40 {c} -> '
-              f'{"in a class" if ok else "in no class"}')
-    print(f'RESULT rk {name}: first agents in no class: {bad} of {len(fa)}')
+    # HH: rule RK with every first agent evaluated (-A41 -E1); Hq: the first big-top agent q (-A42 -Q0), then rule RK
+    modes = [['-A41', '-E1']] if name.startswith('HH') else [['-A42', '-Q0'], ['-A41']]
+    for mo in modes:
+        opts = mo + ['-Y1', '-N1', '-r1', '-T1', '-D7', '-v']
+        p = subprocess.run([os.path.join(d, 'r')] + opts, input=AR.encode_profile(sets, vals), capture_output=True,
+                           text=True, env=env)
+        print(f'# rk {name}: k4/rulef.c ({src}) {" ".join(opts)}, LB4r skipped')
+        rk41 = [l for l in p.stdout.split('\n') if l.startswith('RK41')]
+        cls = '?'
+        if rk41:
+            w = rk41[0].split()
+            for c, nm in enumerate(['K0', 'K1', 'C40', 'open']):
+                i = w.index('c%d' % c)
+                if sum(map(int, w[i + 1:i + 4])):
+                    cls = nm
+        run = [l for l in p.stdout.split('\n') if l.startswith('RUN')]
+        tau = run[0].split('tau=')[1].split()[0] if run and 'tau=' in run[0] else '?'
+        print(f'rule {" ".join(mo)}: chosen first agent {tau.split(",")[0]}, its class {cls}')
+        idx = [l for l in p.stdout.split('\n') if l.startswith('IDX')]
+        if not idx:
+            continue
+        fa = [list(map(int, x.split(':')[1].split(','))) for x in idx[0].split('fa=')[1].strip().split(';')]
+        if mo[0] == '-A41':
+            bad = 0
+            for a, (kN, kE, c, om, k1) in enumerate(fa):
+                ok = kN <= 0 or kE <= 0 or k1 == 1 or c == 1
+                bad += not ok
+                print(f'first {a}: Lemma K deficit need-shrinking {kN}, envy-free/none {kE}, K1 {k1}, C40 {c} -> '
+                      f'{"in a class" if ok else "in no class"}')
+            print(f'RESULT rk {name}: first agents in no class: {bad} of {len(fa)}')
 
 
 def exact(name, enc, agents=None):
