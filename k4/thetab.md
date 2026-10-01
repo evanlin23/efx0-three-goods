@@ -332,9 +332,17 @@ at n ≥ 4 of what Corollary N3 gets for free at n = 3. At states that are not a
 (§5.1). So the hypothesis must be used, and the argument is the f = 0-like structure of the other free agents (Theorem
 Z′ of `k4/c4min_reduce.md` §2 is the natural tool).
 
-### 5.1 Failed candidates (`attempts/k4-thetab-*.md`)
+### 5.1 Failed candidates (`attempts/k4-thetab-*.md`, REFUTED row K4.TB.X)
 
-*To be completed with the scans.*
+Each candidate fails at the state given. The state's f, deficit, stage, needers and plain swaps are computed by two
+implementations (`attempts/k4_thetab_attempts.py`: this file's code on PR #75's `Profile`, and main's
+`k4/c4x_check.py` with the key, the T1 test, the needers and the plain swaps written separately).
+
+| candidate | smallest failing state | note |
+|---|---|---|
+| in (H), a plain swap lowers the deficit at **every** state with def > 0 (Corollary N3 at n = 3) | n = 4, m = 9: core (m = 9, idx 5) of `k4_certs_4_pure`, profile 38,20,245,105, P = ({0, 2}, {1, 3}, {5, 6}, {8}) | P is not T1-stuck; a third agent is threatened by the only two junk goods (`attempts/k4-thetab-plain-swap-everywhere.md`) |
+| every f = 1 target is in (H) | n = 4, m = 9: core (m = 9, idx 5) of `k4_certs_4_n4_3`, profile 106,48,94,3, P = ({0, 7}, {8}, {4, 6}, {5}) | needers big-top and 4-good; G1 covers it (`attempts/k4-thetab-two-big-top-needers.md`) |
+| W, K or G1 applies at every T3-stage state with two needers | n = 3, m = 6: core (m = 6, idx 8) of `k4_certs_3`, profile 11,11,246, P = ({4}, {1, 3}, {5}) | neither needer big-top; Lemma G still certifies a plain swap (`attempts/k4-thetab-structural-cover.md`) |
 
 ## 6. f ≥ 2 (for proof/k4-f2)
 

@@ -8,8 +8,12 @@ there), keeps the T3-stage states that C1, C2, C3 of k4/dl13.md §4 do not certi
   - at f = 1: the types of the needers and of x (setting (H): two needers, both big-top);
   - the shapes of the improving (T3) moves of the dump: helper or none, which needer swaps, who owns afterwards;
   - Lemma G (k4/thetab_lib.swap_bound) at every no-helper swap: its bound is asserted against the exact deficit, and
-    each target is classified by the first mode that certifies it: W1 (a pair A meeting L_{y_i}: no edge of y_i or x),
-    K (kappa = 1), S (any other), with "quiet" when every other free agent's edges are met by its own slots;
+    each target is classified by the first mode of the computed bound that certifies it ('first Lemma G mode'):
+    W1 (a pair A meeting L_z: no edge of z or x), K (kappa = 1 needed), S (any other), with "quiet" when every other
+    free agent's edges are met by its own slots;
+  - the first of Theorem W, Theorem K, Corollary G1, Theorem S (k4/thetab.md §2-§3) whose hypotheses hold
+    ('first theorem'); their conclusions are asserted against the exact deficits;
+  - at f >= 2: whether a plain swap lowers the deficit (from the dump) and whether Lemma G at any f certifies one;
   - with --show: the smallest target of each class.
 usage: python3 k4/thetab_targets.py [--show] [--f1] [--check]   (--check: every deficit also by k4/suite/model.py's direct
        removal-only test, asserted equal)"""
