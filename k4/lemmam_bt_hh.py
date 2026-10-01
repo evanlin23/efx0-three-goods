@@ -24,7 +24,7 @@ Usage:
 With --log=FILE, classes and exact append their lines to FILE and skip the first agents FILE already has (resumable);
 one worker process throughout.
 """
-import json, os, subprocess, sys, tempfile, time
+import hashlib, json, os, subprocess, sys, tempfile, time
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import adaptive_H as AH
@@ -154,7 +154,8 @@ def rk(name):
         opts = mo + ['-Y1', '-N1', '-r1', '-T1', '-D7', '-v']
         p = subprocess.run([os.path.join(d, 'r')] + opts, input=AR.encode_profile(sets, vals), capture_output=True,
                            text=True, env=env)
-        print(f'# rk {name}: k4/rulef.c ({src}) {" ".join(opts)}, LB4r skipped')
+        sha = hashlib.sha256(open(src, 'rb').read()).hexdigest()[:16]
+        print(f'# rk {name}: k4/rulef.c (sha256 {sha}) {" ".join(opts)}, LB4r skipped')
         rk41 = [l for l in p.stdout.split('\n') if l.startswith('RK41')]
         cls = '?'
         if rk41:

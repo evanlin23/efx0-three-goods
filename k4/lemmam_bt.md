@@ -24,9 +24,10 @@ hypotheses; (b) with several, some big-top agent works; (c) with none, some agen
 - **Computations** (§4): Lemma K's classes of every first agent on HH_3 by two implementations (`k4/lemmam_bt.py`,
   written from the text of `k4/rulef.md` §2 on PR #33's model; `k4/rulef.c` of PR #72); LB₄ʳ with at most one rotation
   exactly, by PR #33's two independent encodings of Lean's `Output` (`k4/c4_verify_H/lb4r.py`, `enc_b.py`).
-- What it means for the route (§5): a rule that chooses only the first agent cannot work with a bounded number of
-  rotations, and neither can one that chooses the first L insertion steps (L + 1 copies of H_t, sketch). The
-  insertion agent has to be chosen adaptively at every insertion step, as LB₄ does.
+- What it means for the route (§5): a rule that chooses only the first agent does not work with one rotation, and we
+  expect the same for any fixed number of rotations or of chosen insertion steps (several copies of H_t; not proved).
+  The insertion agent has to be chosen adaptively at every insertion step, as LB₄'s search over insertion sequences
+  does.
 
 ## 1. The count of Proposition H, as a lemma
 
@@ -65,7 +66,8 @@ e_j, each x_{j,i} holds {a_{j,i}}, frozen.
 
 **The core H_t + q.** Add to H_t (agents in H_t's index order) an agent q with the last index, R_q = {p, b_{1,1},
 c_{1,1}, u}, values (8, 4, 3, 2), p a new good. q is big-top (8 > 4 + 3) and strictly balanced (8 < 9); p is its only
-private good; x_{1,1} and ℓ lose private goods but keep at most two. It is a connected k = 4 core with a strict profile
+private good; x_{1,1} and ℓ now share goods with q (fewer private goods, which the core conditions allow). It is a
+connected k = 4 core with a strict profile
 (`k4/check4.py`'s `is_core` and type domains; `k4/lemmam_bt_hh.py core Hq3`), and q is its only big-top agent (ℓ, the
 x's and the y's have a = 8 < 6 + 4 or 6 + 5).
 
@@ -208,7 +210,10 @@ All on one worker; `k4/lemmam_bt_hh.py` (instances, drivers), `k4/lemmam_bt.py` 
   for every first agent and policy, Lemma K's least deficit at the Phase 1 + upgrade state is at least 4 and after every
   single RotStep at least 1 (the least values, 4 and 1, at the first agents x_{1,2}, x_{1,3}, y_1 of either copy: 6 for
   the copy left to index order, minus 1 for the other copy, minus 1 for the shared u, then minus 3 for the best
-  rotation, exactly the count of §3). [Rerun after the container restart: log to come.]
+  rotation, exactly the count of §3); the least deficits are equal under the three policies, and C₄⁰'s hypothesis fails
+  at every first agent (ω ≥ 1 and 4-good agents exposed). So none of the 26 first agents is in K0 or K1, also for RK₃
+  (`results/k4_lemmam_bt/classes_HH3.log`). On H_3 + q, q: least deficit 5, at least 2 after each of the 18 RotSteps
+  (`classes_Hq3.log`).
 - `rk`, HH_3 (`k4/rulef.c` -A41 -E1 -Y1 -N1, LB₄ʳ's owner search skipped): [to come].
 - `exact`, H_3 + q (first agent q) and HH_3 (every first agent), encodings A and B: [to come].
 
