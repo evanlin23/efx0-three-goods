@@ -18,10 +18,10 @@ independent model `k4/c4_verify_H/lb4r.py`, with the completion of its proof bui
   protects it whatever else happens or by a set of goods kept out of the owner's bundle. It contains the counts of
   A₄⁺(o), A₄⁺ᴺ and LB⁺'s hitting set. **Lemma K′** (Remark 5): letting an agent take slot goods and keep goods out at
   once makes the count *exact* (deficit ≤ 0 iff LB₄ʳ's owner test succeeds with that owner), so the counting gap
-  closes by construction. Lemma K itself, robust and the form the other lemmas use, leaves no gap at n ≤ 3 and 4, 720 and 35,028
-  profiles at n = 4 with one, two, three 4-good agents (§5.1); the 4 and the 720 are runs that succeed only
-  without upgrades, which Lemma K certifies under that policy (n = 4 with three: RK₃ is being run, see §5.1). Written proofs; a
-  second implementation builds the completions and checks them against Lean's `Output` and the raw definition.
+  closes by construction. **Lemma K itself has no counting gap on the data** once all three upgrade policies of
+  LB₄ʳ are allowed (rule RK₃, §4): on every exhaustive class of §5.1 its classes K0 and K1 are exactly the profiles on
+  which rule F needs no rotation and one rotation. Written proofs; a second implementation builds the completions and
+  checks them against Lean's `Output` and the raw definition.
 - **Lemma KR (§3)**, LB⁺'s Theorem B in Lemma K's count: rotating a frozen agent along a need chain to the owner
   lowers the deficit by one under two explicit conditions. **Lemma S (§6)**: free exposed agents never raise the
   deficit. **Proposition H″ (§4.1)**: on every relabeling of H_t a gadget-1 first agent is certified without rotation.
@@ -29,6 +29,7 @@ independent model `k4/c4_verify_H/lb4r.py`, with the completion of its proof bui
   certifies (class K0), else whose run Lemma K certifies after one rotation (K1), else whose run satisfies Corollary
   C₄⁰ (C40). It never runs LB₄ʳ's owner search. **It is correct exactly when Lemma M holds** (some first agent is in
   K0, K1 or C40), the one statement left open (§6 says which cases a proof attempt closes and which it does not).
+  Its variant RK₃ (also the run without upgrades) is as good as rule F on all the exhaustive data.
 - **Data (§5)**: Lemma M holds, with K0 and K1 alone, on every strict profile of every certified core with n ≤ 4 and at
   most three 4-good agents (3.6·10¹⁰ profiles, exhaustive), on random samples of n = 4 with four 4-good agents
   (4.4·10⁶ profiles) and of n = 5 (6.3·10⁶), on H_t and on all 150 cores of the suite. **What the working first agent has in
@@ -301,17 +302,21 @@ and LB₄ʳ's exact owner search confirms every class on every profile):
   720 and 35,028. **With RK₃ the gap vanishes** where it has been run (`-Y1 -N1`, `results/k4_rulef/rk_*_n1.log`):
   on n = 2, n = 3 and n = 4 with one and two 4-good agents RK₃'s K0 and K1 are exactly rule F's no-rotation and
   one-rotation profiles (189,216; 299,574,040 / 263,336; 7,246,416 / 816; 724,640,736 / 206,880), so RK₃ is as good
-  as rule F there, without running LB₄ʳ's owner search (n = 4 with three 4-good agents: being run on a separate machine).
+  as rule F there, without running LB₄ʳ's owner search; and at n = 4 with three 4-good agents too: K0
+  34,961,492,780, K1 0 / 10,351,828, again rule F's counts (`results/k4_rulef/rk_n4_n4_3_n1.log`, run with four
+  workers on a separate machine). So on all 3.6·10¹⁰ profiles RK₃ has no counting gap and is optimal.
   #44's gap for A₄⁺ᴺ, over *every* insertion sequence (K4.AD.AN), was 1,020 (n = 2), 119,616 (n = 3)
   and 31,224 (n = 4, two 4-good agents) profiles that LB₄ʳ solves without rotation under some owner-needs convention.
   K1 covers the gap anyway: with one rotation and Lemma K every profile is certified. Lemma K′ (Remark 5 of §2) is
   exact, so it leaves no gap by construction. And Lemma K's own gap is a matter of policy, not of counting: at n = 4
   with one and two 4-good agents every gap profile (4 and 720) is a run that LB₄ʳ solves without rotation only
   without upgrades, and Lemma K certifies it under that policy (`k4/rulef_gap.py`,
-  `results/k4_rulef/gap_check_n4_n4_1.log`, `gap_check_n4_n4_2.log`).
+  `results/k4_rulef/gap_check_n4_n4_1.log`, `gap_check_n4_n4_2.log`); with three 4-good agents RK₃'s counts show the
+  same for the 35,028.
 - **RK is not optimal, but never needs two rotations.** It uses a rotation where some first agent needs none on 0
   (n ≤ 3), 4, 688 and 21,456 profiles (n = 4 with one, two, three 4-good agents; 21,408 with `-Y1`): these are the
   profiles of the counting gap on which the first K1 agent in index order is not one of those that need no rotation.
+  RK₃ never does (it needs a rotation exactly where rule F does).
 
 **Beyond the exhaustive classes** (random strict profiles of every certified core, `-SN`: N per core; EVIDENCE only,
 PROMPT.md §5 rule 3; `results/k4_rulef/rk_pure4_sample.log`, `rk_n5_*_sample.log`):
