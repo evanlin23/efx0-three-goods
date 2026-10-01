@@ -1,0 +1,15 @@
+# command: python3 k4/dlrc_failures.py results/k4_rc/rc_failures_n5 results/k4_rc/dump_rc_fail_hunt_ranked_pure.jsonl.gz
+45 failing states in 45 profiles; key form holds at 45, fails at 0
+better states by (shape |U|,|Z|,|W|,|Y|; kind): {((1, 1, 0, 2), '-'): 3510, ((1, 1, 0, 1), '-'): 270}
+nearest better states by (shape; kind): {((1, 1, 0, 1), '-'): 270}
+profiles by simplicity (largest value, sum of values):
+  max 8 sum 97  k4_certs_5_pure.json.gz#4604[m=13,idx=58]|prof=44,118,8,8,158  vals [[3, 5, 6, 7], [6, 5, 4, 8], [2, 3, 8, 4], [2, 3, 8, 4], [6, 4, 1, 8]]  failing [[[11], [12], [3, 7], [4, 8], [5, 9]]]
+  max 8 sum 97  k4_certs_5_pure.json.gz#4604[m=13,idx=58]|prof=44,118,36,8,158  vals [[3, 5, 6, 7], [6, 5, 4, 8], [3, 2, 8, 4], [2, 3, 8, 4], [6, 4, 1, 8]]  failing [[[11], [12], [3, 7], [4, 8], [5, 9]]]
+  max 8 sum 97  k4_certs_5_pure.json.gz#4604[m=13,idx=58]|prof=44,79,8,8,158  vals [[3, 5, 6, 7], [4, 5, 6, 8], [2, 3, 8, 4], [2, 3, 8, 4], [6, 4, 1, 8]]  failing [[[11], [12], [3, 7], [4, 8], [5, 9]]]
+  max 8 sum 97  k4_certs_5_pure.json.gz#4604[m=13,idx=58]|prof=44,79,8,36,158  vals [[3, 5, 6, 7], [4, 5, 6, 8], [2, 3, 8, 4], [3, 2, 8, 4], [6, 4, 1, 8]]  failing [[[11], [12], [3, 7], [4, 8], [5, 9]]]
+  max 8 sum 97  k4_certs_5_pure.json.gz#4604[m=13,idx=58]|prof=92,83,8,8,98  vals [[5, 3, 6, 7], [4, 6, 5, 8], [2, 3, 8, 4], [2, 3, 8, 4], [4, 6, 1, 8]]  failing [[[11], [12], [3, 7], [4, 8], [5, 9]]]
+  max 8 sum 97  k4_certs_5_pure.json.gz#4604[m=13,idx=58]|prof=44,118,8,36,158  vals [[3, 5, 6, 7], [6, 5, 4, 8], [2, 3, 8, 4], [3, 2, 8, 4], [6, 4, 1, 8]]  failing [[[11], [12], [3, 7], [4, 8], [5, 9]]]
+  max 8 sum 97  k4_certs_5_pure.json.gz#4604[m=13,idx=58]|prof=44,83,8,36,158  vals [[3, 5, 6, 7], [4, 6, 5, 8], [2, 3, 8, 4], [3, 2, 8, 4], [6, 4, 1, 8]]  failing [[[11], [12], [3, 7], [4, 8], [5, 9]]]
+  max 8 sum 97  k4_certs_5_pure.json.gz#4604[m=13,idx=58]|prof=44,118,8,36,98  vals [[3, 5, 6, 7], [6, 5, 4, 8], [2, 3, 8, 4], [3, 2, 8, 4], [4, 6, 1, 8]]  failing [[[11], [12], [3, 7], [4, 8], [5, 9]]]
+  max 8 sum 97  k4_certs_5_pure.json.gz#4604[m=13,idx=58]|prof=44,118,8,8,98  vals [[3, 5, 6, 7], [6, 5, 4, 8], [2, 3, 8, 4], [2, 3, 8, 4], [4, 6, 1, 8]]  failing [[[11], [12], [3, 7], [4, 8], [5, 9]]]
+  max 8 sum 97  k4_certs_5_pure.json.gz#4604[m=13,idx=58]|prof=44,118,36,36,98  vals [[3, 5, 6, 7], [6, 5, 4, 8], [3, 2, 8, 4], [3, 2, 8, 4], [4, 6, 1, 8]]  failing [[[11], [12], [3, 7], [4, 8], [5, 9]]]
