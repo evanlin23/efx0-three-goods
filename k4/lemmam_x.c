@@ -1701,10 +1701,11 @@ static void bsim_block(int c, int bid) {
     }
 }
 static int bc_mem[MAXN], bc_nm, bc_fz[MAXN], bc_ex[MAXN], bc_rho[MAXN], bc_ch[MAXN], bc_cl, bc_last;
-static gm bc_N[MAXN], bc_ends;
+static gm bc_N[MAXN], bc_ends, bc_any;
+static int bc_load[MAXN], bc_tend;
 static void bc_dfs(void) {
     int x = bc_ch[bc_cl - 1];
-    if (bc_cl > 1 && !bc_fz[x]) { if (!bc_ex[x] && x != bc_last) bc_ends |= BIT(x); return; }
+    if (bc_cl > 1 && !bc_fz[x]) { bc_any |= BIT(x); if (!bc_ex[x] && x != bc_last) bc_ends |= BIT(x); return; }
     for (int q = 0; q < bc_nm; q++) {
         int y = bc_mem[q], in = 0;
         for (int k = 0; k < bc_cl; k++) if (bc_ch[k] == y) in = 1;
@@ -1719,27 +1720,44 @@ static int block_count(int bid, int last) {
     bc_last = -1;
     if (last) for (int q = 0; q < bc_nm; q++) if (bc_last < 0 || b_pos[bc_mem[q]] > b_pos[bc_last]) bc_last = bc_mem[q];
     int X[MAXN], nx = 0;
+    /* the owner's bundle lies in W: G, plus r's pick in the last block (r is then known); in an earlier block r's
+       pick is still in G */
+    gm Wb = b_G; if (last && bc_last >= 0 && b_Y[bc_last] >= 0) Wb |= BIT(b_Y[bc_last]);
     for (int q = 0; q < bc_nm; q++) {
         int x = bc_mem[q];
         bc_fz[x] = 0;
         if (b_Y[x] >= 0) for (int p = 0; p < bc_nm; p++) if (bc_mem[p] != x && (bc_N[bc_mem[p]] >> b_Y[x] & 1)) bc_fz[x] = 1;
-        bc_ex[x] = b_Y[x] >= 0 && x != bc_last && threatened(x, b_G, BIT(b_Y[x]));
+        bc_ex[x] = b_Y[x] >= 0 && x != bc_last && threatened(x, Wb, BIT(b_Y[x]));
     }
     gm endsX[MAXN];
+    for (int i = 0; i < n; i++) bc_load[i] = 0;
     for (int q = 0; q < bc_nm; q++) {
         int x = bc_mem[q];
         if (!bc_fz[x] || !bc_ex[x]) continue;
-        gm cand = b_G & R[x]; int best = 99;
-        for (gm D = cand;; D = (D - 1) & cand) {
-            if (popc(D) < best && !threatened(x, b_G & ~D, BIT(b_Y[x]))) best = popc(D);
-            if (!D) break;
+        /* rho(x): the kept-out set D (goods of G valued by x) must serve x against W - D; in an earlier block the
+           owner's pick, a good h of G not known yet, cannot be kept out, so rho is the worst over h of the least D
+           avoiding h (h = none included) */
+        gm cand = b_G & R[x]; int worst_h = 0;
+        for (int hi = -1; hi < m; hi++) {
+            if (hi >= 0 && (last || !(cand >> hi & 1))) continue;
+            gm ch = hi >= 0 ? cand & ~BIT(hi) : cand; int best = 99;
+            for (gm D = ch;; D = (D - 1) & ch) {
+                if (popc(D) < best && !threatened(x, Wb & ~D, BIT(b_Y[x]))) best = popc(D);
+                if (!D) break;
+            }
+            if (best > worst_h) worst_h = best;
         }
-        bc_rho[x] = best;
-        bc_ends = 0; bc_ch[0] = x; bc_cl = 1; bc_dfs();
+        bc_rho[x] = worst_h;
+        bc_ends = 0; bc_any = 0; bc_ch[0] = x; bc_cl = 1; bc_dfs();
+        for (int i = 0; i < n; i++) if (bc_any >> i & 1) bc_load[i]++;
         endsX[nx] = bc_ends; X[nx++] = x;
     }
+    /* the overloaded end: the end of need chains from the most exposed frozen agents (ties: earliest processed) */
+    bc_tend = -1;
+    for (int i = 0; i < n; i++) if (bc_load[i] && (bc_tend < 0 || bc_load[i] > bc_load[bc_tend] ||
+        (bc_load[i] == bc_load[bc_tend] && b_pos[i] < b_pos[bc_tend]))) bc_tend = i;
     int worst = 0;
-    if (nx > 20) nx = 20;            /* (never reached on the instances run) */
+    if (nx > 20) return 99;          /* too many to enumerate: count as unknown (never reached on the instances run) */
     for (long s = 1; s < (1L << nx); s++) {
         int sum = 0; gm U = 0;
         for (int k = 0; k < nx; k++) if (s >> k & 1) { sum += bc_rho[X[k]]; U |= endsX[k]; }
@@ -1772,23 +1790,34 @@ static int least_rot_seq(const int *tau, int nt) {
     return best;
 }
 static int adp_tau[MAXN], adp_ntau, adp_delta[MAXN], adp_d, adp_all0, adp_lastdelta, adp_nonlast;
+static long adp_xsteps, adp_xend0, adp_xany0;   /* index-order steps with a positive non-last count; repaired by the end; by some agent */
+static int r_xs, r_xe, r_xa;                    /* the same for the current run (added in stat44, weighted) */
 static void adaptive44(void) {
     for (int i = 0; i < n; i++) { b_done[i] = 0; b_Y[i] = -1; }
-    b_G = ALLG; b_step = 0; adp_ntau = 0; adp_all0 = 1; adp_nonlast = 0;
+    b_G = ALLG; b_step = 0; adp_ntau = 0; adp_all0 = 1; adp_nonlast = 0; r_xs = r_xe = r_xa = 0;
     int sd[MAXN], sY[MAXN], sp[MAXN], sb[MAXN], sstep; gm sG;
     for (int bid = 0;; bid++) {
         int any = 0; for (int i = 0; i < n; i++) if (!b_done[i]) any = 1;
         if (!any) break;
         memcpy(sd, b_done, sizeof sd); memcpy(sY, b_Y, sizeof sY); memcpy(sp, b_pos, sizeof sp); memcpy(sb, b_blk, sizeof sb);
         sG = b_G; sstep = b_step;
-        int bestc = -1, bestd = 1 << 20;
+        int bestc = -1, bestd = 1 << 20, dlc[MAXN], lastc[MAXN], c0 = -1, t0 = -1;
         for (int c = 0; c < n; c++) if (!sd[c]) {
             memcpy(b_done, sd, sizeof sd); memcpy(b_Y, sY, sizeof sY); memcpy(b_pos, sp, sizeof sp); memcpy(b_blk, sb, sizeof sb);
             b_G = sG; b_step = sstep;
             bsim_block(c, bid);
             int last = 1; for (int i = 0; i < n; i++) if (!b_done[i]) last = 0;
             int dl = block_count(bid, last);
+            dlc[c] = dl; lastc[c] = last;
+            if (c0 < 0) { c0 = c; t0 = bc_tend; }   /* index order's choice, and the overloaded end of its block */
             if (dl < bestd) { bestd = dl; bestc = c; }
+        }
+        /* the local exchange: where index order's block has a positive count (and is not the last block), is the block
+           started by its overloaded end t0 at count 0? */
+        if (dlc[c0] > 0 && !lastc[c0]) {
+            r_xs++;
+            if (t0 >= 0 && !sd[t0] && dlc[t0] == 0) r_xe++;
+            if (bestd == 0) r_xa++;
         }
         memcpy(b_done, sd, sizeof sd); memcpy(b_Y, sY, sizeof sY); memcpy(b_pos, sp, sizeof sp); memcpy(b_blk, sb, sizeof sb);
         b_G = sG; b_step = sstep;
@@ -1803,12 +1832,13 @@ static void adaptive44(void) {
 static long adp_prof, adp_all0cnt, adp_hist[MAXROT + 2], adp_hist0[MAXROT + 2], adp_lastd1, adp_nlcnt, adp_nlhist[MAXROT + 2];
 static void stat44(long w) {
     adp_prof += w; if (adp_all0) adp_all0cnt += w;
+    adp_xsteps += w * r_xs; adp_xend0 += w * r_xe; adp_xany0 += w * r_xa;
     adp_hist[adp_d] += w; if (adp_all0) adp_hist0[adp_d] += w;
     if (adp_d >= 1 && adp_lastdelta == 1) adp_lastd1 += w;
     if (adp_nonlast) { adp_nlcnt += w; adp_nlhist[adp_d] += w; }
-    if (DUMP == 44 && adp_d >= 1 && dumped < DUMPMAX) {
+    if (((DUMP == 44 && adp_d >= 1) || DUMP == 47) && dumped < DUMPMAX) {
         dumped++;
-        printf("ADPBAD w=%ld d=%d sets=[", w, adp_d);
+        printf("%s w=%ld d=%d sets=[", adp_d >= 1 ? "ADPBAD" : "ADPRUN", w, adp_d);
         for (int i = 0; i < n; i++) { printf("["); for (int q = 0; q < d[i]; q++) printf("%d%s", gl[i][q], q + 1 < d[i] ? "," : ""); printf("]%s", i + 1 < n ? "," : ""); }
         printf("] vals=[");
         for (int i = 0; i < n; i++) {
@@ -1828,10 +1858,10 @@ static void print44(void) {
     for (int k = 0; k <= ROT + 1; k++) printf(" %ld", adp_hist[k]);
     printf(" hist_all0");
     for (int k = 0; k <= ROT + 1; k++) printf(" %ld", adp_hist0[k]);
-    printf(" bad_with_last_delta1 %ld nonlast_positive %ld nonlast_hist", adp_lastd1, adp_nlcnt);
+    printf(" bad_with_last_delta1 %ld xsteps %ld xend0 %ld xany0 %ld nonlast_positive %ld nonlast_hist", adp_lastd1, adp_xsteps, adp_xend0, adp_xany0, adp_nlcnt);
     for (int k = 0; k <= ROT + 1; k++) printf(" %ld", adp_nlhist[k]);
     printf("\n");
-    adp_prof = adp_all0cnt = adp_lastd1 = adp_nlcnt = 0; memset(adp_nlhist, 0, sizeof adp_nlhist); memset(adp_hist, 0, sizeof adp_hist); memset(adp_hist0, 0, sizeof adp_hist0);
+    adp_prof = adp_all0cnt = adp_lastd1 = adp_nlcnt = adp_xsteps = adp_xend0 = adp_xany0 = 0; memset(adp_nlhist, 0, sizeof adp_nlhist); memset(adp_hist, 0, sizeof adp_hist); memset(adp_hist0, 0, sizeof adp_hist0);
     fflush(stdout);
 }
 

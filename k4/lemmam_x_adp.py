@@ -19,7 +19,8 @@ def parse_adp(lines):
             q = t.index('nonlast_positive'); h = t.index('nonlast_hist')
             return {'prof': int(t[2]), 'all0': int(t[4]), 'hist': list(map(int, t[i + 1:j])),
                     'hist0': list(map(int, t[j + 1:k])), 'lastd1': int(t[k + 1]), 'nonlast': int(t[q + 1]),
-                    'nonlast_hist': list(map(int, t[h + 1:]))}
+                    'nonlast_hist': list(map(int, t[h + 1:])), 'xsteps': int(t[t.index('xsteps') + 1]),
+                    'xend0': int(t[t.index('xend0') + 1]), 'xany0': int(t[t.index('xany0') + 1])}
     return None
 
 
@@ -67,15 +68,17 @@ def main():
                 sets = json.loads(re.search(r'sets=(\[\[.*?\]\])', line).group(1))
                 vals = json.loads(re.search(r'vals=(\[\[.*?\]\])', line).group(1)); name = ''
             t1 = time.time()
-            lines = LR.run(AR.encode_profile(sets, vals), opts + ['-T1', '-D44'])
-            bad = [l for l in lines if l.startswith('ADPBAD')]
+            lines = LR.run(AR.encode_profile(sets, vals), opts + ['-T1', '-D47'])
+            runl = [l for l in lines if l.startswith(('ADPBAD', 'ADPRUN'))]
+            bad = [l for l in runl if l.startswith('ADPBAD')]
             st = parse_adp(lines)
             tot = add(tot, st)
             d = next((k for k, x in enumerate(st['hist']) if x), None)
-            tau = re.search(r'tau=(\S+)', bad[0]).group(1) if bad else ''
+            tau = re.search(r'tau=(\S+)', runl[0]).group(1) if runl else ''
+            dl = re.search(r'deltas=(\S+)', runl[0]).group(1) if runl else ''
             print(f"{name or 'profile'}: n={len(sets)} rotations needed after the adaptive run d={d}"
                   f" (cap {len(st['hist']) - 2}; {len(st['hist']) - 1} = none found)"
-                  f" every block count 0: {bool(st['all0'])} {('tau=' + tau) if tau else ''} time {time.time() - t1:.1f}s",
+                  f" every block count 0: {bool(st['all0'])} tau={tau} block counts={dl} time {time.time() - t1:.1f}s",
                   flush=True)
             if fo:
                 for l in bad:
@@ -117,6 +120,9 @@ def main():
         print(f"  runs with d >= 1 whose last block has count 1: {tot['lastd1']}")
         print(f"  runs where some block other than the last has count > 0 (the local step fails there): {tot['nonlast']};"
               f" their d: {tot['nonlast_hist']}")
+        print(f"  local exchange: insertion steps (weighted) where index order's block is not the last and has count > 0:"
+              f" {tot['xsteps']}; the block of its overloaded end has count 0: {tot['xend0']}; some agent's block has"
+              f" count 0: {tot['xany0']}")
 
 
 if __name__ == '__main__':

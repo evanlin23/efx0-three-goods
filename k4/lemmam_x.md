@@ -177,6 +177,144 @@ agent lies in another gadget, and its run has a different block structure).
 
 PLACEHOLDER_EXCHANGE
 
-## 6. Reproduce
+## 6. No fixed rotation bound for a single chosen first agent
+
+Proposition HH of `k4/lemmam_bt.md` §3 (PR #83, a written proof under review) refutes Lemma M on HH₃: HH_t is two
+copies A, B of H_t with ℓ_B's good u identified with ℓ_A's u (n = 8t + 2, m = 20t + 5, every agent 4-good, none
+big-top), and for t ≥ 3 no first agent a makes LB₄ʳ(τ_a) succeed with at most one rotation. The same count, with q
+rotations in place of one, bounds the rotations of every first agent.
+
+**Proposition R.** For every d ≥ 0 and every t with 2t − 2 > 3d, on HH_t no first agent a makes LB₄ʳ(τ_a) succeed
+with at most d rotations (under each upgrade policy, every owner or none, the owner's needs from its base or its
+bundle, chains ending at any agent that is not frozen). So no fixed bound on the rotations makes a rule that chooses
+only the first agent work: d = 1 fails on HH₃, d = 2 on HH₅, d = 3 on HH₆, and so on.
+
+*Proof.* Fix a and let D be the copy containing a, C the other one. We use from `k4/lemmam_bt.md` §1, §3 (PR #83):
+Lemma P (protecting goods: if forced agents have protecting sets Π(f) disjoint except for c goods each in two of them,
+and own-slot sets Σ(f) disjoint from all Π's, then their number is at most the slot places of the free agents other
+than the owner plus c), the forced agents (F1) (an x holding exactly its a, its b, c junk) and (F2) (an ℓ holding g₁,
+u and u′ junk), with c = 1 (u is in Π(ℓ_A) ∩ Π(ℓ_B)); and Lemmas 1, 2 there (Phase 1 and upgrades of HH_t: C runs
+exactly as H_t's index run and admits no upgrade, so all its gadgets are *untouched* (α): y_j on e_j, each x_{j,i} on
+{a_{j,i}}, frozen; in D, gadgets before a's gadget j are (α), gadget j is (β1) or (β2), later ones (β2)).
+
+*Needs stay in gadgets, after any number of rotations.* By induction on the rotations, as in Proposition H's proof
+(`k4/c4.md` §7): every need of an agent is an a of its own gadget and each ℓ keeps g₁ and needs nothing; a chain
+agent takes a good it needed, an a of its gadget; a rotated head takes O ⊆ R_k ∩ (J ∪ B_end), and validity keeps its
+value-based needs among the a's. The copies share only u, which only the ℓ's value. So every need chain, hence every
+RotStep, lies in one gadget of one copy.
+
+*Balance per gadget.* For a completion X with owner o, the balance of a group of agents is (slot places of its free
+agents other than o) − (its forced agents). Then: ℓ_A, ℓ_B at most 0 each; an untouched (α) gadget exactly −2 (y one
+place, three frozen forced x's); and **every gadget of any valid state in which its agents' needs are a's of the
+gadget has balance at most +1.** Indeed only y and an x whose base is a single good other than its a can contribute
++1 (an x on {a} is frozen or forced: at most 0; a base of two or more goods, or the owner, gives 0). Such an x values
+its a (8) above its base (at most 6), so it needs a, which must then be a one-good base, held by y (frozen, 0); y
+holds one good, so at most one x is of this kind, and then y gives 0. If that x is the owner with its needs from its
+bundle, it gives 0 and y at most +1. So the gadget gives at most +1. In D the Phase 1 balances are at most −2 for
+gadgets before j, +1 for j and 0 for later ones (Lemma 2 of #83 and the count there, every policy), so D starts at
+most at 1.
+
+*Count.* Let q_C, q_D ≤ d be the rotations in C and in D. At most q_C gadgets of C and q_D of D are touched. An
+untouched gadget keeps its Phase 1 balance (−2 in C; at most −2, +1, 0 in D as above), a touched one gives at most +1,
+so each touched gadget raises its copy's bound by at most 3. So the total balance is at most
+(−2t + 3q_C) + (1 + 3q_D) + 0 ≤ −2t + 1 + 3d < −1 when 2t − 2 > 3d. Lemma P with c = 1 needs at least −1. An output
+of LB₄ʳ is such a completion with an owner (ω = |NA| − σ ≥ −σ = 4t + 1 ≥ 1, and a base of three or more goods makes
+its agent the owner), so there is none. ∎
+
+The bound is a count, so it is the same for Lemma K's classes (whose certificates are outputs): on HH_t with
+2t − 2 > 3d no first agent is certified with d rotations. On HH₃ (d = 1) the classes are those of PR #83 (every first
+agent in neither K0 nor K1, `k4/rulef.c` and `k4/lemmam_bt.py`) and of `k4/lemmam_x.c -A43` here (§2).
+Larger d is a statement about HH₅ (n = 42) and beyond, where the count is the evidence; a direct search with two nested
+rotations on HH₃ already exceeds the ~20 minutes allowed per run here.
+
+## 7. The repaired target: the insertion agent chosen at every insertion step
+
+HH_t needs a chosen insertion step in each copy (x_{1,2} in each, then index order: no rotation, `k4/lemmam_bt.md` §3),
+and Proposition R shows that no fixed number of rotations replaces those choices. The natural repair keeps the
+rotations per block bounded and chooses every insertion step.
+
+A *run* is now Phase 1 with any insertion sequence τ (the agent inserted at each insertion step chosen freely; P-steps
+by LB's key, as in LB₄ʳ and Lean's `phase1State`). Its blocks β₁, …, β_k: each starts at an insertion step and is
+closed under P-steps; agents of later blocks value no good picked in an earlier one (B1), and a need chain stays in
+its block (A4). So the blocks are the natural unit for a local statement. In LB⁺ (k = 3) every block but the last is
+automatically fine (Theorem A: each exposed leader has a terminal of its own block), and only the last can be one
+slot short (the bad case, one rotation). At k = 4 a block can be short, and the insertion choice is what fixes it.
+
+### 7.1 The block count, and why it certifies
+
+Let a run have just closed a block β, and let G be the set of goods not yet picked. Take the state *without upgrades*
+(each agent holds its pick; RK₃'s third policy). The following depend on β and G only:
+- *frozen:* an agent of β whose pick is needed by another agent of β (by (B2) nobody outside β ever needs it);
+- X_β: the frozen agents of β threatened by W_β with their pick, where W_β := G, and for the last block (when no agent
+  is left) W_β := G ∪ {Y_r}, r its last-processed agent (the owner);
+- ρ_β(x) for x ∈ X_β: the least s such that, for every good h ∈ G ∩ R_x (the owner's future pick, not known yet, cannot
+  be kept out; in the last block no h), some D ⊆ (G ∩ R_x) ∖ {h} with |D| = s leaves x not threatened by W_β ∖ D;
+- D_β(x): the ends of need chains from x inside β that are not threatened by W_β with their pick, other than r;
+- the **block count** δ(β) := max(0, max over nonempty X′ ⊆ X_β of Σ_{x∈X′} ρ_β(x) − |⋃_{x∈X′} D_β(x)|).
+
+**Lemma 5 (block counts certify).** If every block of a run has block count 0, its Phase 1 state (no upgrades) has
+Lemma K deficit at most 0 with owner r and K = ∅. So LB₄ʳ(τ) succeeds without rotation (no-upgrade policy).
+
+*Proof.* Without upgrades r, the last-processed agent, is not frozen ((A1): an agent needing Y_r would come after r).
+Let W := J ∪ {Y_r} be the final W, E the exposed agents and X = E ∩ F. For x in a block β_i other than the last, W ⊆ G_i
+(the goods unpicked when β_i closed; r's pick is among them), and for the last block W = W_β. Frozen status is final:
+by (B2) the needs of every agent lie in its own block. So, by monotonicity of threats, every x ∈ X lies in some X_{β_i},
+and every end in D_{β_i}(x) is a terminal of the final state, other than r and not exposed.
+For x ∈ X ∩ β_i (not the last block) take h := Y_r if Y_r ∈ R_x (else any h), and D ⊆ (G_i ∩ R_x) ∖ {h} of size
+ρ_{β_i}(x) as in the definition; then D_x := D ∩ J is a kept-out set of Lemma K: W ∖ D_x ⊆ (G_i ∖ D) ∪ {Y_r} = G_i ∖ D
+(Y_r ∉ D, and Y_r ∈ G_i), so x is not threatened. In the last block D ⊆ G = J directly. So the agents of X are served
+with at most Σ_{x∈X} ρ(x) goods. Hall's condition holds in every block (count 0), the sets D_{β_i}(x) of different
+blocks are disjoint (ends lie in their block), so it holds for X: there are disjoint T_x ⊆ D(x) with |T_x| = ρ(x).
+Each agent of ⋃ T_x is a terminal other than r with at least one slot place, not exposed. The free exposed agents
+cost at most their own places (Lemma S, owner r with |B_r| ≤ 1). So the deficit of (r, ∅) is at most
+Σ ρ(x) − |⋃ T_x| = 0 (Lemma 3's proof). ∎
+
+At k = 3 every block but the last has count 0 whatever its leader: a non-leader has lost a good, so at most one of its
+goods below its pick is unpicked and it is not threatened by G; the leader x, if frozen and exposed, has
+ρ = 1 (if h is b_x keep c_x out, and conversely) and an end in its block that is not r and not exposed. The last block
+has count at most 1: LB⁺'s bad case. So Lemma 5 contains LB⁺'s Theorem A, block by block.
+
+### 7.2 Adaptive Lemma M
+
+**Conjecture M_ad (local form).** For every strict profile of every k = 4 core, a run can be built block by block so
+that every block other than the last has block count 0: at each insertion step some unprocessed agent starts a block
+of count 0. The last block then has count 0 (Lemma 5: no rotation) or count 1, repaired by one rotation (Lemma KR).
+
+**Conjecture M_ad (global form).** For every strict profile of every k = 4 core some insertion sequence τ and some
+upgrade policy reach, with at most one rotation, a state of Lemma K deficit ≤ 0. In Lean: some τ with
+`EFX.LB4R.SucceedsR 1 v agents goods τ` (§7.4).
+
+The local form is what an exchange lemma can prove: at an insertion step where the agent of least index starts a block
+of positive count, show that another agent, read off that block (an overloaded end, Lemma 3), starts a block of count
+0. Ω and Ψ (`k4/c4one.md` §6) are exactly moves of this kind — they change the agent inserted at the start of one
+block and keep the prefix — but their new block has P-steps in their order, not LB's key's, and they bound ω, not the
+block count, so they do not give the step as they stand.
+
+### 7.3 Data (EVIDENCE)
+
+`k4/lemmam_x.c -A44` builds the run greedily: at each insertion step it simulates the block of every unprocessed
+agent, takes the least block count (ties: least index), and at the end reports the least number d ≤ cap of nested
+rotations after which Lemma K certifies the run under some policy (`k4/lemmam_x_adp.py`).
+
+PLACEHOLDER_ADPDATA
+
+### 7.4 Lean
+
+`lean/EFX/LB4R.lean` and `lean/EFX/RuleF.lean` (PR #72) already contain what M_ad needs: `phase1State v agents goods τ`
+takes any insertion sequence (each entry picks the inserted agent among the unprocessed ones), and
+`SucceedsR d v agents goods τ` is "LB₄ʳ(τ) succeeds with at most d rotations". The global form is
+
+    def TheoremAdaptive (A G) : Prop := ∀ agents goods v, agents.Nodup → goods.Nodup → IsCore4 v agents goods →
+      Strict v agents goods → ∃ τ : List Nat, SucceedsR 1 v agents goods τ
+
+(and `AdaptiveConn` with `Connected` and a 4-good agent, as `RuleFConn`). `TheoremRuleF` is its special case τ = [a].
+It implies `TheoremC4exists` (and `C4existsConn`, hence TARGET₄) by the existing proofs, word for word:
+`sound_of_succeeds hag hgd (succeeds_of_succeedsR (by omega) h)` for the τ the hypothesis provides, as in
+`C4exists_of_ruleF`. A version with one rotation per block needs `SucceedsR d` for unbounded d; `sound_of_succeeds`
+generalizes at once (`rotReach_inv` holds for every d), but `succeeds_of_succeedsR` does not (it needs d ≤ 3), so that
+version would need a three-line `sound_of_succeedsR`. Lemma K's certificates are `Output`s (`k4/rulef.md` §7, step 1),
+so Lemma 5 and the data are statements about `SucceedsR 0` and `SucceedsR 1`.
+
+## 8. Reproduce
 
 PLACEHOLDER_REPRO
