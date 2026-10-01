@@ -1159,6 +1159,719 @@ theorem lemmaS (hag : agents.Nodup) (hgd : goods.Nodup) (hNd : ∀ i ∈ agents,
 
 end lemmaS
 
+
+/-! ## Lemma KR: one rotation in Lemma K's count (`k4/rulef.md` §3) -/
+
+section lemmaKR
+variable {v : A → G → Nat} {agents : List A} {goods : List G}
+
+omit [DecidableEq A] [DecidableEq G] in
+theorem value_app (i : A) (S T : List G) : value v i (S ++ T) = value v i S + value v i T := by
+  unfold value; simp
+
+omit [DecidableEq G] in
+/-- **The needs of a state of LB₄ʳ are value-based** (hypothesis (iii) of Lemma KR, `k4/rulef.md` §3): every need of
+a listed agent is worth more to it than its base (`EFX.LB4R.Inv`: an unmarked agent's base is its pick). -/
+theorem Inv.needs_value {s : LState A G} (hI : Inv v agents goods s) {x : A} (hx : x ∈ agents) {g : G}
+    (h : needsOf v goods s x g) : value v x (baseOf goods s.base x) < v x g := by
+  rcases h with ⟨-, -, -, hlt⟩ | ⟨hm, -, hpos, hlt⟩
+  · exact hlt
+  · rw [hI.unmarked x hx hm]
+    cases hp : s.pick x with
+    | none => simpa using hpos
+    | some y => simpa using hlt y hp
+
+omit [DecidableEq G] in
+/-- Hence `N^∅ = N` in a state of LB₄ʳ: the owner's needs from `B_o ∪ ∅ = B_o` are its needs. -/
+theorem needsK_empty {s : LState A G} (hI : Inv v agents goods s) {o : A} (ho : o ∈ agents) :
+    needsK v goods s.base (needsOf v goods s) o (fun _ => false) = needsOf v goods s := by
+  funext i g
+  by_cases hio : i = o
+  · subst hio
+    have hB : C4min.ownerBundle goods s.base i (fun h => !(fun _ => false) h) = baseOf goods s.base i := by
+      unfold C4min.ownerBundle baseOf
+      exact List.filter_congr fun g _ => by simp
+    simp only [needsK, ↓reduceIte, hB]
+    exact propext ⟨fun h => h.1, fun h => ⟨h, hI.needs_value ho h⟩⟩
+  · simp [needsK, hio]
+
+/-- **Lemma R(b)** for any state of LB₄ʳ (`k4/c4.md` §4a, `EFX.LB4R.needsOf_rotate` for the envy-free run): if `k`
+values `O` more than its pick, every need after the rotation was a need before. A chain agent `x` after the head takes
+its predecessor's pick `Y`, which it needs, so `Y` is worth more than its base and its new needs, the goods worth more
+than `Y`, were needs before (for a marked last agent too: this is where value-based needs are used). -/
+theorem needsOf_rotate_inv {s : LState A G} {c : List A} {k r : A} {O : List G}
+    (hch : NeedChain v agents goods s c) (hk : c.head? = some k) (hl : c.getLast? = some r) (hlen : 2 ≤ c.length)
+    (hO : ∀ g ∈ O, g ∈ goods ∧ (s.base g = none ∨ s.base g = some r)) (hOnd : O.Nodup)
+    (hvO : ∀ y, s.pick k = some y → v k y < value v k O) {j : A} {g : G}
+    (hN : needsOf v goods (rotate s c O) j g) : needsOf v goods s j g := by
+  have hc := hch.1
+  have hO' : ∀ g ∈ O, s.base g = none ∨ s.base g = some r := fun g hg => (hO g hg).2
+  by_cases hjc : j ∈ c
+  · by_cases hjk : j = k
+    · subst hjk
+      obtain ⟨⟨hkm, -⟩, y, -, hy, -, -⟩ := hch.head hk hlen
+      have hv := value_O_le (s := s) (v := v) hk hc (fun g hg => (hO g hg).1) hOnd
+      rcases hN with ⟨-, hg, -, hlt⟩ | ⟨hm, -⟩
+      · refine (needsOf_unmarked hkm).mpr ⟨hg, by omega, fun y' hy' => ?_⟩
+        rw [hy] at hy'; cases hy'
+        have := hvO y hy; omega
+      · exact absurd (Or.inl hk) hm
+    · obtain ⟨i, a, ha, hj⟩ := exists_prev hk hjc hjk
+      obtain ⟨-, y, hy, hNy⟩ := hch.2.2.1 i a j ha hj
+      have hjm' := rotate_marked_next (O := O) (s := s) hc hk hj
+      rw [needsOf_unmarked hjm'] at hN
+      obtain ⟨hg, hpos, hlt⟩ := hN
+      have h2 := hlt y (by rw [rotate_pick_next hc ha hj, hy])
+      by_cases hjm : s.marked j
+      · rcases hNy with ⟨-, -, -, hlty⟩ | ⟨hm', -⟩
+        · refine Or.inl ⟨hjm, hg, fun hb => ?_, by omega⟩
+          have := le_value_of_mem v j (mem_baseOf.mpr ⟨hg, hb⟩)
+          omega
+        · exact absurd hjm hm'
+      · rw [needsOf_unmarked hjm] at hNy ⊢
+        refine ⟨hg, hpos, fun y' hy' => ?_⟩
+        have h1 := hNy.2.2 y' hy'
+        omega
+  · exact (rotate_needs_out hl hO' hjc).mp hN
+
+theorem NA_rotate_inv {s : LState A G} {c : List A} {k r : A} {O : List G}
+    (hch : NeedChain v agents goods s c) (hk : c.head? = some k) (hl : c.getLast? = some r) (hlen : 2 ≤ c.length)
+    (hO : ∀ g ∈ O, g ∈ goods ∧ (s.base g = none ∨ s.base g = some r)) (hOnd : O.Nodup)
+    (hvO : ∀ y, s.pick k = some y → v k y < value v k O) {g : G}
+    (h : NA agents (needsOf v goods (rotate s c O)) g) : NA agents (needsOf v goods s) g := by
+  obtain ⟨j, hj, hN⟩ := h
+  exact ⟨j, hj, needsOf_rotate_inv hch hk hl hlen hO hOnd hvO hN⟩
+
+/-- **Lemma R(b)**, validity, for any state of LB₄ʳ in which `W = B_r ∪ J` avoids `NA`. -/
+theorem rotate_valid_inv {s : LState A G} {c : List A} {k r : A} {O : List G} (hgd : goods.Nodup)
+    (hI : Inv v agents goods s) (hch : NeedChain v agents goods s c) (hk : c.head? = some k)
+    (hl : c.getLast? = some r) (hlen : 2 ≤ c.length)
+    (hO : ∀ g ∈ O, g ∈ goods ∧ (s.base g = none ∨ s.base g = some r)) (hOnd : O.Nodup)
+    (hvO : ∀ y, s.pick k = some y → v k y < value v k O)
+    (hWNA : ∀ g ∈ Wl goods s r, ¬ NA agents (needsOf v goods s) g) :
+    Valid agents goods (rotate s c O).base (needsOf v goods (rotate s c O)) := by
+  have hc := hch.1
+  have hO' : ∀ g ∈ O, s.base g = none ∨ s.base g = some r := fun g hg => (hO g hg).2
+  have hW : ∀ g ∈ goods, (s.base g = none ∨ s.base g = some r) → ¬ NA agents (needsOf v goods (rotate s c O)) g :=
+    fun g hg hb hna => hWNA g (mem_Wl.mpr ⟨hg, hb⟩) (NA_rotate_inv hch hk hl hlen hO hOnd hvO hna)
+  refine ⟨fun g hg => ?_, fun i h2 g hg => ?_⟩
+  · obtain ⟨hgg, hb⟩ := mem_junk.mp hg
+    exact hW g hgg ((rotate_base_none hc hk hl).mp hb).2
+  · obtain ⟨hgg, hb⟩ := mem_baseOf.mp hg
+    by_cases hic : i ∈ c
+    · by_cases hik : i = k
+      · subst hik
+        exact hW g hgg (hO' g ((rotate_base_head hc hk).mp hb))
+      · have := rotate_chain_base_le_one hgd hch hk hl hO' hic hik
+        omega
+    · have hB : baseOf goods (rotate s c O).base i = baseOf goods s.base i :=
+        List.filter_congr fun h _ => by simp only [rotate_base_out hl hO' hic]
+      rw [hB] at h2
+      exact fun hna => hI.valid.v2 i h2 g (mem_baseOf.mpr ⟨hgg, (rotate_base_out hl hO' hic).mp hb⟩)
+        (NA_rotate_inv hch hk hl hlen hO hOnd hvO hna)
+
+/-- After a rotation along agents of `agents`, every base good still belongs to a listed agent. -/
+theorem rotate_base_mem_gen {s : LState A G} {c : List A} {k : A} {O : List G}
+    (hmem : ∀ g ∈ goods, ∀ i, s.base g = some i → i ∈ agents) (hcA : ∀ x ∈ c, x ∈ agents)
+    (hk : c.head? = some k) : ∀ g ∈ goods, ∀ i, (rotate s c O).base g = some i → i ∈ agents := by
+  intro g hg i h
+  simp only [rotate] at h
+  split at h
+  · rw [hk] at h; cases h; exact hcA k (List.mem_of_mem_head? hk)
+  · split at h
+    · cases h
+    · rename_i a hb
+      split at h
+      · exact hcA i (List.mem_of_getElem? h)
+      · cases h; exact hmem g hg i hb
+
+/-- In a state of LB₄ʳ, the successor `x` of a chain agent `a` takes `a`'s pick `Y`, which it needs, as its whole
+base. -/
+theorem rotate_baseOf_succ {s : LState A G} {c : List A} {k r : A} {O : List G} (hI : Inv v agents goods s)
+    (hch : NeedChain v agents goods s c) (hk : c.head? = some k) (hl : c.getLast? = some r)
+    (hO' : ∀ g ∈ O, s.base g = none ∨ s.base g = some r) {i : Nat} {a x : A} (ha : c[i]? = some a)
+    (hx : c[i + 1]? = some x) :
+    ∃ y, s.pick a = some y ∧ baseOf goods (rotate s c O).base x = [y] ∧ needsOf v goods s x y := by
+  obtain ⟨⟨ham, -⟩, y, hy, hN⟩ := hch.2.2.1 i a x ha hx
+  have haA : a ∈ agents := hch.2.1 a (List.mem_of_getElem? ha)
+  have hBa : baseOf goods s.base a = [y] := by rw [hI.unmarked a haA ham, hy]; rfl
+  refine ⟨y, hy, ?_, hN⟩
+  rw [← hBa]
+  exact List.filter_congr fun h _ => by simp only [rotate_base_next hch.1 hk hl hO' ha hx]
+
+open Classical in
+/-- **`c_k`**: the goods the service uses for `k` and for no other agent of `E`. -/
+noncomputable def onlyFor (v : A → G → Nat) (agents : List A) (goods : List G) (s : LState A G) (o : A)
+    (Gs Ds : A → List G) (k : A) : Nat :=
+  goods.countP (fun g => decide (UsedOn v agents goods s o (fun x => x = k) Gs Ds g ∧
+    ¬ UsedOn v agents goods s o (fun x => x ≠ k) Gs Ds g))
+
+/-- **Lemma KR** (`k4/rulef.md` §3), for a state of LB₄ʳ (`EFX.LB4R.Inv`; its needs `needsOf` are value-based, (iii)).
+Let every base have at most two goods and every marked agent's base avoid `NA` (as in every state LB₄ʳ reaches,
+`markedOK_of_upRun`, `markedOK_of_rotStep`), `o` an agent that is not frozen with `|B_o| ≤ 1`, and `σ = (G_x, D_x)` a
+∅-service of `E` (separated options) of size `|σ|`. Let `c = k :: … :: o` be a need chain (`RotStep`'s), `O ⊆ R_k ∩ W`
+without repetitions with `v_k(O) > v_k(Y_k)`, and suppose (i) no good of `O` is used by `σ` for an agent other than
+`k`, (ii) `o` is not frozen after the rotation. Let `ε = 0` if `o` is not threatened after the rotation, or `ε = 1` if a
+slot good `g_o`, no slot good of `σ`, serves it ((s) of Lemma K). Then the rotation is a `RotStep` and the deficit of
+`(P′, k, ∅)` is at most `|σ| − κ − 1 − c_k + ε` (`κ = κ^∅` of `(P, o)`: the deficit drops by `1 + c_k − ε`). -/
+theorem lemmaKR (hgd : goods.Nodup) (hag : agents.Nodup) {s : LState A G} (hI : Inv v agents goods s)
+    (hmk : ∀ i ∈ agents, s.marked i → ∀ g ∈ baseOf goods s.base i, ¬ NA agents (needsOf v goods s) g)
+    (h2 : ∀ i ∈ agents, (baseOf goods s.base i).length ≤ 2)
+    {o : A} (ho : o ∈ agents) (hoF : ¬ Frozen agents goods s.base (needsOf v goods s) o)
+    (hB1 : (baseOf goods s.base o).length ≤ 1) {Gs Ds : A → List G}
+    (hσ : ServiceOn v agents goods s (needsOf v goods s) o (fun _ => false) (fun _ => True) Gs Ds)
+    (hsep : Separated v agents goods s o (fun _ => True) Gs Ds)
+    {c : List A} {k : A} {O : List G} (hc : c.Nodup) (hlen : 2 ≤ c.length) (hcA : ∀ x ∈ c, x ∈ agents)
+    (hk : c.head? = some k) (hl : c.getLast? = some o)
+    (hch : ∀ i a b, c[i]? = some a → c[i + 1]? = some b →
+      FrozenAt v agents goods s a ∧ ∃ y, s.pick a = some y ∧ needsOf v goods s b y)
+    (hO : ∀ g ∈ O, g ∈ goods ∧ 0 < v k g ∧ (s.base g = none ∨ s.base g = some o)) (hOnd : O.Nodup)
+    (hvO : ∀ y, s.pick k = some y → v k y < value v k O)
+    (hi : ∀ x, x ≠ k → InE v agents goods s o x → ∀ g ∈ O, g ∉ Gs x ∧ g ∉ Ds x)
+    (hii : ¬ Frozen agents goods (rotate s c O).base (needsOf v goods (rotate s c O)) o) {ε : Int}
+    (hε : (¬ InE v agents goods (rotate s c O) k o ∧ ε = 0) ∨
+      (∃ g, Serves v agents goods (rotate s c O) (needsOf v goods (rotate s c O)) k (fun _ => false) o [g] [] ∧
+        (∀ x, InE v agents goods s o x → g ∉ Gs x) ∧ ε = 1)) :
+    RotStep v agents goods s (rotate s c O) ∧
+      KDefLE v agents goods (rotate s c O) (needsOf v goods (rotate s c O)) k (fun _ => false)
+        ((sizeOn v agents goods s o (fun _ => True) Gs Ds : Int) -
+          kappaK v agents goods s (needsOf v goods s) o (fun _ => false) - 1 - onlyFor v agents goods s o Gs Ds k + ε) := by
+  classical
+  -- the chain
+  have hch' : NeedChain v agents goods s c := ⟨hc, hcA, hch, fun last hlast => by
+    rw [hl] at hlast; cases hlast; exact fun h => hoF h.2⟩
+  have hkc : k ∈ c := List.mem_of_mem_head? hk
+  have hoc : o ∈ c := List.mem_of_getLast? hl
+  have hka : k ∈ agents := hcA k hkc
+  have hko : k ≠ o := by
+    intro e; subst e
+    have h0 := idxOf_of_getElem? hc (j := 0) (by rw [← List.head?_eq_getElem?]; exact hk)
+    have := idxOf_last hc hl; omega
+  obtain ⟨⟨-, hkF⟩, yk, -, hyk, -, -⟩ := hch'.head hk hlen
+  have hO' : ∀ g ∈ O, s.base g = none ∨ s.base g = some o := fun g hg => (hO g hg).2.2
+  have hOW : ∀ g ∈ O, g ∈ goods ∧ (s.base g = none ∨ s.base g = some o) := fun g hg => ⟨(hO g hg).1, (hO g hg).2.2⟩
+  have hWNA : ∀ g ∈ Wl goods s o, ¬ NA agents (needsOf v goods s) g := fun g hg => W_not_NA hI.valid hoF hB1 hg
+  have hNA : ∀ g, NA agents (needsOf v goods (rotate s c O)) g → NA agents (needsOf v goods s) g :=
+    fun g h => NA_rotate_inv hch' hk hl hlen hOW hOnd hvO h
+  have hcF : ∀ x ∈ c, x ≠ o → FrozenAt v agents goods s x := fun x hx hxo => by
+    obtain ⟨b, hb⟩ := exists_next hl hx hxo
+    exact (hch _ x b (getElem?_idxOf hx) hb).1
+  have hBout : ∀ j, j ∉ c → baseOf goods (rotate s c O).base j = baseOf goods s.base j := fun j hj =>
+    List.filter_congr fun h _ => by simp only [rotate_base_out hl hO' hj]
+  have hle2 : ∀ i ∈ agents, i ≠ k → (baseOf goods (rotate s c O).base i).length ≤ 2 := fun i hi hik => by
+    by_cases hic : i ∈ c
+    · have := rotate_chain_base_le_one hgd hch' hk hl hO' hic hik; omega
+    · rw [hBout i hic]; exact h2 i hi
+  -- the rotation is a `RotStep`
+  have hvalid := rotate_valid_inv hgd hI hch' hk hl hlen hOW hOnd hvO hWNA
+  have hRot : RotStep v agents goods s (rotate s c O) := by
+    refine ⟨c, k, o, O, hc, hlen, hcA, hk, hl, hch, fun h => hoF h.2, fun h => ?_, hOnd, hO, rfl, hvalid,
+      fun i hi hm g hg hna => ?_, fun i hi j hj h3i h3j => ?_⟩
+    · have := hvO yk hyk; rw [h] at this; simp at this
+    · simp only [rotate] at hm
+      rcases hm with hm | ⟨hm, hic⟩
+      · rw [hk] at hm; cases hm
+        exact hWNA g (mem_Wl.mpr ⟨(mem_baseOf.mp hg).1, hO' g ((rotate_base_head hc hk).mp (mem_baseOf.mp hg).2)⟩)
+          (hNA g hna)
+      · rw [hBout i hic] at hg
+        exact hmk i hi hm g hg (hNA g hna)
+    · have hk3 : ∀ x ∈ agents, 3 ≤ (baseOf goods (rotate s c O).base x).length → x = k := fun x hx h3 =>
+        Classical.byContradiction fun hxk => by have := hle2 x hx hxk; omega
+      rw [hk3 i hi h3i, hk3 j hj h3j]
+  have hI' := rotStep_inv hgd hI hRot
+  refine ⟨hRot, ?_⟩
+  -- needs, frozen agents and slot places with `K = ∅`
+  have hNK := needsK_empty hI ho
+  have hNK' := needsK_empty hI' hka
+  -- `W` is unchanged, and a chain agent's base got better
+  have hW' : Wl goods (rotate s c O) k = Wl goods s o := rotate_Wl hc hk hl hO'
+  have hBge : ∀ x ∈ agents, x ≠ k →
+      value v x (baseOf goods s.base x) ≤ value v x (baseOf goods (rotate s c O).base x) := by
+    intro x hx hxk
+    by_cases hxc : x ∈ c
+    · obtain ⟨i, a, ha, hxi⟩ := exists_prev hk hxc hxk
+      obtain ⟨y, -, hB', hN⟩ := rotate_baseOf_succ hI hch' hk hl hO' ha hxi
+      rw [hB']
+      have := hI.needs_value hx hN
+      simp only [value_cons, value_nil, Nat.add_zero]
+      omega
+    · rw [hBout x hxc]; exact Nat.le_refl _
+  -- `E′ ⊆ (E ∖ {k}) ∪ {o}`
+  have hE' : ∀ x, InE v agents goods (rotate s c O) k x → x ≠ o → InE v agents goods s o x ∧ x ≠ k := by
+    rintro x ⟨hx, hxk, hthr⟩ hxo
+    rw [hW'] at hthr
+    exact ⟨⟨hx, hxo, hthr.mono (List.Sublist.refl _) (hBge x hx hxk)⟩, hxk⟩
+  -- σ's choices stay admissible
+  have hServes : ∀ x, InE v agents goods s o x → x ≠ k → x ≠ o →
+      Serves v agents goods (rotate s c O) (needsOf v goods (rotate s c O)) k (fun _ => false) x (Gs x) (Ds x) := by
+    intro x hxE hxk hxo
+    obtain ⟨hD, hG, hnd, hF, hT⟩ := hσ.serves x trivial hxE
+    have hJ' : ∀ g, g ∈ LB4.junk goods s.base → g ∉ O → g ∈ LB4.junk goods (rotate s c O).base := fun g hg hgO => by
+      obtain ⟨hgg, hb⟩ := mem_junk.mp hg
+      exact mem_junk.mpr ⟨hgg, (rotate_base_none hc hk hl).mpr ⟨hgO, Or.inl hb⟩⟩
+    refine ⟨fun g hg => ⟨hJ' g (hD g hg).1 fun hgO => (hi x hxk hxE g hgO).2 hg, rfl⟩,
+      fun g hg => ⟨hJ' g (hG g hg).1 fun hgO => (hi x hxk hxE g hgO).1 hg, rfl, (hG g hg).2.2⟩, hnd, ?_, ?_⟩
+    · rcases hF with hF | ⟨hF, hlen'⟩
+      · exact Or.inl hF
+      · rw [hNK] at hF
+        have hxc : x ∉ c := fun hxc => hF (hcF x hxc hxo).2
+        refine Or.inr ⟨?_, by rw [hBout x hxc]; exact hlen'⟩
+        rw [hNK']
+        rintro ⟨y, hy, hna⟩
+        exact hF ⟨y, by rw [← hBout x hxc]; exact hy, hNA y hna⟩
+    · rw [hW']
+      intro hthr
+      refine hT (hthr.mono (List.Sublist.refl _) ?_)
+      rw [value_app, value_app]
+      have := hBge x hxE.1 hxk
+      omega
+  -- the slot good of `o`, if any
+  obtain ⟨Go, hGo1, hGo2, hGo3, hGoε⟩ : ∃ Go : List G,
+      (InE v agents goods (rotate s c O) k o →
+        Serves v agents goods (rotate s c O) (needsOf v goods (rotate s c O)) k (fun _ => false) o Go []) ∧
+      (∀ g ∈ Go, ∀ x, InE v agents goods s o x → g ∉ Gs x) ∧ (Go = [] ∨ ∃ g, Go = [g]) ∧ (Go.length : Int) = ε := by
+    rcases hε with ⟨hoE, rfl⟩ | ⟨g, hg, hgG, rfl⟩
+    · exact ⟨[], fun h => absurd h hoE, by simp, Or.inl rfl, rfl⟩
+    · exact ⟨[g], fun _ => hg, fun g' hg' => by simp at hg'; subst hg'; exact hgG, Or.inr ⟨g, rfl⟩, rfl⟩
+  -- the service of `E′` with owner `k`
+  let Gs' : A → List G := fun x => if x = o then Go else Gs x
+  let Ds' : A → List G := fun x => if x = o then [] else Ds x
+  have hσ' : ServiceOn v agents goods (rotate s c O) (needsOf v goods (rotate s c O)) k (fun _ => false)
+      (fun _ => True) Gs' Ds' := by
+    refine ⟨fun x _ hxE' => ?_, fun x y g _ _ hxE' hyE' hgx hgy => ?_⟩
+    · by_cases hxo : x = o
+      · subst hxo; simpa [Gs', Ds'] using hGo1 hxE'
+      · obtain ⟨hxE, hxk⟩ := hE' x hxE' hxo
+        simpa [Gs', Ds', hxo] using hServes x hxE hxk hxo
+    · by_cases hxo : x = o <;> by_cases hyo : y = o
+      · rw [hxo, hyo]
+      · simp only [Gs', hxo, hyo, ↓reduceIte] at hgx hgy
+        exact absurd hgy (hGo2 g hgx y (hE' y hyE' hyo).1)
+      · simp only [Gs', hxo, hyo, ↓reduceIte] at hgx hgy
+        exact absurd hgx (hGo2 g hgy x (hE' x hxE' hxo).1)
+      · simp only [Gs', hxo, hyo, ↓reduceIte] at hgx hgy
+        exact hσ.disj x y g trivial trivial (hE' x hxE' hxo).1 (hE' y hyE' hyo).1 hgx hgy
+  have hsep' : Separated v agents goods (rotate s c O) k (fun _ => True) Gs' Ds' := by
+    intro x _ hxE'
+    by_cases hxo : x = o
+    · simp only [Gs', Ds', hxo, ↓reduceIte]
+      rcases hGo3 with h | ⟨g, h⟩
+      · exact Or.inl h
+      · exact Or.inr ⟨g, h, by simp⟩
+    · simpa [Gs', Ds', hxo] using hsep x trivial (hE' x hxE' hxo).1
+  refine ⟨Gs', Ds', hσ', hsep', ?_⟩
+  -- the size: σ's goods for the agents other than `k`, and `g_o`
+  have hsize' : sizeOn v agents goods (rotate s c O) k (fun _ => True) Gs' Ds' ≤
+      goods.countP (fun g => decide (UsedOn v agents goods s o (fun x => x ≠ k) Gs Ds g)) + Go.length := by
+    have hU : ∀ g ∈ goods, UsedOn v agents goods (rotate s c O) k (fun _ => True) Gs' Ds' g →
+        UsedOn v agents goods s o (fun x => x ≠ k) Gs Ds g ∨ g ∈ Go := by
+      rintro g - ⟨x, -, hxE', hgx⟩
+      by_cases hxo : x = o
+      · simp only [Gs', Ds', hxo, ↓reduceIte, List.not_mem_nil, or_false] at hgx
+        exact Or.inr hgx
+      · simp only [Gs', Ds', hxo, ↓reduceIte] at hgx
+        obtain ⟨hxE, hxk⟩ := hE' x hxE' hxo
+        exact Or.inl ⟨x, hxk, hxE, hgx⟩
+    unfold sizeOn
+    rcases hGo3 with h | ⟨a, h⟩
+    · rw [h]
+      refine countP_le_of_imp fun g hg hUg => ?_
+      simp only [decide_eq_true_eq] at hUg ⊢
+      rw [h] at hU
+      simpa using hU g hg hUg
+    · rw [h]
+      refine countP_le_add_one hgd (a := a) fun g hg hUg => ?_
+      simp only [decide_eq_true_eq] at hUg ⊢
+      rw [h] at hU
+      simpa using hU g hg hUg
+  have hsizeσ : sizeOn v agents goods s o (fun _ => True) Gs Ds =
+      goods.countP (fun g => decide (UsedOn v agents goods s o (fun x => x ≠ k) Gs Ds g)) +
+        onlyFor v agents goods s o Gs Ds k := by
+    unfold sizeOn onlyFor
+    rw [countP_split _ (fun g => decide (UsedOn v agents goods s o (fun x => x ≠ k) Gs Ds g))]
+    congr 1
+    · refine List.countP_congr fun g _ => ?_
+      simp only [Bool.and_eq_true, decide_eq_true_eq]
+      exact ⟨fun h => h.2, fun ⟨x, hx, hxE, h⟩ => ⟨⟨x, trivial, hxE, h⟩, ⟨x, hx, hxE, h⟩⟩⟩
+    · refine List.countP_congr fun g _ => ?_
+      simp only [Bool.and_eq_true, decide_eq_true_eq, Bool.not_eq_true', decide_eq_false_iff_not]
+      constructor
+      · rintro ⟨⟨x, -, hxE, h⟩, hn⟩
+        refine ⟨⟨x, Classical.byContradiction fun hxk => hn ⟨x, hxk, hxE, h⟩, hxE, h⟩, hn⟩
+      · rintro ⟨⟨x, -, hxE, h⟩, hn⟩
+        exact ⟨⟨x, trivial, hxE, h⟩, hn⟩
+  -- the slot places: `κ′ ≥ κ + 1`
+  have hkappa : kappaK v agents goods s (needsOf v goods s) o (fun _ => false) + 1 ≤
+      kappaK v agents goods (rotate s c O) (needsOf v goods (rotate s c O)) k (fun _ => false) := by
+    unfold kappaK otherSlots
+    rw [hNK, hNK', sum_split _ hag ho, sum_split (fun j => if j = k ∨ Frozen agents goods (rotate s c O).base
+      (needsOf v goods (rotate s c O)) j then 0 else 2 - (baseOf goods (rotate s c O).base j).length) hag ho]
+    have hto : (if o = k ∨ Frozen agents goods (rotate s c O).base (needsOf v goods (rotate s c O)) o then 0
+        else 2 - (baseOf goods (rotate s c O).base o).length) = 1 := by
+      obtain ⟨i, a, ha, hoi⟩ := exists_prev hk hoc (Ne.symm hko)
+      obtain ⟨y, -, hB', -⟩ := rotate_baseOf_succ hI hch' hk hl hO' ha hoi
+      have : ¬ (o = k ∨ Frozen agents goods (rotate s c O).base (needsOf v goods (rotate s c O)) o) := by
+        rintro (h | h)
+        · exact hko h.symm
+        · exact hii h
+      simp [this, hB']
+    rw [hto]
+    have hrest := sum_le_sum_of_le
+      (fun j => if j = o then 0 else (if j = o ∨ Frozen agents goods s.base (needsOf v goods s) j then 0
+        else 2 - (baseOf goods s.base j).length))
+      (fun j => if j = o then 0 else (if j = k ∨ Frozen agents goods (rotate s c O).base
+        (needsOf v goods (rotate s c O)) j then 0 else 2 - (baseOf goods (rotate s c O).base j).length)) agents
+      fun j _ => by
+        by_cases hjo : j = o
+        · simp [hjo]
+        · simp only [hjo, ↓reduceIte, false_or]
+          by_cases hjF : Frozen agents goods s.base (needsOf v goods s) j
+          · simp [hjF]
+          · have hjc : j ∉ c := fun hjc => by
+              by_cases hjk : j = k
+              · exact hjF (hjk ▸ hkF)
+              · exact hjF (hcF j hjc hjo).2
+            have hjk : j ≠ k := fun e => hjc (e ▸ hkc)
+            have hjF' : ¬ Frozen agents goods (rotate s c O).base (needsOf v goods (rotate s c O)) j :=
+              fun ⟨y, hy, hna⟩ => hjF ⟨y, by rw [← hBout j hjc]; exact hy, hNA y hna⟩
+            simp [hjF, hjk, hjF', hBout j hjc]
+    simp only [true_or, ↓reduceIte, Nat.zero_add]
+    omega
+  push_cast
+  omega
+
+/-- `KDefLE` is monotone in the bound. -/
+theorem KDefLE.mono {s : LState A G} {N : A → G → Prop} {o : A} {K : G → Bool} {d d' : Int}
+    (h : KDefLE v agents goods s N o K d) (hd : d ≤ d') : KDefLE v agents goods s N o K d' := by
+  obtain ⟨Gs, Ds, hσ, hsep, hle⟩ := h
+  exact ⟨Gs, Ds, hσ, hsep, by omega⟩
+
+end lemmaKR
+
+/-! ## The states LB₄ʳ reaches, and Lemma KR's conclusion "LB₄ʳ succeeds" -/
+
+section reach
+variable {v : A → G → Nat} {agents : List A} {goods : List G}
+
+/-- Every marked agent's base avoids `NA` (`RotChecks` asks it after every rotation). -/
+def MarkedOK (v : A → G → Nat) (agents : List A) (goods : List G) (s : LState A G) : Prop :=
+  ∀ i ∈ agents, s.marked i → ∀ g ∈ baseOf goods s.base i, ¬ NA agents (needsOf v goods s) g
+
+theorem markedOK_of_rotStep {s s' : LState A G} (hR : RotStep v agents goods s s') : MarkedOK v agents goods s' :=
+  (rotStep_valid hR).2
+
+/-- **The state after Phase 1(τ) and upgrades of any policy** satisfies the invariant, its bases belong to listed
+agents and have at most two goods, and its marked agents (upgraded, two-good bases) avoid `NA` by (V2). -/
+theorem upRun_facts (hag : agents.Nodup) (hgd : goods.Nodup) {τ : List Nat} {pol : Policy} {s : LState A G}
+    (hup : UpRun v agents goods pol (phase1State v agents goods τ) s) :
+    Inv v agents goods s ∧ (∀ g ∈ goods, ∀ i, s.base g = some i → i ∈ agents) ∧
+      (∀ i, (baseOf goods s.base i).length ≤ 2) ∧ MarkedOK v agents goods s := by
+  have hR := phase1_spec v agents goods agents.length agents goods τ hag hgd
+  have hI := upRun_inv hup (phase1State_inv (τ := τ) hag hgd)
+  have h1 : ∀ i, (baseOf goods (phase1State v agents goods τ).base i).length ≤ 1 := fun i => by
+    rw [phase1State_baseOf hR hgd]
+    cases (phase1State v agents goods τ).pick i <;> simp
+  obtain ⟨h2, hm2, -⟩ := upRun_base_two hgd hup (fun i => Nat.le_trans (h1 i) (by omega)) (fun _ h => False.elim h)
+    fun i _ => h1 i
+  refine ⟨hI, fun g _ i hb => upRun_base_mem hup (fun g i h => ?_) g i hb, h2, fun i _ hm g hg =>
+    hI.valid.v2 i (by have := hm2 i hm; omega) g hg⟩
+  obtain ⟨p, hp, rfl, -⟩ := (phase1State_base hR).mp h
+  exact hR.mem p hp
+
+/-- **Lemma KR, "LB₄ʳ succeeds after this one rotation"** (`k4/rulef.md` §3): when the bound of `lemmaKR` is at most
+0, the rotated state has an output, with owner `k` when `ω′ ≥ 1` or `|O| ≥ 3` (Lemma K) and without owner when every
+base has at most two goods and `ω′ ≤ 0`. -/
+theorem lemmaKR_output (hgd : goods.Nodup) (hag : agents.Nodup) {s : LState A G} (hI : Inv v agents goods s)
+    (hmem : ∀ g ∈ goods, ∀ i, s.base g = some i → i ∈ agents)
+    (hmk : ∀ i ∈ agents, s.marked i → ∀ g ∈ baseOf goods s.base i, ¬ NA agents (needsOf v goods s) g)
+    (h2 : ∀ i ∈ agents, (baseOf goods s.base i).length ≤ 2)
+    {o : A} (ho : o ∈ agents) (hoF : ¬ Frozen agents goods s.base (needsOf v goods s) o)
+    (hB1 : (baseOf goods s.base o).length ≤ 1) {Gs Ds : A → List G}
+    (hσ : ServiceOn v agents goods s (needsOf v goods s) o (fun _ => false) (fun _ => True) Gs Ds)
+    (hsep : Separated v agents goods s o (fun _ => True) Gs Ds)
+    {c : List A} {k : A} {O : List G} (hc : c.Nodup) (hlen : 2 ≤ c.length) (hcA : ∀ x ∈ c, x ∈ agents)
+    (hk : c.head? = some k) (hl : c.getLast? = some o)
+    (hch : ∀ i a b, c[i]? = some a → c[i + 1]? = some b →
+      FrozenAt v agents goods s a ∧ ∃ y, s.pick a = some y ∧ needsOf v goods s b y)
+    (hO : ∀ g ∈ O, g ∈ goods ∧ 0 < v k g ∧ (s.base g = none ∨ s.base g = some o)) (hOnd : O.Nodup)
+    (hvO : ∀ y, s.pick k = some y → v k y < value v k O)
+    (hi : ∀ x, x ≠ k → InE v agents goods s o x → ∀ g ∈ O, g ∉ Gs x ∧ g ∉ Ds x)
+    (hii : ¬ Frozen agents goods (rotate s c O).base (needsOf v goods (rotate s c O)) o) {ε : Int}
+    (hε : (¬ InE v agents goods (rotate s c O) k o ∧ ε = 0) ∨
+      (∃ g, Serves v agents goods (rotate s c O) (needsOf v goods (rotate s c O)) k (fun _ => false) o [g] [] ∧
+        (∀ x, InE v agents goods s o x → g ∉ Gs x) ∧ ε = 1))
+    (hδ : (sizeOn v agents goods s o (fun _ => True) Gs Ds : Int) -
+      kappaK v agents goods s (needsOf v goods s) o (fun _ => false) - 1 - onlyFor v agents goods s o Gs Ds k + ε ≤ 0) :
+    RotStep v agents goods s (rotate s c O) ∧ ∃ o' X, Output v agents goods (rotate s c O) o' X := by
+  obtain ⟨hRot, hdef⟩ := lemmaKR hgd hag hI hmk h2 ho hoF hB1 hσ hsep hc hlen hcA hk hl hch hO hOnd hvO hi hii hε
+  refine ⟨hRot, ?_⟩
+  have hI' := rotStep_inv hgd hI hRot
+  have hkc : k ∈ c := List.mem_of_mem_head? hk
+  have hmem' := rotate_base_mem_gen (O := O) hmem hcA hk
+  have hO' : ∀ g ∈ O, s.base g = none ∨ s.base g = some o := fun g hg => (hO g hg).2.2
+  have hch' : NeedChain v agents goods s c := ⟨hc, hcA, hch, fun last hlast => by
+    rw [hl] at hlast; cases hlast; exact fun h => hoF h.2⟩
+  have hle2 : ∀ i ∈ agents, i ≠ k → (baseOf goods (rotate s c O).base i).length ≤ 2 := fun i hi hik => by
+    by_cases hic : i ∈ c
+    · have := rotate_chain_base_le_one hgd hch' hk hl hO' hic hik; omega
+    · have hB : baseOf goods (rotate s c O).base i = baseOf goods s.base i :=
+        List.filter_congr fun h _ => by simp only [rotate_base_out hl hO' hic]
+      rw [hB]; exact h2 i hi
+  by_cases hall : (∀ i ∈ agents, (baseOf goods (rotate s c O).base i).length ≤ 2) ∧ omega v agents goods (rotate s c O) ≤ 0
+  · exact ⟨none, output_none_of_omega hag hgd hI' hmem' hall.1 hall.2 k⟩
+  · -- owner `k`: it holds `O ⊆ W`, which avoids `NA′`, so it is not frozen
+    have hkF : ¬ Frozen agents goods (rotate s c O).base (needsOf v goods (rotate s c O)) k := by
+      rintro ⟨y, hy, hna⟩
+      have hyB : y ∈ baseOf goods (rotate s c O).base k := by rw [hy]; simp
+      have hyO := (rotate_base_head hc hk).mp (mem_baseOf.mp hyB).2
+      exact W_not_NA hI.valid hoF hB1 (mem_Wl.mpr ⟨(hO y hyO).1, hO' y hyO⟩)
+        (NA_rotate_inv hch' hk hl hlen (fun g hg => ⟨(hO g hg).1, hO' g hg⟩) hOnd hvO hna)
+    exact ⟨some k, output_of_lemmaK hag hgd hI' hmem' (hcA k hkc) hkF hle2
+      (fun h => by have := not_and.mp hall h; omega) (hdef.mono hδ)⟩
+
+end reach
+
+/-! ## Lemma M (`k4/rulef.md` §4) and rule F -/
+
+section lemmaM
+variable {v : A → G → Nat} {agents : List A} {goods : List G}
+
+/-- **A certificate of Lemma K at a state** (classes K0, K1 of rule RK): an owner `o`, not frozen, every other base of
+at most two goods, and a kept set `K` with Lemma K deficit ≤ 0; or every base of at most two goods and `ω ≤ 0`. -/
+def CertK (v : A → G → Nat) (agents : List A) (goods : List G) (s : LState A G) : Prop :=
+  (∃ (o : A) (K : G → Bool), o ∈ agents ∧ ¬ Frozen agents goods s.base (needsOf v goods s) o ∧
+    (∀ i ∈ agents, i ≠ o → (baseOf goods s.base i).length ≤ 2) ∧ KDefLE v agents goods s (needsOf v goods s) o K 0) ∨
+  ((∀ i ∈ agents, (baseOf goods s.base i).length ≤ 2) ∧ omega v agents goods s ≤ 0)
+
+/-- **The same with Lemma K′** (the exact count, `k4/rulef.md` §2, Remark 5). -/
+def CertK' (v : A → G → Nat) (agents : List A) (goods : List G) (s : LState A G) : Prop :=
+  (∃ (o : A) (K : G → Bool), o ∈ agents ∧ ¬ Frozen agents goods s.base (needsOf v goods s) o ∧
+    (∀ i ∈ agents, i ≠ o → (baseOf goods s.base i).length ≤ 2) ∧ KPDefLE v agents goods s (needsOf v goods s) o K 0) ∨
+  ((∀ i ∈ agents, (baseOf goods s.base i).length ≤ 2) ∧ omega v agents goods s ≤ 0)
+
+/-- **Class K0** of rule RK for the first agent `a` (`k4/rulef.md` §4): for some policy allowed by `pols`, the state
+after Phase 1(`[a]`) and upgrades to the fixpoint has a certificate `cert` (`CertK`: Lemma K; `CertK'`: Lemma K′). -/
+def ClassK0 (pols : Policy → Prop) (cert : LState A G → Prop) (v : A → G → Nat) (agents : List A) (goods : List G)
+    (a : Nat) : Prop :=
+  ∃ (pol : Policy) (s : LState A G), pols pol ∧ UpRun v agents goods pol (phase1State v agents goods [a]) s ∧ cert s
+
+/-- **Class K1**: the same after one rotation of LB₄ʳ (`RotStep`: any frozen `k`, need chain and base `O`). -/
+def ClassK1 (pols : Policy → Prop) (cert : LState A G → Prop) (v : A → G → Nat) (agents : List A) (goods : List G)
+    (a : Nat) : Prop :=
+  ∃ (pol : Policy) (s s' : LState A G), pols pol ∧ UpRun v agents goods pol (phase1State v agents goods [a]) s ∧
+    RotStep v agents goods s s' ∧ cert s'
+
+/-- Rule RK's policies: need-shrinking and envy-free upgrades (rule RK₃ also allows `Policy.none`). -/
+def RKPolicy : Policy → Prop
+  | .shrink => True
+  | .envyFree => True
+  | .none => False
+
+/-- **Lemma M** (`k4/rulef.md` §4, ledger K4.RF.M, open): for every strict profile of every k = 4 core some first
+agent `a` is in class K0 or K1 of rule RK (Lemma K's count, need-shrinking or envy-free upgrades). A `Prop`, not an
+axiom. -/
+def LemmaM (A G : Type) [DecidableEq A] [DecidableEq G] : Prop :=
+  ∀ (agents : List A) (goods : List G) (v : A → G → Nat), agents.Nodup → goods.Nodup → IsCore4 v agents goods →
+    Strict v agents goods → ∃ a, a < agents.length ∧
+      (ClassK0 RKPolicy (CertK v agents goods) v agents goods a ∨ ClassK1 RKPolicy (CertK v agents goods) v agents goods a)
+
+/-- Lemma M on connected cores with a 4-good agent (the cores of `RuleFConn`). -/
+def LemmaMConn (A G : Type) [DecidableEq A] [DecidableEq G] : Prop :=
+  ∀ (agents : List A) (goods : List G) (v : A → G → Nat), agents.Nodup → goods.Nodup →
+    IsCore4 v agents goods → Connected v agents goods → Strict v agents goods →
+    (∃ i ∈ agents, (relevant v i goods).length = 4) → ∃ a, a < agents.length ∧
+      (ClassK0 RKPolicy (CertK v agents goods) v agents goods a ∨ ClassK1 RKPolicy (CertK v agents goods) v agents goods a)
+
+/-- **Lemma M read with Lemma K′ and all three policies** (`k4/rulef.md` §4, "How strong Lemma M is"). -/
+def LemmaMExact (A G : Type) [DecidableEq A] [DecidableEq G] : Prop :=
+  ∀ (agents : List A) (goods : List G) (v : A → G → Nat), agents.Nodup → goods.Nodup → IsCore4 v agents goods →
+    Strict v agents goods → ∃ a, a < agents.length ∧
+      (ClassK0 (fun _ => True) (CertK' v agents goods) v agents goods a ∨
+        ClassK1 (fun _ => True) (CertK' v agents goods) v agents goods a)
+
+theorem certK'_of_certK {s : LState A G} (h : CertK v agents goods s) : CertK' v agents goods s := by
+  rcases h with ⟨o, K, ho, hoF, h2, hK⟩ | h
+  · exact Or.inl ⟨o, K, ho, hoF, h2, KPDefLE_of_KDefLE hK⟩
+  · exact Or.inr h
+
+/-- A certificate gives an output of LB₄ʳ's owner step (Lemma K′ or `EFX.LB4.complete_none_exists`). -/
+theorem output_of_certK' (hag : agents.Nodup) (hgd : goods.Nodup) {s : LState A G} (hI : Inv v agents goods s)
+    (hmem : ∀ g ∈ goods, ∀ i, s.base g = some i → i ∈ agents) (d : A) (h : CertK' v agents goods s) :
+    ∃ o X, Output v agents goods s o X := by
+  by_cases hall : (∀ i ∈ agents, (baseOf goods s.base i).length ≤ 2) ∧ omega v agents goods s ≤ 0
+  · exact ⟨none, output_none_of_omega hag hgd hI hmem hall.1 hall.2 d⟩
+  · rcases h with ⟨o, K, ho, hoF, h2, hK⟩ | h
+    · exact ⟨some o, (output_iff_lemmaK' hag hgd hI hmem ho hoF h2
+        (fun h => by have := not_and.mp hall h; omega)).mpr ⟨K, hK⟩⟩
+    · exact absurd h hall
+
+omit [DecidableEq G] in
+/-- In a completion, a base lies in its agent's bundle. -/
+theorem completion_base_length_le {base : G → Option A} {N : A → G → Prop} {o : Option A} {X : G → A}
+    (hC : Completion agents goods base N o X) (j : A) :
+    (baseOf goods base j).length ≤ (bundle goods X j).length := by
+  have := hC.length_eq j
+  omega
+
+/-- **Conversely, an output gives a certificate of Lemma K′** (Lemma K′ is exact, `lemmaK'_onlyIf`). -/
+theorem certK'_of_output (hag : agents.Nodup) (hgd : goods.Nodup) {s : LState A G} (hI : Inv v agents goods s)
+    (hmem : ∀ g ∈ goods, ∀ i, s.base g = some i → i ∈ agents) {o : Option A} {X : G → A}
+    (hO : Output v agents goods s o X) : CertK' v agents goods s := by
+  obtain ⟨hC, hoc, hω⟩ := hO
+  have hlen := hC.length_le_two hgd
+  cases o with
+  | none =>
+    have hall : ∀ i ∈ agents, (baseOf goods s.base i).length ≤ 2 := fun i hi =>
+      Nat.le_trans (completion_base_length_le hC i) (hlen i hi (by simp))
+    exact Or.inr ⟨hall, (hω hall).mp rfl⟩
+  | some w =>
+    obtain ⟨hw, hwF⟩ := hC.owner w rfl
+    have h2 : ∀ i ∈ agents, i ≠ w → (baseOf goods s.base i).length ≤ 2 := fun i hi hiw =>
+      Nat.le_trans (completion_base_length_le hC i) (hlen i hi fun e => hiw (Option.some.inj e).symm)
+    -- `w` is not frozen: a need of its base good is another agent's, unchanged in `ownerNeeds`
+    have hwF' : ¬ Frozen agents goods s.base (needsOf v goods s) w := by
+      rintro ⟨y, hy, i, hi, hN⟩
+      have hyb : s.base y = some w := (mem_baseOf.mp (by rw [hy]; simp : y ∈ baseOf goods s.base w)).2
+      have hiw : i ≠ w := fun e => by
+        subst e
+        exact ((hI.needs i hi).upper y hN).2.2 hyb
+      refine hwF ⟨y, hy, i, hi, ?_⟩
+      have : some w ≠ some i := fun e => hiw (Option.some.inj e).symm
+      simp only [ownerNeeds, this, ↓reduceIte]
+      exact hN
+    have hpos : (∀ i ∈ agents, (baseOf goods s.base i).length ≤ 2) → 0 < omega v agents goods s := fun hall => by
+      have := hω hall
+      have : ¬ omega v agents goods s ≤ 0 := fun h => by cases this.mpr h
+      omega
+    obtain ⟨K, hK⟩ := (output_iff_lemmaK' hag hgd hI hmem hw hwF' h2 hpos).mp ⟨X, hC, hoc, hω⟩
+    exact Or.inl ⟨w, K, hw, hwF', h2, hK⟩
+
+/-- **Class K0 ⟹ LB₄ʳ([a]) succeeds without rotation** (Lemma K′, hence Lemma K). -/
+theorem succeedsR_of_classK0 (hag : agents.Nodup) (hgd : goods.Nodup) (hne : agents ≠ [])
+    {pols : Policy → Prop} {a : Nat} (h : ClassK0 pols (CertK' v agents goods) v agents goods a) :
+    SucceedsR 0 v agents goods [a] := by
+  obtain ⟨pol, s, -, hup, hc⟩ := h
+  obtain ⟨hI, hmem, -, -⟩ := upRun_facts hag hgd hup
+  obtain ⟨d, -⟩ := List.exists_mem_of_ne_nil agents hne
+  obtain ⟨o, X, hO⟩ := output_of_certK' hag hgd hI hmem d hc
+  exact ⟨pol, s, s, o, X, hup, RotReach.refl 0 s, hO⟩
+
+/-- **Class K1 ⟹ LB₄ʳ([a]) succeeds with one rotation** (Lemma K′ at the rotated state, which `rotStep_inv` keeps
+inside the invariant). -/
+theorem succeedsR_of_classK1 (hag : agents.Nodup) (hgd : goods.Nodup) (hne : agents ≠ [])
+    {pols : Policy → Prop} {a : Nat} (h : ClassK1 pols (CertK' v agents goods) v agents goods a) :
+    SucceedsR 1 v agents goods [a] := by
+  obtain ⟨pol, s, s', -, hup, hR, hc⟩ := h
+  obtain ⟨hI, hmem, -, -⟩ := upRun_facts hag hgd hup
+  have hI' := rotStep_inv hgd hI hR
+  have hmem' : ∀ g ∈ goods, ∀ i, s'.base g = some i → i ∈ agents := by
+    obtain ⟨c, k, -, O, -, -, hcA, hk, -, -, -, -, -, -, rfl, -⟩ := hR
+    exact rotate_base_mem_gen hmem hcA hk
+  obtain ⟨d, -⟩ := List.exists_mem_of_ne_nil agents hne
+  obtain ⟨o, X, hO⟩ := output_of_certK' hag hgd hI' hmem' d hc
+  exact ⟨pol, s, s', o, X, hup, RotReach.step 0 s s' s' hR (RotReach.refl 0 s'), hO⟩
+
+theorem rotReach_zero {s s' : LState A G} (h : RotReach v agents goods 0 s s') : s = s' := by
+  cases h with
+  | refl => rfl
+
+/-- **Conversely**, if LB₄ʳ([a]) succeeds with at most one rotation, `a` is in class K0 or K1 read with Lemma K′ and
+all three policies. -/
+theorem classes_of_succeedsR (hag : agents.Nodup) (hgd : goods.Nodup) {a : Nat}
+    (h : SucceedsR 1 v agents goods [a]) :
+    ClassK0 (fun _ => True) (CertK' v agents goods) v agents goods a ∨
+      ClassK1 (fun _ => True) (CertK' v agents goods) v agents goods a := by
+  obtain ⟨pol, s₁, s, o, X, hup, hrot, hO⟩ := h
+  obtain ⟨hI, hmem, -, -⟩ := upRun_facts hag hgd hup
+  cases hrot with
+  | refl => exact Or.inl ⟨pol, s₁, trivial, hup, certK'_of_output hag hgd hI hmem hO⟩
+  | step _ _ s' _ hR hrest =>
+      rw [← rotReach_zero hrest] at hO
+      have hI' := rotStep_inv hgd hI hR
+      have hmem' : ∀ g ∈ goods, ∀ i, s'.base g = some i → i ∈ agents := by
+        obtain ⟨c, k, -, O, -, -, hcA, hk, -, -, -, -, -, -, rfl, -⟩ := hR
+        exact rotate_base_mem_gen hmem hcA hk
+      exact Or.inr ⟨pol, s₁, s', trivial, hup, hR, certK'_of_output hag hgd hI' hmem' hO⟩
+
+omit [DecidableEq G] in
+theorem ne_nil_of_core {agents : List A} {goods : List G} (hc : IsCore4 v agents goods) : agents ≠ [] := fun e => by
+  have := hc.1; rw [e] at this; simp at this
+
+/-- At most `d ≤ e` rotations are at most `e`. -/
+theorem succeedsR_mono {d e : Nat} {τ : List Nat} (h : SucceedsR d v agents goods τ) (hde : d ≤ e) :
+    SucceedsR e v agents goods τ := by
+  obtain ⟨pol, s₁, s, o, X, hup, hrot, hO⟩ := h
+  exact ⟨pol, s₁, s, o, X, hup, rotReach_mono hrot hde, hO⟩
+
+/-- At the state after Phase 1 and upgrades every base has at most two goods, so class K0's certificate is the text's
+"some owner `o` and kept set `K` have Lemma K deficit ≤ 0, or `ω ≤ 0`". -/
+theorem certK_iff_of_upRun (hag : agents.Nodup) (hgd : goods.Nodup) {τ : List Nat} {pol : Policy}
+    {s : LState A G} (hup : UpRun v agents goods pol (phase1State v agents goods τ) s) :
+    CertK v agents goods s ↔
+      (∃ (o : A) (K : G → Bool), o ∈ agents ∧ ¬ Frozen agents goods s.base (needsOf v goods s) o ∧
+        KDefLE v agents goods s (needsOf v goods s) o K 0) ∨ omega v agents goods s ≤ 0 := by
+  obtain ⟨-, -, h2, -⟩ := upRun_facts hag hgd hup
+  constructor
+  · rintro (⟨o, K, ho, hoF, -, hK⟩ | ⟨-, hω⟩)
+    · exact Or.inl ⟨o, K, ho, hoF, hK⟩
+    · exact Or.inr hω
+  · rintro (⟨o, K, ho, hoF, hK⟩ | hω)
+    · exact Or.inl ⟨o, K, ho, hoF, fun i _ _ => h2 i, hK⟩
+    · exact Or.inr ⟨fun i _ => h2 i, hω⟩
+
+/-- **Lemma M ⟹ rule F with at most one rotation** (`k4/rulef.md` §7): `LemmaM` gives `TheoremRuleF`. -/
+theorem ruleF_of_lemmaM (h : LemmaM A G) : TheoremRuleF A G := fun agents goods v hag hgd hc hs => by
+  obtain ⟨a, ha, h0 | h1⟩ := h agents goods v hag hgd hc hs
+  · obtain ⟨pol, s, -, hup, hcert⟩ := h0
+    exact ⟨a, ha, succeedsR_mono (succeedsR_of_classK0 (pols := fun _ => True) hag hgd (ne_nil_of_core hc)
+      ⟨pol, s, trivial, hup, certK'_of_certK hcert⟩) (by omega)⟩
+  · obtain ⟨pol, s, s', -, hup, hR, hcert⟩ := h1
+    exact ⟨a, ha, succeedsR_of_classK1 (pols := fun _ => True) hag hgd (ne_nil_of_core hc)
+      ⟨pol, s, s', trivial, hup, hR, certK'_of_certK hcert⟩⟩
+
+/-- **Lemma M on connected cores with a 4-good agent ⟹ `RuleFConn`.** -/
+theorem ruleFConn_of_lemmaMConn (h : LemmaMConn A G) : RuleFConn A G :=
+  fun agents goods v hag hgd hc hconn hs h4 => by
+    obtain ⟨a, ha, h0 | h1⟩ := h agents goods v hag hgd hc hconn hs h4
+    · obtain ⟨pol, s, -, hup, hcert⟩ := h0
+      exact ⟨a, ha, succeedsR_mono (succeedsR_of_classK0 (pols := fun _ => True) hag hgd (ne_nil_of_core hc)
+        ⟨pol, s, trivial, hup, certK'_of_certK hcert⟩) (by omega)⟩
+    · obtain ⟨pol, s, s', -, hup, hR, hcert⟩ := h1
+      exact ⟨a, ha, succeedsR_of_classK1 (pols := fun _ => True) hag hgd (ne_nil_of_core hc)
+        ⟨pol, s, s', trivial, hup, hR, certK'_of_certK hcert⟩⟩
+
+theorem lemmaMConn_of_lemmaM (h : LemmaM A G) : LemmaMConn A G :=
+  fun agents goods v hag hgd hc _ hs _ => h agents goods v hag hgd hc hs
+
+/-- **Lemma M ⟹ TARGET₄** (through rule F, C₄∃, K4.CORE and K4.TIE): every instance with at least one agent and at
+most four relevant goods per agent has an EFX₀ allocation. `LemmaM` is a hypothesis, not an axiom. -/
+theorem target4_of_lemmaM (I : Inst) (hn : 0 < I.n) (h : LemmaM (Fin I.n) (Fin I.m))
+    (h4 : ∀ i, numRelevant I i ≤ 4) : ∃ X : I.Alloc, I.EFX0 X :=
+  target4_of_ruleF I hn (ruleF_of_lemmaM h) h4
+
+/-- **Lemma M on connected cores with a 4-good agent ⟹ TARGET₄.** -/
+theorem target4_of_lemmaMConn (I : Inst) (hn : 0 < I.n) (h : LemmaMConn (Fin I.n) (Fin I.m))
+    (h4 : ∀ i, numRelevant I i ≤ 4) : ∃ X : I.Alloc, I.EFX0 X :=
+  target4_of_ruleFConn I hn (ruleFConn_of_lemmaMConn h) h4
+
+/-- **Read with Lemma K′ and all three policies, Lemma M is rule F with at most one rotation** (`k4/rulef.md` §4,
+"How strong Lemma M is"): K0 is "LB₄ʳ([a]) succeeds without rotation", K1 "with one `RotStep`". -/
+theorem ruleF_iff_lemmaMExact : TheoremRuleF A G ↔ LemmaMExact A G := by
+  constructor
+  · intro h agents goods v hag hgd hc hs
+    obtain ⟨a, ha, hS⟩ := h agents goods v hag hgd hc hs
+    exact ⟨a, ha, classes_of_succeedsR hag hgd hS⟩
+  · intro h agents goods v hag hgd hc hs
+    obtain ⟨a, ha, h0 | h1⟩ := h agents goods v hag hgd hc hs
+    · exact ⟨a, ha, succeedsR_mono (succeedsR_of_classK0 hag hgd (ne_nil_of_core hc) h0) (by omega)⟩
+    · exact ⟨a, ha, succeedsR_of_classK1 hag hgd (ne_nil_of_core hc) h1⟩
+
+/-- Lemma M (Lemma K, two policies) implies its exact form (Lemma K′, three policies). -/
+theorem lemmaMExact_of_lemmaM (h : LemmaM A G) : LemmaMExact A G :=
+  ruleF_iff_lemmaMExact.mp (ruleF_of_lemmaM h)
+
+end lemmaM
+
 end LB4R
 end EFX
 
@@ -1181,3 +1894,30 @@ end EFX
 #print axioms EFX.LB4R.lemmaS_aux
 #print axioms EFX.LB4R.lemmaS_extend
 #print axioms EFX.LB4R.lemmaS
+#print axioms EFX.LB4R.Inv.needs_value
+#print axioms EFX.LB4R.needsK_empty
+#print axioms EFX.LB4R.needsOf_rotate_inv
+#print axioms EFX.LB4R.NA_rotate_inv
+#print axioms EFX.LB4R.rotate_valid_inv
+#print axioms EFX.LB4R.rotate_base_mem_gen
+#print axioms EFX.LB4R.rotate_baseOf_succ
+#print axioms EFX.LB4R.lemmaKR
+#print axioms EFX.LB4R.KDefLE.mono
+#print axioms EFX.LB4R.markedOK_of_rotStep
+#print axioms EFX.LB4R.upRun_facts
+#print axioms EFX.LB4R.lemmaKR_output
+#print axioms EFX.LB4R.certK'_of_certK
+#print axioms EFX.LB4R.output_of_certK'
+#print axioms EFX.LB4R.certK'_of_output
+#print axioms EFX.LB4R.succeedsR_of_classK0
+#print axioms EFX.LB4R.succeedsR_of_classK1
+#print axioms EFX.LB4R.classes_of_succeedsR
+#print axioms EFX.LB4R.succeedsR_mono
+#print axioms EFX.LB4R.certK_iff_of_upRun
+#print axioms EFX.LB4R.ruleF_of_lemmaM
+#print axioms EFX.LB4R.ruleFConn_of_lemmaMConn
+#print axioms EFX.LB4R.lemmaMConn_of_lemmaM
+#print axioms EFX.LB4R.target4_of_lemmaM
+#print axioms EFX.LB4R.target4_of_lemmaMConn
+#print axioms EFX.LB4R.ruleF_iff_lemmaMExact
+#print axioms EFX.LB4R.lemmaMExact_of_lemmaM
