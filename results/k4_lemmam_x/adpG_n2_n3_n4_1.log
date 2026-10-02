@@ -1,0 +1,10 @@
+# lemmam_x_adp.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz results/k4_certs_4_n4_1.json.gz -Y1 -r1 -G1 --checkpoint=/tmp/claude-0/-home-user-efx0-three-goods/891575f8-e905-5025-9feb-2c6293ea3e11/scratchpad/lmx/ck_adpg.jsonl --data=/tmp/claude-0/-home-user-efx0-three-goods/891575f8-e905-5025-9feb-2c6293ea3e11/scratchpad/lmx/adpG_bad.txt # lemmam_x.c sha256 ea801dd6ee8ba1fb
+k4_certs_2.json.gz: cores=5 time 1s
+k4_certs_3.json.gz: cores=51 time 86s
+k4_certs_4_n4_1.json.gz: cores=135 time 92s
+  profiles 307273824; every block count 0: 270851054
+  rotations d needed after the adaptive run (0, 1, ..., cap, none within the cap): [306084354, 1177950, 11520]
+  ... among the runs with every block count 0: [270851054, 0, 0]
+  runs with d >= 1 whose last block has count 1: 1116990
+  runs where some block other than the last has count > 0 (the local step fails there): 1398668; their d: [1389980, 8688, 0]
+  local exchange: insertion steps (weighted) where index order's block is not the last and has count > 0: 3693672; the block of its overloaded end has count 0: 909884; some agent's block has count 0: 2213976
