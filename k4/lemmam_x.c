@@ -13,9 +13,11 @@
    -A44: the adaptive rule of k4/lemmam_x.md §7: at every insertion step the agent whose block has the least block
    count (Lemma 5), ties by index; then the least number d <= -r of nested rotations after which Lemma K certifies the
    run under some policy (none, need-shrinking, envy-free). -V1: when every block count is 0, take Lemma 5's
-   certificate instead of the search. ADP lines; -D44 the runs with d >= 1, -D47 every run.
+   certificate instead of the search. -W1: the cumulative count (every block so far recounted against the goods
+   unpicked now; Lemma 5'). ADP lines; -D44 the runs with d >= 1, -D47 every run.
    -A45: for every first agent the least d as above (the rotation bound of rule F, k4/lemmam_x.md §6); FA lines (-D45).
-   -A46: a search over insertion sequences in which every block but the last has count 0; the least d over them (L46).
+   -A46: a search over insertion sequences in which every block but the last has count 0 (with -W1: cumulative count
+   0); the least d over them (L46).
    -A43/-A44 with -SN -HM climb toward bad first agents / runs needing rotations. */
 /* adaptive.c: LB4r (k4/lb4.md §5, lean/EFX/LB4R.lean) with an adaptive insertion rule (k4/adaptive.md).
 
@@ -1680,7 +1682,7 @@ static void print43(void) {
     memset(st_callg, 0, sizeof st_callg); memset(st_cfirstg, 0, sizeof st_cfirstg); memset(st_clastg, 0, sizeof st_clastg);
     fflush(stdout);
 }
-/* ==== mode 44 (k4/lemmam_x.md §6, adaptive Lemma M): choose the inserted agent at every insertion step ====
+/* ==== mode 44 (k4/lemmam_x.md §7, adaptive Lemma M): choose the inserted agent at every insertion step ====
    A run is built block by block. At each insertion step every unprocessed agent c is tried: the block it starts is
    simulated (c inserted, then P-steps by LB's key until no unprocessed agent has lost a good) and its *block count*
    delta(c) is computed (below); the agent with the least delta is inserted (ties: least index). The block count is
@@ -1688,7 +1690,8 @@ static void print43(void) {
      frozen: an agent of the block whose pick is needed by another agent of the block (no upgrades; nobody outside
              the block can need it, (B2));
      X:      the frozen agents x of the block threatened by G with their pick (the final W is a subset of G);
-     rho(x): the least |D|, D a set of goods of G valued by x, with x not threatened by G - D;
+     rho(x): the least |D|, D a set of goods of G valued by x, with x not threatened by G - D, worst over the good h of
+             G the owner may still pick (D must avoid h; in the last block no h);
      D(x):   the ends of need chains from x inside the block that are not threatened by G with their pick, and, in the
              last block, other than its last-processed agent r (the owner);
      delta:  max over nonempty X' of X of (sum of rho(x) - |union of D(x)|), at least 0 (Hall's condition, Lemma 3).
@@ -1696,8 +1699,11 @@ static void print43(void) {
    envy-free) and at most d nested rotations reach Lemma K deficit <= 0 (or omega <= 0), else -r + 1. Statistics
    (ADP lines): profiles, how many had every block with delta = 0, the histogram of d, and d by whether every block had
    delta = 0 (soundness of the block count: those should have d = 0 under the no-upgrade policy). -D44 prints the
-   profiles with d >= 1 (ADPBAD lines, with tau and the deltas). */
-static int b_done[MAXN], b_Y[MAXN], b_pos[MAXN], b_blk[MAXN], b_step, LEM5SKIP = 0;
+   profiles with d >= 1 (ADPBAD lines, with tau and the deltas).
+   -W1 (the cumulative count, k4/lemmam_x.md §7.1 Lemma 5'): the choice minimizes instead the sum over every block so
+   far of its count recomputed against the goods unpicked now (in the last step against the final W = J + Y_r); the
+   counts of a block only decrease as goods are picked, and the final sum bounds Lemma K's deficit with owner r. */
+static int b_done[MAXN], b_Y[MAXN], b_pos[MAXN], b_blk[MAXN], b_step, LEM5SKIP = 0, CUMUL = 0;
 static gm b_G;
 static void bsim_block(int c, int bid) {
     int i = c;
@@ -1720,16 +1726,17 @@ static void bc_dfs(void) {
         bc_ch[bc_cl++] = y; bc_dfs(); bc_cl--;
     }
 }
-static int block_count(int bid, int last) {
+/* the count of block bid against the goods unpicked now; rr: the owner r (the last-processed agent) once every agent
+   is processed, else -1 */
+static int block_count_r(int bid, int rr) {
     bc_nm = 0;
     for (int i = 0; i < n; i++) if (b_done[i] && b_blk[i] == bid) bc_mem[bc_nm++] = i;
     for (int q = 0; q < bc_nm; q++) { int x = bc_mem[q]; bc_N[x] = b_Y[x] >= 0 ? above(x, b_Y[x]) : R[x]; }
-    bc_last = -1;
-    if (last) for (int q = 0; q < bc_nm; q++) if (bc_last < 0 || b_pos[bc_mem[q]] > b_pos[bc_last]) bc_last = bc_mem[q];
+    bc_last = rr;
+    int last = rr >= 0;
     int X[MAXN], nx = 0;
-    /* the owner's bundle lies in W: G, plus r's pick in the last block (r is then known); in an earlier block r's
-       pick is still in G */
-    gm Wb = b_G; if (last && bc_last >= 0 && b_Y[bc_last] >= 0) Wb |= BIT(b_Y[bc_last]);
+    /* the owner's bundle lies in W: G, plus r's pick at the end (r is then known); before, r's pick is still in G */
+    gm Wb = b_G; if (last && b_Y[bc_last] >= 0) Wb |= BIT(b_Y[bc_last]);
     for (int q = 0; q < bc_nm; q++) {
         int x = bc_mem[q];
         bc_fz[x] = 0;
@@ -1773,6 +1780,19 @@ static int block_count(int bid, int last) {
     }
     return worst;
 }
+/* the count of the block just closed (last: no agent is left, its last-processed agent is the owner r) */
+static int block_count(int bid, int last) {
+    int rr = -1;
+    if (last) for (int i = 0; i < n; i++) if (b_done[i] && b_blk[i] == bid && (rr < 0 || b_pos[i] > b_pos[rr])) rr = i;
+    return block_count_r(bid, rr);
+}
+/* -W1: the cumulative count, the sum over the blocks 0..bid of their counts against the goods unpicked now */
+static int cum_count(int bid, int last) {
+    int rr = -1, s = 0;
+    if (last) for (int i = 0; i < n; i++) if (b_done[i] && (rr < 0 || b_pos[i] > b_pos[rr])) rr = i;
+    for (int b = 0; b <= bid; b++) s += block_count_r(b, rr);      /* the current block last: bc_tend is its end */
+    return s;
+}
 /* the least d <= -r such that some policy (none, need-shrinking, envy-free) and at most d nested rotations (every
    frozen k, need chain, base O, as LB4r's R(d)) reach Lemma K deficit <= 0 (or omega <= 0) from Phase 1(tau); -r + 1 if
    none (k4/lemmam_x.md §6) */
@@ -1814,7 +1834,7 @@ static void adaptive44(void) {
             b_G = sG; b_step = sstep;
             bsim_block(c, bid);
             int last = 1; for (int i = 0; i < n; i++) if (!b_done[i]) last = 0;
-            int dl = block_count(bid, last);
+            int dl = CUMUL ? cum_count(bid, last) : block_count(bid, last);
             dlc[c] = dl; lastc[c] = last;
             if (c0 < 0) { c0 = c; t0 = bc_tend; }   /* index order's choice, and the overloaded end of its block */
             if (dl < bestd) { bestd = dl; bestc = c; }
@@ -1900,7 +1920,8 @@ static void print45(void) {
    Depth-first search over the insertion choices, a choice being allowed only if its block has count 0 or is the last
    block; at the end of a complete run the least rotations d of least_rot_seq (Lemma K, three policies) is taken.
    Result per profile: the least d over the allowed runs (-r + 1 if none is certified, -r + 2 if no allowed run
-   exists: some prefix has every non-last choice at positive count). */
+   exists: some prefix has every non-last choice at positive count). -W1: a choice is allowed if the cumulative count
+   (mode 44) stays 0. */
 static int s46_best, s46_tau[MAXN], s46_runs;
 static void dfs46(int bid, int nt) {
     if (s46_best == 0) return;
@@ -1919,7 +1940,7 @@ static void dfs46(int bid, int nt) {
         b_G = sG; b_step = sstep;
         bsim_block(c, bid);
         int last = 1; for (int i = 0; i < n; i++) if (!b_done[i]) last = 0;
-        if (!last && block_count(bid, 0) > 0) continue;
+        if (!last && (CUMUL ? cum_count(bid, 0) : block_count(bid, 0)) > 0) continue;
         s46_tau[nt] = c;
         dfs46(bid + 1, nt + 1);
     }
@@ -2169,6 +2190,7 @@ int main(int argc, char **argv) {
         else if (!strncmp(argv[a], "-c", 2)) CHUP = atoi(argv[a] + 2);
         else if (!strncmp(argv[a], "-U", 2)) ROLEPOL = atoi(argv[a] + 2);
         else if (!strncmp(argv[a], "-V", 2)) LEM5SKIP = atoi(argv[a] + 2);
+        else if (!strncmp(argv[a], "-W", 2)) CUMUL = atoi(argv[a] + 2);
         else { fprintf(stderr, "unknown option %s\n", argv[a]); return 1; }
     }
     if (ROT < 0 || ROT > MAXROT) { fprintf(stderr, "-r: the rotation bound must be 0 .. %d\n", MAXROT); return 1; }

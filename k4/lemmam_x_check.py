@@ -264,6 +264,7 @@ def main():
     prof = next((x.split('=', 1)[1] for x in args if x.startswith('--profiles=')), None)
     mx = int(next((x.split('=')[1] for x in args if x.startswith('--max=')), 10 ** 9))
     expect = {}      # classes reported by k4/lemmam_x.c (BAD lines with cls=), compared below
+    weight = {}      # leaf weights w= of k4/lemmam_x.c (strict profiles a leaf stands for)
     if prof:
         P = []
         for line in open(prof):
@@ -275,6 +276,9 @@ def main():
             ms = re.search(r'sets=(\[\[.*?\]\])', line); mv = re.search(r'vals=(\[\[.*?\]\])', line)
             if ms and mv:
                 P.append((json.loads(ms.group(1)), json.loads(mv.group(1))))
+                mw = re.search(r'\bw=(\d+)', line)
+                if mw:
+                    weight[json.dumps(P[-1])] = int(mw.group(1))
                 mc = re.search(r'cls=(\d+)', line)
                 if mc:
                     expect[json.dumps(P[-1])] = mc.group(1)
@@ -293,7 +297,8 @@ def main():
                 print(line, flush=True)
         return
     mism = 0
-    seen = set(); tot = {'profiles': 0, 'nogood': 0, 'bad': 0}
+    seen = set(); tot = {'profiles': 0, 'nogood': 0, 'bad': 0, 'badw': 0}
+    goodw = {k: 0 for k in CANDS}
     good = {k: 0 for k in CANDS}; undef = {k: 0 for k in CANDS}; lfail = {}; rcs = {}; shapes = {}
     for sets, vals in P:
         key = json.dumps([sets, vals])
@@ -313,8 +318,13 @@ def main():
         if all(c == 2 for c in cls):
             tot['nogood'] += 1
             print('NOGOOD', json.dumps({'sets': sets, 'vals': vals}))
+        ww = weight.get(json.dumps([sets, vals]), 1)
         for a, rc, c, lf, sh in out:
             tot['bad'] += 1
+            tot['badw'] += ww
+            for k in CANDS:
+                if c[k] is not None and cls[c[k]] <= 1:
+                    goodw[k] += ww
             shapes[sh] = shapes.get(sh, 0) + 1
             for k in CANDS:
                 if c[k] is None:
@@ -336,6 +346,9 @@ def main():
           dict(sorted(shapes.items())))
     for k in CANDS:
         print(f"  candidate {k:20s} good {good[k]} undefined {undef[k]} of {tot['bad']}")
+    if weight:
+        print(f"  weighted by the leaf weights w= (strict profiles per leaf): bad pairs {tot['badw']};"
+              f" candidates good: " + ', '.join(f"{k} {goodw[k]}" for k in CANDS))
 
 
 if __name__ == '__main__':

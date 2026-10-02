@@ -1,14 +1,15 @@
 # Lemma M by exchange between first agents
 
 Workstream `proof/k4-lemmam-x` (ledger rows K4.LMX.*; target K4.RF.M, `k4/rulef.md` §6 Step 3: items M1–M3 and
-(G2)). Builds on `k4/rulef.md` (PR #72, branch `proof/k4-rulef` at aebd620: Lemmas K, K′, KR, S, rule RK, Lemma M),
-`k4/c4.md` (Lemma E, Theorems A₄, B₄, Lemma R; row K4.C4.AB.L), `k4/c4one.md` §6 (Lemmas Ω, Ψ; rows K4.C4.OM,
-K4.C4.PSI) and `k4/lb4.md`. Notation as there. Nothing here changes K4.D, K4.T or K4.RF.M's status.
+(G2)). Builds on `k4/rulef.md` (PR #72, merged: Lemmas K, K′, KR, S, PROVED as K4.RF.K, K4.RF.KR, K4.RF.S; rule
+RK, Lemma M), `k4/c4.md` (Lemma E, Theorems A₄, B₄, Lemma R; row K4.C4.AB.L), `k4/c4one.md` §6 (Lemmas Ω, Ψ; rows
+K4.C4.OM, K4.C4.PSI) and `k4/lb4.md`. Notation as there. Nothing here changes K4.D, K4.T or K4.RF.M's status.
 
-Tools: `k4/lemmam_x.c` (`k4/rulef.c` of #72 verbatim plus a mode `-A43`: the class of every first agent, and for every
-bad first agent the roles of the other agents in its run and the candidates a′ of §2), `k4/lemmam_x_run.py` (driver,
-one worker, resumable), `k4/lemmam_x_check.py` (second implementation on PR #33's model `k4/c4_verify_H/lb4r.py` with
-#72's `k4/rulef_model.py`, without code from `k4/lemmam_x.c`).
+Tools: `k4/lemmam_x.c` (`k4/rulef.c` of #72 verbatim plus modes `-A43` to `-A46`: the class of every first agent,
+and for every bad first agent the roles of the other agents in its run and the candidates a′ of §2; the adaptive
+rule of §7), `k4/lemmam_x_run.py` and `k4/lemmam_x_adp.py` (drivers, one worker, resumable), `k4/lemmam_x_check.py`
+(second implementation on PR #33's model `k4/c4_verify_H/lb4r.py` with #72's `k4/rulef_model.py`, without code from
+`k4/lemmam_x.c`), `k4/lemmam_x_inst.py` (H_t and HH_t), `k4/lemmam_x_realize.py` (§5.2).
 
 **Status** (rows K4.LMX.*; the written proofs here are not yet refereed).
 - **Lemma M is false** (Proposition HH of `k4/lemmam_bt.md` §3, PR #83, under review: on HH₃, two copies of H₃ sharing
@@ -18,7 +19,7 @@ one worker, resumable), `k4/lemmam_x_check.py` (second implementation on PR #33'
   by the most exposed frozen agents, or of least index — is good whenever a is bad (26,248 bad pairs, exhaustive). The
   other proposed partners fail: the exposed frozen 4-good agent and the leader of r's block at n = 3, m = 6 (never good
   on the exhaustive data), r itself on H₅ (n = 21) (`attempts/k4-lemmam-x-exchange.md`).
-- **Proved here** (written proofs, using K4.C4.AB.L and #72's Lemmas K, S): **Lemma 1**, a bad first agent's envy-free
+- **Proved here** (written proofs, using K4.C4.AB.L and Lemmas K, S: K4.RF.K, K4.RF.S): **Lemma 1**, a bad first agent's envy-free
   run has ω ≥ 1, an exposed frozen agent, and an exposed 4-good agent or (G2) (M3 reduces to (G2)); **Lemma 2**, in
   (G2) a bad first agent forces k*'s two lower goods to be goods of r (r moves up to its top or its b and is then
   threatened by k*'s new base itself), and otherwise LB⁺'s rotation along a longest chain is certified (K1) with r
@@ -333,6 +334,24 @@ goods below its pick is unpicked and it is not threatened by G; the leader x, if
 ρ = 1 (if h is b_x keep c_x out, and conversely) and an end in its block that is not r and not exposed. The last block
 has count at most 1: LB⁺'s bad case. So Lemma 5 contains LB⁺'s Theorem A, block by block.
 
+The count of a block closed earlier can be taken again later, against the goods G′ ⊆ G still unpicked then (with the
+same robust ρ while agents remain; once every agent is processed, against the final W = J ∪ {Y_r} with D ⊆ J ∩ R_x and
+no h). Call it δ_i(G′), and the *cumulative count* after block β_j the sum Σ_{i≤j} δ_i(G′) with G′ the goods unpicked
+after β_j.
+
+**Lemma 5′ (the counts only fall).** For every block β_i, δ_i(G′) does not increase as goods are picked, up to and
+including the final count; and if every block has final count 0 (in particular, if the cumulative count of the
+complete run is 0), the conclusion of Lemma 5 holds.
+
+*Proof.* Let G″ ⊆ G′ be the unpicked goods at two times after β_i closes, with agents still left at both (so r is
+unprocessed and Y_r ∈ G″). Frozen status is the same. X shrinks (threats by a subset). For x ∈ X and h ∈ G″ ∩ R_x, a
+set D ⊆ (G′ ∩ R_x) ∖ {h} serving x against G′ ∖ D gives D ∩ G″, which serves x against G″ ∖ D ⊆ G′ ∖ D; and h ranges
+over fewer goods. So ρ falls. An end not threatened by G′ is not threatened by G″, so D(x) grows. Hence δ_i(G″) ≤
+δ_i(G′). For the final count, take h := Y_r (if Y_r ∈ R_x, else any h): D ∩ J serves x against
+W ∖ (D ∩ J) = (J ∖ D) ∪ {Y_r} ⊆ G″ ∖ D, and ends other than r (r is not in β_i unless β_i is the last block, whose
+only count is the final one) only gain. The second claim is Lemma 5's proof with the final W in place of G_i: it used
+only, for each block, Hall's condition with ρ and D taken against the final W. ∎
+
 ### 7.2 Adaptive Lemma M
 
 **Conjecture M_ad (local form).** For every strict profile of every k = 4 core, a run can be built block by block so
@@ -359,7 +378,7 @@ PLACEHOLDER_ADPDATA
 
 ### 7.4 Lean
 
-`lean/EFX/LB4R.lean` and `lean/EFX/RuleF.lean` (PR #72) already contain what M_ad needs: `phase1State v agents goods τ`
+`lean/EFX/LB4R.lean` and `lean/EFX/RuleF.lean` (on main; RuleF.lean from PR #72) already contain what M_ad needs: `phase1State v agents goods τ`
 takes any insertion sequence (each entry picks the inserted agent among the unprocessed ones), and
 `SucceedsR d v agents goods τ` is "LB₄ʳ(τ) succeeds with at most d rotations". The global form is
 

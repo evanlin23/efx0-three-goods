@@ -86,7 +86,9 @@ def main():
     t0 = time.time()
     if prof:
         P = AR.load_profiles(prof)
-        for s, v in P:
+        names = [json.loads(l).get('name', '') if l.strip().startswith('{') else '' for l in open(prof) if l.strip()]
+        for k, (s, v) in enumerate(P):
+            t1 = time.time()
             lines = run(AR.encode_profile(s, v), opts + ['-T1'])
             add_lines(acc, lines)
             for l in lines:
@@ -94,6 +96,11 @@ def main():
                     fo.write(l + '\n')
                 if l.startswith('ALLBAD'):
                     print(l)
+            cl = next((l.split('cls=')[1].split()[0] for l in lines if l.startswith(('BAD', 'ALLBAD')) and 'cls=' in l),
+                      None)
+            print(f"{names[k] if k < len(names) and names[k] else 'profile %d' % k}: n={len(s)} classes of the first"
+                  f" agents 0..n-1 (0 K0, 1 K1, 2 bad): {cl or 'none bad (or -D43 not given)'}"
+                  f"  time {time.time() - t1:.0f}s", flush=True)
         print(f"{prof}: profiles={len(P)} time {time.time() - t0:.0f}s", flush=True)
         report(acc)
         return
