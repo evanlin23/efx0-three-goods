@@ -1,0 +1,5 @@
+# command: python3 k4/thetab_cover.py k4/suite/.cache/sx/results/k4_sx/rc/keys.jsonl.gz
+  non-completable keys                                                                                           45
+  profiles                                                                                                       45
+smallest Z′-maximum per cell (shape, Lemma P, Lemma C, Lemma C′, Lemma B, first sx lemma, first of k4/thetab.md):
+no assertion failed; time 13 s

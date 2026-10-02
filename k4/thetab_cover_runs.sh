@@ -1,5 +1,5 @@
 #!/bin/sh
-# Case (i) of K4.SX.COVER (k4/thetab.md §8): k4/thetab_cover.py on PR #80's dumps of non-completable f = 1 keys.
+# Case (i) of K4.SX.COVER (k4/thetab.md §7): k4/thetab_cover.py on PR #80's dumps of non-completable f = 1 keys.
 # One worker, sequential. Needs PR #80's tools and dumps at ebe244f in k4/suite/.cache/sx:
 #   mkdir -p k4/suite/.cache/sx && git archive ebe244f k4/sx_zprime.py k4/sx_keygraph.py results/k4_sx/hunt \
 #     results/k4_sx/rc results/k4_sx/t3stage | tar -x -C k4/suite/.cache/sx

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Case (i) of K4.SX.COVER (k4/sx.md §5 item 2, PR #80): Theorem Z′'s configurations at a non-completable f = 1 key in
-which every terminal leaf is θ-b (workstream proof/k4-thetab; k4/thetab.md §8). EVIDENCE tooling.
+which every terminal leaf is θ-b (workstream proof/k4-thetab; k4/thetab.md §7). EVIDENCE tooling.
 
 Setting and notation of k4/sx.md §1-§3 (PR #80): f = 1, a key κ = (g, x) with def*(κ) > 0, Q a Z′-maximum (maximizes
 (r', Λ') over the configurations at κ), X_o = Q_o ∪ L, V the leaves (free agents threatening no free agent), T the
@@ -9,7 +9,7 @@ terminals (free agents needing g at P_Q), θ-b(o): ω >= 2, o has four goods, is
 
 At every Z′-maximum in case (i) the tool records:
   - the shape: |T|, |V ∩ T|, terminals outside V, |V|, n, ω, whether setting (H) of k4/thetab.md holds at P_Q;
-  - when T = {τ1, τ2} ⊆ V: Lemma P of k4/thetab.md §8 (Lemma C's pair for τ1 or τ2, else Lemma C′'s pair, else the
+  - when T = {τ1, τ2} ⊆ V: Lemma P of k4/thetab.md §7 (Lemma C's pair for τ1 or τ2, else Lemma C′'s pair, else the
     exception (E)); its criterion and its conclusion are asserted against a brute-force search;
   - Lemma C (k4/sx.md): for some θ-b terminal leaf τ1 and leaf o != τ1, whether a pair P_x ⊆ X_τ1 for x exists that
     is robust for x and meets U_τ1 ('pair'), and then whether (H*) / the exact (H) hold; why it fails otherwise
@@ -23,8 +23,9 @@ Per key: covered by C or C′ (structural / exact), by B or B′ with k = 1, by 
 Smallest Z′-maximum (by n, m) per failing cell is printed.
 
 Needs PR #80's k4/sx_keygraph.py and k4/sx_zprime.py and its dumps (results/k4_sx/), at ebe244f, unpacked under
-k4/suite/.cache/sx (see k4/thetab.md §9); nothing of PR #80 is changed.
-usage: python3 k4/thetab_cover.py DUMP.jsonl.gz ... [--every=E] [--start=S] [--max=N]"""
+k4/suite/.cache/sx (see k4/thetab.md §8); nothing of PR #80 is changed.
+usage: python3 k4/thetab_cover.py DUMP.jsonl.gz ... [--every=E] [--start=S] [--max=N]
+       python3 k4/thetab_cover.py --sum results/k4_thetab/cover_*.log        (the table of k4/thetab.md §7)"""
 import collections, gzip, itertools, json, os, sys, time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -117,7 +118,7 @@ def c2_pairs(I, c, x, g, U, X, t1, t2):
 
 
 def lemma_p(I, c, x, g, U, X, t1, t2):
-    """Lemma P of k4/thetab.md §8 at a Z′-maximum with T = {t1, t2} ⊆ V, both θ-b: returns 'C-pair' (Lemma C's pair
+    """Lemma P of k4/thetab.md §7 at a Z′-maximum with T = {t1, t2} ⊆ V, both θ-b: returns 'C-pair' (Lemma C's pair
     for t1 or t2), "C'-pair only" or '(E)'; the criterion of the proof is asserted against the brute-force search,
     and (E) against the absence of both pairs"""
     p = max(bits(U[x]), key=lambda h: I.v[x][h])
@@ -203,7 +204,41 @@ def analyse(kp, pr, k, cnt, ex, src):
         cnt['case (i) keys: some maximum covered by C, C′, B1 (exact) or k4/thetab.md = %s' % bool(keyc - {'none'})] += 1
 
 
+def summary(files):
+    """the table of k4/thetab.md §7 from the logs of this tool"""
+    import re
+    rows = []; tot = collections.Counter()
+    for fn in files:
+        c = collections.Counter()
+        for l in open(fn):
+            m = re.match(r'\s+(.*?)\s+(\d+)$', l)
+            if m: c[m.group(1)] += int(m.group(2))
+        sh = collections.Counter()
+        for k, v in c.items():
+            if k.startswith('shape '):
+                t = re.search(r'\|T\|=(\d+) \|VT\|=(\d+)', k)
+                sh['two leaves' if t.groups() == ('2', '2') else ('one leaf' if t.group(2) == '1' else 'other')] += v
+        c.update({'S ' + k: v for k, v in sh.items()})
+        rows.append((os.path.basename(fn).replace('.log', ''), c)); tot.update(c)
+    rows.append(('**total**', tot))
+    print('| input | keys / maxima | T two θ-b leaves / one θ-b leaf + a non-leaf terminal / other | Lemma P: C-pair / '
+          "C′-pair only / (E) | C / C′ / B (k = 1), structural hypotheses (maxima) | keys: some maximum by C, C′, B "
+          '(structural / exact only) | first of W / K / G1 / G1h / none (maxima) |')
+    print('|---|---|---|---|---|---|---|')
+    for name, c in rows:
+        print('| %s | %d / %d | %d / %d / %d | %d / %d / %d | %d / %d / %d | %d / %d | %s |' % (
+            name, c['case (i) keys'], c['case (i) Z′-maxima'], c['S two leaves'], c['S one leaf'], c['S other'],
+            c['Lemma P (T = two theta-b leaves): C-pair'], c["Lemma P (T = two theta-b leaves): C'-pair only"],
+            c['Lemma P (T = two theta-b leaves): (E)'], c['Lemma C: C'], c["Lemma C': C'"],
+            c['Lemma B (k = 1): B1'] + c["Lemma B (k = 1): B1'"],
+            c['case (i) keys: some maximum covered by C, C′ or B1 (structural hypotheses) = True'],
+            c['case (i) keys: some maximum covered by C, C′ or B1 (exact hypotheses) = True']
+            - c['case (i) keys: some maximum covered by C, C′ or B1 (structural hypotheses) = True'],
+            ' / '.join(str(c['k4/thetab.md at P_Q: first of W, K, G1, G1h: ' + t]) for t in ('W', 'K', 'G1', 'G1h', '-'))))
+
+
 def main(argv):
+    if argv and argv[0] == '--sum': return summary(argv[1:])
     print('# command: python3 k4/thetab_cover.py ' + ' '.join(argv), flush=True)
     opt = dict(a[2:].split('=', 1) for a in argv if a.startswith('--') and '=' in a)
     rest = [a for a in argv if not a.startswith('--')]

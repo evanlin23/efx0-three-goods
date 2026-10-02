@@ -1,0 +1,20 @@
+# command: python3 k4/thetab_cover.py k4/suite/.cache/sx/results/k4_sx/hunt/n3_all_30.jsonl.gz --every=5
+  Lemma B (k = 1): no B1                                                                                         52
+  Lemma C': C'                                                                                                   52
+  Lemma C: C                                                                                                     52
+  Lemma P (T = two theta-b leaves): C-pair                                                                       52
+  a (T3) move from P_Q to deficit <= 0: True                                                                     52
+  case (i) Z′-maxima                                                                                             52
+  case (i) keys                                                                                                  52
+  case (i) keys: some maximum covered by C, C′ or B1 (exact hypotheses) = True                                   52
+  case (i) keys: some maximum covered by C, C′ or B1 (structural hypotheses) = True                              52
+  case (i) keys: some maximum covered by C, C′, B1 (exact) or k4/thetab.md = True                                52
+  case (i) keys: some maximum covered by k4/thetab.md, first W                                                   52
+  cell: sx lemma C | thetab W | (H) True                                                                         52
+  k4/thetab.md at P_Q: first of W, K, G1, G1h: W                                                                 52
+  non-completable keys                                                                                           2592
+  profiles                                                                                                       2592
+  shape n=3 omega=2 |T|=2 |VT|=2 |V|=2 T outside V=0 (H)=True                                                    52
+smallest Z′-maximum per cell (shape, Lemma P, Lemma C, Lemma C′, Lemma B, first sx lemma, first of k4/thetab.md):
+  ('|T|=2 |VT|=2', 'C-pair', 'C', "C'", 'no B1', 'C', 'W'): n=3 m=7 k4_certs_3.json.gz#38 {"sets": [[0, 2, 5, 6], [1, 4, 5, 6], [3, 4, 5, 6]], "vals": [[3, 4, 2, 8], [6, 3, 2, 10], [3, 5, 6, 7]], "m": 7} key=[None, None, 6] Config(key=[None, None, 6], Q={0: [0, 2], 1: [1, 4]}, L=[3, 5]) V [0, 1] T [0, 1]
+no assertion failed; time 15 s
