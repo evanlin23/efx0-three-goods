@@ -11,7 +11,7 @@ For every profile of the given k4/f2_shapes.py dumps, every min-frozen P with f 
 T3 stage (no improving T1, T2, T4 move); then 'plain' (an improving T3 move), 'chain' (only T3⁺ moves with W != ∅),
 'fail' (none). The set of T3-stage states and the verdicts are compared with the dumps (the dumps' records hold the
 T3-stage states of f2_shapes.py with their T3⁺ repairs: 'plain' iff some repair has k = 0).
-usage: python3 k4/f2_xcheck2.py DUMP.jsonl.gz ... [--every=E]"""
+usage: python3 k4/f2_xcheck2.py DUMP.jsonl.gz ... [--every=E] [--chunk=K/C]"""
 import collections, gzip, json, os, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -49,6 +49,8 @@ def main(argv):
             v = 'fail' if not r['reps'] else ('plain' if any(rp['k'] == 0 for rp in r['reps']) else 'chain')
             mine.setdefault(key, {})[tuple(frozenset(b) for b in r['Bs'])] = (r['def'], v)
     keys = list(mine)[::int(opt.get('every', 1))]
+    if 'chunk' in opt:                      # --chunk=K/C: the K-th of C interleaved slices (bounded runs)
+        kk, cc = map(int, opt['chunk'].split('/')); keys = keys[kk::cc]
     cnt = collections.Counter()
     for key in keys:
         sets, vals, m = json.loads(key)
@@ -69,6 +71,8 @@ def main(argv):
                 if fl['t1'] or fl['t2'] or fl['t4']: continue
                 own[P] = (d, 'plain' if fl['plain'] else ('chain' if fl['chain'] else 'fail'))
         cnt['profiles'] += 1; cnt['T3-stage states (dl134_xcheck)'] += len(own)
+        print('profile %d/%d: n=%d m=%d, %d T3-stage states' % (cnt['profiles'], len(keys), len(sets), m, len(own)),
+              flush=True)
         for v in own.values(): cnt['verdict ' + v[1]] += 1
         if own != mine[key]:
             cnt['MISMATCH profiles'] += 1

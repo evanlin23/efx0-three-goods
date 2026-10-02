@@ -25,8 +25,12 @@ done_log $R/lemmas_profiles.log || python3 k4/f2_lemmas.py --profiles results/k4
   results/k4_rt4/n5c_fail_inst.json $C/rc/hunt_fail10_sample_inst.json --all > $R/lemmas_profiles.log
 done_log $R/lemmas_random.log || python3 k4/f2_lemmas.py --random 3000 --seed=7 --nmax=5 --mmax=12 > $R/lemmas_random.log
 # (d) second implementations
-done_log $R/xcheck2_n5fail_rchunt.log || python3 k4/f2_xcheck2.py $R/shapes_n5fail.jsonl.gz $R/shapes_rchunt.jsonl.gz \
-  > $R/xcheck2_n5fail_rchunt.log
+#     (pure Python, about 25 s per m = 12 profile: n5fail in one run, compute/k4-rc's hunt in two)
+done_log $R/xcheck2_n5fail.log || python3 k4/f2_xcheck2.py $R/shapes_n5fail.jsonl.gz > $R/xcheck2_n5fail.log
+for k in 0 1; do
+  done_log $R/xcheck2_rchunt_$k.log || python3 k4/f2_xcheck2.py $R/shapes_rchunt.jsonl.gz --chunk=$k/2 \
+    > $R/xcheck2_rchunt_$k.log
+done
 # (e) dlrt4.c (compute/k4-rt4's C tool) on every profile of the main data (k4/f2_runs.sh part (2), same source list) and
 #     of the other inputs: its T3-stage states (f >= 2, no improving T1, T2, T4) and plain-T3 flags against the dumps
 SRC="results/k4_gap/*.json.gz $C/pr75/results/k4_dl13_stuck/*.jsonl.gz results/k4_dl13/*.jsonl.gz results/k4_rt4/dump_[a-e]_*.jsonl.gz suite"
