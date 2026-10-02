@@ -1,1 +1,8 @@
 # command: python3 k4/dlrt4_ref.py random results/k4_certs_5_n4_2.json.gz results/k4_certs_5_n4_1.json.gz --states=300 --neg=100 --seed=1 --jobs=4
+# random: 7162000 profiles drawn, 205 with an f >= 1 state (300 such states), 100 without one kept
+#  200 / 305 profiles: {'prof': 200, 'prof_pos': 200, 'prof_f1': 200, 'st': 291, 'st_f1': 291, 'f1_t1': 268, 'f1_t2': 254, 'f1_t3h': 266, 'f1_t3p': 248, 'f1_t4': 21}
+#  305 / 305 profiles: {'prof': 305, 'prof_pos': 205, 'prof_f1': 205, 'st': 300, 'st_f1': 300, 'f1_t1': 276, 'f1_t2': 259, 'f1_t3h': 273, 'f1_t3p': 257, 'f1_t4': 23}
+# dlrt4.c sha256 fcde494a3161279d47a7b80e614f69c58894ebc7b40d00e461f677b8810d7cae
+profiles 305 (with a def > 0 state 205, with an f >= 1 state 205); states 300 (f = 0: 0, f >= 1: 300); DL_RT4 failures f >= 1: 0, RT4 failures f = 0: 0
+f >= 1 states with an improving move: T1 276, T2 259, T3p 257, T3h 273, T4 23; only T4 0, only T2 0
+mismatches: reference (model.py + dl2_relations.py + own T4) 0, reference assertions 0, dl13.c (K line and T1/T3 per state) 0 + 0, -DBIGPP=0 build 0, xcheck (dl134_xcheck.py, 0 states) -

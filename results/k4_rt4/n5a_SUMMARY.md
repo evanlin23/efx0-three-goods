@@ -120,7 +120,14 @@ with dlrt4.c on all four of their profiles (24 states each run, 8 T4-only), with
 
 ### Reference check at n = 5
 
-(running: `k4/dlrt4_ref.py random` on this slice's two certificate files; the result follows in the next commit.)
+The earlier validation logs of dlrt4.c (`ref_random_n3.log`, `ref_random_n4.log`, `ref_suite.log`, ...) use random
+profiles of n <= 4 cores, so I added one at n = 5 on this slice's two files: `python3 k4/dlrt4_ref.py random
+results/k4_certs_5_n4_2.json.gz results/k4_certs_5_n4_1.json.gz --states=300 --neg=100 --seed=1 --jobs=4`, log
+`ref_random_n5a.log`, 8 min. It screened 7,162,000 random (core, profile) draws (the two files in turn). It kept 205
+profiles with an f >= 1 state (300 states) and 100 without one. With an improving move: T1 276, T2 259, T3p 257,
+T3h 273, T4 23; none T4-only. It found 0 mismatches against the reference (model.py + dl2_relations.py + its own T4),
+0 reference assertion failures, 0 against dl13.c (the K line, and T1/T3 per state) and 0 against the -DBIGPP=0
+build. dl134_xcheck.py (`--x`) is for n <= 4 only and was not run. The reference supports DL_RT4 at all 300 states.
 
 ## Interruptions
 
