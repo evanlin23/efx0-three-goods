@@ -2,10 +2,12 @@
 
 Context: `k4/oneneeder.md` §4. At a one-needer state (f = 1, x big-top, z the only needer of x's good g) with an x-alone
 triple (o, X, c), Propositions C and D give the swap of Corollary 8.2 of `k4/dl13.md` to a state of deficit ≤ 0 when
-o = z (and u_z(X) = 0), or when o ≠ z has an *escape*. Two candidate strengthenings fail.
+o = z (and u_z(X) = 0), or when o ≠ z has an *escape*. Three candidate strengthenings fail. Each instance below is
+the smallest found, not proved smallest.
 
 **Candidate 1 (per triple).** "At every T1-stuck one-needer state with def = 1, x big-top and an x-alone triple
-(o, X, c) with o ≠ z, o has an escape at that triple." Fails at n = 4, m = 11:
+(o, X, c) with o ≠ z, o has an escape at that triple." Fails at n = 4, m = 11 (smallest found; the PR #84 audit's
+per-triple check of #53's n = 3 catalogue found no failure there):
 
 - agents 0: (10:8, 0:4, 2:3, 6:2) = x, big-top on 10; 1: (10:8, 1:4, 5:3, 9:2) = z; 2: (7:8, 3:6, 8:4, 6:1);
   3: (7:8, 9:6, 4:4, 8:3) = o (sets [[0,2,6,10],[1,5,9,10],[3,6,7,8],[4,7,8,9]], values [[4,3,2,8],[4,3,2,8],
@@ -19,7 +21,7 @@ Other triples of the same state have escapes. The state-level statement with "T1
 instance and every n = 3 state, but fails at n = 4 as well.
 
 **Candidate 2 (state level, no stuckness).** "At every one-needer state with def > 0, x big-top and an x-alone triple,
-Corollary 8.2 applies (with at most one helper)." Fails at n = 3, m = 7:
+Corollary 8.2 applies (with at most one helper)." Fails at n = 3, m = 7 (smallest found):
 
 - agents 0: (3:8, 2:4, 0:3, 1:2) = z; 1: (6:8, 4:6, 2:4, 5:3) = o; 2: (3:8, 5:4, 6:3, 4:2) = x, big-top on 3
   (sets [[0,1,2,3],[2,4,5,6],[3,4,5,6]], values [[3,2,4,8],[4,6,3,8],[8,2,4,3]]: core (m = 7, idx 0) of
@@ -33,7 +35,8 @@ Corollary 8.2 applies (with at most one helper)." Fails at n = 3, m = 7:
 **Candidate 3 (state level, T1-stuck: Conjecture ES as first stated).** "At every T1-stuck one-needer state with
 f = 1, def = 1, x big-top and an x-alone triple, Proposition C applies at a triple with owner z or a triple with owner
 o ≠ z has an escape." True at every such state of the exhaustive n = 3 run (244,560 states), but false at 10 states of
-#53's n = 4, 5 catalogues (`results/k4_oneneeder/t1_cat_*.log`). Smallest, n = 4, m = 9; it is the known instance
+#53's n = 4, 5 catalogues (`results/k4_oneneeder/t1_cat_*.log`). Smallest found, n = 4, m = 9 (none at n = 3, by the
+exhaustive run); it is the known instance
 `dl13-n4m9-rot` (`attempts/k4-dl13-opt.md`, found by compute/k4-dl13, #74), a T1-stuck state with no improving (T3)
 move, which `k4/dl13.md` §6 item 3 already names for this regime:
 
@@ -51,12 +54,16 @@ move, which `k4/dl13.md` §6 item 3 already names for this regime:
 So at T1-stuck states the one-helper conclusion itself fails; the T3-stage hypothesis (def(P) = def*(κ)) is what has
 to exclude this state, whose key has def* = 0.
 
-Counts on `k4/dl13.md` §1's profiles (one-needer states with def > 0, x big-top and an x-alone triple; scratch analysis
-reproduced by the script below for the two instances): at the T3 stage 1,009 states, all with Proposition C or D and
-Corollary 8.2; T1-stuck but not at the T3 stage 1,658, all with Proposition C or D; not T1-stuck 4,018, of which 1,607
-have neither and no Corollary 8.2 swap. Per triple with o ≠ z: 84 T1-stuck triples (n = 4) without an escape at that
-triple.
+On `k4/dl13.md` §1's profiles (`k4/oneneeder_dl13.py counts`, log `results/k4_oneneeder/dl13_counts.log`), at the
+one-needer states with def > 0, x big-top and an x-alone triple (all have def = 1): at the T3 stage 1,009 states, all
+with Proposition C or D and Corollary 8.2; T1-stuck but not at the T3 stage 1,658, all with Proposition C or D; not
+T1-stuck 4,018, of which 1,607 have neither and no Corollary 8.2 swap. Per triple with o ≠ z: 2,397 at the T3 stage,
+all with an escape; 84 T1-stuck triples not at the T3 stage without one (of 3,558); 4,859 non-stuck triples without one
+(of 9,751).
 
 Replay of all three instances, both implementations (`k4/oneneeder_check.py` on `k4/suite/model.py`, and an
-implementation in the script that enumerates base maps and computes the removal-only deficit from its definition):
-`python3 attempts/k4_oneneeder_attempts.py`.
+implementation in the script that enumerates base maps and computes the removal-only deficit from its definition), for
+every claimed fact: f, ω, the deficit, T1-stuckness, the T3 stage, big-top, the needers, the x-alone triples (the second
+implementation takes the best owners and their optimal bundles from the removal-only deficit itself), the escapes, and,
+for Candidates 2 and 3, that no swap of Corollary 8.2's form with at most one helper lowers the deficit:
+`python3 attempts/k4_oneneeder_attempts.py` (log `results/k4_oneneeder/attempts_replay.log`: ALL OK).

@@ -7,7 +7,8 @@
   x         impl1 0      impl2 0      expected 0      ok
   bigtop    impl1 True   impl2 True   expected -      ok
   needers  impl1 [1] impl2 [1] ok
-  listed x-alone triple (3, [0, 2, 4, 8, 9], 6): ok
+  x-alone triples: impl1 9, impl2 9, same (owner z: 3)
+  listed x-alone triple (3, [0, 2, 4, 8, 9], 6): ok (both implementations)
   the listed triple has no escape (both implementations): True; escapes at the other 5 triples: 9
 == oneneeder-escape-n3
   f         impl1 1      impl2 1      expected -      ok
@@ -18,8 +19,9 @@
   x         impl1 2      impl2 2      expected 2      ok
   bigtop    impl1 True   impl2 True   expected -      ok
   needers  impl1 [0] impl2 [0] ok
-  listed x-alone triple (1, [2, 4, 5], 6): ok
-  x-alone triples with o != z: 2, none with an escape (both implementations): True; Corollary 8.2 with at most one helper (implementation 1): none
+  x-alone triples: impl1 2, impl2 2, same (owner z: 0)
+  listed x-alone triple (1, [2, 4, 5], 6): ok (both implementations)
+  x-alone triples with o != z: 2, none with an escape (both implementations): True; Corollary 8.2 with at most one helper: impl1 none, impl2 2 swaps of its form, least deficit 1 >= 1
 == oneneeder-onehelper-t1-n4
   f         impl1 1      impl2 1      expected -      ok
   omega     impl1 2      impl2 2      expected -      ok
@@ -29,6 +31,7 @@
   x         impl1 0      impl2 0      expected 0      ok
   bigtop    impl1 True   impl2 True   expected -      ok
   needers  impl1 [3] impl2 [3] ok
-  listed x-alone triple (1, [0, 2, 8], 1): ok
-  x-alone triples: 2 (owners [1]), escapes: 0; Corollary 8.2 with at most one helper: none; Proposition C or D: False; a deficit-lowering move of x, z and at most one other agent: impl1 False, impl2 0; states of smaller deficit with z on g (all need two other agents to move): 30
+  x-alone triples: impl1 2, impl2 2, same (owner z: 0)
+  listed x-alone triple (1, [0, 2, 8], 1): ok (both implementations)
+  x-alone triples with o != z: 2 (owners [1]), escapes: 0 (both implementations); Corollary 8.2 with at most one helper: impl1 none, impl2 0 swaps of its form, least deficit - >= 1; Proposition C or D: False; a deficit-lowering move of x, z and at most one other agent: impl1 False, impl2 0; states of smaller deficit with z on g (all need two other agents to move): 30
 ALL OK
