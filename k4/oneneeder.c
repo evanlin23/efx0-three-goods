@@ -155,11 +155,11 @@ static int optindex(int i, msk B) { for (int t = 0; t < nopt[i]; t++) if (opt[i]
 
 /* ---------- counters ---------- */
 enum { C_PROF, C_F1, C_ST, C_T3S, C_T3S1, C_T3SM, C_BT, C_NBT, C_D1, C_SX1, C_SX1O, C_SX1Z, C_NOSX1, C_U, C_C3, C_NOC3,
-       C_C3N, C_C3O, C_C3Y, C_T3, C_NOT3, C_NOT3ANY, C_TWIN, C_ZBT, C_DEF2, C_RC, C_RE, C_RCE, C_RNONE, NC };
+       C_C3N, C_C3O, C_C3Y, C_T3, C_NOT3, C_NOT3ANY, C_TWIN, C_ZBT, C_DEF2, C_RC, C_RE, C_RCE, C_RNONE, C_T3BT, C_T3BTD1, NC };
 static const char *CNAME[NC] = {"prof", "f1om1", "states", "t3stage", "t3stage_1needer", "t3stage_more_needers", "bt",
     "not_bt", "def1", "sx1", "sx1_o_not_z", "sx1_o_is_z", "no_sx1", "u_at_best", "c3", "no_c3", "c3_nohelper",
     "c3_helper_best", "c3_helper_other", "t3move", "no_t3move_1needer", "no_t3move_any_t3stage", "twin", "z_bigtop",
-    "def_ge2", "propC", "escape", "propC_or_escape", "no_rule"};
+    "def_ge2", "propC", "escape", "propC_or_escape", "no_rule", "t3stage_x_bigtop", "t3stage_x_bigtop_def1"};
 static long CNT[NC];
 
 static void pmaskj(FILE *f, msk M) { int first = 1; fputc('[', f); for (int g = 0; g < MAXM; g++) if (M >> g & 1) { fprintf(f, first ? "%d" : ",%d", g); first = 0; } fputc(']', f); }
@@ -403,6 +403,7 @@ static void profile(void) {
         for (int i = 0; i < n; i++) if (optN[i][ia[i]] & BIT(g)) { nneed++; z = i; }
         int t3 = t3move(p);
         if (!t3) { CNT[C_NOT3ANY]++; int fl[8] = {0}; dump(p, nneed == 1 ? z : -1, "no T3 move at a T3-stage state", fl); }
+        if (bigtop[x] && topg[x] == g) { CNT[C_T3BT]++; if (a->def == 1) CNT[C_T3BTD1]++; }
         if (nneed != 1) { CNT[C_T3SM]++; continue; }
         CNT[C_T3S1]++;
         int fl[8] = {0};
