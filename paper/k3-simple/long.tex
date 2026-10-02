@@ -33,7 +33,7 @@
 \maketitle
 
 \begin{abstract}
-An allocation of indivisible goods is \efxz{} if no agent envies another agent's bundle after removing any single good from it, even a good that the envious agent values at zero. We give a short proof that every instance with nonnegative additive valuations in which each agent positively values at most three goods has a complete \efxz{} allocation, and that one can be computed in polynomial time by an algorithm we call Draft and Exchange (\DE{}). \DE{} first lets every agent that can do so leave with its favourite remaining good. Every remaining agent values exactly three remaining goods; these agents draft at most one good each. Then, while no agent can absorb the leftover goods, \DE{} exchanges goods along a cycle or a path of agents, each of which gets strictly better off. The heart of the proof is an \emph{Improvement Lemma}: in this setting, a state from which no agent can absorb the leftovers is Pareto-dominated by another state of the same kind, obtained by one such exchange. There are at most $4n$ exchanges. In the output, all bundles but at most one have at most two goods. The existence theorem and this shape were machine-checked in Lean in previous work, by a much longer construction. The new proof is a written proof. It was derived independently twice, refereed once with no error found, and checked by computer on millions of states; it is not machine-checked.
+An allocation of indivisible goods is \efxz{} if no agent envies another agent's bundle after removing any single good from it, even a good that the envious agent values at zero. We give a short proof that every instance with nonnegative additive valuations in which each agent positively values at most three goods has a complete \efxz{} allocation in which all bundles but at most one have at most two goods, and that one can be computed in polynomial time by an algorithm we call Draft and Exchange (\DE{}). \DE{} lets agents that can leave with one good do so, drafts one good each for the others, and then, while no agent can absorb the leftover goods, exchanges goods along a cycle or a path of agents, each of which gets strictly better off; there are at most $4n$ exchanges. The heart of the proof is an \emph{Improvement Lemma}: a valid state from which no free agent can absorb the leftovers is Pareto-dominated by another valid state, obtained by one such exchange. Existence and the shape were machine-checked in Lean in previous work, by a much longer construction. The new proof is a written proof: derived independently twice, refereed once with no error found, and checked by computer on millions of states; it is not machine-checked.
 \keywords{Fair division \and Indivisible goods \and EFX \and Serial dictatorship \and Exchange cycles}
 \end{abstract}
 
@@ -82,7 +82,7 @@ Theorems~\ref{thm:target} and~\ref{thm:D} were proved in previous work~\cite{Lin
 \item \emph{Previous work.} Theorem~\ref{thm:target}, and Theorem~\ref{thm:D} for agents that value exactly three goods and are balanced, were machine-checked in Lean~4, together with K3ALG, in previous work~\cite{LinK3,Repo}, for values in any linearly ordered cancellative commutative monoid (which covers the nonnegative reals by a standard fact). That proof is different from the one here.
 \item \emph{This paper.} The Improvement Lemma, the soundness theorem in the form used here, the algorithm \DE{}, its correctness, and Theorem~\ref{thm:D} for all instances with at most three relevant goods per agent are \emph{written proofs}. The Improvement Lemma was derived independently twice, by two different arguments (Section~\ref{sec:second}). Its proof was refereed once, with no error found; we apply the referee's four presentation fixes. Every step of it has been checked by computer as described in Section~\ref{sec:evidence}: three independent implementations, two of this proof and one of the second, assert every claim on millions of states. It is not machine-checked.
 \end{itemize}
-Table~\ref{tab:status} in Section~\ref{sec:evidence} lists every claim with its evidence. The notes from which this paper is written, the test programs and the referee report are in the repository~\cite{RepoS}.
+Table~\ref{tab:status} in Section~\ref{sec:evidence} lists every claim with its evidence. Section~\ref{sec:overview} explains the approach informally; Sections~\ref{sec:prelim}--\ref{sec:algo} give the definitions, the proofs and the algorithm; Section~\ref{sec:limits} shows that the shape of Theorem~\ref{thm:D} cannot be improved in the obvious ways. The notes from which this paper is written, the test programs and the referee report are in the repository~\cite{RepoS}.
 
 \subsection{Related work}\label{sec:related}
 
@@ -115,10 +115,6 @@ this paper & at most three relevant goods per agent; any number of valuers per g
 \bottomrule
 \end{tabular}
 \end{table}
-
-\subsection{Organization}\label{sec:roadmap}
-
-Section~\ref{sec:overview} explains the approach informally. Section~\ref{sec:prelim} gives the model, the threat and safety lemmas, and peeling. Section~\ref{sec:states} defines states and proves soundness. Section~\ref{sec:improve} proves the Improvement Lemma. Section~\ref{sec:algo} states \DE{}, proves it correct (and with it Theorems~\ref{thm:target}--\ref{thm:algo}), traces it on an instance with six agents, and discusses how large an exchange must be. Section~\ref{sec:limits} shows that the shape of Theorem~\ref{thm:D} cannot be improved in the obvious ways. Section~\ref{sec:evidence} describes the verification status and the computational evidence, and Section~\ref{sec:concl} concludes.
 
 %======================================================================
 \section{Overview}\label{sec:overview}
@@ -436,21 +432,21 @@ Let $Y$ be valid and not dominated by any valid state. If every agent holds its 
 
 Algorithm~\ref{alg:de} lists \DE{}. It receives the values $v_i(g)$; ties among an agent's values are broken by index, as in Section~\ref{sec:model}. The loop of lines~\ref{l:loop}--\ref{l:end} runs on the core case left by peeling, with the rankings and the state of Section~\ref{sec:states}.
 
-\begin{algorithm}[tbp]
+\begin{algorithm}[tb]
 \caption{Draft and Exchange (\DE{})}\label{alg:de}
 \begin{algorithmic}[1]
 \Require agents $N$, goods $M$, nonnegative values $v_i(g)$, every agent with $|R_i|\le3$
 \State $A\gets N$, $G\gets M$
 \While{$|A|\ge2$ and rule R1 applies to some $i\in A$ with respect to $G$} \Comment{peeling}
-  \State $X_i\gets P_i$ ($i$'s favourite good of $G$, or $\emptyset$ if $i$ values no good of $G$)
+  \State $X_i\gets P_i$ (by rule R1)
   \State $A\gets A\setminus\{i\}$, $G\gets G\setminus P_i$
 \EndWhile
 \If{$|A|=1$} give $G$ to the agent of $A$ and \Return $X$ \EndIf
-\State \Comment{core case: every $i\in A$ values exactly three goods of $G$, strictly balanced}
+\State \Comment{core case (Lemma~\ref{lem:R1fail})}
 \For{$i\in A$ in index order} $Y_i\gets$ the first of $\{a_i\},\{b_i\},\{c_i\}$ whose good is not yet taken, else $\emptyset$ \EndFor
 \Loop\label{l:loop}
   \If{some $x\notin U$ has $Y_x=\{a_x\}$ and $b_x,c_x\in J$}
-    \State walk need arcs from $x$; apply the need cycle or the pair chain of Lemma~\ref{lem:P}
+    \State apply the pair chain, or need cycle, of Lemma~\ref{lem:P}(b)
   \ElsIf{every agent of $A$ is in $U$}
     \State $o\gets$ the first agent of $A$; $H\gets\emptyset$; \textbf{break}
   \ElsIf{some $o\in F$ has $Y_o=\emptyset$}
@@ -458,9 +454,9 @@ Algorithm~\ref{alg:de} lists \DE{}. It receives the values $v_i(g)$; ties among 
   \ElsIf{some $o\in F$ has $|H_o|\le|F|-1$}
     \State $o\gets$ the first such agent; $H\gets H_o$; \textbf{break} \Comment{Lemma~\ref{lem:forced}}
   \ElsIf{$F=\emptyset$}
-    \State follow out-arcs of $D$ until an agent repeats; apply the need cycle \Comment{Lemma~\ref{lem:noF}}
+    \State apply a need cycle, found by following out-arcs of $D$ (Lemma~\ref{lem:noF})
   \Else
-    \State choose distinct $h_o\in H_o$ greedily; follow $\sigma$; exchange along the cycle \Comment{Lemma~\ref{lem:cycle}}
+    \State exchange along the cycle of $\sigma$ (Lemma~\ref{lem:cycle})
   \EndIf
 \EndLoop\label{l:end}
 \State give each good of $H$ to a different free agent other than $o$, in index order
@@ -578,7 +574,7 @@ If $k\ge3$, the disjoint sets $E_o$ contain at least $k^2$ agents, of which at m
 
 \noindent In the second instance the distinct labels matter. Of the four cycles $o_2\to x\to o_1\to x'\to o_2$ with two exposure arcs, two use the same protecting good twice, and exchanging along them would give $g_2$ (or $g_3$) to two agents; the other two give valid dominating states (checked by our script).
 
-\paragraph{No bounded number of exposure arcs suffices.} The notes (\cite{RepoS}, \file{k3/simplify/po/potential/NOTES.md}, \S7) give valid states with $k$ free agents in a ring: $o_i$ needs the goods at the roots of a binary tree of agents that need their children's goods, and the leaves of the tree of $o_{i+1}$ hold their tops and are exposed for $o_i$. No free agent absorbs, and every cycle of $\Dp$ with distinct labels uses exactly $k$ exposure arcs. This was checked by computer for $(k,\text{depth})\in\{(2,1),(3,2),(4,2),(5,3)\}$ in the notes and for $k\le4$ by our script; the referee ran \DE{} on rings with $k\le9$. We have not proved that every Pareto improvement there upgrades $k$ agents.
+\paragraph{No bounded number of exposure arcs suffices.} The second proof's notes~\cite{RepoS} (\S7) give valid states with $k$ free agents in a ring: $o_i$ needs the goods at the roots of a binary tree of agents that need their children's goods, and the leaves of the tree of $o_{i+1}$ hold their tops and are exposed for $o_i$. No free agent absorbs, and every cycle of $\Dp$ with distinct labels uses exactly $k$ exposure arcs. This was checked by computer for $(k,\text{depth})\in\{(2,1),(3,2),(4,2),(5,3)\}$ in the notes and for $k\le4$ by our script; the referee ran \DE{} on rings with $k\le9$. We have not proved that every Pareto improvement there upgrades $k$ agents.
 
 %======================================================================
 \section{Limits of the Shape}\label{sec:limits}

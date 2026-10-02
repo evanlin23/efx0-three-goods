@@ -48,7 +48,7 @@ Every instance with $n\ge1$ agents and nonnegative additive valuations in which 
 Algorithm \DE{} (Section~\ref{sec:algo}) computes such an allocation with at most $n$ peeling steps and at most $4n$ exchanges, each taking time polynomial in $n$ and $m$.
 \end{theorem}
 
-\paragraph{Previous work and status.} Theorem~\ref{thm:main} (existence, and the shape for agents that value exactly three goods and are balanced) was proved in previous work~\cite{LinK3} with a construction, K3ALG, whose proof uses blocks of a draft, leaders, an owner test and one rotation; that proof, the algorithm and its operation bound are machine-checked in Lean~4~\cite{LinK3,Repo}. This paper gives a much shorter proof. Its core, the Improvement Lemma (Theorem~\ref{thm:improve}), was derived independently twice, by two different arguments~\cite{RepoS}. It was refereed once, with no error found, and every step has been checked by computer as described in Section~\ref{sec:evidence}; it is not machine-checked. The same holds for soundness (Theorem~\ref{thm:sound}), \DE{}, and the general form of the shape.
+\paragraph{Previous work and status.} Theorem~\ref{thm:main} (existence, and the shape for agents that value exactly three goods and are balanced) was proved in previous work~\cite{LinK3} with a construction, K3ALG, whose proof uses blocks of a draft, leaders, an owner test and one rotation; that proof, the algorithm and its operation bound are machine-checked in Lean~4~\cite{LinK3,Repo}. This paper gives a much shorter proof. Its core, the Improvement Lemma (Theorem~\ref{thm:improve}), was derived independently twice, by two different arguments~\cite{RepoS}. It was refereed once, with no error found, and every step has been checked by computer as described in Section~\ref{sec:evidence}; it is not machine-checked. Soundness (Theorem~\ref{thm:sound}), the correctness of \DE{} and the shape for all instances with at most three relevant goods per agent are likewise written proofs, checked by computer and not machine-checked.
 
 \section{Preliminaries}\label{sec:prelim}
 
@@ -97,7 +97,7 @@ Let $Y$ be valid. (Draft) If the agents, in any order, each take the first of $a
 \end{lemma}
 
 \begin{proof}
-(Draft) A good that $i$ needs was taken before $i$'s turn, alone, by an earlier agent, and holdings do not change. (F1) If $Y'_i$ is the pair, $N'_i=\emptyset$; if $Y'_i=\{g'\}$, then $Y_i$ is $\emptyset$ or a single good ranked at most as high as $g'$; if $Y'_i=\emptyset$, then $Y_i=\emptyset$. (F2) Such a $j$ holds $y_j\in\NA$, so some $j'$ needs $y_j$; $j'\ne j$, and $j'\notin U$ since pair holders need nothing. (Transfer) By (F1), $\NA'\subseteq\NA$. \qed
+(Draft) A good that $i$ needs was taken before $i$'s turn, alone, by an earlier agent, and holdings do not change. (F1) If $Y'_i$ is the pair, $N'_i=\emptyset$; if $Y'_i=\{g'\}$, then $Y_i$ is $\emptyset$ or a single good ranked at most as high as $g'$, so every good ranked above $g'$ is in $N_i$; if $Y'_i=\emptyset$, then $Y_i=\emptyset$. (F2) Such a $j$ holds $y_j\in\NA$, so some $j'$ needs $y_j$; $j'\ne j$, and $j'\notin U$ since pair holders need nothing. (Transfer) By (F1), $\NA'\subseteq\NA$. \qed
 \end{proof}
 
 \section{The Improvement Lemma}\label{sec:improve}
@@ -265,7 +265,7 @@ With values as in Lemma~\ref{lem:L5} for every agent:
 
 \begin{proof}
 (a) Bundles of at most two goods have sizes $2,2,1$: one good is alone. Two agents do not hold $g_0$; (T) fails for them, and (C), (E) need two alone goods; so both are in (P) or (B) and hold $g_1$: impossible. The stated allocation is (T), (B), (C).
-(b) Each top $g_0$, $g_1$ has a different \emph{loser}, an agent ranking it first without holding it. A loser is safe only by (P) or (B), holding $g_2$, or by (C) or (E), with $g_2$ alone. Both cannot hold $g_2$, so $g_2$ is alone and (P) is impossible; then each loser needs its top alone too. So $g_0,g_1,g_2$ are alone in three bundles, and the fourth is $\{p_0,\dots,p_3\}$. Giving $g_0,g_2,g_1$ and the $p_i$ to agents $0,1,2,3$ is \efxz{} (T, T, B, C). \qed
+(b) Each top $g_0$, $g_1$ has a different \emph{loser}, an agent ranking it first without holding it. A loser is safe only by (P) or (B), holding $g_2$, or by (C) or (E), with $g_2$ alone. Both cannot hold $g_2$, so $g_2$ is alone and (P) is impossible; then each loser needs its top alone too. So $g_0,g_1,g_2$ are alone in three bundles, and the fourth is $\{p_0,\dots,p_3\}$. Giving $g_0,g_2,g_1$ and the $p_i$ to agents $0,1,2,3$ is \efxz{} (cases T, B, T, C). \qed
 \end{proof}
 
 \noindent Our script confirms both parts by listing all allocations.
