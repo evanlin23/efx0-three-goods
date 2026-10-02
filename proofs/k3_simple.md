@@ -9,7 +9,7 @@ with pluggable rules), `k3/simplify/test_k3s.py` and `k3/simplify/exp_*.py` (exp
   `proofs/lb_last_step.md`). It has **not been refereed** and is **not machine-checked**.
 - §5 is evidence: raw EFX₀ checks of K3S on every ranking profile of every core with n ≤ 5, samples of every
   certified core with n = 6, 7, 8, every ranking profile with n = 4 agents on up to 7 goods, and 5 million random
-  instances. K3S never failed (about 250,000 of these runs used the rotation).
+  instances. K3S never failed (about 240,000 of these runs used the rotation).
 - §4 is a list of simplifications that **fail**, each with its smallest failing configuration.
 - Lemma T (§3.6) is new and is proved here: when the absorber r fails, every leader is exposed.
 
@@ -193,7 +193,7 @@ agents valuing 0–3 goods on random general instances.
 | random profiles of every certified core, n = 6 (300 per core, × 3) | 962,100 | 4,536 | 0 | `k3s_cores_6_sample.log` |
 | random profiles of every certified core, n = 7 (20 per core, × 3) | 823,400 | 1,352 | 0 | `k3s_cores_7_sample.log` |
 | random profiles of every certified core, n = 8, m ≥ 14 (100 per core, × 3) | 128,500 | 13 | 0 | `k3s_cores_8_sample.log` |
-| every ranking profile, n = 2, m ≤ 7; n = 3, m ≤ 8; n = 4, m ≤ 5 (worthless goods allowed) | 411,322 | 7,984 | 0 | `k3s_small_upto_4_5.log` |
+| every ranking profile, n = 2, m ≤ 7; n = 3, m ≤ 8; n = 4, m ≤ 5 (worthless goods allowed) | 406,068 | 7,984 | 0 | `k3s_small_upto_4_5.log` |
 | every ranking profile, n = 4, m = 6 | 1,728,000 | 33,168 | 0 | `k3s_small_4_6.log` |
 | every ranking profile, n = 4, m = 7 | 9,261,000 | 147,336 | 0 | `k3s_small_4_7.log` |
 | random ranking profiles, n ≤ 9, m ≤ 2n + 3 | 2,000,000 | 10,705 | 0 | `k3s_rprof.log` |
