@@ -1,15 +1,15 @@
 # command: python3 k4/sx_zprime.py results/k4_sx/hunt/n4_pure_r400k.jsonl.gz --start=0 --max=4000 --examples=3
-KEYS: every Z-max covered (structural) = False                                                       5
-KEYS: every Z-max covered (structural) = True                                                        2357
-KEYS: some Z-max covered by A, B1, C, C', B1' (structural hypotheses) = False                        5
-KEYS: some Z-max covered by A, B1, C, C', B1' (structural hypotheses) = True                         2357
+KEYS: every Z-max covered (structural) = False                                                       4
+KEYS: every Z-max covered (structural) = True                                                        2358
+KEYS: some Z-max covered by A, B1, C, C', B1' (structural hypotheses) = False                        4
+KEYS: some Z-max covered by A, B1, C, C', B1' (structural hypotheses) = True                         2358
 KEYS: some Z-max covered with the exact hypotheses = True                                            2362
 MAIN CASE A                                                                                          3390
 MAIN CASE B1                                                                                         135
 MAIN CASE B1'                                                                                        12
-MAIN CASE B1'x                                                                                       3
+MAIN CASE B1'x                                                                                       2
 MAIN CASE C                                                                                          73
-MAIN CASE C'                                                                                         30
+MAIN CASE C'                                                                                         31
 MAIN CASE Cx                                                                                         2
 Zmax                                                                                                 3645
 keys                                                                                                 2362
@@ -40,9 +40,9 @@ regime I Prop B' k=1 hypothesis (y valued only by x) holds=False                
 regime I Prop C applies=False (only (H) missing=False)                                               2089
 regime I Prop C applies=False (only (H) missing=True)                                                31
 regime I Prop C applies=True (only (H) missing=False)                                                1507
-regime I Prop C' applies=False (only (H') missing=False)                                             3268
-regime I Prop C' applies=False (only (H') missing=True)                                              55
-regime I Prop C' applies=True (only (H') missing=False)                                              304
+regime I Prop C' applies=False (only (H') missing=False)                                             3266
+regime I Prop C' applies=False (only (H') missing=True)                                              56
+regime I Prop C' applies=True (only (H') missing=False)                                              305
 regime I Zmax with a direct T3 move                                                                  3627
 regime I cases A*,B1'x,C-H,Cx,Rs                                                                     1
 regime I cases A*,B1,C                                                                               128
@@ -55,10 +55,11 @@ regime I cases A*,C,C',C'x                                                      
 regime I cases A*,C,C',C'x,C-H,Cx                                                                    5
 regime I cases A*,C-H,Cx,Rs                                                                          1
 regime I cases A,A*                                                                                  1533
-regime I cases A,A*,B1                                                                               287
+regime I cases A,A*,B1                                                                               286
 regime I cases A,A*,B1'x,Rs                                                                          19
 regime I cases A,A*,B1,B1'x,Rs                                                                       8
 regime I cases A,A*,B1,C                                                                             40
+regime I cases A,A*,B1,C'x                                                                           1
 regime I cases A,A*,C                                                                                1170
 regime I cases A,A*,C'                                                                               177
 regime I cases A,A*,C',C'x                                                                           6
@@ -72,7 +73,8 @@ regime I cases A,A*,C,C-H,Cx                                                    
 regime I cases A,A*,C-H                                                                              2
 regime I cases A,A*,C-H,Cx                                                                           18
 regime I cases A,A*,Rs                                                                               1
-regime I cases B1'x,Rs                                                                               3
+regime I cases B1'x,C',Rs                                                                            1
+regime I cases B1'x,Rs                                                                               2
 regime I cases C'                                                                                    1
 regime I direct kind ('zT', '-', 'own=V')                                                            319
 regime I direct kind ('zT', '-', 'own=x')                                                            340
@@ -129,4 +131,4 @@ EX II ({'sets': [[0, 2, 6, 7], [1, 3, 6, 8], [4, 5, 7, 8], [4, 5, 7, 8]], 'vals'
 EX I-no-OS ({'sets': [[0, 2, 7, 8], [1, 4, 7, 9], [3, 5, 6, 9], [5, 6, 8, 9]], 'vals': [[7, 4, 2, 10], [3, 4, 2, 8], [3, 6, 5, 7], [3, 2, 6, 10]], 'm': 10}, (None, None, 9, None), 'Config(key=[None, None, 9, None], Q={0: [0, 2], 1: [1, 4], 3: [5, 8]}, L=[3, 6, 7])', 'V', [0, 1], 'T', [1, 3], [('zT', '-', 'own=V'), ('zT', 'hV', 'own=V'), ('zT', 'hV', 'own=x'), ('zV', 'h', 'own=V'), ('zV', 'h', 'own=x')])
 EX I-no-OS ({'sets': [[0, 2, 8, 10], [1, 5, 8, 10], [3, 6, 9, 10], [4, 7, 9, 10]], 'vals': [[3, 5, 6, 7], [5, 6, 4, 8], [3, 4, 2, 8], [4, 3, 2, 8]], 'm': 11}, (10, None, None, None), 'Config(key=[10, None, None, None], Q={1: [1, 5], 2: [3, 6], 3: [4, 7]}, L=[0, 2, 8, 9])', 'V', [1, 2, 3], 'T', [2, 3], [('zV', '-', 'own=V'), ('zV', 'hV', 'own=V'), ('zV', 'hV', 'own=x')])
 EX I-no-OS ({'sets': [[0, 2, 7, 8], [1, 5, 7, 10], [3, 6, 9, 10], [4, 8, 9, 10]], 'vals': [[2, 7, 4, 10], [6, 5, 4, 8], [2, 3, 6, 10], [2, 3, 4, 8]], 'm': 11}, (None, 10, None, None), 'Config(key=[None, 10, None, None], Q={0: [2, 7], 2: [6, 9], 3: [4, 8]}, L=[0, 1, 3, 5])', 'V', [0, 2], 'T', [2, 3], [('zT', '-', 'own=V'), ('zT', 'hV', 'own=V'), ('zT', 'hV', 'own=x'), ('zV', 'h', 'own=V'), ('zV', 'h', 'own=x')])
-# time 410.8 s
+# time 219.5 s

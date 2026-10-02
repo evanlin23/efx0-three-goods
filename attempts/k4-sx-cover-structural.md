@@ -17,8 +17,9 @@ new owner's bundle threatens nobody. In the instance below Lemma C applies with 
 is now stated with the exact hypotheses (K4.SX.COV).
 
 **Smallest failing configuration found.** n = 4, m = 9, ω = 2, from the hunt `results/k4_sx/hunt/n4_pure_r400k`
-(400,000 random profiles per pure n = 4 core). That hunt has 5 Z′-maxima without a structurally covered lemma, at
-keys whose unique Z′-maximum it is. The other two printed instances have the same core, and one has m = 10.
+(400,000 random profiles per pure n = 4 core). That hunt has 4 Z′-maxima without a structurally covered lemma, at
+keys whose unique Z′-maximum it is. There were 5 before the PR #80 review corrected `k4/sx_zprime.py`'s test of Lemma
+C′, which had required both terminals to be leaves; one of the 5 is covered by C′ under (H′*). The other two printed instances have the same core, and one has m = 10.
 
 | agent | goods: values |
 |---|---|
@@ -32,10 +33,12 @@ keys whose unique Z′-maximum it is. The other two printed instances have the s
 - Agent 2 is a θ-b terminal leaf: big-top on 8, with U_2 = {3, 6, 7} ⊆ X_2. So Lemma A does not apply.
 - Agent 1 is a terminal whose threat path ends at the leaf 0. Agent 0 is of kind (R): its top 4 is in Q_1, and its
   fourth good 5 is in L. In Lemma B′ the good y = 1 of Q_1 joins x's bundle, and agent 1 values it, so (H_B′*) fails.
+  Moreover X″ = {0, 1, 2, 6} contains no pair for x (`k4/sx_indep.py`), so B′ does not apply even with the exact (H_B′).
 - Lemma C with τ₁ = 2, o = 0 and P_x = {5, 7}: P_x is robust for x and meets U_2, but Q_2 ∖ P_x = {3} is valued by
   agent 1, so (H*) fails.
 - The exact (H) holds: agent 1 holds {1, 4}, worth 5, and values only 3 (worth 4) in Y = {0, 2, 3, 6}. So Lemma C
   applies, and DL on the key graph holds at the key.
 
-**Reproduce.** `python3 attempts/k4_sx_attempts.py`, case 4: def* by two implementations, and the lemma checks by
-`k4/sx_zprime.py`.
+**Reproduce.** `python3 attempts/k4_sx_attempts.py`, case 4. def* is computed by three implementations (model.py,
+c4x_check, `k4/sx_indep.py`). The lemma checks, structural against exact, are done by `k4/sx_zprime.py` and by the PR #80
+referee's `k4/sx_indep.py`.

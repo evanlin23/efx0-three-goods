@@ -1,4 +1,7 @@
 # command: python3 k4/sx_zprime.py results/k4_sx/hunt/n3_all_40.jsonl.gz --start=24000 --max=4000 --examples=3
+KEYS: every Z-max covered (structural) = True                                                        2864
+KEYS: some Z-max covered by A, B1, C, C', B1' (structural hypotheses) = True                         2864
+KEYS: some Z-max covered with the exact hypotheses = True                                            2864
 MAIN CASE A                                                                                          3296
 Zmax                                                                                                 3296
 keys                                                                                                 2864
@@ -14,4 +17,4 @@ regime I direct kind ('zV', '-', 'own=x')                                       
 regime I direct kind ('zV', 'hV', 'own=V')                                                           1099
 regime I direct kind ('zV', 'hV', 'own=x')                                                           3296
 regime I |V|=2 |T|=1 |VT|=1 t=1 x=BT                                                                 3296
-# time 54.0 s
+# time 34.9 s

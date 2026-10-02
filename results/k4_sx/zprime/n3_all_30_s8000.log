@@ -1,4 +1,7 @@
 # command: python3 k4/sx_zprime.py results/k4_sx/hunt/n3_all_30.jsonl.gz --start=8000 --max=4000 --examples=3
+KEYS: every Z-max covered (structural) = True                                                        4000
+KEYS: some Z-max covered by A, B1, C, C', B1' (structural hypotheses) = True                         4000
+KEYS: some Z-max covered with the exact hypotheses = True                                            4000
 MAIN CASE A                                                                                          6684
 MAIN CASE B1                                                                                         828
 MAIN CASE C                                                                                          64
@@ -50,4 +53,4 @@ regime II |V|=1 |T|=1 |VT|=0 t=0 x=BT                                           
 EX II ({'sets': [[0, 1, 2, 3], [2, 4, 5, 6], [3, 4, 5, 6]], 'vals': [[2, 3, 4, 8], [2, 6, 10, 7], [10, 2, 7, 6]], 'm': 7}, (3, None, None), 'Config(key=[3, None, None], Q={1: [2, 5], 2: [4, 6]}, L=[0, 1])', 'V', [1], 'T', [2], 'thx', [1], 't', 0, 'BT', [('zT', 'hV', 'own=x')])
 EX II ({'sets': [[0, 1, 2, 3], [2, 4, 5, 6], [3, 4, 5, 6]], 'vals': [[2, 3, 6, 10], [2, 6, 10, 7], [10, 2, 7, 6]], 'm': 7}, (3, None, None), 'Config(key=[3, None, None], Q={1: [2, 5], 2: [4, 6]}, L=[0, 1])', 'V', [1], 'T', [2], 'thx', [1], 't', 0, 'BT', [('zT', 'hV', 'own=x')])
 EX II ({'sets': [[0, 1, 2, 3], [2, 4, 5, 6], [3, 4, 5, 6]], 'vals': [[2, 4, 3, 8], [2, 6, 10, 7], [10, 2, 7, 6]], 'm': 7}, (3, None, None), 'Config(key=[3, None, None], Q={1: [2, 5], 2: [4, 6]}, L=[0, 1])', 'V', [1], 'T', [2], 'thx', [1], 't', 0, 'BT', [('zT', 'hV', 'own=x')])
-# time 59.4 s
+# time 38.6 s

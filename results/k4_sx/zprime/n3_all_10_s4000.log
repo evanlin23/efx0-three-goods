@@ -1,4 +1,7 @@
 # command: python3 k4/sx_zprime.py results/k4_sx/hunt/n3_all_10.jsonl.gz --start=4000 --max=4000 --examples=3
+KEYS: every Z-max covered (structural) = True                                                        3792
+KEYS: some Z-max covered by A, B1, C, C', B1' (structural hypotheses) = True                         3792
+KEYS: some Z-max covered with the exact hypotheses = True                                            3792
 MAIN CASE A                                                                                          13592
 Zmax                                                                                                 13592
 keys                                                                                                 3792
@@ -30,4 +33,4 @@ regime I |V|=1 |T|=2 |VT|=1 t=0 x=bc                                            
 regime I |V|=1 |T|=2 |VT|=1 t=0 x=bcbd                                                               4332
 regime I |V|=1 |T|=2 |VT|=1 t=0 x=flat                                                               800
 regime I |V|=2 |T|=2 |VT|=2 t=0 x=flat                                                               1400
-# time 37.7 s
+# time 24.1 s

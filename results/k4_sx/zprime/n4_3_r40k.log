@@ -1,4 +1,7 @@
 # command: python3 k4/sx_zprime.py results/k4_sx/hunt/n4_3_r40k.jsonl.gz --start=0 --max=4000 --examples=3
+KEYS: every Z-max covered (structural) = True                                                        59
+KEYS: some Z-max covered by A, B1, C, C', B1' (structural hypotheses) = True                         59
+KEYS: some Z-max covered with the exact hypotheses = True                                            59
 MAIN CASE A                                                                                          148
 MAIN CASE B1                                                                                         42
 MAIN CASE C'                                                                                         1
@@ -35,7 +38,7 @@ regime I cases A,A*,B1                                                          
 regime I cases A,A*,B1',Rs                                                                           2
 regime I cases A,A*,C                                                                                54
 regime I cases A,A*,C'                                                                               1
-regime I cases A,A*,C,C-H                                                                            2
+regime I cases A,A*,C,C'x,C-H,Cx                                                                     2
 regime I direct kind ('zT', '-', 'own=V')                                                            82
 regime I direct kind ('zT', '-', 'own=x')                                                            49
 regime I direct kind ('zT', 'hV', 'own=V')                                                           78
@@ -55,4 +58,4 @@ regime I |V|=2 |T|=2 |VT|=2 t=0 x=flat                                          
 regime I |V|=2 |T|=2 |VT|=2 t=1 x=flat                                                               29
 regime I |V|=3 |T|=2 |VT|=2 t=1 x=bcbd                                                               3
 regime I |V|=3 |T|=2 |VT|=2 t=1 x=flat                                                               39
-# time 4.0 s
+# time 2.4 s

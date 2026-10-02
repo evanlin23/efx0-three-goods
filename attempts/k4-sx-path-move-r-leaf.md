@@ -25,4 +25,6 @@ p + q + s > a, so X_o threatens o. Lemma B′ handles the case: o takes {a, s}, 
 - The state reached still has deficit −1 through another owner. What fails is the proof's choice of owner, not the
   move. Lemma B′ gives x a valid bundle: agent 0 takes {6, 5}, and x owns {0, 1, 4}.
 
-**Reproduce.** `python3 attempts/k4_sx_attempts.py`, case 2 (two implementations for def*).
+**Reproduce.** `python3 attempts/k4_sx_attempts.py`, case 2. def* is computed by three implementations: model.py,
+c4x_check, and the PR #80 referee's `k4/sx_indep.py`. The (R) kind of the leaf, s ∈ L, and the threat of X_o to o after
+the plain move are computed by model.py and by `k4/sx_indep.py`.

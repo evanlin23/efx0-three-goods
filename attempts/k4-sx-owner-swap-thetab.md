@@ -24,6 +24,9 @@ excludes this case, and Lemmas C and C′ of `k4/sx.md` §3 handle it with anoth
 - x's only admissible set inside X_1 is {0, 2}. After the swap the state ({0, 2}, {9}, {3, 6}, {4, 7}) still has deficit 1.
 - Lemma C′ repairs this configuration: agent 2, the other terminal, owns {1, 3, 6, 8} and unfreezes agent 1.
 
-**Reproduce.** `python3 attempts/k4_sx_attempts.py`, case 1 (`results/k4_sx/attempts_replay.log`). It uses two
-implementations: `k4/suite/model.py` through `k4/sx_keygraph.py`, and main's `k4/c4x_check.py` through
-`k4/sx_xcheck.py`.
+**Reproduce.** `python3 attempts/k4_sx_attempts.py`, case 1 (`results/k4_sx/attempts_replay.log`). It uses three
+implementations:
+- `k4/suite/model.py` through `k4/sx_keygraph.py`;
+- main's `k4/c4x_check.py` through `k4/sx_xcheck.py`, for def* and the image's deficit;
+- the PR #80 referee's `k4/sx_indep.py`, which shares no repository code. It computes def*, the image's deficit, that
+  the configuration is a Z′-maximum, and that agent 1 is a θ-b leaf threatening x.

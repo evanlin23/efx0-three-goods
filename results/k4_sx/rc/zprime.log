@@ -16,4 +16,4 @@ regime I cases A,A*                                                             
 regime I direct kind ('zV', '-', 'own=x')                                                            45
 regime I direct kind ('zV', 'hV', 'own=x')                                                           45
 regime I |V|=4 |T|=2 |VT|=2 t=1 x=flat                                                               45
-# time 12.3 s
+# time 8.5 s

@@ -18,8 +18,11 @@ free-valid owner: frozen agents threatened=2                                    
 keys f=3                                                                                   26
 keys: Lemma A+ or B+ at some Zmax=False                                                    7
 keys: Lemma A+ or B+ at some Zmax=True                                                     19
+no A+/B+: a needer on the path, but theta fails or an (R) leaf with s in L                 17
+no A+/B+: leaf threatens 2 frozen agents                                                   30
+no A+/B+: the free needers are off the path to the leaf                                    15
 profiles f=3                                                                               8
 EX noAplus ({'sets': [[0, 2, 6, 10], [1, 4, 9, 11], [3, 5, 9, 11], [6, 7, 8, 10], [7, 8, 10, 11]], 'vals': [[2, 3, 6, 10], [3, 4, 2, 8], [3, 2, 4, 8], [2, 3, 10, 6], [2, 10, 6, 3]], 'm': 12}, (10, None, 11, 8, None), 'Config(key=[10, None, 11, 8, None], Q={1: [1, 4], 4: [0, 7]}, L=[2, 3, 5, 6, 9])', 'V', [1, 4])
 EX noAplus ({'sets': [[0, 2, 6, 10], [1, 4, 9, 11], [3, 5, 9, 11], [6, 7, 8, 10], [7, 8, 10, 11]], 'vals': [[2, 3, 6, 10], [3, 4, 2, 8], [3, 2, 4, 8], [2, 3, 10, 6], [2, 10, 6, 3]], 'm': 12}, (10, None, 11, 8, None), 'Config(key=[10, None, 11, 8, None], Q={1: [1, 4], 4: [2, 7]}, L=[0, 3, 5, 6, 9])', 'V', [1, 4])
 EX noAplus ({'sets': [[0, 2, 6, 10], [1, 4, 9, 11], [3, 5, 9, 11], [6, 7, 8, 10], [7, 8, 10, 11]], 'vals': [[2, 3, 6, 10], [3, 4, 2, 8], [3, 2, 4, 8], [2, 3, 10, 6], [2, 10, 6, 3]], 'm': 12}, (10, None, 11, 8, None), 'Config(key=[10, None, 11, 8, None], Q={1: [1, 4], 4: [3, 7]}, L=[0, 2, 5, 6, 9])', 'V', [1, 4])
-# time 2.1 s
+# time 0.9 s

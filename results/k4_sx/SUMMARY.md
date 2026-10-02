@@ -88,6 +88,9 @@ Made by `python3 k4/sx_summary.py` from the complete logs under `results/k4_sx/`
 
 ### n3_all (17 logs)
 
+- KEYS: every Z-max covered (structural) = True: 62208
+- KEYS: some Z-max covered by A, B1, C, C', B1' (structural hypotheses) = True: 62208
+- KEYS: some Z-max covered with the exact hypotheses = True: 62208
 - MAIN CASE A: 104372
 - MAIN CASE B1: 7824
 - MAIN CASE C: 4052
@@ -156,6 +159,9 @@ Made by `python3 k4/sx_summary.py` from the complete logs under `results/k4_sx/`
 
 ### n4_3_r40k (1 logs)
 
+- KEYS: every Z-max covered (structural) = True: 59
+- KEYS: some Z-max covered by A, B1, C, C', B1' (structural hypotheses) = True: 59
+- KEYS: some Z-max covered with the exact hypotheses = True: 59
 - MAIN CASE A: 148
 - MAIN CASE B1: 42
 - MAIN CASE C': 1
@@ -192,7 +198,7 @@ Made by `python3 k4/sx_summary.py` from the complete logs under `results/k4_sx/`
 - regime I cases A,A*,B1',Rs: 2
 - regime I cases A,A*,C: 54
 - regime I cases A,A*,C': 1
-- regime I cases A,A*,C,C-H: 2
+- regime I cases A,A*,C,C'x,C-H,Cx: 2
 - regime I direct kind ('zT', '-', 'own=V'): 82
 - regime I direct kind ('zT', '-', 'own=x'): 49
 - regime I direct kind ('zT', 'hV', 'own=V'): 78
@@ -215,17 +221,17 @@ Made by `python3 k4/sx_summary.py` from the complete logs under `results/k4_sx/`
 
 ### n4_pure_r400k (1 logs)
 
-- KEYS: every Z-max covered (structural) = False: 5
-- KEYS: every Z-max covered (structural) = True: 2357
-- KEYS: some Z-max covered by A, B1, C, C', B1' (structural hypotheses) = False: 5
-- KEYS: some Z-max covered by A, B1, C, C', B1' (structural hypotheses) = True: 2357
+- KEYS: every Z-max covered (structural) = False: 4
+- KEYS: every Z-max covered (structural) = True: 2358
+- KEYS: some Z-max covered by A, B1, C, C', B1' (structural hypotheses) = False: 4
+- KEYS: some Z-max covered by A, B1, C, C', B1' (structural hypotheses) = True: 2358
 - KEYS: some Z-max covered with the exact hypotheses = True: 2362
 - MAIN CASE A: 3390
 - MAIN CASE B1: 135
 - MAIN CASE B1': 12
-- MAIN CASE B1'x: 3
+- MAIN CASE B1'x: 2
 - MAIN CASE C: 73
-- MAIN CASE C': 30
+- MAIN CASE C': 31
 - MAIN CASE Cx: 2
 - Zmax: 3645
 - keys: 2362
@@ -256,9 +262,9 @@ Made by `python3 k4/sx_summary.py` from the complete logs under `results/k4_sx/`
 - regime I Prop C applies=False (only (H) missing=False): 2089
 - regime I Prop C applies=False (only (H) missing=True): 31
 - regime I Prop C applies=True (only (H) missing=False): 1507
-- regime I Prop C' applies=False (only (H') missing=False): 3268
-- regime I Prop C' applies=False (only (H') missing=True): 55
-- regime I Prop C' applies=True (only (H') missing=False): 304
+- regime I Prop C' applies=False (only (H') missing=False): 3266
+- regime I Prop C' applies=False (only (H') missing=True): 56
+- regime I Prop C' applies=True (only (H') missing=False): 305
 - regime I Zmax with a direct T3 move: 3627
 - regime I cases A*,B1'x,C-H,Cx,Rs: 1
 - regime I cases A*,B1,C: 128
@@ -271,10 +277,11 @@ Made by `python3 k4/sx_summary.py` from the complete logs under `results/k4_sx/`
 - regime I cases A*,C,C',C'x,C-H,Cx: 5
 - regime I cases A*,C-H,Cx,Rs: 1
 - regime I cases A,A*: 1533
-- regime I cases A,A*,B1: 287
+- regime I cases A,A*,B1: 286
 - regime I cases A,A*,B1'x,Rs: 19
 - regime I cases A,A*,B1,B1'x,Rs: 8
 - regime I cases A,A*,B1,C: 40
+- regime I cases A,A*,B1,C'x: 1
 - regime I cases A,A*,C: 1170
 - regime I cases A,A*,C': 177
 - regime I cases A,A*,C',C'x: 6
@@ -288,7 +295,8 @@ Made by `python3 k4/sx_summary.py` from the complete logs under `results/k4_sx/`
 - regime I cases A,A*,C-H: 2
 - regime I cases A,A*,C-H,Cx: 18
 - regime I cases A,A*,Rs: 1
-- regime I cases B1'x,Rs: 3
+- regime I cases B1'x,C',Rs: 1
+- regime I cases B1'x,Rs: 2
 - regime I cases C': 1
 - regime I direct kind ('zT', '-', 'own=V'): 319
 - regime I direct kind ('zT', '-', 'own=x'): 340
@@ -342,6 +350,9 @@ Made by `python3 k4/sx_summary.py` from the complete logs under `results/k4_sx/`
 
 ### n4_pure_r40k (1 logs)
 
+- KEYS: every Z-max covered (structural) = True: 240
+- KEYS: some Z-max covered by A, B1, C, C', B1' (structural hypotheses) = True: 240
+- KEYS: some Z-max covered with the exact hypotheses = True: 240
 - MAIN CASE A: 346
 - MAIN CASE B1: 16
 - MAIN CASE B1': 6
@@ -383,18 +394,22 @@ Made by `python3 k4/sx_summary.py` from the complete logs under `results/k4_sx/`
 - regime I Zmax with a direct T3 move: 362
 - regime I cases A*,B1,C: 9
 - regime I cases A*,C': 1
-- regime I cases A*,C,C': 4
-- regime I cases A*,C,C',C-H: 1
-- regime I cases A,A*: 155
+- regime I cases A*,C,C': 1
+- regime I cases A*,C,C',C'x: 3
+- regime I cases A*,C,C',C'x,C-H,Cx: 1
+- regime I cases A,A*: 152
 - regime I cases A,A*,B1: 26
+- regime I cases A,A*,B1'x,Rs: 2
 - regime I cases A,A*,B1,C: 4
 - regime I cases A,A*,Bk-adj: 4
 - regime I cases A,A*,C: 131
-- regime I cases A,A*,C': 16
-- regime I cases A,A*,C,C',C-H: 2
-- regime I cases A,A*,C,C-H: 5
-- regime I cases A,A*,C-H: 1
-- regime I cases A,A*,Rs: 2
+- regime I cases A,A*,C': 14
+- regime I cases A,A*,C',C'x: 2
+- regime I cases A,A*,C'x: 3
+- regime I cases A,A*,C,C',C-H,Cx: 2
+- regime I cases A,A*,C,C-H: 1
+- regime I cases A,A*,C,C-H,Cx: 4
+- regime I cases A,A*,C-H,Cx: 1
 - regime I cases B1: 1
 - regime I direct kind ('zT', '-', 'own=V'): 25
 - regime I direct kind ('zT', '-', 'own=x'): 28
@@ -450,6 +465,9 @@ Made by `python3 k4/sx_summary.py` from the complete logs under `results/k4_sx/`
 
 ### n5_pure_r1000 (2 logs)
 
+- KEYS: every Z-max covered (structural) = True: 11
+- KEYS: some Z-max covered by A, B1, C, C', B1' (structural hypotheses) = True: 11
+- KEYS: some Z-max covered with the exact hypotheses = True: 11
 - MAIN CASE A: 13
 - Zmax: 13
 - keys: 11
@@ -484,17 +502,17 @@ Made by `python3 k4/sx_summary.py` from the complete logs under `results/k4_sx/`
 
 ### total
 
-- KEYS: every Z-max covered (structural) = False: 5
-- KEYS: every Z-max covered (structural) = True: 2357
-- KEYS: some Z-max covered by A, B1, C, C', B1' (structural hypotheses) = False: 5
-- KEYS: some Z-max covered by A, B1, C, C', B1' (structural hypotheses) = True: 2357
-- KEYS: some Z-max covered with the exact hypotheses = True: 2362
+- KEYS: every Z-max covered (structural) = False: 4
+- KEYS: every Z-max covered (structural) = True: 64876
+- KEYS: some Z-max covered by A, B1, C, C', B1' (structural hypotheses) = False: 4
+- KEYS: some Z-max covered by A, B1, C, C', B1' (structural hypotheses) = True: 64876
+- KEYS: some Z-max covered with the exact hypotheses = True: 64880
 - MAIN CASE A: 108269
 - MAIN CASE B1: 8017
 - MAIN CASE B1': 18
-- MAIN CASE B1'x: 3
+- MAIN CASE B1'x: 2
 - MAIN CASE C: 4130
-- MAIN CASE C': 32
+- MAIN CASE C': 33
 - MAIN CASE Cx: 2
 - Zmax: 120471
 - keys: 64880
@@ -530,9 +548,9 @@ Made by `python3 k4/sx_summary.py` from the complete logs under `results/k4_sx/`
 - regime I Prop C applies=False (only (H) missing=False): 88372
 - regime I Prop C applies=False (only (H) missing=True): 32
 - regime I Prop C applies=True (only (H) missing=False): 24213
-- regime I Prop C' applies=False (only (H') missing=False): 89230
-- regime I Prop C' applies=False (only (H') missing=True): 60
-- regime I Prop C' applies=True (only (H') missing=False): 23327
+- regime I Prop C' applies=False (only (H') missing=False): 89228
+- regime I Prop C' applies=False (only (H') missing=True): 61
+- regime I Prop C' applies=True (only (H') missing=False): 23328
 - regime I Zmax with a direct T3 move: 112617
 - regime I cases A*,B1'x,C-H,Cx,Rs: 1
 - regime I cases A*,B1,C: 179
@@ -540,36 +558,36 @@ Made by `python3 k4/sx_summary.py` from the complete logs under `results/k4_sx/`
 - regime I cases A*,C: 5
 - regime I cases A*,C': 19
 - regime I cases A*,C',C'x: 12
-- regime I cases A*,C,C': 4068
-- regime I cases A*,C,C',C'x: 51
-- regime I cases A*,C,C',C'x,C-H,Cx: 5
-- regime I cases A*,C,C',C-H: 1
+- regime I cases A*,C,C': 4065
+- regime I cases A*,C,C',C'x: 54
+- regime I cases A*,C,C',C'x,C-H,Cx: 6
 - regime I cases A*,C-H,Cx,Rs: 1
-- regime I cases A,A*: 60839
-- regime I cases A,A*,B1: 25795
+- regime I cases A,A*: 60836
+- regime I cases A,A*,B1: 25794
 - regime I cases A,A*,B1',Rs: 2
-- regime I cases A,A*,B1'x,Rs: 19
+- regime I cases A,A*,B1'x,Rs: 21
 - regime I cases A,A*,B1,B1'x,Rs: 8
 - regime I cases A,A*,B1,C: 44
+- regime I cases A,A*,B1,C'x: 1
 - regime I cases A,A*,Bk-adj: 4
 - regime I cases A,A*,C: 2251
-- regime I cases A,A*,C': 1635
-- regime I cases A,A*,C',C'x: 6
+- regime I cases A,A*,C': 1633
+- regime I cases A,A*,C',C'x: 8
 - regime I cases A,A*,C',C'x,C-H,Cx: 7
-- regime I cases A,A*,C'x: 25
+- regime I cases A,A*,C'x: 28
 - regime I cases A,A*,C'x,C-H,Cx: 1
 - regime I cases A,A*,C,C': 17504
-- regime I cases A,A*,C,C',C-H: 2
-- regime I cases A,A*,C,C',C-H,Cx: 16
+- regime I cases A,A*,C,C',C-H,Cx: 18
 - regime I cases A,A*,C,C'x: 2
-- regime I cases A,A*,C,C'x,C-H,Cx: 22
-- regime I cases A,A*,C,C-H: 7
-- regime I cases A,A*,C,C-H,Cx: 56
-- regime I cases A,A*,C-H: 3
-- regime I cases A,A*,C-H,Cx: 18
-- regime I cases A,A*,Rs: 3
+- regime I cases A,A*,C,C'x,C-H,Cx: 24
+- regime I cases A,A*,C,C-H: 1
+- regime I cases A,A*,C,C-H,Cx: 60
+- regime I cases A,A*,C-H: 2
+- regime I cases A,A*,C-H,Cx: 19
+- regime I cases A,A*,Rs: 1
 - regime I cases B1: 1
-- regime I cases B1'x,Rs: 3
+- regime I cases B1'x,C',Rs: 1
+- regime I cases B1'x,Rs: 2
 - regime I cases C': 1
 - regime I direct kind ('zT', '-', 'own=V'): 6670
 - regime I direct kind ('zT', '-', 'own=x'): 19140
@@ -666,6 +684,57 @@ Made by `python3 k4/sx_summary.py` from the complete logs under `results/k4_sx/`
 - no A+/B+: the free needers are off the path to the leaf: 25
 - profiles f=2: 65
 
+### classify_catalogues (1 logs)
+
+- keys: 67
+- uncovered keys: 49
+- uncovered keys: widened A+ at some max=False: 49
+- uncovered maxima: 77
+- uncovered maxima: C shape or iota shape: 69
+- uncovered maxima: C shape or iota shape (owner x or a leaf, |X|=w+1, u>=1): 77
+- uncovered maxima: some W=0 no-helper repair, owner a leaf with |X|=w+2 (Lemma C shape): 34
+- uncovered maxima: some W=0 no-helper repair, owner x with |X|=w+1 and u>=1 (Lemma 9 iota shape): 39
+- uncovered maxima: some repair with def<=0: 77
+- uncovered maxima: some repair with |W|=0: 77
+- uncovered maxima: some repair, no helper, owner a leaf != x: 57
+- uncovered maxima: some repair, owner x: 77
+- uncovered maxima: widened A+ applies=False: 77
+
+### classify_n5 (1 logs)
+
+- keys: 41
+- uncovered keys: 7
+- uncovered keys: widened A+ at some max=False: 7
+- uncovered maxima: 32
+- uncovered maxima: C shape or iota shape: 31
+- uncovered maxima: C shape or iota shape (owner x or a leaf, |X|=w+1, u>=1): 31
+- uncovered maxima: some W=0 no-helper repair, owner a leaf with |X|=w+2 (Lemma C shape): 31
+- uncovered maxima: some W=0 no-helper repair, owner x with |X|=w+1 and u>=1 (Lemma 9 iota shape): 30
+- uncovered maxima: some repair with def<=0: 32
+- uncovered maxima: some repair with |W|=0: 31
+- uncovered maxima: some repair, no helper, owner a leaf != x: 32
+- uncovered maxima: some repair, owner x: 32
+- uncovered maxima: widened A+ applies=False: 32
+
+### classify_t3stage (1 logs)
+
+- keys: 196
+- uncovered keys: 40
+- uncovered keys: widened A+ at some max=False: 39
+- uncovered keys: widened A+ at some max=True: 1
+- uncovered maxima: 65
+- uncovered maxima: C shape or iota shape: 61
+- uncovered maxima: C shape or iota shape (owner x or a leaf, |X|=w+1, u>=1): 65
+- uncovered maxima: some W=0 no-helper repair, owner a leaf with |X|=w+2 (Lemma C shape): 29
+- uncovered maxima: some W=0 no-helper repair, owner x with |X|=w+1 and u>=1 (Lemma 9 iota shape): 34
+- uncovered maxima: some repair with def<=0: 65
+- uncovered maxima: some repair with |W|=0: 65
+- uncovered maxima: some repair, no helper, owner a leaf != x: 55
+- uncovered maxima: some repair, owner x: 65
+- uncovered maxima: widened A+ applies=False: 64
+- uncovered maxima: widened A+ applies=True: 1
+- widened A+ candidate, verified def<=0=True, j=1: 2
+
 ### keys_rt4_n5b (1 logs)
 
 - DLK_T3 FAIL f=3: 2
@@ -734,6 +803,9 @@ Made by `python3 k4/sx_summary.py` from the complete logs under `results/k4_sx/`
 - keys f=3: 26
 - keys: Lemma A+ or B+ at some Zmax=False: 7
 - keys: Lemma A+ or B+ at some Zmax=True: 19
+- no A+/B+: a needer on the path, but theta fails or an (R) leaf with s in L: 17
+- no A+/B+: leaf threatens 2 frozen agents: 30
+- no A+/B+: the free needers are off the path to the leaf: 15
 - profiles f=3: 8
 
 ### total
@@ -760,6 +832,7 @@ Made by `python3 k4/sx_summary.py` from the complete logs under `results/k4_sx/`
 - Zmax: free-valid owner exists=True: 309
 - free-valid owner: frozen agents threatened=1: 466
 - free-valid owner: frozen agents threatened=2: 96
+- keys: 304
 - keys def*>0 f=3: 41
 - keys f=2: 67
 - keys f=3: 150
@@ -768,12 +841,27 @@ Made by `python3 k4/sx_summary.py` from the complete logs under `results/k4_sx/`
 - keys f=3 def*=1: 41
 - keys: Lemma A+ or B+ at some Zmax=False: 56
 - keys: Lemma A+ or B+ at some Zmax=True: 52
-- no A+/B+: a needer on the path, but theta fails or an (R) leaf with s in L: 18
-- no A+/B+: leaf threatens 2 frozen agents: 45
-- no A+/B+: the free needers are off the path to the leaf: 25
+- no A+/B+: a needer on the path, but theta fails or an (R) leaf with s in L: 35
+- no A+/B+: leaf threatens 2 frozen agents: 75
+- no A+/B+: the free needers are off the path to the leaf: 40
 - profiles: 10
 - profiles f=2: 65
 - profiles f=3: 20
 - profiles f>=1, omega>=1: 10
 - profiles with a key def*>0 f=3: 10
+- uncovered keys: 96
+- uncovered keys: widened A+ at some max=False: 95
+- uncovered keys: widened A+ at some max=True: 1
+- uncovered maxima: 174
+- uncovered maxima: C shape or iota shape: 161
+- uncovered maxima: C shape or iota shape (owner x or a leaf, |X|=w+1, u>=1): 173
+- uncovered maxima: some W=0 no-helper repair, owner a leaf with |X|=w+2 (Lemma C shape): 94
+- uncovered maxima: some W=0 no-helper repair, owner x with |X|=w+1 and u>=1 (Lemma 9 iota shape): 103
+- uncovered maxima: some repair with def<=0: 174
+- uncovered maxima: some repair with |W|=0: 173
+- uncovered maxima: some repair, no helper, owner a leaf != x: 144
+- uncovered maxima: some repair, owner x: 174
+- uncovered maxima: widened A+ applies=False: 173
+- uncovered maxima: widened A+ applies=True: 1
+- widened A+ candidate, verified def<=0=True, j=1: 2
 

@@ -44,7 +44,7 @@ empty and (T3⁺) is (T3). The route asked for is Theorem Z′ (`k4/c4min_reduce
   - the 1,241 non-completable keys among the profiles of `k4/dl13.md`'s T1-stuck states;
   - compute/k4-rc's 45 keys (§4.4).
 
-  At 5 keys of the largest n = 4 sample, B′ and C need their exact hypotheses: the structural ones fail there
+  At 4 keys of the largest n = 4 sample, B′ and C need their exact hypotheses: the structural ones fail there
   (`attempts/k4-sx-cover-structural.md`). So on these data DL on the key graph at f = 1 holds, in the strong form "a
   neighbour with def* ≤ 0", through these five lemmas, each applied once from Theorem Z′'s configuration. Every lemma is
   asserted against exact deficits there, with no violation. The PR #80 referee's independent checker
@@ -376,7 +376,7 @@ At every Z′-maximum of every non-completable key of §4.1 (`results/k4_sx/zpri
 |---|---|---|---|---|---|---|---|---|
 | n = 3, exhaustive | 62,208 | 116,248 | 104,372 | 7,824 | 4,052 | 0 | 0 | **0** |
 | n = 4 hunts | 299 | 565 | 494 | 58 | 5 | 2 | 6 | **0** |
-| n = 4, pure, 400,000 per core | 2,362 | 3,645 | 3,390 | 135 | 73 (+ 2 with the exact (H) only) | 30 | 12 (+ 3 with the exact (H_B′) only) | **0** |
+| n = 4, pure, 400,000 per core | 2,362 | 3,645 | 3,390 | 135 | 73 (+ 2 with the exact (H) only) | 31 | 12 (+ 2 with the exact (H_B′) only) | **0** |
 | n = 5 hunts | 11 | 13 | 13 | 0 | 0 | 0 | 0 | **0** |
 | n = 5, compute/k4-rc's 45 single-step DL failures (§4.4) | 45 | 45 | 45 | 0 | 0 | 0 | 0 | **0** |
 
@@ -501,7 +501,7 @@ Evidence (K4.SX.COV), in two implementations (`k4/sx_zprime.py` on model.py, and
   45 profiles (§4.2, §4.4).
 - At n ≤ 3, and in the first n = 4, 5 hunts, it holds even at *every* Z′-maximum and with the structural hypotheses
   (H_B′*), (H*), (H′*).
-- The structural form fails in the larger n = 4 hunt. There 5 Z′-maxima, each the unique maximum of its key, are covered
+- The structural form fails in the larger n = 4 hunt. There 4 Z′-maxima, each the unique maximum of its key, are covered
   only with the exact hypotheses (`attempts/k4-sx-cover-structural.md`, K4.SX.X).
 - B′'s hypothesis that X″ contains a pair for x is needed: it fails at 2 Z′-maxima of the 400,000-per-core n = 4 hunt
   (`results/k4_sx/indep_n4_pure_r400k.log`, the "NOTE B′ no pair for x" lines). An example: sets

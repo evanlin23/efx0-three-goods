@@ -1,6 +1,7 @@
 # command: python3 k4/sx_zprime.py results/k4_sx/t3stage/profiles_f1.jsonl.gz
-KEYS: every Z-max covered = True                                                                     1241
-KEYS: some Z-max covered by A, B1, C, C', B1' = True                                                 1241
+KEYS: every Z-max covered (structural) = True                                                        1241
+KEYS: some Z-max covered by A, B1, C, C', B1' (structural hypotheses) = True                         1241
+KEYS: some Z-max covered with the exact hypotheses = True                                            1241
 MAIN CASE A                                                                                          1133
 MAIN CASE B1                                                                                         80
 MAIN CASE C                                                                                          539
@@ -38,15 +39,17 @@ regime I Prop C' applies=False (only (H') missing=True)                         
 regime I Prop C' applies=True (only (H') missing=False)                                              846
 regime I Zmax with a direct T3 move                                                                  1678
 regime I cases A*,B1,C                                                                               2
-regime I cases A*,C'                                                                                 4
+regime I cases A*,C'                                                                                 3
+regime I cases A*,C',C'x                                                                             1
 regime I cases A*,C,C'                                                                               539
 regime I cases A,A*                                                                                  589
 regime I cases A,A*,B1                                                                               226
 regime I cases A,A*,B1',Rs                                                                           2
-regime I cases A,A*,C                                                                                12
+regime I cases A,A*,B1'x,Rs                                                                          1
+regime I cases A,A*,C                                                                                10
 regime I cases A,A*,C'                                                                               24
 regime I cases A,A*,C,C'                                                                             279
-regime I cases A,A*,Rs                                                                               1
+regime I cases A,A*,C,C'x                                                                            2
 regime I direct kind ('zT', '-', 'own=V')                                                            139
 regime I direct kind ('zT', '-', 'own=x')                                                            181
 regime I direct kind ('zT', 'hV', 'own=V')                                                           159
@@ -89,4 +92,4 @@ regime II |V|=1 |T|=1 |VT|=0 t=0 x=BT                                           
 EX II ({'sets': [[0, 1, 2, 3], [2, 4, 5, 6], [3, 4, 5, 6]], 'vals': [[2, 6, 3, 10], [1, 4, 8, 6], [10, 2, 7, 6]], 'm': 7}, (3, None, None), 'Config(key=[3, None, None], Q={1: [2, 5], 2: [4, 6]}, L=[0, 1])', 'V', [1], 'T', [2], 'thx', [1], 't', 0, 'BT', [('zT', '-', 'own=V'), ('zT', 'hV', 'own=x')])
 EX II ({'sets': [[0, 1, 2, 3], [2, 4, 5, 6], [3, 4, 5, 6]], 'vals': [[3, 4, 2, 8], [3, 6, 8, 10], [8, 3, 4, 2]], 'm': 7}, (3, None, None), 'Config(key=[3, None, None], Q={1: [2, 6], 2: [4, 5]}, L=[0, 1])', 'V', [1], 'T', [2], 'thx', [1], 't', 0, 'BT', [('zT', 'hV', 'own=x')])
 EX II ({'sets': [[0, 1, 2, 3], [2, 4, 5, 6], [3, 4, 5, 6]], 'vals': [[2, 3, 4, 8], [3, 7, 5, 6], [8, 2, 3, 4]], 'm': 7}, (3, None, None), 'Config(key=[3, None, None], Q={1: [2, 4], 2: [5, 6]}, L=[0, 1])', 'V', [1], 'T', [2], 'thx', [1], 't', 0, 'BT', [('zT', 'hV', 'own=x')])
-# time 47.7 s
+# time 32.1 s
