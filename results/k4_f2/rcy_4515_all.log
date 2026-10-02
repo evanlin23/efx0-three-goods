@@ -1,5 +1,5 @@
-# command: python3 k4/f2_rcy.py k4/suite/.cache/rc/rc_failures_4515_all_inst.json --src=compute/k4-rc at 54ab8fd, results/k4_rc/rc_failures_4515_all_inst.json (all 1,076 profiles)
-# input: compute/k4-rc at 54ab8fd, results/k4_rc/rc_failures_4515_all_inst.json (all 1,076 profiles)
+# command: python3 k4/f2_rcy.py results/k4_rc/rc_failures_4515_all_inst.json --src=all 1,076 profiles
+# input: all 1,076 profiles
   failing state: def(P) - def*(key) | 0                                                      4304
   key | applies at some maximum | C'+ (k=0)                                                  1076
   key | applies at some maximum | C+ (k=0)                                                   233
