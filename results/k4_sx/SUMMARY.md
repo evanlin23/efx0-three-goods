@@ -215,12 +215,18 @@ Made by `python3 k4/sx_summary.py` from the complete logs under `results/k4_sx/`
 
 ### n4_pure_r400k (1 logs)
 
+- KEYS: every Z-max covered (structural) = False: 5
+- KEYS: every Z-max covered (structural) = True: 2357
+- KEYS: some Z-max covered by A, B1, C, C', B1' (structural hypotheses) = False: 5
+- KEYS: some Z-max covered by A, B1, C, C', B1' (structural hypotheses) = True: 2357
+- KEYS: some Z-max covered with the exact hypotheses = True: 2362
 - MAIN CASE A: 3390
 - MAIN CASE B1: 135
 - MAIN CASE B1': 12
+- MAIN CASE B1'x: 3
 - MAIN CASE C: 73
 - MAIN CASE C': 30
-- MAIN CASE rest: 5
+- MAIN CASE Cx: 2
 - Zmax: 3645
 - keys: 2362
 - keys xtype=bc: 89
@@ -254,26 +260,36 @@ Made by `python3 k4/sx_summary.py` from the complete logs under `results/k4_sx/`
 - regime I Prop C' applies=False (only (H') missing=True): 55
 - regime I Prop C' applies=True (only (H') missing=False): 304
 - regime I Zmax with a direct T3 move: 3627
+- regime I cases A*,B1'x,C-H,Cx,Rs: 1
 - regime I cases A*,B1,C: 128
-- regime I cases A*,B1,C-H: 1
+- regime I cases A*,B1,C-H,Cx: 1
 - regime I cases A*,C: 5
-- regime I cases A*,C': 29
-- regime I cases A*,C,C': 63
-- regime I cases A*,C,C',C-H: 5
-- regime I cases A*,C-H,Rs: 2
-- regime I cases A,A*: 1558
+- regime I cases A*,C': 17
+- regime I cases A*,C',C'x: 12
+- regime I cases A*,C,C': 12
+- regime I cases A*,C,C',C'x: 51
+- regime I cases A*,C,C',C'x,C-H,Cx: 5
+- regime I cases A*,C-H,Cx,Rs: 1
+- regime I cases A,A*: 1533
 - regime I cases A,A*,B1: 287
+- regime I cases A,A*,B1'x,Rs: 19
+- regime I cases A,A*,B1,B1'x,Rs: 8
 - regime I cases A,A*,B1,C: 40
-- regime I cases A,A*,B1,Rs: 8
-- regime I cases A,A*,C: 1172
-- regime I cases A,A*,C': 183
-- regime I cases A,A*,C',C-H: 7
-- regime I cases A,A*,C,C',C-H: 16
-- regime I cases A,A*,C,C-H: 78
-- regime I cases A,A*,C-H: 21
-- regime I cases A,A*,Rs: 20
+- regime I cases A,A*,C: 1170
+- regime I cases A,A*,C': 177
+- regime I cases A,A*,C',C'x: 6
+- regime I cases A,A*,C',C'x,C-H,Cx: 7
+- regime I cases A,A*,C'x: 25
+- regime I cases A,A*,C'x,C-H,Cx: 1
+- regime I cases A,A*,C,C',C-H,Cx: 16
+- regime I cases A,A*,C,C'x: 2
+- regime I cases A,A*,C,C'x,C-H,Cx: 22
+- regime I cases A,A*,C,C-H,Cx: 56
+- regime I cases A,A*,C-H: 2
+- regime I cases A,A*,C-H,Cx: 18
+- regime I cases A,A*,Rs: 1
+- regime I cases B1'x,Rs: 3
 - regime I cases C': 1
-- regime I cases Rs: 3
 - regime I direct kind ('zT', '-', 'own=V'): 319
 - regime I direct kind ('zT', '-', 'own=x'): 340
 - regime I direct kind ('zT', 'hV', 'own=V'): 303
@@ -468,12 +484,18 @@ Made by `python3 k4/sx_summary.py` from the complete logs under `results/k4_sx/`
 
 ### total
 
+- KEYS: every Z-max covered (structural) = False: 5
+- KEYS: every Z-max covered (structural) = True: 2357
+- KEYS: some Z-max covered by A, B1, C, C', B1' (structural hypotheses) = False: 5
+- KEYS: some Z-max covered by A, B1, C, C', B1' (structural hypotheses) = True: 2357
+- KEYS: some Z-max covered with the exact hypotheses = True: 2362
 - MAIN CASE A: 108269
 - MAIN CASE B1: 8017
 - MAIN CASE B1': 18
+- MAIN CASE B1'x: 3
 - MAIN CASE C: 4130
 - MAIN CASE C': 32
-- MAIN CASE rest: 5
+- MAIN CASE Cx: 2
 - Zmax: 120471
 - keys: 64880
 - keys xtype=BT: 14880
@@ -512,30 +534,43 @@ Made by `python3 k4/sx_summary.py` from the complete logs under `results/k4_sx/`
 - regime I Prop C' applies=False (only (H') missing=True): 60
 - regime I Prop C' applies=True (only (H') missing=False): 23327
 - regime I Zmax with a direct T3 move: 112617
+- regime I cases A*,B1'x,C-H,Cx,Rs: 1
 - regime I cases A*,B1,C: 179
-- regime I cases A*,B1,C-H: 1
+- regime I cases A*,B1,C-H,Cx: 1
 - regime I cases A*,C: 5
-- regime I cases A*,C': 31
-- regime I cases A*,C,C': 4119
-- regime I cases A*,C,C',C-H: 6
-- regime I cases A*,C-H,Rs: 2
-- regime I cases A,A*: 60864
+- regime I cases A*,C': 19
+- regime I cases A*,C',C'x: 12
+- regime I cases A*,C,C': 4068
+- regime I cases A*,C,C',C'x: 51
+- regime I cases A*,C,C',C'x,C-H,Cx: 5
+- regime I cases A*,C,C',C-H: 1
+- regime I cases A*,C-H,Cx,Rs: 1
+- regime I cases A,A*: 60839
 - regime I cases A,A*,B1: 25795
 - regime I cases A,A*,B1',Rs: 2
+- regime I cases A,A*,B1'x,Rs: 19
+- regime I cases A,A*,B1,B1'x,Rs: 8
 - regime I cases A,A*,B1,C: 44
-- regime I cases A,A*,B1,Rs: 8
 - regime I cases A,A*,Bk-adj: 4
-- regime I cases A,A*,C: 2253
-- regime I cases A,A*,C': 1641
-- regime I cases A,A*,C',C-H: 7
+- regime I cases A,A*,C: 2251
+- regime I cases A,A*,C': 1635
+- regime I cases A,A*,C',C'x: 6
+- regime I cases A,A*,C',C'x,C-H,Cx: 7
+- regime I cases A,A*,C'x: 25
+- regime I cases A,A*,C'x,C-H,Cx: 1
 - regime I cases A,A*,C,C': 17504
-- regime I cases A,A*,C,C',C-H: 18
-- regime I cases A,A*,C,C-H: 85
-- regime I cases A,A*,C-H: 22
-- regime I cases A,A*,Rs: 22
+- regime I cases A,A*,C,C',C-H: 2
+- regime I cases A,A*,C,C',C-H,Cx: 16
+- regime I cases A,A*,C,C'x: 2
+- regime I cases A,A*,C,C'x,C-H,Cx: 22
+- regime I cases A,A*,C,C-H: 7
+- regime I cases A,A*,C,C-H,Cx: 56
+- regime I cases A,A*,C-H: 3
+- regime I cases A,A*,C-H,Cx: 18
+- regime I cases A,A*,Rs: 3
 - regime I cases B1: 1
+- regime I cases B1'x,Rs: 3
 - regime I cases C': 1
-- regime I cases Rs: 3
 - regime I direct kind ('zT', '-', 'own=V'): 6670
 - regime I direct kind ('zT', '-', 'own=x'): 19140
 - regime I direct kind ('zT', 'h', 'own=V'): 4

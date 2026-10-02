@@ -1,0 +1,132 @@
+# command: python3 k4/sx_zprime.py results/k4_sx/hunt/n4_pure_r400k.jsonl.gz --start=0 --max=4000 --examples=3
+KEYS: every Z-max covered (structural) = False                                                       5
+KEYS: every Z-max covered (structural) = True                                                        2357
+KEYS: some Z-max covered by A, B1, C, C', B1' (structural hypotheses) = False                        5
+KEYS: some Z-max covered by A, B1, C, C', B1' (structural hypotheses) = True                         2357
+KEYS: some Z-max covered with the exact hypotheses = True                                            2362
+MAIN CASE A                                                                                          3390
+MAIN CASE B1                                                                                         135
+MAIN CASE B1'                                                                                        12
+MAIN CASE B1'x                                                                                       3
+MAIN CASE C                                                                                          73
+MAIN CASE C'                                                                                         30
+MAIN CASE Cx                                                                                         2
+Zmax                                                                                                 3645
+keys                                                                                                 2362
+keys xtype=bc                                                                                        89
+keys xtype=bcbd                                                                                      250
+keys xtype=flat                                                                                      2023
+regime I                                                                                             3627
+regime I GPM ok k=1 adjacent(T3)=True                                                                464
+regime I GPM paths k=1 leaf kind=D                                                                   23
+regime I GPM paths k=1 leaf kind=R                                                                   17
+regime I GPM paths k=1 leaf kind=R s in L                                                            33
+regime I GPM paths k=1 leaf kind=T4                                                                  19
+regime I GPM paths k=1 leaf kind=Tg                                                                  405
+regime I OS o theta-b=False                                                                          4829
+regime I OS o theta-b=True                                                                           2092
+regime I OS succeeds                                                                                 3623
+regime I OS theta-b: exact def(P')<def* False, OSd bundle value 4 (omega+2=5), T=several             45
+regime I OS theta-b: exact def(P')<def* False, OSd bundle value 5 (omega+2=6), T=several             118
+regime I OS theta-b: exact def(P')<def* True, OSd bundle value 3 (omega+2=4), T=several              381
+regime I OS theta-b: exact def(P')<def* True, OSd bundle value 4 (omega+2=5), T=several              407
+regime I OS theta-b: exact def(P')<def* True, OSd bundle value 5 (omega+2=6), T=several              825
+regime I OS theta-b: exact def(P')<def* True, OSd bundle value None (omega+2=4), T=several           160
+regime I OS theta-b: exact def(P')<def* True, OSd bundle value None (omega+2=5), T=several           68
+regime I OS theta-b: exact def(P')<def* True, OSd bundle value None (omega+2=6), T=several           88
+regime I Prop B' (modified path move) k=1 works=False                                                2
+regime I Prop B' (modified path move) k=1 works=True                                                 31
+regime I Prop B' k=1 hypothesis (y valued only by x) holds=False                                     33
+regime I Prop C applies=False (only (H) missing=False)                                               2089
+regime I Prop C applies=False (only (H) missing=True)                                                31
+regime I Prop C applies=True (only (H) missing=False)                                                1507
+regime I Prop C' applies=False (only (H') missing=False)                                             3268
+regime I Prop C' applies=False (only (H') missing=True)                                              55
+regime I Prop C' applies=True (only (H') missing=False)                                              304
+regime I Zmax with a direct T3 move                                                                  3627
+regime I cases A*,B1'x,C-H,Cx,Rs                                                                     1
+regime I cases A*,B1,C                                                                               128
+regime I cases A*,B1,C-H,Cx                                                                          1
+regime I cases A*,C                                                                                  5
+regime I cases A*,C'                                                                                 17
+regime I cases A*,C',C'x                                                                             12
+regime I cases A*,C,C'                                                                               12
+regime I cases A*,C,C',C'x                                                                           51
+regime I cases A*,C,C',C'x,C-H,Cx                                                                    5
+regime I cases A*,C-H,Cx,Rs                                                                          1
+regime I cases A,A*                                                                                  1533
+regime I cases A,A*,B1                                                                               287
+regime I cases A,A*,B1'x,Rs                                                                          19
+regime I cases A,A*,B1,B1'x,Rs                                                                       8
+regime I cases A,A*,B1,C                                                                             40
+regime I cases A,A*,C                                                                                1170
+regime I cases A,A*,C'                                                                               177
+regime I cases A,A*,C',C'x                                                                           6
+regime I cases A,A*,C',C'x,C-H,Cx                                                                    7
+regime I cases A,A*,C'x                                                                              25
+regime I cases A,A*,C'x,C-H,Cx                                                                       1
+regime I cases A,A*,C,C',C-H,Cx                                                                      16
+regime I cases A,A*,C,C'x                                                                            2
+regime I cases A,A*,C,C'x,C-H,Cx                                                                     22
+regime I cases A,A*,C,C-H,Cx                                                                         56
+regime I cases A,A*,C-H                                                                              2
+regime I cases A,A*,C-H,Cx                                                                           18
+regime I cases A,A*,Rs                                                                               1
+regime I cases B1'x,Rs                                                                               3
+regime I cases C'                                                                                    1
+regime I direct kind ('zT', '-', 'own=V')                                                            319
+regime I direct kind ('zT', '-', 'own=x')                                                            340
+regime I direct kind ('zT', 'hV', 'own=V')                                                           303
+regime I direct kind ('zT', 'hV', 'own=x')                                                           486
+regime I direct kind ('zV', '-', 'own=V')                                                            2630
+regime I direct kind ('zV', '-', 'own=other')                                                        30
+regime I direct kind ('zV', '-', 'own=x')                                                            3213
+regime I direct kind ('zV', 'h', 'own=V')                                                            692
+regime I direct kind ('zV', 'h', 'own=other')                                                        41
+regime I direct kind ('zV', 'h', 'own=x')                                                            792
+regime I direct kind ('zV', 'hV', 'own=V')                                                           2965
+regime I direct kind ('zV', 'hV', 'own=other')                                                       56
+regime I direct kind ('zV', 'hV', 'own=x')                                                           3337
+regime I |V|=2 |T|=2 |VT|=1 t=0 x=flat                                                               211
+regime I |V|=2 |T|=2 |VT|=1 t=1 x=flat                                                               188
+regime I |V|=2 |T|=2 |VT|=2 t=0 x=flat                                                               312
+regime I |V|=2 |T|=2 |VT|=2 t=1 x=flat                                                               353
+regime I |V|=2 |T|=3 |VT|=2 t=0 x=flat                                                               38
+regime I |V|=2 |T|=3 |VT|=2 t=1 x=flat                                                               52
+regime I |V|=3 |T|=2 |VT|=2 t=1 x=bc                                                                 122
+regime I |V|=3 |T|=2 |VT|=2 t=1 x=bcbd                                                               333
+regime I |V|=3 |T|=2 |VT|=2 t=1 x=flat                                                               1952
+regime I |V|=3 |T|=3 |VT|=3 t=1 x=bc                                                                 6
+regime I |V|=3 |T|=3 |VT|=3 t=1 x=flat                                                               60
+regime II                                                                                            18
+regime II GPM ok k=1 adjacent(T3)=True                                                               6
+regime II GPM ok k=2 adjacent(T3)=True                                                               6
+regime II GPM paths k=1 leaf kind=R                                                                  6
+regime II GPM paths k=1 leaf kind=R s in L                                                           12
+regime II GPM paths k=2 leaf kind=R                                                                  6
+regime II GPM paths k=2 leaf kind=R s in L                                                           12
+regime II OS succeeds                                                                                0
+regime II Prop B' (modified path move) k=1 works=True                                                12
+regime II Prop B' (modified path move) k=2 works=True                                                12
+regime II Prop B' k=1 hypothesis (y valued only by x) holds=True                                     12
+regime II Prop B' k=2 hypothesis (y valued only by x) holds=True                                     12
+regime II Prop C applies=False (only (H) missing=False)                                              18
+regime II Prop C' applies=False (only (H') missing=False)                                            18
+regime II Zmax with a direct T3 move                                                                 18
+regime II cases B1',Bk',Rs                                                                           12
+regime II cases B1,Bk-adj                                                                            6
+regime II direct kind ('zT', '-', 'own=V')                                                           12
+regime II direct kind ('zT', '-', 'own=x')                                                           12
+regime II direct kind ('zT', 'h', 'own=V')                                                           12
+regime II direct kind ('zT', 'h', 'own=x')                                                           12
+regime II direct kind ('zT', 'hV', 'own=V')                                                          18
+regime II direct kind ('zT', 'hV', 'own=other')                                                      18
+regime II direct kind ('zT', 'hV', 'own=x')                                                          18
+regime II |V|=1 |T|=2 |VT|=0 t=0 x=bcbd                                                              18
+EX II ({'sets': [[0, 2, 6, 7], [1, 3, 6, 8], [4, 5, 7, 8], [4, 5, 7, 8]], 'vals': [[3, 6, 8, 10], [3, 4, 8, 10], [3, 2, 8, 4], [3, 6, 10, 8]], 'm': 9}, (7, None, None, None), 'Config(key=[7, None, None, None], Q={1: [3, 6], 2: [0, 8], 3: [4, 5]}, L=[1, 2])', 'V', [1], 'T', [2, 3], 'thx', [1], 't', 0, 'bcbd', [('zT', '-', 'own=V'), ('zT', '-', 'own=x'), ('zT', 'h', 'own=V'), ('zT', 'h', 'own=x'), ('zT', 'hV', 'own=V'), ('zT', 'hV', 'own=other'), ('zT', 'hV', 'own=x')])
+EX II ({'sets': [[0, 2, 6, 7], [1, 3, 6, 8], [4, 5, 7, 8], [4, 5, 7, 8]], 'vals': [[3, 6, 8, 10], [3, 4, 8, 10], [3, 2, 8, 4], [3, 6, 10, 8]], 'm': 9}, (7, None, None, None), 'Config(key=[7, None, None, None], Q={1: [3, 6], 2: [1, 8], 3: [4, 5]}, L=[0, 2])', 'V', [1], 'T', [2, 3], 'thx', [1], 't', 0, 'bcbd', [('zT', '-', 'own=V'), ('zT', '-', 'own=x'), ('zT', 'h', 'own=V'), ('zT', 'h', 'own=x'), ('zT', 'hV', 'own=V'), ('zT', 'hV', 'own=other'), ('zT', 'hV', 'own=x')])
+EX II ({'sets': [[0, 2, 6, 7], [1, 3, 6, 8], [4, 5, 7, 8], [4, 5, 7, 8]], 'vals': [[3, 6, 8, 10], [3, 4, 8, 10], [3, 2, 8, 4], [3, 6, 10, 8]], 'm': 9}, (7, None, None, None), 'Config(key=[7, None, None, None], Q={1: [3, 6], 2: [2, 8], 3: [4, 5]}, L=[0, 1])', 'V', [1], 'T', [2, 3], 'thx', [1], 't', 0, 'bcbd', [('zT', '-', 'own=V'), ('zT', '-', 'own=x'), ('zT', 'h', 'own=V'), ('zT', 'h', 'own=x'), ('zT', 'hV', 'own=V'), ('zT', 'hV', 'own=other'), ('zT', 'hV', 'own=x')])
+EX I-no-OS ({'sets': [[0, 2, 7, 8], [1, 4, 7, 9], [3, 5, 6, 9], [5, 6, 8, 9]], 'vals': [[7, 4, 2, 10], [3, 4, 2, 8], [3, 6, 5, 7], [3, 2, 6, 10]], 'm': 10}, (None, None, 9, None), 'Config(key=[None, None, 9, None], Q={0: [0, 2], 1: [1, 4], 3: [5, 8]}, L=[3, 6, 7])', 'V', [0, 1], 'T', [1, 3], [('zT', '-', 'own=V'), ('zT', 'hV', 'own=V'), ('zT', 'hV', 'own=x'), ('zV', 'h', 'own=V'), ('zV', 'h', 'own=x')])
+EX I-no-OS ({'sets': [[0, 2, 8, 10], [1, 5, 8, 10], [3, 6, 9, 10], [4, 7, 9, 10]], 'vals': [[3, 5, 6, 7], [5, 6, 4, 8], [3, 4, 2, 8], [4, 3, 2, 8]], 'm': 11}, (10, None, None, None), 'Config(key=[10, None, None, None], Q={1: [1, 5], 2: [3, 6], 3: [4, 7]}, L=[0, 2, 8, 9])', 'V', [1, 2, 3], 'T', [2, 3], [('zV', '-', 'own=V'), ('zV', 'hV', 'own=V'), ('zV', 'hV', 'own=x')])
+EX I-no-OS ({'sets': [[0, 2, 7, 8], [1, 5, 7, 10], [3, 6, 9, 10], [4, 8, 9, 10]], 'vals': [[2, 7, 4, 10], [6, 5, 4, 8], [2, 3, 6, 10], [2, 3, 4, 8]], 'm': 11}, (None, 10, None, None), 'Config(key=[None, 10, None, None], Q={0: [2, 7], 2: [6, 9], 3: [4, 8]}, L=[0, 1, 3, 5])', 'V', [0, 2], 'T', [2, 3], [('zT', '-', 'own=V'), ('zT', 'hV', 'own=V'), ('zT', 'hV', 'own=x'), ('zV', 'h', 'own=V'), ('zV', 'h', 'own=x')])
+# time 410.8 s

@@ -36,11 +36,13 @@ empty and (T3⁺) is (T3). The route asked for is Theorem Z′ (`k4/c4min_reduce
   key of the data, A, B (k = 1), B′ (k = 1), C or C′ applies. The data are:
   - every strict profile of every core with n ≤ 3: 62,208 such keys, all of the hopeless keys of `k4/c4min_reduce.md`
     §4.1, covered by A, B and C;
-  - every non-completable key that `k4/red.c` finds in large random samples with n = 4 and n = 5 (§4.1).
+  - every non-completable key that `k4/red.c` finds in random samples with n = 4 (2,661 keys) and n = 5 (11 keys);
+  - the 1,241 non-completable keys among the profiles of `k4/dl13.md`'s T1-stuck states.
 
-  So on these data DL on the key graph at f = 1 holds, in the strong form "a neighbour with def* ≤ 0", through these five
-  lemmas, each applied once from Theorem Z′'s configuration. Every lemma is asserted against exact deficits there, with
-  no violation.
+  At 5 keys of the largest n = 4 sample, B′ and C need their exact hypotheses: the structural ones fail there
+  (`attempts/k4-sx-cover-structural.md`). So on these data DL on the key graph at f = 1 holds, in the strong form "a
+  neighbour with def* ≤ 0", through these five lemmas, each applied once from Theorem Z′'s configuration. Every lemma is
+  asserted against exact deficits there, with no violation.
 - **What remains at f = 1** (§5): Conjecture K4.SX.COVER, that one of A, B₁, B₁′, C, C′ always applies. The open cases
   are:
   - θ-b leaves: the robust pair that C and C′ need, and their hypotheses on third agents;
@@ -52,8 +54,11 @@ empty and (T3⁺) is (T3). The route asked for is Theorem Z′ (`k4/c4min_reduce
   - the (T3⁺) ∪ (T4) form on the same profiles: it holds at all 41 keys;
   - Lemma F⁺: the forest of Lemma F at every f. A free-valid owner exists at every maximum of (r′, Λ′) at a
     non-completable key;
-  - Lemma A⁺, the owner swap along a need chain of frozen agents. It is one (T3⁺) move, and it reaches 34 of those 41
-    keys from some Z′-type maximum. The other 7 are `attempts/k4-sx-aplus-f3.md`.
+  - Lemma A⁺, the owner swap along a need chain of frozen agents, and Lemma B⁺, the path move along one. Each is one
+    (T3⁺) move. Together they reach 34 of those 41 keys from some Z′-type maximum, 156 of the 196 f ≥ 2 keys of the
+    T1-stuck profiles, and 18 of the 67 f = 2 keys of the n = 4 catalogues and hunts. The remaining keys
+    (`attempts/k4-sx-aplus-f3.md`) have leaves threatening two frozen agents, or need the analogues of Lemmas C and C′;
+  - DLK holds with every edge set on all f = 2 data (§4.3).
 - **Conjecture SX** (`k4/dl13.md` §2.3) is not needed by this route: the lemmas start from Theorem Z′'s configuration,
   not from a deficit-minimal state. It is not proved here.
 
@@ -309,6 +314,7 @@ agree with PR #51's (`k4/c4min_reduce.md` §4.1: 62,208 hopeless keys at n ≤ 3
 | n = 4, two 4-good agents, 20,000 per core (`n4_2_r20k`) | 6,180,000 | 165,045 | 303,564 | 0 |
 | n = 4, three, 40,000 per core (`n4_3_r40k`) | 13,560,000 | 551,666 | 1,044,381 | 59 |
 | n = 4, pure, 40,000 per core (`n4_pure_r40k`) | 8,760,000 | 430,765 | 844,132 | 240 |
+| n = 4, pure, 400,000 per core, another seed (`n4_pure_r400k`) | 87,600,000 | 4,310,853 | 8,443,995 | 2,363 (2,362 distinct, in 2,347 profiles) |
 | n = 5, two / three / four 4-good agents, 200 per core | 1,093,600 / 1,972,200 / 1,969,200 | 10,719 / 51,240 / 82,386 | 19,971 / 96,226 / 157,244 | 0 / 0 / 0 |
 | n = 5, pure, 1,000 per core (`n5_pure_r1000_*`) | 4,674,000 | 263,852 | 516,100 | 11 |
 
@@ -325,6 +331,7 @@ At every Z′-maximum of every non-completable key of §4.1 (`results/k4_sx/zpri
 |---|---|---|---|---|---|---|---|---|
 | n = 3, exhaustive | 62,208 | 116,248 | 104,372 | 7,824 | 4,052 | 0 | 0 | **0** |
 | n = 4 hunts | 299 | 565 | 494 | 58 | 5 | 2 | 6 | **0** |
+| n = 4, pure, 400,000 per core | 2,362 | 3,645 | 3,390 | 135 | 73 (+ 2 with the exact (H) only) | 30 | 12 (+ 3 with the exact (H_B′) only) | **0** |
 | n = 5 hunts | 11 | 13 | 13 | 0 | 0 | 0 | 0 | **0** |
 
 - *Every assertion held.* The checks cover:
