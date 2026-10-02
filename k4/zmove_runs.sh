@@ -21,11 +21,12 @@ n4)       run n4_1_all $C/screen/n4_1_all.jsonl.gz --indep=1
 # n = 5 samples: compute/k4-cover's screen and this workstream's new screens (results/k4_zmove/screen/)
 n5)       run n5_screens $C/screen/n5_n4_2_r200.jsonl.gz results/k4_zmove/screen/n5_*.jsonl.gz --indep=5 ;;
 # the explicit profiles of compute/k4-rt4, k4-dl13, k4-rc, k4-portfolio (k4/cover_inputs.py): f >= 2 and f = 1
-dumps2)   run dumps_f2_p$2 $C/inputs/dumps_f2.jsonl.gz --part=$2/4 --indep=20 ;;
+dumps2)   run dumps_f2_p$2 $C/inputs/dumps_f2.jsonl.gz --maxn=6 --part=$2/4 --indep=20 ;;
+dumps2n7) run dumps_f2_n7 $C/inputs/dumps_f2.jsonl.gz --minn=7 --indep=0 ;;
 rest5)    run dumps_f2_rest_n5_p$2 $C/inputs/dumps_f2_rest_n5.jsonl.gz --part=$2/2 --indep=20 ;;
 n6s)      run dumps_f2_n6_sample8 $C/inputs/dumps_f2_n6_sample8.jsonl.gz --indep=25 ;;
 dumps1)   run dumps_f1 results/k4_zmove/inputs/dumps_f1.jsonl.gz --indep=5 ;;
-suite)    run suite results/k4_zmove/inputs/suite.jsonl.gz --indep=1 ;;
+suite)    run suite results/k4_zmove/inputs/suite.jsonl.gz --maxn=6 --indep=1 ;;
 # compute/k4-cover's hunt dumps
 hunts4)   run hunt_f2x2_n4_m10 $C/hunt/f2x2_n4_m10.jsonl.gz $C/hunt/first_f2x2_1min.jsonl.gz --indep=20
           run hunt_f1 $C/hunt/f1_seed0.jsonl.gz $C/hunt/f1_seed9.jsonl.gz $C/hunt/f1seed0_anyf.jsonl.gz --indep=10 ;;
