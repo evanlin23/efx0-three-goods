@@ -9,7 +9,7 @@ The statement tested: for every strict profile of a connected k = 4 core with f 
 def*(κ) > 0 has a maximum Q of (r′, Λ′) at which Lemma A⁺ (any chain length j), Lemma B⁺ (threat path length 1),
 Lemma C⁺ or Lemma C′⁺ (any need path length k) applies at P_Q with its exact hypotheses.
 
-## The smallest instance found
+## The first instance found: a crossed pair (n = 4, m = 10)
 
 n = 4, m = 10, f = 2, ω = 4. The core of K4.F2.X (2) (`k4/f2.md` §5, the crossed n = 4, m = 10 instance), with
 other values:
@@ -60,11 +60,43 @@ from τ's old base.
 **DLKey holds.** The key has (T3) edges to keys of def* ≤ 0 from all 7 of its states. From ({8}, {7}, {6}, {9}) a (T3)
 move without helper reaches ({4}, {7}, {6}, {8}), deficit 0.
 
+## A smaller instance, of a second kind: the (R) leaf of Lemma B′ at f ≥ 2
+
+n = 4, m = 7, f = 2, ω = 1, from compute/k4-rt4's dump `results/k4_rt4/dump_n4_3_x2.jsonl.gz` (on main):
+`{"sets": [[0,2,3,6],[1,3,4,5],[2,4,5,6],[4,5,6]], "vals": [[2,4,8,5],[1,4,6,8],[2,8,4,3],[3,4,2]], "m": 7}`.
+- κ = (agent 2 on 5, agent 3 on 4), def* = 1 (k4/dl2_classify.py, model.py and `k4/rt4_n5_indep.py`). It has one
+  maximum, Q = {0: {2,6}, 1: {1,3}}, L = {0}, with P_Q = ({2,6}, {1,3}, {5}, {4}) and def(P_Q) = 1.
+- Leaf 0 threatens only agent 2. Agent 1 threatens leaf 0 and needs φ(2) = 5. So B⁺'s path τ = 1 → o = 0 exists with
+  j = 0 and k = 1. But o = 0 is of kind (R): its top in U_0 is 3, it holds {2,6}, it is not robust, and its fourth
+  good 0 lies in L. That is B⁺'s exception, and COVER⁺ has no f ≥ 2 form of Lemma B′.
+- A⁺ fails as well: no need chain from 2 ends at a good leaf 0 needs. C⁺ and C′⁺ apply nowhere (PR #82's test_max
+  and `k4/cover_indep.py`).
+- The repair from P_Q is a (T3) move with helper 0, the B′ shape. x = 2 takes {6}, z = 1 takes 5, and the helper 0
+  takes {3} (its top, from τ's pair): ({2,6}, {1,3}, {5}, {4}) → ({3}, {5}, {6}, {4}), deficit −1, by both
+  implementations.
+- DLKey holds.
+
+Log: `results/k4_cover/failure_n4_m7.log`, `failure_n4_m7_indep.log`.
+
+## The kinds of failure seen
+
+At every uncovered key so far, PR #80's `sx_f2` gives the reason A⁺ and B⁺ fail at the maxima (`k4/cover_uncovered.py`;
+final counts in SUMMARY.md):
+1. *Crossed pair* ("the free needers are off the path to the leaf"). This is the first instance above: x's admissible
+   base needs a good of another leaf's pair.
+2. *A leaf threatens two frozen agents*, the obstruction of K4.SX.X (3), with neither C⁺ nor C′⁺ applying.
+3. *The (R) leaf with s in L* on B⁺'s path, the second instance above.
+4. *Only B⁺ with a threat path of length 2* applies (one n = 5 key, `k4_portfolio/n5_4.json` on compute/k4-portfolio).
+
+In every case, at some maximum, one (T3) move **with one helper** from P_Q reaches a state of deficit ≤ 0. So the
+conclusion of Theorem Z′⁺ holds; only its hypothesis, COVER⁺, fails. DLKey holds at every uncovered key.
+
 ## Extent
 
 - In the first minute of `k4/cover_hunt.py` from the K4.F2.X (2) seed (`results/k4_cover/hunt/first_f2x2_1min.jsonl.gz`):
   320 distinct strict profiles of this core with an uncovered key. All have f = 2, and DLKey holds at every one.
-  The smallest by the sum of values is the one above (sum 76).
+  The smallest by the sum of values is the first instance above (sum 76). The smallest instance overall so far is
+  the n = 4, m = 7 one of the second kind.
 - Phase 2 counts of uncovered keys in the large data, and the hunts on other cores: `results/k4_cover/SUMMARY.md`.
 
 ## Reproduce

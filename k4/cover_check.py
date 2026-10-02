@@ -42,8 +42,9 @@ Output: gzip JSON lines, one per profile (the profile, f, ω, and one record per
 run's checkpoint: a rerun skips the profiles already in it. Summaries: k4/cover_summary.py.
 
 usage: python3 k4/cover_check.py OUT.jsonl.gz [--part=i/N] [--fmin=F] [--fmax=F] [--max=N] [--no-verify]
-           [--indep=E] [--dlk] [--nodedup] [--maxn=N] INPUT ...        (INPUT: DUMP.jsonl.gz | inst:LIST.json | catalog:FILE.json.gz)
---dlk computes DLKey at every key, not only at the uncovered ones. --nodedup keeps repeated profiles (as k4/f2_cc.py
+           [--indep=E] [--dlk] [--nodedup] [--maxn=N] [--minn=N] [--done=GLOB] INPUT ...        (INPUT: DUMP.jsonl.gz | inst:LIST.json | catalog:FILE.json.gz)
+--dlk computes DLKey at every key, not only at the uncovered ones. --done skips the input positions already recorded
+in other outputs made from the same inputs (to re-split a run). --nodedup keeps repeated profiles (as k4/f2_cc.py
 counts them; k4/cover_summary.py --nodedup counts them too).
 
 Requires PR #80's files in k4/suite/.cache/sx/ (k4/f2.md §8):
@@ -293,6 +294,17 @@ def main(argv):
         seen.add(kk); uniq.append((i, d))
     uniq = [(i, d) for i, d in uniq if d.get('f') is None or o['fmin'] <= d['f'] <= o['fmax']]
     if 'maxn' in opt: uniq = [(i, d) for i, d in uniq if len(d['sets']) <= int(opt['maxn'])]
+    if 'minn' in opt: uniq = [(i, d) for i, d in uniq if len(d['sets']) >= int(opt['minn'])]
+    if 'done' in opt:            # profiles (input positions) already in other outputs of the same inputs
+        import glob
+        skip = set()
+        for fn in glob.glob(opt['done']):
+            try:
+                for line in gzip.open(fn, 'rt'):
+                    try: skip.add(json.loads(line)['i'])
+                    except ValueError: break
+            except (EOFError, OSError, gzip.BadGzipFile): pass
+        uniq = [(i, d) for i, d in uniq if i not in skip]
     mine = uniq[part::nparts]
     if 'max' in opt: mine = mine[:int(opt['max'])]
     done = set()
