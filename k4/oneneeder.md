@@ -1,7 +1,7 @@
 # The one-needer regime at the T3 stage (f = 1)
 
 Workstream `proof/k4-oneneeder` (PR #84). Ledger rows K4.ON.* (CONJECTURE / EVIDENCE until refereed). Task:
-`k4/dl13.md` §6 item 3 (on branch `proof/k4-dl13`, PR #75): at a T3-stage state whose frozen good has exactly one needer
+`k4/dl13.md` §6 item 3 (on main since PR #75): at a T3-stage state whose frozen good has exactly one needer
 z, show that the frozen agent x is big-top and that its lower goods are within reach of one helper, so that Corollary
 8.2 of `k4/dl13.md` §2.1 (the Lemma 7 swap) applies. Builds on `k4/dl2.md` §4 (Lemmas 1, 1′, 2, 3, 6, 7; PROVED rows
 K4.DL2.MOVES, K4.DL2.DEF), `k4/dl13.md` §1–§3 (Lemmas 8, 10, Corollary 8.2, Proposition T; refereed in the PR #75
@@ -13,30 +13,40 @@ swap. (DL_RT4 and the key-graph DL with single (T3)/(T4) edges are refuted at n 
 the coordinator changes those ledger rows.)
 
 **Status: the regime is not closed in general; it is closed at n = 3 by exhaustive computation (one implementation,
-cross-checked on a sample), and no instance with n ≥ 4 is known.** Written proofs (not yet refereed):
+cross-checked on a sample), and no T3-stage instance with n ≥ 4 is known.** Written proofs (not yet refereed):
 - **Lemma A** (§2): every key whose frozen agent is big-top has a state of deficit ≤ 1 (≤ 0 if ω = 1), by Theorem Z′.
   So at a T3-stage state of a big-top key: def = 1, V = ω + 1, ω ≥ 2.
 - **Lemma B and Corollaries B1–B3** (§3): at f ≥ 1 no pre-allocation has every agent need-free. With z the only needer:
   no pair worth more than g to z (resp. no rich pair of x) can be freed together with need-free bases of the others;
   after a swap, x's bundle threatens z only if z is big-top and the bundle contains B_z; for a non-big-top x an x-alone
   triple must sit at an owner o ≠ z whose base meets every rich pair of x in its bundle.
-- **Propositions C, D, E** (§4): from an *x-alone triple* (o, X, c) (a best owner o, an optimal bundle X, a junk good c
-  whose only blocker is x), the swap of Corollary 8.2 reaches def ≤ 0: without helper when o = z (Proposition C, with
-  two exceptions: u_z(X) = 1, and R_z = R_x with ω ≥ 3), and with o as the only helper when o ≠ z, as soon as o has an
-  *escape* (a need-free base outside L with at most one good of its old bundle that leaves o envying nothing x keeps;
-  Proposition D). If o values no lower good of x, its most valuable need-free base outside L is an escape when it takes
-  at most one good of the bundle, and at n = 3 it always gives the swap (Proposition E).
+- **Propositions C–F, Lemma G** (§4): from an *x-alone triple* (o, X, c) (a best owner o, an optimal bundle X, a junk
+  good c whose only blocker is x), the swap of Corollary 8.2 reaches def ≤ 0: without helper when o = z (Proposition
+  C, with two exceptions: u_z(X) = 1, and R_z = R_x with ω ≥ 3), and with o as the only helper when o ≠ z, as soon as o
+  has an *escape* (a need-free base outside L with at most one good of its old bundle that leaves o envying nothing x
+  keeps; Proposition D). Propositions E and F find the escape when o's best base avoids x's lower goods; Lemma G is
+  what T1-stuckness gives when it does not.
+- **Proposition S1, Lemmas A♭ and B♭** (§5, the key-graph form of `k4/sx.md`, PR #80): at a Z′-maximum with a single
+  terminal τ, x is big-top (S1; from PROVED rows only). If τ is a θ-b leaf, it is x's twin, and for ω = 2 the swap
+  without helper reaches def ≤ 0 (A♭); if τ threatens a leaf of kind (R) whose fourth good s is in the pool and x does
+  not value s, the swap with that leaf as helper reaches def ≤ 0, with no hypothesis on third agents (B♭). This closes
+  the θ-b and (R) cases of Conjecture K4.SX.COVER in the single-terminal regime, except a twin with ω ≥ 3 and an s that
+  x values. Corollary 8.2 is not one of `k4/sx.md`'s Lemmas A–C′; in this regime Lemma A and Lemma B (k = 1) are
+  instances of it, and A♭, B♭ are the instances that need its unfreezing term.
 
-What the T3 stage is still needed for (§5): (i) the existence of an x-alone triple (the strong form of `k4/dl13.md`
-§6 item 1, SX, in this regime); (ii) an escape when o ≠ z, which fails at T1-stuck states that are not at the T3 stage
-(`attempts/k4-oneneeder-escape-t1.md`, n = 4); (iii) x big-top.
+What the T3 stage is still needed for (§6): (i) the existence of an x-alone triple (the strong form of `k4/dl13.md`
+§6 item 1, SX, in this regime); (ii) an escape when o ≠ z; (iii) x big-top. All three fail at T1-stuck one-needer
+states that are not at the T3 stage (§6, §8; for (ii) at n = 4, where no swap with at most one helper lowers the
+deficit at all).
 
-Data (EVIDENCE, §6): exhaustively at n = 3 (all 299,837,376 strict profiles of the 51 cores; 7,284,544 with f = 1,
+Data (EVIDENCE, §7): exhaustively at n = 3 (all 299,837,376 strict profiles of the 51 cores; 7,284,544 with f = 1,
 ω ≥ 1), every one of the 97,824 one-needer T3-stage states has x big-top, def = 1, an x-alone triple, and Corollary 8.2
 with at most one helper; Proposition C applies at the 38,496 with a triple at z and Proposition D (an escape) at the
 86,976 with a triple at o ≠ z; u never contributes and R_z ≠ R_x. At n = 3 a T3-stage state has a big-top x iff its
 frozen good has one needer. At n = 4 and n = 5 (33.6 million sampled and catalogue profiles, 4,164 T3-stage states)
 no T3-stage state is one-needer, and in the 2,152 T3-stage states of the samples that record it, x is never big-top.
+In the key-graph form, Proposition S1 and the constructions of §5 hold at every single-terminal Z′-maximum of the
+non-completable keys of `k4/sx.md`'s n = 3 and n = 4 hunts (single-terminal maxima occur there only at n = 3).
 
 ## 1. Setting
 
@@ -125,7 +135,7 @@ x-alone triple, then o ≠ z and every rich pair S ⊆ X ∪ {c} meets B_o. More
 since x is not big-top. If o = z, or if a rich pair S ⊆ Y misses B_o, then S ⊆ J ∪ B_z (Y ⊆ B_o ∪ J), against the
 first claim. ∎
 
-So a non-big-top x in this regime needs an owner o whose need-free bases all use x's rich pairs; the data (§6) never
+So a non-big-top x in this regime needs an owner o whose need-free bases all use x's rich pairs; the data (§7) never
 show it at the T3 stage, but no argument here excludes it.
 
 ## 4. The swap from an x-alone triple
@@ -189,7 +199,7 @@ J ∖ Y = ∅ then Rest = B_z has two goods and Z misses one of them, so B_z ⊄
 Corollary 8.2 (helper o: T′ is need-free in G ∖ L and B_o ⊄ T′) gives def(P′) ≤ 0. ∎
 
 On the data, Proposition E never applies at a T3-stage state: there the owner o ≠ z of every x-alone triple values a
-lower good of x (§6). The next two statements use o's best base inside its own pot instead.
+lower good of x (§7). The next two statements use o's best base inside its own pot instead.
 
 **Proposition F (an owner whose best base avoids L).** In the setting of Proposition D, let Q* be a most valuable
 need-free base of o inside W_o ∩ R_o (W_o = B_o ∪ J; B_o is one, so Q* exists).
@@ -218,29 +228,128 @@ lies in W_o ∖ Q* and does not threaten o (Proposition F(a)). If Z₀ is safe i
 
 Lemma G is how T1-stuckness enters: an owner that would rather hold a lower good of x frees the rest of the key for z,
 unless it values z's base (then a good of B_z is the natural escape for it) or z's base is dangerous to a third agent.
-Turning the three cases into an escape is open (§5).
+Turning the three cases into an escape is open (§6).
 
-## 5. What remains
+## 5. The key-graph form: one terminal at a Z′-maximum
 
-The step from the T3 stage to Corollary 8.2 splits into three statements, each true on all data (§6) and each needing
-more than the local lemmas above.
+`k4/sx.md` (PR #80, branch `proof/k4-sx`, read at ebe244f) reduces DL on the key graph at f = 1 to Conjecture
+K4.SX.COVER: at some Z′-maximum of every non-completable key, one of its Lemmas A, B (k = 1), B′ (k = 1), C, C′ applies.
+Its open cases (`k4/sx.md` §5) are: every terminal leaf θ-b; a leaf of kind (R) with its fourth good in the pool whose
+released good third agents value; terminals at distance ≥ 2 from every leaf. This section carries the one-needer regime
+to that setting, starting from a Z′-maximum instead of a T3-stage state.
+
+Notation of `k4/sx.md` §1–§2: κ = (g, x) with def*(κ) > 0 (f = 1, ω ≥ 1); Q a *Z′-maximum* at κ, i.e. a configuration
+maximizing Theorem Z′'s (r′, Λ′); P_Q its state (x on {g}, every free y on H_y = Q_y ∩ U_y, U_y = R_y ∖ {g});
+X_o = Q_o ∪ L (L the pool, ω goods); a *terminal* is a free agent that needs g in P_Q (v_y(H_y) = v_y(Q_y)); V is the
+set of free agents that threaten no free agent. The *single-terminal regime*: Q has exactly one terminal τ, i.e. P_Q is
+a one-needer state.
+
+What is used of Lemma F of `k4/sx.md` (a written proof there, not yet refereed) is the part whose proof rests on PROVED
+rows: Q is pool-optimal (Theorem Z′(ii), K4.C4MIN.RED.Z); a free agent threatened by a free agent is not robust and is
+of a kind of `k4/c4min_f1.md` Lemma 3, threatened as listed there (K4.C4MIN.F1); a cycle of threats among free agents
+contradicts maximality (`k4/c4min_f1.md` Lemma 5: the rotation stays at κ and raises (r′, Λ′)); a free agent threatening nobody would make κ completable
+(`k4/c4min.md` Lemma 1(a), K4.C4MIN.CFG, in the per-key form of `k4/sx.md` Lemma 0). Hence from every free agent a
+path of threats through distinct free agents ends at some o ∈ V, and o threatens x.
+
+**Proposition S1 (one terminal: x is big-top).** If a Z′-maximum at a non-completable key κ = (g, x) has exactly one
+terminal τ, then x is big-top on g. Hence L_x = U_x ⊆ X_o for every o ∈ V (§1: a set threatens a big-top x holding
+{g} iff it contains L_x properly).
+
+*Proof.* Let τ = q₀ → q₁ → … → q_k = o ∈ V (k ≥ 0) be a threat path through distinct free agents; X_o threatens x.
+Suppose x is not big-top. By `k4/c4min_f1.md` Lemma 4, X_o contains a pair S ⊆ U_x with v_x(S) > v_x(g). Make the
+plain path move: τ takes g, q_i takes Q_{q_{i−1}} (1 ≤ i ≤ k), x takes S, everybody else keeps its pair. As in the
+validity part of the proof of `k4/c4min_f1.md` Lemma 7, each receiver gets a pair worth more than its holding or
+containing its top, so its part is admissible; S is admissible (Lemma 4 there); the pairs are disjoint, since S ⊆ X_o
+and no receiver gets Q_o. This is a candidate, so by `k4/c4min_f1.md` Lemma 1(c) some agent needs g. But x does not
+(v_x(S) > v_x(g)); τ holds g; the agents off the path keep their holdings and are not terminals; and a receiver that
+values g is of kind (Tg) (the other kinds do not value g), not a terminal, so v(u₁) = v(H) > v(g), and it now holds
+{u₂, u₃}, worth more than u₁. Contradiction. ∎
+
+This is step 4 of the case "(E′) with a single threatening owner" of `k4/c4min_f1.md` §2, run from the single terminal.
+It proves item 3 of §6 in key-graph form, where the one-needer state is P_Q of a Z′-maximum; for an arbitrary
+one-needer T3-stage state, item 3 stays open.
+
+**Corollary 8.2 at a Z′-maximum.** In the single-terminal regime nobody but τ needs g in P_Q and x is big-top (S1). So a
+swap of `k4/dl13.md` §2.1 from P_Q with z = τ falls under Corollary 8.2 as soon as x's bundle Z in P′ contains L_x and
+is safe in P′: def(P′) ≤ ω + 1 − |Z|. Corollary 8.2 is not one of `k4/sx.md`'s Lemmas A–C′, but in this regime two of
+them are instances of it with |Z| = ω + 2 (so def(P′) ≤ −1 there; checked on the data, §7): Lemma A (Z = X_τ, no helper) and Lemma B with
+k = 1 (Z = X_o, helper o). Lemmas C and C′ have a different shape (an agent other than x owns after the move), and C′
+needs two terminals. The two lemmas below are Corollary 8.2 swaps with |Z| = ω + 1, which need the term ι of
+`k4/dl13.md` Lemma 8, hence a single terminal. They close the θ-b case and the (R) case of K4.SX.COVER in this regime,
+up to the exceptions stated.
+
+**Lemma A♭ (a θ-b terminal leaf).** In the single-terminal regime, let τ ∈ V with θ-b(τ) (ω ≥ 2, τ has four goods
+and is big-top on g, U_τ ⊆ X_τ). Then
+- (i) R_τ = R_x;
+- (ii) if ω = 2, the swap "τ takes {g}, x takes A = {b, c}" (no helper) is a (T3) move from P_Q to a state P′ with
+  def(P′) ≤ 0, x's bundle being Z := U_x.
+
+*Proof.* x is big-top (S1) and L_x = U_x ⊆ X_τ. (i) Suppose U_x ≠ U_τ (both have three goods) and take
+ℓ ∈ U_x ∖ U_τ; then ℓ ∉ H_τ. Z₀ := X_τ ∖ {ℓ} is a bundle of τ in P_Q (H_τ ⊆ Z₀ ⊆ H_τ ∪ J(P_Q)); it threatens no free
+agent (τ ∈ V) and not x (it misses ℓ ∈ L_x). Nobody but τ needs g, and v_τ(Z₀) ≥ v_τ(U_τ) > v_τ(g) (strict balance;
+g is τ's top by Lemma T), so u_τ(Z₀) = 1, and Lemma H1 gives def(P_Q) ≤ ω + 2 − (ω + 1) − 1 = 0, against
+def*(κ) > 0. So U_x = U_τ. (ii) |X_τ| = 4, so X_τ = U_τ ∪ {e}. The swap is that of `k4/dl13.md` §2.1 with z = τ,
+H = ∅, G = J(P_Q) ∪ H_τ ⊇ X_τ, and A ⊆ L_x ⊆ G admissible for x (Corollary 8.2). Z = U_x contains L_x ⊇ A and lies in
+G. It threatens no free w ≠ τ (Z ⊆ X_τ, τ ∈ V), and not τ holding {g}: Z = U_τ ⊆ R_τ, so θ_τ(Z) = v_τ(u₁) + v_τ(u₂)
+< v_τ(g) (τ big-top). Corollary 8.2: def(P′) ≤ ω + 1 − |Z| = 0. The move changes τ (which needs g) and x
+(A ⊆ X_τ ⊆ H_τ ∪ J(P_Q)) only: a (T3) move without helper. ∎
+
+For ω ≥ 3 the twin case stays open: a bundle Z ⊆ X_τ of x with L_x ⊆ Z and |Z| = ω + 1 ≥ 4 contains U_τ and a good
+outside R_τ, so θ_τ(Z) = v_τ(U_τ) > v_τ(g), and τ is threatened. This is the twin exception of Proposition C
+(R_z = R_x, ω ≥ 3). At n = 3 it cannot occur (§4, after Proposition C), so at n ≤ 3 the θ-b case of K4.SX.COVER is
+closed in the single-terminal regime.
+
+**Lemma B♭ (an (R) leaf with its fourth good in the pool).** In the single-terminal regime, let τ → o with o ∈ V. By
+`k4/c4min_f1.md` Lemma 3, if o is of kind (R) then R_o = {a, p, q, s}, H_o = {p, q}, a ∈ Q_τ and
+v_o(p) + v_o(q) < v_o(a) + v_o(s). Suppose s ∈ L (the case that `k4/sx.md` Lemma B excludes and Lemma B′ treats under
+(H_B′)) and x does not value s. Then the swap "τ takes {g}, o takes {a, s}, x takes A = {b, c}" is a (T3) move from P_Q
+with helper o to a state P′ with def(P′) ≤ 0, x's bundle being Z := X_o ∖ {s}. No hypothesis on third agents is needed.
+
+*Proof.* x is big-top and L_x ⊆ X_o (S1), so L_x ⊆ Z (s ∉ R_x). The swap is that of `k4/dl13.md` §2.1 with z = τ, the
+only needer, helper o, G = J(P_Q) ∪ H_τ ∪ H_o ⊇ Q_τ ∪ Q_o ∪ L. Corollary 8.2's hypotheses: L_x ⊆ X_o ⊆ G; A ⊆ L_x is
+admissible; B′_o = {a, s} ⊆ G ∖ L_x (a ∈ Q_τ, which misses X_o ⊇ L_x; s ∉ R_x), and it contains o's top a, so
+N_o(B′_o) = ∅ (also g ∉ R_o); o gives up H_o ⊄ B′_o. Z is a bundle of x in P′: A ⊆ Z ⊆ G ∖ B′_o (Z ⊆ X_o misses a and
+s). Safety in P′ (Lemma 8 of `k4/dl13.md`): Z ⊆ X_o threatens no w ∉ {x, τ, o} (o ∈ V); Z misses H_τ ⊆ Q_τ, so it does
+not threaten τ holding {g} (Corollary B2; H_τ ≠ ∅); and Z ∩ R_o ⊆ {p, q}, so θ_o(Z) ≤ v_o(p) + v_o(q) < v_o(a) + v_o(s): o
+holding {a, s} is not threatened. |Z| = ω + 1, and Corollary 8.2 gives def(P′) ≤ 0. ∎
+
+If x values s, B♭ fails (Z = X_o ∖ {s} misses a lower good of x and is worth less than g to x), and `k4/sx.md` Lemma B′
+with (H_B′) is what remains.
+
+**What this closes of K4.SX.COVER.** In the single-terminal regime, from a Z′-maximum Q (x big-top by S1):
+- τ ∈ V without θ-b: `k4/sx.md` Lemma A (a Corollary 8.2 swap without helper).
+- τ ∈ V with θ-b: Lemma A♭ for ω = 2; τ is then x's twin. Open: R_τ = R_x with ω ≥ 3 (n ≥ 4).
+- τ threatens a leaf o directly (k = 1): `k4/sx.md` Lemma B (a Corollary 8.2 swap with helper o), unless o is of kind
+  (R) with s ∈ L; then Lemma B♭ if x does not value s. Open: x values s and (H_B′) fails.
+- Every threat path from τ to a leaf has length ≥ 2: open, as in `k4/sx.md`.
+
+Each closed case is one (T3) move from P_Q, with at most one helper, to a state of deficit ≤ 0, so the key (g, τ) is a
+(T3) neighbour of κ with def* ≤ 0. Data: §7.
+
+## 6. What remains
+
+At T3-stage states the step to Corollary 8.2 splits into the statements 1–4 below, each true on all T3-stage data (§7)
+and each needing more than the local lemmas of §2–§4. Items 1–3 fail at T1-stuck one-needer states that are not at the
+T3 stage, so a proof has to use def(P) = def*(κ), not only that no (T1) or (T2) move lowers the deficit.
 
 1. **Conjecture SX1 (an x-alone triple).** At every one-needer T3-stage state with f = 1 some best owner has an x-alone
    triple. Its absence means: no free agent has a bundle of ω + 2 goods that threatens nobody but x, so the deficit 1 of
    P is caused by the free agents alone. This is item 1 of `k4/dl13.md` §6 (Conjecture SX) in its strong form,
    restricted to big-top keys; Lemma A shows that *some* state of the key has such a bundle (the state of Theorem Z′),
-   but not that P has one. It needs the T3 stage: at T1-stuck one-needer states it fails (94 states on #53's n = 3
-   catalogue, §6), as SX fails at `dl13-n3m6` (`k4/dl13.md` §5).
-2. **Conjecture ES (an escape).** At every T1-stuck one-needer state with f = 1, def = 1, x big-top and an x-alone
-   triple, Proposition C applies at some triple with owner z, or some triple with owner o ≠ z has an escape. True at
-   every such state of the exhaustive n = 3 run and of the n = 4, 5 catalogues (§6), so on the data the T1-stuck
-   hypothesis suffices here. Per triple it is false (`attempts/k4-oneneeder-escape-t1.md`, n = 4: a triple whose owner's
-   top is held by a third agent), and without stuckness it is false (same file, n = 3: the owner needs a lower good of
-   x, re-bases to it, and z then owns everything else, deficit −1; that is the first case of Lemma G turned around).
-   Propositions E and F prove it when o's best base avoids L and takes at most one good of its bundle; Lemma G is the
-   first step of the remaining case.
+   but not that P has one. At T1-stuck one-needer states it fails (14,912 of the 259,472 such states at n = 3, §7), as
+   SX fails at `dl13-n3m6` (`k4/dl13.md` §5).
+2. **Conjecture ES (an escape), at the T3 stage.** At every one-needer T3-stage state with f = 1 and an x-alone triple,
+   Proposition C applies at some triple with owner z, or some triple with owner o ≠ z has an escape. True at all 97,824
+   such states at n = 3. At T1-stuck states it holds at all 244,560 n = 3 states with a triple but fails at 10 states of
+   #53's n = 4, 5 catalogues; at two of them no swap with at most one helper lowers the deficit (Candidate 3 of
+   `attempts/k4-oneneeder-escape-t1.md`; the smallest is `dl13-n4m9-rot` of `k4/dl13.md` §2.3, n = 4, m = 9: the
+   owner holds a lower good of x and its top is in a third agent's base; the key has def* = 0, reached only by moving
+   two helpers). It is also false per triple and without
+   stuckness (Candidates 1, 2 there). Propositions E and F prove it when o's best base avoids L and takes at most one
+   good of its bundle; Lemma G is the first step of the remaining case.
 3. **x big-top.** Corollary B3 constrains a non-big-top x; the data never show one at a one-needer T3-stage state, while
-   at T1-stuck one-needer states it occurs (12 states on #53's n = 3 catalogue), so this too needs the T3 stage.
+   at T1-stuck one-needer states it occurs (1,280 states at n = 3). In the key-graph form (one terminal at a
+   Z′-maximum) it is proved: Proposition S1.
 4. **Proposition C's exceptions**: u_z(X) = 1 (then |X| = ω, L_z ⊆ X, and the swap's bundle has one good too few), and
    R_z = R_x with ω ≥ 3 (impossible at n = 3). Neither occurs in the data.
 
@@ -248,7 +357,12 @@ With SX1, ES and 3–4, Lemma A and Propositions C, D give: at every one-needer 
 def(P) = 1, and a swap of Corollary 8.2 with at most one helper (o, or none) reaches a state of deficit ≤ 0, i.e. a
 completable state of the neighbouring key (z, g).
 
-## 6. Data (EVIDENCE)
+5. **In the key-graph form** (§5), the single-terminal regime of K4.SX.COVER is closed except for: a θ-b terminal leaf
+   that is x's twin with ω ≥ 3 (n ≥ 4); a terminal whose leaf at distance 1 is of kind (R) with its fourth good s in
+   the pool, x valuing s, and (H_B′) failing; terminals at distance ≥ 2 from every leaf. None of the three occurs in the
+   data (§7), where the single-terminal regime itself occurs only at n = 3.
+
+## 7. Data (EVIDENCE)
 
 `k4/oneneeder.c` (driver `k4/oneneeder_run.py`) enumerates the min-frozen class of every profile with f = 1, computes
 every deficit by Lemma H1, the least deficit of every key, and at every one-needer T3-stage state tests: x big-top;
@@ -280,17 +394,59 @@ x restricted to big-top types with top g and z to types with top g, the shape of
 least two needers of the frozen good); in the 2,152 T3-stage states of the runs that record it (`certs4_*_s41`) x is
 never big-top, and the big-top-restricted and targeted runs have no T3-stage state at all.
 
-## 7. Failed candidates
+compute/k4-rc's core (pos 4604 of `results/k4_certs_5_pure.json.gz`, n = 5, m = 13; its 45 profiles where no single
+move lowers the deficit of a def-1 state, `results/k4_rc/FAILURES.md` on that branch): the 45 profiles
+(`rc_fail_n5.log`) have 1,395 T3-stage states, none one-needer (the frozen good 11 has the two needers 2 and 3); 400,000
+random profiles of the core and 400,000 targeted ones (`core4604_*.log`) have 645 T3-stage states, none one-needer. So
+that refutation of single-step DL at f = 1 does not touch the one-needer statement; its key-graph form is §5's setting
+(there with two terminals, `k4/sx.md` §4.4).
 
-`attempts/k4-oneneeder-escape-t1.md`: "at every one-needer state with def > 0, x big-top and an x-alone triple at
-o ≠ z that is T1-stuck, o has an escape" fails at n = 4 (a (T2) move lowers the deficit there); without T1-stuckness it
-fails at n = 3. On `k4/dl13.md` §1's profiles: 2,397 T3-stage triples, all with an escape; 84 T1-stuck triples not at the
-T3 stage without one; 4,859 non-stuck triples without one.
+**T1-stuck states (`-t1`).** The same tests at every one-needer state with def > 0 at which no (T1) re-base of one
+free agent lowers the deficit (whether or not it is at the T3 stage):
 
-## 8. Reproduce
+| input | profiles | one-needer T1-stuck states | x big-top | x-alone triple | Prop. C or D | Cor. 8.2 (≤ 1 helper, x big-top) |
+|---|---|---|---|---|---|---|
+| n = 3, every strict profile (`t1_certs3_all.log.gz`) | 299,837,376 | 259,472 | 258,192 | 244,560 | 244,560 | 255,312 |
+| #53's n = 4, 5 catalogues and hunts (`t1_cat_*.log`) | 428,458 | 126 | 126 | 125 | 115 | 124 |
+
+So at T1-stuck states items 1–3 of §6 fail: item 3 at 1,280 and item 1 at 14,912 states at n = 3; item 1 at one and
+item 2 at 10 states at n = 4, 5, two of which (n = 4, m = 9 and n = 5, m = 13) have no swap of Corollary 8.2 with at
+most one helper at all.
+
+**The key-graph form (§5; `k4/oneneeder_zprime.py`, on `k4/suite/model.py`).** Inputs: the dumps of `k4/sx.md`'s hunts
+(`results/k4_sx/hunt/*.jsonl.gz` on branch `proof/k4-sx`, ebe244f): every n = 3 profile with a non-completable key, and
+the n = 4 hunts. At every Z′-maximum of every non-completable key the tool finds the terminals and leaves; at the
+single-terminal maxima it asserts Proposition S1, that `k4/sx.md`'s Lemma A (τ a leaf without θ-b) and Lemma B (k = 1,
+leaf not of kind (R) with s ∈ L) reach deficit ≤ −1 there, Lemma A♭(i), (ii), and Lemma B♭ (each image looked up in
+the min-frozen class, its deficit by `model.Inst.deficit`).
+
+| input | non-completable keys | Z′-maxima | one terminal (x big-top) | τ a leaf, not θ-b: Lemma A, def ≤ −1 | τ a θ-b leaf (A♭) | k = 1, leaf not (R) with s ∈ L: Lemma B, def ≤ −1 | k = 1, (R) leaf with s ∈ L (B♭) | only k ≥ 2 | ≥ 2 terminals (x big-top) |
+|---|---|---|---|---|---|---|---|---|---|
+| n = 3, every profile with a non-completable key (`zprime_sx_hunt_n3_all.log`) | 62,208 | 116,248 | 39,840 (39,840) | 32,016 | 0 | 7,824 | 0 | 0 | 76,408 (0) |
+N4ROW
+So at n = 3 a Z′-maximum has one terminal iff x is big-top (every maximum with two terminals has x not big-top), and
+the counts of keys and maxima agree with `k4/sx.md` §4.2. The cases of Lemmas A♭ and B♭ do not occur in these data, so
+their proofs are not tested by them.
+
+## 8. Failed candidates
+
+`attempts/k4-oneneeder-escape-t1.md` (replayed with two implementations by `attempts/k4_oneneeder_attempts.py`):
+- Candidate 1, per triple: "at every T1-stuck one-needer state with def = 1, x big-top and an x-alone triple at
+  o ≠ z, o has an escape at that triple" fails at n = 4, m = 11 (a (T2) move lowers the deficit there).
+- Candidate 2, without stuckness: "Corollary 8.2 applies at every one-needer state with def > 0, x big-top and an
+  x-alone triple" fails at n = 3, m = 7.
+- Candidate 3, Conjecture ES at T1-stuck states (as first stated in this file): fails at n = 4, m = 9, at the known
+  state `dl13-n4m9-rot` (`attempts/k4-dl13-opt.md`), where no swap with at most one helper lowers the deficit; the key
+  has def* = 0, reached by moving two helpers.
+
+On `k4/dl13.md` §1's profiles: 2,397 T3-stage triples, all with an escape; 84 T1-stuck triples not at the T3 stage
+without one; 4,859 non-stuck triples without one.
+
+## 9. Reproduce
 
 ```
-sh k4/oneneeder_runs.sh                      # every run of section 6 (one process at a time)
+sh k4/oneneeder_runs.sh                      # every run of section 7 (one process at a time)
 python3 k4/oneneeder_check.py catalog results/k4_gap/gap_n3.json.gz --shapes   # second implementation, n = 3 sample
-python3 attempts/k4_oneneeder_attempts.py    # section 7, both implementations
+python3 attempts/k4_oneneeder_attempts.py    # section 8, both implementations
+python3 k4/oneneeder_zprime.py DUMPS         # section 5 checks; DUMPS = results/k4_sx/hunt/n3_all_*.jsonl.gz, n4_*.jsonl.gz of proof/k4-sx
 ```

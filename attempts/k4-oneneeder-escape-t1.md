@@ -33,7 +33,9 @@ Corollary 8.2 applies (with at most one helper)." Fails at n = 3, m = 7:
 **Candidate 3 (state level, T1-stuck: Conjecture ES as first stated).** "At every T1-stuck one-needer state with
 f = 1, def = 1, x big-top and an x-alone triple, Proposition C applies at a triple with owner z or a triple with owner
 o ≠ z has an escape." True at every such state of the exhaustive n = 3 run (244,560 states), but false at 10 states of
-#53's n = 4, 5 catalogues (`results/k4_oneneeder/t1_cat_*.log`). Smallest, n = 4, m = 9:
+#53's n = 4, 5 catalogues (`results/k4_oneneeder/t1_cat_*.log`). Smallest, n = 4, m = 9; it is the known instance
+`dl13-n4m9-rot` (`attempts/k4-dl13-opt.md`, found by compute/k4-dl13, #74), a T1-stuck state with no improving (T3)
+move, which `k4/dl13.md` §6 item 3 already names for this regime:
 
 - agents 0: (7:10, 2:6, 1:3, 0:2) = x, big-top on 7; 1: (5:8, 2:7, 4:4, 8:2) = o; 2: (6:7, 3:6, 4:5, 5:3);
   3: (7:8, 8:4, 3:3, 6:2) = z (sets [[0,1,2,7],[2,4,5,8],[3,4,5,6],[3,6,7,8]], values [[2,3,6,10],[7,4,8,2],[6,5,3,7],

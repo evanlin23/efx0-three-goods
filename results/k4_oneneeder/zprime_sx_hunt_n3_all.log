@@ -1,0 +1,13 @@
+# command: python3 k4/oneneeder_zprime.py $SX/results/k4_sx/hunt/n3_all_0.jsonl.gz $SX/results/k4_sx/hunt/n3_all_10.jsonl.gz $SX/results/k4_sx/hunt/n3_all_20.jsonl.gz $SX/results/k4_sx/hunt/n3_all_30.jsonl.gz $SX/results/k4_sx/hunt/n3_all_40.jsonl.gz $SX/results/k4_sx/hunt/n3_all_50.jsonl.gz
+# $SX = a checkout of branch proof/k4-sx at ebe244f (k4/sx.md hunt dumps)
+Z-maxima                                                                                             116248
+Z-maxima with 2 terminals, x big-top=False                                                           76408
+non-completable keys                                                                                 62208
+profiles                                                                                             62208
+single terminal: Lemma A image has def <= -1                                                         32016
+single terminal: Lemma B (k=1) image has def <= -1                                                   7824
+single terminal: Z-maxima                                                                            39840
+single terminal: regime I (tau a leaf), theta-b=False                                                32016
+single terminal: regime II path, k=1, leaf kind R                                                    1584
+single terminal: regime II path, k=1, leaf kind other                                                6240
+no assertion failed [451 s]

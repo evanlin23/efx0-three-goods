@@ -7,18 +7,22 @@ k4/c4min.md Lemma 1 / k4/sx.md Lemma 0), and every configuration Q at κ maximiz
 Λ' = the sum over the free agents of the levels of Q_y ∩ R_y; a "Z′-maximum", k4/sx.md §2): T = the terminals (free
 agents needing g at their holding), V = the leaves (free agents whose bundle X_o = Q_o ∪ L threatens no free agent).
 When |T| = 1 (the one-needer regime; T = {tau}) the tool asserts:
-  S1   x is big-top on g (k4/oneneeder.md Proposition S1);
-and checks the two constructions of §5 wherever they apply, asserting their conclusion against the exact deficit
+  S1   x is big-top on g (k4/oneneeder.md §5, Proposition S1);
+checks that k4/sx.md's Lemma A (tau a leaf, not theta-b) and Lemma B (k = 1, leaf not (R) with s in the pool) reach
+deficit <= -1 here (Corollary 8.2 with |Z| = omega + 2), and checks the two constructions of §5 wherever they apply, asserting their conclusion against the exact deficit
 (model.Inst.deficit) of the swapped state, which must be min-frozen:
-  Ab   (tau in V, theta-b(tau)): tau takes {g}, x takes an admissible set inside Z := X_tau minus one good l, chosen with
-       v_x(Z) > v_x(g) and theta_tau(Z) < v_tau(g); def(P') <= 0 asserted;
-  Bb   (tau -> o, o in V of kind (R) with its fourth good s in the pool, v_x(X_o minus s) > v_x(g)): tau takes {g}, o
-       takes {a_o, s}, x takes an admissible set inside X_o minus s; def(P') <= 0 asserted.
+  Ab   (tau in V, theta-b(tau)): R_tau = R_x asserted (part (i)); tau takes {g}, x takes an admissible set inside
+       Z := X_tau minus one good l, chosen with v_x(Z) > v_x(g) and theta_tau(Z) < v_tau(g); def(P') <= 0 asserted, and
+       such an l asserted to exist when omega = 2 (part (ii));
+  Bb   (tau -> o, o in V of kind (R) with its fourth good s in the pool, s not a good of x; then v_x(X_o minus s) >
+       v_x(g), asserted): tau takes {g}, o takes {a_o, s}, x takes an admissible set inside X_o minus s; def(P') <= 0
+       asserted.
 It also records which of k4/sx.md's cases the Z′-maximum is in (regime I: tau in V, theta-b or not; regime II: path
 length k, the leaf's kind, s in L).
 
 usage: python3 k4/oneneeder_zprime.py DUMP.jsonl.gz ... [--every=E] [--max=N]   (k4/sx_hunt.py dumps: f = 1 profiles)"""
-import collections, gzip, itertools, json, os, sys
+import collections, gzip, itertools, json, os, sys, time
+T0 = time.time()
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(HERE, 'suite'))
 import model as M
@@ -75,7 +79,15 @@ def analyse(I, key, cnt, ex):
         if tau in V:
             thb = bigtop_on(I, tau, g) and not (U[tau] & ~X[tau]) and I.omega >= 2
             cnt['single terminal: regime I (tau a leaf), theta-b=%s' % thb] += 1
-            if not thb: continue
+            if not thb:
+                # sx Lemma A in this regime is a Corollary 8.2 swap with |Z| = omega + 2: def(P') <= -1
+                Bs = list(Bs0); Bs[tau] = gm; Bs[x] = adm_inside(I, x, X[tau], U[x])
+                d = swap_def(I, Bs)
+                assert d is not None and d <= -1, ('Lemma A image: deficit', I.sets, repr(c), d)
+                cnt['single terminal: Lemma A image has def <= -1'] += 1
+                continue
+            # Lemma A-flat (i): a theta-b single terminal leaf is a twin of x (otherwise P_Q has def <= 0)
+            assert U[tau] == U[x], ('Lemma Ab(i) violated: theta-b single terminal, not a twin', I.sets, repr(c))
             done = False
             for l in bits(X[tau]):
                 Z = X[tau] & ~(1 << l)
@@ -85,7 +97,8 @@ def analyse(I, key, cnt, ex):
                 d = swap_def(I, Bs)
                 assert d is not None and d <= 0, ('Lemma Ab violated', I.sets, repr(c), l, d)
                 done = True; break
-            cnt['single terminal: theta-b leaf, Lemma Ab applies=%s twin=%s' % (done, U[tau] == U[x])] += 1
+            assert done or I.omega >= 3, ('Lemma Ab(ii) violated: omega = 2 and no swap', I.sets, repr(c))
+            cnt['single terminal: theta-b leaf, Lemma Ab applies=%s omega=%d' % (done, I.omega)] += 1
             if not done and len(ex['Ab-fails']) < 3: ex['Ab-fails'].append((I.sets, [[I.v[i][q] for q in I.sets[i]] for i in range(I.n)], repr(c)))
             continue
         # regime II: every threat path from tau to a leaf (Lemma F of k4/sx.md: an out-forest)
@@ -107,10 +120,17 @@ def analyse(I, key, cnt, ex):
                 if not H & (1 << gs[0]) and pc(H) == 2:
                     kind = 'R'; a = gs[0]; s = next(bits(U[o] & ~H & ~(1 << a))); sL = bool(c.L >> s & 1)
             cnt['single terminal: regime II path, k=%d, leaf kind %s%s' % (k, kind, ' s in L' if sL else '')] += 1
+            if k == 1 and not sL:
+                # sx Lemma B (k = 1) in this regime is a Corollary 8.2 swap with helper o, |Z| = omega + 2: def(P') <= -1
+                Bs = list(Bs0); Bs[tau] = gm; Bs[o] = c.Q[tau] & U[o]; Bs[x] = adm_inside(I, x, X[o], U[x])
+                d = swap_def(I, Bs)
+                assert d is not None and d <= -1, ('Lemma B image: deficit', I.sets, repr(c), d)
+                cnt['single terminal: Lemma B (k=1) image has def <= -1'] += 1
             if k == 1 and kind == 'R' and sL:
                 Z = X[o] & ~(1 << s)
                 ok = I.val(x, Z) > I.v[x][g]
                 cnt['single terminal: (R) leaf with s in L, k=1: v_x(X_o - s) > v_x(g) = %s (s in U_x = %s)' % (ok, bool(U[x] >> s & 1))] += 1
+                assert ok == (not U[x] >> s & 1), 'Lemma Bb: v_x(X_o - s) > v_x(g) iff s is not a good of x'
                 if ok:
                     A = adm_inside(I, x, Z, U[x])
                     Bs = list(Bs0); Bs[tau] = gm; Bs[x] = A; Bs[o] = ((1 << a) | (1 << s)) & U[o]
@@ -141,7 +161,7 @@ def main(argv):
     for k in sorted(cnt): print('%-100s %d' % (k, cnt[k]))
     for k, v in ex.items():
         for e in v: print('EX', k, e)
-    print('no assertion failed')
+    print('no assertion failed [%.0f s]' % (time.time() - T0))
 
 
 if __name__ == '__main__':
