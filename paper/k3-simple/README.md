@@ -39,6 +39,9 @@ are balanced, were machine-checked in Lean in the previous work (`lean/`, `paper
 proof (the Improvement Lemma, soundness in the form used, DE and the shape for all instances with at most three
 relevant goods per agent) is a written proof: derived independently twice (`k3/simplify/po/hall/NOTES.md`,
 `k3/simplify/po/potential/NOTES.md`), refereed once with no error (`k3/simplify/po/referee/README.md`; its four
-presentation fixes are applied), checked by computer on millions of states, and not machine-checked. Every claim is
+presentation fixes are applied), checked by computer on millions of states, and not machine-checked. The provers and
+the referee were AI agents: separate sessions of the coding assistant (Claude Code), the referee given only the
+written proof. There has been no human peer review. The papers themselves were proofread by a further AI referee
+session (no mathematical error; status and presentation fixes applied). Every claim is
 taken from `LEDGER.md` (rows K3S.PO, K3S.SA, K3S.ST) and the notes it cites, or from the runs of
 `examples/check_examples.py`; the papers change no ledger status.
