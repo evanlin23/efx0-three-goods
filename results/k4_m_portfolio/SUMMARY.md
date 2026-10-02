@@ -16,7 +16,9 @@ implementation.
    - **sh:W, btsh:W and M_nobt are refuted as well**, since their set is nonempty and nobody in it works;
    - every exchange partner fails, since no first agent works;
    - **bt2:W is not applicable** (no big-top agent) and is the only "which agent" survivor left standing.
-   HH3_OWNRUN
+   This harness's own run of HH_3 (`--profiles`, with and without `-O0`) did not finish within 25 minutes. It has to
+   evaluate 26 first agents, both policies and every single rotation. So the HH_3 statements rest on the values check
+   above and on PR #83's computations, not on this branch's code.
    The rest of this file is about n ≤ 5, H_t and the suite as of b50e112, where the statements below hold or fail as
    reported. They are evidence about where a corrected statement could live, not support for Lemma M.
 1. **Lemma M held on all the data here**: on ≈4.39·10⁹ distinct strict profiles (exhaustive and sampled) and in every
