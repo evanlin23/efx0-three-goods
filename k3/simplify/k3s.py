@@ -8,8 +8,8 @@ Input: n agents, m goods, v[i] = {good: positive value}, at most three goods per
      (a "leader"; it takes its top).
   2. Upgrades. While some agent holds its second good b, its third good c is left over, and nobody needs b alone,
      it also takes c. (Only for agents with three goods and a <= b + c.)
-  3. Absorber. r = the last agent of the draft that was not upgraded. An agent is "exposed" if it holds its top and
-     its other two goods are both left over or r's. Put one of those goods per exposed agent (HitSet) into the
+  3. Absorber. r = the last agent of the draft that was not upgraded. An agent x != r is "exposed" if it is strictly
+     balanced (a < b + c), not upgraded, holds its top, and its other two goods are each left over or r's. Put one of those goods per exposed agent (HitSet) into the
      bundles of "free" agents other than r, one good each (free: not upgraded, and nobody needs its good alone);
      r takes every other leftover.
   4. Rotation, if the slots are too few: k = the last exposed agent gives its top to an agent that needs it, whose
