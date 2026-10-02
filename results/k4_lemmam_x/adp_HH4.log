@@ -1,0 +1,9 @@
+# lemmam_x_adp.py --profiles=/tmp/claude-0/-home-user-efx0-three-goods/891575f8-e905-5025-9feb-2c6293ea3e11/scratchpad/lmx/HH4_rel.txt -Y1 -r1 -V1 # lemmam_x.c sha256 f4b4e32ba2ab3fd5
+HH4: n=34 rotations needed after the adaptive run d=0 (cap 1; 2 = none found) every block count 0: True tau=3,0,7,8,11,12,15,16,19,1,23,24,27,28,31,32 block counts=0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 time 0.0s
+HH4 relabel 1: n=34 rotations needed after the adaptive run d=0 (cap 1; 2 = none found) every block count 0: True tau=0,2,4,12,17,19,24,9,26,27,10,29,28,31,33,6 block counts=0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 time 0.0s
+  profiles 2; every block count 0: 2
+  rotations d needed after the adaptive run (0, 1, ..., cap, none within the cap): [2, 0, 0]
+  ... among the runs with every block count 0: [2, 0, 0]
+  runs with d >= 1 whose last block has count 1: 0
+  runs where some block other than the last has count > 0 (the local step fails there): 0; their d: [0, 0, 0]
+  local exchange: insertion steps (weighted) where index order's block is not the last and has count > 0: 24; the block of its overloaded end has count 0: 3; some agent's block has count 0: 24

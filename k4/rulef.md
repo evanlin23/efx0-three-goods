@@ -16,6 +16,7 @@ independent model `k4/c4_verify_H/lb4r.py`, with the completion of its proof bui
 review (KR in its corrected form, with hypothesis (iii); hypothesis (iv) was added after the Lean formalization of PR #81
 found it missing). Lemmas K, K′, S and KR are also machine-checked in Lean (§7). Lemma M is open. The data are
 EVIDENCE.
+**Update (2026-10-02):** Lemma M is false (HH_3, K4.LMBT.M / K4.RF.M REFUTED, PR #83, `k4/lemmam_bt.md` §3).
 - **Lemma K (§2)**, an owner count for any valid pre-allocation: an owner, a set K of goods it keeps (its needs taken
   from B_o ∪ K, which can unfreeze agents), and every threatened agent served either by a slot good of its own that
   protects it whatever else happens or by a set of goods kept out of the owner's bundle. Its deficit is at most
@@ -36,6 +37,7 @@ EVIDENCE.
   C₄⁰ (C40, contained in K0 ∪ K1). It never runs LB₄ʳ's owner search. **It is correct exactly when Lemma M holds**
   (some first agent is in K0 or K1), the one statement left open (§6 says which cases a proof attempt closes and
   which it does not).
+  **Update (2026-10-02):** Lemma M is false (HH_3, K4.LMBT.M / K4.RF.M REFUTED, PR #83, `k4/lemmam_bt.md` §3).
   Its variant RK₃ (also the run without upgrades) is as good as rule F on all the exhaustive data.
 - **Data (§5)**: Lemma M holds, with K0 and K1 alone, on every strict profile of every certified core with n ≤ 4 and at
   most three 4-good agents (3.6·10¹⁰ profiles, exhaustive), on random samples of n = 4 with four 4-good agents
@@ -162,9 +164,13 @@ or more goods, which `Completion` then forces to be the owner's). ∎
    is not in X_o; the converse is the second step of Lemma K's proof. So F^K is the set of agents frozen in X, every
    good of C fills a slot place of an agent outside F^K ∪ {o} (|C| ≤ κ^K), the G_x are disjoint, an agent of F^K holds
    B_x (G_x = ∅), and W_o ∖ (D_x ∪ G_x) = W_o ∖ C = X_o: (OC₄) is the service condition. ∎
-   The equivalence is with Lean's `Output`, in which a free agent x has 2 − |B_x| slot places. `k4/lb4.c`'s owner test,
-   which `k4/rulef.c` and all the data use, gives a marked agent with a one-good base O no slot place, so on rotated
-   states it can be stricter; the exactness seen in the data (§5.1) is relative to `lb4.c`'s test.
+   The equivalence is with Lean's `Output`, in which a free agent x has 2 − |B_x| slot places. `k4/rulef.c`'s Lemma K
+   count and its ω, which all the data use, give an upgraded agent no slot place (`slots()`, `k4/rulef.c` line 305),
+   and `apply_chain` marks a rotated head upgraded (line 333), so a marked agent with a one-good base O gets none: on
+   rotated states the code's count can be stricter than `Output`, and the exactness seen in the data (§5.1) is
+   relative to it. (The owner test taken from `k4/lb4.c` is not the cause: with `-w1` it recomputes the caps, line
+   201. Corrected after the PR #77 review, which found the missing slot, `k4/lemmam_x.md` §2: on 132 of 1,420 leaves
+   at n = 4 PR #33's model certifies with one rotation a first agent the code puts in no class.)
    So Lemma K's deficit misses LB₄ʳ's owner test only through its separated options, and the class K0 of rule RK with
    Lemma K′ (K0′) holds exactly the runs that LB₄ʳ solves without rotation under those policies. Checked on the gap
    profiles of §5.1 (`k4/rulef_gap.py`, every first agent and all three policies, on PR #33's model; it implements
@@ -372,6 +378,7 @@ and LB₄ʳ's exact owner search confirms every class on every profile):
 - **RK is not optimal, but never needs two rotations.** It uses a rotation where some first agent needs none on 0
   (n ≤ 3), 4, 688 and 21,456 profiles (n = 4 with one, two, three 4-good agents; 21,408 with `-Y1`): these are the
   profiles of the counting gap on which the first K1 agent in index order is not one of those that need no rotation.
+  (These counts may change: `k4/rulef.c` gives a rotated agent with a one-good base no slot, Remark 5 of §2.)
   RK₃ never does (it needs a rotation exactly where rule F does).
 
 **Beyond the exhaustive classes** (random strict profiles of every certified core, `-SN`: N per core; EVIDENCE only,
@@ -420,7 +427,8 @@ contain none of the 9,632 profiles on which the first rule fails, found exhausti
 - *one big-top agent: it works*. "The first big-top agent if there is one, else rule RK" (`-Q2`) leaves no profile
   open on n ≤ 3 and on n = 4 with one or two 4-good agents. With three 4-good agents it leaves 1,096 profiles
   uncertified (on 480 of them LB₄ʳ needs two rotations on that sequence), and every one of them has two or three
-  big-top agents. So on all the data: **if exactly one agent is big-top, that agent is in class K0 or K1**.
+  big-top agents. (The 1,096 is an upper bound: `k4/rulef.c`'s count gives a rotated agent with a one-good base no
+  slot, Remark 5 of §2; found in the PR #77 review.) So on all the data: **if exactly one agent is big-top, that agent is in class K0 or K1**.
 - *several big-top agents: not the first one*. On the smallest failure (n = 4, m = 8, three big-top agents) agents 0
   and 1 are big-top with the same top; agent 0, which has two private goods, fails, and agent 1, which has none, is in
   K0 (`attempts/k4-rulef-bigtop-first.md`).
@@ -575,6 +583,7 @@ is Lemma M itself (item 3); item 2 (C40 ⊆ K0 ∪ K1) is not needed and not for
 2. Class C40 is not needed (C40 ⊆ K0 ∪ K1, §4); `EFX.LB4R.corollaryC40'` (K4.C4.AB.L) already gives `Succeeds` on its
    hypotheses, with at most one `RotStep`.
 3. Lemma M — the existence of a first agent in K0 ∪ K1 — is the open statement; with 1 it is `RuleFConn`.
+   **Update (2026-10-02):** Lemma M is false (HH_3, K4.LMBT.M / K4.RF.M REFUTED, PR #83, `k4/lemmam_bt.md` §3).
 `EFX.LB4R.TheoremC4` (every τ) is false (K4.C4.C); `TheoremRuleF` asks for one τ per profile, of length one, and is
 not affected by Proposition H (on H_t rule RK needs no rotation, §4.1).
 
