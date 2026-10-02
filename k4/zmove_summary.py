@@ -3,7 +3,8 @@
 
 Per group of outputs (one group per argument; a group is a glob, NAME=GLOB names it): profiles, keys with def* > 0 per
 f and per n, the margin histogram (margin = min over the Z′-maxima of the least def(P′) over the (T3⁺) moves with <= 1
-helper from P_Q), keys with margin exactly 0, keys passing only by a (T4) edge, ZMOVE failures, the kind of the best
+helper from P_Q), keys with margin exactly 0, keys where some maximum has no one-move repair (so the choice of the
+maximum matters), keys passing only by a (T4) edge, ZMOVE failures, the kind of the best
 repair at the margin (T3 / T3 with helper / T3⁺ with |W| >= 1), margin_U (the level over U_y) where it differs, and
 the cross-checks (k4/zmove_indep.py agreements and differences, model.py verifications, assertions). The profiles are
 deduplicated across the files of a group and across groups (first group wins), unless --nodedup.
@@ -75,6 +76,11 @@ def main(argv):
                     if not kr['pass']: fails.append((r, kr))
                     elif kr['margin'] == 'inf' or kr['margin'] > 0: c['pass by (T4) edge only'] += 1
                     if kr['t4edge']: c['keys with a (T4) edge to smaller def*'] += 1
+                    worst = max(mkey(mr['best']) for mr in kr['maxima'])
+                    if worst[0] or worst[1] > 0:
+                        c['keys where some maximum has no one-move repair to <= 0'] += 1
+                        if kr['margin'] != 'inf' and kr['margin'] <= 0: c['  ... but another maximum has one'] += 1
+                    if len(kr['maxima']) > 1: c['keys with several maxima (distinct P_Q)'] += 1
                     if kr['margin_U'] != kr['margin']:
                         c['margin_U != margin'] += 1
                         a = kr['margin'] != 'inf' and kr['margin'] <= 0; b = kr['margin_U'] != 'inf' and kr['margin_U'] <= 0

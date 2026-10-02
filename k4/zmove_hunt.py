@@ -8,11 +8,13 @@ balanced types, k4/check4.py's core_domains, plus the seed's own vector). A step
 agents change type), keeps those that k4/cover_screen.c finds with a key of def* > 0 (f in --frange), and scores each
 with k4/zmove_check.check_profile. Per key κ with def* > 0 (margin = min over the Z′-maxima of the least def(P′) over
 the (T3⁺) moves with <= 1 helper from P_Q; nrep = the number of such moves to def <= 0 from the maxima):
-  s(κ) = 10000·[ZMOVE fails at κ] + 1000·clip(margin, -3, 5) + 200·[no (T4) edge to smaller def*] - min(nrep, 199)
+  s(κ) = 10000·[ZMOVE fails at κ] + 1000·clip(margin, -3, 5) + 200·[no (T4) edge to smaller def*]
+         + 100·[some maximum has no one-move repair to def <= 0] - min(nrep, 99)
 and the profile's score is the maximum over its keys (higher = closer to a failure; margin > 0 means the one-move
 clause fails, a failure if there is also no (T4) edge). Metropolis acceptance at a temperature falling linearly;
 restarts from the best state after --patience steps without improvement. A profile is appended to OUT (each once) if
-its best key fails ZMOVE, has margin > 0, or has margin 0 with nrep <= --nrep (default 2). The
+its best key fails ZMOVE, has margin > 0, has margin 0 with nrep <= --nrep (default 2), or has a maximum without a
+one-move repair to def <= 0. The
 state is checkpointed in OUT.state.json (resumable; one checkpoint per run).
 
 usage: python3 k4/zmove_hunt.py OUT.jsonl.gz --seed='{"sets": ..., "vals": ..., "m": ...}' | --seedfile=F[:i]
@@ -33,7 +35,8 @@ def key_score(kr):
     m = kr['margin']
     mm = 5 if m == 'inf' else max(-3, min(5, m))
     nrep = sum(sum(mr['kinds'].values()) for mr in kr['maxima'])
-    return 10000 * (not kr['pass']) + 1000 * mm + 200 * (not kr['t4edge']) - min(nrep, 199), nrep
+    worst = any(mr['best'] == 'inf' or mr['best'] > 0 for mr in kr['maxima'])
+    return 10000 * (not kr['pass']) + 1000 * mm + 200 * (not kr['t4edge']) + 100 * worst - min(nrep, 99), nrep
 
 
 def score(rec):
@@ -46,7 +49,8 @@ def score(rec):
 
 def interesting(kr, nrep, nmax):
     m = kr['margin']
-    return (not kr['pass']) or m == 'inf' or m > 0 or (m == 0 and nrep <= nmax)
+    worst = any(mr['best'] == 'inf' or mr['best'] > 0 for mr in kr['maxima'])
+    return (not kr['pass']) or m == 'inf' or m > 0 or (m == 0 and nrep <= nmax) or worst
 
 
 class Hunt:
