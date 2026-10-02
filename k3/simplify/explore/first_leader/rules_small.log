@@ -1,0 +1,18 @@
+index,sec,sec_lb,small,large,sec_small,iter_r cores 4 {'profiles': 58608, 'index fails': 1648, 'sec fails': 14, 'sec_lb fails': 4, 'small fails': 1340, 'large fails': 1644, 'sec_small fails': 0, 'iter_r fails': 0}
+  smallest index ([(1, 2, 3), (0, 1, 2), (0, 1, 2)], 4)
+  smallest small ([(1, 2, 3), (0, 1, 2), (0, 1, 2)], 4)
+  smallest large ([(1, 2, 3), (0, 1, 2), (0, 1, 2)], 4)
+  smallest sec ([(0, 3, 2), (2, 1, 4), (0, 2, 1)], 5)
+  smallest sec_lb ([(0, 3, 2), (2, 1, 4), (0, 2, 1)], 5)
+index,sec,sec_lb,small,large,sec_small,iter_r small 3 5 {'profiles': 3600, 'index fails': 154, 'sec fails': 12, 'sec_lb fails': 12, 'small fails': 140, 'large fails': 158, 'sec_small fails': 0, 'iter_r fails': 0}
+  smallest index ([(0, 1, 2), (0, 1, 3), (0, 3, 4)], 5)
+  smallest small ([(0, 1, 2), (0, 1, 3), (0, 3, 4)], 5)
+  smallest large ([(0, 1, 2), (0, 1, 3), (0, 3, 4)], 5)
+  smallest sec ([(0, 1, 2), (0, 2, 3), (2, 3, 4)], 5)
+  smallest sec_lb ([(0, 1, 2), (0, 2, 3), (2, 3, 4)], 5)
+index,sec,sec_lb,small,large,sec_small,iter_r small 3 6 {'profiles': 14400, 'index fails': 462, 'sec fails': 36, 'sec_lb fails': 36, 'small fails': 390, 'large fails': 486, 'sec_small fails': 0, 'iter_r fails': 0}
+  smallest index ([(0, 1, 2), (0, 1, 3), (0, 3, 4)], 6)
+  smallest small ([(0, 1, 2), (0, 1, 3), (0, 3, 4)], 6)
+  smallest large ([(0, 1, 2), (0, 1, 3), (0, 3, 4)], 6)
+  smallest sec ([(0, 1, 2), (0, 2, 3), (2, 3, 4)], 6)
+  smallest sec_lb ([(0, 1, 2), (0, 2, 3), (2, 3, 4)], 6)

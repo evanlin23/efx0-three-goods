@@ -1,0 +1,6 @@
+index,sec_small,iter_r cores 6 6 300 {'profiles': 962100, 'index fails': 4536}
+  smallest index ([(1, 6, 0), (1, 5, 0), (2, 4, 5), (2, 5, 4), (3, 5, 4), (5, 3, 4)], 7)
+
+real	2m57.098s
+user	2m54.525s
+sys	0m0.043s
