@@ -31,7 +31,22 @@ def read(globpat):
     return cnt, len(files), done
 
 
+def coverage(groups):
+    """sum the counters of k4/f2_lemmas.py logs, per group"""
+    for name, pat in groups:
+        cnt = collections.Counter(); files = sorted(glob.glob(pat)); ok = 0
+        for fn in files:
+            for l in open(fn):
+                if l.startswith('# no assertion failed'): ok += 1
+                m = re.match(r'^  (\S.*?)\s{2,}(\d+)$', l.rstrip('\n'))
+                if m: cnt[m.group(1)] += int(m.group(2))
+        print('### %s (%d logs, %d ended with "no assertion failed")' % (name, len(files), ok))
+        for k in sorted(cnt): print('  %-110s %s' % (k, '{:,}'.format(cnt[k])))
+
+
 def main(argv):
+    if argv and argv[0] == '--coverage':
+        coverage([a.split('=', 1) for a in argv[1:]]); return
     groups = [a.split('=', 1) for a in argv]
     data = [(name,) + read(g) for name, g in groups]
     print('| | ' + ' | '.join('%s (%d/%d logs complete)' % (n, d, f) for n, _, f, d in data) + ' |')

@@ -1,1 +1,26 @@
 # command: python3 k4/f2_lemmas.py results/k4_f2/shapes_6.jsonl.gz
+  A-S1 | plain T3 exists | C1+                                                                         3908
+  A-S1 | plain T3 exists | certified by a plain (k = 0) corollary                                      3906
+  A-S1 | plain T3 exists | only by a chain corollary (k >= 1)                                          2
+  A-S1, every S1 triple theta-fails | Corollary 11.2+ does not apply                                   2
+  A-z | plain T3 exists | C1+                                                                          518
+  A-z | plain T3 exists | C3+                                                                          40
+  A-z | plain T3 exists | C8+                                                                          79
+  A-z | plain T3 exists | certified by a plain (k = 0) corollary                                       90
+  A-z | plain T3 exists | only by a chain corollary (k >= 1)                                           547
+  B-S1c | plain T3 exists | C1+                                                                        139
+  B-S1c | plain T3 exists | certified by a plain (k = 0) corollary                                     21
+  B-S1c | plain T3 exists | only by a chain corollary (k >= 1)                                         118
+  C | plain T3 exists | C3+                                                                            66
+  C | plain T3 exists | C8+                                                                            39
+  C | plain T3 exists | certified by a plain (k = 0) corollary                                         39
+  C | plain T3 exists | only by a chain corollary (k >= 1)                                             66
+  Lemma 6+ chain swaps checked                                                                         167106
+  Lemma 8+ values checked                                                                              167106
+  Lemma C compositions checked                                                                         2488
+  Lemma P: a frozen agent without a need path (not T4-optimal)                                         0
+  Proposition N: not T4-optimal, rotated to a T4-optimal state of equal deficit                        11
+  states                                                                                               4789
+  states f=2                                                                                           4520
+  states f=3                                                                                           269
+# no assertion failed

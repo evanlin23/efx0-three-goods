@@ -1,0 +1,25 @@
+# command: python3 k4/f2_lemmas.py results/k4_f2/shapes5_2.jsonl.gz
+  A-S1 | plain T3 exists | C1+                                                                         1018
+  A-S1 | plain T3 exists | C11+                                                                        18
+  A-S1 | plain T3 exists | C2+                                                                         14
+  A-S1 | plain T3 exists | C8+                                                                         19
+  A-S1 | plain T3 exists | certified by a plain (k = 0) corollary                                      1062
+  A-S1 | plain T3 exists | only by a chain corollary (k >= 1)                                          7
+  A-S1, every S1 triple theta-fails | Corollary 11.2+ does not apply                                   60
+  A-z | plain T3 exists | C1+                                                                          42
+  A-z | plain T3 exists | C3+                                                                          6
+  A-z | plain T3 exists | certified by a plain (k = 0) corollary                                       9
+  A-z | plain T3 exists | only by a chain corollary (k >= 1)                                           39
+  B-S1c | plain T3 exists | C1+                                                                        32
+  B-S1c | plain T3 exists | C3+                                                                        1
+  B-S1c | plain T3 exists | only by a chain corollary (k >= 1)                                         33
+  Lemma 6+ chain swaps checked                                                                         44617
+  Lemma 8+ values checked                                                                              44617
+  Lemma C compositions checked                                                                         17936
+  Lemma P: a frozen agent without a need path (not T4-optimal)                                         0
+  Proposition N: not T4-optimal, rotated to a T4-optimal state of equal deficit                        37
+  states                                                                                               1150
+  states f=2                                                                                           112
+  states f=3                                                                                           1028
+  states f=4                                                                                           10
+# no assertion failed
