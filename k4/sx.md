@@ -269,6 +269,7 @@ both, and Y is free in both. NA′ = NA in every case.
 | C | {τ₁} | ∅ | ∅ | (T3), no helper | a state with def ≤ 0 |
 | C′ | {τ₁} | ∅ | ∅ | (T3), no helper | a state with def ≤ 0 |
 | A⁺ (§6, any f) | {o} | {w₁, …, w_j} | ∅ | (T3⁺), no helper; (T3) if j = 0 | a state with def ≤ 0 |
+| B⁺ (§6, any f), path length k | {τ} | {w₁, …, w_j} | {q₁, …, q_k} | (T3⁺) with one helper if k = 1 | a key with def* ≤ 0 |
 
 Which lemma applies is decided by Lemma F's forest. If some terminal is a leaf without θ-b, Lemma A applies. If some
 terminal is not a leaf, it has a threat path down to a leaf (Lemma F), and B or B′ applies unless that leaf is an (R)
@@ -439,12 +440,33 @@ bounds every pair of X_o by v_o(H_o) < v_o(φ(w_j)).
 - *The move.* x goes from frozen to free, o from free to frozen and takes a good it needs in P_Q, and the agents of W
   stay frozen. The bases of W ∪ {o} in P_{Q′} are those of W ∪ {x} in P_Q, there is no helper, and NA is unchanged. ∎
 
+**Lemma B⁺ (the path move along a need chain).** Let f ≥ 1, ω ≥ 1 and κ = (𝒩, φ), with Q maximizing (r′, Λ′) at κ
+(so Lemma F⁺ applies). Let:
+- o be a leaf whose bundle X_o threatens exactly one frozen agent, x;
+- x = w₀, …, w_j be a need chain of frozen agents as in Lemma A⁺;
+- τ ≠ o be a free agent with φ(w_j) ∈ N_τ(H_τ);
+- τ = q₀ → … → q_k = o (k ≥ 1) be a threat path, with o not of kind (R) with its fourth good in L.
+
+Q′: w_i holds φ(w_{i−1}), τ holds φ(w_j), q_i holds Q_{q_{i−1}}, x holds a pair for x inside X_o, and the pool is
+X_o ∖ Q′_x. Then Q′ is a configuration at its key, and x is a valid owner with C = ∅. For k = 1, P_Q → P_{Q′} is one
+(T3⁺) move with W = {w₁, …, w_j} and helper o. It is (T3) if j = 0, and at f = 1 it is Lemma B.
+
+*Proof.* Validity is as in Lemma A⁺: τ takes a good it needs, so its needs stay in 𝒩, and the receivers are handled as
+in Lemma B with the kinds of Lemma F⁺. Safety of X_o:
+- the receivers, the free agents off the path, and the frozen agents off the chain: as in Lemmas B and A⁺;
+- w_i, whose value rises;
+- τ holding φ(w_j) (Lemma S⁺). X_o ∩ R_τ ⊆ U_τ ∖ H_τ, and each of these goods is worth less than H_τ, which is worth
+  less than φ(w_j). Since τ values φ(w_j) ∈ 𝒩, |U_τ| ≤ 3, so two such goods occur only for H_τ = {u₁}, and there
+  Lemma S's argument (pool-optimality, o not threatening τ) bounds them by v_τ(u₁).
+
+The move for k = 1 is checked as in Lemmas A⁺ and B. ∎
+
 **Data (EVIDENCE, `k4/sx_f2.py`).** At every key with def* > 0 of the 10 profiles of compute/k4-rt4-n5b and -n5c
 (`results/k4_sx/f2/rt4_n5b.log`, `rt4_n5c.log`; instance lists `results/k4_sx/f2/rt4_n5*_inst.json`, copied from the
 coordinator's checks), at every maximum of (r′, Λ′), a free-valid owner exists. At n5b, at all 15 keys and all 81
 maxima, its bundle threatens one frozen agent and Lemma A⁺ applies: 24 times with j = 0 and 57 with j = 1. 15 of the 81
 maxima have no direct (T3) repair but a (T3⁺) one. At n5c, Lemma A⁺ applies at 86 of 118 maxima and at some maximum of
-19 of the 26 keys. The other 7 keys are the failed candidate `attempts/k4-sx-aplus-f3.md`. There some free-valid
+19 of the 26 keys. Lemma B⁺ applies at 28 maxima, all of them maxima where Lemma A⁺ applies too (path length 1, need chains of length 1). The other 7 keys are the failed candidate `attempts/k4-sx-aplus-f3.md`, where neither applies. There some free-valid
 owner's bundle threatens two frozen agents (35 owner–maximum pairs), or the owner at the chain's end is threatened by
 its own bundle (35 chains, the analogue of θ-b). DLK with (T3⁺) ∪ (T4) edges holds at all of them (`k4/sx_keygraph.py`,
 `k4/sx_xcheck.py`). The repairs there have the shape of Lemmas C and C′: another free-valid owner owns after the swap.

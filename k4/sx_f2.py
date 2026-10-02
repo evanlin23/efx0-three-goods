@@ -108,9 +108,59 @@ def analyse_key(kp, k, cnt, ex, nex):
                 break
             if ok: break
         cnt['Zmax: Lemma A+ applies=%s' % ok] += 1
+        # Lemma B+ (k4/sx.md §6): a leaf o threatening exactly the frozen x; a need chain x = w_0 -> ... -> w_j and a
+        # free terminal tau != o needing phi(w_j), with a threat path tau = q_0 -> ... -> q_k = o; o not an (R) agent
+        # with its fourth good in the pool. The receivers take their threateners' pairs, the w_i move up the chain,
+        # tau takes phi(w_j), x takes a pair inside X_o and owns X_o.
+        okB = False
+        par = {y: o2 for o2 in free for y in out[o2]}                       # the unique threatener, if any
+        for o in V:
+            thr = [x for x in F if I.threat(x, X[o], c.hv(x))]
+            if len(thr) != 1: continue
+            x = thr[0]
+            path = [o]
+            while path[-1] in par: path.append(par[path[-1]])
+            path.reverse()                                                   # root -> ... -> o
+            Uo = U[o]
+            if pc(Uo) == 4 and not c.robust(o):
+                ao = max(bits(Uo), key=lambda h: I.v[o][h])
+                if not c.Q[o] & (1 << ao) and pc(c.Q[o] & Uo) == 2:          # kind (R)
+                    s4 = next(bits(Uo & ~(c.Q[o] | (1 << ao))))
+                    if c.L >> s4 & 1: cnt['B+ leaf of kind (R) with s in L'] += 1; continue
+            for ti in range(len(path) - 1):
+                tau = path[ti]
+                chains = []
+                def walk2(ch):
+                    w = ch[-1]
+                    if P.N[tau] & Bs[w]: chains.append(list(ch))
+                    for v in succ[w]:
+                        if v not in ch: walk2(ch + [v])
+                walk2([x])
+                for ch in chains:
+                    key2 = list(k); key2[x] = None
+                    for i in range(1, len(ch)): key2[ch[i]] = k[ch[i - 1]]
+                    key2[tau] = k[ch[-1]]; key2 = tuple(key2)
+                    Q2 = {y: c.Q[y] for y in free if y != tau}
+                    seg = path[ti:]
+                    for i in range(1, len(seg)): Q2[seg[i]] = c.Q[seg[i - 1]]
+                    pair = next((mask(pr) for pr in itertools.combinations(list(bits(X[o])), 2)
+                                 if mask(pr) & U[x] and I.admissible(x, mask(pr) & U[x], U[x])), None)
+                    assert pair is not None
+                    Q2[x] = pair
+                    assert key2 in kp.K, ('Lemma B+: not a key', kp.d, k, key2)
+                    c2 = M.Config(I, key2, Q2)
+                    assert all(I.admissible(y, Q2[y] & c2.U(y), c2.U(y)) for y in Q2), 'Lemma B+: admissibility'
+                    assert c2.owner(x) == 0, ('Lemma B+ failed', kp.d, k, repr(c), o, ch, seg)
+                    b2 = tuple((1 << key2[i]) if key2[i] is not None else (Q2[i] & c2.U(i)) for i in range(I.n))
+                    assert b2 in kp.S and kp.D[b2] <= 0
+                    cnt['B+ applies, chain j=%d, path k=%d' % (len(ch) - 1, len(seg) - 1)] += 1
+                    okB = True
+        cnt['Zmax: Lemma B+ applies=%s' % okB] += 1
+        cnt['Zmax: Lemma A+ or B+ applies=%s' % (ok or okB)] += 1
+        ok = ok or okB
         keyok |= ok
         if not ok and len(ex['noAplus']) < nex: ex['noAplus'].append((kp.d, k, repr(c), 'V', V))
-    cnt['keys: Lemma A+ at some Zmax=%s' % keyok] += 1
+    cnt['keys: Lemma A+ or B+ at some Zmax=%s' % keyok] += 1
 
 
 def main(argv):
