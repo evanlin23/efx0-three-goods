@@ -21,7 +21,5 @@ python3 k4/sx_runs.py --sum > /dev/null
   > results/k4_sx/xcheck_hunt_n4.log 2>&1
 [ -s results/k4_sx/xcheck_hunt_n3.log ] || python3 k4/sx_xcheck.py results/k4_sx/hunt/n3_all_10.jsonl.gz results/k4_sx/hunt/n3_all_20.jsonl.gz \
   results/k4_sx/hunt/n3_all_30.jsonl.gz results/k4_sx/hunt/n3_all_40.jsonl.gz --every=50 > results/k4_sx/xcheck_hunt_n3.log 2>&1
-[ -s results/k4_sx/xcheck_hunt_n5.log ] || python3 k4/sx_xcheck.py results/k4_sx/hunt/n5_pure_r1000_3000.jsonl.gz results/k4_sx/hunt/n5_pure_r1000_4000.jsonl.gz --mmax=10 \
-  > results/k4_sx/xcheck_hunt_n5.log 2>&1
 python3 k4/sx_summary.py > /dev/null
 echo all done
