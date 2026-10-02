@@ -17,6 +17,8 @@
 #   pure2   a second pass over the n = 5 pure cores with 9 <= m <= 11 (where n5hi's tight profiles are): another seed,
 #           60,000 each, agent orders scanned after each restart (--relabel)
 #   deep5t2 as deep5t, from the best tight profile of every core (and relabeled core) in pure2 and deep5r
+#   n44r    a second pass over the n = 5 cores with four 4-good agents and m >= 9: another seed, 20,000 each, agent
+#           orders scanned after each restart (--relabel)
 #   n6      n = 6 (one 4-good agent; the only n = 6 certificate file): m >= 10: 10,000 each with agent orders scanned
 #           (--relabel), m <= 9: 2,000 each
 #   deep6   the exhaustive two-change descent from every n = 6 best profile with nwork <= 5
@@ -55,6 +57,8 @@ deep5)
   $H deep5r --seeds=$R/seeds_deep5r.jsonl --evals=200000 --key=R --kick=0.7 --relabel >> $R/deep5r.log 2>&1 ;;
 pure2)
   $H pure2 --file=$C/k4_certs_5_pure.json.gz --mmin=9 --mmax=11 --evals=60000 --key=M --seed=2 --relabel >> $R/pure2.log 2>&1 ;;
+n44r)
+  $H n44r --file=$C/k4_certs_5_n4_4.json.gz --mmin=9 --evals=20000 --key=M --seed=3 --relabel >> $R/n44r.log 2>&1 ;;
 n6)
   $H n6hi --file=$C/k4_certs_6_n4_1.json.gz --mmin=10 --evals=10000 --key=M --relabel >> $R/n6hi.log 2>&1
   $H n6lo --file=$C/k4_certs_6_n4_1.json.gz --mmax=9 --evals=2000 --key=M >> $R/n6lo.log 2>&1 ;;
