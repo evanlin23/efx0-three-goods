@@ -55,7 +55,7 @@ tables file holds only the last segment's cores; the Progress section below is c
 
 ## Progress
 
-Last update 2026-10-02 04:13 UTC: 14 of 54 cores finished; 3 dlrt4.c processes running.
+Last update 2026-10-02 04:34 UTC: 17 of 54 cores finished; 4 dlrt4.c processes running.
 
 | core | profiles | omega >= 1 | f >= 1 states (def > 0) | DL_RT4 fails | T4 | only T3 | only T4 | CPU s |
 |---|---|---|---|---|---|---|---|---|
@@ -73,16 +73,19 @@ Last update 2026-10-02 04:13 UTC: 14 of 54 cores finished; 3 dlrt4.c processes r
 | 329 | 35,831,808 | 35,831,808 | 1,015,312 | 0 | 0 | 0 | 0 | 5308 |
 | 330 | 35,831,808 | 35,831,808 | 492,696 | 0 | 0 | 1,488 | 0 | 5245 |
 | 331 | 35,831,808 | 35,831,808 | 1,176,928 | 0 | 0 | 0 | 0 | 4990 |
+| 332 | 35,831,808 | 35,831,808 | 1,238,464 | 0 | 0 | 0 | 0 | 5019 |
+| 333 | 35,831,808 | 35,831,808 | 1,504,112 | 0 | 0 | 37,360 | 0 | 5173 |
+| 334 | 35,831,808 | 35,831,808 | 1,485,792 | 0 | 0 | 138,240 | 0 | 5116 |
 
-**Totals over the 14 finished cores** (summed from the checkpoint; the driver's report for the final 285:339 segment gives the same counters):
+**Totals over the 17 finished cores** (summed from the checkpoint; the driver's report for the final 285:339 segment gives the same counters):
 
-- profiles 394,149,888 (omega >= 1: 394,149,888); states (def > 0) with f = 0: 118,692,864 (RT4 fails at 0), **with f >= 1: 15,721,344**;
+- profiles 501,645,312 (omega >= 1: 501,645,312); states (def > 0) with f = 0: 214,990,848 (RT4 fails at 0), **with f >= 1: 19,949,712**;
 - **DL_RT4 fails at 0 of the f >= 1 states**; anomalies 0 + 0;
-- repair branches (f >= 1 states with an improving move of the kind): T1 15,456,960, T2 15,415,824, T3p 13,411,528, T3h 15,488,308, T4 25,960; only T1 0, only T2 0, only T3 169,848, only T4 0; R_T fails at 0, R_13 at 0, R_13 + T4 at 0;
-- smallest RT4 move size 1 / 2 / 3 / >= 4 / none: 15,456,960 / 264,384 / 0 / 0 / 0;
-- all P with def > 0 (f = 0 and f >= 1: 134,414,208), nearest better min-frozen P at distance 1 / 2 / 3 / >= 4 / inf: 134,149,824 / 264,384 / 0 / 0 / 0; Pareto-maximal 1,246,536;
-- CPU time 55,111 s (15.3 CPU-h; 4 workers).
+- repair branches (f >= 1 states with an improving move of the kind): T1 19,436,208, T2 19,431,376, T3p 17,605,064, T3h 19,709,316, T4 25,960; only T1 0, only T2 0, only T3 345,448, only T4 0; R_T fails at 0, R_13 at 0, R_13 + T4 at 0;
+- smallest RT4 move size 1 / 2 / 3 / >= 4 / none: 19,436,208 / 513,504 / 0 / 0 / 0;
+- all P with def > 0 (f = 0 and f >= 1: 234,940,560), nearest better min-frozen P at distance 1 / 2 / 3 / >= 4 / inf: 234,427,056 / 513,504 / 0 / 0 / 0; Pareto-maximal 1,717,928;
+- CPU time 70,419 s (19.6 CPU-h; 4 workers).
 
-Covered: cores [318, 319, 320, 321, 322, 323, 324, 325, 326, 327, 328, 329, 330, 331].
+Covered: cores [318, 319, 320, 321, 322, 323, 324, 325, 326, 327, 328, 329, 330, 331, 332, 333, 334].
 
-Not yet covered (40): [285, 286, 287, 288, 289, 290, 291, 292, 293, 294, 295, 296, 297, 298, 299, 300, 301, 302, 303, 304, 305, 306, 307, 308, 309, 310, 311, 312, 313, 314, 315, 316, 317, 332, 333, 334, 335, 336, 337, 338].
+Not yet covered (37): [285, 286, 287, 288, 289, 290, 291, 292, 293, 294, 295, 296, 297, 298, 299, 300, 301, 302, 303, 304, 305, 306, 307, 308, 309, 310, 311, 312, 313, 314, 315, 316, 317, 335, 336, 337, 338].
