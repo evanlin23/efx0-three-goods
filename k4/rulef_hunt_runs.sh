@@ -46,11 +46,11 @@ suite)
 n4pure)
   $H n4pure --file=$C/k4_certs_4_pure.json.gz --evals=500000 --key=M >> $R/n4pure.log 2>&1 ;;
 deep5)
-  python3 k4/rulef_hunt_seeds.py tight $R/seeds_tight5.jsonl $R/tight_n5hi.jsonl.gz $(ls $R/tight_n5lo.jsonl.gz $R/tight_n5n12.jsonl.gz \
+  [ -f $R/seeds_tight5.jsonl ] || python3 k4/rulef_hunt_seeds.py tight $R/seeds_tight5.jsonl $R/tight_n5hi.jsonl.gz $(ls $R/tight_n5lo.jsonl.gz $R/tight_n5n12.jsonl.gz \
      $R/tight_seedsH.jsonl.gz $R/tight_suite.jsonl.gz 2>/dev/null)
-  python3 k4/rulef_hunt_seeds.py best $R/seeds_deep5x.jsonl 2 $R/ck/n5hi.jsonl $R/ck/n5lo.jsonl $R/ck/n5n12.jsonl \
+  [ -f $R/seeds_deep5x.jsonl ] || python3 k4/rulef_hunt_seeds.py best $R/seeds_deep5x.jsonl 2 $R/ck/n5hi.jsonl $R/ck/n5lo.jsonl $R/ck/n5n12.jsonl \
      $R/ck/seedsH.jsonl $R/ck/suite.jsonl $R/ck/n4pure.jsonl
-  python3 k4/rulef_hunt_seeds.py best $R/seeds_deep5r.jsonl 3 $R/ck/n5hi.jsonl $R/ck/n5lo.jsonl $R/ck/n5n12.jsonl \
+  [ -f $R/seeds_deep5r.jsonl ] || python3 k4/rulef_hunt_seeds.py best $R/seeds_deep5r.jsonl 3 $R/ck/n5hi.jsonl $R/ck/n5lo.jsonl $R/ck/n5n12.jsonl \
      $R/ck/seedsH.jsonl $R/ck/suite.jsonl
   $H deep5t --seeds=$R/seeds_tight5.jsonl --exhaust --relabel --evals=8000000 --key=M >> $R/deep5t.log 2>&1
   $H deep5x --seeds=$R/seeds_deep5x.jsonl --exhaust --relabel --evals=3000000 --key=M >> $R/deep5x.log 2>&1
@@ -66,7 +66,7 @@ deep6)
   [ -f $R/seeds_deep6.jsonl ] || python3 k4/rulef_hunt_seeds.py best $R/seeds_deep6.jsonl 5 $R/ck/n6hi.jsonl $R/ck/n6lo.jsonl
   $H deep6x --seeds=$R/seeds_deep6.jsonl --exhaust --evals=3000000 --key=M >> $R/deep6x.log 2>&1 ;;
 deep5t2)
-  python3 k4/rulef_hunt_seeds.py tight $R/seeds_tight5b.jsonl $R/tight_pure2.jsonl.gz $R/tight_deep5r.jsonl.gz
+  [ -f $R/seeds_tight5b.jsonl ] || python3 k4/rulef_hunt_seeds.py tight $R/seeds_tight5b.jsonl $R/tight_pure2.jsonl.gz $R/tight_deep5r.jsonl.gz
   $H deep5t2 --seeds=$R/seeds_tight5b.jsonl --exhaust --relabel --evals=8000000 --key=M >> $R/deep5t2.log 2>&1 ;;
 check)
   ls $R/tight_*.jsonl.gz >/dev/null 2>&1 && python3 k4/rulef_hunt_check.py $R/tight_*.jsonl.gz > $R/check.log 2>&1 ;;

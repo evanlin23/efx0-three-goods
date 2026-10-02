@@ -108,6 +108,37 @@ def tight_analysis():
     print('   by unit: ' + '; '.join(f'{u} m={m}: {v}' for (u, m), v in sorted(cores.items())))
     print('   failing runs (first agent: frozen agents by policy, LB4r rotations), most common:')
     for k, v in fz.most_common(15): print(f'   {v:5d}  {k}')
+    # one representative per core: the certificate core (file:index) read from the unit or the seed tag; the
+    # certificate's own labeling first, then the least (largest value, sum of values)
+    import re
+    rep = {}
+    cnt = collections.Counter(); cntrel = collections.Counter()
+    hkey = lambda S: json.dumps(sorted(sorted(x) for x in S))
+    certs = {}
+    known = {}                                     # a hypergraph (as listed) -> its certificate core, where a tag names it
+    for o in rows:
+        mt = re.search(r'(k4_certs_[^: ]+):(\d+)', (o.get('tag') or '') + ' ' + o['unit'])
+        if mt: known[hkey(o['sets'])] = f'{mt.group(1)}:{mt.group(2)}'
+    for o in rows:
+        mt = re.search(r'(k4_certs_[^: ]+):(\d+)', (o.get('tag') or '') + ' ' + o['unit'])
+        cid = f'{mt.group(1)}:{mt.group(2)}' if mt else known.get(hkey(o['sets']), o['unit'])
+        if ':' in cid and cid.startswith('k4_certs'):   # in the certificate's own labeling iff the sets are the listed ones
+            f, i = cid.rsplit(':', 1)
+            if f not in certs: certs[f] = json.load(gzip.open(os.path.join(HERE, '..', 'results', f), 'rt'))['cores']
+            rel = o['sets'] != certs[f][int(i)]['sets']
+        else:
+            rel = bool(o.get('relabel')) and o['relabel'] != sorted(o['relabel'])
+        cnt[cid] += 1; cntrel[cid] += rel
+        flat = [x for V in o['vals'] for x in V]
+        key = (rel, max(flat), sum(flat))
+        if cid not in rep or key < rep[cid][0]: rep[cid] = (key, o)
+    print(f'   distinct tight profiles per certificate core ({len(rep)} cores), with the simplest one (the certificate\'s '
+          f'labeling preferred, then the least largest value and sum):')
+    for cid in sorted(rep, key=lambda c: (rep[c][1]['m'], c)):
+        (rel, mx, sm), o = rep[cid]
+        w = [a for a in range(len(o['cls'])) if o['cls'][a] != 9][0]
+        print(f"   {cid} m={o['m']}: {cnt[cid]} profiles ({cntrel[cid]} with the agents relabeled); e.g. "
+              f"{'(relabeled) ' if rel else ''}sets={json.dumps(o['sets'])} vals={json.dumps(o['vals'])} working first agent {w}")
 
 
 if __name__ == '__main__':

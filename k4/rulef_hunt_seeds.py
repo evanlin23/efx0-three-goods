@@ -60,7 +60,7 @@ def main():
                 k = o.get('tag') or o['unit']        # one seed per searched core (relabeled profiles included)
                 key = (o['nwork'], -min(o['def']), o['nK0'])
                 if k not in best or key < best[k][0]:
-                    best[k] = (key, {'sets': o['sets'], 'vals': o['vals'], 'tag': 'tight ' + o['unit']})
+                    best[k] = (key, {'sets': o['sets'], 'vals': o['vals'], 'tag': 'tight ' + (o.get('tag') or o['unit'])})
         rows = [v for _, v in sorted(best.values(), key=lambda z: z[0])]
     with open(out, 'w') as f:
         for r in rows: f.write(json.dumps(r) + '\n')
