@@ -27,7 +27,7 @@ showed that a declaration added under `set_option debug.skipKernelTC true` is ne
 without warnings and has no axioms for `#print axioms` or `CheckAxioms.lean` to report; the tripwire refuses the
 option and the replay checker rejects such a declaration. On success the last line is
 
-    CHECK PASSED: 439 audited statements, 1197 theorems, standard axioms only
+    CHECK PASSED: 565 audited statements, 1348 theorems, standard axioms only
 
 CI runs it on every pull request (job `lean` in `.github/workflows/verify.yml`). In Claude Code on the web the
 session-start hook installs the toolchain (from GitHub when `release.lean-lang.org` is unreachable).
@@ -262,6 +262,56 @@ specializations) have exactly the types of `EFX.target`, `EFX.LB.corollaryD` (ch
   (`EFX.C4min.moveT3_new_base`), and R₁₃ changes at most three bases (`EFX.C4min.r13_basesDiffer`). How the relation
   compares with the code `R13` of `k4/dl2_relations.py` (frozen-status changes instead of the needed set; the same
   pairs of min-frozen pre-allocations by the text's Lemmas 1 and 6, not formalized) is in the module doc.
+- `EFX/KeyFrame.lean`: the key frame of `k4/dl13.md` §2.3 (Remark "DL on the key graph"; ledger K4.DL2.KEY.LEAN), for
+  an arbitrary move relation M: the key κ(P) (`EFX.C4min.key`: the needed set and the frozen agents with their bases),
+  def\*(κ) (`EFX.C4min.KeyDeficitLE`, `EFX.C4min.KeyDeficitLT`: the least deficit of a min-frozen P of key κ), N_M(κ)
+  (`EFX.C4min.KeyNbr`), R_key (`EFX.C4min.RKey`: every pair at f = 0, otherwise κ(P′) ∈ N_M(κ(P)) ∪ {κ(P)}) and DL on
+  the key graph (`EFX.C4min.DLKey`, at f ≥ 1). DLKey M ⟺ DL for R_key (`EFX.C4min.dlKey_iff_defLocal_rKey`) ⟹
+  TARGET₄ (`EFX.C4min.target4_of_DLKey`), for every M; monotone in M on min-frozen pairs (`EFX.C4min.DLKey.mono`);
+  def\*(κ) is attained (`EFX.C4min.exists_keyMin`); a relation K that keeps the key can be added to M
+  (`EFX.C4min.dlKeyAt_of_defLocalAt_keep`); the Remark's point that the move may start from any state of the key, as the
+  reduction repair lemmas plug into (`EFX.C4min.dlKeyAt_of_keyMin`: at every key-minimal min-frozen P with def(P) > 0, some
+  state of the same key has an M-move to a min-frozen Q with def(Q) < def(P); `EFX.C4min.dlKeyAt_of_keyMin_key`: the same
+  with def\*(κ(Q)) < def\*(κ(P))). Choices where the Remark leaves room (e.g. `KeyNbr` asks the target to be
+  min-frozen) are listed in the module doc.
+- `EFX/MovesC.lean`: the moves (T2) rotation, (T4) frozen permutation and (T3⁺) the frozen-chain role swap
+  (`EFX.C4min.MoveT2`, `EFX.C4min.MoveT4`, `EFX.C4min.MoveT3plus`), R_T4 = (T1) ∪ (T2) ∪ (T3) ∪ (T4) (`EFX.C4min.RT4`,
+  with the refuted DL_RT4, `EFX.C4min.DLRT4`; ledger K4.DL2.RT4), R_C = (T1) ∪ (T2) ∪ (T3⁺) ∪ (T4) (`EFX.C4min.RC`)
+  and the conjecture DL_RC (`EFX.C4min.DLRC`; ledger K4.DL2.RC, formalized as K4.DL2.RC.LEAN). On 𝒫, (T3) is (T3⁺) with
+  W = ∅ (`EFX.C4min.moveT3_iff`), R₁₃ ⊆ R_C and R_T4 ⊆ R_C (`EFX.C4min.r13_rc`, `EFX.C4min.rt4_rc`), (T1), (T2) keep
+  the key (`EFX.C4min.moveT1_key`, `EFX.C4min.moveT2_key`), (T4) contains the identity (`EFX.C4min.moveT4_refl`), a
+  pre-allocation with the needed set of a min-frozen one is min-frozen (`EFX.C4min.minFrozen_of_NA_eq`), and
+  `EFX.C4min.moveT3plus_of_inP` builds a (T3⁺) move, as `EFX.C4min.moveT1_of_inP` does a (T1) move. DL_RC ⟺ DL for RCZ
+  ⟹ TARGET₄ (`EFX.C4min.dlrc_iff_defLocal_RCZ`, `EFX.C4min.target4_of_DLRC`), DL_RC ⟹ DLKey((T3⁺) ∪ (T4))
+  (`EFX.C4min.DLKey_of_DLRC`), and DL_RT4 ⟹ DL_RC (`EFX.C4min.DLRC_of_DLRT4`; vacuous, the inclusion is the content).
+- `EFX/MovesCExamples.lean`: on the smallest n = 5 failure of DL_RT4 (`results/k4_rt4/n5b_FAILURES.md`, ledger
+  K4.DL2.RT4; a k = 4 core), a pair P, P′ ∈ 𝒫 that is a (T3⁺) move and not a (T1), (T2), (T3) or (T4) move
+  (`EFX.C4min.Ex5.wider`, `EFX.C4min.Ex5.rc_not_rt4`, by `decide`). The profile's strictness and the core's
+  connectivity are not checked in Lean.
+- `EFX/RuleF.lean`: rule F's target (`k4/rulef.md` §7; ledger K4.RF.LEAN). `EFX.LB4R.SucceedsR d` (LB₄ʳ(τ) succeeds
+  with at most `d` rotations; `EFX.LB4R.rotReach_mono`, `EFX.LB4R.succeeds_of_succeedsR`,
+  `EFX.LB4R.succeeds_iff_succeedsR3`), `EFX.LB4R.TheoremRuleF` (every strict profile of every k = 4 core has a first
+  agent `a` with `SucceedsR 1 … [a]`; `[a]` is "a first, then index order"), `EFX.LB4R.RuleFConn` (connected cores
+  with a 4-good agent), `EFX.LB4R.RuleFOne` (at most one 4-good agent), and their consequences C₄∃ and TARGET₄
+  (`EFX.LB4R.C4exists_of_ruleF`, `EFX.LB4R.C4existsConn_of_ruleFConn`, `EFX.LB4R.C4existsOne_of_ruleFOne`,
+  `EFX.LB4R.target4_of_ruleF`, `EFX.LB4R.target4_of_ruleFConn`, `EFX.LB4R.target4one_of_ruleFOne`). The three rule F
+  statements are hypotheses, not axioms, and open (K4.AD.F).
+- `EFX/RuleFK.lean`: the counting lemmas of rule F (`k4/rulef.md` §2, §3, §6, §7; ledger K4.RF.K.LEAN, K4.RF.S.LEAN,
+  K4.RF.KR.LEAN, K4.RF.M.LEAN), over the pre-allocations of `PreAllocK.lean` and LB₄ʳ's states. Definitions of §2:
+  `EFX.LB4R.needsK` (N^K), `EFX.LB4R.InE` (E), `EFX.LB4R.Serves`, `EFX.LB4R.ServiceOn`, `EFX.LB4R.Separated`,
+  `EFX.LB4R.sizeOn`, `EFX.LB4R.kappaK` (κ^K), `EFX.LB4R.KDefLE`, `EFX.LB4R.KPDefLE` (the deficits of Lemmas K and K′).
+  Lemma K′ (`EFX.LB4R.lemmaK'`: a completion with owner `o` satisfying (OC₄) exists iff some K′-service has size
+  ≤ κ^K) and Lemma K (`EFX.LB4R.lemmaK`: deficit ≤ 0 gives a sound completion), and for LB₄ʳ's states
+  `EFX.LB4R.output_iff_lemmaK'`, `EFX.LB4R.output_of_lemmaK`, `EFX.LB4R.output_none_of_omega`. Lemma S
+  (`EFX.LB4R.lemmaS`: free exposed agents never raise the deficit). Lemma KR (`EFX.LB4R.lemmaKR`,
+  `EFX.LB4R.lemmaKR_output`: one rotation lowers the deficit and, if the bound is ≤ 0, gives an `Output` with owner `k`
+  or without owner), for states with `Inv` and hypothesis (iv) `EFX.LB4R.MarkedOK`, which every state LB₄ʳ reaches
+  satisfies (`EFX.LB4R.upRun_facts`, `EFX.LB4R.markedOK_of_rotStep`); not vacuous
+  (`EFX.LB4R.KRExample.lemmaKR_nonvacuous`). Lemma M as a `Prop` (`EFX.LB4R.LemmaM`, `LemmaMConn`, `LemmaMExact`;
+  classes `ClassK0`, `ClassK1`, certificate `CertK`) and Lemma M ⟹ rule F ⟹ TARGET₄ (`EFX.LB4R.ruleF_of_lemmaM`,
+  `EFX.LB4R.ruleFConn_of_lemmaMConn`, `EFX.LB4R.target4_of_lemmaM`, `EFX.LB4R.target4_of_lemmaMConn`;
+  `EFX.LB4R.ruleF_iff_lemmaMExact`: the exact form is equivalent to `TheoremRuleF`). Lemma M is a hypothesis, not an
+  axiom, and open (K4.RF.M). The differences from the text are listed in the module doc.
 - `EFX/K3Algo.lean`, `EFX/Timed.lean`, `EFX/K3CostLB.lean`, `EFX/K3Cost.lean`, `EFX/K3CostBound.lean`,
   `EFX/K3Examples.lean`: algorithm K3ALG, a polynomial-time algorithm for k = 3 with its running time
   (`proofs/k3_algorithm.md`; ledger K3.ALG, K3.ALG.TIME).
@@ -383,6 +433,13 @@ name in the ledger's Lean column has one.
 | K4.C4MIN.F.LEAN | Theorem F: on every k = 4 core with a frozen-robust configuration at the fewest frozen agents, some min-frozen P ∈ 𝒫 has def(P) ≤ 0 and is completable (C₄ᵐⁱⁿ's conclusion, both forms); rigidity of the needed set at the fewest frozen agents; Lemma 1(a): a valid owner of a configuration (with unfreezing) gives def(P) ≤ 0 | ThmF : `EFX.C4min.theoremF_min`, `EFX.C4min.theoremF`, `EFX.C4min.c4minRO_of_frobust`, `EFX.C4min.rigid_NA`, `EFX.C4min.frozen_of_min`, `EFX.C4min.removalOnly_of_cfgOwner`, `EFX.C4min.c4min_of_cfgOwner`, `EFX.C4min.isAPA_sub`, `EFX.C4min.not_threat_frozen`, `EFX.C4min.fmax_poolOpt`, `EFX.C4min.fmax_nRobust`, `EFX.C4min.frozen_cycle`; ThmZ : `EFX.C4min.zvalid_or_all4`; ThmFExamples : `EFX.C4min.ExF.c4min` |
 | K4.STRAT.DL2.LEAN | DL_R ⟹ TARGET₄ for every neighbourhood relation R, by finite descent on the deficit: DL_R on an instance gives a min-frozen P ∈ 𝒫 with def(P) ≤ 0; DL_R on connected cores ⟹ `C4minROConn` ⟹ TARGET₄; in particular DL₂ ⟹ TARGET₄; DL_R on every core ⟹ `TheoremC4minRO`; the deficit is an element of ℤ ∪ {+∞}; ω(P) = f − (2n − m) on 𝒫, the same for every min-frozen P | C4minDescent : `EFX.C4min.exists_removalOnly_of_defLocalAt`, `EFX.C4min.C4minROConn_of_defLocal`, `EFX.C4min.target4_of_defLocal`, `EFX.C4min.C4minROConn_of_defLocal2`, `EFX.C4min.target4_of_defLocal2`, `EFX.C4min.C4minRO_of_defLocalAll`, `EFX.C4min.defLocalAt_top_iff`, `EFX.C4min.deficitLT_iff`, `EFX.C4min.exists_least_deficit`, `EFX.C4min.omegaP_eq`, `EFX.C4min.omegaP_minFrozen_eq`, `EFX.C4min.omegaP_pos` |
 | K4.DL2.T13.LEAN | DL₁₃ (DL for R₁₃ = (T1) ∪ (T3) on connected k = 4 cores with fewest frozen agents ≥ 1) and Theorem Z at f = 0 ⟹ DL for R13Z (every pair at f = 0, R₁₃ otherwise), and conversely ⟹ `C4minROConn` ⟹ TARGET₄ | DL13 : `EFX.C4min.target4_of_DL13`, `EFX.C4min.C4minROConn_of_DL13`, `EFX.C4min.defLocal_R13Z_of_DL13`, `EFX.C4min.dl13_iff_defLocal_R13Z`, `EFX.C4min.defLocalAt_R13Z_of_f0`, `EFX.C4min.defLocalAt_top_of_f0`, `EFX.C4min.moveT1_of_inP`, `EFX.C4min.moveT3_new_base`, `EFX.C4min.r13_basesDiffer` |
+| K4.DL2.KEY.LEAN | DL on the key graph for any move relation M (every key of a min-frozen P with def\*(κ) > 0 has a key in N_M(κ) with a smaller least deficit, at f ≥ 1) ⟺ DL for R_key (every pair at f = 0, otherwise κ(P′) ∈ N_M(κ(P)) ∪ {κ(P)}) ⟹ `C4minROConn` ⟹ TARGET₄; monotone in M; the move may start from any state of the key (repairs at key-minimal states give DLKey) | KeyFrame : `EFX.C4min.target4_of_DLKey`, `EFX.C4min.C4minROConn_of_DLKey`, `EFX.C4min.defLocal_rKey_of_DLKey`, `EFX.C4min.dlKey_iff_defLocal_rKey`, `EFX.C4min.DLKey.mono`, `EFX.C4min.exists_keyMin`, `EFX.C4min.dlKeyAt_of_defLocalAt_keep`, `EFX.C4min.dlKeyAt_of_keyMin`, `EFX.C4min.dlKeyAt_of_keyMin_key` |
+| K4.DL2.RC.LEAN | (T2), (T4), (T3⁺), R_T4 = (T1) ∪ (T2) ∪ (T3) ∪ (T4) and R_C = (T1) ∪ (T2) ∪ (T3⁺) ∪ (T4) (ledger K4.DL2.RT4, K4.DL2.RC); on 𝒫, (T3) is (T3⁺) with W = ∅, R₁₃ ⊆ R_C, R_T4 ⊆ R_C, (T1) and (T2) keep the key, a pre-allocation with the needed set of a min-frozen one is min-frozen; DL_RC with Theorem Z at f = 0 ⟺ DL for RCZ ⟹ TARGET₄; DL_RC ⟹ DLKey((T3⁺) ∪ (T4)); on the n = 5 failure of DL_RT4, a (T3⁺) move outside R_T4 | MovesC : `EFX.C4min.target4_of_DLRC`, `EFX.C4min.dlrc_iff_defLocal_RCZ`, `EFX.C4min.DLKey_of_DLRC`, `EFX.C4min.dlKey_RC_iff`, `EFX.C4min.moveT3_iff`, `EFX.C4min.r13_rc`, `EFX.C4min.rt4_rc`, `EFX.C4min.DLRC_of_DLRT4`, `EFX.C4min.moveT1_key`, `EFX.C4min.moveT2_key`, `EFX.C4min.minFrozen_of_NA_eq`, `EFX.C4min.moveT3plus_of_inP`, `EFX.C4min.moveT4_refl`; MovesCExamples : `EFX.C4min.Ex5.wider`, `EFX.C4min.Ex5.rc_not_rt4` |
+| K4.RF.LEAN | Rule F's target: `SucceedsR d` (at most d rotations); `TheoremRuleF` ⟹ C₄∃ ⟹ TARGET₄, `RuleFConn` ⟹ `C4existsConn` ⟹ TARGET₄, `RuleFOne` ⟹ `C4existsOne` ⟹ TARGET₄ for at most one 4-good agent | RuleF : `EFX.LB4R.rotReach_mono`, `EFX.LB4R.succeeds_of_succeedsR`, `EFX.LB4R.succeeds_iff_succeedsR3`, `EFX.LB4R.C4exists_of_ruleF`, `EFX.LB4R.C4existsConn_of_ruleFConn`, `EFX.LB4R.C4existsOne_of_ruleFOne`, `EFX.LB4R.target4_of_ruleF`, `EFX.LB4R.target4_of_ruleFConn`, `EFX.LB4R.target4one_of_ruleFOne` |
+| K4.RF.K.LEAN | Lemmas K and K′: for a valid pre-allocation whose bases belong to listed agents, an owner that is not frozen and every other base of at most two goods, a completion with owner o satisfying (OC₄) exists iff some K and K′-service have size ≤ κ^K; a K-service of size ≤ κ^K gives a sound completion; for LB₄ʳ's states, an `Output` with owner o iff some K has Lemma K′ deficit ≤ 0 (ω ≥ 1 or a base of three goods), and an `Output` without owner when ω ≤ 0 | RuleFK : `EFX.LB4R.lemmaK'_if`, `EFX.LB4R.lemmaK'_onlyIf`, `EFX.LB4R.lemmaK'`, `EFX.LB4R.lemmaK`, `EFX.LB4R.serves_slot_iff`, `EFX.LB4R.serves_keep_iff`, `EFX.LB4R.output_iff_lemmaK'`, `EFX.LB4R.output_of_lemmaK`, `EFX.LB4R.output_none_of_omega` |
+| K4.RF.S.LEAN | Lemma S: with o not frozen and \|B_o\| ≤ 1, a ∅-service of the agents of E that are not free extends, unchanged on them, to all of E, at most one good more per free agent of E; deficit(o, ∅) ≤ \|σ\| − κ₀ | RuleFK : `EFX.LB4R.serve_free`, `EFX.LB4R.lemmaS_aux`, `EFX.LB4R.lemmaS_extend`, `EFX.LB4R.lemmaS`, `EFX.LB4R.W_not_NA` |
+| K4.RF.KR.LEAN | Lemma KR for states with `Inv` (needs `needsOf`, so (iii) is a theorem) whose bases have at most two goods, with (iv) `MarkedOK`: the rotation along a need chain k → … → o with base O is a `RotStep`, and the deficit of (P′, k, ∅) is at most \|σ\| − κ − 1 − c_k + ε; if that is ≤ 0, an `Output` with owner k, or (all bases ≤ 2 goods, ω′ ≤ 0) without owner; (iv) holds in every reached state; not vacuous | RuleFK : `EFX.LB4R.lemmaKR`, `EFX.LB4R.lemmaKR_output`, `EFX.LB4R.Inv.needs_value`, `EFX.LB4R.needsK_empty`, `EFX.LB4R.needsOf_rotate_inv`, `EFX.LB4R.rotate_valid_inv`, `EFX.LB4R.upRun_facts`, `EFX.LB4R.markedOK_of_rotStep`, `EFX.LB4R.KRExample.lemmaKR_nonvacuous` |
+| K4.RF.M.LEAN | Lemma M (a `Prop`: every strict profile of every k = 4 core has a first agent in class K0 or K1 of rule RK) ⟹ `TheoremRuleF` ⟹ TARGET₄; `LemmaMConn` ⟹ `RuleFConn` ⟹ TARGET₄; Lemma M with Lemma K′ and all three policies is equivalent to `TheoremRuleF` | RuleFK : `EFX.LB4R.ruleF_of_lemmaM`, `EFX.LB4R.ruleFConn_of_lemmaMConn`, `EFX.LB4R.target4_of_lemmaM`, `EFX.LB4R.target4_of_lemmaMConn`, `EFX.LB4R.ruleF_iff_lemmaMExact`, `EFX.LB4R.lemmaMExact_of_lemmaM`, `EFX.LB4R.lemmaMConn_of_lemmaM`, `EFX.LB4R.succeedsR_of_classK0`, `EFX.LB4R.succeedsR_of_classK1`, `EFX.LB4R.classes_of_succeedsR`, `EFX.LB4R.certK_iff_of_upRun` |
 | K4.MC1 | M1, M1(b): an extension of an EFX₀ allocation of the smaller instance (outside agents keep their goods outside `I ∪ I′`, agents of `S` safe, every bundle dominated by a bundle of `Y` or with its `U`-part inside that of a bundle no outside agent envies) is EFX₀; any number of relevant goods | K4MinCex : `EFX.MinCex.m1_efx0`, `EFX.MinCex.m1_reduce`, `EFX.MinCex.threat_le_of_dominated` (over lists) |
 | K4.MC0 | (a)–(c): within a hereditary, relevance-invariant class, a minimal counterexample is a connected strict k = 4 core with a 4-good agent | K4MinCex : `EFX.MinCex.mc0`, `EFX.MinCex.core_reduction4_class` (over lists) |
 | K4.MC4 | the counting: with K4.MC3 and K4.MC5(iii) on `Γ′`, `4n + 3m ≤ 3 Σ_i \|R_i\|`, i.e. `n ≤ 3(β − 1)` | K4MinCex : `EFX.MinCex.mc4_count` (over lists) |
