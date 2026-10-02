@@ -368,8 +368,10 @@ def main(argv):
     fo = gzip.open(opt['out'], 'wt') if 'out' in opt else None
     cnt = collections.Counter(); ex = {}
     for d, label in items:
-        res = run_profile(d)
         cnt['profiles'] += 1
+        if len(d['sets']) > int(opt.get('nmax', 6)):           # the suite's large instances (H_t, n up to 21)
+            cnt['profiles skipped (n > %s)' % opt.get('nmax', 6)] += 1; continue
+        res = run_profile(d)
         if res is None: continue
         cnt['profiles f>=2, omega>=1'] += 1
         cnt['profiles f=%d n=%d' % (res['f'], res['n'])] += 1

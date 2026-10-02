@@ -29,7 +29,7 @@ def main(argv):
             r = json.loads(l)
             key = json.dumps([r['sets'], r['vals']])
             mine.setdefault(key, {})[tuple(tuple(b) for b in r['Bs'])] = (r['def'], any(rp['k'] == 0 for rp in r['reps']))
-    items = collect(srcs, opt)
+    items = [(d, l) for d, l in collect(srcs, opt) if len(d['sets']) <= int(opt.get('nmax', 6))]   # as f2_shapes.py
     brt, sha = build(os.path.join(HERE, 'dlrt4.c'))
     print('# dlrt4.c sha256 %s; %d profiles; %d profiles with T3-stage states in the dumps' % (sha, len(items), len(mine)),
           flush=True)
