@@ -1,2 +1,3 @@
 # command: python3 k4/cover_hunt.py results/k4_cover/hunt/f1_seed6.jsonl.gz --minutes=30 --rng=6 --seedfile=results/k4_cover/hunt/seeds_f1.jsonl.gz:6 --frange=1:1
 # seed: n=4 m=11 start score -1 tags ["only C'"]
+# done: steps 1692 screened 27072 hits 4828 evaluated 4828 uncovered 0 rare 2089 restarts 27; best score -1 at [[3, 4, 2, 8], [4, 3, 2, 8], [3, 6, 5, 7], [3, 10, 6, 8]]

@@ -13,7 +13,8 @@ For each profile of the inputs (k4/cover_check.py or k4/cover_hunt.py outputs) w
   chains whose θ condition fails).
 Output: one JSON line per uncovered key (OUT), and the counts.
 
-usage: python3 k4/cover_uncovered.py OUT.jsonl.gz INPUT.jsonl.gz ... [--maxn=N]"""
+usage: python3 k4/cover_uncovered.py OUT.jsonl.gz INPUT.jsonl.gz ... [--maxn=N] [--minn=N] [--every=E]
+(--every=E: every E-th distinct profile with an uncovered key, in reading order)"""
 import collections, gzip, json, os, sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
@@ -30,7 +31,7 @@ def main(argv):
     opt = dict(a[2:].split('=', 1) for a in argv if a.startswith('--') and '=' in a)
     rest = [a for a in argv if not a.startswith('--')]
     out, ins = rest[0], rest[1:]
-    maxn = int(opt.get('maxn', 99))
+    maxn = int(opt.get('maxn', 99)); every = int(opt.get('every', 1)); nseen = [0]
     seen = set(); cnt = collections.Counter()
     print('# command: python3 k4/cover_uncovered.py ' + ' '.join(argv), flush=True)
     with gzip.open(out, 'wt') as fo:
@@ -43,10 +44,12 @@ def main(argv):
                 try: r = json.loads(line)
                 except ValueError: continue
                 unc = [kr for kr in r.get('keys', []) if not kr['covered']]
-                if not unc or len(r['sets']) > maxn: continue
+                if not unc or len(r['sets']) > maxn or len(r['sets']) < int(opt.get('minn', 0)): continue
                 pk = json.dumps([r['sets'], r['vals'], r['m']])
                 if pk in seen: continue
                 seen.add(pk)
+                nseen[0] += 1
+                if (nseen[0] - 1) % every: continue
                 d = {'sets': r['sets'], 'vals': r['vals'], 'm': r['m']}
                 pf, res, fails = CI.analyse(d)
                 pr = Prof(d, fmin=1); kp = CC.f2_cc.keyprofile(pr)

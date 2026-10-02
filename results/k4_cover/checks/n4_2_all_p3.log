@@ -1,0 +1,6 @@
+# command: python3 k4/cover_check.py results/k4_cover/checks/n4_2_all_p3.jsonl.gz results/k4_cover/screen/n4_2_all.jsonl.gz --part=3/4
+# 32012 input records, 32012 distinct in range, part 3/4: 8003, already done 0
+keys f=2                       7630
+keys f=3                       9608
+profiles                       8003
+# time 493.3 s

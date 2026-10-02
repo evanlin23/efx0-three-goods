@@ -1,2 +1,6 @@
 # command: python3 k4/cover_check.py results/k4_cover/f2/n6r_p1.jsonl.gz results/k4_cover/inputs/dumps_f2_n6_rest.jsonl.gz --fmin=2 --part=1/4
 # 1057 input records, 1057 distinct in range, part 1/4: 264, already done 0
+keys f=2                       73
+keys f=3                       939
+profiles                       264
+# time 1608.5 s

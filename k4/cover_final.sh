@@ -18,4 +18,6 @@ python3 k4/cover_summary.py \
   > $R/final_phase2.txt
 python3 k4/cover_summary.py \
   "ALL=$V/f1_*.jsonl.gz,$V/f2_*.jsonl.gz,$C/*.jsonl.gz,$F/*.jsonl.gz,$H/*.jsonl.gz" > $R/final_all.txt
-python3 k4/cover_uncovered.py $R/uncovered_keys.jsonl.gz $C/*.jsonl.gz $F/*.jsonl.gz $H/*.jsonl.gz --maxn=5 > $R/uncovered_keys.log 2>&1
+python3 k4/cover_uncovered.py $R/uncovered_phase2.jsonl.gz $C/*.jsonl.gz $F/*.jsonl.gz --maxn=5 > $R/uncovered_phase2.log 2>&1
+python3 k4/cover_uncovered.py $R/uncovered_hunt_n4.jsonl.gz $H/*.jsonl.gz --maxn=4 > $R/uncovered_hunt_n4.log 2>&1
+python3 k4/cover_uncovered.py $R/uncovered_hunt_n5_every25.jsonl.gz $H/*.jsonl.gz --minn=5 --maxn=5 --every=25 > $R/uncovered_hunt_n5_every25.log 2>&1
