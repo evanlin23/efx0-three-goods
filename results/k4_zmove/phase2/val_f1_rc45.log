@@ -1,0 +1,7 @@
+# command: python3 k4/zmove_check.py results/k4_zmove/phase2/val_f1_rc45.jsonl.gz inst:k4/suite/.cache/sx/results/k4_sx/rc/rc_fail_inst.json --indep=1
+# 45 input records, 45 distinct in range, part 0/1: 45, already done 0
+indep agree                    45
+keys f=1                       45
+profiles                       45
+margin histogram (this run): {0: 45}
+# time 79.5 s

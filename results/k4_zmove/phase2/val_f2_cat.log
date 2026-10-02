@@ -1,0 +1,7 @@
+# command: python3 k4/zmove_check.py results/k4_zmove/phase2/val_f2_cat.jsonl.gz k4/suite/.cache/sx/results/k4_sx/chunks/gap_n4_3_s4000@f2e1_c000.jsonl.gz k4/suite/.cache/sx/results/k4_sx/chunks/gap_n4_pure_s4000@f2e1_c000.jsonl.gz k4/suite/.cache/sx/results/k4_sx/chunks/hard_hunt@f2e1_c000.jsonl.gz k4/suite/.cache/sx/results/k4_sx/chunks/hunt_n4_3_s400k@f2e1_c000.jsonl.gz k4/suite/.cache/sx/results/k4_sx/chunks/hunt_n4_pure_s400k@f2e1_c000.jsonl.gz k4/suite/.cache/sx/results/k4_sx/chunks/gap_n4_1_c000.jsonl.gz k4/suite/.cache/sx/results/k4_sx/chunks/gap_n4_1_c001.jsonl.gz k4/suite/.cache/sx/results/k4_sx/chunks/gap_n4_1_c002.jsonl.gz k4/suite/.cache/sx/results/k4_sx/chunks/gap_n4_1_c003.jsonl.gz k4/suite/.cache/sx/results/k4_sx/chunks/gap_n4_1_c004.jsonl.gz k4/suite/.cache/sx/results/k4_sx/chunks/gap_n4_1_c005.jsonl.gz k4/suite/.cache/sx/results/k4_sx/chunks/gap_n4_1_c006.jsonl.gz k4/suite/.cache/sx/results/k4_sx/chunks/gap_n4_1_c007.jsonl.gz k4/suite/.cache/sx/results/k4_sx/chunks/gap_n4_1_c008.jsonl.gz k4/suite/.cache/sx/results/k4_sx/chunks/gap_n4_1_c009.jsonl.gz k4/suite/.cache/sx/results/k4_sx/chunks/gap_n4_1_c010.jsonl.gz k4/suite/.cache/sx/results/k4_sx/chunks/gap_n4_1_c011.jsonl.gz --indep=1
+# 65 input records, 50 distinct in range, part 0/1: 50, already done 0
+indep agree                    50
+keys f=2                       52
+profiles                       50
+margin histogram (this run): {-2: 1, -1: 42, 0: 9}
+# time 13.1 s

@@ -1,0 +1,9 @@
+# command: python3 k4/zmove_check.py results/k4_zmove/phase2/val_t1stuck.jsonl.gz k4/suite/.cache/sx/results/k4_sx/t3stage/keys.jsonl.gz --indep=10
+# 1364 input records, 1364 distinct in range, part 0/1: 1364, already done 0
+indep agree                    137
+keys f=1                       1241
+keys f=2                       191
+keys f=3                       5
+profiles                       1364
+margin histogram (this run): {-2: 1, -1: 555, 0: 881}
+# time 49.3 s
