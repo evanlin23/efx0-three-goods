@@ -2,3 +2,34 @@
 # portfolio_dump.c sha256 d549cd68387f58c47835a6254e53e340a8f018061a81456a2f2d89181ffaabd8; portfolio_preds.py sha256 70f90090bb5e410fd1fa53e7a790f823a5383c069eab27dbdb85974bb552df52
 # inst: 6 profiles
 # 6 units to run, 0 from the checkpoint; jobs 3
+big: profiles 6 (omega >= 1: 6), evaluated (f >= 1 with a state) 6 (skipped as too large: 0); states 1701, keys with def* > 0 0; by f: {"1": {"keys_pos": 0, "profiles": 6, "states": 1701}}; 548 s CPU
+  nearest distance of the states (f|k: count): 1|1: 1701
+  single RT4        tested     1701 FAILS      0 margin 1151 | smallest repairs: 0|0|0|1 1701
+  single RC3        tested     1701 FAILS      0 margin 78 | smallest repairs: 0|0|0|1 1701
+  single RC_W1      tested     1701 FAILS      0 margin 1151 | smallest repairs: 0|0|0|1 1701
+  single RC         tested     1701 FAILS      0 margin 1151 | smallest repairs: 0|0|0|1 1701
+  single RC_noneed  tested     1701 FAILS      0 margin 1153 | smallest repairs: 0|0|0|1 1701
+  single RC_Yfree   tested     1701 FAILS      0 margin 1151 | smallest repairs: 0|0|0|1 1701
+  single RC_Yany    tested     1701 FAILS      0 margin 2518 | smallest repairs: 0|0|0|1 1701
+  single RC_U0      tested     1701 FAILS      0 margin 1151 | smallest repairs: 0|0|0|1 1701
+  single RC3_noT4   tested     1701 FAILS      0 margin 78 | smallest repairs: 0|0|0|1 1701
+  single NA3        tested     1701 FAILS      0 margin 87 | smallest repairs: 0|0|0|1 1701
+  single NA1        tested     1701 FAILS      0 margin 5230 | smallest repairs: 0|0|0|1 1701
+  single NAbal      tested     1701 FAILS      0 margin 5230 | smallest repairs: 0|0|0|1 1701
+  single NAall      tested     1701 FAILS      0 margin 5230 | smallest repairs: 0|0|0|1 1701
+  single U1Z1       tested     1701 FAILS      0 margin 5230 | smallest repairs: 0|0|0|1 1701
+  single D2         tested     1701 FAILS      0 margin 18 | smallest repairs: 0|0|0|1 1701
+  single D3         tested     1701 FAILS      0 margin 87 | smallest repairs: 0|0|0|1 1701
+  single D4         tested     1701 FAILS      0 margin 282 | smallest repairs: 0|0|0|1 1701
+  single FR3        tested     1701 FAILS      0 margin 5230 | smallest repairs: 0|0|0|1 1701
+  keyg   K1         tested        0 FAILS      0 margin None | smallest repairs: 
+  keyg   K3b        tested        0 FAILS      0 margin None | smallest repairs: 
+  keyg   K3b_noT4   tested        0 FAILS      0 margin None | smallest repairs: 
+  keyg   K3         tested        0 FAILS      0 margin None | smallest repairs: 
+  keyg   K2         tested        0 FAILS      0 margin None | smallest repairs: 
+  keyg   K2_noneed  tested        0 FAILS      0 margin None | smallest repairs: 
+  keyg   K2_Yany    tested        0 FAILS      0 margin None | smallest repairs: 
+  keyg   K4         tested        0 FAILS      0 margin None | smallest repairs: 
+  keyg   K5         tested        0 FAILS      0 margin None | smallest repairs: 
+  keyg   KU1        tested        0 FAILS      0 margin None | smallest repairs: 
+# wrote results/k4_portfolio/big.json; 192 s wall

@@ -21,3 +21,6 @@
   task r2:NA3:count:hard:k4_certs_5_n4_4.json.gz#8453:92,73,6,0,5: steps 11944 evals 286656 best objective [5, 0] fails 0 [300.0 s]
   task r2:NA3:edge:hard:k4_certs_5_n4_4.json.gz#8688:113,41,81,93,0: steps 7773 evals 186552 best objective [5, 5] fails 0 [300.0 s]
   task r2:D3:count:hard:k4_certs_5_n4_4.json.gz#8722:11,81,145,49,2: steps 17118 evals 410832 best objective [5, 0] fails 0 [300.0 s]
+  task r2:D3:edge:hard:k4_certs_5_n4_4.json.gz#8244:118,105,41,0,215: steps 10139 evals 243336 best objective [2, 10] fails 0 [300.0 s]
+# round 3: alive ['RC3', 'NA3', 'D3']; 6 tasks of 300 s on 1 jobs [5400 s]
+  task r3:RC3:count:hard:k4_certs_5_n4_4.json.gz#8244:118,105,41,0,215: steps 8986 evals 215664 best objective [4, 0] fails 0 [300.0 s]

@@ -1,0 +1,34 @@
+# command: python3 k4/portfolio.py certs results/k4_portfolio/cores_6_ext.json.gz --sample=5000 --seed=1 --jobs=3 --maxst=600 --name=n6_ext --ckpt
+# portfolio_dump.c sha256 d549cd68387f58c47835a6254e53e340a8f018061a81456a2f2d89181ffaabd8; portfolio_preds.py sha256 70f90090bb5e410fd1fa53e7a790f823a5383c069eab27dbdb85974bb552df52
+# 600 units to run, 0 from the checkpoint; jobs 3
+n6_ext: profiles 3000000 (omega >= 1: 121760), evaluated (f >= 1 with a state) 738 (skipped as too large: 0); states 1722, keys with def* > 0 0; by f: {"1": {"keys_pos": 0, "profiles": 421, "states": 895}, "2": {"keys_pos": 0, "profiles": 275, "states": 756}, "3": {"keys_pos": 0, "profiles": 41, "states": 67}, "4": {"keys_pos": 0, "profiles": 1, "states": 4}}; 118 s CPU
+  nearest distance of the states (f|k: count): 1|1: 895, 2|1: 756, 3|1: 67, 4|1: 4
+  single RT4        tested     1722 FAILS      0 margin 8 | smallest repairs: 0|0|0|1 1722
+  single RC3        tested     1722 FAILS      0 margin 8 | smallest repairs: 0|0|0|1 1722
+  single RC_W1      tested     1722 FAILS      0 margin 8 | smallest repairs: 0|0|0|1 1722
+  single RC         tested     1722 FAILS      0 margin 8 | smallest repairs: 0|0|0|1 1722
+  single RC_noneed  tested     1722 FAILS      0 margin 8 | smallest repairs: 0|0|0|1 1722
+  single RC_Yfree   tested     1722 FAILS      0 margin 8 | smallest repairs: 0|0|0|1 1722
+  single RC_Yany    tested     1722 FAILS      0 margin 10 | smallest repairs: 0|0|0|1 1722
+  single RC_U0      tested     1722 FAILS      0 margin 8 | smallest repairs: 0|0|0|1 1722
+  single RC3_noT4   tested     1722 FAILS      0 margin 8 | smallest repairs: 0|0|0|1 1722
+  single NA3        tested     1722 FAILS      0 margin 8 | smallest repairs: 0|0|0|1 1722
+  single NA1        tested     1722 FAILS      0 margin 10 | smallest repairs: 0|0|0|1 1722
+  single NAbal      tested     1722 FAILS      0 margin 10 | smallest repairs: 0|0|0|1 1722
+  single NAall      tested     1722 FAILS      0 margin 10 | smallest repairs: 0|0|0|1 1722
+  single U1Z1       tested     1722 FAILS      0 margin 19 | smallest repairs: 0|0|0|1 1722
+  single D2         tested     1722 FAILS      0 margin 5 | smallest repairs: 0|0|0|1 1722
+  single D3         tested     1722 FAILS      0 margin 8 | smallest repairs: 0|0|0|1 1722
+  single D4         tested     1722 FAILS      0 margin 17 | smallest repairs: 0|0|0|1 1722
+  single FR3        tested     1722 FAILS      0 margin 19 | smallest repairs: 0|0|0|1 1722
+  keyg   K1         tested        0 FAILS      0 margin None | smallest repairs: 
+  keyg   K3b        tested        0 FAILS      0 margin None | smallest repairs: 
+  keyg   K3b_noT4   tested        0 FAILS      0 margin None | smallest repairs: 
+  keyg   K3         tested        0 FAILS      0 margin None | smallest repairs: 
+  keyg   K2         tested        0 FAILS      0 margin None | smallest repairs: 
+  keyg   K2_noneed  tested        0 FAILS      0 margin None | smallest repairs: 
+  keyg   K2_Yany    tested        0 FAILS      0 margin None | smallest repairs: 
+  keyg   K4         tested        0 FAILS      0 margin None | smallest repairs: 
+  keyg   K5         tested        0 FAILS      0 margin None | smallest repairs: 
+  keyg   KU1        tested        0 FAILS      0 margin None | smallest repairs: 
+# wrote results/k4_portfolio/n6_ext.json; 41 s wall
