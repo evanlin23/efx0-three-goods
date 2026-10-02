@@ -197,7 +197,9 @@ Results (`results/k4_zmove_f1/`):
   completable.
 - `bthunt_n4_s11.log`: 500 hill-climbs of 200 steps on the 222 n = 4 cores with ω ≥ 2: no non-completable big-top key.
   (The same search at n = 3 finds one in 60 runs, so it is weak.)
-- `eshape_n4_z4.log`: see the log (run at the end of the session; if it is missing or cut off, rerun as in §5).
+- `eshape_n4_z4.log`: all 248,832 profiles of the (E)-shaped n = 4 core (x, τ₁, τ₂ big-top on g, the third agent
+  of (E2) with z = α₁): (0, x) is a key in 237,312 of them and completable in every one. So (E) cannot occur on this
+  core (exhaustive over its strict types, single implementation).
 - n = 3 (every 20th profile of PR #80's dumps `n3_all_30`, `n3_all_40`, not logged here): at every non-completable
   big-top key exactly one free agent values g (so S1c₃ holds there for a stronger reason), and at every non-completable
   key whose x is not big-top both free agents are big-top on g.
