@@ -1,0 +1,6 @@
+# command: python3 k4/zf1_eshape.py 
+# sets [[0, 1, 2, 3], [0, 4, 5, 6], [0, 7, 8, 6], [9, 10, 1, 4]] m 11 ; big-top vectors 12 ; w vectors 144
+  (0, x) not a key                         11520
+  key completable                          237312
+  profiles                                 248832
+done; time 742 s
