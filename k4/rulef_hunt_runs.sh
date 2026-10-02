@@ -16,6 +16,7 @@
 #           kicks from every best profile with nwork <= 3 (200,000 each, agent orders scanned after each restart; deep5r)
 #   pure2   a second pass over the n = 5 pure cores with 9 <= m <= 11 (where n5hi's tight profiles are): another seed,
 #           60,000 each, agent orders scanned after each restart (--relabel)
+#   deep5t2 as deep5t, from the best tight profile of every core (and relabeled core) in pure2 and deep5r
 #   n6      n = 6 (one 4-good agent; the only n = 6 certificate file): m >= 10: 10,000 each with agent orders scanned
 #           (--relabel), m <= 9: 2,000 each
 #   deep6   the exhaustive two-change descent from every n = 6 best profile with nwork <= 5
@@ -60,6 +61,9 @@ n6)
 deep6)
   [ -f $R/seeds_deep6.jsonl ] || python3 k4/rulef_hunt_seeds.py best $R/seeds_deep6.jsonl 5 $R/ck/n6hi.jsonl $R/ck/n6lo.jsonl
   $H deep6x --seeds=$R/seeds_deep6.jsonl --exhaust --evals=3000000 --key=M >> $R/deep6x.log 2>&1 ;;
+deep5t2)
+  python3 k4/rulef_hunt_seeds.py tight $R/seeds_tight5b.jsonl $R/tight_pure2.jsonl.gz $R/tight_deep5r.jsonl.gz
+  $H deep5t2 --seeds=$R/seeds_tight5b.jsonl --exhaust --relabel --evals=8000000 --key=M >> $R/deep5t2.log 2>&1 ;;
 check)
   ls $R/tight_*.jsonl.gz >/dev/null 2>&1 && python3 k4/rulef_hunt_check.py $R/tight_*.jsonl.gz > $R/check.log 2>&1 ;;
 *) echo "unknown step $s"; exit 1 ;;

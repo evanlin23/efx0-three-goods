@@ -17,3 +17,10 @@
 [   1152s] units 1800/3218 evals 108228168 (93926/s) est. total 34.3 min; best nwork per unit {1: 6, 2: 46, 3: 88, 4: 143, 5: 1517}; tight profiles 1362; best key [1, 0, 1, -4] at k4_certs_5_pure.json.gz:1373
 [   1296s] units 2000/3218 evals 120253728 (92811/s) est. total 34.7 min; best nwork per unit {1: 6, 2: 47, 3: 99, 4: 164, 5: 1684}; tight profiles 1362; best key [1, 0, 1, -4] at k4_certs_5_pure.json.gz:1373
 [   1444s] units 2200/3218 evals 132279600 (91623/s) est. total 35.2 min; best nwork per unit {1: 8, 2: 54, 3: 121, 4: 187, 5: 1830}; tight profiles 1574; best key [1, 0, 1, -4] at k4_certs_5_pure.json.gz:1373
+[   1626s] units 2400/3218 evals 144304704 (88754/s) est. total 36.3 min; best nwork per unit {1: 8, 2: 60, 3: 135, 4: 199, 5: 1998}; tight profiles 1574; best key [1, 0, 1, -4] at k4_certs_5_pure.json.gz:1373
+[   1830s] units 2600/3218 evals 156330024 (85412/s) est. total 37.8 min; best nwork per unit {1: 8, 2: 62, 3: 146, 4: 255, 5: 2129}; tight profiles 1574; best key [1, 0, 1, -4] at k4_certs_5_pure.json.gz:1373
+[   2031s] units 2800/3218 evals 168355752 (82883/s) est. total 38.9 min; best nwork per unit {1: 8, 2: 66, 3: 155, 4: 326, 5: 2245}; tight profiles 1574; best key [1, 0, 1, -4] at k4_certs_5_pure.json.gz:1373
+[   2252s] units 3000/3218 evals 180381840 (80101/s) est. total 40.3 min; best nwork per unit {1: 8, 2: 70, 3: 168, 4: 361, 5: 2393}; tight profiles 1574; best key [1, 0, 1, -4] at k4_certs_5_pure.json.gz:1373
+[   2489s] units 3200/3218 evals 192407328 (77288/s) est. total 41.7 min; best nwork per unit {1: 8, 2: 71, 3: 192, 4: 375, 5: 2554}; tight profiles 1574; best key [1, 0, 1, -4] at k4_certs_5_pure.json.gz:1373
+[   2516s] units 3218/3218 evals 193489680 (76903/s) est. total 41.9 min; best nwork per unit {1: 8, 2: 71, 3: 193, 4: 376, 5: 2570}; tight profiles 1574; best key [1, 0, 1, -4] at k4_certs_5_pure.json.gz:1373
+# finished: units 3218 this session, evals 193489680, tight profiles dumped 1574, time 2516s
