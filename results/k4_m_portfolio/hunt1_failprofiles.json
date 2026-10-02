@@ -1,6 +1,6 @@
 {
  "label": "the failure profiles of hunt 1",
- "sha": "2676b40619bb6fa7",
+ "sha": "ae819de59cd381bd",
  "rulef_sha256": "5721abf3bc9e25b101412aeb6b602db24d80e1991beee9a367a01cf9ccfc424e",
  "counters": {
   "tot": [
@@ -608,6 +608,126 @@
   ],
   "bt2:K0|KRo|Rwo": [
    0,
+   0,
+   0,
+   0
+  ],
+  "sh:W": [
+   2,
+   0,
+   0,
+   0
+  ],
+  "sh:K0": [
+   2,
+   0,
+   0,
+   0
+  ],
+  "sh:M1": [
+   2,
+   0,
+   0,
+   0
+  ],
+  "sh:KRb": [
+   2,
+   2,
+   0,
+   0
+  ],
+  "sh:M1|KRb": [
+   2,
+   0,
+   0,
+   0
+  ],
+  "sh:K0|KRa": [
+   2,
+   0,
+   0,
+   0
+  ],
+  "sh:K0|KRo": [
+   2,
+   0,
+   0,
+   0
+  ],
+  "sh:K0|KRb": [
+   2,
+   0,
+   0,
+   0
+  ],
+  "sh:K0|KRa|Rw": [
+   2,
+   0,
+   0,
+   0
+  ],
+  "sh:K0|KRo|Rwo": [
+   2,
+   0,
+   0,
+   0
+  ],
+  "btsh:W": [
+   2,
+   0,
+   0,
+   0
+  ],
+  "btsh:K0": [
+   2,
+   0,
+   0,
+   0
+  ],
+  "btsh:M1": [
+   2,
+   0,
+   0,
+   0
+  ],
+  "btsh:KRb": [
+   2,
+   2,
+   0,
+   0
+  ],
+  "btsh:M1|KRb": [
+   2,
+   0,
+   0,
+   0
+  ],
+  "btsh:K0|KRa": [
+   2,
+   0,
+   0,
+   0
+  ],
+  "btsh:K0|KRo": [
+   2,
+   0,
+   0,
+   0
+  ],
+  "btsh:K0|KRb": [
+   2,
+   0,
+   0,
+   0
+  ],
+  "btsh:K0|KRa|Rw": [
+   2,
+   0,
+   0,
+   0
+  ],
+  "btsh:K0|KRo|Rwo": [
+   2,
    0,
    0,
    0
@@ -1243,6 +1363,26 @@
     68
    ],
    "line": "PFAIL cand=btp:K0|KRo|Rwo w=1 n=4 m=8 sets=[[0,3,4,6],[1,3,6,7],[2,5,6,7],[4,5,7]] vals=[[3,10,2,6],[2,8,4,5],[2,8,5,4],[2,4,3]] fa=0:K0=0,K1=0,bt=1,sh=1,c40=0,g2=0,N[om=2,r=2,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=1,x3=2],E[om=2,r=2,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=1,x3=2];1:K0=1,K1=0,bt=0,sh=1,c40=1,g2=0,N[om=1,r=2,rfz=0,ks=1,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0],E[om=1,r=2,rfz=0,ks=1,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0];2:K0=1,K1=0,bt=0,sh=1,c40=1,g2=0,N[om=1,r=0,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0],E[om=1,r=0,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0];3:K0=0,K1=0,bt=0,sh=1,c40=0,g2=0,N[om=2,r=1,rfz=0,ks=3,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0],E[om=2,r=1,rfz=0,ks=3,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0]"
+  },
+  "sh:KRb": {
+   "key": [
+    4,
+    8,
+    15,
+    10,
+    68
+   ],
+   "line": "PFAIL cand=sh:KRb w=1 n=4 m=8 sets=[[0,3,4,6],[1,3,6,7],[2,5,6,7],[4,5,7]] vals=[[3,10,2,6],[2,8,4,5],[2,8,5,4],[2,4,3]] fa=0:K0=0,K1=0,bt=1,sh=1,c40=0,g2=0,N[om=2,r=2,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=1,x3=2],E[om=2,r=2,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=1,x3=2];1:K0=1,K1=0,bt=0,sh=1,c40=1,g2=0,N[om=1,r=2,rfz=0,ks=1,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0],E[om=1,r=2,rfz=0,ks=1,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0];2:K0=1,K1=0,bt=0,sh=1,c40=1,g2=0,N[om=1,r=0,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0],E[om=1,r=0,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0];3:K0=0,K1=0,bt=0,sh=1,c40=0,g2=0,N[om=2,r=1,rfz=0,ks=3,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0],E[om=2,r=1,rfz=0,ks=3,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0]"
+  },
+  "btsh:KRb": {
+   "key": [
+    4,
+    8,
+    15,
+    10,
+    68
+   ],
+   "line": "PFAIL cand=btsh:KRb w=1 n=4 m=8 sets=[[0,3,4,6],[1,3,6,7],[2,5,6,7],[4,5,7]] vals=[[3,10,2,6],[2,8,4,5],[2,8,5,4],[2,4,3]] fa=0:K0=0,K1=0,bt=1,sh=1,c40=0,g2=0,N[om=2,r=2,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=1,x3=2],E[om=2,r=2,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=1,x3=2];1:K0=1,K1=0,bt=0,sh=1,c40=1,g2=0,N[om=1,r=2,rfz=0,ks=1,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0],E[om=1,r=2,rfz=0,ks=1,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0];2:K0=1,K1=0,bt=0,sh=1,c40=1,g2=0,N[om=1,r=0,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0],E[om=1,r=0,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0];3:K0=0,K1=0,bt=0,sh=1,c40=0,g2=0,N[om=2,r=1,rfz=0,ks=3,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0],E[om=2,r=1,rfz=0,ks=3,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0]"
   }
  },
  "nfail_lines": {
@@ -1296,7 +1436,9 @@
   "btp:K0|KRo": 2,
   "btp:K0|KRb": 2,
   "btp:K0|KRa|Rw": 2,
-  "btp:K0|KRo|Rwo": 2
+  "btp:K0|KRo|Rwo": 2,
+  "sh:KRb": 2,
+  "btsh:KRb": 2
  },
  "options": [
   "-Y1"
