@@ -1,0 +1,22 @@
+# command: python3 k4/cover_screen_run.py results/k4_certs_5_n4_3.json.gz --rand=500 --seed=4041 --f=1:99 --jobs=2 --out=results/k4_zmove/screen/n5_n4_3_r500.jsonl.gz
+# source: k4/cover_screen.c sha1 ab163c8ff873cd9d5be3ce4d803d3714692f0e80
+# cores 0:9861 rand=500 seed=4041 f=1:99 bt=None time=435.3s (this invocation)
+f1_keys                                  239894
+f2_keys                                  208027
+f3_keys                                  40537
+f4_keys                                  220
+profiles                                 4930500
+f1_omega>=1                              127807
+f2_omega>=1                              51449
+f3_omega>=1                              3346
+f4_omega>=1                              9
+configs_visited                          504222
+f1_keys_noncompletable                   0
+f2_keys_noncompletable                   8
+f3_keys_noncompletable                   36
+f4_keys_noncompletable                   0
+f1_profiles_with_noncompletable          0
+f2_profiles_with_noncompletable          7
+f3_profiles_with_noncompletable          20
+f4_profiles_with_noncompletable          0
+profiles written: 27
