@@ -1,0 +1,24 @@
+# command: python3 k4/f2_lemmas.py --random 3000 --seed=7 --nmax=5 --mmax=12
+  (o, X) pairs (every free owner, every safe bundle)                     182
+  C1+ applies                                                            8
+  C1+ applies with k >= 1                                                0
+  C2+ applies                                                            1
+  C2+ applies with k >= 1                                                0
+  C3+ applies                                                            1
+  C3+ applies with k >= 1                                                0
+  C4+ applies                                                            4
+  C4+ applies with k >= 1                                                0
+  Lemma 6+ chain swaps                                                   316
+  Lemma 8+ values                                                        316
+  Lemma C compositions                                                   0
+  Lemma P: frozen agent without a need path (not T4-optimal)             0
+  Proposition N rotations                                                0
+  def>0 states                                                           10
+  def>0 states f=1                                                       10
+  instances                                                              3000
+  instances f=1                                                          40
+  instances f=2                                                          13
+  instances f=3                                                          2
+  instances f>=1, omega>=1                                               55
+  states checked                                                         10
+# no assertion failed

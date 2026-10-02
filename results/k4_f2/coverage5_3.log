@@ -1,0 +1,34 @@
+# command: python3 k4/f2_lemmas.py results/k4_f2/shapes5_3.jsonl.gz
+  A-S1 | Corollary 11.2+ applies where Corollary 9.1+ does not                                         17
+  A-S1 | plain T3 exists | C1+                                                                         981
+  A-S1 | plain T3 exists | C2+                                                                         4
+  A-S1 | plain T3 exists | C4+                                                                         13
+  A-S1 | plain T3 exists | C8+                                                                         7
+  A-S1 | plain T3 exists | certified by a plain (k = 0) corollary                                      998
+  A-S1 | plain T3 exists | only by a chain corollary (k >= 1)                                          7
+  A-S1, every S1 triple theta-fails | Corollary 11.2+ (kappa swap) applies                             17
+  A-S1, every S1 triple theta-fails | Corollary 11.2+ does not apply                                   16
+  A-z | plain T3 exists | C1+                                                                          104
+  A-z | plain T3 exists | C2+                                                                          3
+  A-z | plain T3 exists | C8+                                                                          15
+  A-z | plain T3 exists | certified by a plain (k = 0) corollary                                       19
+  A-z | plain T3 exists | only by a chain corollary (k >= 1)                                           103
+  B-S1c | chain-only | C1+                                                                             3
+  B-S1c | chain-only | only by a chain corollary (k >= 1)                                              3
+  B-S1c | plain T3 exists | C1+                                                                        32
+  B-S1c | plain T3 exists | C3+                                                                        1
+  B-S1c | plain T3 exists | certified by a plain (k = 0) corollary                                     2
+  B-S1c | plain T3 exists | only by a chain corollary (k >= 1)                                         31
+  C | plain T3 exists | C8+                                                                            1
+  C | plain T3 exists | certified by a plain (k = 0) corollary                                         1
+  chain-only | least |W| of an improving T3+ move = 1                                                  3
+  chain-only | some improving chain is a path swap (need path)                                         3
+  Lemma 6+ chain swaps checked                                                                         59179
+  Lemma 8+ values checked                                                                              59179
+  Lemma C compositions checked                                                                         17544
+  Lemma P: a frozen agent without a need path (not T4-optimal)                                         0
+  Proposition N: not T4-optimal, rotated to a T4-optimal state of equal deficit                        52
+  states                                                                                               1164
+  states f=2                                                                                           397
+  states f=3                                                                                           767
+# no assertion failed

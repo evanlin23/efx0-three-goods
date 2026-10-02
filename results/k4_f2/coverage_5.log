@@ -1,0 +1,18 @@
+# command: python3 k4/f2_lemmas.py results/k4_f2/shapes_5.jsonl.gz
+  A-S1 | plain T3 exists | C1+                                                                         3234
+  A-S1 | plain T3 exists | certified by a plain (k = 0) corollary                                      3234
+  A-z | plain T3 exists | C1+                                                                          239
+  A-z | plain T3 exists | C8+                                                                          34
+  A-z | plain T3 exists | certified by a plain (k = 0) corollary                                       41
+  A-z | plain T3 exists | only by a chain corollary (k >= 1)                                           232
+  B-S1c | plain T3 exists | C1+                                                                        1
+  B-S1c | plain T3 exists | only by a chain corollary (k >= 1)                                         1
+  Lemma 6+ chain swaps checked                                                                         120565
+  Lemma 8+ values checked                                                                              120565
+  Lemma C compositions checked                                                                         9008
+  Lemma P: a frozen agent without a need path (not T4-optimal)                                         0
+  Proposition N: not T4-optimal, rotated to a T4-optimal state of equal deficit                        66
+  states                                                                                               3508
+  states f=2                                                                                           2812
+  states f=3                                                                                           696
+# no assertion failed

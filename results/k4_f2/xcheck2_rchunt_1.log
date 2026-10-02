@@ -1,0 +1,29 @@
+# command: python3 k4/f2_xcheck2.py results/k4_f2/shapes_rchunt.jsonl.gz --chunk=1/2
+profile 1/27: n=5 m=12, 65 T3-stage states
+profile 2/27: n=5 m=12, 37 T3-stage states
+profile 3/27: n=5 m=10, 14 T3-stage states
+profile 4/27: n=5 m=12, 20 T3-stage states
+profile 5/27: n=5 m=12, 32 T3-stage states
+profile 6/27: n=5 m=10, 14 T3-stage states
+profile 7/27: n=5 m=10, 14 T3-stage states
+profile 8/27: n=5 m=9, 15 T3-stage states
+profile 9/27: n=5 m=10, 14 T3-stage states
+profile 10/27: n=5 m=12, 20 T3-stage states
+profile 11/27: n=5 m=9, 14 T3-stage states
+profile 12/27: n=5 m=9, 14 T3-stage states
+profile 13/27: n=5 m=12, 32 T3-stage states
+profile 14/27: n=5 m=12, 32 T3-stage states
+profile 15/27: n=5 m=12, 28 T3-stage states
+profile 16/27: n=5 m=10, 14 T3-stage states
+profile 17/27: n=5 m=9, 15 T3-stage states
+profile 18/27: n=5 m=9, 12 T3-stage states
+profile 19/27: n=5 m=12, 32 T3-stage states
+profile 20/27: n=5 m=12, 20 T3-stage states
+profile 21/27: n=5 m=10, 14 T3-stage states
+profile 22/27: n=5 m=12, 28 T3-stage states
+profile 23/27: n=5 m=12, 32 T3-stage states
+profile 24/27: n=5 m=12, 20 T3-stage states
+profile 25/27: n=5 m=12, 20 T3-stage states
+profile 26/27: n=5 m=10, 12 T3-stage states
+profile 27/27: n=5 m=10, 14 T3-stage states
+# T3-stage states (dl134_xcheck) 598, profiles 27, verdict chain 209, verdict plain 389

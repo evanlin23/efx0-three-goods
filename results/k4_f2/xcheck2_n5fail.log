@@ -1,0 +1,12 @@
+# command: python3 k4/f2_xcheck2.py results/k4_f2/shapes_n5fail.jsonl.gz
+profile 1/10: n=5 m=9, 14 T3-stage states
+profile 2/10: n=5 m=9, 12 T3-stage states
+profile 3/10: n=5 m=10, 12 T3-stage states
+profile 4/10: n=5 m=10, 11 T3-stage states
+profile 5/10: n=5 m=10, 11 T3-stage states
+profile 6/10: n=5 m=12, 18 T3-stage states
+profile 7/10: n=5 m=12, 18 T3-stage states
+profile 8/10: n=5 m=12, 20 T3-stage states
+profile 9/10: n=5 m=12, 20 T3-stage states
+profile 10/10: n=5 m=12, 32 T3-stage states
+# T3-stage states (dl134_xcheck) 168, profiles 10, verdict chain 67, verdict plain 101

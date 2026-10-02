@@ -1,0 +1,38 @@
+# command: python3 k4/f2_cc.py coverfail --inst=results/k4_f2/cover_failures_inst.json
+### coverfail
+  keys | frozen need digraph acyclic | C+ or C′+ needed                                                                    1
+  keys | frozen need digraph cyclic (Proposition NK) | C+ or C′+ needed                                                    1
+  uncovered keys | h:C'+h at some maximum                                                                                  1
+  uncovered keys | h:C+h at some maximum                                                                                   2
+  uncovered keys | some maximum covered by C+ / C′+ / C+h / C′+h | True                                                    2
+  uncovered keys | some maximum covered by C+ / C′+ | False                                                                2
+  uncovered maxima without C+/C′+ | C+h or C′+h applies | True                                                             3
+  uncovered maxima without C+/C′+ | applies | C'+h | 0 | owner x                                                           2
+  uncovered maxima without C+/C′+ | applies | C+h | 0 | owner the helper                                                   3
+  uncovered maxima without C+/C′+ | applies | C+h | 0 | owner x                                                            1
+  uncovered maxima without C+/C′+ | applies | C+h | 1 | owner the helper                                                   1
+  uncovered maxima without C+/C′+ | applies | C+h | 1 | owner x                                                            1
+  uncovered maxima | C+ or C′+ applies | False                                                                             3
+  uncovered maxima | covered by the family | C'+ with q = phi(x) | False                                                   3
+  uncovered maxima | covered by the family | C'+ | False                                                                   3
+  uncovered maxima | covered by the family | (C+ with (H*)) or (C′+ with q = phi(x)) | False                               3
+  uncovered maxima | covered by the family | C+ or (C′+ with q = phi(x)) | False                                           3
+  uncovered maxima | covered by the family | C+ or C′+ with k = 0 (plain (T3), no helper) | False                          3
+  uncovered maxima | covered by the family | C+ or C′+ | False                                                             3
+  uncovered maxima | covered by the family | C+ | False                                                                    3
+  uncovered maxima | first: none                                                                                           3
+  uncovered maxima | least k over the lemmas that apply | None                                                             3
+  keys def*>0                                                                                                              2
+  keys uncovered by A+ and B+                                                                                              2
+  profiles f=2                                                                                                             2
+  uncovered maxima                                                                                                         3
+  smallest [none]: n=4 m=7 sets=[[0, 2, 3, 6], [1, 3, 4, 5], [2, 4, 5, 6], [4, 5, 6]] vals=[[2, 4, 8, 5], [1, 4, 6, 8], [2, 8, 4, 3], [3, 4, 2]] key=[None, None, 5, 4] def*=1 config=Config(key=[None, None, 5, 4], Q={0: [2, 6], 1: [1, 3]}, L=[0]) P_Q=[[2, 6], [1, 3], [5], [4]] def(P_Q)=1 why={}
+  smallest [not covered by (C+ with (H*)) or (C′+ with q = phi(x))]: n=4 m=7 sets=[[0, 2, 3, 6], [1, 3, 4, 5], [2, 4, 5, 6], [4, 5, 6]] vals=[[2, 4, 8, 5], [1, 4, 6, 8], [2, 8, 4, 3], [3, 4, 2]] key=[None, None, 5, 4] def*=1 config=Config(key=[None, None, 5, 4], Q={0: [2, 6], 1: [1, 3]}, L=[0]) P_Q=[[2, 6], [1, 3], [5], [4]] def(P_Q)=1 why=[]
+  smallest [not covered by C'+]: n=4 m=7 sets=[[0, 2, 3, 6], [1, 3, 4, 5], [2, 4, 5, 6], [4, 5, 6]] vals=[[2, 4, 8, 5], [1, 4, 6, 8], [2, 8, 4, 3], [3, 4, 2]] key=[None, None, 5, 4] def*=1 config=Config(key=[None, None, 5, 4], Q={0: [2, 6], 1: [1, 3]}, L=[0]) P_Q=[[2, 6], [1, 3], [5], [4]] def(P_Q)=1 why=[]
+  smallest [not covered by C'+ with q = phi(x)]: n=4 m=7 sets=[[0, 2, 3, 6], [1, 3, 4, 5], [2, 4, 5, 6], [4, 5, 6]] vals=[[2, 4, 8, 5], [1, 4, 6, 8], [2, 8, 4, 3], [3, 4, 2]] key=[None, None, 5, 4] def*=1 config=Config(key=[None, None, 5, 4], Q={0: [2, 6], 1: [1, 3]}, L=[0]) P_Q=[[2, 6], [1, 3], [5], [4]] def(P_Q)=1 why=[]
+  smallest [not covered by C+]: n=4 m=7 sets=[[0, 2, 3, 6], [1, 3, 4, 5], [2, 4, 5, 6], [4, 5, 6]] vals=[[2, 4, 8, 5], [1, 4, 6, 8], [2, 8, 4, 3], [3, 4, 2]] key=[None, None, 5, 4] def*=1 config=Config(key=[None, None, 5, 4], Q={0: [2, 6], 1: [1, 3]}, L=[0]) P_Q=[[2, 6], [1, 3], [5], [4]] def(P_Q)=1 why=[]
+  smallest [not covered by C+ or (C′+ with q = phi(x))]: n=4 m=7 sets=[[0, 2, 3, 6], [1, 3, 4, 5], [2, 4, 5, 6], [4, 5, 6]] vals=[[2, 4, 8, 5], [1, 4, 6, 8], [2, 8, 4, 3], [3, 4, 2]] key=[None, None, 5, 4] def*=1 config=Config(key=[None, None, 5, 4], Q={0: [2, 6], 1: [1, 3]}, L=[0]) P_Q=[[2, 6], [1, 3], [5], [4]] def(P_Q)=1 why=[]
+  smallest [not covered by C+ or C′+]: n=4 m=7 sets=[[0, 2, 3, 6], [1, 3, 4, 5], [2, 4, 5, 6], [4, 5, 6]] vals=[[2, 4, 8, 5], [1, 4, 6, 8], [2, 8, 4, 3], [3, 4, 2]] key=[None, None, 5, 4] def*=1 config=Config(key=[None, None, 5, 4], Q={0: [2, 6], 1: [1, 3]}, L=[0]) P_Q=[[2, 6], [1, 3], [5], [4]] def(P_Q)=1 why=[]
+  smallest [not covered by C+ or C′+ with k = 0 (plain (T3), no helper)]: n=4 m=7 sets=[[0, 2, 3, 6], [1, 3, 4, 5], [2, 4, 5, 6], [4, 5, 6]] vals=[[2, 4, 8, 5], [1, 4, 6, 8], [2, 8, 4, 3], [3, 4, 2]] key=[None, None, 5, 4] def*=1 config=Config(key=[None, None, 5, 4], Q={0: [2, 6], 1: [1, 3]}, L=[0]) P_Q=[[2, 6], [1, 3], [5], [4]] def(P_Q)=1 why=[]
+# time 0.0 s
+# no assertion failed
