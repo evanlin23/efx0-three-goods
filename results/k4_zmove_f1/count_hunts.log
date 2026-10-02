@@ -1,0 +1,11 @@
+# command: python3 k4/zf1_count.py results/k4_sx/hunt/n4_3_r40k.jsonl.gz results/k4_sx/hunt/n4_pure_r40k.jsonl.gz results/k4_sx/hunt/n4_pure_r400k.jsonl.gz results/k4_sx/hunt/n5_pure_r1000_3000.jsonl.gz results/k4_sx/hunt/n5_pure_r1000_4000.jsonl.gz results/k4_sx/t3stage/profiles_f1.jsonl.gz
+  Z′-maxima, n = 3, x big-top, 1 terminal(s)                   334
+  Z′-maxima, n = 3, x not big-top, 2 terminal(s)               1392
+  Z′-maxima, n = 4, x not big-top, 2 terminal(s)               4068
+  Z′-maxima, n = 4, x not big-top, 3 terminal(s)               168
+  Z′-maxima, n = 5, x not big-top, 2 terminal(s)               17
+  non-completable keys with x big-top, n = 3                   135
+  non-completable keys, n = 3                                  1222
+  non-completable keys, n = 4                                  2679
+  non-completable keys, n = 5                                  12
+done; time 27 s
