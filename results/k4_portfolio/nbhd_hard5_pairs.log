@@ -1,0 +1,5 @@
+# command: python3 k4/portfolio_nbhd.py --seeds=hard5 --k=4 --pairs --max=150000 --jobs=1 --name=hard5_pairs
+# seed hard:hunt_n5.jsonl.gz#?:17,110,42,8,129: 150,000 profiles
+# seed hard:k4_certs_5_n4_4.json.gz#5474:6,107,1,40,51: 150,000 profiles
+# seed hard:k4_certs_5_n4_4.json.gz#8106:26,163,261,214,5: 150,000 profiles
+# seed hard:k4_certs_5_pure.json.gz#4551:21,2,18,2,15[bt]: 150,000 profiles

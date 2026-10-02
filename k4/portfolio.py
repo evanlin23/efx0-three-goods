@@ -468,7 +468,8 @@ def table():
             L.append(f'| {nm} | {esc(sfs)} | {sm} |')
         L.append('')
     if byf:
-        L.append(f'## Smallest repairs by f ({byf["name"]}: `{esc(byf["command"].replace("python3 k4/portfolio.py ", ""))}`)')
+        L.append(f'## Smallest repairs by f ({byf["name"]}: the dumps dataset again, with `--byf`; '
+                 f'{byf["agg"]["states"]:,} states, {byf["agg"]["keys_pos"]:,} keys)')
         L.append('')
         for nm, per in sorted(byf['agg'].get('small_f', {}).items()):
             shapes = sorted({sh for sm in per.values() for sh in sm}, key=lambda sh: -sum(sm.get(sh, 0) for sm in per.values()))
