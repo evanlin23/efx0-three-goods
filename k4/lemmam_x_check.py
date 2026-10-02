@@ -280,6 +280,18 @@ def main():
                     expect[json.dumps(P[-1])] = mc.group(1)
     else:
         P = [(json.loads(args[0]), json.loads(args[1]))]
+    only = next((x.split('=')[1] for x in args if x.startswith('--agents=')), None)
+    if only:                     # only the classes of the given first agents (large instances), with their candidates
+        for sets, vals in P:
+            inst = RM.make_inst(sets, vals)
+            for a in map(int, only.split(',')):
+                k = klass(inst, a)
+                line = f"first agent {a}: class {['K0', 'K1', 'bad'][k]}"
+                if k == 2:
+                    c, v = candidates(inst, a)
+                    line += ' candidates ' + ', '.join(f"{nm}={c[nm]}" for nm in CANDS)
+                print(line, flush=True)
+        return
     mism = 0
     seen = set(); tot = {'profiles': 0, 'nogood': 0, 'bad': 0}
     good = {k: 0 for k in CANDS}; undef = {k: 0 for k in CANDS}; lfail = {}; rcs = {}; shapes = {}
