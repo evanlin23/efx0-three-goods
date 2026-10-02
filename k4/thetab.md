@@ -13,7 +13,7 @@ deficit). Nothing here changes K4.D or K4.T.
 - *Single-step DL is false at f = 1 too* (compute/k4-rc, `results/k4_rc/FAILURES.md`): a T3-stage state with
   n = 5, m = 13, in this file's setting (H), has no improving (T3) move (§5.1, X5). DL on the key graph holds there. So
   this file states its existence question on the key graph (§5), where the repair may start from any state of the key.
-- PR #80 (`k4/sx.md`) reduces DL on the key graph at f = 1 to K4.SX.COVER. Its open case (i), where every terminal
+- PR #80 (`k4/sx.md`, merged) reduces DL on the key graph at f = 1 to K4.SX.COVER. Its open case (i), where every terminal
   leaf is θ-b, is this file's θ-b case in that frame (§7).
 
 Everything here is at f = 1 except Lemma G, which holds at every f. The f ≥ 2 targets are left to proof/k4-f2 (§6).
@@ -58,10 +58,13 @@ Everything here is at f = 1 except Lemma G, which holds at every f. The f ≥ 2 
     (E), which is impossible at n = 3. So at n = 3, Lemma C or C′ applies whenever the terminals are two θ-b leaves.
   - With PR #80 (Lemma F) and PR #84 (Lemma A♭), this **closes case (i) at n = 3** (§7).
 
+  - **Conjecture S1c** (§7.1, CONJECTURE K4.TB.S1C): with two or more terminals at a Z′-maximum, x is not big-top.
+    It would exclude (E) at every n. It holds at all 82,098 such maxima of PR #80's dumps (exhaustive at n = 3).
+
   On PR #80's data (1,668 case-(i) Z′-maxima of 1,579 keys):
   - (E) never occurs;
   - Theorems W, K or Corollary G1 of this file apply at every maximum;
-  - Theorem K covers the 5 keys where PR #80's structural hypotheses fail.
+  - Theorem K covers the 4 keys where PR #80's structural hypotheses fail.
 
 ## 1. The targets (EVIDENCE)
 
@@ -485,11 +488,11 @@ The structural existence statements of §3 are not extended to f ≥ 2 here.
 
 ## 7. Case (i) of K4.SX.COVER: every terminal leaf is θ-b (Lemma P: PROVED, K4.TB.P; data: EVIDENCE, K4.TB.COV)
 
-PR #80 (`k4/sx.md`, under review) reduces DL on the key graph at f = 1 to one statement, K4.SX.COVER: at some
-Z′-maximum of every non-completable f = 1 key, one of its Lemmas A, B (k = 1), B′ (k = 1), C, C′ applies. Its open
-case (i) is this file's θ-b case in key-graph form: every terminal that is a leaf is θ-b, so Lemma A applies to none of
-them, and Lemmas C and C′ need a pair for x and hypotheses (H), (H′) on third agents. This section uses `k4/sx.md`'s
-definitions and cites its lemmas; nothing of it is repeated or changed.
+PR #80 (`k4/sx.md`, merged; K4.SX.KEY and K4.SX.REP PROVED) reduces DL on the key graph at f = 1 to one statement,
+K4.SX.COVER (CONJECTURE): at some Z′-maximum of every non-completable f = 1 key, one of its Lemmas A, B (k = 1),
+B′ (k = 1), C, C′ applies. Its open case (i) is this file's θ-b case in key-graph form: every terminal that is a leaf
+is θ-b, so Lemma A applies to none of them, and Lemmas C and C′ need a pair for x and hypotheses (H), (H′) on third
+agents. This section uses `k4/sx.md`'s definitions and cites its lemmas; nothing of it is repeated or changed.
 
 **Notation** (`k4/sx.md` §1–§3). f = 1, κ = (g, x) with def*(κ) > 0, and Q a Z′-maximum at κ. Q is pool-optimal, and
 Lemma F's forest is available. Further:
@@ -588,27 +591,29 @@ Each conclusion of W, K and G1 is asserted against exact deficits, and there is 
 | input (PR #80's dump) | keys / Z′-maxima in case (i) | shape: two θ-b leaves / one θ-b leaf and a non-leaf terminal / other | Lemma P: C-pair / C′-pair only / (E) | C / C′ / B (k = 1) apply, structural hypotheses (maxima) | keys covered by C, C′, B: structural / exact only | first of W / K / G1 / G1h / none at P_Q (maxima) |
 |---|---|---|---|---|---|---|
 | n = 4 hunts (`n4_3_r40k`, `n4_pure_r40k`) | 33 / 59 | 7 / 52 / 0 | 5 / 2 / 0 | 56 / 7 / 52 | 33 / 0 | 4 / 21 / 34 / 0 / 0 |
-| n = 4 pure, 400,000 per core (`n4_pure_r400k`) | 175 / 237 | 98 / 134 / 5 | 68 / 30 / 0 | 201 / 98 / 129 | 170 / 5 | 65 / 65 / 107 / 0 / 0 |
+| n = 4 pure, 400,000 per core (`n4_pure_r400k`) | 175 / 237 | 98 / 134 / 5 | 68 / 30 / 0 | 201 / 99 / 129 | 171 / 4 | 65 / 65 / 107 / 0 / 0 |
 | T1-stuck profiles of `k4/dl13.md` (`t3stage/profiles_f1`) | 544 / 545 | 543 / 2 / 0 | 539 / 4 / 0 | 541 / 543 / 2 | 544 / 0 | 539 / 4 / 2 / 0 / 0 |
 | n = 3, every strict profile, every 5th (`n3_all_*`) | 827 / 827 | 827 / 0 / 0 | 827 / 0 / 0 | 827 / 827 / 0 | 827 / 0 | 827 / 0 / 0 / 0 / 0 |
 | n = 5 hunts; compute/k4-rc's 45 profiles | 0 / 0 | | | | | |
-| **total** | **1,579 / 1,668** | 1,475 / 188 / 5 | 1,439 / 36 / **0** | 1,625 / 1,475 / 183 | 1,574 / 5 | 1,435 / 90 / 143 / 0 / **0** |
+| **total** | **1,579 / 1,668** | 1,475 / 188 / 5 | 1,439 / 36 / **0** | 1,625 / 1,476 / 183 | 1,575 / 4 | 1,435 / 90 / 143 / 0 / **0** |
 
 (`python3 k4/thetab_cover.py --sum results/k4_thetab/cover_*.log`. "Structural hypotheses" are (H*), (H′*) and
-(H_B′*) of `k4/sx.md`; "exact only" means that only (H), (H′) or (H_B′) hold.)
+(H_B′*) of `k4/sx.md`; "exact only" means that only (H), (H′) or (H_B′) hold. Lemma C′ is tested as in `k4/sx.md`
+after its review: exactly two terminals, τ₁ θ-b, τ₂ a leaf, τ₁ not necessarily a leaf. The logs were made with the
+content of main's `k4/sx_zprime.py` and `k4/sx_keygraph.py` (PR #80).)
 
 What the data say:
 - **(E) never occurs.** At all 1,475 maxima whose terminals are two θ-b leaves, Lemma P's pair exists: a C-pair at
   1,439, only a C′-pair at 36. At every one of them Lemma C′ applies with its structural hypothesis (H′*), and at
   1,439 Lemma C does too.
 - **The structural gaps of COVER are in the other shape**: one θ-b terminal leaf, and a second terminal that is not a
-  leaf. There Lemma C's pair is missing at 4 maxima, and Lemma B with k = 1 covers them or its exact form does. The 5
-  keys where `k4/sx.md`'s structural hypotheses fail (`attempts/k4-sx-cover-structural.md` on PR #80) are all in this
-  shape.
+  leaf. There Lemma C's pair is missing at 4 maxima; Lemma B with k = 1, its exact form, or Lemma C′ (τ₁ not a leaf)
+  covers them. The 4 keys where `k4/sx.md`'s structural hypotheses fail (`attempts/k4-sx-cover-structural.md`,
+  K4.SX.X) are all in this shape.
   Smallest: n = 4, m = 9, core #154 of `k4_certs_4_pure` (dump `n4_pure_r400k`), with sets
   [[0,2,4,5],[1,3,4,8],[3,6,7,8],[5,6,7,8]] and values [[4,5,8,2],[3,4,2,8],[6,2,3,10],[6,3,5,7]]. Its key is
   (8, agent 3), with Q = {0: {0,2}, 1: {1,4}, 2: {3,7}}, L = {5,6}, V = {0,2} and T = {1,2}.
-- **Theorem K covers those 5 keys.** At a Z′-maximum of each of them, Theorem K of §3 applies at P_Q, and its (T3)
+- **Theorem K covers those 4 keys.** At a Z′-maximum of each of them, Theorem K of §3 applies at P_Q, and its (T3)
   move reaches deficit ≤ 0, asserted against exact deficits. Its hypotheses are value conditions on the third agents
   with Lemma G's budget, and the structural (H*) and (H_B′*) are not needed.
 - **Every case-(i) maximum is covered by this file's lemmas at P_Q**, with a (T3) move without helper:
@@ -634,7 +639,7 @@ So at n = 3 Lemma C or C′ applies at every case-(i) Z′-maximum.
 **What remains of case (i) at n ≥ 4.**
 - (a) (E). It needs x's three lower goods in the pool and valued by no terminal, so, by the core condition, some of
   them valued by third agents. It also needs x big-top. It does not occur in the data.
-- (b) The third-agent hypotheses (H) and (H′). They are where `k4/sx.md`'s structural forms fail (STRUCT_KEYS keys,
+- (b) The third-agent hypotheses (H) and (H′). They are where `k4/sx.md`'s structural forms fail (4 keys,
   n = 4). Their value form with Lemma G's budget, i.e. Theorem K and Corollary G1, holds at every case-(i) maximum of
   the data, but no proof derives it from the Z′-maximum.
 - (c) The shape with one θ-b terminal leaf and a second terminal that is not a leaf (the commonest at n = 4). There
@@ -643,6 +648,38 @@ So at n = 3 Lemma C or C′ applies at every case-(i) Z′-maximum.
 - (d) Three or more terminals, all θ-b leaves: 5 maxima in `cover_n4_pure_r400k.log` (column "other" of the table).
   Lemma C′ is unavailable there, since it needs exactly two terminals, and no C-pair is proved; Lemma C (structural)
   and Corollary G1 cover the data.
+
+### 7.1 Target (a): the converse of Proposition S1
+
+PR #84's Proposition S1 (K4.ON.S) says: at a Z′-maximum with exactly one terminal, x is big-top on g. The exception (E)
+of Lemma P needs two terminals and x big-top. So (E) would be impossible at every n if the converse held:
+
+**Conjecture S1c.** At a Z′-maximum of a non-completable f = 1 key with two or more terminals, x is not big-top on g.
+
+With Lemma P (ii) it would give, at every n: whenever the terminals are two θ-b leaves, the pair of Lemma C or of
+Lemma C′ exists. Item (a) of the list above would then be closed, and items (b)–(d) would remain.
+
+**Data** (`k4/thetab_xbt.py`, logs `results/k4_thetab/xbt_*.log`; every Z′-maximum of every non-completable f = 1 key
+of PR #80's dumps):
+
+| input (PR #80's dump) | non-completable keys | Z′-maxima with one terminal: x big-top / not | with two terminals: x big-top / not | with three or more: x big-top / not |
+|---|---|---|---|---|
+| n = 3, every strict profile (`n3_all_*`) | 62,208 | 39,840 / 0 | 0 / 76,408 | 0 / 0 |
+| n = 4 hunts (`n4_2_r20k`, `n4_3_r40k`, `n4_pure_r40k`, `n4_pure_r400k`) | 2,661 | 0 / 0 | 0 / 4,042 | 0 / 168 |
+| n = 5 hunts, compute/k4-rc's 45 profiles, T1-stuck profiles of `k4/dl13.md` | 1,297 | 334 / 0 | 0 / 1,480 | 0 / 0 |
+| **total** | **66,166** | **40,174 / 0** | **0 / 81,930** | **0 / 168** |
+
+So on these data x is big-top **exactly** at the maxima with one terminal: S1 and S1c together say that the number of
+terminals decides whether x is big-top. At n = 3 the check is exhaustive: PR #80's n = 3 dumps hold every strict
+profile of every n = 3 core that has a non-completable key. PR #84's own runs agree
+(`results/k4_oneneeder/zprime_v2_sx_hunt_*.log`: 76,408 maxima with two terminals at n = 3 and 4,210 with two or three
+at n = 4, none with x big-top).
+
+**Why the proof of S1 does not transfer.** S1's proof makes the path move from the single terminal and gives x a pair
+worth more than g. Then nobody needs g, against f = 1. When x is big-top, no pair is worth more than g to x, so x needs
+g whenever it is free, and that argument has nothing to contradict. A proof of S1c has to use the second terminal. With
+two terminals nobody's bundle can unfreeze x (u ≡ 0), so the removal argument of Lemma A♭ (PR #84) is not available
+either.
 
 ## 8. Reproduce
 
@@ -654,6 +691,7 @@ sh k4/thetab_runs.sh            # results/k4_thetab/: targets.log (§1, §4, §6
 sh k4/thetab_cover_runs.sh      # results/k4_thetab/cover_*.log (§7), on PR #80's dumps results/k4_sx/
 python3 k4/thetab_table.py results/k4_thetab/scan_*.log                       # the tables of §4
 python3 k4/thetab_cover.py --sum results/k4_thetab/cover_*.log                # the table of §7
+                                # (k4/thetab_cover_runs.sh also writes results/k4_thetab/xbt_*.log, §7.1)
 python3 k4/thetab_targets.py --show      # the smallest target of each class, printed in full
 ```
 

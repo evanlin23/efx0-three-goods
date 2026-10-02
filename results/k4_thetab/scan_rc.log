@@ -1,4 +1,4 @@
-# command: python3 k4/thetab_scan.py inst k4/suite/.cache/sx/results/k4_sx/rc/rc_fail_inst.json
+# command: python3 k4/thetab_scan.py inst results/k4_sx/rc/rc_fail_inst.json
 SINGLE-STEP-FAILURE k4_certs_5_pure.json.gz#4604[m=13,idx=58]|prof=44,118,8,8,158 {"sets": [[0, 2, 9, 11], [1, 6, 10, 12], [3, 7, 11, 12], [4, 8, 11, 12], [5, 9, 10, 12]], "vals": [[3, 5, 6, 7], [6, 5, 4, 8], [2, 3, 8, 4], [2, 3, 8, 4], [6, 4, 1, 8]], "m": 13} [[11], [12], [3, 7], [4, 8], [5, 9]]
 SINGLE-STEP-FAILURE k4_certs_5_pure.json.gz#4604[m=13,idx=58]|prof=44,118,8,8,200 {"sets": [[0, 2, 9, 11], [1, 6, 10, 12], [3, 7, 11, 12], [4, 8, 11, 12], [5, 9, 10, 12]], "vals": [[3, 5, 6, 7], [6, 5, 4, 8], [2, 3, 8, 4], [2, 3, 8, 4], [7, 6, 2, 10]], "m": 13} [[11], [12], [3, 7], [4, 8], [5, 9]]
 SINGLE-STEP-FAILURE k4_certs_5_pure.json.gz#4604[m=13,idx=58]|prof=44,118,8,36,200 {"sets": [[0, 2, 9, 11], [1, 6, 10, 12], [3, 7, 11, 12], [4, 8, 11, 12], [5, 9, 10, 12]], "vals": [[3, 5, 6, 7], [6, 5, 4, 8], [2, 3, 8, 4], [3, 2, 8, 4], [7, 6, 2, 10]], "m": 13} [[11], [12], [3, 7], [4, 8], [5, 9]]
@@ -44,7 +44,7 @@ SINGLE-STEP-FAILURE k4_certs_5_pure.json.gz#4604[m=13,idx=58]|prof=79,115,8,36,1
 SINGLE-STEP-FAILURE k4_certs_5_pure.json.gz#4604[m=13,idx=58]|prof=79,83,8,36,158 {"sets": [[0, 2, 9, 11], [1, 6, 10, 12], [3, 7, 11, 12], [4, 8, 11, 12], [5, 9, 10, 12]], "vals": [[4, 5, 6, 8], [4, 6, 5, 8], [2, 3, 8, 4], [3, 2, 8, 4], [6, 4, 1, 8]], "m": 13} [[11], [12], [3, 7], [4, 8], [5, 9]]
 SINGLE-STEP-FAILURE k4_certs_5_pure.json.gz#4604[m=13,idx=58]|prof=79,118,8,36,158 {"sets": [[0, 2, 9, 11], [1, 6, 10, 12], [3, 7, 11, 12], [4, 8, 11, 12], [5, 9, 10, 12]], "vals": [[4, 5, 6, 8], [6, 5, 4, 8], [2, 3, 8, 4], [3, 2, 8, 4], [6, 4, 1, 8]], "m": 13} [[11], [12], [3, 7], [4, 8], [5, 9]]
 SINGLE-STEP-FAILURE k4_certs_5_pure.json.gz#4604[m=13,idx=58]|prof=95,118,8,36,158 {"sets": [[0, 2, 9, 11], [1, 6, 10, 12], [3, 7, 11, 12], [4, 8, 11, 12], [5, 9, 10, 12]], "vals": [[5, 4, 6, 8], [6, 5, 4, 8], [2, 3, 8, 4], [3, 2, 8, 4], [6, 4, 1, 8]], "m": 13} [[11], [12], [3, 7], [4, 8], [5, 9]]
-# input inst k4/suite/.cache/sx/results/k4_sx/rc/rc_fail_inst.json
+# input inst results/k4_sx/rc/rc_fail_inst.json
   n=5 | (H) | T3stage | theorem - | Lemma G certifies none | NO plain swap, NO (T3) MOVE | key: (T3) to a better key from the key | key: G1 certifies from another state, plain 45
   n=5 | (H) | T3stage | theorem G1 | Lemma G certifies a plain swap | plain swap | key: (T3) to a better key from P | key: G1 certifies from P, plain 1215
   n=5 | (H) | T3stage | theorem G1h | Lemma G certifies a swap with helper | NO plain swap, a (T3) move with helper | key: (T3) to a better key from P | key: G1 certifies from P, helper 135
