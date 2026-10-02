@@ -15,3 +15,9 @@ run cover_t3stage k4/thetab_cover.py $H/t3stage/profiles_f1.jsonl.gz
 for s in 10 20 30 40; do
   run cover_n3_all_${s}_e5 k4/thetab_cover.py $H/hunt/n3_all_$s.jsonl.gz --every=5
 done
+# Conjecture S1c (k4/thetab.md §7.1): every Z′-maximum of every non-completable f = 1 key of PR #80's dumps
+run xbt_n3_all k4/thetab_xbt.py $H/hunt/n3_all_0.jsonl.gz $H/hunt/n3_all_10.jsonl.gz $H/hunt/n3_all_20.jsonl.gz \
+  $H/hunt/n3_all_30.jsonl.gz $H/hunt/n3_all_40.jsonl.gz $H/hunt/n3_all_50.jsonl.gz
+run xbt_n4 k4/thetab_xbt.py $H/hunt/n4_2_r20k.jsonl.gz $H/hunt/n4_3_r40k.jsonl.gz $H/hunt/n4_pure_r40k.jsonl.gz \
+  $H/hunt/n4_pure_r400k.jsonl.gz
+run xbt_n5_rc_t3stage k4/thetab_xbt.py $H/hunt/n5_*.jsonl.gz $H/rc/keys.jsonl.gz $H/t3stage/profiles_f1.jsonl.gz

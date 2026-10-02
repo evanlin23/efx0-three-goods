@@ -1,4 +1,4 @@
-# command: python3 k4/thetab_cover.py k4/suite/.cache/sx/results/k4_sx/hunt/n5_pure_r1000_3000.jsonl.gz k4/suite/.cache/sx/results/k4_sx/hunt/n5_pure_r1000_4000.jsonl.gz
+# command: python3 k4/thetab_cover.py results/k4_sx/hunt/n5_pure_r1000_3000.jsonl.gz results/k4_sx/hunt/n5_pure_r1000_4000.jsonl.gz
   non-completable keys                                                                                           11
   profiles                                                                                                       11
 smallest Z′-maximum per cell (shape, Lemma P, Lemma C, Lemma C′, Lemma B, first sx lemma, first of k4/thetab.md):
