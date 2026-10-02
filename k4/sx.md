@@ -481,10 +481,16 @@ its own bundle (35 chains, the analogue of θ-b). DLK with (T3⁺) ∪ (T4) edge
 
 ## 7. Reproduce
 
+One process at a time. Every script resumes where it stopped: a piece whose log is complete is skipped. The times are
+on a shared 4-CPU machine.
 ```
 mkdir -p k4/suite/.cache/gapbench && git archive 245040b results/k4_gap | tar -x -C k4/suite/.cache/gapbench
-python3 k4/sx_runs.py                 # key graph on #53's catalogues, resumable chunks -> results/k4_sx/chunks/
-python3 k4/sx_runs.py --sum           # results/k4_sx/keys_summary.md
-sh k4/sx_hunt_runs.sh                 # non-completable f = 1 keys with k4/red.c -> results/k4_sx/hunt/
-python3 k4/sx_zprime.py results/k4_sx/hunt/*.jsonl.gz results/k4_sx/chunks/gap_n3_c*.jsonl.gz   # §4.2
+sh k4/sx_hunt_runs.sh        # non-completable f = 1 keys with k4/red.c -> results/k4_sx/hunt/ (n = 3, all: ~6 min)
+sh k4/sx_zprime_runs.sh      # §4.2: the repair lemmas at every Z′-maximum -> results/k4_sx/zprime/ (n = 3: ~1 h)
+sh k4/sx_more_runs.sh        # T1-stuck profiles of k4/dl13.md, the catalogues (key graph, f >= 2), cross-checks
+python3 k4/sx_summary.py     # results/k4_sx/SUMMARY.md
+python3 k4/sx_runs.py --sum  # results/k4_sx/keys_summary.md
+python3 k4/sx_f2.py --inst=results/k4_sx/f2/rt4_n5c_inst.json        # §6: Lemmas F+, A+, B+ at f = 3 (seconds)
+python3 attempts/k4_sx_attempts.py                                   # K4.SX.X, two implementations (seconds)
+python3 k4/sx_keygraph.py one '{"sets": ..., "vals": ..., "m": ...}'  # one profile: keys, def*, neighbours
 ```
