@@ -57,8 +57,8 @@ nearest move above is allowed, so RCY holds here.
 
 **The key form holds.** Another state of P's key, ({11}, {6,10}, {12}, {4,8}, {5,9}) with def 1, has the (T3) move
 x = 0 → {9}, z = 2 → {11}, helper 4 {5,9} → {12} to ({9}, {6,10}, {11}, {4,8}, {12}) with def −1, a key with
-def* = −1. All 35 states of P's key have def 1; P is stuck only because the (T1)/(T2) moves inside the key do not lower
-the deficit.
+def* = −1. Of the 35 states of P's key, 31 have def 1 and 4 have def 2 (e.g. ({11}, {1,6}, {3,7}, {4,8}, {5,12})), so
+def* = def(P) = 1, and P is stuck only because no (T1)/(T2) move inside the key lowers the deficit.
 
 ## The instance `rc-n5m12-f2` (core 4515, f = 2)
 
@@ -99,10 +99,11 @@ def 0, in a key with def* = −1 (992 such witnesses, `results/k4_rc/rc_failures
 |---|---|---|
 | `k4/dlrc.c` (sha256 f1cf4cc1…) and `k4/dlrc_ref.py` (`dl134_xcheck.py` / `c4x_check.py`), 0 mismatches | 369 profiles, DL_RC fails at 369 of 16,605 states (`ref_rc_fail_all.log`) | 1,076 profiles, fails at 4,304 of 99,583 (`ref_rc_fail_4515_all.log`) |
 | `k4/dlrt4_ref.py` (model.py; = DL_RC at f = 1) | 369 DL_RT4 failures (`ref_rt4_rc_fail_all.log`) | 324 on the first 81 profiles (`ref_rt4_rc_fail_4515.log`) |
-| `k4/rt4_n5_indep.py` (repo-free, PR #86 audit) | 2 profiles: RCfail 1 each (`indep_check.log`) | 2 profiles: RCfail 4 each |
+| `k4/rt4_n5_indep.py` (repo-free, PR #86 audit) | 2 + 6 profiles: RCfail 1 each (`indep_check.log`, `indep_check6.log`) | 2 profiles: RCfail 4 each |
 | `k4/rcy_indep.py` (on rt4_n5_indep's model): RC / RCY failures | 45 profiles: 45 / 0 (`rcy_indep.log`) | 81 profiles: 324 / 324 |
-| compute/k4-portfolio (6a8353b) fast path, RC / RC_Yfree | 45 profiles: 45 / 0 (coordinator, `portfolio_rc45.log`); 369: 369 / 0 (`portfolio_rc_all.log`) | 81: 324 / 324 (`portfolio_rc4515.log`); 1,076: 4,304 / 4,304 |
-| compute/k4-portfolio reference (`portfolio_ref.py` on `c4x_check.py`) | | every 8th of the 81 (11 profiles, 1,080 states): 0 mismatches, RC_Yfree fails at 44 (`portfolio_ref_rc4515.log`) |
+| `k4/dlrc.c`'s complete better-state lists (`k4/dlrc_failures.py`): shapes (U, Z, W, Y sizes) | all (1, 1, 0, 1) or (1, 1, 0, 2) (`rc_failures_n5_all.log`) | all (1, 1, 0, 2) or (2, 2, 0, 1) at the 4,304 states, so RCY fails (`rc_failures_4515_all.log`) |
+| on branch compute/k4-portfolio at 6a8353b (not merged), fast path, RC / RC_Yfree | 45 profiles: 45 / 0 (coordinator, `portfolio_rc45.log`); 369: 369 / 0 (`portfolio_rc_all.log`) | 81: 324 / 324 (`portfolio_rc4515.log`); 1,076: 4,304 / 4,304 |
+| the same branch's reference (`portfolio_ref.py` on `c4x_check.py`) | | every 8th of the 81 (11 profiles, 1,080 states): 0 mismatches, RC_Yfree fails at 44 (`portfolio_ref_rc4515.log`) |
 | key-graph form (T3⁺ ∪ T4 edges) | 0 failures (dlrc.c, dlrc_ref.py, rt4_n5_indep.py, portfolio K2) | 0 failures |
 
 On the 1,445 profiles the portfolio also finds: NA3 and D3 fail at core 4515 (4,304 states); RC_Yany, NA1, NAall,
