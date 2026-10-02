@@ -1,0 +1,42 @@
+# command: python3 k4/dlrt4_run.py suite --minn=5 --progress --jobs=4 --ckpt=results/k4_rt4/ckpt_n5c_suite.jsonl --dump=results/k4_rt4/dump_n5c_suite.jsonl.gz --tables=results/k4_rt4/tables_n5c_suite.json
+# dlrt4.c sha256 fcde494a3161279d47a7b80e614f69c58894ebc7b40d00e461f677b8810d7cae
+# suite : 20 instances, 1 units to run, 0 from the checkpoint
+#   unit {'chunk': 0} done [19.8 s]
+suite: profiles 20, omega >= 1: 13; k* = 0: 9, 1: 3, 2: 1, 3: 0, >= 4: 0, inf: 0; P with def > 0: 5140, at distance 1: 5134, 2: 6, 3: 0, >= 4: 0, inf: 0; Pareto-maximal: 2; largest least deficit -1
+  DL_RT4: states (def > 0) with f = 0: 5119 (RT4 fails at 0), with f >= 1: 21; DL_RT4 FAILS at 0 of the f >= 1 states; with an improving move T1 21, T2 21, T3p 21, T3h 21, T4 0; only T1 0, only T2 0, only T3 0, only T4 0; R_T fails at 0, R_13 at 0, R_13 + T4 at 0; smallest RT4 move size 1 / 2 / 3 / >= 4 / none: 21 / 0 / 0 / 0 / 0; anomalies 0 + 0 [20 s]
+table B: f >= 1 states by f | signature | branch : count
+  B 2|fO,L|T1+T2+T3p+T3h : 6
+  B 2|fO,G,O,D2|T1+T2+T3p+T3h : 3
+  B 2|fO,L,O|T1+T2+T3p+T3h : 3
+  B 2|G,D2|T1+T2+T3p+T3h : 2
+  B 2|fO,G,D2|T1+T2+T3p+T3h : 2
+  B 2|fO|T1+T2+T3p+T3h : 2
+  B 2|G,D2,PM|T1+T2+T3p+T3h : 1
+  B 2|G,L,D2|T1+T2+T3p+T3h : 1
+  B 2|fO,G,L,D2|T1+T2+T3p+T3h : 1
+table G: f >= 1 states by f | nearest distance k | branch : count
+  G 2|1|T1+T2+T3p+T3h : 21
+table M: f >= 1 states by f | branch | smallest RT4 move size : count
+  M 2|T1+T2+T3p+T3h|1 : 21
+table Z: f >= 1 states by f | branch available | its smallest move size : count
+  Z 2|T1|1 : 21
+  Z 2|T2|2 : 21
+  Z 2|T3h|3 : 21
+  Z 2|T3p|2 : 21
+table C: f >= 1 states with T4 by f | smallest T4 size | cycle types at that size : count
+table Y: f >= 1 states by f | branch | move type available : count
+  Y 2|T1+T2+T3p+T3h|T1:rel : 21
+  Y 2|T1+T2+T3p+T3h|T2:k2 : 21
+  Y 2|T1+T2+T3p+T3h|T2:k3 : 21
+  Y 2|T1+T2+T3p+T3h|T1:pool : 20
+  Y 2|T1+T2+T3p+T3h|T3:xH.hJ : 17
+  Y 2|T1+T2+T3p+T3h|T3:xZ.h- : 13
+  Y 2|T1+T2+T3p+T3h|T3:xZ.hR : 13
+  Y 2|T1+T2+T3p+T3h|T3:xZ.hJ : 12
+  Y 2|T1+T2+T3p+T3h|T3:xJ.h- : 9
+  Y 2|T1+T2+T3p+T3h|T3:xJ.hJ : 9
+  Y 2|T1+T2+T3p+T3h|T3:xJ.hR : 9
+  Y 2|T1+T2+T3p+T3h|T1:grow : 4
+  Y 2|T1+T2+T3p+T3h|T3:xJ.hZ : 4
+  Y 2|T1+T2+T3p+T3h|T3:xH.hZ : 3
+  Y 2|T1+T2+T3p+T3h|T3:xZ.hZ : 1
