@@ -43,6 +43,11 @@ moves. `DLKey M` is a hypothesis of every theorem here, never an axiom. Everythi
   through `rc_rKey`).
 - `exists_least_keyDeficit`, `exists_keyMin`: def\*(κ) is attained (a min-frozen P of key κ with
   `def(P) = def*(κ)`), from `deficitLE_lower`.
+- The Remark's main point, that **the move may start from any state of the key**, as the reduction a repair lemma plugs
+  into: `dlKeyAt_of_keyMin` (at every min-frozen P with `ω ≥ 1` and `def(P) = def*(κ(P)) > 0`, some min-frozen state
+  of the same key has an `M`-move to a min-frozen Q with `def(Q) < def(P)` ⟹ `DLKeyAt M`) and `dlKeyAt_of_keyMin_key`
+  (the same with `def*(κ(Q)) < def*(κ(P))`, witnessed by any state of κ(Q)). So a repair lemma only has to show: from
+  some state of κ, a move reaches a state whose key has a smaller def\*.
 
 **Faithfulness** (paper statement / Lean statement / why they agree).
 - *Paper* (`k4/dl13.md` §2.3, Remark): "Write κ(P) for the key of P (needed set, frozen agents, their goods), def\*(κ)
@@ -68,6 +73,12 @@ moves. `DLKey M` is a hypothesis of every theorem here, never an axiom. Everythi
    and `def*(κ′) < def*(κ)` says that some integer `d` bounds `def*(κ′)` and not `def*(κ)`.
 4. *The key as a value*: `Key A G` has a predicate on goods and a predicate on (agent, base) pairs, so key equality is
    equality of predicates (`propext`, `funext`); `key_eq_iff` restates it pointwise.
+5. *Min-frozen targets.* `KeyNbr` asks the target Q of the move, not only its source, to be min-frozen; the Remark says
+   "the keys reached by one move from some state of κ". This is harmless for the moves plugged in here: every move of
+   R_C keeps the needed set, and on 𝒫 the number of frozen agents is |NA| (`numFrozen_eq`), so a move of R_C from a
+   min-frozen P to a Q ∈ 𝒫 reaches a min-frozen Q (`minFrozen_of_NA_eq`, `EFX/MovesC.lean`). For any M it loses no
+   better neighbour (an argument, not formalized): the key fixes the set of frozen agents, so the key of a Q ∈ 𝒫 that
+   is not min-frozen has no min-frozen state, and its def\* is +∞.
 -/
 
 set_option autoImplicit false
@@ -326,6 +337,47 @@ theorem dlKeyAt_of_defLocalAt {M : Nbhd A G} (hag : agents.Nodup) (hgd : goods.N
     (hf : ¬ FewestFrozenZero v agents goods) (h : DefLocalAt M v agents goods) : DLKeyAt M v agents goods :=
   dlKeyAt_of_defLocalAt_rKey hag hgd hf (h.mono_minFrozen fun _ _ hM hM' hr => rKey_of_move hM hM' hr)
 
+/-! ## Repairs at key-minimal states: the move may start from any state of the key -/
+
+/-- **Repairs from any state of the key give DL on the key graph**, on one instance, in the form a repair lemma proves:
+at every min-frozen `P` with `ω ≥ 1` and `def(P) = def*(κ(P)) > 0` (so `P` attains the least deficit of its key), some
+min-frozen `P₁` of the same key (not necessarily `P`) has an `M`-move to a min-frozen `Q` whose key has a smaller least
+deficit, `def*(κ(Q)) < def*(κ(P))` (the witness of `def*(κ(Q))` may be any state of `κ(Q)`, not necessarily `Q`). -/
+theorem dlKeyAt_of_keyMin_key {M : Nbhd A G}
+    (h : ∀ b, MinFrozen v agents goods b →
+      1 ≤ (nFrozen v agents goods b : Int) - (2 * (agents.length : Int) - (goods.length : Int)) →
+      ¬ DeficitLE v agents goods b 0 →
+      (∀ d, KeyDeficitLE v agents goods (key v agents goods b) d → DeficitLE v agents goods b d) →
+      ∃ b₁ b', MinFrozen v agents goods b₁ ∧ key v agents goods b₁ = key v agents goods b ∧
+        MinFrozen v agents goods b' ∧ M v agents goods b₁ b' ∧
+        KeyDeficitLT v agents goods (key v agents goods b') (key v agents goods b)) :
+    DLKeyAt M v agents goods := by
+  rintro κ ⟨b₀, hM₀, hk₀, hω₀⟩ hpos
+  obtain ⟨b, hM, hk, hle⟩ := exists_keyMin ⟨b₀, hM₀, hk₀⟩
+  have hb0 : ¬ DeficitLE v agents goods b 0 := fun h0 => hpos (hk ▸ keyDeficitLE_of hM h0)
+  have hn : nFrozen v agents goods b = nFrozen v agents goods b₀ :=
+    Nat.le_antisymm (hM.2 b₀ hM₀.1) (hM₀.2 b hM.1)
+  obtain ⟨b₁, b', hM₁, hk₁, hM', hmv, hlt⟩ :=
+    h b hM (by rw [hn]; exact hω₀) hb0 fun d hd => hle d (hk ▸ hd)
+  exact ⟨key v agents goods b', ⟨b₁, b', hM₁, hk₁.trans hk, hM', rfl, hmv⟩, hk ▸ hlt⟩
+
+/-- **Repairs from any state of the key give DL on the key graph** (the Remark's point that the move may start from any
+state of κ), on one instance: it suffices that at every min-frozen `P` with `ω ≥ 1` and `def(P) = def*(κ(P)) > 0`, some
+min-frozen `P₁` of the same key (not necessarily `P`) has an `M`-move to a min-frozen `Q` with `def(Q) < def(P)`. Take
+the state attaining `def*` (`exists_keyMin`); `keyDeficitLE_of` turns `def(Q) < def(P)` into an edge to a key with a
+smaller least deficit (`dlKeyAt_of_keyMin_key`). -/
+theorem dlKeyAt_of_keyMin {M : Nbhd A G}
+    (h : ∀ b, MinFrozen v agents goods b →
+      1 ≤ (nFrozen v agents goods b : Int) - (2 * (agents.length : Int) - (goods.length : Int)) →
+      ¬ DeficitLE v agents goods b 0 →
+      (∀ d, KeyDeficitLE v agents goods (key v agents goods b) d → DeficitLE v agents goods b d) →
+      ∃ b₁ b', MinFrozen v agents goods b₁ ∧ key v agents goods b₁ = key v agents goods b ∧
+        MinFrozen v agents goods b' ∧ M v agents goods b₁ b' ∧ DeficitLT v agents goods b' b) :
+    DLKeyAt M v agents goods :=
+  dlKeyAt_of_keyMin_key fun b hM hω hb0 hle => by
+    obtain ⟨b₁, b', hM₁, hk₁, hM', hmv, d, hD', hnd⟩ := h b hM hω hb0 hle
+    exact ⟨b₁, b', hM₁, hk₁, hM', hmv, d, keyDeficitLE_of hM' hD', fun hd => hnd (hle d hd)⟩
+
 /-! ## (ii) DL on the key graph ⟹ TARGET₄ -/
 
 /-- **DLKey M ⟹ C₄ᵐⁱⁿ (removal-only) on connected cores with a 4-good agent**, for every `M`. -/
@@ -361,5 +413,7 @@ end EFX
 #print axioms EFX.C4min.dlKey_iff_defLocal_rKey
 #print axioms EFX.C4min.dlKeyAt_of_defLocalAt_keep
 #print axioms EFX.C4min.dlKeyAt_of_defLocalAt
+#print axioms EFX.C4min.dlKeyAt_of_keyMin_key
+#print axioms EFX.C4min.dlKeyAt_of_keyMin
 #print axioms EFX.C4min.C4minROConn_of_DLKey
 #print axioms EFX.C4min.target4_of_DLKey
