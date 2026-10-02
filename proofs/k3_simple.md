@@ -7,8 +7,9 @@ with pluggable rules), `k3/simplify/test_k3s.py` and `k3/simplify/exp_*.py` (exp
 - §3 gives a written proof that K3S always returns an EFX₀ allocation with at most one bundle of more than two
   goods. It is a short list of changes to the proof of construction LB⁺ (`paper/k3/long.tex` §5;
   `proofs/lb_last_step.md`). It has **not been refereed** and is **not machine-checked**.
-- §5 is evidence: raw EFX₀ checks of K3S on every ranking profile of every core with n ≤ 5, every ranking profile
-  with n ≤ 4 agents on up to 7 goods, and millions of random instances. K3S never failed.
+- §5 is evidence: raw EFX₀ checks of K3S on every ranking profile of every core with n ≤ 5, samples of every
+  certified core with n = 6, 7, 8, every ranking profile with n = 4 agents on up to 7 goods, and 5 million random
+  instances. K3S never failed (about 250,000 of these runs used the rotation).
 - §4 is a list of simplifications that **fail**, each with its smallest failing configuration.
 - Lemma T (§3.6) is new and is proved here: when the absorber r fails, every leader is exposed.
 
@@ -186,13 +187,22 @@ Raw EFX₀ checks (`k3/simplify/test_k3s.py`). Values are the three balanced rea
 (10, 6, 5) on cores, (4, 3, 2) on all small profiles, and values 1–6 with ties, a = b + c, top-heavy agents and
 agents valuing 0–3 goods on random general instances.
 
-| Test | Instances | Failures | Log |
-|---|---|---|---|
-| every profile of every core, n ≤ 5 | see log | 0 | `results/k3_simplify/k3s_cores_5.log` |
-| every ranking profile, n = 3, m ≤ 8; n = 4, m ≤ 7 (worthless goods allowed) | see logs | 0 | `results/k3_simplify/k3s_small_*.log` |
-| random ranking profiles, n ≤ 9 | 2,000,000 | 0 | `results/k3_simplify/k3s_rprof.log` |
-| random general instances, n ≤ 9 | 2,000,000 | 0 | `results/k3_simplify/k3s_random.log` |
-| ≤ 2 goods per agent: K3S = serial dictatorship | 1,000,000 | 0 differences | `results/k3_simplify/k3s_sd2.log` |
+| Test | Profiles or instances | Rotations | Failures | Log |
+|---|---|---|---|---|
+| every profile of every core, n ≤ 5 (× 3 realizations) | 2,446,840 | 33,104 | 0 | `k3s_cores_5.log` |
+| random profiles of every certified core, n = 6 (300 per core, × 3) | 962,100 | 4,536 | 0 | `k3s_cores_6_sample.log` |
+| random profiles of every certified core, n = 7 (20 per core, × 3) | 823,400 | 1,352 | 0 | `k3s_cores_7_sample.log` |
+| random profiles of every certified core, n = 8, m ≥ 14 (100 per core, × 3) | 128,500 | 13 | 0 | `k3s_cores_8_sample.log` |
+| every ranking profile, n = 2, m ≤ 7; n = 3, m ≤ 8; n = 4, m ≤ 5 (worthless goods allowed) | 411,322 | 7,984 | 0 | `k3s_small_upto_4_5.log` |
+| every ranking profile, n = 4, m = 6 | 1,728,000 | 33,168 | 0 | `k3s_small_4_6.log` |
+| every ranking profile, n = 4, m = 7 | 9,261,000 | 147,336 | 0 | `k3s_small_4_7.log` |
+| random ranking profiles, n ≤ 9, m ≤ 2n + 3 | 2,000,000 | 10,705 | 0 | `k3s_rprof.log` |
+| random general instances, n ≤ 9 | 2,000,000 | 308 | 0 | `k3s_random.log` |
+| ≤ 2 goods per agent: K3S = serial dictatorship | 1,000,000 | — | 0 differences | `k3s_sd2.log` |
+
+The logs are in `results/k3_simplify/`. "Every ranking profile" fixes agent 0's ranking as 0 ≻ 1 ≻ 2 (relabelling the
+goods), and goods nobody ranks are worthless. These instances are not cores, so they also test what Stage R would
+have removed.
 
 Earlier runs of the intermediate variants: `results/k3_simplify/variants_n5_all.log` (every profile of every core
 with n = 5) and `variants_n6_sample.log` (4.8 million profiles at n = 6). The variant "upgrades, absorber takes all,
