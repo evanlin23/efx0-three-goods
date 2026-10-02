@@ -256,6 +256,18 @@ def*(κ′) ≤ 0 < def*(κ), and DLK holds at κ. If instead Lemma B or B′ ap
 
 *Proof.* The lemmas, with Lemma F(a) for Lemmas B and B′. ∎
 
+**The move shapes.** ch is the set of changed agents. U is frozen → free (here {x}), Z is free → frozen, W is frozen in
+both, and Y is free in both. NA′ = NA in every case.
+
+| lemma | Z | W | Y | class | reaches |
+|---|---|---|---|---|---|
+| A (owner swap) | {o}, o a leaf | ∅ | ∅ | (T3), no helper | a state with def ≤ 0 |
+| B, path length k | {τ} | ∅ | {q₁, …, q_k}, each giving up its pair | (T3) with one helper if k = 1; k helpers otherwise | a key with def* ≤ 0 (a state with def ≤ 0) |
+| B′, path length k | {τ} | ∅ | {q₁, …, q_k} | as B | as B |
+| C | {τ₁} | ∅ | ∅ | (T3), no helper | a state with def ≤ 0 |
+| C′ | {τ₁} | ∅ | ∅ | (T3), no helper | a state with def ≤ 0 |
+| A⁺ (§6, any f) | {o} | {w₁, …, w_j} | ∅ | (T3⁺), no helper; (T3) if j = 0 | a state with def ≤ 0 |
+
 Which lemma applies is decided by Lemma F's forest. If some terminal is a leaf without θ-b, Lemma A applies. If some
 terminal is not a leaf, it has a threat path down to a leaf (Lemma F), and B or B′ applies unless that leaf is an (R)
 with s ∈ L and (H_B′) fails. If every terminal is a θ-b leaf, Lemmas C and C′ are the candidates.
