@@ -1,0 +1,9 @@
+# command: python3 k4/sx_xcheck.py results/k4_sx/chunks/gap_n3_c000.jsonl.gz results/k4_sx/chunks/gap_n3_c001.jsonl.gz results/k4_sx/chunks/gap_n3_c002.jsonl.gz results/k4_sx/chunks/gap_n3_c003.jsonl.gz results/k4_sx/chunks/gap_n3_c004.jsonl.gz results/k4_sx/chunks/gap_n3_c005.jsonl.gz results/k4_sx/chunks/gap_n3_c006.jsonl.gz results/k4_sx/chunks/gap_n3_c007.jsonl.gz results/k4_sx/chunks/gap_n3_c008.jsonl.gz results/k4_sx/chunks/gap_n3_c009.jsonl.gz results/k4_sx/chunks/gap_n3_c010.jsonl.gz results/k4_sx/chunks/gap_n3_c011.jsonl.gz results/k4_sx/chunks/gap_n3_c012.jsonl.gz results/k4_sx/chunks/gap_n3_c013.jsonl.gz results/k4_sx/chunks/gap_n3_c014.jsonl.gz results/k4_sx/chunks/gap_n3_c015.jsonl.gz results/k4_sx/chunks/gap_n3_c016.jsonl.gz results/k4_sx/chunks/gap_n3_c017.jsonl.gz results/k4_sx/chunks/gap_n3_c018.jsonl.gz
+DLK_T3 fails                   0
+DLK_T3+ fails                  0
+DLK_T3+T4 fails                0
+DLK_T3T4 fails                 0
+MISMATCH                       0
+keys                           3481
+keys def*>0                    1204
+profiles                       1204

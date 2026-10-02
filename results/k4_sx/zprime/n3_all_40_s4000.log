@@ -1,0 +1,33 @@
+# command: python3 k4/sx_zprime.py results/k4_sx/hunt/n3_all_40.jsonl.gz --start=4000 --max=4000 --examples=3
+KEYS: every Z-max covered (structural) = True                                                        4000
+KEYS: some Z-max covered by A, B1, C, C', B1' (structural hypotheses) = True                         4000
+KEYS: some Z-max covered with the exact hypotheses = True                                            4000
+MAIN CASE A                                                                                          4361
+MAIN CASE C                                                                                          368
+Zmax                                                                                                 4729
+keys                                                                                                 4000
+keys xtype=bc                                                                                        126
+keys xtype=bcbd                                                                                      952
+keys xtype=flat                                                                                      2922
+regime I                                                                                             4729
+regime I OS o theta-b=False                                                                          4361
+regime I OS o theta-b=True                                                                           5097
+regime I OS succeeds                                                                                 4729
+regime I OS theta-b: exact def(P')<def* True, OSd bundle value 3 (omega+2=4), T=several              2708
+regime I OS theta-b: exact def(P')<def* True, OSd bundle value 4 (omega+2=5), T=several              1317
+regime I OS theta-b: exact def(P')<def* True, OSd bundle value None (omega+2=4), T=several           1072
+regime I Prop C applies=True (only (H) missing=False)                                                4729
+regime I Prop C' applies=True (only (H') missing=False)                                              4729
+regime I Zmax with a direct T3 move                                                                  4729
+regime I cases A*,C,C'                                                                               368
+regime I cases A,A*,C,C'                                                                             4361
+regime I direct kind ('zV', '-', 'own=V')                                                            4729
+regime I direct kind ('zV', '-', 'own=x')                                                            4081
+regime I direct kind ('zV', 'hV', 'own=V')                                                           4729
+regime I direct kind ('zV', 'hV', 'own=x')                                                           4729
+regime I |V|=2 |T|=2 |VT|=2 t=0 x=bcbd                                                               316
+regime I |V|=2 |T|=2 |VT|=2 t=0 x=flat                                                               1128
+regime I |V|=2 |T|=2 |VT|=2 t=1 x=bc                                                                 168
+regime I |V|=2 |T|=2 |VT|=2 t=1 x=bcbd                                                               877
+regime I |V|=2 |T|=2 |VT|=2 t=1 x=flat                                                               2240
+# time 48.0 s

@@ -1,0 +1,33 @@
+# command: python3 k4/sx_keygraph.py inst results/k4_sx/t3stage/profiles.json.gz --dump=results/k4_sx/t3stage/keys.jsonl.gz
+keys def*>0 f=1                               1241
+keys def*>0 f=2                               191
+keys def*>0 f=3                               5
+keys f=1                                      6511
+keys f=1 def*=-1                              1849
+keys f=1 def*=-2                              13
+keys f=1 def*=-3                              1
+keys f=1 def*=0                               3407
+keys f=1 def*=1                               1241
+keys f=2                                      682
+keys f=2 def*=-1                              183
+keys f=2 def*=-2                              3
+keys f=2 def*=0                               305
+keys f=2 def*=1                               191
+keys f=3                                      23
+keys f=3 def*=-1                              12
+keys f=3 def*=-2                              2
+keys f=3 def*=0                               4
+keys f=3 def*=1                               5
+profiles                                      2674
+profiles f=1                                  2541
+profiles f=2                                  131
+profiles f=3                                  2
+profiles f>=1, omega>=1                       2674
+profiles with a key def*>0 f=1                1240
+profiles with a key def*>0 f=2                122
+profiles with a key def*>0 f=3                2
+DLK_T3 failures: 0
+DLK_T3+ failures: 0
+DLK_T3T4 failures: 0
+DLK_T3+T4 failures: 0
+# time 47.3 s

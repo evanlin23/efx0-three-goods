@@ -1,0 +1,23 @@
+# command: python3 k4/sx_zprime.py results/k4_sx/hunt/n3_all_20.jsonl.gz --start=12000 --max=4000 --examples=3
+KEYS: every Z-max covered (structural) = True                                                        2592
+KEYS: some Z-max covered by A, B1, C, C', B1' (structural hypotheses) = True                         2592
+KEYS: some Z-max covered with the exact hypotheses = True                                            2592
+MAIN CASE A                                                                                          2912
+Zmax                                                                                                 2912
+keys                                                                                                 2592
+keys xtype=bcbd                                                                                      288
+keys xtype=flat                                                                                      2304
+regime I                                                                                             2912
+regime I OS o theta-b=False                                                                          5824
+regime I OS succeeds                                                                                 2912
+regime I Prop C applies=False (only (H) missing=False)                                               2912
+regime I Prop C' applies=False (only (H') missing=False)                                             2912
+regime I Zmax with a direct T3 move                                                                  2912
+regime I cases A,A*                                                                                  2912
+regime I direct kind ('zV', '-', 'own=V')                                                            2792
+regime I direct kind ('zV', '-', 'own=x')                                                            2912
+regime I direct kind ('zV', 'hV', 'own=V')                                                           2696
+regime I direct kind ('zV', 'hV', 'own=x')                                                           2912
+regime I |V|=2 |T|=2 |VT|=2 t=0 x=bcbd                                                               368
+regime I |V|=2 |T|=2 |VT|=2 t=0 x=flat                                                               2544
+# time 14.4 s
