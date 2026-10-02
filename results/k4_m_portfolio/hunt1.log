@@ -15,3 +15,25 @@
 # 1625/3128 tasks, 1070s
 # 1750/3128 tasks, 1231s
 # 1875/3128 tasks, 1397s
+# 2000/3128 tasks, 1442s
+!! btp:W HFAIL cand=btp:W score=-1 step=48881 n=4 m=8 sets=[[0,3,4,6],[1,3,6,7],[2,5,6,7],[4,5,7]] vals=[[3,10,2,6],[2,8,4,5],[2,8,5,4],[2,4,3]] fa=0:K0=0,K1=0,bt=1,sh=1,c40=0,g2=0,N[om=2,r=2,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=1,x3=2],E[om=2,r=2,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=1,x3=2];1:K0=1,K1=0,bt=0,sh=1,c40=1,g2=0,N[om=1,r=2,rfz=0,ks=1,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0],E[om=1,r=2,rfz=0,ks=1,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0];2:K0=1,K1=0,bt=0,sh=1,c40=1,g2=0,N[om=1,r=0,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0],E[om=1,r=0,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0];3:K0=0,K1=0,bt=0,sh=1,c40=0,g2=0,N[om=2,r=1,rfz=0,ks=3,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0],E[om=2,r=1,rfz=0,ks=3,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0]
+!! bt1:W HFAIL cand=bt1:W score=-1 step=48881 n=4 m=8 sets=[[0,3,4,6],[1,3,6,7],[2,5,6,7],[4,5,7]] vals=[[3,10,2,6],[2,8,4,5],[2,8,5,4],[2,4,3]] fa=0:K0=0,K1=0,bt=1,sh=1,c40=0,g2=0,N[om=2,r=2,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=1,x3=2],E[om=2,r=2,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=1,x3=2];1:K0=1,K1=0,bt=0,sh=1,c40=1,g2=0,N[om=1,r=2,rfz=0,ks=1,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0],E[om=1,r=2,rfz=0,ks=1,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0];2:K0=1,K1=0,bt=0,sh=1,c40=1,g2=0,N[om=1,r=0,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0],E[om=1,r=0,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0];3:K0=0,K1=0,bt=0,sh=1,c40=0,g2=0,N[om=2,r=1,rfz=0,ks=3,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0],E[om=2,r=1,rfz=0,ks=3,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0]
+# 2125/3128 tasks, 1496s
+# 2250/3128 tasks, 1544s
+# 2375/3128 tasks, 1577s
+# 2500/3128 tasks, 1607s
+# 2625/3128 tasks, 1681s
+# 2750/3128 tasks, 1755s
+# 2875/3128 tasks, 1823s
+# 3000/3128 tasks, 1877s
+# 3125/3128 tasks, 2482s
+== btp:W: tasks 391, failures 1, best score 65
+   smallest: HFAIL cand=btp:W score=-1 step=48881 n=4 m=8 sets=[[0,3,4,6],[1,3,6,7],[2,5,6,7],[4,5,7]] vals=[[3,10,2,6],[2,8,4,5],[2,8,5,4],[2,4,3]] fa=0:K0=0,K1=0,bt=1,sh=1,c40=0,g2=0,N[om=2,r=2,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=1,x3=2],E[om=2,r=2,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=1,x3=2];1:K0=1,K1=0,bt=0,sh=1,c40=1,g2=0,N[om=1,r=2,rfz=0,ks=1,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0],E[om=1,r=2,rfz=0,ks=1,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0];2:K0=1,K1=0,bt=0,sh=1,c40=1,g2=0,N[om=1,r=0,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0],E[om=1,r=0,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0];3:K0=0,K1=0,bt=0,sh=1,c40=0,g2=0,N[om=2,r=1,rfz=0,ks=3,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0],E[om=2,r=1,rfz=0,ks=3,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0]
+== nobt:W: tasks 391, failures 0, best score 65
+== bt1:W: tasks 391, failures 1, best score 65
+   smallest: HFAIL cand=bt1:W score=-1 step=48881 n=4 m=8 sets=[[0,3,4,6],[1,3,6,7],[2,5,6,7],[4,5,7]] vals=[[3,10,2,6],[2,8,4,5],[2,8,5,4],[2,4,3]] fa=0:K0=0,K1=0,bt=1,sh=1,c40=0,g2=0,N[om=2,r=2,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=1,x3=2],E[om=2,r=2,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=1,x3=2];1:K0=1,K1=0,bt=0,sh=1,c40=1,g2=0,N[om=1,r=2,rfz=0,ks=1,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0],E[om=1,r=2,rfz=0,ks=1,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0];2:K0=1,K1=0,bt=0,sh=1,c40=1,g2=0,N[om=1,r=0,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0],E[om=1,r=0,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0];3:K0=0,K1=0,bt=0,sh=1,c40=0,g2=0,N[om=2,r=1,rfz=0,ks=3,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0],E[om=2,r=1,rfz=0,ks=3,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0]
+== bt2:W: tasks 391, failures 0, best score 66
+== all:W: tasks 391, failures 0, best score 65
+== x3cE: tasks 391, failures 0, best score 65
+== x3E: tasks 391, failures 0, best score 65
+== x3cN: tasks 391, failures 0, best score 65

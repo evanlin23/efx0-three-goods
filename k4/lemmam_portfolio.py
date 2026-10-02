@@ -5,7 +5,7 @@ k4/lemmam_portfolio.c #includes k4/rulef.c unchanged, so the classes K0 and K1 a
 the state after Phase 1(tau_a) and upgrades, before or after one rotation). See the C header for every candidate.
 
 Usage:
-  lemmam_portfolio.py FILE [FILE ...] [--jobs=J] [--n4=K] [--m=M] [--first=N] [--every=K] [--checkpoint=CK]
+  lemmam_portfolio.py FILE [FILE ...] [--jobs=J] [--n4=K] [--m=M] [--first=N] [--every=K] [--idx=i,j,..] [--checkpoint=CK]
                       [--out=JSON] [--label=L] [C options: -Y1 -N1 -S50 -X7 -f3 -O0]
       every core of the certificate files (exhaustive by default, -SN random profiles per core); --every=K takes every
       K-th core only
@@ -228,6 +228,7 @@ def main():
                     and (n4 is None or sum(len(S) == 4 for S in c['sets']) == int(n4))]
             if first: idxs = idxs[:int(first)]
             idxs = idxs[::every]
+            if opt('idx'): idxs = [i for i in idxs if i in {int(x) for x in opt('idx').split(',')}]
             for i in idxs:
                 c = data['cores'][i]
                 tasks.append((f"{os.path.basename(f)} {i} {okey}", AR.encode_core(c['sets'], c['m']), copts))

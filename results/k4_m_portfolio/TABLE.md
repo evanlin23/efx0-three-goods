@@ -192,6 +192,21 @@ Counts over (profile, first agent) pairs: g2bad = LB⁺'s bad case in the envy-f
 - **partner:x4E** (dataset `H`, n = 17, m = 43): `XFAIL var=x4E a=0 partners=10000 w=1 n=17 m=43 sets=[[0,4,5,6],[7,10,13,0],[8,11,14,0],[9,12,15,0],[7,8,9,1],[16,19,22,1],[17,20,23,1],[18,21,24,1],[16,17,18,2],[25,28,31,2],[26,29,32,2],[27,30,33,2],[25,26,27,3],[34,37,40,3],[35,38,41,3],[36,39,42,3],[34,35,36,4]] vals=[[8,6,5,4],[8,6,4,3],[8,6,4,3],[8,6,4,3],[8,6,4,3],[8,6,4,3],[8,6,4,3],[8,6,4,3],[8,6,4,3],[8,6,4,3],[8,6,4,3],[8,6,4,3],[8,6,4,3],[8,6,4,3],[8,6,4,3],[8,6,4,3],[8,6,4,3]] fa=0:K0=0,K1=0,bt=0,sh=0,c40=0,g2=0,N[om=21,r=16,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=eeee,x3=11110],E[om=21,r=16,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=eeee,x3=11110];1:K0=1,K1=0,bt=0,sh=1,c40=0,g2=0,N[om=9,r=15,rfz=0,ks=15,M1=1,KRb=0,K`
 - **partner:x4N** (dataset `n3`, n = 3, m = 6): `XFAIL var=x4N a=0 partners=2 w=8 n=3 m=6 sets=[[0,1,4,5],[2,3,4,5],[2,3,4,5]] vals=[[1,4,6,8],[3,5,7,6],[2,3,4,8]] fa=0:K0=0,K1=0,bt=0,sh=1,c40=0,g2=0,N[om=1,r=1,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=1,x3=4],E[om=2,r=2,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=2,x3=4];1:K0=0,K1=0,bt=0,sh=0,c40=0,g2=0,N[om=1,r=0,rfz=1,ks=1,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0],E[om=2,r=2,rfz=0,ks=1,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=2,x3=4];2:K0=0,K1=1,bt=1,sh=1,c40=0,g2=0,N[om=2,r=0,rfz=0,ks=2,M1=0,KRb=1,KRa=1,KRo=1,Rw=0,Rwo=0,x1=2,x3=1],E[om=2,r=0,rfz=0,ks=2,M1=0,KRb=1,KRa=1,KRo=1,Rw=0,Rwo=0,x1=2,x3=1]`
 
+## Phase 3: annealing hunts (`k4/lemmam_hunt.py`)
+
+Each task anneals the profile of one core (or seed profile) against one candidate: score = 64 × (allowed agents satisfying the predicate) + (first agents in K0 ∪ K1); a failure stops the walk. "best" is the lowest score reached (64 + 1 = 65: the candidate's agent was the only first agent in K0 ∪ K1); for a partner variant, "best" < 1000 means some first agent outside K0 ∪ K1 with a defined partner was reached.
+
+| hunt | candidate | walks | failures | best score | smallest failure |
+|---|---|---|---|---|---|
+| `hunt1.json` | `btp:W` | 391 | **1** | 65 | `HFAIL cand=btp:W score=-1 step=48881 n=4 m=8 sets=[[0,3,4,6],[1,3,6,7],[2,5,6,7],[4,5,7]] vals=[[3,10,2,6],[2,8,4,5],[2,8,5,4],[2,4,3]] fa=0:K0=0,K1=0,bt=1,sh=1,c40=0,g2=0,N[om=2,r=2,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=1,x3=2],E[om=2,r=2,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=1,` |
+| `hunt1.json` | `nobt:W` | 391 | **0** | 65 | – |
+| `hunt1.json` | `bt1:W` | 391 | **1** | 65 | `HFAIL cand=bt1:W score=-1 step=48881 n=4 m=8 sets=[[0,3,4,6],[1,3,6,7],[2,5,6,7],[4,5,7]] vals=[[3,10,2,6],[2,8,4,5],[2,8,5,4],[2,4,3]] fa=0:K0=0,K1=0,bt=1,sh=1,c40=0,g2=0,N[om=2,r=2,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=1,x3=2],E[om=2,r=2,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=1,` |
+| `hunt1.json` | `bt2:W` | 391 | **0** | 66 | – |
+| `hunt1.json` | `all:W` | 391 | **0** | 65 | – |
+| `hunt1.json` | `x3cE` | 391 | **0** | 65 | – |
+| `hunt1.json` | `x3E` | 391 | **0** | 65 | – |
+| `hunt1.json` | `x3cN` | 391 | **0** | 65 | – |
+
 ## Runs
 
 - `n2`: n=2 exhaustive; options `-Y1`; tasks 5; CPU 1.1 s; source sha 2676b40619bb6fa7; rulef.c sha256 5721abf3bc9e25b1…
