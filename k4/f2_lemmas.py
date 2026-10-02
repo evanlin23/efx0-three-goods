@@ -31,6 +31,8 @@ dl2_classify.py):
        path through a_1, L_x ⊆ G, B'_h ⊆ G minus L_x admissible with g ∉ N_h(B'_h), Z ⊇ L_x a safe bundle of x in P':
        def(P') <= omega + 1 - |Z|; certified when |Z| + 1 > Val*(P).
 usage: python3 k4/f2_lemmas.py DUMP.jsonl.gz ...            (T3-stage dumps of k4/f2_shapes.py: coverage, all checks)
+       python3 k4/f2_lemmas.py --stuck STUCK.jsonl.gz ...    (the T3-stage states among k4/dl13_stuck.py's T1-stuck
+                                   records, any f >= 1: the same coverage, case and repairs computed here)
        python3 k4/f2_lemmas.py --random N [--seed=S] [--nmax=5] [--mmax=12]   (random strict instances, not cores,
                                    biased to f >= 2; every check at every def > 0 state with f >= 1)
        python3 k4/f2_lemmas.py --profiles SOURCE ... [--every=E] [--max=N] [--all]   (the f >= 2 profiles of the sources,
@@ -358,7 +360,10 @@ class Ctx:
 
 
 # ------------------------------------------------------------------ drivers
-def coverage(files):
+def coverage(files, stuck=False):
+    """the T3-stage states of f2_shapes.py dumps (or, with stuck=True, the T3-stage states among the T1-stuck records of
+    k4/dl13_stuck.py dumps, any f >= 1, whose case and repairs are computed here)"""
+    from f2_shapes import State
     cnt = collections.Counter(); ex = {}; cache = {}
     for fn in files:
         for r in (json.loads(l) for l in gzip.open(fn, 'rt')):
@@ -366,8 +371,15 @@ def coverage(files):
             if key not in cache:
                 cache.clear(); cache[key] = Prof({'sets': r['sets'], 'vals': r['vals'], 'm': r['m']}, fmin=1)
             pr = cache[key]; Bs = tup(r['Bs']); ctx = Ctx(pr, Bs)
+            if stuck:
+                if not pr.ok or not pr.t3_stage(Bs): continue
+                cs, _, thetas, _, _ = State(pr, Bs).case()
+                from f2_lib import chain_shape
+                r = dict(r, case=cs, thetas=sorted(thetas), src=r.get('src', fn),
+                         reps=[{'k': len(W), 'needp': chain_shape(pr.PA[Bs], pr.PA[B2], x, z, W)[2]}
+                               for B2, x, z, W, _ in pr.t3_moves(Bs)])
             assert pr.t3_stage(Bs)
-            cnt['states'] += 1
+            cnt['states'] += 1; cnt['states f=%d' % pr.I.f] += 1
             P = ctx.P
             if not any(P.frozen[x] and any(ctx.I.threat(x, P.W(o), P.bv[x]) for o in P.free) for x in range(ctx.I.n)):
                 cnt['SX fails: no frozen agent exposed w.r.t. a free agent'] += 1
@@ -383,11 +395,18 @@ def coverage(files):
                 c8, c11 = ctx.certificates()
                 first = 'C8+' if c8 else ('C11+' if c11 else 'none')
                 if first != 'none': plain = (c8 or c11)[0] == 0
+            if r['case'] == 'A-S1' and 'ok' not in r['thetas']:
+                cnt[('A-S1, every S1 triple theta-fails', 'Corollary 11.2+ (kappa swap) applies' if c4 else
+                     'Corollary 11.2+ does not apply')] += 1
             chain_only = not any(rp['k'] == 0 for rp in r['reps'])
             row = (r['case'], 'chain-only' if chain_only else 'plain T3 exists')
             cnt[row + (first,)] += 1
             cnt[row + ('certified by a plain (k = 0) corollary' if plain else 'only by a chain corollary (k >= 1)'
                        if first != 'none' else 'not certified',)] += 1
+            if chain_only and r['reps']:
+                cnt[('chain-only', 'least |W| of an improving T3+ move = %d' % min(rp['k'] for rp in r['reps']))] += 1
+                cnt[('chain-only', 'some improving chain is a path swap (need path)' if any(rp['needp'] for rp in r['reps'])
+                     else 'no improving chain is a path swap')] += 1
             if first == 'none':
                 cur = ex.get(r['case'])
                 cand = (len(r['sets']), r['m'], r['src'], r['sets'], r['vals'], r['Bs'])
@@ -455,7 +474,7 @@ def main(argv):
         from f2_shapes import collect
         check_run((d for d, _ in collect(rest, opt)), all_states='all' in opt)
     else:
-        coverage(rest)
+        coverage(rest, stuck='stuck' in opt)
     print('# no assertion failed')
 
 
