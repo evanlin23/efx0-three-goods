@@ -37,6 +37,7 @@ usage: python3 k4/f2_lemmas.py DUMP.jsonl.gz ...            (T3-stage dumps of k
                                    records, any f >= 1: the same coverage, case and repairs computed here)
        python3 k4/f2_lemmas.py --caseb DUMP.jsonl.gz ...    (case B at every def > 0 state of the dumps' profiles)
        python3 k4/f2_lemmas.py --propn DUMP.jsonl.gz ...    (Proposition N's dichotomy at the non-T4-optimal states)
+       python3 k4/f2_lemmas.py --keyrot DUMP.jsonl.gz ...   (Proposition NK: key rotations along need cycles)
        --light: skip the checks of Lemmas 6+, 8+, C and Proposition N (the coverage only)
        python3 k4/f2_lemmas.py --random N [--seed=S] [--nmax=5] [--mmax=12]   (random strict instances, not cores,
                                    biased to f >= 2; every check at every def > 0 state with f >= 1)
@@ -538,6 +539,55 @@ def propn(files):
     if ex: print('  smallest case (i): n=%d m=%d sets=%s vals=%s P=%s P*=%s def*(key(P*))=%d' % (ex[:2] + ex[3:]))
 
 
+def keyrot(files):
+    """Proposition NK (k4/f2.md §7.1): at every key κ (def* > 0 or not) of the dumps' profiles whose frozen need digraph
+    has a cycle C, the rotation ρ_C is a bijection from the min-frozen states of κ onto those of the rotated key κ′ with
+    the same free bases, each P -> ρ_C(P) a (T4) move with def(ρ_C(P)) <= def(P); so def*(κ′) <= def*(κ) and
+    Φ(κ′) > Φ(κ) (Φ = the frozen agents' values of their goods). Also counts the keys with def* > 0 where
+    def*(κ′) = def*(κ) (then κ′'s edges lift to κ)."""
+    cnt = collections.Counter(); seen = set()
+    for fn in files:
+        for r in (json.loads(l) for l in gzip.open(fn, 'rt')):
+            key = json.dumps([r['sets'], r['vals']])
+            if key in seen: continue
+            seen.add(key)
+            pr = Prof({'sets': r['sets'], 'vals': r['vals'], 'm': r['m']}, fmin=1)
+            if not pr.ok: continue
+            I = pr.I; cnt['profiles'] += 1
+            for k, states in pr.bykey.items():
+                P0 = pr.PA[states[0]]
+                F = [i for i in range(I.n) if k[i]]
+                succ = {w: [v for v in F if v != w and P0.N[w] & k[v]] for w in F}
+                cycles = set()
+                def dfs(path):
+                    for v in succ[path[-1]]:
+                        if v == path[0] and len(path) >= 2: cycles.add(tuple(path))
+                        elif v not in path and v > path[0]: dfs(path + [v])
+                for w in F: dfs([w])
+                if not cycles: continue
+                cnt['keys with a cycle in the frozen need digraph'] += 1
+                for C in cycles:
+                    k2 = list(k)
+                    for i, w in enumerate(C): k2[w] = k[C[(i + 1) % len(C)]]
+                    k2 = tuple(k2)
+                    img = set()
+                    for Bs in states:
+                        b2 = tuple(k2[i] if k[i] else Bs[i] for i in range(I.n))
+                        assert b2 in pr.D, ('NK: rotation not min-frozen', Bs, b2)
+                        assert pr.key[b2] == k2 and kind(pr.PA[Bs], pr.PA[b2]) == 't4', ('NK: not a (T4) move', Bs, b2)
+                        assert pr.D[b2] <= pr.D[Bs], ('NK: deficit rises', Bs, b2)
+                        img.add(b2)
+                    assert img == set(pr.bykey[k2]), ('NK: not onto the rotated key', k, k2)
+                    phi = lambda kk: sum(I.val(i, kk[i]) for i in range(I.n) if kk[i])
+                    assert phi(k2) > phi(k) and pr.dstar[k2] <= pr.dstar[k]
+                    cnt['rotations checked'] += 1
+                    if pr.dstar[k] > 0:
+                        cnt['  at keys with def* > 0'] += 1
+                        cnt['  def*(rotated) < def*: a (T4) key edge' if pr.dstar[k2] < pr.dstar[k]
+                            else '  def*(rotated) = def*: the rotated key\'s edges lift'] += 1
+    for k in sorted(cnt): print('  %-70s %d' % (k, cnt[k]))
+
+
 def check_run(profiles, all_states=False):
     """every check at every def > 0 state (with all_states: Lemmas P, 6+, 8+, C at every min-frozen state)"""
     cnt = collections.Counter()
@@ -577,6 +627,8 @@ def main(argv):
         caseb(rest)
     elif 'propn' in opt:
         propn(rest)
+    elif 'keyrot' in opt:
+        keyrot(rest)
     elif 'profiles' in opt:
         from f2_shapes import collect
         check_run((d for d, _ in collect(rest, opt)), all_states='all' in opt)
