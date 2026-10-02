@@ -1,0 +1,142 @@
+## n5hi: units 16374, profiles evaluated 327,755,136, restarts/rounds 190,981, worker time 3.80 h
+   least nwork reached per unit: {1: 4, 2: 49, 3: 213, 4: 448, 5: 15660}; tight profiles (nwork <= 1) dumped: 144
+   by class: n=5 n4=3 m=9: 2983 units, 3:21 4:14 5:2948; n=5 n4=3 m=10: 1906 units, 3:7 4:7 5:1892; n=5 n4=3 m=11: 639 units, 4:1 5:638; n=5 n4=3 m=12: 93 units, 5:93; n=5 n4=3 m=13: 2 units, 5:2; n=5 n4=4 m=9: 2829 units, 2:9 3:51 4:26 5:2743; n=5 n4=4 m=10: 2452 units, 2:8 3:32 4:33 5:2379; n=5 n4=4 m=11: 1290 units, 3:10 4:26 5:1254; n=5 n4=4 m=12: 380 units, 3:2 4:3 5:375; n=5 n4=4 m=13: 52 units, 5:52; n=5 n4=4 m=14: 1 units, 5:1; n=5 n4=5 m=9: 1119 units, 1:2 2:15 3:24 4:29 5:1049; n=5 n4=5 m=10: 1237 units, 1:2 2:10 3:23 4:101 5:1101; n=5 n4=5 m=11: 862 units, 2:6 3:28 4:128 5:700; n=5 n4=5 m=12: 401 units, 2:1 3:11 4:59 5:330; n=5 n4=5 m=13: 110 units, 3:4 4:19 5:87; n=5 n4=5 m=14: 17 units, 4:2 5:15; n=5 n4=5 m=15: 1 units, 5:1
+   best: k4_certs_5_pure.json.gz:1710  m=9 nwork=1 key=[1, 0, 1, -4] vals=[[2, 3, 8, 4], [3, 7, 5, 6], [2, 4, 8, 7], [2, 7, 4, 10], [8, 6, 10, 3]]
+   best: k4_certs_5_pure.json.gz:1836  m=9 nwork=1 key=[1, 0, 1, -4] vals=[[3, 4, 8, 2], [7, 4, 2, 8], [8, 4, 6, 5], [3, 10, 4, 8], [2, 8, 4, 7]]
+   best: k4_certs_5_pure.json.gz:2839  m=10 nwork=1 key=[1, 0, 1, -4] vals=[[3, 8, 2, 4], [4, 8, 2, 7], [4, 2, 8, 7], [2, 8, 7, 4], [8, 7, 4, 2]]
+## n5lo: units 8007, profiles evaluated 32,292,288, restarts/rounds 22,985, worker time 0.20 h
+   least nwork reached per unit: {2: 4, 3: 6, 4: 6, 5: 7991}; tight profiles (nwork <= 1) dumped: 0
+   by class: n=5 n4=3 m=4: 2 units, 5:2; n=5 n4=3 m=5: 32 units, 5:32; n=5 n4=3 m=6: 304 units, 5:304; n=5 n4=3 m=7: 1259 units, 5:1259; n=5 n4=3 m=8: 2641 units, 3:3 4:5 5:2633; n=5 n4=4 m=4: 1 units, 5:1; n=5 n4=4 m=5: 15 units, 5:15; n=5 n4=4 m=6: 146 units, 5:146; n=5 n4=4 m=7: 748 units, 5:748; n=5 n4=4 m=8: 1932 units, 2:2 3:2 4:1 5:1927; n=5 n4=5 m=4: 1 units, 5:1; n=5 n4=5 m=5: 6 units, 5:6; n=5 n4=5 m=6: 45 units, 5:45; n=5 n4=5 m=7: 219 units, 5:219; n=5 n4=5 m=8: 656 units, 2:2 3:1 5:653
+   best: k4_certs_5_n4_4.json.gz:2667  m=8 nwork=2 key=[2, -1, 0, -7] vals=[[4, 3, 2, 8], [5, 4, 6, 8], [2, 3, 4, 8], [4, 5, 8, 6], [3, 2, 4]]
+   best: k4_certs_5_pure.json.gz:654  m=8 nwork=2 key=[2, -1, 0, -6] vals=[[3, 2, 8, 4], [3, 6, 7, 5], [3, 5, 6, 7], [2, 7, 10, 6], [3, 6, 8, 4]]
+   best: k4_certs_5_pure.json.gz:694  m=8 nwork=2 key=[2, 0, 1, -4] vals=[[4, 8, 5, 6], [3, 8, 2, 4], [4, 5, 6, 8], [2, 4, 7, 8], [3, 5, 7, 6]]
+## n5n12: units 7203, profiles evaluated 43,226,352, restarts/rounds 31,419, worker time 0.25 h
+   least nwork reached per unit: {3: 5, 4: 5, 5: 7193}; tight profiles (nwork <= 1) dumped: 0
+   by class: n=5 n4=1 m=4: 5 units, 5:5; n=5 n4=1 m=5: 48 units, 5:48; n=5 n4=1 m=6: 244 units, 5:244; n=5 n4=1 m=7: 539 units, 5:539; n=5 n4=1 m=8: 573 units, 5:573; n=5 n4=1 m=9: 275 units, 4:1 5:274; n=5 n4=1 m=10: 50 units, 5:50; n=5 n4=1 m=11: 1 units, 5:1; n=5 n4=2 m=4: 3 units, 5:3; n=5 n4=2 m=5: 50 units, 5:50; n=5 n4=2 m=6: 356 units, 5:356; n=5 n4=2 m=7: 1153 units, 5:1153; n=5 n4=2 m=8: 1793 units, 3:3 4:2 5:1788; n=5 n4=2 m=9: 1448 units, 3:2 4:2 5:1444; n=5 n4=2 m=10: 572 units, 5:572; n=5 n4=2 m=11: 91 units, 5:91; n=5 n4=2 m=12: 2 units, 5:2
+   best: k4_certs_5_n4_2.json.gz:2996  m=8 nwork=3 key=[3, 3, 3, 7] vals=[[2, 4, 8, 3], [8, 4, 3, 10], [4, 2, 3], [3, 4, 2], [4, 2, 3]]
+   best: k4_certs_5_n4_2.json.gz:3132  m=8 nwork=3 key=[3, 3, 3, 7] vals=[[3, 8, 2, 4], [3, 4, 2], [2, 3, 4], [2, 3, 4], [4, 8, 6, 1]]
+   best: k4_certs_5_n4_2.json.gz:3183  m=8 nwork=3 key=[3, 3, 3, 7] vals=[[2, 4, 3], [3, 2, 4, 8], [3, 6, 8, 10], [4, 3, 2], [4, 3, 2]]
+## n44r: units 7004, profiles evaluated 141,075,216, restarts/rounds 76,138, worker time 1.75 h
+   least nwork reached per unit: {2: 20, 3: 81, 4: 76, 5: 6827}; tight profiles (nwork <= 1) dumped: 0
+   by class: n=5 n4=4 m=9: 2829 units, 2:14 3:41 4:29 5:2745; n=5 n4=4 m=10: 2452 units, 2:6 3:33 4:27 5:2386; n=5 n4=4 m=11: 1290 units, 3:6 4:18 5:1266; n=5 n4=4 m=12: 380 units, 4:2 5:378; n=5 n4=4 m=13: 52 units, 3:1 5:51; n=5 n4=4 m=14: 1 units, 5:1
+   best: k4_certs_5_n4_4.json.gz:4756  m=9 nwork=2 key=[2, -1, 0, -7] vals=[[3, 4, 2, 8], [3, 2, 4, 8], [5, 4, 6, 8], [4, 5, 8, 6], [3, 2, 4]]
+   best: k4_certs_5_n4_4.json.gz:4389  m=9 nwork=2 key=[2, -1, 0, -6] vals=[[3, 5, 7, 6], [2, 3, 8, 4], [4, 8, 6, 5], [6, 10, 8, 3], [2, 4, 3]]
+   best: k4_certs_5_n4_4.json.gz:4735  m=9 nwork=2 key=[2, -1, 0, -5] vals=[[4, 8, 5, 6], [5, 7, 6, 3], [8, 2, 3, 4], [4, 2, 10, 7], [3, 4, 2]]
+## pure2: units 3218, profiles evaluated 193,489,680, restarts/rounds 95,496, worker time 2.79 h
+   least nwork reached per unit: {1: 8, 2: 71, 3: 193, 4: 376, 5: 2570}; tight profiles (nwork <= 1) dumped: 1574
+   by class: n=5 n4=5 m=9: 1119 units, 1:6 2:31 3:57 4:55 5:970; n=5 n4=5 m=10: 1237 units, 1:2 2:29 3:78 4:142 5:986; n=5 n4=5 m=11: 862 units, 2:11 3:58 4:179 5:614
+   best: k4_certs_5_pure.json.gz:1373  m=9 nwork=1 key=[1, 0, 1, -4] vals=[[2, 8, 3, 4], [3, 7, 5, 6], [2, 4, 7, 8], [2, 4, 7, 8], [6, 3, 8, 10]]
+   best: k4_certs_5_pure.json.gz:1557  m=9 nwork=1 key=[1, 0, 1, -4] vals=[[3, 2, 4, 8], [4, 8, 6, 5], [4, 8, 3, 10], [2, 7, 10, 4], [1, 6, 8, 4]]
+   best: k4_certs_5_pure.json.gz:1710  m=9 nwork=1 key=[1, 0, 1, -4] vals=[[2, 3, 8, 4], [3, 7, 5, 6], [4, 3, 10, 8], [2, 6, 3, 10], [4, 3, 8, 2]]
+## seedsH: units 129, profiles evaluated 7,740,273, restarts/rounds 3,814, worker time 0.46 h
+   least nwork reached per unit: {5: 129}; tight profiles (nwork <= 1) dumped: 0
+   by class: n=5 n4=5 m=13: 120 units, 5:120; n=9 n4=9 m=23: 9 units, 5:9
+   best: seed123 H_2 relabel 3 m=23 nwork=5 key=[5, -2, 0, -24] vals=[[5, 6, 7, 3], [8, 3, 4, 2], [2, 8, 3, 4], [7, 4, 2, 10], [6, 5, 8, 4], [5, 8, 4, 6], [8, 6, 4, 3], [7, 6, 5, 3], [8, 4, 2, 3]]
+   best: seed121 H_2 relabel 1 m=23 nwork=5 key=[5, -2, 0, -24] vals=[[10, 4, 7, 2], [3, 5, 7, 6], [10, 2, 4, 7], [2, 6, 10, 3], [4, 2, 7, 8], [7, 3, 6, 5], [8, 3, 2, 4], [3, 8, 4, 2], [5, 4, 6, 8]]
+   best: seed122 H_2 relabel 2 m=23 nwork=5 key=[5, -2, 0, -24] vals=[[5, 6, 3, 7], [6, 7, 5, 3], [3, 2, 8, 4], [2, 4, 8, 5], [6, 5, 4, 8], [4, 8, 5, 6], [8, 4, 6, 3], [3, 5, 6, 7], [2, 4, 3, 8]]
+## suite: units 77, profiles evaluated 4,620,125, restarts/rounds 2,875, worker time 0.07 h
+   least nwork reached per unit: {2: 8, 3: 5, 4: 48, 5: 14, 6: 2}; tight profiles (nwork <= 1) dumped: 0
+   by class: n=4 n4=0 m=5: 3 units, 4:3; n=4 n4=0 m=6: 1 units, 4:1; n=4 n4=1 m=6: 2 units, 4:2; n=4 n4=1 m=7: 4 units, 4:4; n=4 n4=2 m=7: 4 units, 4:4; n=4 n4=2 m=8: 2 units, 4:2; n=4 n4=2 m=9: 2 units, 4:2; n=4 n4=3 m=6: 1 units, 4:1; n=4 n4=3 m=8: 6 units, 3:1 4:5; n=4 n4=3 m=9: 5 units, 3:1 4:4; n=4 n4=4 m=7: 12 units, 2:3 3:3 4:6; n=4 n4=4 m=8: 7 units, 2:5 4:2; n=4 n4=4 m=9: 1 units, 4:1; n=4 n4=4 m=10: 5 units, 4:5; n=4 n4=4 m=11: 2 units, 4:2; n=5 n4=0 m=9: 1 units, 5:1; n=5 n4=1 m=6: 1 units, 5:1; n=5 n4=1 m=8: 3 units, 4:1 5:2; n=5 n4=1 m=9: 1 units, 4:1; n=5 n4=2 m=8: 2 units, 5:2; n=5 n4=3 m=9: 1 units, 5:1; n=5 n4=3 m=10: 1 units, 5:1; n=5 n4=4 m=9: 1 units, 5:1; n=5 n4=4 m=10: 1 units, 5:1; n=5 n4=4 m=12: 1 units, 5:1; n=5 n4=5 m=9: 1 units, 5:1; n=5 n4=5 m=11: 1 units, 5:1; n=5 n4=5 m=12: 1 units, 4:1; n=5 n4=5 m=13: 1 units, 5:1; n=6 n4=6 m=11: 1 units, 6:1; n=6 n4=6 m=15: 1 units, 4:1; n=9 n4=9 m=23: 1 units, 6:1
+   best: seed71 suite ls-single-dump-n4m7 m=7 nwork=2 key=[2, -1, 0, -5] vals=[[2, 8, 3, 4], [3, 7, 5, 6], [2, 8, 4, 7], [4, 8, 2, 3]]
+   best: seed72 suite lsp-bounded-coalitions-n4m7 m=7 nwork=2 key=[2, 0, 1, -4] vals=[[4, 3, 2, 8], [6, 4, 1, 8], [3, 2, 4, 8], [7, 5, 6, 3]]
+   best: seed36 suite gap-phi-n4-m8-pure104 m=8 nwork=2 key=[2, 0, 1, -3] vals=[[4, 8, 5, 6], [2, 4, 5, 8], [8, 3, 2, 4], [2, 4, 3, 8]]
+## n4pure: units 219, profiles evaluated 109,503,648, restarts/rounds 63,697, worker time 1.17 h
+   least nwork reached per unit: {2: 71, 3: 28, 4: 120}; tight profiles (nwork <= 1) dumped: 0
+   by class: n=4 n4=4 m=4: 1 units, 4:1; n=4 n4=4 m=5: 4 units, 4:4; n=4 n4=4 m=6: 16 units, 4:16; n=4 n4=4 m=7: 40 units, 2:14 3:6 4:20; n=4 n4=4 m=8: 62 units, 2:27 3:5 4:30; n=4 n4=4 m=9: 54 units, 2:21 3:12 4:21; n=4 n4=4 m=10: 32 units, 2:8 3:5 4:19; n=4 n4=4 m=11: 9 units, 2:1 4:8; n=4 n4=4 m=12: 1 units, 4:1
+   best: k4_certs_4_pure.json.gz:57  m=7 nwork=2 key=[2, -1, 0, -6] vals=[[4, 2, 3, 8], [5, 3, 6, 7], [3, 4, 2, 8], [4, 5, 8, 6]]
+   best: k4_certs_4_pure.json.gz:58  m=7 nwork=2 key=[2, -1, 0, -6] vals=[[2, 4, 3, 8], [3, 4, 2, 8], [4, 5, 6, 8], [4, 5, 8, 6]]
+   best: k4_certs_4_pure.json.gz:99  m=8 nwork=2 key=[2, -1, 0, -6] vals=[[2, 3, 4, 8], [2, 3, 4, 8], [3, 5, 6, 7], [4, 5, 8, 6]]
+## deep5t: units 4, profiles evaluated 3,300,984, restarts/rounds 4, worker time 0.03 h
+   least nwork reached per unit: {1: 4}; tight profiles (nwork <= 1) dumped: 960
+   by class: n=5 n4=5 m=9: 2 units, 1:2; n=5 n4=5 m=10: 2 units, 1:2
+   best: seed0 tight k4_certs_5_pure.json.gz:1710 m=9 nwork=1 key=[1, 0, 1, -4] vals=[[2, 3, 8, 4], [3, 7, 5, 6], [3, 6, 10, 8], [2, 6, 3, 10], [6, 4, 8, 3]]
+   best: seed1 tight k4_certs_5_pure.json.gz:1836 m=9 nwork=1 key=[1, 0, 1, -4] vals=[[2, 4, 8, 3], [7, 4, 2, 8], [8, 4, 6, 5], [2, 10, 4, 7], [2, 8, 4, 7]]
+   best: seed2 tight k4_certs_5_pure.json.gz:2839 m=10 nwork=1 key=[1, 0, 1, -4] vals=[[3, 8, 2, 4], [4, 8, 2, 7], [6, 3, 10, 8], [2, 8, 7, 4], [8, 7, 4, 2]]
+## deep5x: units 136, profiles evaluated 75,645,422, restarts/rounds 140, worker time 0.62 h
+   least nwork reached per unit: {1: 4, 2: 132}; tight profiles (nwork <= 1) dumped: 960
+   by class: n=4 n4=4 m=7: 17 units, 2:17; n=4 n4=4 m=8: 32 units, 2:32; n=4 n4=4 m=9: 21 units, 2:21; n=4 n4=4 m=10: 8 units, 2:8; n=4 n4=4 m=11: 1 units, 2:1; n=5 n4=4 m=8: 2 units, 2:2; n=5 n4=4 m=9: 9 units, 2:9; n=5 n4=4 m=10: 8 units, 2:8; n=5 n4=5 m=8: 2 units, 2:2; n=5 n4=5 m=9: 17 units, 1:2 2:15; n=5 n4=5 m=10: 12 units, 1:2 2:10; n=5 n4=5 m=11: 6 units, 2:6; n=5 n4=5 m=12: 1 units, 2:1
+   best: seed0 best k4_certs_5_pure.json.gz:1710 m=9 nwork=1 key=[1, 0, 1, -4] vals=[[2, 3, 8, 4], [3, 7, 5, 6], [2, 4, 8, 7], [2, 7, 4, 10], [8, 6, 10, 3]]
+   best: seed1 best k4_certs_5_pure.json.gz:1836 m=9 nwork=1 key=[1, 0, 1, -4] vals=[[3, 4, 8, 2], [7, 4, 2, 8], [8, 4, 6, 5], [3, 10, 4, 8], [2, 8, 4, 7]]
+   best: seed2 best k4_certs_5_pure.json.gz:2839 m=10 nwork=1 key=[1, 0, 1, -4] vals=[[3, 8, 2, 4], [4, 8, 2, 7], [4, 2, 8, 7], [2, 8, 7, 4], [8, 7, 4, 2]]
+## deep5r: units 294, profiles evaluated 58,837,302, restarts/rounds 30,467, worker time 1.55 h
+   least nwork reached per unit: {1: 5, 2: 79, 3: 210}; tight profiles (nwork <= 1) dumped: 2200
+   by class: n=4 n4=3 m=8: 1 units, 3:1; n=4 n4=3 m=9: 1 units, 3:1; n=4 n4=4 m=7: 6 units, 2:6; n=4 n4=4 m=8: 5 units, 2:5; n=5 n4=2 m=8: 3 units, 3:3; n=5 n4=2 m=9: 2 units, 3:2; n=5 n4=3 m=8: 3 units, 3:3; n=5 n4=3 m=9: 21 units, 3:21; n=5 n4=3 m=10: 7 units, 3:7; n=5 n4=4 m=8: 4 units, 2:4; n=5 n4=4 m=9: 60 units, 2:12 3:48; n=5 n4=4 m=10: 40 units, 2:8 3:32; n=5 n4=4 m=11: 10 units, 2:1 3:9; n=5 n4=4 m=12: 2 units, 3:2; n=5 n4=5 m=8: 3 units, 2:2 3:1; n=5 n4=5 m=9: 41 units, 1:2 2:19 3:20; n=5 n4=5 m=10: 35 units, 1:3 2:10 3:22; n=5 n4=5 m=11: 34 units, 2:10 3:24; n=5 n4=5 m=12: 12 units, 2:2 3:10; n=5 n4=5 m=13: 4 units, 3:4
+   best: seed1 best k4_certs_5_pure.json.gz:1836 m=9 nwork=1 key=[1, 100, 0] vals=[[2, 4, 8, 3], [8, 3, 4, 10], [8, 4, 6, 5], [3, 10, 4, 8], [2, 10, 3, 6]]
+   best: seed0 best k4_certs_5_pure.json.gz:1710 m=9 nwork=1 key=[1, 100, 0] vals=[[2, 3, 8, 4], [3, 7, 5, 6], [4, 2, 8, 7], [2, 7, 4, 8], [7, 4, 10, 2]]
+   best: seed2 best k4_certs_5_pure.json.gz:2839 m=10 nwork=1 key=[1, 100, 0] vals=[[3, 8, 2, 4], [4, 8, 6, 5], [4, 2, 8, 7], [1, 8, 6, 4], [8, 4, 3, 2]]
+## deep5t2: units 16, profiles evaluated 13,203,936, restarts/rounds 16, worker time 0.11 h
+   least nwork reached per unit: {1: 16}; tight profiles (nwork <= 1) dumped: 3840
+   by class: n=5 n4=5 m=9: 10 units, 1:10; n=5 n4=5 m=10: 6 units, 1:6
+   best: seed2 tight k4_certs_5_pure.json.gz:1710 m=9 nwork=1 key=[1, 0, 1, -4] vals=[[2, 3, 8, 4], [3, 7, 5, 6], [3, 4, 8, 6], [2, 7, 4, 10], [8, 6, 10, 3]]
+   best: seed0 tight k4_certs_5_pure.json.gz:1373 m=9 nwork=1 key=[1, 0, 1, -4] vals=[[2, 8, 3, 4], [3, 7, 5, 6], [2, 4, 7, 8], [2, 4, 7, 8], [4, 2, 7, 8]]
+   best: seed3 tight k4_certs_5_pure.json.gz:1836 m=9 nwork=1 key=[1, 0, 1, -4] vals=[[3, 2, 8, 4], [3, 4, 8, 10], [10, 6, 2, 7], [1, 8, 4, 6], [2, 10, 3, 6]]
+## deep5t2_partial: units 4, profiles evaluated 3,300,984, restarts/rounds 4, worker time 0.02 h
+   least nwork reached per unit: {1: 4}; tight profiles (nwork <= 1) dumped: 960
+   by class: n=5 n4=5 m=9: 4 units, 1:4
+   best: seed2 tight k4_certs_5_pure.json.gz:1373 m=9 nwork=1 key=[1, 0, 1, -4] vals=[[2, 8, 3, 4], [3, 7, 5, 6], [2, 4, 7, 8], [2, 4, 7, 8], [6, 3, 8, 10]]
+   best: seed1 tight k4_certs_5_pure.json.gz:1373 m=9 nwork=1 key=[1, 0, 1, -4] vals=[[2, 8, 3, 4], [3, 7, 5, 6], [2, 4, 7, 8], [6, 3, 8, 10], [2, 4, 7, 8]]
+   best: seed0 tight k4_certs_5_pure.json.gz:1373 m=9 nwork=1 key=[1, 0, 1, -4] vals=[[2, 8, 3, 4], [3, 7, 5, 6], [2, 4, 7, 8], [2, 4, 7, 8], [4, 2, 7, 8]]
+## n6hi: units 5382, profiles evaluated 57,334,752, restarts/rounds 25,809, worker time 0.45 h
+   least nwork reached per unit: {6: 5382}; tight profiles (nwork <= 1) dumped: 0
+   by class: n=6 n4=1 m=10: 4219 units, 6:4219; n=6 n4=1 m=11: 1067 units, 6:1067; n=6 n4=1 m=12: 95 units, 6:95; n=6 n4=1 m=13: 1 units, 6:1
+   best: k4_certs_6_n4_1.json.gz:21660  m=10 nwork=6 key=[6, -1, 0, -6] vals=[[5, 3, 7, 6], [2, 4, 3], [2, 4, 3], [2, 4, 3], [3, 4, 2], [3, 4, 2]]
+   best: k4_certs_6_n4_1.json.gz:21668  m=10 nwork=6 key=[6, -1, 0, -6] vals=[[5, 3, 7, 6], [2, 4, 3], [2, 4, 3], [2, 4, 3], [2, 4, 3], [2, 4, 3]]
+   best: k4_certs_6_n4_1.json.gz:21671  m=10 nwork=6 key=[6, -1, 0, -6] vals=[[3, 5, 7, 6], [2, 4, 3], [2, 4, 3], [2, 3, 4], [4, 3, 2], [3, 2, 4]]
+## n6lo: units 21484, profiles evaluated 43,325,616, restarts/rounds 39,929, worker time 0.24 h
+   least nwork reached per unit: {6: 21484}; tight profiles (nwork <= 1) dumped: 0
+   by class: n=6 n4=1 m=4: 6 units, 6:6; n=6 n4=1 m=5: 119 units, 6:119; n=6 n4=1 m=6: 1067 units, 6:1067; n=6 n4=1 m=7: 4204 units, 6:4204; n=6 n4=1 m=8: 8036 units, 6:8036; n=6 n4=1 m=9: 8052 units, 6:8052
+   best: k4_certs_6_n4_1.json.gz:5527  m=8 nwork=6 key=[6, -1, 0, -6] vals=[[5, 3, 7, 6], [2, 4, 3], [2, 4, 3], [4, 3, 2], [2, 3, 4], [2, 3, 4]]
+   best: k4_certs_6_n4_1.json.gz:5552  m=8 nwork=6 key=[6, -1, 0, -6] vals=[[5, 3, 7, 6], [4, 2, 3], [4, 2, 3], [4, 3, 2], [3, 4, 2], [3, 4, 2]]
+   best: k4_certs_6_n4_1.json.gz:5587  m=8 nwork=6 key=[6, -1, 0, -6] vals=[[3, 5, 7, 6], [4, 2, 3], [4, 2, 3], [2, 3, 4], [4, 2, 3], [2, 3, 4]]
+## deep6x: units 0, profiles evaluated 0, restarts/rounds 0, worker time 0.00 h
+   least nwork reached per unit: {}; tight profiles (nwork <= 1) dumped: 0
+   by class: 
+# all runs: profiles evaluated 1,114,651,714
+# merged 10638 tight profiles into results/k4_rulef_hunt/tight.jsonl.gz
+# tight.jsonl.gz: 8501 distinct profiles (sets, vals)
+    4427  (1, 'working a0:K0:bigtop', 'big-top agents 1', '', '', 'RK3 1', 'rulef.c K1 1', 'rule F 1')
+    1237  (1, 'working a1:K0:bigtop', 'big-top agents 1', '', '', 'RK3 1', 'rulef.c K1 1', 'rule F 1')
+    1106  (1, 'working a0:K0:bigtop', 'big-top agents 2', 'the first big-top', 'not fewest private', 'RK3 1', 'rulef.c K1 1', 'rule F 1')
+     541  (1, 'working a0:K0:bigtop', 'big-top agents 2', 'the first big-top', 'fewest private goods among big-top', 'RK3 1', 'rulef.c K1 1', 'rule F 1')
+     342  (1, 'working a1:K0:bigtop', 'big-top agents 2', 'the first big-top', 'fewest private goods among big-top', 'RK3 1', 'rulef.c K1 1', 'rule F 1')
+     331  (1, 'working a0:K0:bigtop', 'big-top agents 3', 'the first big-top', 'not fewest private', 'RK3 1', 'rulef.c K1 1', 'rule F 1')
+     196  (1, 'working a2:K0:bigtop', 'big-top agents 1', '', '', 'RK3 1', 'rulef.c K1 1', 'rule F 1')
+     144  (1, 'working a1:K0:bigtop', 'big-top agents 2', 'the first big-top', 'not fewest private', 'RK3 1', 'rulef.c K1 1', 'rule F 1')
+      48  (1, 'working a2:K0:bigtop', 'big-top agents 2', 'the first big-top', 'not fewest private', 'RK3 1', 'rulef.c K1 1', 'rule F 1')
+      42  (1, 'working a1:K0:bigtop', 'big-top agents 3', 'the first big-top', 'not fewest private', 'RK3 1', 'rulef.c K1 1', 'rule F 1')
+      29  (1, 'working a0:K0:bigtop', 'big-top agents 3', 'the first big-top', 'fewest private goods among big-top', 'RK3 1', 'rulef.c K1 1', 'rule F 1')
+      24  (1, 'working a2:K0:bigtop', 'big-top agents 2', 'the first big-top', 'fewest private goods among big-top', 'RK3 1', 'rulef.c K1 1', 'rule F 1')
+      16  (1, 'working a1:K0:bigtop', 'big-top agents 3', 'the first big-top', 'fewest private goods among big-top', 'RK3 1', 'rulef.c K1 1', 'rule F 1')
+      14  (1, 'working a2:K0:bigtop', 'big-top agents 3', 'the first big-top', 'not fewest private', 'RK3 1', 'rulef.c K1 1', 'rule F 1')
+       4  (1, 'working a2:K0:bigtop', 'big-top agents 3', 'the first big-top', 'fewest private goods among big-top', 'RK3 1', 'rulef.c K1 1', 'rule F 1')
+   by unit: best k4_certs_5_pure.json.gz:1710 m=9: 605; best k4_certs_5_pure.json.gz:1784 m=9: 200; best k4_certs_5_pure.json.gz:1836 m=9: 529; best k4_certs_5_pure.json.gz:2839 m=10: 478; best k4_certs_5_pure.json.gz:2952 m=10: 395; best k4_certs_5_pure.json.gz:3015 m=10: 591; k4_certs_5_pure.json.gz:1373 m=9: 215; k4_certs_5_pure.json.gz:1557 m=9: 285; k4_certs_5_pure.json.gz:1710 m=9: 311; k4_certs_5_pure.json.gz:1836 m=9: 126; k4_certs_5_pure.json.gz:1846 m=9: 260; k4_certs_5_pure.json.gz:1861 m=9: 122; k4_certs_5_pure.json.gz:2003 m=9: 80; k4_certs_5_pure.json.gz:2839 m=10: 24; k4_certs_5_pure.json.gz:2945 m=10: 58; k4_certs_5_pure.json.gz:3015 m=10: 151; k4_certs_5_pure.json.gz:3082 m=10: 40; tight k4_certs_5_pure.json.gz:1373 m=9: 822; tight k4_certs_5_pure.json.gz:1557 m=9: 211; tight k4_certs_5_pure.json.gz:1710 m=9: 306; tight k4_certs_5_pure.json.gz:1836 m=9: 473; tight k4_certs_5_pure.json.gz:1846 m=9: 227; tight k4_certs_5_pure.json.gz:1861 m=9: 234; tight k4_certs_5_pure.json.gz:2003 m=9: 200; tight k4_certs_5_pure.json.gz:2839 m=10: 227; tight k4_certs_5_pure.json.gz:2945 m=10: 232; tight k4_certs_5_pure.json.gz:3015 m=10: 467; tight k4_certs_5_pure.json.gz:3082 m=10: 200; tight seed177 m=10: 232; tight seed76 m=9: 200
+   failing runs (first agent: frozen agents by policy, LB4r rotations), most common:
+   12660  ('failing first agent big-top=0', 'frozen after shrink/envy-free/none: 1,2,3/1,2,3/1,2,3', 'LB4r rotations 2')
+    5341  ('failing first agent big-top=0', 'frozen after shrink/envy-free/none: 1,2,4/1,2,4/1,2,4', 'LB4r rotations 2')
+    3976  ('failing first agent big-top=0', 'frozen after shrink/envy-free/none: 1,3,4/1,3,4/1,3,4', 'LB4r rotations 2')
+    3267  ('failing first agent big-top=0', 'frozen after shrink/envy-free/none: 0,2,3/0,2,3/0,2,3', 'LB4r rotations 2')
+    2099  ('failing first agent big-top=0', 'frozen after shrink/envy-free/none: 0,2,4/0,2,4/0,2,4', 'LB4r rotations 2')
+    1392  ('failing first agent big-top=0', 'frozen after shrink/envy-free/none: 2,3,4/2,3,4/2,3,4', 'LB4r rotations 2')
+    1156  ('failing first agent big-top=0', 'frozen after shrink/envy-free/none: 0,3,4/0,3,4/0,3,4', 'LB4r rotations 2')
+    1101  ('failing first agent big-top=1', 'frozen after shrink/envy-free/none: 1,2,3/1,2,3/1,2,3', 'LB4r rotations 2')
+     758  ('failing first agent big-top=1', 'frozen after shrink/envy-free/none: 1,2,4/1,2,4/1,2,4', 'LB4r rotations 2')
+     748  ('failing first agent big-top=0', 'frozen after shrink/envy-free/none: 0,1,3/0,1,3/0,1,3', 'LB4r rotations 2')
+     306  ('failing first agent big-top=1', 'frozen after shrink/envy-free/none: 0,2,3/0,2,3/0,2,3', 'LB4r rotations 2')
+     288  ('failing first agent big-top=0', 'frozen after shrink/envy-free/none: 0,1,4/0,1,4/0,1,4', 'LB4r rotations 2')
+     287  ('failing first agent big-top=1', 'frozen after shrink/envy-free/none: 1,3,4/1,3,4/1,3,4', 'LB4r rotations 2')
+     221  ('failing first agent big-top=1', 'frozen after shrink/envy-free/none: 2,3,4/2,3,4/2,3,4', 'LB4r rotations 2')
+     168  ('failing first agent big-top=1', 'frozen after shrink/envy-free/none: 0,2,4/0,2,4/0,2,4', 'LB4r rotations 2')
+   distinct tight profiles per certificate core (13 cores), with the simplest one (the certificate's labeling preferred, then the least largest value and sum):
+   k4_certs_5_pure.json.gz:1373 m=9: 1037 profiles (753 with the agents relabeled); e.g. sets=[[0, 3, 4, 6], [1, 3, 5, 8], [2, 4, 6, 7], [4, 5, 7, 8], [5, 6, 7, 8]] vals=[[2, 8, 3, 4], [3, 7, 5, 6], [2, 4, 7, 8], [2, 4, 7, 8], [3, 2, 4, 8]] working first agent 0
+   k4_certs_5_pure.json.gz:1557 m=9: 496 profiles (209 with the agents relabeled); e.g. sets=[[0, 2, 3, 4], [1, 4, 7, 8], [2, 3, 5, 6], [5, 6, 7, 8], [5, 6, 7, 8]] vals=[[2, 3, 4, 8], [3, 7, 6, 5], [3, 6, 4, 8], [1, 6, 8, 4], [1, 6, 8, 4]] working first agent 0
+   k4_certs_5_pure.json.gz:1710 m=9: 1222 profiles (468 with the agents relabeled); e.g. sets=[[0, 3, 4, 8], [1, 4, 6, 7], [2, 3, 5, 8], [2, 5, 6, 7], [5, 6, 7, 8]] vals=[[2, 3, 8, 4], [3, 7, 5, 6], [4, 2, 8, 7], [1, 6, 4, 8], [4, 3, 8, 2]] working first agent 0
+   k4_certs_5_pure.json.gz:1784 m=9: 400 profiles (400 with the agents relabeled); e.g. (relabeled) sets=[[0, 4, 7, 8], [2, 3, 4, 5], [1, 6, 7, 8], [2, 3, 5, 6], [5, 6, 7, 8]] vals=[[4, 8, 5, 2], [2, 3, 8, 4], [1, 6, 4, 8], [2, 4, 7, 8], [3, 6, 5, 7]] working first agent 1
+   k4_certs_5_pure.json.gz:1836 m=9: 1128 profiles (342 with the agents relabeled); e.g. sets=[[0, 1, 2, 4], [1, 3, 4, 8], [2, 3, 6, 7], [5, 6, 7, 8], [5, 6, 7, 8]] vals=[[2, 4, 8, 3], [7, 4, 2, 8], [8, 4, 1, 6], [1, 8, 4, 6], [2, 8, 4, 7]] working first agent 0
+   k4_certs_5_pure.json.gz:1846 m=9: 487 profiles (195 with the agents relabeled); e.g. sets=[[0, 1, 4, 8], [1, 3, 4, 5], [2, 3, 6, 7], [2, 6, 7, 8], [5, 6, 7, 8]] vals=[[2, 7, 4, 8], [4, 8, 2, 3], [4, 8, 5, 6], [1, 4, 8, 6], [1, 4, 8, 6]] working first agent 1
+   k4_certs_5_pure.json.gz:1861 m=9: 356 profiles (117 with the agents relabeled); e.g. sets=[[0, 1, 7, 8], [1, 3, 4, 5], [2, 3, 4, 6], [2, 6, 7, 8], [5, 6, 7, 8]] vals=[[4, 8, 2, 5], [8, 3, 4, 2], [2, 4, 7, 8], [1, 6, 8, 4], [3, 8, 10, 4]] working first agent 1
+   k4_certs_5_pure.json.gz:2003 m=9: 280 profiles (280 with the agents relabeled); e.g. (relabeled) sets=[[1, 2, 3, 5], [0, 6, 7, 8], [1, 4, 5, 8], [2, 4, 6, 7], [3, 6, 7, 8]] vals=[[2, 8, 3, 4], [1, 8, 4, 6], [2, 4, 7, 8], [8, 4, 1, 6], [1, 8, 4, 6]] working first agent 0
+   k4_certs_5_pure.json.gz:2839 m=10: 729 profiles (273 with the agents relabeled); e.g. sets=[[0, 4, 5, 9], [1, 4, 6, 8], [2, 5, 7, 9], [3, 6, 7, 8], [6, 7, 8, 9]] vals=[[3, 8, 2, 4], [4, 8, 1, 6], [3, 4, 8, 6], [1, 8, 6, 4], [8, 6, 4, 1]] working first agent 0
+   k4_certs_5_pure.json.gz:2945 m=10: 290 profiles (78 with the agents relabeled); e.g. sets=[[0, 3, 4, 6], [1, 6, 8, 9], [2, 7, 8, 9], [3, 4, 5, 7], [5, 7, 8, 9]] vals=[[3, 2, 4, 8], [4, 8, 6, 5], [2, 7, 8, 4], [4, 7, 2, 8], [1, 6, 8, 4]] working first agent 0
+   k4_certs_5_pure.json.gz:2952 m=10: 627 profiles (234 with the agents relabeled); e.g. sets=[[0, 3, 4, 6], [1, 7, 8, 9], [2, 7, 8, 9], [3, 4, 5, 7], [5, 6, 8, 9]] vals=[[3, 4, 2, 8], [1, 6, 8, 4], [1, 6, 8, 4], [7, 4, 2, 8], [4, 8, 1, 6]] working first agent 0
+   k4_certs_5_pure.json.gz:3015 m=10: 1209 profiles (390 with the agents relabeled); e.g. sets=[[0, 3, 5, 6], [1, 5, 6, 9], [2, 7, 8, 9], [3, 4, 7, 8], [4, 7, 8, 9]] vals=[[2, 8, 4, 3], [3, 6, 4, 8], [1, 4, 8, 6], [8, 4, 6, 1], [2, 4, 8, 7]] working first agent 0
+   k4_certs_5_pure.json.gz:3082 m=10: 240 profiles (240 with the agents relabeled); e.g. (relabeled) sets=[[0, 3, 7, 8], [3, 4, 5, 6], [1, 7, 8, 9], [2, 7, 8, 9], [4, 5, 6, 9]] vals=[[4, 8, 5, 2], [8, 3, 2, 4], [2, 4, 8, 7], [1, 4, 8, 6], [4, 2, 7, 8]] working first agent 1

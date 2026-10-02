@@ -22,7 +22,8 @@
 #   n6      n = 6 (one 4-good agent; the only n = 6 certificate file): m >= 10: 10,000 each with agent orders scanned
 #           (--relabel), m <= 9: 2,000 each
 #   deep6   the exhaustive two-change descent from every n = 6 best profile with nwork <= 5
-#   check   the profiles with nwork <= 1 against the second implementation (k4/rulef_hunt_check.py)
+#   check   every distinct profile of tight.jsonl.gz (merged by k4/rulef_hunt_summary.py --merge) against the second
+#           implementation (k4/rulef_hunt_check.py), and rule F with Lean's exact owner step (k4/rulef_hunt_rulef1.py)
 set -u
 cd "$(dirname "$0")/.."
 R=results/k4_rulef_hunt; mkdir -p $R/ck
@@ -69,6 +70,7 @@ deep5t2)
   [ -f $R/seeds_tight5b.jsonl ] || python3 k4/rulef_hunt_seeds.py tight $R/seeds_tight5b.jsonl $R/tight_pure2.jsonl.gz $R/tight_deep5r.jsonl.gz
   $H deep5t2 --seeds=$R/seeds_tight5b.jsonl --exhaust --relabel --evals=8000000 --key=M >> $R/deep5t2.log 2>&1 ;;
 check)
-  ls $R/tight_*.jsonl.gz >/dev/null 2>&1 && python3 k4/rulef_hunt_check.py $R/tight_*.jsonl.gz > $R/check.log 2>&1 ;;
+  python3 k4/rulef_hunt_check.py $R/tight.jsonl.gz > $R/check.log 2>&1
+  python3 k4/rulef_hunt_rulef1.py $R/tight.jsonl.gz > $R/rulef1_lean.log 2>&1 ;;
 *) echo "unknown step $s"; exit 1 ;;
 esac; done
