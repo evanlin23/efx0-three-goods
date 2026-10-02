@@ -50,6 +50,8 @@ empty and (T3⁺) is (T3). The route asked for is Theorem Z′ (`k4/c4min_reduce
   - the coordinator's refutation of the (T3) ∪ (T4) form, which this file's two implementations reproduce (10 keys
     fail, one per profile);
   - the (T3⁺) ∪ (T4) form on the same profiles: it holds at all 41 keys;
+  - Lemma F⁺: the forest of Lemma F at every f. A free-valid owner exists at every maximum of (r′, Λ′) at a
+    non-completable key;
   - Lemma A⁺, the owner swap along a need chain of frozen agents. It is one (T3⁺) move, and it reaches 34 of those 41
     keys from some Z′-type maximum. The other 7 are `attempts/k4-sx-aplus-f3.md`.
 - **Conjecture SX** (`k4/dl13.md` §2.3) is not needed by this route: the lemmas start from Theorem Z′'s configuration,
@@ -379,6 +381,31 @@ all have def* = 1, and DLK holds there with (T3⁺) edges. On all 10 profiles bo
 (`results/k4_sx/f2/keys_rt4_n5*.log`, `xcheck_rt4_n5*.log`) find the 10 failing keys of K4.DL13.KEY, and the
 (T3⁺) ∪ (T4) form holding at all 41 keys with def* > 0, as K4.DL2.RC reports.
 
+**Lemma F⁺ (the threat forest at any f).** Let f ≥ 1 and ω ≥ 1, and let κ = (𝒩, φ) be a key with def*(κ) > 0. Let Q
+maximize (r′, Λ′) over the configurations at κ: r′ counts the robust free agents, v_y(Q_y) ≥ v_y(U_y ∖ Q_y) with
+U_y = R_y ∖ 𝒩, and Λ′ is the sum of the free agents' levels. Then:
+- Q is pool-optimal;
+- every free agent is threatened by at most one free agent, a robust one by none;
+- there is no cycle of threats among free agents;
+- every free agent threatens somebody.
+
+Hence the threats among the free agents form a forest of out-trees. Its leaves, which exist since f ≤ n − 1
+(`k4/dl13.md` §1, Remark), are exactly the free-valid owners (V ≠ ∅), and every leaf threatens at least one frozen agent.
+
+*Proof.* As for Lemma F, with `k4/c4min.md` §3.6 (the lemmas of Theorem F, K4.C4MIN.F) in place of the f = 1 lemmas.
+- A pool improvement keeps the key and raises (r′, Λ′).
+- For the kinds: a free agent with |U_y| ≤ 2 is robust. With |U_y| = 3 the only non-robust holding is u₁ with a good
+  outside U_y; it is threatened exactly by the owner holding {u₂, u₃}. With |U_y| = 4 we have the kinds (T4), (D) and
+  (R) of Lemma Z2. Each kind has at most one threatener.
+- A cycle of threats among free agents rotates, plain or modified at one (R) receiver as in `k4/c4min.md` Lemma R, into
+  a configuration at the same key. There a receiver of kind |U| = 3, (D) or (R) becomes robust, or, if all receivers are
+  of kind (T4), every receiver's level rises. Robustness of agents off the cycle depends only on their own pairs. So
+  (r′, Λ′) rises, against maximality.
+- A free agent that threatens nobody would be a valid owner with C = ∅, and κ would be completable (Lemma 0). ∎
+
+So the existence of a free-valid owner at the maxima, which Theorem Z′ proves at f = 1, holds at every f once the key
+is not completable. At f = 1 it also follows this way. The f ≥ 2 data (all 199 maxima below have one) is explained.
+
 **Lemma A⁺ (the owner swap along a need chain; one (T3⁺) move).** Let f ≥ 1 and ω ≥ 1, and let κ = (𝒩, φ) be a key
 with frozen set F. Let Q be a pool-optimal configuration at κ (U_y = R_y ∖ 𝒩). Let o be a free agent such that
 X_o = Q_o ∪ L threatens no free agent and exactly one frozen agent x. Let x = w₀, w₁, …, w_j (j ≥ 0) be distinct frozen
@@ -423,12 +450,12 @@ its own bundle (35 chains, the analogue of θ-b). DLK with (T3⁺) ∪ (T4) edge
 `k4/sx_xcheck.py`). The repairs there have the shape of Lemmas C and C′: another free-valid owner owns after the swap.
 
 **What f ≥ 2 still needs.**
-- A form of Lemma F: Theorem Z′'s free-valid owner exists at every f ≥ 2 key on these data, but it is not proved. The
-  last step of Theorem Z′ uses f = 1. At f ≥ 2 it yields either a free-valid owner, or free agents all of kind (T4)
-  whose frozen goods are needed only by frozen agents, i.e. a cycle of the frozen need digraph and hence a (T4) move.
+- Lemma F⁺ gives the forest and the leaves. What is missing is the analogue of Lemma T, a *free* needer of a frozen
+  good reached by a need chain from the threatened frozen agent. At f ≥ 2 every good of 𝒩 may be needed by frozen
+  agents only. Then the frozen need digraph has a cycle, which is a (T4) move (`k4/dl13.md` Lemma 12), but that move
+  is not shown to lower def*.
 - The analogues of Lemmas B, C and C′ along need chains.
-- A count of the frozen agents a leaf's bundle threatens: at f = 1 it is one by definition, and at f ≥ 2 it is two in
-  the failing case above.
+- A leaf's bundle may threaten two frozen agents (the failing case above); at f = 1 it threatens only x.
 
 ## 7. Reproduce
 
