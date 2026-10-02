@@ -6,9 +6,9 @@ min-frozen neighbour P′ with def(P′) < def(P) under RT4 = T1 ∪ T2 ∪ T3 �
 `results/k4_dl13/n4_FAILURES.md`). The ledger is not edited here; what follows is for the coordinator of compute/k4-rt4 and the proof
 workstream to weigh.
 
-**Status: written while run n5b_4bt was still running** (`k4_certs_5_n4_4 --bt=all`, 16,000 random profiles per core, seed 2). The counts
-below cover the failures found up to then; `n5b_SUMMARY.md` gives the final counts of the whole slice. Runs n5b_3 and n5b_3bt (three 4-good
-agents) have no failure; run n5b_4 (four 4-good agents, unrestricted) has 3, and run n5b_4bt (big-top restricted) has 36 so far.
+**Status: final** (all four runs of the slice finished). Runs n5b_3 and n5b_3bt (three 4-good agents) have no failure; run n5b_4 (four
+4-good agents, 16,000 random profiles per core, seed 1) has 3, and run n5b_4bt (the same file with `--bt=all`, seed 2) has 36. Per-run
+counts are in `n5b_SUMMARY.md`.
 
 ## The failures
 
@@ -62,7 +62,7 @@ The smallest example, core pos 3206 (idx 364, m = 9) of `k4_certs_5_n4_4`, profi
 
 ## Confirmation
 
-`python3 k4/dlrt4_ref.py inst results/k4_rt4/n5b_failures_inst.json --jobs=2` (log `ref_n5b_failures.log`; the inst list is written by
+`python3 k4/dlrt4_ref.py inst results/k4_rt4/n5b_failures_inst.json --jobs=4` (log `ref_n5b_failures.log`; the inst list is written by
 `k4/dlrt4_failures.py --inst`): the reference (model.py + dl2_relations.py + its own T4 test) re-derives all 102 def > 0 states of the seven
 profiles, agrees with dlrt4.c on every field of every state (0 mismatches, 0 assertions; dl13.c and the -DBIGPP=0 build agree too), and
 finds **39 DL_RT4 failures at f ≥ 1**, the 39 states above.

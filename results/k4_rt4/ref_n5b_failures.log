@@ -1,4 +1,4 @@
-# command: python3 k4/dlrt4_ref.py inst results/k4_rt4/n5b_failures_inst.json --jobs=2
+# command: python3 k4/dlrt4_ref.py inst results/k4_rt4/n5b_failures_inst.json --jobs=4
 #  7 / 7 profiles: {'prof': 7, 'prof_pos': 7, 'prof_f1': 7, 'st': 102, 'st_f1': 102, 'f1_t3p': 63, 'f1_t3h': 44, 'fail_f1': 39}
 # dlrt4.c sha256 fcde494a3161279d47a7b80e614f69c58894ebc7b40d00e461f677b8810d7cae
 profiles 7 (with a def > 0 state 7, with an f >= 1 state 7); states 102 (f = 0: 0, f >= 1: 102); DL_RT4 failures f >= 1: 39, RT4 failures f = 0: 0
