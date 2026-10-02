@@ -135,7 +135,8 @@ Findings on the exhaustive data:
 So on these data the exchange works with a′ = the needer at the end of the chain, but which end matters beyond
 n = 4: on H₄ and H₅ r (the last end) is bad for every bad first agent, while the end shared by the most exposed frozen
 agents (y₁, the y of the first gadget the cascade from ℓ reaches) is good; on H_t also (x1) (x_{1,1}) is good. And on
-HH₃ there is nothing to exchange with. The failed partners are recorded in `attempts/k4-lemmam-x-exchange.md`.
+HH₃ there is nothing to exchange with if Proposition HH holds. The failed partners are recorded in
+`attempts/k4-lemmam-x-exchange.md`.
 
 ## 3. What the run of a bad first agent looks like
 
@@ -375,8 +376,8 @@ Let a run have just closed a block β, and let G be the set of goods not yet pic
   not frozen, not threatened by W_β with their pick, and other than r;
 - the **block count** δ(β) := max(0, Σ_{x∈X_β} ρ_β(x) − κ₀(β)).
 
-The first version of the count (the *chain-end count*, used by the greedy runs of §7.3 and by every log made before
-the option `-G1`) had, in place of κ₀(β), the ends of need chains: with D_β(x) the ends of need chains from x inside β
+The first version of the count (the *chain-end count*, `k4/lemmam_x.c`'s default; every log made without `-G1`
+uses it) had, in place of κ₀(β), the ends of need chains: with D_β(x) the ends of need chains from x inside β
 that are not threatened by W_β with their pick, other than r, δᵉ(β) := max(0, max over nonempty X′ ⊆ X_β of
 Σ_{x∈X′} ρ_β(x) − |⋃_{x∈X′} D_β(x)|). The ends are agents counted in κ₀(β), so δ(β) ≤ δᵉ(β) (take X′ = X_β), and
 everything below holds for δᵉ too. The slot count δ is the PR #77 referee's repair (§7.3, (L1∃)).
@@ -463,12 +464,16 @@ the run block by block with Lemma 5 (or 5′) as the certificate:
   block whose run succeeds with at most one rotation.*
 - (L1∃) *some insertion sequence has every non-last block at count 0 and succeeds with at most one rotation.* (L1)
   implies (L1∃), and (L1∃) implies M_ad (for (L1∃) the cumulative count of Lemma 5′ is the same as the count at
-  closing). True at n ≤ 3, **false** at n = 4, m = 6 (§7.3), on profiles where M_ad holds without rotation.
+  closing). True at n ≤ 3 and at n = 4 with one 4-good agent; **false** at n = 4 with two 4-good agents, for the
+  chain-end count (m = 6) and for the slot count (§7.3; a non-existence claim of one implementation, `k4/lemmam_x.c`,
+  with the smallest instances checked by hand), on profiles where M_ad holds without rotation.
 
-So the block count of §7.1 (no upgrades, owner r, K = ∅) is not yet the local invariant: it misses what the upgrades
-and the other owners do. A local form needs a count that sees them, or the per-block repair of M_ad^blk: *(L2) after
-any prefix of repaired blocks some unprocessed agent starts a block that one rotation inside it repairs.* (L2) is not
-tested here; a block count of 1 alone does not give it (§7.3: a single block of count 1 can need two rotations).
+So neither block count of §7.1 is the local invariant. The chain-end count fails already where Lemma K's deficit
+without upgrades is negative (it ignores the slots of unexposed agents that end no chain; the slot count repairs this,
+the PR #77 referee's diagnosis); the slot count still fails where SLOTREASON. A local form needs a count that sees
+more of Lemma K (upgrades, other owners, kept sets K), or the per-block repair of M_ad^blk: *(L2) after any prefix of
+repaired blocks some unprocessed agent starts a block that one rotation inside it repairs.* (L2) is not tested here;
+a block count of 1 alone does not give it (§7.3: a single block of count 1 can need two rotations).
 
 Whatever the count, the step is what an exchange lemma would prove: at an insertion step where the agent of least
 index starts a bad block, show that another agent, read off that block (an overloaded end, Lemma 3), starts a good
@@ -548,29 +553,28 @@ prefixes without a good continuation.
 
 ### 7.4 Lean
 
-`lean/EFX/LB4R.lean` and `lean/EFX/RuleF.lean` (on main; RuleF.lean from PR #72) already contain what M_ad needs:
-`phase1State v agents goods τ` takes any insertion sequence (its j-th entry picks the (τ_j mod u)-th unprocessed agent
-in index order, so a sequence of agents, as `k4/lemmam_x.c` prints it, translates by replaying Phase 1, as
-`k4/lemmam_x_check.py` does), and `SucceedsR d v agents goods τ` is "LB₄ʳ(τ) succeeds with at most d rotations". The
-global form of M_ad is
+`lean/EFX/LB4R.lean` and `lean/EFX/RuleF.lean` already contain what M_ad needs: `phase1State v agents goods τ` takes
+any insertion sequence (its j-th entry picks the (τ_j mod u)-th unprocessed agent in index order, so a sequence of
+agents, as `k4/lemmam_x.c` prints it, translates by replaying Phase 1, as `k4/lemmam_x_check.py` does), and
+`SucceedsR d v agents goods τ` is "LB₄ʳ(τ) succeeds with at most d rotations". `lean/EFX/Adaptive.lean` (the text
+compiled first by the PR #77 referee; ledger K4.LMX.AD.LEAN, `lean/check.sh` passes) states M_ad and proves what it
+gives:
 
-    /-- Adaptive Lemma M's target (k4/lemmam_x.md §7.2). Open (K4.LMX.AD). -/
     def TheoremAdaptive (A G : Type) [DecidableEq A] [DecidableEq G] : Prop :=
       ∀ (agents : List A) (goods : List G) (v : A → G → Nat), agents.Nodup → goods.Nodup →
         IsCore4 v agents goods → Strict v agents goods → ∃ τ : List Nat, SucceedsR 1 v agents goods τ
 
-    theorem C4exists_of_adaptive (h : TheoremAdaptive A G) : TheoremC4exists A G :=
-      fun agents goods v hag hgd hc hs => by
-        obtain ⟨τ, hτ⟩ := h agents goods v hag hgd hc hs
-        exact sound_of_succeeds hag hgd (succeeds_of_succeedsR (by omega) hτ)
+    theorem C4exists_of_adaptive (h : TheoremAdaptive A G) : TheoremC4exists A G
+    theorem adaptive_of_ruleF (h : TheoremRuleF A G) : TheoremAdaptive A G
+    theorem target4_of_adaptive (I : Inst) (hn : 0 < I.n) (h : TheoremAdaptive (Fin I.n) (Fin I.m))
+        (h4 : ∀ i, numRelevant I i ≤ 4) : ∃ X : I.Alloc, I.EFX0 X
 
-`TheoremRuleF` implies it (take τ = [a]); the proof is `C4exists_of_ruleF`'s with `⟨τ, hτ⟩` for `⟨a, -, ha⟩`, and
-the same edit of `C4existsConn_of_ruleFConn` and `target4_of_ruleF` gives `AdaptiveConn ⟹ C4existsConn ⟹ TARGET₄`
-(`AdaptiveConn` with `Connected` and a 4-good agent, as `RuleFConn`). This text is not compiled here (it would need a
-new module imported from `lean/EFX.lean`, a file of the formal workstreams). A version with one rotation per block
-needs `SucceedsR d` for unbounded d: `sound_of_succeeds` generalizes at once (`rotReach_inv` holds for every d), but
-`succeeds_of_succeedsR` needs d ≤ 3, so that version would need a short `sound_of_succeedsR`. Lemma K's certificates
-are `Output`s (`k4/rulef.md` §7, step 1), so Lemmas 5, 5′ and the data of §7.3 are statements about `SucceedsR 0`
+The proofs are those of `C4exists_of_ruleF` and `target4_of_ruleF` with `⟨τ, hτ⟩` for `⟨a, -, ha⟩`; the same edit
+of `C4existsConn_of_ruleFConn` would give `AdaptiveConn ⟹ C4existsConn ⟹ TARGET₄` (`AdaptiveConn` with `Connected`
+and a 4-good agent, as `RuleFConn`; not added). M_ad^blk needs `SucceedsR d` for unbounded d: `sound_of_succeeds`
+generalizes at once (`rotReach_inv` holds for every d), but `succeeds_of_succeedsR` needs d ≤ 3, so that version
+would need a short `sound_of_succeedsR`. Lemma K's certificates are `Output`s (`k4/rulef.md` §7, step 1;
+`EFX.LB4R.output_of_lemmaK`, K4.RF.K.LEAN), so Lemmas 5, 5′ and the data of §7.3 are statements about `SucceedsR 0`
 and `SucceedsR 1`.
 
 ## 8. Reproduce
