@@ -5,8 +5,8 @@
   rulef_hunt_seeds.py suite OUT    every complete, strict k = 4 core instance of k4/suite/instances with 4 <= n <= 9
   rulef_hunt_seeds.py best OUT K CK..  the best profile of every unit of the checkpoint files CK (k4/rulef_hunt.py
                                    ck/RUN.jsonl) with best_nwork <= K, least nwork first
-  rulef_hunt_seeds.py tight OUT F.. the profiles of the dumps F (tight_*.jsonl.gz) with nwork <= 1, one per core
-                                   (the one with the least key), to search around them
+  rulef_hunt_seeds.py tight OUT F.. the profiles of the dumps F (tight_*.jsonl.gz) with nwork <= 1, one per searched
+                                   core (unit or seed tag; the one with the least key, a relabeled one possibly)
 The relabeling of agents matters to rule RK (index order after the first agent); of goods it does not (strict types)."""
 import glob, gzip, itertools, json, os, random, sys
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -57,7 +57,7 @@ def main():
             for line in gzip.open(f, 'rt'):
                 o = json.loads(line)
                 if o['nwork'] > 1: continue
-                k = json.dumps(o['sets'])
+                k = o.get('tag') or o['unit']        # one seed per searched core (relabeled profiles included)
                 key = (o['nwork'], -min(o['def']), o['nK0'])
                 if k not in best or key < best[k][0]:
                     best[k] = (key, {'sets': o['sets'], 'vals': o['vals'], 'tag': 'tight ' + o['unit']})
