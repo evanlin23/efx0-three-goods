@@ -18,7 +18,7 @@ import rt4_n5_indep as RI
 from zmh_lib import Prof, load_inputs
 
 
-def zmove_indep(sets, vals, m):
+def zmove_indep(sets, vals, m, all_keys=False, want_ns=False):
     ns = RI.analyse(sets, vals, m)
     n, mf, D, info, classify, f, sigma = (ns[k] for k in ('n', 'mf', 'D', 'info', 'classify', 'f', 'sigma'))
     omega = f - sigma
@@ -41,7 +41,7 @@ def zmove_indep(sets, vals, m):
         return sum(1 for r in range(len(sets[i]) + 1) for T in itertools.combinations(sets[i], r) if val(i, T) < s)
     out = {}
     for k, ds in dstar.items():
-        if ds <= 0: continue
+        if ds <= 0 and not all_keys: continue
         NN = frozenset().union(*[b for b in k if b is not None])
         free = [i for i in range(n) if k[i] is None]
         Mp = sorted(set(range(m)) - NN)
@@ -80,6 +80,7 @@ def zmove_indep(sets, vals, m):
             per[PQ] = sum(1 for X in good if 'T3+' in classify(PQ, X)[0])
         t4 = any('T4' in classify(P, X)[0] for P in K[k] for X in mf if key(X) != k and dstar[key(X)] < ds)
         out[k] = (ds, best, per, t4)
+    if want_ns: return omega, out, ns, dstar
     return omega, out
 
 
