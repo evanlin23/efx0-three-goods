@@ -10,13 +10,16 @@ with k4/cover_check.check_profile:
   margin(κ)   = the number of (maximum, lemma) pairs covering κ (COVER's lemmas at f = 1, COVER⁺'s at f >= 2);
   rare(κ)     = κ is covered only by B⁺ with threat path 1, or only by C′⁺ instances whose paying good is φ(w) of a
                 frozen agent off the move (f >= 2); only by B1′, C′ or exact-only hypotheses (f = 1);
-  score       = min over κ of margin(κ) - 2·rare(κ), and -1000 for an uncovered key (lower is better).
+  score       = min over κ of margin(κ) - 2·rare(κ) (lower is better); for an uncovered key -1060 + the number of
+                (T3)/(T3⁺) moves from its P_Q's to deficit <= 0 (at most 50), and -3000 if there is none (NO-ZMOVE: the
+                conclusion of Theorem Z′⁺ fails there).
 Metropolis acceptance at a temperature that falls linearly; restarts from the best state after `--patience` steps
 without improvement. Every profile with an uncovered key, and every new rare key, is appended to OUT (gzip JSON lines,
 the check_profile record plus 'why'); the run's state is checkpointed in OUT.state.json (resumable).
 
 usage: python3 k4/cover_hunt.py OUT.jsonl.gz --seed='{"sets": ..., "vals": ..., "m": ...}' | --seedfile=F.jsonl.gz[:i]
-       [--minutes=M] [--K=16] [--T0=2] [--rng=R] [--patience=P]"""
+       [--minutes=M] [--K=16] [--T0=2] [--rng=R] [--patience=P] [--frange=a:b]
+--frange keeps the walk on profiles whose fewest-frozen count f lies in a:b (default every f >= 1)."""
 import gzip, json, math, os, random, subprocess, sys, time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -50,14 +53,19 @@ def score(rec):
         if 'assert' in kr: tags.append('LEMMA-ASSERT'); return -2000, tags
         margin, rare, tag = key_eval(rec, kr)
         s = -1000 if margin == 0 else margin - 2 * rare
-        if margin == 0: tags.append('UNCOVERED')
+        if margin == 0:
+            tags.append('UNCOVERED')
+            zm = sum(z['moves'] for z in kr.get('zmove', []))
+            if zm == 0: tags.append('NO-ZMOVE'); s = -3000
+            else: s = -1000 + min(zm, 50) - 60     # fewer repair moves from the P_Q: closer to a ZMOVE failure
         if tag: tags.append(tag)
         best = s if best is None else min(best, s)
     return best, tags
 
 
 class Hunt:
-    def __init__(self, seed, rng):
+    def __init__(self, seed, rng, frange='1:99'):
+        self.frange = frange
         self.sets, self.m = seed['sets'], seed['m']
         self.n = len(self.sets)
         doms = core_domains(self.sets, self.m, False)
@@ -88,7 +96,7 @@ class Hunt:
             for S, v in zip(self.sets, self.vals(st)):
                 blocks.append('%d %s 1' % (len(S), ' '.join(map(str, S)))); blocks.append(' '.join(map(str, v)))
             blocks.append('0 1')
-        p = subprocess.run([self.bin, '-f', '1:99'], input='\n'.join(blocks) + '\n', capture_output=True, text=True,
+        p = subprocess.run([self.bin, '-f', self.frange], input='\n'.join(blocks) + '\n', capture_output=True, text=True,
                            check=True)
         hit = set()
         for line in p.stdout.splitlines():
@@ -115,7 +123,7 @@ def main(argv):
     rng = random.Random(int(opt.get('rng', 1)))
     K = int(opt.get('K', 16)); T0 = float(opt.get('T0', 2)); minutes = float(opt.get('minutes', 20))
     patience = int(opt.get('patience', 60))
-    H = Hunt(seed, rng)
+    H = Hunt(seed, rng, opt.get('frange', '1:99'))
     stf = out + '.state.json'
     stats = {'steps': 0, 'evals': 0, 'screened': 0, 'hits': 0, 'uncovered': 0, 'rare': 0, 'restarts': 0,
              'elapsed': 0.0, 'seen_rare': []}
@@ -141,7 +149,7 @@ def main(argv):
             s, rec, tags = H.evaluate(st); stats['evals'] += 1
             if s is None: continue
             cands.append((s, st))
-            interesting = [t for t in tags if t in ('UNCOVERED', 'LEMMA-ASSERT')]
+            interesting = [t for t in tags if t in ('UNCOVERED', 'LEMMA-ASSERT', 'NO-ZMOVE')]
             rk = json.dumps([rec['vals']])
             if interesting or (tags and rk not in seen_rare):
                 if 'UNCOVERED' in tags: stats['uncovered'] += 1

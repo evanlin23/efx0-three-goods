@@ -33,7 +33,8 @@ assertion is caught and reported as LEMMA-ASSERT with the profile (it would refu
 Per key with def* > 0: the maxima, at each the lemmas that apply, the key's verdict (covered, by which lemmas at
 which maxima, or UNCOVERED). For an UNCOVERED key also: DLKey at the key (some state of κ has a (T3), (T3⁺) or (T4)
 move to a min-frozen state whose key has smaller def*; the move classes found, with the least |W| and helper use),
-and, as a diagnostic, k4/f2_cc.test_max's C⁺ / C′⁺ at f = 1.
+and, as a diagnostic, k4/f2_cc.test_max's C⁺ / C′⁺ at f = 1; and 'zmove': per maximum, the number of (T3)/(T3⁺) moves
+from P_Q to a state of deficit <= 0 (Theorem Z′⁺'s conclusion without its hypothesis), split by kind.
 
 Inputs: dumps of k4/sx_keygraph.py --dump, k4/sx_hunt.py or k4/cover_screen_run.py (gzip JSON lines with sets, vals,
 m), JSON instance lists ({sets, vals, m}), or #53-style catalogues (records with core.sets, core.m, vals).
@@ -222,6 +223,12 @@ def check_profile(d, opt):
         kr['maxima_covered'] = sum(1 for mr in kr['maxima'] if set(mr['lemmas']) & target)
         if not cov or opt['dlk'] or 'assert' in kr:
             kr['dlkey'] = dlkey(kp, k)
+        if not cov:                 # Theorem Z′⁺'s conclusion without its hypothesis: moves from each P_Q to def <= 0
+            kr['zmove'] = []
+            for c, Bs, V, X in f2_cc.maxima(kp, k):
+                mv = [(len(W), h is not None) for b2, x, z, W, h in kp.t3plus_moves(Bs) if kp.D[b2] <= 0]
+                kr['zmove'].append({'moves': len(mv), 'T3 no helper': mv.count((0, False)),
+                                    'T3 helper': mv.count((0, True)), 'T3+': sum(1 for w, _ in mv if w)})
         if not cov and I.f == 1 and 'assert' not in kr:     # diagnostic: C⁺ / C′⁺ of k4/f2.md §5 at f = 1
             fb = set()
             for c, Bs, V, X in f2_cc.maxima(kp, k):

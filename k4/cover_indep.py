@@ -16,7 +16,8 @@ the image state P′ is built and checked with k4/rt4_n5_indep.py: def(P′) <= 
 Lemma C is tested with τ₁ any terminal (the statement says τ₁ need not be a leaf); k4/sx_zprime.py tests leaves only,
 so the comparison counts that difference apart.
 
-usage: python3 k4/cover_indep.py COVER_CHECK_OUT.jsonl.gz [--every=E] [--max=N]     compare with k4/cover_check.py
+usage: python3 k4/cover_indep.py COVER_CHECK_OUT.jsonl.gz ... [--every=E] [--max=N] [--maxn=N] [--uncovered]
+           compare with k4/cover_check.py (--uncovered: only the profiles with a key it finds uncovered)
        python3 k4/cover_indep.py --one '{"sets": ..., "vals": ..., "m": ...}'        one profile, every key"""
 import collections, gzip, itertools, json, os, re, sys, time
 
@@ -367,7 +368,10 @@ def main(argv):
         for line in gzip.open(fn, 'rt'):
             try: recs.append(json.loads(line))
             except ValueError: break
-    recs = [r for r in recs if r.get('keys')][::every][:mx_n]
+    recs = [r for r in recs if r.get('keys')]
+    if '--uncovered' in argv: recs = [r for r in recs if any(not kr['covered'] for kr in r['keys'])]
+    if 'maxn' in opt: recs = [r for r in recs if len(r['sets']) <= int(opt['maxn'])]
+    recs = recs[::every][:mx_n]
     for r in recs:
         d = {'sets': r['sets'], 'vals': r['vals'], 'm': r['m']}
         pf, res, fails = analyse(d)

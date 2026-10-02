@@ -31,14 +31,10 @@ def summarize(name, files):
         s = size(r)
         if tag not in small or s < small[tag][0]: small[tag] = (s, r, kr)
     for fn in files:
+        lines = []
         try:
-            fh = gzip.open(fn, 'rt')
-            lines = list(fh)
-        except (EOFError, OSError):
-            lines = []
-            try:
-                for line in gzip.open(fn, 'rt'): lines.append(line)
-            except (EOFError, OSError): pass
+            for line in gzip.open(fn, 'rt'): lines.append(line)
+        except (EOFError, OSError): pass                      # a file still being written: its readable part
         for line in lines:
             try: r = json.loads(line)
             except ValueError: continue
