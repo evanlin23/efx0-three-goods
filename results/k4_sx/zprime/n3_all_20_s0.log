@@ -1,0 +1,18 @@
+# command: python3 k4/sx_zprime.py results/k4_sx/hunt/n3_all_20.jsonl.gz --start=0 --max=4000 --examples=3
+MAIN CASE A                                                                                          5506
+Zmax                                                                                                 5506
+keys                                                                                                 4000
+keys xtype=bcbd                                                                                      1592
+keys xtype=flat                                                                                      2408
+regime I                                                                                             5506
+regime I OS o theta-b=False                                                                          11012
+regime I OS succeeds                                                                                 5506
+regime I Prop C applies=False (only (H) missing=False)                                               5506
+regime I Prop C' applies=False (only (H') missing=False)                                             5506
+regime I Zmax with a direct T3 move                                                                  5506
+regime I cases A,A*                                                                                  5506
+regime I direct kind ('zV', '-', 'own=x')                                                            5506
+regime I direct kind ('zV', 'hV', 'own=x')                                                           5506
+regime I |V|=2 |T|=2 |VT|=2 t=0 x=bcbd                                                               2192
+regime I |V|=2 |T|=2 |VT|=2 t=0 x=flat                                                               3314
+# time 25.2 s

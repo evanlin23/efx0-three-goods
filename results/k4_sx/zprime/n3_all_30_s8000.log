@@ -1,0 +1,53 @@
+# command: python3 k4/sx_zprime.py results/k4_sx/hunt/n3_all_30.jsonl.gz --start=8000 --max=4000 --examples=3
+MAIN CASE A                                                                                          6684
+MAIN CASE B1                                                                                         828
+MAIN CASE C                                                                                          64
+Zmax                                                                                                 7576
+keys                                                                                                 4000
+keys xtype=BT                                                                                        928
+keys xtype=bc                                                                                        288
+keys xtype=bcbd                                                                                      864
+keys xtype=flat                                                                                      1920
+regime I                                                                                             6748
+regime I OS o theta-b=False                                                                          10096
+regime I OS o theta-b=True                                                                           616
+regime I OS succeeds                                                                                 6748
+regime I OS theta-b: exact def(P')<def* True, OSd bundle value 3 (omega+2=4), T=several              448
+regime I OS theta-b: exact def(P')<def* True, OSd bundle value None (omega+2=4), T=several           168
+regime I Prop C applies=False (only (H) missing=False)                                               6196
+regime I Prop C applies=True (only (H) missing=False)                                                552
+regime I Prop C' applies=False (only (H') missing=False)                                             6540
+regime I Prop C' applies=True (only (H') missing=False)                                              208
+regime I Zmax with a direct T3 move                                                                  6748
+regime I cases A*,C,C'                                                                               64
+regime I cases A,A*                                                                                  6196
+regime I cases A,A*,C                                                                                344
+regime I cases A,A*,C,C'                                                                             144
+regime I direct kind ('zV', '-', 'own=V')                                                            412
+regime I direct kind ('zV', '-', 'own=x')                                                            6582
+regime I direct kind ('zV', 'h', 'own=other')                                                        642
+regime I direct kind ('zV', 'h', 'own=x')                                                            2784
+regime I direct kind ('zV', 'hV', 'own=V')                                                           412
+regime I direct kind ('zV', 'hV', 'own=x')                                                           3964
+regime I |V|=1 |T|=1 |VT|=1 t=0 x=BT                                                                 2784
+regime I |V|=2 |T|=2 |VT|=2 t=0 x=flat                                                               344
+regime I |V|=2 |T|=2 |VT|=2 t=1 x=bc                                                                 368
+regime I |V|=2 |T|=2 |VT|=2 t=1 x=bcbd                                                               1104
+regime I |V|=2 |T|=2 |VT|=2 t=1 x=flat                                                               2148
+regime II                                                                                            828
+regime II GPM ok k=1 adjacent(T3)=True                                                               828
+regime II GPM paths k=1 leaf kind=D                                                                  720
+regime II GPM paths k=1 leaf kind=R                                                                  108
+regime II OS succeeds                                                                                0
+regime II Prop C applies=False (only (H) missing=False)                                              828
+regime II Prop C' applies=False (only (H') missing=False)                                            828
+regime II Zmax with a direct T3 move                                                                 828
+regime II cases B1                                                                                   828
+regime II direct kind ('zT', '-', 'own=V')                                                           180
+regime II direct kind ('zT', 'hV', 'own=V')                                                          108
+regime II direct kind ('zT', 'hV', 'own=x')                                                          828
+regime II |V|=1 |T|=1 |VT|=0 t=0 x=BT                                                                828
+EX II ({'sets': [[0, 1, 2, 3], [2, 4, 5, 6], [3, 4, 5, 6]], 'vals': [[2, 3, 4, 8], [2, 6, 10, 7], [10, 2, 7, 6]], 'm': 7}, (3, None, None), 'Config(key=[3, None, None], Q={1: [2, 5], 2: [4, 6]}, L=[0, 1])', 'V', [1], 'T', [2], 'thx', [1], 't', 0, 'BT', [('zT', 'hV', 'own=x')])
+EX II ({'sets': [[0, 1, 2, 3], [2, 4, 5, 6], [3, 4, 5, 6]], 'vals': [[2, 3, 6, 10], [2, 6, 10, 7], [10, 2, 7, 6]], 'm': 7}, (3, None, None), 'Config(key=[3, None, None], Q={1: [2, 5], 2: [4, 6]}, L=[0, 1])', 'V', [1], 'T', [2], 'thx', [1], 't', 0, 'BT', [('zT', 'hV', 'own=x')])
+EX II ({'sets': [[0, 1, 2, 3], [2, 4, 5, 6], [3, 4, 5, 6]], 'vals': [[2, 4, 3, 8], [2, 6, 10, 7], [10, 2, 7, 6]], 'm': 7}, (3, None, None), 'Config(key=[3, None, None], Q={1: [2, 5], 2: [4, 6]}, L=[0, 1])', 'V', [1], 'T', [2], 'thx', [1], 't', 0, 'BT', [('zT', 'hV', 'own=x')])
+# time 59.4 s

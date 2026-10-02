@@ -1,0 +1,26 @@
+# command: python3 k4/sx_zprime.py results/k4_sx/hunt/n5_pure_r1000_3000.jsonl.gz --start=0 --max=4000 --examples=3
+MAIN CASE A                                                                                          4
+Zmax                                                                                                 4
+keys                                                                                                 2
+keys xtype=flat                                                                                      2
+regime I                                                                                             4
+regime I GPM ok k=1 adjacent(T3)=True                                                                3
+regime I GPM paths k=1 leaf kind=Tg                                                                  3
+regime I OS o theta-b=False                                                                          5
+regime I OS succeeds                                                                                 4
+regime I Prop C applies=False (only (H) missing=False)                                               4
+regime I Prop C' applies=False (only (H') missing=False)                                             4
+regime I Zmax with a direct T3 move                                                                  4
+regime I cases A,A*                                                                                  1
+regime I cases A,A*,B1                                                                               3
+regime I direct kind ('zT', '-', 'own=V')                                                            3
+regime I direct kind ('zT', '-', 'own=x')                                                            3
+regime I direct kind ('zT', 'hV', 'own=V')                                                           3
+regime I direct kind ('zT', 'hV', 'own=x')                                                           3
+regime I direct kind ('zV', '-', 'own=V')                                                            1
+regime I direct kind ('zV', '-', 'own=x')                                                            4
+regime I direct kind ('zV', 'hV', 'own=V')                                                           1
+regime I direct kind ('zV', 'hV', 'own=x')                                                           4
+regime I |V|=3 |T|=2 |VT|=1 t=1 x=flat                                                               3
+regime I |V|=4 |T|=2 |VT|=2 t=1 x=flat                                                               1
+# time 0.3 s

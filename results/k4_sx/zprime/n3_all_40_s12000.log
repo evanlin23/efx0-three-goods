@@ -1,0 +1,27 @@
+# command: python3 k4/sx_zprime.py results/k4_sx/hunt/n3_all_40.jsonl.gz --start=12000 --max=4000 --examples=3
+MAIN CASE A                                                                                          3981
+MAIN CASE C                                                                                          744
+Zmax                                                                                                 4725
+keys                                                                                                 4000
+keys xtype=bc                                                                                        359
+keys xtype=bcbd                                                                                      716
+keys xtype=flat                                                                                      2925
+regime I                                                                                             4725
+regime I OS o theta-b=False                                                                          3981
+regime I OS o theta-b=True                                                                           5469
+regime I OS succeeds                                                                                 4725
+regime I OS theta-b: exact def(P')<def* True, OSd bundle value 4 (omega+2=5), T=several              5021
+regime I OS theta-b: exact def(P')<def* True, OSd bundle value None (omega+2=5), T=several           448
+regime I Prop C applies=True (only (H) missing=False)                                                4725
+regime I Prop C' applies=True (only (H') missing=False)                                              4725
+regime I Zmax with a direct T3 move                                                                  4725
+regime I cases A*,C,C'                                                                               744
+regime I cases A,A*,C,C'                                                                             3981
+regime I direct kind ('zV', '-', 'own=V')                                                            4725
+regime I direct kind ('zV', '-', 'own=x')                                                            3981
+regime I direct kind ('zV', 'hV', 'own=V')                                                           4585
+regime I direct kind ('zV', 'hV', 'own=x')                                                           4725
+regime I |V|=2 |T|=2 |VT|=2 t=1 x=bc                                                                 423
+regime I |V|=2 |T|=2 |VT|=2 t=1 x=bcbd                                                               828
+regime I |V|=2 |T|=2 |VT|=2 t=1 x=flat                                                               3474
+# time 90.9 s

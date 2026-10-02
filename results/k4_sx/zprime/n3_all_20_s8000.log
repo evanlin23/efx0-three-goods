@@ -1,0 +1,20 @@
+# command: python3 k4/sx_zprime.py results/k4_sx/hunt/n3_all_20.jsonl.gz --start=8000 --max=4000 --examples=3
+MAIN CASE A                                                                                          5295
+Zmax                                                                                                 5295
+keys                                                                                                 4000
+keys xtype=bcbd                                                                                      1600
+keys xtype=flat                                                                                      2400
+regime I                                                                                             5295
+regime I OS o theta-b=False                                                                          10590
+regime I OS succeeds                                                                                 5295
+regime I Prop C applies=False (only (H) missing=False)                                               5295
+regime I Prop C' applies=False (only (H') missing=False)                                             5295
+regime I Zmax with a direct T3 move                                                                  5295
+regime I cases A,A*                                                                                  5295
+regime I direct kind ('zV', '-', 'own=V')                                                            48
+regime I direct kind ('zV', '-', 'own=x')                                                            5295
+regime I direct kind ('zV', 'hV', 'own=V')                                                           48
+regime I direct kind ('zV', 'hV', 'own=x')                                                           5295
+regime I |V|=2 |T|=2 |VT|=2 t=0 x=bcbd                                                               2088
+regime I |V|=2 |T|=2 |VT|=2 t=0 x=flat                                                               3207
+# time 28.0 s
