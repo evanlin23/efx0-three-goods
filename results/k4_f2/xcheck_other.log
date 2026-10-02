@@ -1,0 +1,3 @@
+# command: python3 k4/f2_xcheck.py results/k4_rt4/n5b_failures_inst.json results/k4_rt4/n5c_fail_inst.json k4/suite/.cache/rc/hunt_fail10_sample_inst.json --dumps=results/k4_f2/shapes_n5fail.jsonl.gz,results/k4_f2/shapes_rchunt.jsonl.gz
+# dlrt4.c sha256 fcde494a3161279d47a7b80e614f69c58894ebc7b40d00e461f677b8810d7cae; 64 profiles; 64 profiles with T3-stage states in the dumps
+# C: DL_RT4 failures at f >= 2 482, C: T3-stage states 1344, C: f>=2 def>0 states 1432, f2_shapes: T3-stage states 1344, profiles 64, profiles with T3-stage states 64
