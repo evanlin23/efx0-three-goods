@@ -32,9 +32,9 @@ partners were proposed (`k4/rulef.md` §6 Step 3): (x1) the exposed frozen 4-goo
   `k4/lemmam_bt.py`, and its exact encoding A; not recomputed here: with the kept-out sets of `k4/rulef.md` §2 Remark 4
   the 26 first agents exceed the time allowed per run).
 
-**What survives** (`k4/lemmam_x.md`): the structure of bad runs (Lemmas 1–3: an exposed frozen agent, an exposed 4-good
-agent or (G2), a shortage of slots (hence a Hall violator) among the exposed frozen agents; for (G2), k*'s lower goods are goods of r), the
-locality Lemma 4, and the repaired target, adaptive insertion (§7).
+**What survives** (`k4/lemmam_x.md`): the structure of bad runs (Lemmas 1–3: an exposed frozen agent, an exposed
+4-good agent or (G2), a shortage of slots (hence a Hall violator) among the exposed frozen agents; for (G2), k*'s
+lower goods are goods of r), the locality Lemma 4, and the repaired target, adaptive insertion (§7).
 
 **Smallest failing configurations.** (x1), (x2): n = 3, m = 6 above. (x4): H₄, n = 17, m = 43, first agent ℓ = 0,
 r = 16 (smallest found; on H₂, H₃ and at n ≤ 4 r is good). Every partner: HH₃, n = 26, if Proposition HH holds.
