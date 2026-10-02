@@ -7,7 +7,16 @@ confirmed by two further implementations, written independently of dlrc.c:
 
 Conjecture DL_RC is the statement of `k4/dlrc.c`'s header. At f ≥ 1, every min-frozen P with def(P) > 0 must have an R_C neighbour P′ with def(P′) < def(P), where R_C = T1 ∪ T2 ∪ T3⁺ ∪ T4. LEDGER.md is not edited here.
 
-**Status: DL_RC fails at n = 5, m = 13, f = 1.** The failures are **369 profiles** of one pure core, with one failing state each, and it is the same state in every profile. **DL on the key graph holds at all of them.** These states are also DL_RT4 failures of a new kind: they are at f = 1 (the known ones were at f = 3) and are not chain states. DL_RC fails nowhere else in the inputs of the n = 5 failures (task (c)), or anywhere else the hunt went so far (SUMMARY.md).
+**Status: DL_RC fails in two pure n = 5 cores.**
+
+| core (pos in `k4_certs_5_pure`) | m | f | profiles | failing states | def | nearest distance k | nearest better states |
+|---|---:|---:|---:|---:|---:|---:|---|
+| 4604 | 13 | 1 | 369 | 369 | 1 | 3 | role swap, one helper that grows |
+| 4515 | 12 | 2 | 81 | 324 | 1 | 4 | role swap with two helpers |
+
+- At core 4604 it is the same state in every profile.
+- At core 4515 there are four states, which differ only in agent 3's base.
+- Section 1 below covers core 4604, section 2 core 4515. **DL on the key graph holds at all of them.** These states are also DL_RT4 failures of a new kind: they are at f = 1 (the known ones were at f = 3) and are not chain states. DL_RC fails nowhere else in the inputs of the n = 5 failures (task (c)), or anywhere else the hunt went so far (SUMMARY.md).
 
 ## How it was found and confirmed
 
@@ -28,7 +37,7 @@ Conjecture DL_RC is the statement of `k4/dlrc.c`'s header. At f ≥ 1, every min
   - `rc_failures_n5_inst.json`: one record per profile in `k4/suite/instances` form, with `fail_bases`.
 - **Key-form witnesses:** `rc_failures_n5_keyform.log` (recomputed with dlrc_ref.py's model for the first profile).
 
-## The failure
+## 1. The failure at core 4604 (m = 13, f = 1)
 
 Core pos 4604 (idx 58) of `results/k4_certs_5_pure.json.gz`, m = 13, sets
 `[[0,2,9,11],[1,6,10,12],[3,7,11,12],[4,8,11,12],[5,9,10,12]]`. The simplest profile found (largest value 8, value sum 97) is profile (44, 118, 8, 8, 158), as indices into `check4.core_domains(sets, 13, False)`. Its values, in the order of each agent's set:
@@ -64,15 +73,59 @@ Core pos 4604 (idx 58) of `results/k4_certs_5_pure.json.gz`, m = 13, sets
 
 All 369 failing profiles have the same core and the same failing state P, with f = 1, def 1, k = 3, frozen agent 0, NA = {11}, def* = 1 and kmin = −1. Each has the same 84 better states: 6 nearest of shape (1, 1, 0, 1) and 78 of shape (1, 1, 0, 2). They differ in the values of the five agents (`rc_failures_n5_all.tsv`). The hunt reached them by climbing from a random profile of the core. The core was ranked only by states at distance ≥ 2 in the earlier runs (rank [0, 0, 298, 23355]).
 
-## The search around it (towards smaller n, m and simpler values)
+## 2. The failure at core 4515 (m = 12, f = 2)
+
+**Found by** the extra random-core hunt (`k4/dlrc_hunt_runs_extra.sh`; run `certs_pure_x`, 1,500 random pure cores, `--bt=0.5`, seed 61; log `hunt_certs_pure_x.log`, dump `dump_hunt_certs_pure_x.jsonl.gz`).
+
+**Confirmed:**
+- `rc_fail_4515_inst.json` holds the 81 distinct failing profiles.
+- `ref_rc_fail_4515.log` (dlrc_ref.py): 8,018 def > 0 states, all at f = 2. DL_RT4 and DL_RC fail at 324, the key form at 0. There are 0 mismatches with dlrc.c on every field and the H lines, and 0 with dlrt4.c and the -DBIGPP=0 build.
+- `ref_rt4_rc_fail_4515.log` (dlrt4_ref.py, model.py): 324 DL_RT4 failures with 0 mismatches. At f = 2 a T3c move is possible, so the DL_RC verdict there rests on dlrc.c and dlrc_ref.py; neither finds an improving T3c move at these states.
+- `run_rc_fail_4515.log`, `dump_rc_fail_4515.jsonl.gz`: dlrc.c's records.
+- `rc_failures_4515.tsv`, `rc_failures_4515_inst.json` (suite form), `rc_failures_4515.log`: the listing.
+- `rc_failures_4515_keyform.log`: the key-form witnesses.
+
+**The core.** Core pos 4515 (idx 370), m = 12, sets `[[0,2,4,8],[1,8,10,11],[3,9,10,11],[4,5,6,7],[5,6,7,9]]`. The simplest failing profile (largest value 8, value sum 89) is profile (74, 153, 112, 227, 80) of `check4.core_domains`:
+
+| agent | goods | values |
+|---|---|---|
+| 0 | 0, 2, 4, 8 | 4, 3, 8, 2 (big-top) |
+| 1 | 1, 8, 10, 11 | 6, 3, 7, 5 |
+| 2 | 3, 9, 10, 11 | 4, 8, 3, 2 (big-top) |
+| 3 | 4, 5, 6, 7 | 8, 4, 2, 3 (big-top) |
+| 4 | 5, 6, 7, 9 | 4, 2, 3, 8 (big-top) |
+
+**The class.** The min-frozen class has 206 states, f = 2, σ = −2, and 4 keys.
+
+**The failing states.** P = ({4}, {1,8}, {10,11}, B₃, {9}), with B₃ ∈ {{5}, {5,6}, {5,7}, {6,7}}; with agent 3 on {7} it also fails, in 7 profiles.
+- Agents 0 and 4 are frozen, NA = {4, 9}, def(P) = 1, nearest distance k = **4**.
+- **No T1, T2, T3, T4 or T3c move improves P.**
+- Every better state keeps NA and has one of two shapes:
+  - **Nearest (k = 4), shape (1, 1, 0, 2): a role swap with two helpers.** Example: from P = ({4}, {1,8}, {10,11}, {5,6}, {9}) to P′ = ({0}, {1,10}, {3}, {4}, {9}), def −1. Agent 0 releases 4 for {0}, agent 3 takes {4} and becomes frozen, and both agent 1 ({1,8} → {1,10}) and agent 2 ({10,11} → {3}) give up goods. T3 allows one helper.
+  - **At distance 5, shape (2, 2, 0, 1): a double role swap**, two x's out and two z's in. Example: P′ = ({0}, {1,10}, {9}, {4}, {5}), def −1. Agents 0 and 4 become free, agent 2 takes {9} and agent 3 takes {4}, and helper 1 gives up a good.
+  - Over the 324 states (at most 400 better states each): 8,604 better states of shape (1, 1, 0, 2), all of them the nearest, and 19,776 of shape (2, 2, 0, 1). None is an R_C move.
+- From P itself there are 10 T3⁺ moves (W = ∅), all to states with def 1.
+
+**The key form holds** (def* = 1, kmin = −1):
+- all 60 states of P's key have def 1;
+- from the states of the key where agent 2 holds {3}, e.g. ({4}, {10}, {3}, {6,7}, {9}), plain T3p / T3h moves reach the keys with def* = −1;
+- 992 such witnesses are listed in `rc_failures_4515_keyform.log`.
+
+## The search around them (towards smaller n, m and simpler values)
 
 - **Simplest values.** The simplest failing profile (largest value 8, value sum 97) is the one shown above. The values are the integer representatives of the strict balanced types (`check4.core_domains`), so smaller values would need other types.
 - **Smaller m: deleting goods.** Deleting one or two goods from the failing core, keeping the remaining values, gives 350 smaller profiles that are cores (m = 11, 12) with valid values (`k4/dlrc_shrink.py`; `rc_shrink1.log`, `rc_shrink_any.log`). DL_RC holds on all 350. Climbs on the 40 cores obtained by deleting one or two goods (`hunt_shrink_cores.log`) find no DL_RC failure: 240 climbs, 8.7 M profiles, 13.4 M states.
 - **n = 4.** The earlier dlrt4.c runs enumerated every profile of the n = 4 cores with one or two four-good agents (compute/k4-rt4: `b_n4_1.log`, `c_n4_2.log`) and found no DL_RT4 failure. At f = 1, R_C = RT4, and at f ≥ 2 R_C contains RT4, so DL_RC holds there too (single implementation for that enumeration). Here, every n = 4 core with three or four four-good agents (558 cores) was climbed twice: runs `n4_pure`, `n4_n4_3`, `n4_pure_k3`, `n4_n4_3_k3`, with 16.3 M profiles. They find **no DL_RC failure**. They do find DL_RT4 failures at n = 4 that are chain states (SUMMARY.md).
-- **Other n = 5 cores.** No other core gave a DL_RC failure: the ranked and random hunts over the n = 5 cores with ≥ 3 four-good agents (SUMMARY.md).
+- **Other n = 5 cores.** Apart from cores 4604 and 4515, no core gave a DL_RC failure in the ranked and random hunts over the n = 5 cores with ≥ 3 four-good agents (SUMMARY.md). The second failure (m = 12) was found late, by the larger random sample, and the search around it is shorter (SUMMARY.md).
 
 ## What this bears on (for the coordinator; the ledger is unchanged here)
 
-- **DL_RC is false** on this evidence, and so is **DL_RT4**, at f = 1. That is a second, independent refutation of DL_RT4, besides the chain states at f = 3 (and f = 2, SUMMARY.md). At f = 1, R_C adds nothing to RT4.
-- The missing move is **a role swap whose helpers do not give up goods**: one helper growing by a junk good (distance 3), or two helpers (distance 4). This is the pattern `dl13-n4m9-rot` showed at n = 4, f = 1 ("role swaps with two helpers"); there, T2 rotations also helped, and here none does.
+- **DL_RC is false** on this evidence, and so is **DL_RT4**:
+  - at f = 1 (core 4604), where R_C adds nothing to RT4;
+  - and at f = 2 (core 4515, m = 12).
+  These are new refutations of DL_RT4 besides the chain states at f = 3 (and f = 2 and n = 4, SUMMARY.md).
+- **The missing moves are role swaps with helpers that T3 does not allow:**
+  - a helper that grows by a junk good (core 4604, distance 3);
+  - two helpers (both cores, distance 4);
+  - at core 4515 also a double role swap (two frozen agents out, two in, distance 5). This is the pattern `dl13-n4m9-rot` showed at n = 4, f = 1 ("role swaps with two helpers"); there, T2 rotations also helped, and here none does.
 - **DL on the key graph is not refuted.** The deficit-minimal state of the key is not unique, and from another one a plain T3h move improves. In the key form, the T1 / T2 moves inside a key are free.
