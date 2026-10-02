@@ -290,12 +290,20 @@ def main(argv):
             c1 = collections.Counter(); exs = collections.defaultdict(list)
             sx_f2.analyse_key(kp, k, c1, exs, 10 ** 6)
             cnt['keys def*>0'] += 1
+            # COVER+ counts A+ (any j) and B+ with a threat path of length 1 only; sx_f2's key flag counts B+ at any k
+            aplus = any(c1[t] for t in c1 if t.startswith('A+ applies'))
+            bplus1 = any(c1[t] for t in c1 if t.startswith('B+ applies') and t.endswith('path k=1'))
+            bplusk = any(c1[t] for t in c1 if t.startswith('B+ applies'))
+            covered = aplus or bplus1
             cnt[('keys', 'frozen need digraph ' + ('acyclic' if acyclic(pr, k) else 'cyclic (Proposition NK)'),
-                 'A+ or B+ (PR #80)' if c1['keys: Lemma A+ or B+ at some Zmax=True'] else 'C+ or C′+ needed')] += 1
-            if c1['keys: Lemma A+ or B+ at some Zmax=True']:
+                 'A+ or B+ (PR #80)' if covered else 'C+ or C′+ needed')] += 1
+            if covered:
                 cnt['keys covered by A+ or B+ (PR #80)'] += 1; continue
             cnt['keys uncovered by A+ and B+'] += 1
-            unc = set(e[2] for e in exs['noAplus'])
+            if bplusk: cnt['keys uncovered by A+ and B+ (k = 1), with B+ at a threat path of length >= 2'] += 1
+            # no maximum of this key has A+ or B+ with k = 1: every maximum is tested (sx_f2's noAplus list omits the
+            # maxima with B+ at k >= 2)
+            unc = set(e[2] for e in exs['noAplus']) | (set(repr(t[0]) for t in maxima(kp, k)) if bplusk else set())
             keyres = set()
             for c, Bs, V, X in maxima(kp, k):
                 if repr(c) not in unc: continue

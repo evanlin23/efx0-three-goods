@@ -16,8 +16,9 @@ Lemma C′⁺ (any k). Otherwise κ must have a (T4) edge to a key with smaller 
   are robust leaves, crossed as in K4.F2.X (2).
 - A⁺ and B⁺ fail (PR #80's `k4/sx_f2.py`). C⁺ and C′⁺ have no candidate move: x's admissible base needs a good of the
   other leaf's pair (x = 0 needs 4 ∈ H₂; x = 1 needs 9 ∈ H₃), and these lemmas allow no helper.
-- The repair is one (T3) move with one helper: x = 0 takes {4}, τ = 3 takes 8, and the helper 2 gives up 4 and takes 6
-  from τ's old base. This reaches ({4},{7},{6},{8}), def 0. It is Lemma C⁺ₕ of `k4/f2.md` §5.1.
+- The repair is one (T3) move with one helper: x = 0 takes {4}, τ = 3 takes 8, and the helper 2 gives up 4. At the
+  first maximum the helper takes 6 from τ's old base; at the second it keeps its own 6. Both reach ({4},{7},{6},{8}),
+  def 0. It is Lemma C⁺ₕ of `k4/f2.md` §5.1.
 
 **A second instance, failing only without the (T4) alternative** (n = 4, m = 7, f = 2, ω = 1; compute/k4-cover):
 - sets [[0,2,3,6],[1,3,4,5],[2,4,5,6],[4,5,6]], values [[2,4,8,5],[1,4,6,8],[2,8,4,3],[3,4,2]];
@@ -30,7 +31,8 @@ Lemma C′⁺ (any k). Otherwise κ must have a (T4) edge to a key with smaller 
 
 **Frequency** (`results/k4_f2/cc_cover_hunt.log`, `cc_cover_n5seeds.log`).
 - 688 records of compute/k4-cover's first-minute hunt on this core have a key that none of A⁺, B⁺, C⁺, C′⁺ covers.
-- So do 3 keys of its n = 5 seeds.
+- So do 4 keys of its n = 5 seeds (one of them has B⁺ only with a threat path of length 2, which COVER⁺ does not
+  count).
 - Every one is covered by C⁺ₕ or C′⁺ₕ, with a plain (T3) move with one helper.
 
 **Reproduce.** `python3 attempts/k4_f2_attempts.py` (the two "COVER+" cases).
