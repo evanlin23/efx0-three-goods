@@ -223,11 +223,11 @@ misses g, A, B_T and H. Safety of Y:
 
 So def(P′) ≤ |C| − (2 − |A|) − S_T ≤ |A| − 2. ∎
 
-**Corollary N3 (three agents).** Let the core have n = 3 agents, f = 1, and let both needers of the frozen good g be
-big-top on g. Then at **every** min-frozen P, some plain swap gives def(P′) ≤ 0. So at every P with def(P) > 0 some
+**Corollary N3 (three agents).** Let the core have n = 3 agents and f = 1. Let P be min-frozen with frozen agent x on
+g, and suppose both other agents need g and are big-top on g. Then some plain swap gives def(P′) ≤ 0. So at every P with def(P) > 0 some
 (T3) move without helper lowers the deficit. No stuckness hypothesis is needed.
 
-*Proof.* The agents are x, y1, y2, and both others need g, so (H) holds with T = ∅, and (W3) is empty.
+*Proof.* The agents are x, y1, y2, and y1, y2 need g, so (H) holds with T = ∅, and (W3) is empty.
 - (W1): every good other than g lies in J ∪ B_y1 ∪ B_y2, since B_x = {g}.
 - (W2): by condition (C3) of a k = 4 core (K4.CORE), x has at most |R_x| − 2 = |L_x| − 1 private goods. So some
   good of L_x is valued by another agent, which is y1 or y2. ∎
@@ -271,7 +271,8 @@ with R = T). Suppose also that one good e ∈ J′ meets:
 
 Then def(σ(z, A)) ≤ 0.
 
-*Proof.* C := H ∪ {e}, so |C| ≤ S_T + 1. Lemma G gives def(P′) ≤ |C| − 1 − S_T ≤ 0. Safety of Y:
+*Proof.* Let H := ⋃_{w ∈ T} H_w ⊆ J′ (the sets of the tameness hypothesis, so |H| ≤ S_T), C := H ∪ {e} ⊆ J′ and
+Y := (B_o ∪ J′) ∖ C. Then |C| ≤ S_T + 1, and Lemma G gives def(P′) ≤ |C| − 1 − S_T ≤ 0. Safety of Y:
 - z: |Y ∩ L_z| ≤ 2, by (BT);
 - x: Y ∩ L_x contains no such Q, so v_x(Y ∩ L_x) ≤ v_x(p), by (s3);
 - T: by (θ). ∎
@@ -307,9 +308,24 @@ pays for the removal that z's edge needs. Example: `hunt_n4_pure_s400k`, core (m
 z's edge L_0 = {0, 2, 8} needs one removal. The needer 3 (base {4}, one slot) pays for it: |C| = 1 = S_R, so
 def(P′) ≤ 0.
 
-**Scans** (`k4/thetab_scan.py`, `results/k4_thetab/scan_*.log`; inputs as in `k4/dl13.md` §1): every def > 0 state
-with f = 1 and at least two needers, at every stage. *Counts to be filled in when the runs of `k4/thetab_runs.sh`
-finish.*
+**Scans** (`k4/thetab_scan.py`, `results/k4_thetab/scan_*.log`, table by `k4/thetab_table.py`). These cover every
+def > 0 state with f = 1 of each profile of the inputs:
+- the suite;
+- #53's catalogues at 245040b (n = 3 every record; n = 4 every 4th; n = 5 every 10th);
+- the hunt catalogues (every 4th);
+- the structured hunts `hunt` (random cores built around a frozen x and two big-top needers) and `twin` (the two
+  needers have the same goods).
+
+Three kinds of states are classified:
+- the states in (H) at every stage (T3 stage; T1-stuck but not at the T3 stage; other);
+- the other states with two or more needers at the T3 stage;
+- the states with one needer, where only G1 can apply.
+
+Each state records whether W, K or G1 applies, whether Lemma G (least C computed) certifies a plain swap, and whether
+some plain swap lowers the deficit (exact). Every conclusion is asserted, and Corollary N3 is asserted at every n = 3
+state in (H).
+
+*Table to be completed when the runs finish.*
 
 ## 5. What remains open, and candidates that fail
 
