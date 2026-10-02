@@ -1,0 +1,9 @@
+# command: python3 k4/thetab_scan.py catalog hunt_n4_3_s400k.json.gz --every=4
+# input catalog hunt_n4_3_s400k.json.gz --every=4
+  n=4 | (H) | other | theorem G1 | Lemma G certifies | plain swap                                                9
+  n=4 | (H) | other | theorem K | Lemma G certifies | plain swap                                                 194
+  n=4 | one needer | Corollary G1 does not apply                                                                 219
+  profiles                                                                                                       10256
+  profiles with f = 1, omega >= 1                                                                                10241
+smallest state per uncovered cell (no theorem, or no certified / exact plain swap):
+no assertion failed
