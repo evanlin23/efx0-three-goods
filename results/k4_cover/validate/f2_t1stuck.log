@@ -1,0 +1,6 @@
+# command: python3 k4/cover_check.py results/k4_cover/validate/f2_t1stuck.jsonl.gz k4/suite/.cache/sx/results/k4_sx/t3stage/keys.jsonl.gz --fmin=2
+# 1364 input records, 124 distinct in range, part 0/1: 124, already done 0
+keys f=2                       191
+keys f=3                       5
+profiles                       124
+# time 2.7 s

@@ -1,0 +1,5 @@
+# command: python3 k4/cover_check.py results/k4_cover/validate/f1_n5_hunts.jsonl.gz k4/suite/.cache/sx/results/k4_sx/hunt/n5_pure_r1000_0.jsonl.gz k4/suite/.cache/sx/results/k4_sx/hunt/n5_pure_r1000_1000.jsonl.gz k4/suite/.cache/sx/results/k4_sx/hunt/n5_pure_r1000_2000.jsonl.gz k4/suite/.cache/sx/results/k4_sx/hunt/n5_pure_r1000_3000.jsonl.gz k4/suite/.cache/sx/results/k4_sx/hunt/n5_pure_r1000_4000.jsonl.gz --indep=1
+# 11 input records, 11 distinct in range, part 0/1: 11, already done 0
+keys f=1                       11
+profiles                       11
+# time 5.7 s

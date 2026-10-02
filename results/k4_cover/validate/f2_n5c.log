@@ -1,0 +1,5 @@
+# command: python3 k4/cover_check.py results/k4_cover/validate/f2_n5c.jsonl.gz inst:k4/suite/.cache/sx/results/k4_sx/f2/rt4_n5c_inst.json --indep=1
+# 8 input records, 8 distinct in range, part 0/1: 8, already done 0
+keys f=3                       26
+profiles                       8
+# time 3.9 s

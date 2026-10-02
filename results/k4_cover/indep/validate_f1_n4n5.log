@@ -1,0 +1,17 @@
+# command: python3 k4/cover_indep.py results/k4_cover/validate/f1_n4_hunts_p0.jsonl.gz results/k4_cover/validate/f1_n4_hunts_p1.jsonl.gz results/k4_cover/validate/f1_n5_hunts.jsonl.gz results/k4_cover/validate/f1_rc45.jsonl.gz --every=5
+DIFF C: cover_check False, indep True {'sets': [[0, 2, 6, 8], [1, 4, 7, 9], [3, 5, 8, 9], [6, 7, 8, 9]], 'vals': [[7, 4, 10, 2], [6, 3, 5, 7], [2, 4, 3, 8], [6, 2, 3, 10]], 'm': 10} [None, 9, None, None] {0: [0, 2], 2: [3, 5], 3: [6, 8]}, L=[1, 4, 7]
+DIFF C: cover_check False, indep True                        1
+keys covered: cover_check True, indep True                   542
+keys f=1                                                     542
+maxima agree on A=False                                      80
+maxima agree on A=True                                       817
+maxima agree on B1'=False                                    884
+maxima agree on B1'=True                                     13
+maxima agree on B1=False                                     740
+maxima agree on B1=True                                      157
+maxima agree on C'=False                                     806
+maxima agree on C'=True                                      91
+maxima agree on C=False                                      534
+maxima agree on C=True                                       362
+profiles                                                     541
+# time 45.6 s
