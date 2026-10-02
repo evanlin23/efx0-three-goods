@@ -1,0 +1,3 @@
+# lemmam_x_check.py --profiles=H4 --agents=0,16 (the model's classes of l and of r of l's run on H_4)
+first agent 0: class bad candidates r=16, endEF_early=4, endEF_idx=4, endEF_maxload=4, end_of_minidx_EF=4, EF4_minidx=1, end_of_earliest_EF=4, freenottop_early=4
+first agent 16: class bad candidates r=15, endEF_early=4, endEF_idx=4, endEF_maxload=4, end_of_minidx_EF=4, EF4_minidx=1, end_of_earliest_EF=4, freenottop_early=13

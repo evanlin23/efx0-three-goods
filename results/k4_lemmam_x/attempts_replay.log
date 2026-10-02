@@ -1,0 +1,10 @@
+# k4_lemmam_x_attempts.py; lemmam_x.c sha256 ea801dd6ee8ba1fb
+OK   (x1), (x2) at n = 3, m = 6 (model): classes [2, 1, 2] (0 K0, 1 K1, 2 bad); EF4 of the bad agents [2, 2] is bad; their runs are single blocks {0: 1, 2: 1}, so the leader of r's block is a
+OK   (x1), (x2) at n = 3, m = 6 (lemmam_x.c): cls=212
+OK   (x4) on H_4 (model): class of 0: 2, r of its run: 16, class of r: 2
+OK   (L0) at n = 3, m = 6 chain-end count: least count over the first blocks 1 (greedy tau 0,1)
+OK   (L0) at n = 3, m = 6 slot count: least count over the first blocks 1 (greedy tau 0,1)
+OK   greedy rule, two rotations at n = 3, m = 6: tau [0]: lemmam_x.c d = 2 (2 = more than the cap 1), model d = 2
+OK   (L1∃) chain-end count at n = 4, m = 6: L46 hist ['0', '0', '0', '1'] (last: no sequence); with the slot count ['1', '0', '0', '0']
+OK   (L1∃) slot count, smallest: L46 hist ['0', '0', '0', '1']; the greedy run: tau=2,3 deltas=1,0, d = 0
+ALL OK

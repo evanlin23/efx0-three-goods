@@ -1,0 +1,29 @@
+# command: python3 k4/dlrt4_run.py inst results/k4_rt4/n5c_hard_hunt_smallest_inst.json --jobs=4 --ckpt=results/k4_rt4/ckpt_n5c_cat_hard_hunt_smallest.jsonl --dump=results/k4_rt4/dump_n5c_cat_hard_hunt_smallest.jsonl.gz --tables=results/k4_rt4/tables_n5c_cat_hard_hunt_smallest.json
+# dlrt4.c sha256 fcde494a3161279d47a7b80e614f69c58894ebc7b40d00e461f677b8810d7cae
+# inst results/k4_rt4/n5c_hard_hunt_smallest_inst.json: 12 instances, 1 units to run, 0 from the checkpoint
+inst results/k4_rt4/n5c_hard_hunt_smallest_inst.json: profiles 12, omega >= 1: 12; k* = 0: 10, 1: 2, 2: 0, 3: 0, >= 4: 0, inf: 0; P with def > 0: 5, at distance 1: 5, 2: 0, 3: 0, >= 4: 0, inf: 0; Pareto-maximal: 3; largest least deficit 0
+  DL_RT4: states (def > 0) with f = 0: 0 (RT4 fails at 0), with f >= 1: 5; DL_RT4 FAILS at 0 of the f >= 1 states; with an improving move T1 5, T2 5, T3p 5, T3h 5, T4 0; only T1 0, only T2 0, only T3 0, only T4 0; R_T fails at 0, R_13 at 0, R_13 + T4 at 0; smallest RT4 move size 1 / 2 / 3 / >= 4 / none: 5 / 0 / 0 / 0 / 0; anomalies 0 + 0 [0 s]
+table B: f >= 1 states by f | signature | branch : count
+  B 2|L,PM|T1+T2+T3p+T3h : 2
+  B 2|G,L,D2,PM|T1+T2+T3p+T3h : 1
+  B 2|L|T1+T2+T3p+T3h : 1
+  B 2|fO,L|T1+T2+T3p+T3h : 1
+table G: f >= 1 states by f | nearest distance k | branch : count
+  G 2|1|T1+T2+T3p+T3h : 5
+table M: f >= 1 states by f | branch | smallest RT4 move size : count
+  M 2|T1+T2+T3p+T3h|1 : 5
+table Z: f >= 1 states by f | branch available | its smallest move size : count
+  Z 2|T1|1 : 5
+  Z 2|T2|2 : 5
+  Z 2|T3h|3 : 5
+  Z 2|T3p|2 : 5
+table C: f >= 1 states with T4 by f | smallest T4 size | cycle types at that size : count
+table Y: f >= 1 states by f | branch | move type available : count
+  Y 2|T1+T2+T3p+T3h|T1:rel : 5
+  Y 2|T1+T2+T3p+T3h|T2:k2 : 5
+  Y 2|T1+T2+T3p+T3h|T3:xJ.h- : 5
+  Y 2|T1+T2+T3p+T3h|T3:xJ.hR : 5
+  Y 2|T1+T2+T3p+T3h|T3:xJ.hZ : 5
+  Y 2|T1+T2+T3p+T3h|T3:xH.hZ : 3
+  Y 2|T1+T2+T3p+T3h|T3:xJ.hJ : 2
+  Y 2|T1+T2+T3p+T3h|T1:pool : 1

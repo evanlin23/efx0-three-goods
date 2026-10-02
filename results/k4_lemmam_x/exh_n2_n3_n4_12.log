@@ -1,0 +1,95 @@
+# lemmam_x_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz results/k4_certs_4_n4_1.json.gz results/k4_certs_4_n4_2.json.gz -A43 -r1 -Y1 -D43 --data=/tmp/claude-0/-home-user-efx0-three-goods/891575f8-e905-5025-9feb-2c6293ea3e11/scratchpad/lmx/ex_n234_bad.txt --checkpoint=/tmp/claude-0/-home-user-efx0-three-goods/891575f8-e905-5025-9feb-2c6293ea3e11/scratchpad/lmx/ck_n234.jsonl # lemmam_x.c sha256 4138c78766bce0e0
+k4_certs_2.json.gz: cores=5 time 1s
+k4_certs_3.json.gz: cores=51 time 434s
+k4_certs_4_n4_1.json.gz: cores=135 time 440s
+k4_certs_4_n4_2.json.gz: cores=309 time 1001s
+  profiles 1032121440  with a bad first agent 14408  with no good first agent (Lemma M fails) 0  bad (profile, a) pairs 26248  bad runs of class A4 or B4 (would contradict C40 in K0+K1) 0
+  profiles by number of good first agents (0, 1, 2, 3, 4): [0, 11520, 191736, 299824024, 732094160]
+  bad pairs by the class of the envy-free run (omega<=0, A4, B4, G2, one exposed 4-good frozen, free, two or more): [0, 0, 0, 160, 25448, 640, 0]
+  candidate r                    good      26248   good after iterating      26248   undefined        0   (of 26248 bad pairs)
+  candidate endEF_early          good      26248   good after iterating      26248   undefined        0   (of 26248 bad pairs)
+  candidate endEF_idx            good      26248   good after iterating      26248   undefined        0   (of 26248 bad pairs)
+  candidate endEF_maxload        good      26248   good after iterating      26248   undefined        0   (of 26248 bad pairs)
+  candidate end_of_minidx_EF     good      26248   good after iterating      26248   undefined        0   (of 26248 bad pairs)
+  candidate EF4_minidx           good          0   good after iterating          0   undefined      800   (of 26248 bad pairs)
+  candidate end_of_earliest_EF   good      26248   good after iterating      26248   undefined        0   (of 26248 bad pairs)
+  candidate freenottop_early     good      26248   good after iterating      26248   undefined        0   (of 26248 bad pairs)
+  role                            has  some good   all good   earliest     latest   (holders of the role in the bad agent's run; earliest/latest processed holder good)
+  EF4                           25448          0          0          0          0
+  EF3                             800          0          0          0          0
+  ET4                             640        640        640        640        640
+  LDR_r                         26248          0          0          0          0
+  r                             26248      26248      26248      26248      26248
+  END_EF                        26248      26248      26248      26248      26248
+  END_ks                        26248      26248      26248      26248      26248
+  TOPH_EF                       26248          0          0          0          0
+  bigtop                         5984       5984       5984       5984       5984
+  blk_r                         26248      26248          0          0      26248
+  blk_a                         26248      26248          0          0      26248
+  frozen                        26248       2568          0          0       2568
+  free_nottop                   26248      26248      26248      26248      26248
+  LDR_EF4                       25448          0          0          0          0
+  NEEDER_EF                     26248      26248      26248      26248      26248
+  END_EF4                       25448      25448      25448      25448      25448
+  TOPH_EF4                      25448          0          0          0          0
+  free                          26248      26248      26248      26248      26248
+  E_any                         26248        640          0          0        640
+  NEEDER_EF4                    25448      25448      25448      25448      25448
+  END_E4all                     26088      26088      26088      26088      26088
+  TOPH_bigtop                    5920        704        704        704        704
+  LDR_E4                        26088          0          0          0          0
+  EF3@G2                          160          0          0          0          0
+  LDR_r@G2                        160          0          0          0          0
+  r@G2                            160        160        160        160        160
+  END_EF@G2                       160        160        160        160        160
+  END_ks@G2                       160        160        160        160        160
+  TOPH_EF@G2                      160          0          0          0          0
+  bigtop@G2                        32         32         32         32         32
+  blk_r@G2                        160        160          0          0        160
+  blk_a@G2                        160        160          0          0        160
+  frozen@G2                       160        160          0          0        160
+  free_nottop@G2                  160        160        160        160        160
+  NEEDER_EF@G2                    160        160        160        160        160
+  free@G2                         160        160        160        160        160
+  E_any@G2                        160          0          0          0          0
+  TOPH_bigtop@G2                   32         32         32         32         32
+  EF4@E4frz                     25448          0          0          0          0
+  LDR_r@E4frz                   25448          0          0          0          0
+  r@E4frz                       25448      25448      25448      25448      25448
+  END_EF@E4frz                  25448      25448      25448      25448      25448
+  END_ks@E4frz                  25448      25448      25448      25448      25448
+  TOPH_EF@E4frz                 25448          0          0          0          0
+  bigtop@E4frz                   5344       5344       5344       5344       5344
+  blk_r@E4frz                   25448      25448          0          0      25448
+  blk_a@E4frz                   25448      25448          0          0      25448
+  frozen@E4frz                  25448       2408          0          0       2408
+  free_nottop@E4frz             25448      25448      25448      25448      25448
+  LDR_EF4@E4frz                 25448          0          0          0          0
+  NEEDER_EF@E4frz               25448      25448      25448      25448      25448
+  END_EF4@E4frz                 25448      25448      25448      25448      25448
+  TOPH_EF4@E4frz                25448          0          0          0          0
+  free@E4frz                    25448      25448      25448      25448      25448
+  E_any@E4frz                   25448          0          0          0          0
+  NEEDER_EF4@E4frz              25448      25448      25448      25448      25448
+  END_E4all@E4frz               25448      25448      25448      25448      25448
+  TOPH_bigtop@E4frz              5280        672        672        672        672
+  LDR_E4@E4frz                  25448          0          0          0          0
+  EF3@E4free                      640          0          0          0          0
+  ET4@E4free                      640        640        640        640        640
+  LDR_r@E4free                    640          0          0          0          0
+  r@E4free                        640        640        640        640        640
+  END_EF@E4free                   640        640        640        640        640
+  END_ks@E4free                   640        640        640        640        640
+  TOPH_EF@E4free                  640          0          0          0          0
+  bigtop@E4free                   608        608        608        608        608
+  blk_r@E4free                    640        640          0          0        640
+  blk_a@E4free                    640        640          0          0        640
+  frozen@E4free                   640          0          0          0          0
+  free_nottop@E4free              640        640        640        640        640
+  NEEDER_EF@E4free                640        640        640        640        640
+  free@E4free                     640        640        640        640        640
+  E_any@E4free                    640        640          0          0        640
+  END_E4all@E4free                640        640        640        640        640
+  TOPH_bigtop@E4free              608          0          0          0          0
+  LDR_E4@E4free                   640          0          0          0          0
+ACC {"LMX": [1032121440, 14408, 0, 26248, 0, 0, 11520, 191736, 299824024, 732094160, 0, 0, 0, 160, 25448, 640, 0], "EF4": [25448, 0, 0, 0, 0], "EF3": [800, 0, 0, 0, 0], "ET4": [640, 640, 640, 640, 640], "ET3": [0, 0, 0, 0, 0], "LDR_r": [26248, 0, 0, 0, 0], "r": [26248, 26248, 26248, 26248, 26248], "END_EF": [26248, 26248, 26248, 26248, 26248], "END_ks": [26248, 26248, 26248, 26248, 26248], "TOPH_EF": [26248, 0, 0, 0, 0], "bigtop": [5984, 5984, 5984, 5984, 5984], "blk_r": [26248, 26248, 0, 0, 26248], "blk_a": [26248, 26248, 0, 0, 26248], "frozen": [26248, 2568, 0, 0, 2568], "free_nottop": [26248, 26248, 26248, 26248, 26248], "LDR_EF4": [25448, 0, 0, 0, 0], "NEEDER_EF": [26248, 26248, 26248, 26248, 26248], "END_EF4": [25448, 25448, 25448, 25448, 25448], "TOPH_EF4": [25448, 0, 0, 0, 0], "free": [26248, 26248, 26248, 26248, 26248], "leader": [0, 0, 0, 0, 0], "E_any": [26248, 640, 0, 0, 640], "NEEDER_EF4": [25448, 25448, 25448, 25448, 25448], "END_E4all": [26088, 26088, 26088, 26088, 26088], "TOPH_bigtop": [5920, 704, 704, 704, 704], "free_E4holdstop": [0, 0, 0, 0, 0], "LDR_E4": [26088, 0, 0, 0, 0], "C:r": [26248, 26248, 0], "C:endEF_early": [26248, 26248, 0], "C:endEF_idx": [26248, 26248, 0], "C:endEF_maxload": [26248, 26248, 0], "C:end_of_minidx_EF": [26248, 26248, 0], "C:EF4_minidx": [0, 0, 800], "C:end_of_earliest_EF": [26248, 26248, 0], "C:freenottop_early": [26248, 26248, 0], "EF4@G2": [0, 0, 0, 0, 0], "EF3@G2": [160, 0, 0, 0, 0], "ET4@G2": [0, 0, 0, 0, 0], "ET3@G2": [0, 0, 0, 0, 0], "LDR_r@G2": [160, 0, 0, 0, 0], "r@G2": [160, 160, 160, 160, 160], "END_EF@G2": [160, 160, 160, 160, 160], "END_ks@G2": [160, 160, 160, 160, 160], "TOPH_EF@G2": [160, 0, 0, 0, 0], "bigtop@G2": [32, 32, 32, 32, 32], "blk_r@G2": [160, 160, 0, 0, 160], "blk_a@G2": [160, 160, 0, 0, 160], "frozen@G2": [160, 160, 0, 0, 160], "free_nottop@G2": [160, 160, 160, 160, 160], "LDR_EF4@G2": [0, 0, 0, 0, 0], "NEEDER_EF@G2": [160, 160, 160, 160, 160], "END_EF4@G2": [0, 0, 0, 0, 0], "TOPH_EF4@G2": [0, 0, 0, 0, 0], "free@G2": [160, 160, 160, 160, 160], "leader@G2": [0, 0, 0, 0, 0], "E_any@G2": [160, 0, 0, 0, 0], "NEEDER_EF4@G2": [0, 0, 0, 0, 0], "END_E4all@G2": [0, 0, 0, 0, 0], "TOPH_bigtop@G2": [32, 32, 32, 32, 32], "free_E4holdstop@G2": [0, 0, 0, 0, 0], "LDR_E4@G2": [0, 0, 0, 0, 0], "EF4@E4frz": [25448, 0, 0, 0, 0], "EF3@E4frz": [0, 0, 0, 0, 0], "ET4@E4frz": [0, 0, 0, 0, 0], "ET3@E4frz": [0, 0, 0, 0, 0], "LDR_r@E4frz": [25448, 0, 0, 0, 0], "r@E4frz": [25448, 25448, 25448, 25448, 25448], "END_EF@E4frz": [25448, 25448, 25448, 25448, 25448], "END_ks@E4frz": [25448, 25448, 25448, 25448, 25448], "TOPH_EF@E4frz": [25448, 0, 0, 0, 0], "bigtop@E4frz": [5344, 5344, 5344, 5344, 5344], "blk_r@E4frz": [25448, 25448, 0, 0, 25448], "blk_a@E4frz": [25448, 25448, 0, 0, 25448], "frozen@E4frz": [25448, 2408, 0, 0, 2408], "free_nottop@E4frz": [25448, 25448, 25448, 25448, 25448], "LDR_EF4@E4frz": [25448, 0, 0, 0, 0], "NEEDER_EF@E4frz": [25448, 25448, 25448, 25448, 25448], "END_EF4@E4frz": [25448, 25448, 25448, 25448, 25448], "TOPH_EF4@E4frz": [25448, 0, 0, 0, 0], "free@E4frz": [25448, 25448, 25448, 25448, 25448], "leader@E4frz": [0, 0, 0, 0, 0], "E_any@E4frz": [25448, 0, 0, 0, 0], "NEEDER_EF4@E4frz": [25448, 25448, 25448, 25448, 25448], "END_E4all@E4frz": [25448, 25448, 25448, 25448, 25448], "TOPH_bigtop@E4frz": [5280, 672, 672, 672, 672], "free_E4holdstop@E4frz": [0, 0, 0, 0, 0], "LDR_E4@E4frz": [25448, 0, 0, 0, 0], "EF4@E4free": [0, 0, 0, 0, 0], "EF3@E4free": [640, 0, 0, 0, 0], "ET4@E4free": [640, 640, 640, 640, 640], "ET3@E4free": [0, 0, 0, 0, 0], "LDR_r@E4free": [640, 0, 0, 0, 0], "r@E4free": [640, 640, 640, 640, 640], "END_EF@E4free": [640, 640, 640, 640, 640], "END_ks@E4free": [640, 640, 640, 640, 640], "TOPH_EF@E4free": [640, 0, 0, 0, 0], "bigtop@E4free": [608, 608, 608, 608, 608], "blk_r@E4free": [640, 640, 0, 0, 640], "blk_a@E4free": [640, 640, 0, 0, 640], "frozen@E4free": [640, 0, 0, 0, 0], "free_nottop@E4free": [640, 640, 640, 640, 640], "LDR_EF4@E4free": [0, 0, 0, 0, 0], "NEEDER_EF@E4free": [640, 640, 640, 640, 640], "END_EF4@E4free": [0, 0, 0, 0, 0], "TOPH_EF4@E4free": [0, 0, 0, 0, 0], "free@E4free": [640, 640, 640, 640, 640], "leader@E4free": [0, 0, 0, 0, 0], "E_any@E4free": [640, 640, 0, 0, 640], "NEEDER_EF4@E4free": [0, 0, 0, 0, 0], "END_E4all@E4free": [640, 640, 640, 640, 640], "TOPH_bigtop@E4free": [608, 0, 0, 0, 0], "free_E4holdstop@E4free": [0, 0, 0, 0, 0], "LDR_E4@E4free": [640, 0, 0, 0, 0]}

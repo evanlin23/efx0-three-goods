@@ -24,6 +24,7 @@ import EFX.LB4R
 import EFX.LB4RExamples
 import EFX.LB4RRun
 import EFX.K4One
+import EFX.RuleF
 import EFX.K4C4AB
 import EFX.C4min
 import EFX.K3Pareto
@@ -44,3 +45,8 @@ import EFX.K3Real
 import EFX.K3CostFine
 import EFX.K4MinCex
 import EFX.K3Extras
+import EFX.KeyFrame
+import EFX.MovesC
+import EFX.MovesCExamples
+import EFX.RuleFK
+import EFX.Adaptive

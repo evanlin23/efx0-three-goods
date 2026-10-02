@@ -1,0 +1,8 @@
+# rulef_run.py results/k4_certs_5_n4_2.json.gz -A41 -r1 -S200 -D1 --data=/tmp/claude-0/-home-user-efx0-three-goods/891575f8-e905-5025-9feb-2c6293ea3e11/scratchpad/rulef/ck/open_5_n4_2.txt --checkpoint=/tmp/claude-0/-home-user-efx0-three-goods/891575f8-e905-5025-9feb-2c6293ea3e11/scratchpad/rulef/ck/rk_5_n4_2.jsonl # rulef.c sha256 8bd39c5559ae46b6
+k4_certs_5_n4_2.json.gz: cores=5468 profiles=1093600 fails or raw-check failures of the rule run=0 time 19s
+  rule (-A41: RK; -A42: static, -Q), rotations LB4r needs on its sequence (0, 1, fails with <= 1) by the class of its agent:
+    K0  (Lemma K at the Phase 1 state)           [1093583, 0, 0]
+    K1  (Lemma K after one rotation)             [0, 17, 0]
+    C40 (Corollary C4^0's hypothesis)            [0, 0, 0]
+    open (none of them; -A41: for any first agent) [0, 0, 0]
+    violations (a class's promise not met by LB4r): 0

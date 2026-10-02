@@ -1,0 +1,52 @@
+# Hq3: n = 14, m = 34; model R; convs ['bundle', 'base']; first agents ['l', 'x11', 'x12', 'x13', 'y1', 'x21', 'x22', 'x23', 'y2', 'x31', 'x32', 'x33', 'y3', 'q']
+a=l idx=0 model=R states=19 depth0=1 depth1=18 owner_tests=570 outputs=0 verdict=NO_OUTPUT_WITH_<=1_ROTATION [11s]
+a=x11 idx=1 model=R states=17 depth0=2 depth1=15 owner_tests=510 outputs=238 verdict=OUTPUT [12s]
+    witness conv=bundle owner=l via=[('shrink', 0, None)] literal_lb4r=True literal_mine=True efx0_raw=True bundles>2=1
+    witness conv=bundle owner=x11 via=[('shrink', 0, None)] literal_lb4r=True literal_mine=True efx0_raw=True bundles>2=1
+    witness conv=bundle owner=x12 via=[('shrink', 0, None)] literal_lb4r=True literal_mine=True efx0_raw=True bundles>2=1
+a=x12 idx=2 model=R states=15 depth0=2 depth1=13 owner_tests=450 outputs=230 verdict=OUTPUT [11s]
+    witness conv=bundle owner=l via=[('shrink', 0, None)] literal_lb4r=True literal_mine=True efx0_raw=True bundles>2=1
+    witness conv=bundle owner=x11 via=[('shrink', 0, None)] literal_lb4r=True literal_mine=True efx0_raw=True bundles>2=1
+    witness conv=bundle owner=x12 via=[('shrink', 0, None)] literal_lb4r=True literal_mine=True efx0_raw=True bundles>2=1
+a=x13 idx=3 model=R states=15 depth0=2 depth1=13 owner_tests=450 outputs=230 verdict=OUTPUT [12s]
+    witness conv=bundle owner=l via=[('shrink', 0, None)] literal_lb4r=True literal_mine=True efx0_raw=True bundles>2=1
+    witness conv=bundle owner=x11 via=[('shrink', 0, None)] literal_lb4r=True literal_mine=True efx0_raw=True bundles>2=1
+    witness conv=bundle owner=x12 via=[('shrink', 0, None)] literal_lb4r=True literal_mine=True efx0_raw=True bundles>2=1
+a=y1 idx=4 model=R states=15 depth0=2 depth1=13 owner_tests=450 outputs=230 verdict=OUTPUT [11s]
+    witness conv=bundle owner=l via=[('shrink', 0, None)] literal_lb4r=True literal_mine=True efx0_raw=True bundles>2=1
+    witness conv=bundle owner=x11 via=[('shrink', 0, None)] literal_lb4r=True literal_mine=True efx0_raw=True bundles>2=1
+    witness conv=bundle owner=x12 via=[('shrink', 0, None)] literal_lb4r=True literal_mine=True efx0_raw=True bundles>2=1
+a=x21 idx=5 model=R states=23 depth0=2 depth1=21 owner_tests=690 outputs=275 verdict=OUTPUT [18s]
+    witness conv=bundle owner=l via=[('shrink', 1, ((1, 4), (7,)))] literal_lb4r=True literal_mine=True efx0_raw=True bundles>2=1
+    witness conv=bundle owner=x11 via=[('shrink', 1, ((1, 4), (7,)))] literal_lb4r=True literal_mine=True efx0_raw=True bundles>2=1
+    witness conv=bundle owner=x12 via=[('shrink', 1, ((1, 4), (7,)))] literal_lb4r=True literal_mine=True efx0_raw=True bundles>2=1
+a=x22 idx=6 model=R states=21 depth0=2 depth1=19 owner_tests=630 outputs=353 verdict=OUTPUT [19s]
+    witness conv=bundle owner=l via=[('shrink', 0, None)] literal_lb4r=True literal_mine=True efx0_raw=True bundles>2=1
+    witness conv=bundle owner=x21 via=[('shrink', 0, None)] literal_lb4r=True literal_mine=True efx0_raw=True bundles>2=1
+    witness conv=bundle owner=x22 via=[('shrink', 0, None)] literal_lb4r=True literal_mine=True efx0_raw=True bundles>2=1
+a=x23 idx=7 model=R states=21 depth0=2 depth1=19 owner_tests=630 outputs=353 verdict=OUTPUT [18s]
+    witness conv=bundle owner=l via=[('shrink', 0, None)] literal_lb4r=True literal_mine=True efx0_raw=True bundles>2=1
+    witness conv=bundle owner=x21 via=[('shrink', 0, None)] literal_lb4r=True literal_mine=True efx0_raw=True bundles>2=1
+    witness conv=bundle owner=x22 via=[('shrink', 0, None)] literal_lb4r=True literal_mine=True efx0_raw=True bundles>2=1
+a=y2 idx=8 model=R states=21 depth0=2 depth1=19 owner_tests=630 outputs=353 verdict=OUTPUT [17s]
+    witness conv=bundle owner=l via=[('shrink', 0, None)] literal_lb4r=True literal_mine=True efx0_raw=True bundles>2=1
+    witness conv=bundle owner=x21 via=[('shrink', 0, None)] literal_lb4r=True literal_mine=True efx0_raw=True bundles>2=1
+    witness conv=bundle owner=x22 via=[('shrink', 0, None)] literal_lb4r=True literal_mine=True efx0_raw=True bundles>2=1
+a=x31 idx=9 model=R states=29 depth0=2 depth1=27 owner_tests=870 outputs=88 verdict=OUTPUT [21s]
+    witness conv=bundle owner=x11 via=[('shrink', 1, ((1, 4), (7,)))] literal_lb4r=True literal_mine=True efx0_raw=True bundles>2=1
+    witness conv=bundle owner=x13 via=[('shrink', 1, ((1, 4), (7,)))] literal_lb4r=True literal_mine=True efx0_raw=True bundles>2=1
+    witness conv=bundle owner=x31 via=[('shrink', 1, ((1, 4), (7,)))] literal_lb4r=True literal_mine=True efx0_raw=True bundles>2=1
+a=x32 idx=10 model=R states=27 depth0=2 depth1=25 owner_tests=810 outputs=231 verdict=OUTPUT [20s]
+    witness conv=bundle owner=l via=[('shrink', 1, ((1, 4), (7,)))] literal_lb4r=True literal_mine=True efx0_raw=True bundles>2=1
+    witness conv=bundle owner=x11 via=[('shrink', 1, ((1, 4), (7,)))] literal_lb4r=True literal_mine=True efx0_raw=True bundles>2=1
+    witness conv=bundle owner=x12 via=[('shrink', 1, ((1, 4), (7,)))] literal_lb4r=True literal_mine=True efx0_raw=True bundles>2=1
+a=x33 idx=11 model=R states=27 depth0=2 depth1=25 owner_tests=810 outputs=231 verdict=OUTPUT [22s]
+    witness conv=bundle owner=l via=[('shrink', 1, ((1, 4), (7,)))] literal_lb4r=True literal_mine=True efx0_raw=True bundles>2=1
+    witness conv=bundle owner=x11 via=[('shrink', 1, ((1, 4), (7,)))] literal_lb4r=True literal_mine=True efx0_raw=True bundles>2=1
+    witness conv=bundle owner=x12 via=[('shrink', 1, ((1, 4), (7,)))] literal_lb4r=True literal_mine=True efx0_raw=True bundles>2=1
+a=y3 idx=12 model=R states=27 depth0=2 depth1=25 owner_tests=810 outputs=231 verdict=OUTPUT [18s]
+    witness conv=bundle owner=l via=[('shrink', 1, ((1, 4), (7,)))] literal_lb4r=True literal_mine=True efx0_raw=True bundles>2=1
+    witness conv=bundle owner=x11 via=[('shrink', 1, ((1, 4), (7,)))] literal_lb4r=True literal_mine=True efx0_raw=True bundles>2=1
+    witness conv=bundle owner=x12 via=[('shrink', 1, ((1, 4), (7,)))] literal_lb4r=True literal_mine=True efx0_raw=True bundles>2=1
+a=q idx=13 model=R states=19 depth0=1 depth1=18 owner_tests=570 outputs=0 verdict=NO_OUTPUT_WITH_<=1_ROTATION [11s]
+# finished in 222s

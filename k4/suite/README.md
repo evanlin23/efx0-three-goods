@@ -8,7 +8,7 @@ test, not a certificate.
 
 ## Contents
 
-- `instances/*.json`: 158 records, 153 complete instances and 5 local configurations of `k4/MINCEX.md` (marked
+- `instances/*.json`: 162 records, 157 complete instances and 5 local configurations of `k4/MINCEX.md` (marked
   `"kind"`, skipped by the runner). Collected from main and from the branches of PRs #37, #41, #43, #44, #45, #50, #51,
   #53 (read with `git show`, never edited), plus three instances from #51's review, now on main in
   `attempts/k4-c4min-reduce-lil.md` (N1 = `lil-text-n3`, N2 = `lil-text-n4`: #51's narrow catalogue; NC =
@@ -21,6 +21,16 @@ test, not a certificate.
   `attempts/k4-dl134-rotation.md`), checked with
   `python3 k4/suite/run.py --pred=k4/dl13_pred.py:dl13_c` (and `:dl13_model`, `:dl13_x`),
   `results/k4_dl13/suite_dl13_pred.log`.
+  Added by compute/k4-rt4-n5: `rt4-n5m9-chain` and `rt4-n5m10-chain`, counterexamples to DL_RT4 and to DL on the key
+  graph with single (T3)/(T4) edges (n = 5, f = 3; nearest repairs are frozen chains; `attempts/k4-rt4-n5-chain.md`),
+  checked with `python3 k4/suite/run.py --pred=k4/rt4_pred.py:rt4_c` (and `:rt4_ref`, `:rt4_x`; `:key_x`, `:key_ref`
+  for the key graph), which give FAILS, and `:rc_x`, `:keyplus_x` (DL_RC), which give holds,
+  `results/k4_rt4/suite_rt4_pred.log`; `--expected` rerun on the 155 complete instances in
+  `results/k4_rt4/suite_expected_rt4.log`.
+  Added by proof/k4-lemmam-bt (#83): `lmbt-Hq3` (n = 14, m = 34) and `lmbt-HH3` (n = 26, m = 65), counterexamples
+  to the big-top step of Lemma M and to Lemma M and rule F with one rotation (`attempts/k4-lemmam-bt-single-bigtop.md`,
+  `attempts/k4-lemmam-bt-one-first-agent.md`), each with an EFX₀ witness; `expect_fail` is empty (too large for the
+  exhaustive predicates), the refutations are replayed by `bash k4/lemmam_bt_runs.sh` and `k4/lemmam_bt_indep.py`.
 - `model.py`: this workstream's own implementation of the objects, written from the definitions (k4/c4x.md §1,
   k4/c4min.md §1, §3.6, §4, k4/hall.md §1): 𝒫, needs, frozen agents, keys, configurations, valid owners with the
   unfreezing clause, the removal-only deficit, completions, the potentials t, r, Λ, p, Φ, Φ′, and an own SAT encoding of
@@ -89,6 +99,8 @@ Logs in `results/k4_strategy/` (each starts with its command); `python3 k4/suite
 | id | n | m | core | PR | source files | refutes (as the source states it; full text in the record) | re-checked by `run.py --expected` |
 |---|---|---|---|---|---|---|---|
 | `count-n3m8` | 3 | 8 | yes | proof/k4-strategy | `attempts/k4-strat-count.md` | COUNT (Route 1, this PR): some pool-optimal configuration at a min-frozen key has more robust free agents tha… | `count` |
+| `rt4-n5m10-chain` | 5 | 10 | yes | compute/k4-rt4-n5 (found by run n5c_purebt of compute/k4-rt4-n5c, merged into it) | `results/k4_rt4/n5c_FAILURES.md`, `results/k4_rt4/n5c_fail_inst.json` | Conjecture DL_RT4 (k4/dlrt4.c header; k4/dl2.md §3 with T4), as for rt4-n5m9-chain: f = 3, def(P) = 1, no bet…; DL on the key graph with single T3 / T4 edges (k4/dl13.md §2.3 Remark): P's key (NA {3, 8, 9}; agents 0, 1, 2… |  |
+| `rt4-n5m9-chain` | 5 | 9 | yes | compute/k4-rt4-n5 (found by run n5b_4 of compute/k4-rt4-n5b, merged into it) | `results/k4_rt4/n5b_FAILURES.md`, `results/k4_rt4/n5b_failures_inst.json` | Conjecture DL_RT4 (k4/dlrt4.c header; k4/dl2.md §3 with T4): at f >= 1 every min-frozen P with def(P) > 0 has…; DL on the key graph with single T3 / T4 edges (k4/dl13.md §2.3 Remark): every key with def* > 0 has a key wit… |  |
 | `mincex-drop-private-p3` | 1 | 3 | local | #23 | `attempts/k4-mincex-drop-private.md` | Minimal-counterexample reduction (k = 4): removing the private good of a P3 agent (replace e on {s, t, p} by … |  |
 | `mincex-px-open-q3` | 2 | 5 | local | #23 | `attempts/k4-mincex-px-open.md`, `LEDGER.md` | Minimal-counterexample reduction for configuration px (open): a P3 agent f = {g, y, p_f} sharing a good g of … |  |
 | `mincex-px-open-q3-swapped` | 2 | 5 | local | #23 | `attempts/k4-mincex-px-open.md` | Minimal-counterexample reduction for configuration px (open), as for mincex-px-open-q3 |  |
@@ -138,7 +150,7 @@ Logs in `results/k4_strategy/` (each starts with its command); `python3 k4/suite
 | `c4-pareto-moves-n3m6` | 3 | 6 | yes | #33 | `attempts/k4-c4-pareto-moves.md`, `k4/c4.md` | Local-search proof of C₄ by Pareto-improving moves (upgrades: a free agent adds a junk good; rotations in whi… |  |
 | `c4x-n2m5-base-needs` | 2 | 5 | yes | #36 | `attempts/k4-c4x-variant-spaces.md`, `LEDGER.md` | Variant space of 𝒫 with the owner's needs taken from its base (as at k = 3, LB₄'s -w0): some valid pre-alloca… |  |
 | `c4x-n2m5-frozen` | 2 | 5 | yes | #36 | `attempts/k4-c4x-frozen-first.md`, `LEDGER.md` | Over 𝒫 (valid pre-allocations, bases ≤ 2 goods, value-based needs), every pre-allocation with the fewest froz… | `pre-every:-frozen` |
-| `c4x-n3m5-big-bases` | 3 | 5 | yes | #36 | `attempts/k4-c4x-variant-spaces.md`, `LEDGER.md` | Variant space of 𝒫 in which one base of three or four goods is allowed (its agent must be the owner; LB₄ʳ's r… |  |
+| `c4x-n3m5-big-bases` | 3 | 5 | yes | #36 | `attempts/k4-c4x-variant-spaces.md`, `LEDGER.md` | Variant space of 𝒫 in which one base of three or four goods is allowed (its agent must be the owner; LB₄ʳ's r… | `pareto-T:bt` |
 | `c4x-n3m6-3good-first` | 3 | 6 | yes | #36 | `attempts/k4-c4x-pareto-potentials.md`, `LEDGER.md` | Over 𝒫, every maximum of Ψ = (Σℓ over 3-good agents, Σℓ over 4-good agents) is completable ('every' form; the… |  |
 | `c4x-n3m6-ef-bases` | 3 | 6 | yes | #36 | `attempts/k4-c4x-variant-spaces.md`, `LEDGER.md` | Variant space of 𝒫 with only envy-free two-good bases (v_i(B) ≥ v_i(R_i ∖ B), LB₄ʳ's second upgrade policy): … |  |
 | `c4x-n3m6-onefour-a` | 3 | 6 | yes | #36 | `attempts/k4-c4x-frozen-first.md`, `attempts/k4-c4x-pareto-potentials.md` | Over 𝒫, every maximum of (−frozen, Σℓ) is completable ('every' form); Over 𝒫, every maximum of the level sum Σℓ is completable ('every' form) | `pre-every:(-frozen,sumlev)`, `pre-every:sumlev` |
@@ -169,7 +181,7 @@ Logs in `results/k4_strategy/` (each starts with its command); `python3 k4/suite
 | `induct-g-r2` | 3 | 5 | yes | #43 | `k4/induct.md`, `attempts/k4-induct-bounded-repair.md` | G-form insertion lemma with bounded repair rho = 2: for some 4-good agent w and some d in R_w, every EFX0 all… |  |
 | `induct-g-r3` | 5 | 6 | yes | #43 | `k4/induct.md`, `attempts/k4-induct-bounded-repair.md` | G-form insertion lemma with bounded repair rho = 3: for some 4-good agent w and some d in R_w, every EFX0 all… |  |
 | `induct-gps-q4-a` | 3 | 5 | yes | #43 | `k4/induct.md`, `results/k4_induct_n3.log` | GPS for a Q4 agent (k4/induct.md §5): 'some X' in E(I - d) admits d -> w', for some d in R_w, where w is a 4-… |  |
-| `induct-gps-q4-b` | 3 | 5 | yes | #43 | `k4/induct.md`, `results/k4_induct_n3.log` | GPS for a Q4 agent (k4/induct.md §5): 'some X' in E(I - d) admits d -> w', for some d in R_w, where w is a 4-… |  |
+| `induct-gps-q4-b` | 3 | 5 | yes | #43 | `k4/induct.md`, `results/k4_induct_n3.log` | GPS for a Q4 agent (k4/induct.md §5): 'some X' in E(I - d) admits d -> w', for some d in R_w, where w is a 4-… | `pareto-T:bt` |
 | `induct-lbo-every-run` | 4 | 5 | yes | #43 | `k4/induct.md`, `results/k4_induct_lbo_variants.log` | Conjecture LBO (K4.IND.LBO, k4/induct.md §4b; k = 3 setting: every agent other than w values three goods and … |  |
 | `induct-lbo-no-partial` | 4 | 5 | yes | #43 | `k4/induct.md`, `results/k4_induct_lbo_variants.log` | Conjecture LBO (K4.IND.LBO, k4/induct.md §4b; k = 3 setting: every agent other than w values three goods and … |  |
 | `induct-lbo-no-rot` | 4 | 5 | yes | #43 | `k4/induct.md`, `results/k4_induct_lbo_variants.log` | Conjecture LBO (K4.IND.LBO, k4/induct.md §4b; k = 3 setting: every agent other than w values three goods and … |  |
@@ -186,16 +198,16 @@ Logs in `results/k4_strategy/` (each starts with its command); `python3 k4/suite
 | `induct-v-r0` | 2 | 5 | yes | #43 | `k4/induct.md`, `attempts/k4-induct-value-drop.md` | V-form insertion lemma with bounded repair rho = 0: for some 4-good agent w and some d in R_w, every Y in E(I… |  |
 | `induct-v-r1` | 3 | 5 | yes | #43 | `k4/induct.md`, `attempts/k4-induct-value-drop.md` | V-form insertion lemma with bounded repair rho = 1: for some 4-good agent w and some d in R_w, every Y in E(I… |  |
 | `induct-v-r3` | 3 | 6 | yes | #43 | `k4/induct.md`, `attempts/k4-induct-value-drop.md` | V-form insertion lemma with bounded repair rho = 3: for some 4-good agent w and some d in R_w, every Y in E(I… |  |
-| `adaptive-cover-multi4` | 2 | 4 | yes | #44 | `k4/adaptive.md`, `attempts/k4-adaptive-coverage-multi4.md` | Choosing the insertion sequence so that the theorems cover the run, for every core (the multi-4-good extensio… |  |
+| `adaptive-cover-multi4` | 2 | 4 | yes | #44 | `k4/adaptive.md`, `attempts/k4-adaptive-coverage-multi4.md` | Choosing the insertion sequence so that the theorems cover the run, for every core (the multi-4-good extensio… | `pareto-T:low` |
 | `adaptive-p1` | 3 | 6 | yes | #44 | `k4/adaptive.md`, `attempts/k4-adaptive-greedy-omega.md` | Insertion rule -A0 (index order): LB4r run on the insertion sequence this rule chooses succeeds with at most …; Insertion rule -A1 (least |NA| of the new block, lb4.c's -i3): LB4r run on the insertion sequence this rule c… (+13 more) |  |
 | `adaptive-p3` | 3 | 6 | yes | #44 | `k4/adaptive.md`, `attempts/k4-adaptive-local-features.md` | Insertion rule -A9 (most contested top): LB4r run on the insertion sequence this rule chooses succeeds with a…; Insertion rule -A18 (matching: agents matched to their second choice first (adaptive.c's optimal matching)): … |  |
 | `c4min-w0-n4-m11-n4pc217` | 4 | 11 | yes | #45 | `attempts/k4-c4min-w0-owner-base.md`, `attempts/k4_c4min_w0_replay.py` | C4min with the owner's needs taken from its base instead of its bundle (the needs of LB4's -w0): for every st… |  |
 | `hall-cyc6` | 6 | 15 | yes | #46 | `k4/hall_instances/cyc6.inst`, `attempts/k4-hall-pareto-no-frozen.md` | Every Pareto-maximum of 𝒫 without frozen agents is removal-only completable (k = 4): Theorem K3's statement r… | `pareto-nofrozen` |
 | `hall-local3` | 3 | 7 | yes | #46 | `k4/hall_instances/local3.inst`, `attempts/k4-hall-local-exposures.md` | Theorem K3 at k = 4 when every frozen exposure is local: if no frozen exposure is of the big-top kinds (G) or…; Pareto-maximality is the extremal principle for the big-top owner step (k = 4): the repair here is an exchang… | `pareto`, `pareto-T:bt`, `pareto-T:low`, `pre-every:pareto` |
 | `f1-bigtop-n3-m8-n3c46` | 3 | 8 | yes | #50 | `attempts/k4-c4min-f1-bigtop.md`, `attempts/k4_c4min_f1_bigtop.py` | Psi = (r, Lambda) at f = 1: some (every) configuration maximizing Psi = (#robust agents, sum of levels) has a…; Theorem F1 extended to big-top frozen agents ('Theorem F1*' in results/k4_c4min_f1_n3.log): every Psi-maximum… | `cfg:r,lam` |
-| `lil-noncore-n3` | 3 | 9 | NO | #51 |  | The local improvement lemma LIL of k4/c4min_reduce.md §5.3 (#51) without the core's private-goods rule: every… | `lil` |
-| `lil-text-n3` | 3 | 7 | yes | #51 |  | #51's local improvement lemma LIL (k4/c4min_reduce.md §5.3) with the move catalogue as its text states it (M1… | `lil-text` |
-| `lil-text-n4` | 4 | 9 | yes | #51 |  | #51's local improvement lemma LIL (k4/c4min_reduce.md §5.3) with the move catalogue as its text states it (M1… | `lil-text` |
+| `lil-noncore-n3` | 3 | 9 | NO | #51 | `attempts/k4-c4min-reduce-lil.md`, `attempts/k4_c4min_reduce_lil.py` | The local improvement lemma LIL of k4/c4min_reduce.md §5.3 (#51) without the core's private-goods rule: every… | `lil` |
+| `lil-text-n3` | 3 | 7 | yes | #51 | `attempts/k4-c4min-reduce-lil.md`, `attempts/k4_c4min_reduce_lil.py` | #51's local improvement lemma LIL (k4/c4min_reduce.md §5.3) with the move catalogue as its text states it (M1… | `lil-text` |
+| `lil-text-n4` | 4 | 9 | yes | #51 | `attempts/k4-c4min-reduce-lil.md`, `attempts/k4_c4min_reduce_lil.py` | #51's local improvement lemma LIL (k4/c4min_reduce.md §5.3) with the move catalogue as its text states it (M1… | `lil-text` |
 | `red-a1-hopeless-key` | 3 | 6 | yes | #51 | `k4/c4min_reduce.md`, `attempts/k4-c4min-reduce-a.md` | Reduction (a) at a fixed key: for a key (g, x) of a strict profile with fewest frozen agents f = 1 (x frozen … |  |
 | `red-a2-hstar` | 3 | 8 | yes | #51 | `k4/c4min_reduce.md`, `attempts/k4-c4min-reduce-a.md` | Reduction (a) with Theorem Z's potential at the best key: some key (g, x) has every maximum of (r', Lambda') …; Reduction (c), one role swap, two-level rule: take a non-completable (r', Lambda')-maximum at a key (g, x) an… (+2 more) | `cfg:r,lam` |
 | `red-b1-blocked-improvement` | 4 | 11 | yes | #51 | `k4/c4min_reduce.md`, `attempts/k4-c4min-reduce-b.md` | Reduction (b): at a fixed key, rerun Theorem Z's argument with the constraint t = 0 first; every maximum of (… |  |
@@ -239,10 +251,12 @@ Logs in `results/k4_strategy/` (each starts with its command); `python3 k4/suite
 | `gap-phifirst-n4-m9-n4pc133` | 4 | 9 | yes | #53 | `results/k4_gap_bench_n4.log` | #41 section 4, the first form Phi = (-t, r, Lambda) (known false at n = 4): every maximum has a valid owner | `phi` |
 | `gap-samen-n4-m8-n43c147` | 4 | 8 | yes | #53 | `results/k4_gap_bench_n4.log`, `results/k4_gap_bench_n4_b.log` | #41 section 4, the local improvement lemma with pool moves and exchange-cycle moves (best pairs, every order …; every configuration without a valid owner has a Phi'-raising move, with LOCAL's catalogue (pool moves; exchan… (+3 more) |  |
 | `gap-t2-n4-m8-n42c204` | 4 | 8 | yes | #53 | `results/k4_gap/hard_base.json.gz`, `results/k4_gap_hard_base.log` | roadmap (iv): at every Phi'-maximum each frozen agent is threatened by at most one owner |  |
-| `gap-w-n2-m5` | 2 | 5 | yes | #53 | `results/k4_gap_bench_n23.log`, `results/k4_gap/hard_base.json.gz` | #41 section 4 (-U0): some Phi'-maximum has a valid owner with C empty (no withheld goods, no unfreezing) | `max-simple` |
+| `gap-w-n2-m5` | 2 | 5 | yes | #53 | `results/k4_gap_bench_n23.log`, `results/k4_gap/hard_base.json.gz` | #41 section 4 (-U0): some Phi'-maximum has a valid owner with C empty (no withheld goods, no unfreezing) | `max-simple`, `count` |
 | `gap-w-n4-m10-pure179` | 4 | 10 | yes | #53 | `results/k4_gap/hard_base.json.gz`, `results/k4_gap_hard_base.log` | #41 section 4 (-U0): some Phi'-maximum has a valid owner with C empty (no withheld goods, no unfreezing) | `max-simple` |
 | `gap-w-n4-m8-pure117` | 4 | 8 | yes | #53 | `results/k4_gap_bench_hard_hunt.log`, `results/k4_gap/hard_hunt_smallest.json.gz` | #41 section 4 (-U0): some Phi'-maximum has a valid owner with C empty (no withheld goods, no unfreezing); [extremal flag, not a refutation] category F2 (k4/gap.md section 3): f >= 2 (the exposed-frozen gap beyond f … | `max-simple` |
 | `gap-w-n4-m8-pure120` | 4 | 8 | yes | #53 | `results/k4_gap/hard_hunt_smallest.json.gz`, `results/k4_gap_hard_hunt.log` | #41 section 4 (-U0): some Phi'-maximum has a valid owner with C empty (no withheld goods, no unfreezing) | `max-simple` |
 | `dl2-rot-n3m7` | 3 | 7 | yes | #70 | `attempts/k4-dl2-rotation.md`, `attempts/k4_dl2_rotation.py` | Conjecture DL2 (k4/strategy.md §3): every min-frozen P with def(P) > 0 has a min-frozen P' with def(P') < def… |  |
 | `dl13-n4m6-fswap` | 4 | 6 | yes | #74 | `attempts/k4-dl13-frozen-swap.md`, `attempts/k4_dl13_refuted.py` | Conjecture DL13 (k4/dl2.md §3): at f >= 1 every min-frozen P with def(P) > 0 has a min-frozen P' with def(P')…; Conjecture DL_T (k4/dl2.md §3): the same with (T2) rotations of free agents allowed as well; none of the impr… |  |
 | `dl13-n4m9-rot` | 4 | 9 | yes | #74 | `attempts/k4-dl13-refuted.md`, `attempts/k4-dl134-rotation.md` | Conjecture DL13 (k4/dl2.md §3) at f = 1: the min-frozen P = ({7},{2,8},{4,5},{3,6}) with def 1 has no min-fro…; Conjecture DL134 (the extension of DL13 by T4: frozen agents permute their singleton bases, NA kept; attempts… |  |
+| `lmbt-HH3` | 26 | 65 | yes | #83 | `k4/lemmam_bt.md`, `k4/lemmam_bt_hh.py` | Lemma M (k4/rulef.md §4, K4.RF.M): some first agent a is in class K0 or K1 of rule RK; and rule F with at mos… |  |
+| `lmbt-Hq3` | 14 | 34 | yes | #83 | `k4/lemmam_bt.md`, `k4/lemmam_bt_hh.py` | Step (a) of the big-top programme for Lemma M (k4/rulef.md §6, PR #72): with exactly one big-top agent q, the… |  |
