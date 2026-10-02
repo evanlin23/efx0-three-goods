@@ -4,7 +4,9 @@ structure of the configurations maximizing (r', Λ') at the non-completable keys
 
 For every profile of the input with f >= 2 and omega >= 1, every key κ with def*(κ) > 0, and every configuration Q at κ
 maximizing (r', Λ') (r' = robust free agents, v_y(Q_y) >= v_y(U_y \\ Q_y) with U_y = R_y \\ 𝒩; Λ' = sum of the free
-agents' levels over R_y), the tool records whether a free-valid owner exists (Q_o ∪ L threatens no free agent), how many
+agents' levels over R_y), the tool asserts Lemma F⁺ of k4/sx.md §6 (pool-optimality, at most one threatener per free
+agent, none for a robust one, no threat cycle among free agents, every free agent threatens somebody, a free-valid owner
+exists) and records whether a free-valid owner exists (Q_o ∪ L threatens no free agent), how many
 frozen agents its bundle threatens, whether some (T3⁺) move from P_Q reaches a state with def < def*(κ), and whether
 Lemma A⁺ applies: a free-valid o whose bundle X_o threatens exactly one agent, the frozen x, and a need chain
 x = w_0, w_1, ..., w_j of frozen agents (w_i needs phi(w_{i-1})) with o needing phi(w_j), and
@@ -42,6 +44,23 @@ def analyse_key(kp, k, cnt, ex, nex):
         X = {o: c.Q[o] | c.L for o in free}
         V = [o for o in free if not any(I.threat(y, X[o], c.hv(y)) for y in free if y != o)]
         cnt['Zmax: free-valid owner exists=%s' % bool(V)] += 1
+        # Lemma F+ (k4/sx.md §6): pool-optimal, in-degree <= 1, robust unthreatened, no cycle, everybody threatens
+        assert not any(I.val(y, mask(S)) > I.val(y, c.Q[y]) for y in free
+                       for S in itertools.combinations(list(bits(c.Q[y] | c.L)), 2)), 'Lemma F+: not pool-optimal'
+        out = {o: [y for y in free if y != o and I.threat(y, X[o], c.hv(y))] for o in free}
+        indeg = collections.Counter(y for o in free for y in out[o])
+        assert all(indeg[y] <= 1 for y in free), 'Lemma F+: two threateners'
+        assert all(indeg[y] == 0 for y in free if c.robust(y)), 'Lemma F+: a robust agent threatened'
+        assert all(out[o] or any(I.threat(x, X[o], c.hv(x)) for x in F) for o in free), 'Lemma F+: a valid owner'
+        state = {}
+        def cyc(u):
+            state[u] = 1
+            for w in out[u]:
+                if state.get(w) == 1 or (w not in state and cyc(w)): return True
+            state[u] = 2
+            return False
+        assert not any(o not in state and cyc(o) for o in free), 'Lemma F+: a threat cycle'
+        assert V, 'Lemma F+: no free-valid owner'
         for o in V:
             thr = [x for x in F if I.threat(x, X[o], c.hv(x))]
             cnt['free-valid owner: frozen agents threatened=%d' % len(thr)] += 1
