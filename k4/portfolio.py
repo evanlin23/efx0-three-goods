@@ -29,6 +29,7 @@ common: --name=LABEL (the dataset; writes results/k4_portfolio/LABEL.json, the a
 every failing state or key with its profile) --jobs=J --ckpt (resume from results/k4_portfolio/ckpt_LABEL.jsonl)
 --chunk=C (profiles per unit in the list modes, default 300) --maxst=S (skip profiles with more than S states,
 counted) --maxpairs=X (skip profiles with more than X (state, P) pairs, counted; not part of the checkpoint key)
+--byf=A,B (also the smallest-repair shapes of these predicates by f)
 --progress
 
 The aggregate per dataset: profiles screened, dumped, states and keys with def* > 0 by f; per predicate the states
@@ -126,6 +127,7 @@ def nearest(pd, p):
 
 
 MAXPAIRS = None       # --maxpairs: skip (and count) profiles with more than this many (state, min-frozen P) pairs
+BYF = []              # --byf=A,B: also count the smallest-repair shapes of these predicates by f (agg['small_f'])
 
 
 def eval_into(agg, fails, ident, sets, vals, m, cls, maxst=None):
@@ -150,6 +152,8 @@ def eval_into(agg, fails, ident, sets, vals, m, cls, maxst=None):
             a['fail'] += len(e['fail'])
             if e['margin'] is not None and (a['margin'] is None or e['margin'] < a['margin']): a['margin'] = e['margin']
             for s, c in e['small'].items(): _inc(a['small'], s, c)
+            if name in BYF:
+                for s, c in e['small'].items(): _inc(agg.setdefault('small_f', {}).setdefault(name, {}).setdefault(fk, {}), s, c)
             for x in e['fail']:
                 if kind == 'single':
                     rec = dict(base, pred=name, kind=kind, B=masks_to_lists(pd.P[x]), **{'def': pd.d[x] if pd.d[x] != INF else None},
@@ -193,6 +197,9 @@ def merge(tot, a):
                 t['smallest_fail'] = e['smallest_fail']
     for k in ('svec', 'kvec'):
         for v, c in a[k].items(): _inc(tot[k], v, c)
+    for nm, byf in a.get('small_f', {}).items():
+        for fk, sm in byf.items():
+            for s, c in sm.items(): _inc(tot.setdefault('small_f', {}).setdefault(nm, {}).setdefault(fk, {}), s, c)
     tot['hard'] = sorted(tot.get('hard', []) + a.get('hard', []), key=lambda h: h['score'])[:HARDK]
 
 
@@ -298,8 +305,9 @@ def main():
     build(); build(True)
     jobs = int(opt.get('jobs', os.cpu_count() or 2)); fmin = int(opt.get('fmin', 1))
     maxst = int(opt['maxst']) if 'maxst' in opt else None
-    global MAXPAIRS
+    global MAXPAIRS, BYF
     if 'maxpairs' in opt: MAXPAIRS = int(opt['maxpairs'])
+    if 'byf' in opt: BYF = opt['byf'].split(',')
     ck = os.path.join(OUT, f'ckpt_{name}.jsonl') if 'ckpt' in opt else None
     fails_path = os.path.join(OUT, f'{name}_fails.jsonl.gz')
     P, seed = int(opt.get('sample', 0)), int(opt.get('seed', 1))
@@ -415,10 +423,12 @@ def esc(x): return str(x).replace('|', '\\|')
 
 def table():
     """results/k4_portfolio/*.json -> results/k4_portfolio/TABLE.md"""
-    aggs = []
+    aggs, byf = [], None
     for fn in sorted(glob.glob(os.path.join(OUT, '*.json'))):
         d = json.load(open(fn))
-        if 'agg' in d: aggs.append(d)
+        if not isinstance(d, dict): continue
+        if 'agg' in d and not d['name'].endswith('_byf'): aggs.append(d)
+        elif 'agg' in d: byf = d
     order = ['suite', 'validate10', 'dumps']
     aggs.sort(key=lambda d: (order.index(d['name']) if d['name'] in order else 99, d['name']))
     L = ['# The portfolio survival table (compute/k4-portfolio)', '',
@@ -457,6 +467,16 @@ def table():
             sm = ', '.join('%s: %d' % (esc(k), c) for k, c in sorted(e['small'].items(), key=lambda x: -x[1])[:10])
             L.append(f'| {nm} | {esc(sfs)} | {sm} |')
         L.append('')
+    if byf:
+        L.append(f'## Smallest repairs by f ({byf["name"]}: `{esc(byf["command"].replace("python3 k4/portfolio.py ", ""))}`)')
+        L.append('')
+        for nm, per in sorted(byf['agg'].get('small_f', {}).items()):
+            shapes = sorted({sh for sm in per.values() for sh in sm}, key=lambda sh: -sum(sm.get(sh, 0) for sm in per.values()))
+            L.append(f'{nm}:'); L.append('')
+            L.append('| f | ' + ' | '.join(esc(sh) for sh in shapes) + ' |'); L.append('|---|' + '---:|' * len(shapes))
+            for fk in sorted(per, key=int):
+                L.append(f'| {fk} | ' + ' | '.join(f'{per[fk].get(sh, 0):,}' for sh in shapes) + ' |')
+            L.append('')
     # implications observed
     L.append('## Implications observed (all datasets)'); L.append('')
     for kind, names, vk in (('single', PR.SNAMES, 'svec'), ('keyg', PR.KNAMES, 'kvec')):

@@ -128,3 +128,47 @@
   task r2:K3b:count:rcores:k4_certs_5_n4_3.json.gz#idx442: steps 1826 evals 43824 best objective [8, 0] fails 0 [60.0 s]
   task r2:K3b:edge:rcores:k4_certs_5_n4_3.json.gz#idx494: steps 1392 evals 33408 best objective [37, 41] fails 0 [60.0 s]
 # command: python3 k4/portfolio_hunt.py --rounds=12 --slot=90 --jobs=3 --batch=24 --push --name=main
+# seeds fail10: 10
+Traceback (most recent call last):
+  File "/home/user/efx0-three-goods/k4/portfolio_hunt.py", line 415, in <module>
+    main()
+  File "/home/user/efx0-three-goods/k4/portfolio_hunt.py", line 371, in main
+    got = {'fail10': seeds_fail10, 'hard': seeds_hard, 'hard5': lambda: seeds_hard(12, 5), 'rcores': seeds_rcores,
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/efx0-three-goods/k4/portfolio_hunt.py", line 85, in seeds_hard
+    for h in d.get('agg', {}).get('hard', []):
+             ^^^^^
+AttributeError: 'list' object has no attribute 'get'
+# command: python3 k4/portfolio_hunt.py --rounds=12 --slot=90 --jobs=3 --batch=24 --push --name=main
+# seeds fail10: 10
+# seeds hard: 12
+# seeds rcores: 12
+# seeds ext: 8
+# 42 seeds (18 with a key of def* > 0); predicates ['RC3_noT4', 'K3b_noT4', 'RC3', 'K3b', 'NA3', 'RC_W1', 'K3', 'RC', 'K2', 'RC_noneed', 'RC_Yfree', 'RC_Yany', 'K2_noneed', 'K2_Yany', 'RC_U0', 'NA1', 'K4', 'D3', 'FR3', 'U1Z1', 'NAall', 'K5', 'KU1', 'D4']; dead from the state file []
+# round 0: alive ['RC3_noT4', 'K3b_noT4', 'RC3', 'K3b', 'NA3', 'RC_W1', 'K3', 'RC', 'K2', 'RC_noneed', 'RC_Yfree', 'RC_Yany', 'K2_noneed', 'K2_Yany', 'RC_U0', 'NA1', 'K4', 'D3', 'FR3', 'U1Z1', 'NAall', 'K5', 'KU1', 'D4']; 22 tasks of 90 s on 3 jobs [0 s]
+  task r0:RC_W1:edge:hard:k4_certs_5_n4_4.json.gz#8485:104,7,1,133,213: steps 1690 evals 40560 best objective [3, 3] fails 0 [90.0 s]
+  task r0:RC_W1:count:hard:k4_certs_5_pure.json.gz#4551:21,2,18,2,15[bt]: steps 1051 evals 25224 best objective [3, 0] fails 0 [90.1 s]
+  task r0:K3b:edge:hard:k4_certs_5_pure.json.gz#4551:21,2,18,2,15[bt]: steps 503 evals 12072 best objective [22, 35] fails 0 [90.1 s]
+  task r0:K3:count:fail10:k4_certs_5_n4_4.json.gz#3206[m=9,idx=364]:108,86,1,108,27: steps 924 evals 22176 best objective [12, 0] fails 0 [90.0 s]
+  task r0:K3:edge:fail10:k4_certs_5_n4_4.json.gz#3521[m=9,idx=679]:98,1,16,17,15: steps 1086 evals 26064 best objective [12, 12] fails 0 [90.0 s]
+  task r0:RC:count:hard:k4_certs_5_pure.json.gz#2619:22,22,39,0,26[bt]: steps 1420 evals 34080 best objective [5, 0] fails 0 [90.0 s]
+  task r0:K2:edge:fail10:k4_certs_5_pure.json.gz#4170[m=12,idx=25]:22,18,4,10,37: steps 938 evals 22512 best objective [75, 75] fails 0 [90.0 s]
+  task r0:K2:count:fail10:k4_certs_5_pure.json.gz#4170[m=12,idx=25]:4,8,16,22,43: steps 889 evals 21336 best objective [75, 0] fails 0 [90.1 s]
+  task r0:K2_noneed:count:fail10:k4_certs_5_n4_4.json.gz#3206[m=9,idx=364]:108,86,1,108,27: steps 1321 evals 31704 best objective [16, 0] fails 0 [90.0 s]
+  task r0:K2_Yany:count:fail10:k4_certs_5_pure.json.gz#2614[m=10,idx=568]:6,11,45,0,4: steps 878 evals 21072 best objective [84, 0] fails 0 [90.0 s]
+  task r0:K2_noneed:edge:fail10:k4_certs_5_n4_4.json.gz#3521[m=9,idx=679]:98,1,16,17,15: steps 1606 evals 38544 best objective [16, 16] fails 0 [90.0 s]
+  task r0:K2_Yany:edge:fail10:k4_certs_5_pure.json.gz#2614[m=10,idx=568]:1,11,39,16,0: steps 900 evals 21600 best objective [84, 84] fails 0 [90.1 s]
+  task r0:K4:count:hard:k4_certs_5_pure.json.gz#4227:4,2,10,20,44[bt]: steps 2082 evals 49968 best objective [64, 0] fails 0 [90.0 s]
+  task r0:K4:edge:hard:k4_certs_5_pure.json.gz#4604:10,20,2,10,10[bt]: steps 1881 evals 45144 best objective [52, 64] fails 0 [90.0 s]
+  task r0:U1Z1:count:hard:k4_certs_5_pure.json.gz#4551:21,2,18,2,15[bt]: steps 1284 evals 30816 best objective [8, 0] fails 0 [90.1 s]
+  task r0:U1Z1:edge:hard:k4_certs_5_n4_4.json.gz#8485:104,7,1,133,213: steps 1843 evals 44232 best objective [12, 48] fails 0 [90.0 s]
+  task r0:NAall:edge:hard:k4_certs_5_pure.json.gz#3465:5,9,18,40,40[bt]: steps 662 evals 15888 best objective [24, 24] fails 0 [90.0 s]
+  task r0:NAall:count:hard:k4_certs_5_pure.json.gz#4604:10,20,2,10,10[bt]: steps 1588 evals 38112 best objective [7, 0] fails 0 [90.3 s]
+  task r0:K5:count:fail10:k4_certs_5_pure.json.gz#4214[m=12,idx=69]:12,12,18,11,43: steps 831 evals 19944 best objective [150, 0] fails 0 [90.1 s]
+  task r0:K5:edge:hard:k4_certs_5_pure.json.gz#4551:21,2,18,2,15[bt]: steps 1020 evals 24480 best objective [48, 48] fails 0 [90.0 s]
+  task r0:KU1:count:hard:k4_certs_5_pure.json.gz#4227:4,2,10,20,44[bt]: steps 2139 evals 51336 best objective [64, 0] fails 0 [90.1 s]
+  task r0:KU1:edge:hard:k4_certs_5_pure.json.gz#4604:10,20,2,10,10[bt]: steps 1979 evals 47496 best objective [64, 64] fails 0 [90.0 s]
+# round 1: alive ['RC3_noT4', 'K3b_noT4', 'RC3', 'K3b', 'NA3', 'RC_W1', 'K3', 'RC', 'K2', 'RC_noneed', 'RC_Yfree', 'RC_Yany', 'K2_noneed', 'K2_Yany', 'RC_U0', 'NA1', 'K4', 'D3', 'FR3', 'U1Z1', 'NAall', 'K5', 'KU1', 'D4']; 24 tasks of 90 s on 3 jobs [720 s]
+  task r1:K3b_noT4:count:hard:k4_certs_5_pure.json.gz#4551:21,2,18,2,15[bt]: steps 555 evals 13320 best objective [35, 0] fails 0 [90.0 s]
+  task r1:K3b:count:hard:k4_certs_5_pure.json.gz#2619:22,22,39,0,26[bt]: steps 1409 evals 33816 best objective [20, 0] fails 0 [90.0 s]
+  task r1:K3b_noT4:edge:hard:k4_certs_5_n4_4.json.gz#8485:104,7,1,133,213: steps 1595 evals 38280 best objective [39, 39] fails 0 [90.1 s]

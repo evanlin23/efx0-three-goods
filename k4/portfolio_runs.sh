@@ -25,6 +25,8 @@ x4_1)   run x4_1 certs results/k4_certs_4_n4_1.json.gz --sample=0 --jobs=${J:-4}
 x4_2)   run x4_2 certs results/k4_certs_4_n4_2.json.gz --sample=0 --jobs=${J:-4} --maxst=600 ;;   # every strict profile (not run: ~50 min; implied by the dumps, see SUMMARY.md)
 n6_ext) run n6_ext certs results/k4_portfolio/cores_6_ext.json.gz --sample=5000 --seed=1 --jobs=${J:-4} --maxst=600 ;;  # k4/portfolio_ext6.py
 n6_ext2) run n6_ext2 certs results/k4_portfolio/cores_6_ext2.json.gz --sample=10000 --seed=2 --jobs=${J:-4} --maxst=600 ;;
+dumps_byf) # the dumps again, with the smallest repairs of the strongest survivors by f
+        run dumps_byf dumps results/k4_rt4/dump_*.jsonl.gz results/k4_dl13*/*.jsonl.gz results/k4_dl2*/*.jsonl.gz --chunk=500 --jobs=${J:-4} --maxpairs=1000000 --byf=RC3_noT4,RC3,K3b_noT4,K3b,NAall,K5 ;;
 big)    # 6 of the 11 dump profiles skipped by --maxpairs (H_2, n = 9, m = 23; at most 7.8M (state, P) pairs each; the other 5 have 30M-82M)
         run big inst results/k4_portfolio/big_profiles.json --chunk=1 --jobs=${J:-4} ;;
 phase2) for r in dumps r3 r4 r3b r4b n5_4 n5_purebt n5_3 n5_12 n5_pure n6_1; do J=${J:-4} sh "$0" $r; done ;;

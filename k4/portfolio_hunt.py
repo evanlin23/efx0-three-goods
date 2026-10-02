@@ -82,6 +82,7 @@ def seeds_hard(k=12, nmin=4):
         if fn.endswith('.json') and not fn.startswith(('ref_', 'hunt')):
             try: d = json.load(open(os.path.join(OUT, fn)))
             except ValueError: continue
+            if not isinstance(d, dict): continue
             for h in d.get('agg', {}).get('hard', []):
                 if len(h['sets']) >= nmin: hs.append(h)
     hs.sort(key=lambda h: h['score'])
@@ -351,7 +352,42 @@ def write_failure(pred, recs, conf, push):
             time.sleep(2 ** (k + 1))
 
 
+def report():
+    """results/k4_portfolio/hunt_*.jsonl -> results/k4_portfolio/HUNT.md (per predicate and objective: tasks, profiles
+    evaluated, the least objective reached, the seeds)"""
+    rows = collections.defaultdict(lambda: {'tasks': 0, 'evals': 0, 'secs': 0.0, 'best': None, 'seeds': set(), 'n': set()})
+    dead = {}
+    files = sorted(f for f in os.listdir(OUT) if f.startswith('hunt_') and f.endswith('.jsonl'))
+    for fn in files:
+        for l in open(os.path.join(OUT, fn)):
+            try: d = json.loads(l)
+            except ValueError: continue
+            if 'dead' in d: dead[d['dead']] = d['by']; continue
+            e = rows[(d['pred'], d['mode'])]
+            e['tasks'] += 1; e['evals'] += d['evals']; e['secs'] += d['secs']; e['seeds'].add(d['seed'].split(':')[0])
+            b = tuple(d['best_obj'])
+            if e['best'] is None or b < e['best']: e['best'] = b
+    L = ['# The adversarial hunt (k4/portfolio_hunt.py)', '',
+         'EVIDENCE only: adversarial search over strict profiles of fixed cores. Files: ' + ', '.join(f'`{f}`' for f in files) + '.',
+         'Objective "count": the number of repairs (edges to better keys) at the worst state (key); "edge": (the number of '
+         'repairs by the next stronger predicate INNER, the number by the predicate) at the worst state, '
+         'lexicographic. 1000000 = no state (key) reached. A predicate dies when a task reaches 0 repairs; the failure is '
+         're-derived by k4/portfolio_ref.py before it counts.', '',
+         '| predicate | objective | INNER | tasks | profiles evaluated | CPU s | least objective reached | seed kinds | dead |',
+         '|---|---|---|---:|---:|---:|---|---|---|']
+    order = {p: i for i, p in enumerate(ORDER)}
+    for (p, mode), e in sorted(rows.items(), key=lambda kv: (order.get(kv[0][0], 99), kv[0][1])):
+        L.append(f"| {p} | {mode} | {INNER.get(p, '-') if mode == 'edge' else '-'} | {e['tasks']} | {e['evals']:,} | {e['secs']:.0f} | "
+                 f"{list(e['best'])} | {', '.join(sorted(e['seeds']))} | {dead.get(p, '')} |")
+    tot = sum(e['evals'] for e in rows.values())
+    L += ['', f'Total: {sum(e["tasks"] for e in rows.values())} tasks, {tot:,} profiles evaluated (each for every alive '
+          f'predicate), {sum(e["secs"] for e in rows.values()):.0f} CPU s; dead: {dead or "none"}.']
+    open(os.path.join(OUT, 'HUNT.md'), 'w').write('\n'.join(L) + '\n')
+    print('wrote results/k4_portfolio/HUNT.md')
+
+
 def main():
+    if sys.argv[1:2] == ['report']: return report()
     opt = dict(a[2:].split('=', 1) if '=' in a else (a[2:], True) for a in sys.argv[1:] if a.startswith('--'))
     name = opt.get('name', 'main')
     state = os.path.join(OUT, f'hunt_{name}.jsonl')
