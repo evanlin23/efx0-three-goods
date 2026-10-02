@@ -166,6 +166,18 @@ def main():
         bool(gw1_hyp(ctx)) and not k_swaps(ctx) and not g1_swaps(ctx))
     say('X3: a plain swap lowers the deficit', bool(fa['plain']), str(fa['plain'][:3]))
 
+    # X4: W, K or G1 applies at every T1-stuck state in setting (H) (the T3 stage is T1-stuck plus no (T2) move)
+    d = {'sets': [[0, 2, 7, 9], [1, 5, 8, 9], [3, 6, 8, 9], [4, 7, 8, 9]],
+         'vals': [[3, 10, 6, 8], [2, 3, 8, 4], [5, 3, 7, 6], [4, 2, 8, 3]], 'm': 10}
+    P0 = [[0, 9], [1, 5], [8], [4, 7]]
+    fa, pr, ctx = both('X4 (k4_certs_4_pure m=10 idx=13 60,8,93,84)', d, P0)
+    say('X4: strict core, f = 1, def(P) > 0, T1-stuck but not key-optimal (a (T2) move lowers the deficit)',
+        fa['core'] and fa['f'] == 1 and fa['d'] > 0 and fa['stuck'] and not fa['kopt'])
+    say('X4: setting (H)', len(fa['needers']) == 2 and all(fa['bt']) and in_H(ctx))
+    say('X4: W, K, G1 do not apply (implementation A)', bool(gw1_hyp(ctx)) and not k_swaps(ctx) and not g1_swaps(ctx),
+        str(gw1_hyp(ctx)))
+    say('X4: a plain swap lowers the deficit', bool(fa['plain']), str(fa['plain'][:3]))
+
     # Y: the theorems' swaps at dl13-n3m7-theta (k4/dl13.md §5), deficits of P' by both implementations
     d = {'sets': [[0, 2, 5, 6], [1, 4, 5, 6], [3, 4, 5, 6]], 'vals': [[2, 6, 3, 10], [6, 2, 3, 10], [4, 6, 5, 8]],
          'm': 7}
