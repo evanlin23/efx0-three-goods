@@ -16,6 +16,7 @@ independent model `k4/c4_verify_H/lb4r.py`, with the completion of its proof bui
 review (KR in its corrected form, with hypothesis (iii); hypothesis (iv) was added after the Lean formalization of PR #81
 found it missing). Lemmas K, K′, S and KR are also machine-checked in Lean (§7). Lemma M is open. The data are
 EVIDENCE.
+**Update (2026-10-02):** Lemma M is false (HH_3, K4.LMBT.M / K4.RF.M REFUTED, PR #83, `k4/lemmam_bt.md` §3).
 - **Lemma K (§2)**, an owner count for any valid pre-allocation: an owner, a set K of goods it keeps (its needs taken
   from B_o ∪ K, which can unfreeze agents), and every threatened agent served either by a slot good of its own that
   protects it whatever else happens or by a set of goods kept out of the owner's bundle. Its deficit is at most
@@ -36,6 +37,7 @@ EVIDENCE.
   C₄⁰ (C40, contained in K0 ∪ K1). It never runs LB₄ʳ's owner search. **It is correct exactly when Lemma M holds**
   (some first agent is in K0 or K1), the one statement left open (§6 says which cases a proof attempt closes and
   which it does not).
+  **Update (2026-10-02):** Lemma M is false (HH_3, K4.LMBT.M / K4.RF.M REFUTED, PR #83, `k4/lemmam_bt.md` §3).
   Its variant RK₃ (also the run without upgrades) is as good as rule F on all the exhaustive data.
 - **Data (§5)**: Lemma M holds, with K0 and K1 alone, on every strict profile of every certified core with n ≤ 4 and at
   most three 4-good agents (3.6·10¹⁰ profiles, exhaustive), on random samples of n = 4 with four 4-good agents
@@ -581,6 +583,7 @@ is Lemma M itself (item 3); item 2 (C40 ⊆ K0 ∪ K1) is not needed and not for
 2. Class C40 is not needed (C40 ⊆ K0 ∪ K1, §4); `EFX.LB4R.corollaryC40'` (K4.C4.AB.L) already gives `Succeeds` on its
    hypotheses, with at most one `RotStep`.
 3. Lemma M — the existence of a first agent in K0 ∪ K1 — is the open statement; with 1 it is `RuleFConn`.
+   **Update (2026-10-02):** Lemma M is false (HH_3, K4.LMBT.M / K4.RF.M REFUTED, PR #83, `k4/lemmam_bt.md` §3).
 `EFX.LB4R.TheoremC4` (every τ) is false (K4.C4.C); `TheoremRuleF` asks for one τ per profile, of length one, and is
 not affected by Proposition H (on H_t rule RK needs no rotation, §4.1).
 
