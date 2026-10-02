@@ -1,0 +1,14 @@
+# command: python3 k4/portfolio_ref.py confirm results/k4_portfolio/n5_4c_fails.jsonl.gz --pred=RT4
+CONFIRMED RT4 k4_certs_5_n4_4.json.gz#4255:134,19,1,43,19 [[7], [6], [2], [5], [8]] def 1 | ref repairs 0
+CONFIRMED RT4 k4_certs_5_n4_4.json.gz#4255:134,19,1,43,19 [[7], [6], [2], [3, 5], [8]] def 1 | ref repairs 0
+CONFIRMED RT4 k4_certs_5_n4_4.json.gz#4255:134,19,1,43,19 [[7], [6], [2], [4, 5], [8]] def 1 | ref repairs 0
+CONFIRMED RT4 k4_certs_5_n4_4.json.gz#4255:134,19,1,43,19 [[7], [8], [2], [5], [6]] def 1 | ref repairs 0
+CONFIRMED RT4 k4_certs_5_n4_4.json.gz#4255:134,19,1,43,19 [[7], [8], [2], [3, 5], [6]] def 1 | ref repairs 0
+CONFIRMED RT4 k4_certs_5_n4_4.json.gz#4255:134,19,1,43,19 [[7], [8], [2], [4, 5], [6]] def 1 | ref repairs 0
+confirmed 6, not confirmed 0; by predicate {'RT4': 6}
+# modules of the model.py side loaded: none
+# command: python3 k4/portfolio_ref.py confirm results/k4_portfolio/n5_4c_fails.jsonl.gz --pred=K1
+CONFIRMED K1 k4_certs_5_n4_4.json.gz#4255:134,19,1,43,19 key NA [6, 7, 8] {'0': [7], '1': [6], '4': [8]} def* 1 | ref edges 0
+CONFIRMED K1 k4_certs_5_n4_4.json.gz#4255:134,19,1,43,19 key NA [6, 7, 8] {'0': [7], '1': [8], '4': [6]} def* 1 | ref edges 0
+confirmed 2, not confirmed 0; by predicate {'K1': 2}
+# modules of the model.py side loaded: none

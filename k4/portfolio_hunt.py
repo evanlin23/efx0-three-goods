@@ -373,15 +373,17 @@ def report():
          'repairs by the next stronger predicate INNER, the number by the predicate) at the worst state, '
          'lexicographic. 1000000 = no state (key) reached. A predicate dies when a task reaches 0 repairs; the failure is '
          're-derived by k4/portfolio_ref.py before it counts.', '',
-         '| predicate | objective | INNER | tasks | profiles evaluated | CPU s | least objective reached | seed kinds | dead |',
+         'Profiles generated: every neighbour is passed to portfolio_dump.c; those with an f >= 1 state are evaluated for '
+         'every alive predicate.', '',
+         '| predicate | objective | INNER | tasks | profiles generated | CPU s | least objective reached | seed kinds | dead |',
          '|---|---|---|---:|---:|---:|---|---|---|']
     order = {p: i for i, p in enumerate(ORDER)}
     for (p, mode), e in sorted(rows.items(), key=lambda kv: (order.get(kv[0][0], 99), kv[0][1])):
         L.append(f"| {p} | {mode} | {INNER.get(p, '-') if mode == 'edge' else '-'} | {e['tasks']} | {e['evals']:,} | {e['secs']:.0f} | "
                  f"{list(e['best'])} | {', '.join(sorted(e['seeds']))} | {dead.get(p, '')} |")
     tot = sum(e['evals'] for e in rows.values())
-    L += ['', f'Total: {sum(e["tasks"] for e in rows.values())} tasks, {tot:,} profiles evaluated (each for every alive '
-          f'predicate), {sum(e["secs"] for e in rows.values()):.0f} CPU s; dead: {dead or "none"}.']
+    L += ['', f'Total: {sum(e["tasks"] for e in rows.values())} tasks, {tot:,} profiles generated, '
+          f'{sum(e["secs"] for e in rows.values()):.0f} CPU s; dead: {dead or "none"}.']
     open(os.path.join(OUT, 'HUNT.md'), 'w').write('\n'.join(L) + '\n')
     print('wrote results/k4_portfolio/HUNT.md')
 
