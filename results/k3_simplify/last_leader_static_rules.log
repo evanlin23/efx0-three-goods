@@ -1,0 +1,4 @@
+every core profile n <= 5: need rotation 33104; last leader := x1 works 32865; := r works 33062 {'x1': ([(2, 0, 3), (2, 1, 4), (2, 1, 0)], 5), 'r': ([(0, 1, 2), (0, 3, 4), (4, 1, 3), (4, 3, 2)], 5)}
+every ranking profile n=3 m=6: need rotation 462; last leader := x1 works 438; := r works 438 {'r': ([(0, 1, 2), (0, 3, 2), (0, 3, 4)], 6), 'x1': ([(0, 1, 2), (0, 3, 4), (0, 3, 1)], 6)}
+every ranking profile n=3 m=7: need rotation 1036; last leader := x1 works 988; := r works 988 {'r': ([(0, 1, 2), (0, 3, 1), (0, 3, 4)], 7), 'x1': ([(0, 1, 2), (0, 3, 4), (0, 3, 1)], 7)}
+every ranking profile n=4 m=5: need rotation 4344; last leader := x1 works 4340; := r works 4330 {'r': ([(0, 1, 2), (0, 3, 4), (0, 4, 1), (4, 3, 2)], 5), 'x1': ([(0, 1, 2), (3, 4, 1), (3, 0, 1), (0, 4, 2)], 5)}

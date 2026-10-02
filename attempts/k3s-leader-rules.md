@@ -67,3 +67,12 @@ Choosing only the first leader does avoid the rotation in every case tested, but
 `proofs/k3_simple.md` §7). Static choices of the first leader fail (`results/k3_simplify/first_leader_static_rules.log`):
 - the failed run's r works on 1,643 of 1,648 profiles at n ≤ 4;
 - "b and c valued by the most agents" works on 1,618 of 1,648.
+
+**Redoing the last block with a named leader** (`k3/simplify/exp_last_leader_rules.py`, log
+`results/k3_simplify/last_leader_static_rules.log`). When K3S would rotate, redo the draft with the last insertion
+step's leader replaced by an agent of the failed run. Neither choice always works:
+- x₁, the agent that needed k*'s top, works on 32,865 of 33,104 core profiles with n ≤ 5. Smallest failure: core
+  (2, 0, 3), (2, 1, 4), (2, 1, 0), m = 5.
+- r works on 33,062 of 33,104. Smallest failure: core (0, 1, 2), (0, 3, 4), (4, 1, 3), (4, 3, 2), m = 5.
+
+Some last leader always worked (Conjecture LL), but only by trying each one.
