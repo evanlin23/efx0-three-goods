@@ -1,0 +1,3 @@
+# command: python3 k4/zmove_corehunt.py results/k4_zmove/hunt/core_n5h1.jsonl.gz --minutes=20 --rng=51 --seedfile=results/k4_zmove/hunt/seeds_n56hard.json:1
+# seed: n=5 m=10 start score 188 (margin 0)
+# done: steps 14853 screened 237648 hits 20436 evaluated 20436 (6786 cores) recorded 0 fails 0 restarts 243; best score 188 (best margin seen 0) at {"sets": [[0, 2, 6, 9], [1, 5, 8, 9], [3, 7, 8], [4, 8, 9], [5, 6, 7, 9]], "vals": [[2, 3, 6, 10], [2, 10, 6, 3], [2, 3, 4], [2, 4, 3], [8, 2, 4, 3]], "m": 10}

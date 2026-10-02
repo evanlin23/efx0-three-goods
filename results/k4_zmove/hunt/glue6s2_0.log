@@ -1,0 +1,2 @@
+# command: python3 k4/zmove_hunt.py results/k4_zmove/hunt/glue6s2_0.jsonl.gz --minutes=20 --rng=25 --seedfile=results/k4_zmove/hunt/glue_n3n3_s2.jsonl.gz:0
+# seed: n=6 m=14 start score -833 (margin -1)

@@ -1,0 +1,2 @@
+# command: python3 k4/zmove_corehunt.py results/k4_zmove/hunt/core_n5h7.jsonl.gz --minutes=20 --rng=52 --seedfile=results/k4_zmove/hunt/seeds_n56hard.json:7
+# seed: n=5 m=12 start score 186 (margin 0)

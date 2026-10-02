@@ -1,0 +1,2 @@
+# command: python3 k4/zmove_hunt.py results/k4_zmove/hunt/Rleaf_n4m7.jsonl.gz --minutes=20 --rng=15 --seedfile=results/k4_zmove/hunt/seeds_base.json:1
+# seed: n=4 m=7 start score -1016 (margin -1)

@@ -1,0 +1,3 @@
+# command: python3 k4/zmove_corehunt.py results/k4_zmove/hunt/core_crossed.jsonl.gz --minutes=20 --rng=43 --seedfile=results/k4_zmove/hunt/seeds_base.json:0
+# seed: n=4 m=10 start score 182 (margin 0)
+# done: steps 13788 screened 220608 hits 34290 evaluated 34290 (23184 cores) recorded 0 fails 0 restarts 225; best score 197 (best margin seen 0) at {"sets": [[8, 0, 5, 4], [6, 7, 3, 2], [0, 1, 4, 3], [1, 7, 4, 6]], "vals": [[3, 6, 2, 10], [3, 2, 8, 4], [2, 3, 4, 8], [2, 3, 8, 4]], "m": 9}

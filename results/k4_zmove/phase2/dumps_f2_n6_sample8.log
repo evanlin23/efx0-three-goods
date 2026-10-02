@@ -1,0 +1,2 @@
+# command: python3 k4/zmove_check.py results/k4_zmove/phase2/dumps_f2_n6_sample8.jsonl.gz results/k4_cover/inputs/dumps_f2_n6_sample8.jsonl.gz --indep=25
+# 151 input records, 151 distinct in range, part 0/1: 151, already done 0

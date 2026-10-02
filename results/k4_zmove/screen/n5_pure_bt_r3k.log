@@ -1,0 +1,2 @@
+# command: python3 k4/cover_screen_run.py results/k4_certs_5_pure.json.gz --rand=3000 --seed=5051 --f=1:99 --jobs=2 --bt=all --out=results/k4_zmove/screen/n5_pure_bt_r3k.jsonl.gz
+# source: k4/cover_screen.c sha1 ab163c8ff873cd9d5be3ce4d803d3714692f0e80
