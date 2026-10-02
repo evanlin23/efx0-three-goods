@@ -32,18 +32,26 @@ empty and (T3⁺) is (T3). The route asked for is Theorem Z′ (`k4/c4min_reduce
     third agents.
 
   In every case the move ends at a state P′ with def(P′) ≤ 0, so the neighbouring key has def* ≤ 0 < def*(κ).
-- **Coverage (EVIDENCE, §4):** every configuration maximizing (r′, Λ′) at every non-completable f = 1 key of the data
-  satisfies the hypotheses of A, B (k = 1), B′ (k = 1), C or C′. The data are #53's whole n = 3 catalogue and every
-  non-completable key that `k4/red.c` finds in large random n = 4 and n = 5 samples. So on these data, DL on the key
-  graph at f = 1 holds through these five lemmas, each applied once from Theorem Z′'s configuration. Every lemma is
-  asserted against exact deficits there, with no violation.
-- **What remains at f = 1** (§5): a proof that one of A, B₁, B₁′, C, C′ always applies. The open cases are θ-b leaves
-  whose released goods third agents value, (R)-leaves whose released good third agents value, and terminals at
-  distance ≥ 2 from every leaf (there the target key is completable by B, but (T3)-adjacency is open). Each has its
-  data count.
-- **f ≥ 2** (§6): the key-graph runs with (T3⁺) ∪ (T4) edges on the catalogues and hunts (EVIDENCE), the coordinator's
-  refutation of the (T3) ∪ (T4) form, which this file's tool reproduces, and Lemma A⁺: the owner swap along a need
-  chain of frozen agents, which is one (T3⁺) move.
+- **Coverage (EVIDENCE, §4; K4.SX.COV).** At every configuration maximizing (r′, Λ′) at every non-completable f = 1
+  key of the data, A, B (k = 1), B′ (k = 1), C or C′ applies. The data are:
+  - every strict profile of every core with n ≤ 3: 62,208 such keys, all of the hopeless keys of `k4/c4min_reduce.md`
+    §4.1, covered by A, B and C;
+  - every non-completable key that `k4/red.c` finds in large random samples with n = 4 and n = 5 (§4.1).
+
+  So on these data DL on the key graph at f = 1 holds, in the strong form "a neighbour with def* ≤ 0", through these five
+  lemmas, each applied once from Theorem Z′'s configuration. Every lemma is asserted against exact deficits there, with
+  no violation.
+- **What remains at f = 1** (§5): Conjecture K4.SX.COVER, that one of A, B₁, B₁′, C, C′ always applies. The open cases
+  are:
+  - θ-b leaves: the robust pair that C and C′ need, and their hypotheses on third agents;
+  - (R) leaves whose released good third agents value;
+  - terminals at distance ≥ 2 from every leaf. There B's key is completable, but (T3)-adjacency is open.
+- **f ≥ 2** (§6):
+  - the coordinator's refutation of the (T3) ∪ (T4) form, which this file's two implementations reproduce (10 keys
+    fail, one per profile);
+  - the (T3⁺) ∪ (T4) form on the same profiles: it holds at all 41 keys;
+  - Lemma A⁺, the owner swap along a need chain of frozen agents. It is one (T3⁺) move, and it reaches 34 of those 41
+    keys from some Z′-type maximum. The other 7 are `attempts/k4-sx-aplus-f3.md`.
 - **Conjecture SX** (`k4/dl13.md` §2.3) is not needed by this route: the lemmas start from Theorem Z′'s configuration,
   not from a deficit-minimal state. It is not proved here.
 
