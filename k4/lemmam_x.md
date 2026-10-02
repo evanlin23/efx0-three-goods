@@ -40,7 +40,10 @@ rule of §7), `k4/lemmam_x_run.py` and `k4/lemmam_x_adp.py` (drivers, one worker
   fails (918,392,554 runs with every block count 0, all certified without rotation). But the block count is not yet
   the right local invariant: **(L0)** "after blocks of count 0 some agent starts a block of count 0" is false at n = 3,
   m = 6 (hand-checked), and the greedy rule needs two rotations on 11,520 profiles (n = 3, m = 6 smallest; both
-  implementations). L1SUMMARY
+  implementations), and **(L1∃)** "some insertion sequence has every non-last block at count 0" holds at n ≤ 3 but
+  fails on 65,720 profiles at n = 4 (m = 6 smallest, hand-checked) where M_ad holds without rotation: the count
+  misses the upgrades and the other owners. The coordinator's per-block form M_ad^blk (one rotation per block) is
+  implied by M_ad and untouched by every test here; its local form (L2) is the open step.
 - **Found on the way**: `k4/rulef.c` (hence `k4/lemmam_x.c`) gives a rotated agent with a one-good base no slot, while
   LB₄ʳ's text and Lean's `Output` give it one; so that code's "bad" (neither K0 nor K1) is an upper bound: 132 of the
   1,420 bad leaves at n = 4 are K1 in PR #33's model (§2).
@@ -397,28 +400,50 @@ only, for each block, Hall's condition with ρ and D taken against the final W. 
 
 ### 7.2 Adaptive Lemma M
 
-**Conjecture M_ad (global form).** For every strict profile of every k = 4 core some insertion sequence τ and some
-upgrade policy reach, with at most one rotation, a state of Lemma K deficit ≤ 0. In Lean: some τ with
-`EFX.LB4R.SucceedsR 1 v agents goods τ` (§7.4).
+**Conjecture M_ad (one rotation in all).** For every strict profile of every k = 4 core some insertion sequence τ
+(the inserted agent chosen at every insertion step) makes LB₄ʳ(τ) succeed with at most one rotation. In Lean:
+`∃ τ, EFX.LB4R.SucceedsR 1 v agents goods τ` (§7.4). Its certificate form M_ad^K asks for a state of Lemma K deficit
+≤ 0 after at most one rotation (every policy); M_ad^K implies M_ad (Lemma K's certificates are outputs).
 
-Lemma M is the case τ = (a), so M_ad holds wherever Lemma M does (every profile of §2's exhaustive data), and on H_t
-and HH_t by the runs of §7.3. No counterexample is known.
+**Conjecture M_ad^blk (one rotation per block).** Some τ makes LB₄ʳ(τ) succeed with at most one rotation whose need
+chain lies in each block of the run (chains never leave their block, (A4), (B2)); so with at most as many rotations
+as blocks. M_ad implies M_ad^blk. In Lean the natural statement is `∃ τ d, d ≤ blocks τ ∧ SucceedsR d v agents goods τ`
+(or simply `∃ τ d, SucceedsR d …`), which needs `succeeds_of_succeedsR` for every d (§7.4). The data below do not
+separate the two: every profile tested satisfies M_ad itself, so M_ad^blk is the safer target and M_ad the stronger
+one. HH_t does not distinguish them either: two insertion choices and no rotation (PR #83's sequence
+(x^A_{1,2}, x^B_{1,2}); the greedy rule below finds it).
+
+**What already expresses it.** Nothing in the Lean frame yet: `TheoremC4` (every τ) and `TheoremC4index` (τ = [])
+are false (H₅, Proposition H), `TheoremRuleF` (τ = [a]) is false if Proposition HH holds (HH₃), and `TheoremC4exists`
+(K4.D on strict cores, `C4exists_iff`) is the conclusion, not a hypothesis about LB₄ʳ. M_ad is new; its Lean form and
+the three-line proof that it gives C₄∃ are in §7.4. In the ledger, K4.AD.OPT (a) already measures M_ad in LB₄ʳ's form:
+on every strict profile with n ≤ 3, and n = 4 with one to three 4-good agents, the fewest rotations over every
+insertion sequence is at most one (`k4/adaptive.c`, one implementation). Lemma M is the case τ = (a), so M_ad also
+holds wherever Lemma M does (every profile of §2's data), and on H_t and HH_t by the runs of §7.3. No counterexample
+is known.
 
 **Local forms.** Call a block *last* if it processes every agent still unprocessed. A local form says how to build
 the run block by block with Lemma 5 (or 5′) as the certificate:
 - (L0) *after any prefix of blocks of count 0, some unprocessed agent starts a block of count 0* (the last block
-  included). **False** at n = 3, m = 6 (§7.3): every first block has count 1, for both counts.
+  included). **False** at n = 3, m = 6 (§7.3): every first block has count 1, for both counts (a last block
+  included).
 - (L1) *after any prefix of blocks of count 0, some unprocessed agent starts a non-last block of count 0, or a last
   block whose run succeeds with at most one rotation.*
 - (L1∃) *some insertion sequence has every non-last block at count 0 and succeeds with at most one rotation.* (L1)
-  implies (L1∃), and (L1∃) implies M_ad. §7.3 tests (L1∃) with the count at closing and with the cumulative count.
+  implies (L1∃), and (L1∃) implies M_ad (for (L1∃) the cumulative count of Lemma 5′ is the same as the count at
+  closing). True at n ≤ 3, **false** at n = 4, m = 6 (§7.3), on profiles where M_ad holds without rotation.
 
-(L1) is what an exchange lemma can prove: at an insertion step where the agent of least index starts a non-last block
-of positive count, show that another agent, read off that block (an overloaded end, Lemma 3), starts a non-last block
-of count 0 or a last block. Ω and Ψ (`k4/c4one.md` §6) are moves of this kind (they change the agent inserted at the
-start of one block and keep the prefix), but their new block has P-steps in their order, not LB's key's, and they
-bound ω, not the block count, so they do not give the step as they stand. And the data say the overloaded end is the
-wrong partner for the step (§7.3: it starts a block of count 0 at 39% of the steps where some agent does at 80%).
+So the block count of §7.1 (no upgrades, owner r, K = ∅) is not yet the local invariant: it misses what the upgrades
+and the other owners do. A local form needs a count that sees them, or the per-block repair of M_ad^blk: *(L2) after
+any prefix of repaired blocks some unprocessed agent starts a block that one rotation inside it repairs.* (L2) is not
+tested here; a block count of 1 alone does not give it (§7.3: a single block of count 1 can need two rotations).
+
+Whatever the count, the step is what an exchange lemma would prove: at an insertion step where the agent of least
+index starts a bad block, show that another agent, read off that block (an overloaded end, Lemma 3), starts a good
+one. Ω and Ψ (`k4/c4one.md` §6) are moves of this kind (they change the agent inserted at the start of one block and
+keep the prefix), but their new block has P-steps in their order, not LB's key's, and they bound ω, not a block count,
+so they do not give the step as they stand. And for the count of §7.1 the overloaded end is the wrong partner (§7.3:
+it starts a block of count 0 at 39% of the steps where some agent does at 80%).
 
 ### 7.3 Data (EVIDENCE)
 
@@ -468,9 +493,22 @@ Findings:
 
 **(L1∃) on the exhaustive data** (`-A46`, the least d over every insertion sequence whose non-last blocks have count
 0): at n ≤ 3 each of the 300,026,592 profiles has such a sequence that succeeds without rotation (299,638,544) or
-with one (388,048); none needs more, none lacks one (`results/k4_lemmam_x/l46_n2_n3.log`). L46N4 With the cumulative
-count the numbers at n ≤ 3 are the same (`l46W_n2_n3.log`; it allows more sequences, so it can only do better), and
-so is the greedy rule's (`adpW_n2_n3.log`: the same histogram of d and the same 1,394,136 runs with a non-last block
+with one (388,048); none needs more, none lacks one (`results/k4_lemmam_x/l46_n2_n3.log`). **At n = 4 (L1∃) fails**: of the
+732,094,848 profiles with n = 4 and at most two 4-good agents, 731,793,722 have such a sequence without rotation and
+235,406 with one, but 65,720 (all with two 4-good agents) have none: along every insertion sequence some non-last
+block has positive count (`l46_n4_1.log`, `l46_n4_2a.log`, `l46_n4_2b.log`). Smallest (m = 6, checked by hand):
+agents {0, 2, 5}, {0, 3, 4, 5}, {1, 2, 4, 5}, {1, 3, 5} with values (2, 4, 3), (5, 2, 8, 4), (5, 2, 8, 4), (2, 4, 3).
+Every first block leaves one agent out and has count 1: inserting 0 or 2 gives the block {0, 1, 2} (2 holds 4, needed
+by 1, which holds 0; 2 is threatened by G = {1, 3, 5}, 5 + 4 > 8, and its only end 1 is threatened, 4 + 2 > 5);
+inserting 1 or 3 gives {1, 2, 3} (1 holds 4, needed by 2, which holds 1; 1 is threatened by G = {0, 2, 5}, 5 + 4 > 8,
+and its only end 2 is threatened, 2 + 4 > 5). Yet every first agent is in K0 or K1 there (both implementations), and
+the greedy run τ = (0, 3) (counts 1, 0) is certified by Lemma K without rotation: the block count, taken without
+upgrades and with owner r, misses what the upgrades and the other owners do. So (L1∃) is false for this count, not
+for the adaptive rule; a local form needs a count that sees the upgrades (or allows one rotation per block, the
+coordinator's form, which the data do not separate from M_ad, below). With the cumulative
+count the numbers are the same (`l46W_n2_n3.log`), necessarily: along a sequence whose earlier blocks have count 0,
+the cumulative count after a new block is that block's count at closing, so (L1∃) is the same statement for both
+counts. The greedy rule's numbers are the same too (`adpW_n2_n3.log`: the same histogram of d and the same 1,394,136 runs with a non-last block
 of positive count as by the count at closing, `adp_n2_n3_after_W.log`): at n ≤ 3 runs have few blocks and the counts
 coincide. (L1), with "every prefix", is not tested separately; the greedy's 4,377,332 runs with a positive non-last
 block are runs where the greedy, by count and index, chose a non-last block of positive count, not necessarily
