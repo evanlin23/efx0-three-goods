@@ -1,0 +1,21 @@
+# rulef_H.py 1,2,3,4,5 --perms=3 -w0 --timeout=900 # rulef.c sha256 8bd39c5559ae46b6
+H_1: class K0, first agent 1; single rule=41 samples=1 rot0=1 rot1=0 fail=0 uncov=0 time 0.0s
+H_1 relabel 1 (l -> agent 2): class K0, first agent 0; single rule=41 samples=1 rot0=1 rot1=0 fail=0 uncov=0 time 0.0s
+H_1 relabel 2 (l -> agent 3): class K0, first agent 0; single rule=41 samples=1 rot0=1 rot1=0 fail=0 uncov=0 time 0.0s
+H_1 relabel 3 (l -> agent 4): class K0, first agent 0; single rule=41 samples=1 rot0=1 rot1=0 fail=0 uncov=0 time 0.0s
+H_2: class K0, first agent 1; single rule=41 samples=1 rot0=1 rot1=0 fail=0 uncov=0 time 0.0s
+H_2 relabel 1 (l -> agent 3): class K0, first agent 0; single rule=41 samples=1 rot0=1 rot1=0 fail=0 uncov=0 time 0.0s
+H_2 relabel 2 (l -> agent 5): class K0, first agent 0; single rule=41 samples=1 rot0=1 rot1=0 fail=0 uncov=0 time 0.0s
+H_2 relabel 3 (l -> agent 8): class K0, first agent 0; single rule=41 samples=1 rot0=1 rot1=0 fail=0 uncov=0 time 0.0s
+H_3: class K0, first agent 1; single rule=41 samples=1 rot0=1 rot1=0 fail=0 uncov=0 time 0.0s
+H_3 relabel 1 (l -> agent 6): class K0, first agent 0; single rule=41 samples=1 rot0=1 rot1=0 fail=0 uncov=0 time 0.0s
+H_3 relabel 2 (l -> agent 10): class K0, first agent 0; single rule=41 samples=1 rot0=1 rot1=0 fail=0 uncov=0 time 0.0s
+H_3 relabel 3 (l -> agent 1): class K0, first agent 0; single rule=41 samples=1 rot0=1 rot1=0 fail=0 uncov=0 time 0.0s
+H_4: class K0, first agent 1; single rule=41 samples=1 rot0=1 rot1=0 fail=0 uncov=0 time 0.0s
+H_4 relabel 1 (l -> agent 4): class K0, first agent 0; single rule=41 samples=1 rot0=1 rot1=0 fail=0 uncov=0 time 0.0s
+H_4 relabel 2 (l -> agent 3): class K0, first agent 0; single rule=41 samples=1 rot0=1 rot1=0 fail=0 uncov=0 time 0.0s
+H_4 relabel 3 (l -> agent 1): class K0, first agent 0; single rule=41 samples=1 rot0=1 rot1=0 fail=0 uncov=0 time 0.0s
+H_5: class K0, first agent 1; single rule=41 samples=1 rot0=1 rot1=0 fail=0 uncov=0 time 0.3s
+H_5 relabel 1 (l -> agent 19): class K0, first agent 0; single rule=41 samples=1 rot0=1 rot1=0 fail=0 uncov=0 time 0.2s
+H_5 relabel 2 (l -> agent 9): class K0, first agent 0; single rule=41 samples=1 rot0=1 rot1=0 fail=0 uncov=0 time 0.1s
+H_5 relabel 3 (l -> agent 13): class K0, first agent 0; single rule=41 samples=1 rot0=1 rot1=0 fail=0 uncov=0 time 0.1s

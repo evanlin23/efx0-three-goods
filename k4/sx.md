@@ -1,12 +1,12 @@
 # DL on the key graph at one frozen agent: repair lemmas from Theorem Z′'s configuration
 
-Workstream `proof/k4-sx` (PR #80), `k4/dl13.md` §6 item 1 (branch `proof/k4-dl13`, PR #75). Ledger rows K4.SX.*:
+Workstream `proof/k4-sx` (PR #80), `k4/dl13.md` §6 item 1 (on main since PR #75). Ledger rows K4.SX.*:
 written proofs nobody else has checked are CONJECTURE ("written proof in `k4/sx.md` §x, not yet refereed"), data rows
 EVIDENCE. Nothing here changes K4.D or K4.T.
 
 **Target.** DL on the key graph (`k4/dl13.md` §2.3, Remark): every key κ with least deficit def*(κ) > 0 has a key κ′,
 reached by one move of a fixed class from some state of κ, with def*(κ′) < def*(κ). The class was (T3) ∪ (T4); after
-the coordinator's refutation at n = 5, f = 3 (below) it is (T3⁺) ∪ (T4) at f ≥ 2. At f = 1 the two coincide: (T4) is
+its refutation at n = 5, f = 3 (K4.DL13.KEY, REFUTED; §6) it is (T3⁺) ∪ (T4), the key-graph form of K4.DL2.RC. At f = 1 the two coincide: (T4) is
 empty and (T3⁺) is (T3). The route asked for is Theorem Z′ (`k4/c4min_reduce.md` §2, K4.C4MIN.RED.Z, PROVED).
 
 **Status.** DL on the key graph is not proved here, at f = 1 or at f ≥ 2. What is here:
@@ -356,14 +356,16 @@ Remark 1.2, C₄ᵐⁱⁿ at f = 1.
 
 ## 6. f ≥ 2
 
-**The (T3) ∪ (T4) form is false; the target is (T3⁺) ∪ (T4).** The coordinator checked the DL_RT4 failures of
-compute/k4-rt4-n5b and -n5c (67 states in 10 profiles, all with f = 3, def = 1 and nearest distance 3) on
+**The (T3) ∪ (T4) form is false (K4.DL13.KEY); the target is (T3⁺) ∪ (T4) (K4.DL2.RC).** The coordinator checked the
+DL_RT4 failures of compute/k4-rt4-n5b and -n5c (K4.DL2.RT4) (67 states in 10 profiles, all with f = 3, def = 1 and nearest distance 3) on
 `k4/dl134_xcheck.py`'s model. In each profile some key with def* = 1 has no neighbour of smaller def* by one (T3) or
 (T4) move from any of its states. Every repair there is a (T3⁺) move: x frees g, a frozen w moves from h to g, and a
 free z takes h. `k4/sx_keygraph.py` reproduces this on the smallest profile, core pos 3206 of `k4_certs_5_n4_4`
 (`python3 k4/sx_keygraph.py one '{"m": 9, "sets": [[0,2,4,7],[1,4,7,8],[3,6,8],[5,6,7,8],[5,6,7,8]], "vals":
 [[6,3,5,7],[4,2,8,7],[2,4,3],[4,8,1,6],[2,7,8,4]]}'`). The key (7, 8, –, –, 6) has def* = 1. Its (T3) ∪ (T4) neighbours
-all have def* = 1, and DLK holds there with (T3⁺) edges. The ledger status of that refutation is the coordinator's.
+all have def* = 1, and DLK holds there with (T3⁺) edges. On all 10 profiles both implementations of this file
+(`results/k4_sx/f2/keys_rt4_n5*.log`, `xcheck_rt4_n5*.log`) find the 10 failing keys of K4.DL13.KEY, and the
+(T3⁺) ∪ (T4) form holding at all 41 keys with def* > 0, as K4.DL2.RC reports.
 
 **Lemma A⁺ (the owner swap along a need chain; one (T3⁺) move).** Let f ≥ 1 and ω ≥ 1, and let κ = (𝒩, φ) be a key
 with frozen set F. Let Q be a pool-optimal configuration at κ (U_y = R_y ∖ 𝒩). Let o be a free agent such that

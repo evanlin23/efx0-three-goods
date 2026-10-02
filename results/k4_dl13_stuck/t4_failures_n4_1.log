@@ -1,0 +1,13 @@
+# command: python3 k4/dl13_stuck.py tsv k4/suite/.cache/compute_k4_dl13/n4_failures_n4_1.tsv --out=results/k4_dl13_stuck/t4_failures_n4_1.jsonl.gz
+DL13 fails (not T4-optimal)                   20
+T1-stuck                                      60
+T1-stuck f=3                                  60
+T1-stuck, not T4-optimal                      60
+def>0 states                                  60
+def>0 states f=3                              60
+def>0 states, not T4-optimal                  60
+def>0 states, not T4-optimal, a (T4) move lowers def 60
+def>0 states, not T4-optimal, a frozen rotation lowers def 60
+profiles                                      10
+profiles f>=1, omega>=1                       10
+DL13 failures: 20 (of which at T4-optimal states: 0)

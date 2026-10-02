@@ -1,0 +1,11 @@
+# command: python3 k4/dlrt4_run.py catalog k4/suite/.cache/gapbench/results/k4_gap/gap_n5_1_s100.json.gz --every=1 --jobs=4 --ckpt=results/k4_rt4/ckpt_n5c_cat_gap_n5_1_s100.jsonl --dump=results/k4_rt4/dump_n5c_cat_gap_n5_1_s100.jsonl.gz --tables=results/k4_rt4/tables_n5c_cat_gap_n5_1_s100.json
+# dlrt4.c sha256 fcde494a3161279d47a7b80e614f69c58894ebc7b40d00e461f677b8810d7cae
+# catalog k4/suite/.cache/gapbench/results/k4_gap/gap_n5_1_s100.json.gz: 547 instances, 1 units to run, 0 from the checkpoint
+catalog k4/suite/.cache/gapbench/results/k4_gap/gap_n5_1_s100.json.gz: profiles 547, omega >= 1: 547; k* = 0: 547, 1: 0, 2: 0, 3: 0, >= 4: 0, inf: 0; P with def > 0: 0, at distance 1: 0, 2: 0, 3: 0, >= 4: 0, inf: 0; Pareto-maximal: 0; largest least deficit -1
+  DL_RT4: states (def > 0) with f = 0: 0 (RT4 fails at 0), with f >= 1: 0; DL_RT4 FAILS at 0 of the f >= 1 states; with an improving move T1 0, T2 0, T3p 0, T3h 0, T4 0; only T1 0, only T2 0, only T3 0, only T4 0; R_T fails at 0, R_13 at 0, R_13 + T4 at 0; smallest RT4 move size 1 / 2 / 3 / >= 4 / none: 0 / 0 / 0 / 0 / 0; anomalies 0 + 0 [0 s]
+table B: f >= 1 states by f | signature | branch : count
+table G: f >= 1 states by f | nearest distance k | branch : count
+table M: f >= 1 states by f | branch | smallest RT4 move size : count
+table Z: f >= 1 states by f | branch available | its smallest move size : count
+table C: f >= 1 states with T4 by f | smallest T4 size | cycle types at that size : count
+table Y: f >= 1 states by f | branch | move type available : count

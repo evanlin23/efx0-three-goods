@@ -1,0 +1,96 @@
+# command: python3 k4/rt4_n5_xcheck.py results/k4_rt4/n5b_failures_inst.json results/k4_rt4/n5c_fail_inst.json
+# model: k4/dl134_xcheck.py Prof on k4/c4x_check.py (dl2_relations stubbed while importing: True)
+  A fail [[7], [8], [3], [5], [6]] def 1 k 3 | near 16: 1|1|1|0 chain x16 | frozen [0, 1, 4] NA [6, 7, 8] | T3+ repairs True (least |ch| 3), T3+- True | relB agrees True
+  B key fail (edges T3/T4): NA [6, 7, 8] frozen {0: [7], 1: [8], 4: [6]} def* 1 (1 states)
+P k4_certs_5_n4_4.json.gz#3206[m=9,idx=364]:108,86,1,108,27 f=3 min-frozen=58 states=14 keys=18 (def*>0: 8) | A: RT4 fails at 1 | C1: DL_RC fails at 0 | B: key-graph DL (T3/T4) fails at 1 keys | C2: (T3+/T4) at 0, (T3+-/T4) at 0 | 0.7s
+  A fail [[7], [1], [8], [5], [6]] def 1 k 3 | near 16: 1|1|1|0 chain x16 | frozen [0, 2, 4] NA [6, 7, 8] | T3+ repairs True (least |ch| 3), T3+- True | relB agrees True
+  A fail [[7], [1], [8], [4, 5], [6]] def 1 k 3 | near 16: 1|1|1|0 chain x16 | frozen [0, 2, 4] NA [6, 7, 8] | T3+ repairs True (least |ch| 3), T3+- True | relB agrees True
+  B key fail (edges T3/T4): NA [6, 7, 8] frozen {0: [7], 2: [8], 4: [6]} def* 1 (2 states)
+P k4_certs_5_n4_4.json.gz#3521[m=9,idx=679]:98,1,16,17,15 f=3 min-frozen=68 states=12 keys=17 (def*>0: 7) | A: RT4 fails at 2 | C1: DL_RC fails at 0 | B: key-graph DL (T3/T4) fails at 1 keys | C2: (T3+/T4) at 0, (T3+-/T4) at 0 | 0.5s
+  A fail [[8], [9], [3], [5], [6, 7]] def 1 k 3 | near 8: 1|1|1|0 chain x8 | frozen [0, 1, 2] NA [3, 8, 9] | T3+ repairs True (least |ch| 3), T3+- True | relB agrees True
+  A fail [[8], [9], [3], [6, 7], [5]] def 1 k 3 | near 8: 1|1|1|0 chain x8 | frozen [0, 1, 2] NA [3, 8, 9] | T3+ repairs True (least |ch| 3), T3+- True | relB agrees True
+  B key fail (edges T3/T4): NA [3, 8, 9] frozen {0: [8], 1: [9], 2: [3]} def* 1 (2 states)
+P k4_certs_5_pure.json.gz#2614[m=10,idx=568]:6,9,43,24,24 f=3 min-frozen=68 states=12 keys=10 (def*>0: 4) | A: RT4 fails at 2 | C1: DL_RC fails at 0 | B: key-graph DL (T3/T4) fails at 1 keys | C2: (T3+/T4) at 0, (T3+-/T4) at 0 | 1.7s
+  A fail [[8], [9], [3], [7], [6]] def 1 k 3 | near 8: 1|1|1|0 chain x8 | frozen [0, 1, 2] NA [3, 8, 9] | T3+ repairs True (least |ch| 3), T3+- True | relB agrees True
+  A fail [[8], [9], [3], [5, 7], [6]] def 1 k 3 | near 8: 1|1|1|0 chain x8 | frozen [0, 1, 2] NA [3, 8, 9] | T3+ repairs True (least |ch| 3), T3+- True | relB agrees True
+  A fail [[8], [9], [3], [7], [5, 6]] def 1 k 3 | near 8: 1|1|1|0 chain x8 | frozen [0, 1, 2] NA [3, 8, 9] | T3+ repairs True (least |ch| 3), T3+- True | relB agrees True
+  B key fail (edges T3/T4): NA [3, 8, 9] frozen {0: [8], 1: [9], 2: [3]} def* 1 (3 states)
+P k4_certs_5_pure.json.gz#2614[m=10,idx=568]:6,11,45,0,4 f=3 min-frozen=67 states=11 keys=9 (def*>0: 3) | A: RT4 fails at 3 | C1: DL_RC fails at 0 | B: key-graph DL (T3/T4) fails at 1 keys | C2: (T3+/T4) at 0, (T3+-/T4) at 0 | 1.4s
+  A fail [[8], [9], [3], [6], [7]] def 1 k 3 | near 8: 1|1|1|0 chain x8 | frozen [0, 1, 2] NA [3, 8, 9] | T3+ repairs True (least |ch| 3), T3+- True | relB agrees True
+  A fail [[8], [9], [3], [5, 6], [7]] def 1 k 3 | near 8: 1|1|1|0 chain x8 | frozen [0, 1, 2] NA [3, 8, 9] | T3+ repairs True (least |ch| 3), T3+- True | relB agrees True
+  A fail [[8], [9], [3], [6], [5, 7]] def 1 k 3 | near 8: 1|1|1|0 chain x8 | frozen [0, 1, 2] NA [3, 8, 9] | T3+ repairs True (least |ch| 3), T3+- True | relB agrees True
+  B key fail (edges T3/T4): NA [3, 8, 9] frozen {0: [8], 1: [9], 2: [3]} def* 1 (3 states)
+P k4_certs_5_pure.json.gz#2614[m=10,idx=568]:1,11,39,16,0 f=3 min-frozen=67 states=11 keys=9 (def*>0: 3) | A: RT4 fails at 3 | C1: DL_RC fails at 0 | B: key-graph DL (T3/T4) fails at 1 keys | C2: (T3+/T4) at 0, (T3+-/T4) at 0 | 1.3s
+  A fail [[10], [4], [9], [8], [11]] def 1 k 3 | near 10: 1|1|1|0 chain x10 | frozen [0, 3, 4] NA [8, 10, 11] | T3+ repairs True (least |ch| 3), T3+- True | relB agrees True
+  A fail [[10], [4], [5, 9], [8], [11]] def 1 k 3 | near 10: 1|1|1|0 chain x10 | frozen [0, 3, 4] NA [8, 10, 11] | T3+ repairs True (least |ch| 3), T3+- True | relB agrees True
+  A fail [[10], [4], [3, 9], [8], [11]] def 1 k 3 | near 10: 1|1|1|0 chain x10 | frozen [0, 3, 4] NA [8, 10, 11] | T3+ repairs True (least |ch| 3), T3+- True | relB agrees True
+  A fail [[10], [4], [3, 5], [8], [11]] def 1 k 3 | near 10: 1|1|1|0 chain x10 | frozen [0, 3, 4] NA [8, 10, 11] | T3+ repairs True (least |ch| 3), T3+- True | relB agrees True
+  A fail [[10], [4, 9], [3, 5], [8], [11]] def 1 k 3 | near 10: 1|1|1|0 chain x10 | frozen [0, 3, 4] NA [8, 10, 11] | T3+ repairs True (least |ch| 3), T3+- True | relB agrees True
+  A fail [[10], [1, 4], [9], [8], [11]] def 1 k 3 | near 10: 1|1|1|0 chain x10 | frozen [0, 3, 4] NA [8, 10, 11] | T3+ repairs True (least |ch| 3), T3+- True | relB agrees True
+  A fail [[10], [1, 4], [5, 9], [8], [11]] def 1 k 3 | near 10: 1|1|1|0 chain x10 | frozen [0, 3, 4] NA [8, 10, 11] | T3+ repairs True (least |ch| 3), T3+- True | relB agrees True
+  A fail [[10], [1, 9], [3, 5], [8], [11]] def 1 k 3 | near 10: 1|1|1|0 chain x10 | frozen [0, 3, 4] NA [8, 10, 11] | T3+ repairs True (least |ch| 3), T3+- True | relB agrees True
+  A fail [[10], [1, 4], [3, 9], [8], [11]] def 1 k 3 | near 10: 1|1|1|0 chain x10 | frozen [0, 3, 4] NA [8, 10, 11] | T3+ repairs True (least |ch| 3), T3+- True | relB agrees True
+  A fail [[10], [1, 4], [3, 5], [8], [11]] def 1 k 3 | near 10: 1|1|1|0 chain x10 | frozen [0, 3, 4] NA [8, 10, 11] | T3+ repairs True (least |ch| 3), T3+- True | relB agrees True
+  B key fail (edges T3/T4): NA [8, 10, 11] frozen {0: [10], 3: [8], 4: [11]} def* 1 (10 states)
+P k4_certs_5_pure.json.gz#4170[m=12,idx=25]:1,12,8,3,11 f=3 min-frozen=82 states=18 keys=9 (def*>0: 3) | A: RT4 fails at 10 | C1: DL_RC fails at 0 | B: key-graph DL (T3/T4) fails at 1 keys | C2: (T3+/T4) at 0, (T3+-/T4) at 0 | 20.3s
+  A fail [[10], [9], [3], [7], [11]] def 1 k 3 | near 12: 1|1|1|0 chain x12 | frozen [0, 3, 4] NA [7, 10, 11] | T3+ repairs True (least |ch| 3), T3+- True | relB agrees True
+  A fail [[10], [9], [3, 5], [7], [11]] def 1 k 3 | near 12: 1|1|1|0 chain x12 | frozen [0, 3, 4] NA [7, 10, 11] | T3+ repairs True (least |ch| 3), T3+- True | relB agrees True
+  A fail [[10], [4, 9], [3], [7], [11]] def 1 k 3 | near 12: 1|1|1|0 chain x12 | frozen [0, 3, 4] NA [7, 10, 11] | T3+ repairs True (least |ch| 3), T3+- True | relB agrees True
+  A fail [[10], [4, 9], [3, 5], [7], [11]] def 1 k 3 | near 12: 1|1|1|0 chain x12 | frozen [0, 3, 4] NA [7, 10, 11] | T3+ repairs True (least |ch| 3), T3+- True | relB agrees True
+  A fail [[10], [1, 4], [5, 9], [7], [11]] def 1 k 3 | near 12: 1|1|1|0 chain x12 | frozen [0, 3, 4] NA [7, 10, 11] | T3+ repairs True (least |ch| 3), T3+- True | relB agrees True
+  A fail [[10], [1, 9], [3], [7], [11]] def 1 k 3 | near 12: 1|1|1|0 chain x12 | frozen [0, 3, 4] NA [7, 10, 11] | T3+ repairs True (least |ch| 3), T3+- True | relB agrees True
+  A fail [[10], [1, 9], [3, 5], [7], [11]] def 1 k 3 | near 12: 1|1|1|0 chain x12 | frozen [0, 3, 4] NA [7, 10, 11] | T3+ repairs True (least |ch| 3), T3+- True | relB agrees True
+  A fail [[10], [1, 4], [3], [7], [11]] def 1 k 3 | near 12: 1|1|1|0 chain x12 | frozen [0, 3, 4] NA [7, 10, 11] | T3+ repairs True (least |ch| 3), T3+- True | relB agrees True
+  A fail [[10], [1, 4], [3, 9], [7], [11]] def 1 k 3 | near 12: 1|1|1|0 chain x12 | frozen [0, 3, 4] NA [7, 10, 11] | T3+ repairs True (least |ch| 3), T3+- True | relB agrees True
+  A fail [[10], [1, 4], [3, 5], [7], [11]] def 1 k 3 | near 12: 1|1|1|0 chain x12 | frozen [0, 3, 4] NA [7, 10, 11] | T3+ repairs True (least |ch| 3), T3+- True | relB agrees True
+  B key fail (edges T3/T4): NA [7, 10, 11] frozen {0: [10], 3: [7], 4: [11]} def* 1 (10 states)
+P k4_certs_5_pure.json.gz#4170[m=12,idx=25]:4,8,16,22,43 f=3 min-frozen=98 states=18 keys=9 (def*>0: 3) | A: RT4 fails at 10 | C1: DL_RC fails at 0 | B: key-graph DL (T3/T4) fails at 1 keys | C2: (T3+/T4) at 0, (T3+-/T4) at 0 | 20.2s
+  A fail [[10], [4, 9], [5], [7], [11]] def 1 k 3 | near 10: 1|1|1|0 chain x10 | frozen [0, 3, 4] NA [7, 10, 11] | T3+ repairs True (least |ch| 3), T3+- True | relB agrees True
+  A fail [[10], [4, 9], [3, 5], [7], [11]] def 1 k 3 | near 10: 1|1|1|0 chain x10 | frozen [0, 3, 4] NA [7, 10, 11] | T3+ repairs True (least |ch| 3), T3+- True | relB agrees True
+  A fail [[10], [1], [5], [7], [11]] def 1 k 3 | near 10: 1|1|1|0 chain x10 | frozen [0, 3, 4] NA [7, 10, 11] | T3+ repairs True (least |ch| 3), T3+- True | relB agrees True
+  A fail [[10], [1, 9], [5], [7], [11]] def 1 k 3 | near 10: 1|1|1|0 chain x10 | frozen [0, 3, 4] NA [7, 10, 11] | T3+ repairs True (least |ch| 3), T3+- True | relB agrees True
+  A fail [[10], [1], [5, 9], [7], [11]] def 1 k 3 | near 10: 1|1|1|0 chain x10 | frozen [0, 3, 4] NA [7, 10, 11] | T3+ repairs True (least |ch| 3), T3+- True | relB agrees True
+  A fail [[10], [1, 4], [5], [7], [11]] def 1 k 3 | near 10: 1|1|1|0 chain x10 | frozen [0, 3, 4] NA [7, 10, 11] | T3+ repairs True (least |ch| 3), T3+- True | relB agrees True
+  A fail [[10], [1, 4], [5, 9], [7], [11]] def 1 k 3 | near 10: 1|1|1|0 chain x10 | frozen [0, 3, 4] NA [7, 10, 11] | T3+ repairs True (least |ch| 3), T3+- True | relB agrees True
+  A fail [[10], [1], [3, 9], [7], [11]] def 1 k 3 | near 10: 1|1|1|0 chain x10 | frozen [0, 3, 4] NA [7, 10, 11] | T3+ repairs True (least |ch| 3), T3+- True | relB agrees True
+  A fail [[10], [1], [3, 5], [7], [11]] def 1 k 3 | near 10: 1|1|1|0 chain x10 | frozen [0, 3, 4] NA [7, 10, 11] | T3+ repairs True (least |ch| 3), T3+- True | relB agrees True
+  A fail [[10], [1, 9], [3, 5], [7], [11]] def 1 k 3 | near 10: 1|1|1|0 chain x10 | frozen [0, 3, 4] NA [7, 10, 11] | T3+ repairs True (least |ch| 3), T3+- True | relB agrees True
+  A fail [[10], [1, 4], [3, 9], [7], [11]] def 1 k 3 | near 10: 1|1|1|0 chain x10 | frozen [0, 3, 4] NA [7, 10, 11] | T3+ repairs True (least |ch| 3), T3+- True | relB agrees True
+  A fail [[10], [1, 4], [3, 5], [7], [11]] def 1 k 3 | near 10: 1|1|1|0 chain x10 | frozen [0, 3, 4] NA [7, 10, 11] | T3+ repairs True (least |ch| 3), T3+- True | relB agrees True
+  B key fail (edges T3/T4): NA [7, 10, 11] frozen {0: [10], 3: [7], 4: [11]} def* 1 (12 states)
+P k4_certs_5_pure.json.gz#4170[m=12,idx=25]:22,18,4,10,37 f=3 min-frozen=84 states=20 keys=9 (def*>0: 3) | A: RT4 fails at 12 | C1: DL_RC fails at 0 | B: key-graph DL (T3/T4) fails at 1 keys | C2: (T3+/T4) at 0, (T3+-/T4) at 0 | 21.8s
+  A fail [[10], [4], [6], [11], [7]] def 1 k 3 | near 10: 1|1|1|0 chain x10 | frozen [0, 3, 4] NA [7, 10, 11] | T3+ repairs True (least |ch| 3), T3+- True | relB agrees True
+  A fail [[10], [4, 9], [6], [11], [7]] def 1 k 3 | near 10: 1|1|1|0 chain x10 | frozen [0, 3, 4] NA [7, 10, 11] | T3+ repairs True (least |ch| 3), T3+- True | relB agrees True
+  A fail [[10], [4], [6, 9], [11], [7]] def 1 k 3 | near 10: 1|1|1|0 chain x10 | frozen [0, 3, 4] NA [7, 10, 11] | T3+ repairs True (least |ch| 3), T3+- True | relB agrees True
+  A fail [[10], [4], [3, 9], [11], [7]] def 1 k 3 | near 10: 1|1|1|0 chain x10 | frozen [0, 3, 4] NA [7, 10, 11] | T3+ repairs True (least |ch| 3), T3+- True | relB agrees True
+  A fail [[10], [4], [3, 6], [11], [7]] def 1 k 3 | near 10: 1|1|1|0 chain x10 | frozen [0, 3, 4] NA [7, 10, 11] | T3+ repairs True (least |ch| 3), T3+- True | relB agrees True
+  A fail [[10], [4, 9], [3, 6], [11], [7]] def 1 k 3 | near 10: 1|1|1|0 chain x10 | frozen [0, 3, 4] NA [7, 10, 11] | T3+ repairs True (least |ch| 3), T3+- True | relB agrees True
+  A fail [[10], [1, 9], [6], [11], [7]] def 1 k 3 | near 10: 1|1|1|0 chain x10 | frozen [0, 3, 4] NA [7, 10, 11] | T3+ repairs True (least |ch| 3), T3+- True | relB agrees True
+  A fail [[10], [1, 4], [6], [11], [7]] def 1 k 3 | near 10: 1|1|1|0 chain x10 | frozen [0, 3, 4] NA [7, 10, 11] | T3+ repairs True (least |ch| 3), T3+- True | relB agrees True
+  A fail [[10], [1, 4], [6, 9], [11], [7]] def 1 k 3 | near 10: 1|1|1|0 chain x10 | frozen [0, 3, 4] NA [7, 10, 11] | T3+ repairs True (least |ch| 3), T3+- True | relB agrees True
+  A fail [[10], [1, 9], [3, 6], [11], [7]] def 1 k 3 | near 10: 1|1|1|0 chain x10 | frozen [0, 3, 4] NA [7, 10, 11] | T3+ repairs True (least |ch| 3), T3+- True | relB agrees True
+  A fail [[10], [1, 4], [3, 9], [11], [7]] def 1 k 3 | near 10: 1|1|1|0 chain x10 | frozen [0, 3, 4] NA [7, 10, 11] | T3+ repairs True (least |ch| 3), T3+- True | relB agrees True
+  A fail [[10], [1, 4], [3, 6], [11], [7]] def 1 k 3 | near 10: 1|1|1|0 chain x10 | frozen [0, 3, 4] NA [7, 10, 11] | T3+ repairs True (least |ch| 3), T3+- True | relB agrees True
+  B key fail (edges T3/T4): NA [7, 10, 11] frozen {0: [10], 3: [11], 4: [7]} def* 1 (12 states)
+P k4_certs_5_pure.json.gz#4214[m=12,idx=69]:0,12,4,11,39 f=3 min-frozen=92 states=20 keys=9 (def*>0: 3) | A: RT4 fails at 12 | C1: DL_RC fails at 0 | B: key-graph DL (T3/T4) fails at 1 keys | C2: (T3+/T4) at 0, (T3+-/T4) at 0 | 28.4s
+  A fail [[10], [4], [6, 9], [11], [7]] def 1 k 3 | near 10: 1|1|1|0 chain x10 | frozen [0, 3, 4] NA [7, 10, 11] | T3+ repairs True (least |ch| 3), T3+- True | relB agrees True
+  A fail [[10], [4], [3], [11], [7]] def 1 k 3 | near 10: 1|1|1|0 chain x10 | frozen [0, 3, 4] NA [7, 10, 11] | T3+ repairs True (least |ch| 3), T3+- True | relB agrees True
+  A fail [[10], [4, 9], [3], [11], [7]] def 1 k 3 | near 10: 1|1|1|0 chain x10 | frozen [0, 3, 4] NA [7, 10, 11] | T3+ repairs True (least |ch| 3), T3+- True | relB agrees True
+  A fail [[10], [4], [3, 9], [11], [7]] def 1 k 3 | near 10: 1|1|1|0 chain x10 | frozen [0, 3, 4] NA [7, 10, 11] | T3+ repairs True (least |ch| 3), T3+- True | relB agrees True
+  A fail [[10], [4], [3, 6], [11], [7]] def 1 k 3 | near 10: 1|1|1|0 chain x10 | frozen [0, 3, 4] NA [7, 10, 11] | T3+ repairs True (least |ch| 3), T3+- True | relB agrees True
+  A fail [[10], [4, 9], [3, 6], [11], [7]] def 1 k 3 | near 10: 1|1|1|0 chain x10 | frozen [0, 3, 4] NA [7, 10, 11] | T3+ repairs True (least |ch| 3), T3+- True | relB agrees True
+  A fail [[10], [1, 4], [6, 9], [11], [7]] def 1 k 3 | near 10: 1|1|1|0 chain x10 | frozen [0, 3, 4] NA [7, 10, 11] | T3+ repairs True (least |ch| 3), T3+- True | relB agrees True
+  A fail [[10], [1, 9], [3], [11], [7]] def 1 k 3 | near 10: 1|1|1|0 chain x10 | frozen [0, 3, 4] NA [7, 10, 11] | T3+ repairs True (least |ch| 3), T3+- True | relB agrees True
+  A fail [[10], [1, 9], [3, 6], [11], [7]] def 1 k 3 | near 10: 1|1|1|0 chain x10 | frozen [0, 3, 4] NA [7, 10, 11] | T3+ repairs True (least |ch| 3), T3+- True | relB agrees True
+  A fail [[10], [1, 4], [3], [11], [7]] def 1 k 3 | near 10: 1|1|1|0 chain x10 | frozen [0, 3, 4] NA [7, 10, 11] | T3+ repairs True (least |ch| 3), T3+- True | relB agrees True
+  A fail [[10], [1, 4], [3, 9], [11], [7]] def 1 k 3 | near 10: 1|1|1|0 chain x10 | frozen [0, 3, 4] NA [7, 10, 11] | T3+ repairs True (least |ch| 3), T3+- True | relB agrees True
+  A fail [[10], [1, 4], [3, 6], [11], [7]] def 1 k 3 | near 10: 1|1|1|0 chain x10 | frozen [0, 3, 4] NA [7, 10, 11] | T3+ repairs True (least |ch| 3), T3+- True | relB agrees True
+  B key fail (edges T3/T4): NA [7, 10, 11] frozen {0: [10], 3: [11], 4: [7]} def* 1 (12 states)
+P k4_certs_5_pure.json.gz#4214[m=12,idx=69]:12,12,18,11,43 f=3 min-frozen=104 states=32 keys=10 (def*>0: 4) | A: RT4 fails at 12 | C1: DL_RC fails at 0 | B: key-graph DL (T3/T4) fails at 1 keys | C2: (T3+/T4) at 0, (T3+-/T4) at 0 | 40.7s
+TOTAL profiles 10; states (def > 0, f >= 1) 168; keys 109, with def* > 0: 41
+A  DL_RT4 fails at 67 states, by (def, k): {(1, 3): 67}; R_13 / R_T against rel_B: 0 mismatches
+A  their better states at the nearest distance: 692, shapes U|W|Z|Y: {'1|1|1|0 chain': 692}; chains: 692
+B  DL on the key graph with single T3 / T4 edges fails at 10 of the 41 keys with def* > 0
+C1 T3+ repairs 67 of the 67 DL_RT4 failures (T3+-: 67); DL_RC (T1 + T2 + T3+ + T4) fails at 0 of the 168 states
+C2 DL on the key graph with T3+ / T4 edges fails at 0 of the 41 keys with def* > 0 (T3+- / T4: 0)
+# modules of the model.py side loaded: none; 137s
