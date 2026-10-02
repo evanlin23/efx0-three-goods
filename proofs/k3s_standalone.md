@@ -1,9 +1,11 @@
 # K3S is correct: a self-contained proof
 
 Workstream `proof/k3-simplify`. The algorithm is `k3/simplify/k3s.py`, function `k3s` with its default arguments,
-described in `proofs/k3_simple.md` §1.
+described in §2 below (and in `proofs/k3_simple.md` §1).
 
-**Status.** Written proof; not refereed, not machine-checked. It replaces `proofs/k3_simple.md` §3, which is a list of
+**Status.** Written proof, refereed once with no error found (the referee's wording fixes are applied). The referee's
+independent implementation, written from this text alone, agreed with `k3s` on every deterministic run. Not
+machine-checked. It replaces `proofs/k3_simple.md` §3, which is a list of
 changes to the proof of LB⁺ in `paper/k3/long.tex`. This document uses nothing from the paper: every notion is defined
 and every step is proved below. The differences from the paper's proof are listed at the end.
 
@@ -12,7 +14,12 @@ value at most three goods positively. Then K3S returns an allocation of all good
 bundle except one (the absorber's) has at most two goods.
 
 The proof holds for every choice the algorithm leaves open: which peelable agent goes next, which agent leads, the
-order of the upgrades, and which shared good HitSet uses. The code makes these choices by smallest index (§2).
+order of the upgrades, which shared good HitSet uses, and which free agents receive the goods of H_o. The code makes
+these choices by smallest index (§2).
+
+*Notation.* N is the set of agents and N_i (with a subscript) the needs of agent i; C (no subscript) is the need chain
+of step 4, and C_i are the parts of a completion in §5; in step 2 and in (UT), k is a generic agent, in step 4 and §7
+the exposed agent that rotates.
 
 ## 1. Model
 
@@ -89,7 +96,8 @@ otherwise; upgraded agents are neither. The *base* of i is {Y_i} (∅ if Y_i = �
   common good g ∈ π_x ∩ π_y, take the first such triple in the code's loop order (x, then y, in index order, then g
   among b_x, c_x); the list is g followed by one(z) for every z ∈ E_o ∖ {x, y}. Otherwise it is one(z) for every
   z ∈ E_o. H_o is the set of goods on the list.
-- The *test for o* passes if (T1) π_x ≠ ∅ for every x ∈ E_o, and (T2) |H_o| ≤ F_o.
+- The *test for o* passes if (T1) π_x ≠ ∅ for every x ∈ E_o, and (T2) |H_o| ≤ F_o. It is applied only to a free or
+  upgraded o: to r, which is free (Lemma 7(c)), and after a rotation to k, which is upgraded.
 - Complete(o) gives every pick to its picker and c_u to every u ∈ U, gives the goods of H_o one each to distinct free
   agents other than o (in index order), and gives every other leftover good to o.
 
@@ -110,7 +118,7 @@ otherwise; upgraded agents are neither. The *base* of i is {Y_i} (∅ if Y_i = �
 
 | Text | Code |
 |---|---|
-| peelable; draft; leader = smallest unprocessed index | `peelable`, lines 43–49, `lead_index` |
+| peelable; draft (peel turns: the peelable agent of smallest index); leader = smallest unprocessed index | `peelable`, lines 43–49, `lead_index` |
 | N_i, NA, J | `needs`, `NA`, `junk` |
 | free (one slot each); F_o | `caps` (1 if free, else 0); F_o = sum(cap) − cap[o] |
 | upgrades, smallest index first | lines 69–74 |
@@ -191,7 +199,7 @@ upgraded; Lemma 2(a) needs only balance.
 ## 6. The absorber r
 
 **Lemma 6 (the test).** Let (Y, U) be valid and o free or upgraded.
-- (a) HitSet(E_o) has |E_o| − 1 entries if two of the sets π_x (x ∈ E_o) meet, and |E_o| entries otherwise. If (T1)
+- (a) HitSet(E_o) has |E_o| − 1 entries if π_x ∩ π_y ≠ ∅ for some x ≠ y in E_o, and |E_o| entries otherwise. If (T1)
   holds, its entries are leftover goods and H_o meets {b_x, c_x} for every x ∈ E_o.
 - (b) If the test for o passes, Complete(o) is a completion with absorber o that satisfies (OC). Hence it is EFX₀, and
   every bundle other than X_o has at most two goods (Theorem S).
@@ -253,7 +261,8 @@ z_β are free (Lemma 7(b)), lie in different blocks, and z_B\* = r (Lemma 7(c)),
 
 So all these are equalities. Then ε = 0. |E_r| = Λ, and E_r consists of leaders, so every leader is exposed. HitSet
 has |E_r| entries, so no two sets π_x meet (Lemma 6(a)). F_r = Λ − 1, and the Λ − 1 agents z_β with β ≠ B\* are free
-agents other than r, so there are no others; they lie outside B\*.
+agents other than r, so there are no others. The z_β with β ≠ B\* lie outside B\*, so r is the only free agent
+of B\*.
 (b) As block 0 is empty and Λ ≥ F_r + 1 ≥ 1, B\* is block Λ, and its leader k is exposed by (a). All agents of E_r
 are leaders, and the other leaders come before k, so k is the last agent of E_r in the draft. k ∉ U, k ≠ r (by
 definition r ∉ E_r) and k ∈ B\*, so by (a) k is not free: it is frozen. By Lemma 9, every need chain from k ends at a
@@ -275,7 +284,7 @@ removing repeated entries; this only shortens it, and Theorem A starts from the 
 
 Suppose the test for r fails, and let k and C = (x₀, …, xₜ), x₀ = k, xₜ = r, be as in Theorem A. Let
 W = J ∪ base(r). As k ∈ E_r, b_k, c_k ∈ W. No agent of C is in U: k is exposed, and the scan appends only agents
-outside U. A prime marks the notions of the rotated state (Y′, U′): J′, NA′, N_i′, E_k′, π_x′, F_k′.
+outside U. A prime marks the notions of the rotated state (Y′, U′): J′, NA′, N_i′, base′, free′, E_k′, π_x′, F_k′.
 
 **Theorem B (the rotation).**
 - (a) (Y′, U′) is a pre-allocation, and J′ = W ∖ {b_k, c_k}.
@@ -346,8 +355,9 @@ Compared with the proof of LB⁺ in `paper/k3/long.tex` §5 and the list of chan
    free. Its part (a) covers every block, block 0 included, through (B2).
 6. **Theorem A** is proved by the counting of Lemma T, one chain of inequalities, instead of the paper's case analysis
    with Lemma count. It gives the paper's bad case (k frozen, every need chain from k ends at r, the sets π_x pairwise
-   disjoint) and more: block 0 is empty, every leader is exposed, and r is the only free agent of its block. It also
-   shows that "the last exposed agent" is the paper's k\*, "the first exposed agent of r's block".
+   disjoint) and more: block 0 is empty, every leader is exposed, and r is the only free agent of its block.
+   (Commentary, not used in the proof: "the last exposed agent" coincides with the paper's k\*, "the first exposed
+   agent of r's block".)
 7. **Proposition O is not used.** Theorem A starts from the failure of the code's own test, after the removal of
    repeated entries. Its exactness is the remark after Theorem A.
 8. **(UT) only for a strict r.** In Theorem B(e), case x = r, (UT) is applied to r only when r is exposed, hence strict
