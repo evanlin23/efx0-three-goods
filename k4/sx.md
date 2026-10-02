@@ -41,12 +41,15 @@ empty and (T3⁺) is (T3). The route asked for is Theorem Z′ (`k4/c4min_reduce
   - every strict profile of every core with n ≤ 3: 62,208 such keys, all of the hopeless keys of `k4/c4min_reduce.md`
     §4.1, covered by A, B and C;
   - every non-completable key that `k4/red.c` finds in random samples with n = 4 (2,661 keys) and n = 5 (11 keys);
-  - the 1,241 non-completable keys among the profiles of `k4/dl13.md`'s T1-stuck states.
+  - the 1,241 non-completable keys among the profiles of `k4/dl13.md`'s T1-stuck states;
+  - compute/k4-rc's 45 keys (§4.4).
 
   At 5 keys of the largest n = 4 sample, B′ and C need their exact hypotheses: the structural ones fail there
   (`attempts/k4-sx-cover-structural.md`). So on these data DL on the key graph at f = 1 holds, in the strong form "a
   neighbour with def* ≤ 0", through these five lemmas, each applied once from Theorem Z′'s configuration. Every lemma is
-  asserted against exact deficits there, with no violation.
+  asserted against exact deficits there, with no violation. The PR #80 referee's independent checker
+  `k4/sx_indep.py` (no repository code) confirms this at 5,906 of these keys: a sample of n = 3, all of n = 4, and
+  compute/k4-rc's.
 - **The f = 1 failure of single-step DL** (compute/k4-rc; §4.4). In 45 profiles of one n = 5 core, a state P_fail with
   def 1 has no improving (T1)–(T4) move. Theorem Z′'s state P_Q of its key is a different state, one (T1) step from
   P_fail and not the coordinator's (T3h) witness state. Lemma A applies at P_Q: one (T3) move without helper, to
@@ -331,7 +334,14 @@ Tools (EVIDENCE tooling; every assertion below is checked against exact deficits
   (forest, kinds), Lemma A (when not θ-b), Lemma B (every path whose leaf is not (R) with s ∈ L) and Lemmas B′, C, C′
   (whenever their hypotheses hold): the configuration built is a configuration, the owner is valid with C = ∅, def* ≤ 0
   at the target key, and the (T3) image has def ≤ 0. It also records which lemma applies first, in the order A, B (k = 1),
-  C, C′, B′ (k = 1), then B or B′ with longer paths.
+  C, C′, B′ (k = 1), then B or B′ with longer paths. (Since the PR #80 review it tests C′ whenever τ₂ is a leaf, as the
+  lemma says; before, only when both terminals were leaves. Every log under `results/k4_sx/zprime/` was redone.)
+- `k4/sx_indep.py`: the PR #80 referee's independent checker (no repository code: its own 𝒫, raw removal-only
+  deficit, configurations, kinds and lemma constructions). At every key it checks Lemma 0. At every Z′-maximum of a
+  non-completable key it checks Lemma F and Theorem Z′. At *every* pool-optimal configuration, for every pair of x, it
+  checks Lemmas S, A, B (all k), B′, C, C′, and that the single moves are (T3). It also checks COVER
+  (`results/k4_sx/indep_*.log`, `k4/sx_indep_runs.sh`);
+- `k4/sx_rc_case.py` (§4.4), `k4/sx_f2.py` and `k4/sx_f2_classify.py` (§6).
 
 Counters summed per input: `results/k4_sx/SUMMARY.md` (`python3 k4/sx_summary.py`) and `results/k4_sx/keys_summary.md`
 (`python3 k4/sx_runs.py --sum`).
@@ -389,9 +399,24 @@ At every Z′-maximum of every non-completable key of §4.1 (`results/k4_sx/zpri
   and Lemma B applies.
 - *Paths of length 2* occur only in the n = 4 hunts (10 paths). There Lemma B's target key is a (T3) neighbour as well,
   but at those maxima another lemma applies first.
-- *Second implementation.* `k4/sx_xcheck.py` (main's `k4/c4x_check.py` enumeration and direct deficit) agrees with
-  `k4/sx_keygraph.py` on every key's def* and on the DLK verdicts of all four edge sets. It ran on #53's n = 3 catalogue
-  dump and samples of the n = 4 hunts, with 0 mismatches (`results/k4_sx/xcheck_*.log`).
+- *Second implementation of the lemma checks.* `k4/sx_indep.py` confirms COVER, with 0 violations of any lemma, at
+  5,906 keys and 12,427 Z′-maxima:
+  - the first 800 profiles of each of the four n = 3 hunt files with keys (3,200 keys);
+  - all n = 4 hunt keys (59 + 240 + 2,362);
+  - compute/k4-rc's 45 keys.
+
+  Its counts of Z′-maxima equal `k4/sx_zprime.py`'s on the n = 4 hunts (565 and 3,645), and so does the number of
+  maxima where Lemma A applies in the 400,000-per-core sample (3,390). The n = 5 hunt keys, the T1-stuck keys and the rest of the n = 3 keys are checked
+  by `k4/sx_zprime.py` alone.
+- *Second implementation of def* and DLK.* `k4/sx_xcheck.py` (main's `k4/c4x_check.py` enumeration and direct
+  deficit) agrees with `k4/sx_keygraph.py` on every key's def* and on the DLK verdicts of all four edge sets, with 0
+  mismatches, on:
+  - #53's n = 3 catalogue dump;
+  - every 50th profile of the n = 3 hunts;
+  - the 40,000-per-core n = 4 hunts;
+  - compute/k4-rc's profiles (`results/k4_sx/xcheck_*.log`, `results/k4_sx/rc/xcheck.log`).
+
+  It was not run on the 400,000-per-core n = 4 hunt or the n = 5 hunts.
 
 ### 4.3 The key graph on #53's catalogues and on the T1-stuck profiles of `k4/dl13.md`
 
@@ -605,10 +630,12 @@ The move for k = 1 is checked as in Lemmas A⁺ and B. ∎
 coordinator's checks), at every maximum of (r′, Λ′), a free-valid owner exists. At n5b, at all 15 keys and all 81
 maxima, its bundle threatens one frozen agent and Lemma A⁺ applies: 24 times with j = 0 and 57 with j = 1. 15 of the 81
 maxima have no direct (T3) repair but a (T3⁺) one. At n5c, Lemma A⁺ applies at 86 of 118 maxima and at some maximum of
-19 of the 26 keys. Lemma B⁺ applies at 28 maxima, all of them maxima where Lemma A⁺ applies too (path length 1, need chains of length 1). The other 7 keys are the failed candidate `attempts/k4-sx-aplus-f3.md`, where neither applies. There some free-valid
-owner's bundle threatens two frozen agents (35 owner–maximum pairs), or the owner at the chain's end is threatened by
-its own bundle (35 chains, the analogue of θ-b). DLK with (T3⁺) ∪ (T4) edges holds at all of them (`k4/sx_keygraph.py`,
-`k4/sx_xcheck.py`). The repairs there have the shape of Lemmas C and C′: another free-valid owner owns after the swap.
+19 of the 26 keys. Lemma B⁺ applies at 28 maxima, all of them maxima where Lemma A⁺ applies too (path length 1, need
+chains of length 1). At the other 7 keys neither applies (`attempts/k4-sx-aplus-f3.md`, which also has the smallest
+instance, n = 4, m = 8, f = 2). Per maximum without either (an owner–maximum may count twice): some free-valid owner's
+bundle threatens two frozen agents (30), the free needers are off the path to the leaf (15), or θ fails at the
+chain's end or the leaf is an (R) with s ∈ L (17). DLK with (T3⁺) ∪ (T4) edges holds at all of them
+(`k4/sx_keygraph.py`, `k4/sx_xcheck.py`).
 
 The f = 2 keys with def* > 0 of §4.3 give the same picture. Lemma F⁺ held at every maximum (asserted by `k4/sx_f2.py`)
 and DLK with every edge set holds. The coverage by Lemmas A⁺, B⁺ is partial, and is not proved to be complete:
@@ -618,13 +645,28 @@ and DLK with every edge set holds. The coverage by Lemmas A⁺, B⁺ is partial,
 | f = 2 keys of the n = 4 catalogues and hunts (`results/k4_sx/f2/catalogues_f2.log`) | 67 (110) | 18 keys | a leaf threatens two frozen agents 45; the free needers are off the path to the leaf 25; θ fails at the chain's end or an (R) leaf 18 |
 | T1-stuck profiles, f = 2, 3 (`results/k4_sx/t3stage/f2.log`) | 196 (411) | 156 keys | 41 / 13 / 18 |
 
-**What f ≥ 2 still needs.**
-- Lemma F⁺ gives the forest and the leaves. What is missing is the analogue of Lemma T, a *free* needer of a frozen
-  good reached by a need chain from the threatened frozen agent. At f ≥ 2 every good of 𝒩 may be needed by frozen
-  agents only. Then the frozen need digraph has a cycle, which is a (T4) move (`k4/dl13.md` Lemma 12), but that move
-  is not shown to lower def*.
-- The analogues of Lemmas B, C and C′ along need chains.
-- A leaf's bundle may threaten two frozen agents (the failing case above); at f = 1 it threatens only x.
+**The maxima that Lemmas A⁺ and B⁺ miss (EVIDENCE; the f ≥ 2 referee's classification in the PR #80 review,
+`k4/sx_f2_classify.py`, on this workstream's model).** Over the three inputs above there are 174 such maxima: 32 at
+n5c, 77 in the catalogues, 65 in the T1-stuck profiles (`results/k4_sx/f2/classify_n5.log`, `classify_catalogues.log`,
+`classify_t3stage.log`). At 173 of them a plain (T3) move without helper (W = ∅, no helper) reaches a state of
+deficit ≤ 0 from P_Q:
+- at 94 (31 + 34 + 29) the image is owned by a leaf with a bundle of ω + 2 goods: the shape of Lemma C;
+- at the other 79 the owner (x or a leaf) has a bundle of ω + 1 goods and slack u ≥ 1: the ι shape of `k4/dl13.md`
+  Lemma 9, the mechanism of Lemma C′ (paid for by unfreezing).
+
+The remaining maximum (n5c) is repaired only by (T3⁺) moves with |W| ≥ 1. So the missing f ≥ 2 lemmas are Lemmas C
+and C′ at f ≥ 2, with control of Lemma 9's e and Lemma 11's e* (`k4/dl13.md`) for the bundle sizes and slack. A
+widened A⁺ (the leaf's bundle may threaten frozen agents of the chain, each safe at its new good) applies at 1 of the 174.
+
+**What f ≥ 2 still needs.** In the order of the obstructions seen on the data:
+- A leaf's bundle may threaten two frozen agents; at f = 1 it threatens only x. This is the most frequent obstruction
+  (all 6 maxima of the smallest instance, n = 4, m = 8, f = 2; 30 of the n5c maxima; 45 and 41 in the table above).
+- The free needers of the chain's end may be off the threat paths to the leaves (15, 25, 13).
+- θ may fail at the chain's end (the f ≥ 2 analogue of θ-b), or the leaf is an (R) with s ∈ L (17, 18, 18).
+- For all three, the analogues of Lemmas C and C′ (above), and of B along need chains with longer paths.
+- An analogue of Lemma T: a *free* needer of a frozen good reached by a need chain from the threatened frozen agent.
+  At f ≥ 2 every good of 𝒩 may be needed by frozen agents only; then the frozen need digraph has a cycle, which is a
+  (T4) move (`k4/dl13.md` Lemma 12), not shown to lower def*. This case occurs at 0 maxima of the data.
 
 ## 7. Reproduce
 
@@ -642,5 +684,7 @@ python3 attempts/k4_sx_attempts.py                                   # K4.SX.X, 
 python3 k4/sx_keygraph.py inst results/k4_sx/rc/rc_fail_inst.json --dump=results/k4_sx/rc/keys.jsonl.gz  # §4.4 (seconds)
 python3 k4/sx_zprime.py results/k4_sx/rc/keys.jsonl.gz; python3 k4/sx_rc_case.py results/k4_sx/rc/rc_fail_inst.json
 python3 k4/sx_xcheck.py results/k4_sx/rc/keys.jsonl.gz               # §4.4, second implementation (~1 min)
+sh k4/sx_indep_runs.sh       # the referee's independent checker on the hunts and rc keys (400,000 per core: ~13 min)
+sh k4/sx_review_runs.sh      # §6 classification, n5c, rc / T1-stuck / hunt Z′ logs after the review (~1 h)
 python3 k4/sx_keygraph.py one '{"sets": ..., "vals": ..., "m": ...}'  # one profile: keys, def*, neighbours
 ```
