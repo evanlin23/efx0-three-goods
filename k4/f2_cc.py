@@ -30,7 +30,7 @@ import collections, gzip, itertools, json, os, sys, time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
-from f2_lib import Prof, bits, pc, mask, kind, lst
+from f2_lib import Prof, bits, pc, mask, kind, lst, t3plus
 from f2_lemmas import Ctx
 sys.path.append(os.path.join(HERE, 'suite', '.cache', 'sx', 'k4'))
 import sx_f2                                    # PR #80's tool, unchanged (k4/suite/.cache/sx/k4/sx_f2.py)
@@ -111,6 +111,73 @@ def counted(pr, P, Bs, o, Y, path, A, x):
         assert not any(I.needs(i, hold.get(i, Bs[i])) & qb for i in range(I.n) if i != o), ('Fact 3', Bs, q)
         out.append(q)
     return out
+
+
+def counted_h(pr, P, Bs, o, Y, path, A, x, h, Bh):
+    """Fact 3h (k4/f2.md §5.1): Fact 3 with one helper h re-based on Bh: q ∈ 𝒩 counts in u′_o(Y) when (1) q ∉ N_o(Y);
+    (2) every agent other than h that needs q in P is o or q's holder in P′; (3) o = x or q ∉ N_x(A); (4) o = h or
+    q ∉ N_h(Bh). Each is asserted against the exact P′ needs."""
+    I = pr.I
+    hold = {path[j]: Bs[path[j + 1]] for j in range(len(path) - 1)}; hold[x] = A; hold[h] = Bh
+    holder = {}
+    for i in range(I.n):
+        B = hold.get(i, Bs[i])
+        if pc(B) == 1 and B & P.NA: holder[B] = i
+    NoY = I.needs(o, Y); NxA = I.needs(x, A); NhB = I.needs(h, Bh)
+    out = []
+    for q in bits(P.NA):
+        qb = 1 << q
+        if NoY & qb: continue
+        if any(P.N[i] & qb for i in range(I.n) if i not in (o, h, holder[qb])): continue
+        if o != x and NxA & qb: continue
+        if o != h and NhB & qb: continue
+        assert not any(I.needs(i, hold.get(i, Bs[i])) & qb for i in range(I.n) if i != o), ('Fact 3h', Bs, q)
+        out.append(q)
+    return out
+
+
+def test_helper(pr, c, Bs, V, X):
+    """Lemmas C⁺ₕ and C′⁺ₕ (k4/f2.md §5.1) at P_Q = Bs: the chain swap along a need path τ, a_k, ..., x with ONE helper
+    h (a free agent off the path, re-based on Bh ⊆ (J ∪ B_τ ∪ B_h) minus A, admissible, giving up a good of B_h; a
+    (T3⁺) move by Lemma 6⁺), and an owner o (x, h, or another free agent off the path) with a bundle Y of ω + 2 goods,
+    or of ω + 1 goods and a good passing Fact 3h, safe in P′. Asserts def(P′) <= 0 at each; returns the set of
+    (name, k, owner role) that apply."""
+    I = pr.I; ctx = Ctx(pr, Bs); P = ctx.P; om = ctx.omega
+    thr = lambda w, Z, B: I.threat(w, Z, I.val(w, B))
+    applied = set()
+    for x in ctx.F:
+        for path in ctx.paths_to(x):
+            tau = path[0]; k = len(path) - 2; onpath = set(path)
+            for h in P.free:
+                if h in onpath: continue
+                G = P.J | Bs[tau] | Bs[h]
+                for A in ctx.adm(x, G):
+                    pool = (G & ~A) & I.R[h]
+                    for r in range(3):
+                        for Bh in subsets(pool, r):
+                            if not (Bs[h] & ~Bh) or I.needs(h, Bh) & ~P.NA: continue
+                            b2 = ctx.swap(path, A, h, Bh)
+                            assert b2 in pr.D, ('Lemma 6+ (helper)', Bs, b2)
+                            assert t3plus(P, pr.PA[b2]) is not None, ('Lemma 6+: not (T3+)', Bs, b2)
+                            D2 = pr.D[b2]
+                            hold = ctx.hold(path, h, Bh); hold[x] = A
+                            Jn = G & ~A & ~Bh
+                            for o in [x, h] + [o for o in P.free if o not in onpath and o != h]:
+                                base = hold.get(o, Bs[o])
+                                role = 'owner x' if o == x else ('owner the helper' if o == h else
+                                                                 ('owner a leaf' if o in V else 'owner not a leaf'))
+                                for sz in (om + 1, om + 2):
+                                    if sz < pc(base): continue
+                                    for K in subsets(Jn & ~base, sz - pc(base)):
+                                        Y = base | K
+                                        if any(thr(w, Y, hold.get(w, Bs[w])) for w in range(I.n) if w != o): continue
+                                        if sz == om + 2:
+                                            assert D2 <= 0, ('C+h full bundle', Bs, b2, D2)
+                                            applied.add(('C+h', k, role)); continue
+                                        if counted_h(pr, P, Bs, o, Y, path, A, x, h, Bh):
+                                            assert D2 <= 0, ("C'+h", Bs, b2, D2)
+                                            applied.add(("C'+h", k, role))
+    return applied
 
 
 def test_max(pr, c, Bs, V, X, cnt, ex):
@@ -266,6 +333,19 @@ def main(argv):
                         if cur is None or szk < cur[0]:
                             smallest['not covered by ' + fam] = (szk, d, k, repr(c), lst(Bs), kp.dstar[k], pr.D[Bs],
                                                                 sorted(map(str, applied)))
+                if not names:          # the helper forms (k4/f2.md §5.1), where no helper-free lemma applies
+                    happ = test_helper(pr, c, Bs, V, X)
+                    hn = set(a[0] for a in happ)
+                    cnt[('uncovered maxima without C+/C′+', 'C+h or C′+h applies', bool(happ))] += 1
+                    for a in sorted(happ, key=str):
+                        cnt[('uncovered maxima without C+/C′+', 'applies') + tuple(map(str, a))] += 1
+                    keyres |= set('h:' + n_ for n_ in hn)
+                    if not happ:
+                        szk = (pr.I.n, pr.I.m, sum(map(sum, d['vals'])))
+                        cur = smallest.get('no lemma, helpers included')
+                        if cur is None or szk < cur[0]:
+                            smallest['no lemma, helpers included'] = (szk, d, k, repr(c), lst(Bs), kp.dstar[k],
+                                                                       pr.D[Bs], None)
                 lk = min(a[1] for a in applied) if applied else None
                 cnt[('uncovered maxima', 'least k over the lemmas that apply', lk)] += 1
                 for nm in ('C+', 'full', "C'+"):
@@ -296,7 +376,9 @@ def main(argv):
                     cur = smallest.get('none')
                     if cur is None or szk < cur[0]:
                         smallest['none'] = (szk, d, k, repr(c), lst(Bs), kp.dstar[k], pr.D[Bs], dict(why))
-            cnt[('uncovered keys', 'some maximum covered by C+ / C′+', bool(keyres))] += 1
+            cnt[('uncovered keys', 'some maximum covered by C+ / C′+', bool(set(n_ for n_ in keyres
+                                                                                 if not n_.startswith('h:'))))] += 1
+            cnt[('uncovered keys', 'some maximum covered by C+ / C′+ / C+h / C′+h', bool(keyres))] += 1
             for nm in sorted(keyres): cnt[('uncovered keys', nm + ' at some maximum')] += 1
             if not keyres:
                 szk = (pr.I.n, pr.I.m, sum(map(sum, d['vals'])))

@@ -1,0 +1,49 @@
+# command: python3 k4/f2_cc.py hunt_f2x2 k4/suite/.cache/cover/first_f2x2_1min.jsonl.gz
+### hunt_f2x2
+  keys | frozen need digraph acyclic | C+ or C′+ needed                                                                    1611
+  obstruction | triples (safe bundle of omega+1 goods, no good passes Fact 3)                                              6597
+  uncovered keys | C'+ at some maximum                                                                                     923
+  uncovered keys | h:C'+h at some maximum                                                                                  688
+  uncovered keys | h:C+h at some maximum                                                                                   688
+  uncovered keys | some maximum covered by C+ / C′+ / C+h / C′+h | True                                                    1611
+  uncovered keys | some maximum covered by C+ / C′+ | False                                                                688
+  uncovered keys | some maximum covered by C+ / C′+ | True                                                                 923
+  uncovered maxima without C+/C′+ | C+h or C′+h applies | True                                                             766
+  uncovered maxima without C+/C′+ | applies | C'+h | 0 | owner x                                                           766
+  uncovered maxima without C+/C′+ | applies | C+h | 0 | owner the helper                                                   766
+  uncovered maxima without C+/C′+ | applies | C+h | 0 | owner x                                                            401
+  uncovered maxima | C'+ applies | least k=0                                                                               1006
+  uncovered maxima | first: C'+                                                                                            1006
+  uncovered maxima | C+ or C′+ applies | False                                                                             766
+  uncovered maxima | C+ or C′+ applies | True                                                                              1006
+  uncovered maxima | covered by the family | C'+ with q = phi(x) | False                                                   1772
+  uncovered maxima | covered by the family | C'+ | False                                                                   766
+  uncovered maxima | covered by the family | C'+ | True                                                                    1006
+  uncovered maxima | covered by the family | (C+ with (H*)) or (C′+ with q = phi(x)) | False                               1772
+  uncovered maxima | covered by the family | C+ or (C′+ with q = phi(x)) | False                                           1772
+  uncovered maxima | covered by the family | C+ or C′+ with k = 0 (plain (T3), no helper) | False                          766
+  uncovered maxima | covered by the family | C+ or C′+ with k = 0 (plain (T3), no helper) | True                           1006
+  uncovered maxima | covered by the family | C+ or C′+ | False                                                             766
+  uncovered maxima | covered by the family | C+ or C′+ | True                                                              1006
+  uncovered maxima | covered by the family | C+ | False                                                                    1772
+  uncovered maxima | first: none                                                                                           766
+  uncovered maxima | kinds | C'+ | owner a leaf | phi(w) of a frozen w off the move                                        1006
+  uncovered maxima | least k over the lemmas that apply | 0                                                                1006
+  uncovered maxima | least k over the lemmas that apply | None                                                             766
+  uncovered maxima | roles | C'+ | x threatened by a leaf | tau a leaf | owner a leaf threatening x                        1006
+  uncovered maxima | roles | any | x threatened by a leaf | tau a leaf                                                     1006
+  keys def*>0                                                                                                              1611
+  keys uncovered by A+ and B+                                                                                              1611
+  profiles f=2                                                                                                             1611
+  uncovered maxima                                                                                                         1772
+  smallest [k=0 C'+ owner a leaf phi(w) of a frozen w off the move]: n=4 m=10 sets=[[0, 2, 4, 8], [1, 3, 7, 9], [4, 5, 6, 7], [5, 6, 8, 9]] vals=[[4, 2, 3, 8], [3, 4, 8, 2], [3, 2, 4, 8], [2, 3, 8, 4]] key=[8, 7, None, None] def*=1 config=Config(key=[8, 7, None, None], Q={2: [4, 6], 3: [5, 9]}, L=[0, 1, 2, 3]) P_Q=[[8], [7], [4, 6], [5, 9]] def(P_Q)=1 why=None
+  smallest [none]: n=4 m=10 sets=[[0, 2, 4, 8], [1, 3, 7, 9], [4, 5, 6, 7], [5, 6, 8, 9]] vals=[[2, 3, 6, 10], [3, 2, 10, 6], [3, 2, 4, 8], [2, 3, 8, 4]] key=[8, 7, None, None] def*=1 config=Config(key=[8, 7, None, None], Q={2: [4, 6], 3: [5, 9]}, L=[0, 1, 2, 3]) P_Q=[[8], [7], [4, 6], [5, 9]] def(P_Q)=1 why={}
+  smallest [not covered by (C+ with (H*)) or (C′+ with q = phi(x))]: n=4 m=10 sets=[[0, 2, 4, 8], [1, 3, 7, 9], [4, 5, 6, 7], [5, 6, 8, 9]] vals=[[4, 2, 3, 8], [3, 4, 8, 2], [3, 2, 4, 8], [2, 3, 8, 4]] key=[8, 7, None, None] def*=1 config=Config(key=[8, 7, None, None], Q={2: [4, 6], 3: [5, 9]}, L=[0, 1, 2, 3]) P_Q=[[8], [7], [4, 6], [5, 9]] def(P_Q)=1 why=['("C\'+", 0, \'owner a leaf\', \'phi(w) of a frozen w off the move\')']
+  smallest [not covered by C'+]: n=4 m=10 sets=[[0, 2, 4, 8], [1, 3, 7, 9], [4, 5, 6, 7], [5, 6, 8, 9]] vals=[[2, 3, 6, 10], [3, 2, 10, 6], [3, 2, 4, 8], [2, 3, 8, 4]] key=[8, 7, None, None] def*=1 config=Config(key=[8, 7, None, None], Q={2: [4, 6], 3: [5, 9]}, L=[0, 1, 2, 3]) P_Q=[[8], [7], [4, 6], [5, 9]] def(P_Q)=1 why=[]
+  smallest [not covered by C'+ with q = phi(x)]: n=4 m=10 sets=[[0, 2, 4, 8], [1, 3, 7, 9], [4, 5, 6, 7], [5, 6, 8, 9]] vals=[[4, 2, 3, 8], [3, 4, 8, 2], [3, 2, 4, 8], [2, 3, 8, 4]] key=[8, 7, None, None] def*=1 config=Config(key=[8, 7, None, None], Q={2: [4, 6], 3: [5, 9]}, L=[0, 1, 2, 3]) P_Q=[[8], [7], [4, 6], [5, 9]] def(P_Q)=1 why=['("C\'+", 0, \'owner a leaf\', \'phi(w) of a frozen w off the move\')']
+  smallest [not covered by C+]: n=4 m=10 sets=[[0, 2, 4, 8], [1, 3, 7, 9], [4, 5, 6, 7], [5, 6, 8, 9]] vals=[[4, 2, 3, 8], [3, 4, 8, 2], [3, 2, 4, 8], [2, 3, 8, 4]] key=[8, 7, None, None] def*=1 config=Config(key=[8, 7, None, None], Q={2: [4, 6], 3: [5, 9]}, L=[0, 1, 2, 3]) P_Q=[[8], [7], [4, 6], [5, 9]] def(P_Q)=1 why=['("C\'+", 0, \'owner a leaf\', \'phi(w) of a frozen w off the move\')']
+  smallest [not covered by C+ or (C′+ with q = phi(x))]: n=4 m=10 sets=[[0, 2, 4, 8], [1, 3, 7, 9], [4, 5, 6, 7], [5, 6, 8, 9]] vals=[[4, 2, 3, 8], [3, 4, 8, 2], [3, 2, 4, 8], [2, 3, 8, 4]] key=[8, 7, None, None] def*=1 config=Config(key=[8, 7, None, None], Q={2: [4, 6], 3: [5, 9]}, L=[0, 1, 2, 3]) P_Q=[[8], [7], [4, 6], [5, 9]] def(P_Q)=1 why=['("C\'+", 0, \'owner a leaf\', \'phi(w) of a frozen w off the move\')']
+  smallest [not covered by C+ or C′+]: n=4 m=10 sets=[[0, 2, 4, 8], [1, 3, 7, 9], [4, 5, 6, 7], [5, 6, 8, 9]] vals=[[2, 3, 6, 10], [3, 2, 10, 6], [3, 2, 4, 8], [2, 3, 8, 4]] key=[8, 7, None, None] def*=1 config=Config(key=[8, 7, None, None], Q={2: [4, 6], 3: [5, 9]}, L=[0, 1, 2, 3]) P_Q=[[8], [7], [4, 6], [5, 9]] def(P_Q)=1 why=[]
+  smallest [not covered by C+ or C′+ with k = 0 (plain (T3), no helper)]: n=4 m=10 sets=[[0, 2, 4, 8], [1, 3, 7, 9], [4, 5, 6, 7], [5, 6, 8, 9]] vals=[[2, 3, 6, 10], [3, 2, 10, 6], [3, 2, 4, 8], [2, 3, 8, 4]] key=[8, 7, None, None] def*=1 config=Config(key=[8, 7, None, None], Q={2: [4, 6], 3: [5, 9]}, L=[0, 1, 2, 3]) P_Q=[[8], [7], [4, 6], [5, 9]] def(P_Q)=1 why=[]
+# time 35.4 s
+# no assertion failed

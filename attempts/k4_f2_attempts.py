@@ -166,6 +166,51 @@ CANDIDATES.append(('n = 5, m = 9 (case B, block level)',
                    [[7], [4], [3], [8], [5, 6]], chk_caseb_block))
 
 
+def cover_plus():
+    """attempts/k4-f2-cover-plus.md: COVER⁺ as stated (K4.F2.COVER before PR #82's review round 2) fails at the n = 4,
+    m = 10 profile of compute/k4-cover: an acyclic key with def* = 1 (so no (T4) alternative) at whose two maxima none
+    of A⁺, B⁺, C⁺, C′⁺ applies (implementation A: PR #80's k4/sx_f2.py and k4/f2_cc.py); C⁺ₕ applies (one helper).
+    Implementation B (main's k4/dl134_xcheck.py): def* = 1 over the states of the key, its frozen need digraph is
+    acyclic, and the helper repair ({4},{7},{6},{8}) has def 0 and is a (T3) move from P_Q. The n = 4, m = 7 profile
+    fails COVER⁺ without its (T4) alternative only: its key is cyclic and a rotation reaches def* = -1."""
+    import collections
+    try:
+        import f2_cc
+    except ImportError as e:
+        say('cover_plus: needs PR #80 files (k4/sx_f2.py, k4/sx_keygraph.py)', False, str(e)); return
+    for label, sets, vals, m, k, PQ, P2, acyc in [
+            ('n = 4, m = 10 (COVER+ fails)', [[0, 2, 4, 8], [1, 3, 7, 9], [4, 5, 6, 7], [5, 6, 8, 9]],
+             [[2, 3, 6, 10], [2, 3, 10, 6], [2, 3, 4, 8], [2, 3, 8, 4]], 10, (8, 7, None, None),
+             [[8], [7], [4, 5], [6, 9]], [[4], [7], [6], [8]], True),
+            ('n = 4, m = 7 (only without the (T4) alternative)', [[0, 2, 3, 6], [1, 3, 4, 5], [2, 4, 5, 6], [4, 5, 6]],
+             [[2, 4, 8, 5], [1, 4, 6, 8], [2, 8, 4, 3], [3, 4, 2]], 7, (None, None, 5, 4),
+             [[2, 6], [1, 3], [5], [4]], [[3], [5], [6], [4]], False)]:
+        pr = Prof({'sets': sets, 'vals': vals, 'm': m}, fmin=2); kp = f2_cc.keyprofile(pr)
+        c1 = collections.Counter(); exs = collections.defaultdict(list)
+        f2_cc.sx_f2.analyse_key(kp, k, c1, exs, 10 ** 6)
+        mx = f2_cc.maxima(kp, k)
+        plain = [f2_cc.test_max(pr, *t, collections.Counter(), None)[0] for t in mx]
+        helper = [f2_cc.test_helper(pr, *t) for t in mx]
+        okA = (kp.dstar[k] == 1 and c1['keys: Lemma A+ or B+ at some Zmax=True'] == 0 and not any(plain)
+               and all(helper) and f2_cc.acyclic(pr, k) == acyc)
+        say(label + ' (A): def* 1, no A+/B+/C+/C′+ at any maximum, C+h at all', okA,
+            '%d maxima; helper lemmas %s' % (len(mx), sorted(set(a[0] for h in helper for a in h))))
+        b = B(sets, vals, m)
+        fzk = {i: frozenset([g]) for i, g in enumerate(k) if g is not None}
+        states = [P for P in b.mp if all(P[i] == fzk[i] for i in fzk) and
+                  [i for i in range(b.n) if b.info[P][2][i]] == sorted(fzk)]
+        dmin = min(b.mp[P] for P in states)
+        PQB = tuple(frozenset(x) for x in PQ); P2B = tuple(frozenset(x) for x in P2)
+        N = b.info[PQB][0]
+        arcs = [(w, v) for w in fzk for v in fzk if w != v and fzk[v] <= N[w]]
+        cyc = any((v, w) in arcs for w, v in arcs)          # f = 2: a cycle is a pair of opposite arcs
+        t = t3plus_own(PQB, P2B, b.info[PQB], b.info[P2B])
+        okB = dmin == 1 and b.mp[PQB] == 1 and (not cyc) == acyc and b.mp[P2B] <= 0 and t == 1
+        say('  B: def* 1, digraph %s, helper repair def %s, a (T3) move' % ('acyclic' if not cyc else 'cyclic',
+                                                                               b.mp.get(P2B)), okB,
+            '%d states of the key; arcs %s' % (len(states), arcs))
+
+
 def cc_phix():
     """attempts/k4-f2-cc-phix.md: at a maximum Q of (r′, Λ′) where Lemmas A+ and B+ of k4/sx.md (PR #80) fail, neither
     Lemma C+ nor Lemma C′+ with q = φ(x) applies (implementation A: k4/f2_cc.py); the repair is C′+ with q = φ(w)
@@ -219,6 +264,7 @@ def run():
         pr, Bs, b, PB, kA, kB = both(label, sets, vals, m, P0)
         chk(pr, Bs, b, PB)
     cc_phix()
+    cover_plus()
 
 
 if __name__ == '__main__':
