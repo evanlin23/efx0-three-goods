@@ -240,11 +240,12 @@ All on one worker; `k4/lemmam_bt_hh.py` (instances, drivers), `k4/lemmam_bt.py` 
   in no class; rule RK (`-A41`) takes agent 1 in K0 (`results/k4_lemmam_bt/rk_Hq3.log`).
 - `rkall`, HH_3 (`k4/rulef.c -A41 -E1 -Y1 -N1`, one first agent per run, LB₄ʳ's owner search skipped):
   `results/k4_lemmam_bt/rk_HH3.log` (running, one worker; it follows the exact checks).
-- `exact`, encodings A (`k4/c4_verify_H/lb4r.py`, SAT) and B (`k4/c4_verify_H/enc_b.py`, MILP), Lean's `Output` with
-  the owner's needs from its bundle, every owner and none, every state of the three policies and every state one
-  RotStep away: H_3 + q, first agent q: 19 states, no output (`exactA_Hq3.log`; B: `exactB_Hq3.log`). HH_3, every first
-  agent (37 to 100 states each): `exactA_HH3.log`, `exactB_HH3.log` (running, one worker, about 3 minutes per first
-  agent and encoding).
+- `exact`, encodings A (`k4/c4_verify_H/lb4r.py`'s clause model) and B (`k4/c4_verify_H/enc_b.py`, written separately),
+  both solved with HiGHS (A's Glucose backend needs up to half a minute per owner here: the infeasibility is a counting
+  argument, which CDCL handles badly; PR #33 also ran H_4 and H_5 with HiGHS), Lean's `Output` with the owner's needs
+  from its bundle, every owner and none, every state of the three policies and every state one RotStep away: H_3 + q,
+  first agent q: 19 states, no output (`exactA_Hq3.log`, `exactB_Hq3.log`; with Glucose too, same result). HH_3, every
+  first agent (37 to 53 distinct states each): `exactA_HH3.log`, `exactB_HH3.log`.
 - `d2`, HH_3: the insertion sequence (x^A_{1,2}, x^B_{1,2}) = agents (3, 15), need-shrinking upgrades, owner ℓ_A: an
   `Output` without rotation, EFX₀ by the raw definition, one bundle above two goods (`d2_HH3.log`). The suite records
   `k4/suite/instances/lmbt-HH3.json` and `lmbt-Hq3.json` carry these witnesses (H_3 + q: rule RK's sequence, x_{1,1}

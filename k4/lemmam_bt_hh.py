@@ -228,7 +228,10 @@ def exact(name, enc, agents=None):
     inst = L.make_inst(sets, vals)
     done = done_agents()
     if not done:
-        out(f'# exact {name}: encoding {enc}, n = {inst.n}, m = {inst.m}')
+        how = ('A (k4/c4_verify_H/lb4r.py build_model, HiGHS backend)' if enc == 'A'
+               else 'B (k4/c4_verify_H/enc_b.py output_b, HiGHS)')
+        out(f'# exact {name}: encoding {how}, Output with the owner\'s needs from its bundle, every owner and none, '
+            f'n = {inst.n}, m = {inst.m}')
     nok = sum('no output' not in l for l in done.values())
     for a in (agents if agents is not None else range(inst.n)):
         if a in done:
@@ -245,7 +248,11 @@ def exact(name, enc, agents=None):
         found = None
         for s, tag in st.items():
             for o in [None] + list(range(inst.n)):
-                ok = M.output_sat(inst, s, o, 'bundle')[0] if enc == 'A' else output_b(inst.v, s, o, 'bundle')
+                # encoding A with its MILP backend (HiGHS): on these states Glucose needs up to half a minute per
+                # owner (the infeasibility is a counting argument), HiGHS a tenth of a second; PR #33 ran H_4 and
+                # H_5 the same way (k4/c4_verify_H/README.md)
+                ok = (M.output_sat(inst, s, o, 'bundle', backend='milp')[0] if enc == 'A'
+                      else output_b(inst.v, s, o, 'bundle'))
                 if ok:
                     found = (tag, o)
                     break
