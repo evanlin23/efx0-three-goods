@@ -12,6 +12,6 @@ for f in n3_all_10 n3_all_20 n3_all_30 n3_all_40; do
   s=0
   while [ $s -lt $n ]; do zp ${f}_s$s results/k4_sx/hunt/$f.jsonl.gz $s; s=$((s + 4000)); done
 done
-for f in n4_3_r40k n4_pure_r40k n5_pure_r1000_3000 n5_pure_r1000_4000 n4_3_r400k n4_pure_r400k n5_pure_r10k_0 n5_pure_r10k_1000 n5_pure_r10k_2000 n5_pure_r10k_3000 n5_pure_r10k_4000; do
+for f in n4_3_r40k n4_pure_r40k n5_pure_r1000_3000 n5_pure_r1000_4000 n4_pure_r400k; do
   [ -f results/k4_sx/hunt/$f.jsonl.gz ] && grep -q '^distinct' results/k4_sx/hunt/$f.log && zp $f results/k4_sx/hunt/$f.jsonl.gz 0
 done

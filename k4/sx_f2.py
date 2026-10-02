@@ -157,6 +157,24 @@ def analyse_key(kp, k, cnt, ex, nex):
                     okB = True
         cnt['Zmax: Lemma B+ applies=%s' % okB] += 1
         cnt['Zmax: Lemma A+ or B+ applies=%s' % (ok or okB)] += 1
+        if not (ok or okB):          # why not: per leaf, the first obstruction
+            why = set()
+            for o in V:
+                thr = [x for x in F if I.threat(x, X[o], c.hv(x))]
+                if len(thr) != 1: why.add('leaf threatens %d frozen agents' % len(thr)); continue
+                x = thr[0]
+                reach = set(); stack = [x]
+                while stack:
+                    w = stack.pop()
+                    if w in reach: continue
+                    reach.add(w); stack.extend(succ[w])
+                needers = [y for y in free if any(P.N[y] & Bs[w] for w in reach)]
+                anc = {o}; y = o
+                while y in par: y = par[y]; anc.add(y)
+                if not needers: why.add('no free agent needs a good of the need-chain closure of x')
+                elif not set(needers) & anc: why.add('the free needers are off the path to the leaf')
+                else: why.add('a needer on the path, but theta fails or an (R) leaf with s in L')
+            for w in why: cnt['no A+/B+: %s' % w] += 1
         ok = ok or okB
         keyok |= ok
         if not ok and len(ex['noAplus']) < nex: ex['noAplus'].append((kp.d, k, repr(c), 'V', V))
