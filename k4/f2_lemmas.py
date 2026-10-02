@@ -33,6 +33,8 @@ dl2_classify.py):
 usage: python3 k4/f2_lemmas.py DUMP.jsonl.gz ...            (T3-stage dumps of k4/f2_shapes.py: coverage, all checks)
        python3 k4/f2_lemmas.py --stuck STUCK.jsonl.gz ...    (the T3-stage states among k4/dl13_stuck.py's T1-stuck
                                    records, any f >= 1: the same coverage, case and repairs computed here)
+       python3 k4/f2_lemmas.py --caseb DUMP.jsonl.gz ...    (case B at every def > 0 state of the dumps' profiles)
+       --light: skip the checks of Lemmas 6+, 8+, C and Proposition N (the coverage only)
        python3 k4/f2_lemmas.py --random N [--seed=S] [--nmax=5] [--mmax=12]   (random strict instances, not cores,
                                    biased to f >= 2; every check at every def > 0 state with f >= 1)
        python3 k4/f2_lemmas.py --profiles SOURCE ... [--every=E] [--max=N] [--all]   (the f >= 2 profiles of the sources,
@@ -360,7 +362,7 @@ class Ctx:
 
 
 # ------------------------------------------------------------------ drivers
-def coverage(files, stuck=False):
+def coverage(files, stuck=False, light=False):
     """the T3-stage states of f2_shapes.py dumps (or, with stuck=True, the T3-stage states among the T1-stuck records of
     k4/dl13_stuck.py dumps, any f >= 1, whose case and repairs are computed here)"""
     from f2_shapes import State
@@ -384,13 +386,15 @@ def coverage(files, stuck=False):
             if not any(P.frozen[x] and any(ctx.I.threat(x, P.W(o), P.bv[x]) for o in P.free) for x in range(ctx.I.n)):
                 cnt['SX fails: no frozen agent exposed w.r.t. a free agent'] += 1
             cnt['Lemma P: a frozen agent without a need path (not T4-optimal)'] += ctx.lemmaP()
-            n6, n8 = ctx.check_6_8(); cnt['Lemma 6+ chain swaps checked'] += n6; cnt['Lemma 8+ values checked'] += n8
-            nc, rot = ctx.check_closure(); cnt['Lemma C compositions checked'] += nc
-            cnt['Proposition N: not T4-optimal, rotated to a T4-optimal state of equal deficit'] += rot
+            if not light:
+                n6, n8 = ctx.check_6_8(); cnt['Lemma 6+ chain swaps checked'] += n6; cnt['Lemma 8+ values checked'] += n8
+                nc, rot = ctx.check_closure(); cnt['Lemma C compositions checked'] += nc
+                cnt['Proposition N: not T4-optimal, rotated to a T4-optimal state of equal deficit'] += rot
             sb = ctx.single_blocks()
             c1 = ctx.C1p(sb); c2 = ctx.C2p(sb); c3 = ctx.C3p(); c4 = ctx.C4p()
             plain = any(t[-1] == 0 for t in c1 + c2 + c4) or any(len(t[1]) == 2 for t in c3)
             first = ('C1+' if c1 else ('C2+' if c2 else ('C3+' if c3 else ('C4+' if c4 else 'none'))))
+            if not c1 and c4: cnt[(r['case'], 'Corollary 11.2+ applies where Corollary 9.1+ does not')] += 1
             if first == 'none':
                 c8, c11 = ctx.certificates()
                 first = 'C8+' if c8 else ('C11+' if c11 else 'none')
@@ -414,6 +418,41 @@ def coverage(files, stuck=False):
     for k in sorted(cnt, key=str): print('  %-100s %d' % (' | '.join(k) if isinstance(k, tuple) else k, cnt[k]))
     for k in sorted(ex):
         print('  smallest uncertified, case %s: n=%d m=%d %s sets=%s vals=%s P=%s' % ((k,) + ex[k]))
+
+
+def caseb(files):
+    """at every def > 0 state of the profiles of the dumps: the single frozen blockers of best owners whose needers are
+    all frozen, and whether the owner is the free end of a need path to the blocker (case B-S1c) or not (case B), by
+    stage (T3 stage; least deficit of its key but a (T4) move improves; not the least deficit of its key)"""
+    from f2_shapes import path_ends_all
+    seen = set(); cnt = collections.Counter(); ex = {}
+    for fn in files:
+        for l in gzip.open(fn, 'rt'):
+            r = json.loads(l)
+            key = json.dumps([r['sets'], r['vals']])
+            if key in seen: continue
+            seen.add(key)
+            pr = Prof({'sets': r['sets'], 'vals': r['vals'], 'm': r['m']}, fmin=2)
+            if not pr.ok: continue
+            cnt['profiles'] += 1
+            for Bs in pr.mp:
+                if pr.D[Bs] <= 0: continue
+                P = pr.PA[Bs]
+                st = 'T3 stage' if pr.t3_stage(Bs) else ('key-minimal, a (T4) move improves'
+                                                         if pr.D[Bs] == pr.dstar[pr.key[Bs]] else 'not key-minimal')
+                cnt[(st, 'def>0 states')] += 1
+                for o, X, c, w in pr.single_blocks(Bs):
+                    if not P.frozen[w] or pr.free_needers(Bs, w): continue
+                    ends = path_ends_all(pr, Bs, w)
+                    tag = 'owner a free end (B-S1c)' if o in ends else ('owner not a free end (B)' if ends
+                                                                       else 'no free end (need cycle)')
+                    cnt[(st, 'single blocks by a frozen agent with frozen needers only', tag)] += 1
+                    if o not in ends:
+                        cur = ex.get((st, tag)); cand = (len(r['sets']), r['m'], r['sets'], r['vals'], lst(Bs), o, w)
+                        if cur is None or cand[:2] < cur[:2]: ex[(st, tag)] = cand
+    for k in sorted(cnt, key=str): print('  %-110s %d' % (' | '.join(k) if isinstance(k, tuple) else k, cnt[k]))
+    for k, v in sorted(ex.items()):
+        print('  smallest %s: n=%d m=%d sets=%s vals=%s P=%s owner %d blocker %d' % ((' | '.join(k),) + v))
 
 
 def rand_inst(rng, nmax, mmax):
@@ -470,11 +509,13 @@ def main(argv):
     if 'random' in opt:
         rng = random.Random(int(opt.get('seed', 1)))
         check_run((rand_inst(rng, int(opt.get('nmax', 5)), int(opt.get('mmax', 12))) for _ in range(int(rest[0]))))
+    elif 'caseb' in opt:
+        caseb(rest)
     elif 'profiles' in opt:
         from f2_shapes import collect
         check_run((d for d, _ in collect(rest, opt)), all_states='all' in opt)
     else:
-        coverage(rest, stuck='stuck' in opt)
+        coverage(rest, stuck='stuck' in opt, light='light' in opt)
     print('# no assertion failed')
 
 

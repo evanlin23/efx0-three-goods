@@ -7,9 +7,10 @@ For every profile of the inputs (the same deduplicated list as k4/f2_shapes.py, 
 -s prints every state (min-frozen P with def(P) > 0) with the flags t1 t2 t3p t3h t4 (some improving move of that
 kind). A state with f >= 2 is at the T3 stage iff t1 = t2 = t4 = 0; DL_RT4 fails there iff also t3p = t3h = 0. The
 script checks that this set of states equals the set of T3-stage states in the f2_shapes dumps (bases, deficit), and
-that the T3 flag agrees with the presence of an improving (T3) move there.
+that the T3 flag agrees with the presence of an improving plain (T3) move there (a repair with W = ∅ in the dumps).
+dlrt4.c knows no (T3⁺) move: its T3-stage states without a T3 flag are the DL_RT4 failures.
 
-usage: python3 k4/f2_xcheck.py SOURCE ... --dumps='results/k4_f2/shapes_*.jsonl.gz' [--chunk=K/C]"""
+usage: python3 k4/f2_xcheck.py SOURCE ... --dumps='GLOB[,GLOB...]' [--chunk=K/C] [--exclude-ids=...] (as f2_shapes.py)"""
 import collections, glob, gzip, json, os, subprocess, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -23,11 +24,11 @@ def main(argv):
     opt = dict(a[2:].split('=', 1) if '=' in a else (a[2:], True) for a in argv if a.startswith('--'))
     print('# command: python3 k4/f2_xcheck.py ' + ' '.join(argv), flush=True)
     mine = {}
-    for fn in sorted(glob.glob(opt['dumps'])):
+    for fn in sorted(f for pat in opt['dumps'].split(',') for f in glob.glob(pat)):
         for l in gzip.open(fn, 'rt'):
             r = json.loads(l)
             key = json.dumps([r['sets'], r['vals']])
-            mine.setdefault(key, {})[tuple(tuple(b) for b in r['Bs'])] = (r['def'], bool(r['reps']))
+            mine.setdefault(key, {})[tuple(tuple(b) for b in r['Bs'])] = (r['def'], any(rp['k'] == 0 for rp in r['reps']))
     items = collect(srcs, opt)
     brt, sha = build(os.path.join(HERE, 'dlrt4.c'))
     print('# dlrt4.c sha256 %s; %d profiles; %d profiles with T3-stage states in the dumps' % (sha, len(items), len(mine)),
