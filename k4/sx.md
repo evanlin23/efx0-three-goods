@@ -43,6 +43,10 @@ empty and (T3⁺) is (T3). The route asked for is Theorem Z′ (`k4/c4min_reduce
   (`attempts/k4-sx-cover-structural.md`). So on these data DL on the key graph at f = 1 holds, in the strong form "a
   neighbour with def* ≤ 0", through these five lemmas, each applied once from Theorem Z′'s configuration. Every lemma is
   asserted against exact deficits there, with no violation.
+- **The f = 1 failure of single-step DL** (compute/k4-rc; §4.4). In 45 profiles of one n = 5 core, a state P_fail with
+  def 1 has no improving (T1)–(T4) move. Theorem Z′'s state P_Q of its key is a different state, one (T1) step from
+  P_fail and not the coordinator's (T3h) witness state. Lemma A applies at P_Q: one (T3) move without helper, to
+  deficit 0. That move's image is the nearest better state of P_fail.
 - **What remains at f = 1** (§5): Conjecture K4.SX.COVER, that one of A, B₁, B₁′, C, C′ always applies. The open cases
   are:
   - θ-b leaves: the robust pair that C and C′ need, and their hypotheses on third agents;
@@ -333,6 +337,7 @@ At every Z′-maximum of every non-completable key of §4.1 (`results/k4_sx/zpri
 | n = 4 hunts | 299 | 565 | 494 | 58 | 5 | 2 | 6 | **0** |
 | n = 4, pure, 400,000 per core | 2,362 | 3,645 | 3,390 | 135 | 73 (+ 2 with the exact (H) only) | 30 | 12 (+ 3 with the exact (H_B′) only) | **0** |
 | n = 5 hunts | 11 | 13 | 13 | 0 | 0 | 0 | 0 | **0** |
+| n = 5, compute/k4-rc's 45 single-step DL failures (§4.4) | 45 | 45 | 45 | 0 | 0 | 0 | 0 | **0** |
 
 - *Every assertion held.* The checks cover:
   - Lemma F: a forest, in-degree ≤ 1, V the leaves, robust agents unthreatened, kinds as listed;
@@ -383,6 +388,45 @@ second implementation agrees on def* and on the DLK verdicts:
 - the f = 3 profiles: 41 (`f2/xcheck_rt4_n5*.log`).
 
 0 mismatches.
+
+### 4.4 The f = 1 failure of single-step DL, seen from Theorem Z′'s state
+
+compute/k4-rc (`results/k4_rc/FAILURES.md` on that branch; three implementations there) found 45 strict profiles of one
+n = 5 core, pos 4604 of `k4_certs_5_pure` (m = 13, sets
+`[[0,2,9,11],[1,6,10,12],[3,7,11,12],[4,8,11,12],[5,9,10,12]]`). Each has the state
+
+  P_fail = ({11}, {12}, {3,7}, {4,8}, {5,9}),
+
+with f = 1 and def 1, from which no (T1), (T2), (T3) or (T4) move lowers the deficit. So DL from *every* state (DL_RT4,
+DL_RC) is false already at f = 1. A proof of DL on the key graph must choose its starting state inside the key; this
+is the first instance where that choice is needed. The route of this file makes the choice by Theorem Z′.
+
+The tools of §4 on these 45 profiles (`k4/sx_rc_case.py`; `results/k4_sx/rc/`) give:
+- *One key with def* > 0 per profile*: κ = (11, agent 0), def* = 1, 35 states. 31 of them have deficit 1 and 4 have
+  deficit 2; the 31 are the list in compute/k4-rc's `rc_failures_n5_keyform.log`. Of these 31, 30 have a (T3) move to
+  deficit ≤ 0. P_fail is the only one without.
+- *Theorem Z′'s configuration*: (r′, Λ′) has a unique maximum at κ, the same in all 45 profiles:
+  - pairs Q₁ = {1,12}, Q₂ = {3,7}, Q₃ = {4,8}, Q₄ = {5,9}, pool L = {0,2,6,10}, (r′, Λ′) = (4, 26);
+  - free-valid owners (leaves) V = {1,2,3,4}; terminals T = {2,3}, the two needers of 11 (regime I);
+  - neither terminal is θ-b. Both are big-top on 11, but 12 ∉ X₂, X₃.
+
+  Its state is P_Q = ({11}, {1,12}, {3,7}, {4,8}, {5,9}), with deficit 1.
+- *P_Q is neither P_fail nor the state of the coordinator's (T3h) witness*, P_wit = ({11}, {6,10}, {12}, {4,8}, {5,9}).
+  It is one (T1) step from P_fail: agent 1 adds the pool good 1 to its base {12}.
+- *Lemma A applies at P_Q* (main case A in all 45 profiles; `results/k4_sx/rc/zprime.log`). The terminal leaf o = 2
+  (or o = 3) takes {11}, and x = 0 takes {0,2} ⊆ X_o and owns X_o. This is one (T3) move without helper. Its image is
+  ({0,2}, {1,12}, {11}, {4,8}, {5,9}) for o = 2, or ({0,2}, {1,12}, {3,7}, {11}, {5,9}) for o = 3. Both have deficit 0
+  by both implementations and lie in keys with def* = −1.
+
+  The second image is FAILURES.md's nearest better state of P_fail, at distance 3, where "helper 1 grows {12} by a junk
+  good". So the role swap that no single move from P_fail makes is a (T1) step inside κ to Theorem Z′'s state, followed
+  by Lemma A's owner swap.
+
+So at the one instance where the start inside the key matters, Theorem Z′'s configuration chooses a state from which the
+simplest repair lemma works. In Lean, PR #79's `dlKeyAt_of_keyMin_key` lets a repair lemma start from any state of
+the key. `k4/sx_xcheck.py` on the 45 profiles finds 135 keys, 45 with def* > 0, 0 mismatches, and DLK for every edge
+set (`results/k4_sx/rc/xcheck.log`). `k4/sx_rc_case.py` recomputes every deficit it prints with main's
+`k4/c4x_check.rodef`.
 
 ## 5. What remains at f = 1
 
@@ -545,5 +589,8 @@ python3 k4/sx_summary.py     # results/k4_sx/SUMMARY.md
 python3 k4/sx_runs.py --sum  # results/k4_sx/keys_summary.md
 python3 k4/sx_f2.py --inst=results/k4_sx/f2/rt4_n5c_inst.json        # §6: Lemmas F+, A+, B+ at f = 3 (seconds)
 python3 attempts/k4_sx_attempts.py                                   # K4.SX.X, two implementations (seconds)
+python3 k4/sx_keygraph.py inst results/k4_sx/rc/rc_fail_inst.json --dump=results/k4_sx/rc/keys.jsonl.gz  # §4.4 (seconds)
+python3 k4/sx_zprime.py results/k4_sx/rc/keys.jsonl.gz; python3 k4/sx_rc_case.py results/k4_sx/rc/rc_fail_inst.json
+python3 k4/sx_xcheck.py results/k4_sx/rc/keys.jsonl.gz               # §4.4, second implementation (~1 min)
 python3 k4/sx_keygraph.py one '{"sets": ..., "vals": ..., "m": ...}'  # one profile: keys, def*, neighbours
 ```

@@ -1,0 +1,19 @@
+# command: python3 k4/sx_zprime.py results/k4_sx/rc/keys.jsonl.gz --examples=3
+KEYS: every Z-max covered (structural) = True                                                        45
+KEYS: some Z-max covered by A, B1, C, C', B1' (structural hypotheses) = True                         45
+KEYS: some Z-max covered with the exact hypotheses = True                                            45
+MAIN CASE A                                                                                          45
+Zmax                                                                                                 45
+keys                                                                                                 45
+keys xtype=flat                                                                                      45
+regime I                                                                                             45
+regime I OS o theta-b=False                                                                          90
+regime I OS succeeds                                                                                 45
+regime I Prop C applies=False (only (H) missing=False)                                               45
+regime I Prop C' applies=False (only (H') missing=False)                                             45
+regime I Zmax with a direct T3 move                                                                  45
+regime I cases A,A*                                                                                  45
+regime I direct kind ('zV', '-', 'own=x')                                                            45
+regime I direct kind ('zV', 'hV', 'own=x')                                                           45
+regime I |V|=4 |T|=2 |VT|=2 t=1 x=flat                                                               45
+# time 12.3 s
