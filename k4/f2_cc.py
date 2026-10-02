@@ -133,6 +133,7 @@ def test_max(pr, c, Bs, V, X, cnt, ex):
                             assert D2 <= 0, ('Lemma C+', Bs, b2, D2)
                             applied.add(('C+', k, 'owner a leaf' if o in V else 'owner not a leaf',
                                          '(a*)' if astar else 'not (a*)', '(H*)' if hstar else 'not (H*)'))
+                            if ex is not None: ex.append(('C+', k, o, tau, x))
                 # ---------------------------------------------------------------- C′+ (any owner, any bundle)
                 for o in [x] + [o for o in P.free if o not in onpath]:
                     base = A if o == x else Bs[o]
@@ -149,6 +150,7 @@ def test_max(pr, c, Bs, V, X, cnt, ex):
                             if sz == om + 2:          # Lemma H1 alone: a safe bundle of ω + 2 goods
                                 assert D2 <= 0, ('full bundle', Bs, b2, D2)
                                 applied.add(('full', k, role))
+                                if ex is not None: ex.append(('full', k, o, tau, x))
                                 continue
                             qs = counted(pr, P, Bs, o, Y, path, A, x)
                             if qs:
@@ -157,6 +159,7 @@ def test_max(pr, c, Bs, V, X, cnt, ex):
                                                    ('phi(a_k), now tau\'s' if (1 << q) == gk else
                                                     'phi(w) of a frozen w off the move') for q in qs))
                                 applied.add(("C'+", k, role, '+'.join(kinds)))
+                                if ex is not None: ex.append(("C'+", k, o, tau, x))
                             else:
                                 third = [i for i in range(I.n) if P.N[i] & gx and i not in (o, path[-2])]
                                 why[("C'+: Y safe, |Y| = omega+1, no good counted by Fact 3",
@@ -210,7 +213,21 @@ def main(argv):
             for c, Bs, V, X in maxima(kp, k):
                 if repr(c) not in unc: continue
                 cnt['uncovered maxima'] += 1
-                applied, why = test_max(pr, c, Bs, V, X, cnt, None)
+                inst = []
+                applied, why = test_max(pr, c, Bs, V, X, cnt, inst)
+                # roles (k4/f2.md §7): x threatened by a leaf? tau a leaf? the owner the leaf that threatens x?
+                thrl = {o: set(w for w in range(pr.I.n) if w != o and pr.PA[Bs].frozen[w]
+                               and pr.I.threat(w, X[o], pr.I.val(w, Bs[w]))) for o in V}
+                sigs = set()
+                for lem, kk, o, tau, x in inst:
+                    lem = "C'+" if lem == "C'+" else 'C+'
+                    xs = 'x threatened by a leaf' if any(x in thrl[l] for l in V) else 'x threatened by no leaf'
+                    ts = 'tau a leaf' if tau in V else 'tau not a leaf'
+                    os_ = ('owner x' if o == x else 'owner a leaf threatening x' if o in V and x in thrl[o]
+                           else 'owner a leaf not threatening x' if o in V else 'owner not a leaf')
+                    sigs.add((lem, xs, ts, os_))
+                    sigs.add(('any', xs, ts))
+                for sg in sigs: cnt[('uncovered maxima', 'roles') + sg] += 1
                 names = set(a[0] for a in applied)
                 keyres |= names
                 for nm in ('C+', 'full', "C'+"):
