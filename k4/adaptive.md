@@ -25,6 +25,7 @@ at most R nested rotations, R as small as possible?
   fewest rotations of rule F equal the fewest over *all* insertion sequences. More: some first agent makes *every*
   continuation work with that fewest number (n ≤ 3, and n = 4 with one or two 4-good agents; conjecture
   **K4.AD.C1**, "Theorem C₄ after the first insertion").
+  **Update (2026-10-02):** rule F with one rotation and K4.AD.C1 are false (HH_3, K4.LMBT.M / K4.AD.F, K4.AD.C1 REFUTED, PR #83, `k4/lemmam_bt.md` §3).
 - **Proved (written proof, §3, refereed in the #44 review; checked in an independent model for t ≤ 5): Proposition H′.** On H_t, for
   every t, every run of Phase 1 in which an agent of gadget 1 is processed before ℓ gives LB₄ʳ an allocation with **no
   rotation** (need-shrinking upgrades, owner r). So on every relabeling of H_t rule F needs no rotation: adaptivity at
@@ -233,6 +234,7 @@ where H_t's structure is used, and what a general theorem must replace by a coun
 **Conjecture K4.AD.C1.** For every strict profile of every k = 4 core there is an agent a such that for every
 insertion sequence τ that starts with a, LB₄ʳ(τ) succeeds with at most one rotation, and with none if some insertion
 sequence needs none.
+**Update (2026-10-02):** rule F with one rotation and K4.AD.C1 are false (HH_3, K4.LMBT.M / K4.AD.F, K4.AD.C1 REFUTED, PR #83, `k4/lemmam_bt.md` §3).
 
 - *Which agent.* Index order needs a rotation on 10,029,590 profiles at n = 3; `k4/adaptive_mine.py` takes up to 60
   leaf representatives per core, 2,556 in all (`results/k4_adaptive_mine_n3.log`). Rule F's first agent is usually
