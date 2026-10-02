@@ -4,7 +4,7 @@
   python3 k4/oneneeder_run.py certs FILE... [--sample=P] [--seed=S] [--cores=A:B] [--bt=all] [--every=E]
   python3 k4/oneneeder_run.py catalog FILE [--every=E] [--max=N]
   python3 k4/oneneeder_run.py inst FILE.json                  (a JSON list of {"id", "sets", "vals", "m"})
-common: [--dump=PATH.jsonl.gz] [--rep=R] (dump every R-th one-needer T3-stage state besides the exceptions)
+common: [--t1] (test the T1-stuck states instead of the T3-stage ones) [--dump=PATH.jsonl.gz] [--rep=R] (dump every R-th one-needer T3-stage state besides the exceptions)
         [--ckpt=PATH] (certs: one JSON line per finished core; a rerun with the same options skips the cores in it and
         appends to the dump, so a killed run resumes)
 
@@ -72,13 +72,14 @@ def main():
     print('# command: python3 k4/oneneeder_run.py ' + ' '.join(argv), flush=True)
     print(f'# oneneeder.c sha256 {SHA}', flush=True)
     build()
-    copts = [f"-r{int(opt.get('rep', 0))}", f"-S{int(opt.get('seed', 1))}"]
+    copts = [f"-r{int(opt.get('rep', 0))}", f"-S{int(opt.get('seed', 1))}"] + (['-t1'] if 't1' in opt else [])
     dump = opt.get('dump'); P = int(opt.get('sample', 0))
     ck = opt.get('ckpt')
     fo = gzip.open(dump, 'wt') if dump and not ck else None
     tot = {}; t0 = time.time()
     if mode == 'certs':
         ckey = {'P': P, 'seed': int(opt.get('seed', 1)), 'bt': opt.get('bt'), 'rep': int(opt.get('rep', 0)), 'sha': SHA,
+                't1': 't1' in opt,
                 'target': 'target' in opt}
         done = {}
         if ck and os.path.exists(ck):

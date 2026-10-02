@@ -24,6 +24,8 @@ z needs g. At every one-needer T3-stage state the tool records:
          holds {g} alone, at most one other agent's base differs and that agent gives up a good, nobody else changes
          frozen status);
   twin   R_z = R_x.
+With -t1 the same is done at every *T1-stuck* state (def(P) > 0 and no (T1) move lowers it) instead of the T3-stage
+ones (the counters keep their names: "t3stage" then counts T1-stuck states).
 Counters per block, and "D {json}" dumps of every one-needer T3-stage state where bt, d1, sx1, c3 or t3 fails, of
 every T3-stage state where no (T3) move lowers the deficit, and of every R-th one-needer T3-stage state (-rR).
 
@@ -49,7 +51,7 @@ static int deg[MAXN], R[MAXN][4];
 static msk Rm[MAXN], ALL;
 static int K[MAXN], *dom[MAXN];
 static int v[MAXN][MAXM], cur[MAXN];
-static int RR = 0; static uint64_t SEED = 1;
+static int RR = 0, T1MODE = 0; static uint64_t SEED = 1;
 
 static int ssum[MAXN][16], smin[MAXN][16];
 static int topg[MAXN], bigtop[MAXN], rk[MAXN][4];
@@ -164,6 +166,26 @@ static long CNT[NC];
 
 static void pmaskj(FILE *f, msk M) { int first = 1; fputc('[', f); for (int g = 0; g < MAXM; g++) if (M >> g & 1) { fprintf(f, first ? "%d" : ",%d", g); first = 0; } fputc(']', f); }
 static void pbases(FILE *f, const unsigned char *ix) { fputc('[', f); for (int i = 0; i < n; i++) { if (i) fputc(',', f); pmaskj(f, opt[i][ix[i]]); } fputc(']', f); }
+
+/* -t1: P is T1-stuck: no re-base of one free agent y to B' inside (B_y + J) cap R_y, |B'| <= 2, B' != B_y, with
+   N_y(B') inside NA (k4/dl2.md Lemma 1(c)), lowers the deficit */
+static int t1stuck(long p) {
+    const unsigned char *ia = PP + p * MAXN; const pinfo_t *a = &PI[p];
+    for (int y = 0; y < n; y++) {
+        if (a->F >> y & 1) continue;
+        for (int t = 0; t < nopt[y]; t++) {
+            if (t == ia[y]) continue;
+            msk B = opt[y][t];
+            if (B & ~(opt[y][ia[y]] | a->J)) continue;
+            if (optN[y][t] & ~a->NA) continue;
+            unsigned char ib[MAXN]; memcpy(ib, ia, MAXN); ib[y] = (unsigned char)t;
+            long q = hfind(pkey(ib));
+            if (q < 0) { fprintf(stderr, "Lemma 1(c) violated (tag %d)\n", tag); exit(3); }
+            if (PI[q].def < a->def) return 0;
+        }
+    }
+    return 1;
+}
 
 /* is there an improving (T3) move from P = PP[p] (exact scan of the class)? */
 static int t3move(long p) {
@@ -396,7 +418,7 @@ static void profile(void) {
         pinfo_t *a = &PI[p];
         if (a->def <= 0) continue;
         CNT[C_ST]++;
-        if (a->def != keymin[a->x][a->g]) continue;
+        if (T1MODE ? !t1stuck(p) : a->def != keymin[a->x][a->g]) continue;
         CNT[C_T3S]++;
         const unsigned char *ia = PP + p * MAXN;
         int x = a->x, g = a->g, nneed = 0, z = -1;
@@ -447,6 +469,7 @@ int main(int argc, char **argv) {
     for (int a = 1; a < argc; a++) {
         if (!strncmp(argv[a], "-r", 2)) RR = atoi(argv[a] + 2);
         else if (!strncmp(argv[a], "-S", 2)) SEED = strtoull(argv[a] + 2, 0, 10);
+        else if (!strcmp(argv[a], "-t1")) T1MODE = 1;
         else { fprintf(stderr, "unknown option %s\n", argv[a]); return 2; }
     }
     while (scanf("%d %d %d", &n, &m, &tag) == 3) {
