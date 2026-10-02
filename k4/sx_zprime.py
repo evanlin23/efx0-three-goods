@@ -18,12 +18,16 @@ For each Q the tool records:
     A   (owner swap) o in V ∩ T without theta-b: o takes {g}, x takes an admissible set inside X_o = Q_o ∪ L and owns
         X_o; "theta-b" = o big-top on g with U_o ⊆ X_o and omega >= 2 (then only the exact deficit is recorded);
     B   (generalized path move) every threat path from a terminal outside V to a leaf o not of kind (R) with s_o in L;
-    B'  (the modified path move) the same for an (R) leaf with s_o in L, under (H_B'): y valued by nobody but x;
+    B'  (the modified path move) the same for an (R) leaf with s_o in L, when X'' = (X_o - s_o) + y contains a pair
+        for x: under (H_B'*) (y valued by nobody but x) it is asserted; the exact (H_B') (x a valid owner) is recorded;
     C   (another leaf owns) a theta-b terminal leaf tau1, another leaf o, a robust pair P_x inside X_tau1 meeting
-        U_tau1, under (H): no agent but x, o, tau1 values a good of Q_tau1 minus P_x;
-    C'  (two terminals, paid for by unfreezing) under (H');
-  and the first lemma that applies, in the order A, B (k = 1), C, C', B' (k = 1), B/B' with longer paths ("MAIN CASE";
-  "rest" = none applies).
+        U_tau1, under the exact (H) (Y = Q_o ∪ (X_tau1 - P_x) threatens no free agent but o, tau1); the structural
+        (H*) (no agent but x, o, tau1 values a good of Q_tau1 minus P_x) is recorded separately;
+    C'  (exactly two terminals, tau1 theta-b, tau2 a leaf; paid for by unfreezing) under the exact (H'), with (H'*)
+        recorded separately;
+  and the first lemma that applies, in the order A, B (k = 1), C, C', B' (k = 1) with the structural hypotheses, then
+  C, C', B' (k = 1) with only the exact ones ("Cx", "C'x", "B1'x"), then B/B' with longer paths ("MAIN CASE"; "rest" =
+  none applies).
 
 usage: python3 k4/sx_zprime.py DUMP.jsonl.gz ... [--examples=K] [--start=S] [--max=N]   (dumps of k4/sx_keygraph.py
        --dump or k4/sx_hunt.py; the f = 1 profiles, from the S-th, at most N)
@@ -282,13 +286,15 @@ def analyse_key(kp, k, cnt, ex, nex, nb):
                     if hstar: caseC = True
                     else: caseCx = True
         cnt['%s Prop C applies=%s (only (H) missing=%s)' % (tag, caseC, caseCH and not caseC)] += 1
-        # Proposition C' (two terminals, both leaves, tau1 theta-b): T = {tau1, tau2}; x takes a robust pair P inside
-        # X_tau1 worth more than g to x; tau2 owns Y = (X_tau2 ∪ Q_tau1) minus P and one good w of U_tau1 outside P,
-        # with U_tau2 ⊆ Y (tau2 stops needing g, tau1 is unfrozen); (H'): Y threatens no free agent outside {tau1, tau2}
+        # Proposition C' (exactly two terminals, tau1 theta-b, tau2 a leaf; tau1 need not be a leaf): T = {tau1, tau2};
+        # x takes a robust pair P inside X_tau1 worth more than g to x; tau2 owns Y = (X_tau2 ∪ Q_tau1) minus P and one
+        # good w of U_tau1 outside P, with U_tau2 ⊆ Y (tau2 stops needing g, tau1 is unfrozen); (H'): Y threatens no free
+        # agent outside {tau1, tau2}. (Before the PR #80 review this was tested only when both terminals were leaves.)
         caseC2 = False; caseC2H = False; caseC2x = False
-        if len(T) == 2 and set(T) <= set(V):
+        if len(T) == 2:
             for t1 in T:
                 t2 = next(z for z in T if z != t1)
+                if t2 not in V: continue
                 if not (bigtop_on(I, t1, g) and not (U[t1] & ~X[t1]) and om >= 2): continue
                 for pr in itertools.combinations(list(bits(X[t1])), 2):
                     Px = mask(pr)

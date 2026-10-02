@@ -1,0 +1,21 @@
+# command: python3 k4/sx_indep.py results/k4_sx/hunt/n4_3_r40k.jsonl.gz
+COVER holds at key = True                                              59
+Lemma A ok                                                             1457
+Lemma B k=1 ok                                                         456
+Lemma B k=2 ok                                                         11
+Lemma B' X'' has a pair for x = True (zmax True, k=1)                  2
+Lemma B' k=1 ok                                                        2
+Lemma C ok                                                             309
+Lemma C' ok                                                            12
+Lemma C' t1 in V = True                                                12
+Zmax applies A                                                         148
+Zmax applies B1                                                        80
+Zmax applies B1'                                                       2
+Zmax applies C                                                         98
+Zmax applies C'                                                        4
+Zmax of non-completable keys                                           191
+keys                                                                   181
+keys def*>0                                                            59
+pool-optimal configs                                                   896
+profiles                                                               59
+# time 5.9 s

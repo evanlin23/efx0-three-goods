@@ -1,8 +1,8 @@
 # DL on the key graph at one frozen agent: repair lemmas from Theorem Z′'s configuration
 
-Workstream `proof/k4-sx` (PR #80), `k4/dl13.md` §6 item 1 (on main since PR #75). Ledger rows K4.SX.*:
-written proofs nobody else has checked are CONJECTURE ("written proof in `k4/sx.md` §x, not yet refereed"), data rows
-EVIDENCE. Nothing here changes K4.D or K4.T.
+Workstream `proof/k4-sx` (PR #80), `k4/dl13.md` §6 item 1 (on main since PR #75). Ledger rows K4.SX.*: the written
+proofs of §1–§3 and §6 were refereed in the PR #80 review (K4.SX.KEY, K4.SX.REP, K4.SX.APLUS: PROVED); Conjecture
+K4.SX.COVER (§5) is open (CONJECTURE); data rows are EVIDENCE. Nothing here changes K4.D or K4.T.
 
 **Target.** DL on the key graph (`k4/dl13.md` §2.3, Remark): every key κ with least deficit def*(κ) > 0 has a key κ′,
 reached by one move of a fixed class from some state of κ, with def*(κ′) < def*(κ). The class was (T3) ∪ (T4); after
@@ -25,13 +25,17 @@ empty and (T3⁺) is (T3). The route asked for is Theorem Z′ (`k4/c4min_reduce
     q_i takes its threatener's pair, τ takes g, and x owns o's whole bundle. For k = 1 this is one (T3) move with
     helper o. For k ≥ 2 it changes k + 2 agents, and it still gives a key (g, τ) with def* ≤ 0, but that key is not
     shown to be a (T3) neighbour. Exception: o is of kind (R) with its fourth good in the pool.
-  - **B′** (the modified path move for that exception): it works when the good o gives up is valued by nobody but x.
+  - **B′** (the modified path move for that exception): o takes its top a and its fourth good s_o, and x's bundle is
+    X″ = (X_o ∖ {s_o}) ∪ {y}, with y the other good of o's threatener's pair. It needs X″ to contain a pair for x, and
+    (H_B′): X″ threatens no agent other than x and o. (H_B′) holds when nobody but x values y.
   - **C** and **C′** (θ-b leaves): another leaf owns. **C**: a θ-b terminal leaf τ₁ takes g, x takes a robust pair
     meeting τ₁'s goods, and another leaf owns the rest. **C′**: the same with two terminals, paid for by unfreezing
     τ₁. Each is one (T3) move without helper, under a hypothesis saying that the goods τ₁ releases are not valued by
     third agents.
 
-  In every case the move ends at a state P′ with def(P′) ≤ 0, so the neighbouring key has def* ≤ 0 < def*(κ).
+  In every case but B and B′ with k ≥ 2 a single (T3) move ends at a state P′ with def(P′) ≤ 0, so the neighbouring
+  key has def* ≤ 0 < def*(κ). For k ≥ 2 the construction changes k + 2 agents at once and only gives a key with
+  def* ≤ 0.
 - **Coverage (EVIDENCE, §4; K4.SX.COV).** At every configuration maximizing (r′, Λ′) at every non-completable f = 1
   key of the data, A, B (k = 1), B′ (k = 1), C or C′ applies. The data are:
   - every strict profile of every core with n ≤ 3: 62,208 such keys, all of the hopeless keys of `k4/c4min_reduce.md`
@@ -46,7 +50,7 @@ empty and (T3⁺) is (T3). The route asked for is Theorem Z′ (`k4/c4min_reduce
 - **The f = 1 failure of single-step DL** (compute/k4-rc; §4.4). In 45 profiles of one n = 5 core, a state P_fail with
   def 1 has no improving (T1)–(T4) move. Theorem Z′'s state P_Q of its key is a different state, one (T1) step from
   P_fail and not the coordinator's (T3h) witness state. Lemma A applies at P_Q: one (T3) move without helper, to
-  deficit 0. That move's image is the nearest better state of P_fail.
+  deficit 0. That move's image is one of the 6 nearest better states of P_fail (distance 3).
 - **What remains at f = 1** (§5): Conjecture K4.SX.COVER, that one of A, B₁, B₁′, C, C′ always applies. The open cases
   are:
   - θ-b leaves: the robust pair that C and C′ need, and their hypotheses on third agents;
@@ -58,10 +62,13 @@ empty and (T3⁺) is (T3). The route asked for is Theorem Z′ (`k4/c4min_reduce
   - the (T3⁺) ∪ (T4) form on the same profiles: it holds at all 41 keys;
   - Lemma F⁺: the forest of Lemma F at every f. A free-valid owner exists at every maximum of (r′, Λ′) at a
     non-completable key;
-  - Lemma A⁺, the owner swap along a need chain of frozen agents, and Lemma B⁺, the path move along one. Each is one
-    (T3⁺) move. Together they reach 34 of those 41 keys from some Z′-type maximum, 156 of the 196 f ≥ 2 keys of the
-    T1-stuck profiles, and 18 of the 67 f = 2 keys of the n = 4 catalogues and hunts. The remaining keys
-    (`attempts/k4-sx-aplus-f3.md`) have leaves threatening two frozen agents, or need the analogues of Lemmas C and C′;
+  - Lemma A⁺, the owner swap along a need chain of frozen agents, and Lemma B⁺, the path move along one. A⁺ is one
+    (T3⁺) move, and so is B⁺ for path length k = 1. On the data B⁺ never applies where A⁺ fails, so A⁺ alone reaches
+    what both reach: 34 of those 41 keys from some Z′-type maximum, 156 of the 196 f ≥ 2 keys of the T1-stuck
+    profiles, and 18 of the 67 f = 2 keys of the n = 4 catalogues and hunts. At the remaining keys
+    (`attempts/k4-sx-aplus-f3.md`, smallest n = 4, m = 8, f = 2) a leaf threatens two frozen agents, the free needers are
+    off the path, or θ fails at the chain's end. At 173 of the 174 maxima left uncovered a plain (T3) move without helper
+    repairs, of the shape of Lemma C or of C′'s mechanism (§6): the missing lemmas are C and C′ at f ≥ 2;
   - DLK holds with every edge set on all f = 2 data (§4.3).
 - **Conjecture SX** (`k4/dl13.md` §2.3) is not needed by this route: the lemmas start from Theorem Z′'s configuration,
   not from a deficit-minimal state. It is not proved here.
@@ -79,8 +86,9 @@ f = 0). The move classes, with ch the agents whose base changes (both states min
 - **(T3)** exactly one x ∈ ch frozen in P and free in P′; exactly one z free in P and frozen in P′, with B′_z = B_x
   and B_x ⊆ N_z(B_z); no agent of ch frozen in both; at most one more agent h (the *helper*), free in both, with
   B_h ⊄ B′_h (`k4/dl2.md` §3);
-- **(T3⁺)** the same, except that W := the agents of ch frozen in both may be nonempty. Then the bases of W ∪ {z} in P′
-  are those of W ∪ {x} in P, and z takes a good it needs in P (the coordinator's frozen-chain role swap);
+- **(T3⁺)** as (T3), except that W := the agents of ch frozen in both may be nonempty, and B′_z need not be B_x: the
+  bases of W ∪ {z} in P′ are those of W ∪ {x} in P (as sets of bases), and B′_z = {g′} with g′ ∈ N_z(B_z) (the
+  coordinator's frozen-chain role swap);
 - **(T4)** every agent of ch is frozen in P and in P′.
 
 At f = 1, W = ∅ and there is no (T4) move, so N_{T3⁺ ∪ T4} = N_{T3} = N_{T3 ∪ T4}.
@@ -107,7 +115,8 @@ key (g, z) with the same good. Following DLK from any key of g, def* falls at ea
 g with def* ≤ 0. So DLK at f = 1 implies: *for every good g that is the frozen good of some key, some key (g, ·) is
 completable*. This implies C₄ᵐⁱⁿ at f = 1, including the big-top profiles of `k4/c4min_reduce.md` §5.1
 (K4.C4MIN.RED.BT, CONJECTURE). A proof of DLK at f = 1 thus closes C₄ᵐⁱⁿ at f = 1, which is open. Conversely, on the data
-(K4.SX.KGE) every non-completable key has a completable neighbour, i.e. one step always suffices.
+(K4.SX.KGE; EVIDENCE, not proved) every non-completable key has a completable neighbour, i.e. there one step always
+suffices.
 
 ## 2. The configuration of Theorem Z′ at a non-completable key
 
@@ -153,12 +162,14 @@ at most v_τ(H_τ) = v_τ(u₁), since o does not threaten τ, and v_τ(u₁) < 
 ## 3. Repair lemmas
 
 Each lemma assumes f = 1, ω ≥ 1 and a configuration Q at κ = (g, x) that is pool-optimal; Lemma F's structure is
-assumed only where stated. Each builds a configuration Q′ at a key (g, z) in which some owner is valid with C = ∅, so
-def*(g, z) ≤ 0 and def(P_{Q′}) ≤ 0 (Lemma 0), and says which move P_Q → P_{Q′} is. Throughout, a *pair for x inside Z*
+assumed only where stated. Lemmas A, B, B′ and C build a configuration Q′ at a key (g, z) in which some owner is valid
+with C = ∅, so def*(g, z) ≤ 0 and def(P_{Q′}) ≤ 0 (Lemma 0). Lemma C′ instead builds a state P′ with def(P′) ≤ 0
+directly (Lemma H1, paid for by unfreezing τ₁; no owner with C = ∅ is claimed). Each lemma says which move P_Q → P′
+is. Throughout, a *pair for x inside Z*
 is a pair Q′_x ⊆ Z whose part Q′_x ∩ U_x is admissible for x (`k4/c4min.md` §1). If Z threatens x holding g, such a
 pair exists. Indeed, some h has v_x(Z ∖ h) > v_x(g), and S := (Z ∖ h) ∩ U_x is worth more than g, hence more than
-every good of U_x. If |S| ≤ 2, S is admissible. Otherwise S = U_x, and its two best goods are admissible (`k4/dl13.md`
-Lemma 9, first part). Add a good of Z if S has one good: a set worth more than an admissible set is admissible. A set
+every good of U_x. So S has at least two goods. If |S| = 2, S is admissible and is the pair. Otherwise S = U_x, and its
+two best goods are admissible (`k4/dl13.md` Lemma 9, first part) and form the pair. A set
 B ⊆ R_y is *robust* for y if v_y(B) ≥ v_y(U_y ∖ B). A robust holding is never threatened by a bundle inside M′, since
 θ_y(Z) ≤ v_y(Z ∩ U_y) ≤ v_y(U_y ∖ B) for Z ∩ B = ∅.
 
@@ -228,8 +239,8 @@ For (H_B′*) ⟹ (H_B′): let w ∉ {x, o}. Then y ∉ R_w, so θ_w(X″) ≤ 
 worthless y is optimal, and X_o ∖ s is one of the sets in the maximum defining θ_w(X_o). Every bound of the proof of
 Lemma B for w ≠ o is a bound on θ_w(X_o), so it carries over. ∎
 
-**Lemma C (another leaf owns).** Let τ₁ be a terminal with θ-b(τ₁) that threatens no free agent, and o ≠ τ₁ a free agent
-that threatens no free agent. Let P_x ⊆ X_{τ₁} be a pair for x that is robust for x (v_x(P_x) ≥ v_x(U_x ∖ P_x)) and
+**Lemma C (another leaf owns).** Let τ₁ be a terminal with θ-b(τ₁), and o ≠ τ₁ a free agent that threatens no free
+agent. (τ₁ need not be a leaf; in the case of §5 where C is needed it is one.) Let P_x ⊆ X_{τ₁} be a pair for x that is robust for x (v_x(P_x) ≥ v_x(U_x ∖ P_x)) and
 meets U_{τ₁}. Let Y := Q_o ∪ (X_{τ₁} ∖ P_x), and assume (H): Y threatens no free agent other than o and τ₁. Q′: τ₁
 holds g, x holds P_x, every other free agent keeps its pair, and the pool is X_{τ₁} ∖ P_x. Then o is a valid owner of
 Q′ with C = ∅, and P_Q → P_{Q′} is a (T3) move with z = τ₁ and no helper. (H) holds in particular under (H*): no agent
@@ -254,7 +265,8 @@ helper. (H′) holds in particular under (H′*): no agent other than x, τ₁, 
 admissible. Y is a bundle of τ₂ in P′. It contains H_{τ₂} ⊆ Q_{τ₂}, since P and w lie in X_{τ₁}, which misses Q_{τ₂}.
 Its other goods lie in (Q_{τ₂} ∖ H_{τ₂}) ∪ L ∪ (Q_{τ₁} ∖ P) ⊆ J(P′). The union X_{τ₂} ∪ Q_{τ₁} has ω + 4 goods and
 contains P ∪ {w} ⊆ X_{τ₁}, so |Y| = ω + 1. Safety in P′:
-- τ₁ holding g: Y ∩ R_{τ₁} ⊆ U_{τ₁} ∖ {w}.
+- τ₁ holding g: Y ∩ R_{τ₁} ⊆ U_{τ₁} ∖ {w}, a set of at most two goods of U_{τ₁}, worth at most
+  v(u₁) + v(u₂) < v_{τ₁}(g) (big-top).
 - x: P is robust.
 - A third y: (H′). (H′*) ⟹ (H′) by the argument of Lemma C, with τ₂ ∈ V and |X_{τ₂}| ≥ 4.
 
@@ -277,15 +289,17 @@ both, and Y is free in both. NA′ = NA in every case.
 |---|---|---|---|---|---|
 | A (owner swap) | {o}, o a leaf | ∅ | ∅ | (T3), no helper | a state with def ≤ 0 |
 | B, path length k | {τ} | ∅ | {q₁, …, q_k}, each giving up its pair | (T3) with one helper if k = 1; k helpers otherwise | a key with def* ≤ 0 (a state with def ≤ 0) |
-| B′, path length k | {τ} | ∅ | {q₁, …, q_k} | as B | as B |
+| B′, path length k (X″ contains a pair for x; (H_B′)) | {τ} | ∅ | {q₁, …, q_k} | as B | as B |
 | C | {τ₁} | ∅ | ∅ | (T3), no helper | a state with def ≤ 0 |
 | C′ | {τ₁} | ∅ | ∅ | (T3), no helper | a state with def ≤ 0 |
 | A⁺ (§6, any f) | {o} | {w₁, …, w_j} | ∅ | (T3⁺), no helper; (T3) if j = 0 | a state with def ≤ 0 |
 | B⁺ (§6, any f), path length k | {τ} | {w₁, …, w_j} | {q₁, …, q_k} | (T3⁺) with one helper if k = 1 | a key with def* ≤ 0 |
 
 Which lemma applies is decided by Lemma F's forest. If some terminal is a leaf without θ-b, Lemma A applies. If some
-terminal is not a leaf, it has a threat path down to a leaf (Lemma F), and B or B′ applies unless that leaf is an (R)
-with s ∈ L and (H_B′) fails. If every terminal is a θ-b leaf, Lemmas C and C′ are the candidates.
+terminal is not a leaf, it has a threat path down to a leaf (Lemma F). If that path has length k = 1, B applies, or B′
+when the leaf is an (R) with s ∈ L, provided X″ contains a pair for x and (H_B′) holds; for k ≥ 2, B and B′ give a key
+with def* ≤ 0 whose (T3)-adjacency to κ is not proved. If every terminal is a θ-b leaf, Lemmas C and C′ are the
+candidates.
 
 **The global target these lemmas aim at.** The source is compute/k4-portfolio's `results/k4_portfolio/TABLE.md` (commit
 5111ea3 of that branch, EVIDENCE). Every key-graph form of the table survives on its 71,596 keys with def* > 0 except
@@ -296,7 +310,7 @@ the control K1, (T3) ∪ (T4), which fails at 22. The strongest survivor is K3b_
   Every lemma of K4.SX.COVER (A, B₁, B₁′, C, C′) is a (T3) move changing at most three agents: x, z and at most one
   helper. So the f = 1 statement of this file (Theorem 1 with COVER) is the K3b_noT4 form.
 - *At f ≥ 2*:
-  - A⁺ with a chain of length j ≤ 1 is a K3b_noT4 edge (x, w₁, o).
+  - A⁺ with a chain of length j ≤ 1 is a K3b_noT4 edge (x, w₁, o). With j ≥ 2 it is only a K2 edge ((T3⁺), |W| = j).
   - B⁺ with j = 1 and k = 1 changes four agents (x, w₁, τ, q₁). It is a K3 edge without (T4), but not a K3b edge.
 
   On every f ≥ 2 input of §6 where A⁺ or B⁺ applies, j ≤ 1 and k = 1 (`results/k4_sx/f2/*.log`,
@@ -368,8 +382,9 @@ At every Z′-maximum of every non-completable key of §4.1 (`results/k4_sx/zpri
 - *DL on the key graph at f = 1 holds on these data in its strong form*: every non-completable key has a (T3) neighbour
   with def* ≤ 0. Every Z′-maximum even has a direct (T3) move to a state of deficit ≤ 0 (counter "Zmax with a direct T3
   move" = all maxima).
-- *The regimes.* At n = 3, 105,128 maxima have a terminal leaf (regime I). There Lemma A applies unless every terminal
-  leaf is θ-b (27,944 θ-b leaf–maximum pairs), and then Lemma C does (4,052 maxima, all with two terminal leaves).
+- *The regimes.* At n = 3, 108,424 maxima have a terminal leaf (regime I; `results/k4_sx/SUMMARY.md`). There Lemma A
+  applies unless every terminal leaf is θ-b (27,944 θ-b leaf–maximum pairs), and then Lemma C does (4,052 maxima, all
+  with two terminal leaves).
   7,824 maxima have no terminal leaf (regime II): one terminal τ, one leaf o, the path τ → o of length 1, x big-top,
   and Lemma B applies.
 - *Paths of length 2* occur only in the n = 4 hunts (10 paths). There Lemma B's target key is a (T3) neighbour as well,
@@ -420,8 +435,10 @@ is the first instance where that choice is needed. The route of this file makes 
 
 The tools of §4 on these 45 profiles (`k4/sx_rc_case.py`; `results/k4_sx/rc/`) give:
 - *One key with def* > 0 per profile*: κ = (11, agent 0), def* = 1, 35 states. 31 of them have deficit 1 and 4 have
-  deficit 2; the 31 are the list in compute/k4-rc's `rc_failures_n5_keyform.log`. Of these 31, 30 have a (T3) move to
-  deficit ≤ 0. P_fail is the only one without.
+  deficit 2, by both implementations (counters "key states with def = 1 / 2" of `results/k4_sx/rc/case.log`). The 31
+  are the list in compute/k4-rc's `rc_failures_n5_keyform.log`. **compute/k4-rc's FAILURES.md says the key's 35 states
+  all have def = 1; that is not so: 4 have def 2.** Of the 31, 30 have a (T3) move to deficit ≤ 0. P_fail is the only
+  one without.
 - *Theorem Z′'s configuration*: (r′, Λ′) has a unique maximum at κ, the same in all 45 profiles:
   - pairs Q₁ = {1,12}, Q₂ = {3,7}, Q₃ = {4,8}, Q₄ = {5,9}, pool L = {0,2,6,10}, (r′, Λ′) = (4, 26);
   - free-valid owners (leaves) V = {1,2,3,4}; terminals T = {2,3}, the two needers of 11 (regime I);
@@ -435,8 +452,8 @@ The tools of §4 on these 45 profiles (`k4/sx_rc_case.py`; `results/k4_sx/rc/`) 
   ({0,2}, {1,12}, {11}, {4,8}, {5,9}) for o = 2, or ({0,2}, {1,12}, {3,7}, {11}, {5,9}) for o = 3. Both have deficit 0
   by both implementations and lie in keys with def* = −1.
 
-  The second image is FAILURES.md's nearest better state of P_fail, at distance 3, where "helper 1 grows {12} by a junk
-  good". So the role swap that no single move from P_fail makes is a (T1) step inside κ to Theorem Z′'s state, followed
+  The second image is FAILURES.md's example of the 6 nearest better states of P_fail, at distance 3, where "helper 1
+  grows {12} by a junk good". So the role swap that no single move from P_fail makes is a (T1) step inside κ to Theorem Z′'s state, followed
   by Lemma A's owner swap.
 
 So at the one instance where the start inside the key matters, Theorem Z′'s configuration chooses a state from which the
@@ -450,30 +467,45 @@ set (`results/k4_sx/rc/xcheck.log`). `k4/sx_rc_case.py` recomputes every deficit
 Theorem 1 reduces DL on the key graph at f = 1 to one statement:
 
 > **Conjecture K4.SX.COVER.** At some Z′-maximum of every non-completable key with f = 1, one of Lemmas A, B (k = 1),
-> B′ (k = 1), C, C′ applies, with the exact hypotheses (H_B′), (H), (H′).
+> B′ (k = 1), C, C′ applies, with all its hypotheses, in their exact form: for B′, that X″ contains a pair for x and
+> (H_B′); for C, (H); for C′, (H′).
 
-Evidence:
-- It holds on every strict profile with n ≤ 3 and on the n = 4, 5 hunts (§4.2).
+Evidence (K4.SX.COV), in two implementations (`k4/sx_zprime.py` on model.py, and the PR #80 referee's
+`k4/sx_indep.py`, which shares no repository code):
+- It holds on every strict profile with n ≤ 3, on the n = 4, 5 hunts, on the T1-stuck profiles and on compute/k4-rc's
+  45 profiles (§4.2, §4.4).
 - At n ≤ 3, and in the first n = 4, 5 hunts, it holds even at *every* Z′-maximum and with the structural hypotheses
   (H_B′*), (H*), (H′*).
 - The structural form fails in the larger n = 4 hunt. There 5 Z′-maxima, each the unique maximum of its key, are covered
   only with the exact hypotheses (`attempts/k4-sx-cover-structural.md`, K4.SX.X).
+- B′'s hypothesis that X″ contains a pair for x is needed: it fails at 2 Z′-maxima of the 400,000-per-core n = 4 hunt
+  (`results/k4_sx/indep_n4_pure_r400k.log`, the "NOTE B′ no pair for x" lines). An example: sets
+  [[0,2,6,7],[1,3,6,8],[4,5,7,8],[4,5,7,8]], values [[5,6,4,8],[6,3,5,7],[6,3,2,10],[4,3,2,8]], m = 9, key (8, 1),
+  path 3 → 0, where X″ ∩ U_x = {3} is not admissible. Other lemmas cover those keys.
 
 Where a proof has to go, by Lemma F:
 1. *Some terminal is a leaf without θ-b.* Lemma A applies.
-2. *Every terminal leaf is θ-b.* Such a leaf is robust, hence an isolated vertex of the forest. Lemmas C and C′ need
-   - a robust pair of x inside X_{τ₁} meeting U_{τ₁} (C), or worth more than g (C′);
-   - the hypotheses (H) or (H′) on third agents.
+2. *Every terminal leaf is θ-b.* Such a leaf is robust, hence an isolated vertex of the forest. Lemma C needs
+   - a robust pair of x inside X_{τ₁} meeting U_{τ₁};
+   - another leaf o, and the hypothesis (H) on third agents.
+
+   Lemma C′ needs
+   - exactly two terminals τ₁, τ₂, with τ₂ a leaf;
+   - a robust pair P of x inside X_{τ₁} worth more than g;
+   - a good w ∈ U_{τ₁} ∖ P with U_{τ₂} ⊆ Y = (X_{τ₂} ∪ Q_{τ₁}) ∖ (P ∪ {w});
+   - the hypothesis (H′) on third agents.
 
    A proof needs the existence of that pair, from x's threat by X_{τ₁} (`k4/c4min_f1.md` Lemma 4 gives a robust pair
    worth more than g for x not big-top, but not one meeting U_{τ₁}), and a replacement for (H)/(H′) when third agents
    value τ₁'s pair. At n = 3 the hypotheses (H), (H′) are void, and on the data the pair exists.
-3. *Some terminal is not a leaf.* Lemma B applies along a path to a leaf, except for (R) leaves with s ∈ L that fail
-   (H_B′). The open part is a path of length ≥ 2, where Lemma B's key (g, τ) has def* ≤ 0 but (T3)-adjacency to κ is not
-   proved. On the data every such key is a (T3) neighbour, and the case never arises alone.
+3. *Some terminal is not a leaf.* Lemma B applies along a path to a leaf, except for (R) leaves with s ∈ L, where B′
+   needs X″ to contain a pair for x and (H_B′) to hold. The open part is a path of length ≥ 2, where Lemma B's key
+   (g, τ) has def* ≤ 0 but (T3)-adjacency to κ is not proved. On the data every such key is a (T3) neighbour, and the
+   case never arises alone.
 
-So a proof of K4.SX.COVER needs (2) and (3); (1) is done. With it, DL on the key graph at f = 1 follows, and with
-Remark 1.2, C₄ᵐⁱⁿ at f = 1.
+So a proof of K4.SX.COVER needs (2) and (3). Case (1) is done by Lemmas F and A (K4.SX.KEY, K4.SX.REP, PROVED). With
+COVER, DL on the key graph at f = 1 follows (Theorem 1), and with Remark 1.2, C₄ᵐⁱⁿ at f = 1. The f ≥ 2 analogues
+are in §6 ("What f ≥ 2 still needs").
 
 ## 6. f ≥ 2
 
@@ -510,8 +542,9 @@ Hence the threats among the free agents form a forest of out-trees. Its leaves, 
   (r′, Λ′) rises, against maximality.
 - A free agent that threatens nobody would be a valid owner with C = ∅, and κ would be completable (Lemma 0). ∎
 
-So the existence of a free-valid owner at the maxima, which Theorem Z′ proves at f = 1, holds at every f once the key
-is not completable. At f = 1 it also follows this way. The f ≥ 2 data (all 199 maxima below have one) is explained.
+So the existence of a free-valid owner at the maxima, which Theorem Z′ proves at f = 1 (K4.C4MIN.RED.Z), holds at every
+f once the key is not completable (Lemma F⁺, K4.SX.APLUS, PROVED). At f = 1 it also follows this way. The f ≥ 2 data
+(all 199 maxima below have one) is explained.
 
 **Lemma A⁺ (the owner swap along a need chain; one (T3⁺) move).** Let f ≥ 1 and ω ≥ 1, and let κ = (𝒩, φ) be a key
 with frozen set F. Let Q be a pool-optimal configuration at κ (U_y = R_y ∖ 𝒩). Let o be a free agent such that

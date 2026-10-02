@@ -14,7 +14,7 @@ theta_o(X_o) <= v_o(phi(w_j)). When it applies, the configuration in which w_i h
 x holds a pair inside X_o with admissible part and owns X_o is built and asserted to be a configuration at its key with x
 a valid owner with C = ∅, and its state to have deficit <= 0.
 
-usage: python3 k4/sx_f2.py DUMP.jsonl.gz ... | --inst FILE.json (a list of {sets, vals, m})  [--examples=K]"""
+usage: python3 k4/sx_f2.py DUMP.jsonl.gz ... | --inst=FILE.json (a list of {sets, vals, m})  [--examples=K]"""
 import collections, gzip, itertools, json, os, sys, time
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE); sys.path.insert(0, os.path.join(HERE, 'suite'))

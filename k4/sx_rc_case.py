@@ -5,7 +5,8 @@
 Input: the 45 failing profiles of core pos 4604 of k4_certs_5_pure (m = 13), as the inst list of compute/k4-rc
 (results/k4_sx/rc/rc_fail_inst.json, copied from results/k4_rc/rc_fail_hunt_ranked_pure_inst.json there).
 For every profile and every key κ with def*(κ) > 0 it prints:
-  - the states of κ with deficit def*(κ), and how many of them have a (T3) move to a state of deficit < def*(κ);
+  - the number of states of κ by deficit (compute/k4-rc's FAILURES.md says all 35 have def 1; 4 have def 2), the
+    states of κ with deficit def*(κ), and how many of them have a (T3) move to a state of deficit < def*(κ);
   - the failing state P_fail = ({11},{12},{3,7},{4,8},{5,9}) of FAILURES.md: its deficit, whether it is in κ, and
     whether some (T3) move (sx_keygraph.t3plus_moves, W empty) improves it;
   - the state P_wit = ({11},{6,10},{12},{4,8},{5,9}) of FAILURES.md's key-form witness, and the same facts;
@@ -77,10 +78,14 @@ def main(argv):
             mins = [b for b in kp.K[k] if kp.D[b] == ds]
             good = [b for b in mins if improving_t3(kp, b, ds)]
             cnt['key states'] += len(kp.K[k]); cnt['key states with def = def*'] += len(mins)
+            byd = collections.Counter(kp.D[b] for b in kp.K[k])
+            assert all(rodef2(d, b) == kp.D[b] for b in kp.K[k]), 'deficit mismatch at a state of the key'
+            cnt['key states whose deficit c4x_check.rodef recomputes (equal)'] += len(kp.K[k])
+            for dv, nn in byd.items(): cnt['key states with def = %d' % dv] += nn
             cnt['key states with def = def* and an improving (T3) move'] += len(good)
             if out:
-                print('# key x=%d g=%d def*=%d: %d states, %d with def = def*, %d of these with an improving (T3) move'
-                      % (x, g, ds, len(kp.K[k]), len(mins), len(good)))
+                print('# key x=%d g=%d def*=%d: %d states (by deficit: %s), %d with def = def*, %d of these with an '
+                      'improving (T3) move' % (x, g, ds, len(kp.K[k]), dict(sorted(byd.items())), len(mins), len(good)))
             for name, b in (('P_fail', pf), ('P_wit', pw)):
                 ins = b in kp.S and keyof(kp.PA[b]) == k
                 imp = improving_t3(kp, b, ds) if b in kp.S else []
