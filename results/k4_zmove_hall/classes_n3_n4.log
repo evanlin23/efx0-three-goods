@@ -1,0 +1,56 @@
+# command: python3 k4/zmh_classes.py n4-hunts (PR #80: n4_3_r40k, n4_pure_r40k, n4_pure_r400k every 2nd) N3SCREEN --every=... (separate runs below)
+all    states                                                5268
+all    states without a move                                 0
+cfg    states                                                5264
+cfg    states without a move                                 0
+forest states                                                844
+forest states without a move                                 0
+keys                                                         299
+po     states                                                848
+po     states without a move                                 0
+profiles                                                     299
+rmax   states                                                2152
+rmax   states without a move                                 0
+zmax   states                                                389
+zmax   states without a move                                 0
+
+real	0m5.950s
+user	0m5.909s
+sys	0m0.005s
+all    states                                                22868
+all    states without a move                                 0
+cfg    states                                                22862
+cfg    states without a move                                 0
+forest states                                                3021
+forest states without a move                                 0
+keys                                                         1183
+po     states                                                3051
+po     states without a move                                 0
+profiles                                                     1174
+rmax   states                                                9275
+rmax   states without a move                                 0
+zmax   states                                                1451
+zmax   states without a move                                 0
+
+real	0m26.388s
+user	0m26.083s
+sys	0m0.008s
+# n = 3 screen (compute/k4-cover results/k4_cover/screen/n3_all.jsonl.gz), every 10th record
+all    states                                                79092
+all    states without a move                                 0
+cfg    states                                                78987
+cfg    states without a move                                 0
+forest states                                                31423
+forest states without a move                                 0
+keys                                                         25595
+po     states                                                32077
+po     states without a move                                 0
+profiles                                                     15908
+rmax   states                                                60738
+rmax   states without a move                                 0
+zmax   states                                                27900
+zmax   states without a move                                 0
+
+real	0m33.786s
+user	0m33.418s
+sys	0m0.020s

@@ -1,0 +1,25 @@
+# command: python3 k4/zmh_classes.py rc4604 rc4515 hunts-n4 (compute/k4-rc results/k4_rc/rc_fail_all_inst.json, rc_fail_4515_all_inst.json at origin/compute/k4-rc; PR #80's n = 4 hunts n4_3_r40k, n4_pure_r40k)
+pool-optimal state without a move: {"sets": [[0, 2, 4, 8], [1, 8, 10, 11], [3, 9, 10, 11], [4, 5, 6, 7], [5, 6, 7, 9]], "vals": [[4, 3, 8, 2], [8, 3, 6, 10], [2, 8, 3, 4], [8, 2, 3, 4], [3, 2, 4, 8]], "m": 12} key [[4], None, None, None, [9]] def* 1 states without ['({4}, {1,8}, {10,11}, {7}, {9})', '({4}, {1,8}, {10,11}, {5,6}, {9})', '({4}, {1,8}, {10,11}, {5,7}, {9})', '({4}, {1,8}, {10,11}, {6,7}, {9})'] zmax potential (3, 21) their potentials [(1, 15), (2, 16), (2, 17), (2, 18)]
+pool-optimal state without a move: {"sets": [[0, 2, 4, 8], [1, 8, 10, 11], [3, 9, 10, 11], [4, 5, 6, 7], [5, 6, 7, 9]], "vals": [[2, 4, 8, 3], [8, 3, 6, 10], [2, 8, 3, 4], [8, 3, 2, 4], [3, 2, 4, 8]], "m": 12} key [[4], None, None, None, [9]] def* 1 states without ['({4}, {1,8}, {10,11}, {7}, {9})', '({4}, {1,8}, {10,11}, {5,6}, {9})', '({4}, {1,8}, {10,11}, {5,7}, {9})', '({4}, {1,8}, {10,11}, {6,7}, {9})'] zmax potential (3, 21) their potentials [(1, 15), (2, 16), (2, 18), (2, 17)]
+all    keys: some state of the class has none                1445
+all    states                                                92439
+all    states without a move                                 4673
+cfg    keys: some state of the class has none                1445
+cfg    states                                                92435
+cfg    states without a move                                 4673
+forest keys: some state of the class has none                42
+forest states                                                12689
+forest states without a move                                 42
+keys                                                         2820
+po     keys: some state of the class has none                42
+po     states                                                12693
+po     states without a move                                 42
+profiles                                                     1744
+rmax   states                                                16171
+rmax   states without a move                                 0
+zmax   states                                                4168
+zmax   states without a move                                 0
+
+real	4m31.497s
+user	4m28.501s
+sys	0m0.023s

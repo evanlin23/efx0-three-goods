@@ -1,0 +1,5 @@
+# command: python3 k4/zmh_s1c3_steps.py SCREEN_N3 (every profile of compute/k4-cover's n = 3 screen; all f = 1 keys of these profiles, completable ones included)
+
+real	5m9.924s
+user	5m6.332s
+sys	0m0.051s

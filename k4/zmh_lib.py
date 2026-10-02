@@ -223,20 +223,23 @@ class Prof:
         n = self.n
         F, NN, U = self.key_data(key)
         N, NA, J, fz = self.info(P)
-        need = [y for y in range(n) if key[y] is None and pc(P[y]) == 1]
-        cand = {y: [g for g in bits(J & ~self.R[y])] for y in need}
+        # one slot per missing good: an agent with an empty base (possible only when U_y = ∅) needs two fillers
+        need = [(y, c) for y in range(n) if key[y] is None for c in range(2 - pc(P[y]))]
+        cand = {(y, c): [g for g in bits(J & ~self.R[y])] for (y, c) in need}
         match = {}
 
-        def aug(y, seen):
-            for g in cand[y]:
+        def aug(s, seen):
+            for g in cand[s]:
                 if g in seen: continue
                 seen.add(g)
                 if g not in match or aug(match[g], seen):
-                    match[g] = y; return True
+                    match[g] = s; return True
             return False
-        for y in need:
-            if not aug(y, set()): return None
-        return {y: g for g, y in match.items()}
+        for s in need:
+            if not aug(s, set()): return None
+        out = {}
+        for g, (y, c) in match.items(): out.setdefault(y, []).append(g)
+        return out
 
     def potential(self, P, key):
         n = self.n
@@ -252,9 +255,12 @@ class Prof:
     def config_states(self, key):
         """the states P_Q of the configurations at the key: states of the key whose free bases are nonempty and
         that admit fillers"""
+        F, NN, U = self.key_data(key)
         out = []
         for P in self.keys[key]:
-            if any(key[y] is None and not P[y] for y in range(self.n)): continue
+            # an empty free base is admissible only when U_y = ∅ (k4/c4min.md §1: every good of U_y outside it is worth
+            # less than it); otherwise N_y(∅) = R_y ⊄ 𝒩 and the state is not of the key anyway
+            if any(key[y] is None and not P[y] and U[y] for y in range(self.n)): continue
             if self.fillers(P, key) is None: continue
             out.append(P)
         return out
@@ -271,21 +277,22 @@ class Prof:
         (Qdict, L)"""
         n = self.n
         N, NA, J, fz = self.info(P)
-        need = [y for y in range(n) if key[y] is None and pc(P[y]) == 1]
+        need = [(y, c) for y in range(n) if key[y] is None for c in range(2 - pc(P[y]))]
         res = []
 
         def rec(k, used, Qd):
             if k == len(need):
                 L = J & ~used
                 Q2 = {y: P[y] for y in range(n) if key[y] is None}
-                for y, g in Qd.items(): Q2[y] = P[y] | (1 << g)
+                for (y, c), g in Qd.items(): Q2[y] |= 1 << g
                 res.append((Q2, L))
                 return
-            y = need[k]
+            y, c = need[k]
             for g in bits(J & ~self.R[y] & ~used):
-                Qd[y] = g
+                if c == 1 and g < Qd[(y, 0)]: continue        # unordered pair of fillers
+                Qd[(y, c)] = g
                 rec(k + 1, used | (1 << g), Qd)
-                del Qd[y]
+                del Qd[(y, c)]
         rec(0, 0, {})
         return res
 

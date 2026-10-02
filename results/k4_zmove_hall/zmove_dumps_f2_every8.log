@@ -1,0 +1,23 @@
+# command: python3 k4/zmove_check.py DUMPS_F2 --maxn=5 --every=8 (compute/k4-cover results/k4_cover/inputs/dumps_f2.jsonl.gz at f25fb8e: f >= 2 profiles with a key of def* > 0 from the dumps of compute/k4-rt4, k4-dl13, k4-rc, k4-portfolio; n <= 5, every 8th record)
+time 420.0s
+Z-maxima                                           21896
+Z-maxima with a move                               21896
+keys ZMOVE by a move                               20198
+keys def*>0                                        20198
+keys def*>0, f=2                                   2717
+keys def*>0, f=3                                   17445
+keys def*>0, f=4                                   36
+keys: every Z-max has a move                       20198
+moves W0-                                          58975
+moves W0h                                          93889
+moves W1-                                          110328
+moves W1h                                          177222
+moves W2-                                          94571
+moves W2h                                          98739
+moves W3-                                          294
+profiles                                           5448
+profiles with f >= 1, omega >= 1                   5448
+
+real	7m0.046s
+user	6m55.523s
+sys	0m0.089s

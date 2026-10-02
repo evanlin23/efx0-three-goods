@@ -1,0 +1,21 @@
+# command: python3 k4/zmh_classes.py DUMPS_F2 --maxn=5 --every=40 (compute/k4-cover results/k4_cover/inputs/dumps_f2.jsonl.gz at f25fb8e)
+all    keys: some state of the class has none                3
+all    states                                                14812
+all    states without a move                                 12
+cfg    keys: some state of the class has none                3
+cfg    states                                                14812
+cfg    states without a move                                 12
+forest states                                                7529
+forest states without a move                                 0
+keys                                                         4086
+po     states                                                7530
+po     states without a move                                 0
+profiles                                                     1090
+rmax   states                                                10238
+rmax   states without a move                                 0
+zmax   states                                                4421
+zmax   states without a move                                 0
+
+real	1m10.177s
+user	1m9.247s
+sys	0m0.007s

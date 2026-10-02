@@ -42,7 +42,124 @@ def s1c_plus(inst, x, g):
                   'def(P_Q) =', D[PQ], 'def* =', ds)
 
 
+def po_forest(inst, key_goods, state):
+    """'ZMOVE at every pool-optimal configuration whose free threats are acyclic': the given state of the key admits
+    such a configuration, def* > 0, and no (T3⁺) move with at most one helper from it reaches deficit <= 0"""
+    import itertools
+    sets, vals, m = inst['sets'], inst['vals'], inst['m']
+    n = len(sets)
+    print('instance', inst, ' key', key_goods, ' state', state)
+    # A
+    pr = Prof(sets, vals, m)
+    key = tuple(None if g is None else 1 << g for g in key_goods)
+    P = tuple(sum(1 << g for g in B) for B in state)
+    good = [Q for Q in pr.states if pr.D[Q] <= 0]
+    mv = [Q for Q in good if 'T3+' in pr.move_kind(P, Q)[0]]
+    zs, best = pr.zmax_states(key)
+    zmv = [any('T3+' in pr.move_kind(Z, Q)[0] for Q in good) for Z in zs]
+    print('  A: def* =', pr.dstar[key], ' def(state) =', pr.D[P], ' potential', pr.potential(P, key),
+          ' moves to def <= 0:', len(mv), ' Z′-maxima', [show(Z) for Z in zs], 'potential', best,
+          'each with a move:', zmv)
+    # B: rt4_n5_indep's states, deficits and classify; the configuration over the state, its pool-optimality and its
+    # threat digraph among the free agents, written out here
+    import rt4_n5_indep as RI
+    ns = RI.analyse(sets, vals, m)
+    D, info, classify = ns['D'], ns['info'], ns['classify']
+    PB = tuple(frozenset(B) for B in state)
+    v = [dict(zip(S, V)) for S, V in zip(sets, vals)]
+
+    def val(i, X): return sum(v[i].get(g, 0) for g in X)
+
+    def thr(w, X, b): return bool(X) and val(w, X) - min(v[w].get(h, 0) for h in X) > b
+
+    def keyB(X): return tuple(X[i] if info(X)[3][i] else None for i in range(n))
+    kP = keyB(PB)
+    dstar = min(D[X] for X in D if keyB(X) == kP)
+    NN = frozenset(g for g in key_goods if g is not None)
+    J = info(PB)[2]
+    free = [i for i in range(n) if key_goods[i] is None]
+    slots = [(y, c) for y in free for c in range(2 - len(PB[y]))]
+    found = None
+    for fill in itertools.permutations(sorted(J), len(slots)):
+        if any(fill[k] in v[slots[k][0]] for k in range(len(slots))): continue
+        Q = {y: set(PB[y]) for y in free}
+        for k, (y, c) in enumerate(slots): Q[y].add(fill[k])
+        L = set(J) - set(fill)
+        U = {y: set(sets[y]) - NN for y in free}
+        po = all(val(y, S) <= val(y, Q[y]) for y in free
+                 for r in (1, 2) for S in itertools.combinations(sorted((Q[y] | L) & U[y]), r))
+        if not po: continue
+        adj = {o: [w for w in free if w != o and thr(w, Q[o] | L, val(w, Q[w]))] for o in free}
+        left = set(free)                      # acyclic: peel the agents without out-edges inside the rest
+        while True:
+            sink = [o for o in left if not any(w in left for w in adj[o])]
+            if not sink: break
+            left -= set(sink)
+        if left: continue
+        found = (Q, L, adj); break
+    moves = [X for X in D if D[X] <= 0 and 'T3+' in classify(PB, X)[0]]
+    print('  B: def* =', dstar, ' def(state) =', D[PB], ' pool-optimal acyclic configuration:',
+          None if found is None else ({y: sorted(q) for y, q in found[0].items()}, sorted(found[1]), found[2]),
+          ' moves to def <= 0:', len(moves))
+
+
+def x_owner(inst):
+    """ZX: at some Z′-maximum of every key with def* > 0, a (T3⁺) move with <= 1 helper to def <= 0 after which the
+    unfrozen agent x is a best owner. Prints, per key with def* > 0 and per Z′-maximum, the repairing moves and how many
+    of them have x as a best owner."""
+    import itertools
+    sets, vals, m = inst['sets'], inst['vals'], inst['m']
+    n = len(sets)
+    print('instance', inst)
+    pr = Prof(sets, vals, m)
+    for key, ds in pr.dstar.items():
+        if ds <= 0: continue
+        zs, best = pr.zmax_states(key)
+        for P in zs:
+            mv = [(Q, pr.move_kind(P, Q)[1][1][0]) for Q in pr.states if pr.D[Q] <= 0 and 'T3+' in pr.move_kind(P, Q)[0]]
+            xo = sum(1 for Q, x in mv if pr.owner_val(Q, x)[0] >= pr.omega + 2)
+            print('  A: key', [None if b is None else list(bits(b)) for b in key], 'def*', ds, 'Z′-max', show(P),
+                  'repairing moves', len(mv), 'with x a best owner', xo)
+    import rt4_n5_indep as RI
+    omega, out, ns, dstar = XB.zmove_indep(sets, vals, m, want_ns=True)
+    D, info, classify = ns['D'], ns['info'], ns['classify']
+    v = [dict(zip(S, V)) for S, V in zip(sets, vals)]
+
+    def val(i, X): return sum(v[i].get(g, 0) for g in X)
+
+    def xval(X, o):
+        """max |Z| + u_o(Z) over the safe bundles of o in X (the inner loop of rt4_n5_indep's deficit, for one o)"""
+        N, NA, J, fz = info(X)
+        best = -1
+        for r in range(len(J) + 1):
+            for C in itertools.combinations(sorted(J), r):
+                Z = X[o] | (J - frozenset(C))
+                if any(Z and val(w, Z) - min(v[w].get(h, 0) for h in Z) > val(w, X[w]) for w in range(n) if w != o):
+                    continue
+                No = frozenset(g for g in sets[o] if g not in Z and v[o][g] > val(o, Z))
+                other = frozenset().union(*[N[i] for i in range(n) if i != o]) | No
+                u = sum(1 for i in range(n) if fz[i] and not (X[i] & other))
+                best = max(best, len(Z) + u)
+        return best
+    for k, (ds, pot, per, t4) in out.items():
+        for PQ in per:
+            mv = [X for X in D if D[X] <= 0 and 'T3+' in classify(PQ, X)[0]]
+            xo = sum(1 for X in mv if xval(X, classify(PQ, X)[1][1][0]) >= omega + 2)
+            print('  B: key', [None if b is None else sorted(b) for b in k], 'def*', ds, 'Z′-max',
+                  [sorted(b) for b in PQ], 'repairing moves', len(mv), 'with x a best owner', xo)
+
+
 if __name__ == '__main__':
     print('== attempts/k4-zmh-s1c-plus.md: S1c+ (big-top x, >= 2 terminals at a Z′-maximum => def(P_Q) <= 0) ==')
     s1c_plus({"sets": [[0, 2, 5, 7], [1, 4, 6, 7], [3, 5, 6, 7]], "vals": [[6, 2, 3, 10], [4, 2, 3, 8], [3, 2, 4, 8]],
               "m": 8}, 0, 7)
+    print()
+    print('== attempts/k4-zmh-pool-optimal-forest.md: ZMOVE at every pool-optimal configuration with acyclic free '
+          'threats ==')
+    po_forest({"sets": [[0, 2, 4, 8], [1, 8, 10, 11], [3, 9, 10, 11], [4, 5, 6, 7], [5, 6, 7, 9]],
+               "vals": [[4, 3, 8, 2], [8, 3, 6, 10], [2, 8, 3, 4], [8, 2, 3, 4], [3, 2, 4, 8]], "m": 12},
+              [4, None, None, None, 9], [[4], [1, 8], [10, 11], [6, 7], [9]])
+    print()
+    print('== attempts/k4-zmh-x-owner.md: ZX (a repair after which the unfrozen agent x is a best owner) ==')
+    x_owner({"sets": [[0, 2, 5, 7], [1, 4, 6, 7], [3, 5, 6, 7]], "vals": [[3, 4, 2, 8], [2, 3, 4, 8], [3, 5, 6, 7]],
+             "m": 8})

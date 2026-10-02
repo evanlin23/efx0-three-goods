@@ -9,7 +9,7 @@ def* > 0: the Z′-maxima, their states P_Q, and whether some P_Q has a T3⁺ mo
 to a min-frozen state with deficit <= 0, or the key a T4 edge to a smaller def*. Compared with k4/zmh_lib.py
 key by key (def*, the set of P_Q, the number of good moves per P_Q, the verdict).
 
-usage: python3 k4/zmh_xcheck.py [--max=N] [--every=E] INPUT ..."""
+usage: python3 k4/zmh_xcheck.py [--max=N] [--every=E] [--maxn=N] INPUT ...   (--every counts within each input)"""
 import collections, itertools, json, os, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -48,7 +48,9 @@ def zmove_indep(sets, vals, m, all_keys=False, want_ns=False):
         U = {y: R[y] - NN for y in free}
 
         def adm(y, A):
-            if not A or len(A) > 2 or not A <= U[y]: return False
+            # admissible (k4/c4min.md §1): A ⊆ U_y, |A| <= 2, every good of U_y outside A worth less than A; so A = ∅
+            # is admissible exactly when U_y = ∅
+            if len(A) > 2 or not A <= U[y]: return False
             return all(v[y][g] < val(y, A) for g in U[y] - A)
         # all configurations: assign pairs to the free agents in turn
         best = None; bestPQ = set()
@@ -90,12 +92,13 @@ def main(argv):
         if a.startswith('--'):
             kk, _, vv = a[2:].partition('='); opts[kk] = vv
         else: ins.append(a)
-    mx = int(opts.get('max', 10 ** 9)); every = int(opts.get('every', 1))
-    cnt = collections.Counter(); idx = 0
+    mx = int(opts.get('max', 10 ** 9)); every = int(opts.get('every', 1)); maxn = int(opts.get('maxn', 99))
+    cnt = collections.Counter()
     for path in ins:
+        idx = 0                                   # --every counts within each input
         for rec in load_inputs(path):
             idx += 1
-            if (idx - 1) % every: continue
+            if (idx - 1) % every or len(rec['sets']) > maxn: continue
             if cnt['profiles'] >= mx: break
             cnt['profiles'] += 1
             sets, vals, m = rec['sets'], rec['vals'], rec.get('m') or 1 + max(max(S) for S in rec['sets'])
@@ -116,6 +119,8 @@ def main(argv):
                 print('MISMATCH', json.dumps(rec), mine2, out, flush=True)
             for k, (ds, best, per, t4) in out.items():
                 cnt['keys def*>0'] += 1
+                cnt['Z-maxima'] += len(per)
+                cnt['Z-maxima with a move'] += sum(1 for c in per.values() if c)
                 if any(per.values()) or t4: cnt['ZMOVE holds'] += 1
                 else:
                     cnt['ZMOVE FAILS'] += 1

@@ -6,7 +6,7 @@ maximizing (r′, Λ′), k4/sx.md §2 and §6) by their states P_Q, and at each
 P_Q to a min-frozen state of deficit <= 0 (k4/zmh_lib.py), and the (T4) edges of κ to keys with smaller def*.
 ZMOVE holds at κ iff some P_Q has such a move or κ has such a (T4) edge.
 
-usage: python3 k4/zmove_check.py [--max=N] [--every=E] [--part=i/N] [--fmin=F] [--out=OUT.jsonl.gz] INPUT ...
+usage: python3 k4/zmove_check.py [--max=N] [--every=E] [--part=i/N] [--fmin=F] [--maxn=N] [--out=OUT.jsonl.gz] INPUT ...
 INPUT: gzip JSON lines or a JSON list of {sets, vals, m}. Prints a summary; with --out one JSON line per key."""
 import collections, gzip, json, os, sys, time
 
@@ -22,7 +22,7 @@ def run(argv):
         else: ins.append(a)
     mx = int(opts.get('max', 10 ** 9)); every = int(opts.get('every', 1))
     part = opts.get('part'); pi, pn = (map(int, part.split('/')) if part else (0, 1))
-    fmin = int(opts.get('fmin', 1))
+    fmin = int(opts.get('fmin', 1)); maxn = int(opts.get('maxn', 99))
     out = gzip.open(opts['out'], 'wt') if 'out' in opts else None
     cnt = collections.Counter()
     seen = set()
@@ -32,6 +32,7 @@ def run(argv):
         for rec in load_inputs(path):
             idx += 1
             if (idx - 1) % every or ((idx - 1) // every) % pn != pi: continue
+            if len(rec['sets']) > maxn: continue
             sig = json.dumps([rec['sets'], rec['vals'], rec.get('m')])
             if sig in seen: continue
             seen.add(sig)
