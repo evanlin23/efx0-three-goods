@@ -20,6 +20,8 @@ n4)       run n4_1_all $C/screen/n4_1_all.jsonl.gz --indep=1
           run n4_pure_r200k $C/screen/n4_pure_r200k.jsonl.gz --indep=10 ;;
 # n = 5 samples: compute/k4-cover's screen and this workstream's new screens (results/k4_zmove/screen/)
 n5)       run n5_screens $C/screen/n5_n4_2_r200.jsonl.gz results/k4_zmove/screen/n5_*.jsonl.gz --indep=5 ;;
+# every strict profile of every n = 4 core with two 4-good agents (k4/zmove_screens.sh n4_2)
+n4_2)     run n4_2_all results/k4_zmove/screen/n4_2_all.jsonl.gz --indep=10 ;;
 # the explicit profiles of compute/k4-rt4, k4-dl13, k4-rc, k4-portfolio (k4/cover_inputs.py): f >= 2 and f = 1
 dumps2)   run dumps_f2_p$2 $C/inputs/dumps_f2.jsonl.gz --maxn=6 --part=$2/4 --indep=20 ;;
 dumps2n7) run dumps_f2_n7 $C/inputs/dumps_f2.jsonl.gz --minn=7 --indep=0 ;;
