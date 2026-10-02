@@ -1,0 +1,12 @@
+/tmp/claude-0/-home-user-efx0-three-goods/891575f8-e905-5025-9feb-2c6293ea3e11/scratchpad/rulef/ck/k1_n3.txt: leaves 556
+   ('Lemma KR applies for some first agent and policy',) 53638
+   ('some first agent: one rotation then Lemma K', 'rule F min rotations -1') 53638
+  per first agent (LB4r rotations, Lemma K after one rotation <= 0):
+     (-1, False) 4640
+     (-1, True) 156274
+  Lemma KR certificates by case (profile, first agent and policy counted once each): {'o not threatened': 311156, 'o served by a slot good': 928}
+  shapes of the repairing rotations (weighted by profiles, a profile counted once per shape and first agent):
+     ('4', 'exposed', 'end=r', 'O other(1)', 'down') 156042
+     ('4', 'exposed', 'end=r', 'O=R_k∩W', 'up') 156042
+     ('4', 'exposed', 'end≠r', 'O other(1)', 'down') 232
+     ('4', 'exposed', 'end≠r', 'O other(2)', 'up') 232

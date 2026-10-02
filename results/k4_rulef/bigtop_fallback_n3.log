@@ -1,0 +1,12 @@
+# rulef_bigtop.py results/k4_certs_3.json.gz # rulef.c sha256 8bd39c5559ae46b6
+results/k4_certs_3.json.gz: 136 leaves, 9632 profiles; by number of big-top agents: {0: 9632}
+   in K0 or K1, 3 goods, private 1, same top as 1 other, top valued by 1 other 32
+   in neither, b+d < a < b+c, private 0, same top as 0 other, top valued by 2 other 5120
+   in K0 or K1, b+d < a < b+c, private 0, same top as 1 other, top valued by 1 other 416
+   in K0 or K1, b+d < a < b+c, private 0, same top as 1 other, top valued by 2 other 9216
+   in neither, b+d < a < b+c, private 1, same top as 0 other, top valued by 2 other 416
+   in K0 or K1, b+d < a < b+c, private 1, same top as 1 other, top valued by 1 other 256
+   in neither, b+d < a < b+c, private 2, same top as 1 other, top valued by 2 other 9216
+   in neither, c+d < a < b+d, private 0, same top as 0 other, top valued by 2 other 2304
+   in K0 or K1, c+d < a < b+d, private 1, same top as 1 other, top valued by 1 other 128
+   in neither, flat (a < c+d), private 0, same top as 0 other, top valued by 2 other 1792
