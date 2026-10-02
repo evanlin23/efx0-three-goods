@@ -1,0 +1,10 @@
+profiles {6: 4810500} (1500 random per core)
+  up=Y take_all=Y klast=Y          failures: n=6: 0
+  up=N take_all=N klast=Y          failures: n=6: 3   first ([(2, 6, 4), (2, 5, 7), (3, 8, 5), (3, 5, 9), (0, 1, 4), (0, 4, 1)], 10)
+  up=Y take_all=N klast=N          failures: n=6: 0
+
+real	6m20.112s
+user	21m15.478s
+sys	0m5.099s
+
+[exited with code 0]

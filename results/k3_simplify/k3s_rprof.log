@@ -1,0 +1,5 @@
+random ranking profiles (3 goods each, n 2-9, m n..2n+3, worthless goods allowed): 2000000 (seed 7); not EFX0: 0; branches {'r': 1989295, 'rot': 10705} []
+
+real	1m17.481s
+user	3m57.136s
+sys	0m0.075s
