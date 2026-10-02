@@ -1,0 +1,22 @@
+# command: python3 k4/f2_lemmas.py results/k4_f2/shapes_n5fail.jsonl.gz
+  A-S1 | plain T3 exists | C1+                                                                         77
+  A-S1 | plain T3 exists | C3+                                                                         10
+  A-S1 | plain T3 exists | certified by a plain (k = 0) corollary                                      87
+  A-S1, every S1 triple theta-fails | Corollary 11.2+ does not apply                                   10
+  B-S1c | chain-only | C1+                                                                             62
+  B-S1c | chain-only | C3+                                                                             5
+  B-S1c | chain-only | only by a chain corollary (k >= 1)                                              67
+  B-S1c | plain T3 exists | C1+                                                                        13
+  B-S1c | plain T3 exists | C3+                                                                        1
+  B-S1c | plain T3 exists | certified by a plain (k = 0) corollary                                     7
+  B-S1c | plain T3 exists | only by a chain corollary (k >= 1)                                         7
+  chain-only | least |W| of an improving T3+ move = 1                                                  67
+  chain-only | some improving chain is a path swap (need path)                                         67
+  Lemma 6+ chain swaps checked                                                                         8348
+  Lemma 8+ values checked                                                                              8348
+  Lemma C compositions checked                                                                         2332
+  Lemma P: a frozen agent without a need path (not T4-optimal)                                         0
+  Proposition N: not T4-optimal, rotated to a T4-optimal state of equal deficit                        2
+  states                                                                                               168
+  states f=3                                                                                           168
+# no assertion failed
