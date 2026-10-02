@@ -13,29 +13,37 @@ rule of §7), `k4/lemmam_x_run.py` and `k4/lemmam_x_adp.py` (drivers, one worker
 
 **Status** (rows K4.LMX.*; the written proofs here are not yet refereed).
 - **Lemma M is false** (Proposition HH of `k4/lemmam_bt.md` §3, PR #83, under review: on HH₃, two copies of H₃ sharing
-  one good, n = 26, no first agent is in K0 or K1). So no exchange between first agents can prove it. Before HH₃, on
-  every strict profile with n ≤ 3 and n = 4 with at most two 4-good agents, on the suite and on H₅, the exchange works
-  with the right partner (§2): the **needer at the end of a need chain** from an exposed frozen agent — the end shared
-  by the most exposed frozen agents, or of least index — is good whenever a is bad (26,248 bad pairs, exhaustive). The
-  other proposed partners fail: the exposed frozen 4-good agent and the leader of r's block at n = 3, m = 6 (never good
-  on the exhaustive data), r itself on H₅ (n = 21) (`attempts/k4-lemmam-x-exchange.md`).
-- **Proved here** (written proofs, using K4.C4.AB.L and Lemmas K, S: K4.RF.K, K4.RF.S): **Lemma 1**, a bad first agent's envy-free
-  run has ω ≥ 1, an exposed frozen agent, and an exposed 4-good agent or (G2) (M3 reduces to (G2)); **Lemma 2**, in
-  (G2) a bad first agent forces k*'s two lower goods to be goods of r (r moves up to its top or its b and is then
-  threatened by k*'s new base itself), and otherwise LB⁺'s rotation along a longest chain is certified (K1) with r
-  served by a slot good of its own; **Lemma 3**, the failure of M1 is a Hall violation: a set of exposed frozen agents
-  needing more kept-out goods than their non-exposed chain ends other than r; **Lemma 4**, the first block decides
-  (two runs whose first blocks have the same agents and goods agree afterwards).
+  one good, n = 26, no first agent is in K0 or K1). So no exchange between first agents can prove it. Before HH₃ the
+  exchange works on the data with the right partner (§2): the **needer at the end of a need chain** from an exposed
+  frozen agent — the end shared by the most exposed frozen agents, or of least index — is good whenever a is bad (every
+  strict profile with n ≤ 3 and n = 4 with at most two 4-good agents: 26,248 weighted bad pairs, 25,960 in PR #33's
+  model; the suite; H₃–H₅). The other proposed partners fail: the exposed frozen 4-good agent and the leader of r's
+  block at n = 3, m = 6, r itself on H₄ (n = 17, both implementations) (`attempts/k4-lemmam-x-exchange.md`). The
+  exchange agent's run follows Lemma Ψ's fall chain in only 12% of the bad pairs: LB's P-step key reorders it (§5.2).
+- **Proved here** (written proofs, using K4.C4.AB.L and Lemmas K, S: K4.RF.K, K4.RF.S): **Lemma 1**, a bad first
+  agent's envy-free run has ω ≥ 1, an exposed frozen agent, and an exposed 4-good agent or (G2) (M3 reduces to (G2));
+  **Lemma 2**, in (G2) a bad first agent forces k*'s two lower goods to be goods of r (r moves up to its top or its b
+  and is then threatened by k*'s new base itself), and otherwise LB⁺'s rotation along a longest chain is certified
+  (K1) with r served by a slot good of its own; **Lemma 3**, the failure of M1 is a Hall violation: a set of exposed
+  frozen agents needing more kept-out goods than their non-exposed chain ends other than r; **Lemma 4**, the first
+  block decides (two runs whose first blocks have the same agents and goods agree afterwards).
 - **The repair: choose the inserted agent at every insertion step** (§6–§7). **Proposition R** (written proof,
   extending Proposition HH's count): on HH_t with 2t − 2 > 3d no first agent works with at most d rotations, so no
-  fixed rotation bound saves a single chosen first agent. **Lemma 5**: a *block count* computed when each block of a
-  run closes (from the block and the goods still unpicked) certifies the run without rotation when every block has
-  count 0; at k = 3 every block but the last has count 0 (LB⁺'s Theorem A, block by block). **Conjecture M_ad**: at
-  every insertion step some agent starts a block of count 0 (except the last block, which may need one rotation).
-- **Data for M_ad** (§7.3, EVIDENCE): the greedy rule "insert the agent whose block has the least count" leaves every
-  block at count 0 and needs no rotation on H₁–H₅ and HH₃ with relabelings PLACEHOLDER_STATUSDATA.
-- **Lean** (§7.4): M_ad's global form is `∃ τ, EFX.LB4R.SucceedsR 1 v agents goods τ` (`TheoremRuleF` is the case
-  τ = [a]); it implies C₄∃ and TARGET₄ by the existing proofs (`sound_of_succeeds`, `succeeds_of_succeedsR`).
+  fixed rotation bound saves a rule that chooses only the first agent. **Lemmas 5, 5′**: a *block count*, computed
+  when a block closes from the block and the goods still unpicked (and only falling afterwards), certifies the run
+  without rotation when every block has count 0; at k = 3 every block but the last has count 0 (LB⁺'s Theorem A,
+  block by block). **Conjecture M_ad**: some insertion sequence succeeds with at most one rotation; in Lean
+  `∃ τ, EFX.LB4R.SucceedsR 1 v agents goods τ`, which gives C₄∃ and TARGET₄ by the existing proofs (§7.4).
+- **Data for M_ad** (§7.3, EVIDENCE). No counterexample: M_ad holds wherever Lemma M does (all of §2's data), and on
+  H₁–H₅, HH₃, HH₄ (with relabelings) the greedy rule "insert the agent whose block has the least count" finds
+  Proposition HH's choices by itself (x_{1,2} of each copy first), every block at count 0, no rotation. Lemma 5 never
+  fails (918,392,554 runs with every block count 0, all certified without rotation). But the block count is not yet
+  the right local invariant: **(L0)** "after blocks of count 0 some agent starts a block of count 0" is false at n = 3,
+  m = 6 (hand-checked), and the greedy rule needs two rotations on 11,520 profiles (n = 3, m = 6 smallest; both
+  implementations). L1SUMMARY
+- **Found on the way**: `k4/rulef.c` (hence `k4/lemmam_x.c`) gives a rotated agent with a one-good base no slot, while
+  LB₄ʳ's text and Lean's `Output` give it one; so that code's "bad" (neither K0 nor K1) is an upper bound: 132 of the
+  1,420 bad leaves at n = 4 are K1 in PR #33's model (§2).
 
 ## 1. Setting
 
@@ -460,39 +468,58 @@ PLACEHOLDER_L1DATA
 
 ### 7.4 Lean
 
-`lean/EFX/LB4R.lean` and `lean/EFX/RuleF.lean` (on main; RuleF.lean from PR #72) already contain what M_ad needs: `phase1State v agents goods τ`
-takes any insertion sequence (each entry picks the inserted agent among the unprocessed ones), and
-`SucceedsR d v agents goods τ` is "LB₄ʳ(τ) succeeds with at most d rotations". The global form is
+`lean/EFX/LB4R.lean` and `lean/EFX/RuleF.lean` (on main; RuleF.lean from PR #72) already contain what M_ad needs:
+`phase1State v agents goods τ` takes any insertion sequence (its j-th entry picks the (τ_j mod u)-th unprocessed agent
+in index order, so a sequence of agents, as `k4/lemmam_x.c` prints it, translates by replaying Phase 1, as
+`k4/lemmam_x_check.py` does), and `SucceedsR d v agents goods τ` is "LB₄ʳ(τ) succeeds with at most d rotations". The
+global form of M_ad is
 
-    def TheoremAdaptive (A G) : Prop := ∀ agents goods v, agents.Nodup → goods.Nodup → IsCore4 v agents goods →
-      Strict v agents goods → ∃ τ : List Nat, SucceedsR 1 v agents goods τ
+    /-- Adaptive Lemma M's target (k4/lemmam_x.md §7.2). Open (K4.LMX.AD). -/
+    def TheoremAdaptive (A G : Type) [DecidableEq A] [DecidableEq G] : Prop :=
+      ∀ (agents : List A) (goods : List G) (v : A → G → Nat), agents.Nodup → goods.Nodup →
+        IsCore4 v agents goods → Strict v agents goods → ∃ τ : List Nat, SucceedsR 1 v agents goods τ
 
-(and `AdaptiveConn` with `Connected` and a 4-good agent, as `RuleFConn`). `TheoremRuleF` is its special case τ = [a].
-It implies `TheoremC4exists` (and `C4existsConn`, hence TARGET₄) by the existing proofs, word for word:
-`sound_of_succeeds hag hgd (succeeds_of_succeedsR (by omega) h)` for the τ the hypothesis provides, as in
-`C4exists_of_ruleF`. A version with one rotation per block needs `SucceedsR d` for unbounded d; `sound_of_succeeds`
-generalizes at once (`rotReach_inv` holds for every d), but `succeeds_of_succeedsR` does not (it needs d ≤ 3), so that
-version would need a three-line `sound_of_succeedsR`. Lemma K's certificates are `Output`s (`k4/rulef.md` §7, step 1),
-so Lemma 5 and the data are statements about `SucceedsR 0` and `SucceedsR 1`.
+    theorem C4exists_of_adaptive (h : TheoremAdaptive A G) : TheoremC4exists A G :=
+      fun agents goods v hag hgd hc hs => by
+        obtain ⟨τ, hτ⟩ := h agents goods v hag hgd hc hs
+        exact sound_of_succeeds hag hgd (succeeds_of_succeedsR (by omega) hτ)
+
+`TheoremRuleF` implies it (take τ = [a]); the proof is `C4exists_of_ruleF`'s with `⟨τ, hτ⟩` for `⟨a, -, ha⟩`, and
+the same edit of `C4existsConn_of_ruleFConn` and `target4_of_ruleF` gives `AdaptiveConn ⟹ C4existsConn ⟹ TARGET₄`
+(`AdaptiveConn` with `Connected` and a 4-good agent, as `RuleFConn`). This text is not compiled here (it would need a
+new module imported from `lean/EFX.lean`, a file of the formal workstreams). A version with one rotation per block
+needs `SucceedsR d` for unbounded d: `sound_of_succeeds` generalizes at once (`rotReach_inv` holds for every d), but
+`succeeds_of_succeedsR` needs d ≤ 3, so that version would need a short `sound_of_succeedsR`. Lemma K's certificates
+are `Output`s (`k4/rulef.md` §7, step 1), so Lemmas 5, 5′ and the data of §7.3 are statements about `SucceedsR 0`
+and `SucceedsR 1`.
 
 ## 8. Reproduce
 
 One worker throughout; each line under ~20 minutes except where noted. `k4/lemmam_x_run.py` and `k4/lemmam_x_adp.py`
 compile `k4/lemmam_x.c` into the temporary directory under a name made from a hash of the source and print the hash
-at the top of every log; `--checkpoint=FILE` makes the exhaustive runs resumable.
+at the top of every log; `--checkpoint=FILE` makes the exhaustive runs resumable. The logs carry the hash of the
+source that made them: `exh_n2_n3_n4_12.log`, `adp_*.log` predate the option `-W` (hashes f4b4e32ba2ab3fd5,
+eac6b06d1052bd78); `adp_n2_n3_after_W.log` shows that the current source reproduces the n ≤ 3 statistics of `-A44`
+exactly.
 ```
-# §2: classes of every first agent, roles and candidates in the bad runs (exhaustive, ~32 min)
+# §2: classes of every first agent, roles and candidates in the bad runs (exhaustive, ~32 min, resumable)
 python3 k4/lemmam_x_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz results/k4_certs_4_n4_1.json.gz \
     results/k4_certs_4_n4_2.json.gz -A43 -r1 -Y1 -D43 --data=BAD.txt --checkpoint=CK.jsonl
-python3 k4/lemmam_x_check.py --profiles=BAD.txt            # second implementation on the bad leaves (§2)
-python3 k4/lemmam_x_inst.py H5 HH3 > HT.txt                # H_5 and HH_3 (PR #83's core, rebuilt from its text)
-python3 k4/lemmam_x_run.py --profiles=HT.txt -A43 -r1 -Y1  # every first agent of H_5 and HH_3
-python3 k4/lemmam_x_realize.py BAD.txt --cand=r            # §5: how the exchange agent's run relates (Psi, cycles)
-# §7: the adaptive rule (block counts) on H_t, HH_t with relabelings, and exhaustively
+python3 k4/lemmam_x_check.py --profiles=BAD.txt            # second implementation on the bad leaves (seconds)
+python3 k4/lemmam_x_inst.py SUITE > SUITE.txt;      python3 k4/lemmam_x_run.py --profiles=SUITE.txt -A43 -r1 -Y1 -D43
+python3 k4/lemmam_x_inst.py H2 H3 H4 H5 > HT.txt;   python3 k4/lemmam_x_run.py --profiles=HT.txt -A43 -r1 -Y1 -D43
+python3 k4/lemmam_x_inst.py H4 > H4.txt;  python3 k4/lemmam_x_check.py --profiles=H4.txt --agents=0,16   # model
+python3 k4/lemmam_x_realize.py BAD.txt --cand=endEF_maxload   # §5.2 (and --cand=r)
+# §7: the adaptive rule (block counts) on H_t, HH_t with relabelings, and exhaustively (~22 min, resumable)
 python3 k4/lemmam_x_inst.py H1 H2 H3 H4 H5 --relabel=2 > HT2.txt; python3 k4/lemmam_x_adp.py --profiles=HT2.txt -Y1 -r1
-python3 k4/lemmam_x_inst.py HH3 HH4 --relabel=1 > HH.txt;  python3 k4/lemmam_x_adp.py --profiles=HH.txt -Y1 -r1 -V1
+python3 k4/lemmam_x_inst.py HH3 --relabel=1 > HH.txt;  python3 k4/lemmam_x_adp.py --profiles=HH.txt -Y1 -r1
+python3 k4/lemmam_x_inst.py HH4 --relabel=1 > HH4.txt; python3 k4/lemmam_x_adp.py --profiles=HH4.txt -Y1 -r1 -V1
 python3 k4/lemmam_x_adp.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz results/k4_certs_4_n4_1.json.gz \
     results/k4_certs_4_n4_2.json.gz -Y1 -r1 --checkpoint=CK2.jsonl --data=ADPBAD.txt
+grep ' d=2 ' ADPBAD.txt > D2.txt; python3 k4/lemmam_x_check.py --adp=D2.txt      # the rotation counts in the model
+python3 k4/lemmam_x_adp.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz -Y1 -r1 -W1        # cumulative count
+python3 k4/lemmam_x_adp.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz -Y1 -r1 -A46 [-W1] # (L1∃)
+python3 k4/lemmam_x_adp.py results/k4_certs_4_n4_2.json.gz -Y1 -r1 -A46 --range=0:150 --checkpoint=CK3.jsonl  # n = 4
 ```
 `-V1` takes Lemma 5's certificate when every block count is 0 instead of searching Lemma K's classes again (on HH₄,
 m = 85, that search exceeds the time allowed; on the exhaustive data it is run, and agrees, §7.3).
