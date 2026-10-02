@@ -198,7 +198,7 @@ def main():
     d = {'sets': [[0, 4, 5, 6], [0, 1, 2, 3], [0, 1, 2, 3], [7, 5, 1, 4]],
          'vals': [[12, 10, 9, 8], [13, 7, 5, 4], [15, 8, 6, 4], [12, 7, 8, 6]], 'm': 8}
     P0 = [[0], [1], [2, 3], [4, 5]]
-    fa, pr, ctx = both('X3 (twin hunt, hunt:1:27942)', d, P0)
+    fa, pr, ctx = both('X3 (structured hunt, hunt:1:27942)', d, P0)
     say('X3: strict core, f = 1, def(P) > 0, at the T3 stage (T1-stuck and key-optimal)',
         fa['core'] and fa['f'] == 1 and fa['d'] > 0 and fa['stuck'] and fa['kopt'])
     say('X3: setting (H)', len(fa['needers']) == 2 and all(fa['bt']) and in_H(ctx))

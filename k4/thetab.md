@@ -39,8 +39,10 @@ Everything here is at f = 1 except Lemma G, which holds at every f. The f ≥ 2 
     state with def > 0 has a (T3) move without helper that lowers the deficit**, with no stuckness hypothesis.
   - **Theorem K**: a pair worth more than g to x unfreezes z for the other needer (κ = 1).
 - **Coverage** (§4, EVIDENCE): **every one of the 1,223 f = 1 targets satisfies the hypotheses of W, K or G1 with a
-  plain swap** (W at all 1,154 at n = 3 and at 15 at n = 4, K at 50, G1 at 4). SCAN_SUMMARY Every bound is asserted
-  against the exact deficit, with no violation.
+  plain swap** (W at all 1,154 at n = 3 and at 15 at n = 4, K at 50, G1 at 4). On the scans, every one of the
+  22,445 T3-stage states with two or more needers lies in a key that Corollary G1 repairs by one (T3) move. At all but
+  45 of them the move starts at the state itself. Every bound is asserted against the exact deficit, with no
+  violation.
 - **What fails** (§3.4, §5.1, REFUTED row K4.TB.X):
   - *A helper can be necessary at n ≥ 4.* At a T3-stage state in (H) with n = 4, m = 8, x's best lower goods are a
     third agent's base. No plain swap exists, and only (T3) moves with that agent as helper lower the deficit (Lemma G
@@ -305,7 +307,8 @@ def(P′) ≤ 0 by Lemma G.
 
 Theorems W and K, and every plain swap, need x's new base inside J ∪ B_z. When x's admissible sets all meet the base of
 a third agent t ∈ T, no plain swap exists, and the repair must take t as helper. This happens at the T3 stage
-(`attempts/k4-thetab-plain-swap-t3-stage.md`, found by the structured hunt `k4/thetab_scan.py hunt 1`): n = 4, m = 8,
+(`attempts/k4-thetab-plain-swap-t3-stage.md`; found by the structured hunt `k4/thetab_scan.py hunt 1`, item 27942,
+and replayed with two implementations): n = 4, m = 8,
 - x = agent 0 with goods 0:12, 4:10, 5:9, 6:8; the needers 1 (0:13, 1:7, 2:5, 3:4) and 2 (0:15, 1:8, 2:6, 3:4),
   both big-top with the same goods; agent 3 with goods 1:8, 4:6, 5:7, 7:12;
 - P = ({0}, {1}, {2, 3}, {4, 5}), J = {6, 7}, ω = 1, def(P) = 1; P is at the T3 stage and is a target in the sense
@@ -368,9 +371,45 @@ G1 certifies a (T3) move below the key's least deficit: from P, only from anothe
 Table 2 covers the other states. Each cell reads: states / W, K or G1 / only G1h / some plain swap lowers the deficit
 (exact).
 
-SCAN_TABLE
+Table 1, the T3-stage states with two or more needers:
 
-SCAN_NOTES
+| input | T3 stage, (H) | T3 stage, not (H) | no (T3) move from P | (T3) to a better key: from P / only from the key / none | G1 certifies below def*: from P / only from another state / none |
+|---|---|---|---|---|---|
+| the suite | 22 / 22 / 0 / 0 | 2 / 2 / 0 / 0 | 0 | 24 / 0 / 0 | 24 / 0 / 0 |
+| compute/k4-rc's 45 profiles (X5's core) | 1,395 / 1,215 / 135 / 45 | 0 | **45** | 1,350 / 45 / **0** | 1,350 / 45 / **0** |
+| #53's n = 3 catalogue | 8,734 / 8,734 / 0 / 0 | 431 / 431 / 0 / 0 | 0 | 9,165 / 0 / 0 | 9,165 / 0 / 0 |
+| #53's n = 4 catalogues, every 4th | 110 / 110 / 0 / 0 | 62 / 62 / 0 / 0 | 0 | 172 / 0 / 0 | 172 / 0 / 0 |
+| hunt catalogues, every 4th; hard hunt | 186 / 186 / 0 / 0 | 17 / 17 / 0 / 0 | 0 | 203 / 0 / 0 | 203 / 0 / 0 |
+| structured hunt `hunt`, 900 s | 1,406 / 1,398 / 8 / 0 | 206 / 206 / 0 / 0 | 0 | 1,612 / 0 / 0 | 1,612 / 0 / 0 |
+| structured hunt `twin`, 900 s | 9,874 / 9,872 / 2 / 0 | 0 | 0 | 9,874 / 0 / 0 | 9,874 / 0 / 0 |
+| **total** | **21,727 / 21,537 / 145 / 45** | **718 / 718 / 0 / 0** | **45** | **22,400 / 45 / 0** | **22,400 / 45 / 0** |
+
+Table 2, the other states:
+
+| input | (H), T1-stuck only | (H), other stages | one needer: G1 or G1h / states |
+|---|---|---|---|
+| the suite | 4 / 4 / 0 / 4 | 31 / 31 / 0 / 31 | 16 / 33 |
+| compute/k4-rc's 45 profiles | 0 | 180 / 180 / 0 / 180 | 450 / 450 |
+| #53's n = 3 catalogue | 419 / 419 / 0 / 419 | 8,678 / 8,678 / 0 / 8,678 | 11,114 / 24,512 |
+| #53's n = 4 catalogues, every 4th | 55 / 54 / 1 / 55 | 1,672 / 1,647 / 25 / 1,650 | 3,641 / 3,731 |
+| hunt catalogues, every 4th; hard hunt | 260 / 260 / 0 / 260 | 2,896 / 2,874 / 22 / 2,874 | 2,588 / 2,926 |
+| structured hunt `hunt`, 900 s | 1,132 / 1,120 / 12 / 1,130 | 22,411 / 22,032 / 378 / 22,052 | 1,688 / 1,692 |
+| structured hunt `twin`, 900 s | 145 / 129 / 12 / 145 | 4,773 / 4,529 / 244 / 4,547 | 1,796 / 1,800 |
+| **total** | **2,015 / 1,986 / 25 / 2,013** | **40,641 / 39,971 / 669 / 40,012** | **21,293 / 35,144** |
+
+What the scans say:
+- **The key form holds at every T3-stage state** with two or more needers (22,445 states). Each one lies in a key with
+  a (T3) move to a key of smaller least deficit, and Corollary G1 certifies such a move, with bound below the key's
+  least deficit. At all but 45 states the move starts at the state itself. At those 45 (compute/k4-rc's states, X5)
+  no (T3) move from the state helps, and the certified move starts at another state of the key.
+- **At the T3 stage the theorems name the repair.** At 22,255 of the 22,445 states, W, K or G1 with a plain swap
+  applies at the state itself. Corollary G1 with one helper is needed at 145 more: at 141 of them no plain swap
+  exists (the situation of §3.4: 4 in `hunt`, 2 in `twin`, 135 in compute/k4-rc's profiles).
+- **Outside the T3 stage**, the theorems at the state itself cover all but 5 of the 42,656 (H) states (W, K or G1 at
+  41,957; G1h at 694). The 5 are at n = 5 in the structured hunts. They are not at the T3 stage, so they are not
+  targets.
+- **One needer** is the regime of `k4/dl13.md` §6 items 1 and 3, not this file's. G1 or G1h applies at 21,293 of those
+  35,144 states; this is recorded for proof/k4-oneneeder.
 
 ## 5. The key form, what remains open, and candidates that fail
 
@@ -400,7 +439,7 @@ two or more needers of the frozen good. Then some state Q of κ has a (T3) move,
 G1 certifies with bound < def*(κ).
 
 This implies DL on the key graph at those keys. The data (§4) support it: at every T3-stage state of the scans with
-two or more needers, the key has such a certificate, and in all but SCAN_KEY_ONLY of them it starts at the state
+two or more needers, the key has such a certificate, and in all but 45 of them it starts at the state
 itself. PR #80 (`k4/sx.md`) gives the natural starting state, a configuration maximizing Theorem Z′'s potential. In
 that frame this file's question is case (i) of K4.SX.COVER, treated in §7.
 

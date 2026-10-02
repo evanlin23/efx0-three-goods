@@ -7,7 +7,8 @@ the frozen good g, both big-top on g), some *plain swap* lowers the deficit. A p
 helper: a needer z takes g, the frozen agent x takes an admissible A ⊆ J ∪ B_z, nobody else moves. It holds at every
 one of the 1,223 f = 1 targets of PR #75's dumps (`k4/thetab.md` §4) and at every T3-stage state of #53's catalogues.
 
-**It fails in the structured hunt** (`k4/thetab_scan.py hunt 1 …`, item 27942). Smallest failing configuration found
+**It fails in the structured hunt** (`k4/thetab_scan.py hunt 1 …`, item 27942; `results/k4_thetab/scan_hunt_s1.log`,
+4 such states; the `twin` hunt finds 2 more, `scan_twin_s1.log`). Smallest failing configuration found
 (n = 4, m = 8):
 - Agents and values:
   - x = agent 0: goods 0:12, 4:10, 5:9, 6:8 (g = 0; not big-top);
@@ -23,9 +24,10 @@ one of the 1,223 f = 1 targets of PR #75's dumps (`k4/thetab.md` §4) and at eve
   its top good 7 from the junk. For example, agent 1 takes 0, x takes {4}, agent 3 takes {7}, and agent 2 owns
   {1, 2, 3} or more: def(P′) = 0. Corollary G1 of `k4/thetab.md` with one helper certifies this move.
 
-So the θ-b / non-S1 regime at n ≥ 4 needs the helper of (T3); no plain-swap statement can cover it. The data are
-consistent with the weaker form: some (T3) move with at most one helper, certified by Lemma G, lowers the deficit
-(K4.TB.PS).
+So the θ-b / non-S1 regime at n ≥ 4 needs the helper of (T3); no plain-swap statement can cover it. The single-step
+form with a helper fails too, at n = 5 (`attempts/k4-thetab-single-step-t3-stage.md`). What the data support is the key
+form: some state of the key has a (T3) move with at most one helper that Corollary G1 certifies (K4.TB.PS,
+`k4/thetab.md` §5).
 
 **Reproduce.** `python3 attempts/k4_thetab_attempts.py` (case X3, both implementations: the state, the absence of
 plain swaps, the number of (T3) moves, and the deficit of the certified helper move by both).
