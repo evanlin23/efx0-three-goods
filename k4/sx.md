@@ -135,9 +135,9 @@ threatens no free agent. Then θ_τ(X_o) < v_τ(g): X_o does not threaten τ hol
 *Proof.* g ∉ X_o and Q_τ ∩ X_o = ∅, so X_o ∩ R_τ ⊆ U_τ ∖ H_τ. Every good of U_τ is worth less than v_τ(g) (Lemma T).
 If |X_o ∩ R_τ| ≤ 1, then θ_τ(X_o) is at most one such good. A 3-good τ has U_τ = {u₁, u₂} and H_τ ∋ u₁ (an admissible
 set contains u₁, as {u₂} alone is worth less than u₁), so |U_τ ∖ H_τ| ≤ 1. For a 4-good τ, |U_τ ∖ H_τ| ≥ 2 only if
-H_τ = {u₁}. In that case pool-optimality keeps u₂ and u₃ out of L ({u₁, u_i} would beat Q_τ). So X_o ∩ R_τ = {u₂, u₃}
-forces Q_o = {u₂, u₃}. As |X_o| = ω + 2 ≥ 3, X_o ⊄ R_τ and θ_τ(X_o) = v_τ(u₂) + v_τ(u₃). This is at most v_τ(H_τ) = v_τ(u₁),
-since o does not threaten τ, and v_τ(u₁) < v_τ(g). ∎
+H_τ = {u₁}. Then |X_o ∩ R_τ| = 2 means X_o ∩ R_τ = {u₂, u₃}. Pool-optimality keeps u₂ and u₃ out of L
+({u₁, u_i} would beat Q_τ), so Q_o = {u₂, u₃}. As |X_o| = ω + 2 ≥ 3, X_o ⊄ R_τ and θ_τ(X_o) = v_τ(u₂) + v_τ(u₃). This is
+at most v_τ(H_τ) = v_τ(u₁), since o does not threaten τ, and v_τ(u₁) < v_τ(g). ∎
 
 ## 3. Repair lemmas
 
