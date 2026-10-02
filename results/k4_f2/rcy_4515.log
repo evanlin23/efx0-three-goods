@@ -1,0 +1,15 @@
+# command: python3 k4/f2_rcy.py k4/suite/.cache/rc/rc_failures_4515_inst.json   (compute/k4-rc at 54ab8fd: results/k4_rc/rc_failures_4515_inst.json)
+  failing state: def(P) - def*(key) | 0                                                      324
+  key | applies at some maximum | C'+ (k=0)                                                  81
+  key | applies at some maximum | C+ (k=0)                                                   15
+  key | applies at some maximum | full (k=0)                                                 15
+  key | def* | 1                                                                             81
+  key | frozen need digraph acyclic | True                                                   81
+  key | maxima                                                                               92
+  key | some lemma without helper | True                                                     81
+  maximum | P_Q is one of the failing states | False                                         92
+  maximum | def(P_Q) - def* | 0                                                              92
+  failing states                                                                             324
+  keys of failing states                                                                     81
+  profiles                                                                                   81
+# no assertion failed
