@@ -166,7 +166,9 @@ def check_profile(d, opt):
 
 
 def compare_indep(d, rec):
-    """k4/zmove_indep.py on the profile: f, and per key def*, the maxima's P_Q, the margin and the (T4) verdict"""
+    """k4/zmove_indep.py on the profile: f, and per key def*, the maxima's P_Q, the margin, margin_U, the best repair
+    per maximum, the number of repairing moves (targets with def <= 0) at the maxima, the number of configurations and
+    the (T4) verdict"""
     import zmove_indep as Z
     res = Z.zmove(d['sets'], d['vals'], d['m'])
     assert res['f'] == rec['f'], ('indep: f', res['f'], rec['f'])
@@ -182,6 +184,11 @@ def compare_indep(d, rec):
         assert kr['margin_U'] == jv(t['margin_U']), ('indep: margin_U', k, kr['margin_U'], t['margin_U'])
         assert kr['t4edge'] == t['t4edge'], ('indep: t4 edge', k, kr['t4edge'], t['t4edge'])
         assert kr['nconf'] == t['nconf'], ('indep: number of configurations', k, kr['nconf'], t['nconf'])
+        if 'nrep' in t:
+            nrep = sum(sum(mr['kinds'].values()) for mr in kr['maxima'])
+            assert nrep == t['nrep'], ('indep: repairing moves at the maxima', k, nrep, t['nrep'])
+            bpm = sorted((1e18 if mr['best'] == 'inf' else mr['best']) for mr in kr['maxima'])
+            assert bpm == [1e18 if b == float('inf') else b for b in t['best_per_max']], ('indep: best per maximum', k)
     return 'agree (%d keys)' % len(mine)
 
 

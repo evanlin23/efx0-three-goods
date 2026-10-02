@@ -40,4 +40,12 @@ validate) run val_f1_n4_hunts $SX/hunt/n4_3_r40k.jsonl.gz $SX/hunt/n4_pure_r40k.
             $SX/chunks/hard_hunt@f2e1_c000.jsonl.gz $SX/chunks/hunt_n4_3_s400k@f2e1_c000.jsonl.gz \
             $SX/chunks/hunt_n4_pure_s400k@f2e1_c000.jsonl.gz $SX/chunks/gap_n4_1_c0??.jsonl.gz --indep=1
           run val_f2_n5c inst:$SX/f2/rt4_n5c_inst.json --indep=1 ;;
+# full cross-check on a stratified sample (every K-th distinct profile of each input) with k4/zmove_indep.py's repairing
+# move counts and best per maximum compared as well (results/k4_zmove/xcheck/)
+xcheck)   X=results/k4_zmove/xcheck; mkdir -p $X
+          python3 k4/zmove_check.py $X/n3.jsonl.gz $C/screen/n3_all.jsonl.gz --part=0/100 --indep=1 >> $X/n3.log 2>&1
+          python3 k4/zmove_check.py $X/n4.jsonl.gz $C/screen/n4_3_r200k.jsonl.gz $C/screen/n4_pure_r200k.jsonl.gz --part=0/10 --indep=1 >> $X/n4.log 2>&1
+          python3 k4/zmove_check.py $X/dumps_f2.jsonl.gz $C/inputs/dumps_f2.jsonl.gz --maxn=6 --part=1/40 --indep=1 >> $X/dumps_f2.log 2>&1
+          python3 k4/zmove_check.py $X/dumps_f1.jsonl.gz results/k4_zmove/inputs/dumps_f1.jsonl.gz --part=1/10 --indep=1 >> $X/dumps_f1.log 2>&1
+          python3 k4/zmove_check.py $X/hunts.jsonl.gz $C/hunt/f2x2_n4_m10.jsonl.gz $C/hunt/unc5_seed0.jsonl.gz --part=1/50 --indep=1 >> $X/hunts.log 2>&1 ;;
 esac

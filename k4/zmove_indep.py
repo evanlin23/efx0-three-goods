@@ -19,8 +19,9 @@ statements:
     min-frozen P′ against the predicate (no move generation);
   - (T4): every changed agent frozen in P and in P′, NA′ = NA; a key edge needs a P′ of another key.
 zmove(sets, vals, m) returns f and per key: def*, the number of configurations, the P_Q of the maxima, the margin
-(min over maxima of the least def(P′) over the (T3⁺) moves from P_Q), margin_U, and whether a (T4) edge to a key of
-smaller def* exists.
+(min over maxima of the least def(P′) over the (T3⁺) moves from P_Q), the best per distinct P_Q, nrep (the number of
+(T3⁺) targets with def <= 0 summed over the distinct P_Q), margin_U, and whether a (T4) edge to a key of smaller def*
+exists.
 usage: python3 k4/zmove_indep.py '{"sets": ..., "vals": ..., "m": ...}'      (prints the per-key verdicts)"""
 import itertools, json, os, sys
 
@@ -64,10 +65,12 @@ def zmove(sets, vals, m=None):
         return all(f1[i] and f2[i] for i in range(n) if P[i] != P2[i])
 
     def best(P):
-        b = float('inf')
+        """(least def over the (T3⁺) targets of P, the number of targets with def <= 0)"""
+        b = float('inf'); nrep = 0
         for P2 in byNA[INFO[P][1]]:
-            if P2 != P and D[P2] < b and t3plus(P, P2): b = D[P2]
-        return b
+            if P2 != P and (D[P2] < b or D[P2] <= 0) and t3plus(P, P2):
+                b = min(b, D[P2]); nrep += D[P2] <= 0
+        return b, nrep
 
     def lev(y, S, pool):
         s = val(y, S)
@@ -119,8 +122,10 @@ def zmove(sets, vals, m=None):
         rec['nconf'] = len(confs)
         rec['PQs'] = sorted(set(tuple(tuple(sorted(B)) for B in PQ) for PQ in mx))
         rec['PQs'] = [[list(B) for B in PQ] for PQ in rec['PQs']]
-        rec['margin'] = min(bm[PQ] for PQ in mx)
-        rec['margin_U'] = min(bm[PQ] for PQ in mxU)
+        rec['margin'] = min(bm[PQ][0] for PQ in mx)
+        rec['margin_U'] = min(bm[PQ][0] for PQ in mxU)
+        rec['nrep'] = sum(bm[PQ][1] for PQ in set(mx))
+        rec['best_per_max'] = sorted(bm[PQ][0] for PQ in set(mx))
         e = False
         for P in Ps:
             for P2 in byNA[INFO[P][1]]:
