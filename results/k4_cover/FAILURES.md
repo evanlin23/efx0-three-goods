@@ -1,0 +1,79 @@
+# COVER⁺ fails as stated: a key with def* > 0 where none of A⁺, B⁺, C⁺, C′⁺ applies (compute/k4-cover)
+
+**Status: the statement COVER⁺ (k4/f2.md §5 and §7 on proof/k4-f2, PR #82; the hypothesis of Theorem Z′⁺) is false
+as stated. DL on the key graph (DLKey) still holds at every failing key found, by a plain (T3) move.** EVIDENCE of a
+counterexample to a conjectured covering statement; confirmed by two implementations. COVER (f = 1) has no failure so
+far.
+
+The statement tested: for every strict profile of a connected k = 4 core with f ≥ 2 and ω ≥ 1, every key κ with
+def*(κ) > 0 has a maximum Q of (r′, Λ′) at which Lemma A⁺ (any chain length j), Lemma B⁺ (threat path length 1),
+Lemma C⁺ or Lemma C′⁺ (any need path length k) applies at P_Q with its exact hypotheses.
+
+## The smallest instance found
+
+n = 4, m = 10, f = 2, ω = 4. The core of K4.F2.X (2) (`k4/f2.md` §5, the crossed n = 4, m = 10 instance), with
+other values:
+
+| agent | goods: values |
+|---|---|
+| 0 | 0:2, 2:3, 4:6, 8:10 |
+| 1 | 1:2, 3:3, 7:10, 9:6 |
+| 2 | 4:2, 5:3, 6:4, 7:8 |
+| 3 | 5:2, 6:3, 8:8, 9:4 |
+
+`{"sets": [[0,2,4,8],[1,3,7,9],[4,5,6,7],[5,6,8,9]], "vals": [[2,3,6,10],[2,3,10,6],[2,3,4,8],[2,3,8,4]], "m": 10}`
+
+- A k = 4 core (`model.Inst.core_violations()` is empty), strict, connected; each value vector is a strict balanced type
+  of `k4/check4.py`'s `core_domains`.
+- 4 keys; one has def* > 0: **κ = (agent 0 on 8, agent 1 on 7), def* = 1**, 7 states. def* by Lemma H1
+  (`k4/dl2_classify.py`), by main's `k4/suite/model.py` direct removal-only deficit (`--verify`), and by
+  `k4/rt4_n5_indep.py` (no repository code): all 1.
+- Two maxima of (r′, Λ′), found by both implementations:
+  - Q = {2: {4,5}, 3: {6,9}}, L = {0,1,2,3}, P_Q = ({8}, {7}, {4,5}, {6,9}), def(P_Q) = 1;
+  - Q = {2: {4,6}, 3: {5,9}}, L = {0,1,2,3}, P_Q = ({8}, {7}, {4,6}, {5,9}), def(P_Q) = 1.
+- At both, both free agents are robust leaves; leaf 2's bundle threatens only agent 0, whose good 8 only leaf 3 needs;
+  leaf 3's bundle threatens only agent 1, whose good 7 only leaf 2 needs. This is the crossed pair of K4.F2.X (2).
+
+**Why each lemma fails** (at both maxima; the same verdicts from PR #80's `k4/sx_f2.py` and PR #82's `k4/f2_cc.py`
+through `k4/cover_check.py`, and from `k4/cover_indep.py`, written from the statements):
+- **A⁺.** Each leaf threatens exactly one frozen agent, but no need chain from it ends at a good the leaf needs. Leaf 2
+  threatens agent 0, and no frozen agent needs 8, so the only chain is (0), ending at 8, which leaf 2 does not value.
+  Symmetrically for leaf 3 and agent 1. PR #80's reason: "the free needers are off the path to the leaf".
+- **B⁺.** It needs a threat path τ → o into the leaf. Both free agents are robust, so neither is threatened, and
+  there is no path.
+- **C⁺ and C′⁺.** Their need paths are [3, 0] (τ = 3 needs φ(0) = 8) and [2, 1]. Both lemmas take x's new base A
+  inside J ∪ B_τ, without a helper.
+  - For x = 0: (J ∪ B_3) ∩ R_0 = {0, 2}, but U_0 = {0, 2, 4} and v_0(4) = 6 > v_0({0,2}) = 5. No admissible A exists,
+    because the good x needs, 4, lies in the other leaf's pair H_2.
+  - For x = 1: (J ∪ B_2) ∩ R_1 = {1, 3}, but v_1(9) = 6 > 5, and 9 ∈ H_3.
+
+  So neither lemma has a candidate move, and PR #82's test_max applies nothing (nor its 'full' form, which needs the
+  same helper-free move).
+
+**What does repair it.** From P_Q there are (T3) moves with one helper to deficit 0 (both implementations; kinds by
+`k4/rt4_n5_indep.py`'s classify: T3). Example: x = 0 takes {4}, z = 3 takes 8, and the helper 2 gives up 4:
+({8}, {7}, {4,5}, {6,9}) → ({4}, {7}, {6}, {8}), deficit 0. Also x = 1 → {9}, z = 2 → {7}, helper 3. So the
+conclusion of Theorem Z′⁺ (one (T3⁺) move from P_Q to deficit ≤ 0) holds here, but by none of the four lemmas. The
+missing shape is a C⁺ with a helper: x's admissible base needs a good of another leaf's pair, and that leaf is paid
+from τ's old base.
+
+**DLKey holds.** The key has (T3) edges to keys of def* ≤ 0 from all 7 of its states. From ({8}, {7}, {6}, {9}) a (T3)
+move without helper reaches ({4}, {7}, {6}, {8}), deficit 0.
+
+## Extent
+
+- In the first minute of `k4/cover_hunt.py` from the K4.F2.X (2) seed (`results/k4_cover/hunt/first_f2x2_1min.jsonl.gz`):
+  320 distinct strict profiles of this core with an uncovered key. All have f = 2, and DLKey holds at every one.
+  The smallest by the sum of values is the one above (sum 76).
+- Phase 2 counts of uncovered keys in the large data, and the hunts on other cores: `results/k4_cover/SUMMARY.md`.
+
+## Reproduce
+
+```
+python3 k4/cover_check.py OUT.jsonl.gz inst:INST.json --indep=1   # INST.json: [the profile above]; prints UNCOVERED
+python3 k4/cover_failure.py '{"sets": [[0,2,4,8],[1,3,7,9],[4,5,6,7],[5,6,8,9]], "vals": [[2,3,6,10],[2,3,10,6],[2,3,4,8],[2,3,8,4]], "m": 10}'
+python3 k4/cover_indep.py --one '{"sets": [[0,2,4,8],[1,3,7,9],[4,5,6,7],[5,6,8,9]], "vals": [[2,3,6,10],[2,3,10,6],[2,3,4,8],[2,3,8,4]], "m": 10}'
+```
+Logs: `results/k4_cover/failure_n4_m10.log` (`k4/cover_failure.py`: both maxima, the lemma counters, every improving
+move from P_Q with `k4/rt4_n5_indep.py`'s deficit and kind, DLKey per state) and `results/k4_cover/failure_n4_m10_indep.log`
+(`k4/cover_indep.py`: the maxima, with no lemma applying).

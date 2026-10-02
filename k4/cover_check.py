@@ -41,7 +41,7 @@ Output: gzip JSON lines, one per profile (the profile, f, ω, and one record per
 run's checkpoint: a rerun skips the profiles already in it. Summaries: k4/cover_summary.py.
 
 usage: python3 k4/cover_check.py OUT.jsonl.gz [--part=i/N] [--fmin=F] [--fmax=F] [--max=N] [--no-verify]
-           [--indep=E] [--dlk] [--nodedup] INPUT ...        (INPUT: DUMP.jsonl.gz | inst:LIST.json | catalog:FILE.json.gz)
+           [--indep=E] [--dlk] [--nodedup] [--maxn=N] INPUT ...        (INPUT: DUMP.jsonl.gz | inst:LIST.json | catalog:FILE.json.gz)
 --dlk computes DLKey at every key, not only at the uncovered ones. --nodedup keeps repeated profiles (as k4/f2_cc.py
 counts them; k4/cover_summary.py --nodedup counts them too).
 
@@ -285,6 +285,7 @@ def main(argv):
         if kk in seen and '--nodedup' not in argv: continue
         seen.add(kk); uniq.append((i, d))
     uniq = [(i, d) for i, d in uniq if d.get('f') is None or o['fmin'] <= d['f'] <= o['fmax']]
+    if 'maxn' in opt: uniq = [(i, d) for i, d in uniq if len(d['sets']) <= int(opt['maxn'])]
     mine = uniq[part::nparts]
     if 'max' in opt: mine = mine[:int(opt['max'])]
     done = set()
