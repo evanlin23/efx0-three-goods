@@ -345,7 +345,8 @@ SUITE_TEXT = {
         notes='H_3 (k4/c4.md §7, built by k4/adaptive_H.py) plus agent 13 = q = {p, b_11, c_11, u} with values '
               '(8, 4, 3, 2), p = good 33 private; q is the only big-top agent. q takes p and nobody loses a good, so the '
               'rest of tau_q is H_3\'s index run (Proposition Q of k4/lemmam_bt.md §2): LB4r(tau_q) has no output with '
-              'at most one rotation (PR #33\'s encodings A and B, results/k4_lemmam_bt/exactA_Hq3.log, exactB_Hq3.log); '
+              'at most one rotation (PR #33\'s encodings A and B, results/k4_lemmam_bt/exactA_Hq3.log, exactB_Hq3.log; '
+              'the referee\'s model R, indep_exactR_Hq3.log); '
               'Lemma K deficit 5, >= 2 after every RotStep; rule RK takes x_11 (agent 1) in K0. Smallest of its family '
               '(H_2 + q allows one rotation); n <= 4 data satisfy the statement. Too large for the exhaustive '
               'predicates of predicates.py; replay: python3 k4/lemmam_bt_hh.py exact Hq3 A 13. Witness: LB4r without '
@@ -359,9 +360,10 @@ SUITE_TEXT = {
               'l_A, l_B, A\'s gadget agents, B\'s gadget agents (H_3 order); every agent has four goods, none big-top. '
               'Every first agent leaves one copy to index order (Proposition HH of k4/lemmam_bt.md §3): for each of the '
               '26 first agents, LB4r(tau_a) has no output with at most one rotation (PR #33\'s encodings A and B, '
-              'results/k4_lemmam_bt/exactA_HH3.log, exactB_HH3.log), and Lemma K puts none in K0 or K1 '
-              '(k4/lemmam_bt.py and k4/rulef.c, classes_HH3.log, rk_HH3.log). Smallest known (two copies of H_2 have '
-              'K1 agents). Too large for the exhaustive predicates of predicates.py; replay: python3 '
+              'results/k4_lemmam_bt/exactA_HH3.log, exactB_HH3.log; the PR #83 referee\'s model R, '
+              'k4/lemmam_bt_indep.py, indep_exactR_HH3.log), and Lemma K puts none in K0 or K1 (k4/lemmam_bt.py, '
+              'classes_HH3.log). Smallest known (two copies of H_2 have outputs with one rotation, '
+              'indep_exactR_HH2.log). Too large for the exhaustive predicates of predicates.py; replay: python3 '
               'k4/lemmam_bt_hh.py exact HH3 A. Witness (K4.D holds): LB4r without rotation on the insertion sequence '
               '(x^A_12, x^B_12) = agents (3, 15).'),
 }

@@ -17,14 +17,17 @@ agent in each copy) need no rotation.
 certified core with n ≤ 4 and at most three 4-good agents satisfies Lemma M): HH_3, n = 26, m = 65, every agent with
 four goods, none big-top. Agents ℓ_A {0, 3, 4, 5} (8, 6, 5, 4), ℓ_B {33, 36, 4, 37} (8, 6, 5, 4) (good 4 = u is shared),
 then copy A's gadget agents and copy B's, each as in H_3 (`k4/lemmam_bt_hh.py core HH3` prints the sets and values).
-- Lemma K's classes, two implementations: `k4/lemmam_bt.py` (`results/k4_lemmam_bt/classes_HH3.log`: for every first
-  agent and every policy the least deficit is at least 4 at the Phase 1 + upgrade state and at least 1 after every
-  single RotStep) and `k4/rulef.c` of PR #72 (`results/k4_lemmam_bt/rk_HH3.log`): no first agent in K0 or K1.
+- Lemma K's classes (`k4/lemmam_bt.py`, `results/k4_lemmam_bt/classes_HH3.log`): for every first agent and every
+  policy the least deficit is at least 4 at the Phase 1 + upgrade state and at least 1 after every single RotStep: no
+  first agent in K0 or K1.
 - LB₄ʳ(τ_a) with at most one rotation, for every a, every policy, every owner, Lean's `Output` with the owner's needs
-  from its bundle: no output, by PR #33's two independent encodings (`results/k4_lemmam_bt/exactA_HH3.log`,
-  `exactB_HH3.log`). So rule F with one rotation fails, and `EFX.LB4R.TheoremRuleF`, `EFX.LB4R.RuleFConn` are false.
+  from its bundle: no output, by three implementations: PR #33's two encodings (`results/k4_lemmam_bt/exactA_HH3.log`,
+  `exactB_HH3.log`) and the PR #83 referee's own model (`k4/lemmam_bt_indep.py`, `indep_exactR_HH3.log`, also with
+  the owner's needs from its base). So rule F with one rotation fails, and `EFX.LB4R.TheoremRuleF`,
+  `EFX.LB4R.RuleFConn` are false. On HH_2 outputs exist (`indep_exactR_HH2.log`).
 - K4.D on HH_3: `results/k4_lemmam_bt/d2_HH3.log` (insertion sequence (x^A_{1,2}, x^B_{1,2}), an `Output` without
-  rotation, raw EFX₀ check).
+  rotation, raw EFX₀ check; HH_4 too, `indep_d2.log`).
 
 Reproduce: `python3 attempts/k4_lemmam_bt_attempts.py` (part 2: the instance, Lemma K at the best first agent, and
-one exact check), or `bash k4/lemmam_bt_runs.sh` (all logs, one worker, about an hour).
+one exact check), or `bash k4/lemmam_bt_runs.sh` (every log of this workstream, one worker, about an hour), or
+`python3 k4/lemmam_bt_indep.py exact HH3 --model=R --conv=bundle,base` (the independent model, about 40 minutes).

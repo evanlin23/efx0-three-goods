@@ -7,7 +7,8 @@ index order) without rotation, or after one rotation). The brief asked for a pro
 hypotheses; (b) with several, some big-top agent works; (c) with none, some agent sharing its top works. Notation as in
 `k4/lb4.md`, `k4/c4.md` and `k4/rulef.md`; H_t is the core of `k4/c4.md` §7.
 
-**Status** (rows K4.LMBT.*; written proofs here are not yet refereed).
+**Status** (rows K4.LMBT.*). Propositions Q and HH, with Lemma P and Lemmas 1–3, are PROVED (refereed in the PR #83
+review, which also checked HH_3 and H_3 + q with its own model); Corollary HH is a written proof not yet refereed.
 - **Step (a) is false** (Proposition Q, §2): on H_3 plus one big-top agent q whose top is private (n = 14, m = 34, a
   connected k = 4 core with a strict profile and exactly one big-top agent), LB₄ʳ(τ_q) has no output with at most one
   rotation under any upgrade policy. So q is in neither K0 nor K1. Rule RK takes a gadget-1 agent there, in K0.
@@ -21,9 +22,12 @@ hypotheses; (b) with several, some big-top agent works; (c) with none, some agen
   each copy) need no rotation.
 - Both proofs are Proposition H's count (`k4/c4.md` §7, K4.C4.R, PROVED) with one more ingredient: in HH_t every first
   agent leaves one copy to index order, and the copy that holds the first agent gives back at most one slot place.
-- **Computations** (§4): Lemma K's classes of every first agent on HH_3 by two implementations (`k4/lemmam_bt.py`,
-  written from the text of `k4/rulef.md` §2 on PR #33's model; `k4/rulef.c` of PR #72); LB₄ʳ with at most one rotation
-  exactly, by PR #33's two independent encodings of Lean's `Output` (`k4/c4_verify_H/lb4r.py`, `enc_b.py`).
+- **Computations** (§4): LB₄ʳ with at most one rotation exactly, for every first agent of HH_3 and for q on H_3 + q,
+  by three implementations that agree: PR #33's two encodings of Lean's `Output` (`k4/c4_verify_H/lb4r.py`,
+  `enc_b.py`) and the PR #83 referee's own model (`k4/lemmam_bt_indep.py`); Lemma K's classes on PR #33's model
+  (`k4/lemmam_bt.py`, written from the text of `k4/rulef.md` §2). Propositions Q and HH were refereed in the PR #83
+  review (rows K4.LMBT.Q, K4.LMBT.HH: PROVED; K4.RF.M, K4.AD.F, K4.AD.C1: REFUTED); Corollary HH was not refereed line
+  by line (K4.LMBT.COR).
 - What it means for the route (§5): a rule that chooses only the first agent needs at least (t − 1)/2 rotations on
   HH_t (Corollary HH), so no fixed rotation bound saves it; we expect the same for any fixed number of chosen insertion
   steps (several copies of H_t; not proved).
@@ -244,14 +248,22 @@ All on one worker; `k4/lemmam_bt_hh.py` (instances, drivers), `k4/lemmam_bt.py` 
   (`classes_Hq3.log`).
 - `rk`, H_3 + q (`k4/rulef.c` of PR #72, LB₄ʳ's own owner search skipped): the first big-top agent (`-A42 -Q0`) is q,
   in no class; rule RK (`-A41`) takes agent 1 in K0 (`results/k4_lemmam_bt/rk_Hq3.log`).
-- `rkall`, HH_3 (`k4/rulef.c -A41 -E1 -Y1 -N1`, one first agent per run, LB₄ʳ's owner search skipped):
-  `results/k4_lemmam_bt/rk_HH3.log` (running, one worker; it follows the exact checks).
+- `rkall`, HH_3 (`k4/rulef.c -A41 -E1 -Y1 -N1`, one first agent per run, LB₄ʳ's owner search skipped): not run; one
+  first agent took more than five minutes (rule RK's K1 test evaluates Lemma K, with Remark 4's kept-out sets, at every
+  RotStep and owner). The three exact tests below make it unnecessary: a Lemma K certificate is an output.
 - `exact`, encodings A (`k4/c4_verify_H/lb4r.py`'s clause model) and B (`k4/c4_verify_H/enc_b.py`, written separately),
   both solved with HiGHS (A's Glucose backend needs up to half a minute per owner here: the infeasibility is a counting
   argument, which CDCL handles badly; PR #33 also ran H_4 and H_5 with HiGHS), Lean's `Output` with the owner's needs
   from its bundle, every owner and none, every state of the three policies and every state one RotStep away: H_3 + q,
   first agent q: 19 states, no output (`exactA_Hq3.log`, `exactB_Hq3.log`; with Glucose too, same result). HH_3, every
   first agent (37 to 65 distinct states each): `exactA_HH3.log`, `exactB_HH3.log`.
+- The PR #83 referee's model R (`k4/lemmam_bt_indep.py`: its own Phase 1, upgrades, RotStep and an `Output` MILP with
+  big-M rows, written from `lean/EFX/LB4R.lean` and sharing no code with `lb4r.py` or this workstream's files; validated
+  against `lb4r.py` on 28,288 owner tests of random small instances, 0 mismatches, `indep_validate_random.log`): HH_3,
+  every first agent, the owner's needs from its bundle and from its base: no output with at most one rotation
+  (`indep_exactR_HH3.log`); H_3 + q: q and ℓ have none, every other first agent has one (`indep_exactR_Hq3.log`);
+  HH_2: the first agents of gadget 1 of either copy have outputs after one rotation, so t ≥ 3 is sharp
+  (`indep_exactR_HH2.log`); K4.D on HH_3 and HH_4 (`indep_d2.log`).
 - `d2`, HH_3: the insertion sequence (x^A_{1,2}, x^B_{1,2}) = agents (3, 15), need-shrinking upgrades, owner ℓ_A: an
   `Output` without rotation, EFX₀ by the raw definition, one bundle above two goods (`d2_HH3.log`). The suite records
   `k4/suite/instances/lmbt-HH3.json` and `lmbt-Hq3.json` carry these witnesses (H_3 + q: rule RK's sequence, x_{1,1}

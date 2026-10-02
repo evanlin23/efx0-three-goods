@@ -3,13 +3,14 @@
 # resumable (they skip the first agents their log already has). Usage: bash k4/lemmam_bt_runs.sh [STEP ...]
 # Steps: core (and Lemmas 1, 2 of §3 on HH_3, HH_4), classes (Lemma K, this workstream's implementation), rk (k4/rulef.c
 # of PR #72 on H_3 + q: the first big-top agent and rule RK; $RULEF_SRC if rulef.c is not at k4/rulef.c), rkall
-# (k4/rulef.c's classes of every first agent of HH_3, one per run), exactA, exactB (LB4r with <= 1 rotation, PR #33's
+# (k4/rulef.c's classes of every first agent of HH_3, one per run; not in the default steps: over five minutes per
+# first agent), exactA, exactB (LB4r with <= 1 rotation, PR #33's
 # encodings A and B), d2 (K4.D on HH_3).
 set -u
 cd "$(dirname "$0")/.."
 R=results/k4_lemmam_bt; mkdir -p $R
 P="python3 k4/lemmam_bt_hh.py"
-steps=${*:-core classes rk d2 exactA exactB rkall}
+steps=${*:-core classes rk d2 exactA exactB}
 for s in $steps; do case $s in
 core)    { $P core Hq3; $P core HH3; $P core HH2; } > $R/core.log
          { $P lemmas HH3; $P lemmas HH4; } > $R/lemmas.log ;;
