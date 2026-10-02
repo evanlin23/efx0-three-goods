@@ -20,6 +20,7 @@ def draft(n, m, rank, choose, peel_key=None):
     smallest peel_key(state, j) if given."""
     st = State(); st.n, st.m, st.rank = n, m, rank
     st.free = set(range(m)); st.Y = [None] * n; st.order = []; st.blocks = []; st.leaders = []
+    st.peel_key = peel_key
     unproc = list(range(n))
     while unproc:
         pe = [j for j in unproc if any(g not in st.free for g in rank[j])]
@@ -30,6 +31,13 @@ def draft(n, m, rank, choose, peel_key=None):
         st.Y[i] = next((g for g in rank[i] if g in st.free), None)
         st.free.discard(st.Y[i]); st.order.append(i); unproc.remove(i); st.blocks[-1].append(i)
     return st
+
+
+def r1_key(st, j):
+    """construction LB's R1 priority (src/construct.py): rank of the favourite remaining good (3 if none), number of
+    goods left, index"""
+    left = [g for g in st.rank[j] if g in st.free]
+    return (st.rank[j].index(left[0]) if left else 3, len(left), j)
 
 
 def needs(rank, Y, U, i):

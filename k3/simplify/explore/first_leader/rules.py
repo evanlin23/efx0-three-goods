@@ -19,16 +19,19 @@ Rules (leader at each insertion step; R = unprocessed agents):
 import sys, os
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE); sys.path.insert(0, os.path.join(HERE, '..', '..'))
-from fl import draft, finish, run, index_leader
+from fl import draft, finish, run, index_leader, r1_key
 
 
 def sim_block(rank, x, unproc, free, Y, peel_key=None):
+    """x leads; then R1 steps (smallest index, or smallest peel_key) until none applies"""
+    from fl import State
     unproc, free, Y = list(unproc), set(free), list(Y); blk = []
+    tmp = State(); tmp.rank = rank; tmp.free = free
     c = x
     while c is not None:
         Y[c] = next((g for g in rank[c] if g in free), None); free.discard(Y[c]); unproc.remove(c); blk.append(c)
         pe = [j for j in unproc if any(g not in free for g in rank[j])]
-        c = pe[0] if pe else None
+        c = (pe[0] if peel_key is None else min(pe, key=lambda j: peel_key(tmp, j))) if pe else None
     return unproc, free, Y, blk
 
 
@@ -58,7 +61,7 @@ def make_sec(fallback=index_leader):
         if secured(rank, st.blocks, st.leaders, st.Y, st.free, True): return unproc[0]
         full = []
         for x in unproc:
-            un2, fr2, Y2, blk = sim_block(rank, x, unproc, st.free, st.Y)
+            un2, fr2, Y2, blk = sim_block(rank, x, unproc, st.free, st.Y, st.peel_key)
             if un2:
                 if secured(rank, st.blocks + [blk], st.leaders + [x], Y2, fr2, True): return x
             else:
@@ -68,7 +71,7 @@ def make_sec(fallback=index_leader):
             def ch(s2, u2, pref=pref, x=x):
                 t = len(s2.leaders)
                 return pref[t] if t < len(pref) else x
-            if run(n, m, rank, ch).ok: return x
+            if run(n, m, rank, ch, st.peel_key).ok: return x
         return fallback(st, unproc)
     return lead
 
@@ -78,7 +81,7 @@ def lb_fallback(st, unproc):
     rank, n = st.rank, st.n
     best = None
     for x in unproc:
-        un2, fr2, Y2, _ = sim_block(rank, x, unproc, st.free, st.Y)
+        un2, fr2, Y2, _ = sim_block(rank, x, unproc, st.free, st.Y, st.peel_key)
         done = [k for k in range(n) if k not in un2]
         junk = {g for g in fr2 if not any(g in rank[k] for k in un2)}
         up = set()
@@ -96,7 +99,7 @@ def lb_fallback(st, unproc):
 def block_size_rule(sign):
     """the leader whose block is smallest (sign = +1) or largest (sign = -1), ties by index"""
     def lead(st, unproc):
-        return min(unproc, key=lambda x: (sign * len(sim_block(st.rank, x, unproc, st.free, st.Y)[3]), x))
+        return min(unproc, key=lambda x: (sign * len(sim_block(st.rank, x, unproc, st.free, st.Y, st.peel_key)[3]), x))
     return lead
 
 
@@ -113,7 +116,9 @@ def iter_r(n, m, rank):
 
 
 RULES = {'index': index_leader, 'sec': make_sec(), 'sec_lb': make_sec(lb_fallback),
-         'small': block_size_rule(+1), 'large': block_size_rule(-1), 'sec_small': make_sec(block_size_rule(+1))}
+         'small': block_size_rule(+1), 'large': block_size_rule(-1), 'sec_small': make_sec(block_size_rule(+1)),
+         'lb': lb_fallback}
+# a name ending in '+r1' (e.g. 'lb+r1') runs that leader rule with construction LB's R1 key among peelable agents
 RUNNERS = {'iter_r': iter_r}
 
 
@@ -126,7 +131,10 @@ def test(argv):
     for n, m, rank in cases(argv[1:]):
         c['profiles'] += 1
         for nm in names:
-            st = RUNNERS[nm](n, m, rank) if nm in RUNNERS else run(n, m, rank, RULES[nm])
+            if nm.endswith('+r1'):     # the same leader rule, with construction LB's R1 key among peelable agents
+                st = run(n, m, rank, RULES[nm[:-3]], r1_key)
+            else:
+                st = RUNNERS[nm](n, m, rank) if nm in RUNNERS else run(n, m, rank, RULES[nm])
             if not st.ok:
                 c[nm + ' fails'] += 1; ex.setdefault(nm, (rank, m))
     print(' '.join(argv), dict(c), flush=True)

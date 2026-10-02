@@ -1,0 +1,5 @@
+index,lb,sec_small,index+r1,lb+r1,sec_small+r1 cores 4 {'profiles': 58608, 'index fails': 1648, 'lb fails': 8, 'sec_small fails': 0, 'index+r1 fails': 1334, 'lb+r1 fails': 6, 'sec_small+r1 fails': 0}
+  smallest index ([(1, 2, 3), (0, 1, 2), (0, 1, 2)], 4)
+  smallest index+r1 ([(1, 2, 3), (0, 1, 2), (0, 1, 2)], 4)
+  smallest lb ([(0, 3, 2), (2, 1, 4), (0, 2, 1)], 5)
+  smallest lb+r1 ([(0, 3, 2), (2, 1, 4), (0, 2, 1)], 5)

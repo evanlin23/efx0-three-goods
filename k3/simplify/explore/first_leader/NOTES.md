@@ -15,7 +15,8 @@ Workstream `proof/k3-simplify`. Scripts are in this folder. Each one runs in one
 - **Checked by computer:** Conjecture FL holds for every instance with n ≤ 3 (exhaustive, §3.1). For n = 2, K3S
   never rotates.
 - **A stronger form holds on every case tested** (Robust FL, §3.2): some first leader x works whatever the later
-  leaders are, even when they are chosen adversarially.
+  leaders are, even when they are chosen adversarially. This includes the new exhaustive set n = 4, m = 7
+  (147,336 rotation cases).
 - **Refuted (§3.3):** every natural "named first leader" lemma fails. These are r, x₁, any chain agent other than
   k\*, r or the holder of r's top, a first leader that is itself never exposed, and a first leader that makes r a
   leader. "k\* works when the index run has two leaders" holds on every core with n ≤ 5, but fails on a disjoint
@@ -27,13 +28,15 @@ Workstream `proof/k3-simplify`. Scripts are in this folder. Each one runs in one
   - every core profile with n ≤ 5 (2,445,840 profiles; 33,104 rotation cases for K3S);
   - 962,100 sampled profiles of the n = 6 cores;
   - 1,000,000 random ranking profiles with n ≤ 9;
-  - every ranking profile with n = 3 and 5 ≤ m ≤ 7, and with n = 4 and m = 5, 6;
+  - every ranking profile with n = 3 and 5 ≤ m ≤ 7, and with n = 4 and 5 ≤ m ≤ 7 (9,261,000 profiles at m = 7);
   - 147,432 disjoint unions of two rotation cases.
 
   Where the branches were traced, `sec_small` always reached a branch that carries a proof (§4). The traced sets
   are every core profile with n ≤ 5, every profile with n = 3 and m = 6, and the rotation cases among 100,000
   random profiles. So in these sets the runs that never needed the rotation are guaranteed, not lucky. In the
   traced sets, `iter_r` needed at most 2 reruns.
+- **The R1 key does not help (§4).** With construction LB's R1 key among the agents that can be peeled, the
+  static index rule still rotates on 20,744 core profiles with n = 5, and LB's lookahead on 18.
 
 ## 1. Setting
 
@@ -146,7 +149,9 @@ whatever the later leaders are.
 RFL implies FL. It holds on every rotation case tested (`survey.py`, row "robust first leader exists"):
 - every core profile with n ≤ 5 (1,648 + 31,456);
 - every profile with n = 3 and m ≤ 9;
-- every profile with n = 4 and m = 6 (`survey_small_4_6.log`).
+- every profile with n = 4 and m = 6 (`survey_small_4_6.log`);
+- every profile with n = 4 and m = 7: 9,261,000 profiles, 147,336 rotation cases, every one with a robust first
+  leader (`survey_small_4_7.log`). Of these, r works on 143,292 and x₁ on 144,072.
 
 Most successful runs from a working first leader are single-block: 108,528 of 123,597 at n = 5. For such a
 leader, robustness is automatic, because no later leader is chosen. In the other cases the first block secures
@@ -265,6 +270,7 @@ needed 2:
 | every ranking profile, n = 3, m = 5, 6, 7 | 62,100 | 1,652 | 0 | 0 | `rules_small.log`, `rules_test1.log` |
 | every ranking profile, n = 4, m = 5 | 216,000 | 4,344 | 0 | 0 | `rules_test1.log` |
 | every ranking profile, n = 4, m = 6 | 1,728,000 | 33,168 | 0 | 0 | `rules_small_4_6.log` |
+| every ranking profile, n = 4, m = 7 | 9,261,000 | 147,336 | 0 | 0 | `rules_small_4_7.log` |
 | disjoint unions (§3.4) | 147,432 | 9,565 | 0 | 0 | `union.log` |
 
 In the logs written before zero counts were printed (`rules_test1.log`, `rules_rand1M.log`, `rules_cores6*.log`,
@@ -275,6 +281,22 @@ Rules that fail on core profiles with n ≤ 4:
 - `large`: 1,644;
 - `sec`: 14;
 - `sec_lb`: 4.
+
+**Peel order: construction LB's R1 key.** Rules suffixed `+r1` choose, among the agents that can be peeled, the
+smallest (rank of the favourite remaining good, number of goods left, index), as in `src/construct.py`; the
+lookaheads simulate with the same key. Lemma T and Lemmas NX and FF hold for every order with R1 priority, so
+`sec_small+r1` keeps its guarantee. Rotations needed:
+
+| Rule | Cores n ≤ 4 (58,608) | Cores n = 5 (2,387,232) | Smallest failure |
+|---|---|---|---|
+| `index` | 1,648 | 31,456 | (1,2,3), (0,1,2), (0,1,2), m = 4 |
+| `index+r1` | 1,334 | 20,744 | the same |
+| `lb` | 8 | 22 | (0,3,2), (2,1,4), (0,2,1), m = 5 |
+| `lb+r1` | 6 | 18 | the same |
+| `sec_small`, `sec_small+r1` | 0 | 0 | — |
+
+(`rules_r1_small.log`, `rules_r1_cores5.log`; `lb` at n ≤ 5 gives 30 in all, as in `attempts/k3s-leader-rules.md`.)
+So the R1 key alone does not remove the rotation, with a static leader rule or with LB's lookahead.
 
 ## 5. Idea 1 of the brief: compare with the rotated state P′ (obstruction)
 
@@ -332,7 +354,7 @@ instance, the index run has one upgraded agent, and the successful run from r ha
 | `survey.py` | W, robust first leaders, roles (r, k\*, x₁, chain, B\*), number of leaders; `cases()` sources |
 | `lemmas.py` | candidate lemmas A–M of §3.3 and §5 (M: when r fails, the absorber of the run from r is q; it fails too) |
 | `mechanism.py` | which condition of Lemma T each successful run breaks |
-| `rules.py` | rules `sec`, `sec_lb`, `sec_small`, `small`, `large`, runner `iter_r` |
+| `rules.py` | rules `index`, `lb`, `sec`, `sec_lb`, `sec_small`, `small`, `large` (suffix `+r1`: LB's R1 peel key), runner `iter_r` |
 | `sec_branches.py` | Conjecture S trace: branch of `sec_small` that decides each run; reruns of `iter_r` |
 | `union.py` | disjoint unions of rotation cases |
 | `*.log` | the outputs quoted above |
@@ -341,6 +363,9 @@ Reproduce, from this folder (one process each):
 - `python3 fl.py check`
 - `python3 survey.py cores 5 5`
 - `python3 survey.py small 3 9`
+- `python3 survey.py small 4 7` (about 4 min)
+- `python3 rules.py index,sec_small,iter_r small 4 7` (about 19 min)
+- `python3 rules.py lb,index+r1,lb+r1,sec_small+r1 cores 5 5` (about 18 min)
 - `python3 lemmas.py cores 5 5`
 - `python3 mechanism.py cores 5 5`
 - `python3 rules.py index,sec_small,iter_r cores 5 5`
