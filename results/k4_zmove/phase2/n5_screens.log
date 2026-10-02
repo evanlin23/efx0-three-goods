@@ -1,0 +1,10 @@
+# command: python3 k4/zmove_check.py results/k4_zmove/phase2/n5_screens.jsonl.gz results/k4_cover/screen/n5_n4_2_r200.jsonl.gz results/k4_zmove/screen/n5_n4_1_r2k.jsonl.gz results/k4_zmove/screen/n5_n4_2_r2k.jsonl.gz results/k4_zmove/screen/n5_n4_3_r500.jsonl.gz results/k4_zmove/screen/n5_n4_4_r500.jsonl.gz results/k4_zmove/screen/n5_pure_bt_r500.jsonl.gz results/k4_zmove/screen/n5_pure_r500.jsonl.gz --indep=5
+# 271 input records, 271 distinct in range, part 0/1: 271, already done 0
+indep agree                    55
+keys f=1                       7
+keys f=2                       99
+keys f=3                       272
+keys f=4                       20
+profiles                       271
+margin histogram (this run): {-3: 1, -2: 95, -1: 283, 0: 19}
+# time 91.7 s

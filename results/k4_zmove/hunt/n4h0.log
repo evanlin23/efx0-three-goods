@@ -1,0 +1,3 @@
+# command: python3 k4/zmove_hunt.py results/k4_zmove/hunt/n4h0.jsonl.gz --minutes=20 --rng=11 --seedfile=results/k4_zmove/hunt/seeds_n4hard.json:0
+# seed: n=4 m=9 start score 196 (margin 0)
+# done: steps 34420 screened 550720 hits 26098 evaluated 26098 recorded 0 fails 0 restarts 564; best score 197 (best margin seen 0) at [[3, 2, 6, 10], [3, 4, 2, 8], [3, 2, 4, 8], [8, 2, 4, 5]]

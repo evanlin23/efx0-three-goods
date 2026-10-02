@@ -1,0 +1,1 @@
+{"stats": {"steps": 157, "evals": 118, "screened": 2512, "hits": 118, "recorded": 0, "fails": 0, "restarts": 2, "elapsed": 1206.0175333023071, "best_margin": 0, "seen": []}, "cur": [48, 46, 46, 20, 95, 46], "best": [44, 46, 46, 106, 44, 114], "best_s": 184, "rng": 21}
