@@ -166,6 +166,17 @@ def test_max(pr, c, Bs, V, X, cnt, ex):
     return applied, why
 
 
+FAMILIES = [   # restricted families of k4/f2.md §5 (the f = 1 mechanisms alone, and the full lemmas)
+    ('C+', lambda a: a[0] == 'C+'),
+    ("C'+", lambda a: a[0] == "C'+"),
+    ("C'+ with q = phi(x)", lambda a: a[0] == "C'+" and 'phi(x)' in a[3]),
+    ('C+ or (C′+ with q = phi(x))', lambda a: a[0] == 'C+' or (a[0] == "C'+" and 'phi(x)' in a[3])),
+    ('(C+ with (H*)) or (C′+ with q = phi(x))', lambda a: (a[0] == 'C+' and a[4] == '(H*)') or
+     (a[0] == "C'+" and 'phi(x)' in a[3])),
+    ('C+ or C′+', lambda a: a[0] in ('C+', "C'+")),
+    ('C+ or C′+ with k = 0 (plain (T3), no helper)', lambda a: a[0] in ('C+', "C'+") and a[1] == 0)]
+
+
 def main(argv):
     opt = dict(a[2:].split('=', 1) for a in argv if a.startswith('--') and '=' in a)
     rest = [a for a in argv if not a.startswith('--')]
@@ -208,6 +219,15 @@ def main(argv):
                                                                                  if a[0] == nm))] += 1
                 for a in set(a[:1] + a[2:] for a in applied):
                     cnt[('uncovered maxima', 'kinds') + a] += 1
+                for fam, test in FAMILIES:
+                    hit = any(test(a) for a in applied)
+                    cnt[('uncovered maxima', 'covered by the family', fam, hit)] += 1
+                    if not hit:
+                        szk = (pr.I.n, pr.I.m, sum(map(sum, d['vals'])))
+                        cur = smallest.get('not covered by ' + fam)
+                        if cur is None or szk < cur[0]:
+                            smallest['not covered by ' + fam] = (szk, d, k, repr(c), lst(Bs), kp.dstar[k], pr.D[Bs],
+                                                                sorted(map(str, applied)))
                 lk = min(a[1] for a in applied) if applied else None
                 cnt[('uncovered maxima', 'least k over the lemmas that apply', lk)] += 1
                 for nm in ('C+', 'full', "C'+"):

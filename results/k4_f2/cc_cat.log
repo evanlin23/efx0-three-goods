@@ -9,6 +9,18 @@
   uncovered maxima | first: C'+                                                                                            43
   uncovered maxima | C+ applies | least k=0                                                                                34
   uncovered maxima | C+ or C′+ applies | True                                                                              77
+  uncovered maxima | covered by the family | C'+ with q = phi(x) | False                                                   18
+  uncovered maxima | covered by the family | C'+ with q = phi(x) | True                                                    59
+  uncovered maxima | covered by the family | C'+ | False                                                                   1
+  uncovered maxima | covered by the family | C'+ | True                                                                    76
+  uncovered maxima | covered by the family | (C+ with (H*)) or (C′+ with q = phi(x)) | False                               10
+  uncovered maxima | covered by the family | (C+ with (H*)) or (C′+ with q = phi(x)) | True                                67
+  uncovered maxima | covered by the family | C+ or (C′+ with q = phi(x)) | False                                           8
+  uncovered maxima | covered by the family | C+ or (C′+ with q = phi(x)) | True                                            69
+  uncovered maxima | covered by the family | C+ or C′+ with k = 0 (plain (T3), no helper) | True                           77
+  uncovered maxima | covered by the family | C+ or C′+ | True                                                              77
+  uncovered maxima | covered by the family | C+ | False                                                                    43
+  uncovered maxima | covered by the family | C+ | True                                                                     34
   uncovered maxima | first: C+                                                                                             34
   uncovered maxima | full applies | least k=0                                                                              34
   uncovered maxima | kinds | C'+ | owner a leaf | phi(a_k), now tau's                                                      21
@@ -39,5 +51,10 @@
   smallest [k=1 C+ owner a leaf (a*) (H*)]: n=4 m=10 sets=[[0, 2, 5, 9], [1, 4, 8, 9], [3, 5, 6, 7], [6, 7, 8, 9]] vals=[[2, 4, 3, 8], [2, 4, 3, 8], [6, 2, 10, 3], [8, 3, 2, 4]] key=[None, None, 6, 9] def*=1 config=Config(key=[None, None, 6, 9], Q={0: [2, 5], 1: [4, 8]}, L=[0, 1, 3, 7]) P_Q=[[2, 5], [4, 8], [6], [9]] def(P_Q)=1 why=None
   smallest [k=1 C+ owner a leaf (a*) not (H*)]: n=4 m=10 sets=[[0, 2, 8, 9], [1, 5, 8, 9], [3, 6, 7, 9], [4, 6, 7, 9]] vals=[[4, 3, 2, 8], [3, 4, 2, 8], [2, 6, 10, 3], [4, 2, 8, 5]] key=[None, None, 7, 9] def*=1 config=Config(key=[None, None, 7, 9], Q={0: [0, 2], 1: [1, 5]}, L=[3, 4, 6, 8]) P_Q=[[0, 2], [1, 5], [7], [9]] def(P_Q)=1 why=None
   smallest [k=1 full owner a leaf]: n=4 m=10 sets=[[0, 2, 5, 9], [1, 4, 8, 9], [3, 5, 6, 7], [6, 7, 8, 9]] vals=[[2, 4, 3, 8], [2, 4, 3, 8], [6, 2, 10, 3], [8, 3, 2, 4]] key=[None, None, 6, 9] def*=1 config=Config(key=[None, None, 6, 9], Q={0: [2, 5], 1: [4, 8]}, L=[0, 1, 3, 7]) P_Q=[[2, 5], [4, 8], [6], [9]] def(P_Q)=1 why=None
+  smallest [not covered by (C+ with (H*)) or (C′+ with q = phi(x))]: n=4 m=10 sets=[[0, 2, 4, 8], [1, 3, 7, 9], [4, 5, 6, 7], [5, 6, 8, 9]] vals=[[4, 2, 3, 8], [3, 4, 8, 2], [3, 2, 4, 8], [2, 3, 8, 4]] key=[8, 7, None, None] def*=1 config=Config(key=[8, 7, None, None], Q={2: [4, 6], 3: [5, 9]}, L=[0, 1, 2, 3]) P_Q=[[8], [7], [4, 6], [5, 9]] def(P_Q)=1 why=['("C\'+", 0, \'owner a leaf\', \'phi(w) of a frozen w off the move\')']
+  smallest [not covered by C'+]: n=4 m=11 sets=[[0, 2, 8, 9], [1, 5, 8, 10], [3, 6, 9, 10], [4, 7, 9, 10]] vals=[[2, 6, 10, 7], [3, 4, 8, 2], [3, 4, 8, 2], [3, 6, 10, 2]] key=[9, 8, None, None] def*=1 config=Config(key=[9, 8, None, None], Q={2: [3, 6], 3: [4, 7]}, L=[0, 1, 2, 5, 10]) P_Q=[[9], [8], [3, 6], [4, 7]] def(P_Q)=2 why=["('C+', 0, 'owner a leaf', '(a*)', 'not (H*)')", "('full', 0, 'owner a leaf')"]
+  smallest [not covered by C'+ with q = phi(x)]: n=4 m=10 sets=[[0, 2, 4, 8], [1, 3, 7, 9], [4, 5, 6, 7], [5, 6, 8, 9]] vals=[[4, 2, 3, 8], [3, 4, 8, 2], [3, 2, 4, 8], [2, 3, 8, 4]] key=[8, 7, None, None] def*=1 config=Config(key=[8, 7, None, None], Q={2: [4, 6], 3: [5, 9]}, L=[0, 1, 2, 3]) P_Q=[[8], [7], [4, 6], [5, 9]] def(P_Q)=1 why=['("C\'+", 0, \'owner a leaf\', \'phi(w) of a frozen w off the move\')']
+  smallest [not covered by C+]: n=4 m=10 sets=[[0, 2, 4, 9], [1, 3, 8, 9], [4, 5, 6, 7], [5, 6, 7, 8]] vals=[[2, 4, 8, 3], [3, 4, 8, 2], [8, 4, 3, 2], [4, 3, 2, 8]] key=[4, 8, None, None] def*=1 config=Config(key=[4, 8, None, None], Q={2: [0, 5], 3: [6, 7]}, L=[1, 2, 3, 9]) P_Q=[[4], [8], [5], [6, 7]] def(P_Q)=1 why=['("C\'+", 0, \'owner x\', \'phi(x)\')']
+  smallest [not covered by C+ or (C′+ with q = phi(x))]: n=4 m=10 sets=[[0, 2, 4, 8], [1, 3, 7, 9], [4, 5, 6, 7], [5, 6, 8, 9]] vals=[[4, 2, 3, 8], [3, 4, 8, 2], [3, 2, 4, 8], [2, 3, 8, 4]] key=[8, 7, None, None] def*=1 config=Config(key=[8, 7, None, None], Q={2: [4, 6], 3: [5, 9]}, L=[0, 1, 2, 3]) P_Q=[[8], [7], [4, 6], [5, 9]] def(P_Q)=1 why=['("C\'+", 0, \'owner a leaf\', \'phi(w) of a frozen w off the move\')']
 # time 2.3 s
 # no assertion failed

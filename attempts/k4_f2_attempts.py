@@ -119,6 +119,65 @@ def both(label, sets, vals, m, P0):
 CANDIDATES = []      # filled below with (label, sets, vals, m, P, checker)
 
 
+def chk_structural(pr, Bs, b, PB):
+    """attempts/k4-f2-structural-cover.md: none of Corollaries 9.1+, 11.1+, 8.2+, 11.2+ applies (best owners, optimal
+    bundles; implementation A), C8+ does; implementation B finds no S1 shape whose owner is the free end of a need path
+    with theta-ok (the hypothesis of 9.1+), and no single block at all by a free agent (11.1+ needs one)"""
+    ctx = Ctx(pr, Bs); sb = ctx.single_blocks()
+    c1, c2, c3, c4 = ctx.C1p(sb), ctx.C2p(sb), ctx.C3p(), ctx.C4p()
+    c8, c11 = ctx.certificates()
+    say('  A: no structural corollary applies; C8+ certifies', not (c1 or c2 or c3 or c4) and bool(c8),
+        'C1+..C4+: %s %s %s %s; C8+ %s, C11+ %s' % (len(c1), len(c2), len(c3), len(c4), c8, c11))
+    sbB = b.single_blocks(PB)
+    s1 = [(o, x) for o, Z, c, x in sbB if b.info[PB][2][x]
+          and any(e == o and not b.thr(o, Z | {c}, g) for e, g in b.free_ends(PB, x))]
+    freeblk = [t for t in sbB if not b.info[PB][2][t[3]]]
+    sbA = set((o, x) for o, X, c, x in sb)
+    say('  B: no theta-ok S1 shape through a need path, no free single blocker', not s1 and not freeblk,
+        'B single blocks %s (A %s)' % (sorted(set((o, x) for o, Z, c, x in sbB)), sorted(sbA)))
+
+
+CANDIDATES.append(('n = 4, m = 8 (structural cover fails at f = 2)',
+                   [[0, 2, 4, 7], [1, 4, 5, 6], [3, 5, 6, 7], [5, 6, 7]],
+                   [[2, 3, 4, 8], [6, 5, 8, 4], [4, 8, 1, 6], [4, 2, 3]], 8,
+                   [[0, 2], [5], [3, 6], [7]], chk_structural))
+
+
+def cc_phix():
+    """attempts/k4-f2-cc-phix.md: at a maximum Q of (r′, Λ′) where Lemmas A+ and B+ of k4/sx.md (PR #80) fail, neither
+    Lemma C+ nor Lemma C′+ with q = φ(x) applies (implementation A: k4/f2_cc.py); the repair is C′+ with q = φ(w)
+    of the other frozen agent. Implementation B (dl134_xcheck) confirms def(P_Q) = 1, def(P′) = 0, that at P′ the
+    owner 2 with {1,3,4,5,6} reaches Val = 6 = |Y| + 1, and that x = 0 needs φ(x) = 8 at P′ (so φ(x) does not count)."""
+    import collections
+    sets = [[0, 2, 4, 8], [1, 3, 7, 9], [4, 5, 6, 7], [5, 6, 8, 9]]
+    vals = [[4, 2, 3, 8], [3, 4, 8, 2], [3, 2, 4, 8], [2, 3, 8, 4]]; m = 10
+    PQ = [[8], [7], [4, 6], [5, 9]]; P2 = [[0], [7], [4, 6], [8]]
+    try:
+        import f2_cc
+    except ImportError as e:
+        say('cc_phix: needs PR #80 files in k4/suite/.cache/sx (k4/f2.md §8)', False, str(e)); return
+    pr = Prof({'sets': sets, 'vals': vals, 'm': m}, fmin=2); kp = f2_cc.keyprofile(pr)
+    k = (8, 7, None, None)
+    c1 = collections.Counter(); exs = collections.defaultdict(list)
+    f2_cc.sx_f2.analyse_key(kp, k, c1, exs, 10 ** 6)
+    unc = set(e[2] for e in exs['noAplus'])
+    target = 'Config(key=[8, 7, None, None], Q={2: [4, 6], 3: [5, 9]}, L=[0, 1, 2, 3])'
+    hit = [t for t in f2_cc.maxima(kp, k) if repr(t[0]) == target]
+    ok = c1['keys: Lemma A+ or B+ at some Zmax=True'] == 0 and target in unc and len(hit) == 1
+    applied = f2_cc.test_max(pr, *hit[0], collections.Counter(), None)[0] if hit else set()
+    fam = [a for a in applied if a[0] == 'C+' or (a[0] == "C'+" and 'phi(x)' in a[3])]
+    say('n = 4, m = 10 crossed maximum (A): A+, B+ fail; no C+, no C′+ with q = φ(x)', ok and bool(applied) and not fam,
+        'applied: %s' % sorted(map(str, applied)))
+    b = B(sets, vals, m)
+    PQB = tuple(frozenset(x) for x in PQ); P2B = tuple(frozenset(x) for x in P2)
+    tab = b.owner_table(P2B) if P2B in b.mp else {}
+    N2 = b.info[P2B][0] if P2B in b.mp else None
+    okB = (PQB in b.mp and b.mp[PQB] == 1 and P2B in b.mp and b.mp[P2B] == 0 and tab.get(2, (0, []))[0] == 6
+           and frozenset({1, 3, 4, 5, 6}) in tab[2][1] and 8 in N2[0])
+    say('  B: def(P_Q) = 1, def(P′) = 0, owner 2 with {1,3,4,5,6} (Val 6), x = 0 needs 8 at P′', okB,
+        'def %s / %s; owner 2: %s' % (b.mp.get(PQB), b.mp.get(P2B), tab.get(2)))
+
+
 def run():
     # 0. the smallest DL_RT4 failure (compute/k4-rt4-n5b, results/k4_rt4/n5b_FAILURES.md): only chain moves improve
     sets = [[0, 2, 4, 7], [1, 4, 7, 8], [3, 6, 8], [5, 6, 7, 8], [5, 6, 7, 8]]
@@ -136,6 +195,7 @@ def run():
     for label, sets, vals, m, P0, chk in CANDIDATES:
         pr, Bs, b, PB, kA, kB = both(label, sets, vals, m, P0)
         chk(pr, Bs, b, PB)
+    cc_phix()
 
 
 if __name__ == '__main__':
