@@ -35,6 +35,9 @@ import EFX.ThmF
 import EFX.ThmFExamples
 import EFX.C4minDescent
 import EFX.DL13
+import EFX.DL2Moves
+import EFX.DL13Moves
+import EFX.DL13MovesExamples
 import EFX.K3Algo
 import EFX.Timed
 import EFX.K3CostLB
