@@ -1,0 +1,16 @@
+# command: python3 k4/f2_rcy.py k4/suite/.cache/rc/rc_failures_4515_all_inst.json --src=compute/k4-rc at 54ab8fd, results/k4_rc/rc_failures_4515_all_inst.json (all 1,076 profiles)
+# input: compute/k4-rc at 54ab8fd, results/k4_rc/rc_failures_4515_all_inst.json (all 1,076 profiles)
+  failing state: def(P) - def*(key) | 0                                                      4304
+  key | applies at some maximum | C'+ (k=0)                                                  1076
+  key | applies at some maximum | C+ (k=0)                                                   233
+  key | applies at some maximum | H1 alone, a full bundle, owner a leaf (k=0)                233
+  key | def* | 1                                                                             1076
+  key | frozen need digraph acyclic | True                                                   1076
+  key | maxima                                                                               1258
+  key | some lemma without helper | True                                                     1076
+  maximum | P_Q is one of the failing states | False                                         1258
+  maximum | def(P_Q) - def* | 0                                                              1258
+  failing states                                                                             4304
+  keys of failing states                                                                     1076
+  profiles                                                                                   1076
+# no assertion failed
