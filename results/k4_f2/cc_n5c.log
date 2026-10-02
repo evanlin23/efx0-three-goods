@@ -1,4 +1,4 @@
-# command: python3 k4/f2_cc.py n5c --inst=k4/suite/.cache/sx/results/k4_sx/f2/rt4_n5c_inst.json
+# command: python3 k4/f2_cc.py n5c --inst=results/k4_sx/f2/rt4_n5c_inst.json
 ### n5c
   keys | frozen need digraph acyclic | A+ or B+ (PR #80)                                                                   19
   keys | frozen need digraph acyclic | C+ or C′+ needed                                                                    7
@@ -8,6 +8,7 @@
   uncovered keys | C'+ at some maximum                                                                                     7
   uncovered keys | C+ at some maximum                                                                                      7
   uncovered keys | full at some maximum                                                                                    7
+  uncovered keys | some maximum covered by C+ / C′+ / C+h / C′+h | True                                                    7
   uncovered keys | some maximum covered by C+ / C′+ | True                                                                 7
   uncovered maxima | C'+ applies | least k=0                                                                               30
   uncovered maxima | C'+ applies | least k=1                                                                               2
@@ -51,5 +52,5 @@
   smallest [k=1 C+ owner a leaf (a*) not (H*)]: n=5 m=12 sets=[[0, 2, 8, 10], [1, 4, 9, 11], [3, 6, 9, 11], [5, 7, 10, 11], [7, 8, 10, 11]] vals=[[3, 4, 2, 8], [3, 4, 2, 8], [4, 3, 2, 8], [2, 10, 6, 3], [10, 2, 6, 3]] key=[10, None, None, 11, 7] def*=1 config=Config(key=[10, None, None, 11, 7], Q={1: [1, 4], 2: [3, 6]}, L=[0, 2, 5, 8, 9]) P_Q=[[10], [1, 4], [3, 6], [11], [7]] def(P_Q)=1 why=None
   smallest [k=1 full owner a leaf]: n=5 m=12 sets=[[0, 2, 8, 10], [1, 4, 9, 11], [3, 6, 9, 11], [5, 7, 10, 11], [7, 8, 10, 11]] vals=[[3, 4, 2, 8], [3, 4, 2, 8], [4, 3, 2, 8], [2, 10, 6, 3], [10, 2, 6, 3]] key=[10, None, None, 11, 7] def*=1 config=Config(key=[10, None, None, 11, 7], Q={1: [1, 4], 2: [3, 6]}, L=[0, 2, 5, 8, 9]) P_Q=[[10], [1, 4], [3, 6], [11], [7]] def(P_Q)=1 why=None
   smallest [not covered by C+ or C′+ with k = 0 (plain (T3), no helper)]: n=5 m=12 sets=[[0, 2, 8, 10], [1, 4, 9, 11], [3, 6, 9, 11], [5, 7, 10, 11], [7, 8, 10, 11]] vals=[[3, 4, 2, 8], [3, 4, 2, 8], [4, 3, 2, 8], [2, 10, 6, 3], [10, 2, 6, 3]] key=[10, None, None, 11, 7] def*=1 config=Config(key=[10, None, None, 11, 7], Q={1: [1, 4], 2: [3, 6]}, L=[0, 2, 5, 8, 9]) P_Q=[[10], [1, 4], [3, 6], [11], [7]] def(P_Q)=1 why=['("C\'+", 1, \'owner a leaf\', "phi(a_k), now tau\'s")', '("C\'+", 1, \'owner x\', \'phi(x)\')', "('C+', 1, 'owner a leaf', '(a*)', 'not (H*)')", "('full', 1, 'owner a leaf')"]
-# time 1.1 s
+# time 1.0 s
 # no assertion failed

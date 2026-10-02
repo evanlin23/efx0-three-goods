@@ -223,7 +223,7 @@ def cc_phix():
     try:
         import f2_cc
     except ImportError as e:
-        say('cc_phix: needs PR #80 files in k4/suite/.cache/sx (k4/f2.md §8)', False, str(e)); return
+        say('cc_phix: needs PR #80 files (k4/sx_f2.py, k4/sx_keygraph.py; k4/f2.md §8)', False, str(e)); return
     pr = Prof({'sets': sets, 'vals': vals, 'm': m}, fmin=2); kp = f2_cc.keyprofile(pr)
     k = (8, 7, None, None)
     c1 = collections.Counter(); exs = collections.defaultdict(list)

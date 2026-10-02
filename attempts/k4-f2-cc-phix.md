@@ -23,7 +23,7 @@ needing 7, which nobody else needs; it counts, and def(P′) = 0 for P′ = ({0}
 **Frequency.** 12 of PR #80's 174 uncovered maxima (`results/k4_f2/cc_*.log`, rows "covered by the family | C+ or
 (C′+ with q = phi(x)) | False": 8 catalogue, 4 T1-stuck, 0 n5c); C⁺ and C′⁺ with every kind of q cover all 174.
 
-**Reproduce.** `python3 attempts/k4_f2_attempts.py` (case "crossed maximum"; needs PR #80's files in
-`k4/suite/.cache/sx/`, `k4/f2.md` §8): implementation A is `k4/f2_cc.py` (PR #80's `k4/sx_f2.analyse_key` for A⁺/B⁺, then
+**Reproduce.** `python3 attempts/k4_f2_attempts.py` (case "crossed maximum"; uses PR #80's `k4/sx_f2.py` and
+`k4/sx_keygraph.py`, on main): implementation A is `k4/f2_cc.py` (PR #80's `k4/sx_f2.analyse_key` for A⁺/B⁺, then
 every C⁺/C′⁺ instance); implementation B (main's k4/dl134_xcheck.py, its own 𝒫 and deficits and the owner table of the
 script) confirms def(P_Q) = 1, def(P′) = 0, the owner 2 with {1,3,4,5,6} at value 6, and that x = 0 needs 8 at P′.

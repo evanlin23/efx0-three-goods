@@ -3,8 +3,8 @@
 state P_Q), tested at every maximum of (r′, Λ′) where PR #80's Lemmas A⁺ and B⁺ do not apply (workstream
 proof/k4-f2). EVIDENCE tooling for written proofs.
 
-Inputs, read as PR #80's k4/sx_f2.py reads them (k4/ and results/k4_sx/ on main once PR #80 is merged; before that, copies of proof/k4-sx at de4ee31 in
-k4/suite/.cache/sx/, k4/f2.md §8):
+Inputs, read as PR #80's k4/sx_f2.py reads them (k4/sx_f2.py, k4/sx_keygraph.py and results/k4_sx/ on main, from PR #80;
+k4/f2.md §8):
   cat   results/k4_sx/chunks/{gap_n4_3_s4000@f2e1,gap_n4_pure_s4000@f2e1,hard_hunt@f2e1,hunt_n4_3_s400k@f2e1,
         hunt_n4_pure_s400k@f2e1}_c000.jsonl.gz and gap_n4_1_c0{00..11}.jsonl.gz          (67 keys, 49 uncovered)
   stuck results/k4_sx/t3stage/keys.jsonl.gz                                            (196 keys, 40 uncovered)
@@ -32,8 +32,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 from f2_lib import Prof, bits, pc, mask, kind, lst, t3plus
 from f2_lemmas import Ctx
-sys.path.append(os.path.join(HERE, 'suite', '.cache', 'sx', 'k4'))
-import sx_f2                                    # PR #80's tool, unchanged (k4/suite/.cache/sx/k4/sx_f2.py)
+import sx_f2                                    # PR #80's tool, unchanged (k4/sx_f2.py on main)
 from sx_keygraph import KeyProfile, keyof
 
 
