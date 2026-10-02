@@ -1,0 +1,854 @@
+{
+ "label": "H_t, t=1..5, 3 relabelings each",
+ "sha": "2676b40619bb6fa7",
+ "rulef_sha256": "5721abf3bc9e25b101412aeb6b602db24d80e1991beee9a367a01cf9ccfc424e",
+ "counters": {
+  "tot": [
+   20
+  ],
+  "tightM": [
+   0
+  ],
+  "K1only": [
+   0
+  ],
+  "all:W": [
+   20,
+   0,
+   0,
+   0
+  ],
+  "all:K0": [
+   20,
+   0,
+   0,
+   0
+  ],
+  "all:M1": [
+   20,
+   0,
+   0,
+   0
+  ],
+  "all:KRb": [
+   20,
+   20,
+   0,
+   0
+  ],
+  "all:M1|KRb": [
+   20,
+   0,
+   0,
+   0
+  ],
+  "all:K0|KRa": [
+   20,
+   0,
+   0,
+   0
+  ],
+  "all:K0|KRo": [
+   20,
+   0,
+   0,
+   0
+  ],
+  "all:K0|KRb": [
+   20,
+   0,
+   0,
+   0
+  ],
+  "all:K0|KRa|Rw": [
+   20,
+   0,
+   0,
+   0
+  ],
+  "all:K0|KRo|Rwo": [
+   20,
+   0,
+   0,
+   0
+  ],
+  "bt:W": [
+   0,
+   0,
+   0,
+   0
+  ],
+  "bt:K0": [
+   0,
+   0,
+   0,
+   0
+  ],
+  "bt:M1": [
+   0,
+   0,
+   0,
+   0
+  ],
+  "bt:KRb": [
+   0,
+   0,
+   0,
+   0
+  ],
+  "bt:M1|KRb": [
+   0,
+   0,
+   0,
+   0
+  ],
+  "bt:K0|KRa": [
+   0,
+   0,
+   0,
+   0
+  ],
+  "bt:K0|KRo": [
+   0,
+   0,
+   0,
+   0
+  ],
+  "bt:K0|KRb": [
+   0,
+   0,
+   0,
+   0
+  ],
+  "bt:K0|KRa|Rw": [
+   0,
+   0,
+   0,
+   0
+  ],
+  "bt:K0|KRo|Rwo": [
+   0,
+   0,
+   0,
+   0
+  ],
+  "bt1:W": [
+   0,
+   0,
+   0,
+   0
+  ],
+  "bt1:K0": [
+   0,
+   0,
+   0,
+   0
+  ],
+  "bt1:M1": [
+   0,
+   0,
+   0,
+   0
+  ],
+  "bt1:KRb": [
+   0,
+   0,
+   0,
+   0
+  ],
+  "bt1:M1|KRb": [
+   0,
+   0,
+   0,
+   0
+  ],
+  "bt1:K0|KRa": [
+   0,
+   0,
+   0,
+   0
+  ],
+  "bt1:K0|KRo": [
+   0,
+   0,
+   0,
+   0
+  ],
+  "bt1:K0|KRb": [
+   0,
+   0,
+   0,
+   0
+  ],
+  "bt1:K0|KRa|Rw": [
+   0,
+   0,
+   0,
+   0
+  ],
+  "bt1:K0|KRo|Rwo": [
+   0,
+   0,
+   0,
+   0
+  ],
+  "nobt:W": [
+   20,
+   0,
+   0,
+   0
+  ],
+  "nobt:K0": [
+   20,
+   0,
+   0,
+   0
+  ],
+  "nobt:M1": [
+   20,
+   0,
+   0,
+   0
+  ],
+  "nobt:KRb": [
+   20,
+   20,
+   0,
+   0
+  ],
+  "nobt:M1|KRb": [
+   20,
+   0,
+   0,
+   0
+  ],
+  "nobt:K0|KRa": [
+   20,
+   0,
+   0,
+   0
+  ],
+  "nobt:K0|KRo": [
+   20,
+   0,
+   0,
+   0
+  ],
+  "nobt:K0|KRb": [
+   20,
+   0,
+   0,
+   0
+  ],
+  "nobt:K0|KRa|Rw": [
+   20,
+   0,
+   0,
+   0
+  ],
+  "nobt:K0|KRo|Rwo": [
+   20,
+   0,
+   0,
+   0
+  ],
+  "nobt0:W": [
+   0,
+   0,
+   0,
+   0
+  ],
+  "nobt0:K0": [
+   0,
+   0,
+   0,
+   0
+  ],
+  "nobt0:M1": [
+   0,
+   0,
+   0,
+   0
+  ],
+  "nobt0:KRb": [
+   0,
+   0,
+   0,
+   0
+  ],
+  "nobt0:M1|KRb": [
+   0,
+   0,
+   0,
+   0
+  ],
+  "nobt0:K0|KRa": [
+   0,
+   0,
+   0,
+   0
+  ],
+  "nobt0:K0|KRo": [
+   0,
+   0,
+   0,
+   0
+  ],
+  "nobt0:K0|KRb": [
+   0,
+   0,
+   0,
+   0
+  ],
+  "nobt0:K0|KRa|Rw": [
+   0,
+   0,
+   0,
+   0
+  ],
+  "nobt0:K0|KRo|Rwo": [
+   0,
+   0,
+   0,
+   0
+  ],
+  "gap:W": [
+   20,
+   0,
+   20,
+   0
+  ],
+  "gap:K0": [
+   20,
+   0,
+   20,
+   0
+  ],
+  "gap:M1": [
+   20,
+   0,
+   20,
+   0
+  ],
+  "gap:KRb": [
+   20,
+   20,
+   0,
+   0
+  ],
+  "gap:M1|KRb": [
+   20,
+   0,
+   20,
+   0
+  ],
+  "gap:K0|KRa": [
+   20,
+   0,
+   20,
+   0
+  ],
+  "gap:K0|KRo": [
+   20,
+   0,
+   20,
+   0
+  ],
+  "gap:K0|KRb": [
+   20,
+   0,
+   20,
+   0
+  ],
+  "gap:K0|KRa|Rw": [
+   20,
+   0,
+   20,
+   0
+  ],
+  "gap:K0|KRo|Rwo": [
+   20,
+   0,
+   20,
+   0
+  ],
+  "gapn:W": [
+   20,
+   0,
+   20,
+   0
+  ],
+  "gapn:K0": [
+   20,
+   0,
+   20,
+   0
+  ],
+  "gapn:M1": [
+   20,
+   0,
+   20,
+   0
+  ],
+  "gapn:KRb": [
+   20,
+   20,
+   0,
+   0
+  ],
+  "gapn:M1|KRb": [
+   20,
+   0,
+   20,
+   0
+  ],
+  "gapn:K0|KRa": [
+   20,
+   0,
+   20,
+   0
+  ],
+  "gapn:K0|KRo": [
+   20,
+   0,
+   20,
+   0
+  ],
+  "gapn:K0|KRb": [
+   20,
+   0,
+   20,
+   0
+  ],
+  "gapn:K0|KRa|Rw": [
+   20,
+   0,
+   20,
+   0
+  ],
+  "gapn:K0|KRo|Rwo": [
+   20,
+   0,
+   20,
+   0
+  ],
+  "btp:W": [
+   0,
+   0,
+   0,
+   0
+  ],
+  "btp:K0": [
+   0,
+   0,
+   0,
+   0
+  ],
+  "btp:M1": [
+   0,
+   0,
+   0,
+   0
+  ],
+  "btp:KRb": [
+   0,
+   0,
+   0,
+   0
+  ],
+  "btp:M1|KRb": [
+   0,
+   0,
+   0,
+   0
+  ],
+  "btp:K0|KRa": [
+   0,
+   0,
+   0,
+   0
+  ],
+  "btp:K0|KRo": [
+   0,
+   0,
+   0,
+   0
+  ],
+  "btp:K0|KRb": [
+   0,
+   0,
+   0,
+   0
+  ],
+  "btp:K0|KRa|Rw": [
+   0,
+   0,
+   0,
+   0
+  ],
+  "btp:K0|KRo|Rwo": [
+   0,
+   0,
+   0,
+   0
+  ],
+  "shp:W": [
+   20,
+   0,
+   4,
+   0
+  ],
+  "shp:K0": [
+   20,
+   0,
+   8,
+   0
+  ],
+  "shp:M1": [
+   20,
+   0,
+   8,
+   0
+  ],
+  "shp:KRb": [
+   20,
+   20,
+   0,
+   0
+  ],
+  "shp:M1|KRb": [
+   20,
+   0,
+   8,
+   0
+  ],
+  "shp:K0|KRa": [
+   20,
+   0,
+   8,
+   0
+  ],
+  "shp:K0|KRo": [
+   20,
+   0,
+   4,
+   0
+  ],
+  "shp:K0|KRb": [
+   20,
+   0,
+   8,
+   0
+  ],
+  "shp:K0|KRa|Rw": [
+   20,
+   0,
+   8,
+   0
+  ],
+  "shp:K0|KRo|Rwo": [
+   20,
+   0,
+   4,
+   0
+  ],
+  "bt2:W": [
+   0,
+   0,
+   0,
+   0
+  ],
+  "bt2:K0": [
+   0,
+   0,
+   0,
+   0
+  ],
+  "bt2:M1": [
+   0,
+   0,
+   0,
+   0
+  ],
+  "bt2:KRb": [
+   0,
+   0,
+   0,
+   0
+  ],
+  "bt2:M1|KRb": [
+   0,
+   0,
+   0,
+   0
+  ],
+  "bt2:K0|KRa": [
+   0,
+   0,
+   0,
+   0
+  ],
+  "bt2:K0|KRo": [
+   0,
+   0,
+   0,
+   0
+  ],
+  "bt2:K0|KRb": [
+   0,
+   0,
+   0,
+   0
+  ],
+  "bt2:K0|KRa|Rw": [
+   0,
+   0,
+   0,
+   0
+  ],
+  "bt2:K0|KRo|Rwo": [
+   0,
+   0,
+   0,
+   0
+  ],
+  "x1N": [
+   22,
+   0,
+   22,
+   7
+  ],
+  "x2N": [
+   22,
+   7,
+   0,
+   0
+  ],
+  "x3N": [
+   22,
+   0,
+   22,
+   16
+  ],
+  "x3bN": [
+   22,
+   22,
+   0,
+   0
+  ],
+  "x3cN": [
+   22,
+   0,
+   22,
+   16
+  ],
+  "x4N": [
+   22,
+   0,
+   6,
+   6
+  ],
+  "x1E": [
+   22,
+   0,
+   22,
+   5
+  ],
+  "x2E": [
+   22,
+   7,
+   0,
+   0
+  ],
+  "x3E": [
+   22,
+   0,
+   22,
+   8
+  ],
+  "x3bE": [
+   22,
+   22,
+   0,
+   0
+  ],
+  "x3cE": [
+   22,
+   0,
+   22,
+   8
+  ],
+  "x4E": [
+   22,
+   0,
+   6,
+   6
+  ],
+  "g2": [
+   0
+  ],
+  "g2W": [
+   0
+  ],
+  "g2bad": [
+   0
+  ],
+  "c40": [
+   0
+  ],
+  "c40notW": [
+   0
+  ],
+  "profc40": [
+   0
+  ],
+  "profnoc40": [
+   20
+  ],
+  "m1notK0": [
+   0
+  ],
+  "krnotW": [
+   0
+  ],
+  "kronotW": [
+   0
+  ],
+  "wK0": [
+   209
+  ],
+  "wK1": [
+   29
+  ],
+  "wK1KR": [
+   0
+  ],
+  "wK1noKR": [
+   29
+  ],
+  "wK1noKRRw": [
+   29
+  ],
+  "wK1noKRoRwo": [
+   15
+  ]
+ },
+ "smallest": {
+  "gap:KRb": {
+   "key": [
+    5,
+    13,
+    20,
+    8,
+    107
+   ],
+   "line": "PFAIL cand=gap:KRb w=1 agent=0 n=5 m=13 sets=[[0,4,8,9],[1,4,5,12],[1,7,8,11],[1,3,6,9],[0,1,2,10]] vals=[[6,4,3,8],[3,8,6,4],[8,4,6,5],[3,6,4,8],[8,3,4,6]] fa=0:K0=1,K1=0,bt=0,sh=1,c40=0,g2=0,N[om=3,r=4,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0],E[om=4,r=4,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=1,x3=8];1:K0=1,K1=0,bt=0,sh=0,c40=0,g2=0,N[om=3,r=4,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0],E[om=4,r=4,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=1,x3=8];2:K0=1,K1=0,bt=0,sh=0,c40=0,g2=0,N[om=3,r=4,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0],E[om=4,r=3,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0];3:K0=1,K1=0,bt=0,sh=1,c40=0,g2=0,N[om=3,r=2,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0],E[om=5,r=2,rfz=0,ks=2,M1=0,KRb=0,KRa=0,KRo=1,Rw=0,Rwo=0,x1=8,x3=10];4:K0=1,K1=0,bt=0,sh=0,c40=0,g2=0,N[om=3,r=2,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0],E[om=4,r=2,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0]"
+  },
+  "gapn:KRb": {
+   "key": [
+    5,
+    13,
+    20,
+    8,
+    107
+   ],
+   "line": "PFAIL cand=gapn:KRb w=1 agent=0 n=5 m=13 sets=[[0,4,8,9],[1,4,5,12],[1,7,8,11],[1,3,6,9],[0,1,2,10]] vals=[[6,4,3,8],[3,8,6,4],[8,4,6,5],[3,6,4,8],[8,3,4,6]] fa=0:K0=1,K1=0,bt=0,sh=1,c40=0,g2=0,N[om=3,r=4,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0],E[om=4,r=4,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=1,x3=8];1:K0=1,K1=0,bt=0,sh=0,c40=0,g2=0,N[om=3,r=4,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0],E[om=4,r=4,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=1,x3=8];2:K0=1,K1=0,bt=0,sh=0,c40=0,g2=0,N[om=3,r=4,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0],E[om=4,r=3,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0];3:K0=1,K1=0,bt=0,sh=1,c40=0,g2=0,N[om=3,r=2,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0],E[om=5,r=2,rfz=0,ks=2,M1=0,KRb=0,KRa=0,KRo=1,Rw=0,Rwo=0,x1=8,x3=10];4:K0=1,K1=0,bt=0,sh=0,c40=0,g2=0,N[om=3,r=2,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0],E[om=4,r=2,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0]"
+  },
+  "all:KRb": {
+   "key": [
+    5,
+    13,
+    20,
+    8,
+    107
+   ],
+   "line": "PFAIL cand=all:KRb w=1 n=5 m=13 sets=[[0,4,8,9],[1,4,5,12],[1,7,8,11],[1,3,6,9],[0,1,2,10]] vals=[[6,4,3,8],[3,8,6,4],[8,4,6,5],[3,6,4,8],[8,3,4,6]] fa=0:K0=1,K1=0,bt=0,sh=1,c40=0,g2=0,N[om=3,r=4,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0],E[om=4,r=4,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=1,x3=8];1:K0=1,K1=0,bt=0,sh=0,c40=0,g2=0,N[om=3,r=4,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0],E[om=4,r=4,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=1,x3=8];2:K0=1,K1=0,bt=0,sh=0,c40=0,g2=0,N[om=3,r=4,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0],E[om=4,r=3,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0];3:K0=1,K1=0,bt=0,sh=1,c40=0,g2=0,N[om=3,r=2,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0],E[om=5,r=2,rfz=0,ks=2,M1=0,KRb=0,KRa=0,KRo=1,Rw=0,Rwo=0,x1=8,x3=10];4:K0=1,K1=0,bt=0,sh=0,c40=0,g2=0,N[om=3,r=2,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0],E[om=4,r=2,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0]"
+  },
+  "nobt:KRb": {
+   "key": [
+    5,
+    13,
+    20,
+    8,
+    107
+   ],
+   "line": "PFAIL cand=nobt:KRb w=1 n=5 m=13 sets=[[0,4,8,9],[1,4,5,12],[1,7,8,11],[1,3,6,9],[0,1,2,10]] vals=[[6,4,3,8],[3,8,6,4],[8,4,6,5],[3,6,4,8],[8,3,4,6]] fa=0:K0=1,K1=0,bt=0,sh=1,c40=0,g2=0,N[om=3,r=4,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0],E[om=4,r=4,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=1,x3=8];1:K0=1,K1=0,bt=0,sh=0,c40=0,g2=0,N[om=3,r=4,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0],E[om=4,r=4,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=1,x3=8];2:K0=1,K1=0,bt=0,sh=0,c40=0,g2=0,N[om=3,r=4,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0],E[om=4,r=3,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0];3:K0=1,K1=0,bt=0,sh=1,c40=0,g2=0,N[om=3,r=2,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0],E[om=5,r=2,rfz=0,ks=2,M1=0,KRb=0,KRa=0,KRo=1,Rw=0,Rwo=0,x1=8,x3=10];4:K0=1,K1=0,bt=0,sh=0,c40=0,g2=0,N[om=3,r=2,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0],E[om=4,r=2,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0]"
+  },
+  "shp:KRb": {
+   "key": [
+    5,
+    13,
+    20,
+    8,
+    107
+   ],
+   "line": "PFAIL cand=shp:KRb w=1 n=5 m=13 sets=[[0,4,8,9],[1,4,5,12],[1,7,8,11],[1,3,6,9],[0,1,2,10]] vals=[[6,4,3,8],[3,8,6,4],[8,4,6,5],[3,6,4,8],[8,3,4,6]] fa=0:K0=1,K1=0,bt=0,sh=1,c40=0,g2=0,N[om=3,r=4,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0],E[om=4,r=4,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=1,x3=8];1:K0=1,K1=0,bt=0,sh=0,c40=0,g2=0,N[om=3,r=4,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0],E[om=4,r=4,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=1,x3=8];2:K0=1,K1=0,bt=0,sh=0,c40=0,g2=0,N[om=3,r=4,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0],E[om=4,r=3,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0];3:K0=1,K1=0,bt=0,sh=1,c40=0,g2=0,N[om=3,r=2,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0],E[om=5,r=2,rfz=0,ks=2,M1=0,KRb=0,KRa=0,KRo=1,Rw=0,Rwo=0,x1=8,x3=10];4:K0=1,K1=0,bt=0,sh=0,c40=0,g2=0,N[om=3,r=2,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0],E[om=4,r=2,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0]"
+  },
+  "partner:x2N": {
+   "key": [
+    13,
+    33,
+    52,
+    8,
+    275
+   ],
+   "line": "XFAIL var=x2N a=9 partners=1 w=1 n=13 m=33 sets=[[0,3,4,5],[6,9,12,0],[7,10,13,0],[8,11,14,0],[6,7,8,1],[15,18,21,1],[16,19,22,1],[17,20,23,1],[15,16,17,2],[24,27,30,2],[25,28,31,2],[26,29,32,2],[24,25,26,3]] vals=[[8,6,5,4],[8,6,4,3],[8,6,4,3],[8,6,4,3],[8,6,4,3],[8,6,4,3],[8,6,4,3],[8,6,4,3],[8,6,4,3],[8,6,4,3],[8,6,4,3],[8,6,4,3],[8,6,4,3]] fa=0:K0=0,K1=0,bt=0,sh=0,c40=0,g2=0,N[om=16,r=12,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=eee,x3=1110],E[om=16,r=12,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=eee,x3=1110];1:K0=1,K1=0,bt=0,sh=1,c40=0,g2=0,N[om=7,r=11,rfz=0,ks=11,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0],E[om=13,r=11,rfz=0,ks=11,M1=0,KRb=0,KRa=0,KRo=1,Rw=0,Rwo=0,x1=1222,x3=444];2:K0=1,K1=0,bt=0,sh=0,c40=0,g2=0,N[om=7,r=11,rfz=0,ks=11,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0],E[om=12,r=11,rfz=0,ks=11,M1=0,KRb=0,KRa=0,KRo=1,Rw=0,Rwo=0,x1=1220,x3=440];3:K0=1,K1=0,bt=0,sh=0,c40=0,g2=0,N[om=7,r=11,rfz=0,ks=11,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0],E[om=12,r=11,rfz=0,ks=11,M1=0,KRb=0,KRa=0,KRo=1,Rw=0,Rwo=0,x1=1220,x3=440];4:K0=1,K1=0,bt=0,sh=1,c40=0,g2=0,N[om=7,r=11,rfz=0,ks=11,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0],E[om=12,r=11,rfz=0,ks=11,M1=0,KRb=0,KRa=0,KRo=1,Rw=0,Rwo=0,x1=1220,x3=440];5:K0=0,K1=1,bt=0,sh=1,c40=0,g2=0,N[om=10,r=11,rfz=0,ks=11,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=e,x3=10],E[om=14,r=11,rfz=0,ks=11,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=122e,x3=450];6:K0=0,K1=1,bt=0,sh=0,c40=0,g2=0,N[om=10,r=11,rfz=0,ks=11,M1=0,KRb=0,KRa=0,KRo=1,Rw=0,Rwo=0,x1=e,x3=10],E[om=13,r=11,rfz=0,ks=11,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=120e,x3=410];7:K0=0,K1=1,bt=0,sh=0,c40=0,g2=0,N[om=10,r=11,rfz=0,ks=11,M1=0,KRb=0,KRa=0,KRo=1,Rw=0,Rwo=0,x1=e,x3=10],E[om=13,r=11,rfz=0,ks=11,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=120e,x3=410];8:K0=0,K1=1,bt=0,sh=1,c40=0,g2=0,N[om=10,r=11,rfz=0,ks=11,M1=0,KRb=0,KRa=0,KRo=1,Rw=0,Rwo=0,x1=e,x3=10],E[om=13,r=11,rfz=0,ks=11,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=120e,x3=410];9:K0=0,K1=0,bt=0,sh=1,c40=0,g2=0,N[om=13,r=11,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=ee,x3=110],E[om=15,r=11,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=12ee,x3=510];10:K0=0,K1=1,bt=0,sh=0,c40=0,g2=0,N[om=13,r=11,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=ee,x3=110],E[om=14,r=11,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=ee,x3=110];11:K0=0,K1=1,bt=0,sh=0,c40=0,g2=0,N[om=13,r=10,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=ee,x3=110],E[om=14,r=10,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=10ee,x3=310];12:K0=0,K1=1,bt=0,sh=1,c40=0,g2=0,N[om=13,r=11,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=ee,x3=110],E[om=14,r=11,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=ee,x3=110]"
+  },
+  "partner:x2E": {
+   "key": [
+    13,
+    33,
+    52,
+    8,
+    275
+   ],
+   "line": "XFAIL var=x2E a=9 partners=1 w=1 n=13 m=33 sets=[[0,3,4,5],[6,9,12,0],[7,10,13,0],[8,11,14,0],[6,7,8,1],[15,18,21,1],[16,19,22,1],[17,20,23,1],[15,16,17,2],[24,27,30,2],[25,28,31,2],[26,29,32,2],[24,25,26,3]] vals=[[8,6,5,4],[8,6,4,3],[8,6,4,3],[8,6,4,3],[8,6,4,3],[8,6,4,3],[8,6,4,3],[8,6,4,3],[8,6,4,3],[8,6,4,3],[8,6,4,3],[8,6,4,3],[8,6,4,3]] fa=0:K0=0,K1=0,bt=0,sh=0,c40=0,g2=0,N[om=16,r=12,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=eee,x3=1110],E[om=16,r=12,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=eee,x3=1110];1:K0=1,K1=0,bt=0,sh=1,c40=0,g2=0,N[om=7,r=11,rfz=0,ks=11,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0],E[om=13,r=11,rfz=0,ks=11,M1=0,KRb=0,KRa=0,KRo=1,Rw=0,Rwo=0,x1=1222,x3=444];2:K0=1,K1=0,bt=0,sh=0,c40=0,g2=0,N[om=7,r=11,rfz=0,ks=11,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0],E[om=12,r=11,rfz=0,ks=11,M1=0,KRb=0,KRa=0,KRo=1,Rw=0,Rwo=0,x1=1220,x3=440];3:K0=1,K1=0,bt=0,sh=0,c40=0,g2=0,N[om=7,r=11,rfz=0,ks=11,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0],E[om=12,r=11,rfz=0,ks=11,M1=0,KRb=0,KRa=0,KRo=1,Rw=0,Rwo=0,x1=1220,x3=440];4:K0=1,K1=0,bt=0,sh=1,c40=0,g2=0,N[om=7,r=11,rfz=0,ks=11,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0],E[om=12,r=11,rfz=0,ks=11,M1=0,KRb=0,KRa=0,KRo=1,Rw=0,Rwo=0,x1=1220,x3=440];5:K0=0,K1=1,bt=0,sh=1,c40=0,g2=0,N[om=10,r=11,rfz=0,ks=11,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=e,x3=10],E[om=14,r=11,rfz=0,ks=11,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=122e,x3=450];6:K0=0,K1=1,bt=0,sh=0,c40=0,g2=0,N[om=10,r=11,rfz=0,ks=11,M1=0,KRb=0,KRa=0,KRo=1,Rw=0,Rwo=0,x1=e,x3=10],E[om=13,r=11,rfz=0,ks=11,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=120e,x3=410];7:K0=0,K1=1,bt=0,sh=0,c40=0,g2=0,N[om=10,r=11,rfz=0,ks=11,M1=0,KRb=0,KRa=0,KRo=1,Rw=0,Rwo=0,x1=e,x3=10],E[om=13,r=11,rfz=0,ks=11,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=120e,x3=410];8:K0=0,K1=1,bt=0,sh=1,c40=0,g2=0,N[om=10,r=11,rfz=0,ks=11,M1=0,KRb=0,KRa=0,KRo=1,Rw=0,Rwo=0,x1=e,x3=10],E[om=13,r=11,rfz=0,ks=11,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=120e,x3=410];9:K0=0,K1=0,bt=0,sh=1,c40=0,g2=0,N[om=13,r=11,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=ee,x3=110],E[om=15,r=11,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=12ee,x3=510];10:K0=0,K1=1,bt=0,sh=0,c40=0,g2=0,N[om=13,r=11,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=ee,x3=110],E[om=14,r=11,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=ee,x3=110];11:K0=0,K1=1,bt=0,sh=0,c40=0,g2=0,N[om=13,r=10,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=ee,x3=110],E[om=14,r=10,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=10ee,x3=310];12:K0=0,K1=1,bt=0,sh=1,c40=0,g2=0,N[om=13,r=11,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=ee,x3=110],E[om=14,r=11,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=ee,x3=110]"
+  },
+  "partner:x4N": {
+   "key": [
+    17,
+    43,
+    68,
+    8,
+    359
+   ],
+   "line": "XFAIL var=x4N a=0 partners=10000 w=1 n=17 m=43 sets=[[0,4,5,6],[7,10,13,0],[8,11,14,0],[9,12,15,0],[7,8,9,1],[16,19,22,1],[17,20,23,1],[18,21,24,1],[16,17,18,2],[25,28,31,2],[26,29,32,2],[27,30,33,2],[25,26,27,3],[34,37,40,3],[35,38,41,3],[36,39,42,3],[34,35,36,4]] vals=[[8,6,5,4],[8,6,4,3],[8,6,4,3],[8,6,4,3],[8,6,4,3],[8,6,4,3],[8,6,4,3],[8,6,4,3],[8,6,4,3],[8,6,4,3],[8,6,4,3],[8,6,4,3],[8,6,4,3],[8,6,4,3],[8,6,4,3],[8,6,4,3],[8,6,4,3]] fa=0:K0=0,K1=0,bt=0,sh=0,c40=0,g2=0,N[om=21,r=16,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=eeee,x3=11110],E[om=21,r=16,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=eeee,x3=11110];1:K0=1,K1=0,bt=0,sh=1,c40=0,g2=0,N[om=9,r=15,rfz=0,ks=15,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0],E[om=17,r=15,rfz=0,ks=15,M1=0,KRb=0,KRa=0,KRo=1,Rw=0,Rwo=0,x1=12222,x3=4444];2:K0=1,K1=0,bt=0,sh=0,c40=0,g2=0,N[om=9,r=15,rfz=0,ks=15,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0],E[om=16,r=15,rfz=0,ks=15,M1=0,KRb=0,KRa=0,KRo=1,Rw=0,Rwo=0,x1=12220,x3=4440];3:K0=1,K1=0,bt=0,sh=0,c40=0,g2=0,N[om=9,r=15,rfz=0,ks=15,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0],E[om=16,r=15,rfz=0,ks=15,M1=0,KRb=0,KRa=0,KRo=1,Rw=0,Rwo=0,x1=12220,x3=4440];4:K0=1,K1=0,bt=0,sh=1,c40=0,g2=0,N[om=9,r=15,rfz=0,ks=15,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0],E[om=16,r=15,rfz=0,ks=15,M1=0,KRb=0,KRa=0,KRo=1,Rw=0,Rwo=0,x1=12220,x3=4440];5:K0=0,K1=1,bt=0,sh=1,c40=0,g2=0,N[om=12,r=15,rfz=0,ks=15,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=e,x3=10],E[om=18,r=15,rfz=0,ks=15,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=1222e,x3=4450];6:K0=0,K1=1,bt=0,sh=0,c40=0,g2=0,N[om=12,r=15,rfz=0,ks=15,M1=0,KRb=0,KRa=0,KRo=1,Rw=0,Rwo=0,x1=e,x3=10],E[om=17,r=15,rfz=0,ks=15,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=1220e,x3=4410];7:K0=0,K1=1,bt=0,sh=0,c40=0,g2=0,N[om=12,r=15,rfz=0,ks=15,M1=0,KRb=0,KRa=0,KRo=1,Rw=0,Rwo=0,x1=e,x3=10],E[om=17,r=15,rfz=0,ks=15,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=1220e,x3=4410];8:K0=0,K1=1,bt=0,sh=1,c40=0,g2=0,N[om=12,r=15,rfz=0,ks=15,M1=0,KRb=0,KRa=0,KRo=1,Rw=0,Rwo=0,x1=e,x3=10],E[om=17,r=15,rfz=0,ks=15,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=1220e,x3=4410];9:K0=0,K1=0,bt=0,sh=1,c40=0,g2=0,N[om=15,r=15,rfz=0,ks=15,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=ee,x3=110],E[om=19,r=15,rfz=0,ks=15,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=122ee,x3=4510];10:K0=0,K1=1,bt=0,sh=0,c40=0,g2=0,N[om=15,r=15,rfz=0,ks=15,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=ee,x3=110],E[om=18,r=15,rfz=0,ks=15,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=120ee,x3=4110];11:K0=0,K1=1,bt=0,sh=0,c40=0,g2=0,N[om=15,r=15,rfz=0,ks=15,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=ee,x3=110],E[om=18,r=15,rfz=0,ks=15,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=120ee,x3=4110];12:K0=0,K1=1,bt=0,sh=1,c40=0,g2=0,N[om=15,r=15,rfz=0,ks=15,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=ee,x3=110],E[om=18,r=15,rfz=0,ks=15,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=120ee,x3=4110];13:K0=0,K1=0,bt=0,sh=1,c40=0,g2=0,N[om=18,r=15,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=eee,x3=1110],E[om=20,r=15,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=12eee,x3=5110];14:K0=0,K1=0,bt=0,sh=0,c40=0,g2=0,N[om=18,r=15,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=eee,x3=1110],E[om=19,r=15,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=eee,x3=1110];15:K0=0,K1=0,bt=0,sh=0,c40=0,g2=0,N[om=18,r=14,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=eee,x3=1110],E[om=19,r=14,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=10eee,x3=3110];16:K0=0,K1=0,bt=0,sh=1,c40=0,g2=0,N[om=18,r=15,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=eee,x3=1110],E[om=19,r=15,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=eee,x3=1110]"
+  },
+  "partner:x4E": {
+   "key": [
+    17,
+    43,
+    68,
+    8,
+    359
+   ],
+   "line": "XFAIL var=x4E a=0 partners=10000 w=1 n=17 m=43 sets=[[0,4,5,6],[7,10,13,0],[8,11,14,0],[9,12,15,0],[7,8,9,1],[16,19,22,1],[17,20,23,1],[18,21,24,1],[16,17,18,2],[25,28,31,2],[26,29,32,2],[27,30,33,2],[25,26,27,3],[34,37,40,3],[35,38,41,3],[36,39,42,3],[34,35,36,4]] vals=[[8,6,5,4],[8,6,4,3],[8,6,4,3],[8,6,4,3],[8,6,4,3],[8,6,4,3],[8,6,4,3],[8,6,4,3],[8,6,4,3],[8,6,4,3],[8,6,4,3],[8,6,4,3],[8,6,4,3],[8,6,4,3],[8,6,4,3],[8,6,4,3],[8,6,4,3]] fa=0:K0=0,K1=0,bt=0,sh=0,c40=0,g2=0,N[om=21,r=16,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=eeee,x3=11110],E[om=21,r=16,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=eeee,x3=11110];1:K0=1,K1=0,bt=0,sh=1,c40=0,g2=0,N[om=9,r=15,rfz=0,ks=15,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0],E[om=17,r=15,rfz=0,ks=15,M1=0,KRb=0,KRa=0,KRo=1,Rw=0,Rwo=0,x1=12222,x3=4444];2:K0=1,K1=0,bt=0,sh=0,c40=0,g2=0,N[om=9,r=15,rfz=0,ks=15,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0],E[om=16,r=15,rfz=0,ks=15,M1=0,KRb=0,KRa=0,KRo=1,Rw=0,Rwo=0,x1=12220,x3=4440];3:K0=1,K1=0,bt=0,sh=0,c40=0,g2=0,N[om=9,r=15,rfz=0,ks=15,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0],E[om=16,r=15,rfz=0,ks=15,M1=0,KRb=0,KRa=0,KRo=1,Rw=0,Rwo=0,x1=12220,x3=4440];4:K0=1,K1=0,bt=0,sh=1,c40=0,g2=0,N[om=9,r=15,rfz=0,ks=15,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0],E[om=16,r=15,rfz=0,ks=15,M1=0,KRb=0,KRa=0,KRo=1,Rw=0,Rwo=0,x1=12220,x3=4440];5:K0=0,K1=1,bt=0,sh=1,c40=0,g2=0,N[om=12,r=15,rfz=0,ks=15,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=e,x3=10],E[om=18,r=15,rfz=0,ks=15,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=1222e,x3=4450];6:K0=0,K1=1,bt=0,sh=0,c40=0,g2=0,N[om=12,r=15,rfz=0,ks=15,M1=0,KRb=0,KRa=0,KRo=1,Rw=0,Rwo=0,x1=e,x3=10],E[om=17,r=15,rfz=0,ks=15,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=1220e,x3=4410];7:K0=0,K1=1,bt=0,sh=0,c40=0,g2=0,N[om=12,r=15,rfz=0,ks=15,M1=0,KRb=0,KRa=0,KRo=1,Rw=0,Rwo=0,x1=e,x3=10],E[om=17,r=15,rfz=0,ks=15,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=1220e,x3=4410];8:K0=0,K1=1,bt=0,sh=1,c40=0,g2=0,N[om=12,r=15,rfz=0,ks=15,M1=0,KRb=0,KRa=0,KRo=1,Rw=0,Rwo=0,x1=e,x3=10],E[om=17,r=15,rfz=0,ks=15,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=1220e,x3=4410];9:K0=0,K1=0,bt=0,sh=1,c40=0,g2=0,N[om=15,r=15,rfz=0,ks=15,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=ee,x3=110],E[om=19,r=15,rfz=0,ks=15,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=122ee,x3=4510];10:K0=0,K1=1,bt=0,sh=0,c40=0,g2=0,N[om=15,r=15,rfz=0,ks=15,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=ee,x3=110],E[om=18,r=15,rfz=0,ks=15,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=120ee,x3=4110];11:K0=0,K1=1,bt=0,sh=0,c40=0,g2=0,N[om=15,r=15,rfz=0,ks=15,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=ee,x3=110],E[om=18,r=15,rfz=0,ks=15,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=120ee,x3=4110];12:K0=0,K1=1,bt=0,sh=1,c40=0,g2=0,N[om=15,r=15,rfz=0,ks=15,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=ee,x3=110],E[om=18,r=15,rfz=0,ks=15,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=120ee,x3=4110];13:K0=0,K1=0,bt=0,sh=1,c40=0,g2=0,N[om=18,r=15,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=eee,x3=1110],E[om=20,r=15,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=12eee,x3=5110];14:K0=0,K1=0,bt=0,sh=0,c40=0,g2=0,N[om=18,r=15,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=eee,x3=1110],E[om=19,r=15,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=eee,x3=1110];15:K0=0,K1=0,bt=0,sh=0,c40=0,g2=0,N[om=18,r=14,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=eee,x3=1110],E[om=19,r=14,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=10eee,x3=3110];16:K0=0,K1=0,bt=0,sh=1,c40=0,g2=0,N[om=18,r=15,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=eee,x3=1110],E[om=19,r=15,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=eee,x3=1110]"
+  }
+ },
+ "nfail_lines": {
+  "gap:KRb": 10,
+  "gapn:KRb": 10,
+  "all:KRb": 10,
+  "nobt:KRb": 10,
+  "shp:KRb": 10,
+  "partner:x2N": 5,
+  "partner:x2E": 5,
+  "partner:x4N": 4,
+  "partner:x4E": 4
+ },
+ "options": [
+  "-Y1"
+ ],
+ "args": [
+  "--H=1,2,3,4,5",
+  "--perms=3",
+  "-Y1",
+  "--jobs=4",
+  "--checkpoint=/tmp/claude-0/-home-user-efx0-three-goods/7fff145a-b58d-5b73-9280-767e7c858b47/scratchpad/ck/H.jsonl",
+  "--out=results/k4_m_portfolio/H.json",
+  "--label=H_t, t=1..5, 3 relabelings each"
+ ],
+ "tasks": 20,
+ "cpu_seconds": 41.2,
+ "wall_seconds_this_run": 23.8
+}

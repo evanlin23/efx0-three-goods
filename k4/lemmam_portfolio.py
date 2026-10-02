@@ -27,14 +27,15 @@ SHA = hashlib.sha256(open(SRC, 'rb').read() + open(RULEF, 'rb').read()).hexdiges
 RULEF_SHA = hashlib.sha256(open(RULEF, 'rb').read()).hexdigest()
 BIN = os.environ.get('LEMMAM_BIN') or os.path.join(tempfile.gettempdir(), 'k4_lemmam_' + SHA)
 SETS = ["all", "bt", "bt1", "nobt", "nobt0", "gap", "gapn", "btp", "shp", "bt2"]
-PREDS = ["W", "K0", "M1", "KRb", "M1|KRb", "K0|KRa", "K0|KRo", "K0|KRb"]
+PREDS = ["W", "K0", "M1", "KRb", "M1|KRb", "K0|KRa", "K0|KRo", "K0|KRb", "K0|KRa|Rw", "K0|KRo|Rwo"]
 CANDS = [f'{a}:{q}' for a in SETS for q in PREDS]
 ALIAS = {'M': 'all:W', 'M_K0': 'all:K0', 'M_bt': 'bt:W', 'M_bt1': 'bt1:W', 'M_nobt': 'nobt:W', 'M_gap': 'gap:W',
          'M_gapn': 'gapn:W', 'M_kappa': 'all:M1', 'M_def1': 'all:KRb', 'M_12': 'all:M1|KRb', 'M_K0KR': 'all:K0|KRa',
-         'M_K0KRo': 'all:K0|KRo', 'M_bt12': 'bt:M1|KRb', 'M_nobt0': 'nobt0:W', 'M_btK0KR': 'bt:K0|KRa'}
+         'M_K0KRo': 'all:K0|KRo', 'M_bt12': 'bt:M1|KRb', 'M_nobt0': 'nobt0:W', 'M_btK0KR': 'bt:K0|KRa',
+         'M_K0KRw': 'all:K0|KRa|Rw', 'M_K0KRwo': 'all:K0|KRo|Rwo'}
 KEEP = 10                             # failure lines kept per candidate: the KEEP smallest (online, exact)
 VARS = [k + p for p in ('N', 'E', '0') for k in ('x1', 'x2', 'x3', 'x3b', 'x3c', 'x4')]
-FAILTAGS = ('PFAIL', 'XFAIL', 'C40VIOL', 'M1VIOL', 'KRVIOL', 'KROVIOL', 'HFAIL', 'HTIGHT', 'HDONE')
+FAILTAGS = ('PFAIL', 'XFAIL', 'C40VIOL', 'M1VIOL', 'KRVIOL', 'KROVIOL', 'RWVIOL', 'HFAIL', 'HTIGHT', 'HDONE')
 
 
 def build():
@@ -116,7 +117,7 @@ def summarize(tot, fails, label, out=None, extra=None):
         if v in tot:
             p, u, an, al = tot[v]
             print(f"  {v:10s} {p:16d} {u:14d} {an:14d} {al:14d} {p - u - an:12d}")
-    for k in ('g2', 'g2W', 'g2bad', 'c40', 'c40notW', 'profc40', 'profnoc40', 'm1notK0', 'krnotW', 'kronotW', 'wK0', 'wK1', 'wK1KR', 'wK1noKR'):
+    for k in ('g2', 'g2W', 'g2bad', 'c40', 'c40notW', 'profc40', 'profnoc40', 'm1notK0', 'krnotW', 'kronotW', 'wK0', 'wK1', 'wK1KR', 'wK1noKR', 'wK1noKRRw', 'wK1noKRoRwo'):
         if k in tot: print(f"  {k} {tot[k][0]}", end='')
     print()
     for nm in sorted(S['smallest']):
@@ -175,7 +176,7 @@ def drive(tasks, jobs, ck, label, out, extra=None):
             fl = [l for l in fl if keep_line(top, l)]
             fails += fl
             for l in fl:
-                if l.startswith(('HFAIL', 'C40VIOL', 'M1VIOL', 'KRVIOL', 'KROVIOL')) or (l.startswith('PFAIL') and 'cand=all:W ' in l): print('!!', l[:1500], flush=True)
+                if l.startswith(('HFAIL', 'C40VIOL', 'M1VIOL', 'KRVIOL', 'KROVIOL', 'RWVIOL')) or (l.startswith('PFAIL') and 'cand=all:W ' in l): print('!!', l[:1500], flush=True)
             if fc: fc.write(json.dumps({'key': key, 'pm': pm, 'lv': lv, 'fl': fl, 'time': dt}) + '\n'); fc.flush()
             if nd % max(1, len(todo) // 20) == 0:
                 print(f"# {nd}/{len(todo)} tasks, {time.time() - t0:.0f}s", flush=True)

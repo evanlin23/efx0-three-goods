@@ -26,34 +26,32 @@
    splits on it). M_gap's agent (largest a - (b + c), ties to the lowest index) depends on the representative values
    of the types, not only on the leaf: its counts are exact per profile (every type tuple of the leaf is counted).
 
-   Candidates (an allowed set A and a predicate P; the candidate holds on a profile when some agent of A satisfies P;
-   "app" = the hypothesis holds; "tight" = exactly one agent of A satisfies P; "only" = exactly one agent of the whole
-   profile is in K0 or K1, and it is the candidate's):
-     0 M        A = all, P = W                 1 M_K0     A = all, P = K0
-     2 M_bt     some big-top: A = big-top agents, P = W
-     3 M_bt1    exactly one big-top q: A = {q}, P = W
-     4 M_nobt   no big-top and some agent shares its top: A = agents sharing their top, P = W
-     5 M_gap    A = {argmax a - (b + c)} (representative values), P = W
-     6 M_gapn   A = {argmax (a - b - c) / (a + b + c + d)} (scale-free), P = W
-     7 M_kappa  A = all, P = M1 (some policy)
-     8 M_def1   A = all, P = KRb (some policy)
-     9 M_12     A = all, P = M1 or KRb
-    10 M_K0KR   A = all, P = K0 or KRa
-    11 M_K0KRo  A = all, P = K0 or KRo
-    12 M_bt12   some big-top: A = big-top agents, P = M1 or KRb
-    13 M_nobt0  no big-top and no agent shares its top (vacuous case of M_nobt): A = all, P = W
-    14 M_btK0KR some big-top: A = big-top agents, P = K0 or KRa
+   Rw(a,pol)   some single rotation (RotStep: frozen k, need chain to r, any nonempty base O) reaches a valid state with
+             no base of three or more goods and omega' <= 0 (no owner needed; EFX.LB4.complete_none_exists); Rwo: the same
+             along a chain to any end. Rwo implies K1 (rulef.c's k1_run accepts exactly such states).
+   Candidates: an allowed set A (SNAME) x a predicate P (QNAME), named "set:pred"; the candidate holds on a profile when
+   some agent of A satisfies P (for some policy); "app" = the set's hypothesis holds; "tight" = exactly one agent of A
+   satisfies P; "only" = exactly one first agent of the whole profile is in K0 or K1, and it is the candidate's.
+     sets: all; bt = big-top agents (applicable if some); bt1 = the big-top agent (if exactly one); nobt = agents sharing
+       their top good with another agent (no big-top agent, some shared top); nobt0 = all (no big-top, no shared top);
+       gap / gapn = the argmax of a - (b + c) / of (a - b - c)/(a + b + c + d) (representative values, ties lowest index);
+       btp = big-top agents with the fewest private goods; shp = shared-top agents with the fewest private goods (no
+       big-top); bt2 = big-top agents (if two or more).
+     predicates: W = K0 or K1; K0; M1; KRb; M1|KRb; K0|KRa; K0|KRo; K0|KRb; K0|KRa|Rw; K0|KRo|Rwo.
+   The task's names (k4/lemmam_portfolio.py ALIAS): M = all:W, M_K0 = all:K0, M_bt = bt:W, M_bt1 = bt1:W, M_nobt = nobt:W,
+   M_gap = gap:W, M_gapn = gapn:W, M_kappa = all:M1, M_def1 = all:KRb, M_12 = all:M1|KRb, M_K0KR = all:K0|KRa, ...
    Exchange partners: for every agent a not in W and each variant, the partner set; "undef" if empty, "any" if some
    partner is in W, "all" if every one is.
 
    Modes (stdin as rulef.c: any number of cores):
      (default) exhaustive over every strict profile (lazy type splitting, rulef.c's odometer);
      -SN  N random profiles per core;   -T1  single profiles (one type per agent);
-     -HN  hill-climbing / annealing against candidate -cK (K < 100) or partner variant -cK (K = 100 + variant) for N
+     -HN  hill-climbing / annealing against candidate -cK (K < 100: index set * NPRED + predicate) or partner variant
+          -cK (K = 100 + variant) for N
           steps per core, restarts every -BN steps (default 3000) from random types, or from -I<t0,t1,..> (type indices)
           when given; stops at the first failure (prints HFAIL) and prints the tightest profiles found (HTIGHT).
    Options: -Y1 (Lemma K kept-out sets may hold goods outside R_x: Remark 4; use it, Lemma M needs it on a suite core),
-     -N1 (also the no-upgrade policy, rule RK3), -fN failure lines per candidate per core (default 3), -XS seed,
+     -N1 (also the no-upgrade policy, rule RK3), -fN failure lines per candidate per core (default 2), -XS seed,
      -O0 skip KRo (any owner), -v (print every profile's per-agent data as PROF lines).
    Output per core: "PM ..." counters (see pm_print), "PFAIL cand=.. w=.. sets=.. vals=.. fa=.." and
    "XFAIL var=.. a=.. ..." lines. */
@@ -63,10 +61,10 @@
 #undef main
 
 #define NSET 10
-#define NPRED 8
+#define NPRED 10
 #define NCAND (NSET * NPRED)          /* candidate c = set (c / NPRED) x predicate (c % NPRED), named "set:pred" */
 static const char *SNAME[NSET] = {"all", "bt", "bt1", "nobt", "nobt0", "gap", "gapn", "btp", "shp", "bt2"};
-static const char *QNAME[NPRED] = {"W", "K0", "M1", "KRb", "M1|KRb", "K0|KRa", "K0|KRo", "K0|KRb"};
+static const char *QNAME[NPRED] = {"W", "K0", "M1", "KRb", "M1|KRb", "K0|KRa", "K0|KRo", "K0|KRb", "K0|KRa|Rw", "K0|KRo|Rwo"};
 static char CNAMEbuf[NCAND][40]; static const char *CNAME[NCAND];
 #define NVAR 18                       /* partner variants: 6 kinds x 3 policies */
 static const char *VKIND[6] = {"x1", "x2", "x3", "x3b", "x3c", "x4"};
@@ -76,7 +74,7 @@ static int DO_KRO = 1, PMVERB = 0, FAILMAX = 2;
 
 typedef struct {
     int K0, K1, W;
-    int om[3], r[3], rfz[3], ks[3], M1[3], KRb[3], KRa[3], KRo[3];
+    int om[3], r[3], rfz[3], ks[3], M1[3], KRb[3], KRa[3], KRo[3], Rw[3], Rwo[3];
     uint64_t part[3][6];             /* partner sets per policy and kind */
     int c40, g2, g2bad;
 } pa_t;
@@ -191,6 +189,46 @@ static void kr_state(int o, int *ra, int *rb) {
     *ra = kr_resa; *rb = kr_resb;
 }
 
+/* Rw: a single rotation (RotStep: frozen k, need chain k -> .. -> end with frozen inner agents, any nonempty base O
+   inside R_k and the junk after the end's base is released) to a valid state with no base of three or more goods and
+   omega' <= 0, so that no owner is needed (EFX.LB4.complete_none_exists). rw_r: chains ending at r; rw_any: any end. */
+static int rw_hit_r, rw_hit_any, rw_r;
+static void rw_try_chain(void) {
+    int k = kc[0], t = kc[kcl - 1];
+    if (rw_hit_any && (rw_hit_r || t != rw_r)) return;
+    snap_t sv; snap_save(&sv);
+    J |= base[t]; upg[t] = 0;
+    for (int i = kcl - 1; i >= 1; i--) { Y[kc[i]] = Y[kc[i - 1]]; base[kc[i]] = BIT(Y[kc[i]]); N_[kc[i]] = above(kc[i], Y[kc[i]]); }
+    gm J0 = J, W2 = R[k] & J;
+    for (gm O = W2; O; O = (O - 1) & W2) {
+        if (popc(O) >= 3) continue;
+        J = J0 & ~O; upg[k] = 1; base[k] = O; Y[k] = -2;
+        gm nn = 0;
+        for (int x = 0; x < m; x++) if (((R[k] & ~O) >> x & 1) && cmpv(k, BIT(x), O) > 0) nn |= BIT(x);
+        N_[k] = nn;
+        gm NA = NAset(); int valid = !(J & NA);
+        for (int i = 0; i < n && valid; i++) if ((upg[i] && (base[i] & NA)) || popc(base[i]) >= 3) valid = 0;
+        if (valid && popc(J) - slots() <= 0) { rw_hit_any = 1; if (t == rw_r) rw_hit_r = 1; break; }
+    }
+    snap_load(&sv); slots();
+}
+static void rw_chain(void) {
+    int x = kc[kcl - 1];
+    if (Y[x] < 0) return;
+    for (int j = 0; j < n && !(rw_hit_r && rw_hit_any); j++) {
+        int in = 0; for (int q = 0; q < kcl; q++) if (kc[q] == j) in = 1;
+        if (in || !(N_[j] >> Y[x] & 1)) continue;
+        kc[kcl++] = j;
+        if (frz[j]) rw_chain(); else rw_try_chain();
+        kcl--;
+    }
+}
+static void rw_state(int r, int *hr, int *ha) {
+    rw_hit_r = rw_hit_any = 0; rw_r = r;
+    int fz[MAXN]; memcpy(fz, frz, sizeof fz);
+    for (int k = 0; k < n && !(rw_hit_r && rw_hit_any); k++) if (fz[k]) { kc[0] = k; kcl = 1; rw_chain(); }
+    *hr = rw_hit_r; *ha = rw_hit_any;
+}
 /* ends of need chains from k (frozen inner agents; the end is the first agent that is not frozen) */
 static uint64_t pm_ends; static int pc[MAXN], pcl;
 static void pm_chain_ends(void) {
@@ -277,6 +315,7 @@ static void pm_agent(int a) {
         kr_state(r, &p->KRa[pi], &p->KRb[pi]);
         p->KRo[pi] = p->KRa[pi];
         if (DO_KRO) for (int o = 0; o < n && !p->KRo[pi]; o++) if (o != r) { int ra, rb; kr_state(o, &ra, &rb); if (ra) p->KRo[pi] = 1; }
+        rw_state(r, &p->Rw[pi], &p->Rwo[pi]);
     }
     pre[0] = a; npre = 1; TAILRULE = 0; stop_at = -1;
     p->c40 = c40_run();
@@ -305,14 +344,16 @@ static int pm_run_leaf(void) {
 static long st_app[NCAND], st_fail[NCAND], st_tight[NCAND], st_only[NCAND], st_tot, st_tightM;
 static long sv_pairs[NVAR], sv_undef[NVAR], sv_any[NVAR], sv_all[NVAR];
 static long st_g2, st_g2W, st_g2bad, st_c40, st_c40notW, st_profc40, st_profnoc40, st_m1notK0, st_krnotW, st_kroNotW;
-static long st_K1only, st_wK0, st_wK1, st_wKR, st_wK1noKR;
+static long st_K1only, st_wK0, st_wK1, st_wKR, st_wK1noKR, st_wK1noKRRw, st_wK1noKRoRwo;
 static int fails_shown[NCAND], xfails_shown[NVAR];
 
 static int predQ(int q, int a) {     /* predicate q on agent a (some policy) */
     pa_t *p = &PA[a];
-    int m1 = 0, krb = 0, kra = 0, kro = 0;
-    for (int pi = 0; pi < npols; pi++) { m1 |= p->M1[pi]; krb |= p->KRb[pi]; kra |= p->KRa[pi]; kro |= p->KRo[pi]; }
+    int m1 = 0, krb = 0, kra = 0, kro = 0, rw = 0, rwo = 0;
+    for (int pi = 0; pi < npols; pi++) { m1 |= p->M1[pi]; krb |= p->KRb[pi]; kra |= p->KRa[pi]; kro |= p->KRo[pi]; rw |= p->Rw[pi]; rwo |= p->Rwo[pi]; }
     switch (q) {
+    case 8: return p->K0 || kra || rw;
+    case 9: return p->K0 || kro || rwo;
     case 0: return p->W;
     case 1: return p->K0;
     case 2: return m1;
@@ -320,7 +361,8 @@ static int predQ(int q, int a) {     /* predicate q on agent a (some policy) */
     case 4: return m1 || krb;
     case 5: return p->K0 || kra;
     case 6: return p->K0 || kro;
-    default: return p->K0 || krb;
+    case 7: return p->K0 || krb;
+    default: return 0;
     }
 }
 /* allowed set s (static sets; 5, 6 are per profile); returns 0 if not applicable */
@@ -367,8 +409,8 @@ static void print_fa(void) {
         pa_t *p = &PA[a];
         printf("%d:K0=%d,K1=%d,bt=%d,sh=%d,c40=%d,g2=%d", a, p->K0, p->K1, BT[a], SHT[a], p->c40, p->g2);
         for (int pi = 0; pi < npols; pi++)
-            printf(",%s[om=%d,r=%d,rfz=%d,ks=%d,M1=%d,KRb=%d,KRa=%d,KRo=%d,x1=%llx,x3=%llx]", PNAME[pi], p->om[pi], p->r[pi], p->rfz[pi],
-                   p->ks[pi], p->M1[pi], p->KRb[pi], p->KRa[pi], p->KRo[pi], (unsigned long long)p->part[pi][0], (unsigned long long)p->part[pi][2]);
+            printf(",%s[om=%d,r=%d,rfz=%d,ks=%d,M1=%d,KRb=%d,KRa=%d,KRo=%d,Rw=%d,Rwo=%d,x1=%llx,x3=%llx]", PNAME[pi], p->om[pi], p->r[pi], p->rfz[pi],
+                   p->ks[pi], p->M1[pi], p->KRb[pi], p->KRa[pi], p->KRo[pi], p->Rw[pi], p->Rwo[pi], (unsigned long long)p->part[pi][0], (unsigned long long)p->part[pi][2]);
         printf("%s", a + 1 < n ? ";" : "");
     }
 }
@@ -467,8 +509,15 @@ static void pm_stat(long w) {
         if (m1 && !p->K0) { st_m1notK0 += w; printf("M1VIOL a=%d ", a); print_profile(NULL); print_fa(); printf("\n"); }
         if (kra && !p->W) { st_krnotW += w; printf("KRVIOL a=%d ", a); print_profile(NULL); print_fa(); printf("\n"); }
         if (kro && !p->W) { st_kroNotW += w; printf("KROVIOL a=%d ", a); print_profile(NULL); print_fa(); printf("\n"); }
+        { int rwo = 0; for (int pi = 0; pi < npols; pi++) rwo |= p->Rwo[pi]; if (rwo && !p->K0 && !p->K1) { st_kroNotW += w; printf("RWVIOL a=%d ", a); print_profile(NULL); print_fa(); printf("\n"); } }
         if (p->K0) st_wK0 += w;
-        else if (p->K1) { st_wK1 += w; if (kra) st_wKR += w; else st_wK1noKR += w; }
+        else if (p->K1) {
+            st_wK1 += w; if (kra) st_wKR += w; else st_wK1noKR += w;
+            int ka = 0, rw = 0, ko = 0, rwo = 0;
+            for (int pi = 0; pi < npols; pi++) { ka |= p->KRa[pi]; rw |= p->Rw[pi]; ko |= p->KRo[pi]; rwo |= p->Rwo[pi]; }
+            if (!ka && !rw) st_wK1noKRRw += w;
+            if (!ko && !rwo) st_wK1noKRoRwo += w;
+        }
     }
     if (anyc40) st_profc40 += w; else st_profnoc40 += w;
     { int k0 = 0; for (int a = 0; a < n; a++) k0 |= PA[a].K0; if (!k0 && nW) st_K1only += w; }
@@ -480,12 +529,12 @@ static void pm_print(void) {
     for (int v = 0; v < NVAR && v < npols * 6; v++) printf(" %s%s %ld %ld %ld %ld", VKIND[v % 6], PNAME[v / 6], sv_pairs[v], sv_undef[v], sv_any[v], sv_all[v]);
     printf(" g2 %ld g2W %ld g2bad %ld c40 %ld c40notW %ld profc40 %ld profnoc40 %ld m1notK0 %ld krnotW %ld kronotW %ld",
            st_g2, st_g2W, st_g2bad, st_c40, st_c40notW, st_profc40, st_profnoc40, st_m1notK0, st_krnotW, st_kroNotW);
-    printf(" wK0 %ld wK1 %ld wK1KR %ld wK1noKR %ld\n", st_wK0, st_wK1, st_wKR, st_wK1noKR);
+    printf(" wK0 %ld wK1 %ld wK1KR %ld wK1noKR %ld wK1noKRRw %ld wK1noKRoRwo %ld\n", st_wK0, st_wK1, st_wKR, st_wK1noKR, st_wK1noKRRw, st_wK1noKRoRwo);
     memset(st_app, 0, sizeof st_app); memset(st_fail, 0, sizeof st_fail); memset(st_tight, 0, sizeof st_tight);
     memset(st_only, 0, sizeof st_only); st_tot = st_tightM = st_K1only = 0;
     memset(sv_pairs, 0, sizeof sv_pairs); memset(sv_undef, 0, sizeof sv_undef); memset(sv_any, 0, sizeof sv_any); memset(sv_all, 0, sizeof sv_all);
     st_g2 = st_g2W = st_g2bad = st_c40 = st_c40notW = st_profc40 = st_profnoc40 = st_m1notK0 = st_krnotW = st_kroNotW = 0;
-    st_wK0 = st_wK1 = st_wKR = st_wK1noKR = 0;
+    st_wK0 = st_wK1 = st_wKR = st_wK1noKR = st_wK1noKRRw = st_wK1noKRoRwo = 0;
     memset(fails_shown, 0, sizeof fails_shown); memset(xfails_shown, 0, sizeof xfails_shown);
     fflush(stdout);
 }

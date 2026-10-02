@@ -1,2 +1,0 @@
-# lemmam_xcheck.py --sample=600 --seed=3 --jobs=1 results/k4_certs_5_n4_1.json.gz results/k4_certs_5_n4_2.json.gz results/k4_certs_5_n4_3.json.gz results/k4_certs_5_n4_4.json.gz results/k4_certs_5_pure.json.gz # portfolio sha 429e382316e0fc51
-sample: 600 profiles (31584 cores from k4_certs_5_n4_1.json.gz, k4_certs_5_n4_2.json.gz, k4_certs_5_n4_3.json.gz, k4_certs_5_n4_4.json.gz, k4_certs_5_pure.json.gz), per-agent field disagreements: 0 {}; KR rotations failing rot_checks (in worker processes): 0

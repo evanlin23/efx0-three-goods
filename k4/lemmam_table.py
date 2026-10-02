@@ -22,6 +22,8 @@ DESC = {
     'M_bt12': 'some big-top ⇒ some big-top agent with M1 or M2',
     'M_nobt0': 'no big-top, no shared top (vacuous case of M_nobt) ⇒ M',
     'M_btK0KR': 'some big-top ⇒ some big-top agent in K0 or with KR\'s full bound (o = r)',
+    'M_K0KRw': 'some first agent in K0, or with KR\'s full bound (o = r), or with a rotation into r reaching ω′ ≤ 0',
+    'M_K0KRwo': 'some first agent in K0, or with KR (some owner), or with a rotation reaching ω′ ≤ 0',
 }
 
 
@@ -58,7 +60,8 @@ def main():
           'a − (b + c) / of (a − b − c)/(a + b + c + d); btp = big-top agents with the fewest private goods; shp = '
           'shared-top agents with the fewest private goods (no big-top); bt2 = big-top agents (if two or more). '
           'Predicates (some policy): W = K0 ∪ K1; K0; M1; KRb (Lemma KR, o = r, δ ≤ 1 form = M2); M1|KRb; K0|KRa (KR\'s '
-          'full bound, o = r); K0|KRo (KR, any owner); K0|KRb. Cell: **failures** / applicable over every dataset of '
+          'full bound, o = r); K0|KRo (KR, any owner); K0|KRb; K0|KRa|Rw (or a rotation along a need chain into r to a state '
+          'with ω′ ≤ 0 and no 3-good base: no owner needed); K0|KRo|Rwo (the same with any owner / any chain end). Cell: **failures** / applicable over every dataset of '
           'this table (datasets overlap in kind, not in profiles); per-dataset counts are in the JSON files.', '']
     L.append('| set | ' + ' | '.join(f'`{q}`' for q in PREDS) + ' |')
     L.append('|---|' + '---|' * len(PREDS))
@@ -103,8 +106,9 @@ def main():
           'is in K0 ∪ K1 anyway; c40 = Corollary C₄⁰\'s hypothesis; c40notW = C40 but not in K0 ∪ K1 (C40 ⊆ K0 ∪ K1 is '
           'proved: must be 0); profc40 / profnoc40 = profiles with some / no C40 agent (on profnoc40 Step 1 of §6 gives '
           'nothing and Step 3 is needed); m1notK0 (Lemma S: M1 ⇒ K0), krnotW (Lemma KR: KR ⇒ K0 ∪ K1), kronotW: must be 0; '
-          'wK1 = agents in K1 but not K0, wK1KR of them with a Lemma KR rotation (o = r), wK1noKR without.', '']
-    ks2 = ['g2bad', 'g2', 'g2W', 'c40', 'c40notW', 'profc40', 'profnoc40', 'm1notK0', 'krnotW', 'kronotW', 'wK0', 'wK1', 'wK1KR', 'wK1noKR']
+          'wK1 = agents in K1 but not K0, wK1KR of them with a Lemma KR rotation (o = r), wK1noKR without; wK1noKRRw: '
+          'neither KR nor a rotation into r reaching ω′ ≤ 0; wK1noKRoRwo: neither KR for any owner nor a rotation to ω′ ≤ 0.', '']
+    ks2 = ['g2bad', 'g2', 'g2W', 'c40', 'c40notW', 'profc40', 'profnoc40', 'm1notK0', 'krnotW', 'kronotW', 'wK0', 'wK1', 'wK1KR', 'wK1noKR', 'wK1noKRRw', 'wK1noKRoRwo']
     L.append('| dataset | ' + ' | '.join(ks2) + ' |')
     L.append('|---|' + '---|' * len(ks2))
     for k in keys:

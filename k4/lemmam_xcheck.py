@@ -8,6 +8,8 @@ Per first agent a (tau_a = (a, then index order)) and policy pol in (shrink, env
   M1      k4/rulef.md §6 Step 3, written here from the text: omega <= 0, or r (last-processed unmarked agent) not
           frozen and a least ∅-service of the exposed agents that are not free has size <= kappa_0 (free agents other
           than r that are not exposed); kept-out sets are ANY subsets of J (Lemma K as written), slot goods any good of J;
+  Rw/Rwo  some RotStep of the model along a chain ending at r (Rw) or anywhere (Rwo) reaches omega <= 0 with no base of
+          three or more goods (no owner needed);
   KRa/KRb Lemma KR (k4/rulef.md §3) with o = r, written here from the text: the rotation is built with the model's
           rotate() and its needs with the model's needs_of; (ii) is "o not frozen in P'"; KRb is the "in particular"
           form (delta <= 1 and (eps = 0 or c_k >= 1 and eps = 1)), KRa the full bound delta - 1 - c_k + eps <= 0; every
@@ -20,6 +22,8 @@ Usage:
   lemmam_xcheck.py --sample=N FILE [FILE ...] [--seed=S] [--jobs=J] [--Copts=-Y1]
         N random (core, profile) pairs of the certificate files; k4/lemmam_portfolio.c -T1 -v on each; compares every
         per-agent field (K0, K1, M1, KRb, KRa, big-top) and every candidate verdict
+  lemmam_xcheck.py --lines=FILE [FILE ...] [--max=K] [--jobs=J]
+        every line with sets=, vals= and the C per-agent block fa= (PFAIL, HTIGHT, PROF lines): field agreement as --sample
   lemmam_xcheck.py --fails=LOG [LOG ...] [--max=K]
         every PFAIL / XFAIL / HFAIL line of the logs: recomputes the candidate (or partner) in this model and confirms
         the failure (prints CONFIRMED or NOT CONFIRMED with the per-agent data)"""
@@ -53,14 +57,18 @@ def run_info(inst, a, pol):
 
 
 def minimal_protect(inst, x, W, Hx, pool):
-    """all minimal D inside pool (any goods) with x not threatened by W - D holding Hx"""
+    """all minimal D inside pool with x not threatened by W - D holding Hx. A good outside R_x changes the threat only
+    when removing it makes the bundle a subset of R_x (then x discounts its least good), which needs every such good
+    of W removed; so the minimal sets are among the subsets of pool ∩ R_x, alone or together with all of pool - R_x."""
     mins = []
-    pool = sorted(pool)
-    for r in range(len(pool) + 1):
-        for D in itertools.combinations(pool, r):
-            D = frozenset(D)
-            if any(E <= D for E in mins): continue
-            if not thr(inst, x, W - D, Hx): mins.append(D)
+    inR = sorted(g for g in pool if inst.v[x][g] > 0)
+    out = frozenset(g for g in pool if inst.v[x][g] == 0)
+    for extra in (frozenset(), out) if out else (frozenset(),):
+        for r in range(len(inR) + 1):
+            for D in itertools.combinations(inR, r):
+                D = frozenset(D) | extra
+                if any(E <= D for E in mins): continue
+                if not thr(inst, x, W - D, Hx): mins.append(D)
     return mins
 
 
@@ -188,6 +196,19 @@ def kr(inst, s, o):
     return ra, rb
 
 
+def rw(inst, s, r):
+    """(to r, to any end): some RotStep of the model (rot_steps: every chain and base O) reaches a state with no base
+    of three or more goods and omega <= 0 (no owner needed)"""
+    hr = ha = False
+    for s2, (c, O) in M.rot_steps(inst, s).items():
+        if any(len(M.base_of(inst, s2, i)) >= 3 for i in range(inst.n)): continue
+        if M.omega(inst, s2) <= 0:
+            ha = True
+            if c[-1] == r: hr = True
+        if hr: break
+    return hr, ha
+
+
 def chain_ends(inst, s, needs, fr, k):
     """ends of need chains from k (inner agents frozen and unmarked; the end is the first other agent)"""
     out = set(); pick = s[1]
@@ -204,7 +225,7 @@ def chain_ends(inst, s, needs, fr, k):
 
 
 def agent_data(inst, a, want_k1=True):
-    d = {'K0': False, 'K1': False, 'M1': False, 'KRa': False, 'KRb': False, 'KRo': False, 'part': {}}
+    d = {'K0': False, 'K1': False, 'M1': False, 'KRa': False, 'KRb': False, 'KRo': False, 'Rw': False, 'Rwo': False, 'part': {}}
     states = {}
     for pol in POLS:
         s, pos, blk = run_info(inst, a, pol)
@@ -220,6 +241,8 @@ def agent_data(inst, a, want_k1=True):
         ra, rb = kr(inst, s, r)
         d['KRa'] |= ra; d['KRb'] |= rb
         d['KRo'] |= ra or any(kr(inst, s, o)[0] for o in range(inst.n) if o != r)
+        hr, ha = rw(inst, s, r)
+        d['Rw'] |= hr; d['Rwo'] |= ha
         W = set(bases[r]) | set(J)
         E = [x for x in range(inst.n) if x != r and thr(inst, x, W, bases[x])]
         ks = min((x for x in range(inst.n) if blk[x] == blk[r]), key=lambda x: pos[x])
@@ -247,7 +270,7 @@ def gap(inst, i, norm):
 
 
 SETS = ["all", "bt", "bt1", "nobt", "nobt0", "gap", "gapn", "btp", "shp", "bt2"]
-PREDS = ["W", "K0", "M1", "KRb", "M1|KRb", "K0|KRa", "K0|KRo", "K0|KRb"]
+PREDS = ["W", "K0", "M1", "KRb", "M1|KRb", "K0|KRa", "K0|KRo", "K0|KRb", "K0|KRa|Rw", "K0|KRo|Rwo"]
 
 
 def candidates(inst, D):
@@ -260,7 +283,9 @@ def candidates(inst, D):
     P = {'W': [D[a]['W'] for a in range(n)], 'K0': [D[a]['K0'] for a in range(n)], 'M1': [D[a]['M1'] for a in range(n)],
          'KRb': [D[a]['KRb'] for a in range(n)], 'M1|KRb': [D[a]['M1'] or D[a]['KRb'] for a in range(n)],
          'K0|KRa': [D[a]['K0'] or D[a]['KRa'] for a in range(n)], 'K0|KRo': [D[a]['K0'] or D[a]['KRo'] for a in range(n)],
-         'K0|KRb': [D[a]['K0'] or D[a]['KRb'] for a in range(n)]}
+         'K0|KRb': [D[a]['K0'] or D[a]['KRb'] for a in range(n)],
+         'K0|KRa|Rw': [D[a]['K0'] or D[a]['KRa'] or D[a]['Rw'] for a in range(n)],
+         'K0|KRo|Rwo': [D[a]['K0'] or D[a]['KRo'] or D[a]['Rwo'] for a in range(n)]}
     allag = list(range(n)); bts = [a for a in allag if bt[a]]; shs = [a for a in allag if sh[a]]
     ga = max(allag, key=lambda a: (gap(inst, a, False), -a)); gn = max(allag, key=lambda a: (gap(inst, a, True), -a))
     btp = [a for a in bts if priv[a] == min(priv[b] for b in bts)] if bts else []
@@ -291,6 +316,9 @@ def parse_fa(line):
         f['M1'] = max(int(x) for x in re.findall(r'M1=(\d)', rest))
         f['KRb'] = max(int(x) for x in re.findall(r'KRb=(\d)', rest))
         f['KRa'] = max(int(x) for x in re.findall(r'KRa=(\d)', rest))
+        f['KRo'] = max(int(x) for x in re.findall(r'KRo=(\d)', rest))
+        f['Rw'] = max([int(x) for x in re.findall(r'Rw=(\d)', rest)] or [0])
+        f['Rwo'] = max([int(x) for x in re.findall(r'Rwo=(\d)', rest)] or [0])
         out.append(f)
     return out
 
@@ -302,8 +330,10 @@ def check_sample(task):
     C = parse_fa(cline)
     diffs = []
     for a in range(inst.n):
-        py = {'K0': D[a]['K0'], 'W': D[a]['W'], 'M1': D[a]['M1'], 'KRb': D[a]['KRb'], 'KRa': D[a]['KRa'], 'bt': bigtop(inst, a)}
-        cc = {'K0': C[a]['K0'], 'W': C[a]['K0'] or C[a]['K1'], 'M1': C[a]['M1'], 'KRb': C[a]['KRb'], 'KRa': C[a]['KRa'], 'bt': C[a]['bt']}
+        py = {'K0': D[a]['K0'], 'W': D[a]['W'], 'M1': D[a]['M1'], 'KRb': D[a]['KRb'], 'KRa': D[a]['KRa'], 'KRo': D[a]['KRo'],
+              'Rw': D[a]['Rw'], 'Rwo': D[a]['Rwo'], 'bt': bigtop(inst, a)}
+        cc = {'K0': C[a]['K0'], 'W': C[a]['K0'] or C[a]['K1'], 'M1': C[a]['M1'], 'KRb': C[a]['KRb'], 'KRa': C[a]['KRa'],
+              'KRo': C[a]['KRo'], 'Rw': C[a]['Rw'], 'Rwo': C[a]['Rwo'], 'bt': C[a]['bt']}
         for k in py:
             if bool(py[k]) != bool(cc[k]): diffs.append((a, k, bool(cc[k]), bool(py[k])))
     return sets, vals, diffs, KR_INVALID[0]
@@ -346,6 +376,30 @@ def main():
         print(f'sample: {N} profiles ({len(cores)} cores from {", ".join(os.path.basename(f) for f in files)}), '
               f'per-agent field disagreements: {nd} {cnt}; KR rotations failing rot_checks (in worker processes): {inv}', flush=True)
         return
+    if opt('lines') is not None:                   # any lines with sets=, vals= and the C fa= block: field agreement
+        tasks = []
+        for f in [opt('lines')] + [a for a in args if not a.startswith('--')]:
+            for l in open(f):
+                if ' fa=' not in l or 'sets=' not in l: continue
+                l = l[l.index('n='):] if 'n=' in l else l
+                sets, vals = parse_line(l)
+                tasks.append((sets, vals, l))
+        seen = set(); uniq = []
+        for t in tasks:
+            k = json.dumps(t[:2])
+            if k not in seen: seen.add(k); uniq.append(t)
+        uniq = uniq[:int(opt('max', 10 ** 9))]
+        print(f'# lemmam_xcheck.py {" ".join(args)}: {len(uniq)} distinct profiles', flush=True)
+        nd = 0; cnt = {}; inv = 0; nag = 0
+        with Pool(jobs) as pool:
+            for sets, vals, diffs, kinv in pool.imap_unordered(check_sample, uniq):
+                inv += kinv; nag += len(sets)
+                for a, k, c, p in diffs:
+                    cnt[k] = cnt.get(k, 0) + 1; nd += 1
+                    if nd <= 30: print(f'DIFF field={k} agent={a} C={c} python={p} sets={json.dumps(sets)} vals={json.dumps(vals)}', flush=True)
+        print(f'lines: {len(uniq)} profiles, {nag} first agents, per-agent field disagreements: {nd} {cnt}; '
+              f'KR rotations failing rot_checks: {inv}', flush=True)
+        return
     if opt('fails') is not None:
         logs = [opt('fails')] + [a for a in args if not a.startswith('--')]
         mx = int(opt('max', 10 ** 9))
@@ -385,7 +439,7 @@ def main():
                     Pset = D[b]['part'].get(v, set()) - {b}
                     if Pset and not any(D[x]['W'] for x in Pset): ok = True
             conf += ok; notc += not ok
-            summ = ' '.join(f"{a}:K0={int(D[a]['K0'])},K1={int(D[a]['K1'])},M1={int(D[a]['M1'])},KRb={int(D[a]['KRb'])},KRa={int(D[a]['KRa'])},bt={int(bt[a])}" for a in range(inst.n))
+            summ = ' '.join(f"{a}:K0={int(D[a]['K0'])},K1={int(D[a]['K1'])},M1={int(D[a]['M1'])},KRb={int(D[a]['KRb'])},KRa={int(D[a]['KRa'])},KRo={int(D[a]['KRo'])},Rw={int(D[a]['Rw'])},Rwo={int(D[a]['Rwo'])},bt={int(bt[a])}" for a in range(inst.n))
             print(f"{'CONFIRMED' if ok else 'NOT CONFIRMED'} {tag} n={inst.n} m={inst.m} sets={json.dumps(sets)} vals={json.dumps(vals)} python: {summ}", flush=True)
         print(f'confirmed {conf}, not confirmed {notc}; KR rotations failing rot_checks: {KR_INVALID[0]}', flush=True)
 
