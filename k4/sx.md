@@ -287,6 +287,23 @@ Which lemma applies is decided by Lemma F's forest. If some terminal is a leaf w
 terminal is not a leaf, it has a threat path down to a leaf (Lemma F), and B or B′ applies unless that leaf is an (R)
 with s ∈ L and (H_B′) fails. If every terminal is a θ-b leaf, Lemmas C and C′ are the candidates.
 
+**The global target these lemmas aim at.** The source is compute/k4-portfolio's `results/k4_portfolio/TABLE.md` (commit
+5111ea3 of that branch, EVIDENCE). Every key-graph form of the table survives on its 71,596 keys with def* > 0 except
+the control K1, (T3) ∪ (T4), which fails at 22. The strongest survivor is K3b_noT4:
+- edges are (T3⁺) moves with |W| ≤ 1 that change at most three agents;
+- there are no (T4) edges.
+- *At f = 1* K3b_noT4, K3b, K3, K2 and K1 all coincide with the (T3) edges, because (T4) is empty and (T3⁺) = (T3).
+  Every lemma of K4.SX.COVER (A, B₁, B₁′, C, C′) is a (T3) move changing at most three agents: x, z and at most one
+  helper. So the f = 1 statement of this file (Theorem 1 with COVER) is the K3b_noT4 form.
+- *At f ≥ 2*:
+  - A⁺ with a chain of length j ≤ 1 is a K3b_noT4 edge (x, w₁, o).
+  - B⁺ with j = 1 and k = 1 changes four agents (x, w₁, τ, q₁). It is a K3 edge without (T4), but not a K3b edge.
+
+  On every f ≥ 2 input of §6 where A⁺ or B⁺ applies, j ≤ 1 and k = 1 (`results/k4_sx/f2/*.log`,
+  `results/k4_sx/t3stage/f2.log`).
+- compute/k4-rc's 45 profiles (§4.4) are not in that table. There the single-step form of K4.DL2.RC fails, and the
+  (T3) key-graph form holds at all 45 keys. At f = 1 that form is every K-form of the table.
+
 ## 4. Evidence
 
 Tools (EVIDENCE tooling; every assertion below is checked against exact deficits, with no violation):
