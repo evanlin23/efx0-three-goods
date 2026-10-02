@@ -1,0 +1,1 @@
+LS rule=mindef kinds=up,cycle,rot random K=20000 seed=1 2<=n<=8 n<=m<=2n+3: 20000 profiles; not EFX0: 0; moves {'rot': 15578, 'up': 7678}; #moves per profile {0: 6104, 1: 7367, 2: 4346, 3: 1633, 4: 460, 5: 82, 6: 8}; {'overflow>0': 8317, 'fits': 11683}

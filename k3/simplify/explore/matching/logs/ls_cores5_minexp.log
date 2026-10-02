@@ -1,0 +1,3 @@
+LS rule=minexp kinds=up,cycle,rot cores n in [5,5] sample=200: 61400 profiles; not EFX0: 2; moves {'rot': 31521, 'up': 13315, 'cycle': 3}; #moves per profile {0: 26655, 1: 25656, 2: 8121, 3: 931, 4: 37}; {'fits': 60507, 'overflow>0': 893}
+  fail: (5, 9, [(6, 0, 1), (3, 7, 5), (5, 4, 8), (2, 1, 0), (2, 3, 4)], (4, 1, 1, 1, 3))
+  fail: (5, 9, [(6, 1, 0), (5, 7, 3), (4, 8, 5), (2, 0, 1), (4, 2, 3)], (4, 1, 1, 1, 3))

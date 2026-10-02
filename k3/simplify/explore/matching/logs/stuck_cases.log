@@ -1,0 +1,4 @@
+small n=3 m=7: {'S1_violated': 0, 'F1': 34020, 'F2+': 41478, 'F2+ min deficit -1': 34126, 'F2+ some free o with E_o empty': 37910, 'F2+ min deficit 0': 2544, 'F2+ min deficit -2': 4808}
+  first F2_nonempty ([(0, 1, 2), (0, 2, 3), (2, 1, 3)], 7, (2, 1, 1))
+random K=4000 seed=3 n<=5: {'S1_violated': 0, 'F1': 1723, 'F2+': 1906, 'F2+ min deficit -1': 1053, 'F2+ some free o with E_o empty': 1759, 'F2+ min deficit -2': 565, 'F2+ min deficit -3': 149, 'E': 124, 'F2+ min deficit 0': 124, 'F2+ min deficit -4': 15}
+  first F2_nonempty ([(0, 3, 4), (3, 2, 0)], 5, (1, 1))

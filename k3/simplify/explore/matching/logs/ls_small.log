@@ -1,0 +1,9 @@
+LS rule=minexp kinds=up,cycle,rot small n=2 m=3: 6 profiles; not EFX0: 0; moves {'up': 2}; #moves per profile {0: 4, 1: 2}; {'fits': 6}
+LS rule=minexp kinds=up,cycle,rot small n=2 m=4: 24 profiles; not EFX0: 0; moves {'up': 6, 'rot': 10}; #moves per profile {0: 8, 1: 16}; {'fits': 24}
+LS rule=minexp kinds=up,cycle,rot small n=2 m=5: 60 profiles; not EFX0: 0; moves {'up': 12, 'rot': 46}; #moves per profile {0: 12, 1: 38, 2: 10}; {'overflow>0': 60}
+LS rule=minexp kinds=up,cycle,rot small n=2 m=6: 120 profiles; not EFX0: 0; moves {'up': 20, 'rot': 120}; #moves per profile {0: 16, 1: 68, 2: 36}; {'overflow>0': 120}
+LS rule=minexp kinds=up,cycle,rot small n=3 m=4: 576 profiles; not EFX0: 0; moves {'up': 138, 'rot': 92}; #moves per profile {0: 346, 1: 230}; {'fits': 576}
+LS rule=minexp kinds=up,cycle,rot small n=3 m=5: 3600 profiles; not EFX0: 0; moves {'up': 1172, 'rot': 1300}; #moves per profile {0: 1308, 1: 2112, 2: 180}; {'overflow>0': 126, 'fits': 3474}
+LS rule=minexp kinds=up,cycle,rot small n=3 m=6: 14400 profiles; not EFX0: 0; moves {'up': 4794, 'rot': 9036}; #moves per profile {0: 3306, 1: 8358, 2: 2736}; {'overflow>0': 904, 'fits': 13496}
+LS rule=minexp kinds=up,cycle,rot small n=3 m=7: 44100 profiles; not EFX0: 0; moves {'up': 13992, 'rot': 39008}; #moves per profile {0: 6724, 1: 22928, 2: 13272, 3: 1176}; {'overflow>0': 44100}
+LS rule=minexp kinds=up,cycle,rot small n=4 m=5: 216000 profiles; not EFX0: 0; moves {'up': 40704, 'rot': 35144}; #moves per profile {0: 140152, 1: 75848}; {'fits': 216000}

@@ -1,0 +1,14 @@
+small n=4 m=6: 1728000 profiles
+  sumU         all-optima-complete=1728000 some-but-not-all=0 none=0
+  sumV         all-optima-complete=1728000 some-but-not-all=0 none=0
+  minNA        all-optima-complete=1728000 some-but-not-all=0 none=0
+  minOv        all-optima-complete=1728000 some-but-not-all=0 none=0
+  leximin      all-optima-complete=1728000 some-but-not-all=0 none=0
+  minNA_sumU   all-optima-complete=1728000 some-but-not-all=0 none=0
+  sumU_minNA   all-optima-complete=1728000 some-but-not-all=0 none=0
+  minOv_sumU   all-optima-complete=1728000 some-but-not-all=0 none=0
+  pareto       all-optima-complete=1728000 some-but-not-all=0 none=0
+
+real	6m7.417s
+user	5m59.665s
+sys	0m0.170s
