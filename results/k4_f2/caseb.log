@@ -1,0 +1,13 @@
+# command: python3 k4/f2_lemmas.py --caseb results/k4_f2/shapes_0.jsonl.gz results/k4_f2/shapes_1.jsonl.gz results/k4_f2/shapes_2.jsonl.gz results/k4_f2/shapes_3.jsonl.gz results/k4_f2/shapes_4.jsonl.gz results/k4_f2/shapes_5.jsonl.gz results/k4_f2/shapes_6.jsonl.gz results/k4_f2/shapes_7_28.jsonl.gz results/k4_f2/shapes_7_29.jsonl.gz results/k4_f2/shapes_7_30.jsonl.gz results/k4_f2/shapes_7_31.jsonl.gz results/k4_f2/shapes_n5fail.jsonl.gz results/k4_f2/shapes_rchunt.jsonl.gz results/k4_f2/shapes5_0.jsonl.gz results/k4_f2/shapes5_1.jsonl.gz results/k4_f2/shapes5_2.jsonl.gz results/k4_f2/shapes5_3.jsonl.gz results/k4_f2/shapes5_4.jsonl.gz results/k4_f2/shapes5_5.jsonl.gz results/k4_f2/shapes5_6.jsonl.gz results/k4_f2/shapes5_7.jsonl.gz
+  T3 stage | def>0 states                                                                                        33816
+  T3 stage | single blocks by a frozen agent with frozen needers only | owner a free end (B-S1c)                 25313
+  T3 stage | single blocks by a frozen agent with frozen needers only | owner not a free end (B)                 2339
+  key-minimal, a (T4) move improves | def>0 states                                                               2676
+  key-minimal, a (T4) move improves | single blocks by a frozen agent with frozen needers only | owner a free end (B-S1c) 406
+  not key-minimal | def>0 states                                                                                 7923
+  not key-minimal | single blocks by a frozen agent with frozen needers only | owner a free end (B-S1c)          5209
+  not key-minimal | single blocks by a frozen agent with frozen needers only | owner not a free end (B)          549
+  profiles                                                                                                       6710
+  smallest T3 stage | owner not a free end (B): n=5 m=9 sets=[[0, 1, 4, 7], [2, 3, 4], [2, 3, 8], [5, 6, 7, 8], [5, 6, 7, 8]] vals=[[2, 3, 8, 4], [2, 3, 4], [2, 4, 3], [3, 2, 8, 4], [2, 3, 8, 4]] P=[[7], [4], [3], [8], [5, 6]] owner 2 blocker 1
+  smallest not key-minimal | owner not a free end (B): n=4 m=8 sets=[[0, 2, 3, 5], [1, 4, 6, 7], [2, 3, 6, 7], [4, 5, 6, 7]] vals=[[3, 8, 10, 6], [2, 3, 8, 4], [3, 5, 6, 7], [2, 3, 6, 10]] P=[[0, 2], [1, 4], [7], [6]] owner 0 blocker 2
+# no assertion failed
