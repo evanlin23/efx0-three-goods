@@ -13,17 +13,16 @@ resumable), `k4/lemmam_x_check.py` (second implementation on PR #33's model `k4/
 `k4/lemmam_x_realize.py` (§5.2), `k4/lemmam_x_l46greedy.py` and `k4/lemmam_x_blocks.py` (§7.3; the latter recomputes the
 block counts on PR #33's model for small instances). Lean: `lean/EFX/Adaptive.lean` (§7.4).
 
-**Status** (rows K4.LMX.*; Lemmas 1–5 and Proposition R were refereed in the PR #77 review and found correct,
-Proposition R conditionally on PR #83).
-- **Lemma M is false if Proposition HH holds** (`k4/lemmam_bt.md` §3, PR #83, refereed correct, not yet merged: on
-  HH₃, two copies of H₃ sharing one good, n = 26, no first agent is in K0 or K1). Then no exchange between first
-  agents can prove it. Before HH₃ the exchange works on the data with the right partner (§2): the **needer at the end
-  of a need chain** from an exposed frozen agent — the end shared by the most exposed frozen agents, or of least index
-  — is good whenever a is bad (every strict profile with n ≤ 3 and n = 4 with at most two 4-good agents: 26,248
-  weighted bad pairs of the C code, 25,960 in PR #33's model; the suite; H₃–H₅). The other proposed partners fail: the
-  exposed frozen 4-good agent and the leader of r's block at n = 3, m = 6, r itself on H₄ (n = 17, both
-  implementations) (`attempts/k4-lemmam-x-exchange.md`). The exchange agent's run follows Lemma Ψ's fall chain in only
-  12% of the bad pairs: LB's P-step key reorders it (§5.2).
+**Status** (rows K4.LMX.*; Lemmas 1–5 and Proposition R were refereed in the PR #77 review and found correct).
+- **Lemma M is false**: K4.RF.M is REFUTED (K4.LMBT.M, PR #83: on HH₃, two copies of H₃ sharing one good, n = 26, no
+  first agent is in K0 or K1; Proposition HH, K4.LMBT.HH). So no exchange between first agents can prove it. Before
+  HH₃ the exchange works on the data with the right partner (§2): the **needer at the end of a need chain** from an
+  exposed frozen agent — the end shared by the most exposed frozen agents, or of least index — is good whenever a is
+  bad (every strict profile with n ≤ 3 and n = 4 with at most two 4-good agents: 26,248 weighted bad pairs of the C
+  code, 25,960 in PR #33's model; the suite; H₃–H₅). The other proposed partners fail: the exposed frozen 4-good agent
+  and the leader of r's block at n = 3, m = 6, r itself on H₄ (n = 17, both implementations)
+  (`attempts/k4-lemmam-x-exchange.md`). The exchange agent's run follows Lemma Ψ's fall chain in only 12% of the bad
+  pairs: LB's P-step key reorders it (§5.2).
 - **Written proofs (refereed in the PR #77 review)**, using K4.C4.AB.L and Lemmas K, S (K4.RF.K, K4.RF.S): **Lemma
   1**, a bad first agent's envy-free run has ω ≥ 1, an exposed frozen agent, and an exposed 4-good agent or (G2) (M3
   reduces to (G2)); **Lemma 2**, in (G2) a bad first agent forces k*'s two lower goods to be goods of r (r moves up to
@@ -33,7 +32,7 @@ Proposition R conditionally on PR #83).
   have slot places (in particular a Hall violation against their chain ends); **Lemma 4**, the first block decides
   (two runs whose first blocks have the same agents and goods agree afterwards).
 - **The repair: choose the inserted agent at every insertion step** (§6–§7). **Proposition R** (written proof,
-  extending Proposition HH's count; refereed correct conditionally on PR #83): on HH_t with 2t − 2 > 3d no first agent
+  extending Proposition HH's count, K4.LMBT.HH; refereed in the PR #77 review): on HH_t with 2t − 2 > 3d no first agent
   works with at most d rotations, so no fixed rotation bound saves a rule that chooses only the first agent. **Lemmas
   5, 5′** (refereed): a *block count*, computed when a block closes from the block and the goods still unpicked (and
   only falling afterwards), certifies the run without rotation when every block has count 0; at k = 3 every block but
@@ -69,7 +68,7 @@ base of three goods); pol ranges over need-shrinking and envy-free upgrades (RK�
 the classes). Lemma K is taken with the kept-out sets of `k4/rulef.md` §2 Remark 4 (`-Y1`), the lemma as stated
 (K4.RF.K). Call a **good** if a ∈ K0 ∪ K1 and **bad** otherwise. Then
 
-> **Lemma M** (K4.RF.M, open). Every strict profile of every k = 4 core has a good first agent.
+> **Lemma M** (K4.RF.M, REFUTED by HH₃, K4.LMBT.M). Every strict profile of every k = 4 core has a good first agent.
 
 The exchange form asked for (`k4/rulef.md` §6 Step 3): *if a is bad, a specific agent a′ = c(a), read off a's run, is
 good.* Any such map c proves Lemma M (take any a; if it is bad, c(a) is good). A weaker form also suffices: *if a is
@@ -102,11 +101,11 @@ a the class of its envy-free run (`k4/c4.md`'s cases) and the candidates a′:
 | the same, classes recomputed in PR #33's model (`k4/lemmam_x_check.py`) | (the 1,420 bad leaves) | 14,408 | 25,960 | 0 | 0 (it is a) | 25,960 | 25,960 | 25,960 |
 | the suite's 153 strict cores (all but H₅) | 153 | 9 | 11 | 1 (of 8) | 0 | 11 | 11 | 11 |
 | H₃, H₄, H₅ (n = 13, 17, 21) | 3 | 3 | 2, 6, 10 | 2, 6, 10 | 0 | 2, 6, 10 | 2, 4, 7 (all, iterated) | 2, 0, 0 |
-| HH₃ (n = 26), PR #83 | 1 | 1 | 26 | — | — | — | — | — |
+| HH₃ (n = 26), K4.LMBT.M (PR #83) | 1 | 1 | 26 | — | — | — | — | — |
 
 (`results/k4_lemmam_x/exh_n2_n3_n4_12.log`, `check_bad_n234.log`, `suite.log`, `H2_H5_classes.log`; H₂ is in the
-suite. On HH₃ every first agent is bad if Proposition HH of PR #83 holds (refereed correct, not yet merged; not
-recomputed here, §6): then Lemma M fails there and no partner can be good. `k4/lemmam_x_check.py` has no candidate
+suite. On HH₃ every first agent is bad (K4.LMBT.M, PR #83; not recomputed here, §6): Lemma M fails there
+(K4.RF.M REFUTED) and no partner can be good. `k4/lemmam_x_check.py` has no candidate
 (x2); in the model (x2) fails only because every bad run there is a single block, so the leader of r's block is a.)
 
 *The two implementations differ in one convention, and `k4/lemmam_x.c` is the conservative one.* `k4/rulef.c` (hence
@@ -139,7 +138,7 @@ Findings on the exhaustive data:
 So on these data the exchange works with a′ = the needer at the end of the chain, but which end matters beyond
 n = 4: on H₄ and H₅ r (the last end) is bad for every bad first agent, while the end shared by the most exposed frozen
 agents (y₁, the y of the first gadget the cascade from ℓ reaches) is good; on H_t also (x1) (x_{1,1}) is good. And on
-HH₃ there is nothing to exchange with if Proposition HH holds. The failed partners are recorded in
+HH₃ there is nothing to exchange with (K4.LMBT.M). The failed partners are recorded in
 `attempts/k4-lemmam-x-exchange.md`.
 
 ## 3. What the run of a bad first agent looks like
@@ -260,7 +259,7 @@ mechanism of `k4/c4.md` §6.1 item 4 and `attempts/k4-c4-lbplus-rotation.md`, he
 case Y′ = b_r it is completely rigid: R_r = {a_r, Y′, b_k*, c_k*}, r's old pick is one of b_k*, c_k*, and a_r is held
 by a frozen agent (r needs it). No rotation of the same run repairs it on the data: (G2) occurs in bad runs (§2), and
 there the exchange of §2 repairs it; on every one of them, a′ = r (the needer at the end of the chain) is good.
-What is open for (G2) is the exchange itself (§5).
+What was open for (G2) is the exchange itself (§5), moot since Lemma M is false (§6).
 
 ## 5. The exchange: mechanism, Ω and Ψ, and what remains
 
@@ -294,13 +293,13 @@ the two partners coincide at n ≤ 4). Smallest "neither": agents {0, 1, 4, 5}, 
 (1, 4, 6, 8), (3, 5, 7, 6), (2, 3, 4, 8), a = 0, a′ = 2. τ₀ gives 0: 5, 1: 4, 2: 3; Ψ predicts 2: 5, 0: 4, 1: 3; but
 in τ₂ LB's key processes 1 before 0 (its favourite 4 is its top, 0's is not) and gives 2: 5, 1: 4, 0: 1. So the
 exchange agent's run is governed by LB's key, not by Ψ's fall chain, and an exchange proof along Ψ would need a
-version of Ψ for LB's key, which Ω and Ψ do not provide. Since Lemma M is false if Proposition HH holds (§6), this is
+version of Ψ for LB's key, which Ω and Ψ do not provide. Since Lemma M is false (K4.RF.M REFUTED, K4.LMBT.M; §6), this is
 recorded only as the reason the exchange was not completed.
 
 ## 6. No fixed rotation bound for a single chosen first agent
 
-Proposition HH of `k4/lemmam_bt.md` §3 (PR #83, refereed correct, not yet merged) refutes Lemma M on HH₃ if it
-holds: HH_t is two
+Proposition HH of `k4/lemmam_bt.md` §3 (K4.LMBT.HH, PROVED; PR #83) refutes Lemma M on HH₃ (K4.LMBT.M, K4.RF.M
+REFUTED): HH_t is two
 copies A, B of H_t with ℓ_B's good u identified with ℓ_A's u (n = 8t + 2, m = 20t + 5, every agent 4-good, none
 big-top), and for t ≥ 3 no first agent a makes LB₄ʳ(τ_a) succeed with at most one rotation. The same count, with q
 rotations in place of one, bounds the rotations of every first agent.
@@ -310,7 +309,8 @@ with at most d rotations (under each upgrade policy, every owner or none, the ow
 bundle, chains ending at any agent that is not frozen). So no fixed bound on the rotations makes a rule that chooses
 only the first agent work: d = 1 fails on HH₃, d = 2 on HH₅, d = 3 on HH₆, and so on. (So every first agent of HH_t
 needs at least (2t − 2)/3 rotations; PR #83's Corollary HH states (t − 1)/2. The difference is the per-gadget bound
-below.) The proof uses PR #83's Lemma P and Lemmas 1–2; the PR #77 referee found it correct conditionally on them.
+below.) The proof uses Lemma P and Lemmas 1–2 of `k4/lemmam_bt.md` (K4.LMBT.HH, PROVED); it was refereed in the
+PR #77 review.
 
 *Proof.* Fix a and let D be the copy containing a, C the other one. We use from `k4/lemmam_bt.md` §1, §3 (PR #83):
 Lemma P (protecting goods: if forced agents have protecting sets Π(f) disjoint except for c goods each in two of them,
@@ -346,13 +346,14 @@ so each touched gadget raises its copy's bound by at most 3. So the total balanc
 of LB₄ʳ is such a completion with an owner (ω = |NA| − σ ≥ −σ = 4t + 1 ≥ 1, and a base of three or more goods makes
 its agent the owner), so there is none. ∎
 
-The bound is a count, so it is the same for Lemma K's classes (whose certificates are outputs): on HH_t with
-2t − 2 > 3d no first agent is certified with d rotations. On HH₃ (d = 1) the classes are those of PR #83 (every first
-agent in neither K0 nor K1, `k4/rulef.c` and `k4/lemmam_bt.py`); they are not recomputed here (with the kept-out
-sets of Remark 4 one first agent of HH₃ takes minutes, and the 26 together exceed the ~20 minutes allowed per run).
-Note that `k4/rulef.c`'s "neither" is an upper bound in the sense of §2 (rotated agents get no slot there), so on HH₃
-the written count is the stronger evidence. Larger d is a statement about HH₅ (n = 42) and beyond, where the count is
-the evidence; a direct search with two nested rotations on HH₃ is out of reach here.
+The bound is a count, so it is the same for Lemma K's classes (whose certificates are outputs): on HH_t with 2t − 2 >
+3d no first agent is certified with d rotations. On HH₃ (d = 1) the classes are those of K4.LMBT.M (every first agent
+in neither K0 nor K1, `k4/rulef.c` and `k4/lemmam_bt.py`); they are not recomputed here (with the kept-out sets of
+Remark 4 one first agent of HH₃ takes minutes, and the 26 together exceed the ~20 minutes allowed per run).
+(`k4/rulef.c`'s "neither" alone would be an upper bound in the sense of §2, since rotated agents get no slot there;
+K4.LMBT.M rests on the refereed proof and on three exact Output tests of PR #83.) Larger d is a statement about HH₅ (n
+= 42) and beyond, where the count is the evidence; a direct search with two nested rotations on HH₃ is out of reach
+here.
 
 ## 7. The repaired target: the insertion agent chosen at every insertion step
 
@@ -456,7 +457,7 @@ and n = 4 with one to three 4-good agents: the fewest rotations over every inser
 is the case τ = (a), so M_ad also holds wherever Lemma M does (every profile of §2's data), and on H_t and HH_t by the
 runs of §7.3. No counterexample is known. In Lean, the special cases `TheoremC4` (every τ) and `TheoremC4index`
 (τ = []) are false (H₅, Proposition H), and `TheoremRuleF` (τ = [a]) and `LemmaM` (`lean/EFX/RuleFK.lean`, #81:
-some first agent in K0 or K1, which gives `TheoremRuleF`) are false if Proposition HH holds (HH₃); `TheoremC4exists`
+some first agent in K0 or K1, which gives `TheoremRuleF`) are false (HH₃; K4.LMBT.M); `TheoremC4exists`
 (K4.D on strict cores, `C4exists_iff`) is the conclusion. M_ad's own statement is `TheoremAdaptive` (§7.4).
 
 **Local forms.** Call a block *last* if it processes every agent still unprocessed. A local form says how to build
@@ -518,7 +519,7 @@ Findings:
   x_{1,2} first, on HH₃ τ = (3, 0, 7, 8, 11, 12, 15, 1, 19, 20, 23, 24) inserts x_{1,2} of each copy before its ℓ
   (agents 0, 1 are ℓ_A, ℓ_B; A's gadgets are 2–13, B's 14–25, each x_{j,1}, x_{j,2}, x_{j,3}, y_j); every block has
   count 0 and no rotation is needed, also after relabeling. These are the instances on which every rule choosing only
-  the first agent fails (§6), if Proposition HH holds.
+  the first agent fails (§6; K4.LMBT.M).
 - *The greedy rule is not itself a proof route*: 11,520 profiles need two rotations after its run (both counts; both
   implementations). Smallest: n = 3, m = 6 (core 17 of `results/k4_certs_3.json.gz`), agents {0, 1, 4, 5},
   {2, 3, 4, 5}, {2, 3, 4, 5} with values (1, 4, 6, 8), (3, 5, 7, 6), (2, 3, 4, 8): every agent starts a single block

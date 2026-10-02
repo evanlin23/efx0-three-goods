@@ -3,9 +3,9 @@ import EFX.RuleF
 /-!
 # Adaptive Lemma M's target statement (`k4/lemmam_x.md` §7.2, §7.4; ledger K4.LMX.AD.LEAN)
 
-Lemma M (`k4/rulef.md`, ledger K4.RF.M) chooses only the first agent of LB₄ʳ's insertion sequence; it is false if
-Proposition HH of `k4/lemmam_bt.md` §3 (PR #83) holds. The repair of `k4/lemmam_x.md` §7 chooses the inserted agent
-at every insertion step. In `lean/EFX/LB4R.lean` any insertion sequence is a list `τ` (choice 2 of its module doc:
+Lemma M (`k4/rulef.md`, ledger K4.RF.M) chooses only the first agent of LB₄ʳ's insertion sequence; it is false
+(K4.RF.M REFUTED by Proposition HH of `k4/lemmam_bt.md` §3, ledger K4.LMBT.M, PR #83). The repair of
+`k4/lemmam_x.md` §7 chooses the inserted agent at every insertion step. In `lean/EFX/LB4R.lean` any insertion sequence is a list `τ` (choice 2 of its module doc:
 the j-th insertion step takes the `(τ_j mod u)`-th unprocessed agent in index order), so the repaired target is
 
 - `TheoremAdaptive` (M_ad): every strict profile of every k = 4 core has an insertion sequence `τ` with

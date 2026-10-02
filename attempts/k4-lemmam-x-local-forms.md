@@ -3,7 +3,7 @@
 Workstream `proof/k4-lemmam-x` (PR #77, `k4/lemmam_x.md` §7). Ledger rows K4.LMX.X (refuted forms), K4.LMX.AD (M_ad,
 open), K4.LMX.L5 (Lemmas 5, 5′).
 
-**The idea.** Lemma M is false if Proposition HH (PR #83, refereed correct, merging) holds. The repair chooses the
+**The idea.** Lemma M is false (K4.RF.M REFUTED, K4.LMBT.M, PR #83). The repair chooses the
 inserted agent at every insertion step. A run of Phase 1 is a sequence of blocks; when a block closes, its *block
 count* (`k4/lemmam_x.md` §7.1) is computed from the block and the unpicked goods: the kept-out goods its frozen agents
 threatened by the unpicked goods need, minus the slot places κ₀ of its other agents that are neither frozen nor
