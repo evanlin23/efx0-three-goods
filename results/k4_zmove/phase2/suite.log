@@ -1,0 +1,12 @@
+# command: python3 k4/zmove_check.py results/k4_zmove/phase2/suite.jsonl.gz results/k4_zmove/inputs/suite.jsonl.gz --indep=1
+# 160 input records, 159 distinct in range, part 0/1: 159, already done 0
+Terminated
+# command: python3 k4/zmove_check.py results/k4_zmove/phase2/suite.jsonl.gz results/k4_zmove/inputs/suite.jsonl.gz --maxn=6 --indep=1
+# 160 input records, 157 distinct in range, part 0/1: 157, already done 1
+indep agree                    87
+keys f=1                       4
+keys f=2                       11
+keys f=3                       22
+profiles                       156
+margin histogram (this run): {-1: 26, 0: 11}
+# time 5.4 s

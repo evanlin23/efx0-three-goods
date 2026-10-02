@@ -1,0 +1,9 @@
+# command: python3 k4/zmove_check.py results/k4_zmove/phase2/n4_pure_r2k.jsonl.gz results/k4_cover/screen/n4_pure_r2k.jsonl.gz --indep=1
+# 64 input records, 64 distinct in range, part 0/1: 64, already done 0
+indep agree                    64
+keys f=1                       8
+keys f=2                       62
+keys f=3                       36
+profiles                       64
+margin histogram (this run): {-2: 3, -1: 78, 0: 25}
+# time 5.6 s

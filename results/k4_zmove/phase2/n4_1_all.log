@@ -1,0 +1,8 @@
+# command: python3 k4/zmove_check.py results/k4_zmove/phase2/n4_1_all.jsonl.gz results/k4_cover/screen/n4_1_all.jsonl.gz --indep=1
+# 176 input records, 176 distinct in range, part 0/1: 176, already done 0
+indep agree                    176
+keys f=2                       146
+keys f=3                       140
+profiles                       176
+margin histogram (this run): {-1: 130, 0: 156}
+# time 2.5 s
