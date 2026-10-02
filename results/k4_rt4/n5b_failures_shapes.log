@@ -1,0 +1,68 @@
+# command: python3 k4/dlrt4_failures.py results/k4_rt4/dump_n5b_4.jsonl.gz --inst=results/k4_rt4/n5b_failures_inst.json --tsv=results/k4_rt4/n5b_failures.tsv
+# results/k4_rt4/dump_n5b_4.jsonl.gz: 5273 complete records, 3 DL_RT4 failures (f >= 1)
+
+dump_n5b_4.jsonl.gz: core k4_certs_5_n4_4.json.gz pos 3206 (idx 364, m 9), sets [[0, 2, 4, 7], [1, 4, 7, 8], [3, 6, 8], [5, 6, 7, 8], [5, 6, 7, 8]], profile [108, 86, 1, 108, 27], values [[6, 3, 5, 7], [4, 2, 8, 7], [2, 4, 3], [4, 8, 1, 6], [2, 7, 8, 4]]
+ state P = ({7}, {8}, {3}, {5}, {6}): dlrt4.c f 3, def 1, nearest k 3, 2 nearest
+  model: f 3, def(P) 1, NA {6,7,8}, frozen [0, 1, 4]; better states 44 (by distance {3: 16, 4: 8, 5: 20}); nearest k = 3; equal to the dump's better list: True
+    P' = ({0}, {7}, {3}, {8}, {6}), def -1, NA {6,7,8}: 0U: {7} -> {0}; 1W: {8} -> {7}; 3Z: {5} -> {8}  [U1 Z1 W1 Y0 chain True swap False, NA kept]
+    P' = ({0}, {7}, {8}, {5}, {6}), def -1, NA {6,7,8}: 0U: {7} -> {0}; 1W: {8} -> {7}; 2Z: {3} -> {8}  [U1 Z1 W1 Y0 chain True swap False, NA kept]
+    P' = ({0}, {8}, {3}, {6}, {7}), def -1, NA {6,7,8}: 0U: {7} -> {0}; 3Z: {5} -> {6}; 4W: {6} -> {7}  [U1 Z1 W1 Y0 chain True swap False, NA kept]
+    P' = ({0}, {8}, {6}, {5}, {7}), def -1, NA {6,7,8}: 0U: {7} -> {0}; 2Z: {3} -> {6}; 4W: {6} -> {7}  [U1 Z1 W1 Y0 chain True swap False, NA kept]
+    P' = ({0,2}, {7}, {3}, {8}, {6}), def -1, NA {6,7,8}: 0U: {7} -> {0,2}; 1W: {8} -> {7}; 3Z: {5} -> {8}  [U1 Z1 W1 Y0 chain True swap False, NA kept]
+    P' = ({0,2}, {7}, {8}, {5}, {6}), def -1, NA {6,7,8}: 0U: {7} -> {0,2}; 1W: {8} -> {7}; 2Z: {3} -> {8}  [U1 Z1 W1 Y0 chain True swap False, NA kept]
+    P' = ({0,2}, {8}, {3}, {6}, {7}), def -1, NA {6,7,8}: 0U: {7} -> {0,2}; 3Z: {5} -> {6}; 4W: {6} -> {7}  [U1 Z1 W1 Y0 chain True swap False, NA kept]
+    P' = ({0,2}, {8}, {6}, {5}, {7}), def -1, NA {6,7,8}: 0U: {7} -> {0,2}; 2Z: {3} -> {6}; 4W: {6} -> {7}  [U1 Z1 W1 Y0 chain True swap False, NA kept]
+    P' = ({0,4}, {7}, {3}, {8}, {6}), def -1, NA {6,7,8}: 0U: {7} -> {0,4}; 1W: {8} -> {7}; 3Z: {5} -> {8}  [U1 Z1 W1 Y0 chain True swap False, NA kept]
+    P' = ({0,4}, {7}, {8}, {5}, {6}), def -1, NA {6,7,8}: 0U: {7} -> {0,4}; 1W: {8} -> {7}; 2Z: {3} -> {8}  [U1 Z1 W1 Y0 chain True swap False, NA kept]
+    P' = ({0,4}, {8}, {3}, {6}, {7}), def -1, NA {6,7,8}: 0U: {7} -> {0,4}; 3Z: {5} -> {6}; 4W: {6} -> {7}  [U1 Z1 W1 Y0 chain True swap False, NA kept]
+    P' = ({0,4}, {8}, {6}, {5}, {7}), def -1, NA {6,7,8}: 0U: {7} -> {0,4}; 2Z: {3} -> {6}; 4W: {6} -> {7}  [U1 Z1 W1 Y0 chain True swap False, NA kept]
+    P' = ({2,4}, {7}, {3}, {8}, {6}), def -1, NA {6,7,8}: 0U: {7} -> {2,4}; 1W: {8} -> {7}; 3Z: {5} -> {8}  [U1 Z1 W1 Y0 chain True swap False, NA kept]
+    P' = ({2,4}, {7}, {8}, {5}, {6}), def -1, NA {6,7,8}: 0U: {7} -> {2,4}; 1W: {8} -> {7}; 2Z: {3} -> {8}  [U1 Z1 W1 Y0 chain True swap False, NA kept]
+    P' = ({2,4}, {8}, {3}, {6}, {7}), def -1, NA {6,7,8}: 0U: {7} -> {2,4}; 3Z: {5} -> {6}; 4W: {6} -> {7}  [U1 Z1 W1 Y0 chain True swap False, NA kept]
+    P' = ({2,4}, {8}, {6}, {5}, {7}), def -1, NA {6,7,8}: 0U: {7} -> {2,4}; 2Z: {3} -> {6}; 4W: {6} -> {7}  [U1 Z1 W1 Y0 chain True swap False, NA kept]
+  nearest shapes: {'U1 Z1 W1 Y0 chain True swap False, NA kept': 16}
+  relations of k4/dl2_relations.py holding for some better move: RC (24), R3 (16)
+
+dump_n5b_4.jsonl.gz: core k4_certs_5_n4_4.json.gz pos 3521 (idx 679, m 9), sets [[0, 2, 3, 7], [1, 6, 8], [3, 5, 7, 8], [4, 5, 6, 8], [4, 6, 7, 8]], profile [98, 1, 16, 17, 15], values [[5, 6, 4, 8], [2, 4, 3], [2, 4, 8, 7], [2, 4, 10, 7], [2, 4, 8, 5]]
+ state P = ({7}, {1}, {8}, {5}, {6}): dlrt4.c f 3, def 1, nearest k 3, 1 nearest
+  model: f 3, def(P) 1, NA {6,7,8}, frozen [0, 2, 4]; better states 56 (by distance {3: 16, 4: 16, 5: 24}); nearest k = 3; equal to the dump's better list: True
+    P' = ({2}, {1}, {7}, {8}, {6}), def -1, NA {6,7,8}: 0U: {7} -> {2}; 2W: {8} -> {7}; 3Z: {5} -> {8}  [U1 Z1 W1 Y0 chain True swap False, NA kept]
+    P' = ({2}, {1}, {8}, {6}, {7}), def -1, NA {6,7,8}: 0U: {7} -> {2}; 3Z: {5} -> {6}; 4W: {6} -> {7}  [U1 Z1 W1 Y0 chain True swap False, NA kept]
+    P' = ({2}, {6}, {8}, {5}, {7}), def -1, NA {6,7,8}: 0U: {7} -> {2}; 1Z: {1} -> {6}; 4W: {6} -> {7}  [U1 Z1 W1 Y0 chain True swap False, NA kept]
+    P' = ({2}, {8}, {7}, {5}, {6}), def -1, NA {6,7,8}: 0U: {7} -> {2}; 1Z: {1} -> {8}; 2W: {8} -> {7}  [U1 Z1 W1 Y0 chain True swap False, NA kept]
+    P' = ({0,2}, {1}, {7}, {8}, {6}), def -1, NA {6,7,8}: 0U: {7} -> {0,2}; 2W: {8} -> {7}; 3Z: {5} -> {8}  [U1 Z1 W1 Y0 chain True swap False, NA kept]
+    P' = ({0,2}, {1}, {8}, {6}, {7}), def -1, NA {6,7,8}: 0U: {7} -> {0,2}; 3Z: {5} -> {6}; 4W: {6} -> {7}  [U1 Z1 W1 Y0 chain True swap False, NA kept]
+    P' = ({0,2}, {6}, {8}, {5}, {7}), def -1, NA {6,7,8}: 0U: {7} -> {0,2}; 1Z: {1} -> {6}; 4W: {6} -> {7}  [U1 Z1 W1 Y0 chain True swap False, NA kept]
+    P' = ({0,2}, {8}, {7}, {5}, {6}), def -1, NA {6,7,8}: 0U: {7} -> {0,2}; 1Z: {1} -> {8}; 2W: {8} -> {7}  [U1 Z1 W1 Y0 chain True swap False, NA kept]
+    P' = ({0,3}, {1}, {7}, {8}, {6}), def -1, NA {6,7,8}: 0U: {7} -> {0,3}; 2W: {8} -> {7}; 3Z: {5} -> {8}  [U1 Z1 W1 Y0 chain True swap False, NA kept]
+    P' = ({0,3}, {1}, {8}, {6}, {7}), def -1, NA {6,7,8}: 0U: {7} -> {0,3}; 3Z: {5} -> {6}; 4W: {6} -> {7}  [U1 Z1 W1 Y0 chain True swap False, NA kept]
+    P' = ({0,3}, {6}, {8}, {5}, {7}), def -1, NA {6,7,8}: 0U: {7} -> {0,3}; 1Z: {1} -> {6}; 4W: {6} -> {7}  [U1 Z1 W1 Y0 chain True swap False, NA kept]
+    P' = ({0,3}, {8}, {7}, {5}, {6}), def -1, NA {6,7,8}: 0U: {7} -> {0,3}; 1Z: {1} -> {8}; 2W: {8} -> {7}  [U1 Z1 W1 Y0 chain True swap False, NA kept]
+    P' = ({2,3}, {1}, {7}, {8}, {6}), def -1, NA {6,7,8}: 0U: {7} -> {2,3}; 2W: {8} -> {7}; 3Z: {5} -> {8}  [U1 Z1 W1 Y0 chain True swap False, NA kept]
+    P' = ({2,3}, {1}, {8}, {6}, {7}), def -1, NA {6,7,8}: 0U: {7} -> {2,3}; 3Z: {5} -> {6}; 4W: {6} -> {7}  [U1 Z1 W1 Y0 chain True swap False, NA kept]
+    P' = ({2,3}, {6}, {8}, {5}, {7}), def -1, NA {6,7,8}: 0U: {7} -> {2,3}; 1Z: {1} -> {6}; 4W: {6} -> {7}  [U1 Z1 W1 Y0 chain True swap False, NA kept]
+    P' = ({2,3}, {8}, {7}, {5}, {6}), def -1, NA {6,7,8}: 0U: {7} -> {2,3}; 1Z: {1} -> {8}; 2W: {8} -> {7}  [U1 Z1 W1 Y0 chain True swap False, NA kept]
+  nearest shapes: {'U1 Z1 W1 Y0 chain True swap False, NA kept': 16}
+  relations of k4/dl2_relations.py holding for some better move: RC (24), R3 (16)
+ state P = ({7}, {1}, {8}, {4,5}, {6}): dlrt4.c f 3, def 1, nearest k 3, 1 nearest
+  model: f 3, def(P) 1, NA {6,7,8}, frozen [0, 2, 4]; better states 56 (by distance {3: 16, 4: 16, 5: 24}); nearest k = 3; equal to the dump's better list: True
+    P' = ({2}, {1}, {7}, {8}, {6}), def -1, NA {6,7,8}: 0U: {7} -> {2}; 2W: {8} -> {7}; 3Z: {4,5} -> {8}  [U1 Z1 W1 Y0 chain True swap False, NA kept]
+    P' = ({2}, {1}, {8}, {6}, {7}), def -1, NA {6,7,8}: 0U: {7} -> {2}; 3Z: {4,5} -> {6}; 4W: {6} -> {7}  [U1 Z1 W1 Y0 chain True swap False, NA kept]
+    P' = ({0,2}, {1}, {7}, {8}, {6}), def -1, NA {6,7,8}: 0U: {7} -> {0,2}; 2W: {8} -> {7}; 3Z: {4,5} -> {8}  [U1 Z1 W1 Y0 chain True swap False, NA kept]
+    P' = ({0,2}, {1}, {8}, {6}, {7}), def -1, NA {6,7,8}: 0U: {7} -> {0,2}; 3Z: {4,5} -> {6}; 4W: {6} -> {7}  [U1 Z1 W1 Y0 chain True swap False, NA kept]
+    P' = ({0,3}, {1}, {7}, {8}, {6}), def -1, NA {6,7,8}: 0U: {7} -> {0,3}; 2W: {8} -> {7}; 3Z: {4,5} -> {8}  [U1 Z1 W1 Y0 chain True swap False, NA kept]
+    P' = ({0,3}, {1}, {8}, {6}, {7}), def -1, NA {6,7,8}: 0U: {7} -> {0,3}; 3Z: {4,5} -> {6}; 4W: {6} -> {7}  [U1 Z1 W1 Y0 chain True swap False, NA kept]
+    P' = ({2,3}, {1}, {7}, {8}, {6}), def -1, NA {6,7,8}: 0U: {7} -> {2,3}; 2W: {8} -> {7}; 3Z: {4,5} -> {8}  [U1 Z1 W1 Y0 chain True swap False, NA kept]
+    P' = ({2,3}, {1}, {8}, {6}, {7}), def -1, NA {6,7,8}: 0U: {7} -> {2,3}; 3Z: {4,5} -> {6}; 4W: {6} -> {7}  [U1 Z1 W1 Y0 chain True swap False, NA kept]
+    P' = ({2}, {6}, {8}, {4,5}, {7}), def 0, NA {6,7,8}: 0U: {7} -> {2}; 1Z: {1} -> {6}; 4W: {6} -> {7}  [U1 Z1 W1 Y0 chain True swap False, NA kept]
+    P' = ({2}, {8}, {7}, {4,5}, {6}), def 0, NA {6,7,8}: 0U: {7} -> {2}; 1Z: {1} -> {8}; 2W: {8} -> {7}  [U1 Z1 W1 Y0 chain True swap False, NA kept]
+    P' = ({0,2}, {6}, {8}, {4,5}, {7}), def 0, NA {6,7,8}: 0U: {7} -> {0,2}; 1Z: {1} -> {6}; 4W: {6} -> {7}  [U1 Z1 W1 Y0 chain True swap False, NA kept]
+    P' = ({0,2}, {8}, {7}, {4,5}, {6}), def 0, NA {6,7,8}: 0U: {7} -> {0,2}; 1Z: {1} -> {8}; 2W: {8} -> {7}  [U1 Z1 W1 Y0 chain True swap False, NA kept]
+    P' = ({0,3}, {6}, {8}, {4,5}, {7}), def 0, NA {6,7,8}: 0U: {7} -> {0,3}; 1Z: {1} -> {6}; 4W: {6} -> {7}  [U1 Z1 W1 Y0 chain True swap False, NA kept]
+    P' = ({0,3}, {8}, {7}, {4,5}, {6}), def 0, NA {6,7,8}: 0U: {7} -> {0,3}; 1Z: {1} -> {8}; 2W: {8} -> {7}  [U1 Z1 W1 Y0 chain True swap False, NA kept]
+    P' = ({2,3}, {6}, {8}, {4,5}, {7}), def 0, NA {6,7,8}: 0U: {7} -> {2,3}; 1Z: {1} -> {6}; 4W: {6} -> {7}  [U1 Z1 W1 Y0 chain True swap False, NA kept]
+    P' = ({2,3}, {8}, {7}, {4,5}, {6}), def 0, NA {6,7,8}: 0U: {7} -> {2,3}; 1Z: {1} -> {8}; 2W: {8} -> {7}  [U1 Z1 W1 Y0 chain True swap False, NA kept]
+  nearest shapes: {'U1 Z1 W1 Y0 chain True swap False, NA kept': 16}
+  relations of k4/dl2_relations.py holding for some better move: RC (36), R3 (16)
+
+# 3 failing states in 2 profiles; nearest-move shapes over all of them: {'U1 Z1 W1 Y0 chain True swap False, NA kept': 48}
