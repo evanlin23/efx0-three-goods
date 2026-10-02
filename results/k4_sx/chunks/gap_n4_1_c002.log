@@ -1,0 +1,1 @@
+# command: python3 k4/sx_keygraph.py catalog k4/suite/.cache/gapbench/results/k4_gap/gap_n4_1.json.gz --fmin=1 --every=1 --start=8000 --max=4000 --dump=results/k4_sx/chunks/gap_n4_1_c002.jsonl.gz

@@ -1,0 +1,16 @@
+# command: python3 k4/sx_keygraph.py catalog k4/suite/.cache/gapbench/results/k4_gap/hunt_n4_pure_s400k.json.gz --fmin=2 --every=1 --start=0 --max=4000 --dump=results/k4_sx/chunks/hunt_n4_pure_s400k@f2e1_c000.jsonl.gz
+keys def*>0 f=2                               41
+keys f=2                                      1412
+keys f=2 def*=-1                              772
+keys f=2 def*=-2                              28
+keys f=2 def*=0                               571
+keys f=2 def*=1                               41
+profiles                                      332
+profiles f=2                                  332
+profiles f>=1, omega>=1                       332
+profiles with a key def*>0 f=2                40
+DLK_T3 failures: 0
+DLK_T3+ failures: 0
+DLK_T3T4 failures: 0
+DLK_T3+T4 failures: 0
+# time 16.9 s
