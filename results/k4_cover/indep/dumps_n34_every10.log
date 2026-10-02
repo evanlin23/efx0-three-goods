@@ -1,0 +1,14 @@
+# command: python3 k4/cover_indep.py results/k4_cover/f2/dumps_p0.jsonl.gz results/k4_cover/f2/dumps_p1.jsonl.gz results/k4_cover/f2/dumps_p2.jsonl.gz results/k4_cover/f2/dumps_p3.jsonl.gz --every=10 --maxn=4
+keys covered: cover_check True, indep True                   4696
+keys f=2                                                     1586
+keys f=3                                                     3110
+maxima agree on A+=False                                     64
+maxima agree on A+=True                                      12014
+maxima agree on B+1=False                                    12031
+maxima agree on B+1=True                                     47
+maxima agree on C'+=False                                    11259
+maxima agree on C'+=True                                     819
+maxima agree on C+=False                                     9602
+maxima agree on C+=True                                      2476
+profiles                                                     1553
+# time 59.7 s

@@ -365,9 +365,11 @@ def main(argv):
     cnt = collections.Counter(); t0 = time.time(); shown = 0
     recs = []
     for fn in rest:
-        for line in gzip.open(fn, 'rt'):
-            try: recs.append(json.loads(line))
-            except ValueError: break
+        try:
+            for line in gzip.open(fn, 'rt'):
+                try: recs.append(json.loads(line))
+                except ValueError: break
+        except (EOFError, OSError): pass                      # a file still being written: its readable part
     recs = [r for r in recs if r.get('keys')]
     if '--uncovered' in argv: recs = [r for r in recs if any(not kr['covered'] for kr in r['keys'])]
     if 'maxn' in opt: recs = [r for r in recs if len(r['sets']) <= int(opt['maxn'])]
