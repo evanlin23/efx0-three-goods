@@ -15,20 +15,27 @@ conventions of `EFX/DL2Moves.lean`. Strictness is `EFX.Strict` (`EFX/K4Ties.lean
   with `B_x = {g}`, `z` free with `g ∈ R_z`, free helpers `H`; in `P′` `z` holds `{g}`, `x` and the helpers hold new bases
   inside `G = J ∪ B_z ∪ ⋃ B_h` (`SwapPool`) and their relevant sets, of at most two goods, with needs inside `𝒩`; the
   other listed agents keep their bases. `swapBase base x z g A` constructs the swap without helper
-  (`roleSwap_swapBase`).
+  (`roleSwap_swapBase`), `swapBase1 base x z h g A A_h` the swap with one helper `h` taking `A_h`
+  (`roleSwap_swapBase1`; the move of `k4/sx.md` Lemma B with `k = 1`).
 - `uBar` (`ū(Z)`), `iotaSwap` (`ι(Z)`) of Lemma 8; `eSwap` (`e`), `iotaNeed` (`ι`) of Lemma 9; `CountGood` (a good
   counted by `u_o(Z)`).
 - `ParetoReassign v agents goods base base' π`: a Pareto reassignment of the frozen agents' goods (each frozen `x` takes
   `B_{π(x)}`, `π(x)` frozen, `v_x(B_{π(x)}) ≥ v_x(B_x)`; every frozen agent is some `π(x)`; free agents keep their bases);
-  `IsParetoReassign`, `T4Optimal` (every Pareto reassignment is the identity), `ReassignChain` (finitely many in a row),
-  `frozenWelfare` (`Σ_{x ∈ F} v_x(B_x)`).
+  `IsParetoReassign`, `T4Optimal` (every Pareto reassignment leaves every base unchanged; the text's equivalent
+  "the frozen need digraph is acyclic" is not formalized, nor its equivalence with this), `ReassignChain` (finitely many
+  in a row), `frozenWelfare` (`Σ_{x ∈ F} v_x(B_x)`).
 
 **Results.**
 - *Lemma 8* (the unfrozen agent as owner): `RoleSwap.junk_iff` (`J′ = G ∖ (A ∪ ⋃ B′_h)`), `RoleSwap.lemma8_bundle`
   (`x`'s bundles in `P′` are the `A ⊆ Z ⊆ G ∖ ⋃ B′_h`), `RoleSwap.lemma8_safe` (safety agent by agent),
   `RoleSwap.lemma8_u` (`u′_x(Z) = ū(Z) + ι(Z)`), `RoleSwap.lemma8` (`x` free in `P′`, `def(P′) ≤ ω + 2 − |Z| − ū − ι`),
   `RoleSwap.lemma8_val` (`Val_{P′}(x) = max (|Z| + ū(Z) + ι(Z))`); *Corollary 8.2*: `RoleSwap.cor8_2`, and its
-  "e.g. `A = {b_x, c_x}`": `bigTop_pair_admissible`.
+  "e.g. `A = {b_x, c_x}`": `bigTop_pair_admissible` (`{b, c} ⊆ R_x`, two goods, needs inside `𝒩`).
+- *The swaps as (T3) moves*: `RoleSwap.moveT3` (a role swap with a needer and at most one helper giving up a good is a
+  min-frozen `MoveT3` neighbour), `moveT3_swapBase1` (the constructed swap with one helper is one). For the moves of
+  `EFX/MovesC.lean`: every such (T3) move from `P ∈ 𝒫` is a (T3⁺) move (`moveT3_moveT3plus` there, with `W = ∅`), so a
+  role swap is a move of `RC34 = (T3⁺) ∪ (T4)` and can serve as the `M`-move of the key frame
+  (`dlKeyAt_of_keyMin_key`, `EFX/KeyFrame.lean`).
 - *Lemma 9* (the owner swap from a needer): `lemma9_admissible` (`Z` contains a base admissible for `x`),
   `RoleSwap.lemma9` (`def(P′) ≤ ω + 2 − |Z| − (u_o(X) − e) − ι`), `RoleSwap.eSwap_eq_zero` (`e = 0` when
   `v_o(X) < v_o(g)`), `RoleSwap.eSwap_le_one` (when `g` is `o`'s top: `N_o({g}) = ∅`, only `x` can be counted, `e ≤ 1`);
@@ -44,6 +51,9 @@ conventions of `EFX/DL2Moves.lean`. Strictness is `EFX.Strict` (`EFX/K4Ties.lean
   `lemma12` (bundles unchanged, safety preserved, `u′_o ≥ u_o`, `def(P′) ≤ def(P)`), `lemma12_lt_iff` (the strict case,
   exactly), `lemma12_lt` (its two particular cases), `uCount_eq_goods` (`u_o(Z) = #{h ∈ 𝒩 : h ∉ N_o(Z) ∪ 𝒩₋ₒ}` on `𝒫`);
   *Corollary 12.1*: `cor12_1` (finitely many Pareto reassignments reach a T4-optimal `P*` with `def(P*) ≤ def(P)`).
+- *Pareto reassignments as moves*: `moveT4_of_paretoReassign` (from a min-frozen `P`, a Pareto reassignment is a (T4)
+  move, `MoveT4` of `EFX/MovesC.lean`; so it is a move of R_T4, R_C and `RC34`), `paretoReassign_refl` (the identity is
+  one, when every base good goes to a listed agent).
 
 **Faithfulness** (paper statement; Lean statement; why they agree). Each theorem's docstring restates the paper
 statement. The Lean statements use the text's objects and conclusions with the same or weaker hypotheses. Where the
@@ -71,6 +81,14 @@ prose leaves room:
 7. *Lemma 12*: "π a permutation of `F`" is "`π` maps `F` to `F` and onto `F`" (one-to-one follows, `P′` being a map);
    "`Val_{P′}(o) ≥ Val_P(o)`" is the three facts of `lemma12` together. Proposition 12.2 (DL₁₃^opt ⟹ TARGET₄) is not
    formalized: DL₁₃^opt is refuted (K4.DL13.OPT).
+8. *Corollary 12.1* (`cor12_1`) assumes `ω ≥ 1`, which the text's statement does not repeat: it is the setting of the
+   whole file (`k4/dl13.md` §1, "with ω ≥ 1"), and Lemma 12, which the proof uses at every step, assumes it. *T4-optimal*
+   is defined as "every Pareto reassignment leaves every base unchanged" (`T4Optimal`); the text's "the frozen need
+   digraph is acyclic" and the equivalence of the two are not formalized.
+9. *The swap with one helper* (`swapBase1`): `x` and `h` take the given disjoint sets `A_x`, `A_h` inside
+   `G = J ∪ B_z ∪ B_h`; `k4/sx.md` Lemma B (`k = 1`; that file is on branch proof/k4-sx, not yet on main) is the case `A_h ⊆ B_z ∪ J` (the helper `o` receives the terminal's
+   pair) and `A_x ⊆ B_h ∪ J` (`x` takes a pair inside `X_o`). The validity and safety arguments of Lemma B are not
+   formalized here, only the move.
 
 No statement of `k4/dl13.md` §2 turned out wrong or ambiguous; the differences above are weakenings of hypotheses or
 choices of encoding.
@@ -398,6 +416,25 @@ theorem lemma12_move (hag : agents.Nodup) (hgd : goods.Nodup) (hM : MinFrozen v 
         rw [(mem_baseOf.mp this).2] at hb; cases hb
       · have := (base_eq_some_iff (hR.free i hi hF).symm hg).mp hb'
         rw [hb] at this; cases this
+
+omit [DecidableEq G] in
+/-- **A Pareto reassignment is a (T4) move** (`MoveT4` of `EFX/MovesC.lean`, the (T4) of R_T4 and R_C): an agent whose
+base changes is frozen in `P` (free agents keep their bases) and in `P′` (`F(P′) = F`), and `NA(P′) = NA(P)`
+(`lemma12_move`). -/
+theorem moveT4_of_paretoReassign (hag : agents.Nodup) (hgd : goods.Nodup) (hM : MinFrozen v agents goods base)
+    {π : A → A} (hR : ParetoReassign v agents goods base base' π) : MoveT4 v agents goods base base' := by
+  obtain ⟨-, hNA, hFF, -⟩ := lemma12_move hag hgd hM hR
+  refine ⟨fun i hi hne => ?_, fun g => (hNA g).symm⟩
+  by_cases hF : Frozen agents goods base (vbNeeds v goods base) i
+  · exact ⟨hF, (hFF i hi).mpr hF⟩
+  · exact absurd (hR.free i hi hF) hne
+
+omit [DecidableEq G] in
+/-- **The identity is a Pareto reassignment** (`π = id`, every frozen agent keeps its base), when every base good goes
+to a listed agent. So `IsParetoReassign P P` holds on 𝒫, and `T4Optimal` asks that no other one changes a base. -/
+theorem paretoReassign_refl (hmem : ∀ g ∈ goods, ∀ i, base g = some i → i ∈ agents) :
+    ParetoReassign v agents goods base base id :=
+  ⟨fun _ hx hF => ⟨hx, hF, rfl, Nat.le_refl _⟩, fun w hw hF => ⟨w, hw, hF, rfl⟩, fun _ _ _ => rfl, hmem⟩
 
 omit [DecidableEq G] in
 /-- `u_o` is monotone: `X ⊆ Y` gives `u_o(X) ≤ u_o(Y)` (by (M1)). -/
@@ -1026,15 +1063,21 @@ theorem lemma10 (hgd : goods.Nodup) (hP : InP v agents goods base) (hs : Strict 
     | _ :: _ :: _ :: _, h2, _, _ => simp at h2
 
 /-- **Corollary 8.2, "e.g. `A = {b_x, c_x}`"** (`k4/dl13.md` §2.1): if every good `x` values is one of `g, b, c, d`, with
-`b ≠ c` and `v_x(d) ≤ v_x(c)`, and `g ∈ 𝒩`, then `{b, c}` is admissible for `x`: two goods, and its needs (the goods worth
-more than `v_x(b) + v_x(c)`) are at most `g`. -/
+`b ≠ c` both relevant to `x` and `v_x(d) ≤ v_x(c)`, and `g ∈ 𝒩`, then `{b, c}` is admissible for `x`: two goods, inside
+`R_x`, and its needs (the goods worth more than `v_x(b) + v_x(c)`) are at most `g`. -/
 theorem bigTop_pair_admissible (hgd : goods.Nodup) {x : A} {g b c d : G} (hb : b ∈ goods)
-    (hc : c ∈ goods) (hbc : b ≠ c) (hR : ∀ h ∈ goods, 0 < v x h → h = g ∨ h = b ∨ h = c ∨ h = d)
+    (hc : c ∈ goods) (hbc : b ≠ c) (hbx : 0 < v x b) (hcx : 0 < v x c)
+    (hR : ∀ h ∈ goods, 0 < v x h → h = g ∨ h = b ∨ h = c ∨ h = d)
     (hdc : v x d ≤ v x c) (hgN : NA agents (vbNeeds v goods base) g) :
     (goods.filter (fun t => decide (t ∈ [b, c]))).length = 2 ∧
+      (∀ r ∈ goods, decide (r ∈ [b, c]) = true → 0 < v x r) ∧
       ∀ r, setNeeds v goods x (fun t => decide (t ∈ [b, c])) r → NA agents (vbNeeds v goods base) r := by
   have hp := filter_mem_perm hgd (L := [b, c]) (by simpa using hbc) (by simp [hb, hc])
-  refine ⟨by rw [hp.length_eq]; simp, ?_⟩
+  refine ⟨by rw [hp.length_eq]; simp, fun r _ hr => ?_, ?_⟩
+  · have hr' : r = b ∨ r = c := by simpa using hr
+    rcases hr' with rfl | rfl
+    · exact hbx
+    · exact hcx
   rintro r ⟨hr, hrA, hlt⟩
   rw [value_perm hp] at hlt
   simp [value] at hlt
@@ -1164,6 +1207,196 @@ theorem roleSwap_swapBase (hgd : goods.Nodup) (hP : InP v agents goods base) {x 
       | true => exact absurd ((hxiff g' hg').mpr h) hne
     · subst e; exact needs_single_sub hz hzN hz'
     · simp at e
+
+/-- **The role swap with one helper, constructed** (the move of `k4/sx.md` Lemma B with `k = 1`: the terminal `z` takes
+`{g}`, the helper `h` takes a new base inside `J ∪ B_z`, `x` takes a pair inside `J ∪ B_h`): `z` takes `{g}`, `x` takes
+`A_x`, `h` takes `A_h`, the goods of `B_z` and `B_h` taken by neither become junk, every other good keeps its owner. -/
+def swapBase1 (base : G → Option A) (x z h : A) (g : G) (Ax Ah : G → Bool) : G → Option A :=
+  fun g' => if g' = g then some z else if Ax g' then some x else if Ah g' then some h else
+    if base g' = some z ∨ base g' = some h then none else base g'
+
+omit [DecidableEq G] in
+/-- A base read off a test: if `i` owns exactly the goods passing `T`, its base is `goods.filter T`. -/
+theorem baseOf_eq_filter {b : G → Option A} {i : A} {T : G → Bool}
+    (h : ∀ g' ∈ goods, b g' = some i ↔ T g' = true) : baseOf goods b i = goods.filter T := by
+  unfold baseOf
+  apply List.filter_congr
+  intro g' hg'
+  by_cases hT : T g' = true
+  · simp [hT, (h g' hg').mpr hT]
+  · have : ¬ b g' = some i := fun e => hT ((h g' hg').mp e)
+    simp [hT, this]
+
+/-- **The swap with one helper is a role swap** (Lemma 6's hypotheses, with `H = [h]`): if `x` is frozen with
+`B_x = {g}`, `z` is free and needs `g`, the helper `h ≠ z` is free, and `A_x`, `A_h` are disjoint sets inside
+`G = J ∪ B_z ∪ B_h` (`SwapPool`) and inside `R_x`, `R_h` respectively, of at most two goods each, with `N_x(A_x)` and
+`N_h(A_h)` inside `𝒩`, then `swapBase1 base x z h g A_x A_h` is a `RoleSwap` with helper list `[h]` in which `x` holds
+`A_x` and `h` holds `A_h`. -/
+theorem roleSwap_swapBase1 (hgd : goods.Nodup) (hP : InP v agents goods base) {x z h : A} {g : G} (hx : x ∈ agents)
+    (hxg : baseOf goods base x = [g]) (hgN : NA agents (vbNeeds v goods base) g) (hz : z ∈ agents)
+    (hzF : ¬ Frozen agents goods base (vbNeeds v goods base) z) (hzN : vbNeeds v goods base z g) (hh : h ∈ agents)
+    (hhF : ¬ Frozen agents goods base (vbNeeds v goods base) h) (hhz : h ≠ z) {Ax Ah : G → Bool}
+    (hA : ∀ r ∈ goods, Ax r = true → SwapPool base z [h] r ∧ 0 < v x r)
+    (hAh : ∀ r ∈ goods, Ah r = true → SwapPool base z [h] r ∧ 0 < v h r)
+    (hdisj : ∀ r ∈ goods, Ax r = true → Ah r = false)
+    (hA2 : (goods.filter Ax).length ≤ 2) (hAh2 : (goods.filter Ah).length ≤ 2)
+    (hAN : ∀ r, setNeeds v goods x Ax r → NA agents (vbNeeds v goods base) r)
+    (hAhN : ∀ r, setNeeds v goods h Ah r → NA agents (vbNeeds v goods base) r) :
+    RoleSwap v agents goods base (swapBase1 base x z h g Ax Ah) x z g [h] ∧
+      baseOf goods (swapBase1 base x z h g Ax Ah) x = goods.filter Ax ∧
+      baseOf goods (swapBase1 base x z h g Ax Ah) h = goods.filter Ah := by
+  have hxF : Frozen agents goods base (vbNeeds v goods base) x := ⟨g, hxg, hgN⟩
+  have hxz : x ≠ z := fun e => hzF (e ▸ hxF)
+  have hhx : h ≠ x := fun e => hhF (e ▸ hxF)
+  obtain ⟨hgg, hbg⟩ : g ∈ goods ∧ base g = some x := mem_baseOf.mp (by rw [hxg]; exact List.mem_singleton_self g)
+  have hBx : ∀ g' ∈ goods, base g' = some x → g' = g := fun g' hg' hb => by
+    have : g' ∈ baseOf goods base x := mem_baseOf.mpr ⟨hg', hb⟩
+    rw [hxg, List.mem_singleton] at this; exact this
+  -- a good of the pool belongs to `z`, to `h` or to nobody
+  have hpool : ∀ g', SwapPool base z [h] g' → ∀ i, base g' = some i → i = z ∨ i = h := by
+    rintro g' (e | e | ⟨k, hk, e⟩) i hb <;> rw [hb] at e
+    · cases e
+    · exact Or.inl (Option.some.inj e)
+    · rw [List.mem_singleton] at hk; subst hk; exact Or.inr (Option.some.inj e)
+  have hAg : Ax g = false := by
+    cases e : Ax g with
+    | false => rfl
+    | true => exact absurd (hpool g (hA g hgg e).1 x hbg) (fun e => e.elim hxz fun e' => hhx e'.symm)
+  have hAhg : Ah g = false := by
+    cases e : Ah g with
+    | false => rfl
+    | true => exact absurd (hpool g (hAh g hgg e).1 x hbg) (fun e => e.elim hxz fun e' => hhx e'.symm)
+  -- who holds what in `P′`
+  have hxiff : ∀ g' ∈ goods, swapBase1 base x z h g Ax Ah g' = some x ↔ Ax g' = true := by
+    intro g' hg'
+    by_cases h1 : g' = g
+    · subst h1; simp [swapBase1, hAg, Ne.symm hxz]
+    by_cases h2 : Ax g' = true
+    · simp [swapBase1, h1, h2]
+    by_cases h3 : Ah g' = true
+    · simp [swapBase1, h1, h2, h3, hhx]
+    by_cases h4 : base g' = some z ∨ base g' = some h
+    · simp [swapBase1, h1, h2, h3, h4]
+    · simp only [swapBase1, h1, h2, h3, h4, ↓reduceIte, Bool.false_eq_true, iff_false]
+      exact fun hb => h1 (hBx g' hg' hb)
+  have hhiff : ∀ g' ∈ goods, swapBase1 base x z h g Ax Ah g' = some h ↔ Ah g' = true := by
+    intro g' hg'
+    by_cases h1 : g' = g
+    · subst h1; simp [swapBase1, hAhg, Ne.symm hhz]
+    by_cases h2 : Ax g' = true
+    · simp [swapBase1, h1, h2, hdisj g' hg' h2, Ne.symm hhx]
+    by_cases h3 : Ah g' = true
+    · simp [swapBase1, h1, h2, h3]
+    by_cases h4 : base g' = some z ∨ base g' = some h
+    · simp [swapBase1, h1, h2, h3, h4]
+    · simp only [swapBase1, h1, h2, h3, h4, ↓reduceIte, Bool.false_eq_true, iff_false]
+      exact fun hb => h4 (Or.inr hb)
+  have hziff : ∀ g' ∈ goods, swapBase1 base x z h g Ax Ah g' = some z ↔ g' = g := by
+    intro g' _
+    by_cases h1 : g' = g
+    · subst h1; simp [swapBase1]
+    by_cases h2 : Ax g' = true
+    · simp [swapBase1, h1, h2, hxz]
+    by_cases h3 : Ah g' = true
+    · simp [swapBase1, h1, h2, h3, hhz]
+    by_cases h4 : base g' = some z ∨ base g' = some h
+    · simp [swapBase1, h1, h2, h3, h4]
+    · simp only [swapBase1, h1, h2, h3, h4, ↓reduceIte, Bool.false_eq_true, iff_false]
+      exact fun hb => h4 (Or.inl hb)
+  have hoiff : ∀ i, i ≠ x → i ≠ z → i ≠ h → ∀ g' ∈ goods,
+      swapBase1 base x z h g Ax Ah g' = some i ↔ base g' = some i := by
+    intro i hix hiz hih g' hg'
+    by_cases h1 : g' = g
+    · subst h1; simp only [swapBase1, ↓reduceIte, hbg]
+      exact ⟨fun e => absurd (Option.some.inj e).symm hiz, fun e => absurd (Option.some.inj e).symm hix⟩
+    by_cases h2 : Ax g' = true
+    · simp only [swapBase1, h1, h2, ↓reduceIte]
+      refine ⟨fun e => absurd (Option.some.inj e).symm hix, fun e => ?_⟩
+      rcases hpool g' (hA g' hg' h2).1 i e with e' | e'
+      · exact absurd e' hiz
+      · exact absurd e' hih
+    by_cases h3 : Ah g' = true
+    · simp only [swapBase1, h1, h2, h3, ↓reduceIte, Bool.false_eq_true]
+      refine ⟨fun e => absurd (Option.some.inj e).symm hih, fun e => ?_⟩
+      rcases hpool g' (hAh g' hg' h3).1 i e with e' | e'
+      · exact absurd e' hiz
+      · exact absurd e' hih
+    by_cases h4 : base g' = some z ∨ base g' = some h
+    · simp only [swapBase1, h1, h2, h3, h4, ↓reduceIte, Bool.false_eq_true]
+      refine ⟨(fun e => by cases e), fun e => ?_⟩
+      rcases h4 with e' | e' <;> rw [e] at e'
+      · exact absurd (Option.some.inj e') hiz
+      · exact absurd (Option.some.inj e') hih
+    · simp only [swapBase1, h1, h2, h3, h4, ↓reduceIte, Bool.false_eq_true]
+  have hx' : baseOf goods (swapBase1 base x z h g Ax Ah) x = goods.filter Ax := baseOf_eq_filter hxiff
+  have hh' : baseOf goods (swapBase1 base x z h g Ax Ah) h = goods.filter Ah := baseOf_eq_filter hhiff
+  have hz' : baseOf goods (swapBase1 base x z h g Ax Ah) z = [g] := baseOf_single hgd hgg hziff
+  -- the needs of a re-based agent: `N_i(A) ⊆ 𝒩`
+  have hneeds : ∀ i (T : G → Bool), (∀ g' ∈ goods, swapBase1 base x z h g Ax Ah g' = some i ↔ T g' = true) →
+      (∀ r, setNeeds v goods i T r → NA agents (vbNeeds v goods base) r) →
+      ∀ g', vbNeeds v goods (swapBase1 base x z h g Ax Ah) i g' → NA agents (vbNeeds v goods base) g' := by
+    rintro i T hiff hTN g' ⟨hg', hne, hlt⟩
+    refine hTN g' ⟨hg', ?_, by rw [baseOf_eq_filter hiff] at hlt; exact hlt⟩
+    cases e : T g' with
+    | false => rfl
+    | true => exact absurd ((hiff g' hg').mpr e) hne
+  refine ⟨⟨hx, hxg, hgN, hz, hzF, by have := hzN.2.2; omega,
+    fun k hk => by rw [List.mem_singleton] at hk; subst hk; exact ⟨hh, hhF, hhx, hhz⟩,
+    fun i _ hix hiz hih => (baseOf_congr (hoiff i hix hiz fun e => hih (by rw [e]; exact List.mem_singleton_self h)
+      )).symm, fun g' hg' i hb => ?_, hz', fun i hi g' hg' hb => ?_, fun i hi => ?_, fun i hi => ?_⟩, hx', hh'⟩
+  · by_cases hix : i = x
+    · rw [hix]; exact hx
+    by_cases hiz : i = z
+    · rw [hiz]; exact hz
+    by_cases hih : i = h
+    · rw [hih]; exact hh
+    exact hP.mem g' hg' i ((hoiff i hix hiz hih g' hg').mp hb)
+  · rcases hi with e | e
+    · subst e; exact hA g' hg' ((hxiff g' hg').mp hb)
+    · rw [List.mem_singleton] at e; subst e; exact hAh g' hg' ((hhiff g' hg').mp hb)
+  · rcases hi with e | e
+    · subst e; rw [hx']; exact hA2
+    · rw [List.mem_singleton] at e; subst e; rw [hh']; exact hAh2
+  · rcases hi with e | e | e
+    · subst e; exact hneeds _ Ax hxiff hAN
+    · subst e; exact needs_single_sub hz hzN hz'
+    · rw [List.mem_singleton] at e; subst e; exact hneeds _ Ah hhiff hAhN
+
+omit [DecidableEq G] in
+/-- **A role swap with a needer and at most one helper giving up a good is a min-frozen (T3) neighbour** (Lemma 6, as
+`moveT3_of_lemma6`, for a `RoleSwap`). -/
+theorem RoleSwap.moveT3 (hag : agents.Nodup) (hgd : goods.Nodup) (hM : MinFrozen v agents goods base)
+    {x z : A} {g : G} {H : List A} (h : RoleSwap v agents goods base base' x z g H)
+    (hzN : vbNeeds v goods base z g) (hHlen : H.length ≤ 1)
+    (hgive : ∀ k ∈ H, ∃ g' ∈ baseOf goods base k, g' ∉ baseOf goods base' k) :
+    MinFrozen v agents goods base' ∧ MoveT3 v agents goods base base' :=
+  moveT3_of_lemma6 hag hgd hM h.hx h.hxg h.hgN h.hz h.hzF hzN h.hzg h.hH hHlen hgive h.hsame h.hmem' h.hz' h.hnew
+    h.htwo fun i hi => h.hadm i (hi.elim Or.inl fun e => Or.inr (Or.inr e))
+
+/-- **The swap with one helper is a min-frozen (T3) neighbour** (`k4/sx.md` Lemma B with `k = 1`: "a (T3) move with
+`z = τ` and helper `o`"): under the hypotheses of `roleSwap_swapBase1`, if the helper gives up a good of its base
+(`A_h` misses some good of `B_h`), `swapBase1 base x z h g A_x A_h` is min-frozen and a `MoveT3` neighbour of `P`. -/
+theorem moveT3_swapBase1 (hag : agents.Nodup) (hgd : goods.Nodup) (hM : MinFrozen v agents goods base) {x z h : A}
+    {g : G} (hx : x ∈ agents) (hxg : baseOf goods base x = [g]) (hgN : NA agents (vbNeeds v goods base) g)
+    (hz : z ∈ agents) (hzF : ¬ Frozen agents goods base (vbNeeds v goods base) z) (hzN : vbNeeds v goods base z g)
+    (hh : h ∈ agents) (hhF : ¬ Frozen agents goods base (vbNeeds v goods base) h) (hhz : h ≠ z) {Ax Ah : G → Bool}
+    (hA : ∀ r ∈ goods, Ax r = true → SwapPool base z [h] r ∧ 0 < v x r)
+    (hAh : ∀ r ∈ goods, Ah r = true → SwapPool base z [h] r ∧ 0 < v h r)
+    (hdisj : ∀ r ∈ goods, Ax r = true → Ah r = false)
+    (hA2 : (goods.filter Ax).length ≤ 2) (hAh2 : (goods.filter Ah).length ≤ 2)
+    (hAN : ∀ r, setNeeds v goods x Ax r → NA agents (vbNeeds v goods base) r)
+    (hAhN : ∀ r, setNeeds v goods h Ah r → NA agents (vbNeeds v goods base) r)
+    (hgive : ∃ r ∈ baseOf goods base h, Ah r = false) :
+    MinFrozen v agents goods (swapBase1 base x z h g Ax Ah) ∧
+      MoveT3 v agents goods base (swapBase1 base x z h g Ax Ah) := by
+  obtain ⟨hRS, -, hh'⟩ := roleSwap_swapBase1 hgd hM.1 hx hxg hgN hz hzF hzN hh hhF hhz hA hAh hdisj hA2 hAh2 hAN hAhN
+  refine hRS.moveT3 hag hgd hM hzN (by simp) fun k hk => ?_
+  rw [List.mem_singleton] at hk; subst hk
+  obtain ⟨r, hr, hAr⟩ := hgive
+  refine ⟨r, hr, fun hr' => ?_⟩
+  rw [hh'] at hr'
+  rw [(List.mem_filter.mp hr').2] at hAr
+  cases hAr
 
 omit [DecidableEq A] [DecidableEq G] in
 /-- A nonempty list has an element of least value. -/
@@ -1665,7 +1898,8 @@ def IsParetoReassign (v : A → G → Nat) (agents : List A) (goods : List G) (b
   ∃ π : A → A, ParetoReassign v agents goods base base' π
 
 /-- **T4-optimal** (`k4/dl13.md` §2.2): no Pareto reassignment other than the identity, i.e. every Pareto reassignment of
-`P` leaves every listed agent's base unchanged (the frozen need digraph is acyclic). -/
+`P` leaves every listed agent's base unchanged. The text also reads this as "the frozen need digraph is acyclic"; that
+digraph is not defined here, and the equivalence of the two readings is not proved. -/
 def T4Optimal (v : A → G → Nat) (agents : List A) (goods : List G) (base : G → Option A) : Prop :=
   ∀ base', IsParetoReassign v agents goods base base' → ∀ i ∈ agents, baseOf goods base' i = baseOf goods base i
 
@@ -1740,7 +1974,8 @@ theorem frozenWelfare_lt (hag : agents.Nodup) (hgd : goods.Nodup) (hM : MinFroze
     simp [value] at this; omega
 
 /-- **Corollary 12.1 (normalization)** (`k4/dl13.md` §2.2). On a strict profile, from every min-frozen `P` with `ω ≥ 1`,
-finitely many Pareto reassignments (frozen rotations) reach a T4-optimal min-frozen `P*` with `def(P*) ≤ def(P)`. -/
+finitely many Pareto reassignments (frozen rotations) reach a T4-optimal min-frozen `P*` with `def(P*) ≤ def(P)`. (The
+text does not repeat `ω ≥ 1`: it is the setting of `k4/dl13.md` §1, and Lemma 12 assumes it.) -/
 theorem cor12_1 (hag : agents.Nodup) (hgd : goods.Nodup) (hs : Strict v agents goods)
     (hM : MinFrozen v agents goods base) (hω : 0 < omegaP v agents goods base) :
     ∃ base₁, ReassignChain v agents goods base base₁ ∧ MinFrozen v agents goods base₁ ∧
@@ -1783,6 +2018,8 @@ end EFX
 #print axioms EFX.C4min.counted_iff
 #print axioms EFX.C4min.uCount_eq_goods
 #print axioms EFX.C4min.lemma12_move
+#print axioms EFX.C4min.moveT4_of_paretoReassign
+#print axioms EFX.C4min.paretoReassign_refl
 #print axioms EFX.C4min.uCount_mono
 #print axioms EFX.C4min.lemma12
 #print axioms EFX.C4min.lemma12_lt_iff
@@ -1801,6 +2038,10 @@ end EFX
 #print axioms EFX.C4min.lemma10_a
 #print axioms EFX.C4min.lemma10
 #print axioms EFX.C4min.roleSwap_swapBase
+#print axioms EFX.C4min.baseOf_eq_filter
+#print axioms EFX.C4min.roleSwap_swapBase1
+#print axioms EFX.C4min.RoleSwap.moveT3
+#print axioms EFX.C4min.moveT3_swapBase1
 #print axioms EFX.C4min.exists_min_value
 #print axioms EFX.C4min.lemma9_admissible
 #print axioms EFX.C4min.RoleSwap.lemma9

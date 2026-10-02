@@ -1,4 +1,5 @@
 import EFX.DL13
+import EFX.MovesC
 
 /-!
 # The move lemmas of the deficit-descent route (`k4/dl2.md` §4; Lemma H1 of `k4/hall.md` §1)
@@ -8,7 +9,9 @@ in the PR #69 review; rows K4.DL2.MOVES, K4.DL2.DEF) and of Lemma H1 in `k4/hall
 K4.HALL.COVER). Every statement is over the existing definitions: `InP`, `MinFrozen`, `vbNeeds`, `omegaP`, `DeficitLE`,
 `ownerBundle`, `roNeeds`, `Unthreatened` (`EFX/C4min.lean`), `baseOf`, `junk`, `NA`, `Frozen`, `cap`, `capSum`,
 `otherSlots` (`EFX/PreAllocK.lean`), `DeficitLT`, `Nbhd` (`EFX/C4minDescent.lean`), `MoveT1`, `MoveT3`
-(`EFX/DL13.lean`). Nothing of the model is redefined; the new definitions below name the sets of `k4/dl2.md` §4.
+(`EFX/DL13.lean`). Nothing of the model is redefined; the new definitions below name the sets of `k4/dl2.md` §4. Facts
+on 𝒫 already proved in `EFX/MovesC.lean` are used from there (`exists_frozen_of_NA`, `eq_of_mem_baseOf_single`,
+`not_frozen_of_forall`, `minFrozen_of_NA_eq`), and the lemmas below that restate them are derived from them.
 
 **Conventions.** `P` is `base`, `P′` is `base'`; `B_i = baseOf goods base i`, `J = LB4.junk goods base`,
 `N_i = vbNeeds v goods base i`, `𝒩 = NA(P) = NA agents (vbNeeds v goods base)`, `F` the listed agents with
@@ -36,10 +39,13 @@ bases are pairwise disjoint because `P′` is a map. `N_y(B′_y) ⊆ 𝒩` read
   instead of `NA`), as described in `EFX/DL13.lean`, module doc, item 2.
 
 **Results.**
-- *Facts about 𝒫*: `exists_base_of_NA`, `frozen_of_NA` (every needed good is the one-good base of a frozen agent),
-  `not_NA_of_mem_free`, `not_NA_of_junk` (free bases and the junk miss `𝒩`), `vbNeeds_congr`, `frozen_congr`.
+- *Facts about 𝒫*: `exists_base_of_NA`, `frozen_of_NA` (every needed good is the one-good base of a frozen agent;
+  from `exists_frozen_of_NA` of `EFX/MovesC.lean`), `not_NA_of_mem_free`, `not_NA_of_junk` (free bases and the junk
+  miss `𝒩`), `vbNeeds_congr`, `frozen_congr`.
 - *The core of Lemmas 1(c), 1′, 6*: `minFrozen_of_cover` (a base map with bases inside the relevant sets, of at most two
-  goods, needs inside `𝒩`, and every good of `𝒩` a one-good base, is min-frozen with `NA(P′) = 𝒩`).
+  goods, needs inside `𝒩`, and every good of `𝒩` a one-good base, is min-frozen with `NA(P′) = 𝒩`), through the
+  counting step `NA_iff_of_sub` (`P` min-frozen, `P′ ∈ 𝒫`, `NA(P′) ⊆ NA(P)` give `NA(P′) = NA(P)`) and
+  `minFrozen_of_NA_eq` of `EFX/MovesC.lean` (its converse: `NA(P′) = NA(P)` gives `P′` min-frozen).
 - *Lemma 1*: `lemma1a` ((a): `y` free in `P` and `P′`, `B′_y ⊆ (B_y ∪ J) ∩ R_y`), `lemma1b` ((b): `NA(P′) = 𝒩` iff
   `N_y(B′_y) ⊆ 𝒩`, then `F(P′) = F`; otherwise an agent with unchanged base changes status), `lemma1c` ((c):
   min-frozen, same `NA`, `F`, `ω`, and `J(P′) = (J ∖ B′) ∪ (B_y ∖ B′)`); *Lemma 1′*: `lemma1'`; *Lemma 6*: `lemma6`
@@ -62,7 +68,8 @@ bases are pairwise disjoint because `P′` is a map. `N_y(B′_y) ⊆ 𝒩` read
   `lemma2_lt`.
 - *Lemma 3*: `W_rebase` (`W′_y = W_y`), `lemma3` (bundles of `y` in `P′` are the `Z` with `B′ ⊆ Z ⊆ W_y`; safety and
   `u_y` are those of `P`), `lemma3_val` (`Val_{P′}(y)` is the max over those `Z`), `lemma3_lt` (the gain).
-- *Lemma 7*: `lemma7` (`z` counted, `u′_x(Z) ≥ 1`, `def(P′) ≤ ω + 1 − |Z|`), `lemma7_bigTop` (`R_x ∖ {g} ⊆ Z`).
+- *Lemma 7*: `lemma7` (`z` counted, `u′_x(Z) ≥ 1`, `def(P′) ≤ ω + 1 − |Z|`), `lemma7_bigTop` (`R_x ∖ {g} ⊆ Z`),
+  `lemma7_bigTop_base` (so every good of `R_x ∖ {g}` lies in `x`'s base or in `J(P′)`).
 - *Corollaries 4, 5*: `cor4` (release, `def(P′) ≤ def(P) − 1`), `cor4_i_of_i'` ((i′) ⟹ (i)), `cor5` (unblocking).
 
 **Faithfulness** (paper statement; Lean statement; why they agree). Each theorem's docstring restates the paper
@@ -84,7 +91,8 @@ text's, word for word: `B_o ⊆ Z ⊆ B_o ∪ J`; `θ_x(Z) ≤ v_x(B_x)` as `∀
    `{o, y}` values `q`" is `v_z(q) = 0` and "`X ⊄ R_z`" is "some `h₀ ∈ X` has `v_z(h₀) = 0`".
 5. *Lemma 7, big-top*: "`x` has four goods, `g` its top, `b, c` its second and third" is "every good `x` values is one of
    `g, b, c, d`" with `b, c, d` distinct and `v_x(d) ≤ v_x(c) ≤ v_x(b)`, `v_x(b) + v_x(c) < v_x(g)`; the conclusion
-   `R_x ∖ {g} ⊆ Z` is "every good `x` values other than `g` is in `Z`".
+   `R_x ∖ {g} ⊆ Z` is "every good `x` values other than `g` is in `Z`", and the text's tail "so every good of
+   `R_x ∖ {g}` must lie in x's base or in J(P′)" is `lemma7_bigTop_base` (for `Z` a bundle of `x` in `P′`).
 6. *The code's phrasing* (`MoveT1Code`, `MoveT3Code`) is the description in `EFX/DL13.lean`; the code itself
    (`k4/dl2_relations.py`) is not read here.
 
@@ -100,11 +108,6 @@ namespace C4min
 open LB4
 
 /-! ## List helpers -/
-
-theorem eq_singleton_of_mem {G : Type} {l : List G} {g : G} (h : g ∈ l) (hl : l.length ≤ 1) : l = [g] := by
-  match l, h, hl with
-  | [a], h, _ => simp at h; rw [h]
-  | _ :: _ :: _, _, hl => simp at hl
 
 /-- If `p ⟹ q` on a list and both count the same, then `q ⟹ p` on it. -/
 theorem countP_imp_of_eq {α : Type} {p q : α → Bool} :
@@ -187,19 +190,16 @@ theorem mem_goods_of_NA {g : G} (h : NA agents (vbNeeds v goods base) g) : g ∈
   exact hg
 
 omit [DecidableEq G] in
-/-- **On 𝒫 every needed good is the whole base of one listed agent** ((V1), (V2); `k4/c4x.md` §1). -/
+/-- **On 𝒫 every needed good is the whole base of one listed agent** ((V1), (V2); `k4/c4x.md` §1):
+`exists_frozen_of_NA` of `EFX/MovesC.lean`, with the owner read off the base map. -/
 theorem exists_base_of_NA (hP : InP v agents goods base) {g : G} (hg : NA agents (vbNeeds v goods base) g) :
     ∃ w ∈ agents, base g = some w ∧ baseOf goods base w = [g] := by
-  have hgg := mem_goods_of_NA hg
-  cases hb : base g with
-  | none => exact absurd hg (hP.valid.v1 g (mem_junk.mpr ⟨hgg, hb⟩))
-  | some w =>
-    refine ⟨w, hP.mem g hgg w hb, rfl, ?_⟩
-    have hmem : g ∈ baseOf goods base w := mem_baseOf.mpr ⟨hgg, hb⟩
-    exact eq_singleton_of_mem hmem (Nat.le_of_not_lt fun hlt => hP.valid.v2 w hlt g hmem hg)
+  obtain ⟨w, hw, hB⟩ := exists_frozen_of_NA hP hg
+  exact ⟨w, hw, (mem_baseOf.mp (by rw [hB]; exact List.mem_singleton_self g)).2, hB⟩
 
 omit [DecidableEq G] in
-/-- On 𝒫 a needed good lies in the base of a frozen listed agent. -/
+/-- On 𝒫 a needed good lies in the base of a frozen listed agent (`exists_base_of_NA`; for a given agent holding the
+good, `frozen_of_mem_NA` of `EFX/MovesC.lean`). -/
 theorem frozen_of_NA (hP : InP v agents goods base) {g : G} (hg : NA agents (vbNeeds v goods base) g) :
     ∃ w ∈ agents, base g = some w ∧ baseOf goods base w = [g] ∧
       Frozen agents goods base (vbNeeds v goods base) w := by
@@ -239,10 +239,33 @@ theorem nFrozen_eq_numNA (hag : agents.Nodup) (hgd : goods.Nodup) (hP : InP v ag
 /-! ## The general move: validity and the needed set -/
 
 omit [DecidableEq G] in
+/-- **The counting step of minimality**: if `P` is min-frozen, `P′ ∈ 𝒫` and `NA(P′) ⊆ NA(P)`, then `NA(P′) = NA(P)`
+(`|NA(P)| = |F(P)| ≤ |F(P′)| = |NA(P′)|`). The converse direction, from `NA(P′) = NA(P)` to `P′` min-frozen, is
+`minFrozen_of_NA_eq` of `EFX/MovesC.lean`. -/
+theorem NA_iff_of_sub (hag : agents.Nodup) (hgd : goods.Nodup) (hM : MinFrozen v agents goods base)
+    (hP' : InP v agents goods base')
+    (hsub : ∀ g, NA agents (vbNeeds v goods base') g → NA agents (vbNeeds v goods base) g) :
+    ∀ g, NA agents (vbNeeds v goods base') g ↔ NA agents (vbNeeds v goods base) g := by
+  classical
+  have hle : numNA agents goods (vbNeeds v goods base') ≤ numNA agents goods (vbNeeds v goods base) := by
+    unfold numNA
+    exact List.countP_mono_left fun g _ h => by simpa using hsub g (by simpa using h)
+  have hge := hM.2 base' hP'
+  rw [nFrozen_eq_numNA hag hgd hM.1, nFrozen_eq_numNA hag hgd hP'] at hge
+  have heq : numNA agents goods (vbNeeds v goods base') = numNA agents goods (vbNeeds v goods base) := by omega
+  intro g
+  refine ⟨hsub g, fun hg => ?_⟩
+  have := countP_imp_of_eq (l := goods) (p := fun g => decide (NA agents (vbNeeds v goods base') g))
+    (q := fun g => decide (NA agents (vbNeeds v goods base) g))
+    (fun g _ h => by simpa using hsub g (by simpa using h)) heq g (mem_goods_of_NA hg) (by simpa using hg)
+  simpa using this
+
+omit [DecidableEq G] in
 /-- **The core of Lemmas 1(c), 1′ and 6** (`k4/dl2.md` §4). Let `P` be min-frozen with needed set `𝒩`, and let `P′` be
 a base map whose base goods go to listed agents that value them, whose bases have at most two goods, whose needs lie in
 `𝒩` (`NA(P′) ⊆ 𝒩`), and in which every good of `𝒩` is the whole base of some agent. Then `P′` is min-frozen and
-`NA(P′) = 𝒩`. (Proof: `P′ ∈ 𝒫` by (V); `|F(P′)| = |NA(P′)| ≤ |𝒩| = f`, so equality by minimality.) -/
+`NA(P′) = 𝒩`. (Proof: `P′ ∈ 𝒫` by (V); `|F(P′)| = |NA(P′)| ≤ |𝒩| = f`, so equality by minimality, `NA_iff_of_sub`;
+then `P′` is min-frozen by `minFrozen_of_NA_eq` of `EFX/MovesC.lean`.) -/
 theorem minFrozen_of_cover (hag : agents.Nodup) (hgd : goods.Nodup) (hM : MinFrozen v agents goods base)
     (hmem' : ∀ g ∈ goods, ∀ i, base' g = some i → i ∈ agents)
     (hrel' : ∀ g ∈ goods, ∀ i, base' g = some i → 0 < v i g)
@@ -268,22 +291,8 @@ theorem minFrozen_of_cover (hag : agents.Nodup) (hgd : goods.Nodup) (hM : MinFro
       subst hwi
       rw [hw] at h2
       simp at h2
-  -- counting
-  have hle : numNA agents goods (vbNeeds v goods base') ≤ numNA agents goods (vbNeeds v goods base) := by
-    unfold numNA
-    exact List.countP_mono_left fun g _ h => by simpa using hsubNA g (by simpa using h)
-  have hge := hM.2 base' hP'
-  rw [nFrozen_eq_numNA hag hgd hM.1, nFrozen_eq_numNA hag hgd hP'] at hge
-  have heq : numNA agents goods (vbNeeds v goods base') = numNA agents goods (vbNeeds v goods base) := by omega
-  have hback : ∀ g, NA agents (vbNeeds v goods base) g → NA agents (vbNeeds v goods base') g := by
-    intro g hg
-    have := countP_imp_of_eq (l := goods) (p := fun g => decide (NA agents (vbNeeds v goods base') g))
-      (q := fun g => decide (NA agents (vbNeeds v goods base) g))
-      (fun g _ h => by simpa using hsubNA g (by simpa using h)) heq g (mem_goods_of_NA hg) (by simpa using hg)
-    simpa using this
-  refine ⟨⟨hP', fun b hb => ?_⟩, fun g => ⟨hsubNA g, hback g⟩⟩
-  rw [nFrozen_eq_numNA hag hgd hP', heq, ← nFrozen_eq_numNA hag hgd hM.1]
-  exact hM.2 b hb
+  have hNA := NA_iff_of_sub hag hgd hM hP' hsubNA
+  exact ⟨minFrozen_of_NA_eq hag hgd hM hP' fun g => (hNA g).symm, hNA⟩
 
 omit [DecidableEq G] in
 /-- With the same needed set, the frozen agents of `P′` are the agents whose base in `P′` is one good of `𝒩`. -/
@@ -462,29 +471,13 @@ theorem lemma1a (hP : InP v agents goods base) (hP' : InP v agents goods base') 
   · exact not_NA_of_junk hP hhg hb hNP
 
 omit [DecidableEq G] in
-/-- `|NA(P′)| = |NA(P)|` for two min-frozen pre-allocations. -/
-theorem numNA_eq_of_minFrozen (hag : agents.Nodup) (hgd : goods.Nodup) (hM : MinFrozen v agents goods base)
-    (hM' : MinFrozen v agents goods base') :
-    numNA agents goods (vbNeeds v goods base') = numNA agents goods (vbNeeds v goods base) := by
-  have h1 := hM.2 base' hM'.1
-  have h2 := hM'.2 base hM.1
-  rw [nFrozen_eq_numNA hag hgd hM.1, nFrozen_eq_numNA hag hgd hM'.1] at h1 h2
-  omega
-
-omit [DecidableEq G] in
-/-- Two min-frozen pre-allocations with `NA(P′) ⊆ NA(P)` have the same needed set. -/
+/-- Two min-frozen pre-allocations with `NA(P′) ⊆ NA(P)` have the same needed set (`NA_iff_of_sub`; only `P′ ∈ 𝒫` is
+used of `P′`). -/
 theorem NA_eq_of_sub (hag : agents.Nodup) (hgd : goods.Nodup) (hM : MinFrozen v agents goods base)
     (hM' : MinFrozen v agents goods base')
     (hsub : ∀ g, NA agents (vbNeeds v goods base') g → NA agents (vbNeeds v goods base) g) :
-    ∀ g, NA agents (vbNeeds v goods base') g ↔ NA agents (vbNeeds v goods base) g := by
-  classical
-  intro g
-  refine ⟨hsub g, fun hg => ?_⟩
-  have := countP_imp_of_eq (l := goods) (p := fun g => decide (NA agents (vbNeeds v goods base') g))
-    (q := fun g => decide (NA agents (vbNeeds v goods base) g))
-    (fun g _ h => by simpa using hsub g (by simpa using h)) (numNA_eq_of_minFrozen hag hgd hM hM')
-    g (mem_goods_of_NA hg) (by simpa using hg)
-  simpa using this
+    ∀ g, NA agents (vbNeeds v goods base') g ↔ NA agents (vbNeeds v goods base) g :=
+  NA_iff_of_sub hag hgd hM hM'.1 hsub
 
 omit [DecidableEq G] in
 /-- **Lemma 1(b)** (`k4/dl2.md` §4). Let `P, P′` be min-frozen and differ exactly in the base of one listed agent `y`.
@@ -843,7 +836,8 @@ theorem moveT1_iff_code (hag : agents.Nodup) (hgd : goods.Nodup) (hM : MinFrozen
 
 omit [DecidableEq G] in
 /-- In a role swap that keeps the needed set, `x` and the helpers are free in `P′`: a needed good of `P` is `g`, now
-`z`'s, or the base of a frozen agent of `P` outside the move. -/
+`z`'s, or the base of a frozen agent of `P` outside the move. (By `not_frozen_of_forall`, `exists_frozen_of_NA` and
+`eq_of_mem_baseOf_single` of `EFX/MovesC.lean`; `moveT3_moveT3plus_W` there argues the same for a whole (T3) move.) -/
 theorem free_of_swap (hP : InP v agents goods base) {x z : A} {g : G} {H : List A}
     (hxg : baseOf goods base x = [g]) (hzF : ¬ Frozen agents goods base (vbNeeds v goods base) z)
     (hHF : ∀ h ∈ H, ¬ Frozen agents goods base (vbNeeds v goods base) h)
@@ -851,23 +845,16 @@ theorem free_of_swap (hP : InP v agents goods base) {x z : A} {g : G} {H : List 
     (hsame : ∀ i ∈ agents, i ≠ x → i ≠ z → i ∉ H → baseOf goods base i = baseOf goods base' i)
     (hNA : ∀ g', NA agents (vbNeeds v goods base') g' ↔ NA agents (vbNeeds v goods base) g')
     {i : A} (hi : i = x ∨ i ∈ H) (hiz : i ≠ z) : ¬ Frozen agents goods base' (vbNeeds v goods base') i := by
-  rintro ⟨g', hB, hN⟩
-  have hgi : g' ∈ baseOf goods base' i := by rw [hB]; exact List.mem_singleton_self g'
-  obtain ⟨hg', hb'⟩ := mem_baseOf.mp hgi
-  obtain ⟨w, hw, -, hBw, hF⟩ := frozen_of_NA hP ((hNA g').mp hN)
+  refine not_frozen_of_forall (fun g' => (hNA g').symm) fun g' hg'i hN => ?_
+  obtain ⟨w, hw, hBw⟩ := exists_frozen_of_NA hP hN
   by_cases hwx : w = x
-  · subst hwx; rw [hxg] at hBw
-    have e : g = g' := List.singleton_inj.mp hBw
-    have hgz : g' ∈ baseOf goods base' z := by rw [hz', e]; exact List.mem_singleton_self g'
-    rw [(mem_baseOf.mp hgz).2] at hb'
-    exact hiz (Option.some.inj hb').symm
-  · have hwz : w ≠ z := fun e => hzF (e ▸ hF)
-    have hwH : w ∉ H := fun h => hHF w h hF
-    have hgw : g' ∈ baseOf goods base' w := by
-      rw [← hsame w hw hwx hwz hwH, hBw]; exact List.mem_singleton_self g'
-    rw [(mem_baseOf.mp hgw).2] at hb'
-    have hwi : w = i := Option.some.inj hb'
-    subst hwi
+  · subst hwx
+    obtain rfl : g = g' := List.singleton_inj.mp (hxg.symm.trans hBw)
+    exact hiz (eq_of_mem_baseOf_single hz' hg'i)
+  · have hwF : Frozen agents goods base (vbNeeds v goods base) w := ⟨g', hBw, hN⟩
+    have hwz : w ≠ z := fun e => hzF (e ▸ hwF)
+    have hwH : w ∉ H := fun h => hHF w h hwF
+    obtain rfl : i = w := eq_of_mem_baseOf_single ((hsame w hw hwx hwz hwH).symm.trans hBw) hg'i
     rcases hi with e | e
     · exact hwx e
     · exact hwH e
@@ -1769,6 +1756,17 @@ theorem lemma7_bigTop (hgd : goods.Nodup) {x : A} {g b c d : G} (hbc : b ≠ c) 
       · exact Or.inr e
       · subst e; rw [hn] at hz; cases hz
 
+omit [DecidableEq A] in
+/-- **Lemma 7, big-top, the last sentence** (`k4/dl2.md` §4): under the hypotheses of `lemma7_bigTop`, if `Z` is a
+bundle of `x` in `P′` (`B′_x ⊆ Z ⊆ B′_x ∪ J(P′)`), then every good of `R_x ∖ {g}` lies in `x`'s base or in `J(P′)`. -/
+theorem lemma7_bigTop_base (hgd : goods.Nodup) {x : A} {g b c d : G} (hbc : b ≠ c) (hbd : b ≠ d) (hcd : c ≠ d)
+    (hR : ∀ h ∈ goods, 0 < v x h → h = g ∨ h = b ∨ h = c ∨ h = d)
+    (hdc : v x d ≤ v x c) (hcb : v x c ≤ v x b) (htop : v x b + v x c < v x g)
+    {Z : G → Bool} (hZb : IsBundle goods base' x Z) (hZg : Z g = false)
+    (hval : v x g < value v x (goods.filter Z)) :
+    ∀ h ∈ goods, 0 < v x h → h ≠ g → base' h = some x ∨ base' h = none :=
+  fun h hh hpos hhg => (hZb h hh).2 (lemma7_bigTop hgd hbc hbd hcd hR hdc hcb htop hZg hval h hh hpos hhg)
+
 /-! ## Corollaries 4 (release) and 5 (unblocking) -/
 
 omit [DecidableEq A] in
@@ -1963,6 +1961,7 @@ end EFX
 
 /-! ## Axiom certificates (audited by `check.sh`) -/
 
+#print axioms EFX.C4min.NA_iff_of_sub
 #print axioms EFX.C4min.minFrozen_of_cover
 #print axioms EFX.C4min.lemma1'
 #print axioms EFX.C4min.lemma1c
@@ -1977,6 +1976,7 @@ end EFX
 #print axioms EFX.C4min.minFrozen_of_moveT3
 #print axioms EFX.C4min.moveT3_of_lemma6
 #print axioms EFX.C4min.otherSlots_roNeeds
+#print axioms EFX.C4min.NA_roNeeds_iff
 #print axioms EFX.C4min.h1_core
 #print axioms EFX.C4min.deficitLE_of_safe
 #print axioms EFX.C4min.exists_safe_of_deficitLE
@@ -1999,6 +1999,7 @@ end EFX
 #print axioms EFX.C4min.lemma3_lt
 #print axioms EFX.C4min.lemma7
 #print axioms EFX.C4min.lemma7_bigTop
+#print axioms EFX.C4min.lemma7_bigTop_base
 #print axioms EFX.C4min.filter_insert_perm
 #print axioms EFX.C4min.isBundle_insert
 #print axioms EFX.C4min.cor4

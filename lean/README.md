@@ -27,7 +27,7 @@ showed that a declaration added under `set_option debug.skipKernelTC true` is ne
 without warnings and has no axioms for `#print axioms` or `CheckAxioms.lean` to report; the tripwire refuses the
 option and the replay checker rejects such a declaration. On success the last line is
 
-    CHECK PASSED: 652 audited statements, 1477 theorems, standard axioms only
+    CHECK PASSED: 669 audited statements, 1502 theorems, standard axioms only
 
 CI runs it on every pull request (job `lean` in `.github/workflows/verify.yml`). In Claude Code on the web the
 session-start hook installs the toolchain (from GitHub when `release.lean-lang.org` is unreachable).
@@ -265,11 +265,13 @@ specializations) have exactly the types of `EFX.target`, `EFX.LB.corollaryD` (ch
   in `EFX/DL2Moves.lean` (`EFX.C4min.moveT1_iff_code`, `EFX.C4min.moveT3_iff_code`).
 - `EFX/DL2Moves.lean`: the move lemmas of the deficit-descent route (`k4/dl2.md` §4, ledger K4.DL2.MOVES.LEAN and
   K4.DL2.DEF.LEAN) and Lemma H1 (`k4/hall.md` §1, ledger K4.HALL.H1.LEAN), over `InP`, `MinFrozen`, `NA`, `Frozen`,
-  `DeficitLE` and the moves `MoveT1`, `MoveT3`. New definitions name the sets of `k4/dl2.md` §4: bundles
+  `DeficitLE` and the moves `MoveT1`, `MoveT3`; it imports `EFX/MovesC.lean` and derives the facts on 𝒫 proved there
+  (`EFX.C4min.exists_frozen_of_NA`, `EFX.C4min.minFrozen_of_NA_eq`, `EFX.C4min.not_frozen_of_forall`) instead of
+  reproving them. New definitions name the sets of `k4/dl2.md` §4: bundles
   (`EFX.C4min.IsBundle`, `B_o ⊆ Z ⊆ B_o ∪ J`), safety (`EFX.C4min.SafeFor`), `N_o(Z)` (`EFX.C4min.setNeeds`), `u_o(Z)`
   (`EFX.C4min.Counted`, `EFX.C4min.uCount`), optimal bundles of best owners (`EFX.C4min.OptimalBest`) and
   `def(P′) ≤ def(P) − k` (`EFX.C4min.DeficitDrop`). Moves inside the min-frozen class: `EFX.C4min.minFrozen_of_cover`
-  (the common core), Lemma 1 (`EFX.C4min.lemma1a`, `EFX.C4min.lemma1b`, `EFX.C4min.lemma1c`), Lemma 1′
+  (the common core, with the counting step `EFX.C4min.NA_iff_of_sub`), Lemma 1 (`EFX.C4min.lemma1a`, `EFX.C4min.lemma1b`, `EFX.C4min.lemma1c`), Lemma 1′
   (`EFX.C4min.lemma1'`), Lemma 6 (`EFX.C4min.lemma6`, `EFX.C4min.needs_single_sub`); (T1) and (T3) are well defined
   (`EFX.C4min.minFrozen_of_moveT1`, `EFX.C4min.moveT1_of_admissible`, `EFX.C4min.moveT1_iff_needs`,
   `EFX.C4min.minFrozen_of_moveT3`, `EFX.C4min.moveT3_of_lemma6`) and agree with the code's phrasing by frozen-status
@@ -278,11 +280,14 @@ specializations) have exactly the types of `EFX.target`, `EFX.LB.corollaryD` (ch
   (`EFX.C4min.lemmaH1`, from the slot identity `EFX.C4min.h1_core`; per owner, `EFX.C4min.lemmaH1_owner`). Deficit
   criteria: Lemma 2* (`EFX.C4min.lemma2star`, `_drop`, `_lt`), Lemma 2 (`EFX.C4min.lemma2`, `_drop`, `_lt`), Lemma 3
   (`EFX.C4min.lemma3`, `EFX.C4min.lemma3_val`, `EFX.C4min.lemma3_lt`), Lemma 7 (`EFX.C4min.lemma7`,
-  `EFX.C4min.lemma7_bigTop`), Corollaries 4 and 5 (`EFX.C4min.cor4`, `EFX.C4min.cor4_i_of_i'`, `EFX.C4min.cor5`). The
+  `EFX.C4min.lemma7_bigTop`, `EFX.C4min.lemma7_bigTop_base`), Corollaries 4 and 5 (`EFX.C4min.cor4`, `EFX.C4min.cor4_i_of_i'`, `EFX.C4min.cor5`). The
   module doc lists, for each, where the Lean hypotheses are weaker than the text's.
 - `EFX/DL13Moves.lean`: the role-swap and frozen-rotation lemmas of `k4/dl13.md` §2 (ledger K4.DL13.SWAP.LEAN,
   K4.DL13.ROT.LEAN), on top of `EFX/DL2Moves.lean`. The swap of Lemma 6 as a structure (`EFX.C4min.RoleSwap`; constructed
-  without helper by `EFX.C4min.swapBase`, `EFX.C4min.roleSwap_swapBase`). Lemma 8 (`EFX.C4min.RoleSwap.lemma8_bundle`,
+  without helper by `EFX.C4min.swapBase`, `EFX.C4min.roleSwap_swapBase`, and with one helper by `EFX.C4min.swapBase1`,
+  `EFX.C4min.roleSwap_swapBase1`, the move of `k4/sx.md` Lemma B with k = 1; such a swap with a needer and at most one
+  helper giving up a good is a min-frozen (T3) move, `EFX.C4min.RoleSwap.moveT3`, `EFX.C4min.moveT3_swapBase1`, hence a
+  (T3⁺) move of `EFX/MovesC.lean` by `EFX.C4min.moveT3_moveT3plus`, usable as the move of the key frame). Lemma 8 (`EFX.C4min.RoleSwap.lemma8_bundle`,
   `_safe`, `_u`, `EFX.C4min.RoleSwap.lemma8`, `_val`: the unfrozen agent's owner value after a swap, `u′_x = ū + ι`, on
   strict profiles) and Corollary 8.2 (`EFX.C4min.RoleSwap.cor8_2`, `EFX.C4min.bigTop_pair_admissible`); Lemma 9 (`EFX.C4min.lemma9_admissible`,
   `EFX.C4min.RoleSwap.lemma9`, `EFX.C4min.RoleSwap.eSwap_eq_zero`, `EFX.C4min.RoleSwap.eSwap_le_one`) with Corollaries
@@ -291,10 +296,15 @@ specializations) have exactly the types of `EFX.target`, `EFX.LB.corollaryD` (ch
   (`EFX.C4min.lemma10`, `EFX.C4min.lemma10_a`); Lemma 11 (`EFX.C4min.lemma11` with `κ`, `EFX.C4min.lemma11_one`,
   `EFX.C4min.not_counted_of_needer`, `EFX.C4min.not_counted_needs_single`) and Corollary 11.1
   (`EFX.C4min.cor11_1`, `EFX.C4min.cor11_1_auto`); Lemma 12 for a Pareto reassignment of the frozen goods
-  (`EFX.C4min.ParetoReassign`; `EFX.C4min.lemma12_move`, `EFX.C4min.lemma12`, `EFX.C4min.lemma12_lt_iff`,
+  (`EFX.C4min.ParetoReassign`, a (T4) move by `EFX.C4min.moveT4_of_paretoReassign`, the identity by
+  `EFX.C4min.paretoReassign_refl`; `EFX.C4min.lemma12_move`, `EFX.C4min.lemma12`, `EFX.C4min.lemma12_lt_iff`,
   `EFX.C4min.lemma12_lt`, with `u_o` counted over the goods, `EFX.C4min.uCount_eq_goods`) and Corollary 12.1
   (`EFX.C4min.cor12_1`: finitely many reassignments reach a T4-optimal pre-allocation, `EFX.C4min.T4Optimal`, without
   raising the deficit). The module doc lists the encodings and the weaker hypotheses.
+- `EFX/DL13MovesExamples.lean`: Lemma 12 is not vacuous. On the smallest failure of DL₁₃ (`k4/dl13.md` §2.2, n = 4,
+  m = 6, a strict k = 4 core), `P = ({4}, {1}, {3}, {5})` is min-frozen (640 base maps checked) with `ω = 1`, and the
+  exchange of the frozen agents 0 and 3 is a Pareto reassignment and a (T4) move with `def(P′) < def(P)`
+  (`EFX.C4min.ExRot.lemma12_example`, by `EFX.C4min.lemma12_lt`; all by `decide`).
 - `EFX/KeyFrame.lean`: the key frame of `k4/dl13.md` §2.3 (Remark "DL on the key graph"; ledger K4.DL2.KEY.LEAN), for
   an arbitrary move relation M: the key κ(P) (`EFX.C4min.key`: the needed set and the frozen agents with their bases),
   def\*(κ) (`EFX.C4min.KeyDeficitLE`, `EFX.C4min.KeyDeficitLT`: the least deficit of a min-frozen P of key κ), N_M(κ)
