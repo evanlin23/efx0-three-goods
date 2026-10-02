@@ -155,13 +155,12 @@ also changes the agents Y must not threaten (h now holds B′_h) and it removes 
 
 **Corollary G1 (value form).** In the setting of Lemma G, for every agent w ≠ o let E_w be the set of minimal subsets
 Q ⊆ R_w ∩ (B_o ∪ J′) with v_w(Q) > v_w(B′_w), where B′_w is w's base in P′ (B′_z = {g}, B′_x = A). If C ⊆ J′ meets
-every set of ⋃_{w ≠ o} E_w, then Y := (B_o ∪ J′) ∖ C is safe in P′ and Lemma G's bound holds for this C. So, with
-c* the least size of such a C,
+every set of ⋃_{w ≠ o} E_w, then Y := (B_o ∪ J′) ∖ C is safe in P′ and Lemma G's bound holds for this C. So
 
-  def(P′) ≤ c* − (2 − |A|) − (2 − |B′_h|) − S_rest − κ,
+  def(P′) ≤ min(c*, c*_κ − 1) − (2 − |A|) − (2 − |B′_h|) − S_rest,
 
-with κ = 1 if the four conditions of Lemma G hold for some C of size c*, and κ = 0 otherwise. Everything here is
-computed from P and the move.
+where c* is the least size of such a C, and c*_κ the least size of one for which the four conditions of Lemma G hold
+(∞ if there is none). Everything here is computed from P and the move.
 
 *Proof.* Y ∩ R_w ⊆ R_w ∩ (B_o ∪ J′). If v_w(Y ∩ R_w) > v_w(B′_w), then Y ∩ R_w contains a minimal such set Q ∈ E_w,
 which C meets; but C ∩ Y = ∅. So v_w(Y ∩ R_w) ≤ v_w(B′_w) for every w ≠ o, and by (θ) Y threatens nobody. ∎
@@ -343,24 +342,31 @@ There is no violation anywhere.
 Theorem K or Corollary G1 with a plain swap**, each of which is a condition on P alone, and is repaired by the swap it
 names.
 
-**Scans** (`k4/thetab_scan.py`, `results/k4_thetab/scan_*.log`, table by `k4/thetab_table.py`). These cover every
+**Scans** (`k4/thetab_scan.py`, `results/k4_thetab/scan_*.log`, tables by `k4/thetab_table.py`). These cover every
 def > 0 state with f = 1 of each profile of the inputs:
 - the suite;
-- #53's catalogues at 245040b (n = 3 every record; n = 4 every 4th; n = 5 every 10th);
+- compute/k4-rc's 45 profiles (X5's core; PR #80's copy `results/k4_sx/rc/rc_fail_inst.json`);
+- #53's catalogues at 245040b (n = 3 every record; n = 4 every 4th);
 - the hunt catalogues (every 4th);
-- random n = 3 profiles of every certified n = 3 core (`k4_certs_3`, 500 per core);
 - the structured hunts `hunt` (random cores built around a frozen x and two big-top needers) and `twin` (the two
-  needers have the same goods, and x's third lower good is shared with the third agents).
+  needers have the same goods, and x's third lower good is shared with the third agents), 900 s each.
 
 Three kinds of states are classified:
-- the states in (H) at every stage (T3 stage; T1-stuck but not at the T3 stage; other);
-- the other states with two or more needers at the T3 stage;
+- the T3-stage states with two or more needers, in (H) or not (at f = 1 these are the deficit-minimal states of their
+  key);
+- the states in (H) at the other stages (T1-stuck but not at the T3 stage; other);
 - the states with one needer, where only G1 can apply.
 
-Each cell reads: states / W, K or G1 applies (a plain swap) / only G1h applies (a swap with one helper) / some plain
-swap lowers the deficit (exact). Every conclusion is asserted, and Corollary N3 is asserted at every n = 3 state in
-(H). The last column counts T3-stage states where no (T3) move at all lowers the deficit (a failure of DL_RT4 at
-f = 1).
+Every conclusion is asserted, and Corollary N3 is asserted at every n = 3 state in (H).
+
+Table 1 covers the T3-stage states. Each "T3 stage" cell reads: states / W, K or G1 applies at P (a plain swap) /
+only G1h applies at P (a swap with one helper) / none of them at P. The single-step column counts the states from
+which no (T3) move lowers the deficit. The key-form columns say where a (T3) move to a key of smaller least deficit
+starts: at P, only elsewhere in the key, or nowhere (a failure of DL on the key graph). They also say where Corollary
+G1 certifies a (T3) move below the key's least deficit: from P, only from another state of the key, or from none.
+
+Table 2 covers the other states. Each cell reads: states / W, K or G1 / only G1h / some plain swap lowers the deficit
+(exact).
 
 SCAN_TABLE
 
@@ -451,9 +457,15 @@ V ∩ T ≠ ∅ and every agent of V ∩ T is θ-b. A *C-pair* for τ is a pair 
 for x and meets U_τ: the pair of Lemma C. A *C′-pair* is the pair P of Lemma C′ together with its good w.
 
 Three facts are used. Let p be x's best lower good, and q, r the others.
-- (F1) g is x's top (`k4/c4min_reduce.md` Lemma K), so every good of U_x is worth less than g to x.
-- (F2) Every leaf o threatens x (Lemma F(c)).
+- (F1) g is x's top: x holds {g} with needs inside 𝒩 = {g}, so no good is worth more than g to x (as in Fact 0(a)).
+  So every good of U_x is worth less than g to x.
+- (F2) Every leaf o threatens x. o threatens no free agent; if X_o did not threaten x either, o would be a valid owner
+  with C = ∅, and κ would be completable (`k4/sx.md` Lemma 0, the per-key form of `k4/c4min.md` Lemma 1,
+  K4.C4MIN.CFG). This is part of `k4/sx.md` Lemma F(c).
 - (F3) If ω ≥ 2, then X_o ⊄ R_x, since |X_o| ≥ 4 > |U_x| and g ∉ X_o. So θ_x(X_o) = v_x(X_o ∩ U_x).
+
+Lemma P depends on `k4/sx.md` (PR #80; written proofs, not yet refereed) through Lemma 0 in (F2) and the shape of a
+θ-b terminal (Q_τ = {u₁, u₂}, c_τ ∈ L, `k4/sx.md` §3).
 
 **Lemma P (the pairs of Lemmas C and C′).** Assume case (i).
 - (i) Let τ be a θ-b terminal leaf and S := U_x ∩ X_τ. τ has a C-pair iff S ∩ U_τ ≠ ∅, or p ∈ X_τ and
@@ -577,16 +589,26 @@ What the data say:
 
 ## 8. Reproduce
 
+One process at a time; every run is under 20 minutes on a shared 4-CPU machine, and a run whose log exists is skipped.
 ```
 mkdir -p k4/suite/.cache/gapbench
 git archive 245040b results/k4_gap | tar -x -C k4/suite/.cache/gapbench      # #53's catalogues (k4/strategy.md §4)
-sh k4/thetab_runs.sh                     # results/k4_thetab/: targets.log (§1, §4, §6) and the scans (§4, §5)
-sh k4/thetab_runs2.sh                    # random n = 3 profiles, the twin hunts, attempts.log (§5.1)
-python3 k4/thetab_table.py results/k4_thetab/scan_*.log                       # the table of §4
+mkdir -p k4/suite/.cache/sx                                                    # PR #80's tools and dumps (unchanged)
+git archive ebe244f k4/sx_zprime.py k4/sx_keygraph.py results/k4_sx/hunt results/k4_sx/rc results/k4_sx/t3stage \
+  | tar -x -C k4/suite/.cache/sx
+sh k4/thetab_runs.sh            # results/k4_thetab/: targets.log (§1, §4, §6), attempts.log (§5.1), scan_*.log (§4, §5)
+sh k4/thetab_cover_runs.sh      # results/k4_thetab/cover_*.log (§7)
+python3 k4/thetab_table.py results/k4_thetab/scan_*.log                       # the tables of §4
+python3 k4/thetab_cover.py --sum results/k4_thetab/cover_*.log                # the table of §7
 python3 k4/thetab_targets.py --show      # the smallest target of each class, printed in full
 ```
 
-Code: `k4/thetab_lib.py` (setting (H), the swaps, Lemma G's value form `lemma_g` with the least removal set, the
-hypotheses of W and K and W's construction, `theorems`), `k4/thetab_targets.py` (§1, §4, §6), `k4/thetab_scan.py`
-(§4, §5), `k4/thetab_table.py` (§4), `attempts/k4_thetab_attempts.py` (§5.1, two implementations). They use PR #75's
-`k4/dl13_stuck.py` (`Profile`) and `k4/dl13_lemmas.py` (`Ctx`) and `k4/suite/model.py`. Every run uses one process.
+Code:
+- `k4/thetab_lib.py`: setting (H), the swaps, Lemma G's value form `lemma_g` with the least removal set, the
+  hypotheses of W and K and W's construction, and `theorems`;
+- `k4/thetab_targets.py` (§1, §4, §6), `k4/thetab_scan.py` (§4, §5), `k4/thetab_table.py` (§4);
+- `k4/thetab_cover.py` (§7);
+- `attempts/k4_thetab_attempts.py` (§5.1, two implementations).
+
+They use PR #75's `k4/dl13_stuck.py` (`Profile`) and `k4/dl13_lemmas.py` (`Ctx`), `k4/suite/model.py`, and, for §7,
+PR #80's `k4/sx_keygraph.py` and `k4/sx_zprime.py`.
