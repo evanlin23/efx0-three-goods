@@ -22,19 +22,24 @@ At every Z′-maximum in case (i) the tool records:
 Per key: covered by C or C′ (structural / exact), by B or B′ with k = 1, by W, K, G1, G1h at some Z′-maximum.
 Smallest Z′-maximum (by n, m) per failing cell is printed.
 
-Needs PR #80's k4/sx_keygraph.py and k4/sx_zprime.py and its dumps (results/k4_sx/), at ebe244f, unpacked under
-k4/suite/.cache/sx (see k4/thetab.md §8); nothing of PR #80 is changed.
+Needs PR #80's k4/sx_keygraph.py and k4/sx_zprime.py (on main) and its dumps under results/k4_sx/; nothing of
+PR #80 is changed. They are imported only when keys are analysed, so --sum runs without them.
 usage: python3 k4/thetab_cover.py DUMP.jsonl.gz ... [--every=E] [--start=S] [--max=N]
        python3 k4/thetab_cover.py --sum results/k4_thetab/cover_*.log        (the table of k4/thetab.md §7)"""
 import collections, gzip, itertools, json, os, sys, time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-SX = os.path.join(HERE, 'suite', '.cache', 'sx', 'k4')
 sys.path.insert(0, HERE); sys.path.insert(0, os.path.join(HERE, 'suite'))
 from thetab_lib import *                                         # noqa: E402,F401
-sys.path.append(SX)
-import sx_zprime as Z                                            # noqa: E402
-from sx_keygraph import KeyProfile                               # noqa: E402
+Z = None                                                         # PR #80's k4/sx_zprime.py, imported by load_sx()
+
+
+def load_sx():
+    global Z
+    if Z is None:
+        import sx_zprime
+        Z = sx_zprime
+    return Z
 
 
 def thetab_of(I, o, g, U, X, om):
@@ -68,11 +73,13 @@ def lemma_c(I, c, x, g, U, X, V, T, VT, free, om):
 
 
 def lemma_c2(I, c, x, g, U, X, V, T, free, om):
-    if not (len(T) == 2 and set(T) <= set(V)): return "C' fails: not two terminals, both leaves"
+    """Lemma C′ of k4/sx.md (PR #80, as reviewed): exactly two terminals, τ1 θ-b (not necessarily a leaf), τ2 a leaf"""
+    if len(T) != 2: return "C' fails: not exactly two terminals"
     reasons = set(); best = None
     for t1 in T:
         t2 = next(z for z in T if z != t1)
-        if not thetab_of(I, t1, g, U, X, om): continue
+        if t2 not in V: reasons.add('the other terminal is not a leaf'); continue
+        if not thetab_of(I, t1, g, U, X, om): reasons.add('tau1 not theta-b'); continue
         pairs = []
         for pr in itertools.combinations(list(bits(X[t1])), 2):
             Px = mask(pr)
@@ -250,8 +257,9 @@ def main(argv):
     profs = profs[int(opt.get('start', 0))::int(opt.get('every', 1))]
     if 'max' in opt: profs = profs[:int(opt['max'])]
     cnt = collections.Counter(); ex = {}; t0 = time.time()
+    load_sx()
     for d, src in profs:
-        kp = KeyProfile(d)
+        kp = Z.KeyProfile(d)
         if not kp.ok or kp.I.f != 1: continue
         cnt['profiles'] += 1
         pr = None

@@ -1,12 +1,10 @@
 #!/bin/sh
-# Case (i) of K4.SX.COVER (k4/thetab.md §7): k4/thetab_cover.py on PR #80's dumps of non-completable f = 1 keys.
-# One worker, sequential. Needs PR #80's tools and dumps at ebe244f in k4/suite/.cache/sx:
-#   mkdir -p k4/suite/.cache/sx && git archive ebe244f k4/sx_zprime.py k4/sx_keygraph.py results/k4_sx/hunt \
-#     results/k4_sx/rc results/k4_sx/t3stage | tar -x -C k4/suite/.cache/sx
-# Logs in results/k4_thetab/. A run whose log exists is skipped (delete it to redo).
+# Case (i) of K4.SX.COVER (k4/thetab.md §7): k4/thetab_cover.py on PR #80's dumps of non-completable f = 1 keys
+# (results/k4_sx/, with PR #80's k4/sx_keygraph.py and k4/sx_zprime.py, all on main).
+# One worker, sequential. Logs in results/k4_thetab/. A run whose log exists is skipped (delete it to redo).
 set -e
 R=results/k4_thetab
-H=k4/suite/.cache/sx/results/k4_sx
+H=results/k4_sx
 mkdir -p $R
 run() { out=$R/$1.log; shift; [ -s $out ] && return 0; python3 "$@" > $out.tmp && mv $out.tmp $out; }
 run cover_n4_hunts k4/thetab_cover.py $H/hunt/n4_3_r40k.jsonl.gz $H/hunt/n4_pure_r40k.jsonl.gz

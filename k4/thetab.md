@@ -23,7 +23,7 @@ Everything here is at f = 1 except Lemma G, which holds at every f. The f ≥ 2 
   1,343 records, 1,223 of them at f = 1 (1,199 θ-b, 2 θ-a, 22 without an S1 shape). In 1,219 of the 1,223 the frozen
   good g has exactly two needers, both big-top on g (**setting (H)**). In all 1,223 the dump lists a (T3) repair
   **without a helper** (a *plain swap*) whose new best owner is an agent that did not move.
-- **Lemma G** (§2, any f, written proof, not yet refereed): the deficit after a (T3) role swap with at most one helper,
+- **Lemma G** (§2, any f, PROVED, K4.TB.G; refereed in the PR #85 review): the deficit after a (T3) role swap with at most one helper,
   seen from any free owner o that does not move:
 
   def(P′) ≤ |C| − (2 − |A|) − (2 − |B′_h|) − S_rest − κ.
@@ -31,7 +31,7 @@ Everything here is at f = 1 except Lemma G, which holds at every f. The f ≥ 2 
   Here A is x's new base, B′_h the helper's (the term is absent without helper), S_rest counts the slots of the other
   free agents, C ⊆ J′ is a set of junk goods whose removal leaves o's bundle safe, and κ = 1 when the swap unfreezes
   z for o. **Corollary G1** is its value form: the least such C is computable from P alone, as a hitting set.
-- **Structural existence theorems in (H)** (§3, written proofs, not yet refereed):
+- **Structural existence theorems in (H)** (§3, PROVED, K4.TB.W; refereed in the PR #85 review):
   - **Theorem W**: if the lower goods of x lie in J ∪ B_y1 ∪ B_y2, one of them is valued by a needer, and every other
     free agent is *tame* (its threats can be removed within its own slots), then an explicit plain swap gives
     def(P′) ≤ 0.
@@ -47,15 +47,16 @@ Everything here is at f = 1 except Lemma G, which holds at every f. The f ≥ 2 
   - *A helper can be necessary at n ≥ 4.* At a T3-stage state in (H) with n = 4, m = 8, x's best lower goods are a
     third agent's base. No plain swap exists, and only (T3) moves with that agent as helper lower the deficit (Lemma G
     certifies one). So no plain-swap statement covers n ≥ 4; in particular W and K do not.
-  - *No single (T3) move need help* (X5, n = 5, m = 13, compute/k4-rc). The key form holds there, and Corollary G1
-    certifies it from another state of the key.
+  - *No (T3) move from the state need lower the deficit* (X5, n = 5, m = 13, compute/k4-rc). The key form holds
+    there, and Corollary G1 certifies it from another state of the key.
 - **Key form and Conjecture PS** (§5): every key with def* > 0 whose deficit-minimal states have two or more needers
   has a state from which Corollary G1 certifies a (T3) move, with at most one helper, below the key's least deficit.
   It holds on all data (EVIDENCE), but it is not proved.
-- **Case (i) of K4.SX.COVER** (§7, PR #80's frame). **Lemma P** (written proof, not yet refereed):
+- **Case (i) of K4.SX.COVER** (§7, PR #80's frame). **Lemma P** (PROVED, K4.TB.P; refereed in the PR #85 review):
   - an exact criterion for the pair Lemma C needs;
   - when the terminals are two θ-b leaves, Lemma C's pair or Lemma C′'s pair exists, except in one explicit exception
     (E), which is impossible at n = 3. So at n = 3, Lemma C or C′ applies whenever the terminals are two θ-b leaves.
+  - With PR #80 (Lemma F) and PR #84 (Lemma A♭), this **closes case (i) at n = 3** (§7).
 
   On PR #80's data (1,668 case-(i) Z′-maxima of 1,579 keys):
   - (E) never occurs;
@@ -93,7 +94,7 @@ X ∪ {c}, but o is big-top on g and X ∪ {c} holds o's three lower goods. The 
 the *other* needer takes g and o (or a third agent) owns, or o takes g and the other needer owns. In both cases the
 swapped needer is big-top, and holding its top it is threatened by almost nothing.
 
-## 2. The deficit after a role swap
+## 2. The deficit after a role swap (PROVED, K4.TB.G)
 
 Notation of `k4/dl2.md` §4 and `k4/dl13.md` §1:
 - a strict profile of a connected k = 4 core with ω ≥ 1, and P ∈ 𝒫 min-frozen with needed set 𝒩, frozen agents F
@@ -200,7 +201,7 @@ Consequently:
 *Proof.* By Fact 0(a) g beats every good of L_x, so N_x(A) ⊆ {g} iff no good of L_x ∖ A beats v_x(A). Every other
 good of L_x is worth less than p ≤ v_x(A) when p ∈ A, and the singletons other than {p} fail against p. ∎
 
-## 3. Existence in setting (H)
+## 3. Existence in setting (H) (PROVED, K4.TB.W)
 
 **Setting (H).** f = 1, F = {x}, B_x = {g}, and the needers of g are exactly two agents y1 ≠ y2, both big-top on g (g
 is their top by Fact 0(b)). Write:
@@ -238,8 +239,8 @@ either |A| = 2, or A = {p} with v_x(L_x ∖ {p}) < v_x(p). `k4/thetab_lib.w1_con
   - Else A := {p}. Here v_x(R′) < v_x(p): R′ is a single good worth less than p, or q + r < p.
 
 *Case 2: otherwise.* By (W1), p ∈ J ∖ (L_y1 ∪ L_y2). By (W2) some s ∈ R′ lies in L_y1 ∪ L_y2. Choose i with
-s ∈ L_{y_i} ∖ B_{y_{3−i}}: i = 1 if s ∈ L_y1 ∖ B_y2; otherwise s ∈ B_y2 ⊆ L_y2, and s ∉ B_y1 (disjoint bases), so
-i = 2. Then s ∈ J ∪ B_{y_i} by (W1). Take A := {p, s}; it is admissible and meets L_z in s.
+s ∈ L_{y_i} ∖ B_{y_{3−i}}: i = 1 if s ∈ L_y1 ∖ B_y2; otherwise s ∈ L_y2 and s ∉ B_y1 ⊆ L_y1 (or s ∈ B_y2, which is
+disjoint from B_y1), so i = 2. Then s ∈ J ∪ B_{y_i} by (W1). Take A := {p, s}; it is admissible and meets L_z in s.
 
 *The bound.* Let H := ⋃_{w ∈ T} H_w ⊆ J, so |H| ≤ S_T, and C := H ∩ J′. Apply Lemma G with o, without helper, and
 Y := (B_o ∪ J′) ∖ C, which misses g, A, B_T and H. Safety of Y:
@@ -348,11 +349,15 @@ names.
 **Scans** (`k4/thetab_scan.py`, `results/k4_thetab/scan_*.log`, tables by `k4/thetab_table.py`). These cover every
 def > 0 state with f = 1 of each profile of the inputs:
 - the suite;
-- compute/k4-rc's 45 profiles (X5's core; PR #80's copy `results/k4_sx/rc/rc_fail_inst.json`);
+- compute/k4-rc's 45 profiles (X5's core; PR #80's copy `results/k4_sx/rc/rc_fail_inst.json`, on main);
 - #53's catalogues at 245040b (n = 3 every record; n = 4 every 4th);
 - the hunt catalogues (every 4th);
 - the structured hunts `hunt` (random cores built around a frozen x and two big-top needers) and `twin` (the two
-  needers have the same goods, and x's third lower good is shared with the third agents), 900 s each.
+  needers have the same goods, and x's third lower good is shared with the third agents), 900 s each, seed 1.
+
+To keep every run under 20 minutes on the shared machine, three inputs of earlier versions of this file were dropped
+and not rerun: #53's n = 5 catalogues (every 10th record), random n = 3 profiles of every certified n = 3 core
+(`k4_certs_3`, 500 per core), and the second seeds of the two structured hunts.
 
 Three kinds of states are classified:
 - the T3-stage states with two or more needers, in (H) or not (at f = 1 these are the deficit-minimal states of their
@@ -419,14 +424,14 @@ on the key graph (`k4/dl13.md` §2.3, Remark): a key κ with least deficit def*(
 def*(κ′) < def*(κ), reached by one (T3) move from *some* state of κ. At f = 1 the T3-stage states are exactly the
 deficit-minimal states of their key, and (T4) is empty.
 
-Nothing proved in §2–§3 needs to change for this. Lemma G, Theorems W and K and Corollary G1 are conditions on one
-state P, with no stage hypothesis, and each names a (T3) move from P. So each holds in key form: *if some state of a key
+Nothing in §2–§3 needs to change for this. Lemma G, Theorems W and K and Corollary G1 (K4.TB.G, K4.TB.W, refereed)
+are conditions on one state P, with no stage hypothesis, and each names a (T3) move from P. So each holds in key form: *if some state of a key
 κ satisfies the hypotheses, then κ has a (T3) neighbour κ′ with def*(κ′) ≤ 0* (W, K, and G1 when its bound is ≤ 0).
 For example, Corollary N3 says: at n = 3, f = 1, every key with def* > 0 that has a state in setting (H) has a (T3)
 neighbour with def* ≤ 0. At X5 the key form holds, and Corollary G1 certifies it, from another state of the key.
 
-**Where the theorems stop.** They are proved where their hypotheses hold, which includes every n = 3 state with two
-big-top needers (Corollary N3). At n ≥ 4 they need hypotheses about where x's goods lie and about the other free
+**Where the theorems stop.** Where their hypotheses hold, the key form follows from K4.TB.W and K4.TB.G (refereed).
+That includes every n = 3 state with two big-top needers (Corollary N3). At n ≥ 4 they need hypotheses about where x's goods lie and about the other free
 agents: (W1)–(W3), (K1)–(K2), or G1's budget. These hypotheses are **not** consequences of the T3 stage:
 - *(H) does not cover every target*: 4 of the 1,223 have three needers or a non-big-top needer (§1). Smallest: n = 4,
   m = 9 (`gap_n4_3_s4000`, core (m = 9, idx 5) of `results/k4_certs_4_n4_3.json.gz`, profile 106,48,94,3).
@@ -448,7 +453,8 @@ what Corollary N3 gets for free at n = 3.
 
 ### 5.1 Failed candidates (`attempts/k4-thetab-*.md`, REFUTED row K4.TB.X)
 
-Each candidate fails at the state given. The state's f, deficit, stage, needers and swaps are computed by two
+Each candidate fails at the state given; where the smallest failure is the m = 8 state of §3.4, a second failing
+state is listed for the feature it shows. The state's f, deficit, stage, needers and swaps are computed by two
 implementations (`attempts/k4_thetab_attempts.py`, log `results/k4_thetab/attempts.log`):
 - this file's code on PR #75's `Profile`;
 - main's `k4/c4x_check.py`, with the key, the T1 test, the needers, the plain swaps and the (T3) moves written
@@ -456,10 +462,10 @@ implementations (`attempts/k4_thetab_attempts.py`, log `results/k4_thetab/attemp
 
 | candidate | smallest failing state found | note |
 |---|---|---|
-| in (H), a plain swap lowers the deficit at **every** state with def > 0 (Corollary N3 at n = 3) | n = 4, m = 9: core (m = 9, idx 5) of `k4_certs_4_pure`, profile 38,20,245,105, P = ({0, 2}, {1, 3}, {5, 6}, {8}) | P is not T1-stuck; a third agent is threatened by the only two junk goods (`attempts/k4-thetab-plain-swap-everywhere.md`) |
+| in (H), a plain swap lowers the deficit at **every** state with def > 0 (Corollary N3 at n = 3) | n = 4, m = 8: the hunt state of §3.4 (at the T3 stage). Also at n = 4, m = 9: core (m = 9, idx 5) of `k4_certs_4_pure`, profile 38,20,245,105, P = ({0, 2}, {1, 3}, {5, 6}, {8}), not T1-stuck | at both, no plain swap exists at all: every admissible set of x meets a third agent's base (at m = 9 every admissible set of x = 3 contains 6 ∈ B_2 = {5, 6}) (`attempts/k4-thetab-plain-swap-everywhere.md`) |
 | every f = 1 target is in (H) | n = 4, m = 9: core (m = 9, idx 5) of `k4_certs_4_n4_3`, profile 106,48,94,3, P = ({0, 7}, {8}, {4, 6}, {5}) | needers big-top and 4-good; G1 covers it (`attempts/k4-thetab-two-big-top-needers.md`) |
 | in (H), at the **T3 stage**, a plain swap lowers the deficit (so also "W or K applies") | n = 4, m = 8: the hunt state of §3.4, P = ({0}, {1}, {2, 3}, {4, 5}) | no plain swap exists; only (T3) moves with a helper repair it, and G1h certifies one (`attempts/k4-thetab-plain-swap-t3-stage.md`) |
-| W, K or G1 with a plain swap applies at every **T1-stuck** state in (H) | n = 4, m = 10: core (m = 10, idx 13) of `k4_certs_4_pure`, profile 60,8,93,84, P = ({0, 9}, {1, 5}, {8}, {4, 7}) | not key-optimal (a (T2) move helps); a plain swap still lowers the deficit, owned by x itself, and G1h certifies a swap with a helper (`attempts/k4-thetab-t1-stuck-cover.md`) |
+| W, K or G1 with a plain swap applies at every **T1-stuck** state in (H) | n = 4, m = 8: the hunt state of §3.4 (T1-stuck, no plain swap). Also at n = 4, m = 10: core (m = 10, idx 13) of `k4_certs_4_pure`, profile 60,8,93,84, P = ({0, 9}, {1, 5}, {8}, {4, 7}), where a plain swap exists | at m = 10, P is not key-optimal (a (T2) move helps), and the plain swap that lowers the deficit is owned by x itself; G1h certifies a swap with a helper (`attempts/k4-thetab-t1-stuck-cover.md`) |
 | at every T3-stage state with two or more needers some (T3) move lowers the deficit (Conjecture PS, single-step form) | n = 5, m = 13: core pos 4604 (idx 58) of `k4_certs_5_pure`, profile 44,118,8,8,158, P = ({11}, {12}, {3, 7}, {4, 8}, {5, 9}) | found by compute/k4-rc; all 8 (T3) moves from P keep deficit 1; the key form holds, and G1 certifies it from another state (`attempts/k4-thetab-single-step-t3-stage.md`) |
 
 ## 6. f ≥ 2 (for proof/k4-f2)
@@ -477,7 +483,7 @@ come for free.
 
 The structural existence statements of §3 are not extended to f ≥ 2 here.
 
-## 7. Case (i) of K4.SX.COVER: every terminal leaf is θ-b
+## 7. Case (i) of K4.SX.COVER: every terminal leaf is θ-b (Lemma P: PROVED, K4.TB.P; data: EVIDENCE, K4.TB.COV)
 
 PR #80 (`k4/sx.md`, under review) reduces DL on the key graph at f = 1 to one statement, K4.SX.COVER: at some
 Z′-maximum of every non-completable f = 1 key, one of its Lemmas A, B (k = 1), B′ (k = 1), C, C′ applies. Its open
@@ -503,8 +509,8 @@ Three facts are used. Let p be x's best lower good, and q, r the others.
   K4.C4MIN.CFG). This is part of `k4/sx.md` Lemma F(c).
 - (F3) If ω ≥ 2, then X_o ⊄ R_x, since |X_o| ≥ 4 > |U_x| and g ∉ X_o. So θ_x(X_o) = v_x(X_o ∩ U_x).
 
-Lemma P depends on `k4/sx.md` (PR #80; written proofs, not yet refereed) through Lemma 0 in (F2) and the shape of a
-θ-b terminal (Q_τ = {u₁, u₂}, c_τ ∈ L, `k4/sx.md` §3).
+Lemma P uses `k4/sx.md` through Lemma 0 in (F2) (K4.SX.KEY) and the shape of a θ-b terminal (Q_τ = {u₁, u₂},
+c_τ ∈ L, `k4/sx.md` §3, K4.SX.REP); both rows are PROVED.
 
 **Lemma P (the pairs of Lemmas C and C′).** Assume case (i).
 - (i) Let τ be a θ-b terminal leaf and S := U_x ∩ X_τ. τ has a C-pair iff S ∩ U_τ ≠ ∅, or p ∈ X_τ and
@@ -553,7 +559,8 @@ some good of U_x is valued by another agent. At n = 3 that agent is τ₁ or τ�
 U_x ∩ (U_τ₁ ∪ U_τ₂) = ∅. ∎
 
 **Relation to Lemma G and Theorem K.** At P_Q the junk is L together with the *fillers*, the goods of the pairs Q_y
-outside U_y. Lemmas C and C′ are plain swaps of Corollary G1 at P_Q:
+outside U_y. Lemmas C and C′ are plain swaps of Lemma G at P_Q (of Corollary G1 when (H) or (H′) holds in its value
+form, as under (H*) and (H′*)):
 - Lemma C, with owner o: its bundle is Lemma G's Y with C := the fillers of x's new pair and of the pairs of the
   agents other than o and τ₁. So |C| = (2 − |A|) + S_rest, and Lemma G gives def(P′) ≤ 0.
 - Lemma C′, with owner τ₂: the same C plus w, and κ = 1.
@@ -614,18 +621,28 @@ What the data say:
   - Lemma C's pair missing with one θ-b terminal leaf: n = 4, m = 10, core #185 of `k4_certs_4_pure` (`n4_pure_r40k`).
   - Only a C′-pair with two θ-b terminal leaves: n = 4, m = 10, core #327 of `k4_certs_4_n4_3` (`n4_3_r40k`).
 
-**What remains of case (i).**
-- (E) at n ≥ 4. It needs x's three lower goods in the pool and valued by no terminal, so, by the core condition, some
-  of them valued by third agents; it does not occur in the data.
-- The third-agent hypotheses (H) and (H′). They are where `k4/sx.md`'s structural forms fail (5 keys, n = 4). Their
-  value form with Lemma G's budget, i.e. Theorem K and Corollary G1, holds at every case-(i) maximum of the data, but no
-  proof derives it from the Z′-maximum.
-- The shape with one θ-b terminal leaf and a second terminal that is not a leaf (the commonest at n = 4). There Lemma C
-  needs the criterion of Lemma P (i); when it fails, Lemma B with k = 1 (case (ii)/(iii) of COVER) or Theorem K covers
-  the data.
-- At n = 3 with a single terminal (T = {τ₁}), Lemma P does not apply. That shape does not occur among the n = 3 case-(i)
-  maxima (`k4/sx.md` §4.2: all 4,052 have two terminal leaves; the same in this file's every-5th runs), but this is
-  not proved here.
+**Case (i) is closed at n = 3** (PR #80, PR #84 and this file). Let Q be a Z′-maximum at n = 3 in case (i), τ₁ a θ-b
+terminal leaf, and y the other free agent.
+- τ₁ is robust, so no free agent threatens it (Lemma F(a), K4.SX.KEY). So y threatens no free agent: y is a leaf.
+- If y is not a terminal, τ₁ is the only terminal, and it is a θ-b leaf. PR #84's Lemma A♭ (K4.ON.S: in the
+  single-terminal regime no free-valid owner is a θ-b terminal) excludes this.
+- So y is a terminal and a leaf, hence θ-b by case (i). The terminals are two θ-b leaves, and Lemma P (iii) gives
+  Lemma C or Lemma C′, with (H) and (H′) void.
+
+So at n = 3 Lemma C or C′ applies at every case-(i) Z′-maximum.
+
+**What remains of case (i) at n ≥ 4.**
+- (a) (E). It needs x's three lower goods in the pool and valued by no terminal, so, by the core condition, some of
+  them valued by third agents. It also needs x big-top. It does not occur in the data.
+- (b) The third-agent hypotheses (H) and (H′). They are where `k4/sx.md`'s structural forms fail (STRUCT_KEYS keys,
+  n = 4). Their value form with Lemma G's budget, i.e. Theorem K and Corollary G1, holds at every case-(i) maximum of
+  the data, but no proof derives it from the Z′-maximum.
+- (c) The shape with one θ-b terminal leaf and a second terminal that is not a leaf (the commonest at n = 4). There
+  Lemma C needs the criterion of Lemma P (i); when it fails, Lemma B with k = 1 (case (ii)/(iii) of COVER) or Theorem K
+  covers the data.
+- (d) Three or more terminals, all θ-b leaves: 5 maxima in `cover_n4_pure_r400k.log` (column "other" of the table).
+  Lemma C′ is unavailable there, since it needs exactly two terminals, and no C-pair is proved; Lemma C (structural)
+  and Corollary G1 cover the data.
 
 ## 8. Reproduce
 
@@ -633,11 +650,8 @@ One process at a time; every run is under 20 minutes on a shared 4-CPU machine, 
 ```
 mkdir -p k4/suite/.cache/gapbench
 git archive 245040b results/k4_gap | tar -x -C k4/suite/.cache/gapbench      # #53's catalogues (k4/strategy.md §4)
-mkdir -p k4/suite/.cache/sx                                                    # PR #80's tools and dumps (unchanged)
-git archive ebe244f k4/sx_zprime.py k4/sx_keygraph.py results/k4_sx/hunt results/k4_sx/rc results/k4_sx/t3stage \
-  | tar -x -C k4/suite/.cache/sx
 sh k4/thetab_runs.sh            # results/k4_thetab/: targets.log (§1, §4, §6), attempts.log (§5.1), scan_*.log (§4, §5)
-sh k4/thetab_cover_runs.sh      # results/k4_thetab/cover_*.log (§7)
+sh k4/thetab_cover_runs.sh      # results/k4_thetab/cover_*.log (§7), on PR #80's dumps results/k4_sx/
 python3 k4/thetab_table.py results/k4_thetab/scan_*.log                       # the tables of §4
 python3 k4/thetab_cover.py --sum results/k4_thetab/cover_*.log                # the table of §7
 python3 k4/thetab_targets.py --show      # the smallest target of each class, printed in full

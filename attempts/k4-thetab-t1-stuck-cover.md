@@ -6,10 +6,12 @@ Workstream `proof/k4-thetab` (`k4/thetab.md` §3–§5). Ledger row K4.TB.X (REF
 G1 of `k4/thetab.md` with a plain swap (no helper) hold. A T1-stuck state is one where no (T1) move lowers the deficit
 (`k4/dl13.md` §1); setting (H) means two needers of the frozen good, both big-top. These hypotheses hold at every
 f = 1 target of `k4/thetab.md` §1. The T3 stage asks in addition that no (T2) rotation lowers the deficit, so the
-candidate asked whether that extra hypothesis is needed. (At the T3 stage the candidate fails too, at n = 4, m = 8: `attempts/k4-thetab-plain-swap-t3-stage.md`.)
+candidate asked whether that extra hypothesis is needed. It is not enough either: the candidate fails at the T3 stage.
 
-**It is needed. Smallest failing configuration found** (n = 4, m = 10). Source: #53's catalogue `gap_n4_pure_s4000`,
-core (m = 10, idx 13) of `results/k4_certs_4_pure.json.gz`, profile 60,8,93,84.
+**Smallest failing configuration found: n = 4, m = 8**, the T3-stage (hence T1-stuck) state of
+`attempts/k4-thetab-plain-swap-t3-stage.md`, where no plain swap exists at all. The state below (n = 4, m = 10) shows
+a different failure: a plain swap exists there, but none of W, K, G1 names it. Source: #53's catalogue
+`gap_n4_pure_s4000`, core (m = 10, idx 13) of `results/k4_certs_4_pure.json.gz`, profile 60,8,93,84.
 - Agents and values:
   - agent 0: goods 0:3, 2:10, 7:6, 9:8;
   - agent 1: goods 1:2, 5:3, 8:8, 9:4 (big-top);
