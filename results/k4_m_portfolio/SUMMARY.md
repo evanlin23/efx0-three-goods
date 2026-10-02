@@ -7,7 +7,7 @@ implementation.
 
 ## Headlines
 
-1. **Lemma M held everywhere**: on ≈1.83·10⁹ strict profiles (exhaustive and sampled) and in every hunt.
+1. **Lemma M held everywhere**: on ≈4.39·10⁹ distinct strict profiles (exhaustive and sampled) and in every hunt.
 2. **M_bt1 is false** (and with it M_bt and "the big-top agent with the fewest private goods"). At n = 4, m = 8 with
    three 4-good agents (core 202 of `k4_certs_4_n4_3`), the only big-top agent q is in neither K0 nor K1.
    `sets=[[0,3,4,6],[1,3,6,7],[2,5,6,7],[4,5,7]] vals=[[3,10,2,6],[2,8,4,5],[2,8,5,4],[2,4,3]]`.
@@ -15,18 +15,18 @@ implementation.
    only the counting classes fail. Exhaustively, on seven n4_3 cores, M_bt1 fails on 32 profiles. rulef.md §5.2
    states the opposite. That statement was read off leaf representatives: `rulef.c -A42` stops comparing big-top
    status at the first big-top agent, so a leaf can mix one-big-top and three-big-top profiles
-   (`FAILURES_M_bt1.md`, Notes).
+   (`FAILURES_M_bt1.md`, Notes). On 25 further n4_3 cores (every 12th), M_bt1 held.
 3. **Strongest surviving strengthening** (which agent): **sh:W ∧ btsh:W**. In words: *if some agent shares its top
    good with another agent, some such agent is in K0 ∪ K1; otherwise, if some agent is big-top, some big-top agent is
-   in K0 ∪ K1.* It implies M_nobt. It is tight: on 11,522 profiles the agent it names is the only first agent in
-   K0 ∪ K1.
+   in K0 ∪ K1.* It implies M_nobt. It is tight: on 11,522 profiles the only first agent in K0 ∪ K1 is one of the
+   agents it allows.
 4. **No certificate stronger than K0 ∪ K1 survives** (how): M1 ∨ M2 dies at n = 2, and "K0 or Lemma KR" dies at n = 4.
    "K0 or KR or a rotation to ω′ ≤ 0" also dies at n = 4, m = 11. There the only certificates rotate k to a base worth
    *less* than its pick, and then need a nonempty kept set.
 5. **Best exchange partner: x3cE**. If a's envy-free run is in neither class, *some end of a need chain starting at an
-   exposed frozen agent of that run* is in K0 ∪ K1. Over 31,581 (profile, a) pairs it is never undefined and never
+   exposed frozen agent of that run* is in K0 ∪ K1. Over 41,673 (profile, a) pairs it is never undefined and never
    fails. The other partners fail: r on H_t and the suite, the leader of r's block on H_t, and the exposed frozen
-   4-good agent at n = 3. A hunt also broke x1N.
+   4-good agent at n = 3. x1N fails on 2,592 n4_3 pairs and in hunt 2.
 
 ## What was run
 
@@ -36,8 +36,10 @@ implementation.
   of rule RK. On every leaf of the exhaustive enumeration it evaluates every first agent: 120 candidates (12 allowed
   sets × 10 predicates), 12 exchange-partner variants, (G2) and C40. It also checks the proved lemmas against the
   classes. Big-top status is compared for every agent, so leaves split on it. The driver is
-  `k4/lemmam_portfolio.py`; it is checkpointed and resumable. The data runs used source sha `ae819de59cd381bd`.
-  The final source differs only in the hunt's candidate numbering (see Hunts).
+  `k4/lemmam_portfolio.py`; it is checkpointed and resumable. Source hashes (of lemmam_portfolio.c with rulef.c):
+  the data runs used `ae819de59cd381bd`, except `n4_3_every12` and hunts 3–4, which used the final source
+  `9d2ff47477f77c7b`. The two differ only in the hunt's candidate numbering (see Hunts). Hunt 1 used `2676b40619bb6fa7`,
+  which had the same predicates but not the sets sh and btsh.
 - **Second implementation** `k4/lemmam_xcheck.py`. It runs on PR #33's independent model `k4/c4_verify_H/lb4r.py`, a
   transcription of `lean/EFX/LB4R.lean`, with Lemma K from `k4/rulef_model.py`. M1, Lemma KR, the ω′ ≤ 0 rotations
   and the partners are written again there from the text of `k4/rulef.md`, without rulef.c code.
@@ -45,6 +47,9 @@ implementation.
   - Every strict profile of every certified core with n = 2 (189,216) and n = 3 (299,837,376).
   - Every strict profile of every n = 4 core with one 4-good agent (7,247,232) and with two (724,847,616).
   - Every strict profile of the seven n = 4 three-4-good cores that appear in rulef's failure lines (788,299,776).
+  - Every strict profile of 25 of the 29 cores with index ≡ 0 mod 12 of the same class (2,705,301,504). The 4 largest
+    (cores 300, 312, 324, 336) did not finish within the budget. Core 228 is in both n4_3 selections; the totals
+    count it once.
   - Random profiles of every n = 4 core: 50 and 2,000 per core (2,054,100).
   - Random profiles of every n = 5 core: 20 and 200 per core (6,948,480).
   - H_t for t = 1..5 with 3 relabelings each, and the 152 k = 4 cores of the suite.
@@ -57,7 +62,11 @@ implementation.
     partners x1N and x3cE instead. It found an x1N failure (`hunt2_aborted.txt`). The offset is now 1000.
   - Hunt 3: 6 candidates (sh:W, btsh:W, nobt:W, bt2:W, all:W, x3cE) × 115 cores/seeds, 40k steps. No failure.
     Best scores: 130 for sh:W, bt2:W and all:W (two working agents); 68 for btsh:W; 132 for nobt:W; 66 for x3cE.
-  - Hunt 4: HUNT4_PLACEHOLDER
+  - Hunt 4: the same 6 candidates × 180 cores/seeds (20 cores of each of n4_2, n4_3, n4 pure and n = 5 with two,
+    three, four and five 4-good agents, plus 40 seeds), 60k steps. No failure. Best scores: 130 for sh:W and all:W;
+    68 for btsh:W; 132 for nobt:W; 66 for bt2:W and x3cE.
+  - Walks per survivor over all hunts: sh:W and btsh:W 295 each; nobt:W, bt2:W and Lemma M 700 each; x3cE 714. None
+    ended in a failure.
 
 ## Lemma M itself
 
@@ -72,27 +81,29 @@ Profiles with no agent in K0 but some in K1:
 | n = 4, one 4-good agent | 820 |
 | n = 4, two 4-good agents | 207,600 |
 | seven n4_3 cores | 3,296 |
+| 25 n4_3 cores (every 12th) | 1,637,240 |
 | n = 4 samples | 18 + 757 |
 | n = 5 samples | 33 + 382 |
 | suite | 7 |
 
-These equal the K1 counts of rule RK in `k4/rulef.md` §5.1 with `-Y1`.
+For n = 3 and n = 4 with one or two 4-good agents these equal the K1 counts of rule RK in `k4/rulef.md` §5.1
+with `-Y1`.
 
 ## Which first agent works
 
 | candidate | statement | applicable profiles | failures | "only" (its agent is the only working one) |
 |---|---|---|---|---|
-| **sh:W** | some agent shares its top ⇒ some such agent in K0 ∪ K1 | 1,037,069,996 | **0** | 11,522 |
-| **btsh:W** | some agent big-top or sharing its top ⇒ some such agent works | 1,336,602,229 | **0** | 11,522 |
-| **M_nobt** (nobt:W) | no big-top, some shared top ⇒ some shared-top agent works | 652,433,060 | **0** | 9,216 |
-| **bt2:W** | two or more big-top agents ⇒ some big-top agent works | 101,215,503 | **0** | 0 |
+| **sh:W** | some agent shares its top ⇒ some such agent in K0 ∪ K1 | 2,762,745,130 | **0** | 11,522 |
+| **btsh:W** | some agent big-top or sharing its top ⇒ some such agent works | 3,471,151,731 | **0** | 11,522 |
+| **M_nobt** (nobt:W) | no big-top, some shared top ⇒ some shared-top agent works | 1,647,249,060 | **0** | 9,216 |
+| **bt2:W** | two or more big-top agents ⇒ some big-top agent works | 301,608,207 | **0** | 0 |
 | M_bt1 (bt1:W) | exactly one big-top q ⇒ q works | – | **dies** n = 4, m = 8 | – |
 | M_bt (bt:W) | some big-top ⇒ some big-top agent works | – | **dies** n = 4, m = 8 | – |
 | btp:W | the big-top agents with the fewest private goods | – | **dies** n = 4, m = 8 | – |
 | shp:W | (no big-top) the shared-top agents with the fewest private goods | – | **dies** n = 4, m = 7 | – |
 | M_gap, M_gapn | the argmax of a − (b + c), raw or normalized | – | **die** n = 3, m = 6 | – |
 
-When no agent is big-top and none shares its top (nobt0, 492,821,741 profiles), some agent is in K0, and even
+When no agent is big-top and none shares its top (nobt0, 1,063,573,741 profiles), some agent is in K0, and even
 satisfies M1, on every profile.
 
 **Recommended static statement**: let A be the agents sharing their top good with another agent, if any; otherwise
@@ -118,7 +129,8 @@ agents 1 and 2 share their tops.
   `vals=[[5,4,6,8],[3,5,6,7],[4,8,2,3],[2,4,3,8]]`, the certifying rotation gives k the base O = {good 0}. That base
   is worth less than k's pick, outside KR's hypothesis v_k(O) > v_k(Y_k). The new owner k then needs the kept set
   K = {2}.
-- Combining the two dimensions dies too: every set × {K0|KRa, K0|KRo, K0|KRa|Rw, K0|KRo|Rwo} dies by n = 4 (TABLE.md).
+- Combining the two dimensions dies too: every set × {K0|KRa, K0|KRo, K0|KRa|Rw, K0|KRo|Rwo} dies by n = 4
+  (TABLE.md), except on the vacuous set nobt0.
 
 K1 agents that are not in K0, counted over (profile, first agent):
 
@@ -126,6 +138,7 @@ K1 agents that are not in K0, counted over (profile, first agent):
 |---|---|---|---|
 | n = 3 | 22,183,446 | 18,438,210 | 1,117,176 |
 | n = 4, two 4-good agents | 34,772,542 | 32,546,436 | 73,870 |
+| 25 n4_3 cores | 161,268,972 | 147,920,160 | 1,156,144 |
 | H_t | 29 | 0 | 15 |
 
 ## The best exchange partner
@@ -135,19 +148,19 @@ together:
 
 | variant | pairs | undefined | **none works** | where none works |
 |---|---|---|---|---|
-| **x3cE**: an end of a need chain from an exposed frozen agent (envy-free run) | 31,581 | 0 | **0** | – |
-| x3E: the same, from an exposed frozen 4-good agent | 31,581 | 2,917 | 0 | – |
-| x3bE: from r's block leader (exposed, frozen) | 31,581 | 11,555 | 0 | – |
-| x3cN: x3c in the need-shrinking run | 31,581 | 13,725 | 0 | – |
-| x1E: the exposed frozen 4-good agent | 31,581 | 20,023 | 11,522 | n = 3, suite |
-| x1N | 31,581 | 31,545 | 0 | hunt 2: n = 4, m = 8 |
-| x2: the leader of r's block | 31,581 | 31,557 | 24 | H_t, suite (outside them it is a itself) |
-| x4E: r itself | 31,581 | 0 | 26 | H_t (n = 13), suite |
-| x4N: r of the need-shrinking run | 31,581 | 0 | 23,070 | n = 3, H_t, suite |
+| **x3cE**: an end of a need chain from an exposed frozen agent (envy-free run) | 41,673 | 0 | **0** | – |
+| x3E: the same, from an exposed frozen 4-good agent | 41,673 | 3,955 | 0 | – |
+| x3bE: from r's block leader (exposed, frozen) | 41,673 | 14,147 | 0 | – |
+| x3cN: x3c in the need-shrinking run | 41,673 | 13,725 | 0 | – |
+| x1E: the exposed frozen 4-good agent | 41,673 | 27,523 | 14,114 | n = 3, n4_3, suite |
+| x1N | 41,673 | 39,045 | 2,592 | n4_3; hunt 2 (n = 4, m = 8) |
+| x2: the leader of r's block | 41,673 | 41,649 | 24 | H_t, suite (outside them it is a itself) |
+| x4E: r itself | 41,673 | 0 | 26 | H_t (n = 13), suite |
+| x4N: r of the need-shrinking run | 41,673 | 0 | 23,070 | n = 3, H_t, suite |
 
 - "All ends work" fails for x3cE: 24 pairs, all on H_t and the suite.
-- In the hunts, x3cE was the target of 391 + 28 + 115 walks (hunts 1–3), plus HUNT4X. None ended in a failure. The
-  walks did reach failing first agents whose partner set had exactly one working end (score 66).
+- In the hunts, x3cE was the target of 391 + 28 + 115 walks (hunts 1–3), plus 180 in hunt 4. None ended in a
+  failure. The walks did reach failing first agents whose partner set had exactly one working end (score 66).
 - x3E and x3cN were each the target of 391 walks in hunt 1, with no failure. x1N was broken in hunt 2.
 
 ## (G2) and C40
@@ -159,10 +172,11 @@ Counts are over (profile, first agent):
 | n = 3 | 230,196 | 136,704 | 136,544 |
 | n = 4, two 4-good agents | 22,504,892 | 9,183,060 | 9,183,060 |
 | seven n4_3 cores | 19,357,548 | 10,535,892 | 10,535,892 |
+| 25 n4_3 cores | 39,451,892 | 22,477,144 | 22,477,144 |
 
 In (G2) the agent is in neither class only on 160 n = 3 pairs and 1 suite pair.
 
-**C40 ⊆ K0 ∪ K1 is never violated** (≈5.4·10⁹ C40 pairs). Step 1 of §6 (C40) gives nothing on the profiles where no
+**C40 ⊆ K0 ∪ K1 is never violated** (≈1.4·10¹⁰ C40 pairs). Step 1 of §6 (C40) gives nothing on the profiles where no
 first agent satisfies C40; there Lemma M needs Step 3:
 
 | dataset | profiles with no C40 agent |
@@ -170,6 +184,7 @@ first agent satisfies C40; there Lemma M needs Step 3:
 | n = 3 | 105,469,290 (35%) |
 | n = 4, two 4-good agents | 35,202,605 (4.9%) |
 | seven n4_3 cores | 105,739,694 (13%) |
+| 25 n4_3 cores | 279,939,392 (10%) |
 | H_t | 20 of 20 |
 | suite | 57 of 152 |
 
@@ -203,5 +218,21 @@ There were 0 violations on every (profile, first agent) of every dataset, for ea
 - **For M2**, K1 must allow rotations outside Lemma KR's shape: a base O worth less than the pick, kept sets K ≠ ∅ at
   the rotated state, and ω′ ≤ 0 without owner. Lemma KR alone covers 83% (n = 3) to 94% (n = 4) of the K1-only agents.
 - **For the exchange argument (M1–M3)**, x3cE is the partner to try.
-- **Not done**: exhaustive n = 4 with three 4-good agents (339 cores; about 2 h of 4 CPUs at this harness's speed;
-  only the 7 cores above were run), and n = 4 with four 4-good agents exhaustively.
+- **Not done**: exhaustive n = 4 with three 4-good agents. Only 7 + 25 of its 339 cores were run (the 25 every-12th
+  cores took about 4 CPU-hours). Also not done: n = 4 with four 4-good agents exhaustively.
+
+## Reproduce
+
+```
+gcc and python3; k4/rulef.c is compiled inside k4/lemmam_portfolio.c (#include), unchanged.
+python3 k4/lemmam_portfolio.py results/k4_certs_3.json.gz -Y1 --jobs=4 --checkpoint=CK --out=OUT.json    # n = 3 exhaustive (~5 min)
+python3 k4/lemmam_portfolio.py results/k4_certs_4_n4_2.json.gz -Y1 --jobs=4 --checkpoint=CK --out=OUT.json  # ~16 min
+python3 k4/lemmam_portfolio.py results/k4_certs_4_n4_3.json.gz --idx=142,185,186,202,203,221,228 -Y1 --jobs=4 ...
+python3 k4/lemmam_portfolio.py FILES -Y1 -S200 -X13 -f1 --jobs=4 ...      # random samples (seeded)
+python3 k4/lemmam_portfolio.py --H=1,2,3,4,5 --perms=3 -Y1 ...;  --suite -Y1 ...;  --profiles=FILE -Y1 ...
+python3 k4/lemmam_hunt.py '--cands=sh:W,btsh:W,nobt:W,bt2:W,all:W,x3cE' FILES --cores=20 --steps=60000 --seed=4 --seeds=results/k4_m_portfolio/hunt_seeds3.jsonl -Y1
+python3 k4/lemmam_xcheck.py --sample=700 --seed=1 results/k4_certs_3.json.gz        # second implementation, random profiles
+python3 k4/lemmam_xcheck.py --lines=results/k4_m_portfolio/n3.fails.txt ... [--conv=rulef]   # hard profiles
+python3 k4/lemmam_failures.py; python3 k4/lemmam_table.py                            # FAILURES_*.md, TABLE.md
+```
+The exact command of every log is its first line; every JSON records the source hash and rulef.c's sha256.

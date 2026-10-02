@@ -54,7 +54,7 @@ def main():
     totp = sum(S[k]['counters'].get('tot', [0])[0] for k in keys)
     mf = sum(S[k]['counters'].get('all:W', [0, 0])[1] for k in keys) + hfail.get('all:W', 0)
     L.append(f'**Status. Lemma M (`all:W`): {"FAILS: " + str(mf) + " failures, see FAILURES_M.md" if mf else "no failure"} '
-             f'on {totp:,} profiles and in every hunt.**')
+             f'on {totp:,} profile evaluations summed over the datasets (datasets may share a core) and in every hunt.**')
     surv = [c for c in CANDS if not any(S[k]['counters'].get(c, [0, 0])[1] for k in keys) and c not in hfail
             and any(S[k]['counters'].get(c, [0])[0] for k in keys) and not c.startswith('nobt0:')]
     inv = {v: k for k, v in ALIAS.items()}

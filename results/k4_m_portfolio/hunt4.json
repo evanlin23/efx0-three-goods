@@ -1,0 +1,74 @@
+{
+ "args": [
+  "--cands=sh:W,btsh:W,nobt:W,bt2:W,all:W,x3cE",
+  "results/k4_certs_4_n4_2.json.gz",
+  "results/k4_certs_4_n4_3.json.gz",
+  "results/k4_certs_4_pure.json.gz",
+  "results/k4_certs_5_n4_2.json.gz",
+  "results/k4_certs_5_n4_3.json.gz",
+  "results/k4_certs_5_n4_4.json.gz",
+  "results/k4_certs_5_pure.json.gz",
+  "--cores=20",
+  "--steps=60000",
+  "--restart=6000",
+  "--seed=4",
+  "--seeds=results/k4_m_portfolio/hunt_seeds3.jsonl",
+  "-Y1",
+  "--jobs=4",
+  "--checkpoint=/tmp/claude-0/-home-user-efx0-three-goods/7fff145a-b58d-5b73-9280-767e7c858b47/scratchpad/ck/hunt4.jsonl",
+  "--out=results/k4_m_portfolio/hunt4.json"
+ ],
+ "sha": "9d2ff47477f77c7b",
+ "results": {
+  "sh:W": {
+   "tasks": 180,
+   "failures": 0,
+   "smallest": null,
+   "best_score": 130,
+   "tight_examples": []
+  },
+  "btsh:W": {
+   "tasks": 180,
+   "failures": 0,
+   "smallest": null,
+   "best_score": 68,
+   "tight_examples": []
+  },
+  "nobt:W": {
+   "tasks": 180,
+   "failures": 0,
+   "smallest": null,
+   "best_score": 132,
+   "tight_examples": []
+  },
+  "bt2:W": {
+   "tasks": 180,
+   "failures": 0,
+   "smallest": null,
+   "best_score": 66,
+   "tight_examples": []
+  },
+  "all:W": {
+   "tasks": 180,
+   "failures": 0,
+   "smallest": null,
+   "best_score": 130,
+   "tight_examples": []
+  },
+  "x3cE": {
+   "tasks": 180,
+   "failures": 0,
+   "smallest": null,
+   "best_score": 66,
+   "tight_examples": []
+  }
+ },
+ "all_fails": {
+  "sh:W": [],
+  "btsh:W": [],
+  "nobt:W": [],
+  "bt2:W": [],
+  "all:W": [],
+  "x3cE": []
+ }
+}

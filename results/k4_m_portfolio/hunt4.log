@@ -1,2 +1,33 @@
 # lemmam_hunt.py --cands=sh:W,btsh:W,nobt:W,bt2:W,all:W,x3cE results/k4_certs_4_n4_2.json.gz results/k4_certs_4_n4_3.json.gz results/k4_certs_4_pure.json.gz results/k4_certs_5_n4_2.json.gz results/k4_certs_5_n4_3.json.gz results/k4_certs_5_n4_4.json.gz results/k4_certs_5_pure.json.gz --cores=20 --steps=60000 --restart=6000 --seed=4 --seeds=results/k4_m_portfolio/hunt_seeds3.jsonl -Y1 --jobs=4 --checkpoint=/tmp/claude-0/-home-user-efx0-three-goods/7fff145a-b58d-5b73-9280-767e7c858b47/scratchpad/ck/hunt4.jsonl --out=results/k4_m_portfolio/hunt4.json # source sha 9d2ff47477f77c7b
 # 1080 tasks (6 candidates x 180 cores/seeds), 4 workers
+# 43/1080 tasks, 14s
+# 86/1080 tasks, 37s
+# 129/1080 tasks, 58s
+# 172/1080 tasks, 83s
+# 215/1080 tasks, 99s
+# 258/1080 tasks, 123s
+# 301/1080 tasks, 159s
+# 344/1080 tasks, 196s
+# 387/1080 tasks, 217s
+# 430/1080 tasks, 229s
+# 473/1080 tasks, 240s
+# 516/1080 tasks, 258s
+# 559/1080 tasks, 274s
+# 602/1080 tasks, 292s
+# 645/1080 tasks, 330s
+# 688/1080 tasks, 377s
+# 731/1080 tasks, 418s
+# 774/1080 tasks, 445s
+# 817/1080 tasks, 500s
+# 860/1080 tasks, 524s
+# 903/1080 tasks, 545s
+# 946/1080 tasks, 566s
+# 989/1080 tasks, 576s
+# 1032/1080 tasks, 589s
+# 1075/1080 tasks, 602s
+== sh:W: tasks 180, failures 0, best score 130
+== btsh:W: tasks 180, failures 0, best score 68
+== nobt:W: tasks 180, failures 0, best score 132
+== bt2:W: tasks 180, failures 0, best score 66
+== all:W: tasks 180, failures 0, best score 130
+== x3cE: tasks 180, failures 0, best score 66
