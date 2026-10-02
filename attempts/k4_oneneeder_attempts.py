@@ -27,6 +27,10 @@ INSTANCES = [
      'vals': [[3, 2, 4, 8], [4, 6, 3, 8], [8, 2, 4, 3]], 'm': 7,
      'P': [[0, 1], [2, 4], [3]], 'def': 1, 't1stuck': False, 't3stage': False, 'x': 2, 'z': 0,
      'triple': (1, [2, 4, 5], 6), 'claim': 'state'},
+    {'id': 'oneneeder-onehelper-t1-n4', 'sets': [[0, 1, 2, 7], [2, 4, 5, 8], [3, 4, 5, 6], [3, 6, 7, 8]],
+     'vals': [[2, 3, 6, 10], [7, 4, 8, 2], [6, 5, 3, 7], [3, 2, 8, 4]], 'm': 9,
+     'P': [[7], [2, 8], [4, 5], [3, 6]], 'def': 1, 't1stuck': True, 't3stage': False, 'x': 0, 'z': 3,
+     'triple': (1, [0, 2, 8], 1), 'claim': 'one-helper'},
 ]
 
 
@@ -176,7 +180,24 @@ def main():
                          BsF, J, L, z, o, Y, g, T.R[o])
             assert sorted(map(sorted, e1)) == sorted(map(sorted, e2)), ('escape mismatch', e1, e2)
             n_esc[(o, X, c)] = len(e1)
-        if d['claim'] == 'per-triple':
+        if d['claim'] == 'one-helper':
+            # implementation 1: no swap of Corollary 8.2 with at most one helper, no construction of Proposition C or D,
+            # no deficit-lowering move of x, z and at most one other agent; implementation 2: the last, from its own states
+            c3 = C1.c3(pr, Bs, x, z, g, mask(L))
+            trip4 = [(o, mask(sorted(X)), 0, c) for o, X, c in [(o_, frozenset(bits(X_)), c_) for o_, X_, c_ in trip]]
+            r = C1.rules(pr, Bs, x, z, g, mask(L), trip4)
+            t3 = C1.t3move(pr, Bs)
+            B0 = tuple(frozenset(b) for b in d['P']); D0 = T.D[B0]
+            moves2 = [B2 for B2 in T.minP if T.D[B2] < D0 and B2[z] == frozenset([g]) and x not in T.frozen(B2)
+                      and sum(1 for i in range(T.n) if i not in (x, z) and B2[i] != B0[i]) <= 1]
+            two_helpers = sum(1 for B2 in T.minP if T.D[B2] < D0 and B2[z] == frozenset([g]) and x not in T.frozen(B2))
+            good = sum(n_esc.values()) == 0 and not c3 and not r and not t3 and not moves2 and two_helpers > 0
+            print('  x-alone triples: %d (owners %s), escapes: %d; Corollary 8.2 with at most one helper: %s; Proposition C '
+                  'or D: %s; a deficit-lowering move of x, z and at most one other agent: impl1 %s, impl2 %d; states of '
+                  'smaller deficit with z on g (all need two other agents to move): %d' % (
+                      len(trip), sorted(set(o for o, _, _ in trip)), sum(n_esc.values()), sorted(c3) or 'none',
+                      bool(r), t3, len(moves2), two_helpers))
+        elif d['claim'] == 'per-triple':
             good = n_esc[(o0, mask(X0), c0)] == 0
             print('  the listed triple has no escape (both implementations): %s; escapes at the other %d triples: %d' % (
                 good, len(trip) - 1, sum(n_esc.values())))
