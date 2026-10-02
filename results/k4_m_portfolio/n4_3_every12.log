@@ -1,0 +1,6 @@
+# lemmam_portfolio.py results/k4_certs_4_n4_3.json.gz --every=12 -Y1 -f1 --jobs=4 --checkpoint=/tmp/claude-0/-home-user-efx0-three-goods/7fff145a-b58d-5b73-9280-767e7c858b47/scratchpad/ck/n4_3_every12.jsonl --out=results/k4_m_portfolio/n4_3_every12.json --label=n=4 three 4-good agents, exhaustive on every 12th core # source sha 9d2ff47477f77c7b # rulef.c sha256 5721abf3bc9e25b101412aeb6b602db24d80e1991beee9a367a01cf9ccfc424e
+# 29 tasks, 4 workers
+# 1/29 tasks, 13s
+# 2/29 tasks, 37s
+# 3/29 tasks, 47s
+# 4/29 tasks, 52s

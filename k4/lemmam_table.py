@@ -5,7 +5,7 @@ import glob, json, os, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from lemmam_portfolio import CANDS, VARS, SETS, PREDS, ALIAS
 
-ORDER = ['n2', 'n3', 'n4_1_all', 'n4_2_all', 'n4_3_7cores', 'n4_s50', 'n4_s2000', 'n5_s20', 'n5_s200', 'H', 'suite']
+ORDER = ['n2', 'n3', 'n4_1_all', 'n4_2_all', 'n4_3_7cores', 'n4_3_every12', 'n4_s50', 'n4_s2000', 'n5_s20', 'n5_s200', 'H', 'suite']
 DESC = {
     'M': 'Lemma M: some first agent in K0 ∪ K1',
     'M_K0': 'control: some first agent in K0',
@@ -44,6 +44,28 @@ def main():
          'with Remark 4\'s kept-out sets; policies need-shrinking and envy-free, as rule RK). Each cell: '
          '**failures** / applicable profiles. "tight": exactly one allowed agent satisfies the predicate; "only": exactly '
          'one first agent of the whole profile is in K0 ∪ K1 and it is the candidate\'s.', '']
+    # status block: Lemma M first (the brief: a failure of Lemma M itself goes at the top), then survivors
+    hunts = [json.load(open(f)) for f in sorted(glob.glob(os.path.join(D, 'hunt*.json')))]
+    hfail = {}
+    for o in hunts:
+        for c, r in o.get('results', {}).items():
+            c = ALIAS.get(c, c)
+            if r.get('failures'): hfail[c] = hfail.get(c, 0) + r['failures']
+    totp = sum(S[k]['counters'].get('tot', [0])[0] for k in keys)
+    mf = sum(S[k]['counters'].get('all:W', [0, 0])[1] for k in keys) + hfail.get('all:W', 0)
+    L.append(f'**Status. Lemma M (`all:W`): {"FAILS: " + str(mf) + " failures, see FAILURES_M.md" if mf else "no failure"} '
+             f'on {totp:,} profiles and in every hunt.**')
+    surv = [c for c in CANDS if not any(S[k]['counters'].get(c, [0, 0])[1] for k in keys) and c not in hfail
+            and any(S[k]['counters'].get(c, [0])[0] for k in keys) and not c.startswith('nobt0:')]
+    inv = {v: k for k, v in ALIAS.items()}
+    L.append('Surviving candidates (no failure on any dataset or hunt): ' + ', '.join(f'`{c}`' + (f' ({inv[c]})' if c in inv else '') for c in surv)
+             + ' (and every predicate on the vacuous set `nobt0`).')
+    dead = [f'{al} (`{c}`)' for al, c in ALIAS.items() if c not in surv and not c.startswith('nobt0')]
+    L.append('Dead among the task\'s candidates: ' + ', '.join(dead) + '. Exchange partners with no failure: ' +
+             ', '.join(v for v in VARS if any(v in S[k]['counters'] for k in keys)
+                       and not any(S[k]['counters'][v][0] - S[k]['counters'][v][1] - S[k]['counters'][v][2] for k in keys if v in S[k]['counters'])
+                       and v not in hfail) + ' (of which only x3cE is never undefined).')
+    L.append('')
     L.append('Datasets: ' + '; '.join(f'`{k}` = {S[k]["label"]}' for k in keys) + '.')
     L.append('')
     L.append('| candidate | statement | ' + ' | '.join(f'`{k}`' for k in keys) + ' |')

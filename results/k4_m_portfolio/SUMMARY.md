@@ -55,7 +55,9 @@ implementation.
   - Hunt 1: 8 candidates × 391 cores/seeds, 50k steps each. It found the M_bt1 failure.
   - Hunt 2: aborted. Candidates with index ≥ 100 collided with the partner-variant offset, so two of its labels hunted
     partners x1N and x3cE instead. It found an x1N failure (`hunt2_aborted.txt`). The offset is now 1000.
-  - Hunt 3: HUNT3_PLACEHOLDER
+  - Hunt 3: 6 candidates (sh:W, btsh:W, nobt:W, bt2:W, all:W, x3cE) × 115 cores/seeds, 40k steps. No failure.
+    Best scores: 130 for sh:W, bt2:W and all:W (two working agents); 68 for btsh:W; 132 for nobt:W; 66 for x3cE.
+  - Hunt 4: HUNT4_PLACEHOLDER
 
 ## Lemma M itself
 
@@ -144,7 +146,9 @@ together:
 | x4N: r of the need-shrinking run | 31,581 | 0 | 23,070 | n = 3, H_t, suite |
 
 - "All ends work" fails for x3cE: 24 pairs, all on H_t and the suite.
-- XHUNT_PLACEHOLDER
+- In the hunts, x3cE was the target of 391 + 28 + 115 walks (hunts 1–3), plus HUNT4X. None ended in a failure. The
+  walks did reach failing first agents whose partner set had exactly one working end (score 66).
+- x3E and x3cN were each the target of 391 walks in hunt 1, with no failure. x1N was broken in hunt 2.
 
 ## (G2) and C40
 
@@ -185,9 +189,10 @@ There were 0 violations on every (profile, first agent) of every dataset, for ea
   disagreements, all in Rw/Rwo (C false, Python true). Every one checked is the slot convention of rulef.md §2
   Remark 5. rulef.c's state code gives the marked rotated agent k (one-good base) no slot place; Lean's `Output`
   gives it one. So C's Rw is the stricter, still sound, version, consistent with rulef.c's K1. The rerun with that
-  convention in Python: XCHECK_CONV_PLACEHOLDER.
+  convention in Python gives **0 disagreements on 1,000 hard profiles (3,995 first agents)**
+  (`xcheck_lines_hard_rulefconv.log`).
 - **Failures**: every smallest failure of every dead candidate is CONFIRMED by the second implementation
-  (`FAILURES_*.md`, FAILCOUNT_PLACEHOLDER). This includes M_bt1, where LB₄ʳ is solved exactly.
+  (`FAILURES_*.md`, 112 files, 0 not confirmed). This includes M_bt1, where LB₄ʳ is solved exactly.
 
 ## Open, and next
 

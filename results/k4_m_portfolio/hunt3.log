@@ -8,3 +8,26 @@
 # 162/690 tasks, 94s
 # 189/690 tasks, 110s
 # 216/690 tasks, 126s
+# 243/690 tasks, 141s
+# 270/690 tasks, 151s
+# 297/690 tasks, 165s
+# 324/690 tasks, 175s
+# 351/690 tasks, 190s
+# 378/690 tasks, 200s
+# 405/690 tasks, 224s
+# 432/690 tasks, 241s
+# 459/690 tasks, 250s
+# 486/690 tasks, 256s
+# 513/690 tasks, 266s
+# 540/690 tasks, 270s
+# 567/690 tasks, 282s
+# 594/690 tasks, 286s
+# 621/690 tasks, 291s
+# 648/690 tasks, 297s
+# 675/690 tasks, 303s
+== sh:W: tasks 115, failures 0, best score 130
+== btsh:W: tasks 115, failures 0, best score 68
+== nobt:W: tasks 115, failures 0, best score 132
+== bt2:W: tasks 115, failures 0, best score 130
+== all:W: tasks 115, failures 0, best score 130
+== x3cE: tasks 115, failures 0, best score 66
