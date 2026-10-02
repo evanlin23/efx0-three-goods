@@ -1,0 +1,13 @@
+== pareto: core 4515 (n = 5, m = 12, f = 2), a profile of compute/k4-rc
+f = 2 omega = 4
+key [4, None, None, None, 9] def* 1 state [[4], [1, 8], [10, 11], [6, 7], [9]] def 1 Pareto-maximal True locally optimal True r' = 2 max r' = 3 zm (A, B): False False
+FAILS (1 states), both implementations
+== trl: core 4604 (n = 5, m = 13, f = 1), a profile of compute/k4-rc
+f = 1 omega = 4
+key [11, None, None, None, None] def* 1 (-t, r', Lam') max (0, 3, 20) maxima 2 their states [[[11], [12], [3, 7], [4, 8], [5, 9]]] zm [False] | (r', Lam') max over states (4, 26)
+FAILS at 1 key(s): no maximum of (-t, r', Lam') has a one-move repair; both implementations
+== ab: n = 3, m = 7
+f = 1 omega = 2
+key [None, None, 6] Z'-maximum Config(key=[None, None, 6], Q={0: [0, 2], 1: [1, 4]}, L=[3, 5]) leaves [0, 1] terminals [0, 1] theta-b {0: True, 1: True} Lemma A applies False Lemma B (k = 1) applies False zm (A, B): True True
+FAILS: no Z'-maximum (any arrangement) has Lemma A or B with path length 1; zm holds (Lemmas C, C')
+ALL CONFIRMED
