@@ -3,7 +3,7 @@
 
     python3 paper/k3-simple/examples/check_examples.py          (from the repository root, or from anywhere)
 
-Exit status 0 iff every check passes. One process, no pools; about two minutes. Output: check_output.txt (same folder)
+Exit status 0 iff every check passes. One process, no pools; about 10 seconds. Output: check_output.txt (same folder)
 is a copy of what this script prints.
 
 This script is an independent implementation of the definitions of the paper (states, needs, validity, free agents,
@@ -16,7 +16,7 @@ Sections (as printed):
   [2] The n = 6, m = 10 instance (Overview; Section "A worked example"): the draft state, the failed absorbers,
       the absence of short moves, every dominating valid state, DE's exchange cycle, the completion, raw EFX0.
   [3] The n = 2, m = 3 example: protecting goods cannot be dropped (Remark after the Improvement Lemma).
-  [4] The n = 6, m = 8 instance with shared protecting goods (Proposition "two exposure arcs", tightness).
+  [4] The n = 6, m = 8 instance with shared protecting goods (Proposition "when short moves are not enough").
   [5] The family of rings: every rainbow cycle uses k exposure arcs (Remark), for k <= 4.
   [6] Limits of the shape (Proposition "limits"), by enumerating every allocation.
   [7] Re-run of the small rows of the evidence table with hall.py, and the same sets with this script's own code.
