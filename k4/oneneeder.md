@@ -27,7 +27,7 @@ cross-checked on a sample), and no T3-stage instance with n ≥ 4 is known.** Wr
   keeps; Proposition D). Propositions E and F find the escape when o's best base avoids x's lower goods; Lemma G is
   what T1-stuckness gives when it does not.
 - **Proposition S1, Lemmas A♭ and B♭** (§5, the key-graph form of `k4/sx.md`, PR #80): at a Z′-maximum with a single
-  terminal τ, x is big-top (S1; from PROVED rows only). If τ is a θ-b leaf, it is x's twin, and for ω = 2 the swap
+  terminal τ, x is big-top (S1; its proof uses PROVED rows only). If τ is a θ-b leaf, it is x's twin, and for ω = 2 the swap
   without helper reaches def ≤ 0 (A♭); if τ threatens a leaf of kind (R) whose fourth good s is in the pool and x does
   not value s, the swap with that leaf as helper reaches def ≤ 0, with no hypothesis on third agents (B♭). This closes
   the θ-b and (R) cases of Conjecture K4.SX.COVER in the single-terminal regime, except a twin with ω ≥ 3 and an s that
@@ -36,8 +36,8 @@ cross-checked on a sample), and no T3-stage instance with n ≥ 4 is known.** Wr
 
 What the T3 stage is still needed for (§6): (i) the existence of an x-alone triple (the strong form of `k4/dl13.md`
 §6 item 1, SX, in this regime); (ii) an escape when o ≠ z; (iii) x big-top. All three fail at T1-stuck one-needer
-states that are not at the T3 stage (§6, §8; for (ii) at n = 4, where no swap with at most one helper lowers the
-deficit at all).
+states that are not at the T3 stage (§6, §8; for (ii) at n = 4, at the known state `dl13-n4m9-rot`, where no swap
+with at most one helper lowers the deficit at all).
 
 Data (EVIDENCE, §7): exhaustively at n = 3 (all 299,837,376 strict profiles of the 51 cores; 7,284,544 with f = 1,
 ω ≥ 1), every one of the 97,824 one-needer T3-stage states has x big-top, def = 1, an x-alone triple, and Corollary 8.2
@@ -45,8 +45,9 @@ with at most one helper; Proposition C applies at the 38,496 with a triple at z 
 86,976 with a triple at o ≠ z; u never contributes and R_z ≠ R_x. At n = 3 a T3-stage state has a big-top x iff its
 frozen good has one needer. At n = 4 and n = 5 (33.6 million sampled and catalogue profiles, 4,164 T3-stage states)
 no T3-stage state is one-needer, and in the 2,152 T3-stage states of the samples that record it, x is never big-top.
-In the key-graph form, Proposition S1 and the constructions of §5 hold at every single-terminal Z′-maximum of the
-non-completable keys of `k4/sx.md`'s n = 3 and n = 4 hunts (single-terminal maxima occur there only at n = 3).
+In the key-graph form, at every Z′-maximum of the non-completable keys of `k4/sx.md`'s n = 3 (exhaustive) and n = 4
+hunts, Proposition S1 holds, and at the 39,840 single-terminal ones (all at n = 3) `k4/sx.md`'s Lemma A or Lemma B
+(k = 1) reaches deficit ≤ −1; the cases of Lemmas A♭ and B♭ do not occur in these data.
 
 ## 1. Setting
 
@@ -423,10 +424,12 @@ the min-frozen class, its deficit by `model.Inst.deficit`).
 | input | non-completable keys | Z′-maxima | one terminal (x big-top) | τ a leaf, not θ-b: Lemma A, def ≤ −1 | τ a θ-b leaf (A♭) | k = 1, leaf not (R) with s ∈ L: Lemma B, def ≤ −1 | k = 1, (R) leaf with s ∈ L (B♭) | only k ≥ 2 | ≥ 2 terminals (x big-top) |
 |---|---|---|---|---|---|---|---|---|---|
 | n = 3, every profile with a non-completable key (`zprime_sx_hunt_n3_all.log`) | 62,208 | 116,248 | 39,840 (39,840) | 32,016 | 0 | 7,824 | 0 | 0 | 76,408 (0) |
-N4ROW
-So at n = 3 a Z′-maximum has one terminal iff x is big-top (every maximum with two terminals has x not big-top), and
-the counts of keys and maxima agree with `k4/sx.md` §4.2. The cases of Lemmas A♭ and B♭ do not occur in these data, so
-their proofs are not tested by them.
+| n = 4 hunts, two, three or four 4-good agents (`zprime_sx_hunt_n4.log`) | 299 | 565 | 0 | | | | | | 565 (0) |
+| n = 4, pure, 400,000 per core (`zprime_sx_hunt_n4_pure_r400k.log`) | 2,362 | 3,645 | 0 | | | | | | 3,645 (0) |
+
+So on these data a Z′-maximum has one terminal iff x is big-top (every maximum with two or three terminals has x not
+big-top), single-terminal maxima occur only at n = 3, and the counts of keys and maxima agree with `k4/sx.md` §4.2.
+The cases of Lemmas A♭ and B♭ do not occur in these data, so their proofs are not tested by them.
 
 ## 8. Failed candidates
 
