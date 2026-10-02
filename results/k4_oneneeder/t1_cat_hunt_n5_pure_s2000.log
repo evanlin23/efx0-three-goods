@@ -1,0 +1,3 @@
+# command: python3 k4/oneneeder_run.py catalog results/k4_gap/hunt_n5_pure_s2000.json.gz --t1 --dump=results/k4_oneneeder/t1_cat_hunt_n5_pure_s2000.jsonl.gz --rep=20
+# oneneeder.c sha256 c0d0594070e2b6a80c0e66ea5f3e3fa0bf1a650eff52a3256e1a844a8cc911a3
+total: prof 8207, f1om1 7529, states 4391, t3stage 40, t3stage_1needer 1, t3stage_more_needers 39, bt 1, not_bt 0, def1 1, sx1 1, sx1_o_not_z 1, sx1_o_is_z 1, no_sx1 0, u_at_best 0, c3 1, no_c3 0, c3_nohelper 1, c3_helper_best 1, c3_helper_other 1, t3move 1, no_t3move_1needer 0, no_t3move_any_t3stage 0, twin 0, z_bigtop 1, def_ge2 0, propC 1, escape 0, propC_or_escape 1, no_rule 0, t3stage_x_bigtop 1, t3stage_x_bigtop_def1 1 [4 s]

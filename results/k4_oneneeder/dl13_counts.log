@@ -1,0 +1,14 @@
+# command: python3 k4/oneneeder_dl13.py counts
+states (def > 0, one needer, x big-top, an x-alone triple):
+  T1-stuck, not T3-stage / def 1 / Prop. C or D / Cor. 8.2                         1658
+  T3-stage / def 1 / Prop. C or D / Cor. 8.2                                       1009
+  not T1-stuck / def 1 / Prop. C or D / Cor. 8.2                                   2287
+  not T1-stuck / def 1 / neither / Cor. 8.2                                        124
+  not T1-stuck / def 1 / neither / no Cor. 8.2                                     1607
+triples with owner o != z:
+  T1-stuck, not T3-stage / def 1 / escape                                          3474
+  T1-stuck, not T3-stage / def 1 / no escape                                       84
+  T3-stage / def 1 / escape                                                        2397
+  not T1-stuck / def 1 / escape                                                    4892
+  not T1-stuck / def 1 / no escape                                                 4859
+[22 s]
