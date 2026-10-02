@@ -14,10 +14,11 @@
    count (Lemma 5), ties by index; then the least number d <= -r of nested rotations after which Lemma K certifies the
    run under some policy (none, need-shrinking, envy-free). -V1: when every block count is 0, take Lemma 5's
    certificate instead of the search. -W1: the cumulative count (every block so far recounted against the goods
-   unpicked now; Lemma 5'). ADP lines; -D44 the runs with d >= 1, -D47 every run.
+   unpicked now; Lemma 5'). -G1: the slot count kappa0 of the block's unthreatened terminals in place of the chain
+   ends (§7.1). ADP lines; -D44 the runs with d >= 1, -D47 every run.
    -A45: for every first agent the least d as above (the rotation bound of rule F, k4/lemmam_x.md §6); FA lines (-D45).
    -A46: a search over insertion sequences in which every block but the last has count 0 (with -W1: cumulative count
-   0); the least d over them (L46).
+   0; with -G1 the slot count); the least d over them (L46).
    -A43/-A44 with -SN -HM climb toward bad first agents / runs needing rotations. */
 /* adaptive.c: LB4r (k4/lb4.md §5, lean/EFX/LB4R.lean) with an adaptive insertion rule (k4/adaptive.md).
 
@@ -1702,8 +1703,11 @@ static void print43(void) {
    profiles with d >= 1 (ADPBAD lines, with tau and the deltas).
    -W1 (the cumulative count, k4/lemmam_x.md §7.1 Lemma 5'): the choice minimizes instead the sum over every block so
    far of its count recomputed against the goods unpicked now (in the last step against the final W = J + Y_r); the
-   counts of a block only decrease as goods are picked, and the final sum bounds Lemma K's deficit with owner r. */
-static int b_done[MAXN], b_Y[MAXN], b_pos[MAXN], b_blk[MAXN], b_step, LEM5SKIP = 0, CUMUL = 0;
+   counts of a block only decrease as goods are picked, and the final sum bounds Lemma K's deficit with owner r.
+   -G1 (the slot count, k4/lemmam_x.md §7.1, after the PR #77 review): delta = max(0, sum of rho(x) over X -
+   kappa0), kappa0 the slot places (1 for a pick, 2 for none) of the agents of the block that are not frozen, not
+   threatened by W with their pick, and not r; never larger than the chain-end count above. */
+static int b_done[MAXN], b_Y[MAXN], b_pos[MAXN], b_blk[MAXN], b_step, LEM5SKIP = 0, CUMUL = 0, KAPPA0 = 0;
 static gm b_G;
 static void bsim_block(int c, int bid) {
     int i = c;
@@ -1770,6 +1774,15 @@ static int block_count_r(int bid, int rr) {
     bc_tend = -1;
     for (int i = 0; i < n; i++) if (bc_load[i] && (bc_tend < 0 || bc_load[i] > bc_load[bc_tend] ||
         (bc_load[i] == bc_load[bc_tend] && b_pos[i] < b_pos[bc_tend]))) bc_tend = i;
+    if (KAPPA0) {                    /* -G1: the slot count */
+        int k0 = 0, sum = 0;
+        for (int q = 0; q < bc_nm; q++) {
+            int x = bc_mem[q];
+            if (!bc_fz[x] && x != bc_last && !bc_ex[x]) k0 += b_Y[x] >= 0 ? 1 : 2;
+        }
+        for (int k = 0; k < nx; k++) sum += bc_rho[X[k]];
+        return sum > k0 ? sum - k0 : 0;
+    }
     int worst = 0;
     if (nx > 20) return 99;          /* too many to enumerate: count as unknown (never reached on the instances run) */
     for (long s = 1; s < (1L << nx); s++) {
@@ -2191,6 +2204,7 @@ int main(int argc, char **argv) {
         else if (!strncmp(argv[a], "-U", 2)) ROLEPOL = atoi(argv[a] + 2);
         else if (!strncmp(argv[a], "-V", 2)) LEM5SKIP = atoi(argv[a] + 2);
         else if (!strncmp(argv[a], "-W", 2)) CUMUL = atoi(argv[a] + 2);
+        else if (!strncmp(argv[a], "-G", 2)) KAPPA0 = atoi(argv[a] + 2);
         else { fprintf(stderr, "unknown option %s\n", argv[a]); return 1; }
     }
     if (ROT < 0 || ROT > MAXROT) { fprintf(stderr, "-r: the rotation bound must be 0 .. %d\n", MAXROT); return 1; }

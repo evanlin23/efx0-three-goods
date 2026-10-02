@@ -46,3 +46,4 @@ import EFX.K3CostFine
 import EFX.K4MinCex
 import EFX.K3Extras
 import EFX.RuleFK
+import EFX.Adaptive

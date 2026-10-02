@@ -1,4 +1,4 @@
-# Lemma M by exchange between first agents: which partner a′ fails, and why no partner can work
+# Lemma M by exchange between first agents: which partner a′ fails, and why no partner can work if Proposition HH holds
 
 Workstream `proof/k4-lemmam-x` (PR #77, `k4/lemmam_x.md` §2). Ledger rows K4.LMX.X (refuted partners) and K4.RF.M.
 
@@ -26,17 +26,18 @@ partners were proposed (`k4/rulef.md` §6 Step 3): (x1) the exposed frozen 4-goo
   least index, or of the exposed frozen agent of least index, are good on all 26,248 pairs above, on the suite and on
   H₃–H₅; the earliest-processed end fails on 2 of H₄'s 6 and 3 of H₅'s 10 bad agents but reaches a good agent when
   iterated.
-- *But no partner can work in general: Lemma M is false.* On HH₃ (two copies of H₃ sharing ℓ's good u, n = 26,
-  m = 65; `k4/lemmam_bt.md` §3, PR #83, Proposition HH) every first agent is bad, so an exchange has no good agent to
-  reach (PR #83's written proof and its runs of `k4/rulef.c` and `k4/lemmam_bt.py`; not recomputed here: with the
-  kept-out sets of `k4/rulef.md` §2 Remark 4 the 26 first agents exceed the time allowed per run).
+- *But no partner can work in general if Proposition HH holds (PR #83, refereed correct, merging): then Lemma M is
+  false.* On HH₃ (two copies of H₃ sharing ℓ's good u, n = 26, m = 65; `k4/lemmam_bt.md` §3) every first agent is bad
+  by Proposition HH, so an exchange has no good agent to reach (PR #83's written proof, its runs of `k4/rulef.c` and
+  `k4/lemmam_bt.py`, and its exact encoding A; not recomputed here: with the kept-out sets of `k4/rulef.md` §2 Remark 4
+  the 26 first agents exceed the time allowed per run).
 
 **What survives** (`k4/lemmam_x.md`): the structure of bad runs (Lemmas 1–3: an exposed frozen agent, an exposed 4-good
-agent or (G2), a Hall violator among the exposed frozen agents; for (G2), k*'s lower goods are goods of r), the
+agent or (G2), a shortage of slots (hence a Hall violator) among the exposed frozen agents; for (G2), k*'s lower goods are goods of r), the
 locality Lemma 4, and the repaired target, adaptive insertion (§7).
 
 **Smallest failing configurations.** (x1), (x2): n = 3, m = 6 above. (x4): H₄, n = 17, m = 43, first agent ℓ = 0,
-r = 16 (smallest found; on H₂, H₃ and at n ≤ 4 r is good). Every partner: HH₃, n = 26.
+r = 16 (smallest found; on H₂, H₃ and at n ≤ 4 r is good). Every partner: HH₃, n = 26, if Proposition HH holds.
 
 **A caveat on the verdicts "bad".** `k4/lemmam_x.c` inherits from `k4/rulef.c` the convention that an upgraded or
 rotated agent has no slot, while LB₄ʳ and Lean's model give a rotated agent with a one-good base one slot; so its

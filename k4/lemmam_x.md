@@ -7,33 +7,39 @@ K4.C4.OM, K4.C4.PSI) and `k4/lb4.md`. Notation as there. Nothing here changes K4
 
 Tools: `k4/lemmam_x.c` (`k4/rulef.c` of #72 verbatim plus modes `-A43` to `-A46`: the class of every first agent,
 and for every bad first agent the roles of the other agents in its run and the candidates a′ of §2; the adaptive
-rule of §7), `k4/lemmam_x_run.py` and `k4/lemmam_x_adp.py` (drivers, one worker, resumable), `k4/lemmam_x_check.py`
-(second implementation on PR #33's model `k4/c4_verify_H/lb4r.py` with #72's `k4/rulef_model.py`, without code from
-`k4/lemmam_x.c`), `k4/lemmam_x_inst.py` (H_t and HH_t), `k4/lemmam_x_realize.py` (§5.2).
+rule of §7), `k4/lemmam_x_run.py`, `k4/lemmam_x_adp.py` and `k4/lemmam_x_cores.py` (drivers, one worker,
+resumable), `k4/lemmam_x_check.py` (second implementation on PR #33's model `k4/c4_verify_H/lb4r.py` with #72's
+`k4/rulef_model.py`, without code from `k4/lemmam_x.c`), `k4/lemmam_x_inst.py` (H_t and HH_t),
+`k4/lemmam_x_realize.py` (§5.2), `k4/lemmam_x_l46greedy.py` (§7.3). Lean: `lean/EFX/Adaptive.lean` (§7.4).
 
-**Status** (rows K4.LMX.*; the written proofs here are not yet refereed).
-- **Lemma M is false** (Proposition HH of `k4/lemmam_bt.md` §3, PR #83, under review: on HH₃, two copies of H₃ sharing
-  one good, n = 26, no first agent is in K0 or K1). So no exchange between first agents can prove it. Before HH₃ the
+**Status** (rows K4.LMX.*; Lemmas 1–5 and Proposition R were refereed in the PR #77 review and found correct,
+Proposition R conditionally on PR #83).
+- **Lemma M is false if Proposition HH holds** (`k4/lemmam_bt.md` §3, PR #83, refereed correct, not yet merged: on
+  HH₃, two copies of H₃ sharing one good, n = 26, no first agent is in K0 or K1). Then no exchange between first
+  agents can prove it. Before HH₃ the
   exchange works on the data with the right partner (§2): the **needer at the end of a need chain** from an exposed
   frozen agent — the end shared by the most exposed frozen agents, or of least index — is good whenever a is bad (every
-  strict profile with n ≤ 3 and n = 4 with at most two 4-good agents: 26,248 weighted bad pairs, 25,960 in PR #33's
-  model; the suite; H₃–H₅). The other proposed partners fail: the exposed frozen 4-good agent and the leader of r's
+  strict profile with n ≤ 3 and n = 4 with at most two 4-good agents: 26,248 weighted bad pairs of the C code,
+  25,960 in PR #33's model; the suite; H₃–H₅). The other proposed partners fail: the exposed frozen 4-good agent and the leader of r's
   block at n = 3, m = 6, r itself on H₄ (n = 17, both implementations) (`attempts/k4-lemmam-x-exchange.md`). The
   exchange agent's run follows Lemma Ψ's fall chain in only 12% of the bad pairs: LB's P-step key reorders it (§5.2).
-- **Proved here** (written proofs, using K4.C4.AB.L and Lemmas K, S: K4.RF.K, K4.RF.S): **Lemma 1**, a bad first
+- **Written proofs (refereed in the PR #77 review)**, using K4.C4.AB.L and Lemmas K, S (K4.RF.K, K4.RF.S): **Lemma 1**, a bad first
   agent's envy-free run has ω ≥ 1, an exposed frozen agent, and an exposed 4-good agent or (G2) (M3 reduces to (G2));
   **Lemma 2**, in (G2) a bad first agent forces k*'s two lower goods to be goods of r (r moves up to its top or its b
   and is then threatened by k*'s new base itself), and otherwise LB⁺'s rotation along a longest chain is certified
-  (K1) with r served by a slot good of its own; **Lemma 3**, the failure of M1 is a Hall violation: a set of exposed
-  frozen agents needing more kept-out goods than their non-exposed chain ends other than r; **Lemma 4**, the first
-  block decides (two runs whose first blocks have the same agents and goods agree afterwards).
+  (K1) with r served by a slot good of its own; **Lemma 3**, the failure of M1 is a shortage of slots: the exposed
+  frozen agents need more kept-out goods than the unexposed terminals other than r have slot places (in particular a
+  Hall violation against their chain ends); **Lemma 4**, the first block decides (two runs whose first blocks have the
+  same agents and goods agree afterwards).
 - **The repair: choose the inserted agent at every insertion step** (§6–§7). **Proposition R** (written proof,
-  extending Proposition HH's count): on HH_t with 2t − 2 > 3d no first agent works with at most d rotations, so no
-  fixed rotation bound saves a rule that chooses only the first agent. **Lemmas 5, 5′**: a *block count*, computed
-  when a block closes from the block and the goods still unpicked (and only falling afterwards), certifies the run
-  without rotation when every block has count 0; at k = 3 every block but the last has count 0 (LB⁺'s Theorem A,
-  block by block). **Conjecture M_ad**: some insertion sequence succeeds with at most one rotation; in Lean
-  `∃ τ, EFX.LB4R.SucceedsR 1 v agents goods τ`, which gives C₄∃ and TARGET₄ by the existing proofs (§7.4).
+  extending Proposition HH's count; refereed correct conditionally on PR #83): on HH_t with 2t − 2 > 3d no first agent
+  works with at most d rotations, so no fixed rotation bound saves a rule that chooses only the first agent.
+  **Lemmas 5, 5′** (refereed): a *block count*, computed when a block closes from the block and the goods still
+  unpicked (and only falling afterwards), certifies the run without rotation when every block has count 0; at k = 3
+  every block but the last has count 0 (conditions (1)–(2) of LB⁺'s bad case, block by block). **Conjecture M_ad**:
+  some insertion sequence succeeds with at most one rotation; it is K4.LB4 relaxed to LB₄ʳ's three upgrade policies,
+  so K4.LB4.E is evidence for it. In Lean `∃ τ, EFX.LB4R.SucceedsR 1 v agents goods τ`; `lean/EFX/Adaptive.lean`
+  proves that it gives C₄∃ and TARGET₄ (§7.4).
 - **Data for M_ad** (§7.3, EVIDENCE). No counterexample: M_ad holds wherever Lemma M does (all of §2's data), and on
   H₁–H₅, HH₃, HH₄ (with relabelings) the greedy rule "insert the agent whose block has the least count" finds
   Proposition HH's choices by itself (x_{1,2} of each copy first), every block at count 0, no rotation. Lemma 5 never
@@ -89,17 +95,19 @@ a the class of its envy-free run (`k4/c4.md`'s cases) and the candidates a′:
 | data | profiles | with a bad first agent | bad pairs (profile, a) | (x1) good | (x2) good | (x3) maxload, least index, end of least-index EF | (x3) earliest end | (x4) r good |
 |---|---|---|---|---|---|---|---|---|
 | every strict profile, n ≤ 3 and n = 4 with ≤ 2 four-good agents | 1,032,121,440 | 14,408 | 26,248 | 0 (of 25,448) | 0 | 26,248 | 26,248 | 26,248 |
-| the same, classes recomputed in PR #33's model (`k4/lemmam_x_check.py`) | (the 1,420 bad leaves) | 14,408 | 25,960 | 0 | — | 25,960 | 25,960 | 25,960 |
+| the same, classes recomputed in PR #33's model (`k4/lemmam_x_check.py`) | (the 1,420 bad leaves) | 14,408 | 25,960 | 0 | 0 (it is a) | 25,960 | 25,960 | 25,960 |
 | the suite's 153 strict cores (all but H₅) | 153 | 9 | 11 | 1 (of 8) | 0 | 11 | 11 | 11 |
 | H₃, H₄, H₅ (n = 13, 17, 21) | 3 | 3 | 2, 6, 10 | 2, 6, 10 | 0 | 2, 6, 10 | 2, 4, 7 (all, iterated) | 2, 0, 0 |
 | HH₃ (n = 26), PR #83 | 1 | 1 | 26 | — | — | — | — | — |
 
 (`results/k4_lemmam_x/exh_n2_n3_n4_12.log`, `check_bad_n234.log`, `suite.log`, `H2_H5_classes.log`; H₂ is in the
-suite. On HH₃ every first agent is bad: Lemma M fails there, Proposition HH of PR #83 (not recomputed here, §6); no
-partner can be good.)
+suite. On HH₃ every first agent is bad if Proposition HH of PR #83 holds (refereed correct, not yet merged; not
+recomputed here, §6): then Lemma M fails there and no partner can be good. `k4/lemmam_x_check.py` has no candidate
+(x2); in the model (x2) fails only because every bad run there is a single block, so the leader of r's block is a.)
 
 *The two implementations differ in one convention, and `k4/lemmam_x.c` is the conservative one.* `k4/rulef.c` (hence
-`k4/lemmam_x.c`) gives an upgraded or rotated agent no slot (`slots()`: cap 0 when upgraded), while LB₄ʳ's text and
+`k4/lemmam_x.c`) gives an upgraded or rotated agent no slot in its Lemma K count and its ω (`slots()` gives an
+upgraded agent cap 0, `k4/rulef.c` line 305, and `apply_chain` marks the rotated head upgraded, line 333), while LB₄ʳ's text and
 Lean's `Output` give a rotated agent with a one-good base O a slot (cap = 2 − |O|, `lean/EFX/LB4R.lean`, choice 5),
 as PR #33's model does. So every K0/K1 certificate of the C code is one of the model, but not conversely: on 132 of
 the 1,420 bad leaf profiles (288 of the 26,248 weighted pairs, all n = 4, m = 7 or 8) the model certifies with one
@@ -135,7 +143,7 @@ HH₃ there is nothing to exchange with. The failed partners are recorded in `at
 - (a) ω(P) ≥ 1, and r is a terminal with |B_r| ≤ 1;
 - (b) some exposed agent is frozen (E ∩ F ≠ ∅); so every bad run has an exposed frozen agent, and the ends of its
   need chains, the "needers at the end of a need chain" of §2, exist;
-- (c) some 4-good agent is exposed, or the run is in (G2): LB⁺'s bad case of Theorem A₄ (k* ∈ E ∩ F, k* ≠ r, every
+- (c) some 4-good agent is exposed, or the run is in (G2): LB⁺'s bad case of Theorem A₄ (E ∩ B* = {k*}, k* ≠ r, every
   need chain from k* ends at r, the sets π_x = {b_x, c_x} ∩ J of the exposed agents pairwise disjoint), r has four
   goods, and r is exposed after LB⁺'s rotation (k* takes O := {b_k*, c_k*}) along every need chain k* → r.
 
@@ -159,23 +167,28 @@ single rotation. So a bad run with no exposed 4-good agent is in (G2). ∎
 (c) is the remark "C40 ⊆ K0 ∪ K1" of `k4/rulef.md` §4 and §6 Step 1 (made by the PR #72 referee), stated for one run.
 So M3 of `k4/rulef.md` §6 reduces to (G2), which §4 treats.
 
-Where the deficit of M1 sits is a Hall condition. For x ∈ X := E ∩ F let ρ(x) be the least size of a kept-out set
-D ⊆ J serving x (x not threatened by W ∖ D with its base; ∞ if none), and let D(x) be the set of ends of need chains
-from x that are neither r nor exposed.
+Where the deficit of M1 sits is a count of slots. For x ∈ X := E ∩ F let ρ(x) be the least size of a kept-out set
+D ⊆ J serving x (x not threatened by W ∖ D with its base; ∞ if none), let D(x) be the set of ends of need chains
+from x that are neither r nor exposed, and let κ₀ be the number of slot places (cap(y) = max(0, 2 − |B_y|)) of the
+agents y ≠ r that are neither frozen nor exposed.
 
-**Lemma 3 (the overloaded ends).** Let a be bad and P = P_a^ef. Then some nonempty X′ ⊆ X has
-Σ_{x ∈ X′} ρ(x) > |⋃_{x ∈ X′} D(x)|.
+**Lemma 3 (the overloaded ends).** Let a be bad and P = P_a^ef. Then Σ_{x ∈ X} ρ(x) > κ₀. In particular some
+nonempty X′ ⊆ X has Σ_{x ∈ X′} ρ(x) > |⋃_{x ∈ X′} D(x)| (a Hall violation against the chain ends).
 
-*Proof.* Otherwise, by Hall's theorem (each x taken ρ(x) times), there are pairwise disjoint sets T_x ⊆ D(x) with
-|T_x| = ρ(x). Serve each x ∈ X by a least kept-out set D_x; these serve all agents of E that are not free in the sense
-of Lemma S (upgraded agents and agents without a pick are not exposed), with |σ| ≤ Σ_x ρ(x). By Lemma S (o = r, not
+*Proof.* Serve each x ∈ X by a least kept-out set D_x; these serve all agents of E that are not free in the sense of
+Lemma S (upgraded agents and agents without a pick are not exposed), with |σ| ≤ Σ_x ρ(x). By Lemma S (o = r, not
 frozen, |B_r| ≤ 1), σ extends to a ∅-service of E at most one good larger per free agent of E, placed in that agent's
-own slot place. Lemma K's κ for owner r counts at least one slot place for every free agent of E and, separately, one
-for every agent of ⋃ T_x: these are ends of need chains, so terminals (unmarked, not frozen, other than r), and not
-exposed. So the deficit of (r, ∅) is at most Σ ρ(x) − |⋃ T_x| = 0, and a ∈ K0. ∎
+own slot place. Lemma K's κ for owner r counts the slot places of every agent other than r that is not frozen: at
+least one for every free agent of E and, separately, the κ₀ places of the agents that are neither frozen nor exposed.
+So the deficit of (r, ∅) is at most Σ ρ(x) − κ₀, and Σ ρ(x) ≤ κ₀ would put a in K0. For the second claim: if Hall's
+condition held (each x taken ρ(x) times), there would be pairwise disjoint T_x ⊆ D(x) with |T_x| = ρ(x); the agents
+of ⋃ T_x are ends of need chains, so terminals (unmarked, not frozen, other than r), not exposed, each with at least
+one slot place, and Σ ρ(x) = |⋃ T_x| ≤ κ₀. ∎
 
 At k = 3 every x ∈ X is a 3-good block leader with ρ(x) = 1 and an end in its own block, and the ends of distinct
-leaders are distinct; X′ can only be {k*} with D(k*) = ∅ (all ends equal to r): LB⁺'s bad case. At k = 4 the
+leaders are distinct; X′ can only be {k*} with D(k*) = ∅ (all ends equal to r): conditions (1)–(2) of LB⁺'s bad case.
+Lemma 3 does not see condition (3): when a junk good lies in π_x for two exposed agents, one kept-out good serves both,
+while Σ ρ counts it twice. At k = 4 the
 violating sets of the data are of three kinds: an end shared by several exposed frozen agents of one block (the gadgets
 of H_t: X′ = {x_{j,1}, x_{j,2}, x_{j,3}}, D(X′) = {y_j}); all ends equal to r (every bad run with n ≤ 4); and an end
 that is itself exposed (`k4/c4.md` §6.1 item 3). The candidates a′ of §2 are read off these ends.
@@ -270,18 +283,19 @@ there) lies in it, so Lemma 4 says nothing and the question is how the block of 
 Ψ (`k4/c4one.md` §6, K4.C4.PSI) predicts one shape: a′ takes its top, the agent that held it falls along one chain
 (each takes its best good outside the goods already taken, until junk or a′'s old pick), and every other agent keeps
 its pick; a second natural shape is a rotation of the picks along a cycle. `k4/lemmam_x_realize.py` compares, in
-PR #33's model, on the 26,248 weighted bad pairs: τ_{a′}'s picks are Ψ's prediction on 3,032 (1,820 of them also a
+PR #33's model, on the 26,248 weighted bad pairs of the C code (25,960 in PR #33's model): τ_{a′}'s picks are Ψ's prediction on 3,032 (1,820 of them also a
 cycle) and neither on 23,216 (`results/k4_lemmam_x/realize_maxload.log`, `realize_r.log`; the two partners coincide
 at n ≤ 4). Smallest "neither": agents {0, 1, 4, 5}, {2, 3, 4, 5}, {2, 3, 4, 5} with values (1, 4, 6, 8),
 (3, 5, 7, 6), (2, 3, 4, 8), a = 0, a′ = 2. τ₀ gives 0: 5, 1: 4, 2: 3; Ψ predicts 2: 5, 0: 4, 1: 3; but in τ₂ LB's key
 processes 1 before 0 (its favourite 4 is its top, 0's is not) and gives 2: 5, 1: 4, 0: 1. So the exchange agent's run
 is governed by LB's key, not by Ψ's fall chain, and an exchange proof along Ψ would need a version of Ψ for LB's key,
-which Ω and Ψ do not provide. Since Lemma M is false (§6), this is recorded only as the reason the exchange was not
+which Ω and Ψ do not provide. Since Lemma M is false if Proposition HH holds (§6), this is recorded only as the reason the exchange was not
 completed.
 
 ## 6. No fixed rotation bound for a single chosen first agent
 
-Proposition HH of `k4/lemmam_bt.md` §3 (PR #83, a written proof under review) refutes Lemma M on HH₃: HH_t is two
+Proposition HH of `k4/lemmam_bt.md` §3 (PR #83, refereed correct, not yet merged) refutes Lemma M on HH₃ if it
+holds: HH_t is two
 copies A, B of H_t with ℓ_B's good u identified with ℓ_A's u (n = 8t + 2, m = 20t + 5, every agent 4-good, none
 big-top), and for t ≥ 3 no first agent a makes LB₄ʳ(τ_a) succeed with at most one rotation. The same count, with q
 rotations in place of one, bounds the rotations of every first agent.
@@ -291,7 +305,7 @@ with at most d rotations (under each upgrade policy, every owner or none, the ow
 bundle, chains ending at any agent that is not frozen). So no fixed bound on the rotations makes a rule that chooses
 only the first agent work: d = 1 fails on HH₃, d = 2 on HH₅, d = 3 on HH₆, and so on. (So every first agent of HH_t
 needs at least (2t − 2)/3 rotations; PR #83's Corollary HH states (t − 1)/2. The difference is the per-gadget bound
-below, which a referee should check.)
+below.) The proof uses PR #83's Lemma P and Lemmas 1–2; the PR #77 referee found it correct conditionally on them.
 
 *Proof.* Fix a and let D be the copy containing a, C the other one. We use from `k4/lemmam_bt.md` §1, §3 (PR #83):
 Lemma P (protecting goods: if forced agents have protecting sets Π(f) disjoint except for c goods each in two of them,
@@ -310,8 +324,10 @@ RotStep, lies in one gadget of one copy.
 *Balance per gadget.* For a completion X with owner o, the balance of a group of agents is (slot places of its free
 agents other than o) − (its forced agents). Then: ℓ_A, ℓ_B at most 0 each; an untouched (α) gadget exactly −2 (y one
 place, three frozen forced x's); and **every gadget of any valid state in which its agents' needs are a's of the
-gadget has balance at most +1.** Indeed only y and an x whose base is a single good other than its a can contribute
-+1 (an x on {a} is frozen or forced: at most 0; a base of two or more goods, or the owner, gives 0). Such an x values
+gadget has balance at most +1.** Bases stay nonempty (every agent of HH_t picks in Phase 1, by Lemmas 1–2 of #83; upgrades only add
+goods, and a RotStep gives its head a nonempty O, `RotStep` requires O ≠ [], and every other chain agent its
+predecessor's pick), so no agent has two slot places. Hence only y and an x whose base is a single good other than its
+a can contribute +1 (an x on {a} is frozen or forced: at most 0; a base of two or more goods, or the owner, gives 0). Such an x values
 its a (8) above its base (at most 6), so it needs a, which must then be a one-good base, held by y (frozen, 0); y
 holds one good, so at most one x is of this kind, and then y gives 0. If that x is the owner with its needs from its
 bundle, it gives 0 and y at most +1. So the gadget gives at most +1. In D the Phase 1 balances are at most −2 for
@@ -354,9 +370,16 @@ Let a run have just closed a block β, and let G be the set of goods not yet pic
 - X_β: the frozen agents of β threatened by W_β with their pick, where W_β := G, and for the last block (when no agent
   is left) W_β := G ∪ {Y_r}, r its last-processed agent (the owner);
 - ρ_β(x) for x ∈ X_β: the least s such that, for every good h ∈ G ∩ R_x (the owner's future pick, not known yet, cannot
-  be kept out; in the last block no h), some D ⊆ (G ∩ R_x) ∖ {h} with |D| = s leaves x not threatened by W_β ∖ D;
-- D_β(x): the ends of need chains from x inside β that are not threatened by W_β with their pick, other than r;
-- the **block count** δ(β) := max(0, max over nonempty X′ ⊆ X_β of Σ_{x∈X′} ρ_β(x) − |⋃_{x∈X′} D_β(x)|).
+  be kept out; in the last block no h), some D ⊆ (G ∩ R_x) ∖ {h} with |D| ≤ s leaves x not threatened by W_β ∖ D;
+- κ₀(β): the slot places (one for an agent holding a pick, two for an agent without one) of the agents of β that are
+  not frozen, not threatened by W_β with their pick, and other than r;
+- the **block count** δ(β) := max(0, Σ_{x∈X_β} ρ_β(x) − κ₀(β)).
+
+The first version of the count (the *chain-end count*, used by the greedy runs of §7.3 and by every log made before
+the option `-G1`) had, in place of κ₀(β), the ends of need chains: with D_β(x) the ends of need chains from x inside β
+that are not threatened by W_β with their pick, other than r, δᵉ(β) := max(0, max over nonempty X′ ⊆ X_β of
+Σ_{x∈X′} ρ_β(x) − |⋃_{x∈X′} D_β(x)|). The ends are agents counted in κ₀(β), so δ(β) ≤ δᵉ(β) (take X′ = X_β), and
+everything below holds for δᵉ too. The slot count δ is the PR #77 referee's repair (§7.3, (L1∃)).
 
 **Lemma 5 (block counts certify).** If every block of a run has block count 0, its Phase 1 state (no upgrades) has
 Lemma K deficit at most 0 with owner r and K = ∅. So LB₄ʳ(τ) succeeds without rotation (no-upgrade policy).
@@ -365,20 +388,22 @@ Lemma K deficit at most 0 with owner r and K = ∅. So LB₄ʳ(τ) succeeds with
 Let W := J ∪ {Y_r} be the final W, E the exposed agents and X = E ∩ F. For x in a block β_i other than the last, W ⊆ G_i
 (the goods unpicked when β_i closed; r's pick is among them), and for the last block W = W_β. Frozen status is final:
 by (B2) the needs of every agent lie in its own block. So, by monotonicity of threats, every x ∈ X lies in some X_{β_i},
-and every end in D_{β_i}(x) is a terminal of the final state, other than r and not exposed.
-For x ∈ X ∩ β_i (not the last block) take h := Y_r if Y_r ∈ R_x (else any h), and D ⊆ (G_i ∩ R_x) ∖ {h} of size
+and every agent counted in κ₀(β_i) is, in the final state, an unmarked agent other than r that is neither frozen nor
+exposed.
+For x ∈ X ∩ β_i (not the last block) take h := Y_r if Y_r ∈ R_x (else any h), and D ⊆ (G_i ∩ R_x) ∖ {h} of size at most
 ρ_{β_i}(x) as in the definition; then D_x := D ∩ J is a kept-out set of Lemma K: W ∖ D_x ⊆ (G_i ∖ D) ∪ {Y_r} = G_i ∖ D
 (Y_r ∉ D, and Y_r ∈ G_i), so x is not threatened. In the last block D ⊆ G = J directly. So the agents of X are served
-with at most Σ_{x∈X} ρ(x) goods. Hall's condition holds in every block (count 0), the sets D_{β_i}(x) of different
-blocks are disjoint (ends lie in their block), so it holds for X: there are disjoint T_x ⊆ D(x) with |T_x| = ρ(x).
-Each agent of ⋃ T_x is a terminal other than r with at least one slot place, not exposed. The free exposed agents
-cost at most their own places (Lemma S, owner r with |B_r| ≤ 1). So the deficit of (r, ∅) is at most
-Σ ρ(x) − |⋃ T_x| = 0 (Lemma 3's proof). ∎
+with at most Σ_{x∈X} ρ(x) goods. The free exposed agents cost at most their own places (Lemma S, owner r with
+|B_r| ≤ 1), and Lemma K's κ for owner r counts, besides their places, the places of the agents counted in the κ₀(β_i)
+(different blocks have different agents). So the deficit of (r, ∅) is at most
+Σ_i (Σ_{x∈X_{β_i}∩X} ρ(x) − κ₀(β_i)) ≤ Σ_i δ(β_i) = 0 (as in Lemma 3's proof). ∎
 
 At k = 3 every block but the last has count 0 whatever its leader: a non-leader has lost a good, so at most one of its
 goods below its pick is unpicked and it is not threatened by G; the leader x, if frozen and exposed, has
 ρ = 1 (if h is b_x keep c_x out, and conversely) and an end in its block that is not r and not exposed. The last block
-has count at most 1: LB⁺'s bad case. So Lemma 5 contains LB⁺'s Theorem A, block by block.
+has count at most 1, and count 1 only under conditions (1)–(2) of LB⁺'s bad case. So Lemma 5 gives, block by block,
+the part of LB⁺'s Theorem A that conditions (1)–(2) describe; it does not see condition (3) (a junk good shared by two
+π_x serves both).
 
 The count of a block closed earlier can be taken again later, against the goods G′ ⊆ G still unpicked then (with the
 same robust ρ while agents remain; once every agent is processed, against the final W = J ∪ {Y_r} with D ⊆ J ∩ R_x and
@@ -387,46 +412,53 @@ after β_j.
 
 **Lemma 5′ (the counts only fall).** For every block β_i, δ_i(G′) does not increase as goods are picked, up to and
 including the final count; and if every block has final count 0 (in particular, if the cumulative count of the
-complete run is 0), the conclusion of Lemma 5 holds.
+complete run is 0), the conclusion of Lemma 5 holds. The same holds for the chain-end count δᵉ.
 
 *Proof.* Let G″ ⊆ G′ be the unpicked goods at two times after β_i closes, with agents still left at both (so r is
 unprocessed and Y_r ∈ G″). Frozen status is the same. X shrinks (threats by a subset). For x ∈ X and h ∈ G″ ∩ R_x, a
 set D ⊆ (G′ ∩ R_x) ∖ {h} serving x against G′ ∖ D gives D ∩ G″, which serves x against G″ ∖ D ⊆ G′ ∖ D; and h ranges
-over fewer goods. So ρ falls. An end not threatened by G′ is not threatened by G″, so D(x) grows. Hence δ_i(G″) ≤
-δ_i(G′). For the final count, take h := Y_r (if Y_r ∈ R_x, else any h): D ∩ J serves x against
-W ∖ (D ∩ J) = (J ∖ D) ∪ {Y_r} ⊆ G″ ∖ D, and ends other than r (r is not in β_i unless β_i is the last block, whose
-only count is the final one) only gain. The second claim is Lemma 5's proof with the final W in place of G_i: it used
-only, for each block, Hall's condition with ρ and D taken against the final W. ∎
+over fewer goods. So ρ falls. An agent not threatened by G′ is not threatened by G″, so κ₀ (and D(x)) grows. Hence
+δ_i(G″) ≤ δ_i(G′). For the final count, take h := Y_r (if Y_r ∈ R_x, else any h): D ∩ J serves x against
+W ∖ (D ∩ J) = (J ∖ D) ∪ {Y_r} ⊆ G″ ∖ D, and the agents counted other than r (r is not in β_i unless β_i is the last
+block, whose only count is the final one) only gain. The second claim is Lemma 5's proof with the final W in place of
+G_i: it used only, for each block, ρ and κ₀ (or D) taken against the final W. ∎
 
 ### 7.2 Adaptive Lemma M
 
 **Conjecture M_ad (one rotation in all).** For every strict profile of every k = 4 core some insertion sequence τ
 (the inserted agent chosen at every insertion step) makes LB₄ʳ(τ) succeed with at most one rotation. In Lean:
-`∃ τ, EFX.LB4R.SucceedsR 1 v agents goods τ` (§7.4). Its certificate form M_ad^K asks for a state of Lemma K deficit
-≤ 0 after at most one rotation (every policy); M_ad^K implies M_ad (Lemma K's certificates are outputs).
+`∃ τ, EFX.LB4R.SucceedsR 1 v agents goods τ` (`TheoremAdaptive`, §7.4).
 
-**Conjecture M_ad^blk (one rotation per block).** Some τ makes LB₄ʳ(τ) succeed with at most one rotation whose need
-chain lies in each block of the run (chains never leave their block, (A4), (B2)); so with at most as many rotations
-as blocks. M_ad implies M_ad^blk. In Lean the natural statement is `∃ τ d, d ≤ blocks τ ∧ SucceedsR d v agents goods τ`
-(or simply `∃ τ d, SucceedsR d …`), which needs `succeeds_of_succeedsR` for every d (§7.4). The data below do not
-separate the two: every profile tested satisfies M_ad itself, so M_ad^blk is the safer target and M_ad the stronger
-one. HH_t does not distinguish them either: two insertion choices and no rotation (PR #83's sequence
-(x^A_{1,2}, x^B_{1,2}); the greedy rule below finds it).
+**Conjecture M_ad^K (its certificate form).** Some τ and some upgrade policy reach, with at most one rotation, a state
+of Lemma K deficit ≤ 0 (or ω ≤ 0 and no base of three goods). M_ad^K ⟹ M_ad, since Lemma K's certificates are outputs
+of LB₄ʳ (K4.RF.K). The data of §7.3 test M_ad^K.
 
-**What already expresses it.** Nothing in the Lean frame yet: `TheoremC4` (every τ) and `TheoremC4index` (τ = [])
-are false (H₅, Proposition H), `TheoremRuleF` (τ = [a]) is false if Proposition HH holds (HH₃), and `TheoremC4exists`
-(K4.D on strict cores, `C4exists_iff`) is the conclusion, not a hypothesis about LB₄ʳ. M_ad is new; its Lean form and
-the three-line proof that it gives C₄∃ are in §7.4. In the ledger, K4.AD.OPT (a) already measures M_ad in LB₄ʳ's form:
-on every strict profile with n ≤ 3, and n = 4 with one to three 4-good agents, the fewest rotations over every
-insertion sequence is at most one (`k4/adaptive.c`, one implementation). Lemma M is the case τ = (a), so M_ad also
-holds wherever Lemma M does (every profile of §2's data), and on H_t and HH_t by the runs of §7.3. No counterexample
-is known.
+**Conjecture M_ad^blk (one rotation per block).** Some τ makes LB₄ʳ(τ) succeed with rotations whose heads lie in
+pairwise distinct blocks of the Phase 1 run (each rotation is charged to its head's Phase 1 block; after a RotStep
+whose head takes O worth less than its pick, the head's new needs may leave its block, so a rotation is not confined
+to a block). So with at most as many rotations as blocks, that is, insertion steps. M_ad ⟹ M_ad^blk. Its Lean
+relaxation is `∃ τ d, d ≤ (insertion steps of τ's run) ∧ SucceedsR d v agents goods τ`; it gives C₄∃ through
+`succeeds_of_succeedsR` while d ≤ 3, and beyond that needs `sound_of_succeeds` for every rotation bound (§7.4). The
+data below do not separate M_ad from M_ad^blk: every profile tested satisfies M_ad itself. HH_t does not either: two
+insertion choices and no rotation (PR #83's sequence (x^A_{1,2}, x^B_{1,2}); the greedy rule below finds it).
+
+**What is known about it.** M_ad is K4.LB4 relaxed (as the PR #77 referee observed): LB₄ (`k4/lb4.md` §2) tries every
+insertion sequence with need-shrinking upgrades and one rotation, so "LB₄ never fails" (K4.LB4, CONJECTURE) gives
+M_ad with LB₄ʳ's three policies in place of need-shrinking alone. Its evidence K4.LB4.E is the strongest there is:
+no failure on any strict profile of any core with n ≤ 4, or with n = 5 and at most two 4-good agents
+(1,139,100,918,624 profiles; `k4/lb4.c`, one implementation). K4.AD.OPT (a) measures M_ad directly in LB₄ʳ's form (n ≤ 3,
+and n = 4 with one to three 4-good agents: the fewest rotations over every insertion sequence is at most one). Lemma M
+is the case τ = (a), so M_ad also holds wherever Lemma M does (every profile of §2's data), and on H_t and HH_t by the
+runs of §7.3. No counterexample is known. In Lean, the special cases `TheoremC4` (every τ) and `TheoremC4index`
+(τ = []) are false (H₅, Proposition H), and `TheoremRuleF` (τ = [a]) and `LemmaM` (`lean/EFX/RuleFK.lean`, #81:
+some first agent in K0 or K1, which gives `TheoremRuleF`) are false if Proposition HH holds (HH₃); `TheoremC4exists`
+(K4.D on strict cores, `C4exists_iff`) is the conclusion. M_ad's own statement is `TheoremAdaptive` (§7.4).
 
 **Local forms.** Call a block *last* if it processes every agent still unprocessed. A local form says how to build
 the run block by block with Lemma 5 (or 5′) as the certificate:
 - (L0) *after any prefix of blocks of count 0, some unprocessed agent starts a block of count 0* (the last block
-  included). **False** at n = 3, m = 6 (§7.3): every first block has count 1, for both counts (a last block
-  included).
+  included). **False** at n = 3, m = 6 (§7.3; one implementation, `k4/lemmam_x.c`, and by hand): every first block has
+  count 1, for the slot count δ, the chain-end count δᵉ and the cumulative count (a last block included).
 - (L1) *after any prefix of blocks of count 0, some unprocessed agent starts a non-last block of count 0, or a last
   block whose run succeeds with at most one rotation.*
 - (L1∃) *some insertion sequence has every non-last block at count 0 and succeeds with at most one rotation.* (L1)
@@ -545,10 +577,16 @@ and `SucceedsR 1`.
 
 One worker throughout; each line under ~20 minutes except where noted. `k4/lemmam_x_run.py` and `k4/lemmam_x_adp.py`
 compile `k4/lemmam_x.c` into the temporary directory under a name made from a hash of the source and print the hash
-at the top of every log; `--checkpoint=FILE` makes the exhaustive runs resumable. The logs carry the hash of the
-source that made them: `exh_n2_n3_n4_12.log`, `adp_*.log` predate the option `-W` (hashes f4b4e32ba2ab3fd5,
-eac6b06d1052bd78); `adp_n2_n3_after_W.log` shows that the current source reproduces the n ≤ 3 statistics of `-A44`
-exactly.
+at the top of every log; `--checkpoint=FILE` makes the exhaustive runs resumable.
+
+*Which version made which log.* The source grew by additions only: after the first version (hash 4138c78766bce0e0,
+commit 8724474: `exh_n2_n3_n4_12.log`) each later one adds modes or options (`-A44`–`-A46`, `-U`, `-V`, `-W`, `-G`)
+and raises MAXN from 40 to 48; the code of `-A43` and every line of `k4/rulef.c` are unchanged (a diff of the
+versions shows only added lines). Hashes: eac6b06d1052bd78 (8fa75d1: `adp_Ht.log`, `adp_HH.log`), f4b4e32ba2ab3fd5
+(7e58583: `adp_HH4.log`, `adp_exh_n2_n3_n4_12.log`), aab69414c3a7f21e (e05267d: `H2_H5_classes.log`, `suite.log`,
+`adpW_n2_n3.log`, `adp_n2_n3_after_W.log`, `l46*_n*.log` without G, `l46_core77_n4_2.log`), ea801dd6ee8ba1fb (the
+current source, with `-G`: `adpG_*.log`, `l46G_*.log`, `l46greedy*.log`). `adp_n2_n3_after_W.log` checks numerically
+that aab69414 reproduces f4b4e32b's `-A44` statistics at n ≤ 3; `-G` only adds a branch taken when `-G1` is given.
 ```
 # §2: classes of every first agent, roles and candidates in the bad runs (exhaustive, ~32 min, resumable)
 python3 k4/lemmam_x_run.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz results/k4_certs_4_n4_1.json.gz \
@@ -568,6 +606,12 @@ grep ' d=2 ' ADPBAD.txt > D2.txt; python3 k4/lemmam_x_check.py --adp=D2.txt     
 python3 k4/lemmam_x_adp.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz -Y1 -r1 -W1        # cumulative count
 python3 k4/lemmam_x_adp.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz -Y1 -r1 -A46 [-W1] # (L1∃)
 python3 k4/lemmam_x_adp.py results/k4_certs_4_n4_2.json.gz -Y1 -r1 -A46 --range=0:150 --checkpoint=CK3.jsonl  # n = 4
+python3 k4/lemmam_x_adp.py results/k4_certs_4_n4_2.json.gz -Y1 -r1 -G1 -A46     # (L1∃) with the slot count (~2 min)
+python3 k4/lemmam_x_adp.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz results/k4_certs_4_n4_1.json.gz \
+    results/k4_certs_4_n4_2.json.gz -Y1 -r1 -G1 --checkpoint=CK4.jsonl                # greedy, slot count (~5 min)
+python3 k4/lemmam_x_l46greedy.py results/k4_certs_4_n4_2.json.gz -Y1 -r1 [-G1]  # profiles without (L1∃): greedy d
+python3 k4/lemmam_x_cores.py results/k4_certs_3.json.gz 17 -A44 -Y1 -r1 -D47     # the greedy rule's 2 rotations
+python3 k4/lemmam_x_cores.py results/k4_certs_3.json.gz 27 -A44 -Y1 -r1 -G1 -D47 # (L0)'s core
 ```
 `-V1` takes Lemma 5's certificate when every block count is 0 instead of searching Lemma K's classes again (on HH₄,
 m = 85, that search exceeds the time allowed; on the exhaustive data it is run, and agrees, §7.3).
