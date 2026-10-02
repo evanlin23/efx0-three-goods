@@ -116,6 +116,19 @@ def analyse(pr, Bs, cnt):
     if I.R[z] == I.R[x]: cnt['twin'] += 1
     if bigtop_on(I, z, g): cnt['z_bigtop'] += 1
     r = rules(pr, Bs, x, z, g, L, trip) if bt else 0
+    if bt and 'shapes' in OPT:
+        shapes = set()
+        for o, X, u, c in trip:
+            if o == z: shapes.add('o=z' + (' u' if u else '')); continue
+            Y = X | (1 << c); G = J | Bs[z] | Bs[o]
+            lam = bool(L & I.R[o])
+            reg = list(bits(G & ~L & I.R[o] & ~(1 << g)))
+            nf = [mask(S) for k in (1, 2) for S in itertools.combinations(reg, k) if not I.needs(o, mask(S))]
+            if not nf: shapes.add('o!=z lam=%d noT' % lam); continue
+            bv = max(I.val(o, S) for S in nf); T = [S for S in nf if I.val(o, S) == bv][0]
+            shapes.add('o!=z lam=%d BoinT=%d |TY|=%d' % (lam, not (Bs[o] & ~T), pc(T & Y)))
+        for sh in shapes: cnt['shape ' + sh] += 1
+        if not r: cnt['norule shapes ' + '/'.join(sorted(shapes))] += 1
     if r & 1: cnt['propC'] += 1
     if r & 2: cnt['escape'] += 1
     cnt['propC_or_escape' if r else 'no_rule'] += 1
@@ -219,9 +232,13 @@ def profiles(argv, opt):
         for d in json.load(open(argv[1])): yield d
 
 
+OPT = {}
+
+
 def main(argv):
     opt = dict(a[2:].split('=', 1) if '=' in a else (a[2:], True) for a in argv if a.startswith('--'))
     args = [a for a in argv if not a.startswith('--')]
+    OPT.update(opt)
     print('# command: python3 k4/oneneeder_check.py ' + ' '.join(argv), flush=True)
     tot = collections.Counter()
     for d in profiles(args, opt):
