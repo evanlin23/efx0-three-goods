@@ -348,7 +348,8 @@ SUITE_TEXT = {
               'at most one rotation (PR #33\'s encodings A and B, results/k4_lemmam_bt/exactA_Hq3.log, exactB_Hq3.log; '
               'the referee\'s model R, indep_exactR_Hq3.log); '
               'Lemma K deficit 5, >= 2 after every RotStep; rule RK takes x_11 (agent 1) in K0. Smallest of its family '
-              '(H_2 + q allows one rotation); n <= 4 data satisfy the statement. Too large for the exhaustive '
+              '(on H_2 + q, q has outputs after one rotation: results/k4_lemmam_bt/indep_Hq2.log); n <= 4 data satisfy '
+              'the statement. Too large for the exhaustive '
               'predicates of predicates.py; replay: python3 k4/lemmam_bt_hh.py exact Hq3 A 13. Witness: LB4r without '
               'rotation on rule RK\'s sequence (x_11 first), an EFX0 allocation with one large bundle.'),
     'HH3': dict(
