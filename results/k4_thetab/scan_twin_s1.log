@@ -1,0 +1,23 @@
+# command: python3 k4/thetab_scan.py twin 1 1000000 --nmin=4 --nmax=5 --tlim=900
+# input twin 1 1000000 --nmin=4 --nmax=5 --tlim=900
+  n=4 | (H) | T3stage | theorem G1 | Lemma G certifies a plain swap | plain swap | key: (T3) to a better key from P | key: G1 certifies from P, plain 9860
+  n=4 | (H) | T3stage | theorem G1h | Lemma G certifies a swap with helper | NO plain swap, a (T3) move with helper | key: (T3) to a better key from P | key: G1 certifies from P, helper 2
+  n=4 | (H) | other | theorem G1 | Lemma G certifies a plain swap | plain swap                                                       2399
+  n=4 | (H) | other | theorem G1h | Lemma G certifies a swap with helper | NO plain swap                                             98
+  n=5 | (H) | T1stuck | theorem - | Lemma G certifies none | plain swap                                                              4
+  n=5 | (H) | T1stuck | theorem G1 | Lemma G certifies a plain swap | plain swap                                                     129
+  n=5 | (H) | T1stuck | theorem G1h | Lemma G certifies a swap with helper | plain swap                                              12
+  n=5 | (H) | T3stage | theorem G1 | Lemma G certifies a plain swap | plain swap | key: (T3) to a better key from P | key: G1 certifies from P, plain 12
+  n=5 | (H) | other | theorem G1 | Lemma G certifies a plain swap | plain swap                                                       2130
+  n=5 | (H) | other | theorem G1h | Lemma G certifies a swap with helper | NO plain swap                                             128
+  n=5 | (H) | other | theorem G1h | Lemma G certifies a swap with helper | plain swap                                                18
+  n=5 | one needer | G1 does not apply                                                                                               4
+  n=5 | one needer | G1 or G1h applies                                                                                               1796
+  profiles                                                                                                                           48093
+  profiles with f = 1, omega >= 1                                                                                                    32824
+smallest state per uncovered cell (no theorem, no certificate, or no plain swap):
+  n=4 | (H) | T3stage | G1h | Lemma G certifies a swap with helper | NO plain swap, a (T3) move with helper | key: (T3) to a better key from P | key: G1 certifies from P, helper: n=4 m=9 hunt:1:98078 {"sets": [[0, 4, 5, 6], [0, 1, 2, 3], [0, 1, 2, 3], [6, 1, 7, 8]], "vals": [[14, 5, 3, 13], [12, 6, 5, 3], [14, 7, 6, 3], [6, 15, 2, 10]], "m": 9} P=[[0], [1], [2, 3], [6, 8]]
+  n=4 | (H) | other | G1h | Lemma G certifies a swap with helper | NO plain swap: n=4 m=9 hunt:1:8496 {"sets": [[0, 4, 5, 6], [0, 1, 2, 3], [0, 1, 2, 3], [6, 7, 1, 8]], "vals": [[15, 8, 4, 14], [15, 8, 6, 5], [14, 6, 5, 4], [14, 5, 13, 2]], "m": 9} P=[[0], [1], [2, 3], [6]]
+  n=5 | (H) | T1stuck | - | Lemma G certifies none | plain swap: n=5 m=11 hunt:1:19858 {"sets": [[0, 4, 5, 6], [0, 1, 2, 3], [0, 1, 2, 3], [6, 7, 8, 9], [6, 9, 7, 10]], "vals": [[12, 10, 4, 11], [14, 7, 6, 5], [11, 5, 4, 3], [9, 15, 7, 11], [12, 6, 9, 5]], "m": 11} P=[[0], [1], [2, 3], [6, 8], [7, 9]]
+  n=5 | (H) | other | G1h | Lemma G certifies a swap with helper | NO plain swap: n=5 m=11 hunt:1:2731 {"sets": [[0, 4, 5, 6], [0, 1, 2, 3], [0, 1, 2, 3], [6, 1, 7, 8], [6, 9, 1, 10]], "vals": [[12, 6, 5, 4], [14, 7, 6, 2], [11, 6, 4, 3], [11, 12, 6, 8], [11, 2, 10, 15]], "m": 11} P=[[4, 5], [0], [2, 3], [1], [9, 10]]
+no assertion failed
