@@ -174,8 +174,8 @@ def main():
     P2 = [frozenset(S) for S in P0]; P2[z] = frozenset(P0[x]); P2[x] = frozenset(bits(A)); P2[h] = frozenset(bits(Bh))
     P2 = tuple(P2)
     dA = pr.D[ctx.new(x, z, A, h, Bh)]; dB = b.mp[P2]
-    say("X3: that swap (z=%d, x takes %s, helper %d takes %s): def(P') by A and B, <= %d" % (
-        z, sorted(bits(A)), h, sorted(bits(Bh)), bd), dA == dB and dA <= bd, "def(P') = %d / %d" % (dA, dB))
+    say("X3: that swap (z=%d, x takes %s, helper %d takes %s, owner %d): def(P') by A and B, <= %d" % (
+        z, sorted(bits(A)), h, sorted(bits(Bh)), o, bd), dA == dB and dA <= bd, "def(P') = %d / %d" % (dA, dB))
 
     # X4: W, K or G1 applies at every T1-stuck state in setting (H) (the T3 stage is T1-stuck plus no (T2) move)
     d = {'sets': [[0, 2, 7, 9], [1, 5, 8, 9], [3, 6, 8, 9], [4, 7, 8, 9]],
@@ -188,6 +188,15 @@ def main():
     say('X4: W, K, G1 (plain swap) do not apply (implementation A)', theorems(pr, ctx) in ('-', 'G1h'),
         theorems(pr, ctx))
     say('X4: a plain swap lowers the deficit', bool(fa['plain']), str(fa['plain'][:3]))
+    cs = g_certificates(ctx, pr, helper_moves(ctx), 1)
+    say('X4: Corollary G1 with one helper certifies a swap (implementation A)', bool(cs))
+    b = B(d['sets'], d['vals'], d['m'])
+    x, z, A, o, h, Bh, bd = cs[0]
+    P2 = [frozenset(S) for S in P0]; P2[z] = frozenset(P0[x]); P2[x] = frozenset(bits(A)); P2[h] = frozenset(bits(Bh))
+    P2 = tuple(P2)
+    dA = pr.D[ctx.new(x, z, A, h, Bh)]; dB = b.mp[P2]
+    say("X4: that swap (z=%d, x takes %s, helper %d takes %s, owner %d): def(P') by A and B, <= %d" % (
+        z, sorted(bits(A)), h, sorted(bits(Bh)), o, bd), dA == dB and dA <= bd, "def(P') = %d / %d" % (dA, dB))
 
     # Y: the theorems' swaps at dl13-n3m7-theta (k4/dl13.md §5), deficits of P' by both implementations
     d = {'sets': [[0, 2, 5, 6], [1, 4, 5, 6], [3, 4, 5, 6]], 'vals': [[2, 6, 3, 10], [6, 2, 3, 10], [4, 6, 5, 8]],

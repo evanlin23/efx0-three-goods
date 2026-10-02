@@ -22,7 +22,7 @@ unnecessary for the θ-b case at every n.
 - f = 1, ω = 2, def(P) = 1.
 - No plain swap lowers the deficit. Agent 2, a third agent holding {5, 6} (worth 9 to it), is threatened by every
   owner bundle that contains its goods 4 and 7 (worth 12 > 9), and 4 and 7 are the only junk goods. So Theorem W's
-  hypothesis (W3) and Theorem K's (K3) fail.
+  hypothesis (W3) and Theorem K's (K2) fail.
 
 P is **not** at the T3 stage. It is not even T1-stuck: agent 0 re-basing to {2} lowers the deficit, and so do
 several other (T1) moves. So this refutes the candidate without the stage hypothesis; it does not refute Conjecture PS
