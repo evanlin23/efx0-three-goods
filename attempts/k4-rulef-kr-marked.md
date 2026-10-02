@@ -18,7 +18,9 @@ rotation and still needed, so `RotChecks` fails and the rotation is not a `RotSt
 LB₄ʳ reaches, so the lemma as used (for states of LB₄ʳ) stands: after Phase 1 and upgrades of any policy every marked
 agent is upgraded and has a two-good base, so (V2) gives it (`EFX.LB4R.upRun_facts`), and after a rotation `RotChecks`
 itself gives it (`EFX.LB4R.markedOK_of_rotStep`). `EFX.LB4R.lemmaKR` and `EFX.LB4R.lemmaKR_output` take it as the
-hypothesis `hmk`.
+hypothesis `hmk`. The text now states it as hypothesis (iv) of Lemma KR (`k4/rulef.md` §3, in the PR #81 review fixes),
+and the ledger records this failure as K4.RF.X (6). The same state with m dropped from the list of agents (n = 2)
+satisfies every hypothesis of `lemmaKR`, (iv) included (`EFX.LB4R.KRExample.lemmaKR_nonvacuous`).
 
 **Smallest failing configuration** (n = 3, m = 4; a chain has two agents and the marked agent is a third; O needs two
 goods, since a single good of W worth more to k than Y_k would be in N_k, against (V1) or o not frozen; plus Y_k and
