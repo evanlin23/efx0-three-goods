@@ -6,12 +6,17 @@ with pluggable rules), `k3/simplify/test_k3s.py` and `k3/simplify/exp_*.py` (exp
 **Status.**
 - §3 gives a written proof that K3S always returns an EFX₀ allocation with at most one bundle of more than two
   goods. It is a short list of changes to the proof of construction LB⁺ (`paper/k3/long.tex` §5;
-  `proofs/lb_last_step.md`). It has **not been refereed** and is **not machine-checked**.
+  `proofs/lb_last_step.md`). One independent referee report found no error (its wording fixes and one missing
+  citation are applied below). It is **not machine-checked**.
 - §5 is evidence: raw EFX₀ checks of K3S on every ranking profile of every core with n ≤ 5, samples of every
   certified core with n = 6, 7, 8, every ranking profile with n = 4 agents on up to 7 goods, and 5 million random
   instances. K3S never failed (about 240,000 of these runs used the rotation).
 - §4 is a list of simplifications that **fail**, each with its smallest failing configuration.
 - Lemma T (§3.6) is new and is proved here: when the absorber r fails, every leader is exposed.
+- The referee's own checker found no failure. It also checked the bad-case structure and Lemma T on every rotation,
+  on every instance with n = 2, m ≤ 6 and with n = 3, m = 4 (values including ties, a = b + c, top-heavy agents and
+  agents valuing 0–3 goods); on every tie-free instance with n = 4, m = 5; and on 1.74 million random
+  rotation-heavy instances.
 
 ## 1. The algorithm
 
@@ -21,8 +26,8 @@ ranked by value, largest first, with ties broken by index. a_i, b_i, c_i are age
 > **K3S**
 > 1. **Draft.** The agents take turns. Each takes its favourite remaining good, or nothing if none of its goods is
 >    left. The next agent is one that *can be peeled*: its favourite remaining good is worth at least all its other
->    remaining goods together. That holds for every agent that has lost a good or values at most two goods. If no
->    agent can be peeled, any agent goes; it is a *leader* and takes its top.
+>    remaining goods together. That holds for every agent that has lost a good, values at most two goods, or has
+>    a ≥ b + c. If no agent can be peeled, any agent goes; it is a *leader* and takes its top.
 > 2. **Upgrades.** Repeat: if an agent with a ≤ b + c holds its b, its c is left over, and nobody needs b alone,
 >    it also takes c.
 > 3. **Absorber.** r is the last agent of the draft that was not upgraded. For every exposed agent, put one of its
@@ -36,10 +41,12 @@ The words are those of the paper:
 - an agent *needs* the goods it ranks above the good it holds, or all its goods if it holds none; upgraded agents
   need nothing;
 - an agent is *free* if it is not upgraded and nobody needs its good alone (agents holding nothing are free);
-- an agent is *exposed* (for the absorber o) if its values are strictly balanced (a < b + c), it is not upgraded,
-  it holds its top a, and its b and c are both left over or in o's bundle;
+- an agent x ≠ o is *exposed* (for the absorber o) if its values are strictly balanced (a < b + c), it is not
+  upgraded, it holds its top a, and each of its b and c is left over or in o's *base*: o's good, or b_o and c_o if o
+  is upgraded;
 - *HitSet* takes one leftover good of {b_x, c_x} per exposed agent x. If two exposed agents share a leftover good,
-  it uses that one good for both.
+  it uses that one good for both. The code removes a repeated entry, which changes nothing: a good can repeat only
+  when two pairs share a leftover good, and then the list has |E| − 1 entries, which fit by Lemma `count`.
 
 **Two goods per agent.** If every agent values at most two goods, every agent can always be peeled. So there are
 no leaders, and no agent is upgraded (that needs three goods) or exposed (exposed agents are leaders, Lemma `lead`).
@@ -57,7 +64,7 @@ Each addition is forced by a small instance (§4 and the examples in `paper/k3/l
 | leftovers | fill every free slot first; no absorber if everything fits | the absorber takes everything except HitSet |
 | slots | 1 per free agent with a good, 2 per free agent without | 1 per free agent |
 | who rotates | k* = the exposed agent of r's block (blocks of Phase 1) | k = the last exposed agent; no blocks |
-| when to rotate | owner test \|HitSet(E_r)\| ≤ S − cap(r) | the same test, phrased as "step 3 runs out of free agents" |
+| when to rotate | only if \|J\| > S, and then if \|HitSet(E_r)\| > S − cap(r) | if HitSet(E_r) has more entries than there are free agents other than r, whatever the number of leftovers |
 
 Upgrades, HitSet and the rotation are K3ALG's, unchanged. Blocks are still used in the proof.
 
@@ -72,6 +79,9 @@ v_i(a_i) ≥ v_i(b_i) + v_i(c_i). An agent can be peeled at a moment of the draf
 has lost one of its goods. Proof: a strict agent with all three goods left has favourite a < b + c. A strict agent
 with at most two goods left has a favourite worth at least the other one. An easy agent with three goods left has
 a ≥ b + c. An easy agent with at most two goods behaves like the strict case.
+
+So easy agents can always be peeled, and all of them are processed before the first leader. Every block after a
+leader contains only strict agents, which is why the paper's arguments carry over to those blocks unchanged.
 
 ### 3.1 The draft
 
@@ -127,8 +137,10 @@ only cap(i) ≥ 1.
 - **Lemma `lead`.** An exposed agent is strict by definition, so by (I3) it is a leader. Hence exposed agents lie in
   different blocks β ≥ 1, and π_x ≠ ∅.
 - **Lemma `chains`.** By (B2), now including block 0.
-- **Lemma `count` and Theorem A.** They hold with S − cap(r) = the number of free agents other than r. The proof
-  never uses ω ≥ 1, so: *if r is not a valid absorber, the bad case holds.*
+- **Lemma `count` and Theorem A.** They hold with S − cap(r) = the number of free agents other than r, and their
+  proofs never use ω ≥ 1. If HitSet(E_r) does not fit, then by Proposition `O` (`paper/k3/long.tex`, the HitSet test
+  is exact; ledger K3.OWNER), no set of leftover goods meeting every exposed pair fits. Proposition `O`'s proof does
+  not use ω ≥ 1 either. So r is not a valid owner in the paper's sense, and *the bad case holds.*
 - **k = the last exposed agent.** In the bad case, E_r ∩ B* = {k*}, where B* = r's block is the last block (remark
   after Lemma `r`). Every other exposed agent leads an earlier block, so k* is the last exposed agent of the draft.
 - **The chain.** K3S scans the agents after k in draft order. It appends j whenever the current agent is frozen,
@@ -145,20 +157,23 @@ only cap(i) ≥ 1.
 
 ### 3.6 Lemma T: when r fails, every leader is exposed
 
-**Lemma T.** If r is not a valid absorber, then block 0 is empty, every leader is exposed for r, and every block
-other than B* has exactly one free agent.
+**Lemma T.** If r is not a valid absorber, then block 0 is empty and every leader is exposed for r. Moreover, every
+block other than B* has exactly one free agent, and B* has no free agent other than r.
 
-*Proof.* Every block β contains a free agent: its last agent z_β that is not upgraded.
+*Proof.* Every non-empty block β contains a free agent: its last agent z_β that is not upgraded.
 - Such an agent exists. A leader takes its top, so it is not upgraded. In block 0, the first agent takes its top or
   nothing.
 - If some j ∉ U needed z_β's good, then by (B2) j would be a later agent of the same block, contradicting the choice
   of z_β.
 
-The agents z_β are distinct, and the one of B* is r. So there are at least (number of blocks) − 1 free agents other
-than r. On the other side, |HitSet(E_r)| ≤ |E_r| ≤ number of leaders, by Lemma `lead`. If r fails, then
-number of leaders ≥ |E_r| > free agents other than r ≥ number of blocks − 1. So the number of leaders equals the
-number of blocks, and block 0 is empty. Then every leader is exposed, and no block other than B* has a second free
-agent. ∎
+The agents z_β are distinct, and the one of B* is r. Let F be the number of free agents other than r; then
+F ≥ (number of non-empty blocks) − 1. On the other side, HitSet(E_r) has at most |E_r| entries, and
+|E_r| ≤ number of leaders by Lemma `lead`. If r fails, HitSet(E_r) has more than F entries, so
+
+  number of leaders ≥ |E_r| ≥ F + 1 ≥ number of non-empty blocks = number of leaders + [block 0 is non-empty].
+
+So block 0 is empty and every inequality is an equality. |E_r| = number of leaders, so every leader is exposed. F is
+exactly the number of blocks minus 1, so the free agents other than r are exactly the agents z_β with β ≠ B*. ∎
 
 *Consequences.*
 - If any agent can be peeled at the start of the draft, block 0 is non-empty, and K3S never rotates.
