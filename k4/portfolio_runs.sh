@@ -21,6 +21,9 @@ n5_3)   run n5_3 certs results/k4_certs_5_n4_3.json.gz --sample=2000 --seed=3 --
 n5_pure) run n5_pure certs results/k4_certs_5_pure.json.gz --sample=600 --seed=6 --jobs=${J:-4} --maxst=600 ;;
 n5_12)  run n5_12 certs results/k4_certs_5_n4_1.json.gz results/k4_certs_5_n4_2.json.gz --sample=500 --seed=3 --jobs=${J:-4} --maxst=600 ;;
 n6_1)   run n6_1 certs results/k4_certs_6_n4_1.json.gz --sample=100 --seed=3 --jobs=${J:-4} --maxst=600 ;;
+x4_1)   run x4_1 certs results/k4_certs_4_n4_1.json.gz --sample=0 --jobs=${J:-4} --maxst=600 ;;   # every strict profile
+big)    # 6 of the 11 dump profiles skipped by --maxpairs (H_2, n = 9, m = 23; at most 7.8M (state, P) pairs each; the other 5 have 30M-82M)
+        run big inst results/k4_portfolio/big_profiles.json --chunk=1 --jobs=${J:-4} ;;
 phase2) for r in dumps r3 r4 r3b r4b n5_4 n5_purebt n5_3 n5_12 n5_pure n6_1; do J=${J:-4} sh "$0" $r; done ;;
 *)      echo "unknown run $1"; exit 2 ;;
 esac
