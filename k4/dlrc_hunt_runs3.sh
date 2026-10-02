@@ -1,4 +1,5 @@
 #!/bin/sh
+# NOT RUN: superseded for the time budget by k4/dlrc_hunt_runs_final.sh (which runs fail10_w2 with --reps=2).
 # compute/k4-rc, task (d), third batch (sizes cut for the time budget) (after k4/dlrc_hunt_runs2.sh): objective k3 (distance terms before the gap) with a
 # strong big-top bias (--bt=0.95), on the top-ranked and random n = 5 cores with >= 3 four-good agents. Resumable.
 set -e

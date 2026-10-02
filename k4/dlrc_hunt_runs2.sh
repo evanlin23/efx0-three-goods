@@ -1,4 +1,5 @@
 #!/bin/sh
+# NOT RUN: superseded for the time budget by k4/dlrc_hunt_runs_final.sh (which runs fail10_w2 with --reps=2).
 # compute/k4-rc, task (d), second batch (sizes cut for the time budget) (after k4/dlrc_hunt_runs.sh): objective w2 (chains with least |W| >= 2 first)
 # from the failing profiles and the top-ranked cores, more n = 6 extensions, larger samples. Resumable as the first.
 set -e
