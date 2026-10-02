@@ -6,7 +6,7 @@ maximizing (r′, Λ′), k4/sx.md §2 and §6) by their states P_Q, and at each
 P_Q to a min-frozen state of deficit <= 0 (k4/zmh_lib.py), and the (T4) edges of κ to keys with smaller def*.
 ZMOVE holds at κ iff some P_Q has such a move or κ has such a (T4) edge.
 
-usage: python3 k4/zmove_check.py [--max=N] [--every=E] [--part=i/N] [--fmin=F] [--maxn=N] [--out=OUT.jsonl.gz] INPUT ...
+usage: python3 k4/zmh_check.py [--max=N] [--every=E] [--part=i/N] [--fmin=F] [--maxn=N] [--out=OUT.jsonl.gz] INPUT ...
 INPUT: gzip JSON lines or a JSON list of {sets, vals, m}. Prints a summary; with --out one JSON line per key."""
 import collections, gzip, json, os, sys, time
 

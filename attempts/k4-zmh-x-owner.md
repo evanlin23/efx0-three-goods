@@ -26,6 +26,9 @@ f ≥ 2 profile of compute/k4-cover's dumps with n ≤ 5). The forms without hel
 ZMOVE without helper, 203 for ZX without helper), and the forms with W = ∅ fail at f ≥ 2 (33 of 536 f = 2 keys and 805
 of 3,550 f = 3 keys of the dump sample need a frozen agent passing its good on).
 
-**Reproduce:** `python3 k4/zmh_zx.py INST.json` with INST.json = [the profile above]; the second implementation
-`python3 k4/zmh_xcheck.py INST.json` confirms def*, the Z′-maximum and the number of repairing moves (it does not
-classify owners).
+**Reproduce** (both implementations, seconds): `python3 attempts/k4_zmh_attempts.py`
+(`results/k4_zmove_hall/attempts_replay.log`). Implementation A (`k4/zmh_lib.py`) lists the 16 repairing moves with the
+best owners of each and their roles (x, the helper, an unmoved agent; leaf or not); implementation B (main's
+`k4/rt4_n5_indep.py`, with each agent's value Val_{P′}(o) recomputed in the script) lists the best owners per move:
+agent 0 at 10 moves and agent 1 at 6, never x = agent 2. The forms table is `k4/zmh_zx.py`
+(`results/k4_zmove_hall/zx_forms.log`, single implementation).

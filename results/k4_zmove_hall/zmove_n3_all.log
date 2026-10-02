@@ -1,4 +1,4 @@
-# command: python3 k4/zmove_check.py SCREEN (compute/k4-cover results/k4_cover/screen/n3_all.jsonl.gz at f25fb8e: every n = 3 profile with a non-completable key, 159,080 profiles)
+# command: python3 k4/zmh_check.py SCREEN (compute/k4-cover results/k4_cover/screen/n3_all.jsonl.gz at f25fb8e: every n = 3 profile with a non-completable key, 159,080 profiles)
 time 452.5s
 Z-maxima                                           278616
 Z-maxima with a move                               278616

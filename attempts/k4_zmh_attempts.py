@@ -4,7 +4,7 @@ implementations: A = k4/zmh_lib.py (states, Lemma H1 deficits, Z′-maxima throu
 repo-free k4/rt4_n5_indep.py (raw removal-only deficit) with the configurations enumerated directly (k4/zmh_xcheck.py).
 
 usage: python3 attempts/k4_zmh_attempts.py"""
-import os, sys
+import collections, os, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(HERE, '..', 'k4'))
@@ -116,10 +116,21 @@ def x_owner(inst):
         if ds <= 0: continue
         zs, best = pr.zmax_states(key)
         for P in zs:
-            mv = [(Q, pr.move_kind(P, Q)[1][1][0]) for Q in pr.states if pr.D[Q] <= 0 and 'T3+' in pr.move_kind(P, Q)[0]]
-            xo = sum(1 for Q, x in mv if pr.owner_val(Q, x)[0] >= pr.omega + 2)
+            mv = [(Q, pr.move_kind(P, Q)[1]) for Q in pr.states if pr.D[Q] <= 0 and 'T3+' in pr.move_kind(P, Q)[0]]
+            xo = sum(1 for Q, sh in mv if pr.owner_val(Q, sh[1][0])[0] >= pr.omega + 2)
+            Q0, L0 = pr.configs_over(P, key)[0]
+            free = [y for y in range(n) if key[y] is None]
+            leaves = [o for o in free if not any(pr.threat(w, Q0[o] | L0, pr.val(w, Q0[w])) for w in free if w != o)]
+            roles = collections.Counter()
+            for Q, (ch, U, Z, W, Y) in mv:
+                inf = pr.info(Q)
+                own = [o for o in range(n) if not inf[3][o] and pr.owner_val(Q, o, inf)[0] >= pr.omega + 2]
+                roles[tuple(sorted(('x' if o == U[0] else 'helper %d' % o if o in Y else 'unmoved %d' % o) +
+                                   (' (a leaf of Q)' if o in leaves else '') for o in own)) +
+                      (('helper %d' % Y[0],) if Y else ('no helper',))] += 1
             print('  A: key', [None if b is None else list(bits(b)) for b in key], 'def*', ds, 'Z′-max', show(P),
-                  'repairing moves', len(mv), 'with x a best owner', xo)
+                  'leaves', leaves, 'repairing moves', len(mv), 'with x a best owner', xo)
+            for r, c in sorted(roles.items()): print('     best owners', list(r[:-1]), '|', r[-1], ':', c, 'moves')
     import rt4_n5_indep as RI
     omega, out, ns, dstar = XB.zmove_indep(sets, vals, m, want_ns=True)
     D, info, classify = ns['D'], ns['info'], ns['classify']
@@ -145,8 +156,13 @@ def x_owner(inst):
         for PQ in per:
             mv = [X for X in D if D[X] <= 0 and 'T3+' in classify(PQ, X)[0]]
             xo = sum(1 for X in mv if xval(X, classify(PQ, X)[1][1][0]) >= omega + 2)
+            owners = collections.Counter()
+            for X in mv:
+                fz = info(X)[3]
+                owners[tuple(o for o in range(n) if not fz[o] and xval(X, o) >= omega + 2)] += 1
             print('  B: key', [None if b is None else sorted(b) for b in k], 'def*', ds, 'Z′-max',
-                  [sorted(b) for b in PQ], 'repairing moves', len(mv), 'with x a best owner', xo)
+                  [sorted(b) for b in PQ], 'repairing moves', len(mv), 'with x a best owner', xo,
+                  ' best owners (agents) per move:', dict(owners))
 
 
 if __name__ == '__main__':

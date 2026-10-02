@@ -1,4 +1,4 @@
-# command: python3 k4/zmove_check.py DUMPS_F2 --maxn=5 --every=8 (compute/k4-cover results/k4_cover/inputs/dumps_f2.jsonl.gz at f25fb8e: f >= 2 profiles with a key of def* > 0 from the dumps of compute/k4-rt4, k4-dl13, k4-rc, k4-portfolio; n <= 5, every 8th record)
+# command: python3 k4/zmh_check.py DUMPS_F2 --maxn=5 --every=8 (compute/k4-cover results/k4_cover/inputs/dumps_f2.jsonl.gz at f25fb8e: f >= 2 profiles with a key of def* > 0 from the dumps of compute/k4-rt4, k4-dl13, k4-rc, k4-portfolio; n <= 5, every 8th record)
 time 420.0s
 Z-maxima                                           21896
 Z-maxima with a move                               21896

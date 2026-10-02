@@ -14,7 +14,8 @@ f = 1 key (g, x) with x big-top and both free agents terminals:
           r′(Q′) > r′(Q).
 Any failed assertion is printed (it would refute a step).
 
-usage: python3 k4/zmh_s1c3_steps.py K SEED      (K random profiles per n = 3 core)"""
+usage: python3 k4/zmh_s1c3_steps.py K SEED      (K random profiles per n = 3 core)
+       python3 k4/zmh_s1c3_steps.py INPUT          (the n = 3 profiles of a dump: gzip JSON lines or a JSON list)"""
 import collections, json, os, sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))

@@ -9,8 +9,10 @@ from it and that a Hall argument would use first), some (T3⁺) move with at mos
 deficit ≤ 0.
 
 If it held, a proof of ZMOVE could use pool-optimality and the forest only, and never the maximality of (r′, Λ′)
-itself. It fails, so the argument has to use the maximality of r′ (as the proof of Proposition S1c₃, §3, does in its
-Case (ii)). It also shows that the forest of Lemma F⁺ alone does not force a repair.
+itself. It fails, so a proof must use more than pool-optimality and the forest; on the data r′-maximality suffices
+(Lemma EX of `k4/zmove_hall.md` §2.3 is the exchange it gives; Case (ii) of Proposition S1c₃ uses it). It also shows
+that the forest of Lemma F⁺ alone does not force a repair. Pool-optimality and acyclicity of the witness are computed
+by implementation B of the replay only (implementation A finds the state and checks that it has no repair).
 
 **Smallest failure found** (n = 5, m = 12, f = 2, ω = 4; compute/k4-rc's core 4515, one of its 1,076 profiles):
 `{"sets": [[0,2,4,8],[1,8,10,11],[3,9,10,11],[4,5,6,7],[5,6,7,9]], "vals": [[4,3,8,2],[8,3,6,10],[2,8,3,4],[8,2,3,4],[3,2,4,8]], "m": 12}`

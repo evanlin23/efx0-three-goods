@@ -10,5 +10,9 @@ instance {'sets': [[0, 2, 4, 8], [1, 8, 10, 11], [3, 9, 10, 11], [4, 5, 6, 7], [
 
 == attempts/k4-zmh-x-owner.md: ZX (a repair after which the unfrozen agent x is a best owner) ==
 instance {'sets': [[0, 2, 5, 7], [1, 4, 6, 7], [3, 5, 6, 7]], 'vals': [[3, 4, 2, 8], [2, 3, 4, 8], [3, 5, 6, 7]], 'm': 8}
-  A: key [None, None, [7]] def* 1 Z′-max ({0,2}, {4,6}, {7}) repairing moves 16 with x a best owner 0
-  B: key [None, None, [7]] def* 1 Z′-max [[0, 2], [4, 6], [7]] repairing moves 16 with x a best owner 0
+  A: key [None, None, [7]] def* 1 Z′-max ({0,2}, {4,6}, {7}) leaves [0, 1] repairing moves 16 with x a best owner 0
+     best owners ['helper 0 (a leaf of Q)'] | helper 0 : 7 moves
+     best owners ['helper 1 (a leaf of Q)'] | helper 1 : 5 moves
+     best owners ['unmoved 0 (a leaf of Q)'] | no helper : 3 moves
+     best owners ['unmoved 1 (a leaf of Q)'] | no helper : 1 moves
+  B: key [None, None, [7]] def* 1 Z′-max [[0, 2], [4, 6], [7]] repairing moves 16 with x a best owner 0  best owners (agents) per move: {(0,): 10, (1,): 6}
