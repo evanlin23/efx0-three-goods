@@ -10,9 +10,15 @@ implementation.
 0. **Context from main (after this branch was cut at b50e112):** PR #83 refuted Lemma M (ledger K4.RF.M REFUTED,
    `k4/lemmam_bt.md` §3). The counterexample is HH_3, two copies of H_3 sharing one good (n = 26, m = 65), with no
    big-top agent. It is outside every dataset and hunt here (n ≤ 5, H_t, the suite as of b50e112). Every candidate
-   below that is applicable on HH_3 and implies Lemma M there dies with it; HH3_PLACEHOLDER. The rest of this file
-   is about the profiles of n ≤ 5 and the other finite classes, where the statements below still hold or fail as
-   reported.
+   below that is applicable on HH_3 and implies Lemma M there dies with it. Checked from HH_3's values
+   (`k4/suite/instances/lmbt-HH3.json` on main): it has no big-top agent, and 12 agents share their top good. PR #83's
+   class log (`results/k4_lemmam_bt/classes_HH3.log` on main) has every first agent outside K0 ∪ K1. So on HH_3:
+   - **sh:W, btsh:W and M_nobt are refuted as well**, since their set is nonempty and nobody in it works;
+   - every exchange partner fails, since no first agent works;
+   - **bt2:W is not applicable** (no big-top agent) and is the only "which agent" survivor left standing.
+   HH3_OWNRUN
+   The rest of this file is about n ≤ 5, H_t and the suite as of b50e112, where the statements below hold or fail as
+   reported. They are evidence about where a corrected statement could live, not support for Lemma M.
 1. **Lemma M held on all the data here**: on ≈4.39·10⁹ distinct strict profiles (exhaustive and sampled) and in every
    hunt.
 2. **M_bt1 is false** (and with it M_bt and "the big-top agent with the fewest private goods"). At n = 4, m = 8 with
@@ -23,14 +29,15 @@ implementation.
    states the opposite. That statement was read off leaf representatives: `rulef.c -A42` stops comparing big-top
    status at the first big-top agent, so a leaf can mix one-big-top and three-big-top profiles
    (`FAILURES_M_bt1.md`, Notes). On 25 further n4_3 cores (every 12th), M_bt1 held.
-3. **Strongest surviving strengthening** (which agent): **sh:W ∧ btsh:W**. In words: *if some agent shares its top
+3. **Strongest strengthening surviving on these classes** (which agent; refuted on HH_3 with Lemma M, see 0):
+   **sh:W ∧ btsh:W**. In words: *if some agent shares its top
    good with another agent, some such agent is in K0 ∪ K1; otherwise, if some agent is big-top, some big-top agent is
    in K0 ∪ K1.* It implies M_nobt. It is tight: on 11,522 profiles the only first agent in K0 ∪ K1 is one of the
    agents it allows.
 4. **No certificate stronger than K0 ∪ K1 survives** (how): M1 ∨ M2 dies at n = 2, and "K0 or Lemma KR" dies at n = 4.
    "K0 or KR or a rotation to ω′ ≤ 0" also dies at n = 4, m = 11. There the only certificates rotate k to a base worth
    *less* than its pick, and then need a nonempty kept set.
-5. **Best exchange partner: x3cE**. If a's envy-free run is in neither class, *some end of a need chain starting at an
+5. **Best exchange partner on these classes: x3cE** (on HH_3 no partner can work, see 0). If a's envy-free run is in neither class, *some end of a need chain starting at an
    exposed frozen agent of that run* is in K0 ∪ K1. Over 41,673 (profile, a) pairs it is never undefined and never
    fails. The other partners fail: r on H_t and the suite, the leader of r's block on H_t, and the exposed frozen
    4-good agent at n = 3. x1N fails on 2,592 n4_3 pairs and in hunt 2.

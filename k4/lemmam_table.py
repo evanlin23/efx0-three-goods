@@ -55,6 +55,9 @@ def main():
     mf = sum(S[k]['counters'].get('all:W', [0, 0])[1] for k in keys) + hfail.get('all:W', 0)
     L.append(f'**Status. Lemma M (`all:W`): {"FAILS: " + str(mf) + " failures, see FAILURES_M.md" if mf else "no failure"} '
              f'on {totp:,} profile evaluations summed over the datasets (datasets may share a core) and in every hunt.**')
+    L.append('**Note: PR #83 (merged into main after this branch\'s base b50e112) refutes Lemma M on HH_3 (n = 26, m = 65, '
+             'no big-top agent, 12 agents sharing their top), which is in none of these datasets: on HH_3 every candidate '
+             'applicable there that implies Lemma M fails too (sh:W, btsh:W, nobt:W, every exchange partner). See SUMMARY.md.**')
     surv = [c for c in CANDS if not any(S[k]['counters'].get(c, [0, 0])[1] for k in keys) and c not in hfail
             and any(S[k]['counters'].get(c, [0])[0] for k in keys) and not c.startswith('nobt0:')]
     inv = {v: k for k, v in ALIAS.items()}
