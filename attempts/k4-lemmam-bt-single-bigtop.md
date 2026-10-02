@@ -19,8 +19,10 @@ e_j} (8, 6, 4, 3) as built by `k4/adaptive_H.py` (t = 3); q = agent 13 {33, 9, 1
 - Lemma K (`k4/lemmam_bt.py`): least deficit 5 at q's run under each policy, at least 2 after every single RotStep (18
   of them): q is in neither K0 nor K1 (`results/k4_lemmam_bt/classes_Hq3.log`); `k4/rulef.c -A42 -Q0` (first big-top
   agent) puts q in no class (`results/k4_lemmam_bt/rk_Hq3.log`).
-- LB₄ʳ(τ_q) with at most one rotation has no output, by PR #33's two encodings of Lean's `Output`
-  (`results/k4_lemmam_bt/exactA_Hq3.log`, `exactB_Hq3.log`).
+- LB₄ʳ(τ_q) with at most one rotation has no output, by three Output tests over two independent state enumerations:
+  PR #33's two encodings of Lean's `Output` (`results/k4_lemmam_bt/exactA_Hq3.log`, `exactB_Hq3.log`) and the PR #83
+  referee's model R (`k4/lemmam_bt_indep.py`, `indep_exactR_Hq3.log`). On H_2 + q, q has outputs after one rotation
+  (`indep_Hq2.log`), so this family starts at t = 3.
 - Rule RK (`k4/rulef.c -A41`, same log) takes agent 1 (x_{1,1}, gadget 1) in K0, as Proposition H″ predicts: the first
   agent has to be where the run is decided, not where the big-top agent is.
 

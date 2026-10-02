@@ -23,13 +23,14 @@ review, which also checked HH_3 and H_3 + q with its own model); Corollary HH is
 - Both proofs are Proposition H's count (`k4/c4.md` §7, K4.C4.R, PROVED) with one more ingredient: in HH_t every first
   agent leaves one copy to index order, and the copy that holds the first agent gives back at most one slot place.
 - **Computations** (§4): LB₄ʳ with at most one rotation exactly, for every first agent of HH_3 and for q on H_3 + q,
-  by three implementations that agree: PR #33's two encodings of Lean's `Output` (`k4/c4_verify_H/lb4r.py`,
-  `enc_b.py`) and the PR #83 referee's own model (`k4/lemmam_bt_indep.py`); Lemma K's classes on PR #33's model
+  by three Output tests over two independent state enumerations, which agree: PR #33's two encodings of Lean's
+  `Output` (`k4/c4_verify_H/lb4r.py`, `enc_b.py`; they share `lb4r.py`'s Phase 1, upgrades and RotSteps and differ
+  in the Output test) and the PR #83 referee's own model (`k4/lemmam_bt_indep.py`, its own enumeration and test); Lemma K's classes on PR #33's model
   (`k4/lemmam_bt.py`, written from the text of `k4/rulef.md` §2). Propositions Q and HH were refereed in the PR #83
   review (rows K4.LMBT.Q, K4.LMBT.HH: PROVED; K4.RF.M, K4.AD.F, K4.AD.C1: REFUTED); Corollary HH was not refereed line
   by line (K4.LMBT.COR).
 - What it means for the route (§5): a rule that chooses only the first agent needs at least (t − 1)/2 rotations on
-  HH_t (Corollary HH), so no fixed rotation bound saves it; we expect the same for any fixed number of chosen insertion
+  HH_t (Corollary HH; K4.LMBT.COR, not refereed), so no fixed rotation bound saves it; we expect the same for any fixed number of chosen insertion
   steps (several copies of H_t; not proved).
   The insertion agent has to be chosen adaptively at every insertion step, as LB₄'s search over insertion sequences
   does.
@@ -208,7 +209,7 @@ For t ≥ 3 each is at most −2 < −1, so no such completion exists. Every out
 owner (or none, excluded by ω ≥ 1 when every base has at most two goods; a base of three or more goods makes its agent
 the owner), so LB₄ʳ(τ_a) has no output with at most one rotation. ∎
 
-**Corollary HH (rotations grow with t).** For every first agent a of HH_t, LB₄ʳ(τ_a) has no output with fewer than
+**Corollary HH (rotations grow with t; K4.LMBT.COR, not refereed).** For every first agent a of HH_t, LB₄ʳ(τ_a) has no output with fewer than
 (t − 1)/2 rotations (nested RotSteps, every policy, every owner). So no fixed bound on the rotations makes "one chosen
 first agent, then index order" work.
 
@@ -263,7 +264,9 @@ All on one worker; `k4/lemmam_bt_hh.py` (instances, drivers), `k4/lemmam_bt.py` 
   every first agent, the owner's needs from its bundle and from its base: no output with at most one rotation
   (`indep_exactR_HH3.log`); H_3 + q: q and ℓ have none, every other first agent has one (`indep_exactR_Hq3.log`);
   HH_2: the first agents of gadget 1 of either copy have outputs after one rotation, so t ≥ 3 is sharp
-  (`indep_exactR_HH2.log`); K4.D on HH_3 and HH_4 (`indep_d2.log`).
+  (`indep_exactR_HH2.log`); H_2 + q: q has outputs after one rotation, so t ≥ 3 is sharp in Proposition Q too (`indep_Hq2.log`); K4.D on HH_3 and HH_4 (`indep_d2.log`; its "tau = [3, 12]" is in LB₄ʳ's encoding of τ, the
+  position among the unprocessed agents at each insertion step: agent 3 = x^A_{1,2} first, then position 12 of the
+  remaining agents, which is agent 15 = x^B_{1,2}, as in `d2_HH3.log`).
 - `d2`, HH_3: the insertion sequence (x^A_{1,2}, x^B_{1,2}) = agents (3, 15), need-shrinking upgrades, owner ℓ_A: an
   `Output` without rotation, EFX₀ by the raw definition, one bundle above two goods (`d2_HH3.log`). The suite records
   `k4/suite/instances/lmbt-HH3.json` and `lmbt-Hq3.json` carry these witnesses (H_3 + q: rule RK's sequence, x_{1,1}
@@ -273,7 +276,7 @@ All on one worker; `k4/lemmam_bt_hh.py` (instances, drivers), `k4/lemmam_bt.py` 
 
 - Lemma M, rule F with one rotation (K4.AD.F), `TheoremRuleF` and `RuleFConn` are false. Their implications in Lean
   (K4.RF.LEAN) stay proved, with a false hypothesis at every instance size that holds HH_3 (n ≥ 26, m ≥ 65).
-- With R rotations rule F still fails on HH_t once t > 2R + 1 (Corollary HH): a single chosen first agent needs a
+- With R rotations rule F still fails on HH_t once t > 2R + 1 (Corollary HH; K4.LMBT.COR, not refereed): a single chosen first agent needs a
   number of rotations that grows linearly with the core. We expect the same for any fixed number L of chosen insertion
   steps (not proved, not checked by computation): L + 1 copies of H_t glued in a chain leave one copy to index order;
   the count of §3 would have to be redone for several chosen agents in one copy.

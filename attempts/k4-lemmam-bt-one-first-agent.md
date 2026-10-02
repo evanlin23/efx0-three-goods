@@ -21,8 +21,9 @@ then copy A's gadget agents and copy B's, each as in H_3 (`k4/lemmam_bt_hh.py co
   policy the least deficit is at least 4 at the Phase 1 + upgrade state and at least 1 after every single RotStep: no
   first agent in K0 or K1.
 - LB₄ʳ(τ_a) with at most one rotation, for every a, every policy, every owner, Lean's `Output` with the owner's needs
-  from its bundle: no output, by three implementations: PR #33's two encodings (`results/k4_lemmam_bt/exactA_HH3.log`,
-  `exactB_HH3.log`) and the PR #83 referee's own model (`k4/lemmam_bt_indep.py`, `indep_exactR_HH3.log`, also with
+  from its bundle: no output, by three Output tests over two independent state enumerations: PR #33's two encodings
+  (`results/k4_lemmam_bt/exactA_HH3.log`, `exactB_HH3.log`; they share `lb4r.py`'s enumeration of states) and the
+  PR #83 referee's own model with its own enumeration (`k4/lemmam_bt_indep.py`, `indep_exactR_HH3.log`, also with
   the owner's needs from its base). So rule F with one rotation fails, and `EFX.LB4R.TheoremRuleF`,
   `EFX.LB4R.RuleFConn` are false. On HH_2 outputs exist (`indep_exactR_HH2.log`).
 - K4.D on HH_3: `results/k4_lemmam_bt/d2_HH3.log` (insertion sequence (x^A_{1,2}, x^B_{1,2}), an `Output` without
