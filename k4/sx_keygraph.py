@@ -163,7 +163,7 @@ def items(mode, rest, opt):
         return [(d, 'one')]
     if mode == 'inst':                        # a JSON list of {id, sets, vals, m}
         return [({'sets': d['sets'], 'vals': d['vals'], 'm': d['m']}, d.get('id', 'inst%d' % i))
-                for i, d in enumerate(json.load(open(rest[0])))]
+                for i, d in enumerate(json.load(gzip.open(rest[0], 'rt') if rest[0].endswith('.gz') else open(rest[0])))]
     if mode == 'catalog':
         recs = json.load(gzip.open(rest[0], 'rt'))['records']
         fmin = int(opt.get('fmin', 1)); fmax = int(opt.get('fmax', 99))

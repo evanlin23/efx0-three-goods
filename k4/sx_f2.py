@@ -101,7 +101,9 @@ def main(argv):
     print('# command: python3 k4/sx_f2.py ' + ' '.join(argv), flush=True)
     profs = []
     if 'inst' in opt:
-        profs = [{'sets': d['sets'], 'vals': d['vals'], 'm': d['m']} for d in json.load(open(opt['inst']))]
+        fi = opt['inst']
+        profs = [{'sets': d['sets'], 'vals': d['vals'], 'm': d['m']}
+                 for d in json.load(gzip.open(fi, 'rt') if fi.endswith('.gz') else open(fi))]
     for fn in rest:
         for line in gzip.open(fn, 'rt'):
             r = json.loads(line)

@@ -4,6 +4,13 @@
 # Lemma A+ (k4/sx_f2.py) on every f >= 2 profile with a key of def* > 0 found there, and the second implementation
 # (k4/sx_xcheck.py) on samples of the dumps.
 set -e
+# the profiles of the T1-stuck states of k4/dl13.md §1 (every T3-stage state is one of them)
+T=results/k4_sx/t3stage
+[ -s $T/profiles.json.gz ] || python3 k4/sx_t3stage.py
+grep -q '^# time' $T/keys.log 2>/dev/null || python3 k4/sx_keygraph.py inst $T/profiles.json.gz --dump=$T/keys.jsonl.gz > $T/keys.log 2>&1
+grep -q '^# time' $T/zprime_f1.log 2>/dev/null || python3 k4/sx_zprime.py $T/profiles_f1.jsonl.gz > $T/zprime_f1.log 2>&1
+grep -q '^# time' $T/f2.log 2>/dev/null || python3 k4/sx_f2.py $T/keys.jsonl.gz > $T/f2.log 2>&1
+[ -s $T/xcheck.log ] || python3 k4/sx_xcheck.py $T/keys.jsonl.gz --mmax=10 > $T/xcheck.log 2>&1
 python3 k4/sx_runs.py hard_hunt@f2e1 gap_n4_3_s4000@f2e1 gap_n4_pure_s4000@f2e1 hunt_n4_pure_s400k@f2e1 \
   hunt_n4_3_s400k@f2e1 gap_n4_1 gap_n4_2_s4000 gap_n3
 python3 k4/sx_runs.py --sum > /dev/null
