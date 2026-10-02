@@ -1,0 +1,8 @@
+# command: python3 k4/rulef_hunt.py suite --seeds=results/k4_rulef_hunt/seeds_suite.jsonl --evals=60000 --key=M
+# k4/rulef.c sha256 5721abf3bc9e25b101412aeb6b602db24d80e1991beee9a367a01cf9ccfc424e
+# k4/rulef_hunt_eval.c sha256 5d7c62157e4daf0cfad93985eecee273bb9fd7408ffdf6636304cb285254944b; evaluator options -Y1 -r2 -T1; B=48 R0=96 STAG=25; key M; samep 0.0; kick None; relabel False
+# units 77, done before 0, to do 77, evals per unit 60000, jobs 4
+[      2s] units 1/77 evals 60001 (31791/s) est. total 2.4 min; best nwork per unit {4: 1}; tight profiles 0; best key [4, 1, 4, 2] at seed2
+[      4s] units 2/77 evals 120002 (32314/s) est. total 2.4 min; best nwork per unit {4: 2}; tight profiles 0; best key [4, -2, 0, -8] at seed4
+[      5s] units 4/77 evals 240004 (48647/s) est. total 1.6 min; best nwork per unit {4: 3, 6: 1}; tight profiles 0; best key [4, -2, 0, -8] at seed4
+[      8s] units 8/77 evals 480008 (58515/s) est. total 1.3 min; best nwork per unit {4: 6, 5: 1, 6: 1}; tight profiles 0; best key [4, -2, 0, -8] at seed4
