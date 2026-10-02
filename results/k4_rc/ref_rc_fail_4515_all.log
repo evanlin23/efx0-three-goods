@@ -1,0 +1,11 @@
+# command: python3 k4/dlrc_ref.py inst results/k4_rc/rc_fail_4515_all_inst.json --jobs=2
+# 1076 profiles
+#  200 / 1076 profiles: {'rcnokey': 0, 'anomc': 0, 'prof': 200, 'prof_f1': 200, 'st': 18635, 'st_f1': 18635, 'keymin_states': 13650, 'rt4fail': 800, 'rcfail': 800}
+#  400 / 1076 profiles: {'rcnokey': 0, 'anomc': 0, 'prof': 400, 'prof_f1': 400, 'st': 37545, 'st_f1': 37545, 'keymin_states': 27774, 'rt4fail': 1600, 'rcfail': 1600}
+#  600 / 1076 profiles: {'rcnokey': 0, 'anomc': 0, 'prof': 600, 'prof_f1': 600, 'st': 56139, 'st_f1': 56139, 'keymin_states': 41574, 'rt4fail': 2400, 'rcfail': 2400}
+#  800 / 1076 profiles: {'rcnokey': 0, 'anomc': 0, 'prof': 800, 'prof_f1': 800, 'st': 75333, 'st_f1': 75333, 'keymin_states': 55738, 'rt4fail': 3200, 'rcfail': 3200}
+#  1000 / 1076 profiles: {'rcnokey': 0, 'anomc': 0, 'prof': 1000, 'prof_f1': 1000, 'st': 93332, 'st_f1': 93332, 'keymin_states': 69448, 'rt4fail': 4000, 'rcfail': 4000}
+#  1076 / 1076 profiles: {'rcnokey': 0, 'anomc': 0, 'prof': 1076, 'prof_f1': 1076, 'st': 99583, 'st_f1': 99583, 'keymin_states': 74256, 'rt4fail': 4304, 'rcfail': 4304}
+# dlrc.c sha256 f1cf4cc169a347625e5a84bd9c7a8c218f791de6e2a7ce466f59ce357000b1f7; dlrt4.c sha256 fcde494a3161279d47a7b80e614f69c58894ebc7b40d00e461f677b8810d7cae
+profiles 1076 (with an f >= 1 def > 0 state 1076); states 99583 (f = 0: 0, f >= 1: 99583); f >= 1: DL_RT4 fails at 4304, DL_RC fails at 4304, chain states 0, with an improving T3c move 0, key form fails at 0; states with def = def* 74256
+mismatches: reference vs dlrc.c: states 0, fields 0, H lines 0; dlrc.c vs dlrt4.c: K/L/tables 0, S lines 0; -DBIGPP=0 build 0; blocks 0; dlrc.c rcnokey 0, anomc 0; TOTAL 0 [899 s]

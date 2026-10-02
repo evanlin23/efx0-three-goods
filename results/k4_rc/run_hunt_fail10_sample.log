@@ -1,0 +1,157 @@
+# command: python3 k4/dlrc_run.py inst results/k4_rc/hunt_fail10_sample_inst.json --dump=results/k4_rc/dump_hunt_fail10_sample.jsonl.gz --tables=results/k4_rc/tables_hunt_fail10_sample.json
+# dlrc.c sha256 f1cf4cc169a347625e5a84bd9c7a8c218f791de6e2a7ce466f59ce357000b1f7
+# inst results/k4_rc/hunt_fail10_sample_inst.json: 54 instances, 1 units to run, 0 from the checkpoint
+#   chain states: {'chunk': 0} block 0: 21
+#   chain states: {'chunk': 0} block 1: 21
+#   chain states: {'chunk': 0} block 2: 14
+#   chain states: {'chunk': 0} block 3: 14
+#   chain states: {'chunk': 0} block 4: 12
+#   chain states: {'chunk': 0} block 5: 3
+#   chain states: {'chunk': 0} block 6: 12
+#   chain states: {'chunk': 0} block 7: 12
+#   chain states: {'chunk': 0} block 8: 3
+#   chain states: {'chunk': 0} block 9: 12
+#   chain states: {'chunk': 0} block 10: 12
+#   chain states: {'chunk': 0} block 11: 3
+#   chain states: {'chunk': 0} block 12: 3
+#   chain states: {'chunk': 0} block 13: 3
+#   chain states: {'chunk': 0} block 14: 3
+#   chain states: {'chunk': 0} block 15: 2
+#   chain states: {'chunk': 0} block 16: 3
+#   chain states: {'chunk': 0} block 17: 3
+#   chain states: {'chunk': 0} block 18: 3
+#   chain states: {'chunk': 0} block 19: 12
+#   chain states: {'chunk': 0} block 20: 12
+#   chain states: {'chunk': 0} block 21: 1
+#   chain states: {'chunk': 0} block 22: 10
+#   chain states: {'chunk': 0} block 23: 4
+#   chain states: {'chunk': 0} block 24: 4
+#   chain states: {'chunk': 0} block 25: 12
+#   chain states: {'chunk': 0} block 26: 12
+#   chain states: {'chunk': 0} block 27: 12
+#   chain states: {'chunk': 0} block 28: 3
+#   chain states: {'chunk': 0} block 29: 10
+#   chain states: {'chunk': 0} block 30: 3
+#   chain states: {'chunk': 0} block 31: 3
+#   chain states: {'chunk': 0} block 32: 3
+#   chain states: {'chunk': 0} block 33: 2
+#   chain states: {'chunk': 0} block 34: 12
+#   chain states: {'chunk': 0} block 35: 2
+#   chain states: {'chunk': 0} block 36: 3
+#   chain states: {'chunk': 0} block 37: 12
+#   chain states: {'chunk': 0} block 38: 3
+#   chain states: {'chunk': 0} block 39: 12
+#   chain states: {'chunk': 0} block 40: 12
+#   chain states: {'chunk': 0} block 41: 3
+#   chain states: {'chunk': 0} block 42: 12
+#   chain states: {'chunk': 0} block 43: 10
+#   chain states: {'chunk': 0} block 44: 12
+#   chain states: {'chunk': 0} block 45: 12
+#   chain states: {'chunk': 0} block 46: 2
+#   chain states: {'chunk': 0} block 47: 12
+#   chain states: {'chunk': 0} block 48: 12
+#   chain states: {'chunk': 0} block 49: 12
+#   chain states: {'chunk': 0} block 50: 3
+#   chain states: {'chunk': 0} block 51: 2
+#   chain states: {'chunk': 0} block 52: 2
+#   chain states: {'chunk': 0} block 53: 3
+inst results/k4_rc/hunt_fail10_sample_inst.json: profiles 54, omega >= 1: 54; k* = 0: 0, 1: 0, 2: 0, 3: 54, >= 4: 0, inf: 0; P with def > 0: 1264, at distance 1: 32, 2: 817, 3: 415, >= 4: 0, inf: 0; Pareto-maximal: 203; largest least deficit -1
+  DL_RT4: states (def > 0) with f = 0: 0 (RT4 fails at 0), with f >= 1: 1264; DL_RT4 FAILS at 415 of the f >= 1 states; with an improving move T1 32, T2 32, T3p 849, T3h 774, T4 56; only T1 0, only T2 0, only T3 761, only T4 0; R_T fails at 415, R_13 at 415, R_13 + T4 at 415; smallest RT4 move size 1 / 2 / 3 / >= 4 / none: 32 / 817 / 0 / 0 / 415; anomalies 0 + 0 [2 s]
+  DL_RC: f >= 1 states 1264; DL_RC FAILS at 0; DL_RT4 fails at 415, of which 415 are chain states (only T3c moves improve; 345 with f >= 3; by least |W| 1 / 2 / >= 3: 415 / 0 / 0); with an improving T3c move 1196, weak T3+ 1264 (the only repair at 0); least improving |W| 0 / 1 / 2 / >= 3: 849 / 415 / 0 / 0; key graph: keys with def* > 0: 238, the key form FAILS at 0 keys (0 states; weak edges: 0 states); DL_RC without the key form 0; T3+/T3 inconsistencies 0
+table B: f >= 1 states by f | signature | branch : count
+  B 3|fO,G,D2|none : 173
+  B 3|G,G1,D2|T3p+T3h : 145
+  B 3|fO,G,D2|T3p+T3h : 141
+  B 3|G,D2|none : 106
+  B 3|G,D2|T3p+T3h : 88
+  B 3|G,D2,PM|T3p+T3h : 76
+  B 3|G,D2|T3p : 75
+  B 3|G,D2,PM|none : 66
+  B 3|G,G1,D2,PM|T3p+T3h : 61
+  B 3|fO,G,G1,D2|T3p+T3h : 41
+  B 2|G,D2|none : 40
+  B 2|fO,G,G1,D2|T3p+T3h : 38
+  B 2|G,D2|T3p+T3h : 36
+  B 2|G,D2|T3p+T3h+T4 : 30
+  B 2|fO,G,D2|none : 30
+  B 2|fO,G,D2|T3p+T3h+T4 : 26
+  B 2|G,D2|T1+T2+T3p+T3h : 24
+  B 2|G,G1,D2|T3p+T3h : 24
+  B 2|G,L,D2|T3p+T3h : 20
+  B 2|fO,G,D2|T1+T2+T3p+T3h : 8
+  B 2|fO,G,D2|T3p+T3h : 8
+  B 2|fO,G,L,D2|T3p+T3h : 8
+table G: f >= 1 states by f | nearest distance k | branch : count
+  G 3|2|T3p+T3h : 552
+  G 3|3|none : 345
+  G 2|2|T3p+T3h : 134
+  G 3|2|T3p : 75
+  G 2|3|none : 70
+  G 2|2|T3p+T3h+T4 : 56
+  G 2|1|T1+T2+T3p+T3h : 32
+table M: f >= 1 states by f | branch | smallest RT4 move size : count
+  M 3|T3p+T3h|2 : 552
+  M 3|none|-1 : 345
+  M 2|T3p+T3h|2 : 134
+  M 3|T3p|2 : 75
+  M 2|none|-1 : 70
+  M 2|T3p+T3h+T4|2 : 56
+  M 2|T1+T2+T3p+T3h|1 : 32
+table Z: f >= 1 states by f | branch available | its smallest move size : count
+  Z 3|T3p|2 : 627
+  Z 3|T3h|3 : 552
+  Z 2|T3h|3 : 222
+  Z 2|T3p|2 : 222
+  Z 2|T4|2 : 56
+  Z 2|T1|1 : 32
+  Z 2|T2|2 : 32
+table C: f >= 1 states with T4 by f | smallest T4 size | cycle types at that size : count
+  C 2|2|2 : 56
+table Y: f >= 1 states by f | branch | move type available : count
+  Y 3|T3p+T3h|T3:xJ.h- : 552
+  Y 3|T3p+T3h|T3:xJ.hJ : 476
+  Y 3|T3p+T3h|T3:xJ.hR : 328
+  Y 3|T3p+T3h|T3:xJ.hZ : 152
+  Y 2|T3p+T3h|T3:xJ.h- : 134
+  Y 2|T3p+T3h|T3:xJ.hJ : 134
+  Y 2|T3p+T3h|T3:xJ.hR : 100
+  Y 3|T3p+T3h|T3:xZ.h- : 100
+  Y 3|T3p+T3h|T3:xZ.hJ : 88
+  Y 2|T3p+T3h|T3:xJ.hZ : 80
+  Y 3|T3p|T3:xJ.h- : 75
+  Y 2|T3p+T3h+T4|T3:xJ.h- : 56
+  Y 2|T3p+T3h+T4|T3:xJ.hJ : 56
+  Y 2|T3p+T3h+T4|T4:2 : 56
+  Y 2|T3p+T3h+T4|T3:xJ.hZ : 48
+  Y 2|T3p+T3h+T4|T3:xJ.hR : 44
+  Y 3|T3p+T3h|T3:xZ.hR : 44
+  Y 2|T1+T2+T3p+T3h|T1:rel : 32
+  Y 2|T1+T2+T3p+T3h|T2:k2 : 32
+  Y 2|T1+T2+T3p+T3h|T3:xJ.h- : 32
+  Y 2|T1+T2+T3p+T3h|T3:xJ.hJ : 32
+  Y 2|T3p+T3h|T3:xH.hR : 32
+  Y 2|T3p+T3h|T3:xZ.h- : 32
+  Y 2|T3p+T3h|T3:xZ.hJ : 32
+  Y 2|T1+T2+T3p+T3h|T2:k3 : 28
+  Y 2|T1+T2+T3p+T3h|T3:xH.hR : 28
+  Y 3|T3p|T3:xZ.h- : 22
+  Y 2|T1+T2+T3p+T3h|T3:xJ.hR : 20
+  Y 3|T3p+T3h|T3:xH.hR : 20
+  Y 2|T1+T2+T3p+T3h|T1:pool : 18
+  Y 2|T3p+T3h|T3:xH.hZ : 16
+  Y 2|T3p+T3h|T3:xZ.hR : 16
+  Y 2|T1+T2+T3p+T3h|T3:xH.hJ : 14
+  Y 2|T1+T2+T3p+T3h|T3:xJ.hZ : 4
+  Y 2|T1+T2+T3p+T3h|T3:xZ.h- : 4
+  Y 2|T1+T2+T3p+T3h|T3:xZ.hJ : 4
+  Y 2|T1+T2+T3p+T3h|T3:xZ.hZ : 4
+table W: f >= 1 states by f | R_C branch | least improving |W| (-1: no T3+ move) : count
+  W 3|T3p+T3h+T3c|0 : 552
+  W 3|T3c|1 : 345
+  W 3|T3p+T3c|0 : 75
+  W 2|T3c|1 : 70
+  W 2|T3p+T3h+T3c|0 : 70
+  W 2|T3p+T3h|0 : 64
+  W 2|T3p+T3h+T4+T3c|0 : 56
+  W 2|T1+T2+T3p+T3h+T3c|0 : 28
+  W 2|T1+T2+T3p+T3h|0 : 4

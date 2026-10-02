@@ -1,0 +1,240 @@
+{
+ "id": "rc-n5m13-f1",
+ "n": 5,
+ "m": 13,
+ "sets": [
+  [
+   0,
+   2,
+   9,
+   11
+  ],
+  [
+   1,
+   6,
+   10,
+   12
+  ],
+  [
+   3,
+   7,
+   11,
+   12
+  ],
+  [
+   4,
+   8,
+   11,
+   12
+  ],
+  [
+   5,
+   9,
+   10,
+   12
+  ]
+ ],
+ "vals": [
+  [
+   3,
+   5,
+   6,
+   7
+  ],
+  [
+   6,
+   5,
+   4,
+   8
+  ],
+  [
+   2,
+   3,
+   8,
+   4
+  ],
+  [
+   2,
+   3,
+   8,
+   4
+  ],
+  [
+   6,
+   4,
+   1,
+   8
+  ]
+ ],
+ "is_core": true,
+ "strict": true,
+ "core_ref": "core pos 4604 (m = 13, idx 58) of results/k4_certs_5_pure.json.gz (pure: five 4-good agents), profile 44,118,8,8,158 (indices into check4.core_domains(sets, m, False))",
+ "source": {
+  "pr": null,
+  "branch": "compute/k4-rc (hunt run ranked_pure, k4/dlrc_hunt.py; merged into compute/k4-rc-refute)",
+  "files": [
+   "results/k4_rc/rc_fail_hunt_ranked_pure_inst.json",
+   "results/k4_rc/rc_failures_n5_inst.json",
+   "results/k4_rc/ref_rc_fail_hunt_ranked_pure.log",
+   "results/k4_rc/ref_rt4_rc_fail_hunt_ranked_pure.log",
+   "results/k4_rc/ref_rc_fail_all.log",
+   "results/k4_rc/portfolio_rc45.log",
+   "results/k4_rc/rcy_indep.log",
+   "results/k4_rc/FAILURES.md",
+   "results/k4_rc/SUMMARY.md",
+   "attempts/k4-rc-single-step.md",
+   "results/k4_rc/indep_check.log",
+   "results/k4_rc/suite_rc_pred.log",
+   "k4/dlrc.c",
+   "k4/dlrc_ref.py",
+   "k4/rt4_n5_indep.py",
+   "k4/rcy_indep.py",
+   "k4/rc_pred.py"
+  ],
+  "replay": "python3 k4/dlrc_ref.py inst results/k4_rc/rc_fail_hunt_ranked_pure_inst.json; python3 k4/rt4_n5_indep.py results/k4_rc/indep_check_inst.json"
+ },
+ "refutes": [
+  {
+   "statement": "Conjecture DL_RC (ledger K4.DL2.RC; k4/dlrc.c header): at f >= 1 every min-frozen P with def(P) > 0 has a min-frozen P' with def(P') < def(P) reached by a move of R_C = T1 (re-base) + T2 (rotation of free agents) + T3+ (the frozen-chain role swap: NA kept, exactly one x frozen -> free, exactly one z free -> frozen needing its new good in P, W the changed agents frozen in both, at most one helper free in both giving up a good of its base, the bases of W + z in P' exactly those of W + x in P) + T4 (frozen agents permute their goods). Here f = 1, def(P) = 1 at P = ({11}, {12}, {3,7}, {4,8}, {5,9}) and none of the 84 better min-frozen states is an R_C move: the 6 nearest (distance 3) are role swaps whose one helper GROWS its base by a junk good, the 78 others (distance 4) role swaps with two helpers",
+   "ledger": "K4.DL2.RC",
+   "smallest": true
+  },
+  {
+   "statement": "Conjecture DL_RT4 (ledger K4.DL2.RT4; k4/dlrt4.c header): the same with T3 (W empty) in place of T3+. At f = 1 R_C = RT4 (T3+ with W nonempty and T4 need a second frozen agent), so P refutes DL_RT4 too, at f = 1 and not by a chain state",
+   "ledger": "K4.DL2.RT4",
+   "smallest": false
+  }
+ ],
+ "witness": {
+  "bases": [
+   [
+    11
+   ],
+   [
+    12
+   ],
+   [
+    3,
+    7
+   ],
+   [
+    4,
+    8
+   ],
+   [
+    5,
+    9
+   ]
+  ],
+  "J": [
+   0,
+   1,
+   2,
+   6,
+   10
+  ],
+  "NA": [
+   11
+  ],
+  "frozen": [
+   0
+  ],
+  "f": 1,
+  "omega": 4,
+  "def": 1,
+  "k": 3,
+  "failing_states": [
+   [
+    [
+     11
+    ],
+    [
+     12
+    ],
+    [
+     3,
+     7
+    ],
+    [
+     4,
+     8
+    ],
+    [
+     5,
+     9
+    ]
+   ]
+  ],
+  "repair": {
+   "bases": [
+    [
+     0,
+     2
+    ],
+    [
+     1,
+     12
+    ],
+    [
+     3,
+     7
+    ],
+    [
+     11
+    ],
+    [
+     5,
+     9
+    ]
+   ],
+   "def": 0,
+   "move": "role swap with a growing helper (not R_C): agent 0 (frozen on 11, which agents 2 and 3 need) releases 11 for {0, 2} and becomes free; agent 3 takes {11} and freezes; helper 1 grows {12} -> {1, 12}; NA = {11} kept. T3+ requires the helper to give up a good. At distance 4, e.g. ({9}, {1,6}, {3,7}, {11}, {12}) with def -1: a role swap with two helpers (agents 1 and 4)"
+  },
+  "key_form": {
+   "state": [
+    [
+     11
+    ],
+    [
+     6,
+     10
+    ],
+    [
+     12
+    ],
+    [
+     4,
+     8
+    ],
+    [
+     5,
+     9
+    ]
+   ],
+   "def": 1,
+   "to": [
+    [
+     9
+    ],
+    [
+     6,
+     10
+    ],
+    [
+     11
+    ],
+    [
+     4,
+     8
+    ],
+    [
+     12
+    ]
+   ],
+   "to_def": -1,
+   "move": "a T3 (= T3+ with W empty) move from another state of P's key (def* = 1): x = 0 -> {9}, z = 2 -> {11}, helper 4 {5,9} -> {12}; the key reached has def* = -1, so DL on the key graph holds"
+  }
+ },
+ "expect_fail": [],
+ "notes": "Found by k4/dlrc.c (compute/k4-rc, hunt ranked_pure) and confirmed by k4/dlrc_ref.py (results/k4_rc/ref_rc_fail_hunt_ranked_pure.log, ref_rc_fail_all.log), k4/dlrt4_ref.py on k4/suite/model.py (DL_RT4 = DL_RC at f = 1; ref_rt4_rc_fail_hunt_ranked_pure.log), k4/rt4_n5_indep.py (results/k4_rc/indep_check.log) and compute/k4-portfolio's harness (results/k4_rc/portfolio_rc45.log). Agent 0: 0:3 2:5 9:6 11:7; agent 1: 1:6 6:5 10:4 12:8; agent 2: 3:2 7:3 11:8 12:4 (big-top); agent 3: 4:2 8:3 11:8 12:4 (big-top); agent 4: 5:6 9:4 10:1 12:8. sigma = -3, f = 1, omega = 4; 129 min-frozen P in three keys (agent 0, 2 or 3 frozen on 11), 45 with def > 0, DL_RC fails at 1 (P). The simplest failing profile of core 4604 found (largest value 8, value sum 97); the 369 failing profiles of the hunt all fail at this P (results/k4_rc/FAILURES.md §1). Smaller m: deleting one or two goods gives no failure (rc_shrink1.log, rc_shrink_any.log). DL_RC with T3+'s helper unrestricted (K4.DL2.RCY) holds here (the nearest repair is then allowed); it fails at rc-n5m12-f2. Check with python3 k4/suite/run.py --pred=k4/rc_pred.py:rc_c (and :rc_indep), which must give FAILS, and :keyplus_c, :rcy_indep, which must give holds (results/k4_rc/suite_rc_pred.log); k4/rt4_pred.py's *_x predicates say n/a (m = 13 > 12)."
+}

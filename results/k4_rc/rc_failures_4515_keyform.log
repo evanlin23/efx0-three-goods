@@ -1,0 +1,9 @@
+# key-form witness for the simplest failing profile of core 4515 (dlrc_ref.py model)
+f = 2 ; min-frozen class 206 states, 4 keys; the failing key ((4, 9), ((4,), (), (), (), (9,))) has 60 states, deficits [(1, 60)]
+key-form witnesses (a state of the key, a T3+ or T4 move to a key with smaller def*): 992
+   ([[4], [10], [3], [6, 7], [9]], 1, [[2, 8], [10], [3], [4], [9]], 0, -1, ['t3p'], 0)
+   ([[4], [10], [3], [6, 7], [9]], 1, [[2, 8], [1, 11], [3], [4], [9]], -1, -1, ['t3h'], 0)
+   ([[4], [10], [3], [6, 7], [9]], 1, [[0], [10], [3], [4], [9]], 0, -1, ['t3p'], 0)
+   ([[4], [10], [3], [6, 7], [9]], 1, [[0, 8], [10], [3], [4], [9]], 0, -1, ['t3p'], 0)
+   ([[4], [10], [3], [6, 7], [9]], 1, [[0], [8, 11], [3], [4], [9]], 1, -1, ['t3h'], 0)
+T3+ moves from the failing state by (2 = T3+ / 1 = weak, |W|, def of the target): {(2, 0, 1): 10}

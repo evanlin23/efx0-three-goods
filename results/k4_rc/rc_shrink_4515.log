@@ -1,0 +1,3 @@
+# command: python3 k4/dlrc_shrink.py results/k4_rc/rc_failures_4515_inst.json results/k4_rc/rc_shrink_4515_inst.json --depth=2 --any
+# dlrc.c sha256 f1cf4cc169a347625e5a84bd9c7a8c218f791de6e2a7ce466f59ce357000b1f7
+# 209 smaller profiles evaluated, 0 with a DL_RC failure (m: [])

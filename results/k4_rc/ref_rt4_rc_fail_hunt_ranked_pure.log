@@ -1,0 +1,6 @@
+# command: python3 k4/dlrt4_ref.py inst results/k4_rc/rc_fail_hunt_ranked_pure_inst.json --jobs=2
+#  45 / 45 profiles: {'prof': 45, 'prof_pos': 45, 'prof_f1': 45, 'st': 2025, 'st_f1': 2025, 'f1_t1': 630, 'f1_t2': 630, 'f1_t3p': 1665, 'f1_t3h': 1980, 'fail_f1': 45}
+# dlrt4.c sha256 fcde494a3161279d47a7b80e614f69c58894ebc7b40d00e461f677b8810d7cae
+profiles 45 (with a def > 0 state 45, with an f >= 1 state 45); states 2025 (f = 0: 0, f >= 1: 2025); DL_RT4 failures f >= 1: 45, RT4 failures f = 0: 0
+f >= 1 states with an improving move: T1 630, T2 630, T3p 1665, T3h 1980, T4 0; only T4 0, only T2 0
+mismatches: reference (model.py + dl2_relations.py + own T4) 0, reference assertions 0, dl13.c (K line and T1/T3 per state) 0 + 0, -DBIGPP=0 build 0, xcheck (dl134_xcheck.py, 0 states) -
