@@ -552,19 +552,20 @@ p ∈ L ⊆ X_τ₁ and no C-pair exists, so v_x(p) < v_x(q) + v_x(r) by (i). Th
 some good of U_x is valued by another agent. At n = 3 that agent is τ₁ or τ₂, which contradicts
 U_x ∩ (U_τ₁ ∪ U_τ₂) = ∅. ∎
 
-**Relation to Theorems W and K.** When T = {τ₁, τ₂} ⊆ V, P_Q is in setting (H): two needers, both big-top on g. Then
-Lemmas C and C′ at P_Q are special cases of Corollary G1:
-- Lemma C is a plain swap with owner o = τ₂ and C = ∅;
-- Lemma C′ is a plain swap with C = {w} and κ = 1.
+**Relation to Lemma G and Theorem K.** At P_Q the junk is L together with the *fillers*, the goods of the pairs Q_y
+outside U_y. Lemmas C and C′ are plain swaps of Corollary G1 at P_Q:
+- Lemma C, with owner o: its bundle is Lemma G's Y with C := the fillers of x's new pair and of the pairs of the
+  agents other than o and τ₁. So |C| = (2 − |A|) + S_rest, and Lemma G gives def(P′) ≤ 0.
+- Lemma C′, with owner τ₂: the same C plus w, and κ = 1.
 
-Theorems W and K are structural versions of the same two moves, with the budget of Lemma G. The third agents' threats
-may then be removed within their own slots ("tame"), instead of being absent ((H), (H′)). In particular:
-- (K1)'s second half, L_o ∩ B_T = ∅, always holds here, because U_τ₂ ⊆ X_τ₂ = Q_τ₂ ∪ L misses every third agent's
-  base;
-- the U_τ₁-condition of (K2) holds with C ∋ w as in (ii).
+When T = {τ₁, τ₂} ⊆ V, P_Q is in setting (H): two needers, both big-top on g. There Theorem K is the structural
+version of Lemma C′ with Lemma G's full budget: the third agents' threats may be removed within their own slots
+("tame") instead of being absent ((H′)). Two of its hypotheses hold automatically here:
+- (K1)'s second half, L_o ∩ B_T = ∅: U_τ₂ ⊆ X_τ₂ = Q_τ₂ ∪ L misses every third agent's base;
+- the U_τ₁-condition of (K2), with C ∋ w as in (ii).
 
-So at a Z′-maximum with two θ-b terminal leaves, outside (E), Theorem K's hypotheses reduce to the existence of a pair
-avoiding c_τ₂ (Lemma P (ii)) and the tameness of the third agents.
+So outside (E), with two θ-b terminal leaves, the pairs are not the obstacle. What Lemmas C and C′ still need is (H)
+or (H′). Theorem K needs a C′-type pair and the tameness of the third agents.
 
 **Data** (`k4/thetab_cover.py`, logs `results/k4_thetab/cover_*.log`). These are every case-(i) Z′-maximum of the
 non-completable f = 1 keys in PR #80's dumps:
@@ -604,7 +605,7 @@ What the data say:
   move reaches deficit ≤ 0, asserted against exact deficits. Its hypotheses are value conditions on the third agents
   with Lemma G's budget, and the structural (H*) and (H_B′*) are not needed.
 - **Every case-(i) maximum is covered by this file's lemmas at P_Q**, with a (T3) move without helper:
-  - W at 1,435 (all n = 3 maxima, by Corollary N3);
+  - W at 1,435, including every n = 3 maximum (Corollary N3);
   - K at 90;
   - G1 at 143.
 
@@ -614,8 +615,8 @@ What the data say:
   - Only a C′-pair with two θ-b terminal leaves: n = 4, m = 10, core #327 of `k4_certs_4_n4_3` (`n4_3_r40k`).
 
 **What remains of case (i).**
-- (E) at n ≥ 4. It needs x's three lower goods in the pool and valued by no terminal, so, by the core condition, valued
-  by third agents; it does not occur in the data.
+- (E) at n ≥ 4. It needs x's three lower goods in the pool and valued by no terminal, so, by the core condition, some
+  of them valued by third agents; it does not occur in the data.
 - The third-agent hypotheses (H) and (H′). They are where `k4/sx.md`'s structural forms fail (5 keys, n = 4). Their
   value form with Lemma G's budget, i.e. Theorem K and Corollary G1, holds at every case-(i) maximum of the data, but no
   proof derives it from the Z′-maximum.
