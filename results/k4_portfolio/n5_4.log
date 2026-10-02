@@ -2,3 +2,34 @@
 # portfolio_dump.c sha256 d549cd68387f58c47835a6254e53e340a8f018061a81456a2f2d89181ffaabd8; portfolio_preds.py sha256 36d4a391eddaab47e374f59780fefc09ffa35e60d2cbc3910a5a7494f6a28d18
 # 9846 units to run, 0 from the checkpoint; jobs 3
 #   unit {'file': 'k4_certs_5_n4_4.json.gz', 'pos': 199}: dumped 1 states 24 fails {'D2': 4} [0.0 s; 2 s wall]
+n5_4: profiles 39384000 (omega >= 1: 8390948), evaluated (f >= 1 with a state) 92992 (skipped as too large: 0); states 280604, keys with def* > 0 476; by f: {"1": {"keys_pos": 13, "profiles": 71233, "states": 225873}, "2": {"keys_pos": 83, "profiles": 20548, "states": 52011}, "3": {"keys_pos": 356, "profiles": 1210, "states": 2696}, "4": {"keys_pos": 24, "profiles": 1, "states": 24}}; 2161 s CPU
+  nearest distance of the states (f|k: count): 1|1: 225031, 1|2: 842, 2|1: 51271, 2|2: 740, 3|1: 2083, 3|2: 613, 4|2: 20, 4|3: 4
+  single RT4        tested   280604 FAILS      0 margin 1 | smallest repairs: 0|0|0|1 278385, 1|0|1|0 1282, 0|0|0|2 923, 0|2|0|0 10, 0|3|0|0 4
+  single RC3        tested   280604 FAILS      0 margin 4 | smallest repairs: 0|0|0|1 278385, 1|0|1|0 1282, 0|0|0|2 923, 0|2|0|0 10, 1|1|1|0 4
+  single RC_W1      tested   280604 FAILS      0 margin 4 | smallest repairs: 0|0|0|1 278385, 1|0|1|0 1282, 0|0|0|2 923, 0|2|0|0 10, 1|1|1|0 4
+  single RC         tested   280604 FAILS      0 margin 5 | smallest repairs: 0|0|0|1 278385, 1|0|1|0 1282, 0|0|0|2 923, 0|2|0|0 10, 1|1|1|0 4
+  single RC_noneed  tested   280604 FAILS      0 margin 5 | smallest repairs: 0|0|0|1 278385, 1|0|1|0 1282, 0|0|0|2 923, 0|2|0|0 10, 1|1|1|0 4
+  single RC_Yfree   tested   280604 FAILS      0 margin 5 | smallest repairs: 0|0|0|1 278385, 1|0|1|0 1282, 0|0|0|2 923, 0|2|0|0 10, 1|1|1|0 4
+  single RC_Yany    tested   280604 FAILS      0 margin 5 | smallest repairs: 0|0|0|1 278385, 1|0|1|0 1282, 0|0|0|2 923, 0|2|0|0 10, 1|1|1|0 4
+  single RC_U0      tested   280604 FAILS      0 margin 5 | smallest repairs: 0|0|0|1 278385, 1|0|1|0 1282, 0|0|0|2 923, 0|2|0|0 10, 1|1|1|0 4
+  single RC3_noT4   tested   280604 FAILS      0 margin 4 | smallest repairs: 0|0|0|1 278385, 1|0|1|0 1282, 0|0|0|2 923, 1|1|1|0 12, 1|0|1|1 2
+  single NA3        tested   280604 FAILS      0 margin 5 | smallest repairs: 0|0|0|1 278385, 1|0|1|0 1282, 0|0|0|2 923, 0|2|0|0 10, 1|1|1|0 4
+  single NA1        tested   280604 FAILS      0 margin 5 | smallest repairs: 0|0|0|1 278385, 1|0|1|0 1282, 0|0|0|2 923, 0|2|0|0 10, 1|1|1|0 4
+  single NAbal      tested   280604 FAILS      0 margin 5 | smallest repairs: 0|0|0|1 278385, 1|0|1|0 1282, 0|0|0|2 923, 0|2|0|0 10, 1|1|1|0 4
+  single NAall      tested   280604 FAILS      0 margin 5 | smallest repairs: 0|0|0|1 278385, 1|0|1|0 1282, 0|0|0|2 923, 0|2|0|0 10, 1|1|1|0 4
+  single U1Z1       tested   280604 FAILS      0 margin 5 | smallest repairs: 0|0|0|1 278385, 1|0|1|0 1282, 0|0|0|2 923, 0|2|0|0 10, 1|1|1|0 4
+  single D2         tested   280604 FAILS      4 margin 0 | smallest repairs: 0|0|0|1 278385, 1|0|1|0 1282, 0|0|0|2 923, 0|2|0|0 10 | smallest failure n=5 m=7 f=4 def=1 k4_certs_5_n4_4.json.gz#199:65,27,274,248,3 B=[[3], [1], [4], [5], [6]]
+  single D3         tested   280604 FAILS      0 margin 5 | smallest repairs: 0|0|0|1 278385, 1|0|1|0 1282, 0|0|0|2 923, 0|2|0|0 10, 1|1|1|0 4
+  single D4         tested   280604 FAILS      0 margin 5 | smallest repairs: 0|0|0|1 278385, 1|0|1|0 1282, 0|0|0|2 923, 0|2|0|0 10, 1|1|1|0 4
+  single FR3        tested   280604 FAILS      0 margin 5 | smallest repairs: 0|0|0|1 278385, 1|0|1|0 1282, 0|0|0|2 923, 0|2|0|0 10, 1|1|1|0 4
+  keyg   K1         tested      476 FAILS      0 margin 2 | smallest repairs: 1|0|1|0 464, 0|2|0|0 8, 0|3|0|0 4
+  keyg   K3b        tested      476 FAILS      0 margin 6 | smallest repairs: 1|0|1|0 464, 0|2|0|0 8, 1|1|1|0 4
+  keyg   K3b_noT4   tested      476 FAILS      0 margin 4 | smallest repairs: 1|0|1|0 464, 1|1|1|0 12
+  keyg   K3         tested      476 FAILS      0 margin 7 | smallest repairs: 1|0|1|0 464, 0|2|0|0 8, 1|1|1|0 4
+  keyg   K2         tested      476 FAILS      0 margin 13 | smallest repairs: 1|0|1|0 464, 0|2|0|0 8, 1|1|1|0 4
+  keyg   K2_noneed  tested      476 FAILS      0 margin 13 | smallest repairs: 1|0|1|0 464, 0|2|0|0 8, 1|1|1|0 4
+  keyg   K2_Yany    tested      476 FAILS      0 margin 13 | smallest repairs: 1|0|1|0 464, 0|2|0|0 8, 1|1|1|0 4
+  keyg   K4         tested      476 FAILS      0 margin 14 | smallest repairs: 1|0|1|0 464, 0|2|0|0 8, 1|1|1|0 4
+  keyg   K5         tested      476 FAILS      0 margin 19 | smallest repairs: 1|0|1|0 464, 0|2|0|0 8, 1|1|1|0 4
+  keyg   KU1        tested      476 FAILS      0 margin 14 | smallest repairs: 1|0|1|0 464, 0|2|0|0 8, 1|1|1|0 4
+# wrote results/k4_portfolio/n5_4.json; 730 s wall

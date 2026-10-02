@@ -1,3 +1,19 @@
 # command: python3 k4/portfolio_hunt.py --rounds=8 --slot=60 --jobs=1 --batch=24 --push --name=main
 # seeds fail10: 10
 # seeds hard: 12
+# seeds rcores: 12
+# seeds ext: 8
+# 42 seeds; predicates ['RC3_noT4', 'K3b_noT4', 'RC3', 'K3b', 'NA3', 'RC_W1', 'K3', 'RC', 'K2', 'RC_noneed', 'RC_Yfree', 'RC_Yany', 'K2_noneed', 'K2_Yany', 'RC_U0', 'NA1', 'K4', 'D3', 'FR3', 'U1Z1', 'NAall', 'K5', 'KU1', 'D4']; dead from the state file []
+# round 0: alive ['RC3_noT4', 'K3b_noT4', 'RC3', 'K3b', 'NA3', 'RC_W1', 'K3', 'RC', 'K2', 'RC_noneed', 'RC_Yfree', 'RC_Yany', 'K2_noneed', 'K2_Yany', 'RC_U0', 'NA1', 'K4', 'D3', 'FR3', 'U1Z1', 'NAall', 'K5', 'KU1', 'D4']; 48 tasks of 60 s on 1 jobs [0 s]
+  task r0:RC3_noT4:count:fail10:k4_certs_5_n4_4.json.gz#3206[m=9,idx=364]:108,86,1,108,27: steps 581 evals 13944 best objective [5, 0] fails 0 [60.0 s]
+  task r0:RC3_noT4:edge:fail10:k4_certs_5_n4_4.json.gz#3521[m=9,idx=679]:98,1,16,17,15: steps 623 evals 14952 best objective [0, 16] fails 0 [60.1 s]
+  task r0:K3b_noT4:count:fail10:k4_certs_5_pure.json.gz#2614[m=10,idx=568]:6,11,45,0,4: steps 520 evals 12480 best objective [16, 0] fails 0 [60.2 s]
+  task r0:K3b_noT4:edge:fail10:k4_certs_5_pure.json.gz#2614[m=10,idx=568]:1,11,39,16,0: steps 547 evals 13128 best objective [0, 16] fails 0 [60.0 s]
+  task r0:RC3:count:fail10:k4_certs_5_pure.json.gz#4170[m=12,idx=25]:4,8,16,22,43: steps 344 evals 8256 best objective [10, 0] fails 0 [60.2 s]
+  task r0:RC3:edge:fail10:k4_certs_5_pure.json.gz#4170[m=12,idx=25]:22,18,4,10,37: steps 322 evals 7728 best objective [0, 10] fails 0 [60.0 s]
+  task r0:K3b:count:fail10:k4_certs_5_pure.json.gz#4214[m=12,idx=69]:12,12,18,11,43: steps 492 evals 11808 best objective [56, 0] fails 0 [60.2 s]
+  task r0:K3b:edge:hard:k4_certs_4_pure.json.gz#123:7,196,11,3: steps 2098 evals 50352 best objective [63, 63] fails 0 [60.0 s]
+  task r0:NA3:count:hard:k4_certs_5_n4_4.json.gz#5474:6,107,1,40,51: steps 3307 evals 79368 best objective [3, 0] fails 0 [60.0 s]
+  task r0:NA3:edge:hard:dl134_xcheck_own.jsonl.gz#?:19,0,46,128: steps 4216 evals 101184 best objective [2, 4] fails 0 [60.0 s]
+  task r0:RC_W1:count:hard:k4_certs_4_n4_2.json.gz#92:77,73,3,3: steps 3586 evals 86064 best objective [6, 0] fails 0 [60.0 s]
+  task r0:RC_W1:edge:hard:dl13-n4m6-fswap: steps 6659 evals 159816 best objective [6, 6] fails 0 [60.0 s]
