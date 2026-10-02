@@ -1,0 +1,4 @@
+# lemmam_x_realize.py /tmp/claude-0/-home-user-efx0-three-goods/891575f8-e905-5025-9feb-2c6293ea3e11/scratchpad/lmx/ex_n234_bad.txt --cand=r
+23216 one block / a' in a's block / neither  e.g. [[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 6, 8], [3, 5, 7, 6], [2, 3, 4, 8]], 0, 2]
+1820 one block / a' in a's block / Psi+cycle  e.g. [[[0, 1, 2, 5], [2, 3, 4, 5], [3, 4, 5]], [[1, 4, 8, 6], [8, 2, 3, 4], [2, 3, 4]], 2, 1]
+1212 one block / a' in a's block / Psi  e.g. [[[0, 1, 2, 5], [2, 3, 4, 5], [3, 4, 5]], [[1, 4, 8, 6], [8, 3, 2, 4], [2, 3, 4]], 2, 1]

@@ -1,0 +1,2 @@
+# lemmam_x_check.py --adp=ADPBAD lines of the exhaustive -A44 run with d = 2 (all 96 leaves)
+runs (distinct leaves) 96 ; weighted (lemmam_x.c d, model d; 2 = more than one rotation): {(2, 2): 11520}

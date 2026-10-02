@@ -1,0 +1,22 @@
+# lemmam_x_adp.py --profiles=/tmp/claude-0/-home-user-efx0-three-goods/891575f8-e905-5025-9feb-2c6293ea3e11/scratchpad/lmx/Ht_rel.txt -Y1 -r1 # lemmam_x.c sha256 eac6b06d1052bd78
+H1: n=5 rotations needed after the adaptive run d=0 (cap 1; 2 = none found) every block count 0: True tau=2,0 block counts=0,0 time 0.0s
+H1 relabel 1: n=5 rotations needed after the adaptive run d=0 (cap 1; 2 = none found) every block count 0: True tau=3,2 block counts=0,0 time 0.0s
+H1 relabel 2: n=5 rotations needed after the adaptive run d=0 (cap 1; 2 = none found) every block count 0: True tau=0,2,3 block counts=0,0,0 time 0.0s
+H2: n=9 rotations needed after the adaptive run d=0 (cap 1; 2 = none found) every block count 0: True tau=2,0,6,7 block counts=0,0,0,0 time 0.0s
+H2 relabel 1: n=9 rotations needed after the adaptive run d=0 (cap 1; 2 = none found) every block count 0: True tau=3,6,7 block counts=0,0,0 time 0.0s
+H2 relabel 2: n=9 rotations needed after the adaptive run d=0 (cap 1; 2 = none found) every block count 0: True tau=2,8,1 block counts=0,0,0 time 0.0s
+H3: n=13 rotations needed after the adaptive run d=0 (cap 1; 2 = none found) every block count 0: True tau=2,0,6,7,10,11 block counts=0,0,0,0,0,0 time 0.0s
+H3 relabel 1: n=13 rotations needed after the adaptive run d=0 (cap 1; 2 = none found) every block count 0: True tau=0,2,5,6,7,8 block counts=0,0,0,0,0,0 time 0.0s
+H3 relabel 2: n=13 rotations needed after the adaptive run d=0 (cap 1; 2 = none found) every block count 0: True tau=3,9,11,2,12,1 block counts=0,0,0,0,0,0 time 0.0s
+H4: n=17 rotations needed after the adaptive run d=0 (cap 1; 2 = none found) every block count 0: True tau=2,0,6,7,10,11,14,15 block counts=0,0,0,0,0,0,0,0 time 0.0s
+H4 relabel 1: n=17 rotations needed after the adaptive run d=0 (cap 1; 2 = none found) every block count 0: True tau=1,5,6,8,10,14,7,9,16 block counts=0,0,0,0,0,0,0,0,0 time 0.0s
+H4 relabel 2: n=17 rotations needed after the adaptive run d=0 (cap 1; 2 = none found) every block count 0: True tau=0,3,5,9,13,6,14,16 block counts=0,0,0,0,0,0,0,0 time 0.0s
+H5: n=21 rotations needed after the adaptive run d=0 (cap 1; 2 = none found) every block count 0: True tau=2,0,6,7,10,11,14,15,18,19 block counts=0,0,0,0,0,0,0,0,0,0 time 1.0s
+H5 relabel 1: n=21 rotations needed after the adaptive run d=0 (cap 1; 2 = none found) every block count 0: True tau=0,7,1,9,10,4,12,13,17,18 block counts=0,0,0,0,0,0,0,0,0,0 time 0.7s
+H5 relabel 2: n=21 rotations needed after the adaptive run d=0 (cap 1; 2 = none found) every block count 0: True tau=1,11,12,9,16,15,18,13,19,4,20 block counts=0,0,0,0,0,0,0,0,0,0,0 time 0.9s
+  profiles 15; every block count 0: 15
+  rotations d needed after the adaptive run (0, 1, ..., cap, none within the cap): [15, 0, 0]
+  ... among the runs with every block count 0: [15, 0, 0]
+  runs with d >= 1 whose last block has count 1: 0
+  runs where some block other than the last has count > 0 (the local step fails there): 0; their d: [0, 0, 0]
+  local exchange: insertion steps (weighted) where index order's block is not the last and has count > 0: 42; the block of its overloaded end has count 0: 18; some agent's block has count 0: 42

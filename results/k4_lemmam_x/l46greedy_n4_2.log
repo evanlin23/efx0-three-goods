@@ -1,0 +1,5 @@
+# lemmam_x_l46greedy.py results/k4_certs_4_n4_2.json.gz -Y1 -r1 # lemmam_x.c sha256 ea801dd6ee8ba1fb
+(L1∃) histogram (d = 0, 1, ..., cap; none certified; no sequence): [724547466, 234430, 0, 65720]
+profiles with no sequence: 65720 (weighted), 12360 leaves, cores [77, 123, 137, 141, 143, 144, 167, 170, 174, 175, 178, 182, 186, 188, 189, 216, 227, 228, 230, 232, 233, 246, 248, 250, 252, 253, 261, 262, 263, 264, 266, 267, 271, 272, 273, 274, 279, 287, 292, 293, 294, 295, 296, 297, 300, 301, 303, 304, 305, 306, 307, 308]
+greedy rotations d on those profiles (weighted): {0: 65720}
+smallest: m = 6, core 77: sets=[[0,2,5],[0,3,4,5],[1,2,4,5],[1,3,5]] vals=[[2,4,3],[5,2,8,4],[5,2,8,4],[2,4,3]]

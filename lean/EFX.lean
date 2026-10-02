@@ -52,3 +52,4 @@ import EFX.KeyFrame
 import EFX.MovesC
 import EFX.MovesCExamples
 import EFX.RuleFK
+import EFX.Adaptive
