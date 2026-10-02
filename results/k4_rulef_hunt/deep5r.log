@@ -7,3 +7,5 @@
 [     23s] units 4/294 evals 800596 (34548/s) est. total 28.4 min; best nwork per unit {1: 4}; tight profiles 1600; best key [1, 100, 0] at seed1
 [     67s] units 8/294 evals 1601216 (24036/s) est. total 40.8 min; best nwork per unit {1: 4, 2: 4}; tight profiles 1600; best key [1, 100, 0] at seed1
 [   1019s] units 200/294 evals 40025888 (39277/s) est. total 25.0 min; best nwork per unit {1: 5, 2: 74, 3: 121}; tight profiles 2200; best key [1, 100, 0] at seed1
+[   1395s] units 294/294 evals 58837302 (42180/s) est. total 23.2 min; best nwork per unit {1: 5, 2: 79, 3: 210}; tight profiles 2200; best key [1, 100, 0] at seed1
+# finished: units 294 this session, evals 58837302, tight profiles dumped 2200, time 1395s
