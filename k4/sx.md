@@ -206,37 +206,40 @@ So X_o threatens nobody in Q′.
 disjoint from Q_τ. x: {g} → Q′_x ∩ U_x ⊆ X_o ⊆ H_o ∪ J. ∎
 
 **Lemma B′ (the modified path move).** As Lemma B, but o is of kind (R) with s_o ∈ L: R_o = {a, p, q, s},
-Q_o = {p, q}, a ∈ Q_{q_{k−1}} = {a, y}. Assume (H_B′): no agent other than x values y, and
-X″ := (X_o ∖ {s}) ∪ {y} contains a pair for x. Q″: as Q′ of Lemma B, except that o holds {a, s}, x holds a pair for x
-inside X″, and the pool is X″ minus that pair. Then x is a valid owner of Q″ with C = ∅. For k = 1 the move is (T3) with
-helper o.
+Q_o = {p, q}, a ∈ Q_{q_{k−1}} = {a, y}. Let X″ := (X_o ∖ {s}) ∪ {y}, and assume it contains a pair for x. Q″: as Q′ of
+Lemma B, except that o holds {a, s}, x holds a pair for x inside X″, and the pool is X″ minus that pair. Assume
+(H_B′): X″ threatens no agent other than x and o in Q″. Then x is a valid owner of Q″ with C = ∅. For k = 1 the move is
+(T3) with helper o. (H_B′) holds in particular under (H_B′*): no agent other than x values y.
 
-*Proof.* {a, s} contains o's top, so it is admissible, and the pairs are disjoint and cover M′. For every agent w ∉ {x, o}:
-y ∉ R_w, so θ_w(X″) ≤ v_w(X″ ∖ y) = v_w(X_o ∖ s) ≤ θ_w(X_o). Removing the worthless y is optimal, and X_o ∖ s is one of
-the sets in the maximum defining θ_w(X_o). Every bound of the proof of Lemma B for w ≠ o is a bound on θ_w(X_o), so it
-carries over. For o holding {a, s}: L ∩ R_o ⊆ {s} (pool-optimality puts a outside L, and p, q are o's), and y ∉ R_o.
-So X″ ∩ R_o = {p, q}, and θ ≤ p + q < a + s. ∎
+*Proof.* {a, s} contains o's top, so it is admissible, and the pairs are disjoint and cover M′. For o holding {a, s}:
+L ∩ R_o ⊆ {s} (pool-optimality puts a outside L, and p, q are o's), and y ∉ R_o. So X″ ∩ R_o = {p, q}, and
+θ ≤ p + q < a + s. The other agents are (H_B′).
+
+For (H_B′*) ⟹ (H_B′): let w ∉ {x, o}. Then y ∉ R_w, so θ_w(X″) ≤ v_w(X″ ∖ y) = v_w(X_o ∖ s) ≤ θ_w(X_o). Removing the
+worthless y is optimal, and X_o ∖ s is one of the sets in the maximum defining θ_w(X_o). Every bound of the proof of
+Lemma B for w ≠ o is a bound on θ_w(X_o), so it carries over. ∎
 
 **Lemma C (another leaf owns).** Let τ₁ be a terminal with θ-b(τ₁) that threatens no free agent, and o ≠ τ₁ a free agent
 that threatens no free agent. Let P_x ⊆ X_{τ₁} be a pair for x that is robust for x (v_x(P_x) ≥ v_x(U_x ∖ P_x)) and
-meets U_{τ₁}. Assume (H): no agent other than x, o and τ₁ values a good of Q_{τ₁} ∖ P_x. Q′: τ₁ holds g, x holds
-P_x, every other free agent keeps its pair, and the pool is X_{τ₁} ∖ P_x. Then o is a valid owner of Q′ with C = ∅, and
-P_Q → P_{Q′} is a (T3) move with z = τ₁ and no helper.
+meets U_{τ₁}. Let Y := Q_o ∪ (X_{τ₁} ∖ P_x), and assume (H): Y threatens no free agent other than o and τ₁. Q′: τ₁
+holds g, x holds P_x, every other free agent keeps its pair, and the pool is X_{τ₁} ∖ P_x. Then o is a valid owner of
+Q′ with C = ∅, and P_Q → P_{Q′} is a (T3) move with z = τ₁ and no helper. (H) holds in particular under (H*): no agent
+other than x, o and τ₁ values a good of Q_{τ₁} ∖ P_x.
 
-*Proof.* Q′ is a candidate for τ₁. o's bundle is Y = Q_o ∪ (X_{τ₁} ∖ P_x), which contains H_o.
+*Proof.* Q′ is a candidate for τ₁. o's bundle is Y, which contains H_o.
 - x holding P_x: Y ∩ R_x ⊆ U_x ∖ P_x, and P_x is robust.
 - τ₁ holding g: U_{τ₁} ⊆ X_{τ₁} misses Q_o, so Y ∩ R_{τ₁} ⊆ U_{τ₁} ∖ P_x, which has at most two goods since P_x
   meets U_{τ₁}. Such a set is worth at most v(u₁) + v(u₂) < v_{τ₁}(g) (big-top).
-- Any other free y: by (H), Y ∩ R_y ⊆ X_o ∩ R_y. X_o ⊄ R_y: |X_o| = ω + 2 ≥ 4, and X_o = R_y would leave y's pair
-  without a good of U_y. Then θ_y(Y) ≤ v_y(Y ∩ R_y) ≤ v_y(X_o ∩ R_y) = θ_y(X_o) ≤ v_y(Q_y).
+- Any other free y: (H). For (H*) ⟹ (H): by (H*), Y ∩ R_y ⊆ X_o ∩ R_y. X_o ⊄ R_y: |X_o| = ω + 2 ≥ 4, and X_o = R_y
+  would leave y's pair without a good of U_y. Then θ_y(Y) ≤ v_y(Y ∩ R_y) ≤ v_y(X_o ∩ R_y) = θ_y(X_o) ≤ v_y(Q_y).
 
 The move changes τ₁ (needs g) and x (new base P_x ∩ U_x ⊆ X_{τ₁} ⊆ H_{τ₁} ∪ J) only. ∎
 
 **Lemma C′ (two terminals, paid for by unfreezing).** Let the terminals be exactly τ₁ ≠ τ₂, with θ-b(τ₁), and let τ₂
 threaten no free agent. Let P ⊆ X_{τ₁} be a pair for x, robust for x, with v_x(P) > v_x(g). Let w ∈ U_{τ₁} ∖ P, and
-Y := (X_{τ₂} ∪ Q_{τ₁}) ∖ (P ∪ {w}) with U_{τ₂} ⊆ Y. Assume (H′): no agent other than x, τ₁, τ₂ values a good of
-Q_{τ₁} ∖ (P ∪ {w}). Let P′ be P_Q with τ₁ on {g} and x on P ∩ U_x. Then def(P′) ≤ 0, and P_Q → P′ is a (T3) move with
-z = τ₁ and no helper.
+Y := (X_{τ₂} ∪ Q_{τ₁}) ∖ (P ∪ {w}) with U_{τ₂} ⊆ Y. Assume (H′): Y threatens no free agent other than τ₁ and τ₂.
+Let P′ be P_Q with τ₁ on {g} and x on P ∩ U_x. Then def(P′) ≤ 0, and P_Q → P′ is a (T3) move with z = τ₁ and no
+helper. (H′) holds in particular under (H′*): no agent other than x, τ₁, τ₂ values a good of Q_{τ₁} ∖ (P ∪ {w}).
 
 *Proof.* By `k4/dl2.md` Lemma 6 (K4.DL2.MOVES), P′ is min-frozen with frozen agent τ₁: τ₁ needs g, and P ∩ U_x is
 admissible. Y is a bundle of τ₂ in P′. It contains H_{τ₂} ⊆ Q_{τ₂}, since P and w lie in X_{τ₁}, which misses Q_{τ₂}.
@@ -244,7 +247,7 @@ Its other goods lie in (Q_{τ₂} ∖ H_{τ₂}) ∪ L ∪ (Q_{τ₁} ∖ P) ⊆
 contains P ∪ {w} ⊆ X_{τ₁}, so |Y| = ω + 1. Safety in P′:
 - τ₁ holding g: Y ∩ R_{τ₁} ⊆ U_{τ₁} ∖ {w}.
 - x: P is robust.
-- A third y: (H′) and the argument of Lemma C.
+- A third y: (H′). (H′*) ⟹ (H′) by the argument of Lemma C, with τ₂ ∈ V and |X_{τ₂}| ≥ 4.
 
 τ₁ is counted in u_{τ₂}(Y) (`k4/dl2.md` §4): U_{τ₂} ⊆ Y gives v_{τ₂}(Y) > v_{τ₂}(g) by balance, so g ∉ N_{τ₂}(Y). Also
 g ∉ N_x(P ∩ U_x) because v_x(P) > v_x(g), N_{τ₁}({g}) = ∅, and no other agent needs g. Lemma H1 (K4.HALL.COVER):
@@ -350,10 +353,17 @@ At every Z′-maximum of every non-completable key of §4.1 (`results/k4_sx/zpri
 
 Theorem 1 reduces DL on the key graph at f = 1 to one statement:
 
-> **Conjecture K4.SX.COVER.** At every Z′-maximum of every non-completable key with f = 1, one of Lemmas A, B (k = 1),
-> B′ (k = 1), C, C′ applies.
+> **Conjecture K4.SX.COVER.** At some Z′-maximum of every non-completable key with f = 1, one of Lemmas A, B (k = 1),
+> B′ (k = 1), C, C′ applies, with the exact hypotheses (H_B′), (H), (H′).
 
-It holds on every strict profile with n ≤ 3 and on the n = 4, 5 hunts (§4.2). Where a proof has to go, by Lemma F:
+Evidence:
+- It holds on every strict profile with n ≤ 3 and on the n = 4, 5 hunts (§4.2).
+- At n ≤ 3, and in the first n = 4, 5 hunts, it holds even at *every* Z′-maximum and with the structural hypotheses
+  (H_B′*), (H*), (H′*).
+- The structural form fails in the larger n = 4 hunt. There 5 Z′-maxima, each the unique maximum of its key, are covered
+  only with the exact hypotheses (`attempts/k4-sx-cover-structural.md`, K4.SX.X).
+
+Where a proof has to go, by Lemma F:
 1. *Some terminal is a leaf without θ-b.* Lemma A applies.
 2. *Every terminal leaf is θ-b.* Such a leaf is robust, hence an isolated vertex of the forest. Lemmas C and C′ need
    - a robust pair of x inside X_{τ₁} meeting U_{τ₁} (C), or worth more than g (C′);

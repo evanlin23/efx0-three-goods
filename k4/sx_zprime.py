@@ -145,6 +145,8 @@ def gpm_check(kp, k, c, V, T, X, nb_T3, cnt, ex, nex, tag):
                 cnt["%s Prop B' (modified path move) k=%d works=%s" % (tag, kk, okB2)] += 1
                 if okB2 and hB:
                     case.add("B1'" if kk == 1 else "Bk'")
+                elif okB2:      # the exact form (H_B'x): X'' threatens none of the agents other than x and o
+                    case.add("B1'x" if kk == 1 else "Bk'x")
                 continue
             # build the configuration at (g, tau)
             Q2 = dict(c.Q)
@@ -188,6 +190,7 @@ def analyse_key(kp, k, cnt, ex, nex, nb):
     mx = [c for c in cs if (rob(c), lev(c)) == best]
     ds = kp.dstar[k]; xt = xtype(I, x); om = I.omega
     cnt['keys'] += 1; cnt['keys xtype=%s' % xt] += 1
+    key_main = set()
     for c in mx:
         cnt['Zmax'] += 1
         Bs = tuple(gm if i == x else (c.Q[i] & U[i]) for i in range(I.n))
@@ -253,7 +256,7 @@ def analyse_key(kp, k, cnt, ex, nex, nb):
         cnt['%s OS succeeds' % tag] += os_ok
         # Proposition C (a theta-b terminal leaf tau1 hands g over, x takes a robust pair P_x inside X_tau1 meeting U_tau1,
         # another leaf o owns Q_o ∪ (X_tau1 minus P_x)); hypothesis (H): that bundle threatens no free agent outside {o, tau1}
-        caseC = False; caseCH = False
+        caseC = False; caseCH = False; caseCx = False
         for t1 in VT:
             if not (bigtop_on(I, t1, g) and not (U[t1] & ~X[t1]) and om >= 2): continue
             key2 = tuple(g if i == t1 else None for i in range(I.n))
@@ -265,21 +268,24 @@ def analyse_key(kp, k, cnt, ex, nex, nb):
                     if I.val(x, Px) < I.val(x, U[x] & ~Px) or not Px & U[t1]: continue
                     Y = c.Q[o] | (X[t1] & ~Px)
                     hstar = not any(I.R[y] & c.Q[t1] & ~Px for y in free if y not in (o, t1))
+                    hexact = not any(I.threat(y, Y, c.hv(y)) for y in free if y not in (o, t1))
                     if hstar:
-                        assert not any(I.threat(y, Y, c.hv(y)) for y in free if y not in (o, t1)), "(H*) does not give (H)"
+                        assert hexact, "(H*) does not give (H)"
                     else:
-                        caseCH = True; continue
+                        caseCH = True
+                        if not hexact: continue
                     Q2 = dict(c.Q); del Q2[t1]; Q2[x] = Px
                     c2 = M.Config(I, key2, Q2)
                     assert key2 in kp.K and c2.owner(o) == 0, ('Proposition C failed', kp.d, k, repr(c), t1, o, Px)
                     b2 = list(Bs); b2[t1] = gm; b2[x] = Px & U[x]; b2 = tuple(b2)
                     assert b2 in kp.S and kp.D[b2] <= 0, 'Proposition C: the T3 image'
-                    caseC = True
+                    if hstar: caseC = True
+                    else: caseCx = True
         cnt['%s Prop C applies=%s (only (H) missing=%s)' % (tag, caseC, caseCH and not caseC)] += 1
         # Proposition C' (two terminals, both leaves, tau1 theta-b): T = {tau1, tau2}; x takes a robust pair P inside
         # X_tau1 worth more than g to x; tau2 owns Y = (X_tau2 ∪ Q_tau1) minus P and one good w of U_tau1 outside P,
         # with U_tau2 ⊆ Y (tau2 stops needing g, tau1 is unfrozen); (H'): Y threatens no free agent outside {tau1, tau2}
-        caseC2 = False; caseC2H = False
+        caseC2 = False; caseC2H = False; caseC2x = False
         if len(T) == 2 and set(T) <= set(V):
             for t1 in T:
                 t2 = next(z for z in T if z != t1)
@@ -292,15 +298,18 @@ def analyse_key(kp, k, cnt, ex, nex, nb):
                         Y = (X[t2] | c.Q[t1]) & ~Px & ~(1 << w)
                         if U[t2] & ~Y: continue
                         hstar = not any(I.R[y] & c.Q[t1] & ~Px & ~(1 << w) for y in free if y not in (t1, t2))
+                        hexact = not any(I.threat(y, Y, c.hv(y)) for y in free if y not in (t1, t2))
                         if hstar:
-                            assert not any(I.threat(y, Y, c.hv(y)) for y in free if y not in (t1, t2)), "(H'*) does not give (H')"
+                            assert hexact, "(H'*) does not give (H')"
                         else:
-                            caseC2H = True; continue
+                            caseC2H = True
+                            if not hexact: continue
                         b2 = list(Bs); b2[t1] = gm; b2[x] = Px & U[x]; b2 = tuple(b2)
                         assert b2 in kp.S, "Proposition C': the T3 image is not a state"
                         val = owner_value(kp.PA[b2], t2, Y)
                         assert val is not None and val >= om + 2 and kp.D[b2] <= 0, ("Proposition C' failed", kp.d, k, repr(c), t1, Px, w)
-                        caseC2 = True
+                        if hstar: caseC2 = True
+                        else: caseC2x = True
         cnt["%s Prop C' applies=%s (only (H') missing=%s)" % (tag, caseC2, caseC2H and not caseC2)] += 1
         case = gpm_check(kp, k, c, V, T, X, nb['T3'][k], cnt, ex, nex, tag)
         if os_ok_nothb: case.add('A')
@@ -308,14 +317,24 @@ def analyse_key(kp, k, cnt, ex, nex, nb):
         if caseC: case.add('C')
         if caseC2: case.add("C'")
         if caseCH: case.add('C-H')
+        if caseCx: case.add('Cx')
+        if caseC2x: case.add("C'x")
         cnt['%s cases %s' % (tag, ','.join(sorted(case)) or 'none')] += 1
-        main_case = next((cc for cc in ('A', 'B1', 'C', "C'", "B1'", 'Bk-adj', 'Bk-nonadj', "Bk'") if cc in case), 'rest')
+        main_case = next((cc for cc in ('A', 'B1', 'C', "C'", "B1'", 'Cx', "C'x", "B1'x", 'Bk-adj', 'Bk-nonadj', "Bk'", "Bk'x")
+                          if cc in case), 'rest')
         cnt['MAIN CASE %s' % main_case] += 1
+        key_main.add(main_case)
         if main_case == 'rest' and len(ex['rest']) < nex: ex['rest'].append((kp.d, k, repr(c), 'V', V, 'T', T, sorted(case)))
         if regime == 'I' and not os_ok and len(ex['I-no-OS']) < nex:
             ex['I-no-OS'].append((kp.d, k, repr(c), 'V', V, 'T', T, sorted(kinds)))
         if regime == 'II' and len(ex['II']) < nex:
             ex['II'].append((kp.d, k, repr(c), 'V', V, 'T', T, 'thx', thx, 't', t, xt, sorted(kinds)))
+    first = ('A', 'B1', 'C', "C'", "B1'")
+    exact = first + ('Cx', "C'x", "B1'x")
+    cnt['KEYS: some Z-max covered by A, B1, C, C\', B1\' (structural hypotheses) = %s' % bool(key_main & set(first))] += 1
+    cnt['KEYS: some Z-max covered with the exact hypotheses = %s' % bool(key_main & set(exact))] += 1
+    cnt['KEYS: every Z-max covered (structural) = %s' % (not (key_main - set(first)))] += 1
+    if not key_main & set(exact) and len(ex['key-uncovered']) < nex: ex['key-uncovered'].append((kp.d, k))
 
 
 def main(argv):

@@ -11,6 +11,8 @@ through k4/sx_xcheck.py (its own enumeration of 𝒫 and the direct removal-only
    another owner; what fails is the proof's owner).
 3. Lemma A⁺ at every non-completable f >= 2 key (attempts/k4-sx-aplus-f3.md): at an n = 5, f = 3 key of
    compute/k4-rt4-n5c no maximum of (r', Λ') satisfies the hypotheses of Lemma A⁺ (k4/sx.md §6).
+4. K4.SX.COVER with the structural hypotheses (H*), (H'*), (H_B'*) (attempts/k4-sx-cover-structural.md): at an
+   n = 4, m = 9 key no Z′-maximum is covered that way; with the exact hypotheses Lemma C applies.
 usage: python3 attempts/k4_sx_attempts.py"""
 import itertools, os, sys
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -99,8 +101,32 @@ def case3():
     return good
 
 
+def case4():
+    """K4.SX.COVER with the structural hypotheses (H*), (H'*), (H_B'*): n = 4, m = 9, the unique Z′-maximum of a
+    non-completable key satisfies none of A, B (k = 1), B' (k = 1) with (H_B'*), C with (H*), C' with (H'*); with the
+    exact hypotheses (H), (H_B') Lemma C applies"""
+    d = {'sets': [[0, 2, 4, 5], [1, 3, 4, 8], [3, 6, 7, 8], [5, 6, 7, 8]],
+         'vals': [[4, 5, 8, 2], [3, 4, 2, 8], [6, 2, 3, 10], [6, 3, 5, 7]], 'm': 9}
+    key = '-,-,-,8'
+    import collections
+    import sx_zprime
+    kp = KeyProfile(d)
+    f, xr = keygraph(d['sets'], d['vals'], d['m'])
+    ds = (kp.dstar[kt(key)], xr[key]['def*'])
+    cnt = collections.Counter(); ex = collections.defaultdict(list)
+    nb = kp.neighbours()
+    sx_zprime.analyse_key(kp, kt(key), cnt, ex, 0, nb)
+    struct = cnt["KEYS: some Z-max covered by A, B1, C, C', B1' (structural hypotheses) = False"] == 1
+    exact = cnt['KEYS: some Z-max covered with the exact hypotheses = True'] == 1
+    good = ds == (1, 1) and struct and exact and cnt['Zmax'] == 1
+    print('4. K4.SX.COVER with structural hypotheses (n = 4, m = 9): def* = %s (model, c4x_check); Z′-maxima %d; '
+          'covered with (H*): %s; with the exact (H): %s; DLK (T3) holds: %s  %s'
+          % (ds, cnt['Zmax'], not struct, exact, xr[key]['DLK_T3'], 'CONFIRMED' if good else 'NOT CONFIRMED'))
+    return good
+
+
 def main():
-    ok = [case1(), case2(), case3()]
+    ok = [case1(), case2(), case3(), case4()]
     print('ALL CONFIRMED' if all(ok) else 'SOME NOT CONFIRMED')
 
 
