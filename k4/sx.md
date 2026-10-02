@@ -349,6 +349,34 @@ At every Z′-maximum of every non-completable key of §4.1 (`results/k4_sx/zpri
   `k4/sx_keygraph.py` on every key's def* and on the DLK verdicts of all four edge sets. It ran on #53's n = 3 catalogue
   dump and samples of the n = 4 hunts, with 0 mismatches (`results/k4_sx/xcheck_*.log`).
 
+### 4.3 The key graph on #53's catalogues and on the T1-stuck profiles of `k4/dl13.md`
+
+`k4/sx_keygraph.py` computes every key, its def*, and its neighbours for the four edge sets. DLK fails for **no** edge set
+on any of these inputs, and SKG (a neighbour with def* ≤ 0) holds wherever a key has def* > 0. Sources:
+`results/k4_sx/keys_summary.md` and the logs under `results/k4_sx/chunks/`; T1-stuck profiles:
+`results/k4_sx/t3stage/keys.log`.
+
+| input | profiles (f ≥ 1, ω ≥ 1) | keys | keys with def* > 0 |
+|---|---|---|---|
+| #53's n = 3 catalogue, every record (f = 1) | 74,256 | 147,658 | 1,204 |
+| n = 4, one 4-good agent, every record (f = 1, 2) | 44,388 | 53,128 + 55,232 | 0 |
+| n = 4, two 4-good agents, 4,000 per core (f = 1, 2) | 36,164 | 60,422 + 11,190 | 0 |
+| n = 4, three 4-good agents / pure, 4,000 per core, the f = 2 records | 3,023 / 1,767 | 10,025 / 5,704 | 3 / 7 |
+| n = 4 hunts (three / four 4-good agents), the f = 2 records; hard hunt | 58 / 332; 117 | 254 / 1,412; 450 | 1 / 41; 15 |
+| profiles of the 13,971 T1-stuck state records of `k4/dl13.md` §1 (n ≤ 5, f = 1, 2, 3) | 2,674 | 7,216 | 1,241 / 191 / 5 (f = 1 / 2 / 3) |
+
+On the T1-stuck profiles (`results/k4_sx/t3stage/zprime_f1.log`), every Z′-maximum of each of the 1,241
+non-completable f = 1 keys is covered by Lemma A, B, C or C′ with the structural hypotheses: A 1,133, B 80, C 539,
+C′ 4 of 1,756 maxima. So every T3-stage state of `k4/dl13.md` §2.3 at f = 1 lies in a key that these lemmas repair. The
+second implementation agrees on def* and on the DLK verdicts:
+- #53's n = 3 catalogue: 1,204 keys with def* > 0 (`results/k4_sx/xcheck_gap_n3.log`);
+- every 50th n = 3 hunt profile: 1,246 (`xcheck_hunt_n3.log`);
+- the n = 4 hunts: 299 (`xcheck_hunt_n4.log`);
+- the T1-stuck profiles with m ≤ 10: 1,412 (`t3stage/xcheck.log`);
+- the f = 3 profiles: 41 (`f2/xcheck_rt4_n5*.log`).
+
+0 mismatches.
+
 ## 5. What remains at f = 1
 
 Theorem 1 reduces DL on the key graph at f = 1 to one statement:
@@ -480,6 +508,14 @@ maxima have no direct (T3) repair but a (T3⁺) one. At n5c, Lemma A⁺ applies 
 owner's bundle threatens two frozen agents (35 owner–maximum pairs), or the owner at the chain's end is threatened by
 its own bundle (35 chains, the analogue of θ-b). DLK with (T3⁺) ∪ (T4) edges holds at all of them (`k4/sx_keygraph.py`,
 `k4/sx_xcheck.py`). The repairs there have the shape of Lemmas C and C′: another free-valid owner owns after the swap.
+
+The f = 2 keys with def* > 0 of §4.3 give the same picture. Lemma F⁺ held at every maximum (asserted by `k4/sx_f2.py`)
+and DLK with every edge set holds. The coverage by Lemmas A⁺, B⁺ is partial, and is not proved to be complete:
+
+| input | keys (maxima) | A⁺ or B⁺ at some maximum | why not, per maximum without either (an owner–maximum may count twice) |
+|---|---|---|---|
+| f = 2 keys of the n = 4 catalogues and hunts (`results/k4_sx/f2/catalogues_f2.log`) | 67 (110) | 18 keys | a leaf threatens two frozen agents 45; the free needers are off the path to the leaf 25; θ fails at the chain's end or an (R) leaf 18 |
+| T1-stuck profiles, f = 2, 3 (`results/k4_sx/t3stage/f2.log`) | 196 (411) | 156 keys | 41 / 13 / 18 |
 
 **What f ≥ 2 still needs.**
 - Lemma F⁺ gives the forest and the leaves. What is missing is the analogue of Lemma T, a *free* needer of a frozen
