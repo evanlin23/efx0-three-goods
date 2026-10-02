@@ -27,7 +27,7 @@ showed that a declaration added under `set_option debug.skipKernelTC true` is ne
 without warnings and has no axioms for `#print axioms` or `CheckAxioms.lean` to report; the tripwire refuses the
 option and the replay checker rejects such a declaration. On success the last line is
 
-    CHECK PASSED: 568 audited statements, 1351 theorems, standard axioms only
+    CHECK PASSED: 672 audited statements, 1505 theorems, standard axioms only
 
 CI runs it on every pull request (job `lean` in `.github/workflows/verify.yml`). In Claude Code on the web the
 session-start hook installs the toolchain (from GitHub when `release.lean-lang.org` is unreachable).
@@ -261,7 +261,50 @@ specializations) have exactly the types of `EFX.target`, `EFX.LB.corollaryD` (ch
   subset clause of (T1) is automatic (`EFX.C4min.moveT1_of_inP`), `x` takes a new base in (T3)
   (`EFX.C4min.moveT3_new_base`), and R₁₃ changes at most three bases (`EFX.C4min.r13_basesDiffer`). How the relation
   compares with the code `R13` of `k4/dl2_relations.py` (frozen-status changes instead of the needed set; the same
-  pairs of min-frozen pre-allocations by the text's Lemmas 1 and 6, not formalized) is in the module doc.
+  pairs of min-frozen pre-allocations by the text's Lemmas 1 and 6) is in the module doc; that agreement is machine-checked
+  in `EFX/DL2Moves.lean` (`EFX.C4min.moveT1_iff_code`, `EFX.C4min.moveT3_iff_code`).
+- `EFX/DL2Moves.lean`: the move lemmas of the deficit-descent route (`k4/dl2.md` §4, ledger K4.DL2.MOVES.LEAN and
+  K4.DL2.DEF.LEAN) and Lemma H1 (`k4/hall.md` §1, ledger K4.HALL.H1.LEAN), over `InP`, `MinFrozen`, `NA`, `Frozen`,
+  `DeficitLE` and the moves `MoveT1`, `MoveT3`; it imports `EFX/MovesC.lean` and derives the facts on 𝒫 proved there
+  (`EFX.C4min.exists_frozen_of_NA`, `EFX.C4min.minFrozen_of_NA_eq`, `EFX.C4min.not_frozen_of_forall`) instead of
+  reproving them. New definitions name the sets of `k4/dl2.md` §4: bundles
+  (`EFX.C4min.IsBundle`, `B_o ⊆ Z ⊆ B_o ∪ J`), safety (`EFX.C4min.SafeFor`), `N_o(Z)` (`EFX.C4min.setNeeds`), `u_o(Z)`
+  (`EFX.C4min.Counted`, `EFX.C4min.uCount`), optimal bundles of best owners (`EFX.C4min.OptimalBest`) and
+  `def(P′) ≤ def(P) − k` (`EFX.C4min.DeficitDrop`). Moves inside the min-frozen class: `EFX.C4min.minFrozen_of_cover`
+  (the common core, with the counting step `EFX.C4min.NA_iff_of_sub`), Lemma 1 (`EFX.C4min.lemma1a`, `EFX.C4min.lemma1b`, `EFX.C4min.lemma1c`), Lemma 1′
+  (`EFX.C4min.lemma1'`), Lemma 6 (`EFX.C4min.lemma6`, `EFX.C4min.needs_single_sub`); (T1) and (T3) are well defined
+  (`EFX.C4min.minFrozen_of_moveT1`, `EFX.C4min.moveT1_of_admissible`, `EFX.C4min.moveT1_iff_needs`,
+  `EFX.C4min.minFrozen_of_moveT3`, `EFX.C4min.moveT3_of_lemma6`) and agree with the code's phrasing by frozen-status
+  changes (`EFX.C4min.moveT1_iff_status`, `EFX.C4min.moveT1_iff_code`, `EFX.C4min.moveT3_iff_code`; this settles the
+  point `EFX/DL13.lean` left to the text). Lemma H1: `def(P) = ω + 2 − Val*(P)` on 𝒫 with `ω ≥ 1`
+  (`EFX.C4min.lemmaH1`, from the slot identity `EFX.C4min.h1_core`; per owner, `EFX.C4min.lemmaH1_owner`). Deficit
+  criteria: Lemma 2* (`EFX.C4min.lemma2star`, `_drop`, `_lt`), Lemma 2 (`EFX.C4min.lemma2`, `_drop`, `_lt`), Lemma 3
+  (`EFX.C4min.lemma3`, `EFX.C4min.lemma3_val`, `EFX.C4min.lemma3_lt`), Lemma 7 (`EFX.C4min.lemma7`,
+  `EFX.C4min.lemma7_bigTop`, `EFX.C4min.lemma7_bigTop_base`), Corollaries 4 and 5 (`EFX.C4min.cor4`, `EFX.C4min.cor4_i_of_i'`, `EFX.C4min.cor5`). The
+  module doc lists, for each, where the Lean hypotheses are weaker than the text's.
+- `EFX/DL13Moves.lean`: the role-swap and frozen-rotation lemmas of `k4/dl13.md` §2 (ledger K4.DL13.SWAP.LEAN,
+  K4.DL13.ROT.LEAN), on top of `EFX/DL2Moves.lean`. The swap of Lemma 6 as a structure (`EFX.C4min.RoleSwap`; constructed
+  without helper by `EFX.C4min.swapBase`, `EFX.C4min.roleSwap_swapBase`, and with one helper by `EFX.C4min.swapBase1`,
+  `EFX.C4min.roleSwap_swapBase1`, the move of `k4/sx.md` Lemma B with k = 1; such a swap with a needer and at most one
+  helper giving up a good is a min-frozen (T3) move, `EFX.C4min.RoleSwap.moveT3`, `EFX.C4min.moveT3_swapBase1`, hence a
+  (T3⁺) move of `EFX/MovesC.lean` by `EFX.C4min.moveT3_moveT3plus`, usable as the move of the key frame). Lemma 8 (`EFX.C4min.RoleSwap.lemma8_bundle`,
+  `_safe`, `_u`, `EFX.C4min.RoleSwap.lemma8`, `_val`: the unfrozen agent's owner value after a swap, `u′_x = ū + ι`, on
+  strict profiles) and Corollary 8.2 (`EFX.C4min.RoleSwap.cor8_2`, `EFX.C4min.bigTop_pair_admissible`); Lemma 9 (`EFX.C4min.lemma9_admissible`,
+  `EFX.C4min.RoleSwap.lemma9`, `EFX.C4min.RoleSwap.eSwap_eq_zero`, `EFX.C4min.RoleSwap.eSwap_le_one`) with Corollaries
+  9.1 (`EFX.C4min.cor9_1_drop`, `EFX.C4min.cor9_1`: the S1 repair, for every admissible `A`, as a min-frozen (T3)
+  neighbour) and 9.2 (`EFX.C4min.cor9_2`); Lemma 10
+  (`EFX.C4min.lemma10`, `EFX.C4min.lemma10_a`); Lemma 11 (`EFX.C4min.lemma11` with `κ`, `EFX.C4min.lemma11_one`,
+  `EFX.C4min.not_counted_of_needer`, `EFX.C4min.not_counted_needs_single`) and Corollary 11.1
+  (`EFX.C4min.cor11_1`, `EFX.C4min.cor11_1_auto`); Lemma 12 for a Pareto reassignment of the frozen goods
+  (`EFX.C4min.ParetoReassign`, a (T4) move by `EFX.C4min.moveT4_of_paretoReassign`, the identity by
+  `EFX.C4min.paretoReassign_refl`; `EFX.C4min.lemma12_move`, `EFX.C4min.lemma12`, `EFX.C4min.lemma12_lt_iff`,
+  `EFX.C4min.lemma12_lt`, with `u_o` counted over the goods, `EFX.C4min.uCount_eq_goods`) and Corollary 12.1
+  (`EFX.C4min.cor12_1`: finitely many reassignments reach a T4-optimal pre-allocation, `EFX.C4min.T4Optimal`, without
+  raising the deficit). The module doc lists the encodings and the weaker hypotheses.
+- `EFX/DL13MovesExamples.lean`: Lemma 12 is not vacuous. On the smallest failure of DL₁₃ (`k4/dl13.md` §2.2, n = 4,
+  m = 6, a strict k = 4 core), `P = ({4}, {1}, {3}, {5})` is min-frozen (640 base maps checked) with `ω = 1`, and the
+  exchange of the frozen agents 0 and 3 is a Pareto reassignment and a (T4) move with `def(P′) < def(P)`
+  (`EFX.C4min.ExRot.lemma12_example`, by `EFX.C4min.lemma12_lt`; all by `decide`).
 - `EFX/KeyFrame.lean`: the key frame of `k4/dl13.md` §2.3 (Remark "DL on the key graph"; ledger K4.DL2.KEY.LEAN), for
   an arbitrary move relation M: the key κ(P) (`EFX.C4min.key`: the needed set and the frozen agents with their bases),
   def\*(κ) (`EFX.C4min.KeyDeficitLE`, `EFX.C4min.KeyDeficitLT`: the least deficit of a min-frozen P of key κ), N_M(κ)
@@ -440,6 +483,11 @@ name in the ledger's Lean column has one.
 | K4.DL2.T13.LEAN | DL₁₃ (DL for R₁₃ = (T1) ∪ (T3) on connected k = 4 cores with fewest frozen agents ≥ 1) and Theorem Z at f = 0 ⟹ DL for R13Z (every pair at f = 0, R₁₃ otherwise), and conversely ⟹ `C4minROConn` ⟹ TARGET₄ | DL13 : `EFX.C4min.target4_of_DL13`, `EFX.C4min.C4minROConn_of_DL13`, `EFX.C4min.defLocal_R13Z_of_DL13`, `EFX.C4min.dl13_iff_defLocal_R13Z`, `EFX.C4min.defLocalAt_R13Z_of_f0`, `EFX.C4min.defLocalAt_top_of_f0`, `EFX.C4min.moveT1_of_inP`, `EFX.C4min.moveT3_new_base`, `EFX.C4min.r13_basesDiffer` |
 | K4.DL2.KEY.LEAN | DL on the key graph for any move relation M (every key of a min-frozen P with def\*(κ) > 0 has a key in N_M(κ) with a smaller least deficit, at f ≥ 1) ⟺ DL for R_key (every pair at f = 0, otherwise κ(P′) ∈ N_M(κ(P)) ∪ {κ(P)}) ⟹ `C4minROConn` ⟹ TARGET₄; monotone in M; the move may start from any state of the key (repairs at key-minimal states give DLKey) | KeyFrame : `EFX.C4min.target4_of_DLKey`, `EFX.C4min.C4minROConn_of_DLKey`, `EFX.C4min.defLocal_rKey_of_DLKey`, `EFX.C4min.dlKey_iff_defLocal_rKey`, `EFX.C4min.DLKey.mono`, `EFX.C4min.exists_keyMin`, `EFX.C4min.dlKeyAt_of_defLocalAt_keep`, `EFX.C4min.dlKeyAt_of_keyMin`, `EFX.C4min.dlKeyAt_of_keyMin_key` |
 | K4.DL2.RC.LEAN | (T2), (T4), (T3⁺), R_T4 = (T1) ∪ (T2) ∪ (T3) ∪ (T4) and R_C = (T1) ∪ (T2) ∪ (T3⁺) ∪ (T4) (ledger K4.DL2.RT4, K4.DL2.RC); on 𝒫, (T3) is (T3⁺) with W = ∅, R₁₃ ⊆ R_C, R_T4 ⊆ R_C, (T1) and (T2) keep the key, a pre-allocation with the needed set of a min-frozen one is min-frozen; DL_RC with Theorem Z at f = 0 ⟺ DL for RCZ ⟹ TARGET₄; DL_RC ⟹ DLKey((T3⁺) ∪ (T4)); on the n = 5 failure of DL_RT4, a (T3⁺) move outside R_T4 | MovesC : `EFX.C4min.target4_of_DLRC`, `EFX.C4min.dlrc_iff_defLocal_RCZ`, `EFX.C4min.DLKey_of_DLRC`, `EFX.C4min.dlKey_RC_iff`, `EFX.C4min.moveT3_iff`, `EFX.C4min.r13_rc`, `EFX.C4min.rt4_rc`, `EFX.C4min.DLRC_of_DLRT4`, `EFX.C4min.moveT1_key`, `EFX.C4min.moveT2_key`, `EFX.C4min.minFrozen_of_NA_eq`, `EFX.C4min.moveT3plus_of_inP`, `EFX.C4min.moveT4_refl`; MovesCExamples : `EFX.C4min.Ex5.wider`, `EFX.C4min.Ex5.rc_not_rt4` |
+| K4.DL2.MOVES.LEAN | `k4/dl2.md` §4, Lemmas 1, 1′ and 6: the moves inside the min-frozen class (re-bases of free agents, role swaps) keep NA and ω; (T1) and (T3) stay in the min-frozen class, and the text's (T1), (T3) agree with the code's phrasing | DL2Moves : `EFX.C4min.lemma1a`, `EFX.C4min.lemma1b`, `EFX.C4min.lemma1c`, `EFX.C4min.lemma1'`, `EFX.C4min.lemma6`, `EFX.C4min.needs_single_sub`, `EFX.C4min.minFrozen_of_cover`, `EFX.C4min.minFrozen_of_moveT1`, `EFX.C4min.moveT1_of_admissible`, `EFX.C4min.moveT1_iff_needs`, `EFX.C4min.moveT1_iff_status`, `EFX.C4min.moveT1_iff_code`, `EFX.C4min.minFrozen_of_moveT3`, `EFX.C4min.moveT3_of_lemma6`, `EFX.C4min.moveT3_iff_code` |
+| K4.DL2.DEF.LEAN | `k4/dl2.md` §4, the deficit criteria: Lemmas 2*, 2, 3, 7 and Corollaries 4, 5 | DL2Moves : `EFX.C4min.lemma2star`, `EFX.C4min.lemma2star_drop`, `EFX.C4min.lemma2star_lt`, `EFX.C4min.lemma2`, `EFX.C4min.lemma2_drop`, `EFX.C4min.lemma2_lt`, `EFX.C4min.W_rebase`, `EFX.C4min.lemma3`, `EFX.C4min.lemma3_val`, `EFX.C4min.lemma3_lt`, `EFX.C4min.lemma7`, `EFX.C4min.lemma7_bigTop`, `EFX.C4min.lemma7_bigTop_base`, `EFX.C4min.cor4`, `EFX.C4min.cor4_i_of_i'`, `EFX.C4min.cor5`, `EFX.C4min.isBundle_of_disjoint`, `EFX.C4min.setNeeds_mono`, `EFX.C4min.deficitLT_of_drop` |
+| K4.HALL.H1.LEAN | Lemma H1 of `k4/hall.md` §1: on 𝒫 with ω ≥ 1, def(P) = ω + 2 − Val*(P), and the per-owner covering form | DL2Moves : `EFX.C4min.lemmaH1`, `EFX.C4min.lemmaH1_owner`, `EFX.C4min.h1_core`, `EFX.C4min.otherSlots_roNeeds`, `EFX.C4min.deficitLE_of_safe`, `EFX.C4min.exists_safe_of_deficitLE`, `EFX.C4min.deficit_of_optimalBest`, `EFX.C4min.not_deficitLE_of_val_lt` |
+| K4.DL13.SWAP.LEAN | `k4/dl13.md` §2.1: the role swap (`RoleSwap`, constructed without and with one helper), Lemmas 8–11 and Corollaries 8.2, 9.1, 9.2, 11.1; a swap with a needer and at most one helper giving up a good is a min-frozen (T3) move | DL13Moves : `EFX.C4min.RoleSwap.junk_iff`, `EFX.C4min.RoleSwap.lemma8_bundle`, `EFX.C4min.RoleSwap.lemma8_safe`, `EFX.C4min.RoleSwap.lemma8_u`, `EFX.C4min.RoleSwap.lemma8`, `EFX.C4min.RoleSwap.lemma8_val`, `EFX.C4min.RoleSwap.cor8_2`, `EFX.C4min.roleSwap_swapBase`, `EFX.C4min.roleSwap_swapBase1`, `EFX.C4min.RoleSwap.moveT3`, `EFX.C4min.moveT3_swapBase1`, `EFX.C4min.lemma9_admissible`, `EFX.C4min.RoleSwap.lemma9`, `EFX.C4min.RoleSwap.eSwap_eq_zero`, `EFX.C4min.RoleSwap.eSwap_le_one`, `EFX.C4min.bigTop_pair_admissible`, `EFX.C4min.cor9_1_drop`, `EFX.C4min.cor9_1`, `EFX.C4min.cor9_2`, `EFX.C4min.lemma10`, `EFX.C4min.lemma10_a`, `EFX.C4min.lemma11`, `EFX.C4min.lemma11_one`, `EFX.C4min.not_counted_of_needer`, `EFX.C4min.not_counted_needs_single`, `EFX.C4min.cor11_1`, `EFX.C4min.cor11_1_auto` |
+| K4.DL13.ROT.LEAN | `k4/dl13.md` §2.2: Lemma 12 (a Pareto reassignment of a min-frozen P is a min-frozen (T4) move that never raises the deficit, and the exact strict case) and Corollary 12.1; not vacuous on the smallest failure of DL₁₃ | DL13Moves : `EFX.C4min.lemma12_move`, `EFX.C4min.moveT4_of_paretoReassign`, `EFX.C4min.paretoReassign_refl`, `EFX.C4min.lemma12`, `EFX.C4min.lemma12_lt_iff`, `EFX.C4min.lemma12_lt`, `EFX.C4min.uCount_eq_goods`, `EFX.C4min.cor12_1`, `EFX.C4min.frozenWelfare_lt`; DL13MovesExamples : `EFX.C4min.ExRot.lemma12_example` |
 | K4.RF.LEAN | Rule F's target: `SucceedsR d` (at most d rotations); `TheoremRuleF` ⟹ C₄∃ ⟹ TARGET₄, `RuleFConn` ⟹ `C4existsConn` ⟹ TARGET₄, `RuleFOne` ⟹ `C4existsOne` ⟹ TARGET₄ for at most one 4-good agent | RuleF : `EFX.LB4R.rotReach_mono`, `EFX.LB4R.succeeds_of_succeedsR`, `EFX.LB4R.succeeds_iff_succeedsR3`, `EFX.LB4R.C4exists_of_ruleF`, `EFX.LB4R.C4existsConn_of_ruleFConn`, `EFX.LB4R.C4existsOne_of_ruleFOne`, `EFX.LB4R.target4_of_ruleF`, `EFX.LB4R.target4_of_ruleFConn`, `EFX.LB4R.target4one_of_ruleFOne` |
 | K4.RF.K.LEAN | Lemmas K and K′: for a valid pre-allocation whose bases belong to listed agents, an owner that is not frozen and every other base of at most two goods, a completion with owner o satisfying (OC₄) exists iff some K and K′-service have size ≤ κ^K; a K-service of size ≤ κ^K gives a sound completion; for LB₄ʳ's states, an `Output` with owner o iff some K has Lemma K′ deficit ≤ 0 (ω ≥ 1 or a base of three goods), and an `Output` without owner when ω ≤ 0 | RuleFK : `EFX.LB4R.lemmaK'_if`, `EFX.LB4R.lemmaK'_onlyIf`, `EFX.LB4R.lemmaK'`, `EFX.LB4R.lemmaK`, `EFX.LB4R.serves_slot_iff`, `EFX.LB4R.serves_keep_iff`, `EFX.LB4R.output_iff_lemmaK'`, `EFX.LB4R.output_of_lemmaK`, `EFX.LB4R.output_none_of_omega` |
 | K4.RF.S.LEAN | Lemma S: with o not frozen and \|B_o\| ≤ 1, a ∅-service of the agents of E that are not free extends, unchanged on them, to all of E, at most one good more per free agent of E; deficit(o, ∅) ≤ \|σ\| − κ₀ | RuleFK : `EFX.LB4R.serve_free`, `EFX.LB4R.lemmaS_aux`, `EFX.LB4R.lemmaS_extend`, `EFX.LB4R.lemmaS`, `EFX.LB4R.W_not_NA` |
