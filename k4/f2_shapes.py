@@ -34,7 +34,9 @@ usage: python3 k4/f2_shapes.py SOURCE ... [--every=E] [--max=N] [--out=FILE.json
   SOURCE: a catalogue (#53's results/k4_gap/*.json.gz, 'records'), a dump (*.jsonl.gz records with sets/vals or
   core/vals), an instance list (*.json: [{"sets", "vals", "m"}]), or 'suite'. Only records with f >= 2 are read (a
   record without 'f' is read and filtered after the class is built); profiles are deduplicated across all sources.
-  --chunk=K/C keeps the K-th of C equal slices of the deduplicated list (for runs of bounded length).
+  --chunk=K/C keeps the K-th of C equal slices of the deduplicated list (for runs of bounded length). --t3br keeps
+  only the dump records of dlrt4.c whose branches name no improving (T1), (T2), (T4) move (their profiles have a
+  T3-stage state, or a failure).
 Output: the counts, the smallest example of each cell, and (--out) one JSON line per T3-stage state."""
 import collections, glob, gzip, itertools, json, os, sys
 
@@ -44,27 +46,33 @@ from f2_lib import Prof, bits, pc, mask, tup, lst, counted, bigtop, kind, t3plus
 
 
 # ------------------------------------------------------------------ inputs
+def t3br(r):
+    """a dlrt4.c "D" record whose branches name no improving (T1), (T2) or (T4) move: a T3-stage state (or a failure)"""
+    br = r.get('br')
+    return br is not None and not any(b in ('T1', 'T2', 'T4') for b in br.split('+'))
+
+
 def read_source(src):
-    """yield (d, f or None, label) for every record of a source"""
+    """yield (d, f or None, label, raw record) for every record of a source"""
     if src == 'suite':
         for fn in sorted(glob.glob(os.path.join(HERE, 'suite', 'instances', '*.json'))):
             d = json.load(open(fn))
             if 'kind' in d or not d.get('is_core', True): continue
-            yield profile_items(d), None, 'suite:' + d['id']
+            yield profile_items(d), None, 'suite:' + d['id'], d
         return
     base = os.path.basename(src)
     if src.endswith('.json'):
         for r in json.load(open(src)):
-            yield profile_items(r), None, r.get('id', base)
+            yield profile_items(r), None, r.get('id', base), r
         return
     if src.endswith('.jsonl.gz'):
         for l in gzip.open(src, 'rt'):
             r = json.loads(l)
             if 'vals' not in r or ('sets' not in r and 'core' not in r): continue
-            yield profile_items(r), r.get('f'), base
+            yield profile_items(r), r.get('f'), base, r
     else:
         for r in json.load(gzip.open(src, 'rt')).get('records', []):
-            yield profile_items(r), r.get('f'), base + ':' + ','.join(map(str, r.get('prof', [])))
+            yield profile_items(r), r.get('f'), base + ':' + ','.join(map(str, r.get('prof', []))), r
 
 
 def collect(sources, opt):
@@ -72,9 +80,10 @@ def collect(sources, opt):
     skip = set(opt['exclude-ids'].split(',')) if 'exclude-ids' in opt else set()
     for src in sources:
         k = 0
-        for d, f, label in read_source(src):
+        for d, f, label, raw in read_source(src):
             if f is not None and f < 2: continue
             if label.startswith('suite:') and label[6:] in skip: continue
+            if 't3br' in opt and not t3br(raw): continue
             k += 1
             if 'every' in opt and (k - 1) % int(opt['every']): continue
             key = json.dumps([d['sets'], d['vals']])

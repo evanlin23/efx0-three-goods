@@ -34,10 +34,10 @@ done
 # (3) compute/k4-rc's hunt from the failing profiles (54 profiles with DL_RT4 failures at f = 2 and f = 3)
 done_log results/k4_f2/shapes_rchunt.log || python3 k4/f2_shapes.py $C/rc/hunt_fail10_sample_inst.json \
   --out=results/k4_f2/shapes_rchunt.jsonl.gz > results/k4_f2/shapes_rchunt.log
-# (4) the f >= 2 profiles of compute/k4-rt4's n = 5 dumps (#86: n5b random n4_3/n4_4 runs, n5c pure and big-top runs),
-#     32 slices
+# (4) compute/k4-rt4's n = 5 dumps (#86: n5b random n4_3/n4_4 runs, n5c pure and big-top runs): the 1,902 profiles with
+#     a dumped f >= 2 state whose branches name no improving (T1), (T2), (T4) move (--t3br), 8 slices
 SRC5="results/k4_rt4/dump_n5b_3.jsonl.gz results/k4_rt4/dump_n5b_3bt.jsonl.gz results/k4_rt4/dump_n5b_4.jsonl.gz results/k4_rt4/dump_n5b_4bt.jsonl.gz results/k4_rt4/dump_n5c_purebt.jsonl.gz results/k4_rt4/dump_n5c_pure.jsonl.gz"
-for k in $(seq 0 31); do
+for k in 0 1 2 3 4 5 6 7; do
   done_log results/k4_f2/shapes5_$k.log && continue
-  python3 k4/f2_shapes.py $SRC5 --chunk=$k/32 --out=results/k4_f2/shapes5_$k.jsonl.gz > results/k4_f2/shapes5_$k.log
+  python3 k4/f2_shapes.py $SRC5 --t3br --chunk=$k/8 --out=results/k4_f2/shapes5_$k.jsonl.gz > results/k4_f2/shapes5_$k.log
 done
