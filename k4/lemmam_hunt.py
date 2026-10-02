@@ -40,7 +40,7 @@ def seed_types(sets, m, vals):
 def cand_index(c):
     c = LP.ALIAS.get(c, c)
     if c in LP.CANDS: return LP.CANDS.index(c)
-    return 100 + LP.VARS.index(c)
+    return 1000 + LP.VARS.index(c)
 
 
 def main():

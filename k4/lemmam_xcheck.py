@@ -22,7 +22,8 @@ Usage:
   lemmam_xcheck.py --sample=N FILE [FILE ...] [--seed=S] [--jobs=J] [--Copts=-Y1]
         N random (core, profile) pairs of the certificate files; k4/lemmam_portfolio.c -T1 -v on each; compares every
         per-agent field (K0, K1, M1, KRb, KRa, big-top) and every candidate verdict
-  lemmam_xcheck.py --lines=FILE [FILE ...] [--max=K] [--jobs=J]
+  lemmam_xcheck.py --lines=FILE [FILE ...] [--max=K] [--jobs=J] [--conv=rulef]   (--conv=rulef: Rw/Rwo with rulef.c's
+        slot convention for marked agents instead of Lean's; the only source of Rw/Rwo differences seen)
         every line with sets=, vals= and the C per-agent block fa= (PFAIL, HTIGHT, PROF lines): field agreement as --sample
   lemmam_xcheck.py --fails=LOG [LOG ...] [--max=K]
         every PFAIL / XFAIL / HFAIL line of the logs: recomputes the candidate (or partner) in this model and confirms
@@ -196,13 +197,26 @@ def kr(inst, s, o):
     return ra, rb
 
 
+def omega_rulef(inst, s):
+    """omega with k4/lb4.c's (and rulef.c's) slot convention: a marked agent has no slot place (rulef.md §2 Remark 5)"""
+    needs = M.all_needs(inst, s)
+    fr = M.frozen_pre(inst, s, M.NA_of(needs))
+    J = sum(1 for g in range(inst.m) if s[0][g] == -1)
+    return J - sum(0 if (fr[i] or s[2][i]) else 2 - len(M.base_of(inst, s, i)) for i in range(inst.n))
+
+
+RW_CONV = 'lean'
+
+
 def rw(inst, s, r):
     """(to r, to any end): some RotStep of the model (rot_steps: every chain and base O) reaches a state with no base
-    of three or more goods and omega <= 0 (no owner needed)"""
+    of three or more goods and omega <= 0 (no owner needed). RW_CONV = 'lean': Lean's omega (a marked agent with a
+    one-good base has a slot place); 'rulef': rulef.c's (it has none), which --conv=rulef selects"""
     hr = ha = False
+    om = M.omega if RW_CONV == 'lean' else (lambda inst_, s_: omega_rulef(inst_, s_))
     for s2, (c, O) in M.rot_steps(inst, s).items():
         if any(len(M.base_of(inst, s2, i)) >= 3 for i in range(inst.n)): continue
-        if M.omega(inst, s2) <= 0:
+        if om(inst, s2) <= 0:
             ha = True
             if c[-1] == r: hr = True
         if hr: break
@@ -341,8 +355,10 @@ def check_sample(task):
 
 
 def main():
+    global RW_CONV
     args = sys.argv[1:]
     opt = lambda name, dflt=None: next((a.split('=', 1)[1] for a in args if a.startswith(f'--{name}=')), dflt)
+    RW_CONV = opt('conv', 'lean')
     jobs = int(opt('jobs', 2))
     if opt('sample'):
         import lemmam_portfolio as LP

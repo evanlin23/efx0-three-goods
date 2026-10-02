@@ -1,0 +1,10 @@
+# lemmam_hunt.py --cands=sh:W,btsh:W,nobt:W,bt2:W,all:W,x3cE results/k4_certs_4_n4_3.json.gz results/k4_certs_4_pure.json.gz results/k4_certs_5_n4_3.json.gz results/k4_certs_5_n4_4.json.gz results/k4_certs_5_pure.json.gz --cores=15 --steps=40000 --restart=4000 --seed=3 --seeds=results/k4_m_portfolio/hunt_seeds3.jsonl -Y1 --jobs=4 --checkpoint=/tmp/claude-0/-home-user-efx0-three-goods/7fff145a-b58d-5b73-9280-767e7c858b47/scratchpad/ck/hunt3.jsonl --out=results/k4_m_portfolio/hunt3.json # source sha 9d2ff47477f77c7b
+# 690 tasks (6 candidates x 115 cores/seeds), 4 workers
+# 27/690 tasks, 9s
+# 54/690 tasks, 22s
+# 81/690 tasks, 31s
+# 108/690 tasks, 46s
+# 135/690 tasks, 74s
+# 162/690 tasks, 94s
+# 189/690 tasks, 110s
+# 216/690 tasks, 126s

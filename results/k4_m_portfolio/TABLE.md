@@ -229,6 +229,11 @@ Each task anneals the profile of one core (or seed profile) against one candidat
 | `hunt1.json` | `x3cE` | 391 | **0** | 65 | – |
 | `hunt1.json` | `x3E` | 391 | **0** | 65 | – |
 | `hunt1.json` | `x3cN` | 391 | **0** | 65 | – |
+| `hunt2_aborted.json` | `x1N` | 14 | **1** | -1 | `HFAIL cand=partner score=-1 step=31293 var=x1N n=4 m=8 sets=[[0,3,5,6],[1,4,5,7],[2,6,7],[3,4,6,7]] vals=[[3,2,8,4],[4,6,8,1],[2,3,4],[2,4,3,8]] fa=0:K0=1,K1=0,bt=1,sh=1,c40=1,g2=0,N[om=0,r=3,rfz=0,ks=0,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0],E[om=0,r=3,rfz=0,ks=0,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rw` |
+| `hunt2_aborted.json` | `nobt:W` | 14 | **0** | 132 | – |
+| `hunt2_aborted.json` | `bt2:W` | 14 | **0** | 130 | – |
+| `hunt2_aborted.json` | `all:W` | 14 | **0** | 130 | – |
+| `hunt2_aborted.json` | `x3cE` | 28 | **0** | 66 | – |
 
 ## Runs
 

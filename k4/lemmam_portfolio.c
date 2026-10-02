@@ -47,8 +47,8 @@
    Modes (stdin as rulef.c: any number of cores):
      (default) exhaustive over every strict profile (lazy type splitting, rulef.c's odometer);
      -SN  N random profiles per core;   -T1  single profiles (one type per agent);
-     -HN  hill-climbing / annealing against candidate -cK (K < 100: index set * NPRED + predicate) or partner variant
-          -cK (K = 100 + variant) for N
+     -HN  hill-climbing / annealing against candidate -cK (K < 1000: index set * NPRED + predicate) or partner variant
+          -cK (K = 1000 + variant) for N
           steps per core, restarts every -BN steps (default 3000) from random types, or from -I<t0,t1,..> (type indices)
           when given; stops at the first failure (prints HFAIL) and prints the tightest profiles found (HTIGHT).
    Options: -Y1 (Lemma K kept-out sets may hold goods outside R_x: Remark 4; use it, Lemma M needs it on a suite core),
@@ -547,13 +547,13 @@ static int HCAND = 0, HRESTART = 3000; static char *HINIT = NULL;
 /* score: lower is tighter; < 0 is a failure */
 static long h_score(void) {
     pm_stat(0);
-    if (HCAND < 100) {
+    if (HCAND < 1000) {
         int c = HCAND;
         if (!cand_app[c]) return 100000;
         if (cand_nok[c] == 0) return -1;
         return (long)cand_nok[c] * 64 + nW_last;
     }
-    int v = HCAND - 100, pi = v / 6, k = v % 6;      /* partner variant: some a not in W whose partners all fail */
+    int v = HCAND - 1000, pi = v / 6, k = v % 6;      /* partner variant: some a not in W whose partners all fail */
     long best = 100000;
     for (int a = 0; a < n; a++) if (!PA[a].W) {
         uint64_t P = PA[a].part[pi][k] & ~(1ull << a);
@@ -565,8 +565,8 @@ static long h_score(void) {
     return best == 100000 ? 1000 + (long)nW_last * 64 : best + nW_last;
 }
 static void h_print(const char *tag, const int *ty, long sc, long step) {
-    printf("%s cand=%s score=%ld step=%ld ", tag, HCAND < 100 ? CNAME[HCAND] : "partner", sc, step);
-    if (HCAND >= 100) printf("var=%s%s ", VKIND[(HCAND - 100) % 6], PNAME[(HCAND - 100) / 6]);
+    printf("%s cand=%s score=%ld step=%ld ", tag, HCAND < 1000 ? CNAME[HCAND] : "partner", sc, step);
+    if (HCAND >= 1000) printf("var=%s%s ", VKIND[(HCAND - 1000) % 6], PNAME[(HCAND - 1000) / 6]);
     print_profile(ty); print_fa(); printf("\n"); fflush(stdout);
 }
 static void hill_core(long steps) {
@@ -593,7 +593,7 @@ static void hill_core(long steps) {
         long sc = h_score();
         if (sc < 0) { h_print("HFAIL", ty, sc, st); return; }
         if (sc < best) best = sc;
-        if (sc < 64 + 2 && HCAND < 100) { ntight++; if (shown < FAILMAX) { h_print("HTIGHT", ty, sc, st); shown++; } }
+        if (sc < 64 + 2 && HCAND < 1000) { ntight++; if (shown < FAILMAX) { h_print("HTIGHT", ty, sc, st); shown++; } }
         if (!restart) {
             double u = (double)(XR() % 1000000) / 1e6;
             if (sc > cur && !(T > 0.01 && u < exp(-(double)(sc - cur) / T))) { memcpy(ty, prev, sizeof prev); T *= 0.9985; continue; }
@@ -601,7 +601,7 @@ static void hill_core(long steps) {
         cur = sc;
         T *= 0.9985;
     }
-    printf("HDONE cand=%s steps=%ld best=%ld tight_hits=%ld\n", HCAND < 100 ? CNAME[HCAND] : "partner", steps, best, ntight);
+    printf("HDONE cand=%s steps=%ld best=%ld tight_hits=%ld\n", HCAND < 1000 ? CNAME[HCAND] : "partner", steps, best, ntight);
     fflush(stdout);
 }
 

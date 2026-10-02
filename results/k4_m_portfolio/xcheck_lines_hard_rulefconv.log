@@ -1,0 +1,2 @@
+# lemmam_xcheck.py --lines=results/k4_m_portfolio/n3.fails.txt results/k4_m_portfolio/n4_1_all.fails.txt results/k4_m_portfolio/n4_s2000.fails.txt results/k4_m_portfolio/n5_s200.fails.txt results/k4_m_portfolio/suite.fails.txt --max=1000 --jobs=1 --conv=rulef: 1000 distinct profiles
+lines: 1000 profiles, 3995 first agents, per-agent field disagreements: 0 {}; KR rotations failing rot_checks: 0

@@ -7,6 +7,7 @@ Lemma M portfolio (`k4/lemmam_portfolio.c`, workstream compute/k4-m-portfolio). 
 | dataset | failures (profiles) | applicable |
 |---|---|---|
 | `hunt1_failprofiles` | 2 | 2 |
+| `n4_3_7cores` | 32 | 332,107,776 |
 | `hunt1` (hunt) | 1 annealing walks ended in a failure | – |
 
 ## Smallest failure (dataset `hunt1_failprofiles`, n = 4, m = 8)
@@ -24,3 +25,4 @@ echo '{"sets": [[0, 3, 4, 6], [1, 3, 6, 7], [2, 5, 6, 7], [4, 5, 7]], "vals": [[
 python3 k4/lemmam_portfolio.py --profiles=/tmp/p.jsonl -Y1 --jobs=1     # first implementation
 python3 k4/lemmam_xcheck.py --fails=results/k4_m_portfolio/FAILURES_btp_W.md   # second implementation
 ```
+

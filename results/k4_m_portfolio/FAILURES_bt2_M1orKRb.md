@@ -1,0 +1,33 @@
+# Failures of `bt2:M1|KRb`
+
+Lemma M portfolio (`k4/lemmam_portfolio.c`, workstream compute/k4-m-portfolio). EVIDENCE: found by the first implementation (classes K0, K1 of `k4/rulef.c`, included unchanged; `-Y1`), confirmed below by the second (`k4/lemmam_xcheck.py`, PR #33's independent model `k4/c4_verify_H/lb4r.py` with Lemma K of `k4/rulef_model.py`, M1 and Lemma KR written from the text of `k4/rulef.md`).
+
+## Where it fails
+
+| dataset | failures (profiles) | applicable |
+|---|---|---|
+| `n3` | 186,544 | 21,873,024 |
+| `n4_2_all` | 9,564 | 20,134,656 |
+| `n4_3_7cores` | 42,436 | 58,392,576 |
+| `n4_s2000` | 168 | 125,234 |
+| `n4_s50` | 3 | 3,085 |
+| `n5_s20` | 17 | 62,154 |
+| `n5_s200` | 198 | 619,541 |
+| `suite` | 7 | 49 |
+
+## Smallest failure (dataset `n3`, n = 3, m = 6)
+
+```
+PFAIL cand=bt2:M1|KRb w=1 n=3 m=6 sets=[[0,1,2,5],[2,3,4,5],[3,4,5]] vals=[[2,4,8,3],[8,2,4,3],[2,3,4]] fa=0:K0=1,K1=0,bt=1,sh=1,c40=0,g2=0,N[om=1,r=2,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=1,x3=2],E[om=1,r=2,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=1,x3=2];1:K0=1,K1=0,bt=1,sh=1,c40=0,g2=0,N[om=1,r=2,rfz=0,ks=2,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=2,x3=1],E[om=1,r=2,rfz=0,ks=2,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=2,x3=1];2:K0=1,K1=0,bt=0,sh=0,c40=1,g2=0,N[om=1,r=1,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0],E[om=1,r=1,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0]
+```
+
+Second implementation: **CONFIRMED**. Per first agent (some policy): agent 0: K0=1 K1=0 M1=0 KRb=0 KRa=0 KRo=0 Rw=0 Rwo=0 big-top=1; agent 1: K0=1 K1=0 M1=0 KRb=0 KRa=0 KRo=0 Rw=0 Rwo=0 big-top=1; agent 2: K0=1 K1=0 M1=1 KRb=0 KRa=0 KRo=0 Rw=0 Rwo=0 big-top=0.
+
+## Reproduce
+
+```
+echo '{"sets": [[0, 1, 2, 5], [2, 3, 4, 5], [3, 4, 5]], "vals": [[2, 4, 8, 3], [8, 2, 4, 3], [2, 3, 4]]}' > /tmp/p.jsonl
+python3 k4/lemmam_portfolio.py --profiles=/tmp/p.jsonl -Y1 --jobs=1     # first implementation
+python3 k4/lemmam_xcheck.py --fails=results/k4_m_portfolio/FAILURES_bt2_M1orKRb.md   # second implementation
+```
+
