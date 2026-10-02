@@ -1,0 +1,4 @@
+# rk Hq3: k4/rulef.c (sha256 5721abf3bc9e25b1) -A42 -Q0 -Y1 -N1 -r1 -T1 -D7 -v, LB4r skipped
+rule -A42 -Q0: chosen first agent 13, its class open
+# rk Hq3: k4/rulef.c (sha256 5721abf3bc9e25b1) -A41 -Y1 -N1 -r1 -T1 -D7 -v, LB4r skipped
+rule -A41: chosen first agent 1, its class K0

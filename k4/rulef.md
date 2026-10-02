@@ -13,7 +13,10 @@ independent model `k4/c4_verify_H/lb4r.py`, with the completion of its proof bui
 `k4/rulef_suite.py` (rule RK as predicates of the suite `k4/suite/`).
 
 **Status** (rows K4.RF.*). Lemmas K, K′, KR, S and Proposition H″ are PROVED: written proofs, refereed in the PR #72
-review (KR in its corrected form, with hypothesis (iii)). Lemma M is open. The data are EVIDENCE.
+review (KR in its corrected form, with hypothesis (iii); hypothesis (iv) was added after the Lean formalization of PR #81
+found it missing). Lemmas K, K′, S and KR are also machine-checked in Lean (§7). Lemma M is open. The data are
+EVIDENCE.
+**Update (2026-10-02):** Lemma M is false (HH_3, K4.LMBT.M / K4.RF.M REFUTED, PR #83, `k4/lemmam_bt.md` §3).
 - **Lemma K (§2)**, an owner count for any valid pre-allocation: an owner, a set K of goods it keeps (its needs taken
   from B_o ∪ K, which can unfreeze agents), and every threatened agent served either by a slot good of its own that
   protects it whatever else happens or by a set of goods kept out of the owner's bundle. Its deficit is at most
@@ -24,14 +27,17 @@ review (KR in its corrected form, with hypothesis (iii)). Lemma M is open. The d
   which rule F needs no rotation and one rotation. A second implementation builds the completions and checks them
   against Lean's `Output` and the raw definition.
 - **Lemma KR (§3)**, LB⁺'s Theorem B in Lemma K's count: rotating a frozen agent along a need chain to the owner
-  lowers the deficit by one under two explicit conditions, when the needs along the chain are value-based (as in every
-  state of LB₄ʳ; without that it fails, `attempts/k4-rulef-kr-superset-needs.md`). **Lemma S (§6)**: free exposed agents never raise the
+  lowers the deficit by one under two explicit conditions, when the needs along the chain are value-based and every
+  marked agent's base avoids NA (both true in every state LB₄ʳ reaches; without the first it fails,
+  `attempts/k4-rulef-kr-superset-needs.md`, and without the second the rotation need not be a `RotStep`,
+  `attempts/k4-rulef-kr-marked.md`). **Lemma S (§6)**: free exposed agents never raise the
   deficit. **Proposition H″ (§4.1)**: on every relabeling of H_t a gadget-1 first agent is certified without rotation.
 - **Rule RK (§4)**, an explicit first-agent rule whose every test is a certificate: the first agent whose run Lemma K
   certifies (class K0), else whose run Lemma K certifies after one rotation (K1), else whose run satisfies Corollary
   C₄⁰ (C40, contained in K0 ∪ K1). It never runs LB₄ʳ's owner search. **It is correct exactly when Lemma M holds**
   (some first agent is in K0 or K1), the one statement left open (§6 says which cases a proof attempt closes and
   which it does not).
+  **Update (2026-10-02):** Lemma M is false (HH_3, K4.LMBT.M / K4.RF.M REFUTED, PR #83, `k4/lemmam_bt.md` §3).
   Its variant RK₃ (also the run without upgrades) is as good as rule F on all the exhaustive data.
 - **Data (§5)**: Lemma M holds, with K0 and K1 alone, on every strict profile of every certified core with n ≤ 4 and at
   most three 4-good agents (3.6·10¹⁰ profiles, exhaustive), on random samples of n = 4 with four 4-good agents
@@ -42,13 +48,14 @@ review (KR in its corrected form, with hypothesis (iii)). Lemma M is open. The d
   sharing a top, the one with a private fallback fails. Every static or one-step rule tried fails somewhere (the best
   at n = 4, m = 7), and on H_t the agent must be found in gadget 1. Rule RK finds it by its certificate.
 - **Lean (§7)**: `lean/EFX/RuleF.lean` states rule F's target (`TheoremRuleF`, `RuleFConn`, `RuleFOne`: some first agent
-  a with LB₄ʳ([a]) succeeding with at most one rotation) and proves it gives C₄∃ and TARGET₄ (`lean/check.sh` passes);
-  Lemma M with Lemma K would discharge `RuleFConn`.
+  a with LB₄ʳ([a]) succeeding with at most one rotation) and proves it gives C₄∃ and TARGET₄ (`lean/check.sh` passes).
+  `lean/EFX/RuleFK.lean` (PR #81) proves Lemmas K, K′, S and KR and states Lemma M as a `Prop` with Lemma M ⟹ rule F
+  ⟹ TARGET₄ machine-checked (ledger K4.RF.K.LEAN, K4.RF.S.LEAN, K4.RF.KR.LEAN, K4.RF.M.LEAN); Lemma M is what is left.
 - **Failed** (`attempts/k4-rulef-*.md`, §5.3): the least-deficit rules (every count, n = 3, m = 6), "no frozen agent ⟹ a
   valid owner" (n = 2, m = 5), static rules built on big-top agents ("the first big-top agent, else index order":
   n = 3, m = 6; "the first big-top agent" with two or more: n = 4, m = 8; with a shared-top fallback: n = 4, m = 7),
-  Lemma K with kept-out sets restricted to goods the agent values (n = 4, m = 8, a suite core), and Lemma KR without
-  value-based needs (n = 2).
+  Lemma K with kept-out sets restricted to goods the agent values (n = 4, m = 8, a suite core), Lemma KR without
+  value-based needs (n = 2), and Lemma KR's "the rotation is a `RotStep`" without (iv) (n = 3, m = 4).
 
 ## 1. Setting
 
@@ -188,11 +195,14 @@ explicit: k leaves the set of agents to serve, and the old owner becomes an ordi
 with K = ∅) of size κ + δ, where κ is the number of slot places of the agents other than o. Let k be a frozen agent,
 k = x₀, x₁, …, x_t = o a need chain (distinct agents, t ≥ 1, x₀, …, x_{t−1} frozen, Y_{x_i} ∈ N_{x_{i+1}}), and
 O ⊆ R_k ∩ W with v_k(O) > v_k(Y_k). Assume
-- (iii) the needs along the chain are value-based: N_{x_i} ⊆ {g : v_{x_i}(g) > v_{x_i}(B_{x_i})} for 1 ≤ i ≤ t.
+- (iii) the needs along the chain are value-based: N_{x_i} ⊆ {g : v_{x_i}(g) > v_{x_i}(B_{x_i})} for 1 ≤ i ≤ t;
+- (iv) every marked agent's base avoids NA (`EFX.LB4R.MarkedOK`).
 
 (iii) holds in every state of LB₄ʳ: by the invariant `EFX.LB4R.Inv` an unmarked agent's base is its pick, and
 `EFX.LB4R.needsOf` gives it the goods ranked above its pick and a marked agent the goods worth more than its base, so
-every agent's needs are exactly the goods worth more than its base. Let P′ be the rotation (`k4/lb4.md` §5;
+every agent's needs are exactly the goods worth more than its base. (iv) holds in every state LB₄ʳ reaches: after
+Phase 1 and the upgrades of any policy every marked agent is upgraded and holds two goods, so (V2) gives it
+(`EFX.LB4R.upRun_facts`), and after a rotation `RotChecks` asks it (`EFX.LB4R.markedOK_of_rotStep`). Let P′ be the rotation (`k4/lb4.md` §5;
 `EFX.LB4R.RotStep`): x_i takes Y_{x_{i−1}} (1 ≤ i ≤ t), B_o returns to the junk, k takes the base O (marked); the
 agents of the chain get value-based needs (the goods worth more than their new base, as `needsOf` gives), every other
 agent keeps its needs. Suppose
@@ -207,7 +217,12 @@ P′ or c_k ≥ 1 and ε = 1, LB₄ʳ succeeds after this one rotation: with own
 without owner when ω′ ≤ 0 and |O| ≤ 2 (`EFX.LB4.complete_none_exists`; then `Output` asks for no owner).
 
 Without (iii) the lemma is false: with needs that are only a superset of the value-based ones (which §1 allows for a
-valid pre-allocation in general) P′ can violate (V1) (`attempts/k4-rulef-kr-superset-needs.md`: n = 2).
+valid pre-allocation in general) P′ can violate (V1) (`attempts/k4-rulef-kr-superset-needs.md`: n = 2). Without (iv)
+"the rotation is a `RotStep`" is false, while the deficit bound still holds: a marked agent off the chain with a
+one-good base that is needed keeps it, and `RotChecks` refuses the rotation (`attempts/k4-rulef-kr-marked.md`: n = 3,
+m = 4, a state with `Inv` that LB₄ʳ never reaches). In Lean (`lean/EFX/RuleFK.lean`, `EFX.LB4R.lemmaKR`,
+`lemmaKR_output`; ledger K4.RF.KR.LEAN) the lemma is proved for states with `Inv` and needs `needsOf`, where (iii) is a
+theorem, with (iv) as the hypothesis `hmk`.
 
 *Proof.* *Validity* (the proof of Lemma R(b) of `k4/c4.md` §4a, which uses nothing about the upgrade policy).
 W ∩ NA = ∅: J by (V1), B_o since o is not frozen. For 1 ≤ i ≤ t, Y_{x_{i−1}} ∈ N_{x_i} is worth more to x_i than
@@ -216,7 +231,9 @@ N_{x_i} (needs contain every good worth more than the base, §1). k's new needs 
 v_k(O)} are worth more than v_k(O) > v_k(Y_k), so they lie in N_k. Nobody else changes, so NA′ ⊆ NA. (Without
 (iii) this step fails for o: its new needs can contain its old base, which returns to the junk.) Then J′ = W ∖ O ⊆ W
 misses NA′ ((V1)); O ⊆ W misses NA′ ((V2) for k, which `RotChecks` asks of every marked agent); the other two-good bases are unchanged
-and miss NA ⊇ NA′. Only O may have three or more goods. The chain is a need chain of P whose last agent o is not
+and miss NA ⊇ NA′. `RotChecks` also asks (V2) of the marked agents whose base is a single good (or empty). After the
+rotation the marked agents are k and the agents off the chain that were marked (the chain agents after k are
+unmarked); such an agent's base is unchanged and misses NA ⊇ NA′ by (iv). Only O may have three or more goods. The chain is a need chain of P whose last agent o is not
 frozen, and O ⊆ R_k ∩ (J ∪ B_o): this is a `RotStep`.
 
 *W does not change.* W′ := O ∪ J′ = O ∪ (W ∖ O) = W (Lemma R(a)).
@@ -544,7 +561,13 @@ consequences, machine-checked:
 - `C4exists_of_ruleF`, `C4existsConn_of_ruleFConn`, `C4existsOne_of_ruleFOne` (through `sound_of_succeeds`), and
   `target4_of_ruleF`, `target4_of_ruleFConn`, `target4one_of_ruleFOne`.
 
-A proof of rule RK would discharge `RuleFConn` as follows; nothing of it is in Lean yet:
+A proof of rule RK would discharge `RuleFConn` as follows. Item 1 and the implication of item 3 are now in Lean
+(`lean/EFX/RuleFK.lean`, PR #81; ledger K4.RF.K.LEAN, K4.RF.S.LEAN, K4.RF.KR.LEAN, K4.RF.M.LEAN): Lemma K′ as the iff
+`EFX.LB4R.output_iff_lemmaK'`, Lemma K as `output_of_lemmaK`, ω ≤ 0 as `output_none_of_omega`, classes K0 and K1 as
+`succeedsR_of_classK0`, `succeedsR_of_classK1`, and Lemma M ⟹ rule F ⟹ TARGET₄ as `ruleF_of_lemmaM`,
+`ruleFConn_of_lemmaMConn`, `target4_of_lemmaM`, `target4_of_lemmaMConn`, with Lemma M (`EFX.LB4R.LemmaM`) a
+hypothesis; Lemmas S and KR, the tools for proving Lemma M, are `lemmaS`, `lemmaKR` and `lemmaKR_output`. What is left
+is Lemma M itself (item 3); item 2 (C40 ⊆ K0 ∪ K1) is not needed and not formalized.
 1. Lemma K as a Lean theorem: for a state s with `Inv` (`EFX.LB4R.Inv`, every reachable state), an owner o that is not
    `Frozen`, K and a K-service of size ≤ κ^K, there is X with `Output … s (some o) X` (the completion of §2; its
    validity part is `EFX.LB4.Valid.sound_ownerNeeds` once the completion is built); and `EFX.LB4.complete_none_exists`
@@ -554,6 +577,7 @@ A proof of rule RK would discharge `RuleFConn` as follows; nothing of it is in L
 2. Class C40 is not needed (C40 ⊆ K0 ∪ K1, §4); `EFX.LB4R.corollaryC40'` (K4.C4.AB.L) already gives `Succeeds` on its
    hypotheses, with at most one `RotStep`.
 3. Lemma M — the existence of a first agent in K0 ∪ K1 — is the open statement; with 1 it is `RuleFConn`.
+   **Update (2026-10-02):** Lemma M is false (HH_3, K4.LMBT.M / K4.RF.M REFUTED, PR #83, `k4/lemmam_bt.md` §3).
 `EFX.LB4R.TheoremC4` (every τ) is false (K4.C4.C); `TheoremRuleF` asks for one τ per profile, of length one, and is
 not affected by Proposition H (on H_t rule RK needs no rotation, §4.1).
 

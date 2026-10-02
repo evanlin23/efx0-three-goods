@@ -1,0 +1,6 @@
+# Hq2: n = 10, m = 24; model R; convs ['bundle']; first agents ['q']
+a=q idx=9 model=R states=13 depth0=1 depth1=12 owner_tests=143 outputs=13 verdict=OUTPUT [2s]
+    witness conv=bundle owner=x11 via=[('shrink', 1, ((1, 4), (6,))), ('envyFree', 1, ((1, 4), (6,)))] literal_lb4r=True literal_mine=True efx0_raw=True bundles>2=1
+    witness conv=bundle owner=x13 via=[('shrink', 1, ((1, 4), (6,))), ('envyFree', 1, ((1, 4), (6,)))] literal_lb4r=True literal_mine=True efx0_raw=True bundles>2=1
+    witness conv=bundle owner=l via=[('shrink', 1, ((1, 4), (6, 7))), ('envyFree', 1, ((1, 4), (6, 7)))] literal_lb4r=True literal_mine=True efx0_raw=True bundles>2=1
+# finished in 2s
