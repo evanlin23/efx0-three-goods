@@ -270,3 +270,61 @@ On average 58–79% of the agents work as the first leader. No fixed choice alwa
 costs up to n runs, and Conjecture FL has no proof. The rotation is one local step with a proof (Theorem B). A
 proof of FL could start from Lemma T: it would suffice to show that for some first leader, some leader of the
 resulting draft is never exposed, or some block ends with two free agents.
+
+## 8. Other approaches (parallel exploration)
+
+Four explorations ran in parallel, each in its own folder under `k3/simplify/explore/` with a `NOTES.md`, the scripts
+and logs. None found a simpler algorithm **with a proof**. Each simple idea fails at n ≤ 3, and the smallest failures
+are in the notes. Three candidates survived every test.
+
+| Approach | Best candidate | Status | Notes |
+|---|---|---|---|
+| bipartite matchings (agents of degree 3) | Conjecture PO; Conjecture ST and local search LS | open; PO proved with one free agent | `explore/matching/NOTES.md` |
+| reductions (two goods, multigraphs, formulations) | Conjecture PO (found independently) | open; proved with one free agent | `explore/reductions/NOTES.md` |
+| goods first, envy graph | algorithm EP | open; its swap phase is proved | `explore/goods_first/NOTES.md` |
+| first leader | rules `sec_small` and `iter_r`; Lemmas R, NX, FF, TOP | open; FL checked for n ≤ 3 | `explore/first_leader/NOTES.md` |
+
+**Conjecture PO (an order-free statement).**
+- A *valid state* gives each agent nothing, one of its goods, or its pair {b, c}. Every good that some agent not
+  holding a pair needs alone (ranks above what it holds) is the only good of another agent, and no pair good is
+  needed.
+- **Conjecture:** every valid state that is Pareto-optimal among valid states (pair ≻ a ≻ b ≻ c ≻ nothing) passes
+  step 3 of K3S for some absorber.
+- Why it is natural: the rotation is a Pareto improvement (every agent prefers {b, c} to a, and every chain agent
+  moves up). So PO would replace blocks, leaders and Lemma T by optimality.
+- Proved (written, not refereed) when exactly one agent is free.
+- The open case has at least two free agents. At n = 6 it needs an exchange that upgrades two agents at once.
+- Evidence: 0 failures on about 2 million profiles. Non-optimal valid states fail often: at n = 3, m = 5, 1,248 of
+  3,600 profiles have a valid state that fails.
+- It simplifies the proof, not the algorithm: finding a Pareto-optimal valid state takes improvement steps (local
+  search LS: at most 4n Pareto-improving moves).
+
+**Algorithm EP (no rotation, no HitSet, no absorber r).** Envy cycles are rotated before every step.
+1. Draft as K3S. While some agent envies the pool, it swaps: it takes its favourite pool good, or {b, c} if it holds
+   only its top, and returns its bundle.
+2. While goods remain, put a pool good where adding it keeps EFX₀: first with an agent that values it, else with an
+   envy-graph source.
+- Evidence: 0 failures on about 4.3 million profiles and instances, including every ranking profile with n = 4,
+  m = 6 and every relabelling with n ≤ 3, m ≤ 6.
+- Proved: the swap phase keeps EFX₀ and stops after O(n) steps.
+- Open: that step 2 always finds a place.
+
+**Rotation-free leader rules.**
+- `sec_small` is a lookahead: take a leader whose simulated block guarantees success by Lemma NX or FF, else the
+  smallest block.
+- `iter_r`: while step 3 fails, rerun with the failed run's r as the first leader. It needed at most 2 reruns.
+- Both never needed the rotation on every core profile with n ≤ 5, 962,100 profiles at n = 6, every ranking profile
+  with n = 4, m ≤ 7, and 1,000,000 random profiles.
+- Proved (written, not refereed):
+  - Lemma R: if r is a leader, step 3 succeeds.
+  - Lemma NX: if some leader's b or c is held by an agent other than r, step 3 succeeds.
+  - Lemma FF: a block that ends with two never-upgradable free agents guarantees success.
+  - Lemma TOP: in a failing run, a leader's b or c that is another agent's top is r's pick.
+- `sec_small` is proved whenever its guarded branch fires. That a guarded branch always fires is Conjecture S.
+- Conjecture FL holds for every instance with n ≤ 3, by exhaustive computation. A stronger form held on every
+  rotation case tested: some first leader works whatever the later leaders are.
+
+**What a proof of any of them needs.** All three open problems have the same shape. With several free agents, show
+that some exchange or choice makes one leader unexposed, or gives some block two free agents (Lemma T). The notes
+list the natural lemmas that fail, with the smallest counterexamples.
+
