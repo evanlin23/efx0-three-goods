@@ -53,12 +53,13 @@ those of the Definition, `EFX.LB4.Needs`; LB₄ʳ's `needsOf` for Lemma KR and f
   (`κ₀`); for `o` not frozen with `|B_o| ≤ 1`, a ∅-service (separated) of the agents of `E` that are not free extends,
   unchanged on them, to a ∅-service of `E` whose size exceeds it by at most the number of free agents of `E`
   (`nFreeE`), and `deficit(o, ∅) ≤ |σ| − κ₀`.
-- **Lemma KR** (`lemmaKR`, `lemmaKR_output`), for states of LB₄ʳ: with the chain, `O`, (i), (ii) and `ε` of the text,
-  the rotation is a `RotStep` and the deficit of `(P′, k, ∅)` is at most `|σ| − κ − 1 − c_k + ε` (`onlyFor` is `c_k`;
-  `δ = |σ| − κ`); if that is ≤ 0, the rotated state has an `Output` (owner `k`, or none when `ω′ ≤ 0` and every base
-  has at most two goods). On the way: (iii) holds in every state of LB₄ʳ (`Inv.needs_value`), `N^∅ = N` there
-  (`needsK_empty`), and Lemma R(b) for any state of LB₄ʳ (`needsOf_rotate_inv`, `rotate_valid_inv`; the versions in
-  `K4C4AB.lean` are for the envy-free run).
+- **Lemma KR** (`lemmaKR`, `lemmaKR_output`), for states of LB₄ʳ: with the chain, `O`, (i), (ii), (iv) (`MarkedOK`)
+  and `ε` of the text, the rotation is a `RotStep` and the deficit of `(P′, k, ∅)` is at most `|σ| − κ − 1 − c_k + ε`
+  (`onlyFor` is `c_k`; `δ = |σ| − κ`); if that is ≤ 0, the rotated state has an `Output`: with owner `k`, or without
+  owner when `ω′ ≤ 0` and every base has at most two goods. On the way: (iii) holds in every state of LB₄ʳ
+  (`Inv.needs_value`), `N^∅ = N` there (`needsK_empty`), and Lemma R(b) for any state of LB₄ʳ (`needsOf_rotate_inv`,
+  `rotate_valid_inv`; the versions in `K4C4AB.lean` are for the envy-free run). `KRExample.lemmaKR_nonvacuous`: every
+  hypothesis of `lemmaKR` holds on one state (n = 2, m = 4).
 - **Lemma M** (§4): `CertK` (Lemma K's certificate at a state: an owner `o`, not frozen, the other bases of at most two
   goods, a `K` with deficit ≤ 0; or every base of at most two goods and `ω ≤ 0`), `ClassK0`, `ClassK1` (the state after
   Phase 1(`[a]`) and upgrades of an allowed policy, or after one more `RotStep`, has a certificate), `RKPolicy`
@@ -71,11 +72,13 @@ those of the Definition, `EFX.LB4.Needs`; LB₄ʳ's `needsOf` for Lemma KR and f
 
 ## Differences from the text
 
-1. **Lemma KR needs one more hypothesis**: every marked agent's base avoids `NA` (`MarkedOK`, `hmk`), because
-   `RotStep`'s `RotChecks` asks (V2) of every marked agent, also one with a one-good base off the chain. It holds in
-   every state LB₄ʳ reaches (`upRun_facts`, `markedOK_of_rotStep`) but not in every state with `Inv`
-   (`attempts/k4-rulef-kr-marked.md`: n = 3, m = 4, the deficit bound holds and the rotation is not a `RotStep`).
-   Lemma KR is stated for states of LB₄ʳ (needs `needsOf`), as the task asks; the text's (iii) is then a theorem
+1. **Lemma KR has hypothesis (iv)**: every marked agent's base avoids `NA` (`MarkedOK`, `hmk`), because
+   `RotStep`'s `RotChecks` asks (V2) of every marked agent, also one with a one-good base off the chain. The text read
+   at 719c911 did not have it; the formalization found it missing and the text now states it (`k4/rulef.md` §3). It
+   holds in every state LB₄ʳ reaches (`upRun_facts`, `markedOK_of_rotStep`) but not in every state with `Inv`
+   (`attempts/k4-rulef-kr-marked.md`: n = 3, m = 4, the deficit bound holds and the rotation is not a `RotStep`;
+   `KRExample` below: the same state without the marked agent satisfies every hypothesis of `lemmaKR`).
+   Lemma KR is stated for states of LB₄ʳ (`Inv`, needs `needsOf`); the text's (iii) is then a theorem
    (`Inv.needs_value`). The text's `ε = 1` case also asks `o` to be threatened; the bound holds without that. `O` is a
    list without repetitions (a set), `k`'s chain is `RotStep`'s.
 2. **Lemma S** is proved under weaker hypotheses than the text's (a valid pre-allocation of a strict k = 4 core): any
@@ -1381,6 +1384,11 @@ theorem rotate_baseOf_succ {s : LState A G} {c : List A} {k r : A} {O : List G} 
   rw [← hBa]
   exact List.filter_congr fun h _ => by simp only [rotate_base_next hch.1 hk hl hO' ha hx]
 
+/-- **Hypothesis (iv) of Lemma KR**: every marked agent's base avoids `NA` (`RotChecks` asks it after every rotation;
+it holds in every state LB₄ʳ reaches, `upRun_facts`, `markedOK_of_rotStep`). -/
+def MarkedOK (v : A → G → Nat) (agents : List A) (goods : List G) (s : LState A G) : Prop :=
+  ∀ i ∈ agents, s.marked i → ∀ g ∈ baseOf goods s.base i, ¬ NA agents (needsOf v goods s) g
+
 open Classical in
 /-- **`c_k`**: the goods the service uses for `k` and for no other agent of `E`. -/
 noncomputable def onlyFor (v : A → G → Nat) (agents : List A) (goods : List G) (s : LState A G) (o : A)
@@ -1389,15 +1397,15 @@ noncomputable def onlyFor (v : A → G → Nat) (agents : List A) (goods : List 
     ¬ UsedOn v agents goods s o (fun x => x ≠ k) Gs Ds g))
 
 /-- **Lemma KR** (`k4/rulef.md` §3), for a state of LB₄ʳ (`EFX.LB4R.Inv`; its needs `needsOf` are value-based, (iii)).
-Let every base have at most two goods and every marked agent's base avoid `NA` (as in every state LB₄ʳ reaches,
-`markedOK_of_upRun`, `markedOK_of_rotStep`), `o` an agent that is not frozen with `|B_o| ≤ 1`, and `σ = (G_x, D_x)` a
+Let every base have at most two goods and every marked agent's base avoid `NA` ((iv), `MarkedOK`; as in every state
+LB₄ʳ reaches, `upRun_facts`, `markedOK_of_rotStep`), `o` an agent that is not frozen with `|B_o| ≤ 1`, and `σ = (G_x, D_x)` a
 ∅-service of `E` (separated options) of size `|σ|`. Let `c = k :: … :: o` be a need chain (`RotStep`'s), `O ⊆ R_k ∩ W`
 without repetitions with `v_k(O) > v_k(Y_k)`, and suppose (i) no good of `O` is used by `σ` for an agent other than
 `k`, (ii) `o` is not frozen after the rotation. Let `ε = 0` if `o` is not threatened after the rotation, or `ε = 1` if a
 slot good `g_o`, no slot good of `σ`, serves it ((s) of Lemma K). Then the rotation is a `RotStep` and the deficit of
 `(P′, k, ∅)` is at most `|σ| − κ − 1 − c_k + ε` (`κ = κ^∅` of `(P, o)`: the deficit drops by `1 + c_k − ε`). -/
 theorem lemmaKR (hgd : goods.Nodup) (hag : agents.Nodup) {s : LState A G} (hI : Inv v agents goods s)
-    (hmk : ∀ i ∈ agents, s.marked i → ∀ g ∈ baseOf goods s.base i, ¬ NA agents (needsOf v goods s) g)
+    (hmk : MarkedOK v agents goods s)
     (h2 : ∀ i ∈ agents, (baseOf goods s.base i).length ≤ 2)
     {o : A} (ho : o ∈ agents) (hoF : ¬ Frozen agents goods s.base (needsOf v goods s) o)
     (hB1 : (baseOf goods s.base o).length ≤ 1) {Gs Ds : A → List G}
@@ -1635,10 +1643,6 @@ end lemmaKR
 section reach
 variable {v : A → G → Nat} {agents : List A} {goods : List G}
 
-/-- Every marked agent's base avoids `NA` (`RotChecks` asks it after every rotation). -/
-def MarkedOK (v : A → G → Nat) (agents : List A) (goods : List G) (s : LState A G) : Prop :=
-  ∀ i ∈ agents, s.marked i → ∀ g ∈ baseOf goods s.base i, ¬ NA agents (needsOf v goods s) g
-
 theorem markedOK_of_rotStep {s s' : LState A G} (hR : RotStep v agents goods s s') : MarkedOK v agents goods s' :=
   (rotStep_valid hR).2
 
@@ -1661,11 +1665,11 @@ theorem upRun_facts (hag : agents.Nodup) (hgd : goods.Nodup) {τ : List Nat} {po
   exact hR.mem p hp
 
 /-- **Lemma KR, "LB₄ʳ succeeds after this one rotation"** (`k4/rulef.md` §3): when the bound of `lemmaKR` is at most
-0, the rotated state has an output, with owner `k` when `ω′ ≥ 1` or `|O| ≥ 3` (Lemma K) and without owner when every
-base has at most two goods and `ω′ ≤ 0`. -/
+0, the rotated state has an output: with owner `k`, or, when every base has at most two goods and `ω′ ≤ 0`, without
+owner. (Owner `k` is the case `ω′ ≥ 1` or `|O| ≥ 3`, by Lemma K.) -/
 theorem lemmaKR_output (hgd : goods.Nodup) (hag : agents.Nodup) {s : LState A G} (hI : Inv v agents goods s)
     (hmem : ∀ g ∈ goods, ∀ i, s.base g = some i → i ∈ agents)
-    (hmk : ∀ i ∈ agents, s.marked i → ∀ g ∈ baseOf goods s.base i, ¬ NA agents (needsOf v goods s) g)
+    (hmk : MarkedOK v agents goods s)
     (h2 : ∀ i ∈ agents, (baseOf goods s.base i).length ≤ 2)
     {o : A} (ho : o ∈ agents) (hoF : ¬ Frozen agents goods s.base (needsOf v goods s) o)
     (hB1 : (baseOf goods s.base o).length ≤ 1) {Gs Ds : A → List G}
@@ -1684,7 +1688,10 @@ theorem lemmaKR_output (hgd : goods.Nodup) (hag : agents.Nodup) {s : LState A G}
         (∀ x, InE v agents goods s o x → g ∉ Gs x) ∧ ε = 1))
     (hδ : (sizeOn v agents goods s o (fun _ => True) Gs Ds : Int) -
       kappaK v agents goods s (needsOf v goods s) o (fun _ => false) - 1 - onlyFor v agents goods s o Gs Ds k + ε ≤ 0) :
-    RotStep v agents goods s (rotate s c O) ∧ ∃ o' X, Output v agents goods (rotate s c O) o' X := by
+    RotStep v agents goods s (rotate s c O) ∧
+      ((∃ X, Output v agents goods (rotate s c O) (some k) X) ∨
+        ((∀ i ∈ agents, (baseOf goods (rotate s c O).base i).length ≤ 2) ∧ omega v agents goods (rotate s c O) ≤ 0 ∧
+          ∃ X, Output v agents goods (rotate s c O) none X)) := by
   obtain ⟨hRot, hdef⟩ := lemmaKR hgd hag hI hmk h2 ho hoF hB1 hσ hsep hc hlen hcA hk hl hch hO hOnd hvO hi hii hε
   refine ⟨hRot, ?_⟩
   have hI' := rotStep_inv hgd hI hRot
@@ -1700,7 +1707,7 @@ theorem lemmaKR_output (hgd : goods.Nodup) (hag : agents.Nodup) {s : LState A G}
         List.filter_congr fun h _ => by simp only [rotate_base_out hl hO' hic]
       rw [hB]; exact h2 i hi
   by_cases hall : (∀ i ∈ agents, (baseOf goods (rotate s c O).base i).length ≤ 2) ∧ omega v agents goods (rotate s c O) ≤ 0
-  · exact ⟨none, output_none_of_omega hag hgd hI' hmem' hall.1 hall.2 k⟩
+  · exact Or.inr ⟨hall.1, hall.2, output_none_of_omega hag hgd hI' hmem' hall.1 hall.2 k⟩
   · -- owner `k`: it holds `O ⊆ W`, which avoids `NA′`, so it is not frozen
     have hkF : ¬ Frozen agents goods (rotate s c O).base (needsOf v goods (rotate s c O)) k := by
       rintro ⟨y, hy, hna⟩
@@ -1708,10 +1715,98 @@ theorem lemmaKR_output (hgd : goods.Nodup) (hag : agents.Nodup) {s : LState A G}
       have hyO := (rotate_base_head hc hk).mp (mem_baseOf.mp hyB).2
       exact W_not_NA hI.valid hoF hB1 (mem_Wl.mpr ⟨(hO y hyO).1, hO' y hyO⟩)
         (NA_rotate_inv hch' hk hl hlen (fun g hg => ⟨(hO g hg).1, hO' g hg⟩) hOnd hvO hna)
-    exact ⟨some k, output_of_lemmaK hag hgd hI' hmem' (hcA k hkc) hkF hle2
-      (fun h => by have := not_and.mp hall h; omega) (hdef.mono hδ)⟩
+    exact Or.inl (output_of_lemmaK hag hgd hI' hmem' (hcA k hkc) hkF hle2
+      (fun h => by have := not_and.mp hall h; omega) (hdef.mono hδ))
 
 end reach
+
+/-! ## Lemma KR is not vacuous
+
+The state of `attempts/k4-rulef-kr-marked.md` with its marked agent `m` (here agent 2) dropped from the list of agents:
+listed agents `k = 0`, `o = 1` (n = 2), goods `y = 0`, `g = 1`, `j₁ = 2`, `j₂ = 3` (m = 4). `k` holds its pick `y`, `o`
+holds nothing, `g` stays with the unlisted agent 2, `J = {j₁, j₂}`; the chain is `[k, o]` and `O = {j₁, j₂}`. Every
+hypothesis of `lemmaKR` holds, (iv) (`MarkedOK`) included, since no listed agent is marked; `E = ∅`, so the service is
+empty, and `ε = 0`. (Lemma KR does not ask the bases to belong to listed agents; `lemmaKR_output` does.) -/
+
+namespace KRExample
+
+/-- Values: `k` (3, 0, 2, 2), `o` (1, 2, 0, 0), the unlisted agent 2 (0, 5, 0, 0). -/
+def v : Fin 3 → Fin 4 → Nat := fun i g => [[3, 0, 2, 2], [1, 2, 0, 0], [0, 5, 0, 0]][i.val]![g.val]!
+abbrev ag : List (Fin 3) := [0, 1]
+abbrev gd : List (Fin 4) := List.finRange 4
+
+/-- The state: `B_k = {y}` (`k`'s pick), `B_o = ∅` (no pick), agent 2 marked with `{g}`, `J = {j₁, j₂}`. -/
+def st : LState (Fin 3) (Fin 4) :=
+  { base := fun g => [some 0, some 2, none, none][g.val]!
+    pick := fun i => [some 0, none, none][i.val]!
+    marked := fun x => x = 2 }
+
+instance : DecidablePred st.marked := fun x => inferInstanceAs (Decidable (x = 2))
+
+/-- After the rotation along `[k, o]` with `O = {j₁, j₂}`: `k` holds `O` (marked), `o` holds `y` (its pick). -/
+def st1 : LState (Fin 3) (Fin 4) :=
+  { base := fun g => [some 1, some 2, some 0, some 0][g.val]!
+    pick := fun i => [none, some 0, none][i.val]!
+    marked := fun x => x = 0 ∨ x = 2 }
+
+instance : DecidablePred st1.marked := fun x => inferInstanceAs (Decidable (x = 0 ∨ x = 2))
+
+theorem rotate_eq : rotate st [0, 1] [2, 3] = st1 := by
+  unfold rotate st1
+  congr 1
+  · funext x; revert x; decide
+  · funext x; revert x; decide
+  · funext x; apply propext; revert x; unfold st; decide
+
+theorem inv : Inv v ag gd st := by
+  refine ⟨⟨?_, ?_⟩, ?_, ?_⟩
+  · unfold NA needsOf; decide
+  · unfold NA needsOf; decide
+  · decide
+  · decide
+
+theorem markedOK : MarkedOK v ag gd st := by
+  unfold MarkedOK NA needsOf; decide
+
+theorem noE : ∀ x, ¬ InE v ag gd st 1 x := by
+  unfold InE Threatened Wl; decide
+
+theorem notFrozen_o : ¬ Frozen ag gd st.base (needsOf v gd st) 1 := by
+  rintro ⟨y, hy, -⟩
+  have h : baseOf gd st.base 1 = [] := by decide
+  rw [h] at hy; cases hy
+
+/-- (ii): after the rotation `o` holds `y`, which no listed agent needs (`o` needs only `g`, `k` nothing). -/
+theorem notFrozen_o' : ¬ Frozen ag gd st1.base (needsOf v gd st1) 1 := by
+  rintro ⟨y, hy, hna⟩
+  have h : baseOf gd st1.base 1 = [0] := by decide
+  rw [h] at hy; cases hy
+  revert hna; unfold NA needsOf; decide
+
+theorem notInE' : ¬ InE v ag gd st1 0 1 := by
+  unfold InE Threatened Wl; decide
+
+/-- **Every hypothesis of `lemmaKR` holds on this state** (with the empty service and `ε = 0`), so its conclusion
+does: the rotation is a `RotStep` and the deficit bound holds. -/
+theorem lemmaKR_nonvacuous :
+    RotStep v ag gd st (rotate st [0, 1] [2, 3]) ∧
+      KDefLE v ag gd (rotate st [0, 1] [2, 3]) (needsOf v gd (rotate st [0, 1] [2, 3])) 0 (fun _ => false)
+        ((sizeOn v ag gd st 1 (fun _ => True) (fun _ => []) (fun _ => []) : Int) -
+          kappaK v ag gd st (needsOf v gd st) 1 (fun _ => false) - 1 -
+          onlyFor v ag gd st 1 (fun _ => []) (fun _ => []) 0 + 0) :=
+  lemmaKR (List.nodup_finRange 4) (by decide) inv markedOK (by decide) (by decide) notFrozen_o (by decide)
+    ⟨fun x _ hx => absurd hx (noE x), fun x _ _ _ _ hx => absurd hx (noE x)⟩ (fun _ _ _ => Or.inl rfl)
+    (by decide) (by decide) (by decide) rfl rfl
+    (fun i a b ha hb => by
+      match i, ha, hb with
+      | 0, ha, hb =>
+        cases ha; cases hb
+        refine ⟨⟨by decide, 0, by decide, 1, by decide, ?_⟩, 0, rfl, ?_⟩ <;> unfold needsOf <;> decide
+      | i + 1, _, hb => simp at hb)
+    (by decide) (by decide) (by decide) (fun x _ hx => absurd hx (noE x))
+    (by rw [rotate_eq]; exact notFrozen_o') (Or.inl ⟨by rw [rotate_eq]; exact notInE', rfl⟩)
+
+end KRExample
 
 /-! ## Lemma M (`k4/rulef.md` §4) and rule F -/
 
@@ -1988,6 +2083,7 @@ end EFX
 #print axioms EFX.LB4R.markedOK_of_rotStep
 #print axioms EFX.LB4R.upRun_facts
 #print axioms EFX.LB4R.lemmaKR_output
+#print axioms EFX.LB4R.KRExample.lemmaKR_nonvacuous
 #print axioms EFX.LB4R.certK'_of_certK
 #print axioms EFX.LB4R.output_of_certK'
 #print axioms EFX.LB4R.certK'_of_output
