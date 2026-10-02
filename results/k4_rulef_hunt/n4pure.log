@@ -6,3 +6,4 @@
 [      8s] units 2/219 evals 1000032 (124739/s) est. total 14.6 min; best nwork per unit {4: 2}; tight profiles 0; best key [4, 3, 4, 12] at k4_certs_4_pure.json.gz:0
 [      8s] units 4/219 evals 2000064 (245622/s) est. total 7.4 min; best nwork per unit {4: 4}; tight profiles 0; best key [4, 3, 4, 12] at k4_certs_4_pure.json.gz:0
 [     18s] units 8/219 evals 4000176 (221268/s) est. total 8.2 min; best nwork per unit {4: 8}; tight profiles 0; best key [4, -1, 0, -4] at k4_certs_4_pure.json.gz:6
+[    889s] units 200/219 evals 100003344 (112517/s) est. total 16.2 min; best nwork per unit {2: 66, 3: 26, 4: 108}; tight profiles 0; best key [2, -1, 0, -6] at k4_certs_4_pure.json.gz:57
