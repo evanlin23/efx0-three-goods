@@ -36,6 +36,8 @@ modes (each unit is one climb; units already in the checkpoint are skipped, so r
                                    none, then states whose nearest better state is at distance >= 2, then states)
   glue FILE.json [--pairs=N]       cores glued from two profiles of the list sharing one good (checked with check4.is_core),
                                    starting at the union of the two profiles; N random gluings
+  instcores FILE.json [--reps=R]   (an addition) the cores of an inst list ({"sets", "m", "vals"}), starting at the profile
+                                   of the values' order types (k4/dlrc_shrink.py's smaller cores of a failure), R climbs each
   extend FILE.json [--exts=N]      (an addition to the brief's seeds) n + 1 cores: a profile of the list plus one agent on 3
                                    or 4 goods (existing goods, and new private goods within the core's private-good limit),
                                    checked with check4.is_core; start at the list's profile with the new agent's type the
@@ -110,6 +112,21 @@ def mk_core(sets, m, label):
 
 def prof_of_vals(core, vals):
     return [next(t for t, d in enumerate(D) if [d[g] for g in S] == list(V)) for D, S, V in zip(core['doms'], core['sets'], vals)]
+
+
+def type_key(v):
+    sums = [sum(v[g] for g in range(len(v)) if S >> g & 1) for S in range(1, 1 << len(v))]
+    order = sorted(set(sums))
+    return tuple(order.index(x) for x in sums)
+
+
+def prof_of_types(core, vals):
+    """the type indices with the order types of the values (None where the type is not in the domain)"""
+    out = []
+    for D, S, V in zip(core['doms'], core['sets'], vals):
+        k = type_key(V)
+        out.append(next((t for t, d in enumerate(D) if type_key([d[g] for g in S]) == k), None))
+    return out
 
 
 def rand_type(core, i, rng, pbt):
@@ -247,6 +264,16 @@ def units_of(mode, args, opt, rng):
             if not ok or nxt > 32 or any(u[0] == key for u in out): continue
             core = mk_core(sets, nxt, 'glue(%d:%d,%d:%d)' % (a, gA, b, gB))
             out.append((key, core, prof_of_vals(core, A['vals'] + Bd['vals'])))
+    elif mode == 'instcores':
+        insts = json.load(open(args[0])); seen = set()
+        for r in range(int(opt.get('reps', 1))):
+            for k, d in enumerate(insts):
+                ck = json.dumps([d['sets'], d['vals']])
+                if r == 0 and ck in seen: continue
+                seen.add(ck)
+                core = mk_core(d['sets'], d['m'], d.get('id', str(k)))
+                p0 = prof_of_types(core, d['vals'])
+                out.append(({'inst': k, 'rep': r}, core, None if None in p0 else p0))
     elif mode == 'extend':
         insts = json.load(open(args[0]))
         tries = 0

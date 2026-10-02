@@ -1,0 +1,5 @@
+# command: python3 k4/dlrc_hunt.py shrink_cores instcores results/k4_rc/rc_shrink_cores_inst.json --reps=6 --steps=1500 --bt=0.6 --jobs=3 --seed=51
+# dlrc.c sha256 f1cf4cc169a347625e5a84bd9c7a8c218f791de6e2a7ce466f59ce357000b1f7; dlrc_hunt.py sha256 fe0fa5082f6dde3e89d9e338cd7f508db3a25be24e4328aea29bfdf82b38189f
+# instcores results/k4_rc/rc_shrink_cores_inst.json: 240 units, 240 to run, 0 from the checkpoint; options {'steps': 1500, 'batch': 24, 'obj': 'std', 'bt': 0.6, 'seed': 51, 'init': 200, 'stale': 40}
+#   unit {"inst": 1, "rep": 0} core 4604 minus goods [1]: start [0, 0, 0, 0, -1, 0, 2, -4, 13] best [0, 0, 0, 0, -1, 0, 2, -4, 13] chain profiles 0 (states 0), maxw 0, DL_RC fails 0, key form fails 0; 36001 evals [32 s]
+#   unit {"inst": 2, "rep": 0} core 4604 minus goods [2]: start [0, 0, 0, 0, -3, 0, 1, -43, 4] best [0, 0, 0, 0, -1, 0, 2, -31, 16] chain profiles 0 (states 0), maxw 0, DL_RC fails 0, key form fails 0; 36001 evals [37 s]
