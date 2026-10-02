@@ -1,0 +1,4 @@
+# command: python3 k4/rulef_hunt.py deep5r --seeds=results/k4_rulef_hunt/seeds_deep5r.jsonl --evals=200000 --key=R --kick=0.7 --relabel
+# k4/rulef.c sha256 5721abf3bc9e25b101412aeb6b602db24d80e1991beee9a367a01cf9ccfc424e
+# k4/rulef_hunt_eval.c sha256 5d7c62157e4daf0cfad93985eecee273bb9fd7408ffdf6636304cb285254944b; evaluator options -Y1 -r2 -T1 -K1 -c30; B=48 R0=96 STAG=25; key R; samep 0.0; kick 0.7; relabel True
+# units 294, done before 0, to do 294, evals per unit 200000, jobs 4
