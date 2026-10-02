@@ -1,5 +1,8 @@
 # command: python3 k4/f2_cc.py n5c --inst=k4/suite/.cache/sx/results/k4_sx/f2/rt4_n5c_inst.json
 ### n5c
+  obstruction | maxima with such a triple                                                                                  30
+  obstruction | triples (safe bundle of omega+1 goods, no good passes Fact 3)                                              2930
+  obstruction | triples with a third needer of phi(x)                                                                      1242
   uncovered keys | C'+ at some maximum                                                                                     7
   uncovered keys | C+ at some maximum                                                                                      7
   uncovered keys | full at some maximum                                                                                    7
@@ -26,9 +29,6 @@
   uncovered maxima | kinds | full | owner a leaf                                                                           32
   uncovered maxima | least k over the lemmas that apply | 0                                                                31
   uncovered maxima | least k over the lemmas that apply | 1                                                                1
-  uncovered maxima | obstruction | C'+: Y safe, |Y| = omega+1, no good counted by Fact 3 | def(P′) <= 0 | third needers of phi(x): none 32
-  uncovered maxima | obstruction | C'+: Y safe, |Y| = omega+1, no good counted by Fact 3 | def(P′) > 0 | third needers of phi(x): free 30
-  uncovered maxima | obstruction | C'+: Y safe, |Y| = omega+1, no good counted by Fact 3 | def(P′) > 0 | third needers of phi(x): none 32
   uncovered maxima | roles | C'+ | x threatened by a leaf | tau a leaf | owner a leaf threatening x                        2
   uncovered maxima | roles | C'+ | x threatened by a leaf | tau a leaf | owner x                                           32
   uncovered maxima | roles | C+ | x threatened by a leaf | tau a leaf | owner a leaf not threatening x                     6
@@ -49,5 +49,5 @@
   smallest [k=1 C+ owner a leaf (a*) not (H*)]: n=5 m=12 sets=[[0, 2, 8, 10], [1, 4, 9, 11], [3, 6, 9, 11], [5, 7, 10, 11], [7, 8, 10, 11]] vals=[[3, 4, 2, 8], [3, 4, 2, 8], [4, 3, 2, 8], [2, 10, 6, 3], [10, 2, 6, 3]] key=[10, None, None, 11, 7] def*=1 config=Config(key=[10, None, None, 11, 7], Q={1: [1, 4], 2: [3, 6]}, L=[0, 2, 5, 8, 9]) P_Q=[[10], [1, 4], [3, 6], [11], [7]] def(P_Q)=1 why=None
   smallest [k=1 full owner a leaf]: n=5 m=12 sets=[[0, 2, 8, 10], [1, 4, 9, 11], [3, 6, 9, 11], [5, 7, 10, 11], [7, 8, 10, 11]] vals=[[3, 4, 2, 8], [3, 4, 2, 8], [4, 3, 2, 8], [2, 10, 6, 3], [10, 2, 6, 3]] key=[10, None, None, 11, 7] def*=1 config=Config(key=[10, None, None, 11, 7], Q={1: [1, 4], 2: [3, 6]}, L=[0, 2, 5, 8, 9]) P_Q=[[10], [1, 4], [3, 6], [11], [7]] def(P_Q)=1 why=None
   smallest [not covered by C+ or C′+ with k = 0 (plain (T3), no helper)]: n=5 m=12 sets=[[0, 2, 8, 10], [1, 4, 9, 11], [3, 6, 9, 11], [5, 7, 10, 11], [7, 8, 10, 11]] vals=[[3, 4, 2, 8], [3, 4, 2, 8], [4, 3, 2, 8], [2, 10, 6, 3], [10, 2, 6, 3]] key=[10, None, None, 11, 7] def*=1 config=Config(key=[10, None, None, 11, 7], Q={1: [1, 4], 2: [3, 6]}, L=[0, 2, 5, 8, 9]) P_Q=[[10], [1, 4], [3, 6], [11], [7]] def(P_Q)=1 why=['("C\'+", 1, \'owner a leaf\', "phi(a_k), now tau\'s")', '("C\'+", 1, \'owner x\', \'phi(x)\')', "('C+', 1, 'owner a leaf', '(a*)', 'not (H*)')", "('full', 1, 'owner a leaf')"]
-# time 1.2 s
+# time 1.1 s
 # no assertion failed

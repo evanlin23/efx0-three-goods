@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Second implementation for step 1 and 2 of k4/f2.md (workstream proof/k4-f2): the T3-stage states with f >= 2 and
-DL_RT4 there, from main's C tool k4/dlrt4.c (compute/k4-rt4; its own 𝒫, deficit and RT4 move kinds, no model.py), compared
+DL_RT4 there, from main's C tool k4/dlrt4.c (compute/k4-rt4; its own 𝒫, deficit and RT4 move kinds; this wrapper reads
+the inputs with k4/f2_shapes.collect, which loads model.py), compared
 state by state with k4/f2_shapes.py's dumps (model.py + k4/dl2_classify.py + k4/dl2_relations.py + k4/f2_lib.py).
 
 For every profile of the inputs (the same deduplicated list as k4/f2_shapes.py, same sources and --chunk slicing), dlrt4.c

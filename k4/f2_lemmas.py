@@ -6,7 +6,8 @@ a_1..a_k frozen, z free, each a_{i+1} needing the good of a_i. The *chain swap* 
 the good of a_k, each a_i (1 <= i <= k) the good of a_{i-1}, x takes A, h takes B'_h, with A, B'_h ⊆ G = J ∪ B_z ∪ B_h.
 Every conclusion is asserted against the exact deficits and owner tables (k4/f2_lib.py: main's model.py and
 dl2_classify.py):
-  P    Lemma P: every frozen agent has a need path from a free agent, or the agents with a need walk to it are all
+  (Lemma NP and Lemma CL of k4/f2.md are called "Lemma P" and "Lemma C" in this file's log rows.)
+  P    Lemma NP: every frozen agent has a need path from a free agent, or the agents with a need walk to it are all
        frozen and contain a cycle of the frozen need digraph (so: always, at a T4-optimal P).
   L6+  Lemma 6+: every chain swap with admissible A, B'_h (N(.) ⊆ 𝒩) is min-frozen with NA(P') = NA(P),
        F(P') = F - x + z, and is a (T3+) move (k4/f2_lib.t3plus) when the helper gives up a good.
@@ -18,8 +19,9 @@ dl2_classify.py):
   C2+  Corollary 11.1+ (the blocker swap through a need path): X ∪ {c} threatens only a free z, z the free end of a
        need path to a frozen x, theta_z(X ∪ {c}) <= v_z(g_k), A ⊆ (J ∪ B_z) minus (X ∪ {c}) admissible with
        theta_x(X ∪ {c}) <= v_x(A) and no good counted in u_o(X) in N_x(A): def(P') <= def(P) - 1.
-  C    Lemma C: a (T4) move followed by a (T3+) move is a (T3+) move (every composition through every (T4) neighbour);
-  N    Proposition N: at a def > 0 state no (T4) move improves, frozen rotations reach a T4-optimal state, equal deficit.
+  C    Lemma CL: a (T4) move followed by a (T3+) move is a (T3+) move (every composition through every (T4) neighbour);
+  N    Proposition N: at a def > 0 state no (T4) move improves, frozen rotations reach a T4-optimal state, equal deficit;
+       and its dichotomy (--propn): (i) def*(κ(P*)) < def(P), a (T4) key edge, or (ii) P* at the T3 stage.
   C4+  Corollary 11.2+ (the kappa swap): a best owner o keeps an optimal X; a frozen x whose good g has exactly one
        needer a_1 besides o, g ∉ N_o(X); a need path z, ..., a_1, x avoiding o; x takes a pair A ⊆ (J ∪ B_z) minus X with
        v_x(A) > v_x(g) and theta_x(X) <= v_x(A): def(P') <= def(P) - 1 (g becomes counted at o).
@@ -34,6 +36,7 @@ usage: python3 k4/f2_lemmas.py DUMP.jsonl.gz ...            (T3-stage dumps of k
        python3 k4/f2_lemmas.py --stuck STUCK.jsonl.gz ...    (the T3-stage states among k4/dl13_stuck.py's T1-stuck
                                    records, any f >= 1: the same coverage, case and repairs computed here)
        python3 k4/f2_lemmas.py --caseb DUMP.jsonl.gz ...    (case B at every def > 0 state of the dumps' profiles)
+       python3 k4/f2_lemmas.py --propn DUMP.jsonl.gz ...    (Proposition N's dichotomy at the non-T4-optimal states)
        --light: skip the checks of Lemmas 6+, 8+, C and Proposition N (the coverage only)
        python3 k4/f2_lemmas.py --random N [--seed=S] [--nmax=5] [--mmax=12]   (random strict instances, not cores,
                                    biased to f >= 2; every check at every def > 0 state with f >= 1)
@@ -249,6 +252,14 @@ class Ctx:
                 cur = nxt
             assert pr.D[cur] == pr.D[Bs], ('Proposition N: def(P*) != def(P)', Bs, cur)
             assert kind(P, pr.PA[cur]) == 't4', ('Proposition N: P -> P* not (T4)', Bs, cur)
+            # the dichotomy of Proposition N (k4/f2.md §3.3): (i) def*(κ(P*)) < def(P), a (T4) key edge to a smaller
+            # def*; or (ii) P* is at the T3 stage
+            if pr.dstar[pr.key[cur]] < pr.D[Bs]:
+                rot = 'i'
+            else:
+                assert pr.t3_stage(cur), ('Proposition N (ii): P* not at the T3 stage', Bs, cur)
+                rot = 'ii'
+            self.pstar = cur
         return n, rot
 
     # ------------------------------------------------------------ the corollaries
@@ -411,7 +422,7 @@ def coverage(files, stuck=False, light=False):
             if not light:
                 n6, n8 = ctx.check_6_8(); cnt['Lemma 6+ chain swaps checked'] += n6; cnt['Lemma 8+ values checked'] += n8
                 nc, rot = ctx.check_closure(); cnt['Lemma C compositions checked'] += nc
-                cnt['Proposition N: not T4-optimal, rotated to a T4-optimal state of equal deficit'] += rot
+                cnt['Proposition N: not T4-optimal, rotated to a T4-optimal state of equal deficit'] += 1 if rot else 0
             sb = ctx.single_blocks()
             c1 = ctx.C1p(sb); c2 = ctx.C2p(sb); c3 = ctx.C3p(); c4 = ctx.C4p()
             plain = any(t[-1] == 0 for t in c1 + c2 + c4) or any(len(t[1]) == 2 for t in c3)
@@ -498,6 +509,35 @@ def rand_inst(rng, nmax, mmax):
             return {'sets': sets, 'vals': vals, 'm': m}
 
 
+def propn(files):
+    """Proposition N's dichotomy (k4/f2.md §3.3) at every T3-stage state of the dumps that is not T4-optimal: the
+    rotation to a T4-optimal P* of equal deficit, then (i) def*(κ(P*)) < def(P), or (ii) P* at the T3 stage, and in
+    case (ii) every improving (T3⁺) move from P* composes to one from P (Lemma CL)"""
+    cnt = collections.Counter(); cache = {}; ex = None
+    for fn in files:
+        for r in (json.loads(l) for l in gzip.open(fn, 'rt')):
+            if r['t4opt']: continue
+            key = json.dumps([r['sets'], r['vals']])
+            if key not in cache:
+                cache.clear(); cache[key] = Prof({'sets': r['sets'], 'vals': r['vals'], 'm': r['m']}, fmin=1)
+            pr = cache[key]; Bs = tup(r['Bs']); ctx = Ctx(pr, Bs)
+            assert pr.t3_stage(Bs)
+            _, rot = ctx.check_closure()
+            assert rot in ('i', 'ii'), ('not rotated', Bs)
+            cnt['T3-stage states not T4-optimal'] += 1
+            cnt['case (%s)' % rot] += 1
+            if rot == 'ii':
+                for B2, x, z, W, h in pr.t3_moves(ctx.pstar):
+                    assert t3plus(ctx.P, pr.PA[B2]) is not None, ('Lemma CL lift', Bs, ctx.pstar, B2)
+                    cnt['case (ii): improving (T3+) moves of P* lifted to P'] += 1
+            else:
+                cand = (len(r['sets']), r['m'], sum(map(sum, r['vals'])), r['sets'], r['vals'], r['Bs'],
+                        lst(ctx.pstar), pr.dstar[pr.key[ctx.pstar]])
+                if ex is None or cand[:3] < ex[:3]: ex = cand
+    for k in sorted(cnt): print('  %-70s %d' % (k, cnt[k]))
+    if ex: print('  smallest case (i): n=%d m=%d sets=%s vals=%s P=%s P*=%s def*(key(P*))=%d' % (ex[:2] + ex[3:]))
+
+
 def check_run(profiles, all_states=False):
     """every check at every def > 0 state (with all_states: Lemmas P, 6+, 8+, C at every min-frozen state)"""
     cnt = collections.Counter()
@@ -512,7 +552,7 @@ def check_run(profiles, all_states=False):
             if pr.D[Bs] <= 0 and not all_states: continue
             cnt['states checked'] += 1
             n6, n8 = ctx.check_6_8(); cnt['Lemma 6+ chain swaps'] += n6; cnt['Lemma 8+ values'] += n8
-            nc, rot = ctx.check_closure(); cnt['Lemma C compositions'] += nc; cnt['Proposition N rotations'] += rot
+            nc, rot = ctx.check_closure(); cnt['Lemma C compositions'] += nc; cnt['Proposition N rotations'] += 1 if rot else 0
             if pr.D[Bs] <= 0: continue
             cnt['def>0 states'] += 1; cnt['def>0 states f=%d' % pr.I.f] += 1
             pairs = ctx.all_pairs()
@@ -535,6 +575,8 @@ def main(argv):
         check_run((rand_inst(rng, int(opt.get('nmax', 5)), int(opt.get('mmax', 12))) for _ in range(int(rest[0]))))
     elif 'caseb' in opt:
         caseb(rest)
+    elif 'propn' in opt:
+        propn(rest)
     elif 'profiles' in opt:
         from f2_shapes import collect
         check_run((d for d, _ in collect(rest, opt)), all_states='all' in opt)

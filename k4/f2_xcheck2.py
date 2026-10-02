@@ -2,8 +2,9 @@
 """Second implementation of the T3-stage and T3⁺ verdicts of k4/f2.md §1–§2 (workstream proof/k4-f2). EVIDENCE tooling.
 
 Built on main's k4/dl134_xcheck.py (compute/k4-dl13): its own enumeration of 𝒫 through main's k4/c4x_check.py (every
-base map, (V1), (V2) literally, its own removal-only deficit), and its own move kinds T1, T2, T3 (plain), T4. It imports
-neither k4/suite/model.py nor k4/f2_lib.py. The T3⁺ test below is written here from the coordinator's definition:
+base map, (V1), (V2) literally, its own removal-only deficit), and its own move kinds T1, T2, T3 (plain), T4. It does not
+import k4/f2_lib.py, and its 𝒫, deficits and move kinds do not use k4/suite/model.py; model.py is loaded transitively
+(dl134_xcheck.py imports dl2_relations_xcheck.py, which imports dl2_relations.py) but not used here. The T3⁺ test below is written here from the coordinator's definition:
   NA' = NA; among the changed agents exactly one is frozen in P and free in P' (x) and exactly one free in P and frozen
   in P' (z), with B'_z ⊆ N_z(B_z); the changed agents frozen in both form W; at most one changed agent is free in both,
   and it gives up a good; the multiset of bases {B'_i : i ∈ W ∪ {z}} equals {B_i : i ∈ W ∪ {x}}.

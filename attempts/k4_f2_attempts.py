@@ -143,6 +143,29 @@ CANDIDATES.append(('n = 4, m = 8 (structural cover fails at f = 2)',
                    [[0, 2], [5], [3, 6], [7]], chk_structural))
 
 
+def chk_caseb_block(pr, Bs, b, PB):
+    """attempts/k4-f2-caseb-block.md: at this T3-stage state, owner 2 has a single block by the frozen agent 1, whose
+    needers are all frozen, and 2 is not the free end of any need path to 1 (both implementations)"""
+    from f2_shapes import path_ends_all
+    P = pr.PA[Bs]
+    blkA = [(o, w) for o, X, c, w in pr.single_blocks(Bs) if (o, w) == (2, 1)]
+    okA = bool(blkA) and P.frozen[1] and not pr.free_needers(Bs, 1) and 2 not in path_ends_all(pr, Bs, 1)
+    say('  A: single block (owner 2, blocker 1), frozen needers only, 2 not a free end', okA,
+        'free ends of need paths to 1: %s' % sorted(path_ends_all(pr, Bs, 1)))
+    N, NA, fz = b.info[PB]
+    blkB = [(o, w) for o, Z, c, w in b.single_blocks(PB) if (o, w) == (2, 1)]
+    freeneed = [i for i in range(b.n) if not fz[i] and PB[1] <= N[i]]
+    endsB = sorted(set(e for e, g in b.free_ends(PB, 1)))
+    say('  B: the same block, no free needer of 1, 2 not a free end', bool(blkB) and fz[1] and not freeneed
+        and 2 not in endsB, 'free ends %s' % endsB)
+
+
+CANDIDATES.append(('n = 5, m = 9 (case B, block level)',
+                   [[0, 1, 4, 7], [2, 3, 4], [2, 3, 8], [5, 6, 7, 8], [5, 6, 7, 8]],
+                   [[2, 3, 8, 4], [2, 3, 4], [2, 4, 3], [3, 2, 8, 4], [2, 3, 8, 4]], 9,
+                   [[7], [4], [3], [8], [5, 6]], chk_caseb_block))
+
+
 def cc_phix():
     """attempts/k4-f2-cc-phix.md: at a maximum Q of (r′, Λ′) where Lemmas A+ and B+ of k4/sx.md (PR #80) fail, neither
     Lemma C+ nor Lemma C′+ with q = φ(x) applies (implementation A: k4/f2_cc.py); the repair is C′+ with q = φ(w)

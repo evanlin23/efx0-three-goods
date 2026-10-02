@@ -1,0 +1,7 @@
+# command: python3 k4/f2_lemmas.py --propn results/k4_f2/shapes_0.jsonl.gz results/k4_f2/shapes_1.jsonl.gz results/k4_f2/shapes_2.jsonl.gz results/k4_f2/shapes_3.jsonl.gz results/k4_f2/shapes_4.jsonl.gz results/k4_f2/shapes_5.jsonl.gz results/k4_f2/shapes_6.jsonl.gz results/k4_f2/shapes_7_28.jsonl.gz results/k4_f2/shapes_7_29.jsonl.gz results/k4_f2/shapes_7_30.jsonl.gz results/k4_f2/shapes_7_31.jsonl.gz results/k4_f2/shapes5_0.jsonl.gz results/k4_f2/shapes5_1.jsonl.gz results/k4_f2/shapes5_2.jsonl.gz results/k4_f2/shapes5_3.jsonl.gz results/k4_f2/shapes5_4.jsonl.gz results/k4_f2/shapes5_5.jsonl.gz results/k4_f2/shapes5_6.jsonl.gz results/k4_f2/shapes5_7.jsonl.gz results/k4_f2/shapes_rchunt.jsonl.gz
+  T3-stage states not T4-optimal                                         273
+  case (i)                                                               19
+  case (ii)                                                              254
+  case (ii): improving (T3+) moves of P* lifted to P                     8960
+  smallest case (i): n=4 m=8 sets=[[0, 2, 6, 7], [1, 5, 6, 7], [2, 3, 4, 5], [3, 4, 6, 7]] vals=[[3, 2, 4, 8], [1, 4, 8, 6], [1, 4, 8, 6], [4, 5, 8, 6]] P=[[6], [1, 5], [2, 4], [7]] P*=[[7], [1, 5], [2, 4], [6]] def*(key(P*))=0
+# no assertion failed

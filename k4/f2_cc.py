@@ -3,7 +3,8 @@
 state P_Q), tested at every maximum of (r′, Λ′) where PR #80's Lemmas A⁺ and B⁺ do not apply (workstream
 proof/k4-f2). EVIDENCE tooling for written proofs.
 
-Inputs, read as PR #80's k4/sx_f2.py reads them (copies of origin/proof/k4-sx in k4/suite/.cache/sx/, k4/f2.md §7):
+Inputs, read as PR #80's k4/sx_f2.py reads them (k4/ and results/k4_sx/ on main once PR #80 is merged; before that, copies of proof/k4-sx at de4ee31 in
+k4/suite/.cache/sx/, k4/f2.md §8):
   cat   results/k4_sx/chunks/{gap_n4_3_s4000@f2e1,gap_n4_pure_s4000@f2e1,hard_hunt@f2e1,hunt_n4_3_s400k@f2e1,
         hunt_n4_pure_s400k@f2e1}_c000.jsonl.gz and gap_n4_1_c0{00..11}.jsonl.gz          (67 keys, 49 uncovered)
   stuck results/k4_sx/t3stage/keys.jsonl.gz                                            (196 keys, 40 uncovered)
@@ -215,7 +216,7 @@ def main(argv):
                 cnt['uncovered maxima'] += 1
                 inst = []
                 applied, why = test_max(pr, c, Bs, V, X, cnt, inst)
-                # roles (k4/f2.md §7): x threatened by a leaf? tau a leaf? the owner the leaf that threatens x?
+                # roles (k4/f2.md §7, What remains): x threatened by a leaf? tau a leaf? the owner the leaf that threatens x?
                 thrl = {o: set(w for w in range(pr.I.n) if w != o and pr.PA[Bs].frozen[w]
                                and pr.I.threat(w, X[o], pr.I.val(w, Bs[w]))) for o in V}
                 sigs = set()
@@ -259,7 +260,17 @@ def main(argv):
                                                   ("C'+" if names else 'none'))
                 cnt[('uncovered maxima', 'first: ' + tag)] += 1
                 cnt[('uncovered maxima', 'C+ or C′+ applies', bool(names))] += 1
-                for w in why: cnt[('uncovered maxima', 'obstruction') + w] += 1
+                # obstruction triples (move, owner, bundle): a safe bundle of ω + 1 goods at which no good passes Fact 3
+                tot = sum(why.values())
+                third = sum(v for w, v in why.items() if not w[2].endswith('none'))
+                frz = sum(v for w, v in why.items() if 'frozen' in w[2])
+                frzpos = sum(v for w, v in why.items() if 'frozen' in w[2] and w[1] == 'def(P′) > 0')
+                cnt[('obstruction', 'triples (safe bundle of omega+1 goods, no good passes Fact 3)')] += tot
+                cnt[('obstruction', 'triples with a third needer of phi(x)')] += third
+                cnt[('obstruction', 'maxima with such a triple')] += third > 0
+                cnt[('obstruction', 'triples with a frozen third needer of phi(x)')] += frz
+                cnt[('obstruction', 'maxima with such a triple (frozen)')] += frz > 0
+                cnt[('obstruction', 'triples with a frozen third needer and def(P′) > 0')] += frzpos
                 if not names:
                     szk = (pr.I.n, pr.I.m, sum(map(sum, d['vals'])))
                     cur = smallest.get('none')
