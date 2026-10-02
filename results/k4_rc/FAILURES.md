@@ -12,10 +12,10 @@ Conjecture DL_RC is the statement of `k4/dlrc.c`'s header. At f ≥ 1, every min
 | core (pos in `k4_certs_5_pure`) | m | f | profiles | failing states | def | nearest distance k | nearest better states |
 |---|---:|---:|---:|---:|---:|---:|---|
 | 4604 | 13 | 1 | 369 | 369 | 1 | 3 | role swap, one helper that grows |
-| 4515 | 12 | 2 | 81 | 324 | 1 | 4 | role swap with two helpers |
+| 4515 | 12 | 2 | 1,076 | 4,304 | 1 | 4 | role swap with two helpers |
 
 - At core 4604 it is the same state in every profile.
-- At core 4515 there are four states, which differ only in agent 3's base.
+- At core 4515 there are four states per profile, which differ only in agent 3's base.
 - Section 1 below covers core 4604, section 2 core 4515. **DL on the key graph holds at all of them.** These states are also DL_RT4 failures of a new kind: they are at f = 1 (the known ones were at f = 3) and are not chain states. DL_RC fails nowhere else in the inputs of the n = 5 failures (task (c)), or anywhere else the hunt went so far (SUMMARY.md).
 
 ## How it was found and confirmed
@@ -77,7 +77,14 @@ All 369 failing profiles have the same core and the same failing state P, with f
 
 **Found by** the extra random-core hunt (`k4/dlrc_hunt_runs_extra.sh`; run `certs_pure_x`, 1,500 random pure cores, `--bt=0.5`, seed 61; log `hunt_certs_pure_x.log`, dump `dump_hunt_certs_pure_x.jsonl.gz`).
 
-**Confirmed:**
+**More failing profiles:** 12 climbs from the first failing profiles (run `core4515`, log `hunt_core4515.log`) raise the total to **1,076 distinct failing profiles with 4,304 failing states**.
+- `rc_fail_4515_all_inst.json` holds the profiles.
+- `ref_rc_fail_4515_all.log`: dlrc_ref.py confirms all of them. It finds 99,583 def > 0 states at f = 2; DL_RC fails at 4,304, the key form at 0; 0 mismatches with dlrc.c, dlrt4.c and the -DBIGPP=0 build.
+- `run_rc_fail_4515_all.log`, `dump_rc_fail_4515_all.jsonl.gz`, `rc_failures_4515_all.tsv`, `rc_failures_4515_all_inst.json`, `rc_failures_4515_all.log`: dlrc.c's records and the listing.
+- In every profile, agent 3's base in the four failing states is {5,6}, {5,7}, {6,7} and one singleton of {5}, {6}, {7}.
+- Over the 4,304 states: 109,608 better states of shape (1, 1, 0, 2), all of them nearest, and 260,544 of shape (2, 2, 0, 1).
+
+**Confirmed (the first 81 profiles):**
 - `rc_fail_4515_inst.json` holds the 81 distinct failing profiles.
 - `ref_rc_fail_4515.log` (dlrc_ref.py): 8,018 def > 0 states, all at f = 2. DL_RT4 and DL_RC fail at 324, the key form at 0. There are 0 mismatches with dlrc.c on every field and the H lines, and 0 with dlrt4.c and the -DBIGPP=0 build.
 - `ref_rt4_rc_fail_4515.log` (dlrt4_ref.py, model.py): 324 DL_RT4 failures with 0 mismatches. At f = 2 a T3c move is possible, so the DL_RC verdict there rests on dlrc.c and dlrc_ref.py; neither finds an improving T3c move at these states.
@@ -105,6 +112,7 @@ All 369 failing profiles have the same core and the same failing state P, with f
   - **At distance 5, shape (2, 2, 0, 1): a double role swap**, two x's out and two z's in. Example: P′ = ({0}, {1,10}, {9}, {4}, {5}), def −1. Agents 0 and 4 become free, agent 2 takes {9} and agent 3 takes {4}, and helper 1 gives up a good.
   - Over the 324 states (at most 400 better states each): 8,604 better states of shape (1, 1, 0, 2), all of them the nearest, and 19,776 of shape (2, 2, 0, 1). None is an R_C move.
 - From P itself there are 10 T3⁺ moves (W = ∅), all to states with def 1.
+- **Smaller m.** Deleting one or two goods from the 81 first failing profiles, values kept, gives 209 smaller profiles (`rc_shrink_4515.log`) and 21 smaller cores (m = 10, 11). There is no DL_RC failure among the profiles, and 84 climbs on those cores (`hunt_shrink_cores_4515.log`, 2.0 M profiles) find none either.
 
 **The key form holds** (def* = 1, kmin = −1):
 - all 60 states of P's key have def 1;
