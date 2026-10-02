@@ -3,3 +3,5 @@
 # k4/rulef_hunt_eval.c sha256 5d7c62157e4daf0cfad93985eecee273bb9fd7408ffdf6636304cb285254944b; evaluator options -Y1 -r2 -T1; B=48 R0=96 STAG=25; key M; samep 0.0; kick None; relabel True
 # units 136, done before 0, to do 136, evals per unit 3000000, jobs 4
 [     20s] units 1/136 evals 825246 (40617/s) est. total 46.1 min; best nwork per unit {1: 1}; tight profiles 240; best key [1, 0, 1, -4] at seed0
+[     23s] units 2/136 evals 1650492 (70840/s) est. total 26.4 min; best nwork per unit {1: 2}; tight profiles 480; best key [1, 0, 1, -4] at seed0
+[     31s] units 4/136 evals 3300984 (107535/s) est. total 17.4 min; best nwork per unit {1: 4}; tight profiles 960; best key [1, 0, 1, -4] at seed0
