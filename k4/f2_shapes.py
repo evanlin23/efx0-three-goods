@@ -69,10 +69,12 @@ def read_source(src):
 
 def collect(sources, opt):
     seen = collections.OrderedDict()
+    skip = set(opt['exclude-ids'].split(',')) if 'exclude-ids' in opt else set()
     for src in sources:
         k = 0
         for d, f, label in read_source(src):
             if f is not None and f < 2: continue
+            if label.startswith('suite:') and label[6:] in skip: continue
             k += 1
             if 'every' in opt and (k - 1) % int(opt['every']): continue
             key = json.dumps([d['sets'], d['vals']])
