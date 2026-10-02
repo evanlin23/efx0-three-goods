@@ -1,0 +1,10 @@
+# command: python3 k4/zmh_s1c3_steps.py 6000 11 (6,000 random strict profiles per n = 3 core). On compute/k4-cover's n = 3 screen the hypothesis (big-top x, two terminals, omega >= 2) never occurs: see s1c3_steps_screen.log
+I2 tested                      3
+II tested                      56
+II-ex tested                   10
+PK tested                      274
+configurations                 376
+
+real	7m29.602s
+user	7m24.908s
+sys	0m0.020s
