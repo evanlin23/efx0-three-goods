@@ -1,0 +1,50 @@
+# command: python3 k4/f2_cc.py seeds_unc_n5 --inst=k4/suite/.cache/cover/seeds_unc_n5_inst.json
+### seeds_unc_n5
+  keys | frozen need digraph acyclic | A+ or B+ (PR #80)                                                                   2
+  keys | frozen need digraph acyclic | C+ or C′+ needed                                                                    1
+  keys | frozen need digraph cyclic (Proposition NK) | C+ or C′+ needed                                                    3
+  obstruction | maxima with such a triple (frozen)                                                                         2
+  obstruction | maxima with such a triple                                                                                  2
+  obstruction | triples (safe bundle of omega+1 goods, no good passes Fact 3)                                              39
+  obstruction | triples with a frozen third needer and def(P′) > 0                                                         7
+  obstruction | triples with a frozen third needer of phi(x)                                                               7
+  obstruction | triples with a third needer of phi(x)                                                                      14
+  uncovered keys | h:C'+h at some maximum                                                                                  3
+  uncovered keys | h:C+h at some maximum                                                                                   4
+  uncovered keys | some maximum covered by C+ / C′+ / C+h / C′+h | True                                                    4
+  uncovered keys | some maximum covered by C+ / C′+ | False                                                                4
+  uncovered maxima without C+/C′+ | C+h or C′+h applies | True                                                             4
+  uncovered maxima without C+/C′+ | applies | C'+h | 0 | owner x                                                           3
+  uncovered maxima without C+/C′+ | applies | C'+h | 1 | owner the helper                                                  1
+  uncovered maxima without C+/C′+ | applies | C+h | 0 | owner the helper                                                   4
+  uncovered maxima without C+/C′+ | applies | C+h | 0 | owner x                                                            4
+  uncovered maxima without C+/C′+ | applies | C+h | 1 | owner a leaf                                                       1
+  uncovered maxima without C+/C′+ | applies | C+h | 1 | owner the helper                                                   3
+  uncovered maxima without C+/C′+ | applies | C+h | 1 | owner x                                                            1
+  uncovered maxima | C+ or C′+ applies | False                                                                             4
+  uncovered maxima | covered by the family | C'+ with q = phi(x) | False                                                   4
+  uncovered maxima | covered by the family | C'+ | False                                                                   4
+  uncovered maxima | covered by the family | (C+ with (H*)) or (C′+ with q = phi(x)) | False                               4
+  uncovered maxima | covered by the family | C+ or (C′+ with q = phi(x)) | False                                           4
+  uncovered maxima | covered by the family | C+ or C′+ with k = 0 (plain (T3), no helper) | False                          4
+  uncovered maxima | covered by the family | C+ or C′+ | False                                                             4
+  uncovered maxima | covered by the family | C+ | False                                                                    4
+  uncovered maxima | first: none                                                                                           4
+  uncovered maxima | least k over the lemmas that apply | None                                                             4
+  keys covered by A+ or B+ (PR #80)                                                                                        2
+  keys def*>0                                                                                                              6
+  keys uncovered by A+ and B+                                                                                              4
+  keys uncovered by A+ and B+ (k = 1), with B+ at a threat path of length >= 2                                             1
+  profiles f=2                                                                                                             1
+  profiles f=3                                                                                                             3
+  uncovered maxima                                                                                                         4
+  smallest [none]: n=5 m=9 sets=[[0, 1, 5, 8], [2, 3, 4, 5], [2, 4, 6, 7], [3, 6, 7, 8], [6, 7, 8]] vals=[[3, 4, 8, 2], [4, 2, 3, 8], [3, 2, 8, 4], [3, 6, 10, 2], [3, 4, 2]] key=[5, None, 7, None, 6] def*=1 config=Config(key=[5, None, 7, None, 6], Q={1: [2, 4], 3: [3, 8]}, L=[0, 1]) P_Q=[[5], [2, 4], [7], [3, 8], [6]] def(P_Q)=1 why={("C'+: Y safe, |Y| = omega+1, no good counted by Fact 3", 'def(P′) > 0', 'third needers of phi(x): none'): 8, ("C'+: Y safe, |Y| = omega+1, no good counted by Fact 3", 'def(P′) <= 0', 'third needers of phi(x): free'): 3, ("C'+: Y safe, |Y| = omega+1, no good counted by Fact 3", 'def(P′) > 0', 'third needers of phi(x): frozen'): 3}
+  smallest [not covered by (C+ with (H*)) or (C′+ with q = phi(x))]: n=5 m=9 sets=[[0, 1, 5, 8], [2, 3, 4, 5], [2, 4, 6, 7], [3, 6, 7, 8], [6, 7, 8]] vals=[[3, 4, 8, 2], [4, 2, 3, 8], [3, 2, 8, 4], [3, 6, 10, 2], [3, 4, 2]] key=[5, None, 7, None, 6] def*=1 config=Config(key=[5, None, 7, None, 6], Q={1: [2, 4], 3: [3, 8]}, L=[0, 1]) P_Q=[[5], [2, 4], [7], [3, 8], [6]] def(P_Q)=1 why=[]
+  smallest [not covered by C'+]: n=5 m=9 sets=[[0, 1, 5, 8], [2, 3, 4, 5], [2, 4, 6, 7], [3, 6, 7, 8], [6, 7, 8]] vals=[[3, 4, 8, 2], [4, 2, 3, 8], [3, 2, 8, 4], [3, 6, 10, 2], [3, 4, 2]] key=[5, None, 7, None, 6] def*=1 config=Config(key=[5, None, 7, None, 6], Q={1: [2, 4], 3: [3, 8]}, L=[0, 1]) P_Q=[[5], [2, 4], [7], [3, 8], [6]] def(P_Q)=1 why=[]
+  smallest [not covered by C'+ with q = phi(x)]: n=5 m=9 sets=[[0, 1, 5, 8], [2, 3, 4, 5], [2, 4, 6, 7], [3, 6, 7, 8], [6, 7, 8]] vals=[[3, 4, 8, 2], [4, 2, 3, 8], [3, 2, 8, 4], [3, 6, 10, 2], [3, 4, 2]] key=[5, None, 7, None, 6] def*=1 config=Config(key=[5, None, 7, None, 6], Q={1: [2, 4], 3: [3, 8]}, L=[0, 1]) P_Q=[[5], [2, 4], [7], [3, 8], [6]] def(P_Q)=1 why=[]
+  smallest [not covered by C+]: n=5 m=9 sets=[[0, 1, 5, 8], [2, 3, 4, 5], [2, 4, 6, 7], [3, 6, 7, 8], [6, 7, 8]] vals=[[3, 4, 8, 2], [4, 2, 3, 8], [3, 2, 8, 4], [3, 6, 10, 2], [3, 4, 2]] key=[5, None, 7, None, 6] def*=1 config=Config(key=[5, None, 7, None, 6], Q={1: [2, 4], 3: [3, 8]}, L=[0, 1]) P_Q=[[5], [2, 4], [7], [3, 8], [6]] def(P_Q)=1 why=[]
+  smallest [not covered by C+ or (C′+ with q = phi(x))]: n=5 m=9 sets=[[0, 1, 5, 8], [2, 3, 4, 5], [2, 4, 6, 7], [3, 6, 7, 8], [6, 7, 8]] vals=[[3, 4, 8, 2], [4, 2, 3, 8], [3, 2, 8, 4], [3, 6, 10, 2], [3, 4, 2]] key=[5, None, 7, None, 6] def*=1 config=Config(key=[5, None, 7, None, 6], Q={1: [2, 4], 3: [3, 8]}, L=[0, 1]) P_Q=[[5], [2, 4], [7], [3, 8], [6]] def(P_Q)=1 why=[]
+  smallest [not covered by C+ or C′+]: n=5 m=9 sets=[[0, 1, 5, 8], [2, 3, 4, 5], [2, 4, 6, 7], [3, 6, 7, 8], [6, 7, 8]] vals=[[3, 4, 8, 2], [4, 2, 3, 8], [3, 2, 8, 4], [3, 6, 10, 2], [3, 4, 2]] key=[5, None, 7, None, 6] def*=1 config=Config(key=[5, None, 7, None, 6], Q={1: [2, 4], 3: [3, 8]}, L=[0, 1]) P_Q=[[5], [2, 4], [7], [3, 8], [6]] def(P_Q)=1 why=[]
+  smallest [not covered by C+ or C′+ with k = 0 (plain (T3), no helper)]: n=5 m=9 sets=[[0, 1, 5, 8], [2, 3, 4, 5], [2, 4, 6, 7], [3, 6, 7, 8], [6, 7, 8]] vals=[[3, 4, 8, 2], [4, 2, 3, 8], [3, 2, 8, 4], [3, 6, 10, 2], [3, 4, 2]] key=[5, None, 7, None, 6] def*=1 config=Config(key=[5, None, 7, None, 6], Q={1: [2, 4], 3: [3, 8]}, L=[0, 1]) P_Q=[[5], [2, 4], [7], [3, 8], [6]] def(P_Q)=1 why=[]
+# time 0.2 s
+# no assertion failed

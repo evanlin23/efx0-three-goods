@@ -1,0 +1,24 @@
+# command: python3 k4/f2_lemmas.py --profiles results/k4_rt4/n5b_failures_inst.json results/k4_rt4/n5c_fail_inst.json k4/suite/.cache/rc/hunt_fail10_sample_inst.json --all
+  (o, X) pairs (every free owner, every safe bundle)                     88847
+  C1+ applies                                                            1432
+  C1+ applies with k >= 1                                                820
+  C2+ applies                                                            553
+  C2+ applies with k >= 1                                                459
+  C3+ applies                                                            1042
+  C3+ applies with k >= 1                                                642
+  C4+ applies                                                            112
+  C4+ applies with k >= 1                                                0
+  Lemma 6+ chain swaps                                                   209518
+  Lemma 8+ values                                                        209518
+  Lemma C compositions                                                   154794
+  Lemma P: frozen agent without a need path (not T4-optimal)             0
+  Proposition N rotations                                                16
+  def>0 states                                                           1432
+  def>0 states f=2                                                       292
+  def>0 states f=3                                                       1140
+  instances                                                              64
+  instances f=2                                                          4
+  instances f=3                                                          60
+  instances f>=1, omega>=1                                               64
+  states checked                                                         5516
+# no assertion failed

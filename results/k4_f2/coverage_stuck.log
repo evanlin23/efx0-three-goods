@@ -1,0 +1,37 @@
+# command: python3 k4/f2_lemmas.py --stuck --light results/k4_dl13_stuck/stuck_certs_3_r2000.jsonl.gz results/k4_dl13_stuck/stuck_certs_4_n4_1_r100.jsonl.gz results/k4_dl13_stuck/stuck_certs_4_n4_2_r100.jsonl.gz results/k4_dl13_stuck/stuck_certs_4_n4_3_r100.jsonl.gz results/k4_dl13_stuck/stuck_certs_4_pure_r100.jsonl.gz results/k4_dl13_stuck/stuck_certs_5_n4_1_r4.jsonl.gz results/k4_dl13_stuck/stuck_certs_5_n4_2_r4.jsonl.gz results/k4_dl13_stuck/stuck_certs_5_n4_3_r4.jsonl.gz results/k4_dl13_stuck/stuck_certs_5_n4_4_r4.jsonl.gz results/k4_dl13_stuck/stuck_certs_5_pure_r4.jsonl.gz results/k4_dl13_stuck/stuck_gap_n3.jsonl.gz results/k4_dl13_stuck/stuck_gap_n4_1_e4.jsonl.gz results/k4_dl13_stuck/stuck_gap_n4_1_f2.jsonl.gz results/k4_dl13_stuck/stuck_gap_n4_2_s4000_e4.jsonl.gz results/k4_dl13_stuck/stuck_gap_n4_2_s4000_f2.jsonl.gz results/k4_dl13_stuck/stuck_gap_n4_3_s4000_e4.jsonl.gz results/k4_dl13_stuck/stuck_gap_n4_3_s4000_f2.jsonl.gz results/k4_dl13_stuck/stuck_gap_n4_pure_s4000_e4.jsonl.gz results/k4_dl13_stuck/stuck_gap_n4_pure_s4000_f2.jsonl.gz results/k4_dl13_stuck/stuck_gap_n5_1_s100_e20.jsonl.gz results/k4_dl13_stuck/stuck_gap_n5_1_s100_f2e4.jsonl.gz results/k4_dl13_stuck/stuck_gap_n5_2_s100_e20.jsonl.gz results/k4_dl13_stuck/stuck_gap_n5_2_s100_f2e4.jsonl.gz results/k4_dl13_stuck/stuck_gap_n5_3_s100_e20.jsonl.gz results/k4_dl13_stuck/stuck_gap_n5_3_s100_f2e4.jsonl.gz results/k4_dl13_stuck/stuck_gap_n5_4_s100_e20.jsonl.gz results/k4_dl13_stuck/stuck_gap_n5_4_s100_f2e4.jsonl.gz results/k4_dl13_stuck/stuck_gap_n5_pure_s100_e20.jsonl.gz results/k4_dl13_stuck/stuck_gap_n5_pure_s100_f2e4.jsonl.gz results/k4_dl13_stuck/stuck_hard_hunt.jsonl.gz results/k4_dl13_stuck/stuck_hunt_n4_2_all_e10.jsonl.gz results/k4_dl13_stuck/stuck_hunt_n4_3_s400k_e10.jsonl.gz results/k4_dl13_stuck/stuck_hunt_n4_3_s400k_f2.jsonl.gz results/k4_dl13_stuck/stuck_hunt_n4_pure_s400k_e10.jsonl.gz results/k4_dl13_stuck/stuck_hunt_n4_pure_s400k_f2.jsonl.gz results/k4_dl13_stuck/stuck_hunt_n5_3_s2000_e2.jsonl.gz results/k4_dl13_stuck/stuck_hunt_n5_4_s2000_e2.jsonl.gz results/k4_dl13_stuck/stuck_hunt_n5_pure_s2000_e2.jsonl.gz results/k4_dl13_stuck/stuck_suite.jsonl.gz
+  A-S1 | Corollary 11.2+ applies where Corollary 9.1+ does not                                         1001
+  A-S1 | plain T3 exists | C1+                                                                         8963
+  A-S1 | plain T3 exists | C11+                                                                        2
+  A-S1 | plain T3 exists | C2+                                                                         138
+  A-S1 | plain T3 exists | C3+                                                                         31
+  A-S1 | plain T3 exists | C4+                                                                         865
+  A-S1 | plain T3 exists | C8+                                                                         343
+  A-S1 | plain T3 exists | certified by a plain (k = 0) corollary                                      10318
+  A-S1 | plain T3 exists | none                                                                        2
+  A-S1 | plain T3 exists | not certified                                                               2
+  A-S1 | plain T3 exists | only by a chain corollary (k >= 1)                                          24
+  A-S1, every S1 triple theta-fails | Corollary 11.2+ (kappa swap) applies                             1001
+  A-S1, every S1 triple theta-fails | Corollary 11.2+ does not apply                                   381
+  A-z | plain T3 exists | C1+                                                                          1
+  A-z | plain T3 exists | C2+                                                                          77
+  A-z | plain T3 exists | C3+                                                                          643
+  A-z | plain T3 exists | C8+                                                                          30
+  A-z | plain T3 exists | certified by a plain (k = 0) corollary                                       750
+  A-z | plain T3 exists | only by a chain corollary (k >= 1)                                           1
+  B-S1c | Corollary 11.2+ applies where Corollary 9.1+ does not                                        9
+  B-S1c | plain T3 exists | C1+                                                                        77
+  B-S1c | plain T3 exists | C2+                                                                        3
+  B-S1c | plain T3 exists | C3+                                                                        17
+  B-S1c | plain T3 exists | certified by a plain (k = 0) corollary                                     44
+  B-S1c | plain T3 exists | only by a chain corollary (k >= 1)                                         53
+  C | plain T3 exists | C2+                                                                            7
+  C | plain T3 exists | C3+                                                                            63
+  C | plain T3 exists | certified by a plain (k = 0) corollary                                         62
+  C | plain T3 exists | only by a chain corollary (k >= 1)                                             8
+  Lemma P: a frozen agent without a need path (not T4-optimal)                                         0
+  states                                                                                               11262
+  states f=1                                                                                           10621
+  states f=2                                                                                           636
+  states f=3                                                                                           5
+  smallest uncertified, case A-S1: n=3 m=8 gap_n3:k4_certs_3.json.gz[m=8,idx=3]:10,72,246 sets=[[0, 2, 5, 7], [1, 4, 6, 7], [3, 5, 6, 7]] vals=[[2, 4, 3, 8], [4, 3, 2, 8], [8, 6, 3, 10]] P=[[0, 2], [1, 4], [7]]
+# no assertion failed

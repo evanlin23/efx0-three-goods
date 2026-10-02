@@ -1,0 +1,19 @@
+# command: python3 k4/thetab_scan.py suite
+# input suite
+  n=3 | (H) | T1stuck | theorem W | Lemma G certifies a plain swap | plain swap                                                      1
+  n=3 | (H) | T3stage | theorem W | Lemma G certifies a plain swap | plain swap | key: (T3) to a better key from P | key: G1 certifies from P, plain 3
+  n=3 | (H) | other | theorem W | Lemma G certifies a plain swap | plain swap                                                        23
+  n=3 | needers 4+BT | T3stage | theorem G1 | Lemma G certifies a plain swap | plain swap | key: (T3) to a better key from P | key: G1 certifies from P, plain 2
+  n=3 | one needer | G1 does not apply                                                                                               16
+  n=3 | one needer | G1 or G1h applies                                                                                               9
+  n=4 | (H) | T1stuck | theorem K | Lemma G certifies a plain swap | plain swap                                                      3
+  n=4 | (H) | T3stage | theorem G1 | Lemma G certifies a plain swap | plain swap | key: (T3) to a better key from P | key: G1 certifies from P, plain 1
+  n=4 | (H) | T3stage | theorem K | Lemma G certifies a plain swap | plain swap | key: (T3) to a better key from P | key: G1 certifies from P, plain 18
+  n=4 | (H) | other | theorem G1 | Lemma G certifies a plain swap | plain swap                                                       1
+  n=4 | (H) | other | theorem K | Lemma G certifies a plain swap | plain swap                                                        7
+  n=4 | one needer | G1 does not apply                                                                                               1
+  n=4 | one needer | G1 or G1h applies                                                                                               7
+  profiles                                                                                                                           150
+  profiles with f = 1, omega >= 1                                                                                                    40
+smallest state per uncovered cell (no theorem, no certificate, or no plain swap):
+no assertion failed

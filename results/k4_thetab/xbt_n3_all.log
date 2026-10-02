@@ -1,0 +1,9 @@
+# command: python3 k4/thetab_xbt.py results/k4_sx/hunt/n3_all_0.jsonl.gz results/k4_sx/hunt/n3_all_10.jsonl.gz results/k4_sx/hunt/n3_all_20.jsonl.gz results/k4_sx/hunt/n3_all_30.jsonl.gz results/k4_sx/hunt/n3_all_40.jsonl.gz results/k4_sx/hunt/n3_all_50.jsonl.gz
+  keys with a maximum with |T| = 1, x big-top=True                                           14880
+  keys with a maximum with |T| >= 2, x big-top=False                                         47328
+  maxima | |T|=1 | x big-top=True                                                            39840
+  maxima | |T|=2 | x big-top=False                                                           76408
+  non-completable keys                                                                       62208
+  profiles                                                                                   62208
+smallest maximum with |T| >= 2 and x big-top, per |T|:
+done; time 240 s

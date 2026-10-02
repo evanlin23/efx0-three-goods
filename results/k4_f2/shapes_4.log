@@ -1,0 +1,228 @@
+# command: python3 k4/f2_shapes.py results/k4_gap/gap_n2.json.gz results/k4_gap/gap_n3.json.gz results/k4_gap/gap_n4_1.json.gz results/k4_gap/gap_n4_2_s4000.json.gz results/k4_gap/gap_n4_3_s4000.json.gz results/k4_gap/gap_n4_pure_s4000.json.gz results/k4_gap/gap_n5_1_s100.json.gz results/k4_gap/gap_n5_2_s100.json.gz results/k4_gap/gap_n5_3_s100.json.gz results/k4_gap/gap_n5_4_s100.json.gz results/k4_gap/gap_n5_pure_s100.json.gz results/k4_gap/hard_base.json.gz results/k4_gap/hard_hunt.json.gz results/k4_gap/hard_hunt_smallest.json.gz results/k4_gap/hunt_n4_2_all.json.gz results/k4_gap/hunt_n4_3_s400k.json.gz results/k4_gap/hunt_n4_pure_s400k.json.gz results/k4_gap/hunt_n5_3_s2000.json.gz results/k4_gap/hunt_n5_4_s2000.json.gz results/k4_gap/hunt_n5_pure_s2000.json.gz k4/suite/.cache/pr75/results/k4_dl13_stuck/stuck_certs_3_r2000.jsonl.gz k4/suite/.cache/pr75/results/k4_dl13_stuck/stuck_certs_4_n4_1_r100.jsonl.gz k4/suite/.cache/pr75/results/k4_dl13_stuck/stuck_certs_4_n4_2_r100.jsonl.gz k4/suite/.cache/pr75/results/k4_dl13_stuck/stuck_certs_4_n4_3_r100.jsonl.gz k4/suite/.cache/pr75/results/k4_dl13_stuck/stuck_certs_4_pure_r100.jsonl.gz k4/suite/.cache/pr75/results/k4_dl13_stuck/stuck_certs_5_n4_1_r4.jsonl.gz k4/suite/.cache/pr75/results/k4_dl13_stuck/stuck_certs_5_n4_2_r4.jsonl.gz k4/suite/.cache/pr75/results/k4_dl13_stuck/stuck_certs_5_n4_3_r4.jsonl.gz k4/suite/.cache/pr75/results/k4_dl13_stuck/stuck_certs_5_n4_4_r4.jsonl.gz k4/suite/.cache/pr75/results/k4_dl13_stuck/stuck_certs_5_pure_r4.jsonl.gz k4/suite/.cache/pr75/results/k4_dl13_stuck/stuck_gap_n3.jsonl.gz k4/suite/.cache/pr75/results/k4_dl13_stuck/stuck_gap_n4_1_e4.jsonl.gz k4/suite/.cache/pr75/results/k4_dl13_stuck/stuck_gap_n4_1_f2.jsonl.gz k4/suite/.cache/pr75/results/k4_dl13_stuck/stuck_gap_n4_2_s4000_e4.jsonl.gz k4/suite/.cache/pr75/results/k4_dl13_stuck/stuck_gap_n4_2_s4000_f2.jsonl.gz k4/suite/.cache/pr75/results/k4_dl13_stuck/stuck_gap_n4_3_s4000_e4.jsonl.gz k4/suite/.cache/pr75/results/k4_dl13_stuck/stuck_gap_n4_3_s4000_f2.jsonl.gz k4/suite/.cache/pr75/results/k4_dl13_stuck/stuck_gap_n4_pure_s4000_e4.jsonl.gz k4/suite/.cache/pr75/results/k4_dl13_stuck/stuck_gap_n4_pure_s4000_f2.jsonl.gz k4/suite/.cache/pr75/results/k4_dl13_stuck/stuck_gap_n5_1_s100_e20.jsonl.gz k4/suite/.cache/pr75/results/k4_dl13_stuck/stuck_gap_n5_1_s100_f2e4.jsonl.gz k4/suite/.cache/pr75/results/k4_dl13_stuck/stuck_gap_n5_2_s100_e20.jsonl.gz k4/suite/.cache/pr75/results/k4_dl13_stuck/stuck_gap_n5_2_s100_f2e4.jsonl.gz k4/suite/.cache/pr75/results/k4_dl13_stuck/stuck_gap_n5_3_s100_e20.jsonl.gz k4/suite/.cache/pr75/results/k4_dl13_stuck/stuck_gap_n5_3_s100_f2e4.jsonl.gz k4/suite/.cache/pr75/results/k4_dl13_stuck/stuck_gap_n5_4_s100_e20.jsonl.gz k4/suite/.cache/pr75/results/k4_dl13_stuck/stuck_gap_n5_4_s100_f2e4.jsonl.gz k4/suite/.cache/pr75/results/k4_dl13_stuck/stuck_gap_n5_pure_s100_e20.jsonl.gz k4/suite/.cache/pr75/results/k4_dl13_stuck/stuck_gap_n5_pure_s100_f2e4.jsonl.gz k4/suite/.cache/pr75/results/k4_dl13_stuck/stuck_hard_hunt.jsonl.gz k4/suite/.cache/pr75/results/k4_dl13_stuck/stuck_hunt_n4_2_all_e10.jsonl.gz k4/suite/.cache/pr75/results/k4_dl13_stuck/stuck_hunt_n4_3_s400k_e10.jsonl.gz k4/suite/.cache/pr75/results/k4_dl13_stuck/stuck_hunt_n4_3_s400k_f2.jsonl.gz k4/suite/.cache/pr75/results/k4_dl13_stuck/stuck_hunt_n4_pure_s400k_e10.jsonl.gz k4/suite/.cache/pr75/results/k4_dl13_stuck/stuck_hunt_n4_pure_s400k_f2.jsonl.gz k4/suite/.cache/pr75/results/k4_dl13_stuck/stuck_hunt_n5_3_s2000_e2.jsonl.gz k4/suite/.cache/pr75/results/k4_dl13_stuck/stuck_hunt_n5_4_s2000_e2.jsonl.gz k4/suite/.cache/pr75/results/k4_dl13_stuck/stuck_hunt_n5_pure_s2000_e2.jsonl.gz k4/suite/.cache/pr75/results/k4_dl13_stuck/stuck_suite.jsonl.gz k4/suite/.cache/pr75/results/k4_dl13_stuck/t4_certs_3_r2000.jsonl.gz k4/suite/.cache/pr75/results/k4_dl13_stuck/t4_certs_4_n4_1_r100.jsonl.gz k4/suite/.cache/pr75/results/k4_dl13_stuck/t4_certs_4_n4_2_r100.jsonl.gz k4/suite/.cache/pr75/results/k4_dl13_stuck/t4_certs_4_n4_3_r100.jsonl.gz k4/suite/.cache/pr75/results/k4_dl13_stuck/t4_certs_4_pure_r100.jsonl.gz k4/suite/.cache/pr75/results/k4_dl13_stuck/t4_failures_n4_1.jsonl.gz k4/suite/.cache/pr75/results/k4_dl13_stuck/t4_failures_n4_2.jsonl.gz k4/suite/.cache/pr75/results/k4_dl13_stuck/t4_failures_n4_3_s200b.jsonl.gz k4/suite/.cache/pr75/results/k4_dl13_stuck/t4_gap_n4_1_f2.jsonl.gz k4/suite/.cache/pr75/results/k4_dl13_stuck/t4_gap_n4_2_s4000_f2.jsonl.gz k4/suite/.cache/pr75/results/k4_dl13_stuck/t4_gap_n4_3_s4000_f2.jsonl.gz k4/suite/.cache/pr75/results/k4_dl13_stuck/t4_gap_n4_pure_s4000_f2.jsonl.gz k4/suite/.cache/pr75/results/k4_dl13_stuck/t4_gap_n5_1_s100_f2e4.jsonl.gz k4/suite/.cache/pr75/results/k4_dl13_stuck/t4_gap_n5_2_s100_f2e4.jsonl.gz k4/suite/.cache/pr75/results/k4_dl13_stuck/t4_gap_n5_3_s100_f2e4.jsonl.gz k4/suite/.cache/pr75/results/k4_dl13_stuck/t4_gap_n5_4_s100_f2e4.jsonl.gz k4/suite/.cache/pr75/results/k4_dl13_stuck/t4_gap_n5_pure_s100_f2e4.jsonl.gz k4/suite/.cache/pr75/results/k4_dl13_stuck/t4_hard_hunt.jsonl.gz k4/suite/.cache/pr75/results/k4_dl13_stuck/t4_hunt_n4_3_s400k_f2.jsonl.gz k4/suite/.cache/pr75/results/k4_dl13_stuck/t4_hunt_n4_pure_s400k_f2.jsonl.gz k4/suite/.cache/pr75/results/k4_dl13_stuck/t4_suite.jsonl.gz results/k4_dl13/dl134_xcheck_n4.jsonl.gz results/k4_dl13/dl134_xcheck_n5.jsonl.gz results/k4_dl13/dl134_xcheck_own.jsonl.gz results/k4_dl13/dump_n4_1.jsonl.gz results/k4_dl13/dump_n4_2.jsonl.gz results/k4_dl13/dump_n4_3_s200.jsonl.gz results/k4_dl13/dump_n4_3_s200b.jsonl.gz results/k4_dl13/dump_n4_pure_s200.jsonl.gz results/k4_dl13/dump_n4_pure_s200b.jsonl.gz results/k4_dl13/fails_all.jsonl.gz results/k4_dl13/fails_classified.jsonl.gz results/k4_dl13/fails_hunt_m6.jsonl.gz results/k4_dl13/fails_hunt_m8.jsonl.gz results/k4_dl13/fails_hunt_n5.jsonl.gz results/k4_dl13/hunt_n4_3_m6.jsonl.gz results/k4_dl13/hunt_n4_3_m8.jsonl.gz results/k4_dl13/hunt_n5.jsonl.gz results/k4_dl13/hunt_pure_m6.jsonl.gz results/k4_dl13/hunt_pure_m8.jsonl.gz results/k4_dl13/states_cat.jsonl.gz results/k4_dl13/states_ht.jsonl.gz results/k4_dl13/states_n3.jsonl.gz results/k4_dl13/states_nbhd123.jsonl.gz results/k4_dl13/states_rand.jsonl.gz results/k4_rt4/dump_a_failures.jsonl.gz results/k4_rt4/dump_a_nbhd123.jsonl.gz results/k4_rt4/dump_a_suite2.jsonl.gz results/k4_rt4/dump_b_n4_1.jsonl.gz results/k4_rt4/dump_c_n4_2.jsonl.gz results/k4_rt4/dump_d_cat_gap_n4_pure_s4000.jsonl.gz results/k4_rt4/dump_d_pure_s500_1.jsonl.gz results/k4_rt4/dump_d_pure_s500_2.jsonl.gz results/k4_rt4/dump_d_pure_s500_3.jsonl.gz results/k4_rt4/dump_e_n4_3_s500_1.jsonl.gz results/k4_rt4/dump_e_n4_3_s500_2.jsonl.gz results/k4_rt4/dump_e_n4_3_s500_3.jsonl.gz suite --chunk=4/8 --out=results/k4_f2/shapes_4.jsonl.gz
+# distinct profiles read: 9921
+T3-stage                                                                                             5369
+T3-stage f=2                                                                                         5159
+T3-stage f=3                                                                                         210
+case A-S1                                                                                            4918
+case A-S1 thetas ok                                                                                  3677
+case A-S1 thetas ok/theta-a                                                                          81
+case A-S1 thetas ok/theta-b                                                                          1086
+case A-S1 thetas theta-b                                                                             74
+case A-S1 | x roles of the plain T3 repairs -/SB                                                     874
+case A-S1 | x roles of the plain T3 repairs BL/SB                                                    171
+case A-S1 | x roles of the plain T3 repairs EX/SB                                                    36
+case A-S1 | x roles of the plain T3 repairs SB                                                       3837
+case A-z                                                                                             332
+case A-z | x roles of the plain T3 repairs -/SB                                                      107
+case A-z | x roles of the plain T3 repairs BL/SB                                                     38
+case A-z | x roles of the plain T3 repairs EX/SB                                                     3
+case A-z | x roles of the plain T3 repairs SB                                                        184
+case B-S1c                                                                                           72
+case B-S1c | x roles of the plain T3 repairs -                                                       60
+case B-S1c | x roles of the plain T3 repairs BL                                                      9
+case B-S1c | x roles of the plain T3 repairs EX                                                      3
+case B-S1c, frozen agents on the shortest need paths [1]                                             72
+case C                                                                                               47
+case C | x roles of the plain T3 repairs BL                                                          47
+cert C1 | case A-S1                                                                                  4844
+cert C2 | case A-S1                                                                                  12
+cert C2 | case A-z                                                                                   6
+cert C2 | case B-S1c                                                                                 23
+cert C2 | case C                                                                                     7
+cert C3 | case A-S1                                                                                  2
+cert C3 | case A-z                                                                                   33
+cert C3 | case C                                                                                     32
+cert none | case A-S1                                                                                60
+cert none | case A-z                                                                                 293
+cert none | case B-S1c                                                                               49
+cert none | case C                                                                                   8
+def>0 states                                                                                         24281
+keys def*>0                                                                                          13893
+profiles                                                                                             9921
+profiles f=2 n=3                                                                                     63
+profiles f=2 n=4                                                                                     3927
+profiles f=2 n=5                                                                                     3388
+profiles f=3 n=4                                                                                     1986
+profiles f=3 n=5                                                                                     10
+profiles f>=2, omega>=1                                                                              9374
+repair sig | case A-S1 | k=0 - z - best'=O*                                                          129
+repair sig | case A-S1 | k=0 - z h best'=h                                                           127
+repair sig | case A-S1 | k=0 - z=best - best'=O                                                      61
+repair sig | case A-S1 | k=0 - z=best - best'=O*                                                     700
+repair sig | case A-S1 | k=0 - z=best h best'=h                                                      331
+repair sig | case A-S1 | k=0 - z=best h best'=x                                                      4
+repair sig | case A-S1 | k=0 BL z - best'=O*                                                         23
+repair sig | case A-S1 | k=0 BL z h best'=h                                                          23
+repair sig | case A-S1 | k=0 BL z=best - best'=O                                                     23
+repair sig | case A-S1 | k=0 BL z=best - best'=O*                                                    148
+repair sig | case A-S1 | k=0 BL z=best h best'=h                                                     24
+repair sig | case A-S1 | k=0 BL z=best h best'=x                                                     2
+repair sig | case A-S1 | k=0 EX z - best'=x                                                          3
+repair sig | case A-S1 | k=0 EX z h best'=x                                                          1
+repair sig | case A-S1 | k=0 EX z=best - best'=O*                                                    9
+repair sig | case A-S1 | k=0 EX z=best h best'=h                                                     7
+repair sig | case A-S1 | k=0 EX z=best h best'=x                                                     19
+repair sig | case A-S1 | k=0 SB z - best'=O*                                                         309
+repair sig | case A-S1 | k=0 SB z - best'=O*x                                                        541
+repair sig | case A-S1 | k=0 SB z - best'=x                                                          70
+repair sig | case A-S1 | k=0 SB z h best'=h                                                          295
+repair sig | case A-S1 | k=0 SB z h best'=hx                                                         315
+repair sig | case A-S1 | k=0 SB z h best'=x                                                          388
+repair sig | case A-S1 | k=0 SB z=best - best'=O                                                     54
+repair sig | case A-S1 | k=0 SB z=best - best'=O*                                                    1559
+repair sig | case A-S1 | k=0 SB z=best - best'=O*x                                                   2316
+repair sig | case A-S1 | k=0 SB z=best - best'=Ox                                                    359
+repair sig | case A-S1 | k=0 SB z=best - best'=x                                                     3529
+repair sig | case A-S1 | k=0 SB z=best h best'=h                                                     1465
+repair sig | case A-S1 | k=0 SB z=best h best'=hx                                                    1609
+repair sig | case A-S1 | k=0 SB z=best h best'=x                                                     1232
+repair sig | case A-S1 | k=0+cyc SB z=best - best'=x                                                 114
+repair sig | case A-S1 | k=1 - z=best - best'=O*                                                     111
+repair sig | case A-S1 | k=1 - z=best - best'=O*x                                                    110
+repair sig | case A-S1 | k=1 - z=best h best'=h                                                      112
+repair sig | case A-S1 | k=1 - z=best h best'=hx                                                     120
+repair sig | case A-S1 | k=1 BL z - best'=O*                                                         1
+repair sig | case A-S1 | k=1 BL z - best'=O*x                                                        2
+repair sig | case A-S1 | k=1 BL z h best'=h                                                          1
+repair sig | case A-S1 | k=1 BL z h best'=hx                                                         2
+repair sig | case A-S1 | k=1 BL z h best'=x                                                          2
+repair sig | case A-S1 | k=1 BL z=best - best'=O                                                     1
+repair sig | case A-S1 | k=1 BL z=best - best'=O*                                                    9
+repair sig | case A-S1 | k=1 BL z=best - best'=O*x                                                   9
+repair sig | case A-S1 | k=1 BL z=best - best'=Ox                                                    2
+repair sig | case A-S1 | k=1 BL z=best - best'=x                                                     2
+repair sig | case A-S1 | k=1 BL z=best h best'=h                                                     10
+repair sig | case A-S1 | k=1 BL z=best h best'=hx                                                    11
+repair sig | case A-S1 | k=1 BL z=best h best'=x                                                     7
+repair sig | case A-S1 | k=1 EX z - best'=O*                                                         12
+repair sig | case A-S1 | k=1 EX z - best'=O*x                                                        16
+repair sig | case A-S1 | k=1 EX z - best'=x                                                          19
+repair sig | case A-S1 | k=1 EX z h best'=h                                                          5
+repair sig | case A-S1 | k=1 EX z h best'=hx                                                         9
+repair sig | case A-S1 | k=1 EX z h best'=x                                                          4
+repair sig | case A-S1 | k=1 EX z=best - best'=O                                                     5
+repair sig | case A-S1 | k=1 EX z=best - best'=Ox                                                    8
+repair sig | case A-S1 | k=1 EX z=best - best'=x                                                     4
+repair sig | case A-S1 | k=1 EX z=best h best'=h                                                     12
+repair sig | case A-S1 | k=1 EX z=best h best'=hx                                                    9
+repair sig | case A-S1 | k=1 EX z=best h best'=x                                                     24
+repair sig | case A-S1 | k=1 SB z - best'=O*                                                         313
+repair sig | case A-S1 | k=1 SB z - best'=O*x                                                        512
+repair sig | case A-S1 | k=1 SB z - best'=x                                                          33
+repair sig | case A-S1 | k=1 SB z h best'=h                                                          304
+repair sig | case A-S1 | k=1 SB z h best'=hx                                                         297
+repair sig | case A-S1 | k=1 SB z h best'=x                                                          344
+repair sig | case A-S1 | k=1 SB z=best - best'=O                                                     24
+repair sig | case A-S1 | k=1 SB z=best - best'=O*                                                    1433
+repair sig | case A-S1 | k=1 SB z=best - best'=O*x                                                   2138
+repair sig | case A-S1 | k=1 SB z=best - best'=Ox                                                    58
+repair sig | case A-S1 | k=1 SB z=best - best'=x                                                     2814
+repair sig | case A-S1 | k=1 SB z=best h best'=h                                                     1347
+repair sig | case A-S1 | k=1 SB z=best h best'=hx                                                    1400
+repair sig | case A-S1 | k=1 SB z=best h best'=x                                                     1075
+repair sig | case A-S1 | k=2 SB z=best - best'=O*                                                    6
+repair sig | case A-S1 | k=2 SB z=best - best'=O*x                                                   7
+repair sig | case A-S1 | k=2 SB z=best - best'=x                                                     206
+repair sig | case A-S1 | k=2 SB z=best h best'=h                                                     9
+repair sig | case A-S1 | k=2 SB z=best h best'=hx                                                    6
+repair sig | case A-S1 | k=2 SB z=best h best'=x                                                     6
+repair sig | case A-z | k=0 - z - best'=O*                                                           107
+repair sig | case A-z | k=0 - z h best'=h                                                            105
+repair sig | case A-z | k=0 - z=best - best'=O                                                       73
+repair sig | case A-z | k=0 - z=best h best'=h                                                       18
+repair sig | case A-z | k=0 BL z - best'=O*                                                          29
+repair sig | case A-z | k=0 BL z h best'=h                                                           29
+repair sig | case A-z | k=0 BL z=best - best'=O                                                      29
+repair sig | case A-z | k=0 BL z=best - best'=O*                                                     4
+repair sig | case A-z | k=0 BL z=best - best'=O*x                                                    1
+repair sig | case A-z | k=0 BL z=best - best'=x                                                      2
+repair sig | case A-z | k=0 BL z=best h best'=h                                                      4
+repair sig | case A-z | k=0 BL z=best h best'=hx                                                     4
+repair sig | case A-z | k=0 BL z=best h best'=x                                                      7
+repair sig | case A-z | k=0 EX z=best h best'=hx                                                     1
+repair sig | case A-z | k=0 EX z=best h best'=x                                                      3
+repair sig | case A-z | k=0 SB z - best'=O*                                                          265
+repair sig | case A-z | k=0 SB z - best'=O*x                                                         237
+repair sig | case A-z | k=0 SB z - best'=x                                                           3
+repair sig | case A-z | k=0 SB z h best'=h                                                           265
+repair sig | case A-z | k=0 SB z h best'=hx                                                          200
+repair sig | case A-z | k=0 SB z h best'=x                                                           105
+repair sig | case A-z | k=0 SB z=best - best'=O*                                                     26
+repair sig | case A-z | k=0 SB z=best - best'=O*x                                                    16
+repair sig | case A-z | k=0 SB z=best - best'=x                                                      9
+repair sig | case A-z | k=0 SB z=best h best'=h                                                      25
+repair sig | case A-z | k=0 SB z=best h best'=hx                                                     34
+repair sig | case A-z | k=0 SB z=best h best'=x                                                      27
+repair sig | case A-z | k=1 SB z - best'=O*                                                          246
+repair sig | case A-z | k=1 SB z - best'=O*x                                                         258
+repair sig | case A-z | k=1 SB z - best'=x                                                           2
+repair sig | case A-z | k=1 SB z h best'=h                                                           246
+repair sig | case A-z | k=1 SB z h best'=hx                                                          181
+repair sig | case A-z | k=1 SB z h best'=x                                                           123
+repair sig | case A-z | k=1 SB z=best - best'=O                                                      30
+repair sig | case A-z | k=1 SB z=best - best'=Ox                                                     201
+repair sig | case A-z | k=1 SB z=best - best'=x                                                      259
+repair sig | case A-z | k=1 SB z=best h best'=hx                                                     20
+repair sig | case A-z | k=1 SB z=best h best'=x                                                      24
+repair sig | case A-z | k=2 SB z - best'=O*x                                                         2
+repair sig | case A-z | k=2 SB z - best'=x                                                           2
+repair sig | case A-z | k=2 SB z h best'=h                                                           2
+repair sig | case A-z | k=2 SB z h best'=hx                                                          2
+repair sig | case A-z | k=2 SB z h best'=x                                                           2
+repair sig | case A-z | k=2 SB z=best - best'=Ox                                                     2
+repair sig | case A-z | k=2 SB z=best - best'=x                                                      2
+repair sig | case B-S1c | k=0 - z=best - best'=O*                                                    60
+repair sig | case B-S1c | k=0 - z=best h best'=h                                                     58
+repair sig | case B-S1c | k=0 BL z=best - best'=O*                                                   9
+repair sig | case B-S1c | k=0 BL z=best h best'=h                                                    9
+repair sig | case B-S1c | k=0 EX z - best'=O*                                                        3
+repair sig | case B-S1c | k=0 EX z h best'=h                                                         3
+repair sig | case B-S1c | k=0 EX z=best - best'=O                                                    3
+repair sig | case B-S1c | k=0 EX z=best h best'=h                                                    3
+repair sig | case B-S1c | k=1 SB z - best'=O*                                                        3
+repair sig | case B-S1c | k=1 SB z - best'=O*x                                                       3
+repair sig | case B-S1c | k=1 SB z - best'=x                                                         3
+repair sig | case B-S1c | k=1 SB z h best'=h                                                         3
+repair sig | case B-S1c | k=1 SB z h best'=hx                                                        3
+repair sig | case B-S1c | k=1 SB z h best'=x                                                         3
+repair sig | case B-S1c | k=1 SB z=best - best'=O                                                    3
+repair sig | case B-S1c | k=1 SB z=best - best'=O*                                                   30
+repair sig | case B-S1c | k=1 SB z=best - best'=O*x                                                  59
+repair sig | case B-S1c | k=1 SB z=best - best'=Ox                                                   3
+repair sig | case B-S1c | k=1 SB z=best - best'=x                                                    64
+repair sig | case B-S1c | k=1 SB z=best h best'=h                                                    36
+repair sig | case B-S1c | k=1 SB z=best h best'=hx                                                   64
+repair sig | case B-S1c | k=1 SB z=best h best'=x                                                    66
+repair sig | case C | k=0 BL z - best'=O*                                                            1
+repair sig | case C | k=0 BL z - best'=O*x                                                           7
+repair sig | case C | k=0 BL z - best'=x                                                             2
+repair sig | case C | k=0 BL z h best'=h                                                             1
+repair sig | case C | k=0 BL z h best'=hx                                                            8
+repair sig | case C | k=0 BL z h best'=x                                                             4
+repair sig | case C | k=0 BL z=best - best'=O                                                        1
+repair sig | case C | k=0 BL z=best - best'=O*                                                       15
+repair sig | case C | k=0 BL z=best - best'=O*x                                                      21
+repair sig | case C | k=0 BL z=best - best'=Ox                                                       9
+repair sig | case C | k=0 BL z=best - best'=x                                                        11
+repair sig | case C | k=0 BL z=best h best'=h                                                        15
+repair sig | case C | k=0 BL z=best h best'=hx                                                       29
+repair sig | case C | k=0 BL z=best h best'=x                                                        12
+repair sig | case C | k=1 BL z=best - best'=O*                                                       3
+repair sig | case C | k=1 BL z=best - best'=O*x                                                      10
+repair sig | case C | k=1 BL z=best - best'=x                                                        14
+repair sig | case C | k=1 BL z=best h best'=h                                                        3
+repair sig | case C | k=1 BL z=best h best'=hx                                                       11
+repair sig | case C | k=1 BL z=best h best'=x                                                        14
+smallest case A-S1                                n=3 m=6 stuck_certs_3_r2000.jsonl.gz sets=[[0, 1, 2, 5], [2, 3, 4, 5], [3, 4, 5]] vals=[[3, 6, 2, 10], [4, 3, 10, 8], [2, 4, 3]] P=[[5], [2], [4]]
+smallest case A-S1 thetas ok                      n=3 m=6 stuck_certs_3_r2000.jsonl.gz sets=[[0, 1, 2, 5], [2, 3, 4, 5], [3, 4, 5]] vals=[[3, 6, 2, 10], [4, 3, 10, 8], [2, 4, 3]] P=[[5], [2], [4]]
+smallest case A-S1 thetas ok/theta-a              n=4 m=7 dump_n4_2.jsonl.gz sets=[[0, 2, 5, 6], [1, 4, 5, 6], [3, 4, 6], [4, 5, 6]] vals=[[3, 6, 5, 7], [6, 10, 2, 7], [2, 3, 4], [3, 2, 4]] P=[[6], [1], [3], [4]]
+smallest case A-S1 thetas ok/theta-b              n=4 m=8 dump_n4_2.jsonl.gz sets=[[0, 2, 6, 7], [1, 3, 6, 7], [4, 5, 7], [4, 5, 7]] vals=[[2, 3, 4, 8], [3, 5, 6, 7], [2, 4, 3], [2, 4, 3]] P=[[6], [7], [4], [5]]
+smallest case A-S1 thetas theta-b                 n=4 m=8 hunt_n4_3_m8.jsonl.gz sets=[[0, 3, 4, 7], [1, 3, 6, 7], [2, 5, 6, 7], [4, 5, 7]] vals=[[2, 4, 3, 8], [3, 6, 5, 7], [4, 8, 1, 6], [2, 4, 3]] P=[[0, 4], [7], [2, 6], [5]]
+smallest case A-z                                 n=4 m=8 dump_n4_2.jsonl.gz sets=[[0, 2, 4, 6], [1, 3, 5, 7], [4, 6, 7], [5, 6, 7]] vals=[[2, 3, 4, 8], [3, 5, 6, 7], [2, 3, 4], [2, 3, 4]] P=[[0, 2], [7], [4], [6]]
+smallest case B-S1c                               n=4 m=10 hunt_n4_3_s400k.json.gz:6,72,72,1 sets=[[0, 2, 6, 7], [1, 4, 8, 9], [3, 5, 8, 9], [6, 7, 9]] vals=[[2, 3, 4, 8], [4, 3, 2, 8], [4, 3, 2, 8], [2, 4, 3]] P=[[7], [1], [3], [9]]
+smallest case C                                   n=4 m=8 stuck_suite.jsonl.gz sets=[[0, 2, 4, 6], [0, 2, 5, 6], [1, 3, 4, 7], [1, 3, 5, 7]] vals=[[2, 3, 8, 4], [2, 3, 8, 4], [2, 3, 8, 4], [2, 3, 8, 4]] P=[[4], [5], [7], [1, 3]]
+smallest uncertified case A-S1                    n=4 m=8 hunt_n4_3_m8.jsonl.gz sets=[[0, 3, 4, 7], [1, 3, 6, 7], [2, 5, 6, 7], [4, 5, 7]] vals=[[2, 4, 3, 8], [3, 6, 5, 7], [4, 8, 1, 6], [2, 4, 3]] P=[[0, 4], [7], [2, 6], [5]]
+smallest uncertified case A-z                     n=4 m=8 dump_n4_2.jsonl.gz sets=[[0, 2, 4, 6], [1, 3, 5, 7], [4, 6, 7], [5, 6, 7]] vals=[[2, 3, 4, 8], [3, 5, 6, 7], [2, 3, 4], [2, 3, 4]] P=[[0, 2], [7], [4], [6]]
+smallest uncertified case B-S1c                   n=4 m=10 hunt_n4_3_s400k.json.gz:6,72,72,1 sets=[[0, 2, 6, 7], [1, 4, 8, 9], [3, 5, 8, 9], [6, 7, 9]] vals=[[2, 3, 4, 8], [4, 3, 2, 8], [4, 3, 2, 8], [2, 4, 3]] P=[[7], [1, 4], [3, 5], [9]]
+smallest uncertified case C                       n=4 m=10 hunt_n4_pure_s400k.json.gz:10,10,148,218 sets=[[0, 2, 5, 9], [1, 4, 8, 9], [3, 5, 6, 7], [6, 7, 8, 9]] vals=[[2, 4, 3, 8], [2, 4, 3, 8], [6, 2, 10, 3], [8, 3, 2, 4]] P=[[0, 2], [1, 4], [6], [9]]
+# done
