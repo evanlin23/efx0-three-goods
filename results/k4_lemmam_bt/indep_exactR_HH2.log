@@ -1,0 +1,44 @@
+# HH2: n = 18, m = 45; model R; convs ['bundle']; first agents ['lA', 'lB', 'x11A', 'x12A', 'x13A', 'y1A', 'x21A', 'x22A', 'x23A', 'y2A', 'x11B', 'x12B', 'x13B', 'y1B', 'x21B', 'x22B', 'x23B', 'y2B']
+a=lA idx=0 model=R states=25 depth0=1 depth1=24 owner_tests=475 outputs=0 verdict=NO_OUTPUT_WITH_<=1_ROTATION [7s]
+a=lB idx=1 model=R states=25 depth0=1 depth1=24 owner_tests=475 outputs=0 verdict=NO_OUTPUT_WITH_<=1_ROTATION [7s]
+a=x11A idx=2 model=R states=35 depth0=2 depth1=33 owner_tests=665 outputs=48 verdict=OUTPUT [16s]
+    witness conv=bundle owner=x11A via=[('shrink', 1, ((10, 13), (28,)))] literal_lb4r=True literal_mine=True efx0_raw=True bundles>2=1
+    witness conv=bundle owner=x12A via=[('shrink', 1, ((10, 13), (28,)))] literal_lb4r=True literal_mine=True efx0_raw=True bundles>2=1
+    witness conv=bundle owner=x13A via=[('shrink', 1, ((10, 13), (28,)))] literal_lb4r=True literal_mine=True efx0_raw=True bundles>2=1
+a=x12A idx=3 model=R states=33 depth0=2 depth1=31 owner_tests=627 outputs=131 verdict=OUTPUT [17s]
+    witness conv=bundle owner=lA via=[('shrink', 1, ((10, 13), (28,)))] literal_lb4r=True literal_mine=True efx0_raw=True bundles>2=1
+    witness conv=bundle owner=x11A via=[('shrink', 1, ((10, 13), (28,)))] literal_lb4r=True literal_mine=True efx0_raw=True bundles>2=1
+    witness conv=bundle owner=x12A via=[('shrink', 1, ((10, 13), (28,)))] literal_lb4r=True literal_mine=True efx0_raw=True bundles>2=1
+a=x13A idx=4 model=R states=33 depth0=2 depth1=31 owner_tests=627 outputs=131 verdict=OUTPUT [16s]
+    witness conv=bundle owner=lA via=[('shrink', 1, ((10, 13), (28,)))] literal_lb4r=True literal_mine=True efx0_raw=True bundles>2=1
+    witness conv=bundle owner=x11A via=[('shrink', 1, ((10, 13), (28,)))] literal_lb4r=True literal_mine=True efx0_raw=True bundles>2=1
+    witness conv=bundle owner=x12A via=[('shrink', 1, ((10, 13), (28,)))] literal_lb4r=True literal_mine=True efx0_raw=True bundles>2=1
+a=y1A idx=5 model=R states=33 depth0=2 depth1=31 owner_tests=627 outputs=131 verdict=OUTPUT [17s]
+    witness conv=bundle owner=lA via=[('shrink', 1, ((10, 13), (28,)))] literal_lb4r=True literal_mine=True efx0_raw=True bundles>2=1
+    witness conv=bundle owner=x11A via=[('shrink', 1, ((10, 13), (28,)))] literal_lb4r=True literal_mine=True efx0_raw=True bundles>2=1
+    witness conv=bundle owner=x12A via=[('shrink', 1, ((10, 13), (28,)))] literal_lb4r=True literal_mine=True efx0_raw=True bundles>2=1
+a=x21A idx=6 model=R states=41 depth0=2 depth1=39 owner_tests=779 outputs=0 verdict=NO_OUTPUT_WITH_<=1_ROTATION [11s]
+a=x22A idx=7 model=R states=39 depth0=2 depth1=37 owner_tests=741 outputs=0 verdict=NO_OUTPUT_WITH_<=1_ROTATION [14s]
+a=x23A idx=8 model=R states=39 depth0=2 depth1=37 owner_tests=741 outputs=0 verdict=NO_OUTPUT_WITH_<=1_ROTATION [16s]
+a=y2A idx=9 model=R states=39 depth0=2 depth1=37 owner_tests=741 outputs=0 verdict=NO_OUTPUT_WITH_<=1_ROTATION [15s]
+a=x11B idx=10 model=R states=35 depth0=2 depth1=33 owner_tests=665 outputs=48 verdict=OUTPUT [17s]
+    witness conv=bundle owner=x11A via=[('shrink', 1, ((2, 5), (6,)))] literal_lb4r=True literal_mine=True efx0_raw=True bundles>2=1
+    witness conv=bundle owner=x13A via=[('shrink', 1, ((2, 5), (6,)))] literal_lb4r=True literal_mine=True efx0_raw=True bundles>2=1
+    witness conv=bundle owner=x11B via=[('shrink', 1, ((2, 5), (6,)))] literal_lb4r=True literal_mine=True efx0_raw=True bundles>2=1
+a=x12B idx=11 model=R states=33 depth0=2 depth1=31 owner_tests=627 outputs=131 verdict=OUTPUT [19s]
+    witness conv=bundle owner=lB via=[('shrink', 1, ((2, 5), (6,)))] literal_lb4r=True literal_mine=True efx0_raw=True bundles>2=1
+    witness conv=bundle owner=x11A via=[('shrink', 1, ((2, 5), (6,)))] literal_lb4r=True literal_mine=True efx0_raw=True bundles>2=1
+    witness conv=bundle owner=x12A via=[('shrink', 1, ((2, 5), (6,)))] literal_lb4r=True literal_mine=True efx0_raw=True bundles>2=1
+a=x13B idx=12 model=R states=33 depth0=2 depth1=31 owner_tests=627 outputs=131 verdict=OUTPUT [12s]
+    witness conv=bundle owner=lB via=[('shrink', 1, ((2, 5), (6,)))] literal_lb4r=True literal_mine=True efx0_raw=True bundles>2=1
+    witness conv=bundle owner=x11A via=[('shrink', 1, ((2, 5), (6,)))] literal_lb4r=True literal_mine=True efx0_raw=True bundles>2=1
+    witness conv=bundle owner=x12A via=[('shrink', 1, ((2, 5), (6,)))] literal_lb4r=True literal_mine=True efx0_raw=True bundles>2=1
+a=y1B idx=13 model=R states=33 depth0=2 depth1=31 owner_tests=627 outputs=131 verdict=OUTPUT [10s]
+    witness conv=bundle owner=lB via=[('shrink', 1, ((2, 5), (6,)))] literal_lb4r=True literal_mine=True efx0_raw=True bundles>2=1
+    witness conv=bundle owner=x11A via=[('shrink', 1, ((2, 5), (6,)))] literal_lb4r=True literal_mine=True efx0_raw=True bundles>2=1
+    witness conv=bundle owner=x12A via=[('shrink', 1, ((2, 5), (6,)))] literal_lb4r=True literal_mine=True efx0_raw=True bundles>2=1
+a=x21B idx=14 model=R states=41 depth0=2 depth1=39 owner_tests=779 outputs=0 verdict=NO_OUTPUT_WITH_<=1_ROTATION [9s]
+a=x22B idx=15 model=R states=39 depth0=2 depth1=37 owner_tests=741 outputs=0 verdict=NO_OUTPUT_WITH_<=1_ROTATION [10s]
+a=x23B idx=16 model=R states=39 depth0=2 depth1=37 owner_tests=741 outputs=0 verdict=NO_OUTPUT_WITH_<=1_ROTATION [11s]
+a=y2B idx=17 model=R states=39 depth0=2 depth1=37 owner_tests=741 outputs=0 verdict=NO_OUTPUT_WITH_<=1_ROTATION [13s]
+# finished in 237s
