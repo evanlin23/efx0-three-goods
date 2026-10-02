@@ -8,6 +8,7 @@ Lemma M portfolio (`k4/lemmam_portfolio.c`, workstream compute/k4-m-portfolio). 
 |---|---|---|
 | `n4_2_all` | 1,696 | 539,049,216 |
 | `n4_3_7cores` | 656 | 580,723,776 |
+| `n4_3_every12` | 6,000 | 2,134,549,504 |
 | `n4_s2000` | 7 | 1,543,591 |
 | `n5_s20` | 1 | 544,892 |
 | `n5_s200` | 10 | 5,452,136 |

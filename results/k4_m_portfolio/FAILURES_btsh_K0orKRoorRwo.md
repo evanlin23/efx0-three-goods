@@ -6,21 +6,22 @@ Lemma M portfolio (`k4/lemmam_portfolio.c`, workstream compute/k4-m-portfolio). 
 
 | dataset | failures (profiles) | applicable |
 |---|---|---|
+| `n4_3_every12` | 1,152 | 2,134,549,504 |
 | `n4_s2000` | 2 | 1,543,591 |
 | `n5_s200` | 1 | 5,452,136 |
 
-## Smallest failure (dataset `n4_s2000`, n = 4, m = 11)
+## Smallest failure (dataset `n4_3_every12`, n = 4, m = 9)
 
 ```
-PFAIL cand=btsh:K0|KRo|Rwo w=1 n=4 m=11 sets=[[0,2,6,10],[1,5,9,10],[3,6,7,8],[4,7,8,9]] vals=[[5,4,6,8],[3,5,6,7],[4,8,2,3],[2,4,3,8]] fa=0:K0=0,K1=1,bt=0,sh=1,c40=0,g2=0,N[om=5,r=2,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=3,x3=8],E[om=5,r=2,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=3,x3=8];1:K0=0,K1=1,bt=0,sh=1,c40=0,g2=0,N[om=5,r=3,rfz=0,ks=3,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=3,x3=4],E[om=5,r=3,rfz=0,ks=3,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=3,x3=4];2:K0=0,K1=1,bt=1,sh=0,c40=0,g2=0,N[om=5,r=3,rfz=0,ks=2,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=3,x3=8],E[om=5,r=3,rfz=0,ks=2,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=3,x3=8];3:K0=0,K1=1,bt=1,sh=0,c40=0,g2=0,N[om=5,r=2,rfz=0,ks=3,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=3,x3=4],E[om=5,r=2,rfz=0,ks=3,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=3,x3=4]
+PFAIL cand=btsh:K0|KRo|Rwo w=2 n=4 m=9 sets=[[0,2,7,8],[1,4,7,8],[3,5,6,8],[5,6,8]] vals=[[3,5,7,6],[3,5,7,6],[3,5,7,6],[2,3,4]] fa=0:K0=0,K1=1,bt=0,sh=1,c40=0,g2=0,N[om=4,r=3,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=7,x3=8],E[om=4,r=3,rfz=0,ks=0,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=7,x3=8];1:K0=0,K1=1,bt=0,sh=1,c40=0,g2=0,N[om=4,r=3,rfz=0,ks=1,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=7,x3=8],E[om=4,r=3,rfz=0,ks=1,M1=0,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=7,x3=8];2:K0=1,K1=0,bt=0,sh=0,c40=0,g2=0,N[om=1,r=0,rfz=0,ks=2,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0],E[om=3,r=1,rfz=0,ks=2,M1=0,KRb=1,KRa=1,KRo=1,Rw=0,Rwo=0,x1=1,x3=2];3:K0=1,K1=0,bt=0,sh=0,c40=0,g2=0,N[om=1,r=2,rfz=0,ks=3,M1=1,KRb=0,KRa=0,KRo=0,Rw=0,Rwo=0,x1=0,x3=0],E[om=3,r=1,rfz=0,ks=3,M1=0,KRb=1,KRa=1,KRo=1,Rw=0,Rwo=0,x1=1,x3=2]
 ```
 
-Second implementation: **CONFIRMED**. Per first agent (some policy): agent 0: K0=0 K1=1 M1=0 KRb=0 KRa=0 KRo=0 Rw=0 Rwo=0 big-top=0; agent 1: K0=0 K1=1 M1=0 KRb=0 KRa=0 KRo=0 Rw=0 Rwo=0 big-top=0; agent 2: K0=0 K1=1 M1=0 KRb=0 KRa=0 KRo=0 Rw=0 Rwo=0 big-top=1; agent 3: K0=0 K1=1 M1=0 KRb=0 KRa=0 KRo=0 Rw=0 Rwo=0 big-top=1.
+Second implementation: **CONFIRMED**. Per first agent (some policy): agent 0: K0=0 K1=1 M1=0 KRb=0 KRa=0 KRo=0 Rw=0 Rwo=0 big-top=0; agent 1: K0=0 K1=1 M1=0 KRb=0 KRa=0 KRo=0 Rw=0 Rwo=0 big-top=0; agent 2: K0=1 K1=0 M1=1 KRb=1 KRa=1 KRo=1 Rw=0 Rwo=0 big-top=0; agent 3: K0=1 K1=0 M1=1 KRb=1 KRa=1 KRo=1 Rw=0 Rwo=0 big-top=0.
 
 ## Reproduce
 
 ```
-echo '{"sets": [[0, 2, 6, 10], [1, 5, 9, 10], [3, 6, 7, 8], [4, 7, 8, 9]], "vals": [[5, 4, 6, 8], [3, 5, 6, 7], [4, 8, 2, 3], [2, 4, 3, 8]]}' > /tmp/p.jsonl
+echo '{"sets": [[0, 2, 7, 8], [1, 4, 7, 8], [3, 5, 6, 8], [5, 6, 8]], "vals": [[3, 5, 7, 6], [3, 5, 7, 6], [3, 5, 7, 6], [2, 3, 4]]}' > /tmp/p.jsonl
 python3 k4/lemmam_portfolio.py --profiles=/tmp/p.jsonl -Y1 --jobs=1     # first implementation
 python3 k4/lemmam_xcheck.py --fails=results/k4_m_portfolio/FAILURES_btsh_K0orKRoorRwo.md   # second implementation
 ```

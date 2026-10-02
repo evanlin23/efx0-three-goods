@@ -9,6 +9,7 @@ Lemma M portfolio (`k4/lemmam_portfolio.c`, workstream compute/k4-m-portfolio). 
 | `hunt1_failprofiles` | 2 | 2 |
 | `n3` | 23,856 | 125,469,216 |
 | `n4_3_7cores` | 37,056 | 332,107,776 |
+| `n4_3_every12` | 27,840 | 1,139,733,504 |
 | `n4_s2000` | 65 | 746,407 |
 | `n4_s50` | 1 | 18,510 |
 | `n5_s20` | 26 | 279,622 |

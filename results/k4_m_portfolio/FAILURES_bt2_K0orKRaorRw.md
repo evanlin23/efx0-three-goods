@@ -7,6 +7,7 @@ Lemma M portfolio (`k4/lemmam_portfolio.c`, workstream compute/k4-m-portfolio). 
 | dataset | failures (profiles) | applicable |
 |---|---|---|
 | `n4_3_7cores` | 96 | 58,392,576 |
+| `n4_3_every12` | 224 | 200,392,704 |
 | `n4_s2000` | 1 | 125,234 |
 | `n5_s200` | 1 | 619,541 |
 

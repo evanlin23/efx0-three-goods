@@ -10,6 +10,7 @@ Lemma M portfolio (`k4/lemmam_portfolio.c`, workstream compute/k4-m-portfolio). 
 | `n3` | 7,488 | 299,837,376 |
 | `n4_2_all` | 11 | 724,847,616 |
 | `n4_3_7cores` | 394 | 788,299,776 |
+| `n4_3_every12` | 20 | 2,705,301,504 |
 | `n5_s200` | 1 | 6,316,800 |
 
 ## Smallest failure (dataset `n3`, n = 3, m = 6)

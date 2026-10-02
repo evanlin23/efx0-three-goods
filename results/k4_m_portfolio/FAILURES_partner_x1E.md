@@ -7,6 +7,7 @@ Lemma M portfolio (`k4/lemmam_portfolio.c`, workstream compute/k4-m-portfolio). 
 | dataset | (profile, first agent) pairs: a partner exists, none in K0 ∪ K1 | pairs with a not in K0 ∪ K1 |
 |---|---|---|
 | `n3` | 11,520 | 25,240 |
+| `n4_3_every12` | 2,592 | 10,096 |
 | `suite` | 2 | 21 |
 
 ## Smallest failure (dataset `n3`, n = 3, m = 6)
