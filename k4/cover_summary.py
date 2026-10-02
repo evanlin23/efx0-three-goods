@@ -43,6 +43,7 @@ def summarize(name, files):
             seen.add(pk)
             cnt['profiles read'] += 1
             if 'skip' in r: cnt['profiles skipped: %s' % r['skip']] += 1; continue
+            if 'keys' not in r or 'f' not in r: cnt['records without keys (e.g. seed lists) skipped'] += 1; continue
             f = r['f']; n = r['n']
             cnt[('profiles', 'f=%d' % f, 'n=%d' % n)] += 1
             if r.get('indep'): cnt['profiles checked against k4/rt4_n5_indep.py: ' + r['indep'].split(' (')[0]] += 1

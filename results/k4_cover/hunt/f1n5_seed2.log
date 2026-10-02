@@ -1,0 +1,2 @@
+# command: python3 k4/cover_hunt.py results/k4_cover/hunt/f1n5_seed2.jsonl.gz --minutes=30 --rng=2 --seedfile=results/k4_cover/hunt/seeds_f1_n5.jsonl.gz:2 --frange=1:1
+# seed: n=5 m=12 start score 1 tags []

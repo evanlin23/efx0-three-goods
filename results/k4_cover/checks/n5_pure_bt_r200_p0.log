@@ -1,0 +1,6 @@
+# command: python3 k4/cover_check.py results/k4_cover/checks/n5_pure_bt_r200_p0.jsonl.gz results/k4_cover/screen/n5_pure_bt_r200.jsonl.gz --part=0/1
+# 62 input records, 62 distinct in range, part 0/1: 62, already done 0
+keys f=2                       29
+keys f=3                       48
+profiles                       62
+# time 14.2 s

@@ -8,3 +8,4 @@ scr() {  # name file rand seed [extra]
 scr n5_n4_4_r2k results/k4_certs_5_n4_4.json.gz 2000 3031
 scr n5_pure_r2k results/k4_certs_5_pure.json.gz 2000 3031
 scr n5_pure_bt_r2k results/k4_certs_5_pure.json.gz 2000 3031 --bt=all
+scr n6_n4_1_r50 results/k4_certs_6_n4_1.json.gz 50 3031

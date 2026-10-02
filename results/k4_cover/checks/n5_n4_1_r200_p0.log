@@ -1,0 +1,3 @@
+# command: python3 k4/cover_check.py results/k4_cover/checks/n5_n4_1_r200_p0.jsonl.gz results/k4_cover/screen/n5_n4_1_r200.jsonl.gz --part=0/1
+# 0 input records, 0 distinct in range, part 0/1: 0, already done 0
+# time 0.0 s
