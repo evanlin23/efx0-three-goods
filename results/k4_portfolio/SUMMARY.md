@@ -8,7 +8,7 @@ edited on this branch. Survival table: `TABLE.md`. The hunt: `HUNT.md`.
 - **No non-control predicate of the lattice fails** on any state of the data. The data are 3,260,933 states with
   f ≥ 1 and def > 0 and 74,460 keys with def* > 0, in 172,493,761 profiles (summed over overlapping datasets). The two
   hunts found no failure either:
-  - the annealing: 365 tasks, 20.8 million profiles generated, about 10 CPU hours;
+  - the annealing: 459 tasks, 25.8 million profiles generated, 12.9 CPU hours;
   - the exhaustive two-type neighbourhoods of 14 hard profiles: 1,000,000 profiles, 550,648 states, 10,256 keys.
 
   Only the controls fail, where they must:
@@ -35,9 +35,10 @@ edited on this branch. Survival table: `TABLE.md`. The hunt: `HUNT.md`.
   of them an RC3_noT4 move also lowers the deficit: a frozen chain at 11,107 and a role swap with a helper at 196.
 - **Strongest surviving key-graph form: K3b_noT4.** Its edges are role swaps with at most one giving helper, and frozen
   chains (T3⁺ with |W| ≤ 1 and |ch| ≤ 3), with no T4 edges. DL_{RC3_noT4} implies it (below).
-- RC3_noT4 and K3b_noT4 were added here as probes. The strongest forms on the coordinator's list are RC3 (RC_W1 with
-  |ch| ≤ 3, added because no smallest repair changes more than three agents) and RC_W1 for single steps, and K3b and K3
-  for the key graph. They all survive; RC3_noT4 ⊆ RC3 ⊆ RC_W1 ⊆ RC and K3b_noT4 ⊆ K3b ⊆ K3 ⊆ K2.
+- RC3_noT4 and K3b_noT4 were added here as probes. Of the coordinator's list, the strongest survivors are RC_W1
+  (single step) and K3 (key graph). Also added here, and also surviving: RC3 and K3b, the same with |ch| ≤ 3, added
+  because no smallest repair on the data changes more than three agents. The chains are RC3_noT4 ⊆ RC3 ⊆ RC_W1 ⊆ RC
+  and K3b_noT4 ⊆ K3b ⊆ K3 ⊆ K2.
 
 ## The statements (k4/portfolio_preds.py)
 
