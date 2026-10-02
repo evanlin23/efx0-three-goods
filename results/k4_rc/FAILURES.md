@@ -7,12 +7,18 @@ confirmed by two further implementations, written independently of dlrc.c:
 
 Conjecture DL_RC is the statement of `k4/dlrc.c`'s header. At f ≥ 1, every min-frozen P with def(P) > 0 must have an R_C neighbour P′ with def(P′) < def(P), where R_C = T1 ∪ T2 ∪ T3⁺ ∪ T4. LEDGER.md is not edited here.
 
-**Status: DL_RC fails at n = 5, m = 13, f = 1.** The failures are 45 profiles (so far) of one pure core, with one failing state each. **DL on the key graph holds at all of them.** These states are also DL_RT4 failures of a new kind: they are at f = 1 (the known ones were at f = 3) and are not chain states. DL_RC fails nowhere else in the inputs of the n = 5 failures (task (c)), or anywhere else the hunt went so far (SUMMARY.md).
+**Status: DL_RC fails at n = 5, m = 13, f = 1.** The failures are **369 profiles** of one pure core, with one failing state each, and it is the same state in every profile. **DL on the key graph holds at all of them.** These states are also DL_RT4 failures of a new kind: they are at f = 1 (the known ones were at f = 3) and are not chain states. DL_RC fails nowhere else in the inputs of the n = 5 failures (task (c)), or anywhere else the hunt went so far (SUMMARY.md).
 
 ## How it was found and confirmed
 
 - **Found by:** the hunt `python3 k4/dlrc_hunt.py ranked_pure ranked results/k4_certs_5_pure.json.gz ... --top=200 --steps=800 --jobs=4 --seed=4` (`k4/dlrc_hunt_runs.sh`, log `hunt_ranked_pure.log`). Climb unit `{"file": "k4_certs_5_pure.json.gz", "pos": 4604}` printed every profile it met with a DL_RC failure ("# DL_RC FAILS"). The dump `dump_hunt_ranked_pure.jsonl.gz` holds those profiles with dlrc.c's "D" records.
-- **Inputs and logs:**
+- **More failing profiles:** 12 climbs from the first failing profiles (run `core4604`, log `hunt_core4604.log`) found 324 more. `rc_fail_all_inst.json` holds all 369 distinct failing profiles found by the hunt.
+- **Confirmation of all 369:**
+  - `ref_rc_fail_all.log`: dlrc_ref.py finds 16,605 def > 0 states, all at f = 1. DL_RC fails at 369 of them, the key form at 0. There are 0 mismatches with dlrc.c on every field, and 0 with dlrt4.c and with the -DBIGPP=0 build.
+  - `ref_rt4_rc_fail_all.log`: dlrt4_ref.py finds 369 DL_RT4 failures at f ≥ 1, with 0 mismatches.
+  - `run_rc_fail_all.log`, `dump_rc_fail_all.jsonl.gz`: dlrc.c's records.
+  - `rc_failures_n5_all.tsv`, `rc_failures_n5_all_inst.json`, `rc_failures_n5_all.log`: the listing, as below.
+- **The first 45** (as found by `ranked_pure`), with their own logs:
   - `rc_fail_hunt_ranked_pure_inst.json`: the 45 distinct failing profiles, as an inst list.
   - `ref_rc_fail_hunt_ranked_pure.log`: dlrc_ref.py on them. It finds 2,025 def > 0 states, all at f = 1. DL_RT4 and DL_RC fail at 45 of them, the key form at 0. There are 0 mismatches with dlrc.c on every field and on the H lines, and 0 with dlrt4.c's K / L lines, tables and S lines. The -DBIGPP=0 build also agrees.
   - `ref_rt4_rc_fail_hunt_ranked_pure.log`: dlrt4_ref.py (model.py + dl2_relations.py + its own T4) on them. It finds DL_RT4 failures at f ≥ 1: 45, with 0 mismatches and 0 assertions.
@@ -56,7 +62,14 @@ Core pos 4604 (idx 58) of `results/k4_certs_5_pure.json.gz`, m = 13, sets
 
   So P is stuck only because the T1 / T2 moves inside its key, which keep def = 1, are not improving moves.
 
-All 45 failing profiles have the same core, the same failing state, f = 1, def 1, k = 3, def* = 1 and kmin = −1. They differ in the values of agents 0, 1, 2, 3 and 4 (`rc_failures_n5.tsv`). The hunt reached them by climbing from a random profile of the core. The core was ranked only by states at distance ≥ 2 in the earlier runs (rank [0, 0, 298, 23355]).
+All 369 failing profiles have the same core and the same failing state P, with f = 1, def 1, k = 3, frozen agent 0, NA = {11}, def* = 1 and kmin = −1. Each has the same 84 better states: 6 nearest of shape (1, 1, 0, 1) and 78 of shape (1, 1, 0, 2). They differ in the values of the five agents (`rc_failures_n5_all.tsv`). The hunt reached them by climbing from a random profile of the core. The core was ranked only by states at distance ≥ 2 in the earlier runs (rank [0, 0, 298, 23355]).
+
+## The search around it (towards smaller n, m and simpler values)
+
+- **Simplest values.** The simplest failing profile (largest value 8, value sum 97) is the one shown above. The values are the integer representatives of the strict balanced types (`check4.core_domains`), so smaller values would need other types.
+- **Smaller m: deleting goods.** Deleting one or two goods from the failing core, keeping the remaining values, gives 350 smaller profiles that are cores (m = 11, 12) with valid values (`k4/dlrc_shrink.py`; `rc_shrink1.log`, `rc_shrink_any.log`). DL_RC holds on all 350. Climbs on the 40 cores obtained by deleting one or two goods (`hunt_shrink_cores.log`) find no DL_RC failure: 240 climbs, 8.7 M profiles, 13.4 M states.
+- **n = 4.** The earlier dlrt4.c runs enumerated every profile of the n = 4 cores with one or two four-good agents (compute/k4-rt4: `b_n4_1.log`, `c_n4_2.log`) and found no DL_RT4 failure. At f = 1, R_C = RT4, and at f ≥ 2 R_C contains RT4, so DL_RC holds there too (single implementation for that enumeration). Here, every n = 4 core with three or four four-good agents (558 cores) was climbed twice: runs `n4_pure`, `n4_n4_3`, `n4_pure_k3`, `n4_n4_3_k3`, with 16.1 M profiles. They find **no DL_RC failure**. They do find DL_RT4 failures at n = 4 that are chain states (SUMMARY.md).
+- **Other n = 5 cores.** No other core gave a DL_RC failure: the ranked and random hunts over the n = 5 cores with ≥ 3 four-good agents (SUMMARY.md).
 
 ## What this bears on (for the coordinator; the ledger is unchanged here)
 
