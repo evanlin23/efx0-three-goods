@@ -1,0 +1,14 @@
+== ep[greedy]   (epv('greedy'))
+  small n=2 m=3: 6 profiles, failures 0  [0s]
+  small n=2 m=4: 24 profiles, failures 0  [0s]
+  small n=2 m=5: 60 profiles, failures 0  [0s]
+  small n=2 m=6: 120 profiles, failures 0  [0s]
+  small n=3 m=4: 576 profiles, failures 0  [0s]
+  small n=3 m=5: 3600 profiles, failures 0  [0s]
+  small n=3 m=6: 14400 profiles, failures 0  [2s]
+  small n=3 m=7: 44100 profiles, failures 0  [7s]
+  small n=4 m=5: 216000 profiles, failures 0  [36s]
+  small n=4 m=6: 1728000 profiles, failures 0  [331s]
+  small total: 2006886 profiles, failures 0
+  core n=5 sample (200/core): 61400 profiles x 3 realizations, failing profiles 0  [52s]
+  random n<=8: 20000 ranking profiles, failures 0; 20000 general instances, failures 0  [16s]
