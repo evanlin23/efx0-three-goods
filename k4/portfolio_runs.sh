@@ -18,7 +18,7 @@ r4b)    run r4b certs results/k4_certs_4_n4_1.json.gz results/k4_certs_4_n4_2.js
 n5_4)   run n5_4 certs results/k4_certs_5_n4_4.json.gz --sample=4000 --seed=3 --jobs=${J:-4} --maxst=600 ;;
 n5_purebt) run n5_purebt certs results/k4_certs_5_pure.json.gz --sample=5000 --seed=5 --bt=all --jobs=${J:-4} --maxst=600 ;;
 n5_3)   run n5_3 certs results/k4_certs_5_n4_3.json.gz --sample=2000 --seed=3 --jobs=${J:-4} --maxst=600 ;;
-n5_pure) run n5_pure certs results/k4_certs_5_pure.json.gz --sample=1000 --seed=6 --jobs=${J:-4} --maxst=600 ;;
+n5_pure) run n5_pure certs results/k4_certs_5_pure.json.gz --sample=600 --seed=6 --jobs=${J:-4} --maxst=600 ;;
 n5_12)  run n5_12 certs results/k4_certs_5_n4_1.json.gz results/k4_certs_5_n4_2.json.gz --sample=500 --seed=3 --jobs=${J:-4} --maxst=600 ;;
 n6_1)   run n6_1 certs results/k4_certs_6_n4_1.json.gz --sample=100 --seed=3 --jobs=${J:-4} --maxst=600 ;;
 phase2) for r in dumps r3 r4 r3b r4b n5_4 n5_purebt n5_3 n5_12 n5_pure n6_1; do J=${J:-4} sh "$0" $r; done ;;

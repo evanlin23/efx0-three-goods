@@ -16,7 +16,8 @@ FAILURES_<pred>.jsonl are written, committed and pushed (with --push), and the h
 Seeds (one fixed core each, with a starting profile):
   fail10   the 10 DL_RT4-failing n = 5 profiles (results/k4_rt4/n5b_failures_inst.json, n5c_fail_inst.json);
   hard     the profiles with the least RC3 / RC_W1 / K3b margins kept by the Phase 2 aggregates (results/k4_portfolio/*.json),
-           one per core, n >= 4;
+           one per core, n >= 4 (hard5: n >= 5; at n = 4 every RT4 move changes at most three agents, so RC3 contains
+           RT4 there and the exhaustive n = 4 runs of K4.DL2.RT4E already cover it);
   rcores   random n = 5 cores with three or more 4-good agents and m <= 12 (k4_certs_5_n4_3, _n4_4, _pure), started at
            the hardest of 300 random profiles;
   ext      n = 6 extensions of the failing cores: a sixth agent with 3 or 4 goods, at least one of them old, the rest new
@@ -75,14 +76,14 @@ def seeds_fail10():
     return out
 
 
-def seeds_hard(k=12):
+def seeds_hard(k=12, nmin=4):
     hs = []
     for fn in sorted(os.listdir(OUT)):
         if fn.endswith('.json') and not fn.startswith(('ref_', 'hunt')):
             try: d = json.load(open(os.path.join(OUT, fn)))
             except ValueError: continue
             for h in d.get('agg', {}).get('hard', []):
-                if len(h['sets']) >= 4: hs.append(h)
+                if len(h['sets']) >= nmin: hs.append(h)
     hs.sort(key=lambda h: h['score'])
     out, seen = [], set()
     for h in hs:
@@ -95,14 +96,15 @@ def seeds_hard(k=12):
     return out
 
 
-def hardest_start(sets, m, rng, P=300):
+def hardest_start(sets, m, rng, P=2000):
+    """the hardest of P random profiles (least RC3, RC_W1 margins, larger f); None if none has a state"""
     doms = check4.core_domains(sets, m, False)
     profs = [tuple(rng.randrange(len(D)) for D in doms) for _ in range(P)]
     best = None
     for prof, res in evaluate_batch(sets, m, doms, profs):
         sc = (res['single']['RC3']['margin'], res['single']['RC_W1']['margin'], -(res['f'] or 0))
         if best is None or sc < best[0]: best = (sc, prof)
-    return best[1] if best else profs[0]
+    return best[1] if best else None
 
 
 def seeds_rcores(k=12, rng_seed=7):
@@ -110,9 +112,13 @@ def seeds_rcores(k=12, rng_seed=7):
     out = []
     for f in ('k4_certs_5_n4_3.json.gz', 'k4_certs_5_n4_4.json.gz', 'k4_certs_5_pure.json.gz'):
         cores = [c for c in json.load(gzip.open(os.path.join(OUT, '..', f), 'rt'))['cores'] if 9 <= c['m'] <= 12]
-        for c in rng.sample(cores, k // 3):
-            out.append({'name': f'rcores:{f}#idx{c.get("idx")}', 'sets': c['sets'], 'm': c['m'],
-                        'start': hardest_start(c['sets'], c['m'], rng)})
+        got = 0
+        for c in rng.sample(cores, 30 * k):                # cores where 2,000 random profiles give a state
+            st = hardest_start(c['sets'], c['m'], rng)
+            if st is None: continue
+            out.append({'name': f'rcores:{f}#idx{c.get("idx")}', 'sets': c['sets'], 'm': c['m'], 'start': st})
+            got += 1
+            if got >= k // 3: break
     return out
 
 
@@ -362,10 +368,17 @@ def main():
     srcs = opt.get('seeds', 'fail10,hard,rcores,ext').split(',')
     seeds = []
     for s in srcs:
-        got = {'fail10': seeds_fail10, 'hard': seeds_hard, 'rcores': seeds_rcores, 'ext': seeds_ext}[s]()
+        got = {'fail10': seeds_fail10, 'hard': seeds_hard, 'hard5': lambda: seeds_hard(12, 5), 'rcores': seeds_rcores,
+               'ext': seeds_ext}[s]()
         print(f'# seeds {s}: {len(got)}', flush=True)
         seeds += got
-    print(f'# {len(seeds)} seeds; predicates {preds}; dead from the state file {sorted(dead)}', flush=True)
+    for sd in seeds:                                  # key-graph tasks only start from profiles with a key of def* > 0
+        doms = check4.core_domains(sd['sets'], sd['m'], False)
+        r0 = evaluate_batch(sd['sets'], sd['m'], doms, [tuple(sd['start'])])
+        sd['haskeys'] = bool(r0) and r0[0][1]['keys_pos'] > 0
+    kseeds = [sd for sd in seeds if sd['haskeys']] or seeds
+    print(f'# {len(seeds)} seeds ({len(kseeds)} with a key of def* > 0); predicates {preds}; dead from the state file '
+          f'{sorted(dead)}', flush=True)
     t0 = time.time()
     for rd in range(rounds):
         alive = [p for p in preds if p not in dead]
@@ -373,7 +386,8 @@ def main():
         tasks = []
         for j, p in enumerate(alive):
             for mode in ('count', 'edge'):
-                sd = seeds[(rd * 7 + j * 3 + (mode == 'edge')) % len(seeds)]
+                pool = kseeds if KIND[p] == 'keyg' else seeds
+                sd = pool[(rd * 7 + j * 3 + (mode == 'edge')) % len(pool)]
                 tid = f'r{rd}:{p}:{mode}:{sd["name"]}'
                 if tid in done: continue
                 tasks.append((tid, p, mode, sd, slot, batch, zlib.crc32(tid.encode()), alive))

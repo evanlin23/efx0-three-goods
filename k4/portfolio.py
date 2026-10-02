@@ -465,13 +465,17 @@ def table():
                  'A row "A => B" is listed when B holds wherever A holds on the data although A\'s relation is not inside B\'s '
                  '(non-trivial implications), and "A =/=> B" with the number of states where A holds and B fails.')
         L.append('')
+        allhold = [nm for j, nm in enumerate(names) if all(v[j] == '1' for v in vec)]
+        L.append(f'- hold at every {"state" if kind == "single" else "key"} (so every implication into them is observed '
+                 f'trivially): {", ".join(allhold) or "none"}')
         rows = []
         for i, a in enumerate(names):
             for j, b in enumerate(names):
-                if i == j: continue
+                if i == j or b in allhold: continue
                 ab = sum(c for v, c in vec.items() if v[i] == '1' and v[j] == '0')
                 a1 = sum(c for v, c in vec.items() if v[i] == '1')
                 if a1 and ab == 0 and not structural(kind, a, b): rows.append(f'- {a} => {b} (on {a1:,})')
+                elif ab and structural(kind, a, b): rows.append(f'- INCONSISTENT: {a} holds and {b} fails at {ab}')
         L += rows or ['- none beyond the structural inclusions']
         L.append('')
         L.append('Verdict vectors (order ' + ', '.join(names) + '):')

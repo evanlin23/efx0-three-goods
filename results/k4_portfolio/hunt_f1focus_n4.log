@@ -1,0 +1,5 @@
+# command: python3 k4/portfolio_hunt.py --preds=RC3,NA3,D3 --seeds=hard --slot=300 --jobs=1 --rounds=3 --batch=24 --push --name=f1focus
+# seeds hard: 12
+# 12 seeds; predicates ['RC3', 'NA3', 'D3']; dead from the state file []
+# round 0: alive ['RC3', 'NA3', 'D3']; 6 tasks of 300 s on 1 jobs [0 s]
+  task r0:RC3:count:hard:k4_certs_4_pure.json.gz#123:7,196,11,3: steps 17820 evals 427680 best objective [1, 0] fails 0 [300.0 s]
