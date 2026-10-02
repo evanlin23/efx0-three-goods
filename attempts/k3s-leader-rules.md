@@ -47,3 +47,23 @@ LB's lookahead (`src/construct.py`) never rotated on any core with n ≤ 8, but 
 Reproduce:
 - `python3 k3/simplify/exp_leaders.py 4` (every profile with n ≤ 4)
 - `python3 k3/simplify/exp_leaders.py 5 300 5`
+
+**Lookahead and Lemma T's condition** (`k3/simplify/exp_norotation.py`, log
+`results/k3_simplify/no_rotation_leader_rules.log`). With K3S's absorber r, counts on every profile of every core with
+n ≤ 5 (2,445,840 profiles):
+- index: 33,104;
+- construction LB's lookahead (`lb`: the smallest |NA| after the leader's block): 30;
+- `P` (a leader satisfying Lemma T's provable condition, else index): 16,437;
+- `P`, else `lb`: 24.
+
+Every ranking profile with n = 3 on 5–7 goods: `lb` fails on 12, 36 and 72 profiles. The smallest `lb` failures:
+- n = 3, m = 5, core (2, 0, 3), (1, 4, 2), (1, 2, 0);
+- n = 3, m = 5, rankings (0, 1, 2), (2, 3, 4), (0, 2, 3) (not a core).
+
+Construction LB never failed on cores, but it chooses its owner by a search over all non-frozen owners and uses
+another R1 order. With the absorber fixed to r, the lookahead is not enough.
+
+Choosing only the first leader does avoid the rotation in every case tested, but by a search (Conjecture FL,
+`proofs/k3_simple.md` §7). Static choices of the first leader fail (`results/k3_simplify/first_leader_static_rules.log`):
+- the failed run's r works on 1,643 of 1,648 profiles at n ≤ 4;
+- "b and c valued by the most agents" works on 1,618 of 1,648.

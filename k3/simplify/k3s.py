@@ -25,7 +25,7 @@ single_pass=True replaces the upgrade loop by one pass in draft order (a WRONG v
 """
 import sys
 
-def k3s(n, m, v, info=None, cap1=True, single_pass=False, strict_absorb=True):
+def k3s(n, m, v, info=None, cap1=True, single_pass=False, strict_absorb=True, leader='index', rotate=True):
     # rankings: relevant goods by value, largest first, ties by index
     rk = [sorted(v[i], key=lambda g: (-v[i][g], g)) for i in range(n)]
     pos = [{g: t for t, g in enumerate(rk[i])} for i in range(n)]
@@ -35,11 +35,16 @@ def k3s(n, m, v, info=None, cap1=True, single_pass=False, strict_absorb=True):
 
     # 1. draft
     free = set(range(m)); unproc = list(range(n)); order = []; Y = [None] * n
-    def peelable(i):
+    def peelable(i, free=free):
         fr = [g for g in rk[i] if g in free]
         return not fr or v[i][fr[0]] >= sum(v[i][g] for g in fr[1:])
+    lead = LEADERS[leader] if isinstance(leader, str) else leader
+    ctx = dict(rk=rk, pos=pos, v=v, n=n, peelable=peelable, strict3=strict3, balanced3=balanced3)
     while unproc:
-        i = next((j for j in unproc if peelable(j)), unproc[0])
+        i = next((j for j in unproc if peelable(j)), None)
+        if i is None:
+            i = lead(ctx, unproc, free, Y)
+            if info is not None: info.setdefault('leaders', []).append(i)
         Y[i] = next((g for g in rk[i] if g in free), None)
         free.discard(Y[i]); order.append(i); unproc.remove(i)
 
@@ -109,6 +114,9 @@ def k3s(n, m, v, info=None, cap1=True, single_pass=False, strict_absorb=True):
         if info is not None: info['branch'] = 'r'
         return X
     # 4. rotation
+    if not rotate:
+        if info is not None: info['branch'] = 'needs_rotation'
+        return None
     E = exposed(r, Y, U); k = max(E, key=order.index)
     na = NA(Y, U); chain = [k]
     for j in order[order.index(k) + 1:]:
@@ -120,8 +128,65 @@ def k3s(n, m, v, info=None, cap1=True, single_pass=False, strict_absorb=True):
     for s in range(1, len(chain)): Y2[chain[s]] = Y[chain[s - 1]]
     Y2[k] = rk[k][1]; U2 = U + [k]
     X = absorb(k, Y2, U2)
-    if info is not None: info['branch'] = 'rot'; info['chain_ends_at_r'] = chain[-1] == r
+    if info is not None: info['branch'] = 'rot'; info['chain_ends_at_r'] = chain[-1] == r; info['chain'] = chain; info['r'] = r
     return X
+
+# ------------------------------------------------------------------------------------------- leader rules (step 1)
+def sim_block(ctx, x, unproc, free, Y):
+    """x leads: takes its top; then agents that can be peeled go, until none can. Returns the state and the block."""
+    rk, peel = ctx['rk'], ctx['peelable']
+    unproc, free, Y = list(unproc), set(free), list(Y); blk = []
+    c = x
+    while c is not None:
+        Y[c] = next((g for g in rk[c] if g in free), None); free.discard(Y[c]); unproc.remove(c); blk.append(c)
+        c = next((j for j in unproc if peel(j, free)), None)
+    return unproc, free, Y, blk
+
+def block_needs(ctx, blk, Y):
+    """goods needed by the agents of a block (by (B1) no later agent values a good picked in it)"""
+    rk, pos = ctx['rk'], ctx['pos']
+    return {g for i in blk for g in (rk[i] if Y[i] is None else rk[i][:pos[i][Y[i]]])}
+
+def safe_free(ctx, blk, Y):
+    """agents of the block that are free at its end and can never be upgraded (hold their top, their c, or
+    nothing); needs only shrink later, so they stay free"""
+    rk = ctx['rk']; na = block_needs(ctx, blk, Y)
+    return [i for i in blk if (Y[i] is None or Y[i] not in na) and (Y[i] is None or len(rk[i]) < 2 or Y[i] != rk[i][1])]
+
+def provable(ctx, x, unproc, free, Y):
+    """Lemma T: if x's block ends with two free agents that stay free, or x can never be exposed (its b and c are
+    tops of two other unprocessed agents), then r is a valid absorber at the end, whatever happens later."""
+    rk = ctx['rk']
+    tops = {rk[y][0] for y in unproc if y != x}
+    if rk[x][1] in tops and rk[x][2] in tops: return True
+    _, _, Y2, blk = sim_block(ctx, x, unproc, free, Y)
+    return len(safe_free(ctx, blk, Y2)) >= 2
+
+def lead_index(ctx, unproc, free, Y): return unproc[0]
+
+def na_after(ctx, x, unproc, free, Y):
+    """construction LB's lookahead count: |NA| over processed agents after x's block, minus certain upgrades"""
+    rk, pos, n = ctx['rk'], ctx['pos'], ctx['n']
+    un2, fr2, Y2, _ = sim_block(ctx, x, unproc, free, Y)
+    done = [k for k in range(n) if k not in un2]
+    junk = {g for g in fr2 if not any(g in rk[k] for k in un2)}
+    up = set()
+    while True:
+        NA = {g for k in done if k not in up for g in (rk[k] if Y2[k] is None else rk[k][:pos[k][Y2[k]]])}
+        k = next((k for k in done if k not in up and ctx['balanced3'](k) and Y2[k] == rk[k][1] and rk[k][2] in junk
+                  and rk[k][1] not in NA), None)
+        if k is None: return len(NA)
+        up.add(k); junk.discard(rk[k][2])
+
+def lead_lb(ctx, unproc, free, Y): return min(unproc, key=lambda x: (na_after(ctx, x, unproc, free, Y), x))
+
+def lead_P(ctx, unproc, free, Y):
+    return next((x for x in unproc if provable(ctx, x, unproc, free, Y)), unproc[0])
+
+def lead_P_lb(ctx, unproc, free, Y):
+    return next((x for x in unproc if provable(ctx, x, unproc, free, Y)), None) or lead_lb(ctx, unproc, free, Y)
+
+LEADERS = {'index': lead_index, 'lb': lead_lb, 'P': lead_P, 'P_lb': lead_P_lb}
 
 def efx0(n, m, v, X):
     if X is None: return False

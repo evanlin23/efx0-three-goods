@@ -230,6 +230,43 @@ times.
 - A Lean proof. The Lean development proves LB⁺ for every order with R1 priority, and K3S's Stage L is one such
   run up to the three changes of §2. The merged draft, one slot per free agent and "absorber takes all" would need
   new lemmas.
-- Whether some simple leader rule avoids the rotation altogether. Lemma T says one non-exposed leader would
-  suffice. Construction LB's lookahead never rotated on any core with n ≤ 8 (`proofs/lb_last_step.md`), but it is
-  not proved and is not simple.
+- Whether the rotation can be avoided. No fixed leader rule tested does it (§7), but choosing the first leader by a
+  search does, on every case tested (Conjecture FL, §7). A proof would give a rotation-free algorithm.
+
+## 7. Without the rotation (evidence, open)
+
+**When the rotation can occur.** By Lemma T it is needed only if nobody can be peeled at the start, that is, only on
+instances where every agent values exactly three goods with a < b + c. On 300,000 random general instances, K3S
+rotated 54 times, each time on such an instance.
+
+**Fixed leader rules do not remove it.** See `attempts/k3s-leader-rules.md`. The best is construction LB's lookahead
+(the leader leaving the fewest goods needed alone). With K3S's absorber it still needs the rotation on 30 of the
+2,445,840 core profiles with n ≤ 5, and on 12 of the 3,600 ranking profiles with n = 3, m = 5.
+
+**Conjecture FL (first leader).** On every instance, some choice of the *first* leader of the draft (later leaders by
+smallest index) makes step 3 succeed. So the following rotation-free algorithm would always work:
+
+> run steps 1–3 with each agent in turn as the first leader, and return the first run in which step 3 succeeds.
+
+Evidence (`k3/simplify/exp_first_leader.py`, log `results/k3_simplify/first_leader.log`). Each row counts the
+profiles on which K3S with index leaders needs the rotation. In every one of them some first leader works, and so
+does some choice of the *last* leader (Conjecture LL).
+
+| Set | Profiles needing the rotation | Fixed by choosing the first leader | Fixed by choosing the last leader |
+|---|---|---|---|
+| every profile of every core, n ≤ 5 | 33,104 | 33,104 | 33,104 |
+| every ranking profile, n = 3, m = 8 | 1,960 | 1,960 | 1,960 |
+| every ranking profile, n = 4, m = 5 | 4,344 | 4,344 | 4,344 |
+| every ranking profile, n = 4, m = 6 | 33,168 | 33,168 | 33,168 |
+| cores n = 6, 300 random profiles per core | 4,536 | 4,536 | 4,536 |
+| 1,000,000 random ranking profiles, n ≤ 9 | 6,072 | 6,072 | 6,072 |
+
+On average 58–79% of the agents work as the first leader. No fixed choice always works, so the search is needed:
+- the agent that was r in the failed run works on 1,643 of 1,648 profiles (n ≤ 4);
+- the agent whose b and c are valued by the most agents works on 1,618 of 1,648
+  (`results/k3_simplify/first_leader_static_rules.log`).
+
+**Is this simpler?** It is shorter to state ("restart from another first leader") and needs no need chains. But it
+costs up to n runs, and Conjecture FL has no proof. The rotation is one local step with a proof (Theorem B). A
+proof of FL could start from Lemma T: it would suffice to show that for some first leader, some leader of the
+resulting draft is never exposed, or some block ends with two free agents.
