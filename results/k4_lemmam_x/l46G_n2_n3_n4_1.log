@@ -1,0 +1,5 @@
+# lemmam_x_adp.py results/k4_certs_2.json.gz results/k4_certs_3.json.gz results/k4_certs_4_n4_1.json.gz -Y1 -r1 -G1 -A46 --checkpoint=/tmp/claude-0/-home-user-efx0-three-goods/891575f8-e905-5025-9feb-2c6293ea3e11/scratchpad/lmx/ck_l46g.jsonl # lemmam_x.c sha256 ea801dd6ee8ba1fb
+k4_certs_2.json.gz: cores=5 time 1s
+k4_certs_3.json.gz: cores=51 time 73s
+k4_certs_4_n4_1.json.gz: cores=135 time 75s
+  profiles 307273824; the least rotations d over the runs whose blocks other than the last all have count 0 (0, 1, ..., cap; none certified within the cap; no such run): [306884800, 389024, 0, 0]

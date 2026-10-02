@@ -1,0 +1,3 @@
+# lemmam_x_adp.py --profiles=/tmp/claude-0/-home-user-efx0-three-goods/891575f8-e905-5025-9feb-2c6293ea3e11/scratchpad/lmx/HH_rel.txt -Y1 -r1 # lemmam_x.c sha256 eac6b06d1052bd78
+HH3: n=26 rotations needed after the adaptive run d=0 (cap 1; 2 = none found) every block count 0: True tau=3,0,7,8,11,12,15,1,19,20,23,24 block counts=0,0,0,0,0,0,0,0,0,0,0,0 time 71.2s
+HH3 relabel 1: n=26 rotations needed after the adaptive run d=0 (cap 1; 2 = none found) every block count 0: True tau=1,3,0,15,17,7,18,19,9,21,22,25,13 block counts=0,0,0,0,0,0,0,0,0,0,0,0,0 time 50.9s
