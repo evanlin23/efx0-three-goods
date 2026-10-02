@@ -1,0 +1,6 @@
+# command: python3 k4/dlrc_ref.py inst results/k4_rc/hunt_n4_pure_chain_sample_inst.json --jobs=2
+# 60 profiles
+#  60 / 60 profiles: {'rcnokey': 0, 'anomc': 0, 'prof': 60, 'prof_f1': 60, 'st': 1138, 'st_f1': 1138, 'keymin_states': 1138, 'rt4fail': 178, 'chain': 178, 't3c': 178}
+# dlrc.c sha256 f1cf4cc169a347625e5a84bd9c7a8c218f791de6e2a7ce466f59ce357000b1f7; dlrt4.c sha256 fcde494a3161279d47a7b80e614f69c58894ebc7b40d00e461f677b8810d7cae
+profiles 60 (with an f >= 1 def > 0 state 60); states 1138 (f = 0: 0, f >= 1: 1138); f >= 1: DL_RT4 fails at 178, DL_RC fails at 0, chain states 178, with an improving T3c move 178, key form fails at 0; states with def = def* 1138
+mismatches: reference vs dlrc.c: states 0, fields 0, H lines 0; dlrc.c vs dlrt4.c: K/L/tables 0, S lines 0; -DBIGPP=0 build 0; blocks 0; dlrc.c rcnokey 0, anomc 0; TOTAL 0 [16 s]

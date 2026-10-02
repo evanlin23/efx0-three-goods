@@ -1,0 +1,27 @@
+# command: python3 k4/suite/run.py --pred=k4/rc_pred.py:rc_c --pred=k4/rc_pred.py:rc_indep --pred=k4/rc_pred.py:rcy_indep --pred=k4/rc_pred.py:keyplus_c --pred=k4/rt4_pred.py:rc_x --pred=k4/rt4_pred.py:keyplus_x --pred=k4/rt4_pred.py:rt4_c --pred=k4/rt4_pred.py:rt4_ref --only=rc-n5m13-f1,rc-n5m12-f2
+# instances: 2
+## rc_c: DL_RC: at f >= 1 every min-frozen P with def > 0 has a T1, T2, T3+ or T4 move to a min-frozen P' with a smaller deficit (dlrc.c) [k4/rc_pred.py]
+  rc-n5m12-f2                  n=5 m=12  custom: FAILS (f = 2, 114 states with def > 0, DL_RC fails at 4; 1.3s)
+  rc-n5m13-f1                  n=5 m=13  custom: FAILS (f = 1, 45 states with def > 0, DL_RC fails at 1; 0.0s)
+## rc_indep: DL_RC (T1, T2, T3+, T4) at every def > 0 state (f >= 1), with k4/rt4_n5_indep.py's model and move kinds [k4/rc_pred.py]
+  rc-n5m12-f2                  n=5 m=12  custom: FAILS (f = 2, 114 states with def > 0, DL_RC fails at 4; 1.2s)
+  rc-n5m13-f1                  n=5 m=13  custom: FAILS (f = 1, 45 states with def > 0, DL_RC fails at 1; 0.7s)
+## rcy_indep: DL_RC with T3+'s helper (at most one) unrestricted, at every def > 0 state (f >= 1), with k4/rcy_indep.py [k4/rc_pred.py]
+  rc-n5m12-f2                  n=5 m=12  custom: FAILS (f = 2, 114 states with def > 0, DL_RC with an unrestricted helper fails at 4; 1.2s)
+  rc-n5m13-f1                  n=5 m=13  custom: holds (f = 1, 45 states with def > 0, DL_RC with an unrestricted helper fails at 0; 0.6s)
+## keyplus_c: DL on the key graph with T3+ / T4 edges: at f >= 1 every key with def* > 0 has a T3+ or T4 edge from one of its states to a key with a smaller def* (dlrc.c) [k4/rc_pred.py]
+  rc-n5m12-f2                  n=5 m=12  custom: holds (f = 2, 2 keys with def* > 0, key-graph DL (T3+/T4) fails at 0; 0.0s)
+  rc-n5m13-f1                  n=5 m=13  custom: holds (f = 1, 1 keys with def* > 0, key-graph DL (T3+/T4) fails at 0; 0.0s)
+## rc_x: DL_RC (R_C = T1 + T2 + T3+ + T4) at every def > 0 state (f >= 1), with k4/rt4_n5_xcheck.py [k4/rt4_pred.py]
+  rc-n5m12-f2                  n=5 m=12  custom: FAILS (f = 2, 114 states with def > 0, DL_RC fails at 4; 30.8s)
+  rc-n5m13-f1                  n=5 m=13  custom: n/a (n > 5 or m > 12; 0.0s)
+## keyplus_x: DL on the key graph with T3+ / T4 edges, with k4/rt4_n5_xcheck.py [k4/rt4_pred.py]
+  rc-n5m12-f2                  n=5 m=12  custom: holds (f = 2, 2 keys with def* > 0, key-graph DL (T3+/T4) fails at 0; 0.0s)
+  rc-n5m13-f1                  n=5 m=13  custom: n/a (n > 5 or m > 12; 0.0s)
+## rt4_c: DL_RT4: at f >= 1 every min-frozen P with def > 0 has a T1, T2, T3 or T4 move to a min-frozen P' with a smaller deficit (dlrt4.c) [k4/rt4_pred.py]
+  rc-n5m12-f2                  n=5 m=12  custom: FAILS (f = 2, 114 states with def > 0, DL_RT4 fails at 4; 0.0s)
+  rc-n5m13-f1                  n=5 m=13  custom: FAILS (f = 1, 45 states with def > 0, DL_RT4 fails at 1; 0.0s)
+## rt4_ref: DL_RT4 at every def > 0 state (f >= 1), with k4/dlrt4_ref.py on k4/suite/model.py [k4/rt4_pred.py]
+  rc-n5m12-f2                  n=5 m=12  custom: FAILS (f = 2, 114 states with def > 0, DL_RT4 fails at 4; 0.3s)
+  rc-n5m13-f1                  n=5 m=13  custom: FAILS (f = 1, 45 states with def > 0, DL_RT4 fails at 1; 0.2s)
+# disagreements: 0

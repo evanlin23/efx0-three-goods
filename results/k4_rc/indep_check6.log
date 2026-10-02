@@ -1,0 +1,10 @@
+# command: python3 k4/rt4_n5_indep.py results/k4_rc/indep_check6_inst.json   (k4/rt4_n5_indep.py sha256 e4569ace0c95f2b1f3aaa65fbb211f9b7a0da189a73f6064dc3aae5642a17cc7; the 6 core-4604 profiles of the coordinator's check, rerun here)
+k4_certs_5_pure.json.gz#4604[m=13,idx=58]|prof=44,118,8,8,158 f=1 min-frozen=129 states=45 RT4fail=1 RCfail=1 keys=3 pos=1 keyfail=0 keyplusfail=0
+k4_certs_5_pure.json.gz#4604[m=13,idx=58]|prof=44,118,8,8,200 f=1 min-frozen=129 states=45 RT4fail=1 RCfail=1 keys=3 pos=1 keyfail=0 keyplusfail=0
+k4_certs_5_pure.json.gz#4604[m=13,idx=58]|prof=44,118,8,36,200 f=1 min-frozen=129 states=45 RT4fail=1 RCfail=1 keys=3 pos=1 keyfail=0 keyplusfail=0
+k4_certs_5_pure.json.gz#4604[m=13,idx=58]|prof=79,118,8,36,200 f=1 min-frozen=129 states=45 RT4fail=1 RCfail=1 keys=3 pos=1 keyfail=0 keyplusfail=0
+k4_certs_5_pure.json.gz#4604[m=13,idx=58]|prof=79,118,8,8,200 f=1 min-frozen=129 states=45 RT4fail=1 RCfail=1 keys=3 pos=1 keyfail=0 keyplusfail=0
+k4_certs_5_pure.json.gz#4604[m=13,idx=58]|prof=79,79,8,8,200 f=1 min-frozen=129 states=45 RT4fail=1 RCfail=1 keys=3 pos=1 keyfail=0 keyplusfail=0
+TOTAL {'profiles': 6, 'states': 270, 'rt4': 6, 'rc': 6, 'keys': 18, 'pos': 6, 'kf': 0, 'kfp': 0, 'near': 36}
+nearest shapes (def, dist, |U|, |W|, |Z|, |Y|, chain, T3+): {(1, 3, 1, 0, 1, 1, False, False): 36}
+# exit 0

@@ -1,0 +1,153 @@
+# command: python3 k4/dlrc_run.py inst results/k4_rc/rc_fail_4515_inst.json --dump=results/k4_rc/dump_rc_fail_4515.jsonl.gz --tables=results/k4_rc/tables_rc_fail_4515.json
+# dlrc.c sha256 f1cf4cc169a347625e5a84bd9c7a8c218f791de6e2a7ce466f59ce357000b1f7
+# inst results/k4_rc/rc_fail_4515_inst.json: 81 instances, 1 units to run, 0 from the checkpoint
+#   DL_RC FAILS: {'chunk': 0} block 0: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 1: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 2: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 3: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 4: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 5: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 6: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 7: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 8: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 9: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 10: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 11: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 12: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 13: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 14: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 15: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 16: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 17: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 18: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 19: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 20: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 21: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 22: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 23: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 24: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 25: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 26: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 27: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 28: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 29: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 30: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 31: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 32: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 33: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 34: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 35: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 36: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 37: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 38: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 39: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 40: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 41: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 42: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 43: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 44: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 45: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 46: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 47: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 48: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 49: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 50: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 51: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 52: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 53: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 54: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 55: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 56: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 57: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 58: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 59: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 60: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 61: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 62: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 63: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 64: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 65: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 66: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 67: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 68: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 69: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 70: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 71: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 72: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 73: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 74: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 75: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 76: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 77: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 78: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 79: 4 states
+#   DL_RC FAILS: {'chunk': 0} block 80: 4 states
+inst results/k4_rc/rc_fail_4515_inst.json: profiles 81, omega >= 1: 81; k* = 0: 0, 1: 0, 2: 0, 3: 0, >= 4: 81, inf: 0; P with def > 0: 8018, at distance 1: 2091, 2: 3023, 3: 2580, >= 4: 324, inf: 0; Pareto-maximal: 306; largest least deficit -1
+  DL_RT4: states (def > 0) with f = 0: 0 (RT4 fails at 0), with f >= 1: 8018; DL_RT4 FAILS at 324 of the f >= 1 states; with an improving move T1 2091, T2 2210, T3p 2904, T3h 7686, T4 0; only T1 0, only T2 0, only T3 5484, only T4 0; R_T fails at 324, R_13 at 324, R_13 + T4 at 324; smallest RT4 move size 1 / 2 / 3 / >= 4 / none: 2091 / 3023 / 2580 / 0 / 324; anomalies 0 + 0 [1 s]
+  DL_RC: f >= 1 states 8018; DL_RC FAILS at 324; DL_RT4 fails at 324, of which 0 are chain states (only T3c moves improve; 0 with f >= 3; by least |W| 1 / 2 / >= 3: 0 / 0 / 0); with an improving T3c move 0, weak T3+ 7694 (the only repair at 0); least improving |W| 0 / 1 / 2 / >= 3: 7694 / 0 / 0 / 0; key graph: keys with def* > 0: 162, the key form FAILS at 0 keys (0 states; weak edges: 0 states); DL_RC without the key form 0; T3+/T3 inconsistencies 0
+table B: f >= 1 states by f | signature | branch : count
+  B 2|fO,L|T3h : 2418
+  B 2|fO,G,L,D2|T3p+T3h : 1522
+  B 2|fO,L|T1+T2+T3h : 840
+  B 2|fO,G,D2|T1+T2+T3h : 790
+  B 2|G,L,D2|T3p+T3h : 542
+  B 2|G,D2|T3p+T3h : 364
+  B 2|G,D2|T1+T2+T3h : 249
+  B 2|L|none : 243
+  B 2|fO,G,L,D2|T1+T2+T3h : 212
+  B 2|G,L,D2,PM|T3p+T3h : 184
+  B 2|fO,G,D2|T3p+T3h : 162
+  B 2|fO,G,L,D2|T3h : 162
+  B 2|G,D2,PM|T3p+T3h : 122
+  B 2|fO,L|none : 81
+  B 2|G,D2|T2+T3h : 66
+  B 2|fO,G,D2|T2+T3h : 53
+  B 2|fO,G,L,D2|T3p : 8
+table G: f >= 1 states by f | nearest distance k | branch : count
+  G 2|2|T3p+T3h : 2896
+  G 2|3|T3h : 2580
+  G 2|1|T1+T2+T3h : 2091
+  G 2|4|none : 324
+  G 2|2|T2+T3h : 119
+  G 2|2|T3p : 8
+table M: f >= 1 states by f | branch | smallest RT4 move size : count
+  M 2|T3p+T3h|2 : 2896
+  M 2|T3h|3 : 2580
+  M 2|T1+T2+T3h|1 : 2091
+  M 2|none|-1 : 324
+  M 2|T2+T3h|2 : 119
+  M 2|T3p|2 : 8
+table Z: f >= 1 states by f | branch available | its smallest move size : count
+  Z 2|T3h|3 : 7686
+  Z 2|T3p|2 : 2904
+  Z 2|T2|2 : 2210
+  Z 2|T1|1 : 2091
+table C: f >= 1 states with T4 by f | smallest T4 size | cycle types at that size : count
+table Y: f >= 1 states by f | branch | move type available : count
+  Y 2|T3p+T3h|T3:xJ.h- : 2896
+  Y 2|T3h|T3:xH.hJ : 2580
+  Y 2|T1+T2+T3h|T1:pool : 2091
+  Y 2|T1+T2+T3h|T2:k2 : 2091
+  Y 2|T1+T2+T3h|T2:k3 : 2091
+  Y 2|T1+T2+T3h|T3:xJ.hJ : 2091
+  Y 2|T3h|T3:xJ.hJ : 2090
+  Y 2|T3p+T3h|T3:xJ.hR : 1932
+  Y 2|T3p+T3h|T3:xJ.hJ : 1928
+  Y 2|T1+T2+T3h|T3:xH.hJ : 840
+  Y 2|T3h|T3:xH.hR : 806
+  Y 2|T1+T2+T3h|T1:rel : 712
+  Y 2|T1+T2+T3h|T3:xJ.hR : 712
+  Y 2|T3h|T3:xJ.hR : 656
+  Y 2|T3p+T3h|T3:xJ.hZ : 648
+  Y 2|T1+T2+T3h|T3:xJ.hZ : 450
+  Y 2|T2+T3h|T2:k2 : 119
+  Y 2|T2+T3h|T2:k3 : 119
+  Y 2|T2+T3h|T3:xJ.hZ : 119
+  Y 2|T3p|T3:xJ.h- : 8
+table W: f >= 1 states by f | R_C branch | least improving |W| (-1: no T3+ move) : count
+  W 2|T3p+T3h|0 : 2896
+  W 2|T3h|0 : 2580
+  W 2|T1+T2+T3h|0 : 2091
+  W 2|none|-1 : 324
+  W 2|T2+T3h|0 : 119
+  W 2|T3p|0 : 8

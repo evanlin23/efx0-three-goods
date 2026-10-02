@@ -1,0 +1,11 @@
+# command: python3 k4/dlrc_n6_probe.py; dlrc.c sha256 f1cf4cc169a347625e5a84bd9c7a8c218f791de6e2a7ce466f59ce357000b1f7
+m 4: 6 cores, 6 probed, 1800 profiles; f distribution {-1: 1800}; def > 0 states with f >= 1: 0
+m 5: 119 cores, 30 probed, 9000 profiles; f distribution {-1: 9000}; def > 0 states with f >= 1: 0
+m 6: 1067 cores, 30 probed, 9000 profiles; f distribution {-1: 9000}; def > 0 states with f >= 1: 0
+m 7: 4204 cores, 30 probed, 9000 profiles; f distribution {-1: 9000}; def > 0 states with f >= 1: 0
+m 8: 8036 cores, 30 probed, 9000 profiles; f distribution {-1: 9000}; def > 0 states with f >= 1: 0
+m 9: 8052 cores, 30 probed, 9000 profiles; f distribution {-1: 9000}; def > 0 states with f >= 1: 0
+m 10: 4219 cores, 30 probed, 9000 profiles; f distribution {-1: 8977, 3: 23}; def > 0 states with f >= 1: 0
+m 11: 1067 cores, 30 probed, 9000 profiles; f distribution {-1: 8873, 2: 124, 3: 3}; def > 0 states with f >= 1: 0
+m 12: 95 cores, 30 probed, 9000 profiles; f distribution {-1: 8633, 1: 338, 2: 29}; def > 0 states with f >= 1: 0
+m 13: 1 cores, 1 probed, 300 profiles; f distribution {0: 300}; def > 0 states with f >= 1: 0

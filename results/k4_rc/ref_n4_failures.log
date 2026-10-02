@@ -1,0 +1,11 @@
+# command: python3 k4/dlrc_ref.py tsv results/k4_dl13/n4_failures_n4_1.tsv results/k4_dl13/n4_failures_n4_2.tsv results/k4_dl13/n4_failures_n4_3_s200b.tsv --jobs=2
+# 1131 profiles
+#  200 / 1131 profiles: {'rcnokey': 0, 'anomc': 0, 'prof': 200, 'prof_f1': 200, 'st': 1200, 'st_f1': 1200, 't3c': 1200, 'keymin_states': 1200}
+#  400 / 1131 profiles: {'rcnokey': 0, 'anomc': 0, 'prof': 400, 'prof_f1': 400, 'st': 2460, 'st_f1': 2460, 't3c': 2460, 'keymin_states': 2460}
+#  600 / 1131 profiles: {'rcnokey': 0, 'anomc': 0, 'prof': 600, 'prof_f1': 600, 'st': 4000, 'st_f1': 4000, 't3c': 4000, 'keymin_states': 4000}
+#  800 / 1131 profiles: {'rcnokey': 0, 'anomc': 0, 'prof': 800, 'prof_f1': 800, 'st': 5200, 'st_f1': 5200, 't3c': 5200, 'keymin_states': 5200}
+#  1000 / 1131 profiles: {'rcnokey': 0, 'anomc': 0, 'prof': 1000, 'prof_f1': 1000, 'st': 6780, 'st_f1': 6780, 't3c': 6780, 'keymin_states': 6780}
+#  1131 / 1131 profiles: {'rcnokey': 0, 'anomc': 0, 'prof': 1131, 'prof_f1': 1131, 'st': 7586, 'st_f1': 7586, 't3c': 7586, 'keymin_states': 7586}
+# dlrc.c sha256 f1cf4cc169a347625e5a84bd9c7a8c218f791de6e2a7ce466f59ce357000b1f7; dlrt4.c sha256 fcde494a3161279d47a7b80e614f69c58894ebc7b40d00e461f677b8810d7cae
+profiles 1131 (with an f >= 1 def > 0 state 1131); states 7586 (f = 0: 0, f >= 1: 7586); f >= 1: DL_RT4 fails at 0, DL_RC fails at 0, chain states 0, with an improving T3c move 7586, key form fails at 0; states with def = def* 7586
+mismatches: reference vs dlrc.c: states 0, fields 0, H lines 0; dlrc.c vs dlrt4.c: K/L/tables 0, S lines 0; -DBIGPP=0 build 0; blocks 0; dlrc.c rcnokey 0, anomc 0; TOTAL 0 [13 s]

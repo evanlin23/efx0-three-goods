@@ -1,0 +1,433 @@
+# command: python3 k4/dlrc_run.py inst results/k4_rc/rc_fail_all_inst.json --dump=results/k4_rc/dump_rc_fail_all.jsonl.gz --tables=results/k4_rc/tables_rc_fail_all.json
+# dlrc.c sha256 f1cf4cc169a347625e5a84bd9c7a8c218f791de6e2a7ce466f59ce357000b1f7
+# inst results/k4_rc/rc_fail_all_inst.json: 369 instances, 1 units to run, 0 from the checkpoint
+#   DL_RC FAILS: {'chunk': 0} block 0: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 1: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 2: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 3: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 4: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 5: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 6: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 7: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 8: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 9: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 10: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 11: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 12: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 13: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 14: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 15: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 16: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 17: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 18: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 19: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 20: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 21: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 22: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 23: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 24: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 25: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 26: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 27: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 28: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 29: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 30: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 31: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 32: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 33: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 34: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 35: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 36: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 37: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 38: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 39: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 40: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 41: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 42: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 43: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 44: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 45: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 46: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 47: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 48: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 49: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 50: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 51: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 52: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 53: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 54: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 55: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 56: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 57: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 58: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 59: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 60: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 61: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 62: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 63: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 64: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 65: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 66: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 67: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 68: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 69: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 70: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 71: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 72: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 73: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 74: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 75: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 76: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 77: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 78: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 79: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 80: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 81: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 82: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 83: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 84: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 85: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 86: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 87: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 88: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 89: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 90: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 91: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 92: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 93: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 94: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 95: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 96: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 97: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 98: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 99: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 100: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 101: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 102: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 103: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 104: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 105: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 106: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 107: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 108: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 109: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 110: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 111: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 112: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 113: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 114: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 115: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 116: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 117: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 118: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 119: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 120: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 121: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 122: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 123: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 124: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 125: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 126: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 127: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 128: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 129: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 130: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 131: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 132: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 133: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 134: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 135: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 136: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 137: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 138: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 139: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 140: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 141: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 142: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 143: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 144: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 145: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 146: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 147: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 148: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 149: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 150: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 151: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 152: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 153: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 154: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 155: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 156: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 157: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 158: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 159: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 160: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 161: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 162: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 163: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 164: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 165: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 166: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 167: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 168: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 169: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 170: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 171: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 172: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 173: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 174: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 175: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 176: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 177: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 178: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 179: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 180: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 181: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 182: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 183: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 184: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 185: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 186: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 187: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 188: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 189: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 190: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 191: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 192: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 193: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 194: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 195: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 196: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 197: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 198: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 199: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 200: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 201: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 202: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 203: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 204: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 205: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 206: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 207: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 208: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 209: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 210: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 211: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 212: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 213: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 214: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 215: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 216: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 217: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 218: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 219: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 220: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 221: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 222: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 223: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 224: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 225: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 226: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 227: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 228: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 229: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 230: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 231: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 232: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 233: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 234: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 235: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 236: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 237: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 238: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 239: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 240: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 241: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 242: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 243: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 244: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 245: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 246: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 247: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 248: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 249: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 250: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 251: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 252: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 253: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 254: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 255: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 256: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 257: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 258: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 259: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 260: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 261: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 262: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 263: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 264: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 265: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 266: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 267: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 268: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 269: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 270: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 271: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 272: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 273: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 274: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 275: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 276: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 277: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 278: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 279: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 280: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 281: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 282: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 283: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 284: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 285: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 286: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 287: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 288: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 289: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 290: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 291: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 292: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 293: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 294: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 295: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 296: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 297: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 298: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 299: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 300: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 301: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 302: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 303: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 304: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 305: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 306: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 307: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 308: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 309: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 310: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 311: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 312: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 313: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 314: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 315: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 316: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 317: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 318: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 319: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 320: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 321: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 322: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 323: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 324: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 325: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 326: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 327: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 328: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 329: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 330: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 331: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 332: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 333: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 334: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 335: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 336: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 337: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 338: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 339: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 340: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 341: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 342: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 343: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 344: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 345: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 346: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 347: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 348: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 349: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 350: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 351: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 352: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 353: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 354: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 355: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 356: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 357: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 358: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 359: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 360: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 361: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 362: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 363: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 364: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 365: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 366: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 367: 1 states
+#   DL_RC FAILS: {'chunk': 0} block 368: 1 states
+inst results/k4_rc/rc_fail_all_inst.json: profiles 369, omega >= 1: 369; k* = 0: 0, 1: 0, 2: 0, 3: 369, >= 4: 0, inf: 0; P with def > 0: 16605, at distance 1: 5166, 2: 9963, 3: 1476, >= 4: 0, inf: 0; Pareto-maximal: 0; largest least deficit -1
+  DL_RT4: states (def > 0) with f = 0: 0 (RT4 fails at 0), with f >= 1: 16605; DL_RT4 FAILS at 369 of the f >= 1 states; with an improving move T1 5166, T2 5166, T3p 13653, T3h 16236, T4 0; only T1 0, only T2 0, only T3 11070, only T4 0; R_T fails at 369, R_13 at 369, R_13 + T4 at 369; smallest RT4 move size 1 / 2 / 3 / >= 4 / none: 5166 / 9963 / 1107 / 0 / 369; anomalies 0 + 0 [1 s]
+  DL_RC: f >= 1 states 16605; DL_RC FAILS at 369; DL_RT4 fails at 369, of which 0 are chain states (only T3c moves improve; 0 with f >= 3; by least |W| 1 / 2 / >= 3: 0 / 0 / 0); with an improving T3c move 0, weak T3+ 16236 (the only repair at 0); least improving |W| 0 / 1 / 2 / >= 3: 16236 / 0 / 0 / 0; key graph: keys with def* > 0: 369, the key form FAILS at 0 keys (0 states; weak edges: 0 states); DL_RC without the key form 0; T3+/T3 inconsistencies 0
+table B: f >= 1 states by f | signature | branch : count
+  B 1|G,D2|T3p+T3h : 6642
+  B 1|fO,G,D2|T3p+T3h : 3321
+  B 1|fO,G,D2|T1+T2+T3p+T3h : 2583
+  B 1|G,D2|T1+T2+T3p+T3h : 1107
+  B 1|G,D2|T3h : 1107
+  B 1|fO,L|T1+T2+T3h : 738
+  B 1|fO|T1+T2+T3h : 738
+  B 1|G,D2|none : 369
+table G: f >= 1 states by f | nearest distance k | branch : count
+  G 1|2|T3p+T3h : 9963
+  G 1|1|T1+T2+T3p+T3h : 3690
+  G 1|1|T1+T2+T3h : 1476
+  G 1|3|T3h : 1107
+  G 1|3|none : 369
+table M: f >= 1 states by f | branch | smallest RT4 move size : count
+  M 1|T3p+T3h|2 : 9963
+  M 1|T1+T2+T3p+T3h|1 : 3690
+  M 1|T1+T2+T3h|1 : 1476
+  M 1|T3h|3 : 1107
+  M 1|none|-1 : 369
+table Z: f >= 1 states by f | branch available | its smallest move size : count
+  Z 1|T3h|3 : 16236
+  Z 1|T3p|2 : 13653
+  Z 1|T1|1 : 5166
+  Z 1|T2|2 : 5166
+table C: f >= 1 states with T4 by f | smallest T4 size | cycle types at that size : count
+table Y: f >= 1 states by f | branch | move type available : count
+  Y 1|T3p+T3h|T3:xJ.h- : 9963
+  Y 1|T3p+T3h|T3:xJ.hJ : 9963
+  Y 1|T3p+T3h|T3:xH.hZ : 6642
+  Y 1|T3p+T3h|T3:xJ.hZ : 6642
+  Y 1|T3p+T3h|T3:xJ.hR : 5535
+  Y 1|T1+T2+T3p+T3h|T1:pool : 3690
+  Y 1|T1+T2+T3p+T3h|T2:k2 : 3690
+  Y 1|T1+T2+T3p+T3h|T2:k3 : 3690
+  Y 1|T1+T2+T3p+T3h|T3:xJ.h- : 3690
+  Y 1|T1+T2+T3p+T3h|T3:xJ.hJ : 3690
+  Y 1|T1+T2+T3h|T2:k2 : 1476
+  Y 1|T1+T2+T3h|T2:k3 : 1476
+  Y 1|T1+T2+T3h|T3:xH.hJ : 1476
+  Y 1|T1+T2+T3p+T3h|T1:rel : 1476
+  Y 1|T1+T2+T3p+T3h|T3:xJ.hR : 1476
+  Y 1|T3h|T3:xH.hJ : 1107
+  Y 1|T3h|T3:xJ.hJ : 1107
+  Y 1|T3p+T3h|T3:xH.hJ : 1107
+  Y 1|T3p+T3h|T3:xH.hR : 1107
+  Y 1|T1+T2+T3h|T1:grow : 738
+  Y 1|T1+T2+T3h|T1:pool : 738
+  Y 1|T1+T2+T3h|T1:rel : 738
+  Y 1|T1+T2+T3h|T3:xJ.hJ : 738
+  Y 1|T1+T2+T3h|T3:xJ.hR : 738
+table W: f >= 1 states by f | R_C branch | least improving |W| (-1: no T3+ move) : count
+  W 1|T3p+T3h|0 : 9963
+  W 1|T1+T2+T3p+T3h|0 : 3690
+  W 1|T1+T2+T3h|0 : 1476
+  W 1|T3h|0 : 1107
+  W 1|none|-1 : 369
