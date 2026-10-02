@@ -269,7 +269,7 @@ def gap(inst, i, norm):
     return g / sum(v) if norm else g
 
 
-SETS = ["all", "bt", "bt1", "nobt", "nobt0", "gap", "gapn", "btp", "shp", "bt2"]
+SETS = ["all", "bt", "bt1", "nobt", "nobt0", "gap", "gapn", "btp", "shp", "bt2", "sh", "btsh"]
 PREDS = ["W", "K0", "M1", "KRb", "M1|KRb", "K0|KRa", "K0|KRo", "K0|KRb", "K0|KRa|Rw", "K0|KRo|Rwo"]
 
 
@@ -292,7 +292,8 @@ def candidates(inst, D):
     shp = [a for a in shs if priv[a] == min(priv[b] for b in shs)] if shs else []
     S = {'all': (True, allag), 'bt': (bool(bts), bts), 'bt1': (len(bts) == 1, bts), 'nobt': (not bts and bool(shs), shs),
          'nobt0': (not bts and not shs, allag), 'gap': (True, [ga]), 'gapn': (True, [gn]), 'btp': (bool(bts), btp),
-         'shp': (not bts and bool(shs), shp), 'bt2': (len(bts) >= 2, bts)}
+         'shp': (not bts and bool(shs), shp), 'bt2': (len(bts) >= 2, bts), 'sh': (bool(shs), shs),
+         'btsh': (bool(bts) or bool(shs), sorted(set(bts) | set(shs)))}
     out = {}
     for sn, (app, A) in S.items():
         for q in PREDS: out[f'{sn}:{q}'] = (app, sum(1 for a in A if P[q][a]))

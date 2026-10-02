@@ -5,7 +5,7 @@ import glob, json, os, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from lemmam_portfolio import CANDS, VARS, SETS, PREDS, ALIAS
 
-ORDER = ['n2', 'n3', 'n4_1_all', 'n4_2_all', 'n4_s50', 'n4_s2000', 'n5_s20', 'n5_s200', 'H', 'suite']
+ORDER = ['n2', 'n3', 'n4_1_all', 'n4_2_all', 'n4_3_7cores', 'n4_s50', 'n4_s2000', 'n5_s20', 'n5_s200', 'H', 'suite']
 DESC = {
     'M': 'Lemma M: some first agent in K0 ∪ K1',
     'M_K0': 'control: some first agent in K0',
@@ -58,7 +58,8 @@ def main():
           'Sets: all; bt = big-top agents (if any); bt1 = the big-top agent (if exactly one); nobt = agents sharing their '
           'top (no big-top agent, some shared top); nobt0 = all (no big-top, no shared top); gap / gapn = the argmax of '
           'a − (b + c) / of (a − b − c)/(a + b + c + d); btp = big-top agents with the fewest private goods; shp = '
-          'shared-top agents with the fewest private goods (no big-top); bt2 = big-top agents (if two or more). '
+          'shared-top agents with the fewest private goods (no big-top); bt2 = big-top agents (if two or more); sh = agents '
+          'sharing their top (if some, big-top agents or not); btsh = big-top or top-sharing agents (if some). '
           'Predicates (some policy): W = K0 ∪ K1; K0; M1; KRb (Lemma KR, o = r, δ ≤ 1 form = M2); M1|KRb; K0|KRa (KR\'s '
           'full bound, o = r); K0|KRo (KR, any owner); K0|KRb; K0|KRa|Rw (or a rotation along a need chain into r to a state '
           'with ω′ ≤ 0 and no 3-good base: no owner needed); K0|KRo|Rwo (the same with any owner / any chain end). Cell: **failures** / applicable over every dataset of '

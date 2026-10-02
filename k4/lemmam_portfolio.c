@@ -36,7 +36,8 @@
        their top good with another agent (no big-top agent, some shared top); nobt0 = all (no big-top, no shared top);
        gap / gapn = the argmax of a - (b + c) / of (a - b - c)/(a + b + c + d) (representative values, ties lowest index);
        btp = big-top agents with the fewest private goods; shp = shared-top agents with the fewest private goods (no
-       big-top); bt2 = big-top agents (if two or more).
+       big-top); bt2 = big-top agents (if two or more); sh = agents sharing their top good with another agent (if some,
+       whether or not some agent is big-top); btsh = big-top or top-sharing agents (if some).
      predicates: W = K0 or K1; K0; M1; KRb; M1|KRb; K0|KRa; K0|KRo; K0|KRb; K0|KRa|Rw; K0|KRo|Rwo.
    The task's names (k4/lemmam_portfolio.py ALIAS): M = all:W, M_K0 = all:K0, M_bt = bt:W, M_bt1 = bt1:W, M_nobt = nobt:W,
    M_gap = gap:W, M_gapn = gapn:W, M_kappa = all:M1, M_def1 = all:KRb, M_12 = all:M1|KRb, M_K0KR = all:K0|KRa, ...
@@ -60,10 +61,10 @@
 #include "rulef.c"
 #undef main
 
-#define NSET 10
+#define NSET 12
 #define NPRED 10
 #define NCAND (NSET * NPRED)          /* candidate c = set (c / NPRED) x predicate (c % NPRED), named "set:pred" */
-static const char *SNAME[NSET] = {"all", "bt", "bt1", "nobt", "nobt0", "gap", "gapn", "btp", "shp", "bt2"};
+static const char *SNAME[NSET] = {"all", "bt", "bt1", "nobt", "nobt0", "gap", "gapn", "btp", "shp", "bt2", "sh", "btsh"};
 static const char *QNAME[NPRED] = {"W", "K0", "M1", "KRb", "M1|KRb", "K0|KRa", "K0|KRo", "K0|KRb", "K0|KRa|Rw", "K0|KRo|Rwo"};
 static char CNAMEbuf[NCAND][40]; static const char *CNAME[NCAND];
 #define NVAR 18                       /* partner variants: 6 kinds x 3 policies */
@@ -381,6 +382,8 @@ static int allowedS(int s, uint64_t *A) {
     case 7: *A = btp; return nbt > 0;
     case 8: *A = shp; return nbt == 0 && nsh > 0;
     case 9: *A = bt; return nbt >= 2;
+    case 10: *A = sh; return nsh > 0;
+    case 11: *A = bt | sh; return nbt > 0 || nsh > 0;
     default: *A = all; return 1;
     }
 }

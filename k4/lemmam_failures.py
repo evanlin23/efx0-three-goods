@@ -86,7 +86,11 @@ def main():
               "echo '" + json.dumps({'sets': XC.parse_line(line)[0], 'vals': XC.parse_line(line)[1]}) + "' > /tmp/p.jsonl",
               'python3 k4/lemmam_portfolio.py --profiles=/tmp/p.jsonl -Y1 --jobs=1     # first implementation',
               'python3 k4/lemmam_xcheck.py --fails=results/k4_m_portfolio/' + fn + '   # second implementation', '```', '']
-        open(os.path.join(D, fn), 'w').write('\n'.join(L))
+        path = os.path.join(D, fn)
+        if os.path.exists(path):                     # keep a hand-written Notes section
+            old = open(path).read()
+            if '## Notes' in old: L.append(old[old.index('## Notes'):].rstrip('\n'))
+        open(path, 'w').write('\n'.join(L) + '\n')
         print(f'{fn}: {"CONFIRMED" if ok else "NOT CONFIRMED"} n={key[0]} m={key[1]}', flush=True)
 
 

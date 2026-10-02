@@ -29,3 +29,4 @@ DIFF field=Rw agent=1 C=False python=True sets=[[0, 2, 5, 6], [1, 3, 5, 6], [2, 
 DIFF field=Rwo agent=1 C=False python=True sets=[[0, 2, 5, 6], [1, 3, 5, 6], [2, 4, 7], [3, 4, 7], [5, 6, 7]] vals=[[3, 4, 8, 2], [4, 3, 8, 2], [3, 4, 2], [2, 3, 4], [3, 2, 4]]
 DIFF field=Rwo agent=4 C=False python=True sets=[[0, 2, 5, 6], [1, 3, 5, 6], [2, 4, 7], [3, 4, 7], [5, 6, 7]] vals=[[3, 4, 8, 2], [4, 3, 8, 2], [3, 4, 2], [2, 3, 4], [3, 2, 4]]
 DIFF field=Rw agent=0 C=False python=True sets=[[0, 4, 6, 7], [1, 2, 3, 6], [1, 3, 5, 7], [2, 5, 6, 7], [4, 5, 7]] vals=[[6, 7, 10, 2], [3, 2, 4, 8], [6, 4, 8, 1], [3, 2, 4, 8], [2, 3, 4]]
+lines: 982 profiles, 3912 first agents, per-agent field disagreements: 45 {'Rw': 21, 'Rwo': 24}; KR rotations failing rot_checks: 0
