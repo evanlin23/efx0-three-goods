@@ -6,3 +6,4 @@
 [     20s] units 2/294 evals 400274 (20311/s) est. total 48.3 min; best nwork per unit {1: 2}; tight profiles 800; best key [1, 100, 0] at seed1
 [     23s] units 4/294 evals 800596 (34548/s) est. total 28.4 min; best nwork per unit {1: 4}; tight profiles 1600; best key [1, 100, 0] at seed1
 [     67s] units 8/294 evals 1601216 (24036/s) est. total 40.8 min; best nwork per unit {1: 4, 2: 4}; tight profiles 1600; best key [1, 100, 0] at seed1
+[   1019s] units 200/294 evals 40025888 (39277/s) est. total 25.0 min; best nwork per unit {1: 5, 2: 74, 3: 121}; tight profiles 2200; best key [1, 100, 0] at seed1

@@ -8,7 +8,8 @@ of Remark 4, as rulef_hunt's default -Y1):
 Every deficit <= 0 found (at the state, or at the best state one RotStep reaches) gets its completion built (witness_K)
 and checked by lb4r.output_check (Output of LB4R.lean, owner's needs from the bundle) and the raw EFX0 definition.
 Compares with the classes the dump records (cls, from k4/rulef_hunt_eval.c) and prints one line per profile.
-Usage: rulef_hunt_check.py DUMP.jsonl.gz [...] [--max=N] [--nwork=K] (profiles with nwork <= K, default 1) [--jobs=J]"""
+Usage: rulef_hunt_check.py DUMP.jsonl.gz [...] [--max=N] [--nwork=K] (profiles with nwork <= K, default 1) [--jobs=J]
+Each distinct profile (sets, vals) is checked once."""
 import gzip, json, os, sys, time
 from multiprocessing import Pool
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -66,11 +67,14 @@ def main():
     nw = int(next((a.split('=')[1] for a in sys.argv[1:] if a.startswith('--nwork=')), 1))
     jobs = int(next((a.split('=')[1] for a in sys.argv[1:] if a.startswith('--jobs=')), os.cpu_count()))
     print('# command: python3 k4/rulef_hunt_check.py ' + ' '.join(sys.argv[1:]), flush=True)
-    profs = []
+    profs = []; seen = set()
     for f in files:
         op = gzip.open if f.endswith('.gz') else open
         for line in op(f, 'rt'):
             o = json.loads(line)
+            k = json.dumps([o['sets'], o['vals']])
+            if k in seen: continue                 # each distinct profile once
+            seen.add(k)
             if o['nwork'] <= nw and len(profs) < mx: profs.append(o)
     agree = dis = bad = 0; nw0 = 0
     with Pool(jobs) as pool:
