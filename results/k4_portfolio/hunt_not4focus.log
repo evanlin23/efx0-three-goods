@@ -1,0 +1,14 @@
+# command: python3 k4/portfolio_hunt.py --preds=RC3_noT4,K3b_noT4 --seeds=fail10,hard,rcores --slot=240 --jobs=1 --rounds=6 --batch=24 --push --name=not4focus
+# seeds fail10: 10
+# seeds hard: 12
+# seeds rcores: 12
+# 34 seeds (17 with a key of def* > 0); predicates ['RC3_noT4', 'K3b_noT4']; dead from the state file []
+# round 0: alive ['RC3_noT4', 'K3b_noT4']; 4 tasks of 240 s on 1 jobs [0 s]
+  task r0:RC3_noT4:count:fail10:k4_certs_5_n4_4.json.gz#3206[m=9,idx=364]:108,86,1,108,27: steps 2340 evals 56160 best objective [5, 0] fails 0 [240.1 s]
+  task r0:RC3_noT4:edge:fail10:k4_certs_5_n4_4.json.gz#3521[m=9,idx=679]:98,1,16,17,15: steps 2875 evals 69000 best objective [0, 16] fails 0 [240.1 s]
+  task r0:K3b_noT4:count:fail10:k4_certs_5_pure.json.gz#2614[m=10,idx=568]:6,11,45,0,4: steps 2430 evals 58320 best objective [16, 0] fails 0 [240.0 s]
+  task r0:K3b_noT4:edge:fail10:k4_certs_5_pure.json.gz#2614[m=10,idx=568]:1,11,39,16,0: steps 2356 evals 56544 best objective [0, 16] fails 0 [240.0 s]
+# round 1: alive ['RC3_noT4', 'K3b_noT4']; 4 tasks of 240 s on 1 jobs [960 s]
+  task r1:RC3_noT4:count:fail10:k4_certs_5_pure.json.gz#4170[m=12,idx=25]:22,18,4,10,37: steps 1410 evals 33840 best objective [10, 0] fails 0 [240.1 s]
+  task r1:RC3_noT4:edge:fail10:k4_certs_5_pure.json.gz#4214[m=12,idx=69]:0,12,4,11,39: steps 1140 evals 27360 best objective [0, 8] fails 0 [240.3 s]
+  task r1:K3b_noT4:count:hard:k4_certs_5_pure.json.gz#4551:21,2,18,2,15[bt]: steps 1597 evals 38328 best objective [35, 0] fails 0 [240.0 s]

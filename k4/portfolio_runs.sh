@@ -16,6 +16,8 @@ r3b)    run r3b certs results/k4_certs_3.json.gz --sample=2000 --seed=102 --jobs
 r4b)    run r4b certs results/k4_certs_4_n4_1.json.gz results/k4_certs_4_n4_2.json.gz results/k4_certs_4_n4_3.json.gz \
             results/k4_certs_4_pure.json.gz --sample=1000 --seed=102 --jobs=${J:-4} ;;
 n5_4)   run n5_4 certs results/k4_certs_5_n4_4.json.gz --sample=4000 --seed=3 --jobs=${J:-4} --maxst=600 ;;
+n5_4b)  run n5_4b certs results/k4_certs_5_n4_4.json.gz --sample=2000 --seed=7 --jobs=${J:-4} --maxst=600 ;;
+n5_4c)  run n5_4c certs results/k4_certs_5_n4_4.json.gz --sample=2000 --seed=11 --jobs=${J:-4} --maxst=600 ;;
 n5_purebt) run n5_purebt certs results/k4_certs_5_pure.json.gz --sample=5000 --seed=5 --bt=all --jobs=${J:-4} --maxst=600 ;;
 n5_3)   run n5_3 certs results/k4_certs_5_n4_3.json.gz --sample=2000 --seed=3 --jobs=${J:-4} --maxst=600 ;;
 n5_pure) run n5_pure certs results/k4_certs_5_pure.json.gz --sample=600 --seed=6 --jobs=${J:-4} --maxst=600 ;;

@@ -1,0 +1,2 @@
+# command: python3 k4/portfolio.py certs results/k4_certs_5_n4_4.json.gz --sample=2000 --seed=11 --jobs=1 --maxst=600 --name=n5_4c --ckpt
+# portfolio_dump.c sha256 d549cd68387f58c47835a6254e53e340a8f018061a81456a2f2d89181ffaabd8; portfolio_preds.py sha256 70f90090bb5e410fd1fa53e7a790f823a5383c069eab27dbdb85974bb552df52
