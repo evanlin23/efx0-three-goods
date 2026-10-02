@@ -267,11 +267,84 @@ Tools (EVIDENCE tooling; every assertion below is checked against exact deficits
   at the target key, and the (T3) image has def ≤ 0. It also records which lemma applies first, in the order A, B (k = 1),
   C, C′, B′ (k = 1), then B or B′ with longer paths.
 
-(Tables: §4.1 key graph, §4.2 coverage. Filled in from `results/k4_sx/`.)
+Counters summed per input: `results/k4_sx/SUMMARY.md` (`python3 k4/sx_summary.py`) and `results/k4_sx/keys_summary.md`
+(`python3 k4/sx_runs.py --sum`).
+
+### 4.1 Where the non-completable f = 1 keys are
+
+`k4/sx_hunt.py` runs `k4/red.c` with its own driver (seeded as `k4/red_run.py`) and keeps every profile that has a key
+with no completable configuration. By Lemma 0 these are exactly the keys with def* > 0. `k4/sx_keygraph.py` recomputes
+def* for every key of these profiles with an independent deficit, `k4/sx_zprime.py` asserts def*(κ) > 0, and the counts
+agree with PR #51's (`k4/c4min_reduce.md` §4.1: 62,208 hopeless keys at n ≤ 3).
+
+| input (`results/k4_sx/hunt/`) | strict profiles | f = 1 profiles (ω ≥ 1) | keys | non-completable keys (= profiles) |
+|---|---|---|---|---|
+| n = 3, every strict profile of every core (`n3_all_*`) | 299,837,376 | 7,284,544 | 14,256,832 | 62,208 |
+| n = 4, two 4-good agents, 20,000 per core (`n4_2_r20k`) | 6,180,000 | 165,045 | 303,564 | 0 |
+| n = 4, three, 40,000 per core (`n4_3_r40k`) | 13,560,000 | 551,666 | 1,044,381 | 59 |
+| n = 4, pure, 40,000 per core (`n4_pure_r40k`) | 8,760,000 | 430,765 | 844,132 | 240 |
+| n = 5, two / three / four 4-good agents, 200 per core | 1,093,600 / 1,972,200 / 1,969,200 | 10,719 / 51,240 / 82,386 | 19,971 / 96,226 / 157,244 | 0 / 0 / 0 |
+| n = 5, pure, 1,000 per core (`n5_pure_r1000_*`) | 4,674,000 | 263,852 | 516,100 | 11 |
+
+At n = 2 every key is completable (`k4/c4min_reduce.md` §4.1). Every n ≤ 3 profile with a non-completable key has exactly
+one: 62,208 keys in 62,208 profiles. The catalogue runs of `k4/sx_keygraph.py` find no non-completable key in
+#53's catalogues of the n = 4 cores with one or two 4-good agents (`results/k4_sx/keys_summary.md`), and none at f = 2
+there.
+
+### 4.2 Coverage by the repair lemmas (f = 1)
+
+At every Z′-maximum of every non-completable key of §4.1 (`results/k4_sx/zprime/*.log`):
+
+| input | keys | Z′-maxima | first lemma that applies: A | B (k = 1) | C | C′ | B′ (k = 1) | none |
+|---|---|---|---|---|---|---|---|---|
+| n = 3, exhaustive | 62,208 | 116,248 | 104,372 | 7,824 | 4,052 | 0 | 0 | **0** |
+| n = 4 hunts | 299 | 565 | 494 | 58 | 5 | 2 | 6 | **0** |
+| n = 5 hunts | 11 | 13 | 13 | 0 | 0 | 0 | 0 | **0** |
+
+- *Every assertion held.* The checks cover:
+  - Lemma F: a forest, in-degree ≤ 1, V the leaves, robust agents unthreatened, kinds as listed;
+  - Lemma A at every non-θ-b terminal leaf;
+  - Lemma B at every path whose leaf is not an (R) with s ∈ L (n = 3: 33,264 paths, all of length 1; n = 4: also 10
+    paths of length 2);
+  - Lemmas B′, C, C′ wherever their hypotheses hold.
+
+  Each assertion says that the configuration built is a configuration at its key, that the owner is valid with C = ∅
+  (for C′: the deficit), that def* ≤ 0 at the target key, and that the (T3) image of P_Q has deficit ≤ 0.
+- *DL on the key graph at f = 1 holds on these data in its strong form*: every non-completable key has a (T3) neighbour
+  with def* ≤ 0. Every Z′-maximum even has a direct (T3) move to a state of deficit ≤ 0 (counter "Zmax with a direct T3
+  move" = all maxima).
+- *The regimes.* At n = 3, 105,128 maxima have a terminal leaf (regime I). There Lemma A applies unless every terminal
+  leaf is θ-b (27,944 θ-b leaf–maximum pairs), and then Lemma C does (4,052 maxima, all with two terminal leaves).
+  7,824 maxima have no terminal leaf (regime II): one terminal τ, one leaf o, the path τ → o of length 1, x big-top,
+  and Lemma B applies.
+- *Paths of length 2* occur only in the n = 4 hunts (10 paths). There Lemma B's target key is a (T3) neighbour as well,
+  but at those maxima another lemma applies first.
+- *Second implementation.* `k4/sx_xcheck.py` (main's `k4/c4x_check.py` enumeration and direct deficit) agrees with
+  `k4/sx_keygraph.py` on every key's def* and on the DLK verdicts of all four edge sets. It ran on #53's n = 3 catalogue
+  dump and samples of the n = 4 hunts, with 0 mismatches (`results/k4_sx/xcheck_*.log`).
 
 ## 5. What remains at f = 1
 
-(To be filled in from the data.)
+Theorem 1 reduces DL on the key graph at f = 1 to one statement:
+
+> **Conjecture K4.SX.COVER.** At every Z′-maximum of every non-completable key with f = 1, one of Lemmas A, B (k = 1),
+> B′ (k = 1), C, C′ applies.
+
+It holds on every strict profile with n ≤ 3 and on the n = 4, 5 hunts (§4.2). Where a proof has to go, by Lemma F:
+1. *Some terminal is a leaf without θ-b.* Lemma A applies.
+2. *Every terminal leaf is θ-b.* Such a leaf is robust, hence an isolated vertex of the forest. Lemmas C and C′ need
+   - a robust pair of x inside X_{τ₁} meeting U_{τ₁} (C), or worth more than g (C′);
+   - the hypotheses (H) or (H′) on third agents.
+
+   A proof needs the existence of that pair, from x's threat by X_{τ₁} (`k4/c4min_f1.md` Lemma 4 gives a robust pair
+   worth more than g for x not big-top, but not one meeting U_{τ₁}), and a replacement for (H)/(H′) when third agents
+   value τ₁'s pair. At n = 3 the hypotheses (H), (H′) are void, and on the data the pair exists.
+3. *Some terminal is not a leaf.* Lemma B applies along a path to a leaf, except for (R) leaves with s ∈ L that fail
+   (H_B′). The open part is a path of length ≥ 2, where Lemma B's key (g, τ) has def* ≤ 0 but (T3)-adjacency to κ is not
+   proved. On the data every such key is a (T3) neighbour, and the case never arises alone.
+
+So a proof of K4.SX.COVER needs (2) and (3); (1) is done. With it, DL on the key graph at f = 1 follows, and with
+Remark 1.2, C₄ᵐⁱⁿ at f = 1.
 
 ## 6. f ≥ 2
 

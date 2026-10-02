@@ -5,6 +5,7 @@ results/k4_sx/chunks/; `python3 k4/sx_runs.py --sum` adds up the counters per in
 
 Inputs: #53's catalogues at 245040b (k4/strategy.md §4):
   mkdir -p k4/suite/.cache/gapbench && git archive 245040b results/k4_gap | tar -x -C k4/suite/.cache/gapbench
+A NAME is a catalogue file name, optionally with '@f<F>e<E>': only the records with f >= F, every E-th of them.
 usage: python3 k4/sx_runs.py [NAME ...]      (default: every input below, in order)
        python3 k4/sx_runs.py --sum"""
 import collections, glob, gzip, json, os, re, subprocess, sys
@@ -19,8 +20,15 @@ INPUTS = ['gap_n3', 'gap_n4_1', 'hunt_n4_2_all', 'gap_n4_2_s4000', 'gap_n4_3_s40
           'gap_n5_1_s100', 'gap_n5_2_s100', 'hunt_n5_3_s2000', 'hunt_n5_4_s2000', 'hunt_n5_pure_s2000']
 
 
+def parse(name):
+    m = re.match(r'^(.*?)(?:@f(\d+)e(\d+))?$', name)
+    return m.group(1), int(m.group(2) or 1), int(m.group(3) or 1)
+
+
 def nrec(name):
-    return len(json.load(gzip.open(os.path.join(ROOT, C, name + '.json.gz'), 'rt'))['records'])
+    f, fmin, every = parse(name)
+    recs = json.load(gzip.open(os.path.join(ROOT, C, f + '.json.gz'), 'rt'))['records']
+    return len([r for r in recs if r.get('f', 1) >= fmin][::every])
 
 
 def done(log):
@@ -32,8 +40,9 @@ def run(name):
     for i, s in enumerate(range(0, n, CHUNK)):
         base = os.path.join(OUT, '%s_c%03d' % (name, i))
         if done(os.path.join(ROOT, base + '.log')): continue
-        cmd = ['python3', 'k4/sx_keygraph.py', 'catalog', '%s/%s.json.gz' % (C, name), '--fmin=1',
-               '--start=%d' % s, '--max=%d' % CHUNK, '--dump=%s.jsonl.gz' % base]
+        f, fmin, every = parse(name)
+        cmd = ['python3', 'k4/sx_keygraph.py', 'catalog', '%s/%s.json.gz' % (C, f), '--fmin=%d' % fmin,
+               '--every=%d' % every, '--start=%d' % s, '--max=%d' % CHUNK, '--dump=%s.jsonl.gz' % base]
         with open(os.path.join(ROOT, base + '.log'), 'w') as fo:
             subprocess.run(cmd, cwd=ROOT, stdout=fo, stderr=subprocess.STDOUT, check=True)
         print('done', base, flush=True)
