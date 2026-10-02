@@ -1,0 +1,3 @@
+# command: python3 k4/oneneeder_run.py catalog results/k4_gap/gap_n4_3_s4000.json.gz --t1 --dump=results/k4_oneneeder/t1_cat_gap_n4_3_s4000.jsonl.gz --rep=20
+# oneneeder.c sha256 c0d0594070e2b6a80c0e66ea5f3e3fa0bf1a650eff52a3256e1a844a8cc911a3
+total: prof 58361, f1om1 55338, states 6444, t3stage 99, t3stage_1needer 1, t3stage_more_needers 98, bt 1, not_bt 0, def1 1, sx1 1, sx1_o_not_z 1, sx1_o_is_z 1, no_sx1 0, u_at_best 0, c3 1, no_c3 0, c3_nohelper 1, c3_helper_best 0, c3_helper_other 0, t3move 1, no_t3move_1needer 0, no_t3move_any_t3stage 0, twin 0, z_bigtop 1, def_ge2 0, propC 1, escape 0, propC_or_escape 1, no_rule 0, t3stage_x_bigtop 1, t3stage_x_bigtop_def1 1 [8 s]

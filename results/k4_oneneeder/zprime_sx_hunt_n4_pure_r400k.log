@@ -1,0 +1,8 @@
+# command: python3 k4/oneneeder_zprime.py $SX/results/k4_sx/hunt/n4_pure_r400k.jsonl.gz
+# $SX = a checkout of branch proof/k4-sx at ebe244f (k4/sx.md hunt dumps)
+Z-maxima                                                                                             3645
+Z-maxima with 2 terminals, x big-top=False                                                           3489
+Z-maxima with 3 terminals, x big-top=False                                                           156
+non-completable keys                                                                                 2362
+profiles                                                                                             2347
+no assertion failed [399 s]

@@ -1,0 +1,6 @@
+# command: python3 k4/oneneeder_dl13.py xcheck
+profiles (f = 1, omega >= 1): 2541
+one-needer T3-stage states: Python 1009, C 1009; Corollary 8.2 (<= 1 helper): Python 1009, C 1009
+C totals: {'prof': 2541, 'f1om1': 2541, 'states': 20106, 't3stage': 10621, 't3stage_1needer': 1009, 't3stage_more_needers': 9612, 'bt': 1009, 'not_bt': 0, 'def1': 1009, 'sx1': 1009, 'sx1_o_not_z': 917, 'sx1_o_is_z': 375, 'no_sx1': 0, 'u_at_best': 0, 'c3': 1009, 'no_c3': 0, 'c3_nohelper': 536, 'c3_helper_best': 917, 'c3_helper_other': 90, 't3move': 1009, 'no_t3move_1needer': 0, 'no_t3move_any_t3stage': 0, 'twin': 0, 'z_bigtop': 782, 'def_ge2': 0, 'propC': 375, 'escape': 917, 'propC_or_escape': 1009, 'no_rule': 0, 't3stage_x_bigtop': 1009, 't3stage_x_bigtop_def1': 1009}
+mismatches 0
+[21 s]
