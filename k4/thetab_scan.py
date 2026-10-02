@@ -12,11 +12,16 @@ For every profile of the input with f = 1 and omega >= 1 and every min-frozen P 
   - whether some plain swap lowers the deficit (exact), and whether Lemma G (value form, least removal set computed,
     k4/thetab_lib.lemma_g) certifies a plain swap or else a swap with one helper that lowers it (bounds asserted);
   - at a T3-stage state where no plain swap lowers the deficit: whether any (T3) move does (if none: a failure of the
-    T3 stage, i.e. of DL_RT4 at f = 1, printed as T3-STAGE-FAILURE);
+    single-step form, printed as SINGLE-STEP-FAILURE; such states exist, attempts/k4-thetab-single-step-t3-stage.md);
+  - at a T3-stage state, the key form (k4/dl13.md §2.3 Remark): whether a (T3) move from P or from another state of
+    its key reaches a key of smaller least deficit (if none: KEY-GRAPH-DL-FAILURE), and where Corollary G1 certifies
+    a (T3) move to a state below the key's least deficit (from P, else from another state of the key; plain or with
+    helper);
   - at the states whose frozen good has one needer: whether G1 or G1h applies (conclusion asserted).
 usage: python3 k4/thetab_scan.py catalog FILE [--every=E] [--off=O]    (FILE in k4/suite/.cache/gapbench/results/k4_gap)
        python3 k4/thetab_scan.py hunt SEED N [--nmin=4] [--nmax=5] [--tlim=SECONDS]   (structured random instances)
        python3 k4/thetab_scan.py twin SEED N [...]     (the same, two needers with the same goods: gen_twin)
+       python3 k4/thetab_scan.py inst LIST.json        (a JSON list of {id, sets, vals, m})
        python3 k4/thetab_scan.py suite | certs FILE --rand=K [--seed=S]               (as k4/dl2_relations.py)"""
 import random, sys, time
 from thetab_lib import *
@@ -119,6 +124,50 @@ def plain_exact(pr, ctx):
     return False
 
 
+def all_t3(pr, Q):
+    """every (T3) move from Q (role swap with a needer, at most one helper giving up a good), any deficit"""
+    import dl13_stuck
+    from dl2_relations import shape
+    return [B2 for B2 in pr.mp if B2 != Q and dl13_stuck.is_t3(shape(pr.PA[Q], pr.PA[B2]))]
+
+
+def key_form(pr, ctx, cache, single, cert_P):
+    """the key form at a T3-stage state P (def(P) = def*(κ), κ its key; k4/dl13.md §2.3 Remark): returns
+    (dl, kc): dl = 'from P' if a (T3) move from P lowers the deficit, else 'from the key' if a (T3) move from some
+    state of κ reaches a key κ' with def*(κ') < def*(κ), else 'NONE' (a failure of DL on the key graph); kc = where
+    Corollary G1 certifies a (T3) move to a state of deficit < def*(κ): 'P, plain' or 'P, helper' (from P), else
+    'another state, plain' or 'another state, helper', else 'none'. The searches over the key are cached per key."""
+    k = ctx.key(); ds = ctx.D
+    states = None
+    if cert_P: kc = 'P, ' + cert_P
+    else:
+        if ('kc', k) not in cache:
+            states = [B2 for B2 in pr.mp if ctx.key(B2) == k]
+            r = 'none'
+            for kind, gen in (('plain', plain_moves), ('helper', helper_moves)):
+                for Q in states:
+                    cq = Ctx(pr, Q)
+                    if g_certificates(cq, pr, gen(cq), ds): r = 'another state, ' + kind; break
+                if r != 'none': break
+            cache[('kc', k)] = r
+        kc = cache[('kc', k)]
+    if single: dl = 'from P'
+    else:
+        if ('dl', k) not in cache:
+            if 'dkey' not in cache:
+                dk = {}
+                for B2 in pr.mp: dk[ctx.key(B2)] = min(dk.get(ctx.key(B2), 10 ** 9), pr.D[B2])
+                cache['dkey'] = dk
+            dk = cache['dkey']
+            if states is None: states = [B2 for B2 in pr.mp if ctx.key(B2) == k]
+            r = 'NONE'
+            for Q in states:
+                if any(dk[ctx.key(B2)] < ds for B2 in all_t3(pr, Q)): r = 'from the key'; break
+            cache[('dl', k)] = r
+        dl = cache[('dl', k)]
+    return dl, kc
+
+
 def run(items, label):
     cnt = collections.Counter(); ex = {}
     for d, src in items:
@@ -127,6 +176,7 @@ def run(items, label):
         if not pr.ok or pr.I.f != 1: continue
         cnt['profiles with f = 1, omega >= 1'] += 1
         I = pr.I
+        kcache = {}
         for Bs in pr.mp:
             if pr.D[Bs] <= 0: continue
             ctx = Ctx(pr, Bs)
@@ -145,18 +195,26 @@ def run(items, label):
             if H and I.n == 3:
                 assert thm == 'W', ('Corollary N3: the hypotheses of Theorem W fail at n = 3', src, Bs, gw1_hyp(ctx))
             exact = plain_exact(pr, ctx)
-            cert = 'Lemma G certifies a plain swap' if g_certificates(ctx, pr, plain_moves(ctx), ctx.D) else (
-                'Lemma G certifies a swap with helper' if g_certificates(ctx, pr, helper_moves(ctx), ctx.D)
-                else 'Lemma G certifies none')
+            cp = 'plain' if g_certificates(ctx, pr, plain_moves(ctx), ctx.D) else (
+                'helper' if g_certificates(ctx, pr, helper_moves(ctx), ctx.D) else None)
+            cert = {'plain': 'Lemma G certifies a plain swap', 'helper': 'Lemma G certifies a swap with helper',
+                    None: 'Lemma G certifies none'}[cp]
             res = 'plain swap' if exact else 'NO plain swap'
-            if not exact and st == 'T3stage':
-                if pr.t3_moves(Bs): res += ', a (T3) move with helper'
-                else:
-                    res += ', NO (T3) MOVE'
-                    print('T3-STAGE-FAILURE', src, json.dumps(d), [sorted(bits(B)) for B in Bs], flush=True)
-            cnt[('n=%d' % I.n, typ, st, 'theorem ' + thm, cert, res)] += 1
+            kf = ()
+            if st == 'T3stage':
+                single = exact or bool(pr.t3_moves(Bs))
+                if not exact:
+                    if single: res += ', a (T3) move with helper'
+                    else:
+                        res += ', NO (T3) MOVE'
+                        print('SINGLE-STEP-FAILURE', src, json.dumps(d), [sorted(bits(B)) for B in Bs], flush=True)
+                dl, kc = key_form(pr, ctx, kcache, single, cp)
+                if dl == 'NONE':
+                    print('KEY-GRAPH-DL-FAILURE', src, json.dumps(d), [sorted(bits(B)) for B in Bs], flush=True)
+                kf = ('key: (T3) to a better key ' + dl, 'key: G1 certifies from ' + kc)
+            cnt[('n=%d' % I.n, typ, st, 'theorem ' + thm, cert, res) + kf] += 1
             if thm == '-' or not exact or cert == 'Lemma G certifies none':
-                k2 = ('n=%d' % I.n, typ, st, thm, cert, res)
+                k2 = ('n=%d' % I.n, typ, st, thm, cert, res) + kf
                 cand = (I.n, I.m, src, d, [sorted(bits(B)) for B in Bs])
                 if k2 not in ex or cand[:2] < ex[k2][:2]: ex[k2] = cand
     print('# input', label)
@@ -177,6 +235,9 @@ def main(argv):
         items = (({'sets': r['core']['sets'], 'vals': r['vals'], 'm': r['core']['m']},
                   '%s:%s[m=%d,idx=%d]:%s' % (args[1], r['core']['file'], r['core']['m'], r['core']['idx'],
                                              ','.join(map(str, r['prof'])))) for r in recs)
+    elif args[0] == 'inst':
+        items = (({'sets': r['sets'], 'vals': r['vals'], 'm': r['m']}, r.get('id', 'inst'))
+                 for r in json.load(open(args[1])))
     elif args[0] in ('hunt', 'twin'):
         items = hunt_items(int(args[1]), int(args[2]), int(opt.get('nmin', 4)), int(opt.get('nmax', 5)),
                            float(opt.get('tlim', 1e9)), twin=args[0] == 'twin')
