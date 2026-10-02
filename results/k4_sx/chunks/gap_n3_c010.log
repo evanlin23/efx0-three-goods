@@ -1,0 +1,15 @@
+# command: python3 k4/sx_keygraph.py catalog k4/suite/.cache/gapbench/results/k4_gap/gap_n3.json.gz --fmin=1 --every=1 --start=40000 --max=4000 --dump=results/k4_sx/chunks/gap_n3_c010.jsonl.gz
+keys def*>0 f=1                               27
+keys f=1                                      7634
+keys f=1 def*=-1                              4328
+keys f=1 def*=0                               3279
+keys f=1 def*=1                               27
+profiles                                      4000
+profiles f=1                                  4000
+profiles f>=1, omega>=1                       4000
+profiles with a key def*>0 f=1                27
+DLK_T3 failures: 0
+DLK_T3+ failures: 0
+DLK_T3T4 failures: 0
+DLK_T3+T4 failures: 0
+# time 15.0 s

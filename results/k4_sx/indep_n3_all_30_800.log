@@ -1,0 +1,12 @@
+# command: python3 k4/sx_indep.py results/k4_sx/hunt/n3_all_30.jsonl.gz 800
+COVER holds at key = True                                              800
+Lemma A ok                                                             8400
+Lemma B k=1 ok                                                         2800
+Zmax applies A                                                         2400
+Zmax applies B1                                                        480
+Zmax of non-completable keys                                           2880
+keys                                                                   1600
+keys def*>0                                                            800
+pool-optimal configs                                                   4000
+profiles                                                               800
+# time 8.9 s
