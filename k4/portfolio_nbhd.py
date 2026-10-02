@@ -8,7 +8,8 @@ Failures of the non-control predicates are written to results/k4_portfolio/nbhd_
 be confirmed with `python3 k4/portfolio_ref.py confirm`).
 
   python3 k4/portfolio_nbhd.py --seeds=hard5|fail10 [--k=K] [--jobs=J] [--name=LABEL] [--pairs]
-      the first K seeds of k4/portfolio_hunt.py's seed list; --pairs adds every pair of agents (else single agents)"""
+      the first K seeds of k4/portfolio_hunt.py's seed list; --pairs adds every pair of agents (else single agents);
+      --max=N evaluates a seeded random subset of N of each seed's neighbourhood instead"""
 import collections, gzip, itertools, json, os, sys, time
 from multiprocessing import Pool
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -56,6 +57,9 @@ def main():
                     for u in range(len(doms[j])):
                         p = list(cur); p[i] = t; p[j] = u; profs.add(tuple(p))
         profs = sorted(profs)
+        if 'max' in opt and len(profs) > int(opt['max']):         # a seeded random subset (said in the log)
+            import random
+            profs = sorted(random.Random(1).sample(profs, int(opt['max'])))
         print(f"# seed {sd['name']}: {len(profs):,} profiles", flush=True)
         for k in range(0, len(profs), 4000): tasks.append((sd['name'], sd['sets'], sd['m'], profs[k:k + 4000]))
     tot = collections.defaultdict(lambda: {'profiles': 0, 'with_states': 0, 'states': 0, 'keys': 0, 'fails': 0, 'margin': {}})
