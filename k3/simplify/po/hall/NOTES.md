@@ -1,6 +1,8 @@
 # The Improvement Lemma (Conjecture PO) for k = 3: a proof
 
-Branch `proof/k3-simplify`, workstream "po hall". Status: **written proof, not refereed, not machine-checked.**
+Branch `proof/k3-simplify`, workstream "po hall". Status: **written proof, refereed once with no error (the
+referee's four presentation fixes are applied below), not machine-checked.** An independent proof of the same theorem
+is in `../potential/NOTES.md`. The referee's own implementation and logs are in `../referee/`.
 Every lemma below was tested on every state of small profiles and on random larger ones (§5); no failure.
 
 > **Theorem (Improvement Lemma).** If a valid state is not completable, some valid state Pareto-dominates it.
@@ -27,6 +29,13 @@ pair ≻ a ≻ b ≻ c ≻ ∅ (u = 4, 3, 2, 1, 0). J = goods nobody holds (junk
 - *Exposed for o*: x ≠ o, x ∉ U, Y_x = {a_x}, and b_x, c_x ∈ J ∪ Y_o. E_o = the set of these agents.
 - *o is a valid absorber* (o ∈ F ∪ U): every x ∈ E_o has J ∩ {b_x, c_x} ≠ ∅, and some H ⊆ J meeting every
   J ∩ {b_x, c_x} (x ∈ E_o) has |H| ≤ |F ∖ {o}|. *Completable*: some agent is a valid absorber.
+- *The completion* with a valid absorber o and its set H: every good of H goes to a different free agent other than
+  o; o receives Y_o ∪ (J ∖ H); every other agent keeps Y_i. Owner constraint (OC): no x ≠ o, x ∉ U, holding only
+  a_x, finds both b_x and c_x in X_o. This holds: if b_x, c_x ∈ X_o = Y_o ∪ (J ∖ H), then b_x, c_x ∈ J ∪ Y_o, so
+  x ∈ E_o and H holds one of them, which is then not in X_o. So the completion is EFX₀ by soundness
+  (`proofs/k3s_standalone.md` §5, Theorem S). That theorem needs only the validity conditions (V1), (V2), which are
+  equivalent to "valid" here, and that agents in U are balanced (every core agent is). Nothing in it depends on the
+  draft.
 - Y′ *Pareto-dominates* Y: u_i(Y′) ≥ u_i(Y) for all i, with strict inequality for some i.
 
 ## 2. Basic facts
@@ -86,7 +95,10 @@ o ∈ F. Then Y is dominated.
 
 *Proof.* *Distinct representatives.* List F = {o_1, …, o_f} and pick h_{o_i} ∈ H_{o_i} ∖ {h_{o_1}, …, h_{o_{i−1}}};
 this is possible because |H_{o_i}| ≥ f > i − 1. (This is Hall's condition: any s of the sets have a union of size
-≥ f ≥ s.) Let x_o ∈ E_o be an agent with h_{x_o} = h_o.
+≥ f ≥ s.) Let x_o ∈ E_o be an agent with h_{x_o} = h_o. Here h_x is well defined: under (P2), an agent x lies in
+E_o for at most one free o holding a good. If x ∈ E_o ∩ E_{o′} with o ≠ o′, then {b_x, c_x} = {y_o, y_{o′}} by
+Lemma 3, so neither good is junk, against (P2). The x_o are then distinct, although the argument below does not need
+this: on a cycle of a functional digraph every vertex has exactly one predecessor.
 
 *Exchange digraph.* Define σ on the agents ∉ U: σ(o) = x_o for o ∈ F, and σ(j) = an out-neighbour of j in D for
 j ∉ U ∪ F (it exists by F2). Then σ(j) ∉ U and σ(j) ≠ j (x_o ∉ U, x_o ≠ o by definition of exposure; D has no loops),
@@ -106,8 +118,8 @@ some j ∉ U. If j ∉ C it stays with j. If j = w_t ∈ C, then w_t ∉ F (its 
 w_{t+1} ∉ U′, because the new pair holders are exactly the agents of C entered from a free agent, and w_{t+1} was
 entered from w_t ∉ F. ∎
 
-**Proof of the Theorem.** Let Y be valid and not completable. If (P2) fails, Lemma 1 (b). If F = ∅, Lemma 4 (all
-agents in U would make Y completable). Otherwise no o ∈ F is a valid absorber: by Lemma 2 no free agent
+**Proof of the Theorem.** Let Y be valid and not completable. If (P2) fails, Lemma 1 (b). If F = ∅, Lemma 4 gives
+a cycle of D (all agents in U would make Y completable), and Lemma 1 (a) dominates Y. Otherwise no o ∈ F is a valid absorber: by Lemma 2 no free agent
 holds nothing, and by Lemma 3 |H_o| ≥ |F| for every o ∈ F. Lemma 5. ∎
 
 The proof never uses the pair holders as absorbers, except when everybody holds a pair; so a Pareto-optimal valid
@@ -156,7 +168,10 @@ raw EFX₀ definition (values 4, 3, 2). "Profiles": agent 0 ranks 0 ≻ 1 ≻ 2,
 
 \* For the cores the move counts also include the steps of the Corollary's algorithm run on the same profiles.
 
-No assert fired, every output was valid and dominating, every completion was EFX₀. The 2,060 non-completable states
+No assert fired, every output was valid and dominating, and the completion built for each completable state (one per
+state) was EFX₀. *Caveat (referee):* the generator `random_states` cannot produce states whose need digraph has a
+cycle, because each agent may only need goods already held when it is placed. So the D-cycle counts "0\*" for the
+cores hold by construction. The referee's rejection-sampled random states (`../referee/`) do include D-cycles. The 2,060 non-completable states
 at n = 3, m = 5 are the same count as `explore/reductions/power.log`. (D-cycle counts include functional cycles of
 Lemma 5 that happen to use no exposure arc.) In random data the exchange cycle never needs more than one exposure
 arc (it is then a K3S-type rotation); on the ring constructions (the brief's instance is k = 2, d = 1) Lemma 5's

@@ -8,8 +8,8 @@ tuple `opt` of options 0 = nothing, 1 = a, 2 = b, 3 = c, 4 = pair {b, c} with di
 `improve(rank, m, opt)` takes a valid state that is not completable and returns (opt', kind): a valid state that
 Pareto-dominates it, built exactly as in the proof (Theorem, NOTES.md §3):
   kind 'P2-path'  a top holder x with b_x, c_x both junk takes {b_x, c_x}; a_x moves along a need path (Lemma 1);
-  kind 'D-cycle'  a cycle of the need digraph (Lemma 1, or the case F = {} of Lemma 4);
-  kind 'A-cycle'  a cycle of the exchange digraph A (need arcs + one exposure arc o -> x_o per free o; Lemma 4).
+  kind 'D-cycle'  a cycle of the need digraph (Lemma 1, or the case F = {} of Lemma 4 in NOTES.md);
+  kind 'A-cycle'  a cycle of the exchange digraph A (need arcs + one exposure arc o -> x_o per free o; Lemma 5 of NOTES.md).
 Every step the proof calls impossible is an assert.
 
   python3 hall.py selftest                 definitions agree with common.py on every state of small profiles
@@ -204,7 +204,7 @@ def improve(rank, m, opt, stats=None):
             H[o].setdefault(h, x)
         # o fails  <=>  |H_o| >= |F|
         assert len(H[o]) >= len(F), "free absorber with |H_o| <= |F| - 1"
-    # Lemma 4: distinct representatives h_o in H_o, greedily
+    # Lemma 5 of NOTES.md: distinct representatives h_o in H_o, greedily
     used, xo = set(), {}
     for o in F:
         h = next(h for h in sorted(H[o]) if h not in used)
