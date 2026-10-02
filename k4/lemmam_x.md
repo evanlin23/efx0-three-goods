@@ -40,19 +40,22 @@ Proposition R conditionally on PR #83).
   some insertion sequence succeeds with at most one rotation; it is K4.LB4 relaxed to LB₄ʳ's three upgrade policies,
   so K4.LB4.E is evidence for it. In Lean `∃ τ, EFX.LB4R.SucceedsR 1 v agents goods τ`; `lean/EFX/Adaptive.lean`
   proves that it gives C₄∃ and TARGET₄ (§7.4).
-- **Data for M_ad** (§7.3, EVIDENCE). No counterexample: M_ad holds wherever Lemma M does (all of §2's data), and on
-  H₁–H₅, HH₃, HH₄ (with relabelings) the greedy rule "insert the agent whose block has the least count" finds
-  Proposition HH's choices by itself (x_{1,2} of each copy first), every block at count 0, no rotation. Lemma 5 never
-  fails (918,392,554 runs with every block count 0, all certified without rotation). But the block count is not yet
-  the right local invariant: **(L0)** "after blocks of count 0 some agent starts a block of count 0" is false at n = 3,
-  m = 6 (hand-checked), and the greedy rule needs two rotations on 11,520 profiles (n = 3, m = 6 smallest; both
-  implementations), and **(L1∃)** "some insertion sequence has every non-last block at count 0" holds at n ≤ 3 but
-  fails on 65,720 profiles at n = 4 (m = 6 smallest, hand-checked) where M_ad holds without rotation: the count
-  misses the upgrades and the other owners. The coordinator's per-block form M_ad^blk (one rotation per block) is
-  implied by M_ad and untouched by every test here; its local form (L2) is the open step.
-- **Found on the way**: `k4/rulef.c` (hence `k4/lemmam_x.c`) gives a rotated agent with a one-good base no slot, while
-  LB₄ʳ's text and Lean's `Output` give it one; so that code's "bad" (neither K0 nor K1) is an upper bound: 132 of the
-  1,420 bad leaves at n = 4 are K1 in PR #33's model (§2).
+- **Data for M_ad** (§7.3, EVIDENCE). No counterexample: M_ad holds wherever Lemma M does (all of §2's data), it is
+  K4.LB4 relaxed (K4.LB4.E: 1.14·10¹² profiles), and on H₁–H₅, HH₃, HH₄ (with relabelings) the greedy rule "insert the
+  agent whose block has the least count" finds Proposition HH's choices by itself (x_{1,2} of each copy first), every
+  block at count 0, no rotation. Lemma 5 never fails (918,392,554 runs with every chain-end count 0, 959,476,926 with
+  every slot count 0, all certified without rotation). But no block count is yet a local invariant (one
+  implementation, smallest instances by hand): **(L0)** "after blocks of count 0 some agent starts a block of count 0"
+  is false at n = 3, m = 6 for both counts; the greedy rule needs two rotations on 11,520 profiles (n = 3, m = 6
+  smallest; both implementations); and **(L1∃)** "some insertion sequence has every non-last block at count 0" holds
+  at n ≤ 3 and with one 4-good agent but fails at n = 4 with two 4-good agents, on 65,720 profiles for the chain-end
+  count (m = 6 smallest) and 34,080 for the slot count (m = 7 smallest), all of them profiles where the greedy run needs
+  no rotation. The per-block form M_ad^blk is implied by M_ad and untouched by every test here; its local form (L2)
+  is the open step.
+- **Found on the way**: `k4/rulef.c` (hence `k4/lemmam_x.c`) gives a rotated agent with a one-good base no slot in its
+  Lemma K count and ω, while LB₄ʳ's text and Lean's `Output` give it one; so that code's "bad" (neither K0 nor K1) is
+  an upper bound: 132 of the 1,420 bad leaves at n = 4 are K1 in PR #33's model (§2; notes added to K4.RF.K, K4.RF.RK
+  and `k4/rulef.md`).
 
 ## 1. Setting
 
@@ -445,7 +448,7 @@ insertion choices and no rotation (PR #83's sequence (x^A_{1,2}, x^B_{1,2}); the
 
 **What is known about it.** M_ad is K4.LB4 relaxed (as the PR #77 referee observed): LB₄ (`k4/lb4.md` §2) tries every
 insertion sequence with need-shrinking upgrades and one rotation, so "LB₄ never fails" (K4.LB4, CONJECTURE) gives
-M_ad with LB₄ʳ's three policies in place of need-shrinking alone. Its evidence K4.LB4.E is the strongest there is:
+M_ad with LB₄ʳ's three policies in place of need-shrinking alone. Its evidence K4.LB4.E is far larger than ours:
 no failure on any strict profile of any core with n ≤ 4, or with n = 5 and at most two 4-good agents
 (1,139,100,918,624 profiles; `k4/lb4.c`, one implementation). K4.AD.OPT (a) measures M_ad directly in LB₄ʳ's form (n ≤ 3,
 and n = 4 with one to three 4-good agents: the fewest rotations over every insertion sequence is at most one). Lemma M
@@ -470,7 +473,7 @@ the run block by block with Lemma 5 (or 5′) as the certificate:
 
 So neither block count of §7.1 is the local invariant. The chain-end count fails already where Lemma K's deficit
 without upgrades is negative (it ignores the slots of unexposed agents that end no chain; the slot count repairs this,
-the PR #77 referee's diagnosis); the slot count still fails where SLOTREASON. A local form needs a count that sees
+the PR #77 referee's diagnosis); the slot count still fails where ω ≤ 0 makes an owner unnecessary (the smallest failure, m = 7: the run is completed without owner, while the counts charge every threat by the junk to the owner's bundle). A local form needs a count that sees
 more of Lemma K (upgrades, other owners, kept sets K), or the per-block repair of M_ad^blk: *(L2) after any prefix of
 repaired blocks some unprocessed agent starts a block that one rotation inside it repairs.* (L2) is not tested here;
 a block count of 1 alone does not give it (§7.3: a single block of count 1 can need two rotations).
@@ -486,70 +489,91 @@ it starts a block of count 0 at 39% of the steps where some agent does at 80%).
 
 `k4/lemmam_x.c -A44` builds the run greedily: at each insertion step it simulates the block of every unprocessed
 agent, takes the least block count (ties: least index), and at the end reports the least number d ≤ cap of nested
-rotations after which Lemma K certifies the run under some policy (`k4/lemmam_x_adp.py`); `-W1` uses the cumulative
-count of Lemma 5′ instead. `-A46` searches all insertion sequences whose non-last blocks have count 0 (L1∃) for the
-least d. Lemma K, the rotations and the counts are those of `k4/lemmam_x.c` (`-Y1 -r1`); the rotation counts of the
-runs needing one or more rotations are rechecked in PR #33's model by `k4/lemmam_x_check.py --adp` (all 96 runs with
-d ≥ 2 and every 60th of those with d = 1: the same d on every one, `results/k4_lemmam_x/check_adp_d2.log`,
+rotations after which Lemma K certifies the run under some policy (`k4/lemmam_x_adp.py`). The count is the
+chain-end count δᵉ by default and the slot count δ with `-G1` (`-W1`: the cumulative count of Lemma 5′). `-A46`
+searches all insertion sequences whose non-last blocks have count 0 (L1∃) for the least d. Lemma K, the rotations, the
+counts and the (L1∃) search are those of `k4/lemmam_x.c` (`-Y1 -r1`), one implementation; the greedy's rotation
+counts are rechecked in PR #33's model by `k4/lemmam_x_check.py --adp` (all 96 chain-end runs with d ≥ 2 and every
+60th of those with d = 1: the same d on every one, `results/k4_lemmam_x/check_adp_d2.log`,
 `check_adp_d1_sample.log`).
 
-| data, greedy by the count at closing | profiles | every block count 0 | d = 0 | d = 1 | d ≥ 2 | some non-last block > 0 |
+| data, greedy rule | profiles | every block count 0 | d = 0 | d = 1 | d ≥ 2 | some non-last block > 0 |
 |---|---|---|---|---|---|---|
-| every strict profile, n ≤ 3 and n = 4 with ≤ 2 four-good agents | 1,032,121,440 | 918,392,554 | 1,030,069,300 | 2,040,620 | 11,520 | 4,377,332 |
-| H₁–H₅, each with two relabelings | 15 | 15 | 15 | 0 | 0 | 0 |
-| HH₃, HH₄, each with one relabeling | 4 | 4 | 4 | 0 | 0 | 0 |
+| every strict profile, n ≤ 3 and n = 4 with ≤ 2 four-good agents, chain-end count δᵉ | 1,032,121,440 | 918,392,554 | 1,030,069,300 | 2,040,620 | 11,520 | 4,377,332 |
+| the same, slot count δ (`-G1`) | 1,032,121,440 | 959,476,926 | 1,030,584,820 | 1,525,100 | 11,520 | 2,607,312 |
+| H₁–H₅, each with two relabelings (δᵉ) | 15 | 15 | 15 | 0 | 0 | 0 |
+| HH₃, HH₄, each with one relabeling (δᵉ) | 4 | 4 | 4 | 0 | 0 | 0 |
 
-(`results/k4_lemmam_x/adp_exh_n2_n3_n4_12.log`, `adp_Ht.log`, `adp_HH.log`, `adp_HH4.log`; on HH₄ with `-V1`, Lemma
-5's certificate.)
+(`results/k4_lemmam_x/adp_exh_n2_n3_n4_12.log`, `adpG_n2_n3_n4_1.log`, `adpG_n4_2a.log`, `adpG_n4_2b.log`,
+`adp_Ht.log`, `adp_HH.log`, `adp_HH4.log`; on HH₄ with `-V1`, Lemma 5's certificate.)
 
 Findings:
-- *Lemma 5 never fails*: the 918,392,554 runs with every block count 0 are certified by Lemma K without rotation (the
-  search was run, not Lemma 5).
+- *Lemma 5 never fails*: the runs with every block count 0 (918,392,554 for δᵉ, 959,476,926 for δ) are certified by
+  Lemma K without rotation (the search was run, not Lemma 5).
 - *On H_t and HH_t the greedy rule finds Proposition HH's choices by itself*: on H₅ τ = (2, 0, 6, 7, 10, 11, …) inserts
   x_{1,2} first, on HH₃ τ = (3, 0, 7, 8, 11, 12, 15, 1, 19, 20, 23, 24) inserts x_{1,2} of each copy before its ℓ
   (agents 0, 1 are ℓ_A, ℓ_B; A's gadgets are 2–13, B's 14–25, each x_{j,1}, x_{j,2}, x_{j,3}, y_j); every block has
   count 0 and no rotation is needed, also after relabeling. These are the instances on which every rule choosing only
-  the first agent fails (§6).
-- *The greedy rule is not itself a proof route*: 11,520 profiles need two rotations after its run (both
-  implementations). Smallest: n = 3, m = 6, agents {0, 1, 4, 5}, {2, 3, 4, 5}, {2, 3, 4, 5} with values
-  (1, 4, 6, 8), (3, 5, 7, 6), (2, 3, 4, 8): every agent starts a single block (it is last) of count 1, the tie goes to
-  agent 0, whose run needs two rotations, while another first agent needs at most one (Lemma M holds there). So a last
-  block's count does not decide its rotations; (L1) chooses the last block by its rotations, not its count.
-- *(L0) is false.* Agents {0, 2, 4, 5}, {1, 3, 5}, {2, 3, 4, 5} with values (3, 5, 7, 6), (2, 3, 4), (4, 2, 8, 3)
-  (n = 3, m = 6). Inserting 0: 0 takes 4, then 2 (it lost 4) takes 2; the block {0, 2} is not last; 0 is frozen (2
-  needs 4) and threatened by G = {0, 1, 3, 5} (v₀ = 3 + 6 = 9 > 7), ρ = 1 ({0} or {5} kept out, whichever the owner
-  does not take), and its only chain end 2 is threatened by G (v₂ = 2 + 3 = 5 > 4): count 1. Inserting 1: 1 takes 5,
-  then 0 takes 4 and 2 takes 2, a last block with r = 2; 0 is frozen, threatened by W = {0, 1, 2, 3} (8 > 7), ρ = 1,
-  and its chain ends only at r: count 1. Inserting 2: 2 takes 4, 0 takes 5, 1 takes 3, a last block with r = 1; 0 is
-  frozen (1 needs 5), threatened by W = {0, 1, 2, 3} (8 > 6), ρ = 1, its chain ends only at r: count 1. (The greedy run
-  is τ = (0, 1) with counts 1, 0 and needs one rotation.) On the exhaustive data the greedy run has a non-last block of
-  positive count on 4,377,332 profiles; 4,351,436 of them still need no rotation, 25,896 one.
-- *The local exchange by the overloaded end*: at the 22,006,832 (weighted) insertion steps where index order's block
-  is not last and has positive count, the block of its overloaded end (the end of chains from the most exposed frozen
-  agents) has count 0 at 8,592,608, and some agent's block at 17,671,224.
+  the first agent fails (§6), if Proposition HH holds.
+- *The greedy rule is not itself a proof route*: 11,520 profiles need two rotations after its run (both counts; both
+  implementations). Smallest: n = 3, m = 6 (core 17 of `results/k4_certs_3.json.gz`), agents {0, 1, 4, 5},
+  {2, 3, 4, 5}, {2, 3, 4, 5} with values (1, 4, 6, 8), (3, 5, 7, 6), (2, 3, 4, 8): every agent starts a single block
+  (it is last) of count 1, the tie goes to agent 0, whose run needs two rotations, while another first agent needs at
+  most one (Lemma M holds there). So a last block's count does not decide its rotations; (L1) chooses the last block
+  by its rotations, not its count.
+- *(L0) is false* (one implementation, `k4/lemmam_x.c`; this instance also by hand and by `k4/lemmam_x_blocks.py`,
+  which recomputes the counts on PR #33's model). Agents {0, 2, 4, 5}, {1, 3, 5}, {2, 3, 4, 5}
+  with values (3, 5, 7, 6), (2, 3, 4), (4, 2, 8, 3) (n = 3, m = 6, core 27 of `results/k4_certs_3.json.gz`).
+  Inserting 0: 0 takes 4, then 2 (it lost 4) takes 2; the block {0, 2} is not last; 0 is frozen (2 needs 4) and
+  threatened by G = {0, 1, 3, 5} (v₀ = 3 + 6 = 9 > 7), ρ = 1 ({0} or {5} kept out, whichever the owner does not take),
+  and the only other agent, 2, is threatened by G (v₂ = 2 + 3 = 5 > 4): κ₀ = 0, count 1 (for δᵉ too: 2 is 0's only
+  end). Inserting 1: 1 takes 5, then 0 takes 4 and 2 takes 2, a last block with r = 2; 0 is frozen, threatened by
+  W = {0, 1, 2, 3} (8 > 7), ρ = 1, and 1 is threatened (3 + 2 > 4): κ₀ = 0, count 1. Inserting 2: 2 takes 4, 0 takes
+  5, 1 takes 3, a last block with r = 1; 0 is frozen (1 needs 5), threatened by W = {0, 1, 2, 3} (8 > 6), ρ = 1, and 2
+  is frozen too: κ₀ = 0, count 1. (The greedy run is τ = (0, 1) with counts 1, 0 and needs one rotation.) On the
+  exhaustive data the greedy run has a non-last block of positive count on 4,377,332 profiles (δᵉ; 4,351,436 of them
+  still need no rotation, 25,896 one) and on 2,607,312 (δ).
+- *The local exchange by the overloaded end* (δᵉ): at the 22,006,832 (weighted) insertion steps where index order's
+  block is not last and has positive count, the block of its overloaded end (the end of chains from the most exposed
+  frozen agents) has count 0 at 8,592,608, and some agent's block at 17,671,224.
 
 **(L1∃) on the exhaustive data** (`-A46`, the least d over every insertion sequence whose non-last blocks have count
-0): at n ≤ 3 each of the 300,026,592 profiles has such a sequence that succeeds without rotation (299,638,544) or
-with one (388,048); none needs more, none lacks one (`results/k4_lemmam_x/l46_n2_n3.log`). **At n = 4 (L1∃) fails**: of the
-732,094,848 profiles with n = 4 and at most two 4-good agents, 731,793,722 have such a sequence without rotation and
-235,406 with one, but 65,720 (all with two 4-good agents) have none: along every insertion sequence some non-last
-block has positive count (`l46_n4_1.log`, `l46_n4_2a.log`, `l46_n4_2b.log`). Smallest (m = 6, checked by hand):
-agents {0, 2, 5}, {0, 3, 4, 5}, {1, 2, 4, 5}, {1, 3, 5} with values (2, 4, 3), (5, 2, 8, 4), (5, 2, 8, 4), (2, 4, 3).
-Every first block leaves one agent out and has count 1: inserting 0 or 2 gives the block {0, 1, 2} (2 holds 4, needed
-by 1, which holds 0; 2 is threatened by G = {1, 3, 5}, 5 + 4 > 8, and its only end 1 is threatened, 4 + 2 > 5);
-inserting 1 or 3 gives {1, 2, 3} (1 holds 4, needed by 2, which holds 1; 1 is threatened by G = {0, 2, 5}, 5 + 4 > 8,
-and its only end 2 is threatened, 2 + 4 > 5). Yet every first agent is in K0 or K1 there (both implementations), and
-the greedy run τ = (0, 3) (counts 1, 0) is certified by Lemma K without rotation: the block count, taken without
-upgrades and with owner r, misses what the upgrades and the other owners do. So (L1∃) is false for this count, not
-for the adaptive rule; a local form needs a count that sees the upgrades (or allows one rotation per block, the
-coordinator's form, which the data do not separate from M_ad, below). With the cumulative
-count the numbers are the same (`l46W_n2_n3.log`), necessarily: along a sequence whose earlier blocks have count 0,
-the cumulative count after a new block is that block's count at closing, so (L1∃) is the same statement for both
-counts. The greedy rule's numbers are the same too (`adpW_n2_n3.log`: the same histogram of d and the same 1,394,136 runs with a non-last block
-of positive count as by the count at closing, `adp_n2_n3_after_W.log`): at n ≤ 3 runs have few blocks and the counts
-coincide. (L1), with "every prefix", is not tested separately; the greedy's 4,377,332 runs with a positive non-last
-block are runs where the greedy, by count and index, chose a non-last block of positive count, not necessarily
-prefixes without a good continuation.
+0; a non-existence claim of one implementation, `k4/lemmam_x.c`, wherever it says "none"; the smallest instances
+also by hand and by `k4/lemmam_x_blocks.py`):
+
+| count | n ≤ 3 (300,026,592) and n = 4 with one 4-good agent (7,247,232): d = 0 / 1 / none | n = 4 with two 4-good agents (724,847,616): d = 0 / 1 / no such sequence |
+|---|---|---|
+| chain-end δᵉ | 306,884,800 / 389,024 / 0 | 724,547,466 / 234,430 / 65,720 |
+| slot δ (`-G1`) | 306,884,800 / 389,024 / 0 | 724,579,458 / 234,078 / 34,080 |
+
+(`results/k4_lemmam_x/l46_n2_n3.log`, `l46_n4_1.log`, `l46_n4_2a.log`, `l46_n4_2b.log`, `l46G_n2_n3_n4_1.log`,
+`l46G_n4_2.log`.) So (L1∃) holds at n ≤ 3 and with one 4-good agent, and fails at n = 4 with two 4-good agents for
+both counts.
+- *Chain-end count*: smallest failure m = 6 (core 77 of `results/k4_certs_4_n4_2.json.gz`, checked by hand): agents
+  {0, 2, 5}, {0, 3, 4, 5}, {1, 2, 4, 5}, {1, 3, 5} with values (2, 4, 3), (5, 2, 8, 4), (5, 2, 8, 4), (2, 4, 3).
+  Every first block leaves one agent out and has δᵉ = 1: inserting 0 or 2 gives the block {0, 1, 2} (2 holds 4,
+  needed by 1, which holds 0; 2 is threatened by G = {1, 3, 5}, 5 + 4 > 8, and its only end 1 is threatened,
+  4 + 2 > 5); inserting 1 or 3 gives {1, 2, 3} (1 holds 4, needed by 2, which holds 1; 1 is threatened by
+  G = {0, 2, 5}, 5 + 4 > 8, and its only end 2 is threatened, 2 + 4 > 5). The diagnosis (the PR #77 referee's): with
+  τ = (0, 3), say, Lemma K's deficit for owner r without upgrades is −1, because agent 0 (in the first block, free,
+  unexposed, not a chain end) has an unused slot place; δᵉ fails only because it counts chain ends. The slot count δ
+  counts that place: on this profile δ gives counts (0, 0) and the run needs no rotation. On all 65,720 profiles the
+  greedy run with δᵉ succeeds with d = 0 (`results/k4_lemmam_x/l46greedy_n4_2.log`, `k4/lemmam_x_l46greedy.py`, one
+  implementation; the PR #77 audit found the same with its own script).
+- *Slot count*: 34,080 profiles without such a sequence. Smallest (agents {0, 2, 3, 4}, {1, 3, 5, 6}, {2, 5, 6}, {4,
+  5, 6} with values (6, 3, 7, 5), (6, 7, 3, 5), (4, 2, 3), (4, 2, 3) (n = 4, m = 7, core 123 of
+  `results/k4_certs_4_n4_2.json.gz`)): every first block leaves an agent out and has positive slot count (inserting 0
+  or 1 gives a block of two agents with δ = 2: the frozen one needs two goods kept out, its partner is threatened;
+  inserting 2 or 3 gives a block of three with δ = 1; by hand and by `k4/lemmam_x_blocks.py`). Yet every first agent
+  is in K0 there (both implementations), and the greedy run τ = (2, 3) (counts 1, 0) has ω = 0 without upgrades: its
+  three junk goods fit the slot places of the three free agents, so it is completed without an owner, while both
+  counts charge every threat by the junk to the owner r's bundle. On all 34,080 the greedy run with δ succeeds with d
+  = 0 (`results/k4_lemmam_x/l46greedyG_n4_2.log`, `k4/lemmam_x_l46greedy.py -G1`, one implementation).
+
+(L1), with "every prefix", is not tested separately. With the cumulative count the (L1∃) numbers are those of the
+count at closing (`l46W_n2_n3.log`), necessarily: along a sequence whose earlier blocks have count 0, the cumulative
+count after a new block is that block's count at closing. The greedy rule's numbers with the cumulative count are the
+same at n ≤ 3 too (`adpW_n2_n3.log` against `adp_n2_n3_after_W.log`: at n ≤ 3 runs have few blocks).
 
 ### 7.4 Lean
 

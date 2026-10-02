@@ -75,7 +75,7 @@ def main():
     sys.exit(0 if ok_all else 1)
 
 
-SLOTSMALL = (None, None)
+SLOTSMALL = ([[0, 2, 3, 4], [1, 3, 5, 6], [2, 5, 6], [4, 5, 6]], [[6, 3, 7, 5], [6, 7, 3, 5], [4, 2, 3], [4, 2, 3]])
 
 if __name__ == '__main__':
     main()

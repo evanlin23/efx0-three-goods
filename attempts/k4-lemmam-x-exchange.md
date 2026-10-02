@@ -44,7 +44,9 @@ rotated agent has no slot, while LB₄ʳ and Lean's model give a rotated agent w
 "bad" is an upper bound (on 288 of the 26,248 weighted pairs at n = 4 PR #33's model certifies the agent with one
 rotation, `k4/lemmam_x.md` §2). The failures of (x1) and (x2) above hold in the model too (`k4/lemmam_x_check.py`).
 
-Reproduce: `python3 k4/lemmam_x_check.py '[[0,1,4,5],[2,3,4,5],[2,3,4,5]]' '[[1,4,6,8],[2,3,4,8],[2,7,8,4]]'`
+Reproduce: `python3 attempts/k4_lemmam_x_attempts.py` replays (x1), (x2) and (x4) in both implementations (with the
+local forms of `attempts/k4-lemmam-x-local-forms.md`); by hand:
+`python3 k4/lemmam_x_check.py '[[0,1,4,5],[2,3,4,5],[2,3,4,5]]' '[[1,4,6,8],[2,3,4,8],[2,7,8,4]]'`
 (second implementation; the candidates line shows EF4_minidx = 2 bad), `python3 k4/lemmam_x_run.py
 --profiles=FILE -A43 -r1 -Y1 -D43` on H₂–H₅ (`python3 k4/lemmam_x_inst.py H2 H3 H4 H5 > FILE`), and
 `python3 k4/lemmam_x_check.py --profiles=FILE --agents=0,16` on H₄ (the model's classes of ℓ and r).
