@@ -55,15 +55,19 @@ tables file holds only the last segment's cores; the Progress section below is c
 
 ## Progress
 
-Last update 2026-10-02 01:30 UTC: 6 of 54 cores finished; 4 dlrt4.c processes running.
+Last update 2026-10-02 01:46 UTC: 10 of 54 cores finished; 4 dlrt4.c processes running.
 
 | core | profiles | omega >= 1 | f >= 1 states (def > 0) | DL_RT4 fails | only T4 | CPU s |
 |---|---|---|---|---|---|---|
 | 318 | 17,915,904 | 17,915,904 | 1,074,688 | 0 | 0 | 1747 |
 | 319 | 17,915,904 | 17,915,904 | 1,864,224 | 0 | 0 | 1856 |
 | 320 | 17,915,904 | 17,915,904 | 1,315,104 | 0 | 0 | 1796 |
+| 321 | 35,831,808 | 35,831,808 | 1,283,776 | 0 | 0 | 5911 |
+| 322 | 35,831,808 | 35,831,808 | 321,312 | 0 | 0 | 6218 |
+| 323 | 35,831,808 | 35,831,808 | 297,024 | 0 | 0 | 5811 |
+| 324 | 35,831,808 | 35,831,808 | 1,129,152 | 0 | 0 | 5590 |
 | 326 | 17,915,904 | 17,915,904 | 1,315,408 | 0 | 0 | 1568 |
 | 327 | 17,915,904 | 17,915,904 | 2,028,744 | 0 | 0 | 1563 |
 | 328 | 17,915,904 | 17,915,904 | 1,414,720 | 0 | 0 | 1604 |
 
-Finished so far: cores [318, 319, 320, 326, 327, 328]; 107,495,424 profiles, 9,012,888 f >= 1 states with def > 0, DL_RT4 fails at 0 of them.
+Finished so far: cores [318, 319, 320, 321, 322, 323, 324, 326, 327, 328]; 250,822,656 profiles, 12,044,152 f >= 1 states with def > 0, DL_RT4 fails at 0 of them.
