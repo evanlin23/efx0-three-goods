@@ -7,7 +7,14 @@ implementation.
 
 ## Headlines
 
-1. **Lemma M held everywhere**: on ≈4.39·10⁹ distinct strict profiles (exhaustive and sampled) and in every hunt.
+0. **Context from main (after this branch was cut at b50e112):** PR #83 refuted Lemma M (ledger K4.RF.M REFUTED,
+   `k4/lemmam_bt.md` §3). The counterexample is HH_3, two copies of H_3 sharing one good (n = 26, m = 65), with no
+   big-top agent. It is outside every dataset and hunt here (n ≤ 5, H_t, the suite as of b50e112). Every candidate
+   below that is applicable on HH_3 and implies Lemma M there dies with it; HH3_PLACEHOLDER. The rest of this file
+   is about the profiles of n ≤ 5 and the other finite classes, where the statements below still hold or fail as
+   reported.
+1. **Lemma M held on all the data here**: on ≈4.39·10⁹ distinct strict profiles (exhaustive and sampled) and in every
+   hunt.
 2. **M_bt1 is false** (and with it M_bt and "the big-top agent with the fewest private goods"). At n = 4, m = 8 with
    three 4-good agents (core 202 of `k4_certs_4_n4_3`), the only big-top agent q is in neither K0 nor K1.
    `sets=[[0,3,4,6],[1,3,6,7],[2,5,6,7],[4,5,7]] vals=[[3,10,2,6],[2,8,4,5],[2,8,5,4],[2,4,3]]`.
@@ -211,7 +218,8 @@ There were 0 violations on every (profile, first agent) of every dataset, for ea
 
 ## Open, and next
 
-- **Lemma M** and **sh:W ∧ btsh:W** are unrefuted. A prover can aim at: *a first agent that shares its top (else a
+- **Lemma M is refuted by PR #83 (HH_3, n = 26).** On the classes here (n ≤ 5, H_t, the suite) it and
+  **sh:W ∧ btsh:W** were not refuted. A prover can aim at: *a first agent that shares its top (else a
   big-top agent) is in K0 ∪ K1*.
 - **Route (a) of §6 is false as stated.** "With exactly one big-top agent q, τ_q satisfies M1 or KR" fails, because
   q can need two rotations.
