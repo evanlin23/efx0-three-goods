@@ -109,6 +109,7 @@ def fmt(k): return ' | '.join(map(str, k)) if isinstance(k, tuple) else k
 
 
 NODEDUP = False
+MAXLIST = 60
 
 
 def main(argv):
@@ -126,7 +127,8 @@ def main(argv):
             mx = [(mr['Q'], sorted(mr['lemmas'])) for mr in kr['maxima']]
             print('  smallest [%s]: n=%d m=%d sum=%d f=%d sets=%s vals=%s key=%s def*=%d maxima=%s' % (
                 tag, s[0], s[1], s[2], r['f'], r['sets'], r['vals'], kr['key'], kr['dstar'], mx))
-        for r, kr in unc:
+        if len(unc) > MAXLIST: print('  (the first %d of %d uncovered keys, in reading order)' % (MAXLIST, len(unc)))
+        for r, kr in unc[:MAXLIST]:
             print('  UNCOVERED f=%d sets=%s vals=%s m=%d key=%s def*=%d dlkey=%s maxima=%s' % (
                 r['f'], r['sets'], r['vals'], r['m'], kr['key'], kr['dstar'], kr.get('dlkey'),
                 [(mr['Q'], mr['lemmas']) for mr in kr['maxima']]))

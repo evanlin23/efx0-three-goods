@@ -1,0 +1,658 @@
+### n3_every_profile (4 files)
+  f>=2 keys | A+ or B+1 at some maximum                                                                          193744
+  f>=2 maxima | A+ chain j=0                                                                                     201512
+  f>=2 maxima | A+/B+1                                                                                           201512
+  f>=2 maxima | C'+ k=0                                                                                          58032
+  f>=2 maxima | C'+ q=phi(x)                                                                                     58032
+  keys covered by exactly one lemma | f=2 | A+                                                                   138520
+  keys def*>0 | f=2                                                                                              193744
+  keys def*>0 | f=2 | n=3                                                                                        193744
+  keys with lemma at some maximum | f=2 | A+                                                                     193744
+  keys with lemma at some maximum | f=2 | C'+                                                                    55224
+  keys with lemma at some maximum | f=2 | full                                                                   193744
+  maxima with lemma | f=2 | A+                                                                                   201512
+  maxima with lemma | f=2 | C'+                                                                                  58032
+  maxima with lemma | f=2 | full                                                                                 201512
+  maxima | f=2                                                                                                   201512
+  profiles read                                                                                                  96872
+  profiles | f=2 | n=3                                                                                           96872
+  smallest [only A+ (f=2)]: n=3 m=5 sum=35 f=2 sets=[[0, 1, 3, 4], [2, 3, 4], [2, 3, 4]] vals=[[2, 3, 8, 4], [2, 3, 4], [2, 3, 4]] key=[4, None, 3] def*=1 maxima=[('{1: [0, 2]}, L=[1]', ['A+', 'full']), ('{1: [1, 2]}, L=[0]', ['A+', 'full'])]
+  smallest [some A+ (f=2)]: n=3 m=5 sum=35 f=2 sets=[[0, 1, 3, 4], [2, 3, 4], [2, 3, 4]] vals=[[2, 3, 8, 4], [2, 3, 4], [2, 3, 4]] key=[4, None, 3] def*=1 maxima=[('{1: [0, 2]}, L=[1]', ['A+', 'full']), ('{1: [1, 2]}, L=[0]', ['A+', 'full'])]
+  smallest [some C'+ (f=2)]: n=3 m=6 sum=35 f=2 sets=[[0, 2, 4, 5], [1, 3, 5], [3, 4, 5]] vals=[[2, 3, 4, 8], [2, 4, 3], [4, 2, 3]] key=[5, None, 3] def*=1 maxima=[('{1: [0, 1]}, L=[2, 4]', ['A+', "C'+", 'full']), ('{1: [1, 2]}, L=[0, 4]', ['A+', "C'+", 'full']), ('{1: [1, 4]}, L=[0, 2]', ['A+', "C'+", 'full'])]
+### n4_1_every_profile (1 files)
+  f>=2 keys | A+ or B+1 at some maximum                                                                          286
+  f>=2 maxima | A+ chain j=0                                                                                     1136
+  f>=2 maxima | A+ chain j=1                                                                                     100
+  f>=2 maxima | A+/B+1                                                                                           1236
+  f>=2 maxima | C+ k=0                                                                                           876
+  f>=2 maxima | C+ k=1                                                                                           360
+  keys covered by exactly one lemma | f=3 | A+                                                                   140
+  keys def*>0 | f=2                                                                                              146
+  keys def*>0 | f=2 | n=4                                                                                        146
+  keys def*>0 | f=3                                                                                              140
+  keys def*>0 | f=3 | n=4                                                                                        140
+  keys with lemma at some maximum | f=2 | A+                                                                     146
+  keys with lemma at some maximum | f=2 | C+                                                                     146
+  keys with lemma at some maximum | f=2 | full                                                                   146
+  keys with lemma at some maximum | f=3 | A+                                                                     140
+  keys with lemma at some maximum | f=3 | full                                                                   140
+  maxima with lemma | f=2 | A+                                                                                   876
+  maxima with lemma | f=2 | C+                                                                                   876
+  maxima with lemma | f=2 | full                                                                                 876
+  maxima with lemma | f=3 | A+                                                                                   360
+  maxima with lemma | f=3 | full                                                                                 360
+  maxima | f=2                                                                                                   876
+  maxima | f=3                                                                                                   360
+  profiles read                                                                                                  176
+  profiles | f=2 | n=4                                                                                           146
+  profiles | f=3 | n=4                                                                                           30
+  smallest [only A+ (f=3)]: n=4 m=6 sum=44 f=3 sets=[[0, 2, 4, 5], [1, 4, 5], [3, 4, 5], [3, 4, 5]] vals=[[2, 3, 8, 4], [2, 3, 4], [4, 2, 3], [4, 2, 3]] key=[5, None, 3, 4] def*=1 maxima=[('{1: [0, 1]}, L=[2]', ['A+', 'full']), ('{1: [1, 2]}, L=[0]', ['A+', 'full'])]
+  smallest [some A+ (f=2)]: n=4 m=7 sum=48 f=2 sets=[[0, 2, 4, 6], [1, 5, 6], [3, 5, 6], [4, 5, 6]] vals=[[3, 5, 6, 7], [2, 3, 4], [2, 3, 4], [2, 3, 4]] key=[6, None, None, 5] def*=1 maxima=[('{1: [0, 1], 2: [2, 3]}, L=[4]', ['A+', 'C+', 'full']), ('{1: [0, 1], 2: [3, 4]}, L=[2]', ['A+', 'C+', 'full']), ('{1: [1, 2], 2: [0, 3]}, L=[4]', ['A+', 'C+', 'full']), ('{1: [1, 2], 2: [3, 4]}, L=[0]', ['A+', 'C+', 'full']), ('{1: [1, 4], 2: [0, 3]}, L=[2]', ['A+', 'C+', 'full']), ('{1: [1, 4], 2: [2, 3]}, L=[0]', ['A+', 'C+', 'full'])]
+  smallest [some A+ (f=3)]: n=4 m=6 sum=44 f=3 sets=[[0, 2, 4, 5], [1, 4, 5], [3, 4, 5], [3, 4, 5]] vals=[[2, 3, 8, 4], [2, 3, 4], [4, 2, 3], [4, 2, 3]] key=[5, None, 3, 4] def*=1 maxima=[('{1: [0, 1]}, L=[2]', ['A+', 'full']), ('{1: [1, 2]}, L=[0]', ['A+', 'full'])]
+  smallest [some C+ (f=2)]: n=4 m=7 sum=48 f=2 sets=[[0, 2, 4, 6], [1, 5, 6], [3, 5, 6], [4, 5, 6]] vals=[[3, 5, 6, 7], [2, 3, 4], [2, 3, 4], [2, 3, 4]] key=[6, None, None, 5] def*=1 maxima=[('{1: [0, 1], 2: [2, 3]}, L=[4]', ['A+', 'C+', 'full']), ('{1: [0, 1], 2: [3, 4]}, L=[2]', ['A+', 'C+', 'full']), ('{1: [1, 2], 2: [0, 3]}, L=[4]', ['A+', 'C+', 'full']), ('{1: [1, 2], 2: [3, 4]}, L=[0]', ['A+', 'C+', 'full']), ('{1: [1, 4], 2: [0, 3]}, L=[2]', ['A+', 'C+', 'full']), ('{1: [1, 4], 2: [2, 3]}, L=[0]', ['A+', 'C+', 'full'])]
+### n4_2_every_profile (4 files)
+  f>=2 keys | A+ or B+1 at some maximum                                                                          68738
+  f>=2 keys | only B+1                                                                                           80
+  f>=2 maxima | A+ chain j=0                                                                                     256860
+  f>=2 maxima | A+ chain j=1                                                                                     19500
+  f>=2 maxima | A+/B+1                                                                                           276440
+  f>=2 maxima | B+ (j,k)=(0, 1)                                                                                  80
+  f>=2 maxima | B+ (j,k)=(1, 1)                                                                                  80
+  f>=2 maxima | C'+ k=0                                                                                          12100
+  f>=2 maxima | C'+ k=1                                                                                          4900
+  f>=2 maxima | C'+ q=phi(a_k), now tau's                                                                        4900
+  f>=2 maxima | C'+ q=phi(x)                                                                                     12100
+  f>=2 maxima | C+ k=0                                                                                           162680
+  f>=2 maxima | C+ k=1                                                                                           83928
+  f>=2 maxima | C+/C'+ only                                                                                      1480
+  f>=2 maxima | none                                                                                             80
+  keys covered by exactly one lemma | f=2 | A+                                                                   2240
+  keys covered by exactly one lemma | f=2 | B+1                                                                  80
+  keys covered by exactly one lemma | f=3 | A+                                                                   36800
+  keys def*>0 | f=2                                                                                              30306
+  keys def*>0 | f=2 | n=4                                                                                        30306
+  keys def*>0 | f=3                                                                                              38432
+  keys def*>0 | f=3 | n=4                                                                                        38432
+  keys with lemma at some maximum | f=2 | A+                                                                     30226
+  keys with lemma at some maximum | f=2 | B+1                                                                    80
+  keys with lemma at some maximum | f=2 | C'+                                                                    3400
+  keys with lemma at some maximum | f=2 | C+                                                                     27986
+  keys with lemma at some maximum | f=2 | full                                                                   30226
+  keys with lemma at some maximum | f=3 | A+                                                                     38432
+  keys with lemma at some maximum | f=3 | C'+                                                                    1632
+  keys with lemma at some maximum | f=3 | full                                                                   38432
+  maxima with lemma | f=2 | A+                                                                                   171240
+  maxima with lemma | f=2 | B+1                                                                                  80
+  maxima with lemma | f=2 | C'+                                                                                  11000
+  maxima with lemma | f=2 | C+                                                                                   163200
+  maxima with lemma | f=2 | full                                                                                 172720
+  maxima with lemma | f=3 | A+                                                                                   105120
+  maxima with lemma | f=3 | C'+                                                                                  6000
+  maxima with lemma | f=3 | full                                                                                 105120
+  maxima | f=2                                                                                                   172880
+  maxima | f=3                                                                                                   105120
+  profiles read                                                                                                  32012
+  profiles | f=2 | n=4                                                                                           24644
+  profiles | f=3 | n=4                                                                                           7368
+  smallest [only A+ (f=2)]: n=4 m=7 sum=52 f=2 sets=[[0, 1, 5, 6], [2, 3, 4], [2, 3, 5, 6], [4, 5, 6]] vals=[[2, 3, 8, 4], [2, 4, 3], [2, 3, 4, 8], [2, 3, 4]] key=[6, None, 5, None] def*=1 maxima=[('{1: [2, 3], 3: [0, 4]}, L=[1]', ['A+', 'full']), ('{1: [2, 3], 3: [1, 4]}, L=[0]', ['A+', 'full'])]
+  smallest [only A+ (f=3)]: n=4 m=6 sum=52 f=3 sets=[[0, 1, 4, 5], [2, 3, 4, 5], [2, 4, 5], [3, 4, 5]] vals=[[2, 3, 8, 4], [8, 2, 3, 4], [4, 2, 3], [2, 3, 4]] key=[5, 2, None, 4] def*=1 maxima=[('{2: [0, 1]}, L=[3]', ['A+', 'full']), ('{2: [0, 3]}, L=[1]', ['A+', 'full']), ('{2: [1, 3]}, L=[0]', ['A+', 'full'])]
+  smallest [only B+1 (f=2)]: n=4 m=7 sum=54 f=2 sets=[[0, 2, 3, 4], [1, 5, 6], [2, 3, 5, 6], [4, 5, 6]] vals=[[2, 5, 4, 8], [2, 3, 4], [2, 3, 8, 4], [2, 3, 4]] key=[None, 5, 6, None] def*=1 maxima=[('{0: [2, 3], 3: [0, 4]}, L=[1]', ['B+1']), ('{0: [2, 3], 3: [1, 4]}, L=[0]', [])]
+  smallest [some A+ (f=2)]: n=4 m=7 sum=52 f=2 sets=[[0, 1, 5, 6], [2, 3, 4, 5], [2, 3, 6], [4, 5, 6]] vals=[[2, 3, 4, 8], [2, 4, 3, 8], [2, 3, 4], [2, 4, 3]] key=[5, None, 6, None] def*=1 maxima=[('{1: [2, 3], 3: [0, 4]}, L=[1]', ['A+', 'C+', 'full']), ('{1: [2, 3], 3: [1, 4]}, L=[0]', ['A+', 'C+', 'full'])]
+  smallest [some A+ (f=3)]: n=4 m=6 sum=52 f=3 sets=[[0, 1, 4, 5], [2, 3, 4, 5], [2, 4, 5], [3, 4, 5]] vals=[[2, 3, 8, 4], [8, 2, 3, 4], [4, 2, 3], [2, 3, 4]] key=[5, 2, None, 4] def*=1 maxima=[('{2: [0, 1]}, L=[3]', ['A+', 'full']), ('{2: [0, 3]}, L=[1]', ['A+', 'full']), ('{2: [1, 3]}, L=[0]', ['A+', 'full'])]
+  smallest [some B+1 (f=2)]: n=4 m=7 sum=54 f=2 sets=[[0, 2, 3, 4], [1, 5, 6], [2, 3, 5, 6], [4, 5, 6]] vals=[[2, 5, 4, 8], [2, 3, 4], [2, 3, 8, 4], [2, 3, 4]] key=[None, 5, 6, None] def*=1 maxima=[('{0: [2, 3], 3: [0, 4]}, L=[1]', ['B+1']), ('{0: [2, 3], 3: [1, 4]}, L=[0]', [])]
+  smallest [some C'+ (f=2)]: n=4 m=8 sum=56 f=2 sets=[[0, 2, 4, 6], [1, 3, 5, 7], [4, 6, 7], [5, 6, 7]] vals=[[2, 4, 3, 8], [3, 5, 6, 7], [2, 3, 4], [2, 3, 4]] key=[None, 7, None, 6] def*=1 maxima=[('{0: [0, 2], 2: [1, 4]}, L=[3, 5]', ['A+', "C'+", 'C+', 'full']), ('{0: [0, 2], 2: [3, 4]}, L=[1, 5]', ['A+', "C'+", 'C+', 'full']), ('{0: [0, 2], 2: [4, 5]}, L=[1, 3]', ['A+', "C'+", 'C+', 'full'])]
+  smallest [some C'+ (f=3)]: n=4 m=7 sum=52 f=3 sets=[[0, 2, 3, 6], [1, 5, 6], [3, 4, 5, 6], [4, 5, 6]] vals=[[2, 4, 3, 8], [2, 4, 3], [2, 8, 4, 3], [4, 3, 2]] key=[6, None, 4, 5] def*=1 maxima=[('{1: [0, 1]}, L=[2, 3]', ['A+', "C'+", 'full']), ('{1: [1, 2]}, L=[0, 3]', ['A+', "C'+", 'full']), ('{1: [1, 3]}, L=[0, 2]', ['A+', "C'+", 'full'])]
+  smallest [some C+ (f=2)]: n=4 m=7 sum=52 f=2 sets=[[0, 1, 5, 6], [2, 3, 4, 5], [2, 3, 6], [4, 5, 6]] vals=[[2, 3, 4, 8], [2, 4, 3, 8], [2, 3, 4], [2, 4, 3]] key=[5, None, 6, None] def*=1 maxima=[('{1: [2, 3], 3: [0, 4]}, L=[1]', ['A+', 'C+', 'full']), ('{1: [2, 3], 3: [1, 4]}, L=[0]', ['A+', 'C+', 'full'])]
+### n4_3_200k_per_core (2 files)
+  UNCOVERED keys | DLKey holds=True                                                                              3
+  UNCOVERED keys | f=2                                                                                           3
+  f=1 keys | covered with the structural hypotheses                                                              269
+  f=1 keys | every maximum covered=True                                                                          269
+  f=1 maxima, first lemma (PR #80 order) | A                                                                     611
+  f=1 maxima, first lemma (PR #80 order) | B1                                                                    132
+  f>=2 keys without A+/B+1 | C+ at some max                                                                      31
+  f>=2 keys | A+ or B+1 at some maximum                                                                          9483
+  f>=2 keys | UNCOVERED                                                                                          3
+  f>=2 keys | only B+1                                                                                           9
+  f>=2 keys | only C+/C'+                                                                                        31
+  f>=2 maxima | A+ chain j=0                                                                                     27617
+  f>=2 maxima | A+ chain j=1                                                                                     3296
+  f>=2 maxima | A+/B+1                                                                                           30961
+  f>=2 maxima | B+ (j,k)=(0, 1)                                                                                  124
+  f>=2 maxima | B+ (j,k)=(1, 1)                                                                                  78
+  f>=2 maxima | C'+ k=0                                                                                          4354
+  f>=2 maxima | C'+ k=1                                                                                          1351
+  f>=2 maxima | C'+ q=phi(a_k), now tau's                                                                        1093
+  f>=2 maxima | C'+ q=phi(w) of a frozen w off the move                                                          48
+  f>=2 maxima | C'+ q=phi(x)                                                                                     4593
+  f>=2 maxima | C+ k=0                                                                                           17998
+  f>=2 maxima | C+ k=1                                                                                           12534
+  f>=2 maxima | C+/C'+ only                                                                                      410
+  f>=2 maxima | full only                                                                                        4
+  f>=2 maxima | none                                                                                             10
+  keys covered by exactly one lemma | f=1 | A                                                                    108
+  keys covered by exactly one lemma | f=2 | A+                                                                   499
+  keys covered by exactly one lemma | f=2 | B+1                                                                  9
+  keys covered by exactly one lemma | f=2 | C+                                                                   18
+  keys covered by exactly one lemma | f=3 | A+                                                                   2962
+  keys def*>0 | f=1                                                                                              269
+  keys def*>0 | f=1 | n=4                                                                                        269
+  keys def*>0 | f=2                                                                                              5889
+  keys def*>0 | f=2 | n=4                                                                                        5889
+  keys def*>0 | f=3                                                                                              3628
+  keys def*>0 | f=3 | n=4                                                                                        3628
+  keys with DLKey computed | best move | T3                                                                      1
+  keys with DLKey computed | best move | T3+helper                                                               2
+  keys with lemma at some maximum | f=1 | A                                                                      269
+  keys with lemma at some maximum | f=1 | B1                                                                     98
+  keys with lemma at some maximum | f=1 | B1'                                                                    12
+  keys with lemma at some maximum | f=1 | Bk                                                                     1
+  keys with lemma at some maximum | f=1 | C                                                                      113
+  keys with lemma at some maximum | f=1 | C'                                                                     16
+  keys with lemma at some maximum | f=2 | A+                                                                     5845
+  keys with lemma at some maximum | f=2 | B+1                                                                    57
+  keys with lemma at some maximum | f=2 | C'+                                                                    1050
+  keys with lemma at some maximum | f=2 | C+                                                                     5276
+  keys with lemma at some maximum | f=2 | full                                                                   5877
+  keys with lemma at some maximum | f=3 | A+                                                                     3628
+  keys with lemma at some maximum | f=3 | C'+                                                                    666
+  keys with lemma at some maximum | f=3 | full                                                                   3628
+  maxima with lemma | f=1 | A                                                                                    611
+  maxima with lemma | f=1 | B1                                                                                   252
+  maxima with lemma | f=1 | B1'                                                                                  24
+  maxima with lemma | f=1 | Bk                                                                                   4
+  maxima with lemma | f=1 | C                                                                                    321
+  maxima with lemma | f=1 | C'                                                                                   23
+  maxima with lemma | f=2 | A+                                                                                   19527
+  maxima with lemma | f=2 | B+1                                                                                  193
+  maxima with lemma | f=2 | C'+                                                                                  2845
+  maxima with lemma | f=2 | C+                                                                                   18087
+  maxima with lemma | f=2 | full                                                                                 19980
+  maxima with lemma | f=3 | A+                                                                                   11386
+  maxima with lemma | f=3 | C'+                                                                                  2479
+  maxima with lemma | f=3 | full                                                                                 11386
+  maxima | f=1                                                                                                   743
+  maxima | f=2                                                                                                   19999
+  maxima | f=3                                                                                                   11386
+  profiles read                                                                                                  5956
+  profiles | f=1 | n=4                                                                                           269
+  profiles | f=2 | n=4                                                                                           4990
+  profiles | f=3 | n=4                                                                                           697
+  smallest [only A (f=1)]: n=4 m=8 sum=68 f=1 sets=[[0, 2, 4, 7], [1, 3, 6, 7], [3, 4, 5, 6], [5, 6, 7]] vals=[[6, 5, 4, 8], [4, 3, 2, 8], [4, 2, 8, 5], [3, 2, 4]] key=[7, None, None, None] def*=1 maxima=[('{1: [0, 1], 2: [3, 6], 3: [2, 5]}, L=[4]', ['A', 'Bk']), ('{1: [0, 1], 2: [3, 6], 3: [4, 5]}, L=[2]', ['A', 'Bk']), ('{1: [1, 2], 2: [3, 6], 3: [0, 5]}, L=[4]', ['A', 'Bk']), ('{1: [1, 2], 2: [3, 6], 3: [4, 5]}, L=[0]', ['A', 'Bk']), ('{1: [1, 4], 2: [3, 6], 3: [0, 5]}, L=[2]', ['A']), ('{1: [1, 4], 2: [3, 6], 3: [2, 5]}, L=[0]', ['A'])]
+  smallest [only A+ (f=2)]: n=4 m=7 sum=64 f=2 sets=[[0, 1, 5, 6], [2, 3, 4, 6], [2, 3, 5, 6], [4, 5, 6]] vals=[[3, 2, 8, 4], [8, 6, 4, 3], [2, 3, 4, 8], [2, 3, 4]] key=[6, None, 5, None] def*=1 maxima=[('{1: [2, 3], 3: [0, 4]}, L=[1]', ['A+', 'full']), ('{1: [2, 3], 3: [1, 4]}, L=[0]', ['A+', 'full'])]
+  smallest [only A+ (f=3)]: n=4 m=6 sum=62 f=3 sets=[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5], [3, 4, 5]] vals=[[4, 2, 8, 5], [2, 4, 3, 8], [2, 4, 3, 8], [4, 3, 2]] key=[5, None, 3, 4] def*=1 maxima=[('{1: [0, 2]}, L=[1]', ['A+', 'full']), ('{1: [1, 2]}, L=[0]', ['A+', 'full'])]
+  smallest [only B+1 (f=2)]: n=4 m=7 sum=68 f=2 sets=[[0, 4, 5, 6], [1, 2, 3, 4], [1, 3, 5, 6], [2, 5, 6]] vals=[[4, 2, 7, 10], [5, 8, 4, 2], [3, 2, 8, 4], [2, 3, 4]] key=[5, None, 6, None] def*=1 maxima=[('{1: [1, 3], 3: [0, 2]}, L=[4]', []), ('{1: [1, 3], 3: [2, 4]}, L=[0]', ['B+1'])]
+  smallest [only C+ (f=2)]: n=4 m=8 sum=70 f=2 sets=[[0, 2, 6, 7], [1, 3, 6, 7], [3, 4, 5, 6], [4, 5, 7]] vals=[[1, 4, 8, 6], [4, 1, 8, 6], [5, 4, 6, 8], [2, 3, 4]] key=[None, None, 6, 7] def*=1 maxima=[('{0: [0, 2], 1: [1, 3]}, L=[4, 5]', ['C+', 'full'])]
+  smallest [some A (f=1)]: n=4 m=8 sum=64 f=1 sets=[[0, 2, 3, 6], [1, 3, 6, 7], [4, 5, 6, 7], [4, 5, 7]] vals=[[3, 6, 5, 7], [4, 3, 8, 2], [3, 4, 8, 2], [2, 4, 3]] key=[6, None, None, None] def*=1 maxima=[('{1: [1, 3], 2: [0, 5], 3: [4, 7]}, L=[2]', ['A']), ('{1: [1, 3], 2: [2, 5], 3: [4, 7]}, L=[0]', ['A']), ('{1: [1, 3], 2: [4, 7], 3: [0, 5]}, L=[2]', ['A', 'B1']), ('{1: [1, 3], 2: [4, 7], 3: [2, 5]}, L=[0]', ['A', 'B1'])]
+  smallest [some A+ (f=2)]: n=4 m=7 sum=60 f=2 sets=[[0, 1, 2, 6], [1, 2, 6], [3, 4, 5, 6], [3, 4, 5, 6]] vals=[[3, 8, 2, 4], [4, 2, 3], [2, 4, 3, 8], [2, 3, 4, 8]] key=[6, 1, None, None] def*=1 maxima=[('{2: [0, 4], 3: [3, 5]}, L=[2]', ['A+', 'B+1', 'C+', 'full']), ('{2: [2, 4], 3: [3, 5]}, L=[0]', ['A+', 'B+1', 'C+', 'full']), ('{2: [3, 4], 3: [0, 5]}, L=[2]', ['A+', 'B+1', 'C+', 'full']), ('{2: [3, 4], 3: [2, 5]}, L=[0]', ['A+', 'B+1', 'C+', 'full'])]
+  smallest [some A+ (f=3)]: n=4 m=6 sum=62 f=3 sets=[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5], [3, 4, 5]] vals=[[4, 2, 8, 5], [2, 4, 3, 8], [2, 4, 3, 8], [4, 3, 2]] key=[5, None, 3, 4] def*=1 maxima=[('{1: [0, 2]}, L=[1]', ['A+', 'full']), ('{1: [1, 2]}, L=[0]', ['A+', 'full'])]
+  smallest [some B+1 (f=2)]: n=4 m=7 sum=60 f=2 sets=[[0, 1, 2, 6], [1, 2, 6], [3, 4, 5, 6], [3, 4, 5, 6]] vals=[[3, 8, 2, 4], [4, 2, 3], [2, 4, 3, 8], [2, 3, 4, 8]] key=[6, 1, None, None] def*=1 maxima=[('{2: [0, 4], 3: [3, 5]}, L=[2]', ['A+', 'B+1', 'C+', 'full']), ('{2: [2, 4], 3: [3, 5]}, L=[0]', ['A+', 'B+1', 'C+', 'full']), ('{2: [3, 4], 3: [0, 5]}, L=[2]', ['A+', 'B+1', 'C+', 'full']), ('{2: [3, 4], 3: [2, 5]}, L=[0]', ['A+', 'B+1', 'C+', 'full'])]
+  smallest [some B1 (f=1)]: n=4 m=8 sum=64 f=1 sets=[[0, 2, 3, 6], [1, 3, 6, 7], [4, 5, 6, 7], [4, 5, 7]] vals=[[3, 6, 5, 7], [4, 3, 8, 2], [3, 4, 8, 2], [2, 4, 3]] key=[6, None, None, None] def*=1 maxima=[('{1: [1, 3], 2: [0, 5], 3: [4, 7]}, L=[2]', ['A']), ('{1: [1, 3], 2: [2, 5], 3: [4, 7]}, L=[0]', ['A']), ('{1: [1, 3], 2: [4, 7], 3: [0, 5]}, L=[2]', ['A', 'B1']), ('{1: [1, 3], 2: [4, 7], 3: [2, 5]}, L=[0]', ['A', 'B1'])]
+  smallest [some B1' (f=1)]: n=4 m=9 sum=68 f=1 sets=[[0, 2, 4, 8], [1, 3, 7, 8], [4, 5, 6, 7], [5, 6, 8]] vals=[[3, 2, 4, 8], [6, 4, 5, 8], [4, 5, 8, 2], [2, 3, 4]] key=[None, 8, None, None] def*=1 maxima=[('{0: [0, 2], 2: [4, 5], 3: [1, 6]}, L=[3, 7]', ['A', "B1'"]), ('{0: [0, 2], 2: [4, 5], 3: [3, 6]}, L=[1, 7]', ['A', "B1'"]), ('{0: [0, 2], 2: [4, 5], 3: [6, 7]}, L=[1, 3]', ['A', 'B1'])]
+  smallest [some C (f=1)]: n=4 m=9 sum=64 f=1 sets=[[0, 2, 7, 8], [1, 3, 7, 8], [4, 5, 6, 8], [4, 5, 6]] vals=[[3, 2, 4, 8], [3, 6, 5, 7], [4, 3, 2, 8], [4, 2, 3]] key=[None, 8, None, None] def*=1 maxima=[('{0: [0, 7], 2: [1, 4], 3: [5, 6]}, L=[2, 3]', ['A', 'C']), ('{0: [0, 7], 2: [2, 4], 3: [5, 6]}, L=[1, 3]', ['A']), ('{0: [0, 7], 2: [3, 4], 3: [5, 6]}, L=[1, 2]', ['A', 'C']), ('{0: [0, 7], 2: [5, 6], 3: [1, 4]}, L=[2, 3]', ['B1', 'C']), ('{0: [0, 7], 2: [5, 6], 3: [2, 4]}, L=[1, 3]', ['A', 'B1']), ('{0: [0, 7], 2: [5, 6], 3: [3, 4]}, L=[1, 2]', ['B1', 'C'])]
+  smallest [some C' (f=1)]: n=4 m=10 sum=64 f=1 sets=[[0, 2, 7, 9], [1, 5, 8, 9], [3, 6, 8, 9], [4, 7, 9]] vals=[[6, 3, 5, 7], [3, 4, 2, 8], [2, 3, 4, 8], [3, 2, 4]] key=[9, None, None, None] def*=1 maxima=[('{1: [1, 5], 2: [6, 8], 3: [4, 7]}, L=[0, 2, 3]', ['A', "C'"])]
+  smallest [some C'+ (f=2)]: n=4 m=8 sum=60 f=2 sets=[[0, 1, 2, 3], [2, 3, 7], [4, 5, 6, 7], [4, 5, 6, 7]] vals=[[4, 3, 8, 2], [4, 2, 3], [3, 4, 2, 8], [4, 2, 3, 8]] key=[2, 7, None, None] def*=1 maxima=[('{2: [0, 5], 3: [4, 6]}, L=[1, 3]', ['A+', 'B+1', "C'+", 'C+', 'full']), ('{2: [1, 5], 3: [4, 6]}, L=[0, 3]', ['A+', 'B+1', "C'+", 'C+', 'full']), ('{2: [3, 5], 3: [4, 6]}, L=[0, 1]', ['A+', 'B+1', "C'+", 'C+', 'full'])]
+  smallest [some C'+ (f=3)]: n=4 m=7 sum=62 f=3 sets=[[0, 2, 3, 6], [1, 4, 5, 6], [3, 4, 5, 6], [4, 5, 6]] vals=[[4, 2, 3, 8], [2, 4, 8, 3], [4, 8, 1, 6], [3, 4, 2]] key=[6, None, 4, 5] def*=1 maxima=[('{1: [0, 1]}, L=[2, 3]', ['A+', "C'+", 'full']), ('{1: [1, 2]}, L=[0, 3]', ['A+', "C'+", 'full']), ('{1: [1, 3]}, L=[0, 2]', ['A+', "C'+", 'full'])]
+  smallest [some C+ (f=2)]: n=4 m=7 sum=60 f=2 sets=[[0, 1, 2, 6], [1, 2, 6], [3, 4, 5, 6], [3, 4, 5, 6]] vals=[[3, 8, 2, 4], [4, 2, 3], [2, 4, 3, 8], [2, 3, 4, 8]] key=[6, 1, None, None] def*=1 maxima=[('{2: [0, 4], 3: [3, 5]}, L=[2]', ['A+', 'B+1', 'C+', 'full']), ('{2: [2, 4], 3: [3, 5]}, L=[0]', ['A+', 'B+1', 'C+', 'full']), ('{2: [3, 4], 3: [0, 5]}, L=[2]', ['A+', 'B+1', 'C+', 'full']), ('{2: [3, 4], 3: [2, 5]}, L=[0]', ['A+', 'B+1', 'C+', 'full'])]
+  UNCOVERED f=2 sets=[[0, 2, 3, 6], [1, 4, 5, 6], [2, 3, 4, 5], [4, 5, 6]] vals=[[2, 4, 7, 10], [1, 6, 8, 4], [4, 2, 8, 5], [3, 4, 2]] m=7 key=[None, None, 5, 4] def*=1 dlkey={'holds': True, 'moves': {'T3+helper': 10, 'T3+|W|=1+helper': 10, 'T3+|W|=1': 2, 'T4': 2}, 'example': ['T3+helper', [[2, 3], [6], [5], [4]], [[6], [5], [2], [4]], -1, -1]} maxima=[('{0: [2, 3], 1: [1, 6]}, L=[0]', {})]
+  UNCOVERED f=2 sets=[[0, 2, 3, 6], [1, 3, 4, 5], [2, 4, 5, 6], [4, 5, 6]] vals=[[2, 7, 10, 4], [2, 4, 8, 7], [3, 4, 8, 2], [4, 3, 2]] m=7 key=[None, None, 4, 5] def*=1 dlkey={'holds': True, 'moves': {'T3+helper': 16, 'T3+|W|=1+helper': 16, 'T4': 2}, 'example': ['T3+helper', [[2, 6], [3], [4], [5]], [[3], [4], [2], [5]], -1, -1]} maxima=[('{0: [2, 6], 1: [1, 3]}, L=[0]', {})]
+  UNCOVERED f=2 sets=[[0, 3, 4, 5], [1, 3, 6, 7], [2, 6, 7], [4, 5, 6, 7]] vals=[[2, 10, 7, 4], [1, 4, 6, 8], [2, 3, 4], [3, 6, 10, 8]] m=8 key=[None, None, 6, 7] def*=1 dlkey={'holds': True, 'moves': {'T3': 2, 'T3+helper': 18, 'T3+|W|=1': 2, 'T3+|W|=1+helper': 18, 'T4': 2}, 'example': ['T3', [[4, 5], [3], [6], [7]], [[4, 5], [6], [2], [7]], 1, 0]} maxima=[('{0: [4, 5], 1: [1, 3]}, L=[0, 2]', {})]
+### n4_pure_2k_and_200k_per_core (5 files)
+  UNCOVERED keys | DLKey holds=True                                                                              26
+  UNCOVERED keys | f=2                                                                                           26
+  f=1 keys | covered with the exact hypotheses only                                                              2
+  f=1 keys | covered with the structural hypotheses                                                              1168
+  f=1 keys | every maximum covered=True                                                                          1170
+  f=1 maxima, first lemma (PR #80 order) | A                                                                     1622
+  f=1 maxima, first lemma (PR #80 order) | B1                                                                    44
+  f=1 maxima, first lemma (PR #80 order) | B1'                                                                   6
+  f=1 maxima, first lemma (PR #80 order) | C                                                                     42
+  f=1 maxima, first lemma (PR #80 order) | C (exact only)                                                        2
+  f=1 maxima, first lemma (PR #80 order) | C'                                                                    23
+  f>=2 keys without A+/B+1 | C'+ only                                                                            10
+  f>=2 keys without A+/B+1 | C+ at some max                                                                      2159
+  f>=2 keys | A+ or B+1 at some maximum                                                                          5492
+  f>=2 keys | UNCOVERED                                                                                          26
+  f>=2 keys | only B+1                                                                                           6
+  f>=2 keys | only C'+ with q = phi(w)                                                                           4
+  f>=2 keys | only C+/C'+                                                                                        2169
+  f>=2 maxima | A+ chain j=0                                                                                     11616
+  f>=2 maxima | A+ chain j=1                                                                                     1038
+  f>=2 maxima | A+/B+1                                                                                           12677
+  f>=2 maxima | B+ (j,k)=(0, 1)                                                                                  171
+  f>=2 maxima | B+ (j,k)=(1, 1)                                                                                  74
+  f>=2 maxima | C'+ k=0                                                                                          2664
+  f>=2 maxima | C'+ k=1                                                                                          895
+  f>=2 maxima | C'+ q=phi(a_k), now tau's                                                                        649
+  f>=2 maxima | C'+ q=phi(w) of a frozen w off the move                                                          62
+  f>=2 maxima | C'+ q=phi(x)                                                                                     2925
+  f>=2 maxima | C+ k=0                                                                                           7590
+  f>=2 maxima | C+ k=1                                                                                           5415
+  f>=2 maxima | C+/C'+ only                                                                                      2247
+  f>=2 maxima | full only                                                                                        4
+  f>=2 maxima | none                                                                                             43
+  keys covered by exactly one lemma | f=1 | A                                                                    507
+  keys covered by exactly one lemma | f=1 | B1                                                                   1
+  keys covered by exactly one lemma | f=1 | C                                                                    1
+  keys covered by exactly one lemma | f=1 | C'                                                                   20
+  keys covered by exactly one lemma | f=2 | A+                                                                   245
+  keys covered by exactly one lemma | f=2 | B+1                                                                  6
+  keys covered by exactly one lemma | f=2 | C'+                                                                  10
+  keys covered by exactly one lemma | f=2 | C+                                                                   2029
+  keys covered by exactly one lemma | f=3 | A+                                                                   2042
+  keys def*>0 | f=1                                                                                              1170
+  keys def*>0 | f=1 | n=4                                                                                        1170
+  keys def*>0 | f=2                                                                                              5151
+  keys def*>0 | f=2 | n=4                                                                                        5151
+  keys def*>0 | f=3                                                                                              2536
+  keys def*>0 | f=3 | n=4                                                                                        2536
+  keys with DLKey computed | best move | T3                                                                      21
+  keys with DLKey computed | best move | T3+helper                                                               2
+  keys with DLKey computed | best move | T3+|W|=1                                                                3
+  keys with lemma at some maximum | f=1 | A                                                                      1118
+  keys with lemma at some maximum | f=1 | B1                                                                     74
+  keys with lemma at some maximum | f=1 | B1'                                                                    15
+  keys with lemma at some maximum | f=1 | Bk                                                                     4
+  keys with lemma at some maximum | f=1 | Bk'                                                                    3
+  keys with lemma at some maximum | f=1 | C                                                                      510
+  keys with lemma at some maximum | f=1 | C'                                                                     152
+  keys with lemma at some maximum | f=2 | A+                                                                     2949
+  keys with lemma at some maximum | f=2 | B+1                                                                    55
+  keys with lemma at some maximum | f=2 | C'+                                                                    1091
+  keys with lemma at some maximum | f=2 | C+                                                                     4738
+  keys with lemma at some maximum | f=2 | full                                                                   5109
+  keys with lemma at some maximum | f=3 | A+                                                                     2536
+  keys with lemma at some maximum | f=3 | C'+                                                                    494
+  keys with lemma at some maximum | f=3 | full                                                                   2536
+  maxima with lemma | f=1 | A                                                                                    1622
+  maxima with lemma | f=1 | B1                                                                                   212
+  maxima with lemma | f=1 | B1'                                                                                  21
+  maxima with lemma | f=1 | Bk                                                                                   8
+  maxima with lemma | f=1 | Bk'                                                                                  6
+  maxima with lemma | f=1 | C                                                                                    706
+  maxima with lemma | f=1 | C'                                                                                   179
+  maxima with lemma | f=2 | A+                                                                                   6078
+  maxima with lemma | f=2 | B+1                                                                                  239
+  maxima with lemma | f=2 | C'+                                                                                  1651
+  maxima with lemma | f=2 | C+                                                                                   7640
+  maxima with lemma | f=2 | full                                                                                 8335
+  maxima with lemma | f=3 | A+                                                                                   6576
+  maxima with lemma | f=3 | C'+                                                                                  1546
+  maxima with lemma | f=3 | full                                                                                 6576
+  maxima | f=1                                                                                                   1739
+  maxima | f=2                                                                                                   8395
+  maxima | f=3                                                                                                   6576
+  profiles read                                                                                                  5701
+  profiles | f=1 | n=4                                                                                           1160
+  profiles | f=2 | n=4                                                                                           4063
+  profiles | f=3 | n=4                                                                                           478
+  smallest [only A (f=1)]: n=4 m=8 sum=76 f=1 sets=[[0, 1, 3, 7], [2, 3, 4, 7], [2, 5, 6, 7], [4, 5, 6, 7]] vals=[[3, 6, 5, 7], [4, 2, 3, 8], [8, 3, 6, 4], [4, 3, 2, 8]] key=[7, None, None, None] def*=1 maxima=[('{1: [2, 3], 2: [5, 6], 3: [0, 4]}, L=[1]', ['A']), ('{1: [2, 3], 2: [5, 6], 3: [1, 4]}, L=[0]', ['A'])]
+  smallest [only A+ (f=2)]: n=4 m=7 sum=78 f=2 sets=[[0, 4, 5, 6], [1, 4, 5, 6], [2, 3, 4, 6], [2, 3, 5, 6]] vals=[[2, 4, 8, 3], [2, 3, 8, 4], [2, 6, 7, 10], [4, 2, 5, 8]] key=[None, 6, None, 5] def*=1 maxima=[('{0: [0, 4], 2: [2, 3]}, L=[1]', ['A+', 'full'])]
+  smallest [only A+ (f=3)]: n=4 m=6 sum=74 f=3 sets=[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]] vals=[[2, 3, 4, 8], [6, 1, 8, 4], [8, 2, 4, 3], [6, 2, 10, 3]] key=[4, 2, None, 5] def*=1 maxima=[('{2: [0, 3]}, L=[1]', ['A+', 'full']), ('{2: [1, 3]}, L=[0]', ['A+', 'full'])]
+  smallest [only B+1 (f=2)]: n=4 m=7 sum=84 f=2 sets=[[0, 2, 5, 6], [1, 2, 3, 4], [1, 4, 5, 6], [3, 4, 5, 6]] vals=[[4, 1, 8, 6], [10, 2, 4, 7], [4, 2, 8, 7], [4, 3, 6, 8]] key=[6, None, None, 5] def*=1 maxima=[('{1: [3, 4], 2: [0, 1]}, L=[2]', []), ('{1: [3, 4], 2: [1, 2]}, L=[0]', ['B+1'])]
+  smallest [only B1 (f=1)]: n=4 m=10 sum=82 f=1 sets=[[0, 2, 5, 9], [1, 4, 8, 9], [3, 5, 6, 7], [6, 7, 8, 9]] vals=[[3, 6, 5, 7], [3, 2, 6, 10], [6, 5, 4, 8], [2, 3, 4, 8]] key=[9, None, None, None] def*=1 maxima=[('{1: [1, 8], 2: [3, 5], 3: [6, 7]}, L=[0, 2, 4]', ['B1'])]
+  smallest [only C (f=1)]: n=4 m=11 sum=72 f=1 sets=[[0, 2, 8, 10], [1, 5, 8, 10], [3, 6, 9, 10], [4, 7, 9, 10]] vals=[[4, 3, 2, 8], [4, 3, 2, 8], [6, 3, 5, 7], [3, 2, 4, 8]] key=[None, None, 10, None] def*=1 maxima=[('{0: [0, 2], 1: [1, 5], 3: [4, 9]}, L=[3, 6, 7, 8]', ['C'])]
+  smallest [only C' (f=1)]: n=4 m=10 sum=76 f=1 sets=[[0, 2, 6, 9], [1, 5, 8, 9], [3, 6, 7, 9], [4, 7, 8, 9]] vals=[[5, 3, 6, 7], [4, 3, 2, 8], [10, 2, 3, 6], [3, 4, 2, 8]] key=[9, None, None, None] def*=1 maxima=[('{1: [1, 5], 2: [3, 6], 3: [4, 7]}, L=[0, 2, 8]', ["C'"])]
+  smallest [only C'+ (f=2)]: n=4 m=10 sum=68 f=2 sets=[[0, 2, 4, 8], [1, 3, 7, 9], [4, 5, 6, 7], [5, 6, 8, 9]] vals=[[2, 4, 8, 3], [3, 4, 2, 8], [8, 4, 3, 2], [2, 3, 4, 8]] key=[4, 9, None, None] def*=1 maxima=[('{2: [5, 7], 3: [6, 8]}, L=[0, 1, 2, 3]', ["C'+"])]
+  smallest [only C'+ with q = phi(w)]: n=4 m=10 sum=68 f=2 sets=[[0, 2, 4, 8], [1, 3, 7, 9], [4, 5, 6, 7], [5, 6, 8, 9]] vals=[[2, 4, 8, 3], [3, 4, 2, 8], [8, 4, 3, 2], [2, 3, 4, 8]] key=[4, 9, None, None] def*=1 maxima=[('{2: [5, 7], 3: [6, 8]}, L=[0, 1, 2, 3]', ["C'+"])]
+  smallest [only C+ (f=2)]: n=4 m=7 sum=88 f=2 sets=[[0, 3, 5, 6], [1, 4, 5, 6], [2, 3, 4, 5], [2, 3, 4, 6]] vals=[[4, 3, 10, 8], [3, 2, 10, 6], [6, 5, 3, 7], [7, 4, 2, 8]] key=[None, None, 5, 6] def*=1 maxima=[('{0: [0, 3], 1: [1, 4]}, L=[2]', ['C+', 'full'])]
+  smallest [some A (f=1)]: n=4 m=8 sum=74 f=1 sets=[[0, 4, 5, 6], [1, 4, 5, 7], [2, 3, 6, 7], [2, 3, 6, 7]] vals=[[4, 2, 5, 8], [6, 3, 5, 7], [2, 4, 3, 8], [2, 4, 3, 8]] key=[None, 7, None, None] def*=1 maxima=[('{0: [0, 5], 2: [1, 3], 3: [2, 6]}, L=[4]', ['A', 'B1']), ('{0: [0, 5], 2: [2, 6], 3: [1, 3]}, L=[4]', ['A', 'B1']), ('{0: [0, 5], 2: [2, 6], 3: [3, 4]}, L=[1]', ['A', 'B1']), ('{0: [0, 5], 2: [3, 4], 3: [2, 6]}, L=[1]', ['A', 'B1'])]
+  smallest [some A+ (f=2)]: n=4 m=7 sum=68 f=2 sets=[[0, 2, 4, 5], [0, 3, 4, 6], [1, 2, 5, 6], [1, 3, 5, 6]] vals=[[3, 4, 2, 8], [4, 2, 3, 8], [2, 3, 4, 8], [2, 3, 8, 4]] key=[None, None, 5, 6] def*=1 maxima=[('{0: [0, 2], 1: [3, 4]}, L=[1]', ['A+', 'C+', 'full']), ('{0: [2, 4], 1: [0, 3]}, L=[1]', ['A+', 'C+', 'full'])]
+  smallest [some A+ (f=3)]: n=4 m=6 sum=74 f=3 sets=[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]] vals=[[2, 3, 4, 8], [6, 1, 8, 4], [8, 2, 4, 3], [6, 2, 10, 3]] key=[4, 2, None, 5] def*=1 maxima=[('{2: [0, 3]}, L=[1]', ['A+', 'full']), ('{2: [1, 3]}, L=[0]', ['A+', 'full'])]
+  smallest [some B+1 (f=2)]: n=4 m=7 sum=70 f=2 sets=[[0, 2, 4, 6], [0, 2, 4, 6], [1, 3, 5, 6], [1, 3, 5, 6]] vals=[[2, 4, 3, 8], [2, 4, 3, 8], [2, 5, 8, 4], [2, 3, 8, 4]] key=[None, None, 5, 6] def*=1 maxima=[('{0: [0, 4], 1: [1, 2]}, L=[3]', ['A+', 'B+1', 'C+', 'full']), ('{0: [0, 4], 1: [2, 3]}, L=[1]', ['A+', 'B+1', 'C+', 'full']), ('{0: [1, 2], 1: [0, 4]}, L=[3]', ['A+', 'B+1', 'C+', 'full']), ('{0: [2, 3], 1: [0, 4]}, L=[1]', ['A+', 'B+1', 'C+', 'full'])]
+  smallest [some B1 (f=1)]: n=4 m=8 sum=74 f=1 sets=[[0, 4, 5, 6], [1, 4, 5, 7], [2, 3, 6, 7], [2, 3, 6, 7]] vals=[[4, 2, 5, 8], [6, 3, 5, 7], [2, 4, 3, 8], [2, 4, 3, 8]] key=[None, 7, None, None] def*=1 maxima=[('{0: [0, 5], 2: [1, 3], 3: [2, 6]}, L=[4]', ['A', 'B1']), ('{0: [0, 5], 2: [2, 6], 3: [1, 3]}, L=[4]', ['A', 'B1']), ('{0: [0, 5], 2: [2, 6], 3: [3, 4]}, L=[1]', ['A', 'B1']), ('{0: [0, 5], 2: [3, 4], 3: [2, 6]}, L=[1]', ['A', 'B1'])]
+  smallest [some B1' (f=1)]: n=4 m=8 sum=90 f=1 sets=[[0, 4, 5, 6], [1, 4, 5, 7], [2, 3, 6, 7], [2, 3, 6, 7]] vals=[[3, 4, 6, 8], [3, 6, 8, 10], [3, 4, 6, 8], [3, 4, 6, 8]] key=[None, 7, None, None] def*=1 maxima=[('{0: [4, 5], 2: [0, 6], 3: [2, 3]}, L=[1]', ['B1', 'Bk']), ('{0: [4, 5], 2: [1, 6], 3: [2, 3]}, L=[0]', ["B1'", "Bk'"]), ('{0: [4, 5], 2: [2, 3], 3: [0, 6]}, L=[1]', ['B1', 'Bk']), ('{0: [4, 5], 2: [2, 3], 3: [1, 6]}, L=[0]', ["B1'", "Bk'"])]
+  smallest [some C (f=1)]: n=4 m=9 sum=76 f=1 sets=[[0, 2, 7, 8], [1, 3, 7, 8], [4, 5, 6, 8], [4, 5, 6, 8]] vals=[[5, 3, 6, 7], [2, 3, 4, 8], [3, 2, 4, 8], [3, 6, 8, 4]] key=[8, None, None, None] def*=1 maxima=[('{1: [3, 7], 2: [0, 6], 3: [4, 5]}, L=[1, 2]', ['A', 'C']), ('{1: [3, 7], 2: [1, 6], 3: [4, 5]}, L=[0, 2]', ['A']), ('{1: [3, 7], 2: [2, 6], 3: [4, 5]}, L=[0, 1]', ['A', 'C']), ('{1: [3, 7], 2: [4, 5], 3: [0, 6]}, L=[1, 2]', ['B1', 'C']), ('{1: [3, 7], 2: [4, 5], 3: [1, 6]}, L=[0, 2]', ['A', 'B1']), ('{1: [3, 7], 2: [4, 5], 3: [2, 6]}, L=[0, 1]', ['B1', 'C'])]
+  smallest [some C' (f=1)]: n=4 m=10 sum=72 f=1 sets=[[0, 2, 8, 9], [1, 5, 8, 9], [3, 6, 7, 9], [4, 6, 7, 9]] vals=[[2, 3, 4, 8], [2, 4, 3, 8], [8, 2, 3, 4], [5, 6, 3, 7]] key=[None, None, None, 9] def*=1 maxima=[('{0: [2, 8], 1: [1, 5], 2: [3, 7]}, L=[0, 4, 6]', ['A', "C'"])]
+  smallest [some C'+ (f=2)]: n=4 m=8 sum=68 f=2 sets=[[0, 1, 5, 7], [2, 3, 4, 6], [2, 3, 6, 7], [4, 5, 6, 7]] vals=[[3, 2, 4, 8], [4, 2, 8, 3], [2, 3, 4, 8], [8, 4, 3, 2]] key=[7, None, None, 4] def*=1 maxima=[('{1: [0, 2], 2: [3, 6]}, L=[1, 5]', ['B+1', "C'+", 'C+', 'full']), ('{1: [1, 2], 2: [3, 6]}, L=[0, 5]', ['B+1', "C'+", 'C+', 'full']), ('{1: [2, 5], 2: [3, 6]}, L=[0, 1]', ['B+1', "C'+", 'C+', 'full'])]
+  smallest [some C'+ (f=3)]: n=4 m=7 sum=72 f=3 sets=[[0, 1, 2, 6], [2, 4, 5, 6], [3, 4, 5, 6], [3, 4, 5, 6]] vals=[[3, 4, 2, 8], [2, 4, 8, 3], [2, 4, 8, 3], [3, 6, 8, 4]] key=[6, None, 4, 5] def*=1 maxima=[('{1: [0, 2]}, L=[1, 3]', ['A+', "C'+", 'full']), ('{1: [1, 2]}, L=[0, 3]', ['A+', "C'+", 'full']), ('{1: [2, 3]}, L=[0, 1]', ['A+', "C'+", 'full'])]
+  smallest [some C+ (f=2)]: n=4 m=7 sum=68 f=2 sets=[[0, 2, 4, 5], [0, 3, 4, 6], [1, 2, 5, 6], [1, 3, 5, 6]] vals=[[3, 4, 2, 8], [4, 2, 3, 8], [2, 3, 4, 8], [2, 3, 8, 4]] key=[None, None, 5, 6] def*=1 maxima=[('{0: [0, 2], 1: [3, 4]}, L=[1]', ['A+', 'C+', 'full']), ('{0: [2, 4], 1: [0, 3]}, L=[1]', ['A+', 'C+', 'full'])]
+  UNCOVERED f=2 sets=[[0, 2, 3, 5], [1, 4, 6, 7], [2, 3, 6, 7], [4, 5, 6, 7]] vals=[[2, 4, 7, 10], [4, 2, 7, 8], [3, 6, 10, 8], [2, 4, 7, 10]] m=8 key=[None, 6, 7, None] def*=1 dlkey={'holds': True, 'moves': {'T3': 4, 'T3+helper': 26, 'T3+|W|=1': 4, 'T3+|W|=1+helper': 26, 'T4': 2}, 'example': ['T3', [[2, 3], [6], [7], [5]], [[2, 3], [1], [7], [6]], 1, 0]} maxima=[('{0: [2, 3], 3: [4, 5]}, L=[0, 1]', {})]
+  UNCOVERED f=2 sets=[[0, 2, 7, 8], [1, 4, 5, 6], [3, 4, 7, 8], [5, 6, 7, 8]] vals=[[4, 2, 7, 8], [2, 8, 4, 5], [3, 4, 8, 10], [2, 4, 8, 5]] m=9 key=[7, None, None, 8] def*=1 dlkey={'holds': True, 'moves': {'T3': 4, 'T3+helper': 26, 'T3+|W|=1': 4, 'T3+|W|=1+helper': 26, 'T4': 2}, 'example': ['T3', [[7], [5, 6], [4], [8]], [[0], [5, 6], [7], [8]], 1, 0]} maxima=[('{1: [5, 6], 2: [3, 4]}, L=[0, 1, 2]', {})]
+  UNCOVERED f=2 sets=[[0, 2, 7, 8], [1, 3, 7, 8], [3, 4, 5, 6], [4, 5, 6, 8]] vals=[[3, 4, 2, 8], [4, 8, 2, 3], [10, 3, 6, 2], [2, 4, 3, 8]] m=9 key=[8, None, 3, None] def*=1 dlkey={'holds': True, 'moves': {'T3': 26, 'T3+helper': 22}, 'example': ['T3', [[8], [1], [3], [5]], [[2], [1], [3], [8]], -1, -1]} maxima=[('{1: [1, 7], 3: [5, 6]}, L=[0, 2, 4]', {})]
+  UNCOVERED f=2 sets=[[0, 2, 7, 9], [1, 5, 8, 9], [3, 6, 8, 9], [4, 7, 8, 9]] vals=[[5, 4, 6, 8], [2, 4, 8, 7], [3, 6, 8, 10], [3, 2, 10, 6]] m=10 key=[9, None, 8, None] def*=2 dlkey={'holds': True, 'moves': {'T3': 42, 'T3+|W|=1': 26, 'T3+helper': 24, 'T3+|W|=1+helper': 16}, 'example': ['T3', [[9], [5], [8], [4]], [[7], [9], [8], [4]], 0, 0]} maxima=[('{1: [1, 5], 3: [4, 7]}, L=[0, 2, 3, 6]', {})]
+  UNCOVERED f=2 sets=[[0, 2, 7, 8], [1, 3, 7, 8], [4, 5, 6, 7], [4, 5, 6, 8]] vals=[[3, 2, 8, 4], [2, 6, 7, 10], [3, 2, 4, 8], [4, 3, 2, 8]] m=9 key=[8, 7, None, None] def*=2 dlkey={'holds': True, 'moves': {'T3+|W|=1': 12, 'T3+|W|=1+helper': 20, 'T3': 12, 'T3+helper': 20, 'T4': 3}, 'example': ['T3', [[8], [7], [6], [4]], [[0], [7], [6], [8]], 1, 1]} maxima=[('{2: [0, 6], 3: [4, 5]}, L=[1, 2, 3]', {}), ('{2: [1, 6], 3: [4, 5]}, L=[0, 2, 3]', {}), ('{2: [2, 6], 3: [4, 5]}, L=[0, 1, 3]', {}), ('{2: [3, 6], 3: [4, 5]}, L=[0, 1, 2]', {})]
+  UNCOVERED f=2 sets=[[0, 2, 4, 6], [1, 3, 5, 8], [3, 4, 7, 8], [5, 6, 7, 8]] vals=[[3, 4, 2, 8], [3, 10, 2, 6], [10, 2, 6, 3], [2, 10, 7, 6]] m=9 key=[6, 3, None, None] def*=1 dlkey={'holds': True, 'moves': {'T3': 6, 'T3+helper': 18}, 'example': ['T3', [[6], [3], [7], [5, 8]], [[2], [3], [7], [6]], -1, -1]} maxima=[('{2: [4, 7], 3: [5, 8]}, L=[0, 1, 2]', {})]
+  UNCOVERED f=2 sets=[[0, 2, 7, 9], [1, 5, 8, 9], [3, 6, 8, 9], [4, 7, 8, 9]] vals=[[5, 3, 6, 7], [2, 4, 10, 7], [6, 3, 8, 10], [3, 4, 10, 8]] m=10 key=[9, None, 8, None] def*=1 dlkey={'holds': True, 'moves': {'T3': 28, 'T3+|W|=1': 20, 'T3+helper': 14, 'T3+|W|=1+helper': 10}, 'example': ['T3', [[9], [5], [8], [7]], [[0, 2], [9], [8], [7]], 0, 0]} maxima=[('{1: [1, 5], 3: [4, 7]}, L=[0, 2, 3, 6]', {})]
+  UNCOVERED f=2 sets=[[0, 2, 7, 9], [1, 5, 8, 9], [3, 6, 8, 9], [4, 7, 8, 9]] vals=[[6, 4, 5, 8], [3, 4, 10, 8], [6, 2, 7, 10], [3, 4, 10, 8]] m=10 key=[9, None, 8, None] def*=1 dlkey={'holds': True, 'moves': {'T3': 32, 'T3+|W|=1': 24, 'T3+helper': 16, 'T3+|W|=1+helper': 12}, 'example': ['T3', [[9], [5], [8], [7]], [[0], [9], [8], [7]], 0, 0]} maxima=[('{1: [1, 5], 3: [4, 7]}, L=[0, 2, 3, 6]', {})]
+  UNCOVERED f=2 sets=[[0, 2, 7, 9], [1, 5, 8, 9], [3, 6, 8, 9], [4, 7, 8, 9]] vals=[[5, 4, 6, 8], [3, 4, 10, 8], [4, 2, 5, 8], [4, 2, 8, 7]] m=10 key=[9, None, 8, None] def*=2 dlkey={'holds': True, 'moves': {'T3': 42, 'T3+|W|=1': 26, 'T3+helper': 24, 'T3+|W|=1+helper': 16}, 'example': ['T3', [[9], [5], [8], [4]], [[7], [9], [8], [4]], 0, 0]} maxima=[('{1: [1, 5], 3: [4, 7]}, L=[0, 2, 3, 6]', {})]
+  UNCOVERED f=2 sets=[[0, 2, 6, 8], [1, 5, 7, 9], [3, 6, 8, 9], [4, 7, 8, 9]] vals=[[2, 3, 4, 8], [3, 4, 2, 8], [7, 2, 4, 10], [6, 2, 10, 3]] m=10 key=[8, 9, None, None] def*=1 dlkey={'holds': True, 'moves': {'T3': 22, 'T3+helper': 16}, 'example': ['T3', [[8], [9], [3], [4]], [[6], [9], [3], [8]], -1, -1]} maxima=[('{2: [3, 6], 3: [4, 7]}, L=[0, 1, 2, 5]', {})]
+  UNCOVERED f=2 sets=[[0, 2, 8, 9], [1, 5, 8, 9], [3, 6, 7, 8], [4, 6, 7, 9]] vals=[[2, 4, 5, 8], [2, 4, 8, 5], [2, 3, 6, 10], [2, 3, 4, 8]] m=10 key=[8, 9, None, None] def*=1 dlkey={'holds': True, 'moves': {'T3+|W|=1': 8, 'T3+|W|=1+helper': 16, 'T3': 4, 'T4': 2, 'T3+helper': 4}, 'example': ['T3', [[8], [9], [7], [4, 6]], [[8], [5], [7], [9]], 0, 0]} maxima=[('{2: [3, 7], 3: [4, 6]}, L=[0, 1, 2, 5]', {})]
+  UNCOVERED f=2 sets=[[0, 1, 2, 6], [1, 2, 4, 5], [3, 4, 5, 6], [3, 4, 5, 6]] vals=[[2, 5, 4, 8], [3, 6, 10, 8], [2, 6, 10, 3], [3, 8, 10, 4]] m=7 key=[None, 5, 4, None] def*=1 dlkey={'holds': True, 'moves': {'T3+helper': 10, 'T3+|W|=1+helper': 10, 'T3+|W|=1': 4, 'T4': 2}, 'example': ['T3+helper', [[1, 2], [5], [4], [6]], [[6], [2], [4], [5]], -1, -1]} maxima=[('{0: [1, 2], 3: [3, 6]}, L=[0]', {})]
+  UNCOVERED f=2 sets=[[0, 1, 2, 6], [1, 2, 4, 5], [3, 4, 5, 6], [3, 4, 5, 6]] vals=[[2, 5, 4, 8], [3, 6, 10, 8], [2, 6, 10, 3], [3, 8, 10, 4]] m=7 key=[None, 5, None, 4] def*=1 dlkey={'holds': True, 'moves': {'T3+helper': 10, 'T3+|W|=1+helper': 10, 'T3+|W|=1': 4, 'T4': 2}, 'example': ['T3+helper', [[1, 2], [5], [6], [4]], [[6], [2], [5], [4]], -1, -1]} maxima=[('{0: [1, 2], 2: [3, 6]}, L=[0]', {})]
+  UNCOVERED f=2 sets=[[0, 2, 7, 8], [1, 5, 6, 8], [3, 5, 7, 8], [4, 6, 7, 8]] vals=[[3, 6, 8, 10], [5, 3, 6, 7], [3, 2, 10, 6], [2, 4, 8, 7]] m=9 key=[7, 8, None, None] def*=1 dlkey={'holds': True, 'moves': {'T3': 24, 'T3+|W|=1': 16, 'T3+helper': 14, 'T3+|W|=1+helper': 10}, 'example': ['T3', [[7], [8], [3], [6]], [[2], [8], [7], [6]], 0, 0]} maxima=[('{2: [3, 5], 3: [4, 6]}, L=[0, 1, 2]', {})]
+  UNCOVERED f=2 sets=[[0, 2, 7, 8], [1, 5, 6, 8], [3, 5, 7, 8], [4, 6, 7, 8]] vals=[[3, 6, 8, 10], [4, 6, 5, 8], [3, 4, 10, 8], [4, 2, 10, 7]] m=9 key=[7, 8, None, None] def*=1 dlkey={'holds': True, 'moves': {'T3': 24, 'T3+|W|=1': 16, 'T3+helper': 14, 'T3+|W|=1+helper': 10}, 'example': ['T3', [[7], [8], [5], [4]], [[2], [8], [5], [7]], 0, 0]} maxima=[('{2: [3, 5], 3: [4, 6]}, L=[0, 1, 2]', {})]
+  UNCOVERED f=2 sets=[[0, 2, 5, 8], [1, 4, 7, 9], [3, 5, 6, 9], [6, 7, 8, 9]] vals=[[2, 3, 6, 10], [2, 4, 3, 8], [2, 4, 5, 8], [5, 2, 8, 4]] m=10 key=[8, 9, None, None] def*=1 dlkey={'holds': True, 'moves': {'T3+helper': 16, 'T3': 6}, 'example': ['T3', [[8], [9], [3, 5], [6]], [[8], [4], [9], [6]], -1, -1]} maxima=[('{2: [3, 5], 3: [6, 7]}, L=[0, 1, 2, 4]', {})]
+  UNCOVERED f=2 sets=[[0, 2, 8, 9], [1, 5, 8, 9], [3, 6, 7, 8], [4, 6, 7, 9]] vals=[[2, 3, 8, 4], [4, 3, 6, 8], [2, 4, 3, 8], [2, 4, 3, 8]] m=10 key=[9, 8, None, None] def*=2 dlkey={'holds': True, 'moves': {'T3+|W|=1': 16, 'T3+|W|=1+helper': 40, 'T3': 16, 'T3+helper': 40, 'T4': 4}, 'example': ['T3', [[9], [8], [6], [4, 7]], [[2], [8], [6], [9]], 1, 1]} maxima=[('{2: [3, 6], 3: [4, 7]}, L=[0, 1, 2, 5]', {}), ('{2: [3, 7], 3: [4, 6]}, L=[0, 1, 2, 5]', {})]
+  UNCOVERED f=2 sets=[[0, 2, 8, 9], [1, 5, 8, 10], [3, 6, 9, 10], [4, 7, 9, 10]] vals=[[2, 6, 3, 10], [3, 4, 2, 8], [4, 3, 6, 8], [4, 2, 8, 5]] m=11 key=[None, None, 9, 10] def*=1 dlkey={'holds': True, 'moves': {'T3+|W|=1': 40, 'T3+|W|=1+helper': 72, 'T4': 10}, 'example': ['T3+|W|=1', [[2], [5], [9], [10]], [[2], [10], [3], [9]], 0, 0]} maxima=[('{0: [2, 8], 1: [1, 5]}, L=[0, 3, 4, 6, 7]', {})]
+  UNCOVERED f=2 sets=[[0, 2, 8, 9], [1, 5, 8, 10], [3, 6, 9, 10], [4, 7, 9, 10]] vals=[[4, 2, 3, 8], [6, 2, 3, 10], [2, 3, 4, 8], [2, 3, 8, 4]] m=11 key=[None, None, 9, 10] def*=1 dlkey={'holds': True, 'moves': {'T3+|W|=1': 40, 'T3+|W|=1+helper': 72, 'T4': 10}, 'example': ['T3+|W|=1', [[0], [1], [9], [10]], [[0], [10], [6], [9]], 0, 0]} maxima=[('{0: [0, 2], 1: [1, 8]}, L=[3, 4, 5, 6, 7]', {}), ('{0: [0, 8], 1: [1, 5]}, L=[2, 3, 4, 6, 7]', {})]
+  UNCOVERED f=2 sets=[[0, 2, 8, 9], [1, 5, 8, 10], [3, 6, 9, 10], [4, 7, 9, 10]] vals=[[3, 4, 2, 8], [3, 6, 2, 10], [6, 2, 10, 7], [3, 4, 6, 8]] m=11 key=[None, None, 10, 9] def*=1 dlkey={'holds': True, 'moves': {'T3+|W|=1': 40, 'T3+|W|=1+helper': 72, 'T4': 10}, 'example': ['T3+|W|=1', [[2], [5], [10], [9]], [[9], [5], [3], [10]], 0, 0]} maxima=[('{0: [0, 2], 1: [1, 5]}, L=[3, 4, 6, 7, 8]', {})]
+  UNCOVERED f=2 sets=[[0, 2, 8, 9], [1, 5, 8, 10], [3, 6, 9, 10], [4, 7, 9, 10]] vals=[[2, 4, 3, 8], [4, 3, 2, 8], [3, 6, 8, 10], [2, 4, 8, 5]] m=11 key=[None, None, 9, 10] def*=2 dlkey={'holds': True, 'moves': {'T3': 48, 'T3+helper': 112, 'T3+|W|=1': 48, 'T3+|W|=1+helper': 112, 'T4': 12}, 'example': ['T3', [[2], [1], [9], [10]], [[9], [1], [6], [10]], 1, 1]} maxima=[('{0: [2, 8], 1: [1, 5]}, L=[0, 3, 4, 6, 7]', {})]
+  UNCOVERED f=2 sets=[[0, 2, 8, 9], [1, 5, 8, 10], [3, 6, 9, 10], [4, 7, 9, 10]] vals=[[2, 3, 6, 10], [6, 2, 3, 10], [6, 2, 7, 10], [4, 2, 8, 5]] m=11 key=[None, None, 9, 10] def*=1 dlkey={'holds': True, 'moves': {'T3+|W|=1': 24, 'T3': 12, 'T4': 6, 'T3+|W|=1+helper': 28, 'T3+helper': 16}, 'example': ['T3', [[8], [1], [9], [10]], [[8], [10], [9], [4]], 0, 0]} maxima=[('{0: [2, 8], 1: [1, 5]}, L=[0, 3, 4, 6, 7]', {})]
+  UNCOVERED f=2 sets=[[0, 2, 7, 8], [1, 3, 7, 8], [4, 5, 6, 7], [4, 5, 6, 8]] vals=[[3, 4, 8, 6], [2, 3, 4, 8], [2, 4, 3, 8], [3, 2, 4, 8]] m=9 key=[8, 7, None, None] def*=2 dlkey={'holds': True, 'moves': {'T3+|W|=1': 12, 'T3+|W|=1+helper': 20, 'T3': 12, 'T3+helper': 20, 'T4': 3}, 'example': ['T3', [[8], [7], [5], [6]], [[2], [7], [5], [8]], 1, 1]} maxima=[('{2: [0, 5], 3: [4, 6]}, L=[1, 2, 3]', {}), ('{2: [1, 5], 3: [4, 6]}, L=[0, 2, 3]', {}), ('{2: [2, 5], 3: [4, 6]}, L=[0, 1, 3]', {}), ('{2: [3, 5], 3: [4, 6]}, L=[0, 1, 2]', {})]
+  UNCOVERED f=2 sets=[[0, 2, 7, 8], [1, 5, 6, 8], [3, 5, 7, 8], [4, 6, 7, 8]] vals=[[4, 3, 6, 8], [3, 6, 5, 7], [4, 3, 10, 8], [4, 1, 8, 6]] m=9 key=[7, 8, None, None] def*=2 dlkey={'holds': True, 'moves': {'T3': 38, 'T3+|W|=1': 22, 'T3+helper': 24, 'T3+|W|=1+helper': 16}, 'example': ['T3', [[7], [8], [3], [4]], [[0], [8], [7], [4]], 1, 1]} maxima=[('{2: [3, 5], 3: [4, 6]}, L=[0, 1, 2]', {})]
+  UNCOVERED f=2 sets=[[0, 2, 6, 8], [1, 5, 7, 9], [3, 6, 8, 9], [4, 7, 8, 9]] vals=[[2, 4, 3, 8], [3, 2, 6, 10], [7, 2, 6, 10], [5, 2, 8, 4]] m=10 key=[8, 9, None, None] def*=1 dlkey={'holds': True, 'moves': {'T3': 18, 'T3+helper': 14}, 'example': ['T3', [[8], [9], [3], [4]], [[2], [9], [3], [8]], -1, -1]} maxima=[('{2: [3, 6], 3: [4, 7]}, L=[0, 1, 2, 5]', {})]
+  UNCOVERED f=2 sets=[[0, 2, 8, 9], [1, 5, 8, 9], [3, 6, 7, 8], [4, 6, 7, 9]] vals=[[6, 2, 7, 10], [3, 4, 8, 6], [2, 6, 3, 10], [2, 4, 3, 8]] m=10 key=[8, 9, None, None] def*=1 dlkey={'holds': True, 'moves': {'T3+|W|=1': 8, 'T3+|W|=1+helper': 16, 'T3': 4, 'T4': 2, 'T3+helper': 4}, 'example': ['T3', [[8], [9], [6], [4, 7]], [[8], [5], [6], [9]], 0, 0]} maxima=[('{2: [3, 6], 3: [4, 7]}, L=[0, 1, 2, 5]', {})]
+### n5_200_per_core (6 files)
+  f=1 keys | covered with the structural hypotheses                                                              2
+  f=1 keys | every maximum covered=True                                                                          2
+  f=1 maxima, first lemma (PR #80 order) | A                                                                     2
+  f>=2 keys without A+/B+1 | C+ at some max                                                                      21
+  f>=2 keys | A+ or B+1 at some maximum                                                                          108
+  f>=2 keys | only C+/C'+                                                                                        21
+  f>=2 maxima | A+ chain j=0                                                                                     513
+  f>=2 maxima | A+ chain j=1                                                                                     91
+  f>=2 maxima | A+ chain j=2                                                                                     9
+  f>=2 maxima | A+/B+1                                                                                           613
+  f>=2 maxima | B+ (j,k)=(0, 1)                                                                                  8
+  f>=2 maxima | C'+ k=0                                                                                          61
+  f>=2 maxima | C'+ k=1                                                                                          90
+  f>=2 maxima | C'+ k=2                                                                                          23
+  f>=2 maxima | C'+ q=phi(a_k), now tau's                                                                        45
+  f>=2 maxima | C'+ q=phi(w) of a frozen w off the move                                                          14
+  f>=2 maxima | C'+ q=phi(x)                                                                                     107
+  f>=2 maxima | C+ k=0                                                                                           642
+  f>=2 maxima | C+ k=1                                                                                           457
+  f>=2 maxima | C+ k=2                                                                                           166
+  f>=2 maxima | C+/C'+ only                                                                                      41
+  keys covered by exactly one lemma | f=1 | A                                                                    2
+  keys covered by exactly one lemma | f=2 | C+                                                                   7
+  keys covered by exactly one lemma | f=3 | A+                                                                   1
+  keys covered by exactly one lemma | f=3 | C+                                                                   6
+  keys def*>0 | f=1                                                                                              2
+  keys def*>0 | f=1 | n=5                                                                                        2
+  keys def*>0 | f=2                                                                                              39
+  keys def*>0 | f=2 | n=5                                                                                        39
+  keys def*>0 | f=3                                                                                              90
+  keys def*>0 | f=3 | n=5                                                                                        90
+  keys with lemma at some maximum | f=1 | A                                                                      2
+  keys with lemma at some maximum | f=2 | A+                                                                     27
+  keys with lemma at some maximum | f=2 | B+1                                                                    1
+  keys with lemma at some maximum | f=2 | C'+                                                                    21
+  keys with lemma at some maximum | f=2 | C+                                                                     39
+  keys with lemma at some maximum | f=2 | full                                                                   39
+  keys with lemma at some maximum | f=3 | A+                                                                     81
+  keys with lemma at some maximum | f=3 | C'+                                                                    26
+  keys with lemma at some maximum | f=3 | C+                                                                     88
+  keys with lemma at some maximum | f=3 | full                                                                   90
+  maxima with lemma | f=1 | A                                                                                    2
+  maxima with lemma | f=2 | A+                                                                                   133
+  maxima with lemma | f=2 | B+1                                                                                  8
+  maxima with lemma | f=2 | C'+                                                                                  23
+  maxima with lemma | f=2 | C+                                                                                   148
+  maxima with lemma | f=2 | full                                                                                 148
+  maxima with lemma | f=3 | A+                                                                                   480
+  maxima with lemma | f=3 | C'+                                                                                  105
+  maxima with lemma | f=3 | C+                                                                                   499
+  maxima with lemma | f=3 | full                                                                                 506
+  maxima | f=1                                                                                                   2
+  maxima | f=2                                                                                                   148
+  maxima | f=3                                                                                                   506
+  profiles read                                                                                                  100
+  profiles | f=1 | n=5                                                                                           2
+  profiles | f=2 | n=5                                                                                           39
+  profiles | f=3 | n=5                                                                                           59
+  smallest [only A (f=1)]: n=5 m=12 sum=105 f=1 sets=[[0, 2, 8, 11], [1, 4, 9, 10], [3, 6, 9, 11], [5, 7, 10, 11], [7, 8, 10, 11]] vals=[[3, 5, 6, 7], [4, 7, 10, 2], [4, 5, 6, 8], [3, 4, 2, 8], [6, 2, 3, 10]] key=[11, None, None, None, None] def*=1 maxima=[('{1: [4, 9], 2: [3, 6], 3: [5, 10], 4: [7, 8]}, L=[0, 1, 2]', ['A'])]
+  smallest [only A+ (f=3)]: n=5 m=12 sum=93 f=3 sets=[[0, 2, 7, 9], [1, 4, 8, 11], [3, 6, 9, 10], [5, 9, 10, 11], [7, 8, 10, 11]] vals=[[2, 6, 3, 10], [3, 2, 4, 8], [2, 3, 8, 4], [2, 3, 8, 4], [2, 3, 10, 6]] key=[9, 11, 10, None, None] def*=1 maxima=[('{3: [0, 5], 4: [7, 8]}, L=[1, 2, 3, 4, 6]', ['A+', 'full']), ('{3: [1, 5], 4: [7, 8]}, L=[0, 2, 3, 4, 6]', ['A+', 'full']), ('{3: [2, 5], 4: [7, 8]}, L=[0, 1, 3, 4, 6]', ['A+', 'full']), ('{3: [3, 5], 4: [7, 8]}, L=[0, 1, 2, 4, 6]', ['A+', 'full']), ('{3: [4, 5], 4: [7, 8]}, L=[0, 1, 2, 3, 6]', ['A+', 'full']), ('{3: [5, 6], 4: [7, 8]}, L=[0, 1, 2, 3, 4]', ['A+', 'full'])]
+  smallest [only C+ (f=2)]: n=5 m=12 sum=85 f=2 sets=[[0, 2, 10, 11], [1, 6, 10, 11], [3, 7, 10, 11], [4, 8, 9, 10], [5, 8, 9, 11]] vals=[[2, 3, 8, 4], [2, 3, 4, 8], [3, 4, 8, 2], [3, 2, 4, 8], [4, 3, 2, 8]] key=[11, 10, None, None, None] def*=1 maxima=[('{2: [3, 7], 3: [4, 9], 4: [5, 8]}, L=[0, 1, 2, 6]', ['C+', 'full'])]
+  smallest [only C+ (f=3)]: n=5 m=11 sum=93 f=3 sets=[[0, 2, 7, 10], [1, 4, 8, 10], [3, 6, 9, 10], [5, 8, 9, 10], [7, 8, 9, 10]] vals=[[2, 3, 4, 8], [2, 3, 8, 4], [2, 3, 4, 8], [2, 6, 10, 3], [2, 6, 10, 3]] key=[None, 10, 9, None, 8] def*=1 maxima=[('{0: [2, 7], 3: [0, 5]}, L=[1, 3, 4, 6]', ['C+', 'full']), ('{0: [2, 7], 3: [1, 5]}, L=[0, 3, 4, 6]', ['C+', 'full']), ('{0: [2, 7], 3: [3, 5]}, L=[0, 1, 4, 6]', ['C+', 'full']), ('{0: [2, 7], 3: [4, 5]}, L=[0, 1, 3, 6]', ['C+', 'full']), ('{0: [2, 7], 3: [5, 6]}, L=[0, 1, 3, 4]', ['C+', 'full'])]
+  smallest [some A (f=1)]: n=5 m=12 sum=105 f=1 sets=[[0, 2, 8, 11], [1, 4, 9, 10], [3, 6, 9, 11], [5, 7, 10, 11], [7, 8, 10, 11]] vals=[[3, 5, 6, 7], [4, 7, 10, 2], [4, 5, 6, 8], [3, 4, 2, 8], [6, 2, 3, 10]] key=[11, None, None, None, None] def*=1 maxima=[('{1: [4, 9], 2: [3, 6], 3: [5, 10], 4: [7, 8]}, L=[0, 1, 2]', ['A'])]
+  smallest [some A+ (f=2)]: n=5 m=10 sum=67 f=2 sets=[[0, 2, 7, 9], [1, 6, 8, 9], [3, 7, 9], [4, 8, 9], [5, 8, 9]] vals=[[3, 6, 5, 7], [4, 2, 5, 8], [4, 3, 2], [2, 4, 3], [2, 4, 3]] key=[9, 8, None, None, None] def*=1 maxima=[('{2: [3, 7], 3: [0, 4], 4: [1, 5]}, L=[2, 6]', ['A+', 'C+', 'full']), ('{2: [3, 7], 3: [0, 4], 4: [2, 5]}, L=[1, 6]', ['A+', 'C+', 'full']), ('{2: [3, 7], 3: [0, 4], 4: [5, 6]}, L=[1, 2]', ['A+', 'C+', 'full']), ('{2: [3, 7], 3: [1, 4], 4: [0, 5]}, L=[2, 6]', ['A+', 'C+', 'full']), ('{2: [3, 7], 3: [1, 4], 4: [2, 5]}, L=[0, 6]', ['A+', 'C+', 'full']), ('{2: [3, 7], 3: [1, 4], 4: [5, 6]}, L=[0, 2]', ['A+', 'C+', 'full']), ('{2: [3, 7], 3: [2, 4], 4: [0, 5]}, L=[1, 6]', ['A+', 'C+', 'full']), ('{2: [3, 7], 3: [2, 4], 4: [1, 5]}, L=[0, 6]', ['A+', 'C+', 'full']), ('{2: [3, 7], 3: [2, 4], 4: [5, 6]}, L=[0, 1]', ['A+', 'C+', 'full']), ('{2: [3, 7], 3: [4, 6], 4: [0, 5]}, L=[1, 2]', ['A+', 'C+', 'full']), ('{2: [3, 7], 3: [4, 6], 4: [1, 5]}, L=[0, 2]', ['A+', 'C+', 'full']), ('{2: [3, 7], 3: [4, 6], 4: [2, 5]}, L=[0, 1]', ['A+', 'C+', 'full'])]
+  smallest [some A+ (f=3)]: n=5 m=8 sum=67 f=3 sets=[[0, 2, 4, 5], [1, 5, 6, 7], [3, 6, 7], [4, 6, 7], [5, 6, 7]] vals=[[3, 6, 5, 7], [2, 8, 4, 5], [2, 3, 4], [2, 3, 4], [4, 2, 3]] key=[5, None, None, 6, 7] def*=1 maxima=[('{1: [0, 1], 2: [2, 3]}, L=[4]', ['A+', 'C+', 'full']), ('{1: [0, 1], 2: [3, 4]}, L=[2]', ['A+', 'C+', 'full']), ('{1: [1, 2], 2: [0, 3]}, L=[4]', ['A+', 'C+', 'full']), ('{1: [1, 2], 2: [3, 4]}, L=[0]', ['A+', 'C+', 'full']), ('{1: [1, 4], 2: [0, 3]}, L=[2]', ['A+', 'C+', 'full']), ('{1: [1, 4], 2: [2, 3]}, L=[0]', ['A+', 'C+', 'full'])]
+  smallest [some B+1 (f=2)]: n=5 m=11 sum=85 f=2 sets=[[0, 2, 5, 6], [1, 4, 6, 10], [3, 5, 9, 10], [7, 8, 9, 10], [7, 8, 9, 10]] vals=[[3, 4, 2, 8], [2, 3, 8, 4], [8, 4, 2, 3], [4, 2, 3, 8], [4, 2, 3, 8]] key=[6, 10, None, None, None] def*=1 maxima=[('{2: [3, 5], 3: [0, 7], 4: [8, 9]}, L=[1, 2, 4]', ['A+', 'B+1', 'C+', 'full']), ('{2: [3, 5], 3: [1, 7], 4: [8, 9]}, L=[0, 2, 4]', ['A+', 'B+1', 'C+', 'full']), ('{2: [3, 5], 3: [2, 7], 4: [8, 9]}, L=[0, 1, 4]', ['A+', 'B+1', 'C+', 'full']), ('{2: [3, 5], 3: [4, 7], 4: [8, 9]}, L=[0, 1, 2]', ['A+', 'B+1', 'C+', 'full']), ('{2: [3, 5], 3: [8, 9], 4: [0, 7]}, L=[1, 2, 4]', ['A+', 'B+1', 'C+', 'full']), ('{2: [3, 5], 3: [8, 9], 4: [1, 7]}, L=[0, 2, 4]', ['A+', 'B+1', 'C+', 'full']), ('{2: [3, 5], 3: [8, 9], 4: [2, 7]}, L=[0, 1, 4]', ['A+', 'B+1', 'C+', 'full']), ('{2: [3, 5], 3: [8, 9], 4: [4, 7]}, L=[0, 1, 2]', ['A+', 'B+1', 'C+', 'full'])]
+  smallest [some C'+ (f=2)]: n=5 m=12 sum=85 f=2 sets=[[0, 2, 6, 10], [1, 4, 9, 11], [3, 5, 10, 11], [6, 7, 8, 10], [7, 8, 9, 11]] vals=[[3, 2, 4, 8], [2, 3, 4, 8], [2, 3, 8, 4], [3, 8, 2, 4], [4, 3, 2, 8]] key=[10, None, 11, None, None] def*=1 maxima=[('{1: [1, 4], 3: [6, 7], 4: [8, 9]}, L=[0, 2, 3, 5]', ['A+', "C'+", 'C+', 'full'])]
+  smallest [some C'+ (f=3)]: n=5 m=9 sum=93 f=3 sets=[[0, 3, 4, 8], [1, 5, 6, 7], [2, 5, 6, 8], [3, 4, 7, 8], [4, 5, 6, 7]] vals=[[3, 2, 4, 8], [4, 3, 2, 8], [2, 3, 4, 8], [2, 10, 6, 3], [10, 2, 3, 6]] key=[4, None, None, 8, 7] def*=1 maxima=[('{1: [1, 5], 2: [2, 6]}, L=[0, 3]', ['A+', "C'+", 'C+', 'full'])]
+  smallest [some C+ (f=2)]: n=5 m=10 sum=67 f=2 sets=[[0, 2, 7, 9], [1, 6, 8, 9], [3, 7, 9], [4, 8, 9], [5, 8, 9]] vals=[[3, 6, 5, 7], [4, 2, 5, 8], [4, 3, 2], [2, 4, 3], [2, 4, 3]] key=[9, 8, None, None, None] def*=1 maxima=[('{2: [3, 7], 3: [0, 4], 4: [1, 5]}, L=[2, 6]', ['A+', 'C+', 'full']), ('{2: [3, 7], 3: [0, 4], 4: [2, 5]}, L=[1, 6]', ['A+', 'C+', 'full']), ('{2: [3, 7], 3: [0, 4], 4: [5, 6]}, L=[1, 2]', ['A+', 'C+', 'full']), ('{2: [3, 7], 3: [1, 4], 4: [0, 5]}, L=[2, 6]', ['A+', 'C+', 'full']), ('{2: [3, 7], 3: [1, 4], 4: [2, 5]}, L=[0, 6]', ['A+', 'C+', 'full']), ('{2: [3, 7], 3: [1, 4], 4: [5, 6]}, L=[0, 2]', ['A+', 'C+', 'full']), ('{2: [3, 7], 3: [2, 4], 4: [0, 5]}, L=[1, 6]', ['A+', 'C+', 'full']), ('{2: [3, 7], 3: [2, 4], 4: [1, 5]}, L=[0, 6]', ['A+', 'C+', 'full']), ('{2: [3, 7], 3: [2, 4], 4: [5, 6]}, L=[0, 1]', ['A+', 'C+', 'full']), ('{2: [3, 7], 3: [4, 6], 4: [0, 5]}, L=[1, 2]', ['A+', 'C+', 'full']), ('{2: [3, 7], 3: [4, 6], 4: [1, 5]}, L=[0, 2]', ['A+', 'C+', 'full']), ('{2: [3, 7], 3: [4, 6], 4: [2, 5]}, L=[0, 1]', ['A+', 'C+', 'full'])]
+  smallest [some C+ (f=3)]: n=5 m=8 sum=67 f=3 sets=[[0, 2, 4, 5], [1, 5, 6, 7], [3, 6, 7], [4, 6, 7], [5, 6, 7]] vals=[[3, 6, 5, 7], [2, 8, 4, 5], [2, 3, 4], [2, 3, 4], [4, 2, 3]] key=[5, None, None, 6, 7] def*=1 maxima=[('{1: [0, 1], 2: [2, 3]}, L=[4]', ['A+', 'C+', 'full']), ('{1: [0, 1], 2: [3, 4]}, L=[2]', ['A+', 'C+', 'full']), ('{1: [1, 2], 2: [0, 3]}, L=[4]', ['A+', 'C+', 'full']), ('{1: [1, 2], 2: [3, 4]}, L=[0]', ['A+', 'C+', 'full']), ('{1: [1, 4], 2: [0, 3]}, L=[2]', ['A+', 'C+', 'full']), ('{1: [1, 4], 2: [2, 3]}, L=[0]', ['A+', 'C+', 'full'])]
+### n5_2k_per_core (8 files)
+  UNCOVERED keys | DLKey holds=True                                                                              6
+  UNCOVERED keys | f=2                                                                                           2
+  UNCOVERED keys | f=3                                                                                           4
+  f=1 keys | covered with the structural hypotheses                                                              18
+  f=1 keys | every maximum covered=True                                                                          18
+  f=1 maxima, first lemma (PR #80 order) | A                                                                     23
+  f>=2 keys without A+/B+1 | C'+ only                                                                            3
+  f>=2 keys without A+/B+1 | C+ at some max                                                                      206
+  f>=2 keys | A+ or B+1 at some maximum                                                                          940
+  f>=2 keys | UNCOVERED                                                                                          6
+  f>=2 keys | only C'+ with q = phi(w)                                                                           1
+  f>=2 keys | only C+/C'+                                                                                        209
+  f>=2 maxima | A+ chain j=0                                                                                     3257
+  f>=2 maxima | A+ chain j=1                                                                                     725
+  f>=2 maxima | A+ chain j=2                                                                                     143
+  f>=2 maxima | A+/B+1                                                                                           4160
+  f>=2 maxima | B+ (j,k)=(0, 1)                                                                                  82
+  f>=2 maxima | B+ (j,k)=(0, 2)                                                                                  4
+  f>=2 maxima | B+ (j,k)=(1, 1)                                                                                  22
+  f>=2 maxima | B+ (j,k)=(1, 2)                                                                                  5
+  f>=2 maxima | C'+ k=0                                                                                          746
+  f>=2 maxima | C'+ k=1                                                                                          930
+  f>=2 maxima | C'+ k=2                                                                                          333
+  f>=2 maxima | C'+ q=phi(a_k), now tau's                                                                        300
+  f>=2 maxima | C'+ q=phi(w) of a frozen w off the move                                                          235
+  f>=2 maxima | C'+ q=phi(x)                                                                                     1394
+  f>=2 maxima | C+ k=0                                                                                           4322
+  f>=2 maxima | C+ k=1                                                                                           3085
+  f>=2 maxima | C+ k=2                                                                                           803
+  f>=2 maxima | C+/C'+ only                                                                                      550
+  f>=2 maxima | full only                                                                                        11
+  f>=2 maxima | none                                                                                             11
+  keys covered by exactly one lemma | f=1 | A                                                                    17
+  keys covered by exactly one lemma | f=2 | C'+                                                                  2
+  keys covered by exactly one lemma | f=2 | C+                                                                   28
+  keys covered by exactly one lemma | f=3 | A+                                                                   12
+  keys covered by exactly one lemma | f=3 | C'+                                                                  1
+  keys covered by exactly one lemma | f=3 | C+                                                                   43
+  keys covered by exactly one lemma | f=4 | A+                                                                   74
+  keys def*>0 | f=1                                                                                              18
+  keys def*>0 | f=1 | n=5                                                                                        18
+  keys def*>0 | f=2                                                                                              318
+  keys def*>0 | f=2 | n=5                                                                                        318
+  keys def*>0 | f=3                                                                                              763
+  keys def*>0 | f=3 | n=5                                                                                        763
+  keys def*>0 | f=4                                                                                              74
+  keys def*>0 | f=4 | n=5                                                                                        74
+  keys with DLKey computed | best move | T3                                                                      6
+  keys with lemma at some maximum | f=1 | A                                                                      18
+  keys with lemma at some maximum | f=1 | B1                                                                     1
+  keys with lemma at some maximum | f=2 | A+                                                                     218
+  keys with lemma at some maximum | f=2 | B+1                                                                    8
+  keys with lemma at some maximum | f=2 | B+k                                                                    1
+  keys with lemma at some maximum | f=2 | C'+                                                                    217
+  keys with lemma at some maximum | f=2 | C+                                                                     308
+  keys with lemma at some maximum | f=2 | full                                                                   314
+  keys with lemma at some maximum | f=3 | A+                                                                     647
+  keys with lemma at some maximum | f=3 | B+1                                                                    12
+  keys with lemma at some maximum | f=3 | C'+                                                                    342
+  keys with lemma at some maximum | f=3 | C+                                                                     740
+  keys with lemma at some maximum | f=3 | full                                                                   758
+  keys with lemma at some maximum | f=4 | A+                                                                     74
+  keys with lemma at some maximum | f=4 | full                                                                   74
+  maxima with lemma | f=1 | A                                                                                    23
+  maxima with lemma | f=1 | B1                                                                                   1
+  maxima with lemma | f=2 | A+                                                                                   515
+  maxima with lemma | f=2 | B+1                                                                                  52
+  maxima with lemma | f=2 | B+k                                                                                  9
+  maxima with lemma | f=2 | C'+                                                                                  365
+  maxima with lemma | f=2 | C+                                                                                   671
+  maxima with lemma | f=2 | full                                                                                 694
+  maxima with lemma | f=3 | A+                                                                                   3398
+  maxima with lemma | f=3 | B+1                                                                                  52
+  maxima with lemma | f=3 | C'+                                                                                  1117
+  maxima with lemma | f=3 | C+                                                                                   3707
+  maxima with lemma | f=3 | full                                                                                 3812
+  maxima with lemma | f=4 | A+                                                                                   212
+  maxima with lemma | f=4 | full                                                                                 212
+  maxima | f=1                                                                                                   23
+  maxima | f=2                                                                                                   698
+  maxima | f=3                                                                                                   3822
+  maxima | f=4                                                                                                   212
+  profiles read                                                                                                  817
+  profiles | f=1 | n=5                                                                                           18
+  profiles | f=2 | n=5                                                                                           306
+  profiles | f=3 | n=5                                                                                           488
+  profiles | f=4 | n=5                                                                                           5
+  smallest [only A (f=1)]: n=5 m=11 sum=85 f=1 sets=[[0, 2, 7, 10], [1, 4, 8, 10], [3, 6, 9, 10], [5, 7, 8, 9], [8, 9, 10]] vals=[[5, 3, 6, 7], [2, 3, 4, 8], [4, 2, 5, 8], [5, 2, 4, 8], [3, 4, 2]] key=[10, None, None, None, None] def*=1 maxima=[('{1: [1, 4], 2: [3, 6], 3: [5, 8], 4: [0, 9]}, L=[2, 7]', ['A']), ('{1: [1, 4], 2: [3, 6], 3: [5, 8], 4: [2, 9]}, L=[0, 7]', ['A']), ('{1: [1, 4], 2: [3, 6], 3: [5, 8], 4: [7, 9]}, L=[0, 2]', ['A'])]
+  smallest [only A+ (f=3)]: n=5 m=8 sum=87 f=3 sets=[[0, 2, 4, 5], [1, 3, 6, 7], [4, 5, 6, 7], [4, 5, 6, 7], [5, 6, 7]] vals=[[3, 5, 6, 7], [2, 4, 5, 8], [2, 4, 8, 3], [2, 10, 6, 3], [4, 3, 2]] key=[5, 6, None, 7, None] def*=1 maxima=[('{2: [0, 4], 4: [1, 2]}, L=[3]', ['A+', 'full']), ('{2: [0, 4], 4: [1, 3]}, L=[2]', ['A+', 'full']), ('{2: [0, 4], 4: [2, 3]}, L=[1]', ['A+', 'full']), ('{2: [1, 4], 4: [0, 2]}, L=[3]', ['A+', 'full']), ('{2: [1, 4], 4: [0, 3]}, L=[2]', ['A+', 'full']), ('{2: [1, 4], 4: [2, 3]}, L=[0]', ['A+', 'full']), ('{2: [2, 4], 4: [0, 1]}, L=[3]', ['A+', 'full']), ('{2: [2, 4], 4: [0, 3]}, L=[1]', ['A+', 'full']), ('{2: [2, 4], 4: [1, 3]}, L=[0]', ['A+', 'full']), ('{2: [3, 4], 4: [0, 1]}, L=[2]', ['A+', 'full']), ('{2: [3, 4], 4: [0, 2]}, L=[1]', ['A+', 'full']), ('{2: [3, 4], 4: [1, 2]}, L=[0]', ['A+', 'full'])]
+  smallest [only A+ (f=4)]: n=5 m=7 sum=89 f=4 sets=[[0, 1, 5, 6], [2, 4, 5, 6], [2, 4, 5, 6], [3, 4, 5, 6], [3, 4, 5, 6]] vals=[[3, 2, 8, 4], [8, 4, 2, 3], [8, 2, 3, 4], [2, 8, 3, 4], [2, 10, 3, 6]] key=[6, None, 2, 4, 5] def*=1 maxima=[('{1: [0, 1]}, L=[3]', ['A+', 'full']), ('{1: [0, 3]}, L=[1]', ['A+', 'full']), ('{1: [1, 3]}, L=[0]', ['A+', 'full'])]
+  smallest [only C'+ (f=2)]: n=5 m=14 sum=93 f=2 sets=[[0, 2, 10, 12], [1, 6, 10, 12], [3, 7, 11, 13], [4, 8, 11, 13], [5, 9, 12, 13]] vals=[[3, 4, 2, 8], [4, 3, 2, 8], [3, 6, 2, 10], [6, 3, 2, 10], [3, 2, 4, 8]] key=[None, None, None, 13, 12] def*=1 maxima=[('{0: [0, 2], 1: [1, 6], 2: [3, 7]}, L=[4, 5, 8, 9, 10, 11]', ["C'+"])]
+  smallest [only C'+ (f=3)]: n=5 m=11 sum=97 f=3 sets=[[0, 2, 6, 10], [1, 4, 8, 9], [3, 5, 9, 10], [5, 6, 7, 8], [7, 8, 9, 10]] vals=[[3, 2, 6, 10], [3, 4, 8, 2], [4, 2, 3, 8], [3, 2, 10, 6], [10, 6, 2, 3]] key=[10, 8, None, None, 7] def*=1 maxima=[('{2: [3, 9], 3: [5, 6]}, L=[0, 1, 2, 4]', ["C'+"])]
+  smallest [only C'+ with q = phi(w)]: n=5 m=11 sum=97 f=3 sets=[[0, 2, 6, 10], [1, 4, 8, 9], [3, 5, 9, 10], [5, 6, 7, 8], [7, 8, 9, 10]] vals=[[3, 2, 6, 10], [3, 4, 8, 2], [4, 2, 3, 8], [3, 2, 10, 6], [10, 6, 2, 3]] key=[10, 8, None, None, 7] def*=1 maxima=[('{2: [3, 9], 3: [5, 6]}, L=[0, 1, 2, 4]', ["C'+"])]
+  smallest [only C+ (f=2)]: n=5 m=12 sum=85 f=2 sets=[[0, 2, 9, 11], [1, 6, 9, 11], [3, 7, 10, 11], [4, 8, 10, 11], [5, 9, 10, 11]] vals=[[2, 4, 3, 8], [3, 2, 4, 8], [2, 3, 8, 4], [2, 3, 4, 8], [4, 3, 8, 2]] key=[None, None, 11, 10, None] def*=1 maxima=[('{0: [0, 2], 1: [1, 6], 4: [5, 9]}, L=[3, 4, 7, 8]', ['C+', 'full'])]
+  smallest [only C+ (f=3)]: n=5 m=9 sum=97 f=3 sets=[[0, 1, 3, 6], [2, 3, 4, 5], [2, 5, 7, 8], [4, 6, 7, 8], [5, 6, 7, 8]] vals=[[6, 2, 10, 3], [2, 8, 4, 3], [2, 3, 8, 4], [3, 2, 6, 10], [3, 2, 6, 10]] key=[3, None, 8, None, 7] def*=1 maxima=[('{1: [2, 5], 3: [4, 6]}, L=[0, 1]', ['C+', 'full'])]
+  smallest [some A (f=1)]: n=5 m=11 sum=85 f=1 sets=[[0, 2, 7, 10], [1, 4, 8, 10], [3, 6, 9, 10], [5, 7, 8, 9], [8, 9, 10]] vals=[[5, 3, 6, 7], [2, 3, 4, 8], [4, 2, 5, 8], [5, 2, 4, 8], [3, 4, 2]] key=[10, None, None, None, None] def*=1 maxima=[('{1: [1, 4], 2: [3, 6], 3: [5, 8], 4: [0, 9]}, L=[2, 7]', ['A']), ('{1: [1, 4], 2: [3, 6], 3: [5, 8], 4: [2, 9]}, L=[0, 7]', ['A']), ('{1: [1, 4], 2: [3, 6], 3: [5, 8], 4: [7, 9]}, L=[0, 2]', ['A'])]
+  smallest [some A+ (f=2)]: n=5 m=10 sum=85 f=2 sets=[[0, 1, 8, 9], [2, 4, 6, 8], [2, 4, 6, 9], [3, 5, 7, 8], [3, 5, 7, 9]] vals=[[2, 3, 4, 8], [3, 4, 2, 8], [3, 4, 2, 8], [2, 4, 3, 8], [4, 2, 3, 8]] key=[8, None, None, None, 9] def*=1 maxima=[('{1: [0, 4], 2: [2, 6], 3: [5, 7]}, L=[1, 3]', ['A+', "C'+", 'C+', 'full']), ('{1: [1, 4], 2: [2, 6], 3: [5, 7]}, L=[0, 3]', ['A+', "C'+", 'C+', 'full']), ('{1: [2, 6], 2: [0, 4], 3: [5, 7]}, L=[1, 3]', ['B+1', "C'+", 'C+', 'full']), ('{1: [2, 6], 2: [1, 4], 3: [5, 7]}, L=[0, 3]', ['B+1', "C'+", 'full']), ('{1: [2, 6], 2: [3, 4], 3: [5, 7]}, L=[0, 1]', ['A+', 'B+1', "C'+", 'C+', 'full']), ('{1: [3, 4], 2: [2, 6], 3: [5, 7]}, L=[0, 1]', ['A+', "C'+", 'C+', 'full'])]
+  smallest [some A+ (f=3)]: n=5 m=8 sum=87 f=3 sets=[[0, 2, 4, 7], [1, 5, 6, 7], [3, 5, 6, 7], [4, 5, 6, 7], [5, 6, 7]] vals=[[3, 5, 6, 7], [1, 6, 4, 8], [2, 3, 4, 8], [3, 6, 5, 7], [4, 2, 3]] key=[7, None, None, 5, 6] def*=1 maxima=[('{1: [0, 1], 2: [2, 3]}, L=[4]', ['A+', 'C+', 'full']), ('{1: [0, 1], 2: [3, 4]}, L=[2]', ['A+', 'C+', 'full']), ('{1: [1, 2], 2: [0, 3]}, L=[4]', ['A+', 'C+', 'full']), ('{1: [1, 2], 2: [3, 4]}, L=[0]', ['A+', 'C+', 'full']), ('{1: [1, 4], 2: [0, 3]}, L=[2]', ['A+', 'C+', 'full']), ('{1: [1, 4], 2: [2, 3]}, L=[0]', ['A+', 'C+', 'full'])]
+  smallest [some A+ (f=4)]: n=5 m=7 sum=89 f=4 sets=[[0, 1, 5, 6], [2, 4, 5, 6], [2, 4, 5, 6], [3, 4, 5, 6], [3, 4, 5, 6]] vals=[[3, 2, 8, 4], [8, 4, 2, 3], [8, 2, 3, 4], [2, 8, 3, 4], [2, 10, 3, 6]] key=[6, None, 2, 4, 5] def*=1 maxima=[('{1: [0, 1]}, L=[3]', ['A+', 'full']), ('{1: [0, 3]}, L=[1]', ['A+', 'full']), ('{1: [1, 3]}, L=[0]', ['A+', 'full'])]
+  smallest [some B+1 (f=2)]: n=5 m=10 sum=85 f=2 sets=[[0, 1, 8, 9], [2, 4, 6, 8], [2, 4, 6, 9], [3, 5, 7, 8], [3, 5, 7, 9]] vals=[[2, 3, 4, 8], [3, 4, 2, 8], [3, 4, 2, 8], [2, 4, 3, 8], [4, 2, 3, 8]] key=[8, None, None, None, 9] def*=1 maxima=[('{1: [0, 4], 2: [2, 6], 3: [5, 7]}, L=[1, 3]', ['A+', "C'+", 'C+', 'full']), ('{1: [1, 4], 2: [2, 6], 3: [5, 7]}, L=[0, 3]', ['A+', "C'+", 'C+', 'full']), ('{1: [2, 6], 2: [0, 4], 3: [5, 7]}, L=[1, 3]', ['B+1', "C'+", 'C+', 'full']), ('{1: [2, 6], 2: [1, 4], 3: [5, 7]}, L=[0, 3]', ['B+1', "C'+", 'full']), ('{1: [2, 6], 2: [3, 4], 3: [5, 7]}, L=[0, 1]', ['A+', 'B+1', "C'+", 'C+', 'full']), ('{1: [3, 4], 2: [2, 6], 3: [5, 7]}, L=[0, 1]', ['A+', "C'+", 'C+', 'full'])]
+  smallest [some B+1 (f=3)]: n=5 m=9 sum=85 f=3 sets=[[0, 1, 3, 7], [2, 3, 8], [2, 6, 7, 8], [4, 5, 6, 7], [4, 5, 6, 8]] vals=[[2, 3, 6, 10], [4, 2, 3], [8, 2, 4, 7], [2, 4, 3, 8], [4, 2, 3, 8]] key=[7, 2, 8, None, None] def*=1 maxima=[('{3: [0, 5], 4: [4, 6]}, L=[1, 3]', ['A+', "C'+", 'C+', 'full']), ('{3: [1, 5], 4: [4, 6]}, L=[0, 3]', ['A+', "C'+", 'C+', 'full']), ('{3: [3, 5], 4: [4, 6]}, L=[0, 1]', ['A+', "C'+", 'C+', 'full']), ('{3: [5, 6], 4: [0, 4]}, L=[1, 3]', ['B+1', "C'+", 'C+', 'full']), ('{3: [5, 6], 4: [1, 4]}, L=[0, 3]', ['B+1', "C'+", 'C+', 'full']), ('{3: [5, 6], 4: [3, 4]}, L=[0, 1]', ['B+1', "C'+", 'C+', 'full'])]
+  smallest [some B1 (f=1)]: n=5 m=11 sum=111 f=1 sets=[[0, 2, 8, 10], [1, 4, 5, 9], [3, 8, 9, 10], [4, 5, 6, 7], [6, 7, 9, 10]] vals=[[4, 5, 6, 8], [6, 2, 3, 10], [6, 3, 8, 10], [3, 6, 4, 8], [2, 4, 5, 8]] key=[10, None, None, None, None] def*=1 maxima=[('{1: [1, 9], 2: [3, 8], 3: [4, 5], 4: [6, 7]}, L=[0, 2]', ['A', 'B1'])]
+  smallest [some C'+ (f=2)]: n=5 m=10 sum=85 f=2 sets=[[0, 1, 8, 9], [2, 4, 6, 8], [2, 4, 6, 9], [3, 5, 7, 8], [3, 5, 7, 9]] vals=[[2, 3, 4, 8], [3, 4, 2, 8], [3, 4, 2, 8], [2, 4, 3, 8], [4, 2, 3, 8]] key=[8, None, None, None, 9] def*=1 maxima=[('{1: [0, 4], 2: [2, 6], 3: [5, 7]}, L=[1, 3]', ['A+', "C'+", 'C+', 'full']), ('{1: [1, 4], 2: [2, 6], 3: [5, 7]}, L=[0, 3]', ['A+', "C'+", 'C+', 'full']), ('{1: [2, 6], 2: [0, 4], 3: [5, 7]}, L=[1, 3]', ['B+1', "C'+", 'C+', 'full']), ('{1: [2, 6], 2: [1, 4], 3: [5, 7]}, L=[0, 3]', ['B+1', "C'+", 'full']), ('{1: [2, 6], 2: [3, 4], 3: [5, 7]}, L=[0, 1]', ['A+', 'B+1', "C'+", 'C+', 'full']), ('{1: [3, 4], 2: [2, 6], 3: [5, 7]}, L=[0, 1]', ['A+', "C'+", 'C+', 'full'])]
+  smallest [some C'+ (f=3)]: n=5 m=9 sum=85 f=3 sets=[[0, 1, 3, 7], [2, 3, 8], [2, 6, 7, 8], [4, 5, 6, 7], [4, 5, 6, 8]] vals=[[2, 3, 6, 10], [4, 2, 3], [8, 2, 4, 7], [2, 4, 3, 8], [4, 2, 3, 8]] key=[7, 2, 8, None, None] def*=1 maxima=[('{3: [0, 5], 4: [4, 6]}, L=[1, 3]', ['A+', "C'+", 'C+', 'full']), ('{3: [1, 5], 4: [4, 6]}, L=[0, 3]', ['A+', "C'+", 'C+', 'full']), ('{3: [3, 5], 4: [4, 6]}, L=[0, 1]', ['A+', "C'+", 'C+', 'full']), ('{3: [5, 6], 4: [0, 4]}, L=[1, 3]', ['B+1', "C'+", 'C+', 'full']), ('{3: [5, 6], 4: [1, 4]}, L=[0, 3]', ['B+1', "C'+", 'C+', 'full']), ('{3: [5, 6], 4: [3, 4]}, L=[0, 1]', ['B+1', "C'+", 'C+', 'full'])]
+  smallest [some C+ (f=2)]: n=5 m=10 sum=85 f=2 sets=[[0, 1, 8, 9], [2, 4, 6, 8], [2, 4, 6, 9], [3, 5, 7, 8], [3, 5, 7, 9]] vals=[[2, 3, 4, 8], [3, 4, 2, 8], [3, 4, 2, 8], [2, 4, 3, 8], [4, 2, 3, 8]] key=[8, None, None, None, 9] def*=1 maxima=[('{1: [0, 4], 2: [2, 6], 3: [5, 7]}, L=[1, 3]', ['A+', "C'+", 'C+', 'full']), ('{1: [1, 4], 2: [2, 6], 3: [5, 7]}, L=[0, 3]', ['A+', "C'+", 'C+', 'full']), ('{1: [2, 6], 2: [0, 4], 3: [5, 7]}, L=[1, 3]', ['B+1', "C'+", 'C+', 'full']), ('{1: [2, 6], 2: [1, 4], 3: [5, 7]}, L=[0, 3]', ['B+1', "C'+", 'full']), ('{1: [2, 6], 2: [3, 4], 3: [5, 7]}, L=[0, 1]', ['A+', 'B+1', "C'+", 'C+', 'full']), ('{1: [3, 4], 2: [2, 6], 3: [5, 7]}, L=[0, 1]', ['A+', "C'+", 'C+', 'full'])]
+  smallest [some C+ (f=3)]: n=5 m=8 sum=87 f=3 sets=[[0, 2, 4, 7], [1, 5, 6, 7], [3, 5, 6, 7], [4, 5, 6, 7], [5, 6, 7]] vals=[[3, 5, 6, 7], [1, 6, 4, 8], [2, 3, 4, 8], [3, 6, 5, 7], [4, 2, 3]] key=[7, None, None, 5, 6] def*=1 maxima=[('{1: [0, 1], 2: [2, 3]}, L=[4]', ['A+', 'C+', 'full']), ('{1: [0, 1], 2: [3, 4]}, L=[2]', ['A+', 'C+', 'full']), ('{1: [1, 2], 2: [0, 3]}, L=[4]', ['A+', 'C+', 'full']), ('{1: [1, 2], 2: [3, 4]}, L=[0]', ['A+', 'C+', 'full']), ('{1: [1, 4], 2: [0, 3]}, L=[2]', ['A+', 'C+', 'full']), ('{1: [1, 4], 2: [2, 3]}, L=[0]', ['A+', 'C+', 'full'])]
+  UNCOVERED f=3 sets=[[0, 2, 9, 10], [1, 6, 9, 11], [3, 7, 10, 11], [4, 8, 10, 11], [5, 9, 11]] vals=[[2, 6, 7, 10], [1, 4, 8, 6], [6, 2, 10, 7], [2, 3, 4, 8], [2, 4, 3]] m=12 key=[9, None, 11, 10, None] def*=2 dlkey={'holds': True, 'moves': {'T3': 16, 'T3+|W|=2': 16, 'T3+|W|=1': 16, 'T4': 2, 'T3+helper': 4, 'T3+|W|=2+helper': 4, 'T3+|W|=1+helper': 4}, 'example': ['T3', [[9], [6], [11], [10], [5]], [[2], [9], [11], [10], [5]], 1, 1]} maxima=[('{1: [1, 6], 4: [0, 5]}, L=[2, 3, 4, 7, 8]', {}), ('{1: [1, 6], 4: [2, 5]}, L=[0, 3, 4, 7, 8]', {}), ('{1: [1, 6], 4: [3, 5]}, L=[0, 2, 4, 7, 8]', {}), ('{1: [1, 6], 4: [4, 5]}, L=[0, 2, 3, 7, 8]', {}), ('{1: [1, 6], 4: [5, 7]}, L=[0, 2, 3, 4, 8]', {}), ('{1: [1, 6], 4: [5, 8]}, L=[0, 2, 3, 4, 7]', {})]
+  UNCOVERED f=3 sets=[[0, 2, 9, 10], [1, 6, 9, 12], [3, 7, 11, 12], [4, 8, 11, 12], [5, 10, 11, 12]] vals=[[2, 3, 8, 4], [3, 2, 8, 4], [2, 3, 10, 6], [2, 3, 4, 8], [3, 2, 10, 6]] m=13 key=[9, 12, None, 11, None] def*=2 dlkey={'holds': True, 'moves': {'T3+|W|=1': 42, 'T3+|W|=2': 26, 'T3': 32, 'T3+|W|=1+helper': 24, 'T3+|W|=2+helper': 16, 'T3+helper': 16}, 'example': ['T3', [[9], [12], [7], [11], [5]], [[9], [1], [12], [11], [5]], 1, 1]} maxima=[('{2: [3, 7], 4: [5, 10]}, L=[0, 1, 2, 4, 6, 8]', {})]
+  UNCOVERED f=2 sets=[[0, 2, 10, 11], [1, 6, 10, 12], [3, 7, 10, 12], [4, 8, 11, 12], [5, 9, 11, 12]] vals=[[3, 6, 2, 10], [4, 3, 2, 8], [4, 3, 2, 8], [3, 2, 4, 8], [3, 2, 8, 4]] m=13 key=[None, None, None, 11, 12] def*=1 dlkey={'holds': True, 'moves': {'T3': 168, 'T3+helper': 552, 'T3+|W|=1': 168, 'T3+|W|=1+helper': 552, 'T4': 28}, 'example': ['T3', [[2], [1], [3], [11], [12]], [[11], [1], [3], [4], [12]], 0, 0]} maxima=[('{0: [0, 2], 1: [1, 6], 2: [3, 7]}, L=[4, 5, 8, 9, 10]', {})]
+  UNCOVERED f=3 sets=[[0, 2, 5, 9], [1, 4, 8, 10], [3, 8, 9, 10], [5, 6, 7, 10], [6, 7, 9, 10]] vals=[[3, 2, 6, 10], [4, 2, 3, 8], [4, 2, 8, 3], [2, 10, 3, 6], [8, 3, 2, 4]] m=11 key=[9, 10, None, None, 6] def*=1 dlkey={'holds': True, 'moves': {'T3': 18, 'T3+|W|=1': 12, 'T3+helper': 14, 'T3+|W|=1+helper': 8}, 'example': ['T3', [[9], [10], [3], [7], [6]], [[5], [10], [9], [7], [6]], -1, -1]} maxima=[('{2: [3, 8], 3: [5, 7]}, L=[0, 1, 2, 4]', {})]
+  UNCOVERED f=3 sets=[[0, 2, 7, 8], [1, 6, 9, 10], [3, 7, 9, 11], [4, 8, 10, 11], [5, 9, 10, 11]] vals=[[4, 3, 2, 8], [4, 2, 8, 3], [3, 2, 6, 10], [4, 8, 3, 2], [2, 6, 3, 10]] m=12 key=[8, 9, None, None, 11] def*=1 dlkey={'holds': True, 'moves': {'T3': 28, 'T3+|W|=1': 12, 'T3+helper': 20, 'T3+|W|=1+helper': 8}, 'example': ['T3', [[8], [9], [3], [4], [11]], [[0], [9], [3], [8], [11]], -1, -1]} maxima=[('{2: [3, 7], 3: [4, 10]}, L=[0, 1, 2, 5, 6]', {})]
+  UNCOVERED f=2 sets=[[0, 2, 10, 11], [1, 6, 10, 12], [3, 7, 11, 12], [4, 8, 11, 12], [5, 9, 11, 12]] vals=[[3, 5, 6, 7], [6, 3, 4, 8], [4, 2, 8, 7], [2, 4, 3, 8], [2, 3, 10, 6]] m=13 key=[11, 12, None, None, None] def*=1 dlkey={'holds': True, 'moves': {'T3': 160, 'T3+helper': 160}, 'example': ['T3', [[11], [12], [3], [8], [9]], [[10], [12], [11], [8], [9]], -1, -1]} maxima=[('{2: [3, 7], 3: [4, 8], 4: [5, 9]}, L=[0, 1, 2, 6, 10]', {})]
+### dumps (20 files)
+  UNCOVERED keys | DLKey holds=True                                                                              21
+  UNCOVERED keys | f=2                                                                                           8
+  UNCOVERED keys | f=3                                                                                           13
+  f>=2 keys without A+/B+1 | C'+ only                                                                            685
+  f>=2 keys without A+/B+1 | C+ at some max                                                                      2838
+  f>=2 keys | A+ or B+1 at some maximum                                                                          80628
+  f>=2 keys | UNCOVERED                                                                                          21
+  f>=2 keys | only B+1                                                                                           52
+  f>=2 keys | only C'+ with q = phi(w)                                                                           6
+  f>=2 keys | only C+/C'+                                                                                        3523
+  f>=2 maxima | A+ chain j=0                                                                                     179115
+  f>=2 maxima | A+ chain j=1                                                                                     76836
+  f>=2 maxima | A+ chain j=2                                                                                     5192
+  f>=2 maxima | A+/B+1                                                                                           261935
+  f>=2 maxima | B+ (j,k)=(0, 1)                                                                                  1385
+  f>=2 maxima | B+ (j,k)=(0, 2)                                                                                  1
+  f>=2 maxima | B+ (j,k)=(1, 1)                                                                                  14632
+  f>=2 maxima | B+ (j,k)=(1, 2)                                                                                  1
+  f>=2 maxima | B+ (j,k)=(2, 1)                                                                                  61
+  f>=2 maxima | C'+ k=0                                                                                          45425
+  f>=2 maxima | C'+ k=1                                                                                          36892
+  f>=2 maxima | C'+ k=2                                                                                          2772
+  f>=2 maxima | C'+ q=phi(a_k), now tau's                                                                        15943
+  f>=2 maxima | C'+ q=phi(w) of a frozen w off the move                                                          1696
+  f>=2 maxima | C'+ q=phi(x)                                                                                     73435
+  f>=2 maxima | C+ k=0                                                                                           150435
+  f>=2 maxima | C+ k=1                                                                                           98131
+  f>=2 maxima | C+ k=2                                                                                           20051
+  f>=2 maxima | C+ k=3                                                                                           9
+  f>=2 maxima | C+/C'+ only                                                                                      21456
+  f>=2 maxima | full only                                                                                        818
+  f>=2 maxima | none                                                                                             118
+  keys covered by exactly one lemma | f=2 | A+                                                                   6255
+  keys covered by exactly one lemma | f=2 | B+1                                                                  52
+  keys covered by exactly one lemma | f=2 | C'+                                                                  472
+  keys covered by exactly one lemma | f=2 | C+                                                                   73
+  keys covered by exactly one lemma | f=3 | A+                                                                   31118
+  keys covered by exactly one lemma | f=3 | C'+                                                                  213
+  keys covered by exactly one lemma | f=3 | C+                                                                   236
+  keys covered by exactly one lemma | f=4 | A+                                                                   320
+  keys def*>0 | f=2                                                                                              22348
+  keys def*>0 | f=2 | n=3                                                                                        7806
+  keys def*>0 | f=2 | n=4                                                                                        11340
+  keys def*>0 | f=2 | n=5                                                                                        2836
+  keys def*>0 | f=2 | n=6                                                                                        366
+  keys def*>0 | f=3                                                                                              61478
+  keys def*>0 | f=3 | n=4                                                                                        31730
+  keys def*>0 | f=3 | n=5                                                                                        25148
+  keys def*>0 | f=3 | n=6                                                                                        4600
+  keys def*>0 | f=4                                                                                              346
+  keys def*>0 | f=4 | n=5                                                                                        336
+  keys def*>0 | f=4 | n=6                                                                                        10
+  keys with DLKey computed | best move | T3                                                                      19
+  keys with DLKey computed | best move | T3+helper                                                               2
+  keys with lemma at some maximum | f=2 | A+                                                                     21285
+  keys with lemma at some maximum | f=2 | B+1                                                                    577
+  keys with lemma at some maximum | f=2 | B+k                                                                    1
+  keys with lemma at some maximum | f=2 | C'+                                                                    9451
+  keys with lemma at some maximum | f=2 | C+                                                                     12242
+  keys with lemma at some maximum | f=2 | full                                                                   21816
+  keys with lemma at some maximum | f=3 | A+                                                                     58926
+  keys with lemma at some maximum | f=3 | B+1                                                                    2093
+  keys with lemma at some maximum | f=3 | C'+                                                                    15782
+  keys with lemma at some maximum | f=3 | C+                                                                     28627
+  keys with lemma at some maximum | f=3 | full                                                                   61253
+  keys with lemma at some maximum | f=4 | A+                                                                     346
+  keys with lemma at some maximum | f=4 | C'+                                                                    16
+  keys with lemma at some maximum | f=4 | C+                                                                     10
+  keys with lemma at some maximum | f=4 | full                                                                   346
+  maxima with lemma | f=2 | A+                                                                                   46787
+  maxima with lemma | f=2 | B+1                                                                                  2883
+  maxima with lemma | f=2 | B+k                                                                                  1
+  maxima with lemma | f=2 | C'+                                                                                  17371
+  maxima with lemma | f=2 | C+                                                                                   36220
+  maxima with lemma | f=2 | full                                                                                 49064
+  maxima with lemma | f=3 | A+                                                                                   213347
+  maxima with lemma | f=3 | B+1                                                                                  13079
+  maxima with lemma | f=3 | C'+                                                                                  63344
+  maxima with lemma | f=3 | C+                                                                                   138382
+  maxima with lemma | f=3 | full                                                                                 231294
+  maxima with lemma | f=4 | A+                                                                                   1009
+  maxima with lemma | f=4 | C'+                                                                                  72
+  maxima with lemma | f=4 | C+                                                                                   30
+  maxima with lemma | f=4 | full                                                                                 1009
+  maxima | f=2                                                                                                   50996
+  maxima | f=3                                                                                                   232322
+  maxima | f=4                                                                                                   1009
+  profiles read                                                                                                  26380
+  profiles | f=2 | n=3                                                                                           3903
+  profiles | f=2 | n=4                                                                                           7076
+  profiles | f=2 | n=5                                                                                           1577
+  profiles | f=2 | n=6                                                                                           130
+  profiles | f=3 | n=4                                                                                           5635
+  profiles | f=3 | n=5                                                                                           6875
+  profiles | f=3 | n=6                                                                                           1157
+  profiles | f=4 | n=5                                                                                           26
+  profiles | f=4 | n=6                                                                                           1
+  smallest [only A+ (f=2)]: n=3 m=5 sum=35 f=2 sets=[[0, 2, 3, 4], [1, 3, 4], [2, 3, 4]] vals=[[2, 3, 4, 8], [2, 4, 3], [2, 4, 3]] key=[3, None, 4] def*=1 maxima=[('{1: [0, 1]}, L=[2]', ['A+', 'full']), ('{1: [1, 2]}, L=[0]', ['A+', 'full'])]
+  smallest [only A+ (f=3)]: n=4 m=6 sum=44 f=3 sets=[[0, 2, 4, 5], [1, 3, 5], [3, 4, 5], [3, 4, 5]] vals=[[2, 3, 4, 8], [2, 4, 3], [3, 4, 2], [3, 4, 2]] key=[4, None, 3, 5] def*=1 maxima=[('{1: [0, 1]}, L=[2]', ['A+', 'full']), ('{1: [1, 2]}, L=[0]', ['A+', 'full'])]
+  smallest [only A+ (f=4)]: n=5 m=7 sum=69 f=4 sets=[[0, 1, 5, 6], [2, 4, 5, 6], [2, 4, 5, 6], [3, 5, 6], [3, 5, 6]] vals=[[2, 3, 4, 8], [8, 2, 4, 3], [8, 2, 4, 3], [4, 3, 2], [4, 3, 2]] key=[5, 2, None, 3, 6] def*=1 maxima=[('{2: [0, 4]}, L=[1]', ['A+', 'full']), ('{2: [1, 4]}, L=[0]', ['A+', 'full'])]
+  smallest [only B+1 (f=2)]: n=4 m=7 sum=54 f=2 sets=[[0, 2, 3, 4], [1, 5, 6], [2, 3, 5, 6], [4, 5, 6]] vals=[[2, 5, 4, 8], [2, 4, 3], [2, 3, 4, 8], [2, 4, 3]] key=[None, 6, 5, None] def*=1 maxima=[('{0: [2, 3], 3: [0, 4]}, L=[1]', ['B+1']), ('{0: [2, 3], 3: [1, 4]}, L=[0]', [])]
+  smallest [only C'+ (f=2)]: n=4 m=8 sum=68 f=2 sets=[[0, 2, 4, 6], [0, 2, 5, 6], [1, 3, 4, 7], [1, 3, 5, 7]] vals=[[2, 3, 8, 4], [2, 3, 8, 4], [2, 3, 8, 4], [2, 3, 8, 4]] key=[4, 5, None, None] def*=1 maxima=[('{2: [0, 7], 3: [1, 3]}, L=[2, 6]', ["C'+"]), ('{2: [1, 3], 3: [0, 7]}, L=[2, 6]', ["C'+"]), ('{2: [1, 3], 3: [2, 7]}, L=[0, 6]', ["C'+"]), ('{2: [1, 3], 3: [6, 7]}, L=[0, 2]', ["C'+"]), ('{2: [2, 7], 3: [1, 3]}, L=[0, 6]', ["C'+"]), ('{2: [6, 7], 3: [1, 3]}, L=[0, 2]', ["C'+"])]
+  smallest [only C'+ (f=3)]: n=5 m=9 sum=69 f=3 sets=[[0, 1, 5, 6], [2, 3, 4, 5], [2, 4, 7, 8], [3, 7, 8], [6, 7, 8]] vals=[[4, 3, 8, 2], [3, 2, 4, 8], [2, 3, 4, 8], [2, 4, 3], [2, 4, 3]] key=[5, None, 7, None, 8] def*=1 maxima=[('{1: [2, 4], 3: [0, 3]}, L=[1, 6]', ["C'+", 'full']), ('{1: [2, 4], 3: [1, 3]}, L=[0, 6]', ["C'+", 'full']), ('{1: [2, 4], 3: [3, 6]}, L=[0, 1]', ["C'+", 'full'])]
+  smallest [only C'+ with q = phi(w)]: n=4 m=10 sum=68 f=2 sets=[[0, 2, 4, 8], [1, 3, 7, 9], [4, 5, 6, 7], [5, 6, 8, 9]] vals=[[4, 3, 2, 8], [2, 4, 8, 3], [3, 4, 2, 8], [3, 4, 8, 2]] key=[8, 7, None, None] def*=1 maxima=[('{2: [4, 5], 3: [6, 9]}, L=[0, 1, 2, 3]', ["C'+"])]
+  smallest [only C+ (f=2)]: n=4 m=8 sum=70 f=2 sets=[[0, 2, 6, 7], [1, 3, 6, 7], [3, 4, 5, 6], [4, 5, 7]] vals=[[1, 4, 8, 6], [3, 2, 10, 6], [3, 5, 6, 7], [2, 3, 4]] key=[None, None, 6, 7] def*=1 maxima=[('{0: [0, 2], 1: [1, 3]}, L=[4, 5]', ['C+', 'full'])]
+  smallest [only C+ (f=3)]: n=5 m=9 sum=73 f=3 sets=[[0, 2, 5, 7], [1, 6, 8], [3, 4, 5, 7], [3, 4, 6, 8], [6, 7, 8]] vals=[[2, 6, 10, 3], [2, 4, 3], [2, 3, 8, 4], [3, 2, 4, 8], [4, 2, 3]] key=[5, 8, None, 6, None] def*=1 maxima=[('{2: [3, 4], 4: [0, 7]}, L=[1, 2]', ['C+', 'full']), ('{2: [3, 4], 4: [1, 7]}, L=[0, 2]', ['C+', 'full']), ('{2: [3, 4], 4: [2, 7]}, L=[0, 1]', ['full'])]
+  smallest [some A+ (f=2)]: n=3 m=5 sum=35 f=2 sets=[[0, 2, 3, 4], [1, 3, 4], [2, 3, 4]] vals=[[2, 3, 4, 8], [2, 4, 3], [2, 4, 3]] key=[3, None, 4] def*=1 maxima=[('{1: [0, 1]}, L=[2]', ['A+', 'full']), ('{1: [1, 2]}, L=[0]', ['A+', 'full'])]
+  smallest [some A+ (f=3)]: n=4 m=6 sum=44 f=3 sets=[[0, 2, 4, 5], [1, 3, 5], [3, 4, 5], [3, 4, 5]] vals=[[2, 3, 4, 8], [2, 4, 3], [3, 4, 2], [3, 4, 2]] key=[4, None, 3, 5] def*=1 maxima=[('{1: [0, 1]}, L=[2]', ['A+', 'full']), ('{1: [1, 2]}, L=[0]', ['A+', 'full'])]
+  smallest [some A+ (f=4)]: n=5 m=7 sum=69 f=4 sets=[[0, 1, 5, 6], [2, 4, 5, 6], [2, 4, 5, 6], [3, 5, 6], [3, 5, 6]] vals=[[2, 3, 4, 8], [8, 2, 4, 3], [8, 2, 4, 3], [4, 3, 2], [4, 3, 2]] key=[5, 2, None, 3, 6] def*=1 maxima=[('{2: [0, 4]}, L=[1]', ['A+', 'full']), ('{2: [1, 4]}, L=[0]', ['A+', 'full'])]
+  smallest [some B+1 (f=2)]: n=4 m=7 sum=54 f=2 sets=[[0, 2, 3, 4], [1, 5, 6], [2, 3, 5, 6], [4, 5, 6]] vals=[[2, 5, 4, 8], [2, 4, 3], [2, 3, 4, 8], [2, 4, 3]] key=[None, 6, 5, None] def*=1 maxima=[('{0: [2, 3], 3: [0, 4]}, L=[1]', ['B+1']), ('{0: [2, 3], 3: [1, 4]}, L=[0]', [])]
+  smallest [some B+1 (f=3)]: n=5 m=8 sum=69 f=3 sets=[[0, 1, 4, 7], [2, 3, 5, 6], [2, 3, 5, 6], [4, 5, 7], [4, 6, 7]] vals=[[2, 3, 4, 8], [3, 4, 8, 2], [3, 2, 8, 4], [4, 2, 3], [4, 2, 3]] key=[4, None, None, 5, 7] def*=1 maxima=[('{1: [0, 3], 2: [2, 6]}, L=[1]', ['A+', 'B+1', 'C+', 'full']), ('{1: [1, 3], 2: [2, 6]}, L=[0]', ['A+', 'B+1', 'C+', 'full']), ('{1: [2, 3], 2: [0, 6]}, L=[1]', ['A+', 'B+1', 'C+', 'full']), ('{1: [2, 3], 2: [1, 6]}, L=[0]', ['A+', 'B+1', 'C+', 'full'])]
+  smallest [some C'+ (f=2)]: n=3 m=6 sum=35 f=2 sets=[[0, 2, 4, 5], [1, 3, 5], [3, 4, 5]] vals=[[4, 2, 3, 8], [2, 4, 3], [4, 2, 3]] key=[5, None, 3] def*=1 maxima=[('{1: [0, 1]}, L=[2, 4]', ['A+', "C'+", 'full']), ('{1: [1, 2]}, L=[0, 4]', ['A+', "C'+", 'full']), ('{1: [1, 4]}, L=[0, 2]', ['A+', "C'+", 'full'])]
+  smallest [some C'+ (f=3)]: n=4 m=7 sum=52 f=3 sets=[[0, 2, 3, 6], [1, 5, 6], [3, 4, 5, 6], [4, 5, 6]] vals=[[2, 4, 3, 8], [2, 4, 3], [2, 8, 4, 3], [4, 3, 2]] key=[6, None, 4, 5] def*=1 maxima=[('{1: [0, 1]}, L=[2, 3]', ['A+', "C'+", 'full']), ('{1: [1, 2]}, L=[0, 3]', ['A+', "C'+", 'full']), ('{1: [1, 3]}, L=[0, 2]', ['A+', "C'+", 'full'])]
+  smallest [some C'+ (f=4)]: n=5 m=8 sum=89 f=4 sets=[[0, 2, 4, 7], [1, 5, 6, 7], [3, 4, 6, 7], [3, 5, 6, 7], [5, 6, 7]] vals=[[2, 6, 3, 10], [2, 10, 6, 3], [10, 2, 6, 3], [8, 2, 4, 3], [4, 3, 2]] key=[7, None, 3, 6, 5] def*=1 maxima=[('{1: [0, 1]}, L=[2, 4]', ['A+', "C'+", 'full']), ('{1: [1, 2]}, L=[0, 4]', ['A+', "C'+", 'full']), ('{1: [1, 4]}, L=[0, 2]', ['A+', "C'+", 'full'])]
+  smallest [some C+ (f=2)]: n=4 m=7 sum=48 f=2 sets=[[0, 2, 4, 6], [1, 5, 6], [3, 5, 6], [4, 5, 6]] vals=[[6, 3, 5, 7], [2, 4, 3], [2, 4, 3], [2, 4, 3]] key=[6, None, None, 5] def*=1 maxima=[('{1: [0, 1], 2: [2, 3]}, L=[4]', ['A+', 'C+', 'full']), ('{1: [0, 1], 2: [3, 4]}, L=[2]', ['A+', 'C+', 'full']), ('{1: [1, 2], 2: [0, 3]}, L=[4]', ['A+', 'C+', 'full']), ('{1: [1, 2], 2: [3, 4]}, L=[0]', ['A+', 'C+', 'full']), ('{1: [1, 4], 2: [0, 3]}, L=[2]', ['A+', 'C+', 'full']), ('{1: [1, 4], 2: [2, 3]}, L=[0]', ['A+', 'C+', 'full'])]
+  smallest [some C+ (f=3)]: n=5 m=8 sum=69 f=3 sets=[[0, 1, 4, 6], [2, 3, 4, 5], [2, 3, 4, 7], [5, 6, 7], [5, 6, 7]] vals=[[3, 2, 4, 8], [2, 3, 8, 4], [2, 3, 8, 4], [4, 3, 2], [4, 3, 2]] key=[4, 5, None, 6, None] def*=1 maxima=[('{2: [2, 3], 4: [0, 7]}, L=[1]', ['A+', 'C+', 'full']), ('{2: [2, 3], 4: [1, 7]}, L=[0]', ['A+', 'C+', 'full'])]
+  smallest [some C+ (f=4)]: n=6 m=10 sum=112 f=4 sets=[[0, 2, 3, 7], [1, 5, 6, 7], [3, 5, 6, 7], [4, 5, 6, 7], [4, 6, 7], [1, 3, 8, 9]] vals=[[2, 3, 10, 6], [3, 7, 6, 5], [8, 7, 4, 2], [2, 8, 5, 4], [2, 4, 3], [5, 7, 6, 3]] key=[None, 5, 6, None, 7, 3] def*=1 maxima=[('{0: [0, 2], 3: [1, 4]}, L=[8, 9]', ['A+', 'C+', 'full']), ('{0: [0, 2], 3: [4, 8]}, L=[1, 9]', ['A+', 'C+', 'full']), ('{0: [0, 2], 3: [4, 9]}, L=[1, 8]', ['A+', 'C+', 'full'])]
+  UNCOVERED f=3 sets=[[0, 1, 2, 5], [2, 6, 7, 8], [3, 4, 5, 9], [3, 4, 8, 9], [6, 7, 8, 9]] vals=[[2, 3, 4, 8], [2, 3, 10, 6], [3, 2, 8, 4], [2, 4, 8, 3], [2, 10, 6, 3]] m=10 key=[5, None, None, 8, 7] def*=1 dlkey={'holds': True, 'moves': {'T3': 24, 'T3+helper': 28}, 'example': ['T3', [[5], [6], [9], [8], [7]], [[2], [6], [5], [8], [7]], -1, -1]} maxima=[('{1: [2, 6], 2: [3, 9]}, L=[0, 1, 4]', {})]
+  UNCOVERED f=2 sets=[[0, 7, 8], [1, 2, 4, 5], [1, 2, 7, 8], [3, 4, 5, 6], [3, 6, 7, 8]] vals=[[2, 4, 3], [2, 10, 4, 7], [2, 3, 10, 6], [7, 10, 2, 4], [4, 3, 6, 8]] m=9 key=[8, None, None, None, 7] def*=1 dlkey={'holds': True, 'moves': {'T3': 2, 'T3+helper': 8, 'T3+|W|=1': 2, 'T3+|W|=1+helper': 8, 'T4': 2}, 'example': ['T3', [[8], [4, 5], [2], [3, 6], [7]], [[0], [4, 5], [8], [3, 6], [7]], 1, -1]} maxima=[('{1: [4, 5], 2: [1, 2], 3: [3, 6]}, L=[0]', {'B+k': 1})]
+  UNCOVERED f=3 sets=[[0, 1, 4, 8], [2, 3, 4, 9], [2, 3, 8, 9], [5, 6, 7, 8], [5, 6, 7, 9]] vals=[[4, 2, 3, 8], [3, 10, 2, 6], [2, 10, 3, 6], [2, 4, 3, 8], [4, 3, 2, 8]] m=10 key=[8, None, 3, None, 9] def*=1 dlkey={'holds': True, 'moves': {'T3+|W|=1': 32, 'T3+|W|=1+helper': 80, 'T3': 24, 'T3+helper': 16}, 'example': ['T3', [[8], [2], [3], [6], [9]], [[0], [2], [3], [8], [9]], -1, -1]} maxima=[('{1: [2, 4], 3: [6, 7]}, L=[0, 1, 5]', {})]
+  UNCOVERED f=2 sets=[[0, 2, 3, 6], [1, 3, 4, 5], [2, 4, 5, 6], [4, 5, 6]] vals=[[2, 4, 8, 5], [1, 4, 6, 8], [2, 8, 4, 3], [3, 4, 2]] m=7 key=[None, None, 5, 4] def*=1 dlkey={'holds': True, 'moves': {'T3+helper': 16, 'T3+|W|=1+helper': 16, 'T4': 2}, 'example': ['T3+helper', [[2, 6], [3], [5], [4]], [[3], [5], [6], [4]], -1, -1]} maxima=[('{0: [2, 6], 1: [1, 3]}, L=[0]', {})]
+  UNCOVERED f=2 sets=[[0, 1, 2, 4], [1, 2, 5, 6], [3, 4, 5, 6], [3, 5, 6]] vals=[[2, 4, 5, 8], [2, 3, 4, 8], [1, 4, 8, 6], [2, 4, 3]] m=7 key=[None, 5, None, 6] def*=1 dlkey={'holds': True, 'moves': {'T3+helper': 18, 'T3+|W|=1+helper': 18, 'T3': 2, 'T3+|W|=1': 2, 'T4': 2}, 'example': ['T3', [[1, 2], [5], [4], [6]], [[1, 2], [5], [6], [3]], 1, 0]} maxima=[('{0: [1, 2], 2: [3, 4]}, L=[0]', {})]
+  UNCOVERED f=2 sets=[[0, 3, 4, 5], [1, 3, 6, 7], [2, 6, 7], [4, 5, 6, 7]] vals=[[2, 8, 4, 5], [1, 4, 6, 8], [2, 3, 4], [2, 3, 8, 4]] m=8 key=[None, None, 6, 7] def*=1 dlkey={'holds': True, 'moves': {'T3': 2, 'T3+helper': 18, 'T3+|W|=1': 2, 'T3+|W|=1+helper': 18, 'T4': 2}, 'example': ['T3', [[4, 5], [3], [6], [7]], [[4, 5], [6], [2], [7]], 1, 0]} maxima=[('{0: [4, 5], 1: [1, 3]}, L=[0, 2]', {})]
+  UNCOVERED f=3 sets=[[0, 2, 8, 10], [1, 6, 9, 12], [3, 7, 11, 12], [4, 8, 9, 11], [5, 10, 11, 12]] vals=[[4, 2, 8, 3], [3, 2, 6, 10], [2, 3, 10, 6], [4, 8, 3, 2], [3, 2, 10, 6]] m=13 key=[8, 12, 11, None, None] def*=1 dlkey={'holds': True, 'moves': {'T3': 18, 'T3+|W|=1': 6, 'T3+helper': 14, 'T3+|W|=1+helper': 6}, 'example': ['T3', [[8], [12], [11], [4], [5]], [[0], [12], [11], [8], [5]], -1, -1]} maxima=[('{3: [4, 9], 4: [5, 10]}, L=[0, 1, 2, 3, 6, 7]', {})]
+  UNCOVERED f=3 sets=[[0, 2, 5, 7], [1, 4, 9, 10], [3, 7, 8, 10], [5, 6, 8, 9], [6, 8, 9, 10]] vals=[[2, 3, 8, 4], [4, 2, 3, 8], [3, 2, 10, 6], [10, 3, 6, 2], [3, 10, 2, 6]] m=11 key=[5, 10, None, None, 8] def*=1 dlkey={'holds': True, 'moves': {'T3': 22, 'T3+|W|=1': 28, 'T3+helper': 16, 'T3+|W|=1+helper': 16}, 'example': ['T3', [[5], [10], [3], [6], [8]], [[7], [10], [3], [5], [8]], -1, -1]} maxima=[('{2: [3, 7], 3: [6, 9]}, L=[0, 1, 2, 4]', {})]
+  UNCOVERED f=3 sets=[[0, 2, 6, 8], [1, 3, 7, 9], [4, 5, 6, 8], [4, 5, 7, 9], [6, 7, 8, 9]] vals=[[2, 3, 6, 10], [2, 3, 6, 10], [2, 3, 4, 8], [2, 3, 8, 4], [3, 6, 2, 10]] m=10 key=[8, 7, None, 9, None] def*=1 dlkey={'holds': True, 'moves': {'T3': 2, 'T3+helper': 9, 'T3+|W|=1': 2, 'T3+|W|=1+helper': 9, 'T4': 1}, 'example': ['T3', [[8], [7], [4, 5], [9], [6]], [[8], [3], [4, 5], [9], [7]], 1, 0]} maxima=[('{2: [4, 5], 4: [0, 6]}, L=[1, 2, 3]', {}), ('{2: [4, 5], 4: [1, 6]}, L=[0, 2, 3]', {}), ('{2: [4, 5], 4: [2, 6]}, L=[0, 1, 3]', {}), ('{2: [4, 5], 4: [3, 6]}, L=[0, 1, 2]', {})]
+  UNCOVERED f=2 sets=[[0, 2, 6, 7], [1, 5, 6, 7], [2, 3, 4, 5], [3, 4, 6, 7]] vals=[[2, 3, 6, 10], [2, 3, 6, 10], [10, 7, 4, 2], [2, 6, 10, 7]] m=8 key=[None, 6, None, 7] def*=1 dlkey={'holds': True, 'moves': {'T3': 4, 'T3+helper': 22, 'T3+|W|=1': 4, 'T3+|W|=1+helper': 22, 'T4': 2}, 'example': ['T3', [[2], [6], [3, 4], [7]], [[6], [5], [3, 4], [7]], 1, 0]} maxima=[('{0: [0, 2], 2: [3, 4]}, L=[1, 5]', {})]
+  UNCOVERED f=2 sets=[[0, 2, 3, 6], [1, 4, 5, 6], [2, 3, 4, 5], [4, 5, 6]] vals=[[2, 4, 5, 8], [1, 6, 8, 4], [2, 3, 8, 4], [3, 4, 2]] m=7 key=[None, None, 5, 4] def*=1 dlkey={'holds': True, 'moves': {'T3+helper': 10, 'T3+|W|=1+helper': 10, 'T3+|W|=1': 2, 'T4': 2}, 'example': ['T3+helper', [[2, 3], [6], [5], [4]], [[6], [5], [3], [4]], -1, -1]} maxima=[('{0: [2, 3], 1: [1, 6]}, L=[0]', {})]
+  UNCOVERED f=3 sets=[[0, 2, 7, 8], [1, 6, 7, 11], [3, 6, 10, 11], [4, 8, 9, 11], [5, 9, 10, 11]] vals=[[2, 3, 8, 4], [4, 2, 8, 3], [4, 2, 3, 8], [3, 2, 10, 6], [3, 10, 2, 6]] m=12 key=[7, None, 11, None, 9] def*=1 dlkey={'holds': True, 'moves': {'T3': 22, 'T3+|W|=1': 12, 'T3+helper': 16, 'T3+|W|=1+helper': 8}, 'example': ['T3', [[7], [1], [11], [4], [9]], [[8], [7], [11], [4], [9]], -1, -1]} maxima=[('{1: [1, 6], 3: [4, 8]}, L=[0, 2, 3, 5, 10]', {})]
+  UNCOVERED f=2 sets=[[0, 4, 5, 6], [1, 2, 3, 4], [1, 3, 5, 6], [2, 5, 6]] vals=[[1, 4, 6, 8], [4, 2, 5, 8], [2, 3, 8, 4], [2, 3, 4]] m=7 key=[None, None, 6, 5] def*=1 dlkey={'holds': True, 'moves': {'T3+helper': 16, 'T3+|W|=1+helper': 16, 'T3': 2, 'T3+|W|=1': 2, 'T4': 2}, 'example': ['T3', [[4], [1, 3], [6], [5]], [[5], [1, 3], [6], [2]], 1, 0]} maxima=[('{0: [0, 4], 1: [1, 3]}, L=[2]', {})]
+  UNCOVERED f=3 sets=[[0, 1, 5, 8], [2, 3, 4, 5], [2, 4, 6, 7], [3, 6, 7, 8], [6, 7, 8]] vals=[[3, 4, 8, 2], [4, 2, 3, 8], [3, 2, 8, 4], [3, 6, 10, 2], [3, 4, 2]] m=9 key=[5, None, 7, None, 6] def*=1 dlkey={'holds': True, 'moves': {'T3': 16, 'T3+|W|=2': 12, 'T3+helper': 20, 'T3+|W|=1+helper': 12, 'T3+|W|=1': 4, 'T4': 4, 'T3+|W|=2+helper': 8}, 'example': ['T3', [[5], [2], [7], [3], [6]], [[1], [5], [7], [3], [6]], -1, -1]} maxima=[('{1: [2, 4], 3: [3, 8]}, L=[0, 1]', {})]
+  UNCOVERED f=2 sets=[[0, 2, 9, 12], [1, 6, 10, 11], [3, 7, 10, 12], [4, 8, 11, 12], [5, 9, 11, 12]] vals=[[6, 3, 2, 10], [3, 6, 5, 7], [6, 4, 3, 8], [2, 4, 10, 7], [4, 2, 10, 7]] m=13 key=[None, 11, 12, None, None] def*=1 dlkey={'holds': True, 'moves': {'T3': 160, 'T3+helper': 248}, 'example': ['T3', [[0], [11], [12], [8], [5]], [[0], [6], [12], [11], [5]], -1, -1]} maxima=[('{0: [0, 2], 3: [4, 8], 4: [5, 9]}, L=[1, 3, 6, 7, 10]', {})]
+  UNCOVERED f=3 sets=[[0, 2, 6, 7], [1, 4, 10, 11], [3, 6, 8, 9], [5, 7, 10, 11], [8, 9, 10, 11]] vals=[[3, 2, 10, 6], [2, 3, 10, 6], [6, 10, 2, 3], [3, 2, 10, 6], [2, 3, 4, 8]] m=12 key=[6, 11, None, None, 10] def*=1 dlkey={'holds': True, 'moves': {'T3': 15, 'T3+|W|=2': 9, 'T3+|W|=1': 18, 'T4': 6, 'T3+helper': 19, 'T3+|W|=2+helper': 9, 'T3+|W|=1+helper': 26}, 'example': ['T3', [[6], [11], [3], [5], [10]], [[7], [11], [6], [5], [10]], -1, -1]} maxima=[('{2: [3, 9], 3: [5, 7]}, L=[0, 1, 2, 4, 8]', {})]
+  UNCOVERED f=3 sets=[[0, 2, 5, 9], [1, 4, 6, 9], [3, 5, 7, 8], [4, 6, 7, 8], [6, 7, 8, 9]] vals=[[3, 4, 2, 8], [2, 3, 4, 8], [3, 2, 10, 6], [2, 3, 4, 8], [3, 8, 4, 2]] m=10 key=[9, None, None, 7, 8] def*=1 dlkey={'holds': True, 'moves': {'T3': 28, 'T3+|W|=2': 24, 'T3+helper': 28, 'T3+|W|=1+helper': 12, 'T4': 8, 'T3+|W|=2+helper': 16, 'T3+|W|=1': 4}, 'example': ['T3', [[9], [6], [3], [7], [8]], [[2], [9], [3], [7], [8]], -1, -1]} maxima=[('{1: [4, 6], 2: [3, 5]}, L=[0, 1, 2]', {})]
+  UNCOVERED f=3 sets=[[0, 2, 8, 10], [1, 6, 9, 11], [3, 7, 8, 11], [4, 7, 10, 11], [5, 9, 10, 11]] vals=[[2, 4, 3, 8], [3, 2, 6, 10], [3, 10, 2, 6], [2, 10, 3, 6], [6, 3, 10, 2]] m=12 key=[10, 11, None, 7, None] def*=1 dlkey={'holds': True, 'moves': {'T3+|W|=1': 22, 'T3': 18, 'T3+|W|=1+helper': 14, 'T3+helper': 14}, 'example': ['T3', [[10], [11], [3], [7], [5]], [[2], [11], [3], [7], [10]], -1, -1]} maxima=[('{2: [3, 8], 4: [5, 9]}, L=[0, 1, 2, 4, 6]', {})]
+  UNCOVERED f=3 sets=[[0, 2, 5, 9], [1, 4, 6, 10], [3, 5, 6, 10], [7, 8, 9, 10], [7, 8, 9, 10]] vals=[[3, 2, 8, 4], [3, 2, 6, 10], [6, 10, 3, 2], [3, 10, 2, 6], [3, 10, 2, 6]] m=11 key=[5, 10, None, None, 8] def*=1 dlkey={'holds': True, 'moves': {'T3': 16, 'T3+|W|=1': 6, 'T3+helper': 14, 'T3+|W|=1+helper': 6}, 'example': ['T3', [[5], [10], [3], [7], [8]], [[9], [10], [5], [7], [8]], -1, -1]} maxima=[('{2: [3, 6], 3: [7, 9]}, L=[0, 1, 2, 4]', {})]
+  UNCOVERED f=3 sets=[[0, 2, 5, 9], [1, 4, 6, 10], [3, 5, 6, 10], [7, 8, 9, 10], [7, 8, 9, 10]] vals=[[3, 2, 8, 4], [3, 2, 6, 10], [6, 10, 3, 2], [3, 10, 2, 6], [3, 10, 2, 6]] m=11 key=[5, 10, None, 8, None] def*=1 dlkey={'holds': True, 'moves': {'T3': 16, 'T3+|W|=1': 6, 'T3+helper': 14, 'T3+|W|=1+helper': 6}, 'example': ['T3', [[5], [10], [3], [8], [7]], [[9], [10], [5], [8], [7]], -1, -1]} maxima=[('{2: [3, 6], 4: [7, 9]}, L=[0, 1, 2, 4]', {})]
+  UNCOVERED f=3 sets=[[0, 2, 7, 10], [1, 6, 8, 9], [3, 7, 9, 11], [4, 8, 10, 11], [5, 9, 10, 11]] vals=[[2, 3, 6, 10], [2, 3, 4, 8], [3, 2, 8, 4], [3, 2, 6, 10], [2, 3, 6, 10]] m=12 key=[10, 9, None, None, 11] def*=1 dlkey={'holds': True, 'moves': {'T3+|W|=1': 33, 'T3': 16, 'T3+|W|=1+helper': 21, 'T3+helper': 14}, 'example': ['T3', [[10], [9], [3], [4], [11]], [[7], [9], [3], [10], [11]], -1, -1]} maxima=[('{2: [3, 7], 3: [4, 8]}, L=[0, 1, 2, 5, 6]', {})]

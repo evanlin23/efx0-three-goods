@@ -1,0 +1,232 @@
+profile {"sets": [[0, 2, 9, 10], [1, 6, 9, 11], [3, 7, 10, 11], [4, 8, 10, 11], [5, 9, 11]], "vals": [[2, 6, 7, 10], [1, 4, 8, 6], [6, 2, 10, 7], [2, 3, 4, 8], [2, 4, 3]], "m": 12}
+core violations [] strict True
+n=5 m=12 f=3 omega=5; keys 20, with def* > 0: 5
+
+key [None, None, 11, 10, 9] def* 1 (rt4_n5_indep: 1) states 4 covered True ['C+']
+
+key [None, 9, 11, 10, None] def* 1 (rt4_n5_indep: 1) states 2 covered True ['A+', 'C+']
+
+key [9, None, None, 10, 11] def* 1 (rt4_n5_indep: 1) states 4 covered True ['C+']
+
+key [9, None, 11, 10, None] def* 2 (rt4_n5_indep: 2) states 2 covered False []
+  maximum Q=Config(key=[9, None, 11, 10, None], Q={1: [1, 6], 4: [0, 5]}, L=[2, 3, 4, 7, 8])
+    P_Q = [[9], [1, 6], [11], [10], [5]] def 2 (rt4_n5_indep 2)
+    free 1: Q=[1, 6] H=[1, 6] robust=True leaf=True X=[1, 2, 3, 4, 6, 7, 8] threatens [2, 3] needs [9, 11]
+    free 4: Q=[0, 5] H=[5] robust=True leaf=True X=[0, 2, 3, 4, 5, 7, 8] threatens [0, 2, 3] needs [9, 11]
+    frozen 0 on 9: needs [10]; needers of its good: [1, 4]
+    frozen 2 on 11: needs [10]; needers of its good: [1, 3, 4]
+    frozen 3 on 10: needs [11]; needers of its good: [0, 2]
+    PR #80 counter: Zmax: Lemma A+ applies=False = 1
+    PR #80 counter: Zmax: Lemma A+ or B+ applies=False = 1
+    PR #80 counter: Zmax: Lemma B+ applies=False = 1
+    PR #80 counter: Zmax: direct T3 move=True, direct T3+ move=True, direct T4 move=True = 1
+    PR #80 counter: keys: Lemma A+ or B+ at some Zmax=False = 1
+    PR #80 counter: no A+/B+: leaf threatens 2 frozen agents = 1
+    PR #80 counter: no A+/B+: leaf threatens 3 frozen agents = 1
+    PR #82 test_max: applied []
+    PR #82 obstruction: C'+: Y safe, |Y| = omega+1, no good counted by Fact 3 | def(P′) <= 0 | third needers of phi(x): free = 8
+    PR #82 obstruction: C'+: Y safe, |Y| = omega+1, no good counted by Fact 3 | def(P′) <= 0 | third needers of phi(x): free,free = 8
+    PR #82 obstruction: C'+: Y safe, |Y| = omega+1, no good counted by Fact 3 | def(P′) <= 0 | third needers of phi(x): frozen = 32
+    PR #82 obstruction: C'+: Y safe, |Y| = omega+1, no good counted by Fact 3 | def(P′) > 0 | third needers of phi(x): free = 8
+    PR #82 obstruction: C'+: Y safe, |Y| = omega+1, no good counted by Fact 3 | def(P′) > 0 | third needers of phi(x): frozen = 8
+    PR #82 obstruction: C'+: Y safe, |Y| = omega+1, no good counted by Fact 3 | def(P′) > 0 | third needers of phi(x): frozen,free = 8
+    PR #82 obstruction: C'+: Y safe, |Y| = omega+1, no good counted by Fact 3 | def(P′) > 0 | third needers of phi(x): none = 8
+    improving (T3)/(T3+) moves from P_Q: 34
+      x=0 z=1 W=[] helper=None -> [[2], [9], [11], [10], [5]] def 1 (indep def 1, kinds ['T3', 'T3+'])
+      x=0 z=1 W=[] helper=None -> [[0, 2], [9], [11], [10], [5]] def 1 (indep def 1, kinds ['T3', 'T3+'])
+      x=0 z=1 W=[2, 3] helper=None -> [[2], [9], [10], [11], [5]] def -1 (indep def -1, kinds ['T3+'])
+      x=0 z=1 W=[2, 3] helper=None -> [[0, 2], [9], [10], [11], [5]] def -1 (indep def -1, kinds ['T3+'])
+      x=0 z=4 W=[] helper=None -> [[2], [1, 6], [11], [10], [9]] def 1 (indep def 1, kinds ['T3', 'T3+'])
+      x=0 z=4 W=[] helper=1 -> [[2], [6], [11], [10], [9]] def 1 (indep def 1, kinds ['T3', 'T3+'])
+      x=0 z=4 W=[] helper=1 -> [[0, 2], [6], [11], [10], [9]] def 1 (indep def 1, kinds ['T3', 'T3+'])
+      x=0 z=4 W=[2, 3] helper=None -> [[2], [1, 6], [10], [11], [9]] def -1 (indep def -1, kinds ['T3+'])
+      x=0 z=4 W=[2, 3] helper=None -> [[0, 2], [1, 6], [10], [11], [9]] def 0 (indep def 0, kinds ['T3+'])
+      x=0 z=4 W=[2, 3] helper=1 -> [[2], [6], [10], [11], [9]] def -1 (indep def -1, kinds ['T3+'])
+      x=0 z=4 W=[2, 3] helper=1 -> [[0, 2], [6], [10], [11], [9]] def -1 (indep def -1, kinds ['T3+'])
+      x=2 z=1 W=[] helper=None -> [[9], [11], [3], [10], [5]] def 1 (indep def 1, kinds ['T3', 'T3+'])
+      T4 -> [[9], [1, 6], [10], [11], [5]] def 0
+  maximum Q=Config(key=[9, None, 11, 10, None], Q={1: [1, 6], 4: [2, 5]}, L=[0, 3, 4, 7, 8])
+    P_Q = [[9], [1, 6], [11], [10], [5]] def 2 (rt4_n5_indep 2)
+    free 1: Q=[1, 6] H=[1, 6] robust=True leaf=True X=[0, 1, 3, 4, 6, 7, 8] threatens [2, 3] needs [9, 11]
+    free 4: Q=[2, 5] H=[5] robust=True leaf=True X=[0, 2, 3, 4, 5, 7, 8] threatens [0, 2, 3] needs [9, 11]
+    frozen 0 on 9: needs [10]; needers of its good: [1, 4]
+    frozen 2 on 11: needs [10]; needers of its good: [1, 3, 4]
+    frozen 3 on 10: needs [11]; needers of its good: [0, 2]
+    PR #80 counter: Zmax: Lemma A+ applies=False = 1
+    PR #80 counter: Zmax: Lemma A+ or B+ applies=False = 1
+    PR #80 counter: Zmax: Lemma B+ applies=False = 1
+    PR #80 counter: Zmax: direct T3 move=True, direct T3+ move=True, direct T4 move=True = 1
+    PR #80 counter: keys: Lemma A+ or B+ at some Zmax=False = 1
+    PR #80 counter: no A+/B+: leaf threatens 2 frozen agents = 1
+    PR #80 counter: no A+/B+: leaf threatens 3 frozen agents = 1
+    PR #82 test_max: applied []
+    PR #82 obstruction: C'+: Y safe, |Y| = omega+1, no good counted by Fact 3 | def(P′) <= 0 | third needers of phi(x): free = 8
+    PR #82 obstruction: C'+: Y safe, |Y| = omega+1, no good counted by Fact 3 | def(P′) <= 0 | third needers of phi(x): free,free = 8
+    PR #82 obstruction: C'+: Y safe, |Y| = omega+1, no good counted by Fact 3 | def(P′) <= 0 | third needers of phi(x): frozen = 32
+    PR #82 obstruction: C'+: Y safe, |Y| = omega+1, no good counted by Fact 3 | def(P′) > 0 | third needers of phi(x): free = 8
+    PR #82 obstruction: C'+: Y safe, |Y| = omega+1, no good counted by Fact 3 | def(P′) > 0 | third needers of phi(x): frozen = 8
+    PR #82 obstruction: C'+: Y safe, |Y| = omega+1, no good counted by Fact 3 | def(P′) > 0 | third needers of phi(x): frozen,free = 8
+    PR #82 obstruction: C'+: Y safe, |Y| = omega+1, no good counted by Fact 3 | def(P′) > 0 | third needers of phi(x): none = 8
+    improving (T3)/(T3+) moves from P_Q: 34
+      x=0 z=1 W=[] helper=None -> [[2], [9], [11], [10], [5]] def 1 (indep def 1, kinds ['T3', 'T3+'])
+      x=0 z=1 W=[] helper=None -> [[0, 2], [9], [11], [10], [5]] def 1 (indep def 1, kinds ['T3', 'T3+'])
+      x=0 z=1 W=[2, 3] helper=None -> [[2], [9], [10], [11], [5]] def -1 (indep def -1, kinds ['T3+'])
+      x=0 z=1 W=[2, 3] helper=None -> [[0, 2], [9], [10], [11], [5]] def -1 (indep def -1, kinds ['T3+'])
+      x=0 z=4 W=[] helper=None -> [[2], [1, 6], [11], [10], [9]] def 1 (indep def 1, kinds ['T3', 'T3+'])
+      x=0 z=4 W=[] helper=1 -> [[2], [6], [11], [10], [9]] def 1 (indep def 1, kinds ['T3', 'T3+'])
+      x=0 z=4 W=[] helper=1 -> [[0, 2], [6], [11], [10], [9]] def 1 (indep def 1, kinds ['T3', 'T3+'])
+      x=0 z=4 W=[2, 3] helper=None -> [[2], [1, 6], [10], [11], [9]] def -1 (indep def -1, kinds ['T3+'])
+      x=0 z=4 W=[2, 3] helper=None -> [[0, 2], [1, 6], [10], [11], [9]] def 0 (indep def 0, kinds ['T3+'])
+      x=0 z=4 W=[2, 3] helper=1 -> [[2], [6], [10], [11], [9]] def -1 (indep def -1, kinds ['T3+'])
+      x=0 z=4 W=[2, 3] helper=1 -> [[0, 2], [6], [10], [11], [9]] def -1 (indep def -1, kinds ['T3+'])
+      x=2 z=1 W=[] helper=None -> [[9], [11], [3], [10], [5]] def 1 (indep def 1, kinds ['T3', 'T3+'])
+      T4 -> [[9], [1, 6], [10], [11], [5]] def 0
+  maximum Q=Config(key=[9, None, 11, 10, None], Q={1: [1, 6], 4: [3, 5]}, L=[0, 2, 4, 7, 8])
+    P_Q = [[9], [1, 6], [11], [10], [5]] def 2 (rt4_n5_indep 2)
+    free 1: Q=[1, 6] H=[1, 6] robust=True leaf=True X=[0, 1, 2, 4, 6, 7, 8] threatens [0, 3] needs [9, 11]
+    free 4: Q=[3, 5] H=[5] robust=True leaf=True X=[0, 2, 3, 4, 5, 7, 8] threatens [0, 2, 3] needs [9, 11]
+    frozen 0 on 9: needs [10]; needers of its good: [1, 4]
+    frozen 2 on 11: needs [10]; needers of its good: [1, 3, 4]
+    frozen 3 on 10: needs [11]; needers of its good: [0, 2]
+    PR #80 counter: Zmax: Lemma A+ applies=False = 1
+    PR #80 counter: Zmax: Lemma A+ or B+ applies=False = 1
+    PR #80 counter: Zmax: Lemma B+ applies=False = 1
+    PR #80 counter: Zmax: direct T3 move=True, direct T3+ move=True, direct T4 move=True = 1
+    PR #80 counter: keys: Lemma A+ or B+ at some Zmax=False = 1
+    PR #80 counter: no A+/B+: leaf threatens 2 frozen agents = 1
+    PR #80 counter: no A+/B+: leaf threatens 3 frozen agents = 1
+    PR #82 test_max: applied []
+    PR #82 obstruction: C'+: Y safe, |Y| = omega+1, no good counted by Fact 3 | def(P′) <= 0 | third needers of phi(x): free = 8
+    PR #82 obstruction: C'+: Y safe, |Y| = omega+1, no good counted by Fact 3 | def(P′) <= 0 | third needers of phi(x): free,free = 8
+    PR #82 obstruction: C'+: Y safe, |Y| = omega+1, no good counted by Fact 3 | def(P′) <= 0 | third needers of phi(x): frozen = 32
+    PR #82 obstruction: C'+: Y safe, |Y| = omega+1, no good counted by Fact 3 | def(P′) > 0 | third needers of phi(x): free = 8
+    PR #82 obstruction: C'+: Y safe, |Y| = omega+1, no good counted by Fact 3 | def(P′) > 0 | third needers of phi(x): frozen = 8
+    PR #82 obstruction: C'+: Y safe, |Y| = omega+1, no good counted by Fact 3 | def(P′) > 0 | third needers of phi(x): frozen,free = 8
+    PR #82 obstruction: C'+: Y safe, |Y| = omega+1, no good counted by Fact 3 | def(P′) > 0 | third needers of phi(x): none = 8
+    improving (T3)/(T3+) moves from P_Q: 34
+      x=0 z=1 W=[] helper=None -> [[2], [9], [11], [10], [5]] def 1 (indep def 1, kinds ['T3', 'T3+'])
+      x=0 z=1 W=[] helper=None -> [[0, 2], [9], [11], [10], [5]] def 1 (indep def 1, kinds ['T3', 'T3+'])
+      x=0 z=1 W=[2, 3] helper=None -> [[2], [9], [10], [11], [5]] def -1 (indep def -1, kinds ['T3+'])
+      x=0 z=1 W=[2, 3] helper=None -> [[0, 2], [9], [10], [11], [5]] def -1 (indep def -1, kinds ['T3+'])
+      x=0 z=4 W=[] helper=None -> [[2], [1, 6], [11], [10], [9]] def 1 (indep def 1, kinds ['T3', 'T3+'])
+      x=0 z=4 W=[] helper=1 -> [[2], [6], [11], [10], [9]] def 1 (indep def 1, kinds ['T3', 'T3+'])
+      x=0 z=4 W=[] helper=1 -> [[0, 2], [6], [11], [10], [9]] def 1 (indep def 1, kinds ['T3', 'T3+'])
+      x=0 z=4 W=[2, 3] helper=None -> [[2], [1, 6], [10], [11], [9]] def -1 (indep def -1, kinds ['T3+'])
+      x=0 z=4 W=[2, 3] helper=None -> [[0, 2], [1, 6], [10], [11], [9]] def 0 (indep def 0, kinds ['T3+'])
+      x=0 z=4 W=[2, 3] helper=1 -> [[2], [6], [10], [11], [9]] def -1 (indep def -1, kinds ['T3+'])
+      x=0 z=4 W=[2, 3] helper=1 -> [[0, 2], [6], [10], [11], [9]] def -1 (indep def -1, kinds ['T3+'])
+      x=2 z=1 W=[] helper=None -> [[9], [11], [3], [10], [5]] def 1 (indep def 1, kinds ['T3', 'T3+'])
+      T4 -> [[9], [1, 6], [10], [11], [5]] def 0
+  maximum Q=Config(key=[9, None, 11, 10, None], Q={1: [1, 6], 4: [4, 5]}, L=[0, 2, 3, 7, 8])
+    P_Q = [[9], [1, 6], [11], [10], [5]] def 2 (rt4_n5_indep 2)
+    free 1: Q=[1, 6] H=[1, 6] robust=True leaf=True X=[0, 1, 2, 3, 6, 7, 8] threatens [0, 2] needs [9, 11]
+    free 4: Q=[4, 5] H=[5] robust=True leaf=True X=[0, 2, 3, 4, 5, 7, 8] threatens [0, 2, 3] needs [9, 11]
+    frozen 0 on 9: needs [10]; needers of its good: [1, 4]
+    frozen 2 on 11: needs [10]; needers of its good: [1, 3, 4]
+    frozen 3 on 10: needs [11]; needers of its good: [0, 2]
+    PR #80 counter: Zmax: Lemma A+ applies=False = 1
+    PR #80 counter: Zmax: Lemma A+ or B+ applies=False = 1
+    PR #80 counter: Zmax: Lemma B+ applies=False = 1
+    PR #80 counter: Zmax: direct T3 move=True, direct T3+ move=True, direct T4 move=True = 1
+    PR #80 counter: keys: Lemma A+ or B+ at some Zmax=False = 1
+    PR #80 counter: no A+/B+: leaf threatens 2 frozen agents = 1
+    PR #80 counter: no A+/B+: leaf threatens 3 frozen agents = 1
+    PR #82 test_max: applied []
+    PR #82 obstruction: C'+: Y safe, |Y| = omega+1, no good counted by Fact 3 | def(P′) <= 0 | third needers of phi(x): free = 8
+    PR #82 obstruction: C'+: Y safe, |Y| = omega+1, no good counted by Fact 3 | def(P′) <= 0 | third needers of phi(x): free,free = 8
+    PR #82 obstruction: C'+: Y safe, |Y| = omega+1, no good counted by Fact 3 | def(P′) <= 0 | third needers of phi(x): frozen = 32
+    PR #82 obstruction: C'+: Y safe, |Y| = omega+1, no good counted by Fact 3 | def(P′) > 0 | third needers of phi(x): free = 8
+    PR #82 obstruction: C'+: Y safe, |Y| = omega+1, no good counted by Fact 3 | def(P′) > 0 | third needers of phi(x): frozen = 8
+    PR #82 obstruction: C'+: Y safe, |Y| = omega+1, no good counted by Fact 3 | def(P′) > 0 | third needers of phi(x): frozen,free = 8
+    PR #82 obstruction: C'+: Y safe, |Y| = omega+1, no good counted by Fact 3 | def(P′) > 0 | third needers of phi(x): none = 8
+    improving (T3)/(T3+) moves from P_Q: 34
+      x=0 z=1 W=[] helper=None -> [[2], [9], [11], [10], [5]] def 1 (indep def 1, kinds ['T3', 'T3+'])
+      x=0 z=1 W=[] helper=None -> [[0, 2], [9], [11], [10], [5]] def 1 (indep def 1, kinds ['T3', 'T3+'])
+      x=0 z=1 W=[2, 3] helper=None -> [[2], [9], [10], [11], [5]] def -1 (indep def -1, kinds ['T3+'])
+      x=0 z=1 W=[2, 3] helper=None -> [[0, 2], [9], [10], [11], [5]] def -1 (indep def -1, kinds ['T3+'])
+      x=0 z=4 W=[] helper=None -> [[2], [1, 6], [11], [10], [9]] def 1 (indep def 1, kinds ['T3', 'T3+'])
+      x=0 z=4 W=[] helper=1 -> [[2], [6], [11], [10], [9]] def 1 (indep def 1, kinds ['T3', 'T3+'])
+      x=0 z=4 W=[] helper=1 -> [[0, 2], [6], [11], [10], [9]] def 1 (indep def 1, kinds ['T3', 'T3+'])
+      x=0 z=4 W=[2, 3] helper=None -> [[2], [1, 6], [10], [11], [9]] def -1 (indep def -1, kinds ['T3+'])
+      x=0 z=4 W=[2, 3] helper=None -> [[0, 2], [1, 6], [10], [11], [9]] def 0 (indep def 0, kinds ['T3+'])
+      x=0 z=4 W=[2, 3] helper=1 -> [[2], [6], [10], [11], [9]] def -1 (indep def -1, kinds ['T3+'])
+      x=0 z=4 W=[2, 3] helper=1 -> [[0, 2], [6], [10], [11], [9]] def -1 (indep def -1, kinds ['T3+'])
+      x=2 z=1 W=[] helper=None -> [[9], [11], [3], [10], [5]] def 1 (indep def 1, kinds ['T3', 'T3+'])
+      T4 -> [[9], [1, 6], [10], [11], [5]] def 0
+  maximum Q=Config(key=[9, None, 11, 10, None], Q={1: [1, 6], 4: [5, 7]}, L=[0, 2, 3, 4, 8])
+    P_Q = [[9], [1, 6], [11], [10], [5]] def 2 (rt4_n5_indep 2)
+    free 1: Q=[1, 6] H=[1, 6] robust=True leaf=True X=[0, 1, 2, 3, 4, 6, 8] threatens [0, 3] needs [9, 11]
+    free 4: Q=[5, 7] H=[5] robust=True leaf=True X=[0, 2, 3, 4, 5, 7, 8] threatens [0, 2, 3] needs [9, 11]
+    frozen 0 on 9: needs [10]; needers of its good: [1, 4]
+    frozen 2 on 11: needs [10]; needers of its good: [1, 3, 4]
+    frozen 3 on 10: needs [11]; needers of its good: [0, 2]
+    PR #80 counter: Zmax: Lemma A+ applies=False = 1
+    PR #80 counter: Zmax: Lemma A+ or B+ applies=False = 1
+    PR #80 counter: Zmax: Lemma B+ applies=False = 1
+    PR #80 counter: Zmax: direct T3 move=True, direct T3+ move=True, direct T4 move=True = 1
+    PR #80 counter: keys: Lemma A+ or B+ at some Zmax=False = 1
+    PR #80 counter: no A+/B+: leaf threatens 2 frozen agents = 1
+    PR #80 counter: no A+/B+: leaf threatens 3 frozen agents = 1
+    PR #82 test_max: applied []
+    PR #82 obstruction: C'+: Y safe, |Y| = omega+1, no good counted by Fact 3 | def(P′) <= 0 | third needers of phi(x): free = 8
+    PR #82 obstruction: C'+: Y safe, |Y| = omega+1, no good counted by Fact 3 | def(P′) <= 0 | third needers of phi(x): free,free = 8
+    PR #82 obstruction: C'+: Y safe, |Y| = omega+1, no good counted by Fact 3 | def(P′) <= 0 | third needers of phi(x): frozen = 32
+    PR #82 obstruction: C'+: Y safe, |Y| = omega+1, no good counted by Fact 3 | def(P′) > 0 | third needers of phi(x): free = 8
+    PR #82 obstruction: C'+: Y safe, |Y| = omega+1, no good counted by Fact 3 | def(P′) > 0 | third needers of phi(x): frozen = 8
+    PR #82 obstruction: C'+: Y safe, |Y| = omega+1, no good counted by Fact 3 | def(P′) > 0 | third needers of phi(x): frozen,free = 8
+    PR #82 obstruction: C'+: Y safe, |Y| = omega+1, no good counted by Fact 3 | def(P′) > 0 | third needers of phi(x): none = 8
+    improving (T3)/(T3+) moves from P_Q: 34
+      x=0 z=1 W=[] helper=None -> [[2], [9], [11], [10], [5]] def 1 (indep def 1, kinds ['T3', 'T3+'])
+      x=0 z=1 W=[] helper=None -> [[0, 2], [9], [11], [10], [5]] def 1 (indep def 1, kinds ['T3', 'T3+'])
+      x=0 z=1 W=[2, 3] helper=None -> [[2], [9], [10], [11], [5]] def -1 (indep def -1, kinds ['T3+'])
+      x=0 z=1 W=[2, 3] helper=None -> [[0, 2], [9], [10], [11], [5]] def -1 (indep def -1, kinds ['T3+'])
+      x=0 z=4 W=[] helper=None -> [[2], [1, 6], [11], [10], [9]] def 1 (indep def 1, kinds ['T3', 'T3+'])
+      x=0 z=4 W=[] helper=1 -> [[2], [6], [11], [10], [9]] def 1 (indep def 1, kinds ['T3', 'T3+'])
+      x=0 z=4 W=[] helper=1 -> [[0, 2], [6], [11], [10], [9]] def 1 (indep def 1, kinds ['T3', 'T3+'])
+      x=0 z=4 W=[2, 3] helper=None -> [[2], [1, 6], [10], [11], [9]] def -1 (indep def -1, kinds ['T3+'])
+      x=0 z=4 W=[2, 3] helper=None -> [[0, 2], [1, 6], [10], [11], [9]] def 0 (indep def 0, kinds ['T3+'])
+      x=0 z=4 W=[2, 3] helper=1 -> [[2], [6], [10], [11], [9]] def -1 (indep def -1, kinds ['T3+'])
+      x=0 z=4 W=[2, 3] helper=1 -> [[0, 2], [6], [10], [11], [9]] def -1 (indep def -1, kinds ['T3+'])
+      x=2 z=1 W=[] helper=None -> [[9], [11], [3], [10], [5]] def 1 (indep def 1, kinds ['T3', 'T3+'])
+      T4 -> [[9], [1, 6], [10], [11], [5]] def 0
+  maximum Q=Config(key=[9, None, 11, 10, None], Q={1: [1, 6], 4: [5, 8]}, L=[0, 2, 3, 4, 7])
+    P_Q = [[9], [1, 6], [11], [10], [5]] def 2 (rt4_n5_indep 2)
+    free 1: Q=[1, 6] H=[1, 6] robust=True leaf=True X=[0, 1, 2, 3, 4, 6, 7] threatens [0, 2] needs [9, 11]
+    free 4: Q=[5, 8] H=[5] robust=True leaf=True X=[0, 2, 3, 4, 5, 7, 8] threatens [0, 2, 3] needs [9, 11]
+    frozen 0 on 9: needs [10]; needers of its good: [1, 4]
+    frozen 2 on 11: needs [10]; needers of its good: [1, 3, 4]
+    frozen 3 on 10: needs [11]; needers of its good: [0, 2]
+    PR #80 counter: Zmax: Lemma A+ applies=False = 1
+    PR #80 counter: Zmax: Lemma A+ or B+ applies=False = 1
+    PR #80 counter: Zmax: Lemma B+ applies=False = 1
+    PR #80 counter: Zmax: direct T3 move=True, direct T3+ move=True, direct T4 move=True = 1
+    PR #80 counter: keys: Lemma A+ or B+ at some Zmax=False = 1
+    PR #80 counter: no A+/B+: leaf threatens 2 frozen agents = 1
+    PR #80 counter: no A+/B+: leaf threatens 3 frozen agents = 1
+    PR #82 test_max: applied []
+    PR #82 obstruction: C'+: Y safe, |Y| = omega+1, no good counted by Fact 3 | def(P′) <= 0 | third needers of phi(x): free = 8
+    PR #82 obstruction: C'+: Y safe, |Y| = omega+1, no good counted by Fact 3 | def(P′) <= 0 | third needers of phi(x): free,free = 8
+    PR #82 obstruction: C'+: Y safe, |Y| = omega+1, no good counted by Fact 3 | def(P′) <= 0 | third needers of phi(x): frozen = 32
+    PR #82 obstruction: C'+: Y safe, |Y| = omega+1, no good counted by Fact 3 | def(P′) > 0 | third needers of phi(x): free = 8
+    PR #82 obstruction: C'+: Y safe, |Y| = omega+1, no good counted by Fact 3 | def(P′) > 0 | third needers of phi(x): frozen = 8
+    PR #82 obstruction: C'+: Y safe, |Y| = omega+1, no good counted by Fact 3 | def(P′) > 0 | third needers of phi(x): frozen,free = 8
+    PR #82 obstruction: C'+: Y safe, |Y| = omega+1, no good counted by Fact 3 | def(P′) > 0 | third needers of phi(x): none = 8
+    improving (T3)/(T3+) moves from P_Q: 34
+      x=0 z=1 W=[] helper=None -> [[2], [9], [11], [10], [5]] def 1 (indep def 1, kinds ['T3', 'T3+'])
+      x=0 z=1 W=[] helper=None -> [[0, 2], [9], [11], [10], [5]] def 1 (indep def 1, kinds ['T3', 'T3+'])
+      x=0 z=1 W=[2, 3] helper=None -> [[2], [9], [10], [11], [5]] def -1 (indep def -1, kinds ['T3+'])
+      x=0 z=1 W=[2, 3] helper=None -> [[0, 2], [9], [10], [11], [5]] def -1 (indep def -1, kinds ['T3+'])
+      x=0 z=4 W=[] helper=None -> [[2], [1, 6], [11], [10], [9]] def 1 (indep def 1, kinds ['T3', 'T3+'])
+      x=0 z=4 W=[] helper=1 -> [[2], [6], [11], [10], [9]] def 1 (indep def 1, kinds ['T3', 'T3+'])
+      x=0 z=4 W=[] helper=1 -> [[0, 2], [6], [11], [10], [9]] def 1 (indep def 1, kinds ['T3', 'T3+'])
+      x=0 z=4 W=[2, 3] helper=None -> [[2], [1, 6], [10], [11], [9]] def -1 (indep def -1, kinds ['T3+'])
+      x=0 z=4 W=[2, 3] helper=None -> [[0, 2], [1, 6], [10], [11], [9]] def 0 (indep def 0, kinds ['T3+'])
+      x=0 z=4 W=[2, 3] helper=1 -> [[2], [6], [10], [11], [9]] def -1 (indep def -1, kinds ['T3+'])
+      x=0 z=4 W=[2, 3] helper=1 -> [[0, 2], [6], [10], [11], [9]] def -1 (indep def -1, kinds ['T3+'])
+      x=2 z=1 W=[] helper=None -> [[9], [11], [3], [10], [5]] def 1 (indep def 1, kinds ['T3', 'T3+'])
+      T4 -> [[9], [1, 6], [10], [11], [5]] def 0
+  DLKey over every state of the key: {'holds': True, 'moves': {'T3': 16, 'T3+|W|=2': 16, 'T3+|W|=1': 16, 'T4': 2, 'T3+helper': 4, 'T3+|W|=2+helper': 4, 'T3+|W|=1+helper': 4}, 'example': ('T3', [[9], [6], [11], [10], [5]], [[2], [9], [11], [10], [5]], 1, 1)}
+    state [[9], [6], [11], [10], [5]] def 2: 24 key-improving (T3)/(T3+) moves; e.g. x=0 z=1 W=[] helper=None -> [[2], [9], [11], [10], [5]] def 1 (indep 1)
+    state [[9], [1, 6], [11], [10], [5]] def 2: 36 key-improving (T3)/(T3+) moves; e.g. x=0 z=1 W=[] helper=None -> [[2], [9], [11], [10], [5]] def 1 (indep 1)
+
+key [9, 11, None, 10, None] def* 1 (rt4_n5_indep: 1) states 2 covered True ['A+', 'C+']

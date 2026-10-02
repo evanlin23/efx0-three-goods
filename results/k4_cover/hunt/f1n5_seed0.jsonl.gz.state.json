@@ -1,0 +1,1 @@
+{"stats": {"steps": 19246, "evals": 30977, "screened": 307936, "hits": 30977, "uncovered": 0, "rare": 0, "restarts": 315, "elapsed": 1800.0229816436768, "seen_rare": []}, "cur": [95, 86, 91, 15, 20], "best": [108, 84, 23, 15, 59], "best_s": 1, "rng": 0}

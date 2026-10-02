@@ -1,9 +1,10 @@
 # COVER⁺ fails as stated: a key with def* > 0 where none of A⁺, B⁺, C⁺, C′⁺ applies (compute/k4-cover)
 
 **Status: the statement COVER⁺ (k4/f2.md §5 and §7 on proof/k4-f2, PR #82; the hypothesis of Theorem Z′⁺) is false
-as stated. DL on the key graph (DLKey) still holds at every failing key found, by a plain (T3) move.** EVIDENCE of a
-counterexample to a conjectured covering statement; confirmed by two implementations. COVER (f = 1) has no failure so
-far.
+as stated.** 1,280 uncovered keys are known. At every one, DL on the key graph (DLKey) still holds, and so does Theorem
+Z′⁺'s conclusion: a (T3) move with one helper from P_Q to deficit ≤ 0, or at 9 keys a (T3⁺) move with |W| = 1. This is
+EVIDENCE of a counterexample to a conjectured covering statement, confirmed by two implementations. COVER (f = 1) has
+no failure.
 
 The statement tested: for every strict profile of a connected k = 4 core with f ≥ 2 and ω ≥ 1, every key κ with
 def*(κ) > 0 has a maximum Q of (r′, Λ′) at which Lemma A⁺ (any chain length j), Lemma B⁺ (threat path length 1),
@@ -80,16 +81,23 @@ Log: `results/k4_cover/failure_n4_m7.log`, `failure_n4_m7_indep.log`.
 
 ## The kinds of failure seen
 
-At every uncovered key so far, PR #80's `sx_f2` gives the reason A⁺ and B⁺ fail at the maxima (`k4/cover_uncovered.py`;
-final counts in SUMMARY.md):
-1. *Crossed pair* ("the free needers are off the path to the leaf"). This is the first instance above: x's admissible
-   base needs a good of another leaf's pair.
-2. *A leaf threatens two frozen agents*, the obstruction of K4.SX.X (3), with neither C⁺ nor C′⁺ applying.
-3. *The (R) leaf with s in L* on B⁺'s path, the second instance above.
-4. *Only B⁺ with a threat path of length 2* applies (one n = 5 key, `k4_portfolio/n5_4.json` on compute/k4-portfolio).
+Final counts over the 1,280 distinct uncovered keys (`uncovered_*.jsonl.gz`, `k4/cover_uncovered.py`; all confirmed by
+`k4/cover_indep.py`). The reason is PR #80's `sx_f2` reason why A⁺ and B⁺ fail at the maxima:
+1. *Crossed pair* ("the free needers are off the path to the leaf"), the first instance above: x's admissible base needs
+   a good of another leaf's pair. 796 keys.
+2. *An (R) leaf with s in L* on B⁺'s path, the missing f ≥ 2 form of Lemma B′ (the second instance above). 411 keys.
+3. *A leaf threatening two or three frozen agents*, the obstruction of K4.SX.X (3), with neither C⁺ nor C′⁺
+   applying. 72 keys.
+4. *Only B⁺ with a threat path of length 2* applies (n = 5, `k4_portfolio/n5_4.json` on compute/k4-portfolio). 1 key.
 
-In every case, at some maximum, one (T3) move **with one helper** from P_Q reaches a state of deficit ≤ 0. So the
-conclusion of Theorem Z′⁺ holds; only its hypothesis, COVER⁺, fails. DLKey holds at every uncovered key.
+def* = 1 at 1,241 keys and def* = 2 at 39 (`failure_n5_m12_def2.log` is one, at n = 5, m = 12, f = 3).
+
+At every one, at some maximum, one move from P_Q reaches a state of deficit ≤ 0, so the conclusion of Theorem Z′⁺ holds
+and only its hypothesis, COVER⁺, fails:
+- a plain (T3) move with one helper, at 1,271 keys;
+- a (T3⁺) move with |W| = 1 and no helper, at 9.
+
+DLKey holds at all 1,280.
 
 ## Extent
 
@@ -97,7 +105,10 @@ conclusion of Theorem Z′⁺ holds; only its hypothesis, COVER⁺, fails. DLKey
   320 distinct strict profiles of this core with an uncovered key. All have f = 2, and DLKey holds at every one.
   The smallest by the sum of values is the first instance above (sum 76). The smallest instance overall so far is
   the n = 4, m = 7 one of the second kind.
-- Phase 2 counts of uncovered keys in the large data, and the hunts on other cores: `results/k4_cover/SUMMARY.md`.
+- In all: 1,280 distinct uncovered keys at n = 4 (f = 2) and n = 5 (f = 2, 3), every one confirmed by `k4/cover_indep.py`.
+  None was found at n = 3 (all 193,744 f = 2 keys of every strict profile are covered), at n = 4 with at most two
+  4-good agents (all 69,024 keys of every strict profile), or at n = 6. Rates in random data: 3 in 9,517 (n = 4, three
+  4-good agents), 26 in 7,687 (n = 4 pure), 6 in 1,155 (n = 5). Details: `results/k4_cover/SUMMARY.md`.
 
 ## Reproduce
 

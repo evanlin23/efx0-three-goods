@@ -1,0 +1,13 @@
+# command: python3 k4/cover_uncovered.py results/k4_cover/uncovered_hunt_n4.jsonl.gz results/k4_cover/hunt/f1_seed0.jsonl.gz results/k4_cover/hunt/f1_seed3.jsonl.gz results/k4_cover/hunt/f1_seed6.jsonl.gz results/k4_cover/hunt/f1_seed9.jsonl.gz results/k4_cover/hunt/f1n5_seed0.jsonl.gz results/k4_cover/hunt/f1n5_seed1.jsonl.gz results/k4_cover/hunt/f1n5_seed2.jsonl.gz results/k4_cover/hunt/f1n5_seed3.jsonl.gz results/k4_cover/hunt/f1n5_seed4.jsonl.gz results/k4_cover/hunt/f1new_seed0.jsonl.gz results/k4_cover/hunt/f1new_seed1.jsonl.gz results/k4_cover/hunt/f1new_seed2.jsonl.gz results/k4_cover/hunt/f1seed0_anyf.jsonl.gz results/k4_cover/hunt/f2x2_n4_m10.jsonl.gz results/k4_cover/hunt/first_f2x2_1min.jsonl.gz results/k4_cover/hunt/n5c_pathswap.jsonl.gz results/k4_cover/hunt/n6_seed2.jsonl.gz results/k4_cover/hunt/seeds_f1.jsonl.gz results/k4_cover/hunt/seeds_f1_n5.jsonl.gz results/k4_cover/hunt/seeds_f1_new.jsonl.gz results/k4_cover/hunt/seeds_n6.jsonl.gz results/k4_cover/hunt/seeds_unc_n4.jsonl.gz results/k4_cover/hunt/seeds_unc_n5.jsonl.gz results/k4_cover/hunt/sxx3_n4_m8.jsonl.gz results/k4_cover/hunt/unc4_seed0.jsonl.gz results/k4_cover/hunt/unc4_seed1.jsonl.gz results/k4_cover/hunt/unc5_seed0.jsonl.gz results/k4_cover/hunt/unc5_seed2.jsonl.gz --maxn=4
+DLKey holds=True                                                       928
+PR #80 obstruction (at some maximum): B+ leaf of kind (R) with s in L  400
+PR #80 obstruction (at some maximum): no A+/B+: a needer on the path, but theta fails or an (R) leaf with s in L 400
+PR #80 obstruction (at some maximum): no A+/B+: leaf threatens 2 frozen agents 50
+PR #80 obstruction (at some maximum): no A+/B+: the free needers are off the path to the leaf 478
+PR #80 obstructions: B+ leaf of kind (R) with s in L + no A+/B+: a needer on the path, but theta fails or an (R) leaf with s in L 400
+PR #80 obstructions: no A+/B+: leaf threatens 2 frozen agents          50
+PR #80 obstructions: no A+/B+: the free needers are off the path to the leaf 478
+ZMOVE (a (T3+) move from some P_Q to def <= 0)=True                    928
+ZMOVE best: T3 with helper                                             928
+confirmed by k4/cover_indep.py=True                                    928
+uncovered keys f=2 n=4                                                 928

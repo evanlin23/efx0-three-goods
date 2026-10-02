@@ -1,0 +1,19 @@
+# command: python3 k4/cover_uncovered.py results/k4_cover/uncovered_phase2.jsonl.gz results/k4_cover/checks/n3_all_f2_p0.jsonl.gz results/k4_cover/checks/n3_all_f2_p1.jsonl.gz results/k4_cover/checks/n3_all_f2_p2.jsonl.gz results/k4_cover/checks/n3_all_f2_p3.jsonl.gz results/k4_cover/checks/n4_1_all_p0.jsonl.gz results/k4_cover/checks/n4_2_all_p0.jsonl.gz results/k4_cover/checks/n4_2_all_p1.jsonl.gz results/k4_cover/checks/n4_2_all_p2.jsonl.gz results/k4_cover/checks/n4_2_all_p3.jsonl.gz results/k4_cover/checks/n4_3_r200k_p0.jsonl.gz results/k4_cover/checks/n4_3_r200k_p1.jsonl.gz results/k4_cover/checks/n4_pure_r200k_p0.jsonl.gz results/k4_cover/checks/n4_pure_r200k_p1.jsonl.gz results/k4_cover/checks/n4_pure_r200k_p2.jsonl.gz results/k4_cover/checks/n4_pure_r200k_p3.jsonl.gz results/k4_cover/checks/n4_pure_r2k_p0.jsonl.gz results/k4_cover/checks/n5_n4_1_r200_p0.jsonl.gz results/k4_cover/checks/n5_n4_2_r200_p0.jsonl.gz results/k4_cover/checks/n5_n4_3_r200_p0.jsonl.gz results/k4_cover/checks/n5_n4_4_r200_p0.jsonl.gz results/k4_cover/checks/n5_n4_4_r2k_p0.jsonl.gz results/k4_cover/checks/n5_n4_4_r2k_p1.jsonl.gz results/k4_cover/checks/n5_pure_bt_r200_p0.jsonl.gz results/k4_cover/checks/n5_pure_bt_r2k_p0.jsonl.gz results/k4_cover/checks/n5_pure_bt_r2k_p1.jsonl.gz results/k4_cover/checks/n5_pure_bt_r2k_p2.jsonl.gz results/k4_cover/checks/n5_pure_bt_r2k_p3.jsonl.gz results/k4_cover/checks/n5_pure_r200_p0.jsonl.gz results/k4_cover/checks/n5_pure_r2k_p0.jsonl.gz results/k4_cover/checks/n5_pure_r2k_p1.jsonl.gz results/k4_cover/f2/dumps5_p0.jsonl.gz results/k4_cover/f2/dumps5_p1.jsonl.gz results/k4_cover/f2/dumps5_p2.jsonl.gz results/k4_cover/f2/dumps5_p3.jsonl.gz results/k4_cover/f2/dumps_p0.jsonl.gz results/k4_cover/f2/dumps_p1.jsonl.gz results/k4_cover/f2/dumps_p2.jsonl.gz results/k4_cover/f2/dumps_p3.jsonl.gz results/k4_cover/f2/n6r_p0.jsonl.gz results/k4_cover/f2/n6r_p1.jsonl.gz results/k4_cover/f2/n6r_p2.jsonl.gz results/k4_cover/f2/n6r_p3.jsonl.gz results/k4_cover/f2/n6s_p0.jsonl.gz results/k4_cover/f2/n6s_p1.jsonl.gz results/k4_cover/f2/n6s_p2.jsonl.gz results/k4_cover/f2/n6s_p3.jsonl.gz results/k4_cover/f2/rest_p0.jsonl.gz results/k4_cover/f2/rest_p1.jsonl.gz results/k4_cover/f2/rest_p2.jsonl.gz results/k4_cover/f2/rest_p3.jsonl.gz --maxn=5
+DLKey holds=True                                                       56
+PR #80 obstruction (at some maximum): B+ leaf of kind (R) with s in L  13
+PR #80 obstruction (at some maximum): no A+/B+: a needer on the path, but theta fails or an (R) leaf with s in L 13
+PR #80 obstruction (at some maximum): no A+/B+: leaf threatens 2 frozen agents 22
+PR #80 obstruction (at some maximum): no A+/B+: leaf threatens 3 frozen agents 2
+PR #80 obstruction (at some maximum): no A+/B+: the free needers are off the path to the leaf 20
+PR #80 obstructions:                                                   1
+PR #80 obstructions: B+ leaf of kind (R) with s in L + no A+/B+: a needer on the path, but theta fails or an (R) leaf with s in L 13
+PR #80 obstructions: no A+/B+: leaf threatens 2 frozen agents          20
+PR #80 obstructions: no A+/B+: leaf threatens 2 frozen agents + no A+/B+: leaf threatens 3 frozen agents 2
+PR #80 obstructions: no A+/B+: the free needers are off the path to the leaf 20
+ZMOVE (a (T3+) move from some P_Q to def <= 0)=True                    56
+ZMOVE best: T3 with helper                                             47
+ZMOVE best: T3+|W|=1 no helper                                         9
+confirmed by k4/cover_indep.py=True                                    56
+uncovered keys f=2 n=4                                                 35
+uncovered keys f=2 n=5                                                 4
+uncovered keys f=3 n=5                                                 17

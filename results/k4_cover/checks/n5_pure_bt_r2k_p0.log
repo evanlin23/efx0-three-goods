@@ -1,0 +1,9 @@
+# command: python3 k4/cover_check.py results/k4_cover/checks/n5_pure_bt_r2k_p0.jsonl.gz results/k4_cover/screen/n5_pure_bt_r2k.jsonl.gz --part=0/4
+# 581 input records, 581 distinct in range, part 0/4: 146, already done 0
+UNCOVERED {"sets": [[0, 2, 9, 10], [1, 6, 9, 12], [3, 7, 11, 12], [4, 8, 11, 12], [5, 10, 11, 12]], "vals": [[2, 3, 8, 4], [3, 2, 8, 4], [2, 3, 10, 6], [2, 3, 4, 8], [3, 2, 10, 6]], "m": 13, "f": 3} {"key": [9, 12, null, 11, null], "dstar": 2, "states": 4, "maxima": [{"Q": "{2: [3, 7], 4: [5, 10]}, L=[0, 1, 2, 4, 6, 8]", "defPQ": 2, "leaves": [2, 4], "lemmas": {}, "detail": {}}], "cover": [], "covered": false, "maxima_covered": 0, "dlkey": {"holds": true, "moves": {"T3+|W|=1": 42, "T3+|W|=2": 26, "T3": 32, "T3+|W|=1+helper": 24, "T3+|W|=2+helper": 16, "T3+helper": 16}, "example": ["T3", [[9], [12], [7], [11], [5]], [[9], [1], [12], [11], [5]], 1, 1]}, "zmove": [{"moves": 32, "T3 no helper": 0, "T3 helper": 0, "T3+": 32}]}
+UNCOVERED f=3                  1
+keys f=2                       61
+keys f=3                       121
+keys f=4                       12
+profiles                       146
+# time 100.8 s
