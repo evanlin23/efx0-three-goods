@@ -252,8 +252,29 @@ class Ctx:
         return n, rot
 
     # ------------------------------------------------------------ the corollaries
-    def single_blocks(self):
-        return self.pr.single_blocks(self.Bs)
+    def single_blocks(self, pairs=None):
+        """(o, X, c, w): w the only agent other than o threatened by X ∪ {c}, for the (o, X) of pairs (default: the best
+        owners and their optimal bundles)"""
+        if pairs is None: return self.pr.single_blocks(self.Bs)
+        out = []
+        for o, X in pairs:
+            for c in bits(self.P.J & ~X):
+                ws = self.pr.blockers(self.Bs, o, X | (1 << c))
+                if len(ws) == 1: out.append((o, X, c, ws[0]))
+        return out
+
+    def all_pairs(self):
+        """every free o with every bundle X of o that is safe in P"""
+        P, Bs = self.P, self.Bs
+        Jl = list(bits(P.J)); out = []
+        for o in P.free:
+            for k in range(len(Jl) + 1):
+                for K in itertools.combinations(Jl, k):
+                    X = Bs[o] | mask(K)
+                    if P.safe(o, X): out.append((o, X))
+        return out
+
+    def val(self, o, X): return pc(X) + self.P.u(o, X)
 
     def C1p(self, sb):
         """Corollary 9.1+; returns the (o, x, c, k) certified"""
@@ -269,9 +290,10 @@ class Ctx:
                 As = self.adm(x, Y)
                 assert As, ('Corollary 9.1+: no admissible A', Bs)
                 iota = 0 if any(P.N[i] & gk for i in range(I.n) if i != o) else 1
+                bound = self.omega + 1 - self.val(o, X) - iota          # = def(P) - 1 - iota at a best owner, X optimal
                 for A in As:
                     b2 = self.swap(path, A)
-                    assert b2 in pr.D and pr.D[b2] <= self.D - 1 - iota, ('Corollary 9.1+', Bs, b2)
+                    assert b2 in pr.D and pr.D[b2] <= bound, ('Corollary 9.1+', Bs, b2)
                 out.append((o, x, c, len(path) - 2))
         return out
 
@@ -291,36 +313,36 @@ class Ctx:
                         if self.thr(x, Y, A): continue
                         if any(Bs[w] & I.needs(x, A) for w in cnt): continue
                         b2 = self.swap(path, A)
-                        assert b2 in pr.D and pr.D[b2] <= self.D - 1, ('Corollary 11.1+', Bs, b2)
+                        assert b2 in pr.D and pr.D[b2] <= self.omega + 1 - self.val(o, X), ('Corollary 11.1+', Bs, b2)
                         out.append((o, z, x, c, len(path) - 2))
         return out
 
-    def C4p(self):
-        """Corollary 11.2+ (the kappa swap): a best owner o keeps an optimal X; a frozen x whose good g is needed by
-        exactly one agent a_1 other than o, and g ∉ N_o(X); a need path z, ..., a_1, x with o not on it; x takes a pair
-        A ⊆ ((J ∪ B_z) minus X) ∩ R_x with v_x(A) > v_x(g) and theta_x(X) <= v_x(A): def(P') <= def(P) - 1.
-        Returns the (o, x, k) certified."""
+    def C4p(self, pairs=None):
+        """Corollary 11.2+ (the kappa swap): a free o keeps a safe X (default: best owners, optimal X); a frozen x whose
+        good g is needed by exactly one agent a_1 other than o, and g ∉ N_o(X); a need path z, ..., a_1, x with o not on
+        it; x takes a pair A ⊆ ((J ∪ B_z) minus X) ∩ R_x with v_x(A) > v_x(g) and theta_x(X) <= v_x(A):
+        def(P') <= omega + 1 - |X| - u_o(X). Returns the (o, x, k) certified."""
         I, P, Bs, pr = self.I, self.P, self.Bs, self.pr
         out = []
-        for o in self.best:
-            for X in pr.OWN[Bs][o][1]:
-                NoX = I.needs(o, X)
-                for x in self.F:
-                    g = Bs[x]
-                    if g & NoX: continue
-                    others = [i for i in range(I.n) if i != o and P.N[i] & g]
-                    if len(others) != 1: continue
-                    a1 = others[0]; vg = I.val(x, g)
-                    for path in self.paths_to(x):
-                        if path[-2] != a1 or o in path: continue
-                        z = path[0]
-                        pool = ((P.J | Bs[z]) & ~X) & I.R[x]
-                        for A in itertools.combinations(list(bits(pool)), 2):
-                            A = mask(A)
-                            if I.val(x, A) <= vg or self.thr(x, X, A): continue
-                            b2 = self.swap(path, A)
-                            assert b2 in pr.D and pr.D[b2] <= self.D - 1, ('Corollary 11.2+', Bs, b2)
-                            out.append((o, x, len(path) - 2))
+        if pairs is None: pairs = [(o, X) for o in self.best for X in pr.OWN[Bs][o][1]]
+        for o, X in pairs:
+            NoX = I.needs(o, X)
+            for x in self.F:
+                g = Bs[x]
+                if g & NoX: continue
+                others = [i for i in range(I.n) if i != o and P.N[i] & g]
+                if len(others) != 1: continue
+                a1 = others[0]; vg = I.val(x, g)
+                for path in self.paths_to(x):
+                    if path[-2] != a1 or o in path: continue
+                    z = path[0]
+                    pool = ((P.J | Bs[z]) & ~X) & I.R[x]
+                    for A in itertools.combinations(list(bits(pool)), 2):
+                        A = mask(A)
+                        if I.val(x, A) <= vg or self.thr(x, X, A): continue
+                        b2 = self.swap(path, A)
+                        assert b2 in pr.D and pr.D[b2] <= self.omega + 1 - self.val(o, X), ('Corollary 11.2+', Bs, b2)
+                        out.append((o, x, len(path) - 2))
         return out
 
     def C3p(self):
@@ -493,8 +515,10 @@ def check_run(profiles, all_states=False):
             nc, rot = ctx.check_closure(); cnt['Lemma C compositions'] += nc; cnt['Proposition N rotations'] += rot
             if pr.D[Bs] <= 0: continue
             cnt['def>0 states'] += 1; cnt['def>0 states f=%d' % pr.I.f] += 1
-            sb = ctx.single_blocks()
-            c1 = ctx.C1p(sb); c2 = ctx.C2p(sb); c3 = ctx.C3p(); c4 = ctx.C4p()
+            pairs = ctx.all_pairs()
+            sb = ctx.single_blocks(pairs)
+            c1 = ctx.C1p(sb); c2 = ctx.C2p(sb); c3 = ctx.C3p(); c4 = ctx.C4p(pairs)
+            cnt['(o, X) pairs (every free owner, every safe bundle)'] += len(pairs)
             cnt['C4+ applies'] += bool(c4); cnt['C4+ applies with k >= 1'] += any(t[-1] >= 1 for t in c4)
             cnt['C1+ applies'] += bool(c1); cnt['C1+ applies with k >= 1'] += any(t[-1] >= 1 for t in c1)
             cnt['C2+ applies'] += bool(c2); cnt['C2+ applies with k >= 1'] += any(t[-1] >= 1 for t in c2)
