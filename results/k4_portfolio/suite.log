@@ -1,5 +1,5 @@
 # command: python3 k4/portfolio.py suite --name=suite --jobs=3 --chunk=5
-# portfolio_dump.c sha256 d549cd68387f58c47835a6254e53e340a8f018061a81456a2f2d89181ffaabd8; portfolio_preds.py sha256 077504f0373ab7b27e7adbdee81d7d6c98994406fbaa76455212ca5351415f60
+# portfolio_dump.c sha256 d549cd68387f58c47835a6254e53e340a8f018061a81456a2f2d89181ffaabd8; portfolio_preds.py sha256 36d4a391eddaab47e374f59780fefc09ffa35e60d2cbc3910a5a7494f6a28d18
 # suite: 154 profiles
 # 31 units to run, 0 from the checkpoint; jobs 3
 #   unit {'chunk': 8}: dumped 3 states 10 fails {'D2': 1} [0.0 s; 0 s wall]
@@ -8,12 +8,15 @@
 suite: profiles 154 (omega >= 1: 101), evaluated (f >= 1 with a state) 49 (skipped as too large: 0); states 215, keys with def* > 0 37; by f: {"1": {"keys_pos": 4, "profiles": 22, "states": 115}, "2": {"keys_pos": 11, "profiles": 23, "states": 64}, "3": {"keys_pos": 22, "profiles": 4, "states": 36}}; 0 s CPU
   nearest distance of the states (f|k: count): 1|1: 72, 1|2: 41, 1|3: 2, 2|1: 40, 2|2: 24, 3|2: 33, 3|3: 3
   single RT4        tested      215 FAILS      3 margin 0 | smallest repairs: 0|0|0|1 112, 1|0|1|0 90, 0|0|0|2 6, 0|2|0|0 2, 0|0|0|3 1, 1|0|1|1 1 | smallest failure n=5 m=9 f=3 def=1 rt4-n5m9-chain B=[[7], [8], [3], [5], [6]]
+  single RC3        tested      215 FAILS      0 margin 6 | smallest repairs: 0|0|0|1 112, 1|0|1|0 90, 0|0|0|2 6, 1|1|1|0 3, 0|2|0|0 2, 0|0|0|3 1, 1|0|1|1 1
   single RC_W1      tested      215 FAILS      0 margin 6 | smallest repairs: 0|0|0|1 112, 1|0|1|0 90, 0|0|0|2 6, 1|1|1|0 3, 0|2|0|0 2, 0|0|0|3 1, 1|0|1|1 1
   single RC         tested      215 FAILS      0 margin 6 | smallest repairs: 0|0|0|1 112, 1|0|1|0 90, 0|0|0|2 6, 1|1|1|0 3, 0|2|0|0 2, 0|0|0|3 1, 1|0|1|1 1
   single RC_noneed  tested      215 FAILS      0 margin 6 | smallest repairs: 0|0|0|1 112, 1|0|1|0 90, 0|0|0|2 6, 1|1|1|0 3, 0|2|0|0 2, 0|0|0|3 1, 1|0|1|1 1
   single RC_Yfree   tested      215 FAILS      0 margin 6 | smallest repairs: 0|0|0|1 112, 1|0|1|0 90, 0|0|0|2 6, 1|1|1|0 3, 0|2|0|0 2, 0|0|0|3 1, 1|0|1|1 1
   single RC_Yany    tested      215 FAILS      0 margin 6 | smallest repairs: 0|0|0|1 112, 1|0|1|0 90, 0|0|0|2 6, 1|1|1|0 3, 0|2|0|0 2, 0|0|0|3 1, 1|0|1|1 1
   single RC_U0      tested      215 FAILS      0 margin 6 | smallest repairs: 0|0|0|1 112, 1|0|1|0 90, 0|0|0|2 6, 1|1|1|0 3, 0|2|0|0 2, 0|0|0|3 1, 1|0|1|1 1
+  single RC3_noT4   tested      215 FAILS      0 margin 4 | smallest repairs: 0|0|0|1 112, 1|0|1|0 90, 0|0|0|2 6, 1|1|1|0 5, 0|0|0|3 1, 1|0|1|1 1
+  single NA3        tested      215 FAILS      0 margin 6 | smallest repairs: 0|0|0|1 112, 1|0|1|0 90, 0|0|0|2 6, 1|1|1|0 3, 0|2|0|0 2, 0|0|0|3 1, 1|0|1|1 1
   single NA1        tested      215 FAILS      0 margin 6 | smallest repairs: 0|0|0|1 112, 1|0|1|0 90, 0|0|0|2 6, 1|1|1|0 3, 0|2|0|0 2, 0|0|0|3 1, 1|0|1|1 1
   single NAbal      tested      215 FAILS      0 margin 6 | smallest repairs: 0|0|0|1 112, 1|0|1|0 90, 0|0|0|2 6, 1|1|1|0 3, 0|2|0|0 2, 0|0|0|3 1, 1|0|1|1 1
   single NAall      tested      215 FAILS      0 margin 6 | smallest repairs: 0|0|0|1 112, 1|0|1|0 90, 0|0|0|2 6, 1|1|1|0 3, 0|2|0|0 2, 0|0|0|3 1, 1|0|1|1 1
@@ -23,6 +26,8 @@ suite: profiles 154 (omega >= 1: 101), evaluated (f >= 1 with a state) 49 (skipp
   single D4         tested      215 FAILS      0 margin 6 | smallest repairs: 0|0|0|1 112, 1|0|1|0 90, 0|0|0|2 6, 1|1|1|0 3, 0|2|0|0 2, 0|0|0|3 1, 1|0|1|1 1
   single FR3        tested      215 FAILS      0 margin 6 | smallest repairs: 0|0|0|1 112, 1|0|1|0 90, 0|0|0|2 6, 1|1|1|0 3, 0|2|0|0 2, 0|0|0|3 1, 1|0|1|1 1
   keyg   K1         tested       37 FAILS      2 margin 0 | smallest repairs: 1|0|1|0 33, 0|2|0|0 2 | smallest failure n=5 m=9 f=3 def=1 rt4-n5m9-chain NA=[6, 7, 8] frozen={'0': [7], '1': [8], '4': [6]}
+  keyg   K3b        tested       37 FAILS      0 margin 6 | smallest repairs: 1|0|1|0 33, 0|2|0|0 2, 1|1|1|0 2
+  keyg   K3b_noT4   tested       37 FAILS      0 margin 4 | smallest repairs: 1|0|1|0 33, 1|1|1|0 4
   keyg   K3         tested       37 FAILS      0 margin 6 | smallest repairs: 1|0|1|0 33, 0|2|0|0 2, 1|1|1|0 2
   keyg   K2         tested       37 FAILS      0 margin 8 | smallest repairs: 1|0|1|0 33, 0|2|0|0 2, 1|1|1|0 2
   keyg   K2_noneed  tested       37 FAILS      0 margin 8 | smallest repairs: 1|0|1|0 33, 0|2|0|0 2, 1|1|1|0 2

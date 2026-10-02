@@ -1,0 +1,4 @@
+# command: python3 k4/portfolio.py certs results/k4_certs_5_n4_4.json.gz --sample=4000 --seed=3 --jobs=3 --maxst=600 --name=n5_4 --ckpt
+# portfolio_dump.c sha256 d549cd68387f58c47835a6254e53e340a8f018061a81456a2f2d89181ffaabd8; portfolio_preds.py sha256 36d4a391eddaab47e374f59780fefc09ffa35e60d2cbc3910a5a7494f6a28d18
+# 9846 units to run, 0 from the checkpoint; jobs 3
+#   unit {'file': 'k4_certs_5_n4_4.json.gz', 'pos': 199}: dumped 1 states 24 fails {'D2': 4} [0.0 s; 2 s wall]

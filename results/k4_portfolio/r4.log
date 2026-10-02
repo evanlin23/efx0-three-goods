@@ -1,0 +1,34 @@
+# command: python3 k4/portfolio.py certs results/k4_certs_4_n4_1.json.gz results/k4_certs_4_n4_2.json.gz results/k4_certs_4_n4_3.json.gz results/k4_certs_4_pure.json.gz --sample=20 --seed=101 --jobs=3 --name=r4 --ckpt
+# portfolio_dump.c sha256 d549cd68387f58c47835a6254e53e340a8f018061a81456a2f2d89181ffaabd8; portfolio_preds.py sha256 36d4a391eddaab47e374f59780fefc09ffa35e60d2cbc3910a5a7494f6a28d18
+# 1002 units to run, 0 from the checkpoint; jobs 3
+r4: profiles 20040 (omega >= 1: 5021), evaluated (f >= 1 with a state) 48 (skipped as too large: 0); states 210, keys with def* > 0 3; by f: {"1": {"keys_pos": 1, "profiles": 43, "states": 198}, "2": {"keys_pos": 2, "profiles": 5, "states": 12}}; 7 s CPU
+  nearest distance of the states (f|k: count): 1|1: 192, 1|2: 6, 2|1: 7, 2|2: 5
+  single RT4        tested      210 FAILS      0 margin 8 | smallest repairs: 0|0|0|1 199, 1|0|1|0 7, 0|0|0|2 4
+  single RC3        tested      210 FAILS      0 margin 10 | smallest repairs: 0|0|0|1 199, 1|0|1|0 7, 0|0|0|2 4
+  single RC_W1      tested      210 FAILS      0 margin 10 | smallest repairs: 0|0|0|1 199, 1|0|1|0 7, 0|0|0|2 4
+  single RC         tested      210 FAILS      0 margin 10 | smallest repairs: 0|0|0|1 199, 1|0|1|0 7, 0|0|0|2 4
+  single RC_noneed  tested      210 FAILS      0 margin 10 | smallest repairs: 0|0|0|1 199, 1|0|1|0 7, 0|0|0|2 4
+  single RC_Yfree   tested      210 FAILS      0 margin 10 | smallest repairs: 0|0|0|1 199, 1|0|1|0 7, 0|0|0|2 4
+  single RC_Yany    tested      210 FAILS      0 margin 10 | smallest repairs: 0|0|0|1 199, 1|0|1|0 7, 0|0|0|2 4
+  single RC_U0      tested      210 FAILS      0 margin 10 | smallest repairs: 0|0|0|1 199, 1|0|1|0 7, 0|0|0|2 4
+  single RC3_noT4   tested      210 FAILS      0 margin 10 | smallest repairs: 0|0|0|1 199, 1|0|1|0 7, 0|0|0|2 4
+  single NA3        tested      210 FAILS      0 margin 10 | smallest repairs: 0|0|0|1 199, 1|0|1|0 7, 0|0|0|2 4
+  single NA1        tested      210 FAILS      0 margin 10 | smallest repairs: 0|0|0|1 199, 1|0|1|0 7, 0|0|0|2 4
+  single NAbal      tested      210 FAILS      0 margin 10 | smallest repairs: 0|0|0|1 199, 1|0|1|0 7, 0|0|0|2 4
+  single NAall      tested      210 FAILS      0 margin 10 | smallest repairs: 0|0|0|1 199, 1|0|1|0 7, 0|0|0|2 4
+  single U1Z1       tested      210 FAILS      0 margin 10 | smallest repairs: 0|0|0|1 199, 1|0|1|0 7, 0|0|0|2 4
+  single D2         tested      210 FAILS      0 margin 2 | smallest repairs: 0|0|0|1 199, 1|0|1|0 7, 0|0|0|2 4
+  single D3         tested      210 FAILS      0 margin 10 | smallest repairs: 0|0|0|1 199, 1|0|1|0 7, 0|0|0|2 4
+  single D4         tested      210 FAILS      0 margin 10 | smallest repairs: 0|0|0|1 199, 1|0|1|0 7, 0|0|0|2 4
+  single FR3        tested      210 FAILS      0 margin 10 | smallest repairs: 0|0|0|1 199, 1|0|1|0 7, 0|0|0|2 4
+  keyg   K1         tested        3 FAILS      0 margin 20 | smallest repairs: 1|0|1|0 3
+  keyg   K3b        tested        3 FAILS      0 margin 28 | smallest repairs: 1|0|1|0 3
+  keyg   K3b_noT4   tested        3 FAILS      0 margin 28 | smallest repairs: 1|0|1|0 3
+  keyg   K3         tested        3 FAILS      0 margin 30 | smallest repairs: 1|0|1|0 3
+  keyg   K2         tested        3 FAILS      0 margin 30 | smallest repairs: 1|0|1|0 3
+  keyg   K2_noneed  tested        3 FAILS      0 margin 30 | smallest repairs: 1|0|1|0 3
+  keyg   K2_Yany    tested        3 FAILS      0 margin 30 | smallest repairs: 1|0|1|0 3
+  keyg   K4         tested        3 FAILS      0 margin 36 | smallest repairs: 1|0|1|0 3
+  keyg   K5         tested        3 FAILS      0 margin 52 | smallest repairs: 1|0|1|0 3
+  keyg   KU1        tested        3 FAILS      0 margin 36 | smallest repairs: 1|0|1|0 3
+# wrote results/k4_portfolio/r4.json; 2 s wall

@@ -15,7 +15,8 @@ FAILURES_<pred>.jsonl are written, committed and pushed (with --push), and the h
 
 Seeds (one fixed core each, with a starting profile):
   fail10   the 10 DL_RT4-failing n = 5 profiles (results/k4_rt4/n5b_failures_inst.json, n5c_fail_inst.json);
-  hard     the profiles with the least RC_W1 / RC / K2 margins kept by the Phase 2 aggregates (results/k4_portfolio/*.json);
+  hard     the profiles with the least RC3 / RC_W1 / K3b margins kept by the Phase 2 aggregates (results/k4_portfolio/*.json),
+           one per core, n >= 4;
   rcores   random n = 5 cores with three or more 4-good agents and m <= 12 (k4_certs_5_n4_3, _n4_4, _pure), started at
            the hardest of 300 random profiles;
   ext      n = 6 extensions of the failing cores: a sixth agent with 3 or 4 goods, at least one of them old, the rest new
@@ -37,11 +38,11 @@ import portfolio as PF
 import portfolio_preds as PR
 
 OUT = PF.OUT
-INNER = {'RC_W1': 'RT4', 'RC': 'RC_W1', 'RC_noneed': 'RC', 'RC_Yfree': 'RC', 'RC_Yany': 'RC', 'RC_U0': 'RC',
+INNER = {'RC3_noT4': 'RT4', 'K3b_noT4': 'K1', 'RC3': 'RT4', 'NA3': 'RC3', 'K3b': 'K1', 'RC_W1': 'RC3', 'RC': 'RC_W1', 'RC_noneed': 'RC', 'RC_Yfree': 'RC', 'RC_Yany': 'RC', 'RC_U0': 'RC',
          'NA1': 'RC_U0', 'NAbal': 'NA1', 'NAall': 'NA1', 'U1Z1': 'NA1', 'D3': 'D2', 'D4': 'D3', 'FR3': 'D3',
-         'K3': 'K1', 'K2': 'K3', 'K2_noneed': 'K2', 'K2_Yany': 'K2', 'K4': 'K2', 'K5': 'K4', 'KU1': 'K4'}
+         'K3': 'K3b', 'K2': 'K3', 'K2_noneed': 'K2', 'K2_Yany': 'K2', 'K4': 'K2', 'K5': 'K4', 'KU1': 'K4'}
 KIND = {**{nm: 'single' for nm in PR.SNAMES}, **{nm: 'keyg' for nm in PR.KNAMES}}
-ORDER = ['RC_W1', 'K3', 'RC', 'K2', 'RC_noneed', 'RC_Yfree', 'RC_Yany', 'K2_noneed', 'K2_Yany', 'RC_U0', 'NA1', 'K4', 'D3',
+ORDER = ['RC3_noT4', 'K3b_noT4', 'RC3', 'K3b', 'NA3', 'RC_W1', 'K3', 'RC', 'K2', 'RC_noneed', 'RC_Yfree', 'RC_Yany', 'K2_noneed', 'K2_Yany', 'RC_U0', 'NA1', 'K4', 'D3',
          'FR3', 'U1Z1', 'NAall', 'K5', 'KU1', 'D4']
 BIG = 10 ** 6
 
@@ -81,7 +82,7 @@ def seeds_hard(k=12):
             try: d = json.load(open(os.path.join(OUT, fn)))
             except ValueError: continue
             for h in d.get('agg', {}).get('hard', []):
-                if len(h['sets']) >= 4 and (h.get('f') or 0) >= 2: hs.append(h)
+                if len(h['sets']) >= 4: hs.append(h)
     hs.sort(key=lambda h: h['score'])
     out, seen = [], set()
     for h in hs:
@@ -99,7 +100,7 @@ def hardest_start(sets, m, rng, P=300):
     profs = [tuple(rng.randrange(len(D)) for D in doms) for _ in range(P)]
     best = None
     for prof, res in evaluate_batch(sets, m, doms, profs):
-        sc = (res['single']['RC_W1']['margin'], res['single']['RC']['margin'], -(res['f'] or 0))
+        sc = (res['single']['RC3']['margin'], res['single']['RC_W1']['margin'], -(res['f'] or 0))
         if best is None or sc < best[0]: best = (sc, prof)
     return best[1] if best else profs[0]
 
@@ -149,7 +150,7 @@ def seeds_ext(k=8, rng_seed=11):
         cands = [base_idx + (t,) for t in rng.sample(range(len(doms[5])), min(60, len(doms[5])))]
         best = None
         for prof, res in evaluate_batch(sets, m + new, doms, cands):
-            sc = (res['single']['RC_W1']['margin'], res['single']['RC']['margin'])
+            sc = (res['single']['RC3']['margin'], res['single']['RC_W1']['margin'])
             if best is None or sc < best[0]: best = (sc, prof)
         if best is None: continue
         out.append({'name': f"ext:{d['id']}+{S6}", 'sets': sets, 'm': m + new, 'start': best[1]})

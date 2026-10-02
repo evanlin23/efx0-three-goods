@@ -119,6 +119,8 @@ def RC(m): return T1(m) or T2(m) or T3p(m) or T4(m)
 
 SINGLE = [
     ('RT4', 'T1 + T2 + T3 + T4 (control: refuted at n = 5)', RT4),
+    ('RC3', 'RC_W1 moves changing at most three agents (added: no smallest repair on the data changes more than three)',
+     lambda m: m.nch <= 3 and (T1(m) or T2(m) or T3p(m, wmax=1) or T4(m))),
     ('RC_W1', 'RC with |W| <= 1 in T3+', lambda m: T1(m) or T2(m) or T3p(m, wmax=1) or T4(m)),
     ('RC', 'T1 + T2 + T3+ + T4 (K4.DL2.RC)', RC),
     ('RC_noneed', 'RC without "z needs its new good"', lambda m: T1(m) or T2(m) or T3p(m, need=False) or T4(m)),
@@ -127,6 +129,9 @@ SINGLE = [
     ('RC_Yany', 'RC with any number of helpers, each giving up a good', lambda m: T1(m) or T2(m) or T3p(m, ymax=99) or T4(m)),
     ('RC_U0', 'NA kept and U empty (T1, T2, T4 and their unions: frozen goods permuted while free agents re-partition) + T3+',
      lambda m: (m.keep and m.nU == 0) or T3p(m)),
+    ('RC3_noT4', 'RC3 without T4 (added as a probe: is the frozen permutation needed next to the chains?)',
+     lambda m: m.nch <= 3 and (T1(m) or T2(m) or T3p(m, wmax=1))),
+    ('NA3', 'NA kept and |ch| <= 3 (added: D3 within the NA-keeping moves)', lambda m: m.keep and m.nch <= 3),
     ('NA1', 'NA kept, |U| <= 1, |Z| <= 1 (W, Y arbitrary)', lambda m: m.keep and m.nU <= 1 and m.nZ <= 1),
     ('NAbal', 'NA kept, |U| = |Z| (= NAall, see the docstring)', lambda m: m.keep and m.nU == m.nZ),
     ('NAall', 'NA kept', lambda m: m.keep),
@@ -139,6 +144,8 @@ SINGLE = [
 
 KEYG = [
     ('K1', 'T3 + T4 edges (control: refuted at n = 5, K4.DL13.KEY)', lambda m: T3(m) or T4(m)),
+    ('K3b', 'K3 edges changing at most three agents (added, as RC3)', lambda m: m.nch <= 3 and (T3p(m, wmax=1) or T4(m))),
+    ('K3b_noT4', 'K3b without T4 edges (added as a probe)', lambda m: m.nch <= 3 and T3p(m, wmax=1)),
     ('K3', 'T3+ with |W| <= 1, + T4', lambda m: T3p(m, wmax=1) or T4(m)),
     ('K2', 'T3+ + T4 edges (K4.DL2.RC key-graph form)', lambda m: T3p(m) or T4(m)),
     ('K2_noneed', 'T3+ without "z needs" + T4', lambda m: T3p(m, need=False) or T4(m)),

@@ -1,0 +1,3 @@
+# command: python3 k4/portfolio_hunt.py --rounds=8 --slot=60 --jobs=1 --batch=24 --push --name=main
+# seeds fail10: 10
+# seeds hard: 12

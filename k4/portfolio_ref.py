@@ -108,6 +108,13 @@ class Ref:
         t1, t2, t4 = (lambda: self.t1(P, Q)), (lambda: self.t2(P, Q)), (lambda: self.t4(P, Q))
         base = lambda: t1() or t2() or t4()
         if name == 'RT4': return base() or self.t3(P, Q)
+        if name == 'RC3':
+            if sum(1 for i in range(self.n) if P[i] != Q[i]) > 3: return False
+            return base() or self.t3plus(P, Q, wmax=1)
+        if name == 'RC3_noT4':
+            if sum(1 for i in range(self.n) if P[i] != Q[i]) > 3: return False
+            return self.t1(P, Q) or self.t2(P, Q) or self.t3plus(P, Q, wmax=1)
+        if name == 'NA3': return self.NA(P) == self.NA(Q) and sum(1 for i in range(self.n) if P[i] != Q[i]) <= 3
         if name == 'RC_W1': return base() or self.t3plus(P, Q, wmax=1)
         if name == 'RC': return base() or self.t3plus(P, Q)
         if name == 'RC_noneed': return base() or self.t3plus(P, Q, need=False)
@@ -118,6 +125,8 @@ class Ref:
 
     def keyedge(self, name, P, Q):
         if name == 'K1': return self.t3(P, Q) or self.t4(P, Q)
+        if name == 'K3b_noT4': return sum(1 for i in range(self.n) if P[i] != Q[i]) <= 3 and self.t3plus(P, Q, wmax=1)
+        if name == 'K3b': return sum(1 for i in range(self.n) if P[i] != Q[i]) <= 3 and (self.t3plus(P, Q, wmax=1) or self.t4(P, Q))
         if name == 'K3': return self.t3plus(P, Q, wmax=1) or self.t4(P, Q)
         if name == 'K2': return self.t3plus(P, Q) or self.t4(P, Q)
         if name == 'K2_noneed': return self.t3plus(P, Q, need=False) or self.t4(P, Q)

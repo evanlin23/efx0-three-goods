@@ -46,7 +46,7 @@ SRC = os.path.join(HERE, 'portfolio_dump.c')
 SHA = hashlib.sha256(open(SRC, 'rb').read()).hexdigest()
 OUT = os.path.join(HERE, '..', 'results', 'k4_portfolio')
 INF = 999999
-HARDK = 40            # profiles kept per aggregate as hunt seeds (least RC_W1, RC, K2 margins)
+HARDK = 40            # profiles kept per aggregate as hunt seeds (least RC3, RC_W1, K3b margins)
 
 
 def binpath(wide=False):
@@ -163,8 +163,8 @@ def eval_into(agg, fails, ident, sets, vals, m, cls, maxst=None):
                 fails.append(rec)
                 if a['smallest_fail'] is None or fail_key(rec) < fail_key(a['smallest_fail']):
                     a['smallest_fail'] = {k: rec[k] for k in rec}
-    # the hardest profiles for the hunt seeds: least RC_W1 / RC / K2 margins, f >= 2 first
-    hk = (r['single']['RC_W1']['margin'], r['single']['RC']['margin'], r['keyg']['K2']['margin'], -(pd.f or 0))
+    # the hardest profiles for the hunt seeds: least RC3 / RC_W1 / K3b margins, larger f first
+    hk = (r['single']['RC3']['margin'], r['single']['RC_W1']['margin'], r['keyg']['K3b']['margin'], -(pd.f or 0))
     agg['hard'].append({'score': [x if x is not None else 99 for x in hk], 'id': ident, 'sets': sets, 'vals': vals, 'm': m, 'f': pd.f})
     agg['hard'] = sorted(agg['hard'], key=lambda h: h['score'])[:HARDK]
     # verdict vectors
@@ -404,9 +404,13 @@ def selftest():
     return 0 if ok else 1
 
 
-ORDER_NOTE = ('Rows are ordered from the strongest statement to the weakest along the lattice: RT4 < RC_W1 < RC < '
-              '{RC_noneed, RC_Yfree, RC_Yany} < RC_U0 < NA1 < NAbal = NAall; NA1 < U1Z1; D2 < D3 < D4; FR3 apart. '
-              'Key-graph: K1 < K3 < K2 < {K2_noneed, K2_Yany} < K4 < K5; K4 < KU1.')
+ORDER_NOTE = ('Rows are ordered from the strongest statement to the weakest along the lattice: RC3 < RC_W1 < RC < '
+              '{RC_noneed, RC_Yfree, RC_Yany} < RC_U0 < NA1 < NAbal = NAall; RC3 < NA3 < NAall; NA1 < U1Z1; D2 < D3 < D4; '
+              'NA3 < D3; FR3 apart; RT4 (control) is not inside RC3 (its rotations and T4 moves may change more than three '
+              'agents); RC3_noT4 < RC3 is a probe (is T4 needed?). Key-graph: K3b_noT4 (probe) < K3b < K3 < K2 < {K2_noneed, K2_Yany} < K4 < K5; K4 < KU1; K1 (control).')
+
+
+def esc(x): return str(x).replace('|', '\\|')
 
 
 def table():
@@ -426,9 +430,9 @@ def table():
     tot = new_agg()
     for d in aggs:
         a = d['agg']; merge(tot, a)
-        L.append(f"| {d['name']} | `{d['command'].replace('python3 k4/portfolio.py ', '')}` | {a['profiles']:,} | {a['dumped']:,} | "
+        L.append(f"| {d['name']} | `{esc(d['command'].replace('python3 k4/portfolio.py ', ''))}` | {a['profiles']:,} | {a['dumped']:,} | "
                  f"{a['states']:,} | {a['keys_pos']:,} | {', '.join('f=%s: %d' % (k, v['states']) for k, v in sorted(a['by_f'].items()))} |")
-    L.append(f"| **all** | | {tot['profiles']:,} | {tot['dumped']:,} | {tot['states']:,} | {tot['keys_pos']:,} | "
+    L.append(f"| **all** (summed over the datasets; validate10 and part of suite repeat profiles of dumps) | | {tot['profiles']:,} | {tot['dumped']:,} | {tot['states']:,} | {tot['keys_pos']:,} | "
              f"{', '.join('f=%s: %d' % (k, v['states']) for k, v in sorted(tot['by_f'].items()))} |")
     L.append('')
     for kind, reg, title in (('single', PR.SINGLE, 'Single-step forms DL_R'), ('keyg', PR.KEYG, 'Key-graph forms')):
@@ -441,7 +445,7 @@ def table():
                 e = d['agg'][kind].get(nm)
                 cells.append('-' if not e else (f"**{e['fail']}**/{e['tested']}" if e['fail'] else f"0/{e['tested']}"))
             e = tot[kind][nm]
-            L.append(f"| {nm} | {doc} | " + ' | '.join(cells) + f" | {'**%d**' % e['fail'] if e['fail'] else 0}/{e['tested']} | {e['margin']} |")
+            L.append(f"| {nm} | {esc(doc)} | " + ' | '.join(cells) + f" | {'**%d**' % e['fail'] if e['fail'] else 0}/{e['tested']} | {e['margin']} |")
         L.append('')
         L.append('Smallest failure and smallest-repair distribution (all datasets):'); L.append('')
         L.append('| predicate | smallest failure (n, m, f, def; id) | smallest repairs "U\\|W\\|Z\\|Y" (count) |')
@@ -450,8 +454,8 @@ def table():
             e = tot[kind][nm]; sf = e['smallest_fail']
             sfs = '-' if not sf else (f"n={sf['n']}, m={sf['m']}, f={sf['f']}, def={sf['def']}; `{sf['id']}`; "
                                       + (f"P={sf['B']}" if kind == 'single' else f"NA={sf['NA']}, frozen={sf['frozen']}"))
-            sm = ', '.join('%s: %d' % kv for kv in sorted(e['small'].items(), key=lambda x: -x[1])[:10])
-            L.append(f'| {nm} | {sfs} | {sm} |')
+            sm = ', '.join('%s: %d' % (esc(k), c) for k, c in sorted(e['small'].items(), key=lambda x: -x[1])[:10])
+            L.append(f'| {nm} | {esc(sfs)} | {sm} |')
         L.append('')
     # implications observed
     L.append('## Implications observed (all datasets)'); L.append('')
@@ -479,13 +483,14 @@ def table():
 
 
 STRUCT = {  # relation inclusions R_a inside R_b (so DL_{R_a} => DL_{R_b} trivially)
-    'single': {'RT4': ['RC_W1', 'RC', 'RC_noneed', 'RC_Yfree', 'RC_Yany', 'RC_U0', 'NA1', 'NAbal', 'NAall'],
+    'single': {'RC3_noT4': ['RC3'], 'RC3': ['RC_W1', 'NA3', 'D3'], 'NA3': ['NAall', 'D3'],
+               'RT4': ['RC_W1', 'RC', 'RC_noneed', 'RC_Yfree', 'RC_Yany', 'RC_U0', 'NA1', 'NAbal', 'NAall'],
                'RC_W1': ['RC', 'RC_noneed', 'RC_Yfree', 'RC_Yany', 'RC_U0', 'NA1', 'NAbal', 'NAall'],
                'RC': ['RC_noneed', 'RC_Yfree', 'RC_Yany', 'RC_U0', 'NA1', 'NAbal', 'NAall'],
                'RC_noneed': ['NA1', 'NAbal', 'NAall'], 'RC_Yfree': ['NA1', 'NAbal', 'NAall'], 'RC_Yany': ['NA1', 'NAbal', 'NAall'],
                'RC_U0': ['NA1', 'NAbal', 'NAall'], 'NA1': ['NAbal', 'NAall', 'U1Z1'], 'NAbal': ['NAall'], 'NAall': ['NAbal'],
                'D2': ['D3', 'D4'], 'D3': ['D4']},
-    'keyg': {'K1': ['K3', 'K2', 'K2_noneed', 'K2_Yany', 'K4', 'K5', 'KU1'], 'K3': ['K2', 'K2_noneed', 'K2_Yany', 'K4', 'K5', 'KU1'],
+    'keyg': {'K3b_noT4': ['K3b'], 'K3b': ['K3'], 'K1': ['K3', 'K2', 'K2_noneed', 'K2_Yany', 'K4', 'K5', 'KU1'], 'K3': ['K2', 'K2_noneed', 'K2_Yany', 'K4', 'K5', 'KU1'],
              'K2': ['K2_noneed', 'K2_Yany', 'K4', 'K5', 'KU1'], 'K2_noneed': ['K4', 'K5', 'KU1'], 'K2_Yany': ['K4', 'K5', 'KU1'],
              'K4': ['K5', 'KU1']}}
 
