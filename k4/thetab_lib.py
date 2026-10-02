@@ -1,21 +1,23 @@
 """Shared code of workstream proof/k4-thetab (k4/thetab.md): the T3-stage states of k4/dl13.md §6 item 2 and the
-other-needer swap.
+role swaps that repair them.
 
 Builds on k4/dl13_stuck.py (Profile: the min-frozen class of a profile with exact deficits, Lemma H1 of k4/hall.md) and
 k4/dl13_lemmas.py (Ctx: one state with its best owners, admissible sets, swaps), both from PR #75, and on
 k4/suite/model.py. Nothing here changes those files.
 
-Objects (k4/thetab.md §1):
+Objects (k4/thetab.md §1-§3):
 - the *targets*: T1-stuck state records of PR #75's dumps (results/k4_dl13_stuck/stuck_*.jsonl.gz) that are at the T3
   stage (no (T1), (T2) or (T4) move lowers the deficit) and that none of the structural repairs C1, C2, C3 of
   k4/dl13.md §4 certifies; `targets()` yields them with their class: 'S1 theta-b', 'S1 theta-a' or 'noS1';
 - setting (H): f = 1, the frozen agent x holds g, the needers of g are exactly two agents y1, y2, both big-top with
   top g;
-- the swap sigma(i, A): y_i takes {g}, x takes A ⊆ (J ∪ B_{y_i}) ∩ R_x admissible (N_x(A) ⊆ {g}); P' is min-frozen
-  by Lemma 6 of k4/dl2.md;
-- `swap_bound`: Lemma G of k4/thetab.md §2, the hitting-set bound for an unmoved owner o of P' (o = y_j, the other
-  needer, by default): def(P') <= |C| - cap'(x) - S_rest - kappa for every C ⊆ J' meeting every threat edge inside
-  W'_o; computed exactly (least C) over the edges the lemma lists.
+- the role swap: a needer z takes {g}, x takes an admissible A ⊆ G = J ∪ B_z (∪ B_h), at most one helper h takes
+  B'_h ⊆ G; P' is min-frozen by Lemma 6 of k4/dl2.md. A *plain swap* has no helper;
+- `lemma_g`: Lemma G of k4/thetab.md §2 in its value form (Corollary G1), any f, at most one helper: the least bound
+  |C| - (2 - |A|) - (2 - |B'_h|) - S_rest - kappa on def(P') through an unmoved free owner o, C ⊆ J' the least set
+  meeting every minimal subset of R_w ∩ (B_o ∪ J') worth more than v_w(B'_w), for every w != o;
+- `theorems`: the first of Theorem W, Theorem K, Corollary G1 with a plain swap ('G1'), Corollary G1 with one helper
+  ('G1h') whose hypotheses hold at an f = 1 state; every conclusion is asserted against the exact deficit.
 """
 import collections, gzip, itertools, json, os, sys
 
@@ -120,46 +122,70 @@ def least_hitting(edges, allowed):
     return None, None
 
 
-def swap_bound(ctx, z, A, o=None):
-    """Lemma G (k4/thetab.md §2) for the swap (z takes {g}, x takes A) and an unmoved free owner o (default: the other
-    needer when there are exactly two). Returns a dict with the edges by kind and the bound
-    best = min over kappa in {0, 1} of |C| - cap'(x) - S_rest - kappa, or None if the edges cannot be met."""
+def lemma_g(ctx, x, z, A, o, h=None, Bh=None):
+    """Lemma G of k4/thetab.md §2 at any f, with at most one helper, in its value form (Corollary G1): the role swap
+    P' (z takes B_x = {g}, x takes A, the helper h, if any, takes Bh, nobody else moves) seen from a free owner
+    o ∉ {z, h}. Y = (B_o ∪ J') ∖ C is safe as soon as v_w(Y ∩ R_w) <= v_w(B'_w) for every agent w ≠ o (B'_w its base in
+    P'), i.e. C meets every minimal subset of R_w ∩ (B_o ∪ J') worth more than v_w(B'_w). Returns the least bound
+    |C| - (2 - |A|) - (2 - |Bh|) - S_rest - kappa over such C (kappa = 1 needs: v_x(A) > v_x(g), g ∉ N_h(Bh), nobody
+    outside {o, x, z, h} needs g, and either o does not value g or o is big-top on g with L_o ⊆ Y), or None."""
     I, P, Bs = ctx.I, ctx.P, ctx.Bs
-    x, g, nd, third = setting(ctx)
-    if o is None:
-        o = [w for w in nd if w != z][0]
-    Jn = (P.J | Bs[z]) & ~A                             # J'
+    g = Bs[x]
+    G = P.J | Bs[z] | (Bs[h] if h is not None else 0)
+    Jn = G & ~A & ~(Bh or 0)                            # J'
     U = Bs[o] | Jn                                      # W'_o
-    allowed = Jn
-    rest = [w for w in P.free if w not in (o, z)]       # free agents other than o and z (x is frozen in P)
-    S_rest = sum(2 - pc(Bs[w]) for w in rest)
-    capx = 2 - pc(A)
-    Lz = I.R[z] & ~g
-    e_z = minimal_edges(I, z, U, I.val(z, g))          # z holding g (big-top: the single edge L_z, if inside U)
-    e_x = minimal_edges(I, x, U, I.val(x, A))           # x holding A
-    e_w = {w: minimal_edges(I, w, U, P.bv[w]) for w in rest}
-    edges = e_z + e_x + [e for w in rest for e in e_w[w]]
-    h0, C0 = least_hitting(edges, allowed)
-    out = dict(o=o, z=z, A=A, U=U, capx=capx, S_rest=S_rest, ez=len(e_z), ex=len(e_x),
-               ew={w: len(e) for w, e in e_w.items()}, h0=h0, kappa_h=None)
+    hold = {i: Bs[i] for i in range(I.n)}
+    hold[x] = A; hold[z] = g
+    if h is not None: hold[h] = Bh
+    edges = []
+    for w in range(I.n):
+        if w != o: edges += minimal_edges(I, w, U, I.val(w, hold[w]))
+    S_rest = sum(2 - pc(Bs[w]) for w in P.free if w not in (o, z, h))
+    caps = (2 - pc(A)) + ((2 - pc(Bh)) if h is not None else 0)
+    h0, _ = least_hitting(edges, Jn)
     bounds = []
-    if h0 is not None: bounds.append(h0 - capx - S_rest)
-    # kappa = 1 (z counted in u'_o(Y)): v_x(A) > v_x(g), no agent other than o, z needs g in P, and g ∉ N_o(Y): automatic
-    # if o does not value g; for a big-top o on g we require L_o ⊆ Y (the removed set C misses L_o, and L_o ⊆ U)
-    others_need_g = any(P.N[w] & g for w in range(I.n) if w not in (o, z, x))
-    Lo = I.R[o] & ~g
-    if I.val(x, A) > I.val(x, g) and not others_need_g:
+    if h0 is not None: bounds.append(h0 - caps - S_rest)
+    others = [w for w in range(I.n) if w not in (o, x, z, h)]
+    if (I.val(x, A) > I.val(x, g) and not any(P.N[w] & g for w in others)
+            and not (h is not None and I.needs(h, Bh) & g)):
+        Lo = I.R[o] & ~g
         hk = None
-        if not (g & I.R[o]):
-            hk = h0
-        elif bigtop(I, o) and not (Lo & ~U):
-            hk, Ck = least_hitting(edges, allowed & ~Lo)
-        out['kappa_h'] = hk
-        if hk is not None: bounds.append(hk - capx - S_rest - 1)
-    out['best'] = min(bounds) if bounds else None
-    # per-agent quietness of the agents in `rest`: their edges can be met by at most their own slots
-    out['quiet'] = all((least_hitting(e_w[w], allowed)[0] is not None and
-                        least_hitting(e_w[w], allowed)[0] <= 2 - pc(Bs[w])) for w in rest)
+        if not (g & I.R[o]): hk = h0
+        elif bigtop(I, o) and I.top(o) == next(bits(g)) and not (Lo & ~U):
+            hk, _ = least_hitting(edges, Jn & ~Lo)
+        if hk is not None: bounds.append(hk - caps - S_rest - 1)
+    return min(bounds) if bounds else None
+
+
+def plain_moves(ctx):
+    """every plain swap (x frozen, z a free needer of B_x, A admissible ⊆ J ∪ B_z) with every free owner o != z"""
+    P, Bs = ctx.P, ctx.Bs
+    for x in range(ctx.I.n):
+        if not P.frozen[x]: continue
+        for z in ctx.free_needers(x):
+            for A in ctx.admissible(x, P.J | Bs[z]):
+                for o in P.free:
+                    if o != z: yield x, z, A, o, None, None
+
+
+def helper_moves(ctx):
+    """every role swap with a needer and one helper giving up a good (k4/dl13_lemmas.Ctx.swaps), with every free owner
+    o ∉ {z, h}"""
+    for x, z, A, h, Bh in ctx.swaps():
+        if h is None: continue
+        for o in ctx.P.free:
+            if o not in (z, h): yield x, z, A, o, h, Bh
+
+
+def g_certificates(ctx, pr, moves, below):
+    """the moves whose Lemma G bound is < below; each bound is asserted against the exact deficit"""
+    out = []
+    for x, z, A, o, h, Bh in moves:
+        bd = lemma_g(ctx, x, z, A, o, h, Bh)
+        if bd is None: continue
+        b2 = ctx.new(x, z, A, h, Bh)
+        assert pr.D[b2] <= bd, ('Lemma G bound violated', ctx.Bs, x, z, A, o, h, Bh, bd, pr.D[b2])
+        if bd < below: out.append((x, z, A, o, h, Bh, bd))
     return out
 
 
@@ -279,86 +305,22 @@ def k_swaps(ctx):
     return out
 
 
-def s_swaps(ctx):
-    """Theorem S (k4/thetab.md §3): setting (H); a needer z (o the other one) with p := x's best lower good in J ∪ B_z,
-    A = {p}, J' = (J ∪ B_z) ∖ {p}; every free agent other than the needers tame in J' after A; the threat edges
-    inside W'_o = B_o ∪ J' (L_z if L_z ⊆ W'_o; the minimal subsets of (L_x ∖ {p}) ∩ W'_o worth more than p) met by
-    one good of J'. Returns [(z, {p})]; each gives def(P') <= 0."""
-    if not in_H(ctx): return []
-    I, P, Bs = ctx.I, ctx.P, ctx.Bs
-    x, g, nd, third = setting(ctx)
-    p = lower_sorted(I, x, g)[0]
-    out = []
-    for z in nd:
-        o = [w for w in nd if w != z][0]
-        if not ((P.J | Bs[z]) >> p & 1): continue
-        A = 1 << p
-        Jn = (P.J | Bs[z]) & ~A
-        if tame(ctx, Jn, A) is None: continue
-        U = Bs[o] | Jn
-        edges = minimal_edges(I, z, U, I.val(z, g)) + minimal_edges(I, x, U, I.val(x, A))
-        h, C = least_hitting(edges, Jn)
-        if h is not None and h <= 1: out.append((z, A))
-    return out
-
-
-def g1_swaps(ctx):
-    """Corollary G1 (k4/thetab.md §2): f = 1; a big-top needer z of g (top g); an admissible pair A ⊆ (J ∪ B_z) ∩ R_x;
-    a free agent o ≠ z; R the free agents other than o, z, B_R their bases, S_R their slots; some C ⊆ J' = (J ∪ B_z) ∖ A
-    with |C| <= S_R, L_z ∩ (A ∪ B_R ∪ C) ≠ ∅ and v_w(R_w ∖ ({g} ∪ B_R ∪ A ∪ C)) <= v_w(B_w) for every w ∈ R.
-    Returns the list of (z, A, o); each gives def(P') <= 0."""
-    s = setting(ctx)
-    if s is None: return []
-    I, P, Bs = ctx.I, ctx.P, ctx.Bs
-    x, g, nd, third = s
-    out = []
-    for z in nd:
-        if not bigtop(I, z) or I.top(z) != next(bits(g)): continue
-        Lz = I.R[z] & ~g
-        for A in swaps(ctx, z):
-            if pc(A) != 2: continue
-            Jn = (P.J | Bs[z]) & ~A
-            for o in P.free:
-                if o == z: continue
-                rest = [w for w in P.free if w not in (o, z)]
-                BR = 0
-                for w in rest: BR |= Bs[w]
-                SR = sum(2 - pc(Bs[w]) for w in rest)
-                edges = rest_edges(ctx, rest, g | BR, A)
-                if not (Lz & (A | BR)): edges.append(Lz)
-                h, C = least_hitting(edges, Jn)
-                if h is not None and h <= SR: out.append((z, A, o))
-    return out
-
-
-def swap_bound_any_f(ctx, x, z, A, o):
-    """Lemma G at any f (k4/thetab.md §2, §6): frozen x on g, free needer z of g, admissible A ⊆ J ∪ B_z, free o != z.
-    Least C ⊆ J' meeting the threat edges inside W'_o of every agent other than o (x holding A, z holding g, the
-    others holding their bases; frozen ones included); bound |C| - (2 - |A|) - S_oz - kappa, kappa as in Lemma G
-    (for o big-top on its top with L_o ⊆ Y, or o not valuing g). Other frozen agents counted in u' are ignored."""
-    I, P, Bs = ctx.I, ctx.P, ctx.Bs
-    g = Bs[x]
-    Jn = (P.J | Bs[z]) & ~A
-    U = Bs[o] | Jn
-    hold = {i: Bs[i] for i in range(I.n)}
-    hold[x] = A; hold[z] = g
-    edges = []
-    for w in range(I.n):
-        if w == o: continue
-        edges += minimal_edges(I, w, U, I.val(w, hold[w]))
-    S_oz = sum(2 - pc(Bs[w]) for w in P.free if w not in (o, z))
-    h0, _ = least_hitting(edges, Jn)
-    bounds = []
-    if h0 is not None: bounds.append(h0 - (2 - pc(A)) - S_oz)
-    others_need_g = any(P.N[w] & g for w in range(I.n) if w not in (o, z, x))
-    if I.val(x, A) > I.val(x, g) and not others_need_g:
-        Lo = I.R[o] & ~g
-        hk = None
-        if not (g & I.R[o]): hk = h0
-        elif bigtop(I, o) and I.top(o) == next(bits(g)) and not (Lo & ~U):
-            hk, _ = least_hitting(edges, Jn & ~Lo)
-        if hk is not None: bounds.append(hk - (2 - pc(A)) - S_oz - 1)
-    return min(bounds) if bounds else None
+def theorems(pr, ctx, record=None):
+    """the first of W, K, G1, G1h whose hypotheses hold at the f = 1 state ctx ('-' if none); conclusions asserted"""
+    x = setting(ctx)[0]
+    first = '-'
+    if not gw1_hyp(ctx):
+        z, A = w1_construction(ctx)
+        b2 = ctx.new(x, z, A)
+        assert pr.D[b2] <= pc(A) - 2, ('Theorem W violated', record, ctx.Bs, z, A, pr.D[b2])
+        first = 'W'
+    ks = k_swaps(ctx)
+    for z, A in ks:
+        assert pr.D[ctx.new(x, z, A)] <= 0, ('Theorem K violated', record, ctx.Bs, z, A)
+    if ks and first == '-': first = 'K'
+    if first == '-' and g_certificates(ctx, pr, plain_moves(ctx), 1): first = 'G1'
+    if first == '-' and g_certificates(ctx, pr, helper_moves(ctx), 1): first = 'G1h'
+    return first
 
 
 def swaps(ctx, z):

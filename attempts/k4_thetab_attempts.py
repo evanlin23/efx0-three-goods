@@ -9,8 +9,9 @@ smallest failing states, with two implementations.
     (frozensets). Big-top: v(top) > v(second) + v(third), four goods.
 The check that an instance is a strict core uses k4/suite/model.py for both.
 For each state both implementations compute: f, def(P), whether P is T1-stuck and key-optimal (the T3 stage at f = 1),
-the needers of the frozen good and which are big-top, and the plain swaps that lower the deficit (a needer z takes g,
-x takes an admissible A ⊆ J ∪ B_z, nobody else moves). The candidate's failure is checked with both; the theorems of
+the needers of the frozen good and which are big-top, the plain swaps that lower the deficit (a needer z takes g,
+x takes an admissible A ⊆ J ∪ B_z, nobody else moves), and the number of (T3) moves (a role swap with a needer and at
+most one helper that gives up a good) that lower it. The candidate's failure is checked with both; the theorems of
 k4/thetab.md (W, K, G1) with implementation A only, as noted per case.
 usage: python3 attempts/k4_thetab_attempts.py"""
 import itertools, os, sys
@@ -18,7 +19,8 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, 'k4', 'suite')); sys.path.insert(0, os.path.join(ROOT, 'k4'))
 import model as M
 import c4x_check as CX
-from thetab_lib import (Profile, Ctx, tup, setting, in_H, gw1_hyp, k_swaps, g1_swaps, s_swaps, swaps, t3_stage,
+from thetab_lib import (Profile, Ctx, tup, setting, in_H, gw1_hyp, k_swaps, g_certificates, plain_moves, helper_moves,
+                        theorems, swaps, t3_stage,
                         target_class, bigtop, bits, mask)
 
 ok_all = True
@@ -138,7 +140,7 @@ def main():
         fa['core'] and fa['f'] == 1 and fa['d'] > 0 and len(fa['needers']) == 2 and all(fa['bt']) and in_H(ctx))
     say('X1: no plain swap lowers the deficit (the candidate fails)', not fa['plain'])
     say('X1: P is not T1-stuck (a (T1) move lowers the deficit)', not fa['stuck'])
-    print('  W/K/G1 hypotheses (A):', gw1_hyp(ctx), k_swaps(ctx), g1_swaps(ctx))
+    print('  first of W, K, G1, G1h that applies (A):', theorems(pr, ctx))
 
     # X2: every f = 1 target of k4/dl13.md §6 item 2 is in setting (H) (two needers, both big-top)
     d = {'sets': [[0, 2, 7, 8], [1, 3, 7, 8], [4, 5, 6, 8], [4, 5, 6]],
@@ -152,19 +154,28 @@ def main():
     say('X2: two needers, one of them not big-top (the candidate fails)',
         len(fa['needers']) == 2 and sorted(fa['bt']) == [False, True])
     say('X2: a plain swap lowers the deficit', bool(fa['plain']), str(fa['plain'][:3]))
-    print('  Corollary G1 applies (A):', g1_swaps(ctx))
+    say('X2: Corollary G1 certifies a plain swap (implementation A)', theorems(pr, ctx) == 'G1')
 
-    # X3: W, K or G1 applies at every T3-stage state whose frozen good has two or more needers
-    d = {'sets': [[0, 3, 4, 5], [1, 3, 4, 5], [2, 3, 4, 5]], 'vals': [[2, 4, 5, 8], [2, 4, 5, 8], [8, 6, 3, 10]],
-         'm': 6}
-    P0 = [[4], [1, 3], [5]]
-    fa, pr, ctx = both('X3 (k4_certs_3 m=6 idx=8 11,11,246)', d, P0)
-    say('X3: strict core, f = 1, def(P) > 0, at the T3 stage',
+    # X3 (Conjecture PS): at every T3-stage state in setting (H) some plain swap lowers the deficit
+    d = {'sets': [[0, 4, 5, 6], [0, 1, 2, 3], [0, 1, 2, 3], [7, 5, 1, 4]],
+         'vals': [[12, 10, 9, 8], [13, 7, 5, 4], [15, 8, 6, 4], [12, 7, 8, 6]], 'm': 8}
+    P0 = [[0], [1], [2, 3], [4, 5]]
+    fa, pr, ctx = both('X3 (twin hunt, hunt:1:27942)', d, P0)
+    say('X3: strict core, f = 1, def(P) > 0, at the T3 stage (T1-stuck and key-optimal)',
         fa['core'] and fa['f'] == 1 and fa['d'] > 0 and fa['stuck'] and fa['kopt'])
-    say('X3: two needers, neither big-top', len(fa['needers']) == 2 and not any(fa['bt']))
-    say('X3: W, K, G1 do not apply (implementation A; they need a big-top needer)',
-        bool(gw1_hyp(ctx)) and not k_swaps(ctx) and not g1_swaps(ctx))
-    say('X3: a plain swap lowers the deficit', bool(fa['plain']), str(fa['plain'][:3]))
+    say('X3: setting (H)', len(fa['needers']) == 2 and all(fa['bt']) and in_H(ctx))
+    say('X3: no plain swap lowers the deficit (the candidate fails)', not fa['plain'])
+    say('X3: some (T3) move with one helper lowers the deficit', fa['t3'] > 0, '%d moves' % fa['t3'])
+    say('X3: a target (no S1 shape; C1, C2, C3 do not apply; implementation A only)', target_class(ctx) == 'noS1')
+    cs = g_certificates(ctx, pr, helper_moves(ctx), 1)
+    say('X3: Corollary G1 with one helper certifies a swap (implementation A)', theorems(pr, ctx) == 'G1h' and bool(cs))
+    b = B(d['sets'], d['vals'], d['m'])
+    x, z, A, o, h, Bh, bd = cs[0]
+    P2 = [frozenset(S) for S in P0]; P2[z] = frozenset(P0[x]); P2[x] = frozenset(bits(A)); P2[h] = frozenset(bits(Bh))
+    P2 = tuple(P2)
+    dA = pr.D[ctx.new(x, z, A, h, Bh)]; dB = b.mp[P2]
+    say("X3: that swap (z=%d, x takes %s, helper %d takes %s): def(P') by A and B, <= %d" % (
+        z, sorted(bits(A)), h, sorted(bits(Bh)), bd), dA == dB and dA <= bd, "def(P') = %d / %d" % (dA, dB))
 
     # X4: W, K or G1 applies at every T1-stuck state in setting (H) (the T3 stage is T1-stuck plus no (T2) move)
     d = {'sets': [[0, 2, 7, 9], [1, 5, 8, 9], [3, 6, 8, 9], [4, 7, 8, 9]],
@@ -174,8 +185,8 @@ def main():
     say('X4: strict core, f = 1, def(P) > 0, T1-stuck but not key-optimal (a (T2) move lowers the deficit)',
         fa['core'] and fa['f'] == 1 and fa['d'] > 0 and fa['stuck'] and not fa['kopt'])
     say('X4: setting (H)', len(fa['needers']) == 2 and all(fa['bt']) and in_H(ctx))
-    say('X4: W, K, G1 do not apply (implementation A)', bool(gw1_hyp(ctx)) and not k_swaps(ctx) and not g1_swaps(ctx),
-        str(gw1_hyp(ctx)))
+    say('X4: W, K, G1 (plain swap) do not apply (implementation A)', theorems(pr, ctx) in ('-', 'G1h'),
+        theorems(pr, ctx))
     say('X4: a plain swap lowers the deficit', bool(fa['plain']), str(fa['plain'][:3]))
 
     # Y: the theorems' swaps at dl13-n3m7-theta (k4/dl13.md §5), deficits of P' by both implementations
