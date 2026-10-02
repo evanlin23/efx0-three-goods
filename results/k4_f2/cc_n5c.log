@@ -1,5 +1,7 @@
 # command: python3 k4/f2_cc.py n5c --inst=k4/suite/.cache/sx/results/k4_sx/f2/rt4_n5c_inst.json
 ### n5c
+  keys | frozen need digraph acyclic | A+ or B+ (PR #80)                                                                   19
+  keys | frozen need digraph acyclic | C+ or C′+ needed                                                                    7
   obstruction | maxima with such a triple                                                                                  30
   obstruction | triples (safe bundle of omega+1 goods, no good passes Fact 3)                                              2930
   obstruction | triples with a third needer of phi(x)                                                                      1242

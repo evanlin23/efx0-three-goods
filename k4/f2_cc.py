@@ -68,6 +68,24 @@ def maxima(kp, k):
     return out
 
 
+def acyclic(pr, k):
+    """the frozen need digraph of the key k (w -> w′ when w, on its good, needs the good of w′) has no cycle"""
+    I = pr.I
+    mk = tuple((1 << k[i]) if k[i] is not None else 0 for i in range(I.n))
+    P0 = pr.PA[pr.bykey[mk][0]]
+    F = [i for i in range(I.n) if k[i] is not None]
+    succ = {w: [v for v in F if v != w and P0.N[w] & (1 << k[v])] for w in F}
+    st = {}
+
+    def cyc(u):
+        st[u] = 1
+        for v in succ[u]:
+            if st.get(v) == 1 or (v not in st and cyc(v)): return True
+        st[u] = 2
+        return False
+    return not any(w not in st and cyc(w) for w in F)
+
+
 def subsets(pool, k):
     return (mask(S) for S in itertools.combinations(list(bits(pool)), k))
 
@@ -206,6 +224,8 @@ def main(argv):
             c1 = collections.Counter(); exs = collections.defaultdict(list)
             sx_f2.analyse_key(kp, k, c1, exs, 10 ** 6)
             cnt['keys def*>0'] += 1
+            cnt[('keys', 'frozen need digraph ' + ('acyclic' if acyclic(pr, k) else 'cyclic (Proposition NK)'),
+                 'A+ or B+ (PR #80)' if c1['keys: Lemma A+ or B+ at some Zmax=True'] else 'C+ or C′+ needed')] += 1
             if c1['keys: Lemma A+ or B+ at some Zmax=True']:
                 cnt['keys covered by A+ or B+ (PR #80)'] += 1; continue
             cnt['keys uncovered by A+ and B+'] += 1
