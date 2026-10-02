@@ -16,3 +16,7 @@ esac
 case "$1" in
 unc5)  run unc5_seed$3 $2 $3 --seedfile=$H/seeds_unc_n5.jsonl.gz:$3 --frange=2:99 ;;
 esac
+case "$1" in
+f1n5)  run f1n5_seed$3 $2 $3 --seedfile=$H/seeds_f1_n5.jsonl.gz:$3 --frange=1:1 ;;
+unc4)  run unc4_seed$3 $2 $3 --seedfile=$H/seeds_unc_n4.jsonl.gz:$3 --frange=2:99 ;;
+esac

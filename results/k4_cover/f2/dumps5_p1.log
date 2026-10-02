@@ -1,0 +1,2 @@
+# command: python3 k4/cover_check.py results/k4_cover/f2/dumps5_p1.jsonl.gz results/k4_cover/inputs/dumps_f2.jsonl.gz --fmin=2 --maxn=5 --done=results/k4_cover/f2/dumps_p*.jsonl.gz --part=1/4
+# 44914 input records, 23497 distinct in range, part 1/4: 5874, already done 0

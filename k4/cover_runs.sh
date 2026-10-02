@@ -17,6 +17,8 @@ for f in n4_1 n4_2 n4_3 n4_4 pure; do
 done
 scr n5_pure_bt_r200 results/k4_certs_5_pure.json.gz 200 2026 --bt=all
 scr n4_2_all results/k4_certs_4_n4_2.json.gz 0 1
+# n = 3, every strict profile of every core (run on its own with --jobs=2: results/k4_cover/screen/n3_all.log)
+# scr n3_all results/k4_certs_3.json.gz 0 1
 }
 # stage 2 (run as "sh k4/cover_runs.sh check NAME PARTS"): k4/cover_check.py on the screened profiles, every f >= 1
 if [ "$1" = check ]; then
@@ -28,4 +30,3 @@ if [ "$1" = check ]; then
   done
   wait
 fi
-scr n3_all results/k4_certs_3.json.gz 0 1   # run separately with --jobs=2 (see results/k4_cover/screen/n3_all.log)

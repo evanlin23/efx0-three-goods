@@ -15,7 +15,7 @@ with k4/cover_check.check_profile:
                 conclusion of Theorem Z′⁺ fails there).
 Metropolis acceptance at a temperature that falls linearly; restarts from the best state after `--patience` steps
 without improvement. Every profile with an uncovered key, and every new rare key, is appended to OUT (gzip JSON lines,
-the check_profile record plus 'why'); the run's state is checkpointed in OUT.state.json (resumable).
+the check_profile record plus 'why'; each profile once); the run's state is checkpointed in OUT.state.json (resumable).
 
 usage: python3 k4/cover_hunt.py OUT.jsonl.gz --seed='{"sets": ..., "vals": ..., "m": ...}' | --seedfile=F.jsonl.gz[:i]
        [--minutes=M] [--K=16] [--T0=2] [--rng=R] [--patience=P] [--frange=a:b]
@@ -151,9 +151,10 @@ def main(argv):
             cands.append((s, st))
             interesting = [t for t in tags if t in ('UNCOVERED', 'LEMMA-ASSERT', 'NO-ZMOVE')]
             rk = json.dumps([rec['vals']])
-            if interesting or (tags and rk not in seen_rare):
+            if tags and rk not in seen_rare:                   # each profile recorded once
+                seen_rare.add(rk)
                 if 'UNCOVERED' in tags: stats['uncovered'] += 1
-                elif 'LEMMA-ASSERT' not in tags: stats['rare'] += 1; seen_rare.add(rk)
+                elif 'LEMMA-ASSERT' not in tags: stats['rare'] += 1
                 rec['why'] = tags; rec['score'] = s
                 fo.write(json.dumps(rec, separators=(',', ':')) + '\n'); fo.flush()
                 if interesting: print('FOUND', tags, json.dumps({k: rec[k] for k in ('sets', 'vals', 'm', 'f')}), flush=True)
