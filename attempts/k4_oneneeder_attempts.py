@@ -22,11 +22,11 @@ INSTANCES = [
     {'id': 'oneneeder-escape-t1-n4', 'sets': [[0, 2, 6, 10], [1, 5, 9, 10], [3, 6, 7, 8], [4, 7, 8, 9]],
      'vals': [[4, 3, 2, 8], [4, 3, 2, 8], [6, 1, 8, 4], [4, 8, 3, 6]], 'm': 11,
      'P': [[10], [1], [3, 7], [4, 9]], 'def': 1, 't1stuck': True, 't3stage': False, 'x': 0, 'z': 1,
-     'triple': (3, [0, 2, 4, 8, 9], 6)},
+     'triple': (3, [0, 2, 4, 8, 9], 6), 'claim': 'per-triple'},
     {'id': 'oneneeder-escape-n3', 'sets': [[0, 1, 2, 3], [2, 4, 5, 6], [3, 4, 5, 6]],
      'vals': [[3, 2, 4, 8], [4, 6, 3, 8], [8, 2, 4, 3]], 'm': 7,
      'P': [[0, 1], [2, 4], [3]], 'def': 1, 't1stuck': False, 't3stage': False, 'x': 2, 'z': 0,
-     'triple': (1, [2, 4, 5], 6)},
+     'triple': (1, [2, 4, 5], 6), 'claim': 'state'},
 ]
 
 
@@ -167,7 +167,7 @@ def main():
         ok &= listed
         print('  listed x-alone triple %s: %s' % (d['triple'], 'ok' if listed else 'NOT FOUND'))
         J = frozenset(bits(s['J'])); BsF = [frozenset(bits(B)) for B in Bs]
-        n_esc = 0
+        n_esc = {}
         for o, X, c in trip:
             Y = frozenset(bits(X | (1 << c)))
             e1 = escapes(None, lambda S: not I.needs(o, mask(S)), lambda Z, S: I.threat(o, mask(Z), I.val(o, mask(S))),
@@ -175,9 +175,18 @@ def main():
             e2 = escapes(None, lambda S: not T.needs(o, S), lambda Z, S: T.threat(o, Z, S),
                          BsF, J, L, z, o, Y, g, T.R[o])
             assert sorted(map(sorted, e1)) == sorted(map(sorted, e2)), ('escape mismatch', e1, e2)
-            n_esc += len(e1)
-        ok &= n_esc == 0
-        print('  x-alone triples with o != z: %d; escapes found (both implementations): %d %s' % (len(trip), n_esc, 'ok' if n_esc == 0 else 'UNEXPECTED'))
+            n_esc[(o, X, c)] = len(e1)
+        if d['claim'] == 'per-triple':
+            good = n_esc[(o0, mask(X0), c0)] == 0
+            print('  the listed triple has no escape (both implementations): %s; escapes at the other %d triples: %d' % (
+                good, len(trip) - 1, sum(n_esc.values())))
+        else:
+            good = sum(n_esc.values()) == 0
+            c3 = C1.c3(pr, Bs, x, z, g, mask(L))
+            good &= not c3
+            print('  x-alone triples with o != z: %d, none with an escape (both implementations): %s; Corollary 8.2 '
+                  'with at most one helper (implementation 1): %s' % (len(trip), sum(n_esc.values()) == 0, sorted(c3) or 'none'))
+        ok &= good
     print('ALL OK' if ok else 'SOMETHING FAILED')
     return 0 if ok else 1
 

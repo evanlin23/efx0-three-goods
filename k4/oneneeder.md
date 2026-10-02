@@ -131,7 +131,9 @@ show it at the T3 stage, but no argument here excludes it.
 ## 4. The swap from an x-alone triple
 
 Throughout, P is at the T3 stage (f = 1), x is big-top, z is the only needer of g, and A := {b, c_x} (x's two best
-lower goods; admissible for x, its needs being {g}). By Lemma A, def(P) = 1 and V(P) = ω + 1 ≥ 3.
+lower goods; admissible for x, its needs being {g}). By Lemma A, def(P) = 1 and V(P) = ω + 1 ≥ 3. The T3 stage enters
+the propositions below only through def(P) = 1: they hold verbatim at every min-frozen P with def(P) = 1 (and Lemma G
+replaces the T3 stage by T1-stuckness).
 
 **Proposition C (the needer is the owner).** Let (z, X, c) be an x-alone triple with u_z(X) = 0. Then the swap without
 helper gives def(P′) ≤ 0 < def(P), with x's bundle Z := Y or Y ∖ {ℓ} (Y := X ∪ {c}), unless R_z = R_x and ω ≥ 3.
@@ -186,25 +188,65 @@ in P′: there is no agent besides x, z, o; o is not threatened by (a); if e ∈
 J ∖ Y = ∅ then Rest = B_z has two goods and Z misses one of them, so B_z ⊄ Z: by Corollary B2 z is not threatened.
 Corollary 8.2 (helper o: T′ is need-free in G ∖ L and B_o ⊄ T′) gives def(P′) ≤ 0. ∎
 
+On the data, Proposition E never applies at a T3-stage state: there the owner o ≠ z of every x-alone triple values a
+lower good of x (§6). The next two statements use o's best base inside its own pot instead.
+
+**Proposition F (an owner whose best base avoids L).** In the setting of Proposition D, let Q* be a most valuable
+need-free base of o inside W_o ∩ R_o (W_o = B_o ∪ J; B_o is one, so Q* exists).
+- (a) No subset of W_o ∖ Q* threatens o holding Q*.
+- (b) If Q* ∩ L = ∅, |Q* ∩ Y| ≤ 1, and B_o ⊄ Q* or Q* = B_o is a single good, then Q* is an escape.
+
+*Proof.* (a) If θ_o(Z) > v_o(Q*) for some Z ⊆ W_o ∖ Q*, then Q := (Z ∖ q) ∩ R_o has v_o(Q) > v_o(Q*) for some q ∈ Z.
+If |Q| ≤ 2, Q is need-free (worth more than a need-free base) and lies in W_o: against the choice of Q*. If |Q| = 3, o has
+four goods, Q* = {t} and Q = R_o ∖ {t} ⊆ W_o, and {t, q′} (q′ ∈ Q) is need-free, in W_o, and worth more than Q*.
+(b) W_o = Y ∪ (J ∖ Y) (B_o ⊆ Y), so Q* ⊆ W_o ∖ L ⊆ (Y ∖ L) ∪ Rest, and Y ∖ Q* ⊆ W_o ∖ Q* does not threaten o by (a). ∎
+
+**Lemma G (an owner whose best base meets L, at a T1-stuck state).** In the setting of Proposition D, let P be T1-stuck
+(it need not be at the T3 stage) with def(P) = 1, Q* as in Proposition F with Q* ∩ L ≠ ∅ and Q* ≠ B_o, and P* the state
+with o re-based to Q*. Then Z₀ := B_z ∪ (Y ∖ Q*) is a bundle of z in P* that does not threaten x holding {g}, and one of
+the following holds:
+- Z₀ threatens o holding Q*, and every subset of Z₀ that does contains a good of B_z;
+- Z₀ threatens some agent w ∉ {x, z, o} holding B_w (necessarily through a good of B_z, as Y does not threaten w);
+- |B_z| = 1, Q* ⊆ Y and v_z(Z₀) < v_z(g).
+
+*Proof.* Q* is need-free, hence admissible, and lies in B_o ∪ J: by Lemma 1(c) of `k4/dl2.md`, P* is min-frozen with
+needed set {g}; o is need-free in P*, so z is still the only needer. Y ∖ Q* ⊆ (B_o ∪ J) ∖ Q* ⊆ J(P*), so Z₀ is a bundle
+of z in P*. It misses the good of Q* ∩ L, so it does not threaten x (x big-top). A subset of Z₀ without a good of B_z
+lies in W_o ∖ Q* and does not threaten o (Proposition F(a)). If Z₀ is safe in P*, Lemma H1 in P* and T1-stuckness give
+1 = def(P) ≤ def(P*) ≤ ω + 2 − |Z₀| − u′_z(Z₀), with |Z₀| = |B_z| + ω + 2 − |Q* ∩ Y|; so |B_z| + 1 + u′_z(Z₀) ≤
+|Q* ∩ Y| ≤ 2, which forces |B_z| = 1, |Q* ∩ Y| = 2 and u′_z(Z₀) = 0, i.e. g ∈ N_z(Z₀): v_z(Z₀) < v_z(g). ∎
+
+Lemma G is how T1-stuckness enters: an owner that would rather hold a lower good of x frees the rest of the key for z,
+unless it values z's base (then a good of B_z is the natural escape for it) or z's base is dangerous to a third agent.
+Turning the three cases into an escape is open (§5).
+
 ## 5. What remains
 
-1. **An x-alone triple** (SX1). Every one-needer T3-stage state found has one (§6). Its absence means: no free agent
-   has a bundle of ω + 2 goods that threatens nobody but x, i.e. the deficit 1 of P is caused by free agents alone. This
-   is item 1 of `k4/dl13.md` §6 (Conjecture SX) in its strong form, restricted to big-top keys; Lemma A shows that
-   *some* state of the key has such a bundle (the state of Theorem Z′), but not that P has one.
-2. **An escape** when the triple's owner is o ≠ z. Proposition E covers an owner that values no lower good of x and
-   whose best base outside L takes at most one good of its bundle (or n = 3). The T3-stage hypothesis is necessary:
-   without it the escape fails (`attempts/k4-oneneeder-escape-t1.md`: at n = 3 at states where a (T1) move lowers the
-   deficit, and at n = 4 at a T1-stuck state where a (T2) move does). In the failing instances the mechanism is the
-   one a proof would have to turn into a contradiction: o needs a lower good of x (n = 3: o re-bases to its top, a lower
-   good of x, which protects x, and z then owns everything else, deficit −1), or o's need-free bases all lie inside its
-   bundle because its top is held by a third agent (n = 4: that agent and o trade, and z owns ω + 2 goods).
-3. **Proposition C's exceptions**: u_z(X) = 1 (then |X| = ω, L_z ⊆ X, and the swap's bundle has one good too few), and
-   R_z = R_x with ω ≥ 3 (impossible at n = 3). Neither occurs in the data.
-4. **x big-top.** Corollary B3 constrains a non-big-top x; the data never show one at a one-needer T3-stage state.
+The step from the T3 stage to Corollary 8.2 splits into three statements, each true on all data (§6) and each needing
+more than the local lemmas above.
 
-Item 2 and item 1 are where the T3-stage hypothesis has to enter; in every case the competing state is in the same key
-(a (T1) or (T2) move), so a proof is a statement about the free agents of the key, as in Theorem Z′.
+1. **Conjecture SX1 (an x-alone triple).** At every one-needer T3-stage state with f = 1 some best owner has an x-alone
+   triple. Its absence means: no free agent has a bundle of ω + 2 goods that threatens nobody but x, so the deficit 1 of
+   P is caused by the free agents alone. This is item 1 of `k4/dl13.md` §6 (Conjecture SX) in its strong form,
+   restricted to big-top keys; Lemma A shows that *some* state of the key has such a bundle (the state of Theorem Z′),
+   but not that P has one. It needs the T3 stage: at T1-stuck one-needer states it fails (94 states on #53's n = 3
+   catalogue, §6), as SX fails at `dl13-n3m6` (`k4/dl13.md` §5).
+2. **Conjecture ES (an escape).** At every T1-stuck one-needer state with f = 1, def = 1, x big-top and an x-alone
+   triple, Proposition C applies at some triple with owner z, or some triple with owner o ≠ z has an escape. True at
+   every such state of the exhaustive n = 3 run and of the n = 4, 5 catalogues (§6), so on the data the T1-stuck
+   hypothesis suffices here. Per triple it is false (`attempts/k4-oneneeder-escape-t1.md`, n = 4: a triple whose owner's
+   top is held by a third agent), and without stuckness it is false (same file, n = 3: the owner needs a lower good of
+   x, re-bases to it, and z then owns everything else, deficit −1; that is the first case of Lemma G turned around).
+   Propositions E and F prove it when o's best base avoids L and takes at most one good of its bundle; Lemma G is the
+   first step of the remaining case.
+3. **x big-top.** Corollary B3 constrains a non-big-top x; the data never show one at a one-needer T3-stage state, while
+   at T1-stuck one-needer states it occurs (12 states on #53's n = 3 catalogue), so this too needs the T3 stage.
+4. **Proposition C's exceptions**: u_z(X) = 1 (then |X| = ω, L_z ⊆ X, and the swap's bundle has one good too few), and
+   R_z = R_x with ω ≥ 3 (impossible at n = 3). Neither occurs in the data.
+
+With SX1, ES and 3–4, Lemma A and Propositions C, D give: at every one-needer T3-stage state with f = 1, x is big-top,
+def(P) = 1, and a swap of Corollary 8.2 with at most one helper (o, or none) reaches a state of deficit ≤ 0, i.e. a
+completable state of the neighbouring key (z, g).
 
 ## 6. Data (EVIDENCE)
 
