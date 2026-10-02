@@ -109,6 +109,44 @@ class B:
         return out
 
 
+    def t3_all(self, P):
+        """every min-frozen P2 reached from P by a role swap with a needer and at most one helper giving up a good"""
+        na = self.NA(P); fz = self.frozen(P); out = []
+        for P2 in self.mp:
+            if P2 == P or self.NA(P2) != na: continue
+            fz2 = self.frozen(P2)
+            ch = [i for i in range(self.n) if P[i] != P2[i]]
+            xs = [i for i in ch if fz[i] and not fz2[i]]; zs = [i for i in ch if fz2[i] and not fz[i]]
+            ys = [i for i in ch if not fz[i] and not fz2[i]]
+            if len(xs) == 1 and len(zs) == 1 and len(ch) == 2 + len(ys) and len(ys) <= 1 \
+                    and P2[zs[0]] == P[xs[0]] and P[xs[0]] <= self.needs(zs[0], P[zs[0]]) \
+                    and all(P[y] - P2[y] for y in ys):
+                out.append(P2)
+        return out
+
+    def dstar(self, k):
+        return min(d2 for P2, d2 in self.mp.items() if self.key(P2) == k)
+
+
+def key_facts_A(pr, Bs):
+    """implementation A, key form: def*(key), the states of the key, the (T3) moves from any of them that reach a state
+    of deficit < def*(key), and those that reach a key with def* < def*(key)"""
+    import dl13_stuck
+    from dl2_relations import shape
+    ctx = Ctx(pr, Bs); k = ctx.key()
+    states = [B2 for B2 in pr.mp if ctx.key(B2) == k]
+    ds = min(pr.D[B2] for B2 in states)
+    dkey = {}
+    for B2 in pr.mp: dkey[ctx.key(B2)] = min(dkey.get(ctx.key(B2), 10 ** 9), pr.D[B2])
+    below, keyb = [], []
+    for Q in states:
+        for B2 in pr.mp:
+            if B2 != Q and dl13_stuck.is_t3(shape(pr.PA[Q], pr.PA[B2])):
+                if pr.D[B2] < ds: below.append((Q, B2))
+                if dkey[ctx.key(B2)] < ds: keyb.append((Q, B2))
+    return ds, states, below, keyb
+
+
 def both(name, d, P0):
     """the facts of the state P0 by both implementations; returns (A-facts, B-facts) after checking they agree"""
     I = M.Inst(d['sets'], d['vals'], d['m'])
@@ -197,6 +235,60 @@ def main():
     dA = pr.D[ctx.new(x, z, A, h, Bh)]; dB = b.mp[P2]
     say("X4: that swap (z=%d, x takes %s, helper %d takes %s, owner %d): def(P') by A and B, <= %d" % (
         z, sorted(bits(A)), h, sorted(bits(Bh)), o, bd), dA == dB and dA <= bd, "def(P') = %d / %d" % (dA, dB))
+
+    # X5 (the coordinator's instance, compute/k4-rc results/k4_rc/FAILURES.md): single-step DL fails at f = 1: a
+    # T3-stage state in setting (H) where no (T3) move lowers the deficit; the key form holds (another state of the key
+    # has a (T3) move with one helper to a better key)
+    d = {'sets': [[0, 2, 9, 11], [1, 6, 10, 12], [3, 7, 11, 12], [4, 8, 11, 12], [5, 9, 10, 12]],
+         'vals': [[3, 5, 6, 7], [6, 5, 4, 8], [2, 3, 8, 4], [2, 3, 8, 4], [6, 4, 1, 8]], 'm': 13}
+    P0 = [[11], [12], [3, 7], [4, 8], [5, 9]]
+    fa, pr, ctx = both('X5 (k4_certs_5_pure pos 4604 44,118,8,8,158)', d, P0)
+    say('X5: strict core, f = 1, def(P) > 0, at the T3 stage (T1-stuck and key-optimal)',
+        fa['core'] and fa['f'] == 1 and fa['d'] > 0 and fa['stuck'] and fa['kopt'], 'def(P) = %d' % fa['d'])
+    say('X5: setting (H)', len(fa['needers']) == 2 and all(fa['bt']) and in_H(ctx), 'needers %s' % fa['needers'])
+    say('X5: no (T3) move (at most one helper giving up a good) lowers the deficit (single-step form fails)',
+        fa['t3'] == 0 and not fa['plain'])
+    import dl13_stuck
+    from dl2_relations import shape
+    Bs = tup(P0)
+    t3A = sorted(B2 for B2 in pr.mp if B2 != Bs and dl13_stuck.is_t3(shape(pr.PA[Bs], pr.PA[B2])))
+    b = B(d['sets'], d['vals'], d['m'])
+    PB = tuple(frozenset(S) for S in P0)
+    t3B = b.t3_all(PB)
+    say('X5: its (T3) moves, every one to a state of deficit def(P), by A and B',
+        len(t3A) == len(t3B) and all(pr.D[B2] == fa['d'] for B2 in t3A) and all(b.mp[P2] == fa['d'] for P2 in t3B),
+        '%d / %d moves' % (len(t3A), len(t3B)))
+    print('  target class (A):', target_class(ctx))
+    ds, states, below, keyb = key_facts_A(pr, Bs)
+    kB = b.key(PB); dsB = b.dstar(kB)
+    statesB = [P2 for P2 in b.mp if b.key(P2) == kB]
+    belowB = [(Q, P2) for Q in statesB for P2 in b.t3_all(Q) if b.mp[P2] < dsB]
+    keybB = [(Q, P2) for Q in statesB for P2 in b.t3_all(Q) if b.dstar(b.key(P2)) < dsB]
+    say('X5: key form: def*(key) = def(P), and some state of the key has a (T3) move to a better key, by A and B',
+        ds == dsB == fa['d'] and len(states) == len(statesB) and bool(keyb) and len(keyb) == len(keybB)
+        and len(below) == len(belowB),
+        'def* = %d / %d, %d / %d states, moves to a better key %d / %d, to a state below def* %d / %d' % (
+            ds, dsB, len(states), len(statesB), len(keyb), len(keybB), len(below), len(belowB)))
+    Q0 = tup([[11], [6, 10], [12], [4, 8], [5, 9]])
+    QB = tuple(frozenset(S) for S in [[11], [6, 10], [12], [4, 8], [5, 9]])
+    R0 = tup([[9], [6, 10], [11], [4, 8], [12]])
+    RB = tuple(frozenset(S) for S in [[9], [6, 10], [11], [4, 8], [12]])
+    cR = Ctx(pr, R0)
+    dsR = min(pr.D[B2] for B2 in pr.mp if cR.key(B2) == cR.key())
+    say("X5: the coordinator's move from Q = ({11},{6,10},{12},{4,8},{5,9}): x=0 -> {9}, z=2 -> {11}, helper 4 -> {12}",
+        Q0 in states and pr.D[Q0] == b.mp[QB] and (Q0, R0) in keyb and (QB, RB) in keybB,
+        "def(Q) = %d / %d, def(P') = %d / %d, def*(key of P') = %d / %d" % (
+            pr.D[Q0], b.mp[QB], pr.D[R0], b.mp[RB], dsR, b.dstar(b.key(RB))))
+    cert = []
+    for Q in states:
+        cq = Ctx(pr, Q)
+        cert += [(Q,) + c for c in g_certificates(cq, pr, plain_moves(cq), ds) + g_certificates(cq, pr, helper_moves(cq), ds)]
+    say('X5: Corollary G1 certifies a (T3) move from some state of the key to a state below def* (A)', bool(cert),
+        '%d certificates' % len(cert))
+    for Q, x, z, A, o, h, Bh, bd in cert[:4]:
+        print("    from %s: z=%d takes g, x=%d takes %s, helper %s takes %s, owner %d: bound %d, def(P') = %d" % (
+            [sorted(bits(B_)) for B_ in Q], z, x, sorted(bits(A)), h, sorted(bits(Bh)) if Bh is not None else '-', o,
+            bd, pr.D[Ctx(pr, Q).new(x, z, A, h, Bh)]))
 
     # Y: the theorems' swaps at dl13-n3m7-theta (k4/dl13.md §5), deficits of P' by both implementations
     d = {'sets': [[0, 2, 5, 6], [1, 4, 5, 6], [3, 4, 5, 6]], 'vals': [[2, 6, 3, 10], [6, 2, 3, 10], [4, 6, 5, 8]],
