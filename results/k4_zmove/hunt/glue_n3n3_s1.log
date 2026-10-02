@@ -1,0 +1,4 @@
+# command: python3 k4/zmove_glue.py results/k4_zmove/hunt/glue_n3n3_s1.jsonl.gz --A=results/k4_zmove/hunt/glue_n3_pool.json --B=results/k4_zmove/hunt/glue_n3_pool.json --share=1 --pairs=300 --maxn=6 --rng=1
+# 300 glued cores with core profiles (from 300 tries)
+# 7 with a key of def* > 0
+# scored 7; margins: {0: 2, -1: 4, -2: 1}; best: [(180, 0, 20, 6, 2), (166, 0, 34, 6, 2), (-826, -1, 26, 6, 2), (-833, -1, 33, 6, 2), (-835, -1, 35, 6, 2), (-838, -1, 38, 6, 2), (-1834, -2, 34, 6, 2)]
