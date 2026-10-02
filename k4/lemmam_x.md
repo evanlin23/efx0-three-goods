@@ -78,12 +78,25 @@ a the class of its envy-free run (`k4/c4.md`'s cases) and the candidates a′:
 | data | profiles | with a bad first agent | bad pairs (profile, a) | (x1) good | (x2) good | (x3) maxload, least index, end of least-index EF | (x3) earliest end | (x4) r good |
 |---|---|---|---|---|---|---|---|---|
 | every strict profile, n ≤ 3 and n = 4 with ≤ 2 four-good agents | 1,032,121,440 | 14,408 | 26,248 | 0 (of 25,448) | 0 | 26,248 | 26,248 | 26,248 |
-| the suite's 151 cores (all but H₅) | 151 | 9 | 11 | 1 | 0 | 11 | 11 | 11 |
-| H₅ (n = 21) | 1 | 1 | 10 | 10 | 0 | 10 | 7 (10 iterated) | 0 |
-| HH₃ (n = 26) | 1 | 1 | 26 | — | — | — | — | — |
+| the same, classes recomputed in PR #33's model (`k4/lemmam_x_check.py`) | (the 1,420 bad leaves) | 14,408 | 25,960 | 0 | — | 25,960 | 25,960 | 25,960 |
+| the suite's 153 strict cores (all but H₅) | 153 | 9 | 11 | 1 (of 8) | 0 | 11 | 11 | 11 |
+| H₃, H₄, H₅ (n = 13, 17, 21) | 3 | 3 | 2, 6, 10 | 2, 6, 10 | 0 | 2, 6, 10 | 2, 4, 7 (all, iterated) | 2, 0, 0 |
+| HH₃ (n = 26), PR #83 | 1 | 1 | 26 | — | — | — | — | — |
 
-(`results/k4_lemmam_x/exh_n2_n3_n4_12.log`, `suite.log`, `H5.log`, `HH3_classes.log`. On HH₃ every first agent is bad:
-Lemma M fails there, Proposition HH of PR #83; no partner can be good.)
+(`results/k4_lemmam_x/exh_n2_n3_n4_12.log`, `check_bad_n234.log`, `suite.log`, `H2_H5_classes.log`; H₂ is in the
+suite. On HH₃ every first agent is bad: Lemma M fails there, Proposition HH of PR #83 (not recomputed here, §6); no
+partner can be good.)
+
+*The two implementations differ in one convention, and `k4/lemmam_x.c` is the conservative one.* `k4/rulef.c` (hence
+`k4/lemmam_x.c`) gives an upgraded or rotated agent no slot (`slots()`: cap 0 when upgraded), while LB₄ʳ's text and
+Lean's `Output` give a rotated agent with a one-good base O a slot (cap = 2 − |O|, `lean/EFX/LB4R.lean`, choice 5),
+as PR #33's model does. So every K0/K1 certificate of the C code is one of the model, but not conversely: on 132 of
+the 1,420 bad leaf profiles (288 of the 26,248 weighted pairs, all n = 4, m = 7 or 8) the model certifies with one
+rotation a first agent the C code calls bad. Smallest: agents {0, 2, 3, 6}, {1, 2, 5}, {1, 4, 5, 6}, {3, 4, 6} with
+values (2, 8, 3, 4), (2, 4, 3), (2, 8, 5, 4), (3, 4, 2); τ₁ and τ₃ give picks 6, 2, 5, 4 with Lemma K deficit 1, and
+the rotation of 3 along 3 → 2 with O = {3} (2 takes 4, 3 keeps good 3 and gets a slot) has deficit 0 with owner 0;
+the completion (0: {0, 1, 6}, 1: {2}, 2: {4}, 3: {3, 5}) is EFX₀ (checked). So the C code's "bad" verdicts are upper
+bounds; the conclusions below hold for both.
 
 Findings on the exhaustive data:
 - No profile without a good first agent (Lemma M holds there, as `k4/rulef.md` §5.1 found).
@@ -94,12 +107,16 @@ Findings on the exhaustive data:
   bad pair. At n ≤ 4 the end of the chain *is* r.
 - The second implementation (`k4/lemmam_x_check.py`, PR #33's model with #72's `rulef_model.py`) recomputes the classes
   of every first agent, the run classes, the candidates and the conclusions of Lemmas 1–3 on every bad leaf profile of
-  the exhaustive run: PLACEHOLDER_CHECK.
+  the exhaustive run (1,420 distinct leaves standing for the 14,408 profiles): no profile without a good first agent;
+  the classes agree except on the 132 leaves above, where the model certifies more; on the model's 1,612 bad leaf
+  pairs (25,960 weighted) the conclusions of Lemmas 1–3 fail nowhere, the runs are (G2) (56 leaf pairs), one exposed
+  frozen 4-good agent (1,292) or one free (264), every one a single block with r a 4-good agent holding its b (580) or
+  its c (1,032), and the candidates are as in the table (`results/k4_lemmam_x/check_bad_n234.log`).
 
 So on these data the exchange works with a′ = the needer at the end of the chain, but which end matters beyond
-n = 4: on H₅ r (the last end) is bad, while the end shared by the most exposed frozen agents (y₁, the y of the first
-gadget the cascade from ℓ reaches) is good. And on HH₃ there is nothing to exchange with. The failed partners are
-recorded in `attempts/k4-lemmam-x-exchange.md`.
+n = 4: on H₄ and H₅ r (the last end) is bad for every bad first agent, while the end shared by the most exposed frozen
+agents (y₁, the y of the first gadget the cascade from ℓ reaches) is good; on H_t also (x1) (x_{1,1}) is good. And on
+HH₃ there is nothing to exchange with. The failed partners are recorded in `attempts/k4-lemmam-x-exchange.md`.
 
 ## 3. What the run of a bad first agent looks like
 
@@ -235,7 +252,21 @@ first block keeps its agents and goods to a statement about that block. On the d
 n ≤ 4, where the bad runs are single blocks and the exchange permutes the picks (§5.2); on H_t it is not (the exchange
 agent lies in another gadget, and its run has a different block structure).
 
-PLACEHOLDER_EXCHANGE
+### 5.2 How the exchange agent's run relates to the bad run (data)
+
+On the exhaustive data every bad run is a single block (§2) and the exchange agent a′ (the needer at the end; it is r
+there) lies in it, so Lemma 4 says nothing and the question is how the block of τ_{a′} relates to that of τ_a. Lemma
+Ψ (`k4/c4one.md` §6, K4.C4.PSI) predicts one shape: a′ takes its top, the agent that held it falls along one chain
+(each takes its best good outside the goods already taken, until junk or a′'s old pick), and every other agent keeps
+its pick; a second natural shape is a rotation of the picks along a cycle. `k4/lemmam_x_realize.py` compares, in
+PR #33's model, on the 26,248 weighted bad pairs: τ_{a′}'s picks are Ψ's prediction on 3,032 (1,820 of them also a
+cycle) and neither on 23,216 (`results/k4_lemmam_x/realize_maxload.log`, `realize_r.log`; the two partners coincide
+at n ≤ 4). Smallest "neither": agents {0, 1, 4, 5}, {2, 3, 4, 5}, {2, 3, 4, 5} with values (1, 4, 6, 8),
+(3, 5, 7, 6), (2, 3, 4, 8), a = 0, a′ = 2. τ₀ gives 0: 5, 1: 4, 2: 3; Ψ predicts 2: 5, 0: 4, 1: 3; but in τ₂ LB's key
+processes 1 before 0 (its favourite 4 is its top, 0's is not) and gives 2: 5, 1: 4, 0: 1. So the exchange agent's run
+is governed by LB's key, not by Ψ's fall chain, and an exchange proof along Ψ would need a version of Ψ for LB's key,
+which Ω and Ψ do not provide. Since Lemma M is false (§6), this is recorded only as the reason the exchange was not
+completed.
 
 ## 6. No fixed rotation bound for a single chosen first agent
 
@@ -283,9 +314,11 @@ its agent the owner), so there is none. ∎
 
 The bound is a count, so it is the same for Lemma K's classes (whose certificates are outputs): on HH_t with
 2t − 2 > 3d no first agent is certified with d rotations. On HH₃ (d = 1) the classes are those of PR #83 (every first
-agent in neither K0 nor K1, `k4/rulef.c` and `k4/lemmam_bt.py`) and of `k4/lemmam_x.c -A43` here (§2).
-Larger d is a statement about HH₅ (n = 42) and beyond, where the count is the evidence; a direct search with two nested
-rotations on HH₃ already exceeds the ~20 minutes allowed per run here.
+agent in neither K0 nor K1, `k4/rulef.c` and `k4/lemmam_bt.py`); they are not recomputed here (with the kept-out
+sets of Remark 4 one first agent of HH₃ takes minutes, and the 26 together exceed the ~20 minutes allowed per run).
+Note that `k4/rulef.c`'s "neither" is an upper bound in the sense of §2 (rotated agents get no slot there), so on HH₃
+the written count is the stronger evidence. Larger d is a statement about HH₅ (n = 42) and beyond, where the count is
+the evidence; a direct search with two nested rotations on HH₃ is out of reach here.
 
 ## 7. The repaired target: the insertion agent chosen at every insertion step
 
@@ -354,27 +387,76 @@ only, for each block, Hall's condition with ρ and D taken against the final W. 
 
 ### 7.2 Adaptive Lemma M
 
-**Conjecture M_ad (local form).** For every strict profile of every k = 4 core, a run can be built block by block so
-that every block other than the last has block count 0: at each insertion step some unprocessed agent starts a block
-of count 0. The last block then has count 0 (Lemma 5: no rotation) or count 1, repaired by one rotation (Lemma KR).
-
 **Conjecture M_ad (global form).** For every strict profile of every k = 4 core some insertion sequence τ and some
 upgrade policy reach, with at most one rotation, a state of Lemma K deficit ≤ 0. In Lean: some τ with
 `EFX.LB4R.SucceedsR 1 v agents goods τ` (§7.4).
 
-The local form is what an exchange lemma can prove: at an insertion step where the agent of least index starts a block
-of positive count, show that another agent, read off that block (an overloaded end, Lemma 3), starts a block of count
-0. Ω and Ψ (`k4/c4one.md` §6) are exactly moves of this kind — they change the agent inserted at the start of one
-block and keep the prefix — but their new block has P-steps in their order, not LB's key's, and they bound ω, not the
-block count, so they do not give the step as they stand.
+Lemma M is the case τ = (a), so M_ad holds wherever Lemma M does (every profile of §2's exhaustive data), and on H_t
+and HH_t by the runs of §7.3. No counterexample is known.
+
+**Local forms.** Call a block *last* if it processes every agent still unprocessed. A local form says how to build
+the run block by block with Lemma 5 (or 5′) as the certificate:
+- (L0) *after any prefix of blocks of count 0, some unprocessed agent starts a block of count 0* (the last block
+  included). **False** at n = 3, m = 6 (§7.3): every first block has count 1, for both counts.
+- (L1) *after any prefix of blocks of count 0, some unprocessed agent starts a non-last block of count 0, or a last
+  block whose run succeeds with at most one rotation.*
+- (L1∃) *some insertion sequence has every non-last block at count 0 and succeeds with at most one rotation.* (L1)
+  implies (L1∃), and (L1∃) implies M_ad. §7.3 tests (L1∃) with the count at closing and with the cumulative count.
+
+(L1) is what an exchange lemma can prove: at an insertion step where the agent of least index starts a non-last block
+of positive count, show that another agent, read off that block (an overloaded end, Lemma 3), starts a non-last block
+of count 0 or a last block. Ω and Ψ (`k4/c4one.md` §6) are moves of this kind (they change the agent inserted at the
+start of one block and keep the prefix), but their new block has P-steps in their order, not LB's key's, and they
+bound ω, not the block count, so they do not give the step as they stand. And the data say the overloaded end is the
+wrong partner for the step (§7.3: it starts a block of count 0 at 39% of the steps where some agent does at 80%).
 
 ### 7.3 Data (EVIDENCE)
 
 `k4/lemmam_x.c -A44` builds the run greedily: at each insertion step it simulates the block of every unprocessed
 agent, takes the least block count (ties: least index), and at the end reports the least number d ≤ cap of nested
-rotations after which Lemma K certifies the run under some policy (`k4/lemmam_x_adp.py`).
+rotations after which Lemma K certifies the run under some policy (`k4/lemmam_x_adp.py`); `-W1` uses the cumulative
+count of Lemma 5′ instead. `-A46` searches all insertion sequences whose non-last blocks have count 0 (L1∃) for the
+least d. Lemma K, the rotations and the counts are those of `k4/lemmam_x.c` (`-Y1 -r1`); the rotation counts of the
+runs needing one or more rotations are rechecked in PR #33's model by `k4/lemmam_x_check.py --adp` (all 96 runs with
+d ≥ 2 and every 60th of those with d = 1: the same d on every one, `results/k4_lemmam_x/check_adp_d2.log`,
+`check_adp_d1_sample.log`).
 
-PLACEHOLDER_ADPDATA
+| data, greedy by the count at closing | profiles | every block count 0 | d = 0 | d = 1 | d ≥ 2 | some non-last block > 0 |
+|---|---|---|---|---|---|---|
+| every strict profile, n ≤ 3 and n = 4 with ≤ 2 four-good agents | 1,032,121,440 | 918,392,554 | 1,030,069,300 | 2,040,620 | 11,520 | 4,377,332 |
+| H₁–H₅, each with two relabelings | 15 | 15 | 15 | 0 | 0 | 0 |
+| HH₃, HH₄, each with one relabeling | 4 | 4 | 4 | 0 | 0 | 0 |
+
+(`results/k4_lemmam_x/adp_exh_n2_n3_n4_12.log`, `adp_Ht.log`, `adp_HH.log`, `adp_HH4.log`; on HH₄ with `-V1`, Lemma
+5's certificate.)
+
+Findings:
+- *Lemma 5 never fails*: the 918,392,554 runs with every block count 0 are certified by Lemma K without rotation (the
+  search was run, not Lemma 5).
+- *On H_t and HH_t the greedy rule finds Proposition HH's choices by itself*: on H₅ τ = (2, 0, 6, 7, 10, 11, …) inserts
+  x_{1,2} first, on HH₃ τ = (3, 0, 7, 8, 11, 12, 15, 1, 19, 20, 23, 24) inserts x_{1,2} of each copy before its ℓ
+  (agents 0, 1 are ℓ_A, ℓ_B; A's gadgets are 2–13, B's 14–25, each x_{j,1}, x_{j,2}, x_{j,3}, y_j); every block has
+  count 0 and no rotation is needed, also after relabeling. These are the instances on which every rule choosing only
+  the first agent fails (§6).
+- *The greedy rule is not itself a proof route*: 11,520 profiles need two rotations after its run (both
+  implementations). Smallest: n = 3, m = 6, agents {0, 1, 4, 5}, {2, 3, 4, 5}, {2, 3, 4, 5} with values
+  (1, 4, 6, 8), (3, 5, 7, 6), (2, 3, 4, 8): every agent starts a single block (it is last) of count 1, the tie goes to
+  agent 0, whose run needs two rotations, while another first agent needs at most one (Lemma M holds there). So a last
+  block's count does not decide its rotations; (L1) chooses the last block by its rotations, not its count.
+- *(L0) is false.* Agents {0, 2, 4, 5}, {1, 3, 5}, {2, 3, 4, 5} with values (3, 5, 7, 6), (2, 3, 4), (4, 2, 8, 3)
+  (n = 3, m = 6). Inserting 0: 0 takes 4, then 2 (it lost 4) takes 2; the block {0, 2} is not last; 0 is frozen (2
+  needs 4) and threatened by G = {0, 1, 3, 5} (v₀ = 3 + 6 = 9 > 7), ρ = 1 ({0} or {5} kept out, whichever the owner
+  does not take), and its only chain end 2 is threatened by G (v₂ = 2 + 3 = 5 > 4): count 1. Inserting 1: 1 takes 5,
+  then 0 takes 4 and 2 takes 2, a last block with r = 2; 0 is frozen, threatened by W = {0, 1, 2, 3} (8 > 7), ρ = 1,
+  and its chain ends only at r: count 1. Inserting 2: 2 takes 4, 0 takes 5, 1 takes 3, a last block with r = 1; 0 is
+  frozen (1 needs 5), threatened by W = {0, 1, 2, 3} (8 > 6), ρ = 1, its chain ends only at r: count 1. (The greedy run
+  is τ = (0, 1) with counts 1, 0 and needs one rotation.) On the exhaustive data the greedy run has a non-last block of
+  positive count on 4,377,332 profiles; 4,351,436 of them still need no rotation, 25,896 one.
+- *The local exchange by the overloaded end*: at the 22,006,832 (weighted) insertion steps where index order's block
+  is not last and has positive count, the block of its overloaded end (the end of chains from the most exposed frozen
+  agents) has count 0 at 8,592,608, and some agent's block at 17,671,224.
+
+PLACEHOLDER_L1DATA
 
 ### 7.4 Lean
 

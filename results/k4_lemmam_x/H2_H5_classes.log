@@ -1,0 +1,60 @@
+# lemmam_x_run.py --profiles=/tmp/claude-0/-home-user-efx0-three-goods/891575f8-e905-5025-9feb-2c6293ea3e11/scratchpad/lmx/H2to5.txt -A43 -r1 -Y1 -D43 --data=/tmp/claude-0/-home-user-efx0-three-goods/891575f8-e905-5025-9feb-2c6293ea3e11/scratchpad/lmx/H2to5_bad.txt # lemmam_x.c sha256 aab69414c3a7f21e
+H2: n=9 classes of the first agents 0..n-1 (0 K0, 1 K1, 2 bad): 200001111  time 0s
+H3: n=13 classes of the first agents 0..n-1 (0 K0, 1 K1, 2 bad): 2000011112111  time 0s
+H4: n=17 classes of the first agents 0..n-1 (0 K0, 1 K1, 2 bad): 20000111121112222  time 1s
+H5: n=21 classes of the first agents 0..n-1 (0 K0, 1 K1, 2 bad): 200001111211122222222  time 39s
+/tmp/claude-0/-home-user-efx0-three-goods/891575f8-e905-5025-9feb-2c6293ea3e11/scratchpad/lmx/H2to5.txt: profiles=4 time 41s
+  profiles 4  with a bad first agent 4  with no good first agent (Lemma M fails) 0  bad (profile, a) pairs 19  bad runs of class A4 or B4 (would contradict C40 in K0+K1) 0
+  profiles by number of good first agents (0, 1, 2, 3, 4): [0, 0, 0, 0, 0]
+  bad pairs by the class of the envy-free run (omega<=0, A4, B4, G2, one exposed 4-good frozen, free, two or more): [0, 0, 0, 0, 0, 0, 19]
+  candidate r                    good          3   good after iterating          3   undefined        0   (of 19 bad pairs)
+  candidate endEF_early          good         14   good after iterating         19   undefined        0   (of 19 bad pairs)
+  candidate endEF_idx            good         19   good after iterating         19   undefined        0   (of 19 bad pairs)
+  candidate endEF_maxload        good         19   good after iterating         19   undefined        0   (of 19 bad pairs)
+  candidate end_of_minidx_EF     good         19   good after iterating         19   undefined        0   (of 19 bad pairs)
+  candidate EF4_minidx           good         19   good after iterating         19   undefined        0   (of 19 bad pairs)
+  candidate end_of_earliest_EF   good         14   good after iterating         19   undefined        0   (of 19 bad pairs)
+  candidate freenottop_early     good          7   good after iterating          7   undefined        0   (of 19 bad pairs)
+  role                            has  some good   all good   earliest     latest   (holders of the role in the bad agent's run; earliest/latest processed holder good)
+  EF4                              19         19          1         11          7
+  ET4                              19          2          0          0          0
+  LDR_r                            19          0          0          0          0
+  r                                19          3          3          3          3
+  END_EF                           19         19          5         14          7
+  TOPH_EF                          19         19          1         11          7
+  blk_r                            19         13          0          0          3
+  blk_a                            19          7          0          0          5
+  frozen                           19         19          1          4          7
+  free_nottop                      19         19          3          7          7
+  LDR_EF4                          19          0          0          0          0
+  NEEDER_EF                        19         19          5         14          7
+  END_EF4                          19         19          5         14          7
+  TOPH_EF4                         19         19          1         11          7
+  free                             19         19          0          3          3
+  leader                           15          0          0          0          0
+  E_any                            19         19          0          0          6
+  NEEDER_EF4                       19         19          5         14          7
+  END_E4all                        19         19          0          3          6
+  free_E4holdstop                  19          2          0          0          1
+  LDR_E4                           19          0          0          0          0
+  EF4@E4many                       19         19          1         11          7
+  ET4@E4many                       19          2          0          0          0
+  LDR_r@E4many                     19          0          0          0          0
+  r@E4many                         19          3          3          3          3
+  END_EF@E4many                    19         19          5         14          7
+  TOPH_EF@E4many                   19         19          1         11          7
+  blk_r@E4many                     19         13          0          0          3
+  blk_a@E4many                     19          7          0          0          5
+  frozen@E4many                    19         19          1          4          7
+  free_nottop@E4many               19         19          3          7          7
+  LDR_EF4@E4many                   19          0          0          0          0
+  NEEDER_EF@E4many                 19         19          5         14          7
+  END_EF4@E4many                   19         19          5         14          7
+  TOPH_EF4@E4many                  19         19          1         11          7
+  free@E4many                      19         19          0          3          3
+  leader@E4many                    15          0          0          0          0
+  E_any@E4many                     19         19          0          0          6
+  NEEDER_EF4@E4many                19         19          5         14          7
+  END_E4all@E4many                 19         19          0          3          6
+  free_E4holdstop@E4many           19          2          0          0          1
+  LDR_E4@E4many                    19          0          0          0          0

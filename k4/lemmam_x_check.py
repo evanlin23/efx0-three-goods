@@ -259,8 +259,70 @@ def analyse(sets, vals):
     return cls, out
 
 
+def seq_d(inst, ids):
+    """least d <= 1 (2: none) such that LB4r with the insertion sequence ids (agent ids, as k4/lemmam_x.c prints them;
+    converted to the model's 'index among the unprocessed' convention by replaying Phase 1) reaches Lemma K deficit
+    <= 0 under some policy (none, need-shrinking, envy-free), with at most d RotSteps"""
+    tau = []
+    ids = list(ids)
+    # replay: at each insertion step the next id is the agent inserted; its index among the unprocessed agents
+    U = list(range(inst.n)); G0 = list(range(inst.m)); k = 0
+    while U:
+        lost = [i for i in U if any(g not in G0 for g in inst.R[i])]
+        if lost:
+            def key(i):
+                f = M.fav(inst, i, G0)
+                r = len(inst.R[i]) if f is None else sum(1 for h in inst.R[i] if inst.v[i][f] < inst.v[i][h])
+                return (r, sum(1 for g in G0 if inst.v[i][g] > 0), i)
+            x = min(lost, key=key)
+        else:
+            x = ids[k] if k < len(ids) else U[0]
+            tau.append(U.index(x)); k += 1
+        f = M.fav(inst, x, G0)
+        U.remove(x)
+        if f is not None:
+            G0.remove(f)
+    s0, run = M.phase1_state(inst, tuple(tau))
+    ins = [x for x, f, t in run if t == 'I']
+    if ins[:len(ids)] != ids:
+        raise ValueError(f'the model inserts {ins}, lemmam_x.c {ids}')
+    states = [s0] + [M.up_run(inst, s0, pol)[0] for pol in ('shrink', 'envyFree')]
+    if any(RM.deficit_K(inst, s) <= 0 for s in states):
+        return 0
+    if any(RM.rot_deficit_K(inst, s)[0] <= 0 for s in states):
+        return 1
+    return 2
+
+
+def adp_check(fname):
+    """the runs of k4/lemmam_x.c -A44 (ADPBAD / ADPRUN lines): the least d <= 1 of their sequence in this model"""
+    seen = set(); hist = {}; agree = {}
+    for line in open(fname):
+        if not line.startswith(('ADPBAD', 'ADPRUN')):
+            continue
+        key = re.search(r'sets=\S+ vals=\S+', line).group(0)
+        if key in seen:
+            continue
+        seen.add(key)
+        w = int(re.search(r'\bw=(\d+)', line).group(1)); dc = int(re.search(r' d=(\d+)', line).group(1))
+        sets = json.loads(re.search(r'sets=(\S+)', line).group(1)); vals = json.loads(re.search(r'vals=(\S+)', line).group(1))
+        ids = list(map(int, re.search(r'tau=(\S+)', line).group(1).split(',')))
+        inst = RM.make_inst(sets, vals)
+        dp = seq_d(inst, ids)
+        hist[(dc, dp)] = hist.get((dc, dp), 0) + w
+        if dp != min(dc, 2):
+            print('DIFF lemmam_x.c d=%d model d=%d' % (dc, dp), json.dumps({'sets': sets, 'vals': vals, 'tau': ids}),
+                  flush=True)
+    print('runs (distinct leaves)', len(seen), '; weighted (lemmam_x.c d, model d; 2 = more than one rotation):',
+          dict(sorted(hist.items())))
+
+
 def main():
     args = sys.argv[1:]
+    adp = next((x.split('=', 1)[1] for x in args if x.startswith('--adp=')), None)
+    if adp:
+        adp_check(adp)
+        return
     prof = next((x.split('=', 1)[1] for x in args if x.startswith('--profiles=')), None)
     mx = int(next((x.split('=')[1] for x in args if x.startswith('--max=')), 10 ** 9))
     expect = {}      # classes reported by k4/lemmam_x.c (BAD lines with cls=), compared below
