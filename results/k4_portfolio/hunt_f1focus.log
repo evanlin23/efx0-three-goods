@@ -19,3 +19,5 @@
   task r2:RC3:count:hard:k4_certs_5_n4_4.json.gz#8106:26,163,261,214,5: steps 19459 evals 467016 best objective [2, 0] fails 0 [300.0 s]
   task r2:RC3:edge:hard:k4_certs_5_n4_4.json.gz#8485:104,7,1,133,213: steps 5055 evals 121320 best objective [3, 3] fails 0 [300.0 s]
   task r2:NA3:count:hard:k4_certs_5_n4_4.json.gz#8453:92,73,6,0,5: steps 11944 evals 286656 best objective [5, 0] fails 0 [300.0 s]
+  task r2:NA3:edge:hard:k4_certs_5_n4_4.json.gz#8688:113,41,81,93,0: steps 7773 evals 186552 best objective [5, 5] fails 0 [300.0 s]
+  task r2:D3:count:hard:k4_certs_5_n4_4.json.gz#8722:11,81,145,49,2: steps 17118 evals 410832 best objective [5, 0] fails 0 [300.0 s]

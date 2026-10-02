@@ -1,0 +1,34 @@
+# command: python3 k4/portfolio.py certs results/k4_certs_5_pure.json.gz --sample=600 --seed=6 --jobs=3 --maxst=600 --name=n5_pure --ckpt
+# portfolio_dump.c sha256 d549cd68387f58c47835a6254e53e340a8f018061a81456a2f2d89181ffaabd8; portfolio_preds.py sha256 70f90090bb5e410fd1fa53e7a790f823a5383c069eab27dbdb85974bb552df52
+# 4674 units to run, 0 from the checkpoint; jobs 3
+n5_pure: profiles 2804400 (omega >= 1: 945693), evaluated (f >= 1 with a state) 16615 (skipped as too large: 0); states 87855, keys with def* > 0 47; by f: {"1": {"keys_pos": 2, "profiles": 14099, "states": 79175}, "2": {"keys_pos": 15, "profiles": 2412, "states": 8416}, "3": {"keys_pos": 30, "profiles": 104, "states": 264}}; 1154 s CPU
+  nearest distance of the states (f|k: count): 1|1: 78575, 1|2: 600, 2|1: 8234, 2|2: 182, 3|1: 198, 3|2: 66
+  single RT4        tested    87855 FAILS      0 margin 3 | smallest repairs: 0|0|0|1 87007, 0|0|0|2 573, 1|0|1|0 275
+  single RC3        tested    87855 FAILS      0 margin 5 | smallest repairs: 0|0|0|1 87007, 0|0|0|2 573, 1|0|1|0 275
+  single RC_W1      tested    87855 FAILS      0 margin 5 | smallest repairs: 0|0|0|1 87007, 0|0|0|2 573, 1|0|1|0 275
+  single RC         tested    87855 FAILS      0 margin 5 | smallest repairs: 0|0|0|1 87007, 0|0|0|2 573, 1|0|1|0 275
+  single RC_noneed  tested    87855 FAILS      0 margin 5 | smallest repairs: 0|0|0|1 87007, 0|0|0|2 573, 1|0|1|0 275
+  single RC_Yfree   tested    87855 FAILS      0 margin 5 | smallest repairs: 0|0|0|1 87007, 0|0|0|2 573, 1|0|1|0 275
+  single RC_Yany    tested    87855 FAILS      0 margin 5 | smallest repairs: 0|0|0|1 87007, 0|0|0|2 573, 1|0|1|0 275
+  single RC_U0      tested    87855 FAILS      0 margin 5 | smallest repairs: 0|0|0|1 87007, 0|0|0|2 573, 1|0|1|0 275
+  single RC3_noT4   tested    87855 FAILS      0 margin 4 | smallest repairs: 0|0|0|1 87007, 0|0|0|2 573, 1|0|1|0 275
+  single NA3        tested    87855 FAILS      0 margin 5 | smallest repairs: 0|0|0|1 87007, 0|0|0|2 573, 1|0|1|0 275
+  single NA1        tested    87855 FAILS      0 margin 5 | smallest repairs: 0|0|0|1 87007, 0|0|0|2 573, 1|0|1|0 275
+  single NAbal      tested    87855 FAILS      0 margin 5 | smallest repairs: 0|0|0|1 87007, 0|0|0|2 573, 1|0|1|0 275
+  single NAall      tested    87855 FAILS      0 margin 5 | smallest repairs: 0|0|0|1 87007, 0|0|0|2 573, 1|0|1|0 275
+  single U1Z1       tested    87855 FAILS      0 margin 9 | smallest repairs: 0|0|0|1 87007, 0|0|0|2 573, 1|0|1|0 275
+  single D2         tested    87855 FAILS      0 margin 2 | smallest repairs: 0|0|0|1 87007, 0|0|0|2 573, 1|0|1|0 275
+  single D3         tested    87855 FAILS      0 margin 5 | smallest repairs: 0|0|0|1 87007, 0|0|0|2 573, 1|0|1|0 275
+  single D4         tested    87855 FAILS      0 margin 5 | smallest repairs: 0|0|0|1 87007, 0|0|0|2 573, 1|0|1|0 275
+  single FR3        tested    87855 FAILS      0 margin 9 | smallest repairs: 0|0|0|1 87007, 0|0|0|2 573, 1|0|1|0 275
+  keyg   K1         tested       47 FAILS      0 margin 5 | smallest repairs: 1|0|1|0 47
+  keyg   K3b        tested       47 FAILS      0 margin 8 | smallest repairs: 1|0|1|0 47
+  keyg   K3b_noT4   tested       47 FAILS      0 margin 8 | smallest repairs: 1|0|1|0 47
+  keyg   K3         tested       47 FAILS      0 margin 8 | smallest repairs: 1|0|1|0 47
+  keyg   K2         tested       47 FAILS      0 margin 8 | smallest repairs: 1|0|1|0 47
+  keyg   K2_noneed  tested       47 FAILS      0 margin 8 | smallest repairs: 1|0|1|0 47
+  keyg   K2_Yany    tested       47 FAILS      0 margin 8 | smallest repairs: 1|0|1|0 47
+  keyg   K4         tested       47 FAILS      0 margin 12 | smallest repairs: 1|0|1|0 47
+  keyg   K5         tested       47 FAILS      0 margin 12 | smallest repairs: 1|0|1|0 47
+  keyg   KU1        tested       47 FAILS      0 margin 20 | smallest repairs: 1|0|1|0 47
+# wrote results/k4_portfolio/n5_pure.json; 389 s wall

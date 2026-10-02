@@ -1,0 +1,4 @@
+# command: python3 k4/portfolio.py inst results/k4_portfolio/big_profiles.json --chunk=1 --jobs=3 --name=big --ckpt
+# portfolio_dump.c sha256 d549cd68387f58c47835a6254e53e340a8f018061a81456a2f2d89181ffaabd8; portfolio_preds.py sha256 70f90090bb5e410fd1fa53e7a790f823a5383c069eab27dbdb85974bb552df52
+# inst: 6 profiles
+# 6 units to run, 0 from the checkpoint; jobs 3
