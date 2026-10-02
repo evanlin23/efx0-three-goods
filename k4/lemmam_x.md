@@ -286,7 +286,9 @@ rotations in place of one, bounds the rotations of every first agent.
 **Proposition R.** For every d ≥ 0 and every t with 2t − 2 > 3d, on HH_t no first agent a makes LB₄ʳ(τ_a) succeed
 with at most d rotations (under each upgrade policy, every owner or none, the owner's needs from its base or its
 bundle, chains ending at any agent that is not frozen). So no fixed bound on the rotations makes a rule that chooses
-only the first agent work: d = 1 fails on HH₃, d = 2 on HH₅, d = 3 on HH₆, and so on.
+only the first agent work: d = 1 fails on HH₃, d = 2 on HH₅, d = 3 on HH₆, and so on. (So every first agent of HH_t
+needs at least (2t − 2)/3 rotations; PR #83's Corollary HH states (t − 1)/2. The difference is the per-gadget bound
+below, which a referee should check.)
 
 *Proof.* Fix a and let D be the copy containing a, C the other one. We use from `k4/lemmam_bt.md` §1, §3 (PR #83):
 Lemma P (protecting goods: if forced agents have protecting sets Π(f) disjoint except for c goods each in two of them,
@@ -464,7 +466,15 @@ Findings:
   is not last and has positive count, the block of its overloaded end (the end of chains from the most exposed frozen
   agents) has count 0 at 8,592,608, and some agent's block at 17,671,224.
 
-PLACEHOLDER_L1DATA
+**(L1∃) on the exhaustive data** (`-A46`, the least d over every insertion sequence whose non-last blocks have count
+0): at n ≤ 3 each of the 300,026,592 profiles has such a sequence that succeeds without rotation (299,638,544) or
+with one (388,048); none needs more, none lacks one (`results/k4_lemmam_x/l46_n2_n3.log`). L46N4 With the cumulative
+count the numbers at n ≤ 3 are the same (`l46W_n2_n3.log`; it allows more sequences, so it can only do better), and
+so is the greedy rule's (`adpW_n2_n3.log`: the same histogram of d and the same 1,394,136 runs with a non-last block
+of positive count as by the count at closing, `adp_n2_n3_after_W.log`): at n ≤ 3 runs have few blocks and the counts
+coincide. (L1), with "every prefix", is not tested separately; the greedy's 4,377,332 runs with a positive non-last
+block are runs where the greedy, by count and index, chose a non-last block of positive count, not necessarily
+prefixes without a good continuation.
 
 ### 7.4 Lean
 
