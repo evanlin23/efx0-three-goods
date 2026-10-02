@@ -1,0 +1,2 @@
+# command: python3 k4/f2_lemmas.py results/k4_f2/shapes_3.jsonl.gz
+# no assertion failed

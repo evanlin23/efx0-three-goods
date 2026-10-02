@@ -1,0 +1,43 @@
+X1 (k4_certs_4_pure m=9 idx=5 38,20,245,105): the two implementations agree on the state confirmed  
+X1: strict core, f = 1, def(P) > 0, two big-top needers (setting (H))  confirmed  
+X1: no plain swap lowers the deficit (the candidate fails)             confirmed  
+X1: P is not T1-stuck (a (T1) move lowers the deficit)                 confirmed  
+  first of W, K, G1, G1h that applies (A): G1h
+X2 (k4_certs_4_n4_3 m=9 idx=5 106,48,94,3): the two implementations agree on the state confirmed  
+X2: strict core, f = 1, def(P) > 0, at the T3 stage (T1-stuck and key-optimal) confirmed  
+X2: a target (C1, C2, C3 of k4/dl13.md do not apply; implementation A only) confirmed  S1 theta-b
+X2: two needers, one of them not big-top (the candidate fails)         confirmed  
+X2: a plain swap lowers the deficit                                    confirmed  [(0, (1, 3), 0), (0, (1, 7), 0), (0, (3,), 0)]
+X2: Corollary G1 certifies a plain swap (implementation A)             confirmed  
+X3 (structured hunt, hunt:1:27942): the two implementations agree on the state confirmed  
+X3: strict core, f = 1, def(P) > 0, at the T3 stage (T1-stuck and key-optimal) confirmed  
+X3: setting (H)                                                        confirmed  
+X3: no plain swap lowers the deficit (the candidate fails)             confirmed  
+X3: some (T3) move with one helper lowers the deficit                  confirmed  21 moves
+X3: a target (no S1 shape; C1, C2, C3 do not apply; implementation A only) confirmed  
+X3: Corollary G1 with one helper certifies a swap (implementation A)   confirmed  
+X3: that swap (z=1, x takes [4], helper 3 takes [7], owner 2): def(P') by A and B, <= 0 confirmed  def(P') = 0 / 0
+X4 (k4_certs_4_pure m=10 idx=13 60,8,93,84): the two implementations agree on the state confirmed  
+X4: strict core, f = 1, def(P) > 0, T1-stuck but not key-optimal (a (T2) move lowers the deficit) confirmed  
+X4: setting (H)                                                        confirmed  
+X4: W, K, G1 (plain swap) do not apply (implementation A)              confirmed  G1h
+X4: a plain swap lowers the deficit                                    confirmed  [(1, (3, 6), 0)]
+X4: Corollary G1 with one helper certifies a swap (implementation A)   confirmed  
+X4: that swap (z=1, x takes [9], helper 0 takes [2], owner 3): def(P') by A and B, <= -1 confirmed  def(P') = -1 / -1
+X5 (k4_certs_5_pure pos 4604 44,118,8,8,158): the two implementations agree on the state confirmed  
+X5: strict core, f = 1, def(P) > 0, at the T3 stage (T1-stuck and key-optimal) confirmed  def(P) = 1
+X5: setting (H)                                                        confirmed  needers [2, 3]
+X5: no (T3) move (at most one helper giving up a good) lowers the deficit (single-step form fails) confirmed  
+X5: its (T3) moves, every one to a state of deficit def(P), by A and B confirmed  8 / 8 moves
+  target class (A): noS1
+X5: key form: def*(key) = def(P), and some state of the key has a (T3) move to a better key, by A and B confirmed  def* = 1 / 1, 35 / 35 states, moves to a better key 936 / 936, to a state below def* 756 / 756
+X5: the coordinator's move from Q = ({11},{6,10},{12},{4,8},{5,9}): x=0 -> {9}, z=2 -> {11}, helper 4 -> {12} confirmed  def(Q) = 1 / 1, def(P') = -1 / -1, def*(key of P') = -1 / -1
+X5: Corollary G1 certifies a (T3) move from some state of the key to a state below def* (A) confirmed  1368 certificates
+    from [[11], [1, 6], [12], [4, 8], [5, 9]]: z=3 takes g, x=0 takes [0, 2], helper None takes -, owner 1: bound 0, def(P') = 0
+    from [[11], [1, 6], [12], [4, 8], [5, 9]]: z=3 takes g, x=0 takes [0, 2], helper None takes -, owner 4: bound 0, def(P') = 0
+    from [[11], [1, 6], [12], [4, 8], [5, 9]]: z=2 takes g, x=0 takes [0, 2], helper 1 takes [1, 12], owner 3: bound 0, def(P') = 0
+    from [[11], [1, 6], [12], [4, 8], [5, 9]]: z=2 takes g, x=0 takes [0, 2], helper 1 takes [1, 12], owner 4: bound 0, def(P') = 0
+Y (dl13-n3m7-theta): the two implementations agree on the state        confirmed  
+Y: Theorem W swap z=1 A=[4, 5]: def(P') by A and B, <= 0               confirmed  def(P') = 0 / 0
+Y: Theorem K swap z=1 A=[3, 4]: def(P') by A and B, <= 0               confirmed  def(P') = -1 / -1
+ALL CONFIRMED

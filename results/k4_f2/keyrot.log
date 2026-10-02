@@ -1,0 +1,8 @@
+# command: python3 k4/f2_lemmas.py --keyrot results/k4_f2/shapes_0.jsonl.gz results/k4_f2/shapes_1.jsonl.gz results/k4_f2/shapes_2.jsonl.gz results/k4_f2/shapes_3.jsonl.gz results/k4_f2/shapes_4.jsonl.gz results/k4_f2/shapes_5.jsonl.gz results/k4_f2/shapes_6.jsonl.gz results/k4_f2/shapes_7_28.jsonl.gz results/k4_f2/shapes_7_29.jsonl.gz results/k4_f2/shapes_7_30.jsonl.gz results/k4_f2/shapes_7_31.jsonl.gz results/k4_f2/shapes5_0.jsonl.gz results/k4_f2/shapes5_1.jsonl.gz results/k4_f2/shapes5_2.jsonl.gz results/k4_f2/shapes5_3.jsonl.gz results/k4_f2/shapes5_4.jsonl.gz results/k4_f2/shapes5_5.jsonl.gz results/k4_f2/shapes5_6.jsonl.gz results/k4_f2/shapes5_7.jsonl.gz results/k4_f2/shapes_rchunt.jsonl.gz
+    at keys with def* > 0                                                831
+    def*(rotated) < def*: a (T4) key edge                                659
+    def*(rotated) = def*: the rotated key's edges lift                   172
+  keys with a cycle in the frozen need digraph                           4916
+  profiles                                                               6710
+  rotations checked                                                      5489
+# no assertion failed

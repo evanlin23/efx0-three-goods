@@ -1,0 +1,72 @@
+# command: python3 k4/dlrc_chains.py results/k4_rc/dump_hunt_fail10_sample.jsonl.gz
+== results/k4_rc/dump_hunt_fail10_sample.jsonl.gz: 415 chain states, 0 DL_RC failures
+  states by (kind, f, def, least |W|, nearest k):
+    ('chain', 2, 1, 1, 3) : 70
+    ('chain', 3, 1, 1, 3) : 345
+  improving T3c moves listed (at most 100 per state) by (|W|, |Y|): {(1, 0): 3600, (1, 1): 8456, (2, 0): 2196, (2, 1): 4588}
+  better states (at most 400 per state) by (shape |U|,|Z|,|W|,|Y|; R_C kind; NA kept):
+    ((1, 1, 1, 1), 'T3c', 1) : 8456
+    ((1, 1, 2, 1), 'T3c', 1) : 4588
+    ((1, 1, 1, 0), 'T3c', 1) : 3600
+    ((2, 2, 0, 1), '-', 1) : 3360
+    ((1, 1, 1, 2), '-', 1) : 2712
+    ((1, 1, 1, 1), '-', 1) : 2600
+    ((1, 1, 2, 0), 'T3c', 1) : 2196
+    ((1, 1, 2, 1), '-', 1) : 1600
+    ((2, 2, 0, 0), '-', 1) : 1120
+    ((2, 2, 1, 0), '-', 1) : 284
+  cores (file, pos, m): chain / failing states, distinct profiles
+    ('k4_certs_5_n4_4.json.gz#3206[m=9,idx=364]:108,86,1,108,27|prof=[115, 86, 1, 108, 49]', None, 9) : 1 states, 1 profiles
+    ('k4_certs_5_n4_4.json.gz#3206[m=9,idx=364]:108,86,1,108,27|prof=[44, 146, 1, 14, 22]', None, 9) : 4 states, 1 profiles
+    ('k4_certs_5_n4_4.json.gz#3206[m=9,idx=364]:108,86,1,108,27|prof=[95, 150, 1, 71, 29]', None, 9) : 4 states, 1 profiles
+    ('k4_certs_5_n4_4.json.gz#3521[m=9,idx=679]:98,1,16,17,15|prof=[115, 1, 1, 45, 22]', None, 9) : 2 states, 1 profiles
+    ('k4_certs_5_n4_4.json.gz#3521[m=9,idx=679]:98,1,16,17,15|prof=[115, 1, 16, 45, 14]', None, 9) : 2 states, 1 profiles
+    ('k4_certs_5_n4_4.json.gz#3521[m=9,idx=679]:98,1,16,17,15|prof=[48, 1, 51, 45, 61]', None, 9) : 2 states, 1 profiles
+    ('k4_certs_5_n4_4.json.gz#3521[m=9,idx=679]:98,1,16,17,15|prof=[98, 1, 16, 9, 15]', None, 9) : 2 states, 1 profiles
+    ('k4_certs_5_n4_4.json.gz#3521[m=9,idx=679]:98,1,16,17,15|prof=[98, 1, 9, 45, 8]', None, 9) : 2 states, 1 profiles
+    ('k4_certs_5_pure.json.gz#2614[m=10,idx=568]:1,11,39,16,0|prof=[102, 41, 213, 88, 88]', None, 10) : 2 states, 1 profiles
+    ('k4_certs_5_pure.json.gz#2614[m=10,idx=568]:1,11,39,16,0|prof=[106, 119, 260, 10, 42]', None, 10) : 3 states, 1 profiles
+    ('k4_certs_5_pure.json.gz#2614[m=10,idx=568]:1,11,39,16,0|prof=[35, 34, 260, 42, 80]', None, 10) : 3 states, 1 profiles
+    ('k4_certs_5_pure.json.gz#2614[m=10,idx=568]:1,11,39,16,0|prof=[46, 34, 211, 88, 10]', None, 10) : 3 states, 1 profiles
+    ('k4_certs_5_pure.json.gz#2614[m=10,idx=568]:6,11,45,0,4|prof=[106, 40, 237, 42, 88]', None, 10) : 3 states, 1 profiles
+    ('k4_certs_5_pure.json.gz#2614[m=10,idx=568]:6,11,45,0,4|prof=[20, 31, 237, 88, 10]', None, 10) : 3 states, 1 profiles
+    ('k4_certs_5_pure.json.gz#2614[m=10,idx=568]:6,11,45,0,4|prof=[20, 76, 260, 6, 80]', None, 10) : 3 states, 1 profiles
+    ('k4_certs_5_pure.json.gz#2614[m=10,idx=568]:6,11,45,0,4|prof=[35, 31, 222, 46, 80]', None, 10) : 3 states, 1 profiles
+    ('k4_certs_5_pure.json.gz#2614[m=10,idx=568]:6,11,45,0,4|prof=[35, 38, 260, 42, 80]', None, 10) : 3 states, 1 profiles
+    ('k4_certs_5_pure.json.gz#2614[m=10,idx=568]:6,11,45,0,4|prof=[6, 31, 213, 88, 6]', None, 10) : 3 states, 1 profiles
+    ('k4_certs_5_pure.json.gz#2614[m=10,idx=568]:6,9,43,24,24|prof=[10, 31, 213, 88, 6]', None, 10) : 3 states, 1 profiles
+    ('k4_certs_5_pure.json.gz#2614[m=10,idx=568]:6,9,43,24,24|prof=[102, 38, 213, 80, 10]', None, 10) : 3 states, 1 profiles
+    ('k4_certs_5_pure.json.gz#2614[m=10,idx=568]:6,9,43,24,24|prof=[106, 40, 260, 80, 10]', None, 10) : 3 states, 1 profiles
+    ('k4_certs_5_pure.json.gz#2614[m=10,idx=568]:6,9,43,24,24|prof=[106, 5, 260, 46, 88]', None, 10) : 3 states, 1 profiles
+    ('k4_certs_5_pure.json.gz#2614[m=10,idx=568]:6,9,43,24,24|prof=[46, 31, 268, 6, 80]', None, 10) : 3 states, 1 profiles
+    ('k4_certs_5_pure.json.gz#2614[m=10,idx=568]:6,9,43,24,24|prof=[46, 38, 217, 80, 10]', None, 10) : 3 states, 1 profiles
+    ('k4_certs_5_pure.json.gz#2614[m=10,idx=568]:6,9,43,24,24|prof=[46, 41, 260, 42, 88]', None, 10) : 3 states, 1 profiles
+    ('k4_certs_5_pure.json.gz#2614[m=10,idx=568]:6,9,43,24,24|prof=[7, 31, 263, 88, 10]', None, 10) : 3 states, 1 profiles
+    ('k4_certs_5_pure.json.gz#2614[m=10,idx=568]:6,9,43,24,24|prof=[7, 41, 260, 46, 6]', None, 10) : 3 states, 1 profiles
+    ('k4_certs_5_pure.json.gz#4170[m=12,idx=25]:1,12,8,3,11|prof=[102, 10, 72, 45, 41]', None, 12) : 12 states, 1 profiles
+    ('k4_certs_5_pure.json.gz#4170[m=12,idx=25]:1,12,8,3,11|prof=[102, 38, 10, 9, 38]', None, 12) : 12 states, 1 profiles
+    ('k4_certs_5_pure.json.gz#4170[m=12,idx=25]:1,12,8,3,11|prof=[46, 72, 38, 72, 211]', None, 12) : 12 states, 1 profiles
+    ('k4_certs_5_pure.json.gz#4170[m=12,idx=25]:1,12,8,3,11|prof=[95, 6, 34, 42, 44] (f = 2)', None, 12) : 21 states, 1 profiles
+    ('k4_certs_5_pure.json.gz#4170[m=12,idx=25]:22,18,4,10,37|prof=[102, 10, 10, 72, 260]', None, 12) : 12 states, 1 profiles
+    ('k4_certs_5_pure.json.gz#4170[m=12,idx=25]:22,18,4,10,37|prof=[102, 72, 72, 72, 211]', None, 12) : 12 states, 1 profiles
+    ('k4_certs_5_pure.json.gz#4170[m=12,idx=25]:22,18,4,10,37|prof=[106, 10, 10, 36, 260]', None, 12) : 12 states, 1 profiles
+    ('k4_certs_5_pure.json.gz#4170[m=12,idx=25]:22,18,4,10,37|prof=[38, 72, 10, 72, 262]', None, 12) : 12 states, 1 profiles
+    ('k4_certs_5_pure.json.gz#4170[m=12,idx=25]:22,18,4,10,37|prof=[46, 64, 38, 36, 237]', None, 12) : 12 states, 1 profiles
+    ('k4_certs_5_pure.json.gz#4170[m=12,idx=25]:22,18,4,10,37|prof=[46, 72, 64, 72, 193]', None, 12) : 12 states, 1 profiles
+    ('k4_certs_5_pure.json.gz#4170[m=12,idx=25]:22,18,4,10,37|prof=[79, 34, 34, 46, 61] (f = 2)', None, 12) : 21 states, 1 profiles
+    ('k4_certs_5_pure.json.gz#4170[m=12,idx=25]:4,8,16,22,43|prof=[10, 34, 72, 72, 260]', None, 12) : 10 states, 1 profiles
+    ('k4_certs_5_pure.json.gz#4170[m=12,idx=25]:4,8,16,22,43|prof=[7, 64, 38, 108, 213]', None, 12) : 12 states, 1 profiles
+    ('k4_certs_5_pure.json.gz#4214[m=12,idx=69]:0,12,4,11,39|prof=[20, 10, 38, 41, 217]', None, 12) : 12 states, 1 profiles
+    ('k4_certs_5_pure.json.gz#4214[m=12,idx=69]:0,12,4,11,39|prof=[35, 38, 72, 31, 269]', None, 12) : 12 states, 1 profiles
+    ('k4_certs_5_pure.json.gz#4214[m=12,idx=69]:0,12,4,11,39|prof=[7, 10, 72, 77, 260]', None, 12) : 12 states, 1 profiles
+    ('k4_certs_5_pure.json.gz#4214[m=12,idx=69]:0,12,4,11,39|prof=[92, 34, 6, 157, 45] (f = 2)', None, 12) : 14 states, 1 profiles
+    ('k4_certs_5_pure.json.gz#4214[m=12,idx=69]:12,12,18,11,43|prof=[106, 64, 72, 40, 260]', None, 12) : 12 states, 1 profiles
+    ('k4_certs_5_pure.json.gz#4214[m=12,idx=69]:12,12,18,11,43|prof=[20, 38, 38, 38, 193]', None, 12) : 12 states, 1 profiles
+    ('k4_certs_5_pure.json.gz#4214[m=12,idx=69]:12,12,18,11,43|prof=[20, 6, 64, 41, 260]', None, 12) : 10 states, 1 profiles
+    ('k4_certs_5_pure.json.gz#4214[m=12,idx=69]:12,12,18,11,43|prof=[35, 64, 72, 34, 260]', None, 12) : 12 states, 1 profiles
+    ('k4_certs_5_pure.json.gz#4214[m=12,idx=69]:12,12,18,11,43|prof=[46, 64, 64, 38, 260]', None, 12) : 12 states, 1 profiles
+    ('k4_certs_5_pure.json.gz#4214[m=12,idx=69]:12,12,18,11,43|prof=[6, 64, 72, 38, 260]', None, 12) : 12 states, 1 profiles
+    ('k4_certs_5_pure.json.gz#4214[m=12,idx=69]:12,12,18,11,43|prof=[7, 38, 6, 5, 216]', None, 12) : 10 states, 1 profiles
+    ('k4_certs_5_pure.json.gz#4214[m=12,idx=69]:12,12,18,11,43|prof=[7, 38, 72, 31, 213]', None, 12) : 12 states, 1 profiles
+    ('k4_certs_5_pure.json.gz#4214[m=12,idx=69]:12,12,18,11,43|prof=[7, 64, 64, 31, 260]', None, 12) : 12 states, 1 profiles
+    ('k4_certs_5_pure.json.gz#4214[m=12,idx=69]:12,12,18,11,43|prof=[95, 34, 6, 149, 45] (f = 2)', None, 12) : 14 states, 1 profiles

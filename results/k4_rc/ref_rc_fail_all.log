@@ -1,0 +1,7 @@
+# command: python3 k4/dlrc_ref.py inst results/k4_rc/rc_fail_all_inst.json --jobs=2
+# 369 profiles
+#  200 / 369 profiles: {'rcnokey': 0, 'anomc': 0, 'prof': 200, 'prof_f1': 200, 'st': 9000, 'st_f1': 9000, 'keymin_states': 6200, 'rt4fail': 200, 'rcfail': 200}
+#  369 / 369 profiles: {'rcnokey': 0, 'anomc': 0, 'prof': 369, 'prof_f1': 369, 'st': 16605, 'st_f1': 16605, 'keymin_states': 11439, 'rt4fail': 369, 'rcfail': 369}
+# dlrc.c sha256 f1cf4cc169a347625e5a84bd9c7a8c218f791de6e2a7ce466f59ce357000b1f7; dlrt4.c sha256 fcde494a3161279d47a7b80e614f69c58894ebc7b40d00e461f677b8810d7cae
+profiles 369 (with an f >= 1 def > 0 state 369); states 16605 (f = 0: 0, f >= 1: 16605); f >= 1: DL_RT4 fails at 369, DL_RC fails at 369, chain states 0, with an improving T3c move 0, key form fails at 0; states with def = def* 11439
+mismatches: reference vs dlrc.c: states 0, fields 0, H lines 0; dlrc.c vs dlrt4.c: K/L/tables 0, S lines 0; -DBIGPP=0 build 0; blocks 0; dlrc.c rcnokey 0, anomc 0; TOTAL 0 [451 s]
