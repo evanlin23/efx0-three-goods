@@ -172,25 +172,31 @@ needs are unchanged, and it is not forced). ℓ_D gives at most 0. By Lemmas 1, 
 - (β2), no upgrades or envy-free: y frozen (x_2 needs a_2), x_2 at most +1, x_1 frozen and forced (y needs a_1), x_3
   free and forced: at most 0. Need-shrinking: x_2, y on two goods, x_1, x_3 free and forced: 0.
 The owner's needs from its bundle unfreeze an agent only if the owner needed its pick and no longer does: in D only an
-owner x holding b with c in its bundle (10 > 8), which frees y; in (β1) the gadget is then x_{j,1} 0, y at most +1, the
-others 0, and in (β2) x_2 0, y at most +1, x_1 −1, x_3 0; the bounds stand. (An owner y in (α) keeps needing its a's: its
-bundle meets R_y only in e.) With gadget j at most +1, gadgets k > j at most 0 and gadgets k < j at −2, the balance of D
+owner x holding b whose bundle is worth more than its a, through c (b + c = 10 > 8) or, in a (β2) gadget k > j where
+g_k is junk, also through g_k (b + g = 9 > 8); either way it frees y. In (β1) the gadget is then x_{j,1} 0, y at most
++1, the others 0, and in (β2) x_2 0, y at most +1, x_1 −1, x_3 0; the bounds stand. (An owner y in (α) keeps needing its
+a's: its bundle meets R_y only in e.) With gadget j at most +1, gadgets k > j at most 0 and gadgets k < j at −2, the balance of D
 is at most 1.
 
 *A rotation in D touches one gadget, which then has balance at most +1.* The frozen agents of D are the x's of (α)
 gadgets, and, without need-shrinking upgrades, y in (β1) and (β2) and x_1 in (β2); after need-shrinking upgrades (β)
 gadgets have none. The chains and bases O (O ⊆ R_k ∩ (J ∪ B_end), valid only if the head's value-based needs avoid J):
-- (α), x_{k,i} → y_k: O ⊆ {b, c, g_k} ∩ J (e_k ∉ R_x), valid O ∈ {{b}, {b, c}, {b, g}, {b, c, g}}. y_k now holds a_{k,i}
-  and needs the a's above it. For i = 1: x_2, x_3 free and forced 0, y at most +1 if x_1's base has two or more goods
+- (α), x_{k,i} → y_k: O ⊆ {b, c, g_k} ∩ J (e_k ∉ R_x). In an (α) gadget of D g_k is not junk (ℓ_D holds g_1, an (α)
+  y_{k−1} holds e_{k−1} = g_k), so O ⊆ {b, c}, and the valid O are {b} and {b, c} ({c} would need the junk b). y_k now
+  holds a_{k,i} and needs the a's above it. For i = 1: x_2, x_3 free and forced 0, y at most +1 if x_1's base has two or more goods
   (x_1 then 0) and frozen otherwise (x_1 on {b} at most +1): at most +1. For i = 2, 3: x_1 (and x_2) frozen and forced,
   so at most 0 and −1. (This is Proposition H's touched gadget.)
 - (β1), y → x_1: x_1 takes a_1, y takes O ⊆ R_y ∩ J = {e}, so y needs all three a's: x's frozen and forced (−3), y at most
   +1 (a one-good base O has a slot place in Lean's `Output`): −2.
-- (β2), x_1 → y → x_2: x_2 takes a_2 (b_2 returns to J, so x_2 is forced), y takes a_1, x_1 takes a valid
-  O ∈ {{b_1}, {b_1, c_1}, {b_1, g}, {b_1, c_1, g}}: y frozen and x_1 at most +1 if O = {b_1}, else x_1 0 (or the owner)
-  and y at most +1; x_2, x_3 free and forced: at most +1. (β2), y → x_2: y takes {e} and needs every a: −2.
-An owner among these agents changes nothing (an owner x_1 on {b_1} with c_1 in its bundle frees y, and the gadget stays at
-most +1). So with a rotation in D, D's balance is at most 2: the touched gadget at most +1, gadget j at most +1, the
+- (β2), x_1 → y → x_2: x_2 takes a_2 (b_2 returns to J, so x_2 is forced), y takes a_1, x_1 takes a valid O ⊆
+  {b_1, c_1, g} ∩ J, where g = g_k is junk only in the gadgets k > j: O ∈ {{b_1}, {b_1, c_1}}, and for k > j also
+  {b_1, g}, {c_1, g} and {b_1, c_1, g} ({c_1} and {g} would need the junk b_1). If O = {b_1} (worth 6) or O = {c_1, g}
+  (worth 7), x_1 still needs a_1 (and nothing else), so y is frozen: x_1 at most +1 (one-good base) or 0 (two goods),
+  y 0. Otherwise x_1 needs nothing: x_1 0 (or the owner, for three goods) and y at most +1. x_2, x_3 free and forced:
+  0. So at most +1. (Found by the PR #83 referee's enumeration, e.g. the chain x^A_{2,1} → y^A_2 → x^A_{2,2} with
+  O = {g^A_2, c^A_{2,1}}.) (β2), y → x_2: y takes {e} and needs every a: −2.
+An owner among these agents keeps the bound: an owner x_1 on {b_1} or {c_1, g} whose bundle is worth more than a_1 (with
+c_1, resp. b_1) frees y, and the gadget is then x_1 0, y at most +1, the others 0. So with a rotation in D, D's balance is at most 2: the touched gadget at most +1, gadget j at most +1, the
 others at most 0.
 
 *Total.* Rotation in C: at most (−2t + 3) + 1 = −2t + 4. Rotation in D: at most −2t + 2. No rotation: at most −2t + 1.
@@ -245,7 +251,7 @@ All on one worker; `k4/lemmam_bt_hh.py` (instances, drivers), `k4/lemmam_bt.py` 
   argument, which CDCL handles badly; PR #33 also ran H_4 and H_5 with HiGHS), Lean's `Output` with the owner's needs
   from its bundle, every owner and none, every state of the three policies and every state one RotStep away: H_3 + q,
   first agent q: 19 states, no output (`exactA_Hq3.log`, `exactB_Hq3.log`; with Glucose too, same result). HH_3, every
-  first agent (37 to 53 distinct states each): `exactA_HH3.log`, `exactB_HH3.log`.
+  first agent (37 to 65 distinct states each): `exactA_HH3.log`, `exactB_HH3.log`.
 - `d2`, HH_3: the insertion sequence (x^A_{1,2}, x^B_{1,2}) = agents (3, 15), need-shrinking upgrades, owner ℓ_A: an
   `Output` without rotation, EFX₀ by the raw definition, one bundle above two goods (`d2_HH3.log`). The suite records
   `k4/suite/instances/lmbt-HH3.json` and `lmbt-Hq3.json` carry these witnesses (H_3 + q: rule RK's sequence, x_{1,1}
