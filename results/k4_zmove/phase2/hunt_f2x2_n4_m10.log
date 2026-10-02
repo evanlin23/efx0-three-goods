@@ -1,0 +1,7 @@
+# command: python3 k4/zmove_check.py results/k4_zmove/phase2/hunt_f2x2_n4_m10.jsonl.gz results/k4_cover/hunt/f2x2_n4_m10.jsonl.gz results/k4_cover/hunt/first_f2x2_1min.jsonl.gz --indep=20
+# 12132 input records, 3871 distinct in range, part 0/1: 3871, already done 0
+indep agree                    194
+keys f=2                       3871
+profiles                       3871
+margin histogram (this run): {-1: 2443, 0: 1428}
+# time 376.5 s

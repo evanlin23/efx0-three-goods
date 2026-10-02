@@ -1,0 +1,9 @@
+# command: python3 k4/zmove_check.py results/k4_zmove/xcheck/dumps_f2.jsonl.gz results/k4_cover/inputs/dumps_f2.jsonl.gz --maxn=6 --part=1/40 --indep=1
+# 44914 input records, 44869 distinct in range, part 1/40: 1122, already done 0
+indep agree                    1122
+keys f=2                       560
+keys f=3                       3578
+keys f=4                       14
+profiles                       1122
+margin histogram (this run): {-2: 44, -1: 3189, 0: 919}
+# time 713.8 s
