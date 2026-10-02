@@ -1,0 +1,8 @@
+# command: python3 k4/sx_hunt.py results/k4_certs_4_n4_2.json.gz --rand=20000 --seed=7 --cores=0:400 --out=results/k4_sx/hunt/n4_2_r20k.jsonl.gz
+# source: k4/red.c sha1 2528c3b1a5c8e11979b257bd12be6be86c04eebf; git HEAD aa6610da19320062752e3d7ee6ede3fbdf437749
+# cores 0:309 rand=20000 seed=7 time=24.1s
+profiles                 6180000
+f1                       165045
+keys                     303564
+key_noncompletable       0
+distinct profiles with a non-completable key: 0

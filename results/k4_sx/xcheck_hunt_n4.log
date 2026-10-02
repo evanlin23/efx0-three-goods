@@ -1,0 +1,9 @@
+# command: python3 k4/sx_xcheck.py results/k4_sx/hunt/n4_3_r40k.jsonl.gz results/k4_sx/hunt/n4_pure_r40k.jsonl.gz
+DLK_T3 fails                   0
+DLK_T3+ fails                  0
+DLK_T3+T4 fails                0
+DLK_T3T4 fails                 0
+MISMATCH                       0
+keys                           965
+keys def*>0                    299
+profiles                       299

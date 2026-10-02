@@ -1,0 +1,9 @@
+# command: python3 k4/sx_xcheck.py results/k4_sx/hunt/n3_all_10.jsonl.gz results/k4_sx/hunt/n3_all_20.jsonl.gz results/k4_sx/hunt/n3_all_30.jsonl.gz results/k4_sx/hunt/n3_all_40.jsonl.gz --every=50
+DLK_T3 fails                   0
+DLK_T3+ fails                  0
+DLK_T3+T4 fails                0
+DLK_T3T4 fails                 0
+MISMATCH                       0
+keys                           3439
+keys def*>0                    1246
+profiles                       1246

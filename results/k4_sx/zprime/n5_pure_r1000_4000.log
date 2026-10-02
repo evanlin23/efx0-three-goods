@@ -1,0 +1,34 @@
+# command: python3 k4/sx_zprime.py results/k4_sx/hunt/n5_pure_r1000_4000.jsonl.gz --start=0 --max=4000 --examples=3
+KEYS: every Z-max covered (structural) = True                                                        9
+KEYS: some Z-max covered by A, B1, C, C', B1' (structural hypotheses) = True                         9
+KEYS: some Z-max covered with the exact hypotheses = True                                            9
+MAIN CASE A                                                                                          9
+Zmax                                                                                                 9
+keys                                                                                                 9
+keys xtype=bcbd                                                                                      2
+keys xtype=flat                                                                                      7
+regime I                                                                                             9
+regime I GPM ok k=1 adjacent(T3)=True                                                                1
+regime I GPM paths k=1 leaf kind=R                                                                   1
+regime I OS o theta-b=False                                                                          16
+regime I OS o theta-b=True                                                                           1
+regime I OS succeeds                                                                                 9
+regime I OS theta-b: exact def(P')<def* False, OSd bundle value 5 (omega+2=6), T=several             1
+regime I Prop C applies=False (only (H) missing=False)                                               9
+regime I Prop C' applies=False (only (H') missing=False)                                             8
+regime I Prop C' applies=True (only (H') missing=False)                                              1
+regime I Zmax with a direct T3 move                                                                  9
+regime I cases A,A*                                                                                  7
+regime I cases A,A*,B1                                                                               1
+regime I cases A,A*,C'                                                                               1
+regime I direct kind ('zT', '-', 'own=V')                                                            1
+regime I direct kind ('zT', 'hV', 'own=V')                                                           1
+regime I direct kind ('zT', 'hV', 'own=x')                                                           1
+regime I direct kind ('zV', '-', 'own=V')                                                            7
+regime I direct kind ('zV', '-', 'own=x')                                                            9
+regime I direct kind ('zV', 'hV', 'own=V')                                                           8
+regime I direct kind ('zV', 'hV', 'own=x')                                                           9
+regime I |V|=3 |T|=2 |VT|=1 t=1 x=flat                                                               1
+regime I |V|=4 |T|=2 |VT|=2 t=1 x=bcbd                                                               2
+regime I |V|=4 |T|=2 |VT|=2 t=1 x=flat                                                               6
+# time 2.0 s

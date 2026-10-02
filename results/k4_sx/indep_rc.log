@@ -1,0 +1,12 @@
+# command: python3 k4/sx_indep.py results/k4_sx/rc/rc_fail_inst.json
+COVER holds at key = True                                              45
+Lemma A ok                                                             660
+Lemma B' X'' has a pair for x = True (zmax False, k=1)                 90
+Lemma B' k=1 ok                                                        90
+Zmax applies A                                                         45
+Zmax of non-completable keys                                           45
+keys                                                                   135
+keys def*>0                                                            45
+pool-optimal configs                                                   462
+profiles                                                               45
+# time 35.5 s

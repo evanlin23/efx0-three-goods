@@ -1,0 +1,61 @@
+# command: python3 k4/sx_zprime.py results/k4_sx/hunt/n4_3_r40k.jsonl.gz --start=0 --max=4000 --examples=3
+KEYS: every Z-max covered (structural) = True                                                        59
+KEYS: some Z-max covered by A, B1, C, C', B1' (structural hypotheses) = True                         59
+KEYS: some Z-max covered with the exact hypotheses = True                                            59
+MAIN CASE A                                                                                          148
+MAIN CASE B1                                                                                         42
+MAIN CASE C'                                                                                         1
+Zmax                                                                                                 191
+keys                                                                                                 59
+keys xtype=bcbd                                                                                      1
+keys xtype=flat                                                                                      58
+regime I                                                                                             191
+regime I GPM ok k=1 adjacent(T3)=True                                                                80
+regime I GPM paths k=1 leaf kind=R                                                                   1
+regime I GPM paths k=1 leaf kind=R s in L                                                            2
+regime I GPM paths k=1 leaf kind=T3                                                                  67
+regime I GPM paths k=1 leaf kind=Tg                                                                  12
+regime I OS o theta-b=False                                                                          195
+regime I OS o theta-b=True                                                                           105
+regime I OS succeeds                                                                                 191
+regime I OS theta-b: exact def(P')<def* False, OSd bundle value 4 (omega+2=5), T=several             3
+regime I OS theta-b: exact def(P')<def* True, OSd bundle value 3 (omega+2=4), T=several              70
+regime I OS theta-b: exact def(P')<def* True, OSd bundle value 4 (omega+2=5), T=several              16
+regime I OS theta-b: exact def(P')<def* True, OSd bundle value None (omega+2=4), T=several           14
+regime I OS theta-b: exact def(P')<def* True, OSd bundle value None (omega+2=5), T=several           2
+regime I Prop B' (modified path move) k=1 works=True                                                 2
+regime I Prop B' k=1 hypothesis (y valued only by x) holds=True                                      2
+regime I Prop C applies=False (only (H) missing=False)                                               93
+regime I Prop C applies=True (only (H) missing=False)                                                98
+regime I Prop C' applies=False (only (H') missing=False)                                             187
+regime I Prop C' applies=False (only (H') missing=True)                                              2
+regime I Prop C' applies=True (only (H') missing=False)                                              2
+regime I Zmax with a direct T3 move                                                                  191
+regime I cases A*,B1,C                                                                               42
+regime I cases A*,C'                                                                                 1
+regime I cases A,A*                                                                                  51
+regime I cases A,A*,B1                                                                               38
+regime I cases A,A*,B1',Rs                                                                           2
+regime I cases A,A*,C                                                                                54
+regime I cases A,A*,C'                                                                               1
+regime I cases A,A*,C,C'x,C-H,Cx                                                                     2
+regime I direct kind ('zT', '-', 'own=V')                                                            82
+regime I direct kind ('zT', '-', 'own=x')                                                            49
+regime I direct kind ('zT', 'hV', 'own=V')                                                           78
+regime I direct kind ('zT', 'hV', 'own=x')                                                           82
+regime I direct kind ('zV', '-', 'own=V')                                                            93
+regime I direct kind ('zV', '-', 'own=other')                                                        12
+regime I direct kind ('zV', '-', 'own=x')                                                            182
+regime I direct kind ('zV', 'h', 'own=V')                                                            67
+regime I direct kind ('zV', 'h', 'own=other')                                                        12
+regime I direct kind ('zV', 'h', 'own=x')                                                            51
+regime I direct kind ('zV', 'hV', 'own=V')                                                           96
+regime I direct kind ('zV', 'hV', 'own=other')                                                       4
+regime I direct kind ('zV', 'hV', 'own=x')                                                           119
+regime I |V|=2 |T|=2 |VT|=1 t=0 x=flat                                                               50
+regime I |V|=2 |T|=2 |VT|=1 t=1 x=flat                                                               32
+regime I |V|=2 |T|=2 |VT|=2 t=0 x=flat                                                               38
+regime I |V|=2 |T|=2 |VT|=2 t=1 x=flat                                                               29
+regime I |V|=3 |T|=2 |VT|=2 t=1 x=bcbd                                                               3
+regime I |V|=3 |T|=2 |VT|=2 t=1 x=flat                                                               39
+# time 2.4 s

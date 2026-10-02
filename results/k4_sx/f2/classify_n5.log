@@ -1,0 +1,39 @@
+# command: python3 k4/sx_f2_classify.py results/k4_sx/f2/rt4_n5b_inst.json results/k4_sx/f2/rt4_n5c_inst.json
+    W=0, no helper: owner leaf|X|=w+1,u=1                                                            24
+    W=0, no helper: owner leaf|X|=w+1,u=1,x|X|=w+1,u=1                                               96
+    W=0, no helper: owner leaf|X|=w+2,u=0                                                            14
+    W=0, no helper: owner leaf|X|=w+2,u=1                                                            18
+  repair shape |W|=0 helper=False z leaf owners=('leaf|X|=w+1,u=1', 'x|X|=w+1,u=1') def<=0=True      30
+  repair shape |W|=0 helper=False z leaf owners=('leaf|X|=w+1,u=1',) def<=0=True                     12
+  repair shape |W|=0 helper=False z leaf owners=('leaf|X|=w+2,u=0',) def<=0=True                     13
+  repair shape |W|=0 helper=False z leaf owners=('leaf|X|=w+2,u=1',) def<=0=True                     18
+  repair shape |W|=0 helper=True z leaf owners=('helper|X|=w+1,u=1',) def<=0=True                    12
+  repair shape |W|=0 helper=True z leaf owners=('helper|X|=w+2,u=0',) def<=0=True                    13
+  repair shape |W|=0 helper=True z leaf owners=('helper|X|=w+2,u=1', 'x|X|=w+2,u=1') def<=0=True     12
+  repair shape |W|=0 helper=True z leaf owners=('helper|X|=w+2,u=1',) def<=0=True                    6
+  repair shape |W|=0 helper=True z leaf owners=('x|X|=w+2,u=1',) def<=0=True                         30
+  repair shape |W|=1 helper=False z leaf owners=('leaf|X|=w+1,u=1', 'x|X|=w+1,u=1') def<=0=True      32
+  repair shape |W|=1 helper=False z leaf owners=('leaf|X|=w+2,u=0',) def<=0=True                     1
+  repair shape |W|=1 helper=False z leaf owners=('leaf|X|=w+2,u=1',) def<=0=True                     12
+  repair shape |W|=1 helper=True z leaf owners=('helper|X|=w+2,u=0',) def<=0=True                    1
+  repair shape |W|=1 helper=True z leaf owners=('helper|X|=w+2,u=1', 'x|X|=w+2,u=1') def<=0=True     12
+  repair shape |W|=1 helper=True z leaf owners=('x|X|=w+2,u=1',) def<=0=True                         32
+  repair shape |W|=2 helper=False z leaf owners=('leaf|X|=w+1,u=1', 'x|X|=w+1,u=1') def<=0=True      2
+  repair shape |W|=2 helper=True z leaf owners=('x|X|=w+2,u=1',) def<=0=True                         2
+keys                                                                                                 41
+uncovered keys                                                                                       7
+uncovered keys: widened A+ at some max=False                                                         7
+uncovered maxima                                                                                     32
+uncovered maxima: C shape or iota shape                                                              31
+uncovered maxima: C shape or iota shape (owner x or a leaf, |X|=w+1, u>=1)                           31
+uncovered maxima: some W=0 no-helper repair, owner a leaf with |X|=w+2 (Lemma C shape)               31
+uncovered maxima: some W=0 no-helper repair, owner x with |X|=w+1 and u>=1 (Lemma 9 iota shape)      30
+uncovered maxima: some repair with def<=0                                                            32
+uncovered maxima: some repair with |W|=0                                                             31
+uncovered maxima: some repair, no helper, owner a leaf != x                                          32
+uncovered maxima: some repair, owner x                                                               32
+uncovered maxima: widened A+ applies=False                                                           32
+SMALL (5, 12, 3, '10,-,11,8,-', {'sets': [[0, 2, 6, 10], [1, 4, 9, 11], [3, 5, 9, 11], [6, 7, 8, 10], [7, 8, 10, 11]], 'vals': [[2, 3, 6, 10], [3, 4, 2, 8], [3, 2, 4, 8], [2, 3, 10, 6], [2, 10, 6, 3]], 'm': 12})
+SMALL (5, 12, 3, '10,-,11,7,-', {'sets': [[0, 2, 6, 10], [1, 4, 9, 11], [3, 5, 9, 11], [6, 7, 8, 10], [7, 8, 10, 11]], 'vals': [[6, 3, 2, 10], [4, 3, 2, 8], [2, 4, 3, 8], [2, 10, 3, 6], [8, 2, 4, 3]], 'm': 12})
+SMALL (5, 12, 3, '10,-,11,-,7', {'sets': [[0, 2, 8, 10], [1, 4, 9, 11], [3, 6, 9, 11], [5, 7, 10, 11], [7, 8, 10, 11]], 'vals': [[2, 3, 4, 8], [3, 4, 2, 8], [2, 4, 3, 8], [2, 10, 6, 3], [8, 3, 4, 2]], 'm': 12})
+# time 2.3 s

@@ -1,0 +1,39 @@
+# command: python3 k4/sx_rc_case.py results/k4_sx/rc/rc_fail_inst.json --verbose=2
+
+## profile 0: k4_certs_5_pure.json.gz#4604[m=13,idx=58]|prof=44,118,8,8,158
+# sets [[0, 2, 9, 11], [1, 6, 10, 12], [3, 7, 11, 12], [4, 8, 11, 12], [5, 9, 10, 12]] vals [[3, 5, 6, 7], [6, 5, 4, 8], [2, 3, 8, 4], [2, 3, 8, 4], [6, 4, 1, 8]] m 13, f 1, omega 4
+# key x=0 g=11 def*=1: 35 states (by deficit: {1: 31, 2: 4}), 31 with def = def*, 30 of these with an improving (T3) move
+# P_fail ({11}, {12}, {3,7}, {4,8}, {5,9}): in the key True, def 1 (rodef 1), improving (T3) moves 0
+# P_wit ({11}, {6,10}, {12}, {4,8}, {5,9}): in the key True, def 1 (rodef 1), improving (T3) moves 18, e.g. ({0,2}, {1,12}, {11}, {4,8}, {5,9}) def 0
+# Z′-max: pairs {1: [1, 12], 2: [3, 7], 3: [4, 8], 4: [5, 9]} pool [0, 2, 6, 10] (r′, Λ′) = (4, 26); V [1, 2, 3, 4] T [2, 3]
+#   P_Q = ({11}, {1,12}, {3,7}, {4,8}, {5,9}) (other), def 1 (rodef 1); 6 improving (T3) moves, to ['({0,2}, {1,12}, {11}, {4,8}, {5,9}) def 0', '({0,2}, {1,12}, {3,7}, {11}, {5,9}) def 0', '({0,2}, {10,12}, {11}, {4,8}, {5,9}) def 0', '({0,2}, {10,12}, {3,7}, {11}, {5,9}) def 0', '({0,2}, {6,12}, {11}, {4,8}, {5,9}) def 0', '({0,2}, {6,12}, {3,7}, {11}, {5,9}) def 0']
+#   Lemma A, o = 2: x takes [0, 2], image ({0,2}, {1,12}, {11}, {4,8}, {5,9}) def 0 (rodef 0)
+#   Lemma A, o = 3: x takes [0, 2], image ({0,2}, {1,12}, {3,7}, {11}, {5,9}) def 0 (rodef 0)
+
+## profile 1: k4_certs_5_pure.json.gz#4604[m=13,idx=58]|prof=44,118,8,8,200
+# sets [[0, 2, 9, 11], [1, 6, 10, 12], [3, 7, 11, 12], [4, 8, 11, 12], [5, 9, 10, 12]] vals [[3, 5, 6, 7], [6, 5, 4, 8], [2, 3, 8, 4], [2, 3, 8, 4], [7, 6, 2, 10]] m 13, f 1, omega 4
+# key x=0 g=11 def*=1: 35 states (by deficit: {1: 31, 2: 4}), 31 with def = def*, 30 of these with an improving (T3) move
+# P_fail ({11}, {12}, {3,7}, {4,8}, {5,9}): in the key True, def 1 (rodef 1), improving (T3) moves 0
+# P_wit ({11}, {6,10}, {12}, {4,8}, {5,9}): in the key True, def 1 (rodef 1), improving (T3) moves 18, e.g. ({0,2}, {1,12}, {11}, {4,8}, {5,9}) def 0
+# Z′-max: pairs {1: [1, 12], 2: [3, 7], 3: [4, 8], 4: [5, 9]} pool [0, 2, 6, 10] (r′, Λ′) = (4, 26); V [1, 2, 3, 4] T [2, 3]
+#   P_Q = ({11}, {1,12}, {3,7}, {4,8}, {5,9}) (other), def 1 (rodef 1); 6 improving (T3) moves, to ['({0,2}, {1,12}, {11}, {4,8}, {5,9}) def 0', '({0,2}, {1,12}, {3,7}, {11}, {5,9}) def 0', '({0,2}, {10,12}, {11}, {4,8}, {5,9}) def 0', '({0,2}, {10,12}, {3,7}, {11}, {5,9}) def 0', '({0,2}, {6,12}, {11}, {4,8}, {5,9}) def 0', '({0,2}, {6,12}, {3,7}, {11}, {5,9}) def 0']
+#   Lemma A, o = 2: x takes [0, 2], image ({0,2}, {1,12}, {11}, {4,8}, {5,9}) def 0 (rodef 0)
+#   Lemma A, o = 3: x takes [0, 2], image ({0,2}, {1,12}, {3,7}, {11}, {5,9}) def 0 (rodef 0)
+
+Lemma A image = the FAILURES.md witness image                                                        0
+Lemma A image def 0 (owner o = 2)                                                                    45
+Lemma A image def 0 (owner o = 3)                                                                    45
+P_fail in the key: True, def 1, improving (T3) moves 0                                               45
+P_wit in the key: True, def 1, improving (T3) moves 18                                               45
+Z′-max state = other                                                                                 45
+Z′-max state def 1, improving (T3) moves from it: True                                               45
+Z′-maxima                                                                                            45
+key states                                                                                           1575
+key states whose deficit c4x_check.rodef recomputes (equal)                                          1575
+key states with def = 1                                                                              1395
+key states with def = 2                                                                              180
+key states with def = def*                                                                           1395
+key states with def = def* and an improving (T3) move                                                1350
+keys def*>0                                                                                          45
+profiles                                                                                             45
+# time 8.8 s

@@ -1,0 +1,10 @@
+# command: python3 k4/sx_xcheck.py results/k4_sx/t3stage/keys.jsonl.gz --mmax=10
+DLK_T3 fails                   0
+DLK_T3+ fails                  0
+DLK_T3+T4 fails                0
+DLK_T3T4 fails                 0
+MISMATCH                       0
+keys                           4149
+keys def*>0                    1412
+profiles                       1339
+skipped (m > mmax)             25
