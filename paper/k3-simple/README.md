@@ -17,8 +17,8 @@ files.
   running time, a worked example with a TikZ figure of the exchange cycle, how large an exchange must be, the limits
   of the shape, the verification status and the evidence, and open problems.
 - `refs.bib`: the bibliography of both; the entries of `paper/k3/refs.bib` plus `LinK3` (the previous paper,
-  `paper/k3/`) and `RepoS` (branch `proof/k3-simplify`, commit `fc208c9`, which holds the notes, tests and referee
-  report).
+  `paper/k3/`) and `RepoS` (branch `proof/k3-simplify`, commit `bdff404`, which holds the notes, tests, referee report
+  and Lean files).
 - `llncs.cls` and `splncs04.bst`: copied unmodified from `paper/k3/` (Springer's LLNCS package).
 - `examples/check_examples.py`: recomputes every example and number of the papers with an independent implementation
   of the definitions and of DE, written from the paper, and cross-checks with `k3/simplify/po/hall/hall.py`: the
@@ -36,12 +36,15 @@ Build (pdflatex and bibtex; TeX Live with `texlive-pictures` and `texlive-scienc
 
 Status of the claims, as the papers state it. Existence, and the shape for agents that value exactly three goods and
 are balanced, were machine-checked in Lean in the previous work (`lean/`, `paper/k3/`), with the old proof. The new
-proof (the Improvement Lemma, soundness in the form used, DE and the shape for all instances with at most three
-relevant goods per agent) is a written proof: derived independently twice (`k3/simplify/po/hall/NOTES.md`,
-`k3/simplify/po/potential/NOTES.md`), refereed once with no error (`k3/simplify/po/referee/README.md`; its four
-presentation fixes are applied), checked by computer on millions of states, and not machine-checked. The provers and
-the referee were AI agents: separate sessions of the coding assistant (Claude Code), the referee given only the
-written proof. There has been no human peer review. The papers themselves were proofread by a further AI referee
-session (no mathematical error; status and presentation fixes applied). Every claim is
-taken from `LEDGER.md` (rows K3S.PO, K3S.SA, K3S.ST) and the notes it cites, or from the runs of
+proof (the Improvement Lemma, soundness in the form used, DE with at most 4n exchanges, and the shape for all
+instances with at most three relevant goods per agent) is a written proof that is also machine-checked in Lean, over
+the natural numbers (`lean/EFX/K3DE.lean`, `K3DEImprove.lean`, `K3DEAlgo.lean`, `K3DEExamples.lean`; ledger row
+K3S.PO.LEAN); the running time and real values are not formalized, and the formal statements were written by the
+same AI assistant and have not been reviewed independently. The written proof was derived independently twice
+(`k3/simplify/po/hall/NOTES.md`, `k3/simplify/po/potential/NOTES.md`), refereed once with no error
+(`k3/simplify/po/referee/README.md`; its four presentation fixes are applied), and checked by computer on millions of
+states. The provers and the referee were AI agents: separate sessions of the coding assistant (Claude Code), the
+referee given only the written proof. There has been no human peer review. The papers themselves were proofread by a
+further AI referee session (no mathematical error; status and presentation fixes applied). Every claim is taken from
+`LEDGER.md` (rows K3S.PO, K3S.PO.LEAN, K3S.SA, K3S.ST) and the notes it cites, or from the runs of
 `examples/check_examples.py`; the papers change no ledger status.
