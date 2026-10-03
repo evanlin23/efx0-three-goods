@@ -64,3 +64,8 @@ import EFX.K3DEPrelim
 import EFX.K3DELimits
 import EFX.K3DERings
 import EFX.K3DERemarks
+import EFX.K3DECost
+import EFX.K3DECostStep
+import EFX.K3DECostRun
+import EFX.K3DECostBound
+import EFX.K3DECostReal

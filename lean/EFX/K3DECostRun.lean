@@ -17,7 +17,7 @@ built from the parts of `EFX.K3DECost` and `EFX.K3DECostStep`; units as in `EFX.
   the final state and the slots filled by one pass over the agents, `fillC`).
 
 **Results.** **`de_eq_spec`**: `(deC I hn).val = deSpec I hn`, on every instance (no hypothesis). The algorithm is
-`de I hn := (deC I hn).val`, and `de_correct` restates Theorem "DE is correct" (`deSpec_correct`) for it. The value
+`de I hn := (deC I hn).val`, and `deC_correct` restates Theorem "DE is correct" (`deSpec_correct`) for it. The value
 lemmas of the parts: `draftC_val`, `loopC_val`, `fillC_val`, `completeC_val`, `profC_val`, `coreC_val`, `peelC_val`.
 The cost bound is `EFX.DE.deC_cost` (`EFX.K3DECostBound`).
 
@@ -366,7 +366,7 @@ theorem de_eq_spec (I : Inst) (hn : 0 < I.n) : (deC I hn).val = deSpec I hn := b
 
 /-- **Theorem DE is correct**, for the counted algorithm: on every instance in which every agent positively values at
 most three goods, `de I hn` is EFX₀ and all bundles but at most one have at most two goods. -/
-theorem de_correct (I : Inst) (hn : 0 < I.n) (h : ∀ i, numRelevant I i ≤ 3) :
+theorem deC_correct (I : Inst) (hn : 0 < I.n) (h : ∀ i, numRelevant I i ≤ 3) :
     I.EFX0 (de I hn) ∧ ∃ o, ∀ j, j ≠ o → finSum I.m (fun g => if de I hn g = j then 1 else 0) ≤ 2 := by
   obtain ⟨h1, h2, -⟩ := deSpec_correct I hn h
   simp only [de, de_eq_spec]
@@ -386,4 +386,4 @@ end EFX
 #print axioms EFX.DE.coreC_val
 #print axioms EFX.DE.peelC_val
 #print axioms EFX.DE.de_eq_spec
-#print axioms EFX.DE.de_correct
+#print axioms EFX.DE.deC_correct

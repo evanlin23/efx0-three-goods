@@ -45,7 +45,9 @@ protecting goods, the ring family (every k and depth; this
 corrected the paper's remark, which lacked the condition k ≤ 2^d for "no free agent absorbs"), at most n peeling
 rounds, and DE on ordered values such as ℝ≥0 (`lean/EFX/K3DEPrelim.lean`, `K3DELimits.lean`, `K3DEShort.lean`,
 `K3DEShortExamples.lean`, `K3DERings.lean`, `K3DEReal.lean`, `K3DERemarks.lean`; ledger rows K3S.PRELIM.LEAN, K3S.LIMITS, K3S.SHORT,
-K3S.EX.LEAN, K3S.RINGS, K3S.REAL.LEAN). Not formalized: the running time and the rainbow-walk proof. The formal
+K3S.EX.LEAN, K3S.RINGS, K3S.REAL.LEAN), and the running time O(n(n + m)) (`lean/EFX/K3DECost*.lean`, ledger row
+K3S.TIME: at most 750 (n + 1)(n + m + 1) counted operations, array reads and writes one unit each). Not
+formalized: the rainbow-walk proof. The formal
 statements were written by AI assistant sessions; an independent AI referee session compared those of row
 K3S.PO.LEAN with the paper and found no mismatch (`k3/simplify/po/referee/lean_audit.md`). The written proof was derived independently twice
 (`k3/simplify/po/hall/NOTES.md`, `k3/simplify/po/potential/NOTES.md`), refereed once with no error
