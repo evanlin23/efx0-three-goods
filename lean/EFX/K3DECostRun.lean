@@ -166,6 +166,19 @@ theorem fillC_val (P : Profile (Fin n) (Fin m)) (agents up : List (Fin n)) (Y : 
       rw [fillC_val P agents up Y o ks (h :: hs)]
       simp [fill, h0]
 
+/-- The agent of `g` in the completion: its holder, else the pair holder whose `c` it is, else its slot, else `o`. -/
+def compEntryC (holder upc fl : Fin m → Option (Fin n)) (o : Fin n) (g : Fin m) : Timed (Fin n) := do
+  let h ← rd holder g
+  match h with
+  | some k => pure k
+  | none => do
+    let u ← rd upc g
+    match u with
+    | some u => pure u
+    | none => do
+      let f ← rd fl g
+      pure (f.getD o)
+
 /-- **The completion** (`EFX.DE.completeDE`): the tables of the final state, the slots, and one table over the
 goods. -/
 def completeC (P : Profile (Fin n) (Fin m)) (agents : List (Fin n)) (inA : Fin n → Bool) (inG : Fin m → Bool)
@@ -173,24 +186,14 @@ def completeC (P : Profile (Fin n) (Fin m)) (agents : List (Fin n)) (inA : Fin n
   let tb ← tabsC P agents inA inG r.Y r.up
   let T0 ← constT m none
   let fl ← fillC tb.free r.o agents r.H T0
-  mkTable m (fun g => do
-    let h ← rd tb.holder g
-    match h with
-    | some k => pure k
-    | none => do
-      let u ← rd tb.upc g
-      match u with
-      | some u => pure u
-      | none => do
-        let f ← rd fl g
-        pure (f.getD r.o))
+  mkTable m (compEntryC tb.holder tb.upc fl r.o)
 
 theorem completeC_val (P : Profile (Fin n) (Fin m)) {agents : List (Fin n)} {inA : Fin n → Bool}
     {inG : Fin m → Bool} {goods : List (Fin m)} (hA : ∀ k, inA k = agents.contains k)
     (hG : ∀ g, inG g = decide (g ∈ goods)) (r : Result (Fin n) (Fin m)) :
     (completeC P agents inA inG r).val = completeDE P agents r.up r.Y r.o r.H := by
   funext g
-  simp only [completeC, bind_val, tabsC_val P r.Y r.up hA hG, constT_val, mkTable_val, specTabs]
+  simp only [completeC, bind_val, tabsC_val P r.Y r.up hA hG, constT_val, mkTable_val, compEntryC, specTabs]
   rw [fillC_val]
   unfold completeDE
   simp only [rd_val]
@@ -204,13 +207,17 @@ theorem completeC_val (P : Profile (Fin n) (Fin m)) {agents : List (Fin n)} {inA
 
 /-! ## The core stage -/
 
+/-- Agent `i`'s ranking: its relevant remaining goods, sorted. -/
+def profEntryC (v : Fin n → Fin m → Nat) (rel : Fin n → List (Fin m)) (inG : Fin m → Bool) (g0 : Fin m) (i : Fin n) :
+    Timed (Fin m × Fin m × Fin m) := do
+  let R ← rd rel i
+  let R' ← filterC (rd inG) R
+  K3.sort3C (v i) g0 R'
+
 /-- **The rankings** (`EFX.K3.profileOf`): each agent's relevant remaining goods, sorted (`EFX.K3.sort3C`). -/
 def profC (v : Fin n → Fin m → Nat) (rel : Fin n → List (Fin m)) (inG : Fin m → Bool) (g0 : Fin m) :
     Timed (Profile (Fin n) (Fin m)) := do
-  let t ← mkTable n (fun i => do
-    let R ← rd rel i
-    let R' ← filterC (fun g => rd inG g) R
-    K3.sort3C (v i) g0 R')
+  let t ← mkTable n (profEntryC v rel inG g0)
   pure ⟨fun i => (t i).1, fun i => (t i).2.1, fun i => (t i).2.2⟩
 
 theorem profC_val (v : Fin n → Fin m → Nat) {rel : Fin n → List (Fin m)} {inG : Fin m → Bool} {goods : List (Fin m)}
@@ -219,7 +226,8 @@ theorem profC_val (v : Fin n → Fin m → Nat) {rel : Fin n → List (Fin m)} {
   have hR : ∀ i, (rel i).filter (fun g => inG g) = relevant v i goods := fun i => by
     rw [hrel i, ← relevant_filter v i hsub]
     exact List.filter_congr fun g _ => hinG g
-  simp only [profC, bind_val, mkTable_val, rd_val, filterC_val, K3.sort3C, pure_val, hR, K3.profileOf]
+  simp only [profC, profEntryC, bind_val, mkTable_val, rd_val, filterC_val, K3.sort3C, pure_val, hR,
+    K3.profileOf]
 
 /-- **The core stage of DE** (`EFX.DE.deStage`): rankings, draft, loop (`4n + 1` rounds at most), completion. -/
 def coreC (v : Fin n → Fin m → Nat) (rel : Fin n → List (Fin m)) (inG : Fin m → Bool) (agents : List (Fin n))
@@ -227,7 +235,7 @@ def coreC (v : Fin n → Fin m → Nat) (rel : Fin n → List (Fin m)) (inG : Fi
   let P ← profC v rel inG g0
   let A0 ← constT n false
   let inA ← setAllC true agents A0
-  let av ← mkTable m (fun g => rd inG g)
+  let av ← mkTable m (rd inG)
   let Y0 ← draftC P agents av
   let l ← lengthC agents
   tick 2
@@ -241,7 +249,7 @@ theorem coreC_val (v : Fin n → Fin m → Nat) {rel : Fin n → List (Fin m)} {
     (coreC v rel inG agents g0 d).val = (deStage v agents goods g0 d).1 := by
   have hA : ∀ k, (setAllC true agents (fun _ : Fin n => false)).val k = agents.contains k := by
     intro k; rw [setAllC_val]; by_cases h : k ∈ agents <;> simp [h]
-  have hav : ∀ g, (mkTable m (fun g => rd inG g)).val g = decide (g ∈ goods) := by
+  have hav : ∀ g, (mkTable m (rd inG)).val g = decide (g ∈ goods) := by
     intro g; simp [hinG g]
   simp only [coreC, bind_val, profC_val v g0 hrel hinG hsub, constT_val, lengthC_val]
   rw [draftC_val _ agents goods _ hgd hav, loopC_val _ d hA hinG, completeC_val _ hA hinG]
@@ -310,12 +318,21 @@ theorem peelC_val (v : Fin n → Fin m → Nat) {rel : Fin n → List (Fin m)} (
         simp only
         exact coreC_val v agents g0 d hrel hinG hsub hgd
 
+/-- `0 < v i g`: one value read and one comparison. -/
+def posC (v : Fin n → Fin m → Nat) (i : Fin n) (g : Fin m) : Timed Bool := do
+  tick 2
+  pure (decide (0 < v i g))
+
+/-- Agent `i`'s relevant goods among `goods`. -/
+def relEntryC (v : Fin n → Fin m → Nat) (goods : List (Fin m)) (i : Fin n) : Timed (List (Fin m)) :=
+  filterC (posC v i) goods
+
 /-- **Algorithm DE as a counted program** on an instance with `n ≥ 1` agents: read the input (the lists of agents
 and goods, each agent's relevant goods), then peel and run the core (`peelC`). -/
 def deC (I : Inst) (hn : 0 < I.n) : Timed I.Alloc := do
   let agents ← K3.finRangeC I.n
   let goods ← K3.finRangeC I.m
-  let rel ← mkTable I.n (fun i => filterC (fun g => do tick 2; pure (decide (0 < I.v i g))) goods)
+  let rel ← mkTable I.n (relEntryC I.v goods)
   let inG ← constT I.m true
   peelC I.v rel ⟨0, hn⟩ I.n agents goods inG
 
@@ -327,7 +344,7 @@ theorem de_eq_spec (I : Inst) (hn : 0 < I.n) : (deC I hn).val = deSpec I hn := b
   simp only [deC, bind_val, K3.finRangeC, pure_val, constT_val, deSpec]
   apply peelC_val I.v ⟨0, hn⟩
   · intro i
-    simp [relevant]
+    simp [relEntryC, posC, relevant]
   · intro g; simp
   · exact List.Sublist.refl _
   · exact List.nodup_finRange _

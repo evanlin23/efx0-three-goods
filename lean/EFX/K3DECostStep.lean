@@ -186,7 +186,37 @@ def needKeysC (P : Profile (Fin n) (Fin m)) (Y : Fin n → Option (Fin m)) (inUp
     let a ← rd P.a j
     let b ← rd P.b j
     let c ← rd P.c j
-    filterC (fun g => K3.prefersC P Y j g) [a, b, c]
+    filterC (K3.prefersC P Y j) [a, b, c]
+
+/-- The holding of `k`, as a list of keys (at most one). -/
+def holdKeysC (Y : Fin n → Option (Fin m)) (k : Fin n) : Timed (List (Fin m)) := do
+  let y ← rd Y k
+  pure y.toList
+
+/-- The `c` of `u`, as a list of keys. -/
+def cKeysC (P : Profile (Fin n) (Fin m)) (u : Fin n) : Timed (List (Fin m)) := do
+  let c ← rd P.c u
+  pure [c]
+
+/-- `g` is junk: remaining, held by nobody, and not the `c` of a pair holder. -/
+def junkEntryC (inG : Fin m → Bool) (holder upc : Fin m → Option (Fin n)) (g : Fin m) : Timed Bool := do
+  let x ← rd inG g
+  let h ← rd holder g
+  let u ← rd upc g
+  pure (x && (h.isNone && u.isNone))
+
+/-- `k` is free: listed, not a pair holder, and its pick (if any) is needed by nobody. -/
+def freeEntryC (inA inUp : Fin n → Bool) (Y : Fin n → Option (Fin m)) (out : Fin m → Option (Fin n)) (k : Fin n) :
+    Timed Bool := do
+  let a ← rd inA k
+  let u ← rd inUp k
+  let y ← rd Y k
+  let fz ← match y with
+    | none => pure false
+    | some g => do
+      let o ← rd out g
+      pure o.isSome
+  pure (a && !u && !fz)
 
 /-- **The tables of a state**: new arrays, filled by passes over `up` and `agents` and over the goods. -/
 def tabsC (P : Profile (Fin n) (Fin m)) (agents : List (Fin n)) (inA : Fin n → Bool) (inG : Fin m → Bool)
@@ -194,26 +224,13 @@ def tabsC (P : Profile (Fin n) (Fin m)) (agents : List (Fin n)) (inA : Fin n →
   let U0 ← constT n false
   let inUp ← setAllC true up U0
   let H0 ← constT m none
-  let holder ← scatterC (fun k => do let y ← rd Y k; pure y.toList) agents H0
+  let holder ← scatterC (holdKeysC Y) agents H0
   let C0 ← constT m none
-  let upc ← scatterC (fun u => do let c ← rd P.c u; pure [c]) up C0
+  let upc ← scatterC (cKeysC P) up C0
   let O0 ← constT m none
   let out ← scatterC (needKeysC P Y inUp) agents O0
-  let junk ← mkTable m (fun g => do
-    let x ← rd inG g
-    let h ← rd holder g
-    let u ← rd upc g
-    pure (x && (h.isNone && u.isNone)))
-  let free ← mkTable n (fun k => do
-    let a ← rd inA k
-    let u ← rd inUp k
-    let y ← rd Y k
-    let fz ← match y with
-      | none => pure false
-      | some g => do
-        let o ← rd out g
-        pure o.isSome
-    pure (a && !u && !fz))
+  let junk ← mkTable m (junkEntryC inG holder upc)
+  let free ← mkTable n (freeEntryC inA inUp Y out)
   pure ⟨inUp, holder, upc, out, junk, free⟩
 
 theorem needKeysC_mem (P : Profile (Fin n) (Fin m)) (Y : Fin n → Option (Fin m)) (up : List (Fin n)) (j : Fin n)
@@ -242,10 +259,9 @@ theorem tabsC_val (P : Profile (Fin n) (Fin m)) {agents : List (Fin n)} {inA : F
     (tabsC P agents inA inG Y up).val = specTabs P agents goods Y up := by
   have hU : (setAllC true up (fun _ : Fin n => false)).val = fun k => up.contains k := by
     rw [setAllC_val]; funext k; by_cases h : k ∈ up <;> simp [h]
-  have hH : (scatterC (fun k => do let y ← rd Y k; pure y.toList) agents (fun _ => none)).val =
-      picker agents Y := by
+  have hH : (scatterC (holdKeysC Y) agents (fun _ => none)).val = picker agents Y := by
     rw [scatterC_val]; funext g
-    simp only [Option.none_or, bind_val, rd_val, pure_val, picker]
+    simp only [Option.none_or, holdKeysC, bind_val, rd_val, pure_val, picker]
     congr 1; funext k
     have e : ∀ y : Option (Fin m), decide (g ∈ y.toList) = (y == some g) := fun y => by
       cases y with
@@ -253,9 +269,9 @@ theorem tabsC_val (P : Profile (Fin n) (Fin m)) {agents : List (Fin n)} {inA : F
       | some y =>
         rw [Bool.eq_iff_iff, beq_iff_eq, decide_eq_true_eq, Option.mem_toList, Option.some.injEq]
     exact e (Y k)
-  have hC : (scatterC (fun u => do let c ← rd P.c u; pure [c]) up (fun _ => none)).val = upOf P up := by
+  have hC : (scatterC (cKeysC P) up (fun _ => none)).val = upOf P up := by
     rw [scatterC_val]; funext g
-    simp only [Option.none_or, bind_val, rd_val, pure_val, upOf]
+    simp only [Option.none_or, cKeysC, bind_val, rd_val, pure_val, upOf]
     congr 1; funext k
     show decide (g ∈ [P.c k]) = (P.c k == g)
     by_cases h : P.c k = g
@@ -267,7 +283,8 @@ theorem tabsC_val (P : Profile (Fin n) (Fin m)) {agents : List (Fin n)} {inA : F
     simp only [Option.none_or]
     congr 1; funext j
     exact needKeysC_mem P Y up j g
-  simp only [tabsC, bind_val, constT_val, hU, hH, hC, hO, mkTable_val, rd_val, pure_val, specTabs]
+  simp only [tabsC, bind_val, constT_val, hU, hH, hC, hO, mkTable_val, junkEntryC, freeEntryC, rd_val, pure_val,
+    specTabs]
   congr 1
   · funext g
     rw [hG g]
@@ -498,6 +515,28 @@ theorem pred_orbit (σ : Fin n → Fin n) (l : Nat) (p : Fin n) (T : Fin n → F
     rw [e2, iter_add, hp]
 
 
+/-- The new holding of `w` (`exchY`): its pair if its predecessor on the cycle is free, else the predecessor's good;
+unchanged off the cycle. -/
+def exchEntryC (free : Fin n → Bool) (P : Profile (Fin n) (Fin m)) (Y : Fin n → Option (Fin m))
+    (onC : Fin n → Bool) (pred : Fin n → Fin n) (w : Fin n) : Timed (Option (Fin m)) := do
+  let on ← rd onC w
+  bif on then do
+    let pw ← rd pred w
+    let f ← rd free pw
+    bif f then do
+      let b ← rd P.b w
+      pure (some b)
+    else rd Y pw
+  else rd Y w
+
+/-- `w` becomes a pair holder (`exchUp`): on the cycle, with a free predecessor. -/
+def newPairC (free : Fin n → Bool) (onC : Fin n → Bool) (pred : Fin n → Fin n) (w : Fin n) : Timed Bool := do
+  let on ← rd onC w
+  bif on then do
+    let pw ← rd pred w
+    rd free pw
+  else pure false
+
 /-- **The move along the cycle of `σ` through `σˡ(s)`** (`cycleStep`), from the tables. -/
 def cycleC (tb : Tabs n m) (P : Profile (Fin n) (Fin m)) (agents : List (Fin n)) (Y : Fin n → Option (Fin m))
     (up : List (Fin n)) (σ : Fin n → Fin n) (s : Fin n) (l : Nat) :
@@ -509,22 +548,8 @@ def cycleC (tb : Tabs n m) (P : Profile (Fin n) (Fin m)) (agents : List (Fin n))
   let Q0 ← constT n p
   let r ← predLoopC σ (per - 1) p Q0
   let pred ← wr r.1 p r.2
-  let Y' ← mkTable n (fun w => do
-    let on ← rd onC w
-    bif on then do
-      let pw ← rd pred w
-      let f ← rd tb.free pw
-      bif f then do
-        let b ← rd P.b w
-        pure (some b)
-      else rd Y pw
-    else rd Y w)
-  let np ← filterC (fun w => do
-    let on ← rd onC w
-    bif on then do
-      let pw ← rd pred w
-      rd tb.free pw
-    else pure false) agents
+  let Y' ← mkTable n (exchEntryC tb.free P Y onC pred)
+  let np ← filterC (newPairC tb.free onC pred) agents
   let up' ← appendC up np
   pure (Y', up')
 
@@ -537,8 +562,8 @@ theorem cycleC_val (tb : Tabs n m) (P : Profile (Fin n) (Fin m)) (agents : List 
     refine (onLoopC_val σ p k 0 (fun _ => false)).trans ?_
     funext x
     simp only [onOrbit, List.range_eq_range', Bool.false_or]
-  simp only [cycleC, bind_val, iterC_val, periodC_val, constT_val, hon, wr_val, mkTable_val, rd_val, filterC_val,
-    appendC_val, pure_val, cycleStep, hf]
+  simp only [cycleC, bind_val, iterC_val, periodC_val, constT_val, hon, wr_val, mkTable_val, exchEntryC, newPairC,
+    rd_val, filterC_val, appendC_val, pure_val, cycleStep, hf]
   generalize iter σ agents.length s = p
   have hpred := fun w (hw : onOrbit σ (period σ agents.length p) p w = true) =>
     pred_orbit σ agents.length p (fun _ => p) hw
@@ -623,6 +648,11 @@ theorem hOfC_val (P : Profile (Fin n) (Fin m)) (agents : List (Fin n)) (goods : 
   simp only [hOfC, bind_val, rd_val, specTabs, hOf]
   cases h : junkB P agents up Y goods (P.b x) <;> simp
 
+/-- `x ≠ o`: one comparison. -/
+def neC (o x : Fin n) : Timed Bool := do
+  tick 1
+  pure (x != o)
+
 /-- `expL o` from the lists: `o`'s good, its list, without `o`. -/
 def ELC (Xs : Fin m → List (Fin n)) (Y : Fin n → Option (Fin m)) (o : Fin n) : Timed (List (Fin n)) := do
   let y ← rd Y o
@@ -630,13 +660,13 @@ def ELC (Xs : Fin m → List (Fin n)) (Y : Fin n → Option (Fin m)) (o : Fin n)
   | none => pure []
   | some g => do
     let L ← rd Xs g
-    filterC (fun x => do tick 1; pure (x != o)) L
+    filterC (neC o) L
 
 theorem ELC_val (P : Profile (Fin n) (Fin m)) (agents : List (Fin n)) (goods : List (Fin m))
     (Y : Fin n → Option (Fin m)) (up : List (Fin n)) (o : Fin n) :
     (ELC (xsS P agents up Y goods) Y o).val = expL P agents up Y goods o := by
   simp only [ELC, bind_val, rd_val, expL]
-  cases Y o <;> simp
+  cases Y o <;> simp [neC]
 
 /-- **For each free agent**: its exposed agents, `H_o` (with the mark array, cleared afterwards) and `|H_o|`. -/
 def freeLoopC (tb : Tabs n m) (P : Profile (Fin n) (Fin m)) (Y : Fin n → Option (Fin m)) (Xs : Fin m → List (Fin n)) :
@@ -680,6 +710,11 @@ theorem freeLoopC_val (tb : Tabs n m) (P : Profile (Fin n) (Fin m)) (Y : Fin n �
         · subst h2; simp [h1]
         · simp [h1, h2]
 
+/-- `h` is not used yet. -/
+def unusedC (U : Fin m → Bool) (h : Fin m) : Timed Bool := do
+  let u ← rd U h
+  pure !u
+
 /-- **Greedy distinct representatives** (`EFX.DE.reps`), with a mark array of the used goods; the representative of
 each agent is written into `R` (if it has none yet: `EFX.DE.repOf` takes the first). -/
 def repsC (HS : Fin n → List (Fin m) × Nat) : List (Fin n) → (Fin m → Bool) → (Fin n → Option (Fin m)) →
@@ -688,7 +723,7 @@ def repsC (HS : Fin n → List (Fin m) × Nat) : List (Fin n) → (Fin m → Boo
   | o :: os, U, R => do
     tick 1
     let H ← rd HS o
-    let q ← findC (fun h => do let u ← rd U h; pure !u) H.1
+    let q ← findC (unusedC U) H.1
     match q with
     | none => repsC HS os U R
     | some q => do
@@ -704,9 +739,8 @@ theorem repsC_val (HS : Fin n → List (Fin m) × Nat) (Hs : Fin n → List (Fin
   | [], _, _, R, _, _ => by simp [repsC, reps, repOf]
   | o :: os, used, U, R, hH, hU => by
     have hU' : (fun h => !U h) = fun h => !(used.contains h) := by funext h; rw [hU h]
-    have hf : (findC (fun h => do let u ← rd U h; pure !u) (HS o).1).val =
-        (Hs o).find? (fun h => !(used.contains h)) := by
-      simp only [findC_val, bind_val, rd_val, pure_val, hH o (by simp)]
+    have hf : (findC (unusedC U) (HS o).1).val = (Hs o).find? (fun h => !(used.contains h)) := by
+      simp only [findC_val, unusedC, bind_val, rd_val, pure_val, hH o (by simp)]
       rw [hU']
     simp only [repsC, bind_val, rd_val, hf]
     unfold reps
@@ -723,6 +757,12 @@ theorem repsC_val (HS : Fin n → List (Fin m) × Nat) (Hs : Fin n → List (Fin
       · subst e; cases R o' <;> simp [repOf]
       · simp [repOf, e]
 
+/-- The protecting good of `x` is `q`. -/
+def hEqC (tb : Tabs n m) (P : Profile (Fin n) (Fin m)) (q : Fin m) (x : Fin n) : Timed Bool := do
+  let h ← hOfC tb P x
+  tick 1
+  pure (h == q)
+
 /-- The image of a free agent `o` under `σ` (case 5): the first agent exposed for `o` whose protecting good is `o`'s
 representative (or `o`). -/
 def sigOneC (tb : Tabs n m) (P : Profile (Fin n) (Fin m)) (EL : Fin n → List (Fin n)) (R : Fin n → Option (Fin m))
@@ -732,10 +772,7 @@ def sigOneC (tb : Tabs n m) (P : Profile (Fin n) (Fin m)) (EL : Fin n → List (
   | none => pure o
   | some q => do
     let E ← rd EL o
-    let f ← findC (fun x => do
-      let h ← hOfC tb P x
-      tick 1
-      pure (h == q)) E
+    let f ← findC (hEqC tb P q) E
     pure (f.getD o)
 
 /-- **`σ` on the free agents** (case 5), written into `S`. -/
@@ -761,7 +798,7 @@ theorem sigOneC_val (tb : Tabs n m) (P : Profile (Fin n) (Fin m)) (EL : Fin n �
   simp only [bind_val, rd_val]
   cases R o with
   | none => rfl
-  | some q => simp
+  | some q => simp [hEqC]
 
 theorem sigLoopC_val (tb : Tabs n m) (P : Profile (Fin n) (Fin m)) (EL : Fin n → List (Fin n))
     (R : Fin n → Option (Fin m)) : ∀ (os : List (Fin n)) (S : Fin n → Fin n),
@@ -777,54 +814,62 @@ theorem sigLoopC_val (tb : Tabs n m) (P : Profile (Fin n) (Fin m)) (EL : Fin n �
       · subst h2; simp [h1]
       · simp [h1, h2]
 
-/-- **The table of `σ`** (case 5): a free agent by `S`, any other agent to its out-neighbour (or itself). -/
+/-- The out-neighbour of `j` in the need digraph (or `j`), from the tables. -/
+def outNbC (tb : Tabs n m) (Y : Fin n → Option (Fin m)) (j : Fin n) : Timed (Fin n) := do
+  let y ← rd Y j
+  match y with
+  | none => pure j
+  | some g => do
+    let o ← rd tb.out g
+    pure (o.getD j)
+
+/-- `σ j` in case 5: a free agent by `S`, any other agent to its out-neighbour (or itself). -/
+def sigExEntryC (tb : Tabs n m) (Y : Fin n → Option (Fin m)) (S : Fin n → Fin n) (j : Fin n) : Timed (Fin n) := do
+  let f ← rd tb.free j
+  bif f then rd S j else outNbC tb Y j
+
+/-- `σ j` in case 1: a free agent to `x`, any other agent to its out-neighbour (or itself). -/
+def sigPairEntryC (tb : Tabs n m) (Y : Fin n → Option (Fin m)) (x j : Fin n) : Timed (Fin n) := do
+  let f ← rd tb.free j
+  bif f then pure x else outNbC tb Y j
+
+/-- **The table of `σ`** (case 5). -/
 def sigExC (tb : Tabs n m) (Y : Fin n → Option (Fin m)) (S : Fin n → Fin n) : Timed (Fin n → Fin n) :=
-  mkTable n (fun j => do
-    let f ← rd tb.free j
-    bif f then rd S j else do
-      let y ← rd Y j
-      match y with
-      | none => pure j
-      | some g => do
-        let o ← rd tb.out g
-        pure (o.getD j))
+  mkTable n (sigExEntryC tb Y S)
 
 /-- **The table of `σ`** in case 1: every free agent to `x`. -/
 def sigPairC (tb : Tabs n m) (Y : Fin n → Option (Fin m)) (x : Fin n) : Timed (Fin n → Fin n) :=
-  mkTable n (fun j => do
-    let f ← rd tb.free j
-    bif f then pure x else do
-      let y ← rd Y j
-      match y with
-      | none => pure j
-      | some g => do
-        let o ← rd tb.out g
-        pure (o.getD j))
+  mkTable n (sigPairEntryC tb Y x)
+
+theorem outNbC_val (P : Profile (Fin n) (Fin m)) (agents : List (Fin n)) (goods : List (Fin m))
+    (Y : Fin n → Option (Fin m)) (up : List (Fin n)) (j : Fin n) :
+    (outNbC (specTabs P agents goods Y up) Y j).val = (outNb P agents up Y j).getD j := by
+  unfold outNbC outNb
+  simp only [bind_val, rd_val, specTabs]
+  cases Y j <;> simp
 
 theorem sigExC_val (P : Profile (Fin n) (Fin m)) (agents : List (Fin n)) (goods : List (Fin m))
     (Y : Fin n → Option (Fin m)) (up : List (Fin n)) (S : Fin n → Fin n) :
     (sigExC (specTabs P agents goods Y up) Y S).val =
       fun j => if freeB P agents up Y j then S j else (outNb P agents up Y j).getD j := by
   funext j
-  simp only [sigExC, mkTable_val, specTabs, bind_val, rd_val]
+  simp only [sigExC, mkTable_val, sigExEntryC, bind_val, rd_val]
   by_cases hf : freeB P agents up Y j = true
-  · simp [hf]
+  · simp [hf, specTabs]
   · have hf' : freeB P agents up Y j = false := by simpa using hf
-    simp only [hf', Bool.cond_false, bind_val, rd_val, Bool.false_eq_true, ↓reduceIte]
-    unfold outNb
-    cases Y j <;> simp
+    have : (specTabs P agents goods Y up).free j = false := hf'
+    simp only [this, hf', Bool.cond_false, Bool.false_eq_true, ↓reduceIte, outNbC_val]
 
 theorem sigPairC_val (P : Profile (Fin n) (Fin m)) (agents : List (Fin n)) (goods : List (Fin m))
     (Y : Fin n → Option (Fin m)) (up : List (Fin n)) (x : Fin n) :
     (sigPairC (specTabs P agents goods Y up) Y x).val = sigmaMap P agents up Y goods (some x) [] := by
   funext j
-  simp only [sigPairC, mkTable_val, specTabs, bind_val, rd_val, sigmaMap]
+  simp only [sigPairC, mkTable_val, sigPairEntryC, bind_val, rd_val, sigmaMap]
   by_cases hf : freeB P agents up Y j = true
-  · simp [hf]
+  · simp [hf, specTabs]
   · have hf' : freeB P agents up Y j = false := by simpa using hf
-    simp only [hf', Bool.cond_false, bind_val, rd_val, Bool.false_eq_true, ↓reduceIte]
-    unfold outNb
-    cases Y j <;> simp
+    have : (specTabs P agents goods Y up).free j = false := hf'
+    simp only [this, hf', Bool.cond_false, Bool.false_eq_true, ↓reduceIte, outNbC_val]
 
 /-! ## One step -/
 
@@ -860,6 +905,11 @@ def forcedC (tb : Tabs n m) (HS : Fin n → List (Fin m) × Nat) (lF : Nat) (o :
     tick 1
     pure (decide (h.2 + 1 ≤ lF))
   else pure false
+
+/-- A new array holding each index (`n` units). -/
+def idTabC (k : Nat) : Timed (Fin k → Fin k) := mkTable k (fun j => pure j)
+
+@[simp] theorem idTabC_val (k : Nat) : (idTabC k).val = fun j => j := by simp [idTabC]
 
 /-- **One step of DE** (`EFX.DE.step`) as a counted program. `l` is the number of agents. -/
 def stepC (P : Profile (Fin n) (Fin m)) (agents : List (Fin n)) (inA : Fin n → Bool) (inG : Fin m → Bool)
@@ -897,7 +947,7 @@ def stepC (P : Profile (Fin n) (Fin m)) (agents : List (Fin n)) (inA : Fin n →
           let U0 ← constT m false
           let R0 ← constT n none
           let R ← repsC fr.2.1 F U0 R0
-          let S0 ← mkTable n (fun j => pure j)
+          let S0 ← idTabC n
           let S ← sigLoopC tb P fr.1 R F S0
           let σ ← sigExC tb Y S
           let r ← cycleC tb P agents Y up σ s l
@@ -1005,7 +1055,7 @@ theorem stepC_val (P : Profile (Fin n) (Fin m)) {agents : List (Fin n)} {inA : F
             exact this.1
           simp [hfree]
         | none =>
-          simp only [bind_val, constT_val, mkTable_val, pure_val]
+          simp only [bind_val, constT_val, idTabC_val, pure_val]
           rw [repsC_val _ (Hset P agents up Y goods) (agents.filter (freeB P agents up Y)) [] (fun _ => false)
             (fun _ => none) (fun o ho => by simp [(mem_filter_free o).mp ho]) (fun h => rfl)]
           rw [sigLoopC_val, sigExC_val, cycleC_val (specTabs P agents goods Y up) P agents Y up _ s rfl]
