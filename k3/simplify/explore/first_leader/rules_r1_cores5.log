@@ -1,0 +1,8 @@
+lb,index+r1,lb+r1,sec_small+r1 cores 5 5 {'profiles': 2387232, 'lb fails': 22, 'index+r1 fails': 20744, 'lb+r1 fails': 18, 'sec_small+r1 fails': 0}
+  smallest index+r1 ([(0, 1, 5), (0, 4, 1), (2, 3, 4), (2, 3, 4), (2, 3, 4)], 6)
+  smallest lb ([(4, 1, 5), (3, 6, 4), (0, 2, 1), (0, 2, 3), (2, 3, 4)], 7)
+  smallest lb+r1 ([(0, 4, 3), (1, 5, 2), (1, 3, 6), (3, 2, 7), (0, 3, 2)], 8)
+
+real	18m33.161s
+user	18m18.018s
+sys	0m0.034s

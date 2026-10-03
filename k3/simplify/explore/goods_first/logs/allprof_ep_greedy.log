@@ -1,0 +1,8 @@
+== ep[greedy]   (epv('greedy'))  every labelling
+  n=2 m=3: 36 profiles (all labellings), failures 0  [0s]
+  n=2 m=4: 576 profiles (all labellings), failures 0  [0s]
+  n=2 m=5: 3600 profiles (all labellings), failures 0  [0s]
+  n=2 m=6: 14400 profiles (all labellings), failures 0  [2s]
+  n=3 m=4: 13824 profiles (all labellings), failures 0  [2s]
+  n=3 m=5: 216000 profiles (all labellings), failures 0  [29s]
+  n=3 m=6: 1728000 profiles (all labellings), failures 0  [267s]

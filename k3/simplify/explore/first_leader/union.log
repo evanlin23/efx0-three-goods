@@ -1,0 +1,6 @@
+ {'unions': 23716, 'index works': 17248, 'FL fails': 0, 'FLa fails': 0, 'sec_small fails': 0, 'iter_r fails': 0, 'index run has >= 2 leaders': 6468, '... and k* (its last leader) works first': 4704}
+  example k* fails (6, 10, [(0, 1, 2), (0, 4, 2), (4, 3, 0), (5, 6, 7), (5, 9, 8), (9, 8, 5)], [0, 3], [1, 2, 4, 5])
+shuffle {'unions': 23716, 'index works': 22882, 'FL fails': 0, 'FLa fails': 0, 'sec_small fails': 0, 'iter_r fails': 0, 'index run has >= 2 leaders': 834, '... and k* (its last leader) works first': 625}
+  example k* fails (6, 10, [(5, 6, 7), (9, 6, 5), (0, 1, 2), (5, 9, 8), (3, 4, 0), (0, 3, 4)], [0, 2], [1, 3, 4, 5])
+cores limit=100000 shuffle {'unions': 100000, 'index works': 97737, 'FL fails': 0, 'FLa fails': 0, 'sec_small fails': 0, 'iter_r fails': 0, 'index run has >= 2 leaders': 2263, '... and k* (its last leader) works first': 1157}
+  example k* fails (8, 11, [(4, 2, 0), (5, 6, 9), (5, 8, 7), (8, 7, 6), (1, 2, 4), (4, 3, 0), (1, 4, 3), (8, 7, 10)], [0, 1], [2, 3, 4, 5, 6, 7])

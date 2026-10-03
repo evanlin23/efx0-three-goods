@@ -1,0 +1,22 @@
+== ep[onesource]   (epv('onesource'))
+  small n=2 m=6: 120 profiles, failures 0  [0s]
+  small n=3 m=4: 576 profiles, failures 0  [0s]
+  small n=3 m=5: 3600 profiles, failures 0  [0s]
+  small n=3 m=6: 14400 profiles, failures 0  [2s]
+  small n=3 m=7: 44100 profiles, failures 0  [7s]
+  small n=4 m=5: 216000 profiles, failures 0  [35s]
+== ep[sources]   (epv('sources'))
+  small n=2 m=6: 120 profiles, failures 0  [0s]
+  small n=3 m=4: 576 profiles, failures 0  [0s]
+  small n=3 m=5: 3600 profiles, failures 0  [0s]
+  small n=3 m=6: 14400 profiles, failures 12  [2s]
+  smallest failure: n=3 m=6 rankings [(0, 1, 2), (1, 3, 5), (0, 3, 5)]
+    allocation [[0], [1, 2], [3, 4, 5]]
+    agent 1 (ranks (1, 3, 5)) holds [1, 2] worth 4; bundle [3, 4, 5] of agent 2 minus its least good is worth 5 to it
+== draft_env[k3s,greedy,idx]   (draft_env('k3s','greedy'))
+  small n=2 m=6: 120 profiles, failures 0  [0s]
+  small n=3 m=4: 576 profiles, failures 0  [0s]
+  small n=3 m=5: 3600 profiles, failures 42  [0s]
+  smallest failure: n=3 m=5 rankings [(0, 1, 2), (0, 3, 1), (0, 3, 4)]
+    allocation [[0], [3], [1, 2, 4]]
+    agent 0 (ranks (0, 1, 2)) holds [0] worth 4; bundle [1, 2, 4] of agent 2 minus its least good is worth 5 to it

@@ -1,0 +1,6 @@
+index,sec_small,iter_r small 4 6 {'profiles': 1728000, 'index fails': 33168}
+  smallest index ([(0, 1, 2), (0, 3, 1), (0, 3, 1), (0, 4, 5)], 6)
+
+real	3m24.943s
+user	3m21.604s
+sys	0m0.033s

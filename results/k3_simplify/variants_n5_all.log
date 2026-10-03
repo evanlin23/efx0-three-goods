@@ -1,0 +1,8 @@
+profiles {5: 2387232} (every profile)
+  up=Y take_all=Y klast=Y          failures: n=5: 0
+  up=N take_all=N klast=Y          failures: n=5: 0
+  up=Y take_all=N klast=N          failures: n=5: 0
+
+real	2m7.665s
+user	8m17.205s
+sys	0m2.611s

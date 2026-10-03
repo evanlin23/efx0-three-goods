@@ -1,0 +1,124 @@
+small 3 4
+  W meets B*                               28
+  W meets B* minus k*                      28
+  W meets chain                            28
+  W meets chain minus k*                   28
+  W meets non-leaders                      28
+  W nonempty                               28
+  W subset non-leaders                     28
+  k* robust                                0
+  k* works                                 0
+  nleaders=1                               28
+  r robust                                 28
+  r works                                  28
+  robust first leader exists               28
+  rot                                      28
+  some leader sequence works               28
+  some non-leader of the failed run fails  0
+  x1 robust                                28
+  x1 works                                 28
+small 3 5
+  W meets B*                               154
+  W meets B* minus k*                      154
+  W meets chain                            150
+  W meets chain minus k*                   150
+  W meets non-leaders                      154
+  W nonempty                               154
+  W subset non-leaders                     154
+  k* robust                                0
+  k* works                                 0
+  nleaders=1                               154
+  r robust                                 146
+  r works                                  146
+  robust first leader exists               154
+  rot                                      154
+  some leader sequence works               154
+  some non-leader of the failed run fails  42
+  x1 robust                                146
+  x1 works                                 146
+  example r fails ([(0, 1, 2), (0, 3, 1), (0, 3, 4)], 5, 2, [1])
+  example chain-k fails ([(0, 1, 2), (3, 0, 1), (3, 0, 4)], 5, [0, 2], [1])
+small 3 6
+  W meets B*                               462
+  W meets B* minus k*                      462
+  W meets chain                            450
+  W meets chain minus k*                   450
+  W meets non-leaders                      462
+  W nonempty                               462
+  W subset non-leaders                     462
+  k* robust                                0
+  k* works                                 0
+  nleaders=1                               462
+  r robust                                 438
+  r works                                  438
+  robust first leader exists               462
+  rot                                      462
+  some leader sequence works               462
+  some non-leader of the failed run fails  126
+  x1 robust                                438
+  x1 works                                 438
+  example r fails ([(0, 1, 2), (0, 3, 1), (0, 3, 4)], 6, 2, [1])
+  example chain-k fails ([(0, 1, 2), (3, 0, 1), (3, 0, 4)], 6, [0, 2], [1])
+small 3 7
+  W meets B*                               1036
+  W meets B* minus k*                      1036
+  W meets chain                            1012
+  W meets chain minus k*                   1012
+  W meets non-leaders                      1036
+  W nonempty                               1036
+  W subset non-leaders                     1036
+  k* robust                                0
+  k* works                                 0
+  nleaders=1                               1036
+  r robust                                 988
+  r works                                  988
+  robust first leader exists               1036
+  rot                                      1036
+  some leader sequence works               1036
+  some non-leader of the failed run fails  252
+  x1 robust                                988
+  x1 works                                 988
+  example r fails ([(0, 1, 2), (0, 3, 1), (0, 3, 4)], 7, 2, [1])
+  example chain-k fails ([(0, 1, 2), (3, 0, 1), (3, 0, 4)], 7, [0, 2], [1])
+small 3 8
+  W meets B*                               1960
+  W meets B* minus k*                      1960
+  W meets chain                            1920
+  W meets chain minus k*                   1920
+  W meets non-leaders                      1960
+  W nonempty                               1960
+  W subset non-leaders                     1960
+  k* robust                                0
+  k* works                                 0
+  nleaders=1                               1960
+  r robust                                 1880
+  r works                                  1880
+  robust first leader exists               1960
+  rot                                      1960
+  some leader sequence works               1960
+  some non-leader of the failed run fails  420
+  x1 robust                                1880
+  x1 works                                 1880
+  example r fails ([(0, 1, 2), (0, 3, 1), (0, 3, 4)], 8, 2, [1])
+  example chain-k fails ([(0, 1, 2), (3, 0, 1), (3, 0, 4)], 8, [0, 2], [1])
+small 3 9
+  W meets B*                               3318
+  W meets B* minus k*                      3318
+  W meets chain                            3258
+  W meets chain minus k*                   3258
+  W meets non-leaders                      3318
+  W nonempty                               3318
+  W subset non-leaders                     3318
+  k* robust                                0
+  k* works                                 0
+  nleaders=1                               3318
+  r robust                                 3198
+  r works                                  3198
+  robust first leader exists               3318
+  rot                                      3318
+  some leader sequence works               3318
+  some non-leader of the failed run fails  630
+  x1 robust                                3198
+  x1 works                                 3198
+  example r fails ([(0, 1, 2), (0, 3, 1), (0, 3, 4)], 9, 2, [1])
+  example chain-k fails ([(0, 1, 2), (3, 0, 1), (3, 0, 4)], 9, [0, 2], [1])

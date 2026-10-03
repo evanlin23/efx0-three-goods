@@ -1,0 +1,33 @@
+cores n <= 4: 1648 profiles need a rotation; on average 0.73 of the agents work as first leader
+   k* (last leader)                   works on 28 / 1648
+   first leader of the index run      works on 0 / 1648
+   second leader of the index run     works on 28 / 1648
+   chain x1                           works on 1622 / 1648
+   r of the index run                 works on 1643 / 1648
+   most-claimed top (then index)      works on 378 / 1648
+   least-claimed top (then index)     works on 832 / 1648
+   b and c most valued                works on 1618 / 1648
+   b or c is a top (most)             works on 1532 / 1648
+   last agent index                   works on 1638 / 1648
+cores n = 5 (300 per core): 1235 profiles need a rotation; on average 0.79 of the agents work as first leader
+   k* (last leader)                   works on 29 / 1235
+   first leader of the index run      works on 0 / 1235
+   second leader of the index run     works on 29 / 1235
+   chain x1                           works on 1227 / 1235
+   r of the index run                 works on 1234 / 1235
+   most-claimed top (then index)      works on 570 / 1235
+   least-claimed top (then index)     works on 561 / 1235
+   b and c most valued                works on 1228 / 1235
+   b or c is a top (most)             works on 1194 / 1235
+   last agent index                   works on 1233 / 1235
+all profiles n=3 m=6: 462 profiles need a rotation; on average 0.58 of the agents work as first leader
+   k* (last leader)                   works on 0 / 462
+   first leader of the index run      works on 0 / 462
+   second leader of the index run     works on 0 / 462
+   chain x1                           works on 438 / 462
+   r of the index run                 works on 438 / 462
+   most-claimed top (then index)      works on 0 / 462
+   least-claimed top (then index)     works on 264 / 462
+   b and c most valued                works on 456 / 462
+   b or c is a top (most)             works on 288 / 462
+   last agent index                   works on 408 / 462

@@ -1,0 +1,5 @@
+core sample (100 random profiles per core; results/certs_lb_8_14.json.gz results/certs_lb_8_15_16.json.gz): {8: 128500} profiles x 3 realizations; not EFX0: 0; branches {'r': 128487, 'rot': 13} []
+
+real	0m32.339s
+user	1m2.409s
+sys	0m0.209s

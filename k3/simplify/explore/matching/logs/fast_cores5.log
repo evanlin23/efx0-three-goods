@@ -1,0 +1,4 @@
+cores n in [5,5] sample=200: 61400 profiles
+  pareto       all-optima-complete=61400 some-but-not-all=0 none=0
+  minNA        all-optima-complete=61400 some-but-not-all=0 none=0
+  sumU         all-optima-complete=61400 some-but-not-all=0 none=0

@@ -1,0 +1,3 @@
+50000 random profiles n=4 m=6 (seed 1): 50000 profiles; some PO valid state not completable on 0; first None; max #valid states 24  [35s]
+cores n=5, 200 random profiles per core: 61400 profiles; some PO valid state not completable on 0; first None; max #valid states 60  [161s]
+6000 random profiles n<=8, m in max(3,n)..2n+2 (seed 2): 6000 profiles; some PO valid state not completable on 0; first None; max #valid states 350  [187s]
