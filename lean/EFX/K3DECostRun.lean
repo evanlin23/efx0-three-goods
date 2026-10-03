@@ -53,6 +53,7 @@ goods; each agent's pick is written into a new array. -/
 def draftC (P : Profile (Fin n) (Fin m)) : List (Fin n) → (Fin m → Bool) → Timed (Fin n → Option (Fin m))
   | [], _ => constT n none
   | i :: order, avail => do
+    tick 1
     let f ← favT P avail i
     let avail' ← removeT avail f
     let Y ← draftC P order avail'
@@ -102,7 +103,9 @@ def loopC (P : Profile (Fin n) (Fin m)) (agents : List (Fin n)) (inA : Fin n →
     let o ← stepC P agents inA inG d l Y up
     match o with
     | .stop o H => pure ⟨o, H, Y, up, k⟩
-    | .next Y' up' => loopC P agents inA inG d l fuel Y' up' (k + 1)
+    | .next Y' up' => do
+      tick 1
+      loopC P agents inA inG d l fuel Y' up' (k + 1)
 
 theorem loopC_val (P : Profile (Fin n) (Fin m)) {agents : List (Fin n)} {inA : Fin n → Bool} {inG : Fin m → Bool}
     {goods : List (Fin m)} (d : Fin n) (hA : ∀ k, inA k = agents.contains k) (hG : ∀ g, inG g = decide (g ∈ goods)) :
@@ -124,7 +127,7 @@ def fillC (free : Fin n → Bool) (o : Fin n) : List (Fin n) → List (Fin m) �
   | [], _, T => pure T
   | _ :: _, [], T => pure T
   | k :: ks, h :: hs, T => do
-    tick 1
+    tick 2
     let f ← rd free k
     bif (k != o) && f then do
       let t ← rd T h

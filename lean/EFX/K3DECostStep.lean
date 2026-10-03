@@ -203,6 +203,7 @@ def junkEntryC (inG : Fin m → Bool) (holder upc : Fin m → Option (Fin n)) (g
   let x ← rd inG g
   let h ← rd holder g
   let u ← rd upc g
+  tick 1
   pure (x && (h.isNone && u.isNone))
 
 /-- `k` is free: listed, not a pair holder, and its pick (if any) is needed by nobody. -/
@@ -305,21 +306,23 @@ def iterC (σ : Fin n → Fin n) : Nat → Fin n → Timed (Fin n)
   | 0, w => pure w
   | k + 1, w => do
     let w' ← iterC σ k w
+    tick 1
     rd σ w'
 
 theorem iterC_val (σ : Fin n → Fin n) : ∀ (k : Nat) (w : Fin n), (iterC σ k w).val = iter σ k w
   | 0, _ => rfl
   | k + 1, w => by simp only [iterC, bind_val, rd_val, iterC_val σ k w]; rfl
 
-theorem iterC_cost (σ : Fin n → Fin n) : ∀ (k : Nat) (w : Fin n), (iterC σ k w).cost = k
+theorem iterC_cost (σ : Fin n → Fin n) : ∀ (k : Nat) (w : Fin n), (iterC σ k w).cost = 2 * k
   | 0, _ => rfl
-  | k + 1, w => by simp only [iterC, bind_cost, rd_cost, iterC_cost σ k w]
+  | k + 1, w => by simp only [iterC, bind_cost, tick_cost, rd_cost, iterC_cost σ k w]; omega
 
-/-- The search for the period: `q = σ^(k+1)(p)`; stop at the first return to `p`. -/
+/-- The search for the period: `q = σ^(k+1)(p)`; stop at the first return to `p` (a comparison, an increment of the
+counter and a read per step). -/
 def searchC (σ : Fin n → Fin n) (p : Fin n) : Nat → Nat → Fin n → Timed (Option Nat)
   | 0, _, _ => pure none
   | fuel + 1, k, q => do
-    tick 1
+    tick 2
     if q = p then pure (some k) else do
       let q' ← rd σ q
       searchC σ p fuel (k + 1) q'
@@ -338,7 +341,7 @@ theorem searchC_val (σ : Fin n → Fin n) (p : Fin n) : ∀ (fuel k : Nat),
       rw [e, searchC_val σ p fuel (k + 1)]
 
 theorem searchC_cost (σ : Fin n → Fin n) (p : Fin n) : ∀ (fuel k : Nat) (q : Fin n),
-    (searchC σ p fuel k q).cost ≤ 2 * fuel
+    (searchC σ p fuel k q).cost ≤ 3 * fuel
   | 0, _, _ => by simp [searchC]
   | fuel + 1, k, q => by
     have ih := searchC_cost σ p fuel (k + 1) (σ q)
@@ -351,6 +354,7 @@ theorem searchC_cost (σ : Fin n → Fin n) (p : Fin n) : ∀ (fuel k : Nat) (q 
 def periodC (σ : Fin n → Fin n) (l : Nat) (p : Fin n) : Timed Nat := do
   let q ← rd σ p
   let r ← searchC σ p l 0 q
+  tick 1
   pure ((r.map (· + 1)).getD 1)
 
 theorem periodC_val (σ : Fin n → Fin n) (l : Nat) (p : Fin n) : (periodC σ l p).val = period σ l p := by
@@ -358,15 +362,16 @@ theorem periodC_val (σ : Fin n → Fin n) (l : Nat) (p : Fin n) : (periodC σ l
   have e : σ p = iter σ (0 + 1) p := rfl
   rw [e, searchC_val]
 
-theorem periodC_cost (σ : Fin n → Fin n) (l : Nat) (p : Fin n) : (periodC σ l p).cost ≤ 2 * l + 1 := by
+theorem periodC_cost (σ : Fin n → Fin n) (l : Nat) (p : Fin n) : (periodC σ l p).cost ≤ 3 * l + 2 := by
   have := searchC_cost σ p l 0 (σ p)
-  simp only [periodC, bind_cost, rd_cost, rd_val, pure_cost]
+  simp only [periodC, bind_cost, rd_cost, rd_val, tick_cost, pure_cost]
   omega
 
 /-- Mark `w, σ w, …, σ^(k−1) w` in `T`. -/
 def onLoopC (σ : Fin n → Fin n) : Nat → Fin n → (Fin n → Bool) → Timed (Fin n → Bool)
   | 0, _, T => pure T
   | k + 1, w, T => do
+    tick 1
     let T' ← wr T w true
     let w' ← rd σ w
     onLoopC σ k w' T'
@@ -386,25 +391,26 @@ theorem onLoopC_val (σ : Fin n → Fin n) (p : Fin n) : ∀ (k j0 : Nat) (T : F
       simp [h, this]
 
 theorem onLoopC_cost (σ : Fin n → Fin n) : ∀ (k : Nat) (w : Fin n) (T : Fin n → Bool),
-    (onLoopC σ k w T).cost = 2 * k
+    (onLoopC σ k w T).cost = 3 * k
   | 0, _, _ => rfl
   | k + 1, w, T => by
-    simp only [onLoopC, bind_cost, wr_cost, rd_cost, wr_val, rd_val, onLoopC_cost σ k]
+    simp only [onLoopC, bind_cost, tick_cost, wr_cost, rd_cost, wr_val, rd_val, onLoopC_cost σ k]
     omega
 
 /-- Write `pred (σ w) := w` along `w, σ w, …, σ^(k−1) w`; return the array and `σᵏ w`. -/
 def predLoopC (σ : Fin n → Fin n) : Nat → Fin n → (Fin n → Fin n) → Timed ((Fin n → Fin n) × Fin n)
   | 0, w, T => pure (T, w)
   | k + 1, w, T => do
+    tick 1
     let w' ← rd σ w
     let T' ← wr T w' w
     predLoopC σ k w' T'
 
 theorem predLoopC_cost (σ : Fin n → Fin n) : ∀ (k : Nat) (w : Fin n) (T : Fin n → Fin n),
-    (predLoopC σ k w T).cost = 2 * k
+    (predLoopC σ k w T).cost = 3 * k
   | 0, _, _ => rfl
   | k + 1, w, T => by
-    simp only [predLoopC, bind_cost, wr_cost, rd_cost, wr_val, rd_val, predLoopC_cost σ k]
+    simp only [predLoopC, bind_cost, tick_cost, wr_cost, rd_cost, wr_val, rd_val, predLoopC_cost σ k]
     omega
 
 theorem predLoopC_spec (σ : Fin n → Fin n) (p : Fin n) : ∀ (k j0 : Nat) (T : Fin n → Fin n),
@@ -546,6 +552,7 @@ def cycleC (tb : Tabs n m) (P : Profile (Fin n) (Fin m)) (agents : List (Fin n))
   let O0 ← constT n false
   let onC ← onLoopC σ per p O0
   let Q0 ← constT n p
+  tick 1
   let r ← predLoopC σ (per - 1) p Q0
   let pred ← wr r.1 p r.2
   let Y' ← mkTable n (exchEntryC tb.free P Y onC pred)
@@ -902,7 +909,7 @@ def forcedC (tb : Tabs n m) (HS : Fin n → List (Fin m) × Nat) (lF : Nat) (o :
   let f ← rd tb.free o
   bif f then do
     let h ← rd HS o
-    tick 1
+    tick 2
     pure (decide (h.2 + 1 ≤ lF))
   else pure false
 

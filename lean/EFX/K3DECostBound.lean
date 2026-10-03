@@ -13,15 +13,15 @@ array of `k` entries costs `k`).
 
 **Results.**
 - `deC_cost` (**the running-time theorem**): on every instance with `n ≥ 1` agents and `m` goods in which every
-  agent positively values at most three goods, `(deC I hn).cost ≤ 700 (n + 1)(n + m + 1)`; more precisely
-  (`deC_cost_poly`) at most `686 n² + 44 nm + 300 n + 27 m + 8`, **reading the input included** (the `O(nm)` term
+  agent positively values at most three goods, `(deC I hn).cost ≤ 750 (n + 1)(n + m + 1)`; more precisely
+  (`deC_cost_poly`) at most `730 n² + 48 nm + 326 n + 29 m + 10`, **reading the input included** (the `O(nm)` term
   is the computation of each agent's relevant goods, one value read and one comparison per pair).
-- `stepC_cost`: one iteration of the loop costs at most `164 n + 10 m + 6` when the picks are distinct and at most
+- `stepC_cost`: one iteration of the loop costs at most `175 n + 11 m + 7` when the picks are distinct and at most
   `n` agents hold pairs; `loopC_cost`: the loop's `4n + 1` rounds at most; `coreC_cost`: the core stage;
   `peelC_cost`: each round of peeling costs at most `30 n + m + 3`.
 
 **Where the terms come from** (`a = |agents| ≤ n`, `u = |up| ≤ n`).
-- The tables of a state (`tabsC_cost`, `6n + 7m + 60a + 6u`): new arrays over the agents and the goods, filled by
+- The tables of a state (`tabsC_cost`, `6n + 8m + 64a + 7u`): new arrays over the agents and the goods, filled by
   one pass over `up` and over `agents` (an agent needs at most its three goods, so the first agent that needs each
   good is a scatter of at most three keys per agent).
 - The free agents (`freeLoopC_cost`, `repsC_cost`, `sigLoopC_cost`): `O(1)` per free agent plus `O(1)` per agent of
@@ -133,16 +133,16 @@ section fin
 variable {n m : Nat}
 
 theorem holdKeysC_cost (Y : Fin n → Option (Fin m)) (k : Fin n) :
-    (holdKeysC Y k).cost + 2 * (holdKeysC Y k).val.length ≤ 3 := by
+    (holdKeysC Y k).cost + 3 * (holdKeysC Y k).val.length ≤ 4 := by
   simp only [holdKeysC, bind_cost, bind_val, rd_cost, rd_val, pure_cost, pure_val]
   cases Y k <;> simp
 
 theorem cKeysC_cost (P : Profile (Fin n) (Fin m)) (u : Fin n) :
-    (cKeysC P u).cost + 2 * (cKeysC P u).val.length ≤ 3 := by
+    (cKeysC P u).cost + 3 * (cKeysC P u).val.length ≤ 4 := by
   simp [cKeysC]
 
 theorem needKeysC_cost (P : Profile (Fin n) (Fin m)) (Y : Fin n → Option (Fin m)) (inUp : Fin n → Bool) (j : Fin n) :
-    (needKeysC P Y inUp j).cost + 2 * (needKeysC P Y inUp j).val.length ≤ 55 := by
+    (needKeysC P Y inUp j).cost + 3 * (needKeysC P Y inUp j).val.length ≤ 58 := by
   unfold needKeysC
   simp only [bind_cost, bind_val, rd_cost, rd_val]
   by_cases hu : inUp j = true
@@ -166,7 +166,7 @@ theorem freeEntryC_cost (inA inUp : Fin n → Bool) (Y : Fin n → Option (Fin m
 /-- **The tables of a state** cost `O(n + m)`. -/
 theorem tabsC_cost (P : Profile (Fin n) (Fin m)) (agents : List (Fin n)) (inA : Fin n → Bool) (inG : Fin m → Bool)
     (Y : Fin n → Option (Fin m)) (up : List (Fin n)) :
-    (tabsC P agents inA inG Y up).cost ≤ 6 * n + 7 * m + 60 * agents.length + 6 * up.length := by
+    (tabsC P agents inA inG Y up).cost ≤ 6 * n + 8 * m + 64 * agents.length + 7 * up.length := by
   unfold tabsC
   simp only [bind_cost, pure_cost]
   generalize (constT n false).val = U0
@@ -174,11 +174,11 @@ theorem tabsC_cost (P : Profile (Fin n) (Fin m)) (agents : List (Fin n)) (inA : 
   have h1 := constT_cost n false
   have h2 := setAllC_cost true up U0
   have h3 := constT_cost m (none : Option (Fin n))
-  have h4 := scatterC_cost (holdKeysC Y) 3 agents T0 (fun k _ => holdKeysC_cost Y k)
-  have h5 := scatterC_cost (cKeysC P) 3 up T0 (fun u _ => cKeysC_cost P u)
-  have h6 := scatterC_cost (needKeysC P Y (setAllC true up U0).val) 55 agents T0
+  have h4 := scatterC_cost (holdKeysC Y) 4 agents T0 (fun k _ => holdKeysC_cost Y k)
+  have h5 := scatterC_cost (cKeysC P) 4 up T0 (fun u _ => cKeysC_cost P u)
+  have h6 := scatterC_cost (needKeysC P Y (setAllC true up U0).val) 58 agents T0
     (fun j _ => needKeysC_cost P Y _ j)
-  have h7 := mkTable_cost m (junkEntryC inG (scatterC (holdKeysC Y) agents T0).val (scatterC (cKeysC P) up T0).val) 3
+  have h7 := mkTable_cost m (junkEntryC inG (scatterC (holdKeysC Y) agents T0).val (scatterC (cKeysC P) up T0).val) 4
     (fun g => by simp [junkEntryC])
   have h8 := mkTable_cost n (freeEntryC inA (setAllC true up U0).val Y
     (scatterC (needKeysC P Y (setAllC true up U0).val) agents T0).val) 4 (fun k => freeEntryC_cost _ _ _ _ k)
@@ -196,7 +196,7 @@ theorem hOfC_cost (tb : Tabs n m) (P : Profile (Fin n) (Fin m)) (x : Fin n) : (h
   cases tb.junk (P.b x) <;> simp
 
 theorem forcedC_cost (tb : Tabs n m) (HS : Fin n → List (Fin m) × Nat) (lF : Nat) (o : Fin n) :
-    (forcedC tb HS lF o).cost ≤ 3 := by
+    (forcedC tb HS lF o).cost ≤ 4 := by
   unfold forcedC
   simp only [bind_cost, rd_cost, rd_val]
   cases tb.free o <;> simp
@@ -263,9 +263,9 @@ theorem period_le (σ : Fin n → Fin n) (l : Nat) (p : Fin n) : period σ l p �
 /-- **The move along the cycle** costs `O(n)`. -/
 theorem cycleC_cost (tb : Tabs n m) (P : Profile (Fin n) (Fin m)) (agents : List (Fin n)) (Y : Fin n → Option (Fin m))
     (up : List (Fin n)) (σ : Fin n → Fin n) (s : Fin n) (l : Nat) :
-    (cycleC tb P agents Y up σ s l).cost ≤ 7 * n + 7 * l + 4 * agents.length + up.length + 6 := by
+    (cycleC tb P agents Y up σ s l).cost ≤ 7 * n + 11 * l + 4 * agents.length + up.length + 7 := by
   unfold cycleC
-  simp only [bind_cost, pure_cost]
+  simp only [bind_cost, tick_cost, pure_cost]
   generalize (iterC σ l s).val = p
   have hper : (periodC σ l p).val ≤ l + 1 := by rw [periodC_val]; exact period_le σ l p
   generalize (periodC σ l p).val = per at hper
@@ -328,7 +328,7 @@ theorem ddC_length {α : Type} [DecidableEq α] : ∀ (l : List α) (M : α → 
 theorem freeLoopC_cost (tb : Tabs n m) (P : Profile (Fin n) (Fin m)) (Y : Fin n → Option (Fin m))
     (Xs : Fin m → List (Fin n)) : ∀ (os : List (Fin n)) (M : Fin m → Bool) (EL : Fin n → List (Fin n))
     (HS : Fin n → List (Fin m) × Nat),
-    (freeLoopC tb P Y Xs os M EL HS).cost ≤ 5 * os.length + 11 * (os.map (lenL Xs Y)).sum
+    (freeLoopC tb P Y Xs os M EL HS).cost ≤ 5 * os.length + 12 * (os.map (lenL Xs Y)).sum
   | [], _, _, _ => by simp [freeLoopC]
   | o :: os, M, EL, HS => by
     simp only [freeLoopC, bind_cost, tick_cost, List.length_cons, List.map_cons, List.sum_cons]
@@ -404,7 +404,7 @@ theorem stepC_cost (P : Profile (Fin n) (Fin m)) {agents : List (Fin n)} {inA : 
     {goods : List (Fin m)} (d : Fin n) (Y : Fin n → Option (Fin m)) (up : List (Fin n))
     (hA : ∀ k, inA k = agents.contains k) (hG : ∀ g, inG g = decide (g ∈ goods)) (hnd : agents.Nodup)
     (hinj : ∀ k k' y, Y k = some y → Y k' = some y → k = k') (ha : agents.length ≤ n) (hu : up.length ≤ n) :
-    (stepC P agents inA inG d agents.length Y up).cost ≤ 164 * n + 10 * m + 6 := by
+    (stepC P agents inA inG d agents.length Y up).cost ≤ 175 * n + 11 * m + 7 := by
   unfold stepC
   simp only [bind_cost]
   have htab := tabsC_cost P agents inA inG Y up
@@ -488,7 +488,7 @@ theorem stepC_cost (P : Profile (Fin n) (Fin m)) {agents : List (Fin n)} {inA : 
           simp only [hfree o ho, ↓reduceIte]
           rw [hXv]
           exact expL_length_le P agents goods Y up o
-        have hfo := findC_cost (forcedC tb fr.2.1 (lengthC F).val) 3 agents (fun o _ => forcedC_cost _ _ _ o)
+        have hfo := findC_cost (forcedC tb fr.2.1 (lengthC F).val) 4 agents (fun o _ => forcedC_cost _ _ _ o)
         split
         · simp only [bind_cost, rd_cost, pure_cost, ← Nat.add_assoc, Nat.add_zero]; omega
         · simp only [bind_cost, pure_cost]
@@ -559,7 +559,7 @@ theorem loopC_cost (P : Profile (Fin n) (Fin m)) {agents : List (Fin n)} {inA : 
     {goods : List (Fin m)} (d : Fin n) (hA : ∀ k, inA k = agents.contains k) (hG : ∀ g, inG g = decide (g ∈ goods))
     (hWF : WF P agents goods) (hag : agents.Nodup) (ha : agents.length ≤ n) :
     ∀ (fuel : Nat) (Y : Fin n → Option (Fin m)) (up : List (Fin n)) (k : Nat), Valid P agents goods Y up →
-      up.Nodup → (loopC P agents inA inG d agents.length fuel Y up k).cost ≤ fuel * (164 * n + 10 * m + 6)
+      up.Nodup → (loopC P agents inA inG d agents.length fuel Y up k).cost ≤ fuel * (175 * n + 11 * m + 8)
   | 0, _, _, _, _, _ => by simp [loopC]
   | fuel + 1, Y, up, k, hV, hup => by
     have hu : up.length ≤ n :=
@@ -568,18 +568,19 @@ theorem loopC_cost (P : Profile (Fin n) (Fin m)) {agents : List (Fin n)} {inA : 
     have hv := stepC_val P d Y up hA hG
     simp only [loopC, bind_cost]
     split
-    · simp only [pure_cost]; rw [Nat.succ_mul fuel (164 * n + 10 * m + 6)]; omega
+    · simp only [pure_cost]; rw [Nat.succ_mul fuel (175 * n + 11 * m + 8)]; omega
     · rename_i Y' up' h
       rw [hv] at h
       obtain ⟨hV', hup'⟩ := step_inv hWF hag hV hup h
       have ih := loopC_cost P d hA hG hWF hag ha fuel Y' up' (k + 1) hV' hup'
-      rw [Nat.succ_mul fuel (164 * n + 10 * m + 6)]
+      simp only [bind_cost, tick_cost]
+      rw [Nat.succ_mul fuel (175 * n + 11 * m + 8)]
       omega
 
 /-! ## The draft, the completion, the rankings -/
 
 theorem draftC_cost (P : Profile (Fin n) (Fin m)) : ∀ (order : List (Fin n)) (avail : Fin m → Bool),
-    (draftC P order avail).cost ≤ 8 * order.length + n
+    (draftC P order avail).cost ≤ 9 * order.length + n
   | [], _ => by
     simp only [draftC, List.length_nil, Nat.mul_zero, Nat.zero_add]
     exact constT_cost n none
@@ -588,11 +589,11 @@ theorem draftC_cost (P : Profile (Fin n) (Fin m)) : ∀ (order : List (Fin n)) (
     have h1 := hr (favT P avail i).val
     have ih := draftC_cost P order (removeT avail (favT P avail i).val).val
     have hf : (favT P avail i).cost = 6 := rfl
-    simp only [draftC, bind_cost, wr_cost, List.length_cons]
+    simp only [draftC, bind_cost, tick_cost, wr_cost, List.length_cons]
     omega
 
 theorem fillC_cost (free : Fin n → Bool) (o : Fin n) : ∀ (ks : List (Fin n)) (rest : List (Fin m))
-    (T : Fin m → Option (Fin n)), (fillC free o ks rest T).cost ≤ 4 * ks.length
+    (T : Fin m → Option (Fin n)), (fillC free o ks rest T).cost ≤ 5 * ks.length
   | [], _, _ => by simp [fillC]
   | _ :: _, [], _ => by simp [fillC]
   | k :: ks, h :: hs, T => by
@@ -616,7 +617,7 @@ theorem compEntryC_cost (holder upc fl : Fin m → Option (Fin n)) (o : Fin n) (
 /-- **The completion costs `O(n + m)`.** -/
 theorem completeC_cost (P : Profile (Fin n) (Fin m)) (agents : List (Fin n)) (inA : Fin n → Bool) (inG : Fin m → Bool)
     (r : Result (Fin n) (Fin m)) :
-    (completeC P agents inA inG r).cost ≤ 6 * n + 12 * m + 64 * agents.length + 6 * r.up.length := by
+    (completeC P agents inA inG r).cost ≤ 6 * n + 13 * m + 69 * agents.length + 7 * r.up.length := by
   unfold completeC
   simp only [bind_cost]
   have h1 := tabsC_cost P agents inA inG r.Y r.up
@@ -658,7 +659,7 @@ theorem coreC_cost (v : Fin n → Fin m → Nat) {rel : Fin n → List (Fin m)} 
     (hrel : ∀ i, rel i = relevant v i (List.finRange m)) (hinG : ∀ g, inG g = decide (g ∈ goods))
     (hsub : goods.Sublist (List.finRange m)) (hgd : goods.Nodup) (hne : goods ≠ [])
     (hag : agents.Sublist (List.finRange n)) (h3 : ∀ i, (rel i).length ≤ 3) (hf : K3.findR1 v agents goods = none) :
-    (coreC v rel inG agents g0 d).cost ≤ (4 * n + 1) * (164 * n + 10 * m + 6) + 107 * n + 14 * m + 2 := by
+    (coreC v rel inG agents g0 d).cost ≤ (4 * n + 1) * (175 * n + 11 * m + 8) + 114 * n + 15 * m + 2 := by
   have hagnd : agents.Nodup := hag.nodup (List.nodup_finRange n)
   have ha : agents.length ≤ n := by simpa using hag.length_le
   have hrel3 : ∀ i ∈ agents, (relevant v i goods).length ≤ 3 := fun i _ =>
@@ -690,10 +691,10 @@ theorem coreC_cost (v : Fin n → Fin m → Nat) {rel : Fin n → List (Fin m)} 
   have hur : (loopC P agents inA inG d agents.length (4 * agents.length + 1) Y0 [] 0).val.up.length ≤ n :=
     Nat.le_trans (List.Nodup.length_le_of_subset hupr (fun u hu => hVr.up_mem u hu)) ha
   have hco := completeC_cost P agents inA inG (loopC P agents inA inG d agents.length (4 * agents.length + 1) Y0 [] 0).val
-  have hmul : (4 * agents.length + 1) * (164 * n + 10 * m + 6) ≤ (4 * n + 1) * (164 * n + 10 * m + 6) :=
+  have hmul : (4 * agents.length + 1) * (175 * n + 11 * m + 8) ≤ (4 * n + 1) * (175 * n + 11 * m + 8) :=
     Nat.mul_le_mul_right _ (by omega)
-  generalize (4 * n + 1) * (164 * n + 10 * m + 6) = K at hmul ⊢
-  generalize (4 * agents.length + 1) * (164 * n + 10 * m + 6) = K' at hlo hmul
+  generalize (4 * n + 1) * (175 * n + 11 * m + 8) = K at hmul ⊢
+  generalize (4 * agents.length + 1) * (175 * n + 11 * m + 8) = K' at hlo hmul
   simp only [← Nat.add_assoc]
   omega
 
@@ -706,7 +707,7 @@ theorem peelC_cost (v : Fin n → Fin m → Nat) {rel : Fin n → List (Fin m)} 
     (∀ g, inG g = decide (g ∈ goods)) → goods.Sublist (List.finRange m) → goods.Nodup →
     agents.Sublist (List.finRange n) →
     (peelC v rel d fuel agents goods inG).cost ≤
-      fuel * (30 * n + m + 3) + m + ((4 * n + 1) * (164 * n + 10 * m + 6) + 107 * n + 14 * m + 2)
+      fuel * (30 * n + m + 3) + m + ((4 * n + 1) * (175 * n + 11 * m + 8) + 114 * n + 15 * m + 2)
   | 0, _, _, _, _, _, _, _ => by
     simp only [peelC]; have := constT_cost m d; omega
   | fuel + 1, agents, goods, inG, hinG, hsub, hgd, hag => by
@@ -755,24 +756,24 @@ theorem expand2 (n m : Nat) : n * (30 * n + m + 3) = 30 * (n * n) + n * m + 3 * 
   rw [Nat.mul_add, Nat.mul_add, Nat.mul_left_comm, Nat.mul_comm n 3]
 
 theorem expand3 (n m : Nat) :
-    (4 * n + 1) * (164 * n + 10 * m + 6) = 656 * (n * n) + 40 * (n * m) + 188 * n + 10 * m + 6 := by
-  rw [Nat.add_mul, Nat.one_mul, Nat.mul_add, Nat.mul_add, Nat.mul_assoc, Nat.mul_left_comm n 164 n,
-    ← Nat.mul_assoc 4 164, Nat.mul_assoc 4 n (10 * m), Nat.mul_left_comm n 10 m, ← Nat.mul_assoc 4 10,
-    Nat.mul_assoc 4 n 6, Nat.mul_comm n 6, ← Nat.mul_assoc 4 6]
+    (4 * n + 1) * (175 * n + 11 * m + 8) = 700 * (n * n) + 44 * (n * m) + 207 * n + 11 * m + 8 := by
+  rw [Nat.add_mul, Nat.one_mul, Nat.mul_add, Nat.mul_add, Nat.mul_assoc, Nat.mul_left_comm n 175 n,
+    ← Nat.mul_assoc 4 175, Nat.mul_assoc 4 n (11 * m), Nat.mul_left_comm n 11 m, ← Nat.mul_assoc 4 11,
+    Nat.mul_assoc 4 n 8, Nat.mul_comm n 8, ← Nat.mul_assoc 4 8]
   omega
 
 theorem expand4 (n m : Nat) :
-    700 * (n + 1) * (n + m + 1) = 700 * (n * n) + 700 * (n * m) + 1400 * n + 700 * m + 700 := by
+    750 * (n + 1) * (n + m + 1) = 750 * (n * n) + 750 * (n * m) + 1500 * n + 750 * m + 750 := by
   have h : (n + 1) * (n + m + 1) = n * n + n * m + 2 * n + m + 1 := by
     rw [Nat.add_mul, Nat.one_mul, Nat.mul_add, Nat.mul_add, Nat.mul_one]; omega
   rw [Nat.mul_assoc, h]; omega
 
 /-- **The running time of DE** (`paper/k3-simple/long.tex` §6, "Running time"): on every instance with `n ≥ 1`
 agents and `m` goods in which every agent positively values at most three goods, the counted program `deC` (whose
-value is `deSpec`, `de_eq_spec`) performs at most `686 n² + 44 nm + 300 n + 27 m + 8` operations, reading the
+value is `deSpec`, `de_eq_spec`) performs at most `730 n² + 48 nm + 326 n + 29 m + 10` operations, reading the
 input included. -/
 theorem deC_cost_poly (I : Inst) (hn : 0 < I.n) (h : ∀ i, numRelevant I i ≤ 3) :
-    (deC I hn).cost ≤ 686 * (I.n * I.n) + 44 * (I.n * I.m) + 300 * I.n + 27 * I.m + 8 := by
+    (deC I hn).cost ≤ 730 * (I.n * I.n) + 48 * (I.n * I.m) + 326 * I.n + 29 * I.m + 10 := by
   have hrel : ∀ i, (mkTable I.n (relEntryC I.v (List.finRange I.m))).val i = relevant I.v i (List.finRange I.m) := by
     intro i; simp [relEntryC, posC, relevant]
   have h3 : ∀ i, ((mkTable I.n (relEntryC I.v (List.finRange I.m))).val i).length ≤ 3 := by
@@ -794,10 +795,10 @@ theorem deC_cost_poly (I : Inst) (hn : 0 < I.n) (h : ∀ i, numRelevant I i ≤ 
   rw [expand2, expand3] at hp
   omega
 
-/-- **The running time of DE**, in the form `O(n(n + m))`: at most `700 (n + 1)(n + m + 1)` counted operations, on
+/-- **The running time of DE**, in the form `O(n(n + m))`: at most `750 (n + 1)(n + m + 1)` counted operations, on
 every instance in which every agent positively values at most three goods (reading the input included). -/
 theorem deC_cost (I : Inst) (hn : 0 < I.n) (h : ∀ i, numRelevant I i ≤ 3) :
-    (deC I hn).cost ≤ 700 * (I.n + 1) * (I.n + I.m + 1) := by
+    (deC I hn).cost ≤ 750 * (I.n + 1) * (I.n + I.m + 1) := by
   have := deC_cost_poly I hn h
   rw [expand4]
   omega

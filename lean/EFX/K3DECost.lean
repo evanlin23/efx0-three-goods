@@ -93,10 +93,11 @@ theorem setAllC_cost [DecidableEq α] (b : β) : ∀ (l : List α) (T : α → �
     simp only [setAllC, bind_cost, tick_cost, wr_cost, setAllC_cost b l, List.length_cons]
     omega
 
-/-- `x` takes every key of `ks` that has no element yet (a read and possibly a write per key). -/
+/-- `x` takes every key of `ks` that has no element yet (a step, a read and possibly a write per key). -/
 def putC [DecidableEq κ] (x : α) : List κ → (κ → Option α) → Timed (κ → Option α)
   | [], T => pure T
   | k :: ks, T => do
+    tick 1
     let t ← rd T k
     match t with
     | some _ => putC x ks T
@@ -123,17 +124,17 @@ theorem putC_val [DecidableEq κ] (x : α) : ∀ (ks : List κ) (T : κ → Opti
       · subst hk; simp [hT]
       · simp [hk]
 
-theorem putC_cost [DecidableEq κ] (x : α) : ∀ (ks : List κ) (T : κ → Option α), (putC x ks T).cost ≤ 2 * ks.length
+theorem putC_cost [DecidableEq κ] (x : α) : ∀ (ks : List κ) (T : κ → Option α), (putC x ks T).cost ≤ 3 * ks.length
   | [], T => by simp [putC]
   | k :: ks, T => by
     have h1 := putC_cost x ks T
     cases hT : T k with
     | some y =>
-      simp only [putC, bind_cost, rd_cost, rd_val, hT, List.length_cons]
+      simp only [putC, bind_cost, tick_cost, rd_cost, rd_val, hT, List.length_cons]
       omega
     | none =>
       have h2 := putC_cost x ks (fun z => if z = k then some x else T z)
-      simp only [putC, bind_cost, rd_cost, rd_val, hT, wr_cost, wr_val, List.length_cons]
+      simp only [putC, bind_cost, tick_cost, rd_cost, rd_val, hT, wr_cost, wr_val, List.length_cons]
       omega
 
 /-- **First-wins scatter.** Each element `x` of `l`, in order, takes the keys `keys x` that have no element yet:
@@ -157,7 +158,7 @@ theorem scatterC_val [DecidableEq κ] (keys : α → Timed (List κ)) : ∀ (l :
     by_cases h : k ∈ (keys x).val <;> simp [h]
 
 theorem scatterC_cost [DecidableEq κ] (keys : α → Timed (List κ)) (B : Nat) : ∀ (l : List α) (T : κ → Option α),
-    (∀ x ∈ l, (keys x).cost + 2 * (keys x).val.length ≤ B) → (scatterC keys l T).cost ≤ l.length * (B + 1)
+    (∀ x ∈ l, (keys x).cost + 3 * (keys x).val.length ≤ B) → (scatterC keys l T).cost ≤ l.length * (B + 1)
   | [], T, _ => by simp [scatterC]
   | x :: l, T, h => by
     have hx := h x (by simp)
@@ -172,6 +173,7 @@ def ddC [DecidableEq α] : List α → (α → Bool) → Timed (List α × (α �
   | [], M => pure ([], M)
   | x :: l, M => do
     let r ← ddC l M
+    tick 1
     let seen ← rd r.2 x
     if seen then pure r else do
       let M' ← wr r.2 x true
@@ -198,11 +200,11 @@ theorem ddC_val [DecidableEq α] : ∀ l : List α,
       · subst hy; simp
       · simp [hy]
 
-theorem ddC_cost [DecidableEq α] : ∀ (l : List α) (M : α → Bool), (ddC l M).cost ≤ 2 * l.length
+theorem ddC_cost [DecidableEq α] : ∀ (l : List α) (M : α → Bool), (ddC l M).cost ≤ 3 * l.length
   | [], M => by simp [ddC]
   | x :: l, M => by
     have ih := ddC_cost l M
-    simp only [ddC, bind_cost, rd_cost, List.length_cons]
+    simp only [ddC, bind_cost, tick_cost, rd_cost, List.length_cons]
     split
     · simp only [pure_cost]; omega
     · simp only [bind_cost, wr_cost, pure_cost]; omega
