@@ -15,7 +15,7 @@ intended for publication; the papers are self-contained and cite only this repos
   peeling), states and soundness, the Improvement Lemma with every proof, DE with pseudocode, its correctness and
   running time, a worked example with a TikZ figure of the exchange cycle, how large an exchange must be, the limits
   of the shape, the verification status and the evidence, and open problems.
-- `refs.bib`: the bibliography of both; `Repo` is this repository at commit `462c724`, which holds the notes, tests,
+- `refs.bib`: the bibliography of both; `Repo` is this repository at commit `a1f9dc0`, which holds the notes, tests,
   referee reports and Lean files.
 - `llncs.cls` and `splncs04.bst`: Springer's LLNCS package, unmodified.
 - `examples/check_examples.py`: recomputes every example and number of the papers with an independent implementation
