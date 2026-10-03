@@ -53,3 +53,7 @@ import EFX.MovesC
 import EFX.MovesCExamples
 import EFX.RuleFK
 import EFX.Adaptive
+import EFX.K3DE
+import EFX.K3DEImprove
+import EFX.K3DEAlgo
+import EFX.K3DEExamples

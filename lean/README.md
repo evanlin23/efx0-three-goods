@@ -27,7 +27,7 @@ showed that a declaration added under `set_option debug.skipKernelTC true` is ne
 without warnings and has no axioms for `#print axioms` or `CheckAxioms.lean` to report; the tripwire refuses the
 option and the replay checker rejects such a declaration. On success the last line is
 
-    CHECK PASSED: 672 audited statements, 1505 theorems, standard axioms only
+    CHECK PASSED: 704 audited statements, 1566 theorems, standard axioms only
 
 CI runs it on every pull request (job `lean` in `.github/workflows/verify.yml`). In Claude Code on the web the
 session-start hook installs the toolchain (from GitHub when `release.lean-lang.org` is unreachable).
@@ -375,6 +375,25 @@ specializations) have exactly the types of `EFX.target`, `EFX.LB.corollaryD` (ch
     on every instance.
   - `K3Examples`: three instances checked by `decide`.
   `scripts/k3_eval.lean` runs `algo` and prints the count by `#eval`.
+- `EFX/K3DE.lean`, `EFX/K3DEImprove.lean`, `EFX/K3DEAlgo.lean`, `EFX/K3DEExamples.lean`: the short proof of the
+  k = 3 result and algorithm Draft and Exchange (DE) (`paper/k3-simple/long.tex` §4–§6,
+  `k3/simplify/po/hall/NOTES.md`; ledger K3S.PO.LEAN), over the valid pre-allocations of `PreAlloc` (rank-based
+  states: each agent holds nothing, one of its goods, or its pair `{b, c}`).
+  - `K3DE`: utilities (`EFX.DE.util`, pair 4 > a 3 > b 2 > c 1 > nothing 0), Pareto domination, free agents,
+    exposure, valid absorbers (`EFX.DE.Absorber`), the paper's completion (`EFX.DE.completeDE`: the goods of `H` to
+    different free agents, the rest of the junk to the absorber) and soundness (`EFX.DE.soundness`, through Theorem 1′),
+    Lemma transfer (`EFX.DE.transfer`), and one exchange lemma for need cycles, pair chains and exchange cycles
+    (`EFX.DE.exchange`).
+  - `K3DEImprove`: the computable step of DE (`EFX.DE.step`: pair chain if (P) fails; all pair holders, an empty free
+    agent, or `|H_o| ≤ |F| − 1` stop; otherwise the exchange cycle of σ built from greedy distinct representatives),
+    Lemmas empty and forced (`EFX.DE.absorber_iff`), and the **Improvement Lemma** (`EFX.DE.improvement`) with its
+    Corollary (`EFX.DE.completable_of_undominated`).
+  - `K3DEAlgo`: the draft is valid (`EFX.DE.draft_valid`), the loop ends at a valid absorber after at most `4n`
+    exchanges (`EFX.DE.loop_spec`), and DE with R1 peeling (`EFX.DE.run`, `EFX.DE.deSpec`) returns an EFX₀ allocation
+    with at most one bundle of more than two goods on every instance with at most three relevant goods per agent
+    (`EFX.DE.run_sound`, `EFX.DE.deSpec_correct`).
+  - `K3DEExamples`: by `decide`, DE on the paper's worked example (one exchange with two exposure arcs; the paper's
+    output) and on three small instances (protecting goods, two pair chains, peeling).
 - `EFX/K3Real.lean`: K3ALG on values in any `EFX.OrderedValue` type in the comparison model (ledger K3.ALG.REAL;
   `proofs/k3_algorithm.md` §3; the paper's Corollary "real values"). The program receives a comparison oracle
   `le : V → V → Bool` and inspects the values only through it (plus unit-cost addition of two of one agent's values; for agents with one or two relevant goods some compared sums count a good twice); the theorems assume `le x y = true ↔ x ≤ y`. It computes
@@ -505,6 +524,9 @@ name in the ledger's Lean column has one.
 | K3.ALG.TIME | Running time: `(algoC I hn).cost ≤ 400 (n + m + 1)⁴` for every instance with `n ≥ 1` (cost model of `proofs/k3_algorithm.md` §6 and `EFX.K3CostLB`) | K3CostBound : `EFX.K3.algoC_cost`, `EFX.K3.algoC_cost'` (`≤ 6400 (n + m)⁴`), `EFX.K3.lbPlusC_cost`, `EFX.K3.reduceC_cost`; Timed : `EFX.Timed.mkTable_cost` |
 | K3.ALG.REAL | K3ALG on ordered values (e.g. ℝ≥0) in the comparison model: with a correct comparison oracle, computing L12's surrogate takes `n (m + 12)` oracle calls and `O(nm)` other operations, and K3ALG on it is EFX₀ for the original values when every agent has at most three relevant goods | K3Real : `EFX.K3.algoOrd_efx0`, `EFX.K3.algoOrd_eq`, `EFX.K3.agree_surrogate`, `EFX.K3.numRelevant_eq_relOf`, `EFX.K3.repOf_spec`, `EFX.K3.surrogateC_cost`, `EFX.K3.algoOrdC_cost`, `EFX.K3.Examples.peelOwnerZ_algoOrd` |
 | K3.ALG.FINE | The finer count: `(algoC I hn).cost ≤ n⁴ + 20n³ + 25n²m + 124n² + 47nm + 119n + 22m + 3` for every instance with `n ≥ 1`, hence `O(n⁴ + n²m)` | K3CostFine : `EFX.K3.algoC_cost_fine`, `EFX.K3.algoC_cost_fine'`, `EFX.K3.algoC_cost_fine''`, `EFX.K3.lbPlusC_cost_fine`, `EFX.K3.reduceC_cost_fine`, `EFX.K3.lbUpC_cost_fine`, `EFX.K3.algoOrdC_cost_fine` |
+| K3S.PO.LEAN | The Improvement Lemma: a valid state in which no free agent is a valid absorber and some agent is not a pair holder is Pareto-dominated by a valid state (a need cycle, a pair chain or an exchange cycle; computed by `step`); every undominated valid state has a valid absorber, free unless every agent holds its pair | K3DEImprove : `EFX.DE.improvement`, `EFX.DE.completable_of_undominated`, `EFX.DE.step_stop`, `EFX.DE.step_next`, `EFX.DE.succ_pair`, `EFX.DE.succ_exchange`, `EFX.DE.cycleStep_spec`, `EFX.DE.reps_spec` |
+| K3S.PO.LEAN | Lemmas transfer, exchange cycle, empty and forced; soundness of the completion (EFX₀ for every consistent valuation, only the absorber's bundle larger than two goods) | K3DE : `EFX.DE.transfer`, `EFX.DE.exchange`, `EFX.DE.completeDE_completion`, `EFX.DE.soundness`; K3DEImprove : `EFX.DE.absorber_empty`, `EFX.DE.forced_hOf`, `EFX.DE.absorber_forced`, `EFX.DE.absorber_iff` |
+| K3S.PO.LEAN | Algorithm DE is correct: on every instance with at most three relevant goods per agent it returns an EFX₀ allocation with all bundles but at most one of at most two goods, after at most `4n` exchanges; the paper's worked example | K3DEAlgo : `EFX.DE.draft_valid`, `EFX.DE.loop_spec`, `EFX.DE.deCore_spec`, `EFX.DE.deStage_sound`, `EFX.DE.run_sound`, `EFX.DE.deSpec_correct`; K3DEExamples : `EFX.DE.Examples.worked_spec` |
 | K3.OWNER | Proposition O: `r` is a valid owner (some `H` fits) exactly when `hitSet` fits, so LB⁺'s owner test needs no minimum hitting set | OwnerR : `EFX.LB.validOwner_iff` |
 | K3.LASTBLOCK | `r`, the last agent of Phase 1 not upgraded, lies in the last block: every agent's block (`blkAux`) is at most `r`'s, and `r`'s block is the last processed agent's | K3Extras : `EFX.LB.lastOut_lastBlock`, `EFX.LB.blk_le_lastOut` |
 | K3.SIZE | Size of the large bundle: for a valid pre-allocation, `\|F\| = \|NA\|` and `ω = \|J\| − S = m − 2n + \|NA\|`; every completion with an owner (terminal or upgraded) gives it at least `ω + 2` goods, exactly `ω + 2` with the other terminals' slots full; the rotation does not increase `ω`; K3ALG's `complete` with `H` repeating no good gives exactly `ω + 2`; with a repeated good K3ALG's owner can get `ω + 3` (the paper's example) | K3Extras : `EFX.LB.largeBundle_size`, `EFX.LB.omega_eq`, `EFX.LB.numFrozen_eq_numNA`, `EFX.LB.Completion.owner_length_ge`, `EFX.LB.Completion.owner_length_eq`, `EFX.LB.BadCase.omega_le`, `EFX.LB.complete_owner_length`, `EFX.K3.Examples.repeatedGood_state`, `EFX.K3.Examples.repeatedGood_algo` |
