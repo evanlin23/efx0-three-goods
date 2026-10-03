@@ -39,8 +39,9 @@ are balanced, were machine-checked in Lean in the previous work (`lean/`, `paper
 proof (the Improvement Lemma, soundness in the form used, DE with at most 4n exchanges, and the shape for all
 instances with at most three relevant goods per agent) is a written proof that is also machine-checked in Lean, over
 the natural numbers (`lean/EFX/K3DE.lean`, `K3DEImprove.lean`, `K3DEAlgo.lean`, `K3DEExamples.lean`; ledger row
-K3S.PO.LEAN); the running time and real values are not formalized, and the formal statements were written by the
-same AI assistant and have not been reviewed independently. The written proof was derived independently twice
+K3S.PO.LEAN); the running time and real values are not formalized. The formal statements were written by the same
+AI assistant; an independent AI referee session compared them with the paper and found no mismatch
+(`k3/simplify/po/referee/lean_audit.md`). The written proof was derived independently twice
 (`k3/simplify/po/hall/NOTES.md`, `k3/simplify/po/potential/NOTES.md`), refereed once with no error
 (`k3/simplify/po/referee/README.md`; its four presentation fixes are applied), and checked by computer on millions of
 states. The provers and the referee were AI agents: separate sessions of the coding assistant (Claude Code), the

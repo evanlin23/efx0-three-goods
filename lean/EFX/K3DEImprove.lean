@@ -23,7 +23,8 @@ arc, or a need cycle.
 
 **Results.**
 - `step_stop`: a stop returns a valid absorber, free unless every agent is a pair holder.
-- `step_next`: a move returns a valid state that Pareto-dominates the state.
+- `step_next_cycle`: a move is one exchange along an exchange cycle (`EFX.DE.Cycle`: a pair chain closed by its last
+  arc, a need cycle, or an exchange cycle); `step_next`: it returns a valid state that Pareto-dominates the state.
 - `improvement` (**the Improvement Lemma**), `completable_of_undominated` (**Corollary**, Pareto-optimal states).
 - `absorber_empty` (Lemma empty), `forced_hOf` and `absorber_forced`, `absorber_Hset` (Lemma forced, both
   directions: `o` absorbs iff `|H_o| ≤ |F| − 1`, and then with `H_o`).
@@ -34,7 +35,11 @@ arc, or a need cycle.
 2. The paper follows `σ` from any agent until it repeats; here `p = σⁿ(s)` with `n = |agents|` lies on a cycle, and
    its period is found by search (`period`). The cycle is `{σʲ p : j < per}`, with predecessor `σ^(per−1)`.
 3. In case 1 the paper walks in `D` from `x`; here every free agent points to `x`, and the cycle through `σⁿ(x)` is
-   the closed pair chain or a need cycle of `D` (both are moves of `EFX.DE.exchange`).
+   the closed pair chain or a need cycle of `D` (both are moves of `EFX.DE.exchange`). In case 5 the start is the
+   first agent `s` outside `up`.
+4. The paper's case "F = ∅: a need cycle" is case 5 with no free agent (then `σ` follows need arcs only).
+5. The goods of `H_o` are listed in the order of `Hset` (by exposed agent), and the completion gives them to the free
+   agents other than `o` in the order of `agents`.
 -/
 
 set_option autoImplicit false
@@ -494,11 +499,11 @@ theorem orbit_cycle {σ : A → A} (hS : SuccMap P agents goods Y up σ) {p : A}
   · show iter σ (per - 1) (iter σ 1 z) = z
     rw [← iter_add, Nat.sub_add_cancel hper, iter_per_orbit hpp hz]
 
-/-- **The move along the cycle of `σ` through `σⁿ(s)`** is a valid state that dominates the state. -/
-theorem cycleStep_spec (hV : Valid P agents goods Y up) (hWF : WF P agents goods)
-    {σ : A → A} (hS : SuccMap P agents goods Y up σ) {s : A} (hs : s ∈ agents) (hsu : s ∉ up) :
-    Valid P agents goods (cycleStep P agents up Y σ s).1 (cycleStep P agents up Y σ s).2 ∧
-      Dominates P agents (cycleStep P agents up Y σ s).1 (cycleStep P agents up Y σ s).2 Y up := by
+/-- **The move along the cycle of `σ` through `σⁿ(s)` is an exchange along an exchange cycle** (`Cycle`): the orbit
+of `σⁿ(s)`, with predecessor `σ^(per − 1)`. -/
+theorem cycleStep_cycle {σ : A → A} (hS : SuccMap P agents goods Y up σ) {s : A} (hs : s ∈ agents) (hsu : s ∉ up) :
+    ∃ (onC : A → Bool) (π : A → A), Cycle P agents goods Y up onC σ π ∧
+      cycleStep P agents up Y σ s = (exchY P agents up Y onC π, exchUp P agents up Y onC π) := by
   let V := agents.filter (fun k => !(up.contains k))
   have hVm : ∀ k, k ∈ V ↔ k ∈ agents ∧ k ∉ up := by intro k; simp [V]
   have hVσ : ∀ a ∈ V, σ a ∈ V := fun a ha => (hVm _).mpr (hS.vmem a ((hVm a).mp ha).1 ((hVm a).mp ha).2)
@@ -506,7 +511,16 @@ theorem cycleStep_spec (hV : Valid P agents goods Y up) (hWF : WF P agents goods
   obtain ⟨hper, hpp⟩ := period_spec σ agents.length _
     (exists_period σ hVσ ((hVm s).mpr ⟨hs, hsu⟩) hVl)
   have hp := (hVm _).mp (iter_mem σ hVσ ((hVm s).mpr ⟨hs, hsu⟩) agents.length)
-  exact exchange hV hWF (orbit_cycle hS hp.1 hp.2 hper hpp)
+  exact ⟨_, _, orbit_cycle hS hp.1 hp.2 hper hpp, rfl⟩
+
+/-- **The move along the cycle of `σ` through `σⁿ(s)`** is a valid state that dominates the state. -/
+theorem cycleStep_spec (hV : Valid P agents goods Y up) (hWF : WF P agents goods)
+    {σ : A → A} (hS : SuccMap P agents goods Y up σ) {s : A} (hs : s ∈ agents) (hsu : s ∉ up) :
+    Valid P agents goods (cycleStep P agents up Y σ s).1 (cycleStep P agents up Y σ s).2 ∧
+      Dominates P agents (cycleStep P agents up Y σ s).1 (cycleStep P agents up Y σ s).2 Y up := by
+  obtain ⟨onC, π, hC, e⟩ := cycleStep_cycle hS hs hsu
+  rw [e]
+  exact exchange hV hWF hC
 
 /-! ## The two successor maps -/
 
@@ -703,10 +717,12 @@ theorem step_stop (hWF : WF P agents goods) (hag : agents.Nodup) (hne : agents �
           exact ⟨absorber_forced hWF hag hPP (freeB_iff.mp h1.1) h1.2, Or.inl (freeB_iff.mp h1.1)⟩
         | none => simp only [hA, hB, hC, hD, reduceCtorEq] at h
 
-/-- **A move returns a valid state that Pareto-dominates the state.** -/
-theorem step_next (hV : Valid P agents goods Y up) (hWF : WF P agents goods) (hag : agents.Nodup) {d : A}
-    {Y' : A → Option G} {up' : List A} (h : step P agents goods d Y up = .next Y' up') :
-    Valid P agents goods Y' up' ∧ Dominates P agents Y' up' Y up := by
+/-- **A move is one exchange along an exchange cycle** (`Cycle`): a pair chain closed by its last arc, a need cycle,
+or an exchange cycle. -/
+theorem step_next_cycle (hWF : WF P agents goods) (hag : agents.Nodup) {d : A} {Y' : A → Option G} {up' : List A}
+    (h : step P agents goods d Y up = .next Y' up') :
+    ∃ (onC : A → Bool) (σ π : A → A), Cycle P agents goods Y up onC σ π ∧
+      Y' = exchY P agents up Y onC π ∧ up' = exchUp P agents up Y onC π := by
   unfold step at h
   cases hA : agents.find? (pairB P agents up Y goods) with
   | some x =>
@@ -714,7 +730,8 @@ theorem step_next (hV : Valid P agents goods Y up) (hWF : WF P agents goods) (ha
     obtain ⟨rfl, rfl⟩ := h
     have hx := List.mem_of_find?_eq_some hA
     have hpx := List.find?_some hA
-    exact cycleStep_spec hV hWF (succ_pair hx hpx) hx (pairB_iff.mp hpx).1
+    obtain ⟨onC, π, hC, e⟩ := cycleStep_cycle (succ_pair hx hpx) hx (pairB_iff.mp hpx).1
+    exact ⟨onC, _, π, hC, by rw [e], by rw [e]⟩
   | none =>
     have hPP := propP_of_find hA
     cases hB : agents.find? (fun k => !(up.contains k)) with
@@ -737,7 +754,15 @@ theorem step_next (hV : Valid P agents goods Y up) (hWF : WF P agents goods) (ha
             have := List.find?_eq_none.mp hD o ho.1
             simp only [freeB_iff.mpr ho, Bool.true_and, decide_eq_true_eq] at this
             omega
-          exact cycleStep_spec hV hWF (succ_exchange hWF hag hPP hcount) hs hsu
+          obtain ⟨onC, π, hC, e⟩ := cycleStep_cycle (succ_exchange hWF hag hPP hcount) hs hsu
+          exact ⟨onC, _, π, hC, by rw [e], by rw [e]⟩
+
+/-- **A move returns a valid state that Pareto-dominates the state.** -/
+theorem step_next (hV : Valid P agents goods Y up) (hWF : WF P agents goods) (hag : agents.Nodup) {d : A}
+    {Y' : A → Option G} {up' : List A} (h : step P agents goods d Y up = .next Y' up') :
+    Valid P agents goods Y' up' ∧ Dominates P agents Y' up' Y up := by
+  obtain ⟨onC, σ, π, hC, rfl, rfl⟩ := step_next_cycle hWF hag h
+  exact exchange hV hWF hC
 
 /-- **The Improvement Lemma** (`paper/k3-simple/long.tex`, Theorem Improvement Lemma). In the core case, let `(Y, up)`
 be a valid state in which no free agent is a valid absorber and some agent is not a pair holder. Then some valid state
@@ -775,6 +800,7 @@ end EFX
 #print axioms EFX.DE.forced_hOf
 #print axioms EFX.DE.exists_period
 #print axioms EFX.DE.orbit_cycle
+#print axioms EFX.DE.cycleStep_cycle
 #print axioms EFX.DE.cycleStep_spec
 #print axioms EFX.DE.succ_pair
 #print axioms EFX.DE.succ_exchange
@@ -783,6 +809,7 @@ end EFX
 #print axioms EFX.DE.Hset_le_of_absorber
 #print axioms EFX.DE.absorber_iff
 #print axioms EFX.DE.step_stop
+#print axioms EFX.DE.step_next_cycle
 #print axioms EFX.DE.step_next
 #print axioms EFX.DE.improvement
 #print axioms EFX.DE.completable_of_undominated
