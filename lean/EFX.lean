@@ -57,3 +57,4 @@ import EFX.K3DE
 import EFX.K3DEImprove
 import EFX.K3DEAlgo
 import EFX.K3DEExamples
+import EFX.K3DEReal
