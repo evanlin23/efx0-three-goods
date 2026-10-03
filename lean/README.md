@@ -394,6 +394,21 @@ specializations) have exactly the types of `EFX.target`, `EFX.LB.corollaryD` (ch
     (`EFX.DE.run_sound`, `EFX.DE.deSpec_correct`).
   - `K3DEExamples`: by `decide`, DE on the paper's worked example (one exchange with two exposure arcs; the paper's
     output) and on three small instances (protecting goods, two pair chains, peeling).
+- `EFX/K3DEPrelim.lean`, `EFX/K3DELimits.lean`, `EFX/K3DEShort.lean`, `EFX/K3DEShortExamples.lean`,
+  `EFX/K3DERings.lean`, `EFX/K3DEReal.lean`: the rest of `paper/k3-simple/` (ledger K3S.PRELIM.LEAN, K3S.LIMITS,
+  K3S.SHORT, K3S.EX.LEAN, K3S.RINGS, K3S.REAL.LEAN).
+  - `K3DEPrelim`: threats and safety (`EFX.DE.efx0L_iff_safe`), Lemmas threats and safety, Lemma peeling in the
+    paper's form (`EFX.DE.peeling`), Lemma R1fail (`EFX.DE.R1fail`).
+  - `K3DELimits`: Lemma cases of safety (`EFX.DE.Limits.safe_iff_cases`) and Proposition limits of the shape for every
+    strictly balanced valuation with distinct values (`limits_a`, `limits_b`), also for ordered values, by `decide`
+    over all allocations.
+  - `K3DEShort`, `K3DEShortExamples`: Proposition short moves (`EFX.DE.prop_short`) with both instances attaining its
+    bounds, and the worked example's facts (exactly four dominating valid states, `w_exactly_four`; all ten
+    candidate completions fail, `w_completions`).
+  - `K3DERings`: the ring family for every k and depth: every cycle of the exchange digraph uses exactly k exposure
+    arcs (`EFX.DE.Rings.nExp_eq`), and no free agent absorbs iff k ≤ 2^d (`no_free_absorber_iff`).
+  - `K3DEReal`: DE on ordered values through L12's surrogate (`EFX.DE.deOrd_correct`), existence with the shape for
+    ordered values (`EFX.DE.thmD_ordered`), and at most n peeling rounds (`EFX.DE.de_correct`).
 - `EFX/K3Real.lean`: K3ALG on values in any `EFX.OrderedValue` type in the comparison model (ledger K3.ALG.REAL;
   `proofs/k3_algorithm.md` §3; the paper's Corollary "real values"). The program receives a comparison oracle
   `le : V → V → Bool` and inspects the values only through it (plus unit-cost addition of two of one agent's values; for agents with one or two relevant goods some compared sums count a good twice); the theorems assume `le x y = true ↔ x ≤ y`. It computes
@@ -527,6 +542,12 @@ name in the ledger's Lean column has one.
 | K3S.PO.LEAN | The Improvement Lemma: a valid state in which no free agent is a valid absorber and some agent is not a pair holder is Pareto-dominated by a valid state (a need cycle, a pair chain or an exchange cycle; computed by `step`); every undominated valid state has a valid absorber, free unless every agent holds its pair | K3DEImprove : `EFX.DE.improvement`, `EFX.DE.completable_of_undominated`, `EFX.DE.step_stop`, `EFX.DE.step_next`, `EFX.DE.step_next_cycle`, `EFX.DE.cycleStep_cycle`, `EFX.DE.succ_pair`, `EFX.DE.succ_exchange`, `EFX.DE.cycleStep_spec`, `EFX.DE.reps_spec` |
 | K3S.PO.LEAN | Lemmas transfer, exchange cycle, empty and forced; soundness of the completion (EFX₀ for every consistent valuation, only the absorber's bundle larger than two goods) | K3DE : `EFX.DE.transfer`, `EFX.DE.exchange`, `EFX.DE.completeDE_completion`, `EFX.DE.soundness`; K3DEImprove : `EFX.DE.absorber_empty`, `EFX.DE.forced_hOf`, `EFX.DE.absorber_forced`, `EFX.DE.absorber_iff` |
 | K3S.PO.LEAN | Algorithm DE is correct: on every instance with at most three relevant goods per agent it returns an EFX₀ allocation with all bundles but at most one of at most two goods, after at most `4n` exchanges; the paper's worked example | K3DEAlgo : `EFX.DE.draft_valid`, `EFX.DE.loop_spec`, `EFX.DE.deCore_spec`, `EFX.DE.deStage_sound`, `EFX.DE.run_sound`, `EFX.DE.deSpec_correct`; K3DEExamples : `EFX.DE.Examples.worked_spec` |
+| K3S.PRELIM.LEAN | Threats and safety (EFX₀ iff every agent is safe); Lemma threats (a)–(c); Lemma safety (a), (b); Lemma peeling (P of at most one good); Lemma R1fail | K3DEPrelim : `EFX.DE.efx0L_iff_safe`, `EFX.DE.threat_pair`, `EFX.DE.safe_of_pair`, `EFX.DE.safe_of_gy`, `EFX.DE.peeling`, `EFX.DE.R1fail` |
+| K3S.LIMITS | Lemma cases of safety; Proposition limits of the shape (a), (b) for every valuation with distinct, strictly balanced values (natural numbers and ordered values) | K3DELimits : `EFX.DE.Limits.safe_iff_cases`, `EFX.DE.Limits.limits_a`, `EFX.DE.Limits.limits_b`, `EFX.DE.Limits.limits_a_ordered`, `EFX.DE.Limits.limits_b_ordered` |
+| K3S.SHORT | Proposition short moves: without a short move, at least 2 free agents, n ≥ 6, m ≥ 8 (n ≥ 9, m ≥ 12 with 3); both bounds attained | K3DEShort : `EFX.DE.prop_short`, `EFX.DE.short_counts`; K3DEShortExamples : `EFX.DE.ShortExamples.w_attains`, `EFX.DE.ShortExamples.s8_attains`, `EFX.DE.ShortExamples.s8_remark` |
+| K3S.EX.LEAN | The worked example: exactly four dominating valid states; all ten candidate completions fail EFX₀ | K3DEShortExamples : `EFX.DE.ShortExamples.w_facts`, `EFX.DE.ShortExamples.w_exactly_four`, `EFX.DE.ShortExamples.w_completions` |
+| K3S.RINGS | The ring family: every cycle of D⁺ uses exactly k exposure arcs; no free agent absorbs iff k ≤ 2^d | K3DERings : `EFX.DE.Rings.gen_tree_ring`, `EFX.DE.Rings.nExp_eq`, `EFX.DE.Rings.no_free_absorber_iff` |
+| K3S.REAL.LEAN | DE on ordered values (comparison model through L12's surrogate); existence with the shape for ordered values; at most n peeling rounds | K3DEReal : `EFX.DE.deOrd_correct`, `EFX.DE.thmD_ordered`, `EFX.DE.de_correct`, `EFX.DE.peels_le` |
 | K3.OWNER | Proposition O: `r` is a valid owner (some `H` fits) exactly when `hitSet` fits, so LB⁺'s owner test needs no minimum hitting set | OwnerR : `EFX.LB.validOwner_iff` |
 | K3.LASTBLOCK | `r`, the last agent of Phase 1 not upgraded, lies in the last block: every agent's block (`blkAux`) is at most `r`'s, and `r`'s block is the last processed agent's | K3Extras : `EFX.LB.lastOut_lastBlock`, `EFX.LB.blk_le_lastOut` |
 | K3.SIZE | Size of the large bundle: for a valid pre-allocation, `\|F\| = \|NA\|` and `ω = \|J\| − S = m − 2n + \|NA\|`; every completion with an owner (terminal or upgraded) gives it at least `ω + 2` goods, exactly `ω + 2` with the other terminals' slots full; the rotation does not increase `ω`; K3ALG's `complete` with `H` repeating no good gives exactly `ω + 2`; with a repeated good K3ALG's owner can get `ω + 3` (the paper's example) | K3Extras : `EFX.LB.largeBundle_size`, `EFX.LB.omega_eq`, `EFX.LB.numFrozen_eq_numNA`, `EFX.LB.Completion.owner_length_ge`, `EFX.LB.Completion.owner_length_eq`, `EFX.LB.BadCase.omega_le`, `EFX.LB.complete_owner_length`, `EFX.K3.Examples.repeatedGood_state`, `EFX.K3.Examples.repeatedGood_algo` |
