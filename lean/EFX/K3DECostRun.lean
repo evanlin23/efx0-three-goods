@@ -16,9 +16,17 @@ built from the parts of `EFX.K3DECost` and `EFX.K3DECostStep`; units as in `EFX.
   `EFX.DE.stepC` at most, as `EFX.DE.loop`), and the completion (`completeC`, as `EFX.DE.completeDE`: the tables of
   the final state and the slots filled by one pass over the agents, `fillC`).
 
-**Results.** `deC_val` (**`de_eq_spec`**): `(deC I hn).val = deSpec I hn`, on every instance (no hypothesis). The
-algorithm is `de I hn := (deC I hn).val`, and `de_correct` restates Theorem "DE is correct" (`deSpec_correct`) for
-it. The cost bound is `EFX.DE.deC_cost` (`EFX.K3DECostBound`).
+**Results.** **`de_eq_spec`**: `(deC I hn).val = deSpec I hn`, on every instance (no hypothesis). The algorithm is
+`de I hn := (deC I hn).val`, and `de_correct` restates Theorem "DE is correct" (`deSpec_correct`) for it. The value
+lemmas of the parts: `draftC_val`, `loopC_val`, `fillC_val`, `completeC_val`, `profC_val`, `coreC_val`, `peelC_val`.
+The cost bound is `EFX.DE.deC_cost` (`EFX.K3DECostBound`).
+
+**Choices.**
+1. The relevant goods of each agent are computed once among all goods; those that remain are found by reading the
+   array of remaining goods (`relevant_filter`: the remaining goods stay a sublist of all goods, in index order).
+2. The allocation of the peeled goods is written into the array that the rest returns (`EFX.extend` is one write);
+   the base cases return a new array (`m` units).
+3. The loop counts the exchanges as `EFX.DE.loop` does (the field `moves` of the result), one addition per round.
 -/
 
 set_option autoImplicit false
@@ -96,8 +104,9 @@ theorem draftC_val (P : Profile (Fin n) (Fin m)) : ∀ (order : List (Fin n)) (p
 /-! ## The loop -/
 
 /-- **The loop of DE** (`EFX.DE.loop`): `stepC` until it stops, at most `fuel` rounds. -/
-def loopC (P : Profile (Fin n) (Fin m)) (agents : List (Fin n)) (inA : Fin n → Bool) (inG : Fin m → Bool) (d : Fin n)
-    (l : Nat) : Nat → (Fin n → Option (Fin m)) → List (Fin n) → Nat → Timed (Result (Fin n) (Fin m))
+def loopC (P : Profile (Fin n) (Fin m)) (agents : List (Fin n)) (inA : Fin n → Bool) (inG : Fin m → Bool)
+    (d : Fin n) (l : Nat) :
+    Nat → (Fin n → Option (Fin m)) → List (Fin n) → Nat → Timed (Result (Fin n) (Fin m))
   | 0, Y, up, k => pure ⟨d, [], Y, up, k⟩
   | fuel + 1, Y, up, k => do
     let o ← stepC P agents inA inG d l Y up
@@ -108,7 +117,8 @@ def loopC (P : Profile (Fin n) (Fin m)) (agents : List (Fin n)) (inA : Fin n →
       loopC P agents inA inG d l fuel Y' up' (k + 1)
 
 theorem loopC_val (P : Profile (Fin n) (Fin m)) {agents : List (Fin n)} {inA : Fin n → Bool} {inG : Fin m → Bool}
-    {goods : List (Fin m)} (d : Fin n) (hA : ∀ k, inA k = agents.contains k) (hG : ∀ g, inG g = decide (g ∈ goods)) :
+    {goods : List (Fin m)} (d : Fin n) (hA : ∀ k, inA k = agents.contains k)
+    (hG : ∀ g, inG g = decide (g ∈ goods)) :
     ∀ (fuel : Nat) (Y : Fin n → Option (Fin m)) (up : List (Fin n)) (k : Nat),
       (loopC P agents inA inG d agents.length fuel Y up k).val = loop P agents goods d fuel Y up k
   | 0, _, _, _ => rfl
@@ -211,7 +221,8 @@ theorem completeC_val (P : Profile (Fin n) (Fin m)) {agents : List (Fin n)} {inA
 /-! ## The core stage -/
 
 /-- Agent `i`'s ranking: its relevant remaining goods, sorted. -/
-def profEntryC (v : Fin n → Fin m → Nat) (rel : Fin n → List (Fin m)) (inG : Fin m → Bool) (g0 : Fin m) (i : Fin n) :
+def profEntryC (v : Fin n → Fin m → Nat) (rel : Fin n → List (Fin m)) (inG : Fin m → Bool) (g0 : Fin m)
+    (i : Fin n) :
     Timed (Fin m × Fin m × Fin m) := do
   let R ← rd rel i
   let R' ← filterC (rd inG) R
@@ -223,9 +234,10 @@ def profC (v : Fin n → Fin m → Nat) (rel : Fin n → List (Fin m)) (inG : Fi
   let t ← mkTable n (profEntryC v rel inG g0)
   pure ⟨fun i => (t i).1, fun i => (t i).2.1, fun i => (t i).2.2⟩
 
-theorem profC_val (v : Fin n → Fin m → Nat) {rel : Fin n → List (Fin m)} {inG : Fin m → Bool} {goods : List (Fin m)}
-    (g0 : Fin m) (hrel : ∀ i, rel i = relevant v i (List.finRange m)) (hinG : ∀ g, inG g = decide (g ∈ goods))
-    (hsub : goods.Sublist (List.finRange m)) : (profC v rel inG g0).val = K3.profileOf v goods g0 := by
+theorem profC_val (v : Fin n → Fin m → Nat) {rel : Fin n → List (Fin m)} {inG : Fin m → Bool}
+    {goods : List (Fin m)} (g0 : Fin m) (hrel : ∀ i, rel i = relevant v i (List.finRange m))
+    (hinG : ∀ g, inG g = decide (g ∈ goods)) (hsub : goods.Sublist (List.finRange m)) :
+    (profC v rel inG g0).val = K3.profileOf v goods g0 := by
   have hR : ∀ i, (rel i).filter (fun g => inG g) = relevant v i goods := fun i => by
     rw [hrel i, ← relevant_filter v i hsub]
     exact List.filter_congr fun g _ => hinG g

@@ -9,14 +9,19 @@ import EFX.K3Cost
 (in the cost monad `EFX.Timed`) whose value is `EFX.DE.deSpec` (`EFX.DE.de_eq_spec`), and a bound
 `O((n + 1)(n + m + 1))` on its counted operations (`EFX.DE.deC_cost`).
 
-**The cost model.** The units of `EFX.Timed` and `EFX.K3CostLB` (one list cell visited, one comparison, one
-read of a table or of an input value `v i g`, one arithmetic operation; `EFX.Timed.mkTable` fills an array of
-`k` entries at the cost of its entries plus `k`), and one new kind of unit, introduced here:
+**The cost model.** The units of `EFX.Timed` and `EFX.K3CostLB`: one step of a loop (a list cell visited, or one
+round of a walk such as `σ ↦ σ(w)`), one comparison of two agents, goods or numbers, one addition (values or
+counters), one read of a table or of an input value `v i g`; `EFX.Timed.mkTable` fills an array of `k` entries at
+the cost of its entries plus `k`, and `K3.finRangeC k` costs `k`. As there, building a pair, an `Option` or a list
+cell, pattern matching, and Boolean connectives are free, and straight-line code is charged by one `tick`. One new
+kind of unit is introduced here:
 - **an array write** (`wr`): an array is represented by its read function `α → β` (with `α = Fin k` in the
-  programs); writing one entry costs one unit, as in the RAM model. A read (`rd`) costs one unit, as before.
+  programs); writing one entry costs one unit, as in the RAM model. A read (`rd`) costs one unit, as before. An
+  entry may hold a list (a pointer): prepending to it is one write.
   The programs use every array single-threaded: once an entry is overwritten, the old version of the array is
-  never read again (a fresh array, `constT` or `mkTable`, is made whenever an old version is still needed), so a
-  RAM implementation updates the array in place.
+  never read again (a fresh array, `constT` or `mkTable`, is made whenever an old version is still needed: the
+  draft copies the array of remaining goods, the exchange writes the new holdings into a new table), so a RAM
+  implementation updates the array in place. The value lemmas do not depend on this; the cost model does.
 
 **Contents.**
 - `rd`, `wr`, `constT` (a new array with one value, `k` units), and loops over lists that write into arrays:
@@ -124,7 +129,8 @@ theorem putC_val [DecidableEq κ] (x : α) : ∀ (ks : List κ) (T : κ → Opti
       · subst hk; simp [hT]
       · simp [hk]
 
-theorem putC_cost [DecidableEq κ] (x : α) : ∀ (ks : List κ) (T : κ → Option α), (putC x ks T).cost ≤ 3 * ks.length
+theorem putC_cost [DecidableEq κ] (x : α) :
+    ∀ (ks : List κ) (T : κ → Option α), (putC x ks T).cost ≤ 3 * ks.length
   | [], T => by simp [putC]
   | k :: ks, T => by
     have h1 := putC_cost x ks T
@@ -139,7 +145,8 @@ theorem putC_cost [DecidableEq κ] (x : α) : ∀ (ks : List κ) (T : κ → Opt
 
 /-- **First-wins scatter.** Each element `x` of `l`, in order, takes the keys `keys x` that have no element yet:
 afterwards a key holds the first element of `l` that lists it. -/
-def scatterC [DecidableEq κ] (keys : α → Timed (List κ)) : List α → (κ → Option α) → Timed (κ → Option α)
+def scatterC [DecidableEq κ] (keys : α → Timed (List κ)) :
+    List α → (κ → Option α) → Timed (κ → Option α)
   | [], T => pure T
   | x :: l, T => do
     tick 1
@@ -157,7 +164,8 @@ theorem scatterC_val [DecidableEq κ] (keys : α → Timed (List κ)) : ∀ (l :
     rw [Option.or_assoc, List.find?_cons]
     by_cases h : k ∈ (keys x).val <;> simp [h]
 
-theorem scatterC_cost [DecidableEq κ] (keys : α → Timed (List κ)) (B : Nat) : ∀ (l : List α) (T : κ → Option α),
+theorem scatterC_cost [DecidableEq κ] (keys : α → Timed (List κ)) (B : Nat) :
+    ∀ (l : List α) (T : κ → Option α),
     (∀ x ∈ l, (keys x).cost + 3 * (keys x).val.length ≤ B) → (scatterC keys l T).cost ≤ l.length * (B + 1)
   | [], T, _ => by simp [scatterC]
   | x :: l, T, h => by
@@ -359,7 +367,8 @@ theorem r1C_val (v : Fin n → Fin m → Nat) (rel : Fin n → List (Fin m)) (in
   | some p => simp <;> rfl
 
 /-- `EFX.K3.findR1` from the relevant goods: the first agent to which rule R1 applies. -/
-def findR1F (v : Fin n → Fin m → Nat) (rel : Fin n → List (Fin m)) (inG : Fin m → Bool) (agents : List (Fin n)) :
+def findR1F (v : Fin n → Fin m → Nat) (rel : Fin n → List (Fin m)) (inG : Fin m → Bool)
+    (agents : List (Fin n)) :
     Timed (Option (Fin n × Option (Fin m))) :=
   findSomeC (fun i => do
     let s ← r1C v rel inG i

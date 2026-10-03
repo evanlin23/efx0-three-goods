@@ -23,7 +23,23 @@ array, cleared afterwards) and its length.
 free agent's image by scanning its exposed agents; `sigExC`, `sigPairC` tabulate `σ`. `cycleC` is `cycleStep`:
 `σⁿ(s)` by `n` reads, the period by walking until the first return (`searchC`, as `period`), the orbit marked in a
 new array (`onLoopC`), the predecessor `σ^(per−1)` on the orbit by writing `pred (σ w) := w` along the orbit
-(`predLoopC`; the orbit's points are distinct, `iter_ne_of_first`), and the new state by one table and one filter.
+(`predLoopC`; the orbit's points are distinct, `period_facts`, so `pred_orbit`), and the new state by one table and
+one filter (`cycleC_val`).
+
+**Results.** `stepC_val`: `stepC` computes `step` on every state (valid or not), given arrays marking the agents and
+the goods. Also `tabsC_val`, `expB_eq`/`filter_expB`/`Hset_eq` (exposure under (P)), `cycleC_val`, `repsC_val`,
+`freeLoopC_free`. The cost of a step is bounded in `EFX.K3DECostBound` (`stepC_cost`).
+
+**Choices.**
+1. Every table reproduces the specification's function exactly, on all agents and goods: a key receives the
+   *first* element of the list that lists it (`scatterC`, as `List.find?` in `picker`, `upOf`, `outNb`), the
+   representatives' table keeps the first representative (`repOf`), and the slots of the completion keep the first
+   agent (`fill`). So no invariant of the loop is needed for the value, only for the cost.
+2. The specification evaluates `H_o` only after the test for (P), so the exposed agents are computed under (P)
+   (`expL`, from the lists `xsS`), where each agent holding only its top is a candidate for at most one good.
+3. `EFX.DE.dd` keeps the last occurrence of each good; `ddC` walks the list from its end with a mark array.
+4. The period is the first return to `p` within `n` steps, else `1` (as `period`); with `per = 1` and no return,
+   the predecessor of `p` is `p` itself (`σ⁰`), which `pred p := σ^(per−1)(p)` covers.
 -/
 
 set_option autoImplicit false
@@ -417,7 +433,8 @@ theorem predLoopC_spec (σ : Fin n → Fin n) (p : Fin n) : ∀ (k j0 : Nat) (T 
     (∀ a b, j0 + 1 ≤ a → a < b → b ≤ j0 + k → iter σ a p ≠ iter σ b p) →
     (predLoopC σ k (iter σ j0 p) T).val.2 = iter σ (j0 + k) p ∧
     (∀ j, j0 ≤ j → j < j0 + k → (predLoopC σ k (iter σ j0 p) T).val.1 (iter σ (j + 1) p) = iter σ j p) ∧
-    (∀ x, (∀ j, j0 ≤ j → j < j0 + k → iter σ (j + 1) p ≠ x) → (predLoopC σ k (iter σ j0 p) T).val.1 x = T x)
+    (∀ x, (∀ j, j0 ≤ j → j < j0 + k → iter σ (j + 1) p ≠ x) →
+      (predLoopC σ k (iter σ j0 p) T).val.1 x = T x)
   | 0, j0, T, _ => by
     refine ⟨rfl, fun j h1 h2 => by omega, fun x _ => rfl⟩
   | k + 1, j0, T, hD => by
@@ -676,7 +693,8 @@ theorem ELC_val (P : Profile (Fin n) (Fin m)) (agents : List (Fin n)) (goods : L
   cases Y o <;> simp [neC]
 
 /-- **For each free agent**: its exposed agents, `H_o` (with the mark array, cleared afterwards) and `|H_o|`. -/
-def freeLoopC (tb : Tabs n m) (P : Profile (Fin n) (Fin m)) (Y : Fin n → Option (Fin m)) (Xs : Fin m → List (Fin n)) :
+def freeLoopC (tb : Tabs n m) (P : Profile (Fin n) (Fin m)) (Y : Fin n → Option (Fin m))
+    (Xs : Fin m → List (Fin n)) :
     List (Fin n) → (Fin m → Bool) → (Fin n → List (Fin n)) → (Fin n → List (Fin m) × Nat) →
       Timed ((Fin n → List (Fin n)) × (Fin n → List (Fin m) × Nat) × (Fin m → Bool))
   | [], M, EL, HS => pure (EL, HS, M)
@@ -692,7 +710,8 @@ def freeLoopC (tb : Tabs n m) (P : Profile (Fin n) (Fin m)) (Y : Fin n → Optio
     freeLoopC tb P Y Xs os M' EL' HS'
 
 theorem freeLoopC_val (tb : Tabs n m) (P : Profile (Fin n) (Fin m)) (Y : Fin n → Option (Fin m))
-    (Xs : Fin m → List (Fin n)) : ∀ (os : List (Fin n)) (EL : Fin n → List (Fin n)) (HS : Fin n → List (Fin m) × Nat),
+    (Xs : Fin m → List (Fin n)) :
+    ∀ (os : List (Fin n)) (EL : Fin n → List (Fin n)) (HS : Fin n → List (Fin m) × Nat),
     (freeLoopC tb P Y Xs os (fun _ => false) EL HS).val =
       (fun x => if x ∈ os then (ELC Xs Y x).val else EL x,
        fun x => if x ∈ os then (dd (((ELC Xs Y x).val).map (fun y => (hOfC tb P y).val)),
@@ -783,7 +802,8 @@ def sigOneC (tb : Tabs n m) (P : Profile (Fin n) (Fin m)) (EL : Fin n → List (
     pure (f.getD o)
 
 /-- **`σ` on the free agents** (case 5), written into `S`. -/
-def sigLoopC (tb : Tabs n m) (P : Profile (Fin n) (Fin m)) (EL : Fin n → List (Fin n)) (R : Fin n → Option (Fin m)) :
+def sigLoopC (tb : Tabs n m) (P : Profile (Fin n) (Fin m)) (EL : Fin n → List (Fin n))
+    (R : Fin n → Option (Fin m)) :
     List (Fin n) → (Fin n → Fin n) → Timed (Fin n → Fin n)
   | [], S => pure S
   | o :: os, S => do
@@ -1018,7 +1038,8 @@ theorem freeLoopC_free (P : Profile (Fin n) (Fin m)) {agents : List (Fin n)} {go
       simp [this, h']
 
 theorem and_if_len {G : Type} (b : Bool) (H : List G) (k : Nat) :
-    (b && decide ((if b = true then (H, H.length) else (([] : List G), 0)).2 + 1 ≤ k)) = (b && decide (H.length + 1 ≤ k)) := by
+    (b && decide ((if b = true then (H, H.length) else (([] : List G), 0)).2 + 1 ≤ k)) =
+      (b && decide (H.length + 1 ≤ k)) := by
   cases b <;> simp
 
 theorem forcedC_val (tb : Tabs n m) (HS : Fin n → List (Fin m) × Nat) (lF : Nat) (o : Fin n) :
@@ -1054,7 +1075,8 @@ theorem stepC_val (P : Profile (Fin n) (Fin m)) {agents : List (Fin n)} {inA : F
         rw [freeLoopC_free P hx]
         simp only [findC_val, forcedC_val, specTabs_free, and_if_len]
         cases hfo : List.find? (fun o => freeB P agents up Y o &&
-            decide ((Hset P agents up Y goods o).length + 1 ≤ (List.filter (freeB P agents up Y) agents).length)) agents with
+            decide ((Hset P agents up Y goods o).length + 1 ≤ (List.filter (freeB P agents up Y) agents).length))
+            agents with
         | some o =>
           have hfree : freeB P agents up Y o = true := by
             have := List.find?_some hfo
