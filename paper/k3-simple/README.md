@@ -40,10 +40,11 @@ proof (the Improvement Lemma, soundness in the form used, DE with at most 4n exc
 instances with at most three relevant goods per agent) is a written proof that is also machine-checked in Lean
 (`lean/EFX/K3DE.lean`, `K3DEImprove.lean`, `K3DEAlgo.lean`, `K3DEExamples.lean`; ledger row K3S.PO.LEAN), and so
 are the paper's other results: the lemmas of §3, Lemma cases of safety and Proposition limits of the shape,
-Proposition short moves with its instances, the worked example's facts, the ring family (every k and depth; this
+Proposition short moves with its instances, the worked example's facts, Example EFX-but-not-EFX₀ and the remark on
+protecting goods, the ring family (every k and depth; this
 corrected the paper's remark, which lacked the condition k ≤ 2^d for "no free agent absorbs"), at most n peeling
 rounds, and DE on ordered values such as ℝ≥0 (`lean/EFX/K3DEPrelim.lean`, `K3DELimits.lean`, `K3DEShort.lean`,
-`K3DEShortExamples.lean`, `K3DERings.lean`, `K3DEReal.lean`; ledger rows K3S.PRELIM.LEAN, K3S.LIMITS, K3S.SHORT,
+`K3DEShortExamples.lean`, `K3DERings.lean`, `K3DEReal.lean`, `K3DERemarks.lean`; ledger rows K3S.PRELIM.LEAN, K3S.LIMITS, K3S.SHORT,
 K3S.EX.LEAN, K3S.RINGS, K3S.REAL.LEAN). Not formalized: the running time and the rainbow-walk proof. The formal
 statements were written by AI assistant sessions; an independent AI referee session compared those of row
 K3S.PO.LEAN with the paper and found no mismatch (`k3/simplify/po/referee/lean_audit.md`). The written proof was derived independently twice

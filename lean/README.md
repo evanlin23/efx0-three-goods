@@ -27,7 +27,7 @@ showed that a declaration added under `set_option debug.skipKernelTC true` is ne
 without warnings and has no axioms for `#print axioms` or `CheckAxioms.lean` to report; the tripwire refuses the
 option and the replay checker rejects such a declaration. On success the last line is
 
-    CHECK PASSED: 803 audited statements, 1776 theorems, standard axioms only
+    CHECK PASSED: 820 audited statements, 1794 theorems, standard axioms only
 
 CI runs it on every pull request (job `lean` in `.github/workflows/verify.yml`). In Claude Code on the web the
 session-start hook installs the toolchain (from GitHub when `release.lean-lang.org` is unreachable).
@@ -395,7 +395,7 @@ specializations) have exactly the types of `EFX.target`, `EFX.LB.corollaryD` (ch
   - `K3DEExamples`: by `decide`, DE on the paper's worked example (one exchange with two exposure arcs; the paper's
     output) and on three small instances (protecting goods, two pair chains, peeling).
 - `EFX/K3DEPrelim.lean`, `EFX/K3DELimits.lean`, `EFX/K3DEShort.lean`, `EFX/K3DEShortExamples.lean`,
-  `EFX/K3DERings.lean`, `EFX/K3DEReal.lean`: the rest of `paper/k3-simple/` (ledger K3S.PRELIM.LEAN, K3S.LIMITS,
+  `EFX/K3DERings.lean`, `EFX/K3DEReal.lean`, `EFX/K3DERemarks.lean`: the rest of `paper/k3-simple/` (ledger K3S.PRELIM.LEAN, K3S.LIMITS,
   K3S.SHORT, K3S.EX.LEAN, K3S.RINGS, K3S.REAL.LEAN).
   - `K3DEPrelim`: threats and safety (`EFX.DE.efx0L_iff_safe`), Lemmas threats and safety, Lemma peeling in the
     paper's form (`EFX.DE.peeling`), Lemma R1fail (`EFX.DE.R1fail`).
@@ -409,6 +409,10 @@ specializations) have exactly the types of `EFX.target`, `EFX.LB.corollaryD` (ch
     arcs (`EFX.DE.Rings.nExp_eq`), and no free agent absorbs iff k ≤ 2^d (`no_free_absorber_iff`).
   - `K3DEReal`: DE on ordered values through L12's surrogate (`EFX.DE.deOrd_correct`), existence with the shape for
     ordered values (`EFX.DE.thmD_ordered`), and at most n peeling rounds (`EFX.DE.de_correct`).
+  - `K3DERemarks`: Example EFX-but-not-EFX₀ (`EFX.DE.Remarks.efx_not_efx0`), the remark that the protecting goods
+    cannot be dropped (`pg_undominated`, `pg_only_g2`), and the worked example's remaining numbers (every cycle of
+    D⁺ has two exposure arcs, `w_cycles`; DE's step, the totals 14 and 20, the completion: `w_step`, `w_totals`,
+    `w_after`).
 - `EFX/K3Real.lean`: K3ALG on values in any `EFX.OrderedValue` type in the comparison model (ledger K3.ALG.REAL;
   `proofs/k3_algorithm.md` §3; the paper's Corollary "real values"). The program receives a comparison oracle
   `le : V → V → Bool` and inspects the values only through it (plus unit-cost addition of two of one agent's values; for agents with one or two relevant goods some compared sums count a good twice); the theorems assume `le x y = true ↔ x ≤ y`. It computes
@@ -545,7 +549,7 @@ name in the ledger's Lean column has one.
 | K3S.PRELIM.LEAN | Threats and safety (EFX₀ iff every agent is safe); Lemma threats (a)–(c); Lemma safety (a), (b); Lemma peeling (P of at most one good); Lemma R1fail | K3DEPrelim : `EFX.DE.efx0L_iff_safe`, `EFX.DE.threat_pair`, `EFX.DE.safe_of_pair`, `EFX.DE.safe_of_gy`, `EFX.DE.peeling`, `EFX.DE.R1fail` |
 | K3S.LIMITS | Lemma cases of safety; Proposition limits of the shape (a), (b) for every valuation with distinct, strictly balanced values (natural numbers and ordered values) | K3DELimits : `EFX.DE.Limits.safe_iff_cases`, `EFX.DE.Limits.limits_a`, `EFX.DE.Limits.limits_b`, `EFX.DE.Limits.limits_a_ordered`, `EFX.DE.Limits.limits_b_ordered` |
 | K3S.SHORT | Proposition short moves: without a short move, at least 2 free agents, n ≥ 6, m ≥ 8 (n ≥ 9, m ≥ 12 with 3); both bounds attained | K3DEShort : `EFX.DE.prop_short`, `EFX.DE.short_counts`; K3DEShortExamples : `EFX.DE.ShortExamples.w_attains`, `EFX.DE.ShortExamples.s8_attains`, `EFX.DE.ShortExamples.s8_remark` |
-| K3S.EX.LEAN | The worked example: exactly four dominating valid states; all ten candidate completions fail EFX₀ | K3DEShortExamples : `EFX.DE.ShortExamples.w_facts`, `EFX.DE.ShortExamples.w_exactly_four`, `EFX.DE.ShortExamples.w_completions` |
+| K3S.EX.LEAN | The worked example: exactly four dominating valid states; all ten candidate completions fail EFX₀; every cycle of D⁺ has two exposure arcs; DE's step and the completion; Example EFX-but-not-EFX₀; the protecting goods cannot be dropped | K3DEShortExamples : `EFX.DE.ShortExamples.w_facts`, `EFX.DE.ShortExamples.w_exactly_four`, `EFX.DE.ShortExamples.w_completions`; K3DERemarks : `EFX.DE.Remarks.w_cycles`, `EFX.DE.Remarks.w_after`, `EFX.DE.Remarks.efx_not_efx0`, `EFX.DE.Remarks.pg_undominated`, `EFX.DE.Remarks.pg_only_g2` |
 | K3S.RINGS | The ring family: every cycle of D⁺ uses exactly k exposure arcs; no free agent absorbs iff k ≤ 2^d | K3DERings : `EFX.DE.Rings.gen_tree_ring`, `EFX.DE.Rings.nExp_eq`, `EFX.DE.Rings.no_free_absorber_iff` |
 | K3S.REAL.LEAN | DE on ordered values (comparison model through L12's surrogate); existence with the shape for ordered values; at most n peeling rounds | K3DEReal : `EFX.DE.deOrd_correct`, `EFX.DE.thmD_ordered`, `EFX.DE.de_correct`, `EFX.DE.peels_le` |
 | K3.OWNER | Proposition O: `r` is a valid owner (some `H` fits) exactly when `hitSet` fits, so LB⁺'s owner test needs no minimum hitting set | OwnerR : `EFX.LB.validOwner_iff` |
