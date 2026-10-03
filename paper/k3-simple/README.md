@@ -46,7 +46,8 @@ machine-checked in Lean, except the rainbow-walk second proof of the Improvement
   counted operations, array reads and writes one unit each).
 
 The formal statements were written by AI assistant sessions; independent AI referee sessions compared them with the
-papers and found no mismatch (`k3/simplify/po/referee/lean_audit.md`, `lean_audit2.md`). The written
+papers and found no mismatch (`k3/simplify/po/referee/lean_audit.md`, `lean_audit2.md`, `lean_audit3.md`; their minor
+findings are resolved). The written
 proof was derived independently twice (`k3/simplify/po/hall/NOTES.md`, `k3/simplify/po/potential/NOTES.md`), refereed
 once with no error (`k3/simplify/po/referee/README.md`; its four presentation fixes are applied), and checked by
 computer on millions of states. The provers and the referee were AI agents: separate sessions of the coding assistant

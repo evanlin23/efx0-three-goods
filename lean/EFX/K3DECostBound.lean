@@ -4,9 +4,9 @@ import EFX.K3CostBound
 /-!
 # The running time of Draft and Exchange, part 4: `O(n(n + m))` operations
 
-`paper/k3-simple/long.tex` §6, paragraph "Running time": "each iteration of the loop takes `O(n + m)` steps …,
-peeling takes `O(n)` steps per round once the relevant goods of each agent are known, so DE runs in `O(n(n + m))`
-steps after reading the input. We have not formalized this count." This file formalizes it for the counted program
+`paper/k3-simple/long.tex` §6.2, paragraph "Running time": "an iteration takes `O(n + m)` steps, and so does a
+round of peeling once the relevant goods of each agent are known … So DE runs in `O(n(n + m))` steps, reading the
+input included. This count is machine-checked in Lean". This file proves it for the counted program
 `EFX.DE.deC` (`EFX.K3DECostRun`, whose value is `deSpec`: `EFX.DE.de_eq_spec`). The units are those of
 `EFX.K3DECost` (list cells, comparisons, arithmetic, table and input reads, and array writes, one unit each; a new
 array of `k` entries costs `k`).
@@ -17,7 +17,8 @@ array of `k` entries costs `k`).
   (`deC_cost_poly`) at most `730 n² + 48 nm + 326 n + 29 m + 10`, **reading the input included** (the `O(nm)` term
   is the computation of each agent's relevant goods, one value read and one comparison per pair).
 - `stepC_cost`: one iteration of the loop costs at most `175 n + 11 m + 7` when the picks are distinct and at most
-  `n` agents hold pairs; `loopC_cost`: the loop's `4n + 1` rounds at most; `coreC_cost`: the core stage;
+  `n` agents hold pairs; `loopC_cost`: the loop's `4n + 1` rounds at most, `175 n + 11 m + 8` each (one unit for the
+  exchange counter); `coreC_cost`: the core stage;
   `peelC_cost`: each round of peeling costs at most `30 n + m + 3`.
 
 **Where the terms come from** (`a = |agents| ≤ n`, `u = |up| ≤ n`).
