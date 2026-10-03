@@ -60,3 +60,6 @@ import EFX.K3DEExamples
 import EFX.K3DEReal
 import EFX.K3DEShort
 import EFX.K3DEShortExamples
+import EFX.K3DEPrelim
+import EFX.K3DELimits
+import EFX.K3DERings
