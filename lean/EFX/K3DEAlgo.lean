@@ -11,8 +11,10 @@ Algorithm DE of `paper/k3-simple/long.tex` §6, as a computable function, and Th
 2. **The core** (`deStage`): when R1 applies to nobody, every remaining agent values exactly three goods and is
    strictly balanced (`EFX.not_R1`); its ranking is computed by sorting (`EFX.K3.profileOf`). The draft is
    serial dictatorship in the order of `agents` (`EFX.LB.phase1`, a valid state: `draft_valid`). Then `loop` repeats
-   `step` (need cycles, pair chains and exchange cycles) until it stops with a valid absorber `o` and its set `H`,
-   and the completion `completeDE` gives each good of `H` to a different free agent and the rest of the junk to `o`.
+   `step`, the loop's three steps (*chain*: a pair chain if (P) fails; *finish*: stop if every agent is a pair holder
+   or some free agent passes the count `|H_o| ≤ |F| − 1`; *ring*: an exchange cycle, or a need cycle), until it stops
+   with a valid absorber `o` and its set `H`, and the completion `completeDE` gives each good of `H` to a different
+   free agent and the rest of the junk to `o`.
 
 **Results.**
 - `draft_valid` (**Lemma draft**): the draft is a valid state with no pair holder.

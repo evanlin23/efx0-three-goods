@@ -27,7 +27,7 @@ showed that a declaration added under `set_option debug.skipKernelTC true` is ne
 without warnings and has no axioms for `#print axioms` or `CheckAxioms.lean` to report; the tripwire refuses the
 option and the replay checker rejects such a declaration. On success the last line is
 
-    CHECK PASSED: 857 audited statements, 1919 theorems, standard axioms only
+    CHECK PASSED: 862 audited statements, 1924 theorems, standard axioms only
 
 CI runs it on every pull request (job `lean` in `.github/workflows/verify.yml`). In Claude Code on the web the
 session-start hook installs the toolchain (from GitHub when `release.lean-lang.org` is unreachable).
@@ -384,10 +384,11 @@ specializations) have exactly the types of `EFX.target`, `EFX.LB.corollaryD` (ch
     different free agents, the rest of the junk to the absorber) and soundness (`EFX.DE.soundness`, through Theorem 1′),
     Lemma transfer (`EFX.DE.transfer`), and one exchange lemma for need cycles, pair chains and exchange cycles
     (`EFX.DE.exchange`).
-  - `K3DEImprove`: the computable step of DE (`EFX.DE.step`: pair chain if (P) fails; all pair holders, an empty free
-    agent, or `|H_o| ≤ |F| − 1` stop; otherwise the exchange cycle of σ built from greedy distinct representatives),
-    Lemmas empty and forced (`EFX.DE.absorber_iff`), and the **Improvement Lemma** (`EFX.DE.improvement`) with its
-    Corollary (`EFX.DE.completable_of_undominated`).
+  - `K3DEImprove`: the computable step of DE (`EFX.DE.step`, the loop's three steps: *chain*, a pair chain if (P)
+    fails; *finish*, stop if every agent is a pair holder or with the first free agent `o` with `|H_o| ≤ |F| − 1`,
+    which covers a free agent holding nothing, `EFX.DE.count_of_none`; *ring*, otherwise the exchange cycle of σ built
+    from greedy distinct representatives), Lemmas empty and forced (`EFX.DE.absorber_iff`), and the **Improvement
+    Lemma** (`EFX.DE.improvement`) with its Corollary (`EFX.DE.completable_of_undominated`).
   - `K3DEAlgo`: the draft is valid (`EFX.DE.draft_valid`), the loop ends at a valid absorber after at most `4n`
     exchanges (`EFX.DE.loop_spec`), and DE with R1 peeling (`EFX.DE.run`, `EFX.DE.deSpec`) returns an EFX₀ allocation
     with at most one bundle of more than two goods on every instance with at most three relevant goods per agent
@@ -547,8 +548,8 @@ name in the ledger's Lean column has one.
 | K3.ALG.TIME | Running time: `(algoC I hn).cost ≤ 400 (n + m + 1)⁴` for every instance with `n ≥ 1` (cost model of `proofs/k3_algorithm.md` §6 and `EFX.K3CostLB`) | K3CostBound : `EFX.K3.algoC_cost`, `EFX.K3.algoC_cost'` (`≤ 6400 (n + m)⁴`), `EFX.K3.lbPlusC_cost`, `EFX.K3.reduceC_cost`; Timed : `EFX.Timed.mkTable_cost` |
 | K3.ALG.REAL | K3ALG on ordered values (e.g. ℝ≥0) in the comparison model: with a correct comparison oracle, computing L12's surrogate takes `n (m + 12)` oracle calls and `O(nm)` other operations, and K3ALG on it is EFX₀ for the original values when every agent has at most three relevant goods | K3Real : `EFX.K3.algoOrd_efx0`, `EFX.K3.algoOrd_eq`, `EFX.K3.agree_surrogate`, `EFX.K3.numRelevant_eq_relOf`, `EFX.K3.repOf_spec`, `EFX.K3.surrogateC_cost`, `EFX.K3.algoOrdC_cost`, `EFX.K3.Examples.peelOwnerZ_algoOrd` |
 | K3.ALG.FINE | The finer count: `(algoC I hn).cost ≤ n⁴ + 20n³ + 25n²m + 124n² + 47nm + 119n + 22m + 3` for every instance with `n ≥ 1`, hence `O(n⁴ + n²m)` | K3CostFine : `EFX.K3.algoC_cost_fine`, `EFX.K3.algoC_cost_fine'`, `EFX.K3.algoC_cost_fine''`, `EFX.K3.lbPlusC_cost_fine`, `EFX.K3.reduceC_cost_fine`, `EFX.K3.lbUpC_cost_fine`, `EFX.K3.algoOrdC_cost_fine` |
-| K3S.PO.LEAN | The Improvement Lemma: a valid state in which no free agent is a valid absorber and some agent is not a pair holder is Pareto-dominated by a valid state (a need cycle, a pair chain or an exchange cycle; computed by `step`); every undominated valid state has a valid absorber, free unless every agent holds its pair | K3DEImprove : `EFX.DE.improvement`, `EFX.DE.completable_of_undominated`, `EFX.DE.step_stop`, `EFX.DE.step_next`, `EFX.DE.step_next_cycle`, `EFX.DE.cycleStep_cycle`, `EFX.DE.succ_pair`, `EFX.DE.succ_exchange`, `EFX.DE.cycleStep_spec`, `EFX.DE.reps_spec` |
-| K3S.PO.LEAN | Lemmas transfer, exchange cycle, empty and forced; soundness of the completion (EFX₀ for every consistent valuation, only the absorber's bundle larger than two goods) | K3DE : `EFX.DE.transfer`, `EFX.DE.exchange`, `EFX.DE.completeDE_completion`, `EFX.DE.soundness`; K3DEImprove : `EFX.DE.absorber_empty`, `EFX.DE.forced_hOf`, `EFX.DE.absorber_forced`, `EFX.DE.absorber_iff` |
+| K3S.PO.LEAN | The Improvement Lemma: a valid state in which no free agent is a valid absorber and some agent is not a pair holder is Pareto-dominated by a valid state (a need cycle, a pair chain or an exchange cycle; computed by `step`); every undominated valid state has a valid absorber, free unless every agent holds its pair | K3DEImprove : `EFX.DE.improvement`, `EFX.DE.completable_of_undominated`, `EFX.DE.step_stop`, `EFX.DE.step_stop_of_none`, `EFX.DE.step_next`, `EFX.DE.step_next_cycle`, `EFX.DE.cycleStep_cycle`, `EFX.DE.succ_pair`, `EFX.DE.succ_exchange`, `EFX.DE.cycleStep_spec`, `EFX.DE.reps_spec` |
+| K3S.PO.LEAN | Lemmas transfer, exchange cycle, empty and forced (a free agent holding nothing has `H_o = ∅` and passes the count of Lemma forced); soundness of the completion (EFX₀ for every consistent valuation, only the absorber's bundle larger than two goods) | K3DE : `EFX.DE.transfer`, `EFX.DE.exchange`, `EFX.DE.completeDE_completion`, `EFX.DE.soundness`; K3DEImprove : `EFX.DE.absorber_empty`, `EFX.DE.forced_hOf`, `EFX.DE.absorber_forced`, `EFX.DE.absorber_iff`, `EFX.DE.Hset_eq_nil`, `EFX.DE.count_of_none`, `EFX.DE.holds_of_count` |
 | K3S.PO.LEAN | Algorithm DE is correct: on every instance with at most three relevant goods per agent it returns an EFX₀ allocation with all bundles but at most one of at most two goods, after at most `4n` exchanges; the paper's worked example | K3DEAlgo : `EFX.DE.draft_valid`, `EFX.DE.loop_spec`, `EFX.DE.deCore_spec`, `EFX.DE.deStage_sound`, `EFX.DE.run_sound`, `EFX.DE.deSpec_correct`; K3DEExamples : `EFX.DE.Examples.worked_spec` |
 | K3S.PRELIM.LEAN | Threats and safety (EFX₀ iff every agent is safe); Lemma threats (a)–(c); Lemma safety (a), (b); Lemma peeling (P of at most one good); Lemma R1fail | K3DEPrelim : `EFX.DE.efx0L_iff_safe`, `EFX.DE.threat_pair`, `EFX.DE.safe_of_pair`, `EFX.DE.safe_of_gy`, `EFX.DE.peeling`, `EFX.DE.R1fail` |
 | K3S.LIMITS | Lemma cases of safety; Proposition limits of the shape (a), (b) for every valuation with distinct, strictly balanced values (natural numbers and ordered values) | K3DELimits : `EFX.DE.Limits.safe_iff_cases`, `EFX.DE.Limits.limits_a`, `EFX.DE.Limits.limits_b`, `EFX.DE.Limits.limits_a_ordered`, `EFX.DE.Limits.limits_b_ordered` |
