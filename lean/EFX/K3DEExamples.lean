@@ -30,6 +30,10 @@ def worked : Inst := mkInst 6 10
   [[4, 0, 0, 0, 3, 0, 2, 0, 0, 0], [0, 4, 0, 0, 3, 0, 0, 2, 0, 0], [0, 0, 4, 0, 0, 3, 0, 0, 2, 0],
    [0, 0, 0, 4, 0, 3, 0, 0, 0, 2], [0, 0, 4, 3, 2, 0, 0, 0, 0, 0], [4, 3, 0, 0, 0, 2, 0, 0, 0, 0]]
 
+/-- The small example: agents `z, x, o` (0 to 2) rank `g₄ ≻ g₀ ≻ g₁`, `g₀ ≻ g₁ ≻ g₂` and `g₀ ≻ g₄ ≻ g₁`, with
+values 4, 3, 2; nobody values `g₃`. -/
+def small : Inst := mkInst 3 5 [[3, 2, 0, 0, 4], [4, 3, 2, 0, 0], [4, 2, 0, 0, 3]]
+
 /-- Rankings `g₀ ≻ g₁ ≻ g₂` and `g₁ ≻ g₀ ≻ g₂`. -/
 def twoAgents : Inst := mkInst 2 3 [[4, 3, 2], [3, 4, 2]]
 
@@ -40,6 +44,7 @@ def chains : Inst := mkInst 2 5 [[4, 3, 2, 0, 0], [4, 0, 0, 3, 2]]
 def peeled : Inst := mkInst 3 6 [[4, 3, 2, 0, 0, 0], [4, 0, 0, 3, 2, 0], [0, 0, 0, 0, 0, 7]]
 
 theorem worked_relevant : ∀ i, numRelevant worked i ≤ 3 := by decide
+theorem small_relevant : ∀ i, numRelevant small i ≤ 3 := by decide
 theorem twoAgents_relevant : ∀ i, numRelevant twoAgents i ≤ 3 := by decide
 theorem chains_relevant : ∀ i, numRelevant chains i ≤ 3 := by decide
 theorem peeled_relevant : ∀ i, numRelevant peeled i ≤ 3 := by decide
@@ -49,6 +54,13 @@ theorem peeled_relevant : ∀ i, numRelevant peeled i ≤ 3 := by decide
 theorem worked_spec :
     (List.finRange 10).map (fun g => (deSpec worked (by decide) g).val) = [5, 1, 4, 3, 0, 2, 0, 1, 2, 1] ∧
       deMoves worked (by decide) = 1 := by
+  decide
+
+/-- The small example: `X_z = {g₄, g₃}`, `X_x = {g₁, g₂}`, `X_o = {g₀}`, after one exchange (the ring `o → x → o`:
+`x` takes its pair `{g₁, g₂}`, `o` takes `g₀`; then `z` absorbs with `H = ∅`). -/
+theorem small_spec :
+    (List.finRange 5).map (fun g => (deSpec small (by decide) g).val) = [2, 1, 1, 0, 0] ∧
+      deMoves small (by decide) = 1 := by
   decide
 
 theorem twoAgents_spec :
@@ -73,6 +85,7 @@ end EFX
 /-! ## Axiom certificates (audited by `check.sh`) -/
 
 #print axioms EFX.DE.Examples.worked_spec
+#print axioms EFX.DE.Examples.small_spec
 #print axioms EFX.DE.Examples.twoAgents_spec
 #print axioms EFX.DE.Examples.chains_spec
 #print axioms EFX.DE.Examples.peeled_spec

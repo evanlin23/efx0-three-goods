@@ -322,15 +322,10 @@ theorem ELC_cost (Xs : Fin m → List (Fin n)) (Y : Fin n → Option (Fin m)) (o
     simp only [bind_cost, bind_val, rd_cost, rd_val, filterC_val]
     exact ⟨by omega, List.length_filter_le _ _⟩
 
-theorem ddC_length {α : Type} [DecidableEq α] :
-    ∀ (l : List α) (M : α → Bool), ((ddC l M).val.1).length ≤ l.length
-  | [], M => by simp [ddC]
-  | x :: l, M => by
-    have ih := ddC_length l M
-    simp only [ddC, bind_val, rd_val, List.length_cons]
-    by_cases hs : (ddC l M).val.2 x = true
-    · simp only [hs, ↓reduceIte, pure_val]; omega
-    · simp only [hs, Bool.false_eq_true, ↓reduceIte, bind_val, wr_val, pure_val, List.length_cons]; omega
+theorem ddC_length {α : Type} [DecidableEq α] (l : List α) (M : α → Bool) :
+    ((ddC l M).val.1).length ≤ l.length := by
+  rw [ddC_val_marks]
+  exact Nat.le_trans (List.length_filter_le _ _) (length_dd l)
 
 /-- The loop over the free agents costs `5` per agent plus `11` per candidate. -/
 theorem freeLoopC_cost (tb : Tabs n m) (P : Profile (Fin n) (Fin m)) (Y : Fin n → Option (Fin m))

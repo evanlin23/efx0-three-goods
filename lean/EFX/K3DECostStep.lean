@@ -38,7 +38,8 @@ the goods. Also `tabsC_val`, `expB_eq`/`filter_expB`/`Hset_eq` (exposure under (
    agent (`fill`). So no invariant of the loop is needed for the value, only for the cost.
 2. The specification evaluates `H_o` only after the test for (P), so the exposed agents are computed under (P)
    (`expL`, from the lists `xsS`), where each agent holding only its top is a candidate for at most one good.
-3. `EFX.DE.dd` keeps the last occurrence of each good; `ddC` walks the list from its end with a mark array.
+3. `EFX.DE.dd` keeps the first occurrence of each good (so `H_o` lists the goods in the order of their first exposed
+   agents, `EFX.DE.find?_Hset`); `ddC` walks the list from its start with a mark array.
 4. The period is the first return to `p` within `n` steps, else `1` (as `period`); with `per = 1` and no return,
    the predecessor of `p` is `p` itself (`σ⁰`), which `pred p := σ^(per−1)(p)` covers.
 -/

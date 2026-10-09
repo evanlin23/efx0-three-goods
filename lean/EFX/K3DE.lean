@@ -402,8 +402,69 @@ structure Cycle (P : Profile A G) (agents : List A) (goods : List G) (Y : A → 
     ∀ g ∈ junkList P agents up Y goods, (g = P.b (σ z) ∨ g = P.c (σ z)) → (g = P.b (σ z') ∨ g = P.c (σ z')) →
       False
 
-/-- **Lemma exchange cycle** (with need cycles and pair chains): the exchange along a `Cycle` is a valid state that
-Pareto-dominates the state; every agent of the cycle strictly gains. -/
+theorem mem_exchUp {onC : A → Bool} {π : A → A} (w : A) : w ∈ exchUp P agents up Y onC π ↔
+    w ∈ up ∨ (w ∈ agents ∧ onC w = true ∧ Free P agents up Y (π w)) := by
+  simp [exchUp, List.mem_filter, freeB_iff]
+
+theorem exchY_off {onC : A → Bool} {π : A → A} {w : A} (h : onC w = false) :
+    exchY P agents up Y onC π w = Y w := by
+  simp [exchY, h]
+
+theorem exchY_free {onC : A → Bool} {π : A → A} {w : A} (h : onC w = true) (hf : Free P agents up Y (π w)) :
+    exchY P agents up Y onC π w = some (P.b w) := by
+  simp [exchY, h, freeB_iff.mpr hf]
+
+theorem exchY_need {onC : A → Bool} {π : A → A} {w : A} (h : onC w = true) (hf : ¬ Free P agents up Y (π w)) :
+    exchY P agents up Y onC π w = Y (π w) := by
+  have : freeB P agents up Y (π w) = false := by
+    cases hb : freeB P agents up Y (π w) with
+    | false => rfl
+    | true => exact absurd (freeB_iff.mp hb) hf
+  simp [exchY, h, this]
+
+/-- **The scores of an exchange** (Lemma ring and Lemma chain, the scores): along a `Cycle`, every agent of the set
+`onC` gets a strictly higher utility, and every other agent the same utility. An agent whose predecessor is free goes
+from at most its top (`3`) to its pair (`4`); any other agent of the set receives its predecessor's good, which it
+needs. Only the structure of the cycle is used. -/
+theorem exchange_scores {onC : A → Bool} {σ π : A → A} (hC : Cycle P agents goods Y up onC σ π) :
+    (∀ w, onC w = true →
+      util P up Y w < util P (exchUp P agents up Y onC π) (exchY P agents up Y onC π) w) ∧
+    (∀ w, onC w = false →
+      util P (exchUp P agents up Y onC π) (exchY P agents up Y onC π) w = util P up Y w) := by
+  refine ⟨fun i hci => ?_, fun i hci => ?_⟩
+  · have hi := (hC.mem i hci).1
+    have hiu := (hC.mem i hci).2
+    have h3 := pickRank_le (P := P) Y i
+    by_cases hf : Free P agents up Y (π i)
+    · have : i ∈ exchUp P agents up Y onC π := (mem_exchUp i).mpr (Or.inr ⟨hi, hci, hf⟩)
+      simp only [util, hiu, this, ↓reduceIte]; omega
+    · have hnotU : i ∉ exchUp P agents up Y onC π := fun h => by
+        rcases (mem_exchUp i).mp h with h | ⟨-, -, h⟩
+        · exact hiu h
+        · exact hf h
+      obtain ⟨y, hy, hp⟩ := hC.need (π i) (hC.π_mem i hci) hf
+      rw [hC.σπ i hci] at hp
+      have hY'i : exchY P agents up Y onC π i = some y := by rw [exchY_need hci hf, hy]
+      have hpr : P.pickRank (exchY P agents up Y onC π) i = P.rank i y := by
+        unfold Profile.pickRank; rw [hY'i]
+      unfold Profile.Prefers at hp
+      simp only [util, hiu, hnotU, ↓reduceIte, hpr]
+      omega
+  · have hiff : i ∈ exchUp P agents up Y onC π ↔ i ∈ up := by
+      rw [mem_exchUp]
+      constructor
+      · rintro (h | ⟨-, h, -⟩)
+        · exact h
+        · rw [hci] at h; cases h
+      · exact Or.inl
+    have hpr : P.pickRank (exchY P agents up Y onC π) i = P.pickRank Y i := by
+      unfold Profile.pickRank; rw [exchY_off hci]
+    by_cases h : i ∈ up
+    · simp [util, h, hiff.mpr h]
+    · simp [util, h, mt hiff.mp h, hpr]
+
+/-- **Lemma ring** (with chains): the exchange along a `Cycle` is a valid state that Pareto-dominates the state. The
+scores (every agent of the cycle strictly gains, every other agent keeps its utility) are `exchange_scores`. -/
 theorem exchange (hV : Valid P agents goods Y up) (hWF : WF P agents goods) {onC : A → Bool} {σ π : A → A}
     (hC : Cycle P agents goods Y up onC σ π) :
     Valid P agents goods (exchY P agents up Y onC π) (exchUp P agents up Y onC π) ∧
@@ -411,20 +472,12 @@ theorem exchange (hV : Valid P agents goods Y up) (hWF : WF P agents goods) {onC
   have hjunk : ∀ {g}, g ∈ junkList P agents up Y goods ↔
       g ∈ goods ∧ (∀ k, Y k ≠ some g) ∧ ∀ u ∈ up, P.c u ≠ g := junk_iff hV
   have hmemU : ∀ w, w ∈ exchUp P agents up Y onC π ↔
-      w ∈ up ∨ (w ∈ agents ∧ onC w = true ∧ Free P agents up Y (π w)) := by
-    intro w
-    simp [exchUp, List.mem_filter, freeB_iff]
-  have hoff : ∀ w, onC w = false → exchY P agents up Y onC π w = Y w := by
-    intro w h; simp [exchY, h]
-  have hon_free : ∀ w, onC w = true → Free P agents up Y (π w) → exchY P agents up Y onC π w = some (P.b w) := by
-    intro w h hf; simp [exchY, h, freeB_iff.mpr hf]
-  have hon_need : ∀ w, onC w = true → ¬ Free P agents up Y (π w) → exchY P agents up Y onC π w = Y (π w) := by
-    intro w h hf
-    have : freeB P agents up Y (π w) = false := by
-      cases hb : freeB P agents up Y (π w) with
-      | false => rfl
-      | true => exact absurd (freeB_iff.mp hb) hf
-    simp [exchY, h, this]
+      w ∈ up ∨ (w ∈ agents ∧ onC w = true ∧ Free P agents up Y (π w)) := mem_exchUp
+  have hoff : ∀ w, onC w = false → exchY P agents up Y onC π w = Y w := fun _ h => exchY_off h
+  have hon_free : ∀ w, onC w = true → Free P agents up Y (π w) → exchY P agents up Y onC π w = some (P.b w) :=
+    fun _ h hf => exchY_free h hf
+  have hon_need : ∀ w, onC w = true → ¬ Free P agents up Y (π w) → exchY P agents up Y onC π w = Y (π w) :=
+    fun _ h hf => exchY_need h hf
   -- where a new pick comes from: a junk good taken as `b`, or an old pick
   have hsrc : ∀ k y, exchY P agents up Y onC π k = some y →
       (onC k = true ∧ Free P agents up Y (π k) ∧ y = P.b k ∧ y ∈ junkList P agents up Y goods) ∨
@@ -555,46 +608,12 @@ theorem exchange (hV : Valid P agents goods Y up) (hWF : WF P agents goods) {onC
     up_c := hupc
     up_c_inj := hupcinj }
   -- utilities
-  have hlt : ∀ i ∈ agents, onC i = true →
-      util P up Y i < util P (exchUp P agents up Y onC π) (exchY P agents up Y onC π) i := by
-    intro i hi hci
-    have hiu := (hC.mem i hci).2
-    have h3 := pickRank_le (P := P) Y i
-    by_cases hf : Free P agents up Y (π i)
-    · have : i ∈ exchUp P agents up Y onC π := (hmemU i).mpr (Or.inr ⟨hi, hci, hf⟩)
-      simp only [util, hiu, this, ↓reduceIte]; omega
-    · have hnotU : i ∉ exchUp P agents up Y onC π := fun h => by
-        rcases (hmemU i).mp h with h | ⟨-, -, h⟩
-        · exact hiu h
-        · exact hf h
-      obtain ⟨y, hy, hp⟩ := hC.need (π i) (hC.π_mem i hci) hf
-      rw [hC.σπ i hci] at hp
-      have hY'i : exchY P agents up Y onC π i = some y := by rw [hon_need i hci hf, hy]
-      have hpr : P.pickRank (exchY P agents up Y onC π) i = P.rank i y := by
-        unfold Profile.pickRank; rw [hY'i]
-      unfold Profile.Prefers at hp
-      simp only [util, hiu, hnotU, ↓reduceIte, hpr]
-      omega
-  have heq : ∀ i, onC i = false →
-      util P up Y i = util P (exchUp P agents up Y onC π) (exchY P agents up Y onC π) i := by
-    intro i hci
-    have hiff : i ∈ exchUp P agents up Y onC π ↔ i ∈ up := by
-      rw [hmemU]
-      constructor
-      · rintro (h | ⟨-, h, -⟩)
-        · exact h
-        · rw [hci] at h; cases h
-      · exact Or.inl
-    have hpr : P.pickRank (exchY P agents up Y onC π) i = P.pickRank Y i := by
-      unfold Profile.pickRank; rw [hoff i hci]
-    by_cases h : i ∈ up
-    · simp [util, h, hiff.mpr h]
-    · simp [util, h, mt hiff.mp h, hpr]
+  obtain ⟨hlt, heq⟩ := exchange_scores hC
   have hle : ∀ i ∈ agents, util P up Y i ≤ util P (exchUp P agents up Y onC π) (exchY P agents up Y onC π) i := by
-    intro i hi
+    intro i _
     cases hci : onC i with
-    | false => exact Nat.le_of_eq (heq i hci)
-    | true => exact Nat.le_of_lt (hlt i hi hci)
+    | false => exact Nat.le_of_eq (heq i hci).symm
+    | true => exact Nat.le_of_lt (hlt i hci)
   -- the needed goods stay alone
   have hna : ∀ g ∈ goods, P.NA agents (· ∈ up) Y g →
       ∃ k, k ∉ exchUp P agents up Y onC π ∧ exchY P agents up Y onC π k = some g := by
@@ -619,7 +638,7 @@ theorem exchange (hV : Valid P agents goods Y up) (hWF : WF P agents goods) {onC
         · rw [hps] at h; exact hjf h
       · rw [hon_need (σ j) hcs (by rw [hps]; exact hjf), hps, hj]
   obtain ⟨w, hw⟩ := hC.ne
-  exact ⟨transfer hS hle hna, hle, w, (hC.mem w hw).1, hlt w (hC.mem w hw).1 hw⟩
+  exact ⟨transfer hS hle hna, hle, w, (hC.mem w hw).1, hlt w hw⟩
 
 end DE
 end EFX
@@ -631,4 +650,5 @@ end EFX
 #print axioms EFX.DE.soundness
 #print axioms EFX.DE.na_of_util
 #print axioms EFX.DE.transfer
+#print axioms EFX.DE.exchange_scores
 #print axioms EFX.DE.exchange

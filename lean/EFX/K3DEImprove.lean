@@ -87,10 +87,10 @@ def expB (P : Profile A G) (agents up : List A) (Y : A → Option G) (goods : Li
 def hOf (P : Profile A G) (agents up : List A) (Y : A → Option G) (goods : List G) (x : A) : G :=
   if junkB P agents up Y goods (P.b x) then P.b x else P.c x
 
-/-- A list without repetitions. -/
+/-- A list without repetitions: each element at its first occurrence, in the order of the list. -/
 def dd : List G → List G
   | [] => []
-  | x :: l => if x ∈ dd l then dd l else x :: dd l
+  | x :: l => x :: (dd l).filter (· != x)
 
 /-- `H_o`: the protecting goods of the agents exposed for `o`. -/
 def Hset (P : Profile A G) (agents up : List A) (Y : A → Option G) (goods : List G) (o : A) : List G :=
@@ -199,27 +199,34 @@ omit [DecidableEq A] in
 theorem mem_dd {g : G} : ∀ {l : List G}, g ∈ dd l ↔ g ∈ l
   | [] => by simp [dd]
   | x :: l => by
-    unfold dd
-    split
-    · rename_i h
-      rw [mem_dd]
-      constructor
-      · exact fun h' => List.mem_cons_of_mem _ h'
-      · intro h'
-        rcases List.mem_cons.mp h' with rfl | h'
-        · exact mem_dd.mp h
-        · exact h'
-    · simp [mem_dd]
+    have ih := @mem_dd g l
+    simp only [dd, List.mem_cons, List.mem_filter, ih, bne_iff_ne, ne_eq]
+    by_cases h : g = x <;> simp [h]
 
 omit [DecidableEq A] in
 theorem nodup_dd : ∀ l : List G, (dd l).Nodup
   | [] => by simp [dd]
   | x :: l => by
-    unfold dd
-    split
-    · exact nodup_dd l
-    · rename_i h
-      exact List.nodup_cons.mpr ⟨h, nodup_dd l⟩
+    simp only [dd]
+    exact List.nodup_cons.mpr ⟨by simp, (nodup_dd l).sublist List.filter_sublist⟩
+
+omit [DecidableEq A] in
+/-- **`dd` keeps first occurrences**: the first element of `dd l` with a property is the first element of `l` with it.
+-/
+theorem find?_dd (p : G → Bool) : ∀ l : List G, (dd l).find? p = l.find? p
+  | [] => by simp [dd]
+  | x :: l => by
+    simp only [dd, List.find?_cons]
+    cases hp : p x with
+    | true => rfl
+    | false =>
+      simp only
+      rw [List.find?_filter, ← find?_dd p l]
+      congr 1
+      funext g
+      by_cases h : g = x
+      · subst h; simp [hp]
+      · simp [h]
 
 theorem mem_Hset {o : A} {h : G} : h ∈ Hset P agents up Y goods o ↔
     ∃ x, Exposed P agents up Y goods o x ∧ hOf P agents up Y goods x = h := by
@@ -231,6 +238,18 @@ theorem mem_Hset {o : A} {h : G} : h ∈ Hset P agents up Y goods o ↔
     exact ⟨x, hx, rfl⟩
   · rintro ⟨x, hx, rfl⟩
     exact ⟨x, ⟨hx.1, hx⟩, rfl⟩
+
+/-- **`H_o` lists the goods in the order of their first exposed agents**: the first good of `H_o` with a property
+is the protecting good of the first agent (in the order of `agents`) exposed for `o` whose protecting good has it. -/
+theorem find?_Hset (o : A) (p : G → Bool) :
+    (Hset P agents up Y goods o).find? p =
+      (agents.find? (fun x => expB P agents up Y goods o x && p (hOf P agents up Y goods x))).map
+        (hOf P agents up Y goods) := by
+  unfold Hset
+  rw [find?_dd, List.find?_map, List.find?_filter]
+  congr 2
+  funext x
+  cases expB P agents up Y goods o x <;> simp
 
 omit [DecidableEq G] in
 /-- Removing one member `o` with `p o` from a duplicate-free list removes one element from its filter. -/
@@ -327,6 +346,78 @@ theorem reps_spec (Hs : A → List G) : ∀ (os : List A) (used : List G), os.No
         · rw [hro' o1 h1'] at hq1
           rw [hro' o2 h2'] at hq2
           exact ih2 o1 h1' o2 h2' hne q1 q2 hq1 hq2
+
+/-- Only a listed agent has a representative. -/
+theorem mem_of_repOf_reps (Hs : A → List G) : ∀ (os : List A) (used : List G) {o : A} {q : G},
+    repOf (reps Hs os used) o = some q → o ∈ os
+  | [], _, _, _, h => by simp [reps, repOf] at h
+  | o' :: os, used, o, q, h => by
+    rw [reps.eq_2] at h
+    split at h
+    · simp only [repOf] at h
+      split at h
+      · rename_i e; rw [e]; exact List.mem_cons_self
+      · exact List.mem_cons_of_mem _ (mem_of_repOf_reps Hs os _ h)
+    · exact List.mem_cons_of_mem _ (mem_of_repOf_reps Hs os _ h)
+
+/-- **The greedy rule**: in `reps Hs (os₁ ++ o :: os₂) used`, the representative of `o`, if any, is the first good of
+`Hs o` outside `U`, where `U` holds the goods of `used` and the representatives of the agents of `os₁` (the agents
+before `o`). -/
+theorem repOf_reps_append (Hs : A → List G) {o : A} {q : G} : ∀ (os1 os2 : List A) (used : List G),
+    (os1 ++ o :: os2).Nodup → repOf (reps Hs (os1 ++ o :: os2) used) o = some q →
+    ∃ U : List G, (∀ h, h ∈ U ↔ h ∈ used ∨ ∃ o' ∈ os1, repOf (reps Hs (os1 ++ o :: os2) used) o' = some h) ∧
+      (Hs o).find? (fun h => !(U.contains h)) = some q
+  | [], os2, used, hnd, h => by
+    refine ⟨used, fun h => by simp, ?_⟩
+    simp only [List.nil_append] at h hnd
+    rw [reps.eq_2] at h
+    split at h
+    · rename_i q' hq'
+      simp only [repOf, ite_true, Option.some.injEq] at h
+      rw [hq', h]
+    · exact absurd (mem_of_repOf_reps Hs os2 used h) (List.nodup_cons.mp hnd).1
+  | o1 :: os1, os2, used, hnd, h => by
+    have hnd1 := List.nodup_cons.mp (List.cons_append ▸ hnd : (o1 :: (os1 ++ o :: os2)).Nodup)
+    have ho1 : o ≠ o1 := fun e => hnd1.1 (by rw [e]; exact List.mem_append_right _ List.mem_cons_self)
+    cases hf : (Hs o1).find? (fun h => !(used.contains h)) with
+    | none =>
+      have e : reps Hs (o1 :: os1 ++ o :: os2) used = reps Hs (os1 ++ o :: os2) used := by
+        rw [List.cons_append, reps.eq_2, hf]
+      rw [e] at h ⊢
+      obtain ⟨U, hU, hq⟩ := repOf_reps_append Hs os1 os2 used hnd1.2 h
+      refine ⟨U, fun g => ?_, hq⟩
+      rw [hU g]
+      constructor
+      · rintro (h | ⟨o', ho', h⟩)
+        · exact Or.inl h
+        · exact Or.inr ⟨o', List.mem_cons_of_mem _ ho', h⟩
+      · rintro (h | ⟨o', ho', h⟩)
+        · exact Or.inl h
+        · rcases List.mem_cons.mp ho' with rfl | ho'
+          · exact absurd (mem_of_repOf_reps Hs _ used h) hnd1.1
+          · exact Or.inr ⟨o', ho', h⟩
+    | some q1 =>
+      have e : reps Hs (o1 :: os1 ++ o :: os2) used = (o1, q1) :: reps Hs (os1 ++ o :: os2) (q1 :: used) := by
+        rw [List.cons_append, reps.eq_2, hf]
+      rw [e] at h ⊢
+      have hr : ∀ o', o' ≠ o1 → repOf ((o1, q1) :: reps Hs (os1 ++ o :: os2) (q1 :: used)) o' =
+          repOf (reps Hs (os1 ++ o :: os2) (q1 :: used)) o' := fun o' h' => by simp [repOf, h']
+      have hr1 : repOf ((o1, q1) :: reps Hs (os1 ++ o :: os2) (q1 :: used)) o1 = some q1 := by simp [repOf]
+      rw [hr o ho1] at h
+      obtain ⟨U, hU, hq⟩ := repOf_reps_append Hs os1 os2 (q1 :: used) hnd1.2 h
+      refine ⟨U, fun g => ?_, hq⟩
+      rw [hU g, List.mem_cons]
+      have hne : ∀ o' ∈ os1, o' ≠ o1 := fun o' h' e => hnd1.1 (e ▸ List.mem_append_left _ h')
+      constructor
+      · rintro ((rfl | h) | ⟨o', ho', h⟩)
+        · exact Or.inr ⟨o1, List.mem_cons_self, hr1⟩
+        · exact Or.inl h
+        · exact Or.inr ⟨o', List.mem_cons_of_mem _ ho', by rw [hr o' (hne o' ho')]; exact h⟩
+      · rintro (h | ⟨o', ho', h⟩)
+        · exact Or.inl (Or.inr h)
+        · rcases List.mem_cons.mp ho' with rfl | ho'
+          · rw [hr1] at h; cases h; exact Or.inl (Or.inl rfl)
+          · exact Or.inr ⟨o', ho', by rw [← hr o' (hne o' ho')]; exact h⟩
 
 /-! ## The need digraph and Lemma forced -/
 
@@ -538,6 +629,55 @@ theorem sigma_free_none {rp : List (A × G)} {j : A} {q : G} (hj : Free P agents
     sigmaMap P agents up Y goods none rp j =
       (agents.find? (fun x => expB P agents up Y goods j x && hOf P agents up Y goods x == q)).getD j := by
   simp [sigmaMap, freeB_iff.mpr hj, hq]
+
+/-- **The rule of the ring step, in the paper's words** (proof of the Improvement Lemma, "distinct leftover goods"):
+list the free agents in the order of `agents` as `os₁ ++ o :: os₂`. If `o` has a representative `q`, then `q` is
+the protecting good `h_x` of the first agent `x` (in the order of `agents`) exposed for `o` whose protecting good is
+not the representative of an earlier free agent (one of `os₁`): `x` is exposed for `o`, `h_x = q`, no agent of `os₁`
+has representative `q`, and every agent before `x` exposed for `o` has as protecting good the representative of an
+agent of `os₁`. And `σ(o) = x` (`sigmaMap`: the first agent exposed for `o` with protecting good `q` is `x`). -/
+theorem reps_first_blocker (hag : agents.Nodup) {o : A} {q : G} (ho : Free P agents up Y o)
+    (hq : repOf (reps (Hset P agents up Y goods) (agents.filter (freeB P agents up Y)) []) o = some q) :
+    ∃ os1 os2 x as bs, agents.filter (freeB P agents up Y) = os1 ++ o :: os2 ∧ agents = as ++ x :: bs ∧
+      Exposed P agents up Y goods o x ∧ hOf P agents up Y goods x = q ∧
+      (∀ o' ∈ os1, repOf (reps (Hset P agents up Y goods) (agents.filter (freeB P agents up Y)) []) o' ≠ some q) ∧
+      (∀ x' ∈ as, Exposed P agents up Y goods o x' → ∃ o' ∈ os1,
+        repOf (reps (Hset P agents up Y goods) (agents.filter (freeB P agents up Y)) []) o' =
+          some (hOf P agents up Y goods x')) ∧
+      sigmaMap P agents up Y goods none (reps (Hset P agents up Y goods) (agents.filter (freeB P agents up Y)) [])
+        o = x := by
+  have hoF : o ∈ agents.filter (freeB P agents up Y) := List.mem_filter.mpr ⟨ho.1, freeB_iff.mpr ho⟩
+  obtain ⟨os1, os2, hF⟩ := List.append_of_mem hoF
+  have hnd : (os1 ++ o :: os2).Nodup := hF ▸ hag.sublist List.filter_sublist
+  have hσ := sigma_free_none (goods := goods) ho hq
+  rw [hF] at hq hσ ⊢
+  obtain ⟨U, hU, hfind⟩ := repOf_reps_append (Hset P agents up Y goods) os1 os2 [] hnd hq
+  rw [find?_Hset] at hfind
+  obtain ⟨x, hx, hxq⟩ := Option.map_eq_some_iff.mp hfind
+  obtain ⟨hxp, as, bs, hag', has⟩ := List.find?_eq_some_iff_append.mp hx
+  simp only [Bool.and_eq_true, Bool.not_eq_true', List.contains_eq_mem, decide_eq_false_iff_not] at hxp
+  have hqU : q ∉ U := hxq ▸ hxp.2
+  have hbefore : ∀ x' ∈ as, Exposed P agents up Y goods o x' → hOf P agents up Y goods x' ∈ U := by
+    intro x' hx' hE
+    have := has x' hx'
+    simp only [expB_iff.mpr hE, Bool.true_and, Bool.not_not, List.contains_eq_mem, decide_eq_true_eq] at this
+    exact this
+  refine ⟨os1, os2, x, as, bs, rfl, hag', expB_iff.mp hxp.1, hxq, fun o' ho' h => hqU ((hU q).mpr
+    (Or.inr ⟨o', ho', h⟩)), fun x' hx' hE => ?_, ?_⟩
+  · rcases (hU _).mp (hbefore x' hx' hE) with h | h
+    · simp at h
+    · exact h
+  · rw [hσ]
+    have : agents.find? (fun x => expB P agents up Y goods o x && hOf P agents up Y goods x == q) = some x := by
+      refine List.find?_eq_some_iff_append.mpr ⟨by simp [hxp.1, hxq], as, bs, hag', fun x' hx' => ?_⟩
+      cases hE : expB P agents up Y goods o x' with
+      | false => rfl
+      | true =>
+        have := hbefore x' hx' (expB_iff.mp hE)
+        have hne : hOf P agents up Y goods x' ≠ q := fun e => hqU (e ▸ this)
+        simp [hne]
+    rw [this]
+    rfl
 
 /-- A non-free agent outside `up` goes to an agent outside `up` that needs its good. -/
 theorem sigma_need {px : Option A} {rp : List (A × G)} {z : A} (hz : z ∈ agents) (hzu : z ∉ up)
@@ -814,6 +954,18 @@ theorem step_next (hV : Valid P agents goods Y up) (hWF : WF P agents goods) (ha
   obtain ⟨onC, σ, π, hC, rfl, rfl⟩ := step_next_cycle hWF hag h
   exact exchange hV hWF hC
 
+/-- **The scores of a move** (Lemmas ring and chain, the scores): a move of `step` is the exchange along a `Cycle`
+(the ring, or the chain closed by its last arc) in which every agent of the cycle gets a strictly higher utility and
+every other agent the same utility (`exchange_scores`). -/
+theorem step_next_scores (hWF : WF P agents goods) (hag : agents.Nodup) {d : A} {Y' : A → Option G} {up' : List A}
+    (h : step P agents goods d Y up = .next Y' up') :
+    ∃ (onC : A → Bool) (σ π : A → A), Cycle P agents goods Y up onC σ π ∧
+      Y' = exchY P agents up Y onC π ∧ up' = exchUp P agents up Y onC π ∧
+      (∀ w, onC w = true → util P up Y w < util P up' Y' w) ∧
+      (∀ w, onC w = false → util P up' Y' w = util P up Y w) := by
+  obtain ⟨onC, σ, π, hC, rfl, rfl⟩ := step_next_cycle hWF hag h
+  exact ⟨onC, σ, π, hC, rfl, rfl, exchange_scores hC⟩
+
 /-- **The Improvement Lemma** (`paper/k3-simple/long.tex`, Theorem Improvement Lemma). In the core case, let `(Y, up)`
 be a valid state in which no free agent is a valid absorber and some agent is not a pair holder. Then some valid state
 Pareto-dominates it (the one `step` returns: a need cycle, a pair chain or an exchange cycle). -/
@@ -845,7 +997,11 @@ end EFX
 
 /-! ## Axiom certificates (audited by `check.sh`) -/
 
+#print axioms EFX.DE.find?_dd
+#print axioms EFX.DE.find?_Hset
 #print axioms EFX.DE.reps_spec
+#print axioms EFX.DE.repOf_reps_append
+#print axioms EFX.DE.reps_first_blocker
 #print axioms EFX.DE.outNb_spec
 #print axioms EFX.DE.forced_hOf
 #print axioms EFX.DE.exists_period
@@ -866,5 +1022,6 @@ end EFX
 #print axioms EFX.DE.step_stop_of_none
 #print axioms EFX.DE.step_next_cycle
 #print axioms EFX.DE.step_next
+#print axioms EFX.DE.step_next_scores
 #print axioms EFX.DE.improvement
 #print axioms EFX.DE.completable_of_undominated

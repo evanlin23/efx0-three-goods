@@ -713,8 +713,9 @@ theorem length_dd_le {G : Type} [DecidableEq G] : ∀ l : List G, (dd l).length 
   | [] => by simp [dd]
   | x :: l => by
     have := length_dd_le l
-    unfold dd
-    split <;> simp <;> omega
+    have := List.length_filter_le (· != x) (dd l)
+    simp only [dd, List.length_cons]
+    omega
 
 /-- **If `N < k`, the free agent `o_0` is a valid absorber** (with `H = H_{o_0}`, at most `N` goods): the hypothesis
 `k ≤ N` of `no_free_absorber` cannot be dropped. -/
