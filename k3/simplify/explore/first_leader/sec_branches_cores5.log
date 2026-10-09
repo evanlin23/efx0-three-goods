@@ -1,0 +1,21 @@
+cores 5 5
+  ALL profiles: sec_small full after 1 fallback step(s) ok 937
+  ALL profiles: sec_small full after 2 fallback step(s) ok 912
+  ALL profiles: sec_small full after 3 fallback step(s) ok 184
+  ALL profiles: sec_small full after 4 fallback step(s) ok 352
+  ALL profiles: sec_small full ok      1336883
+  ALL profiles: sec_small secured after 1 fallback step(s) ok 1595
+  ALL profiles: sec_small secured after 2 fallback step(s) ok 272
+  ALL profiles: sec_small secured ok   1046097
+  iter_r reruns=1 ok                   31419
+  iter_r reruns=2 ok                   37
+  rotation cases                       31456
+  sec_small full after 1 fallback step(s) ok 4
+  sec_small full ok                    26627
+  sec_small secured after 1 fallback step(s) ok 10
+  sec_small secured ok                 4815
+  example iter_r reruns>=2 (5, 7, [(5, 6, 0), (2, 3, 0), (1, 2, 4), (5, 1, 4), (5, 3, 4)])
+
+real	4m41.212s
+user	4m36.555s
+sys	0m0.122s

@@ -1,0 +1,46 @@
+# command: python3 k4/zmh_xcheck.py, larger sample: n = 3 screen every 50th; PR #80 n4_3_r40k, n4_pure_r40k all, n4_pure_r400k every 4th; rc4604, rc4515 every 8th; dumps_f2 (n <= 5) every 60th
+Z-maxima                       5588
+Z-maxima with a move           5588
+ZMOVE holds                    5117
+keys def*>0                    5117
+profiles                       3182
+
+real	0m33.433s
+user	0m33.005s
+sys	0m0.026s
+Z-maxima                       389
+Z-maxima with a move           389
+ZMOVE holds                    299
+keys def*>0                    299
+profiles                       299
+
+real	0m52.579s
+user	0m51.891s
+sys	0m0.013s
+Z-maxima                       715
+Z-maxima with a move           715
+ZMOVE holds                    590
+keys def*>0                    590
+profiles                       587
+
+real	1m55.002s
+user	1m53.882s
+sys	0m0.016s
+Z-maxima                       473
+Z-maxima with a move           473
+ZMOVE holds                    317
+keys def*>0                    317
+profiles                       182
+
+real	3m21.559s
+user	3m19.396s
+sys	0m0.099s
+Z-maxima                       2967
+Z-maxima with a move           2967
+ZMOVE holds                    2756
+keys def*>0                    2756
+profiles                       726
+
+real	3m40.072s
+user	3m37.397s
+sys	0m0.093s

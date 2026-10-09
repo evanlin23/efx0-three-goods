@@ -1,0 +1,26 @@
+cores n <= 5: 2445840 profiles; would need a rotation: index 33104, lb 30, P 16437, P_lb 24
+    first for index: ([(2, 0, 3), (1, 2, 4), (1, 2, 0)], 5)
+    first for lb: ([(2, 0, 3), (1, 4, 2), (1, 2, 0)], 5)
+    first for P: ([(2, 0, 3), (1, 2, 4), (1, 2, 0)], 5)
+    first for P_lb: ([(2, 0, 3), (1, 4, 2), (1, 2, 0)], 5)
+all profiles n=3 m=5: 3600 profiles; would need a rotation: index 154, lb 12, P 154, P_lb 12
+    first for index: ([(0, 1, 2), (0, 3, 4), (3, 0, 1)], 5)
+    first for lb: ([(0, 1, 2), (2, 3, 4), (0, 2, 3)], 5)
+    first for P: ([(0, 1, 2), (0, 3, 4), (3, 0, 1)], 5)
+    first for P_lb: ([(0, 1, 2), (2, 3, 4), (0, 2, 3)], 5)
+all profiles n=3 m=6: 14400 profiles; would need a rotation: index 462, lb 36, P 462, P_lb 36
+    first for index: ([(0, 1, 2), (0, 3, 1), (3, 0, 1)], 6)
+    first for lb: ([(0, 1, 2), (0, 2, 3), (2, 3, 4)], 6)
+    first for P: ([(0, 1, 2), (0, 3, 1), (3, 0, 1)], 6)
+    first for P_lb: ([(0, 1, 2), (0, 2, 3), (2, 3, 4)], 6)
+all profiles n=3 m=7: 44100 profiles; would need a rotation: index 1036, lb 72, P 1036, P_lb 72
+    first for index: ([(0, 1, 2), (0, 2, 3), (0, 3, 4)], 7)
+    first for lb: ([(0, 1, 2), (0, 2, 3), (2, 3, 4)], 7)
+    first for P: ([(0, 1, 2), (0, 2, 3), (0, 3, 4)], 7)
+    first for P_lb: ([(0, 1, 2), (0, 2, 3), (2, 3, 4)], 7)
+all profiles n=4 m=5: 216000 profiles; would need a rotation: index 4344, lb 0, P 1940, P_lb 0
+    first for index: ([(0, 1, 2), (0, 3, 1), (0, 3, 4), (0, 3, 4)], 5)
+    first for P: ([(0, 1, 2), (0, 3, 1), (0, 3, 4), (0, 3, 4)], 5)
+cores n = 6 (150 per core): 481050 profiles; would need a rotation: index 2298, lb 0, P 521, P_lb 0
+    first for index: ([(0, 6, 1), (0, 5, 1), (2, 5, 4), (5, 2, 4), (5, 3, 4), (4, 5, 3)], 7)
+    first for P: ([(1, 0, 6), (1, 5, 0), (2, 4, 5), (2, 4, 5), (5, 4, 3), (5, 4, 3)], 7)

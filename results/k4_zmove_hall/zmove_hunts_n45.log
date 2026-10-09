@@ -1,0 +1,16 @@
+# command: python3 k4/zmh_check.py results/k4_sx/hunt/n4_3_r40k.jsonl.gz results/k4_sx/hunt/n4_pure_r40k.jsonl.gz results/k4_sx/hunt/n4_pure_r400k.jsonl.gz results/k4_sx/hunt/n5_pure_r1000_3000.jsonl.gz results/k4_sx/hunt/n5_pure_r1000_4000.jsonl.gz --out=results/k4_zmove_hall/zmove_hunts_n45.jsonl.gz (run as k4/zmove_check.py, renamed since; header added afterwards)
+time 119.4s
+Z-maxima                                           3317
+Z-maxima with a move                               3317
+keys ZMOVE by a move                               2672
+keys def*>0                                        2672
+keys def*>0, f=1                                   2672
+keys: every Z-max has a move                       2672
+moves W0-                                          16809
+moves W0h                                          70728
+profiles                                           2657
+profiles with f >= 1, omega >= 1                   2657
+
+real	1m59.486s
+user	1m56.222s
+sys	0m0.093s

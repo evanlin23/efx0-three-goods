@@ -1,0 +1,24 @@
+# command: python3 k4/zmh_s1c3_steps.py 1500 7 (1500 random strict profiles per n = 3 core); then python3 k4/zmh_s1c.py SCREEN_N3 (every f = 1 profile of compute/k4-cover's n = 3 screen)
+I2 tested                      1
+II tested                      22
+II-ex tested                   10
+PK tested                      32
+configurations                 84
+
+real	1m47.666s
+user	1m46.304s
+sys	0m0.047s
+bigtop, >=2 terminals: def(P_Q) <=0                     64
+bigtop, >=2 terminals: nearest def<=0 state of the key at distance 0 64
+def*<=0 terminals=1 bigtop=0                            29904
+def*<=0 terminals=1 bigtop=1                            97104
+def*<=0 terminals=>=2 bigtop=0                          256
+def*<=0 terminals=>=2 bigtop=1                          64
+def*>0 terminals=1 bigtop=1                             22752
+def*>0 terminals=>=2 bigtop=0                           62120
+f=1 profiles                                            62208
+profiles                                                159080
+
+real	5m3.765s
+user	5m0.270s
+sys	0m0.032s

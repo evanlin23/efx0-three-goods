@@ -1,0 +1,64 @@
+# command: python3 k4/zmh_xcheck.py (rt4_n5_indep + direct configurations vs k4/zmh_lib.py) on: the hard instances (compute/k4-cover n4m10, n4m7; compute/k4-rc 4604, 4515), four f = 3 instances with a free agent whose goods are all needed, the S1c+ and ZX refutations; n = 3 screen every 500th; PR #80 n4_3_r40k every 5th, n4_pure_r40k every 20th, n4_pure_r400k every 100th; rc4604, rc4515 every 60th; dumps_f2 (n <= 5) every 500th (block 7: 88 profiles) [inputs of block 1: results/k4_zmove_hall/hard_inst.json]
+Z-maxima                       24
+Z-maxima with a move           24
+ZMOVE holds                    22
+keys def*>0                    22
+profiles                       10
+
+real	0m2.526s
+user	0m2.489s
+sys	0m0.004s
+Z-maxima                       558
+Z-maxima with a move           558
+ZMOVE holds                    507
+keys def*>0                    507
+profiles                       319
+
+real	0m3.962s
+user	0m3.930s
+sys	0m0.008s
+Z-maxima                       19
+Z-maxima with a move           19
+ZMOVE holds                    12
+keys def*>0                    12
+profiles                       12
+
+real	0m0.973s
+user	0m0.957s
+sys	0m0.004s
+Z-maxima                       14
+Z-maxima with a move           14
+ZMOVE holds                    12
+keys def*>0                    12
+profiles                       12
+
+real	0m2.403s
+user	0m2.324s
+sys	0m0.011s
+Z-maxima                       28
+Z-maxima with a move           28
+ZMOVE holds                    25
+keys def*>0                    25
+profiles                       24
+
+real	0m5.190s
+user	0m5.124s
+sys	0m0.012s
+Z-maxima                       67
+Z-maxima with a move           67
+ZMOVE holds                    43
+keys def*>0                    43
+profiles                       25
+
+real	0m26.568s
+user	0m26.238s
+sys	0m0.020s
+Z-maxima                       360
+Z-maxima with a move           360
+ZMOVE holds                    329
+keys def*>0                    329
+profiles                       88
+
+real	0m25.289s
+user	0m24.975s
+sys	0m0.027s

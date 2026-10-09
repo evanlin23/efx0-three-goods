@@ -1,0 +1,261 @@
+== ece[idx,bestval,plain]   (ece('idx','bestval'))
+  small n=2 m=3: 6 profiles, failures 0  [0s]
+  small n=2 m=4: 24 profiles, failures 0  [0s]
+  small n=2 m=5: 60 profiles, failures 0  [0s]
+  small n=2 m=6: 120 profiles, failures 0  [0s]
+  small n=3 m=4: 576 profiles, failures 81  [0s]
+  smallest failure: n=3 m=4 rankings [(0, 1, 2), (0, 2, 1), (0, 2, 3)]
+    allocation [[0], [1, 2], [3]]
+    agent 2 (ranks (0, 2, 3)) holds [3] worth 2; bundle [1, 2] of agent 1 minus its least good is worth 3 to it
+== ece[idx,bestval,safe]   (ece('idx','bestval',True))
+  small n=2 m=3: 6 profiles, failures 0  [0s]
+  small n=2 m=4: 24 profiles, failures 0  [0s]
+  small n=2 m=5: 60 profiles, failures 0  [0s]
+  small n=2 m=6: 120 profiles, failures 0  [0s]
+  small n=3 m=4: 576 profiles, failures 83  [0s]
+  smallest failure: n=3 m=4 rankings [(0, 1, 2), (0, 3, 1), (0, 3, 1)]
+    allocation [[0], [1], [2, 3]]
+    agent 1 (ranks (0, 3, 1)) holds [1] worth 2; bundle [2, 3] of agent 2 minus its least good is worth 3 to it
+== ece[deg_desc,bestval,safe]   (ece('deg_desc','bestval',True))
+  small n=2 m=3: 6 profiles, failures 0  [0s]
+  small n=2 m=4: 24 profiles, failures 0  [0s]
+  small n=2 m=5: 60 profiles, failures 0  [0s]
+  small n=2 m=6: 120 profiles, failures 0  [0s]
+  small n=3 m=4: 576 profiles, failures 42  [0s]
+  smallest failure: n=3 m=4 rankings [(0, 1, 2), (0, 3, 1), (0, 3, 2)]
+    allocation [[0], [1, 3], [2]]
+    agent 2 (ranks (0, 3, 2)) holds [2] worth 2; bundle [1, 3] of agent 1 minus its least good is worth 3 to it
+== ece[deg_asc,bestval,safe]   (ece('deg_asc','bestval',True))
+  small n=2 m=3: 6 profiles, failures 0  [0s]
+  small n=2 m=4: 24 profiles, failures 0  [0s]
+  small n=2 m=5: 60 profiles, failures 0  [0s]
+  small n=2 m=6: 120 profiles, failures 0  [0s]
+  small n=3 m=4: 576 profiles, failures 205  [0s]
+  smallest failure: n=3 m=4 rankings [(0, 1, 2), (0, 1, 2), (0, 1, 3)]
+    allocation [[1, 2], [0], [3]]
+    agent 2 (ranks (0, 1, 3)) holds [3] worth 2; bundle [1, 2] of agent 0 minus its least good is worth 3 to it
+== ece[top,bestval,safe]   (ece('top','bestval',True))
+  small n=2 m=3: 6 profiles, failures 0  [0s]
+  small n=2 m=4: 24 profiles, failures 1  [0s]
+  smallest failure: n=2 m=4 rankings [(0, 1, 2), (0, 3, 2)]
+    allocation [[0], [1, 2, 3]]
+    agent 0 (ranks (0, 1, 2)) holds [0] worth 4; bundle [1, 2, 3] of agent 1 minus its least good is worth 5 to it
+== ece[bestpos,bestval,safe]   (ece('bestpos','bestval',True))
+  small n=2 m=3: 6 profiles, failures 0  [0s]
+  small n=2 m=4: 24 profiles, failures 1  [0s]
+  smallest failure: n=2 m=4 rankings [(0, 1, 2), (0, 3, 2)]
+    allocation [[0], [1, 2, 3]]
+    agent 0 (ranks (0, 1, 2)) holds [0] worth 4; bundle [1, 2, 3] of agent 1 minus its least good is worth 5 to it
+== ece[bestpos,leastval,safe]   (ece('bestpos','leastval',True))
+  small n=2 m=3: 6 profiles, failures 0  [0s]
+  small n=2 m=4: 24 profiles, failures 1  [0s]
+  smallest failure: n=2 m=4 rankings [(0, 1, 2), (0, 3, 2)]
+    allocation [[0], [1, 2, 3]]
+    agent 0 (ranks (0, 1, 2)) holds [0] worth 4; bundle [1, 2, 3] of agent 1 minus its least good is worth 5 to it
+== ece[bestpos,poorest,safe]   (ece('bestpos','poorest',True))
+  small n=2 m=3: 6 profiles, failures 0  [0s]
+  small n=2 m=4: 24 profiles, failures 1  [0s]
+  smallest failure: n=2 m=4 rankings [(0, 1, 2), (0, 3, 2)]
+    allocation [[0], [1, 2, 3]]
+    agent 0 (ranks (0, 1, 2)) holds [0] worth 4; bundle [1, 2, 3] of agent 1 minus its least good is worth 5 to it
+== ece[worstfirst,bestval,safe]   (ece('worstfirst','bestval',True))
+  small n=2 m=3: 6 profiles, failures 4  [0s]
+  smallest failure: n=2 m=3 rankings [(0, 1, 2), (0, 1, 2)]
+    allocation [[0, 2], [1]]
+    agent 1 (ranks (0, 1, 2)) holds [1] worth 3; bundle [0, 2] of agent 0 minus its least good is worth 4 to it
+== srcpick[idx,safe]   (srcpick('idx'))
+  small n=2 m=3: 6 profiles, failures 0  [0s]
+  small n=2 m=4: 24 profiles, failures 0  [0s]
+  small n=2 m=5: 60 profiles, failures 0  [0s]
+  small n=2 m=6: 120 profiles, failures 0  [0s]
+  small n=3 m=4: 576 profiles, failures 0  [0s]
+  small n=3 m=5: 3600 profiles, failures 106  [0s]
+  smallest failure: n=3 m=5 rankings [(0, 1, 2), (0, 3, 1), (0, 3, 4)]
+    allocation [[0], [3], [1, 2, 4]]
+    agent 0 (ranks (0, 1, 2)) holds [0] worth 4; bundle [1, 2, 4] of agent 2 minus its least good is worth 5 to it
+== srcpick[poorest,safe]   (srcpick('poorest'))
+  small n=2 m=3: 6 profiles, failures 0  [0s]
+  small n=2 m=4: 24 profiles, failures 0  [0s]
+  small n=2 m=5: 60 profiles, failures 0  [0s]
+  small n=2 m=6: 120 profiles, failures 0  [0s]
+  small n=3 m=4: 576 profiles, failures 0  [0s]
+  small n=3 m=5: 3600 profiles, failures 106  [0s]
+  smallest failure: n=3 m=5 rankings [(0, 1, 2), (0, 3, 1), (0, 3, 4)]
+    allocation [[0], [3], [1, 2, 4]]
+    agent 0 (ranks (0, 1, 2)) holds [0] worth 4; bundle [1, 2, 4] of agent 2 minus its least good is worth 5 to it
+== srcpick[fewest,safe]   (srcpick('fewest'))
+  small n=2 m=3: 6 profiles, failures 0  [0s]
+  small n=2 m=4: 24 profiles, failures 0  [0s]
+  small n=2 m=5: 60 profiles, failures 0  [0s]
+  small n=2 m=6: 120 profiles, failures 0  [0s]
+  small n=3 m=4: 576 profiles, failures 0  [0s]
+  small n=3 m=5: 3600 profiles, failures 106  [0s]
+  smallest failure: n=3 m=5 rankings [(0, 1, 2), (0, 3, 1), (0, 3, 4)]
+    allocation [[0], [3], [1, 2, 4]]
+    agent 0 (ranks (0, 1, 2)) holds [0] worth 4; bundle [1, 2, 4] of agent 2 minus its least good is worth 5 to it
+== srcpick[favval,safe]   (srcpick('favval'))
+  small n=2 m=3: 6 profiles, failures 0  [0s]
+  small n=2 m=4: 24 profiles, failures 0  [0s]
+  small n=2 m=5: 60 profiles, failures 0  [0s]
+  small n=2 m=6: 120 profiles, failures 0  [0s]
+  small n=3 m=4: 576 profiles, failures 0  [0s]
+  small n=3 m=5: 3600 profiles, failures 138  [0s]
+  smallest failure: n=3 m=5 rankings [(0, 1, 2), (0, 1, 2), (1, 2, 4)]
+    allocation [[0], [2, 3, 4], [1]]
+    agent 2 (ranks (1, 2, 4)) holds [1] worth 4; bundle [2, 3, 4] of agent 1 minus its least good is worth 5 to it
+== srcpick[idx,plain]   (srcpick('idx',False))
+  small n=2 m=3: 6 profiles, failures 0  [0s]
+  small n=2 m=4: 24 profiles, failures 4  [0s]
+  smallest failure: n=2 m=4 rankings [(0, 1, 2), (3, 0, 2)]
+    allocation [[0, 1, 2], [3]]
+    agent 1 (ranks (3, 0, 2)) holds [3] worth 4; bundle [0, 1, 2] of agent 0 minus its least good is worth 5 to it
+== topval[idx,bestpos]   (topval('idx'))
+  small n=2 m=3: 6 profiles, failures 2  [0s]
+  smallest failure: n=2 m=3 rankings [(0, 1, 2), (0, 1, 2)]
+    allocation [[0, 1, 2], []]
+    agent 1 (ranks (0, 1, 2)) holds [] worth 0; bundle [0, 1, 2] of agent 0 minus its least good is worth 7 to it
+== topval[fewest,bestpos]   (topval('fewest'))
+  small n=2 m=3: 6 profiles, failures 2  [0s]
+  smallest failure: n=2 m=3 rankings [(0, 1, 2), (0, 1, 2)]
+    allocation [[0, 2], [1]]
+    agent 1 (ranks (0, 1, 2)) holds [1] worth 3; bundle [0, 2] of agent 0 minus its least good is worth 4 to it
+== draft_env[k3s,valuer,idx]   (draft_env('k3s','valuer'))
+  small n=2 m=3: 6 profiles, failures 0  [0s]
+  small n=2 m=4: 24 profiles, failures 1  [0s]
+  smallest failure: n=2 m=4 rankings [(0, 1, 2), (0, 3, 2)]
+    allocation [[0], [1, 2, 3]]
+    agent 0 (ranks (0, 1, 2)) holds [0] worth 4; bundle [1, 2, 3] of agent 1 minus its least good is worth 5 to it
+== draft_env[k3s,source,idx]   (draft_env('k3s','source'))
+  small n=2 m=3: 6 profiles, failures 0  [0s]
+  small n=2 m=4: 24 profiles, failures 1  [0s]
+  smallest failure: n=2 m=4 rankings [(0, 1, 2), (0, 3, 2)]
+    allocation [[0], [1, 2, 3]]
+    agent 0 (ranks (0, 1, 2)) holds [0] worth 4; bundle [1, 2, 3] of agent 1 minus its least good is worth 5 to it
+== draft_env[k3s,lastsrc,idx]   (draft_env('k3s','lastsrc'))
+  small n=2 m=3: 6 profiles, failures 0  [0s]
+  small n=2 m=4: 24 profiles, failures 1  [0s]
+  smallest failure: n=2 m=4 rankings [(0, 1, 2), (0, 3, 2)]
+    allocation [[0], [1, 2, 3]]
+    agent 0 (ranks (0, 1, 2)) holds [0] worth 4; bundle [1, 2, 3] of agent 1 minus its least good is worth 5 to it
+== draft_env[k3s,nonvaluer,idx]   (draft_env('k3s','nonvaluer'))
+  small n=2 m=3: 6 profiles, failures 0  [0s]
+  small n=2 m=4: 24 profiles, failures 1  [0s]
+  smallest failure: n=2 m=4 rankings [(0, 1, 2), (0, 3, 2)]
+    allocation [[0], [1, 2, 3]]
+    agent 0 (ranks (0, 1, 2)) holds [0] worth 4; bundle [1, 2, 3] of agent 1 minus its least good is worth 5 to it
+== draft_env[sd,valuer,idx]   (draft_env('sd','valuer'))
+  small n=2 m=3: 6 profiles, failures 0  [0s]
+  small n=2 m=4: 24 profiles, failures 1  [0s]
+  smallest failure: n=2 m=4 rankings [(0, 1, 2), (0, 3, 2)]
+    allocation [[0], [1, 2, 3]]
+    agent 0 (ranks (0, 1, 2)) holds [0] worth 4; bundle [1, 2, 3] of agent 1 minus its least good is worth 5 to it
+== draft_env[k3s,valuer,deg_desc]   (draft_env('k3s','valuer','deg_desc'))
+  small n=2 m=3: 6 profiles, failures 0  [0s]
+  small n=2 m=4: 24 profiles, failures 0  [0s]
+  small n=2 m=5: 60 profiles, failures 0  [0s]
+  small n=2 m=6: 120 profiles, failures 0  [0s]
+  small n=3 m=4: 576 profiles, failures 0  [0s]
+  small n=3 m=5: 3600 profiles, failures 46  [0s]
+  smallest failure: n=3 m=5 rankings [(0, 1, 2), (0, 3, 1), (0, 3, 4)]
+    allocation [[0], [3], [1, 2, 4]]
+    agent 0 (ranks (0, 1, 2)) holds [0] worth 4; bundle [1, 2, 4] of agent 2 minus its least good is worth 5 to it
+== draft_env[k3s,greedy,idx]   (draft_env('k3s','greedy'))
+  small n=2 m=3: 6 profiles, failures 0  [0s]
+  small n=2 m=4: 24 profiles, failures 0  [0s]
+  small n=2 m=5: 60 profiles, failures 0  [0s]
+  small n=2 m=6: 120 profiles, failures 0  [0s]
+  small n=3 m=4: 576 profiles, failures 0  [0s]
+  small n=3 m=5: 3600 profiles, failures 42  [0s]
+  smallest failure: n=3 m=5 rankings [(0, 1, 2), (0, 3, 1), (0, 3, 4)]
+    allocation [[0], [3], [1, 2, 4]]
+    agent 0 (ranks (0, 1, 2)) holds [0] worth 4; bundle [1, 2, 4] of agent 2 minus its least good is worth 5 to it
+== envypool[idx,valuer]   (envypool('idx','valuer'))
+  small n=2 m=3: 6 profiles, failures 0  [0s]
+  small n=2 m=4: 24 profiles, failures 0  [0s]
+  small n=2 m=5: 60 profiles, failures 0  [0s]
+  small n=2 m=6: 120 profiles, failures 0  [0s]
+  small n=3 m=4: 576 profiles, failures 0  [0s]
+  small n=3 m=5: 3600 profiles, failures 24  [0s]
+  smallest failure: n=3 m=5 rankings [(0, 1, 2), (1, 2, 4), (0, 1, 2)]
+    allocation [[0], [1], [2, 3, 4]]
+    agent 1 (ranks (1, 2, 4)) holds [1] worth 4; bundle [2, 3, 4] of agent 2 minus its least good is worth 5 to it
+== envypool[idx,source]   (envypool('idx','source'))
+  small n=2 m=3: 6 profiles, failures 0  [0s]
+  small n=2 m=4: 24 profiles, failures 0  [0s]
+  small n=2 m=5: 60 profiles, failures 0  [0s]
+  small n=2 m=6: 120 profiles, failures 0  [0s]
+  small n=3 m=4: 576 profiles, failures 0  [0s]
+  small n=3 m=5: 3600 profiles, failures 24  [1s]
+  smallest failure: n=3 m=5 rankings [(0, 1, 2), (1, 2, 4), (0, 1, 2)]
+    allocation [[0], [1], [2, 3, 4]]
+    agent 1 (ranks (1, 2, 4)) holds [1] worth 4; bundle [2, 3, 4] of agent 2 minus its least good is worth 5 to it
+== envypool[idx,nonvaluer]   (envypool('idx','nonvaluer'))
+  small n=2 m=3: 6 profiles, failures 0  [0s]
+  small n=2 m=4: 24 profiles, failures 0  [0s]
+  small n=2 m=5: 60 profiles, failures 4  [0s]
+  smallest failure: n=2 m=5 rankings [(0, 1, 2), (1, 0, 4)]
+    allocation [[0, 3, 4], [1, 2]]
+    agent 1 (ranks (1, 0, 4)) holds [1, 2] worth 4; bundle [0, 3, 4] of agent 0 minus its least good is worth 5 to it
+== envypool[poorest,valuer]   (envypool('poorest','valuer'))
+  small n=2 m=3: 6 profiles, failures 0  [0s]
+  small n=2 m=4: 24 profiles, failures 0  [0s]
+  small n=2 m=5: 60 profiles, failures 0  [0s]
+  small n=2 m=6: 120 profiles, failures 0  [0s]
+  small n=3 m=4: 576 profiles, failures 0  [0s]
+  small n=3 m=5: 3600 profiles, failures 24  [0s]
+  smallest failure: n=3 m=5 rankings [(0, 1, 2), (1, 2, 4), (0, 1, 2)]
+    allocation [[0], [1], [2, 3, 4]]
+    agent 1 (ranks (1, 2, 4)) holds [1] worth 4; bundle [2, 3, 4] of agent 2 minus its least good is worth 5 to it
+== envypool[last,valuer]   (envypool('last','valuer'))
+  small n=2 m=3: 6 profiles, failures 0  [0s]
+  small n=2 m=4: 24 profiles, failures 0  [0s]
+  small n=2 m=5: 60 profiles, failures 0  [0s]
+  small n=2 m=6: 120 profiles, failures 0  [0s]
+  small n=3 m=4: 576 profiles, failures 0  [0s]
+  small n=3 m=5: 3600 profiles, failures 58  [1s]
+  smallest failure: n=3 m=5 rankings [(0, 1, 2), (0, 1, 2), (0, 2, 4)]
+    allocation [[2, 3, 4], [1], [0]]
+    agent 2 (ranks (0, 2, 4)) holds [0] worth 4; bundle [2, 3, 4] of agent 0 minus its least good is worth 5 to it
+== envypool[peel,valuer]   (envypool('peel','valuer'))
+  small n=2 m=3: 6 profiles, failures 0  [0s]
+  small n=2 m=4: 24 profiles, failures 0  [0s]
+  small n=2 m=5: 60 profiles, failures 0  [0s]
+  small n=2 m=6: 120 profiles, failures 0  [0s]
+  small n=3 m=4: 576 profiles, failures 0  [0s]
+  small n=3 m=5: 3600 profiles, failures 24  [1s]
+  smallest failure: n=3 m=5 rankings [(0, 1, 2), (1, 2, 4), (0, 1, 2)]
+    allocation [[0], [1], [2, 3, 4]]
+    agent 1 (ranks (1, 2, 4)) holds [1] worth 4; bundle [2, 3, 4] of agent 2 minus its least good is worth 5 to it
+== envypool[peel_poor,valuer]   (envypool('peel_poor','valuer'))
+  small n=2 m=3: 6 profiles, failures 0  [0s]
+  small n=2 m=4: 24 profiles, failures 0  [0s]
+  small n=2 m=5: 60 profiles, failures 0  [0s]
+  small n=2 m=6: 120 profiles, failures 0  [0s]
+  small n=3 m=4: 576 profiles, failures 0  [0s]
+  small n=3 m=5: 3600 profiles, failures 0  [1s]
+  small n=3 m=6: 14400 profiles, failures 24  [3s]
+  smallest failure: n=3 m=6 rankings [(0, 1, 2), (1, 3, 5), (0, 3, 1)]
+    allocation [[0], [1, 2], [3, 4, 5]]
+    agent 1 (ranks (1, 3, 5)) holds [1, 2] worth 4; bundle [3, 4, 5] of agent 2 minus its least good is worth 5 to it
+== envypool[draft,valuer]   (envypool('draft','valuer'))
+  small n=2 m=3: 6 profiles, failures 0  [0s]
+  small n=2 m=4: 24 profiles, failures 0  [0s]
+  small n=2 m=5: 60 profiles, failures 0  [0s]
+  small n=2 m=6: 120 profiles, failures 0  [0s]
+  small n=3 m=4: 576 profiles, failures 0  [0s]
+  small n=3 m=5: 3600 profiles, failures 0  [1s]
+  small n=3 m=6: 14400 profiles, failures 24  [2s]
+  smallest failure: n=3 m=6 rankings [(0, 1, 2), (1, 3, 5), (0, 3, 1)]
+    allocation [[0], [1, 2], [3, 4, 5]]
+    agent 1 (ranks (1, 3, 5)) holds [1, 2] worth 4; bundle [3, 4, 5] of agent 2 minus its least good is worth 5 to it
+== envypool[draft,source]   (envypool('draft','source'))
+  small n=2 m=3: 6 profiles, failures 0  [0s]
+  small n=2 m=4: 24 profiles, failures 0  [0s]
+  small n=2 m=5: 60 profiles, failures 0  [0s]
+  small n=2 m=6: 120 profiles, failures 0  [0s]
+  small n=3 m=4: 576 profiles, failures 0  [0s]
+  small n=3 m=5: 3600 profiles, failures 0  [0s]
+  small n=3 m=6: 14400 profiles, failures 24  [2s]
+  smallest failure: n=3 m=6 rankings [(0, 1, 2), (1, 3, 5), (0, 3, 1)]
+    allocation [[0], [1, 2], [3, 4, 5]]
+    agent 1 (ranks (1, 3, 5)) holds [1, 2] worth 4; bundle [3, 4, 5] of agent 2 minus its least good is worth 5 to it

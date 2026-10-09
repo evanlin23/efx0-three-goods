@@ -1,0 +1,5 @@
+cores n <= 5: {3: 1512, 4: 57024, 2: 72, 5: 2387232} profiles x 3 realizations; not EFX0: 0; branches {'r': 2412736, 'rot': 33104} []
+
+real	2m28.539s
+user	9m40.211s
+sys	0m1.710s

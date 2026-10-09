@@ -1,0 +1,80 @@
+[1] Introduction: EFX but not EFX0; serial dictatorship at k = 3
+  ok    X1 = {b}, X2 = {a, c} is EFX and not EFX0
+  ok    removing c from X2 leaves {a}, worth 3 > 2 to agent 1
+  ok    X1 = {a}, X2 = {b, c} is EFX0
+  ok    agent 1 takes a, the last agent takes {b, c, d}: not EFX0 (5 > 4)
+  ok    DE on the same instance is EFX0 (agent 2 is peeled first)
+[2] The n = 6, m = 10 instance (goods g0..g9; agents x1, x1', x2, x2', o1, o2 in this order)
+  ok    strictly balanced (4 < 3 + 2): rule R1 applies to nobody; every good is valued
+  ok    serial dictatorship in index order: x's take their tops, o1 takes g4 (its c), o2 takes g5 (its c)
+  ok    valid; NA = {g0, g1, g2, g3}; J = {g6, g7, g8, g9}; F = {o1, o2}
+  ok    E_o1 = {x1, x1'}, H_o1 = {g6, g7}
+  ok    E_o2 = {x2, x2'}, H_o2 = {g8, g9}
+  ok    not completable (definition, brute force over absorbers and hitting sets)
+  ok    (P2) holds and the stop test fails (|H_o| = 2 = |F|)
+  ok    all 10 completions of S fail raw EFX0
+  ok    absorber o1 with H = {g6}: X_o1 = {g4, g7, g8, g9}, x1' values it at 5 without g8, holds 4
+  ok    no need cycle, no pair chain, no cycle with one exposure arc
+  ok    the exchange digraph has 4 cycles, each rainbow with 2 exposure arcs
+  ok    exactly 4 valid states dominate S (found 4)
+  ok    each gives pairs to exactly two agents
+  ok    all 4 are completable
+        dominating: x1:a, x1':pair, x2:a, x2':pair, o1:b, o2:b
+        dominating: x1:a, x1':pair, x2:pair, x2':a, o1:a, o2:b
+        dominating: x1:pair, x1':a, x2:a, x2':pair, o1:b, o2:a
+        dominating: x1:pair, x1':a, x2:pair, x2':a, o1:a, o2:a
+  ok    representatives h_o1 = g6 (x_o1 = x1), h_o2 = g8 (x_o2 = x2)
+  ok    cycle o1 -> x1 -> o2 -> x2 -> o1 (exposure, need, exposure, need)
+  ok    exchange: x1 takes {g4, g6}, o2 takes g0, x2 takes {g5, g8}, o1 takes g2
+  ok    new state valid, dominating; NA = {}, J = {g7, g9}, F = {x1', x2', o1, o2}
+  ok    sum of utilities 14 -> 20 (got [14, 20])
+  ok    stop test: (P2) holds; x1' is free with nobody exposed: absorber x1', H = {}
+  ok    DE: one exchange, absorber x1'
+  ok    output: x1 {g4,g6}, x1' {g1,g7,g9}, x2 {g5,g8}, x2' {g3}, o1 {g2}, o2 {g0}
+  ok    output is EFX0 (raw definition, values 4, 3, 2)
+  ok    output is EFX0 for 2,000 random strictly balanced values consistent with the rankings (ties allowed)
+  ok    only the absorber's bundle has more than two goods
+  ok    hall.py improve() returns the same exchange (kind A-cycle)
+  ok    hall.py stop rule: absorber x1', H = {}
+[3] n = 2, m = 3: rankings (g0, g1, g2), (g1, g0, g2); both hold their tops
+  ok    valid, both free, J = {g2}
+  ok    each agent is exposed for the other
+  ok    Pareto-optimal among valid states
+  ok    completable only with H = {g2}
+  ok    completion X0 = {g0}, X1 = {g1, g2} is EFX0
+  ok    no free agent has nobody exposed (so H cannot be dropped from the definition of a valid absorber)
+[4] n = 6, m = 8 with shared protecting goods (agents o1, o2, x1, x1', x2, x2')
+  ok    valid; F = {o1, o2}; J = {g2, g3}
+  ok    E_o2 = {x1, x1'} with protecting goods g2, g3
+  ok    E_o1 = {x2, x2'} with protecting goods g2, g3
+  ok    not completable
+  ok    no short move
+  ok    of the 4 cycles with two exposure arcs, 2 are rainbow
+  ok    rainbow cycles give valid dominating states; the others give one junk good to two agents
+  ok    DE from serial dictatorship: EFX0 after 0 exchange(s)
+  ok    DE's loop started at this state: one exchange (two new pairs), then a completion, EFX0
+[5] Rings of k free agents over need trees of depth d (family of the potential notes)
+  ok    k=2 d=1 shared=False: n=6 m=10; no free absorber; 4 rainbow cycles, all with 2 exposure arcs; DE's loop from this state: one exchange with 2 exposure arcs, then a completion, EFX0
+  ok    k=2 d=1 shared=True: n=6 m=8; no free absorber; 2 rainbow cycles, all with 2 exposure arcs; DE's loop from this state: one exchange with 2 exposure arcs, then a completion, EFX0
+  ok    k=3 d=2 shared=False: n=21 m=33; no free absorber; 64 rainbow cycles, all with 3 exposure arcs; DE's loop from this state: one exchange with 3 exposure arcs, then a completion, EFX0
+  ok    k=3 d=2 shared=True: n=21 m=24; no free absorber; 12 rainbow cycles, all with 3 exposure arcs; DE's loop from this state: one exchange with 3 exposure arcs, then a completion, EFX0
+  ok    k=4 d=2 shared=True: n=28 m=32; no free absorber; 24 rainbow cycles, all with 4 exposure arcs; DE's loop from this state: one exchange with 4 exposure arcs, then a completion, EFX0
+[6] Limits of the shape
+  ok    (a) values (4, 3, 2): 6 EFX0 allocations, none with all bundles <= 2 goods; {g0}, {g1}, {p0, p1, p2} is EFX0 in every order
+  ok    (a) values (5, 4, 3): 6 EFX0 allocations, none with all bundles <= 2 goods; {g0}, {g1}, {p0, p1, p2} is EFX0 in every order
+  ok    (a) values (10, 9, 2): 6 EFX0 allocations, none with all bundles <= 2 goods; {g0}, {g1}, {p0, p1, p2} is EFX0 in every order
+  ok    (a) values (7, 5, 3): 6 EFX0 allocations, none with all bundles <= 2 goods; {g0}, {g1}, {p0, p1, p2} is EFX0 in every order
+  ok    (b) values (4, 3, 2): 8 EFX0 allocations with at most one bundle > 2, all of sizes 4,1,1,1; the stated one is EFX0
+  ok    (b) values (5, 4, 3): 8 EFX0 allocations with at most one bundle > 2, all of sizes 4,1,1,1; the stated one is EFX0
+  ok    (b) values (10, 9, 2): 8 EFX0 allocations with at most one bundle > 2, all of sizes 4,1,1,1; the stated one is EFX0
+  ok    (b) values (7, 5, 3): 8 EFX0 allocations with at most one bundle > 2, all of sizes 4,1,1,1; the stated one is EFX0
+[7] Small rows of the evidence table: hall.py, and this script's own code on the same sets
+  ok    hall.py n=2 m=3..6: valid 590, not completable 90, P2-path/D-cycle/A-cycle 40/10/40 (table: (590, 90, 40, 10, 40))
+  ok    hall.py n=3 m=4: valid 2112, not completable 576, P2-path/D-cycle/A-cycle 0/360/216 (table: (2112, 576, 0, 360, 216))
+  ok    hall.py n=3 m=5: valid 12698, not completable 2060, P2-path/D-cycle/A-cycle 444/872/744 (table: (12698, 2060, 444, 872, 744))
+  ok    own code n=2 m=[3, 4, 5, 6]: 590 valid states, 90 not completable; every state with no free absorber improved (230 pair chains, 10 need cycles, 40 exchange cycles); 960 completions raw EFX0
+  ok    own code n=3 m=[4, 5]: 14810 valid states, 2636 not completable; every state with no free absorber improved (2072 pair chains, 1418 need cycles, 1176 exchange cycles); 26082 completions raw EFX0
+[8] DE on random instances (evidence, seed 2026)
+  ok    20000 general instances (n <= 8, m <= 2n + 3, 0-3 valued goods, values 1..6) and 20000 instances where every agent values three goods, strictly balanced (n <= 9): every output complete, EFX0 (raw) and with at most one bundle of more than two goods
+  stats: 21214 runs reached a core; 10523 needed an exchange; at most 8 exchanges; pair chains 16167, need cycles 0, exchange cycles 638 (by exposure arcs: {'exposure arcs 1': 638}); peeled agents 67988
+0 failure(s)

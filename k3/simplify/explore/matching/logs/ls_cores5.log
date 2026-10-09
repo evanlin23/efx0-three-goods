@@ -1,0 +1,1 @@
+LS rule=mindef kinds=up,cycle,rot cores n in [5,5] sample=200: 61400 profiles; not EFX0: 0; moves {'rot': 31521, 'up': 13315, 'cycle': 3}; #moves per profile {0: 26655, 1: 25656, 2: 8121, 3: 931, 4: 37}; {'fits': 60507, 'overflow>0': 893}

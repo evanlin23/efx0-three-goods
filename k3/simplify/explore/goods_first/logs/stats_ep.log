@@ -1,0 +1,2 @@
+every profile n=3 m=6: {'profiles': 14400, 'valuer moves used': 13458, 'swap (c) used': 8100, 'pool goods to >= 2 sources': 774, 'K3S rotated': 462, 'swap (b) used': 1800, 'both': 210}
+core n=5 sample (200/core), values 4,3,2: {'profiles': 61400, 'valuer moves used': 45437, 'swap (c) used': 21124, 'pool goods to >= 2 sources': 1447, 'swap (b) used': 6807, 'K3S rotated': 817, 'both': 674}
