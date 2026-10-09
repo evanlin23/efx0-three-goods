@@ -1,0 +1,38 @@
+# command: python3 k4/zmove_pot.py results/k4_sx/hunt/n4_3_r40k.jsonl.gz results/k4_sx/hunt/n4_pure_r40k.jsonl.gz results/k4_sx/hunt/n4_pure_r400k.jsonl.gz results/k4_sx/hunt/n5_pure_r1000_3000.jsonl.gz results/k4_sx/hunt/n5_pure_r1000_4000.jsonl.gz results/k4_zmove_pot/inputs/cover_f1_seed0.jsonl.gz results/k4_zmove_pot/inputs/cover_f1_seed9.jsonl.gz inst:results/k4_zmove_pot/inputs/cover_failures_inst.json --indep=10
+ALL      states                                                          78489
+ALL      states without zm                                               0
+AR states: case 1                                                        6496
+AR states: case 1, Z'-max False                                          3894
+AR states: case 1, Z'-max True                                           2602
+AR states: case 2                                                        633
+AR states: case 2, Z'-max False                                          633
+AR states: case 3C                                                       308
+AR states: case 3C'                                                      844
+AR states: case 3C', Z'-max False                                        46
+AR states: case 3C', Z'-max True                                         798
+AR states: case 3C, Z'-max False                                         230
+AR states: case 3C, Z'-max True                                          78
+LAM      states                                                          5159
+LAM      states without zm                                               0
+PARETO   states                                                          6826
+PARETO   states without zm                                               0
+R        states                                                          34754
+R        states without zm                                               0
+RLAM     states                                                          5125
+RLAM     states without zm                                               0
+RPARETO  states                                                          6435
+RPARETO  states without zm                                               0
+RU       states                                                          6570
+RU       states without zm                                               0
+TRL      states                                                          6461
+TRL      states without zm                                               0
+U        states                                                          7029
+U        states without zm                                               0
+indep profiles                                                           447
+indep states (zm compared)                                               7853
+keys f=1                                                                 4477
+keys f=2                                                                 2
+profiles f=1                                                             4462
+profiles f=2                                                             2
+profiles read                                                            4464
+# time 361.1 s

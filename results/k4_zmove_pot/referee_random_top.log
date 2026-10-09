@@ -1,0 +1,39 @@
+# command: python3 k4/zmove_pot_referee.py random 2 4000 --bias=top --n=3,4
+(F1) W_o meets U_x in an admissible set: ok                                      1822
+(F1) W_o threatens x: ok                                                         1822
+(F2) the swap is a state of the key (g, t): ok                                   3198
+AR states: case C1                                                               36
+AR states: case C1, def* > 0                                                     7
+AR states: case C2                                                               1
+AR states: case S                                                                559
+AR states: case S, def* > 0                                                      107
+H3 under (U), (U2): exposed by at most one free agent: ok                        27796
+Lemma C1 certificate: ok                                                         320
+Lemma C1 def(P') <= 0: ok                                                        320
+Lemma C2 certificate: ok                                                         4
+Lemma C2 def(P') <= 0: ok                                                        4
+Lemma C2: |Y| = omega + 1, U_t2 in Y, t counted: ok                              4
+Lemma R0: ok                                                                     379744
+Lemma S certificate: ok                                                          2874
+Lemma S def(P') <= 0: ok                                                         2874
+Lemma S+ certificate: ok                                                         5107
+Lemma S+ def(P') <= 0: ok                                                        5107
+Lemma S+: an admissible A exists: ok                                             1847
+Lemma S: theta_t(J + B_t) <= v_t(g): ok                                          1048
+Lemma T: a terminal exists: ok                                                   710
+S = 0 implies omega >= 2: ok                                                     44
+Z0(a): ok                                                                        768
+Z0(b): ok                                                                        17383
+Z0(c) Z'-maxima = fillings of the (r', Lam')-maximal states: ok                  6190
+Z0(c) max over configurations = max over states: ok                              6190
+keys f=1                                                                         6166
+keys f=1 with def* > 0                                                           77
+keys f=2                                                                         24
+profiles f=1                                                                     2309
+profiles f=2                                                                     4
+profiles generated                                                               4000
+profiles skipped (f = 0 or omega <= 0)                                           1687
+states (deficit by H1 = raw)                                                     107293
+theta-b: big-top: ok                                                             318
+VIOLATIONS 0
+# time 211.2 s

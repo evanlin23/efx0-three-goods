@@ -1,0 +1,52 @@
+# command: python3 k4/zmove_pot.py results/k4_zmove_pot/inputs/cover_first_f2x2_1min.jsonl.gz results/k4_zmove_pot/inputs/cover_seeds_f1.jsonl.gz results/k4_zmove_pot/inputs/cover_seeds_f1_n5.jsonl.gz results/k4_zmove_pot/inputs/cover_seeds_unc_n5.jsonl.gz results/k4_zmove_pot/inputs/cover_seeds_n6.jsonl.gz results/k4_zmove_pot/inputs/cover_unc5_seed0.jsonl.gz --indep=20
+ALL      states                                                          12446
+ALL      states without zm                                               0
+AR states: case 1                                                        24
+AR states: case 1, Z'-max False                                          20
+AR states: case 1, Z'-max True                                           4
+AR states: case 2                                                        4
+AR states: case 2, Z'-max False                                          4
+AR states: case 3C'                                                      22
+AR states: case 3C', Z'-max False                                        11
+AR states: case 3C', Z'-max True                                         11
+LAM      states                                                          3150
+LAM      states without zm                                               0
+PARETO   states                                                          3484
+PARETO   states without zm                                               0
+R        states                                                          6394
+R        states without zm                                               0
+RLAM     states                                                          3150
+RLAM     states without zm                                               0
+RPARETO  states                                                          3272
+RPARETO  states without zm                                               0
+RU       states                                                          3545
+RU       states without zm                                               0
+TRL      states                                                          3164
+TRL      states without zm                                               0
+U        states                                                          3757
+U        states without zm                                               0
+f=2 states, every free agent robust and locally optimal: zm True, without helper False, plain (T3) without helper False 428
+f=2 states, every free agent robust and locally optimal: zm True, without helper True, plain (T3) without helper True 1319
+f=3 states, every free agent robust and locally optimal: zm True, without helper False, plain (T3) without helper False 2
+f=3 states, every free agent robust and locally optimal: zm True, without helper True, plain (T3) without helper False 1750
+f=3 states, every free agent robust and locally optimal: zm True, without helper True, plain (T3) without helper True 9
+f=4 states, every free agent robust and locally optimal: zm True, without helper True, plain (T3) without helper True 10
+indep profiles                                                           151
+indep states (zm compared)                                               613
+keys f=1                                                                 18
+keys f=1: free agents not robust at the Z'-maxima = 0                    15
+keys f=1: free agents not robust at the Z'-maxima = 1                    3
+keys f=2                                                                 1244
+keys f=2: free agents not robust at the Z'-maxima = 0                    1243
+keys f=2: free agents not robust at the Z'-maxima = 2                    1
+keys f=3                                                                 1761
+keys f=3: free agents not robust at the Z'-maxima = 0                    1759
+keys f=3: free agents not robust at the Z'-maxima = 1                    2
+keys f=4                                                                 10
+keys f=4: free agents not robust at the Z'-maxima = 0                    10
+profiles f=1                                                             18
+profiles f=2                                                             1244
+profiles f=3                                                             1752
+profiles f=4                                                             1
+profiles read                                                            3015
+# time 447.3 s

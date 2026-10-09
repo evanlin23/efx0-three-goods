@@ -1,0 +1,46 @@
+# command: python3 k4/zmove_pot_referee_rc.py 
+4515 keys with def* > 0                                                                                                                                2152
+4515 profiles                                                                                                                                          1076
+4515 profiles with 4 states without zm                                                                                                                 1076
+4515 repair: trade state exists False, final state exists False, def(final) None, final = trade + one plain (T3) move False                            372
+4515 repair: trade state exists True, final state exists False, def(final) None, final = trade + one plain (T3) move False                             2876
+4515 repair: trade state exists True, final state exists True, def(final) -1, final = trade + one plain (T3) move True                                 1056
+4515 states without zm                                                                                                                                 4304
+4515 stuck (Pareto-maximal and locally optimal False): best r'-raising trade a Pareto improvement                                                      4136
+4515 stuck (Pareto-maximal and locally optimal False): best r'-raising trade lowers agent 2 only                                                       126
+4515 stuck (Pareto-maximal and locally optimal True): best r'-raising trade lowers agent 2 only                                                        42
+4515 stuck B3 = [5, 6]: Pareto-maximal False, every free agent locally optimal False                                                                   1063
+4515 stuck B3 = [5, 6]: Pareto-maximal True, every free agent locally optimal True                                                                     13
+4515 stuck B3 = [5, 7]: Pareto-maximal False, every free agent locally optimal False                                                                   1059
+4515 stuck B3 = [5, 7]: Pareto-maximal True, every free agent locally optimal True                                                                     17
+4515 stuck B3 = [5]: Pareto-maximal False, every free agent locally optimal False                                                                      418
+4515 stuck B3 = [6, 7]: Pareto-maximal False, every free agent locally optimal False                                                                   1064
+4515 stuck B3 = [6, 7]: Pareto-maximal True, every free agent locally optimal True                                                                     12
+4515 stuck B3 = [6]: Pareto-maximal False, every free agent locally optimal False                                                                      216
+4515 stuck B3 = [7]: Pareto-maximal False, every free agent locally optimal False                                                                      442
+4515 stuck state [[4], [1, 8], [10, 11], 'B3', [9]] (key [4, None, None, None, 9])                                                                     4304
+4515 stuck states Pareto-maximal and locally optimal                                                                                                   42
+4515 stuck: B3 = [5, 6], agent 1 robust False, agent 2 on {10,11} True and robust True, r' 2, key max r' 3                                             1076
+4515 stuck: B3 = [5, 7], agent 1 robust False, agent 2 on {10,11} True and robust True, r' 2, key max r' 3                                             1076
+4515 stuck: B3 = [6, 7], agent 1 robust False, agent 2 on {10,11} True and robust True, r' 2, key max r' 3                                             1076
+4515 stuck: B3 = singleton, agent 1 robust False, agent 2 on {10,11} True and robust True, r' 1, key max r' 3                                          1076
+4515 stuck: some trade option keeps agent 2 robust, makes agent 1 robust, lowers agent 2's value: False                                                3932
+4515 stuck: some trade option keeps agent 2 robust, makes agent 1 robust, lowers agent 2's value: True                                                 372
+4515 trade: agent 1 [1, 10], agent 2 [3, 11]: r' 1 -> 2, agent 1 robust True, agent 2 robust True, agent 2's value lower False                         1029
+4515 trade: agent 1 [1, 10], agent 2 [3, 11]: r' 1 -> 2, agent 1 robust True, agent 2 robust True, agent 2's value lower True                          47
+4515 trade: agent 1 [1, 10], agent 2 [3, 11]: r' 2 -> 3, agent 1 robust True, agent 2 robust True, agent 2's value lower False                         3087
+4515 trade: agent 1 [1, 10], agent 2 [3, 11]: r' 2 -> 3, agent 1 robust True, agent 2 robust True, agent 2's value lower True                          141
+4515 trade: agent 1 [1, 10], agent 2 [3]: r' 1 -> 1, agent 1 robust True, agent 2 robust False, agent 2's value lower True                             983
+4515 trade: agent 1 [1, 10], agent 2 [3]: r' 2 -> 2, agent 1 robust True, agent 2 robust False, agent 2's value lower True                             2949
+4515 trade: agent 1 [1, 11], agent 2 [3, 10]: r' 1 -> 2, agent 1 robust True, agent 2 robust True, agent 2's value lower False                         988
+4515 trade: agent 1 [1, 11], agent 2 [3, 10]: r' 1 -> 2, agent 1 robust True, agent 2 robust True, agent 2's value lower True                          88
+4515 trade: agent 1 [1, 11], agent 2 [3, 10]: r' 2 -> 3, agent 1 robust True, agent 2 robust True, agent 2's value lower False                         2964
+4515 trade: agent 1 [1, 11], agent 2 [3, 10]: r' 2 -> 3, agent 1 robust True, agent 2 robust True, agent 2's value lower True                          264
+4515 trade: agent 1 [1, 11], agent 2 [3]: r' 1 -> 1, agent 1 robust True, agent 2 robust False, agent 2's value lower True                             983
+4515 trade: agent 1 [1, 11], agent 2 [3]: r' 2 -> 2, agent 1 robust True, agent 2 robust False, agent 2's value lower True                             2949
+4515 trade: not a state of the key                                                                                                                     744
+4604 keys with def* > 0                                                                                                                                369
+4604 profiles                                                                                                                                          369
+4604 stuck state [[11], [12], [3, 7], [4, 8], [5, 9]] key [11, None, None, None, None]                                                                 369
+4604 stuck: agent 1 robust False, 1 in J True, (T1) to B1 + {1} a state of the key True, r' 3 -> 4                                                     369
+# time 396.4 s
