@@ -2,17 +2,21 @@
 
 Workstream `proof/k4-zmove-f1` (PR #91, draft). Target: Theorem ZMOVE (`k4/f2.md` §7.2) at f = 1. Milestones: (1)
 Conjecture S1c (K4.TB.S1C) at every n; (2) the open cases of K4.SX.COVER; (3) ZMOVE at f = 1. Nothing here changes
-K4.D or K4.T. Written proofs here are CONJECTURE rows until refereed; data rows are EVIDENCE.
+K4.D or K4.T. Written proofs here are CONJECTURE rows until the owner upgrades them; data rows are EVIDENCE.
 
-**Status (end of the first session).** No milestone is reached. What is here:
+**Status (after the PR #91 review).** No milestone is reached. The written proofs of §2–§3 were refereed once by an
+independent AI session: no error found (report: `k4/zmove_f1_referee.md`; citation and wording fixes applied). The
+evidence of §4 was re-run (every logged number reproduced), and its key claim was confirmed by a second implementation
+(`k4/zf1_indep.py`). Two unlogged data remarks of the first session were corrected (§4). What is here:
 
-- **Written proofs, not yet refereed** (§2; ledger K4.ZF1.CNT, CONJECTURE): four tools at a Z′-maximum Q of an f = 1
-  key κ = (g, x) whose frozen agent x is big-top on g.
+- **Written proofs, refereed once, no error found** (§2; ledger K4.ZF1.CNT, CONJECTURE): four tools at a Z′-maximum Q
+  of an f = 1 key κ = (g, x) whose frozen agent x is big-top on g.
   - *Lemma JO* (any x): pool-optimality extends to the fillers. No free agent has a pair inside its pair, the pool and
     the other agents' fillers that beats its pair.
   - *Lemma CNT* (the counting certificate): a configuration with a lower good of x outside the pool, two robust free
-    agents, and at most one threatener per free agent is completable. This is Theorem Z′(i) with Lemma D(ii) of
-    `k4/c4min_reduce.md`, stated for any configuration.
+    agents, and at most one threatener per free agent is completable. This is the big-top case of Lemma C of
+    `k4/c4min_reduce.md` §3 (K4.C4MIN.RED.C, PROVED): for a big-top x, "a lower good of x outside the pool" is t = 0,
+    and then Lemma D(ii) gives at most one owner threatening x.
   - *Corollary R1*: if κ is non-completable, then r′(Q) ≥ 2 forces the shape (I): every lower good of x in the pool, no
     free agent holding a filler, every terminal robust. Otherwise (shape (II)) *every* configuration at κ has at most
     one robust free agent.
@@ -20,12 +24,13 @@ K4.D or K4.T. Written proofs here are CONJECTURE rows until refereed; data rows 
     pair.
 - **Consequences for the exception (E) of Lemma P** (§3; the only place S1c is needed for K4.SX.COVER at n ≥ 4): in (E)
   both terminals are "non-steep", and every free agent that values a lower good of x has exactly four goods, does not
-  value g, values exactly one lower good ℓ of x, and has the shape v(h₁) + v(ℓ) < v(h₂) + v(z) of §3. Written proofs, not
-  yet refereed. (E) itself stays open.
+  value g, values exactly one lower good ℓ of x, and has the shape v(h₁) + v(ℓ) < v(h₂) + v(z) of §3. Written proofs,
+  refereed once, no error found. (E) itself stays open.
 - **Data (EVIDENCE, §4; ledger K4.ZF1.BT4)**: in every hunt run here, and in all of PR #80's n = 4, 5 dumps, *no*
-  non-completable f = 1 key with a big-top frozen agent exists at n ≥ 4. At n = 3 such keys exist, and at every one
-  of them exactly one free agent values g. So S1c may hold at n ≥ 4 because its hypothesis is empty there (Conjecture
-  BT4, §4), which no argument here proves.
+  non-completable f = 1 key with a big-top frozen agent exists at n ≥ 4 (two implementations on the dumps and on the
+  exhaustive (E)-shaped core; one on the extensions and hill-climbs). At n = 3 such keys exist (14,880 in PR #80's
+  n = 3 dumps, i.e. on every strict n = 3 profile), and at every one of them exactly one free agent values g. So S1c
+  may hold at n ≥ 4 because its hypothesis is empty there (Conjecture BT4, §4), which no argument here proves.
 
 ## 0. Setting
 
@@ -43,25 +48,28 @@ Facts used (all PROVED rows):
   S ⊆ Q_y ∪ L beats Q_y) alone gives "y is threatened by at most one owner", with the kinds and threat conditions of
   `k4/c4min_f1.md` Lemma 3 (K4.C4MIN.F1): a non-robust y is (T3), (Tg), (T4) (one valued good and a filler), (D) or
   (R) (two valued goods).
-- (BT) If x is big-top, a set Z ∌ g threatens x holding {g} iff L_x ⊊ Z (`k4/c4min_f1.md` Lemma 8(a)).
+- (BT) If x is big-top, a set Z ∌ g threatens x holding {g} iff L_x ⊊ Z (`k4/c4min_f1.md` Lemma 8(a), K4.C4MIN.F1;
+  stated there for owner bundles, its proof uses only g ∉ Z and balance).
 - (K) If some configuration at κ has an owner valid with C = ∅ (its bundle threatens nobody), def*(κ) ≤ 0
   (`k4/sx.md` Lemma 0, K4.SX.KEY).
-- (θ₂) If Y ∩ R_w ⊆ Z ∩ R_w and |Y| ≤ |Z|, then θ_w(Y) ≤ θ_w(Z) (`k4/f2.md` §5 Fact 2).
+- (θ₂) If Y ∩ R_w ⊆ Z ∩ R_w and |Y| ≤ |Z|, then θ_w(Y) ≤ θ_w(Z) (`k4/f2.md` §5 Fact 2, K4.F2.CC).
+- A set of one or two goods of U_y worth more to y than an admissible set is admissible (`k4/c4min.md` §1).
 - Robust free agents are threatened by no owner (`k4/c4min_reduce.md` §2, first line of the proof of Theorem Z′).
 
 ## 1. Where S1c stands
 
 Conjecture S1c (K4.TB.S1C): at a Z′-maximum of a non-completable f = 1 key with two or more terminals, x is not
-big-top. Its n = 3 case is PR #88's Proposition S1c₃ (`k4/zmove_hall.md` §3, unrefereed, PR #88; the PR #88 referee
-reports the proof correct). For K4.SX.COVER, S1c is needed only to exclude the exception (E) of Lemma P
-(`k4/thetab.md` §7, K4.TB.P), and only at n ≥ 4, since Lemma P (iii) excludes (E) at n = 3.
+big-top. Its n = 3 case is Proposition S1c₃ of `k4/zmove_hall.md` §3 (PR #88, proof/k4-zmove-hall, merged; PROVED,
+refereed in the PR #88 review, K4.ZMH.S1C3). For K4.SX.COVER, S1c is needed only to exclude the exception (E) of
+Lemma P (`k4/thetab.md` §7, K4.TB.P), and only at n ≥ 4, since Lemma P (iii) excludes (E) at n = 3.
 
-The PR #88 referee lists where the n = 3 proof does not transfer: (a) the fourth good of a terminal may lie in a third
-agent's pair; (b) the count m = 6; (c) the leaf need not be a terminal; (d) three or more terminals. The tools of §2 do
-not use the n = 3 proof; they replace its exchanges by the counting certificate CNT, which needs only *two robust
-agents and at most one threatener per agent*, not a configuration in which nobody is threatened.
+`k4/zmove_hall.md` §3.3 (PR #88, merged) lists where the n = 3 proof does not transfer: (a) a third agent may value the
+good released by the parking exchange; (b) the fourth good of a terminal may lie in a third agent's pair; (c) the count
+m = 6; (d) the leaf need not be a terminal; (e) three or more terminals. The tools of §2 do not use the n = 3 proof;
+they replace its exchanges by the counting certificate CNT, which needs only *two robust agents and at most one
+threatener per agent*, not a configuration in which nobody is threatened.
 
-## 2. Tools at a Z′-maximum (written proofs, not yet refereed)
+## 2. Tools at a Z′-maximum (written proofs, refereed once, no error found: `k4/zmove_f1_referee.md`)
 
 **Lemma JO (junk-optimality).** Let Q be a Z′-maximum at an f = 1 key (x arbitrary) and w a free agent. No pair
 B ⊆ Q_w ∪ L ∪ Φ₋w has v_w(B) > v_w(Q_w). Hence (a) an agent with a filler values no good of L ∪ Φ₋w; (b) an agent
@@ -91,6 +99,10 @@ threaten a free agent, and at least r′ ≥ 2 owners are free-valid. If an owne
 (g ∉ X*_o), so L_x ∖ L* ⊆ Q*_o; as L_x ∖ L* ≠ ∅ and pairs are disjoint, at most one owner threatens x. So some
 free-valid owner threatens nobody; it is valid with C = ∅ (its bundle contains its admissible part), and (K) gives
 def*(κ) ≤ 0. ∎
+
+*Remark (PR #91 review).* CNT is the big-top case of Lemma C of `k4/c4min_reduce.md` §3 (K4.C4MIN.RED.C, PROVED). For
+a big-top x, every proper subset of L_x is worth at most v_x(b) + v_x(c) < v_x(g), so t = [v_x(L* ∩ U_x) > v_x(g)] = 0
+iff L_x ⊄ L*. Then Lemma D(ii) gives |D_x| ≤ 1 < r′. The proof above is the same count, written out.
 
 **Corollary R1.** Let x be big-top, def*(κ) > 0, and Q a Z′-maximum at κ.
 - (a) If L_x ⊄ L, every configuration at κ has at most one robust free agent.
@@ -142,16 +154,23 @@ values ℓ, holds {h₁, h₂} with v(h₁) > v(h₂) (> v(ℓ) by JO(b)), and U
 
 Setting of `k4/thetab.md` §7: Q a Z′-maximum of a non-completable f = 1 key, the terminals are exactly two leaves τ₁,
 τ₂, both θ-b (four goods, big-top on g, Q_τ = {α, β} its two best lower goods, its third lower good γ in L), and (E):
-x big-top, L_x ⊆ L, L_x ∩ (U_τ₁ ∪ U_τ₂) = ∅. θ-b terminals are robust, so r′(Q) ≥ 2 and Q has shape (I) (Corollary
-R1(c)): no free agent holds a filler.
+x big-top, L_x ⊆ L, L_x ∩ (U_τ₁ ∪ U_τ₂) = ∅. (Lemma P's (E) also has v_x(p) < v_x(q) + v_x(r); nothing below uses it,
+so Corollary E holds under the weaker hypotheses.) θ-b terminals are robust (`k4/sx.md` §3, K4.SX.REP), so r′(Q) ≥ 2
+and Q has shape (I) (Corollary R1(c)): no free agent holds a filler.
 
-**Corollary E (written proof, not yet refereed).** In (E):
+PR #87 (proof/k4-zmove-pot, open when this was written) has a state-level exception (E) in its Proposition ℛ, at states
+whose free agents are all robust. At P_Q of a Z′-maximum it is the case of the (E) here with every free agent robust.
+Its last lemma of §4 shows that in (E) every terminal is *fragile*, v(u₁) < v(u₂) + v(u₃). That is (E1) below, proved
+there by another argument (a (T1) re-basing of the terminal). The PR #91 review found no disagreement
+(`k4/zmove_f1_referee.md` §4).
+
+**Corollary E (written proof, refereed once, no error found).** In (E):
 - (E1) each τ_i is non-steep: v(β_i) + v(γ_i) > v(α_i);
 - (E2) every free agent w that values a lower good of x is a third agent (not τ₁, τ₂), holds two goods h₁, h₂ it values
   (v(h₁) > v(h₂)), has exactly four goods R_w = {h₁, h₂, ℓ, z} with g ∉ R_w, values exactly one lower good ℓ of x, and
   v(h₁) + v(ℓ) < v(h₂) + v(z); in particular v(z) > v(ℓ), z ∉ L_x;
-- (E3) such a w exists (core condition (C3): x has at most two private goods, and the terminals value no lower good of
-  x).
+- (E3) such a w exists (core condition (C3): x has at most two private goods, and g is not private since τ₁ values it;
+  so some lower good of x is valued by another agent, which is not a terminal by (E)).
 
 *Proof.* (E1): Lemma ABS, instance (i), with w = τ_i, k = α_i (the top of U_τᵢ) and any ℓ ∈ L_x (τ_i does not value
 it). (E2): w ∉ {τ₁, τ₂} by (E); no filler by shape (I). If U_w ⊆ {h₁, h₂, ℓ}, instance (ii) of ABS applies. So w has a
@@ -189,23 +208,47 @@ Tools (this workstream; `k4/zf1_lib.py` is written from the definitions and impo
   the number of completable configurations at its big-top keys.
 - `k4/zf1_eshape.py`: every profile of the n = 4 core shaped like (E) with the third agent of (E2)
   (sets [[0,1,2,3],[0,4,5,6],[0,7,8,6],[9,10,1,4]], x, τ₁, τ₂ big-top on 0).
+- `k4/zf1_indep.py` (PR #91 review, the referee's second implementation): written from `k4/c4x.md` §1 without
+  configurations, Lemma K or Lemma 0. It enumerates the valid pre-allocations with one frozen agent and decides
+  def*(κ) ≤ 0 with the removal-only deficit, including the unfreezing clause. It builds its own 288 strict balanced
+  4-good types.
 
 Results (`results/k4_zmove_f1/`):
 - `embed_n4.log`: 400 n = 3 profiles with a non-completable big-top key, 40 one-agent extensions each: 16,000 f = 1
   profiles at n = 4, 20,679 big-top keys, all completable.
 - `embed_n5.log`: 120 bases, 30 two-agent extensions each: 3,480 f = 1 profiles at n = 5, 5,254 big-top keys, all
   completable.
-- `bthunt_n4_s11.log`: 500 hill-climbs of 200 steps on the 222 n = 4 cores with ω ≥ 2: no non-completable big-top key.
-  (The same search at n = 3 finds one in 60 runs, so it is weak.)
-- `eshape_n4_z4.log`: all 248,832 profiles of the (E)-shaped n = 4 core (x, τ₁, τ₂ big-top on g, the third agent
-  of (E2) with z = α₁): (0, x) is a key in 237,312 of them and completable in every one. So (E) cannot occur on this
-  core (exhaustive over its strict types, single implementation).
-- n = 3 (every 20th profile of PR #80's dumps `n3_all_30`, `n3_all_40`, not logged here): at every non-completable
-  big-top key exactly one free agent values g (so S1c₃ holds there for a stronger reason), and at every non-completable
-  key whose x is not big-top both free agents are big-top on g.
+- `bthunt_n4_s11.log`: 500 hill-climbs of 200 steps on the 222 n = 4 cores with ω ≥ 2: no non-completable big-top key
+  (498 runs end at a profile with big-top f = 1 keys, all completable; 2 at a profile without one). The search is
+  weak but not blind. At n = 3 (`k4_certs_3`, 18 cores with ω ≥ 2) it finds a non-completable big-top key in 39 of
+  600 runs (`bthunt_n3_s1.log`), and in 2 to 9 of 60 runs for each of seeds 1–12 (`bthunt_n3_seeds.log`).
+  The first session's "one in 60 runs" was not logged and is not reproduced.
+- `eshape_n4_z4.log`: every strict core profile of the (E)-shaped n = 4 core in which x, τ₁, τ₂ are big-top on g
+  (12 types each), with all 144 types of w satisfying (C4): 248,832 profiles. The third agent w has ℓ = 1 (a lower
+  good of x) and z = 4 (a lower good of τ₁). (0, x) is a key in 237,312 of them and completable in every one. So (E)
+  cannot occur on this core with these roles. The search is exhaustive over its types.
+  - Second implementation (`indep_eshape_n4_z4.log`, `k4/zf1_indep.py --eshape`): it agrees. (0, x) is not a key at
+    11,520 profiles (11,424 with f = 1 and 96 with f ≥ 2; no profile has f = 0) and is a completable key at 237,312. It also checks the other f = 1
+    keys: those of τ₁ (245,376) and τ₂ (239,616), whose frozen agents are big-top too, are all completable. No
+    profile of this domain has a non-completable key.
+- n = 3, all of PR #80's dumps `n3_all_*` (every strict n = 3 profile with a non-completable key; `indep_n3_all.log`,
+  `k4/zf1_indep.py --n3`):
+  - at each of the 14,880 non-completable keys with x big-top, exactly one free agent values g, so S1c₃ holds there
+    for a stronger reason;
+  - at the 47,328 keys with x not big-top, both free agents are big-top on g at 34,080, one at 7,296 and none at
+    5,952. Example: core 17 of `k4_certs_3`, m = 6, sets [[0,1,4,5],[2,3,4,5],[2,3,4,5]], values
+    [[2,7,6,10],[2,4,5,8],[2,4,5,8]], key (5, agent 0).
+
+  The first session stated "both free agents big-top" from every 20th profile of `n3_all_30`, `n3_all_40` alone, where
+  it does hold (1,247 keys, `indep_n3_every20.log`). It is not true in general.
 - `count_hunts.log` (`k4/zf1_count.py`): PR #80's n = 4 hunts (`n4_3_r40k`, `n4_pure_r40k`, `n4_pure_r400k`), its two
   n = 5 pure hunt files with keys, and the T1-stuck profiles of `k4/dl13.md`: 2,691 non-completable keys at n ≥ 4
   (4,253 Z′-maxima), none with x big-top; the 135 big-top ones are at n = 3. (`k4/thetab.md` §7.1's table agrees.)
+  The second implementation gets the same key counts (`indep_count_hunts.log`).
+
+Every logged number above was reproduced by re-running the commands below in the PR #91 review. The logs are identical
+except for wall-clock times (`k4/zmove_f1_referee.md` §2). Single implementation: the extensions (`embed_*`) and the
+hill-climbs (`bthunt_*`), whose profiles were not dumped.
 
 **Conjecture BT4 (CONJECTURE, EVIDENCE only).** At n ≥ 4 every f = 1 key whose frozen agent is big-top is completable.
 It would make S1c at n ≥ 4 vacuous, and with S1 (K4.ON.S) it would confine the single-terminal regime to n = 3.
@@ -224,4 +267,12 @@ python3 k4/zf1_embed.py results/k4_sx/hunt/n3_all_30.jsonl.gz results/k4_sx/hunt
 python3 k4/zf1_embed.py results/k4_sx/hunt/n3_all_40.jsonl.gz --every=11 --max=120 --trials=30 --seed=3 --depth=2                           # embed_n5.log (~40 s)
 python3 k4/zf1_bthunt.py results/k4_certs_4_n4_1.json.gz results/k4_certs_4_n4_2.json.gz results/k4_certs_4_n4_3.json.gz results/k4_certs_4_pure.json.gz --runs=500 --steps=200 --seed=11   # ~3 min
 python3 k4/zf1_eshape.py      # eshape_n4_z4.log (248,832 profiles, ~13 min)
+python3 k4/zf1_count.py results/k4_sx/hunt/n4_3_r40k.jsonl.gz results/k4_sx/hunt/n4_pure_r40k.jsonl.gz results/k4_sx/hunt/n4_pure_r400k.jsonl.gz results/k4_sx/hunt/n5_pure_r1000_3000.jsonl.gz results/k4_sx/hunt/n5_pure_r1000_4000.jsonl.gz results/k4_sx/t3stage/profiles_f1.jsonl.gz   # count_hunts.log (~30 s)
+# PR #91 review (k4/zmove_f1_referee.md):
+python3 k4/zf1_bthunt.py results/k4_certs_3.json.gz --runs=600 --steps=200 --seed=1   # bthunt_n3_s1.log (~1 min)
+python3 k4/zf1_indep.py --eshape --procs=3   # indep_eshape_n4_z4.log (~3 min)
+python3 k4/zf1_indep.py results/k4_sx/hunt/n4_3_r40k.jsonl.gz results/k4_sx/hunt/n4_pure_r40k.jsonl.gz results/k4_sx/hunt/n4_pure_r400k.jsonl.gz results/k4_sx/hunt/n5_pure_r1000_3000.jsonl.gz results/k4_sx/hunt/n5_pure_r1000_4000.jsonl.gz results/k4_sx/t3stage/profiles_f1.jsonl.gz   # indep_count_hunts.log
+python3 k4/zf1_indep.py --n3 results/k4_sx/hunt/n3_all_0.jsonl.gz results/k4_sx/hunt/n3_all_10.jsonl.gz results/k4_sx/hunt/n3_all_20.jsonl.gz results/k4_sx/hunt/n3_all_30.jsonl.gz results/k4_sx/hunt/n3_all_40.jsonl.gz results/k4_sx/hunt/n3_all_50.jsonl.gz   # indep_n3_all.log (~1 min)
+python3 k4/zf1_indep.py --n3 --every=20 results/k4_sx/hunt/n3_all_30.jsonl.gz results/k4_sx/hunt/n3_all_40.jsonl.gz   # indep_n3_every20.log
 ```
+(`bthunt_n3_seeds.log`: the n = 3 hill-climb with `--runs=60` for seeds 1–12, `NC big-top` lines filtered out.)
