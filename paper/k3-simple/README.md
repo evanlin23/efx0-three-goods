@@ -9,9 +9,11 @@ agent), or a ring of trades. The proof rests on the Improvement Lemma: in a vali
 finish, a chain or a ring makes some agent better off and nobody worse off; the ring exists because every agent can
 point at an agent that would gladly take its good. It is written in
 Springer's LLNCS format, 11pt, in two versions that share the bibliography and the class files. This is the paper
-intended for publication; the papers are self-contained and cite only this repository and published work.
+intended for publication; the papers are self-contained. Their novelty claim (§1, "What is new") rests on the
+literature search of `proofs/novelty.md` (25 September 2026).
 
-- `main.tex` → `main.pdf`: the submission, at most 8 pages of body before the references, readable on its own:
+- `main.tex` → `main.pdf`: the short version (LLNCS, about 9 pages of body before the references), readable on its own:
+  what is new (with an instance no earlier result covers),
   peeling, states, finishing (with the soundness proof), improving (chain, ring, the finishing test, the Improvement
   Lemma, all with proofs), DE with pseudocode and a three-agent example; in the appendix the short proofs of §2–§3,
   the corollary on Pareto-optimal states, the worked example with its figure, how large a ring must be, the limits
@@ -33,7 +35,8 @@ intended for publication; the papers are self-contained and cite only this repos
   trades on it at depth 4; Lemma cases of safety and Proposition limits of the shape, by listing every allocation;
   on all 30,507 valid states of the core profiles with n = 2 (m ≤ 6) and n = 3 (m ≤ 7), up to renaming goods, the
   finishing test, soundness (every completion), Lemma ring (every ring), the Improvement Lemma in the form of its
-  proof and DE's loop started there; and DE, peeling included, on 40,000 random instances, compared with the loop of
+  proof and DE's loop started there; DE, peeling included, on 40,000 random instances, and the instance of "What is new" (that no earlier result's
+  hypotheses hold for it, and DE on 2,000 random value draws), compared with the loop of
   the previous version (an agent holding nothing finishing first) and with `k3/simplify/po/hall/hall.py`. Run from
   the repository root: `python3 paper/k3-simple/examples/check_examples.py` (one process, about a minute; output
   copied to `examples/check_output.txt`; exit status 0 iff every check passes).

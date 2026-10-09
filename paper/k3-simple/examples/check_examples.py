@@ -1233,9 +1233,36 @@ def sec_random(K_general=20000, K_core=20000):
                               f'the instance\'s values)')
 
 
+def sec_novel(K=2000):
+    out('[9] Section 1, "What is new": an instance of the model that no earlier existence result covers')
+    sets = [(0, 1, 6), (0, 1, 7), (0, 2, 8), (2, 3, 4), (3, 5, 9), (4, 5, 10)]
+    n, m = len(sets), 1 + max(g for S in sets for g in S)
+    valuers = {g: [i for i, S in enumerate(sets) if g in S] for g in range(m)}
+    check(n == 6 and m == 11 and m == n + 5 and all(len(set(S)) == 3 for S in sets),
+          'six agents, eleven goods (m = n + 5: neither m <= n + 3 nor m = n + 4), each agent values exactly three goods')
+    check(len(valuers[0]) == 3, 'three agents value g0 (not at most two valuers per good)')
+    check(set(sets[0]) & set(sets[1]) == {0, 1},
+          'the first two agents share g0 and g1: the hypergraph of goods (edges) on agents has girth 2')
+    rng = random.Random(9)
+    bad = 0
+    for _ in range(K):
+        vals = rng.sample(range(1001, 2000), 3 * n)                # distinct values in (1, 2), scaled by 1000
+        v = [{g: vals[3 * i + k] for k, g in enumerate(sorted(S))} for i, S in enumerate(sets)]
+        distinct = len({tuple(sorted(vi.items())) for vi in v}) == n
+        balanced = all(max(vi.values()) < sum(vi.values()) - max(vi.values()) for vi in v)
+        X = de(v, n, m)
+        ok = (distinct and balanced and is_complete(X, m) and is_efx0(v, X)
+              and sum(1 for B in X if len(B) > 2) <= 1)
+        bad += not ok
+    check(bad == 0, f'{K} random draws of pairwise distinct values in (1, 2): six different valuations, every agent '
+                    f'strictly balanced; DE returns a complete EFX0 allocation with at most one bundle of more than '
+                    f'two goods every time')
+
+
 def main():
     t0 = time.time()
-    for sec in (sec_intro, sec_small, sec_worked, sec_short, sec_rings, sec_limits, sec_exhaustive, sec_random):
+    for sec in (sec_intro, sec_small, sec_worked, sec_short, sec_rings, sec_limits, sec_exhaustive, sec_random,
+                sec_novel):
         try:
             sec()
         except Exception as e:                       # a failed assert is a failed check

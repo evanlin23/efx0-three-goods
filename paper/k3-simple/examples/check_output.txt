@@ -112,4 +112,9 @@
   ok    20000 instances with n <= 8, 0-3 valued goods per agent, values 1..6 (ties, unbalanced agents, goods nobody values) and 20000 strictly balanced cores with n <= 9: every output complete, EFX0 (raw), at most one bundle of more than two goods, at most 4n trades
   stats: 21214 runs reached the loop, 10523 needed a trade, at most 8 trades; peeled agents 67988; trades: chain 16167, ring with 1 pair arrow(s) 638; finish: every agent holds its pair 899, finish: free agent holding a good 17208, finish: free agent holding nothing 3107
   ok    on the 21214 cores reached: the previous paper's loop (a free agent holding nothing finishes first) picks another finishing agent in 2079 run(s), another output in 1300; hall.py (another tie-break among the leftover goods) differs in 146; all these outputs EFX0 (raw, the instance's values)
+[9] Section 1, "What is new": an instance of the model that no earlier existence result covers
+  ok    six agents, eleven goods (m = n + 5: neither m <= n + 3 nor m = n + 4), each agent values exactly three goods
+  ok    three agents value g0 (not at most two valuers per good)
+  ok    the first two agents share g0 and g1: the hypergraph of goods (edges) on agents has girth 2
+  ok    2000 random draws of pairwise distinct values in (1, 2): six different valuations, every agent strictly balanced; DE returns a complete EFX0 allocation with at most one bundle of more than two goods every time
 0 failure(s)
