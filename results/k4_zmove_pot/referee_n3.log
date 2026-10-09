@@ -1,0 +1,31 @@
+# command: python3 k4/zmove_pot_referee.py results/k4_sx/hunt/n3_all_10.jsonl.gz results/k4_sx/hunt/n3_all_20.jsonl.gz results/k4_sx/hunt/n3_all_30.jsonl.gz results/k4_sx/hunt/n3_all_40.jsonl.gz --every=10
+(F1) W_o meets U_x in an admissible set: ok                                      15844
+(F1) W_o threatens x: ok                                                         15844
+(F2) the swap is a state of the key (g, t): ok                                   27328
+AR states: case C1, def* > 0                                                     304
+AR states: case S                                                                298
+AR states: case S, def* > 0                                                      7320
+H3 under (U), (U2): exposed by at most one free agent: ok                        58956
+Lemma C1 certificate: ok                                                         959
+Lemma C1 def(P') <= 0: ok                                                        959
+Lemma R0: ok                                                                     219796
+Lemma S certificate: ok                                                          26369
+Lemma S def(P') <= 0: ok                                                         26369
+Lemma S+ certificate: ok                                                         46741
+Lemma S+ def(P') <= 0: ok                                                        46741
+Lemma S+: an admissible A exists: ok                                             18428
+Lemma S: theta_t(J + B_t) <= v_t(g): ok                                          11304
+Lemma T: a terminal exists: ok                                                   7922
+S = 0 implies omega >= 2: ok                                                     304
+Z0(a): ok                                                                        2569
+Z0(b): ok                                                                        40071
+Z0(c) Z'-maxima = fillings of the (r', Lam')-maximal states: ok                  17176
+Z0(c) max over configurations = max over states: ok                              17176
+keys f=1                                                                         17176
+keys f=1 with def* > 0                                                           6221
+profiles f=1                                                                     6221
+profiles read                                                                    6221
+states (deficit by H1 = raw)                                                     151822
+theta-b: big-top: ok                                                             3148
+VIOLATIONS 0
+# time 614.2 s

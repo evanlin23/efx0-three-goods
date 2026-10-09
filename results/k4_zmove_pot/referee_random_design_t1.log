@@ -1,0 +1,28 @@
+# command: python3 k4/zmove_pot_referee.py random 3 3000 --bias=design --n=3,4 --terms=1
+(F1) W_o meets U_x in an admissible set: ok                                      104
+(F1) W_o threatens x: ok                                                         104
+(F2) the swap is a state of the key (g, t): ok                                   150
+AR states: case S                                                                34
+AR states: case S, def* > 0                                                      6
+H3 under (U), (U2): exposed by at most one free agent: ok                        3159
+Lemma R0: ok                                                                     57093
+Lemma S certificate: ok                                                          150
+Lemma S def(P') <= 0: ok                                                         150
+Lemma S+ certificate: ok                                                         203
+Lemma S+ def(P') <= 0: ok                                                        203
+Lemma S+: an admissible A exists: ok                                             69
+Lemma S: theta_t(J + B_t) <= v_t(g): ok                                          51
+Lemma T: a terminal exists: ok                                                   40
+Z0(a): ok                                                                        154
+Z0(b): ok                                                                        2217
+Z0(c) Z'-maxima = fillings of the (r', Lam')-maximal states: ok                  855
+Z0(c) max over configurations = max over states: ok                              855
+keys f=1                                                                         855
+keys f=1 with def* > 0                                                           4
+profiles f=1                                                                     442
+profiles generated                                                               3000
+profiles skipped (f = 0 or omega <= 0)                                           2558
+states (deficit by H1 = raw)                                                     15135
+theta-b: big-top: ok                                                             3
+VIOLATIONS 0
+# time 110.3 s

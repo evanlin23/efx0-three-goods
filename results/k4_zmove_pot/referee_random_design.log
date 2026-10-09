@@ -1,0 +1,45 @@
+# command: python3 k4/zmove_pot_referee.py random 1 4000 --bias=design --n=3,4
+(F1) W_o meets U_x in an admissible set: ok                                      3067
+(F1) W_o threatens x: ok                                                         3067
+(F2) the swap is a state of the key (g, t): ok                                   6823
+AR states: case C1                                                               448
+AR states: case C1+C2                                                            4
+AR states: case C1+C2, def* > 0                                                  1
+AR states: case C1, def* > 0                                                     89
+AR states: case C2                                                               1
+AR states: case S                                                                629
+AR states: case S'                                                               4
+AR states: case S, def* > 0                                                      42
+H3 under (U), (U2): exposed by at most one free agent: ok                        32829
+Lemma C1 certificate: ok                                                         3622
+Lemma C1 def(P') <= 0: ok                                                        3622
+Lemma C2 certificate: ok                                                         24
+Lemma C2 def(P') <= 0: ok                                                        24
+Lemma C2: |Y| = omega + 1, U_t2 in Y, t counted: ok                              24
+Lemma R0: ok                                                                     610134
+Lemma S certificate: ok                                                          3094
+Lemma S def(P') <= 0: ok                                                         3094
+Lemma S' certificate: ok                                                         83
+Lemma S' def(P') <= 0: ok                                                        83
+Lemma S+ certificate: ok                                                         7428
+Lemma S+ def(P') <= 0: ok                                                        7428
+Lemma S+: an admissible A exists: ok                                             2592
+Lemma S: theta_t(J + B_t) <= v_t(g): ok                                          943
+Lemma T: a terminal exists: ok                                                   1218
+S = 0 implies omega >= 2: ok                                                     543
+Z0(a): ok                                                                        1057
+Z0(b): ok                                                                        23974
+Z0(c) Z'-maxima = fillings of the (r', Lam')-maximal states: ok                  8935
+Z0(c) max over configurations = max over states: ok                              8935
+fragility lemma certificate: ok                                                  8
+fragility lemma: P* is a state of the key: ok                                    8
+fragility lemma: def(P*) <= 0: ok                                                8
+keys f=1                                                                         8935
+keys f=1 with def* > 0                                                           122
+profiles f=1                                                                     2860
+profiles generated                                                               4000
+profiles skipped (f = 0 or omega <= 0)                                           1140
+states (deficit by H1 = raw)                                                     148021
+theta-b: big-top: ok                                                             1352
+VIOLATIONS 0
+# time 861.3 s
