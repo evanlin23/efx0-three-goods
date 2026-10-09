@@ -1,0 +1,11 @@
+# command: python3 k4/zf1_indep.py --eshape --procs=3
+# strict balanced types of 4 goods: 288
+# sets [[0, 1, 2, 3], [0, 4, 5, 6], [0, 7, 8, 6], [9, 10, 1, 4]] m 11 ; agents 0-2 big-top on good 0: 12 types each; agent 3 (C4): 144
+  (0, x) not a key                                                         11424
+  f = 1                                                                    248736
+  f >= 2                                                                   96
+  key (0, agent 0), frozen agent big-top: completable                      237312
+  key (0, agent 1), frozen agent big-top: completable                      245376
+  key (0, agent 2), frozen agent big-top: completable                      239616
+  profiles                                                                 248832
+done; time 200 s
