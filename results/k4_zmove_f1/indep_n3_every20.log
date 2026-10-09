@@ -1,0 +1,5 @@
+# command: python3 k4/zf1_indep.py --n3 --every=20 results/k4_sx/hunt/n3_all_30.jsonl.gz results/k4_sx/hunt/n3_all_40.jsonl.gz
+  non-completable keys, x big-top: 1 free agent(s) value g                 745
+  non-completable keys, x not big-top: 2 of 2 free agents big-top on g     1247
+  profiles                                                                 1992
+done; time 2 s

@@ -1,0 +1,6 @@
+# command: python3 k4/zf1_bthunt.py results/k4_certs_4_n4_1.json.gz results/k4_certs_4_n4_2.json.gz results/k4_certs_4_n4_3.json.gz results/k4_certs_4_pure.json.gz --runs=500 --steps=200 --seed=11 --dump=results/k4_zmove_f1/bthunt_n4.jsonl
+# cores with omega >= 2: 222
+  final score >0                           498
+  final score inf                          2
+  runs                                     500
+done; time 148 s
