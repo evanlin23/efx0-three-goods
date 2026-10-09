@@ -9,8 +9,8 @@ against the definitions and PROVED lemmas it cites: `k4/c4min.md` §1 (configura
 
 **Verdict.** I found no mathematical error in Lemma JO, Lemma CNT, Corollary R1, Lemma ABS or Corollary E. Every step
 follows from the cited definitions and PROVED rows. The remarks below are citations and wording, fixed in
-`k4/zmove_f1.md` and the ledger in the same commit. This is one review; the row stays CONJECTURE (the repository's
-rule: written proofs are upgraded only by the owner's process). In the data section, two statements were not
+`k4/zmove_f1.md` and the ledger in the same commit. This is one review and does not change the row's status (it stays
+CONJECTURE; an upgrade to PROVED is left to the owner). In the data section, two statements were not
 reproducible as written (the n = 3 hill-climb rate, and an n = 3 observation that holds only on the sample it was
 made on); both are corrected in the text, with logs. Every other number matches.
 
