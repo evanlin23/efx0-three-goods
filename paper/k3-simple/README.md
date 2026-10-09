@@ -18,14 +18,20 @@ intended for publication; the papers are self-contained and cite only this repos
 - `refs.bib`: the bibliography of both; `Repo` is this repository at commit `a1f9dc0`, which holds the notes, tests,
   referee reports and Lean files.
 - `llncs.cls` and `splncs04.bst`: Springer's LLNCS package, unmodified.
-- `examples/check_examples.py`: recomputes every example and number of the papers with an independent implementation
-  of the definitions and of DE, written from the paper, and cross-checks with `k3/simplify/po/hall/hall.py`: the
-  EFX/EFX₀ example; the n = 6 instance (draft state, failed absorbers, all 10 completions failing, no short move, the
-  4 dominating valid states, DE's representatives, exchange cycle and completion, raw EFX₀ check, also for 2,000 random
-  valuations); the n = 2 example; the n = 6, m = 8 instance; the ring family for k ≤ 4; the limits of the shape by
-  listing every allocation; the first rows of the hall evidence table; and DE, peeling included, on 40,000 random
-  instances. Run from the repository root: `python3 paper/k3-simple/examples/check_examples.py` (one process, about
-  10 s; output copied to `examples/check_output.txt`; exit status 0 iff every check passes).
+- `examples/check_examples.py`: an independent implementation of the definitions of `long.tex` (wants, free agents,
+  blockers, finishing, want and pair arrows, rings, chains) and of DE with its loop chain / finish / ring, written
+  from the paper's text, that recomputes every example and number of the paper: Example EFX-but-not-EFX₀ and
+  Corollary two relevant goods; the small example of §6; the worked example of §7 (draft state, wants, free agents,
+  blockers, the sets H_o, all 10 candidate completions failing, no short move, the 4 dominating valid states, the
+  arrows and cycles of Figure 1, DE's ring and output, raw EFX₀, also for 2,000 random valuations); both instances of
+  Proposition short moves and the remark on the reused leftover good; the ring family for k ≤ 4, d ≤ 3, and DE's
+  trades on it at depth 4; Lemma cases of safety and Proposition limits of the shape, by listing every allocation;
+  on all 30,507 valid states of the core profiles with n = 2 (m ≤ 6) and n = 3 (m ≤ 7), up to renaming goods, the
+  finishing test, soundness (every completion), Lemma ring (every ring), the Improvement Lemma in the form of its
+  proof and DE's loop started there; and DE, peeling included, on 40,000 random instances, compared with the loop of
+  the previous version (an agent holding nothing finishing first) and with `k3/simplify/po/hall/hall.py`. Run from
+  the repository root: `python3 paper/k3-simple/examples/check_examples.py` (one process, about a minute; output
+  copied to `examples/check_output.txt`; exit status 0 iff every check passes).
 
 Build (pdflatex and bibtex; TeX Live with `texlive-pictures` and `texlive-science`; fonts are Latin Modern):
 
