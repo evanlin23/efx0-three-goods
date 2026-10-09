@@ -4,8 +4,9 @@ import EFX.K3DEReal
 /-!
 # Draft and Exchange on ordered values: the count in the comparison model (ledger K3S.TIME)
 
-The last part of `paper/k3-simple/long.tex` §6.2 (proof of Theorems `thm:target`, `thm:D`, `thm:algo`): DE "holds for
-nonnegative real values, with the step count of Theorem algo in the comparison model". As for K3ALG
+`paper/k3-simple/long.tex` §6, paragraph "Real values", with Theorem `thm:algo` ("in time `O(n(n+m))`. On real
+values, every decision of DE compares two sums of at most two values of one agent"): the count in the comparison
+model. As for K3ALG
 (`EFX.K3.algoOrdC`, `EFX/K3Real.lean`), the program `deOrdC` computes L12's natural-number surrogate with a comparison
 oracle (`EFX.K3.surrogateC`, each oracle call charged one unit) and runs the counted DE (`EFX.DE.deC`,
 `EFX/K3DECost*.lean`) on it.

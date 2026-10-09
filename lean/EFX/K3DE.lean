@@ -5,45 +5,57 @@ import EFX.Blocks
 /-!
 # Draft and Exchange, part 1: states, soundness, transfers and exchanges (ledger K3S.PO.LEAN)
 
-The objects of the short proof of the k = 3 result (`paper/k3-simple/long.tex` §4–§5, `k3/simplify/po/hall/NOTES.md`),
+The objects of the short proof of the k = 3 result (`paper/k3-simple/long.tex` §3–§5, `k3/simplify/po/hall/NOTES.md`),
 over the valid pre-allocations of `EFX/PreAlloc.lean`. In the core case every agent `i` values exactly three goods,
 ranked `a i`, `b i`, `c i` (`EFX.LB.Profile`, well formed: `EFX.LB.WF`).
+
+**Names.** The Lean files keep the names of an earlier version of the paper: *needs* for the paper's wants, *utility*
+for score, *exposed* (`Exposed o x`) for "`x` is a blocker of `o`", *protecting good* (`hOf x`) for the blocker's
+leftover good `h_x`, *junk* for the leftover goods `J`, *valid absorber* (`Absorber o H`) for "`o` can finish with
+`H`", *need arcs* and *exposure arcs* for want and pair arrows, *need cycles* and *exchange cycles* for rings, *pair
+chain* for chain, and (P) (`EFX.DE.PropP`) for (NC).
 
 **States.** A state is a pick map `Y` and a list `up` of pair holders, as in `EFX.LB.Valid`: an agent holds nothing,
 one of its three goods (`Y i`), or, if `i ∈ up`, its pair `{b i, c i}` (then `Y i = some (b i)`). The needs are
 rank-based (`EFX.LB.Profile.NA`), and `EFX.LB.Valid` is the paper's validity: every needed good is the only good of
-some agent (`EFX.LB.Valid.na_picked`). The utilities are `4, 3, 2, 1, 0` for the pair, `a`, `b`, `c`, nothing
-(`util`); `Dominates` is Pareto domination, `total` the sum of utilities.
+some agent (`EFX.LB.Valid.na_picked`). The utilities (the paper's scores) are `4, 3, 2, 1, 0` for the pair, `a`, `b`,
+`c`, nothing (`util`); `Dominates` is Pareto domination, `total` the sum of utilities.
 
 **Definitions.**
 - `Free`: a listed agent outside `up` whose pick, if any, nobody needs (`freeB` decides it).
-- `Exposed o x`: `x ≠ o` holds only its top `a x`, is not a pair holder, and each of `b x`, `c x` is junk or held
-  by `o` (the premise of `EFX.LB.complete_some`).
-- `Absorber o H` (the paper's valid absorber with set `H`): `o` is a pair holder or free, `H` is a list of junk
-  goods that meets `{b x, c x}` for every `x` exposed for `o`, and `|H| ≤ |F ∖ {o}|` (`nFreeExcept`).
-- `completeDE o H`: the paper's completion: picks to their pickers, `c u` to each pair holder `u`, each good of `H`
-  to a different free agent other than `o` (in the order of `agents`, `fill` with one slot each, `slot1`), and every
-  other junk good to `o`.
+- `Exposed o x` (the paper's Definition blockers, finishing: `x` is a blocker of `o`): `x ≠ o` holds only its top
+  `a x`, is not a pair holder, and each of `b x`, `c x` is junk or held by `o` (the premise of
+  `EFX.LB.complete_some`).
+- `Absorber o H` (Definition blockers, finishing: `o` can finish with `H`; also a pair holder `o`, for the case
+  where every agent holds its pair): `o` is a pair holder or free, `H` is a list of junk goods that meets
+  `{b x, c x}` for every `x` exposed for `o`, and `|H| ≤ |F ∖ {o}|` (`nFreeExcept`).
+- `completeDE o H`: the paper's completion: picks to their pickers, `c u` to each pair holder `u`, the goods of `H`,
+  in the order of the list `H`, to different free agents other than `o`, in the order of `agents` (`fill` with one
+  slot each, `slot1`), and every other junk good to `o`.
 
 **Results.**
 - `completeDE_completion`, `soundness` (**Theorem soundness**): the completion is a completion of the valid state in
   the sense of `EFX.LB.Completion`, so by Theorem 1′ (`EFX.LB.Valid.sound`) it is EFX₀ for every valuation
   consistent with the rankings, and every bundle but `o`'s has at most two goods.
-- `transfer` (**Lemma transfer**): a state whose utilities are all at least those of a valid state, and in which every
-  good needed in the old state is the only good of a non-pair holder, is valid (the needs only shrink, `na_of_util`).
-- `exchange` (**Lemma exchange cycle**, for all three moves at once): let `onC` mark a set of agents outside `up` on
-  which `σ` and `π` are inverse bijections (`Cycle`). Every agent `z` of the set hands its holding to `σ z`: if `z` is
-  not free, `σ z` needs `z`'s good and takes it alone (a need arc); if `z` is free, `σ z` takes its pair, whose goods
-  are junk or `z`'s good (an exposure arc, or the last arc of a pair chain; the paper's receiver holds only its top,
-  which the proof does not need), and the junk goods taken by different receivers are different. The result `exchY`, `exchUp` is valid and dominates the state.
-  The need cycles, pair chains and exchange cycles of the paper are instances (`EFX/K3DEImprove.lean`).
+- `transfer` (**Lemma staying valid**, `lem:stay`; Lemma transfer of the earlier version): a state whose utilities are
+  all at least those of a valid state, and in which every good needed in the old state is the only good of a
+  non-pair holder, is valid (the needs only shrink, `na_of_util`).
+- `exchange`, `exchange_scores` (**Lemma ring**, and **Lemma chain** through choice 3: one lemma for both moves): let
+  `onC` mark a set of agents outside `up` on which `σ` and `π` are inverse bijections (`Cycle`). Every agent `z` of
+  the set hands its holding to `σ z`: if `z` is not free, `σ z` needs `z`'s good and takes it alone (a want arrow); if
+  `z` is free, `σ z` takes its pair, whose goods are junk or `z`'s good (a pair arrow, or the last arc of a chain; the
+  paper's receiver holds only its top, which the proof does not need), and the junk goods taken by different
+  receivers are different. The result `exchY`, `exchUp` is valid and Pareto-dominates the state (`exchange`); every
+  agent of the set gets a strictly higher utility and every other agent the same utility (`exchange_scores`). The
+  rings and chains of the paper are instances (`EFX/K3DEImprove.lean`, `EFX.DE.step_next_scores`).
 
 **Choices where the prose leaves room.**
 1. The pair holder `u` keeps `Y u = some (b u)` and holds `c u` through `up` (the representation of
    `EFX.LB.Valid`); the junk is computed (`EFX.LB.junkList`), so an exchange only changes `Y` and `up`.
 2. `|F ∖ {o}|` counts the listed free agents other than `o` (`agents` is duplicate-free where it matters).
-3. A pair chain `x = j₀ → j₁ → ⋯ → j_k` is closed into a cycle by the arc `j_k → x` from the free agent `j_k` (or the
-   loop `x → x` when `k = 0`): `x` takes its pair from the junk, and `j_k`'s good becomes junk. So one lemma covers it.
+3. A chain `x = j₀ → j₁ → ⋯ → j_k` is closed into a cycle by the arc `j_k → x` from the free agent `j_k` (or the
+   loop `x → x` when `k = 0`): `x` takes its pair from the junk, and `j_k`'s good becomes junk. So one lemma covers it,
+   and the agents of the cycle are `x, j₁, …, j_k`, those whose scores rise in Lemma chain.
 -/
 
 set_option autoImplicit false
@@ -133,9 +145,9 @@ def Exposed (P : Profile A G) (agents up : List A) (Y : A → Option G) (goods :
 def nFreeExcept (P : Profile A G) (agents up : List A) (Y : A → Option G) (o : A) : Nat :=
   (agents.filter (fun k => k != o && freeB P agents up Y k)).length
 
-/-- **A valid absorber `o` with set `H`** (the paper's Definition of absorbers): `o` is a listed pair holder or free;
-`H` is a list of junk goods, at most one per free agent other than `o`, that meets `{b x, c x}` for every agent `x`
-exposed for `o`. -/
+/-- **A valid absorber `o` with set `H`** (the paper's Definition blockers, finishing: `o` can finish with `H`; or `o`
+is a pair holder): `o` is a listed pair holder or free; `H` is a list of junk goods, at most one per free agent other
+than `o`, that meets `{b x, c x}` for every agent `x` exposed for `o`. -/
 structure Absorber (P : Profile A G) (agents : List A) (goods : List G) (Y : A → Option G) (up : List A) (o : A)
     (H : List G) : Prop where
   mem : o ∈ agents
@@ -149,8 +161,8 @@ def slot1 (P : Profile A G) (agents up : List A) (Y : A → Option G) (o k : A) 
   if k ≠ o ∧ freeB P agents up Y k = true then 1 else 0
 
 /-- **The completion** with absorber `o` and set `H`: picks go to their pickers, `c u` to each pair holder `u`, the
-goods of `H` to different free agents other than `o` (one each, in the order of `agents`), and every other good to
-`o`: `X_o = Y_o ∪ (J ∖ H)`. -/
+goods of `H` (in the order of the list `H`) to different free agents other than `o` (one each, in the order of
+`agents`), and every other good to `o`: `X_o = Y_o ∪ (J ∖ H)`. -/
 def completeDE (P : Profile A G) (agents up : List A) (Y : A → Option G) (o : A) (H : List G) (g : G) : A :=
   match picker agents Y g with
   | some k => k
@@ -316,7 +328,7 @@ theorem soundness (hV : Valid P agents goods Y up) (hag : agents.Nodup) (hgd : g
   obtain ⟨h1, h2⟩ := hV.sound hC hgd
   exact ⟨hC.alloc, h1, fun j hj hjo => h2 j hj (fun e => hjo (Option.some.inj e).symm)⟩
 
-/-! ## Lemma transfer -/
+/-! ## Lemma staying valid (transfer) -/
 
 /-- The structural conditions of a state: `EFX.LB.Valid` without (V1) and (V2). -/
 structure IsState (P : Profile A G) (agents : List A) (goods : List G) (Y : A → Option G) (up : List A) :
@@ -344,9 +356,9 @@ theorem na_of_util {Y' : A → Option G} {up' : List A} (hle : ∀ i ∈ agents,
     unfold Profile.Prefers at hp ⊢
     omega
 
-/-- **Lemma transfer.** Let `(Y', up')` be a state in which no listed agent's utility is smaller than in `(Y, up)`,
-and every good needed in `(Y, up)` is the only good of an agent outside `up'`. Then `(Y', up')` is valid. (The paper
-assumes `(Y, up)` valid; the proof does not use it.) -/
+/-- **Lemma staying valid** (`lem:stay`; Lemma transfer of the earlier version). Let `(Y', up')` be a state in which
+no listed agent's utility is smaller than in `(Y, up)`, and every good needed in `(Y, up)` is the only good of an agent
+outside `up'`. Then `(Y', up')` is valid. (The paper assumes `(Y, up)` valid; the proof does not use it.) -/
 theorem transfer {Y' : A → Option G} {up' : List A}
     (hS : IsState P agents goods Y' up') (hle : ∀ i ∈ agents, util P up Y i ≤ util P up' Y' i)
     (hna : ∀ g ∈ goods, P.NA agents (· ∈ up) Y g → ∃ k, k ∉ up' ∧ Y' k = some g) :
@@ -369,7 +381,7 @@ theorem transfer {Y' : A → Option G} {up' : List A}
     · obtain ⟨k, -, hk⟩ := hna _ (hS.up_c u hu).1 (na_of_util hle h)
       exact (hS.up_c u hu).2 k hk
 
-/-! ## Lemma exchange cycle -/
+/-! ## Lemma ring: exchanges along a cycle -/
 
 /-- The holdings after the exchange: an agent `w` of the set (`onC w`) takes its pair if its predecessor `π w` is
 free, and `π w`'s good otherwise; every other agent keeps its holding. -/
@@ -381,11 +393,11 @@ def exchY (P : Profile A G) (agents up : List A) (Y : A → Option G) (onC : A �
 def exchUp (P : Profile A G) (agents up : List A) (Y : A → Option G) (onC : A → Bool) (π : A → A) : List A :=
   up ++ agents.filter (fun w => onC w && freeB P agents up Y (π w))
 
-/-- **An exchange cycle** (the paper's cycles of `D⁺`, with the arcs of pair chains): `onC` marks a nonempty set of
-listed agents outside `up` on which `σ` (successor) and `π` (predecessor) are inverse bijections. A non-free agent
-`z` holds a good that `σ z` needs (a need arc); a free agent `z` points to an agent `σ z` whose `b` and `c` are each
-junk or `z`'s good (an exposure arc, or the arc that closes a pair chain); different receivers from free agents use
-different junk goods. -/
+/-- **An exchange cycle** (the paper's rings, cycles of want and pair arrows, and chains closed by their last arc):
+`onC` marks a nonempty set of listed agents outside `up` on which `σ` (successor) and `π` (predecessor) are inverse
+bijections. A non-free agent `z` holds a good that `σ z` needs (a want arrow); a free agent `z` points to an agent
+`σ z` whose `b` and `c` are each junk or `z`'s good (a pair arrow, or the arc that closes a chain); different
+receivers from free agents use different junk goods. -/
 structure Cycle (P : Profile A G) (agents : List A) (goods : List G) (Y : A → Option G) (up : List A)
     (onC : A → Bool) (σ π : A → A) : Prop where
   mem : ∀ w, onC w = true → w ∈ agents ∧ w ∉ up
@@ -402,8 +414,69 @@ structure Cycle (P : Profile A G) (agents : List A) (goods : List G) (Y : A → 
     ∀ g ∈ junkList P agents up Y goods, (g = P.b (σ z) ∨ g = P.c (σ z)) → (g = P.b (σ z') ∨ g = P.c (σ z')) →
       False
 
-/-- **Lemma exchange cycle** (with need cycles and pair chains): the exchange along a `Cycle` is a valid state that
-Pareto-dominates the state; every agent of the cycle strictly gains. -/
+theorem mem_exchUp {onC : A → Bool} {π : A → A} (w : A) : w ∈ exchUp P agents up Y onC π ↔
+    w ∈ up ∨ (w ∈ agents ∧ onC w = true ∧ Free P agents up Y (π w)) := by
+  simp [exchUp, List.mem_filter, freeB_iff]
+
+theorem exchY_off {onC : A → Bool} {π : A → A} {w : A} (h : onC w = false) :
+    exchY P agents up Y onC π w = Y w := by
+  simp [exchY, h]
+
+theorem exchY_free {onC : A → Bool} {π : A → A} {w : A} (h : onC w = true) (hf : Free P agents up Y (π w)) :
+    exchY P agents up Y onC π w = some (P.b w) := by
+  simp [exchY, h, freeB_iff.mpr hf]
+
+theorem exchY_need {onC : A → Bool} {π : A → A} {w : A} (h : onC w = true) (hf : ¬ Free P agents up Y (π w)) :
+    exchY P agents up Y onC π w = Y (π w) := by
+  have : freeB P agents up Y (π w) = false := by
+    cases hb : freeB P agents up Y (π w) with
+    | false => rfl
+    | true => exact absurd (freeB_iff.mp hb) hf
+  simp [exchY, h, this]
+
+/-- **The scores of an exchange** (Lemma ring and Lemma chain, the scores): along a `Cycle`, every agent of the set
+`onC` gets a strictly higher utility, and every other agent the same utility. An agent whose predecessor is free goes
+from at most its top (`3`) to its pair (`4`); any other agent of the set receives its predecessor's good, which it
+needs. Only the structure of the cycle is used. -/
+theorem exchange_scores {onC : A → Bool} {σ π : A → A} (hC : Cycle P agents goods Y up onC σ π) :
+    (∀ w, onC w = true →
+      util P up Y w < util P (exchUp P agents up Y onC π) (exchY P agents up Y onC π) w) ∧
+    (∀ w, onC w = false →
+      util P (exchUp P agents up Y onC π) (exchY P agents up Y onC π) w = util P up Y w) := by
+  refine ⟨fun i hci => ?_, fun i hci => ?_⟩
+  · have hi := (hC.mem i hci).1
+    have hiu := (hC.mem i hci).2
+    have h3 := pickRank_le (P := P) Y i
+    by_cases hf : Free P agents up Y (π i)
+    · have : i ∈ exchUp P agents up Y onC π := (mem_exchUp i).mpr (Or.inr ⟨hi, hci, hf⟩)
+      simp only [util, hiu, this, ↓reduceIte]; omega
+    · have hnotU : i ∉ exchUp P agents up Y onC π := fun h => by
+        rcases (mem_exchUp i).mp h with h | ⟨-, -, h⟩
+        · exact hiu h
+        · exact hf h
+      obtain ⟨y, hy, hp⟩ := hC.need (π i) (hC.π_mem i hci) hf
+      rw [hC.σπ i hci] at hp
+      have hY'i : exchY P agents up Y onC π i = some y := by rw [exchY_need hci hf, hy]
+      have hpr : P.pickRank (exchY P agents up Y onC π) i = P.rank i y := by
+        unfold Profile.pickRank; rw [hY'i]
+      unfold Profile.Prefers at hp
+      simp only [util, hiu, hnotU, ↓reduceIte, hpr]
+      omega
+  · have hiff : i ∈ exchUp P agents up Y onC π ↔ i ∈ up := by
+      rw [mem_exchUp]
+      constructor
+      · rintro (h | ⟨-, h, -⟩)
+        · exact h
+        · rw [hci] at h; cases h
+      · exact Or.inl
+    have hpr : P.pickRank (exchY P agents up Y onC π) i = P.pickRank Y i := by
+      unfold Profile.pickRank; rw [exchY_off hci]
+    by_cases h : i ∈ up
+    · simp [util, h, hiff.mpr h]
+    · simp [util, h, mt hiff.mp h, hpr]
+
+/-- **Lemma ring** (with chains): the exchange along a `Cycle` is a valid state that Pareto-dominates the state. The
+scores (every agent of the cycle strictly gains, every other agent keeps its utility) are `exchange_scores`. -/
 theorem exchange (hV : Valid P agents goods Y up) (hWF : WF P agents goods) {onC : A → Bool} {σ π : A → A}
     (hC : Cycle P agents goods Y up onC σ π) :
     Valid P agents goods (exchY P agents up Y onC π) (exchUp P agents up Y onC π) ∧
@@ -411,20 +484,12 @@ theorem exchange (hV : Valid P agents goods Y up) (hWF : WF P agents goods) {onC
   have hjunk : ∀ {g}, g ∈ junkList P agents up Y goods ↔
       g ∈ goods ∧ (∀ k, Y k ≠ some g) ∧ ∀ u ∈ up, P.c u ≠ g := junk_iff hV
   have hmemU : ∀ w, w ∈ exchUp P agents up Y onC π ↔
-      w ∈ up ∨ (w ∈ agents ∧ onC w = true ∧ Free P agents up Y (π w)) := by
-    intro w
-    simp [exchUp, List.mem_filter, freeB_iff]
-  have hoff : ∀ w, onC w = false → exchY P agents up Y onC π w = Y w := by
-    intro w h; simp [exchY, h]
-  have hon_free : ∀ w, onC w = true → Free P agents up Y (π w) → exchY P agents up Y onC π w = some (P.b w) := by
-    intro w h hf; simp [exchY, h, freeB_iff.mpr hf]
-  have hon_need : ∀ w, onC w = true → ¬ Free P agents up Y (π w) → exchY P agents up Y onC π w = Y (π w) := by
-    intro w h hf
-    have : freeB P agents up Y (π w) = false := by
-      cases hb : freeB P agents up Y (π w) with
-      | false => rfl
-      | true => exact absurd (freeB_iff.mp hb) hf
-    simp [exchY, h, this]
+      w ∈ up ∨ (w ∈ agents ∧ onC w = true ∧ Free P agents up Y (π w)) := mem_exchUp
+  have hoff : ∀ w, onC w = false → exchY P agents up Y onC π w = Y w := fun _ h => exchY_off h
+  have hon_free : ∀ w, onC w = true → Free P agents up Y (π w) → exchY P agents up Y onC π w = some (P.b w) :=
+    fun _ h hf => exchY_free h hf
+  have hon_need : ∀ w, onC w = true → ¬ Free P agents up Y (π w) → exchY P agents up Y onC π w = Y (π w) :=
+    fun _ h hf => exchY_need h hf
   -- where a new pick comes from: a junk good taken as `b`, or an old pick
   have hsrc : ∀ k y, exchY P agents up Y onC π k = some y →
       (onC k = true ∧ Free P agents up Y (π k) ∧ y = P.b k ∧ y ∈ junkList P agents up Y goods) ∨
@@ -555,46 +620,12 @@ theorem exchange (hV : Valid P agents goods Y up) (hWF : WF P agents goods) {onC
     up_c := hupc
     up_c_inj := hupcinj }
   -- utilities
-  have hlt : ∀ i ∈ agents, onC i = true →
-      util P up Y i < util P (exchUp P agents up Y onC π) (exchY P agents up Y onC π) i := by
-    intro i hi hci
-    have hiu := (hC.mem i hci).2
-    have h3 := pickRank_le (P := P) Y i
-    by_cases hf : Free P agents up Y (π i)
-    · have : i ∈ exchUp P agents up Y onC π := (hmemU i).mpr (Or.inr ⟨hi, hci, hf⟩)
-      simp only [util, hiu, this, ↓reduceIte]; omega
-    · have hnotU : i ∉ exchUp P agents up Y onC π := fun h => by
-        rcases (hmemU i).mp h with h | ⟨-, -, h⟩
-        · exact hiu h
-        · exact hf h
-      obtain ⟨y, hy, hp⟩ := hC.need (π i) (hC.π_mem i hci) hf
-      rw [hC.σπ i hci] at hp
-      have hY'i : exchY P agents up Y onC π i = some y := by rw [hon_need i hci hf, hy]
-      have hpr : P.pickRank (exchY P agents up Y onC π) i = P.rank i y := by
-        unfold Profile.pickRank; rw [hY'i]
-      unfold Profile.Prefers at hp
-      simp only [util, hiu, hnotU, ↓reduceIte, hpr]
-      omega
-  have heq : ∀ i, onC i = false →
-      util P up Y i = util P (exchUp P agents up Y onC π) (exchY P agents up Y onC π) i := by
-    intro i hci
-    have hiff : i ∈ exchUp P agents up Y onC π ↔ i ∈ up := by
-      rw [hmemU]
-      constructor
-      · rintro (h | ⟨-, h, -⟩)
-        · exact h
-        · rw [hci] at h; cases h
-      · exact Or.inl
-    have hpr : P.pickRank (exchY P agents up Y onC π) i = P.pickRank Y i := by
-      unfold Profile.pickRank; rw [hoff i hci]
-    by_cases h : i ∈ up
-    · simp [util, h, hiff.mpr h]
-    · simp [util, h, mt hiff.mp h, hpr]
+  obtain ⟨hlt, heq⟩ := exchange_scores hC
   have hle : ∀ i ∈ agents, util P up Y i ≤ util P (exchUp P agents up Y onC π) (exchY P agents up Y onC π) i := by
-    intro i hi
+    intro i _
     cases hci : onC i with
-    | false => exact Nat.le_of_eq (heq i hci)
-    | true => exact Nat.le_of_lt (hlt i hi hci)
+    | false => exact Nat.le_of_eq (heq i hci).symm
+    | true => exact Nat.le_of_lt (hlt i hci)
   -- the needed goods stay alone
   have hna : ∀ g ∈ goods, P.NA agents (· ∈ up) Y g →
       ∃ k, k ∉ exchUp P agents up Y onC π ∧ exchY P agents up Y onC π k = some g := by
@@ -619,7 +650,7 @@ theorem exchange (hV : Valid P agents goods Y up) (hWF : WF P agents goods) {onC
         · rw [hps] at h; exact hjf h
       · rw [hon_need (σ j) hcs (by rw [hps]; exact hjf), hps, hj]
   obtain ⟨w, hw⟩ := hC.ne
-  exact ⟨transfer hS hle hna, hle, w, (hC.mem w hw).1, hlt w (hC.mem w hw).1 hw⟩
+  exact ⟨transfer hS hle hna, hle, w, (hC.mem w hw).1, hlt w hw⟩
 
 end DE
 end EFX
@@ -631,4 +662,5 @@ end EFX
 #print axioms EFX.DE.soundness
 #print axioms EFX.DE.na_of_util
 #print axioms EFX.DE.transfer
+#print axioms EFX.DE.exchange_scores
 #print axioms EFX.DE.exchange

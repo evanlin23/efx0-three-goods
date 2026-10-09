@@ -2,30 +2,44 @@
 
 The paper of this repository's k = 3 result: every instance with nonnegative additive valuations in which each agent
 positively values at most three goods has a complete EFX₀ allocation, in which all bundles but at most one have at
-most two goods, and algorithm Draft and Exchange (DE) computes one in time O(n(n + m)), with at most 4n exchanges. The
-proof rests on the Improvement Lemma: a valid state in which no free agent can absorb the leftover goods is
-Pareto-dominated by a valid state, through a need cycle, a pair chain or an exchange cycle. It is written in
+most two goods, and algorithm Draft and Exchange (DE) computes one in time O(n(n + m)), with at most 4n trades. After
+peeling and a draft, DE's loop has three steps: a chain (an agent holding its top takes its two other goods, both
+leftover), finish (a free agent takes the leftover goods, each of its blockers' leftover goods going to another free
+agent), or a ring of trades. The proof rests on the Improvement Lemma: in a valid state in which no free agent can
+finish, a chain or a ring makes some agent better off and nobody worse off; the ring exists because every agent can
+point at an agent that would gladly take its good. It is written in
 Springer's LLNCS format, 11pt, in two versions that share the bibliography and the class files. This is the paper
-intended for publication; the papers are self-contained and cite only this repository and published work.
+intended for publication; the papers are self-contained. Their novelty claim (§1, "What is new") rests on the
+literature search of `proofs/novelty.md` (25 September 2026).
 
-- `main.tex` → `main.pdf`: the submission, at most 8 pages of body before the references, with the full proof of the
-  Improvement Lemma in the body and the other proofs (preliminaries, soundness, short moves, limits of the shape), the
-  evidence and the related-work table in the appendix.
-- `long.tex` → `long.pdf`: the long, readable version: an informal overview, preliminaries (threats, safety,
-  peeling), states and soundness, the Improvement Lemma with every proof, DE with pseudocode, its correctness and
-  running time, a worked example with a TikZ figure of the exchange cycle, how large an exchange must be, the limits
-  of the shape, the verification status and the evidence, and open problems.
-- `refs.bib`: the bibliography of both; `Repo` is this repository at commit `a1f9dc0`, which holds the notes, tests,
+- `main.tex` → `main.pdf`: the short version (LLNCS, about 9 pages of body before the references), readable on its own:
+  what is new (with an instance no earlier result covers),
+  peeling, states, finishing (with the soundness proof), improving (chain, ring, the finishing test, the Improvement
+  Lemma, all with proofs), DE with pseudocode and a three-agent example; in the appendix the short proofs of §2–§3,
+  the corollary on Pareto-optimal states, the worked example with its figure, how large a ring must be, the limits
+  of the shape, the verification in detail and the related-work table.
+- `long.tex` → `long.pdf`: the same proof with more explanation (an overview, every proof in the body, the
+  three-agent example, the worked example with a TikZ figure of the ring) and the same appendices. The earlier,
+  longer version (30 pages, with the need and exchange digraphs, a six-case loop and the threat/safety lemmas in the
+  body) is in the git history up to commit `d21d3f7`.
+- `refs.bib`: the bibliography of both; `Repo` is this repository at commit `4c303bf`, which holds the notes, tests,
   referee reports and Lean files.
 - `llncs.cls` and `splncs04.bst`: Springer's LLNCS package, unmodified.
-- `examples/check_examples.py`: recomputes every example and number of the papers with an independent implementation
-  of the definitions and of DE, written from the paper, and cross-checks with `k3/simplify/po/hall/hall.py`: the
-  EFX/EFX₀ example; the n = 6 instance (draft state, failed absorbers, all 10 completions failing, no short move, the
-  4 dominating valid states, DE's representatives, exchange cycle and completion, raw EFX₀ check, also for 2,000 random
-  valuations); the n = 2 example; the n = 6, m = 8 instance; the ring family for k ≤ 4; the limits of the shape by
-  listing every allocation; the first rows of the hall evidence table; and DE, peeling included, on 40,000 random
-  instances. Run from the repository root: `python3 paper/k3-simple/examples/check_examples.py` (one process, about
-  10 s; output copied to `examples/check_output.txt`; exit status 0 iff every check passes).
+- `examples/check_examples.py`: an independent implementation of the definitions of `long.tex` (wants, free agents,
+  blockers, finishing, want and pair arrows, rings, chains) and of DE with its loop chain / finish / ring, written
+  from the paper's text, that recomputes every example and number of the paper: Example EFX-but-not-EFX₀ and
+  Corollary two relevant goods; the small example of §6; the worked example of §7 (draft state, wants, free agents,
+  blockers, the sets H_o, all 10 candidate completions failing, no short move, the 4 dominating valid states, the
+  arrows and cycles of Figure 1, DE's ring and output, raw EFX₀, also for 2,000 random valuations); both instances of
+  Proposition short moves and the remark on the reused leftover good; the ring family for k ≤ 4, d ≤ 3, and DE's
+  trades on it at depth 4; Lemma cases of safety and Proposition limits of the shape, by listing every allocation;
+  on all 30,507 valid states of the core profiles with n = 2 (m ≤ 6) and n = 3 (m ≤ 7), up to renaming goods, the
+  finishing test, soundness (every completion), Lemma ring (every ring), the Improvement Lemma in the form of its
+  proof and DE's loop started there; DE, peeling included, on 40,000 random instances, and the instance of "What is new" (that no earlier result's
+  hypotheses hold for it, and DE on 2,000 random value draws), compared with the loop of
+  the previous version (an agent holding nothing finishing first) and with `k3/simplify/po/hall/hall.py`. Run from
+  the repository root: `python3 paper/k3-simple/examples/check_examples.py` (one process, about a minute; output
+  copied to `examples/check_output.txt`; exit status 0 iff every check passes).
 
 Build (pdflatex and bibtex; TeX Live with `texlive-pictures` and `texlive-science`; fonts are Latin Modern):
 
@@ -34,24 +48,26 @@ Build (pdflatex and bibtex; TeX Live with `texlive-pictures` and `texlive-scienc
 
 Status of the claims, as the papers state it. Every result of the papers is a written proof that is also
 machine-checked in Lean, except the rainbow-walk second proof of the Improvement Lemma:
-- the Improvement Lemma, soundness, DE with at most 4n exchanges, and the shape (`lean/EFX/K3DE.lean`,
-  `K3DEImprove.lean`, `K3DEAlgo.lean`, `K3DEExamples.lean`; ledger row K3S.PO.LEAN);
-- the lemmas of §3, Lemma cases of safety and Proposition limits of the shape, Proposition short moves with its
-  instances, the worked example's facts, Example EFX-but-not-EFX₀, the remark on protecting goods, the ring family
-  (every k and depth; this corrected the papers' remark, which lacked the condition k ≤ 2^d for "no free agent
-  absorbs"), at most n peeling rounds, and DE on ordered values such as ℝ≥0 (`lean/EFX/K3DEPrelim.lean`,
+- the Improvement Lemma, soundness, DE with its 3-step loop and at most 4n trades, and the shape
+  (`lean/EFX/K3DE.lean`, `K3DEImprove.lean`, `K3DEAlgo.lean`, `K3DEExamples.lean`; ledger row K3S.PO.LEAN; the Lean
+  names are the earlier ones: needs for wants, exposed for blocker, protecting good for leftover good, valid
+  absorber for an agent that can finish);
+- the lemmas of §2, Lemma cases of safety and Proposition limits of the shape (Appendix B), Proposition short moves
+  with its instances and the ring family (Appendix A; every k and depth), the worked example's facts, Example
+  EFX-but-not-EFX₀, at most n peeling rounds, and DE on ordered values such as ℝ≥0 (`lean/EFX/K3DEPrelim.lean`,
   `K3DELimits.lean`, `K3DEShort.lean`, `K3DEShortExamples.lean`, `K3DERings.lean`, `K3DEReal.lean`,
   `K3DERemarks.lean`; ledger rows K3S.PRELIM.LEAN, K3S.LIMITS, K3S.SHORT, K3S.EX.LEAN, K3S.RINGS, K3S.REAL.LEAN);
 - the running time O(n(n + m)) (`lean/EFX/K3DECost*.lean`, ledger row K3S.TIME: at most 750 (n + 1)(n + m + 1)
   counted operations, array reads and writes one unit each).
 
 The formal statements were written by AI assistant sessions; independent AI referee sessions compared them with the
-papers and found no mismatch (`k3/simplify/po/referee/lean_audit.md`, `lean_audit2.md`, `lean_audit3.md`; their minor
-findings are resolved). The written
-proof was derived independently twice (`k3/simplify/po/hall/NOTES.md`, `k3/simplify/po/potential/NOTES.md`), refereed
-once with no error (`k3/simplify/po/referee/README.md`; its four presentation fixes are applied), and checked by
-computer on millions of states. The provers and the referee were AI agents: separate sessions of the coding assistant
-(Claude Code), the referee given only the written proof. There has been no human peer review. The papers themselves
-were proofread by a further AI referee session (no mathematical error; status and presentation fixes applied). Every
-claim is taken from `LEDGER.md` (the rows above, and K3S.PO, K3S.SA, K3S.ST) and the notes it cites, or from the runs
-of `examples/check_examples.py`; the papers change no ledger status.
+papers (`k3/simplify/po/referee/lean_audit.md`, `lean_audit2.md`, `lean_audit3.md` for the earlier version;
+`lean_audit4.md` for the simplified one, whose two blocking mismatches, the tie-break among leftover goods and the
+per-agent gains of a ring, are resolved). The written proof was derived independently twice
+(`k3/simplify/po/hall/NOTES.md`, `k3/simplify/po/potential/NOTES.md`) and refereed once with no error
+(`k3/simplify/po/referee/README.md`); the simplified presentation was refereed once more, by a session that read only
+`long.tex`: no mathematical error, four one-line gaps fixed (`k3/simplify/po/referee/simple/REPORT.md`, with its own
+implementation of DE and its tests, zero failures on about 14.9 million instances). The provers and referees were AI
+agents: separate sessions of the coding assistant (Claude Code). There has been no human peer review. Every claim is
+taken from `LEDGER.md` (the rows above, and K3S.PO, K3S.SA, K3S.ST) and the notes it cites, or from the runs of
+`examples/check_examples.py`; the papers change no ledger status.

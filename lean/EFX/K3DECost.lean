@@ -175,54 +175,75 @@ theorem scatterC_cost [DecidableEq κ] (keys : α → Timed (List κ)) (B : Nat)
     simp only [scatterC, bind_cost, tick_cost, List.length_cons, Nat.succ_mul]
     omega
 
-/-- **`dd` with a mark array**: `dd l` (each element at its last occurrence), and the marks of the elements of `l`.
-From an array without marks; `setAllC false (dd l)` clears the marks afterwards. -/
+/-- **`dd` with a mark array**: walks the list from its start, keeping each element not marked yet and marking it;
+from an array without marks this is `dd l` (each element at its first occurrence), with the marks of the elements of
+`l` (`ddC_val`). `setAllC false (dd l)` clears the marks afterwards. -/
 def ddC [DecidableEq α] : List α → (α → Bool) → Timed (List α × (α → Bool))
   | [], M => pure ([], M)
   | x :: l, M => do
-    let r ← ddC l M
     tick 1
-    let seen ← rd r.2 x
-    if seen then pure r else do
-      let M' ← wr r.2 x true
-      pure (x :: r.1, M')
+    let seen ← rd M x
+    if seen then ddC l M else do
+      let M' ← wr M x true
+      let r ← ddC l M'
+      pure (x :: r.1, r.2)
 
-theorem ddC_val [DecidableEq α] : ∀ l : List α,
-    (ddC l (fun _ => false)).val = (dd l, fun y => decide (y ∈ l))
-  | [] => by simp [ddC, dd]
-  | x :: l => by
-    have ih := ddC_val l
-    simp only [ddC, bind_val, rd_val, ih]
-    by_cases hx : x ∈ l
-    · have hd : x ∈ dd l := mem_dd.mpr hx
-      simp only [hx, decide_true, ↓reduceIte, pure_val, dd, hd, Prod.mk.injEq, true_and]
-      funext y
-      by_cases hy : y = x
-      · subst hy; simp [hx]
-      · simp [hy]
-    · have hd : x ∉ dd l := fun h => hx (mem_dd.mp h)
-      simp only [hx, decide_false, Bool.false_eq_true, ↓reduceIte, bind_val, wr_val, pure_val, dd, hd,
-        Prod.mk.injEq, true_and]
-      funext y
-      by_cases hy : y = x
-      · subst hy; simp
-      · simp [hy]
+/-- `ddC` from any marks: the unmarked elements of `dd l`, and the marks with those of `l` added. -/
+theorem ddC_val_marks [DecidableEq α] : ∀ (l : List α) (M : α → Bool),
+    (ddC l M).val = ((dd l).filter (fun y => !M y), fun y => M y || decide (y ∈ l))
+  | [], M => by simp [ddC, dd]
+  | x :: l, M => by
+    simp only [ddC, bind_val]
+    split
+    · rename_i hx
+      rw [rd_val] at hx
+      simp only [ddC_val_marks l M, dd, List.filter_cons, hx, Bool.not_true, Bool.false_eq_true, ↓reduceIte,
+        List.filter_filter, Prod.mk.injEq]
+      constructor
+      · refine List.filter_congr fun y _ => ?_
+        by_cases h : y = x
+        · subst h; simp [hx]
+        · simp [h]
+      · funext y
+        by_cases h : y = x
+        · subst h; simp [hx]
+        · simp [h]
+    · rename_i hx
+      have hx' : M x = false := by simpa using hx
+      simp only [bind_val, wr_val, pure_val, ddC_val_marks l, dd, List.filter_cons, hx', Bool.not_false,
+        ↓reduceIte, List.filter_filter, Prod.mk.injEq]
+      constructor
+      · congr 1
+        refine List.filter_congr fun y _ => ?_
+        by_cases h : y = x
+        · subst h; simp
+        · simp [h]
+      · funext y
+        by_cases h : y = x
+        · subst h; simp
+        · simp [h]
+
+theorem ddC_val [DecidableEq α] (l : List α) :
+    (ddC l (fun _ => false)).val = (dd l, fun y => decide (y ∈ l)) := by
+  rw [ddC_val_marks]
+  simp
 
 theorem ddC_cost [DecidableEq α] : ∀ (l : List α) (M : α → Bool), (ddC l M).cost ≤ 3 * l.length
   | [], M => by simp [ddC]
   | x :: l, M => by
-    have ih := ddC_cost l M
     simp only [ddC, bind_cost, tick_cost, rd_cost, List.length_cons]
     split
-    · simp only [pure_cost]; omega
-    · simp only [bind_cost, wr_cost, pure_cost]; omega
+    · have := ddC_cost l M; omega
+    · have := ddC_cost l (wr M x true).val
+      simp only [bind_cost, wr_cost, pure_cost]; omega
 
 theorem length_dd [DecidableEq α] : ∀ l : List α, (dd l).length ≤ l.length
   | [] => by simp [dd]
   | x :: l => by
     have := length_dd l
-    unfold dd
-    split <;> simp <;> omega
+    have := List.length_filter_le (· != x) (dd l)
+    simp only [dd, List.length_cons]
+    omega
 
 /-- Marking the result of `ddC` and clearing it leaves an array without marks. -/
 theorem clear_dd [DecidableEq α] (l : List α) :
@@ -440,6 +461,7 @@ end EFX
 
 #print axioms EFX.DE.setAllC_val
 #print axioms EFX.DE.scatterC_val
+#print axioms EFX.DE.ddC_val_marks
 #print axioms EFX.DE.ddC_val
 #print axioms EFX.DE.r1Step_eq_rel
 #print axioms EFX.DE.findR1F_val

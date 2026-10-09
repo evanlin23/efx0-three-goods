@@ -4,7 +4,7 @@ import EFX.K3CostBound
 /-!
 # The running time of Draft and Exchange, part 4: `O(n(n + m))` operations
 
-`paper/k3-simple/long.tex` §6.2, paragraph "Running time": "an iteration takes `O(n + m)` steps, and so does a
+`paper/k3-simple/long.tex` §6, paragraph "Running time": "an iteration takes `O(n + m)` steps, and so does a
 round of peeling once the relevant goods of each agent are known … So DE runs in `O(n(n + m))` steps, reading the
 input included. This count is machine-checked in Lean". This file proves it for the counted program
 `EFX.DE.deC` (`EFX.K3DECostRun`, whose value is `deSpec`: `EFX.DE.de_eq_spec`). The units are those of
@@ -322,15 +322,10 @@ theorem ELC_cost (Xs : Fin m → List (Fin n)) (Y : Fin n → Option (Fin m)) (o
     simp only [bind_cost, bind_val, rd_cost, rd_val, filterC_val]
     exact ⟨by omega, List.length_filter_le _ _⟩
 
-theorem ddC_length {α : Type} [DecidableEq α] :
-    ∀ (l : List α) (M : α → Bool), ((ddC l M).val.1).length ≤ l.length
-  | [], M => by simp [ddC]
-  | x :: l, M => by
-    have ih := ddC_length l M
-    simp only [ddC, bind_val, rd_val, List.length_cons]
-    by_cases hs : (ddC l M).val.2 x = true
-    · simp only [hs, ↓reduceIte, pure_val]; omega
-    · simp only [hs, Bool.false_eq_true, ↓reduceIte, bind_val, wr_val, pure_val, List.length_cons]; omega
+theorem ddC_length {α : Type} [DecidableEq α] (l : List α) (M : α → Bool) :
+    ((ddC l M).val.1).length ≤ l.length := by
+  rw [ddC_val_marks]
+  exact Nat.le_trans (List.length_filter_le _ _) (length_dd l)
 
 /-- The loop over the free agents costs `5` per agent plus `11` per candidate. -/
 theorem freeLoopC_cost (tb : Tabs n m) (P : Profile (Fin n) (Fin m)) (Y : Fin n → Option (Fin m))
@@ -435,86 +430,82 @@ theorem stepC_cost (P : Profile (Fin n) (Fin m)) {agents : List (Fin n)} {inA : 
     split
     · simp only [pure_cost]; omega
     · rename_i s _
-      have hef := findC_cost (emptyFreeC tb Y) 2 agents (fun _ _ => by simp [emptyFreeC])
       simp only [bind_cost]
+      have hFc := filterC_cost (rd tb.free) 1 agents (fun _ _ => by simp)
+      have hFv : (filterC (rd tb.free) agents).val = agents.filter (freeB P agents up Y) := by
+        subst htv; simp [specTabs]
+      generalize (filterC (rd tb.free) agents).val = F at hFv
+      have hFl : F.length ≤ agents.length := by rw [hFv]; exact List.length_filter_le _ _
+      have hFnd : F.Nodup := by rw [hFv]; exact hnd.filter _
+      have hlF := lengthC_cost F
+      have hc1 := constT_cost m ([] : List (Fin n))
+      have hxs := xsC_cost (gxC tb P Y) 9 (fun x => Nat.le_of_eq (gxC_cost tb P Y x)) agents (constT m []).val
+      have hXv : (xsC (gxC tb P Y) agents (constT m []).val).val = xsS P agents up Y goods := by
+        subst htv; rw [constT_val]; exact xsC_spec P agents goods Y up
+      generalize (xsC (gxC tb P Y) agents (constT m []).val).val = Xs at hXv
+      have hc2 := constT_cost m false
+      have hc3 := constT_cost n ([] : List (Fin n))
+      have hc4 := constT_cost n (([] : List (Fin m)), 0)
+      have hfl := freeLoopC_cost tb P Y Xs F (constT m false).val (constT n []).val (constT n ([], 0)).val
+      generalize (freeLoopC tb P Y Xs F (constT m false).val (constT n []).val (constT n ([], 0)).val).cost = cfl
+        at hfl
+      have hfrv : (freeLoopC tb P Y Xs F (constT m false).val (constT n []).val (constT n ([], 0)).val).val =
+          (fun x => if freeB P agents up Y x then expL P agents up Y goods x else [],
+           fun x => if freeB P agents up Y x then (Hset P agents up Y goods x, (Hset P agents up Y goods x).length)
+             else ([], 0),
+           fun _ => false) := by
+        subst htv hXv hFv
+        simp only [constT_val]
+        exact freeLoopC_free P hP
+      generalize (freeLoopC tb P Y Xs F (constT m false).val (constT n []).val (constT n ([], 0)).val).val = fr
+        at hfrv
+      -- the sums over the free agents
+      have hW : (F.map (lenL Xs Y)).sum ≤ agents.length := by
+        subst hXv
+        show (F.map (fun o => ((Y o).map (fun k =>
+          (agents.filter (fun x => gxS P agents up Y goods x == some k)).length)).getD 0)).sum ≤ agents.length
+        refine sum_key_le (fun x k => gxS P agents up Y goods x == some k) agents (fun x k k' h1 h2 => ?_) Y F hFnd
+          hinj
+        simp only [beq_iff_eq] at h1 h2
+        rw [h1] at h2
+        exact Option.some.inj h2
+      have hfree : ∀ o ∈ F, freeB P agents up Y o = true := by
+        intro o ho; rw [hFv] at ho; exact (List.mem_filter.mp ho).2
+      have hR : (F.map (fun o => (fr.2.1 o).1.length)).sum ≤ (F.map (lenL Xs Y)).sum := by
+        apply sum_map_le
+        intro o ho
+        rw [hfrv]
+        simp only [hfree o ho, ↓reduceIte]
+        rw [Hset_eq hP (hfree o ho)]
+        refine Nat.le_trans (length_dd _) ?_
+        rw [List.length_map, hXv]
+        exact expL_length_le P agents goods Y up o
+      have hE : (F.map (fun o => (fr.1 o).length)).sum ≤ (F.map (lenL Xs Y)).sum := by
+        apply sum_map_le
+        intro o ho
+        rw [hfrv]
+        simp only [hfree o ho, ↓reduceIte]
+        rw [hXv]
+        exact expL_length_le P agents goods Y up o
+      have hfo := findC_cost (forcedC tb fr.2.1 (lengthC F).val) 4 agents (fun o _ => forcedC_cost _ _ _ o)
       split
-      · simp only [pure_cost]; omega
-      · simp only [bind_cost]
-        have hFc := filterC_cost (rd tb.free) 1 agents (fun _ _ => by simp)
-        have hFv : (filterC (rd tb.free) agents).val = agents.filter (freeB P agents up Y) := by
-          subst htv; simp [specTabs]
-        generalize (filterC (rd tb.free) agents).val = F at hFv
-        have hFl : F.length ≤ agents.length := by rw [hFv]; exact List.length_filter_le _ _
-        have hFnd : F.Nodup := by rw [hFv]; exact hnd.filter _
-        have hlF := lengthC_cost F
-        have hc1 := constT_cost m ([] : List (Fin n))
-        have hxs := xsC_cost (gxC tb P Y) 9 (fun x => Nat.le_of_eq (gxC_cost tb P Y x)) agents (constT m []).val
-        have hXv : (xsC (gxC tb P Y) agents (constT m []).val).val = xsS P agents up Y goods := by
-          subst htv; rw [constT_val]; exact xsC_spec P agents goods Y up
-        generalize (xsC (gxC tb P Y) agents (constT m []).val).val = Xs at hXv
-        have hc2 := constT_cost m false
-        have hc3 := constT_cost n ([] : List (Fin n))
-        have hc4 := constT_cost n (([] : List (Fin m)), 0)
-        have hfl := freeLoopC_cost tb P Y Xs F (constT m false).val (constT n []).val (constT n ([], 0)).val
-        generalize (freeLoopC tb P Y Xs F (constT m false).val (constT n []).val (constT n ([], 0)).val).cost = cfl
-          at hfl
-        have hfrv : (freeLoopC tb P Y Xs F (constT m false).val (constT n []).val (constT n ([], 0)).val).val =
-            (fun x => if freeB P agents up Y x then expL P agents up Y goods x else [],
-             fun x => if freeB P agents up Y x then (Hset P agents up Y goods x, (Hset P agents up Y goods x).length)
-               else ([], 0),
-             fun _ => false) := by
-          subst htv hXv hFv
-          simp only [constT_val]
-          exact freeLoopC_free P hP
-        generalize (freeLoopC tb P Y Xs F (constT m false).val (constT n []).val (constT n ([], 0)).val).val = fr
-          at hfrv
-        -- the sums over the free agents
-        have hW : (F.map (lenL Xs Y)).sum ≤ agents.length := by
-          subst hXv
-          show (F.map (fun o => ((Y o).map (fun k =>
-            (agents.filter (fun x => gxS P agents up Y goods x == some k)).length)).getD 0)).sum ≤ agents.length
-          refine sum_key_le (fun x k => gxS P agents up Y goods x == some k) agents (fun x k k' h1 h2 => ?_) Y F hFnd
-            hinj
-          simp only [beq_iff_eq] at h1 h2
-          rw [h1] at h2
-          exact Option.some.inj h2
-        have hfree : ∀ o ∈ F, freeB P agents up Y o = true := by
-          intro o ho; rw [hFv] at ho; exact (List.mem_filter.mp ho).2
-        have hR : (F.map (fun o => (fr.2.1 o).1.length)).sum ≤ (F.map (lenL Xs Y)).sum := by
-          apply sum_map_le
-          intro o ho
-          rw [hfrv]
-          simp only [hfree o ho, ↓reduceIte]
-          rw [Hset_eq hP (hfree o ho)]
-          refine Nat.le_trans (length_dd _) ?_
-          rw [List.length_map, hXv]
-          exact expL_length_le P agents goods Y up o
-        have hE : (F.map (fun o => (fr.1 o).length)).sum ≤ (F.map (lenL Xs Y)).sum := by
-          apply sum_map_le
-          intro o ho
-          rw [hfrv]
-          simp only [hfree o ho, ↓reduceIte]
-          rw [hXv]
-          exact expL_length_le P agents goods Y up o
-        have hfo := findC_cost (forcedC tb fr.2.1 (lengthC F).val) 4 agents (fun o _ => forcedC_cost _ _ _ o)
-        split
-        · simp only [bind_cost, rd_cost, pure_cost, ← Nat.add_assoc, Nat.add_zero]; omega
-        · simp only [bind_cost, pure_cost]
-          have hc5 := constT_cost m false
-          have hc6 := constT_cost n (none : Option (Fin m))
-          generalize (constT m false).val = U0
-          generalize (constT n (none : Option (Fin m))).val = R0
-          have hr := repsC_cost fr.2.1 F U0 R0
-          generalize (repsC fr.2.1 F U0 R0).val = R
-          have hid := idTabC_cost n
-          generalize (idTabC n).val = S0
-          have hsl := sigLoopC_cost tb P fr.1 R F S0
-          generalize (sigLoopC tb P fr.1 R F S0).val = S
-          have hse := sigExC_cost tb Y S
-          generalize (sigExC tb Y S).val = σ
-          have hcy := cycleC_cost tb P agents Y up σ s agents.length
-          simp only [← Nat.add_assoc, Nat.add_zero]
-          omega
+      · simp only [bind_cost, rd_cost, pure_cost, ← Nat.add_assoc, Nat.add_zero]; omega
+      · simp only [bind_cost, pure_cost]
+        have hc5 := constT_cost m false
+        have hc6 := constT_cost n (none : Option (Fin m))
+        generalize (constT m false).val = U0
+        generalize (constT n (none : Option (Fin m))).val = R0
+        have hr := repsC_cost fr.2.1 F U0 R0
+        generalize (repsC fr.2.1 F U0 R0).val = R
+        have hid := idTabC_cost n
+        generalize (idTabC n).val = S0
+        have hsl := sigLoopC_cost tb P fr.1 R F S0
+        generalize (sigLoopC tb P fr.1 R F S0).val = S
+        have hse := sigExC_cost tb Y S
+        generalize (sigExC tb Y S).val = σ
+        have hcy := cycleC_cost tb P agents Y up σ s agents.length
+        simp only [← Nat.add_assoc, Nat.add_zero]
+        omega
 
 end fin
 
