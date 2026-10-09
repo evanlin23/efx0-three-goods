@@ -1,0 +1,9 @@
+# command: python3 k4/thetab_xbt.py results/k4_sx/hunt/n5_n4_2_r200.jsonl.gz results/k4_sx/hunt/n5_n4_3_r200_0.jsonl.gz results/k4_sx/hunt/n5_n4_3_r200_2000.jsonl.gz results/k4_sx/hunt/n5_n4_3_r200_4000.jsonl.gz results/k4_sx/hunt/n5_n4_3_r200_6000.jsonl.gz results/k4_sx/hunt/n5_n4_3_r200_8000.jsonl.gz results/k4_sx/hunt/n5_n4_4_r200_0.jsonl.gz results/k4_sx/hunt/n5_n4_4_r200_2000.jsonl.gz results/k4_sx/hunt/n5_n4_4_r200_4000.jsonl.gz results/k4_sx/hunt/n5_n4_4_r200_6000.jsonl.gz results/k4_sx/hunt/n5_n4_4_r200_8000.jsonl.gz results/k4_sx/hunt/n5_pure_r1000_0.jsonl.gz results/k4_sx/hunt/n5_pure_r1000_1000.jsonl.gz results/k4_sx/hunt/n5_pure_r1000_2000.jsonl.gz results/k4_sx/hunt/n5_pure_r1000_3000.jsonl.gz results/k4_sx/hunt/n5_pure_r1000_4000.jsonl.gz results/k4_sx/rc/keys.jsonl.gz results/k4_sx/t3stage/profiles_f1.jsonl.gz
+  keys with a maximum with |T| = 1, x big-top=True                                           135
+  keys with a maximum with |T| >= 2, x big-top=False                                         1162
+  maxima | |T|=1 | x big-top=True                                                            334
+  maxima | |T|=2 | x big-top=False                                                           1480
+  non-completable keys                                                                       1297
+  profiles                                                                                   2597
+smallest maximum with |T| >= 2 and x big-top, per |T|:
+done; time 24 s

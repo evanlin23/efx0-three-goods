@@ -1,0 +1,4 @@
+== ep[greedy]   (epv('greedy'))
+  core n=6 sample (30/core, seed 11): 96210 profiles x 3 realizations, failing profiles 0  [117s]
+  random ranking profiles n<=9: 100000, failures 0  [56s]
+  random general instances n<=9: 50000, failures 0  [22s]

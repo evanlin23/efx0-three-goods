@@ -1,0 +1,6 @@
+index,sec_small,iter_r rand 100000 7 9 {'profiles': 100000, 'index fails': 719}
+  smallest index ([(5, 4, 1), (3, 2, 5), (5, 3, 2)], 6)
+
+real	0m19.974s
+user	0m19.627s
+sys	0m0.000s

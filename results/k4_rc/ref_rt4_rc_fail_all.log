@@ -1,0 +1,7 @@
+# command: python3 k4/dlrt4_ref.py inst results/k4_rc/rc_fail_all_inst.json --jobs=2
+#  200 / 369 profiles: {'prof': 200, 'prof_pos': 200, 'prof_f1': 200, 'st': 9000, 'st_f1': 9000, 'f1_t1': 2800, 'f1_t2': 2800, 'f1_t3p': 7400, 'f1_t3h': 8800, 'fail_f1': 200}
+#  369 / 369 profiles: {'prof': 369, 'prof_pos': 369, 'prof_f1': 369, 'st': 16605, 'st_f1': 16605, 'f1_t1': 5166, 'f1_t2': 5166, 'f1_t3p': 13653, 'f1_t3h': 16236, 'fail_f1': 369}
+# dlrt4.c sha256 fcde494a3161279d47a7b80e614f69c58894ebc7b40d00e461f677b8810d7cae
+profiles 369 (with a def > 0 state 369, with an f >= 1 state 369); states 16605 (f = 0: 0, f >= 1: 16605); DL_RT4 failures f >= 1: 369, RT4 failures f = 0: 0
+f >= 1 states with an improving move: T1 5166, T2 5166, T3p 13653, T3h 16236, T4 0; only T4 0, only T2 0
+mismatches: reference (model.py + dl2_relations.py + own T4) 0, reference assertions 0, dl13.c (K line and T1/T3 per state) 0 + 0, -DBIGPP=0 build 0, xcheck (dl134_xcheck.py, 0 states) -

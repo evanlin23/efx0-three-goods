@@ -1,0 +1,11 @@
+# command: python3 k4/dlrc_ref.py random results/k4_certs_3.json.gz --want=800 --neg=200 --seed=1 --jobs=2
+# random: 182000 profiles drawn, 800 with an f >= 1 def > 0 state kept, 200 without one kept
+# 1000 profiles
+#  200 / 1000 profiles: {'rcnokey': 0, 'anomc': 0, 'prof': 200, 'prof_f1': 200, 'st': 475, 'st_f1': 475, 't3c': 77, 'keymin_states': 88}
+#  400 / 1000 profiles: {'rcnokey': 0, 'anomc': 0, 'prof': 400, 'prof_f1': 400, 'st': 954, 'st_f1': 954, 't3c': 140, 'keymin_states': 221}
+#  600 / 1000 profiles: {'rcnokey': 0, 'anomc': 0, 'prof': 600, 'prof_f1': 600, 'st': 1502, 'st_f1': 1502, 't3c': 212, 'keymin_states': 402}
+#  800 / 1000 profiles: {'rcnokey': 0, 'anomc': 0, 'prof': 800, 'prof_f1': 800, 'st': 2027, 'st_f1': 2027, 't3c': 283, 'keymin_states': 540}
+#  1000 / 1000 profiles: {'rcnokey': 0, 'anomc': 0, 'prof': 1000, 'prof_f1': 800, 'st': 2046, 'st_f1': 2027, 't3c': 283, 'keymin_states': 540, 'st_f0': 19}
+# dlrc.c sha256 f1cf4cc169a347625e5a84bd9c7a8c218f791de6e2a7ce466f59ce357000b1f7; dlrt4.c sha256 fcde494a3161279d47a7b80e614f69c58894ebc7b40d00e461f677b8810d7cae
+profiles 1000 (with an f >= 1 def > 0 state 800); states 2046 (f = 0: 19, f >= 1: 2027); f >= 1: DL_RT4 fails at 0, DL_RC fails at 0, chain states 0, with an improving T3c move 283, key form fails at 0; states with def = def* 540
+mismatches: reference vs dlrc.c: states 0, fields 0, H lines 0; dlrc.c vs dlrt4.c: K/L/tables 0, S lines 0; -DBIGPP=0 build 0; blocks 0; dlrc.c rcnokey 0, anomc 0; TOTAL 0 [17 s]

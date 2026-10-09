@@ -1,0 +1,5 @@
+random general instances: 2000000 (seed 5); not EFX0: 0; branches {'r': 1999692, 'rot': 308} []
+
+real	0m52.763s
+user	3m12.941s
+sys	0m0.107s

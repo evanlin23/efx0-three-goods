@@ -1,0 +1,6 @@
+# command: python3 k4/dlrc_ref.py suite --jobs=2
+# 151 profiles
+#  151 / 151 profiles: {'rcnokey': 0, 'anomc': 0, 'prof': 151, 'st': 387, 'st_f0': 198, 'prof_f1': 47, 'st_f1': 189, 't3c': 39, 'keymin_states': 70}
+# dlrc.c sha256 f1cf4cc169a347625e5a84bd9c7a8c218f791de6e2a7ce466f59ce357000b1f7; dlrt4.c sha256 fcde494a3161279d47a7b80e614f69c58894ebc7b40d00e461f677b8810d7cae
+profiles 151 (with an f >= 1 def > 0 state 47); states 387 (f = 0: 198, f >= 1: 189); f >= 1: DL_RT4 fails at 0, DL_RC fails at 0, chain states 0, with an improving T3c move 39, key form fails at 0; states with def = def* 70
+mismatches: reference vs dlrc.c: states 0, fields 0, H lines 0; dlrc.c vs dlrt4.c: K/L/tables 0, S lines 0; -DBIGPP=0 build 0; blocks 0; dlrc.c rcnokey 0, anomc 0; TOTAL 0 [41 s]

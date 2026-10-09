@@ -1,0 +1,2 @@
+n=3 m=5: 1248 of 3600 profiles have a valid state that is not completable (2060 such states, none Pareto optimal)
+n=3 m=6: 3308 of 14400 profiles have a valid state that is not completable (5464 such states, none Pareto optimal)

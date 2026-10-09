@@ -1,0 +1,5 @@
+core sample (300 random profiles per core; results/certs_lb_2_6.json.gz results/certs_lb_disconnected_4_6.json.gz): {6: 962100} profiles x 3 realizations; not EFX0: 0; branches {'r': 957564, 'rot': 4536} []
+
+real	1m43.368s
+user	4m40.828s
+sys	0m0.793s

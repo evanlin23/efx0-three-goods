@@ -1,0 +1,23 @@
+== ep[onesource]   (epv('onesource'))
+  small n=2 m=3: 6 profiles, failures 0  [0s]
+  small n=2 m=4: 24 profiles, failures 0  [0s]
+  small n=2 m=5: 60 profiles, failures 0  [0s]
+  small n=2 m=6: 120 profiles, failures 0  [0s]
+  small n=3 m=4: 576 profiles, failures 0  [0s]
+  small n=3 m=5: 3600 profiles, failures 0  [0s]
+  small n=3 m=6: 14400 profiles, failures 0  [2s]
+  small n=3 m=7: 44100 profiles, failures 0  [7s]
+  small n=4 m=5: 216000 profiles, failures 0  [35s]
+  small n=4 m=6: 1728000 profiles, failures 1632  [326s]
+  small total: 2006886 profiles, failures 1632
+  smallest failure: n=4 m=6 rankings [(0, 1, 2), (0, 3, 1), (4, 2, 3), (0, 4, 1)]
+    allocation [[0], [2, 3, 5], [4], [1]]
+    agent 2 (ranks (4, 2, 3)) holds [4] worth 4; bundle [2, 3, 5] of agent 1 minus its least good is worth 5 to it
+  core n=5 sample (200/core): 61400 profiles x 3 realizations, failing profiles 22  [51s]
+  smallest core failure: m=7 rankings [(0, 2, 5), (3, 1, 6), (0, 4, 2), (4, 1, 3), (4, 3, 2)] realization (4, 3, 2)
+    allocation [[0], [3], [4], [1, 5, 6], [2]]
+    agent 1 (ranks (3, 1, 6)) holds [3] worth 4; bundle [1, 5, 6] of agent 3 minus its least good is worth 5 to it
+  random n<=8: 20000 ranking profiles, failures 1; 20000 general instances, failures 0  [15s]
+  smallest random profile failure: n=5 m=7 rankings [(5, 0, 2), (6, 0, 3), (5, 4, 3), (4, 5, 3), (6, 4, 2)]
+    allocation [[5], [6], [4], [0, 1, 3], [2]]
+    agent 1 (ranks (6, 0, 3)) holds [6] worth 4; bundle [0, 1, 3] of agent 3 minus its least good is worth 5 to it

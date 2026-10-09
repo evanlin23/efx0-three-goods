@@ -1,0 +1,33 @@
+== ep[onesource,peel=False] {(2, 3): (6, 0), (2, 4): (24, 0), (2, 5): (60, 0), (2, 6): (120, 0), (3, 4): (576, 0), (3, 5): (3600, 32)}
+  smallest failure n=3 m=5 rankings [(0, 1, 2), (3, 1, 2), (0, 3, 1)]
+    allocation [[1, 2, 4], [3], [0]]
+    agent 1 (ranks (3, 1, 2)) holds [3] worth 4; bundle [1, 2, 4] of agent 0 minus its least good is worth 5 to it
+== ep[onesource,absorber=first] {(2, 3): (6, 0), (2, 4): (24, 0), (2, 5): (60, 0), (2, 6): (120, 0), (3, 4): (576, 0), (3, 5): (3600, 168)}
+  smallest failure n=3 m=5 rankings [(0, 1, 2), (0, 1, 3), (0, 4, 1)]
+    allocation [[0], [1, 2, 3], [4]]
+    agent 0 (ranks (0, 1, 2)) holds [0] worth 4; bundle [1, 2, 3] of agent 1 minus its least good is worth 5 to it
+== ep[onesource,absorber=last] {(2, 3): (6, 0), (2, 4): (24, 0), (2, 5): (60, 0), (2, 6): (120, 0), (3, 4): (576, 0), (3, 5): (3600, 60)}
+  smallest failure n=3 m=5 rankings [(0, 1, 2), (0, 3, 1), (0, 1, 4)]
+    allocation [[0], [3], [1, 2, 4]]
+    agent 0 (ranks (0, 1, 2)) holds [0] worth 4; bundle [1, 2, 4] of agent 2 minus its least good is worth 5 to it
+== ep[onesource,up=bc] {(2, 3): (6, 0), (2, 4): (24, 8)}
+  smallest failure n=2 m=4 rankings [(0, 1, 2), (1, 0, 2)]
+    allocation [[0, 2, 3], [1]]
+    agent 1 (ranks (1, 0, 2)) holds [1] worth 4; bundle [0, 2, 3] of agent 0 minus its least good is worth 5 to it
+== ep[onesource,up=none] {(2, 3): (6, 0), (2, 4): (24, 12)}
+  smallest failure n=2 m=4 rankings [(0, 1, 2), (0, 1, 2)]
+    allocation [[0], [1, 2, 3]]
+    agent 0 (ranks (0, 1, 2)) holds [0] worth 4; bundle [1, 2, 3] of agent 1 minus its least good is worth 5 to it
+== ep[onesource,absorber=recent] {(2, 3): (6, 0), (2, 4): (24, 0), (2, 5): (60, 0), (2, 6): (120, 0), (3, 4): (576, 0), (3, 5): (3600, 212)}
+  smallest failure n=3 m=5 rankings [(0, 1, 2), (0, 1, 3), (0, 4, 1)]
+    allocation [[0], [1, 2, 3], [4]]
+    agent 0 (ranks (0, 1, 2)) holds [0] worth 4; bundle [1, 2, 3] of agent 1 minus its least good is worth 5 to it
+== ep[onesource,absorber=recent_e] {(2, 3): (6, 0), (2, 4): (24, 0), (2, 5): (60, 0), (2, 6): (120, 0), (3, 4): (576, 0), (3, 5): (3600, 212)}
+  smallest failure n=3 m=5 rankings [(0, 1, 2), (0, 1, 3), (0, 4, 1)]
+    allocation [[0], [1, 2, 3], [4]]
+    agent 0 (ranks (0, 1, 2)) holds [0] worth 4; bundle [1, 2, 3] of agent 1 minus its least good is worth 5 to it
+== ep[onesource] {(2, 3): (6, 0), (2, 4): (24, 0), (2, 5): (60, 0), (2, 6): (120, 0), (3, 4): (576, 0), (3, 5): (3600, 0), (3, 6): (14400, 0)}
+== ep[onesource,absorber=r_like] {(2, 3): (6, 0), (2, 4): (24, 0), (2, 5): (60, 0), (2, 6): (120, 0), (3, 4): (576, 0), (3, 5): (3600, 80)}
+  smallest failure n=3 m=5 rankings [(0, 1, 2), (0, 3, 1), (0, 4, 1)]
+    allocation [[1, 2, 3], [0], [4]]
+    agent 1 (ranks (0, 3, 1)) holds [0] worth 4; bundle [1, 2, 3] of agent 0 minus its least good is worth 5 to it

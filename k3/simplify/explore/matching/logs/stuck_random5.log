@@ -1,0 +1,1 @@
+random K=2000 seed=2 n<=5: 2000 profiles; {'stuck': 5218, 'stuck_fits': 3214, 'stuck_completes': 5218, 'stuck_needs_absorber': 2004, 'rule_worst_holding_ok': 1872, 'rule_min_exposed_ok': 2004, 'rule_nonpair_exists': 1860}

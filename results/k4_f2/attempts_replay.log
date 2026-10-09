@@ -1,0 +1,16 @@
+n = 5, m = 9 (rt4-n5b, DL_RT4 fails): T3 stage, DL_RC holds        confirmed  core True; f 3 / 3; def 1 / 1; improving kinds ['t3c'] / ['t3c']
+  no improving (T3): every improving R_C move is a chain           confirmed  
+  Corollary 9.1+ applies with k >= 1 (A asserts the drop; B finds the shape) confirmed  A: [(2, 0, 0, 1), (2, 0, 2, 1), (2, 0, 4, 1)]; B: [(2, 0), (3, 0)]
+n = 4, m = 8 (structural cover fails at f = 2): T3 stage, DL_RC holds confirmed  core True; f 2 / 2; def 1 / 1; improving kinds ['t3', 't3c'] / ['t3', 't3c']
+  A: no structural corollary applies; C8+ certifies                confirmed  C1+..C4+: 0 0 0 0; C8+ (0,), C11+ (0,)
+  B: no theta-ok S1 shape through a need path, no free single blocker confirmed  B single blocks [(0, 1)] (A [(0, 1)])
+n = 5, m = 9 (case B, block level): T3 stage, DL_RC holds          confirmed  core True; f 2 / 2; def 1 / 1; improving kinds ['t3', 't3c'] / ['t3', 't3c']
+  A: single block (owner 2, blocker 1), frozen needers only, 2 not a free end confirmed  free ends of need paths to 1: [3, 4]
+  B: the same block, no free needer of 1, 2 not a free end         confirmed  free ends [3, 4]
+n = 4, m = 10 crossed maximum (A): A+, B+ fail; no C+, no C′+ with q = φ(x) confirmed  applied: ['("C\'+", 0, \'owner a leaf\', \'phi(w) of a frozen w off the move\')']
+  B: def(P_Q) = 1, def(P′) = 0, owner 2 with {1,3,4,5,6} (Val 6), x = 0 needs 8 at P′ confirmed  def 1 / 0; owner 2: (6, [frozenset({1, 3, 4, 5, 6})])
+n = 4, m = 10 (COVER+ fails) (A): def* 1, no A+/B+/C+/C′+ at any maximum, C+h at all confirmed  2 maxima; helper lemmas ["C'+h", 'C+h']
+  B: def* 1, digraph acyclic, helper repair def 0, a (T3) move     confirmed  7 states of the key; arcs []
+n = 4, m = 7 (only without the (T4) alternative) (A): def* 1, no A+/B+/C+/C′+ at any maximum, C+h at all confirmed  1 maxima; helper lemmas ['C+h']
+  B: def* 1, digraph cyclic, helper repair def -1, a (T3) move     confirmed  2 states of the key; arcs [(2, 3), (3, 2)]
+ALL CONFIRMED

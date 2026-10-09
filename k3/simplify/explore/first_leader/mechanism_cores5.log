@@ -1,0 +1,65 @@
+cores 5 5
+  case has x with x itself not exposed or r a leader      31377
+  rotation cases                                          31456
+  x works: last_free                                      8946
+  x works: nx_pick_first                                  97849
+  x works: nx_pick_later                                  726
+  x works: nx_up                                          10463
+  x works: one block(s)                                   108528
+  x works: r_leader                                       5341
+  x works: several block(s)                               15069
+  x works: share                                          104
+  x works: two_free                                       168
+  case mechanisms ('nx_pick_first',) 15146
+  case mechanisms ('nx_pick_first', 'nx_up') 5822
+  case mechanisms ('last_free', 'nx_pick_first') 4483
+  case mechanisms ('last_free', 'nx_pick_first', 'nx_up') 2125
+  case mechanisms ('nx_pick_first', 'r_leader') 1183
+  case mechanisms ('nx_pick_first', 'nx_up', 'r_leader') 575
+  case mechanisms ('nx_pick_first', 'nx_pick_later') 524
+  case mechanisms ('last_free', 'nx_pick_first', 'r_leader') 316
+  case mechanisms ('last_free', 'r_leader') 196
+  case mechanisms ('r_leader',) 189
+  case mechanisms ('nx_up', 'r_leader') 171
+  case mechanisms ('last_free', 'nx_pick_first', 'nx_up', 'r_leader') 100
+  case mechanisms ('last_free', 'nx_up', 'r_leader') 95
+  case mechanisms ('nx_pick_first', 'nx_pick_later', 'r_leader') 78
+  case mechanisms ('last_free', 'nx_up') 70
+  case mechanisms ('nx_pick_first', 'nx_pick_later', 'nx_up') 52
+  case mechanisms ('last_free', 'nx_pick_first', 'r_leader', 'two_free') 46
+  case mechanisms ('nx_pick_first', 'share') 38
+  case mechanisms ('last_free', 'nx_pick_first', 'share') 36
+  case mechanisms ('last_free', 'nx_pick_first', 'two_free') 34
+  case mechanisms ('nx_pick_first', 'two_free') 27
+  case mechanisms ('nx_pick_first', 'nx_pick_later', 'nx_up', 'r_leader') 22
+  case mechanisms ('nx_pick_first', 'r_leader', 'two_free') 19
+  case mechanisms ('nx_pick_first', 'nx_pick_later', 'two_free') 18
+  case mechanisms ('nx_pick_first', 'nx_up', 'share') 16
+  case mechanisms ('last_free', 'r_leader', 'two_free') 10
+  case mechanisms ('last_free', 'nx_pick_first', 'nx_pick_later') 9
+  case mechanisms ('nx_pick_later', 'r_leader') 8
+  case mechanisms ('last_free', 'nx_up', 'r_leader', 'two_free') 8
+  case mechanisms ('nx_up',) 7
+  case mechanisms ('last_free', 'nx_pick_first', 'nx_pick_later', 'nx_up') 5
+  case mechanisms ('last_free', 'nx_pick_first', 'r_leader', 'share') 4
+  case mechanisms ('nx_pick_later', 'nx_up', 'r_leader') 4
+  case mechanisms ('nx_pick_first', 'r_leader', 'share') 4
+  case mechanisms ('last_free', 'nx_pick_first', 'nx_pick_later', 'r_leader') 4
+  case mechanisms ('nx_pick_first', 'nx_up', 'r_leader', 'share') 2
+  case mechanisms ('last_free', 'nx_pick_first', 'nx_up', 'share') 2
+  case mechanisms ('last_free', 'two_free') 2
+  case mechanisms ('last_free', 'r_leader', 'share') 2
+  case mechanisms ('nx_pick_first', 'nx_up', 'two_free') 2
+  case mechanisms ('nx_pick_first', 'nx_pick_later', 'nx_up', 'two_free') 1
+  case mechanisms ('nx_pick_first', 'nx_pick_later', 'r_leader', 'two_free') 1
+  example nx_pick_first ([(0, 1, 5), (0, 4, 1), (2, 3, 4), (2, 3, 4), (2, 3, 4)], 6, 1)
+  example nx_pick_later ([(0, 5, 1), (0, 4, 1), (2, 3, 4), (2, 3, 4), (2, 3, 4)], 6, 1)
+  example nx_up ([(0, 5, 1), (0, 3, 4), (3, 4, 1), (2, 3, 4), (2, 3, 4)], 6, 2)
+  example last_free ([(0, 5, 1), (0, 3, 4), (4, 1, 3), (3, 2, 4), (4, 2, 3)], 6, 4)
+  example r_leader ([(2, 0, 5), (3, 0, 4), (1, 2, 4), (1, 4, 3), (4, 2, 3)], 6, 4)
+  example share ([(3, 0, 5), (1, 6, 4), (1, 4, 0), (2, 3, 4), (2, 3, 4)], 7, 2)
+  example two_free ([(0, 5, 3), (3, 4, 6), (0, 2, 4), (2, 1, 4), (1, 3, 4)], 7, 3)
+
+real	1m13.802s
+user	1m12.597s
+sys	0m0.040s

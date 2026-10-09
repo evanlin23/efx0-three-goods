@@ -1,0 +1,36 @@
+cores 4
+  ALL profiles: sec_small full after 1 fallback step(s) ok 161
+  ALL profiles: sec_small full after 2 fallback step(s) ok 60
+  ALL profiles: sec_small full after 3 fallback step(s) ok 80
+  ALL profiles: sec_small full ok      36291
+  ALL profiles: sec_small secured after 1 fallback step(s) ok 188
+  ALL profiles: sec_small secured ok   21828
+  iter_r reruns=1 ok                   1643
+  iter_r reruns=2 ok                   5
+  rotation cases                       1648
+  sec_small full after 1 fallback step(s) ok 4
+  sec_small full ok                    1514
+  sec_small secured after 1 fallback step(s) ok 10
+  sec_small secured ok                 120
+  example iter_r reruns>=2 (4, 5, [(0, 1, 2), (0, 3, 4), (4, 1, 3), (4, 3, 2)])
+small 3 6
+  ALL profiles: sec_small full after 1 fallback step(s) ok 108
+  ALL profiles: sec_small full after 2 fallback step(s) ok 216
+  ALL profiles: sec_small full ok      8838
+  ALL profiles: sec_small secured ok   5238
+  iter_r reruns=1 ok                   438
+  iter_r reruns=2 ok                   24
+  rotation cases                       462
+  sec_small full after 1 fallback step(s) ok 36
+  sec_small full ok                    420
+  sec_small secured ok                 6
+  example iter_r reruns>=2 (3, 6, [(0, 1, 2), (0, 3, 1), (0, 3, 4)])
+rand 100000 7 9
+  iter_r reruns=1 ok                   700
+  iter_r reruns=2 ok                   19
+  rotation cases                       719
+  sec_small full after 1 fallback step(s) ok 21
+  sec_small full ok                    644
+  sec_small secured after 1 fallback step(s) ok 1
+  sec_small secured ok                 53
+  example iter_r reruns>=2 (4, 7, [(1, 6, 5), (1, 3, 6), (3, 4, 0), (1, 3, 2)])

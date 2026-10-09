@@ -1,0 +1,5 @@
+small n=4 m=6: 1728000 profiles; not EFX0: 0; branches {'r': 1694832, 'rot': 33168} []
+
+real	0m28.148s
+user	1m49.778s
+sys	0m0.368s

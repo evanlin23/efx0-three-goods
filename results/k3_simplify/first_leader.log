@@ -1,0 +1,6 @@
+every profile of every core, n <= 5: need rotation 33104; fixed by choosing the first leader 33104; by the last 33104 {}
+every ranking profile n=3 m=8: need rotation 1960; fixed by choosing the first leader 1960; by the last 1960 {}
+every ranking profile n=4 m=5: need rotation 4344; fixed by choosing the first leader 4344; by the last 4344 {}
+every ranking profile n=4 m=6: need rotation 33168; fixed by choosing the first leader 33168; by the last 33168 {}
+cores n = 6 (300 per core): need rotation 4536; fixed by choosing the first leader 4536; by the last 4536 {}
+random profiles n <= 9 (1,000,000): need rotation 6072; fixed by choosing the first leader 6072; by the last 6072 {}

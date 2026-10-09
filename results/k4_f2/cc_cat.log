@@ -1,0 +1,73 @@
+# command: python3 k4/f2_cc.py cat results/k4_sx/chunks/gap_n4_3_s4000@f2e1_c000.jsonl.gz results/k4_sx/chunks/gap_n4_pure_s4000@f2e1_c000.jsonl.gz results/k4_sx/chunks/hard_hunt@f2e1_c000.jsonl.gz results/k4_sx/chunks/hunt_n4_3_s400k@f2e1_c000.jsonl.gz results/k4_sx/chunks/hunt_n4_pure_s400k@f2e1_c000.jsonl.gz results/k4_sx/chunks/gap_n4_1_c000.jsonl.gz results/k4_sx/chunks/gap_n4_1_c001.jsonl.gz results/k4_sx/chunks/gap_n4_1_c002.jsonl.gz results/k4_sx/chunks/gap_n4_1_c003.jsonl.gz results/k4_sx/chunks/gap_n4_1_c004.jsonl.gz results/k4_sx/chunks/gap_n4_1_c005.jsonl.gz results/k4_sx/chunks/gap_n4_1_c006.jsonl.gz results/k4_sx/chunks/gap_n4_1_c007.jsonl.gz results/k4_sx/chunks/gap_n4_1_c008.jsonl.gz results/k4_sx/chunks/gap_n4_1_c009.jsonl.gz results/k4_sx/chunks/gap_n4_1_c010.jsonl.gz results/k4_sx/chunks/gap_n4_1_c011.jsonl.gz
+### cat
+  keys | frozen need digraph acyclic | A+ or B+ (PR #80)                                                                   18
+  keys | frozen need digraph acyclic | C+ or C′+ needed                                                                    49
+  obstruction | maxima with such a triple                                                                                  16
+  obstruction | triples (safe bundle of omega+1 goods, no good passes Fact 3)                                              1551
+  obstruction | triples with a third needer of phi(x)                                                                      144
+  uncovered keys | C'+ at some maximum                                                                                     48
+  uncovered keys | C+ at some maximum                                                                                      30
+  uncovered keys | full at some maximum                                                                                    30
+  uncovered keys | some maximum covered by C+ / C′+ / C+h / C′+h | True                                                    49
+  uncovered keys | some maximum covered by C+ / C′+ | True                                                                 49
+  uncovered maxima | C'+ applies | least k=0                                                                               70
+  uncovered maxima | C'+ applies | least k=1                                                                               6
+  uncovered maxima | first: C'+                                                                                            43
+  uncovered maxima | C+ applies | least k=0                                                                                34
+  uncovered maxima | C+ or C′+ applies | True                                                                              77
+  uncovered maxima | covered by the family | C'+ with q = phi(x) | False                                                   18
+  uncovered maxima | covered by the family | C'+ with q = phi(x) | True                                                    59
+  uncovered maxima | covered by the family | C'+ | False                                                                   1
+  uncovered maxima | covered by the family | C'+ | True                                                                    76
+  uncovered maxima | covered by the family | (C+ with (H*)) or (C′+ with q = phi(x)) | False                               10
+  uncovered maxima | covered by the family | (C+ with (H*)) or (C′+ with q = phi(x)) | True                                67
+  uncovered maxima | covered by the family | C+ or (C′+ with q = phi(x)) | False                                           8
+  uncovered maxima | covered by the family | C+ or (C′+ with q = phi(x)) | True                                            69
+  uncovered maxima | covered by the family | C+ or C′+ with k = 0 (plain (T3), no helper) | True                           77
+  uncovered maxima | covered by the family | C+ or C′+ | True                                                              77
+  uncovered maxima | covered by the family | C+ | False                                                                    43
+  uncovered maxima | covered by the family | C+ | True                                                                     34
+  uncovered maxima | first: C+                                                                                             34
+  uncovered maxima | full applies | least k=0                                                                              34
+  uncovered maxima | kinds | C'+ | owner a leaf | phi(a_k), now tau's                                                      21
+  uncovered maxima | kinds | C'+ | owner a leaf | phi(w) of a frozen w off the move                                        35
+  uncovered maxima | kinds | C'+ | owner a leaf | phi(x)                                                                   15
+  uncovered maxima | kinds | C'+ | owner x | phi(x)                                                                        47
+  uncovered maxima | kinds | C+ | owner a leaf | (a*) | (H*)                                                               24
+  uncovered maxima | kinds | C+ | owner a leaf | (a*) | not (H*)                                                           18
+  uncovered maxima | kinds | full | owner a leaf                                                                           34
+  uncovered maxima | least k over the lemmas that apply | 0                                                                77
+  uncovered maxima | roles | C'+ | x threatened by a leaf | tau a leaf | owner a leaf not threatening x                    3
+  uncovered maxima | roles | C'+ | x threatened by a leaf | tau a leaf | owner a leaf threatening x                        56
+  uncovered maxima | roles | C'+ | x threatened by a leaf | tau a leaf | owner x                                           47
+  uncovered maxima | roles | C'+ | x threatened by a leaf | tau not a leaf | owner x                                       20
+  uncovered maxima | roles | C'+ | x threatened by no leaf | tau a leaf | owner a leaf not threatening x                   10
+  uncovered maxima | roles | C+ | x threatened by a leaf | tau a leaf | owner a leaf not threatening x                     1
+  uncovered maxima | roles | C+ | x threatened by a leaf | tau a leaf | owner a leaf threatening x                         32
+  uncovered maxima | roles | C+ | x threatened by no leaf | tau a leaf | owner a leaf not threatening x                    7
+  uncovered maxima | roles | any | x threatened by a leaf | tau a leaf                                                     77
+  uncovered maxima | roles | any | x threatened by a leaf | tau not a leaf                                                 20
+  uncovered maxima | roles | any | x threatened by no leaf | tau a leaf                                                    15
+  keys covered by A+ or B+ (PR #80)                                                                                        18
+  keys def*>0                                                                                                              67
+  keys uncovered by A+ and B+                                                                                              49
+  profiles f=2                                                                                                             65
+  uncovered maxima                                                                                                         77
+  smallest [k=0 C'+ owner a leaf phi(w) of a frozen w off the move]: n=4 m=9 sets=[[0, 2, 4, 8], [1, 3, 6, 7], [2, 3, 4, 5], [5, 6, 7, 8]] vals=[[2, 4, 3, 8], [3, 8, 4, 2], [4, 8, 3, 2], [2, 3, 6, 10]] key=[None, 3, None, 8] def*=1 config=Config(key=[None, 3, None, 8], Q={0: [0, 2], 2: [4, 5]}, L=[1, 6, 7]) P_Q=[[0, 2], [3], [4, 5], [8]] def(P_Q)=1 why=None
+  smallest [k=0 C'+ owner a leaf phi(x)]: n=4 m=10 sets=[[0, 2, 8, 9], [1, 4, 8, 9], [3, 5, 6, 7], [5, 6, 7, 9]] vals=[[4, 3, 2, 8], [3, 4, 2, 8], [3, 8, 4, 2], [8, 4, 2, 5]] key=[None, None, 5, 9] def*=1 config=Config(key=[None, None, 5, 9], Q={0: [0, 2], 1: [1, 4]}, L=[3, 6, 7, 8]) P_Q=[[0, 2], [1, 4], [5], [9]] def(P_Q)=1 why=None
+  smallest [k=0 C'+ owner x phi(x)]: n=4 m=9 sets=[[0, 2, 4, 8], [1, 3, 6, 7], [2, 3, 4, 5], [5, 6, 7, 8]] vals=[[2, 4, 3, 8], [3, 8, 4, 2], [4, 8, 3, 2], [2, 3, 6, 10]] key=[None, 3, None, 8] def*=1 config=Config(key=[None, 3, None, 8], Q={0: [0, 2], 2: [4, 5]}, L=[1, 6, 7]) P_Q=[[0, 2], [3], [4, 5], [8]] def(P_Q)=1 why=None
+  smallest [k=0 C+ owner a leaf (a*) (H*)]: n=4 m=10 sets=[[0, 2, 8, 9], [1, 5, 8, 9], [3, 6, 7, 9], [4, 6, 7, 9]] vals=[[4, 3, 2, 8], [3, 4, 2, 8], [3, 2, 8, 4], [4, 2, 8, 5]] key=[None, None, 7, 9] def*=1 config=Config(key=[None, None, 7, 9], Q={0: [0, 2], 1: [1, 5]}, L=[3, 4, 6, 8]) P_Q=[[0, 2], [1, 5], [7], [9]] def(P_Q)=1 why=None
+  smallest [k=0 C+ owner a leaf (a*) not (H*)]: n=4 m=9 sets=[[0, 2, 4, 8], [1, 3, 6, 7], [2, 3, 4, 5], [5, 6, 7, 8]] vals=[[2, 4, 3, 8], [3, 8, 4, 2], [4, 8, 3, 2], [2, 3, 6, 10]] key=[None, 3, None, 8] def*=1 config=Config(key=[None, 3, None, 8], Q={0: [0, 2], 2: [4, 5]}, L=[1, 6, 7]) P_Q=[[0, 2], [3], [4, 5], [8]] def(P_Q)=1 why=None
+  smallest [k=0 full owner a leaf]: n=4 m=9 sets=[[0, 2, 4, 8], [1, 3, 6, 7], [2, 3, 4, 5], [5, 6, 7, 8]] vals=[[2, 4, 3, 8], [3, 8, 4, 2], [4, 8, 3, 2], [2, 3, 6, 10]] key=[None, 3, None, 8] def*=1 config=Config(key=[None, 3, None, 8], Q={0: [0, 2], 2: [4, 5]}, L=[1, 6, 7]) P_Q=[[0, 2], [3], [4, 5], [8]] def(P_Q)=1 why=None
+  smallest [k=1 C'+ owner a leaf phi(a_k), now tau's]: n=4 m=10 sets=[[0, 2, 6, 7], [1, 4, 8, 9], [3, 5, 8, 9], [6, 7, 9]] vals=[[2, 3, 4, 8], [4, 3, 2, 8], [4, 3, 2, 8], [2, 4, 3]] key=[7, None, None, 9] def*=1 config=Config(key=[7, None, None, 9], Q={1: [1, 4], 2: [3, 5]}, L=[0, 2, 6, 8]) P_Q=[[7], [1, 4], [3, 5], [9]] def(P_Q)=1 why=None
+  smallest [k=1 C'+ owner x phi(x)]: n=4 m=10 sets=[[0, 2, 6, 7], [1, 4, 8, 9], [3, 5, 8, 9], [6, 7, 9]] vals=[[2, 3, 4, 8], [4, 3, 2, 8], [4, 3, 2, 8], [2, 4, 3]] key=[7, None, None, 9] def*=1 config=Config(key=[7, None, None, 9], Q={1: [1, 4], 2: [3, 5]}, L=[0, 2, 6, 8]) P_Q=[[7], [1, 4], [3, 5], [9]] def(P_Q)=1 why=None
+  smallest [k=1 C+ owner a leaf (a*) (H*)]: n=4 m=10 sets=[[0, 2, 5, 9], [1, 4, 8, 9], [3, 5, 6, 7], [6, 7, 8, 9]] vals=[[2, 4, 3, 8], [2, 4, 3, 8], [6, 2, 10, 3], [8, 3, 2, 4]] key=[None, None, 6, 9] def*=1 config=Config(key=[None, None, 6, 9], Q={0: [2, 5], 1: [4, 8]}, L=[0, 1, 3, 7]) P_Q=[[2, 5], [4, 8], [6], [9]] def(P_Q)=1 why=None
+  smallest [k=1 C+ owner a leaf (a*) not (H*)]: n=4 m=10 sets=[[0, 2, 8, 9], [1, 5, 8, 9], [3, 6, 7, 9], [4, 6, 7, 9]] vals=[[4, 3, 2, 8], [3, 4, 2, 8], [2, 6, 10, 3], [4, 2, 8, 5]] key=[None, None, 7, 9] def*=1 config=Config(key=[None, None, 7, 9], Q={0: [0, 2], 1: [1, 5]}, L=[3, 4, 6, 8]) P_Q=[[0, 2], [1, 5], [7], [9]] def(P_Q)=1 why=None
+  smallest [k=1 full owner a leaf]: n=4 m=10 sets=[[0, 2, 5, 9], [1, 4, 8, 9], [3, 5, 6, 7], [6, 7, 8, 9]] vals=[[2, 4, 3, 8], [2, 4, 3, 8], [6, 2, 10, 3], [8, 3, 2, 4]] key=[None, None, 6, 9] def*=1 config=Config(key=[None, None, 6, 9], Q={0: [2, 5], 1: [4, 8]}, L=[0, 1, 3, 7]) P_Q=[[2, 5], [4, 8], [6], [9]] def(P_Q)=1 why=None
+  smallest [not covered by (C+ with (H*)) or (C′+ with q = phi(x))]: n=4 m=10 sets=[[0, 2, 4, 8], [1, 3, 7, 9], [4, 5, 6, 7], [5, 6, 8, 9]] vals=[[4, 2, 3, 8], [3, 4, 8, 2], [3, 2, 4, 8], [2, 3, 8, 4]] key=[8, 7, None, None] def*=1 config=Config(key=[8, 7, None, None], Q={2: [4, 6], 3: [5, 9]}, L=[0, 1, 2, 3]) P_Q=[[8], [7], [4, 6], [5, 9]] def(P_Q)=1 why=['("C\'+", 0, \'owner a leaf\', \'phi(w) of a frozen w off the move\')']
+  smallest [not covered by C'+]: n=4 m=11 sets=[[0, 2, 8, 9], [1, 5, 8, 10], [3, 6, 9, 10], [4, 7, 9, 10]] vals=[[2, 6, 10, 7], [3, 4, 8, 2], [3, 4, 8, 2], [3, 6, 10, 2]] key=[9, 8, None, None] def*=1 config=Config(key=[9, 8, None, None], Q={2: [3, 6], 3: [4, 7]}, L=[0, 1, 2, 5, 10]) P_Q=[[9], [8], [3, 6], [4, 7]] def(P_Q)=2 why=["('C+', 0, 'owner a leaf', '(a*)', 'not (H*)')", "('full', 0, 'owner a leaf')"]
+  smallest [not covered by C'+ with q = phi(x)]: n=4 m=10 sets=[[0, 2, 4, 8], [1, 3, 7, 9], [4, 5, 6, 7], [5, 6, 8, 9]] vals=[[4, 2, 3, 8], [3, 4, 8, 2], [3, 2, 4, 8], [2, 3, 8, 4]] key=[8, 7, None, None] def*=1 config=Config(key=[8, 7, None, None], Q={2: [4, 6], 3: [5, 9]}, L=[0, 1, 2, 3]) P_Q=[[8], [7], [4, 6], [5, 9]] def(P_Q)=1 why=['("C\'+", 0, \'owner a leaf\', \'phi(w) of a frozen w off the move\')']
+  smallest [not covered by C+]: n=4 m=10 sets=[[0, 2, 4, 9], [1, 3, 8, 9], [4, 5, 6, 7], [5, 6, 7, 8]] vals=[[2, 4, 8, 3], [3, 4, 8, 2], [8, 4, 3, 2], [4, 3, 2, 8]] key=[4, 8, None, None] def*=1 config=Config(key=[4, 8, None, None], Q={2: [0, 5], 3: [6, 7]}, L=[1, 2, 3, 9]) P_Q=[[4], [8], [5], [6, 7]] def(P_Q)=1 why=['("C\'+", 0, \'owner x\', \'phi(x)\')']
+  smallest [not covered by C+ or (C′+ with q = phi(x))]: n=4 m=10 sets=[[0, 2, 4, 8], [1, 3, 7, 9], [4, 5, 6, 7], [5, 6, 8, 9]] vals=[[4, 2, 3, 8], [3, 4, 8, 2], [3, 2, 4, 8], [2, 3, 8, 4]] key=[8, 7, None, None] def*=1 config=Config(key=[8, 7, None, None], Q={2: [4, 6], 3: [5, 9]}, L=[0, 1, 2, 3]) P_Q=[[8], [7], [4, 6], [5, 9]] def(P_Q)=1 why=['("C\'+", 0, \'owner a leaf\', \'phi(w) of a frozen w off the move\')']
+# time 2.0 s
+# no assertion failed

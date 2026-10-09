@@ -1,0 +1,26 @@
+small 4 6
+  W meets B*                               33168
+  W meets B* minus k*                      33168
+  W meets chain                            33102
+  W meets chain minus k*                   33102
+  W meets non-leaders                      33168
+  W nonempty                               33168
+  W subset non-leaders                     32664
+  k* robust                                504
+  k* works                                 504
+  nleaders=1                               32664
+  nleaders=2                               504
+  r robust                                 32550
+  r works                                  32550
+  robust first leader exists               33168
+  rot                                      33168
+  some leader sequence works               33168
+  some non-leader of the failed run fails  5094
+  x1 robust                                32730
+  x1 works                                 32730
+  example r fails ([(0, 1, 2), (0, 3, 1), (0, 3, 4), (0, 4, 5)], 6, 3, [1, 2])
+  example chain-k fails ([(0, 1, 2), (3, 0, 4), (3, 4, 0), (4, 0, 5)], 6, [0, 3], [1, 2])
+
+real	0m49.072s
+user	0m48.282s
+sys	0m0.017s

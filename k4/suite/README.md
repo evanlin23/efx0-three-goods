@@ -8,7 +8,7 @@ test, not a certificate.
 
 ## Contents
 
-- `instances/*.json`: 162 records, 157 complete instances and 5 local configurations of `k4/MINCEX.md` (marked
+- `instances/*.json`: 164 records, 159 complete instances and 5 local configurations of `k4/MINCEX.md` (marked
   `"kind"`, skipped by the runner). Collected from main and from the branches of PRs #37, #41, #43, #44, #45, #50, #51,
   #53 (read with `git show`, never edited), plus three instances from #51's review, now on main in
   `attempts/k4-c4min-reduce-lil.md` (N1 = `lil-text-n3`, N2 = `lil-text-n4`: #51's narrow catalogue; NC =
@@ -31,6 +31,12 @@ test, not a certificate.
   to the big-top step of Lemma M and to Lemma M and rule F with one rotation (`attempts/k4-lemmam-bt-single-bigtop.md`,
   `attempts/k4-lemmam-bt-one-first-agent.md`), each with an EFX₀ witness; `expect_fail` is empty (too large for the
   exhaustive predicates), the refutations are replayed by `bash k4/lemmam_bt_runs.sh` and `k4/lemmam_bt_indep.py`.
+  Added by compute/k4-rc-refute: `rc-n5m13-f1` (core 4604 of `k4_certs_5_pure`, f = 1) and `rc-n5m12-f2` (core
+  4515, f = 2), counterexamples to DL_RC (K4.DL2.RC), the second also to DL_RC with an unrestricted helper
+  (K4.DL2.RCY), both to DL_RT4 at f = 1, 2 (`attempts/k4-rc-single-step.md`), checked with
+  `python3 k4/suite/run.py --pred=k4/rc_pred.py:rc_c` (and `:rc_indep`, `:rcy_indep`; `:keyplus_c` for the key
+  graph, which holds), `results/k4_rc/suite_rc_pred.log`; the same predicates on all 159 complete instances in
+  `results/k4_rc/suite_rc_pred_all.log` (no other failure), `--expected` in `results/k4_rc/suite_expected_rc.log`.
 - `model.py`: this workstream's own implementation of the objects, written from the definitions (k4/c4x.md §1,
   k4/c4min.md §1, §3.6, §4, k4/hall.md §1): 𝒫, needs, frozen agents, keys, configurations, valid owners with the
   unfreezing clause, the removal-only deficit, completions, the potentials t, r, Λ, p, Φ, Φ′, and an own SAT encoding of
@@ -99,6 +105,8 @@ Logs in `results/k4_strategy/` (each starts with its command); `python3 k4/suite
 | id | n | m | core | PR | source files | refutes (as the source states it; full text in the record) | re-checked by `run.py --expected` |
 |---|---|---|---|---|---|---|---|
 | `count-n3m8` | 3 | 8 | yes | proof/k4-strategy | `attempts/k4-strat-count.md` | COUNT (Route 1, this PR): some pool-optimal configuration at a min-frozen key has more robust free agents tha… | `count` |
+| `rc-n5m12-f2` | 5 | 12 | yes | compute/k4-rc (hunt runs certs_pure_x and core4515, k4/dlrc_hunt.py; merged into compute/k4-rc-refute) | `results/k4_rc/rc_fail_4515_inst.json`, `results/k4_rc/rc_fail_4515_all_inst.json` | Conjecture DL_RC (ledger K4.DL2.RC; k4/dlrc.c header): at f >= 1 every min-frozen P with def(P) > 0 has a min…; DL_RC with T3+'s helper unrestricted (ledger K4.DL2.RCY; portfolio predicate RC_Yfree of compute/k4-portfolio… (+1 more) |  |
+| `rc-n5m13-f1` | 5 | 13 | yes | compute/k4-rc (hunt run ranked_pure, k4/dlrc_hunt.py; merged into compute/k4-rc-refute) | `results/k4_rc/rc_fail_hunt_ranked_pure_inst.json`, `results/k4_rc/rc_failures_n5_inst.json` | Conjecture DL_RC (ledger K4.DL2.RC; k4/dlrc.c header): at f >= 1 every min-frozen P with def(P) > 0 has a min…; Conjecture DL_RT4 (ledger K4.DL2.RT4; k4/dlrt4.c header): the same with T3 (W empty) in place of T3+. At f = … |  |
 | `rt4-n5m10-chain` | 5 | 10 | yes | compute/k4-rt4-n5 (found by run n5c_purebt of compute/k4-rt4-n5c, merged into it) | `results/k4_rt4/n5c_FAILURES.md`, `results/k4_rt4/n5c_fail_inst.json` | Conjecture DL_RT4 (k4/dlrt4.c header; k4/dl2.md §3 with T4), as for rt4-n5m9-chain: f = 3, def(P) = 1, no bet…; DL on the key graph with single T3 / T4 edges (k4/dl13.md §2.3 Remark): P's key (NA {3, 8, 9}; agents 0, 1, 2… |  |
 | `rt4-n5m9-chain` | 5 | 9 | yes | compute/k4-rt4-n5 (found by run n5b_4 of compute/k4-rt4-n5b, merged into it) | `results/k4_rt4/n5b_FAILURES.md`, `results/k4_rt4/n5b_failures_inst.json` | Conjecture DL_RT4 (k4/dlrt4.c header; k4/dl2.md §3 with T4): at f >= 1 every min-frozen P with def(P) > 0 has…; DL on the key graph with single T3 / T4 edges (k4/dl13.md §2.3 Remark): every key with def* > 0 has a key wit… |  |
 | `mincex-drop-private-p3` | 1 | 3 | local | #23 | `attempts/k4-mincex-drop-private.md` | Minimal-counterexample reduction (k = 4): removing the private good of a P3 agent (replace e on {s, t, p} by … |  |

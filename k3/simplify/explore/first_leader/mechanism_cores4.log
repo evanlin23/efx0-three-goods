@@ -1,0 +1,30 @@
+cores 4
+  case has x with x itself not exposed or r a leader      1611
+  rotation cases                                          1648
+  x works: last_free                                      431
+  x works: nx_pick_first                                  3386
+  x works: nx_up                                          696
+  x works: one block(s)                                   4346
+  x works: r_leader                                       233
+  x works: several block(s)                               402
+  x works: share                                          2
+  case mechanisms ('nx_pick_first',) 665
+  case mechanisms ('nx_pick_first', 'nx_up') 434
+  case mechanisms ('last_free', 'nx_pick_first') 227
+  case mechanisms ('last_free', 'nx_pick_first', 'nx_up') 96
+  case mechanisms ('nx_pick_first', 'r_leader') 76
+  case mechanisms ('r_leader',) 26
+  case mechanisms ('nx_pick_first', 'nx_up', 'r_leader') 22
+  case mechanisms ('nx_up',) 19
+  case mechanisms ('last_free', 'nx_pick_first', 'r_leader') 19
+  case mechanisms ('last_free', 'nx_up') 18
+  case mechanisms ('last_free', 'r_leader') 16
+  case mechanisms ('nx_up', 'r_leader') 15
+  case mechanisms ('last_free', 'nx_up', 'r_leader') 13
+  case mechanisms ('nx_pick_first', 'nx_up', 'share') 1
+  case mechanisms ('nx_pick_first', 'share') 1
+  example nx_pick_first ([(1, 2, 3), (0, 1, 2), (0, 1, 2)], 4, 1)
+  example nx_up ([(1, 3, 2), (0, 1, 2), (0, 1, 2)], 4, 1)
+  example last_free ([(3, 0, 1), (2, 0, 3), (2, 3, 1)], 4, 2)
+  example r_leader ([(0, 2, 3), (2, 1, 4), (0, 2, 1)], 5, 2)
+  example share ([(1, 5, 2), (1, 4, 0), (3, 0, 4), (3, 4, 2)], 6, 1)
