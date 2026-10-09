@@ -40,7 +40,7 @@ Agents $N$ ($|N|=n\ge1$) share a set $M$ of $m$ indivisible goods with nonnegati
 \[
   v_i(X_i)\ \ge\ v_i(X_j\setminus\{h\})\qquad\text{for all } i\ne j \text{ and all } h\in X_j,
 \]
-and \emph{EFX} asks this only for goods $h$ with $v_i(h)>0$~\cite{AmanatidisBFV22}. So \efxz{} implies EFX, and the two coincide for positive values. Under \efxz{}, if $X_j$ contains a good that $i$ values at $0$, then $i$ must not envy $X_j$ at all. Whether complete EFX allocations always exist for additive valuations is open; they are known to exist in special cases, among them three agents~\cite{ChaudhuryGM20} or three types~\cite{HVGNV25}, $m\le n+3$~\cite{Mahara21}, four agents and at most nine goods~\cite{AlkassarFM26}, goods valued by at most two agents~\cite{AfshinmehrAMMS26,ChristodoulouFKS23,SgouritsaS25,KavianiSS24}, and hypergraphs of girth at least four~\cite{LianeasSS26} (Table~\ref{tab:rw} in Appendix~\ref{app:rw}). Let $R_i=\{g\st v_i(g)>0\}$, the \emph{relevant} goods of $i$. If $|R_i|\le2$ for all $i$, serial dictatorship gives \efxz{}~\cite{MrdEfx}. For $|R_i|\le4$, Viswanathan and Mehta~\cite{ViswanathanM24} announce ordinary EFX, with a proof sketch; their algorithm gives the goods nobody values to an arbitrary agent, which can break \efxz{}.
+and \emph{EFX} asks this only for goods $h$ with $v_i(h)>0$~\cite{AmanatidisBFV22}. So \efxz{} implies EFX, and the two coincide for positive values. Under \efxz{}, if $X_j$ contains a good that $i$ values at $0$, then $i$ must not envy $X_j$ at all. Whether complete EFX allocations always exist for additive valuations is open; they exist in special cases~\cite{ChaudhuryGM20,HVGNV25,Mahara21,AlkassarFM26,AfshinmehrAMMS26,ChristodoulouFKS23,SgouritsaS25,KavianiSS24,LianeasSS26} (Table~\ref{tab:rw} in Appendix~\ref{app:rw}). Let $R_i=\{g\st v_i(g)>0\}$, the \emph{relevant} goods of $i$. If $|R_i|\le2$ for all $i$, serial dictatorship gives \efxz{}~\cite{MrdEfx}. At three goods this breaks: an agent that values $a$, $b$, $c$ at $4$, $3$, $2$ may take $a$ and then see $b$ and $c$ end up in the last agent's bundle with a third good; removing that third good leaves $b$ and $c$, worth $5>4$. For $|R_i|\le4$, Viswanathan and Mehta~\cite{ViswanathanM24} announce ordinary EFX, with a proof sketch; their algorithm gives the goods nobody values to an arbitrary agent, which can break \efxz{}.
 
 \begin{theorem}[existence and shape]\label{thm:main}
 Every instance with $n\ge1$ agents and nonnegative additive valuations in which every agent positively values at most three goods has a complete \efxz{} allocation in which all bundles but at most one have at most two goods.
@@ -50,9 +50,8 @@ Every instance with $n\ge1$ agents and nonnegative additive valuations in which 
 Algorithm \DE{} (Section~\ref{sec:algo}) computes such an allocation with at most $n$ peeling steps and at most $4n$ trades, in time $O(n(n+m))$. On real values, every decision of \DE{} compares two sums of at most two values of one agent.
 \end{theorem}
 
-\paragraph{How the proof works.} Agents that can leave with one good do so (\emph{peeling}); the others value three goods $a\succ b\succ c$ with $v(a)<v(b)+v(c)$ and draft at most one good each. A \emph{free} agent, whose good nobody wants, then tries to take all the leftover goods, protecting its \emph{blockers}, agents holding their top whose $b$ and $c$ would both land in its bundle, by moving one of the two to another free agent. If no free agent can, a \emph{chain} or a \emph{ring} of trades makes some agents better off and nobody worse off; the ring exists because every agent can point at an agent that would gladly take its good. Scores only grow, so the process ends.
+\paragraph{How the proof works.} Agents that can leave with one good do so; the others draft at most one good each. Then, until a \emph{free} agent can take all the leftover goods, goods are traded along a \emph{chain} or a \emph{ring} of agents, each of which gets strictly better off. Section~\ref{sec:algo} ends with a small example.
 
-\paragraph{Status.} The proofs are machine-checked in Lean~4, with the algorithm, its bound of $4n$ trades, its running time and its use on real values, and they were checked by computer on millions of states (Appendix~\ref{sec:evidence}). The reviews so far were by AI agents; there has been no human peer review. A long version, with more explanation, is \file{paper/k3-simple/long.pdf} in~\cite{Repo}.
 
 %======================================================================
 \section{Peeling}\label{sec:peel}
@@ -186,14 +185,14 @@ If (NC) fails, Lemma~\ref{lem:chain} applies. Assume (NC). By Lemma~\ref{lem:tes
 %======================================================================
 \section{The Algorithm Draft and Exchange}\label{sec:algo}
 
-Algorithm~\ref{alg:de} lists \DE{}. It receives the values $v_i(g)$; ties are broken by index as in Section~\ref{sec:peel}. Its loop runs on the core case left by peeling, with the notions of Sections~\ref{sec:states}--\ref{sec:improve}.
+Algorithm~\ref{alg:de} lists \DE{}; ties are broken by index as in Section~\ref{sec:peel}.
 
-\begin{algorithm}[tb]
+\begin{algorithm}[!b]
 \caption{Draft and Exchange (\DE{})}\label{alg:de}
 \begin{algorithmic}[1]
 \Require agents $N$, goods $M$, nonnegative values $v_i(g)$, every agent with $|R_i|\le3$
 \State $A\gets N$, $G\gets M$
-\While{$|A|\ge2$ and rule R1 applies to some agent of $A$ with respect to $G$} \Comment{peeling}
+\While{$|A|\ge2$ and rule R1 applies to an agent of $A$, for $G$} \Comment{peeling}
   \State $i\gets$ the first such agent; $X_i\gets P_i$ (by rule R1); $A\gets A\setminus\{i\}$, $G\gets G\setminus P_i$
 \EndWhile
 \If{$|A|=1$} give $G$ to the agent of $A$ and \Return $X$ \EndIf
@@ -227,16 +226,18 @@ On every instance in which every agent values at most three goods, \DE{} returns
 \emph{The core.} Let $|A|\ge2$. Rule R1 applies to no agent of $A$, so by Lemma~\ref{lem:R1fail} this is the core case. The draft gives a valid state (Lemma~\ref{lem:draft}). A chain or a ring gives a valid state in which nobody's score drops and some score rises (Lemmas~\ref{lem:chain} and~\ref{lem:ring}; the ring exists when it is used, by the proof of Theorem~\ref{thm:improve}). The total score is an integer between $0$ and $4|A|$, so there are at most $4|A|\le4n$ trades, and the loop stops. When it stops, $o$ can finish with $H$ (Lemma~\ref{lem:test}(c); the chain test failed, so (NC) holds), or every agent holds its pair; Theorem~\ref{thm:sound} gives an \efxz{} allocation in which only $X_o$ can have more than two goods. Peeled agents receive at most one good. \qed
 \end{proof}
 
-\paragraph{Running time.} With an array that records the holder of each good, the wants, free agents, blockers and sets $H_o$ are found by one pass over the agents, and an iteration of the loop takes $O(n+m)$ steps, as does a round of peeling; so \DE{} runs in $O(n(n+m))$ steps, reading the input included (checked in Lean, Appendix~\ref{sec:evidence}).
+\paragraph{A small example.} Agents $z$, $x$, $o$, in index order, rank $g_5\succ g_0\succ g_1$, $g_0\succ g_1\succ g_2$ and $g_0\succ g_5\succ g_1$, with values $4$, $3$, $2$; nobody values $g_3$. Nobody is peeled. In the draft $z$ takes $g_5$, $x$ takes $g_0$, and $o$ takes $g_1$; the leftover goods are $g_2$, $g_3$. Agent $o$ wants $g_0$ and $g_5$, which are held alone: the state is valid, and $o$ is the only free agent. No chain applies. Agent $x$ is a blocker of $o$: if $o$ took $\{g_1,g_2,g_3\}$, $x$ would remove $g_3$ and see $g_1$ and $g_2$, worth $5>4$. So $H_o=\{g_2\}$, there is no other free agent to take $g_2$, and $o$ cannot finish. The pointers are $\sigma(o)=x$, a pair arrow ($x$'s pair is $o$'s good $g_1$ and the leftover $g_2$), and $\sigma(x)=\sigma(z)=o$, want arrows ($o$ wants $g_0$ and $g_5$). Following them from $z$ closes the ring $o\to x\to o$: $x$ takes $\{g_1,g_2\}$ and $o$ takes $g_0$. Now nobody wants anything, the free agents are $z$ and $o$, and $z$ has no blocker, so $z$ finishes: $X_z=\{g_5,g_3\}$, $X_x=\{g_1,g_2\}$, $X_o=\{g_0\}$, an \efxz{} allocation.
 
-\paragraph{Real values.} Every decision of \DE{} compares one value of an agent with another, or with the sum of two of its values, and the proofs use nothing else about the values. So Theorem~\ref{thm:de}, the running time and this remark prove Theorems~\ref{thm:main} and~\ref{thm:algo}, also for nonnegative real values.
+\paragraph{Running time.} With an array of the holder of each good, one pass over the agents finds the wants, free agents, blockers and sets $H_o$; a loop iteration or a peeling round takes $O(n+m)$ steps, so \DE{} takes $O(n(n+m))$, reading the input included (Appendix~\ref{sec:evidence}).
+
+\paragraph{Real values.} Every decision of \DE{} compares a value of an agent with another, or with the sum of two of its values, and the proofs use nothing else about the values. So Theorem~\ref{thm:de}, the running time and this remark prove Theorems~\ref{thm:main} and~\ref{thm:algo}, also for real values.
 
 %======================================================================
-\section{Example, Verification and Open Problems}\label{sec:concl}
+\section{Further Results, Verification and Open Problems}\label{sec:concl}
 
-Appendix~\ref{sec:example} runs \DE{} on an example where no short trade helps and the ring gives pairs to two agents at once; rings may need any number of pair arrows (Appendix~\ref{app:size}), and some instances need a bundle of three or four goods (Appendix~\ref{app:limits}). Every result here is machine-checked in core Lean~4 (\file{lean/EFX/K3DE*.lean} in~\cite{Repo}), including \DE{} and a counted program, equal to it, with at most $750(n+1)(n+m+1)$ steps; tests found no failure (Appendix~\ref{sec:evidence}). Open: four relevant goods per agent~\cite{ViswanathanM24}; a better bound than $4n$ trades; the least size of the large bundle.
+Appendix~\ref{sec:example} has a larger example, where \DE{}'s ring gives pairs to two agents at once; rings may need any number of pair arrows (Appendix~\ref{app:size}), and some instances need a bundle of three or four goods (Appendix~\ref{app:limits}). Every result here is machine-checked in core Lean~4 (\file{lean/EFX/K3DE*.lean} in~\cite{Repo}); tests found no failure; the reviews were by AI agents, with no human peer review yet (Appendix~\ref{sec:evidence}). A long version is \file{paper/k3-simple/long.pdf} in~\cite{Repo}. Open: four relevant goods per agent~\cite{ViswanathanM24}; a better bound than $4n$ trades; the least size of the large bundle.
 
-\paragraph{Acknowledgments.} The proofs, code and the Lean formalizations were developed with the assistance of AI coding agents (Claude Code); this paper was also drafted with their assistance.
+\paragraph{Acknowledgments.} The proofs, code, Lean formalizations and this paper were developed with the assistance of AI coding agents (Claude Code).
 
 \bibliographystyle{splncs04}
 \bibliography{refs}
