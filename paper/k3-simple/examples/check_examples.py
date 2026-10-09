@@ -306,10 +306,11 @@ class State:
 
 
 def completion(st, o, H, receivers=None):
-    """Definition (finishing): each good of H to a different free agent other than o (by default: the goods in index
-    order to the free agents other than o in index order, as in Algorithm 1), o gets Y_o + (J - H), the others keep
-    their holdings"""
-    Hs = sorted(H)
+    """Definition (finishing): each good of H to a different free agent other than o (by default, as in Algorithm 1:
+    the goods of H in the given order -- for DE, H_o in the order of the goods' first blockers; a set is taken in
+    index order -- to the free agents other than o in index order), o gets Y_o + (J - H), the others keep their
+    holdings"""
+    Hs = list(H) if isinstance(H, (list, tuple)) else sorted(H)
     others = [f for f in st.F if f != o]
     if receivers is None:
         receivers = others[:len(Hs)]
@@ -425,18 +426,25 @@ def blocker_owners_ok(st):
     return all(c <= 1 for c in cnt.values())
 
 
+def Ho_of(st, x, o):
+    """the leftover good h_x of a blocker x of o (Lemma (the finishing test)(b))"""
+    b, c = st.rank[x][1], st.rank[x][2]
+    return c if b == st.Y[o][0] else b
+
+
 def proof_ring(st):
     """the ring of the proof of Theorem (Improvement Lemma), under (NC) when no free agent can finish: distinct
-    leftover goods q_o (free agents in index order, each the first good of H_o not yet picked), x_o the first blocker
-    of o with h_x = q_o; sigma(j) = x_j for free j, else the first agent that wants the good of j; follow sigma from the
+    leftover goods (free agents in index order; x_o the first blocker of o whose leftover good is not yet picked,
+    q_o = h_{x_o}); sigma(j) = x_j for free j, else the first agent that wants the good of j; follow sigma from the
     first agent outside U until an agent repeats. Returns (q, x_o, sigma, cycle)."""
     f = len(st.F)
     q, xo = {}, {}
     for o in st.F:
         Ho = st.leftover_goods(o)
         assert st.Y[o] and len(Ho) >= f                  # Lemma (the finishing test): o holds a good, |H_o| >= |F|
-        q[o] = min(h for h in Ho if h not in q.values())
-        xo[o] = Ho[q[o]]
+        xo[o] = next(x for x in st.blockers(o) if Ho_of(st, x, o) not in q.values())
+        q[o] = Ho_of(st, xo[o], o)
+        assert Ho[q[o]] == xo[o]                         # x_o is also the first blocker with this leftover good
     sigma = {}
     for j in range(st.n):
         if j not in st.U:
@@ -500,7 +508,7 @@ def de_loop(rank, m, start=None, stats=None, old_finish=False):
             for o in ([] if fin else st.F):                                         # finish: |H_o| <= |F| - 1
                 Ho = st.leftover_goods(o)
                 if len(Ho) <= len(st.F) - 1:
-                    fin = (o, frozenset(Ho))
+                    fin = (o, tuple(Ho))                                    # H_o in the order of first blockers
                     break
             if fin is not None:
                 o, H = fin
@@ -620,8 +628,8 @@ def sec_intro():
 
 # ============================================================================================ [2]
 def sec_small():
-    out('[2] Section 6, "A small example" (agents z, x, o in this index order; goods g0, g1, g2, g3, g5)')
-    gn = ['g0', 'g1', 'g2', 'g3', 'g5']                       # the goods, numbered 0..4 in index order
+    out('[2] Section 6, "A small example" (agents z, x, o in this index order; goods g0, g1, g2, g3, g4)')
+    gn = ['g0', 'g1', 'g2', 'g3', 'g4']                       # the goods, numbered 0..4 in index order
     G0, G1, G2, G3, G5 = range(5)
     Z, XX, O = range(3)
     names = ['z', 'x', 'o']
@@ -635,9 +643,9 @@ def sec_small():
     D = draft(rank)
     st = State(rank, m, D)
     check(D == (TOP, TOP, CC) and st.Y == [(G5,), (G0,), (G1,)] and st.J == {G2, G3},
-          'the draft: z takes g5, x takes g0, o takes g1; leftover goods g2, g3')
+          'the draft: z takes g4, x takes g0, o takes g1; leftover goods g2, g3')
     check(set(st.W[O]) == {G0, G5} and not st.W[Z] and not st.W[XX] and st.valid and st.F == [O]
-          and not st.nc_violators(), 'o wants g0 and g5, held alone: valid; o is the only free agent; no chain applies')
+          and not st.nc_violators(), 'o wants g0 and g4, held alone: valid; o is the only free agent; no chain applies')
     Xc = completion(st, O, ())
     check(st.blockers(O) == [XX] and Xc[O] == {G1, G2, G3} and val(v[XX], Xc[O] - {G3}) == 5 > val(v[XX], Xc[XX]) == 4
           and not is_efx0(v, Xc), 'x is a blocker of o: if o took {g1, g2, g3}, x would remove g3 and see g1, g2, '
@@ -650,14 +658,14 @@ def sec_small():
     check(t.get('kind') == 'ring' and sg == {O: XX, XX: O, Z: O} and st.arrow(O, XX) == ('pair', G2)
           and st.arrow(XX, O) == ('want', G0) and st.arrow(Z, O) == ('want', G5),
           'sigma(o) = x, a pair arrow (x\'s pair is o\'s g1 and the leftover g2); sigma(x) = sigma(z) = o, want '
-          'arrows (o wants g0, g5)')
+          'arrows (o wants g0, g4)')
     check(t.get('seq') == [O, XX] and t.get('npair') == 1,
           'following sigma from z (the first agent outside U) closes the ring o -> x -> o')
     new = t.get('new')
     s2 = State(rank, m, new) if new else None
     check(new == (TOP, PAIR, TOP) and s2.Y[XX] == (G1, G2) and s2.Y[O] == (G0,),
           'the trade: x takes {g1, g2}, o takes g0')
-    check(s2 is not None and not s2.wanted and s2.F == [Z, O] and s2.blockers(Z) == [] and o == Z and H == frozenset(),
+    check(s2 is not None and not s2.wanted and s2.F == [Z, O] and s2.blockers(Z) == [] and o == Z and set(H) == set(),
           'then nobody wants anything, the free agents are z and o, z has no blocker: z finishes with H = {}')
     check(X == [{G5, G3}, {G1, G2}, {G0}] and is_efx0(v, X) and de(v, 3, m) == X,
           f'DE returns X_z = {gs(X[Z])}, X_x = {gs(X[XX])}, X_o = {gs(X[O])}: EFX0 (raw definition); the same with '
@@ -751,7 +759,7 @@ def sec_worked():
     tops = [x for x in range(6) if s2.hold[x] == TOP and x != X1P]
     check(s2.blockers(X1P) == [] and not any(set(rank[x][1:]) <= {1, 7, 9} for x in tops),
           'x1\', the first free agent, has no blocker: no other agent holding its top has b, c in {g1, g7, g9}')
-    check(o == X1P and H == frozenset(), 'x1\' finishes with H = {}')
+    check(o == X1P and set(H) == set(), 'x1\' finishes with H = {}')
     want = [{4, 6}, {1, 7, 9}, {5, 8}, {3}, {2}, {0}]
     check(X == want, 'DE returns x1 {g4, g6}, x1\' {g1, g7, g9}, x2 {g5, g8}, x2\' {g3}, o1 {g2}, o2 {g0}')
     worth = {nm(i): val(v[i], X[X1P]) for i in range(6) if i != X1P}
@@ -1219,9 +1227,9 @@ def sec_random(K_general=20000, K_core=20000):
         Bh = [{g for g in range(c['m']) if Xh[g] == i} for i in range(len(c['rank']))]
         d_hall += Bh != c['Xc']
         ok &= is_efx0(v, with_core(c, Xo)) and is_efx0(v, with_core(c, Bh)) and len(tro) == c['trades']
-    check(ok and d_hall == 0, f'on the {len(cores)} cores reached: the previous paper\'s loop (a free agent holding '
+    check(ok, f'on the {len(cores)} cores reached: the previous paper\'s loop (a free agent holding '
                               f'nothing finishes first) picks another finishing agent in {d_old_o} run(s), another '
-                              f'output in {d_old_X}; hall.py\'s output differs in {d_hall}; all these outputs EFX0 (raw, '
+                              f'output in {d_old_X}; hall.py (another tie-break among the leftover goods) differs in {d_hall}; all these outputs EFX0 (raw, '
                               f'the instance\'s values)')
 
 

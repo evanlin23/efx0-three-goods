@@ -5,17 +5,17 @@
   ok    values 4, 3, 2 on a, b, c: the agent takes a, b and c end up with a third good; without it they are worth 5 > 4
   ok    DE on the same instance is EFX0 (the second agent is peeled first)
   ok    Corollary (two relevant goods): serial dictatorship in random orders, with random choices among favourites, on 5000 random instances with |R_i| <= 2: every output EFX0
-[2] Section 6, "A small example" (agents z, x, o in this index order; goods g0, g1, g2, g3, g5)
+[2] Section 6, "A small example" (agents z, x, o in this index order; goods g0, g1, g2, g3, g4)
   ok    values 4, 3, 2, nobody values g3; rule R1 applies to nobody: nobody is peeled
-  ok    the draft: z takes g5, x takes g0, o takes g1; leftover goods g2, g3
-  ok    o wants g0 and g5, held alone: valid; o is the only free agent; no chain applies
+  ok    the draft: z takes g4, x takes g0, o takes g1; leftover goods g2, g3
+  ok    o wants g0 and g4, held alone: valid; o is the only free agent; no chain applies
   ok    x is a blocker of o: if o took {g1, g2, g3}, x would remove g3 and see g1, g2, worth 5 > 4 (that completion is not EFX0)
   ok    x is o's only blocker; H_o = {g2}, no other free agent to take it: o cannot finish (definition, all H)
-  ok    sigma(o) = x, a pair arrow (x's pair is o's g1 and the leftover g2); sigma(x) = sigma(z) = o, want arrows (o wants g0, g5)
+  ok    sigma(o) = x, a pair arrow (x's pair is o's g1 and the leftover g2); sigma(x) = sigma(z) = o, want arrows (o wants g0, g4)
   ok    following sigma from z (the first agent outside U) closes the ring o -> x -> o
   ok    the trade: x takes {g1, g2}, o takes g0
   ok    then nobody wants anything, the free agents are z and o, z has no blocker: z finishes with H = {}
-  ok    DE returns X_z = {g3, g5}, X_x = {g1, g2}, X_o = {g0}: EFX0 (raw definition); the same with peeling included
+  ok    DE returns X_z = {g3, g4}, X_x = {g1, g2}, X_o = {g0}: EFX0 (raw definition); the same with peeling included
 [3] Section 7 "A Worked Example" (goods g0..g9; agents x1, x1', x2, x2', o1, o2 in this index order)
   ok    values 4, 3, 2: strictly balanced, rule R1 applies to nobody, so nobody is peeled
   ok    the draft: the four x's take their tops, o1 takes g4 (its c), o2 takes g5 (its c)
@@ -111,5 +111,5 @@
 [8] DE, peeling included, on random instances (evidence, seed 2026)
   ok    20000 instances with n <= 8, 0-3 valued goods per agent, values 1..6 (ties, unbalanced agents, goods nobody values) and 20000 strictly balanced cores with n <= 9: every output complete, EFX0 (raw), at most one bundle of more than two goods, at most 4n trades
   stats: 21214 runs reached the loop, 10523 needed a trade, at most 8 trades; peeled agents 67988; trades: chain 16167, ring with 1 pair arrow(s) 638; finish: every agent holds its pair 899, finish: free agent holding a good 17208, finish: free agent holding nothing 3107
-  ok    on the 21214 cores reached: the previous paper's loop (a free agent holding nothing finishes first) picks another finishing agent in 2079 run(s), another output in 1300; hall.py's output differs in 0; all these outputs EFX0 (raw, the instance's values)
+  ok    on the 21214 cores reached: the previous paper's loop (a free agent holding nothing finishes first) picks another finishing agent in 2079 run(s), another output in 1300; hall.py (another tie-break among the leftover goods) differs in 146; all these outputs EFX0 (raw, the instance's values)
 0 failure(s)
