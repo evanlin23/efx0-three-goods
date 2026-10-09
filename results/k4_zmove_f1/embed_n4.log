@@ -1,0 +1,5 @@
+# command: python3 k4/zf1_embed.py results/k4_sx/hunt/n3_all_30.jsonl.gz results/k4_sx/hunt/n3_all_40.jsonl.gz --every=7 --max=400 --trials=40 --seed=2
+  base profiles                                      400
+  big-top keys, completable                          20679
+  extended: f = 1                                    16000
+done; time 28 s

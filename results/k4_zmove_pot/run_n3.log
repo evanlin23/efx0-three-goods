@@ -1,0 +1,32 @@
+# command: python3 k4/zmove_pot.py results/k4_sx/hunt/n3_all_10.jsonl.gz results/k4_sx/hunt/n3_all_20.jsonl.gz results/k4_sx/hunt/n3_all_30.jsonl.gz results/k4_sx/hunt/n3_all_40.jsonl.gz --indep=100
+ALL      states                                                          407592
+ALL      states without zm                                               0
+AR states: case 1                                                        70688
+AR states: case 1, Z'-max False                                          18956
+AR states: case 1, Z'-max True                                           51732
+AR states: case 3C                                                       4052
+AR states: case 3C, Z'-max True                                          4052
+LAM      states                                                          85128
+LAM      states without zm                                               0
+PARETO   states                                                          101364
+PARETO   states without zm                                               0
+R        states                                                          225000
+R        states without zm                                               0
+RLAM     states                                                          84872
+RLAM     states without zm                                               0
+RPARETO  states                                                          98244
+RPARETO  states without zm                                               0
+RU       states                                                          111508
+RU       states without zm                                               0
+TRL      states                                                          89484
+TRL      states without zm                                               0
+U        states                                                          114628
+U        states without zm                                               0
+indep profiles                                                           623
+indep states (zm compared)                                               4034
+keys f=1                                                                 62208
+keys f=1: free agents not robust at the Z'-maxima = 0                    46128
+keys f=1: free agents not robust at the Z'-maxima = 1                    16080
+profiles f=1                                                             62208
+profiles read                                                            62208
+# time 862.8 s

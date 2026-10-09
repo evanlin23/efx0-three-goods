@@ -1,0 +1,49 @@
+# command: python3 k4/zmove_pot.py inst:results/k4_sx/f2/rt4_n5b_inst.json inst:results/k4_sx/f2/rt4_n5c_inst.json results/k4_sx/chunks/gap_n4_3_s4000@f2e1_c000.jsonl.gz results/k4_sx/chunks/gap_n4_pure_s4000@f2e1_c000.jsonl.gz results/k4_sx/chunks/hard_hunt@f2e1_c000.jsonl.gz results/k4_sx/chunks/hunt_n4_3_s400k@f2e1_c000.jsonl.gz results/k4_sx/chunks/hunt_n4_pure_s400k@f2e1_c000.jsonl.gz results/k4_sx/chunks/gap_n4_1_c000.jsonl.gz results/k4_sx/chunks/gap_n4_1_c001.jsonl.gz results/k4_sx/chunks/gap_n4_1_c002.jsonl.gz results/k4_sx/chunks/gap_n4_1_c003.jsonl.gz results/k4_sx/chunks/gap_n4_1_c004.jsonl.gz results/k4_sx/chunks/gap_n4_1_c005.jsonl.gz results/k4_sx/chunks/gap_n4_1_c006.jsonl.gz results/k4_sx/chunks/gap_n4_1_c007.jsonl.gz results/k4_sx/chunks/gap_n4_1_c008.jsonl.gz results/k4_sx/chunks/gap_n4_1_c009.jsonl.gz results/k4_sx/chunks/gap_n4_1_c010.jsonl.gz results/k4_sx/chunks/gap_n4_1_c011.jsonl.gz results/k4_sx/t3stage/keys.jsonl.gz --indep=5
+ALL      states                                                          11899
+ALL      states without zm                                               0
+AR states: case 1                                                        984
+AR states: case 1, Z'-max False                                          274
+AR states: case 1, Z'-max True                                           710
+AR states: case 2                                                        1
+AR states: case 2, Z'-max False                                          1
+AR states: case 3C                                                       540
+AR states: case 3C'                                                      8
+AR states: case 3C', Z'-max False                                        4
+AR states: case 3C', Z'-max True                                         4
+AR states: case 3C, Z'-max False                                         1
+AR states: case 3C, Z'-max True                                          539
+LAM      states                                                          1764
+LAM      states without zm                                               0
+PARETO   states                                                          1993
+PARETO   states without zm                                               0
+R        states                                                          6261
+R        states without zm                                               0
+RLAM     states                                                          1762
+RLAM     states without zm                                               0
+RPARETO  states                                                          1940
+RPARETO  states without zm                                               0
+RU       states                                                          2103
+RU       states without zm                                               0
+TRL      states                                                          2220
+TRL      states without zm                                               0
+U        states                                                          2156
+U        states without zm                                               0
+f=2 states, every free agent robust and locally optimal: zm True, without helper True, plain (T3) without helper True 202
+f=3 states, every free agent robust and locally optimal: zm True, without helper True, plain (T3) without helper False 8
+f=3 states, every free agent robust and locally optimal: zm True, without helper True, plain (T3) without helper True 35
+indep profiles                                                           275
+indep states (zm compared)                                               2360
+keys f=1                                                                 1241
+keys f=1: free agents not robust at the Z'-maxima = 0                    1104
+keys f=1: free agents not robust at the Z'-maxima = 1                    137
+keys f=2                                                                 191
+keys f=2: free agents not robust at the Z'-maxima = 0                    186
+keys f=2: free agents not robust at the Z'-maxima = 1                    5
+keys f=3                                                                 46
+keys f=3: free agents not robust at the Z'-maxima = 0                    42
+keys f=3: free agents not robust at the Z'-maxima = 1                    4
+profiles f=1                                                             1240
+profiles f=2                                                             122
+profiles f=3                                                             12
+profiles read                                                            1374
+# time 117.8 s

@@ -1,0 +1,96 @@
+# command: python3 k4/zf1_bthunt.py results/k4_certs_3.json.gz --runs=60 --steps=200 --seed=1
+# cores with omega >= 2: 18
+  NC big-top keys                          4
+  final score 0                            4
+  final score >0                           50
+  final score inf                          6
+  runs                                     60
+done; time 5 s
+# command: python3 k4/zf1_bthunt.py results/k4_certs_3.json.gz --runs=60 --steps=200 --seed=2
+# cores with omega >= 2: 18
+  NC big-top keys                          2
+  final score 0                            2
+  final score >0                           56
+  final score inf                          2
+  runs                                     60
+done; time 5 s
+# command: python3 k4/zf1_bthunt.py results/k4_certs_3.json.gz --runs=60 --steps=200 --seed=3
+# cores with omega >= 2: 18
+  NC big-top keys                          4
+  final score 0                            4
+  final score >0                           50
+  final score inf                          6
+  runs                                     60
+done; time 6 s
+# command: python3 k4/zf1_bthunt.py results/k4_certs_3.json.gz --runs=60 --steps=200 --seed=4
+# cores with omega >= 2: 18
+  NC big-top keys                          2
+  final score 0                            2
+  final score >0                           52
+  final score inf                          6
+  runs                                     60
+done; time 5 s
+# command: python3 k4/zf1_bthunt.py results/k4_certs_3.json.gz --runs=60 --steps=200 --seed=5
+# cores with omega >= 2: 18
+  NC big-top keys                          5
+  final score 0                            5
+  final score >0                           53
+  final score inf                          2
+  runs                                     60
+done; time 5 s
+# command: python3 k4/zf1_bthunt.py results/k4_certs_3.json.gz --runs=60 --steps=200 --seed=6
+# cores with omega >= 2: 18
+  NC big-top keys                          9
+  final score 0                            9
+  final score >0                           50
+  final score inf                          1
+  runs                                     60
+done; time 5 s
+# command: python3 k4/zf1_bthunt.py results/k4_certs_3.json.gz --runs=60 --steps=200 --seed=7
+# cores with omega >= 2: 18
+  NC big-top keys                          4
+  final score 0                            4
+  final score >0                           53
+  final score inf                          3
+  runs                                     60
+done; time 6 s
+# command: python3 k4/zf1_bthunt.py results/k4_certs_3.json.gz --runs=60 --steps=200 --seed=8
+# cores with omega >= 2: 18
+  NC big-top keys                          8
+  final score 0                            8
+  final score >0                           48
+  final score inf                          4
+  runs                                     60
+done; time 5 s
+# command: python3 k4/zf1_bthunt.py results/k4_certs_3.json.gz --runs=60 --steps=200 --seed=9
+# cores with omega >= 2: 18
+  NC big-top keys                          5
+  final score 0                            5
+  final score >0                           51
+  final score inf                          4
+  runs                                     60
+done; time 5 s
+# command: python3 k4/zf1_bthunt.py results/k4_certs_3.json.gz --runs=60 --steps=200 --seed=10
+# cores with omega >= 2: 18
+  NC big-top keys                          5
+  final score 0                            5
+  final score >0                           53
+  final score inf                          2
+  runs                                     60
+done; time 5 s
+# command: python3 k4/zf1_bthunt.py results/k4_certs_3.json.gz --runs=60 --steps=200 --seed=11
+# cores with omega >= 2: 18
+  NC big-top keys                          4
+  final score 0                            4
+  final score >0                           54
+  final score inf                          2
+  runs                                     60
+done; time 5 s
+# command: python3 k4/zf1_bthunt.py results/k4_certs_3.json.gz --runs=60 --steps=200 --seed=12
+# cores with omega >= 2: 18
+  NC big-top keys                          4
+  final score 0                            4
+  final score >0                           53
+  final score inf                          3
+  runs                                     60
+done; time 5 s
