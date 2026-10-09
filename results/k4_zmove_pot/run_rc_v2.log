@@ -1,0 +1,43 @@
+# command: python3 k4/zmove_pot.py inst:results/k4_zmove_pot/inputs/rc4604_inst.json inst:results/k4_zmove_pot/inputs/rc4515_inst.json --indep=50
+ALL      keys with a state without zm                                    1445
+ALL      states                                                          87171
+ALL      states without zm                                               4673
+AR states: case 1                                                        1107
+AR states: case 1, Z'-max False                                          738
+AR states: case 1, Z'-max True                                           369
+LAM      states                                                          3965
+LAM      states without zm                                               0
+PARETO   keys with a state without zm                                    42
+PARETO   states                                                          5715
+PARETO   states without zm                                               42
+R        states                                                          14019
+R        states without zm                                               0
+RLAM     states                                                          3779
+RLAM     states without zm                                               0
+RPARETO  states                                                          4198
+RPARETO  states without zm                                               0
+RU       states                                                          4673
+RU       states without zm                                               0
+TRL      keys where NO state of the class has zm                         369
+TRL      keys with a state without zm                                    403
+TRL      states                                                          4296
+TRL      states without zm                                               403
+U        keys with a state without zm                                    42
+U        states                                                          6190
+U        states without zm                                               42
+f=2 states, every free agent robust and locally optimal: zm True, without helper True, plain (T3) without helper True 2152
+indep profiles                                                           29
+indep states (zm compared)                                               1712
+keys f=1                                                                 369
+keys f=1: free agents not robust at the Z'-maxima = 0                    369
+keys f=2                                                                 2152
+keys f=2: free agents not robust at the Z'-maxima = 0                    1076
+keys f=2: free agents not robust at the Z'-maxima = 1                    1076
+profiles f=1                                                             369
+profiles f=2                                                             1076
+profiles read                                                            1445
+EX ALL            {"sets": [[0, 2, 9, 11], [1, 6, 10, 12], [3, 7, 11, 12], [4, 8, 11, 12], [5, 9, 10, 12]], "vals": [[3, 5, 6, 7], [6, 5, 4, 8], [2, 3, 8, 4], [3, 2, 8, 4], [7, 6, 2, 10]], "m": 13} key [11, None, None, None, None] state [[11], [12], [3, 7], [4, 8], [5, 9]]
+EX PARETO         {"sets": [[0, 2, 4, 8], [1, 8, 10, 11], [3, 9, 10, 11], [4, 5, 6, 7], [5, 6, 7, 9]], "vals": [[4, 3, 8, 2], [8, 3, 6, 10], [2, 8, 3, 4], [8, 2, 3, 4], [3, 2, 4, 8]], "m": 12} key [4, None, None, None, 9] state [[4], [1, 8], [10, 11], [6, 7], [9]]
+EX TRL            {"sets": [[0, 2, 9, 11], [1, 6, 10, 12], [3, 7, 11, 12], [4, 8, 11, 12], [5, 9, 10, 12]], "vals": [[3, 5, 6, 7], [6, 5, 4, 8], [2, 3, 8, 4], [3, 2, 8, 4], [7, 6, 2, 10]], "m": 13} key [11, None, None, None, None] state [[11], [12], [3, 7], [4, 8], [5, 9]]
+EX U              {"sets": [[0, 2, 4, 8], [1, 8, 10, 11], [3, 9, 10, 11], [4, 5, 6, 7], [5, 6, 7, 9]], "vals": [[4, 3, 8, 2], [8, 3, 6, 10], [2, 8, 3, 4], [8, 2, 3, 4], [3, 2, 4, 8]], "m": 12} key [4, None, None, None, 9] state [[4], [1, 8], [10, 11], [6, 7], [9]]
+# time 870.4 s

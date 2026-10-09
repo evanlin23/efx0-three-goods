@@ -24,6 +24,11 @@ Theorem AR (k4/zmove_pot.md §4) at every state of every f = 1 key with def* > 0
 every terminal (free needer of g) is locally optimal: the case (1, 2, 3C, 3C', 3x, 3p, or the residual), and for
 cases 1-3p the move the proof constructs, with def(P') <= 0 asserted from the exact deficits.
 
+Also counted per key with def* > 0: the number of free agents that are not robust at its Z'-maxima (the same at every
+Z'-maximum, since they all have the maximal r'; k4/zmove_pot.md §5). At f >= 2, at every state of such a key at which
+every free agent is robust and locally optimal (the hypotheses of Theorem AR): whether zm holds, whether it holds with
+a move without helper, and with a plain (T3) move without helper (k4/zmove_pot.md §6).
+
 usage: python3 k4/zmove_pot.py [--every=E] [--indep=E] [--max=N] [--tmax=S] [--fmax=F] INPUT ...
 INPUT: a gzip JSON-lines dump with sets/vals/m (k4/sx_hunt.py, k4/sx_keygraph.py --dump, compute/k4-cover's hunts) or
 inst:FILE.json (a JSON list of {sets, vals, m}). Profiles are deduplicated across inputs."""
@@ -236,6 +241,8 @@ def run_profile(d, opt, cnt, ex, do_indep):
         if kp.dstar[k] <= 0: continue
         cnt['keys f=%d' % I.f] += 1
         cl, rob, U = key_classes(kp, k)
+        nfree = sum(1 for y in range(I.n) if k[y] is None)
+        cnt["keys f=%d: free agents not robust at the Z'-maxima = %d" % (I.f, nfree - max(rob[b] for b in cl['RLAM']))] += 1
         for b in kp.K[k]:
             if b not in zmA: zmA[b] = bool(zm_moves(kp, b))
         for name in CLASSES:
@@ -253,6 +260,15 @@ def run_profile(d, opt, cnt, ex, do_indep):
             t4 = any(kp.dstar[keyof(kp.PA[b2])] < kp.dstar[k] for b in kp.K[k] for b2 in kp.t4_moves(b))
             cnt['ZMOVE FAILS at the key (no Z\'-maximum has zm); T4 edge %s' % t4] += 1
             print('ZMOVE-FAIL', json.dumps(d), k, 'T4 edge', t4, flush=True)
+        if I.f >= 2:
+            # k4/zmove_pot.md §6: does Theorem AR's conclusion (one move without helper) carry over to f >= 2?
+            Uset = set(cl['U'])
+            for b in kp.K[k]:
+                if rob[b] != nfree or b not in Uset: continue
+                mv = zm_moves(kp, b)
+                cnt["f=%d states, every free agent robust and locally optimal: zm %s, without helper %s, plain (T3) "
+                    "without helper %s" % (I.f, bool(mv), any(h is None for b2, x, z, W, h in mv),
+                                           any(h is None and not W for b2, x, z, W, h in mv))] += 1
         if I.f == 1:
             x = next(i for i in range(I.n) if k[i] is not None); gm = 1 << k[x]
             free = [y for y in range(I.n) if y != x]
