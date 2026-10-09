@@ -3,7 +3,8 @@ import EFX.K3DEPrelim
 /-!
 # Limits of the shape
 
-The statements of §7 of the short proof of the k = 3 result (`paper/k3-simple/long.tex` §7 "Limits of the Shape"):
+The statements of Appendix B of the short proof of the k = 3 result (`paper/k3-simple/long.tex`, Appendix B "Limits of
+the Shape"):
 the full description of safety for an agent with three relevant goods of distinct values (Lemma "cases of safety",
 `lem:L5`), and Proposition "limits of the shape" (`prop:neg`): an EFX₀ allocation may need a bundle of three goods,
 and the large bundle may need four.

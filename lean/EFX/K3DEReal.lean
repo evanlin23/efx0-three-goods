@@ -2,12 +2,13 @@ import EFX.K3DEAlgo
 import EFX.K3Real
 
 /-!
-# Draft and Exchange on ordered values, and the peeling bound (`paper/k3-simple/long.tex` §6.2)
+# Draft and Exchange on ordered values, and the peeling bound (`paper/k3-simple/long.tex` §6)
 
 `EFX/K3DEAlgo.lean` formalizes algorithm DE and Theorem "DE is correct" (`thm:de`) over natural-number values, with
-the bound of `4n` exchanges. This file adds the two parts of §6.2 that it leaves out: the bound "DE peels at most
-`n` agents" of `thm:de`, and the last sentence of the proof of Theorems `thm:target`, `thm:D` and `thm:algo`: the
-results "hold for nonnegative real values, with the step count of Theorem `thm:algo` in the comparison model".
+the bound of `4n` exchanges. This file adds the two parts of §6 that it leaves out: the bound "DE peels at most
+`n` agents" of `thm:de`, and the paragraph "Real values" with the proof of Theorems `thm:target`, `thm:D` and
+`thm:algo`: the results "hold for nonnegative real values" (the count in the comparison model is
+`EFX.DE.deOrdC_cost`, `EFX/K3DECostReal.lean`).
 Core Lean has no reals: values lie in any `EFX.OrderedValue` type `V` (`ℝ≥0` satisfies its axioms by the textbook
 fact), as in `EFX/RealValues.lean` and `EFX/K3Real.lean`.
 
@@ -57,8 +58,9 @@ nothing (`s = none`) or with its favourite remaining good (`s = some p`). `run` 
    with `P = ∅` until one is left. With no goods there is nothing to allocate, so the allocations agree; `peels`
    counts `run`'s rounds, and both counts are at most `n`.
 3. `peels` takes no default agent: the control flow of `run` does not depend on it.
-4. The running time `O(n(n + m))` of the paper and the cost of DE on the surrogate are not formalized (as in
-   `EFX/K3DEAlgo.lean`); the counts of oracle calls, peeling rounds and exchanges are.
+4. The running time `O(n(n + m))` of the paper, and the cost of DE on the surrogate, are formalized in
+   `EFX/K3DECost*.lean` (ledger K3S.TIME: `EFX.DE.deC_cost`, and `EFX.DE.deOrdC_cost` on ordered values); this file
+   proves the outcome and the counts of oracle calls, peeling rounds and exchanges.
 -/
 
 set_option autoImplicit false
@@ -163,7 +165,7 @@ theorem dePeels_le_pred (I : Inst) : dePeels I ≤ I.n - 1 := by
 /-- **DE peels at most `n` agents** (`paper/k3-simple/long.tex`, Theorem `thm:de`). -/
 theorem dePeels_le (I : Inst) : dePeels I ≤ I.n := Nat.le_trans (dePeels_le_pred I) (Nat.sub_le _ _)
 
-/-- **Theorem DE is correct, in full** (`paper/k3-simple/long.tex` §6.2, Theorem `thm:de`). On every instance in
+/-- **Theorem DE is correct, in full** (`paper/k3-simple/long.tex` §6, Theorem `thm:de`). On every instance in
 which every agent positively values at most three goods, DE returns an EFX₀ allocation in which all bundles but at
 most one have at most two goods; it peels at most `n` agents and applies at most `4n` exchanges. -/
 theorem de_correct (I : Inst) (hn : 0 < I.n) (h : ∀ i, numRelevant I i ≤ 3) :
@@ -198,7 +200,7 @@ theorem deOrd_eq_surrogateC (c : Nat) (le : V → V → Bool) (I : OInst V) (hn 
     deOrd le I hn = deSpec ⟨I.n, I.m, (K3.surrogateC c le I).val⟩ hn := by
   rw [K3.surrogateC_val]; rfl
 
-/-- **Theorem DE is correct, on ordered values** (`paper/k3-simple/long.tex` §6.2, the proof of Theorems
+/-- **Theorem DE is correct, on ordered values** (`paper/k3-simple/long.tex` §6, the proof of Theorems
 `thm:target`, `thm:D` and `thm:algo` for nonnegative real values). For a correct comparison oracle, every instance
 with `n ≥ 1` agents, nonnegative values in an `EFX.OrderedValue` type (e.g. `ℝ≥0`) and at most three relevant goods
 per agent: `deOrd le I hn` is EFX₀ for the original values, all its bundles but at most one have at most two goods,

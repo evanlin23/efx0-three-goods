@@ -3,9 +3,11 @@ import EFX.K3Extras
 /-!
 # Draft and Exchange, preliminaries: threats, safety and peeling
 
-The statements of §3 of the short proof of the k = 3 result (`paper/k3-simple/long.tex` §3.1 "Model, threats and
-safety" and §3.2 "Peeling"), over the list layer of `EFX/Lists.lean` (agents and goods are lists, an allocation is an
-owner map `X : G → A`, the bundle of `j` is `bundle goods X j`).
+The preliminaries of the short proof of the k = 3 result (`paper/k3-simple/long.tex`: the model of §1, §2 "Peeling",
+and the threats `θ_i` of Appendix B; Lemmas threats and safety are those of §3.1 "Model, threats and safety" of the
+earlier version of the paper, kept here; the soundness proof of §4 now argues the cases of safety inline), over the
+list layer of `EFX/Lists.lean` (agents and goods are lists, an allocation is an owner map `X : G → A`, the bundle of
+`j` is `bundle goods X j`).
 
 **Definitions.**
 - `leastValue`, `threat`: the threat `θ_i(B) = v_i(B) − min_{h ∈ B} v_i(h)` of a list of goods `B` to agent `i`
@@ -21,7 +23,7 @@ owner map `X : G → A`, the bundle of `j` is `bundle goods X j`).
 - **Lemma threats**: (a) `threat_of_length_le_one`; (b) `threat_le_relevant` (`B ∩ R_i` is `relevant v i B`);
   (c) `threat_pair`, and `threat_of_perm_pair` for any list holding the two goods (`threat_perm`).
 - **Lemma safety** for a balanced agent with exactly three relevant goods: (a) `safe_of_pair`; (b) `safe_of_gy`.
-- **§3.2, mapped to existing theorems** (the last section of this file):
+- **§2 (Peeling), mapped to existing theorems** (the last section of this file):
   - Lemma peeling is `EFX.peel` (`P = {p}`) and `EFX.peelEmpty` (`P = ∅`), both instances of `EFX.peelBundle`;
     `peeling` states the paper's version, `|P| ≤ 1`, in one theorem.
   - Rule R1 is `EFX.K3.r1Step` (favourite with ties in list order, so by index over `List.finRange`): `some none`
@@ -32,8 +34,8 @@ owner map `X : G → A`, the bundle of `j` is `bundle goods X j`).
     nothing once no good is left, the last agent taking all remaining goods. This is the paper's statement; the
     `example`s below check the type. (`EFX.serialDictatorship` and `EFX.exists_efx0_of_count` are only the
     existence form.)
-  - Lemma "when R1 applies to nobody" is `EFX.not_R1` with `EFX.K3.r1Step_eq_none`. `EFX.not_R1`'s hypothesis is
-    "no good `p` has `v_i(G ∖ {p}) ≤ v_i(p)`" (not rule R1 itself) and its conclusion "at least three relevant
+  - Lemma "when nobody can leave" (`lem:R1fail`; "when R1 applies to nobody" in the earlier version) is
+    `EFX.not_R1` with `EFX.K3.r1Step_eq_none`. `EFX.not_R1`'s hypothesis is "no good `p` has `v_i(G ∖ {p}) ≤ v_i(p)`" (not rule R1 itself) and its conclusion "at least three relevant
     goods, and `2 v_i(g) < v_i(G)` for every `g`", so `R1fail` states the paper's version: R1 as `EFX.K3.r1Step`,
     at most three relevant goods; conclusion exactly three, and strictly balanced. `r1_of_two` is the paper's
     remark that R1 applies to every agent valuing at most two remaining goods.
@@ -366,7 +368,7 @@ theorem safe_of_gy (hv : P.Consistent agents v) (hi : i ∈ agents) {goods : Lis
 
 end lemmaSafe
 
-/-! ## Peeling (§3.2), mapped to the existing theorems -/
+/-! ## Peeling (§2), mapped to the existing theorems -/
 
 section peeling
 variable [DecidableEq A] [DecidableEq G] (v : A → G → Nat)
@@ -404,8 +406,8 @@ theorem peeling {i : A} {rest : List A} {goods P : List G} {Z : G → A} (hi : i
     rw [List.eq_nil_of_length_eq_zero hl, value_nil]
 
 omit [DecidableEq A] in
-/-- **Lemma "when R1 applies to nobody".** Let agent `i` value at most three goods of the remaining goods `G`,
-and suppose that rule R1 (`EFX.K3.r1Step`: the favourite `p`, ties in list order; `i` leaves with nothing if
+/-- **Lemma "when nobody can leave"** (`lem:R1fail`). Let agent `i` value at most three goods of the remaining goods
+`G`, and suppose that rule R1 (`EFX.K3.r1Step`: the favourite `p`, ties in list order; `i` leaves with nothing if
 `v_i(p) = 0` and with `p` if `v_i(G ∖ {p}) ≤ v_i(p)`) does not apply to `i`. Then `i` values exactly three goods of
 `G` and is strictly balanced: every good of `G` is worth less to `i` than the other goods of `G` together (for its
 top `a`, `v_i(a) < v_i(b) + v_i(c)`). -/

@@ -3,48 +3,61 @@ import EFX.K3DE
 /-!
 # Draft and Exchange, part 2: the Improvement Lemma (ledger K3S.PO.LEAN)
 
-The Improvement Lemma of `paper/k3-simple/long.tex` §5 (`k3/simplify/po/hall/NOTES.md`): in the core case, a valid
-state in which no free agent is a valid absorber and some agent is not a pair holder is Pareto-dominated by a valid
-state, obtained by one need cycle, pair chain or exchange cycle. It is proved for a computable step (`step`), which
-either stops with a valid absorber or returns the dominating state, in the order of the three steps of the loop of the
-paper's algorithm (chain, finish, ring):
+The Improvement Lemma of `paper/k3-simple/long.tex` §5 (`k3/simplify/po/hall/NOTES.md`), with Lemma chain and the
+finishing test (Lemma `lem:test`): in the core case, a valid state in which no free agent is a valid absorber (no free
+agent can finish) and some agent is not a pair holder is Pareto-dominated by a valid state, obtained by one chain or
+ring. It is proved for a computable step (`step`), which either stops with a valid absorber or returns the dominating
+state, in the order of the three steps of the loop of the paper's Algorithm DE (chain, finish, ring). The names are
+those of `EFX/K3DE.lean`: exposed for blocker, protecting good `hOf x` for the leftover good `h_x`, need arcs and
+exposure arcs for want and pair arrows, pair chain for chain, (P) (`PropP`) for (NC).
 
-1. **Chain.** (P) fails at some `x` (`pairB`: `x` holds only `a x`, and `b x`, `c x` are junk): a **pair chain** from
-   `x` (Lemma P(b)), or the need cycle it runs into (Lemma P(a)).
-2. **Finish.** Every agent is a pair holder: any agent (the first) absorbs with `H = ∅` (Lemma noF). Otherwise, the
-   first free agent `o` with `|H_o| ≤ |F| − 1` absorbs with `H = H_o` (Lemma forced, `absorber_forced`). This covers
-   a free agent that holds nothing: under (P) nobody is exposed for it, so `H_o = ∅` (`Hset_eq_nil`) and it passes
-   the count (`count_of_none`); Lemma empty (`absorber_empty`) is this case of Lemma forced.
+1. **Chain.** (P) fails at some `x` (`pairB`: `x` holds only `a x`, and `b x`, `c x` are junk): the chain from `x`,
+   or the ring of want arrows it runs into (Lemma chain).
+2. **Finish.** Every agent is a pair holder: the first agent absorbs with `H = ∅` (Theorem soundness, the case where
+   every agent holds its pair). Otherwise, the first free agent `o` with `|H_o| ≤ |F| − 1` absorbs with `H = H_o`
+   (the finishing test (c), `absorber_forced`). This covers a free agent that holds nothing: under (P) nobody is
+   exposed for it (the finishing test (a), `not_exposed_of_none`), so `H_o = ∅` (`Hset_eq_nil`) and it passes the
+   count (`count_of_none`); `absorber_empty` is this case.
 3. **Ring.** Otherwise every free agent `o` has `|H_o| ≥ |F|`, and so holds a good (`holds_of_count`): greedy
-   distinct representatives `q_o ∈ H_o` (`reps`), the map `σ` (`sigmaMap`: `o ↦ x_o` exposed for `o` with protecting
-   good `q_o`, a frozen agent to an out-neighbour in the need digraph `D`), and the **exchange cycle** of `σ` (Lemma
-   cycle; with `F = ∅`, a need cycle: Lemma noF).
+   distinct representatives `q_o ∈ H_o` (`reps`; the paper's distinct leftover goods: `q_o` is the leftover good of
+   the first agent exposed for `o` whose good no earlier free agent took, `reps_first_blocker`), the map `σ`
+   (`sigmaMap`: a free agent `o ↦ x_o`, that agent; any other agent to the first agent that needs its good), and the
+   ring of `σ` (the proof of the Improvement Lemma; with `F = ∅`, a ring of want arrows).
 
 In the chain and ring steps the move is the exchange along the cycle of `σ` through `σⁿ(s)` (`cycleStep`), an
-instance of `EFX.DE.exchange`. In the chain step, `σ` sends every free agent to `x`, so the cycle is the pair chain
-closed by its last arc, or a need cycle.
+instance of `EFX.DE.exchange`. In the chain step, `σ` sends every free agent to `x`, so the cycle is the chain closed
+by its last arc, or a ring of want arrows.
 
 **Results.**
 - `step_stop`: a stop returns a valid absorber, free unless every agent is a pair holder; `step_stop_of_none`: under
   (P), if some free agent holds nothing, the step stops.
-- `step_next_cycle`: a move is one exchange along an exchange cycle (`EFX.DE.Cycle`: a pair chain closed by its last
-  arc, a need cycle, or an exchange cycle); `step_next`: it returns a valid state that Pareto-dominates the state.
+- `step_next_cycle`: a move is one exchange along an exchange cycle (`EFX.DE.Cycle`: a chain closed by its last arc,
+  or a ring); `step_next`: it returns a valid state that Pareto-dominates the state; `step_next_scores`: every agent
+  of the cycle gets a strictly higher utility (score), every other agent the same (Lemmas ring and chain, through
+  `EFX.DE.exchange_scores`).
 - `improvement` (**the Improvement Lemma**), `completable_of_undominated` (**Corollary**, Pareto-optimal states).
-- `forced_hOf`, `absorber_forced`, `Hset_le_of_absorber` and `absorber_iff` (Lemma forced, both directions: `o`
-  absorbs iff `|H_o| ≤ |F| − 1`, and then with `H_o`); `Hset_eq_nil`, `count_of_none`, `holds_of_count` (a free
-  agent holding nothing passes the count) and `absorber_empty` (Lemma empty).
+- The finishing test: `forced_hOf` ((b): the pair of a blocker `x` is `o`'s good and `h_x`), `absorber_forced`,
+  `Hset_le_of_absorber` and `absorber_iff` ((c), both directions: `o` absorbs iff `|H_o| ≤ |F| − 1`, and then with
+  `H_o`); `not_exposed_of_none` ((a)), `Hset_eq_nil`, `count_of_none`, `holds_of_count` (a free agent holding
+  nothing passes the count) and `absorber_empty` ((c), a free agent holding nothing can finish).
+- `find?_Hset`: `H_o` lists the leftover goods in the order of their first exposed agents; `reps_first_blocker`: the
+  paper's rule for the distinct leftover goods `q_o` and the blockers `x_o = σ(o)`.
 
 **Choices where the prose leaves room.**
 1. The protecting good of an exposed agent `x` is `hOf x`, the one of `b x`, `c x` that is junk; under (P) exactly
    one is (`forced_hOf`), so this is the paper's `h_x`.
-2. The paper follows `σ` from any agent until it repeats; here `p = σⁿ(s)` with `n = |agents|` lies on a cycle, and
-   its period is found by search (`period`). The cycle is `{σʲ p : j < per}`, with predecessor `σ^(per−1)`.
-3. In the chain step the paper walks in `D` from `x`; here every free agent points to `x`, and the cycle through
-   `σⁿ(x)` is the closed pair chain or a need cycle of `D` (both are moves of `EFX.DE.exchange`). In the ring step the
-   start is the first agent `s` outside `up`.
-4. The case "F = ∅: a need cycle" is the ring step with no free agent (then `σ` follows need arcs only).
-5. The goods of `H_o` are listed in the order of `Hset` (by exposed agent), and the completion gives them to the free
-   agents other than `o` in the order of `agents`.
+2. The paper starts at the first agent outside `U` and follows `σ` until an agent repeats; here the start `s` is the
+   same, and `p = σⁿ(s)` with `n = |agents|` lies on the cycle so reached, whose period is found by search (`period`).
+   The cycle is `{σʲ p : j < per}`, with predecessor `σ^(per−1)`.
+3. In the chain step the paper walks from `x`, each time to the first agent that wants the current agent's good; here
+   every free agent points to `x`, so the cycle through `σⁿ(x)` is that chain closed by the arc from its last agent
+   back to `x`, or the ring of want arrows it runs into (both moves of `EFX.DE.exchange`).
+4. With no free agent, the ring step follows want arrows only (a ring of want arrows).
+5. `dd` keeps the first occurrence of each good, so `Hset` lists the goods of `H_o` in the order of their first
+   exposed agents in `agents` (`find?_Hset`). The greedy representatives take, for each free agent in the order of
+   `agents`, the first good of `H_o` not taken yet: the leftover good of its first exposed agent whose good is not
+   taken yet, as in the paper (`reps_first_blocker`). The completion gives the goods of `H = H_o`, in this order, to
+   the free agents other than `o` in the order of `agents`.
 -/
 
 set_option autoImplicit false
@@ -109,8 +122,9 @@ def repOf : List (A × G) → A → Option G
   | [], _ => none
   | (o, q) :: r, j => if j = o then some q else repOf r j
 
-/-- **The map `σ`.** A frozen agent goes to its out-neighbour in `D`. A free agent goes to `x` if (P) fails at `x`
-(`px = some x`), and otherwise to the first agent exposed for it whose protecting good is its representative. -/
+/-- **The map `σ`.** A frozen agent goes to its out-neighbour (`outNb`: the first agent that needs its good, a want
+arrow). A free agent goes to `x` if (P) fails at `x` (`px = some x`), and otherwise to the first agent exposed for it
+whose protecting good is its representative (a pair arrow). -/
 def sigmaMap (P : Profile A G) (agents up : List A) (Y : A → Option G) (goods : List G) (px : Option A)
     (rp : List (A × G)) (j : A) : A :=
   if freeB P agents up Y j then
@@ -281,9 +295,9 @@ theorem nFree_eq (hag : agents.Nodup) {o : A} (ho : Free P agents up Y o) :
 
 /-! ## Greedy distinct representatives -/
 
-/-- **Distinct representatives** (the first step of the proof of Lemma cycle): if each agent of `os` has at least
-`|used| + |os|` goods in `Hs o`, without repetitions, each receives a good of `Hs o` outside `used`, and different
-agents receive different goods. -/
+/-- **Distinct representatives** (the step "distinct leftover goods" of the proof of the Improvement Lemma): if each
+agent of `os` has at least `|used| + |os|` goods in `Hs o`, without repetitions, each receives a good of `Hs o`
+outside `used`, and different agents receive different goods. -/
 theorem reps_spec (Hs : A → List G) : ∀ (os : List A) (used : List G), os.Nodup →
     (∀ o ∈ os, (Hs o).Nodup ∧ used.length + os.length ≤ (Hs o).length) →
     (∀ o ∈ os, ∃ q, repOf (reps Hs os used) o = some q ∧ q ∈ Hs o ∧ q ∉ used) ∧
@@ -419,7 +433,7 @@ theorem repOf_reps_append (Hs : A → List G) {o : A} {q : G} : ∀ (os1 os2 : L
           · rw [hr1] at h; cases h; exact Or.inl (Or.inl rfl)
           · exact Or.inr ⟨o', ho', by rw [← hr o' (hne o' ho')]; exact h⟩
 
-/-! ## The need digraph and Lemma forced -/
+/-! ## Want arrows and the finishing test -/
 
 omit [DecidableEq A] in
 /-- A listed agent outside `up` that is not free holds a needed good. -/
@@ -452,8 +466,9 @@ theorem inBase_of_not_up {o : A} {g : G} (ho : o ∉ up) (h : InBase P up Y o g)
   · exact absurd h ho
 
 omit [DecidableEq A] in
-/-- **Lemma forced** (core): under (P), an agent `x` exposed for an agent `o` outside `up` has exactly one of `b x`,
-`c x` in the junk, its protecting good `hOf x`; the other is `o`'s good. -/
+/-- **The finishing test (b)** (Lemma forced of the earlier version): under (P), an agent `x` exposed for an agent
+`o` outside `up` has exactly one of `b x`, `c x` in the junk, its protecting good `hOf x` (the paper's `h_x`); the
+other is `o`'s good. -/
 theorem forced_hOf (hWF : WF P agents goods) (hPP : PropP P agents up Y goods) {o x : A} (ho : o ∉ up)
     (hx : Exposed P agents up Y goods o x) :
     hOf P agents up Y goods x ∈ junkList P agents up Y goods ∧
@@ -694,7 +709,7 @@ theorem sigma_need {px : Option A} {rp : List (A × G)} {z : A} (hz : z ∈ agen
   rw [this]
   exact ⟨y, hy, h3, h1, h2⟩
 
-/-- **The successor map of a pair chain** (Lemma P(b), with Lemma P(a) for the need cycle it may run into): if (P)
+/-- **The successor map of a chain** (Lemma chain: the chain, or the ring of want arrows it may run into): if (P)
 fails at `x`, every free agent goes to `x`, every frozen agent to an out-neighbour. -/
 theorem succ_pair {x : A} (hx : x ∈ agents) (hpx : pairB P agents up Y goods x = true) :
     SuccMap P agents goods Y up (sigmaMap P agents up Y goods (some x) []) := by
@@ -709,9 +724,9 @@ theorem succ_pair {x : A} (hx : x ∈ agents) (hpx : pairB P agents up Y goods x
   · rw [sigma_free_some hf rfl]; exact ⟨Or.inl hbj, Or.inl hcj⟩
   · exact absurd (by rw [sigma_free_some hf rfl, sigma_free_some hf' rfl]) hne
 
-/-- **The successor map of an exchange cycle** (Lemma cycle; Lemma noF when there is no free agent): under (P), if
-every free agent `o` has `|H_o| ≥ |F|`, each free agent goes to an agent exposed for it whose protecting good is its
-representative, every frozen agent to an out-neighbour. -/
+/-- **The successor map of a ring** (the proof of the Improvement Lemma; a ring of want arrows when there is no free
+agent): under (P), if every free agent `o` has `|H_o| ≥ |F|`, each free agent goes to an agent exposed for it whose
+protecting good is its representative, every frozen agent to an out-neighbour. -/
 theorem succ_exchange (hWF : WF P agents goods) (hag : agents.Nodup) (hPP : PropP P agents up Y goods)
     (hcount : ∀ o, Free P agents up Y o →
       (agents.filter (freeB P agents up Y)).length ≤ (Hset P agents up Y goods o).length) :
@@ -763,11 +778,11 @@ theorem succ_exchange (hWF : WF P agents goods) (hag : agents.Nodup) (hPP : Prop
     have hzz : z ≠ z' := fun e => hne (by rw [e])
     exact rs2 z (hFs z hf) z' (hFs z' hf') hzz q q' hq hq' (by rw [← hhq, ← hhq', ← e1, ← e2])
 
-/-! ## Lemmas empty and forced: the absorbers -/
+/-! ## The finishing test: the absorbers -/
 
 omit [DecidableEq A] in
-/-- Under (P), nobody is exposed for an agent outside `up` that holds nothing: exposure would need `b x` and `c x`
-in the junk (the agent's holding is empty), which (P) excludes. -/
+/-- **The finishing test (a)**: under (P), nobody is exposed for an agent outside `up` that holds nothing: exposure
+would need `b x` and `c x` in the junk (the agent's holding is empty), which (P) excludes. -/
 theorem not_exposed_of_none (hPP : PropP P agents up Y goods) {o x : A} (ho : o ∉ up) (hY : Y o = none) :
     ¬ Exposed P agents up Y goods o x := by
   intro hx
@@ -806,14 +821,14 @@ theorem holds_of_count (hPP : PropP P agents up Y goods)
     omega
   | some y => exact ⟨y, rfl⟩
 
-/-- **Lemma empty**: under (P), a free agent that holds nothing is a valid absorber with `H = ∅` (the case
-`H_o = ∅` of Lemma forced: `Hset_eq_nil`, `count_of_none`). -/
+/-- **The finishing test (c), a free agent holding nothing** (Lemma empty of the earlier version): under (P), a free
+agent that holds nothing is a valid absorber with `H = ∅` (the case `H_o = ∅`: `Hset_eq_nil`, `count_of_none`). -/
 theorem absorber_empty (hPP : PropP P agents up Y goods) {o : A} (ho : Free P agents up Y o) (hY : Y o = none) :
     Absorber P agents goods Y up o [] :=
   ⟨ho.1, Or.inr ho, by simp, by simp, fun x hx => absurd hx (not_exposed_of_none hPP ho.2.1 hY)⟩
 
-/-- **Lemma forced** (sufficiency): under (P), a free agent `o` with `|H_o| ≤ |F| − 1` is a valid absorber with
-`H = H_o`. -/
+/-- **The finishing test (c)** (sufficiency): under (P), a free agent `o` with `|H_o| ≤ |F| − 1` is a valid absorber
+with `H = H_o`. -/
 theorem absorber_forced (hWF : WF P agents goods) (hag : agents.Nodup) (hPP : PropP P agents up Y goods) {o : A}
     (ho : Free P agents up Y o)
     (hle : (Hset P agents up Y goods o).length + 1 ≤ (agents.filter (freeB P agents up Y)).length) :
@@ -829,7 +844,7 @@ theorem absorber_forced (hWF : WF P agents goods) (hag : agents.Nodup) (hPP : Pr
     · exact Or.inl hm
     · exact Or.inr hm
 
-/-- **Lemma forced** (necessity): under (P), every set `H` of a free absorber `o` contains `H_o`; so
+/-- **The finishing test (c)** (necessity): under (P), every set `H` of a free absorber `o` contains `H_o`; so
 `|H_o| ≤ |F| − 1`. -/
 theorem Hset_le_of_absorber (hWF : WF P agents goods) (hPP : PropP P agents up Y goods) {o : A} {H : List G}
     (ho : Free P agents up Y o) (hA : Absorber P agents goods Y up o H) :
@@ -843,8 +858,8 @@ theorem Hset_le_of_absorber (hWF : WF P agents goods) (hPP : PropP P agents up Y
     · rw [← hf.2.1 _ (hA.junk _ hc) (Or.inr rfl)]; exact hc
   exact Nat.le_trans (length_le_of_subset (nodup_dd _) hsub) hA.fit
 
-/-- **Lemma forced**: under (P), a free agent `o` is a valid absorber (with some set) iff `|H_o| ≤ |F| − 1`, and
-then with `H_o`. -/
+/-- **The finishing test (c)** (Lemma forced of the earlier version): under (P), a free agent `o` is a valid absorber
+(with some set) iff `|H_o| ≤ |F| − 1`, and then with `H_o`. -/
 theorem absorber_iff (hWF : WF P agents goods) (hag : agents.Nodup) (hPP : PropP P agents up Y goods) {o : A}
     (ho : Free P agents up Y o) :
     (∃ H, Absorber P agents goods Y up o H) ↔
@@ -910,8 +925,8 @@ theorem step_stop_of_none (hPP : PropP P agents up Y goods) {d o : A} (ho : Free
       have := List.find?_eq_none.mp hD o ho.1
       simp [freeB_iff.mpr ho, count_of_none hPP ho hY] at this
 
-/-- **A move is one exchange along an exchange cycle** (`Cycle`): a pair chain closed by its last arc, a need cycle,
-or an exchange cycle. -/
+/-- **A move is one exchange along an exchange cycle** (`Cycle`): a chain closed by its last arc, or a ring (of want
+arrows only, or with pair arrows). -/
 theorem step_next_cycle (hWF : WF P agents goods) (hag : agents.Nodup) {d : A} {Y' : A → Option G} {up' : List A}
     (h : step P agents goods d Y up = .next Y' up') :
     ∃ (onC : A → Bool) (σ π : A → A), Cycle P agents goods Y up onC σ π ∧
@@ -968,7 +983,7 @@ theorem step_next_scores (hWF : WF P agents goods) (hag : agents.Nodup) {d : A} 
 
 /-- **The Improvement Lemma** (`paper/k3-simple/long.tex`, Theorem Improvement Lemma). In the core case, let `(Y, up)`
 be a valid state in which no free agent is a valid absorber and some agent is not a pair holder. Then some valid state
-Pareto-dominates it (the one `step` returns: a need cycle, a pair chain or an exchange cycle). -/
+Pareto-dominates it (the one `step` returns: a chain or a ring). -/
 theorem improvement (hV : Valid P agents goods Y up) (hWF : WF P agents goods) (hag : agents.Nodup)
     (hno : ¬ ∃ o H, Free P agents up Y o ∧ Absorber P agents goods Y up o H) (hU : ∃ i ∈ agents, i ∉ up) :
     ∃ Y' up', Valid P agents goods Y' up' ∧ Dominates P agents Y' up' Y up := by

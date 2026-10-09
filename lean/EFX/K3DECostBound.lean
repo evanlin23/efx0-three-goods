@@ -4,7 +4,7 @@ import EFX.K3CostBound
 /-!
 # The running time of Draft and Exchange, part 4: `O(n(n + m))` operations
 
-`paper/k3-simple/long.tex` §6.2, paragraph "Running time": "an iteration takes `O(n + m)` steps, and so does a
+`paper/k3-simple/long.tex` §6, paragraph "Running time": "an iteration takes `O(n + m)` steps, and so does a
 round of peeling once the relevant goods of each agent are known … So DE runs in `O(n(n + m))` steps, reading the
 input included. This count is machine-checked in Lean". This file proves it for the counted program
 `EFX.DE.deC` (`EFX.K3DECostRun`, whose value is `deSpec`: `EFX.DE.de_eq_spec`). The units are those of
