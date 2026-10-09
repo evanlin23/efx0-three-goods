@@ -31,7 +31,7 @@
 \maketitle
 
 \begin{abstract}
-An allocation of indivisible goods is \efxz{} if no agent envies another agent's bundle after removing any single good from it, even a good that the envious agent values at zero. We give a short proof that every instance with nonnegative additive valuations in which each agent positively values at most three goods has a complete \efxz{} allocation in which all bundles but at most one have at most two goods. An algorithm we call Draft and Exchange (\DE{}) computes one in time $O(n(n+m))$. Agents that can leave with one good do so; the others draft at most one good each; then, until a free agent can take all the leftover goods (or every agent holds its pair), goods are traded along a chain or a ring of agents, each of which gets strictly better off. There are at most $4n$ trades. The key fact is that when no free agent can take the leftovers, the free agents have enough distinct obstacles to point at, and following these pointers closes a ring. The proof is machine-checked in Lean, together with the algorithm, its bound of $4n$ trades and its running time.
+An allocation of indivisible goods is \efxz{} if no agent envies another agent's bundle after removing any single good from it, even a good that the envious agent values at zero. We give a short proof that every instance with nonnegative additive valuations in which each agent positively values at most three goods has a complete \efxz{} allocation in which all bundles but at most one have at most two goods. An algorithm we call Draft and Exchange (\DE{}) computes one in time $O(n(n+m))$. Agents that can leave with at most one good do so; the others draft at most one good each; then, until a free agent can take all the leftover goods (or every agent holds its pair), goods are traded along a chain or a ring of agents, each of which gets strictly better off. There are at most $4n$ trades. The key fact is that when no free agent can take the leftovers, the free agents have enough distinct obstacles to point at, and following these pointers closes a ring. The proof is machine-checked in Lean, together with the algorithm, its bound of $4n$ trades and its running time.
 \keywords{Fair division \and Indivisible goods \and EFX \and Serial dictatorship \and Trading cycles}
 \end{abstract}
 
@@ -73,13 +73,13 @@ Algorithm Draft and Exchange (\DE{}, Section~\ref{sec:algo}) computes such an al
 
 \emph{The draft.} The remaining agents, in turn, each take the best of their three goods still available, or nothing. Afterwards every good that an agent ranks above what it holds, a good it \emph{wants}, is held alone by another agent. We keep this property, \emph{validity}, throughout. The goods nobody took are \emph{leftover}.
 
-\emph{Finishing.} To finish, one agent takes all the leftover goods. It must be \emph{free}: nobody may want its good. The only agents that could still envy its big bundle are its \emph{blockers}: agents holding their top good $a$ whose $b$ and $c$ would both be in it. Each blocker is fixed by moving one of these two goods, which is leftover, to another free agent, one good each. So a free agent can finish when its blockers' leftover goods are at most as many as the other free agents (Theorem~\ref{thm:sound}).
+\emph{Finishing.} To finish, one agent takes all the leftover goods. It must be \emph{free}: nobody may want its good. The only agents that could still envy its big bundle are its \emph{blockers}: agents holding their top good $a$ whose $b$ and $c$ would both be in it. Each blocker is fixed by moving one of these two goods, which is leftover, to another free agent, one good each. So a free agent can finish when its blockers' leftover goods are at most as many as the other free agents (Lemma~\ref{lem:test} and Theorem~\ref{thm:sound}).
 
 \emph{Improving.} If no free agent can finish, some agents can be made better off. If an agent holding its top finds its $b$ and $c$ both leftover, it takes them, and its top goes to an agent that wants it, and so on: a \emph{chain}. Otherwise every free agent failed to finish because it has at least as many blockers with distinct leftover goods as there are free agents, so each free agent can pick a blocker whose leftover good no other free agent picked. Now every agent points at someone who would gladly take its good: a free agent at its blocker, which completes its pair with that good and its leftover good, and any other agent at an agent that wants its good. Following the pointers closes a \emph{ring}, and passing the goods one step along it makes everyone on it better off (Theorem~\ref{thm:improve}). Scores only grow, so this ends, with a free agent that can finish or with every agent holding its pair. Section~\ref{sec:algo} ends with a small example, and Section~\ref{sec:example} has a larger one.
 
 \paragraph{Status.} The proofs below are written proofs, and they are machine-checked in Lean~4, together with the algorithm, its bound of $4n$ trades, its running time, and, through natural-number values that answer the same comparisons, its use on real values (Section~\ref{sec:evidence}). They were also checked by computer on millions of states. The reviews so far were by AI agents (Section~\ref{sec:evidence}); there has been no human peer review.
 
-\paragraph{Related work.} For additive valuations, complete EFX allocations are known to exist only in special cases, among them: for three agents~\cite{ChaudhuryGM20} and for three types of agents~\cite{HVGNV25}; when $m\le n+3$~\cite{Mahara21}; for four agents and at most nine goods~\cite{AlkassarFM26}; when every good is valued by at most two agents~\cite{AfshinmehrAMMS26}, with special cases in~\cite{ChristodoulouFKS23,SgouritsaS25,KavianiSS24}; and for hypergraphs of girth at least four~\cite{LianeasSS26}. All of these use the all-goods form \efxz{}. For monotone valuations that are not additive, EFX allocations need not exist~\cite{AkramiMMSW26,MackenzieS26}. We restrict instead how many goods each agent values. For at most two goods per agent, serial dictatorship suffices and has been formalized in Lean~\cite{MrdEfx}. For at most four, Viswanathan and Mehta~\cite{ViswanathanM24} announce ordinary EFX allocations, with a polynomial-time algorithm and a proof sketch in an extended abstract; their algorithm gives the goods nobody values to an arbitrary agent, which is harmless for EFX but can break \efxz{} (Example~\ref{ex:efx-vs-efx0}). Since \efxz{} implies EFX, Theorem~\ref{thm:target} proves the case of three goods of their result in full. Table~\ref{tab:rw} in Appendix~\ref{app:rw} compares these results.
+\paragraph{Related work.} For additive valuations, complete EFX allocations are known to exist only in special cases, among them: for three agents~\cite{ChaudhuryGM20} and for three types of agents~\cite{HVGNV25}; when $m\le n+3$~\cite{Mahara21}; for four agents and at most nine goods~\cite{AlkassarFM26}; when every good is valued by at most two agents~\cite{AfshinmehrAMMS26}, with special cases in~\cite{ChristodoulouFKS23,SgouritsaS25,KavianiSS24}; and for hypergraphs of girth at least four~\cite{LianeasSS26}. All of these use the all-goods form \efxz{}. For monotone valuations that are not additive, EFX allocations need not exist~\cite{AkramiMMSW26,MackenzieS26}. We restrict instead how many goods each agent values. For at most two goods per agent, serial dictatorship suffices and has been formalized in Lean~\cite{MrdEfx}. For at most four, Viswanathan and Mehta~\cite{ViswanathanM24} announce ordinary EFX allocations, with a polynomial-time algorithm and a proof sketch in an extended abstract; their algorithm gives the goods nobody values to an arbitrary agent, which is harmless for EFX but can break \efxz{}, under which a good that an agent values at $0$ still counts in its envy (as $c$ does for agent~1 in Example~\ref{ex:efx-vs-efx0}). Since \efxz{} implies EFX, Theorem~\ref{thm:target} proves the case of three goods of their result in full. Table~\ref{tab:rw} in Appendix~\ref{app:rw} compares these results.
 
 %======================================================================
 \section{Peeling}\label{sec:peel}
@@ -94,17 +94,17 @@ Let $i\in N$ and $P\subseteq M$ with (i) $v_i(P)\ge v_i(M\setminus P)$ and (ii) 
 Agent $i$ and a bundle $Z_j$: $v_i(Z_j\setminus\{h\})\le v_i(Z_j)\le v_i(M\setminus P)\le v_i(P)$. Agent $j\ne i$ and the bundle $P$: removing its only good leaves nothing. Agent $j\ne i$ and a bundle $Z_k$: this is a condition of $Z$. \qed
 \end{proof}
 
-\noindent \emph{Rule R1.} Let $G$ be the set of remaining goods, and $p$ agent $i$'s favourite good of $G$ (largest value, ties by index). If $v_i(p)=0$, then $i$ may leave with $P=\emptyset$. If $v_i(p)>0$ and $v_i(G\setminus\{p\})\le v_i(p)$, then $i$ may leave with $P=\{p\}$. Rule R1 applies, for instance, to every agent that values at most two remaining goods.
+\noindent \emph{Rule R1.} Let $G$ be the set of remaining goods, and $p$ agent $i$'s favourite good of $G$ (largest value; between equal values, the lower index). If $G=\emptyset$ or $v_i(p)=0$, so that $i$ values no remaining good, then $i$ may leave with $P=\emptyset$. If $v_i(p)>0$ and $v_i(G\setminus\{p\})\le v_i(p)$, then $i$ may leave with $P=\{p\}$. Rule R1 applies, for instance, to every agent that values at most two remaining goods.
 
 \begin{corollary}[two relevant goods]\label{cor:k2}
 If $|R_i|\le2$ for every agent, then serial dictatorship, in any order of the agents, each taking a favourite remaining good (or nothing once no good is left), with the last agent taking all remaining goods, returns an \efxz{} allocation.
 \end{corollary}
 
 \begin{proof}
-By induction on the number of agents. One agent faces no condition. Otherwise rule R1 applies to the first agent's choice, and Lemma~\ref{lem:peel} reduces to the smaller instance. \qed
+By induction on the number of agents. One agent faces no condition. Otherwise the first agent takes a favourite remaining good $p$, or nothing, and values at most one other remaining good, worth at most $v_i(p)$; so its bundle satisfies conditions (i) and (ii) of Lemma~\ref{lem:peel}, which reduces to the smaller instance. \qed
 \end{proof}
 
-\noindent When $|R_i|=3$ we name agent $i$'s relevant goods $a_i$, $b_i$, $c_i$ so that $v_i(a_i)\ge v_i(b_i)\ge v_i(c_i)>0$, breaking ties by index. This gives a strict \emph{ranking} $a_i\succ_i b_i\succ_i c_i$, and $g\succ_i h$ implies $v_i(g)\ge v_i(h)$. Agent $i$ is \emph{strictly balanced} if $v_i(a_i)<v_i(b_i)+v_i(c_i)$.
+\noindent When $|R_i|=3$ we name agent $i$'s relevant goods $a_i$, $b_i$, $c_i$ so that $v_i(a_i)\ge v_i(b_i)\ge v_i(c_i)>0$, breaking ties in favour of the lower index. This gives a strict \emph{ranking} $a_i\succ_i b_i\succ_i c_i$, and $g\succ_i h$ implies $v_i(g)\ge v_i(h)$. Agent $i$ is \emph{strictly balanced} if $v_i(a_i)<v_i(b_i)+v_i(c_i)$.
 
 \begin{lemma}[when nobody can leave]\label{lem:R1fail}
 Let agent $i$ value at most three goods of the set $G$ of remaining goods, and suppose that rule R1 does not apply to $i$. Then $i$ values exactly three goods of $G$ and is strictly balanced with respect to them.
@@ -203,7 +203,7 @@ Let $Y$ be valid, and $x$ an agent with $Y_x=\{a_x\}$ and $b_x,c_x\in J$. Let $j
 Agent $x$ holds its top and wants nothing, so $j_t\ne x$ for $t\ge1$. If $j_s=j_t$ with $1\le s<t$ is the first repeat, then $j_s,\dots,j_{t-1}$ are distinct agents outside $U$, each holding a good that the next one wants: a ring of want arrows ($t-s\ge2$, as no agent wants its own good). Otherwise: the goods $b_x$, $c_x$ were leftover, and each moved good moves one step, so this is a state. Agent $x$ goes from its top to its pair, and each $j_t$, $t\ge1$, receives a good it wants. A wanted good is not $b_x$ or $c_x$ (they are leftover); if its holder is off the path it stays, and if its holder is $j_t$, then $t<k$ (the good of $j_k$ is not wanted), and $j_{t+1}$ now holds it alone. Lemma~\ref{lem:stay} gives validity. \qed
 \end{proof}
 
-\noindent From now on, assume that no chain applies:
+\noindent Applying a chain, or trading along a ring, is a \emph{trade}. From now on, assume that no chain applies:
 
 \smallskip
 \noindent\textbf{(NC)} no agent $x$ with $Y_x=\{a_x\}$ has both $b_x$ and $c_x$ in $J$.
@@ -237,7 +237,7 @@ If (NC) fails, Lemma~\ref{lem:chain} applies. Assume (NC). By Lemma~\ref{lem:tes
 \end{proof}
 
 \begin{corollary}[Pareto-optimal states]\label{cor:po}
-In the core case, in every valid state that no valid state Pareto-dominates in scores, either every agent holds its pair or some free agent can finish. In particular every core instance has a complete \efxz{} allocation in which all bundles but one have at most two goods.
+In the core case, in every valid state that no valid state Pareto-dominates in scores, either every agent holds its pair or some free agent can finish. In particular every core instance has a complete \efxz{} allocation in which all bundles but at most one have at most two goods.
 \end{corollary}
 
 \begin{proof}
@@ -263,7 +263,7 @@ Algorithm~\ref{alg:de} lists \DE{}. It receives the values $v_i(g)$; ties are br
 \EndFor
 \Loop
   \If{some $x$ with $Y_x=\{a_x\}$ has $b_x,c_x\in J$} \Comment{chain}
-    \State apply the chain of the first such $x$ (Lemma~\ref{lem:chain})
+    \State apply the chain of the first such $x$, or the ring of want arrows it runs into (Lemma~\ref{lem:chain})
   \ElsIf{every agent holds its pair} \Comment{finish}
     \State $o\gets$ the first agent; $H\gets\emptyset$; \textbf{break}
   \ElsIf{some free agent $o$ has $|H_o|\le|F|-1$} \Comment{finish}
@@ -272,7 +272,7 @@ Algorithm~\ref{alg:de} lists \DE{}. It receives the values $v_i(g)$; ties are br
     \State trade along the ring of the proof of Theorem~\ref{thm:improve}
   \EndIf
 \EndLoop
-\State give the goods of $H$, in the order of their first blockers, to different free agents other than $o$, in index order
+\State give the $k$-th good of $H$ (in the order of first blockers) to the $k$-th free agent other than $o$
 \State $X_o\gets Y_o\cup(J\setminus H)$; every other $i\in A$ keeps $Y_i$ (plus its good of $H$, if any)
 \State \Return $X$
 \end{algorithmic}
@@ -301,7 +301,7 @@ Theorem~\ref{thm:de}, the running time and the remark on real values. \qed
 %======================================================================
 \section{A Worked Example}\label{sec:example}
 
-On this instance every improvement gives pairs to two agents at once, so a ring with a single pair arrow is not enough (Appendix~\ref{app:size}). Ten goods $g_0,\dots,g_9$ and six agents, in index order $x_1$, $x_1'$, $x_2$, $x_2'$, $o_1$, $o_2$, with values $4$, $3$, $2$ on their goods $a\succ b\succ c$ (any strictly balanced values with these rankings give the same run):
+On this instance every valid state that Pareto-dominates the draft state gives pairs to two agents at once, so a ring with a single pair arrow is not enough (Appendix~\ref{app:size}). Ten goods $g_0,\dots,g_9$ and six agents, in index order $x_1$, $x_1'$, $x_2$, $x_2'$, $o_1$, $o_2$, with values $4$, $3$, $2$ on their goods $a\succ b\succ c$ (any strictly balanced values with these rankings give the same run):
 \begin{center}
 \setlength{\tabcolsep}{6pt}\begin{tabular}{@{}llll@{}}
 \toprule
@@ -321,7 +321,7 @@ $o_2$ & $g_0\succ g_1\succ g_5$ & $\{g_5\}$ ($c$) & $\{g_0\}$ ($a$) \\
 
 \paragraph{Nobody can finish.} The blockers of $o_1$ are $x_1$ (pair $\{g_4,g_6\}$) and $x_1'$ (pair $\{g_4,g_7\}$), so $H_{o_1}=\{g_6,g_7\}$; symmetrically $H_{o_2}=\{g_8,g_9\}$. Both have $|H_o|=2>|F|-1$. Concretely, if $o_1$ takes the leftovers, only $o_2$ can take one of $g_6$, $g_7$; with $H=\{g_6\}$, $X_{o_1}=\{g_4,g_7,g_8,g_9\}$, and $x_1'$, holding $g_1$ (worth $4$), values $X_{o_1}$ without $g_8$ at $3+2=5$. All ten candidate completions (finisher $o_1$ or $o_2$, with $H$ empty or one leftover good) fail the \efxz{} test.
 
-\paragraph{No small trade helps.} A ring with no pair arrow would have to leave $o_1$ or $o_2$ by a want arrow, but nobody wants their goods. A ring with exactly one pair arrow, from $o_1$ say, would return to $o_1$ by want arrows; but $x_1$ and $x_1'$ have want arrows only to $o_2$, and the arrows from $o_2$ are pair arrows. In fact exactly four valid states Pareto-dominate the draft state, and each gives pairs to two agents.
+\paragraph{No small trade helps.} Every want arrow ends at $o_1$ or $o_2$, so a ring with no pair arrow would have to leave one of them by a want arrow; but nobody wants their goods. A ring with exactly one pair arrow, from $o_1$ say, would return to $o_1$ by want arrows; but $x_1$ and $x_1'$ have want arrows only to $o_2$, and the arrows from $o_2$ are pair arrows. In fact exactly four valid states Pareto-dominate the draft state, and each gives pairs to two agents.
 
 \paragraph{The trade.} \DE{} takes the first blocker of each free agent: $x_{o_1}=x_1$, with $q_{o_1}=g_6$, and $x_{o_2}=x_2$, with $q_{o_2}=g_8$. So $\sigma(o_1)=x_1$, $\sigma(x_1)=o_2$ ($o_2$ wants $g_0$), $\sigma(o_2)=x_2$ and $\sigma(x_2)=o_1$ ($o_1$ wants $g_2$): the ring of Figure~\ref{fig:cycle}. Along it, $x_1$ takes $\{g_4,g_6\}$, $o_2$ takes $g_0$, $x_2$ takes $\{g_5,g_8\}$ and $o_1$ takes $g_2$. The total score rises from $14$ to $20$.
 
@@ -392,7 +392,7 @@ In the core case, let $Y$ be a valid state in which not every agent holds its pa
 \end{proposition}
 
 \begin{proof}
-No chain applies, so (NC) holds, and by Lemma~\ref{lem:test} every free agent $o$ holds a good and has at least $|H_o|\ge|F|$ blockers. The blockers of two different free agents $o,o'$ are different: a common blocker would have the pair $\{y_o,y_{o'}\}$, with no leftover good, against Lemma~\ref{lem:test}(b). There is no ring of want arrows, so a walk that repeatedly moves to an agent that wants the current agent's good never repeats an agent; it ends at an agent whose good nobody wants, or that holds nothing, which is free. Every agent holds a good: pair holders two, free agents one by Lemma~\ref{lem:test}, others a wanted good. Let $k=|F|$; $k\ge1$, because the walk from an agent outside $U$ ends at a free agent.
+No chain applies, so (NC) holds, and by Lemma~\ref{lem:test} every free agent $o$ holds a good and has $|H_o|\ge|F|$, hence at least $|F|$ blockers. The blockers of two different free agents $o,o'$ are different: a common blocker would have the pair $\{y_o,y_{o'}\}$, with no leftover good, against Lemma~\ref{lem:test}(b). There is no ring of want arrows, so a walk that repeatedly moves to an agent that wants the current agent's good never repeats an agent; it ends at an agent whose good nobody wants, or that holds nothing, which is free. Every agent holds a good: pair holders two, free agents one by Lemma~\ref{lem:test}, others a wanted good. Let $k=|F|$; $k\ge1$, because the walk from an agent outside $U$ ends at a free agent.
 
 If $k=1$, let $F=\{o\}$ and $x$ a blocker of $o$. Then $x$ is not free, and its walk ends at $o$; with the pair arrow $o\to x$ this is a ring with one pair arrow, a short move. So $k\ge2$.
 
@@ -405,12 +405,12 @@ If $k\ge3$, the blockers of the $k$ free agents are at least $k^2$ different age
 
 \noindent In the second instance the distinct leftover goods matter: of the four cycles $o_2\to x\to o_1\to x'\to o_2$ with two pair arrows, two use the same leftover good twice, and trading along them would give it to two agents; the other two are rings.
 
-\paragraph{No bounded number of pair arrows suffices.} For every $k\ge2$ and $d\ge1$ there are valid states with $k$ free agents $o_0,\dots,o_{k-1}$ in which $o_i$ wants the goods at the roots of a binary tree of depth $d$ of agents that want their children's goods, and the leaves of the tree of $o_{i+1}$ hold their tops and are blockers of $o_i$ (indices modulo $k$), with leftover goods that are distinct within each tree: one of its own per leaf, or the goods of a common pool of $k$, the leaves of each tree taking them in turn. Every cycle of want and pair arrows there has exactly $k$ pair arrows, and no free agent can finish if and only if $k\le2^d$, the number of leaves of a tree.
+\paragraph{No bounded number of pair arrows suffices.} For every $k\ge2$ and $d\ge1$ there are valid states with $k$ free agents $o_0,\dots,o_{k-1}$ in which each $o_i$ is the root of a binary tree of depth $d$ whose agents want the goods of their two children, and the leaves of the tree of $o_{i+1}$ hold their tops and are blockers of $o_i$ (indices modulo $k$), with leftover goods that are distinct within each tree: one of its own per leaf, or the goods of a common pool of $k$, the leaves of each tree taking them in turn. Every cycle of want and pair arrows there has exactly $k$ pair arrows, and no free agent can finish if and only if $k\le2^d$, the number of leaves of a tree. For $k=2$ and $d=1$ this is the instance of Section~\ref{sec:example}. We omit the proofs of these two facts; both are machine-checked in Lean for every $k$ and $d$.
 
 %======================================================================
 \section{Limits of the Shape}\label{app:limits}
 
-Could every instance have an \efxz{} allocation with all bundles of at most two goods, or with one bundle of exactly three? No. Write $\theta_i(B)$ for the largest value of $v_i(B\setminus\{h\})$ over $h\in B$ ($0$ if $B=\emptyset$): agent $i$ does not envy $X_j$ in the sense of \efxz{} if and only if $v_i(X_i)\ge\theta_i(X_j)$, and then $i$ is \emph{safe} if this holds for every $j\ne i$. By additivity, $\theta_i(B)=0$ if $|B|\le1$; $\theta_i(B)\le v_i(B\cap R_i)$, with equality if $B$ has a good outside $R_i$; and $\theta_i(\{g,h\})=\max(v_i(g),v_i(h))$.
+Could every instance have an \efxz{} allocation with all bundles of at most two goods, or with one bundle of exactly three? No. Write $\theta_i(B)$, the \emph{threat} of $B$ to $i$, for the largest value of $v_i(B\setminus\{h\})$ over $h\in B$ ($0$ if $B=\emptyset$): agent $i$ does not envy $X_j$ in the sense of \efxz{} if and only if $v_i(X_i)\ge\theta_i(X_j)$, and $i$ is \emph{safe} if this holds for every $j\ne i$. By additivity, $\theta_i(B)=0$ if $|B|\le1$; $\theta_i(B)\le v_i(B\cap R_i)$, with equality if $B$ has a good outside $R_i$; and $\theta_i(\{g,h\})=\max(v_i(g),v_i(h))$.
 
 \begin{lemma}[cases of safety]\label{lem:L5}
 Let agent $i$ have $R_i=\{a,b,c\}$ with $v_i(a)>v_i(b)>v_i(c)>0$ and $v_i(a)<v_i(b)+v_i(c)$, and let $X$ be an allocation. Then $i$ is safe in $X$ if and only if one of the following holds:
