@@ -20,7 +20,7 @@ intended for publication; the papers are self-contained and cite only this repos
   three-agent example, the worked example with a TikZ figure of the ring) and the same appendices. The earlier,
   longer version (30 pages, with the need and exchange digraphs, a six-case loop and the threat/safety lemmas in the
   body) is in the git history up to commit `d21d3f7`.
-- `refs.bib`: the bibliography of both; `Repo` is this repository at commit `a1f9dc0`, which holds the notes, tests,
+- `refs.bib`: the bibliography of both; `Repo` is this repository at commit `4c303bf`, which holds the notes, tests,
   referee reports and Lean files.
 - `llncs.cls` and `splncs04.bst`: Springer's LLNCS package, unmodified.
 - `examples/check_examples.py`: an independent implementation of the definitions of `long.tex` (wants, free agents,
