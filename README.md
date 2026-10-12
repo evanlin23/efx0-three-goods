@@ -16,7 +16,8 @@ Question (CS 580 course project, Fall 2026; answered yes, see Status): does ever
 
   A Python implementation (`fast` in [k3/k3algo.py](k3/k3algo.py)) gives the same output as a literal transcription of the Lean program on 200,000 random instances and runs in about linear time up to 10⁵ agents (row K3.ALG.RUN, EVIDENCE).
 - **Not formalized:** the bound on bit operations; the O((n + m) log n) analysis of the Python implementation; serial dictatorship for k ≤ 2 over ordered values (its Lean statement is for ℕ); and the ℝ≥0 instance of `EFX.OrderedValue` (the standard fact above). The full list is in [lean/README.md](lean/README.md), "Not formalized".
-- **The papers** ([paper/k3/](paper/k3/), build instructions in its README): `paper/k3/main.pdf` is the 8-page LLNCS submission (references and appendix after page 8); `paper/k3/long.pdf` is the long, readable version, with every proof of the main theorems in the body, the pseudocode and two examples traced step by step; `paper/k3/examples/` holds the checks of those examples (`trace_examples.py`, and `lean_examples.lean` for Lean's own evaluation).
+- **The paper** ([paper/k3-simple/](paper/k3-simple/)): `paper/k3-simple/main.pdf` proves the theorem with a shorter construction, algorithm Draft and Exchange (DE: peeling, a draft, then chains and rings of trades until a free agent can take the leftover goods), with at most 4n trades in O(n(n + m)) steps, machine-checked in Lean (`lean/EFX/K3DE*.lean`; rows K3S.PO, K3S.PO.LEAN, K3S.REAL.LEAN, K3S.TIME). It is the paper handed in for the course; it is also released, with only what it uses, as [evanlin23/efx0-three-goods-proof](https://github.com/evanlin23/efx0-three-goods-proof).
+- **The papers on K3ALG** ([paper/k3/](paper/k3/), build instructions in its README): `paper/k3/main.pdf` is the 8-page LLNCS submission (references and appendix after page 8); `paper/k3/long.pdf` is the long, readable version, with every proof of the main theorems in the body, the pseudocode and two examples traced step by step; `paper/k3/examples/` holds the checks of those examples (`trace_examples.py`, and `lean_examples.lean` for Lean's own evaluation).
 - **k = 4 (at most four relevant goods per agent) is open.** Work in progress is in `k4/` and LEDGER.md open items 18–27; the named next target is Conjecture DL₂ (row K4.STRAT.DL2, CONJECTURE).
 - **Earlier results**, partial results that came before the proof (details in the ledger):
   - certified by exhaustive computation: EFX₀ exists for every instance with n ≤ 7 (R1, R5); conjecture D for every core with n ≤ 6 (R3), every connected core with n = 7 (R2, S2.N7) and every connected core with n = 8, m ≥ 13 (R4, S2.N8);
@@ -36,7 +37,8 @@ Question (CS 580 course project, Fall 2026; answered yes, see Status): does ever
 - `lean/`: Lean formalization of ledger items (core Lean only, no `sorry`, standard axioms only; see `lean/README.md`)
 - `k3/`: Python implementations of K3ALG (`k3algo.py`: `fast` and the literal transcription `mirror`), the cross-check against Lean, timings, and the local search LS2
 - `k4/`: the k = 4 workstream (open; notes, searches, test suite)
-- `paper/k3/`: the papers on the k = 3 result (`main.tex`, `long.tex`) and the checks of their examples
+- `paper/k3-simple/`: the paper (`main.tex`) on the simplified proof (algorithm DE) and the checks of its examples
+- `paper/k3/`: the earlier papers on the k = 3 result, on algorithm K3ALG (`main.tex`, `long.tex`), and the checks of their examples
 - `archive/`: superseded versions of code, kept verbatim (see `archive/README.md`)
 
 ## Reproduce

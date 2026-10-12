@@ -27,7 +27,7 @@ showed that a declaration added under `set_option debug.skipKernelTC true` is ne
 without warnings and has no axioms for `#print axioms` or `CheckAxioms.lean` to report; the tripwire refuses the
 option and the replay checker rejects such a declaration. On success the last line is
 
-    CHECK PASSED: 870 audited statements, 1938 theorems, standard axioms only
+    CHECK PASSED: 871 audited statements, 1939 theorems, standard axioms only
 
 CI runs it on every pull request (job `lean` in `.github/workflows/verify.yml`). In Claude Code on the web the
 session-start hook installs the toolchain (from GitHub when `release.lean-lang.org` is unreachable).
@@ -375,8 +375,8 @@ specializations) have exactly the types of `EFX.target`, `EFX.LB.corollaryD` (ch
     on every instance.
   - `K3Examples`: three instances checked by `decide`.
   `scripts/k3_eval.lean` runs `algo` and prints the count by `#eval`.
-- `EFX/K3DE.lean`, `EFX/K3DEImprove.lean`, `EFX/K3DEAlgo.lean`, `EFX/K3DEExamples.lean`: the short proof of the
-  k = 3 result and algorithm Draft and Exchange (DE) (`paper/k3-simple/long.tex` §3–§6,
+- `EFX/K3DE.lean`, `EFX/K3DEImprove.lean`, `EFX/K3DEAlgo.lean`, `EFX/K3DEExamples.lean`: the proof of the
+  k = 3 result and algorithm Draft and Exchange (DE) (`paper/k3-simple/main.tex` §3–§6,
   `k3/simplify/po/hall/NOTES.md`; ledger K3S.PO.LEAN), over the valid pre-allocations of `PreAlloc` (rank-based
   states: each agent holds nothing, one of its goods, or its pair `{b, c}`). The Lean names are the earlier ones of
   the paper: needs (wants), utility (score), exposed (blocker), protecting good (the blocker's leftover good `h_x`),
@@ -386,7 +386,7 @@ specializations) have exactly the types of `EFX.target`, `EFX.LB.corollaryD` (ch
     exposure, valid absorbers (`EFX.DE.Absorber`), the paper's completion (`EFX.DE.completeDE`: the goods of `H` to
     different free agents, the rest of the junk to the absorber) and soundness (`EFX.DE.soundness`, through Theorem 1′),
     Lemma staying valid (`EFX.DE.transfer`), and one exchange lemma for chains and rings (`EFX.DE.exchange`: Lemma
-    ring, with Lemma chain; `EFX.DE.exchange_scores`: every agent of the ring strictly gains, every other agent keeps
+    ring, with Lemma chain; `EFX.DE.exchange_scores`: every agent of the ring gets a strictly higher score, every other agent keeps
     its score).
   - `K3DEImprove`: the computable step of DE (`EFX.DE.step`, the loop's three steps: *chain*, a pair chain if (P)
     fails; *finish*, stop if every agent is a pair holder or with the first free agent `o` with `|H_o| ≤ |F| − 1`,
@@ -400,7 +400,7 @@ specializations) have exactly the types of `EFX.target`, `EFX.LB.corollaryD` (ch
     exchanges (`EFX.DE.loop_spec`), and DE with R1 peeling (`EFX.DE.run`, `EFX.DE.deSpec`) returns an EFX₀ allocation
     with at most one bundle of more than two goods on every instance with at most three relevant goods per agent
     (`EFX.DE.run_sound`, `EFX.DE.deSpec_correct`).
-  - `K3DEExamples`: by `decide`, DE on the paper's worked example (§7: one ring with two pair arrows; the paper's
+  - `K3DEExamples`: by `decide`, DE on the paper's worked example (Appendix B: one ring with two pair arrows; the paper's
     output), on its small example (§6: one ring `o → x → o`, then `z` finishes; `EFX.DE.Examples.small_spec`) and on
     three small instances (protecting goods, two pair chains, peeling).
 - `EFX/K3DEPrelim.lean`, `EFX/K3DELimits.lean`, `EFX/K3DEShort.lean`, `EFX/K3DEShortExamples.lean`,
@@ -422,7 +422,8 @@ specializations) have exactly the types of `EFX.target`, `EFX.LB.corollaryD` (ch
     A counted DE (`EFX.DE.deC`, with unit-cost array writes `EFX.DE.wr`) computes exactly DE's output
     (`EFX.DE.de_eq_spec`) in at most `750 (n + 1)(n + m + 1)` counted operations (`EFX.DE.deC_cost`); on ordered
     values with a comparison oracle, `EFX.DE.deOrdC_cost`.
-  - `K3DERemarks`: Example EFX-but-not-EFX₀ (`EFX.DE.Remarks.efx_not_efx0`), the remark that the protecting goods
+  - `K3DERemarks`: the instance of main.tex §1 that is EFX but not EFX₀ (`EFX.DE.Remarks.efx_not_efx0_intro`) and a
+    second such example, Example 1 of the archived `long.tex` (`EFX.DE.Remarks.efx_not_efx0`), the remark that the protecting goods
     cannot be dropped (`pg_undominated`, `pg_only_g2`; a remark of the earlier version of the paper, no longer in it,
     kept in Lean), and the worked example's remaining numbers (every cycle of want and pair arrows has two pair
     arrows, `w_cycles`; DE's step, the totals 14 and 20, the completion: `w_step`, `w_totals`, `w_after`).
@@ -557,12 +558,12 @@ name in the ledger's Lean column has one.
 | K3.ALG.REAL | K3ALG on ordered values (e.g. ℝ≥0) in the comparison model: with a correct comparison oracle, computing L12's surrogate takes `n (m + 12)` oracle calls and `O(nm)` other operations, and K3ALG on it is EFX₀ for the original values when every agent has at most three relevant goods | K3Real : `EFX.K3.algoOrd_efx0`, `EFX.K3.algoOrd_eq`, `EFX.K3.agree_surrogate`, `EFX.K3.numRelevant_eq_relOf`, `EFX.K3.repOf_spec`, `EFX.K3.surrogateC_cost`, `EFX.K3.algoOrdC_cost`, `EFX.K3.Examples.peelOwnerZ_algoOrd` |
 | K3.ALG.FINE | The finer count: `(algoC I hn).cost ≤ n⁴ + 20n³ + 25n²m + 124n² + 47nm + 119n + 22m + 3` for every instance with `n ≥ 1`, hence `O(n⁴ + n²m)` | K3CostFine : `EFX.K3.algoC_cost_fine`, `EFX.K3.algoC_cost_fine'`, `EFX.K3.algoC_cost_fine''`, `EFX.K3.lbPlusC_cost_fine`, `EFX.K3.reduceC_cost_fine`, `EFX.K3.lbUpC_cost_fine`, `EFX.K3.algoOrdC_cost_fine` |
 | K3S.PO.LEAN | The Improvement Lemma: a valid state in which no free agent is a valid absorber (can finish) and some agent is not a pair holder is Pareto-dominated by a valid state (a chain or a ring; computed by `step`), in which every agent of the ring or chain has a higher score and every other agent the same; every undominated valid state has a valid absorber, free unless every agent holds its pair; the distinct leftover goods are chosen by the paper's rule (the first blocker whose leftover good no earlier free agent took) | K3DEImprove : `EFX.DE.improvement`, `EFX.DE.completable_of_undominated`, `EFX.DE.step_stop`, `EFX.DE.step_stop_of_none`, `EFX.DE.step_next`, `EFX.DE.step_next_cycle`, `EFX.DE.step_next_scores`, `EFX.DE.cycleStep_cycle`, `EFX.DE.succ_pair`, `EFX.DE.succ_exchange`, `EFX.DE.cycleStep_spec`, `EFX.DE.reps_spec`, `EFX.DE.reps_first_blocker`, `EFX.DE.repOf_reps_append`, `EFX.DE.find?_Hset` |
-| K3S.PO.LEAN | Lemmas staying valid (transfer), ring and chain (one lemma: valid, every agent of the cycle strictly gains, every other agent keeps its score), the finishing test (a)–(c) (Lemmas empty and forced of the earlier version: under (NC) nobody is a blocker of a free agent holding nothing, which has `H_o = ∅` and passes the count); soundness of the completion (EFX₀ for every consistent valuation, only the absorber's bundle larger than two goods) | K3DE : `EFX.DE.transfer`, `EFX.DE.exchange`, `EFX.DE.exchange_scores`, `EFX.DE.completeDE_completion`, `EFX.DE.soundness`; K3DEImprove : `EFX.DE.not_exposed_of_none`, `EFX.DE.absorber_empty`, `EFX.DE.forced_hOf`, `EFX.DE.absorber_forced`, `EFX.DE.absorber_iff`, `EFX.DE.Hset_eq_nil`, `EFX.DE.count_of_none`, `EFX.DE.holds_of_count` |
+| K3S.PO.LEAN | Lemmas staying valid (transfer), ring and chain (one lemma: valid, every agent of the cycle gets a strictly higher score, every other agent keeps its score), the finishing test (a)–(c) (Lemmas empty and forced of the earlier version: under (NC) nobody is a blocker of a free agent holding nothing, which has `H_o = ∅` and passes the count); soundness of the completion (EFX₀ for every consistent valuation, only the absorber's bundle larger than two goods) | K3DE : `EFX.DE.transfer`, `EFX.DE.exchange`, `EFX.DE.exchange_scores`, `EFX.DE.completeDE_completion`, `EFX.DE.soundness`; K3DEImprove : `EFX.DE.not_exposed_of_none`, `EFX.DE.absorber_empty`, `EFX.DE.forced_hOf`, `EFX.DE.absorber_forced`, `EFX.DE.absorber_iff`, `EFX.DE.Hset_eq_nil`, `EFX.DE.count_of_none`, `EFX.DE.holds_of_count` |
 | K3S.PO.LEAN | Algorithm DE is correct: on every instance with at most three relevant goods per agent it returns an EFX₀ allocation with all bundles but at most one of at most two goods, after at most `4n` exchanges; the paper's worked example and small example | K3DEAlgo : `EFX.DE.draft_valid`, `EFX.DE.loop_spec`, `EFX.DE.deCore_spec`, `EFX.DE.deStage_sound`, `EFX.DE.run_sound`, `EFX.DE.deSpec_correct`; K3DEExamples : `EFX.DE.Examples.worked_spec`, `EFX.DE.Examples.small_spec` |
 | K3S.PRELIM.LEAN | Threats and safety (EFX₀ iff every agent is safe); Lemma threats (a)–(c); Lemma safety (a), (b); Lemma peeling (P of at most one good); Lemma R1fail | K3DEPrelim : `EFX.DE.efx0L_iff_safe`, `EFX.DE.threat_pair`, `EFX.DE.safe_of_pair`, `EFX.DE.safe_of_gy`, `EFX.DE.peeling`, `EFX.DE.R1fail` |
 | K3S.LIMITS | Lemma cases of safety; Proposition limits of the shape (a), (b) for every valuation with distinct, strictly balanced values (natural numbers and ordered values) | K3DELimits : `EFX.DE.Limits.safe_iff_cases`, `EFX.DE.Limits.limits_a`, `EFX.DE.Limits.limits_b`, `EFX.DE.Limits.limits_a_ordered`, `EFX.DE.Limits.limits_b_ordered` |
 | K3S.SHORT | Proposition short moves: without a short move, at least 2 free agents, n ≥ 6, m ≥ 8 (n ≥ 9, m ≥ 12 with 3); both bounds attained | K3DEShort : `EFX.DE.prop_short`, `EFX.DE.short_counts`; K3DEShortExamples : `EFX.DE.ShortExamples.w_attains`, `EFX.DE.ShortExamples.s8_attains`, `EFX.DE.ShortExamples.s8_remark` |
-| K3S.EX.LEAN | The worked example: exactly four dominating valid states; all ten candidate completions fail EFX₀; every cycle of want and pair arrows has two pair arrows; DE's step and the completion; Example EFX-but-not-EFX₀; the protecting goods cannot be dropped (a remark of the earlier version of the paper, kept in Lean) | K3DEShortExamples : `EFX.DE.ShortExamples.w_facts`, `EFX.DE.ShortExamples.w_exactly_four`, `EFX.DE.ShortExamples.w_completions`; K3DERemarks : `EFX.DE.Remarks.w_cycles`, `EFX.DE.Remarks.w_after`, `EFX.DE.Remarks.efx_not_efx0`, `EFX.DE.Remarks.pg_undominated`, `EFX.DE.Remarks.pg_only_g2` |
+| K3S.EX.LEAN | The worked example: exactly four dominating valid states; all ten candidate completions fail EFX₀; every cycle of want and pair arrows has two pair arrows; DE's step and the completion; the EFX-versus-EFX₀ instance of §1 and a second example of EFX but not EFX₀; the protecting goods cannot be dropped (a remark of the earlier version of the paper, kept in Lean) | K3DEShortExamples : `EFX.DE.ShortExamples.w_facts`, `EFX.DE.ShortExamples.w_exactly_four`, `EFX.DE.ShortExamples.w_completions`; K3DERemarks : `EFX.DE.Remarks.w_cycles`, `EFX.DE.Remarks.w_after`, `EFX.DE.Remarks.efx_not_efx0`, `EFX.DE.Remarks.efx_not_efx0_intro`, `EFX.DE.Remarks.pg_undominated`, `EFX.DE.Remarks.pg_only_g2` |
 | K3S.RINGS | The ring family: every cycle of want and pair arrows uses exactly k pair arrows; no free agent absorbs iff k ≤ 2^d | K3DERings : `EFX.DE.Rings.gen_tree_ring`, `EFX.DE.Rings.nExp_eq`, `EFX.DE.Rings.no_free_absorber_iff` |
 | K3S.TIME | The running time of DE: a counted program that computes exactly DE's output takes at most 750 (n + 1)(n + m + 1) operations (array reads and writes one unit each); on ordered values, plus the surrogate's n(m + 12) oracle calls and O(nm) operations | K3DECostRun : `EFX.DE.de_eq_spec`; K3DECostBound : `EFX.DE.deC_cost`, `EFX.DE.deC_cost_poly`, `EFX.DE.stepC_cost`; K3DECostReal : `EFX.DE.deOrdC_cost` |
 | K3S.REAL.LEAN | DE on ordered values (comparison model through L12's surrogate); existence with the shape for ordered values; at most n peeling rounds | K3DEReal : `EFX.DE.deOrd_correct`, `EFX.DE.thmD_ordered`, `EFX.DE.de_correct`, `EFX.DE.peels_le` |

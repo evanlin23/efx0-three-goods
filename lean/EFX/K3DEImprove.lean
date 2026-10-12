@@ -3,7 +3,7 @@ import EFX.K3DE
 /-!
 # Draft and Exchange, part 2: the Improvement Lemma (ledger K3S.PO.LEAN)
 
-The Improvement Lemma of `paper/k3-simple/long.tex` §5 (`k3/simplify/po/hall/NOTES.md`), with Lemma chain and the
+The Improvement Lemma of `paper/k3-simple/main.tex` §5 (`k3/simplify/po/hall/NOTES.md`), with Lemma chain and the
 finishing test (Lemma `lem:test`): in the core case, a valid state in which no free agent is a valid absorber (no free
 agent can finish) and some agent is not a pair holder is Pareto-dominated by a valid state, obtained by one chain or
 ring. It is proved for a computable step (`step`), which either stops with a valid absorber or returns the dominating
@@ -35,7 +35,7 @@ by its last arc, or a ring of want arrows.
   or a ring); `step_next`: it returns a valid state that Pareto-dominates the state; `step_next_scores`: every agent
   of the cycle gets a strictly higher utility (score), every other agent the same (Lemmas ring and chain, through
   `EFX.DE.exchange_scores`).
-- `improvement` (**the Improvement Lemma**), `completable_of_undominated` (**Corollary**, Pareto-optimal states).
+- `improvement` (**the Improvement Lemma**), `completable_of_undominated` (**Corollary**, score-Pareto-maximal valid states).
 - The finishing test: `forced_hOf` ((b): the pair of a blocker `x` is `o`'s good and `h_x`), `absorber_forced`,
   `Hset_le_of_absorber` and `absorber_iff` ((c), both directions: `o` absorbs iff `|H_o| ≤ |F| − 1`, and then with
   `H_o`); `not_exposed_of_none` ((a)), `Hset_eq_nil`, `count_of_none`, `holds_of_count` (a free agent holding
@@ -466,7 +466,7 @@ theorem inBase_of_not_up {o : A} {g : G} (ho : o ∉ up) (h : InBase P up Y o g)
   · exact absurd h ho
 
 omit [DecidableEq A] in
-/-- **The finishing test (b)** (Lemma forced of the earlier version): under (P), an agent `x` exposed for an agent
+/-- **The finishing test (b)** (Lean name: forced): under (P), an agent `x` exposed for an agent
 `o` outside `up` has exactly one of `b x`, `c x` in the junk, its protecting good `hOf x` (the paper's `h_x`); the
 other is `o`'s good. -/
 theorem forced_hOf (hWF : WF P agents goods) (hPP : PropP P agents up Y goods) {o x : A} (ho : o ∉ up)
@@ -821,7 +821,7 @@ theorem holds_of_count (hPP : PropP P agents up Y goods)
     omega
   | some y => exact ⟨y, rfl⟩
 
-/-- **The finishing test (c), a free agent holding nothing** (Lemma empty of the earlier version): under (P), a free
+/-- **The finishing test (c), a free agent holding nothing** (Lean name: empty): under (P), a free
 agent that holds nothing is a valid absorber with `H = ∅` (the case `H_o = ∅`: `Hset_eq_nil`, `count_of_none`). -/
 theorem absorber_empty (hPP : PropP P agents up Y goods) {o : A} (ho : Free P agents up Y o) (hY : Y o = none) :
     Absorber P agents goods Y up o [] :=
@@ -858,7 +858,7 @@ theorem Hset_le_of_absorber (hWF : WF P agents goods) (hPP : PropP P agents up Y
     · rw [← hf.2.1 _ (hA.junk _ hc) (Or.inr rfl)]; exact hc
   exact Nat.le_trans (length_le_of_subset (nodup_dd _) hsub) hA.fit
 
-/-- **The finishing test (c)** (Lemma forced of the earlier version): under (P), a free agent `o` is a valid absorber
+/-- **The finishing test (c)** (Lean name: forced): under (P), a free agent `o` is a valid absorber
 (with some set) iff `|H_o| ≤ |F| − 1`, and then with `H_o`. -/
 theorem absorber_iff (hWF : WF P agents goods) (hag : agents.Nodup) (hPP : PropP P agents up Y goods) {o : A}
     (ho : Free P agents up Y o) :
@@ -981,7 +981,7 @@ theorem step_next_scores (hWF : WF P agents goods) (hag : agents.Nodup) {d : A} 
   obtain ⟨onC, σ, π, hC, rfl, rfl⟩ := step_next_cycle hWF hag h
   exact ⟨onC, σ, π, hC, rfl, rfl, exchange_scores hC⟩
 
-/-- **The Improvement Lemma** (`paper/k3-simple/long.tex`, Theorem Improvement Lemma). In the core case, let `(Y, up)`
+/-- **The Improvement Lemma** (`paper/k3-simple/main.tex`, Theorem Improvement Lemma). In the core case, let `(Y, up)`
 be a valid state in which no free agent is a valid absorber and some agent is not a pair holder. Then some valid state
 Pareto-dominates it (the one `step` returns: a chain or a ring). -/
 theorem improvement (hV : Valid P agents goods Y up) (hWF : WF P agents goods) (hag : agents.Nodup)
@@ -995,7 +995,8 @@ theorem improvement (hV : Valid P agents goods Y up) (hWF : WF P agents goods) (
     · exact absurd (hall i hi) hiu
   | next Y' up' => exact ⟨Y', up', step_next hV hWF hag h⟩
 
-/-- **Corollary (Pareto-optimal states).** In the core case, a valid state that no valid state Pareto-dominates is
+/-- **Corollary (score-Pareto-maximal valid states).** In the core case, a valid state that no valid state
+Pareto-dominates in utilities (scores) is
 completable: it has a valid absorber, which is free unless every agent holds its pair. -/
 theorem completable_of_undominated (hV : Valid P agents goods Y up) (hWF : WF P agents goods) (hag : agents.Nodup)
     (hne : agents ≠ []) (hmax : ∀ Y' up', Valid P agents goods Y' up' → ¬ Dominates P agents Y' up' Y up) :
