@@ -5,11 +5,11 @@ import EFX.Blocks
 /-!
 # Draft and Exchange, part 1: states, soundness, transfers and exchanges (ledger K3S.PO.LEAN)
 
-The objects of the short proof of the k = 3 result (`paper/k3-simple/long.tex` §3–§5, `k3/simplify/po/hall/NOTES.md`),
+The objects of the paper's proof (`paper/k3-simple/main.tex` §3–§5, `k3/simplify/po/hall/NOTES.md`),
 over the valid pre-allocations of `EFX/PreAlloc.lean`. In the core case every agent `i` values exactly three goods,
 ranked `a i`, `b i`, `c i` (`EFX.LB.Profile`, well formed: `EFX.LB.WF`).
 
-**Names.** The Lean files keep the names of an earlier version of the paper: *needs* for the paper's wants, *utility*
+**Names.** The Lean files use other names for some notions of the paper: *needs* for the paper's wants, *utility*
 for score, *exposed* (`Exposed o x`) for "`x` is a blocker of `o`", *protecting good* (`hOf x`) for the blocker's
 leftover good `h_x`, *junk* for the leftover goods `J`, *valid absorber* (`Absorber o H`) for "`o` can finish with
 `H`", *need arcs* and *exposure arcs* for want and pair arrows, *need cycles* and *exchange cycles* for rings, *pair
@@ -24,8 +24,7 @@ some agent (`EFX.LB.Valid.na_picked`). The utilities (the paper's scores) are `4
 **Definitions.**
 - `Free`: a listed agent outside `up` whose pick, if any, nobody needs (`freeB` decides it).
 - `Exposed o x` (the paper's Definition blockers, finishing: `x` is a blocker of `o`): `x ≠ o` holds only its top
-  `a x`, is not a pair holder, and each of `b x`, `c x` is junk or held by `o` (the premise of
-  `EFX.LB.complete_some`).
+  `a x`, is not a pair holder, and each of `b x`, `c x` is junk or held by `o`.
 - `Absorber o H` (Definition blockers, finishing: `o` can finish with `H`; also a pair holder `o`, for the case
   where every agent holds its pair): `o` is a pair holder or free, `H` is a list of junk goods that meets
   `{b x, c x}` for every `x` exposed for `o`, and `|H| ≤ |F ∖ {o}|` (`nFreeExcept`).
@@ -37,7 +36,7 @@ some agent (`EFX.LB.Valid.na_picked`). The utilities (the paper's scores) are `4
 - `completeDE_completion`, `soundness` (**Theorem soundness**): the completion is a completion of the valid state in
   the sense of `EFX.LB.Completion`, so by Theorem 1′ (`EFX.LB.Valid.sound`) it is EFX₀ for every valuation
   consistent with the rankings, and every bundle but `o`'s has at most two goods.
-- `transfer` (**Lemma staying valid**, `lem:stay`; Lemma transfer of the earlier version): a state whose utilities are
+- `transfer` (**Lemma staying valid**, `lem:stay`): a state whose utilities are
   all at least those of a valid state, and in which every good needed in the old state is the only good of a
   non-pair holder, is valid (the needs only shrink, `na_of_util`).
 - `exchange`, `exchange_scores` (**Lemma ring**, and **Lemma chain** through choice 3: one lemma for both moves): let
@@ -356,7 +355,7 @@ theorem na_of_util {Y' : A → Option G} {up' : List A} (hle : ∀ i ∈ agents,
     unfold Profile.Prefers at hp ⊢
     omega
 
-/-- **Lemma staying valid** (`lem:stay`; Lemma transfer of the earlier version). Let `(Y', up')` be a state in which
+/-- **Lemma staying valid** (`lem:stay`). Let `(Y', up')` be a state in which
 no listed agent's utility is smaller than in `(Y, up)`, and every good needed in `(Y, up)` is the only good of an agent
 outside `up'`. Then `(Y', up')` is valid. (The paper assumes `(Y, up)` valid; the proof does not use it.) -/
 theorem transfer {Y' : A → Option G} {up' : List A}
@@ -476,7 +475,8 @@ theorem exchange_scores {onC : A → Bool} {σ π : A → A} (hC : Cycle P agent
     · simp [util, h, mt hiff.mp h, hpr]
 
 /-- **Lemma ring** (with chains): the exchange along a `Cycle` is a valid state that Pareto-dominates the state. The
-scores (every agent of the cycle strictly gains, every other agent keeps its utility) are `exchange_scores`. -/
+scores (every agent of the cycle gets a strictly higher utility, i.e. score, and loses no value; every other agent keeps
+its utility) are `exchange_scores`. -/
 theorem exchange (hV : Valid P agents goods Y up) (hWF : WF P agents goods) {onC : A → Bool} {σ π : A → A}
     (hC : Cycle P agents goods Y up onC σ π) :
     Valid P agents goods (exchY P agents up Y onC π) (exchUp P agents up Y onC π) ∧

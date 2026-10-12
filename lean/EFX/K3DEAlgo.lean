@@ -3,11 +3,10 @@ import EFX.K3DEImprove
 /-!
 # Draft and Exchange, part 3: the algorithm and its correctness (ledger K3S.PO.LEAN)
 
-Algorithm DE of `paper/k3-simple/long.tex` §6, as a computable function, and Theorem "DE is correct":
+Algorithm DE of `paper/k3-simple/main.tex` §6, as a computable function, and Theorem "DE is correct":
 
 1. **Peeling** (`run`): while at least two agents and some goods remain, the first agent to which rule R1 applies
-   leaves, with its favourite remaining good or with nothing (`EFX.K3.findR1`, as in `EFX.K3.reduce`); one agent left
-   takes everything.
+   leaves, with its favourite remaining good or with nothing (`EFX.K3.findR1`); one agent left takes everything.
 2. **The core** (`deStage`): when R1 applies to nobody, every remaining agent values exactly three goods and is
    strictly balanced (`EFX.not_R1`); its ranking is computed by sorting (`EFX.K3.profileOf`). The draft is
    serial dictatorship in the order of `agents` (`EFX.LB.phase1`, a valid state: `draft_valid`). Then `loop` repeats
@@ -288,7 +287,7 @@ def deSpec (I : Inst) (hn : 0 < I.n) : I.Alloc :=
 def deMoves (I : Inst) (hn : 0 < I.n) : Nat :=
   (run I.v ⟨0, hn⟩ I.n (List.finRange I.n) (List.finRange I.m)).2
 
-/-- **Theorem DE is correct** (`paper/k3-simple/long.tex`, Theorems existence, one large bundle and algorithm). On
+/-- **Theorem DE is correct** (`paper/k3-simple/main.tex`, Theorems existence and shape, and algorithm). On
 every instance in which every agent positively values at most three goods, DE returns an EFX₀ allocation in which all
 bundles but at most one have at most two goods, and it applies at most `4n` exchanges. -/
 theorem deSpec_correct (I : Inst) (hn : 0 < I.n) (h : ∀ i, numRelevant I i ≤ 3) :

@@ -2,11 +2,11 @@ import EFX.K3DEAlgo
 import EFX.K3Real
 
 /-!
-# Draft and Exchange on ordered values, and the peeling bound (`paper/k3-simple/long.tex` §6)
+# Draft and Exchange on ordered values, and the peeling bound (`paper/k3-simple/main.tex` §6)
 
 `EFX/K3DEAlgo.lean` formalizes algorithm DE and Theorem "DE is correct" (`thm:de`) over natural-number values, with
 the bound of `4n` exchanges. This file adds the two parts of §6 that it leaves out: the bound "DE peels at most
-`n` agents" of `thm:de`, and the paragraph "Real values" with the proof of Theorems `thm:target`, `thm:D` and
+`n` agents" of `thm:de`, and the paragraph "Real values" with the proof of Theorems `thm:main` and
 `thm:algo`: the results "hold for nonnegative real values" (the count in the comparison model is
 `EFX.DE.deOrdC_cost`, `EFX/K3DECostReal.lean`).
 Core Lean has no reals: values lie in any `EFX.OrderedValue` type `V` (`ℝ≥0` satisfies its axioms by the textbook
@@ -25,7 +25,7 @@ nothing (`s = none`) or with its favourite remaining good (`s = some p`). `run` 
 - `de_correct` (**Theorem `thm:de`** over the natural numbers, in full): EFX₀, all bundles but at most one of at
   most two goods, at most `n` peeled agents and at most `4n` exchanges (`EFX.DE.deSpec_correct` plus `dePeels_le`).
 
-**DE on ordered values** (`deOrd le I hn`), as K3ALG in `EFX.K3.algoOrd`: compute the natural-number surrogate
+**DE on ordered values** (`deOrd le I hn`): compute the natural-number surrogate
 `w = EFX.K3.surrogate le I` of Lemma L12 with the comparison oracle `le : V → V → Bool`, and run DE
 (`EFX.DE.deSpec`) on the instance `⟨n, m, w⟩`. `deOrdMoves` and `deOrdPeels` are its exchanges and peeling rounds.
 - `deOrd_eq_surrogateC`: the surrogate is the value of the counted program `EFX.K3.surrogateC`, which asks the
@@ -37,17 +37,17 @@ nothing (`s = none`) or with its favourite remaining good (`s = some p`). `run` 
   applies at most `4n` exchanges on the surrogate. Proof: `w` agrees with `v` on every comparison of two subset sums
   (`EFX.K3.agree_surrogate`), so it has the same relevant goods (`EFX.numRelevant_eq_of_agree`) and the same EFX₀
   allocations (`EFX.efx0_iff_of_agree`), and `de_correct` applies to `w`.
-- `thmD_ordered` (**Theorems `thm:target` and `thm:D` on ordered values, in general**): every instance with
+- `thmD_ordered` (**Theorem `thm:main` on ordered values, in general**): every instance with
   `n ≥ 1` agents, nonnegative values in `V` and at most three relevant goods per agent has an EFX₀ allocation in
   which all bundles but at most one have at most two goods. It needs neither exactly three relevant goods nor
-  balance, unlike `EFX.corollaryD_ordered`, and it implies `EFX.target_ordered`. Proof: L12 (`EFX.l12`) and
+  balance (unlike Corollary D of the research repository's earlier construction). Proof: L12 (`EFX.l12`) and
   `EFX.DE.deSpec_correct`.
 - `Examples.peeledZ_surrogate`, `Examples.peeledZ_deOrd`: an instance with values in `Int` (one peel, then two pair
   chains): its surrogate and DE's output, checked by `decide`.
 
 **Choices where the prose leaves room.**
 1. *The comparison model.* The paper counts each decision of DE on real values as one comparison of two sums of at
-   most two values of one agent. Here, as for K3ALG, the oracle is asked only while the surrogate is computed
+   most two values of one agent. Here the oracle is asked only while the surrogate is computed
    (`m + 12` calls per agent, comparisons of sums of at most two values of one agent, with repetition for the
    phantom slots: see `EFX/K3Real.lean`), and DE's decisions are then made on the natural numbers `w`. Every
    decision of DE on `w` (the favourite and R1's test `w_i(p) ≥ w_i(G ∖ {p})`, the zero test, the rankings) is a
@@ -162,10 +162,10 @@ theorem dePeels_le_pred (I : Inst) : dePeels I ≤ I.n - 1 := by
   have := peels_le I.v I.n (List.finRange I.n) (List.finRange I.m)
   rwa [List.length_finRange] at this
 
-/-- **DE peels at most `n` agents** (`paper/k3-simple/long.tex`, Theorem `thm:de`). -/
+/-- **DE peels at most `n` agents** (`paper/k3-simple/main.tex`, Theorem `thm:de`). -/
 theorem dePeels_le (I : Inst) : dePeels I ≤ I.n := Nat.le_trans (dePeels_le_pred I) (Nat.sub_le _ _)
 
-/-- **Theorem DE is correct, in full** (`paper/k3-simple/long.tex` §6, Theorem `thm:de`). On every instance in
+/-- **Theorem DE is correct, in full** (`paper/k3-simple/main.tex` §6, Theorem `thm:de`). On every instance in
 which every agent positively values at most three goods, DE returns an EFX₀ allocation in which all bundles but at
 most one have at most two goods; it peels at most `n` agents and applies at most `4n` exchanges. -/
 theorem de_correct (I : Inst) (hn : 0 < I.n) (h : ∀ i, numRelevant I i ≤ 3) :
@@ -181,8 +181,7 @@ section ordered
 variable {V : Type} [OrderedValue V]
 
 /-- **Algorithm DE on ordered values** (comparison model): DE (`EFX.DE.deSpec`) on the natural-number surrogate
-instance `⟨n, m, w⟩`, where `w = EFX.K3.surrogate le I` is computed with the comparison oracle `le` (as K3ALG in
-`EFX.K3.algoOrd`). -/
+instance `⟨n, m, w⟩`, where `w = EFX.K3.surrogate le I` is computed with the comparison oracle `le`. -/
 def deOrd (le : V → V → Bool) (I : OInst V) (hn : 0 < I.n) : I.Alloc :=
   deSpec ⟨I.n, I.m, K3.surrogate le I⟩ hn
 
@@ -200,8 +199,8 @@ theorem deOrd_eq_surrogateC (c : Nat) (le : V → V → Bool) (I : OInst V) (hn 
     deOrd le I hn = deSpec ⟨I.n, I.m, (K3.surrogateC c le I).val⟩ hn := by
   rw [K3.surrogateC_val]; rfl
 
-/-- **Theorem DE is correct, on ordered values** (`paper/k3-simple/long.tex` §6, the proof of Theorems
-`thm:target`, `thm:D` and `thm:algo` for nonnegative real values). For a correct comparison oracle, every instance
+/-- **Theorem DE is correct, on ordered values** (`paper/k3-simple/main.tex` §6, the proof of Theorems
+`thm:main` and `thm:algo` for nonnegative real values). For a correct comparison oracle, every instance
 with `n ≥ 1` agents, nonnegative values in an `EFX.OrderedValue` type (e.g. `ℝ≥0`) and at most three relevant goods
 per agent: `deOrd le I hn` is EFX₀ for the original values, all its bundles but at most one have at most two goods,
 and DE peels at most `n` agents and applies at most `4n` exchanges. -/
@@ -215,11 +214,10 @@ theorem deOrd_correct {le : V → V → Bool} (hle : ∀ x y, le x y = true ↔ 
     (fun i => (numRelevant_eq_of_agree I _ hw i) ▸ h i)
   exact ⟨(efx0_iff_of_agree I _ hw _).mpr hE, hS, hP, hM⟩
 
-/-- **Theorems existence and one large bundle on ordered values, in general** (`paper/k3-simple/long.tex`,
-Theorems `thm:target` and `thm:D`, for nonnegative real values). Every instance with `n ≥ 1` agents, nonnegative
+/-- **Theorem existence and shape on ordered values, in general** (`paper/k3-simple/main.tex`,
+Theorem `thm:main`, for nonnegative real values). Every instance with `n ≥ 1` agents, nonnegative
 values in an `EFX.OrderedValue` type (e.g. `ℝ≥0`) and at most three relevant goods per agent has an EFX₀
-allocation in which all bundles but at most one have at most two goods. (`EFX.corollaryD_ordered` needs exactly
-three relevant goods per agent and balance.) -/
+allocation in which all bundles but at most one have at most two goods. -/
 theorem thmD_ordered (I : OInst V) (hn : 0 < I.n) (hv : ∀ i g, 0 ≤ I.v i g) (h : ∀ i, I.numRelevant i ≤ 3) :
     ∃ X : I.Alloc, I.EFX0 X ∧ ∃ o, ∀ j, j ≠ o → finSum I.m (fun g => if X g = j then 1 else 0) ≤ 2 := by
   obtain ⟨w, -, hw⟩ := l12 I hv h
