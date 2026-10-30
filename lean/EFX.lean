@@ -69,3 +69,5 @@ import EFX.K3DECostStep
 import EFX.K3DECostRun
 import EFX.K3DECostBound
 import EFX.K3DECostReal
+import EFX.MinimalThreats
+import EFX.SparseShapeLimits

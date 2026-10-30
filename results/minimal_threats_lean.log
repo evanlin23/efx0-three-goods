@@ -1,0 +1,6 @@
+Command: bash lean/check.sh
+Full build, declaration axiom audit, and fresh-kernel replay completed with exit status 0.
+Build completed successfully (76 jobs).
+lake build exit=0 errors=0 warnings=0 sorry-mentions=0 axiom-lines=893 expected=893 nonstandard-axiom-lines=0 theorems=1965
+7864 declarations in the EFX library use only propext, Classical.choice, Quot.sound
+CHECK PASSED: 893 audited statements, 1965 theorems, standard axioms only
