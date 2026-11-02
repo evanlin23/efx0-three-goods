@@ -11,3 +11,4 @@ src/lb_*
 !src/lb_*.h
 !src/lb_*.py
 src/lbplus
+k4/de4/de4
