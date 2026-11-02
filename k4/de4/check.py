@@ -289,9 +289,10 @@ def prop6_applies(I, Y):
 
 def run_algorithm(I, max_steps=500):
     """Algorithm DE4 (k4/de4.md §2): draft; then repeat: finish by DE's single-owner rule if possible; else the chain
-    of Lemma 4/4' (first agent in index order); else DE's ring with the global choice of leftover goods. The two
-    fallbacks (the ring assigned along the walk from some start; blockers keeping part of their holding) are only
-    counted. Returns (outcome, Counter of moves)."""
+    of Lemma 4/4' (first agent in index order); else DE's ring: distinct leftover goods chosen greedily for the free
+    agents holding at most one good, frozen agents pointing to their first wanter, a free agent holding more goods
+    getting a pointer only when the walk reaches it. The fallbacks (the greedy over all free agents; the ring
+    assigned along the walk from some start; blockers keeping part of their holding) are only counted. Returns (outcome, Counter of moves)."""
     Y = draft(I)
     used = Counter()
     for _ in range(max_steps):
@@ -300,7 +301,9 @@ def run_algorithm(I, max_steps=500):
         if chain_move(I, Y) is None:
             used['ring steps'] += 1
             used['ring steps where Proposition 6 applies'] += prop6_applies(I, Y)
-        for name, f in (('chain', lambda: chain_move(I, Y)), ('DE ring', lambda: pointer_ring(I, Y, lazy=False)),
+        for name, f in (('chain', lambda: chain_move(I, Y)),
+                        ('DE ring', lambda: pointer_ring(I, Y, lazy=False, f1_only=True)),
+                        ('fallback: greedy over all free agents', lambda: pointer_ring(I, Y, lazy=False)),
                         ('fallback: lazy ring', lambda: pointer_ring(I, Y)),
                         ('fallback: ring keeping own goods', lambda: pointer_ring(I, Y, keep_own=True))):
             Z = f()
@@ -325,6 +328,8 @@ def _algo_job(args):
         c.update('move ' + k for k in used.elements())
         if out != 'finished':
             bad.append((sets, vals, out))
+        elif any(k.startswith('fallback') for k in used):
+            bad.append((sets, vals, 'finished with a fallback move ' + str(dict(used))))
     return c, bad
 
 
@@ -340,7 +345,7 @@ def mode_algo(files=None, per=0):
             c.update('move ' + k for k in used.elements())
             if out != 'finished':
                 print(out, d['id'], dict(used))
-            elif used.get('fallback: lazy ring') or used.get('fallback: ring keeping own goods'):
+            elif any(k.startswith('fallback') for k in used):
                 print('finished with a fallback move:', d['id'], dict(used))
         print('algorithm DE4 on the suite (n <= 8, m <= 16):', dict(sorted(c.items())))
         return
@@ -352,7 +357,7 @@ def mode_algo(files=None, per=0):
         for cc, bad in p.imap_unordered(_algo_job, jobs, chunksize=2):
             c.update(cc)
             for b in bad:
-                print('NOT FINISHED', b, flush=True)
+                print('NOT FINISHED' if not b[2].startswith('finished') else 'FALLBACK', b, flush=True)
     print(f'algorithm DE4 on {files}: {len(cores)} cores, {per} random profiles each:', dict(sorted(c.items())))
 
 

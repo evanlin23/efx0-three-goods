@@ -1,6 +1,7 @@
 #!/bin/bash
 # Regenerates every log of k4/de4.md §4 into results/k4_de4/ (about 1.5 h on 4 CPUs, without exhaustive_3).
-# The exhaustive n = 3 run is separate: python3 k4/de4/run_exhaustive.py k4_certs_3.json.gz > results/k4_de4/exhaustive_3.log
+# The C exhaustive runs are separate (exhaustive_3.log about 1 h; exhaustive_4_n4_1.log a few minutes):
+#   python3 k4/de4/run_exhaustive.py k4_certs_3.json.gz; python3 k4/de4/run_exhaustive.py k4_certs_4_n4_1.json.gz
 set -u
 cd "$(dirname "$0")/../.."
 L=results/k4_de4
@@ -17,5 +18,6 @@ run certs_5_n4_34.log     python3 k4/de4/check.py certs k4_certs_5_n4_3.json.gz,
 run r1ties.log            python3 k4/de4/check.py r1ties 100
 run moves.log             python3 k4/de4/check.py moves
 run algo_suite.log        python3 k4/de4/check.py algo
-run algo_random.log       python3 k4/de4/check.py algo k4_certs_3.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 10
+run algo_random.log       python3 k4/de4/check.py algo k4_certs_3.json.gz,k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 20
+run verify_lemmas.log     python3 k4/de4/verify_lemmas.py 3
 echo ALLDONE

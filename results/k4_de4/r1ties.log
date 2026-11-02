@@ -1,0 +1,2 @@
+$ python3 k4/de4/check.py r1ties 100
+random R1-cores with ties (n = 2..4): 20000 instances; maxima not completable on 0; DE single-owner rule fails on 0

@@ -1,0 +1,2 @@
+$ python3 k4/de4/check.py certs k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 40
+certs k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz: 1002 cores, 40080 profiles (40 per core, seed 1); maxima not completable on 0; DE single-owner rule fails on 0

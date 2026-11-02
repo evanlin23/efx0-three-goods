@@ -350,7 +350,7 @@ def chain_move(I, Y):
     return None
 
 
-def pointer_ring(I, Y, keep_own=False, lazy=True):
+def pointer_ring(I, Y, keep_own=False, lazy=True, f1_only=False):
     """DE's pointers: a frozen agent points to the first agent wanting its good; a free agent to a blocker whose upgrade
     uses its holding and leftover goods not used before (and the blocker's own holding if keep_own and the blocker is
     free). lazy: assign along the walk, from every start; else DE's global greedy over the free agents in index order.
@@ -397,6 +397,45 @@ def pointer_ring(I, Y, keep_own=False, lazy=True):
         Z = apply_takes(I, Y, {sigma[w]: take[w] for w in cyc})
         return Z if Z is not None and valid(I, Z) else None
 
+    if not lazy and f1_only:
+        # DE's pointers proper: distinct leftover goods for the free agents holding at most one good (index order);
+        # a free agent holding two or more goods gets its pointer only if the walk reaches it (leftover goods not used)
+        sigma, take, used = {}, {}, set()
+        for o in F:
+            if len(Y[o]) > 1:
+                continue
+            if not Y[o]:
+                return None
+            b = arc(o, used)
+            if b is None:
+                return None
+            _, x, N = b
+            sigma[o], take[o] = x, N
+            used |= set(N) & set(J)
+        for j in range(I.n):
+            if j not in sigma and len(Y[j]) == 1 and Y[j][0] in W:
+                g = Y[j][0]
+                sigma[j] = next(w for w in range(I.n) if g in wanted(I, w, Y[w]))
+                take[j] = (g,)
+        start = next((j for j in range(I.n) if len(Y[j]) == 1), None)
+        if start is None:       # nobody holds a single good: start at the first free agent
+            start = next((j for j in F if Y[j]), None)
+            if start is None:
+                return None
+        path, pos, j = [], {}, start
+        while j not in pos:
+            pos[j] = len(path)
+            path.append(j)
+            if j not in sigma:
+                b = arc(j, used)
+                if b is None:
+                    return None
+                _, x, N = b
+                sigma[j], take[j] = x, N
+                used |= set(N) & set(J)
+            j = sigma[j]
+        Z = apply_takes(I, Y, {sigma[w]: take[w] for w in path[pos[j]:]})
+        return Z if Z is not None and valid(I, Z) else None
     if not lazy:
         sigma, take, used = {}, {}, set()
         for o in F:

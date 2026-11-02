@@ -1,0 +1,7 @@
+$ python3 k4/de4/run_exhaustive.py k4_certs_2.json.gz
+core 0 [[0, 1, 2, 3], [1, 2, 3]] profiles 1728 states 12852 maxima 2676 every_fail 0 some_fail 0
+core 1 [[0, 1, 2, 3], [0, 1, 2, 3]] profiles 82944 states 782208 maxima 160032 every_fail 0 some_fail 0
+core 2 [[0, 1, 3, 4], [2, 3, 4]] profiles 1728 states 20136 maxima 2696 every_fail 0 some_fail 0
+core 3 [[0, 2, 3, 4], [1, 2, 3, 4]] profiles 82944 states 1157184 maxima 143256 every_fail 0 some_fail 0
+core 4 [[0, 1, 4, 5], [2, 3, 4, 5]] profiles 82944 states 1601568 maxima 123648 every_fail 0 some_fail 0
+TOTAL k4_certs_2.json.gz 5 cores; profiles 252288 states 3573948 maxima 432308 every_fail 0 some_fail 0

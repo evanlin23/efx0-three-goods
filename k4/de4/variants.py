@@ -108,4 +108,21 @@ def finish_small_owner(I, Y):
 report('V6 owner must hold at most one good', all(finish_small_owner(I, Y) is None for Y in mx),
        f'induct-g-r1 (n = 2): every maximum {mx} has both agents holding a pair and one leftover good')
 
+# 7. DE's ring with distinct leftover goods chosen greedily for *all* free agents (pair holders included): along the
+#    algorithm's run, a free agent holding two goods takes the only usable leftover good, and no ring is built;
+#    with DE's rule proper (greedy over the free agents holding at most one good) the ring exists.
+from check import draft, better
+for sets, vals in [([[0, 2, 4, 5], [1, 5, 6, 7], [3, 5, 6, 7], [4, 6, 7]], [[2, 3, 8, 4], [7, 8, 4, 2], [7, 2, 4, 8], [3, 2, 4]]),
+                   ([[0, 3, 5, 6], [1, 4, 5, 6], [2, 3, 4, 5], [2, 3, 4, 6]], [[7, 4, 2, 8], [4, 8, 5, 6], [4, 3, 8, 6], [1, 4, 8, 6]])]:
+    I = Inst(sets, vals)
+    Y = draft(I)
+    ok = de_finish(I, Y) is None
+    Y = chain_move(I, Y)
+    ok &= Y is not None and de_finish(I, Y) is None and chain_move(I, Y) is None
+    Zall = pointer_ring(I, Y, lazy=False)
+    Z1 = pointer_ring(I, Y, lazy=False, f1_only=True)
+    ok &= (Zall is None or not better(I, Y, Zall)) and Z1 is not None and better(I, Y, Z1)
+    report('V7 DE ring with the greedy over all free agents (n = 4)', ok,
+           f'state after draft and chain {Y}; greedy over all free agents: {Zall}; greedy over F1: {Z1}')
+
 sys.exit(0 if ok_all else 1)

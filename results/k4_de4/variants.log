@@ -1,0 +1,10 @@
+$ python3 k4/de4/variants.py
+confirmed     V1 DE holdings: two identical 4-good agents (values 2,4,5,8) have no EFX0 allocation of that shape: 2 EFX0 allocations, all of the form top+lowest | middle pair: [[[0, 3], [1, 2]], [[1, 2], [0, 3]]]
+confirmed     V2 upper sets only (no lower pair {c,d}): a maximum is not completable: red-a1-hopeless-key, maxima [[(4,), (5,), (3,)], [(0,), (5,), (4,)], [(4,), (3,), (5,)], [(5,), (3,), (4,)], [(0,), (4,), (5,)], [(5,), (4,), (3,)]], not completable [[(0,), (5,), (4,)], [(5,), (3,), (4,)], [(0,), (4,), (5,)], [(5,), (4,), (3,)]]
+confirmed     V3 every minimal set beating some single value: the LS dead end is a valid, Pareto-maximal, non-completable state: Y = [(2,), (6,), (1, 4), (3, 5)], values [10, 8, 7, 9]; Y is not a DE4 state ({1,4} is b+d < a for agent 2)
+confirmed     V4 DE4 states, value-Pareto maxima: a maximum is not completable: gm4-B, [[(0, 2), (1, 4), (6,), (5,)]], levels [[3, 3, 4, 4]]
+confirmed     V5 DE single-owner finishing at DE4 maxima: hall-cyc6: [(2, 3), (4, 5), (6, 7), (8, 9), (10, 11), (0, 1)] is a maximum; completion [[2, 3], [4, 5, 12, 14], [6, 7, 13], [8, 9], [10, 11], [0, 1]]
+confirmed     V6 owner must hold at most one good: induct-g-r1 (n = 2): every maximum [[(0, 2), (1, 3)]] has both agents holding a pair and one leftover good
+confirmed     V7 DE ring with the greedy over all free agents (n = 4): state after draft and chain [(4,), (1, 5), (7,), (6,)]; greedy over all free agents: None; greedy over F1: [(4,), (1, 5), (6, 3), (7,)]
+confirmed     V7 DE ring with the greedy over all free agents (n = 4): state after draft and chain [(6,), (4,), (2, 5), (3,)]; greedy over all free agents: None; greedy over F1: [(3, 0), (4,), (2, 5), (6,)]
+exit status 0
