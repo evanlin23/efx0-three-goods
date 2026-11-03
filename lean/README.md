@@ -27,7 +27,7 @@ showed that a declaration added under `set_option debug.skipKernelTC true` is ne
 without warnings and has no axioms for `#print axioms` or `CheckAxioms.lean` to report; the tripwire refuses the
 option and the replay checker rejects such a declaration. On success the last line is
 
-    CHECK PASSED: 989 audited statements, 2064 theorems, standard axioms only
+    CHECK PASSED: 993 audited statements, 2069 theorems, standard axioms only
 
 CI runs it on every pull request (job `lean` in `.github/workflows/verify.yml`). In Claude Code on the web the
 session-start hook installs the toolchain (from GitHub when `release.lean-lang.org` is unreachable).
@@ -160,6 +160,9 @@ specializations) have exactly the types of `EFX.target`, `EFX.LB.corollaryD` (ch
 - `EFX/DE4Refute.lean`: **Conjecture DE4 is false** (`EFX.DE4.Refute.not_conjDE4`, ledger K4.DE4): a strict R1-core
   with four agents and seven goods and a maximum with no EFX₀ completion (`attempts/k4-de4.md`); hence also
   `not_conjDE4Imp`, `not_conjDE4H`, `not_conjDE4H₂`. Kernel computations (`decide +kernel`), about two minutes.
+- `EFX/DE4V3.lean`: the frame of the state space DE4ᵛ³ (`k4/de4.md` §8, ledger K4.DE4V3): (V3) "a holder of its
+  lower pair has its b held" (`EFX.DE4.V3`), maxima of the (V3)-valid states (`EFX.DE4.exists_maximumV3`), and
+  Conjecture DE4ᵛ³ (`EFX.DE4.ConjDE4V3`, a hypothesis) ⟹ TARGET₄ (`EFX.DE4.target4_of_conjDE4V3`).
 - `EFX/PreAllocK.lean`: LB₄'s pre-allocations (`k4/lb4.md` §1–§2, ledger K4.LB4.S), for any number of
   relevant goods (values in ℕ, as the model): bases and needs of any size (`EFX.LB4.Needs`, `Valid`, `Completion`, `OC`, `ownerNeeds`,
   `SoundCompletion`); Theorem 1′₄ (`EFX.LB4.Valid.sound`, `EFX.LB4.Valid.sound_ownerNeeds`); the counting
@@ -545,6 +548,7 @@ name in the ledger's Lean column has one.
 | K4.DE4.LEAN | The ring step of `k4/de4.md` §7 where the free agents hold one good: Lemma 7(a) (a threatening bundle contains a danger set), Lemma 7(b) (a minimal set worth more than a holding is allowed), Theorem 9's trade along a cycle with labels, Lemma 8 (under (H), tight arcs with pairwise disjoint labels into all free agents holding one good) | DE4Ring : `EFX.DE4.danger_of_threat`, `EFX.DE4.rotateL_valid_better`, `EFX.DE4.lemma8`; DE4Upgrade : `EFX.DE4.allowed_of_minimal` |
 | K4.DE4.LEAN | Corollary 10 when every free agent holds one good (under (H), the walk closes a cycle whose trade is valid and better); Conjecture 11″ for states where some free agent holds two or more goods ⟹ Conjecture 11″ ⟹ TARGET₄. The conjecture is a hypothesis | DE4Cor10 : `EFX.DE4.exists_cycle_rel`, `EFX.DE4.cor10`, `EFX.DE4.conjDE4H_of_H₂`, `EFX.DE4.target4_of_conjDE4H₂` |
 | K4.DE4 | Conjecture DE4 is false: on a strict R1-core with four agents and seven goods, a maximum (valid, no valid state better) has no EFX₀ completion; so are its improvement form and Conjecture 11″ (both forms used as hypotheses above) | DE4Refute : `EFX.DE4.Refute.not_conjDE4`, `EFX.DE4.Refute.not_conjDE4H₂` |
+| K4.DE4V3 | The draft satisfies (V3); every instance has a maximum of the (V3)-valid states; Conjecture DE4ᵛ³ (every such maximum of a strict R1-core with at most four relevant goods per agent is completable) implies TARGET₄. The conjecture is a hypothesis | DE4V3 : `EFX.DE4.draft_v3`, `EFX.DE4.exists_maximumV3`, `EFX.DE4.target4_of_conjDE4V3` |
 | K4.LB4.S | Theorem 1′₄ (any k; values in ℕ): every completion (owner `o` a listed free agent or none; base goods with their base's agent; no junk for frozen agents; `\|C_j\| + \|B_j\| ≤ 2` for free `j ≠ o`) of a valid pre-allocation (bases of any size, needs `N_i` with `{g ∉ B_i : v_i(g) > v_i(B_i)} ⊆ N_i ⊆ R_i ∖ B_i`; (V1), (V2)) that satisfies (OC₄) is EFX₀, with the owner's needs from its base or `N_o^X` from its bundle; every bundle but the owner's has at most two goods, and a frozen agent other than the owner holds only its base | PreAllocK : `EFX.LB4.Valid.sound`, `EFX.LB4.Valid.sound_ownerNeeds`, `EFX.LB4.efx0_of_needs`, `EFX.LB4.Completion.length_le_two`, `EFX.LB4.Completion.frozen_base` (over lists), `EFX.LB4.sound_model` (model); `EFX.LB4.Needs.pick` (pick needs are needs) |
 | K4.LB4.S | Counting: `\|F\| = \|NA\|` and `ω = \|J\| − S = \|NA\| − σ` (cap `2 − \|B_i\|` with its sign, 0 if frozen); if `ω ≤ 0` (all bases ≤ 2 goods) a completion without owner exists; with the other slots filled the owner holds `ω + 2` goods | PreAllocK : `EFX.LB4.numFrozen_eq`, `EFX.LB4.omega_eq`, `EFX.LB4.complete_none_exists`, `EFX.LB4.Completion.owner_length` |
 | K4.LB4.S | Lemma 2₄: with an owner whose base has at most one good, an agent with at most four relevant goods, a pick base and pick needs, whose slot takes its best junk good not yet placed, does not envy (so is not threatened by) the owner's bundle; also for agents filling their slots one at a time; with five relevant goods the value argument fails, and an instance of every other hypothesis has the agent threatened | PreAllocK : `EFX.LB4.selfProtect`, `EFX.LB4.selfProtect_seq`, `EFX.LB4.selfProtect_core`, `EFX.LB4.selfProtect_five`, `EFX.LB4.Ex5.counterexample` |

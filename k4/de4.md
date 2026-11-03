@@ -666,7 +666,8 @@ lower pair values no leftover good at all (it holds c and d, its a is held alone
 
 **Conjecture DE4ᵛ³** (row K4.DE4V3). For every strict profile of every R1-core with k ≤ 4, every maximum of the
 level sum, then value-Pareto, over the states valid for (V1), (V2) and (V3), is completable. The draft is (V3)-valid
-(single goods only), so maxima exist, and as in Lemma 3 the conjecture implies TARGET₄. The variant that also allows
+(single goods only), so maxima exist, and as in Lemma 3 the conjecture implies TARGET₄. Machine-checked, with the
+conjecture as a hypothesis: `EFX.DE4.target4_of_conjDE4V3` (`lean/EFX/DE4V3.lean`). The variant that also allows
 {c, d} with v(c) + v(d) < v(b) at level 2.5 survives the same tests.
 
 **Evidence** (EVIDENCE; `k4/de4/de4v.c`, run by `k4/de4/run_variants.py`, which checks DE4, DE4ᵛ³ and the variant

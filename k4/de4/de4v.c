@@ -113,7 +113,7 @@ static int completable(int s) {
 int main(int argc, char **argv) {
     int chunk = argc > 1 ? atoi(argv[1]) : 0, nch = argc > 2 ? atoi(argv[2]) : 1;
     long long prof = 0, every_fail = 0, some_fail = 0, nstates = 0, nmax = 0; int printed[NV] = {0};
-    long long nmaxc[NV] = {0}, every_failc[NV] = {0}, some_failc[NV] = {0};
+    long long nmaxc[NV] = {0}, every_failc[NV] = {0}, some_failc[NV] = {0}, overflow = 0;
     if (scanf("%d %d", &n, &m) != 2) return 1;
     for (int i = 0; i < n; i++) { scanf("%d", &k[i]); R[i] = 0; for (int t = 0; t < k[i]; t++) { scanf("%d", &gs[i][t]); R[i] |= 1 << gs[i][t]; } }
     for (int i = 0; i < n; i++) { scanf("%d", &nopt[i]); for (int o = 0; o < nopt[i]; o++) for (int t = 0; t < k[i]; t++) scanf("%d", &opt[i][o][t]); }
@@ -125,6 +125,7 @@ int main(int argc, char **argv) {
         prof++;
         build_holdings();
         nst = 0; rec(0, 0); nstates += nst;
+        if (nst >= MAXST) { printf("OVERFLOW profile %lld: more than %d valid states\n", idx, MAXST); overflow++; }
         /* variant 0: DE4; 1: DE4 + v3 (a lower-pair holder's b is held); 2: v3 + CD holdings (c+d < b) at level 2.5 */
         static int ok_s[NV][MAXST], comp[MAXST];
         for (int s = 0; s < nst; s++) {
@@ -166,6 +167,7 @@ int main(int argc, char **argv) {
         }
     }
     for (int c = 0; c < NV; c++) printf("var%d_maxima %lld var%d_every_fail %lld var%d_some_fail %lld ", c, nmaxc[c], c, every_failc[c], c, some_failc[c]);
+    printf("overflow %lld ", overflow);
     printf("\n");
     printf("profiles %lld states %lld maxima %lld every_fail %lld some_fail %lld\n", prof, nstates, nmax, every_fail, some_fail);
     return 0;
