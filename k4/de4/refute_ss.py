@@ -122,6 +122,8 @@ INST = {
     'GM4-A (n = 4, m = 7)': ([[0, 2, 5, 6], [1, 4, 5, 6], [2, 3, 5, 6], [3, 4, 5, 6]], 7,
                              [[3, 6, 2, 10], [1, 6, 8, 4], [2, 7, 8, 4], [6, 3, 4, 8]]),
     'induct-pot-nash (n = 3, m = 6)': suite('induct-pot-nash'),
+    'R4 (n = 4, m = 9)': ([[6, 0, 1, 8], [2, 0, 1, 3], [2, 4, 5, 8], [6, 4, 5, 7]], 9,
+                          [[20, 13, 12, 9], [20, 13, 12, 2], [20, 13, 12, 9], [20, 13, 12, 2]]),
 }
 CASES = [   # (variant, levels, rules, instance, failing maximum, is it the only kind: every maximum fails?)
     ('DE4 + v3f', {'LP': 3}, ['v3f'], 'D3 (n = 3, m = 6)', [{1}, {2}, {3, 5}]),
@@ -133,6 +135,9 @@ CASES = [   # (variant, levels, rules, instance, failing maximum, is it the only
     ('lower pair + v3, {b, c}, {b, d} at level 3.5', {'LP': 3, 'BC': 3.5, 'BD': 3.5}, ['v3'], 'GM4-A (n = 4, m = 7)', [{0, 2}, {1, 4}, {5}, {6}]),
     ('lower pair at level 3.5', {'LP': 3.5}, [], 'A131 (n = 4, m = 7)', [{0, 4}, {1, 3}, {2}, {5}]),
     ('lower pair, {c, d} below b at level 2.5', {'LP': 3, 'CD': 2.5}, [], 'A131 (n = 4, m = 7)', [{0, 4}, {1, 3}, {2}, {5}]),
+    ('DE4 + v3 (Conjecture DE4^v3)', {'LP': 3}, ['v3'], 'R4 (n = 4, m = 9)', [{0, 1}, {2, 3}, {4, 5}, {6, 7}]),
+    ('DE4 + v3 + CD at level 2.5', {'LP': 3, 'CD': 2.5}, ['v3'], 'R4 (n = 4, m = 9)', [{0, 1}, {2, 3}, {4, 5}, {6, 7}]),
+    ('DE4', {'LP': 3}, [], 'R4 (n = 4, m = 9)', [{0, 1}, {2, 3}, {4, 5}, {6, 7}]),
 ]
 for var, lev, rules, iname, Y in CASES:
     R, M, vals = INST[iname]

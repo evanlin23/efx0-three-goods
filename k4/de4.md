@@ -15,7 +15,9 @@ and the counterexample that ends the approach in this form.
   completion. That maximum satisfies (H) and no valid state is better, so the improvement form and Conjecture 11″
   (§7.7) fail too, and so do the hypotheses of the Lean frame. Its mechanism is that of GM₄'s counterexample: two
   frozen blockers need the one leftover good, which is the b of both hungry agents. Every profile of that class has
-  *some* completable maximum. Scale-invariant tie-breaks after the level sum do not repair it: they remove these 8
+  *some* completable maximum. A different state space, DE4ᵛ³ (the lower pair only while b is held, §8), removes every
+  known failure but is refuted as well (§9, instance R4: every agent holds an upper set). Scale-invariant tie-breaks
+  after the level sum do not repair DE4 either: they remove these 8
   failures but create 1,620 elsewhere in the same class, or keep them (`attempts/k4-de4.md`, ledger K4.DE4.TB). The
   rest of this status list describes the work before the refutation; the proved lemmas (§3, §7) are about valid
   states and stand.
@@ -664,7 +666,7 @@ A lower pair is then a consolation for an agent whose b is taken. In the counter
 failing maximum is not (V3)-valid: the leftover good is the b of both lower-pair holders. With (V3), a holder of its
 lower pair values no leftover good at all (it holds c and d, its a is held alone by (V1), its b is held by (V3)).
 
-**Conjecture DE4ᵛ³** (row K4.DE4V3). For every strict profile of every R1-core with k ≤ 4, every maximum of the
+**Conjecture DE4ᵛ³ (refuted, §9: instance R4, n = 4, m = 9)** (row K4.DE4V3). For every strict profile of every R1-core with k ≤ 4, every maximum of the
 level sum, then value-Pareto, over the states valid for (V1), (V2) and (V3), is completable. The draft is (V3)-valid
 (single goods only), so maxima exist, and as in Lemma 3 the conjecture implies TARGET₄. Machine-checked, with the
 conjecture as a hypothesis: `EFX.DE4.target4_of_conjDE4V3` (`lean/EFX/DE4V3.lean`). The variant that also allows
@@ -690,6 +692,74 @@ and 127.
 releases some agent's b to the leftover goods breaks (V3) for that agent's lower pair, unless the agent also moves (to
 b, laterally). The hard dead-good states of §7.7 with frozen downgrades (V11) are (V3)-valid, so (V3) does not by
 itself remove the open case of §7.
+
+## 9. The improvement step for DE4ᵛ³: what holds, and why it fails
+
+The improvement form of DE4ᵛ³ asks: every (V3)-valid state without an EFX₀ completion has a better (V3)-valid state.
+Two lemmas reduce it to the states of the largest level sum, and a counterexample there refutes it.
+
+**Lemma R (repair).** Let Z be valid ((V1), (V2)). Repeatedly let an agent u that holds its lower pair {c_u, d_u}, while
+its b_u is leftover, take {b_u} instead (c_u and d_u become leftover). This ends, and the result Z* is (V3)-valid, with
+every agent at the same level as in Z; only the switched agents' values change (they drop).
+
+*Proof.* Each step lowers the number of lower-pair holders, so the process ends. Consider one step. (V1): u now wants
+only goods worth more than v(b_u), i.e. its top a_u, which it wanted before (v(a_u) > v(c_u) + v(d_u)), so a_u is held
+alone. Nobody else's value changed; c_u and d_u were in a two-good holding, so nobody wanted them (Lemma 1(b)), and
+b_u was leftover, so nobody wanted it. (V2): {b_u} threatens nobody. Every two- or three-good holding misses R_u: a_u is
+held alone, b_u is u's, c_u and d_u are leftover. So nobody threatens u. The other values and holdings are unchanged.
+Levels: v(b_u) has level 3, the lower pair's level. ∎
+
+**Lemma V (moves that release nothing keep (V3)).** Let Y be (V3)-valid and Z valid, with every agent's value in Z at
+least its value in Y and every good held in Y held in Z. Then Z is (V3)-valid.
+
+*Proof.* Let w hold its lower pair in Z. If it held it in Y, its b was held in Y, hence in Z. Otherwise
+v_w(Y_w) < v(c_w) + v(d_w). If v_w(Y_w) < v(b_w), then w wanted b_w in Y, so b_w was held (V1). Otherwise Y_w is a
+holding worth at least v(b_w) and less than v(c_w) + v(d_w): the only one is {b_w} (a single good other than b worth
+that much would be a_w, worth more than the pair; a set of two or more goods would be an upper set, worth more than
+a_w, or the lower pair). So b_w was held in Y, and it is held in Z. ∎
+
+Both lemmas are checked by brute force on every valid state, and every such pair of states, of random profiles with
+n = 3, 4 and of the screen instances with n ≤ 4 (`python3 k4/de4/verify_repair.py`, `results/k4_de4/verify_repair.log`).
+
+**Consequences.**
+- *The level sum is free.* By Lemma R, the largest level sum Φ* over (V3)-valid states equals the largest over all
+  valid states, and a (V3)-valid state Y with Φ(Y) < Φ* has a better (V3)-valid state (repair any state of level sum
+  Φ*). So the improvement step needs proving only at Φ*: every non-completable (V3)-valid state with Φ(Y) = Φ* needs a
+  (V3)-valid value-Pareto-better state with Φ = Φ*. There, no valid state has a higher level sum. This excludes every
+  improvement of the hard states of §7.7 (V9, V11), which all raise the level sum.
+- *Rotations keep (V3).* The labelled trades of Theorem 9 and Lemma 14 move whole holdings and release nothing, and
+  every taker gains, so by Lemma V they keep (V3). Hence Corollary 10 (machine-checked, `EFX.DE4.cor10`) holds for
+  DE4ᵛ³ as stated: under (H), if every free agent holds one good, the walk's trade is a better (V3)-valid state.
+- *At Φ*, Lemma 4's walk is trivial.* An agent threatened by the leftover goods alone is free: otherwise its upgrade
+  passes its good to a wanter, whose level rises, so the level sum would rise. So at Φ* the remaining (V3)-specific
+  moves are lateral free upgrades. Of these, b to the lower pair always breaks (V3), because it releases the agent's
+  own b. One upper set to a better one breaks it exactly when it releases another agent's b.
+
+**Data at Φ*.** Non-completable (V3)-valid states with Φ = Φ* are rare: none in 1,200 random profiles with n = 3, 4. In
+2,400 profiles of the stuck hypergraphs and the failing cores, all 37 such states have every agent holding an upper
+set, and each is improved by Lemma 4′ or by the walk. The screen set has nine, all improved, by Lemma 4′, the walk's
+rotations, or keep-own exchanges.
+
+**The all-upper case and the counterexample.** If every agent holds an upper set (level 5), nobody wants anything,
+(V3) is vacuous, and the order is value-Pareto alone. Theorem Z's argument (`k4/c4min.md` §3) carries over almost
+verbatim:
+- without Lemma 4′ moves, a non-robust agent ({a, d} with v(a) + v(d) < v(b) + v(c), or a rich pair {p, q} with
+  v(a) + v(s) > v(p) + v(q)) is threatened by at most one agent's bundle together with J, and robust agents by none;
+- so if no single owner can take J, the threat map is a permutation;
+- along a cycle of it, each agent can take what it needs from its threatener: {b, c}, or {a, s}, or {a, x} keeping one
+  of its own goods that its successor does not need. Everyone gains.
+
+This fails exactly when two agents of the cycle need the same leftover good as their fourth good. The instance R4 of
+`attempts/k4-de4-ss.md` is built that way (n = 4, m = 9, every agent 4-good). Its all-upper state with one leftover
+good is a maximum of DE4ᵛ³ (and of DE4) with no EFX₀ completion. **So Conjecture DE4ᵛ³ and its improvement step are
+false.** Theorem Z avoids the conflict by maximizing the number of robust agents, which here is 0 and is 1 at every
+completable maximum.
+
+**Next candidate.** Give robust upper sets level 6 (or 5.5) and non-robust ones level 5. A robust set is worth at
+least half of v(R_i) and a non-robust one less, so Lemma 1(a) still holds. With (V3) this passes the screen and R4
+(`attempts/k4-de4-ss.md`); without (V3) it still fails on A131. Its exhaustive tests and its improvement step are
+open. In its all-upper case the rotation above raises the level sum whenever it makes one agent robust and keeps
+everyone's level, so the Pareto requirement, which is what R4 breaks, is no longer needed there.
 
 ## 6. Reproduce
 

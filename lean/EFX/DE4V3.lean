@@ -7,7 +7,8 @@ import EFX.DE4
 - `V3` (**(V3)**): every listed agent holding its lower pair has every relevant good worth less than its top (its b,
   on a strict profile) held by some agent.
 - `ValidV3`, `IsMaximumV3`: (V1), (V2) and (V3); a maximum of the order of `k4/de4.md` §1 among those states.
-- `ConjDE4V3` (**Conjecture DE4ᵛ³**, a hypothesis, never an axiom): every such maximum is completable.
+- `ConjDE4V3` (**Conjecture DE4ᵛ³**, a hypothesis, never an axiom): every such maximum is completable. It is false
+  (`attempts/k4-de4-ss.md`, instance R4), so this frame is not a route to TARGET₄.
 
 **Results.**
 - `draft_v3`: the draft satisfies (V3) (it holds single goods only); `exists_maximumV3`: maxima exist.
@@ -39,7 +40,8 @@ def IsMaximumV3 (v : A → G → Nat) (agents : List A) (goods : List G) (base :
   ValidV3 v agents goods base ∧ ∀ base', ValidV3 v agents goods base' → ¬ Better v agents goods base' base
 
 /-- **Conjecture DE4ᵛ³** (`k4/de4.md` §8): on every strict R1-core with at most four relevant goods per agent, every
-maximum of the (V3)-valid states is completable. A hypothesis, never an axiom. -/
+maximum of the (V3)-valid states is completable. A hypothesis, never an axiom. **False**: instance R4 of
+`attempts/k4-de4-ss.md` (four agents, nine goods, every agent holding an upper set) has a non-completable maximum. -/
 def ConjDE4V3 (A G : Type) [DecidableEq A] [DecidableEq G] : Prop :=
   ∀ (v : A → G → Nat) (agents : List A) (goods : List G), agents ≠ [] → agents.Nodup → goods.Nodup →
     R1Core4 v agents goods → Strict v agents goods →
