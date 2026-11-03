@@ -59,6 +59,30 @@ instance has the same shape with lower pairs.
 - Every lemma of `k4/de4.md` §3 and §7 that is proved (Lemmas 2, 4, 4′, 7, 8, 12–15, Theorem 9, Corollary 10) and the
   Lean results of K4.DE4.LEAN: they are statements about valid states, not about maxima.
 
+## Tie-breaks do not repair it
+
+The failing maximum has two lower pairs and the completable ones one, so a tie-break after the level sum looked like
+a repair. Scale-invariant tie-breaks were tested on every strict profile of every n = 4 core with two 4-good agents,
+all at once (`k4/de4/de4m.c`, `k4/de4/run_tiebreaks.py`, `results/k4_de4/tiebreaks_4_n4_2.log`; the order is the
+level sum, then the tie-break key, then value-Pareto):
+
+| tie-break after the level sum | profiles with a non-completable maximum | profiles with no completable maximum |
+|---|---|---|
+| none (DE4) | 8 (core 131) | 0 |
+| fewest frozen agents | 8 (core 131: all three maxima there have two frozen agents) | 0 |
+| fewest lower pairs | 1,620 (cores 127, 161, 179, 260, 265) | 0 |
+| fewest goods held (most leftover goods) | 1,620 (the same cores) | 0 |
+| fewest holdings of two or more goods | 1,620 (the same cores) | 0 |
+| fewest lower pairs, then fewest goods held | 1,620 (the same cores) | 0 |
+
+The last three remove core 131's failure: a lower-pair holder whose b is left over can switch to b (same level,
+fewer lower pairs; the move is always valid, since the holder then wants only its top, which is held alone). But
+they create failures where DE4 had none. Profile C (core 127: R = {0,2,3,5}, {1,4,6}, {2,3,5,6}, {4,5,6}; values
+{0:2, 2:8, 3:5, 5:4}, {1:2, 4:4, 6:3}, {2:4, 3:2, 5:3, 6:8}, {4:4, 5:2, 6:3}): every DE4 maximum is completable, but
+the tie-breaks discard the maximum ({0,2}, {4}, {3,5}, {6}), which dominated ({3,5}, {4}, {2}, {6}). That state then
+becomes a maximum, and it has no EFX₀ completion. So the shape of the failure moves; it does not go away. In every
+profile of the class, and under every criterion, some maximum is completable.
+
 ## Smallest failing configuration
 
 n = 4, m = 7 (core 131). The 8 failing profiles are A, B (A with goods 2 ↔ 4 and 3 ↔ 5 exchanged, and agents 2 ↔ 3
@@ -69,8 +93,9 @@ were only sampled.
 
 ## Replay
 
-`python3 k4/de4/refute_de4.py` (written from `k4/de4.md` §1 only, sharing no code with `de4lib.py` or `de4.c`;
-prints "confirmed" for each claim on profiles A and B and exits 0 iff all are confirmed;
+`python3 k4/de4/refute_de4.py` (written from `k4/de4.md` §1 only, sharing no code with `de4lib.py`, `de4.c` or
+`de4m.c`; prints "confirmed" for each claim on profiles A and B, the tie-break claims on A and C, and exits 0 iff all
+are confirmed;
 `results/k4_de4/refute_de4.log`). `k4/de4/de4lib.py` agrees (all_states, maxima, completion). Machine-checked in
 Lean for profile A: `EFX.DE4.Refute.not_conjDE4` (`lean/EFX/DE4Refute.lean`; the instance satisfies `R1Core4` and
 `Strict`, the state is valid, no valid state is better, and none of the four completions is EFX₀), hence also

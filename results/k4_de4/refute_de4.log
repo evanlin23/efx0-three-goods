@@ -5,10 +5,17 @@ confirmed     profile A: no valid state is better than Y (Y is a maximum: Phi = 
 confirmed     profile A: Y has no EFX0 completion
 confirmed     profile A: Y satisfies (H) (every agent holds a good, the leftover goods threaten nobody, no free self-upgrade), and a free agent holds two goods
 confirmed     profile A: some other maximum is completable (3 maxima)
+confirmed     profile A: with the tie-break "fewest frozen agents", Y is still a maximum
 confirmed     profile B: strict R1-core (3 or 4 relevant goods, strictly balanced, distinct subset sums)
 confirmed     profile B: Y = [{0, 2}, {1, 5}, {3}, {4}] is a valid state (levels [3, 3, 4, 4], leftover [6])
 confirmed     profile B: no valid state is better than Y (Y is a maximum: Phi = 14, the largest; 13 valid states)
 confirmed     profile B: Y has no EFX0 completion
 confirmed     profile B: Y satisfies (H) (every agent holds a good, the leftover goods threaten nobody, no free self-upgrade), and a free agent holds two goods
 confirmed     profile B: some other maximum is completable (3 maxima)
+confirmed     profile C (core 127): strict R1-core
+confirmed     profile C: every maximum of DE4 itself is completable (4 maxima)
+confirmed     profile C: Y = [{3, 5}, {4}, {2}, {6}] is valid and has no EFX0 completion
+confirmed     profile C: with the tie-break "fewest lower pairs", Y is a maximum
+confirmed     profile C: with the tie-break "fewest goods held", Y is a maximum
+confirmed     profile C: with the tie-break "fewest holdings of two or more goods", Y is a maximum
 exit status 0

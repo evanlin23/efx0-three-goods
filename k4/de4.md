@@ -15,8 +15,10 @@ and the counterexample that ends the approach in this form.
   completion. That maximum satisfies (H) and no valid state is better, so the improvement form and Conjecture 11″
   (§7.7) fail too, and so do the hypotheses of the Lean frame. Its mechanism is that of GM₄'s counterexample: two
   frozen blockers need the one leftover good, which is the b of both hungry agents. Every profile of that class has
-  *some* completable maximum. The rest of this status list describes the work before the refutation; the proved
-  lemmas (§3, §7) are about valid states and stand.
+  *some* completable maximum. Scale-invariant tie-breaks after the level sum do not repair it: they remove these 8
+  failures but create 1,620 elsewhere in the same class, or keep them (`attempts/k4-de4.md`, ledger K4.DE4.TB). The
+  rest of this status list describes the work before the refutation; the proved lemmas (§3, §7) are about valid
+  states and stand.
 - *Conjecture DE4* as stated: every maximum of the level sum (then value-Pareto) over the valid DE4 states of a strict
   R1-core profile has an EFX₀ completion. With the peeling lemma and the tie reduction it would imply TARGET₄ (§2,
   Lemma 3).
