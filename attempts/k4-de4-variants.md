@@ -15,6 +15,7 @@ holdings and (V2) no holding threatens anyone.
 | V4 | DE4's states, value-Pareto-maxima (no level sum) | `gm4-B` (n = 4, m = 7) | the Pareto-maximum [{0,2}, {1,4}, {6}, {5}] (levels 3, 3, 4, 4) is not completable and no valid state is value-Pareto-better; a state better in the level order moves agent 0 from its lower pair {c, d} to b (same level, lower value) |
 | V5 | DE4 with DE's single-owner finishing rule | `hall-cyc6` (n = 6, m = 15) | a maximum (every agent holds an upper pair, J = {12, 13, 14}) is not finished by any single owner, but giving the leftover goods to two agents works: {4, 5, 12, 14} and {6, 7, 13} |
 | V6 | owners restricted to agents holding at most one good (as in DE) | `induct-g-r1` (n = 2, m = 5) | the only maximum has both agents holding a pair and one good left over |
+| V8 | Conjecture 11 of `k4/de4.md` §7 in its first form: when DE's walk stops, move P (partial path) or move K (two-agent keep-own exchange) improves | a random profile of an n = 4 core (in `k4/de4/variants.py`), found in a run of 50,000 profiles | the walk stops, neither P nor K improves, and no move of at most two agents does; the improvement is a 3-cycle in which one blocker keeps part of its own holding (the refined walk of §7.6 finds it) |
 | V7 | algorithm DE4 with DE's ring built from distinct leftover goods chosen greedily for *all* free agents, pair holders included | two random profiles of n = 4 cores (in `k4/de4/variants.py`) | after the draft and one chain, a free agent holding an upper pair takes the only leftover good that the needed ring uses; DE's rule proper (greedy over the free agents holding at most one good, others only when the walk reaches them) builds the ring |
 
 V4 and V5 are the instances behind gaps (G1) of `k4/de4.md` §5.
@@ -25,6 +26,7 @@ smallest on the suite, not proved smallest):
 - V2: n = 3, m = 6 (`red-a1-hopeless-key`);
 - V3, V4: n = 4, m = 7 (`ls-dead-end-n4m7`, `gm4-B`);
 - V5: n = 6, m = 15 (`hall-cyc6`);
+- V8: n = 4, m = 8 (the profile in `k4/de4/variants.py`);
 - V7: n = 4, m = 8 and m = 7 (the two profiles in `k4/de4/variants.py`; found in `results/k4_de4/algo_random.log` of
   the first run, 2 of 6,090 runs).
 

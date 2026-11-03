@@ -125,4 +125,17 @@ for sets, vals in [([[0, 2, 4, 5], [1, 5, 6, 7], [3, 5, 6, 7], [4, 6, 7]], [[2, 
     report('V7 DE ring with the greedy over all free agents (n = 4)', ok,
            f'state after draft and chain {Y}; greedy over all free agents: {Zall}; greedy over F1: {Z1}')
 
+# 8. Conjecture 11 of k4/de4.md in its first form (the walk stops => move P or move K): a stopped walk (n = 4, m = 8)
+#    with neither; the refined walk (keep-own arcs, cycle-closing arcs first) gives a strict Pareto improvement.
+from cycle import walk, walk2, partial_paths, keep_own_exchanges, strictly_pareto
+I = Inst([[0, 1, 4, 5], [1, 3, 6, 7], [2, 3, 4, 7], [2, 5, 6, 7]], [[2, 8, 4, 5], [10, 8, 6, 3], [4, 2, 10, 7], [10, 3, 8, 4]])
+Y = [(0, 4), (1,), (2, 7), (5, 6)]
+st, _, _ = walk(I, Y)
+st2, Z2, _ = walk2(I, Y)
+ok = (valid(I, Y) and completion(I, Y) is None and chain_move(I, Y) is None and st == 'F2 stuck'
+      and not any(True for _ in partial_paths(I, Y)) and not any(True for _ in keep_own_exchanges(I, Y))
+      and st2 == 'ok' and strictly_pareto(I, Y, Z2))
+report('V8 Conjecture 11 with moves P and K only', ok,
+       f'Y = {Y} (values {values(I, Y)}): walk stops, no P, no K; refined walk gives {Z2} (values {values(I, Z2) if Z2 else None})')
+
 sys.exit(0 if ok_all else 1)

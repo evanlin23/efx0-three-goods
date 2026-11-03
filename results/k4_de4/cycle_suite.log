@@ -1,6 +1,6 @@
 $ python3 k4/de4/cycle.py suite
-  resolved by move K (keep-own exchange): 1
   resolved by move P (partial path): 1
+  resolved by walk2 (keep-own arcs, cycle-closing first): 1
 move: chain or self-upgrade (Lemma 4, 4'): 230
 move: walk ring (Theorem 9): 94
 non-completable valid states: 326

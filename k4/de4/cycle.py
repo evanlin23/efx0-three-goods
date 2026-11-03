@@ -178,7 +178,10 @@ def classify(I, Y, C, EX, name):
             C['move: walk ring (Theorem 9)'] += 1
         return
     C['walk stuck at a free agent holding >= 2 goods'] += 1
-    if any(True for _ in partial_paths(I, Y)):
+    st2, Z2, _ = walk2(I, Y)
+    if st2 == 'ok' and strictly_pareto(I, Y, Z2):
+        C['  resolved by walk2 (keep-own arcs, cycle-closing first)'] += 1
+    elif any(True for _ in partial_paths(I, Y)):
         C['  resolved by move P (partial path)'] += 1
     elif any(True for _ in keep_own_exchanges(I, Y)):
         C['  resolved by move K (keep-own exchange)'] += 1
@@ -232,6 +235,94 @@ def report(C, EX):
         print(e)
     return not any(k.startswith('VIOLATION') or 'NOT RESOLVED' in k for k in C)
 
+
+
+def keep_arcs_into(I, Y, o, J, W, avoid=(), given=None):
+    """keep-own arcs into free agent o: a free x != o takes N ⊆ Y_o ∪ J ∪ Y_x (N meets Y_o and Y_x), allowed, worth
+    more than Y_x; label N ∩ J avoids `avoid`; x may not keep goods it has already given away (given[x])."""
+    out = []
+    given = given or {}
+    for x in range(I.n):
+        if x == o or set(Y[x]) & W or not Y[x]:
+            continue
+        pool = [g for g in list(Y[o]) + list(J) + [g for g in Y[x] if g not in given.get(x, set())] if g in I.v[x]]
+        for N in subsets(pool):
+            S = set(N)
+            if not S & set(Y[o]) or not S & set(Y[x]) or S & set(avoid) & J:
+                continue
+            if not allowed(I, x, N) or I.val(x, N) <= I.val(x, Y[x]):
+                continue
+            out.append(((len(S & J), 1, len(S), x), x, N))
+    return sorted(out)
+
+
+def walk2(I, Y):
+    """Theorem 9's walk where a free agent holding >= 2 goods, when reached, may also use a keep-own arc (its blocker
+    keeps part of its own holding). Kept goods may not be taken later. Returns (status, Z, info)."""
+    J = set(leftover(I, Y))
+    W = wanted_goods(I, Y)
+    F = [i for i in range(I.n) if not set(Y[i]) & W]
+    sigma, take, used, kept, given = {}, {}, set(), {}, {}
+    for o in F:
+        if len(Y[o]) != 1:
+            continue
+        a = arcs_into(I, Y, o, J, used)
+        if not a:
+            return 'F1 stuck', None, o
+        _, x, D = a[0]
+        sigma[o], take[o] = x, D
+        used |= set(D) & J
+        given[o] = set(Y[o])
+    for j in range(I.n):
+        if j not in sigma and len(Y[j]) == 1 and Y[j][0] in W:
+            g = Y[j][0]
+            sigma[j] = next(w for w in range(I.n) if g in wanted(I, w, Y[w]))
+            take[j] = (g,)
+            given[j] = {g}
+    start = next((j for j in range(I.n) if len(Y[j]) == 1), None)
+    if start is None:
+        start = next((j for j in F if Y[j]), None)
+    path, pos, j = [], {}, start
+    while j not in pos:
+        pos[j] = len(path)
+        path.append(j)
+        if j not in sigma:
+            # closing arcs first: blocker already on the walk, label disjoint from the labels on that cycle
+            close = []
+            for k, x, N in ([((k[0], 0) + k[1:], x, D) for k, x, D in arcs_into(I, Y, j, J)]
+                            + keep_arcs_into(I, Y, j, J, W, (), given)):
+                if x not in pos or set(N) & kept.get(j, set()):
+                    continue
+                cyc_labels = set()
+                for w in path[pos[x]:]:
+                    if w in take:
+                        cyc_labels |= set(take[w]) & J
+                if not set(N) & J & cyc_labels:
+                    close.append((k, x, N))
+            if close:
+                _, x, N = min(close)
+                sigma[j], take[j] = x, N
+                given[j] = set(N) & set(Y[j])
+                j = x
+                continue
+            cand = [((k[0], 0) + k[1:], x, D) for k, x, D in arcs_into(I, Y, j, J, used)
+                    if not set(D) & kept.get(j, set())]
+            cand += [c for c in keep_arcs_into(I, Y, j, J, W, used, given) if not set(c[2]) & kept.get(j, set())]
+            if not cand:
+                return 'F2 stuck', None, j
+            _, x, N = min(cand)
+            sigma[j], take[j] = x, N
+            used |= set(N) & J
+            given[j] = set(N) & set(Y[j])
+            if set(N) & set(Y[x]):
+                kept[x] = set(N) & set(Y[x])
+        j = sigma[j]
+    cyc = path[pos[j]:]
+    takes = {sigma[w]: take[w] for w in cyc}
+    Z = apply_takes(I, Y, takes)
+    if Z is None or not valid(I, Z):
+        return 'invalid', Z, cyc
+    return 'ok', Z, cyc
 
 if __name__ == '__main__':
     mode = sys.argv[1]

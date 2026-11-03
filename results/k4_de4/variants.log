@@ -7,4 +7,5 @@ confirmed     V5 DE single-owner finishing at DE4 maxima: hall-cyc6: [(2, 3), (4
 confirmed     V6 owner must hold at most one good: induct-g-r1 (n = 2): every maximum [[(0, 2), (1, 3)]] has both agents holding a pair and one leftover good
 confirmed     V7 DE ring with the greedy over all free agents (n = 4): state after draft and chain [(4,), (1, 5), (7,), (6,)]; greedy over all free agents: None; greedy over F1: [(4,), (1, 5), (6, 3), (7,)]
 confirmed     V7 DE ring with the greedy over all free agents (n = 4): state after draft and chain [(6,), (4,), (2, 5), (3,)]; greedy over all free agents: None; greedy over F1: [(3, 0), (4,), (2, 5), (6,)]
+confirmed     V8 Conjecture 11 with moves P and K only: Y = [(0, 4), (1,), (2, 7), (5, 6)] (values [6, 10, 11, 11]): walk stops, no P, no K; refined walk gives [(1,), (3, 7), (4, 2), (5, 6)] (values [8, 11, 14, 11])
 exit status 0

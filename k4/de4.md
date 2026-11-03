@@ -349,7 +349,7 @@ leftover goods.
 *Proof.* By Lemma 8 and (8′), every choice the walk makes exists, and the walk is finite, so it closes a cycle;
 Theorem 9 applies. ∎
 
-**Conjecture 11 (the remaining case).** Under (H), if the walk stops at a free agent holding two or more goods (no arc
+**Conjecture 11, first form (refuted).** Under (H), if the walk stops at a free agent holding two or more goods (no arc
 avoiding the labels chosen so far), then one of these moves gives a better state (in the order of §1):
 - **(P) partial path:** a free agent u holding two or more goods and a partial arc (x, D) into u. x takes D; u keeps its
   most valuable allowed subset of Y_u ∖ D; if x is frozen, x's good passes down the first-wanter walk (Lemma 4(ii)),
@@ -367,9 +367,56 @@ non-completable valid states:
 
 There is no violation of Lemma 8 or Theorem 9. The random runs are summarized in the log.
 
-**What remains for a proof of DE4.** Conjecture 11. With it, every maximum is completable: a non-completable maximum
-satisfies (H), and Corollary 10, P or K would give a better state. Conjecture 11 is the precise form of gaps G1 and G3
-of §5. Gap G2 (big-top blockers using two leftover goods) is closed by Lemma 8.
+**It is false as stated** (V8 of `attempts/k4-de4-variants.md`). In a run of 50,000 random profiles, one stopped walk
+(n = 4, m = 8) has neither P nor K, and no improvement changing at most two agents. Its improvement is a 3-cycle in
+which one blocker keeps part of its own holding. This leads to the refinement below.
+
+### 7.6 Which arcs carry labels
+
+**Lemma 12.** Under (H), let (x, D) be an arc into a free agent u with a nonempty label, and x free. Then either x is
+a big-top 4-good agent holding its b, or some good g ∈ D ∩ Y_u and some good q ∈ Y_x make {g, q} an upper set of x
+worth more than Y_x: a *keep-own arc*, in which x takes g from u, keeps q, and uses no leftover good.
+
+*Proof.* Cases by the holding of x (free, so its goods are not wanted); a holding without a danger set has no arc.
+- Y_x = {a}: a good h ∈ J ∩ R_x would give the upper set {a, h} ⊆ Y_x ∪ J, worth more than Y_x, so Lemma 4′ would
+  apply. Hence J ∩ R_x = ∅, and every arc of x has an empty label.
+- Y_x = {b}, 4-good, D = {c, d}: one of c, d is in J and the other in Y_u (Lemma 7(c)). If x is not big-top, then
+  {b, c} is an upper set. If c ∈ J, it lies in Y_x ∪ J and Lemma 4′ applies; so c ∈ Y_u, and {c, b} is a keep-own
+  arc.
+- Y_x = {a, d} with v(b) + v(c) > v(a) + v(d), D = {b, c}: if b or c were in J, {a, b} or {a, c} ⊆ Y_x ∪ J would be
+  an upper set worth more than Y_x (Lemma 4′). So D ⊆ Y_u and the label is empty.
+- Y_x a rich pair P = {p, p′} ⊆ {b, c, d} whose complement {a, s} is worth more, D = {a, s}: if a ∈ J, then
+  {a, p} ⊆ Y_x ∪ J is an upper set worth more than P (as v(a) > v(p′)), and Lemma 4′ applies. So a ∈ Y_u, and
+  {a, p} is a keep-own arc.
+- 3-good agents: every pair holding is robust (no danger set), and Y_x = {a} is the first case. ∎
+
+So, under (H), the only arcs that must use leftover goods are arcs into free agents holding one good, which are
+self-absorbed by Lemma 8, and arcs whose blocker is frozen or a free big-top holder of its b. The walk can stop only
+on a conflict between two *partial* arcs of the second kind (Lemma 8′).
+
+**Conjecture 11′ (the remaining case).** Under (H), if the walk of Theorem 9 stops, then a better state is given by
+one of these:
+- the *refined walk* (`walk2` in `k4/de4/cycle.py`). Free blockers may use the keep-own arcs of Lemma 12; a kept good
+  is never taken later and a given good never kept; at each free agent holding two or more goods, an arc whose blocker
+  is already on the walk, with a label disjoint from the labels on the cycle it closes, is preferred;
+- move P.
+
+Evidence (`results/k4_de4/cycle_suite.log`, `results/k4_de4/cycle_walk_n34.log`): on the suite, the walk stops in 2
+of 326 non-completable states, resolved by P (gm4-B) and by the refined walk (induct-g-r1). On 30,000 random profiles
+of every certified core with n = 3, 4, there are 18,720 non-completable valid states:
+- 12,902 are improved by Lemma 4 or 4′;
+- 5,814 by the walk;
+- in the remaining 4 the walk stops, and all 4 are resolved by the refined walk.
+
+No violation of Lemma 8 or Theorem 9 occurs. The validity of the refined walk's trades is checked, not yet proved:
+keep-own arcs produce upper pairs, so the argument of Theorem 9 should carry over.
+
+**What remains for a proof of DE4.** Conjecture 11′, i.e. conflicts between partial arcs into pair holders whose
+blockers are frozen (or free big-top holders of their b). Such conflicts arise only when the walk has already passed
+through such an arc, and they are rare: 4 states among 18,720 in the random run. Gap G2 is closed by Lemma 8, and
+gap G1 for free blockers by Lemma 12.
+
+
 
 ## 6. Reproduce
 
