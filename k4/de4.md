@@ -653,6 +653,43 @@ These instances are small (n ≤ 5, with heavily shared goods). In V11 the two h
 improvements change at least three agents, including a frozen agent that loses a level. So the locality is an effect
 of the size. The improvement step has to use downgrades of frozen agents.
 
+## 8. A different state space: DE4 with the lower pair only while b is held
+
+After the refutation, state spaces of the same kind were screened (`attempts/k4-de4-ss.md`, ledger K4.DE4.SS). One
+change removes every known failure:
+
+**(V3)** an agent may hold its lower pair {c, d} only while its b is held by some agent.
+
+A lower pair is then a consolation for an agent whose b is taken. In the counterexample of `attempts/k4-de4.md` the
+failing maximum is not (V3)-valid: the leftover good is the b of both lower-pair holders. With (V3), a holder of its
+lower pair values no leftover good at all (it holds c and d, its a is held alone by (V1), its b is held by (V3)).
+
+**Conjecture DE4ᵛ³** (row K4.DE4V3). For every strict profile of every R1-core with k ≤ 4, every maximum of the
+level sum, then value-Pareto, over the states valid for (V1), (V2) and (V3), is completable. The draft is (V3)-valid
+(single goods only), so maxima exist, and as in Lemma 3 the conjecture implies TARGET₄. The variant that also allows
+{c, d} with v(c) + v(d) < v(b) at level 2.5 survives the same tests.
+
+**Evidence** (EVIDENCE; `k4/de4/de4v.c`, run by `k4/de4/run_variants.py`, which checks DE4, DE4ᵛ³ and the variant
+at once; `k4/de4/ss_screen.py` and `k4/de4/ss_sample.py` in Python):
+
+| what | profiles | DE4 fails | DE4ᵛ³ fails | log |
+|---|---|---|---|---|
+| the screen of 168 instances (all known counterexamples) | 168 | 2 | 0 | `results/k4_de4/ss_screen.log` |
+| every strict profile, every core with n = 2 | 252,288 | 0 | 0 | `results/k4_de4/variants_2.log` |
+| every strict profile, every core with n = 4 and one 4-good agent | 8,398,080 | 0 | 0 | `results/k4_de4/variants_4_n4_1.log` |
+| every strict profile of the 16 stuck hypergraphs (n = 3, 4; where the tie-breaks fail at n = 3) | 911,720,448 | 16 | 0 | `results/k4_de4/variants_stuckhyper.log` |
+| suite instances with n ≤ 6, m ≤ 15 outside the screen; random profiles of n = 5 cores with one or two 4-good agents | 7 + 2,000 | 0 | 0 | `results/k4_de4/ss_sample.log` |
+
+Still to run: every strict profile of every n = 4 core with two 4-good agents (the class of the DE4 counterexample)
+and with n = 3. One implementation for the exhaustive runs (`de4v.c`); it agrees with the Python screen on cores 131
+and 127.
+
+**What a proof needs.** The improvement form changes: every non-completable (V3)-valid state needs a better
+(V3)-valid state. The lemmas of §3 and §7 are about (V1)–(V2) states, so each move must also keep (V3): a move that
+releases some agent's b to the leftover goods breaks (V3) for that agent's lower pair, unless the agent also moves (to
+b, laterally). The hard dead-good states of §7.7 with frozen downgrades (V11) are (V3)-valid, so (V3) does not by
+itself remove the open case of §7.
+
 ## 6. Reproduce
 
 ```
