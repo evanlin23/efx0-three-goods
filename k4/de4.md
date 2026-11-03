@@ -8,7 +8,8 @@ which every maximum was completable on the data first searched, written proofs o
 and the counterexample that ends the approach in this form.
 
 **Status.**
-- *Conjecture DE4* (§2) **is refuted** (`attempts/k4-de4.md`, ledger K4.DE4; replay `python3 k4/de4/refute_de4.py`).
+- *Conjecture DE4* (§2) **is refuted** (`attempts/k4-de4.md`, ledger K4.DE4; replay `python3 k4/de4/refute_de4.py`;
+  machine-checked in Lean, `EFX.DE4.Refute.not_conjDE4`).
   The exhaustive run over every strict profile of every n = 4 core with two 4-good agents (922,669,056 profiles,
   `results/k4_de4/exhaustive_4_n4_2.log`) found 8 profiles, all of one core (m = 7), with a maximum that has no EFX₀
   completion. That maximum satisfies (H) and no valid state is better, so the improvement form and Conjecture 11″

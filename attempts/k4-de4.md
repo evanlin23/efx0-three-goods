@@ -71,4 +71,7 @@ were only sampled.
 
 `python3 k4/de4/refute_de4.py` (written from `k4/de4.md` §1 only, sharing no code with `de4lib.py` or `de4.c`;
 prints "confirmed" for each claim on profiles A and B and exits 0 iff all are confirmed;
-`results/k4_de4/refute_de4.log`). `k4/de4/de4lib.py` agrees (all_states, maxima, completion).
+`results/k4_de4/refute_de4.log`). `k4/de4/de4lib.py` agrees (all_states, maxima, completion). Machine-checked in
+Lean for profile A: `EFX.DE4.Refute.not_conjDE4` (`lean/EFX/DE4Refute.lean`; the instance satisfies `R1Core4` and
+`Strict`, the state is valid, no valid state is better, and none of the four completions is EFX₀), hence also
+`not_conjDE4Imp`, `not_conjDE4H` and `not_conjDE4H₂`.
