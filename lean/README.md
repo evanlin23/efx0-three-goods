@@ -141,7 +141,9 @@ specializations) have exactly the types of `EFX.target`, `EFX.LB.corollaryD` (ch
 - `EFX/DE4.lean`: the DE4 frame (`k4/de4.md` §1–§2, ledger K4.DE4.LEAN): states over lists (`EFX.DE4.hold`,
   `Allowed`, `level`, `Valid`, `Completable`, `Better`, `IsMaximum`), Lemma 2 (`EFX.DE4.draft_valid`), existence of
   maxima (`EFX.DE4.exists_maximum`), and Conjecture DE4 (`EFX.DE4.ConjDE4`, a hypothesis) and its improvement form
-  (`EFX.DE4.ConjDE4Imp`) ⟹ TARGET₄ (`EFX.DE4.target4_of_conjDE4`, `EFX.DE4.target4_of_conjDE4Imp`).
+  (`EFX.DE4.ConjDE4Imp`) ⟹ TARGET₄ (`EFX.DE4.target4_of_conjDE4`, `EFX.DE4.target4_of_conjDE4Imp`). Both hypotheses,
+  and those of `DE4Upgrade.lean` and `DE4Cor10.lean`, are **false** (`attempts/k4-de4.md`, ledger K4.DE4): these
+  implications are not a route to TARGET₄; the lemmas about valid states stand.
 - `EFX/DE4Moves.lean`: Lemma 1(a) (`EFX.DE4.level_mono`), the trade lemma (`EFX.DE4.valid_of_gain`), Lemma 4′
   (`EFX.DE4.exists_better_of_selfUpgrade`) and Corollary 5(b) (`EFX.DE4.completable_of_empty`) of `k4/de4.md` §3.
 - `EFX/DE4Upgrade.lean`: Lemma 4 (`EFX.DE4.exists_better_of_threat`: the minimal upgrade, trades along want-paths

@@ -1452,7 +1452,8 @@ goods per agent, every valid state that is not completable and satisfies (H) has
 listed agent holds a good; the leftover goods alone are worth at most each listed agent's holding (no Lemma 4 move);
 no free listed agent has an allowed holding of at most two goods, made of its own and leftover goods, worth more than
 its holding (no Lemma 4′ move). A hypothesis, never an axiom. Its strong form, which asks moreover that no level
-drop, is false (V11 of `attempts/k4-de4-variants.md`). -/
+drop, is false (V11 of `attempts/k4-de4-variants.md`). **The weak form is false too**: the counterexample of
+`attempts/k4-de4.md` (four agents, seven goods) satisfies (H) and has no better valid state. -/
 def ConjDE4H (A G : Type) [DecidableEq A] [DecidableEq G] : Prop :=
   ∀ (v : A → G → Nat) (agents : List A) (goods : List G), agents ≠ [] → agents.Nodup → goods.Nodup →
     R1Core4 v agents goods → Strict v agents goods →

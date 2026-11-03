@@ -11,7 +11,8 @@ import EFX.DE4Ring
   the trade along it gives a valid, better state.
 - `ConjDE4H₂` (a hypothesis, never an axiom): Conjecture 11″ for the states of (H) where some free agent holds two or
   more goods; `conjDE4H_of_H₂` (with Corollary 10 it implies `ConjDE4H`) and `target4_of_conjDE4H₂` (it implies
-  TARGET₄).
+  TARGET₄). The hypothesis is false (`attempts/k4-de4.md`), so this is not a route to TARGET₄; Corollary 10 itself is
+  a statement about valid states and stands.
 
 **Faithfulness.** The walk of `k4/de4.md` Theorem 9 starts at a fixed agent and follows first wanters; here any
 cycle of the relation "a frozen agent points to an agent wanting its good, a free agent to the blocker of its Lemma 8
@@ -386,10 +387,11 @@ theorem cor10 (hag : agents.Nodup) (hgd : goods.Nodup) (hc : R1Core4 v agents go
 
 end cor10
 
-/-! ## The frame: the open case is a free agent holding two or more goods -/
+/-! ## The frame: the remaining case is a free agent holding two or more goods -/
 
 /-- **Conjecture 11″ where Corollary 10 does not apply** (a hypothesis, never an axiom): every non-completable valid
-state satisfying (H) in which some free agent holds two or more goods has a better valid state. -/
+state satisfying (H) in which some free agent holds two or more goods has a better valid state. **False**: the
+counterexample of `attempts/k4-de4.md` is such a state with no better valid state. -/
 def ConjDE4H₂ (A G : Type) [DecidableEq A] [DecidableEq G] : Prop :=
   ∀ (v : A → G → Nat) (agents : List A) (goods : List G), agents ≠ [] → agents.Nodup → goods.Nodup →
     R1Core4 v agents goods → Strict v agents goods →

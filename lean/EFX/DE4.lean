@@ -137,14 +137,16 @@ def R1Core4 (v : A → G → Nat) (agents : List A) (goods : List G) : Prop :=
     ∀ g ∈ goods, 2 * v i g < value v i goods
 
 /-- **Conjecture DE4** (`k4/de4.md` §2): on every strict R1-core with at most four relevant goods per agent, every
-maximum is completable. A hypothesis, never an axiom. -/
+maximum is completable. A hypothesis, never an axiom. **False**: a counterexample with four agents and seven
+goods is in `attempts/k4-de4.md` (ledger K4.DE4). -/
 def ConjDE4 (A G : Type) [DecidableEq A] [DecidableEq G] : Prop :=
   ∀ (v : A → G → Nat) (agents : List A) (goods : List G), agents ≠ [] → agents.Nodup → goods.Nodup →
     R1Core4 v agents goods → Strict v agents goods →
     ∀ base, IsMaximum v agents goods base → Completable v agents goods base
 
 /-- **The improvement form** (`k4/de4.md` §2): on every strict R1-core with at most four relevant goods per agent,
-every valid state that is not completable has a better valid state. A hypothesis, never an axiom. -/
+every valid state that is not completable has a better valid state. A hypothesis, never an axiom. **False**, by the
+counterexample of `attempts/k4-de4.md`. -/
 def ConjDE4Imp (A G : Type) [DecidableEq A] [DecidableEq G] : Prop :=
   ∀ (v : A → G → Nat) (agents : List A) (goods : List G), agents ≠ [] → agents.Nodup → goods.Nodup →
     R1Core4 v agents goods → Strict v agents goods →

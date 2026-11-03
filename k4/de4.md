@@ -3,13 +3,22 @@
 Workstream `proof/k4-de4` (branch `claude/kind-lamport-y8fdme`), ledger rows K4.DE4.*, open item 29. The aim was a
 proof of TARGET₄ with the architecture of DE (`paper/k3-simple` in evanlin23/efx0-three-goods-proof): a state space of
 holdings, a validity invariant, a finishing rule and an improvement step measured by a potential. **This file does
-not contain a proof of TARGET₄.** It contains a state space and a potential for which *every maximum is completable*
-on all data (the form of candidate that `k4/strategy.md` reports no potential over 𝒫 survived), written proofs of the
-parts of DE that carry over, and the exact step that is missing.
+not contain a proof of TARGET₄, and its central conjecture is false.** It contains a state space and a potential for
+which every maximum was completable on the data first searched, written proofs of the parts of DE that carry over,
+and the counterexample that ends the approach in this form.
 
 **Status.**
-- *Conjecture DE4* (§2): every maximum of the level sum (then value-Pareto) over the valid DE4 states of a strict R1-core
-  profile has an EFX₀ completion. With the peeling lemma and the tie reduction it implies TARGET₄ (§2, Lemma 3).
+- *Conjecture DE4* (§2) **is refuted** (`attempts/k4-de4.md`, ledger K4.DE4; replay `python3 k4/de4/refute_de4.py`).
+  The exhaustive run over every strict profile of every n = 4 core with two 4-good agents (922,669,056 profiles,
+  `results/k4_de4/exhaustive_4_n4_2.log`) found 8 profiles, all of one core (m = 7), with a maximum that has no EFX₀
+  completion. That maximum satisfies (H) and no valid state is better, so the improvement form and Conjecture 11″
+  (§7.7) fail too, and so do the hypotheses of the Lean frame. Its mechanism is that of GM₄'s counterexample: two
+  frozen blockers need the one leftover good, which is the b of both hungry agents. Every profile of that class has
+  *some* completable maximum. The rest of this status list describes the work before the refutation; the proved
+  lemmas (§3, §7) are about valid states and stand.
+- *Conjecture DE4* as stated: every maximum of the level sum (then value-Pareto) over the valid DE4 states of a strict
+  R1-core profile has an EFX₀ completion. With the peeling lemma and the tie reduction it would imply TARGET₄ (§2,
+  Lemma 3).
 - *Evidence* (§4): no failure on every strict profile of every core with n = 2 (252,288) and n = 3 (all 51 cores,
   439,582,464 profiles, C implementation), the 155 suite instances that fit (n ≤ 6, m ≤ 15), random profiles of every
   certified core with n = 3, 4 and 5, and 20,000 random R1-cores with tied values. Two implementations
@@ -80,7 +89,10 @@ value-Pareto-dominates.
 
 ## 2. The conjecture
 
-**Conjecture DE4.** For every strict profile of every R1-core (k ≤ 4), every maximum is completable.
+**Conjecture DE4 (refuted).** For every strict profile of every R1-core (k ≤ 4), every maximum is completable. False at
+n = 4, m = 7 (`attempts/k4-de4.md`): agents with relevant goods {0, 2, 4, 6}, {1, 3, 5, 6}, {2, 3, 6}, {4, 5, 6} and
+values {0:3, 2:8, 4:2, 6:4}, {1:3, 3:2, 5:8, 6:4}, {2:4, 3:2, 6:3}, {4:2, 5:4, 6:3}; the maximum ({0, 4}, {1, 3},
+{2}, {5}) with leftover {6} has no EFX₀ completion and no valid state is better than it.
 
 **Improvement form** (what an algorithm would use). Every valid state that is not completable has a better valid
 state, in the order of §1. A maximum is exactly a valid state that no valid state is better than, so on each
@@ -214,6 +226,7 @@ hypotheses are not preserved. It shows which features of k = 4 DE's argument doe
 | every strict profile, every core with n = 2 (5 cores), both implementations | 252,288 (exhaustive) | 0 | 0 | `results/k4_de4/exhaustive_2.log`, `exhaustive_2_c.log` |
 | every strict profile, every core with n = 3 (51 cores), `de4.c` | 439,582,464 (exhaustive) | 0 | not checked | `results/k4_de4/exhaustive_3.log` |
 | every strict profile, every core with n = 4 and one 4-good agent (135 cores), `de4.c` | 8,398,080 (exhaustive) | 0 | not checked | `results/k4_de4/exhaustive_4_n4_1.log` |
+| every strict profile, every core with n = 4 and two 4-good agents (309 cores), `de4.c` | 922,669,056 (exhaustive) | **8** (all in core 131, m = 7; the counterexample of `attempts/k4-de4.md`) | not checked; every profile has a completable maximum | `results/k4_de4/exhaustive_4_n4_2.log` |
 | suite: every complete instance with n ≤ 6, m ≤ 15 (c4-H2, c4-H5, lmbt-HH3, lmbt-Hq3 skipped) | 155 | 0 | 1 (hall-cyc6) | `results/k4_de4/suite.log` |
 | random strict profiles, every certified core with n = 3 (51 cores, 300 each) | 15,300 | 0 | 0 | `results/k4_de4/certs_3.log` |
 | random strict profiles, every certified core with n = 4 (1,002 cores, 40 each) | 40,080 | 0 | 0 | `results/k4_de4/certs_4.log` |
@@ -458,7 +471,8 @@ value-Pareto-better. It has the shape of Theorem Z's rotations (`k4/c4min.md` §
 lateral moves. The order of §1 already allows them, since it compares level sums first. The improvement form of §2
 survives:
 
-**Conjecture 11″** (row K4.DE4.C11B; in Lean `EFX.DE4.ConjDE4H`). Under (H), there is a better valid state in the
+**Conjecture 11″ (refuted with DE4, `attempts/k4-de4.md`)** (row K4.DE4.C11B; in Lean `EFX.DE4.ConjDE4H`). Under
+(H), there is a better valid state in the
 order of §1: the level sum is higher, or it is equal and the values Pareto-improve. Every non-completable valid state
 either satisfies (H) or is improved by Lemma 4 or 4′ (or some agent holds nothing, and then it is completable:
 Corollary 5(b)). So Conjecture 11″ is the improvement form of §2, hence equivalent to DE4. In Lean,
