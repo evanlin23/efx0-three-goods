@@ -32,9 +32,12 @@ parts of DE that carry over, and the exact step that is missing.
   *dead* leftover good, i.e. one that no free agent can take alone. The improvement then exists, but in some
   instances only through a *lateral* move: some agent's value drops while its level stays. So DE's value-Pareto
   argument cannot close the gap (§7.7; Conjectures 11 and 11′ are refuted, Conjecture 11″ is open).
-- *Lean: the frame only* (`lean/EFX/DE4.lean`, row K4.DE4.LEAN). The definitions of §1, Lemma 2 (the draft is
-  valid), the existence of maxima, and the implications "improvement form ⟹ DE4 ⟹ TARGET₄" (Lemma 3) are
-  machine-checked. Both conjectures are hypotheses there. The step that would make DE4 a theorem is missing.
+- *Lean* (`lean/EFX/DE4.lean`, `DE4Moves.lean`, `DE4Upgrade.lean`, row K4.DE4.LEAN). Machine-checked:
+  - the definitions of §1, and the existence of maxima;
+  - Lemmas 1(a), 2, 4 (with its chains, want-rings and three-good switch), 4′, Corollary 5(b), and Lemma 3;
+  - hence "Conjecture 11″ (under (H), a better valid state exists) ⟹ improvement form ⟹ DE4 ⟹ TARGET₄".
+
+  The hypothesis `EFX.DE4.ConjDE4H` is exactly the open step; nothing else is assumed.
 
 The output of a completion is not D2-shaped in general (hall-cyc6, §5), so DE4 says nothing about K4.D.
 
