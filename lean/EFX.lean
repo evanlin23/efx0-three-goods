@@ -26,6 +26,7 @@ import EFX.DE4Refute
 import EFX.DE4V3
 import EFX.DE4Robust
 import EFX.DE4RobustA
+import EFX.DE4ClaimT
 import EFX.RealValues
 import EFX.Audit
 import EFX.PreAllocK

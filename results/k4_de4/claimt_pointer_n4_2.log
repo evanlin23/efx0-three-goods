@@ -1,0 +1,4 @@
+$ python3 k4/de4/claimt.py pointer k4_certs_4_n4_2.json.gz 500 8 13000
+      175  pointer map total; best cycle with disjoint labels: raise
+     4000  profiles
+        1  some agent threatened by J alone (not tested here)

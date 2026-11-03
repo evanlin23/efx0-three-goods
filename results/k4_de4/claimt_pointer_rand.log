@@ -1,0 +1,7 @@
+$ python3 k4/de4/claimt.py pointer rand 1500 8 12000
+        1    no clean raising cycle: kinds LP Ur fz-a | smallest Phi-raise changes 2 agents: LP->{b:Ur} Ur->{a:LP,c:own} / LP->{b:Ur} Ur->{a:LP,d:J}
+        1  pointer map total; best cycle with disjoint labels: None
+      846  pointer map total; best cycle with disjoint labels: raise
+    12000  profiles
+        9  some agent threatened by J alone (not tested here)
+EX ["", [[1, 2, 6, 8], [2, 4, 6], [0, 2, 4, 8]], [{"1": 7, "2": 12, "6": 6, "8": 15}, {"2": 21, "4": 26, "6": 7}, {"0": 8, "2": 9, "4": 18, "8": 4}], [[1, 2], [4], [0, 8]], ["Ur", "fz-a", "LP"]]
