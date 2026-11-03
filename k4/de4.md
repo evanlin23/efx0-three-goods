@@ -78,9 +78,10 @@ value-Pareto-dominates.
 
 **Conjecture DE4.** For every strict profile of every R1-core (k ≤ 4), every maximum is completable.
 
-**Improvement form** (stronger; what an algorithm would use). Every valid state that is not completable has a better
-valid state, in the order of §1. Its strong form, where moreover no agent's level is lower, is false (V11 of
-`attempts/k4-de4-variants.md`, §7.7): some improvements must lower a frozen agent's level.
+**Improvement form** (what an algorithm would use). Every valid state that is not completable has a better valid
+state, in the order of §1. A maximum is exactly a valid state that no valid state is better than, so on each
+profile the improvement form is *equivalent* to Conjecture DE4. Its strong form, where moreover no agent's level is
+lower, is false (V11 of `attempts/k4-de4-variants.md`, §7.7): some improvements must lower a frozen agent's level.
 
 **Conjecture DE4-ALG (the algorithm).** Peel by R1; draft (Lemma 2); then repeat: if DE's single-owner rule finishes,
 stop; otherwise apply the chain of Lemma 4/4′ for the first agent (index order) that has an upgrade; otherwise trade
@@ -456,8 +457,9 @@ survives:
 **Conjecture 11″** (row K4.DE4.C11B; in Lean `EFX.DE4.ConjDE4H`). Under (H), there is a better valid state in the
 order of §1: the level sum is higher, or it is equal and the values Pareto-improve. Every non-completable valid state
 either satisfies (H) or is improved by Lemma 4 or 4′ (or some agent holds nothing, and then it is completable:
-Corollary 5(b)). So Conjecture 11″ is the improvement form of §2. It implies DE4 (start at a maximum). In Lean,
-`EFX.DE4.target4_of_conjDE4H` derives TARGET₄ from it.
+Corollary 5(b)). So Conjecture 11″ is the improvement form of §2, hence equivalent to DE4. In Lean,
+`EFX.DE4.target4_of_conjDE4H` derives TARGET₄ from it. What the walk and §7 add is a proof strategy: DE4 holds at
+every (H) state where the walk closes, and the open case is the stopped walk.
 
 *Its strong form is false* (V11). The strong form asks that no agent's level be lower. A strict profile with n = 6,
 m = 9 refutes it; it was built by hand so that the two hungry agents share no goods:
