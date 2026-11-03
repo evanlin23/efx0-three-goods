@@ -78,8 +78,9 @@ value-Pareto-dominates.
 
 **Conjecture DE4.** For every strict profile of every R1-core (k ≤ 4), every maximum is completable.
 
-**Improvement form** (stronger; what an algorithm would use). Every valid state that is not completable has a valid
-state in which no agent's level is lower and either some level is higher or the values Pareto-improve.
+**Improvement form** (stronger; what an algorithm would use). Every valid state that is not completable has a better
+valid state, in the order of §1. Its strong form, where moreover no agent's level is lower, is false (V11 of
+`attempts/k4-de4-variants.md`, §7.7): some improvements must lower a frozen agent's level.
 
 **Conjecture DE4-ALG (the algorithm).** Peel by R1; draft (Lemma 2); then repeat: if DE's single-owner rule finishes,
 stop; otherwise apply the chain of Lemma 4/4′ for the first agent (index order) that has an upgrade; otherwise trade
@@ -452,10 +453,22 @@ value-Pareto-better. It has the shape of Theorem Z's rotations (`k4/c4min.md` §
 lateral moves. The order of §1 already allows them, since it compares level sums first. The improvement form of §2
 survives:
 
-**Conjecture 11″** (row K4.DE4.C11B). Under (H), there is a valid state in which no agent's level is lower and either
-some level is higher, or the levels are equal and the values Pareto-improve. Every non-completable valid state either
-satisfies (H) or is improved by Lemma 4 or 4′ (or some agent holds nothing, and then it is completable: Corollary
-5(b)). So Conjecture 11″ is the improvement form of §2, and it implies DE4 (start at a maximum).
+**Conjecture 11″** (row K4.DE4.C11B; in Lean `EFX.DE4.ConjDE4H`). Under (H), there is a better valid state in the
+order of §1: the level sum is higher, or it is equal and the values Pareto-improve. Every non-completable valid state
+either satisfies (H) or is improved by Lemma 4 or 4′ (or some agent holds nothing, and then it is completable:
+Corollary 5(b)). So Conjecture 11″ is the improvement form of §2. It implies DE4 (start at a maximum). In Lean,
+`EFX.DE4.target4_of_conjDE4H` derives TARGET₄ from it.
+
+*Its strong form is false* (V11). The strong form asks that no agent's level be lower. A strict profile with n = 6,
+m = 9 refutes it; it was built by hand so that the two hungry agents share no goods:
+- two lower-pair holders with disjoint goods;
+- frozen blockers holding their tops, both valuing the one leftover good;
+- each lower-pair holder's b held by a frozen agent.
+
+The state satisfies (H), and no better state keeps every level. In each better state a frozen blocker gives its good
+to a hungry agent and drops from its b to its c, while the other blocker takes its lower pair with the dead good
+(level sum 20 → 21). Such *downgrades* of frozen agents are needed in general; repaired "downgrade swaps" appear also
+in `k4/hall.md`.
 
 **Why the walk stops.** Call a free agent z an *absorber* of a leftover good h if Y_z ∪ {h} threatens nobody (with
 the values of Y), i.e. z is not *closed* (Y_z is not a danger set of another agent) and no arc into z has label {h}
@@ -603,7 +616,7 @@ non-completable: 499 states with a dead good (the "completable" lines) are compl
 values rise. Neither (D) beyond a dead good (a Hall obstruction of size two or more) nor a hard state that both PR
 and the refined walk miss has been seen.
 
-**The open case looks local.** In the hard states found, Lemma 15 covers the frozen blockers of lower-pair holders
+**The open case looks local (in small instances only).** In the hard states found, Lemma 15 covers the frozen blockers of lower-pair holders
 whose b is available (14 of 52). The rest have a free blocker: a free agent holding a rich pair {b, c} whose danger
 set is its top (held by the hungry agent) with the dead good. In every hard state some improvement changes at most
 four agents. In a scratch classification of the 52 states (not a committed artifact):
@@ -611,9 +624,9 @@ four agents. In a scratch classification of the 52 states (not a committed artif
 - the 3-agent ones add one closed or frozen agent;
 - every hard state has exactly two hungry agents.
 
-These instances are small (n ≤ 5, with heavily shared goods), so the locality may be an effect of the size. If it
-holds in general, (E) would follow from a finite case analysis over the types of the two hungry agents and of their
-blockers.
+These instances are small (n ≤ 5, with heavily shared goods). In V11 the two hungry agents share no goods, and the
+improvements change at least three agents, including a frozen agent that loses a level. So the locality is an effect
+of the size. The improvement step has to use downgrades of frozen agents.
 
 ## 6. Reproduce
 

@@ -31,8 +31,8 @@ a better valid state) ⟹ `ConjDE4Imp` (`conjDE4Imp_of_H`, using Lemma 4, Lemma 
 **Faithfulness.** (H) is stated as in `k4/de4.md` §7: every listed agent holds a good; the leftover goods alone are
 worth at most each listed agent's holding (Corollary 5(a), i.e. Lemma 4 does not apply); no free listed agent has an
 allowed holding of at most two goods from its own and the leftover goods worth more than its holding (Lemma 4′ does
-not apply). "Better" is the order of §1; the paper's Conjecture 11″ asks moreover that no level drop, so it implies
-`ConjDE4H`.
+not apply). "Better" is the order of §1, as in the paper's Conjecture 11″. Its strong form, which asks moreover that
+no level drop, is false (V11 of `attempts/k4-de4-variants.md`).
 -/
 
 set_option autoImplicit false
@@ -1278,7 +1278,8 @@ end lemma4
 goods per agent, every valid state that is not completable and satisfies (H) has a better valid state. (H): every
 listed agent holds a good; the leftover goods alone are worth at most each listed agent's holding (no Lemma 4 move);
 no free listed agent has an allowed holding of at most two goods, made of its own and leftover goods, worth more than
-its holding (no Lemma 4′ move). A hypothesis, never an axiom. The paper's form asks moreover that no level drop. -/
+its holding (no Lemma 4′ move). A hypothesis, never an axiom. Its strong form, which asks moreover that no level
+drop, is false (V11 of `attempts/k4-de4-variants.md`). -/
 def ConjDE4H (A G : Type) [DecidableEq A] [DecidableEq G] : Prop :=
   ∀ (v : A → G → Nat) (agents : List A) (goods : List G), agents.Nodup → goods.Nodup →
     R1Core4 v agents goods → Strict v agents goods →

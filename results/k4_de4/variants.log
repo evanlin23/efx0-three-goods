@@ -11,4 +11,5 @@ confirmed     V8 Conjecture 11 with moves P and K only: Y = [(0, 4), (1,), (2, 7
 confirmed     V9 Conjecture 11' (refined walk or move P): Y = [(0, 2), (3, 4), (6,), (5,)] (level sum 14): walk stops, refined walk and P fail, no value-Pareto-better valid state; 5 level-monotone better states, e.g. [(5,), (0,), (6,), (1, 3)] (level sum 16); every maximum completable
 confirmed     V9 Conjecture 11', second instance (n = 3, nobody frozen): Y = [(1, 4), (2, 3), (6, 7)]: walk stops, refined walk and P fail; the rotation [(2, 4), (3, 7), (1, 6)] (each agent keeps one good) is Pareto-better
 confirmed     V10 lower pair only for big-top agents: induct-pot-nash: the maximum [(4,), (5,), (3,)] is not completable; with every lower pair (DE4) the maxima [[(0, 2), (5,), (3, 4)]] are completable
+confirmed     V11 Conjecture 11'' in its strong form (no level drops): Y = [(2, 3), (6, 7), (4,), (0,), (1,), (5,)]: (H) holds, no level-monotone better valid state; 12 better states in the order, e.g. [(0,), (4,), (3,), (7, 8), (1,), (5,)] (level sum 20 -> 21: agent 2 drops from its b to its c); every maximum completable
 exit status 0

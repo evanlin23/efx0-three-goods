@@ -185,4 +185,24 @@ report('V10 lower pair only for big-top agents', bool(bad) and all(completion(I,
        f'induct-pot-nash: the maximum {bad[0] if bad else None} is not completable; with every lower pair (DE4) the '
        f'maxima {mx0} are completable')
 
+# 11. Conjecture 11'' in its strong form (under (H), a better state in which no agent's level drops): a strict
+#     profile (n = 6, m = 9) where the two hungry agents share no goods; no valid state is better without lowering a
+#     level. Better states in the order of k4/de4.md §1 exist: a frozen blocker drops a level (the weak form holds).
+A1, B1, C1, D1, A2, B2, C2, D2, H = range(9)
+sets11 = [[A1, B1, C1, D1], [A2, B2, C2, D2], [A2, D1, H, B2], [A1, D2, H, B1], [B1, A1, A2], [B2, A1, A2]]
+vals11 = [[229, 150, 112, 84], [229, 150, 117, 80], [133, 87, 64, 163], [130, 82, 65, 164], [160, 97, 81], [160, 87, 96]]
+I = Inst(sets11, vals11, 9)
+Y = [(2, 3), (6, 7), (4,), (0,), (1,), (5,)]
+S = all_states(I)
+lm = [Z for Z in S if level_monotone(I, Y, Z)]
+bt = [Z for Z in S if order_better(I, Y, Z)]
+Zw = [(0,), (4,), (3,), (7, 8), (1,), (5,)]
+from dead import strict_ok
+ok = (strict_ok(I) and valid(I, Y) and completion(I, Y) is None and chain_move(I, Y) is None and all(Y)
+      and not lm and Zw in [list(map(tuple, Z)) for Z in bt] and levsum(I, Zw) > levsum(I, Y)
+      and all(completion(I, Z) is not None for Z in maxima(I, S)))
+report("V11 Conjecture 11'' in its strong form (no level drops)", ok,
+       f'Y = {Y}: (H) holds, no level-monotone better valid state; {len(bt)} better states in the order, e.g. {Zw} '
+       f'(level sum {levsum(I, Y)} -> {levsum(I, Zw)}: agent 2 drops from its b to its c); every maximum completable')
+
 sys.exit(0 if ok_all else 1)
