@@ -32,4 +32,4 @@ if __name__ == '__main__':
     for ci in sorted(per): print('core', ci, cores[ci], per[ci])
     for f in fails[:40]: print('core', f[0], f[1])
     print('TOTAL', path, len(cores), 'cores;', ' '.join(f'{k} {v}' for k, v in tot.items()))
-    print('variants: 0 DE4, 1 DE4 + v3 (a lower-pair holder's b is held), 2 v3 + CD pairs (c+d < b) at level 2.5')
+    print("variants: 0 DE4, 1 DE4 + v3 (a lower-pair holder's b is held), 2 v3 + CD pairs (c+d < b) at level 2.5")
