@@ -506,20 +506,61 @@ D, and the agents of the G₀ path from x to u pass their goods along. When D is
 this trade is valid and a strict Pareto improvement.
 
 **Hard dead-good states.** Call a state with a dead good *hard* if G₀ has no cycle and no such one-label cycle exists.
-In a hard state, the improvement found is **move PR**:
+In a hard state, the improvement found is move PR or the refined walk (§7.6), and most often move PR:
 - take a hungry u, an arc (x, D) into u with label {h}, and a G₀ path from x to a sink r ≠ u;
 - x takes D, and each agent of the path takes its predecessor's good (want arc) or holding (closed arc);
 - r releases its holding;
 - u takes its best allowed holding among the goods left over: what remains of its own holding, the leftover goods
   but h, and r's released goods.
 
-In the instances inspected, u holds a lower pair and takes its b from r's released holding (a lateral move), or
-forms {b, c} with it.
+In the instances inspected, u holds a lower pair and takes its b from r's released holding (a lateral move), or an
+upper pair made of its b and the good it kept. That case is a theorem:
+
+**Lemma 15 (the lateral path).** Let Y be valid (no part of (H) is needed). Let:
+- u be a free agent holding its lower pair, and (x, D) an arc into u with x frozen, D ∩ J = {h} and D ∩ Y_u = {g};
+  let k_u be the other good of Y_u;
+- x = p_0 → p_1 → ⋯ → p_k = r (k ≥ 1) be a simple path of label-free arcs that avoids u and ends at a free agent r;
+- u's b lie in Y_r or in J ∖ {h}.
+
+Trade as follows:
+- x takes D;
+- each p_t takes p_(t−1)'s good (want arc) or holding (closed arc);
+- r's old holding is released;
+- u takes N_u = {b_u, k_u} if this is an upper set of u, else {b_u}.
+
+Then the new state Z is valid, no agent's level is lower, and the level sum is higher.
+
+*Proof.* The holdings are disjoint: g and h go to x, b_u comes from r's released holding or from J ∖ {h}, and the
+path passes holdings forward. They are allowed: D is a danger set (Lemma 7(b)), and so are the closed holdings taken
+along the path. Every agent other than u gains value, so its level does not drop (Lemma 1(a)). The agent p_1 takes x's
+wanted good alone, so its level rises: a single good worth more than a holding has a higher level. u keeps level 3
+(the good b) or reaches 5 (an upper pair).
+
+(V1). Take an agent i ≠ u and a good q that i wants in Z.
+- Since v_i(Z_i) ≥ v_i(Y_i), i wanted q in Y, so q was the single good of a frozen agent j.
+- If j is off the trade, q is still j's single good.
+- Otherwise j is one of p_0, …, p_(k−1): it is frozen, while r is free and u is free. A frozen agent's label-free arc
+  is a want arc, so q went alone to the next agent.
+
+If N_u = {b_u}, u wants only its top a_u, since c_u, d_u < b_u. u wanted a_u in Y as well (a_u > c_u + d_u), so the
+same argument applies. If N_u is an upper set, u wants nothing. Released goods are wanted by nobody: they were goods
+of free agents, and only u's wanted set grew.
+
+(V2). Holdings of one good threaten nobody, and pairs threaten nobody once (V1) holds (Lemma 1(c)). D is a pair. A
+triple T of Z is either unchanged or the closed holding Y_o of an agent o on the path, now held by o's blocker:
+- for i ≠ u, θ_i(T) ≤ v_i(Y_i) ≤ v_i(Z_i) by (V2) in Y; for i = o, o's new holding is worth more than Y_o;
+- for i = u, T contains none of u's goods: a_u is a single holding, c_u and d_u were u's, and b_u was in Y_r or J.
+  So θ_u(T) = 0. ∎
+
+`k4/de4/lemma15.py` checks Lemma 15 by brute force on every valid state (§7.8). Lemma 15 resolves a hard dead-good
+state whenever some hungry lower-pair holder's b is leftover or held by the end of a path from one of its frozen
+blockers. That this always happens, or something replaces it, is the open part of (E).
 
 **Evidence** (`python3 k4/de4/dead.py`, logs `results/k4_de4/dead_*.log`; EVIDENCE): see §7.8.
 
 **What remains for a proof of DE4.** Conjecture 11″, e.g. through (D) and (E). For (E) the open case is the hard
-one: show that some move PR is valid and lowers no level, or find the improvement otherwise. Gap G2 is closed by
+one: show that some move PR (Lemma 15 is the lower-pair case with b available) or a refined-walk cycle is valid and
+lowers no level, or find the improvement otherwise. Gap G2 is closed by
 Lemma 8; gap G1 by Lemma 12 for free blockers holding their top, an {a, d} pair or a rich pair; label-free cycles by
 Lemma 14.
 
@@ -527,17 +568,36 @@ Lemma 14.
 
 ### 7.8 Evidence for (D) and (E)
 
-`k4/de4/dead.py` (EVIDENCE; seeds in the logs) checks, at every (H) state where the walk stops:
-- whether some leftover good is dead (D) and F₁ is empty;
+`k4/de4/dead.py` (EVIDENCE; seeds in the logs) checks two kinds of states.
+
+At every (H) state where the walk stops, it checks:
+- whether some leftover good is dead (D), and whether F₁ is empty;
 - whether a better state that lowers no level exists (Conjecture 11″, brute force over all valid states);
 - which construction finds one: the refined walk, Lemma 14's label-free cycle, the one-label cycle, or move PR.
 
-Each cycle's trade is built and checked (valid, strict Pareto improvement). At every (H) state with a dead good, it
-also checks that a label-free cycle, a one-label cycle or move PR gives such an improvement.
+At every (H) state with a dead good (whether or not the walk stops), it checks:
+- whether a label-free cycle, a one-label cycle, move PR or the refined walk gives such an improvement.
 
-| run | profiles | (H) states found | result | log |
+Each cycle's trade is built and checked (valid, strict Pareto improvement). `k4/de4/lemma15.py` checks Lemma 15 as
+stated on every valid state.
+
+| run | profiles | found | result | log |
 |---|---|---|---|---|
-| walk stops, random profiles of the n = 4 cores with two or three 4-good agents | 160,000 | 6 where the walk stops | every one has a dead good and F₁ = ∅; every one is hard; move PR resolves all 6 (the refined walk 5) | `results/k4_de4/dead_stuck_n4.log` |
+| stopped walks, n = 4 cores with two or three 4-good agents | 160,000 | 6 (H) states with a stopped walk | all: dead good, F₁ = ∅, hard; move PR resolves all 6 (the refined walk 5) | `dead_stuck_n4.log` |
+| stopped walks, random R1-cores (n = 3..5, m ≤ 11) | 100,000 | 7 | all: dead good, F₁ = ∅; 5 hard (PR resolves 4, the refined walk the fifth) and 2 one-label cycles | `dead_stuck_rand.log` |
+| stopped walks, n = 5 cores with three or four 4-good agents | 2,400 | 0 | | `dead_stuck_n5.log` |
+| stopped walks, the 17 hypergraphs of the stopped walks found by the scratch searches | 40,000 | 60 | all: dead good, F₁ = ∅; 44 hard, all resolved by PR (29 also by the refined walk); 16 one-label cycles | `dead_stuck_stuckhyper.log` |
+| dead goods, the hypergraph of V9's first instance | 20,000 | 806 (H) states with a dead good | 638 label-free cycles, 150 one-label cycles, 18 hard (all PR; 12 also the refined walk) | `dead_hard_v9.log` |
+| dead goods, n = 4 cores with two or three 4-good agents | 40,000 | 5,826 | 5,728 label-free cycles, 98 one-label cycles, no hard state | `dead_hard_n4.log` |
+| dead goods, the 17 hypergraphs | 40,000 | 2,556 | 1,815 label-free cycles, 707 one-label cycles, 34 hard (33 PR, 1 only the refined walk) | `dead_hard_stuckhyper.log` |
+| Lemma 15 as stated, every valid state: suite (n ≤ 5, m ≤ 12), V9's hypergraph, n = 4 cores, random R1-cores | 3,241 + 679,867 + 337,257 + 910,225 states | 9 + 963 + 215 + 478 instances | the conclusion holds in all 1,665 | `lemma15_*.log` |
+
+All logs are in `results/k4_de4/`. In total, 73 stopped walks satisfy (H), and every one has a dead good, F₁ = ∅ and
+a better state that lowers no level. Every cycle trade built is valid and a strict Pareto improvement. Every hard
+dead-good state is resolved by move PR or the refined walk. A dead good does not by itself make a state
+non-completable: 499 states with a dead good (the "completable" lines) are completable, because the receivers'
+values rise. Neither (D) beyond a dead good (a Hall obstruction of size two or more) nor a hard state that both PR
+and the refined walk miss has been seen.
 
 ## 6. Reproduce
 
@@ -552,7 +612,9 @@ python3 k4/de4/check.py moves                                   # §4 "Moves", ~
 python3 k4/de4/check.py xcheck                                  # Python against C
 python3 k4/de4/check.py algo                                    # the algorithm DE4-ALG on the suite
 python3 k4/de4/verify_lemmas.py                                 # the lemmas of §3 by brute force
-python3 k4/de4/variants.py                                      # the refuted variants
+python3 k4/de4/variants.py                                      # the refuted variants (V1-V10)
+python3 k4/de4/dead.py stuck k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz 4000 40 1000   # §7.8; other runs: see the logs
+python3 k4/de4/lemma15.py suite                                 # Lemma 15 by brute force
 bash k4/de4/run_all.sh                                          # every log of §4 except the two C exhaustive runs
 ```
 Needs python-sat (`requirements.txt`) and gcc.

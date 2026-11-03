@@ -4,8 +4,8 @@
                                                     is F1 empty, which moves improve it, and does a better state that
                                                     lowers no level exist (brute force over all valid states)
   python3 k4/de4/dead.py dead SOURCE PER JOBS SEED    every (H) state with a dead good: a cycle of label-free arcs
-                                                    (Lemma 13), a cycle with one label, or hard; for the hard ones,
-                                                    move PR and brute force
+                                                    (Lemma 14), a cycle with one label, or hard; for the hard ones,
+                                                    move PR, the refined walk and brute force
 
 For a cycle of label-free arcs (Lemma 14) and a cycle with one label, the trade is built and checked (valid, strict
 Pareto improvement); where it fails, move PR is tried as in the hard case.
@@ -306,10 +306,12 @@ def job_dead(args):
             C['  ' + kind + ('' if ok is None else ': trade valid and Pareto-improving' if ok else ': TRADE INVALID')] += 1
             if not ok:
                 pr = any(pr_moves(I, Y, h, st) for h in dg)
+                s2, Z2, _ = walk2(I, Y)
+                w2 = s2 == 'ok' and strictly_pareto(I, Y, Z2)
                 S = S if S is not None else all_states(I)
                 lm = any(level_monotone(I, Y, Z) for Z in S)
-                C['    move PR: %s; better state lowering no level: %s' % (pr, lm)] += 1
-                if not pr:
+                C['    move PR: %s; refined walk: %s; better state lowering no level: %s' % (pr, w2, lm)] += 1
+                if not lm or not (pr or w2):
                     ex.append((I.sets, I.v, I.m, Y))
     return C, ex
 
@@ -326,6 +328,6 @@ if __name__ == '__main__':
     for k in sorted(tot):
         print(f'{tot[k]:>10}  {k}')
     for e in EX[:10]:
-        print('EXCEPTION', json.dumps({'sets': e[0], 'vals': [[e[1][i][g] for g in e[0][i]] for i in range(len(e[0]))],
+        print('NOT RESOLVED BY THE MOVES ABOVE', json.dumps({'sets': e[0], 'vals': [[e[1][i][g] for g in e[0][i]] for i in range(len(e[0]))],
                                        'm': e[2], 'Y': e[3]}))
     sys.exit(1 if EX else 0)
