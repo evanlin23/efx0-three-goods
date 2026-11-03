@@ -831,6 +831,8 @@ or a lateral upper-set upgrade that releases another agent's b). Equivalently, i
 all-upper.
 
 With Theorem 16 and Theorem A′, Claim T implies the improvement step, hence the conjecture K4.DE4V3R, hence TARGET₄.
+**Machine-checked** (`lean/EFX/DE4Robust.lean`, `lean/EFX/DE4RobustA.lean`, ledger K4.DE4V3R.LEAN): Theorem A′
+(`EFX.DE4.thmAllUpper`) and **Claim T ⟹ TARGET₄** (`EFX.DE4.target4_of_claimT`), with Claim T the only hypothesis.
 
 **Evidence** (`python3 k4/de4/verify_robust.py`, `results/k4_de4/verify_robust.log`; and `k4/de4/de4r.c`, which counts
 Claim T's failures in the exhaustive runs of K4.DE4V3R): every step of the proofs above (Theorem A′'s construction,

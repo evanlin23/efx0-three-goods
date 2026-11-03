@@ -24,6 +24,8 @@ import EFX.DE4Ring
 import EFX.DE4Cor10
 import EFX.DE4Refute
 import EFX.DE4V3
+import EFX.DE4Robust
+import EFX.DE4RobustA
 import EFX.RealValues
 import EFX.Audit
 import EFX.PreAllocK
