@@ -5,6 +5,9 @@
                                                     lowers no level exist (brute force over all valid states)
   python3 k4/de4/dead.py minimal SOURCE PER JOBS SEED the hard (H) states with a dead good: does Lemma 15 apply, and
                                                     how few agents a better state lowering no level changes
+  python3 k4/de4/dead.py weak SOURCE PER JOBS SEED    every non-completable valid state: a better state in the order?
+                                                    every maximum completable?
+  python3 k4/de4/dead.py maxima SOURCE PER JOBS SEED  Conjecture DE4: every maximum completable?
   python3 k4/de4/dead.py dead SOURCE PER JOBS SEED    every (H) state with a dead good: a cycle of label-free arcs
                                                     (Lemma 14), a cycle with one label, or hard; for the hard ones,
                                                     move PR, the refined walk and brute force
@@ -356,9 +359,46 @@ def job_minimal(args):
     return C, ex
 
 
+def job_weak(args):
+    """every valid state that is not completable: is some valid state better in the order (the improvement form,
+    Conjecture 11'' with Lemmas 4, 4', Corollary 5(b))? and is every maximum completable (DE4)?"""
+    source, per, seed = args
+    C, ex = collections.Counter(), []
+    for I in instances(source, per, random.Random(seed)):
+        S = all_states(I)
+        C['profiles'] += 1
+        nc = [Y for Y in S if completion(I, Y) is None]
+        C['valid states'] += len(S)
+        C['non-completable valid states'] += len(nc)
+        for Y in nc:
+            if not any(better(I, Y, Z) for Z in S):
+                C['NON-COMPLETABLE WITH NO BETTER STATE'] += 1
+                ex.append((I.sets, I.v, I.m, Y))
+            elif not any(level_monotone(I, Y, Z) for Z in S):
+                C['  improvable only by lowering a level'] += 1
+        if any(completion(I, Y) is None for Y in maxima(I, S)):
+            C['MAXIMUM NOT COMPLETABLE'] += 1
+    return C, ex
+
+
+def job_maxima(args):
+    """Conjecture DE4 on random profiles: is every maximum completable?"""
+    source, per, seed = args
+    C, ex = collections.Counter(), []
+    for I in instances(source, per, random.Random(seed)):
+        C['profiles'] += 1
+        mx = maxima(I, all_states(I))
+        C['maxima'] += len(mx)
+        for Y in mx:
+            if completion(I, Y) is None:
+                C['MAXIMUM NOT COMPLETABLE'] += 1
+                ex.append((I.sets, I.v, I.m, Y))
+    return C, ex
+
+
 if __name__ == '__main__':
     mode, source, per, jobs, seed = sys.argv[1], sys.argv[2], int(sys.argv[3]), int(sys.argv[4]), int(sys.argv[5])
-    f = {'stuck': job_stuck, 'dead': job_dead, 'minimal': job_minimal}[mode]
+    f = {'stuck': job_stuck, 'dead': job_dead, 'minimal': job_minimal, 'weak': job_weak, 'maxima': job_maxima}[mode]
     tot, EX = collections.Counter(), []
     with mp.Pool(os.cpu_count()) as p:
         for c, ex in p.imap_unordered(f, [(source, per, seed + s) for s in range(jobs)]):

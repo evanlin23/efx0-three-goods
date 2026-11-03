@@ -24,6 +24,11 @@ to some listed agent `x` than its holding, there is a better valid state.
   minimal upgrade has at most two goods (if it had three, the goods `i` values in `x`'s triple would lie in it, so
   they would be worth at most `i`'s top); so `exists_better_small` applies to `i`.
 
+**Rotations** (`rotate_valid_better`, Lemma 14 in general form): if the agents of a rotation each take their
+predecessor's whole holding, an allowed holding worth more to them, the rotated state is valid and better. Want-rings
+and the label-free cycles of Lemma 14 are rotations (for a closed arc, the taken holding is a danger set of the taker,
+an allowed holding by Lemma 7(b) of the paper, which is not formalized here: `TakesAll` asks for allowedness).
+
 **The frame.** `ConjDE4H` (Conjecture 11″ in its weakest form: every non-completable valid state satisfying (H) has
 a better valid state) ⟹ `ConjDE4Imp` (`conjDE4Imp_of_H`, using Lemma 4, Lemma 4′ and Corollary 5(b)) ⟹ `ConjDE4`
 ⟹ TARGET₄ (`target4_of_conjDE4H`). `ConjDE4H` is a hypothesis, never an axiom; it is open.
@@ -1320,6 +1325,134 @@ theorem target4_of_conjDE4H (I : Inst) (hn : 0 < I.n) (h : ConjDE4H (Fin I.n) (F
     (h4 : ∀ i, numRelevant I i ≤ 4) : ∃ X : I.Alloc, I.EFX0 X :=
   target4_of_conjDE4Imp I hn (conjDE4Imp_of_H h) h4
 
+
+/-! ## Rotations (`k4/de4.md` Lemma 14) -/
+
+section rotate
+variable {v : A → G → Nat} {agents : List A} {goods : List G}
+
+/-- `w` takes `j`'s whole holding: it is an allowed holding of `w`, worth more to `w` than its own. Want arcs (a
+frozen agent's single good) and the closed arcs of Lemma 14 (a holding that is a danger set of `w`) are such arcs. -/
+def TakesAll (v : A → G → Nat) (agents : List A) (goods : List G) (base : G → Option A) (j w : A) : Prop :=
+  w ∈ agents ∧ Allowed v w goods (hold goods base j) ∧ value v w (hold goods base w) < value v w (hold goods base j)
+
+open Classical in
+/-- Rotate the holdings along `σ`: every good of an agent `j` with `σ j = some w` goes to `w`. -/
+noncomputable def rotate (base : G → Option A) (σ : A → Option A) : G → Option A :=
+  fun g => match base g with
+    | none => none
+    | some j => match σ j with
+      | some w => some w
+      | none => some j
+
+omit [DecidableEq G] in
+omit [DecidableEq A] in
+theorem rotate_eq_some {base : G → Option A} {σ : A → Option A} {g : G} {i : A} :
+    rotate base σ g = some i ↔ ∃ j, base g = some j ∧ (σ j = some i ∨ (σ j = none ∧ j = i)) := by
+  unfold rotate
+  cases hb : base g with
+  | none => simp
+  | some j =>
+    simp only
+    cases hs : σ j with
+    | some w =>
+      simp only [Option.some.injEq]
+      constructor
+      · intro e; exact ⟨j, rfl, Or.inl (by rw [hs, e])⟩
+      · rintro ⟨k, hk, h1 | ⟨h1, _⟩⟩
+        · subst hk; rw [hs] at h1; exact Option.some.inj h1
+        · subst hk; rw [hs] at h1; exact absurd h1 (by simp)
+    | none =>
+      simp only [Option.some.injEq]
+      constructor
+      · intro e; exact ⟨j, rfl, Or.inr ⟨hs, e⟩⟩
+      · rintro ⟨k, hk, h1 | ⟨_, e⟩⟩
+        · subst hk; rw [hs] at h1; exact absurd h1 (by simp)
+        · subst hk; exact e
+
+/-- **Lemma 14 in general form (rotations).** If `σ` is injective, the agents that give (`σ j = some w`) are exactly
+those that receive, and every such `w` takes `j`'s whole holding (`TakesAll`), then rotating the holdings along `σ`
+gives a valid state that is better. -/
+theorem rotate_valid_better {base : G → Option A} (hb : Valid v agents goods base) {σ : A → Option A}
+    (hgive : ∀ j w, σ j = some w → j ∈ agents ∧ TakesAll v agents goods base j w)
+    (hinj : ∀ j j' w, σ j = some w → σ j' = some w → j = j')
+    (hcyc : ∀ w, (∃ j, σ j = some w) ↔ σ w ≠ none)
+    (hsome : ∃ j w, σ j = some w) :
+    Valid v agents goods (rotate base σ) ∧ Better v agents goods (rotate base σ) base := by
+  have hrecv : ∀ {j w}, σ j = some w → hold goods (rotate base σ) w = hold goods base j := by
+    intro j w hjw
+    unfold hold
+    apply List.filter_congr
+    intro g _
+    apply decide_eq_decide.mpr
+    rw [rotate_eq_some]
+    constructor
+    · rintro ⟨k, hk, h1 | ⟨h1, e⟩⟩
+      · rw [hinj k j w h1 hjw] at hk; exact hk
+      · subst e; exact absurd h1 ((hcyc k).mp ⟨j, hjw⟩)
+    · intro hg; exact ⟨j, hg, Or.inl hjw⟩
+  have hother : ∀ {i}, (¬ ∃ j, σ j = some i) → hold goods (rotate base σ) i = hold goods base i := by
+    intro i hir
+    have hsi : σ i = none := Classical.byContradiction fun hn => hir ((hcyc i).mpr hn)
+    unfold hold
+    apply List.filter_congr
+    intro g _
+    apply decide_eq_decide.mpr
+    rw [rotate_eq_some]
+    constructor
+    · rintro ⟨k, hk, h1 | ⟨_, e⟩⟩
+      · exact absurd ⟨k, h1⟩ hir
+      · subst e; exact hk
+    · intro hg; exact ⟨i, hg, Or.inr ⟨hsi, rfl⟩⟩
+  have hval : ∀ i ∈ agents, value v i (hold goods base i) ≤ value v i (hold goods (rotate base σ) i) := by
+    intro i _
+    by_cases hir : ∃ j, σ j = some i
+    · obtain ⟨j, hj⟩ := hir
+      rw [hrecv hj]; exact Nat.le_of_lt (hgive j i hj).2.2.2
+    · rw [hother hir]; exact Nat.le_refl _
+  have hvalid : Valid v agents goods (rotate base σ) := by
+    refine valid_of_gain v agents goods (base := base) ?_ ?_ hval ?_ ?_
+    · intro g hg j hj
+      obtain ⟨k, hk, h1 | ⟨_, e⟩⟩ := rotate_eq_some.mp hj
+      · exact (hgive k j h1).2.1
+      · subst e; exact hb.owners g hg _ hk
+    · intro i hi
+      by_cases hir : ∃ j, σ j = some i
+      · obtain ⟨j, hj⟩ := hir
+        rw [hrecv hj]; exact (hgive j i hj).2.2.1
+      · rw [hother hir]; exact hb.allowed i hi
+    · intro i hi g hg hlt
+      obtain ⟨j, hj, hjg⟩ := hb.v1 i hi g hg hlt
+      cases hs : σ j with
+      | some w => exact ⟨w, (hgive j w hs).2.1, by rw [hrecv hs]; exact hjg⟩
+      | none =>
+        have hjr : ¬ ∃ k, σ k = some j := fun h => (hcyc j).mp h hs
+        exact ⟨j, hj, by rw [hother hjr]; exact hjg⟩
+    · intro i hi j hj hij h3 hh hhm
+      by_cases hjr : ∃ k, σ k = some j
+      · obtain ⟨k, hk⟩ := hjr
+        rw [hrecv hk] at hhm ⊢
+        by_cases hik : i = k
+        · subst hik
+          calc value v i ((hold goods base i).erase hh) ≤ value v i (hold goods base i) :=
+                value_sublist v i List.erase_sublist
+            _ ≤ value v i (hold goods (rotate base σ) i) := hval i hi
+        · exact Nat.le_trans (hb.v2 i hi k (hgive k j hk).1 hik hh hhm) (hval i hi)
+      · rw [hother hjr] at hhm ⊢
+        exact Nat.le_trans (hb.v2 i hi j hj hij hh hhm) (hval i hi)
+  refine ⟨hvalid, better_of_monotone v agents goods ?_ hval ?_⟩
+  · intro i hi
+    by_cases hir : ∃ j, σ j = some i
+    · obtain ⟨j, hj⟩ := hir
+      rw [hrecv hj]
+      exact level_mono v i goods (hb.allowed i hi) (hgive j i hj).2.2.1
+        (fun g hg => mem_goods_of_mem_hold hg) (fun g hg => mem_goods_of_mem_hold hg) (hgive j i hj).2.2.2
+    · rw [hother hir]; exact Nat.le_refl _
+  · obtain ⟨j, w, hjw⟩ := hsome
+    exact ⟨w, (hgive j w hjw).2.1, by rw [hrecv hjw]; exact (hgive j w hjw).2.2.2⟩
+
+end rotate
+
 end DE4
 end EFX
 
@@ -1371,3 +1504,5 @@ end EFX
 #print axioms EFX.DE4.exists_better_of_threat
 #print axioms EFX.DE4.conjDE4Imp_of_H
 #print axioms EFX.DE4.target4_of_conjDE4H
+#print axioms EFX.DE4.rotate_eq_some
+#print axioms EFX.DE4.rotate_valid_better
