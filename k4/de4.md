@@ -834,8 +834,9 @@ With Theorem 16 and Theorem A′, Claim T implies the improvement step, hence th
 
 **Evidence** (`python3 k4/de4/verify_robust.py`, `results/k4_de4/verify_robust.log`; and `k4/de4/de4r.c`, which counts
 Claim T's failures in the exhaustive runs of K4.DE4V3R): every step of the proofs above (Theorem A′'s construction,
-the freeness at Φ*, Corollary 10 and the closed walk in the robust order) holds on every state checked, and no
-non-completable state of the largest level sum that is not all-upper has been found.
+the freeness at Φ*, Corollary 10 and the closed walk in the robust order) holds on every state checked (7,800 random
+profiles: Theorem A′ in 61 cases, Corollary 10 in 905, the closed walk in 536), and no non-completable state of the
+largest level sum that is not all-upper has been found; in those profiles none of the largest level sum occurs at all.
 
 ## 6. Reproduce
 
