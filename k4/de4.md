@@ -24,12 +24,17 @@ parts of DE that carry over, and the exact step that is missing.
 - *Refuted* (`attempts/k4-de4-variants.md`, replay `python3 k4/de4/variants.py`): DE's own holdings; upper sets
   without the lower pair; every "minimal set beating a single value" (it contains the dead end of
   `attempts/k4-ls-dead-end.md`); value-Pareto maxima instead of the level sum; DE's single-owner finishing rule;
-  owners restricted to agents holding at most one good.
-- *Missing* (§5, made precise in §7): the improvement step. §7 proves it (Lemmas 7, 8, Theorem 9, Corollary 10) except in
-  one case: DE's walk reaches a free agent holding two or more goods after a *partial* labelled arc was chosen. For that
-  case Conjecture 11 names two bounded moves (P, K) that resolve every instance found.
-- *Not in Lean.* Nothing here is formalized: the step that would make DE4 a theorem is missing, and the parts that are
-  proved are short.
+  owners restricted to agents holding at most one good; the lower pair only for big-top agents; DE's greedy over all
+  free agents; Conjectures 11 and 11′ of §7.
+- *Missing* (§5, made precise in §7): the improvement step. §7 proves it (Lemmas 7, 8, 12, 14, Theorem 9, Corollary
+  10) except in one case: DE's walk reaches a free agent holding two or more goods after a *partial* labelled arc was
+  chosen. Lemma 13 shows that this is a Hall-type obstruction among the leftover goods. Every instance found has a
+  *dead* leftover good, i.e. one that no free agent can take alone. The improvement then exists, but in some
+  instances only through a *lateral* move: some agent's value drops while its level stays. So DE's value-Pareto
+  argument cannot close the gap (§7.7; Conjectures 11 and 11′ are refuted, Conjecture 11″ is open).
+- *Lean: the frame only* (`lean/EFX/DE4.lean`, row K4.DE4.LEAN). The definitions of §1, Lemma 2 (the draft is
+  valid), the existence of maxima, and the implications "improvement form ⟹ DE4 ⟹ TARGET₄" (Lemma 3) are
+  machine-checked. Both conjectures are hypotheses there. The step that would make DE4 a theorem is missing.
 
 The output of a completion is not D2-shaped in general (hall-cyc6, §5), so DE4 says nothing about K4.D.
 
@@ -411,12 +416,128 @@ of every certified core with n = 3, 4, there are 18,720 non-completable valid st
 No violation of Lemma 8 or Theorem 9 occurs. The validity of the refined walk's trades is checked, not yet proved:
 keep-own arcs produce upper pairs, so the argument of Theorem 9 should carry over.
 
-**What remains for a proof of DE4.** Conjecture 11′, i.e. conflicts between partial arcs into pair holders whose
-blockers are frozen (or free big-top holders of their b). Such conflicts arise only when the walk has already passed
-through such an arc, and they are rare: 4 states among 18,720 in the random run. Gap G2 is closed by Lemma 8, and
-gap G1 for free blockers by Lemma 12.
+**Correction to the remark after Lemma 12.** For a free holder x of its b that is not big-top, the keep-own arc keeps
+x's whole holding ({b} becomes {b, c}). Then no agent can take anything from x, so the arc cannot lie on a cycle; it
+can only end a path. So free holders of their b (big-top or not) are, with frozen agents, the blockers whose partial
+labelled arcs can conflict.
+
+### 7.7 Conjecture 11′ is false; what survives
+
+**Two counterexamples** (V9 of `attempts/k4-de4-variants.md`, replayed by `k4/de4/variants.py`).
+
+*First* (n = 4, m = 7, three 4-good agents). Agent 0 values goods 0, 2, 5, 6 at 2, 3, 8, 4; agent 1 values 0, 3, 4, 6
+at 5, 4, 2, 8; agent 2 values 1, 2, 4, 6 at 4, 5, 2, 8; agent 3 values 1, 3, 5 at 2, 3, 4. Take
+Y = [{0, 2}, {3, 4}, {6}, {5}], with J = {1}:
+- agents 0 and 1 hold their lower pairs and want their tops 5 and 6, which the frozen agents 3 and 2 hold;
+- agent 2's danger set {1, 2} gives a partial arc into agent 0, and agent 3's danger set {1, 3} one into agent 1;
+- both arcs have the label {1}.
+
+So the one leftover good cannot be taken by either free agent, alone or with anything else. Y is valid, (H) holds,
+the walk stops, and neither the refined walk nor P improves. Worse, **no valid state is value-Pareto-better than Y**.
+Every better state lowers some value. Five of them lower no level, e.g. [{5}, {0}, {6}, {1, 3}]:
+- agent 0 takes its top from agent 3;
+- agent 3 takes {1, 3}: the leftover good and agent 1's c;
+- agent 1 takes its b, good 0, which agent 0 has released. Moving from the lower pair to b keeps its level (lateral).
+
+The level sum goes from 14 to 16. Every maximum of this profile is completable.
+
+*Second* (n = 3, m = 8, nobody frozen, every agent holds a pair). The refined walk and P fail again, because the
+greedy choices take the wrong arcs. A rotation in which each agent keeps one good and takes one good from the next is
+value-Pareto-better. It has the shape of Theorem Z's rotations (`k4/c4min.md` §3).
+
+**Consequence.** The improvement step of DE4 is not a value-Pareto lemma like DE's Improvement Lemma: it must allow
+lateral moves. The order of §1 already allows them, since it compares level sums first. The improvement form of §2
+survives:
+
+**Conjecture 11″** (row K4.DE4.C11B). Under (H), there is a valid state in which no agent's level is lower and either
+some level is higher, or the levels are equal and the values Pareto-improve. Every non-completable valid state either
+satisfies (H) or is improved by Lemma 4 or 4′ (or some agent holds nothing, and then it is completable: Corollary
+5(b)). So Conjecture 11″ is the improvement form of §2, and it implies DE4 (start at a maximum).
+
+**Why the walk stops.** Call a free agent z an *absorber* of a leftover good h if Y_z ∪ {h} threatens nobody (with
+the values of Y), i.e. z is not *closed* (Y_z is not a danger set of another agent) and no arc into z has label {h}
+and is partial. Every agent of F₁ absorbs every leftover good, since its arcs are full with nonempty labels.
+
+**Lemma 13.** Under (H), let the walk of Theorem 9 stop at a free agent u (u holds two or more goods, by Lemma 8).
+Let U_P be the set of goods in the labels of the partial arcs chosen so far. Then the goods of U_P cannot be given,
+injectively, to absorbers outside {u}, F₁ and the agents whose chosen arc is full. So, by Hall's theorem, some
+nonempty S ⊆ U_P has fewer than |S| such absorbers. In particular, if U_P = {h}, then h has no absorber outside these
+agents.
+
+*Proof.* Suppose such an assignment exists. Complete Y as follows:
+- each agent of F₁ takes its label (Lemma 8), and each agent whose chosen arc is full takes its label ((8′));
+- each good of U_P goes to its absorber;
+- u takes the rest of J.
+
+Which bundles can threaten?
+- The bundle of an agent that took its label is the danger set of its arc, which threatens nobody (Lemma 8, second
+  claim, and (8′)).
+- An absorber's bundle threatens nobody, by definition.
+- Unchanged holdings threaten nobody, by (V2).
+
+Values only rise, so a threat in the completion is a threat for the old values. As Y is not completable, u's bundle
+Y_u ∪ (J ∖ U) threatens someone, where U is the set of all labels chosen so far. By Lemma 7 this gives an arc into u
+whose label lies in J ∖ U, so the walk does not stop at u. ∎
+
+A leftover good is *dead* if it has no absorber at all. Then F₁ = ∅, and every free agent is closed or has a partial
+arc with label {h}. A dead good is the smallest obstruction of Lemma 13, and the only one found. The data split
+Conjecture 11″ into two statements:
+- **(D)** if the walk stops, some leftover good is dead;
+- **(E)** if some leftover good is dead (and (H) holds), an improvement as in Conjecture 11″ exists.
+
+**Label-free cycles.** Write G₀ for the digraph of the *label-free arcs*:
+- frozen j → every agent that wants j's good;
+- closed u → every agent whose danger set is Y_u.
+
+Call a free agent that is not closed *hungry*: it is a sink of G₀.
+
+**Lemma 14.** Under (H), trading along a cycle of G₀ gives a valid state in which every agent on the cycle has strictly
+more value. In the trade, each agent takes its predecessor's good (want arc) or whole holding (closed arc).
+
+*Proof.* As Theorem 9, with no labels. Every frozen agent on the cycle hands its good, alone, to an agent that wants
+it, so (V1) holds. A new triple D = Y_u (a closed arc into a big-top x) can threaten an agent i only if D strictly
+contains a danger set D′ of i for its new holding. Then:
+- if i ≠ u, then D′ contains a danger set of i for Y_i (no good of a triple is wanted, by (V1)), so Y_u threatened i
+  in Y, against (V2);
+- if i = u, then v_u(D′) > v_u(Z_u) > v_u(Y_u) > v_u(D′), since D′ ⊊ Y_u. ∎
+
+A hungry agent u with an arc (x, D) of label {h} whose blocker x reaches u in G₀ gives a cycle with one label: x takes
+D, and the agents of the G₀ path from x to u pass their goods along. When D is a pair, Theorem 9's argument shows that
+this trade is valid and a strict Pareto improvement.
+
+**Hard dead-good states.** Call a state with a dead good *hard* if G₀ has no cycle and no such one-label cycle exists.
+In a hard state, the improvement found is **move PR**:
+- take a hungry u, an arc (x, D) into u with label {h}, and a G₀ path from x to a sink r ≠ u;
+- x takes D, and each agent of the path takes its predecessor's good (want arc) or holding (closed arc);
+- r releases its holding;
+- u takes its best allowed holding among the goods left over: what remains of its own holding, the leftover goods
+  but h, and r's released goods.
+
+In the instances inspected, u holds a lower pair and takes its b from r's released holding (a lateral move), or
+forms {b, c} with it.
+
+**Evidence** (`python3 k4/de4/dead.py`, logs `results/k4_de4/dead_*.log`; EVIDENCE): see §7.8.
+
+**What remains for a proof of DE4.** Conjecture 11″, e.g. through (D) and (E). For (E) the open case is the hard
+one: show that some move PR is valid and lowers no level, or find the improvement otherwise. Gap G2 is closed by
+Lemma 8; gap G1 by Lemma 12 for free blockers holding their top, an {a, d} pair or a rich pair; label-free cycles by
+Lemma 14.
 
 
+
+### 7.8 Evidence for (D) and (E)
+
+`k4/de4/dead.py` (EVIDENCE; seeds in the logs) checks, at every (H) state where the walk stops:
+- whether some leftover good is dead (D) and F₁ is empty;
+- whether a better state that lowers no level exists (Conjecture 11″, brute force over all valid states);
+- which construction finds one: the refined walk, Lemma 14's label-free cycle, the one-label cycle, or move PR.
+
+Each cycle's trade is built and checked (valid, strict Pareto improvement). At every (H) state with a dead good, it
+also checks that a label-free cycle, a one-label cycle or move PR gives such an improvement.
+
+| run | profiles | (H) states found | result | log |
+|---|---|---|---|---|
+| walk stops, random profiles of the n = 4 cores with two or three 4-good agents | 160,000 | 6 where the walk stops | every one has a dead good and F₁ = ∅; every one is hard; move PR resolves all 6 (the refined walk 5) | `results/k4_de4/dead_stuck_n4.log` |
 
 ## 6. Reproduce
 

@@ -17,8 +17,11 @@ holdings and (V2) no holding threatens anyone.
 | V6 | owners restricted to agents holding at most one good (as in DE) | `induct-g-r1` (n = 2, m = 5) | the only maximum has both agents holding a pair and one good left over |
 | V8 | Conjecture 11 of `k4/de4.md` §7 in its first form: when DE's walk stops, move P (partial path) or move K (two-agent keep-own exchange) improves | a random profile of an n = 4 core (in `k4/de4/variants.py`), found in a run of 50,000 profiles | the walk stops, neither P nor K improves, and no move of at most two agents does; the improvement is a 3-cycle in which one blocker keeps part of its own holding (the refined walk of §7.6 finds it) |
 | V7 | algorithm DE4 with DE's ring built from distinct leftover goods chosen greedily for *all* free agents, pair holders included | two random profiles of n = 4 cores (in `k4/de4/variants.py`) | after the draft and one chain, a free agent holding an upper pair takes the only leftover good that the needed ring uses; DE's rule proper (greedy over the free agents holding at most one good, others only when the walk reaches them) builds the ring |
+| V9 | Conjecture 11′ of `k4/de4.md` §7.6: when DE's walk stops, the refined walk (keep-own arcs, cycle-closing arcs first) or move P improves | (1) a profile of an n = 4 hypergraph with three 4-good agents (m = 7); (2) a random R1-core with n = 3, m = 8 (both in `k4/de4/variants.py`) | (1) two lower-pair holders compete for the one leftover good, which neither can take; the walk stops, the refined walk and P fail, and **no valid state is value-Pareto-better**: every improvement lowers some agent's value, and the five that lower no level are lateral (a lower-pair holder moves to its b). (2) Every agent holds a pair, nobody is frozen; the refined walk's greedy choices miss the improving rotation in which each agent keeps one good |
+| V10 | DE4 with the lower pair allowed only for big-top agents (v(b) + v(c) < v(a)) | `induct-pot-nash` (n = 3, m = 6) | the maximum [{4}, {5}, {3}] is not completable; with DE4's lower pair for agent 0 (not big-top) the only maximum is completable. A non-big-top agent needs the lower pair when its b is in another agent's pair |
 
-V4 and V5 are the instances behind gaps (G1) of `k4/de4.md` §5.
+V4 and V5 are the instances behind gaps (G1) of `k4/de4.md` §5. V9 shows that the improvement step of DE4 cannot be a
+value-Pareto lemma (`k4/de4.md` §7.7).
 
 **Smallest failing configurations** (as found; n = 2 is the least possible n for V1 and V6, the others are the
 smallest on the suite, not proved smallest):
@@ -29,6 +32,9 @@ smallest on the suite, not proved smallest):
 - V8: n = 4, m = 8 (the profile in `k4/de4/variants.py`);
 - V7: n = 4, m = 8 and m = 7 (the two profiles in `k4/de4/variants.py`; found in `results/k4_de4/algo_random.log` of
   the first run, 2 of 6,090 runs).
+- V9: n = 4, m = 7 and n = 3, m = 8 (the two instances in `k4/de4/variants.py`; the first found by sampling every
+  profile class of the hypergraph of a stopped walk, the second among random R1-cores);
+- V10: n = 3, m = 6 (`induct-pot-nash`, the only suite failure of the variant).
 
 Replay: `python3 k4/de4/variants.py` (prints "confirmed" for each and exits 0 iff all are confirmed;
 `results/k4_de4/variants.log`).

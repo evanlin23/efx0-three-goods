@@ -138,4 +138,51 @@ ok = (valid(I, Y) and completion(I, Y) is None and chain_move(I, Y) is None and 
 report('V8 Conjecture 11 with moves P and K only', ok,
        f'Y = {Y} (values {values(I, Y)}): walk stops, no P, no K; refined walk gives {Z2} (values {values(I, Z2) if Z2 else None})')
 
+# 9. Conjecture 11' of k4/de4.md §7.6 (the walk stops => the refined walk or move P improves): a stopped walk
+#    (n = 4, m = 7) where neither does, and no valid state is value-Pareto-better at all; the better states all
+#    lower some agent's value. One of them lowers no level: agent 1 moves from its lower pair to its b (lateral).
+#    A second instance (n = 3, m = 8, every agent holds a pair, nobody frozen): neither the refined walk nor P, but a
+#    rotation in which every agent keeps one good is value-Pareto-better.
+from check import better as order_better
+def level_monotone(I, Y, Z):
+    return all(level(I, i, Z[i]) >= level(I, i, Y[i]) for i in range(I.n)) and order_better(I, Y, Z)
+I = Inst([[0, 2, 5, 6], [0, 3, 4, 6], [1, 2, 4, 6], [1, 3, 5]], [[2, 3, 8, 4], [5, 4, 2, 8], [4, 5, 2, 8], [2, 3, 4]])
+Y = [(0, 2), (3, 4), (6,), (5,)]
+st, _, _ = walk(I, Y)
+st2, Z2, _ = walk2(I, Y)
+S = all_states(I)
+pb = [Z for Z in S if strictly_pareto(I, Y, Z)]
+lm = [Z for Z in S if level_monotone(I, Y, Z)]
+Zlat = [(5,), (0,), (6,), (1, 3)]
+ok = (valid(I, Y) and completion(I, Y) is None and chain_move(I, Y) is None and st == 'F2 stuck'
+      and not (st2 == 'ok' and strictly_pareto(I, Y, Z2)) and not any(True for _ in partial_paths(I, Y))
+      and not pb and Zlat in [list(map(tuple, Z)) for Z in lm]
+      and all(completion(I, Z) is not None for Z in maxima(I, S)))
+report("V9 Conjecture 11' (refined walk or move P)", ok,
+       f'Y = {Y} (level sum {levsum(I, Y)}): walk stops, refined walk and P fail, no value-Pareto-better valid state; '
+       f'{len(lm)} level-monotone better states, e.g. {Zlat} (level sum {levsum(I, Zlat)}); every maximum completable')
+I = Inst([[1, 2, 4, 5], [2, 3, 5, 7], [1, 4, 6, 7]], [[21, 26, 23, 19], [16, 12, 11, 24], [26, 22, 16, 23]], 8)
+Y = [(1, 4), (2, 3), (6, 7)]
+st, _, _ = walk(I, Y)
+st2, Z2, _ = walk2(I, Y)
+Zrot = [(2, 4), (3, 7), (1, 6)]
+ok = (valid(I, Y) and completion(I, Y) is None and chain_move(I, Y) is None and st == 'F2 stuck'
+      and not (st2 == 'ok' and strictly_pareto(I, Y, Z2)) and not any(True for _ in partial_paths(I, Y))
+      and valid(I, Zrot) and strictly_pareto(I, Y, Zrot))
+report("V9 Conjecture 11', second instance (n = 3, nobody frozen)", ok,
+       f'Y = {Y}: walk stops, refined walk and P fail; the rotation {Zrot} (each agent keeps one good) is Pareto-better')
+
+# 10. The lower pair only for big-top agents (v(b) + v(c) < v(a)): a maximum of induct-pot-nash is not completable.
+import de4lib
+_lp = de4lib.is_lower_pair
+de4lib.is_lower_pair = lambda I, i, A: _lp(I, i, A) and I.v[i][I.ranked(i)[1]] + I.v[i][I.ranked(i)[2]] < I.v[i][I.ranked(i)[0]]
+I = inst('induct-pot-nash')
+mx = de4lib.maxima(I, de4lib.all_states(I))
+bad = [Y for Y in mx if de4lib.completion(I, Y) is None]
+de4lib.is_lower_pair = _lp
+mx0 = maxima(I, all_states(I))
+report('V10 lower pair only for big-top agents', bool(bad) and all(completion(I, Y) is not None for Y in mx0),
+       f'induct-pot-nash: the maximum {bad[0] if bad else None} is not completable; with every lower pair (DE4) the '
+       f'maxima {mx0} are completable')
+
 sys.exit(0 if ok_all else 1)

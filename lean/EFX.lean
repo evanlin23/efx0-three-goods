@@ -17,6 +17,7 @@ import EFX.CorollaryD
 import EFX.Target
 import EFX.K4Reduction
 import EFX.K4Ties
+import EFX.DE4
 import EFX.RealValues
 import EFX.Audit
 import EFX.PreAllocK
