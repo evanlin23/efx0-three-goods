@@ -893,8 +893,10 @@ ends. ∎
 So under (H) every agent has a pointer, σ has cycles, and labels can coincide only on two arcs into free agents
 holding two or more goods. Frozen agents' arcs carry no label, F₁'s labels are pairwise disjoint and avoid the others.
 
-**Lemma 18 (cycles with disjoint labels).** Let Y be (V3)-valid with (H), σ as in Lemma 17, and C a cycle of σ on
-which the labels T_c ∩ J (c ∈ C) are pairwise disjoint. Trade along C: for c ∈ C, σ(c) takes T_c, and the goods of Y_c
+**Lemma 18 (cycles with disjoint labels).** Let Y be (V3)-valid with (H), and C a cycle of agents with a successor
+σ(c) and a set T_c for each c ∈ C: if c is frozen, σ(c) wants c's good and T_c = Y_c; if c is free, T_c = D for a
+minimal arc (σ(c), D) into c (no danger set of anyone is a proper subset of D). Every cycle of a map σ of Lemma 17 is
+such a cycle. Suppose the labels T_c ∩ J (c ∈ C) are pairwise disjoint. Trade along C: for c ∈ C, σ(c) takes T_c, and the goods of Y_c
 outside T_c become leftover. The result Z is valid, every agent of C gains value, and either Φ(Z) > Φ(Y), or
 Φ(Z) = Φ(Y) and Z is (V3)-valid and value-Pareto-better. So Y is not a maximum. Theorem 9's walk, when it closes, is
 such a cycle (it chooses arcs with the fewest labels, then the fewest goods, so no danger set is a proper subset of
@@ -926,6 +928,36 @@ whose labels share a leftover good.
 *Proof.* If (L) fails, (H) holds (above). Lemma 17 gives σ; every cycle of σ has two labels that meet (Lemma 18), and
 only labels of arcs into free agents holding two or more goods can meet. ∎
 
+**Lemma 20 (lower pairs at a maximum).** Let Y be a maximum of the robust order with (H), and u a free holder of its
+lower pair {c_u, d_u}. Its top a_u is held alone by a frozen agent h (u wants it), and b_u is held, by (V3). Then:
+- (a) h has no arc into u;
+- (b) if b_u is the whole holding of an agent x, no minimal arc (x, D) into u with |D| = 2 or Y_u ⊄ D raises x's
+  level (minimal: no danger set of anyone is a proper subset of D);
+- (c) if u is not big-top (v(b_u) + v(c_u) > v(a_u)), no free holder w of an upper set containing b_u has a
+  self-upgrade N ⊆ Y_w ∪ J of the same level with b_u ∉ N and (w → N) valid.
+
+*Proof.* (a) Shrink an arc of h into u to a minimal one (as in Lemma 17; Lemma 7(c) keeps it meeting Y_u). With h's want
+arc to u it forms a 2-cycle with one label, and Lemma 18 applies.
+
+(b) Let x take D and u take b_u; the goods of Y_u outside D become leftover. h ∉ {x, u}, since h holds a_u.
+- (V1): u wants only a_u, as before (c_u, d_u < b_u < v(Y_u) < a_u). x's value rises, so its wanted set shrinks. If x
+  was frozen, its old good is now the whole holding of u. Released goods were in a two-good holding, so nobody wants
+  them.
+- (V2) for x's holding: a pair threatens nobody. A triple strictly contains no danger set of an agent i ∉ {x, u}
+  (minimality), and none of u: u's danger sets for {b_u} lie in Y_u, and D meets Y_u in one good.
+- (V2) for u, whose value dropped: the only holding with goods of R_u and more than one good is D, and
+  θ_u(D) ≤ max(v(c_u), v(d_u)) < v(b_u).
+- Φ: x's level rises, u's stays (3 = 3), and nothing else changes: (M1).
+
+(c) Let w take N and u take {b_u, c_u}, an upper set, as v(b_u) + v(c_u) > v(a_u) and each good is worth less than
+a_u. In (w → N), b_u is leftover, hence unwanted, and c_u was in a two-good holding. So the new pair threatens nobody,
+and u now wants nothing. d_u becomes leftover. u's level rises from 3 to at least 5, w's stays: (M1). ∎
+
+So at a maximum, the second form of (L) releases only the b of a big-top holder of its lower pair. The lower-pair
+arcs in the data that Lemma 20 does not exclude are resolved by a clean 2- or 3-cycle through the holder of a_u, by
+a keep-own swap with a non-robust holder of b_u (u takes {b_u, c_u}, the holder takes {a, s}), or by a push-down
+chain (u takes b_u from a holder of its b, which takes its top from a frozen holder, which takes its own b from J).
+
 In the all-upper case, (X) is the conflict that Theorem A′ resolves: two rich-pair holders on the cycle need the same
 leftover fourth good, and the loser keeps its top. So **Claim T′ is equivalent to: a non-completable maximum that is
 not all-upper satisfies neither (L) nor (X).** The two cases are open. What the data show
@@ -944,9 +976,32 @@ goods, and where DE's rule fails, at every level sum (a proof must exclude such 
   Pareto moves.
 - (L): free holders of b whose c and d are leftover occur at maxima, but only on the screen set (7 maxima, of A131,
   B131, GM4-E and GM4-Q; none in the random runs). They are what defeats the single owner there, and DE's rule
-  completes each, with that agent as a helper taking c or d. So maximality alone does not exclude (L); a proof must
-  use non-completability there, as Lemma 8 does for F₁. Lateral upper-set upgrades that release a lower-pair holder's b
-  occur only below Φ* in the data.
+  completes each, with that agent as a helper taking c or d. So maximality alone does not exclude (L); Lemma 17′ below
+  uses non-completability there, as Lemma 8 does for F₁. Lateral upper-set upgrades that release a lower-pair holder's
+  b occur only below Φ* in the data (Lemma 20(c) excludes them at a maximum unless the lower-pair holder is big-top).
+
+**Lemma 17′ (the first form of (L)).** Let Y be a non-completable maximum in which every agent threatened by the
+leftover goods alone is a free holder x of its b with c_x, d_x leftover. Choose e_x ∈ {c_x, d_x} for these agents,
+pairwise distinct, skipping an agent both of whose goods are already chosen, and let E be the chosen goods. Then
+Lemma 8 holds for the other agents of F₁ with labels avoiding E, and Lemma 17 holds with U₁ ∪ E in place of U₁. The
+agents x get their pointers as the agents holding two or more goods do, and their arcs may use e_x.
+
+*Proof.* As for Lemmas 8 and 17, with each x absorbing e_x in the completions.
+- Its bundle {b_x, e_x} is a pair, so it threatens nobody.
+- x is threatened by no bundle B of the completion: B contains neither a_x (held alone by a frozen agent, as x wants
+  it), nor b_x, nor e_x, so θ_x(B) ≤ v(c_x) < v(b_x).
+- An agent not threatened by J alone has no danger set inside J. x's only danger set for {b_x}, namely {c_x, d_x},
+  is not inside J ∖ E.
+- When x is the owner, its bundle is {b_x, e_x} ∪ (J ∖ (U₁ ∪ E)), and the threatened agent's danger set gives an arc
+  into x with label inside (J ∖ (U₁ ∪ E)) ∪ {e_x}.
+
+The rest is unchanged. ∎
+
+Lemma 18 carries over, except in one corner. The step "Lemma 4′ would apply to v" fails for such an x = v only if the
+taker's set is {b_v, c_v, d_v}: the only allowed pair of v inside {b_v} ∪ J is its lower pair. So Theorem 19 holds
+with (L) replaced by (L₂) (the second form of (L), which by Lemma 20(c) releases the b of a big-top lower-pair holder)
+or that corner. (X) is then about the pointer maps of Lemma 17′. In the data the corner never occurs, and every state
+with lateral holders of b has a clean raising cycle (`claimt.py lateral`).
 
 **Evidence** (EVIDENCE; `k4/de4/claimt.py`, sources: the screen set, random R1-cores of `dead.random_r1`, random
 strict profiles of the stuck hypergraphs and R4's, of the n = 4 cores with two 4-good agents, and of the n = 3 cores):
@@ -956,15 +1011,25 @@ strict profiles of the stuck hypergraphs and R4's, of the n = 4 cores with two 4
 | `owner` | (V3)-valid states of the largest level sum, not all-upper, with leftover goods | screen 230, of which 21 have no single owner, all completed by DE's rule; random 4,899, stuck hypergraphs 540, n = 4 with two 4-good agents 585, n = 3 202, every one with a single owner | `results/k4_de4/claimt_owner_*.log` |
 | `cases` | (V3)-valid states (any level sum), not all-upper, with leftover goods, where DE's rule fails | 21,646 states (screen 483, random 14,855, stuck hypergraphs 2,695, n = 4 1,873, n = 3 1,740). All but 6 are refuted by a simple move, a (V3)-keeping lateral upgrade, or the closed walk (whose trade always raised Φ). In each of the 6, the walk stops and a valid state with larger Φ exists (2 or 3 agents change) | `results/k4_de4/claimt_cases_*.log` |
 | `pointer` | the same states with no simple or (V3)-keeping move and nobody threatened by J alone | the pointer map is total in every case (Lemma 17). In 1,450, some cycle has disjoint labels, and its trade raises Φ (Lemma 18). In 8, no cycle does; all 8 contain a lower-pair holder, and the smallest Φ-raise is the swap described above (2 agents in 7, 3 in 1) | `results/k4_de4/claimt_pointer_*.log` |
+| `lp` | Lemma 20(b), (c): every instance on every (V3)-valid state of the sampled profiles | (b) 475 instances, (c) 389, every trade valid and Φ-raising | `results/k4_de4/claimt_lp_*.log` |
+| `loser` | the 8 states of `pointer` with no clean raising cycle | a winner/loser rotation raises Φ in 6; with lateral wants in all 8 | `results/k4_de4/claimt_loser_*.log` |
+| `lateral` | the states of `cases` with no simple or (V3)-keeping move and an agent threatened by J alone | 21 states (screen 8, random 9, stuck hypergraphs 3, n = 4 1), each with one free holder of b whose c and d are leftover and none of the second form; in every one the pointer map of Lemma 17′ is total and a cycle with disjoint labels raises Φ | `results/k4_de4/claimt_lateral_*.log` |
 | `arcs` | partial labelled arcs at the largest level sum (24,809 states with leftover goods) and at maxima | none into a lower-pair holder; they go into robust holders (which are never on a cycle) and, rarely, non-robust upper holders | `results/k4_de4/claimt_arcs_*.log` |
 
-So two lemmas are missing:
-- a lemma about lower pairs: in a state with (H) and (X) that is not all-upper, some lower-pair holder and the holder
-  of its b can swap so that Φ rises;
-- a version of Lemma 8 and Lemma 17 under (L), in which a free holder of b with c and d leftover counts as a helper
-  for one of them.
+So what is missing is one statement, which the data support. Call a **lateral want** the arc from the single holder
+of b_u to a lower-pair holder u (u takes b_u at its own level, as in Lemma 20(b)). Call a **winner/loser rotation**
+the trade along a cycle of a pointer map in which, going around from some start, a take whose label was already used
+*loses*. Its taker takes an allowed holding inside the take's goods outside J, its own goods its successor does not
+take, and unused leftover goods. This is Theorem A′'s rule, where the loser keeps its top.
 
-Each would need a case analysis by the holder's kind.
+**Conjecture A″.** Let Y be a non-completable (V3)-valid state with (H) (or (L) of the first form, with Lemma 17′),
+not all-upper, at which no cycle of a pointer map has disjoint labels. Then some pointer map, extended by lateral
+wants, has a cycle whose winner/loser rotation is valid and raises Φ.
+
+With Conjecture A″, Lemma 20(c) for big-top lower-pair holders, and the corner of Lemma 18, Claim T′ would follow
+(Theorem 19, Lemma 17′). Evidence: `claimt.py loser`; all 8 states of `pointer` without a clean cycle are resolved
+this way (2 of them, on GM4-B, need a lateral want). A proof would generalize the counting of Theorem A′, in which
+each loser's successor gains what the loser loses, to frozen agents, lower pairs and lateral wants.
 
 ## 6. Reproduce
 

@@ -17,6 +17,18 @@
         whose label avoids those labels, frozen agents to any wanter. Over all choices: is there a cycle with
         pairwise disjoint labels, and does its trade raise Phi (Lemma 18)? If no such cycle exists: the smallest
         Phi-raising states, described agent by agent (old kind -> new goods, each as rank:source)
+  python3 k4/de4/claimt.py lp SOURCE PER JOBS SEED      Lemma 20 (b), (c) of k4/de4.md §10.1 on every (V3)-valid state:
+        the swaps of a lower-pair holder u with the single holder of b_u, and after a lateral upgrade releasing b_u
+  python3 k4/de4/claimt.py loser SOURCE PER JOBS SEED   on the states of `pointer` with no clean raising cycle: does a
+        winner/loser rotation (Theorem A' style) along a cycle of a pointer map raise Phi? A take whose label was
+        used earlier on the cycle loses: its taker takes an allowed holding inside its take minus J, its own goods
+        its successor does not take, and unused leftover goods. Also with "lateral wants": a lower-pair holder may
+        take its b from that b's single holder
+  python3 k4/de4/claimt.py lateral SOURCE PER JOBS SEED the states of `cases` with no simple or (V3)-keeping move in
+        which some agent is threatened by J alone: if these are all free holders x of their b whose c and d are
+        leftover (the first form of (L)), each first absorbs e_x, one of c_x, d_x (all choices, distinct), then the
+        pointer map of `pointer` is built with these goods counted as used labels (Lemma 17'). Total? A clean
+        raising cycle?
   python3 k4/de4/claimt.py arcs SOURCE PER JOBS SEED    partial labelled arcs (k4/de4.md §7) into free agents holding
         two or more goods, at Phi* and at the maxima (Phi*, then (V3)-Pareto), by holder and blocker kind
 
@@ -31,7 +43,7 @@ sys.path.insert(0, HERE)
 import verify_robust as T
 S = T.S
 from de4lib import Inst, random_profile, load_cores, wanted_goods, leftover, de_finish, subsets, wanted, apply_takes
-from cycle import walk, arcs_into
+from cycle import walk, arcs_into, danger_sets
 from dead import random_r1
 
 ROBNV = S.Variant('robnv', {'LP': 3, 'UR': 6})          # the robust levels without (V3): for Phi-raising states
@@ -314,7 +326,194 @@ def run_pointer(I, C, ex, tag):
                            [kind(I, Y, i, W) for i in range(I.n)]))
 
 
-MODES = {'owner': run_owner, 'cases': run_cases, 'pointer': run_pointer, 'arcs': run_arcs}
+def minimal_arc(I, Y, D):
+    return not any(set(E) < set(D) for i in range(I.n) for E in danger_sets(I, i, Y[i]))
+
+
+def run_lp(I, C, ex, tag):
+    All, ph, P = states(I)
+    for Y, p in zip(All, ph):
+        if not T.v3ok(I, Y):
+            continue
+        J = set(leftover(I, Y))
+        for u in range(I.n):
+            if S.types(I, u, Y[u]) != 'LP':
+                continue
+            a, b, c, d = I.ranked(u)
+            x = next(k for k in range(I.n) if b in Y[k])
+            if tuple(Y[x]) == (b,):
+                for _, xx, D in arcs_into(I, Y, u, J):
+                    if xx != x or not minimal_arc(I, Y, D) or not (len(D) == 2 or not set(Y[u]) <= set(D)):
+                        continue
+                    if T.lev(I, x, list(D)) <= T.lev(I, x, list(Y[x])):
+                        continue
+                    Z = [list(A) for A in Y]; Z[x] = list(D); Z[u] = [b]
+                    ok = valid_nv(I, Z) and T.phi(I, Z) > p
+                    C['Lemma 20(b): x -> D, u -> {b_u} valid and Phi-raising: %s' % ok] += 1
+                    if not ok and len(ex) < 12:
+                        ex.append(('b', tag, I.sets, [I.v[i] for i in range(I.n)], [list(A) for A in Y], u, x, D))
+            if I.v[u][b] + I.v[u][c] > I.v[u][a]:
+                for w in range(I.n):
+                    if w == u or not T.isupper(I, w, Y[w]) or b not in Y[w]:
+                        continue
+                    pool = [g for g in list(Y[w]) + list(J) if g in I.v[w]]
+                    for N in subsets(pool):
+                        if b in N or not ROBNV.allowed(I, w, list(N)) or I.val(w, N) <= I.val(w, Y[w]):
+                            continue
+                        if T.lev(I, w, list(N)) != T.lev(I, w, list(Y[w])):
+                            continue
+                        Z = [list(A) for A in Y]; Z[w] = list(N)
+                        if not valid_nv(I, Z):
+                            continue
+                        Z[u] = [b, c]
+                        ok = valid_nv(I, Z) and T.phi(I, Z) > p
+                        C['Lemma 20(c): w -> N, u -> {b_u, c_u} valid and Phi-raising: %s' % ok] += 1
+                        if not ok and len(ex) < 12:
+                            ex.append(('c', tag, I.sets, [I.v[i] for i in range(I.n)], [list(A) for A in Y], u, w, N))
+
+
+def loser_cycle(I, Y, J, cyc, sig, p):
+    """winner/loser rotation along cyc (every start); True if some outcome is valid with larger Phi"""
+    k = len(cyc)
+    for st in range(k):
+        order = cyc[st:] + cyc[:st]
+        used, plan = set(), []
+        for c in order:
+            x, Tk = sig[c]
+            lab = set(Tk) & J
+            lose = bool(lab & used)
+            if not lose:
+                used |= lab
+            plan.append((c, x, Tk, lose))
+        Z = [list(A) for A in Y]
+        for c, x, Tk, lose in plan:
+            if not lose:
+                Z[x] = list(Tk)
+        taken = set(g for c, x, Tk, lose in plan if not lose for g in Tk)
+        losers = [(c, x, Tk) for c, x, Tk, lose in plan if lose]
+        opts = []
+        for c, x, Tk in losers:
+            pool = set(g for g in Tk if g not in J) | set(g for g in Y[x] if g not in taken) | set(g for g in J if g not in taken)
+            pool = [g for g in pool if g in I.v[x]]
+            opts.append([list(H) for H in subsets(pool) if ROBNV.allowed(I, x, list(H))])
+        for choice in itertools.product(*opts):
+            Z2 = [list(A) for A in Z]
+            for (c, x, Tk), H in zip(losers, choice):
+                Z2[x] = H
+            goods = [g for A in Z2 for g in A]
+            if len(goods) == len(set(goods)) and valid_nv(I, Z2) and T.phi(I, Z2) > p:
+                return True
+    return False
+
+
+def run_loser(I, C, ex, tag):
+    All, ph, P = states(I)
+    for Y, p in zip(All, ph):
+        if not T.v3ok(I, Y):
+            continue
+        J = set(leftover(I, Y))
+        if not J or allupper(I, Y) or de_finish(I, Y) is not None:
+            continue
+        W = set(wanted_goods(I, Y))
+        if simple_raise(I, Y, J, W) or lateral_v3(I, Y, J, W)[0]:
+            continue
+        if any(I.val(x, J) > I.val(x, Y[x]) for x in range(I.n)) or not all(Y):
+            continue
+        opts = pointer_options(I, Y, J, W)
+        if isinstance(opts, str) or clean_cycle(I, Y, J, opts, p) == 'raise':
+            continue
+        res = {}
+        for lateral in (False, True):
+            o2 = {a: list(v) for a, v in opts.items()}
+            if lateral:      # a lower-pair holder may take its b from that b's single holder
+                for u in range(I.n):
+                    if S.types(I, u, Y[u]) == 'LP':
+                        b = I.ranked(u)[1]
+                        x = next(k for k in range(I.n) if b in Y[k])
+                        if tuple(Y[x]) == (b,) and (u, (b,)) not in o2[x]:
+                            o2[x].append((u, (b,)))
+            agents = sorted(o2)
+            ok = False
+            for choice in itertools.product(*[o2[a] for a in agents]):
+                sig = dict(zip(agents, choice))
+                seen = set()
+                for s0 in agents:
+                    path, o = [], s0
+                    while o not in path and o not in seen:
+                        path.append(o); o = sig[o][0]
+                    seen |= set(path)
+                    if o in path and loser_cycle(I, Y, J, path[path.index(o):], sig, p):
+                        ok = True
+                        break
+                if ok:
+                    break
+            res[lateral] = ok
+        C['no clean raising cycle (kinds %s): loser rotation raises Phi %s; with lateral wants %s' % (
+            ' '.join(sorted(kind(I, Y, i, W) for i in range(I.n))), res[False], res[True])] += 1
+        if not res[True] and len(ex) < 12:
+            ex.append((tag, I.sets, [I.v[i] for i in range(I.n)], [list(A) for A in Y]))
+
+
+def run_lateral(I, C, ex, tag):
+    All, ph, P = states(I)
+    for Y, p in zip(All, ph):
+        if not T.v3ok(I, Y):
+            continue
+        J = set(leftover(I, Y))
+        if not J or allupper(I, Y) or de_finish(I, Y) is not None:
+            continue
+        W = set(wanted_goods(I, Y))
+        if simple_raise(I, Y, J, W) or lateral_v3(I, Y, J, W)[0] or not all(Y):
+            continue
+        thr = [x for x in range(I.n) if I.val(x, J) > I.val(x, Y[x])]
+        if not thr:
+            continue
+        lat = [x for x in thr if len(I.ranked(x)) == 4 and tuple(Y[x]) == (I.ranked(x)[1],)
+               and I.ranked(x)[2] in J and I.ranked(x)[3] in J]
+        if len(lat) != len(thr):
+            C['an agent threatened by J alone is not a holder of b with c, d leftover (second form of (L))'] += 1
+            continue
+        F = [i for i in range(I.n) if not frozen(Y, i, W)]
+        best = None
+        for es in itertools.product(*[I.ranked(x)[2:] for x in lat]):
+            if len(set(es)) != len(es):
+                continue
+            E = dict(zip(lat, es))
+            used, opts, ok = set(es), {}, True
+            for o in F:
+                if len(Y[o]) != 1 or o in E:
+                    continue
+                a = arcs_into(I, Y, o, J, used)
+                if not a:
+                    ok = False; break
+                _, x, D = a[0]
+                opts[o] = [(x, tuple(D))]
+                used |= set(D) & J
+            if not ok:
+                best = best or 'Lemma 8 fails'; continue
+            for u in F:
+                if len(Y[u]) >= 2 or u in E:
+                    a = arcs_into(I, Y, u, J, used - ({E[u]} if u in E else set()))
+                    if not a:
+                        ok = False; break
+                    opts[u] = [(x, tuple(D)) for _, x, D in a]
+            if not ok:
+                best = best or "Lemma 17' fails"; continue
+            for j in range(I.n):
+                if j not in opts:
+                    g = Y[j][0]
+                    opts[j] = [(w, (g,)) for w in range(I.n) if g in wanted(I, w, Y[w])]
+            r = clean_cycle(I, Y, J, opts, p)
+            if r == 'raise':
+                best = 'total, a clean cycle raises Phi'; break
+            best = 'total, no clean raising cycle (%s)' % r
+        C['%d such agents: %s' % (len(lat), best)] += 1
+        if best != 'total, a clean cycle raises Phi' and len(ex) < 12:
+            ex.append((tag, I.sets, [I.v[i] for i in range(I.n)], [list(A) for A in Y], lat))
+
+
+MODES = {'lateral': run_lateral, 'owner': run_owner, 'cases': run_cases, 'pointer': run_pointer, 'lp': run_lp, 'loser': run_loser,
+         'arcs': run_arcs}
 
 
 def job(args):
