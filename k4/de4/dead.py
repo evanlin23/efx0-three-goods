@@ -3,6 +3,8 @@
   python3 k4/de4/dead.py stuck SOURCE PER JOBS SEED   every (H) state where DE's walk stops: is some leftover good dead,
                                                     is F1 empty, which moves improve it, and does a better state that
                                                     lowers no level exist (brute force over all valid states)
+  python3 k4/de4/dead.py minimal SOURCE PER JOBS SEED the hard (H) states with a dead good: does Lemma 15 apply, and
+                                                    how few agents a better state lowering no level changes
   python3 k4/de4/dead.py dead SOURCE PER JOBS SEED    every (H) state with a dead good: a cycle of label-free arcs
                                                     (Lemma 14), a cycle with one label, or hard; for the hard ones,
                                                     move PR, the refined walk and brute force
@@ -316,9 +318,47 @@ def job_dead(args):
     return C, ex
 
 
+def job_minimal(args):
+    """hard dead-good (H) states: does Lemma 15 apply; the fewest agents changed by a better state lowering no level"""
+    from lemma15 import label_free_paths
+    source, per, seed = args
+    C, ex = collections.Counter(), []
+    for I in instances(source, per, random.Random(seed)):
+        S = None
+        for Y in h_states(I):
+            st = structure(I, Y)
+            J, W, free, G0, closed, arcs = st
+            if not J:
+                continue
+            dg = dead_goods(I, Y, J, free, arcs, closed)
+            if not dg:
+                continue
+            kind, ok = classify_dead(I, Y, dg, st)
+            if ok or completion(I, Y) is not None:
+                continue
+            C['hard (H) states with a dead good'] += 1
+            l15 = False
+            for u in free:
+                if not is_lower_pair(I, u, Y[u]):
+                    continue
+                b = I.ranked(u)[1]
+                for _, x, D in arcs[u]:
+                    if set(Y[x]) & W and len(set(D) & J) == 1 and len(set(D) & set(Y[u])) == 1:
+                        h = next(iter(set(D) & J))
+                        if any(b in Y[p[-1]] or (b in J and b != h) for p in label_free_paths(I, Y, W, G0, x, u)):
+                            l15 = True
+            S = S if S is not None else all_states(I)
+            lm = [Z for Z in S if level_monotone(I, Y, Z)]
+            k = min(sum(tuple(Z[i]) != tuple(Y[i]) for i in range(I.n)) for Z in lm) if lm else None
+            C['  Lemma 15 applies: %s; fewest agents changed by an improvement lowering no level: %s' % (l15, k)] += 1
+            if not lm:
+                ex.append((I.sets, I.v, I.m, Y))
+    return C, ex
+
+
 if __name__ == '__main__':
     mode, source, per, jobs, seed = sys.argv[1], sys.argv[2], int(sys.argv[3]), int(sys.argv[4]), int(sys.argv[5])
-    f = {'stuck': job_stuck, 'dead': job_dead}[mode]
+    f = {'stuck': job_stuck, 'dead': job_dead, 'minimal': job_minimal}[mode]
     tot, EX = collections.Counter(), []
     with mp.Pool(os.cpu_count()) as p:
         for c, ex in p.imap_unordered(f, [(source, per, seed + s) for s in range(jobs)]):

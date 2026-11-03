@@ -593,6 +593,7 @@ stated on every valid state.
 | dead goods, the hypergraph of V9's first instance | 20,000 | 806 (H) states with a dead good | 638 label-free cycles, 150 one-label cycles, 18 hard (all PR; 12 also the refined walk) | `dead_hard_v9.log` |
 | dead goods, n = 4 cores with two or three 4-good agents | 40,000 | 5,826 | 5,728 label-free cycles, 98 one-label cycles, no hard state | `dead_hard_n4.log` |
 | dead goods, the 17 hypergraphs | 40,000 | 2,556 | 1,815 label-free cycles, 707 one-label cycles, 34 hard (33 PR, 1 only the refined walk) | `dead_hard_stuckhyper.log` |
+| hard dead-good states: does Lemma 15 apply, and the fewest agents an improvement lowering no level changes (the same seeds as the two runs above) | 20,000 + 40,000 | 18 + 34 hard states | Lemma 15 applies in 14 of the 52; the fewest agents changed is 2 in 29 states, 3 in 22, 4 in 1 | `dead_minimal_v9.log`, `dead_minimal_stuckhyper.log` |
 | Lemma 15 as stated, every valid state: suite (n ≤ 5, m ≤ 12), V9's hypergraph, n = 4 cores, random R1-cores | 3,241 + 679,867 + 337,257 + 910,225 states | 9 + 963 + 215 + 478 instances | the conclusion holds in all 1,665 | `lemma15_*.log` |
 
 All logs are in `results/k4_de4/`. In total, 73 stopped walks satisfy (H), and every one has a dead good, F₁ = ∅ and
@@ -601,6 +602,18 @@ dead-good state is resolved by move PR or the refined walk. A dead good does not
 non-completable: 499 states with a dead good (the "completable" lines) are completable, because the receivers'
 values rise. Neither (D) beyond a dead good (a Hall obstruction of size two or more) nor a hard state that both PR
 and the refined walk miss has been seen.
+
+**The open case looks local.** In the hard states found, Lemma 15 covers the frozen blockers of lower-pair holders
+whose b is available (14 of 52). The rest have a free blocker: a free agent holding a rich pair {b, c} whose danger
+set is its top (held by the hungry agent) with the dead good. In every hard state some improvement changes at most
+four agents. In a scratch classification of the 52 states (not a committed artifact):
+- the 2-agent improvements re-divide the holdings of the two hungry agents, or of a hungry agent and a frozen one;
+- the 3-agent ones add one closed or frozen agent;
+- every hard state has exactly two hungry agents.
+
+These instances are small (n ≤ 5, with heavily shared goods), so the locality may be an effect of the size. If it
+holds in general, (E) would follow from a finite case analysis over the types of the two hungry agents and of their
+blockers.
 
 ## 6. Reproduce
 

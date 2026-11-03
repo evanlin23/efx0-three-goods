@@ -27,6 +27,8 @@ run dead_stuck_stuckhyper.log python3 k4/de4/dead.py stuck hypergraphs:results/k
 run dead_hard_v9.log      python3 k4/de4/dead.py dead 'fixed:[[0,2,5,6],[0,3,4,6],[1,2,4,6],[1,3,5]]' 500 40 3000
 run dead_hard_n4.log      python3 k4/de4/dead.py dead k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz 1000 40 4000
 run dead_hard_stuckhyper.log python3 k4/de4/dead.py dead hypergraphs:results/k4_de4/stuck_hypergraphs.json 1000 40 6000
+run dead_minimal_v9.log   python3 k4/de4/dead.py minimal 'fixed:[[0,2,5,6],[0,3,4,6],[1,2,4,6],[1,3,5]]' 500 40 3000
+run dead_minimal_stuckhyper.log python3 k4/de4/dead.py minimal hypergraphs:results/k4_de4/stuck_hypergraphs.json 1000 40 6000
 run lemma15_suite.log     python3 k4/de4/lemma15.py suite
 run lemma15_v9.log        python3 k4/de4/lemma15.py 'fixed:[[0,2,5,6],[0,3,4,6],[1,2,4,6],[1,3,5]]' 500 40 8000
 run lemma15_n4.log        python3 k4/de4/lemma15.py k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz 200 40 9000
