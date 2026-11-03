@@ -25,9 +25,9 @@ parts of DE that carry over, and the exact step that is missing.
   without the lower pair; every "minimal set beating a single value" (it contains the dead end of
   `attempts/k4-ls-dead-end.md`); value-Pareto maxima instead of the level sum; DE's single-owner finishing rule;
   owners restricted to agents holding at most one good.
-- *Missing* (§5): the improvement step. DE closes it by a count that gives every free agent as many blockers with
-  distinct leftover goods as there are free agents. At k = 4 the count fails in two ways, and the rings that exist on
-  the data have to be chosen globally.
+- *Missing* (§5, made precise in §7): the improvement step. §7 proves it (Lemmas 7, 8, Theorem 9, Corollary 10) except in
+  one case: DE's walk reaches a free agent holding two or more goods after a *partial* labelled arc was chosen. For that
+  case Conjecture 11 names two bounded moves (P, K) that resolve every instance found.
 - *Not in Lean.* Nothing here is formalized: the step that would make DE4 a theorem is missing, and the parts that are
   proved are short.
 
@@ -267,6 +267,109 @@ value levels; its Pareto-maxima, and the maxima of more than 40 potentials, are 
 the holdings are only singles, minimal upper sets and the lower pair (so the dead end of `attempts/k4-ls-dead-end.md`,
 which uses {b, d} worth less than a, is not a state); levels are ranks, with the lower pair at b's level; upper sets
 of three goods are allowed, with (V2); completions may give leftover goods to several agents.
+
+## 7. The ring step: what is proved, and the one remaining case
+
+This section replaces the abstract cycle lemma of §5 by a concrete construction and proves all of it but one case.
+Throughout, Y is a valid state of a strict profile such that **(H)**: Lemma 4 and Lemma 4′ give no improvement (so
+Corollary 5(a) holds and no free agent can upgrade inside its holding plus the leftover goods), every agent holds a
+good, and Y is not completable. Every maximum that is not completable satisfies (H).
+
+**Lemma 7 (danger sets).** For an agent i, a *danger set* is a minimal set D of goods of R_i, outside Y_i and not
+wanted by i, with v_i(D) > v_i(Y_i).
+(a) A bundle B with no good of Y_i and no good wanted by i threatens i (θ_i(B) > v_i(Y_i)) if and only if B strictly
+contains a danger set of i.
+(b) Every danger set of i is an allowed holding of i.
+(c) Under (H), no danger set of any agent lies inside J.
+
+*Proof.* (a) If B ⊋ D, remove a good h ∈ B ∖ D: v_i(B ∖ h) ≥ v_i(D) > v_i(Y_i). Conversely, if v_i(B ∖ h) > v_i(Y_i),
+a minimal subset of the goods of R_i in B ∖ h worth more than Y_i is a danger set inside B ∖ h ⊊ B. (b) As in Lemma 4(i):
+the goods outside Y_i that i does not want are, for Y_i = {a}, goods worth less than a, and a minimal set of them
+worth more than a is an upper set; for Y_i = {b} of a 4-good agent they are c and d, and {c, d} is an upper set or the
+lower pair; for Y_i an upper pair they are at most two goods, each worth at most v(a), so a danger set is a pair worth
+more than a, an upper set; in every other case there is no danger set. (c) A danger set D ⊆ J would give
+v_i(J ∩ R_i) ≥ v_i(D) > v_i(Y_i), against Corollary 5(a). ∎
+
+Lemma 7 is checked by brute force: `python3 k4/de4/cycle.py danger` (every bundle of up to four goods, every agent,
+every valid state of the suite instances with n ≤ 4, m ≤ 9; `results/k4_de4/cycle_danger.log`).
+
+**Arcs.** An *arc into* a free agent o is a pair (x, D) with x ≠ o, D a danger set of x, D ⊆ Y_o ∪ J and D ∩ Y_o ≠ ∅.
+Its *label* is D ∩ J. It is *full* if Y_o ⊆ D, *partial* otherwise. By Lemma 7, under (H): for T ⊆ J, the bundle
+Y_o ∪ T threatens x if and only if it strictly contains D for an arc (x, D) into o with label ⊆ T. Arcs into a free
+agent holding one good are full. F₁ is the set of free agents holding one good.
+
+**Lemma 8 (self-absorption).** Under (H), let o_1, …, o_f be the agents of F₁ in index order, and choose for o_t an arc
+(x_t, D_t) whose label L_t avoids L_1 ∪ … ∪ L_(t−1), with the fewest labels and then the fewest goods. Such an arc
+exists for every t, the labels are pairwise disjoint, and no bundle D_t strictly contains a danger set of anyone.
+
+*Proof.* The second claim: if D_t ⊋ D′ for a danger set D′ of some agent i, then D′ meets Y_(o_t) (else D′ ⊆ J, against
+Lemma 7(c)), so (i, D′) is an arc into o_t whose label is a proper subset of L_t, contradicting the choice. For the
+first claim, let U = L_1 ∪ … ∪ L_(t−1) and complete Y by giving o_s the goods L_s (s < t) and o_t all of J ∖ U. The
+bundle of o_s is D_s, which threatens nobody (second claim); the other holdings threaten nobody by (V2), and nobody's
+value dropped. As Y is not completable, the bundle Y_(o_t) ∪ (J ∖ U) threatens someone, so it strictly contains D for
+an arc (x, D) into o_t, whose label lies in J ∖ U. ∎
+
+The same argument gives: **(8′)** if the arcs already chosen for free agents holding two or more goods are full, a
+further free agent u has an arc avoiding all labels chosen so far. Each such agent absorbs its own label (its bundle
+is then exactly its arc's D), and u takes the rest. The argument breaks only for *partial* arcs, whose owner cannot
+absorb the label: its bundle would strictly contain D.
+
+**Theorem 9 (DE's walk).** Under (H), define σ:
+- σ(o_t) = x_t for o_t ∈ F₁ (Lemma 8);
+- σ(j) = the first agent that wants the good of j, for a frozen agent j;
+- for a free agent u holding two or more goods, σ(u) = x for an arc (x, D) into u whose label avoids all labels
+  chosen so far, with the fewest labels and then the fewest goods. This is chosen when the walk reaches u.
+
+Start at the first agent holding one good (the first free agent if there is none) and follow σ. If the walk closes a
+cycle, then trading along it (each agent on the cycle takes from its predecessor the wanted good, or its danger set D)
+gives a valid state in which every agent on the cycle has strictly more value. This is a strict Pareto improvement, so
+no level drops.
+
+*Proof.* Each frozen agent has a wanter, and wanters hold a good (by (H) nobody holds nothing). So σ is defined along
+the walk except where stated. On the cycle every agent takes from exactly one agent. The labels are pairwise disjoint
+by construction, so the new holdings are disjoint; the goods of a giver that its taker does not take become leftover.
+Every taker strictly gains (a wanted good, or a danger set, worth more than its holding), and every new holding is
+allowed (Lemma 7(b)). Wanted sets only shrink, so a good wanted afterwards was wanted before. It was then a one-good
+holding of a frozen agent j; if j is on the cycle, the good is now the whole holding of σ(j), which wants it. This is
+(V1). For (V2): holdings that did not change threaten nobody new; a new pair threatens nobody (Lemma 1(c)). Let a new
+triple D (a big-top blocker's {b, c, d}, taken through an arc into a giver v) threaten an agent i. By Lemma 7(a), D
+strictly contains a danger set D′ of i for its new holding.
+- If i ≠ v: D′ is disjoint from Y_i and from the goods i wants, and it is worth more than i's new holding, hence than
+  Y_i. So it contains a danger set D″ of i for Y_i with D″ ⊊ D. Then (i, D″) is an arc into v (Lemma 7(c)) with fewer
+  labels or fewer goods, contradicting the choice.
+- If i = v: D′ ⊆ Y_v ∪ J is an allowed holding of v (Lemma 7(b)), a pair (D′ ⊊ D), worth more than v's new holding,
+  hence than Y_v. As v is free, Lemma 4′ would apply, against (H). ∎
+
+**Corollary 10.** Under (H), if the walk of Theorem 9 never has to choose an arc for a free agent holding two or more
+goods after a partial labelled arc has been chosen, it closes a cycle and gives a strict Pareto improvement. In
+particular, if no free agent holds two or more goods, a non-completable state satisfying (H) has an improvement. This
+is the four-good analogue of DE's Improvement Lemma for such states, including big-top blockers, whose arcs use two
+leftover goods.
+
+*Proof.* By Lemma 8 and (8′), every choice the walk makes exists, and the walk is finite, so it closes a cycle;
+Theorem 9 applies. ∎
+
+**Conjecture 11 (the remaining case).** Under (H), if the walk stops at a free agent holding two or more goods (no arc
+avoiding the labels chosen so far), then one of these moves gives a better state (in the order of §1):
+- **(P) partial path:** a free agent u holding two or more goods and a partial arc (x, D) into u. x takes D; u keeps its
+  most valuable allowed subset of Y_u ∖ D; if x is frozen, x's good passes down the first-wanter walk (Lemma 4(ii)),
+  and the old holding at its end becomes leftover. This may lower u's level, so it is an improvement only when the
+  level sum rises;
+- **(K) keep-own exchange:** two free agents re-divide their holdings and leftover goods, each keeping part of its own,
+  both strictly gaining.
+
+Moves P and K are each bounded in the number of agents they touch, apart from the wanter walk in P. The
+evidence is in `results/k4_de4/cycle_*.log`, produced by `python3 k4/de4/cycle.py`. On the suite, of the 326
+non-completable valid states:
+- 230 are improved by Lemma 4 or 4′;
+- 94 by the walk;
+- the walk stops in 2 states, gm4-B (resolved by P) and induct-g-r1 (resolved by K).
+
+There is no violation of Lemma 8 or Theorem 9. The random runs are summarized in the log.
+
+**What remains for a proof of DE4.** Conjecture 11. With it, every maximum is completable: a non-completable maximum
+satisfies (H), and Corollary 10, P or K would give a better state. Conjecture 11 is the precise form of gaps G1 and G3
+of §5. Gap G2 (big-top blockers using two leftover goods) is closed by Lemma 8.
 
 ## 6. Reproduce
 
