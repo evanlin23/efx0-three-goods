@@ -32,12 +32,16 @@ parts of DE that carry over, and the exact step that is missing.
   *dead* leftover good, i.e. one that no free agent can take alone. The improvement then exists, but in some
   instances only through a *lateral* move: some agent's value drops while its level stays. So DE's value-Pareto
   argument cannot close the gap (§7.7; Conjectures 11 and 11′ are refuted, Conjecture 11″ is open).
-- *Lean* (`lean/EFX/DE4.lean`, `DE4Moves.lean`, `DE4Upgrade.lean`, row K4.DE4.LEAN). Machine-checked:
+- *Lean* (`lean/EFX/DE4.lean`, `DE4Moves.lean`, `DE4Upgrade.lean`, `DE4Ring.lean`, `DE4Cor10.lean`, row
+  K4.DE4.LEAN). Machine-checked:
   - the definitions of §1, and the existence of maxima;
   - Lemmas 1(a), 2, 4 (with its chains, want-rings and three-good switch), 4′, Corollary 5(b), and Lemma 3;
-  - hence "Conjecture 11″ (under (H), a better valid state exists) ⟹ improvement form ⟹ DE4 ⟹ TARGET₄".
+  - hence "Conjecture 11″ (under (H), a better valid state exists) ⟹ improvement form ⟹ DE4 ⟹ TARGET₄";
+  - from §7: Lemma 7(a), Lemma 7(b) in general form, Theorem 9's trade along a cycle with labels, Lemma 8, and
+    Corollary 10 when every free agent holds one good. So Conjecture 11″ needs proving only for the (H) states in
+    which some free agent holds two or more goods (`EFX.DE4.ConjDE4H₂`).
 
-  The hypothesis `EFX.DE4.ConjDE4H` is exactly the open step; nothing else is assumed.
+  The hypothesis `EFX.DE4.ConjDE4H₂` is the open step; nothing else is assumed.
 
 The output of a completion is not D2-shaped in general (hall-cyc6, §5), so DE4 says nothing about K4.D.
 
@@ -458,7 +462,9 @@ survives:
 order of §1: the level sum is higher, or it is equal and the values Pareto-improve. Every non-completable valid state
 either satisfies (H) or is improved by Lemma 4 or 4′ (or some agent holds nothing, and then it is completable:
 Corollary 5(b)). So Conjecture 11″ is the improvement form of §2, hence equivalent to DE4. In Lean,
-`EFX.DE4.target4_of_conjDE4H` derives TARGET₄ from it. What the walk and §7 add is a proof strategy: DE4 holds at
+`EFX.DE4.target4_of_conjDE4H` derives TARGET₄ from it, and with Corollary 10 (machine-checked when every free agent
+holds one good, `EFX.DE4.cor10`) `EFX.DE4.target4_of_conjDE4H₂` derives TARGET₄ from its case where some free agent
+holds two or more goods. What the walk and §7 add is a proof strategy: DE4 holds at
 every (H) state where the walk closes, and the open case is the stopped walk.
 
 *Its strong form is false* (V11). The strong form asks that no agent's level be lower. A strict profile with n = 6,
