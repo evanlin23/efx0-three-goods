@@ -18,4 +18,10 @@ confirmed     profile C: Y = [{3, 5}, {4}, {2}, {6}] is valid and has no EFX0 co
 confirmed     profile C: with the tie-break "fewest lower pairs", Y is a maximum
 confirmed     profile C: with the tie-break "fewest goods held", Y is a maximum
 confirmed     profile C: with the tie-break "fewest holdings of two or more goods", Y is a maximum
+confirmed     profile D (n = 3, m = 6): strict R1-core
+confirmed     profile D: every maximum of DE4 itself is completable (3 maxima)
+confirmed     profile D: Y = [{1}, {2}, {3, 5}] is valid and has no EFX0 completion
+confirmed     profile D: with the tie-break "fewest lower pairs", Y is a maximum
+confirmed     profile D: with the tie-break "fewest goods held", Y is a maximum
+confirmed     profile D: with the tie-break "fewest holdings of two or more goods", Y is a maximum
 exit status 0

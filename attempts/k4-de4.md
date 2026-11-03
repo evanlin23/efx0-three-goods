@@ -83,19 +83,29 @@ the tie-breaks discard the maximum ({0,2}, {4}, {3,5}, {6}), which dominated ({3
 becomes a maximum, and it has no EFX₀ completion. So the shape of the failure moves; it does not go away. In every
 profile of the class, and under every criterion, some maximum is completable.
 
+The 16 hypergraphs of `results/k4_de4/stuck_hypergraphs_n4.json.gz` (n = 3 and 4, every agent or all but one with
+four goods; 911,720,448 profiles, `results/k4_de4/tiebreaks_stuckhyper.log`) give the same picture: DE4 itself fails
+on 16 profiles of one n = 4 hypergraph with three 4-good agents ({0,3,4,7}, {1,3,6,7}, {2,5,6,7}, {4,5,7}), as does
+the fewest-frozen tie-break; the other tie-breaks fail on 4,320 profiles of three hypergraphs, already at **n = 3**.
+Profile D: R = {0,1,2,4}, {1,2,3,5}, {2,3,4,5}, values {0:4, 1:8, 2:3, 4:2}, {1:8, 2:4, 3:3, 5:2},
+{2:10, 3:7, 4:2, 5:4}; every DE4 maximum is completable, but with any of the three tie-breaks ({1}, {2}, {3, 5}),
+leftover {0, 4}, is a maximum with no EFX₀ completion. Some maximum is completable in every profile, under every
+criterion.
+
 ## Smallest failing configuration
 
 n = 4, m = 7 (core 131). The 8 failing profiles are A, B (A with goods 2 ↔ 4 and 3 ↔ 5 exchanged, and agents 2 ↔ 3
 with them) and, for each, the three profiles obtained by exchanging the values of a lower-pair holder's two pair goods.
 No exhaustive run found a smaller one: none for n ≤ 3 (every strict profile of every core) or for n = 4 with one 4-good
 agent, and core 131 is the only failing core with two 4-good agents. Cores with n = 4 and three or four 4-good agents
-were only sampled.
+were only sampled (one more failing hypergraph with three 4-good agents is in `results/k4_de4/tiebreaks_stuckhyper.log`).
+For the tie-breaks, n = 3, m = 6 (profile D).
 
 ## Replay
 
 `python3 k4/de4/refute_de4.py` (written from `k4/de4.md` §1 only, sharing no code with `de4lib.py`, `de4.c` or
-`de4m.c`; prints "confirmed" for each claim on profiles A and B, the tie-break claims on A and C, and exits 0 iff all
-are confirmed;
+`de4m.c`; prints "confirmed" for each claim on profiles A and B, the tie-break claims on A, C and D, and exits 0 iff
+all are confirmed;
 `results/k4_de4/refute_de4.log`). `k4/de4/de4lib.py` agrees (all_states, maxima, completion). Machine-checked in
 Lean for profile A: `EFX.DE4.Refute.not_conjDE4` (`lean/EFX/DE4Refute.lean`; the instance satisfies `R1Core4` and
 `Strict`, the state is valid, no valid state is better, and none of the four completions is EFX₀), hence also

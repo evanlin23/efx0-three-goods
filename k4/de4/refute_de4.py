@@ -4,8 +4,8 @@
     EFX0 completion. The same state refutes the improvement form and Conjecture 11'' (it satisfies (H) and no valid
     state is better).
 (2) Orders with a scale-invariant tie-break after the level sum (fewest lower pairs; fewest goods held; fewest
-    holdings of two or more goods), then value-Pareto: on core 127 a maximum of each has no EFX0 completion.
-    The tie-break "fewest frozen agents" leaves (1) a maximum.
+    holdings of two or more goods), then value-Pareto: on core 127 (n = 4) and on an n = 3 hypergraph a maximum of
+    each has no EFX0 completion. The tie-break "fewest frozen agents" leaves (1) a maximum.
 
 Written from the definitions of k4/de4.md §1 only; it imports nothing from de4lib, check or de4.c / de4m.c (it is a
 third implementation: the C programs found the instances, de4lib confirms them). Prints 'confirmed' or
@@ -147,5 +147,16 @@ report('profile C: every maximum of DE4 itself is completable (%d maxima)' % len
 report('profile C: Y = %s is valid and has no EFX0 completion' % Y, Y in P.states and not P.completable(Y))
 for tb in ['fewest lower pairs', 'fewest goods held', 'fewest holdings of two or more goods']:
     report('profile C: with the tie-break "%s", Y is a maximum' % tb, Y in P.maxima(tb))
+
+# (3) the same at n = 3: a hypergraph with three 4-good agents (core 1 of results/k4_de4/stuck_hypergraphs_n4.json.gz,
+#     de4m.c profile 2495425 (D)); DE4 has no failure for n <= 3, the tie-breaks do
+P = Profile([[0, 1, 2, 4], [1, 2, 3, 5], [2, 3, 4, 5]], 6, [[4, 8, 3, 2], [8, 4, 3, 2], [10, 7, 2, 4]])
+Y = [{1}, {2}, {3, 5}]
+report('profile D (n = 3, m = 6): strict R1-core', P.core_strict())
+report('profile D: every maximum of DE4 itself is completable (%d maxima)' % len(P.maxima()),
+       all(P.completable(Z) for Z in P.maxima()))
+report('profile D: Y = %s is valid and has no EFX0 completion' % Y, Y in P.states and not P.completable(Y))
+for tb in ['fewest lower pairs', 'fewest goods held', 'fewest holdings of two or more goods']:
+    report('profile D: with the tie-break "%s", Y is a maximum' % tb, Y in P.maxima(tb))
 
 sys.exit(0 if ok_all else 1)
