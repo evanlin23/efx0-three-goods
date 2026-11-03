@@ -20,7 +20,7 @@ if __name__ == '__main__':
     with mp.Pool(os.cpu_count()) as p:
         for ci, out in p.imap_unordered(job, jobs):
             for line in out.splitlines():
-                if line.startswith('FAIL') or line.startswith('OVERFLOW'): fails.append((ci, line))
+                if line.startswith('FAIL') or line.startswith('OVERFLOW') or line.startswith('CLAIMT'): fails.append((ci, line))
                 w = line.split()
                 if line.startswith('var0_maxima'):
                     d = dict(zip(w[0::2], map(int, w[1::2])))

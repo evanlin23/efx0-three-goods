@@ -761,6 +761,82 @@ least half of v(R_i) and a non-robust one less, so Lemma 1(a) still holds. With 
 open. In its all-upper case the rotation above raises the level sum whenever it makes one agent robust and keeps
 everyone's level, so the Pareto requirement, which is what R4 breaks, is no longer needed there.
 
+## 10. The robust order: the improvement step, proved except one case
+
+The candidate of §9 (ledger K4.DE4V3R): the states of DE4ᵛ³ ((V1), (V2), (V3)) and DE4's levels, except that an upper
+set S of agent i is *robust* if v_i(S) ≥ v_i(R_i ∖ S), and robust upper sets have level 6, non-robust ones level 5. The
+order is the level sum Φ, then value-Pareto. The improvement step asks: every non-completable (V3)-valid state has a
+better (V3)-valid state.
+
+**What carries over.** Lemma 1(a) holds: a robust upper set is worth at least v_i(R_i)/2 and a non-robust one less, so
+among an agent's holdings value and level still agree. Lemma R and Lemma V (§9) do not involve the levels of upper sets.
+So, as in §9:
+- a (V3)-valid state with Φ < Φ* (the largest level sum over all valid states) has a better (V3)-valid state;
+- at Φ*, every valid state is a candidate only through value-Pareto improvements, and no valid state has a larger Φ.
+
+**Theorem 16.** Let Y be (V3)-valid and not completable. Then Y has a better (V3)-valid state in each of these cases:
+1. Φ(Y) < Φ*;
+2. some agent holds nothing (then, unless the leftover goods alone threaten someone, Y is completable: Corollary 5(b));
+3. some agent x is threatened by the leftover goods alone and its upgrade of Lemma 4 keeps (V3). At Φ*, such an x is
+   free and its upgrade is lateral (same level), since otherwise the level sum would rise;
+4. a free agent has a self-upgrade (Lemma 4′) that keeps (V3);
+5. (H) holds and no free agent holds two or more goods (Corollary 10);
+6. (H) holds and DE's walk of Theorem 9 closes;
+7. every agent holds an upper set (Theorem A′ below).
+
+*Proof.* Case 1 is Lemma R. Cases 3 and 4: the moves are value-Pareto, so Φ does not drop (Lemma 1(a)). At Φ*, if x were
+frozen its good would pass to a wanter, whose level rises, and Φ would exceed Φ*. Cases 5 and 6: Theorem 9's trade
+moves whole holdings and labelled leftover goods, releases nothing, and every taker gains, so by Lemma V it keeps (V3),
+and it is value-Pareto-better. Case 7 is Theorem A′. ∎
+
+**Theorem A′ (all-upper states).** Let every agent of Y hold an upper set, Y not completable, and no free self-upgrade
+(Lemma 4′) apply. Then the rotation below gives a valid state with a larger level sum.
+
+*Proof.* Nobody wants anything (every holding is worth more than any single good), and (V3) is vacuous: nobody holds a
+lower pair. Let J ≠ ∅ be the leftover goods.
+- A robust agent i is threatened by no bundle B: θ_i(B) ≤ v_i(B ∩ R_i) ≤ v_i(R_i ∖ Y_i) ≤ v_i(Y_i). Upper sets of 3-good
+  agents, {a, b} and {a, c}, and {b, c, d} are robust. So a threatened agent is a 4-good agent of kind D (it holds
+  {a, d} with v(a) + v(d) < v(b) + v(c)) or kind R (it holds a rich pair {p, q}, v(p) + v(q) > v(a), with
+  v(a) + v(s) > v(p) + v(q) for its fourth good s).
+- Without a self-upgrade, b, c ∉ J for kind D (else {a, b} or {a, c}) and a ∉ J for kind R (else {a, p}). Let the
+  owner o take Y_o ∪ J (at least three goods). A kind-D agent is threatened by it iff {b, c} ⊆ Y_o; a kind-R agent iff
+  a ∈ Y_o and s ∈ Y_o ∪ J. So every agent is threatened by at most one owner.
+- Y is not completable, so no owner is valid. Choosing for each owner o an agent σ(o) it threatens gives an injective
+  map, hence a permutation, so every agent is threatened and every agent is of kind D or R.
+- Take a cycle of σ and give each agent i = σ(o) of it, from o:
+  - kind D: {b_i, c_i} ⊆ Y_o, robust, so level 5 → 6;
+  - kind R: {a_i, s_i}, robust (level 6), if s_i ∈ Y_o, or if s_i ∈ J is not yet used on the cycle (then i is the
+    *winner* of s_i); otherwise {a_i, x}, keeping a good x of Y_i that its successor does not need (an upper set,
+    level ≥ 5); otherwise {a_i} (level 4: a *loser*). The successor σ(i) needs {b, c} ⊆ Y_i if it is of kind D, and
+    a and, when it lies in Y_i, s if it is of kind R.
+- A loser's successor needs all of Y_i and gains a level (it becomes robust). Losers' successors are distinct
+  (σ is injective) and are not losers. A winner is not the successor of a loser: such a successor takes its s from
+  Y_i, not from J. Losers exist only when two agents of the cycle need the same leftover good, and then that good
+  has a winner. So the level sum changes by at least (number of winners) ≥ 1 if there is a loser, and by the
+  cycle's length ≥ 2 otherwise, unless agents keep their own goods, which happens only next to a winner. Either way
+  Φ rises.
+- Validity: nobody wants anything (every new holding is an upper set or the agent's top), so (V1) holds and two-good
+  holdings threaten nobody. A loser has all of R_i held by agents of the cycle (a_i by itself, the goods of Y_i by its
+  successor, s_i by the winner), so no unchanged three-good holding threatens it. Nobody holds a lower pair: (V3). ∎
+
+Theorem A′ is the argument of Theorem Z (`k4/c4min.md` §3) with DE4's holdings. The robust level is what lets the
+rotation raise Φ instead of having to improve everyone's value, which is how R4 refutes DE4ᵛ³.
+
+**What remains.** The non-completable (V3)-valid states with Φ(Y) = Φ* that are not all-upper, satisfy (H) (once the
+moves of cases 3 and 4 are exhausted), have a free agent holding two or more goods, and at which the walk stops. Also
+included are those where the only moves of cases 3 and 4 break (V3) (a free holder of b whose upgrade is its lower pair,
+or a lateral upper-set upgrade that releases another agent's b). Equivalently, it suffices to prove:
+
+**Claim T** (row K4.DE4V3R.T). In the robust order, every non-completable (V3)-valid state of the largest level sum is
+all-upper.
+
+With Theorem 16 and Theorem A′, Claim T implies the improvement step, hence the conjecture K4.DE4V3R, hence TARGET₄.
+
+**Evidence** (`python3 k4/de4/verify_robust.py`, `results/k4_de4/verify_robust.log`; and `k4/de4/de4r.c`, which counts
+Claim T's failures in the exhaustive runs of K4.DE4V3R): every step of the proofs above (Theorem A′'s construction,
+the freeness at Φ*, Corollary 10 and the closed walk in the robust order) holds on every state checked, and no
+non-completable state of the largest level sum that is not all-upper has been found.
+
 ## 6. Reproduce
 
 ```

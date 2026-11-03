@@ -4,7 +4,9 @@
  * 2 the same with robust upper sets at level 5.5;
  * 3 robust upper sets at level 6 without (V3) (control: fails on core 131).
  * Counts per variant the profiles where some maximum (every_fail) or every maximum (some_fail) has no EFX0
- * completion, and states beyond MAXST (overflow). Run by k4/de4/run_robust.py. Derived from de4v.c / de4.c:
+ * completion, and states beyond MAXST (overflow); and, per variant, the profiles with a non-completable state of the
+ * largest level sum that is not all-upper (claimT_fail; Claim T of k4/de4.md §10), and the number of non-completable
+ * all-upper states there. Run by k4/de4/run_robust.py. Derived from de4v.c / de4.c:
  *
  * DE4 conjecture checker (k = 4), second implementation (C), written from the definitions:
  * holdings: empty, single goods, minimal sets worth more than the top (MB), lower pair {c,d} with b < c+d < a;
@@ -117,7 +119,7 @@ static int completable(int s) {
 int main(int argc, char **argv) {
     int chunk = argc > 1 ? atoi(argv[1]) : 0, nch = argc > 2 ? atoi(argv[2]) : 1;
     long long prof = 0, every_fail = 0, some_fail = 0, nstates = 0, nmax = 0; int printed[NV] = {0};
-    long long nmaxc[NV] = {0}, every_failc[NV] = {0}, some_failc[NV] = {0}, overflow = 0;
+    long long nmaxc[NV] = {0}, every_failc[NV] = {0}, some_failc[NV] = {0}, overflow = 0, claimT_fail[NV] = {0}, topup_nc[NV] = {0}; int printedT[NV] = {0};
     if (scanf("%d %d", &n, &m) != 2) return 1;
     for (int i = 0; i < n; i++) { scanf("%d", &k[i]); R[i] = 0; for (int t = 0; t < k[i]; t++) { scanf("%d", &gs[i][t]); R[i] |= 1 << gs[i][t]; } }
     for (int i = 0; i < n; i++) { scanf("%d", &nopt[i]); for (int o = 0; o < nopt[i]; o++) for (int t = 0; t < k[i]; t++) scanf("%d", &opt[i][o][t]); }
@@ -169,10 +171,26 @@ int main(int argc, char **argv) {
             }
             if (any_bad) every_failc[c]++;
             if (!any_ok) some_failc[c]++;
+            /* Claim T (k4/de4.md §10): every non-completable state of the largest level sum is all-upper */
+            int tfail = 0;
+            for (int s = 0; s < nst; s++) {
+                if (!ok_s[c][s] || Lb[s] + bonus[c] * nr[s] != best) continue;
+                int allup = 1; for (int j = 0; j < n; j++) if (H[j][st[s][j]].lev != 10) allup = 0;
+                if (comp[s] < 0) comp[s] = completable(s);
+                if (comp[s]) continue;
+                if (allup) topup_nc[c]++;
+                else { tfail = 1;
+                    if (printedT[c] < 2) { printedT[c]++;
+                        printf("CLAIMT var %d profile %lld:", c, idx);
+                        for (int i = 0; i < n; i++) { printf(" ["); for (int t = 0; t < k[i]; t++) printf("%d%s", v[i][gs[i][t]], t + 1 < k[i] ? "," : ""); printf("]"); }
+                        printf(" state:"); for (int j = 0; j < n; j++) printf(" %x", H[j][st[s][j]].mask); printf("\n"); } }
+            }
+            claimT_fail[c] += tfail;
         }
     }
     for (int c = 0; c < NV; c++) printf("var%d_maxima %lld var%d_every_fail %lld var%d_some_fail %lld ", c, nmaxc[c], c, every_failc[c], c, some_failc[c]);
     printf("overflow %lld ", overflow);
+    for (int c = 0; c < NV; c++) printf("var%d_claimT_fail %lld var%d_top_allupper_noncompletable %lld ", c, claimT_fail[c], c, topup_nc[c]);
     printf("\n");
     printf("profiles %lld states %lld maxima %lld every_fail %lld some_fail %lld\n", prof, nstates, nmax, every_fail, some_fail);
     return 0;
