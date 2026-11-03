@@ -20,6 +20,7 @@ import EFX.K4Ties
 import EFX.DE4
 import EFX.DE4Moves
 import EFX.DE4Upgrade
+import EFX.DE4Ring
 import EFX.RealValues
 import EFX.Audit
 import EFX.PreAllocK

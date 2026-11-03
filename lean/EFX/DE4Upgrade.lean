@@ -370,6 +370,174 @@ theorem exists_upgrade {base : G → Option A} (hb : Valid v agents goods base) 
     · have := hYlp.2.1
       omega
 
+omit [DecidableEq A] in
+/-- **Lemma 7(b), general form.** Let `Y` be an allowed holding of `x` and `N ⊆ goods` (a filter of `goods`) a set
+of goods outside `Y`, each worth at most `Y` to `x`, worth more than `Y` together but at most `Y` after removing any
+one good. Then `N` is an allowed holding of `x`, with at most two goods unless `Y` is `x`'s top alone and `N` has
+three goods. -/
+theorem allowed_of_minimal (hgd : goods.Nodup) (hs : Strict v agents goods) (hc : R1Core4 v agents goods)
+    {x : A} (hx : x ∈ agents) {q : G → Bool} {N Y : List G} (hNdef : goods.filter q = N)
+    (hNgoods : ∀ g ∈ N, g ∈ goods) (hYgoods : ∀ g ∈ Y, g ∈ goods) (hNle : ∀ g ∈ N, v x g ≤ value v x Y)
+    (hdis : ∀ g ∈ N, g ∉ Y) (hYnd : Y.Nodup) (hYall : Allowed v x goods Y)
+    (hval : value v x Y < value v x N) (hmin : ∀ g ∈ N, value v x (N.erase g) ≤ value v x Y) :
+    Allowed v x goods N ∧ value v x Y < value v x N ∧ (∀ g ∈ N, value v x (N.erase g) ≤ value v x Y) ∧
+      (N.length ≤ 2 ∨ ∃ y, Y = [y] ∧ v x y = topV v x goods ∧ N.length = 3) := by
+  have hNnd : N.Nodup := hNdef ▸ hgd.filter q
+  have hNpos : ∀ g ∈ N, 0 < v x g := by
+    intro g hg
+    refine Nat.pos_of_ne_zero fun h0 => ?_
+    have h1 := hmin g hg
+    rw [value_cons_erase v x hg] at hval
+    omega
+  have hN2 : 2 ≤ N.length := by
+    refine Nat.le_of_not_lt fun hlt => ?_
+    have := value_le_of_length_le_one' x (by omega : N.length ≤ 1) hNle
+    omega
+  have hYpos := allowed_pos hYall
+  have hNrel : ∀ g ∈ N, g ∈ relevant v x goods := fun g hg => by
+    simp only [relevant, List.mem_filter, decide_eq_true_eq]; exact ⟨hNgoods g hg, hNpos g hg⟩
+  have hYrel : ∀ g ∈ Y, g ∈ relevant v x goods := fun g hg => by
+    simp only [relevant, List.mem_filter, decide_eq_true_eq]; exact ⟨hYgoods g hg, hYpos g hg⟩
+  have hR4 := (hc x hx).2.1
+  have hNY : N.length + Y.length ≤ 4 :=
+    Nat.le_trans (length_append_le hNnd hYnd hdis (fun g hg => by
+      rcases List.mem_append.mp hg with h | h
+      · exact hNrel g h
+      · exact hYrel g h)) hR4
+  have hNtop : ∀ g ∈ N, v x g ≤ topV v x goods := fun g hg => le_topV v x goods (hNgoods g hg)
+  have hpair_upper : N.length = 2 → topV v x goods < value v x N → IsUpper v x goods N := by
+    intro hl hlt
+    refine ⟨hNpos, hlt, fun g hg => ?_⟩
+    have hl1 : (N.erase g).length ≤ 1 := by rw [List.length_erase_of_mem hg]; omega
+    exact value_le_of_length_le_one' x hl1 (fun g' hg' => hNtop g' (List.mem_of_mem_erase hg'))
+  have htpos := topV_pos hc hx
+  by_cases hVtop : topV v x goods ≤ value v x Y
+  · -- (I) the holding is worth at least the top
+    rcases hYall with ⟨hYl, _⟩ | hYup | hYlp
+    · rcases Y with _ | ⟨y, _ | ⟨y', T⟩⟩
+      · simp [value] at hVtop; omega
+      · -- the holding is a single good worth the top
+        have hyv : value v x [y] = v x y := by simp [value]
+        have hy : v x y = topV v x goods := by
+          have := le_topV v x goods (hYgoods y (by simp))
+          rw [hyv] at hVtop
+          omega
+        have hup : IsUpper v x goods N := by
+          refine ⟨hNpos, ?_, fun g hg => ?_⟩
+          · rw [hyv] at hval; omega
+          · have := hmin g hg; rw [hyv] at this; omega
+        refine ⟨Or.inr (Or.inl hup), hval, hmin, ?_⟩
+        by_cases h2 : N.length ≤ 2
+        · exact Or.inl h2
+        · exact Or.inr ⟨y, rfl, hy, by simp at hNY; omega⟩
+      · simp at hYl
+    · have hY2 : 2 ≤ Y.length := by
+        refine Nat.le_of_not_lt fun hlt => ?_
+        have := value_le_of_length_le_one' x (by omega : Y.length ≤ 1)
+          (fun g hg => le_topV v x goods (hYgoods g hg))
+        have := hYup.2.1
+        omega
+      have hl : N.length = 2 := by omega
+      refine ⟨Or.inr (Or.inl (hpair_upper hl (Nat.lt_trans hYup.2.1 hval))), hval, hmin, Or.inl (by omega)⟩
+    · have := hYlp.2.2.2.1
+      omega
+  · -- (II) the holding is worth less than the top: the top is wanted, so it is not leftover
+    have hVlt : value v x Y < topV v x goods := Nat.lt_of_not_le hVtop
+    obtain ⟨a, ha, hav⟩ := exists_topV v x goods htpos
+    have haN : a ∉ N := fun haN => by have := hNle a haN; omega
+    have haY : a ∉ Y := fun haY => by have := le_value_of_mem v x haY; omega
+    have harel : a ∈ relevant v x goods := by
+      simp only [relevant, List.mem_filter, decide_eq_true_eq]; exact ⟨ha, by omega⟩
+    have haNY : 1 + (N.length + Y.length) ≤ 4 := by
+      have := length_append_le (l₁ := [a]) (l₂ := N ++ Y) (by simp)
+        (List.nodup_append.mpr ⟨hNnd, hYnd, fun g hg g' hg' e => hdis g hg (e ▸ hg')⟩)
+        (by intro g hg hm; rcases List.mem_append.mp hm with h | h
+            · simp at hg; subst hg; exact haN h
+            · simp at hg; subst hg; exact haY h)
+        (by intro g hg
+            rcases List.mem_append.mp hg with h | h
+            · simp at h; subst h; exact harel
+            · rcases List.mem_append.mp h with h | h
+              · exact hNrel g h
+              · exact hYrel g h)
+      simp at this
+      omega
+    rcases hYall with ⟨hYl, _⟩ | hYup | hYlp
+    · rcases Y with _ | ⟨y, _ | ⟨y', T⟩⟩
+      · -- nothing held: every leftover good is worthless to x
+        obtain ⟨g, hg⟩ : ∃ g, g ∈ N := by
+          match N, hN2 with
+          | g :: _, _ => exact ⟨g, by simp⟩
+        have h1 := hNle g hg
+        have h2 := hNpos g hg
+        simp [value] at h1
+        omega
+      · -- one good, worth less than the top
+        have hl : N.length = 2 := by simp at haNY; omega
+        refine ⟨?_, hval, hmin, Or.inl (by omega)⟩
+        rcases Nat.lt_trichotomy (topV v x goods) (value v x N) with hlt | heq | hgt
+        · exact Or.inr (Or.inl (hpair_upper hl hlt))
+        · exfalso
+          have := hs x hx N [a] (hNdef ▸ List.filter_sublist) (List.singleton_sublist.mpr ha)
+            (fun g hg hga => by simp at hga; subst hga; exact haN hg) (by simp [value, hav, heq])
+          omega
+        · -- the lower pair
+          have hya : y ≠ a := fun e => haY (by simp [e])
+          have hrel4 : (relevant v x goods).length = 4 := by
+            have := length_append_le (l₁ := [a, y]) (l₂ := N) (by simp [Ne.symm hya]) hNnd
+              (by intro g hg hm; simp at hg; rcases hg with rfl | rfl
+                  · exact haN hm
+                  · exact hdis g hm (by simp))
+              (by intro g hg
+                  rcases List.mem_append.mp hg with h | h
+                  · simp at h; rcases h with rfl | rfl
+                    · exact harel
+                    · exact hYrel g (by simp)
+                  · exact hNrel g h)
+            simp at this
+            omega
+          have hall : ∀ g' ∈ relevant v x goods, g' = a ∨ g' = y ∨ g' ∈ N := by
+            have hsub := subset_of_length_le (l₁ := [a, y] ++ N) (l₂ := relevant v x goods)
+              (List.nodup_append.mpr ⟨by simp [Ne.symm hya], hNnd, by
+                intro g hg g' hg' e; subst e; simp at hg; rcases hg with rfl | rfl
+                · exact haN hg'
+                · exact hdis _ hg' (by simp)⟩)
+              (by intro g hg
+                  rcases List.mem_append.mp hg with h | h
+                  · simp at h; rcases h with rfl | rfl
+                    · exact harel
+                    · exact hYrel g (by simp)
+                  · exact hNrel g h)
+              (by simp; omega)
+            intro g' hg'
+            have := hsub g' hg'
+            simp at this
+            rcases this with h | h | h
+            · exact Or.inl h
+            · exact Or.inr (Or.inl h)
+            · exact Or.inr (Or.inr h)
+          have hyv : value v x [y] = v x y := by simp [value]
+          refine Or.inr (Or.inr ⟨hrel4, hl, hNpos, hgt, ?_, ?_⟩)
+          · intro g hg g' hg' hg'N
+            rcases hall g' hg' with rfl | rfl | h
+            · have := hNle g hg; omega
+            · have hle := hNle g hg
+              rw [hyv] at hle
+              have hne : v x g ≠ v x g' := strict_ne hs hx (hNgoods g hg) (hYgoods g' (by simp))
+                (fun e => hdis g hg (by simp [e])) (hNpos g hg)
+              omega
+            · exact absurd h hg'N
+          · intro g' hg' hg'N hlt
+            rcases hall g' hg' with rfl | rfl | h
+            · omega
+            · rw [hyv] at hval; exact hval
+            · exact absurd h hg'N
+      · simp at hYl
+    · have := hYup.2.1
+      omega
+    · have := hYlp.2.1
+      omega
+
 end upgrade
 
 /-! ## Step (ii): trading along a want map -/
@@ -1286,7 +1454,7 @@ no free listed agent has an allowed holding of at most two goods, made of its ow
 its holding (no Lemma 4′ move). A hypothesis, never an axiom. Its strong form, which asks moreover that no level
 drop, is false (V11 of `attempts/k4-de4-variants.md`). -/
 def ConjDE4H (A G : Type) [DecidableEq A] [DecidableEq G] : Prop :=
-  ∀ (v : A → G → Nat) (agents : List A) (goods : List G), agents.Nodup → goods.Nodup →
+  ∀ (v : A → G → Nat) (agents : List A) (goods : List G), agents ≠ [] → agents.Nodup → goods.Nodup →
     R1Core4 v agents goods → Strict v agents goods →
     ∀ base, Valid v agents goods base → ¬ Completable v agents goods base →
       (∀ i ∈ agents, hold goods base i ≠ []) →
@@ -1299,7 +1467,7 @@ def ConjDE4H (A G : Type) [DecidableEq A] [DecidableEq G] : Prop :=
 
 /-- Conjecture 11″ (with Lemmas 4, 4′ and Corollary 5(b), machine-checked here) implies the improvement form. -/
 theorem conjDE4Imp_of_H (h : ConjDE4H A G) : ConjDE4Imp A G := by
-  intro v agents goods hag hgd hc hs base hb hnc
+  intro v agents goods hne hag hgd hc hs base hb hnc
   by_cases hJ : ∃ x ∈ agents, value v x (hold goods base x) < value v x (leftover goods base)
   · obtain ⟨x, hx, hJx⟩ := hJ
     exact exists_better_of_threat hb hgd hs hc hx hJx
@@ -1315,7 +1483,7 @@ theorem conjDE4Imp_of_H (h : ConjDE4H A G) : ConjDE4Imp A G := by
         value v x (hold goods base x) < value v x (goods.filter p)
   · obtain ⟨x, hx, hfree, p, hp, hN, h2, hgain⟩ := hU
     exact exists_better_of_selfUpgrade hb hx hfree p hp hN h2 hgain
-  · refine h v agents goods hag hgd hc hs base hb hnc hE' hJ' (fun x hx hfree p hp hN h2 hgain => hU ?_)
+  · refine h v agents goods hne hag hgd hc hs base hb hnc hE' hJ' (fun x hx hfree p hp hN h2 hgain => hU ?_)
     exact ⟨x, hx, hfree, p, hp, hN, h2, hgain⟩
 
 /-- **Conjecture 11″ implies TARGET₄** (machine-checked: Lemmas 2, 4, 4′, Corollary 5(b), the existence of maxima
@@ -1506,3 +1674,4 @@ end EFX
 #print axioms EFX.DE4.target4_of_conjDE4H
 #print axioms EFX.DE4.rotate_eq_some
 #print axioms EFX.DE4.rotate_valid_better
+#print axioms EFX.DE4.allowed_of_minimal

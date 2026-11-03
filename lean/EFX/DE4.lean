@@ -139,14 +139,14 @@ def R1Core4 (v : A → G → Nat) (agents : List A) (goods : List G) : Prop :=
 /-- **Conjecture DE4** (`k4/de4.md` §2): on every strict R1-core with at most four relevant goods per agent, every
 maximum is completable. A hypothesis, never an axiom. -/
 def ConjDE4 (A G : Type) [DecidableEq A] [DecidableEq G] : Prop :=
-  ∀ (v : A → G → Nat) (agents : List A) (goods : List G), agents.Nodup → goods.Nodup →
+  ∀ (v : A → G → Nat) (agents : List A) (goods : List G), agents ≠ [] → agents.Nodup → goods.Nodup →
     R1Core4 v agents goods → Strict v agents goods →
     ∀ base, IsMaximum v agents goods base → Completable v agents goods base
 
 /-- **The improvement form** (`k4/de4.md` §2): on every strict R1-core with at most four relevant goods per agent,
 every valid state that is not completable has a better valid state. A hypothesis, never an axiom. -/
 def ConjDE4Imp (A G : Type) [DecidableEq A] [DecidableEq G] : Prop :=
-  ∀ (v : A → G → Nat) (agents : List A) (goods : List G), agents.Nodup → goods.Nodup →
+  ∀ (v : A → G → Nat) (agents : List A) (goods : List G), agents ≠ [] → agents.Nodup → goods.Nodup →
     R1Core4 v agents goods → Strict v agents goods →
     ∀ base, Valid v agents goods base → ¬ Completable v agents goods base →
       ∃ base', Valid v agents goods base' ∧ Better v agents goods base' base
@@ -485,18 +485,19 @@ theorem exists_maximum (v : A → G → Nat) {agents : List A} {goods : List G} 
 
 /-- The improvement form implies Conjecture DE4: a maximum has no better valid state. -/
 theorem conjDE4_of_imp (h : ConjDE4Imp A G) : ConjDE4 A G := by
-  intro v agents goods hag hgd hc hs base hmax
+  intro v agents goods hne hag hgd hc hs base hmax
   refine Classical.byContradiction fun hnc => ?_
-  obtain ⟨b', hv', hb'⟩ := h v agents goods hag hgd hc hs base hmax.1 hnc
+  obtain ⟨b', hv', hb'⟩ := h v agents goods hne hag hgd hc hs base hmax.1 hnc
   exact hmax.2 b' hv' hb'
 
 /-- **Lemma 3** (`k4/de4.md` §2), on one instance: Conjecture DE4 gives an EFX₀ allocation of every strict R1-core
 with at most four relevant goods per agent. -/
 theorem exists_efx0_of_conjDE4 (h : ConjDE4 A G) (v : A → G → Nat) {agents : List A} {goods : List G}
-    (hag : agents.Nodup) (hgd : goods.Nodup) (hc : R1Core4 v agents goods) (hs : Strict v agents goods) :
+    (hne : agents ≠ []) (hag : agents.Nodup) (hgd : goods.Nodup) (hc : R1Core4 v agents goods)
+    (hs : Strict v agents goods) :
     ∃ X : G → A, IsAllocation agents goods X ∧ EFX0L v agents goods X := by
   obtain ⟨base, hmax⟩ := exists_maximum v hag hgd
-  obtain ⟨X, hX, -, hE⟩ := h v agents goods hag hgd hc hs base hmax
+  obtain ⟨X, hX, -, hE⟩ := h v agents goods hne hag hgd hc hs base hmax
   exact ⟨X, hX, hE⟩
 
 /-- **Conjecture DE4 implies TARGET₄** (`k4/de4.md` Lemma 3, with K4.CORE and K4.TIE): if DE4 holds, every
@@ -504,8 +505,8 @@ instance in which each agent positively values at most four goods has an EFX₀ 
 theorem target4_of_conjDE4 (I : Inst) (hn : 0 < I.n) (h : ConjDE4 (Fin I.n) (Fin I.m))
     (h4 : ∀ i, numRelevant I i ≤ 4) : ∃ X : I.Alloc, I.EFX0 X :=
   target4_of_strict_cores I hn I.n (Nat.le_refl _)
-    (fun w _ _ hag hgd _ hcore _ hs _ =>
-      exists_efx0_of_conjDE4 h w hag hgd
+    (fun w agents _ hag hgd _ hcore _ hs _ =>
+      exists_efx0_of_conjDE4 h w (fun he => by have := hcore.1; rw [he] at this; simp at this) hag hgd
         (fun i hi => ⟨(hcore.2.1 i hi).1, (hcore.2.1 i hi).2, hcore.2.2.1 i hi⟩) hs) h4
 
 /-- **The improvement form of DE4 implies TARGET₄.** -/
