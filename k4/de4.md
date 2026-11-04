@@ -1241,6 +1241,74 @@ the states of `claimt.py pointer` without a clean cycle were found):
 | `lpkeep` | every keep-own of Lemma 20(d) on every (V3)-valid (H) state | 9 instances (random 7, stuck hypergraphs 2), and the counterexample to D (`refute_d.py`): all valid; level change +1 when {a_y, d_u} is robust (8 + 1), 0 otherwise (1) | `results/k4_de4/claimd_lpkeep_*.log` |
 | `d` | every F₂-clash cycle of every (V3)-valid (H) state (Conjecture D, refuted by `refute_d.py`) | 6,075 F₂-clash cycles (screen 190, xhg 2,322, random 1,897, stuck hypergraphs 617, n = 4 543, n = 3 506): Lemma 18 6,041, Theorem 23 32, b-swap 2 (GM4-B); none unresolved | `results/k4_de4/claimd_d_*.log` |
 
+### 10.3 Free holders of two or more goods on cycles: Lemma 25 and Conjecture C₃
+
+C₂ asks that no cycle of G share leftover goods between arcs out of free agents holding two or more goods at a
+maximum. The data show more: at the largest level sum with (H), *no* cycle of G passes through such an agent. Lemma 25
+says which arcs can enter these agents, and Conjecture C₃ splits accordingly into two statements about single agents.
+
+**Lemma 25 (in-arcs of free holders of two or more goods).** Let Y be valid and o a free agent holding two or more
+goods (an upper set or its lower pair).
+- (a) If Y_o is a robust upper set, no arc of G ends at o, so o lies on no cycle of G.
+- (b) If Y_o is o's lower pair {c_o, d_o}, the only arcs of G ending at o are want arcs from the holder of a_o, taking
+  {a_o}.
+- (c) If Y_o is a non-robust upper set, then o values four goods, Y_o is a pair, and every arc ending at o comes from
+  a free agent and takes exactly the complementary pair R_o ∖ Y_o. That pair is a robust upper set, so o's level
+  rises from 5 to 6.
+
+*Proof.* An arc ending at o is a want arc (o wants the single good of a frozen agent) or a danger set of o: a set
+D ⊆ R_o ∖ Y_o of goods o does not want, with v_o(D) > v_o(Y_o). An upper holder wants no good, since a single good is
+worth at most the top and v_o(Y_o) is more.
+- (a) v_o(D) ≤ v_o(R_o ∖ Y_o) ≤ v_o(Y_o), so o has no danger set.
+- (b) o wants exactly the goods worth more than v(c_o) + v(d_o), which is a_o only, as v(b_o) < v(c_o) + v(d_o) < v(a_o).
+  A danger set would lie in {b_o}, as a_o is wanted, and v(b_o) < v_o(Y_o).
+- (c) With three relevant goods, an upper pair is worth more than the top, which is worth at least the remaining
+  good, so it is robust. With four, the triple {b, c, d} is worth more than a, so it is robust. So Y_o is a pair of a
+  4-good agent, and R_o ∖ Y_o is a pair worth more than v_o(Y_o) > v(a_o). A danger set is worth more than the top, so
+  it has two goods, and it is the complementary pair. That pair is worth more than the top, each of its goods at most
+  the top, and more than Y_o: a robust upper set. Want arcs into o do not exist, and a frozen agent's arcs are want
+  arcs, so the giver is free. ∎
+
+**Conjecture P1.** At a (V3)-valid state of the largest level sum with (H), no free holder of its lower pair has an
+out-arc in G: no agent x ≠ u has a minimal danger set inside Y_u ∪ J meeting Y_u.
+
+**Conjecture P2.** At a maximum of the robust order with (H), no free holder of a non-robust upper set lies on a cycle
+of G.
+
+**Conjecture C₃** (P1 and P2, with Lemma 25(a)). At a maximum with (H), no cycle of G passes through a free agent
+holding two or more goods.
+
+**C₃ implies C₂ at maxima, hence Claim T′ under (H).** An F₂-clash cycle at a maximum with (H) would, by C₃, pass only
+through frozen agents and free agents holding one good. Frozen agents' arcs carry no label, and the others' labels
+are pairwise disjoint by the definition of an F₂-clash cycle. So all labels are disjoint, and Lemma 18 gives a better
+(V3)-valid state, against maximality. With Proposition 24 and the Lean frame (`EFX.DE4.target4_of_HC2`: there the
+arcs are tight, which under (H) is the minimality of G), C₃ and HL give TARGET₄.
+
+**Toward P1.** Let u hold its lower pair at the largest level sum with (H), with an out-arc (x, D). The holder h of
+a_u is frozen (u wants a_u) and b_u is held by some w (V3).
+- *x = h* is impossible: the 2-cycle h → u → h has one label, and Lemma 18's trade raises the level sum, since u
+  rises from 3 to 4.
+- *x = w with Y_w = {b_u}*: Lemma 20(b) gives a raise unless x's level does not rise (x holds its b and D is its
+  lower pair) or D ⊇ Y_u has three goods.
+- The remaining takers are open.
+
+Below the largest level sum, `lpout.py` finds a raise changing two to four agents for every such arc. The raises use these
+moves:
+- the 2-cycle with h;
+- the swap of Lemma 20(b) with w;
+- a keep-own swap in which u takes b_u and keeps c_u (the robust pair {b_u, c_u}, +3), while w takes one good of u's
+  pair;
+- an agent holding its b alone that adds one good of u's pair (+2, u keeps the other, −1 or −2);
+- chains through w.
+
+**Evidence** (EVIDENCE; `python3 k4/de4/claimd.py c3 SOURCE PER JOBS SEED`, the sources and parameters of `c2`; and
+`python3 k4/de4/lpout.py SOURCE PER JOBS SEED`):
+
+| mode | what | result | logs |
+|---|---|---|---|
+| `claimd.py c3` | every free holder of two or more goods at every (V3)-valid state of the largest level sum with (H) | Lemma 25 holds for all 39,244 (LP 82, non-robust upper 4,422, robust 34,740). No lower-pair holder has an out-arc (P1). 40 non-robust upper holders have both in-arcs and out-arcs, and none lies on a cycle (P2). No robust holder has an in-arc. So no cycle of G passes through a free holder of two or more goods (C₃), at the largest level sum and at the maxima | `results/k4_de4/claimd_c3_*.log` |
+| `lpout.py` | every (V3)-valid (H) state in which a lower-pair holder has an out-arc | 465 states (screen 30, random 98, xhg 170, stuck hypergraphs 167), none of the largest level sum (P1). Every one has a raise; the smallest changes 2 agents in 436, 3 in 27, 4 in 2. The taker is the frozen holder of a_u (2-cycle) or the holder of b_u in most | `results/k4_de4/lpout_*.log` |
+
 ## 6. Reproduce
 
 ```
@@ -1260,6 +1328,8 @@ python3 k4/de4/lemma15.py suite                                 # Lemma 15 by br
 bash k4/de4/run_all.sh                                          # every log of §4 except the two C exhaustive runs
 python3 k4/de4/claimt.py owner screen 1 1 1                      # §10.1; likewise cases, pointer, arcs; sources rand,
                                                                 # hyper, k4_certs_4_n4_2.json.gz, k4_certs_3.json.gz
-python3 k4/de4/claimd.py refuteC                                  # §10.2; also c2, thm23, bswap, d with SOURCE PER JOBS SEED
+python3 k4/de4/claimd.py refuteC                                  # §10.2; also c2, c3, thm23, bswap, d with SOURCE PER JOBS SEED
+python3 k4/de4/lpout.py screen 1 1 1                             # §10.3; also rand, xhg, hyper with PER JOBS SEED
+python3 k4/de4/adv_t.py 2000 8 7 0                               # §10, adversarial Claim T search; also adv_t3.py
 ```
 Needs python-sat (`requirements.txt`) and gcc.

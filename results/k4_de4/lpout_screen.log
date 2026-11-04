@@ -1,0 +1,50 @@
+$ python3 k4/de4/lpout.py screen 1 1 1
+      1      sig[2] h:Fa>bc*[b<J,c<u](+2) ; u:cd>Fa[a<h](+1)
+      1      sig[2] h:Fa>bc*[b<J,c<u](+2) ; u:cd>ad*[a<h,d<o](+3)
+      2      sig[2] h:Fa>bc*[b<u,c<J](+2) ; u:cd>Fa[a<h](+1)
+      2      sig[2] h:Fa>bc*[b<u,c<J](+2) ; u:cd>ad[a<h,d<o](+2)
+      1      sig[2] h:Fa>bc*[b<u,c<u](+2) ; u:cd>Fa[a<h](+1)
+      2      sig[2] h:Fa>bc*[b<x,c<J](+2) ; x:b>Fa[a<h](+1)
+      2      sig[2] h:Fa>bc[b<J,c<o](+1) ; o:cd>Fb[b<h](+0)
+      1      sig[2] h:Fa>bc[b<u,c<J](+1) ; u:cd>Fa[a<h](+1)
+      1      sig[2] h:Fa>bc[b<u,c<J](+1) ; u:cd>ad*[a<h,d<o](+3)
+      1      sig[2] h:Fa>bcd*[b<J,c<J,d<u](+2) ; u:cd>Fa[a<h](+1)
+      1      sig[2] h:Fa>bcd*[b<J,c<J,d<u](+2) ; u:cd>ac*[a<h,c<o](+3)
+      1      sig[2] h:Fa>bcd*[b<u,c<J,d<J](+2) ; u:cd>Fa[a<h](+1)
+      1      sig[2] h:Fa>bcd*[b<u,c<J,d<J](+2) ; u:cd>ac*[a<h,c<o](+3)
+      1      sig[2] h:Fa>bd[b<w,d<J](+1) ; w:b>Fa[a<h](+1)
+      2      sig[2] h:Fa>bd[b<x,d<J](+1) ; x:b>Fa[a<h](+1)
+      1      sig[2] h:Fa>cd[c<u,d<J](+1) ; u:cd>Fa[a<h](+1)
+      1      sig[2] o:b>bc*[b<o,c<u](+3) ; u:cd>c[c<o](-1)
+      1      sig[2] o:c>Fa[a<w](+2) ; w:Fb>c[c<o](-1)
+      3      sig[2] u:cd>Fb[b<x](+0) ; x:Fa>bc*[b<J,c<u](+2)
+      1      sig[2] u:cd>Fb[b<x](+0) ; x:Fa>bc*[b<u,c<u](+2)
+      2      sig[2] u:cd>Fb[b<x](+0) ; x:Fa>bc[b<J,c<u](+1)
+      1      sig[2] u:cd>Fb[b<x](+0) ; x:Fa>bcd*[b<J,c<J,d<u](+2)
+      3      sig[2] u:cd>b[b<x](+0) ; x:a>bc*[b<u,c<u](+2)
+      1      sig[2] u:cd>b[b<x](+0) ; x:a>bd[b<u,d<u](+1)
+      1      sig[2] u:cd>b[b<x](+0) ; x:a>cd[c<u,d<u](+1)
+      2      sig[2] u:cd>b[b<x](+0) ; x:ad>bc*[b<u,c<u](+1)
+      1      sig[2] u:cd>b[b<x](+0) ; x:bc>ac*[a<u,c<o](+1)
+      1      sig[2] u:cd>b[b<x](+0) ; x:bc>ad*[a<u,d<J](+1)
+      1      sig[2] u:cd>bc*[b<x,c<o](+3) ; x:bc>a[a<u](-1)
+      2      sig[2] u:cd>c[c<o](-1) ; x:b>bc[b<o,c<u](+2)
+      1      sig[3] h:Fa>ad[a<o,d<J](+1) ; u:cd>bc*[b<w,c<o](+3) ; w:bc*>b[b<o](-3)
+      1      sig[3] u:cd>b[b<w](+0) ; w:b>Fa[a<x](+1) ; x:Fa>bc[b<J,c<u](+1)
+      1      sig[3] u:cd>b[b<w](+0) ; w:b>ac*[a<x,c<J](+3) ; x:Fa>bc[b<J,c<u](+1)
+      1      sig[3] u:cd>b[b<w](+0) ; w:bc*>ab*[a<x,b<o](+0) ; x:a>bc[b<u,c<u](+1)
+      1      sig[3] u:cd>b[b<w](+0) ; w:bd>ab*[a<x,b<o](+1) ; x:cd>ab*[a<u,b<u](+1)
+      1      sig[3] u:cd>b[b<w](+0) ; w:bd>ab*[a<x,b<o](+1) ; x:cd>ac*[a<u,c<o](+1)
+      1      sig[3] u:cd>b[b<w](+0) ; w:bd>ab*[a<x,b<o](+1) ; x:cd>bc*[b<u,c<o](+1)
+      1      sig[3] u:cd>bc[b<w,c<o](+2) ; w:b>Fa[a<x](+1) ; x:Fa>b[b<J](-1)
+     14    arc labelled, x Fa
+      2    arc labelled, x b
+      1    arc labelled, x bc
+      2    arc unlabelled, x Fa
+      6    arc unlabelled, x a
+      2    arc unlabelled, x ad
+      2    arc unlabelled, x b
+      1    arc unlabelled, x cd
+     27    minimal raise size 2
+      3    minimal raise size 3
+     30  (H) states with an out-arc of a lower-pair holder; top False

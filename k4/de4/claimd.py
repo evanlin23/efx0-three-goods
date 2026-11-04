@@ -11,6 +11,9 @@ threatened by J alone, no free self-upgrade and no Lemma 4 move).
   python3 k4/de4/claimd.py c2 SOURCE PER JOBS SEED
         Conjecture C2: at every (V3)-valid state of the largest level sum with (H), G has no cycle on which only arcs
         out of agents holding two or more goods share labels ("F2-clash cycle"); also at the maxima
+  python3 k4/de4/claimd.py c3 SOURCE PER JOBS SEED
+        Lemma 25 (in-arcs of free holders of two or more goods) and Conjecture C3 (at the largest level sum with (H),
+        no cycle of G passes through a free agent holding two or more goods), with their out-arcs
   python3 k4/de4/claimd.py thm23 SOURCE PER JOBS SEED
         Theorem 23 (replacement) on every cycle of every (V3)-valid (H) state: whenever its hypotheses hold, the
         trade is valid and raises Phi
@@ -219,6 +222,46 @@ def run_c2(I, C, ex, tag):
             ex.append((tag, mx, I.sets, [I.v[i] for i in range(I.n)], [list(A) for A in Y]))
 
 
+def run_c3(I, C, ex, tag):
+    """Lemma 25 and Conjecture C3 at the largest level sum: in-arcs of free holders of two or more goods (robust holders
+    have none; a lower-pair holder only the want arc from the holder of its top; a non-robust upper holder only arcs
+    taking its complementary pair), their out-arcs (label, partial or full), and cycles of G through them"""
+    All, ph, P = CT.states(I)
+    top = [Y for Y, p in zip(All, ph) if p == P and T.v3ok(I, Y)]
+    V = [CT.vals(I, Y) for Y in top]
+    for k, Y in enumerate(top):
+        mx = not any(all(a >= b for a, b in zip(V[l], V[k])) and V[l] != V[k] for l in range(len(top)))
+        J = set(leftover(I, Y)); W = set(wanted_goods(I, Y))
+        if not J or not H(I, Y, J, W):
+            continue
+        arcs = graph(I, Y, J, W)
+        cs = cycles(I, arcs, I.n)
+        tags = ['largest level sum, (H)'] + (['  of which maxima'] if mx else [])
+        for o in range(I.n):
+            if CT.frozen(Y, o, W) or len(Y[o]) < 2:
+                continue
+            r = I.ranked(o); kd = S.types(I, o, list(Y[o]))
+            kd = 'robust upper' if T.lev(I, o, Y[o]) == 6 else 'non-robust upper' if kd in ('U', 'UR') else kd
+            ins = [a for a in arcs if a[1] == o]
+            if kd == 'robust upper':
+                ok = not ins
+            elif kd == 'LP':
+                ok = all(CT.frozen(Y, a[0], W) and set(a[2]) == {r[0]} for a in ins)
+            else:
+                comp = set(r) - set(Y[o])
+                ok = all(set(a[2]) == comp for a in ins)
+            outs = [a for a in arcs if a[0] == o]
+            lab = [a for a in outs if set(a[2]) & J]
+            part = [a for a in lab if not set(Y[o]) <= set(a[2])]
+            oncyc = any(a[0] == o for c in cs for a in c)
+            for t in tags:
+                C['%s: %s holder, Lemma 25 in-arcs %s' % (t, kd, ok)] += 1
+                C['%s: %s holder, in-arcs %s, out-arcs %s, labelled %s, partial labelled %s, on a cycle %s'
+                  % (t, kd, bool(ins), bool(outs), bool(lab), bool(part), oncyc)] += 1
+            if (not ok or oncyc) and len(ex) < 12:
+                ex.append((tag, mx, kd, ok, oncyc, I.sets, [I.v[i] for i in range(I.n)], [list(A) for A in Y]))
+
+
 def run_thm23(I, C, ex, tag):
     All, ph, P = CT.states(I)
     for Y, p in zip(All, ph):
@@ -317,7 +360,7 @@ def run_lpkeep(I, C, ex, tag):
                 ex.append((tag, I.sets, [I.v[i] for i in range(I.n)], [list(A) for A in Y], u, y))
 
 
-MODES = {'lpkeep': run_lpkeep, 'c2': run_c2, 'thm23': run_thm23, 'bswap': run_bswap, 'd': run_d}
+MODES = {'lpkeep': run_lpkeep, 'c2': run_c2, 'c3': run_c3, 'thm23': run_thm23, 'bswap': run_bswap, 'd': run_d}
 
 
 def job(args):
