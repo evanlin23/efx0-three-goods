@@ -1768,6 +1768,29 @@ at all) make the robust holders keep goods that a completion needs them to relea
 or the finishing rule, so that a holder of {a_w, x} may drop x to absorb leftover goods. In DE's terms: helpers that
 first shed goods.
 
+**Two repairs tried after the refutation** (EVIDENCE):
+- *Changing the levels* (`LEVELS=utop4 python3 k4/de4/refine2.py SOURCE PER JOBS SEED`). Give an upper set that contains
+  the agent's top the level of the top alone (4), and break ties by the fewest lower pairs, then value-Pareto. All
+  three known failures of the robust order then have only completable maxima (`results/k4_de4/refine2_utop4_failures.log`).
+  But the variant fails on the screen set, already with two agents: induct-g-r1, R = [[0,2,3,4], [1,2,3,4]], values
+  [[4,10,8,3], [4,8,10,3]], maximum [{0,3}, {1,2}]; and 3 more instances (`results/k4_de4/refine2_utop4_screen.log`).
+  It also breaks Lemma 1(a) (value and level agree), since {a, d} can be worth more than {b, c} at a lower level.
+  Rejected.
+- *Weakening the finishing rule* (ledger K4.DE4V3R.SHED, CONJECTURE). A state is **shed-completable** if, after some
+  holders of an upper set containing their top keep the top alone, it has an EFX₀ completion. This is weaker than
+  completable, still gives an EFX₀ allocation, and keeps the robust order and every lemma of §10. All three known
+  non-completable maxima of the robust order (`results/k4_de4/robust_failures.json`: `refute_rob.py`, `refute_lp.py`,
+  and one more found by `refine.py` on `advt4r`) are shed-completable (`python3 k4/de4/shed.py`,
+  `results/k4_de4/shed_*.log`). So is the lower-pair maximum of `refute_lp.py`. Every exhaustive run of §10 had all
+  states of the largest level sum completable, so the conjecture passes those runs.
+  - **Conjecture K4.DE4V3R.SHED**: every maximum of the robust order is shed-completable.
+  - **Machine-checked frame** (`lean/EFX/DE4Shed.lean`, ledger K4.DE4V3R.LEANSH): K4.DE4V3R.SHED ⟹ TARGET₄
+    (`EFX.DE4.target4_of_conjShed`). Every lemma of the robust frame uses only non-completability, which
+    non-shed-completability implies. So **TARGET₄ ⟸ HXShed + HLLShed** (`EFX.DE4.target4_of_HXShed_HLLShed`), where these
+    are HX and HLL restricted to maxima that are not shed-completable. Neither known counterexample refutes them, since
+    both are shed-completable.
+  - Hill-climbing against it: `python3 k4/de4/shed_climb.py SEED STEPS ROUNDS SOURCE` (`results/k4_de4/shed_climb_*.log`).
+
 ## 6. Reproduce
 
 ```

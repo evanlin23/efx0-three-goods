@@ -1,0 +1,4 @@
+$ python3 k4/de4/shed.py advt4r 300 4 9600
+      805  instances
+        1  robust     non-completable maximum: shed-completable True
+time 167 s
