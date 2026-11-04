@@ -1505,6 +1505,26 @@ cycle at a maximum of the lower-pair order with (H) is clean and not flat, and H
   adds lower pairs. Call such a cycle *flat*. At the maxima of the lower-pair order, flat cycles have to be excluded
   separately.
 
+**Lemma 29 (case (L) in the lower-pair order; machine-checked, `EFX.DE4.selfUp_at_maxLP`).** At a maximum of the
+lower-pair order, every free self-upgrade of at most two goods (Lemma 4′) takes the agent's lower pair, from a holding
+of level 3: a free b-holder x with c_x, d_x leftover takes {c_x, d_x}.
+
+*Proof.* The upgraded state Z is valid (Lemma 4′) and does not lower the level sum (Lemma 1(a)). If it raises the level
+sum, Lemma R gives a (V3)-valid state above the maximum. So x keeps its level. Suppose the new holding is not x's lower
+pair. Then Z has at most as many lower-pair holders as Y.
+- If Z satisfies (V3), it is value-Pareto-better than Y, or it has fewer lower pairs.
+- If it does not, the strict form of Lemma R (`EFX.DE4.exists_validV3_numLP_lt`) gives a (V3)-valid state with fewer
+  lower pairs.
+
+Either way Y is not a maximum. ∎
+
+So, by Lemma 4 at a maximum and Lemma 29, the case (L) of this order is exactly a free holder x of its b whose c and d
+are leftover (`EFX.DE4.FreeLPUp`). Then {b_x, c_x} is not an upper set: it would be a 2-good self-upgrade that Lemma 29
+forbids. So {b_x, c_x, d_x} is a minimal upper set, and the 3-good self-upgrade to it raises the level sum by 2 or 3. It
+can fail only because some agent threatens it, valuing two of these three goods above its own holding. The hypothesis
+**HLB** (`EFX.DE4.HLB`) says that this case does not occur at a non-completable maximum. **TARGET₄ ⟸ HXLP + HLB**
+(`EFX.DE4.target4_of_HXLP_HLB`, machine-checked).
+
 **Lemma 27 (the top swap).** Let Y be valid, u an agent holding its lower pair, and t ≠ u an agent with Y_t = {a_u}.
 Let j be a leftover good that t ranks just below a_u. Suppose θ_t(Y_y) ≤ v_t(j) for every agent y ∉ {t, u} holding
 three or more goods. Let Z be Y with Z_u = {a_u} and Z_t = {j}. Then:
@@ -1595,7 +1615,8 @@ Corollary 28(b) is written only.
 frozen agents' b's held, at least one of them by an agent outside the clash, and its shared good j is a c or d of
 both. The swap then needs a fifth agent: the holder of b_t gives it up. Open in this order, and together sufficient for TARGET₄ by the machine-checked frame:
 - **HX_lp** (`EFX.DE4.HXLP`): at a maximum with (H), no F₂-clash cycle is unclean or flat;
-- **HLL_lp** (`EFX.DE4.HLLLP`): the case (L).
+- **HLL_lp** (`EFX.DE4.HLLLP`): the case (L), by Lemma 29 equivalently **HLB** (`EFX.DE4.HLB`): no free b-holder
+  whose c and d are leftover at a non-completable maximum.
 
 **Evidence** (EVIDENCE):
 
@@ -1606,7 +1627,7 @@ both. The swap then needs a fifth agent: the holder of b_t gives it up. Open in 
 | `refine_hx.py` | the maxima of the lower-pair order with leftover goods, on the 75 instances | all completable; (H) holds at 26, none has an F₂-clash cycle | `results/k4_de4/refine_hx_*.log` |
 | `refine_climb.py` | hill-climbing toward a non-completable maximum of the lower-pair order (gap 10·(Φ* − Φ) + extra lower pairs + 1 if Pareto-dominated; 99 when no non-completable state lies within 5 of Φ*) | seeded from the 75 unclean-cycle instances, 15 rounds of 300 steps: best gap 20 (two levels below Φ*), most rounds 40–99; seeded from `advt3x` and `advt4x`, 5 rounds each: 99. Nothing came within one level | `results/k4_de4/refine_climb_*.log` |
 | `dc_climb.py` | hill-climbing toward the double clash that Corollary 28 leaves (a (V3)-valid (H) state with a double clash and no applicable top swap; gap 10·(Φ* − Φ) + applicable swaps) | from the 75 instances, 10 rounds: best 22 (two levels below Φ*, both swaps applicable); from `advt4x`, 4 rounds: 99. The configuration was not found | `results/k4_de4/dc_climb_*.log` |
-| `topswap.py`, `refine_hx.py` on `adv_t4.py` (frozen agents' b held elsewhere) and `advt3x` | double clashes and maxima | `topswap` on 650 `adv_t4` instances: 131 double-clash (H) states. A top swap applies in 125. In the other 6, the frozen agents' next goods are held by the robust holders 4, 5: this is the case Corollary 28 leaves. All 6 lie 5 to 9 levels below Φ*, and each has a raise changing 2 or 3 agents (`resid_raise.py`). In those raises, u takes b_u from its holder and keeps c_u (the robust pair {b, c}), or t takes {j, its next good} from that good's holder. `refine_hx`: 446 maxima with (H), none with an F₂-clash cycle | `results/k4_de4/refine_hx_advt*.log`, `results/k4_de4/topswap_advt4x.log`, `results/k4_de4/resid_raise_advt4x.log` |
+| `topswap.py`, `refine_hx.py` on `adv_t4.py` (frozen agents' b held elsewhere) and `advt3x` | double clashes and maxima | `topswap` on 650 `adv_t4` instances: 131 double-clash (H) states. A top swap applies in 125. In the other 6, the frozen agents' next goods are held by the robust holders 4, 5: this is the case Corollary 28 leaves. All 6 lie 5 to 9 levels below Φ*, and each has a raise changing 2 or 3 agents (`resid_raise.py`). On 429 `advt3x` instances: 207 double-clash (H) states, a top swap applies in 206, and the other one lies below Φ*. In those raises, u takes b_u from its holder and keeps c_u (the robust pair {b, c}), or t takes {j, its next good} from that good's holder. `refine_hx`: 446 maxima with (H), none with an F₂-clash cycle | `results/k4_de4/refine_hx_advt*.log`, `results/k4_de4/topswap_advt4x.log`, `results/k4_de4/topswap_advt3x.log`, `results/k4_de4/resid_raise_advt4x.log` |
 | `flat.py` | flat cycles (clean F₂-clash cycles of b-holders taking their lower pairs) at every (V3)-valid (H) state, at and below Φ* (screen, random, xhg, stuck hypergraphs, the 75 instances) | none in 6,805 states | `results/k4_de4/flat_*.log` |
 
 All exhaustive and sampled C runs of the robust candidate (§10, table above: every profile with n ≤ 3, n = 4 with at

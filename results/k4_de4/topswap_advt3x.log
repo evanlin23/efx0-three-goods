@@ -1,0 +1,9 @@
+$ python3 k4/de4/topswap.py advt3x 300 4 1400
+        1    NO SWAP APPLIES (level sum < Phi*)
+      206    some swap valid; after Lemma R: (V3)-valid, level sum kept, fewer lower pairs: True
+        2    swap for one lower-pair holder: the good of t below a_u is held
+      412    swap for one lower-pair holder: valid
+      207  double-clash (V3)-valid (H) states
+      429  instances
+EX ["advt3x", [[0, 2, 4, 5], [1, 3, 6, 7], [1, 5, 8, 9], [0, 6, 8, 9], [2, 8, 9], [3, 4, 10]], [[38, 18, 14, 10], [39, 31, 22, 13], [34, 12, 29, 27], [33, 29, 30, 27], [15, 18, 12], [9, 12, 10]], [[4, 5], [6, 7], [1], [0], [2, 8], [3, 10]], ["the good of t below a_u is held", "the good of t below a_u is held"]]
+time 185 s
