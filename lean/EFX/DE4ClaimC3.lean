@@ -23,6 +23,9 @@ and Conjecture C₃ (no such cycle does) excludes F₂-clash cycles at maxima al
 - `robust_not_on_clashCycle` (**Lemma 25(a)**): a free robust upper holder lies on no F₂-clash cycle. Hence `HC3'`
   (free agents on F₂-clash cycles at maxima hold one good or a robust upper set: no lower-pair or non-robust upper
   holder lies on one, P1 and P2 of §10.3) implies `HC3` (`hc3_of_hc3'`), and `target4_of_HC3'`.
+- `selfUp_breaks_v3`: at a maximum every free self-upgrade breaks (V3), so where (H) fails by such an upgrade the case
+  is (L); hence `HL'` (Claim T′ where the leftover goods threaten someone, or in case (L)) implies `HL`
+  (`hl_of_hl'`), and `target4_of_HC3'_HL'`.
 -/
 
 set_option autoImplicit false
@@ -457,6 +460,78 @@ theorem target4_of_HC3' (I : Inst) (hn : 0 < I.n) (h3 : HC3' (Fin I.n) (Fin I.m)
     (h4 : ∀ i, numRelevant I i ≤ 4) : ∃ X : I.Alloc, I.EFX0 X :=
   target4_of_HC3 I hn (hc3_of_hc3' h3) hl h4
 
+section caseL
+variable {v : A → G → Nat} {agents : List A} {goods : List G}
+
+/-- **(H) at a maximum, the self-upgrade case** (`k4/de4.md` §10.1): at a maximum of the robust order, every free
+self-upgrade of at most two goods (Lemma 4′) breaks (V3). It is valid, raises only the upgrading agent's value, and
+does not lower its robust level; a larger robust level sum contradicts Lemma R, an equal one with (V3) is a better
+(V3)-valid state. So where (H) fails by a free self-upgrade, the case is (L). -/
+theorem selfUp_breaks_v3 (hgd : goods.Nodup) {base : G → Option A} (hmax : IsMaximumR v agents goods base)
+    {x : A} (hx : x ∈ agents)
+    (hfree : ∀ y ∈ hold goods base x, ∀ w ∈ agents, ¬ value v w (hold goods base w) < v w y)
+    (p : G → Bool) (hp : ∀ g ∈ goods, p g = true → base g = some x ∨ base g = none)
+    (hN : Allowed v x goods (goods.filter p)) (hN2 : (goods.filter p).length ≤ 2)
+    (hgain : value v x (hold goods base x) < value v x (goods.filter p)) :
+    ¬ V3 v agents goods (retake base x p) := by
+  intro hv3
+  have hb := hmax.1.1
+  have hb' := retake_valid hb hx hfree p hp hN hN2 hgain
+  have hself := hold_retake_self (goods := goods) base x p
+  have hother : ∀ j, j ≠ x → hold goods (retake base x p) j = hold goods base j :=
+    fun j hj => hold_retake_other hp hj
+  have hval : ∀ i ∈ agents, value v i (hold goods base i) ≤ value v i (hold goods (retake base x p) i) := by
+    intro i _
+    by_cases hix : i = x
+    · subst hix; rw [hself]; exact Nat.le_of_lt hgain
+    · rw [hother i hix]; exact Nat.le_refl _
+  have hpot : potentialR v agents goods base ≤ potentialR v agents goods (retake base x p) := by
+    apply sum_map_le
+    intro i hi
+    by_cases hix : i = x
+    · subst hix
+      rw [hself]
+      exact levelR_mono v hgd (hb.allowed i hi) hN (hold_nodup hgd base i) (hgd.filter p)
+        (fun g hg => (mem_hold.mp hg).1) (fun g hg => (List.mem_filter.mp hg).1) hgain
+    · rw [hother i hix]; exact Nat.le_refl _
+  rcases Nat.lt_or_eq_of_le hpot with hlt | heq
+  · have := potentialR_le_of_max hgd hmax hb'
+    omega
+  · exact hmax.2 _ ⟨hb', hv3⟩ (Or.inr ⟨heq, hval, x, hx, by rw [hself]; exact hgain⟩)
+
+/-- **Claim T′ where (H) fails, refined** (a hypothesis, never an axiom): a non-completable maximum of the robust
+order in which the leftover goods alone threaten some agent, or (case (L)) some free agent has a self-upgrade of at
+most two goods that breaks (V3), has every agent holding an upper set. -/
+def HL' (A G : Type) [DecidableEq A] [DecidableEq G] : Prop :=
+  ∀ (v : A → G → Nat) (agents : List A) (goods : List G), agents ≠ [] → agents.Nodup → goods.Nodup →
+    R1Core4 v agents goods → Strict v agents goods →
+    ∀ base, IsMaximumR v agents goods base → ¬ Completable v agents goods base →
+      ((∃ i ∈ agents, value v i (hold goods base i) < value v i (leftover goods base)) ∨
+        ∃ x ∈ agents, (∀ y ∈ hold goods base x, ∀ w ∈ agents, ¬ value v w (hold goods base w) < v w y) ∧
+          ∃ p : G → Bool, (∀ g ∈ goods, p g = true → base g = some x ∨ base g = none) ∧
+            Allowed v x goods (goods.filter p) ∧ (goods.filter p).length ≤ 2 ∧
+            value v x (hold goods base x) < value v x (goods.filter p) ∧ ¬ V3 v agents goods (retake base x p)) →
+      ∀ i ∈ agents, IsUpper v i goods (hold goods base i)
+
+/-- With `selfUp_breaks_v3`, `HL'` implies `HL`. -/
+theorem hl_of_hl' (h : HL' A G) : HL A G := by
+  intro v agents goods hne hag hgd hc hs base hmax hnc hH
+  refine h v agents goods hne hag hgd hc hs base hmax hnc ?_
+  by_cases hJ : ∀ i ∈ agents, value v i (leftover goods base) ≤ value v i (hold goods base i)
+  · right
+    refine Classical.byContradiction fun hno => hH ⟨hJ, fun x hx hfree p hp hN h2 hgain => hno ?_⟩
+    exact ⟨x, hx, hfree, p, hp, hN, h2, hgain, selfUp_breaks_v3 hgd hmax hx hfree p hp hN h2 hgain⟩
+  · left
+    exact Classical.byContradiction fun hno => hJ fun i hi => Nat.le_of_not_lt fun hlt => hno ⟨i, hi, hlt⟩
+
+/-- **No lower-pair or non-robust upper holder on an F₂-clash cycle at a maximum (`HC3'`), and Claim T′ where the
+leftover goods threaten someone or in case (L) (`HL'`), imply TARGET₄.** -/
+theorem target4_of_HC3'_HL' (I : Inst) (hn : 0 < I.n) (h3 : HC3' (Fin I.n) (Fin I.m)) (hl : HL' (Fin I.n) (Fin I.m))
+    (h4 : ∀ i, numRelevant I i ≤ 4) : ∃ X : I.Alloc, I.EFX0 X :=
+  target4_of_HC3' I hn h3 (hl_of_hl' hl) h4
+
+end caseL
+
 end DE4
 end EFX
 
@@ -470,3 +545,6 @@ end EFX
 #print axioms EFX.DE4.robust_not_on_clashCycle
 #print axioms EFX.DE4.hc3_of_hc3'
 #print axioms EFX.DE4.target4_of_HC3'
+#print axioms EFX.DE4.selfUp_breaks_v3
+#print axioms EFX.DE4.hl_of_hl'
+#print axioms EFX.DE4.target4_of_HC3'_HL'

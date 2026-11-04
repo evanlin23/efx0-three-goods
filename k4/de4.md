@@ -896,7 +896,9 @@ free agent: if it raises Φ, (M1); if not and it keeps (V3), (M2). With Corollar
 therefore satisfies (H) of §7 unless:
 
 **(L)** some free agent has a self-upgrade inside its holding and the leftover goods that keeps its level and breaks
-(V3). This is a free holder of its b taking its lower pair (its c and d are leftover), or a free holder of an upper set
+(V3). **Machine-checked** (`lean/EFX/DE4ClaimC3.lean`, `EFX.DE4.selfUp_breaks_v3`): at a maximum of the robust
+order every free self-upgrade of at most two goods breaks (V3). So HL, Claim T′ where (H) fails, reduces to `EFX.DE4.HL'`:
+the leftover goods alone threaten some agent, or (L). This is a free holder of its b taking its lower pair (its c and d are leftover), or a free holder of an upper set
 moving to a better upper set of the same level and releasing the b of a lower-pair holder.
 
 **Lemma 17 (a total pointer map).** Let Y satisfy (H). There is a map σ on the agents, with a set T_j of goods that
