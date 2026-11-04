@@ -16,6 +16,9 @@ threatened by J alone, no free self-upgrade and no Lemma 4 move).
         trade is valid and raises Phi
   python3 k4/de4/claimd.py bswap SOURCE PER JOBS SEED
         Lemma 20' (b-swaps) on every (V3)-valid (H) state: each swap is valid, and its level change
+  python3 k4/de4/claimd.py lpkeep SOURCE PER JOBS SEED
+        Lemma 20(d) on every (V3)-valid (H) state: a free agent y holding its top alone, not the holder of b_u, takes
+        {a_y, d_u} from a lower-pair holder u whose b_u is held alone, and u keeps c_u: valid, and its level change
   python3 k4/de4/claimd.py d SOURCE PER JOBS SEED
         Conjecture D on every F2-clash cycle of every (V3)-valid (H) state: Lemma 18, Theorem 23 or a b-swap applies
 
@@ -274,7 +277,47 @@ def run_d(I, C, ex, tag):
                 ex.append((tag, I.sets, [I.v[i] for i in range(I.n)], [list(A) for A in Y], cyc))
 
 
-MODES = {'c2': run_c2, 'thm23': run_thm23, 'bswap': run_bswap, 'd': run_d}
+def lpkeeps(I, Y, J, W):
+    """Lemma 20(d): (u, y, Z) for a free lower-pair holder u with b_u held alone and a free y != holder of b_u holding
+    its top alone, with d_u in R_y and {a_y, d_u} an allowed holding of y"""
+    out = []
+    for u in range(I.n):
+        if S.types(I, u, list(Y[u])) != 'LP':
+            continue
+        a, b, c, d = I.ranked(u)
+        w = next(k for k in range(I.n) if b in Y[k])
+        if tuple(Y[w]) != (b,):
+            continue
+        for y in range(I.n):
+            if y in (u, w) or CT.frozen(Y, y, W) or len(Y[y]) != 1 or Y[y][0] != I.ranked(y)[0] or d not in I.v[y]:
+                continue
+            N = [Y[y][0], d]
+            if not CT.ROBNV.allowed(I, y, N):
+                continue
+            Z = [list(A) for A in Y]
+            Z[y] = N
+            Z[u] = [c]
+            out.append((u, y, Z))
+    return out
+
+
+def run_lpkeep(I, C, ex, tag):
+    All, ph, P = CT.states(I)
+    for Y, p in zip(All, ph):
+        if not T.v3ok(I, Y):
+            continue
+        J = set(leftover(I, Y)); W = set(wanted_goods(I, Y))
+        if not J or not H(I, Y, J, W):
+            continue
+        for u, y, Z in lpkeeps(I, Y, J, W):
+            ok = valid(I, Z)
+            rob = T.lev(I, y, Z[y]) == 6
+            C['Lemma 20(d): valid %s, {a_y, d_u} robust %s, level change %+d' % (ok, rob, T.phi(I, Z) - p)] += 1
+            if not ok and len(ex) < 12:
+                ex.append((tag, I.sets, [I.v[i] for i in range(I.n)], [list(A) for A in Y], u, y))
+
+
+MODES = {'lpkeep': run_lpkeep, 'c2': run_c2, 'thm23': run_thm23, 'bswap': run_bswap, 'd': run_d}
 
 
 def job(args):

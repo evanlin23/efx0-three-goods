@@ -1047,9 +1047,11 @@ each loser's successor gains what the loser loses, to frozen agents, lower pairs
 
 ### 10.2 Conjecture A″ sharpened: cycles of the arc graph
 
-This subsection replaces Conjecture A″ by a statement about single cycles (Conjecture D). It proves the two tools
-that resolve all cycles met in the data (Theorem 23 and Lemma 20′), and shows that non-completability enters only
-through Lemma 8.
+This subsection restates what is left of Claim T′ in terms of cycles of an arc graph.
+- It proves the tools that resolve all the cycles met in the random data: Theorem 23, Lemma 20′ and Lemma 20(d).
+- It shows that non-completability enters only through Lemma 8.
+- It refutes two natural strengthenings: Conjecture C, and Conjecture D, the cycle-by-cycle form of Conjecture A″.
+- It leaves Conjecture C₂ (and D for non-completable states) open.
 
 **The arc graph.** For a state Y, G has an arc o → x taking T when:
 - o is frozen and x wants o's good (T = Y_o: a *want arc*), or
@@ -1157,21 +1159,48 @@ At a maximum, no b-swap raises the level sum.
 - (iii) w holds its top and wants nothing; {b, c} is a pair of unwanted goods. A pair is worth at most v(a_w) to w
   after removing a good, and the hypothesis excludes threatening triples. ∎
 
-**Conjecture D.** In every (V3)-valid state with (H), every F₂-clash cycle of G is resolved: it is clean and Lemma
-18's trade is valid and better, or Theorem 23 applies to it (for some R), or some lower-pair holder has a b-swap that
-raises the level sum.
+**Conjecture D (refuted).** In every (V3)-valid state with (H), every F₂-clash cycle of G is resolved: it is clean
+and Lemma 18's trade is valid and better, or Theorem 23 applies to it (for some R), or some lower-pair holder has a
+b-swap that raises the level sum.
 
-Conjecture D implies C₂: at a maximum each of the three gives (M1) or (M2). It sharpens Conjecture A″: pointer
-cycles are F₂-clash cycles (Proposition 24), Theorem 23 is a winner/loser rotation, and b-swap (i) with b held alone
-is a lateral want. So, with Proposition 24 and the two small cases of §10.1, **Conjecture D implies Claim T′ when (H)
-holds.**
+D would have implied C₂: at a maximum each of the three gives (M1) or (M2). It is false.
+- An adversarial search around GM4-B's clash found the counterexample (n = 6, m = 9;
+  `python3 k4/de4/refute_d.py`, an independent replay, ledger K4.DE4V3R.D). Agents 0 and 1 hold their lower pairs.
+  Agents 2 and 3 are frozen holders of their tops, and their b is the leftover good 8. Agents 4 and 5 hold the b's of
+  0 and 1 alone.
+- The arc graph has one cycle, 0 → 2 → 1 → 3 → 0. Its two arcs out of the lower pairs both use 8, and neither has a
+  same-giver alternative: agents 2 and 3 take their c from the giver and their b from J. No b-swap applies.
+- The state is not a counterexample to Claim T′: it is completable, and it is not a maximum. The level-raising move
+  has nothing to do with the cycle; it is Lemma 20(d) below. So a proof of C₂ cannot work cycle by cycle alone: at
+  the largest level sum it must also use local moves away from the cycle.
 
-What a proof of D still needs is clear from Theorem 23's hypotheses:
-- a clash between two arcs neither of which has a same-giver alternative. Such takers are a free holder of b, a
-  frozen holder of its top whose take from the giver misses its b, or a frozen holder of b whose take from the giver
-  misses its c. The data contain one such clash: GM4-B, where two frozen top holders take c from lower pairs and
-  both need their b, the same leftover good. A b-swap resolves it;
-- hypotheses (iii) and (iv).
+**Lemma 20(d) (keep-own at a lower pair).** Let u be a free holder of its lower pair {c, d}, with top a and b held
+alone by w. Let y ∉ {u, w} be a free agent holding its top a_y alone, with d ∈ R_y and {a_y, d} an allowed holding of
+y. Then y taking {a_y, d} and u keeping {c} is valid, and the level sum changes by ℓ_y({a_y, d}) − 5. This is ≥ 0,
+and > 0 exactly when {a_y, d} is robust. At a maximum, therefore, no such y has {a_y, d} robust.
+
+*Proof.*
+- (V1): u holding c wants a and b, and both are held alone (a by the frozen holder of u's top). y holds an upper set
+  and wants nothing. d was in a two-good holding and a_y in a free agent's holding, so neither is wanted, and the
+  pair {a_y, d} threatens nobody.
+- u's value drops. The only holding with two or more goods that meets R_u is {a_y, d}: a_y ∉ R_u, because the goods
+  a and b of u are held alone by agents other than y, and c is u's. So that holding is worth at most v(d) < v(c) to u
+  after removing a good.
+- Levels: y goes from 4 to ℓ_y({a_y, d}), u from 3 to 2. ∎
+
+**What is open.**
+- **Conjecture C₂** (no F₂-clash cycle at the largest level sum). With Proposition 24 it gives Claim T′, and the
+  strong Claim T, under (H). Its refuted strengthening D shows that its proof must combine the cycle moves
+  (Lemma 18, Theorem 23, the b-swaps) with local exclusions at the largest level sum: Lemma 20, Lemma 20(d) and the
+  simple moves of (H).
+- **Conjecture D_nc**: D for non-completable states, which is what Claim T′ uses (with Proposition 24, a pointer
+  cycle of a non-completable maximum would be resolved). All counterexamples to D found are completable, and every
+  non-completable sampled state was resolved.
+- The open cases inside these:
+  - a clash between two arcs without same-giver alternatives. Their takers are a free holder of b, a frozen holder of
+    its top whose take from the giver misses its b, or a frozen holder of b whose take misses its c. Seen on GM4-B
+    (resolved by a b-swap) and in the counterexample to D (resolved by Lemma 20(d));
+  - Theorem 23's hypotheses (iii) and (iv).
 
 **Evidence** (`k4/de4/claimd.py`; sources as in §10.1, plus `xhg`, random profiles of the seven hypergraphs on which
 the states of `claimt.py pointer` without a clean cycle were found):
@@ -1182,7 +1211,8 @@ the states of `claimt.py pointer` without a clean cycle were found):
 | `c2` | states of the largest level sum with (H), and maxima | 13,362 states of the largest level sum with (H) (screen 234, xhg 2,800, random 7,115, stuck hypergraphs 2,662, n = 4 with two 4-good agents 551), of which 11,660 maxima: no F₂-clash cycle. G has a cycle only at the 14 screen maxima above | `results/k4_de4/claimd_c2_*.log` |
 | `thm23` | every cycle of every (V3)-valid (H) state, every R satisfying Theorem 23's hypotheses | 2,031 (cycle, R) pairs (screen 200, xhg 877, random 954), 41 with replacements (19 down-b, 22 keepR): every trade valid and Φ-raising | `results/k4_de4/claimd_thm23_*.log` |
 | `bswap` | every b-swap of every (V3)-valid (H) state | 249 b-swaps (screen 19, xhg 148, random 82): every one valid; level change ≥ 0, and 0 in 87 | `results/k4_de4/claimd_bswap_*.log` |
-| `d` | every F₂-clash cycle of every (V3)-valid (H) state | 6,075 F₂-clash cycles (screen 190, xhg 2,322, random 1,897, stuck hypergraphs 617, n = 4 543, n = 3 506): Lemma 18 6,041, Theorem 23 32, b-swap 2 (GM4-B); none unresolved | `results/k4_de4/claimd_d_*.log` |
+| `lpkeep` | every keep-own of Lemma 20(d) on every (V3)-valid (H) state | 9 instances (random 7, stuck hypergraphs 2), and the counterexample to D (`refute_d.py`): all valid; level change +1 when {a_y, d_u} is robust (8 + 1), 0 otherwise (1) | `results/k4_de4/claimd_lpkeep_*.log` |
+| `d` | every F₂-clash cycle of every (V3)-valid (H) state (Conjecture D, refuted by `refute_d.py`) | 6,075 F₂-clash cycles (screen 190, xhg 2,322, random 1,897, stuck hypergraphs 617, n = 4 543, n = 3 506): Lemma 18 6,041, Theorem 23 32, b-swap 2 (GM4-B); none unresolved | `results/k4_de4/claimd_d_*.log` |
 
 ## 6. Reproduce
 
