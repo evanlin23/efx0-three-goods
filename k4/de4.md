@@ -1073,6 +1073,13 @@ F₂-clash cycle. Hence if no maximum with (H) has an F₂-clash cycle, every no
 *Proof.* In Lemma 17 the labels of arcs out of F₁ are pairwise disjoint (Lemma 8), and the labels of arcs out of
 agents holding two or more goods avoid them. Frozen agents' arcs carry no label. ∎
 
+**Machine-checked** (`lean/EFX/DE4ClaimC2.lean`): Lemma 17 (`EFX.DE4.pointer_map`, with tight arcs: the arc's set
+threatens nobody but its giver, which under (H) is the minimality above) and Proposition 24
+(`EFX.DE4.exists_clashCycle`). Hence `EFX.DE4.claimTMax_of_HC2` and `EFX.DE4.target4_of_HC2`: TARGET₄ follows from
+two hypotheses that do not mention completability: `EFX.DE4.HC2`, "no maximum with (H) in which everyone holds a good
+and someone is not upper has an F₂-clash cycle" (Conjecture C₂ at maxima, weakened by these two premises), and
+`EFX.DE4.HL`, Claim T′ at maxima where (H) fails (the case (L) and the moves of "(H) at a maximum", §10.1).
+
 **Conjecture C₂.** No (V3)-valid state of the largest level sum with (H) has an F₂-clash cycle. With Proposition 24,
 C₂ gives Claim T′ (even the strong Claim T) whenever (H) holds; the case (L) is treated in §10.1 (Lemma 17′,
 Lemma 20(c)).
