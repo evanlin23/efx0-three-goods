@@ -774,6 +774,20 @@ So, as in §9:
 - a (V3)-valid state with Φ < Φ* (the largest level sum over all valid states) has a better (V3)-valid state;
 - at Φ*, every valid state is a candidate only through value-Pareto improvements, and no valid state has a larger Φ.
 
+**Evidence for the candidate** (EVIDENCE; `k4/de4/de4r.c`, run by `python3 k4/de4/run_robust.py FILE CHUNKS [TAKE]`;
+"fails" means some maximum has no EFX₀ completion; the Claim T count is the number of profiles with a non-completable
+(V3)-valid state of the largest level sum that is not all-upper):
+
+| what | profiles | candidate fails | Claim T count | DE4ᵛ³ fails | log |
+|---|---|---|---|---|---|
+| every strict profile, every core with n = 2 | 252,288 | 0 | not counted | 0 | `results/k4_de4/robust_2.log` |
+| every strict profile, every core with n = 3 | 439,582,464 | 0 | 0 | 0 (count 30,464) | `results/k4_de4/robust_3.log` |
+| every strict profile, n = 4 with one 4-good agent | 8,398,080 | 0 | not counted | 0 | `results/k4_de4/robust_4_n4_1.log` |
+| every strict profile, n = 4 with two 4-good agents | 922,669,056 | 0 | 0 | 0 (count 9,248; robust levels without (V3): 8 fails) | `results/k4_de4/robust_4_n4_2.log` |
+| 1% stride sample, n = 4 with three 4-good agents | 485,880,564 | 0 | 0 | 14 (count 10,310) | `results/k4_de4/robust_4_n4_3_sample.log` |
+| every strict profile of the 16 stuck hypergraphs | 911,720,448 | 0 | not counted | 0 (robust levels without (V3): 16) | `results/k4_de4/robust_stuckhyper.log` |
+| 0.2% stride sample of R4's hypergraph | 13,759,416 | 0 | not counted | 11 | `results/k4_de4/robust_r4_sample.log` |
+
 **Theorem 16.** Let Y be (V3)-valid and not completable. Then Y has a better (V3)-valid state in each of these cases:
 1. Φ(Y) < Φ*;
 2. some agent holds nothing (then, unless the leftover goods alone threaten someone, Y is completable: Corollary 5(b));
