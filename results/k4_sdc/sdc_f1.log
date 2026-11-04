@@ -1,0 +1,15 @@
+$ python3 k4/sdc/sdc_f1.py screen
+F1 FAIL c4-pareto-moves-n3m6 x 2 Y (0, 5, 4) [[[0, 1, 2, 3], [0, 1, 4, 5], [2, 3, 4, 5]], [[8, 6, 4, 1], [4, 2, 8, 5], [4, 6, 8, 3]]]
+F1 FAIL induct-g-r0 x 1 Y (3, 2) [[[0, 1, 2, 3], [1, 2, 3]], [[2, 3, 8, 4], [2, 4, 3]]]
+F1 FAIL lb4-n2m5-upgrade x 0 Y (4, 3) [[[0, 2, 3, 4], [1, 2, 3, 4]], [[1, 4, 6, 8], [2, 4, 5, 8]]]
+('x has 3 goods, pick rank 0, 0 unpicked lower goods', True) 7
+('x has 3 goods, pick rank 0, 1 unpicked lower goods', False) 1
+('x has 3 goods, pick rank 0, 1 unpicked lower goods', True) 16
+('x has 3 goods, pick rank 0, 2 unpicked lower goods', True) 1
+('x has 4 goods, pick rank 0, 1 unpicked lower goods', True) 8
+('x has 4 goods, pick rank 0, 2 unpicked lower goods', False) 3
+('x has 4 goods, pick rank 0, 2 unpicked lower goods', True) 37
+('x has 4 goods, pick rank 0, 3 unpicked lower goods', True) 35
+f = 1 outcomes 108
+f = 1 outcomes that extend 104
+shown 3

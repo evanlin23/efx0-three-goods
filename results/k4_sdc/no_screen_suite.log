@@ -1,0 +1,10 @@
+$ python3 k4/sdc/sdc_need_owner.py screen
+instances 168
+need2 plain: some last agent works 168
+needall plain: some last agent works 167
+fails needall plain ['lb4-fixed-insertion-n3m6']
+$ python3 k4/sdc/sdc_need_owner.py suite
+instances 164
+need2 plain: some last agent works 164
+needall plain: some last agent works 163
+fails needall plain ['lb4-fixed-insertion-n3m6']

@@ -46,3 +46,13 @@ python3 k4/sdc/sdc_ps.py screen > $L/sdc_ps_screen.log
 python3 k4/sdc/sdc_ps.py screen r1 > $L/sdc_ps_screen_r1.log
 python3 k4/sdc/sdc_ps.py suite > $L/sdc_ps_suite.log
 (python3 k4/sdc/sdc_linear.py 1 200 5; python3 k4/sdc/sdc_linear.py 2 100 6) > $L/sdc_linear.log
+(python3 k4/sdc/sdc_need_owner.py screen; python3 k4/sdc/sdc_need_owner.py suite) > $L/no_screen_suite.log
+(for s in rand hyper advt4x advt3x advt2 big8 k3_7; do python3 k4/sdc/sdc_no.py $s 150 1 | tail -1; done; python3 k4/sdc/sdc_no.py cores:k4_certs_2.json.gz,k4_certs_3.json.gz 20000 1 | tail -1; python3 k4/sdc/sdc_no.py gen:3:7:7 1000 2 | tail -1; python3 k4/sdc/sdc_no.py gen:4:8:5 800 3 | tail -1) > $L/no_random.log
+python3 k4/sdc/sdc_no.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 30000 2 > $L/no_cores_n4.log
+python3 k4/sdc/sdc_no.py cores:k4_certs_5_n4_1.json.gz,k4_certs_5_n4_2.json.gz 8000 3 > $L/no_cores_n5.log
+python3 k4/sdc/no_ties.py screen 6 1 > $L/no_ties.log
+python3 k4/sdc/no_files.py > $L/no_files.log
+python3 k4/sdc/no_owner.py screen > $L/no_owner.log
+python3 k4/sdc/no_climb.py 1 4 300 40 > $L/no_climb_n4.log
+python3 k4/sdc/no_climb.py 2 5 250 30 > $L/no_climb_n5.log
+(for a in "11 2000 2 6 6" "12 2000 2 8 8" "13 1000 2 10 10" "14 2000 2 7 4"; do python3 k4/sdc/sdc_gen.py $a; done) > $L/sdc_n2_general.log

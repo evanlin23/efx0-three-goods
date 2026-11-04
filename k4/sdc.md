@@ -435,3 +435,73 @@ The data say what such an argument must account for:
 - a 4-good big-top agent with private lower goods should lose.
 
 At k = 3 the same choice is LB⁺'s bad case. At k = 4 it occurs in every block, not only the last.
+
+## 9. Conjecture NO: neediest first, one owner last
+
+The n = 2 failures of §8 say that a contest must go to the claimant that needs its top more. The tlam-type failures say
+that one big-top agent may instead have to lose and own all its lower goods. Combining the two gives an explicit rule
+with a single global choice.
+
+**The order NO(o).** Fix an agent o, the *owner*. Process the other agents one at a time. At every step:
+- take the unprocessed agent i ≠ o with the largest *need*, need(i) = v_i(y₁) − v_i(y₂) − v_i(y₃);
+  - here y₁ > y₂ > y₃ > … are i's goods still available, ranked by i, and missing ones count 0;
+  - ties are broken by a fixed priority over the agents;
+- i takes y₁.
+
+Finally o takes its favourite remaining good. There is no R1 priority: the need is recomputed from the goods still
+available at every step.
+
+**Conjecture NO (K4.SDC.NO).** In every instance with at most four relevant goods per agent, there is an agent o such
+that the picks of NO(o) extend to an EFX₀ allocation. This is SD-C with n candidate orders instead of n!. The owner is
+the only global choice, like rule F's first agent (`k4/rulef.md`), but at the other end of the order.
+
+Evidence (EVIDENCE only; `no_*.log`):
+
+| data | NO holds |
+|---|---|
+| the 168 screen instances and the 164 suite instances (n ≤ 26) | 168/168, 164/164 (`no_screen_suite.log`) |
+| the same with 6 random tie-break priorities each | 1,008/1,008 (`no_ties.log`) |
+| the 86 instances that refuted DE4's candidates; H₂–H₅, HH₃, HH₄ (owner ℓ) | 92/92 (`no_files.log`) |
+| random strict profiles: every connected k = 4 core with n ≤ 3 | 20,000/20,000 |
+| the same, n = 4 | 30,000/30,000 (`no_cores_n4.log`) |
+| the same, n = 5 with at most two 4-good agents | 8,000/8,000 (`no_cores_n5.log`) |
+| random cores, stuck hypergraphs, the adversarial generators, n = 8, k = 3 | 1,050/1,050 (`no_random.log`) |
+| general additive instances, every good possibly relevant (n = 3, 4) | 1,800/1,800 (`no_random.log`) |
+| adversarial climbs (minimizing the number of working owners, n = 4, 5) | no counterexample; minimum 1 at n = 4, 2 at n = 5 (`no_climb_*.log`) |
+
+**The owner choice is real.** On the screen set, the agent that plain neediest-first processes last works on 153 of the
+168 instances; the agent of least initial need on 140; the agent with the most private value on 143. On some
+instances exactly one owner of three or four works (`no_owner.log`). Without the owner choice, neediest-first fails on
+11–16 instances (§8).
+
+**Lemma N (the contest dichotomy; K4.SDC.N).** In NO(o), let i be processed at time τ and take y, and let j ≠ o be
+processed later. Suppose y was j's favourite available good at τ, and j ends up preferring y to its own pick. Let
+z₂, z₃ be j's second and third goods available at τ, and w₂, w₃ i's. Then one of the following holds:
+- (a) v_j(y) ≤ v_j(z₂) + v_j(z₃). If j's pick is z₂ and j also holds z₃, then j no longer prefers y to its holding: j
+  is *compensable*, and i is not frozen by j.
+- (b) v_i(y) − v_i(w₂) − v_i(w₃) ≥ v_j(y) − v_j(z₂) − v_j(z₃) > 0. Then any two goods of i other than y that were
+  available at τ are worth less than y to i. So if i is frozen, its only possible danger set among those goods is the
+  set of all of them (at most three). Keeping one of them out of the large bundle protects it.
+
+*Proof.* At τ the rule chose i over j, so need(i) ≥ need(j). If need(j) ≤ 0 we are in (a). Otherwise
+need(i) ≥ need(j) > 0, which is (b): v_i(w₂) + v_i(w₃) < v_i(y), and every other good available at τ is worth at most
+v_i(w₃). ∎
+
+So under NO every contest is decided in one of two ways:
+- the loser can be compensated by one of its own goods, so nobody stays frozen by it; or
+- the winner is "big-top on what remained", and its freezing costs at most one good kept out.
+
+This is the k = 3 situation, where a frozen exposed top-holder costs exactly one good (`proofs/lb_last_step.md`
+Lemma 1), and the case analysis of LB⁺ has this shape.
+
+What a proof of NO must add:
+1. The compensations must be simultaneously feasible. The loser's z₂, z₃ may be taken later by other agents, and one
+   agent may lose several contests.
+2. A counting step: one slot per remaining frozen exposed agent, as LB⁺'s Theorem A finds one terminal per block.
+3. The choice of o, which replaces LB⁺'s rotation. At k = 3, o = r, the last non-upgraded agent, works outside the bad
+   case, and the bad case is §5's re-insertion.
+
+**The k = 3 instance of NO.** At k = 3 every balanced agent with all its goods available has need < 0. Only agents that
+have lost goods can have positive need. So NO at k = 3 is a serial dictatorship that serves the agents that lost
+goods, in order of need, before fresh agents, close to LB's R1 priority. Proving NO at k = 3 with LB⁺'s machinery is
+the natural first step.
