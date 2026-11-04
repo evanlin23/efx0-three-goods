@@ -62,3 +62,14 @@ python3 k4/sdc/no_climb.py 2 5 250 30 > $L/no_climb_n5.log
 python3 k4/sdc/no_k3.py 1 200 5 8 > $L/no_k3_n5.log
 python3 k4/sdc/no_k3.py 2 150 6 10 > $L/no_k3_n6.log
 python3 k4/sdc/no_k3.py 3 60 8 13 > $L/no_k3_n8.log
+python3 k4/sdc/k3_defer.py 1 300 5 8 > $L/k3_defer.log
+python3 k4/sdc/k3_disp.py 1 300 5 8 > $L/k3_disp_n5.log
+python3 k4/sdc/k3_disp.py 2 150 6 10 > $L/k3_disp_n6.log
+(for s in big8 big12 big10; do python3 k4/sdc/sdc_no.py $s 400 7; done) > $L/no_big.log
+python3 k4/sdc/no_climb.py 3 6 200 20 > $L/no_climb_n6.log
+(python3 k4/sdc/nof.py screen; python3 k4/sdc/nof.py suite; python3 k4/sdc/nof.py cores:k4_certs_2.json.gz,k4_certs_3.json.gz 20000 1; python3 k4/sdc/nof.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 20000 2; python3 k4/sdc/nof.py cores:k4_certs_5_n4_1.json.gz,k4_certs_5_n4_2.json.gz 6000 3; for s in rand hyper advt4x advt3x big8 big12; do python3 k4/sdc/nof.py $s 300 5; done; python3 k4/sdc/nof.py gen:3:7:7 1000 2; python3 k4/sdc/nof.py gen:4:8:5 800 3) | grep -v '^\$' > $L/nof.log
+python3 k4/sdc/nof_files.py > $L/nof_files.log
+python3 k4/sdc/nof_roles.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 20000 2 > $L/nof_roles.log
+python3 k4/sdc/nof_climb.py 1 4 300 40 > $L/nof_climb_n4.log
+python3 k4/sdc/nof_climb.py 2 5 250 30 > $L/nof_climb_n5.log
+python3 k4/sdc/a3_k4.py screen > $L/a3_k4_screen.log

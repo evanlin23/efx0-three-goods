@@ -1,0 +1,8 @@
+$ python3 k4/sdc/nof_files.py
+H2 9 23 NOF True plain 0
+H3 13 33 NOF True plain 0
+H4 17 43 NOF True plain 0
+H5 21 53 NOF True plain 0
+HH3 26 65 NOF True plain 1
+HH4 34 85 NOF True plain 1
+instances 92 NOF failures 0

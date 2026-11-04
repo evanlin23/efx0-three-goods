@@ -1,0 +1,13 @@
+screen {'instances': 168, 'NOF holds': 168, 'plain': 153, 'deferred': 15} time 0
+suite {'instances': 164, 'NOF holds': 164, 'plain': 150, 'deferred': 14} time 2
+cores:k4_certs_2.json.gz,k4_certs_3.json.gz {'instances': 20000, 'NOF holds': 20000, 'plain': 19924, 'deferred': 76} time 26
+cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz {'instances': 20000, 'NOF holds': 20000, 'plain': 19925, 'deferred': 75} time 45
+cores:k4_certs_5_n4_1.json.gz,k4_certs_5_n4_2.json.gz {'instances': 6000, 'NOF holds': 6000, 'plain': 5983, 'deferred': 17} time 16
+rand {'instances': 300, 'NOF holds': 300, 'plain': 299, 'deferred': 1} time 1
+hyper {'instances': 300, 'NOF holds': 300, 'plain': 299, 'deferred': 1} time 1
+advt4x {'instances': 300, 'NOF holds': 300, 'plain': 299, 'deferred': 1} time 3
+advt3x {'instances': 300, 'NOF holds': 300, 'plain': 300} time 3
+big8 {'instances': 300, 'NOF holds': 300, 'plain': 300} time 7
+big12 {'instances': 300, 'NOF holds': 300, 'plain': 300} time 38
+gen:3:7:7 {'instances': 1000, 'NOF holds': 1000, 'plain': 1000} time 18
+gen:4:8:5 {'instances': 800, 'NOF holds': 800, 'plain': 797, 'deferred': 3} time 4

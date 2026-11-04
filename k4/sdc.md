@@ -602,3 +602,67 @@ holds c_{k*}.
 
 Lemma DC is not specific to k = 3. It gives exact control of every owner change in Conjecture NO's fixed-order
 variants, and it is the tool for the k = 4 owner walk.
+
+## 11. Conjecture NOF: the plain neediest-first run, or one deferral
+
+Lemma DC makes deferral exact in a fixed order. That suggests replacing NO's dynamic owner by a fixed-order deferral.
+
+**Conjecture NOF (K4.SDC.NOF).** Let π be the plain neediest-first order (NO without owner). In every instance with at
+most four relevant goods per agent, either SD(π) extends to an EFX₀ allocation, or SD(π with one agent o moved to the
+end) does. By Lemma DC each candidate is SD(π) changed along one displacement chain.
+
+Evidence (`nof.log`, `nof_files.log`; EVIDENCE only):
+- all 168 screen and 164 suite instances; the plain run alone works on 153 and 150;
+- the 86 DE4 refutation instances and H₂–H₅, HH₃, HH₄ (all by the plain run);
+- random strict profiles of the connected k = 4 cores:
+  - 20,000 with n ≤ 3, of which 76 need a deferral;
+  - 20,000 with n = 4, of which 75 need one;
+  - 6,000 with n = 5 and at most two 4-good agents, of which 17 need one;
+- 1,800 random and adversarial instances, n up to 12;
+- 1,800 general additive instances;
+- every NO₂ counterexample of §9.
+
+In total no failure. **The plain neediest-first run alone works on about 99.6% of random profiles.**
+
+**What the deferred agent is** (`nof_roles.log`, the 75 n = 4 profiles whose plain run fails):
+- every working deferral defers a frozen agent (135 of 135);
+- in 74 of the 75, a frozen agent that holds its top works;
+- its displacement chain has length 1 to 3.
+
+This is LB⁺'s k*: the exposed frozen top-holder gives up its top. The agent that wanted it takes it, the chain moves up,
+and the deferred agent owns its lower goods.
+
+**The proof architecture this suggests.** One run, one repair, two theorems:
+- **(A) When the plain run works:** SD(π) extends unless some frozen agent is exposed beyond what the free slots can
+  cover. At k = 3 this is LB⁺'s Theorem A for the R1 run π. At k = 4 the counting must use Lemma N.
+- **(B) The repair:** in that case, deferring a suitable frozen agent works, and its effect is the displacement chain of
+  Lemma DC. At k = 3 this is Proposition D3 in the main class. The classes with upgraded agents on the chain remain.
+
+So TARGET₄ ⟸ NOF ⟸ (A₄) + (B₄). Each is a statement about one explicit run and one explicit chain, with no
+potential, no move catalogue and no search over orders.
+
+**Adversarial climbs against NOF** (`nof_climb_n4.log`, `nof_climb_n5.log`): 70 rounds at n = 4, 5. Every round ends with
+exactly one working candidate, the plain run or one deferral, and never with none.
+
+## 12. Toward theorem (A₄): what replaces "exposed agents are leaders"
+
+At k = 3, LB⁺'s count rests on (A3): an exposed agent had all its goods at its turn, so it leads its block, and each
+block holds at most one exposed agent, which costs one good. In a neediest-first run at k = 4, define blocks as the
+maximal segments that start when every unprocessed agent still has all its goods. Then (B1) and (B2) hold as before:
+an agent's better goods are picked inside its own block, earlier.
+
+Lemma N suggests the k = 4 form of (A3). Call a frozen agent x *hard* if some agent that needs its pick cannot be
+compensated by one own unpicked good. If x is hard and exposed (a set of its goods inside the unpicked goods plus the
+owner's pick is worth more than its pick), Lemma N's case (b) would make x big-top on the goods available at its turn.
+Then x was fresh, hence a leader, and its only danger set is its three other goods, so it costs one.
+
+On the screen set this holds for most hard exposed agents but not all (`a3_k4_screen.log`):
+- 72 of 73 were fresh at their turn;
+- 61 of 73 have exactly that one danger set.
+
+The violations (GM4-S, GM4-P, two gap instances) come from Lemma N's case (a) failing *later*. The needer was
+compensable at the time of the contest, but its next good was taken afterwards by another agent, so its compensation
+is gone.
+
+So (A₄) must track compensations over time. A needer's compensation is a promise that later picks can break, and the
+count has to charge the agent that breaks it. This is the precise form of item 1 under Lemma N.

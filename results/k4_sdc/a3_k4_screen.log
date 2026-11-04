@@ -1,0 +1,11 @@
+$ python3 k4/sdc/a3_k4.py screen
+A3_4 VIOLATION GM4-S x 1 Y [2, 5, 4, 3] pi [1, 2, 3, 0] Ts [(1, 2)] [[[0, 2, 3, 4], [1, 2, 5], [1, 4, 5], [3, 4, 5]], [[1, 6, 4, 8], [2, 3, 4], [3, 4, 2], [3, 2, 4]]]
+A3_4 VIOLATION GM4-P x 2 Y [5, 4, 6, 3] pi [2, 0, 1, 3] Ts [(2, 3)] [[[0, 2, 5, 6], [1, 4, 5, 6], [2, 3, 4, 6], [3, 4, 5, 6]], [[1, 6, 8, 4], [1, 6, 4, 8], [4, 5, 2, 8], [5, 4, 8, 2]]]
+A3_4 VIOLATION gap-iiinor-n4-m8-n43c170 x 1 Y [3, 7, 6, 5] pi [1, 3, 2, 0] Ts [(1, 3)] [[[0, 2, 3, 6], [1, 3, 7], [4, 5, 6, 7], [4, 5, 6, 7]], [[3, 4, 8, 10], [2, 3, 4], [2, 4, 5, 8], [1, 6, 4, 8]]]
+A3_4 VIOLATION gap-t2-n4-m8-n42c204 x 2 Y [5, 1, 7, 6] pi [2, 3, 1, 0] Ts [(3, 5)] [[[0, 2, 5, 6], [1, 5, 6, 7], [3, 5, 7], [4, 6, 7]], [[3, 4, 6, 8], [5, 4, 8, 6], [2, 3, 4], [2, 3, 4]]]
+exposed frozen 101
+exposed frozen, all needers compensable 28
+hard exposed frozen 73
+hard exposed: fresh at its turn 72
+hard exposed: only T = all three other goods 61
+shown 4
