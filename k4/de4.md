@@ -1608,6 +1608,8 @@ can fail only because some agent threatens it, valuing two of these three goods 
 - the lower-pair order (`EFX.DE4.BetterLP`, `EFX.DE4.IsMaximumLP`) and the existence of its maxima (`EFX.DE4.exists_maximumLP`);
 - Lemma R counting lower pairs (`EFX.DE4.exists_validV3_numLP`), so a maximum has the largest robust level sum among all valid states (`EFX.DE4.potentialR_le_of_maxLP`);
 - **Lemma 27** (`EFX.DE4.top_swap`, hypotheses `EFX.DE4.TopSwapHyp`) and Corollary 28(a) (`EFX.DE4.not_maxLP_of_top_swap`: no maximum of the lower-pair order admits a top swap).
+- **Lemma 27′ for k = 2** (`EFX.DE4.top_swap2`, `EFX.DE4.not_maxLP_of_top_swap2`, `lean/EFX/DE4TopSwap2.lean`), used in
+  Corollary 28(c);
 - **Lemma 29** (`EFX.DE4.selfUp_at_maxLP`, `lean/EFX/DE4LowerPairFrame.lean`) and the frame (`EFX.DE4.target4_of_HXLP_HLB`).
 
 Corollary 28(b) is written only.
