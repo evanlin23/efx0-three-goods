@@ -1395,6 +1395,31 @@ a cycle.
   - the 5 unclean ones all lie below the largest level sum, all have the shape "two non-robust {b, c} holders, each
     taking its top from the other and the same leftover d", and keep-one resolves each.
 
+**Lemma 26 (keep-one replacement).** Let Y be (V3)-valid with (H), and C an F₂-clash cycle of G. Let K be a set of
+free upper-set holders o on C such that:
+- the predecessor p of o hands o a set containing o's top a_o, with a_o ∈ Y_p (p is free, Lemma 25(c));
+- some good k_o ∈ Y_o is not in the set o hands its successor;
+- {a_o, k_o} is a robust upper set of o (always so if Y_o is the pair {b, c}).
+
+Trade along C, but let each o ∈ K take only {a_o, k_o}. o keeps k_o, and the other goods of the set p would hand it
+stay leftover. If the labels of the trade are now pairwise disjoint, the result is valid and its level sum is larger.
+So at a maximum, no F₂-clash cycle is made clean by such replacements.
+
+*Proof.* As for Lemma 18, with these changes for o ∈ K.
+- {a_o, k_o} is an allowed holding, worth more to o than Y_o = {k_o, k′_o}, because v(a_o) > v(k′_o).
+- It is a pair of goods nobody wants: a_o comes from the free p, and k_o is o's own good, o being free. Values only
+  rise, so it threatens nobody.
+- No good is taken twice. a_o is handed only to o, and k_o is not in the set handed to o's successor.
+- The giver's self-threat step of Lemma 18 (a triple handed by g threatening g) still works when g ∈ K. The set q′ found
+  there lies inside the handed set, which misses k_g, so it is disjoint from {a_g, k_g}.
+- (V1): every value rises weakly, and no wanted good enters a pair, since the givers of K are free.
+- o rises from level 5 to 6, so the level sum rises, and Lemma R (machine-checked) contradicts maximality. ∎
+
+In the data, keep-one resolves 27 of the 32 unclean cycles through non-robust holders below the largest level sum, and
+Theorem 23's alternatives resolve the other 5 (`nrcyc.py`). It resolves all 5 found on lower-pair-free cores
+(`lpfree.py`). What Lemmas 18, 26 and Theorem 23 do not reach is GM4-B's double clash ("Fa cd! Fa cd!", 58 of the 75
+unclean cycles catalogued; their takers are frozen holders of their tops).
+
 **Evidence** (EVIDENCE; `python3 k4/de4/claimd.py c3 SOURCE PER JOBS SEED`, the sources and parameters of `c2`; 
 `python3 k4/de4/lpout.py`, `lploc.py` and `nrcyc.py` with SOURCE PER JOBS SEED):
 
