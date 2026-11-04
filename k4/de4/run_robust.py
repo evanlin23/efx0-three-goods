@@ -1,11 +1,12 @@
 """Exhaustive check of the robust-level candidate and its controls with k4/de4/de4r.c (ledger K4.DE4V3R).
-Usage: python3 k4/de4/run_variants.py FILE [CHUNKS [TAKE]] > log (with TAKE, only the first TAKE chunks: a sample)."""
+Usage: python3 k4/de4/run_robust.py FILE [CHUNKS [TAKE]] > log (with TAKE, only the first TAKE chunks: a sample).
+With EXE=de4lp, the lower-pair order of k4/de4.md §10.4 (k4/de4/de4lp.c) instead."""
 import os, subprocess, sys, multiprocessing as mp, re
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 from de4lib import load_cores
 from check import write_input, ROOT
-EXE = os.path.join(HERE, 'de4r')
+EXE = os.path.join(HERE, os.environ.get('EXE', 'de4r'))
 def job(args):
     ci, sets, ch, nch = args
     out = subprocess.run([EXE, str(ch), str(nch)], input=write_input(sets), capture_output=True, text=True).stdout
@@ -13,7 +14,7 @@ def job(args):
 if __name__ == '__main__':
     path = sys.argv[1]; nch = int(sys.argv[2]) if len(sys.argv) > 2 else 8
     take = int(sys.argv[3]) if len(sys.argv) > 3 else nch   # run only chunks 0..take-1 (a deterministic sample)
-    subprocess.run(['gcc', '-O2', '-w', '-o', EXE, os.path.join(HERE, 'de4r.c')], check=True)
+    subprocess.run(['gcc', '-O2', '-w', '-o', EXE, EXE + '.c'], check=True)
     cores = load_cores(path if os.path.exists(path) else os.path.join(ROOT, 'results', path))
     jobs = [(ci, s, ch, nch) for ci, s in enumerate(cores) for ch in range(take)]
     tot, per, fails = {}, {}, []
@@ -32,4 +33,7 @@ if __name__ == '__main__':
     for ci in sorted(per): print('core', ci, cores[ci], per[ci])
     for f in fails[:40]: print('core', f[0], f[1])
     print('TOTAL', path, len(cores), 'cores;', ' '.join(f'{k} {v}' for k, v in tot.items()))
-    print('variants: 0 DE4^v3 (control), 1 DE4^v3 + robust upper sets at level 6 (the candidate), 2 the same at 5.5, 3 robust at 6 without (V3) (control)')
+    if EXE.endswith('de4lp'):
+        print('variants: 0 the robust order (control), 1 the lower-pair order (largest level sum, fewest lower pairs, Pareto); phi_none: no state of the largest level sum is completable')
+    else:
+        print('variants: 0 DE4^v3 (control), 1 DE4^v3 + robust upper sets at level 6 (the candidate), 2 the same at 5.5, 3 robust at 6 without (V3) (control)')

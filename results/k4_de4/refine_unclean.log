@@ -1,0 +1,6 @@
+$ python3 k4/de4/refine.py json:/tmp/claude-0/-home-user/a0d763ef-30c3-5e18-a14c-97622129678b/scratchpad/a5/unclean_instances.json 4 4 0
+       75  instances
+      124  lp     maxima
+      133  pareto maxima
+       80  sum    maxima
+time 8 s
