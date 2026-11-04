@@ -33,3 +33,4 @@ python3 k4/sdc/k4_leader.py screen 30 1 > $L/k4_leader_screen.log
 python3 k4/sdc/k4_blocks.py 30 1 > $L/k4_blocks_screen.log
 python3 k4/sdc/k4_blocks.py adv hyper 40 1 > $L/k4_blocks_hyper.log
 python3 k4/sdc/sdf.py screen > $L/sdf_screen.log
+python3 k4/sdc/sdc_deficit.py screen r1 > $L/sdc_deficit_screen.log

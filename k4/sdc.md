@@ -380,3 +380,13 @@ The order 0, 2, 1 has one block and gives 7 to the 3-good agent 2. Agent 2 is th
 So the order has to give a contested good to the claimant whose freezing is cheapest. At k = 3 freezing always costs
 one good; at k = 4 a frozen top-holder with flat lower goods costs two. This is the counting that LB₄ and rule F lose
 (`k4/rulef.md`, `k4/lemmam_bt.md`), now isolated as a statement about orders.
+
+**A naive count does not decide.** Define the deficit of an SD outcome as (the number of unpicked goods each frozen
+agent must have kept out, summed) minus (the free slots of the unwanted agents, less one for the owner). This deficit
+does not decide extendability (`sdc_deficit_screen.log`, R1 orders of the screen set, 690 outcomes):
+- 72 outcomes with deficit ≤ 0 do not extend: unwanted agents need their own slots, and the owner's pick can sit in a
+  danger set;
+- 38 with deficit > 0 do extend: frozen agents share goods, or one is unfrozen.
+
+So the exact count must include the unfreezing and the unwanted agents' needs. That is the role of Lemma K and K′
+(`k4/rulef.md` §2, in Lean), which are exact for a fixed state. The open step is the order that makes it nonpositive.
