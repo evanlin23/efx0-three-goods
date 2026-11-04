@@ -36,6 +36,7 @@ import EFX.DE4Lemma18
 import EFX.DE4LowerPair
 import EFX.DE4LowerPairFrame
 import EFX.DE4TopSwap2
+import EFX.DE4CrossSwap
 import EFX.RealValues
 import EFX.Audit
 import EFX.PreAllocK

@@ -1600,7 +1600,9 @@ u₁ and u₂ their tops and t₁ the pair D₁, and release the rest of the two
 - (b) *Lopsided swap.* Suppose D₂ = {c_{t₂}, d_{t₂}} with c_{t₂} ∈ Y_{u₁} and d_{t₂} = j, and b_{t₂} is held alone. Let
   t₂ take {c_{t₂}}. The state is valid and its level sum is larger by 1.
 
-Neither needs the lower-pair order. Both contradict the largest level sum (with Lemma R for (V3)).
+Neither needs the lower-pair order. Both contradict the largest level sum (with Lemma R for (V3)). (a) is machine-checked
+(`EFX.DE4.cross_swap`, `EFX.DE4.not_top_of_cross_swap`, `lean/EFX/DE4CrossSwap.lean`, with the threat conditions on
+holdings of three or more goods as hypotheses).
 Checked by brute force (`python3 k4/de4/crossswap.py SOURCE PER JOBS SEED`, EVIDENCE for the proof). On every double
 clash of the families `advt4c` and `advt4l` of `adv_t4.py` (built so that (a), respectively (b), applies) where a
 swap's hypotheses hold, the state is valid with the claimed rise: 230 states for (a) and 353 for (b)
