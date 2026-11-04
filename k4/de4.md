@@ -766,6 +766,31 @@ everyone's level, so the Pareto requirement, which is what R4 breaks, is no long
 
 ## 10. The robust order: the improvement step, proved except one case
 
+> **The robust candidate is false** (ledger K4.DE4V3R, REFUTED; `python3 k4/de4/refute_rob.py`, an independent replay
+> from the definitions; found by `python3 k4/de4/dc_local.py 17 t3 400`). Instance (n = 6, m = 11):
+> - R = [[0,2,4,5], [1,3,6,7], [1,2,4,8], [0,3,7,8], [0,2,8,9], [1,3,4,10]];
+> - values [[39,21,16,8], [19,14,9,7], [36,27,22,33], [39,12,13,30], [22,29,16,18], [31,25,2,15]];
+> - state [{4,5}, {6,7}, {1}, {0}, {2,9}, {3,10}], with J = {8}.
+>
+> It is GM4-B's double clash (§10.3):
+> - agents 0 and 1 hold their lower pairs;
+> - agents 3 and 2 are frozen on the tops of agents 0 and 1, and both have the leftover good 8 as their b;
+> - agents 4 and 5 hold robust pairs containing the b's of agents 0 and 1.
+>
+> The state is (V3)-valid, of the largest level sum 26 among the 116 (V3)-valid states, and no (V3)-valid state of
+> that level sum is value-Pareto-better: a maximum of the robust order. It satisfies (H), is not all-upper, and is not
+> completable, since giving 8 to any agent breaks EFX₀. The instance does have an EFX₀ allocation, so TARGET₄ is not
+> refuted.
+>
+> With K4.DE4V3R fall:
+> - Claim T and Claim T′;
+> - Conjecture A″;
+> - C₂ and C₃;
+> - the hypotheses HX and HC2 of the Lean frame. The pointer cycle 0 → 2 → 1 → 3 → 0 is an unclean F₂-clash cycle at a
+>   maximum with (H).
+>
+> The proved and machine-checked lemmas of §10 stand. The rest of §10 records the work as it was done.
+
 The candidate of §9 (ledger K4.DE4V3R): the states of DE4ᵛ³ ((V1), (V2), (V3)) and DE4's levels, except that an upper
 set S of agent i is *robust* if v_i(S) ≥ v_i(R_i ∖ S), and robust upper sets have level 6, non-robust ones level 5. The
 order is the level sum Φ, then value-Pareto. The improvement step asks: every non-completable (V3)-valid state has a
