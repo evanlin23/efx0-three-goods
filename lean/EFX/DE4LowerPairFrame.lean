@@ -59,18 +59,16 @@ section allUpper
 variable {v : A → G → Nat} {agents : List A} {goods : List G}
 
 omit [DecidableEq G] in
-/-- No agent holding something worth more than its top holds its lower pair: then no lower-pair holders. -/
-theorem numLP_eq_zero_of_upper {base : G → Option A}
-    (h : ∀ i ∈ agents, topV v i goods < value v i (hold goods base i)) : numLP v agents goods base = 0 := by
+/-- No lower-pair holder: `numLP` is zero. -/
+theorem numLP_eq_zero {base : G → Option A}
+    (h : ∀ i ∈ agents, ¬ IsLowerPair v i goods (hold goods base i)) : numLP v agents goods base = 0 := by
   classical
   unfold numLP
   have : (agents.map (fun i => if IsLowerPair v i goods (hold goods base i) then 1 else 0)).sum ≤
       (agents.map (fun _ => (0 : Nat))).sum := by
     apply sum_map_le
     intro i hi
-    have hn : ¬ IsLowerPair v i goods (hold goods base i) := fun hlp => by
-      have := hlp.2.2.2.1; have := h i hi; omega
-    simp [hn]
+    simp [h i hi]
   have h0 : ∀ l : List A, (l.map (fun _ => (0 : Nat))).sum = 0 := by
     intro l
     induction l with
@@ -78,6 +76,12 @@ theorem numLP_eq_zero_of_upper {base : G → Option A}
     | cons a t ih => simp only [List.map_cons, List.sum_cons, ih]
   have := h0 agents
   omega
+
+omit [DecidableEq G] in
+/-- No agent holding something worth more than its top holds its lower pair: then no lower-pair holders. -/
+theorem numLP_eq_zero_of_upper {base : G → Option A}
+    (h : ∀ i ∈ agents, topV v i goods < value v i (hold goods base i)) : numLP v agents goods base = 0 :=
+  numLP_eq_zero fun i hi hlp => by have := hlp.2.2.2.1; have := h i hi; omega
 
 /-- **Theorem A′ in the lower-pair order**: a non-completable (V3)-valid state in which every agent holds an upper set
 has a better (V3)-valid state. A value-Pareto-better state of an all-upper state is all-upper, so Theorem A′'s state is
@@ -96,6 +100,37 @@ theorem thmAllUpperLP (hne : agents ≠ []) (hag : agents.Nodup) (hgd : goods.No
     exact Or.inr (Or.inr ⟨heq, by omega, hle, hlt⟩)
 
 end allUpper
+
+section tame
+variable {v : A → G → Nat} {agents : List A} {goods : List G}
+
+/-- Where no agent can hold a lower pair, a maximum of the lower-pair order is a maximum of the robust order (the two
+orders agree: no state has a lower-pair holder). -/
+theorem maxR_of_maxLP_noLP (hnolp : ∀ i ∈ agents, ∀ S : List G, ¬ IsLowerPair v i goods S) {base : G → Option A}
+    (hmax : IsMaximumLP v agents goods base) : IsMaximumR v agents goods base := by
+  refine ⟨hmax.1, fun b' hv' hbet => ?_⟩
+  have h0 : ∀ b : G → Option A, numLP v agents goods b = 0 := fun b => numLP_eq_zero fun i hi => hnolp i hi _
+  rcases hbet with hlt | ⟨heq, hle, hlt⟩
+  · exact hmax.2 b' hv' (Or.inl hlt)
+  · exact hmax.2 b' hv' (Or.inr (Or.inr ⟨heq, by rw [h0, h0], hle, hlt⟩))
+
+/-- **K4.DE4V3R.LP on tame cores** (machine-checked, no hypothesis): on a strict R1-core in which no agent can hold a
+lower pair and every upper set is robust, every maximum of the lower-pair order is completable. -/
+theorem completable_tameLP (hne : agents ≠ []) (hag : agents.Nodup) (hgd : goods.Nodup)
+    (hc : R1Core4 v agents goods) (hs : Strict v agents goods)
+    (hnolp : ∀ i ∈ agents, ∀ S : List G, ¬ IsLowerPair v i goods S)
+    (hrob : ∀ i ∈ agents, ∀ S : List G, IsUpper v i goods S → S.Nodup → (∀ g ∈ S, g ∈ goods) →
+      IsRobust v i goods S)
+    {base : G → Option A} (hmax : IsMaximumLP v agents goods base) : Completable v agents goods base :=
+  completable_tame hne hag hgd hc hs hnolp hrob (maxR_of_maxLP_noLP hnolp hmax)
+
+/-- **K4.DE4V3R.LP on cores of 3-good agents** (machine-checked, no hypothesis). -/
+theorem completable_threeLP (hne : agents ≠ []) (hag : agents.Nodup) (hgd : goods.Nodup)
+    (hc : R1Core4 v agents goods) (hs : Strict v agents goods) (h3 : ∀ i ∈ agents, (relevant v i goods).length = 3)
+    {base : G → Option A} (hmax : IsMaximumLP v agents goods base) : Completable v agents goods base :=
+  completable_three hne hag hgd hc hs h3 (maxR_of_maxLP_noLP (fun i hi => noLP_of_three (h3 i hi)) hmax)
+
+end tame
 
 /-- **Claim T′ in the lower-pair order** (a hypothesis, never an axiom): every non-completable maximum of the
 lower-pair order has every agent holding an upper set. -/
@@ -335,7 +370,11 @@ end EFX
 #print axioms EFX.DE4.topR_of_maxLP
 #print axioms EFX.DE4.exists_efx0_of_conjLP
 #print axioms EFX.DE4.target4_of_conjLP
+#print axioms EFX.DE4.numLP_eq_zero
 #print axioms EFX.DE4.numLP_eq_zero_of_upper
+#print axioms EFX.DE4.maxR_of_maxLP_noLP
+#print axioms EFX.DE4.completable_tameLP
+#print axioms EFX.DE4.completable_threeLP
 #print axioms EFX.DE4.thmAllUpperLP
 #print axioms EFX.DE4.conjLP_of_claimTMaxLP
 #print axioms EFX.DE4.target4_of_claimTMaxLP
