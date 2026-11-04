@@ -791,6 +791,14 @@ So, as in §9:
 | every strict profile of the 16 stuck hypergraphs | 911,720,448 | 0 | not counted | 0 (robust levels without (V3): 16) | `results/k4_de4/robust_stuckhyper.log` |
 | 0.2% stride sample of R4's hypergraph | 13,759,416 | 0 | not counted | 11 | `results/k4_de4/robust_r4_sample.log` |
 
+**Adversarial search for Claim T** (EVIDENCE; `python3 k4/de4/adv_t.py PER JOBS SEED NEXTRA` and
+`python3 k4/de4/adv_t3.py PER JOBS SEED`). Random profiles built around the double clash of GM4-B, the pattern behind
+the counterexamples to Conjectures D and D_nc (§10.2): two lower-pair holders, frozen holders of their tops whose b is
+a leftover good, and holders of their b's (in `adv_t3.py`, robust upper pairs, so no free agent holds one good). For
+each instance, every (V3)-valid state of the largest level sum is checked for completability. On 12,659 instances of
+`adv_t.py` (0 to 3 extra goods; logs `results/k4_de4/adv_t_0.log` to `adv_t_3.log`) and 2,004 of `adv_t3.py`
+(`results/k4_de4/adv_t3.log`), every one of the 26,029 + 4,972 such states is completable: no counterexample to Claim T.
+
 **Theorem 16.** Let Y be (V3)-valid and not completable. Then Y has a better (V3)-valid state in each of these cases:
 1. Φ(Y) < Φ*;
 2. some agent holds nothing (then, unless the leftover goods alone threaten someone, Y is completable: Corollary 5(b));
