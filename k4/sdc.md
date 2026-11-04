@@ -516,3 +516,14 @@ screen set, 31 on the suite. But only 24 of the 332 instances have one (`no_fres
 - At k = 4 the analogue of Theorem A is what is missing.
 - When no owner is fresh, the owner has lost goods to others, and its block structure is that of a deferred R1 agent.
   That is where a proof of NO must do new work.
+
+**Two candidate owners do not suffice.** On the screen set and the suite, the owner can always be taken to be the first
+or the last agent of the plain neediest-first run. In the 15 screen instances where "last" fails, the first agent is a
+big-top agent with two or three of its own goods unpicked, and it should give up its top and own its lower goods. But
+this two-candidate form fails on 2 of 20,000 random profiles of the n = 4 cores (`no_first.log`). For example, on
+sets [[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]] with values [[8, 4, 3, 10], [8, 5, 4, 6],
+[3, 7, 6, 5], [8, 4, 2, 3]]:
+- the plain order is 3, 0, 1, 2;
+- only owner 0, the second agent, works.
+
+So NO's owner remains a genuine choice among n.
