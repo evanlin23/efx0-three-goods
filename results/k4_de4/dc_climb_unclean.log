@@ -1,0 +1,12 @@
+$ python3 k4/de4/dc_climb.py 11 300 10 json:results/k4_de4/unclean_cycles.json
+round 0 final gap 99 time 93
+round 1 final gap 22 time 203
+round 2 final gap 99 time 371
+round 3 final gap 99 time 530
+round 4 final gap 99 time 532
+round 5 final gap 99 time 536
+round 6 final gap 99 time 673
+round 7 final gap 99 time 797
+round 8 final gap 99 time 799
+round 9 final gap 99 time 930
+gaps [(22, 1), (99, 9)]

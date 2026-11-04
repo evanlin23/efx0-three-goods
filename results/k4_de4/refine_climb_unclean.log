@@ -1,0 +1,17 @@
+$ python3 k4/de4/refine_climb.py 1 300 15 json:results/k4_de4/unclean_cycles.json
+round 0 final gap 30 time 2
+round 1 final gap 50 time 135
+round 2 final gap 99 time 328
+round 3 final gap 40 time 451
+round 4 final gap 99 time 606
+round 5 final gap 20 time 742
+round 6 final gap 99 time 831
+round 7 final gap 40 time 832
+round 8 final gap 50 time 976
+round 9 final gap 99 time 1168
+round 10 final gap 40 time 1171
+round 11 final gap 99 time 1408
+round 12 final gap 99 time 1608
+round 13 final gap 99 time 1840
+round 14 final gap 40 time 2126
+gaps [(20, 1), (30, 1), (40, 4), (50, 2), (99, 7)]

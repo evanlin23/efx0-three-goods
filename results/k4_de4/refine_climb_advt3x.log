@@ -1,0 +1,7 @@
+$ python3 k4/de4/refine_climb.py 3 300 15 advt3x
+round 0 final gap 99 time 373
+round 1 final gap 99 time 544
+round 2 final gap 99 time 999
+round 3 final gap 99 time 1388
+round 4 final gap 99 time 1936
+stopped after 5 rounds (the session's CPU was needed elsewhere)
