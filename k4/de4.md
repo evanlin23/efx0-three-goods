@@ -788,6 +788,8 @@ So, as in §9:
 | every strict profile, n = 4 with one 4-good agent | 8,398,080 | 0 | not counted | 0 | `results/k4_de4/robust_4_n4_1.log` |
 | every strict profile, n = 4 with two 4-good agents | 922,669,056 | 0 | 0 | 0 (count 9,248; robust levels without (V3): 8 fails) | `results/k4_de4/robust_4_n4_2.log` |
 | 1% stride sample, n = 4 with three 4-good agents | 485,880,564 | 0 | 0 | 14 (count 10,310) | `results/k4_de4/robust_4_n4_3_sample.log` |
+| 0.02% stride sample (4 of 20,000 chunks), n = 4 with four 4-good agents | 301,331,736 | 0 | 0 | 71 (count 10,418; robust levels without (V3): 1 fail) | `results/k4_de4/robust_4_pure_sample.log` |
+| 0.05% stride sample (1 of 2,000 chunks), n = 5 with one 4-good agent | 324,445 | 0 | 0 | 0 | `results/k4_de4/robust_5_n4_1_sample.log` |
 | every strict profile of the 16 stuck hypergraphs | 911,720,448 | 0 | not counted | 0 (robust levels without (V3): 16) | `results/k4_de4/robust_stuckhyper.log` |
 | 0.2% stride sample of R4's hypergraph | 13,759,416 | 0 | not counted | 11 | `results/k4_de4/robust_r4_sample.log` |
 
@@ -1301,7 +1303,7 @@ arcs are tight, which under (H) is the minimality of G), C₃ and HL give TARGET
 released, so (V3) holds by Lemma V (`EFX.DE4.lemmaV`). The robust level sum does not drop (Lemma 1(a)). If it rises,
 Lemma R contradicts maximality. Otherwise the state is a (V3)-valid Pareto improvement (`EFX.DE4.no_f1_clashCycle`).
 So `EFX.DE4.hc2_of_hc3`: C₃ for F₂-clash cycles at maxima (`EFX.DE4.HC3`) implies `HC2`. Then
-`EFX.DE4.target4_of_HC3`: **HC3 and HL imply TARGET₄**.
+`EFX.DE4.target4_of_HC3`: **HC3 and HL imply TARGET₄**. Lemma 25(a) is machine-checked on F₂-clash cycles (`EFX.DE4.robust_not_on_clashCycle`), so the hypothesis can be weakened to `EFX.DE4.HC3'`: no free lower-pair or non-robust upper holder lies on an F₂-clash cycle at a maximum, that is P1 and P2 on such cycles (`EFX.DE4.target4_of_HC3'`).
 
 **Toward P1.** Let u hold its lower pair at the largest level sum with (H), with an out-arc (x, D). The holder h of
 a_u is frozen (u wants a_u) and b_u is held by some w (V3).

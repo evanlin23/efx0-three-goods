@@ -20,6 +20,9 @@ and Conjecture C₃ (no such cycle does) excludes F₂-clash cycles at maxima al
 - `HC3` (**Conjecture C₃** for F₂-clash cycles, a hypothesis, never an axiom): at a maximum with (H) in which everyone
   holds a good and someone is not upper, no F₂-clash cycle passes through a free agent holding two or more goods.
 - `hc2_of_hc3`, `target4_of_HC3`: `HC3` implies `HC2`, and with `HL` it implies **TARGET₄**.
+- `robust_not_on_clashCycle` (**Lemma 25(a)**): a free robust upper holder lies on no F₂-clash cycle. Hence `HC3'`
+  (free agents on F₂-clash cycles at maxima hold one good or a robust upper set: no lower-pair or non-robust upper
+  holder lies on one, P1 and P2 of §10.3) implies `HC3` (`hc3_of_hc3'`), and `target4_of_HC3'`.
 -/
 
 set_option autoImplicit false
@@ -394,6 +397,66 @@ theorem target4_of_HC3 (I : Inst) (hn : 0 < I.n) (h3 : HC3 (Fin I.n) (Fin I.m)) 
     (h4 : ∀ i, numRelevant I i ≤ 4) : ∃ X : I.Alloc, I.EFX0 X :=
   target4_of_HC2 I hn (hc2_of_hc3 h3) hl h4
 
+section lemma25
+variable {v : A → G → Nat} {agents : List A} {goods : List G}
+
+/-- **Lemma 25(a)** (`k4/de4.md` §10.3), on F₂-clash cycles: a free agent holding a robust upper set lies on no
+F₂-clash cycle. It wants no good (its holding is worth more than its top), and it has no danger set (the goods outside
+its holding are worth at most the holding). -/
+theorem robust_not_on_clashCycle {base : G → Option A} {x : A → A} {d : A → G → Bool} {C : List A}
+    (hC : ClashCycle v agents goods base x d C) {o : A} (ho : o ∈ C)
+    (hup : IsUpper v o goods (hold goods base o)) (hrob : IsRobust v o goods (hold goods base o)) : False := by
+  obtain ⟨hCnd, _, hCc, ⟨c, w₀, hcl, hw₀, hcw⟩, harcs, _⟩ := hC
+  obtain ⟨hspec, _, hcyc, hdef⟩ := cycNext_spec hCnd hCc hcl hw₀ hcw
+  obtain ⟨p, hp⟩ := (hcyc o).mpr (hdef o ho)
+  obtain ⟨hpC, _, hR⟩ := hspec p o hp
+  rcases hR with ⟨_, _, y, hyg, _, hlt⟩ | ⟨hnf, e⟩
+  · -- `o` would want a single good
+    have := le_topV v o goods hyg
+    have := hup.2.1
+    omega
+  · -- `o` would have a danger set outside its holding
+    have hdan := (harcs p hpC hnf).1.2.2.1
+    rw [← e] at hdan
+    have hsub : (goods.filter (d p)).Sublist (goods.filter (fun g => decide (g ∉ hold goods base o))) := by
+      apply filter_sublist_filter
+      intro g hg hdg
+      have := (hdan.2.1 g (List.mem_filter.mpr ⟨hg, hdg⟩)).2.1
+      exact decide_eq_true fun hm => this (mem_hold.mp hm).2
+    have h1 := value_sublist v o hsub
+    have h2 := hdan.2.2.1
+    unfold IsRobust at hrob
+    omega
+
+end lemma25
+
+/-- **Conjecture C₃ for F₂-clash cycles, without robust holders** (a hypothesis, never an axiom): at a maximum of the
+robust order in which everyone holds a good, (H) holds and some agent does not hold an upper set, every free agent on
+an F₂-clash cycle holds one good or a robust upper set. Its content is P1 and P2 of `k4/de4.md` §10.3 on such cycles:
+no free holder of its lower pair or of a non-robust upper set lies on one. -/
+def HC3' (A G : Type) [DecidableEq A] [DecidableEq G] : Prop :=
+  ∀ (v : A → G → Nat) (agents : List A) (goods : List G), agents ≠ [] → agents.Nodup → goods.Nodup →
+    R1Core4 v agents goods → Strict v agents goods →
+    ∀ base, IsMaximumR v agents goods base → (∀ i ∈ agents, hold goods base i ≠ []) → CondH v agents goods base →
+      ¬ (∀ i ∈ agents, IsUpper v i goods (hold goods base i)) →
+      ∀ (x : A → A) (d : A → G → Bool) (C : List A), ClashCycle v agents goods base x d C →
+        ∀ o ∈ C, ¬ Frozen v agents goods base o →
+          (∃ y, hold goods base o = [y]) ∨ (IsUpper v o goods (hold goods base o) ∧
+            IsRobust v o goods (hold goods base o))
+
+/-- With Lemma 25(a), `HC3'` implies `HC3`. -/
+theorem hc3_of_hc3' (h : HC3' A G) : HC3 A G := by
+  intro v agents goods hne hag hgd hc hs base hmax hE hH hnu x d C hC o ho hnf
+  rcases h v agents goods hne hag hgd hc hs base hmax hE hH hnu x d C hC o ho hnf with h1 | ⟨hup, hrob⟩
+  · exact h1
+  · exact absurd (robust_not_on_clashCycle hC ho hup hrob) id
+
+/-- **No lower-pair or non-robust upper holder on an F₂-clash cycle at a maximum (`HC3'`), and Claim T′ where (H)
+fails (`HL`), imply TARGET₄.** -/
+theorem target4_of_HC3' (I : Inst) (hn : 0 < I.n) (h3 : HC3' (Fin I.n) (Fin I.m)) (hl : HL (Fin I.n) (Fin I.m))
+    (h4 : ∀ i, numRelevant I i ≤ 4) : ∃ X : I.Alloc, I.EFX0 X :=
+  target4_of_HC3 I hn (hc3_of_hc3' h3) hl h4
+
 end DE4
 end EFX
 
@@ -404,3 +467,6 @@ end EFX
 #print axioms EFX.DE4.no_f1_clashCycle
 #print axioms EFX.DE4.hc2_of_hc3
 #print axioms EFX.DE4.target4_of_HC3
+#print axioms EFX.DE4.robust_not_on_clashCycle
+#print axioms EFX.DE4.hc3_of_hc3'
+#print axioms EFX.DE4.target4_of_HC3'
