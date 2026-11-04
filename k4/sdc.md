@@ -337,3 +337,46 @@ danger sets among their own lower goods must not lie inside X_o:
 Meanwhile the moves of the unwanted agents compete with them for the unpicked goods. So for a fixed order, SD-C's
 completion problem is a covering problem about frozen agents only. This is the k = 4 form of LB⁺'s exposed frozen
 leader (`proofs/lb_last_step.md` §4), and the order has to be chosen against it.
+
+**Theorem DT⁺ (same proof).** If, in SD(π), no frozen agent values an unpicked good, then SD(π) extends, with any
+unwanted owner. The reason: a frozen agent's lower goods are then all picks, so at most one of them (Y_o) lies in X_o,
+and a single lower good is never a danger set. The moves (m1) and (m2) of the unwanted agents never touch a good that a
+frozen agent values.
+
+This condition can rarely be met by an order. Some order meets it on only 19 of the 168 screen instances. The weaker
+condition, that every frozen agent's unpicked goods are worth at most its pick in total, is met on 153
+(`sdf_screen.log`). The rest need the covering, including the unfreezing of a frozen agent: its needer takes goods of
+its own and stops needing it, as in LB's need-shrinking upgrades.
+
+## 7. At k = 4 the order is global
+
+At k = 3, re-ordering the last block suffices (§5). At k = 4 it does not:
+- On the screen set, 14 of 625 bad R1 runs need the whole order changed (`k4_blocks_screen.log`; most of these
+  instances have a single block).
+- On the stuck hypergraphs of `results/k4_de4/` with random profiles, all 10 bad runs with two blocks need the first
+  block changed (`k4_blocks_hyper.log`).
+
+A smallest example (n = 3, m = 8):
+
+| agent | ranking (values) |
+|---|---|
+| 0 | 2 (10) > 4 (8) > 5 (6) > 1 (3) |
+| 1 | 7 (8) > 4 (6) > 1 (5) > 6 (4) |
+| 2 | 7 (8) > 3 (5) > 2 (4) > 5 (2) |
+
+The order 1, 2 | 0 has two blocks:
+- agent 1 takes 7;
+- agent 2, which lost 7, takes 3;
+- the next block's leader, agent 0, takes 2.
+
+Agent 1 is frozen, because agent 2 wants 7. All three of its lower goods (4, 1, 6) are unpicked, and any two of them
+are worth more than its pick. So two of them must be kept out of the large bundle. But only one other agent can take a
+good: agents 0 and 2 are both unwanted, and one of them is the owner. Agent 2 cannot unfreeze agent 1: with its
+own unpicked good 5 it holds 5 + 2 = 7 < 8.
+
+The order 0, 2, 1 has one block and gives 7 to the 3-good agent 2. Agent 2 is then frozen, but its unpicked goods
+(3 and 5) are worth 5 + 2 = 7 < 8 in total. Agent 1 takes 4.
+
+So the order has to give a contested good to the claimant whose freezing is cheapest. At k = 3 freezing always costs
+one good; at k = 4 a frozen top-holder with flat lower goods costs two. This is the counting that LB₄ and rule F lose
+(`k4/rulef.md`, `k4/lemmam_bt.md`), now isolated as a statement about orders.

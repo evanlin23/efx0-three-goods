@@ -5,7 +5,8 @@ agents and R1 tie order) be free; report the least d for which some free continu
 continuations, n <= 6).
 
     python3 k4/sdc/k4_blocks.py RUNS SEED              (screen set)
-    python3 k4/sdc/k4_blocks.py random n N SEED        (random k = 4 core-like instances, runs with >= 2 blocks)"""
+    python3 k4/sdc/k4_blocks.py random n N SEED        (random k = 4 core-like instances, runs with >= 2 blocks)
+    python3 k4/sdc/k4_blocks.py adv SRC N SEED         (SRC: advt0..3, advt3x, advt4x, hyper)"""
 import sys, os, random, collections, json
 import _paths
 from sdclib import Enc
@@ -67,11 +68,25 @@ def random_core4(rng, n):
     return sets, random_profile(sets, rng), m
 
 
-def main_random(n, N, seed, cap=3):
+def gen_adv(rng, src):
+    import adv_t, adv_t3, adv_t4
+    from de4lib import random_profile
+    if src == 'hyper':
+        cores = json.load(open(os.path.join(_paths.ROOT, 'results/k4_de4/stuck_hypergraphs.json')))['hypergraphs']
+        sets = rng.choice(cores); return sets, random_profile(sets, rng), 1 + max(max(x) for x in sets)
+    I = None
+    while I is None:
+        I = adv_t3.make(rng) if src == 'advt3x' else adv_t4.make(rng) if src == 'advt4x' else adv_t.make(rng, int(src[4:]))
+    return I.sets, [[I.v[i][g] for g in I.sets[i]] for i in range(I.n)], I.m
+
+
+def main_random(n, N, seed, cap=3, src=None):
     rng = random.Random(seed); C = collections.Counter()
-    print('$ python3 k4/sdc/k4_blocks.py random', n, N, seed)
-    while C['bad runs'] < N:
-        sets, vals, m = random_core4(rng, n)
+    print('$ python3 k4/sdc/k4_blocks.py random', n if src is None else src, N, seed)
+    tries = 0
+    while C['bad runs'] < N and tries < 20000:
+        tries += 1
+        sets, vals, m = random_core4(rng, n) if src is None else gen_adv(rng, src)
         E = Enc(sets, vals, m); cache = {}
         def ext(Y):
             if Y not in cache: cache[Y] = completable(E, list(Y))
@@ -93,5 +108,7 @@ def main_random(n, N, seed, cap=3):
 if __name__ == '__main__':
     if sys.argv[1] == 'random':
         main_random(int(sys.argv[2]), int(sys.argv[3]), int(sys.argv[4]))
+    elif sys.argv[1] == 'adv':
+        main_random(None, int(sys.argv[3]), int(sys.argv[4]), src=sys.argv[2])
     else:
         main_screen()

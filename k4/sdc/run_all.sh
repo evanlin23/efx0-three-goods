@@ -30,3 +30,6 @@ python3 k4/sdc/sdc_suite.py > $L/sdc_suite.log
 python3 k4/sdc/k4_leader.py screen 30 1 > $L/k4_leader_screen.log
 (python3 k4/sdc/k3_rerun_stats.py 1 300 5 8; python3 k4/sdc/k3_rerun_stats.py 2 150 6 10) > $L/k3_rerun_stats.log
 (python3 k4/sdc/dt_check.py 1 3000 4; python3 k4/sdc/dt_check.py 2 2000 6; python3 k4/sdc/dt_check.py 3 500 10) > $L/dt_check.log
+python3 k4/sdc/k4_blocks.py 30 1 > $L/k4_blocks_screen.log
+python3 k4/sdc/k4_blocks.py adv hyper 40 1 > $L/k4_blocks_hyper.log
+python3 k4/sdc/sdf.py screen > $L/sdf_screen.log
