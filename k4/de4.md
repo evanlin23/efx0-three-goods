@@ -1584,6 +1584,14 @@ v_{t₁}(b_{t₁}). The same holds for t₂. ∎
 So what is left of the double clash at a maximum of the lower-pair order is the case where a frozen agent's b is held
 outside the clash, and taking it would make a fifth agent lose a good.
 
+**Corollary 28(d).** In that case, let t₁ be a frozen agent of the clash whose b is held by an agent w outside it.
+Then t₁ values four goods, its danger set is D₁ = {c_{t₁}, d_{t₁}}, and v(c_{t₁}) + v(d_{t₁}) > v(a_{t₁}): t₁'s two
+lowest goods are worth more than its top. The shared good j is one of them, and the other lies in Y_{u₂}.
+
+*Proof.* t₁ holds its top, so it wants nothing, and D₁ ⊆ R_{t₁} ∖ {a_{t₁}}. As b_{t₁} ∉ Y_{u₂} ∪ J, D₁ ⊆ {c_{t₁}, d_{t₁}}.
+A danger set is worth more than t₁'s holding, the top, so it has two goods. So D₁ = {c_{t₁}, d_{t₁}}, and D₁ meets
+Y_{u₂} and contains j. ∎
+
 **Lemma 29 (case (L) in the lower-pair order; machine-checked, `EFX.DE4.selfUp_at_maxLP`).** At a maximum of the
 lower-pair order, every free self-upgrade of at most two goods (Lemma 4′) takes the agent's lower pair, from a holding
 of level 3: a free b-holder x with c_x, d_x leftover takes {c_x, d_x}.
