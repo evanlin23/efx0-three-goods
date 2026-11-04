@@ -4,7 +4,8 @@ For a non-completable (V3)-valid state Y within 5 of the largest level sum Phi*:
   score(Y) = 10 (Phi* - Phi(Y)) + (1 if Y is value-Pareto-dominated in its level sum) + 3 k(Y),
 where k(Y) is the number of agents w holding two or more goods such that letting w alone keep one good of its holding
 makes Y completable. The score of an instance is the least score; 99 if no non-completable state lies within 5 of
-Phi*. At score 0 (a maximum with no single-agent shedding), shed.py's full check (any set of agents) decides: if Y is
+Phi*. Moves are kept when the score does not grow, and with probability 0.05 when it grows but stays below 99
+(never to 99, so the climb does not drift into a random walk). At score 0 (a maximum with no single-agent shedding), shed.py's full check (any set of agents) decides: if Y is
 not shed-completable it is a counterexample to K4.DE4V3R.SHED2, printed as COUNTEREXAMPLE.
 
     python3 k4/de4/shed_climb2.py SEED STEPS ROUNDS SOURCE      (SOURCE as in shed_climb.py)"""
@@ -77,7 +78,7 @@ if __name__ == '__main__':
                 I0 = (adv_t3.make(rng) if src == 'advt3x' else adv_t4.make(rng) if src == 'advt4x'
                       else adv_t4.make(rng, resid=True) if src == 'advt4r' else adv_t.make(rng, int(src[4:])))
             sets, vals0 = I0.sets, [[I0.v[i][g_] for g_ in I0.sets[i]] for i in range(I0.n)]
-        g = RC.climb(sets, 1 + max(max(s) for s in sets), rng, steps, src, start=vals0)
+        g = RC.climb(sets, 1 + max(max(s) for s in sets), rng, steps, src, start=vals0, noise=0.05, cap99=True)
         C[g] += 1
         print('round', r, 'final gap', g, 'time %.0f' % (time.time() - t0), flush=True)
     print('gaps', sorted(C.items()))

@@ -72,7 +72,7 @@ def rand_vals(sets, rng):
     return vals
 
 
-def climb(sets, m, rng, steps, tag, start=None, label='COUNTEREXAMPLE'):
+def climb(sets, m, rng, steps, tag, start=None, label='COUNTEREXAMPLE', noise=0.02, cap99=False):
     vals = [list(v) for v in start] if start is not None else None
     g, Y = 99, None
     if vals is not None:
@@ -96,7 +96,7 @@ def climb(sets, m, rng, steps, tag, start=None, label='COUNTEREXAMPLE'):
         if not ok_core(I2):
             continue
         g2, Y2 = gap(I2)
-        if g2 <= g or rng.random() < 0.02:
+        if g2 <= g or ((g2 < 99 or not cap99) and rng.random() < noise):
             vals, g, Y = nv, g2, Y2
             if g == 0:
                 print(label, tag, json.dumps((sets, vals, [list(a) for a in Y])), flush=True)

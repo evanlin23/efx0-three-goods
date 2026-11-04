@@ -1812,8 +1812,14 @@ first shed goods.
   good of their holding alone, then the state has an EFX₀ completion (`SHED=broad python3 k4/de4/shed.py`). All five
   known non-completable maxima of the robust order (`results/k4_de4/robust_failures.json`) pass. The Lean frame
   (`lean/EFX/DE4Shed.lean`) uses this broad definition: **TARGET₄ ⟸ HXShed + HLLShed**, and K4.DE4V3R.SHED2 ⟹ TARGET₄.
-  Hill-climbs against it (`results/k4_de4/shed2_climb_*.log`): from the five failures and from `advt4r`, 12 rounds;
-  the closest state that is not shed-completable is 4 levels below Φ*. The rule is not trivially weak: far below Φ*,
+  Hill-climbs against it:
+  - plain (`results/k4_de4/shed2_climb_*.log`): from the five failures and from `advt4r`, 12 rounds; the closest state
+    that is not shed-completable is 4 levels below Φ*;
+  - graded (`python3 k4/de4/shed_climb2.py`, scoring 3 per single-agent shedding that completes a non-completable
+    state near Φ*): 24 rounds from the five failures. The best score is 6, so every non-completable maximum reached
+    still has two single-agent sheddings that complete it (`results/k4_de4/shed2c_climb_*.log`). On this hypergraph the
+    goods the robust holders release are valued by nobody else, which is why. Climbs that also change the hypergraph:
+    `shed_climb3.py`, `results/k4_de4/shed2d_climb_*.log`. The rule is not trivially weak: far below Φ*,
   most non-completable states are not shed-completable (6 or more levels below: 20 of 85 in `advt4r`, 2 of 21 in
   random cores, are), while all 7 within 3–5 levels in `advt4r` are, and neither of the 2 in random cores is (`python3 k4/de4/shed_stat.py`,
   `results/k4_de4/shed_stat.log`).
