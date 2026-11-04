@@ -1799,7 +1799,11 @@ first shed goods.
   good of their holding alone, then the state has an EFX₀ completion (`SHED=broad python3 k4/de4/shed.py`). All five
   known non-completable maxima of the robust order (`results/k4_de4/robust_failures.json`) pass. The Lean frame
   (`lean/EFX/DE4Shed.lean`) uses this broad definition: **TARGET₄ ⟸ HXShed + HLLShed**, and K4.DE4V3R.SHED2 ⟹ TARGET₄.
-  Hill-climbs against it: `results/k4_de4/shed2_climb_*.log`.
+  Hill-climbs against it (`results/k4_de4/shed2_climb_*.log`): from the five failures and from `advt4r`, 12 rounds;
+  the closest state that is not shed-completable is 4 levels below Φ*. The rule is not trivially weak: far below Φ*,
+  most non-completable states are not shed-completable (6 or more levels below: 20 of 85 in `advt4r`, 2 of 21 in
+  random cores, are), while all 7 within 3–5 levels in `advt4r` are (`python3 k4/de4/shed_stat.py`,
+  `results/k4_de4/shed_stat.log`).
 
 ## 6. Reproduce
 
