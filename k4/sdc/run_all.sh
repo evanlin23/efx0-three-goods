@@ -104,3 +104,4 @@ for F in "" "--nor1"; do S=$( [ -z "$F" ] && echo "" || echo "_nor1" ); (python3
 # §17: two potentials over rotations
 (python3 k4/sdc/rd_check.py special 2; python3 k4/sdc/rd_check.py screen 1) > $L/rd_check.log
 (python3 k4/sdc/rm_check.py special; python3 k4/sdc/rm_check.py screen) > $L/rm_check.log
+(for a in special screen suite files; do python3 k4/sdc/of_count.py $a; done; python3 k4/sdc/of_count.py cores:k4_certs_2.json.gz,k4_certs_3.json.gz 20000 91; python3 k4/sdc/of_count.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 20000 92; python3 k4/sdc/of_count.py cores:k4_certs_5_n4_1.json.gz,k4_certs_5_n4_2.json.gz 6000 93; python3 k4/sdc/of_count.py screen --none; python3 k4/sdc/of_count.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 20000 92 --none; python3 k4/sdc/of_count.py screen --r1) > $L/of_count.log

@@ -1048,6 +1048,18 @@ the next attempt does not repeat them.
   - A successful search sometimes needs a downgrade rotation, as rule F's instance of
     `attempts/k4-rulef-least-count.md` already showed. This is P1 (§1) again, now on LB₄ʳ's pre-allocations.
 
+- **OF (the owner-free count closes globally):** for the neediest-first run without R1 after need-shrinking upgrades,
+  the agents threatened by the unpicked goods alone can be served with all slot places (`k4/sdc/of_count.py`,
+  `of_count.log`).
+  - It holds on the special instances, the screen set, the suite and the 86 DE4 file instances.
+  - It fails on 1 of 20,000 random n ≤ 3 and 4 of 20,000 n = 4 profiles, and more often without upgrades (16 of
+    20,000 at n = 4).
+  - On the first failure (sets [[0,2,5,6],[1,3,4,6],[3,4,5,6]], values [[4,5,2,8],[6,3,8,10],[2,7,6,10]]) the plain
+    picks extend nevertheless. The completion needs the owner's needs taken from its *bundle*: Lemma K's kept set K
+    unfreezes agents that only the owner needs.
+  - So a count that closes the plain run must involve the owner's kept set. The §15 picture "owner-free count closes,
+    the owner costs one place" is a property of the R1 runs on the data, not of the order.
+
 So the picture of §1 persists inside LB₄ʳ: completable states are reached only by moves that lower some agent's value,
 and neither the deficit nor the base values order the search. What the data support is a bound on the search from a
 good start (K4.SDC.NF), not a potential.
