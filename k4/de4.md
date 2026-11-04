@@ -720,6 +720,9 @@ a_w, or the lower pair). So b_w was held in Y, and it is held in Z. ∎
 
 Both lemmas are checked by brute force on every valid state, and every such pair of states, of random profiles with
 n = 3, 4 and of the screen instances with n ≤ 4 (`python3 k4/de4/verify_repair.py`, `results/k4_de4/verify_repair.log`).
+Lemma R is **machine-checked** in the robust order (`lean/EFX/DE4Repair.lean`: `EFX.DE4.repair_step`,
+`EFX.DE4.exists_validV3_of_valid`, and `EFX.DE4.potentialR_le_of_max`: a maximum of the robust order has the largest
+robust level sum among all valid states).
 
 **Consequences.**
 - *The level sum is free.* By Lemma R, the largest level sum Φ* over (V3)-valid states equals the largest over all
