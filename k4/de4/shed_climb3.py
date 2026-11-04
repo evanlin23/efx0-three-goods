@@ -4,9 +4,11 @@ As shed_climb2.py (graded score: distance to the largest level sum, Pareto domin
 completes the state), but a step either perturbs one value (probability 0.85) or swaps one good of one agent's set for
 another good among the m goods and redraws that agent's values (0.15), keeping strict R1-cores with 3 or 4 relevant
 goods per agent. Moves are kept when the score does not grow, and with probability 0.05 when it grows but stays below
-99. Score 0 that fails shed.py's full check is printed as COUNTEREXAMPLE.
+99. Score 0 that fails shed.py's full check is printed as COUNTEREXAMPLE; final scores up to 3 (one completing
+single-agent shedding left) as NEAR.
 
-    python3 k4/de4/shed_climb3.py SEED STEPS ROUNDS SOURCE      (SOURCE: json:FILE of [sets, values] instances)"""
+    python3 k4/de4/shed_climb3.py SEED STEPS ROUNDS SOURCE      (SOURCE: json:FILE of [sets, values] instances)
+With SOURCE json:FILE whose entries are NEAR lines' [sets, values, state], the climb continues from them."""
 import sys, os, json, random, time, collections
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
@@ -50,6 +52,8 @@ def climb(sets, vals, m, rng, steps, tag):
             if g == 0:
                 print('COUNTEREXAMPLE', tag, json.dumps((sets, vals, [list(a) for a in Y])), flush=True)
                 return 0
+    if g <= 3 and Y is not None:
+        print('NEAR', g, tag, json.dumps((sets, vals, [list(a) for a in Y])), flush=True)
     return g
 
 
