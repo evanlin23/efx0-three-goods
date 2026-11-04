@@ -1,0 +1,5 @@
+NOT-PO [[[[0, 10], [4, 8], [7, 5]], [[1, 10], [2, 8], [3, 5]], [[5, 5], [6, 8], [7, 10]], [[0, 10], [2, 8], [6, 5]], [[1, 10], [2, 8], [7, 5]]], [3, 1, 4, 3, 0, 2, 2, 0], {"peeled": 0, "branch": "rot_noowner", "core_n": 5, "core_m": 8, "r": 4, "E": [0], "H": [4], "free_slots": 0, "junk": [3, 4], "order": [0, 3, 1, 4, 2], "picks": {"0": 0, "3": 2, "1": 1, "4": 7, "2": 6}, "upgraded": [2]}]
+{'norot': 2982, ('rot_noowner', True): 17, ('rot_noowner', False): 1, 'shown': 1}
+{'norot': 2997, ('rot_owner_k', True): 1, ('rot_noowner', True): 2}
+{'norot': 1999, ('rot_noowner', True): 1}
+{'norot': 1999, ('rot_noowner', True): 1}

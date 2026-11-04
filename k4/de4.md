@@ -8,6 +8,7 @@ which every maximum was completable on the data first searched, written proofs o
 and the counterexample that ends the approach in this form.
 
 **Status.**
+- *Next route (`k4/sdc.md`, open item 30).* Why the potentials below fail: no value-monotone procedure can work at k = 4 (K4.SDC.P1 is refuted on GM4-E). The replacement target has no potential: Conjecture SD-C (K4.SDC), that some serial-dictatorship order's picks extend to an EFX₀ allocation. It has no failure on any instance tested.
 - *Current state (§10).* Every potential tried so far is refuted:
   - DE4;
   - DE4ᵛ³ (§9);

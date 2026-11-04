@@ -1,0 +1,6 @@
+k 5 n 3 m 7 {True: 300}
+k 7 n 3 m 7 {True: 300}
+k 6 n 4 m 8 {True: 200}
+k 9 n 4 m 9 {True: 200}
+k 5 n 5 m 10 {True: 200}
+k 8 n 4 m 8 {True: 200}
