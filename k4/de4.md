@@ -1356,6 +1356,14 @@ a cycle.
 - Every non-robust holder on these unclean cycles holds the pair {b, c} (with a < b + c < a + d).
 - The typical raise is a swap with the predecessor p: o takes its top a alone, from p (−1), and p takes o's b and keeps
   its own c (+2 or +3). Otherwise o moves laterally to {b, d}, releasing c to an agent that forms a robust pair.
+- In every one of the 32, the arc into o takes a from the giver and d from J, and d is the shared good. A single
+  replacement on the clashing arcs makes the labels disjoint and the trade valid and level-raising, in all 32:
+  - *keep-one* (27): o takes a alone from the giver and keeps its best own good not taken by its successor, forming
+    the robust pair {a, b} or {a, c}. This is a variant of Theorem 23's keepR that keeps one good;
+  - keepR (1);
+  - down-b (4). These are the 4 where Theorem 23's hypotheses, as checked by `claimd.py`, fail.
+- At a maximum, P1 removes the lower-pair givers. The clashes left are then between arcs out of non-robust holders,
+  and these are the ones the replacements resolve in the data.
 
 **Evidence** (EVIDENCE; `python3 k4/de4/claimd.py c3 SOURCE PER JOBS SEED`, the sources and parameters of `c2`; 
 `python3 k4/de4/lpout.py`, `lploc.py` and `nrcyc.py` with SOURCE PER JOBS SEED):
@@ -1365,7 +1373,7 @@ a cycle.
 | `claimd.py c3` | every free holder of two or more goods at every (V3)-valid state of the largest level sum with (H) | Lemma 25 holds for all 39,244 (LP 82, non-robust upper 4,422, robust 34,740). No lower-pair holder has an out-arc (P1). 40 non-robust upper holders have both in-arcs and out-arcs, and none lies on a cycle (P2). No robust holder has an in-arc. So no cycle of G passes through a free holder of two or more goods (C₃), at the largest level sum and at the maxima. Likewise on the adversarial families of `adv_t.py` and `adv_t3.py` (sources `advt0`, `advt1`, `advt3x`; 800 instances; 54 lower-pair, 184 non-robust and 1,131 robust holders) | `results/k4_de4/claimd_c3_*.log` |
 | `lpout.py` | every (V3)-valid (H) state in which a lower-pair holder has an out-arc | 465 states (screen 30, random 98, xhg 170, stuck hypergraphs 167), none of the largest level sum (P1). Every one has a raise; the smallest changes 2 agents in 436, 3 in 27, 4 in 2. The taker is the frozen holder of a_u (2-cycle) or the holder of b_u in most | `results/k4_de4/lpout_*.log` |
 | `lploc.py` | every out-arc of a lower-pair holder at a (V3)-valid (H) state: the smallest raise changing only u, x, h and w | 556 arcs: 2 agents 519, 3 agents 34, none 3 (a fifth agent is needed) | `results/k4_de4/lploc_*.log` |
-| `nrcyc.py` | every (V3)-valid (H) state with a non-robust upper holder on a cycle of G | 125 states (screen 20, random 26, xhg 38, stuck hypergraphs 41), none of the largest level sum (P2). 93 cycles clean (Lemma 18). In the 32 others, raises change 2 agents (23) or 3 (9), and the non-robust holders all hold {b, c} | `results/k4_de4/nrcyc_*.log` |
+| `nrcyc.py` | every (V3)-valid (H) state with a non-robust upper holder on a cycle of G | 125 states (screen 20, random 26, xhg 38, stuck hypergraphs 41), none of the largest level sum (P2). 93 cycles clean (Lemma 18). In the 32 others, raises change 2 agents (23) or 3 (9), and the non-robust holders all hold {b, c}. Every one of the 32 is resolved by one replacement on its clashing arcs: keep-one 27, keepR 1, down-b 4 (Theorem 23's checked hypotheses: 28) | `results/k4_de4/nrcyc_*.log` |
 
 ## 6. Reproduce
 

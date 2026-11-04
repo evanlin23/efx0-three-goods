@@ -26,5 +26,9 @@ $ python3 k4/de4/nrcyc.py hyper 300 6 23
      12    minimal raise size 2 (cycle length 3, clean True)
       3    minimal raise size 3 (cycle length 3, clean False)
      10    minimal raise size 3 (cycle length 3, clean True)
+     13    unclean: resolved by Theorem 23 (replacements: keepR, down-b, down-c) True
+      1    unclean: resolved by keep-one or Theorem 23 replacements down-b
+     11    unclean: resolved by keep-one or Theorem 23 replacements keep-one
+      1    unclean: resolved by keep-one or Theorem 23 replacements keepR
      13  (H) state with a non-robust upper holder on a cycle: top False, cycle clean False
      28  (H) state with a non-robust upper holder on a cycle: top False, cycle clean True

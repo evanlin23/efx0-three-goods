@@ -3,7 +3,7 @@ EVIDENCE.
 
 For every (V3)-valid state with (H) (any level sum) in which a free holder o of a non-robust upper set lies on a cycle
 of G: is the level sum the largest (P2 says never at a maximum)? Is the cycle clean (pairwise disjoint labels, so
-Lemma 18 applies)? The smallest level-raising valid states, with the agents of the cycle named c0 = o, c1 = its
+Lemma 18 applies)? If not, is it resolved by Theorem 23's replacements? The smallest level-raising valid states, with the agents of the cycle named c0 = o, c1 = its
 successor, ... (others '?'), in the notation of lpout.py.
 
     python3 k4/de4/nrcyc.py SOURCE PER JOBS SEED     SOURCE: screen, rand, xhg, hyper"""
@@ -24,6 +24,47 @@ def rsig(I, Y, Z, W, names):
             src.append('abcd'[I.ranked(i).index(g)] + '<' + ('o' if hh == i else 'J' if hh is None else names.get(hh, '?')))
         parts.append('%s:%s>%s[%s](%+d)' % (names.get(i, '?'), LO.lab(I, i, Y[i], W), LO.lab(I, i, Z[i], W), ','.join(src), T.lev(I, i, Z[i]) - T.lev(I, i, Y[i])))
     return ' ; '.join(sorted(parts))
+def replaced(I, Y, J, W, p, c):
+    """the smallest set of replacements on the clashing arcs of the cycle c that makes the labels disjoint and the trade
+    valid and level-raising: a non-robust upper taker that takes its top from the giver keeps its best own good not
+    taken by its successor (keep-one, a variant of Theorem 23's keepR), or Theorem 23's alternatives"""
+    import itertools
+    lab = [g for a in c for g in set(a[2]) & J]
+    shared = {g for g in lab if lab.count(g) > 1}
+    out = {a[0]: set(a[2]) for a in c}
+    opts = []
+    for a in c:
+        o = a[1]
+        if not set(a[2]) & shared:
+            continue
+        r = I.ranked(o)
+        cand = []
+        if not CT.frozen(Y, o, W) and len(Y[o]) >= 2 and r[0] in a[2] and r[0] not in J:
+            keep = [g for g in sorted(Y[o], key=r.index) if g not in out[o]]
+            if keep:
+                cand.append(('keep-one', {r[0], keep[0]}))
+        alt = CD.alternative(I, Y, W, a, out[o])
+        if alt:
+            cand.append((alt[0], set(alt[1])))
+        if cand:
+            opts.append((o, cand))
+    base_takes = {a[1]: set(a[2]) for a in c}
+    for k in range(1, len(opts) + 1):
+        for sub in itertools.combinations(opts, k):
+            for pick in itertools.product(*[cs for _, cs in sub]):
+                takes = dict(base_takes)
+                for (o, _), (_, t) in zip(sub, pick):
+                    takes[o] = t
+                lab2 = [g for t in takes.values() for g in t & J]
+                if len(lab2) != len(set(lab2)):
+                    continue
+                taken = set(g for t in takes.values() for g in t)
+                Z = [sorted(takes[i]) if i in takes else [g for g in Y[i] if g not in taken] for i in range(I.n)]
+                if CD.valid(I, Z) and T.phi(I, Z) > p:
+                    return '+'.join(sorted(name for name, _ in pick))
+    return None
+
+
 def analyse(I, C, ex, tag):
     All, ph, P = CT.states(I)
     if not All: return
@@ -47,6 +88,11 @@ def analyse(I, C, ex, tag):
         lab = [g for a in c for g in set(a[2]) & J]
         clean = len(lab) == len(set(lab))
         C['(H) state with a non-robust upper holder on a cycle: top %s, cycle clean %s' % (p == P, clean)] += 1
+        if not clean:
+            res = CD.theorem23(I, Y, J, W, p, c)
+            C['  unclean: resolved by Theorem 23 (replacements: keepR, down-b, down-c) %s' % bool(res)] += 1
+            rk = replaced(I, Y, J, W, p, c)
+            C['  unclean: resolved by keep-one or Theorem 23 replacements %s' % (rk or False)] += 1
         if p == P: ex.append((tag, I.sets, [I.v[i] for i in range(I.n)], [list(A) for A in Y])); continue
         names = {}
         for t, a in enumerate(c): names[a[0]] = 'c%d' % ((t - k) % len(c))
