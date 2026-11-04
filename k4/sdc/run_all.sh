@@ -72,4 +72,5 @@ python3 k4/sdc/nof_files.py > $L/nof_files.log
 python3 k4/sdc/nof_roles.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 20000 2 > $L/nof_roles.log
 python3 k4/sdc/nof_climb.py 1 4 300 40 > $L/nof_climb_n4.log
 python3 k4/sdc/nof_climb.py 2 5 250 30 > $L/nof_climb_n5.log
-python3 k4/sdc/a3_k4.py screen > $L/a3_k4_screen.log
+(python3 k4/sdc/a3_k4.py screen; python3 k4/sdc/a3_k4.py screen --r1; python3 k4/sdc/a3_k4.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 5000 4 --r1) > $L/a3_k4_screen.log
+(python3 k4/sdc/nof.py screen --r1; python3 k4/sdc/nof.py suite --r1; python3 k4/sdc/nof.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 20000 2 --r1; python3 k4/sdc/nof.py cores:k4_certs_5_n4_1.json.gz,k4_certs_5_n4_2.json.gz 6000 3 --r1) | grep -v '^\$' > $L/nof_r1.log

@@ -666,3 +666,22 @@ is gone.
 
 So (A₄) must track compensations over time. A needer's compensation is a promise that later picks can break, and the
 count has to charge the agent that breaks it. This is the precise form of item 1 under Lemma N.
+
+**With R1 priority.** NOF also holds for the neediest-first order *with* LB's R1 priority (agents that lost a good
+first, by need), whose plain run is a genuine R1 run of LB's Phase 1 with need-based choices (`nof_r1.log`):
+- 168/168 screen and 164/164 suite instances, the plain run alone on 157 and 154;
+- 20,000/20,000 random n = 4 profiles (69 need a deferral) and 6,000/6,000 n = 5 profiles (13).
+
+This R1 form (K4.SDC.NOF.R1) is the better proof target: its blocks are LB's, and at k = 3 it coincides with NOF.
+
+**Cost one, but not leaders** (`a3_k4_screen.log`; "hard exposed" as above, R1 runs):
+
+| | screen set | 5,000 random n = 4 profiles |
+|---|---|---|
+| hard exposed agents for which one good meets every danger set | 63 of 63 | 297 of 298 |
+| ... that were also fresh at their turn | 62 | 245 |
+
+So the k = 4 count keeps LB⁺'s unit price: every hard exposed agent is protected by keeping one good out of the large
+bundle. It loses LB⁺'s "one per block": exposed agents that are not leaders occur. Theorem (A₄) must charge each of
+them to a terminal of its own block, as Theorem A charges leaders through τ(x), or show that their needers can be
+compensated.

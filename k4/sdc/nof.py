@@ -1,7 +1,8 @@
 """Conjecture NOF (fixed-order NO): pi = the plain neediest-first order; for some agent o, SD(pi with o moved to the end)
 extends to an EFX0 allocation.  By Lemma DC the candidates differ from SD(pi) along single displacement chains.
 
-    python3 k4/sdc/nof.py screen|suite|SRC N SEED   (SRC as in sdc_no.py: cores:FILES, rand, hyper, advt*, bigN, gen:n:m:k)"""
+    python3 k4/sdc/nof.py screen|suite|SRC N SEED [--r1]   (SRC as in sdc_no.py: cores:FILES, rand, hyper, advt*, bigN,
+                                                             gen:n:m:k; --r1: neediest first with R1 priority)"""
 import sys, os, json, random, gzip, collections, time
 import _paths
 from sdclib import Enc
@@ -9,9 +10,9 @@ from sdc_orders import sd, completable
 from sdc_need import instances, rule_order
 
 
-def nof(sets, vals, m):
+def nof(sets, vals, m, r1=False):
     E = Enc(sets, vals, m)
-    Y0, pi = rule_order(E, 'need2', False)
+    Y0, pi = rule_order(E, 'need2', r1)
     if completable(E, Y0): return True, pi[-1], 'plain'
     for o in pi:
         if completable(E, sd(E, [i for i in pi if i != o] + [o])[0]): return True, o, 'deferred'
@@ -19,6 +20,7 @@ def nof(sets, vals, m):
 
 
 if __name__ == '__main__':
+    R1 = '--r1' in sys.argv; sys.argv = [a for a in sys.argv if a != '--r1']
     src = sys.argv[1]; C = collections.Counter(); t0 = time.time()
     print('$ python3 k4/sdc/nof.py', *sys.argv[1:])
     if src in ('screen', 'suite'):
@@ -47,7 +49,7 @@ if __name__ == '__main__':
                 os.chdir(_paths.DE4); sets, vals = sdc_rand.gen(src, rng); os.chdir(cwd)
             items.append(('r%d' % t, sets, vals, 1 + max(max(s) for s in sets)))
     for name, sets, vals, m in items:
-        ok, o, how = nof(sets, vals, m)
+        ok, o, how = nof(sets, vals, m, R1)
         C['instances'] += 1; C['NOF holds'] += ok; C[how] += 1
         if not ok:
             C['shown'] += 1

@@ -11,8 +11,8 @@ from sdclib import Enc
 from sdc_need import instances, rule_order
 
 
-def analyse(E, C, name, shown):
-    Y, pi = rule_order(E, 'need2', False)
+def analyse(E, C, name, shown, r1=False):
+    Y, pi = rule_order(E, 'need2', r1)
     o = pi[-1]; picked = set(g for g in Y if g is not None); J = set(range(E.m)) - picked
     pool = set(J) | ({Y[o]} if Y[o] is not None else set())
     # availability at each turn
@@ -36,15 +36,19 @@ def analyse(E, C, name, shown):
         if not hard: C['exposed frozen, all needers compensable'] += 1; continue
         C['hard exposed frozen'] += 1
         fresh = avail[x] == set(E.R[x])
-        allothers = (len(Ts) == 1 and set(Ts[0]) == set(E.R[x]) - {Y[x]} and len(E.R[x]) == 4)
+        allothers = (len(Ts) == 1 and set(Ts[0]) == set(E.R[x]) - {Y[x]})
+        cost1 = any(all(g in T for T in Ts) for g in own)       # one good meets every danger set
+        C['hard exposed: cost 1 (one good meets every danger set)'] += cost1
+        C['hard exposed: fresh and cost 1'] += (fresh and cost1)
         C['hard exposed: fresh at its turn'] += fresh
-        C['hard exposed: only T = all three other goods'] += allothers
-        if not (fresh and allothers) and C['shown'] < 4:
+        C['hard exposed: only T = all its other goods'] += allothers
+        if not (fresh and cost1) and C['shown'] < 4:
             C['shown'] += 1
             print('A3_4 VIOLATION', name, 'x', x, 'Y', Y, 'pi', pi, 'Ts', Ts, json.dumps(([E.R[i] for i in range(E.n)], [[E.v[i][g] for g in E.R[i]] for i in range(E.n)])))
 
 
 if __name__ == '__main__':
+    R1 = '--r1' in sys.argv; sys.argv = [a for a in sys.argv if a != '--r1']
     src = sys.argv[1]; C = collections.Counter()
     print('$ python3 k4/sdc/a3_k4.py', *sys.argv[1:])
     if src in ('screen', 'suite'):
@@ -60,5 +64,5 @@ if __name__ == '__main__':
         for t in range(N):
             sets = rng.choice(cores); items.append(('r%d' % t, sets, random_profile(sets, rng), 1 + max(max(s) for s in sets)))
     for name, sets, vals, m in items:
-        analyse(Enc(sets, vals, m), C, name, None)
+        analyse(Enc(sets, vals, m), C, name, None, R1)
     for k in sorted(C, key=str): print(k, C[k])
