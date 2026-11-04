@@ -76,6 +76,7 @@ def job(args):
         return C, ex
     if src.startswith('json:'):
         data = json.load(open(src[5:]))
+        data = data['instances'] if isinstance(data, dict) else data
         for k, d in enumerate(data):
             if k % per != seed % per:
                 continue

@@ -1,7 +1,9 @@
 """The lower-pair tie-break of the robust order (k4/de4.md §10.4; ledger K4.DE4V3R.LP) against the frame of §10:
 at each maximum of the order (largest level sum Phi among (V3)-valid states, then fewest lower-pair holders, then
 value-Pareto) with leftover goods: completable? does (H) hold, and if not, why (an empty agent, a threat by J alone, a
-lateral (V3)-keeping self-upgrade, and of which kind)? With (H): the F2-clash cycles of G, clean or not. EVIDENCE.
+lateral (V3)-keeping self-upgrade, and of which kind)? With (H): cycles of G through free holders of two or more goods
+(C3), the F2-clash cycles of G, clean or not, and the clean ones whose trade keeps the level sum (every taker a free
+holder of its b taking its lower pair; Lemma 18 then gives only a Pareto improvement that adds lower pairs). EVIDENCE.
 
     python3 k4/de4/refine_hx.py SOURCE PER JOBS SEED     (SOURCE as in refine.py)"""
 import sys, os, json, random, collections, multiprocessing as mp, time
@@ -46,7 +48,12 @@ def analyse(I, C, ex, tag):
             continue
         C['  (H) holds'] += 1
         arcs = CD.graph(I, Y, J, W)
-        cyc = [c for c in CD.cycles(I, arcs, I.n) if CD.f2_clash_only(I, Y, J, W, c)]
+        allc = CD.cycles(I, arcs, I.n)
+        for kind in ('LP', 'U'):
+            if any(any(not CT.frozen(Y, a[0], W) and len(Y[a[0]]) >= 2 and S.types(I, a[0], list(Y[a[0]])) == kind
+                       for a in c) for c in allc):
+                C['    a cycle of G through a free %s holder (C3)' % ('lower-pair' if kind == 'LP' else 'upper-set')] += 1
+        cyc = [c for c in allc if CD.f2_clash_only(I, Y, J, W, c)]
         unc = [c for c in cyc if len([g for a in c for g in set(a[2]) & J]) != len(set(g for a in c for g in set(a[2]) & J))]
         C['    F2-clash cycles: %d, unclean %d' % (len(cyc) > 0, len(unc) > 0)] += 1
         # clean cycles whose trade keeps the level sum: every taker a free holder of its b taking its lower pair

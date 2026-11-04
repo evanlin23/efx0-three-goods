@@ -5,7 +5,7 @@ value-Pareto (equivalently: lower pairs at level 3 - eps, then value-Pareto).
 For a non-completable (V3)-valid state Y, with Phi* the largest level sum and L* the fewest lower-pair holders among
 (V3)-valid states of level sum Phi*:
   gap(Y) = 10 (Phi* - Phi(Y)) + (#LP(Y) - L* if Phi(Y) = Phi*) + (1 if Y is Pareto-dominated in its class),
-and gap(I) is the least gap(Y). gap 0 is a counterexample. Random values (or a seed instance), then single-value
+and gap(I) is the least gap(Y) (99 if no such state has Phi* - Phi(Y) <= 5). gap 0 is a counterexample. Random values (or a seed instance), then single-value
 perturbations kept when the gap does not grow. States with gap <= 2 at the end of a round are printed as NEAR.
 
     python3 k4/de4/refine_climb.py SEED STEPS ROUNDS SOURCE
@@ -54,7 +54,7 @@ def gap(I):
     cand.sort(key=lambda t: t[0])
     Cm = S.Comp(I)
     for g, Y in cand:
-        if g >= 20:
+        if g >= 60:
             break
         if not Cm.ok([list(a) for a in Y]):
             return g, Y
@@ -86,7 +86,7 @@ def climb(sets, m, rng, steps, tag, start=None):
             g, Y = gap(I)
             if g < 99:
                 break
-    if g >= 99:
+    if g >= 99 and start is None:
         return 99
     for step in range(steps):
         i = rng.randrange(len(sets)); k = rng.randrange(len(sets[i]))
@@ -111,6 +111,8 @@ if __name__ == '__main__':
     rng = random.Random(seed)
     print('$ python3 k4/de4/refine_climb.py', ' '.join(sys.argv[1:]), flush=True)
     data = json.load(open(src[5:])) if src.startswith('json:') else None
+    if isinstance(data, dict):
+        data = data['instances']
     pool = None
     if src == 'xhg':
         pool = [(s, 1 + max(max(a) for a in s)) for s in CD.XHG]

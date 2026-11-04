@@ -1468,6 +1468,115 @@ unclean cycles catalogued; their takers are frozen holders of their tops).
 | `nrcyc.py` | every (V3)-valid (H) state with a non-robust upper holder on a cycle of G | 125 states (screen 20, random 26, xhg 38, stuck hypergraphs 41), none of the largest level sum (P2). 93 cycles clean (Lemma 18). In the 32 others, raises change 2 agents (23) or 3 (9), and the non-robust holders all hold {b, c}. Every one of the 32 is resolved by one replacement on its clashing arcs: keep-one 27, keepR 1, down-b 4 (Theorem 23's checked hypotheses: 28) | `results/k4_de4/nrcyc_*.log` |
 | `lpfree.py` | F₂-clash cycles of every (V3)-valid (H) state of random lower-pair-free profiles (n = 4 cores with two, three and four 4-good agents; xhg) | 5,395 profiles: 1,974 clean cycles; 5 unclean, none of the largest level sum, each a 2-cycle of non-robust {b, c} holders sharing their d and resolved by keep-one | `results/k4_de4/lpfree_*.log` |
 
+### 10.4 After the refutation: tie-breaks inside the largest level sum
+
+On the refuting instance (`refute_rob.py`), 9 of the 10 (V3)-valid states of the largest level sum are completable,
+and 13 of the 14 Pareto-maximal valid ones. So the level sum Φ is not the problem; value-Pareto is too weak a
+tie-break. Two refinements were tested (`python3 k4/de4/refine.py SOURCE PER JOBS SEED`).
+
+**Total value is refuted** (ledger K4.DE4V3R.S; `python3 k4/de4/refute_sum.py`, an independent replay). Order: Φ,
+then the largest total value Σᵢ vᵢ(Yᵢ), a refinement of value-Pareto, so every lemma proved at the maxima of the robust
+order holds at its maxima too. Scaling one agent's values changes no holding, threat, level, state or completion, only
+the total. On the refuting instance with the values of agents 2, 3, 4, 5 multiplied by 2, 10, 2, 10, the bad state is
+the only (V3)-valid state of level sum 26 of largest total value, and it is not completable. The same works for any
+weighted sum of values whenever the bad maximum is a supported Pareto point. A tie-break must be ordinal.
+
+**The lower-pair order** (ledger K4.DE4V3R.LP, a conjecture): the (V3)-valid states, ordered by Φ, then by the
+*fewest* lower-pair holders, then value-Pareto. Equivalently, lower pairs have level 3 − ε (0 < ε < 1/n), and then
+value-Pareto. On the refuting instance its three maxima hold no lower pair and are completable. The double clash is
+level-neutral to undo: u takes back its top from the frozen t, and t takes the leftover good, its b (u: 3 → 4,
+t: 4 → 3). That swap removes a lower pair.
+
+*What carries over from §10* (written; the Lean frame is stated for the robust order and has not been redone):
+- **Lemma R** lowers the number of lower-pair holders. Each repair step replaces a lower pair by its b and keeps the
+  level sum. The machine-checked proof (`EFX.DE4.exists_validV3_of_valid`) is an induction on `numLP`, which drops at
+  each step. So a maximum of the lower-pair order has the largest level sum among all valid states.
+- Every lemma that ends in a *larger* level sum holds at its maxima unchanged: Lemma 4 at a maximum, Lemma 18 when its
+  trade raises Φ, Theorem 23, Lemmas 20′, 20(d), 26.
+- *Free self-upgrades with Φ kept* (`selfUp_breaks_v3`). An upgrade that keeps Φ and adds a lower pair goes from b to
+  {c, d}. It releases b and breaks (V3) for the upgrading agent itself. So a (V3)-keeping one adds no lower pair, and
+  the argument holds as it is.
+- *Theorem A′* (all-upper states). A state that is value-Pareto-better than an all-upper state is all-upper (every
+  value stays above the top), so it holds no lower pair either.
+- *Lemma 18 when its trade keeps Φ* (`no_f1_clashCycle`): the one gap. If the trade along a clean F₂-clash cycle
+  keeps Φ, every taker is a free holder of its b that takes its lower pair. The trade is then value-Pareto-better but
+  adds lower pairs. Call such a cycle *flat*. At the maxima of the lower-pair order, flat cycles have to be excluded
+  separately.
+
+**Lemma 27 (the top swap).** Let Y be valid, u an agent holding its lower pair, and t ≠ u an agent with Y_t = {a_u}.
+Let j be a leftover good that t ranks just below a_u. Suppose θ_t(Y_y) ≤ v_t(j) for every agent y ∉ {t, u} holding
+three or more goods. Let Z be Y with Z_u = {a_u} and Z_t = {j}. Then:
+- Z is valid;
+- Φ(Z) = Φ(Y);
+- Z has one lower-pair holder fewer than Y.
+
+With Lemma R there is a (V3)-valid Z′ with Φ(Z′) ≥ Φ(Y) and fewer lower-pair holders, so Y is not a maximum of the
+lower-pair order.
+
+*Proof.* {a_u} and {j} are single relevant goods.
+- *Levels.* u goes from its lower pair (3) to its top (4). t goes from a_u, of some rank r, to j, of rank r + 1, so it
+  loses exactly 1. Nobody else changes, and u stops being a lower-pair holder.
+- *(V1).* Let x want g in Z (g ∈ R_x ∖ Z_x, v_x(g) > v_x(Z_x)).
+  - x = u: u holds its top and wants nothing.
+  - x = t: g is ranked above j. Either g = a_u, now held alone by u, or v_t(g) > v_t(a_u) = v_t(Y_t). In the second
+    case t wanted g in Y, so g was held alone in Y, by an agent other than u (a pair) and t, and still is.
+  - x ∉ {u, t}: Z_x = Y_x, so x wanted g in Y and Y_y = {g} for some y. Here y ≠ u, since Y_u is a pair. If y = t,
+    then g = a_u, now held alone by u; otherwise Z_y = {g}.
+- *(V2).* Single goods threaten no one, so take y ∉ {u, t} with |Y_y| ≥ 2, so Z_y = Y_y.
+  - For x ∉ {u, t} nothing changed.
+  - For x = u: v_u(a_u) > v_u(Y_u) ≥ θ_u(Y_y).
+  - For x = t with |Y_y| = 2: θ_t(Y_y) is t's value of one good of Y_y. A good of Y_y that t ranks above a_u would have
+    been wanted by t in Y while lying in a pair, against (V1). a_u ∉ Y_y. So both goods rank below a_u, and t values
+    them at most v_t(j).
+  - For x = t with |Y_y| ≥ 3: by hypothesis.
+
+Lemma R's steps keep validity, do not lower Φ, and lower the number of lower-pair holders (machine-checked). Applied to
+Z, they end in a (V3)-valid Z′. If Φ(Z′) > Φ(Y), Y does not have the largest level sum. Otherwise Z′ has the same level
+sum and fewer lower-pair holders. ∎
+
+**Corollary 28 (the double clash).** At a maximum of the lower-pair order, let u hold its lower pair and let t hold
+{a_u} alone, where a_u is t's own top.
+- (a) If b_t is leftover, then some agent holds three goods that t values at more than v_t(b_t) after removing one.
+- (b) In GM4-B's double clash, the cycle u₁ → t₂ → u₂ → t₁ → u₁, with tᵢ frozen on their tops and tᵢ's danger set
+  Dᵢ ⊆ Y_{u₃₋ᵢ} ∪ J sharing the leftover good j, both b_{t₁} and b_{t₂} are held. So j is not the b of either.
+
+So the double clash of `refute_rob.py` (j = 8 is the b of both frozen agents), and every double clash in the data, is
+not a maximum of the lower-pair order.
+
+*Proof.* (a) is Lemma 27 with j = b_t.
+For (b), suppose b_{t₁} ∈ J. t₁ values a_{u₁}, b_{t₁}, a good of Y_{u₂} (since D₁ meets Y_{u₂}), and at most one more
+good g. Take an agent y ∉ {t₁, u₁} holding three or more goods.
+- Y_y contains none of the first three: a_{u₁} ∈ Y_{t₁}, b_{t₁} ∈ J, and Y_{u₂} is a pair, so y ≠ u₂.
+- So θ_{t₁}(Y_y) ≤ v_{t₁}(g) ≤ v_{t₁}(b_{t₁}), and (a) applies.
+
+The same holds for t₂. ∎
+
+*Machine-checked:* nothing of this subsection yet. Lemma R's decrease of `numLP` is in the existing proof.
+
+**What is left of the double clash.** By Corollary 28, a double clash at a maximum of the lower-pair order has both
+frozen agents' b's held, and its shared good j is a c or d of both. The swap then needs a third agent: the holder of
+b_t gives it up. Open in this order:
+- **HX_lp**: at a maximum with (H), no F₂-clash cycle is unclean or flat;
+- **HLL_lp**: the case (L).
+
+Together with the transfer of the Lean frame above, these would give TARGET₄.
+
+**Evidence** (EVIDENCE):
+
+| script | what | result | logs |
+|---|---|---|---|
+| `refine.py` | the maxima of the three orders (total value, lower-pair, value-Pareto) on the 75 instances with unclean cycles (`results/k4_de4/unclean_cycles.json`), the screen set, and the adversarial family `advt3x` (2,696 instances) | no non-completable maximum of any of the three orders. The robust order fails only where the searches put it, so random sampling around the double clash is weak evidence | `results/k4_de4/refine_*.log` |
+| `topswap.py` | every (V3)-valid (H) state with a double clash in the 75 instances (58 states) | both top swaps valid in all 58 (Lemma 27's hypotheses hold); after Lemma R: (V3)-valid, same level sum, fewer lower pairs | `results/k4_de4/topswap_*.log` |
+| `refine_hx.py` | the maxima of the lower-pair order with leftover goods, on the 75 instances | all completable; (H) holds at 26, none has an F₂-clash cycle | `results/k4_de4/refine_hx_*.log` |
+| `refine_climb.py` | hill-climbing toward a non-completable maximum of the lower-pair order (gap 10·(Φ* − Φ) + extra lower pairs + 1 if Pareto-dominated) | RESULTS_CLIMB | `results/k4_de4/refine_climb_*.log` |
+
+All exhaustive and sampled C runs of the robust candidate (§10, table above: every profile with n ≤ 3, n = 4 with at
+most two 4-good agents, samples of n = 4, 5 and the stuck hypergraphs) found no non-completable (V3)-valid state of the
+largest level sum that is not all-upper, and no non-completable all-upper one either. So every tie-break inside the
+largest level sum, the lower-pair order included, passes them. `k4/de4/de4lp.c` (run by `EXE=de4lp python3
+k4/de4/run_robust.py FILE CHUNKS [TAKE]`) checks the lower-pair order directly; on the refuting instance it agrees with
+`refute_sum.py`.
+
 ## 6. Reproduce
 
 ```
