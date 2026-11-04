@@ -1,0 +1,56 @@
+agents of B* whose pick changes: 2 of 3 2
+agents of B* whose pick changes: 2 of 4 1
+agents of B* whose pick changes: 2 of 5 42
+agents of B* whose pick changes: 3 of 4 5
+agents of B* whose pick changes: 3 of 5 85
+agents of B* whose pick changes: 4 of 4 2
+agents of B* whose pick changes: 4 of 5 108
+agents of B* whose pick changes: 5 of 5 55
+bad 300
+changed agents: worse off 1 184
+changed agents: worse off 2 100
+changed agents: worse off 3 16
+junk: down 117
+junk: same 177
+junk: up 6
+leader k* in rerun gets rank 0 32
+leader k* in rerun gets rank 1 267
+leader k* in rerun gets rank 2 1
+r gets its top in rerun 300
+r had rank 1 27
+r had rank 2 149
+r had rank 3 124
+rank sum in B*: down 271
+rank sum in B*: same 24
+rank sum in B*: up 5
+rerun rotates 7
+agents of B* whose pick changes: 2 of 3 1
+agents of B* whose pick changes: 2 of 5 3
+agents of B* whose pick changes: 2 of 6 10
+agents of B* whose pick changes: 3 of 3 1
+agents of B* whose pick changes: 3 of 4 1
+agents of B* whose pick changes: 3 of 5 1
+agents of B* whose pick changes: 3 of 6 29
+agents of B* whose pick changes: 4 of 5 2
+agents of B* whose pick changes: 4 of 6 42
+agents of B* whose pick changes: 5 of 5 2
+agents of B* whose pick changes: 5 of 6 34
+agents of B* whose pick changes: 6 of 6 24
+bad 150
+changed agents: worse off 1 82
+changed agents: worse off 2 59
+changed agents: worse off 3 8
+changed agents: worse off 4 1
+junk: down 74
+junk: same 71
+junk: up 5
+leader k* in rerun gets rank 0 11
+leader k* in rerun gets rank 1 134
+leader k* in rerun gets rank 2 5
+r gets its top in rerun 150
+r had rank 1 7
+r had rank 2 67
+r had rank 3 76
+rank sum in B*: down 144
+rank sum in B*: same 6
+rerun rotates 0

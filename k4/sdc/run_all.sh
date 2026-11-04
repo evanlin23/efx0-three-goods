@@ -22,3 +22,10 @@ python3 k4/sdc/sdc_rules.py screen r1 > $L/sdc_rules_screen.log
 (for a in "1 500 4 k4" "2 500 5 k4" "3 300 7 k4" "4 300 10 k4" "5 500 5 k3" "6 300 8 k3"; do python3 k4/sdc/dtops.py $a; done) > $L/distinct_tops.log
 python3 k4/sdc/sdc_suite.py > $L/sdc_suite.log
 (for a in "1 4 7 100 k4 3" "2 4 8 100 k4 3" "3 5 9 60 k4 3" "4 5 8 100 k3 3" "5 6 10 60 k3 3"; do python3 k4/sdc/p1_sat_rand.py $a; done) > $L/p1_sat_rand.log
+(python3 k4/sdc/k3_leader.py 1 40 5 8; python3 k4/sdc/k3_leader.py 2 30 6 10) > $L/k3_leader.log
+(python3 k4/sdc/k3_leader_r.py 1 60 5 8 5; python3 k4/sdc/k3_leader_r.py 2 40 6 10 5; python3 k4/sdc/k3_leader_r.py 3 30 8 13 3) > $L/k3_leader_r.log
+(python3 k4/sdc/k3_leader_r2.py 1 150 5 8 4; python3 k4/sdc/k3_leader_r2.py 2 100 6 10 4; python3 k4/sdc/k3_leader_r2.py 3 60 8 13 3) > $L/k3_leader_r2.log
+(python3 k4/sdc/k3_leader_iter.py 1 300 5 8; python3 k4/sdc/k3_leader_iter.py 2 150 6 10) > $L/k3_leader_iter.log
+(python3 k4/sdc/k3_needer.py 1 300 5 8 5; python3 k4/sdc/k3_needer.py 2 150 6 10 5) > $L/k3_needer.log
+python3 k4/sdc/k4_leader.py screen 30 1 > $L/k4_leader_screen.log
+(python3 k4/sdc/k3_rerun_stats.py 1 300 5 8; python3 k4/sdc/k3_rerun_stats.py 2 150 6 10) > $L/k3_rerun_stats.log

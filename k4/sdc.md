@@ -235,3 +235,35 @@ SD-C replaces "potential + moves" with one choice: the order. What is open:
 
 Smallest open cases worth proving first: n = 2 for all additive valuations; k = 3 (K4.SDC.K3); distinct tops at
 k = 4.
+
+## 5. The rotation as a re-insertion (data toward K4.SDC.K3)
+
+At k = 3, LB⁺ reaches its bad case (`proofs/lb_last_step.md` §4) and rotates along a need chain k* → … → r. The data
+suggest replacing the rotation by an order: re-run the last block B* with **r as its leader**, keeping the earlier
+blocks. Here r is the last-processed agent that is not upgraded, and the end of every need chain from k*.
+
+- **K3ALG's runs.** On the bad cases of K3ALG's own runs (index insertion), the re-run with leader r never reaches the
+  bad case again: 130 of 130 bad cases (n = 5, 6, 8), and 590 of 590 random R1 continuations after r
+  (`k3_leader_r.log`). In those runs, r is a working leader in every bad case, while the old leader k* works in 24 of
+  70 (`k3_leader.log`).
+- **Arbitrary runs.** On bad cases of random runs (random insertion agents and random R1 order), the re-run with leader
+  r reaches the bad case again in 7 of 1,075 re-runs (`k3_leader_r2.log`). Iterating, i.e. re-running the new last
+  block with its own r, stops without rotation on all 450 bad cases tested, after at most two re-runs
+  (`k3_leader_iter.log`).
+- **Other rules.** Taking an agent that needs k*'s top as leader fails 7 times in 300 (`k3_needer.log`).
+- **No monotone quantity.** The re-run is not monotone either: some agent of B* is worse off in every re-run, and the
+  total pick rank of B* goes up in 5 of 300 (`k3_rerun_stats.log`), as P1 predicts.
+
+So the open form of K4.SDC.K3 is:
+> **Lemma LR (conjecture):** from any run of Phase 1, repeatedly re-running the last block with its r as leader reaches
+> a run that LB⁺ completes without rotation.
+
+Its output then completes an SD outcome: upgraded agents keep their pick b_u, and everybody else keeps its pick. A proof
+needs a quantity that the re-runs decrease. The obvious ones (total rank in B*, number of junk goods) do not decrease.
+
+**At k = 4 the order inside a block matters too.** Take R1 runs of the screen set whose SD outcome does not extend.
+Re-running only the last block with another leader, then R1 priority by index, repairs 511 of 625; the last-processed
+agent works in 402 (`k4_leader_screen.log`). The other cases also need the order among the agents that have lost a good.
+Example: c4-exposure-nonleader-n3m5 (n = 3, m = 5), where leader 2 works only if agent 1 goes before agent 0. At k = 3,
+by contrast, nothing depends on that order (`proofs/lb_last_step.md` §1). So at k = 4 the target is SD-C-R1 with the
+whole order chosen, as stated.
