@@ -34,3 +34,5 @@ python3 k4/sdc/k4_blocks.py 30 1 > $L/k4_blocks_screen.log
 python3 k4/sdc/k4_blocks.py adv hyper 40 1 > $L/k4_blocks_hyper.log
 python3 k4/sdc/sdf.py screen > $L/sdf_screen.log
 python3 k4/sdc/sdc_deficit.py screen r1 > $L/sdc_deficit_screen.log
+(python3 k4/sdc/sdc_cheap.py screen; python3 k4/sdc/sdc_cheap.py suite) > $L/sdc_cheap.log
+python3 k4/sdc/sdc_cores.py k4_certs_5_n4_1.json.gz,k4_certs_5_n4_2.json.gz 20 11 > $L/sdc_cores_n5.log

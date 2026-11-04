@@ -58,6 +58,7 @@ some insertion choices, followed by *any* EFX₀ completion. It survives every t
 | H₂–H₅ (`k4/c4.md` §7) and HH₃, HH₄ (n = 26, 34: no first agent of LB₄ʳ works with ≤ 1 rotation, `k4/lemmam_bt.md` §3) | 6/6 | 6/6 | `sdc_ht.log` |
 | every connected k = 4 core with n ≤ 3 (56 cores), 2,000 random strict profiles each | | 112,000/112,000 | `sdc_cores_n3.log` |
 | every connected k = 4 core with n = 4 (1,002 cores), 200 random strict profiles each | | 200,400/200,400 | `sdc_cores_n4.log` |
+| every connected k = 4 core with n = 5 and at most two 4-good agents (7,203 cores), 20 random strict profiles each | | 144,060/144,060 | `sdc_cores_n5.log` |
 | random instances: R1 random cores, stuck hypergraphs, the adversarial generators, n = 8 and 12, k = 3 with n = 7, 10 | 2,160/2,160 | | `sdc_rand.log` |
 | general additive instances (up to every good relevant, n ≤ 5, m ≤ 10) | 1,400/1,400 | | `sdc_general.log` |
 | adversarial climbs (minimizing the number, or the fraction, of SD outcomes that extend; n = 3–5, k ≤ 4 and general) | no counterexample; smallest fraction 1/7 | | `climb_*.log` |
@@ -390,3 +391,9 @@ does not decide extendability (`sdc_deficit_screen.log`, R1 orders of the screen
 
 So the exact count must include the unfreezing and the unwanted agents' needs. That is the role of Lemma K and K′
 (`k4/rulef.md` §2, in Lean), which are exact for a fixed state. The open step is the order that makes it nonpositive.
+
+**No static order rule found.** "Cheapest freezing first" is one fixed order (`k4/sdc/sdc_cheap.py`): at every R1
+step, take the agent whose favourite remaining good would need the fewest goods kept out to protect it. Its SD outcome
+fails to extend on 14 of the 168 screen instances (among them C127, D3 and c4-lbplus-rotation-n3m6) and on 12 of the
+164 suite instances (`sdc_cheap.log`). As with rule F (`k4/rulef.md` §5.3), every static rule tried fails somewhere,
+so the order has to be chosen against the obstruction of the run itself (§4, item 2).
