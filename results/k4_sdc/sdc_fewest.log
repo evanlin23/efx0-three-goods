@@ -1,0 +1,16 @@
+$ python3 k4/sdc/sdc_fewest.py screen
+all fewest-frozen outcomes extend 138
+fewest frozen = 0 12
+fewest frozen = 1 60
+fewest frozen = 2 84
+fewest frozen = 3 12
+instances 168
+some fewest-frozen outcome extends 168
+$ python3 k4/sdc/sdc_fewest.py screen r1
+all fewest-frozen outcomes extend 139
+fewest frozen = 0 12
+fewest frozen = 1 60
+fewest frozen = 2 84
+fewest frozen = 3 12
+instances 168
+some fewest-frozen outcome extends 168

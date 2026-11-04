@@ -1,0 +1,20 @@
+$ python3 k4/sdc/sdc_need.py screen
+instances 168
+need2 R1 extends 157
+need2 plain extends 153
+needall R1 extends 154
+needall plain extends 152
+fails needall R1 ['C127', 'D3', 'c4-lbplus-rotation-n3m6', 'c4min-phi-n4-m8-n4pc72', 'c4min-tlam-n3-m6', 'c4x-n3m6-3good-first', 'c4x-n3m6-onefour-a', 'c4x-n3m6-onefour-b']
+fails needall plain ['C127', 'D3', 'c4-lbplus-rotation-n3m6', 'c4min-phi-n4-m8-n4pc72', 'c4min-tlam-n3-m6', 'c4x-n3m6-3good-first', 'c4x-n3m6-onefour-a', 'c4x-n3m6-onefour-b']
+fails need2 R1 ['D3', 'c4-lbplus-rotation-n3m6', 'c4min-phi-n4-m8-n4pc72', 'c4min-tlam-n3-m6', 'c4x-n3m6-3good-first', 'c4x-n3m6-onefour-a', 'c4x-n3m6-onefour-b', 'c4x-n4m7-frozen-slots-some']
+fails need2 plain ['D3', 'c4-lbplus-rotation-n3m6', 'c4min-phi-n4-m8-n4pc72', 'c4min-tlam-n3-m6', 'c4x-n3m6-3good-first', 'c4x-n3m6-onefour-a', 'c4x-n3m6-onefour-b', 'c4x-n4m7-frozen-slots-some']
+$ python3 k4/sdc/sdc_need.py suite
+instances 164
+need2 R1 extends 154
+need2 plain extends 150
+needall R1 extends 152
+needall plain extends 150
+fails need2 R1 ['c4-lbplus-rotation-n3m6', 'c4min-phi-n4-m8-n4pc72', 'c4min-tlam-n3-m6', 'c4x-n3m6-3good-first', 'c4x-n3m6-onefour-a', 'c4x-n3m6-onefour-b', 'c4x-n4m7-frozen-slots-some', 'hall-bt4']
+fails need2 plain ['c4-lbplus-rotation-n3m6', 'c4min-phi-n4-m8-n4pc72', 'c4min-tlam-n3-m6', 'c4x-n3m6-3good-first', 'c4x-n3m6-onefour-a', 'c4x-n3m6-onefour-b', 'c4x-n4m7-frozen-slots-some', 'gap-ipoolopt-n4-m9-n43c247']
+fails needall R1 ['c4-lbplus-rotation-n3m6', 'c4min-phi-n4-m8-n4pc72', 'c4min-tlam-n3-m6', 'c4x-n3m6-3good-first', 'c4x-n3m6-onefour-a', 'c4x-n3m6-onefour-b', 'c4x-n4m7-frozen-slots-some', 'hall-bt4']
+fails needall plain ['c4-lbplus-rotation-n3m6', 'c4min-phi-n4-m8-n4pc72', 'c4min-tlam-n3-m6', 'c4x-n3m6-3good-first', 'c4x-n3m6-onefour-a', 'c4x-n3m6-onefour-b', 'c4x-n4m7-frozen-slots-some', 'hall-bt4']

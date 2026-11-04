@@ -397,3 +397,41 @@ step, take the agent whose favourite remaining good would need the fewest goods 
 fails to extend on 14 of the 168 screen instances (among them C127, D3 and c4-lbplus-rotation-n3m6) and on 12 of the
 164 suite instances (`sdc_cheap.log`). As with rule F (`k4/rulef.md` §5.3), every static rule tried fails somewhere,
 so the order has to be chosen against the obstruction of the run itself (§4, item 2).
+
+## 8. What selects a good order: stronger forms that hold, rules that fail
+
+**Stronger forms that hold on all data** (EVIDENCE):
+- **SD-C-PS** (K4.SDC.PS): for *every* agent w, some SD order extends to an EFX₀ allocation in which nobody envies w.
+  - All 589 (instance, agent) pairs of the screen set, and all 637 of the suite (n ≤ 26).
+  - With R1 orders only, 3 of the 589 pairs fail (`sdc_ps_screen.log`, `sdc_ps_screen_r1.log`, `sdc_ps_suite.log`).
+  - It combines SD-C with the prescribed-source property PS of `k4/induct.md`; Theorem DT has this form.
+- **Fewest frozen agents:** among the SD outcomes with the fewest frozen agents, *some* extends, on all 168 screen
+  instances, with plain or R1 orders (`sdc_fewest.log`).
+- **Multigraph and linear instances:** SD-C holds on 560 random multigraph instances (`sdc_multigraph.log`) and on 300
+  random linear ones, where two agents share at most one good (`sdc_linear.log`). Even there, not every order works.
+
+**Selections and local rules that fail:**
+- *Every* fewest-frozen outcome extends: fails on 30 of the 168 screen instances. Adding the frozen cost, the naive
+  deficit or the junk count as a tie-break repairs only 10 of the 30.
+- **Static need rules** ("the claimant whose top beats its next two goods by the most goes first", and variants): fail
+  on 11–16 of the screen instances (`sdc_need.log`).
+  - They come from the n = 2 failures (induct-g-r0, ls-no-exchange-n2m4, lb4-n2m5-upgrade), where the needier
+    claimant must win.
+  - They fail on c4min-tlam-n3-m6 and c4x-n3m6-onefour-a. There the big-top agent must *lose* its top and own all its
+    lower goods, which are private and together worth more than the top (8 < 4 + 3 + 2).
+- **Contest swaps** (move an agent that wants a frozen agent's pick to just before it): repair 542 of 634 bad orders in
+  one step and 588 by a walk; 46 stay stuck (`sdc_swap.log`).
+- **Descent over orders** (exact deficit = fewest goods left out; neighbours: move one agent anywhere): 4 strict local
+  minima of deficit 1 among 136 bad orders (`sdc_descent.log`). So SD-C has no local-search proof with these moves,
+  like DL₂ (`k4/dl2.md`) for pre-allocations.
+- **Last agent:** not every agent can be last in a good order (529 of 589 pairs, `sdc_last.log`). An induction that
+  appends one agent must choose that agent.
+- **No parity:** the number of extendable SD outcomes is odd on 74 of the 168 instances.
+
+**Reading.** SD-C holds on every instance tested, but no local or extremal criterion found so far selects a good order.
+The data say what such an argument must account for:
+- the order must resolve each contest in favour of the claimant whose freezing is cheapest;
+- whether freezing is cheap depends on whether the loser's own lower goods are free (private, or wanted by nobody);
+- a 4-good big-top agent with private lower goods should lose.
+
+At k = 3 the same choice is LB⁺'s bad case. At k = 4 it occurs in every block, not only the last.

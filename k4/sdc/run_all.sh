@@ -36,3 +36,13 @@ python3 k4/sdc/sdf.py screen > $L/sdf_screen.log
 python3 k4/sdc/sdc_deficit.py screen r1 > $L/sdc_deficit_screen.log
 (python3 k4/sdc/sdc_cheap.py screen; python3 k4/sdc/sdc_cheap.py suite) > $L/sdc_cheap.log
 python3 k4/sdc/sdc_cores.py k4_certs_5_n4_1.json.gz,k4_certs_5_n4_2.json.gz 20 11 > $L/sdc_cores_n5.log
+(python3 k4/sdc/sdc_need.py screen; python3 k4/sdc/sdc_need.py suite) > $L/sdc_need.log
+(python3 k4/sdc/sdc_fewest.py screen; python3 k4/sdc/sdc_fewest.py screen r1) > $L/sdc_fewest.log
+python3 k4/sdc/sdc_swap.py screen 20 1 > $L/sdc_swap.log
+(python3 k4/sdc/sdc_multigraph.py 1 300 4; python3 k4/sdc/sdc_multigraph.py 2 200 5; python3 k4/sdc/sdc_multigraph.py 3 60 6) > $L/sdc_multigraph.log
+python3 k4/sdc/sdc_descent.py screen 12 1 > $L/sdc_descent.log
+python3 k4/sdc/sdc_last.py screen > $L/sdc_last.log
+python3 k4/sdc/sdc_ps.py screen > $L/sdc_ps_screen.log
+python3 k4/sdc/sdc_ps.py screen r1 > $L/sdc_ps_screen_r1.log
+python3 k4/sdc/sdc_ps.py suite > $L/sdc_ps_suite.log
+(python3 k4/sdc/sdc_linear.py 1 200 5; python3 k4/sdc/sdc_linear.py 2 100 6) > $L/sdc_linear.log
