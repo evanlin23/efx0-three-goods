@@ -1076,3 +1076,29 @@ good start (K4.SDC.NF), not a potential.
   neediest-first order is an R1 run of LB's Phase 1. 110 rounds of climbs at n = 3, 4 minimize the number of working
   NOF candidates, and the minimum stays 1: no counterexample. Proposition D3 proves it in LB⁺'s main bad-case class;
   the classes with an upgraded agent on the chain, or a chain past r (§10), remain.
+
+## 19. NOF2: the neediest-first order with at most two deferrals
+
+Proposition D4 identifies a rotation with a deferral in its main class. So NF's "at most two rotations" has a
+serial-dictatorship form, which needs no LB₄ʳ.
+
+**Conjecture NOF2 (K4.SDC.NOF2).** With π the neediest-first order (without R1 priority), for every instance with at
+most four relevant goods per agent, one of these extends to an EFX₀ allocation:
+- SD(π);
+- SD(π with one agent moved to the end);
+- SD(π with two agents moved to the end, in either relative order).
+
+By Lemma DC each deferral is one displacement chain. There are at most n² + 1 candidates.
+
+Evidence (`k4/sdc/nof2.py`, `nof2.log`, `nof2_climb.log`; EVIDENCE only):
+- T3 needs exactly two deferrals: π = 0, 1, 2, and moving 0 and 1 to the end gives 2, 0, 1.
+- Q2, r4253 and r3943 need none without R1. With R1, Q2 needs two.
+- The screen set and the suite need at most one: 153 + 15 and 150 + 14 instances.
+- 20,000 random n ≤ 3, 20,000 n = 4 and 6,000 n = 5 core profiles need at most one: 104, 65 and 30 need one.
+- Adversarial climbs (60 rounds at n = 3, 40 at n = 4, minimizing the number of working candidates) always keep at
+  least one.
+
+NOF2 is the explicit statement left after NO and NOF. It shares their weakness: the order is fixed by a need score
+that T3 shows is not the right invariant. So it is recorded as the sharpest explicit form consistent with the data,
+not as a proof target in its own right. Proving it would need (A₄) and (B₄) of §11 with two repairs. By D4, those
+repairs are Lemma KR's rotations in the main class.

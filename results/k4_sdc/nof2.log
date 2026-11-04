@@ -1,0 +1,45 @@
+$ python3 k4/sdc/nof2.py special 
+deferrals needed: 0 3
+deferrals needed: 2 1
+instances 4
+time 0 s
+$ python3 k4/sdc/nof2.py special --r1
+deferrals needed: 1 2
+deferrals needed: 2 2
+instances 4
+time 0 s
+$ python3 k4/sdc/nof2.py screen 
+deferrals needed: 0 153
+deferrals needed: 1 15
+instances 168
+time 0 s
+$ python3 k4/sdc/nof2.py screen --r1
+deferrals needed: 0 157
+deferrals needed: 1 11
+instances 168
+time 1 s
+$ python3 k4/sdc/nof2.py suite 
+deferrals needed: 0 150
+deferrals needed: 1 14
+instances 164
+time 2 s
+$ python3 k4/sdc/nof2.py suite --r1
+deferrals needed: 0 154
+deferrals needed: 1 10
+instances 164
+time 2 s
+$ python3 k4/sdc/nof2.py cores:k4_certs_2.json.gz,k4_certs_3.json.gz 20000 121 
+deferrals needed: 0 19896
+deferrals needed: 1 104
+instances 20000
+time 27 s
+$ python3 k4/sdc/nof2.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 20000 122 
+deferrals needed: 0 19935
+deferrals needed: 1 65
+instances 20000
+time 45 s
+$ python3 k4/sdc/nof2.py cores:k4_certs_5_n4_1.json.gz,k4_certs_5_n4_2.json.gz 6000 123 
+deferrals needed: 0 5970
+deferrals needed: 1 30
+instances 6000
+time 19 s

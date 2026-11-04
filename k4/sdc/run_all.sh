@@ -108,3 +108,6 @@ for F in "" "--nor1"; do S=$( [ -z "$F" ] && echo "" || echo "_nor1" ); (python3
 # §18
 (NFQ=3 NFSEEDS=$L/seeds_t3.jsonl python3 k4/sdc/nf_lb4r.py climb 101 3 800 40 --nor1; NFQ=3 NFSEEDS=$L/seeds_t3.jsonl python3 k4/sdc/nf_lb4r.py climb 104 3 800 40; NFQ=3 NFSEEDS=$L/seeds_q2.jsonl python3 k4/sdc/nf_lb4r.py climb 103 4 600 40 --nor1; NFQ=3 NFSEEDS=$L/seeds_q2.jsonl python3 k4/sdc/nf_lb4r.py climb 102 4 600 40) > $L/nf_lb4r_seeded.log
 (python3 k4/sdc/nof_k3_climb.py 111 3 600 60; python3 k4/sdc/nof_k3_climb.py 112 4 500 50) > $L/nof_k3_climb.log
+# §19: NOF2
+(for a in special screen suite; do python3 k4/sdc/nof2.py $a; python3 k4/sdc/nof2.py $a --r1; done; python3 k4/sdc/nof2.py cores:k4_certs_2.json.gz,k4_certs_3.json.gz 20000 121; python3 k4/sdc/nof2.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 20000 122; python3 k4/sdc/nof2.py cores:k4_certs_5_n4_1.json.gz,k4_certs_5_n4_2.json.gz 6000 123) > $L/nof2.log
+(python3 k4/sdc/nof2.py climb 131 3 600 60; python3 k4/sdc/nof2.py climb 132 4 400 40) > $L/nof2_climb.log
