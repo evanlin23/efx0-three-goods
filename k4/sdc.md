@@ -1026,3 +1026,28 @@ them is put forward as a conjecture.
 - The neediest-first *order* is not canonical: T3 refutes every "neediest first plus one deferral" statement.
 - The neediest-first *start* still makes LB₄ʳ short. By D4, its rotations are the deferrals in the main class, and
   Lemma KR's count is how a proof would bound them.
+
+## 17. Two potentials over LB₄ʳ's rotations, both refuted on the data
+
+D4 makes LB₄ʳ's rotations the deferrals, so a proof could run a potential over rotations instead of over orders. Two
+natural forms fail. These are evidence only, from a single implementation (PR #33's model); they are recorded so that
+the next attempt does not repeat them.
+
+- **RD (descent of Lemma K's deficit):** "a reachable state without an output has a rotation to a state with an output
+  or a smaller deficit".
+  - Fails on 18 of the 168 screen instances within one rotation (`k4/sdc/rd_check.py`, `rd_check.log`).
+  - On T3 the neediest-first state has deficit 1. None of its four rotations lowers the deficit, but two rotations
+    reach an output. The deficit is not monotone along a successful rotation sequence.
+- **RM (improving rotations):** a rotation whose agent k gains (v_k(O) > v_k(Y_k)) raises every base value on its chain
+  and changes no other base. So sequences of improving rotations are finite, and with upgrades this is a Pareto
+  potential on base values.
+  - At k = 3, LB⁺'s rotation is improving, since b + c > a.
+  - RM says every dead end of improving rotations has an output. It fails: 92 of 2,520 starts on the screen set
+    (21 instances) and 13 of 60 on the special instances, including Q2 from the R1 start (`k4/sdc/rm_check.py`,
+    `rm_check.log`).
+  - A successful search sometimes needs a downgrade rotation, as rule F's instance of
+    `attempts/k4-rulef-least-count.md` already showed. This is P1 (§1) again, now on LB₄ʳ's pre-allocations.
+
+So the picture of §1 persists inside LB₄ʳ: completable states are reached only by moves that lower some agent's value,
+and neither the deficit nor the base values order the search. What the data support is a bound on the search from a
+good start (K4.SDC.NF), not a potential.

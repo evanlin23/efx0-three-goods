@@ -101,3 +101,6 @@ for F in "" "--nor1"; do S=$( [ -z "$F" ] && echo "" || echo "_nor1" ); (python3
 (python3 k4/sdc/nf_lb4r.py climb 61 3 600 60 --nor1; NFQ=3 python3 k4/sdc/nf_lb4r.py climb 71 3 600 80 --nor1; NFQ=3 python3 k4/sdc/nf_lb4r.py climb 72 3 600 80; NFQ=3 python3 k4/sdc/nf_lb4r.py climb 73 4 400 50 --nor1; python3 k4/sdc/nf_lb4r.py climb 62 4 600 60 --nor1; python3 k4/sdc/nf_lb4r.py climb 63 5 400 40 --nor1) > $L/nf_lb4r_climb.log
 (python3 k4/sdc/nof_var.py special; python3 k4/sdc/nof_var.py suite; python3 k4/sdc/nof_var.py cores:k4_certs_2.json.gz,k4_certs_3.json.gz 6000 81; python3 k4/sdc/nof_var.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 5000 82; python3 k4/sdc/nof_var.py screen) > $L/nof_var.log
 (python3 k4/sdc/nof_lemmak.py screen --nor1; python3 k4/sdc/nof_lemmak.py suite --nor1; python3 k4/sdc/nof_lemmak.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 3000 7 --nor1) > $L/nof_lemmak_nor1.log
+# §17: two potentials over rotations
+(python3 k4/sdc/rd_check.py special 2; python3 k4/sdc/rd_check.py screen 1) > $L/rd_check.log
+(python3 k4/sdc/rm_check.py special; python3 k4/sdc/rm_check.py screen) > $L/rm_check.log

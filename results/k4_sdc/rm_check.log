@@ -1,0 +1,26 @@
+$ python3 k4/sdc/rm_check.py special
+BAD SINK T3 nf shrink 1 [[[5, 0, 4, 2], [3, 1, 4], [4, 1, 3, 0]], [[1, 38, 36, 6], [12, 22, 30], [28, 20, 12, 38]]]
+BAD SINK T3 nfR1 none 1 [[[5, 0, 4, 2], [3, 1, 4], [4, 1, 3, 0]], [[1, 38, 36, 6], [12, 22, 30], [28, 20, 12, 38]]]
+BAD SINK T3 index shrink 1 [[[5, 0, 4, 2], [3, 1, 4], [4, 1, 3, 0]], [[1, 38, 36, 6], [12, 22, 30], [28, 20, 12, 38]]]
+BAD SINK T3 lb4r none 1 [[[5, 0, 4, 2], [3, 1, 4], [4, 1, 3, 0]], [[1, 38, 36, 6], [12, 22, 30], [28, 20, 12, 38]]]
+BAD SINK Q2 nfR1 shrink 1 [[[0, 1, 3, 4], [2, 3, 6, 7], [2, 5, 7], [4, 5, 6, 7]], [[2, 3, 10, 6], [2, 8, 3, 4], [2, 4, 3], [4, 8, 2, 3]]]
+BAD SINK Q2 nfR1 envyFree 1 [[[0, 1, 3, 4], [2, 3, 6, 7], [2, 5, 7], [4, 5, 6, 7]], [[2, 3, 10, 6], [2, 8, 3, 4], [2, 4, 3], [4, 8, 2, 3]]]
+instances 4
+instances with a bad sink 2
+starts 60
+starts needing rotations, every sink has an output 32
+starts with a sink without output 13
+time 0 s
+$ python3 k4/sdc/rm_check.py screen
+BAD SINK D3 nf shrink 1 [[[0, 1, 2, 4], [1, 2, 3, 5], [2, 3, 4, 5]], [[4, 8, 3, 2], [8, 4, 3, 2], [10, 7, 2, 4]]]
+BAD SINK D3 nfR1 shrink 1 [[[0, 1, 2, 4], [1, 2, 3, 5], [2, 3, 4, 5]], [[4, 8, 3, 2], [8, 4, 3, 2], [10, 7, 2, 4]]]
+BAD SINK D3 index shrink 1 [[[0, 1, 2, 4], [1, 2, 3, 5], [2, 3, 4, 5]], [[4, 8, 3, 2], [8, 4, 3, 2], [10, 7, 2, 4]]]
+BAD SINK D3 lb4r shrink 1 [[[0, 1, 2, 4], [1, 2, 3, 5], [2, 3, 4, 5]], [[4, 8, 3, 2], [8, 4, 3, 2], [10, 7, 2, 4]]]
+BAD SINK adaptive-p1 index envyFree 1 [[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 6, 8], [2, 3, 4, 8], [2, 7, 8, 4]]]
+BAD SINK adaptive-p1 index none 1 [[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 6, 8], [2, 3, 4, 8], [2, 7, 8, 4]]]
+instances 168
+instances with a bad sink 21
+starts 2520
+starts needing rotations, every sink has an output 423
+starts with a sink without output 92
+time 1 s
