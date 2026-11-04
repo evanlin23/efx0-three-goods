@@ -8,6 +8,19 @@ which every maximum was completable on the data first searched, written proofs o
 and the counterexample that ends the approach in this form.
 
 **Status.**
+- *Current state (§10).* Every potential tried so far is refuted:
+  - DE4;
+  - DE4ᵛ³ (§9);
+  - the robust order (§10, `refute_rob.py`);
+  - every tie-break inside its largest level sum (§10.4–§10.5, `refute_sum.py`, `refute_lp.py`; the last instance
+    has a single, non-completable state of the largest level sum);
+  - a level change (`refine2.py`);
+  - shedding with the top (`refute_shed.py`).
+
+  The open candidate is **K4.DE4V3R.SHED2**: every maximum of the robust order becomes completable after some agents
+  keep one good of their holding alone. All five known failures pass. In Lean it gives TARGET₄, and so do the two
+  hypotheses HXShed and HLLShed (`lean/EFX/DE4Shed.lean`). Lemmas 27, 27′, 29, 30, 31 (§10.4) and the Lean frames are
+  statements about valid states and stand.
 - *Conjecture DE4* (§2) **is refuted** (`attempts/k4-de4.md`, ledger K4.DE4; replay `python3 k4/de4/refute_de4.py`;
   machine-checked in Lean, `EFX.DE4.Refute.not_conjDE4`).
   The exhaustive run over every strict profile of every n = 4 core with two 4-good agents (922,669,056 profiles,
