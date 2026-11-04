@@ -449,7 +449,8 @@ with a single global choice.
 - i takes y₁.
 
 Finally o takes its favourite remaining good. There is no R1 priority: the need is recomputed from the goods still
-available at every step.
+available at every step. An agent with no available good picks nothing wherever it stands, so its position does not
+matter (the code processes such agents last).
 
 **Conjecture NO (K4.SDC.NO).** In every instance with at most four relevant goods per agent, there is an agent o such
 that the picks of NO(o) extend to an EFX₀ allocation. This is SD-C with n candidate orders instead of n!. The owner is
