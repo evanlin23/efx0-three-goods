@@ -1031,6 +1031,145 @@ With Conjecture A″, Lemma 20(c) for big-top lower-pair holders, and the corner
 this way (2 of them, on GM4-B, need a lateral want). A proof would generalize the counting of Theorem A′, in which
 each loser's successor gains what the loser loses, to frozen agents, lower pairs and lateral wants.
 
+### 10.2 Conjecture A″ sharpened: cycles of the arc graph
+
+This subsection replaces Conjecture A″ by a statement about single cycles (Conjecture D). It proves the two tools
+that resolve all cycles met in the data (Theorem 23 and Lemma 20′), and shows that non-completability enters only
+through Lemma 8.
+
+**The arc graph.** For a state Y, G has an arc o → x taking T when:
+- o is frozen and x wants o's good (T = Y_o: a *want arc*), or
+- o is free and (x, T) is a minimal arc into o (§7 and Lemma 17: T is a danger set of x inside Y_o ∪ J meeting Y_o,
+  and no danger set of anyone is a proper subset of T).
+
+Its label is T ∩ J. Lemma 18 is a statement about any cycle of G. An **F₂-clash cycle** is a cycle of G on which the
+labels of arcs out of free agents holding one good are pairwise disjoint and avoid all other labels of the cycle. So
+labels can be shared only by arcs out of agents holding two or more goods.
+
+**Conjecture C (refuted).** "At a maximum with (H), G has no cycle." It is false: 14 maxima of the screen set (the
+GM4 instances; `python3 k4/de4/claimd.py refuteC`) have a cycle in G, and no move resolves it. In each, two arcs out
+of free holders of one good share a leftover good (in GM4-A, both free holders of b need the same good 3). These
+maxima are completable, by DE's rule with a helper. At a non-completable state, Lemma 8 forbids such clashes.
+
+**Proposition 24.** Let Y be a non-completable state with (H). Every cycle of a pointer map of Lemma 17 is an
+F₂-clash cycle. Hence if no maximum with (H) has an F₂-clash cycle, every non-completable maximum satisfies (L).
+
+*Proof.* In Lemma 17 the labels of arcs out of F₁ are pairwise disjoint (Lemma 8), and the labels of arcs out of
+agents holding two or more goods avoid them. Frozen agents' arcs carry no label. ∎
+
+**Conjecture C₂.** No (V3)-valid state of the largest level sum with (H) has an F₂-clash cycle. With Proposition 24,
+C₂ gives Claim T′ (even the strong Claim T) whenever (H) holds; the case (L) is treated in §10.1 (Lemma 17′,
+Lemma 20(c)).
+
+**Theorem 23 (replacement).** Let Y be (V3)-valid with (H), and C = (c_1 → ⋯ → c_k → c_1) a cycle of G, where c_(t+1)
+takes T_t. A *same-giver alternative* for the arc t, taken by x = c_(t+1), is one of:
+- *keepR*: x holds a rich pair and its top a_x lies in T_t ∩ Y_(c_t). x takes a_x and keeps the goods of its holding
+  that its successor does not take;
+- *down-b*: x is frozen, holds its top, and b_x ∈ T_t ∩ Y_(c_t). x takes {b_x};
+- *down-c*: x is frozen, holds its b, and c_x ∈ T_t ∩ Y_(c_t). x takes {c_x}.
+
+Let R be a set of arcs of C such that:
+- (i) every t ∈ R has a same-giver alternative;
+- (ii) each t ∈ R shares a label with some arc outside R, and the labels of the arcs outside R are pairwise disjoint;
+- (iii) in the resulting state Z, no holding of three goods contains two goods of a replaced taker other than its top
+  and its new holding; and if a keepR taker keeps nothing, its successor is not a holder of its b taking its lower
+  pair;
+- (iv) some taker outside R rises a level and is not the successor of a replaced taker that drops a level.
+
+Let Z be the trade along C in which the arcs outside R are as in Lemma 18 and those in R use their alternatives; the
+goods of a giver that nobody takes become leftover. Then Z is valid and Φ(Z) > Φ(Y), so Y is not a maximum (M1).
+
+*Proof.*
+- *Disjointness.* A giver gives only to its successor. The leftover goods taken are the labels outside R, which are
+  pairwise disjoint; alternatives take none. A keepR taker keeps only goods its successor does not take.
+- *Allowed holdings.* Takes outside R are wanted goods or danger sets (Lemma 7(b)). A keepR holding is the top, or
+  {a, x}, an upper set of a 4-good agent. A down holding is a single good.
+- *(V1).*
+  - Unchanged agents keep their wanted sets. Takers outside R gain value, so their wanted sets shrink. keepR takers
+    want nothing.
+  - A down-b taker x now wants a_x. x is frozen, so its successor takes a_x by a want arc: want arcs carry no label,
+    so they are never replaced, and a_x is a whole holding.
+  - A down-c taker now wants a_x and b_x: b_x goes to its successor alone, and a_x, which x wanted in Y, was held
+    alone. If its holder is on C, a_x passes alone to that holder's want successor.
+  - Every other good wanted in Z was wanted in Y and held alone by a frozen agent. If that agent is on C, its good
+    passes alone to its want successor.
+- *(V2).*
+  - New two-good holdings consist of goods that were unwanted in Y: they come from free givers, from J, or from a
+    free keepR taker's own holding. They are unwanted in Z too (the new wants above are single holdings). By Lemma
+    1(c) these holdings threaten nobody.
+  - A new triple threatens no agent outside R, as in Lemma 18 (minimality, and (H) for the giver).
+  - The only agents whose value can drop are replaced takers. For a down-c taker, R_x minus its holding and the
+    single holdings of a_x and b_x is {d_x}: no bundle is worth more than c_x to it after removing a good.
+  - For a down-b taker, a two-good holding is worth at most v(c_x) < v(b_x) to it after removing a good. For a keepR
+    taker, it is worth at most its top after removing a good.
+  - A three-good holding can threaten a replaced taker only if it contains two of its goods outside its top and its
+    holding, which (iii) excludes.
+- *Φ.* Takers outside R rise (Lemma 18), except holders of b taking their lower pair, which stay. keepR takers that
+  keep a good stay at level ≥ 5, the level of a rich pair. keepR takers that keep nothing, and down takers, drop
+  exactly one level.
+  - Each such dropping taker x has a successor s(x) that rises and is not replaced. For down takers, s(x) takes x's
+    good by a want arc. For a keepR taker that keeps nothing, s(x) takes both goods of x's pair: by (iii) its take is
+    exactly that pair, so it has no label (hence is not replaced), and it rises, as it is not a holder of b taking
+    its lower pair.
+  - Successors on a cycle are distinct. So Φ(Z) − Φ(Y) is at least the rise of the takers outside R that are no such
+    s(x), which is ≥ 1 by (iv). ∎
+
+With R = ∅, Theorem 23 is Lemma 18's case Φ(Z) > Φ(Y). The replacements are Theorem A′'s rule (a loser keeps its top)
+and the downgrades: a frozen holder steps down one rank, and its wanter pays for it. In the language of §10.1 they
+are winner/loser rotations.
+
+**Lemma 20′ (b-swaps).** Let Y be (V3)-valid with (H), u a free holder of its lower pair {c, d} (top a, b = b_u), and
+w ≠ u the holder of b. Each trade below is valid:
+- (i) w has a minimal arc (w, D) into u with |D| = 2 or Y_u ⊄ D. w takes D, and u takes {b}, or {b, c} when c ∉ D,
+  v(b) + v(c) > v(a) and w is free;
+- (ii) w holds its lower pair, b ∈ Y_w and b_w ∈ Y_u. u takes {b}, or {b, c} when c ≠ b_w and v(b) + v(c) > v(a); w
+  likewise takes {b_w} or {b_w, c_w};
+- (iii) Y_w is a pair containing w's top a_w and b, v(b) + v(c) > v(a), and no three-good holding contains two goods
+  of w other than a_w. u takes {b, c} and w takes {a_w}.
+
+At a maximum, no b-swap raises the level sum.
+
+*Proof.*
+- (i) extends Lemma 20(b) to a free w holding b in a larger holding: w's other goods become leftover, unwanted.
+  - If w is frozen, b, which others want, becomes the whole holding of u. If w is free, b is unwanted, so {b, c} is a
+    pair of unwanted goods.
+  - u holding b wants only a, which is held alone; holding {b, c}, an upper set, it wants nothing.
+  - D is a pair, or a triple handled as in Lemma 20(b). u's danger sets for {b} lie in Y_u ⊄ D.
+  - u's value may drop. The only holding with goods of R_u and two or more goods is D, worth at most max(v(c), v(d))
+    < v(b) to u after removing a good.
+- (ii) Both lower pairs consist of unwanted goods, and the new holdings are singles, or pairs of these goods with an
+  own good kept. A holder of b wants only its top, which is held alone. The other new holding meets R_u in at most
+  one good of u's pair, worth less than b.
+- (iii) w holds its top and wants nothing; {b, c} is a pair of unwanted goods. A pair is worth at most v(a_w) to w
+  after removing a good, and the hypothesis excludes threatening triples. ∎
+
+**Conjecture D.** In every (V3)-valid state with (H), every F₂-clash cycle of G is resolved: it is clean and Lemma
+18's trade is valid and better, or Theorem 23 applies to it (for some R), or some lower-pair holder has a b-swap that
+raises the level sum.
+
+Conjecture D implies C₂: at a maximum each of the three gives (M1) or (M2). It sharpens Conjecture A″: pointer
+cycles are F₂-clash cycles (Proposition 24), Theorem 23 is a winner/loser rotation, and b-swap (i) with b held alone
+is a lateral want. So, with Proposition 24 and the two small cases of §10.1, **Conjecture D implies Claim T′ when (H)
+holds.**
+
+What a proof of D still needs is clear from Theorem 23's hypotheses:
+- a clash between two arcs neither of which has a same-giver alternative. Such takers are a free holder of b, a
+  frozen holder of its top whose take from the giver misses its b, or a frozen holder of b whose take from the giver
+  misses its c. The data contain one such clash: GM4-B, where two frozen top holders take c from lower pairs and
+  both need their b, the same leftover good. A b-swap resolves it;
+- hypotheses (iii) and (iv).
+
+**Evidence** (`k4/de4/claimd.py`; sources as in §10.1, plus `xhg`, random profiles of the seven hypergraphs on which
+the states of `claimt.py pointer` without a clean cycle were found):
+
+| mode | what | result | logs |
+|---|---|---|---|
+| `refuteC` | maxima of the screen set with (H) whose G has a cycle | 14 maxima (GM4 instances); in each, every cycle has a clash between two arcs out of free holders of one good. Independent replay of GM4-A: `python3 k4/de4/refute_c.py` | `results/k4_de4/claimd_refuteC.log` |
+| `c2` | states of the largest level sum with (H), and maxima | 13,362 states of the largest level sum with (H) (screen 234, xhg 2,800, random 7,115, stuck hypergraphs 2,662, n = 4 with two 4-good agents 551), of which 11,660 maxima: no F₂-clash cycle. G has a cycle only at the 14 screen maxima above | `results/k4_de4/claimd_c2_*.log` |
+| `thm23` | every cycle of every (V3)-valid (H) state, every R satisfying Theorem 23's hypotheses | 2,031 (cycle, R) pairs (screen 200, xhg 877, random 954), 41 with replacements (19 down-b, 22 keepR): every trade valid and Φ-raising | `results/k4_de4/claimd_thm23_*.log` |
+| `bswap` | every b-swap of every (V3)-valid (H) state | 249 b-swaps (screen 19, xhg 148, random 82): every one valid; level change ≥ 0, and 0 in 87 | `results/k4_de4/claimd_bswap_*.log` |
+| `d` | every F₂-clash cycle of every (V3)-valid (H) state | 6,075 F₂-clash cycles (screen 190, xhg 2,322, random 1,897, stuck hypergraphs 617, n = 4 543, n = 3 506): Lemma 18 6,041, Theorem 23 32, b-swap 2 (GM4-B); none unresolved | `results/k4_de4/claimd_d_*.log` |
+
 ## 6. Reproduce
 
 ```
@@ -1050,5 +1189,6 @@ python3 k4/de4/lemma15.py suite                                 # Lemma 15 by br
 bash k4/de4/run_all.sh                                          # every log of §4 except the two C exhaustive runs
 python3 k4/de4/claimt.py owner screen 1 1 1                      # §10.1; likewise cases, pointer, arcs; sources rand,
                                                                 # hyper, k4_certs_4_n4_2.json.gz, k4_certs_3.json.gz
+python3 k4/de4/claimd.py refuteC                                  # §10.2; also c2, thm23, bswap, d with SOURCE PER JOBS SEED
 ```
 Needs python-sat (`requirements.txt`) and gcc.

@@ -1,0 +1,5 @@
+$ python3 k4/de4/claimd.py bswap screen 1 1 1
+        2  Lemma 20' (i): valid True, level change +0
+        8  Lemma 20' (i): valid True, level change +1
+        8  Lemma 20' (i): valid True, level change +2
+        1  Lemma 20' (i): valid True, level change +4
