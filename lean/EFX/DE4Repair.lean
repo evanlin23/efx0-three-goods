@@ -305,6 +305,17 @@ theorem potentialR_le_of_max (hgd : goods.Nodup) {base base' : G → Option A}
   obtain ⟨base'', h1, h2⟩ := exists_validV3_of_valid hgd _ base' (Nat.le_refl _) hb'
   refine Nat.le_trans h2 (Nat.le_of_not_lt fun hlt => hmax.2 base'' h1 (Or.inl hlt))
 
+/-- A *top* state: (V3)-valid, with the largest robust level sum among all valid states. Maxima of the robust order
+are top states (`topR_of_maxR`), and so are maxima of the lower-pair order (`EFX.DE4.topR_of_maxLP`); the lemmas that
+contradict maximality by a larger robust level sum need only this. -/
+def TopR (v : A → G → Nat) (agents : List A) (goods : List G) (base : G → Option A) : Prop :=
+  ValidV3 v agents goods base ∧
+    ∀ base', Valid v agents goods base' → potentialR v agents goods base' ≤ potentialR v agents goods base
+
+theorem topR_of_maxR (hgd : goods.Nodup) {base : G → Option A} (hmax : IsMaximumR v agents goods base) :
+    TopR v agents goods base :=
+  ⟨hmax.1, fun _ hb' => potentialR_le_of_max hgd hmax hb'⟩
+
 end lemmaR
 
 end DE4
@@ -318,6 +329,7 @@ end EFX
 #print axioms EFX.DE4.count_above_le_one
 #print axioms EFX.DE4.value_zero
 #print axioms EFX.DE4.le_zero_mem
+#print axioms EFX.DE4.topR_of_maxR
 #print axioms EFX.DE4.repair_step
 #print axioms EFX.DE4.exists_validV3_of_valid
 #print axioms EFX.DE4.potentialR_le_of_max

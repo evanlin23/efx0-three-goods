@@ -133,13 +133,13 @@ theorem trade_potentialR_lt (hgd : goods.Nodup) (hc : R1Core4 v agents goods) {b
   · obtain ⟨j, w, hjw⟩ := hrec
     exact ⟨w, (h.give j w hjw).2.1, recv_lt ⟨j, hjw⟩⟩
 
-/-- At a maximum, a valid want trade with a receiver is impossible (Lemma R). -/
+/-- At a maximum (a top state: `TopR`), a valid want trade with a receiver is impossible (Lemma R). -/
 theorem trade_contra (hgd : goods.Nodup) (hc : R1Core4 v agents goods) {base : G → Option A}
-    (hmax : IsMaximumR v agents goods base) {x : A} {q : G → Bool} {r : A → Option A} {up : Bool}
+    (hmax : TopR v agents goods base) {x : A} {q : G → Bool} {r : A → Option A} {up : Bool}
     (h : TradeOK v agents goods base x q r up) (hval : Valid v agents goods (trade base x q r up))
     (hrec : ∃ j w, r j = some w) : False := by
   have h1 := trade_potentialR_lt hgd hc hmax.1.1 h hrec
-  have h2 := potentialR_le_of_max hgd hmax hval
+  have h2 := hmax.2 _ hval
   omega
 
 omit [DecidableEq G] in
@@ -156,7 +156,7 @@ theorem path_recv {base : G → Option A} {x l : A} {Q : List A} (hQh : Q.head? 
 /-- Lemma 4 for an upgrade of at most two goods, at a maximum: the agent is free (a frozen one starts a want trade,
 against Lemma R), so it has a free self-upgrade. -/
 theorem small_at_max (hgd : goods.Nodup) (hc : R1Core4 v agents goods) {base : G → Option A}
-    (hmax : IsMaximumR v agents goods base) {x : A} (hx : x ∈ agents) {q : G → Bool}
+    (hmax : TopR v agents goods base) {x : A} (hx : x ∈ agents) {q : G → Bool}
     (hq : ∀ g ∈ goods, q g = true → base g = none) (hN : Allowed v x goods (goods.filter q))
     (hgain : value v x (hold goods base x) < value v x (goods.filter q)) (h2 : (goods.filter q).length ≤ 2) :
     ∃ x' ∈ agents, FreeSelfUp v agents goods base x' := by
@@ -176,11 +176,12 @@ theorem small_at_max (hgd : goods.Nodup) (hc : R1Core4 v agents goods) {base : G
         ⟨c, w₀, by simp [cycNext]⟩
   · exact ⟨x, hx, free_of_not_frozen hb hfx, q, fun g hg hqg => Or.inr (hq g hg hqg), hN, h2, hgain⟩
 
-/-- **Lemma 4 at a maximum of the robust order.** If the leftover goods alone threaten an agent, some free agent has
+/-- **Lemma 4 at a maximum of the robust order** (at any top state, `TopR`, so also at a maximum of the lower-pair
+order). If the leftover goods alone threaten an agent, some free agent has
 an allowed self-upgrade of at most two goods: every case of Lemma 4 that passes a good to a wanter strictly raises the
 robust level sum, against Lemma R. -/
 theorem threat_at_max (hgd : goods.Nodup) (hs : Strict v agents goods) (hc : R1Core4 v agents goods)
-    {base : G → Option A} (hmax : IsMaximumR v agents goods base) {x : A} (hx : x ∈ agents)
+    {base : G → Option A} (hmax : TopR v agents goods base) {x : A} (hx : x ∈ agents)
     (hJ : value v x (hold goods base x) < value v x (leftover goods base)) :
     ∃ x' ∈ agents, FreeSelfUp v agents goods base x' := by
   have hb := hmax.1.1
@@ -342,7 +343,7 @@ theorem hl'_of_hll (h : HLL A G) : HL' A G := by
   intro v agents goods hne hag hgd hc hs base hmax hnc hcase
   refine h v agents goods hne hag hgd hc hs base hmax hnc ?_
   rcases hcase with ⟨i, hi, hJi⟩ | ⟨x, hx, hfree, p, hp, hN, h2, hgain, _⟩
-  · exact threat_at_max hgd hs hc hmax hi hJi
+  · exact threat_at_max hgd hs hc (topR_of_maxR hgd hmax) hi hJi
   · exact ⟨x, hx, hfree, p, hp, hN, h2, hgain⟩
 
 /-- `HLL` implies `HL`. -/

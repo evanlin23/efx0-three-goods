@@ -1487,7 +1487,9 @@ value-Pareto. On the refuting instance its three maxima hold no lower pair and a
 level-neutral to undo: u takes back its top from the frozen t, and t takes the leftover good, its b (u: 3 → 4,
 t: 4 → 3). That swap removes a lower pair.
 
-*What carries over from §10* (written; the Lean frame is stated for the robust order and has not been redone):
+*What carries over from §10* (machine-checked as a frame, `lean/EFX/DE4LowerPairFrame.lean`, ledger
+K4.DE4V3R.LEANLP: **TARGET₄ ⟸ HXLP + HLLLP**, `EFX.DE4.target4_of_HXLP_HLLLP`, where HXLP says that every F₂-clash
+cycle at a maximum of the lower-pair order with (H) is clean and not flat, and HLLLP is Claim T′ in case (L) there):
 - **Lemma R** lowers the number of lower-pair holders. Each repair step replaces a lower pair by its b and keeps the
   level sum. The machine-checked proof (`EFX.DE4.exists_validV3_of_valid`) is an induction on `numLP`, which drops at
   each step. So a maximum of the lower-pair order has the largest level sum among all valid states.
@@ -1551,6 +1553,37 @@ good g. Take an agent y ∉ {t₁, u₁} holding three or more goods.
 
 The same holds for t₂. ∎
 
+**Lemma 27′ (simultaneous top swaps).** Let Y be valid, u₁, …, u_k distinct holders of their lower pairs with
+distinct tops, and t₁, …, t_k agents with Y_{tᵢ} = {a_{uᵢ}}. Let jᵢ be the good tᵢ ranks just below a_{uᵢ}. Suppose:
+- the jᵢ are distinct, and each lies in J ∪ Y_{u₁} ∪ … ∪ Y_{u_k};
+- each tᵢ threatens no holding of three or more goods of an agent other than the u's and t's with v_{tᵢ}(jᵢ).
+
+Then giving uᵢ ← {a_{uᵢ}} and tᵢ ← {jᵢ}, and releasing the rest of the u's pairs, gives a valid state with the same
+level sum and k lower-pair holders fewer. So Y is not a maximum of the lower-pair order.
+
+*Proof.* As for Lemma 27.
+- The released goods lay in pairs, so nobody wanted them.
+- A good that tᵢ wants in the new state is a_{uᵢ}, now held alone by uᵢ, or was wanted by tᵢ in Y. In the second case
+  it was held alone in Y, by an agent outside the u's. If that agent is some t_l, the good is a_{u_l}, now held alone
+  by u_l.
+- Other agents keep their holdings and wants, and the same argument applies.
+- (V2) is as before.
+- Each uᵢ gains one level and each tᵢ loses one. ∎
+
+**Corollary 28(c).** In GM4-B's double clash at a maximum of the lower-pair order, one frozen agent's b is held by an
+agent other than u₁ and u₂: b_{t₁} ∉ J ∪ Y_{u₂} or b_{t₂} ∉ J ∪ Y_{u₁}.
+
+*Proof.* There are three cases.
+- If b_{t₁} ∈ J or b_{t₂} ∈ J, Corollary 28(b) applies.
+- If b_{t₁} ∈ Y_{u₂} and b_{t₂} ∈ Y_{u₁}, apply Lemma 27′ with k = 2.
+
+For the threat hypothesis: t₁ values a_{u₁} ∈ Y_{t₁}, b_{t₁} ∈ Y_{u₂}, the shared good j ∈ J (j ∈ D₁, and j ≠ b_{t₁}),
+and at most one more good g. A holding of three or more goods of another agent contains at most g, worth at most
+v_{t₁}(b_{t₁}). The same holds for t₂. ∎
+
+So what is left of the double clash at a maximum of the lower-pair order is the case where a frozen agent's b is held
+outside the clash, and taking it would make a fifth agent lose a good.
+
 *Machine-checked* (`lean/EFX/DE4LowerPair.lean`):
 - the lower-pair order (`EFX.DE4.BetterLP`, `EFX.DE4.IsMaximumLP`) and the existence of its maxima (`EFX.DE4.exists_maximumLP`);
 - Lemma R counting lower pairs (`EFX.DE4.exists_validV3_numLP`), so a maximum has the largest robust level sum among all valid states (`EFX.DE4.potentialR_le_of_maxLP`);
@@ -1559,12 +1592,10 @@ The same holds for t₂. ∎
 Corollary 28(b) is written only.
 
 **What is left of the double clash.** By Corollary 28, a double clash at a maximum of the lower-pair order has both
-frozen agents' b's held, and its shared good j is a c or d of both. The swap then needs a third agent: the holder of
-b_t gives it up. Open in this order:
-- **HX_lp**: at a maximum with (H), no F₂-clash cycle is unclean or flat;
-- **HLL_lp**: the case (L).
-
-Together with the transfer of the Lean frame above, these would give TARGET₄.
+frozen agents' b's held, at least one of them by an agent outside the clash, and its shared good j is a c or d of
+both. The swap then needs a fifth agent: the holder of b_t gives it up. Open in this order, and together sufficient for TARGET₄ by the machine-checked frame:
+- **HX_lp** (`EFX.DE4.HXLP`): at a maximum with (H), no F₂-clash cycle is unclean or flat;
+- **HLL_lp** (`EFX.DE4.HLLLP`): the case (L).
 
 **Evidence** (EVIDENCE):
 

@@ -139,18 +139,18 @@ theorem two_le_of_danger {base : G → Option A} {i : A} {D : List G} (hdan : Is
   have := hdan.2.2.1
   omega
 
-/-- **Lemma 18 at a maximum, for F₂-clash cycles.** At a maximum of the robust order with (H), no F₂-clash cycle has
-pairwise disjoint labels. Trade along it: each agent of the cycle takes the wanted good of a frozen predecessor, or
-the arc's set from a free one, and the free givers' other goods become leftover. The trade is valid and no robust level
-drops. If the robust level sum rises, Lemma R contradicts maximality. Otherwise no agent of the cycle rose, so every
-taker held one good and none is frozen, and the cycle is one of one-good free agents (`no_f1_clashCycle`). -/
-theorem no_clean_clashCycle (hgd : goods.Nodup) (hc : R1Core4 v agents goods) (hs : Strict v agents goods)
-    {base : G → Option A} (hmax : IsMaximumR v agents goods base) (hH : CondH v agents goods base)
+/-- **Lemma 18 at a top state, for F₂-clash cycles** (`TopR`: a maximum of the robust order or of the lower-pair
+order). With (H), on an F₂-clash cycle with pairwise disjoint labels every free agent holds one good. Trade along it:
+each agent of the cycle takes the wanted good of a frozen predecessor, or the arc's set from a free one, and the free
+givers' other goods become leftover. The trade is valid and no robust level drops. If the robust level sum rises,
+Lemma R contradicts maximality. Otherwise no agent of the cycle rose, so every taker held one good and none is frozen. -/
+theorem clean_cycle_one_good (hgd : goods.Nodup) (hc : R1Core4 v agents goods) (hs : Strict v agents goods)
+    {base : G → Option A} (hmax : TopR v agents goods base) (hH : CondH v agents goods base)
     {x : A → A} {d : A → G → Bool} {C : List A} (hC : ClashCycle v agents goods base x d C)
     (hclean : ∀ o ∈ C, ∀ o' ∈ C, o ≠ o' → ¬ Frozen v agents goods base o → ¬ Frozen v agents goods base o' →
-      ∀ g ∈ goods, base g = none → d o g = true → d o' g = false) : False := by
+      ∀ g ∈ goods, base g = none → d o g = true → d o' g = false) :
+    ∀ o ∈ C, ¬ Frozen v agents goods base o → ∃ y, hold goods base o = [y] := by
   classical
-  have hC' := hC
   obtain ⟨hCnd, hCa, hCc, ⟨c, w₀, hcl, hw₀, hcw⟩, harcs, _⟩ := hC
   have hb : Valid v agents goods base := hmax.1.1
   have hU := hH.2
@@ -422,7 +422,8 @@ theorem no_clean_clashCycle (hgd : goods.Nodup) (hc : R1Core4 v agents goods) (h
     · rw [hoff i hiC]; exact Nat.le_refl _
   have hpot := sum_map_le hlev
   rcases Nat.lt_or_eq_of_le hpot with hlt | heq
-  · have := potentialR_le_of_max hgd hmax hvalid
+  · exfalso
+    have := hmax.2 _ hvalid
     unfold potentialR at this
     omega
   · have heqC := eq_of_sum_eq hlev heq
@@ -464,7 +465,16 @@ theorem no_clean_clashCycle (hgd : goods.Nodup) (hc : R1Core4 v agents goods) (h
       have := heqC o hoa
       rw [hrecv hp, htakO p hpC hpf] at this
       omega
-    exact no_f1_clashCycle hgd hc hs hmax hH hC' hone
+    exact hone
+
+/-- **Lemma 18 at a maximum, for F₂-clash cycles.** At a maximum of the robust order with (H), no F₂-clash cycle has
+pairwise disjoint labels: by `clean_cycle_one_good` its free agents hold one good, and `no_f1_clashCycle` applies. -/
+theorem no_clean_clashCycle (hgd : goods.Nodup) (hc : R1Core4 v agents goods) (hs : Strict v agents goods)
+    {base : G → Option A} (hmax : IsMaximumR v agents goods base) (hH : CondH v agents goods base)
+    {x : A → A} {d : A → G → Bool} {C : List A} (hC : ClashCycle v agents goods base x d C)
+    (hclean : ∀ o ∈ C, ∀ o' ∈ C, o ≠ o' → ¬ Frozen v agents goods base o → ¬ Frozen v agents goods base o' →
+      ∀ g ∈ goods, base g = none → d o g = true → d o' g = false) : False :=
+  no_f1_clashCycle hgd hc hs hmax hH hC (clean_cycle_one_good hgd hc hs (topR_of_maxR hgd hmax) hH hC hclean)
 
 end clean
 
@@ -507,6 +517,7 @@ end EFX
 #print axioms EFX.DE4.levelR_lt_of_danger
 #print axioms EFX.DE4.eq_of_sum_eq
 #print axioms EFX.DE4.two_le_of_danger
+#print axioms EFX.DE4.clean_cycle_one_good
 #print axioms EFX.DE4.no_clean_clashCycle
 #print axioms EFX.DE4.hc2_of_hx
 #print axioms EFX.DE4.hx_of_hc3'

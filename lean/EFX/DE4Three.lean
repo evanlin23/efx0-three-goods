@@ -104,7 +104,7 @@ theorem claimTMax_tame (hne : agents ≠ []) (hag : agents.Nodup) (hgd : goods.N
       exact hnoup x hx ⟨hfree, p, hp, hN, h2, hgain⟩
     · obtain ⟨i, hi, hJi⟩ : ∃ i ∈ agents, value v i (hold goods base i) < value v i (leftover goods base) :=
         Classical.byContradiction fun hno => hJ fun i hi => Nat.le_of_not_lt fun hlt => hno ⟨i, hi, hlt⟩
-      obtain ⟨x, hx, hup⟩ := threat_at_max hgd hs hc hmax hi hJi
+      obtain ⟨x, hx, hup⟩ := threat_at_max hgd hs hc (topR_of_maxR hgd hmax) hi hJi
       exact hnoup x hx hup
 
 /-- **Every maximum of the robust order of a strict tame R1-core is completable** (machine-checked, no hypothesis):
