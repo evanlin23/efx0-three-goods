@@ -1818,8 +1818,12 @@ first shed goods.
   - graded (`python3 k4/de4/shed_climb2.py`, scoring 3 per single-agent shedding that completes a non-completable
     state near Φ*): 24 rounds from the five failures. The best score is 6, so every non-completable maximum reached
     still has two single-agent sheddings that complete it (`results/k4_de4/shed2c_climb_*.log`). On this hypergraph the
-    goods the robust holders release are valued by nobody else, which is why. Climbs that also change the hypergraph:
-    `shed_climb3.py`, `results/k4_de4/shed2d_climb_*.log`. The rule is not trivially weak: far below Φ*,
+    goods the robust holders release are valued by nobody else, which is why.
+  - changing the hypergraph too (`python3 k4/de4/shed_climb3.py`: a step may swap a good of an agent's set): 48 rounds
+    from the five failures, then 24 from the closest states found (`results/k4_de4/shed2_near.json`). The best score
+    is 3, reached repeatedly: non-completable maxima with exactly one completing single-agent shedding
+    (`results/k4_de4/shed2[def]_climb_*.log`). In the one inspected, it is a holder of {top, d} keeping its top. No
+    counterexample. The rule is not trivially weak: far below Φ*,
   most non-completable states are not shed-completable (6 or more levels below: 20 of 85 in `advt4r`, 2 of 21 in
   random cores, are), while all 7 within 3–5 levels in `advt4r` are, and neither of the 2 in random cores is (`python3 k4/de4/shed_stat.py`,
   `results/k4_de4/shed_stat.log`).
