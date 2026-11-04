@@ -1296,6 +1296,13 @@ are pairwise disjoint by the definition of an F₂-clash cycle. So all labels ar
 (V3)-valid state, against maximality. With Proposition 24 and the Lean frame (`EFX.DE4.target4_of_HC2`: there the
 arcs are tight, which under (H) is the minimality of G), C₃ and HL give TARGET₄.
 
+**Machine-checked** (`lean/EFX/DE4ClaimC3.lean`). Such a cycle moves whole holdings with disjoint labels: Corollary
+10's trade (`EFX.DE4.cycle_trade`). It is valid, no value drops, every agent on the cycle gains, and nothing is
+released, so (V3) holds by Lemma V (`EFX.DE4.lemmaV`). The robust level sum does not drop (Lemma 1(a)). If it rises,
+Lemma R contradicts maximality. Otherwise the state is a (V3)-valid Pareto improvement (`EFX.DE4.no_f1_clashCycle`).
+So `EFX.DE4.hc2_of_hc3`: C₃ for F₂-clash cycles at maxima (`EFX.DE4.HC3`) implies `HC2`. Then
+`EFX.DE4.target4_of_HC3`: **HC3 and HL imply TARGET₄**.
+
 **Toward P1.** Let u hold its lower pair at the largest level sum with (H), with an out-arc (x, D). The holder h of
 a_u is frozen (u wants a_u) and b_u is held by some w (V3).
 - *x = h* is impossible: the 2-cycle h → u → h has one label, and Lemma 18's trade raises the level sum, since u
