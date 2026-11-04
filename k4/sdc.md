@@ -505,3 +505,13 @@ What a proof of NO must add:
 have lost goods can have positive need. So NO at k = 3 is a serial dictatorship that serves the agents that lost
 goods, in order of need, before fresh agents, close to LB's R1 priority. Proving NO at k = 3 with LB⁺'s machinery is
 the natural first step.
+
+**Fresh owners.** Call o *fresh* in NO(o) if no other agent picks a good of o. Every fresh owner found works: 12 on the
+screen set, 31 on the suite. But only 24 of the 332 instances have one (`no_fresh.log`).
+- At k = 3 a fresh owner is provably enough. The order NO(o) is then an R1 run of LB's Phase 1 (agents that lost goods
+  have positive need, fresh ones negative; agents left without goods pick nothing wherever they stand). o is the leader
+  of the last block {o} and the last agent that is not upgraded. So r = o = k*, and LB⁺'s bad case, which needs
+  k* ≠ r, cannot occur (`proofs/lb_last_step.md` Theorem A).
+- At k = 4 the analogue of Theorem A is what is missing.
+- When no owner is fresh, the owner has lost goods to others, and its block structure is that of a deferred R1 agent.
+  That is where a proof of NO must do new work.

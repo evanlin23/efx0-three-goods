@@ -56,3 +56,4 @@ python3 k4/sdc/no_owner.py screen > $L/no_owner.log
 python3 k4/sdc/no_climb.py 1 4 300 40 > $L/no_climb_n4.log
 python3 k4/sdc/no_climb.py 2 5 250 30 > $L/no_climb_n5.log
 (for a in "11 2000 2 6 6" "12 2000 2 8 8" "13 1000 2 10 10" "14 2000 2 7 4"; do python3 k4/sdc/sdc_gen.py $a; done) > $L/sdc_n2_general.log
+(python3 k4/sdc/no_fresh.py screen; python3 k4/sdc/no_fresh.py suite) > $L/no_fresh.log
