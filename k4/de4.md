@@ -1314,10 +1314,22 @@ envied by nobody, and the state is completable (single owner). So **P1 says: at 
 free lower-pair holder is an envy-free single owner.** In particular, a non-completable state of the largest level sum
 with (H) has no lower-pair holder.
 
+**P1 is false** (`python3 k4/de4/refute_p1.py`, independent replay; ledger K4.DE4V3R.P1). It was found by
+`k4/de4/gapsearch.py`, which hill-climbs the values of a fixed core to bring a state of the kind sought up to the
+largest level sum. The counterexample has n = 4, m = 7, J = {0}, and is a maximum with (H):
+- agent 1 holds its lower pair {1, 4};
+- agent 0, a free holder of its b, has its own lower pair {4, 0} as a danger set, made of agent 1's c and the leftover
+  good 0.
+
+The arc is *lateral* (agent 0 would go from b to its lower pair, level 3 to 3: the exception in Lemma 18). The state
+is completable and G has no cycle, so C₃ and HX stand; only the decomposition through P1 fails. What remains of P1 is
+**P1′**: at the largest level sum with (H), every out-arc of a lower-pair holder is lateral. And for C₃ it suffices
+that no lower-pair holder lies on a cycle.
+
 **Conjecture P2.** At a maximum of the robust order with (H), no free holder of a non-robust upper set lies on a cycle
 of G.
 
-**Conjecture C₃** (P1 and P2, with Lemma 25(a)). At a maximum with (H), no cycle of G passes through a free agent
+**Conjecture C₃** (implied by P1′-on-cycles and P2, with Lemma 25(a)). At a maximum with (H), no cycle of G passes through a free agent
 holding two or more goods.
 
 **C₃ implies C₂ at maxima, hence Claim T′ under (H).** An F₂-clash cycle at a maximum with (H) would, by C₃, pass only
