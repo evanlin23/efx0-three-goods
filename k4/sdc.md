@@ -1063,3 +1063,16 @@ the next attempt does not repeat them.
 So the picture of §1 persists inside LB₄ʳ: completable states are reached only by moves that lower some agent's value,
 and neither the deficit nor the base values order the search. What the data support is a bound on the search from a
 good start (K4.SDC.NF), not a potential.
+
+## 18. Stress tests of NF, and NOF at k = 3
+
+- **Seeded climbs against NF** (`nf_lb4r.py climb` with `NFSEEDS`, `NFQ=3`; `nf_lb4r_seeded.log`). Climbs from T3 (n = 3)
+  and Q2 (n = 4), with and without R1, 40 rounds each, maximize the least number of rotations. None reaches three; the
+  instances drift back to zero or one rotation.
+- **Gluing.** Copies of T3 glued through one of agent 0's private goods (n = 6, 9) need no rotation. The shared good
+  changes the run, and one copy's agents serve as the other copy's owner. Forcing more rotations would need gadgets
+  in the style of Proposition H (`k4/c4.md` §7).
+- **NOF at k = 3** (`k4/sdc/nof_k3_climb.py`, `nof_k3_climb.log`). Every agent values exactly three goods, so the
+  neediest-first order is an R1 run of LB's Phase 1. 110 rounds of climbs at n = 3, 4 minimize the number of working
+  NOF candidates, and the minimum stays 1: no counterexample. Proposition D3 proves it in LB⁺'s main bad-case class;
+  the classes with an upgraded agent on the chain, or a chain past r (§10), remain.

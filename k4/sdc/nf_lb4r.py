@@ -7,7 +7,7 @@
     python3 k4/sdc/nf_lb4r.py screen|suite [Q] | files | attempts | cores:FILES N SEED [Q] | SRC N SEED (SRC: rand, hyper,
         advt4x, advt3x, big8, big12 of sdc_rand.py, or gen:n:m:k) | climb SEED n STEPS ROUNDS   [--nor1]
     climb: maximize the least number of rotations (search depth NFQ, default 2; stops at an instance needing NFQ or
-    having no output within NFQ rotations)"""
+    having no output within NFQ rotations); NFSEEDS=FILE (JSON lines [sets, vals]) starts from those instances"""
 import sys, os, json, gzip, random, collections, time
 R1 = '--nor1' not in sys.argv
 if not R1: sys.argv.remove('--nor1')
@@ -49,8 +49,10 @@ if __name__ == '__main__':
         def cost(sets, vals):
             b = least_rotations(sets, vals, 1 + max(max(x) for x in sets), QC)
             return -9 if b is None else -b
+        seeds = [json.loads(l) for l in open(os.environ['NFSEEDS'])] if os.environ.get('NFSEEDS') else None
         for r in range(rounds):
-            sets, vals = start(rng, n); c = cost(sets, vals); best = c
+            sets, vals = start(rng, n) if seeds is None else [list(map(list, x)) for x in rng.choice(seeds)]
+            c = cost(sets, vals); best = c
             for st in range(steps):
                 mu = mutate(sets, vals, rng)
                 if mu is None or len(mu[0]) != n: continue
