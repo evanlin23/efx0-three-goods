@@ -1272,6 +1272,15 @@ worth at most the top and v_o(Y_o) is more.
 **Conjecture P1.** At a (V3)-valid state of the largest level sum with (H), no free holder of its lower pair has an
 out-arc in G: no agent x ≠ u has a minimal danger set inside Y_u ∪ J meeting Y_u.
 
+*P1 as an owner statement.* Under (H), a free agent o has an out-arc in G exactly when some x ≠ o values the goods of
+Y_o ∪ J more than Y_x. These goods are unwanted (o is free; leftover goods are not wanted, by (V1)). So if
+v_x(Y_o ∪ J) > v_x(Y_x), removing goods while the value stays above v_x(Y_x) leaves a danger set D of x. D is not inside J,
+by (H), so it meets Y_o. A danger set of any agent strictly inside D again meets Y_o: it is not one of o's, since
+those lie in J, and it is not inside J. So a smallest one is a minimal arc. If no x envies Y_o ∪ J, then o takes J,
+envied by nobody, and the state is completable (single owner). So **P1 says: at the largest level sum with (H), every
+free lower-pair holder is an envy-free single owner.** In particular, a non-completable state of the largest level sum
+with (H) has no lower-pair holder.
+
 **Conjecture P2.** At a maximum of the robust order with (H), no free holder of a non-robust upper set lies on a cycle
 of G.
 
