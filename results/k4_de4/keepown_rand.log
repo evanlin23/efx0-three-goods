@@ -1,0 +1,4 @@
+$ python3 k4/de4/keepown.py rand 300 2 9200
+      600  instances
+       32  keep-own swap applies, below Phi*: claim holds True
+time 6 s

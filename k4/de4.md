@@ -1634,6 +1634,28 @@ swap's hypotheses hold, the state is valid with the claimed rise: 230 states for
 
 So the state is valid, and its level sum is larger. ∎
 
+**Lemma 31 (the keep-own swap).** Let Y be valid and u hold its lower pair, with {b_u, c_u} an upper set of u. Let b_u
+be held by an agent w in the pair {b_u, a_w}, with w's top. Suppose w threatens no holding of three or more goods with
+v_w(a_w). Let u take {b_u, c_u} and w keep {a_w}, releasing d_u. Then the state is valid, its level sum is not lower,
+and it has one lower-pair holder fewer. So Y is not a maximum of the lower-pair order (with Lemma R).
+
+*Proof.*
+- *Levels.* u goes from 3 to 5 or 6. Y_w is an upper set of w, since it contains the top and is worth more. So w goes
+  from 5 or 6 to 4. The level sum does not drop, and u stops holding a lower pair.
+- *(V1).* u and w now hold an upper set and their top, so they want nothing. Every other agent keeps its holding and
+  its wants. The goods that changed hands (b_u, c_u, d_u, a_w) lay in pairs, so nobody wanted them.
+- *(V2).*
+  - Toward {b_u, c_u}: both goods were unwanted, so each is worth at most an unchanged agent's holding, and at most
+    the top to w.
+  - u only gained.
+  - w now holds its top, so a pair is worth at most that once one good is removed. Holdings of three or more goods are
+    the hypothesis. ∎
+
+Checked by brute force on every (V3)-valid state of the sources of `refine.py` and the adversarial families
+(`python3 k4/de4/keepown.py SOURCE PER JOBS SEED`): 2,078 applications, all valid with the claimed levels, 3 of them at
+the largest level sum (`results/k4_de4/keepown_*.log`). The residual double clashes of `adv_t4.py` are raised this way
+or by the variant in which w's other good is not its top (`resid_raise.py`).
+
 **Where the double clash stands.** Combine Corollary 28 and Lemma 30 at a maximum of the lower-pair order (by
 symmetry). Some frozen agent, say t₁, has its b held outside the clash and D₁ = {c_{t₁}, d_{t₁}}. Then:
 - b_{t₂} is not in J (Corollary 28(b)), and not in Y_{u₁} ∪ Y_{u₂} ∖ {g₁} (Lemma 30(a)).
