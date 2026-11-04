@@ -267,3 +267,73 @@ agent works in 402 (`k4_leader_screen.log`). The other cases also need the order
 Example: c4-exposure-nonleader-n3m5 (n = 3, m = 5), where leader 2 works only if agent 1 goes before agent 0. At k = 3,
 by contrast, nothing depends on that order (`proofs/lb_last_step.md` §1). So at k = 4 the target is SD-C-R1 with the
 whole order chosen, as stated.
+
+## 6. Theorem DT: distinct tops (SD-C's base case, proved)
+
+When the agents' tops are pairwise distinct, the SD outcome is unique (everyone takes its top) and nobody is frozen. In
+that case SD-C has a short proof: one potential and two moves.
+
+**Theorem DT (K4.SDC.DT).** Let every agent value at most four goods (any nonnegative additive values; each agent's
+ranking breaks ties by good index; agents that value nothing are ignored), and let the tops a_i be pairwise distinct.
+Then for every agent o there is an EFX₀ allocation with these properties:
+- every agent holds its top;
+- every bundle other than o's has at most two goods;
+- nobody envies o.
+
+In particular SD-C holds on these instances.
+
+*Proof.* Let J be the goods that are nobody's top. A *matching* M gives some agents i ≠ o one good m_i ∈ J ∩ R_i,
+distinct goods for distinct agents. Let L = J ∖ {m_i}. The allocation X(M) gives X_i = {a_i, m_i} (or {a_i}) to
+i ≠ o and X_o = {a_o} ∪ L. A set S ⊆ R_i is *robust* if v_i(S) ≥ v_i(R_i ∖ S).
+- (F1) Every good is worth at most v_i(a_i) ≤ v_i(X_i) to i.
+- (F2) A bundle of at most two goods threatens nobody: removing one good leaves at most one good, worth at most
+  v_i(X_i) by (F1). So only X_o can threaten, and o itself is never threatened.
+- (F3) A robust holder is never threatened and envies nobody: for every bundle X_j, v_i(X_j) ≤ v_i(R_i ∖ X_i) ≤ v_i(X_i).
+- (F4) {a_i, g} is robust for every g ∈ R_i ∖ {a_i}, with one exception: g = d_i, the last good of a 4-good agent,
+  when v_i(b_i) + v_i(c_i) > v_i(a_i) + v_i(d_i). For 3 goods, a ≥ the remaining good; for 4 goods, {a, b} ≥ {c, d}
+  and {a, c} ≥ {b, d}. An agent with at most two goods is robust already on {a_i}.
+
+Call T ⊆ X_o ∩ R_i with v_i(T) > v_i(X_i) a *danger set of i inside X_o*. If X_o threatens i, then
+T = (X_o ∖ h) ∩ R_i is one, for the h that gives the threat. By (F1), every danger set has at least two goods. If i has
+no danger set inside X_o, then v_i(X_o ∩ R_i) ≤ v_i(X_i), so i does not envy X_o.
+
+Moves, for an agent i ≠ o that is not robust and has a danger set T inside X_o:
+- **(m1)** If i is unmatched: T has at least two goods and at most one of them is a_o, so T contains a good g ∈ L, and
+  g ∈ R_i. Set m_i = g.
+- **(m2)** If i is matched, then by (F4) i is a 4-good agent with m_i = d_i, and its only possible danger set is
+  {b_i, c_i} (each single good is worth at most a_i). So {b_i, c_i} ⊆ X_o. At most one of them is a_o, so one of them
+  lies in L. Rematch i to it; d_i returns to L.
+
+Let π be the number of matched agents i with {a_i, m_i} robust.
+- (m1) raises |M| and does not lower π.
+- (m2) raises π (i becomes robust) and keeps |M|.
+
+So the pair (π, |M|) rises lexicographically at every move, and the moves stop. Afterwards, every agent i ≠ o is robust
+or has no danger set inside X_o. By (F2) and (F3), X(M) is EFX₀ and nobody envies o. ∎
+
+The bound k ≤ 4 is used only in (F4). The construction is run literally, with the raw EFX₀ check, by
+`k4/sdc/dt_check.py`. It covers random instances with 1–4 goods per agent, ties and distinct tops: 29,000 runs, with
+every owner, n = 4, 6, 10, and no assertion fails (`dt_check.log`).
+
+*Relation to Theorem Z* (K4.C4MIN.Z, in Lean). Theorem Z gives an EFX₀ allocation with at most one large bundle
+whenever some valid pre-allocation of `k4/c4x.md` has no frozen agent. That hypothesis holds when tops are distinct.
+Theorem DT is the SD-C form of this case:
+- every agent keeps its top;
+- the owner is arbitrary and unenvied;
+- any instance with at most four relevant goods per agent qualifies (no core assumption);
+- the proof is a few lines.
+
+**The general completion problem, after Theorem DT.** For an arbitrary SD outcome, the same argument handles every agent
+whose pick nobody wants. Two facts carry over:
+- (F2) carries over: a two-good bundle {Y_j, g} with Y_j unwanted and g unpicked threatens nobody, by Lemma 2(c).
+- (m1) and (m2) carry over for unwanted agents. An unwanted b-holder's only possible danger set is {c, d}, and (m1)
+  takes one of them.
+
+What remains are the *frozen* agents, whose pick someone wants. They must stay alone, so they cannot take goods. Their
+danger sets among their own lower goods must not lie inside X_o:
+- {b, c}, {b, d}, {c, d} or {b, c, d} for a frozen top-holder;
+- {c, d} for a frozen b-holder.
+
+Meanwhile the moves of the unwanted agents compete with them for the unpicked goods. So for a fixed order, SD-C's
+completion problem is a covering problem about frozen agents only. This is the k = 4 form of LB⁺'s exposed frozen
+leader (`proofs/lb_last_step.md` §4), and the order has to be chosen against it.
