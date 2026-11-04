@@ -344,6 +344,33 @@ theorem target4_of_conjNOFK (I : Inst) (hn : 0 < I.n) {r1 : Bool} (h : ConjNOFK 
     (hk : ∀ i, numRelevant I i ≤ 4) : ∃ X : I.Alloc, I.EFX0 X :=
   target4_of_conjSDCK I hn (conjSDCK_of_conjNOFK h) hk
 
+/-- **LB₄ʳ with the neediest-first Phase 1** (ledger K4.SDC.NF1, `k4/sdc.md` §16): for every strict profile of every
+k = 4 core, the state of the neediest-first run (with R1 priority if `r1`), after a run of upgrades of some policy and
+at most `d` rotations (`EFX.LB4R.RotReach`), has an output.  This is LB₄ʳ's `Succeeds` with Phase 1 replaced by the
+neediest-first run.  The data refute `r1 = true, d = 1` and support `r1 = false, d = 1`. -/
+def ConjNFR (A G : Type) [DecidableEq A] [DecidableEq G] (r1 : Bool) (d : Nat) : Prop :=
+  ∀ (agents : List A) (goods : List G) (v : A → G → Nat), agents.Nodup → goods.Nodup → IsCore4 v agents goods →
+    Strict v agents goods →
+      ∃ (pol : Policy) (s₁ s : LState A G) (o : Option A) (X : G → A),
+        UpRun v agents goods pol (runState (sdList v (nofOrder v agents goods r1) goods)) s₁ ∧
+        RotReach v agents goods d s₁ s ∧ Output v agents goods s o X
+
+/-- **LB₄ʳ with the neediest-first Phase 1 ⟹ C₄∃**: the run's state satisfies the invariant (`runState_inv`), upgrades
+and rotations keep it (`upRun_inv`, `rotReach_inv`), and every output is then a sound completion. -/
+theorem C4exists_of_conjNFR {r1 : Bool} {d : Nat} (h : ConjNFR A G r1 d) : TheoremC4exists A G := by
+  intro agents goods v hag hgd hc hs
+  obtain ⟨pol, s₁, s, o, X, hup, hrot, hout⟩ := h agents goods v hag hgd hc hs
+  have hperm := nofOrder_perm v agents goods r1
+  have hR : RunSpec v agents goods agents.length (sdList v (nofOrder v agents goods r1) goods) :=
+    runSpec_of_perm (sdList_spec v _ goods (hperm.nodup_iff.mpr hag) hgd) hperm
+  have hinv := rotReach_inv hgd hrot (upRun_inv hup (runState_inv hR hgd))
+  exact ⟨s.base, needsOf v goods s, o, X, hinv.sound hout⟩
+
+/-- **LB₄ʳ with the neediest-first Phase 1 and at most `d` rotations ⟹ TARGET₄.** -/
+theorem target4_of_conjNFR (I : Inst) (hn : 0 < I.n) {r1 : Bool} {d : Nat} (h : ConjNFR (Fin I.n) (Fin I.m) r1 d)
+    (hk : ∀ i, numRelevant I i ≤ 4) : ∃ X : I.Alloc, I.EFX0 X :=
+  target4_of_C4exists I hn (C4exists_of_conjNFR h) hk
+
 end NOF
 end EFX
 
@@ -353,3 +380,5 @@ end EFX
 #print axioms EFX.NOF.C4exists_of_conjSDCK
 #print axioms EFX.NOF.target4_of_conjSDCK
 #print axioms EFX.NOF.target4_of_conjNOFK
+#print axioms EFX.NOF.C4exists_of_conjNFR
+#print axioms EFX.NOF.target4_of_conjNFR

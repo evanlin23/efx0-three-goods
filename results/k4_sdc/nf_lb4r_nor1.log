@@ -1,0 +1,64 @@
+$ python3 k4/sdc/nf_lb4r.py screen --nor1
+instances 168
+least rotations: 0 149
+least rotations: 1 19
+time 1 s
+$ python3 k4/sdc/nf_lb4r.py attempts --nor1
+NEEDS 2 T3 [[[5, 0, 4, 2], [3, 1, 4], [4, 1, 3, 0]], [[1, 38, 36, 6], [12, 22, 30], [28, 20, 12, 38]]]
+NEEDS 2 T3-climb [[[5, 0, 4, 2], [3, 1, 4], [4, 1, 3, 0]], [[1, 19, 18, 3], [6, 11, 15], [14, 10, 6, 19]]]
+instances 8
+least rotations: 0 6
+least rotations: 2 2
+time 0 s
+$ python3 k4/sdc/nf_lb4r.py suite --nor1
+instances 164
+least rotations: 0 145
+least rotations: 1 19
+time 2 s
+$ python3 k4/sdc/nf_lb4r.py files --nor1
+instances 92
+least rotations: 0 92
+time 6 s
+$ python3 k4/sdc/nf_lb4r.py cores:k4_certs_2.json.gz,k4_certs_3.json.gz 20000 33 2 --nor1
+instances 20000
+least rotations: 0 19898
+least rotations: 1 102
+time 22 s
+$ python3 k4/sdc/nf_lb4r.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 20000 31 2 --nor1
+instances 20000
+least rotations: 0 19921
+least rotations: 1 79
+time 35 s
+$ python3 k4/sdc/nf_lb4r.py cores:k4_certs_5_n4_1.json.gz,k4_certs_5_n4_2.json.gz 6000 32 2 --nor1
+instances 6000
+least rotations: 0 5985
+least rotations: 1 15
+time 14 s
+$ python3 k4/sdc/nf_lb4r.py rand 300 5 1 --nor1
+instances 300
+least rotations: 0 299
+least rotations: 1 1
+time 1 s
+$ python3 k4/sdc/nf_lb4r.py hyper 300 5 1 --nor1
+instances 300
+least rotations: 0 299
+least rotations: 1 1
+time 1 s
+$ python3 k4/sdc/nf_lb4r.py advt4x 300 5 1 --nor1
+instances 300
+least rotations: 0 299
+least rotations: 1 1
+time 3 s
+$ python3 k4/sdc/nf_lb4r.py advt3x 300 5 1 --nor1
+instances 300
+least rotations: 0 299
+least rotations: 1 1
+time 3 s
+$ python3 k4/sdc/nf_lb4r.py big8 300 5 1 --nor1
+instances 300
+least rotations: 0 300
+time 4 s
+$ python3 k4/sdc/nf_lb4r.py big12 300 5 1 --nor1
+instances 300
+least rotations: 0 300
+time 40 s

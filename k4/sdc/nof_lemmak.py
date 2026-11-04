@@ -5,7 +5,7 @@ the LB4r state with these picks, run need-shrinking upgrades ('shrink') or envy-
   (K) is Lemma K's deficit <= 0?
 Compared with plain extendability (any completion, SAT).
 
-    python3 k4/sdc/nof_lemmak.py screen|suite|cores:FILES N SEED"""
+    python3 k4/sdc/nof_lemmak.py screen|suite|cores:FILES N SEED [--nor1]   (--nor1: the order without R1 priority)"""
 import sys, os, collections
 import _paths
 sys.path.insert(0, os.path.join(_paths.ROOT, 'k4'))
@@ -37,8 +37,10 @@ def certify(inst, Y):
 
 
 if __name__ == '__main__':
+    R1 = '--nor1' not in sys.argv
+    if not R1: sys.argv.remove('--nor1')
     src = sys.argv[1]; C = collections.Counter()
-    print('$ python3 k4/sdc/nof_lemmak.py', *sys.argv[1:])
+    print('$ python3 k4/sdc/nof_lemmak.py', *sys.argv[1:], '' if R1 else '--nor1')
     if src.startswith('cores:'):
         import json, gzip, random
         N, seed = int(sys.argv[2]), int(sys.argv[3]); rng = random.Random(seed); items = []
@@ -55,7 +57,7 @@ if __name__ == '__main__':
     for name, sets, vals, m in items:
         if len(sets) > 9: continue
         E = Enc(sets, vals, m); inst = RM.make_inst(sets, vals)
-        Y0, pi = rule_order(E, 'need2', True)
+        Y0, pi = rule_order(E, 'need2', R1)
         cands = [('plain', Y0)] + [('defer %d' % o, sd(E, [i for i in pi if i != o] + [o])[0]) for o in pi]
         C['instances'] += 1
         ext_plain = completable(E, Y0)

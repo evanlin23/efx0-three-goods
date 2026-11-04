@@ -82,6 +82,14 @@ recomputed by enumerating every order and every complete allocation against the 
 
 **4. What a proof must do** (§4): choose the order. Lemma 2 states the feasibility question for a fixed order.
 
+**5. Later status (§9–§16).** The explicit forms NO and NOF ("neediest first, then one owner or one deferral") held on
+large data sets but are refuted by T3 (n = 3, m = 6) and, in their R1 forms, also by Q2 (n = 4, m = 8) (§16). What
+survives:
+- SD-C itself;
+- Proposition D4 (a deferral is an LB₄ʳ rotation in the main class);
+- LB₄ʳ with the neediest-first Phase 1, which needs at most two rotations on all data (K4.SDC.NF), with its Lean frame
+  ConjNFR ⟹ TARGET₄.
+
 ## 1. P1 is false (K4.SDC.P1)
 
 GM4-E (`k4/de4/gm4_counterexample.py`; a connected k = 4 core with a strict profile):
@@ -888,3 +896,133 @@ deferral works.
 - The count closes owner-free on all data. What fails is only the owner's place.
 - (B₄) is LB⁺'s Theorem B with k* defined through W_r and its need chain, not as a leader. The class with upgraded
   agents on the chain needs the adaptation of §10 at k = 4 as well.
+
+## 16. NO and NOF are refuted; a deferral is a rotation; LB₄ʳ with the neediest-first Phase 1
+
+**Two counterexamples** (both replayed from the definitions by brute force in `k4/sdc/refute_nofl.py`,
+`refute_nofl.log`).
+
+*Q2* (n = 4, m = 8; the core of `attempts/k4-rulef-bigtop-first.md` that refuted a big-top rule for LB₄ʳ):
+- sets [[0,1,3,4],[2,3,6,7],[2,5,7],[4,5,6,7]], values [[2,3,10,6],[2,8,3,4],[2,4,3],[4,8,2,3]].
+- The neediest-first R1 order is 0, 1, 2, 3. Neither its picks nor those of any order with one agent deferred extend.
+- R1 priority forces agent 1, which lost good 3, ahead of agent 3, whose need is larger. Without R1 the order is
+  0, 3, 2, 1 and its picks extend.
+- So **NOF-R1 is refuted (K4.SDC.NOF.R1)**, and with it **NOF-K (K4.SDC.NOF.K)**, which uses the R1 order: no
+  candidate extends, so none has an output.
+
+*T3* (n = 3, m = 6; a strict k = 4 core found by the adversarial climb of `k4/sdc/nf_lb4r.py`, values rescaled to make
+the profile strict):
+
+| agent | goods (value) |
+|---|---|
+| 0 | 0 (38), 4 (36), 2 (6), 5 (1) |
+| 1 | 4 (30), 1 (22), 3 (12) |
+| 2 | 0 (38), 4 (28), 1 (20), 3 (12) |
+
+- Of the six orders, only 2, 0, 1 has picks that extend. There agent 2 takes good 0, agent 0 takes good 4, agent 1
+  takes good 1, and for example ({4, 2, 5}, {1, 3}, {0}) is EFX₀.
+- The neediest-first order (with or without R1) puts agent 0 first: needs −2, −2, −5, ties by index. Then agent 0 takes
+  its top 0, agent 1 its top 4, and agent 2 good 1.
+- No candidate of NOF extends, and no owner of NO works. So **Conjecture NO (K4.SDC.NO) and Conjecture NOF (K4.SDC.NOF)
+  are refuted.**
+
+The agent that must go first is the one of *least* need: agent 2 has the largest gap between its top and its second
+good (38 against 28), while agent 0 barely prefers its top (38 against 36). The need score y₁ − y₂ − y₃ does not see
+this. SD-C and its R1 form still hold on T3: 2, 0, 1 is an R1 order with insertion choice 2.
+
+**What stays true.** The lemmas about the order are unaffected:
+- Lemma N (contests in the neediest-first order) and Lemma N′;
+- Lemma DC;
+- Proposition D3;
+- Theorem DT and the characterization.
+
+So do the Lean frames: they are implications, and ConjNOFK is now known to be false for both values of `r1`.
+
+**Proposition D4: in the main class a deferral is a rotation** (K4.SDC.D4, written proof). Let π be any order,
+Y = SD(π), and P the LB₄ʳ state of Y after a run of upgrades. P satisfies `EFX.LB4R.Inv` (`EFX.NOF.runState_inv`,
+`EFX.LB4R.upRun_inv`). Every base of P contains its agent's pick: an upgrade adds one junk good to an unmarked agent's
+one-good base. Let k be an agent that is FrozenAt in P, and let c = (k = j₀, j₁, …, j_t) be the displacement chain of
+Lemma DC for π_k (π with k moved last). Let y be k's pick in SD(π_k). Suppose:
+- (R1) t ≥ 1; j₀, …, j_{t−1} are FrozenAt in P; Y_{j_i} ∈ N_{j_{i+1}} (P's needs) for i < t; j_t is not FrozenAt; and
+  no j_i is marked.
+- (R2) y ∈ R_k ∩ (J ∪ B_{j_t}), J the junk of P.
+
+Let O be a set with y ∈ O ⊆ R_k ∩ (J ∪ B_{j_t}) for which P′ := rotate(P, c, O) passes `RotChecks`. Then P → P′ is a
+`RotStep`, and every output X of P′ is an EFX₀ allocation in which every agent holds its SD(π_k) pick. In particular,
+if some such P′ has an output, SD(π_k) extends.
+
+*Proof.*
+1. *P → P′ is a `RotStep`.* c consists of distinct agents (each j_{i+1} comes after j_i in π) and has at least two.
+   The chain condition is (R1): an unmarked agent's pick is its base (`Inv.unmarked`), and its P-pick is Y. O is
+   nonempty (y ∈ O) and lies in R_k ∩ (J ∪ B_{j_t}), and `RotChecks` holds by assumption.
+2. *Outputs are EFX₀.* By `EFX.LB4R.rotStep_inv`, P′ satisfies `Inv`, so every output is a sound completion
+   (`Inv.sound`). By Theorem 1′₄ it is EFX₀.
+3. *The picks are in the bases of P′.* By Lemma DC, SD(π_k) gives:
+   - j_i (1 ≤ i ≤ t) the good Y_{j_{i−1}};
+   - k the good y;
+   - every other agent its pick in Y.
+
+   `rotate` moves a base good of j_i (i < t) to j_{i+1}, returns j_t's base to the junk, gives O to k, and leaves every
+   other base unchanged. The chain agents are unmarked, so their bases in P are {Y_{j_i}}. Hence:
+   - base′(j_i) = {Y_{j_{i−1}}} for 1 ≤ i ≤ t;
+   - base′(k) = O ∋ y;
+   - an agent off the chain keeps a base that contains its pick, and no good of O came from it, since O ⊆ J ∪ B_{j_t}.
+
+   y is not an upgraded agent's second good, because those goods are not in J.
+4. *Conclusion.* An output is a `Completion` of P′, so every bundle contains its agent's base, hence its SD(π_k)
+   pick. ∎
+
+D4 makes Lemma KR (K4.RF.KR, in Lean) the counting tool for a deferral. It is the k = 4 form of Proposition D3, which
+also required the chain to avoid upgraded agents. `k4/sdc/nof_d4.py` (`nof_d4*.log`) checks it on every plain-run
+failure. For each frozen k it tests whether the deferral is a rotation ((R1), (R2)) and whether some rotated state has
+an output (exact SAT test of `Output`):
+
+| plain-run failures | screen | suite | random n ≤ 3 | n = 4 | n = 5 |
+|---|---|---|---|---|---|
+| R1 order: repaired by a deferral that D4 certifies | 8 of 11 | 8 of 10 | 84 of 92 | 71 of 71 | 13 of 13 |
+| order without R1 | | | 85 of 91 | 74 of 74 | 15 of 15 |
+
+The uncertified cases all have an upgraded agent on the displacement chain. This is §10's class at k = 3, and D3 had
+the same restriction.
+
+**LB₄ʳ with the neediest-first Phase 1** (`k4/sdc/nf_lb4r.py`, `nf_lb4r_*.log`; K4.SDC.NF). Build LB₄ʳ's state from the
+picks of the neediest-first order, run the upgrades of a policy, then up to d rotations (every `RotStep`, PR #33's
+model `k4/c4_verify_H/lb4r.py`), and test for an output. The table gives the least number of rotations needed.
+
+| data | R1 order: 0 / 1 / 2 | without R1: 0 / 1 / 2 |
+|---|---|---|
+| screen set (168) | 153 / 15 / 0 | 149 / 19 / 0 |
+| suite (164, n ≤ 26) | 146 / 15 / 0 (161 with n ≤ 9) | 145 / 19 / 0 |
+| the 92 file instances (DE4 refutations, H₂–H₅, HH₃, HH₄) | 92 / 0 / 0 | 92 / 0 / 0 |
+| 20,000 random n ≤ 3, 20,000 n = 4, 6,000 n = 5 core profiles | none needs 2 | none needs 2 |
+| instances of the random generators (300 each of rand, hyper, advt4x, advt3x, big8, and big12 without R1) | 1,500: none needs 2 | 1,800: none needs 2 |
+| the special instances (T3, Q2, r4253, r3943, the rule-F refutations) | Q2 needs 2, T3 needs 1 | T3 needs 2 (and its unscaled climb form) |
+
+The first column is with R1 priority, the second without.
+
+LB₄ʳ with index insertion needs more than three rotations on H₅ (K4.C4.R), and rule F fails on HH₃ (K4.AD.F). With the
+neediest-first Phase 1 both need none, and nothing tested needs more than two. The rotation counts come from a single
+implementation, PR #33's independent model of the Lean definitions. Adversarial climbs for an instance needing three
+rotations found none (`nf_lb4r_climb*.log`; they rarely reach two).
+
+The Lean frame takes this form directly (`lean/EFX/NOF.lean`, K4.SDC.NF.LEAN): `EFX.NOF.ConjNFR r1 d` is the
+statement, and `EFX.NOF.target4_of_conjNFR` proves ConjNFR ⟹ TARGET₄. The proof is the invariant chain
+`runState_inv` → `upRun_inv` → `rotReach_inv`, then `Inv.sound`.
+
+**Other order rules** (`k4/sdc/nof_var.py`, `nof_var.log`; evidence only, recorded so that the next attempt does not
+repeat it). Every "need score plus one move" rule tested fails somewhere except three:
+- "y₁ − y₂ (regret) first, plain or with one agent moved to the end";
+- the same with one agent moved to either end;
+- need2 with one agent moved to either end.
+
+These hold on T3, Q2, r4253, r3943, the screen set, the suite, 6,000 random n ≤ 3 and 5,000 n = 4 core profiles.
+- Moving one agent to the front alone fails for every score, on 2 to 9 instances per data set.
+- needall with one deferral fails on lb4-fixed-insertion-n3m6.
+
+Rules of this kind have been refuted one after another (§8, §9, K4.SDC.SEL, K4.SDC.LOCAL, now NO and NOF). So none of
+them is put forward as a conjecture.
+
+**Where this leaves the plan.**
+- The neediest-first *order* is not canonical: T3 refutes every "neediest first plus one deferral" statement.
+- The neediest-first *start* still makes LB₄ʳ short. By D4, its rotations are the deferrals in the main class, and
+  Lemma KR's count is how a proof would bound them.
