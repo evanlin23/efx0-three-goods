@@ -77,3 +77,19 @@ python3 k4/sdc/nof_climb.py 2 5 250 30 > $L/nof_climb_n5.log
 (python3 k4/sdc/nof_lemmak.py screen; python3 k4/sdc/nof_lemmak.py suite; python3 k4/sdc/nof_lemmak.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 3000 5) > $L/nof_lemmak.log
 (python3 k4/sdc/lemma_n_check.py screen; python3 k4/sdc/lemma_n_check.py screen --r1; python3 k4/sdc/lemma_n_check.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 4000 6) > $L/lemma_n_check.log
 (python3 k4/sdc/comp_check.py screen; python3 k4/sdc/comp_check.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 4000 6) > $L/comp_check.log
+# §15: the owner-free count, the plain-run failures, NOF-L and LB+'s k*
+python3 k4/sdc/blocks4.py screen > $L/blocks4_screen.log; python3 k4/sdc/blocks4.py suite > $L/blocks4_suite.log; python3 k4/sdc/blocks4.py screen none > $L/blocks4_screen_none.log
+python3 k4/sdc/blocks4.py cores:k4_certs_2.json.gz,k4_certs_3.json.gz 4000 13 > $L/blocks4_n3.log; python3 k4/sdc/blocks4.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 4000 11 > $L/blocks4_n4.log; python3 k4/sdc/blocks4.py cores:k4_certs_5_n4_1.json.gz,k4_certs_5_n4_2.json.gz 1500 12 > $L/blocks4_n5.log
+python3 k4/sdc/blocks4r.py screen > $L/blocks4r_screen.log
+python3 k4/sdc/blocks4j.py screen > $L/blocks4j_screen.log; python3 k4/sdc/blocks4j.py suite > $L/blocks4j_suite.log
+python3 k4/sdc/blocks4j.py cores:k4_certs_2.json.gz,k4_certs_3.json.gz 6000 23 > $L/blocks4j_n3.log; python3 k4/sdc/blocks4j.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 6000 21 > $L/blocks4j_n4.log; python3 k4/sdc/blocks4j.py cores:k4_certs_5_n4_1.json.gz,k4_certs_5_n4_2.json.gz 3000 22 > $L/blocks4j_n5.log
+python3 k4/sdc/blocks4j.py screen none > $L/blocks4j_none_screen.log; python3 k4/sdc/blocks4j.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 6000 21 none > $L/blocks4j_none_n4.log; python3 k4/sdc/blocks4j.py cores:k4_certs_5_n4_1.json.gz,k4_certs_5_n4_2.json.gz 3000 22 none > $L/blocks4j_none_n5.log
+python3 k4/sdc/blocks_hand.py > $L/blocks_hand.log
+python3 k4/sdc/nof_bad.py screen > $L/nof_bad_screen.log; python3 k4/sdc/nof_bad.py suite > $L/nof_bad_suite.log
+python3 k4/sdc/nof_bad.py cores:k4_certs_2.json.gz,k4_certs_3.json.gz 6000 23 > $L/nof_bad_n3.log; python3 k4/sdc/nof_bad.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 6000 21 > $L/nof_bad_n4.log; python3 k4/sdc/nof_bad.py cores:k4_certs_5_n4_1.json.gz,k4_certs_5_n4_2.json.gz 3000 22 > $L/nof_bad_n5.log
+python3 k4/sdc/nof_kstar.py screen > $L/nof_kstar_screen.log; python3 k4/sdc/nof_kstar.py suite > $L/nof_kstar_suite.log
+python3 k4/sdc/nof_kstar.py cores:k4_certs_2.json.gz,k4_certs_3.json.gz 20000 33 > $L/nof_kstar_n3.log; python3 k4/sdc/nof_kstar.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 20000 31 > $L/nof_kstar_n4.log; python3 k4/sdc/nof_kstar.py cores:k4_certs_5_n4_1.json.gz,k4_certs_5_n4_2.json.gz 6000 32 > $L/nof_kstar_n5.log
+(python3 k4/sdc/nofl.py screen; python3 k4/sdc/nofl.py suite; python3 k4/sdc/nofl.py cores:k4_certs_2.json.gz,k4_certs_3.json.gz 20000 33) > $L/nofl.log; python3 k4/sdc/nofl_files.py > $L/nofl_files.log
+python3 k4/sdc/nofl.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 40000 41 > $L/nofl_n4.log; python3 k4/sdc/nofl.py cores:k4_certs_5_n4_1.json.gz,k4_certs_5_n4_2.json.gz 12000 42 > $L/nofl_n5.log
+python3 k4/sdc/nofl.py climb 44 3 400 60 > $L/nofl_climb_n3.log; python3 k4/sdc/nofl.py climb 43 4 400 40 > $L/nofl_climb_n4.log
+python3 k4/sdc/refute_nofl.py > $L/refute_nofl.log

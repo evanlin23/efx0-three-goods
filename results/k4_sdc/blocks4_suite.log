@@ -1,0 +1,15 @@
+$ python3 k4/sdc/blocks4.py suite
+K-not-P c4x-n3m8-leximin sets [[0, 2, 5, 6], [1, 4, 5, 7], [3, 6, 7]] vals [[2, 3, 8, 4], [3, 4, 8, 2], [3, 2, 4]] pi [0, 1, 2] Y [5, 4, 7] blocks {0: 0, 1: 0, 2: 1}
+   owner 1 per-block (need, places, own) [(1, 0, True), (1, 1, False)] global 0
+   owner 2 per-block (need, places, own) [(2, 1, False), (0, 0, True)] global 1
+(P') ... owner's block short by <= 1 161
+(P) every block self-sufficient, some owner 137
+Lemma K (K = empty) deficit <= 0 or omega <= 0 138
+instances 161
+omega <= 0 48
+omega > 0: (P) 89
+omega > 0: Lemma K 90
+omega > 0: Lemma K but not (P) 1
+omega > 0: least number of short blocks = 0 89
+omega > 0: least number of short blocks = 1 24
+plain extends 151

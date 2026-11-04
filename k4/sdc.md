@@ -782,3 +782,109 @@ compensable at the time (need(j) ≤ 0). The compensation is still intact at the
 So (A₄) must count frozen agents whose losers' compensation broke later. The plain run still extends on about 99.6% of
 profiles, so the count works out in practice. Proving that it does is the open step. The natural form: charge each
 broken compensation to the agent that took z₂ or z₃, which then holds a good j values and lies on j's need chain.
+
+## 15. Where the plain run fails: only at the owner step, and LB⁺'s k* at k = 4
+
+**The owner-free count.** Take the plain neediest-first R1 run π and LB₄ʳ's state after need-shrinking upgrades. Let J be
+the unpicked goods. Call x *J-threatened* if the owner's bundle, holding J ∩ R_x and some good x does not value, would
+strongly envy-threaten x: v_x(J ∩ R_x) > v_x(base(x)). Three facts need no case analysis.
+1. *An upgraded agent u is never J-threatened.* u took its best unpicked good g (the eligibility condition of a
+   shrink upgrade is monotone in v_u(g), and `up_run` takes the most valuable eligible good). Its other unpicked goods
+   are at most two, each worth at most v_u(g), and each worth less than Y_u, since it was available at u's turn. So
+   their total is less than v_u(Y_u) + v_u(g).
+2. *A free J-threatened agent x with a one-good base is protected by its own best unpicked good* (self-service, using
+   its own slot place). The same argument applies.
+3. *An agent without a pick values no unpicked good.* All its goods were gone at its turn, and unpicked goods are never
+   picked.
+
+So the only agents that need places of others are the *frozen* J-threatened ones. For a block B, let
+d(B) = places(B) − need(B), with Lemma K's least service of B's J-threatened agents (sharing allowed inside B) and every
+slot place of B's agents counted (`k4/sdc/blocks4j.py`).
+
+| data | blocks with d(B) < 0 (need-shrinking upgrades) | without upgrades |
+|---|---|---|
+| screen set (168), suite (161) | 0, 0 | 0 (screen) |
+| 6,000 random n ≤ 3 core profiles, 6,000 n = 4, 3,000 n = 5 | 0, 0, 0 | –, 46, 7 |
+
+(`blocks4j_*.log`, `blocks4j_none_*.log`.) Without the upgrades, which are Lemma N's compensations, the count fails in
+some blocks.
+
+**The per-block form is false nonetheless** (`k4/sdc/blocks_hand.py`, `blocks_hand.log`). Take the strict core with
+n = 3, m = 8:
+- agent 0 values goods 0, 1, 2, 3 at 18, 8, 7, 6;
+- agent 1 values goods 0, 4, 5, 6 at 16, 8, 6, 4;
+- agent 2 values goods 7, 5, 3 at 10, 7, 5.
+
+The run:
+1. Agent 0 has need 3, agent 1 has need 2, so agent 0 takes good 0.
+2. Agent 1 has lost good 0 and takes good 4.
+3. A new block starts, and agent 2 takes good 7.
+
+Block 0 = {0, 1}:
+- Agent 0 is frozen, since agent 1 prefers good 0 (16) to good 4 (8). It is J-threatened, since 8 + 7 + 6 > 18.
+- Agent 1 is free and J-threatened, since 6 + 4 > 8. It is not compensable: 8 + 6 < 16.
+- The only place in block 0 is agent 1's. Agent 0 needs one of goods 1, 2, 3 kept out, and agent 1 needs one of goods
+  5, 6. These sets are disjoint, so block 0 needs two places and has one.
+
+The plain run still extends. Agent 2's self-service good can be good 3, which also breaks agent 0's danger set. So the
+count must be global, with sharing across blocks. This is LB⁺'s "two π-sets meet", now between blocks. The random
+profiles never produce this case, but it is a core.
+
+**Every failure of the plain run is an owner-step failure** (`k4/sdc/nof_bad.py`, `nof_bad_*.log`). This covers 82 plain
+runs that do not extend: 11 screen, 10 suite, and 24 + 27 + 10 random profiles with n ≤ 3, n = 4 and n = 5. In every one:
+- ω > 0, so an owner is needed;
+- every block has d(B) ≥ 0, and the owner-free surplus is 0 or 1;
+- the best owner's Lemma K deficit (K = ∅) is exactly 1, except in one case with 2 (n = 4, sets
+  [[0,3,4,7],[1,3,6],[2,5,6,7],[4,5,7]], values [[6,10,2,7],[2,4,3],[7,10,2,6],[2,3,4]]);
+- the working deferrals all lie in the last block B*.
+
+So the plain run fails exactly when choosing the owner costs a place that the count cannot spare. That is LB⁺'s bad
+case, where the owner r takes the terminal of k*'s chain.
+
+**NOF-L is refuted (K4.SDC.NOFL).** The two-candidate rule "the plain run, or the run with the last frozen block leader
+deferred" generalizes LB⁺'s k* = leader of B* literally. It holds on:
+- the screen set (11 repairs) and the suite (10 repairs);
+- the 92 instances of `nofl_files.log`;
+- 20,000 random n ≤ 3 core profiles (92 repairs);
+- adversarial climbs at n = 3, 4 (`nofl_climb_*.log`, no counterexample).
+
+It fails on one of 40,000 random n = 4 profiles and one of 12,000 n = 5 profiles (`nofl_n4.log`, `nofl_n5.log`). Both
+are replayed from the definitions by brute force in `k4/sdc/refute_nofl.py` (`refute_nofl.log`).
+- n = 4: sets [[0,2,5,6],[1,4,6],[2,3,4,5],[3,4,5,6]], values [[2,4,10,7],[2,4,3],[4,5,8,2],[2,6,10,7]].
+  - The order is 0, 2, 3, 1, all one block. Only the deferral of agent 2, the second agent, works.
+  - Agent 2 is frozen (agent 1 needs good 4) and threatened by its unpicked goods 2, 3. Its need chain ends at
+    r = agent 1, the owner.
+- n = 5: sets [[0,1,3,4],[2,3,4,5],[2,3,6],[2,5,6],[4,5,6]], values [[6,4,1,8],[6,8,5,4],[3,4,2],[4,2,3],[4,2,3]].
+  - The order is 2, 0, 1, 3, 4. Only the deferrals of agents 0 and 1 work.
+  - Agent 0 is the frozen agent threatened by W_r, with its chain ending at r = 4.
+
+NOF itself holds on both.
+
+**LB⁺'s k* at k = 4** (`k4/sdc/nof_kstar.py`, `nof_kstar_*.log`). In both counterexamples, the agent to defer is LB⁺'s
+k* in its *defining* form rather than its k = 3 position:
+- it is the frozen agent threatened by the owner's bundle W_r = J ∪ base(r);
+- its need chain ends at r;
+- at k = 3 it is the leader of B* ((A3)); at k = 4 it need not be a leader.
+
+| | n ≤ 3 (20,000) | n = 4 (20,000) | n = 5 (6,000) | screen |
+|---|---|---|---|---|
+| plain-run failures | 92 | 71 | 13 | 11 |
+| exactly one frozen agent threatened by W_r | 86 | 63 | 12 | 10 |
+| deferring the first such agent works | 87 | 71 | 13 | 10 |
+
+The exceptions:
+- In three n ≤ 3 cases and in D3 (screen), no frozen agent is threatened by W_r. In D3 the short agent is an *upgraded*
+  agent threatened through the owner's pick Y_r, its old top, which it stopped needing when it upgraded. This is
+  exactly §10's k = 3 class of chains through upgraded agents. There the leader of B*, frozen, works.
+- In two n ≤ 3 cases, the first such agent fails, and another deferral works.
+
+So no single explicit choice of k* survives every test, as at k = 3 (§10). The clean statement remains NOF: some one
+deferral works.
+
+**What this does to the proof plan.**
+- (A₄) is a global count with sharing, not a sum of block counts. Its inputs are the facts above (only frozen
+  J-threatened agents need others' places), Lemma N′ (the non-compensable ones are fresh and cost one), and LB₄ʳ's
+  shrink upgrades for the compensable ones.
+- The count closes owner-free on all data. What fails is only the owner's place.
+- (B₄) is LB⁺'s Theorem B with k* defined through W_r and its need chain, not as a leader. The class with upgraded
+  agents on the chain needs the adaptation of §10 at k = 4 as well.
