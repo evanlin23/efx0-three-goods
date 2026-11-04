@@ -11,7 +11,7 @@ and counts those maxima that are not completable (leftover goods that cannot all
 SAT). 'any' counts the instances where no state of level sum Phi* is completable at all.
 
     python3 k4/de4/refine.py SOURCE PER JOBS SEED
-SOURCE: advt0..advt3, advt3x, advt4x (adv_t.py, adv_t3.py, adv_t4.py), rand (dead.random_r1), xhg, hyper (stuck hypergraphs), screen,
+SOURCE: advt0..advt3, advt3x, advt4x, advt4c, advt4l (adv_t.py, adv_t3.py, adv_t4.py, adv_t4.py with cross=True or lop=True), rand (dead.random_r1), xhg, hyper (stuck hypergraphs), screen,
 json:FILE (a list of [sets, values, ...] instances, e.g. the double-clash instances of the hill-climbs)."""
 import sys, os, json, random, collections, multiprocessing as mp, time
 HERE = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.dirname(os.path.dirname(HERE))
@@ -86,7 +86,7 @@ def job(args):
     for _ in range(per):
         if src.startswith('advt'):
             import adv_t, adv_t3, adv_t4
-            I = adv_t3.make(rng) if src == 'advt3x' else adv_t4.make(rng) if src == 'advt4x' else adv_t.make(rng, int(src[4:]))
+            I = adv_t3.make(rng) if src == 'advt3x' else adv_t4.make(rng) if src == 'advt4x' else adv_t4.make(rng, cross=True) if src == 'advt4c' else adv_t4.make(rng, lop=True) if src == 'advt4l' else adv_t.make(rng, int(src[4:]))
             if I is None:
                 continue
         elif src == 'rand':

@@ -1592,6 +1592,59 @@ lowest goods are worth more than its top. The shared good j is one of them, and 
 A danger set is worth more than t₁'s holding, the top, so it has two goods. So D₁ = {c_{t₁}, d_{t₁}}, and D₁ meets
 Y_{u₂} and contains j. ∎
 
+**Lemma 30 (the cross and lopsided swaps).** Take GM4-B's double clash of Corollary 28(d) at a valid state. t₁ holds
+its top a_{u₁}, and its danger set is D₁ = {c_{t₁}, d_{t₁}} = {j, g₁} with j ∈ J and g₁ ∈ Y_{u₂}. Both moves below hand
+u₁ and u₂ their tops and t₁ the pair D₁, and release the rest of the two lower pairs.
+- (a) *Cross swap.* If b_{t₂} lies in Y_{u₁} ∪ Y_{u₂} and b_{t₂} ≠ g₁, let t₂ take {b_{t₂}}. The state is valid and its
+  level sum is larger by 2.
+- (b) *Lopsided swap.* Suppose D₂ = {c_{t₂}, d_{t₂}} with c_{t₂} ∈ Y_{u₁} and d_{t₂} = j, and b_{t₂} is held alone. Let
+  t₂ take {c_{t₂}}. The state is valid and its level sum is larger by 1.
+
+Neither needs the lower-pair order. Both contradict the largest level sum (with Lemma R for (V3)).
+Checked by brute force (`python3 k4/de4/crossswap.py SOURCE PER JOBS SEED`, EVIDENCE for the proof). On every double
+clash of the families `advt4c` and `advt4l` of `adv_t4.py` (built so that (a), respectively (b), applies) where a
+swap's hypotheses hold, the state is valid with the claimed rise: 230 states for (a) and 353 for (b)
+(`results/k4_de4/crossswap_*.log`).
+
+*Proof.*
+- *t₁'s new holding.* D₁ is worth more than t₁'s top and each of its goods less, so it is an upper set. It is not robust,
+  since v(a) + v(b) > v(c) + v(d). So t₁ rises from 4 to 5.
+- *Levels.* u₁ and u₂ rise from 3 to 4. In (a), t₂ drops from its top to its b, from 4 to 3: in all, +2. In (b), t₂
+  drops to its c, from 4 to 2: in all, +1.
+- *(V1).* u₁ and u₂ hold their tops and t₁ an upper set, so none of them wants anything.
+  - In (a), t₂ wants only its top, now held alone by u₂.
+  - In (b), t₂ wants its top (held alone by u₂) and b_{t₂} (held alone by assumption). It does not want j = d_{t₂}.
+  - Every other agent keeps its holding and its wants. A good it wanted was held alone in Y. If its holder was t₁ or t₂,
+    the good is a_{u₁} or a_{u₂}, now held alone by u₁ or u₂.
+  - The goods that move into pairs or out of holdings (j, g₁, and the released goods) lay in J or in pairs, so nobody
+    wanted them.
+- *(V2).*
+  - Singletons threaten nobody.
+  - D₁'s goods were unwanted, so for every agent other than t₂, the value of either good alone is at most that
+    agent's holding (u₁ and u₂ now hold their tops). For t₂: in (a), neither good is a_{t₂} or b_{t₂}, so each is worth at
+    most v(b_{t₂}). In (b), v_{t₂}(j) = v(d_{t₂}) < v(c_{t₂}), and g₁ is not one of t₂'s goods (its goods are a_{t₂},
+    b_{t₂}, c_{t₂} ∈ Y_{u₁} and j).
+  - Unchanged holdings: unchanged agents compare as before. u₁ and u₂ only gained. t₁ is worth v(c) + v(d) > v(a) > v(b),
+    and any other holding contains at most b_{t₁} among t₁'s goods.
+  - t₂ in (b): every holding other than t₁'s holds at most one of t₂'s goods, a single good, so θ = 0.
+  - t₂ in (a): t₂'s goods are a_{t₂} (with u₂), b_{t₂} (its own), j (with t₁) and one more good g. So any other holding
+    contains at most g, worth at most v(b_{t₂}).
+
+So the state is valid, and its level sum is larger. ∎
+
+**Where the double clash stands.** Combine Corollary 28 and Lemma 30 at a maximum of the lower-pair order (by
+symmetry). Some frozen agent, say t₁, has its b held outside the clash and D₁ = {c_{t₁}, d_{t₁}}. Then:
+- b_{t₂} is not in J (Corollary 28(b)), and not in Y_{u₁} ∪ Y_{u₂} ∖ {g₁} (Lemma 30(a)).
+- So b_{t₂} = g₁, or b_{t₂} too is held outside. In both cases D₂ = {c_{t₂}, d_{t₂}} = {j, g₂} with g₂ ∈ Y_{u₁} (the
+  argument of Corollary 28(d)).
+- By Lemma 30(b) and its mirror: for each i, if b_{tᵢ} is held alone, then j = c_{tᵢ}.
+
+So in what is left, both frozen agents' lowest pairs {c, d} are upper sets made of j and a good of the other
+lower-pair holder. Each frozen agent's b is held in a holding of two or more goods outside the clash, or is the good the
+other frozen agent needs (b_{t₂} = g₁), or is held alone with j as its c. In the data these states occur only below the
+largest level sum (`topswap.py`, `resid_raise.py`). There, a holder of the b of u₁ or u₂ trades it, so the raise
+reaches outside the clash: u takes b_u and keeps c_u, or t takes {j, b_t} from b_t's holder.
+
 **Lemma 29 (case (L) in the lower-pair order; machine-checked, `EFX.DE4.selfUp_at_maxLP`).** At a maximum of the
 lower-pair order, every free self-upgrade of at most two goods (Lemma 4′) takes the agent's lower pair, from a holding
 of level 3: a free b-holder x with c_x, d_x leftover takes {c_x, d_x}.
