@@ -1395,6 +1395,18 @@ a cycle.
   - the 5 unclean ones all lie below the largest level sum, all have the shape "two non-robust {b, c} holders, each
     taking its top from the other and the same leftover d", and keep-one resolves each.
 
+**Searching for counterexamples by hill-climbing** (`MODE=... python3 k4/de4/gapsearch.py SEED STEPS ROUNDS SOURCE`).
+For a fixed hypergraph, the search perturbs the values one at a time. It keeps a change when the gap does not grow:
+the largest level sum minus the best level sum of a state of the kind sought. This found the counterexamples to P1 and
+P1′, which random sampling had missed. For the open statements it never reached gap 0 (scratch copies of the
+runs, `results/k4_de4/gapsearch_*.log`):
+
+| statement | sources | rounds | best gap |
+|---|---|---|---|
+| Claim T (non-completable, not all-upper) | n = 4 cores with three 4-good agents; the adversarial family `advt0` | 50 | 1 |
+| C₃ (a cycle of G through a free holder of two or more goods, with (H)) | xhg; n = 4 cores with two 4-good agents | 110 | 1 |
+| HX (an unclean F₂-clash cycle, with (H)) | the 75 instances with unclean cycles of the shape catalogue | 7 | 3 |
+
 **Lemma 26 (keep-one replacement).** Let Y be (V3)-valid with (H), and C an F₂-clash cycle of G. Let K be a set of
 free upper-set holders o on C such that:
 - the predecessor p of o hands o a set containing o's top a_o, with a_o ∈ Y_p (p is free, Lemma 25(c));

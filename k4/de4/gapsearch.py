@@ -5,10 +5,13 @@ gap(I) = Phi* minus the largest level sum of a (V3)-valid state of the kind soug
   MODE=claimT  non-completable, not all-upper, with leftover goods (gap 0: a counterexample to Claim T);
   MODE=p1      with (H) and an out-arc of a free lower-pair holder (gap 0: a counterexample to P1);
   MODE=p1r     the same with a non-lateral out-arc (the taker is not a free holder of its b taking its lower pair);
-  MODE=hx      with (H) and an unclean F2-clash cycle (gap 0 at a maximum: a counterexample to HX).
+  MODE=hx      with (H) and an unclean F2-clash cycle (gap 0 at a maximum: a counterexample to HX);
+  MODE=c3      with (H) and a cycle of G through a free agent holding two or more goods (Conjecture C3).
+States within 1 of the largest level sum at the end of a round are printed as NEAR.
 Random values; then single-value perturbations are kept when the gap does not grow.
 
-    MODE=... python3 k4/de4/gapsearch.py SEED STEPS ROUNDS SOURCE     SOURCE: xhg, dnc, or a core file under results/"""
+    MODE=... python3 k4/de4/gapsearch.py SEED STEPS ROUNDS SOURCE     SOURCE: xhg, dnc, advt0..advt3, advt3x
+(seeded from adv_t.py / adv_t3.py), unclean (seeded from the JSON list in $UNCLEAN), or a core file under results/"""
 import sys, os, json, random, time
 HERE = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.dirname(os.path.dirname(HERE))
 sys.path.insert(0, HERE)
@@ -39,6 +42,8 @@ def bad(I, Y):
             x = a[1]; r = I.ranked(x)
             return (not CT.frozen(Y, x, W) and len(r) == 4 and list(Y[x]) == [r[1]] and set(a[2]) == {r[2], r[3]})
         return any(not CT.frozen(Y, a[0], W) and S.types(I, a[0], list(Y[a[0]])) == 'LP' and not lateral(a) for a in arcs)
+    if MODE == 'c3':
+        return any(any(not CT.frozen(Y, a[0], W) and len(Y[a[0]]) >= 2 for a in c) for c in CD.cycles(I, arcs, I.n))
     for c in CD.cycles(I, arcs, I.n):
         if not CD.f2_clash_only(I, Y, J, W, c): continue
         lab = [g for a in c for g in set(a[2]) & J]
@@ -62,8 +67,13 @@ def gap(I):
             return P - p, Y, P
     return 99, None, P
 
-def climb(sets, m, rng, steps, tag):
-    for tries in range(300):
+def climb(sets, m, rng, steps, tag, start=None):
+    if start is not None:
+        vals = [list(v) for v in start]
+        I = Inst(sets, vals, m)
+        g, Y, P = gap(I)
+        if g >= 99: return 99
+    for tries in range(0 if start is not None else 300):
         vals = []
         for s in sets:
             while True:
@@ -75,7 +85,7 @@ def climb(sets, m, rng, steps, tag):
         g, Y, P = gap(I)
         if g < 99: break
     else:
-        return 99
+        if start is None: return 99
     for step in range(steps):
         i = rng.randrange(len(sets)); k = rng.randrange(len(sets[i]))
         nv = [list(v) for v in vals]
@@ -88,12 +98,16 @@ def climb(sets, m, rng, steps, tag):
             if g == 0:
                 print('COUNTEREXAMPLE', tag, json.dumps((sets, vals, [list(a) for a in Y])), flush=True)
                 return 0
+    if g <= 1 and Y is not None:
+        print('NEAR', g, tag, json.dumps((sets, vals, [list(a) for a in Y])), flush=True)
     return g
 
 if __name__ == '__main__':
     seed, steps, rounds, src = int(sys.argv[1]), int(sys.argv[2]), int(sys.argv[3]), sys.argv[4]
     rng = random.Random(seed)
-    if src == 'dnc':
+    if src.startswith('advt') or src == 'unclean':
+        pool = None
+    elif src == 'dnc':
         pool = [([[0, 2, 4, 5], [1, 3, 6, 7], [1, 4, 8, 10], [0, 7, 8, 9], [0, 2, 7, 9], [1, 3, 9, 10]], 11)]
     elif src == 'xhg':
         pool = [(s, 1 + max(max(a) for a in s)) for s in CD.XHG]
@@ -103,8 +117,21 @@ if __name__ == '__main__':
     from collections import Counter
     C = Counter(); t0 = time.time()
     for r in range(rounds):
-        sets, m = rng.choice(pool)
-        g = climb(sets, m, rng, steps, src)
+        if src == 'unclean':
+            data = json.load(open(os.environ['UNCLEAN']))
+            sets, vals0, key = rng.choice(data)
+            m = 1 + max(max(s_) for s_ in sets)
+            g = climb(sets, m, rng, steps, src + ':' + key, start=vals0)
+        elif src.startswith('advt'):
+            import adv_t, adv_t3
+            I0 = None
+            while I0 is None:
+                I0 = adv_t3.make(rng) if src == 'advt3x' else adv_t.make(rng, int(src[4:]))
+            g = climb(I0.sets, I0.m if hasattr(I0, 'm') else 1 + max(max(s) for s in I0.sets), rng, steps, src,
+                      start=[[I0.v[i][g_] for g_ in I0.sets[i]] for i in range(I0.n)])
+        else:
+            sets, m = rng.choice(pool)
+            g = climb(sets, m, rng, steps, src)
         C[g] += 1
         print('round', r, 'final gap', g, 'time %.0f' % (time.time() - t0), flush=True)
     print('gaps', sorted(C.items()))
