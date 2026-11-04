@@ -31,6 +31,7 @@ import EFX.DE4ClaimC2
 import EFX.DE4Repair
 import EFX.DE4ClaimC3
 import EFX.DE4CaseL
+import EFX.DE4Three
 import EFX.RealValues
 import EFX.Audit
 import EFX.PreAllocK
