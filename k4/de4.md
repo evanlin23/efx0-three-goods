@@ -1051,7 +1051,7 @@ This subsection restates what is left of Claim T′ in terms of cycles of an arc
 - It proves the tools that resolve all the cycles met in the random data: Theorem 23, Lemma 20′ and Lemma 20(d).
 - It shows that non-completability enters only through Lemma 8.
 - It refutes two natural strengthenings: Conjecture C, and Conjecture D, the cycle-by-cycle form of Conjecture A″.
-- It leaves Conjecture C₂ (and D for non-completable states) open.
+- It refutes D for non-completable states (D_nc) too, and leaves Conjecture C₂ open.
 
 **The arc graph.** For a state Y, G has an arc o → x taking T when:
 - o is frozen and x wants o's good (T = Y_o: a *want arc*), or
@@ -1193,9 +1193,18 @@ and > 0 exactly when {a_y, d} is robust. At a maximum, therefore, no such y has 
   strong Claim T, under (H). Its refuted strengthening D shows that its proof must combine the cycle moves
   (Lemma 18, Theorem 23, the b-swaps) with local exclusions at the largest level sum: Lemma 20, Lemma 20(d) and the
   simple moves of (H).
-- **Conjecture D_nc**: D for non-completable states, which is what Claim T′ uses (with Proposition 24, a pointer
-  cycle of a non-completable maximum would be resolved). All counterexamples to D found are completable, and every
-  non-completable sampled state was resolved.
+- **Conjecture D_nc (refuted)**: D for non-completable states, which is what Claim T′ would use (with Proposition 24,
+  a pointer cycle of a non-completable maximum would be resolved).
+  - It is false (`python3 k4/de4/refute_dnc.py`, independent replay; n = 6, m = 11). The instance is GM4-B's clash
+    with no free agent holding one good: the b's of the two lower-pair holders are the tops of robust pairs. The
+    state is non-completable and satisfies (H), its only cycle has the double clash, and no b-swap and no keep-own of
+    Lemma 20(d) applies.
+  - It is not a maximum. The raise is a path: the lower-pair holder takes its top and keeps its c, forming {a, c},
+    which is always robust (+3). The frozen holder takes its b from J and a good from a robust holder, which keeps its
+    top (−2).
+  - So each counterexample to a cycle-by-cycle statement (GM4-B, D, D_nc) is resolved by a different local move: a
+    b-swap, Lemma 20(d), and this path. A proof of C₂ (or of Claim T′ directly) seems to need a general exchange
+    theorem, of Hall or König type, for paths and cycles of these moves, rather than a fixed list of them.
 - The open cases inside these:
   - a clash between two arcs without same-giver alternatives. Their takers are a free holder of b, a frozen holder of
     its top whose take from the giver misses its b, or a frozen holder of b whose take misses its c. Seen on GM4-B
