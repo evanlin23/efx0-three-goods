@@ -26,7 +26,8 @@ threatened by J alone, no free self-upgrade and no Lemma 4 move).
         Conjecture D on every F2-clash cycle of every (V3)-valid (H) state: Lemma 18, Theorem 23 or a b-swap applies
 
 SOURCE: 'screen' (PER, JOBS ignored), 'rand' (dead.random_r1), 'hyper' (the stuck hypergraphs), 'xhg' (the seven
-hypergraphs on which states with no clean pointer cycle were found, k4/de4.md §10.1), or core files under results/."""
+hypergraphs on which states with no clean pointer cycle were found, k4/de4.md §10.1), 'advt0'..'advt3' and 'advt3x' (the
+adversarial families of adv_t.py with that many extra goods, and of adv_t3.py), or core files under results/."""
 import sys, os, json, random, collections, itertools, multiprocessing as mp
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))
@@ -365,6 +366,8 @@ MODES = {'lpkeep': run_lpkeep, 'c2': run_c2, 'c3': run_c3, 'thm23': run_thm23, '
 
 def job(args):
     mode, src, per, seed = args
+    if src.startswith('advt'):
+        return job_adv(mode, src, per, seed)
     rng = random.Random(seed)
     C, ex = collections.Counter(), []
     f = MODES[mode]
@@ -386,6 +389,20 @@ def job(args):
         I = random_r1(rng) if cores is None else Inst(*(lambda s: (s, random_profile(s, rng)))(rng.choice(cores)))
         C['profiles'] += 1
         f(I, C, ex, '')
+    return C, ex
+
+
+def job_adv(mode, src, per, seed):
+    """the adversarial families of adv_t.py ('advt0'..'advt3': NEXTRA extra goods) and adv_t3.py ('advt3x')"""
+    import adv_t, adv_t3
+    rng = random.Random(seed)
+    C, ex = collections.Counter(), []
+    for _ in range(per):
+        I = adv_t3.make(rng) if src == 'advt3x' else adv_t.make(rng, int(src[4:]))
+        if I is None:
+            continue
+        C['profiles'] += 1
+        MODES[mode](I, C, ex, src)
     return C, ex
 
 
