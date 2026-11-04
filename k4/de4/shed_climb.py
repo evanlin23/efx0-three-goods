@@ -1,7 +1,7 @@
 """Hill-climbing against shed-completability (k4/de4.md §10.5; ledger K4.DE4V3R.SHED). EVIDENCE only.
 
 gap(Y) = 10 (Phi* - Phi(Y)) + (1 if Y is value-Pareto-dominated among (V3)-valid states of its level sum) for (V3)-valid
-states Y that are not shed-completable (shed.py); gap(I) is the least, 99 if none lies within 5 of Phi*. gap 0 is a
+states Y that are not shed-completable (shed.py; SHED=top or SHED=broad); gap(I) is the least, 99 if none lies within 5 of Phi*. gap 0 is a
 maximum of the robust order that is not shed-completable: a counterexample. Climbs as refine_climb.py.
 
     python3 k4/de4/shed_climb.py SEED STEPS ROUNDS SOURCE      (SOURCE as in refine_climb.py)"""
@@ -45,7 +45,7 @@ RC.gap = gap
 if __name__ == '__main__':
     seed, steps, rounds, src = int(sys.argv[1]), int(sys.argv[2]), int(sys.argv[3]), sys.argv[4]
     rng = random.Random(seed)
-    print('$ python3 k4/de4/shed_climb.py', ' '.join(sys.argv[1:]), flush=True)
+    print('$ SHED=%s python3 k4/de4/shed_climb.py %s' % (SH.MODE, ' '.join(sys.argv[1:])), flush=True)
     data = json.load(open(src[5:])) if src.startswith('json:') else None
     if isinstance(data, dict):
         data = data['instances']

@@ -1776,7 +1776,7 @@ first shed goods.
   [[4,10,8,3], [4,8,10,3]], maximum [{0,3}, {1,2}]; and 3 more instances (`results/k4_de4/refine2_utop4_screen.log`).
   It also breaks Lemma 1(a) (value and level agree), since {a, d} can be worth more than {b, c} at a lower level.
   Rejected.
-- *Weakening the finishing rule* (ledger K4.DE4V3R.SHED, CONJECTURE). A state is **shed-completable** if, after some
+- *Weakening the finishing rule* (ledger K4.DE4V3R.SHED, refuted below). A state is **shed-completable** if, after some
   holders of an upper set containing their top keep the top alone, it has an EFX₀ completion. This is weaker than
   completable, still gives an EFX₀ allocation, and keeps the robust order and every lemma of §10. All three known
   non-completable maxima of the robust order (`results/k4_de4/robust_failures.json`: `refute_rob.py`, `refute_lp.py`,
@@ -1784,12 +1784,22 @@ first shed goods.
   `results/k4_de4/shed_*.log`). So is the lower-pair maximum of `refute_lp.py`. Every exhaustive run of §10 had all
   states of the largest level sum completable, so the conjecture passes those runs.
   - **Conjecture K4.DE4V3R.SHED**: every maximum of the robust order is shed-completable.
-  - **Machine-checked frame** (`lean/EFX/DE4Shed.lean`, ledger K4.DE4V3R.LEANSH): K4.DE4V3R.SHED ⟹ TARGET₄
+  - **Machine-checked frame** (`lean/EFX/DE4Shed.lean`, ledger K4.DE4V3R.LEANSH, now with the broad rule below):
+    shed-completability ⟹ TARGET₄
     (`EFX.DE4.target4_of_conjShed`). Every lemma of the robust frame uses only non-completability, which
     non-shed-completability implies. So **TARGET₄ ⟸ HXShed + HLLShed** (`EFX.DE4.target4_of_HXShed_HLLShed`), where these
     are HX and HLL restricted to maxima that are not shed-completable. Neither known counterexample refutes them, since
     both are shed-completable.
-  - Hill-climbing against it: `python3 k4/de4/shed_climb.py SEED STEPS ROUNDS SOURCE` (`results/k4_de4/shed_climb_*.log`).
+  - Hill-climbing against it (`python3 k4/de4/shed_climb.py SEED STEPS ROUNDS SOURCE`) **refuted it**
+    (`python3 k4/de4/refute_shed.py`, an independent replay; ledger K4.DE4V3R.SHED, REFUTED). On the hypergraph of
+    `refute_lp.py`, with values [[37,23,17,11], [36,19,16,4], [35,34,21,31], [18,14,9,15], [35,33,18], [27,25,15]],
+    the robust maximum [{4,5}, {6,7}, {1}, {0}, {2,9}, {3,10}] is not completable. No agent holds an upper set
+    containing its top, so no shedding is possible. But agent 4 keeping 2 (its b) alone does complete it.
+- *The broad finishing rule* (ledger K4.DE4V3R.SHED2, CONJECTURE): some agents holding two or more goods each keep one
+  good of their holding alone, then the state has an EFX₀ completion (`SHED=broad python3 k4/de4/shed.py`). All five
+  known non-completable maxima of the robust order (`results/k4_de4/robust_failures.json`) pass. The Lean frame
+  (`lean/EFX/DE4Shed.lean`) uses this broad definition: **TARGET₄ ⟸ HXShed + HLLShed**, and K4.DE4V3R.SHED2 ⟹ TARGET₄.
+  Hill-climbs against it: `results/k4_de4/shed2_climb_*.log`.
 
 ## 6. Reproduce
 

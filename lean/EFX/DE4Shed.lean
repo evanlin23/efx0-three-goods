@@ -1,25 +1,25 @@
 import EFX.DE4Lemma18
 
 /-!
-# Shed-completability: the robust frame with a weaker finishing rule (`k4/de4.md` §10.5; ledger K4.DE4V3R.SHED)
+# Shed-completability: the robust frame with a weaker finishing rule (`k4/de4.md` §10.5; ledger K4.DE4V3R.SHED2)
 
 Every tie-break of the robust order fails (`k4/de4/refute_lp.py`): the largest robust level sum can be reached by a
-single non-completable state. In all known such states the completion only needs some holders of an upper set that
-contains their top to keep the top alone (and release the rest). A state is *shed-completable* if, after such
-sheddings, it has an EFX₀ completion. That still gives an EFX₀ allocation, and it is all a frame needs: every lemma of
+single non-completable state. In all known such states the completion only needs some agents to keep one good of their
+holding alone (and release the rest). A state is *shed-completable* if, after such sheddings, it has an EFX₀
+completion. That still gives an EFX₀ allocation, and it is all a frame needs: every lemma of
 the robust frame uses only non-completability, which non-shed-completability implies.
 
 **Results.**
 - `ShedCompletable`, `shed_of_completable`, `exists_efx0_of_shed`.
-- `ConjShed` (**Conjecture K4.DE4V3R.SHED**, a hypothesis, never an axiom: every maximum of the robust order is
+- `ConjShed` (**Conjecture K4.DE4V3R.SHED2**, a hypothesis, never an axiom: every maximum of the robust order is
   shed-completable) and `target4_of_conjShed`.
 - `ClaimTMaxShed`, `conjShed_of_claimTMaxShed` (Theorem A′).
 - `HC2Shed`, `HLShed`, `claimTMaxShed_of_HC2Shed` (Corollary 5(b), Proposition 24).
 - `HXShed` (at a maximum of the robust order that is not shed-completable, with (H), every F₂-clash cycle is clean),
   `hc2shed_of_hxshed` (Lemma 18).
 - `HLLShed` (Claim T′ in case (L) there), `hlshed_of_hllshed` (Lemma 4 at a maximum).
-- `target4_of_HXShed_HLLShed`: **HXShed and HLLShed imply TARGET₄.** The two refuting instances of the robust order and
-  of the lower-pair order are shed-completable, so neither refutes these hypotheses.
+- `target4_of_HXShed_HLLShed`: **HXShed and HLLShed imply TARGET₄.** The five known non-completable maxima of the robust
+  order (`results/k4_de4/robust_failures.json`) are shed-completable, so none refutes these hypotheses.
 -/
 
 set_option autoImplicit false
@@ -29,12 +29,12 @@ namespace DE4
 
 variable {A G : Type} [DecidableEq A] [DecidableEq G]
 
-/-- `base` is shed-completable: some holders of an upper set containing their top keep the top alone (every other
-agent keeps its holding), and the result has an EFX₀ completion. -/
+/-- `base` is shed-completable: some agents keep one good of their holding alone (every other agent keeps its
+holding), and the result has an EFX₀ completion. (Keeping the top of an upper set alone, K4.DE4V3R.SHED, is the special
+case refuted by `k4/de4/refute_shed.py`; this is the broad form K4.DE4V3R.SHED2.) -/
 def ShedCompletable (v : A → G → Nat) (agents : List A) (goods : List G) (base : G → Option A) : Prop :=
   ∃ base' : G → Option A, (∀ g j, base' g = some j → base g = some j) ∧
-    (∀ i ∈ agents, hold goods base' i = hold goods base i ∨
-      (IsUpper v i goods (hold goods base i) ∧ ∃ a, hold goods base' i = [a] ∧ v i a = topV v i goods)) ∧
+    (∀ i ∈ agents, hold goods base' i = hold goods base i ∨ ∃ a ∈ hold goods base i, hold goods base' i = [a]) ∧
     Completable v agents goods base'
 
 section shed
@@ -51,14 +51,14 @@ theorem exists_efx0_of_shed {base : G → Option A} (h : ShedCompletable v agent
 
 end shed
 
-/-- **Conjecture K4.DE4V3R.SHED** (a hypothesis, never an axiom): every maximum of the robust order is
+/-- **Conjecture K4.DE4V3R.SHED2** (a hypothesis, never an axiom): every maximum of the robust order is
 shed-completable. -/
 def ConjShed (A G : Type) [DecidableEq A] [DecidableEq G] : Prop :=
   ∀ (v : A → G → Nat) (agents : List A) (goods : List G), agents ≠ [] → agents.Nodup → goods.Nodup →
     R1Core4 v agents goods → Strict v agents goods →
     ∀ base, IsMaximumR v agents goods base → ShedCompletable v agents goods base
 
-/-- **Conjecture K4.DE4V3R.SHED implies TARGET₄** (with K4.CORE and K4.TIE, as in Lemma 3). -/
+/-- **Conjecture K4.DE4V3R.SHED2 implies TARGET₄** (with K4.CORE and K4.TIE, as in Lemma 3). -/
 theorem target4_of_conjShed (I : Inst) (hn : 0 < I.n) (h : ConjShed (Fin I.n) (Fin I.m))
     (h4 : ∀ i, numRelevant I i ≤ 4) : ∃ X : I.Alloc, I.EFX0 X :=
   target4_of_strict_cores I hn I.n (Nat.le_refl _)
