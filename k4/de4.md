@@ -1301,6 +1301,12 @@ moves:
 - an agent holding its b alone that adds one good of u's pair (+2, u keeps the other, −1 or −2);
 - chains through w.
 
+P1 is not local to u, x, h and w (`python3 k4/de4/lploc.py SOURCE PER JOBS SEED`). Of 556 such out-arcs, 553 have
+a raise that changes only these agents: 519 with two of them, 34 with three. The other 3 need a fifth agent. In two
+of them, a robust holder gives up one good and keeps its top (−2), as Theorem A′'s losers do. In the third, the only
+raises are unrelated to u: a 2-cycle elsewhere. A proof of P1 therefore needs Theorem A′'s loser rule inside a chain,
+the same kind of exchange step that the refutations of D and D_nc call for.
+
 **Evidence** (EVIDENCE; `python3 k4/de4/claimd.py c3 SOURCE PER JOBS SEED`, the sources and parameters of `c2`; and
 `python3 k4/de4/lpout.py SOURCE PER JOBS SEED`):
 
@@ -1308,6 +1314,7 @@ moves:
 |---|---|---|---|
 | `claimd.py c3` | every free holder of two or more goods at every (V3)-valid state of the largest level sum with (H) | Lemma 25 holds for all 39,244 (LP 82, non-robust upper 4,422, robust 34,740). No lower-pair holder has an out-arc (P1). 40 non-robust upper holders have both in-arcs and out-arcs, and none lies on a cycle (P2). No robust holder has an in-arc. So no cycle of G passes through a free holder of two or more goods (C₃), at the largest level sum and at the maxima | `results/k4_de4/claimd_c3_*.log` |
 | `lpout.py` | every (V3)-valid (H) state in which a lower-pair holder has an out-arc | 465 states (screen 30, random 98, xhg 170, stuck hypergraphs 167), none of the largest level sum (P1). Every one has a raise; the smallest changes 2 agents in 436, 3 in 27, 4 in 2. The taker is the frozen holder of a_u (2-cycle) or the holder of b_u in most | `results/k4_de4/lpout_*.log` |
+| `lploc.py` | every out-arc of a lower-pair holder at a (V3)-valid (H) state: the smallest raise changing only u, x, h and w | 556 arcs: 2 agents 519, 3 agents 34, none 3 (a fifth agent is needed) | `results/k4_de4/lploc_*.log` |
 
 ## 6. Reproduce
 

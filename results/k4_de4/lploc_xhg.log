@@ -1,0 +1,31 @@
+$ python3 k4/de4/lploc.py xhg 300 8 12
+      1     other-taker sig h:Fa>b[b<J](-1) ; u:cd>Fa[a<h](+1) ; x:a>ad*[a<o,d<u](+2)
+      1     other-taker sig h:Fa>bc*[b<J,c<u](+2) ; u:cd>Fa[a<h](+1)
+      1     other-taker sig h:Fa>bc*[b<u,c<x](+2) ; u:cd>Fa[a<h](+1) ; x:b>cd[c<J,d<u](+0)
+      1     other-taker sig h:Fa>bc*[b<x,c<J](+2) ; u:cd>Fa[a<h](+1) ; x:bc>a[a<u](-1)
+      1     other-taker sig h:Fa>bc[b<J,c<w](+1) ; w:c>Fb[b<h](+1)
+      1     other-taker sig h:Fa>bc[b<u,c<J](+1) ; u:cd>Fa[a<h](+1)
+      1     other-taker sig h:Fa>bc[b<w,c<J](+1) ; w:c>Fb[b<h](+1)
+      1     other-taker sig h:Fa>bd[b<u,d<w](+1) ; u:cd>Fa[a<h](+1) ; w:ac*>bc[b<u,c<o](-1)
+      1     other-taker sig h:Fb>Fa[a<x](+1) ; u:cd>Fa[a<h](+1) ; x:Fa>b[b<J](-1)
+      2     other-taker sig h:Fb>Fa[a<x](+1) ; u:cd>Fa[a<h](+1) ; x:Fa>b[b<u](-1)
+      1     other-taker sig h:Fb>Fa[a<x](+1) ; x:Fb>Fa[a<h](+1)
+      2     other-taker sig h:Fc>Fa[a<x](+2) ; u:cd>Fa[a<h](+1) ; x:Fa>b[b<u](-1)
+      1     other-taker sig h:Fc>Fb[b<w](+1) ; u:cd>Fa[a<h](+1) ; w:Fa>b[b<J](-1)
+      1     other-taker sig u:cd>Fb[b<w](+0) ; w:Fa>bc*[b<J,c<x](+2) ; x:bc>a[a<u](-1)
+      1     other-taker sig u:cd>Fb[b<w](+0) ; w:Fa>cd[c<u,d<J](+1)
+      1     other-taker sig u:cd>b[b<w](+0) ; w:ad>ac*[a<o,c<u](+1)
+      1     other-taker sig u:cd>bc*[b<w,c<o](+3) ; w:ab*>a[a<o](-2)
+      1     other-taker sig u:cd>bc*[b<w,c<o](+3) ; w:ac*>a[a<o](-2)
+      1     other-taker sig u:cd>bc*[b<w,c<o](+3) ; w:ac*>cd[c<o,d<u](-1)
+      1     other-taker sig u:cd>bc[b<w,c<o](+2) ; w:bc*>ac*[a<u,c<o](+0)
+      1     other-taker sig u:cd>bc[b<w,c<o](+2) ; w:bc*>cd[c<o,d<u](-1)
+      1     other-taker sig u:cd>bc[b<w,c<o](+2) ; w:cd>b[b<u](+0)
+      1     other-taker sig u:cd>bd[b<w,d<o](+2) ; w:bc*>bd[b<o,d<u](-1)
+      1     other-taker sig u:cd>bd[b<w,d<o](+2) ; w:bc>bd[b<o,d<u](+0)
+      1     other-taker sig u:cd>c[c<o](-1) ; x:b>bc*[b<o,c<u](+3)
+      1     other-taker sig u:cd>c[c<o](-1) ; x:b>bc[b<o,c<u](+2)
+    140  LP out-arc, taker h: local raise among {u,x,h,w} 2
+     17  LP out-arc, taker other: local raise among {u,x,h,w} 2
+     11  LP out-arc, taker other: local raise among {u,x,h,w} 3
+     37  LP out-arc, taker w: local raise among {u,x,h,w} 2
