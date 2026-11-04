@@ -1,0 +1,6 @@
+$ python3 k4/de4/refine.py rand 1000 8 5000
+     8000  instances
+    15634  lp     maxima
+    15668  pareto maxima
+     8331  sum    maxima
+time 125 s

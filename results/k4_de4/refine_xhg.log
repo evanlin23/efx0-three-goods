@@ -1,0 +1,6 @@
+$ python3 k4/de4/refine.py xhg 500 8 3000
+     4000  instances
+     6675  lp     maxima
+     6713  pareto maxima
+     4445  sum    maxima
+time 20 s

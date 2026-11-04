@@ -1551,7 +1551,12 @@ good g. Take an agent y ∉ {t₁, u₁} holding three or more goods.
 
 The same holds for t₂. ∎
 
-*Machine-checked:* nothing of this subsection yet. Lemma R's decrease of `numLP` is in the existing proof.
+*Machine-checked* (`lean/EFX/DE4LowerPair.lean`):
+- the lower-pair order (`EFX.DE4.BetterLP`, `EFX.DE4.IsMaximumLP`) and the existence of its maxima (`EFX.DE4.exists_maximumLP`);
+- Lemma R counting lower pairs (`EFX.DE4.exists_validV3_numLP`), so a maximum has the largest robust level sum among all valid states (`EFX.DE4.potentialR_le_of_maxLP`);
+- **Lemma 27** (`EFX.DE4.top_swap`, hypotheses `EFX.DE4.TopSwapHyp`) and Corollary 28(a) (`EFX.DE4.not_maxLP_of_top_swap`: no maximum of the lower-pair order admits a top swap).
+
+Corollary 28(b) is written only.
 
 **What is left of the double clash.** By Corollary 28, a double clash at a maximum of the lower-pair order has both
 frozen agents' b's held, and its shared good j is a c or d of both. The swap then needs a third agent: the holder of
@@ -1565,7 +1570,7 @@ Together with the transfer of the Lean frame above, these would give TARGET₄.
 
 | script | what | result | logs |
 |---|---|---|---|
-| `refine.py` | the maxima of the three orders (total value, lower-pair, value-Pareto) on the 75 instances with unclean cycles (`results/k4_de4/unclean_cycles.json`), the screen set, and the adversarial family `advt3x` (2,696 instances) | no non-completable maximum of any of the three orders. The robust order fails only where the searches put it, so random sampling around the double clash is weak evidence | `results/k4_de4/refine_*.log` |
+| `refine.py` | the maxima of the three orders (total value, lower-pair, value-Pareto) on: the 75 instances with unclean cycles (`results/k4_de4/unclean_cycles.json`); the screen set; the adversarial families `advt3x` (2,696 instances) and `advt0`–`advt3` (1,938); random profiles of the xhg hypergraphs (4,000) and the stuck hypergraphs (2,400); random R1-cores (8,000) | no non-completable maximum of any of the three orders. The robust order fails only where the searches put it, so random sampling around the double clash is weak evidence | `results/k4_de4/refine_*.log` |
 | `topswap.py` | every (V3)-valid (H) state with a double clash in the 75 instances (58 states) | both top swaps valid in all 58 (Lemma 27's hypotheses hold); after Lemma R: (V3)-valid, same level sum, fewer lower pairs | `results/k4_de4/topswap_*.log` |
 | `refine_hx.py` | the maxima of the lower-pair order with leftover goods, on the 75 instances | all completable; (H) holds at 26, none has an F₂-clash cycle | `results/k4_de4/refine_hx_*.log` |
 | `refine_climb.py` | hill-climbing toward a non-completable maximum of the lower-pair order (gap 10·(Φ* − Φ) + extra lower pairs + 1 if Pareto-dominated) | RESULTS_CLIMB | `results/k4_de4/refine_climb_*.log` |
