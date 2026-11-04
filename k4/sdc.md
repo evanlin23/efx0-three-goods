@@ -685,3 +685,100 @@ So the k = 4 count keeps LB⁺'s unit price: every hard exposed agent is protect
 bundle. It loses LB⁺'s "one per block": exposed agents that are not leaders occur. Theorem (A₄) must charge each of
 them to a terminal of its own block, as Theorem A charges leaders through τ(x), or show that their needers can be
 compensated.
+
+## 13. NOF certified by LB₄ʳ's owner step, and its Lean frame
+
+The repository already has an exact, machine-checked notion of "these picks complete":
+- LB₄ʳ's states (`lean/EFX/LB4R.lean`) with its three upgrade policies (need-shrinking, envy-free, none);
+- the owner step `EFX.LB4R.Output`, whose outputs are sound completions (Theorem 1′₄): EFX₀ allocations with at most
+  one bundle of more than two goods;
+- Lemma K of `k4/rulef.md`, an exact owner count that is also in Lean.
+
+**Conjecture NOF-K (K4.SDC.NOF.K).** For every strict k = 4 core, one of NOF's candidates (the neediest-first R1 order,
+or it with one agent moved last) has an LB₄ʳ output after a run of upgrades of some policy.
+
+Evidence (`nof_lemmak.log`; `k4/sdc/nof_lemmak.py` builds the LB₄ʳ state from the picks and uses PR #33's
+transcription `k4/c4_verify_H/lb4r.py` of the Lean definitions):
+
+| data | some candidate has an output | the plain run alone: extends / has an output |
+|---|---|---|
+| screen set (168) | 168 | 157 / 153 |
+| suite, n ≤ 9 (161) | 161 | 151 / 145 |
+| 3,000 random n = 4 core profiles | 3,000 | 2,989 / 2,988 |
+
+The plain run sometimes extends without an LB₄ʳ output (4 screen instances). The LB₄ʳ shape (one large bundle, the
+other bundles built from bases) is then too narrow, and a deferral restores it. Lemma K's deficit is ≤ 0 on 151 of the
+157 plain runs that extend.
+
+**The Lean frame** (`lean/EFX/NOF.lean`, K4.SDC.NOF.LEAN; machine-checked, standard axioms only):
+- `EFX.NOF.sdList_spec`: serial dictatorship in any order satisfies Phase 1's run specification `EFX.LB4R.RunSpec`.
+- `EFX.NOF.runState_inv`: the state of *every* run satisfying `RunSpec` satisfies LB₄ʳ's invariant `EFX.LB4R.Inv`. This
+  is `EFX.LB4R.phase1State_inv` for any order, by the same proof.
+- `EFX.NOF.nofOrder`, `EFX.NOF.nofCandidates`: the neediest-first order, as a selection-rule run, and NOF's candidates.
+  `EFX.NOF.nofCandidates_perm`: every candidate is a permutation of the agents.
+- `EFX.NOF.ConjNOFK r1` and `EFX.NOF.ConjSDCK` (the same for any order) as `Prop`s.
+  `EFX.NOF.target4_of_conjNOFK`: **ConjNOFK ⟹ TARGET₄**; `EFX.NOF.target4_of_conjSDCK`: **ConjSDCK ⟹ TARGET₄**.
+
+Correspondence with the Python checks:
+- Ties in the need go to the earliest agent in index order, in both.
+- An agent with no available good has need 0 in Lean and is processed last in Python. It picks nothing either way,
+  so the candidates' picks coincide.
+- `lb4r.py`'s upgrade run is one of the runs `EFX.LB4R.UpRun` allows, and its `Output` test (owner's needs from the
+  bundle) is Lean's.
+
+So TARGET₄ now follows from one explicit statement about one explicit order: some candidate of NOF admits an LB₄ʳ
+output. What is left is mathematics: the counting theorem (A₄) and the deferral theorem (B₄) of §11–§12.
+
+## 14. Lemma N′: the non-compensable contests are LB⁺'s
+
+**Scope of Lemma N.** Lemma N compares need(i) with need(j) because the rule chose i over j. That holds in NO's plain
+order (every unprocessed agent other than o is a candidate). With R1 priority it holds only when j was a candidate at
+that step: on the screen set, 1 of 308 direct contests violates it (an R1 step chose a lost agent over a fresh j,
+`lemma_n_check.log`).
+
+**Lemma N′ (K4.SDC.N2).** In NO's plain order, let x take y at time τ. Let j be a later agent for which y was the
+favourite available good at τ and that ends up preferring y to its pick, with need(j) > 0 at τ. Let W be the goods
+unpicked at the end plus the owner's pick. If some set of x's goods inside W is worth more than y to x, then:
+- x had all its goods available at τ (x is *fresh*), and x has four goods;
+- the only such set is the set of x's three other goods, so keeping one of them out of the owner's bundle protects x.
+
+*Proof.*
+1. By Lemma N (b), any two of x's goods other than y that were available at τ are together worth less than y.
+2. A good of W was available at τ: unpicked goods are never picked, and the owner picks last.
+3. So a set T ⊆ W of x's goods worth more than y consists of goods available at τ other than y, and has at least three
+   goods.
+4. x has at most four goods, so T is the set of its three other goods, all available at τ. Hence x was fresh, and every
+   such set is that one set. ∎
+
+On the data the hypotheses and conclusion match exactly (`lemma_n_check.log`):
+- every direct contest with need(j) > 0 has x big-top on its available goods (116 of 116 on the screen set, 321 of 321
+  on 4,000 random n = 4 profiles);
+- every such x that is exposed is fresh and costs one good (47 of 47 and 13 of 13).
+
+**What it means for (A₄).** The frozen agents that LB⁺'s machinery cannot already handle are of two kinds:
+- (a) frozen only through contests whose losers were compensable at the time (need(j) ≤ 0); or
+- (b) indirect contests (y was not the loser's favourite at τ): 30 of 349 needer pairs on the screen set, 87 of 3,310
+  at n = 4.
+
+Those that come only from non-compensable direct contests are, by Lemma N′, exactly LB⁺'s exposed agents: fresh
+leaders costing one good. Theorem A's per-block count then applies to them as at k = 3 (one terminal per block).
+So (A₄) reduces to two questions:
+- that the compensations of kind (a) can be made simultaneously (the loser j takes its z₃, the shrink upgrade of LB₄ʳ,
+  when j is not frozen itself);
+- that indirect contests reduce to direct ones along a chain.
+
+Both are statements about one run, with no search.
+
+**Kind (a) is not settled by the contest itself** (`comp_check.log`). Take the direct contests whose loser j was
+compensable at the time (need(j) ≤ 0). The compensation is still intact at the end in only:
+- 78 of 203 on the screen set;
+- 1,791 of 2,902 on 4,000 random n = 4 profiles.
+
+"Intact" means j picked z₂, z₃ is unpicked, and j is not frozen, so the shrink upgrade gives j the good z₃. Otherwise:
+- z₃ was picked by another agent (43 and 657);
+- z₂ was taken by a later agent before j's turn (40 and 226);
+- j was frozen itself (42 and 228).
+
+So (A₄) must count frozen agents whose losers' compensation broke later. The plain run still extends on about 99.6% of
+profiles, so the count works out in practice. Proving that it does is the open step. The natural form: charge each
+broken compensation to the agent that took z₂ or z₃, which then holds a good j values and lies on j's need chain.

@@ -1,0 +1,12 @@
+$ python3 k4/sdc/nof_lemmak.py suite
+instances 161
+plain extends but Lemma K fails (every policy) 6
+plain extends but no LB4r Output (any policy) 5
+plain: K_envyFree 143
+plain: K_none 142
+plain: K_shrink 144
+plain: O_envyFree 144
+plain: O_none 144
+plain: O_shrink 145
+plain: extends 151
+some candidate has an LB4r Output 161

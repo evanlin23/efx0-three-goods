@@ -74,3 +74,6 @@ python3 k4/sdc/nof_climb.py 1 4 300 40 > $L/nof_climb_n4.log
 python3 k4/sdc/nof_climb.py 2 5 250 30 > $L/nof_climb_n5.log
 (python3 k4/sdc/a3_k4.py screen; python3 k4/sdc/a3_k4.py screen --r1; python3 k4/sdc/a3_k4.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 5000 4 --r1) > $L/a3_k4_screen.log
 (python3 k4/sdc/nof.py screen --r1; python3 k4/sdc/nof.py suite --r1; python3 k4/sdc/nof.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 20000 2 --r1; python3 k4/sdc/nof.py cores:k4_certs_5_n4_1.json.gz,k4_certs_5_n4_2.json.gz 6000 3 --r1) | grep -v '^\$' > $L/nof_r1.log
+(python3 k4/sdc/nof_lemmak.py screen; python3 k4/sdc/nof_lemmak.py suite; python3 k4/sdc/nof_lemmak.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 3000 5) > $L/nof_lemmak.log
+(python3 k4/sdc/lemma_n_check.py screen; python3 k4/sdc/lemma_n_check.py screen --r1; python3 k4/sdc/lemma_n_check.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 4000 6) > $L/lemma_n_check.log
+(python3 k4/sdc/comp_check.py screen; python3 k4/sdc/comp_check.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 4000 6) > $L/comp_check.log
