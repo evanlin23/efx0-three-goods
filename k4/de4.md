@@ -975,6 +975,14 @@ whose labels share a leftover good.
 *Proof.* If (L) fails, (H) holds (above). Lemma 17 gives σ; every cycle of σ has two labels that meet (Lemma 18), and
 only labels of arcs into free agents holding two or more goods can meet. ∎
 
+**Machine-checked** (`lean/EFX/DE4Lemma18.lean`): Lemma 18 at a maximum, for every F₂-clash cycle, including those
+through free holders of two or more goods (`EFX.DE4.no_clean_clashCycle`). The strictness step is
+`EFX.DE4.levelR_lt_of_danger`: a taker of a danger set rises in robust level unless it held a single good. With
+`EFX.DE4.threat_at_max` and `EFX.DE4.selfUp_breaks_v3` (Lemma 4 and the self-upgrades at a maximum), Theorem 19 holds
+at maxima, and the frame is `EFX.DE4.target4_of_HX_HLL`: **TARGET₄ follows from two hypotheses**.
+- `HX`: (X) fails at maxima, that is, every F₂-clash cycle at a maximum with (H) is clean.
+- `HLL`: Claim T′ in case (L).
+
 **Lemma 20 (lower pairs at a maximum).** Let Y be a maximum of the robust order with (H), and u a free holder of its
 lower pair {c_u, d_u}. Its top a_u is held alone by a frozen agent h (u wants it), and b_u is held, by (V3). Then:
 - (a) h has no arc into u;
