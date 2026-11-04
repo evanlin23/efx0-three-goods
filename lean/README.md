@@ -234,7 +234,7 @@ specializations) have exactly the types of `EFX.target`, `EFX.LB.corollaryD` (ch
   sum among valid states); `threat_at_max` and `EFX.DE4.clean_cycle_one_good` (Lemma 18) are stated for it, and a
   maximum of the lower-pair order is one (`EFX.DE4.topR_of_maxLP`). Theorem A′ carries over (`EFX.DE4.thmAllUpperLP`:
   a state Pareto-better than an all-upper one holds no lower pair). Hypotheses at maxima of the lower-pair order:
-  `EFX.DE4.HXLP` (every F₂-clash cycle is clean and has a free agent not holding one good) and `EFX.DE4.HLLLP` (Claim T′
+  `EFX.DE4.HXLP` (at a non-completable maximum, every F₂-clash cycle is clean and has a free agent not holding one good) and `EFX.DE4.HLLLP` (Claim T′
   in case (L)). **`EFX.DE4.target4_of_HXLP_HLLLP`: HXLP and HLLLP imply TARGET₄**; also `EFX.DE4.target4_of_conjLP`,
   `EFX.DE4.target4_of_claimTMaxLP`, `EFX.DE4.target4_of_HC2LP`.
   **Lemma 29** (`EFX.DE4.selfUp_at_maxLP`): at a maximum of the lower-pair order every free self-upgrade of at most

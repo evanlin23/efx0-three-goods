@@ -117,11 +117,14 @@ theorem target4_of_claimTMaxLP (I : Inst) (hn : 0 < I.n) (h : ClaimTMaxLP (Fin I
     (h4 : ∀ i, numRelevant I i ≤ 4) : ∃ X : I.Alloc, I.EFX0 X :=
   target4_of_conjLP I hn (conjLP_of_claimTMaxLP h) h4
 
-/-- **Conjecture C₂ at maxima of the lower-pair order** (a hypothesis, never an axiom). -/
+/-- **Conjecture C₂ at maxima of the lower-pair order** (a hypothesis, never an axiom): no non-completable maximum of
+the lower-pair order in which everyone holds a good, (H) holds and some agent does not hold an upper set has an
+F₂-clash cycle. -/
 def HC2LP (A G : Type) [DecidableEq A] [DecidableEq G] : Prop :=
   ∀ (v : A → G → Nat) (agents : List A) (goods : List G), agents ≠ [] → agents.Nodup → goods.Nodup →
     R1Core4 v agents goods → Strict v agents goods →
-    ∀ base, IsMaximumLP v agents goods base → (∀ i ∈ agents, hold goods base i ≠ []) → CondH v agents goods base →
+    ∀ base, IsMaximumLP v agents goods base → ¬ Completable v agents goods base →
+      (∀ i ∈ agents, hold goods base i ≠ []) → CondH v agents goods base →
       ¬ (∀ i ∈ agents, IsUpper v i goods (hold goods base i)) →
       ∀ (x : A → A) (d : A → G → Bool) (C : List A), ¬ ClashCycle v agents goods base x d C
 
@@ -140,7 +143,7 @@ theorem claimTMaxLP_of_HC2LP (h2 : HC2LP A G) (hl : HLLP A G) : ClaimTMaxLP A G 
     have hb : Valid v agents goods base := hmax.1.1
     have hE : ∀ i ∈ agents, hold goods base i ≠ [] := fun i hi he => hnc (completable_of_empty hb hi he hH.1)
     obtain ⟨x, d, C, hC⟩ := exists_clashCycle hb hag hgd hnc hne hH.1
-    exact h2 v agents goods hne hag hgd hc hs base hmax hE hH hnu x d C hC
+    exact h2 v agents goods hne hag hgd hc hs base hmax hnc hE hH hnu x d C hC
   · exact hl v agents goods hne hag hgd hc hs base hmax hnc hH
 
 /-- **`HC2LP` and `HLLP` imply TARGET₄.** -/
@@ -148,13 +151,14 @@ theorem target4_of_HC2LP (I : Inst) (hn : 0 < I.n) (h2 : HC2LP (Fin I.n) (Fin I.
     (h4 : ∀ i, numRelevant I i ≤ 4) : ∃ X : I.Alloc, I.EFX0 X :=
   target4_of_claimTMaxLP I hn (claimTMaxLP_of_HC2LP h2 hl) h4
 
-/-- **(X) fails at maxima of the lower-pair order** (a hypothesis, never an axiom): at such a maximum in which everyone
-holds a good, (H) holds and some agent does not hold an upper set, every F₂-clash cycle is clean (its free agents'
+/-- **(X) fails at maxima of the lower-pair order** (a hypothesis, never an axiom): at a non-completable maximum of the
+lower-pair order in which everyone holds a good, (H) holds and some agent does not hold an upper set, every F₂-clash cycle is clean (its free agents'
 labels are pairwise disjoint) and not flat (some free agent on it holds something other than one good). -/
 def HXLP (A G : Type) [DecidableEq A] [DecidableEq G] : Prop :=
   ∀ (v : A → G → Nat) (agents : List A) (goods : List G), agents ≠ [] → agents.Nodup → goods.Nodup →
     R1Core4 v agents goods → Strict v agents goods →
-    ∀ base, IsMaximumLP v agents goods base → (∀ i ∈ agents, hold goods base i ≠ []) → CondH v agents goods base →
+    ∀ base, IsMaximumLP v agents goods base → ¬ Completable v agents goods base →
+      (∀ i ∈ agents, hold goods base i ≠ []) → CondH v agents goods base →
       ¬ (∀ i ∈ agents, IsUpper v i goods (hold goods base i)) →
       ∀ (x : A → A) (d : A → G → Bool) (C : List A), ClashCycle v agents goods base x d C →
         (∀ o ∈ C, ∀ o' ∈ C, o ≠ o' → ¬ Frozen v agents goods base o → ¬ Frozen v agents goods base o' →
@@ -164,8 +168,8 @@ def HXLP (A G : Type) [DecidableEq A] [DecidableEq G] : Prop :=
 /-- **Theorem 19 at maxima of the lower-pair order**: with Lemma 18 (`clean_cycle_one_good`), `HXLP` implies
 `HC2LP`. -/
 theorem hc2lp_of_hxlp (h : HXLP A G) : HC2LP A G := by
-  intro v agents goods hne hag hgd hc hs base hmax hE hH hnu x d C hC
-  obtain ⟨hclean, o, hoC, hnf, hno⟩ := h v agents goods hne hag hgd hc hs base hmax hE hH hnu x d C hC
+  intro v agents goods hne hag hgd hc hs base hmax hnc hE hH hnu x d C hC
+  obtain ⟨hclean, o, hoC, hnf, hno⟩ := h v agents goods hne hag hgd hc hs base hmax hnc hE hH hnu x d C hC
   exact hno (clean_cycle_one_good hgd hc hs (topR_of_maxLP hgd hmax) hH hC hclean o hoC hnf)
 
 /-- **Claim T′ in case (L), in the lower-pair order** (a hypothesis, never an axiom): a non-completable maximum of the

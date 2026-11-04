@@ -1489,7 +1489,7 @@ t: 4 → 3). That swap removes a lower pair.
 
 *What carries over from §10* (machine-checked as a frame, `lean/EFX/DE4LowerPairFrame.lean`, ledger
 K4.DE4V3R.LEANLP: **TARGET₄ ⟸ HXLP + HLLLP**, `EFX.DE4.target4_of_HXLP_HLLLP`, where HXLP says that every F₂-clash
-cycle at a maximum of the lower-pair order with (H) is clean and not flat, and HLLLP is Claim T′ in case (L) there):
+cycle at a non-completable maximum of the lower-pair order with (H) is clean and not flat, and HLLLP is Claim T′ in case (L) there):
 - **Lemma R** lowers the number of lower-pair holders. Each repair step replaces a lower pair by its b and keeps the
   level sum. Machine-checked with the count: `EFX.DE4.exists_validV3_numLP`, and strictly when (V3) fails,
   `EFX.DE4.exists_validV3_numLP_lt`. So a maximum of the lower-pair order has the largest level sum among all valid states.
@@ -1678,7 +1678,7 @@ Corollary 28(b) is written only.
 **What is left of the double clash.** By Corollary 28, a double clash at a maximum of the lower-pair order has both
 frozen agents' b's held, at least one of them by an agent outside the clash, and its shared good j is a c or d of
 both. The swap then needs a fifth agent: the holder of b_t gives it up. Open in this order, and together sufficient for TARGET₄ by the machine-checked frame:
-- **HX_lp** (`EFX.DE4.HXLP`): at a maximum with (H), no F₂-clash cycle is unclean or flat;
+- **HX_lp** (`EFX.DE4.HXLP`): at a non-completable maximum with (H), no F₂-clash cycle is unclean or flat;
 - **HLL_lp** (`EFX.DE4.HLLLP`): the case (L), by Lemma 29 equivalently **HLB** (`EFX.DE4.HLB`): no free b-holder
   whose c and d are leftover at a non-completable maximum.
 
