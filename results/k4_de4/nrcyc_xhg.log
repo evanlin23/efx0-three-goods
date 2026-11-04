@@ -1,0 +1,23 @@
+$ python3 k4/de4/nrcyc.py xhg 300 6 22
+      1      unclean sig ?:a>ac*[a<o,c<c1](+2) ; c1:bc>cd[c<o,d<J](+0)
+      1      unclean sig c0:bc>a[a<c2](-1) ; c1:Fa>bc[b<J,c<c0](+1) ; c2:b>Fa[a<c1](+1)
+      1      unclean sig c0:bc>a[a<c2](-1) ; c2:cd>bc*[b<c0,c<o](+3)
+      3      unclean sig c0:bc>a[a<c2](-1) ; c2:cd>bc[b<c0,c<o](+2)
+      2      unclean sig c0:bc>a[a<c2](-1) ; c2:cd>bd[b<c0,d<o](+2)
+      1      unclean sig c0:bc>ab*[a<c1,b<o](+1) ; c1:bc>bd[b<o,d<J](+0)
+      1      unclean sig c0:bc>ab*[a<c2,b<o](+1) ; c1:Fa>b[b<J](-1) ; c2:b>Fa[a<c1](+1)
+      1      unclean sig c0:bc>ab*[a<c2,b<o](+1) ; c2:b>cd[c<c0,d<J](+0)
+      4      unclean sig c0:bc>ab*[a<c2,b<o](+1) ; c2:cd>b[b<c0](+0)
+      4      unclean sig c0:bc>ac*[a<c2,c<o](+1) ; c2:cd>b[b<c0](+0)
+      1      unclean sig c0:bc>ad*[a<c2,d<J](+1) ; c2:b>cd[c<c0,d<J](+0)
+      2      unclean sig c0:bc>ad*[a<c2,d<J](+1) ; c2:cd>b[b<c0](+0)
+      1      unclean sig c0:bc>bd[b<o,d<J](+0) ; c2:b>bc*[b<o,c<c0](+3)
+      1      unclean sig c1:bc>bd[b<o,d<J](+0) ; c2:a>ac*[a<o,c<c1](+2)
+      1    minimal raise size 2 (cycle length 2, clean False)
+      3    minimal raise size 2 (cycle length 2, clean True)
+     11    minimal raise size 2 (cycle length 3, clean False)
+      8    minimal raise size 2 (cycle length 3, clean True)
+      1    minimal raise size 3 (cycle length 3, clean False)
+     14    minimal raise size 3 (cycle length 3, clean True)
+     13  (H) state with a non-robust upper holder on a cycle: top False, cycle clean False
+     25  (H) state with a non-robust upper holder on a cycle: top False, cycle clean True
