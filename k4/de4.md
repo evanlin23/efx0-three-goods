@@ -909,12 +909,13 @@ TARGET₄ follows from two hypotheses.
   cycles).
 - `HLL`: Claim T′ in case (L).
 
-**A consistency check: cores of 3-good agents** (`lean/EFX/DE4Three.lean`, ledger K4.DE4V3R.K3). If every agent
-values exactly three goods, nobody has a lower pair and every upper set is robust (at most one relevant good lies
-outside it, and it is worth at most the top). So `HC3'` holds by Lemma 25(a), and `HLL` holds vacuously: (V3) is empty,
-so by `selfUp_breaks_v3` a maximum has no free self-upgrade. Machine-checked, with no hypothesis
-(`EFX.DE4.completable_three`): **every maximum of the robust order of a strict R1-core of 3-good agents is
-completable**. All of the difficulty of k = 4 is in the lower pairs and the non-robust upper pairs, that is, in P1, P2
+**A consistency check: tame cores** (`lean/EFX/DE4Three.lean`, ledger K4.DE4V3R.K3). Call an agent *tame* if it can hold
+no lower pair and all its upper sets are robust. These are the 3-good agents (at most one relevant good lies outside
+an upper set, worth at most the top) and the 4-good agents with v(a) > v(b) + v(c) and v(b) > v(c) + v(d). For such a
+4-good agent the upper sets are {a, x} and {b, c, d}, all robust, and c + d < b rules out the lower pair. On a tame
+core, `HC3'` holds by Lemma 25(a), and `HLL` holds vacuously: (V3) is empty, so by `selfUp_breaks_v3` a maximum has no
+free self-upgrade. Machine-checked, with no hypothesis (`EFX.DE4.completable_tame`, `EFX.DE4.completable_three`):
+**every maximum of the robust order of a strict tame R1-core is completable**. All of the difficulty of k = 4 is in the lower pairs and the non-robust upper pairs, that is, in P1, P2
 and (L). This is a free holder of its b taking its lower pair (its c and d are leftover), or a free holder of an upper set
 moving to a better upper set of the same level and releasing the b of a lower-pair holder.
 

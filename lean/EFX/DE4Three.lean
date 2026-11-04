@@ -13,9 +13,11 @@ the 3-good case at the level of cores.
 
 **Results.**
 - `robust_of_three`: an upper set of an agent with three relevant goods is robust.
-- `v3_of_three`: (V3) holds in every state when no agent values four goods.
-- `claimTMax_three`: Claim T′ on such cores (no hypothesis).
-- `completable_three`: every maximum of the robust order of a strict 3-good R1-core is completable.
+- `v3_of_noLP`, `noLP_of_three`: (V3) holds in every state when nobody can hold a lower pair, as on 3-good cores.
+- `claimTMax_tame`, `completable_tame`: on a strict R1-core that is **tame** (no agent can hold a lower pair, every
+  upper set is robust), every maximum of the robust order is completable, with no hypothesis. Tame agents are the
+  3-good ones and the 4-good ones with v(a) > v(b) + v(c) and v(b) > v(c) + v(d).
+- `claimTMax_three`, `completable_three`: the case of 3-good cores.
 -/
 
 set_option autoImplicit false
@@ -60,25 +62,30 @@ theorem robust_of_three (hgd : goods.Nodup) {i : A} (h3 : (relevant v i goods).l
   omega
 
 omit [DecidableEq G] in
-/-- (V3) holds in every state when no listed agent values four goods: nobody can hold a lower pair. -/
-theorem v3_of_three (h3 : ∀ i ∈ agents, (relevant v i goods).length = 3) (base : G → Option A) :
-    V3 v agents goods base := by
-  intro i hi hlp
-  have := hlp.1
-  rw [h3 i hi] at this
-  exact absurd this (by decide)
+/-- (V3) holds in every state when no listed agent can hold a lower pair. -/
+theorem v3_of_noLP (hnolp : ∀ i ∈ agents, ∀ S : List G, ¬ IsLowerPair v i goods S) (base : G → Option A) :
+    V3 v agents goods base :=
+  fun i hi hlp => absurd hlp (hnolp i hi _)
 
-/-- **Claim T′ on cores of 3-good agents** (no hypothesis): a non-completable maximum of the robust order of a strict
-R1-core in which every agent values exactly three goods has every agent holding an upper set. -/
-theorem claimTMax_three (hne : agents ≠ []) (hag : agents.Nodup) (hgd : goods.Nodup) (hc : R1Core4 v agents goods)
-    (hs : Strict v agents goods) (h3 : ∀ i ∈ agents, (relevant v i goods).length = 3) {base : G → Option A}
-    (hmax : IsMaximumR v agents goods base) (hnc : ¬ Completable v agents goods base) :
+omit [DecidableEq A] [DecidableEq G] in
+/-- An agent with three relevant goods has no lower pair. -/
+theorem noLP_of_three {i : A} (h3 : (relevant v i goods).length = 3) (S : List G) : ¬ IsLowerPair v i goods S :=
+  fun hlp => by have := hlp.1; rw [h3] at this; exact absurd this (by decide)
+
+/-- **Claim T′ on tame cores** (no hypothesis beyond tameness): on a strict R1-core in which no agent can hold a lower
+pair and every upper set is robust, a non-completable maximum of the robust order has every agent holding an upper
+set. -/
+theorem claimTMax_tame (hne : agents ≠ []) (hag : agents.Nodup) (hgd : goods.Nodup) (hc : R1Core4 v agents goods)
+    (hs : Strict v agents goods) (hnolp : ∀ i ∈ agents, ∀ S : List G, ¬ IsLowerPair v i goods S)
+    (hrob : ∀ i ∈ agents, ∀ S : List G, IsUpper v i goods S → S.Nodup → (∀ g ∈ S, g ∈ goods) →
+      IsRobust v i goods S)
+    {base : G → Option A} (hmax : IsMaximumR v agents goods base) (hnc : ¬ Completable v agents goods base) :
     ∀ i ∈ agents, IsUpper v i goods (hold goods base i) := by
   have hb := hmax.1.1
   -- a free self-upgrade would break (V3), which is empty here
   have hnoup : ∀ x ∈ agents, ¬ FreeSelfUp v agents goods base x := by
     rintro x hx ⟨hfree, p, hp, hN, h2, hgain⟩
-    exact selfUp_breaks_v3 hgd hmax hx hfree p hp hN h2 hgain (v3_of_three h3 _)
+    exact selfUp_breaks_v3 hgd hmax hx hfree p hp hN h2 hgain (v3_of_noLP hnolp _)
   by_cases hH : CondH v agents goods base
   · refine Classical.byContradiction fun _ => ?_
     have hE : ∀ i ∈ agents, hold goods base i ≠ [] := fun i hi he => hnc (completable_of_empty hb hi he hH.1)
@@ -89,8 +96,8 @@ theorem claimTMax_three (hne : agents ≠ []) (hag : agents.Nodup) (hgd : goods.
       | [], _ => exact absurd hY (hE o (hC.2.1 o ho))
       | [y], _ => exact ⟨y, rfl⟩
     · exact absurd (robust_not_on_clashCycle hC ho hup
-        (robust_of_three hgd (h3 o (hC.2.1 o ho)) hup (hold_nodup hgd base o) (fun g hg => (mem_hold.mp hg).1))) id
-    · have := hlp.1; rw [h3 o (hC.2.1 o ho)] at this; exact absurd this (by decide)
+        (hrob o (hC.2.1 o ho) _ hup (hold_nodup hgd base o) (fun g hg => (mem_hold.mp hg).1))) id
+    · exact absurd hlp (hnolp o (hC.2.1 o ho) _)
   · exfalso
     by_cases hJ : ∀ i ∈ agents, value v i (leftover goods base) ≤ value v i (hold goods base i)
     · refine hH ⟨hJ, fun x hx hfree p hp hN h2 hgain => ?_⟩
@@ -100,15 +107,34 @@ theorem claimTMax_three (hne : agents ≠ []) (hag : agents.Nodup) (hgd : goods.
       obtain ⟨x, hx, hup⟩ := threat_at_max hgd hs hc hmax hi hJi
       exact hnoup x hx hup
 
-/-- **Every maximum of the robust order of a strict R1-core of 3-good agents is completable** (machine-checked, no
-hypothesis): Claim T′ there, and Theorem A′. -/
-theorem completable_three (hne : agents ≠ []) (hag : agents.Nodup) (hgd : goods.Nodup)
-    (hc : R1Core4 v agents goods) (hs : Strict v agents goods) (h3 : ∀ i ∈ agents, (relevant v i goods).length = 3)
+/-- **Every maximum of the robust order of a strict tame R1-core is completable** (machine-checked, no hypothesis):
+Claim T′ there, and Theorem A′. -/
+theorem completable_tame (hne : agents ≠ []) (hag : agents.Nodup) (hgd : goods.Nodup)
+    (hc : R1Core4 v agents goods) (hs : Strict v agents goods)
+    (hnolp : ∀ i ∈ agents, ∀ S : List G, ¬ IsLowerPair v i goods S)
+    (hrob : ∀ i ∈ agents, ∀ S : List G, IsUpper v i goods S → S.Nodup → (∀ g ∈ S, g ∈ goods) →
+      IsRobust v i goods S)
     {base : G → Option A} (hmax : IsMaximumR v agents goods base) : Completable v agents goods base := by
   refine Classical.byContradiction fun hnc => ?_
-  have hup := claimTMax_three hne hag hgd hc hs h3 hmax hnc
+  have hup := claimTMax_tame hne hag hgd hc hs hnolp hrob hmax hnc
   obtain ⟨b', hv', hb'⟩ := thmAllUpper v agents goods hne hag hgd hc hs base hmax.1 hup hnc
   exact hmax.2 b' hv' hb'
+
+/-- **Claim T′ on cores of 3-good agents** (no hypothesis). -/
+theorem claimTMax_three (hne : agents ≠ []) (hag : agents.Nodup) (hgd : goods.Nodup) (hc : R1Core4 v agents goods)
+    (hs : Strict v agents goods) (h3 : ∀ i ∈ agents, (relevant v i goods).length = 3) {base : G → Option A}
+    (hmax : IsMaximumR v agents goods base) (hnc : ¬ Completable v agents goods base) :
+    ∀ i ∈ agents, IsUpper v i goods (hold goods base i) :=
+  claimTMax_tame hne hag hgd hc hs (fun i hi => noLP_of_three (h3 i hi))
+    (fun i hi _ hS hnd hg => robust_of_three hgd (h3 i hi) hS hnd hg) hmax hnc
+
+/-- **Every maximum of the robust order of a strict R1-core of 3-good agents is completable** (machine-checked, no
+hypothesis). -/
+theorem completable_three (hne : agents ≠ []) (hag : agents.Nodup) (hgd : goods.Nodup)
+    (hc : R1Core4 v agents goods) (hs : Strict v agents goods) (h3 : ∀ i ∈ agents, (relevant v i goods).length = 3)
+    {base : G → Option A} (hmax : IsMaximumR v agents goods base) : Completable v agents goods base :=
+  completable_tame hne hag hgd hc hs (fun i hi => noLP_of_three (h3 i hi))
+    (fun i hi _ hS hnd hg => robust_of_three hgd (h3 i hi) hS hnd hg) hmax
 
 end three
 
@@ -118,6 +144,9 @@ end EFX
 /-! ## Axiom certificates (audited by `check.sh`) -/
 
 #print axioms EFX.DE4.robust_of_three
-#print axioms EFX.DE4.v3_of_three
+#print axioms EFX.DE4.v3_of_noLP
+#print axioms EFX.DE4.noLP_of_three
+#print axioms EFX.DE4.claimTMax_tame
+#print axioms EFX.DE4.completable_tame
 #print axioms EFX.DE4.claimTMax_three
 #print axioms EFX.DE4.completable_three
