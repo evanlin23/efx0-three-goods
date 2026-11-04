@@ -1,0 +1,6 @@
+$ python3 k4/de4/run_robust.py k4_certs_5_n4_2.json.gz 4000 1
+core 4578 [[0, 2, 4, 5], [1, 3, 8], [2, 3, 4, 5], [6, 7, 8], [6, 7, 8]] {'var0_claimT_fail': 3}
+core 4578 CLAIMT var 0 profile 5224000: [1,8,4,6] [2,3,4] [8,10,3,4] [4,3,2] [3,2,4] state: 5 2 8 c0 100
+core 4578 CLAIMT var 0 profile 8140000: [5,8,4,6] [2,3,4] [4,8,2,3] [4,3,2] [3,2,4] state: 30 8 4 c0 100
+TOTAL k4_certs_5_n4_2.json.gz 5468 cores; var0_maxima 68184880 var0_every_fail 0 var0_some_fail 0 var1_maxima 58840814 var1_every_fail 0 var1_some_fail 0 var2_maxima 56369607 var2_every_fail 0 var2_some_fail 0 var3_maxima 58840821 var3_every_fail 0 var3_some_fail 0 overflow 0 var0_claimT_fail 3 var0_top_allupper_noncompletable 0 var1_claimT_fail 0 var1_top_allupper_noncompletable 0 var2_claimT_fail 0 var2_top_allupper_noncompletable 0 var3_claimT_fail 0 var3_top_allupper_noncompletable 0 profiles 24491172
+variants: 0 DE4^v3 (control), 1 DE4^v3 + robust upper sets at level 6 (the candidate), 2 the same at 5.5, 3 robust at 6 without (V3) (control)

@@ -790,6 +790,7 @@ So, as in §9:
 | 1% stride sample, n = 4 with three 4-good agents | 485,880,564 | 0 | 0 | 14 (count 10,310) | `results/k4_de4/robust_4_n4_3_sample.log` |
 | 0.02% stride sample (4 of 20,000 chunks), n = 4 with four 4-good agents | 301,331,736 | 0 | 0 | 71 (count 10,418; robust levels without (V3): 1 fail) | `results/k4_de4/robust_4_pure_sample.log` |
 | 0.05% stride sample (1 of 2,000 chunks), n = 5 with one 4-good agent | 324,445 | 0 | 0 | 0 | `results/k4_de4/robust_5_n4_1_sample.log` |
+| 0.025% stride sample (1 of 4,000 chunks), n = 5 with two 4-good agents | 24,491,172 | 0 | 0 | 0 (count 3) | `results/k4_de4/robust_5_n4_2_sample.log` |
 | every strict profile of the 16 stuck hypergraphs | 911,720,448 | 0 | not counted | 0 (robust levels without (V3): 16) | `results/k4_de4/robust_stuckhyper.log` |
 | 0.2% stride sample of R4's hypergraph | 13,759,416 | 0 | not counted | 11 | `results/k4_de4/robust_r4_sample.log` |
 
