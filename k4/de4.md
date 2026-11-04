@@ -1207,6 +1207,9 @@ and > 0 exactly when {a_y, d} is robust. At a maximum, therefore, no such y has 
 - Levels: y goes from 4 to ℓ_y({a_y, d}), u from 3 to 2. ∎
 
 **What is open.**
+- **Conjecture C₃** (§10.3): at a maximum with (H), no cycle of G passes through a free holder of two or more goods.
+  By Lemma 25 it is P1 (lower-pair holders are envy-free single owners at the largest level sum) and P2 (non-robust
+  upper holders lie on no cycle). It implies C₂ at maxima.
 - **Conjecture C₂** (no F₂-clash cycle at the largest level sum). With Proposition 24 it gives Claim T′, and the
   strong Claim T, under (H). Its refuted strengthening D shows that its proof must combine the cycle moves
   (Lemma 18, Theorem 23, the b-swaps) with local exclusions at the largest level sum: Lemma 20, Lemma 20(d) and the
