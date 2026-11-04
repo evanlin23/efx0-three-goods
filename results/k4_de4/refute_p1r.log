@@ -1,0 +1,7 @@
+confirmed     the profile is a strict R1-core profile
+confirmed     the state [[2], [5], [4, 6], [3]] is valid, (V3)-valid, of the largest level sum 14
+confirmed     no (V3)-valid state of that level sum is value-Pareto-better: it is a maximum
+confirmed     (H): everyone holds a good, nobody is threatened by J = [0, 1] alone, no free agent upgrades inside its holding and J
+confirmed     agent 2 is a free holder of its lower pair
+confirmed     agent 1, frozen on its top, has the minimal danger set [1, 4, 6] inside Y_2 + J, meeting Y_2: a non-lateral out-arc of the lower pair (its big-top triple b, c, d)
+confirmed     the state is completable

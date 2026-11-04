@@ -1322,9 +1322,13 @@ largest level sum. The counterexample has n = 4, m = 7, J = {0}, and is a maximu
   good 0.
 
 The arc is *lateral* (agent 0 would go from b to its lower pair, level 3 to 3: the exception in Lemma 18). The state
-is completable and G has no cycle, so C₃ and HX stand; only the decomposition through P1 fails. What remains of P1 is
-**P1′**: at the largest level sum with (H), every out-arc of a lower-pair holder is lateral. And for C₃ it suffices
-that no lower-pair holder lies on a cycle.
+is completable and G has no cycle, so C₃ and HX stand; only the decomposition through P1 fails. The refinement
+**P1′** (at the largest level sum with (H), every out-arc of a lower-pair holder is lateral) **is false too**
+(`python3 k4/de4/refute_p1r.py`; `gapsearch.py` with MODE=p1r on the xhg hypergraphs). The instance has n = 4, m = 7,
+and is a maximum with (H), completable, with no cycle. Agent 2 holds its lower pair {4, 6}. Agent 1, frozen on its top,
+has its big-top triple {b, c, d} = {6, 4, 1}, the lower pair plus the leftover good 1, as a danger set. So lower-pair
+holders can have out-arcs at maxima, and what is left is cycle-level: for C₃ it suffices that no lower-pair holder lies
+on a cycle.
 
 **Conjecture P2.** At a maximum of the robust order with (H), no free holder of a non-robust upper set lies on a cycle
 of G.
