@@ -527,3 +527,20 @@ sets [[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]] with values [[8, 4
 - only owner 0, the second agent, works.
 
 So NO's owner remains a genuine choice among n.
+
+**The owner walk.** Start from o = the last agent of the plain neediest-first run. While NO(o) does not extend, hand the
+owner role to an agent that holds a good o prefers to its own pick (an agent o *needs from*).
+- The greedy walk reaches a working owner on all 168 screen and 164 suite instances, almost always in one step, and on
+  19,999 of 20,000 random n = 4 core profiles.
+- A breadth-first search over the same moves reaches one on all 20,000 (`no_walk.log`).
+
+At k = 3 the walk is LB⁺'s structure:
+- if the plain run is not in LB⁺'s bad case, its last agent works (Theorem A);
+- in the bad case, the need chain k* → … → r leads from r back to k*, and deferring k* makes the chain agents move up,
+  as in LB⁺'s rotation (Theorem B). The agent that needed k*'s top takes it, and so on, and k* takes its b, which the
+  plain run had left unpicked or given to r.
+
+On bad cases of random k = 3 core profiles, NO(k*) or NO(r) extends in every case (200 of 200 at n = 5, `no_k3_*.log`);
+NO(k*) alone fails once. It fails when an agent squeezed by the new cascade takes b_{k*} first. So at k = 3, NO reduces
+to one statement about the last block: deferring k* or r repairs the bad case. That is Lemma LR of §5 with the
+re-insertion replaced by a deferral, and the next proof target.

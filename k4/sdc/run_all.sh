@@ -58,3 +58,7 @@ python3 k4/sdc/no_climb.py 2 5 250 30 > $L/no_climb_n5.log
 (for a in "11 2000 2 6 6" "12 2000 2 8 8" "13 1000 2 10 10" "14 2000 2 7 4"; do python3 k4/sdc/sdc_gen.py $a; done) > $L/sdc_n2_general.log
 (python3 k4/sdc/no_fresh.py screen; python3 k4/sdc/no_fresh.py suite) > $L/no_fresh.log
 (python3 k4/sdc/no_first.py screen; python3 k4/sdc/no_first.py suite; python3 k4/sdc/no_first.py cores:k4_certs_2.json.gz,k4_certs_3.json.gz 20000 1; python3 k4/sdc/no_first.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 20000 2) > $L/no_first.log
+(python3 k4/sdc/no_walk.py screen; python3 k4/sdc/no_walk.py suite; python3 k4/sdc/no_walk.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 20000 2) > $L/no_walk.log
+python3 k4/sdc/no_k3.py 1 200 5 8 > $L/no_k3_n5.log
+python3 k4/sdc/no_k3.py 2 150 6 10 > $L/no_k3_n6.log
+python3 k4/sdc/no_k3.py 3 60 8 13 > $L/no_k3_n8.log
