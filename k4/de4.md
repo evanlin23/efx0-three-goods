@@ -1491,8 +1491,8 @@ t: 4 → 3). That swap removes a lower pair.
 K4.DE4V3R.LEANLP: **TARGET₄ ⟸ HXLP + HLLLP**, `EFX.DE4.target4_of_HXLP_HLLLP`, where HXLP says that every F₂-clash
 cycle at a maximum of the lower-pair order with (H) is clean and not flat, and HLLLP is Claim T′ in case (L) there):
 - **Lemma R** lowers the number of lower-pair holders. Each repair step replaces a lower pair by its b and keeps the
-  level sum. The machine-checked proof (`EFX.DE4.exists_validV3_of_valid`) is an induction on `numLP`, which drops at
-  each step. So a maximum of the lower-pair order has the largest level sum among all valid states.
+  level sum. Machine-checked with the count: `EFX.DE4.exists_validV3_numLP`, and strictly when (V3) fails,
+  `EFX.DE4.exists_validV3_numLP_lt`. So a maximum of the lower-pair order has the largest level sum among all valid states.
 - Every lemma that ends in a *larger* level sum holds at its maxima unchanged: Lemma 4 at a maximum, Lemma 18 when its
   trade raises Φ, Theorem 23, Lemmas 20′, 20(d), 26.
 - *Free self-upgrades with Φ kept* (`selfUp_breaks_v3`). An upgrade that keeps Φ and adds a lower pair goes from b to
@@ -1504,26 +1504,6 @@ cycle at a maximum of the lower-pair order with (H) is clean and not flat, and H
   keeps Φ, every taker is a free holder of its b that takes its lower pair. The trade is then value-Pareto-better but
   adds lower pairs. Call such a cycle *flat*. At the maxima of the lower-pair order, flat cycles have to be excluded
   separately.
-
-**Lemma 29 (case (L) in the lower-pair order; machine-checked, `EFX.DE4.selfUp_at_maxLP`).** At a maximum of the
-lower-pair order, every free self-upgrade of at most two goods (Lemma 4′) takes the agent's lower pair, from a holding
-of level 3: a free b-holder x with c_x, d_x leftover takes {c_x, d_x}.
-
-*Proof.* The upgraded state Z is valid (Lemma 4′) and does not lower the level sum (Lemma 1(a)). If it raises the level
-sum, Lemma R gives a (V3)-valid state above the maximum. So x keeps its level. Suppose the new holding is not x's lower
-pair. Then Z has at most as many lower-pair holders as Y.
-- If Z satisfies (V3), it is value-Pareto-better than Y, or it has fewer lower pairs.
-- If it does not, the strict form of Lemma R (`EFX.DE4.exists_validV3_numLP_lt`) gives a (V3)-valid state with fewer
-  lower pairs.
-
-Either way Y is not a maximum. ∎
-
-So, by Lemma 4 at a maximum and Lemma 29, the case (L) of this order is exactly a free holder x of its b whose c and d
-are leftover (`EFX.DE4.FreeLPUp`). Then {b_x, c_x} is not an upper set: it would be a 2-good self-upgrade that Lemma 29
-forbids. So {b_x, c_x, d_x} is a minimal upper set, and the 3-good self-upgrade to it raises the level sum by 2 or 3. It
-can fail only because some agent threatens it, valuing two of these three goods above its own holding. The hypothesis
-**HLB** (`EFX.DE4.HLB`) says that this case does not occur at a non-completable maximum. **TARGET₄ ⟸ HXLP + HLB**
-(`EFX.DE4.target4_of_HXLP_HLB`, machine-checked).
 
 **Lemma 27 (the top swap).** Let Y be valid, u an agent holding its lower pair, and t ≠ u an agent with Y_t = {a_u}.
 Let j be a leftover good that t ranks just below a_u. Suppose θ_t(Y_y) ≤ v_t(j) for every agent y ∉ {t, u} holding
@@ -1604,10 +1584,31 @@ v_{t₁}(b_{t₁}). The same holds for t₂. ∎
 So what is left of the double clash at a maximum of the lower-pair order is the case where a frozen agent's b is held
 outside the clash, and taking it would make a fifth agent lose a good.
 
+**Lemma 29 (case (L) in the lower-pair order; machine-checked, `EFX.DE4.selfUp_at_maxLP`).** At a maximum of the
+lower-pair order, every free self-upgrade of at most two goods (Lemma 4′) takes the agent's lower pair, from a holding
+of level 3: a free b-holder x with c_x, d_x leftover takes {c_x, d_x}.
+
+*Proof.* The upgraded state Z is valid (Lemma 4′) and does not lower the level sum (Lemma 1(a)). If it raises the level
+sum, Lemma R gives a (V3)-valid state above the maximum. So x keeps its level. Suppose the new holding is not x's lower
+pair. Then Z has at most as many lower-pair holders as Y.
+- If Z satisfies (V3), it is value-Pareto-better than Y, or it has fewer lower pairs.
+- If it does not, the strict form of Lemma R (`EFX.DE4.exists_validV3_numLP_lt`) gives a (V3)-valid state with fewer
+  lower pairs.
+
+Either way Y is not a maximum. ∎
+
+So, by Lemma 4 at a maximum and Lemma 29, the case (L) of this order is exactly a free holder x of its b whose c and d
+are leftover (`EFX.DE4.FreeLPUp`). Then {b_x, c_x} is not an upper set: it would be a 2-good self-upgrade that Lemma 29
+forbids. So {b_x, c_x, d_x} is a minimal upper set, and the 3-good self-upgrade to it raises the level sum by 2 or 3. It
+can fail only because some agent threatens it, valuing two of these three goods above its own holding. The hypothesis
+**HLB** (`EFX.DE4.HLB`) says that this case does not occur at a non-completable maximum. **TARGET₄ ⟸ HXLP + HLB**
+(`EFX.DE4.target4_of_HXLP_HLB`, machine-checked).
+
 *Machine-checked* (`lean/EFX/DE4LowerPair.lean`):
 - the lower-pair order (`EFX.DE4.BetterLP`, `EFX.DE4.IsMaximumLP`) and the existence of its maxima (`EFX.DE4.exists_maximumLP`);
 - Lemma R counting lower pairs (`EFX.DE4.exists_validV3_numLP`), so a maximum has the largest robust level sum among all valid states (`EFX.DE4.potentialR_le_of_maxLP`);
 - **Lemma 27** (`EFX.DE4.top_swap`, hypotheses `EFX.DE4.TopSwapHyp`) and Corollary 28(a) (`EFX.DE4.not_maxLP_of_top_swap`: no maximum of the lower-pair order admits a top swap).
+- **Lemma 29** (`EFX.DE4.selfUp_at_maxLP`, `lean/EFX/DE4LowerPairFrame.lean`) and the frame (`EFX.DE4.target4_of_HXLP_HLB`).
 
 Corollary 28(b) is written only.
 
