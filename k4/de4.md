@@ -790,6 +790,10 @@ everyone's level, so the Pareto requirement, which is what R4 breaks, is no long
 >   maximum with (H).
 >
 > The proved and machine-checked lemmas of §10 stand. The rest of §10 records the work as it was done.
+>
+> **Tie-breaks do not help either** (§10.4–§10.5). The lower-pair order removes this double clash, but a second instance
+> (`refute_lp.py`) has a single, non-completable state of the largest robust level sum. So every order that maximizes
+> the robust level sum first fails.
 
 The candidate of §9 (ledger K4.DE4V3R): the states of DE4ᵛ³ ((V1), (V2), (V3)) and DE4's levels, except that an upper
 set S of agent i is *robust* if v_i(S) ≥ v_i(R_i ∖ S), and robust upper sets have level 6, non-robust ones level 5. The
@@ -1470,6 +1474,9 @@ unclean cycles catalogued; their takers are frozen holders of their tops).
 
 ### 10.4 After the refutation: tie-breaks inside the largest level sum
 
+> **Superseded by §10.5:** the lower-pair order is refuted too. No tie-break inside the largest robust level sum works
+> (`refute_lp.py`). The lemmas of this subsection are statements about valid states and stand.
+
 On the refuting instance (`refute_rob.py`), 9 of the 10 (V3)-valid states of the largest level sum are completable,
 and 13 of the 14 Pareto-maximal valid ones. So the level sum Φ is not the problem; value-Pareto is too weak a
 tie-break. Two refinements were tested (`python3 k4/de4/refine.py SOURCE PER JOBS SEED`).
@@ -1726,6 +1733,40 @@ largest level sum that is not all-upper, and no non-completable all-upper one ei
 largest level sum, the lower-pair order included, passes them. `k4/de4/de4lp.c` (run by `EXE=de4lp python3
 k4/de4/run_robust.py FILE CHUNKS [TAKE]`) checks the lower-pair order directly; on the refuting instance it agrees with
 `refute_sum.py`.
+
+### 10.5 Every tie-break inside the largest level sum fails
+
+> **The lower-pair order is refuted, and with it every order that maximizes the robust level sum first** (ledger
+> K4.DE4V3R.LP and K4.DE4V3R.LPX, REFUTED; `python3 k4/de4/refute_lp.py`, an independent replay from the definitions;
+> found by `python3 k4/de4/topswap.py advt4r 300 4 9700` on the family of `adv_t4.py` built to block Lemmas 27, 30
+> and 31). Instance (n = 6, m = 11, `results/k4_de4/refute_lp_instance.json`):
+> - R = [[0,2,4,5], [1,3,6,7], [1,3,4,8], [0,2,6,8], [1,2,9], [0,3,10]];
+> - values [[37,19,17,11], [38,19,18,6], [35,34,21,31], [18,12,9,11], [35,36,18], [27,29,13]].
+>
+> Among its 91 (V3)-valid states, the largest robust level sum 26 is reached by one state only, [{4,5}, {6,7}, {1},
+> {0}, {2,9}, {3,10}] with J = {8}, and it is not completable. So whatever breaks ties inside the largest level sum,
+> this is the maximum, and it fails. (H) holds there, and its arc graph has an unclean F₂-clash cycle through the
+> lower-pair holders, so the hypothesis `HXLP` of the Lean frame is false too. The instance has EFX₀ allocations, so
+> TARGET₄ is not refuted.
+
+It is GM4-B's double clash once more, in the form §10.4 left open:
+- the lower-pair holders 0 and 1 are big-top (v(b) + v(c) < v(a)), so no keep-own swap (Lemma 31);
+- the frozen agents 3 and 2 hold the tops of 0 and 1, their pairs {c, d} = {8, 6} and {8, 4} are worth more than their
+  tops, and their b's are 2 and 3. These are also the b's of 0 and 1, and they are the tops of agents 4 and 5, which
+  hold them in robust pairs. So no top swap, cross or lopsided swap applies (Lemmas 27, 30).
+
+What a completion needs here (`results/k4_de4/refute_lp.log` and the analysis behind it):
+- The completable (V3)-valid states have level sum at most 24. In one of them, agent 5 drops 10 and keeps its top 3
+  alone. It can then absorb the leftover good 8, which it does not value, without being threatened. Agent 2 values 3
+  and 8, but with 10 gone the pair {3, 8} is worth at most 34 to it once one good is removed, below its top 35.
+- In the EFX₀ allocations, the lower-pair holders take their tops, the frozen agents take their b's from agents 4 and
+  5, and these drop to single low goods plus goods they do not value (for example [{0}, {1}, {3}, {2}, {4,5,6,7,9},
+  {8,10}]). That is a push-down chain, which lowers the robust level sum by 8.
+
+So the obstruction is not the tie-break but the potential. Robust pairs at level 6 (and upper sets above a single top
+at all) make the robust holders keep goods that a completion needs them to release. A repair has to change the levels,
+or the finishing rule, so that a holder of {a_w, x} may drop x to absorb leftover goods. In DE's terms: helpers that
+first shed goods.
 
 ## 6. Reproduce
 

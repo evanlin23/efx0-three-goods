@@ -242,6 +242,8 @@ specializations) have exactly the types of `EFX.target`, `EFX.LB.corollaryD` (ch
   `EFX.DE4.HXLP` (at a non-completable maximum, every F₂-clash cycle is clean and has a free agent not holding one good) and `EFX.DE4.HLLLP` (Claim T′
   in case (L)). **`EFX.DE4.target4_of_HXLP_HLLLP`: HXLP and HLLLP imply TARGET₄**; also `EFX.DE4.target4_of_conjLP`,
   `EFX.DE4.target4_of_claimTMaxLP`, `EFX.DE4.target4_of_HC2LP`.
+  The lower-pair order is refuted (`k4/de4/refute_lp.py`, ledger K4.DE4V3R.LP), and the instance makes `HXLP` false:
+  the frame is machine-checked but its hypothesis does not hold.
   On tame cores the two orders have the same maxima (`EFX.DE4.maxR_of_maxLP_noLP`), so **every maximum of the
   lower-pair order is completable there** (`EFX.DE4.completable_tameLP`, `EFX.DE4.completable_threeLP`).
   **Lemma 29** (`EFX.DE4.selfUp_at_maxLP`): at a maximum of the lower-pair order every free self-upgrade of at most
