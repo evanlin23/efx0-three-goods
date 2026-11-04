@@ -544,3 +544,61 @@ On bad cases of random k = 3 core profiles, NO(k*) or NO(r) extends in every cas
 NO(k*) alone fails once. It fails when an agent squeezed by the new cascade takes b_{k*} first. So at k = 3, NO reduces
 to one statement about the last block: deferring k* or r repairs the bad case. That is Lemma LR of §5 with the
 re-insertion replaced by a deferral, and the next proof target.
+
+## 10. Deferral and displacement chains (toward K4.SDC.K3)
+
+**Lemma DC (displacement chain; K4.SDC.DC).** Let π be any order, Y = SD(π), and k an agent with a pick. Let π_k be π
+with k moved to the end. Define a chain j₀ = k, j₁, j₂, … and holes h₀ = Y_k, h₁, h₂, …:
+- j_{i+1} is the first agent after j_i in π that prefers h_i to its own pick Y_{j_{i+1}} (or has no pick and values h_i);
+- h_{i+1} = Y_{j_{i+1}};
+- the chain stops when no such agent exists, or when a hole is "none".
+
+Then SD(π_k) gives:
+- j_i (i ≥ 1) the good h_{i−1};
+- every other agent other than k its pick Y;
+- k its favourite remaining good, from the final hole and the goods SD(π) leaves unpicked.
+
+In particular every agent other than k gets a weakly better good.
+
+*Proof.* Induction along π_k, with the invariant: just before an agent x ≠ k moves, its available set in π_k is its
+available set in π plus exactly one good, the current hole h (for agents before k in π the sets are equal). x's
+favourite in π is Y_x.
+- If h ∉ R_x, or x ranks h below Y_x, x takes Y_x in π_k too, and the invariant holds with the same hole.
+- Otherwise x takes h. Its π-pick Y_x stays available, so Y_x becomes the hole.
+
+At the end k finds the final hole and the goods nobody picked. ∎ (Checked against serial dictatorship on 3,000 random
+instances, `k3_disp_n5.log`.)
+
+So deferring one agent is a single chain of upgrades. LB⁺'s rotation (Theorem B) is such a chain, run backwards in
+time.
+
+**Proposition D3 (K4.SDC.D3).** At k = 3, let π be an R1 run of Phase 1 in LB⁺'s bad case with leader k* and owner r.
+Suppose the displacement chain from k* in π avoids the upgraded agents and ends at r. Then SD(π with k* last) extends
+to an EFX₀ allocation.
+
+*Proof.*
+1. Every j_{i+1} prefers h_i = Y_{j_i} to its pick, so Y_{j_i} ∈ N_{j_{i+1}}, and j_{i+1} ∉ U by hypothesis. Hence
+   j₀, …, j_{t−1} are frozen and j_t = r is a terminal (A1). The chain is a need chain from k* to r in LB⁺'s sense
+   (`proofs/lb_last_step.md` (A4)).
+2. By Lemma DC, SD(π_{k*}) gives each j_i (i ≥ 1) the good Y_{j_{i−1}}, every agent off the chain its pick, and k* its
+   favourite among a_{k*}, b_{k*}, c_{k*} still available. Now a_{k*} is taken by j₁. In the bad case b_{k*}, c_{k*} lie
+   in J ∪ {Y_r}, unpicked goods stay unpicked, and Y_r is the final hole. So k* takes b_{k*}.
+3. These are exactly the picks of LB⁺'s rotated pre-allocation P′ along this chain (Theorem B: Y′_{x_i} = Y_{x_{i−1}},
+   Y′_{k*} = b_{k*}). The goods c_u (u ∈ U′ = U ∪ {k*}) are picks of neither.
+4. By Theorem B, P′ is valid and k* is a valid owner (or ω′ ≤ 0), so it has a completion that is EFX₀ (Theorem 1′).
+5. That completion gives every agent its P′ pick, so it extends SD(π_{k*}). ∎
+
+**The other bad cases** (`k3_disp_n5.log`, 300 bad cases of random R1 runs at n = 5):
+- In 262 the chain avoids U and ends at r (Proposition D3).
+- In 26 it passes through an upgraded agent u, which takes its top a_u. The hole becomes b_u. SD(π with k* last)
+  extends in 22 of these, and with r last in the other 4.
+- In 12 it continues past r. It does so only through upgraded agents (all agents after r are upgraded, (A2)), and
+  SD(π with k* last) extends in all 12.
+
+So K4.SDC.K3, and with it a rotation-free proof of TARGET in the SD-C form, reduces to these two classes. In both, an
+upgraded agent u takes its top a_u, and c_u stays unpicked for u. The completion of P′ must then be adapted: u gives up
+its upgrade c_u and holds a_u (with c_u as a slot good if needed). And when b_{k*} = Y_r has been taken past r, k*
+holds c_{k*}.
+
+Lemma DC is not specific to k = 3. It gives exact control of every owner change in Conjecture NO's fixed-order
+variants, and it is the tool for the k = 4 owner walk.
