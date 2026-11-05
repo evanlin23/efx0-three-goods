@@ -80,3 +80,13 @@ round gap -3 1
 round gap -5 1
 round gap -6 1
 round gap <= -10 4
+$ python3 k4/sdc/phi_check.py random 71 8000 3 8 4
+every Phi-maximizer SD-consistent 4396
+instances 4396
+$ python3 k4/sdc/phi_check.py random 73 6000 3 8 5
+every Phi-maximizer SD-consistent 4034
+instances 4034
+$ python3 k4/sdc/phi_check.py random 72 6000 3 8 6
+PHI FAILS [[25, 0, 0, 50, 55, 0, 0], [63, 0, 23, 1, 16, 62, 0], [0, 31, 44, 0, 61, 0, 49]] [[0, 1, 3], [2, 5], [4, 6]]
+every Phi-maximizer SD-consistent 4701
+instances 4702

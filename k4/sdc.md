@@ -1112,7 +1112,7 @@ exactly one extendable SD outcome, never zero. So SD-C is tight but holds. Which
 Moving a non-favourite good never lowers Φ: the giver keeps its favourite, and the receiver's favourite can only
 improve. Only moving a favourite away from its holder lowers Φ.
 
-**Conjecture PHI₄ (K4.SDC.PHI4).** For strict valuations with at most four relevant goods per agent, every EFX₀
+**Conjecture PHI₄ (K4.SDC.PHI4; refuted in §21).** For strict valuations with at most four relevant goods per agent, every EFX₀
 allocation that maximizes Φ among the EFX₀ allocations is SD-consistent: some serial-dictatorship order's picks lie
 in the bundles. If PHI₄ holds, *SD-C₄ is equivalent to TARGET₄* on strict instances: any EFX₀ allocation yields a
 Φ-maximal one, which then extends an SD outcome. So SD-C would be a free normalization of every EFX₀ allocation, not
@@ -1203,8 +1203,51 @@ neither works. So the remaining case needs the potential, not a fixed protocol. 
   choice is SD-consistent. Lemma P fails on 459 of 27,096 random cases, e.g. v = (1, 5, 8, 5)
   (`k4/sdc/n2_lemmaP.py`, `n2_lemmaP.log`).
 
-**What this changes.** If PHI₄ holds, the search for "the right order" in §§8–19 was a search for a normalization that
+**What this changes** (written before §21 refuted PHI₄; the conditional stands, its hypothesis does not). If PHI₄ holds, the search for "the right order" in §§8–19 was a search for a normalization that
 comes for free. A proof of TARGET₄ need not construct the order; any EFX₀ allocation can be made SD-consistent by
 maximizing Φ. Conversely, the explicit orders failed (NO, NOF) because SD-C carries no information beyond EFX₀
 existence. What LB₄ʳ's shape (one large bundle) adds is the other half of the structure. Whether a Φ-maximal EFX₀
 allocation can also be taken in LB₄ʳ's shape is the natural next question.
+
+## 21. PHI₄ is refuted: SD-consistency is not free at k = 4
+
+**The counterexample** (K4.SDC.PHI4, REFUTED). This is a strict k = 4 core with n = 3, m = 7:
+
+| agent | goods (value) |
+|---|---|
+| 0 | 0 (25), 3 (50), 4 (55) |
+| 1 | 0 (63), 2 (23), 4 (16), 5 (62) |
+| 2 | 1 (31), 2 (44), 4 (61), 6 (49) |
+
+- Core conditions: every agent's top is worth less than half its total; private goods are 3 (agent 0), 5 (agent 1),
+  and 1 and 6 (agent 2, worth 80 < 105); the agents are connected through goods 0, 2 and 4.
+- There are 35 EFX₀ allocations. Their maximum Φ is 173, attained by four allocations, and none of the four holds an SD
+  outcome. The SD-consistent EFX₀ allocations, 18 of them, reach only Φ = 167. SD-C itself holds.
+- Replayed by the independent brute force `k4/sdc/refute_phi.py` (`refute_phi.log`).
+
+*Mechanism.* In the maximizer ({0, 1, 3}, {2, 5}, {4, 6}), agent 0 keeps good 0, agent 1's top, as a non-favourite
+*value supplement*. Without good 0, agent 0 holds 50 and strongly envies agent 2's bundle {4, 6}: good 6 is worth 0
+to agent 0, so removing it leaves 55. The general counterexample of §20 *parks* a good; this one *needs* it.
+
+*How it was found.* Random search at k ≤ 4 never met it:
+- 4,396 n = 3 instances with up to 8 goods, on top of the about 11,000 of §20;
+- 4,034 more with k ≤ 5;
+- one failure in 4,702 with k ≤ 6, an instance whose agents value 3, 5 and 4 goods.
+
+Zeroing one of agent 1's five values (good 3, worth 1) keeps the failure and gives the core above
+(`k4/sdc/phi_reduce.py`, `phi_reduce.log`). *Reducing a counterexample found at larger k* is a search method worth
+reusing. The k ≤ 4 random rates were about 0 in 15,000; at k ≤ 6 about 1 in 5,000.
+
+**The shape version fails with it.** On 3,521 random instances with k ≤ 4 and n = 3 to 5 (`k4/sdc/phi_shape.py`,
+`phi_shape.log`):
+- some Φ-maximal EFX₀ allocation was D-shaped, i.e. at most one bundle has more than two goods;
+- every Φ-maximizer among the D-shaped ones was SD-consistent.
+
+On the counterexample, all four maximizers are D-shaped (bundle sizes 3, 2, 2) and none is SD-consistent.
+
+**What is left.**
+- SD-C is again a genuine statement. It may be strictly stronger than EFX₀ existence; no instance separates them yet.
+- Lemma DT₂ and Lemma Φ₂ (§20) are unaffected. They concern two agents, where no third agent can force a value
+  supplement or a parking.
+- The two mechanisms (parking, value supplement) are the k = 4 form of P1's lesson. An SD-consistent EFX₀ allocation
+  can require some agent to give up a good that raises Φ, or to hold a good it does not value.

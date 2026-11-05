@@ -1,0 +1,25 @@
+$ python3 k4/sdc/phi_shape.py 1 3000 3 7 4
+(S1) every Phi-max among D-shaped is SD-consistent 1916
+(S2) some Phi-max is D-shaped 1916
+(S3) every Phi-max is D-shaped 1795
+Phi-max over D-shaped equals global Phi-max 1916
+instances 1916
+$ python3 k4/sdc/phi_shape.py 2 1500 4 7 4
+(S1) every Phi-max among D-shaped is SD-consistent 1098
+(S2) some Phi-max is D-shaped 1098
+(S3) every Phi-max is D-shaped 1098
+Phi-max over D-shaped equals global Phi-max 1098
+instances 1098
+$ python3 k4/sdc/phi_shape.py 3 400 4 8 4
+(S1) every Phi-max among D-shaped is SD-consistent 262
+(S2) some Phi-max is D-shaped 262
+(S3) every Phi-max is D-shaped 246
+Phi-max over D-shaped equals global Phi-max 262
+instances 262
+$ python3 k4/sdc/phi_shape.py 4 300 5 7 4
+(S1) every Phi-max among D-shaped is SD-consistent 245
+(S2) some Phi-max is D-shaped 245
+(S3) every Phi-max is D-shaped 245
+Phi-max over D-shaped equals global Phi-max 245
+instances 245
+PHI4 counterexample: Phi-max 173 maximizers (bundle sizes, SD-consistent, D-shaped): [([3, 2, 2], False, True), ([2, 3, 2], False, True), ([3, 2, 2], False, True), ([2, 2, 3], False, True)]

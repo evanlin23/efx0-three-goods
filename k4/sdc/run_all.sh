@@ -119,3 +119,7 @@ python3 k4/sdc/phi_ties.py 6 4000 9 > $L/phi_ties.log
 python3 k4/sdc/n2_lemmas.py 1 20000 10 > $L/n2_lemmas.log
 python3 k4/sdc/n2_sdc.py 1 20000 10 > $L/n2_sdc.log
 python3 k4/sdc/n2_lemmaP.py 1 6000 10 > $L/n2_lemmaP.log
+# §21: PHI4 refuted
+(python3 k4/sdc/phi_shape.py 1 3000 3 7 4; python3 k4/sdc/phi_shape.py 2 1500 4 7 4; python3 k4/sdc/phi_shape.py 3 400 4 8 4; python3 k4/sdc/phi_shape.py 4 300 5 7 4) > $L/phi_shape.log
+(python3 k4/sdc/phi_check.py random 71 8000 3 8 4; python3 k4/sdc/phi_check.py random 73 6000 3 8 5; python3 k4/sdc/phi_check.py random 72 6000 3 8 6) >> $L/phi_check.log
+python3 k4/sdc/phi_reduce.py > $L/phi_reduce.log
