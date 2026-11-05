@@ -118,3 +118,4 @@ python3 k4/sdc/refute_phi.py > $L/refute_phi.log
 python3 k4/sdc/phi_ties.py 6 4000 9 > $L/phi_ties.log
 python3 k4/sdc/n2_lemmas.py 1 20000 10 > $L/n2_lemmas.log
 python3 k4/sdc/n2_sdc.py 1 20000 10 > $L/n2_sdc.log
+python3 k4/sdc/n2_lemmaP.py 1 6000 10 > $L/n2_lemmaP.log

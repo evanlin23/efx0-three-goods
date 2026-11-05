@@ -1,0 +1,8 @@
+$ python3 k4/sdc/n2_lemmaP.py 1 6000 10
+LEMMA P FAILS [1, 5, 8, 5] a 2 b1 1 b2 0
+LEMMA P FAILS [0, 5, 19, 13, 0, 3] a 2 b1 3 b2 0
+LEMMA P FAILS [0, 5, 19, 13, 0, 3] a 2 b1 3 b2 4
+LEMMA P FAILS [8, 8, 3, 0, 13, 1] a 4 b1 0 b2 2
+Lemma P holds 26637
+cases 27096
+shown 4

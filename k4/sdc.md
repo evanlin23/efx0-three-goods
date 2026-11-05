@@ -1128,7 +1128,7 @@ definition; EVIDENCE only), with at most four valued goods per agent unless stat
 | n = 3, up to five valued goods per agent | 3,121 | all |
 | n = 4, up to 7 and 8 goods | 280 + 1,081 + 319 | all |
 | n = 5, up to 7 goods | 239 | all |
-| T3, Q2, r4253, r3943; the 151 screen instances with at most 600,000 allocations | 4 + 151 | all |
+| T3, Q2, r4253, r3943; the 151 screen and 136 suite instances with at most 600,000 allocations | 4 + 151 + 136 | all |
 
 Adversarial climbs (`phi_check.py climb`) maximized the gap: the best Φ of an SD-inconsistent EFX₀ allocation minus the
 best Φ of an SD-consistent one, where a gap ≥ 0 refutes. They ran at n = 2 (any k), n = 3 (k ≤ 4 and k ≤ 7) and n = 4
@@ -1191,7 +1191,17 @@ holds on 20,000 random instances (`k4/sdc/n2_sdc.py`, `n2_sdc.log`).
 
 Plain cut and choose with either cutter is not always SD-consistent on shared tops: both cutters fail on 7% of random
 instances. The fix "move the chooser's second good" closes all but rare cases; an adversarial search finds 79 where
-neither works. So the remaining case needs the potential, not a fixed protocol.
+neither works. So the remaining case needs the potential, not a fixed protocol. Two further partial results:
+- *In the remaining case, if v_i(g) ≥ v_i(F_j)* (with g chosen as i's best good of X_j other than F_j), the
+  construction of DT₂ applies with seeds g → i and F_j → j. Agent i cuts M ∖ {g, F_j}, agent j chooses, and the result
+  raises Φ. So only "i prefers F_j to g" is open.
+  - There, on all 145 random states, some swap of g against a subset T ⊆ X_i keeps EFX₀ and raises Φ.
+  - But no canonical T: a subset of X_i covering v_j(g) may not exist (35 states), and the cheapest cover works on 55
+    of 110.
+- *Lemma P*: a split of M, EFX₀ for v₁ in both directions, with agent 1's top a on one side and its second b₁ and
+  agent 2's second b₂ on the other, would settle shared tops. With agent 1 cutting so and agent 2 choosing, either
+  choice is SD-consistent. Lemma P fails on 459 of 27,096 random cases, e.g. v = (1, 5, 8, 5)
+  (`k4/sdc/n2_lemmaP.py`, `n2_lemmaP.log`).
 
 **What this changes.** If PHI₄ holds, the search for "the right order" in §§8–19 was a search for a normalization that
 comes for free. A proof of TARGET₄ need not construct the order; any EFX₀ allocation can be made SD-consistent by
