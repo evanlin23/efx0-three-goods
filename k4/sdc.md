@@ -1313,3 +1313,26 @@ choice.
 
 **Lean frame** (`lean/EFX/NOF.lean`, K4.SDC.RC.LEAN): `EFX.NOF.ConjRC` (every order, some policy, some d) and
 `EFX.NOF.target4_of_conjRC` (ConjRC ⟹ C₄∃ ⟹ TARGET₄). The implication uses only the agents' own list as the order.
+
+## 24. LB⁺'s rotation choice, applied greedily, is not enough at k = 4
+
+The greedy repair rule (`k4/sdc/greedy_kstar.py`, `greedy_kstar.log`) applies LB⁺'s choice at every step:
+- r is the last agent of the order that is neither frozen nor marked;
+- k* is the first FrozenAt agent threatened by W_r = J ∪ base(r) that has a need chain to r;
+- rotate k* along a shortest such chain, with the largest admissible base, and move k* to the end of the order (D4).
+
+Results:
+- **Screen set:** this succeeds from 3,946 of 4,069 starts, every order with n ≤ 5 and the best of the three upgrade
+  policies. It fails from 123 starts on 21 instances.
+- **Special instances:** it fails from 7 of 174 starts.
+
+The failures do not have one cause (`k4/sdc/rot_classify.py`, `rot_classify.log`). Among the first rotations that do
+lead to an output within two steps:
+- many chains end at a non-frozen agent other than r, so a different owner is needed;
+- many have k not threatened by the bundle of the chain's end;
+- in some starts a rotation of LB⁺'s kind exists, but the greedy's own choices (first k*, shortest chain, largest base)
+  lead to a state with no k*.
+
+This is the k = 4 form of the classes that Proposition D3 left open at k = 3 (§10), made larger by the owner choice. A
+rule that also picks the owner and the chain end would be one more case-based rule of the kind refuted throughout
+this note. It is not pursued. What RC needs is a reason why *some* rotation avoids the traps of §23.

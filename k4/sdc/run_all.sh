@@ -130,3 +130,6 @@ python3 k4/sdc/phi_lex.py 1 600 4 > $L/phi_lex.log
 # §23: rotation completeness
 (python3 k4/sdc/rot_complete.py special; python3 k4/sdc/rot_complete.py screen 4000; python3 k4/sdc/rot_complete.py suite 4000; python3 k4/sdc/rot_complete.py cores:k4_certs_2.json.gz,k4_certs_3.json.gz 3000 81; python3 k4/sdc/rot_complete.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 1500 82; RC_NMAX=9 RC_SAMPLE=20 python3 k4/sdc/rot_complete.py suite 6000; RC_NMAX=6 RC_SAMPLE=30 python3 k4/sdc/rot_complete.py cores:k4_certs_5_n4_1.json.gz,k4_certs_5_n4_2.json.gz 600 83) > $L/rot_complete.log
 (python3 k4/sdc/rot_traps.py special; python3 k4/sdc/rot_traps.py screen) > $L/rot_traps.log
+# §24
+(python3 k4/sdc/greedy_kstar.py special; python3 k4/sdc/greedy_kstar.py screen) > $L/greedy_kstar.log
+python3 k4/sdc/rot_classify.py > $L/rot_classify.log
