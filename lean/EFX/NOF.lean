@@ -371,6 +371,30 @@ theorem target4_of_conjNFR (I : Inst) (hn : 0 < I.n) {r1 : Bool} {d : Nat} (h : 
     (hk : ∀ i, numRelevant I i ≤ 4) : ∃ X : I.Alloc, I.EFX0 X :=
   target4_of_C4exists I hn (C4exists_of_conjNFR h) hk
 
+/-- **Rotation completeness** (ledger K4.SDC.RC, `k4/sdc.md` §23): for every strict profile of every k = 4 core and
+*every* order of the agents, the state of that order's serial dictatorship, after a run of upgrades of some policy and
+some finite number of rotations, has an output.  (Proposition H, ledger K4.C4.R, shows the number of rotations cannot
+be bounded for a fixed order; here it is existentially quantified.) -/
+def ConjRC (A G : Type) [DecidableEq A] [DecidableEq G] : Prop :=
+  ∀ (agents : List A) (goods : List G) (v : A → G → Nat), agents.Nodup → goods.Nodup → IsCore4 v agents goods →
+    Strict v agents goods → ∀ ord : List A, ord.Perm agents →
+      ∃ (pol : Policy) (s₁ s : LState A G) (d : Nat) (o : Option A) (X : G → A),
+        UpRun v agents goods pol (runState (sdList v ord goods)) s₁ ∧
+        RotReach v agents goods d s₁ s ∧ Output v agents goods s o X
+
+/-- **Rotation completeness ⟹ C₄∃** (it is used for one order only: the agents' own list). -/
+theorem C4exists_of_conjRC (h : ConjRC A G) : TheoremC4exists A G := by
+  intro agents goods v hag hgd hc hs
+  obtain ⟨pol, s₁, s, d, o, X, hup, hrot, hout⟩ := h agents goods v hag hgd hc hs agents (List.Perm.refl _)
+  have hR : RunSpec v agents goods agents.length (sdList v agents goods) := sdList_spec v agents goods hag hgd
+  have hinv := rotReach_inv hgd hrot (upRun_inv hup (runState_inv hR hgd))
+  exact ⟨s.base, needsOf v goods s, o, X, hinv.sound hout⟩
+
+/-- **Rotation completeness ⟹ TARGET₄.** -/
+theorem target4_of_conjRC (I : Inst) (hn : 0 < I.n) (h : ConjRC (Fin I.n) (Fin I.m))
+    (hk : ∀ i, numRelevant I i ≤ 4) : ∃ X : I.Alloc, I.EFX0 X :=
+  target4_of_C4exists I hn (C4exists_of_conjRC h) hk
+
 end NOF
 end EFX
 
@@ -382,3 +406,5 @@ end EFX
 #print axioms EFX.NOF.target4_of_conjNOFK
 #print axioms EFX.NOF.C4exists_of_conjNFR
 #print axioms EFX.NOF.target4_of_conjNFR
+#print axioms EFX.NOF.C4exists_of_conjRC
+#print axioms EFX.NOF.target4_of_conjRC

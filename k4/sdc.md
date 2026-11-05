@@ -1274,3 +1274,42 @@ larger k, where failures might be easier to meet and then reduce.
   - "For some π" is SD-C again: SD(π) is the lexicographic upper bound, attained iff it extends.
 
 So SD-C and NOF2 survive at larger k as well, and no potential found so far explains SD-C.
+
+## 23. Rotation completeness: every order is a good start for LB₄ʳ, but the rotations must be chosen
+
+D4 identifies LB₄ʳ's rotations with deferrals, and the reachable states of an LB₄ʳ run form a finite graph. So one
+can ask, exhaustively, whether rotations are a *complete* repair move.
+
+**Conjecture RC (K4.SDC.RC).** For every strict k = 4 core and every order of the agents, there is an upgrade policy
+and a finite sequence of rotations after which the state of that order's serial dictatorship has an LB₄ʳ output. The
+number of rotations is not bounded: Proposition H (K4.C4.R) forces about t − t/3 of them on H_t for any fixed order.
+
+Evidence (`k4/sdc/rot_complete.py`, `rot_complete.log`; every reachable state searched; EVIDENCE only):
+- *every* order with n ≤ 5, and 20 to 30 sampled orders at n = 6 to 9, plus LB₄ʳ's own Phase 1 with index insertion;
+- the special instances, the screen set, the suite (also with n ≤ 9), and random cores: 3,000 at n ≤ 3, 1,500 at
+  n = 4, 600 at n = 5.
+
+In all, 143,476 start runs, none dead; the two suite runs overlap. No start needs more than **two** rotations at these sizes:
+
+| data | starts | 0 rotations | 1 | 2 |
+|---|---|---|---|---|
+| screen set | 4,237 | 3,556 | 620 | 61 |
+| suite (n ≤ 9, sampled orders above 5) | 4,548 | 3,717 | 767 | 64 |
+| random n ≤ 3 / n = 4 / n = 5 cores | 19,928 / 37,500 / 72,600 | 97% / 97% / 99% | the rest | 0 |
+
+The repository already knew that every *R1 insertion order* of LB₄ʳ works with at most three rotations exhaustively
+at n ≤ 4 (K4.LB4R). RC adds that any serial-dictatorship order works as a start. The neediest-first order (NF, §16) is
+special only in needing no rotation on H_t and HH_t.
+
+**The rotations must be chosen** (`k4/sdc/rot_traps.py`, `rot_traps.log`). In the graph of states reachable from all
+starts, some states are *traps*: no output is reachable from them.
+- There are 42 trap states on 18 of the 168 screen instances, and one on Q2.
+- On one screen instance, a start with a particular upgrade policy is a trap, while another policy from the same
+  order succeeds.
+
+So a proof of RC cannot be "any rotation sequence terminates in success". It must choose the rotation, as LB⁺'s
+Theorem B chooses k*. The refuted potentials of §17 show that neither the deficit nor the base values guide that
+choice.
+
+**Lean frame** (`lean/EFX/NOF.lean`, K4.SDC.RC.LEAN): `EFX.NOF.ConjRC` (every order, some policy, some d) and
+`EFX.NOF.target4_of_conjRC` (ConjRC ⟹ C₄∃ ⟹ TARGET₄). The implication uses only the agents' own list as the order.

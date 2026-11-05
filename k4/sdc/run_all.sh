@@ -127,3 +127,6 @@ python3 k4/sdc/phi_reduce.py > $L/phi_reduce.log
 (python3 k4/sdc/sdc_bigk.py 1 4000 3 9 9; python3 k4/sdc/sdc_bigk.py 2 3000 4 9 9; python3 k4/sdc/sdc_bigk.py 3 2000 5 10 10; python3 k4/sdc/sdc_bigk.py 4 4000 3 8 6) > $L/sdc_bigk.log
 (python3 k4/sdc/bigk_climb.py nof2 1 3 6 600 60; python3 k4/sdc/bigk_climb.py nof2 2 4 6 400 40; python3 k4/sdc/bigk_climb.py sdc 3 3 6 600 60; python3 k4/sdc/bigk_climb.py sdc+ 11 3 4 800 60; python3 k4/sdc/bigk_climb.py sdc+ 12 3 6 800 60; python3 k4/sdc/bigk_climb.py nof2+ 13 3 4 600 50; python3 k4/sdc/bigk_climb.py sdc+ 14 4 4 400 30) > $L/bigk_climb.log
 python3 k4/sdc/phi_lex.py 1 600 4 > $L/phi_lex.log
+# §23: rotation completeness
+(python3 k4/sdc/rot_complete.py special; python3 k4/sdc/rot_complete.py screen 4000; python3 k4/sdc/rot_complete.py suite 4000; python3 k4/sdc/rot_complete.py cores:k4_certs_2.json.gz,k4_certs_3.json.gz 3000 81; python3 k4/sdc/rot_complete.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 1500 82; RC_NMAX=9 RC_SAMPLE=20 python3 k4/sdc/rot_complete.py suite 6000; RC_NMAX=6 RC_SAMPLE=30 python3 k4/sdc/rot_complete.py cores:k4_certs_5_n4_1.json.gz,k4_certs_5_n4_2.json.gz 600 83) > $L/rot_complete.log
+(python3 k4/sdc/rot_traps.py special; python3 k4/sdc/rot_traps.py screen) > $L/rot_traps.log
