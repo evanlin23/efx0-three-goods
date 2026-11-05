@@ -1102,3 +1102,99 @@ NOF2 is the explicit statement left after NO and NOF. It shares their weakness: 
 that T3 shows is not the right invariant. So it is recorded as the sharpest explicit form consistent with the data,
 not as a proof target in its own right. Proving it would need (A₄) and (B₄) of §11 with two repairs. By D4, those
 repairs are Lemma KR's rotations in the main class.
+
+## 20. Is SD-consistency free? The favourite-value potential Φ
+
+Adversarial climbs against SD-C seeded from T3 and Q2 (`sdc_climb.py` with seed files, `sdc_climb_seeded.log`; 160 rounds) always end with
+exactly one extendable SD outcome, never zero. So SD-C is tight but holds. Which EFX₀ allocations are SD-consistent?
+
+**The potential.** For an allocation X let F_i(X) be agent i's favourite good in X_i, and Φ(X) = Σ_i v_i(F_i(X)).
+Moving a non-favourite good never lowers Φ: the giver keeps its favourite, and the receiver's favourite can only
+improve. Only moving a favourite away from its holder lowers Φ.
+
+**Conjecture PHI₄ (K4.SDC.PHI4).** For strict valuations with at most four relevant goods per agent, every EFX₀
+allocation that maximizes Φ among the EFX₀ allocations is SD-consistent: some serial-dictatorship order's picks lie
+in the bundles. If PHI₄ holds, *SD-C₄ is equivalent to TARGET₄* on strict instances: any EFX₀ allocation yields a
+Φ-maximal one, which then extends an SD outcome. So SD-C would be a free normalization of every EFX₀ allocation, not
+a weaker stepping stone toward TARGET₄.
+
+Evidence (`k4/sdc/phi_check.py`, `phi_check.log`; exhaustive over all allocations of each instance, raw EFX₀
+definition; EVIDENCE only), with at most four valued goods per agent unless stated:
+
+| data | instances | every Φ-maximizer SD-consistent |
+|---|---|---|
+| n = 2, up to 9 goods, any number valued | 3,184 | 3,184 |
+| n = 3, up to 7 goods | 1,247 + 3,922 | all |
+| n = 3, up to five valued goods per agent | 3,121 | all |
+| n = 4, up to 7 and 8 goods | 280 + 1,081 + 319 | all |
+| n = 5, up to 7 goods | 239 | all |
+| T3, Q2, r4253, r3943; the 151 screen instances with at most 600,000 allocations | 4 + 151 | all |
+
+Adversarial climbs (`phi_check.py climb`) maximized the gap: the best Φ of an SD-inconsistent EFX₀ allocation minus the
+best Φ of an SD-consistent one, where a gap ≥ 0 refutes. They ran at n = 2 (any k), n = 3 (k ≤ 4 and k ≤ 7) and n = 4
+(k ≤ 4), 220 rounds in all, and reach −1 but never 0.
+
+Strictness is needed: with tied values a Φ-maximizer can hold a tied twin of an SD pick. On 4,000 tied two-agent
+instances some maximizer was always SD-consistent, every one on 2,983 (`k4/sdc/phi_ties.py`, `phi_ties.log`).
+
+**For general valuations PHI is false** (K4.SDC.PHI, REFUTED; `k4/sdc/refute_phi.py`, `refute_phi.log`, an independent
+brute force).
+- The instance: n = 3, m = 7, strict, with agents valuing 2, 6 and 6 goods; values [[0,0,55,57,0,0,0],
+  [50,1,0,58,76,75,70], [0,11,58,68,41,26,21]].
+- The unique Φ-maximizer, Φ = 198, is ({2, 4}, {0, 1, 5, 6}, {3}). It holds no SD outcome: agent 0 parks good 4, which
+  it values at 0 and which is agent 1's top.
+- In agent 1's bundle, good 4 would let agent 2 strongly envy that bundle.
+- The SD-consistent EFX₀ allocations reach only Φ = 191. SD-C itself holds there (28 SD-consistent EFX₀ allocations).
+
+Random search finds this on 2 of 1,395 n = 3 instances with up to seven valued goods per agent, and on none with at
+most five. The parking needs a bundle with many goods valued by a third agent.
+
+**Two agents.**
+- **Lemma DT₂ (K4.SDC.DT2, written proof).** For two agents with any additive valuations and distinct tops a (agent 1)
+  and b (agent 2), some EFX₀ allocation gives each agent its top. So SD-C holds for n = 2 whenever the tops differ.
+  - *Construction.* Agent 1 splits M′ = M ∖ {a, b} by the greedy EFX₀ partition for v₁: goods in decreasing v₁, each
+    to the part of smaller v₁-value. Agent 2 adds its preferred part C to b, and agent 1 gets a plus the other part D.
+  - *Agent 2* is envy-free: v₂(b + C) ≥ v₂(a) + v₂(D), since v₂(b) ≥ v₂(a) and v₂(C) ≥ v₂(D).
+  - *Agent 1.* Write θ(S) = v(S) − min_S v. The greedy partition is EFX₀ for identical valuations v₁, so
+    v₁(D) ≥ θ₁(C) and v₁(C) ≥ θ₁(D). (The bundle that received the last good had the smaller value then; for the other
+    bundle, its own last good is its least.) We need v₁(a + D) ≥ θ₁(b + C).
+    - If min(v₁(b), min_C v₁) = min_C v₁: then θ₁(b + C) = v₁(b) + θ₁(C) ≤ v₁(a) + v₁(D).
+    - Otherwise v₁(b) < min_C v₁, and θ₁(b + C) = v₁(C) ≤ v₁(D) + min_C v₁ ≤ v₁(D) + v₁(a), because a is agent 1's
+      top.
+    - If C = ∅, θ₁({b}) = 0.
+
+    The same holds with C and D exchanged, so agent 2's choice does not matter. ∎
+- **Lemma Φ₂ (K4.SDC.PHI2, written proof).** For two agents with strict valuations, let X be an EFX₀ allocation that
+  maximizes Φ. Then:
+  - (A) holds: the agents do not each prefer the other's favourite;
+  - (U) holds for agent i unless i prefers a non-favourite good g of X_j to F_i while j values g above every good of
+    X_i.
+
+  *Proof.* Replacing a good of S by one the observer values at most as much does not raise θ(S): θ is the sum of all
+  values but the least, a coordinatewise monotone function of the values.
+  - (A): if each prefers the other's favourite, swap the two favourites. Each agent's own value rises, and the other
+    bundle, as it sees it, had a good replaced by one it values less. So EFX₀ is kept, both favourites improve, and Φ
+    rises.
+  - (U): let i prefer g ∈ X_j ∖ {F_j} to F_i, hence to every good of X_i, and let h ∈ X_i have v_j(h) ≥ v_j(g). Swap g
+    and h.
+    - Agent i's value rises, and agent j's bundle, as i sees it, had g replaced by h, which i values less.
+    - Agent j's value does not fall, and agent i's bundle, as j sees it, had h replaced by g, which j values at most as
+      much.
+    - i's favourite becomes g and j keeps F_j, so Φ rises.
+
+  Both contradict maximality. ∎ (`k4/sdc/n2_lemmas.py`, `n2_lemmas.log`: the DT₂ construction is EFX₀ on all 15,498
+  random distinct-top instances, and both swaps keep EFX₀ in all 1,472 and 12,170 cases.)
+
+The remaining case of Lemma Φ₂ is the only gap in a proof of SD-C for n = 2, through EFX₀ existence for two agents
+(cut and choose). In that case agent j values g above all of X_i, and i may also prefer F_j to g. SD-C for n = 2
+holds on 20,000 random instances (`k4/sdc/n2_sdc.py`, `n2_sdc.log`).
+
+Plain cut and choose with either cutter is not always SD-consistent on shared tops: both cutters fail on 7% of random
+instances. The fix "move the chooser's second good" closes all but rare cases; an adversarial search finds 79 where
+neither works. So the remaining case needs the potential, not a fixed protocol.
+
+**What this changes.** If PHI₄ holds, the search for "the right order" in §§8–19 was a search for a normalization that
+comes for free. A proof of TARGET₄ need not construct the order; any EFX₀ allocation can be made SD-consistent by
+maximizing Φ. Conversely, the explicit orders failed (NO, NOF) because SD-C carries no information beyond EFX₀
+existence. What LB₄ʳ's shape (one large bundle) adds is the other half of the structure. Whether a Φ-maximal EFX₀
+allocation can also be taken in LB₄ʳ's shape is the natural next question.

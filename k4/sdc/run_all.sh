@@ -111,3 +111,10 @@ for F in "" "--nor1"; do S=$( [ -z "$F" ] && echo "" || echo "_nor1" ); (python3
 # §19: NOF2
 (for a in special screen suite; do python3 k4/sdc/nof2.py $a; python3 k4/sdc/nof2.py $a --r1; done; python3 k4/sdc/nof2.py cores:k4_certs_2.json.gz,k4_certs_3.json.gz 20000 121; python3 k4/sdc/nof2.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 20000 122; python3 k4/sdc/nof2.py cores:k4_certs_5_n4_1.json.gz,k4_certs_5_n4_2.json.gz 6000 123) > $L/nof2.log
 (python3 k4/sdc/nof2.py climb 131 3 600 60; python3 k4/sdc/nof2.py climb 132 4 400 40) > $L/nof2_climb.log
+# §20: the favourite-value potential, two agents
+(python3 k4/sdc/sdc_climb.py 201 3 800 60 plain $L/seeds_t3.jsonl; python3 k4/sdc/sdc_climb.py 202 3 800 60 r1 $L/seeds_t3.jsonl; python3 k4/sdc/sdc_climb.py 203 4 600 40 plain $L/seeds_q2.jsonl) > $L/sdc_climb_seeded.log
+(python3 k4/sdc/phi_check.py random 21 4000 2 9 9; python3 k4/sdc/phi_check.py random 22 2000 3 7 4; python3 k4/sdc/phi_check.py random 23 1500 3 7 7; python3 k4/sdc/phi_check.py random 24 400 4 7 4; python3 k4/sdc/phi_check.py random 41 6000 3 7 4; python3 k4/sdc/phi_check.py random 42 1500 4 7 4; python3 k4/sdc/phi_check.py random 43 4000 3 7 5; python3 k4/sdc/phi_check.py random 61 500 4 8 4; python3 k4/sdc/phi_check.py random 62 300 5 7 4; python3 k4/sdc/phi_check.py special 3000000; python3 k4/sdc/phi_check.py screen 600000; python3 k4/sdc/phi_check.py suite 600000; python3 k4/sdc/phi_check.py climb 31 2 60 500 9; python3 k4/sdc/phi_check.py climb 32 3 40 300 4; python3 k4/sdc/phi_check.py climb 33 3 40 300 7; python3 k4/sdc/phi_check.py climb 51 3 80 400 4; python3 k4/sdc/phi_check.py climb 52 4 20 200 4) > $L/phi_check.log
+python3 k4/sdc/refute_phi.py > $L/refute_phi.log
+python3 k4/sdc/phi_ties.py 6 4000 9 > $L/phi_ties.log
+python3 k4/sdc/n2_lemmas.py 1 20000 10 > $L/n2_lemmas.log
+python3 k4/sdc/n2_sdc.py 1 20000 10 > $L/n2_sdc.log

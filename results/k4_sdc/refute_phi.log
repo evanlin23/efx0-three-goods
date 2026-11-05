@@ -1,0 +1,5 @@
+$ python3 k4/sdc/refute_phi.py
+strict: True valued goods per agent: [2, 6, 6]
+EFX0 allocations: 48 max Phi: 198 maximizers: [[[2, 4], [0, 1, 5, 6], [3]]]
+maximizer [[2, 4], [0, 1, 5, 6], [3]] holds the SD outcome of orders: []
+SD-consistent EFX0 allocations: 28 their max Phi: 191
