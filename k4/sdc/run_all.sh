@@ -123,3 +123,7 @@ python3 k4/sdc/n2_lemmaP.py 1 6000 10 > $L/n2_lemmaP.log
 (python3 k4/sdc/phi_shape.py 1 3000 3 7 4; python3 k4/sdc/phi_shape.py 2 1500 4 7 4; python3 k4/sdc/phi_shape.py 3 400 4 8 4; python3 k4/sdc/phi_shape.py 4 300 5 7 4) > $L/phi_shape.log
 (python3 k4/sdc/phi_check.py random 71 8000 3 8 4; python3 k4/sdc/phi_check.py random 73 6000 3 8 5; python3 k4/sdc/phi_check.py random 72 6000 3 8 6) >> $L/phi_check.log
 python3 k4/sdc/phi_reduce.py > $L/phi_reduce.log
+# §22
+(python3 k4/sdc/sdc_bigk.py 1 4000 3 9 9; python3 k4/sdc/sdc_bigk.py 2 3000 4 9 9; python3 k4/sdc/sdc_bigk.py 3 2000 5 10 10; python3 k4/sdc/sdc_bigk.py 4 4000 3 8 6) > $L/sdc_bigk.log
+(python3 k4/sdc/bigk_climb.py nof2 1 3 6 600 60; python3 k4/sdc/bigk_climb.py nof2 2 4 6 400 40; python3 k4/sdc/bigk_climb.py sdc 3 3 6 600 60; python3 k4/sdc/bigk_climb.py sdc+ 11 3 4 800 60; python3 k4/sdc/bigk_climb.py sdc+ 12 3 6 800 60; python3 k4/sdc/bigk_climb.py nof2+ 13 3 4 600 50; python3 k4/sdc/bigk_climb.py sdc+ 14 4 4 400 30) > $L/bigk_climb.log
+python3 k4/sdc/phi_lex.py 1 600 4 > $L/phi_lex.log

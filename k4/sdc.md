@@ -1251,3 +1251,26 @@ On the counterexample, all four maximizers are D-shaped (bundle sizes 3, 2, 2) a
   supplement or a parking.
 - The two mechanisms (parking, value supplement) are the k = 4 form of P1's lesson. An SD-consistent EFX₀ allocation
   can require some agent to give up a good that raises Φ, or to hold a good it does not value.
+
+## 22. SD-C and NOF2 at larger k; the lexicographic favourite potential
+
+The PHI₄ counterexample came from reducing a k = 5 failure. So the two explicit statements still open were searched at
+larger k, where failures might be easier to meet and then reduce.
+
+- **Random search** (`k4/sdc/sdc_bigk.py`, `sdc_bigk.log`): 10,636 strict instances with n = 3, 4, 5, up to 10 goods,
+  and every good possibly valued, plus k ≤ 6.
+  - No SD-C failure.
+  - NOF2 never needs two deferrals; the plain neediest-first run works on all but 6.
+- **Adversarial climbs** with up to four or six valued goods per agent (`k4/sdc/bigk_climb.py`, `bigk_climb.log`, 410
+  rounds), against SD-C (the number of extendable SD outcomes) and NOF2 (the number of working candidates).
+  - Each was run plain and with the number of complete EFX₀ allocations as a secondary objective.
+  - Every round ends with exactly one extendable outcome or working candidate, never zero.
+  - With the secondary objective, the climbs reach instances with only 3 EFX₀ allocations at n = 3, one of them
+    SD-consistent.
+- **The lexicographic favourite potential** (`k4/sdc/phi_lex.py`, `phi_lex.log`). For an order π, maximize
+  (v_π₁(F_π₁), v_π₂(F_π₂), …) lexicographically over the EFX₀ allocations.
+  - On both PHI counterexamples the maximizers are SD-inconsistent for the orders that start with agent 2. On T3 and on
+    318 random instances every order works.
+  - "For some π" is SD-C again: SD(π) is the lexicographic upper bound, attained iff it extends.
+
+So SD-C and NOF2 survive at larger k as well, and no potential found so far explains SD-C.
