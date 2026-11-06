@@ -1663,9 +1663,11 @@ whose neediest-first picks need two LB₄ʳ rotations.
   - the other 8 need junk for a middle agent.
 
 **Where the difficulty now sits.** OC moves the whole difficulty into the free completion: when do given bases extend?
-- At k = 3, Draft and Exchange's finishing test counts the blockers' leftover goods (|H_o| ≤ |F| − 1). Its Improvement
-  Lemma then needs up to 4n trades, because its completion has a single finisher.
-- At k = 4, one chain suffices on the data once the completion is free.
+- At k = 3, Draft and Exchange's finishing test counts the blockers' leftover goods (|H_o| ≤ |F| − 1), and the
+  algorithm makes up to 4n trades. The k = 3 data below suggest that one well-chosen trade suffices even with its
+  single finisher.
+- At k = 4, one chain suffices on the data once the completion is free, and also with a single absorber (OC₁,
+  below).
 
 A proof along these lines needs:
 1. a Hall-type characterization of extendable bases (several agents absorbing junk, unlike LB₄ʳ's single owner);
@@ -1697,8 +1699,8 @@ ever loses value: there are no downgrades, unlike §27.
 `oc_owner.log`; `k4/sdc/refute_dich.py`, `refute_dich.log`).
 - *The dichotomy* reads: the picks have a one-absorber completion, or after one chain the bases have a completion
   with no absorber.
-- *Where it holds.* On the special and screen sets every repairing chain can be chosen so that no absorber is needed
-  afterwards (157 of 157 distinct hard screen starts).
+- *Where it holds.* On the special and screen sets, every hard start has a repairing chain after which no absorber
+  is needed (157 of 157 distinct hard screen starts).
 - *Where it fails.* It fails on 4 starts of one random n = 5 profile, and on an n = 3 instance found by
   `oc_climb.py dich`:
   - goods 0–6; agent 0 values goods 0, 2, 4, 3 at 5, 10, 1, 12; agent 1 values 6, 3, 1 at 10, 12, 11; agent 2
