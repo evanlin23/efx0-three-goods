@@ -1,0 +1,46 @@
+$ python3 k4/sdc/po_extremal.py special
+(excess, junkval): every maximizer works 1
+(excess, nofrozen): every maximizer works 2
+(junkval, excess): every maximizer works 0
+(nodanger, excess): every maximizer works 1
+(nofrozen, excess): every maximizer works 2
+excess: every maximizer works 1
+excess: some maximizer works 4
+instances 4
+instances where some order works with no chain 4
+junkval: every maximizer works 0
+junkval: some maximizer works 3
+nodanger: every maximizer works 1
+nodanger: some maximizer works 4
+nofrozen: every maximizer works 2
+nofrozen: some maximizer works 4
+ranks: every maximizer works 2
+ranks: some maximizer works 4
+tops: every maximizer works 0
+tops: some maximizer works 3
+util: every maximizer works 2
+util: some maximizer works 3
+time 0 s
+$ python3 k4/sdc/po_extremal.py screen
+(excess, junkval): every maximizer works 117
+(excess, nofrozen): every maximizer works 143
+(junkval, excess): every maximizer works 115
+(nodanger, excess): every maximizer works 141
+(nofrozen, excess): every maximizer works 143
+excess: every maximizer works 109
+excess: some maximizer works 167
+instances 168
+instances where some order works with no chain 168
+junkval: every maximizer works 108
+junkval: some maximizer works 161
+nodanger: every maximizer works 132
+nodanger: some maximizer works 164
+nofrozen: every maximizer works 132
+nofrozen: some maximizer works 168
+ranks: every maximizer works 132
+ranks: some maximizer works 165
+tops: every maximizer works 88
+tops: some maximizer works 154
+util: every maximizer works 137
+util: some maximizer works 154
+time 1 s

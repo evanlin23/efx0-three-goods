@@ -1807,3 +1807,121 @@ most three goods, which sufficed wherever the search finished).
   - The owner is then chosen as in DT's potential argument ((m1), (m2) for the unwanted agents).
   - The missing step is a count showing that the dangerous agents the chain does not pass through can be kept safe:
     their danger sets out of the owner's bundle, in other agents' slots.
+
+## 30. A completion lemma for single goods and satisfied pairs (Lemma GDT), and the one-wanter case
+
+**Structure at serial-dictatorship picks.** Let Y = SD(π) and J the junk.
+- *Who wants what.* An agent i *wants* a good g held by another agent if v_i(g) > v_i(Y_i). By serial dictatorship,
+  every junk good is worth less to i than Y_i. So i wants only picks, and only picks of earlier agents.
+- *Frozen agents.* An agent whose pick someone wants is *frozen*. Wanting points forward in π, so the want graph is
+  acyclic, and following wanters from a frozen agent always ends at an agent whose pick nobody wants. The last agent
+  of π is never frozen.
+- *f.* Let f be the fewest frozen agents over all orders, equivalently over all Pareto-optimal matchings (Lemma
+  SDPO). Then f = 0 exactly when the tops are pairwise distinct: with no frozen agent, everyone holds its top. That is
+  the case Theorem DT proves.
+- *Data* (`k4/sdc/min_frozen.py`, `min_frozen.log`). f is 0, 1, 2, 3 on 12, 60, 84, 12 screen instances; f reaches 4
+  on the suite and the logged profiles. So no proof can stop at f ≤ 1.
+- *An extremal choice that almost works.* Some order with the fewest frozen agents has a one-absorber completion
+  without any chain on every curated instance. It fails on one logged profile with f = 1, which OC₁ repairs with one
+  chain.
+- *Truly dangerous agents* (`k4/sdc/min_danger.py`, `min_danger.log`). Call a frozen agent truly dangerous if its
+  junk goods together are worth more than its pick. Some order has at most one such agent on all but 2 of the 1,849
+  curated and logged instances.
+
+**Lemma GDT (K4.SDC.GDT, written proof; confirmed by SAT on every state reached below).**
+*Setting.* Let B be a partial allocation, with every base a single good or a pair inside the holder's relevant goods,
+J the unallocated goods, and o an agent with B_o = {y_o}. An agent i *wants* a good g ∉ B_i if
+v_i(g) > v_i(B_i), and F is the set of single-good holders whose good someone wants. Suppose:
+- (G1) no good of a pair is wanted;
+- (G2) no junk good is wanted;
+- (G5) y_o is wanted by nobody, so o ∉ F;
+- (G3) every pair holder p has at most one good of R_p ∖ B_p in J ∪ B_o;
+- (G4) every frozen x ∈ F has v_x((J ∪ B_o) ∩ R_x) ≤ v_x(B_x).
+
+*Conclusion.* Some complete EFX₀ allocation keeps every base, gives at most one junk good to each single-good
+holder outside F ∪ {o}, gives nothing to F and to the pair holders, and gives the rest to o.
+
+*Proof.* Let N₁ be the single-good holders outside F ∪ {o}. For i ∈ N₁, let R′_i be R_i minus the goods of the
+frozen singletons. Then B_i = {t_i} with t_i the top of R′_i, because by (G1), (G2), (G5) and the definition of F,
+i wants only goods of frozen singletons. Run Theorem DT's moves (m1), (m2) for the agents of N₁, with robustness
+taken inside R′_i.
+1. *(F1′)* For every agent i, every good outside B_i and outside the frozen singletons is worth at most v_i(B_i).
+   This follows from (G1), (G2), (G5) and the definition of F.
+2. *(F2′)* A bundle of at most two goods threatens nobody: removing one good leaves a single good, which by (F1′)
+   is worth at most the other agent's base. Frozen agents get no junk, so they are singletons. So only X_o can
+   threaten.
+3. *No frozen agent is threatened.* For x ∈ F, X_o ∩ R_x ⊆ (J ∪ B_o) ∩ R_x, which is worth at most v_x(B_x) by
+   (G4).
+4. *No pair holder is threatened.* For a pair holder p, X_o ∩ R_p contains at most one good by (G3), worth at most
+   v_p(B_p) by (F1′).
+5. *The agents of N₁* are handled by DT's moves:
+   - Theorem DT's (F4) holds inside R′_i: with |R′_i| ≤ 3 every {t_i, g} is robust; with |R′_i| = 4 the only
+     exception is DT's g = d_i when v(b) + v(c) > v(t) + v(d).
+   - (m1): a danger set has at least two goods, at most one of them y_o, so it contains a good of L.
+   - (m2): the danger set is {b_i, c_i}, so one of them lies in L.
+   - The pair (number of robust matched agents, number of matched agents) rises lexicographically at every move, so
+     the moves stop.
+   - At the end every agent of N₁ is robust inside R′_i (and X_o ∩ R_i ⊆ R′_i ∖ X_i) or has no danger set in X_o.
+6. *The owner o* is not threatened by any bundle, by (F2′). ∎
+
+*Special cases.*
+- With no pair holders and no frozen agent valuing junk, GDT is Theorem DT⁺.
+- With no frozen agent, it says that a *satisfied state* completes, with any owner holding a good that no pair
+  holder has outside its pair. A satisfied state gives every agent its top or a pair worth more than its top, and
+  (G3) holds.
+
+**Theorem DT₁ (K4.SDC.DT1, written proof; checked on every case below).**
+*Statement.* Let Y = SD(π) have exactly one frozen agent x, wanted by exactly one agent w, and let n ≥ 3.
+1. If x values a pair H₀ ⊆ J ∪ {Y_w} above Y_x, then the *swap* (w takes Y_x; x takes H₀; Y_w ∖ H₀ becomes junk)
+   followed by Lemma GDT, with any owner o ∉ {x, w}, gives an EFX₀ allocation.
+2. In particular, SD(π) is value-dominated (MD for this order) and needs one chain (OC₁ for this order).
+
+*Proof.*
+1. *Structure.* Only Y_x is wanted. So every agent other than w holds its top: a good above Y_i would be wanted.
+   x holds its top a_x = Y_x, and w holds its best good other than a_x.
+2. *After the swap:*
+   - w holds its top;
+   - x holds H₀, worth more than any single good it values, so x wants nothing;
+   - a_x is wanted by nobody: its only wanter w now holds it, and x prefers H₀;
+   - every other pick stays unwanted;
+   - the new junk Y_w was unwanted.
+
+   So F = ∅. (G1) and (G2) hold: the goods of H₀ and of J ∪ {Y_w} were each worth less than every valuer's own good,
+   and holdings only improved. (G5) holds for every o ∉ {x, w}.
+3. *(G3) for x.* The goods of R_x ∖ H₀ are a_x, which is w's base (w ≠ o), and at most one other good, since
+   |R_x| ≤ 4.
+4. Lemma GDT applies. Every agent's final value is at least its pick's value. ∎
+
+*Checks* (`k4/sdc/f1_swap.py`, `k4/sdc/f1_owner.py`, `k4/sdc/f1_collect.py`, with logs of the same names).
+- *One frozen agent.* Over 108 screen, 665 logged and 3,047 random n = 4 outcomes with exactly one frozen agent, the
+  picks have a one-absorber completion in all but 6, 15 and 2 of them.
+- *The swap.* In each of those exceptions some swap repairs. In the n ≤ 3 collection (217 hard outcomes), every
+  wanter has a repairing swap with a smallest improving set in all but one, which has two wanters.
+- *The case of Theorem DT₁* (one wanter, an improving pair). Every owner outside {x, w} works in all 323 n = 3 swaps,
+  exactly as the proof says. With n = 2 there is no such owner, and x itself owns in all 91.
+- *Open sub-cases of f = 1:*
+  - several wanters: after the swap the receiving wanter is frozen and values its old pick, now junk;
+  - x improves only with three goods: its bundle of three can threaten. In r1179 the three-good swap fails while a
+    two-good one works.
+
+  Both are repaired by some swap on all data.
+
+**What does not close the general case** (`k4/sdc/satisfied.py`, `k4/sdc/gdt_reach.py`, `k4/sdc/dt_chains.py`,
+`k4/sdc/swap_any.py`, `k4/sdc/po_extremal.py`, with logs).
+- *Satisfied states* exist on only 54 of the 168 screen instances. On 42 of the others two agents that have no pair
+  worth more than their top share their top. Lemma GDT held on every satisfied state tested.
+- *GDT states* are reachable by improving chains from every order on 88 of 168 screen instances, and from no order
+  on 17. SAT confirms Lemma GDT on all 603 GDT states reached.
+- *Greedy procedures.* Repeated canonical chains from frozen agents whose junk is worth more than their pick, then a
+  completion, succeed from some order on every screen instance, but only from 3,839 of the 4,069 starts. Counting the
+  owner's pick in the trigger (LB⁺'s bad case) makes it worse, 2,907, because pairs and three-good bases accumulate.
+- *One swap.* A single swap from a dangerous frozen agent to one of its wanters repairs 168 of the 194 hard screen
+  starts. The others need longer chains or chains elsewhere.
+
+**The missing ingredient** is the one GDT leaves out on purpose. A frozen agent can also be protected by other
+agents' slots: an agent whose own danger does not need its slot can hold one of the frozen agent's junk goods. That is
+Lemma K's service count, and LB⁺'s block count at k = 3.
+
+So the general case comes down to a single combinatorial statement: the demands of the frozen agents (goods to keep
+out of the owner's bundle) fit into the free slots, or one improving chain makes them fit. OC₁ says this happens from
+every order on all data. Lemma GDT shows that everything else (every agent that is not frozen) takes care of itself.
