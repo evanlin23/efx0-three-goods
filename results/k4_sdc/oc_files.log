@@ -14,3 +14,4 @@ H3 n 13 m 33 random0 {'free': 0, 'one absorber': 0} time 2
 H4 n 17 m 43 index {'free': 0, 'one absorber': 1} time 199
 H4 n 17 m 43 reverse {'free': 0, 'one absorber': 0} time 199
 H4 n 17 m 43 neediest-first {'free': 0, 'one absorber': 0} time 200
+(run stopped by its 3000 s time limit during H4 with order random0; H5, HH3, HH4 not reached)

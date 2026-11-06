@@ -1739,12 +1739,15 @@ start over all orders.
 - Neither ever falls below one repairing chain. The only failure found is of the strict dichotomy (above).
 
 **The gadget families** (`k4/sdc/oc_files.py`, `oc_files.log`; chains of at most four agents and junk sets of at
-most three goods, which is enough).
-- On H_t, LB₄ʳ with a fixed insertion order needs ⌈2t/3⌉ rotations (K4.C4.R). Here, with the index order:
-  - the picks extend under the free completion on H₁–H₄;
+most three goods, which sufficed wherever the search finished).
+- On H_t, LB₄ʳ with a fixed insertion order needs ⌈2t/3⌉ rotations (K4.C4.R). Here, with the index order on H₁–H₄:
+  - the picks extend under the free completion;
   - with one absorber, one chain suffices.
-- With the reverse order, the neediest-first order and a random order, the picks need no chain at all.
-- The one-owner shape is what made H_t hard: the general chain moves the junk to where it fits.
+- With the reverse order and the neediest-first order on H₁–H₄, and a random order on H₁–H₃, the picks need no chain
+  at all.
+- The run stopped at its 50-minute limit while searching H₄ with a random order (n = 17). So that start and H₅
+  remain untested.
+- The one-owner shape is what made H_t hard for LB₄ʳ. The general chain moves the junk to where it fits.
 
 **Who absorbs at the start** (`k4/sdc/oc_last.py`, `oc_last.log`).
 - *Data.* The orders whose picks have a one-absorber completion and need an absorber: 12 special, 2,661 screen, 2,814
