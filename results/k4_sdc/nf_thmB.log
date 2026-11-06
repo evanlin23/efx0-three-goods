@@ -1,0 +1,61 @@
+$ python3 k4/sdc/nf_thmB.py special
+NF-B FAILS T3 [[[5, 0, 4, 2], [3, 1, 4], [4, 1, 3, 0]], [[1, 38, 36, 6], [12, 22, 30], [28, 20, 12, 38]]] chain-to-r False any False
+NF-B (k threatened by W_r, chain to r, one rotation) 0
+instances 4
+no output at the start 1
+one rotation with chain end r 0
+one rotation, any chain 0
+shown 1
+time 0 s
+$ python3 k4/sdc/nf_thmB.py screen
+NF-B FAILS nsw-strict-n4m8 [[[0, 3, 5, 7], [1, 4, 5, 6], [2, 4, 6, 7], [3, 6, 7]], [[2, 8, 4, 7], [2, 8, 3, 4], [2, 10, 6, 7], [4, 3, 2]]] chain-to-r False any True
+NF-B (k threatened by W_r, chain to r, one rotation) 20
+instances 168
+no output at the start 21
+one rotation with chain end r 20
+one rotation, any chain 21
+shown 1
+time 0 s
+$ python3 k4/sdc/nf_thmB.py suite
+NF-B FAILS nsw-strict-n4m8 [[[0, 3, 5, 7], [1, 4, 5, 6], [2, 4, 6, 7], [3, 6, 7]], [[2, 8, 4, 7], [2, 8, 3, 4], [2, 10, 6, 7], [4, 3, 2]]] chain-to-r False any True
+NF-B FAILS rc-n5m12-f2 [[[0, 2, 4, 8], [1, 8, 10, 11], [3, 9, 10, 11], [4, 5, 6, 7], [5, 6, 7, 9]], [[4, 3, 8, 2], [6, 3, 7, 5], [4, 8, 3, 2], [8, 4, 2, 3], [4, 2, 3, 8]]] chain-to-r False any True
+NF-B (k threatened by W_r, chain to r, one rotation) 19
+instances 161
+no output at the start 21
+one rotation with chain end r 19
+one rotation, any chain 21
+shown 2
+time 0 s
+$ python3 k4/sdc/nf_thmB.py cores:k4_certs_2.json.gz,k4_certs_3.json.gz 20000 91
+NF-B FAILS r2186 [[[0, 1, 2, 5], [1, 3, 4, 5], [2, 3, 4, 5]], [[7, 8, 4, 2], [10, 6, 2, 7], [5, 7, 6, 3]]] chain-to-r False any True
+NF-B FAILS r3007 [[[0, 2, 4, 5], [1, 4, 6, 7], [3, 5, 6, 7]], [[8, 3, 4, 10], [6, 3, 7, 5], [7, 10, 6, 2]]] chain-to-r False any True
+NF-B FAILS r7891 [[[0, 1, 2, 3], [2, 4, 5, 6], [3, 4, 5, 6]], [[4, 3, 2, 8], [3, 7, 6, 5], [8, 4, 2, 5]]] chain-to-r False any True
+NF-B FAILS r11278 [[[0, 2, 4, 5], [1, 3, 4, 5], [2, 3, 4, 5]], [[7, 10, 6, 2], [1, 4, 8, 6], [8, 3, 6, 4]]] chain-to-r True any True
+NF-B (k threatened by W_r, chain to r, one rotation) 112
+instances 20000
+no output at the start 118
+one rotation with chain end r 113
+one rotation, any chain 118
+shown 4
+time 15 s
+$ python3 k4/sdc/nf_thmB.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 20000 92
+NF-B FAILS r13 [[[0, 2, 5, 6], [1, 5, 6, 7], [3, 4, 5, 7], [3, 4, 6, 7]], [[2, 6, 10, 3], [5, 4, 8, 6], [2, 7, 10, 6], [3, 8, 4, 6]]] chain-to-r False any True
+NF-B FAILS r1500 [[[0, 2, 6, 8], [1, 4, 7, 10], [3, 5, 9, 10], [6, 7, 8, 9]], [[4, 1, 8, 6], [6, 3, 8, 10], [2, 3, 6, 10], [4, 10, 8, 3]]] chain-to-r False any True
+NF-B FAILS r14693 [[[0, 2, 4, 7], [1, 4, 8, 9], [3, 5, 6, 9], [5, 6, 7, 8]], [[4, 8, 1, 6], [2, 4, 7, 10], [4, 3, 6, 8], [4, 8, 5, 2]]] chain-to-r False any True
+NF-B FAILS r15366 [[[0, 2, 6, 7], [1, 3, 7], [3, 4, 5, 6], [4, 5, 6, 7]], [[2, 5, 4, 8], [2, 4, 3], [10, 3, 6, 8], [6, 2, 7, 10]]] chain-to-r True any True
+NF-B (k threatened by W_r, chain to r, one rotation) 95
+instances 20000
+no output at the start 100
+one rotation with chain end r 96
+one rotation, any chain 100
+shown 4
+time 23 s
+$ python3 k4/sdc/nf_thmB.py cores:k4_certs_5_n4_1.json.gz,k4_certs_5_n4_2.json.gz 6000 93
+NF-B FAILS r4380 [[[0, 3, 4], [1, 6, 7, 8], [2, 6, 8], [3, 4, 5], [5, 7, 8]], [[3, 2, 4], [2, 4, 8, 5], [4, 3, 2], [2, 4, 3], [4, 3, 2]]] chain-to-r False any True
+NF-B (k threatened by W_r, chain to r, one rotation) 18
+instances 6000
+no output at the start 19
+one rotation with chain end r 18
+one rotation, any chain 19
+shown 1
+time 8 s

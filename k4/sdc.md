@@ -1370,7 +1370,7 @@ more exposed 4-good agents (K4.C4.GAP), together with a rule for the rotation th
 LB⁺'s Theorem A designates k*, the unique short block. At k = 4 the short part can involve several blocks and several
 owners.
 
-## 26. The smallest gap configurations, Lemma Ω, and ω as a potential from the neediest-first start
+## 26. The smallest gap configurations, Lemma Ωʳ, and ω as a potential from the neediest-first start
 
 **The three smallest configurations of K4.C4.GAP** (`attempts/k4-c4-exposure-counting.md`, rebuilt from their
 recorded picks by `k4/sdc/gap_explain.py`, `gap_explain.log`) are repaired by three mechanisms, all inside LB₄ʳ:
@@ -1388,7 +1388,7 @@ recorded picks by `k4/sdc/gap_explain.py`, `gap_explain.log`) are repaired by th
 
 So two of the three are already closed by Lemma K's count (kept set, choice of owner). The third is closed by ω.
 
-**Lemma Ω (K4.SDC.OMEGA, written proof; checked on every rotation met, `k4/sdc/lemma_omega.py`, `lemma_omega.log`).**
+**Lemma Ωʳ (K4.SDC.OMEGA, written proof; checked on every rotation met, `k4/sdc/lemma_omega.py`, `lemma_omega.log`).**
 Let P be an LB₄ʳ state with `Inv`. Let P → P′ be a RotStep along k = x₀, x₁, …, x_t with new base O for k, such that:
 - |O| = 2 and v_k(O) > v_k(Y_k);
 - the chain end x_t has a one-good base and is not frozen.
@@ -1398,7 +1398,9 @@ off the chain frozen in P and not in P′. No agent off the chain becomes frozen
 
 *Proof.* Write ω = |J| − Σ_i cap(i), with cap(i) = 0 if i is frozen and 2 − |B_i| otherwise.
 1. *Junk.* O ⊆ J ∪ B_{x_t}, and x_t's base returns to the junk, so |J′| = |J| − |O| + |B_{x_t}| = |J| − 1.
-2. *Needs.* k's new base is worth more than its pick, so NA′ ⊆ NA (Lemma R, `EFX.LB4R.rotate_valid`, K4.C4.AB.L).
+2. *Needs.* k's new base is worth more than its pick, so NA′ ⊆ NA by the validity step of Lemma KR (`k4/rulef.md` §3,
+   `EFX.LB4R.NA_rotate_inv`): each chain agent's new needs are worth more than the good it needed, and k's are worth
+   more than v_k(O) > v_k(Y_k); the argument does not use where the chain ends.
    Hence an agent off the chain, whose base is unchanged, stays free if it was free, and may stop being frozen.
 3. *Caps.*
    - k was frozen (cap 0) and has two goods after (cap 0).
@@ -1425,7 +1427,7 @@ repair that lowers it at every step uses at most ω(start) rotations.
     [1,4,8,6],[10,3,6,8]]), the shortest repair is one rotation that lowers ω from 2 to 0. It is a downgrade: agent 0
     gives up its top for its third good, and agent 3, which needed three goods, takes agent 0's top and releases two
     frozen agents. Some other ω-decreasing rotation leads into a trap.
-- *Two-good improving rotations alone are not enough:* restricted to Lemma Ω's rotations, the search is trap-free from
+- *Two-good improving rotations alone are not enough:* restricted to Lemma Ωʳ's rotations, the search is trap-free from
   some policy on only 7 of the 40 file instances that need rotations. The useful rotations include downgrades that
   satisfy an agent needing several goods (the n = 4 example) and three-good bases.
 
@@ -1434,5 +1436,5 @@ envy-free upgrades either has an output, or has a RotStep that lowers ω and lea
 Equivalently, an output is reachable by rotations each lowering ω, so at most ω(start) of them. This adds to NF (§16)
 a potential that bounds the search. A proof needs the existence step:
 - at a state reached this way, without an output, some rotation lowers ω without entering a trap;
-- Lemma Ω computes ω′ exactly for the improving two-good rotations, and the general formula
+- Lemma Ωʳ computes ω′ exactly for the improving two-good rotations, and the general formula
   ω′ − ω = |B_{x_t}| − |O| − (Σ cap′ − Σ cap) covers the others.

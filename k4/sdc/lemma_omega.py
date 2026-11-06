@@ -1,9 +1,9 @@
-"""Lemma Omega (k4/sdc.md §26) and the existence step it leaves.
+"""Lemma Omega^r (k4/sdc.md §26) and the existence step it leaves.
   (L) For every improving RotStep (v_k(O) > v_k(Y_k)) with |O| = 2 whose chain end has a one-good base:
       omega' = omega - (#chain agents x_1..x_t not frozen after) - (#other agents frozen before and not after),
       and no agent outside the chain becomes frozen.  Checked on every such rotation met.
   (E) From the plain neediest-first start (each upgrade policy), following only such rotations that leave some agent
-      free (so omega drops by Lemma Omega), every reached state without an LB4r output has another one.  A trap is a
+      free (so omega drops by Lemma Omega^r), every reached state without an LB4r output has another one.  A trap is a
       reached state without output and without such a rotation.  If some policy has no trap, induction on omega
       (omega <= 0 gives an output with no owner, EFX.LB4R.output_none_of_omega) repairs the start.
 
