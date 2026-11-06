@@ -1369,3 +1369,70 @@ What a proof needs, stated once more in the sharpest form the data allow: a *cou
 more exposed 4-good agents (K4.C4.GAP), together with a rule for the rotation that the count itself designates.
 LB⁺'s Theorem A designates k*, the unique short block. At k = 4 the short part can involve several blocks and several
 owners.
+
+## 26. The smallest gap configurations, Lemma Ω, and ω as a potential from the neediest-first start
+
+**The three smallest configurations of K4.C4.GAP** (`attempts/k4-c4-exposure-counting.md`, rebuilt from their
+recorded picks by `k4/sdc/gap_explain.py`, `gap_explain.log`) are repaired by three mechanisms, all inside LB₄ʳ:
+1. *Exposed non-leader* (n = 3, m = 5): a rotation absorbs the danger set. The frozen exposed 4-good agent is rotated
+   to its needer with its two danger goods as base O.
+   - J loses those two goods and gets the chain end's one good back, so ω falls from 1 to 0 and an output with no
+     owner exists.
+   - Lemma K's deficit was 1 before the rotation.
+2. *Deficit 2* (n = 2, m = 5): this is a deficit of LB⁺'s count with owner-base needs, not of Lemma K.
+   - With the owner's needs from its bundle and the kept set {4}, the owner's bundle beats the good it needed. The
+     frozen agent is released and serves itself.
+   - Lemma K's deficit is 0, and an output exists without rotation.
+3. *Earlier-block deficit* (n = 3, m = 6): the free exposed 4-good agent is the owner (deficit −1), and an output
+   exists without rotation.
+
+So two of the three are already closed by Lemma K's count (kept set, choice of owner). The third is closed by ω.
+
+**Lemma Ω (K4.SDC.OMEGA, written proof; checked on every rotation met, `k4/sdc/lemma_omega.py`, `lemma_omega.log`).**
+Let P be an LB₄ʳ state with `Inv`. Let P → P′ be a RotStep along k = x₀, x₁, …, x_t with new base O for k, such that:
+- |O| = 2 and v_k(O) > v_k(Y_k);
+- the chain end x_t has a one-good base and is not frozen.
+
+Then ω′ = ω − f − u, where f is the number of chain agents x₁, …, x_t not frozen in P′, and u the number of agents
+off the chain frozen in P and not in P′. No agent off the chain becomes frozen.
+
+*Proof.* Write ω = |J| − Σ_i cap(i), with cap(i) = 0 if i is frozen and 2 − |B_i| otherwise.
+1. *Junk.* O ⊆ J ∪ B_{x_t}, and x_t's base returns to the junk, so |J′| = |J| − |O| + |B_{x_t}| = |J| − 1.
+2. *Needs.* k's new base is worth more than its pick, so NA′ ⊆ NA (Lemma R, `EFX.LB4R.rotate_valid`, K4.C4.AB.L).
+   Hence an agent off the chain, whose base is unchanged, stays free if it was free, and may stop being frozen.
+3. *Caps.*
+   - k was frozen (cap 0) and has two goods after (cap 0).
+   - x₁, …, x_{t−1} were frozen (cap 0).
+   - x_t had cap 1.
+   - After the rotation every chain agent x_i (i ≥ 1) has a one-good base, so cap 1 if free, 0 if frozen.
+
+   So Σ cap′ − Σ cap = f − 1 + u, and ω′ − ω = −1 − (f − 1 + u) = −f − u. ∎
+
+With |O| = 3 the same count gives ω′ ≤ ω − 1 always, k's cap being −1, but k then holds a three-good base and must be
+the owner. Since ω ≤ 0 gives an output with no owner (`EFX.LB4R.output_none_of_omega`), ω is a natural potential: a
+repair that lowers it at every step uses at most ω(start) rotations.
+
+**ω as a potential** (`k4/sdc/omega_check.py`, `omega_check.log`; `k4/sdc/omega_nf.py`, `omega_nf.log`).
+- *From every start it fails.* At Q2's R1 start every rotation raises ω, by 1 or 2, and none lowers Lemma K's
+  deficit; two rotations still reach an output. So no nonnegative combination of ω, the deficit and the negated base
+  values can be a potential from every start.
+- *From the plain neediest-first start it works on all data:*
+  - with envy-free upgrades, **some ω-decreasing rotation sequence reaches an output on every start that needs
+    rotations**: 20 screen, 20 suite, 85 random n ≤ 3, 88 random n = 4 and 18 random n = 5 profiles, 231 in all;
+  - with shrink upgrades it misses twice;
+  - *every* ω-decreasing sequence reaches an output (no trap) on 228 of the 231.
+  - In the 3 exceptions (n = 4, e.g. sets [[0,1,2,3],[0,2,6],[1,4,5,6],[3,4,5,6]], values [[2,4,7,10],[2,3,4],
+    [1,4,8,6],[10,3,6,8]]), the shortest repair is one rotation that lowers ω from 2 to 0. It is a downgrade: agent 0
+    gives up its top for its third good, and agent 3, which needed three goods, takes agent 0's top and releases two
+    frozen agents. Some other ω-decreasing rotation leads into a trap.
+- *Two-good improving rotations alone are not enough:* restricted to Lemma Ω's rotations, the search is trap-free from
+  some policy on only 7 of the 40 file instances that need rotations. The useful rotations include downgrades that
+  satisfy an agent needing several goods (the n = 4 example) and three-good bases.
+
+**Conjecture NF-Ω (K4.SDC.NFO).** For every strict k = 4 core, the state of the plain neediest-first run after
+envy-free upgrades either has an output, or has a RotStep that lowers ω and leads to a state with the same property.
+Equivalently, an output is reachable by rotations each lowering ω, so at most ω(start) of them. This adds to NF (§16)
+a potential that bounds the search. A proof needs the existence step:
+- at a state reached this way, without an output, some rotation lowers ω without entering a trap;
+- Lemma Ω computes ω′ exactly for the improving two-good rotations, and the general formula
+  ω′ − ω = |B_{x_t}| − |O| − (Σ cap′ − Σ cap) covers the others.

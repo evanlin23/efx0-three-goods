@@ -136,3 +136,8 @@ python3 k4/sdc/rot_classify.py > $L/rot_classify.log
 # §25
 (python3 k4/sdc/lex_check.py special 3; for sec in sum pareto phi; do LEX_MODE=guided LEX_SECOND=$sec python3 k4/sdc/lex_check.py special 6; done) > $L/lex_check.log
 (python3 k4/sdc/exposed4.py screen; python3 k4/sdc/exposed4.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 3000 5) > $L/exposed4.log
+# §26
+python3 k4/sdc/gap_explain.py > $L/gap_explain.log
+(for crit in O1 O2 I1 I2; do LEX_MODE=guided OM_CRIT=$crit python3 k4/sdc/omega_check.py special 5; done) > $L/omega_check.log
+(python3 k4/sdc/omega_nf.py screen; python3 k4/sdc/omega_nf.py suite; python3 k4/sdc/omega_nf.py cores:k4_certs_2.json.gz,k4_certs_3.json.gz 20000 91; python3 k4/sdc/omega_nf.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 20000 92; python3 k4/sdc/omega_nf.py cores:k4_certs_5_n4_1.json.gz,k4_certs_5_n4_2.json.gz 6000 93) > $L/omega_nf.log
+(for a in special screen suite; do python3 k4/sdc/lemma_omega.py $a; done) > $L/lemma_omega.log
