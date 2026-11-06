@@ -1656,11 +1656,11 @@ whose neediest-first picks need two LB₄ʳ rotations.
     instances.
   - From the neediest-first order they never fail: 46,000 random profiles, 1,587 logged ones and the curated sets. At
     most two rotations are needed; two only on T3, 2 random profiles and 4 logged profiles.
-- *Shapes on the screen set* (147 starts whose picks do not extend):
-  - 124 have a repairing chain in which only x₀ takes junk;
-  - 137 have one that starts at an agent whose pick another agent needs;
-  - the rest need junk for a middle agent, or start at an agent nobody envies (often a swap: x₀ takes x₁'s base and
-    x₁ takes x₀'s base plus junk).
+- *Shapes on the screen set* (147 starts whose picks do not extend; every description of every repairing move
+  counted):
+  - 139 have a repairing chain in which only x₀ takes junk;
+  - all 147 have one that starts at an agent whose pick another agent needs (a frozen x₀);
+  - the other 8 need junk for a middle agent.
 
 **Where the difficulty now sits.** OC moves the whole difficulty into the free completion: when do given bases extend?
 - At k = 3, Draft and Exchange's finishing test counts the blockers' leftover goods (|H_o| ≤ |F| − 1). Its Improvement
@@ -1776,9 +1776,21 @@ most three goods, which is enough).
   take junk, and their danger sets of junk goods must stay out of the owner's bundle (§6, "the general completion
   problem"). On the starts that need a chain (10 special, 157 screen, 148 suite):
   - D has 1–3 agents;
-  - some repairing chain passes through an agent of D in every case;
-  - in 9, 147 and 140 of them, some repairing chain starts in D;
-  - in 3, 63 and 63, some repairing chain passes through all of D.
+  - **some repairing chain starts in D in every case** (10, 157, 148);
+  - in 3, 63 and 63 of them, some repairing chain passes through all of D.
+
+  (Counted over every description of every repairing move; an earlier count that kept one description per resulting
+  state gave lower numbers.)
+- *One dangerous agent* (`k4/sdc/oc_d1.py`, `oc_d1.log`). When D = {k}, consider the *canonical chains*: they start
+  at k, pass k's pick along agents that each want what they receive (no junk for them), and end at an agent whose
+  pick nobody wants; k takes junk or the end's pick, worth more than its own.
+  - A canonical chain always exists, and some canonical chain repairs in every case: 14 screen, 14 suite, 22 random
+    n = 4 and 71 random n ≤ 3 starts, 121 in all.
+  - Taking k's most valuable improving set H₀ repairs in all but one of them.
+  - So the single-dangerous-agent case of OC₁ is a statement of LB⁺'s Theorem B type. The chain is LB₄ʳ's improving
+    rotation from the dangerous agent to an unwanted end.
+  - The proof would need what Theorem B₄ needs: the agents of the chain may become frozen, and may value junk, after
+    the shift.
 - *The proof plan this suggests: DT⁺'s construction plus one chain.*
   - The chain starts at a dangerous agent k, gives k's pick to the agent that wants it, and lets k take a set of junk
     goods (its own danger set) worth more than its pick. This is mechanism 1 of §26, "a rotation absorbs the danger

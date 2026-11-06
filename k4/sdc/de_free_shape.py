@@ -47,12 +47,13 @@ if __name__ == '__main__':
             needed = set(g for i in range(n) for g in E.R[i] if Y[i] is not None and E.v[i][g] > E.v[i][Y[i]]) | \
                      set(g for i in range(n) if Y[i] is None for g in E.R[i])
             shapes = []
-            for b2, (kind, path, H) in DF.moves(E, base, describe=True).items():
+            for b2, ds in DF.moves(E, base, describe=True, all_desc=True).items():
                 if not DF.extends(E, b2): continue
-                t = len(path) - 1; x0 = path[0]; H0 = H.get(0, ())
-                fromEnd = sum(1 for g in H0 if t >= 1 and base[g] == path[-1])
-                mid_junk = any(H.get(i) for i in range(1, len(path)))
-                shapes.append((t, len(H0), fromEnd, mid_junk, Y[x0] in needed))
+                for kind, path, H in ds:
+                    t = len(path) - 1; x0 = path[0]; H0 = H.get(0, ())
+                    fromEnd = sum(1 for g in H0 if t >= 1 and base[g] == path[-1])
+                    mid_junk = any(H.get(i) for i in range(1, len(path)))
+                    shapes.append((t, len(H0), fromEnd, mid_junk, Y[x0] in needed))
             if not shapes:
                 C['no repairing chain'] += 1; continue
             C['some repairing chain gives no junk to x_1..x_t'] += any(not s[3] for s in shapes)

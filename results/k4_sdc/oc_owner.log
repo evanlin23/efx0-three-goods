@@ -1,6 +1,6 @@
 $ python3 k4/sdc/oc_owner.py special
 distinct starts needing a chain 10
-some repair with absorber end 2
+some repair with absorber end 3
 some repair with absorber mid 0
 some repair with absorber none 10
 some repair with absorber off 0
@@ -9,8 +9,8 @@ some repair with absorber x0 or none 10
 time 0 s
 $ python3 k4/sdc/oc_owner.py screen
 distinct starts needing a chain 157
-some repair with absorber end 21
-some repair with absorber mid 6
+some repair with absorber end 22
+some repair with absorber mid 7
 some repair with absorber none 157
 some repair with absorber off 15
 some repair with absorber x0 23

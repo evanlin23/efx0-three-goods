@@ -173,3 +173,4 @@ DF_TMAX=3 DF_HMAX=3 python3 k4/sdc/oc_files.py 1 > $L/oc_files.log
 (python3 k4/sdc/de_free_bigk.py 1 300 3 7 6 oc1; python3 k4/sdc/de_free_bigk.py 2 150 4 7 5 oc1; python3 k4/sdc/de_free_bigk.py 3 150 3 8 8 oc1) > $L/oc1_bigk.log
 python3 k4/sdc/oc_k3.py 1 2 60 > $L/oc_k3.log
 (for a in special screen suite; do python3 k4/sdc/oc_frozen.py $a; done) > $L/oc_frozen.log
+(for a in special screen suite; do python3 k4/sdc/oc_d1.py $a; done; python3 k4/sdc/oc_d1.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 3000 92; python3 k4/sdc/oc_d1.py cores:k4_certs_2.json.gz,k4_certs_3.json.gz 5000 91) > $L/oc_d1.log

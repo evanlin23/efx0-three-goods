@@ -48,8 +48,9 @@ def subsets_le2(xs):
         yield from itertools.combinations(xs, r)
 
 
-def moves(E, base, describe=False):
-    """the states one move reaches; with describe, a dict state -> (kind, agents, H per agent) for one move to it"""
+def moves(E, base, describe=False, all_desc=False):
+    """the states one move reaches; with describe, a dict state -> (kind, agents, H per agent) for one move to it;
+    with all_desc, a dict state -> list of every such description"""
     n = E.n; B = bundles(E, base); J = [g for g in range(E.m) if base[g] < 0]
     val = lambda i, S: sum(E.v[i].get(g, 0) for g in S)
     out = set(); desc = {}
@@ -70,7 +71,7 @@ def moves(E, base, describe=False):
                     for g in B[path[i - 1]]: nb[g] = path[i]
                     for g in assign[i]: nb[g] = path[i]
             for g in H0: nb[g] = path[0]
-            out.add(tuple(nb)); desc.setdefault(tuple(nb), ('chain', tuple(path), {0: H0, **assign}))
+            out.add(tuple(nb)); desc.setdefault(tuple(nb), []).append(('chain', tuple(path), {0: H0, **assign}))
         if len(path) >= n: return
         # extend: next agent y takes B_{x_t} plus H from J
         if not B[x_t]: return
@@ -82,7 +83,7 @@ def moves(E, base, describe=False):
                 if len(nby) > BMAX or val(y, nby) <= val(y, B[y]): continue
                 ext_chain(path + [y], usedH | set(H), {**assign, len(path): H})
     for x in range(n): ext_chain([x], frozenset(), {})
-    if CHAIN_ONLY: return desc if describe else out
+    if CHAIN_ONLY: return (desc if all_desc else {b: d[0] for b, d in desc.items()}) if describe else out
     # rings
     def ext_ring(path, usedH, assign):
         x_t = path[-1]
@@ -101,11 +102,11 @@ def moves(E, base, describe=False):
                         for g in B[path[i]]: nb[g] = nxt
                     for i, Hs in {**assign, 0: H}.items():
                         for g in Hs: nb[g] = path[i]
-                    out.add(tuple(nb)); desc.setdefault(tuple(nb), ('ring', tuple(path), {**assign, 0: H}))
+                    out.add(tuple(nb)); desc.setdefault(tuple(nb), []).append(('ring', tuple(path), {**assign, 0: H}))
                 elif len(path) < n:
                     ext_ring(path + [y], usedH | set(H), {**assign, len(path): H})
     for x in range(n): ext_ring([x], frozenset(), {})
-    return desc if describe else out
+    return (desc if all_desc else {b: d[0] for b, d in desc.items()}) if describe else out
 
 
 def iter_chains(E, base):

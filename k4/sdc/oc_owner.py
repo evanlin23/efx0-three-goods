@@ -67,10 +67,12 @@ if __name__ == '__main__':
             if extends_A(E, base, 1): continue
             C['distinct starts needing a chain'] += 1
             cls = set()
-            for b2, (kind, path, H) in DF.moves(E, base, describe=True).items():
+            for b2, ds in DF.moves(E, base, describe=True, all_desc=True).items():
                 if not extends_A(E, b2, 1): continue
-                for a in absorbers(E, b2):
-                    cls.add('none' if a is None else 'x0' if a == path[0] else 'end' if a == path[-1] else 'mid' if a in path else 'off')
+                ab = absorbers(E, b2)
+                for kind, path, H in ds:
+                    for a in ab:
+                        cls.add('none' if a is None else 'x0' if a == path[0] else 'end' if a == path[-1] else 'mid' if a in path else 'off')
             for x in ('x0', 'end', 'mid', 'off', 'none'): C['some repair with absorber ' + x] += x in cls
             C['some repair with absorber x0 or none'] += bool(cls & {'x0', 'none'})
             if not cls & {'x0', 'none'} and C['shown'] < 3:

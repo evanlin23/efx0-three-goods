@@ -55,7 +55,7 @@ if __name__ == '__main__':
             if not D and not ok0: C['  DT+ VIOLATED (no dangerous agent, no one-absorber completion)'] += 1
             if ok0: continue
             C['starts needing a chain'] += 1; C['  |D| = %d' % len(D)] += 1
-            rep = [path for b2, (kind, path, H) in DF.moves(E, base, describe=True).items() if extends_A(E, b2, 1)]
+            rep = [d[1] for b2, ds in DF.moves(E, base, describe=True, all_desc=True).items() if extends_A(E, b2, 1) for d in ds]
             C['  some repairing chain passes through all of D'] += any(set(D) <= set(p) for p in rep)
             C['  some repairing chain passes through some agent of D'] += any(set(D) & set(p) for p in rep)
             C['  some repairing chain starts in D'] += any(p[0] in D for p in rep)
