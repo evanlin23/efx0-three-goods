@@ -1336,3 +1336,36 @@ lead to an output within two steps:
 This is the k = 4 form of the classes that Proposition D3 left open at k = 3 (§10), made larger by the owner choice. A
 rule that also picks the owner and the chain end would be one more case-based rule of the kind refuted throughout
 this note. It is not pursued. What RC needs is a reason why *some* rotation avoids the traps of §23.
+
+## 25. Three proof structures for RC and NF, each with its obstruction
+
+After §23–§24 the open step is a reason why some rotation avoids the traps. Three structures that would supply one
+were tested and fail.
+
+1. **A lexicographic potential** (`k4/sdc/lex_check.py`, `lex_check.log`). Call a rotation *lex-improving* if it
+   reaches an output, or lowers Lemma K's deficit, or keeps the deficit and raises the base values. Three readings of
+   "raises" were tested: Pareto, the sum, or the favourite sum Φ.
+   - If every state without an output had a lex-improving rotation, (deficit, values) would be a potential proving RC.
+   - Lex-traps exist on T3 and Q2 for each reading. They exist even when the search follows only lex-improving
+     rotations from the starts (`LEX_MODE=guided`).
+   - So no potential of this form works. The deficit must sometimes rise, or the values fall, on the way to an
+     output.
+2. **PS₃ through LBO** (`k4/induct.md` §4b). PS₃ asks for an EFX₀ allocation of a k = 3 instance in which nobody
+   envies a prescribed agent w. It would give TARGET₄ for instances whose only 4-good agent has a private good
+   (K4.IND.STEP).
+   - With w processed last, LB⁺'s Theorem A count for owner w loses one terminal for each block whose exposed leader's
+     need chains all end at w. There are at most |N_w| ≤ 3 such blocks, since each chain enters w through a distinct
+     good w needs.
+   - Lemma 7 (|N_w| = 0) and Lemma 8 cover the cases without such blocks.
+   - If some other agent's top is w's top, w misses it in every run with w last. Then the count can be short by up to
+     three, and one rotation of Theorem B's kind repairs one block. This is the open step of LBO in count form.
+3. **"Neediest-first runs expose at most one 4-good agent"** (`k4/sdc/exposed4.py`, `exposed4.log`). This would let
+   the proved Theorems A₄, B₄ʷ and A₄ᵀ (K4.C4.AB, K4.C4.AB.L) cover the runs. It is false.
+   - On 20 of the 168 screen instances, the neediest-first R1 run after envy-free upgrades exposes two or more 4-good
+     agents with respect to r. LB₄ʳ's index runs do so on 21, random R1 runs on 22.
+   - Most of these runs have an output without a rotation anyway, so the counts of K4.C4.AB are not tight there.
+
+What a proof needs, stated once more in the sharpest form the data allow: a *count with sharing* that handles two or
+more exposed 4-good agents (K4.C4.GAP), together with a rule for the rotation that the count itself designates.
+LB⁺'s Theorem A designates k*, the unique short block. At k = 4 the short part can involve several blocks and several
+owners.

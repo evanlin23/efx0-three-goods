@@ -1,0 +1,34 @@
+$ python3 k4/sdc/exposed4.py screen
+LB4r index: >= 2 exposed, output anyway (no rotation) 16
+LB4r index: exposed 4-good agents 0 61
+LB4r index: exposed 4-good agents 1 86
+LB4r index: exposed 4-good agents 2 20
+LB4r index: exposed 4-good agents 3 1
+instances 168
+neediest-first R1: >= 2 exposed, output anyway (no rotation) 15
+neediest-first R1: exposed 4-good agents 0 87
+neediest-first R1: exposed 4-good agents 1 61
+neediest-first R1: exposed 4-good agents 2 19
+neediest-first R1: exposed 4-good agents 3 1
+random R1: >= 2 exposed, output anyway (no rotation) 19
+random R1: exposed 4-good agents 0 84
+random R1: exposed 4-good agents 1 62
+random R1: exposed 4-good agents 2 20
+random R1: exposed 4-good agents 3 2
+$ python3 k4/sdc/exposed4.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 3000 5
+LB4r index: >= 2 exposed, output anyway (no rotation) 871
+LB4r index: exposed 4-good agents 0 912
+LB4r index: exposed 4-good agents 1 1188
+LB4r index: exposed 4-good agents 2 687
+LB4r index: exposed 4-good agents 3 213
+instances 3000
+neediest-first R1: >= 2 exposed, output anyway (no rotation) 480
+neediest-first R1: exposed 4-good agents 0 1535
+neediest-first R1: exposed 4-good agents 1 982
+neediest-first R1: exposed 4-good agents 2 391
+neediest-first R1: exposed 4-good agents 3 92
+random R1: >= 2 exposed, output anyway (no rotation) 706
+random R1: exposed 4-good agents 0 1193
+random R1: exposed 4-good agents 1 1088
+random R1: exposed 4-good agents 2 581
+random R1: exposed 4-good agents 3 138

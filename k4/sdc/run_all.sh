@@ -133,3 +133,6 @@ python3 k4/sdc/phi_lex.py 1 600 4 > $L/phi_lex.log
 # §24
 (python3 k4/sdc/greedy_kstar.py special; python3 k4/sdc/greedy_kstar.py screen) > $L/greedy_kstar.log
 python3 k4/sdc/rot_classify.py > $L/rot_classify.log
+# §25
+(python3 k4/sdc/lex_check.py special 3; for sec in sum pareto phi; do LEX_MODE=guided LEX_SECOND=$sec python3 k4/sdc/lex_check.py special 6; done) > $L/lex_check.log
+(python3 k4/sdc/exposed4.py screen; python3 k4/sdc/exposed4.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 3000 5) > $L/exposed4.log
