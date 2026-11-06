@@ -1,0 +1,76 @@
+$ python3 k4/sdc/de_free.py special moves:chain
+instances 4
+instances with a start without a monotone repair 0
+start: least depth 0 105
+start: least depth 1 69
+starts 174
+time 0 s
+$ python3 k4/sdc/de_free.py screen moves:chain
+instances 168
+instances with a start without a monotone repair 0
+start: least depth 0 3540
+start: least depth 1 529
+starts 4069
+time 1 s
+$ python3 k4/sdc/de_free.py suite moves:chain
+instances 158
+instances with a start without a monotone repair 0
+start: least depth 0 3807
+start: least depth 1 520
+starts 4327
+time 1 s
+$ python3 k4/sdc/de_free.py cores:k4_certs_2.json.gz,k4_certs_3.json.gz 3000 91 moves:chain
+instances 3000
+instances with a start without a monotone repair 0
+start: least depth 0 16495
+start: least depth 1 477
+starts 16972
+time 3 s
+$ python3 k4/sdc/de_free.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 1500 92 moves:chain
+instances 1500
+instances with a start without a monotone repair 0
+start: least depth 0 35208
+start: least depth 1 792
+starts 36000
+time 4 s
+$ python3 k4/sdc/de_free.py cores:k4_certs_5_n4_1.json.gz,k4_certs_5_n4_2.json.gz 150 93 moves:chain
+instances 150
+instances with a start without a monotone repair 0
+start: least depth 0 17819
+start: least depth 1 181
+starts 18000
+time 1 s
+$ python3 k4/sdc/de_free.py logs moves:chain
+instances 1361
+instances with a start without a monotone repair 0
+start: least depth 0 17602
+start: least depth 1 2338
+starts 19940
+time 3 s
+$ python3 k4/sdc/de_free.py special
+instances 3
+instances with a start without a monotone repair 0
+start: least depth 0 25
+start: least depth 1 29
+starts 54
+time 0 s
+$ python3 k4/sdc/de_free.py screen
+instances 152
+instances with a start without a monotone repair 0
+start: least depth 0 1795
+start: least depth 1 354
+starts 2149
+time 1 s
+$ python3 k4/sdc/de_free.py screen
+NO MONOTONE REPAIR c4min-phi-n4-m9-n43c274 [[[0, 2, 5, 7], [1, 5, 7, 8], [3, 6, 7, 8], [4, 6, 8]], [[4, 2, 3, 8], [4, 2, 7, 10], [5, 8, 6, 4], [2, 4, 3]]] picks (7, 1, 6, 8) None
+NO MONOTONE REPAIR c4min-tlam-n3-m6 [[[0, 1, 2, 5], [2, 3, 4, 5], [3, 4, 5]], [[4, 3, 2, 8], [4, 1, 8, 6], [2, 4, 3]]] picks (5, 4, 3) None
+NO MONOTONE REPAIR c4min-tleximin-n4-m7 [[[0, 1, 3, 6], [2, 3, 4], [2, 5, 6], [4, 5, 6]], [[2, 3, 6, 10], [3, 2, 4], [3, 2, 4], [4, 3, 2]]] picks (6, 2, 5, 4) None
+NO MONOTONE REPAIR c4x-n3m6-3good-first [[[0, 1, 2, 5], [2, 3, 4, 5], [3, 4, 5]], [[2, 3, 4, 8], [1, 4, 8, 6], [2, 4, 3]]] picks (5, 4, 3) None
+instances 152
+instances with a start without a monotone repair 18
+shown 4
+start: least depth 0 1795
+start: least depth 1 284
+start: least depth None 70
+starts 2149
+time 2 s

@@ -1601,3 +1601,73 @@ as K4.SDC.MD1, the two-pair failure as K4.SDC.MD2.
 - So part of the gap K4.C4.GAP comes from the shape of LB₄ʳ's output, not from the instance. A completion step that
   lets several agents take junk that nobody else values enough would need fewer rotations. MD says that a dominating
   allocation always exists.
+
+## 29. One improving chain from every order, with a free completion
+
+§28 shows that a dominating allocation exists. This section asks how far it is from the picks. LB₄ʳ's rotations are
+an awkward measure, because its Output allows a single owner, and its useful rotations are downgrades (§27). Here
+instead:
+- *States* are partial allocations B, each agent holding a base inside its relevant goods; the rest is the junk J.
+- *A state is terminal* when its bases extend: some complete EFX₀ allocation gives every base good to its holder, with
+  the junk placed anywhere (SAT on sdclib's encoding). This is the free completion.
+- *The move* is the chain of Draft and Exchange (`paper/k3-simple`, Lemma chain) with general improving sets.
+
+**Improving chain.** A chain is distinct agents x₀, …, x_t (t ≥ 1) with disjoint sets H₀ ⊆ J ∪ B_{x_t} and
+H_i ⊆ J (i ≥ 1), all inside the receivers' relevant goods, such that:
+- v_{x₀}(H₀) > v_{x₀}(B_{x₀}), and
+- v_{x_i}(B_{x_{i−1}} ∪ H_i) > v_{x_i}(B_{x_i}) for i ≥ 1.
+
+Applying it, x₀ takes H₀, each x_i takes B_{x_{i−1}} ∪ H_i, and the rest of B_{x_t} becomes junk. Every agent on the
+chain gains and the others keep their bases. So every state reached from the picks value-dominates them, and a
+terminal state reached this way proves MD for that order.
+- LB₄ʳ's improving rotation (§27) is the special case where x₀ is frozen, x₁, …, x_{t−1} are frozen, and H_i = ∅ for
+  i ≥ 1.
+- At k = 3, Draft and Exchange's chain is the case H₀ = {b_x, c_x} ⊆ J.
+
+**Conjecture OC (K4.SDC.OC).** In every instance with at most four relevant goods per agent, for every order π:
+- the serial-dictatorship picks of π extend to an EFX₀ allocation, or
+- after one improving chain they do.
+
+OC implies MD for every order (each chain agent gains), hence MD by Lemma SDPO, hence TARGET₄.
+
+**Evidence** (`k4/sdc/de_free.py`, `de_free.log`; `k4/sdc/de_free_bigk.py`, `de_free_bigk.log`).
+| data (every order) | starts | picks extend | one chain | more |
+|---|---|---|---|---|
+| special (n ≤ 5) | 174 | 105 | 69 | 0 |
+| screen (n ≤ 5) | 4,069 | 3,540 | 529 | 0 |
+| suite (n ≤ 5) | 4,327 | 3,807 | 520 | 0 |
+| 3,000 random core profiles, n ≤ 3 | 16,972 | 16,495 | 477 | 0 |
+| 1,500 random core profiles, n = 4 | 36,000 | 35,208 | 792 | 0 |
+| 150 random core profiles, n = 5 | 18,000 | 17,819 | 181 | 0 |
+| the hard profiles of `results/k4_sdc/*.log` (n ≤ 4) | 19,940 | 17,602 | 2,338 | 0 |
+| random instances with up to 8 relevant goods per agent (n = 3, 4) | 5,106 | 4,959 | 147 | 0 |
+
+So no start tested needs more than one chain: 99,482 starts at k = 4, plus 5,106 at larger k. That includes T3,
+whose neediest-first picks need two LB₄ʳ rotations.
+
+**What the move needs** (the same files; `k4/sdc/de_free_shape.py`, `de_free_shape.log`).
+- *Bigger sets.* With |H| ≤ 2 and bases of at most three goods, 70 of the 2,149 screen starts with n ≤ 4 have no
+  repair, even with rings added. Example: c4min-tlam-n3-m6, picks (5, 4, 3). Agent 0 must give up its top (worth 8)
+  for three junk goods worth 4 + 3 + 2, so that agent 2 can take the top.
+- *Rings are not needed:* with large enough sets, chains alone repair every start.
+- *LB₄ʳ's own improving rotations are not enough from every order* (`k4/sdc/imp_extend.py`, `imp_extend.log`; with the
+  same free completion and every upgrade policy).
+  - They fail on 6 of the 174 special starts (Q2), on 26 of the 4,069 screen starts and on starts of 2 suite
+    instances.
+  - From the neediest-first order they never fail: 46,000 random profiles, 1,587 logged ones and the curated sets. At
+    most two rotations are needed; two only on T3, 2 random profiles and 4 logged profiles.
+- *Shapes on the screen set* (147 starts whose picks do not extend):
+  - 124 have a repairing chain in which only x₀ takes junk;
+  - 137 have one that starts at an agent whose pick another agent needs;
+  - the rest need junk for a middle agent, or start at an agent nobody envies (often a swap: x₀ takes x₁'s base and
+    x₁ takes x₀'s base plus junk).
+
+**Where the difficulty now sits.** OC moves the whole difficulty into the free completion: when do given bases extend?
+- At k = 3, Draft and Exchange's finishing test counts the blockers' leftover goods (|H_o| ≤ |F| − 1). Its Improvement
+  Lemma then needs up to 4n trades, because its completion has a single finisher.
+- At k = 4, one chain suffices on the data once the completion is free.
+
+A proof along these lines needs:
+1. a Hall-type characterization of extendable bases (several agents absorbing junk, unlike LB₄ʳ's single owner);
+2. the existence of a chain that repairs a violated condition. The counts of §26–§27 are the one-owner special case of
+   step 1.
