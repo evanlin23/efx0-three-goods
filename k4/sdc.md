@@ -1526,3 +1526,78 @@ and every owner of an output of the rotated state).
 The data say (2) is true at every start tested. The data also say the rotation is usually a downgrade for k: the
 count has to credit k's new, smaller base O with the goods it frees for the others. LB⁺'s count, where k* gains, does
 not do that.
+
+## 28. Matching domination: every order's picks are value-dominated, and where domination stops
+
+**Definitions.**
+- A *matching* gives each agent at most one good it values, and no good to two agents.
+- A complete EFX₀ allocation X *value-dominates* a matching (or a partial allocation) μ if v_i(X_i) ≥ v_i(μ_i) for
+  every agent i.
+- This is weaker than "μ extends" (μ_i ∈ X_i, the target of SD-C and NOF) and implied by it.
+
+**Conjecture MD (K4.SDC.MD).** In every instance with at most four relevant goods per agent, every matching is
+value-dominated by a complete EFX₀ allocation.
+- MD contains TARGET₄ (take the empty matching).
+- MD is order-free: it holds for every order at once, while extendability needs a good order (SD-C) or deferrals
+  (NOF2), and the neediest-first picks do not extend on T3.
+
+**Lemma SDPO (K4.SDC.SDPO, written proof; checked on 332 instances with n ≤ 6, `k4/sdc/sd_po.py`, `sd_po.log`).** With strict
+values (an agent may stay unmatched), the serial-dictatorship outcomes over all orders are exactly the Pareto-optimal
+matchings. So MD is equivalent to *value domination of every order's picks* ("VD").
+
+*Proof.*
+1. *(⊆)* Let μ′ Pareto-dominate Y = SD(π), and let i be the first agent of π with μ′_i ≠ Y_i.
+   - The agents before i hold the same goods in both, so μ′_i was available when i picked.
+   - i took its favourite available good, so v_i(μ′_i) < v_i(Y_i) by strictness, which contradicts domination.
+   - Hence μ′ = Y.
+2. *(⊇)* Let μ be Pareto-optimal and nonempty.
+   - Let each matched agent that does not hold its favourite good point to the holder of that good. The holder exists
+     and is matched, since otherwise the agent could take the good.
+   - If no matched agent held its favourite, these pointers would form a cycle among matched agents. Trading along it
+     would improve each agent on it.
+   - So some agent a holds its favourite. Put a first and remove a and μ_a; μ stays Pareto-optimal in the rest.
+     Induct, with "favourite" meaning the favourite remaining good. Unmatched agents go last.
+3. *(Equivalence)* Every matching is dominated by a Pareto-optimal one, which by step 2 is an SD outcome. ∎
+
+**Evidence for MD** (`k4/sdc/vdom.py`, `vdom.log`; `k4/sdc/mdom.py`, `mdom.log`; SAT on sdclib's EFX₀ encoding with
+the value thresholds as unit clauses).
+| data | orders / maximal matchings | not dominated |
+|---|---|---|
+| every order: special, screen, suite, 7,600 random core profiles (n ≤ 5) | 175,250 orders | 0 |
+| every maximal matching: special, screen, suite, 4,700 random core profiles | 251,706 matchings | 0 |
+| the 1,413 hard profiles printed in `results/k4_sdc/*.log` (climb results, counterexamples, failures of §15–§27) | 84,762 matchings | 0 |
+| 888 random instances with up to 8 relevant goods per agent (`k4/sdc/mdom_bigk.py`, n = 3, 4) | 34,226 matchings | 0 |
+
+- Adversarial climbs (`k4/sdc/mdom_climb.py`, `mdom_climb.log`) minimize the number of dominating allocations of the
+  hardest Pareto-optimal matching, from random starts and from the GM4 instances below. They never fall below one.
+- On the neediest-first picks, the picks themselves extend on 147–157 of the 161–168 curated instances, and are
+  dominated on all of them.
+
+**Where domination stops** (`k4/sdc/pdom.py`, `pdom.log`; `k4/sdc/refute_md2.py`, `refute_md2.log`).
+- *Setting.* Partial EFX₀ allocations whose bundles lie inside the holders' relevant sets, tested by their
+  Pareto-maximal value vectors.
+- *One two-good bundle, the rest at most one good (MD₁).* Every such allocation is dominated:
+  - 861 vectors on the screen set, 840 on the suite, 19 on the special instances;
+  - 2,805 on the larger-k random instances.
+- *Two two-good bundles.* Domination fails on 20 screen instances: the GM4 family, whose GM4-E refutes P1
+  (K4.SDC.P1).
+  - Example GM4-A: sets [[0,2,5,6],[1,4,5,6],[2,3,5,6],[3,4,5,6]], values [[3,6,2,10],[1,6,8,4],[2,7,8,4],[6,3,4,8]].
+  - X = ({0,2}, {1,4}, {5}, {6}), with good 3 unallocated, is EFX₀ with values (9, 7, 8, 8).
+  - None of the 16 complete EFX₀ allocations reaches these values.
+  - Replayed by brute force over all 4⁷ allocations, without SAT and without shared code (`refute_md2.py`). The same
+    replay finds all 337 matchings of GM4-A dominated.
+
+So the obstruction behind P1 needs two agents that are each held above their best available single good by a pair.
+With at most one such agent (LB's owner has the only large bundle), domination survived every test. MD₁ is recorded
+as K4.SDC.MD1, the two-pair failure as K4.SDC.MD2.
+
+**What MD says about LB₄ʳ** (`k4/sdc/imp_only.py`, `imp_only.log`).
+- *LB₄ʳ's outputs need not dominate the picks*, because a downgrading rotation lowers k. With improving rotations only
+  (v_k(O) > v_k(Y_k), so every reached state dominates the picks), LB₄ʳ reaches an output from the neediest-first start
+  on 20 of the 21 screen starts and T3, for some upgrade policy. It fails on nsw-strict-n4m8 for every policy.
+- *There, the neediest-first picks (3, 4, 7, 6) extend in exactly one way* (brute force over all 4⁸ allocations):
+  X = ({3}, {4}, {1,2,7}, {0,5,6}). Two agents absorb junk beyond two goods. LB₄ʳ's Output, with one owner and caps
+  of 2 − |B| for the others, cannot express this. The repair LB₄ʳ finds instead is a downgrading rotation (§27).
+- So part of the gap K4.C4.GAP comes from the shape of LB₄ʳ's output, not from the instance. A completion step that
+  lets several agents take junk that nobody else values enough would need fewer rotations. MD says that a dominating
+  allocation always exists.
