@@ -1,0 +1,32 @@
+$ python3 k4/sdc/de_free_shape.py special
+10 starts whose picks do not extend
+10 some repairing chain starts at an agent whose pick is needed (frozen)
+8 some repairing chain gives no junk to x_1..x_t
+6 shortest: t=1 |H_0|=1 (from B_end 1) middle junk True x_0 needed False
+3 shortest: t=2 |H_0|=1 (from B_end 1) middle junk True x_0 needed False
+1 shortest: t=1 |H_0|=1 (from B_end 1) middle junk True x_0 needed True
+time 0 s
+$ python3 k4/sdc/de_free_shape.py screen
+147 starts whose picks do not extend
+147 some repairing chain starts at an agent whose pick is needed (frozen)
+139 some repairing chain gives no junk to x_1..x_t
+104 shortest: t=1 |H_0|=1 (from B_end 1) middle junk True x_0 needed False
+14 shortest: t=2 |H_0|=1 (from B_end 1) middle junk True x_0 needed False
+12 shortest: t=1 |H_0|=3 (from B_end 0) middle junk False x_0 needed True
+8 shortest: t=1 |H_0|=1 (from B_end 1) middle junk True x_0 needed True
+7 shortest: t=1 |H_0|=2 (from B_end 0) middle junk False x_0 needed True
+1 shortest: t=2 |H_0|=1 (from B_end 1) middle junk True x_0 needed True
+1 shortest: t=3 |H_0|=1 (from B_end 1) middle junk True x_0 needed False
+time 2 s
+$ python3 k4/sdc/de_free_shape.py suite
+138 starts whose picks do not extend
+138 some repairing chain starts at an agent whose pick is needed (frozen)
+130 some repairing chain gives no junk to x_1..x_t
+95 shortest: t=1 |H_0|=1 (from B_end 1) middle junk True x_0 needed False
+14 shortest: t=2 |H_0|=1 (from B_end 1) middle junk True x_0 needed False
+12 shortest: t=1 |H_0|=3 (from B_end 0) middle junk False x_0 needed True
+8 shortest: t=1 |H_0|=1 (from B_end 1) middle junk True x_0 needed True
+7 shortest: t=1 |H_0|=2 (from B_end 0) middle junk False x_0 needed True
+1 shortest: t=2 |H_0|=1 (from B_end 1) middle junk True x_0 needed True
+1 shortest: t=3 |H_0|=1 (from B_end 1) middle junk True x_0 needed False
+time 2 s

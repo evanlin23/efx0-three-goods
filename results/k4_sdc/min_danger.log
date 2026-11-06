@@ -1,0 +1,48 @@
+$ python3 k4/sdc/min_danger.py special
+instances 4
+least |D'| over orders = 0 4
+least |D| over orders = 1 2
+least |D| over orders = 2 2
+time 0 s
+$ python3 k4/sdc/min_danger.py screen
+EVERY ORDER HAS |D'| >= 1 c4-exposure-deficit2-n2m5 [[[0, 2, 3, 4], [1, 2, 3, 4]], [[2, 7, 10, 4], [6, 3, 7, 5]]]
+EVERY ORDER HAS |D'| >= 1 c4-owner-last-n3m8 [[[0, 2, 6, 7], [1, 4, 6, 7], [3, 5, 6, 7]], [[6, 3, 5, 7], [5, 3, 6, 7], [3, 8, 4, 10]]]
+EVERY ORDER HAS |D'| >= 1 c4min-nounfreeze-n2-m6 [[[0, 1, 4, 5], [2, 3, 4, 5]], [[6, 3, 10, 2], [4, 3, 8, 2]]]
+instances 168
+least |D'| over orders = 0 153
+least |D'| over orders = 1 15
+least |D| over orders = 0 19
+least |D| over orders = 1 78
+least |D| over orders = 2 67
+least |D| over orders = 3 4
+shown2 3
+time 0 s
+$ python3 k4/sdc/min_danger.py suite
+EVERY ORDER HAS |D'| >= 1 c4-exposure-deficit2-n2m5 [[[0, 2, 3, 4], [1, 2, 3, 4]], [[2, 7, 10, 4], [6, 3, 7, 5]]]
+EVERY ORDER HAS |D'| >= 1 c4-owner-last-n3m8 [[[0, 2, 6, 7], [1, 4, 6, 7], [3, 5, 6, 7]], [[6, 3, 5, 7], [5, 3, 6, 7], [3, 8, 4, 10]]]
+EVERY ORDER HAS |D'| >= 1 c4min-nounfreeze-n2-m6 [[[0, 1, 4, 5], [2, 3, 4, 5]], [[6, 3, 10, 2], [4, 3, 8, 2]]]
+instances 160
+least |D'| over orders = 0 144
+least |D'| over orders = 1 15
+least |D'| over orders = 2 1
+least |D| over orders = 0 19
+least |D| over orders = 1 76
+least |D| over orders = 2 62
+least |D| over orders = 3 2
+least |D| over orders = 4 1
+shown2 3
+time 0 s
+$ python3 k4/sdc/min_danger.py logs
+EVERY ORDER HAS |D'| >= 1 log174 [[[0, 3, 2, 5], [0, 2, 1, 6], [2, 3, 4, 0]], [[10, 24, 19, 31], [35, 43, 33, 40], [65, 27, 15, 24]]]
+EVERY ORDER HAS |D'| >= 1 log357 [[[0, 5, 4], [1, 0, 7], [2, 5, 3], [3, 1, 4, 6], [1, 5, 0]], [[11, 10, 12], [3, 9, 10], [4, 6, 7], [13, 11, 3, 12], [9, 10, 14]]]
+EVERY ORDER HAS |D'| >= 1 log562 [[[0, 2, 4, 7], [1, 4, 8, 9], [3, 5, 6, 9], [5, 6, 7, 8]], [[4, 3, 2, 8], [3, 2, 6, 10], [3, 2, 4, 8], [2, 4, 8, 3]]]
+instances 1681
+least |D'| over orders = 0 1638
+least |D'| over orders = 1 42
+least |D'| over orders = 2 1
+least |D| over orders = 0 1011
+least |D| over orders = 1 551
+least |D| over orders = 2 115
+least |D| over orders = 3 4
+shown2 3
+time 2 s

@@ -1,0 +1,88 @@
+$ python3 k4/sdc/omega_small.py special
+OMEGA1-STUCK T3 [[[5, 0, 4, 2], [3, 1, 4], [4, 1, 3, 0]], [[1, 38, 36, 6], [12, 22, 30], [28, 20, 12, 38]]] state ((0, 2, -1, 2, 1, -1), (0, 4, 1), (False, False, True))
+OMEGA1-STUCK Q2 [[[0, 1, 3, 4], [2, 3, 6, 7], [2, 5, 7], [4, 5, 6, 7]], [[2, 3, 10, 6], [2, 8, 3, 4], [2, 4, 3], [4, 8, 2, 3]]] state ((-1, -1, 1, 0, 3, 2, 1, 1), (3, -1, 5, 4), (False, True, False, False))
+instances 4
+omega 1: (D0) fails 3
+omega 1: (D1) fails 3
+omega 1: states without output 16
+omega 2: (D0) fails 10
+omega 2: (D1) fails 6
+omega 2: states without output 22
+omega 3: (D0) fails 0
+omega 3: (D1) fails 0
+omega 3: states without output 5
+time 0 s
+$ python3 k4/sdc/omega_small.py screen
+OMEGA1-STUCK adaptive-p1 [[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 6, 8], [2, 3, 4, 8], [2, 7, 8, 4]]] state ((-1, -1, 1, 1, 2, 0), (5, 3, 4), (False, True, False))
+OMEGA1-STUCK adaptive-p3 [[[0, 1, 2, 5], [1, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 8, 6], [1, 4, 6, 8], [8, 2, 3, 4]]] state ((-1, -1, 0, 2, 2, 1), (2, 5, 4), (False, False, True))
+OMEGA1-STUCK c4-gadget-stacking-1copy-n3m6 [[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 6, 8], [3, 5, 7, 6], [2, 3, 4, 8]]] state ((-1, -1, 2, 2, 1, 0), (5, 4, 3), (False, False, True))
+OMEGA1-STUCK c4-one-rotation-two4-n3m6 [[[0, 1, 2, 5], [2, 3, 4, 5], [3, 4, 5]], [[1, 4, 8, 6], [8, 2, 3, 4], [2, 3, 4]]] state ((-1, -1, 0, 1, 1, 2), (2, 4, 5), (False, True, False))
+OMEGA1-STUCK c4one-one-rotation-m8 [[[0, 2, 4, 7], [1, 2, 3], [1, 5, 6], [3, 5, 7], [4, 6, 7]], [[2, 8, 3, 4], [3, 4, 2], [2, 4, 3], [2, 4, 3], [2, 4, 3]]] state ((-1, 2, 1, -1, -1, 3, 4, 0), (7, 2, 1, 5, 6), (False, False, False, False, False))
+OMEGA1-STUCK c4one-one-rotation-m9 [[[0, 3, 7], [1, 5, 8], [2, 6, 7, 8], [3, 4, 5], [4, 6, 8]], [[2, 3, 4], [2, 4, 3], [2, 3, 8, 4], [2, 3, 4], [4, 2, 3]]] state ((-1, -1, 2, 3, 4, 1, 2, 0, 2), (7, 5, -1, 3, 4), (False, False, True, False, False))
+OMEGA1-STUCK hall-local3 [[[0, 1, 2, 3], [2, 4, 5, 6], [3, 4, 5, 6]], [[3, 2, 10, 6], [8, 2, 3, 4], [7, 3, 5, 6]]] state ((-1, -1, 0, 2, 1, 1, 1), (2, -1, 3), (False, True, False))
+OMEGA1-STUCK induct-pot-env [[[0, 3, 4], [1, 2, 3, 4], [1, 2, 4]], [[2, 3, 4], [3, 2, 8, 4], [2, 3, 4]]] state ((-1, -1, 2, 0, 1), (3, 4, -1), (False, False, True))
+OMEGA1-STUCK induct-v-r1 [[[0, 2, 3, 4], [1, 3, 4], [2, 3, 4]], [[3, 6, 8, 4], [3, 4, 2], [4, 3, 2]]] state ((-1, 1, 0, 2, 1), (2, -1, 3), (False, True, False))
+OMEGA1-STUCK lb4-fixed-insertion-n3m6 [[[0, 2, 4, 5], [1, 3, 5], [2, 3, 4, 5]], [[1, 4, 6, 8], [2, 4, 3], [2, 8, 3, 4]]] state ((-1, -1, 2, 1, 2, 0), (5, 3, 4), (False, False, True))
+OMEGA1-STUCK lb4-last-block-leader-index-n4m8 [[[0, 2, 4, 6], [0, 2, 5, 6], [1, 3, 4, 7], [1, 3, 5, 7]], [[2, 4, 8, 7], [5, 6, 3, 7], [3, 5, 7, 6], [4, 5, 2, 8]]] state ((-1, 3, -1, 3, 0, -1, 1, 2), (4, 6, 7, 3), (False, False, False, True))
+OMEGA1-STUCK lb4-last-block-leader-n4m8 [[[0, 2, 7], [1, 2, 3, 7], [1, 4, 5, 6], [3, 4, 5, 6]], [[2, 3, 4], [8, 2, 4, 7], [7, 3, 5, 6], [2, 4, 5, 8]]] state ((-1, 1, -1, -1, 3, 3, 2, 0), (7, 1, 6, 5), (False, False, False, True))
+OMEGA1-STUCK lb4-lbplus-ef-n3m6 [[[0, 1, 2, 3], [0, 1, 4, 5], [2, 3, 4, 5]], [[2, 7, 4, 8], [1, 8, 4, 6], [2, 8, 3, 4]]] state ((-1, 1, -1, 0, 2, 2), (3, 1, -1), (False, False, True))
+OMEGA1-STUCK lb4-n2m5-upgrade [[[0, 2, 3, 4], [1, 2, 3, 4]], [[1, 4, 6, 8], [2, 4, 5, 8]]] state ((-1, -1, 1, 1, 0), (4, 3), (False, True))
+OMEGA1-STUCK ls-exchange-no-keep-n3m6 [[[0, 1, 2, 5], [1, 3, 4, 5], [2, 3, 4, 5]], [[6, 4, 8, 5], [4, 8, 2, 5], [6, 10, 3, 2]]] state ((-1, 0, 2, 1, -1, 0), (-1, 3, 2), (True, False, False))
+OMEGA1-STUCK lsp-early-stop-n4m7 [[[0, 2, 5, 6], [0, 3, 4, 5], [1, 2, 4, 6], [1, 3, 5, 6]], [[5, 8, 4, 6], [4, 2, 5, 8], [2, 8, 5, 4], [6, 2, 10, 7]]] state ((-1, 2, 0, -1, 2, 1, 3), (2, 5, -1, 6), (False, False, True, False))
+instances 168
+omega -1: (D0) fails 2
+omega -1: (D1) fails 2
+omega -1: states without output 2
+omega 0: (D0) fails 5
+omega 0: (D1) fails 8
+omega 0: states without output 8
+omega 1: (D0) fails 31
+omega 1: (D1) fails 31
+omega 1: states without output 132
+omega 2: (D0) fails 46
+omega 2: (D1) fails 20
+omega 2: states without output 264
+omega 3: (D0) fails 15
+omega 3: (D1) fails 9
+omega 3: states without output 164
+omega >= 4: (D0) fails 2
+omega >= 4: (D1) fails 2
+omega >= 4: states without output 58
+time 1 s
+$ python3 k4/sdc/omega_small.py suite
+OMEGA1-STUCK adaptive-p1 [[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 6, 8], [2, 3, 4, 8], [2, 7, 8, 4]]] state ((-1, -1, 1, 1, 2, 0), (5, 3, 4), (False, True, False))
+OMEGA1-STUCK adaptive-p3 [[[0, 1, 2, 5], [1, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 8, 6], [1, 4, 6, 8], [8, 2, 3, 4]]] state ((-1, -1, 0, 2, 2, 1), (2, 5, 4), (False, False, True))
+OMEGA1-STUCK c4-gadget-stacking-1copy-n3m6 [[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 6, 8], [3, 5, 7, 6], [2, 3, 4, 8]]] state ((-1, -1, 2, 2, 1, 0), (5, 4, 3), (False, False, True))
+OMEGA1-STUCK c4-one-rotation-two4-n3m6 [[[0, 1, 2, 5], [2, 3, 4, 5], [3, 4, 5]], [[1, 4, 8, 6], [8, 2, 3, 4], [2, 3, 4]]] state ((-1, -1, 0, 1, 1, 2), (2, 4, 5), (False, True, False))
+OMEGA1-STUCK c4one-one-rotation-m8 [[[0, 2, 4, 7], [1, 2, 3], [1, 5, 6], [3, 5, 7], [4, 6, 7]], [[2, 8, 3, 4], [3, 4, 2], [2, 4, 3], [2, 4, 3], [2, 4, 3]]] state ((-1, 2, 1, -1, -1, 3, 4, 0), (7, 2, 1, 5, 6), (False, False, False, False, False))
+OMEGA1-STUCK c4one-one-rotation-m9 [[[0, 3, 7], [1, 5, 8], [2, 6, 7, 8], [3, 4, 5], [4, 6, 8]], [[2, 3, 4], [2, 4, 3], [2, 3, 8, 4], [2, 3, 4], [4, 2, 3]]] state ((-1, -1, 2, 3, 4, 1, 2, 0, 2), (7, 5, -1, 3, 4), (False, False, True, False, False))
+OMEGA1-STUCK hall-local3 [[[0, 1, 2, 3], [2, 4, 5, 6], [3, 4, 5, 6]], [[3, 2, 10, 6], [8, 2, 3, 4], [7, 3, 5, 6]]] state ((-1, -1, 0, 2, 1, 1, 1), (2, -1, 3), (False, True, False))
+OMEGA1-STUCK induct-pot-env [[[0, 3, 4], [1, 2, 3, 4], [1, 2, 4]], [[2, 3, 4], [3, 2, 8, 4], [2, 3, 4]]] state ((-1, -1, 2, 0, 1), (3, 4, -1), (False, False, True))
+OMEGA1-STUCK induct-v-r1 [[[0, 2, 3, 4], [1, 3, 4], [2, 3, 4]], [[3, 6, 8, 4], [3, 4, 2], [4, 3, 2]]] state ((-1, 1, 0, 2, 1), (2, -1, 3), (False, True, False))
+OMEGA1-STUCK lb4-fixed-insertion-n3m6 [[[0, 2, 4, 5], [1, 3, 5], [2, 3, 4, 5]], [[1, 4, 6, 8], [2, 4, 3], [2, 8, 3, 4]]] state ((-1, -1, 2, 1, 2, 0), (5, 3, 4), (False, False, True))
+OMEGA1-STUCK lb4-last-block-leader-index-n4m8 [[[0, 2, 4, 6], [0, 2, 5, 6], [1, 3, 4, 7], [1, 3, 5, 7]], [[2, 4, 8, 7], [5, 6, 3, 7], [3, 5, 7, 6], [4, 5, 2, 8]]] state ((-1, 3, -1, 3, 0, -1, 1, 2), (4, 6, 7, 3), (False, False, False, True))
+OMEGA1-STUCK lb4-last-block-leader-n4m8 [[[0, 2, 7], [1, 2, 3, 7], [1, 4, 5, 6], [3, 4, 5, 6]], [[2, 3, 4], [8, 2, 4, 7], [7, 3, 5, 6], [2, 4, 5, 8]]] state ((-1, 1, -1, -1, 3, 3, 2, 0), (7, 1, 6, 5), (False, False, False, True))
+OMEGA1-STUCK lb4-lbplus-ef-n3m6 [[[0, 1, 2, 3], [0, 1, 4, 5], [2, 3, 4, 5]], [[2, 7, 4, 8], [1, 8, 4, 6], [2, 8, 3, 4]]] state ((-1, 1, -1, 0, 2, 2), (3, 1, -1), (False, False, True))
+OMEGA1-STUCK lb4-n2m5-upgrade [[[0, 2, 3, 4], [1, 2, 3, 4]], [[1, 4, 6, 8], [2, 4, 5, 8]]] state ((-1, -1, 1, 1, 0), (4, 3), (False, True))
+OMEGA1-STUCK ls-exchange-no-keep-n3m6 [[[0, 1, 2, 5], [1, 3, 4, 5], [2, 3, 4, 5]], [[6, 4, 8, 5], [4, 8, 2, 5], [6, 10, 3, 2]]] state ((-1, 0, 2, 1, -1, 0), (-1, 3, 2), (True, False, False))
+OMEGA1-STUCK lsp-early-stop-n4m7 [[[0, 2, 5, 6], [0, 3, 4, 5], [1, 2, 4, 6], [1, 3, 5, 6]], [[5, 8, 4, 6], [4, 2, 5, 8], [2, 8, 5, 4], [6, 2, 10, 7]]] state ((-1, 2, 0, -1, 2, 1, 3), (2, 5, -1, 6), (False, False, True, False))
+instances 158
+omega -1: (D0) fails 2
+omega -1: (D1) fails 2
+omega -1: states without output 2
+omega 0: (D0) fails 4
+omega 0: (D1) fails 7
+omega 0: states without output 7
+omega 1: (D0) fails 31
+omega 1: (D1) fails 31
+omega 1: states without output 128
+omega 2: (D0) fails 46
+omega 2: (D1) fails 20
+omega 2: states without output 255
+omega 3: (D0) fails 29
+omega 3: (D1) fails 23
+omega 3: states without output 178
+omega >= 4: (D0) fails 2
+omega >= 4: (D1) fails 2
+omega >= 4: states without output 360
+time 2 s

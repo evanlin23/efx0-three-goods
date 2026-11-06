@@ -1,0 +1,6 @@
+$ python3 k4/de4/refine.py hyper 300 8 4000
+     2400  instances
+     4458  lp     maxima
+     4468  pareto maxima
+     2679  sum    maxima
+time 23 s

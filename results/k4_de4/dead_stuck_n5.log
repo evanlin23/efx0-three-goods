@@ -1,0 +1,5 @@
+$ python3 k4/de4/dead.py stuck k4_certs_5_n4_3.json.gz,k4_certs_5_n4_4.json.gz 60 40 5000
+stuck k4_certs_5_n4_3.json.gz,k4_certs_5_n4_4.json.gz: 40 jobs x 60 profiles, seeds 5000..5039
+     21902  valid states, every agent holding a good, no Lemma 4/4' move
+     19827  walk stops, completable (not (H))
+exit status 0

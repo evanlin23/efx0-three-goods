@@ -1,0 +1,4 @@
+$ python3 k4/de4/claimt.py lp hyper 300 8 21000
+      128  Lemma 20(b): x -> D, u -> {b_u} valid and Phi-raising: True
+      148  Lemma 20(c): w -> N, u -> {b_u, c_u} valid and Phi-raising: True
+     2400  profiles

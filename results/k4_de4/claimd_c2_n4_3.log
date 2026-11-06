@@ -1,0 +1,4 @@
+$ python3 k4/de4/claimd.py c2 k4_certs_4_n4_3.json.gz 150 8 1500
+      777    of which maxima: G has a cycle False; an F2-clash cycle False
+      872  largest level sum, (H): G has a cycle False; an F2-clash cycle False
+     1200  profiles

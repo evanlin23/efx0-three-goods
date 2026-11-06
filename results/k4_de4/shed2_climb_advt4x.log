@@ -1,0 +1,3 @@
+$ SHED=broad python3 k4/de4/shed_climb.py 52 400 8 advt4x
+round 0 final gap 99 time 228
+stopped after 1 rounds: with every seed shed-completable the gap starts at 99 and the climb is a random walk; replaced by shed_climb2.py

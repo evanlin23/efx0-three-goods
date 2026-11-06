@@ -1,0 +1,17 @@
+$ python3 k4/sdc/k3_leader_iter.py 1 300 5 8
+tries 63275
+('index', 're-runs', 1) 295
+('index', 're-runs', 2) 5
+('index', 'stops without rotation') 300
+('random', 're-runs', 1) 295
+('random', 're-runs', 2) 5
+('random', 'stops without rotation') 300
+bad case 300
+$ python3 k4/sdc/k3_leader_iter.py 2 150 6 10
+tries 121354
+('index', 're-runs', 1) 150
+('index', 'stops without rotation') 150
+('random', 're-runs', 1) 149
+('random', 're-runs', 2) 1
+('random', 'stops without rotation') 150
+bad case 150

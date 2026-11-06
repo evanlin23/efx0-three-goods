@@ -1,0 +1,4 @@
+$ python3 k4/de4/claimd.py d rand 600 8 200
+        3  F2-clash cycle: Theorem 23
+     1894  F2-clash cycle: clean, Lemma 18
+     4800  profiles

@@ -1,0 +1,1 @@
+{"description": "The instance of k4/de4/refute_rob.py (the counterexample to K4.DE4V3R): [sets, values aligned with sets].", "instances": [[[[0, 2, 4, 5], [1, 3, 6, 7], [1, 2, 4, 8], [0, 3, 7, 8], [0, 2, 8, 9], [1, 3, 4, 10]], [[39, 21, 16, 8], [19, 14, 9, 7], [36, 27, 22, 33], [39, 12, 13, 30], [22, 29, 16, 18], [31, 25, 2, 15]]]]}

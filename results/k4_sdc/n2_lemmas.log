@@ -1,0 +1,7 @@
+$ python3 k4/sdc/n2_lemmas.py 1 20000 10
+DT2 construction EFX0 15498
+DT2 instances 15498
+SW(i) EFX0 1472
+SW(i) cases 1472
+SW(ii) EFX0 12170
+SW(ii) cases 12170

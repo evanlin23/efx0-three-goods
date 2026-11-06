@@ -1,0 +1,21 @@
+$ python3 k4/sdc/mdom_bigk.py 1 600 3 7 6
+instances 481
+matchings not dominated 0
+maximal matchings 13879
+one-pair not dominated 0
+one-pair vectors 1309
+time 15 s
+$ python3 k4/sdc/mdom_bigk.py 2 300 4 7 5
+instances 244
+matchings not dominated 0
+maximal matchings 13059
+one-pair not dominated 0
+one-pair vectors 1046
+time 16 s
+$ python3 k4/sdc/mdom_bigk.py 3 200 3 8 8
+instances 163
+matchings not dominated 0
+maximal matchings 7288
+one-pair not dominated 0
+one-pair vectors 450
+time 21 s

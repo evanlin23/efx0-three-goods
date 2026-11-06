@@ -1,0 +1,52 @@
+$ python3 k4/sdc/oc_rule.py special
+distinct starts needing a chain 10
+gain: every tied chain works 6
+gain: some tied chain works 6
+junk-gain: every tied chain works 7
+junk-gain: some tied chain works 7
+junk: every tied chain works 4
+junk: some tied chain works 8
+short-junk: every tied chain works 0
+short-junk: some tied chain works 0
+x0gain: every tied chain works 0
+x0gain: some tied chain works 1
+time 0 s
+$ python3 k4/sdc/oc_rule.py screen
+distinct starts needing a chain 157
+gain: every tied chain works 46
+gain: some tied chain works 66
+junk-gain: every tied chain works 72
+junk-gain: some tied chain works 93
+junk: every tied chain works 43
+junk: some tied chain works 130
+short-junk: every tied chain works 0
+short-junk: some tied chain works 0
+x0gain: every tied chain works 5
+x0gain: some tied chain works 13
+time 3 s
+$ python3 k4/sdc/oc_rule.py suite
+distinct starts needing a chain 148
+gain: every tied chain works 46
+gain: some tied chain works 64
+junk-gain: every tied chain works 72
+junk-gain: some tied chain works 91
+junk: every tied chain works 43
+junk: some tied chain works 128
+short-junk: every tied chain works 0
+short-junk: some tied chain works 0
+x0gain: every tied chain works 5
+x0gain: some tied chain works 13
+time 2 s
+$ python3 k4/sdc/oc_rule.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 1500 92
+distinct starts needing a chain 215
+gain: every tied chain works 67
+gain: some tied chain works 86
+junk-gain: every tied chain works 83
+junk-gain: some tied chain works 116
+junk: every tied chain works 20
+junk: some tied chain works 168
+short-junk: every tied chain works 0
+short-junk: some tied chain works 0
+x0gain: every tied chain works 8
+x0gain: some tied chain works 14
+time 8 s

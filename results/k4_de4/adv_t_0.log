@@ -1,0 +1,4 @@
+$ python3 k4/de4/adv_t.py 2000 8 7 0
+   7035  instances
+  13531  top states completable
+time 664 s

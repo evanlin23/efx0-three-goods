@@ -1,0 +1,2 @@
+$ python3 k4/sdc/no_ties.py screen 6 1
+{'instances': 168, 'instance-priorities': 1008, 'NO holds': 1008, 'NO holds for every priority tried': 168}

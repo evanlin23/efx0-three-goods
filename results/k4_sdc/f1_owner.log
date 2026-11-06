@@ -1,0 +1,52 @@
+$ python3 k4/sdc/f1_owner.py screen
+|W|=1 |H0|=2: every owner outside {x} + W works 0
+|W|=1 |H0|=2: some owner works 1
+|W|=1 |H0|=2: swaps 1
+|W|=1 |H0|=2: w can own 1
+|W|=1 |H0|=2: x can own 1
+|W|=1 |H0|=3: every owner outside {x} + W works 1
+|W|=1 |H0|=3: some owner works 3
+|W|=1 |H0|=3: swaps 3
+|W|=1 |H0|=3: w can own 3
+|W|=1 |H0|=3: x can own 3
+|W|=2 |H0|=3: every owner outside {x} + W works 2
+|W|=2 |H0|=3: some owner works 4
+|W|=2 |H0|=3: swaps 4
+|W|=2 |H0|=3: w can own 0
+|W|=2 |H0|=3: x can own 4
+time 0 s
+$ python3 k4/sdc/f1_owner.py logs
+|W|=1 |H0|=2: every owner outside {x} + W works 2
+|W|=1 |H0|=2: some owner works 3
+|W|=1 |H0|=2: swaps 3
+|W|=1 |H0|=2: w can own 3
+|W|=1 |H0|=2: x can own 3
+|W|=1 |H0|=3: every owner outside {x} + W works 9
+|W|=1 |H0|=3: some owner works 10
+|W|=1 |H0|=3: swaps 10
+|W|=1 |H0|=3: w can own 10
+|W|=1 |H0|=3: x can own 10
+|W|=2 |H0|=2: every owner outside {x} + W works 0
+|W|=2 |H0|=2: some owner works 2
+|W|=2 |H0|=2: swaps 2
+|W|=2 |H0|=2: w can own 2
+|W|=2 |H0|=2: x can own 2
+|W|=2 |H0|=3: every owner outside {x} + W works 0
+|W|=2 |H0|=3: some owner works 2
+|W|=2 |H0|=3: swaps 2
+|W|=2 |H0|=3: w can own 0
+|W|=2 |H0|=3: x can own 2
+time 2 s
+$ python3 k4/sdc/f1_owner.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 4000 92
+SWAP FAILS r1179 [[[0, 3, 6, 7], [1, 4, 6, 7], [2, 5, 8], [3, 4, 5, 8]], [[8, 1, 6, 4], [4, 8, 3, 2], [4, 2, 3], [5, 8, 6, 4]]] picks (0, 1, 2, 4) x 3 w 1
+|W|=1 |H0|=3: every owner outside {x} + W works 0
+|W|=1 |H0|=3: some owner works 0
+|W|=1 |H0|=3: swaps 1
+|W|=1 |H0|=3: w can own 0
+|W|=1 |H0|=3: x can own 0
+|W|=2 |H0|=3: every owner outside {x} + W works 2
+|W|=2 |H0|=3: some owner works 2
+|W|=2 |H0|=3: swaps 2
+|W|=2 |H0|=3: w can own 2
+|W|=2 |H0|=3: x can own 2
+time 6 s

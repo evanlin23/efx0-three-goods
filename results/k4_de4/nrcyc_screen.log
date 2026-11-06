@@ -1,0 +1,22 @@
+$ python3 k4/de4/nrcyc.py screen 1 1 1
+      1      unclean sig c0:bc>a[a<c2](-1) ; c1:Fa>bc[b<c0,c<J](+1) ; c2:b>Fa[a<c1](+1)
+      1      unclean sig c0:bc>a[a<c2](-1) ; c1:Fa>bc[b<c0,c<J](+1) ; c2:b>ac*[a<c1,c<J](+3)
+      3      unclean sig c0:bc>a[a<c2](-1) ; c1:Fa>bcd*[b<J,c<c0,d<J](+2) ; c2:b>Fa[a<c1](+1)
+      2      unclean sig c0:bc>a[a<c2](-1) ; c1:Fa>bcd*[b<J,c<c0,d<J](+2) ; c2:b>ac*[a<c1,c<J](+3)
+      1      unclean sig c0:bc>a[a<c2](-1) ; c1:Fa>bcd*[b<J,c<c0,d<J](+2) ; c2:b>ad[a<c1,d<J](+2)
+      1      unclean sig c0:bc>ab*[a<c2,b<o](+1) ; c1:Fa>b[b<J](-1) ; c2:b>Fa[a<c1](+1)
+      1      unclean sig c0:bc>ac*[a<c1,c<o](+1) ; c1:bc>ac*[a<c0,c<o](+1)
+      1      unclean sig c0:bc>ac*[a<c1,c<o](+1) ; c1:bc>ad*[a<c0,d<J](+1)
+      1      unclean sig c0:bc>ac*[a<c2,c<o](+1) ; c1:Fa>b[b<J](-1) ; c2:b>Fa[a<c1](+1)
+      1    minimal raise size 2 (cycle length 2, clean False)
+      8    minimal raise size 2 (cycle length 2, clean True)
+      2    minimal raise size 2 (cycle length 3, clean True)
+      5    minimal raise size 3 (cycle length 3, clean False)
+      3    minimal raise size 3 (cycle length 3, clean True)
+      1    minimal raise size 3 (cycle length 4, clean True)
+      4    unclean: resolved by Theorem 23 (replacements: keepR, down-b, down-c) False
+      2    unclean: resolved by Theorem 23 (replacements: keepR, down-b, down-c) True
+      1    unclean: resolved by keep-one or Theorem 23 replacements down-b
+      5    unclean: resolved by keep-one or Theorem 23 replacements keep-one
+      6  (H) state with a non-robust upper holder on a cycle: top False, cycle clean False
+     14  (H) state with a non-robust upper holder on a cycle: top False, cycle clean True

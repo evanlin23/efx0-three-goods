@@ -1,0 +1,2 @@
+$ python3 k4/de4/check.py exhaustive k4_certs_2.json.gz 2
+exhaustive k4_certs_2.json.gz, cores with <= 2 four-good agents: 5 cores, 252288 strict profiles; maxima not completable on 0; DE single-owner rule fails on 0

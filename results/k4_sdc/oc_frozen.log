@@ -1,0 +1,32 @@
+$ python3 k4/sdc/oc_frozen.py special
+  some repairing chain passes through all of D 3
+  some repairing chain passes through some agent of D 10
+  some repairing chain starts in D 10
+  |D| = 2 4
+  |D| = 3 6
+distinct starts 16
+distinct starts with no dangerous agent 0
+starts needing a chain 10
+time 0 s
+$ python3 k4/sdc/oc_frozen.py screen
+  some repairing chain passes through all of D 63
+  some repairing chain passes through some agent of D 157
+  some repairing chain starts in D 157
+  |D| = 1 14
+  |D| = 2 77
+  |D| = 3 66
+distinct starts 616
+distinct starts with no dangerous agent 20
+starts needing a chain 157
+time 3 s
+$ python3 k4/sdc/oc_frozen.py suite
+  some repairing chain passes through all of D 63
+  some repairing chain passes through some agent of D 148
+  some repairing chain starts in D 148
+  |D| = 1 14
+  |D| = 2 76
+  |D| = 3 58
+distinct starts 532
+distinct starts with no dangerous agent 20
+starts needing a chain 148
+time 2 s

@@ -1,0 +1,12 @@
+$ python3 k4/sdc/rot_classify.py
+119 good first rotation: chain end other, k threatened by W_end True, end marked False, chain len 2, one step
+112 good first rotation: chain end r, k threatened by W_end True, end marked False, chain len 2, one step
+105 good first rotation: chain end r, k threatened by W_end False, end marked False, chain len 2, two steps
+99 good first rotation: chain end other, k threatened by W_end False, end marked False, chain len 2, two steps
+64 good first rotation: chain end r, k threatened by W_end True, end marked False, chain len 2, two steps
+60 good first rotation: chain end r, k threatened by W_end True, end marked False, chain len 3, one step
+30 good first rotation: chain end other, k threatened by W_end False, end marked False, chain len 2, one step
+24 good first rotation: chain end r, k threatened by W_end False, end marked False, chain len 2, one step
+12 good first rotation: chain end other, k threatened by W_end True, end marked False, chain len 3, one step
+7 good first rotation: chain end other, k threatened by W_end False, end marked True, chain len 2, two steps
+2 good first rotation: chain end other, k threatened by W_end True, end marked True, chain len 3, one step

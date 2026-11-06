@@ -1,0 +1,2 @@
+$ python3 k4/sdc/k3_defer.py 1 300 5 8
+tries 99537 {'bad case': 300, 'k* last (fixed order): extends': 296, 'k* last: k* gets b': 286, 'r last (fixed order): extends': 76, 'k* last or r last extends': 300, 'k* last: k* gets c': 14}

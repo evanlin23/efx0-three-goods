@@ -1,0 +1,10 @@
+$ python3 k4/de4/claimd.py bswap xhg 400 8 900
+        2  Lemma 20' (i): valid True, level change +0
+       27  Lemma 20' (i): valid True, level change +1
+        3  Lemma 20' (i): valid True, level change +2
+        7  Lemma 20' (i): valid True, level change +3
+        7  Lemma 20' (i): valid True, level change +4
+       53  Lemma 20' (iii): valid True, level change +0
+       47  Lemma 20' (iii): valid True, level change +1
+        2  Lemma 20' (iii): valid True, level change +2
+     3200  profiles

@@ -1,0 +1,73 @@
+$ python3 k4/sdc/nof_var.py special
+instances 4
+need2 R1 back: fails 2
+need2 plain back: fails 1
+needall R1 back: fails 2
+needall R1 both: fails 1
+needall R1 front: fails 1
+needall plain back: fails 2
+needall plain both: fails 1
+needall plain front: fails 1
+    ('need2', False, 'back') ['T3']
+    ('need2', True, 'back') ['T3', 'Q2']
+    ('needall', False, 'back') ['T3', 'Q2']
+    ('needall', False, 'front') ['T3']
+    ('needall', False, 'both') ['T3']
+    ('needall', True, 'back') ['T3', 'Q2']
+    ('needall', True, 'front') ['T3']
+    ('needall', True, 'both') ['T3']
+time 0 s
+$ python3 k4/sdc/nof_var.py suite
+instances 164
+need1 R1 front: fails 8
+need1 plain front: fails 9
+need2 R1 front: fails 4
+need2 plain front: fails 4
+needall R1 back: fails 1
+needall R1 front: fails 4
+needall plain back: fails 1
+needall plain front: fails 4
+    ('need2', False, 'front') ['c4min-tlam-n3-m6', 'c4x-n3m6-3good-first', 'c4x-n3m6-onefour-a', 'c4x-n4m7-frozen-slots-some']
+    ('need2', True, 'front') ['c4min-tlam-n3-m6', 'c4x-n3m6-3good-first', 'c4x-n3m6-onefour-a', 'c4x-n4m7-frozen-slots-some']
+    ('needall', False, 'front') ['c4min-tlam-n3-m6', 'c4x-n3m6-3good-first', 'c4x-n3m6-onefour-a', 'c4x-n4m7-frozen-slots-some']
+    ('needall', True, 'front') ['c4min-tlam-n3-m6', 'c4x-n3m6-3good-first', 'c4x-n3m6-onefour-a', 'c4x-n4m7-frozen-slots-some']
+    ('needall', False, 'back') ['lb4-fixed-insertion-n3m6']
+    ('needall', True, 'back') ['lb4-fixed-insertion-n3m6']
+time 18 s
+$ python3 k4/sdc/nof_var.py cores:k4_certs_2.json.gz,k4_certs_3.json.gz 6000 81
+instances 6000
+need1 R1 front: fails 8
+need1 plain front: fails 8
+need2 R1 front: fails 3
+need2 plain front: fails 3
+needall R1 front: fails 2
+needall plain front: fails 2
+    ('need2', False, 'front') ['r3399', 'r4546', 'r5986']
+    ('need2', True, 'front') ['r3399', 'r4546', 'r5986']
+    ('needall', False, 'front') ['r4546', 'r5986']
+    ('needall', True, 'front') ['r4546', 'r5986']
+time 62 s
+$ python3 k4/sdc/nof_var.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 5000 82
+instances 5000
+need1 R1 front: fails 2
+need1 plain front: fails 3
+    ('need1', False, 'front') ['r2074', 'r4077', 'r4453']
+    ('need1', True, 'front') ['r4077', 'r4453']
+time 96 s
+$ python3 k4/sdc/nof_var.py screen
+instances 168
+need1 R1 front: fails 8
+need1 plain front: fails 9
+need2 R1 front: fails 4
+need2 plain front: fails 4
+needall R1 back: fails 1
+needall R1 front: fails 4
+needall plain back: fails 1
+needall plain front: fails 4
+    ('need2', False, 'front') ['c4min-tlam-n3-m6', 'c4x-n3m6-3good-first', 'c4x-n3m6-onefour-a', 'c4x-n4m7-frozen-slots-some']
+    ('need2', True, 'front') ['c4min-tlam-n3-m6', 'c4x-n3m6-3good-first', 'c4x-n3m6-onefour-a', 'c4x-n4m7-frozen-slots-some']
+    ('needall', False, 'front') ['c4min-tlam-n3-m6', 'c4x-n3m6-3good-first', 'c4x-n3m6-onefour-a', 'c4x-n4m7-frozen-slots-some']
+    ('needall', True, 'front') ['c4min-tlam-n3-m6', 'c4x-n3m6-3good-first', 'c4x-n3m6-onefour-a', 'c4x-n4m7-frozen-slots-some']
+    ('needall', False, 'back') ['lb4-fixed-insertion-n3m6']
+    ('needall', True, 'back') ['lb4-fixed-insertion-n3m6']
+time 3 s

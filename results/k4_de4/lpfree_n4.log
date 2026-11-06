@@ -1,0 +1,3 @@
+$ CORES=k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz XHG= python3 k4/de4/lpfree.py 250
+   1500  LP-free profiles
+    592  clean F2-clash cycle (Lemma 18)

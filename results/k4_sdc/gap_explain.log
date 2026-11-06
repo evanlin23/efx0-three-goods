@@ -1,0 +1,29 @@
+$ python3 k4/sdc/gap_explain.py
+== 1. exposed non-leader picks [3, 2, 4]
+   state: a0 base=[3] FROZEN needs=[]; a1 base=[2] needs=[3, 4]; a2 base=[4] FROZEN needs=[] | J=[0, 1] omega=1
+   outputs without rotation: [] ; Lemma K deficit 1
+   rotate chain [0, 1], O=[1] -> OUTPUT owners [0] | a0 base=[1] marked needs=[3]; a1 base=[3] FROZEN needs=[4]; a2 base=[4] FROZEN needs=[] | J=[0, 2] omega=1
+        completion (owner 0): [0, 0, 0, 1, 2]
+   rotate chain [0, 1], O=[0, 1] -> OUTPUT owners [None] | a0 base=[0, 1] marked needs=[]; a1 base=[3] needs=[4]; a2 base=[4] FROZEN needs=[] | J=[2] omega=0
+        completion (owner None): [0, 0, 1, 1, 2]
+   rotate chain [2, 1], O=[2] -> no output | a0 base=[3] FROZEN needs=[]; a1 base=[4] FROZEN needs=[]; a2 base=[2] marked needs=[3, 4] | J=[0, 1] omega=1
+        then chain [0, 2], O=[1] -> OUTPUT owners [0] | a0 base=[1] marked needs=[3]; a1 base=[4] FROZEN needs=[]; a2 base=[3] FROZEN needs=[4] | J=[0, 2] omega=1
+        then chain [0, 2], O=[0, 1] -> OUTPUT owners [None] | a0 base=[0, 1] marked needs=[]; a1 base=[4] FROZEN needs=[]; a2 base=[3] needs=[4] | J=[2] omega=0
+== 2. deficit 2 picks [2, 3]
+   state: a0 base=[2] needs=[3]; a1 base=[3] FROZEN needs=[] | J=[0, 1, 4] omega=2
+   outputs without rotation: [0] ; Lemma K deficit 0
+   rotate chain [1, 0], O=[1] -> OUTPUT owners [1] | a0 base=[3] FROZEN needs=[]; a1 base=[1] marked needs=[3] | J=[0, 2, 4] omega=2
+        completion (owner 1): [1, 1, 1, 0, 0]
+   rotate chain [1, 0], O=[1, 2] -> OUTPUT owners [1] | a0 base=[3] needs=[]; a1 base=[1, 2] marked needs=[] | J=[0, 4] omega=1
+        completion (owner 1): [0, 1, 1, 0, 1]
+   rotate chain [1, 0], O=[1, 4] -> OUTPUT owners [0, 1] | a0 base=[3] needs=[]; a1 base=[1, 4] marked needs=[] | J=[0, 2] omega=1
+        completion (owner 0): [0, 1, 0, 0, 1]
+   rotate chain [1, 0], O=[2, 4] -> OUTPUT owners [1] | a0 base=[3] needs=[]; a1 base=[2, 4] marked needs=[] | J=[0, 1] omega=1
+        completion (owner 1): [0, 1, 1, 0, 1]
+   rotate chain [1, 0], O=[1, 2, 4] -> OUTPUT owners [1] | a0 base=[3] needs=[]; a1 base=[1, 2, 4] marked needs=[] | J=[0] omega=1
+        completion (owner 1): [0, 1, 1, 0, 1]
+== 3. earlier-block deficit picks [1, 4, 3]
+   state: a0 base=[1] needs=[3]; a1 base=[4] needs=[]; a2 base=[3] FROZEN needs=[] | J=[0, 2, 5] omega=1
+   outputs without rotation: [0] ; Lemma K deficit -1
+   rotate chain [2, 0], O=[5] -> OUTPUT owners [1, 2] | a0 base=[3] FROZEN needs=[]; a1 base=[4] needs=[]; a2 base=[5] marked needs=[3] | J=[0, 1, 2] omega=1
+        completion (owner 1): [1, 1, 2, 0, 1, 2]

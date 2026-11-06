@@ -1,0 +1,5 @@
+$ python3 k4/de4/keepown.py xhg 300 2 9300
+      600  instances
+        2  keep-own swap applies, Phi*: claim holds True
+       36  keep-own swap applies, below Phi*: claim holds True
+time 2 s

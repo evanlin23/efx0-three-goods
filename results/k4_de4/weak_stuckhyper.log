@@ -1,0 +1,6 @@
+$ python3 k4/de4/dead.py weak hypergraphs:results/k4_de4/stuck_hypergraphs.json 500 40 12000
+weak hypergraphs:results/k4_de4/stuck_hypergraphs.json: 40 jobs x 500 profiles, seeds 12000..12039
+     12812  non-completable valid states
+     20000  profiles
+    690850  valid states
+exit status 0

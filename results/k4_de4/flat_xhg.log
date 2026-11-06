@@ -1,0 +1,5 @@
+$ python3 k4/de4/flat.py xhg 300 2 6200
+      346  (V3)-valid (H) states, Phi*
+     1191  (V3)-valid (H) states, below Phi*
+      600  instances
+time 6 s

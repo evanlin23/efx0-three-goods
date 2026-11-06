@@ -1,0 +1,1855 @@
+# DE4: Draft and Exchange for four relevant goods
+
+Workstream `proof/k4-de4` (branch `claude/kind-lamport-y8fdme`), ledger rows K4.DE4.*, open item 29. The aim was a
+proof of TARGET₄ with the architecture of DE (`paper/k3-simple` in evanlin23/efx0-three-goods-proof): a state space of
+holdings, a validity invariant, a finishing rule and an improvement step measured by a potential. **This file does
+not contain a proof of TARGET₄, and its central conjecture is false.** It contains a state space and a potential for
+which every maximum was completable on the data first searched, written proofs of the parts of DE that carry over,
+and the counterexample that ends the approach in this form.
+
+**Status.**
+- *Next route (`k4/sdc.md`, open item 30).* Why the potentials below fail: no value-monotone procedure can work at k = 4 (K4.SDC.P1 is refuted on GM4-E). The replacement target has no potential: Conjecture SD-C (K4.SDC), that some serial-dictatorship order's picks extend to an EFX₀ allocation. It has no failure on any instance tested.
+- *Current state (§10).* Every potential tried so far is refuted:
+  - DE4;
+  - DE4ᵛ³ (§9);
+  - the robust order (§10, `refute_rob.py`);
+  - every tie-break inside its largest level sum (§10.4–§10.5, `refute_sum.py`, `refute_lp.py`; the last instance
+    has a single, non-completable state of the largest level sum);
+  - a level change (`refine2.py`);
+  - shedding with the top (`refute_shed.py`).
+
+  The open candidate is **K4.DE4V3R.SHED2**: every maximum of the robust order becomes completable after some agents
+  keep one good of their holding alone. All five known failures pass. In Lean it gives TARGET₄, and so do the two
+  hypotheses HXShed and HLLShed (`lean/EFX/DE4Shed.lean`). Lemmas 27, 27′, 29, 30, 31 (§10.4) and the Lean frames are
+  statements about valid states and stand.
+- *Conjecture DE4* (§2) **is refuted** (`attempts/k4-de4.md`, ledger K4.DE4; replay `python3 k4/de4/refute_de4.py`;
+  machine-checked in Lean, `EFX.DE4.Refute.not_conjDE4`).
+  The exhaustive run over every strict profile of every n = 4 core with two 4-good agents (922,669,056 profiles,
+  `results/k4_de4/exhaustive_4_n4_2.log`) found 8 profiles, all of one core (m = 7), with a maximum that has no EFX₀
+  completion. That maximum satisfies (H) and no valid state is better, so the improvement form and Conjecture 11″
+  (§7.7) fail too, and so do the hypotheses of the Lean frame. Its mechanism is that of GM₄'s counterexample: two
+  frozen blockers need the one leftover good, which is the b of both hungry agents. Every profile of that class has
+  *some* completable maximum. A different state space, DE4ᵛ³ (the lower pair only while b is held, §8), removes every
+  known failure but is refuted as well (§9, instance R4: every agent holds an upper set). Scale-invariant tie-breaks
+  after the level sum do not repair DE4 either: they remove these 8
+  failures but create 1,620 elsewhere in the same class, or keep them (`attempts/k4-de4.md`, ledger K4.DE4.TB). The
+  rest of this status list describes the work before the refutation; the proved lemmas (§3, §7) are about valid
+  states and stand.
+- *Conjecture DE4* as stated: every maximum of the level sum (then value-Pareto) over the valid DE4 states of a strict
+  R1-core profile has an EFX₀ completion. With the peeling lemma and the tie reduction it would imply TARGET₄ (§2,
+  Lemma 3).
+- *Evidence* (§4): no failure on every strict profile of every core with n = 2 (252,288) and n = 3 (all 51 cores,
+  439,582,464 profiles, C implementation), the 155 suite instances that fit (n ≤ 6, m ≤ 15), random profiles of every
+  certified core with n = 3, 4 and 5, and 20,000 random R1-cores with tied values. Two implementations
+  (`k4/de4/de4lib.py`, `k4/de4/de4.c`) agree on every profile compared. Also every strict profile of every n = 4 core
+  with one 4-good agent (8,398,080). The algorithm form (DE4-ALG: draft, chains, DE's own rings) finished on every
+  run: 155 suite instances and 21,060 random profiles of every core with n = 3 and n = 4.
+- *Proved in writing* (§3, not refereed; each statement also checked by brute force as stated,
+  `k4/de4/verify_lemmas.py`): the draft is valid; completions are sound; the upgrade (chain) lemma, which at k = 4
+  needs an argument for three-good holdings; its corollaries (at a maximum nobody is threatened by the leftover goods,
+  every agent holds a good, and few leftover goods can be absorbed); and DE's ring argument for the states in which
+  it applies (Proposition 6).
+- *Refuted* (`attempts/k4-de4-variants.md`, replay `python3 k4/de4/variants.py`): DE's own holdings; upper sets
+  without the lower pair; every "minimal set beating a single value" (it contains the dead end of
+  `attempts/k4-ls-dead-end.md`); value-Pareto maxima instead of the level sum; DE's single-owner finishing rule;
+  owners restricted to agents holding at most one good; the lower pair only for big-top agents; DE's greedy over all
+  free agents; Conjectures 11 and 11′ of §7.
+- *Missing* (§5, made precise in §7): the improvement step. §7 proves it (Lemmas 7, 8, 12, 14, Theorem 9, Corollary
+  10) except in one case: DE's walk reaches a free agent holding two or more goods after a *partial* labelled arc was
+  chosen. Lemma 13 shows that this is a Hall-type obstruction among the leftover goods. Every instance found has a
+  *dead* leftover good, i.e. one that no free agent can take alone. The improvement then exists, but in some
+  instances only through a *lateral* move: some agent's value drops while its level stays. So DE's value-Pareto
+  argument cannot close the gap (§7.7; Conjectures 11 and 11′ are refuted, Conjecture 11″ is open).
+- *Lean* (`lean/EFX/DE4.lean`, `DE4Moves.lean`, `DE4Upgrade.lean`, `DE4Ring.lean`, `DE4Cor10.lean`, row
+  K4.DE4.LEAN). Machine-checked:
+  - the definitions of §1, and the existence of maxima;
+  - Lemmas 1(a), 2, 4 (with its chains, want-rings and three-good switch), 4′, Corollary 5(b), and Lemma 3;
+  - hence "Conjecture 11″ (under (H), a better valid state exists) ⟹ improvement form ⟹ DE4 ⟹ TARGET₄";
+  - from §7: Lemma 7(a), Lemma 7(b) in general form, Theorem 9's trade along a cycle with labels, Lemma 8, and
+    Corollary 10 when every free agent holds one good. So Conjecture 11″ needs proving only for the (H) states in
+    which some free agent holds two or more goods (`EFX.DE4.ConjDE4H₂`).
+
+  The hypothesis `EFX.DE4.ConjDE4H₂` is the open step; nothing else is assumed.
+
+The output of a completion is not D2-shaped in general (hall-cyc6, §5), so DE4 says nothing about K4.D.
+
+## 1. Definitions
+
+**Setting.** After peeling by rule R1 (DE's peeling lemma, which holds for any number of relevant goods), every remaining
+agent i values 3 or 4 remaining goods R_i and is strictly balanced: v_i(a_i) < v_i(R_i ∖ a_i) for its top a_i (if it
+valued at most two, or its top were worth at least the rest, R1 would apply). Goods nobody values may remain. No rule
+R2, no connectivity and no private-good bound are used. We write a ≻ b ≻ c (≻ d) for i's goods by value and assume
+the profile **strict**: all subset sums of each R_i are distinct (ties: Lemma 3).
+
+**Holdings.** A holding of agent i is one of:
+- the empty set, or a single good of R_i;
+- an *upper set*: S ⊆ R_i with v(S) > v(a) whose proper nonempty subsets are all worth at most v(a). For a 4-good
+  agent these are {a, x} for every x, the pairs of {b, c, d} worth more than a, and {b, c, d} when v(b) + v(c) < v(a)
+  (the agent is *big-top*); for a 3-good agent, {a, b}, {a, c}, {b, c};
+- the *lower pair* {c, d} of a 4-good agent, when v(b) < v(c) + v(d) < v(a).
+
+**Levels.** ℓ(∅) = 0; ℓ(a), ℓ(b), ℓ(c), ℓ(d) = 4, 3, 2, 1; ℓ(lower pair) = 3; ℓ(upper set) = 5. The lower pair
+has b's level but more value: moving between them is a *lateral* move.
+
+**States.** A state Y gives every agent a holding, pairwise disjoint; J is the set of *leftover* goods. Agent i *wants*
+g ∈ R_i ∖ Y_i if v_i(g) > v_i(Y_i). Y is *valid* if
+- (V1) every wanted good is the whole holding of some agent, and
+- (V2) no holding threatens another agent: θ_i(Y_j) ≤ v_i(Y_i) for all i ≠ j, where θ_i(B) = max_{h ∈ B} v_i(B ∖ h).
+
+An agent is *frozen* if its holding is a single wanted good, and *free* otherwise. F₁ is the set of free agents
+holding at most one good.
+
+**Completions.** A completion of Y gives every leftover good to some agent. Y is *completable* if some completion is
+an EFX₀ allocation. DE's *single-owner rule* is the special case: one free agent o takes all leftover goods but a set
+H, and each good of H goes to a different agent of F₁ ∖ {o}.
+
+**Order.** Φ(Y) = Σ_i ℓ_i(Y_i). A *maximum* is a valid state with the largest Φ that no valid state with the same Φ
+value-Pareto-dominates.
+
+## 2. The conjecture
+
+**Conjecture DE4 (refuted).** For every strict profile of every R1-core (k ≤ 4), every maximum is completable. False at
+n = 4, m = 7 (`attempts/k4-de4.md`): agents with relevant goods {0, 2, 4, 6}, {1, 3, 5, 6}, {2, 3, 6}, {4, 5, 6} and
+values {0:3, 2:8, 4:2, 6:4}, {1:3, 3:2, 5:8, 6:4}, {2:4, 3:2, 6:3}, {4:2, 5:4, 6:3}; the maximum ({0, 4}, {1, 3},
+{2}, {5}) with leftover {6} has no EFX₀ completion and no valid state is better than it.
+
+**Improvement form** (what an algorithm would use). Every valid state that is not completable has a better valid
+state, in the order of §1. A maximum is exactly a valid state that no valid state is better than, so on each
+profile the improvement form is *equivalent* to Conjecture DE4. Its strong form, where moreover no agent's level is
+lower, is false (V11 of `attempts/k4-de4-variants.md`, §7.7): some improvements must lower a frozen agent's level.
+
+**Conjecture DE4-ALG (the algorithm).** Peel by R1; draft (Lemma 2); then repeat: if DE's single-owner rule finishes,
+stop; otherwise apply the chain of Lemma 4/4′ for the first agent (index order) that has an upgrade; otherwise trade
+along DE's ring, built by DE's pointer rule: distinct leftover goods are chosen greedily, in index order, for the free
+agents holding at most one good (each points to the first blocker, in index order, whose upgrade uses the fewest
+leftover goods not yet used); frozen agents point to their first wanter; the walk starts at the first agent holding a
+single good (the first free agent if there is none), and a free agent holding two or more goods gets its pointer, by
+the same rule, only when the walk reaches it. The conjecture: the walk always closes a ring whose trade is valid and
+improving. The loop terminates, because every move gives a state that is better in the order of §1 (a strict order on
+a finite set). The same algorithm with the greedy choice made for *all* free agents fails (V7 of
+`attempts/k4-de4-variants.md`, two n = 4 profiles). The states reached violate Proposition 6's hypotheses at some ring
+steps (§4), so a proof would need invariants of the reachable states beyond Proposition 6.
+
+**Lemma 3 (DE4 ⟹ TARGET₄).** Peel by R1 (DE's peeling lemma: the peeled agent's bundle is worth at least its remaining
+goods and has at most one good). On the R1-core that remains, the draft (Lemma 2) is a valid state, so maxima exist,
+and an EFX₀ completion of a maximum is an EFX₀ allocation of the core; the peeling lemma extends it. Ties: perturb
+v_i to v_i + εw_i with w_i supported on R_i and all subset sums distinct; this keeps every R_i and strict balance, and
+for small ε the profile is strict and of one fixed type for every ε, so an allocation that is EFX₀ for that type is
+EFX₀ for all small ε and, the conditions being closed, for ε = 0 (K4.TIE of `k4/SCOUT.md` §2, unchanged). ∎
+
+## 3. What is proved (written here; not refereed)
+
+**Lemma 1 (structure).** In a valid state:
+(a) Among an agent's holdings, a higher level never has a lower value, and a higher value never has a lower level.
+(b) No good of a holding with two or more goods, and no leftover good, is wanted.
+(c) A holding of two goods threatens nobody. The only holdings of three goods are the upper sets {b, c, d} of big-top
+agents, so (V2) is a condition on those alone.
+
+*Proof.* (a) Singles are ordered by value and level alike; v(b) < v(lower pair) < v(a) < v(upper set). (b) By (V1),
+a wanted good is a whole one-good holding. (c) θ_i({g, h}) = max(v_i(g), v_i(h)), and by (b) neither good is wanted by
+i, so each is worth at most v_i(Y_i) (or 0 if outside R_i). An upper set {a, x, y} is not minimal ({a, x} is worth
+more than a), R_i is not either, and {b, c, d} is minimal exactly when every pair of it is worth less than a, i.e.
+v(b) + v(c) < v(a). ∎
+
+**Lemma 2 (the draft).** If the agents, in index order, each take the best of their goods not yet taken (or nothing),
+the result is a valid state. *Proof.* As DE's draft lemma: if i wants g, then g was taken before i's turn as the whole holding
+of an earlier agent, and holdings do not change during the draft. (V2) is empty: there is no holding of three goods. ∎
+
+**Lemma 4 (upgrades).** Let Y be valid and x an agent with v_x(J ∩ R_x) > v_x(Y_x). Then a valid state Y′ exists in
+which every agent's value is at least its value in Y and some agent's value is higher; the agents whose holding changes
+all gain value, so (Lemma 1(a)) no level drops.
+
+*Proof.* (i) *An upgrade inside J.* Let D = J ∩ R_x. Its goods are not wanted by x (Lemma 1(b)), so each is worth less
+than Y_x (strict profile). We find an allowed holding N ⊆ D with v(N) > v(Y_x):
+- Y_x = {a}: a minimal subset of D worth more than a is an upper set.
+- Y_x = {b}: a is wanted, so D ⊆ {c, d}, hence (4-good) N = {c, d} with c + d > b; it is an upper set if c + d > a,
+  else the lower pair. For a 3-good agent D ⊆ {c}: not possible.
+- Y_x = {c} or {d}, or Y_x = ∅: D has at most one good worth less than Y_x, or D = ∅ (an agent holding nothing wants
+  all its goods). Not possible.
+- Y_x = lower pair: a is wanted (a > c + d), so D ⊆ {b}, worth less than c + d. Not possible.
+- Y_x an upper set S of two goods: D ⊆ R_x ∖ S has at most two goods, each worth at most v(a) < v(S), so D is a pair
+  worth more than a with both goods worth at most v(a): an upper set. For S = {b, c, d}, D ⊆ {a}. Not possible.
+
+So N exists, and it has three goods only if x is big-top, Y_x = {a} and D = {b, c, d}. If such an x is free, take
+N = {a, b} ⊆ Y_x ∪ J instead (an upper set; a is not wanted).
+(ii) *The chain* (as in DE's chain lemma). Let j₀ = x and, as long as j_t holds a single good that some agent wants, let j_{t+1}
+be the first such agent. If an agent repeats, the agents from its first occurrence on form a cycle in which each wants
+the good of the one before; trade along it (each takes the good it wants). Otherwise the walk stops at j_k, and: x
+takes N, each j_t (1 ≤ t ≤ k) takes the good of j_{t−1}, and the goods of the old holding of j_k that nobody took
+become leftover (for a free x the walk has k = 0, and these are the goods of Y_x outside N). In both cases the
+agents that move strictly gain value and the others keep their holdings, so every agent's wanted set can only
+shrink. A good wanted in Y′ was wanted in Y, hence a one-good holding in Y; if its
+holder moved, the good is now the whole holding of the next agent of the walk (the goods released at the end are not
+wanted). So (V1) holds. Holdings of two goods threaten nobody (Lemma 1(c)); holdings that did not change threaten
+nobody new, since nobody's value dropped.
+(iii) *Three goods.* It remains the case where N = {b_x, c_x, d_x} (x frozen, big-top) threatens some agent i ≠ x in Y′.
+Then v_i(J ∩ R_i) ≥ v_i(N ∩ R_i) ≥ θ_i(N) > v_i(Y′_i) ≥ v_i(Y_i), so i also satisfies the hypothesis. Its upgrade from
+(i) is not a triple: otherwise i is a frozen big-top agent holding a_i with b_i, c_i, d_i ∈ J, and then N ∩ R_i ⊆
+{b_i, c_i, d_i}; if N ⊄ R_i, at most two of these lie in N and θ_i(N) ≤ v(b_i) + v(c_i) < v(a_i); if N ⊆ R_i, then
+N = {b_i, c_i, d_i} and θ_i(N) = v(b_i) + v(c_i) < v(a_i); either way i is not threatened. So the chain of i gives Y′
+by (ii), with no three-good holding created. ∎
+
+**Lemma 4′ (free self-upgrades).** If a free agent x has an allowed holding N ⊆ Y_x ∪ J with |N| ≤ 2 and v(N) >
+v(Y_x), then x taking N and leaving Y_x ∖ N to the leftover goods gives a valid state better in value for x and equal
+for everybody else. *Proof.* As (ii): released goods are not wanted (x is free), N is a pair or a single, wanted sets
+only shrink. ∎
+
+**Corollary 5 (at a maximum).** Let Y be a maximum (or any valid state with no valid state that is value-Pareto-better
+by Lemma 4 or 4′). Then:
+(a) v_x(J ∩ R_x) ≤ v_x(Y_x) for every agent x: the leftover goods alone threaten nobody;
+(b) if some agent holds nothing, Y is completable: that agent is free and takes all of J;
+(c) if |J| ≤ |F₁|, Y is completable: each leftover good goes to a different agent of F₁;
+(d) hence if Y is not completable, every agent holds at least one good and |J| > |F₁|.
+
+*Proof.* (a) Lemma 4; Lemma 4 gives a strictly Pareto-better state, which has Φ at least as large (Lemma 1(a)), so it
+would contradict maximality. (b) The bundle J threatens x by at most v_x(J ∩ R_x) ≤ v_x(Y_x); the agent itself holds J
+and by (V2) no holding threatened it while it held nothing, so none threatens it now; one-good holdings threaten
+nobody. (c) A bundle {y, h} of a free agent's good y and a leftover good h has threat at most max(v_i(y), v_i(h)), and
+neither good is wanted (Lemma 1(b)); the receivers only gain. (d) From (b) and (c). ∎
+
+**Proposition 6 (DE's ring argument, where it applies).** Let Y be valid with Corollary 5(a), and suppose:
+(i) every agent's holding is a single good or a *robust* set (v(S) ≥ v(R ∖ S)); and
+(ii) no big-top agent holding its top has two of b, c, d in J.
+If some agent holds a single good and no agent of F₁ can finish by DE's single-owner rule, then trading along a ring
+of want arrows and pair arrows (DE's definition of rings) with pairwise distinct leftover goods gives a valid state in which
+every agent of the ring gains value. (If no agent holds a single good, Y is completable: by Corollary 5(b) nobody
+holds nothing, so every holding is robust, and any agent can take all leftover goods, since a robust agent is never
+threatened.)
+
+*Proof.* DE's proof of its Improvement Lemma, with three changes. (1) A robust holder wants nothing and is never
+threatened (every other bundle meets R in R ∖ S), so it is never a taker and never needs a pointer. (2) A *blocker* of
+o ∈ F₁ for H ⊆ J is an agent x threatened by {y_o} ∪ (J ∖ H); it holds a single y_x, all its goods in that bundle are
+worth less than y_x, and by Corollary 5(a) y_o is one of them. A minimal set N ∋ y_o of these goods with v(N) > v(y_x)
+can be chosen with exactly one leftover good. Let D′ be x's goods in {y_o} ∪ (J ∖ H); v(D′) > v(y_x) and y_o ∈ D′.
+For y_x = a, x a 4-good agent that is not big-top: if |D′| = 2, N = D′; if D′ = {b, c, d}, then y_o ≠ d (else
+{b, c} ⊆ J would be worth more than a, against Corollary 5(a)), so N = {b, c} ∋ y_o. For y_x = a and x a 3-good agent,
+N = D′ = {b, c}. For y_x = b (4-good), a is wanted, so N = D′ = {c, d}; a 3-good holder of b, and a holder of c or
+d, is never threatened; and big-top
+holders of a with two leftover goods are excluded by (ii). N is an upper set or the lower pair. (3) Hence, for
+|U| ≤ |F₁| − 1, a blocker of o for H = U has a pair arrow into o whose leftover good avoids U, which is exactly what DE's choice of distinct leftover goods q_o needs.
+The pointers σ, the cycle and the validity of the trade are then as in DE: frozen agents point to their first
+wanter, which holds a single good (a robust holder wants nothing, the lower pair is not robust, and an agent holding
+nothing could finish); agents of F₁ point to their chosen blockers, which hold single goods; so the walk from an
+agent holding a single good stays among such agents and closes a cycle. Every new holding is a single good or a pair,
+which threatens nobody by Lemma 1(c). ∎
+
+Proposition 6 is not a step of a proof of TARGET₄: its trades create lower pairs and non-robust upper sets, so its
+hypotheses are not preserved. It shows which features of k = 4 DE's argument does not handle (§5).
+
+## 4. Evidence (EVIDENCE; exhaustive only where said)
+
+"Fails" means: some maximum of the profile is not completable.
+
+| what | profiles | fails | DE single-owner rule fails | log |
+|---|---|---|---|---|
+| every strict profile, every core with n = 2 (5 cores), both implementations | 252,288 (exhaustive) | 0 | 0 | `results/k4_de4/exhaustive_2.log`, `exhaustive_2_c.log` |
+| every strict profile, every core with n = 3 (51 cores), `de4.c` | 439,582,464 (exhaustive) | 0 | not checked | `results/k4_de4/exhaustive_3.log` |
+| every strict profile, every core with n = 4 and one 4-good agent (135 cores), `de4.c` | 8,398,080 (exhaustive) | 0 | not checked | `results/k4_de4/exhaustive_4_n4_1.log` |
+| every strict profile, every core with n = 4 and two 4-good agents (309 cores), `de4.c` | 922,669,056 (exhaustive) | **8** (all in core 131, m = 7; the counterexample of `attempts/k4-de4.md`) | not checked; every profile has a completable maximum | `results/k4_de4/exhaustive_4_n4_2.log` |
+| suite: every complete instance with n ≤ 6, m ≤ 15 (c4-H2, c4-H5, lmbt-HH3, lmbt-Hq3 skipped) | 155 | 0 | 1 (hall-cyc6) | `results/k4_de4/suite.log` |
+| random strict profiles, every certified core with n = 3 (51 cores, 300 each) | 15,300 | 0 | 0 | `results/k4_de4/certs_3.log` |
+| random strict profiles, every certified core with n = 4 (1,002 cores, 40 each) | 40,080 | 0 | 0 | `results/k4_de4/certs_4.log` |
+| random strict profiles, every pure n = 5 core (4,674, 2 each) | 9,348 | 0 | 0 | `results/k4_de4/certs_5_pure.log` |
+| random strict profiles, every n = 5 core with three or four 4-good agents (19,707, 1 each) | 19,707 | 0 | 0 | `results/k4_de4/certs_5_n4_34.log` |
+| random R1-cores, n = 2..4, tied values, any number of private goods, junk goods | 20,000 | 0 | 0 | `results/k4_de4/r1ties.log` |
+
+**The algorithm DE4-ALG** (`python3 k4/de4/check.py algo`, `results/k4_de4/algo_suite.log`,
+`results/k4_de4/algo_random.log`): it finishes on all 155 suite instances with n ≤ 8, m ≤ 16 (73 chains, 26 rings) and
+on 20 random strict profiles of each of the 1,053 cores with n = 3 or 4 (21,060 runs; 1,353 chains, 141 rings),
+never needing a fallback. Proposition 6's hypotheses hold at 7 of the 26 ring steps on the suite and 114 of the 141
+on the random runs.
+
+**The lemmas of §3**, checked as stated (`python3 k4/de4/verify_lemmas.py`, `results/k4_de4/verify_lemmas.log`): on
+every valid state of the suite instances with n ≤ 4, m ≤ 10 and of random profiles of every core with n ≤ 4, no
+violation of Lemma 1(c), Lemma 2, Lemma 4 (with its three-good switch), Corollary 5(b), (c) or Proposition 6.
+
+Two implementations: `k4/de4/de4lib.py` (Python, SAT for completions) and `k4/de4/de4.c` (C, brute-force completions)
+agree on the number of valid states, of maxima and of failures on every compared profile (16 cores, n = 2 and 3;
+`results/k4_de4/xcheck.log`). Both are by the same author; they share definitions, not code.
+
+**Moves** (`python3 k4/de4/check.py moves`, `results/k4_de4/moves.log`; suite instances with n ≤ 5, m ≤ 12). Of the
+582 valid states that DE's rule does not finish (256 of them are completable by a general completion), every one has
+a better valid state: 581 a value-Pareto-better one,
+one (gm4-B) only a level-monotone one, through a lateral move. Constructively: Lemma 4's chain finds one for 483, DE's
+ring with the global choice of leftover goods for 96, the same ring assigned along the walk from some start for 1
+(red-pm-offpath-hypothesis), a ring in which a blocker keeps part of its own holding for 1 (induct-g-r1), and none of
+these for gm4-B.
+
+## 5. The missing step
+
+Conjecture DE4 needs: if a valid state satisfies Corollary 5 and is not completable, some trade raises Φ without
+lowering any level (or raises values at equal Φ). DE's proof gets the trade from a count: with (NC), every free agent
+has blockers with at least |F| distinct leftover goods, so distinct goods can be chosen for all free agents at once
+and any cycle of pointers is a ring. At k = 4 that count fails, and every way it fails occurs on the suite:
+
+- **(G1) Owners holding two or three goods.** Free agents holding a lower pair or an upper set can own the leftover
+  goods but cannot take one more (their bundle would have three goods and could threaten), so they count in |F| but
+  not among the receivers. In the stuck states of the suite (DE's rule does not finish, no chain applies), such an
+  owner has a blocker arc using no leftover good in 41 cases and only arcs using one in 11 (`results/k4_de4/moves.log`).
+  Three instances show what is then needed:
+  - *gm4-B* (n = 4, m = 7): agents 0 and 1 hold lower pairs and compete for the one leftover good; no valid
+    state is value-Pareto-better, and the improvement found lowers agent 0 from {c, d} to b (lateral) while agent 2
+    goes from a to a rich pair;
+  - *hall-cyc6* (n = 6, m = 15): every agent holds an upper pair, three goods are left over, no valid state is better
+    (it is a maximum), no single owner can take the three goods, and giving them to **two** agents works
+    ({4, 5, 12, 14} and {6, 7, 13}); this is why completions, not DE's single-owner rule, appear in the conjecture;
+  - *induct-g-r1* (n = 2, m = 5): the two agents exchange their b's and keep their c's.
+- **(G2) Big-top blockers.** A frozen big-top agent holding a, with one of b, c, d in an owner's holding and two in J,
+  is protected by removing one leftover good, but its upgrade {b, c, d} uses two. In the same stuck states, 15 free
+  agents holding one good have only arcs using two leftover goods, and every one of these is such a big-top blocker
+  (e.g. c4x-n3m6-onefour-a); 20 have an arc using none (the blocker keeps part of its own holding) and 30 one.
+- **(G3) Global choice.** On red-pm-offpath-hypothesis DE's greedy choice over all free agents uses the only leftover
+  good for a free agent that no improving cycle visits; the walk must be chosen.
+
+What a proof needs is a cycle lemma of Hall type: in the digraph in which each frozen agent points to its wanters (and
+lower-pair holders whose b it holds) and each free agent to its blockers, labelled by the leftover goods they use,
+non-completability (every distribution of J leaves a threatened agent) forces a cycle with pairwise disjoint labels.
+Theorem Z (`k4/c4min.md` §3) is the case where every agent holds a pair and nobody is frozen, proved by an injectivity
+argument (each agent is threatened by at most one owner) that fails once owners hold single goods.
+
+**Relation to earlier spaces.** 𝒫 of `k4/c4x.md` allows every base of at most two goods and measures bases by
+value levels; its Pareto-maxima, and the maxima of more than 40 potentials, are not all completable (from n = 2 or
+3), and its completions are D2-shaped. DE4 differs in four ways, each needed on the suite (`attempts/k4-de4-variants.md`):
+the holdings are only singles, minimal upper sets and the lower pair (so the dead end of `attempts/k4-ls-dead-end.md`,
+which uses {b, d} worth less than a, is not a state); levels are ranks, with the lower pair at b's level; upper sets
+of three goods are allowed, with (V2); completions may give leftover goods to several agents.
+
+## 7. The ring step: what is proved, and the one remaining case
+
+This section replaces the abstract cycle lemma of §5 by a concrete construction and proves all of it but one case.
+Throughout, Y is a valid state of a strict profile such that **(H)**: Lemma 4 and Lemma 4′ give no improvement (so
+Corollary 5(a) holds and no free agent can upgrade inside its holding plus the leftover goods), every agent holds a
+good, and Y is not completable. Every maximum that is not completable satisfies (H).
+
+**Lemma 7 (danger sets).** For an agent i, a *danger set* is a minimal set D of goods of R_i, outside Y_i and not
+wanted by i, with v_i(D) > v_i(Y_i).
+(a) A bundle B with no good of Y_i and no good wanted by i threatens i (θ_i(B) > v_i(Y_i)) if and only if B strictly
+contains a danger set of i.
+(b) Every danger set of i is an allowed holding of i.
+(c) Under (H), no danger set of any agent lies inside J.
+
+*Proof.* (a) If B ⊋ D, remove a good h ∈ B ∖ D: v_i(B ∖ h) ≥ v_i(D) > v_i(Y_i). Conversely, if v_i(B ∖ h) > v_i(Y_i),
+a minimal subset of the goods of R_i in B ∖ h worth more than Y_i is a danger set inside B ∖ h ⊊ B. (b) As in Lemma 4(i):
+the goods outside Y_i that i does not want are, for Y_i = {a}, goods worth less than a, and a minimal set of them
+worth more than a is an upper set; for Y_i = {b} of a 4-good agent they are c and d, and {c, d} is an upper set or the
+lower pair; for Y_i an upper pair they are at most two goods, each worth at most v(a), so a danger set is a pair worth
+more than a, an upper set; in every other case there is no danger set. (c) A danger set D ⊆ J would give
+v_i(J ∩ R_i) ≥ v_i(D) > v_i(Y_i), against Corollary 5(a). ∎
+
+Lemma 7 is checked by brute force: `python3 k4/de4/cycle.py danger` (every bundle of up to four goods, every agent,
+every valid state of the suite instances with n ≤ 4, m ≤ 9; `results/k4_de4/cycle_danger.log`).
+
+**Arcs.** An *arc into* a free agent o is a pair (x, D) with x ≠ o, D a danger set of x, D ⊆ Y_o ∪ J and D ∩ Y_o ≠ ∅.
+Its *label* is D ∩ J. It is *full* if Y_o ⊆ D, *partial* otherwise. By Lemma 7, under (H): for T ⊆ J, the bundle
+Y_o ∪ T threatens x if and only if it strictly contains D for an arc (x, D) into o with label ⊆ T. Arcs into a free
+agent holding one good are full. F₁ is the set of free agents holding one good.
+
+**Lemma 8 (self-absorption).** Under (H), let o_1, …, o_f be the agents of F₁ in index order, and choose for o_t an arc
+(x_t, D_t) whose label L_t avoids L_1 ∪ … ∪ L_(t−1), with the fewest labels and then the fewest goods. Such an arc
+exists for every t, the labels are pairwise disjoint, and no bundle D_t strictly contains a danger set of anyone.
+
+*Proof.* The second claim: if D_t ⊋ D′ for a danger set D′ of some agent i, then D′ meets Y_(o_t) (else D′ ⊆ J, against
+Lemma 7(c)), so (i, D′) is an arc into o_t whose label is a proper subset of L_t, contradicting the choice. For the
+first claim, let U = L_1 ∪ … ∪ L_(t−1) and complete Y by giving o_s the goods L_s (s < t) and o_t all of J ∖ U. The
+bundle of o_s is D_s, which threatens nobody (second claim); the other holdings threaten nobody by (V2), and nobody's
+value dropped. As Y is not completable, the bundle Y_(o_t) ∪ (J ∖ U) threatens someone, so it strictly contains D for
+an arc (x, D) into o_t, whose label lies in J ∖ U. ∎
+
+The same argument gives: **(8′)** if the arcs already chosen for free agents holding two or more goods are full, a
+further free agent u has an arc avoiding all labels chosen so far. Each such agent absorbs its own label (its bundle
+is then exactly its arc's D), and u takes the rest. The argument breaks only for *partial* arcs, whose owner cannot
+absorb the label: its bundle would strictly contain D.
+
+**Theorem 9 (DE's walk).** Under (H), define σ:
+- σ(o_t) = x_t for o_t ∈ F₁ (Lemma 8);
+- σ(j) = the first agent that wants the good of j, for a frozen agent j;
+- for a free agent u holding two or more goods, σ(u) = x for an arc (x, D) into u whose label avoids all labels
+  chosen so far, with the fewest labels and then the fewest goods. This is chosen when the walk reaches u.
+
+Start at the first agent holding one good (the first free agent if there is none) and follow σ. If the walk closes a
+cycle, then trading along it (each agent on the cycle takes from its predecessor the wanted good, or its danger set D)
+gives a valid state in which every agent on the cycle has strictly more value. This is a strict Pareto improvement, so
+no level drops.
+
+*Proof.* Each frozen agent has a wanter, and wanters hold a good (by (H) nobody holds nothing). So σ is defined along
+the walk except where stated. On the cycle every agent takes from exactly one agent. The labels are pairwise disjoint
+by construction, so the new holdings are disjoint; the goods of a giver that its taker does not take become leftover.
+Every taker strictly gains (a wanted good, or a danger set, worth more than its holding), and every new holding is
+allowed (Lemma 7(b)). Wanted sets only shrink, so a good wanted afterwards was wanted before. It was then a one-good
+holding of a frozen agent j; if j is on the cycle, the good is now the whole holding of σ(j), which wants it. This is
+(V1). For (V2): holdings that did not change threaten nobody new; a new pair threatens nobody (Lemma 1(c)). Let a new
+triple D (a big-top blocker's {b, c, d}, taken through an arc into a giver v) threaten an agent i. By Lemma 7(a), D
+strictly contains a danger set D′ of i for its new holding.
+- If i ≠ v: D′ is disjoint from Y_i and from the goods i wants, and it is worth more than i's new holding, hence than
+  Y_i. So it contains a danger set D″ of i for Y_i with D″ ⊊ D. Then (i, D″) is an arc into v (Lemma 7(c)) with fewer
+  labels or fewer goods, contradicting the choice.
+- If i = v: D′ ⊆ Y_v ∪ J is an allowed holding of v (Lemma 7(b)), a pair (D′ ⊊ D), worth more than v's new holding,
+  hence than Y_v. As v is free, Lemma 4′ would apply, against (H). ∎
+
+**Corollary 10.** Under (H), if the walk of Theorem 9 never has to choose an arc for a free agent holding two or more
+goods after a partial labelled arc has been chosen, it closes a cycle and gives a strict Pareto improvement. In
+particular, if no free agent holds two or more goods, a non-completable state satisfying (H) has an improvement. This
+is the four-good analogue of DE's Improvement Lemma for such states, including big-top blockers, whose arcs use two
+leftover goods.
+
+*Proof.* By Lemma 8 and (8′), every choice the walk makes exists, and the walk is finite, so it closes a cycle;
+Theorem 9 applies. ∎
+
+**Conjecture 11, first form (refuted).** Under (H), if the walk stops at a free agent holding two or more goods (no arc
+avoiding the labels chosen so far), then one of these moves gives a better state (in the order of §1):
+- **(P) partial path:** a free agent u holding two or more goods and a partial arc (x, D) into u. x takes D; u keeps its
+  most valuable allowed subset of Y_u ∖ D; if x is frozen, x's good passes down the first-wanter walk (Lemma 4(ii)),
+  and the old holding at its end becomes leftover. This may lower u's level, so it is an improvement only when the
+  level sum rises;
+- **(K) keep-own exchange:** two free agents re-divide their holdings and leftover goods, each keeping part of its own,
+  both strictly gaining.
+
+Moves P and K are each bounded in the number of agents they touch, apart from the wanter walk in P. The
+evidence is in `results/k4_de4/cycle_*.log`, produced by `python3 k4/de4/cycle.py`. On the suite, of the 326
+non-completable valid states:
+- 230 are improved by Lemma 4 or 4′;
+- 94 by the walk;
+- the walk stops in 2 states, gm4-B (resolved by P) and induct-g-r1 (resolved by K).
+
+There is no violation of Lemma 8 or Theorem 9. The random runs are summarized in the log.
+
+**It is false as stated** (V8 of `attempts/k4-de4-variants.md`). In a run of 50,000 random profiles, one stopped walk
+(n = 4, m = 8) has neither P nor K, and no improvement changing at most two agents. Its improvement is a 3-cycle in
+which one blocker keeps part of its own holding. This leads to the refinement below.
+
+### 7.6 Which arcs carry labels
+
+**Lemma 12.** Under (H), let (x, D) be an arc into a free agent u with a nonempty label, and x free. Then either x is
+a big-top 4-good agent holding its b, or some good g ∈ D ∩ Y_u and some good q ∈ Y_x make {g, q} an upper set of x
+worth more than Y_x: a *keep-own arc*, in which x takes g from u, keeps q, and uses no leftover good.
+
+*Proof.* Cases by the holding of x (free, so its goods are not wanted); a holding without a danger set has no arc.
+- Y_x = {a}: a good h ∈ J ∩ R_x would give the upper set {a, h} ⊆ Y_x ∪ J, worth more than Y_x, so Lemma 4′ would
+  apply. Hence J ∩ R_x = ∅, and every arc of x has an empty label.
+- Y_x = {b}, 4-good, D = {c, d}: one of c, d is in J and the other in Y_u (Lemma 7(c)). If x is not big-top, then
+  {b, c} is an upper set. If c ∈ J, it lies in Y_x ∪ J and Lemma 4′ applies; so c ∈ Y_u, and {c, b} is a keep-own
+  arc.
+- Y_x = {a, d} with v(b) + v(c) > v(a) + v(d), D = {b, c}: if b or c were in J, {a, b} or {a, c} ⊆ Y_x ∪ J would be
+  an upper set worth more than Y_x (Lemma 4′). So D ⊆ Y_u and the label is empty.
+- Y_x a rich pair P = {p, p′} ⊆ {b, c, d} whose complement {a, s} is worth more, D = {a, s}: if a ∈ J, then
+  {a, p} ⊆ Y_x ∪ J is an upper set worth more than P (as v(a) > v(p′)), and Lemma 4′ applies. So a ∈ Y_u, and
+  {a, p} is a keep-own arc.
+- 3-good agents: every pair holding is robust (no danger set), and Y_x = {a} is the first case. ∎
+
+So, under (H), the only arcs that must use leftover goods are arcs into free agents holding one good, which are
+self-absorbed by Lemma 8, and arcs whose blocker is frozen or a free big-top holder of its b. The walk can stop only
+on a conflict between two *partial* arcs of the second kind (Lemma 8′).
+
+**Conjecture 11′ (the remaining case).** Under (H), if the walk of Theorem 9 stops, then a better state is given by
+one of these:
+- the *refined walk* (`walk2` in `k4/de4/cycle.py`). Free blockers may use the keep-own arcs of Lemma 12; a kept good
+  is never taken later and a given good never kept; at each free agent holding two or more goods, an arc whose blocker
+  is already on the walk, with a label disjoint from the labels on the cycle it closes, is preferred;
+- move P.
+
+Evidence (`results/k4_de4/cycle_suite.log`, `results/k4_de4/cycle_walk_n34.log`): on the suite, the walk stops in 2
+of 326 non-completable states, resolved by P (gm4-B) and by the refined walk (induct-g-r1). On 30,000 random profiles
+of every certified core with n = 3, 4, there are 18,720 non-completable valid states:
+- 12,902 are improved by Lemma 4 or 4′;
+- 5,814 by the walk;
+- in the remaining 4 the walk stops, and all 4 are resolved by the refined walk.
+
+No violation of Lemma 8 or Theorem 9 occurs. The validity of the refined walk's trades is checked, not yet proved:
+keep-own arcs produce upper pairs, so the argument of Theorem 9 should carry over.
+
+**Correction to the remark after Lemma 12.** For a free holder x of its b that is not big-top, the keep-own arc keeps
+x's whole holding ({b} becomes {b, c}). Then no agent can take anything from x, so the arc cannot lie on a cycle; it
+can only end a path. So free holders of their b (big-top or not) are, with frozen agents, the blockers whose partial
+labelled arcs can conflict.
+
+### 7.7 Conjecture 11′ is false; what survives
+
+**Two counterexamples** (V9 of `attempts/k4-de4-variants.md`, replayed by `k4/de4/variants.py`).
+
+*First* (n = 4, m = 7, three 4-good agents). Agent 0 values goods 0, 2, 5, 6 at 2, 3, 8, 4; agent 1 values 0, 3, 4, 6
+at 5, 4, 2, 8; agent 2 values 1, 2, 4, 6 at 4, 5, 2, 8; agent 3 values 1, 3, 5 at 2, 3, 4. Take
+Y = [{0, 2}, {3, 4}, {6}, {5}], with J = {1}:
+- agents 0 and 1 hold their lower pairs and want their tops 5 and 6, which the frozen agents 3 and 2 hold;
+- agent 2's danger set {1, 2} gives a partial arc into agent 0, and agent 3's danger set {1, 3} one into agent 1;
+- both arcs have the label {1}.
+
+So the one leftover good cannot be taken by either free agent, alone or with anything else. Y is valid, (H) holds,
+the walk stops, and neither the refined walk nor P improves. Worse, **no valid state is value-Pareto-better than Y**.
+Every better state lowers some value. Five of them lower no level, e.g. [{5}, {0}, {6}, {1, 3}]:
+- agent 0 takes its top from agent 3;
+- agent 3 takes {1, 3}: the leftover good and agent 1's c;
+- agent 1 takes its b, good 0, which agent 0 has released. Moving from the lower pair to b keeps its level (lateral).
+
+The level sum goes from 14 to 16. Every maximum of this profile is completable.
+
+*Second* (n = 3, m = 8, nobody frozen, every agent holds a pair). The refined walk and P fail again, because the
+greedy choices take the wrong arcs. A rotation in which each agent keeps one good and takes one good from the next is
+value-Pareto-better. It has the shape of Theorem Z's rotations (`k4/c4min.md` §3).
+
+**Consequence.** The improvement step of DE4 is not a value-Pareto lemma like DE's Improvement Lemma: it must allow
+lateral moves. The order of §1 already allows them, since it compares level sums first. The improvement form of §2
+survives:
+
+**Conjecture 11″ (refuted with DE4, `attempts/k4-de4.md`)** (row K4.DE4.C11B; in Lean `EFX.DE4.ConjDE4H`). Under
+(H), there is a better valid state in the
+order of §1: the level sum is higher, or it is equal and the values Pareto-improve. Every non-completable valid state
+either satisfies (H) or is improved by Lemma 4 or 4′ (or some agent holds nothing, and then it is completable:
+Corollary 5(b)). So Conjecture 11″ is the improvement form of §2, hence equivalent to DE4. In Lean,
+`EFX.DE4.target4_of_conjDE4H` derives TARGET₄ from it, and with Corollary 10 (machine-checked when every free agent
+holds one good, `EFX.DE4.cor10`) `EFX.DE4.target4_of_conjDE4H₂` derives TARGET₄ from its case where some free agent
+holds two or more goods. What the walk and §7 add is a proof strategy: DE4 holds at
+every (H) state where the walk closes, and the open case is the stopped walk.
+
+*Its strong form is false* (V11). The strong form asks that no agent's level be lower. A strict profile with n = 6,
+m = 9 refutes it; it was built by hand so that the two hungry agents share no goods:
+- two lower-pair holders with disjoint goods;
+- frozen blockers holding their tops, both valuing the one leftover good;
+- each lower-pair holder's b held by a frozen agent.
+
+The state satisfies (H), and no better state keeps every level. In each better state a frozen blocker gives its good
+to a hungry agent and drops from its b to its c, while the other blocker takes its lower pair with the dead good
+(level sum 20 → 21). Such *downgrades* of frozen agents are needed in general; repaired "downgrade swaps" appear also
+in `k4/hall.md`.
+
+**Why the walk stops.** Call a free agent z an *absorber* of a leftover good h if Y_z ∪ {h} threatens nobody (with
+the values of Y), i.e. z is not *closed* (Y_z is not a danger set of another agent) and no arc into z has label {h}
+and is partial. Every agent of F₁ absorbs every leftover good, since its arcs are full with nonempty labels.
+
+**Lemma 13.** Under (H), let the walk of Theorem 9 stop at a free agent u (u holds two or more goods, by Lemma 8).
+Let U_P be the set of goods in the labels of the partial arcs chosen so far. Then the goods of U_P cannot be given,
+injectively, to absorbers outside {u}, F₁ and the agents whose chosen arc is full. So, by Hall's theorem, some
+nonempty S ⊆ U_P has fewer than |S| such absorbers. In particular, if U_P = {h}, then h has no absorber outside these
+agents.
+
+*Proof.* Suppose such an assignment exists. Complete Y as follows:
+- each agent of F₁ takes its label (Lemma 8), and each agent whose chosen arc is full takes its label ((8′));
+- each good of U_P goes to its absorber;
+- u takes the rest of J.
+
+Which bundles can threaten?
+- The bundle of an agent that took its label is the danger set of its arc, which threatens nobody (Lemma 8, second
+  claim, and (8′)).
+- An absorber's bundle threatens nobody, by definition.
+- Unchanged holdings threaten nobody, by (V2).
+
+Values only rise, so a threat in the completion is a threat for the old values. As Y is not completable, u's bundle
+Y_u ∪ (J ∖ U) threatens someone, where U is the set of all labels chosen so far. By Lemma 7 this gives an arc into u
+whose label lies in J ∖ U, so the walk does not stop at u. ∎
+
+A leftover good is *dead* if it has no absorber at all. Then F₁ = ∅, and every free agent is closed or has a partial
+arc with label {h}. A dead good is the smallest obstruction of Lemma 13, and the only one found. The data split
+Conjecture 11″ into two statements:
+- **(D)** if the walk stops, some leftover good is dead;
+- **(E)** if some leftover good is dead (and (H) holds), an improvement as in Conjecture 11″ exists.
+
+**Label-free cycles.** Write G₀ for the digraph of the *label-free arcs*:
+- frozen j → every agent that wants j's good;
+- closed u → every agent whose danger set is Y_u.
+
+Call a free agent that is not closed *hungry*: it is a sink of G₀.
+
+**Lemma 14.** Under (H), trading along a cycle of G₀ gives a valid state in which every agent on the cycle has strictly
+more value. In the trade, each agent takes its predecessor's good (want arc) or whole holding (closed arc).
+
+*Proof.* As Theorem 9, with no labels. Every frozen agent on the cycle hands its good, alone, to an agent that wants
+it, so (V1) holds. A new triple D = Y_u (a closed arc into a big-top x) can threaten an agent i only if D strictly
+contains a danger set D′ of i for its new holding. Then:
+- if i ≠ u, then D′ contains a danger set of i for Y_i (no good of a triple is wanted, by (V1)), so Y_u threatened i
+  in Y, against (V2);
+- if i = u, then v_u(D′) > v_u(Z_u) > v_u(Y_u) > v_u(D′), since D′ ⊊ Y_u. ∎
+
+A hungry agent u with an arc (x, D) of label {h} whose blocker x reaches u in G₀ gives a cycle with one label: x takes
+D, and the agents of the G₀ path from x to u pass their goods along. When D is a pair, Theorem 9's argument shows that
+this trade is valid and a strict Pareto improvement.
+
+**Hard dead-good states.** Call a state with a dead good *hard* if G₀ has no cycle and no such one-label cycle exists.
+In a hard state, the improvement found is move PR or the refined walk (§7.6), and most often move PR:
+- take a hungry u, an arc (x, D) into u with label {h}, and a G₀ path from x to a sink r ≠ u;
+- x takes D, and each agent of the path takes its predecessor's good (want arc) or holding (closed arc);
+- r releases its holding;
+- u takes its best allowed holding among the goods left over: what remains of its own holding, the leftover goods
+  but h, and r's released goods.
+
+In the instances inspected, u holds a lower pair and takes its b from r's released holding (a lateral move), or an
+upper pair made of its b and the good it kept. That case is a theorem:
+
+**Lemma 15 (the lateral path).** Let Y be valid (no part of (H) is needed). Let:
+- u be a free agent holding its lower pair, and (x, D) an arc into u with x frozen, D ∩ J = {h} and D ∩ Y_u = {g};
+  let k_u be the other good of Y_u;
+- x = p_0 → p_1 → ⋯ → p_k = r (k ≥ 1) be a simple path of label-free arcs that avoids u and ends at a free agent r;
+- u's b lie in Y_r or in J ∖ {h}.
+
+Trade as follows:
+- x takes D;
+- each p_t takes p_(t−1)'s good (want arc) or holding (closed arc);
+- r's old holding is released;
+- u takes N_u = {b_u, k_u} if this is an upper set of u, else {b_u}.
+
+Then the new state Z is valid, no agent's level is lower, and the level sum is higher.
+
+*Proof.* The holdings are disjoint: g and h go to x, b_u comes from r's released holding or from J ∖ {h}, and the
+path passes holdings forward. They are allowed: D is a danger set (Lemma 7(b)), and so are the closed holdings taken
+along the path. Every agent other than u gains value, so its level does not drop (Lemma 1(a)). The agent p_1 takes x's
+wanted good alone, so its level rises: a single good worth more than a holding has a higher level. u keeps level 3
+(the good b) or reaches 5 (an upper pair).
+
+(V1). Take an agent i ≠ u and a good q that i wants in Z.
+- Since v_i(Z_i) ≥ v_i(Y_i), i wanted q in Y, so q was the single good of a frozen agent j.
+- If j is off the trade, q is still j's single good.
+- Otherwise j is one of p_0, …, p_(k−1): it is frozen, while r is free and u is free. A frozen agent's label-free arc
+  is a want arc, so q went alone to the next agent.
+
+If N_u = {b_u}, u wants only its top a_u, since c_u, d_u < b_u. u wanted a_u in Y as well (a_u > c_u + d_u), so the
+same argument applies. If N_u is an upper set, u wants nothing. Released goods are wanted by nobody: they were goods
+of free agents, and only u's wanted set grew.
+
+(V2). Holdings of one good threaten nobody, and pairs threaten nobody once (V1) holds (Lemma 1(c)). D is a pair. A
+triple T of Z is either unchanged or the closed holding Y_o of an agent o on the path, now held by o's blocker:
+- for i ≠ u, θ_i(T) ≤ v_i(Y_i) ≤ v_i(Z_i) by (V2) in Y; for i = o, o's new holding is worth more than Y_o;
+- for i = u, T contains none of u's goods: a_u is a single holding, c_u and d_u were u's, and b_u was in Y_r or J.
+  So θ_u(T) = 0. ∎
+
+`k4/de4/lemma15.py` checks Lemma 15 by brute force on every valid state (§7.8). Lemma 15 resolves a hard dead-good
+state whenever some hungry lower-pair holder's b is leftover or held by the end of a path from one of its frozen
+blockers. That this always happens, or something replaces it, is the open part of (E).
+
+**Evidence** (`python3 k4/de4/dead.py`, logs `results/k4_de4/dead_*.log`; EVIDENCE): see §7.8.
+
+**What remains for a proof of DE4.** Conjecture 11″, e.g. through (D) and (E). For (E) the open case is the hard
+one: show that some move PR (Lemma 15 is the lower-pair case with b available) or a refined-walk cycle is valid and
+lowers no level, or find the improvement otherwise. Gap G2 is closed by
+Lemma 8; gap G1 by Lemma 12 for free blockers holding their top, an {a, d} pair or a rich pair; label-free cycles by
+Lemma 14.
+
+
+
+### 7.8 Evidence for (D) and (E)
+
+`k4/de4/dead.py` (EVIDENCE; seeds in the logs) checks two kinds of states.
+
+At every (H) state where the walk stops, it checks:
+- whether some leftover good is dead (D), and whether F₁ is empty;
+- whether a better state that lowers no level exists (Conjecture 11″, brute force over all valid states);
+- which construction finds one: the refined walk, Lemma 14's label-free cycle, the one-label cycle, or move PR.
+
+At every (H) state with a dead good (whether or not the walk stops), it checks:
+- whether a label-free cycle, a one-label cycle, move PR or the refined walk gives such an improvement.
+
+Each cycle's trade is built and checked (valid, strict Pareto improvement). `k4/de4/lemma15.py` checks Lemma 15 as
+stated on every valid state.
+
+| run | profiles | found | result | log |
+|---|---|---|---|---|
+| stopped walks, n = 4 cores with two or three 4-good agents | 160,000 | 6 (H) states with a stopped walk | all: dead good, F₁ = ∅, hard; move PR resolves all 6 (the refined walk 5) | `dead_stuck_n4.log` |
+| stopped walks, random R1-cores (n = 3..5, m ≤ 11) | 100,000 | 7 | all: dead good, F₁ = ∅; 5 hard (PR resolves 4, the refined walk the fifth) and 2 one-label cycles | `dead_stuck_rand.log` |
+| stopped walks, n = 5 cores with three or four 4-good agents | 2,400 | 0 | | `dead_stuck_n5.log` |
+| stopped walks, the 17 hypergraphs of the stopped walks found by the scratch searches | 40,000 | 60 | all: dead good, F₁ = ∅; 44 hard, all resolved by PR (29 also by the refined walk); 16 one-label cycles | `dead_stuck_stuckhyper.log` |
+| dead goods, the hypergraph of V9's first instance | 20,000 | 806 (H) states with a dead good | 638 label-free cycles, 150 one-label cycles, 18 hard (all PR; 12 also the refined walk) | `dead_hard_v9.log` |
+| dead goods, n = 4 cores with two or three 4-good agents | 40,000 | 5,826 | 5,728 label-free cycles, 98 one-label cycles, no hard state | `dead_hard_n4.log` |
+| dead goods, the 17 hypergraphs | 40,000 | 2,556 | 1,815 label-free cycles, 707 one-label cycles, 34 hard (33 PR, 1 only the refined walk) | `dead_hard_stuckhyper.log` |
+| hard dead-good states: does Lemma 15 apply, and the fewest agents an improvement lowering no level changes (the same seeds as the two runs above) | 20,000 + 40,000 | 18 + 34 hard states | Lemma 15 applies in 14 of the 52; the fewest agents changed is 2 in 29 states, 3 in 22, 4 in 1 | `dead_minimal_v9.log`, `dead_minimal_stuckhyper.log` |
+| Lemma 15 as stated, every valid state: suite (n ≤ 5, m ≤ 12), V9's hypergraph, n = 4 cores, random R1-cores | 3,241 + 679,867 + 337,257 + 910,225 states | 9 + 963 + 215 + 478 instances | the conclusion holds in all 1,665 | `lemma15_*.log` |
+
+All logs are in `results/k4_de4/`. In total, 73 stopped walks satisfy (H), and every one has a dead good, F₁ = ∅ and
+a better state that lowers no level. Every cycle trade built is valid and a strict Pareto improvement. Every hard
+dead-good state is resolved by move PR or the refined walk. A dead good does not by itself make a state
+non-completable: 499 states with a dead good (the "completable" lines) are completable, because the receivers'
+values rise. Neither (D) beyond a dead good (a Hall obstruction of size two or more) nor a hard state that both PR
+and the refined walk miss has been seen.
+
+**The open case looks local (in small instances only).** In the hard states found, Lemma 15 covers the frozen blockers of lower-pair holders
+whose b is available (14 of 52). The rest have a free blocker: a free agent holding a rich pair {b, c} whose danger
+set is its top (held by the hungry agent) with the dead good. In every hard state some improvement changes at most
+four agents. In a scratch classification of the 52 states (not a committed artifact):
+- the 2-agent improvements re-divide the holdings of the two hungry agents, or of a hungry agent and a frozen one;
+- the 3-agent ones add one closed or frozen agent;
+- every hard state has exactly two hungry agents.
+
+These instances are small (n ≤ 5, with heavily shared goods). In V11 the two hungry agents share no goods, and the
+improvements change at least three agents, including a frozen agent that loses a level. So the locality is an effect
+of the size. The improvement step has to use downgrades of frozen agents.
+
+## 8. A different state space: DE4 with the lower pair only while b is held
+
+After the refutation, state spaces of the same kind were screened (`attempts/k4-de4-ss.md`, ledger K4.DE4.SS). One
+change removes every known failure:
+
+**(V3)** an agent may hold its lower pair {c, d} only while its b is held by some agent.
+
+A lower pair is then a consolation for an agent whose b is taken. In the counterexample of `attempts/k4-de4.md` the
+failing maximum is not (V3)-valid: the leftover good is the b of both lower-pair holders. With (V3), a holder of its
+lower pair values no leftover good at all (it holds c and d, its a is held alone by (V1), its b is held by (V3)).
+
+**Conjecture DE4ᵛ³ (refuted, §9: instance R4, n = 4, m = 9)** (row K4.DE4V3). For every strict profile of every R1-core with k ≤ 4, every maximum of the
+level sum, then value-Pareto, over the states valid for (V1), (V2) and (V3), is completable. The draft is (V3)-valid
+(single goods only), so maxima exist, and as in Lemma 3 the conjecture implies TARGET₄. Machine-checked, with the
+conjecture as a hypothesis: `EFX.DE4.target4_of_conjDE4V3` (`lean/EFX/DE4V3.lean`). The variant that also allows
+{c, d} with v(c) + v(d) < v(b) at level 2.5 survives the same tests.
+
+**Evidence** (EVIDENCE; `k4/de4/de4v.c`, run by `k4/de4/run_variants.py`, which checks DE4, DE4ᵛ³ and the variant
+at once; `k4/de4/ss_screen.py` and `k4/de4/ss_sample.py` in Python):
+
+| what | profiles | DE4 fails | DE4ᵛ³ fails | log |
+|---|---|---|---|---|
+| the screen of 168 instances (all known counterexamples) | 168 | 2 | 0 | `results/k4_de4/ss_screen.log` |
+| every strict profile, every core with n = 2 | 252,288 | 0 | 0 | `results/k4_de4/variants_2.log` |
+| every strict profile, every core with n = 4 and one 4-good agent | 8,398,080 | 0 | 0 | `results/k4_de4/variants_4_n4_1.log` |
+| every strict profile of the 16 stuck hypergraphs (n = 3, 4; where the tie-breaks fail at n = 3) | 911,720,448 | 16 | 0 | `results/k4_de4/variants_stuckhyper.log` |
+| suite instances with n ≤ 6, m ≤ 15 outside the screen; random profiles of n = 5 cores with one or two 4-good agents | 7 + 2,000 | 0 | 0 | `results/k4_de4/ss_sample.log` |
+
+Still to run: every strict profile of every n = 4 core with two 4-good agents (the class of the DE4 counterexample)
+and with n = 3. One implementation for the exhaustive runs (`de4v.c`); it agrees with the Python screen on cores 131
+and 127.
+
+**What a proof needs.** The improvement form changes: every non-completable (V3)-valid state needs a better
+(V3)-valid state. The lemmas of §3 and §7 are about (V1)–(V2) states, so each move must also keep (V3): a move that
+releases some agent's b to the leftover goods breaks (V3) for that agent's lower pair, unless the agent also moves (to
+b, laterally). The hard dead-good states of §7.7 with frozen downgrades (V11) are (V3)-valid, so (V3) does not by
+itself remove the open case of §7.
+
+## 9. The improvement step for DE4ᵛ³: what holds, and why it fails
+
+The improvement form of DE4ᵛ³ asks: every (V3)-valid state without an EFX₀ completion has a better (V3)-valid state.
+Two lemmas reduce it to the states of the largest level sum, and a counterexample there refutes it.
+
+**Lemma R (repair).** Let Z be valid ((V1), (V2)). Repeatedly let an agent u that holds its lower pair {c_u, d_u}, while
+its b_u is leftover, take {b_u} instead (c_u and d_u become leftover). This ends, and the result Z* is (V3)-valid, with
+every agent at the same level as in Z; only the switched agents' values change (they drop).
+
+*Proof.* Each step lowers the number of lower-pair holders, so the process ends. Consider one step. (V1): u now wants
+only goods worth more than v(b_u), i.e. its top a_u, which it wanted before (v(a_u) > v(c_u) + v(d_u)), so a_u is held
+alone. Nobody else's value changed; c_u and d_u were in a two-good holding, so nobody wanted them (Lemma 1(b)), and
+b_u was leftover, so nobody wanted it. (V2): {b_u} threatens nobody. Every two- or three-good holding misses R_u: a_u is
+held alone, b_u is u's, c_u and d_u are leftover. So nobody threatens u. The other values and holdings are unchanged.
+Levels: v(b_u) has level 3, the lower pair's level. ∎
+
+**Lemma V (moves that release nothing keep (V3)).** Let Y be (V3)-valid and Z valid, with every agent's value in Z at
+least its value in Y and every good held in Y held in Z. Then Z is (V3)-valid.
+
+*Proof.* Let w hold its lower pair in Z. If it held it in Y, its b was held in Y, hence in Z. Otherwise
+v_w(Y_w) < v(c_w) + v(d_w). If v_w(Y_w) < v(b_w), then w wanted b_w in Y, so b_w was held (V1). Otherwise Y_w is a
+holding worth at least v(b_w) and less than v(c_w) + v(d_w): the only one is {b_w} (a single good other than b worth
+that much would be a_w, worth more than the pair; a set of two or more goods would be an upper set, worth more than
+a_w, or the lower pair). So b_w was held in Y, and it is held in Z. ∎
+
+Both lemmas are checked by brute force on every valid state, and every such pair of states, of random profiles with
+n = 3, 4 and of the screen instances with n ≤ 4 (`python3 k4/de4/verify_repair.py`, `results/k4_de4/verify_repair.log`).
+Lemma R is **machine-checked** in the robust order (`lean/EFX/DE4Repair.lean`: `EFX.DE4.repair_step`,
+`EFX.DE4.exists_validV3_of_valid`, and `EFX.DE4.potentialR_le_of_max`: a maximum of the robust order has the largest
+robust level sum among all valid states).
+
+**Consequences.**
+- *The level sum is free.* By Lemma R, the largest level sum Φ* over (V3)-valid states equals the largest over all
+  valid states, and a (V3)-valid state Y with Φ(Y) < Φ* has a better (V3)-valid state (repair any state of level sum
+  Φ*). So the improvement step needs proving only at Φ*: every non-completable (V3)-valid state with Φ(Y) = Φ* needs a
+  (V3)-valid value-Pareto-better state with Φ = Φ*. There, no valid state has a higher level sum. This excludes every
+  improvement of the hard states of §7.7 (V9, V11), which all raise the level sum.
+- *Rotations keep (V3).* The labelled trades of Theorem 9 and Lemma 14 move whole holdings and release nothing, and
+  every taker gains, so by Lemma V they keep (V3). Hence Corollary 10 (machine-checked, `EFX.DE4.cor10`) holds for
+  DE4ᵛ³ as stated: under (H), if every free agent holds one good, the walk's trade is a better (V3)-valid state.
+- *At Φ*, Lemma 4's walk is trivial.* An agent threatened by the leftover goods alone is free: otherwise its upgrade
+  passes its good to a wanter, whose level rises, so the level sum would rise. So at Φ* the remaining (V3)-specific
+  moves are lateral free upgrades. Of these, b to the lower pair always breaks (V3), because it releases the agent's
+  own b. One upper set to a better one breaks it exactly when it releases another agent's b.
+
+**Data at Φ*.** Non-completable (V3)-valid states with Φ = Φ* are rare: none in 1,200 random profiles with n = 3, 4. In
+2,400 profiles of the stuck hypergraphs and the failing cores, all 37 such states have every agent holding an upper
+set, and each is improved by Lemma 4′ or by the walk. The screen set has nine, all improved, by Lemma 4′, the walk's
+rotations, or keep-own exchanges.
+
+**The all-upper case and the counterexample.** If every agent holds an upper set (level 5), nobody wants anything,
+(V3) is vacuous, and the order is value-Pareto alone. Theorem Z's argument (`k4/c4min.md` §3) carries over almost
+verbatim:
+- without Lemma 4′ moves, a non-robust agent ({a, d} with v(a) + v(d) < v(b) + v(c), or a rich pair {p, q} with
+  v(a) + v(s) > v(p) + v(q)) is threatened by at most one agent's bundle together with J, and robust agents by none;
+- so if no single owner can take J, the threat map is a permutation;
+- along a cycle of it, each agent can take what it needs from its threatener: {b, c}, or {a, s}, or {a, x} keeping one
+  of its own goods that its successor does not need. Everyone gains.
+
+This fails exactly when two agents of the cycle need the same leftover good as their fourth good. The instance R4 of
+`attempts/k4-de4-ss.md` is built that way (n = 4, m = 9, every agent 4-good). Its all-upper state with one leftover
+good is a maximum of DE4ᵛ³ (and of DE4) with no EFX₀ completion. **So Conjecture DE4ᵛ³ and its improvement step are
+false.** Theorem Z avoids the conflict by maximizing the number of robust agents, which here is 0 and is 1 at every
+completable maximum.
+
+**Next candidate.** Give robust upper sets level 6 (or 5.5) and non-robust ones level 5. A robust set is worth at
+least half of v(R_i) and a non-robust one less, so Lemma 1(a) still holds. With (V3) this passes the screen and R4
+(`attempts/k4-de4-ss.md`); without (V3) it still fails on A131. Its exhaustive tests and its improvement step are
+open. In its all-upper case the rotation above raises the level sum whenever it makes one agent robust and keeps
+everyone's level, so the Pareto requirement, which is what R4 breaks, is no longer needed there.
+
+## 10. The robust order: the improvement step, proved except one case
+
+> **The robust candidate is false** (ledger K4.DE4V3R, REFUTED; `python3 k4/de4/refute_rob.py`, an independent replay
+> from the definitions; found by `python3 k4/de4/dc_local.py 17 t3 400`). Instance (n = 6, m = 11):
+> - R = [[0,2,4,5], [1,3,6,7], [1,2,4,8], [0,3,7,8], [0,2,8,9], [1,3,4,10]];
+> - values [[39,21,16,8], [19,14,9,7], [36,27,22,33], [39,12,13,30], [22,29,16,18], [31,25,2,15]];
+> - state [{4,5}, {6,7}, {1}, {0}, {2,9}, {3,10}], with J = {8}.
+>
+> It is GM4-B's double clash (§10.3):
+> - agents 0 and 1 hold their lower pairs;
+> - agents 3 and 2 are frozen on the tops of agents 0 and 1, and both have the leftover good 8 as their b;
+> - agents 4 and 5 hold robust pairs containing the b's of agents 0 and 1.
+>
+> The state is (V3)-valid, of the largest level sum 26 among the 116 (V3)-valid states, and no (V3)-valid state of
+> that level sum is value-Pareto-better: a maximum of the robust order. It satisfies (H), is not all-upper, and is not
+> completable, since giving 8 to any agent breaks EFX₀. The instance does have an EFX₀ allocation, so TARGET₄ is not
+> refuted.
+>
+> With K4.DE4V3R fall:
+> - Claim T and Claim T′;
+> - Conjecture A″;
+> - C₂ and C₃;
+> - the hypotheses HX and HC2 of the Lean frame. The pointer cycle 0 → 2 → 1 → 3 → 0 is an unclean F₂-clash cycle at a
+>   maximum with (H).
+>
+> The proved and machine-checked lemmas of §10 stand. The rest of §10 records the work as it was done.
+>
+> **Tie-breaks do not help either** (§10.4–§10.5). The lower-pair order removes this double clash, but a second instance
+> (`refute_lp.py`) has a single, non-completable state of the largest robust level sum. So every order that maximizes
+> the robust level sum first fails.
+
+The candidate of §9 (ledger K4.DE4V3R): the states of DE4ᵛ³ ((V1), (V2), (V3)) and DE4's levels, except that an upper
+set S of agent i is *robust* if v_i(S) ≥ v_i(R_i ∖ S), and robust upper sets have level 6, non-robust ones level 5. The
+order is the level sum Φ, then value-Pareto. The improvement step asks: every non-completable (V3)-valid state has a
+better (V3)-valid state.
+
+**What carries over.** Lemma 1(a) holds: a robust upper set is worth at least v_i(R_i)/2 and a non-robust one less, so
+among an agent's holdings value and level still agree. Lemma R and Lemma V (§9) do not involve the levels of upper sets.
+So, as in §9:
+- a (V3)-valid state with Φ < Φ* (the largest level sum over all valid states) has a better (V3)-valid state;
+- at Φ*, every valid state is a candidate only through value-Pareto improvements, and no valid state has a larger Φ.
+
+**Evidence for the candidate** (EVIDENCE; `k4/de4/de4r.c`, run by `python3 k4/de4/run_robust.py FILE CHUNKS [TAKE]`;
+"fails" means some maximum has no EFX₀ completion; the Claim T count is the number of profiles with a non-completable
+(V3)-valid state of the largest level sum that is not all-upper):
+
+| what | profiles | candidate fails | Claim T count | DE4ᵛ³ fails | log |
+|---|---|---|---|---|---|
+| every strict profile, every core with n = 2 | 252,288 | 0 | not counted | 0 | `results/k4_de4/robust_2.log` |
+| every strict profile, every core with n = 3 | 439,582,464 | 0 | 0 | 0 (count 30,464) | `results/k4_de4/robust_3.log` |
+| every strict profile, n = 4 with one 4-good agent | 8,398,080 | 0 | not counted | 0 | `results/k4_de4/robust_4_n4_1.log` |
+| every strict profile, n = 4 with two 4-good agents | 922,669,056 | 0 | 0 | 0 (count 9,248; robust levels without (V3): 8 fails) | `results/k4_de4/robust_4_n4_2.log` |
+| 1% stride sample, n = 4 with three 4-good agents | 485,880,564 | 0 | 0 | 14 (count 10,310) | `results/k4_de4/robust_4_n4_3_sample.log` |
+| 0.02% stride sample (4 of 20,000 chunks), n = 4 with four 4-good agents | 301,331,736 | 0 | 0 | 71 (count 10,418; robust levels without (V3): 1 fail) | `results/k4_de4/robust_4_pure_sample.log` |
+| 0.05% stride sample (1 of 2,000 chunks), n = 5 with one 4-good agent | 324,445 | 0 | 0 | 0 | `results/k4_de4/robust_5_n4_1_sample.log` |
+| 0.025% stride sample (1 of 4,000 chunks), n = 5 with two 4-good agents | 24,491,172 | 0 | 0 | 0 (count 3) | `results/k4_de4/robust_5_n4_2_sample.log` |
+| every strict profile of the 16 stuck hypergraphs | 911,720,448 | 0 | not counted | 0 (robust levels without (V3): 16) | `results/k4_de4/robust_stuckhyper.log` |
+| 0.2% stride sample of R4's hypergraph | 13,759,416 | 0 | not counted | 11 | `results/k4_de4/robust_r4_sample.log` |
+
+**Adversarial search for Claim T** (EVIDENCE; `python3 k4/de4/adv_t.py PER JOBS SEED NEXTRA` and
+`python3 k4/de4/adv_t3.py PER JOBS SEED`). Random profiles built around the double clash of GM4-B, the pattern behind
+the counterexamples to Conjectures D and D_nc (§10.2): two lower-pair holders, frozen holders of their tops whose b is
+a leftover good, and holders of their b's (in `adv_t3.py`, robust upper pairs, so no free agent holds one good). For
+each instance, every (V3)-valid state of the largest level sum is checked for completability. On 12,659 instances of
+`adv_t.py` (0 to 3 extra goods; logs `results/k4_de4/adv_t_0.log` to `adv_t_3.log`) and 2,004 of `adv_t3.py`
+(`results/k4_de4/adv_t3.log`), every one of the 26,029 + 4,972 such states is completable: no counterexample to Claim T.
+
+**Theorem 16.** Let Y be (V3)-valid and not completable. Then Y has a better (V3)-valid state in each of these cases:
+1. Φ(Y) < Φ*;
+2. some agent holds nothing (then, unless the leftover goods alone threaten someone, Y is completable: Corollary 5(b));
+3. some agent x is threatened by the leftover goods alone and its upgrade of Lemma 4 keeps (V3). At Φ*, such an x is
+   free and its upgrade is lateral (same level), since otherwise the level sum would rise;
+4. a free agent has a self-upgrade (Lemma 4′) that keeps (V3);
+5. (H) holds and no free agent holds two or more goods (Corollary 10);
+6. (H) holds and DE's walk of Theorem 9 closes;
+7. every agent holds an upper set (Theorem A′ below).
+
+*Proof.* Case 1 is Lemma R. Cases 3 and 4: the moves are value-Pareto, so Φ does not drop (Lemma 1(a)). At Φ*, if x were
+frozen its good would pass to a wanter, whose level rises, and Φ would exceed Φ*. Cases 5 and 6: Lemma 18 (§10.1),
+since the labels of the walk's cycle are pairwise disjoint. (An earlier version said that the trade releases nothing;
+that holds when no free agent on the cycle holds two or more goods, as in Corollary 10, but a partial arc into such an
+agent releases the goods its blocker does not take. Lemma 18 covers both: the trade raises Φ, or it releases nothing
+and keeps (V3).) Case 7 is Theorem A′. ∎
+
+**Theorem A′ (all-upper states).** Let every agent of Y hold an upper set, Y not completable, and no free self-upgrade
+(Lemma 4′) apply. Then the rotation below gives a valid state with a larger level sum.
+
+*Proof.* Nobody wants anything (every holding is worth more than any single good), and (V3) is vacuous: nobody holds a
+lower pair. Let J ≠ ∅ be the leftover goods.
+- A robust agent i is threatened by no bundle B: θ_i(B) ≤ v_i(B ∩ R_i) ≤ v_i(R_i ∖ Y_i) ≤ v_i(Y_i). Upper sets of 3-good
+  agents, {a, b} and {a, c}, and {b, c, d} are robust. So a threatened agent is a 4-good agent of kind D (it holds
+  {a, d} with v(a) + v(d) < v(b) + v(c)) or kind R (it holds a rich pair {p, q}, v(p) + v(q) > v(a), with
+  v(a) + v(s) > v(p) + v(q) for its fourth good s).
+- Without a self-upgrade, b, c ∉ J for kind D (else {a, b} or {a, c}) and a ∉ J for kind R (else {a, p}). Let the
+  owner o take Y_o ∪ J (at least three goods). A kind-D agent is threatened by it iff {b, c} ⊆ Y_o; a kind-R agent iff
+  a ∈ Y_o and s ∈ Y_o ∪ J. So every agent is threatened by at most one owner.
+- Y is not completable, so no owner is valid. Choosing for each owner o an agent σ(o) it threatens gives an injective
+  map, hence a permutation, so every agent is threatened and every agent is of kind D or R.
+- Take a cycle of σ and give each agent i = σ(o) of it, from o:
+  - kind D: {b_i, c_i} ⊆ Y_o, robust, so level 5 → 6;
+  - kind R: {a_i, s_i}, robust (level 6), if s_i ∈ Y_o, or if s_i ∈ J is not yet used on the cycle (then i is the
+    *winner* of s_i); otherwise {a_i, x}, keeping a good x of Y_i that its successor does not need (an upper set,
+    level ≥ 5); otherwise {a_i} (level 4: a *loser*). The successor σ(i) needs {b, c} ⊆ Y_i if it is of kind D, and
+    a and, when it lies in Y_i, s if it is of kind R.
+- A loser's successor needs all of Y_i and gains a level (it becomes robust). Losers' successors are distinct
+  (σ is injective) and are not losers. A winner is not the successor of a loser: such a successor takes its s from
+  Y_i, not from J. Losers exist only when two agents of the cycle need the same leftover good, and then that good
+  has a winner. So the level sum changes by at least (number of winners) ≥ 1 if there is a loser, and by the
+  cycle's length ≥ 2 otherwise, unless agents keep their own goods, which happens only next to a winner. Either way
+  Φ rises.
+- Validity: nobody wants anything (every new holding is an upper set or the agent's top), so (V1) holds and two-good
+  holdings threaten nobody. A loser has all of R_i held by agents of the cycle (a_i by itself, the goods of Y_i by its
+  successor, s_i by the winner), so no unchanged three-good holding threatens it. Nobody holds a lower pair: (V3). ∎
+
+Theorem A′ is the argument of Theorem Z (`k4/c4min.md` §3) with DE4's holdings. The robust level is what lets the
+rotation raise Φ instead of having to improve everyone's value, which is how R4 refutes DE4ᵛ³.
+
+**What remains.** The non-completable (V3)-valid states with Φ(Y) = Φ* that are not all-upper, satisfy (H) (once the
+moves of cases 3 and 4 are exhausted), have a free agent holding two or more goods, and at which the walk stops. Also
+included are those where the only moves of cases 3 and 4 break (V3) (a free holder of b whose upgrade is its lower pair,
+or a lateral upper-set upgrade that releases another agent's b). Equivalently, it suffices to prove:
+
+**Claim T** (row K4.DE4V3R.T). In the robust order, every non-completable (V3)-valid state of the largest level sum is
+all-upper.
+
+With Theorem 16 and Theorem A′, Claim T implies the improvement step, hence the conjecture K4.DE4V3R, hence TARGET₄.
+**Machine-checked** (`lean/EFX/DE4Robust.lean`, `lean/EFX/DE4RobustA.lean`, ledger K4.DE4V3R.LEAN): Theorem A′
+(`EFX.DE4.thmAllUpper`) and **Claim T ⟹ TARGET₄** (`EFX.DE4.target4_of_claimT`), with Claim T the only hypothesis.
+The weaker maxima version, Claim T′, suffices as well (`EFX.DE4.target4_of_claimTMax`, §10.1).
+
+**Evidence** (`python3 k4/de4/verify_robust.py`, `results/k4_de4/verify_robust.log`; and `k4/de4/de4r.c`, which counts
+Claim T's failures in the exhaustive runs of K4.DE4V3R): every step of the proofs above (Theorem A′'s construction,
+the freeness at Φ*, Corollary 10 and the closed walk in the robust order) holds on every state checked (7,800 random
+profiles: Theorem A′ in 61 cases, Corollary 10 in 905, the closed walk in 536), and no non-completable state of the
+largest level sum that is not all-upper has been found; in those profiles none of the largest level sum occurs at all.
+
+### 10.1 Toward Claim T: its maxima version, a reduction, and what is left
+
+**Claim T′ (the maxima version).** Every non-completable maximum of the robust order (the largest Φ among (V3)-valid
+states, then no (V3)-valid value-Pareto-better state with that Φ) is all-upper. Claim T implies Claim T′, and Claim T′
+suffices: with Theorem A′ it gives K4.DE4V3R, hence TARGET₄. **Machine-checked** (`lean/EFX/DE4ClaimT.lean`):
+`EFX.DE4.claimTMax_of_claimT`, `EFX.DE4.conjRob_of_claimTMax` and `EFX.DE4.target4_of_claimTMax`, with Claim T′ the
+only hypothesis. A proof of Claim T′ may refute maximality in two ways:
+- **(M1)** a valid ((V1), (V2)) state with a larger level sum. Lemma R makes it (V3)-valid with the same level sum;
+- **(M2)** a (V3)-valid value-Pareto-better state with the same level sum.
+
+**A single owner is not enough.** The strengthening "at the largest level sum, a (V3)-valid state that is not
+all-upper and has leftover goods is finished by a single owner (one free agent takes all of J)" is **false**. On A131,
+the instance of the DE4 counterexample, the state [{6}, {1, 3}, {2}, {5}] with J = {0, 4} has the largest level sum 14
+and no single owner. Agent 0 holds its b and its c and d are leftover; agent 1 holds its lower pair; agents 2 and 3 are
+frozen. DE's finishing rule completes it: the owner, agent 1, takes 4, and the helper, agent 0, takes 0. On the
+screen set, 21 such states occur (A131, B131 and the GM4 instances); DE's rule completes every one. On random data
+every state of the largest level sum has a single owner (`claimt.py owner`, below). So a proof needs DE's helpers,
+that is, Lemma 8. (Replay, independent of the search code: `python3 k4/de4/refute_owner.py`; ledger K4.DE4V3R.OWN.)
+
+**(H) at a maximum.** Let Y be a non-completable maximum. If an agent x is threatened by the leftover goods alone, or a
+free agent has a self-upgrade (Lemma 4′), Lemma 4 or 4′ gives a value-Pareto-better valid state. No level drops
+(Lemma 1(a)). If x is frozen, the level sum rises (its good passes to a wanter): (M1). Otherwise the move changes one
+free agent: if it raises Φ, (M1); if not and it keeps (V3), (M2). With Corollary 5(b), every non-completable maximum
+therefore satisfies (H) of §7 unless:
+
+**(L)** some free agent has a self-upgrade inside its holding and the leftover goods that keeps its level and breaks
+(V3). **Machine-checked** (`lean/EFX/DE4ClaimC3.lean`, `EFX.DE4.selfUp_breaks_v3`): at a maximum of the robust
+order every free self-upgrade of at most two goods breaks (V3). So HL, Claim T′ where (H) fails, reduces to `EFX.DE4.HL'`:
+the leftover goods alone threaten some agent, or (L). With **Lemma 4 at a maximum** (`lean/EFX/DE4CaseL.lean`, `EFX.DE4.threat_at_max`), an agent
+threatened by the leftover goods alone gives a free self-upgrade. Every case of Lemma 4 that passes a good to a wanter
+strictly raises the robust level sum (`EFX.DE4.levelR_lt_of_want`, `EFX.DE4.trade_potentialR_lt`), which Lemma R
+forbids. So HL reduces to `EFX.DE4.HLL`, **Claim T′ in case (L)** exactly: some free agent has a self-upgrade of at
+most two goods, and each such upgrade breaks (V3). The machine-checked frame is now `EFX.DE4.target4_of_HC3'_HLL`:
+TARGET₄ follows from two hypotheses.
+- `HC3'`: no free lower-pair or non-robust upper holder lies on an F₂-clash cycle at a maximum (P1 and P2 on those
+  cycles).
+- `HLL`: Claim T′ in case (L).
+
+**A consistency check: tame cores** (`lean/EFX/DE4Three.lean`, ledger K4.DE4V3R.K3). Call an agent *tame* if it can hold
+no lower pair and all its upper sets are robust. These are the 3-good agents (at most one relevant good lies outside
+an upper set, worth at most the top) and the 4-good agents with v(a) > v(b) + v(c) and v(b) > v(c) + v(d). For such a
+4-good agent the upper sets are {a, x} and {b, c, d}, all robust, and c + d < b rules out the lower pair. On a tame
+core, `HC3'` holds by Lemma 25(a), and `HLL` holds vacuously: (V3) is empty, so by `selfUp_breaks_v3` a maximum has no
+free self-upgrade. Machine-checked, with no hypothesis (`EFX.DE4.completable_tame`, `EFX.DE4.completable_three`):
+**every maximum of the robust order of a strict tame R1-core is completable**. All of the difficulty of k = 4 is in the lower pairs and the non-robust upper pairs, that is, in P1, P2
+and (L). This is a free holder of its b taking its lower pair (its c and d are leftover), or a free holder of an upper set
+moving to a better upper set of the same level and releasing the b of a lower-pair holder.
+
+**Lemma 17 (a total pointer map).** Let Y satisfy (H). There is a map σ on the agents, with a set T_j of goods that
+σ(j) takes from j and from J, such that:
+- for a frozen agent j: σ(j) wants j's good and T_j = Y_j;
+- for the agents o_1, …, o_f of F₁ (free, one good): σ(o_t) = x_t and T_(o_t) = D_t are the arcs of Lemma 8, so the
+  labels L_t = D_t ∩ J are pairwise disjoint;
+- for a free agent u holding two or more goods: σ(u) = x and T_u = D for an arc (x, D) into u whose label avoids
+  U₁ = L_1 ∪ … ∪ L_f, and no danger set of any agent is a proper subset of D.
+
+*Proof.* Frozen agents have wanters, and F₁ is Lemma 8 (its second claim gives the minimality). Let u be free with two
+or more goods. Complete Y by giving each o_t the goods L_t and u all of J ∖ U₁. The bundle of o_t is D_t (its arc is
+full, as Y_(o_t) is one good). D_t strictly contains no danger set (Lemma 8), so it threatens nobody (Lemma 7(a)). The
+other holdings did not change and threaten nobody (V2), and nobody's value dropped. As Y is not completable, u's bundle
+threatens some agent i ≠ u, by more than v_i(Y_i). The bundle has no good of Y_i and no good that i wants: u is free,
+and leftover goods are not wanted. So by Lemma 7(a) it strictly contains a danger set D of i, and D meets Y_u
+(Lemma 7(c)). So (i, D) is an arc into u with label inside J ∖ U₁. If some danger set D′ of an agent i′ is a proper
+subset of D, then D′ ⊆ Y_u ∪ (J ∖ U₁) meets Y_u (Lemma 7(c)), so (i′, D′) is again such an arc. Replace D by D′; this
+ends. ∎
+
+So under (H) every agent has a pointer, σ has cycles, and labels can coincide only on two arcs into free agents
+holding two or more goods. Frozen agents' arcs carry no label, F₁'s labels are pairwise disjoint and avoid the others.
+
+**Lemma 18 (cycles with disjoint labels).** Let Y be (V3)-valid with (H), and C a cycle of agents with a successor
+σ(c) and a set T_c for each c ∈ C: if c is frozen, σ(c) wants c's good and T_c = Y_c; if c is free, T_c = D for a
+minimal arc (σ(c), D) into c (no danger set of anyone is a proper subset of D). Every cycle of a map σ of Lemma 17 is
+such a cycle. Suppose the labels T_c ∩ J (c ∈ C) are pairwise disjoint. Trade along C: for c ∈ C, σ(c) takes T_c, and the goods of Y_c
+outside T_c become leftover. The result Z is valid, every agent of C gains value, and either Φ(Z) > Φ(Y), or
+Φ(Z) = Φ(Y) and Z is (V3)-valid and value-Pareto-better. So Y is not a maximum. Theorem 9's walk, when it closes, is
+such a cycle (it chooses arcs with the fewest labels, then the fewest goods, so no danger set is a proper subset of
+one).
+
+*Proof.* (V1), (V2) for pairs, disjointness and gains: as in Theorem 9. Every taker takes a good it wants or a danger
+set, and every giver gives to exactly one taker. A new triple D (the {b, c, d} of a big-top holder x of a, taken through
+an arc into v) that threatens an agent i strictly contains a danger set D′ of i for Z_i (Lemma 7(a) in Z: wanted sets
+only shrink, and D's goods were not wanted). If i ≠ v, D′ is disjoint from Y_i, contains no good that i wants, and is
+worth more than Y_i. So it contains a danger set D″ ⊆ D′ ⊊ D of i, against the minimality in Lemma 17. If i = v, then
+D′ ⊆ Y_v ∪ J is an allowed pair (Lemma 7(b)) worth more than Y_v, and Lemma 4′ would apply to the free agent v, against
+(H).
+
+Levels: by Lemma 1(a) no taker's level drops. A taker of a wanted good rises: a wanted single good has a higher rank
+than the taker's single good, and a lower-pair holder wants only its top (level 4 > 3). A taker x of a danger set
+rises unless Y_x = {b} and the set is its lower pair. The danger sets of {a} are upper sets; those of {b} are {c, d},
+an upper set or the lower pair; those of a non-robust upper pair are robust pairs ({b, c} for {a, d}, {a, s} for a
+rich pair; level 6 > 5). Robust holders and holders of c, d or a lower pair have none.
+
+So if Φ(Z) = Φ(Y), every taker on C is a holder of its b taking its lower pair. No agent of C is frozen, since its
+successor would take a wanted good and rise. So every agent of C is a free holder of one good, its arc is full, and
+the trade moves whole holdings and labelled leftover goods. Every good held in Y is held in Z, and Lemma V gives
+(V3). ∎
+
+**Theorem 19 (reduction of Claim T′).** Let Y be a non-completable maximum of the robust order. Then (L) holds, or (H)
+holds and **(X)**: for every map σ of Lemma 17, every cycle of σ has two arcs into free agents holding two or more goods
+whose labels share a leftover good.
+
+*Proof.* If (L) fails, (H) holds (above). Lemma 17 gives σ; every cycle of σ has two labels that meet (Lemma 18), and
+only labels of arcs into free agents holding two or more goods can meet. ∎
+
+**Machine-checked** (`lean/EFX/DE4Lemma18.lean`): Lemma 18 at a maximum, for every F₂-clash cycle, including those
+through free holders of two or more goods (`EFX.DE4.no_clean_clashCycle`). The strictness step is
+`EFX.DE4.levelR_lt_of_danger`: a taker of a danger set rises in robust level unless it held a single good. With
+`EFX.DE4.threat_at_max` and `EFX.DE4.selfUp_breaks_v3` (Lemma 4 and the self-upgrades at a maximum), Theorem 19 holds
+at maxima, and the frame is `EFX.DE4.target4_of_HX_HLL`: **TARGET₄ follows from two hypotheses**.
+- `HX`: (X) fails at maxima, that is, every F₂-clash cycle at a maximum with (H) is clean.
+- `HLL`: Claim T′ in case (L).
+
+**Lemma 20 (lower pairs at a maximum).** Let Y be a maximum of the robust order with (H), and u a free holder of its
+lower pair {c_u, d_u}. Its top a_u is held alone by a frozen agent h (u wants it), and b_u is held, by (V3). Then:
+- (a) h has no arc into u;
+- (b) if b_u is the whole holding of an agent x, no minimal arc (x, D) into u with |D| = 2 or Y_u ⊄ D raises x's
+  level (minimal: no danger set of anyone is a proper subset of D);
+- (c) if u is not big-top (v(b_u) + v(c_u) > v(a_u)), no free holder w of an upper set containing b_u has a
+  self-upgrade N ⊆ Y_w ∪ J of the same level with b_u ∉ N and (w → N) valid.
+
+*Proof.* (a) Shrink an arc of h into u to a minimal one (as in Lemma 17; Lemma 7(c) keeps it meeting Y_u). With h's want
+arc to u it forms a 2-cycle with one label, and Lemma 18 applies.
+
+(b) Let x take D and u take b_u; the goods of Y_u outside D become leftover. h ∉ {x, u}, since h holds a_u.
+- (V1): u wants only a_u, as before (c_u, d_u < b_u < v(Y_u) < a_u). x's value rises, so its wanted set shrinks. If x
+  was frozen, its old good is now the whole holding of u. Released goods were in a two-good holding, so nobody wants
+  them.
+- (V2) for x's holding: a pair threatens nobody. A triple strictly contains no danger set of an agent i ∉ {x, u}
+  (minimality), and none of u: u's danger sets for {b_u} lie in Y_u, and D meets Y_u in one good.
+- (V2) for u, whose value dropped: the only holding with goods of R_u and more than one good is D, and
+  θ_u(D) ≤ max(v(c_u), v(d_u)) < v(b_u).
+- Φ: x's level rises, u's stays (3 = 3), and nothing else changes: (M1).
+
+(c) Let w take N and u take {b_u, c_u}, an upper set, as v(b_u) + v(c_u) > v(a_u) and each good is worth less than
+a_u. In (w → N), b_u is leftover, hence unwanted, and c_u was in a two-good holding. So the new pair threatens nobody,
+and u now wants nothing. d_u becomes leftover. u's level rises from 3 to at least 5, w's stays: (M1). ∎
+
+So at a maximum, the second form of (L) releases only the b of a big-top holder of its lower pair. The lower-pair
+arcs in the data that Lemma 20 does not exclude are resolved by a clean 2- or 3-cycle through the holder of a_u, by
+a keep-own swap with a non-robust holder of b_u (u takes {b_u, c_u}, the holder takes {a, s}), or by a push-down
+chain (u takes b_u from a holder of its b, which takes its top from a frozen holder, which takes its own b from J).
+
+In the all-upper case, (X) is the conflict that Theorem A′ resolves: two rich-pair holders on the cycle need the same
+leftover fourth good, and the loser keeps its top. So **Claim T′ is equivalent to: a non-completable maximum that is
+not all-upper satisfies neither (L) nor (X).** The two cases are open. What the data show
+(`python3 k4/de4/claimt.py cases|pointer`, logs below), on (V3)-valid states that are not all-upper, have leftover
+goods, and where DE's rule fails, at every level sum (a proof must exclude such states at a maximum):
+- Every one has a valid state with a larger Φ, or a (V3)-valid Pareto-better one, typically by a simple move: a free
+  self-upgrade that raises the level, Lemma 4 from a frozen agent, a want cycle, or a lateral upgrade that keeps (V3).
+  Of the others, DE's walk closes in all but a handful. In each of that handful a valid state with a larger Φ exists,
+  changing two or three agents.
+- (X) without a clean cycle: whenever the pointer map is total and some cycle has disjoint labels, its trade raises Φ
+  (Lemma 18; the Pareto case never occurred). The states where no cycle has disjoint labels all contain a holder u of
+  its lower pair. In every one a valid state with a larger Φ is a swap between u and the holder w of b_u, sometimes
+  with one more agent: u takes b_u (and keeps c_u when {b_u, c_u} is an upper set), and w takes a good of u's pair,
+  with leftover goods (GM4-B: w is a frozen holder of its top, which is u's b; elsewhere w holds a non-robust upper
+  pair containing b_u). These swaps lower u's or w's value at an unchanged level, so they are neither rotations nor
+  Pareto moves.
+- (L): free holders of b whose c and d are leftover occur at maxima, but only on the screen set (7 maxima, of A131,
+  B131, GM4-E and GM4-Q; none in the random runs). They are what defeats the single owner there, and DE's rule
+  completes each, with that agent as a helper taking c or d. So maximality alone does not exclude (L); Lemma 17′ below
+  uses non-completability there, as Lemma 8 does for F₁. Lateral upper-set upgrades that release a lower-pair holder's
+  b occur only below Φ* in the data (Lemma 20(c) excludes them at a maximum unless the lower-pair holder is big-top).
+
+**Lemma 17′ (the first form of (L)).** Let Y be a non-completable maximum in which every agent threatened by the
+leftover goods alone is a free holder x of its b with c_x, d_x leftover. Choose e_x ∈ {c_x, d_x} for these agents,
+pairwise distinct, skipping an agent both of whose goods are already chosen, and let E be the chosen goods. Then
+Lemma 8 holds for the other agents of F₁ with labels avoiding E, and Lemma 17 holds with U₁ ∪ E in place of U₁. The
+agents x get their pointers as the agents holding two or more goods do, and their arcs may use e_x.
+
+*Proof.* As for Lemmas 8 and 17, with each x absorbing e_x in the completions.
+- Its bundle {b_x, e_x} is a pair, so it threatens nobody.
+- x is threatened by no bundle B of the completion: B contains neither a_x (held alone by a frozen agent, as x wants
+  it), nor b_x, nor e_x, so θ_x(B) ≤ v(c_x) < v(b_x).
+- An agent not threatened by J alone has no danger set inside J. x's only danger set for {b_x}, namely {c_x, d_x},
+  is not inside J ∖ E.
+- When x is the owner, its bundle is {b_x, e_x} ∪ (J ∖ (U₁ ∪ E)), and the threatened agent's danger set gives an arc
+  into x with label inside (J ∖ (U₁ ∪ E)) ∪ {e_x}.
+
+The rest is unchanged. ∎
+
+Lemma 18 carries over, except in one corner. The step "Lemma 4′ would apply to v" fails for such an x = v only if the
+taker's set is {b_v, c_v, d_v}: the only allowed pair of v inside {b_v} ∪ J is its lower pair. So Theorem 19 holds
+with (L) replaced by (L₂) (the second form of (L), which by Lemma 20(c) releases the b of a big-top lower-pair holder)
+or that corner. (X) is then about the pointer maps of Lemma 17′. In the data the corner never occurs, and every state
+with lateral holders of b has a clean raising cycle (`claimt.py lateral`).
+
+**Evidence** (EVIDENCE; `k4/de4/claimt.py`, sources: the screen set, random R1-cores of `dead.random_r1`, random
+strict profiles of the stuck hypergraphs and R4's, of the n = 4 cores with two 4-good agents, and of the n = 3 cores):
+
+| mode | what | result | logs |
+|---|---|---|---|
+| `owner` | (V3)-valid states of the largest level sum, not all-upper, with leftover goods | screen 230, of which 21 have no single owner, all completed by DE's rule; random 4,899, stuck hypergraphs 540, n = 4 with two 4-good agents 585, n = 3 202, every one with a single owner | `results/k4_de4/claimt_owner_*.log` |
+| `cases` | (V3)-valid states (any level sum), not all-upper, with leftover goods, where DE's rule fails | 21,646 states (screen 483, random 14,855, stuck hypergraphs 2,695, n = 4 1,873, n = 3 1,740). All but 6 are refuted by a simple move, a (V3)-keeping lateral upgrade, or the closed walk (whose trade always raised Φ). In each of the 6, the walk stops and a valid state with larger Φ exists (2 or 3 agents change) | `results/k4_de4/claimt_cases_*.log` |
+| `pointer` | the same states with no simple or (V3)-keeping move and nobody threatened by J alone | the pointer map is total in every case (Lemma 17). In 1,450, some cycle has disjoint labels, and its trade raises Φ (Lemma 18). In 8, no cycle does; all 8 contain a lower-pair holder, and the smallest Φ-raise is the swap described above (2 agents in 7, 3 in 1) | `results/k4_de4/claimt_pointer_*.log` |
+| `lp` | Lemma 20(b), (c): every instance on every (V3)-valid state of the sampled profiles | (b) 475 instances, (c) 389, every trade valid and Φ-raising | `results/k4_de4/claimt_lp_*.log` |
+| `loser` | the 8 states of `pointer` with no clean raising cycle | a winner/loser rotation raises Φ in 6; with lateral wants in all 8. 1,200 further profiles of the n = 4 cores with three 4-good agents and 480 of R4's hypergraph give no state without a clean cycle | `results/k4_de4/claimt_loser_*.log` |
+| `lateral` | the states of `cases` with no simple or (V3)-keeping move and an agent threatened by J alone | 21 states (screen 8, random 9, stuck hypergraphs 3, n = 4 1), each with one free holder of b whose c and d are leftover and none of the second form; in every one the pointer map of Lemma 17′ is total and a cycle with disjoint labels raises Φ | `results/k4_de4/claimt_lateral_*.log` |
+| `arcs` | partial labelled arcs at the largest level sum (24,809 states with leftover goods) and at maxima | none into a lower-pair holder; they go into robust holders (which are never on a cycle) and, rarely, non-robust upper holders | `results/k4_de4/claimt_arcs_*.log` |
+
+So what is missing is one statement, which the data support. Call a **lateral want** the arc from the single holder
+of b_u to a lower-pair holder u (u takes b_u at its own level, as in Lemma 20(b)). Call a **winner/loser rotation**
+the trade along a cycle of a pointer map in which, going around from some start, a take whose label was already used
+*loses*. Its taker takes an allowed holding inside the take's goods outside J, its own goods its successor does not
+take, and unused leftover goods. This is Theorem A′'s rule, where the loser keeps its top.
+
+**Conjecture A″.** Let Y be a non-completable (V3)-valid state with (H) (or (L) of the first form, with Lemma 17′),
+not all-upper, at which no cycle of a pointer map has disjoint labels. Then some pointer map, extended by lateral
+wants, has a cycle whose winner/loser rotation is valid and raises Φ.
+
+With Conjecture A″, Lemma 20(c) for big-top lower-pair holders, and the corner of Lemma 18, Claim T′ would follow
+(Theorem 19, Lemma 17′). Evidence: `claimt.py loser`; all 8 states of `pointer` without a clean cycle are resolved
+this way (2 of them, on GM4-B, need a lateral want). A proof would generalize the counting of Theorem A′, in which
+each loser's successor gains what the loser loses, to frozen agents, lower pairs and lateral wants.
+
+### 10.2 Conjecture A″ sharpened: cycles of the arc graph
+
+This subsection restates what is left of Claim T′ in terms of cycles of an arc graph.
+- It proves the tools that resolve all the cycles met in the random data: Theorem 23, Lemma 20′ and Lemma 20(d).
+- It shows that non-completability enters only through Lemma 8.
+- It refutes two natural strengthenings: Conjecture C, and Conjecture D, the cycle-by-cycle form of Conjecture A″.
+- It refutes D for non-completable states (D_nc) too, and leaves Conjecture C₂ open.
+
+**The arc graph.** For a state Y, G has an arc o → x taking T when:
+- o is frozen and x wants o's good (T = Y_o: a *want arc*), or
+- o is free and (x, T) is a minimal arc into o (§7 and Lemma 17: T is a danger set of x inside Y_o ∪ J meeting Y_o,
+  and no danger set of anyone is a proper subset of T).
+
+Its label is T ∩ J. Lemma 18 is a statement about any cycle of G. An **F₂-clash cycle** is a cycle of G on which the
+labels of arcs out of free agents holding one good are pairwise disjoint and avoid all other labels of the cycle. So
+labels can be shared only by arcs out of agents holding two or more goods.
+
+**Conjecture C (refuted).** "At a maximum with (H), G has no cycle." It is false: 14 maxima of the screen set (the
+GM4 instances; `python3 k4/de4/claimd.py refuteC`) have a cycle in G, and no move resolves it. In each, two arcs out
+of free holders of one good share a leftover good (in GM4-A, both free holders of b need the same good 3). These
+maxima are completable, by DE's rule with a helper. At a non-completable state, Lemma 8 forbids such clashes.
+
+**Proposition 24.** Let Y be a non-completable state with (H). Every cycle of a pointer map of Lemma 17 is an
+F₂-clash cycle. Hence if no maximum with (H) has an F₂-clash cycle, every non-completable maximum satisfies (L).
+
+*Proof.* In Lemma 17 the labels of arcs out of F₁ are pairwise disjoint (Lemma 8), and the labels of arcs out of
+agents holding two or more goods avoid them. Frozen agents' arcs carry no label. ∎
+
+**Machine-checked** (`lean/EFX/DE4ClaimC2.lean`): Lemma 17 (`EFX.DE4.pointer_map`, with tight arcs: the arc's set
+threatens nobody but its giver, which under (H) is the minimality above) and Proposition 24
+(`EFX.DE4.exists_clashCycle`). Hence `EFX.DE4.claimTMax_of_HC2` and `EFX.DE4.target4_of_HC2`: TARGET₄ follows from
+two hypotheses that do not mention completability: `EFX.DE4.HC2`, "no maximum with (H) in which everyone holds a good
+and someone is not upper has an F₂-clash cycle" (Conjecture C₂ at maxima, weakened by these two premises), and
+`EFX.DE4.HL`, Claim T′ at maxima where (H) fails (the case (L) and the moves of "(H) at a maximum", §10.1).
+
+**Conjecture C₂.** No (V3)-valid state of the largest level sum with (H) has an F₂-clash cycle. With Proposition 24,
+C₂ gives Claim T′ (even the strong Claim T) whenever (H) holds; the case (L) is treated in §10.1 (Lemma 17′,
+Lemma 20(c)).
+
+**Theorem 23 (replacement).** Let Y be (V3)-valid with (H), and C = (c_1 → ⋯ → c_k → c_1) a cycle of G, where c_(t+1)
+takes T_t. A *same-giver alternative* for the arc t, taken by x = c_(t+1), is one of:
+- *keepR*: x holds a rich pair and its top a_x lies in T_t ∩ Y_(c_t). x takes a_x and keeps the goods of its holding
+  that its successor does not take;
+- *down-b*: x is frozen, holds its top, and b_x ∈ T_t ∩ Y_(c_t). x takes {b_x};
+- *down-c*: x is frozen, holds its b, and c_x ∈ T_t ∩ Y_(c_t). x takes {c_x}.
+
+Let R be a set of arcs of C such that:
+- (i) every t ∈ R has a same-giver alternative;
+- (ii) each t ∈ R shares a label with some arc outside R, and the labels of the arcs outside R are pairwise disjoint;
+- (iii) in the resulting state Z, no holding of three goods contains two goods of a replaced taker other than its top
+  and its new holding; and if a keepR taker keeps nothing, its successor is not a holder of its b taking its lower
+  pair;
+- (iv) some taker outside R rises a level and is not the successor of a replaced taker that drops a level.
+
+Let Z be the trade along C in which the arcs outside R are as in Lemma 18 and those in R use their alternatives; the
+goods of a giver that nobody takes become leftover. Then Z is valid and Φ(Z) > Φ(Y), so Y is not a maximum (M1).
+
+*Proof.*
+- *Disjointness.* A giver gives only to its successor. The leftover goods taken are the labels outside R, which are
+  pairwise disjoint; alternatives take none. A keepR taker keeps only goods its successor does not take.
+- *Allowed holdings.* Takes outside R are wanted goods or danger sets (Lemma 7(b)). A keepR holding is the top, or
+  {a, x}, an upper set of a 4-good agent. A down holding is a single good.
+- *(V1).*
+  - Unchanged agents keep their wanted sets. Takers outside R gain value, so their wanted sets shrink. keepR takers
+    want nothing.
+  - A down-b taker x now wants a_x. x is frozen, so its successor takes a_x by a want arc: want arcs carry no label,
+    so they are never replaced, and a_x is a whole holding.
+  - A down-c taker now wants a_x and b_x: b_x goes to its successor alone, and a_x, which x wanted in Y, was held
+    alone. If its holder is on C, a_x passes alone to that holder's want successor.
+  - Every other good wanted in Z was wanted in Y and held alone by a frozen agent. If that agent is on C, its good
+    passes alone to its want successor.
+- *(V2).*
+  - New two-good holdings consist of goods that were unwanted in Y: they come from free givers, from J, or from a
+    free keepR taker's own holding. They are unwanted in Z too (the new wants above are single holdings). By Lemma
+    1(c) these holdings threaten nobody.
+  - A new triple threatens no agent outside R, as in Lemma 18 (minimality, and (H) for the giver).
+  - The only agents whose value can drop are replaced takers. For a down-c taker, R_x minus its holding and the
+    single holdings of a_x and b_x is {d_x}: no bundle is worth more than c_x to it after removing a good.
+  - For a down-b taker, a two-good holding is worth at most v(c_x) < v(b_x) to it after removing a good. For a keepR
+    taker, it is worth at most its top after removing a good.
+  - A three-good holding can threaten a replaced taker only if it contains two of its goods outside its top and its
+    holding, which (iii) excludes.
+- *Φ.* Takers outside R rise (Lemma 18), except holders of b taking their lower pair, which stay. keepR takers that
+  keep a good stay at level ≥ 5, the level of a rich pair. keepR takers that keep nothing, and down takers, drop
+  exactly one level.
+  - Each such dropping taker x has a successor s(x) that rises and is not replaced. For down takers, s(x) takes x's
+    good by a want arc. For a keepR taker that keeps nothing, s(x) takes both goods of x's pair: by (iii) its take is
+    exactly that pair, so it has no label (hence is not replaced), and it rises, as it is not a holder of b taking
+    its lower pair.
+  - Successors on a cycle are distinct. So Φ(Z) − Φ(Y) is at least the rise of the takers outside R that are no such
+    s(x), which is ≥ 1 by (iv). ∎
+
+With R = ∅, Theorem 23 is Lemma 18's case Φ(Z) > Φ(Y). The replacements are Theorem A′'s rule (a loser keeps its top)
+and the downgrades: a frozen holder steps down one rank, and its wanter pays for it. In the language of §10.1 they
+are winner/loser rotations.
+
+**Lemma 20′ (b-swaps).** Let Y be (V3)-valid with (H), u a free holder of its lower pair {c, d} (top a, b = b_u), and
+w ≠ u the holder of b. Each trade below is valid:
+- (i) w has a minimal arc (w, D) into u with |D| = 2 or Y_u ⊄ D. w takes D, and u takes {b}, or {b, c} when c ∉ D,
+  v(b) + v(c) > v(a) and w is free;
+- (ii) w holds its lower pair, b ∈ Y_w and b_w ∈ Y_u. u takes {b}, or {b, c} when c ≠ b_w and v(b) + v(c) > v(a); w
+  likewise takes {b_w} or {b_w, c_w};
+- (iii) Y_w is a pair containing w's top a_w and b, v(b) + v(c) > v(a), and no three-good holding contains two goods
+  of w other than a_w. u takes {b, c} and w takes {a_w}.
+
+At a maximum, no b-swap raises the level sum.
+
+*Proof.*
+- (i) extends Lemma 20(b) to a free w holding b in a larger holding: w's other goods become leftover, unwanted.
+  - If w is frozen, b, which others want, becomes the whole holding of u. If w is free, b is unwanted, so {b, c} is a
+    pair of unwanted goods.
+  - u holding b wants only a, which is held alone; holding {b, c}, an upper set, it wants nothing.
+  - D is a pair, or a triple handled as in Lemma 20(b). u's danger sets for {b} lie in Y_u ⊄ D.
+  - u's value may drop. The only holding with goods of R_u and two or more goods is D, worth at most max(v(c), v(d))
+    < v(b) to u after removing a good.
+- (ii) Both lower pairs consist of unwanted goods, and the new holdings are singles, or pairs of these goods with an
+  own good kept. A holder of b wants only its top, which is held alone. The other new holding meets R_u in at most
+  one good of u's pair, worth less than b.
+- (iii) w holds its top and wants nothing; {b, c} is a pair of unwanted goods. A pair is worth at most v(a_w) to w
+  after removing a good, and the hypothesis excludes threatening triples. ∎
+
+**Conjecture D (refuted).** In every (V3)-valid state with (H), every F₂-clash cycle of G is resolved: it is clean
+and Lemma 18's trade is valid and better, or Theorem 23 applies to it (for some R), or some lower-pair holder has a
+b-swap that raises the level sum.
+
+D would have implied C₂: at a maximum each of the three gives (M1) or (M2). It is false.
+- An adversarial search around GM4-B's clash found the counterexample (n = 6, m = 9;
+  `python3 k4/de4/refute_d.py`, an independent replay, ledger K4.DE4V3R.D). Agents 0 and 1 hold their lower pairs.
+  Agents 2 and 3 are frozen holders of their tops, and their b is the leftover good 8. Agents 4 and 5 hold the b's of
+  0 and 1 alone.
+- The arc graph has one cycle, 0 → 2 → 1 → 3 → 0. Its two arcs out of the lower pairs both use 8, and neither has a
+  same-giver alternative: agents 2 and 3 take their c from the giver and their b from J. No b-swap applies.
+- The state is not a counterexample to Claim T′: it is completable, and it is not a maximum. The level-raising move
+  has nothing to do with the cycle; it is Lemma 20(d) below. So a proof of C₂ cannot work cycle by cycle alone: at
+  the largest level sum it must also use local moves away from the cycle.
+
+**Lemma 20(d) (keep-own at a lower pair).** Let u be a free holder of its lower pair {c, d}, with top a and b held
+alone by w. Let y ∉ {u, w} be a free agent holding its top a_y alone, with d ∈ R_y and {a_y, d} an allowed holding of
+y. Then y taking {a_y, d} and u keeping {c} is valid, and the level sum changes by ℓ_y({a_y, d}) − 5. This is ≥ 0,
+and > 0 exactly when {a_y, d} is robust. At a maximum, therefore, no such y has {a_y, d} robust.
+
+*Proof.*
+- (V1): u holding c wants a and b, and both are held alone (a by the frozen holder of u's top). y holds an upper set
+  and wants nothing. d was in a two-good holding and a_y in a free agent's holding, so neither is wanted, and the
+  pair {a_y, d} threatens nobody.
+- u's value drops. The only holding with two or more goods that meets R_u is {a_y, d}: a_y ∉ R_u, because the goods
+  a and b of u are held alone by agents other than y, and c is u's. So that holding is worth at most v(d) < v(c) to u
+  after removing a good.
+- Levels: y goes from 4 to ℓ_y({a_y, d}), u from 3 to 2. ∎
+
+**What is open.**
+- **Conjecture C₃** (§10.3): at a maximum with (H), no cycle of G passes through a free holder of two or more goods.
+  By Lemma 25 it is P1 (lower-pair holders are envy-free single owners at the largest level sum) and P2 (non-robust
+  upper holders lie on no cycle). It implies C₂ at maxima.
+- **Conjecture C₂** (no F₂-clash cycle at the largest level sum). With Proposition 24 it gives Claim T′, and the
+  strong Claim T, under (H). Its refuted strengthening D shows that its proof must combine the cycle moves
+  (Lemma 18, Theorem 23, the b-swaps) with local exclusions at the largest level sum: Lemma 20, Lemma 20(d) and the
+  simple moves of (H).
+- **Conjecture D_nc (refuted)**: D for non-completable states, which is what Claim T′ would use (with Proposition 24,
+  a pointer cycle of a non-completable maximum would be resolved).
+  - It is false (`python3 k4/de4/refute_dnc.py`, independent replay; n = 6, m = 11). The instance is GM4-B's clash
+    with no free agent holding one good: the b's of the two lower-pair holders are the tops of robust pairs. The
+    state is non-completable and satisfies (H), its only cycle has the double clash, and no b-swap and no keep-own of
+    Lemma 20(d) applies.
+  - It is not a maximum. The raise is a path: the lower-pair holder takes its top and keeps its c, forming {a, c},
+    which is always robust (+3). The frozen holder takes its b from J and a good from a robust holder, which keeps its
+    top (−2).
+  - So each counterexample to a cycle-by-cycle statement (GM4-B, D, D_nc) is resolved by a different local move: a
+    b-swap, Lemma 20(d), and this path. A proof of C₂ (or of Claim T′ directly) seems to need a general exchange
+    theorem, of Hall or König type, for paths and cycles of these moves, rather than a fixed list of them.
+- The open cases inside these:
+  - a clash between two arcs without same-giver alternatives. Their takers are a free holder of b, a frozen holder of
+    its top whose take from the giver misses its b, or a frozen holder of b whose take misses its c. Seen on GM4-B
+    (resolved by a b-swap) and in the counterexample to D (resolved by Lemma 20(d));
+  - Theorem 23's hypotheses (iii) and (iv).
+
+**Evidence** (`k4/de4/claimd.py`; sources as in §10.1, plus `xhg`, random profiles of the seven hypergraphs on which
+the states of `claimt.py pointer` without a clean cycle were found):
+
+| mode | what | result | logs |
+|---|---|---|---|
+| `refuteC` | maxima of the screen set with (H) whose G has a cycle | 14 maxima (GM4 instances); in each, every cycle has a clash between two arcs out of free holders of one good. Independent replay of GM4-A: `python3 k4/de4/refute_c.py` | `results/k4_de4/claimd_refuteC.log` |
+| `c2` | states of the largest level sum with (H), and maxima | 13,362 states of the largest level sum with (H) (screen 234, xhg 2,800, random 7,115, stuck hypergraphs 2,662, n = 4 with two 4-good agents 551), of which 11,660 maxima: no F₂-clash cycle. G has a cycle only at the 14 screen maxima above. Also 2,421 more states (2,201 maxima) on the adversarial families (`advt0`, `advt3x`) and the n = 4 cores with three and four 4-good agents: G has no cycle at all | `results/k4_de4/claimd_c2_*.log` |
+| `thm23` | every cycle of every (V3)-valid (H) state, every R satisfying Theorem 23's hypotheses | 2,031 (cycle, R) pairs (screen 200, xhg 877, random 954), 41 with replacements (19 down-b, 22 keepR): every trade valid and Φ-raising | `results/k4_de4/claimd_thm23_*.log` |
+| `bswap` | every b-swap of every (V3)-valid (H) state | 249 b-swaps (screen 19, xhg 148, random 82): every one valid; level change ≥ 0, and 0 in 87 | `results/k4_de4/claimd_bswap_*.log` |
+| `lpkeep` | every keep-own of Lemma 20(d) on every (V3)-valid (H) state | 9 instances (random 7, stuck hypergraphs 2), and the counterexample to D (`refute_d.py`): all valid; level change +1 when {a_y, d_u} is robust (8 + 1), 0 otherwise (1) | `results/k4_de4/claimd_lpkeep_*.log` |
+| `d` | every F₂-clash cycle of every (V3)-valid (H) state (Conjecture D, refuted by `refute_d.py`) | 6,075 F₂-clash cycles (screen 190, xhg 2,322, random 1,897, stuck hypergraphs 617, n = 4 543, n = 3 506): Lemma 18 6,041, Theorem 23 32, b-swap 2 (GM4-B); none unresolved | `results/k4_de4/claimd_d_*.log` |
+
+### 10.3 Free holders of two or more goods on cycles: Lemma 25 and Conjecture C₃
+
+C₂ asks that no cycle of G share leftover goods between arcs out of free agents holding two or more goods at a
+maximum. The data show more: at the largest level sum with (H), *no* cycle of G passes through such an agent. Lemma 25
+says which arcs can enter these agents, and Conjecture C₃ splits accordingly into two statements about single agents.
+
+**Lemma 25 (in-arcs of free holders of two or more goods).** Let Y be valid and o a free agent holding two or more
+goods (an upper set or its lower pair).
+- (a) If Y_o is a robust upper set, no arc of G ends at o, so o lies on no cycle of G.
+- (b) If Y_o is o's lower pair {c_o, d_o}, the only arcs of G ending at o are want arcs from the holder of a_o, taking
+  {a_o}.
+- (c) If Y_o is a non-robust upper set, then o values four goods, Y_o is a pair, and every arc ending at o comes from
+  a free agent and takes exactly the complementary pair R_o ∖ Y_o. That pair is a robust upper set, so o's level
+  rises from 5 to 6.
+
+*Proof.* An arc ending at o is a want arc (o wants the single good of a frozen agent) or a danger set of o: a set
+D ⊆ R_o ∖ Y_o of goods o does not want, with v_o(D) > v_o(Y_o). An upper holder wants no good, since a single good is
+worth at most the top and v_o(Y_o) is more.
+- (a) v_o(D) ≤ v_o(R_o ∖ Y_o) ≤ v_o(Y_o), so o has no danger set.
+- (b) o wants exactly the goods worth more than v(c_o) + v(d_o), which is a_o only, as v(b_o) < v(c_o) + v(d_o) < v(a_o).
+  A danger set would lie in {b_o}, as a_o is wanted, and v(b_o) < v_o(Y_o).
+- (c) With three relevant goods, an upper pair is worth more than the top, which is worth at least the remaining
+  good, so it is robust. With four, the triple {b, c, d} is worth more than a, so it is robust. So Y_o is a pair of a
+  4-good agent, and R_o ∖ Y_o is a pair worth more than v_o(Y_o) > v(a_o). A danger set is worth more than the top, so
+  it has two goods, and it is the complementary pair. That pair is worth more than the top, each of its goods at most
+  the top, and more than Y_o: a robust upper set. Want arcs into o do not exist, and a frozen agent's arcs are want
+  arcs, so the giver is free. ∎
+
+**Conjecture P1.** At a (V3)-valid state of the largest level sum with (H), no free holder of its lower pair has an
+out-arc in G: no agent x ≠ u has a minimal danger set inside Y_u ∪ J meeting Y_u.
+
+*P1 as an owner statement.* Under (H), a free agent o has an out-arc in G exactly when some x ≠ o values the goods of
+Y_o ∪ J more than Y_x. These goods are unwanted (o is free; leftover goods are not wanted, by (V1)). So if
+v_x(Y_o ∪ J) > v_x(Y_x), removing goods while the value stays above v_x(Y_x) leaves a danger set D of x. D is not inside J,
+by (H), so it meets Y_o. A danger set of any agent strictly inside D again meets Y_o: it is not one of o's, since
+those lie in J, and it is not inside J. So a smallest one is a minimal arc. If no x envies Y_o ∪ J, then o takes J,
+envied by nobody, and the state is completable (single owner). So **P1 says: at the largest level sum with (H), every
+free lower-pair holder is an envy-free single owner.** In particular, a non-completable state of the largest level sum
+with (H) has no lower-pair holder.
+
+**P1 is false** (`python3 k4/de4/refute_p1.py`, independent replay; ledger K4.DE4V3R.P1). It was found by
+`k4/de4/gapsearch.py`, which hill-climbs the values of a fixed core to bring a state of the kind sought up to the
+largest level sum. The counterexample has n = 4, m = 7, J = {0}, and is a maximum with (H):
+- agent 1 holds its lower pair {1, 4};
+- agent 0, a free holder of its b, has its own lower pair {4, 0} as a danger set, made of agent 1's c and the leftover
+  good 0.
+
+The arc is *lateral* (agent 0 would go from b to its lower pair, level 3 to 3: the exception in Lemma 18). The state
+is completable and G has no cycle, so C₃ and HX stand; only the decomposition through P1 fails. The refinement
+**P1′** (at the largest level sum with (H), every out-arc of a lower-pair holder is lateral) **is false too**
+(`python3 k4/de4/refute_p1r.py`; `gapsearch.py` with MODE=p1r on the xhg hypergraphs). The instance has n = 4, m = 7,
+and is a maximum with (H), completable, with no cycle. Agent 2 holds its lower pair {4, 6}. Agent 1, frozen on its top,
+has its big-top triple {b, c, d} = {6, 4, 1}, the lower pair plus the leftover good 1, as a danger set. So lower-pair
+holders can have out-arcs at maxima, and what is left is cycle-level: for C₃ it suffices that no lower-pair holder lies
+on a cycle.
+
+**Conjecture P2.** At a maximum of the robust order with (H), no free holder of a non-robust upper set lies on a cycle
+of G.
+
+**Conjecture C₃** (implied by P1′-on-cycles and P2, with Lemma 25(a)). At a maximum with (H), no cycle of G passes through a free agent
+holding two or more goods.
+
+**C₃ implies C₂ at maxima, hence Claim T′ under (H).** An F₂-clash cycle at a maximum with (H) would, by C₃, pass only
+through frozen agents and free agents holding one good. Frozen agents' arcs carry no label, and the others' labels
+are pairwise disjoint by the definition of an F₂-clash cycle. So all labels are disjoint, and Lemma 18 gives a better
+(V3)-valid state, against maximality. With Proposition 24 and the Lean frame (`EFX.DE4.target4_of_HC2`: there the
+arcs are tight, which under (H) is the minimality of G), C₃ and HL give TARGET₄.
+
+**Machine-checked** (`lean/EFX/DE4ClaimC3.lean`). Such a cycle moves whole holdings with disjoint labels: Corollary
+10's trade (`EFX.DE4.cycle_trade`). It is valid, no value drops, every agent on the cycle gains, and nothing is
+released, so (V3) holds by Lemma V (`EFX.DE4.lemmaV`). The robust level sum does not drop (Lemma 1(a)). If it rises,
+Lemma R contradicts maximality. Otherwise the state is a (V3)-valid Pareto improvement (`EFX.DE4.no_f1_clashCycle`).
+So `EFX.DE4.hc2_of_hc3`: C₃ for F₂-clash cycles at maxima (`EFX.DE4.HC3`) implies `HC2`. Then
+`EFX.DE4.target4_of_HC3`: **HC3 and HL imply TARGET₄**. Lemma 25(a) is machine-checked on F₂-clash cycles (`EFX.DE4.robust_not_on_clashCycle`), so the hypothesis can be weakened to `EFX.DE4.HC3'`: no free lower-pair or non-robust upper holder lies on an F₂-clash cycle at a maximum, that is P1 and P2 on such cycles (`EFX.DE4.target4_of_HC3'`).
+
+**Toward P1.** Let u hold its lower pair at the largest level sum with (H), with an out-arc (x, D). The holder h of
+a_u is frozen (u wants a_u) and b_u is held by some w (V3).
+- *x = h* is impossible: the 2-cycle h → u → h has one label, and Lemma 18's trade raises the level sum, since u
+  rises from 3 to 4.
+- *x = w with Y_w = {b_u}*: Lemma 20(b) gives a raise unless x's level does not rise (x holds its b and D is its
+  lower pair) or D ⊇ Y_u has three goods.
+- The remaining takers are open.
+
+Below the largest level sum, `lpout.py` finds a raise changing two to four agents for every such arc. The raises use these
+moves:
+- the 2-cycle with h;
+- the swap of Lemma 20(b) with w;
+- a keep-own swap in which u takes b_u and keeps c_u (the robust pair {b_u, c_u}, +3), while w takes one good of u's
+  pair;
+- an agent holding its b alone that adds one good of u's pair (+2, u keeps the other, −1 or −2);
+- chains through w.
+
+P1 is not local to u, x, h and w (`python3 k4/de4/lploc.py SOURCE PER JOBS SEED`). Of 556 such out-arcs, 553 have
+a raise that changes only these agents: 519 with two of them, 34 with three. The other 3 need a fifth agent. In two
+of them, a robust holder gives up one good and keeps its top (−2), as Theorem A′'s losers do. In the third, the only
+raises are unrelated to u: a 2-cycle elsewhere. A proof of P1 therefore needs Theorem A′'s loser rule inside a chain,
+the same kind of exchange step that the refutations of D and D_nc call for.
+
+**Toward P2.** Let o hold a non-robust upper pair on a cycle p → o → x of G, so that p gives o its complementary pair
+(Lemma 25(c)). Below the largest level sum (`python3 k4/de4/nrcyc.py SOURCE PER JOBS SEED`), 125 (H) states have such
+a cycle.
+- In 93 the cycle is clean, and Lemma 18 raises the level sum.
+- In the other 32, a raise changes two agents (23) or three (9).
+- Every non-robust holder on these unclean cycles holds the pair {b, c} (with a < b + c < a + d).
+- The typical raise is a swap with the predecessor p: o takes its top a alone, from p (−1), and p takes o's b and keeps
+  its own c (+2 or +3). Otherwise o moves laterally to {b, d}, releasing c to an agent that forms a robust pair.
+- In every one of the 32, the arc into o takes a from the giver and d from J, and d is the shared good. A single
+  replacement on the clashing arcs makes the labels disjoint and the trade valid and level-raising, in all 32:
+  - *keep-one* (27): o takes a alone from the giver and keeps its best own good not taken by its successor, forming
+    the robust pair {a, b} or {a, c}. This is a variant of Theorem 23's keepR that keeps one good;
+  - keepR (1);
+  - down-b (4). These are the 4 where Theorem 23's hypotheses, as checked by `claimd.py`, fail.
+- At a maximum, P1 removes the lower-pair givers. The clashes left are then between arcs out of non-robust holders,
+  and these are the ones the replacements resolve in the data.
+- *Cores without lower pairs* (`CORES=... python3 k4/de4/lpfree.py PER`). There (V3) is empty, so `HLL` holds
+  vacuously (`selfUp_breaks_v3`), and Lemma 18 (machine-checked) leaves only unclean F₂-clash cycles. Such a proof
+  would therefore be unconditional once they are excluded at maxima. On 5,395 random lower-pair-free profiles:
+  - 1,974 F₂-clash cycles are clean;
+  - the 5 unclean ones all lie below the largest level sum, all have the shape "two non-robust {b, c} holders, each
+    taking its top from the other and the same leftover d", and keep-one resolves each.
+
+**Searching for counterexamples by hill-climbing** (`MODE=... python3 k4/de4/gapsearch.py SEED STEPS ROUNDS SOURCE`).
+For a fixed hypergraph, the search perturbs the values one at a time. It keeps a change when the gap does not grow:
+the largest level sum minus the best level sum of a state of the kind sought. This found the counterexamples to P1 and
+P1′, which random sampling had missed. For the open statements it never reached gap 0 (scratch copies of the
+runs, `results/k4_de4/gapsearch_*.log`):
+
+| statement | sources | rounds | best gap |
+|---|---|---|---|
+| Claim T (non-completable, not all-upper) | n = 4 cores with three 4-good agents; the adversarial family `advt0` | 50 | 1 |
+| C₃ (a cycle of G through a free holder of two or more goods, with (H)) | xhg; n = 4 cores with two 4-good agents | 110 | 1 |
+| HX (an unclean F₂-clash cycle, with (H)) | the 75 instances with unclean cycles of the shape catalogue | 7 | 3 |
+
+**Lemma 26 (keep-one replacement).** Let Y be (V3)-valid with (H), and C an F₂-clash cycle of G. Let K be a set of
+free upper-set holders o on C such that:
+- the predecessor p of o hands o a set containing o's top a_o, with a_o ∈ Y_p (p is free, Lemma 25(c));
+- some good k_o ∈ Y_o is not in the set o hands its successor;
+- {a_o, k_o} is a robust upper set of o (always so if Y_o is the pair {b, c}).
+
+Trade along C, but let each o ∈ K take only {a_o, k_o}. o keeps k_o, and the other goods of the set p would hand it
+stay leftover. If the labels of the trade are now pairwise disjoint, the result is valid and its level sum is larger.
+So at a maximum, no F₂-clash cycle is made clean by such replacements.
+
+*Proof.* As for Lemma 18, with these changes for o ∈ K.
+- {a_o, k_o} is an allowed holding, worth more to o than Y_o = {k_o, k′_o}, because v(a_o) > v(k′_o).
+- It is a pair of goods nobody wants: a_o comes from the free p, and k_o is o's own good, o being free. Values only
+  rise, so it threatens nobody.
+- No good is taken twice. a_o is handed only to o, and k_o is not in the set handed to o's successor.
+- The giver's self-threat step of Lemma 18 (a triple handed by g threatening g) still works when g ∈ K. The set q′ found
+  there lies inside the handed set, which misses k_g, so it is disjoint from {a_g, k_g}.
+- (V1): every value rises weakly, and no wanted good enters a pair, since the givers of K are free.
+- o rises from level 5 to 6, so the level sum rises, and Lemma R (machine-checked) contradicts maximality. ∎
+
+In the data, keep-one resolves 27 of the 32 unclean cycles through non-robust holders below the largest level sum, and
+Theorem 23's alternatives resolve the other 5 (`nrcyc.py`). It resolves all 5 found on lower-pair-free cores
+(`lpfree.py`). What Lemmas 18, 26 and Theorem 23 do not reach is GM4-B's double clash ("Fa cd! Fa cd!", 58 of the 75
+unclean cycles catalogued; their takers are frozen holders of their tops).
+
+**Evidence** (EVIDENCE; `python3 k4/de4/claimd.py c3 SOURCE PER JOBS SEED`, the sources and parameters of `c2`; 
+`python3 k4/de4/lpout.py`, `lploc.py` and `nrcyc.py` with SOURCE PER JOBS SEED):
+
+| mode | what | result | logs |
+|---|---|---|---|
+| `claimd.py c3` | every free holder of two or more goods at every (V3)-valid state of the largest level sum with (H) | Lemma 25 holds for all 39,244 (LP 82, non-robust upper 4,422, robust 34,740). No lower-pair holder has an out-arc (P1). 40 non-robust upper holders have both in-arcs and out-arcs, and none lies on a cycle (P2). No robust holder has an in-arc. So no cycle of G passes through a free holder of two or more goods (C₃), at the largest level sum and at the maxima. Likewise on the adversarial families of `adv_t.py` and `adv_t3.py` (sources `advt0`, `advt1`, `advt3x`; 800 instances; 54 lower-pair, 184 non-robust and 1,131 robust holders), and on 2,400 random profiles of the n = 4 cores with three and four 4-good agents (`claimd_c3_n4_3.log`, `claimd_c3_pure.log`: 29 lower-pair holders, none with an out-arc; 711 non-robust holders, 6 with in- and out-arcs, none on a cycle) | `results/k4_de4/claimd_c3_*.log` |
+| `lpout.py` | every (V3)-valid (H) state in which a lower-pair holder has an out-arc | 465 states (screen 30, random 98, xhg 170, stuck hypergraphs 167), none of the largest level sum (P1). Every one has a raise; the smallest changes 2 agents in 436, 3 in 27, 4 in 2. The taker is the frozen holder of a_u (2-cycle) or the holder of b_u in most | `results/k4_de4/lpout_*.log` |
+| `lploc.py` | every out-arc of a lower-pair holder at a (V3)-valid (H) state: the smallest raise changing only u, x, h and w | 556 arcs: 2 agents 519, 3 agents 34, none 3 (a fifth agent is needed) | `results/k4_de4/lploc_*.log` |
+| `nrcyc.py` | every (V3)-valid (H) state with a non-robust upper holder on a cycle of G | 125 states (screen 20, random 26, xhg 38, stuck hypergraphs 41), none of the largest level sum (P2). 93 cycles clean (Lemma 18). In the 32 others, raises change 2 agents (23) or 3 (9), and the non-robust holders all hold {b, c}. Every one of the 32 is resolved by one replacement on its clashing arcs: keep-one 27, keepR 1, down-b 4 (Theorem 23's checked hypotheses: 28) | `results/k4_de4/nrcyc_*.log` |
+| `lpfree.py` | F₂-clash cycles of every (V3)-valid (H) state of random lower-pair-free profiles (n = 4 cores with two, three and four 4-good agents; xhg) | 5,395 profiles: 1,974 clean cycles; 5 unclean, none of the largest level sum, each a 2-cycle of non-robust {b, c} holders sharing their d and resolved by keep-one | `results/k4_de4/lpfree_*.log` |
+
+### 10.4 After the refutation: tie-breaks inside the largest level sum
+
+> **Superseded by §10.5:** the lower-pair order is refuted too. No tie-break inside the largest robust level sum works
+> (`refute_lp.py`). The lemmas of this subsection are statements about valid states and stand.
+
+On the refuting instance (`refute_rob.py`), 9 of the 10 (V3)-valid states of the largest level sum are completable,
+and 13 of the 14 Pareto-maximal valid ones. So the level sum Φ is not the problem; value-Pareto is too weak a
+tie-break. Two refinements were tested (`python3 k4/de4/refine.py SOURCE PER JOBS SEED`).
+
+**Total value is refuted** (ledger K4.DE4V3R.S; `python3 k4/de4/refute_sum.py`, an independent replay). Order: Φ,
+then the largest total value Σᵢ vᵢ(Yᵢ), a refinement of value-Pareto, so every lemma proved at the maxima of the robust
+order holds at its maxima too. Scaling one agent's values changes no holding, threat, level, state or completion, only
+the total. On the refuting instance with the values of agents 2, 3, 4, 5 multiplied by 2, 10, 2, 10, the bad state is
+the only (V3)-valid state of level sum 26 of largest total value, and it is not completable. The same works for any
+weighted sum of values whenever the bad maximum is a supported Pareto point. A tie-break must be ordinal.
+
+**The lower-pair order** (ledger K4.DE4V3R.LP, a conjecture): the (V3)-valid states, ordered by Φ, then by the
+*fewest* lower-pair holders, then value-Pareto. Equivalently, lower pairs have level 3 − ε (0 < ε < 1/n), and then
+value-Pareto. On the refuting instance its three maxima hold no lower pair and are completable. The double clash is
+level-neutral to undo: u takes back its top from the frozen t, and t takes the leftover good, its b (u: 3 → 4,
+t: 4 → 3). That swap removes a lower pair.
+
+*What carries over from §10* (machine-checked as a frame, `lean/EFX/DE4LowerPairFrame.lean`, ledger
+K4.DE4V3R.LEANLP: **TARGET₄ ⟸ HXLP + HLLLP**, `EFX.DE4.target4_of_HXLP_HLLLP`, where HXLP says that every F₂-clash
+cycle at a non-completable maximum of the lower-pair order with (H) is clean and not flat, and HLLLP is Claim T′ in case (L) there):
+- **Lemma R** lowers the number of lower-pair holders. Each repair step replaces a lower pair by its b and keeps the
+  level sum. Machine-checked with the count: `EFX.DE4.exists_validV3_numLP`, and strictly when (V3) fails,
+  `EFX.DE4.exists_validV3_numLP_lt`. So a maximum of the lower-pair order has the largest level sum among all valid states.
+- Every lemma that ends in a *larger* level sum holds at its maxima unchanged: Lemma 4 at a maximum, Lemma 18 when its
+  trade raises Φ, Theorem 23, Lemmas 20′, 20(d), 26.
+- *Free self-upgrades with Φ kept* (`selfUp_breaks_v3`). An upgrade that keeps Φ and adds a lower pair goes from b to
+  {c, d}. It releases b and breaks (V3) for the upgrading agent itself. So a (V3)-keeping one adds no lower pair, and
+  the argument holds as it is.
+- *Theorem A′* (all-upper states). A state that is value-Pareto-better than an all-upper state is all-upper (every
+  value stays above the top), so it holds no lower pair either.
+- *Lemma 18 when its trade keeps Φ* (`no_f1_clashCycle`): the one gap. If the trade along a clean F₂-clash cycle
+  keeps Φ, every taker is a free holder of its b that takes its lower pair. The trade is then value-Pareto-better but
+  adds lower pairs. Call such a cycle *flat*. At the maxima of the lower-pair order, flat cycles have to be excluded
+  separately.
+
+**Lemma 27 (the top swap).** Let Y be valid, u an agent holding its lower pair, and t ≠ u an agent with Y_t = {a_u}.
+Let j be a leftover good that t ranks just below a_u. Suppose θ_t(Y_y) ≤ v_t(j) for every agent y ∉ {t, u} holding
+three or more goods. Let Z be Y with Z_u = {a_u} and Z_t = {j}. Then:
+- Z is valid;
+- Φ(Z) = Φ(Y);
+- Z has one lower-pair holder fewer than Y.
+
+With Lemma R there is a (V3)-valid Z′ with Φ(Z′) ≥ Φ(Y) and fewer lower-pair holders, so Y is not a maximum of the
+lower-pair order.
+
+*Proof.* {a_u} and {j} are single relevant goods.
+- *Levels.* u goes from its lower pair (3) to its top (4). t goes from a_u, of some rank r, to j, of rank r + 1, so it
+  loses exactly 1. Nobody else changes, and u stops being a lower-pair holder.
+- *(V1).* Let x want g in Z (g ∈ R_x ∖ Z_x, v_x(g) > v_x(Z_x)).
+  - x = u: u holds its top and wants nothing.
+  - x = t: g is ranked above j. Either g = a_u, now held alone by u, or v_t(g) > v_t(a_u) = v_t(Y_t). In the second
+    case t wanted g in Y, so g was held alone in Y, by an agent other than u (a pair) and t, and still is.
+  - x ∉ {u, t}: Z_x = Y_x, so x wanted g in Y and Y_y = {g} for some y. Here y ≠ u, since Y_u is a pair. If y = t,
+    then g = a_u, now held alone by u; otherwise Z_y = {g}.
+- *(V2).* Single goods threaten no one, so take y ∉ {u, t} with |Y_y| ≥ 2, so Z_y = Y_y.
+  - For x ∉ {u, t} nothing changed.
+  - For x = u: v_u(a_u) > v_u(Y_u) ≥ θ_u(Y_y).
+  - For x = t with |Y_y| = 2: θ_t(Y_y) is t's value of one good of Y_y. A good of Y_y that t ranks above a_u would have
+    been wanted by t in Y while lying in a pair, against (V1). a_u ∉ Y_y. So both goods rank below a_u, and t values
+    them at most v_t(j).
+  - For x = t with |Y_y| ≥ 3: by hypothesis.
+
+Lemma R's steps keep validity, do not lower Φ, and lower the number of lower-pair holders (machine-checked). Applied to
+Z, they end in a (V3)-valid Z′. If Φ(Z′) > Φ(Y), Y does not have the largest level sum. Otherwise Z′ has the same level
+sum and fewer lower-pair holders. ∎
+
+**Corollary 28 (the double clash).** At a maximum of the lower-pair order, let u hold its lower pair and let t hold
+{a_u} alone, where a_u is t's own top.
+- (a) If b_t is leftover, then some agent holds three goods that t values at more than v_t(b_t) after removing one.
+- (b) In GM4-B's double clash, the cycle u₁ → t₂ → u₂ → t₁ → u₁, with tᵢ frozen on their tops and tᵢ's danger set
+  Dᵢ ⊆ Y_{u₃₋ᵢ} ∪ J sharing the leftover good j, both b_{t₁} and b_{t₂} are held. So j is not the b of either.
+
+So the double clash of `refute_rob.py` (j = 8 is the b of both frozen agents), and every double clash in the data, is
+not a maximum of the lower-pair order.
+
+*Proof.* (a) is Lemma 27 with j = b_t.
+For (b), suppose b_{t₁} ∈ J. t₁ values a_{u₁}, b_{t₁}, a good of Y_{u₂} (since D₁ meets Y_{u₂}), and at most one more
+good g. Take an agent y ∉ {t₁, u₁} holding three or more goods.
+- Y_y contains none of the first three: a_{u₁} ∈ Y_{t₁}, b_{t₁} ∈ J, and Y_{u₂} is a pair, so y ≠ u₂.
+- So θ_{t₁}(Y_y) ≤ v_{t₁}(g) ≤ v_{t₁}(b_{t₁}), and (a) applies.
+
+The same holds for t₂. ∎
+
+**Lemma 27′ (simultaneous top swaps).** Let Y be valid, u₁, …, u_k distinct holders of their lower pairs with
+distinct tops, and t₁, …, t_k agents with Y_{tᵢ} = {a_{uᵢ}}. Let jᵢ be the good tᵢ ranks just below a_{uᵢ}. Suppose:
+- the jᵢ are distinct, and each lies in J ∪ Y_{u₁} ∪ … ∪ Y_{u_k};
+- each tᵢ threatens no holding of three or more goods of an agent other than the u's and t's with v_{tᵢ}(jᵢ).
+
+Then giving uᵢ ← {a_{uᵢ}} and tᵢ ← {jᵢ}, and releasing the rest of the u's pairs, gives a valid state with the same
+level sum and k lower-pair holders fewer. So Y is not a maximum of the lower-pair order.
+
+*Proof.* As for Lemma 27.
+- The released goods lay in pairs, so nobody wanted them.
+- A good that tᵢ wants in the new state is a_{uᵢ}, now held alone by uᵢ, or was wanted by tᵢ in Y. In the second case
+  it was held alone in Y, by an agent outside the u's. If that agent is some t_l, the good is a_{u_l}, now held alone
+  by u_l.
+- Other agents keep their holdings and wants, and the same argument applies.
+- (V2) is as before.
+- Each uᵢ gains one level and each tᵢ loses one. ∎
+
+**Corollary 28(c).** In GM4-B's double clash at a maximum of the lower-pair order, one frozen agent's b is held by an
+agent other than u₁ and u₂: b_{t₁} ∉ J ∪ Y_{u₂} or b_{t₂} ∉ J ∪ Y_{u₁}.
+
+*Proof.* There are three cases.
+- If b_{t₁} ∈ J or b_{t₂} ∈ J, Corollary 28(b) applies.
+- If b_{t₁} ∈ Y_{u₂} and b_{t₂} ∈ Y_{u₁}, apply Lemma 27′ with k = 2.
+
+For the threat hypothesis: t₁ values a_{u₁} ∈ Y_{t₁}, b_{t₁} ∈ Y_{u₂}, the shared good j ∈ J (j ∈ D₁, and j ≠ b_{t₁}),
+and at most one more good g. A holding of three or more goods of another agent contains at most g, worth at most
+v_{t₁}(b_{t₁}). The same holds for t₂. ∎
+
+So what is left of the double clash at a maximum of the lower-pair order is the case where a frozen agent's b is held
+outside the clash, and taking it would make a fifth agent lose a good.
+
+**Corollary 28(d).** In that case, let t₁ be a frozen agent of the clash whose b is held by an agent w outside it.
+Then t₁ values four goods, its danger set is D₁ = {c_{t₁}, d_{t₁}}, and v(c_{t₁}) + v(d_{t₁}) > v(a_{t₁}): t₁'s two
+lowest goods are worth more than its top. The shared good j is one of them, and the other lies in Y_{u₂}.
+
+*Proof.* t₁ holds its top, so it wants nothing, and D₁ ⊆ R_{t₁} ∖ {a_{t₁}}. As b_{t₁} ∉ Y_{u₂} ∪ J, D₁ ⊆ {c_{t₁}, d_{t₁}}.
+A danger set is worth more than t₁'s holding, the top, so it has two goods. So D₁ = {c_{t₁}, d_{t₁}}, and D₁ meets
+Y_{u₂} and contains j. ∎
+
+**Lemma 30 (the cross and lopsided swaps).** Take GM4-B's double clash of Corollary 28(d) at a valid state. t₁ holds
+its top a_{u₁}, and its danger set is D₁ = {c_{t₁}, d_{t₁}} = {j, g₁} with j ∈ J and g₁ ∈ Y_{u₂}. Both moves below hand
+u₁ and u₂ their tops and t₁ the pair D₁, and release the rest of the two lower pairs.
+- (a) *Cross swap.* If b_{t₂} lies in Y_{u₁} ∪ Y_{u₂} and b_{t₂} ≠ g₁, let t₂ take {b_{t₂}}. The state is valid and its
+  level sum is larger by 2.
+- (b) *Lopsided swap.* Suppose D₂ = {c_{t₂}, d_{t₂}} with c_{t₂} ∈ Y_{u₁} and d_{t₂} = j, and b_{t₂} is held alone. Let
+  t₂ take {c_{t₂}}. The state is valid and its level sum is larger by 1.
+
+Neither needs the lower-pair order. Both contradict the largest level sum (with Lemma R for (V3)). (a) is machine-checked
+(`EFX.DE4.cross_swap`, `EFX.DE4.not_top_of_cross_swap`, `lean/EFX/DE4CrossSwap.lean`, with the threat conditions on
+holdings of three or more goods as hypotheses).
+Checked by brute force (`python3 k4/de4/crossswap.py SOURCE PER JOBS SEED`, EVIDENCE for the proof). On every double
+clash of the families `advt4c` and `advt4l` of `adv_t4.py` (built so that (a), respectively (b), applies) where a
+swap's hypotheses hold, the state is valid with the claimed rise: 230 states for (a) and 353 for (b)
+(`results/k4_de4/crossswap_*.log`).
+
+*Proof.*
+- *t₁'s new holding.* D₁ is worth more than t₁'s top and each of its goods less, so it is an upper set. It is not robust,
+  since v(a) + v(b) > v(c) + v(d). So t₁ rises from 4 to 5.
+- *Levels.* u₁ and u₂ rise from 3 to 4. In (a), t₂ drops from its top to its b, from 4 to 3: in all, +2. In (b), t₂
+  drops to its c, from 4 to 2: in all, +1.
+- *(V1).* u₁ and u₂ hold their tops and t₁ an upper set, so none of them wants anything.
+  - In (a), t₂ wants only its top, now held alone by u₂.
+  - In (b), t₂ wants its top (held alone by u₂) and b_{t₂} (held alone by assumption). It does not want j = d_{t₂}.
+  - Every other agent keeps its holding and its wants. A good it wanted was held alone in Y. If its holder was t₁ or t₂,
+    the good is a_{u₁} or a_{u₂}, now held alone by u₁ or u₂.
+  - The goods that move into pairs or out of holdings (j, g₁, and the released goods) lay in J or in pairs, so nobody
+    wanted them.
+- *(V2).*
+  - Singletons threaten nobody.
+  - D₁'s goods were unwanted, so for every agent other than t₂, the value of either good alone is at most that
+    agent's holding (u₁ and u₂ now hold their tops). For t₂: in (a), neither good is a_{t₂} or b_{t₂}, so each is worth at
+    most v(b_{t₂}). In (b), v_{t₂}(j) = v(d_{t₂}) < v(c_{t₂}), and g₁ is not one of t₂'s goods (its goods are a_{t₂},
+    b_{t₂}, c_{t₂} ∈ Y_{u₁} and j).
+  - Unchanged holdings: unchanged agents compare as before. u₁ and u₂ only gained. t₁ is worth v(c) + v(d) > v(a) > v(b),
+    and any other holding contains at most b_{t₁} among t₁'s goods.
+  - t₂ in (b): every holding other than t₁'s holds at most one of t₂'s goods, a single good, so θ = 0.
+  - t₂ in (a): t₂'s goods are a_{t₂} (with u₂), b_{t₂} (its own), j (with t₁) and one more good g. So any other holding
+    contains at most g, worth at most v(b_{t₂}).
+
+So the state is valid, and its level sum is larger. ∎
+
+**Lemma 31 (the keep-own swap).** Let Y be valid and u hold its lower pair, with {b_u, c_u} an upper set of u. Let b_u
+be held by an agent w in the pair {b_u, a_w}, with w's top. Suppose w threatens no holding of three or more goods with
+v_w(a_w). Let u take {b_u, c_u} and w keep {a_w}, releasing d_u. Then the state is valid, its level sum is not lower,
+and it has one lower-pair holder fewer. So Y is not a maximum of the lower-pair order (with Lemma R).
+
+*Proof.*
+- *Levels.* u goes from 3 to 5 or 6. Y_w is an upper set of w, since it contains the top and is worth more. So w goes
+  from 5 or 6 to 4. The level sum does not drop, and u stops holding a lower pair.
+- *(V1).* u and w now hold an upper set and their top, so they want nothing. Every other agent keeps its holding and
+  its wants. The goods that changed hands (b_u, c_u, d_u, a_w) lay in pairs, so nobody wanted them.
+- *(V2).*
+  - Toward {b_u, c_u}: both goods were unwanted, so each is worth at most an unchanged agent's holding, and at most
+    the top to w.
+  - u only gained.
+  - w now holds its top, so a pair is worth at most that once one good is removed. Holdings of three or more goods are
+    the hypothesis. ∎
+
+Checked by brute force on every (V3)-valid state of the sources of `refine.py` and the adversarial families
+(`python3 k4/de4/keepown.py SOURCE PER JOBS SEED`): 2,078 applications, all valid with the claimed levels, 3 of them at
+the largest level sum (`results/k4_de4/keepown_*.log`). The residual double clashes of `adv_t4.py` are raised this way
+or by the variant in which w's other good is not its top (`resid_raise.py`).
+
+**Where the double clash stands.** Combine Corollary 28 and Lemma 30 at a maximum of the lower-pair order (by
+symmetry). Some frozen agent, say t₁, has its b held outside the clash and D₁ = {c_{t₁}, d_{t₁}}. Then:
+- b_{t₂} is not in J (Corollary 28(b)), and not in Y_{u₁} ∪ Y_{u₂} ∖ {g₁} (Lemma 30(a)).
+- So b_{t₂} = g₁, or b_{t₂} too is held outside. In both cases D₂ = {c_{t₂}, d_{t₂}} = {j, g₂} with g₂ ∈ Y_{u₁} (the
+  argument of Corollary 28(d)).
+- By Lemma 30(b) and its mirror: for each i, if b_{tᵢ} is held alone, then j = c_{tᵢ}.
+
+So in what is left, both frozen agents' lowest pairs {c, d} are upper sets made of j and a good of the other
+lower-pair holder. Each frozen agent's b is held in a holding of two or more goods outside the clash, or is the good the
+other frozen agent needs (b_{t₂} = g₁), or is held alone with j as its c. In the data these states occur only below the
+largest level sum (`topswap.py`, `resid_raise.py`). There, a holder of the b of u₁ or u₂ trades it, so the raise
+reaches outside the clash: u takes b_u and keeps c_u, or t takes {j, b_t} from b_t's holder.
+
+**Lemma 29 (case (L) in the lower-pair order; machine-checked, `EFX.DE4.selfUp_at_maxLP`).** At a maximum of the
+lower-pair order, every free self-upgrade of at most two goods (Lemma 4′) takes the agent's lower pair, from a holding
+of level 3: a free b-holder x with c_x, d_x leftover takes {c_x, d_x}.
+
+*Proof.* The upgraded state Z is valid (Lemma 4′) and does not lower the level sum (Lemma 1(a)). If it raises the level
+sum, Lemma R gives a (V3)-valid state above the maximum. So x keeps its level. Suppose the new holding is not x's lower
+pair. Then Z has at most as many lower-pair holders as Y.
+- If Z satisfies (V3), it is value-Pareto-better than Y, or it has fewer lower pairs.
+- If it does not, the strict form of Lemma R (`EFX.DE4.exists_validV3_numLP_lt`) gives a (V3)-valid state with fewer
+  lower pairs.
+
+Either way Y is not a maximum. ∎
+
+So, by Lemma 4 at a maximum and Lemma 29, the case (L) of this order is exactly a free holder x of its b whose c and d
+are leftover (`EFX.DE4.FreeLPUp`). Then {b_x, c_x} is not an upper set: it would be a 2-good self-upgrade that Lemma 29
+forbids. So {b_x, c_x, d_x} is a minimal upper set, and the 3-good self-upgrade to it raises the level sum by 2 or 3. It
+can fail only because some agent threatens it, valuing two of these three goods above its own holding. The hypothesis
+**HLB** (`EFX.DE4.HLB`) says that this case does not occur at a non-completable maximum. **TARGET₄ ⟸ HXLP + HLB**
+(`EFX.DE4.target4_of_HXLP_HLB`, machine-checked).
+
+*Machine-checked* (`lean/EFX/DE4LowerPair.lean`):
+- the lower-pair order (`EFX.DE4.BetterLP`, `EFX.DE4.IsMaximumLP`) and the existence of its maxima (`EFX.DE4.exists_maximumLP`);
+- Lemma R counting lower pairs (`EFX.DE4.exists_validV3_numLP`), so a maximum has the largest robust level sum among all valid states (`EFX.DE4.potentialR_le_of_maxLP`);
+- **Lemma 27** (`EFX.DE4.top_swap`, hypotheses `EFX.DE4.TopSwapHyp`) and Corollary 28(a) (`EFX.DE4.not_maxLP_of_top_swap`: no maximum of the lower-pair order admits a top swap).
+- on tame cores (no lower pairs possible, every upper set robust), every maximum of the lower-pair order is completable
+  (`EFX.DE4.completable_tameLP`; ledger K4.DE4V3R.LPK3): there the two orders have the same maxima;
+- **Lemma 27′ for k = 2** (`EFX.DE4.top_swap2`, `EFX.DE4.not_maxLP_of_top_swap2`, `lean/EFX/DE4TopSwap2.lean`), used in
+  Corollary 28(c);
+- **Lemma 29** (`EFX.DE4.selfUp_at_maxLP`, `lean/EFX/DE4LowerPairFrame.lean`) and the frame (`EFX.DE4.target4_of_HXLP_HLB`).
+
+Corollary 28(b) is written only.
+
+**What is left of the double clash.** By Corollary 28, a double clash at a maximum of the lower-pair order has both
+frozen agents' b's held, at least one of them by an agent outside the clash, and its shared good j is a c or d of
+both. The swap then needs a fifth agent: the holder of b_t gives it up. Open in this order, and together sufficient for TARGET₄ by the machine-checked frame:
+- **HX_lp** (`EFX.DE4.HXLP`): at a non-completable maximum with (H), no F₂-clash cycle is unclean or flat;
+- **HLL_lp** (`EFX.DE4.HLLLP`): the case (L), by Lemma 29 equivalently **HLB** (`EFX.DE4.HLB`): no free b-holder
+  whose c and d are leftover at a non-completable maximum.
+
+**Evidence** (EVIDENCE):
+
+| script | what | result | logs |
+|---|---|---|---|
+| `refine.py` | the maxima of the three orders (total value, lower-pair, value-Pareto) on: the 75 instances with unclean cycles (`results/k4_de4/unclean_cycles.json`); the screen set; the adversarial families `advt3x` (2,696 instances), `advt0`–`advt3` (1,938) and `advt4x` (388); random profiles of the xhg hypergraphs (4,000) and the stuck hypergraphs (2,400); random R1-cores (8,000) | no non-completable maximum of any of the three orders. The robust order fails only where the searches put it, so random sampling around the double clash is weak evidence | `results/k4_de4/refine_*.log` |
+| `topswap.py` | every (V3)-valid (H) state with a double clash in the 75 instances (58 states) | both top swaps valid in all 58 (Lemma 27's hypotheses hold); after Lemma R: (V3)-valid, same level sum, fewer lower pairs | `results/k4_de4/topswap_*.log` |
+| `refine_hx.py` | the maxima of the lower-pair order with leftover goods, on the 75 instances | all completable; (H) holds at 26, none has an F₂-clash cycle | `results/k4_de4/refine_hx_*.log` |
+| `refine_climb.py` | hill-climbing toward a non-completable maximum of the lower-pair order (gap 10·(Φ* − Φ) + extra lower pairs + 1 if Pareto-dominated; 99 when no non-completable state lies within 5 of Φ*) | seeded from the 75 unclean-cycle instances, 15 rounds of 300 steps: best gap 20 (two levels below Φ*), most rounds 40–99; seeded from `advt3x` and `advt4x`, 5 rounds each: 99. Seeded from the refuting instance itself (`results/k4_de4/refute_rob_instance.json`), 8 rounds of 600 steps: best gap 2, the double-clash state with two lower pairs more than the fewest (the top swap applies throughout). Nothing came within one level, and nothing reached gap 0 | `results/k4_de4/refine_climb_*.log` |
+| `dc_climb.py` | hill-climbing toward the double clash that Corollary 28 leaves (a (V3)-valid (H) state with a double clash and no applicable top swap; gap 10·(Φ* − Φ) + applicable swaps) | from the 75 instances, 10 rounds: best 22 (two levels below Φ*, both swaps applicable); from `advt4x`, 4 rounds: 99. The configuration was not found | `results/k4_de4/dc_climb_*.log` |
+| `topswap.py`, `refine_hx.py` on `adv_t4.py` (frozen agents' b held elsewhere) and `advt3x` | double clashes and maxima | `topswap` on 650 `adv_t4` instances: 131 double-clash (H) states. A top swap applies in 125. In the other 6, the frozen agents' next goods are held by the robust holders 4, 5: this is the case Corollary 28 leaves. All 6 lie 5 to 9 levels below Φ*, and each has a raise changing 2 or 3 agents (`resid_raise.py`). On 429 `advt3x` instances: 207 double-clash (H) states, a top swap applies in 206, and the other one lies below Φ*. In those raises, u takes b_u from its holder and keeps c_u (the robust pair {b, c}), or t takes {j, its next good} from that good's holder. `refine_hx`: 446 maxima with (H), none with an F₂-clash cycle | `results/k4_de4/refine_hx_advt*.log`, `results/k4_de4/topswap_advt4x.log`, `results/k4_de4/topswap_advt3x.log`, `results/k4_de4/resid_raise_advt4x.log` |
+| `flat.py` | flat cycles (clean F₂-clash cycles of b-holders taking their lower pairs) at every (V3)-valid (H) state, at and below Φ* (screen, random, xhg, stuck hypergraphs, the 75 instances) | none in 6,805 states | `results/k4_de4/flat_*.log` |
+
+All exhaustive and sampled C runs of the robust candidate (§10, table above: every profile with n ≤ 3, n = 4 with at
+most two 4-good agents, samples of n = 4, 5 and the stuck hypergraphs) found no non-completable (V3)-valid state of the
+largest level sum that is not all-upper, and no non-completable all-upper one either. So every tie-break inside the
+largest level sum, the lower-pair order included, passes them. `k4/de4/de4lp.c` (run by `EXE=de4lp python3
+k4/de4/run_robust.py FILE CHUNKS [TAKE]`) checks the lower-pair order directly; on the refuting instance it agrees with
+`refute_sum.py`.
+
+### 10.5 Every tie-break inside the largest level sum fails
+
+> **The lower-pair order is refuted, and with it every order that maximizes the robust level sum first** (ledger
+> K4.DE4V3R.LP and K4.DE4V3R.LPX, REFUTED; `python3 k4/de4/refute_lp.py`, an independent replay from the definitions;
+> found by `python3 k4/de4/topswap.py advt4r 300 4 9700` on the family of `adv_t4.py` built to block Lemmas 27, 30
+> and 31). Instance (n = 6, m = 11, `results/k4_de4/refute_lp_instance.json`):
+> - R = [[0,2,4,5], [1,3,6,7], [1,3,4,8], [0,2,6,8], [1,2,9], [0,3,10]];
+> - values [[37,19,17,11], [38,19,18,6], [35,34,21,31], [18,12,9,11], [35,36,18], [27,29,13]].
+>
+> Among its 91 (V3)-valid states, the largest robust level sum 26 is reached by one state only, [{4,5}, {6,7}, {1},
+> {0}, {2,9}, {3,10}] with J = {8}, and it is not completable. So whatever breaks ties inside the largest level sum,
+> this is the maximum, and it fails. (H) holds there, and its arc graph has an unclean F₂-clash cycle through the
+> lower-pair holders, so the hypothesis `HXLP` of the Lean frame is false too. The instance has EFX₀ allocations, so
+> TARGET₄ is not refuted.
+
+It is GM4-B's double clash once more, in the form §10.4 left open:
+- the lower-pair holders 0 and 1 are big-top (v(b) + v(c) < v(a)), so no keep-own swap (Lemma 31);
+- the frozen agents 3 and 2 hold the tops of 0 and 1, their pairs {c, d} = {8, 6} and {8, 4} are worth more than their
+  tops, and their b's are 2 and 3. These are also the b's of 0 and 1, and they are the tops of agents 4 and 5, which
+  hold them in robust pairs. So no top swap, cross or lopsided swap applies (Lemmas 27, 30).
+
+What a completion needs here (`results/k4_de4/refute_lp.log` and the analysis behind it):
+- The completable (V3)-valid states have level sum at most 24. In one of them, agent 5 drops 10 and keeps its top 3
+  alone. It can then absorb the leftover good 8, which it does not value, without being threatened. Agent 2 values 3
+  and 8, but with 10 gone the pair {3, 8} is worth at most 34 to it once one good is removed, below its top 35.
+- In the EFX₀ allocations, the lower-pair holders take their tops, the frozen agents take their b's from agents 4 and
+  5, and these drop to single low goods plus goods they do not value (for example [{0}, {1}, {3}, {2}, {4,5,6,7,9},
+  {8,10}]). That is a push-down chain, which lowers the robust level sum by 8.
+
+So the obstruction is not the tie-break but the potential. Robust pairs at level 6 (and upper sets above a single top
+at all) make the robust holders keep goods that a completion needs them to release. A repair has to change the levels,
+or the finishing rule, so that a holder of {a_w, x} may drop x to absorb leftover goods. In DE's terms: helpers that
+first shed goods.
+
+**Two repairs tried after the refutation** (EVIDENCE):
+- *Changing the levels* (`LEVELS=utop4 python3 k4/de4/refine2.py SOURCE PER JOBS SEED`). Give an upper set that contains
+  the agent's top the level of the top alone (4), and break ties by the fewest lower pairs, then value-Pareto. All
+  three known failures of the robust order then have only completable maxima (`results/k4_de4/refine2_utop4_failures.log`).
+  But the variant fails on the screen set, already with two agents: induct-g-r1, R = [[0,2,3,4], [1,2,3,4]], values
+  [[4,10,8,3], [4,8,10,3]], maximum [{0,3}, {1,2}]; and 3 more instances (`results/k4_de4/refine2_utop4_screen.log`).
+  It also breaks Lemma 1(a) (value and level agree), since {a, d} can be worth more than {b, c} at a lower level.
+  Rejected.
+- *Weakening the finishing rule* (ledger K4.DE4V3R.SHED, refuted below). A state is **shed-completable** if, after some
+  holders of an upper set containing their top keep the top alone, it has an EFX₀ completion. This is weaker than
+  completable, still gives an EFX₀ allocation, and keeps the robust order and every lemma of §10. All three known
+  non-completable maxima of the robust order (`results/k4_de4/robust_failures.json`: `refute_rob.py`, `refute_lp.py`,
+  and one more found by `refine.py` on `advt4r`) are shed-completable (`python3 k4/de4/shed.py`,
+  `results/k4_de4/shed_*.log`). So is the lower-pair maximum of `refute_lp.py`. Every exhaustive run of §10 had all
+  states of the largest level sum completable, so the conjecture passes those runs.
+  - **Conjecture K4.DE4V3R.SHED**: every maximum of the robust order is shed-completable.
+  - **Machine-checked frame** (`lean/EFX/DE4Shed.lean`, ledger K4.DE4V3R.LEANSH, now with the broad rule below):
+    shed-completability ⟹ TARGET₄
+    (`EFX.DE4.target4_of_conjShed`). Every lemma of the robust frame uses only non-completability, which
+    non-shed-completability implies. So **TARGET₄ ⟸ HXShed + HLLShed** (`EFX.DE4.target4_of_HXShed_HLLShed`), where these
+    are HX and HLL restricted to maxima that are not shed-completable. Neither known counterexample refutes them, since
+    both are shed-completable.
+  - Hill-climbing against it (`python3 k4/de4/shed_climb.py SEED STEPS ROUNDS SOURCE`) **refuted it**
+    (`python3 k4/de4/refute_shed.py`, an independent replay; ledger K4.DE4V3R.SHED, REFUTED). On the hypergraph of
+    `refute_lp.py`, with values [[37,23,17,11], [36,19,16,4], [35,34,21,31], [18,14,9,15], [35,33,18], [27,25,15]],
+    the robust maximum [{4,5}, {6,7}, {1}, {0}, {2,9}, {3,10}] is not completable. No agent holds an upper set
+    containing its top, so no shedding is possible. But agent 4 keeping 2 (its b) alone does complete it.
+- *The broad finishing rule* (ledger K4.DE4V3R.SHED2, CONJECTURE): some agents holding two or more goods each keep one
+  good of their holding alone, then the state has an EFX₀ completion (`SHED=broad python3 k4/de4/shed.py`). All five
+  known non-completable maxima of the robust order (`results/k4_de4/robust_failures.json`) pass. The Lean frame
+  (`lean/EFX/DE4Shed.lean`) uses this broad definition: **TARGET₄ ⟸ HXShed + HLLShed**, and K4.DE4V3R.SHED2 ⟹ TARGET₄.
+  Hill-climbs against it:
+  - plain (`results/k4_de4/shed2_climb_*.log`): from the five failures and from `advt4r`, 12 rounds; the closest state
+    that is not shed-completable is 4 levels below Φ*;
+  - graded (`python3 k4/de4/shed_climb2.py`, scoring 3 per single-agent shedding that completes a non-completable
+    state near Φ*): 24 rounds from the five failures. The best score is 6, so every non-completable maximum reached
+    still has two single-agent sheddings that complete it (`results/k4_de4/shed2c_climb_*.log`). On this hypergraph the
+    goods the robust holders release are valued by nobody else, which is why.
+  - changing the hypergraph too (`python3 k4/de4/shed_climb3.py`: a step may swap a good of an agent's set): 48 rounds
+    from the five failures, then 24 from the closest states found (`results/k4_de4/shed2_near.json`). The best score
+    is 3, reached repeatedly: non-completable maxima with exactly one completing single-agent shedding
+    (`results/k4_de4/shed2[def]_climb_*.log`). In the one inspected, it is a holder of {top, d} keeping its top. No
+    counterexample. The rule is not trivially weak: far below Φ*,
+  most non-completable states are not shed-completable (6 or more levels below: 20 of 85 in `advt4r`, 2 of 21 in
+  random cores, are), while all 7 within 3–5 levels in `advt4r` are, and neither of the 2 in random cores is (`python3 k4/de4/shed_stat.py`,
+  `results/k4_de4/shed_stat.log`).
+
+## 6. Reproduce
+
+```
+python3 k4/de4/check.py suite                                   # ~3 min
+python3 k4/de4/check.py exhaustive k4_certs_2.json.gz 2         # every strict profile, n = 2, ~1 min on 4 CPUs
+python3 k4/de4/run_exhaustive.py k4_certs_3.json.gz             # every strict profile, n = 3, C, ~1 h on 4 CPUs
+python3 k4/de4/run_exhaustive.py k4_certs_4_n4_1.json.gz        # every strict profile, n = 4 with one 4-good agent
+python3 k4/de4/check.py certs k4_certs_3.json.gz 300            # likewise k4_certs_4_*.json.gz 40, k4_certs_5_*.json.gz
+python3 k4/de4/check.py r1ties 100                              # 20,000 random R1-cores with ties
+python3 k4/de4/check.py moves                                   # §4 "Moves", ~10 min
+python3 k4/de4/check.py xcheck                                  # Python against C
+python3 k4/de4/check.py algo                                    # the algorithm DE4-ALG on the suite
+python3 k4/de4/verify_lemmas.py                                 # the lemmas of §3 by brute force
+python3 k4/de4/variants.py                                      # the refuted variants (V1-V10)
+python3 k4/de4/dead.py stuck k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz 4000 40 1000   # §7.8; other runs: see the logs
+python3 k4/de4/lemma15.py suite                                 # Lemma 15 by brute force
+bash k4/de4/run_all.sh                                          # every log of §4 except the two C exhaustive runs
+python3 k4/de4/claimt.py owner screen 1 1 1                      # §10.1; likewise cases, pointer, arcs; sources rand,
+                                                                # hyper, k4_certs_4_n4_2.json.gz, k4_certs_3.json.gz
+python3 k4/de4/claimd.py refuteC                                  # §10.2; also c2, c3, thm23, bswap, d with SOURCE PER JOBS SEED
+python3 k4/de4/lpout.py screen 1 1 1                             # §10.3; also rand, xhg, hyper with PER JOBS SEED
+python3 k4/de4/adv_t.py 2000 8 7 0                               # §10, adversarial Claim T search; also adv_t3.py
+```
+Needs python-sat (`requirements.txt`) and gcc.

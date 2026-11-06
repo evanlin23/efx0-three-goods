@@ -1,0 +1,6 @@
+$ python3 k4/sdc/sdc_multigraph.py 1 300 4
+{'instances': 300, 'SD-C': 300, 'every SD outcome extends': 273}
+$ python3 k4/sdc/sdc_multigraph.py 2 200 5
+{'instances': 200, 'SD-C': 200, 'every SD outcome extends': 190}
+$ python3 k4/sdc/sdc_multigraph.py 3 60 6
+{'instances': 60, 'SD-C': 60, 'every SD outcome extends': 57}

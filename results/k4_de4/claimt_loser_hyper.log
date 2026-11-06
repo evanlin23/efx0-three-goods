@@ -1,0 +1,4 @@
+$ python3 k4/de4/claimt.py loser hyper 500 8 11000
+        1  no clean raising cycle (kinds LP Ur fz-a fz-b): loser rotation raises Phi True; with lateral wants True
+        1  no clean raising cycle (kinds LP Ur fz-a): loser rotation raises Phi True; with lateral wants True
+     4000  profiles

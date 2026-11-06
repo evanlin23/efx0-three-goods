@@ -1,0 +1,10 @@
+$ python3 k4/de4/lemma15.py rand 500 40 10000
+lemma 15, rand: 40 jobs x 500 profiles, seeds 10000..10039
+       478    conclusion holds
+       151    u takes {b, k} from J
+       136    u takes {b, k} from r
+       109    u takes {b} from J
+        82    u takes {b} from r
+       478  instances of the hypotheses
+    910225  valid states
+exit status 0

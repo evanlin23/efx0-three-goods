@@ -1,0 +1,19 @@
+$ python3 k4/de4/check.py moves
+only a level-monotone improvement: gm4-B [(0, 2), (1, 4), (6,), (5,)]
+no catalogue move: gm4-B [(0, 2), (1, 4), (6,), (5,)]
+ring with a blocker keeping part of its holding: induct-g-r1 [(0, 3), (1, 2)]
+arcs with two leftover goods: big-top holder of its top taking {b,c,d}: 15
+arcs: owner holding <= 1 good, fewest leftover goods 0: 20
+arcs: owner holding <= 1 good, fewest leftover goods 1: 30
+arcs: owner holding <= 1 good, fewest leftover goods 2: 15
+arcs: owner holding >= 2 goods, fewest leftover goods 0: 41
+arcs: owner holding >= 2 goods, fewest leftover goods 1: 11
+completable_anyway: 256
+move:DE ring (global greedy): 96
+move:DE ring (lazy, some start): 1
+move:chain: 483
+move:none of these: 1
+move:ring, blocker keeps part of its holding: 1
+not_finishable: 582
+only_level_monotone_better: 1
+pareto_better_exists: 581

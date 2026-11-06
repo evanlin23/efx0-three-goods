@@ -1,0 +1,14 @@
+$ python3 k4/de4/refute_ss.py
+confirmed     DE4 + v3f: on D3 (n = 3, m = 6) the maximum [{1}, {2}, {3, 5}] has no EFX0 completion (2 maxima, 1 completable)
+confirmed     lower pair at level 2.5: on D3 (n = 3, m = 6) the maximum [{1}, {2}, {3, 5}] has no EFX0 completion (2 maxima, 1 completable)
+confirmed     lower pair at level 2.5, + v3: on D3 (n = 3, m = 6) the maximum [{1}, {2}, {3, 5}] has no EFX0 completion (2 maxima, 1 completable)
+confirmed     no lower pair: on D3 (n = 3, m = 6) the maximum [{1}, {2}, {3, 5}] has no EFX0 completion (2 maxima, 1 completable)
+confirmed     {b, c}, {b, d} at level 3.5, no lower pair: on induct-pot-nash (n = 3, m = 6) the maximum [{4}, {5}, {3}] has no EFX0 completion (4 maxima, 3 completable)
+confirmed     lower pair, {b, c}, {b, d} at level 3.5: on GM4-A (n = 4, m = 7) the maximum [{0, 2}, {1, 4}, {5}, {6}] has no EFX0 completion (1 maxima, 0 completable)
+confirmed     lower pair + v3, {b, c}, {b, d} at level 3.5: on GM4-A (n = 4, m = 7) the maximum [{0, 2}, {1, 4}, {5}, {6}] has no EFX0 completion (1 maxima, 0 completable)
+confirmed     lower pair at level 3.5: on A131 (n = 4, m = 7) the maximum [{0, 4}, {1, 3}, {2}, {5}] has no EFX0 completion (1 maxima, 0 completable)
+confirmed     lower pair, {c, d} below b at level 2.5: on A131 (n = 4, m = 7) the maximum [{0, 4}, {1, 3}, {2}, {5}] has no EFX0 completion (3 maxima, 2 completable)
+confirmed     DE4 + v3 (Conjecture DE4^v3): on R4 (n = 4, m = 9) the maximum [{0, 1}, {2, 3}, {4, 5}, {6, 7}] has no EFX0 completion (5 maxima, 4 completable)
+confirmed     DE4 + v3 + CD at level 2.5: on R4 (n = 4, m = 9) the maximum [{0, 1}, {2, 3}, {4, 5}, {6, 7}] has no EFX0 completion (5 maxima, 4 completable)
+confirmed     DE4: on R4 (n = 4, m = 9) the maximum [{0, 1}, {2, 3}, {4, 5}, {6, 7}] has no EFX0 completion (5 maxima, 4 completable)
+exit status 0

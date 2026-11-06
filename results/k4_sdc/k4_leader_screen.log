@@ -1,0 +1,21 @@
+$ python3 k4/sdc/k4_leader.py screen 30 1
+NONE c4-exposure-nonleader-n3m5 [[[0, 1, 3, 4], [2, 3, 4], [2, 3, 4]], [[3, 6, 8, 4], [2, 3, 4], [2, 3, 4]], [0, 1, 2]]
+NONE c4-exposure-nonleader-n3m5 [[[0, 1, 3, 4], [2, 3, 4], [2, 3, 4]], [[3, 6, 8, 4], [2, 3, 4], [2, 3, 4]], [2, 0, 1]]
+NONE c4-exposure-nonleader-n3m5 [[[0, 1, 3, 4], [2, 3, 4], [2, 3, 4]], [[3, 6, 8, 4], [2, 3, 4], [2, 3, 4]], [0, 2, 1]]
+LAST works 402
+TERM works 395
+bad runs 625
+last block size 1, working leaders 0 14
+last block size 2, working leaders 1 47
+last block size 3, working leaders 0 100
+last block size 3, working leaders 1 128
+last block size 3, working leaders 2 139
+last block size 3, working leaders 3 16
+last block size 4, working leaders 1 2
+last block size 4, working leaders 2 50
+last block size 4, working leaders 3 49
+last block size 4, working leaders 4 49
+last block size 5, working leaders 4 27
+last block size 5, working leaders 5 4
+shown 3
+some agent of the last block works 511

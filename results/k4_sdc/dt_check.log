@@ -1,0 +1,6 @@
+$ python3 k4/sdc/dt_check.py 1 3000 4
+{'instances': 3000, 'runs': 12000, 'max moves': 4} -- every run EFX0, owner unenvied, at most one bundle of more than two goods
+$ python3 k4/sdc/dt_check.py 2 2000 6
+{'instances': 2000, 'runs': 12000, 'max moves': 6} -- every run EFX0, owner unenvied, at most one bundle of more than two goods
+$ python3 k4/sdc/dt_check.py 3 500 10
+{'instances': 500, 'runs': 5000, 'max moves': 7} -- every run EFX0, owner unenvied, at most one bundle of more than two goods

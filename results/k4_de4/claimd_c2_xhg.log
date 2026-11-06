@@ -1,0 +1,4 @@
+$ python3 k4/de4/claimd.py c2 xhg 600 8 400
+     2355    of which maxima: G has a cycle False; an F2-clash cycle False
+     2800  largest level sum, (H): G has a cycle False; an F2-clash cycle False
+     4800  profiles

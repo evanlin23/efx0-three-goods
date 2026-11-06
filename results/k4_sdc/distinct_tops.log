@@ -1,0 +1,6 @@
+k4 n 4 {'tested': 500}
+k4 n 5 {'tested': 500}
+k4 n 7 {'tested': 300}
+k4 n 10 {'tested': 300}
+k3 n 5 {'tested': 500}
+k3 n 8 {'tested': 300}

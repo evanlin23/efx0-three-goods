@@ -1,0 +1,12 @@
+$ python3 k4/sdc/nof_kstar.py suite
+defer lead of B* works 10
+every thr works 10
+failures 10
+first chain works 10
+first thr works 10
+lead of B* frozen 10
+r in B* 10
+some chain works 10
+some thr works 10
+|chain| = 1 10
+|thr| = 1 10

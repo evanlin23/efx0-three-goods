@@ -1,0 +1,9 @@
+robust_failures.json 5
+refute_lp_instance.json 1
+refute_rob_instance.json 1
+shed_failures_found.json 2
+shed2_near.json 2
+unclean_cycles.json 75
+v11_family_k2.json 0
+v11_family_k3.json 0
+total 86 SD-C failures 0

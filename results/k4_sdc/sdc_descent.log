@@ -1,0 +1,8 @@
+$ python3 k4/sdc/sdc_descent.py screen 12 1
+LOCAL MIN adaptive-p3 deficit 1 [[[0, 1, 2, 5], [1, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 8, 6], [1, 4, 6, 8], [8, 2, 3, 4]], [1, 0, 2]]
+LOCAL MIN c4-gadget-stacking-1copy-n3m6 deficit 1 [[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 6, 8], [3, 5, 7, 6], [2, 3, 4, 8]], [1, 0, 2]]
+LOCAL MIN c4one-one-rotation-m8 deficit 1 [[[0, 2, 4, 7], [1, 2, 3], [1, 5, 6], [3, 5, 7], [4, 6, 7]], [[2, 8, 3, 4], [3, 4, 2], [2, 4, 3], [2, 4, 3], [2, 4, 3]], [1, 4, 0, 3, 2]]
+has a better neighbour 132
+has a neighbour with deficit 0 132
+orders with deficit > 0 136
+shown 3

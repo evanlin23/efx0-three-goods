@@ -1,0 +1,8 @@
+$ python3 k4/sdc/oc_k3.py 1 2 60
+free: chains needed 0 31879
+free: chains needed 1 41
+one absorber: chains needed 0 31775
+one absorber: chains needed 1 145
+profiles 502
+starts 31920
+time 4 s

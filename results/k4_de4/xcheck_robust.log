@@ -1,0 +1,16 @@
+$ python3 k4/de4/xcheck_robust.py
+agree k4_certs_2.json.gz core 0 {'var0_every_fail': (0, 0), 'var0_maxima': (26, 26), 'var1_every_fail': (0, 0), 'var1_maxima': (22, 22), 'var2_every_fail': (0, 0), 'var2_maxima': (22, 22), 'var3_every_fail': (0, 0), 'var3_maxima': (22, 22)}
+agree k4_certs_2.json.gz core 1 {'var0_every_fail': (0, 0), 'var0_maxima': (1578, 1578), 'var1_every_fail': (0, 0), 'var1_maxima': (1228, 1228), 'var2_every_fail': (0, 0), 'var2_maxima': (1228, 1228), 'var3_every_fail': (0, 0), 'var3_maxima': (1228, 1228)}
+agree k4_certs_2.json.gz core 2 {'var0_every_fail': (0, 0), 'var0_maxima': (28, 28), 'var1_every_fail': (0, 0), 'var1_maxima': (26, 26), 'var2_every_fail': (0, 0), 'var2_maxima': (26, 26), 'var3_every_fail': (0, 0), 'var3_maxima': (26, 26)}
+agree k4_certs_2.json.gz core 3 {'var0_every_fail': (0, 0), 'var0_maxima': (1422, 1422), 'var1_every_fail': (0, 0), 'var1_maxima': (1165, 1165), 'var2_every_fail': (0, 0), 'var2_maxima': (1165, 1165), 'var3_every_fail': (0, 0), 'var3_maxima': (1165, 1165)}
+agree k4_certs_2.json.gz core 4 {'var0_every_fail': (0, 0), 'var0_maxima': (1215, 1215), 'var1_every_fail': (0, 0), 'var1_maxima': (1084, 1084), 'var2_every_fail': (0, 0), 'var2_maxima': (1084, 1084), 'var3_every_fail': (0, 0), 'var3_maxima': (1084, 1084)}
+agree k4_certs_3.json.gz core 0 {'var0_every_fail': (0, 0), 'var0_maxima': (3, 3), 'var1_every_fail': (0, 0), 'var1_maxima': (2, 2), 'var2_every_fail': (0, 0), 'var2_maxima': (2, 2), 'var3_every_fail': (0, 0), 'var3_maxima': (2, 2)}
+agree k4_certs_3.json.gz core 10 {'var0_every_fail': (0, 0), 'var0_maxima': (43, 43), 'var1_every_fail': (0, 0), 'var1_maxima': (29, 29), 'var2_every_fail': (0, 0), 'var2_maxima': (29, 29), 'var3_every_fail': (0, 0), 'var3_maxima': (29, 29)}
+agree k4_certs_3.json.gz core 20 {'var0_every_fail': (0, 0), 'var0_maxima': (16, 16), 'var1_every_fail': (0, 0), 'var1_maxima': (16, 16), 'var2_every_fail': (0, 0), 'var2_maxima': (16, 16), 'var3_every_fail': (0, 0), 'var3_maxima': (16, 16)}
+agree k4_certs_3.json.gz core 30 {'var0_every_fail': (0, 0), 'var0_maxima': (21, 21), 'var1_every_fail': (0, 0), 'var1_maxima': (18, 18), 'var2_every_fail': (0, 0), 'var2_maxima': (16, 16), 'var3_every_fail': (0, 0), 'var3_maxima': (18, 18)}
+agree k4_certs_3.json.gz core 40 {'var0_every_fail': (0, 0), 'var0_maxima': (29, 29), 'var1_every_fail': (0, 0), 'var1_maxima': (20, 20), 'var2_every_fail': (0, 0), 'var2_maxima': (20, 20), 'var3_every_fail': (0, 0), 'var3_maxima': (20, 20)}
+agree k4_certs_3.json.gz core 50 {'var0_every_fail': (0, 0), 'var0_maxima': (1181, 1181), 'var1_every_fail': (0, 0), 'var1_maxima': (901, 901), 'var2_every_fail': (0, 0), 'var2_maxima': (901, 901), 'var3_every_fail': (0, 0), 'var3_maxima': (901, 901)}
+agree k4_certs_4_n4_2.json.gz core 131 {'var0_every_fail': (0, 0), 'var0_maxima': (40, 40), 'var1_every_fail': (0, 0), 'var1_maxima': (34, 34), 'var2_every_fail': (0, 0), 'var2_maxima': (34, 34), 'var3_every_fail': (0, 0), 'var3_maxima': (34, 34)}
+agree k4_certs_4_n4_2.json.gz core 127 {'var0_every_fail': (0, 0), 'var0_maxima': (35, 35), 'var1_every_fail': (0, 0), 'var1_maxima': (26, 26), 'var2_every_fail': (0, 0), 'var2_maxima': (26, 26), 'var3_every_fail': (0, 0), 'var3_maxima': (26, 26)}
+xcheck: all agree
+exit status 0

@@ -1,0 +1,4 @@
+$ python3 k4/de4/claimd.py d screen 1 1 1
+        1  F2-clash cycle: Theorem 23
+        2  F2-clash cycle: b-swap (i), Lemma 20'
+      187  F2-clash cycle: clean, Lemma 18

@@ -1,0 +1,10 @@
+$ python3 k4/de4/dead.py stuck k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz 4000 40 1000
+stuck k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz: 40 jobs x 4000 profiles, seeds 1000..1039
+         6    better state lowering no level exists (Conjecture 11''): True
+         1    dead good: hard, PR
+         5    refined walk, dead good: hard, PR
+         6    some leftover good dead (D): True; F1 empty: True
+         6  (H) and the walk stops
+    923656  valid states, every agent holding a good, no Lemma 4/4' move
+    832599  walk stops, completable (not (H))
+exit status 0

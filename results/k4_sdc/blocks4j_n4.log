@@ -1,0 +1,14 @@
+$ python3 k4/sdc/blocks4j.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 6000 21
+block d = 0 40
+block d = 0 thr-free 2121
+block d = 1 2317
+block d = 1 thr-free 1051
+block d = 2 1534
+block d = 2 thr-free 889
+block d = 3 1034
+block d = 3 thr-free 519
+block d = 4 333
+instances 6000
+omega <= 0, blocks with d < 0: 0, plain extends True 4245
+omega > 0, blocks with d < 0: 0, plain extends False 27
+omega > 0, blocks with d < 0: 0, plain extends True 1728

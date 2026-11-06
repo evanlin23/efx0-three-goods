@@ -1,0 +1,24 @@
+$ python3 k4/sdc/satisfied.py special
+  Lemma DT*: every allowed owner works 1
+  every satisfied state (first 40) has a one-absorber completion 1
+  no satisfied state; some top shared by two agents without a satisfying pair 1
+  states with no owner allowed by Lemma DT* 1
+instances 4
+instances with a satisfied state 1
+time 0 s
+$ python3 k4/sdc/satisfied.py screen
+  Lemma DT*: every allowed owner works 54
+  every satisfied state (first 40) has a one-absorber completion 51
+  no satisfied state; some top shared by two agents without a satisfying pair 42
+  states with no owner allowed by Lemma DT* 73
+instances 168
+instances with a satisfied state 54
+time 0 s
+$ python3 k4/sdc/satisfied.py suite
+  Lemma DT*: every allowed owner works 57
+  every satisfied state (first 40) has a one-absorber completion 54
+  no satisfied state; some top shared by two agents without a satisfying pair 45
+  states with no owner allowed by Lemma DT* 123
+instances 160
+instances with a satisfied state 57
+time 1 s

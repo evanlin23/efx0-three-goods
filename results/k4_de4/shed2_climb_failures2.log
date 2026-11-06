@@ -1,0 +1,4 @@
+$ SHED=broad python3 k4/de4/shed_climb.py 51 500 8 json:results/k4_de4/robust_failures.json
+round 0 final gap 99 time 165
+round 1 final gap 99 time 383
+stopped after 2 rounds: with every seed shed-completable the gap starts at 99 and the climb is a random walk; replaced by shed_climb2.py

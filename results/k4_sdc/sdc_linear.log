@@ -1,0 +1,4 @@
+$ python3 k4/sdc/sdc_linear.py 1 200 5
+{'instances': 200, 'SD-C': 200, 'every SD outcome extends': 178, 'some SD outcome extends with unpicked goods to valuers': 199}
+$ python3 k4/sdc/sdc_linear.py 2 100 6
+{'instances': 100, 'SD-C': 100, 'every SD outcome extends': 86, 'some SD outcome extends with unpicked goods to valuers': 100}

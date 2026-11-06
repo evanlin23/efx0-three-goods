@@ -27,7 +27,7 @@ showed that a declaration added under `set_option debug.skipKernelTC true` is ne
 without warnings and has no axioms for `#print axioms` or `CheckAxioms.lean` to report; the tripwire refuses the
 option and the replay checker rejects such a declaration. On success the last line is
 
-    CHECK PASSED: 870 audited statements, 1938 theorems, standard axioms only
+    CHECK PASSED: 1099 audited statements, 2178 theorems, standard axioms only
 
 CI runs it on every pull request (job `lean` in `.github/workflows/verify.yml`). In Claude Code on the web the
 session-start hook installs the toolchain (from GitHub when `release.lean-lang.org` is unreachable).
@@ -138,6 +138,125 @@ specializations) have exactly the types of `EFX.target`, `EFX.LB.corollaryD` (ch
   restricts it to connected cores (`EFX.Connected`, `EFX.core_reduction4_conn`).
 - `EFX/K4Ties.lean`: ties reduce to strict profiles at k = 4 (K4.TIE): `EFX.Strict`, `EFX.tieBreak` (the
   perturbation `2^|M| · v + w`), `EFX.tie_reduction`, `EFX.core_reduction4_strict`.
+- `EFX/DE4.lean`: the DE4 frame (`k4/de4.md` §1–§2, ledger K4.DE4.LEAN): states over lists (`EFX.DE4.hold`,
+  `Allowed`, `level`, `Valid`, `Completable`, `Better`, `IsMaximum`), Lemma 2 (`EFX.DE4.draft_valid`), existence of
+  maxima (`EFX.DE4.exists_maximum`), and Conjecture DE4 (`EFX.DE4.ConjDE4`, a hypothesis) and its improvement form
+  (`EFX.DE4.ConjDE4Imp`) ⟹ TARGET₄ (`EFX.DE4.target4_of_conjDE4`, `EFX.DE4.target4_of_conjDE4Imp`). Both hypotheses,
+  and those of `DE4Upgrade.lean` and `DE4Cor10.lean`, are **false** (`attempts/k4-de4.md`, ledger K4.DE4): these
+  implications are not a route to TARGET₄; the lemmas about valid states stand.
+- `EFX/DE4Moves.lean`: Lemma 1(a) (`EFX.DE4.level_mono`), the trade lemma (`EFX.DE4.valid_of_gain`), Lemma 4′
+  (`EFX.DE4.exists_better_of_selfUpgrade`) and Corollary 5(b) (`EFX.DE4.completable_of_empty`) of `k4/de4.md` §3.
+- `EFX/DE4Upgrade.lean`: Lemma 4 (`EFX.DE4.exists_better_of_threat`: the minimal upgrade, trades along want-paths
+  and want-cycles, the three-good switch) rotations (`EFX.DE4.rotate_valid_better`, Lemma 14 in general form), and the frame Conjecture 11″
+  (`EFX.DE4.ConjDE4H`, a hypothesis) ⟹ TARGET₄ (`EFX.DE4.target4_of_conjDE4H`).
+- `EFX/DE4Ring.lean`: the ring step of `k4/de4.md` §7: danger sets and Lemma 7(a) (`EFX.DE4.danger_of_threat`),
+  Lemma 7(b) in general form (`EFX.DE4.allowed_of_minimal`, in `DE4Upgrade.lean`), Theorem 9's trade along a cycle
+  with labels (`EFX.DE4.rotateL_valid_better`) and Lemma 8 (`EFX.DE4.lemma8`: tight arcs into the free agents
+  holding one good, with pairwise disjoint labels, from non-completability).
+- `EFX/DE4Cor10.lean`: Corollary 10 of `k4/de4.md` §7 when every free agent holds one good (`EFX.DE4.cor10`: the
+  walk's relation has a cycle, and the trade along it, with the labels of Lemma 8, is valid and better), and the
+  frame `EFX.DE4.ConjDE4H₂` (Conjecture 11″ for states where some free agent holds two or more goods, a hypothesis)
+  ⟹ `EFX.DE4.ConjDE4H` ⟹ TARGET₄ (`EFX.DE4.target4_of_conjDE4H₂`).
+- `EFX/DE4Refute.lean`: **Conjecture DE4 is false** (`EFX.DE4.Refute.not_conjDE4`, ledger K4.DE4): a strict R1-core
+  with four agents and seven goods and a maximum with no EFX₀ completion (`attempts/k4-de4.md`); hence also
+  `not_conjDE4Imp`, `not_conjDE4H`, `not_conjDE4H₂`. Kernel computations (`decide +kernel`), about two minutes.
+- `EFX/DE4V3.lean`: the frame of the state space DE4ᵛ³ (`k4/de4.md` §8, ledger K4.DE4V3): (V3) "a holder of its
+  lower pair has its b held" (`EFX.DE4.V3`), maxima of the (V3)-valid states (`EFX.DE4.exists_maximumV3`), and
+  Conjecture DE4ᵛ³ (`EFX.DE4.ConjDE4V3`, a hypothesis) ⟹ TARGET₄ (`EFX.DE4.target4_of_conjDE4V3`).
+- `EFX/DE4Robust.lean`: the robust order (`k4/de4.md` §10, ledger K4.DE4V3R.LEAN): robust upper sets at level 6
+  (`EFX.DE4.levelR`), Lemma 1(a) for it (`EFX.DE4.levelR_mono`), maxima (`EFX.DE4.exists_maximumR`), Conjecture
+  K4.DE4V3R ⟹ TARGET₄ (`EFX.DE4.target4_of_conjRob`), and Claim T with Theorem A′ ⟹ K4.DE4V3R
+  (`EFX.DE4.conjRob_of_claimT`).
+- `EFX/DE4RobustA.lean`: **Theorem A′** (`EFX.DE4.thmAllUpper`): a non-completable (V3)-valid state in which every
+  agent holds an upper set has a better state (a self-upgrade, or the rotation of a cycle of the threat relation,
+  which raises the robust level sum); hence **Claim T ⟹ TARGET₄** (`EFX.DE4.target4_of_claimT`), Claim T (`EFX.DE4.ClaimT`)
+  being the only hypothesis.
+- `EFX/DE4ClaimT.lean`: **Claim T′**, the maxima version of Claim T (`EFX.DE4.ClaimTMax`, `k4/de4.md` §10.1): every
+  non-completable maximum of the robust order is all-upper. Claim T ⟹ Claim T′ (`EFX.DE4.claimTMax_of_claimT`), and
+  **Claim T′ ⟹ TARGET₄** (`EFX.DE4.conjRob_of_claimTMax`, `EFX.DE4.target4_of_claimTMax`), Claim T′ being the only
+  hypothesis.
+- `EFX/DE4ClaimC2.lean`: the cycle frame of `k4/de4.md` §10.1–§10.2. **Lemma 17** (`EFX.DE4.pointer_map`): at a
+  valid, non-completable state whose leftover goods alone threaten nobody, every free agent has a tight arc, the
+  labels of the free agents holding one good are pairwise disjoint and avoided by the others' labels.
+  **Proposition 24** (`EFX.DE4.exists_clashCycle`): such a state has an F₂-clash cycle (`EFX.DE4.ClashCycle`). Hence
+  `EFX.DE4.claimTMax_of_HC2` and `EFX.DE4.target4_of_HC2`: **Conjecture C₂ at maxima (`EFX.DE4.HC2`) and Claim T′
+  where (H) fails (`EFX.DE4.HL`) imply TARGET₄**. Neither hypothesis mentions completability.
+- `EFX/DE4Repair.lean`: **Lemma R** (repair, `k4/de4.md` §9) in the robust order: one step
+  (`EFX.DE4.repair_step`, a lower-pair holder whose b is leftover takes {b}) keeps the state valid and the robust
+  level sum, and iterating gives a (V3)-valid state (`EFX.DE4.exists_validV3_of_valid`). Hence a maximum of the
+  robust order has the largest robust level sum among all valid states (`EFX.DE4.potentialR_le_of_max`), tool (M1)
+  of §10.1.
+- `EFX/DE4ClaimC3.lean`: **Lemma V** (`EFX.DE4.lemmaV`), the trade along a pointer cycle whose free agents hold one
+  good (`EFX.DE4.cycle_trade`, Corollary 10's trade for any such cycle), and `EFX.DE4.no_f1_clashCycle`: at a maximum
+  of the robust order with (H) no F₂-clash cycle has only one-good free agents (the trade raises the robust level sum,
+  against Lemma R, or keeps it with (V3) and Pareto-better values). Hence **Conjecture C₃ at maxima (`EFX.DE4.HC3`)
+  implies C₂ at maxima** (`EFX.DE4.hc2_of_hc3`), and with `HL` TARGET₄ (`EFX.DE4.target4_of_HC3`).
+  **Lemma 25(a)** (`EFX.DE4.robust_not_on_clashCycle`): a free robust upper holder lies on no F₂-clash cycle; so
+  `EFX.DE4.HC3'` (no lower-pair or non-robust upper holder on an F₂-clash cycle at a maximum) implies `HC3`
+  (`EFX.DE4.hc3_of_hc3'`, `EFX.DE4.target4_of_HC3'`).
+  `EFX.DE4.selfUp_breaks_v3`: at a maximum every free self-upgrade breaks (V3), so `EFX.DE4.HL'` (Claim T′ where
+  the leftover goods alone threaten someone, or in case (L)) implies `HL` (`EFX.DE4.hl_of_hl'`), and
+  `EFX.DE4.target4_of_HC3'_HL'`: **HC3′ and HL′ imply TARGET₄**.
+- `EFX/DE4CaseL.lean`: **Lemma 4 at a maximum of the robust order** (`EFX.DE4.threat_at_max`): if the leftover
+  goods alone threaten an agent, some free agent has a self-upgrade of at most two goods, since every want trade with
+  a receiver strictly raises the robust level sum (`EFX.DE4.levelR_lt_of_want`, `EFX.DE4.trade_potentialR_lt`),
+  against Lemma R. Hence `EFX.DE4.HLL` (Claim T′ in case (L): some free agent has such a self-upgrade, each of which
+  breaks (V3)) implies `HL` (`EFX.DE4.hl_of_hll`), and `EFX.DE4.target4_of_HC3'_HLL`: **HC3′ and Claim T′ in case
+  (L) imply TARGET₄**.
+- `EFX/DE4Three.lean`: the frame on **tame** cores, where no agent can hold a lower pair and every upper set is robust
+  (3-good agents, `EFX.DE4.robust_of_three`, and 4-good agents with v(a) > v(b) + v(c), v(b) > v(c) + v(d)). Both
+  hypotheses of `target4_of_HC3'_HLL` hold outright there: **`EFX.DE4.completable_tame`** (and
+  `EFX.DE4.completable_three`): every maximum of the robust order of a strict tame R1-core is completable, with no
+  hypothesis.
+- `EFX/DE4Lemma18.lean`: **Lemma 18 at a maximum** (`EFX.DE4.no_clean_clashCycle`): no F₂-clash cycle with pairwise
+  disjoint labels at a maximum with (H), for cycles through free holders of two or more goods too. The trade (free
+  givers hand the arc's set and release their other goods) is valid, and its robust level sum rises unless every agent
+  of the cycle is a free holder of one good (`EFX.DE4.levelR_lt_of_danger`). Hence **Theorem 19 at maxima**
+  (`EFX.DE4.hc2_of_hx`): `EFX.DE4.HX` (every F₂-clash cycle at a maximum is clean: (X) fails) implies `HC2`, and
+  `EFX.DE4.target4_of_HX_HLL`: **HX and Claim T′ in case (L) imply TARGET₄**. `HC3'` implies `HX`
+  (`EFX.DE4.hx_of_hc3'`).
+- `EFX/DE4LowerPair.lean`: the **lower-pair order** (`k4/de4.md` §10.4, after the refutation of the robust order):
+  the largest robust level sum, then the fewest lower-pair holders, then value-Pareto (`EFX.DE4.BetterLP`,
+  `EFX.DE4.IsMaximumLP`). Maxima exist (`EFX.DE4.exists_maximumLP`); Lemma R counting lower pairs
+  (`EFX.DE4.exists_validV3_numLP`), so a maximum has the largest robust level sum among all valid states
+  (`EFX.DE4.potentialR_le_of_maxLP`). **Lemma 27, the top swap** (`EFX.DE4.top_swap`): a lower-pair holder `u` takes
+  its top from the agent `t` holding it alone, and `t` takes the leftover good it values just below; under
+  `EFX.DE4.TopSwapHyp` (no threat of `t` to a holding of three or more goods) the state stays valid, the robust level
+  sum does not drop and there is one lower-pair holder fewer. Hence `EFX.DE4.not_maxLP_of_top_swap`: no maximum of the
+  lower-pair order admits a top swap (Corollary 28(a)).
+- `EFX/DE4TopSwap2.lean`: **the double top swap** (Lemma 27′ with two lower-pair holders, `EFX.DE4.top_swap2`): two
+  lower-pair holders take their tops from the agents holding them alone, each of which takes the good it values just
+  below, a leftover good or a good of either pair (`EFX.DE4.TopSwap2Hyp`); the state stays valid, the robust level sum
+  does not drop, and there are fewer lower-pair holders. `EFX.DE4.not_maxLP_of_top_swap2`: no maximum of the lower-pair
+  order admits one (the case of Corollary 28(c) where each frozen agent's b lies in the other lower-pair holder's pair).
+- `EFX/DE4CrossSwap.lean`: **Lemma 30(a), the cross swap** (`EFX.DE4.cross_swap`, hypotheses `EFX.DE4.CrossHyp`): in
+  GM4-B's double clash, the frozen agent `t₁` takes its danger set `{j, g}` (an upper set: `j` leftover, `g` in `u₂`'s
+  pair), `t₂` takes its next good `b₂` from one of the two lower pairs, and both lower-pair holders take their tops. The
+  state is valid and its robust level sum rises by at least 2, so no top state admits it
+  (`EFX.DE4.not_top_of_cross_swap`).
+- `EFX/NOF.lean`: **Conjecture NOF certified by LB₄ʳ** (`k4/sdc.md` §11–§13). Serial dictatorship in any order (`EFX.NOF.sdList`) or driven by a selection rule (`EFX.NOF.runWith`) satisfies Phase 1's run specification (`EFX.NOF.sdList_spec`), and the state of every such run satisfies LB₄ʳ's invariant (`EFX.NOF.runState_inv`, as `EFX.LB4R.phase1State_inv`). The neediest-first order (`EFX.NOF.nofOrder`, with or without R1 priority) and NOF's candidates (`EFX.NOF.nofCandidates`: that order, or it with one agent moved last) are permutations (`EFX.NOF.nofCandidates_perm`). **`EFX.NOF.target4_of_conjNOFK`: if for every strict k = 4 core some candidate, after a run of upgrades, has an LB₄ʳ output (`EFX.NOF.ConjNOFK`), then TARGET₄**; likewise for any order (`EFX.NOF.ConjSDCK`, `EFX.NOF.target4_of_conjSDCK`). The conjectures are `Prop`s, not axioms. Also LB₄ʳ with the neediest-first Phase 1 (`k4/sdc.md` §16): `EFX.NOF.ConjNFR r1 d` (the neediest-first run, with R1 priority if `r1`, then upgrades, at most `d` rotations, an output) and `EFX.NOF.target4_of_conjNFR` (ConjNFR ⟹ C₄∃ ⟹ TARGET₄, by `runState_inv`, `upRun_inv`, `rotReach_inv`, `Inv.sound`). ConjNOFK is false for both values of `r1` (ledger K4.SDC.NOF.K); the implication stands. And rotation completeness: `EFX.NOF.ConjRC` (every order's serial-dictatorship state, upgrades, some number of rotations, an output) ⟹ TARGET₄ (`EFX.NOF.target4_of_conjRC`).
+- `EFX/DE4Shed.lean`: **the robust frame with shed-completability** (after every tie-break failed, `k4/de4.md` §10.5).
+  `EFX.DE4.ShedCompletable`: some agents keep one good of their holding alone and the result has an EFX₀ completion
+  (`EFX.DE4.exists_efx0_of_shed`). `EFX.DE4.target4_of_conjShed`: Conjecture K4.DE4V3R.SHED2 (every
+  maximum of the robust order is shed-completable) implies TARGET₄. **`EFX.DE4.target4_of_HXShed_HLLShed`: HXShed and
+  HLLShed imply TARGET₄**, the hypotheses of `target4_of_HX_HLL` restricted to maxima that are not shed-completable;
+  all five known non-completable maxima of the robust order are shed-completable, so they do not refute them.
+- `EFX/DE4LowerPairFrame.lean`: **the frame for the lower-pair order**. The lemmas that contradict maximality by a
+  larger robust level sum need only a top state (`EFX.DE4.TopR`, in `DE4Repair.lean`: (V3)-valid, largest robust level
+  sum among valid states); `threat_at_max` and `EFX.DE4.clean_cycle_one_good` (Lemma 18) are stated for it, and a
+  maximum of the lower-pair order is one (`EFX.DE4.topR_of_maxLP`). Theorem A′ carries over (`EFX.DE4.thmAllUpperLP`:
+  a state Pareto-better than an all-upper one holds no lower pair). Hypotheses at maxima of the lower-pair order:
+  `EFX.DE4.HXLP` (at a non-completable maximum, every F₂-clash cycle is clean and has a free agent not holding one good) and `EFX.DE4.HLLLP` (Claim T′
+  in case (L)). **`EFX.DE4.target4_of_HXLP_HLLLP`: HXLP and HLLLP imply TARGET₄**; also `EFX.DE4.target4_of_conjLP`,
+  `EFX.DE4.target4_of_claimTMaxLP`, `EFX.DE4.target4_of_HC2LP`.
+  The lower-pair order is refuted (`k4/de4/refute_lp.py`, ledger K4.DE4V3R.LP), and the instance makes `HXLP` false:
+  the frame is machine-checked but its hypothesis does not hold.
+  On tame cores the two orders have the same maxima (`EFX.DE4.maxR_of_maxLP_noLP`), so **every maximum of the
+  lower-pair order is completable there** (`EFX.DE4.completable_tameLP`, `EFX.DE4.completable_threeLP`).
+  **Lemma 29** (`EFX.DE4.selfUp_at_maxLP`): at a maximum of the lower-pair order every free self-upgrade of at most
+  two goods takes the agent's lower pair from a level-3 holding (its b), so the case (L) is exactly `EFX.DE4.FreeLPUp`;
+  hypothesis `EFX.DE4.HLB` (no such agent at a non-completable maximum) and **`EFX.DE4.target4_of_HXLP_HLB`: HXLP and
+  HLB imply TARGET₄**.
 - `EFX/PreAllocK.lean`: LB₄'s pre-allocations (`k4/lb4.md` §1–§2, ledger K4.LB4.S), for any number of
   relevant goods (values in ℕ, as the model): bases and needs of any size (`EFX.LB4.Needs`, `Valid`, `Completion`, `OC`, `ownerNeeds`,
   `SoundCompletion`); Theorem 1′₄ (`EFX.LB4.Valid.sound`, `EFX.LB4.Valid.sound_ownerNeeds`); the counting
@@ -518,6 +637,20 @@ name in the ledger's Lean column has one.
 | T | CORE: if every core with at most `N` agents has an EFX₀ allocation, so does every instance with at most `N` agents and `\|R_i\| ≤ 3` (L3, R1, R2 by induction) | Target : `EFX.core_reduction` (over lists) |
 | K4.CORE | k = 4 CORE: if every (connected) k = 4 core (`EFX.IsCore4`: ≥ 2 agents; 3 ≤ `\|R_i\|` ≤ 4; strictly balanced; `\|P_i\| + 2 ≤ \|R_i\|` private goods; `v_i(P_i) < v_i(S_i)` when `\|P_i\| = 2`; no junk) with at most `N` agents has an EFX₀ allocation, so does every instance with at most `N` agents and `\|R_i\| ≤ 4`; connected cores with a 4-good agent suffice (all-3-good ones are covered by Corollary D; L6: EFX₀ allocations of the sides of a split with no good relevant across it combine) | K4Reduction : `EFX.core_reduction4_conn`, `EFX.core_reduction4`, `EFX.efx0_split`, `EFX.isCore_of_isCore4`, `EFX.isCore4_of_isCore`, `EFX.core_reduction4_mixed` (over lists), `EFX.target4_of_cores` (model) |
 | K4.TIE | Ties reduce to strict profiles: if every strict profile (`EFX.Strict`: disjoint nonempty `S, T ⊆ R_i` have `v_i(S) ≠ v_i(T)`) with the same relevant goods as a connected k = 4 core has an EFX₀ allocation, so does the core; with K4.CORE, TARGET₄ up to `N` agents follows from EFX₀ for connected strict k = 4 cores with a 4-good agent. The existing certificates discharge this hypothesis for `N ≤ 4` (K4.R3, K4.R4; K4.R5 covers `n = 5` only with at most two 4-good agents, which this form cannot use), through two steps outside Lean: relabeling list cores to the certificates' indices, and K4.OT's grid completeness | K4Ties : `EFX.tie_reduction`, `EFX.core_reduction4_strict` (over lists), `EFX.target4_of_strict_cores` (model) |
+| K4.DE4.LEAN | The DE4 frame: the draft is a valid state; every instance has a maximum (a valid state with no better valid state in the order level sum, then value-Pareto); the improvement form (every non-completable valid state has a better valid state) implies Conjecture DE4 (every maximum of a strict R1-core with `\|R_i\|` ≤ 4 is completable), which implies TARGET₄. Both conjectures are hypotheses | DE4 : `EFX.DE4.draft_valid`, `EFX.DE4.exists_maximum`, `EFX.DE4.conjDE4_of_imp`, `EFX.DE4.exists_efx0_of_conjDE4`, `EFX.DE4.target4_of_conjDE4`, `EFX.DE4.target4_of_conjDE4Imp` |
+| K4.DE4.LEAN | Lemmas 1(a), 4, 4′ and Corollary 5(b) of `k4/de4.md` §3; Conjecture 11″ in its weakest form (every non-completable valid state with (H) has a better valid state) ⟹ the improvement form ⟹ TARGET₄. The conjecture is a hypothesis | DE4Moves : `EFX.DE4.level_mono`, `EFX.DE4.valid_of_gain`, `EFX.DE4.exists_better_of_selfUpgrade`, `EFX.DE4.completable_of_empty`; DE4Upgrade : `EFX.DE4.exists_upgrade`, `EFX.DE4.trade_valid_better`, `EFX.DE4.exists_walk`, `EFX.DE4.exists_better_of_threat`, `EFX.DE4.conjDE4Imp_of_H`, `EFX.DE4.target4_of_conjDE4H`, `EFX.DE4.rotate_valid_better` |
+| K4.DE4.LEAN | The ring step of `k4/de4.md` §7 where the free agents hold one good: Lemma 7(a) (a threatening bundle contains a danger set), Lemma 7(b) (a minimal set worth more than a holding is allowed), Theorem 9's trade along a cycle with labels, Lemma 8 (under (H), tight arcs with pairwise disjoint labels into all free agents holding one good) | DE4Ring : `EFX.DE4.danger_of_threat`, `EFX.DE4.rotateL_valid_better`, `EFX.DE4.lemma8`; DE4Upgrade : `EFX.DE4.allowed_of_minimal` |
+| K4.DE4.LEAN | Corollary 10 when every free agent holds one good (under (H), the walk closes a cycle whose trade is valid and better); Conjecture 11″ for states where some free agent holds two or more goods ⟹ Conjecture 11″ ⟹ TARGET₄. The conjecture is a hypothesis | DE4Cor10 : `EFX.DE4.exists_cycle_rel`, `EFX.DE4.cor10`, `EFX.DE4.conjDE4H_of_H₂`, `EFX.DE4.target4_of_conjDE4H₂` |
+| K4.DE4 | Conjecture DE4 is false: on a strict R1-core with four agents and seven goods, a maximum (valid, no valid state better) has no EFX₀ completion; so are its improvement form and Conjecture 11″ (both forms used as hypotheses above) | DE4Refute : `EFX.DE4.Refute.not_conjDE4`, `EFX.DE4.Refute.not_conjDE4H₂` |
+| K4.DE4V3 | The draft satisfies (V3); every instance has a maximum of the (V3)-valid states; Conjecture DE4ᵛ³ (every such maximum of a strict R1-core with at most four relevant goods per agent is completable) implies TARGET₄. The conjecture is a hypothesis | DE4V3 : `EFX.DE4.draft_v3`, `EFX.DE4.exists_maximumV3`, `EFX.DE4.target4_of_conjDE4V3` |
+| K4.DE4V3R.LEAN | The robust order: maxima exist; Conjecture K4.DE4V3R implies TARGET₄; Theorem A′ (a non-completable (V3)-valid state with every agent holding an upper set has a better state); hence Claim T implies TARGET₄, and so does its weaker maxima version Claim T′; Lemma 17 and Proposition 24 (a non-completable state with (H) has an F₂-clash cycle), hence Conjecture C₂ at maxima together with Claim T′ where (H) fails implies TARGET₄; Lemma R (a maximum has the largest robust level sum among all valid states); Lemma V and the trade of one-good pointer cycles, hence Conjecture C₃ at maxima (with HL) implies TARGET₄. Claim T, Claim T′, C₂ and HL are hypotheses | DE4Robust : `EFX.DE4.levelR_mono`, `EFX.DE4.exists_maximumR`, `EFX.DE4.target4_of_conjRob`, `EFX.DE4.conjRob_of_claimT`; DE4RobustA : `EFX.DE4.thmAllUpper`, `EFX.DE4.target4_of_claimT`; DE4ClaimT : `EFX.DE4.claimTMax_of_claimT`, `EFX.DE4.conjRob_of_claimTMax`, `EFX.DE4.target4_of_claimTMax`; DE4ClaimC2 : `EFX.DE4.pointer_map`, `EFX.DE4.exists_clashCycle`, `EFX.DE4.claimTMax_of_HC2`, `EFX.DE4.target4_of_HC2`; DE4Repair : `EFX.DE4.repair_step`, `EFX.DE4.exists_validV3_of_valid`, `EFX.DE4.potentialR_le_of_max`; DE4ClaimC3 : `EFX.DE4.lemmaV`, `EFX.DE4.cycle_trade`, `EFX.DE4.no_f1_clashCycle`, `EFX.DE4.hc2_of_hc3`, `EFX.DE4.target4_of_HC3`, `EFX.DE4.robust_not_on_clashCycle`, `EFX.DE4.target4_of_HC3'`, `EFX.DE4.selfUp_breaks_v3`, `EFX.DE4.target4_of_HC3'_HL'`; DE4CaseL : `EFX.DE4.levelR_lt_of_want`, `EFX.DE4.trade_potentialR_lt`, `EFX.DE4.threat_at_max`, `EFX.DE4.hl_of_hll`, `EFX.DE4.target4_of_HC3'_HLL`; DE4Three : `EFX.DE4.claimTMax_tame`, `EFX.DE4.completable_tame`, `EFX.DE4.completable_three`; DE4Lemma18 : `EFX.DE4.no_clean_clashCycle`, `EFX.DE4.hc2_of_hx`, `EFX.DE4.target4_of_HX_HLL` |
+| K4.DE4V3R.L27 | The lower-pair order: maxima exist; Lemma R lowers the number of lower-pair holders, so a maximum has the largest robust level sum among valid states; Lemma 27 (top swap): the swapped state is valid, does not lower the robust level sum and has one lower-pair holder fewer, so no maximum of the lower-pair order admits one | DE4LowerPair : `EFX.DE4.exists_maximumLP`, `EFX.DE4.exists_validV3_numLP`, `EFX.DE4.potentialR_le_of_maxLP`, `EFX.DE4.topSwap_valid`, `EFX.DE4.top_swap`, `EFX.DE4.not_maxLP_of_top_swap`; DE4TopSwap2 : `EFX.DE4.top_swap2`, `EFX.DE4.not_maxLP_of_top_swap2`; DE4CrossSwap : `EFX.DE4.cross_swap`, `EFX.DE4.not_top_of_cross_swap` |
+| K4.DE4V3R.LEANLP | The frame for the lower-pair order: Conjecture K4.DE4V3R.LP implies TARGET₄; Theorem A′ in the lower-pair order; Lemma 4 and Lemma 18 at top states; hence HXLP (every F₂-clash cycle at a maximum with (H) is clean and not flat) and HLLLP (Claim T′ in case (L)) imply TARGET₄; Lemma 29 (every free self-upgrade of at most two goods at a maximum takes the lower pair from b), so HXLP and HLB imply TARGET₄. HXLP, HLLLP and HLB are hypotheses | DE4Repair : `EFX.DE4.topR_of_maxR`; DE4Lemma18 : `EFX.DE4.clean_cycle_one_good`; DE4LowerPairFrame : `EFX.DE4.topR_of_maxLP`, `EFX.DE4.target4_of_conjLP`, `EFX.DE4.thmAllUpperLP`, `EFX.DE4.claimTMaxLP_of_HC2LP`, `EFX.DE4.hc2lp_of_hxlp`, `EFX.DE4.hllp_of_hlllp`, `EFX.DE4.target4_of_HXLP_HLLLP`, `EFX.DE4.selfUp_at_maxLP`, `EFX.DE4.hlllp_of_hlb`, `EFX.DE4.target4_of_HXLP_HLB` |
+| K4.DE4V3R.LPK3 | The lower-pair order on tame cores: every maximum is completable | DE4LowerPairFrame : `EFX.DE4.maxR_of_maxLP_noLP`, `EFX.DE4.completable_tameLP`, `EFX.DE4.completable_threeLP` |
+| K4.SDC.NOF.LEAN | Conjecture NOF certified by LB₄ʳ's owner step implies TARGET₄; so does SD-C certified the same way; LB₄ʳ's invariant holds after serial dictatorship in any order | NOF : `EFX.NOF.sdList_spec`, `EFX.NOF.runState_inv`, `EFX.NOF.nofCandidates_perm`, `EFX.NOF.C4exists_of_conjSDCK`, `EFX.NOF.target4_of_conjSDCK`, `EFX.NOF.target4_of_conjNOFK` |
+| K4.SDC.NF.LEAN | LB₄ʳ with the neediest-first Phase 1 (upgrades, at most d rotations, an output) implies TARGET₄ | NOF : `EFX.NOF.C4exists_of_conjNFR`, `EFX.NOF.target4_of_conjNFR` |
+| K4.SDC.RC.LEAN | Rotation completeness (every order's serial-dictatorship state reaches an LB₄ʳ output after upgrades and some rotations) implies TARGET₄ | NOF : `EFX.NOF.C4exists_of_conjRC`, `EFX.NOF.target4_of_conjRC` |
+| K4.DE4V3R.LEANSH | The robust frame with shed-completability (some agents keep one good of their holding): Conjecture K4.DE4V3R.SHED2 implies TARGET₄; HXShed and HLLShed (HX and HLL at maxima that are not shed-completable) imply TARGET₄. HXShed and HLLShed are hypotheses | DE4Shed : `EFX.DE4.exists_efx0_of_shed`, `EFX.DE4.target4_of_conjShed`, `EFX.DE4.conjShed_of_claimTMaxShed`, `EFX.DE4.claimTMaxShed_of_HC2Shed`, `EFX.DE4.hc2shed_of_hxshed`, `EFX.DE4.hlshed_of_hllshed`, `EFX.DE4.target4_of_HXShed_HLLShed` |
 | K4.LB4.S | Theorem 1′₄ (any k; values in ℕ): every completion (owner `o` a listed free agent or none; base goods with their base's agent; no junk for frozen agents; `\|C_j\| + \|B_j\| ≤ 2` for free `j ≠ o`) of a valid pre-allocation (bases of any size, needs `N_i` with `{g ∉ B_i : v_i(g) > v_i(B_i)} ⊆ N_i ⊆ R_i ∖ B_i`; (V1), (V2)) that satisfies (OC₄) is EFX₀, with the owner's needs from its base or `N_o^X` from its bundle; every bundle but the owner's has at most two goods, and a frozen agent other than the owner holds only its base | PreAllocK : `EFX.LB4.Valid.sound`, `EFX.LB4.Valid.sound_ownerNeeds`, `EFX.LB4.efx0_of_needs`, `EFX.LB4.Completion.length_le_two`, `EFX.LB4.Completion.frozen_base` (over lists), `EFX.LB4.sound_model` (model); `EFX.LB4.Needs.pick` (pick needs are needs) |
 | K4.LB4.S | Counting: `\|F\| = \|NA\|` and `ω = \|J\| − S = \|NA\| − σ` (cap `2 − \|B_i\|` with its sign, 0 if frozen); if `ω ≤ 0` (all bases ≤ 2 goods) a completion without owner exists; with the other slots filled the owner holds `ω + 2` goods | PreAllocK : `EFX.LB4.numFrozen_eq`, `EFX.LB4.omega_eq`, `EFX.LB4.complete_none_exists`, `EFX.LB4.Completion.owner_length` |
 | K4.LB4.S | Lemma 2₄: with an owner whose base has at most one good, an agent with at most four relevant goods, a pick base and pick needs, whose slot takes its best junk good not yet placed, does not envy (so is not threatened by) the owner's bundle; also for agents filling their slots one at a time; with five relevant goods the value argument fails, and an instance of every other hypothesis has the agent threatened | PreAllocK : `EFX.LB4.selfProtect`, `EFX.LB4.selfProtect_seq`, `EFX.LB4.selfProtect_core`, `EFX.LB4.selfProtect_five`, `EFX.LB4.Ex5.counterexample` |

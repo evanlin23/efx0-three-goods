@@ -1,0 +1,14 @@
+$ python3 k4/de4/ss_screen.py
+DE4                every-fail   2 ['B131', 'A131'] | no completable maximum 0 []
+DE4+v3             every-fail   0 [] | no completable maximum 0 []
+DE4+v3f            every-fail   3 ['D3', 'C127', 'red-a1-hopeless-key'] | no completable maximum 0 []
+LP2.5              every-fail   2 ['D3', 'C127'] | no completable maximum 0 []
+LP2.5+v3           every-fail   2 ['D3', 'C127'] | no completable maximum 0 []
+noLP               every-fail   6 ['D3', 'B131', 'C127', 'A131', 'induct-pot-nash', 'red-a1-hopeless-key'] | no completable maximum 0 []
+BCBD3.5            every-fail  18 ['B131', 'C127', 'A131', 'GM4-A', 'GM4-C', 'GM4-D', 'GM4-E', 'GM4-Q'] | no completable maximum 7 ['GM4-A', 'GM4-E', 'GM4-Q', 'GM4-G', 'gm4-A']
+LP3+BCBD3.5        every-fail  13 ['GM4-A', 'GM4-C', 'GM4-D', 'GM4-E', 'GM4-Q', 'GM4-G', 'GM4-P', 'gm4-A'] | no completable maximum 7 ['GM4-A', 'GM4-E', 'GM4-Q', 'GM4-G', 'gm4-A']
+LP3+v3+BCBD3.5     every-fail  13 ['GM4-A', 'GM4-C', 'GM4-D', 'GM4-E', 'GM4-Q', 'GM4-G', 'GM4-P', 'gm4-A'] | no completable maximum 7 ['GM4-A', 'GM4-E', 'GM4-Q', 'GM4-G', 'gm4-A']
+LP3.5              every-fail   2 ['B131', 'A131'] | no completable maximum 2 ['B131', 'A131']
+LP3+CD2.5          every-fail   2 ['B131', 'A131'] | no completable maximum 0 []
+LP3+v3+CD2.5       every-fail   0 [] | no completable maximum 0 []
+exit status 0

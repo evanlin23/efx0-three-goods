@@ -1,0 +1,6 @@
+$ python3 k4/de4/refine.py advt2 300 8 2000
+      219  instances
+      391  lp     maxima
+      425  pareto maxima
+      221  sum    maxima
+time 93 s

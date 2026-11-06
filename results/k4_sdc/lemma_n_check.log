@@ -1,0 +1,30 @@
+$ python3 k4/sdc/lemma_n_check.py screen 
+direct 319
+direct, need_j > 0 116
+direct, need_j > 0, x exposed 47
+direct, need_j > 0, x exposed: cost 1 47
+direct, need_j > 0, x exposed: fresh 47
+direct, need_j > 0: x big-top on available 116
+direct: need_x >= need_j 319
+indirect 30
+pairs 349
+$ python3 k4/sdc/lemma_n_check.py screen --r1
+direct 308
+direct, need_j > 0 117
+direct, need_j > 0, x exposed 40
+direct, need_j > 0, x exposed: cost 1 40
+direct, need_j > 0, x exposed: fresh 40
+direct, need_j > 0: x big-top on available 117
+direct: need_x >= need_j 307
+indirect 31
+pairs 339
+$ python3 k4/sdc/lemma_n_check.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 4000 6 
+direct 3223
+direct, need_j > 0 321
+direct, need_j > 0, x exposed 13
+direct, need_j > 0, x exposed: cost 1 13
+direct, need_j > 0, x exposed: fresh 13
+direct, need_j > 0: x big-top on available 321
+direct: need_x >= need_j 3223
+indirect 87
+pairs 3310

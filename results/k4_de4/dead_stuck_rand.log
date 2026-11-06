@@ -1,0 +1,12 @@
+$ python3 k4/de4/dead.py stuck rand 2500 40 2000
+stuck rand: 40 jobs x 2500 profiles, seeds 2000..2039
+         7    better state lowering no level exists (Conjecture 11''): True
+         3    dead good: hard, PR
+         1    refined walk, dead good: hard
+         1    refined walk, dead good: hard, PR
+         2    refined walk, dead good: one-label cycle (trade valid)
+         7    some leftover good dead (D): True; F1 empty: True
+         7  (H) and the walk stops
+    594536  valid states, every agent holding a good, no Lemma 4/4' move
+    541629  walk stops, completable (not (H))
+exit status 0

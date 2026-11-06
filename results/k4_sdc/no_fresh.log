@@ -1,0 +1,12 @@
+$ python3 k4/sdc/no_fresh.py screen
+fresh owners 12
+fresh owners that work 12
+instances 168
+instances where a fresh owner works 9
+instances with a fresh owner 9
+$ python3 k4/sdc/no_fresh.py suite
+fresh owners 31
+fresh owners that work 31
+instances 164
+instances where a fresh owner works 15
+instances with a fresh owner 15

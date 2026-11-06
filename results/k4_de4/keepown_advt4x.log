@@ -1,0 +1,5 @@
+$ python3 k4/de4/keepown.py advt4x 300 2 9100
+      185  instances
+        1  keep-own swap applies, Phi*: claim holds True
+     1292  keep-own swap applies, below Phi*: claim holds True
+time 80 s

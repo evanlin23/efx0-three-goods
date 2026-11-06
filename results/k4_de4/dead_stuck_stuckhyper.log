@@ -1,0 +1,11 @@
+$ python3 k4/de4/dead.py stuck hypergraphs:results/k4_de4/stuck_hypergraphs.json 1000 40 7000
+stuck hypergraphs:results/k4_de4/stuck_hypergraphs.json: 40 jobs x 1000 profiles, seeds 7000..7039
+        60    better state lowering no level exists (Conjecture 11''): True
+        15    dead good: hard, PR
+        29    refined walk, dead good: hard, PR
+        16    refined walk, dead good: one-label cycle (trade valid)
+        60    some leftover good dead (D): True; F1 empty: True
+        60  (H) and the walk stops
+    227987  valid states, every agent holding a good, no Lemma 4/4' move
+    216128  walk stops, completable (not (H))
+exit status 0

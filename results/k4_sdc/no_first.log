@@ -1,0 +1,10 @@
+$ python3 k4/sdc/no_first.py screen
+{'instances': 168, 'FIRST works': 140, 'LAST works': 153, 'FIRST or LAST works': 168}
+$ python3 k4/sdc/no_first.py suite
+{'instances': 164, 'FIRST works': 136, 'LAST works': 150, 'FIRST or LAST works': 164}
+$ python3 k4/sdc/no_first.py cores:k4_certs_2.json.gz,k4_certs_3.json.gz 20000 1
+{'instances': 20000, 'FIRST works': 19310, 'LAST works': 19924, 'FIRST or LAST works': 20000}
+$ python3 k4/sdc/no_first.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 20000 2
+FIRST-OR-LAST FAILS r9699 [[[0, 1, 4, 5], [1, 3, 5], [2, 3, 4, 5], [2, 3, 4, 5]], [[6, 2, 10, 7], [2, 3, 4], [8, 2, 4, 3], [8, 2, 4, 3]]]
+FIRST-OR-LAST FAILS r16770 [[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], [[8, 4, 3, 10], [8, 5, 4, 6], [3, 7, 6, 5], [8, 4, 2, 3]]]
+{'instances': 20000, 'FIRST works': 19578, 'LAST works': 19925, 'FIRST or LAST works': 19998}
