@@ -1,0 +1,44 @@
+$ python3 k4/sdc/oc_last.py special
+    some agent with an unneeded pick can absorb 12
+    the last agent can absorb 12
+    the last agent with an unneeded pick can absorb 12
+  an absorber is needed 12
+  no absorber needed 93
+orders with a one-absorber completion 105
+time 0 s
+$ python3 k4/sdc/oc_last.py screen
+NEITHER GM4-B [[[0, 2, 5, 6], [1, 4, 5, 6], [2, 3, 4, 6], [3, 4, 5, 6]], [[4, 2, 8, 5], [3, 6, 8, 10], [4, 5, 2, 8], [5, 4, 8, 2]]] order (2, 1, 0, 3) picks (0, 5, 6, 3) absorbers [0]
+NEITHER GM4-E [[[0, 2, 4, 6], [1, 3, 5, 6], [2, 3, 6], [4, 5, 6]], [[3, 10, 6, 2], [3, 4, 8, 2], [4, 2, 3], [2, 4, 3]]] order (0, 3, 1, 2) picks (2, 3, 6, 5) absorbers [1]
+NEITHER GM4-E [[[0, 2, 4, 6], [1, 3, 5, 6], [2, 3, 6], [4, 5, 6]], [[3, 10, 6, 2], [3, 4, 8, 2], [4, 2, 3], [2, 4, 3]]] order (3, 0, 1, 2) picks (2, 3, 6, 5) absorbers [1]
+    some agent with an unneeded pick can absorb 2661
+    the last agent can absorb 2381
+    the last agent with an unneeded pick can absorb 2381
+  an absorber is needed 2661
+  no absorber needed 746
+orders with a one-absorber completion 3407
+shown 3
+time 16 s
+$ python3 k4/sdc/oc_last.py suite
+NEITHER c4-exposure-earlier-block-n3m6 [[[0, 1, 2, 3], [2, 4, 5], [3, 4, 5]], [[3, 4, 2, 8], [2, 4, 3], [4, 2, 3]]] order (2, 0, 1) picks (1, 4, 3) absorbers [0]
+NEITHER c4-g2-other-runs-n4m7 [[[0, 2, 5], [1, 5, 6], [2, 3, 4, 6], [3, 4, 6]], [[2, 3, 4], [2, 4, 3], [8, 4, 3, 6], [2, 3, 4]]] order (0, 3, 1, 2) picks (5, 1, 2, 6) absorbers [1]
+NEITHER c4-g2-other-runs-n4m7 [[[0, 2, 5], [1, 5, 6], [2, 3, 4, 6], [3, 4, 6]], [[2, 3, 4], [2, 4, 3], [8, 4, 3, 6], [2, 3, 4]]] order (1, 2, 0, 3) picks (0, 5, 2, 6) absorbers [0]
+    some agent with an unneeded pick can absorb 2814
+    the last agent can absorb 2460
+    the last agent with an unneeded pick can absorb 2460
+  an absorber is needed 2814
+  no absorber needed 716
+orders with a one-absorber completion 3530
+shown 3
+time 20 s
+$ python3 k4/sdc/oc_last.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 1500 92
+NEITHER r13 [[[0, 2, 5, 6], [1, 5, 6, 7], [3, 4, 5, 7], [3, 4, 6, 7]], [[2, 6, 10, 3], [5, 4, 8, 6], [2, 7, 10, 6], [3, 8, 4, 6]]] order (0, 1, 2, 3) picks (5, 6, 4, 7) absorbers [1, 2]
+NEITHER r13 [[[0, 2, 5, 6], [1, 5, 6, 7], [3, 4, 5, 7], [3, 4, 6, 7]], [[2, 6, 10, 3], [5, 4, 8, 6], [2, 7, 10, 6], [3, 8, 4, 6]]] order (0, 1, 3, 2) picks (5, 6, 7, 4) absorbers [1, 3]
+NEITHER r13 [[[0, 2, 5, 6], [1, 5, 6, 7], [3, 4, 5, 7], [3, 4, 6, 7]], [[2, 6, 10, 3], [5, 4, 8, 6], [2, 7, 10, 6], [3, 8, 4, 6]]] order (0, 2, 1, 3) picks (5, 6, 4, 7) absorbers [1, 2]
+    some agent with an unneeded pick can absorb 11658
+    the last agent can absorb 11057
+    the last agent with an unneeded pick can absorb 11057
+  an absorber is needed 11669
+  no absorber needed 23459
+orders with a one-absorber completion 35128
+shown 3
+time 86 s

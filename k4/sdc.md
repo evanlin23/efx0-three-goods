@@ -1742,3 +1742,13 @@ most three goods, which is enough).
   - with one absorber, one chain suffices.
 - With the reverse order, the neediest-first order and a random order, the picks need no chain at all.
 - The one-owner shape is what made H_t hard: the general chain moves the junk to where it fits.
+
+**Who absorbs at the start** (`k4/sdc/oc_last.py`, `oc_last.log`).
+- *Data.* The orders whose picks have a one-absorber completion and need an absorber: 12 special, 2,661 screen, 2,814
+  suite, and 11,669 from 1,500 random n = 4 profiles.
+- *The last agent of the order* can absorb in 12, 2,381, 2,460 and 11,057 of them.
+- *Some agent whose pick nobody needs (not frozen)* can absorb in all but 11 random cases. In those 11, only a frozen
+  agent can absorb, which LB₄ʳ's Output forbids. Examples where neither the last agent nor the last unfrozen agent
+  works: GM4-B and GM4-E (`oc_last.log`).
+- So Theorem A's owner (the last agent) is right about 90% of the time. A count for OC₁'s first part must range over
+  owners, as Lemma K does.

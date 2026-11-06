@@ -169,3 +169,4 @@ python3 k4/sdc/refute_dich.py > $L/refute_dich.log
 (for a in special screen suite; do python3 k4/sdc/oc_rule.py $a; done; python3 k4/sdc/oc_rule.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 1500 92) > $L/oc_rule.log
 (python3 k4/sdc/oc_climb.py 31 3 1500 15; python3 k4/sdc/oc_climb.py 32 3 1500 15; python3 k4/sdc/oc_climb.py 33 4 500 10; python3 k4/sdc/oc_climb.py 34 4 500 10; python3 k4/sdc/oc_climb.py 41 3 1200 12 dich; python3 k4/sdc/oc_climb.py 42 4 400 8 dich; python3 k4/sdc/oc_climb.py 51 3 1500 15 oc1; python3 k4/sdc/oc_climb.py 52 4 500 10 oc1) > $L/oc_climb.log
 DF_TMAX=3 DF_HMAX=3 python3 k4/sdc/oc_files.py 1 > $L/oc_files.log
+(for a in special screen suite; do python3 k4/sdc/oc_last.py $a; done; python3 k4/sdc/oc_last.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 1500 92) > $L/oc_last.log
