@@ -2,7 +2,8 @@
 sdc_bigk.py); from every order's serial-dictatorship start, the least number of improving chain moves (de_free.py,
 chains only, |H| and bases up to K) after which the bases extend.
 
-    python3 k4/sdc/de_free_bigk.py SEED T n M K"""
+    python3 k4/sdc/de_free_bigk.py SEED T n M K [oc1]
+oc1: the one-absorber completion (oc_absorb.extends_A, A = 1) at the start and after the chain instead of the free one."""
 import sys, random, json, collections, time, itertools
 import _paths
 import de_free as DF
@@ -12,6 +13,9 @@ from sdc_orders import sd
 if __name__ == '__main__':
     seed, T, n, M, K = map(int, sys.argv[1:6]); rng = random.Random(seed); C = collections.Counter(); t0 = time.time()
     DF.CHAIN_ONLY = True; DF.HMAX = K; DF.BMAX = K
+    if 'oc1' in sys.argv[6:]:
+        from oc_absorb import extends_A
+        DF.extends = lambda E, b: extends_A(E, b, 1)
     print('$ python3 k4/sdc/de_free_bigk.py', *sys.argv[1:], flush=True)
     for t in range(T):
         m = rng.randint(n + 1, M)

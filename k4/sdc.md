@@ -1682,6 +1682,9 @@ A proof along these lines needs:
   profiles and the logged hard profiles, every order, n ≤ 5. None needs two chains.
 - *Without any absorber* (every agent at most one junk good) it fails on 581 of the 4,069 screen starts, so one
   absorber is the right shape.
+- *At larger k* (`k4/sdc/de_free_bigk.py … oc1`, `oc1_bigk.log`) it holds on the same 5,106 starts as OC. There the
+  random instances have so little junk that the two completions agree on every start, so this sample does not
+  separate them.
 
 So OC₁ is a Theorem A/B pair for k = 4 in LB⁺'s format, but from every order:
 - the first part is a one-owner completion of serial-dictatorship picks;
@@ -1752,3 +1755,14 @@ most three goods, which is enough).
   works: GM4-B and GM4-E (`oc_last.log`).
 - So Theorem A's owner (the last agent) is right about 90% of the time. A count for OC₁'s first part must range over
   owners, as Lemma K does.
+
+**At k = 3** (`k4/sdc/oc_k3.py`, `oc_k3.log`).
+- *Data.* 502 random strict profiles of the 251 certified k = 3 cores with n = 5, 6; every order for n = 5, 60
+  sampled orders for n = 6; 31,920 starts.
+- *Result.* No start needs more than one chain, with either completion. Under one absorber, 145 need exactly one.
+- *DE's worked example* (`paper/k3-simple`, Appendix B) needs one chain from every one of its 720 orders, the draft
+  included. DE itself uses a ring there that gives pairs to two agents. A ring is the chain whose x₀ takes the end's
+  base, as in the Lean remark of the paper, and middle junk gives the second pair.
+- *Consequence.* At k = 3, OC₁ would strengthen DE's bound from 4n trades to one, from every order. It may be provable
+  with DE's machinery: valid states, the finishing test |H_o| ≤ |F| − 1, and the pointer argument of the Improvement
+  Lemma. That would be a test bed for k = 4.
