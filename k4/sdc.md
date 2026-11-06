@@ -1766,3 +1766,24 @@ most three goods, which is enough).
 - *Consequence.* At k = 3, OC₁ would strengthen DE's bound from 4n trades to one, from every order. It may be provable
   with DE's machinery: valid states, the finishing test |H_o| ≤ |F| − 1, and the pointer argument of the Improvement
   Lemma. That would be a test bed for k = 4.
+
+**What is already proved of OC₁, and a proof plan** (`k4/sdc/oc_frozen.py`, `oc_frozen.log`).
+- *What Theorems DT and DT⁺ (§6) give.* Their allocations give every bundle but the owner's at most two goods. So they
+  are one-absorber completions, and they prove OC₁ with zero chains in two cases:
+  - whenever no frozen agent (pick wanted by another agent) values an unpicked good (DT⁺);
+  - in particular whenever the tops are distinct (DT).
+- *The dangerous agents.* What DT⁺ leaves are these agents D: frozen agents that value some junk good. They cannot
+  take junk, and their danger sets of junk goods must stay out of the owner's bundle (§6, "the general completion
+  problem"). On the starts that need a chain (10 special, 157 screen, 148 suite):
+  - D has 1–3 agents;
+  - some repairing chain passes through an agent of D in every case;
+  - in 9, 147 and 140 of them, some repairing chain starts in D;
+  - in 3, 63 and 63, some repairing chain passes through all of D.
+- *The proof plan this suggests: DT⁺'s construction plus one chain.*
+  - The chain starts at a dangerous agent k, gives k's pick to the agent that wants it, and lets k take a set of junk
+    goods (its own danger set) worth more than its pick. This is mechanism 1 of §26, "a rotation absorbs the danger
+    set".
+  - Middle agents of the chain may absorb their danger goods as well.
+  - The owner is then chosen as in DT's potential argument ((m1), (m2) for the unwanted agents).
+  - The missing step is a count showing that the dangerous agents the chain does not pass through can be kept safe:
+    their danger sets out of the owner's bundle, in other agents' slots.
