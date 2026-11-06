@@ -174,3 +174,4 @@ DF_TMAX=3 DF_HMAX=3 python3 k4/sdc/oc_files.py 1 > $L/oc_files.log
 python3 k4/sdc/oc_k3.py 1 2 60 > $L/oc_k3.log
 (for a in special screen suite; do python3 k4/sdc/oc_frozen.py $a; done) > $L/oc_frozen.log
 (for a in special screen suite; do python3 k4/sdc/oc_d1.py $a; done; python3 k4/sdc/oc_d1.py cores:k4_certs_4_n4_1.json.gz,k4_certs_4_n4_2.json.gz,k4_certs_4_n4_3.json.gz,k4_certs_4_pure.json.gz 3000 92; python3 k4/sdc/oc_d1.py cores:k4_certs_2.json.gz,k4_certs_3.json.gz 5000 91) > $L/oc_d1.log
+DF_TMAX=3 DF_HMAX=3 timeout 2400 python3 k4/sdc/oc_files.py 0 only:HH3,HH4 >> $L/oc_files.log

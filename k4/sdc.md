@@ -1749,6 +1749,9 @@ most three goods, which sufficed wherever the search finished).
   at all.
 - The run stopped at its 50-minute limit while searching H₄ with a random order (n = 17). So that start and H₅
   remain untested.
+- A separate run on HH₃ (n = 26, m = 65) did not finish its first start (index order) in 40 minutes, so HH_t is
+  untested too. The chain search tests a SAT completion per candidate chain, and needs a better completion test at
+  this size.
 - The one-owner shape is what made H_t hard for LB₄ʳ. The general chain moves the junk to where it fits.
 
 **Who absorbs at the start** (`k4/sdc/oc_last.py`, `oc_last.log`).
