@@ -1438,3 +1438,91 @@ a potential that bounds the search. A proof needs the existence step:
 - at a state reached this way, without an output, some rotation lowers ω without entering a trap;
 - Lemma Ωʳ computes ω′ exactly for the improving two-good rotations, and the general formula
   ω′ − ω = |B_{x_t}| − |O| − (Σ cap′ − Σ cap) covers the others.
+
+## 27. The repairing rotation from the neediest-first start: what it is, who owns afterwards, and what a proof must use
+
+Throughout, P is the state of the plain neediest-first run (`need2`, no R1 priority) after envy-free upgrades. The data
+are the starts P without an output: 1 special instance (T3), 21 screen, 21 suite (the two sets overlap), and 118 random
+profiles with n ≤ 3, 100 with n = 4 and 19 with n = 5 (seeds 91–93). That is 280 starts in all.
+
+**Greedy ω repairs every start** (`k4/sdc/omega_greedy.py`, `omega_greedy.log`).
+- *Rule.* Take the RotStep with the least resulting ω, with an output counting as −∞ and ties broken by Lemma K's
+  deficit. Stop at an output; fail if no rotation lowers ω.
+- *Result.* The rule reaches an output on all 280 starts: 279 in one rotation, and T3 in two (ω 2 → 1 → output). The
+  variant that prefers improving rotations does the same.
+- *ω at these starts:* 1 on 86, 2 on 126, 3 on 41, 4 on 22, 5 on 5. One rotation therefore usually reaches an output
+  while ω stays positive, so that output has an owner. Lemma Ωʳ's count (ω falls by f + u) is not what closes these
+  starts.
+
+**What the greedy rotation is** (`k4/sdc/omega_classify.py`, `omega_classify.log`; chain k = x₀, …, x_t, new base O).
+| property | starts (of 280) |
+|---|---|
+| downgrade, v_k(O) ≤ v_k(Y_k) | 175 |
+| improving | 105 |
+| k threatened by W_t = J ∪ B_t | 264 |
+| the chain ends at LB⁺'s owner r (the last agent of the order neither frozen nor marked) | 263 |
+| \|O\| = 1 / 2 / 3 | 120 / 145 / 15 |
+| chain length 2 / 3 / 4 / 5 | 147 / 115 / 17 / 1 |
+| the chain end frozen afterwards | 95 |
+
+LB⁺'s rotation (k threatened by W_r, a chain to r, a better base) is the minority shape. Most repairing rotations are
+downgrades: k gives up its pick for one or two junk goods.
+
+**NF-B, Theorem B's shape from the neediest-first start** (`k4/sdc/nf_thmB.py`, `nf_thmB.log`).
+- *Statement.* Some FrozenAt agent k threatened by W_r, with a need chain to r and some base O, gives an output in one
+  rotation.
+- *Result.* It holds on 264 of the 280 starts, and some one-rotation repair exists on 279.
+- *Failures.* Of the 15 failures with a one-rotation repair, 13 have no repairing chain that ends at r. In
+  rc-n5m12-f2, for example, r holds its favourite and needs nothing, so no chain can end at r; in nsw-strict-n4m8 the
+  only chain to r does not repair. The other 2 (random profiles r11278, seed 91, and r15366, seed 92) have a
+  repairing chain to r, but its k is not threatened by W_r.
+
+**Who owns the output after the repairing rotation** (`k4/sdc/nf_owner.py`, `nf_owner.log`; every repairing rotation
+and every owner of an output of the rotated state).
+- *Owner counts* (starts on which some repairing rotation leaves an output with that owner, of 279):
+  | owner | starts |
+  |---|---|
+  | k itself | 220 |
+  | no owner | 161 |
+  | r at the chain end | 101 |
+  | an agent off the chain | 116 |
+  | a middle chain agent | 22 |
+  | a chain end other than r | 7 |
+- *Every one of the 279 starts* has a repairing rotation whose output is owned by k, by r at the chain end, or by no
+  one. k or no one alone covers 275; the other 4 are the screen and suite copies of c4x-n3m6-ef-bases and 2 random
+  profiles.
+- These are the three mechanisms the proved theorems already use:
+  - k as owner after the shift is LB⁺'s Theorem B, where k* rotates and becomes the owner;
+  - r staying owner after a rotation to r is Theorem B₄ (K4.C4.AB);
+  - no owner is ω′ ≤ 0 with two-good bases (`EFX.LB4R.output_none_of_omega`).
+
+  What is missing is a count that says one of them always applies after a suitable rotation.
+
+**The rotation is unavoidable; the owner step is not too strict** (`k4/sdc/frozen_owner.py`, `frozen_owner.log`).
+- *Relaxing the owner step* (any agent may own, frozen or not; the other agents keep LB₄ʳ's caps; every pair checked
+  for EFX₀ directly by brute force over the junk) repairs only 27 of the 280 starts, all random profiles with n ≤ 4.
+- *The bases of P extend to an EFX₀ allocation at all* (any placement of the junk, no caps) on only 69 of the 280.
+- On the other 211, no EFX₀ allocation contains the bases of P. Some base must change (a rotation, or a deferral in
+  serial-dictatorship terms, K4.SDC.D4). So the gap K4.C4.GAP is in the picks, not in LB₄ʳ's owner step.
+
+**Excess one is not repaired from every start** (`k4/sdc/omega_small.py`, `omega_small.log`).
+- *Test.* From every order's serial-dictatorship start (n ≤ 5), each upgrade policy, and every state reachable by
+  RotSteps, ask whether some rotation reaches an output or lowers ω.
+- *Result at ω = 1:* it fails on 31 of 132 such states without an output (screen), 31 of 128 (suite) and 3 of 16
+  (special: T3 and Q2).
+- *Consequence.* A local statement "excess one is closed by one rotation" is false in general. A proof of NF-Ω or NF
+  must use what the neediest-first order guarantees, not only the state's counts.
+- *Side remark.* States with ω ≤ 0 and no output exist (8 and 2 on the screen set). Each has a three-good base, which
+  `output_none_of_omega` excludes.
+
+**Where this leaves the gap count.** A proof of NF along these lines has three parts:
+1. *(order)* a property of the neediest-first start that fails for other orders, such as the ω = 1 states above;
+2. *(existence)* from that property, a frozen k and a need chain k → … → t such that after the shift (x_i takes
+   B_{x_{i−1}}, t's base returns to the junk) one of the three mechanisms applies: k owns W = J ∪ B_t, r = t stays
+   owner, or ω′ ≤ 0;
+3. *(iteration)* T3: the first rotation lowers ω from 2 to 1 without an output, so the property in (1) must survive
+   one rotation.
+
+The data say (2) is true at every start tested. The data also say the rotation is usually a downgrade for k: the
+count has to credit k's new, smaller base O with the goods it frees for the others. LB⁺'s count, where k* gains, does
+not do that.
