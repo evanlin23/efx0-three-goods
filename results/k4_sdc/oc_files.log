@@ -1,0 +1,16 @@
+$ python3 k4/sdc/oc_files.py 1
+H1 n 5 m 13 index {'free': 0, 'one absorber': 1} time 0
+H1 n 5 m 13 reverse {'free': 0, 'one absorber': 0} time 0
+H1 n 5 m 13 neediest-first {'free': 0, 'one absorber': 0} time 0
+H1 n 5 m 13 random0 {'free': 0, 'one absorber': 0} time 0
+H2 n 9 m 23 index {'free': 0, 'one absorber': 1} time 0
+H2 n 9 m 23 reverse {'free': 0, 'one absorber': 0} time 0
+H2 n 9 m 23 neediest-first {'free': 0, 'one absorber': 0} time 0
+H2 n 9 m 23 random0 {'free': 0, 'one absorber': 0} time 0
+H3 n 13 m 33 index {'free': 0, 'one absorber': 1} time 2
+H3 n 13 m 33 reverse {'free': 0, 'one absorber': 0} time 2
+H3 n 13 m 33 neediest-first {'free': 0, 'one absorber': 0} time 2
+H3 n 13 m 33 random0 {'free': 0, 'one absorber': 0} time 2
+H4 n 17 m 43 index {'free': 0, 'one absorber': 1} time 199
+H4 n 17 m 43 reverse {'free': 0, 'one absorber': 0} time 199
+H4 n 17 m 43 neediest-first {'free': 0, 'one absorber': 0} time 200

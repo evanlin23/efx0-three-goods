@@ -39,6 +39,7 @@ def bundles(E, base):
 
 
 HMAX = int(os.environ.get('DF_HMAX', '4')); BMAX = int(os.environ.get('DF_BMAX', '4'))
+TMAX = int(os.environ.get('DF_TMAX', '99'))   # longest chain (agents x_1..x_t) tried by iter_chains
 
 
 def subsets_le2(xs):
@@ -105,6 +106,38 @@ def moves(E, base, describe=False):
                     ext_ring(path + [y], usedH | set(H), {**assign, len(path): H})
     for x in range(n): ext_ring([x], frozenset(), {})
     return desc if describe else out
+
+
+def iter_chains(E, base):
+    """the states one improving chain reaches, generated lazily (same moves as moves(..) with CHAIN_ONLY; may repeat)"""
+    n = E.n; B = bundles(E, base); J = [g for g in range(E.m) if base[g] < 0]
+    val = lambda i, S: sum(E.v[i].get(g, 0) for g in S)
+    def ext_chain(path, usedH, assign):
+        x_t = path[-1]
+        pool0 = [g for g in J if g not in usedH and E.v[path[0]].get(g, 0) > 0] + \
+                ([g for g in B[x_t] if E.v[path[0]].get(g, 0) > 0] if len(path) > 1 else [])
+        for H0 in subsets_le2(pool0):
+            if not H0: continue
+            newb0 = (list(B[path[0]]) if len(path) == 1 else []) + list(H0)
+            if len(newb0) > BMAX or val(path[0], newb0) <= val(path[0], B[path[0]]): continue
+            nb = list(base)
+            if len(path) > 1:
+                for g in B[x_t]: nb[g] = -1
+                for i in range(len(path) - 1, 0, -1):
+                    for g in B[path[i - 1]]: nb[g] = path[i]
+                    for g in assign[i]: nb[g] = path[i]
+            for g in H0: nb[g] = path[0]
+            yield tuple(nb)
+        if len(path) >= n or len(path) > TMAX or not B[x_t]: return
+        for y in range(n):
+            if y in path: continue
+            free = [g for g in J if g not in usedH and E.v[y].get(g, 0) > 0]
+            for H in subsets_le2(free):
+                nby = list(B[x_t]) + list(H)
+                if len(nby) > BMAX or val(y, nby) <= val(y, B[y]): continue
+                yield from ext_chain(path + [y], usedH | set(H), {**assign, len(path): H})
+    for x in range(n):
+        yield from ext_chain([x], frozenset(), {})
 
 
 def search(E, start, memo):

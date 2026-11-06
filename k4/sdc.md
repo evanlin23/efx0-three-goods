@@ -1671,3 +1671,74 @@ A proof along these lines needs:
 1. a Hall-type characterization of extendable bases (several agents absorbing junk, unlike LB₄ʳ's single owner);
 2. the existence of a chain that repairs a violated condition. The counts of §26–§27 are the one-owner special case of
    step 1.
+
+**One absorber is enough: Conjecture OC₁ (K4.SDC.OC1)** (`k4/sdc/oc_absorb.py`, `oc_absorb.log`).
+- *The one-absorber completion.* The free completion lets any number of agents take several junk goods. Restrict it
+  so that at most one agent (the *absorber*, LB's owner, DE's finisher) receives two or more junk goods, and every
+  other agent at most one.
+- *Conjecture OC₁.* For every order, the picks have a one-absorber completion, or after one improving chain the bases
+  have one.
+- *Evidence.* It holds on all 120,050 starts tested: the special, screen and suite instances, 4,650 random core
+  profiles and the logged hard profiles, every order, n ≤ 5. None needs two chains.
+- *Without any absorber* (every agent at most one junk good) it fails on 581 of the 4,069 screen starts, so one
+  absorber is the right shape.
+
+So OC₁ is a Theorem A/B pair for k = 4 in LB⁺'s format, but from every order:
+- the first part is a one-owner completion of serial-dictatorship picks;
+- the second part is one improving chain before it.
+
+It differs from LB₄ʳ in three ways. Chains need not start at a frozen agent. Middle agents may take junk. No agent
+ever loses value: there are no downgrades, unlike §27.
+
+**The strict dichotomy is false** (`k4/sdc/oc_absorb.py` with `OC_A2=0`, `oc_dich.log`; `k4/sdc/oc_owner.py`,
+`oc_owner.log`; `k4/sdc/refute_dich.py`, `refute_dich.log`).
+- *The dichotomy* reads: the picks have a one-absorber completion, or after one chain the bases have a completion
+  with no absorber.
+- *Where it holds.* On the special and screen sets every repairing chain can be chosen so that no absorber is needed
+  afterwards (157 of 157 distinct hard screen starts).
+- *Where it fails.* It fails on 4 starts of one random n = 5 profile, and on an n = 3 instance found by
+  `oc_climb.py dich`:
+  - goods 0–6; agent 0 values goods 0, 2, 4, 3 at 5, 10, 1, 12; agent 1 values 6, 3, 1 at 10, 12, 11; agent 2
+    values 1, 2, 0, 5 at 11, 8, 6, 1;
+  - order (0, 2, 1), picks (3, 6, 1).
+- *What the independent brute-force replay finds there:*
+  - no one-absorber completion of the picks;
+  - 8 improving chains, none with a completion without an absorber;
+  - 2 chains with a one-absorber completion. In one of them agent 0 trades its top 3 for {0, 2} (15 > 12), agent 1
+    takes 3, and agent 1, at the chain end, absorbs {4, 5, 6}.
+- So after the chain an owner may still be needed, and it can be the chain end, as in Theorem B₄.
+
+**Two-good bundles.** In an allocation whose bundles all have at most two goods, EFX₀ says only this: whenever
+|X_j| = 2, v_i(X_i) ≥ max_{g∈X_j} v_i(g), because X_j minus one good is the other good.
+- At serial-dictatorship picks, every agent values each junk good below its own pick (it was available at its
+  turn).
+- So a completion without an absorber is exactly an assignment of the junk, at most one good per agent, such that
+  every agent i that needs the pick Y_j of an agent j receiving junk (v_i(Y_j) > v_i(Y_i)) is compensated by its own
+  junk good: v_i(Y_i) + v_i(z_i) ≥ v_i(Y_j).
+- This is the two-good part of a one-absorber completion. The absorber's bundle adds Lemma K's threat conditions.
+  These are the counts a proof of OC₁ has to control.
+
+**No simple rule picks the chain** (`k4/sdc/oc_rule.py`, `oc_rule.log`). On the 530 distinct hard starts (special,
+screen, suite, 1,500 random n = 4 profiles), the best-ranked chains contain a repairing one as follows:
+| rule (best-ranked chains) | repairing chain among them |
+|---|---|
+| most junk absorbed | 434 |
+| most junk, then largest total gain | 307 |
+| largest total gain | 222 |
+| largest gain of x₀ | 41 |
+
+So the chain has to be chosen by the completion test itself, as Lemma K chooses the owner.
+
+**Adversarial climbs** (`k4/sdc/oc_climb.py`, `oc_climb.log`) minimize the number of repairing chains at the hardest
+start over all orders.
+- Free completion: n = 3, 4, 50 rounds.
+- OC₁: n = 3, 4, 25 rounds.
+- Neither ever falls below one repairing chain. The only failure found is of the strict dichotomy (above).
+
+**The gadget families** (`k4/sdc/oc_files.py`, `oc_files.log`; chains of at most four agents and junk sets of at
+most three goods, which is enough).
+- On H_t, LB₄ʳ with a fixed insertion order needs ⌈2t/3⌉ rotations (K4.C4.R). Here, with the index order:
+  - the picks extend under the free completion on H₁–H₄;
+  - with one absorber, one chain suffices.
+- With the reverse order, the neediest-first order and a random order, the picks need no chain at all.
+- The one-owner shape is what made H_t hard: the general chain moves the junk to where it fits.
