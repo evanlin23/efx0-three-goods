@@ -1317,6 +1317,21 @@ HEAD, then by Remark 2 every second wanter is unfrozen at the picks, and this is
 - Both P and P_w have the same length t, and in each the other wanter freezes the head. Only the head's at most three
   pool goods and the two wanters' values of a are involved.
 
+**Update from `proof/k4-d1`** (`k4/d1.md` §3, PR #113; not refereed here). D1-C is proved there under the extra
+hypothesis that every good is relevant to some agent, which cores satisfy. At a hard start with D = {k}, every
+canonical chain without HEAD has some minimal improving H₀ with C(B′, k). Their new lemmas:
+- **Lemma C3:** if the head is crowded by an H₀ containing Y_{x_t}, no other agent is unfrozen at the picks (via
+  Proposition 3′ with owner o and helper x_t);
+- **Lemma HC:** then the head has a robust compensation good, or the picks have a one-absorber completion with
+  absorber x_{t−1}.
+
+This covers C-a to C-c. Finding D1 then reduces to the starts where *every* canonical chain from k has HEAD.
+
+*Cross-check* (`k4/oc1_hall/d1_allhead.py`, `d1_allhead.log`). In all the data these are 5 starts, 4 configurations:
+lil-noncore-n3 with two orders, its logged copy log574, r461 and r2749. All have n = 3, t = 1 and f = 1, with two
+wanters of Y_k, both unfrozen at the picks, and all are repaired. This is the f = 1, several-wanters case at n = 3
+(§5, §11), which `proof/k4-d1` is now working on as "D1-H in all-HEAD form".
+
 **Adversarial climbs against D1-LONG** (`k4/oc1_hall/climb_d1.py`, `climb_d1_n4.log`, `climb_d1_n5.log`,
 `climb_d1_n6.log`; evidence).
 - The objective is the number of repairing (longest chain, minimal H₀) pairs, minimized over the hard starts with
