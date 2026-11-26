@@ -26,6 +26,7 @@ Verdicts: CORRECT / CORRECT WITH FIXES / GAP / WRONG.
 | 13 | Theorem CH-KD, Corollary CH-KD′ (`kgen/charity.md` §8, `1e986c6`/`0c85d91`) | `claude/kgen-charity` | `chkd.md` | **CORRECT** (n-independent: (k − 2)d − 1 and p! ≤ d^{p−1}) |
 | 14 | Theorem 2 (two-agent OC₁, t ≥ 0, every k), Fact L, Lemma M, Tops Lemma (`kgen/n3.md` §9, `418f876`) | `claude/kgen-n3` | `kgen_n3.md` | **CORRECT** (cite Plaut–Roughgarden Thm 4.3 for bare existence) |
 | 15 | Lemma M (matching form, deficiency δ\*), Lemma EX (exchange criterion) (`k4/matching.md` §1, §3, `2c0198e`) | `proof/k4-matching` | `matching.md` | **CORRECT** (EX: Ext may include unfrozen chain agents); §2 refutation of "δ ≤ 1" confirmed |
+| 16 | Lemma D-red, Prop. T0, Lemma KEEP, Lemma SET (+ OWN, RING-red, Finding NC in passing) (`k4/oc1max_multi.md` §2–§4, §6, `6959fc9`/`1ccbb94`) | `proof/k4-oc1max-multi` | `oc1max_multi.md` | **CORRECT** (reductions; D-red/OWN wording: cite (U) for "one valued good never threatens") |
 | – | Literature: EFX₀ for n = 2 | – | `lit_n2.md` | Plaut–Roughgarden Thm 4.3 (EFX₀, monotone) covers existence; not `kgen/n3.md` Theorem 2 (picks kept / one chain) |
 
 **Checked in passing** (newer PROVED items seen at the 22:15 UTC heads; short checks, recorded as addenda in the
