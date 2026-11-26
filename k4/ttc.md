@@ -31,6 +31,13 @@ shape) fail at n = 6, m = 10 (`attempts/k4-ttc-head-owner.md`).
   set is minimal, and the head is unwanted and absorbs. That is Draft and Exchange's chain lemma followed by the
   chain's end finishing. This is a concrete target for the k = 3 → k = 4 angle (§10).
 - **Conjecture MDP∃** (§7) is unaffected.
+- **A pointer argument** (§11) is the TTC proof skeleton:
+  - Lemma T4, a corollary of GDT: at a hard start every unwanted owner candidate points at a frozen agent valuing its
+    junk plus the owner's pick above its own;
+  - a fixed point of "owner → dangerous agent ⇝ owner" is an OC₁-ED chain.
+
+  It repairs on all 215 k = 3 hard starts and on 97% (2,238 of 2,310) of the k = 4 ones. The remaining 3% need a
+  wanted head, or a head that takes junk.
 
 **Earlier bursts:**
 - Lemmas T1–T3 (§2, §9) are proved.
@@ -463,16 +470,86 @@ such that the following state has a one-absorber completion in which x_t is the 
 - *The endpoint objective* (OC₁-ED, `head_bign_climb.py … ends`, `head_bign_climb_ends_6_8.log`) is running at the
   end of burst 3.
 
-## 11. Next steps
+## 11. A pointer argument from Lemma GDT, and where it stops
 
-1. *OC₁-H / OC₁-HD at larger n:* done for random n = 6–9 (`head_bign.py`), but random instances are easy there. An
-   adversarial climb at n = 6–8 in the style of `k4/sdc/oc1_bign_climb.py`, with the head-absorber objective, is
-   still to do.
-2. *A proof route for OC₁-H through Lemma GDT:*
-   - after a canonical chain from a dangerous agent, the head's old pick is junk and the head is the absorber;
-   - (G5) holds if the head's new base is unwanted;
-   - so the missing piece is (G4) for the remaining frozen agents with the head as owner. This is the "missing count"
-     of `k4/sdc.md` §30, but now with a prescribed owner.
-3. *MDP∃ with a second extremal criterion* (fewest junk goods moved, least total gain), to kill the r617 pattern.
-4. *The core of the head-owned market* (Lemma T3's remark): test on the hard starts whether some OC₁-H completion is
-   in the core, or whether the KQW-type emptiness appears.
+**Lemma T4 (every candidate owner points at a dangerous agent; corollary of Lemma GDT, `k4/sdc.md` §30).** Let
+Y = SD(π) with junk J, and let o be an unwanted agent with a pick y_o.
+- If every frozen agent x satisfies v_x((J ∪ {y_o}) ∩ R_x) ≤ v_x(Y_x), then Y has a one-absorber completion with
+  owner o.
+- So if Y has no one-absorber completion, then for every unwanted o with a pick the set
+  S_o = {x frozen : v_x((J ∪ {y_o}) ∩ R_x) > v_x(Y_x)} is nonempty. Each x ∈ S_o has an improving set inside
+  (J ∪ {y_o}) ∩ R_x.
+
+*Proof.* At serial-dictatorship picks the hypotheses of Lemma GDT other than (G4) hold:
+- (G1) and (G3) hold because there are no pairs;
+- (G2) holds because a junk good is worth less to each of its valuers than its pick ((I2); an agent without a pick
+  values no junk);
+- (G5) holds because o is unwanted;
+- (G4) is the displayed condition, with B_o = {y_o}.
+
+GDT gives the completion, in which only o receives several junk goods. ∎
+
+The computation also treats unwanted agents without a pick as owners (y_o = none), for which GDT is not stated. S_o
+was nonempty for every unwanted agent on every hard start (column (a) below).
+
+**The pointer map.** Each unwanted o points to some x ∈ S_o. From x, want arrows (x_{i+1} wants Y_{x_i}) lead to an
+unwanted agent, because the want graph is acyclic and points backwards in π. Gale's argument closes a cycle of
+"owner → dangerous agent ⇝ owner" steps.
+- A *fixed point* (o, x, a want path from x ending at o) is exactly a chain of OC₁-ED's shape with head o and
+  H₀ ⊆ (J ∪ {y_o}) ∩ R_x.
+- A longer cycle is a ring with several pool requests, the analogue of Draft and Exchange's rings with several pair
+  arrows (`paper/k3-simple`, Appendix "How large must a ring be?").
+
+`pointer.py`, `pointer.log`; distinct hard starts:
+
+| data | hard starts | (a) every S_o ≠ ∅ | (b) a fixed point exists | (c) a fixed-point chain repairs (absorber o or x) | (c-head) … absorber o | (d) every fixed point repairs |
+|---|---|---|---|---|---|---|
+| special | 16 | 16 | 15 | 13 | 13 | 12 |
+| dichotomy failures | 2 | 2 | 2 | 2 | 2 | 2 |
+| screen | 194 | 194 | 189 | 173 | 162 | 144 |
+| suite | 196 | 196 | 191 | 175 | 163 | 140 |
+| random cores n ≤ 3 | 293 | 293 | 293 | 293 | 293 | 272 |
+| random cores n = 4 | 215 | 215 | 215 | 215 | 215 | 196 |
+| random cores n = 5 | 30 | 30 | 30 | 30 | 30 | 28 |
+| logged hard profiles | 1,364 | 1,364 | 1,359 | 1,337 | 1,335 | 1,266 |
+| **total, k = 4** | **2,310** | **2,310** | 2,294 | 2,238 | 2,213 | 2,060 |
+| k = 3, n = 5 cores (3,000 profiles) | 215 | 215 | **215** | **215** | **215** | 210 |
+
+- *(a)* is Lemma T4 and holds everywhere, a consistency check of GDT on 2,525 states.
+- *At k = 3, a fixed point always exists and always repairs with the head absorbing* (215 of 215). A k = 3 proof of
+  OC₁ along these lines needs two statements:
+  - **(P1₃)** some fixed point exists. Gale's cycle must close in one step, presumably by an R1 / block argument like
+    LB⁺'s (A3)–(A4);
+  - **(P2₃)** its chain repairs. GDT's (G4) must hold after the chain for the remaining frozen agents with the head as
+    owner, which is where Draft and Exchange's finishing count |H_o| ≤ |F| − 1 enters.
+
+  This is offered to the k = 3 → k = 4 angle (`claude/k4-k3-oc1`).
+- *At k = 4 the pointer argument stops in two places:*
+  - *no fixed point* (16 of 2,310; e.g. Q2 with picks (3, 7, 5, 4), and two c4one-one-rotation instances): every
+    repairing chain has a head that needs junk to improve, or the cycle has length ≥ 2;
+  - *a fixed point, but no repairing one* (56 more; e.g. T3 with picks (0, 4, 1), adaptive-p1): the repairing head is
+    a *wanted* agent, not an unwanted one.
+
+  These are the cases a k = 4 proof must handle beyond the TTC pointer argument. They are exactly where OC₁-ED's
+  extra freedom is used: the head takes junk, or the head is frozen (§10's D0+NJ and D0+NJH+UH columns).
+
+## 12. Next steps
+
+1. *OC₁-E / OC₁-ED at larger n.* Adversarial climbs at n = 6–8 with the endpoint objective:
+   - `head_bign_climb_ends_6_8.log`: 12 runs × 400 steps, no failure;
+   - `head_bign_climb_ends_6_8_long.log` (48 × 1,000) and `head_bign_climb_ends_seeded.log` (started from the OC₁-H
+     counterexamples): running at the end of burst 3.
+
+   The head-only objective broke OC₁-H within 7 runs, so the endpoint form survives a test that the head form did not.
+2. *k = 3 (for the `k4-k3-oc1` angle).* Prove (P1₃) and (P2₃) of §11. Both hold on all 215 + 49 hard starts tested.
+   The fixed point should come from LB⁺'s block structure ((A3): exposed agents are block leaders), and the repair
+   from Draft and Exchange's finishing count with the chain's end as the finisher.
+3. *k = 4 beyond the pointer argument (§11).* Classify the 72 starts where no fixed-point chain repairs: a wanted
+   head, or a head needing junk. Look for the second pointer that a Theorem B₄ would follow there, for instance from
+   the head to the frozen agent wanting its pick, as in Draft and Exchange's want arrows.
+4. *MDP∃ with a second extremal criterion* (fewest junk goods moved, least total gain), to rule out the r617 pattern
+   of two independent pool swaps.
+5. *The core of a pool-owned market* (Lemma T3's remark): not pursued. With the pool owned by an agent, individual
+   rationality would force that agent to receive at least its pick plus all the junk, which no one-absorber
+   completion with other junk holders can give. The core is the wrong notion here, and value domination (MD) is the
+   right IR invariant.

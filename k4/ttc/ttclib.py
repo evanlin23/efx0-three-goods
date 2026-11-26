@@ -102,6 +102,22 @@ def load_items(src, N=0, seed=0):
                 perm = list(S); rng.shuffle(perm); d = dict(zip(perm, (a, b, c))); vals.append([d[g] for g in S])
             items.append(('k3r%d' % t, sets, vals, core['m']))
         return items
+    if src.startswith('tight:'):
+        # tight random k = 4 instances: m in [n, n + 3] goods, so that several agents end without a pick (the shape of
+        # the OC1-H counterexample of refute_head.py); degrees 3/4, every good relevant to someone
+        cwd = os.getcwd(); os.chdir(_paths.DE4)
+        from de4lib import random_profile
+        os.chdir(cwd)
+        lo, hi = map(int, src[6:].split('-')); items = []
+        for t in range(N):
+            n = lo + t % (hi - lo + 1); rng = random.Random(seed * 100003 + t)
+            m = rng.randint(n, n + 3)
+            while True:
+                sets = [sorted(rng.sample(range(m), rng.choice([3, 4, 4]))) for _ in range(n)]
+                if len(set().union(*map(set, sets))) == m:
+                    break
+            items.append(('t%d' % t, sets, random_profile(sets, rng), m))
+        return items
     if src.startswith('big:'):
         import oc1_bign
         lo, hi = map(int, src[4:].split('-'))

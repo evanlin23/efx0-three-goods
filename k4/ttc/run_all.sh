@@ -47,3 +47,4 @@ python3 head_bign_climb.py 12 400 10 21 6 8 > $L/head_bign_climb_6_8.log      # 
 python3 head_bign_climb.py 12 400 10 31 6 8 ends > $L/head_bign_climb_ends_6_8.log
 python3 hd_fail_check.py > $L/hd_fail_check.log
 (python3 refute_head.py 0; python3 refute_head.py 1) > $L/refute_head.log
+python3 pointer.py special > $L/pointer.log; for a in dich screen suite 'core:n3 3000 91' 'core:n4 1500 92' 'core:n5 150 93' 'logs nmax=5' 'k3:5 3000 32'; do python3 pointer.py $a >> $L/pointer.log; done

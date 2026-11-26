@@ -6,8 +6,9 @@ capped at CAPC.  The climb maximises (hard starts * CAPC - least count) * 1000 +
 more than their pick, the soft signal of oc1_bign_climb.py) and prints any start with count 0 (an OC1-HD
 counterexample; then plain OC1 is checked too).
 
-    python3 k4/ttc/head_bign_climb.py N_RUNS ROUNDS ORDERS SEED NMIN NMAX [ends]
-ends: Conjecture OC1-ED: the same chains, but the absorber may be either endpoint (x_0 or x_t).  (The worker processes
+    python3 k4/ttc/head_bign_climb.py N_RUNS ROUNDS ORDERS SEED NMIN NMAX [ends] [seeded]
+ends: Conjecture OC1-ED: the same chains, but the absorber may be either endpoint (x_0 or x_t).
+seeded: every run starts from one of the two OC1-H counterexamples of refute_head.py (n = 6, m = 10).  (The worker processes
 are forked, so the module-level flag set in __main__ reaches them.)"""
 import sys, os, json, random, collections, time, multiprocessing as mp
 import ttclib as T
@@ -57,10 +58,18 @@ def evaluate(sets, vals, m, ords):
     return ((hard * CAPC - least) * 1000 + danger) if hard else danger, hard, least, bad
 
 
+SEEDED = False  # 'seeded': start every run from one of the two OC1-H counterexamples (refute_head.CASES), n = 6
+
+
 def run(args):
     n, rounds, norders, seed = args
     rng = random.Random(seed)
-    sets, vals, m = gen(n, rng)
+    if SEEDED:
+        import refute_head
+        sets, vals, m = refute_head.CASES[seed % 2]; sets = [list(x) for x in sets]; vals = [list(x) for x in vals]
+        n = len(sets)
+    else:
+        sets, vals, m = gen(n, rng)
     ords = [list(range(n)), list(range(n))[::-1]]
     while len(ords) < norders:
         o = list(range(n)); rng.shuffle(o); ords.append(o)
@@ -81,7 +90,7 @@ def run(args):
 
 if __name__ == '__main__':
     NR, ROUNDS, ORD, SEED, NMIN, NMAX = map(int, sys.argv[1:7])
-    ENDS = 'ends' in sys.argv[7:]
+    ENDS = 'ends' in sys.argv[7:]; SEEDED = 'seeded' in sys.argv[7:]
     print('$ python3 k4/ttc/head_bign_climb.py', *sys.argv[1:], flush=True)
     t0 = time.time(); C = collections.Counter()
     tasks = [(NMIN + t % (NMAX - NMIN + 1), ROUNDS, ORD, SEED * 1009 + t) for t in range(NR)]
