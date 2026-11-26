@@ -1424,3 +1424,17 @@ must also hold the leftover junk, and then the other agent sharing the pair is t
   - Every canonical chain from 1 or 3, with H₀ = {2, 4}, leaves the other sharer frozen and threatened (DEMAND), with
     no HEAD and no CROWD.
   - So the shared pair need not be pure junk: it can contain B_{x_t}.
+- *The owner need not be x₀ or x_t when |D| ≥ 2* (matching session, `proof/k4-matching`, `k4/matching.md`).
+  - Their instance pw94: sets [[0,4,5,6],[1,4,5,6],[0,1,2],[1,0,3]], values [[20,18,12,19],[20,17,15,14],[4,5,1],[3,7,2]],
+    picks (0, 1, 2, 3), perfect, D = {0, 1}.
+  - Checked here: no ED chain leaves a completion owned by x₀ or x_t (`ed_check.classify`).
+  - Yet every chain k → w (k ∈ {0, 1}, w ∈ {2, 3}) completes with the *other* wanter of Y_k as owner.
+  - So OC₁ holds there, and only the owner restriction of OC₁-ED\* (b) fails. Both dangerous agents value the same
+    three pool goods {4, 5, 6}, which again is a shared danger set.
+- *Lemma M and Lemma EX* (matching session).
+  - Lemma M is a full-witness matching form of Lemma 2\*: no movable/non-movable split, with the deficiency
+    min_H (|H| − ν(Γ(H))).
+  - Lemma EX is a sufficient condition after any chain, any owner and any |D|. Its condition (2) is checked in the
+    slot graph of the picks, and it contains Lemma D1-red.
+  - In EX, crowding is absorbed into the matching condition. That condition still has to be established, which is
+    their Conjecture CM, so EX restates D1-C rather than proving it.
