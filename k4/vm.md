@@ -22,7 +22,9 @@ coordinator integrates.
     2,700/2,700, general 3,000/3,000.
   - With *narrow* exchanges (the taker must value z) VM1 is **refuted** at n = 3, m = 7 and n = 4, m = 7
     (`attempts/k4-vm-vm1.md`, independent replay). One unrestricted exchange completes both.
-  - Climbs against VM1 with unrestricted exchanges: n = 3 found no counterexample; n = 4, 5 see §7.3.
+  - Climbs against VM1 with unrestricted exchanges found no counterexample at n = 3 or n = 4
+    (`vm1f_climb{3,4}.log`). At the hardest profiles one move is needed and a third of the one-move states complete.
+    n = 5 was still running at the end of this burst (`vm1f_climb5.log`).
   - The invariant (I1)–(I5), all proved: partial EFX₀; domination of the start; wanted goods held alone; bundles of
     two or more goods envied only by agents that value all of their goods; the potential rises.
   - **The unproved step is placeability.** From some V-M matching, after at most one move, the pool can be placed
