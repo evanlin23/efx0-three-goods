@@ -1,0 +1,37 @@
+$ RECHOOSE=1 python3 kgen/aacgmm3_opb2.py 3 1200 5 10
+FAIL REB blocked: only a pick of agent 1's richer bundle violates, and it is worth less than the poorer bundle's pick general [[76, 70, 17, 48, 78, 61], [81, 75, 9, 78, 2, 61], [34, 71, 30, 25, 92, 61]] order (0, 1, 2) roles (1, 0, 2) picks [4, 0, 1]
+FAIL invariant 2 lost after REB, re-choosing does not settle general [[49, 50, 28, 10, 47, 66], [28, 8, 71, 64, 16, 56], [94, 50, 92, 72, 47, 2]] order (0, 1, 2) roles (2, 0, 1) picks [5, 2, 0]
+FAIL case 2: agent 2's two-bundle PR blocked by a pick general [[49, 38, 26, 80, 70, 78, 61, 2], [42, 2, 90, 78, 2, 81, 55, 45], [65, 96, 98, 69, 92, 7, 94, 13]] order (0, 2, 1) roles (1, 2, 0) picks [3, 5, 2]
+14400 general: runs
+13583 general: runs ending EFX0
+12844 general: runs ending EFX0 and OC1-reachable
+715 general: runs ending EFX0, not OC1, identity placement
+676 general: runs failing: REB blocked: only a pick of agent 1's richer bundle violates, and it is worth less than the poorer bundle's pick
+3 general: runs failing: case 2: agent 2's two-bundle PR blocked by a pick
+138 general: runs failing: invariant 2 lost after REB, re-choosing does not settle
+2400 general: starts
+2125 general: starts where roles = order ends OC1-reachable
+2400 general: starts where some role assignment ends OC1-reachable
+14400 ident: runs
+14400 ident: runs ending EFX0
+14363 ident: runs ending EFX0 and OC1-reachable
+5 ident: runs ending EFX0, not OC1, identity placement
+2400 ident: starts
+2383 ident: starts where roles = order ends OC1-reachable
+2400 ident: starts where some role assignment ends OC1-reachable
+14400 zeros: runs
+13273 zeros: runs ending EFX0
+13038 zeros: runs ending EFX0 and OC1-reachable
+12 zeros: runs ending EFX0, not OC1, identity placement
+1123 zeros: runs failing: REB blocked: only a pick of agent 1's richer bundle violates, and it is worth less than the poorer bundle's pick
+4 zeros: runs failing: case 2: agent 2's two-bundle PR blocked by a pick
+2400 zeros: starts
+2063 zeros: starts where roles = order ends OC1-reachable
+2400 zeros: starts where some role assignment ends OC1-reachable
+18572 moves: move
+7590 moves: rechoose
+8502 moves: swap
+
+real	0m7.522s
+user	0m7.251s
+sys	0m0.004s

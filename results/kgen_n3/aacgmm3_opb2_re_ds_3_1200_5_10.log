@@ -1,0 +1,42 @@
+$ RECHOOSE=1 DUMPSWAP=1 python3 kgen/aacgmm3_opb2.py 3 1200 5 10
+FAIL invariant 2 lost after REB, re-choosing does not settle general [[76, 70, 17, 48, 78, 61], [81, 75, 9, 78, 2, 61], [34, 71, 30, 25, 92, 61]] order (0, 1, 2) roles (1, 0, 2) picks [4, 0, 1]
+FAIL REB blocked: only a pick of agent 1's richer bundle violates, and it is worth less than the poorer bundle's pick general [[96, 16, 22, 65, 39, 31, 85, 3], [68, 69, 53, 7, 79, 15, 44, 17], [33, 70, 62, 8, 46, 29, 26, 16]] order (0, 1, 2) roles (0, 1, 2) picks [0, 4, 1]
+FAIL no termination general [[8, 17, 44, 28, 70], [45, 18, 84, 4, 96], [5, 28, 57, 47, 40]] order (0, 2, 1) roles (2, 1, 0) picks [4, 0, 2]
+FAIL case 2: agent 2's two-bundle PR blocked by a pick general [[49, 38, 26, 80, 70, 78, 61, 2], [42, 2, 90, 78, 2, 81, 55, 45], [65, 96, 98, 69, 92, 7, 94, 13]] order (0, 2, 1) roles (1, 2, 0) picks [3, 5, 2]
+14400 general: runs
+13869 general: runs ending EFX0
+13115 general: runs ending EFX0 and OC1-reachable
+730 general: runs ending EFX0, not OC1, identity placement
+330 general: runs failing: REB blocked: only a pick of agent 1's richer bundle violates, and it is worth less than the poorer bundle's pick
+3 general: runs failing: case 2: agent 2's two-bundle PR blocked by a pick
+196 general: runs failing: invariant 2 lost after REB, re-choosing does not settle
+2 general: runs failing: no termination
+2400 general: starts
+2181 general: starts where roles = order ends OC1-reachable
+2400 general: starts where some role assignment ends OC1-reachable
+14400 ident: runs
+14400 ident: runs ending EFX0
+14363 ident: runs ending EFX0 and OC1-reachable
+5 ident: runs ending EFX0, not OC1, identity placement
+2400 ident: starts
+2383 ident: starts where roles = order ends OC1-reachable
+2400 ident: starts where some role assignment ends OC1-reachable
+14400 zeros: runs
+13680 zeros: runs ending EFX0
+13442 zeros: runs ending EFX0 and OC1-reachable
+15 zeros: runs ending EFX0, not OC1, identity placement
+569 zeros: runs failing: REB blocked: only a pick of agent 1's richer bundle violates, and it is worth less than the poorer bundle's pick
+4 zeros: runs failing: case 2: agent 2's two-bundle PR blocked by a pick
+147 zeros: runs failing: invariant 2 lost after REB, re-choosing does not settle
+2400 zeros: starts
+2171 zeros: starts where roles = order ends OC1-reachable
+2400 zeros: starts where some role assignment ends OC1-reachable
+146150 moves: move
+20808 moves: pick swap with the dump
+9998 moves: potential fell (after a re-choice)
+37934 moves: rechoose
+9904 moves: swap
+
+real	0m8.797s
+user	0m8.759s
+sys	0m0.004s
