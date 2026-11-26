@@ -4,7 +4,31 @@ Workstream `proof/k4-ttc` (branch `claude/k4-ttc`, draft PR #101). Code: `k4/ttc
 log); logs: `results/k4_ttc/`. Notation as in `k4/sdc.md` (§2, §28–§30). Everything called evidence below is evidence
 only (PROMPT.md §5 rule 3). This note changes no ledger row; the coordinator integrates.
 
-## Status (burst 4): OC₁ fails on strict cores, but only with agents holding two private goods
+## Status (burst 5): "for every order" fails even in the K4.MC2 class; R1-priority and max-matching forms survive
+
+**OC and OC₁ fail for some order on a strict connected core in the K4.MC2 class** (`attempts/k4-ttc-oc-every-order.md`).
+- *The core:* n = 5, m = 9, three 4-good agents, one private good each. Agent i values {yᵢ:10, aᵢ:6, bᵢ:5, bᵢ₋₁:7};
+  two 3-good agents value {y₀, y₁, y₂}.
+- *The failing order:* (0, 1, 2, 3, 4), with picks (y₀, y₁, y₂, none, none). The two pickless agents freeze everyone
+  else. Each frozen agent's junk is a danger triangle, so the junk has no completion at all, free or one-absorber,
+  and none of the 232 improving moves helps.
+- *Checks:* SAT, the independent brute force `refute_oc1.py`, and the Hall session's own code and written count.
+- *Still true there:* MD holds, two moves suffice, SD-C holds, and **every R1-priority order works**. The failing
+  picks are not a maximum matching (3 of ν = 5 agents matched).
+
+**What is refuted "for every order":** OC (free completion, one move), OC₁, OC₁ᵖ, OC₁-ED and OC₁-ED\*.
+
+**What survives:**
+- MD, SD-C and TARGET₄;
+- the R1-priority forms (OC and OC₁ for LB's Phase-1 orders, SD-C-R1);
+- the coordinator's **OC₁^max** (orders whose picks form a maximum matching; such orders exist and are computable, by
+  Abraham et al. Thm 1 and §6 Lemma 1, §1).
+
+**Climbs** (`core_climb.py`):
+- *R1-priority orders in the MC2 class, seeded from this core:* 6 × 400 steps, 40 orders each, no failure.
+- *Still running:* R1-priority at n = 6–7; OC₁^max seeded from both n = 5 cores; OC₁^max random at n = 6–7.
+
+## Status at the end of burst 4: OC₁ fails on strict cores, but only with agents holding two private goods (superseded: an MC2-class counterexample to OC and OC₁ followed in burst 5)
 
 **OC₁ fails on strict connected k = 4 cores** (`attempts/k4-ttc-oc1-counterexample.md`, §13):
 - n = 5, m = 9, built by hand here;

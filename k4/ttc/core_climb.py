@@ -13,7 +13,9 @@ chains) after which the bases have one (capped), and the soft signal counts froz
 than their pick plus 2 per agent without a pick.  A start with count 0 is printed (an OC1 counterexample inside the
 cores; then checked against rings too and against the free completion).
 
-    python3 k4/ttc/core_climb.py N_RUNS ROUNDS ORDERS SEED NMIN NMAX [free] [seeded] [seed=FILE] [mc2]
+    python3 k4/ttc/core_climb.py N_RUNS ROUNDS ORDERS SEED NMIN NMAX [free] [seeded] [seed=FILE] [mc2] [r1] [max]
+max: only orders whose picks form a maximum matching (the coordinator's OC1^max) are scored, sampled per evaluation;
+r1: the serial dictatorships use R1 priority (LB's Phase 1; the order breaks ties), i.e. SD-C-R1's orders;
 mc2: every instance must also have no agent with two private goods (the class of K4.MC2, CERTIFIED: a minimal
 counterexample to TARGET4 has none); seed=FILE: the seed instance for 'seeded' (default oc1_core_candidate.json).
 free: Conjecture OC (free completion after at most one move) instead of OC1; seeded: every run starts from the OC1
@@ -41,6 +43,8 @@ def vmatrix(sets, vals, m):
     return v
 
 
+MAXM = False    # 'max': score only orders whose picks form a maximum matching of the agent / relevant-good graph
+R1 = False      # 'r1': evaluate the orders with R1 priority (sdc_orders.sd(..., r1=True)): OC1 for R1-priority orders
 MC2 = False     # 'mc2': also require that no agent has two private goods (the K4.MC2 class)
 
 
@@ -86,6 +90,33 @@ def ok(E, b):
     return T.DF.extends(E, b) if FREE else T.extends_A(E, b, 1)
 
 
+def nu(sets):
+    """size of a maximum matching of agents to relevant goods"""
+    import networkx as nx
+    G = nx.Graph(); A = [('a', i) for i in range(len(sets))]
+    G.add_nodes_from(A)
+    for i, s in enumerate(sets):
+        for g in s:
+            G.add_edge(('a', i), ('g', g))
+    return len(nx.bipartite.maximum_matching(G, top_nodes=A)) // 2
+
+
+def max_orders(sets, vals, m, rng, k, tries=None):
+    """up to k orders whose serial-dictatorship picks are a maximum matching (identity and reverse first, then
+    random), found by sampling; such orders exist (Abraham et al. 2004, Thm 1 and Lemma 1 of §6)"""
+    E = T.Enc(sets, vals, m); n = len(sets); target = nu(sets); out = []
+    cands = [list(range(n)), list(range(n))[::-1]]
+    for _ in range(tries or 20 * k):
+        o = list(range(n)); rng.shuffle(o); cands.append(o)
+    for o in cands:
+        Y = T.sd(E, o, R1)[0]
+        if sum(1 for y in Y if y is not None) == target:
+            out.append(o)
+            if len(out) >= k:
+                break
+    return out
+
+
 def count(E, base, cap=CAPC):
     seen = set(); c = 0
     for b2 in T.DF.iter_chains(E, base):
@@ -100,9 +131,11 @@ def count(E, base, cap=CAPC):
 
 
 def evaluate(sets, vals, m, ords):
+    if MAXM:
+        ords = max_orders(sets, vals, m, random.Random(len(ords) * 7919 + sum(map(sum, vals))), len(ords))
     E = T.Enc(sets, vals, m); hard = 0; least = CAPC; bad = None; done = {}; soft = 0
     for o in ords:
-        Y = tuple(T.sd(E, o)[0])
+        Y = tuple(T.sd(E, o, R1)[0])
         if Y in done:
             continue
         base = T.base_of(E, Y)
@@ -155,7 +188,8 @@ def run(args):
 
 if __name__ == '__main__':
     NR, ROUNDS, ORD, SEED, NMIN, NMAX = map(int, sys.argv[1:7])
-    FREE = 'free' in sys.argv[7:]; SEEDED = 'seeded' in sys.argv[7:]; MC2 = 'mc2' in sys.argv[7:]
+    FREE = 'free' in sys.argv[7:]; SEEDED = 'seeded' in sys.argv[7:]; MC2 = 'mc2' in sys.argv[7:]; R1 = 'r1' in sys.argv[7:]
+    MAXM = 'max' in sys.argv[7:]
     for a in sys.argv[7:]:
         if a.startswith('seed='):
             SEEDFILE = a[5:]

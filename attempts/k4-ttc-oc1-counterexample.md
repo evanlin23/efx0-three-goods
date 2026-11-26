@@ -20,7 +20,11 @@ Workstream `proof/k4-ttc` (`k4/ttc.md` §13). **Status:**
 - Both were verified independently by the coordinator (`k4/sdc/oc1_core_cex_verify.py` on its branch) and by the Hall
   session (`k4/oc1_hall/verify_ttc_cex.py`).
 
-**In the K4.MC2 class the pigeonhole breaks, at least in the natural construction.** Make each danger pair {aᵢ, bᵢ} of
+**Update (burst 5): an MC2-class counterexample exists.** It refutes OC (free completion) as well as OC₁, for one
+order; see `attempts/k4-ttc-oc-every-order.md`. In it, every frozen agent's junk is a danger triangle. R1-priority and
+maximum-matching orders are not refuted.
+
+**In the K4.MC2 class the pigeonhole breaks in the first natural construction.** Make each danger pair {aᵢ, bᵢ} of
 the n = 5 core share bᵢ with the next frozen agent at value 2 (`results/k4_ttc/oc1_mc2_candidate.json`). Then OC₁
 holds: a chain lets agent i take {aᵢ, bᵢ, bᵢ₋₁}, which breaks two danger pairs at once. Climbs inside the class are in
 `k4/ttc.md` §13.

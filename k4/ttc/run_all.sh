@@ -57,3 +57,9 @@ python3 core_climb.py 48 400 10 71 6 7 > $L/core_climb_6_7.log
 python3 core_climb.py 12 400 24 81 5 5 free seeded > $L/core_climb_oc_seeded.log
 python3 core_climb.py 6 400 30 91 5 5 seeded seed=oc1_mc2_candidate.json mc2 > $L/core_climb_mc2_seeded.log
 python3 core_climb.py 36 400 12 92 6 8 mc2 > $L/core_climb_mc2_6_8.log
+python3 mc2_hand.py > $L/mc2_hand.log
+python3 core_climb.py 6 400 40 101 5 5 seeded seed=oc1_mc2_counterexample.json mc2 r1 > $L/core_climb_mc2_r1_seeded.log
+python3 core_climb.py 24 400 12 102 6 7 mc2 r1 > $L/core_climb_mc2_r1_6_7.log
+python3 core_climb.py 6 300 20 111 5 5 seeded seed=oc1_core_candidate.json max > $L/core_climb_max_seeded_core.log
+python3 core_climb.py 6 300 20 112 5 5 seeded seed=oc1_mc2_counterexample.json mc2 max > $L/core_climb_max_seeded_mc2.log
+python3 core_climb.py 24 300 12 113 6 7 max > $L/core_climb_max_6_7.log
