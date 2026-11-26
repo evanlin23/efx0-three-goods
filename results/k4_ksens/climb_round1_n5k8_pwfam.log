@@ -1,0 +1,1 @@
+$ python3 k4/ksens/climb.py round1 902 5 8 200 20 gen:pwfam mmin:9 mmax:16

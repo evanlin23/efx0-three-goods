@@ -20,7 +20,7 @@ agent on it strictly gains), and a *completion* keeps every base. Random and cli
 | OC₁ / OC: from every order, one improving chain, then a completion (one absorber / free) | holds on all data | **5** | PW5, n = 5, m = 9; smaller: n = 4, m = 8 found by `proof/kgen-n3` | SAT, full brute force, written proof (the n = 4 one re-checked here by both checkers) |
 | the same from R1-priority orders, or from the neediest-first order (need = y₁ − y₂ − y₃) | holds | **6** | PWR1-6, NF2-6 (n = 6, m = 11) | 2 SAT encodings, SAT-free enumeration |
 | c chains from every order | c = 1 holds | **2c + 3** (c = 1, 2, 3) | PW(c + 2, c + 1, 2c + 2) | c = 1 as above; c = 2, 3 by ocseq.py only |
-| one round of disjoint chains, then one absorber | holds | none found (k ≤ 10) | | |
+| one round of disjoint chains, then one absorber (Conjecture RD₁, §6) | holds | none found (k ≤ 10) | repairs every counterexample above | |
 | SD-C (some order, no chain) | holds | none found (k ≤ 8) | | |
 | MD (every order's picks value-dominated) | holds | none found (k ≤ 8) | | |
 | conclusion of Theorem DT (and DT⁺, Lemma GDT) | proved | **5** | DT5, n = 2, m = 6 | SAT, brute force |
@@ -420,3 +420,69 @@ k = 5, 6) has not found a failure (`climb_round1_*.log`).
 - *Complete want* (`attempts/k4-ksens-complete-want.md`, `fam_cw.py`). Every frozen pick stays wanted after a chain,
   yet the chain can dump the last frozen pick on a wanter as that wanter's one junk good, which satisfies it. OC₁
   holds on all 240 instances, k = 5–8.
+
+## 6. One round of disjoint chains: Conjecture RD
+
+**Definitions** (encoded by `ocsat.OC.holds(..., multi=True)`).
+- A *round* from bases B is a set of vertex-disjoint improving chains C₁, …, C_s (s ≥ 0), each a chain of
+  `k4/sdc.md` §29 with t ≥ 0, applied at the same time.
+- Their junk sets H are pairwise disjoint. Each chain's head takes only junk and goods of its own chain's end.
+- Each chain's end releases what is left of its old base into the junk.
+- Every agent on a chain gains strictly; every other agent keeps its base.
+
+**Conjecture RD₁ (k4/ksens).** In every additive instance, for every serial-dictatorship order π, some round from
+the picks SD(π) reaches bases with a one-absorber completion: a complete EFX₀ allocation containing every base, in
+which at most one agent holds two or more goods outside its base. RD is the same with the free completion.
+
+*What RD says.*
+- RD₁ ⟹ RD.
+- RD from an order π implies MD for π: every chain agent gains and every other agent keeps its pick, so the
+  completion value-dominates the picks.
+- RD from a single order already gives a complete EFX₀ allocation.
+- So **RD for all k contains EFX₀ existence for every additive instance**, which is open for n ≥ 4. RD at a fixed k
+  is a k-limited statement like OC₁, with s chains instead of one.
+
+*Evidence* (all EVIDENCE):
+
+| data | starts needing a chain | one chain fails | one round fails |
+|---|---|---|---|
+| every known OC₁ counterexample, all starts: kgen-n4 (n = 4, k = 5), PW5, PW436, PWR1-6, NF2-6, NF1R1-6 (`round_known.log`) | 5, 7, 85, … | 1, 1, 13, … | 0 |
+| random PW draws, k = 5–9 (90) and POOL(4, 7), POOL(5, 9) (`round_pw.log`) | all | all | 0 |
+| PWQ(f, W, r): released wanter goods valued by the frozen agents (`fam_pwq.py`, 160 instances, k = 5–7) | all | 0 | 0 |
+| climbs against RD₁ (`climb.py round1`): n = 4, 5 at k = 5, 6 (79 rounds), n = 6 at k = 6 | | | none |
+
+The climbs at k = 6, 8 seeded from the n = 4 instance and from PW (`climb_round1_n4k6_kgen.log`,
+`climb_round1_n5k8_pwfam.log`, `climb_round_n5k6_pwseed.log`) are running. As noted in the status block, the climbs
+are weak: they miss known counterexamples to OC₁-R1.
+
+**Why rounds beat the PW obstruction.** In PW every repair is independent. It uses a fresh frozen agent x, a fresh
+wanter w, and the chain x → w; x takes a pair of the pool, w takes x's pick, and w's old pick is released.
+- One chain can repair only its head without threatening the rest (Lemma PL (d), §1). A round can perform s repairs
+  at once for any s ≤ min(W, ⌊r/2⌋).
+- After s repairs, r − 2s pool goods are left and the W − s unused wanters offer one slot each.
+- Taking s as large as the wanters allow closes the §4 count: with s = W every wanter holds a pick it ranks above the
+  unrepaired agents' picks, so those are unfrozen and absorb their own pool goods.
+- This is the k-free part of the picture. A round turns a bounded number of repairs (the ladder's ⌊(k − 1)/2⌋ chains)
+  into an unbounded one.
+
+**What a round cannot do, and where a counterexample to RD would have to live.** Compare two chains C₁ then C₂ applied
+one after another from the picks (single-good bases).
+1. If they share no agent and C₂ takes nothing that C₁ released, they form a round with the same result.
+2. If C₂'s head y takes the pick g that C₁'s end a released, and C₂ is not a ring (y takes nothing from C₂'s own end),
+   the concatenation C₁·C₂ is one chain with the same result. a passes its whole base {g} to y, so y receives exactly
+   g, and C₁'s head may still take its junk.
+3. The gap.
+   - C₂ is a ring whose head needs both g (released by C₁) and goods of C₂'s own end. Then neither concatenation keeps
+     both. In C₁·C₂ the head y is a middle agent and cannot take from C₂'s end. In C₂·C₁ the head x₀ of C₁ is a middle
+     agent and receives C₂'s end's base instead of y.
+   - Or the two chains share an agent that must gain twice.
+
+   So an RD counterexample needs a repair that is a ring around a good released by another repair, or an agent that
+   must move twice.
+   - In PW, PWQ and the n = 4 instance no such dependence occurs.
+   - A designed gadget (a ring head valuing exactly {g, e}, with g released by another chain and e the ring end's pick)
+     is the next thing to try.
+
+None of this is a proof. A k-free reason for RD would prove EFX₀ existence. What this section does establish is the
+mechanism by which every k-sensitive failure found here, and in `proof/kgen-n3`, is repaired: independent repairs done
+in parallel.
