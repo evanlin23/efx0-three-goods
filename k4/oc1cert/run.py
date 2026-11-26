@@ -2,7 +2,8 @@
 written by k4/search4.py), by the ordinal CEGAR of k4/oc1cert/cegar.py.
 
     python3 k4/oc1cert/run.py LIST[,LIST...] --out=results/k4_oc1max/cert_<tag>.json.gz [--jobs=4] [--stride=S --offset=O]
-           [--limit=SEC] [--no-compact]
+           [--limit=SEC] [--no-compact] [--depth=D] [--idx=I,J,...]
+--depth=D: up to D moves in sequence (OC_D form; default 1 = OC1^max).  --idx: only these core indices (within m).
 
 LIST is a name like 2, 3, 4_n4_1, 5_pure (results/k4_certs_<LIST>.json.gz).  A hypergraph whose outer loop finds a
 (profile, picks) pair with no witness is re-checked at once with the raw checker k4/sdc/oc1_mc2_rand.Inst (its SD picks
@@ -24,9 +25,9 @@ def raw_check(sets, vals, picks):
 
 
 def job(task):
-    lst, idx, sets, limit, compact = task
+    lst, idx, sets, limit, compact, depth = task
     t0 = time.time()
-    C = Cert(sets)
+    C = Cert(sets, depth=depth)
     r = C.run(time_limit=limit)
     rec = {'list': lst, 'idx': idx, 'sets': sets, 'm': C.m, 'nu': C.nu, 'domains': [len(D) for D in C.dom],
            'result': r, 'stats': C.stats(), 'time': round(time.time() - t0, 3)}
@@ -51,12 +52,15 @@ def main():
     stride, offset = int(opt.get('stride', 1)), int(opt.get('offset', 0))
     limit = float(opt['limit']) if 'limit' in opt else None
     compact = 'no-compact' not in opt
+    depth = int(opt.get('depth', 1))
+    idxs = set(map(int, opt['idx'].split(','))) if 'idx' in opt else None
     print('$ python3 k4/oc1cert/run.py', *sys.argv[1:], flush=True)
     tasks = []
     for lst in lists:
         d = json.load(gzip.open(os.path.join(ROOT, 'results', 'k4_certs_%s.json.gz' % lst)))
         for c in d['cores'][offset::stride]:
-            tasks.append((lst, c['idx'], c['sets'], limit, compact))
+            if idxs is not None and (lst, c['idx']) not in idxs and c['idx'] not in idxs: continue
+            tasks.append((lst, c['idx'], c['sets'], limit, compact, depth))
     print('hypergraphs', len(tasks), 'jobs', jobs, flush=True)
     t0 = time.time(); T = collections.Counter(); recs = []; tmax = (0, None)
     with mp.Pool(jobs) as pool:
@@ -84,7 +88,8 @@ def main():
         with gzip.open(out, 'wt') as f:
             json.dump({'statement': 'OC1^max (K4.SDC.OC1MAX) for every strict profile: for every type profile and every '
                                     'SD order whose picks form a maximum matching, the picks have a one-absorber EFX0 '
-                                    'completion or one official move (addition, chain, ring) gives bases that have one',
+                                    'completion or at most DEPTH official moves (addition, chain, ring) give bases that '
+                                    'have one (DEPTH = 1 is OC1^max)', 'depth': depth,
                        'generator': 'k4/oc1cert/cegar.py', 'lists': lists, 'stride': stride, 'offset': offset,
                        'cores': recs}, f)
         print('wrote', out)

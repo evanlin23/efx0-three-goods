@@ -101,26 +101,37 @@ def subsets(xs):
 
 class Witness:
     """See the module docstring.  fix: {agent: pick or None}; newb: {agent: tuple of goods}; imp: [(agent, new, old)];
-    X: owner of every good; kind, path, H: the move as found (for the certificate and the checker)."""
-    __slots__ = ('fix', 'newb', 'imp', 'X', 'kind', 'path', 'H')
+    X: owner of every good; moves: the moves as found, applied in turn from the picks (for the certificate and the
+    checker), each (kind, path, H)."""
+    __slots__ = ('fix', 'newb', 'imp', 'X', 'moves')
 
-    def __init__(self, fix, newb, imp, X, kind, path, H):
-        self.fix, self.newb, self.imp, self.X, self.kind, self.path, self.H = fix, newb, imp, tuple(X), kind, path, H
+    def __init__(self, fix, newb, imp, X, moves):
+        self.fix, self.newb, self.imp, self.X, self.moves = fix, newb, imp, tuple(X), tuple(moves)
+
+    @property
+    def kind(self):
+        return 'picks' if not self.moves else self.moves[0][0] if len(self.moves) == 1 else '%d moves' % len(self.moves)
 
     def image(self, ma, mg):
         f = lambda S: tuple(sorted(mg[g] for g in S))
         return Witness({ma[x]: (None if y is None else mg[y]) for x, y in self.fix.items()},
                        {ma[x]: f(B) for x, B in self.newb.items()},
                        [(ma[x], f(a), f(b)) for x, a, b in self.imp],
-                       _perm_owner(self.X, ma, mg), self.kind,
-                       tuple(ma[x] for x in self.path), tuple(f(h) for h in self.H))
+                       _perm_owner(self.X, ma, mg),
+                       [(k, tuple(ma[x] for x in path), tuple(f(h) for h in H)) for k, path, H in self.moves])
 
     def key(self):
-        return (tuple(sorted(self.fix.items(), key=lambda t: t[0])), self.X, self.kind, self.path, self.H)
+        return (tuple(sorted(self.fix.items(), key=lambda t: t[0])), self.X, self.moves)
 
     def to_json(self):
-        return {'kind': self.kind, 'path': list(self.path), 'H': [list(h) for h in self.H],
-                'picks': {str(x): y for x, y in sorted(self.fix.items())}, 'X': ''.join(map(str, self.X))}
+        d = {'picks': {str(x): y for x, y in sorted(self.fix.items())}, 'X': ''.join(map(str, self.X))}
+        if len(self.moves) <= 1:
+            k, path, H = self.moves[0] if self.moves else ('picks', (), ())
+            d.update({'kind': k, 'path': list(path), 'H': [list(h) for h in H]})
+        else:
+            d.update({'kind': 'seq', 'moves': [{'kind': k, 'path': list(path), 'H': [list(h) for h in H]}
+                                               for k, path, H in self.moves]})
+        return d
 
 
 def _perm_owner(X, ma, mg):
@@ -130,7 +141,7 @@ def _perm_owner(X, ma, mg):
 
 
 class Cert:
-    def __init__(self, sets, m=None, cap_aut=256, solver='cd15', tries=3, seed=1, keep=2, require_max=True):
+    def __init__(self, sets, m=None, cap_aut=256, solver='cd15', tries=3, seed=1, keep=2, require_max=True, depth=1):
         self.sets = [list(S) for S in sets]; self.n = n = len(sets)
         self.m = m = m if m is not None else 1 + max(g for S in sets for g in S)
         self.R = [set(S) for S in self.sets]
@@ -144,7 +155,7 @@ class Cert:
         self.nu = max_matching_size(self.sets, m)
         self.require_max = require_max
         self.auts = automorphisms(self.sets, m, cap_aut) if cap_aut else [(list(range(n)), list(range(m)))]
-        self.tries, self.keep = tries, keep
+        self.tries, self.keep, self.depth = tries, keep, depth
         self.rng = np.random.default_rng(seed)
         self._build_outer(solver)
         self._build_inner()
@@ -423,23 +434,34 @@ class Cert:
         return tot
 
     def inner(self, prof, Y):
-        """Witnesses at (prof, Y): the best completions of the picks, else the best (move, completion) pairs."""
+        """Witnesses at (prof, Y): the best completions of the picks, else the best (move sequence, completion) pairs
+        with the fewest moves (at most self.depth)."""
         base = [(y,) if y is not None else () for y in Y]
         Xs = self.complete(prof, base, self.tries)
         if Xs:
-            Ws = [Witness({}, {}, [], X, 'picks', (), ()) for X in Xs]
+            Ws = [Witness({}, {}, [], X, ()) for X in Xs]
             return sorted(Ws, key=self.volume, reverse=True)[:1]
         vals = self.vals_of(prof)
-        cands, seen = [], set()
-        for kind, path, Hs, nb, imp in self.moves(base, vals):
-            st = tuple(nb.get(a, base[a]) for a in range(self.n))
-            if st in seen: continue
-            seen.add(st)
-            Xs = self.complete(prof, [list(b) for b in st], 1)
-            if Xs:
-                fix = {x: (base[x][0] if base[x] else None) for x in nb}
-                cands.append(Witness(fix, nb, imp, Xs[0], kind, path, Hs))
-        return sorted(cands, key=self.volume, reverse=True)[:self.keep]
+        start = tuple(base)
+        seen = {start}
+        level = [(start, (), {}, [])]        # (state, moves, changed bases {agent: base}, improving comparisons)
+        for d in range(self.depth):
+            cands, nxt = [], []
+            for st, mv, nbs, imps in level:
+                for kind, path, Hs, nb, imp in self.moves(list(st), vals):
+                    st2 = tuple(nb.get(a, st[a]) for a in range(self.n))
+                    if st2 in seen: continue
+                    seen.add(st2)
+                    nbs2 = {**nbs, **nb}; mv2 = mv + ((kind, path, Hs),); imps2 = imps + imp
+                    nxt.append((st2, mv2, nbs2, imps2))
+                    Xs = self.complete(prof, [list(b) for b in st2], 1)
+                    if Xs:
+                        fix = {x: (base[x][0] if base[x] else None) for x in nbs2}
+                        cands.append(Witness(fix, nbs2, imps2, Xs[0], mv2))
+            if cands:
+                return sorted(cands, key=self.volume, reverse=True)[:self.keep]
+            level = nxt
+        return []
 
     # ------------------------------------------------------------------ loop
     def run(self, time_limit=None, log=None, max_fail=1):
