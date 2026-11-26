@@ -588,7 +588,8 @@ This is Lemma PL (b), (c) at work: after the repair at most r − 2 ≤ 1 pool g
 2. **Repair through every wanter in one chain.** The chain alternates x, w, x, w, …. Each wanter takes a pick it ranks
    above the rest, so afterwards nobody wants the f − W unrepaired picks.
    - The middle x's hold {received base} plus a pair, which threatens an unrepaired x unless that x holds a pool good
-     of its own; a pick plus a pool good is worth more than any pair in the clean values.
+     of its own. With the pool goods suitably assigned, that is enough on the computed cells; this is a heuristic, not
+     a proof.
    - The r − 2W remaining goods must cover the f − W unrepaired agents. This fails iff **r − 2W < f − W**, i.e.
      r ≤ W + f − 1.
 3. **Repair everybody.** That takes two goods each. It fails iff **r < 2f**.
@@ -599,6 +600,7 @@ This is Lemma PL (b), (c) at work: after the repair at most r − 2 ≤ 1 pool g
 
 *More chains and rounds.*
 - With c chains the head-only count becomes r − 2c > W − c, giving the ladder ⌊(k − 1)/2⌋ of §4.
-- One round can use strategy 1 with up to W heads at once, each with its own wanter. r − 2W ≤ 0 slots are then needed
-  once W ≥ r/2, and strategy 2 covers the rest. So one round always repairs PW, as observed.
+- One round can use strategy 1 with up to W heads at once, each with its own wanter. The count then becomes
+  r − 2s > W − s for s repairs, and s = W (or all of the frozen agents) closes it. Observed: one round repairs every
+  PW instance tested (no proof).
 - What one round cannot do is RD5's two-foreign-picks repair (§6).
