@@ -1,0 +1,7 @@
+picks (0, 1, 2, None, None)
+MD: a complete EFX0 allocation value-dominates the picks: True
+least number of improving moves to a free completion (de_free.search, chains+rings): 2
+plain SD outcomes: 11 Counter({('free after 1', 'one after 1', 'MD'): 6, ('free', 'one', 'MD'): 4, ('OC FAILS', 'OC1 FAILS', 'MD'): 1})
+R1-priority SD outcomes: 6 Counter({('free', 'one', 'MD'): 4, ('free after 1', 'one after 1', 'MD'): 2})
+SD-C (some order extends with a free completion): True
+   (0, 1, 2, None, None) ('OC FAILS', 'OC1 FAILS', 'MD')
