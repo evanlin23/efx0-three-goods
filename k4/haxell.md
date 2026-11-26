@@ -11,25 +11,33 @@ evidence only (PROMPT.md §5 rule 3).
 
 (Updated at the end of each burst.)
 
-**Burst 2 (2026-11-26, coordinator's request).** Evidence only.
-- *CONN₂ on every counterexample to OC/OC₁/OC₁^max* (§5): PW5, RD5, the two kgen n = 4 instances (k = 5), their k = 4
-  versions, the 39 TTC k = 4 cores and B<, B> (n = 6, m = 10). The full census covers 3.7 million partial EFX₀ states
-  with **no trap even for single moves**. What fails there is the one-chain shape, not local connectivity.
-- *k ≥ 5*: no G₂ trap in any full census at k = 5–10 (random instances, n ≤ 5; §3.4, §5). The PW grid up to k = 9
-  (n ≤ 9, m ≤ 17) is too large for the census; start-based probes found no trap on the cells finished (§5).
-- *The one-step lemma* (§6). With μ = (|pool|, −welfare) and steps of at most two moves, where a move is a single-good
-  reassignment, a swap, or a **rotation of bundles along a cycle of agents**: no stuck state on any dataset. That is
-  about 5.8 million partial EFX₀ states (C), and 397,633 checked again by an independent Python implementation. This
-  is **Conjecture W**; it implies CONN and hence TARGET₄ (§6, stated precisely). Leximin works equally well.
-  - Without rotations no fixed radius can work for welfare, leximin or the relevance count, already at k = 3: the
-    family CYC_n needs n − 1 trades.
-  - Pure augmentation (AUG) fails with rotations too.
-  - The envy-pair count works at radius 3 on the data but not at radius 2 with rotations.
-- *Not k-specific on the data*: W and CONN₂ have no failure at k = 5, 7 or with every good relevant, so the data do
-  not show where k ≤ 4 would be used. Their general-k forms would imply EFX₀ existence.
-- *Open*: a proof of W. The first steps are proved (§6, "where a proof would start"): a stuck state has an acyclic
-  envy graph, and a placement at a source fails only through a cheaper good. The two-move repair case analysis is
-  open, as is W for n ≥ 6.
+**Burst 2 (2026-11-26, coordinator's requests).** Evidence only; one new conjecture (W), stated precisely in §6.
+- *CONN₂ on every counterexample to OC/OC₁/OC₁^max* (§5). PW5, RD5, the two kgen n = 4 instances (k = 5), their k = 4
+  versions, the 39 TTC k = 4 cores and B<, B> (n = 6, m = 10): a full census of 3.7 million partial EFX₀ states, **no
+  trap even for single moves**. What fails there is the one-chain shape, not local connectivity.
+- *CONN₂ at k ≥ 5*: no G₂ trap in any full census at k = 5–10 (random instances, n ≤ 5). The PW grid up to k = 9
+  (n ≤ 9, m ≤ 17) is too large for the census; probes found no trap (§5).
+- *Conjecture W, the one-step lemma* (§6). From every partial EFX₀ allocation with a nonempty pool, at most **two
+  moves** give a partial EFX₀ allocation with a smaller pool, or the same pool and larger welfare. A move is a
+  single-good reassignment, a swap, or a **rotation of bundles along a cycle of agents**. (|pool|, −welfare) is
+  well-founded, so W implies CONN and hence TARGET₄.
+  - Exhaustive checks found no stuck state. Coverage: every partial EFX₀ allocation of the screen set, suite, k = 4
+    cores, PW5/RD5/kgen, the 39 TTC cores, **B< and B> (n = 6)**, the 1,520 logged hard profiles, and random
+    instances at k = 3, 4, 5, 7 and with every good relevant, with and without ties. Also every n = 2 instance on the
+    value grids. That is over 45 million states, 397,633 of them re-checked by an independent Python
+    implementation. Leximin works equally well.
+  - **The sharpest stress test passes**: at the CH-F welfare maxima that strand two goods (kgen-charity; k = 4,
+    n = 9 and k = 3, n = 12) W shrinks the pool in two moves (welfare 198 → 197), and W-walks complete. They also
+    complete from the stranded states of S(σ, k) and S′(σ, k), σ ≤ 5, n ≤ 40 (§7).
+  - Sampled states on random instances with n = 6–8: every state has a W step and every walk completes (§7).
+  - Why the move class is what it is: without rotations, no fixed radius works (the family CYC_n,
+    `attempts/k4-haxell-fixed-radius-measures.md`). With one move instead of two, W fails (the n = 2 trap). Pure
+    augmentation fails with rotations too.
+- *Not k-specific on the data*: W shows no failure at k = 5, 7 or with every good relevant, so it is a candidate for
+  EFX₀ in general. That makes it at least as hard as the EFX conjecture, and the data do not show where k ≤ 4 enters.
+- *Proof*: the opening is written (§6). A stuck state has an acyclic envy graph, and a placement at a source fails
+  only through a cheaper good. The n = 2 case already needs moves that take a good from the placement's receiver; it
+  is the first open case.
 
 **Burst 1 (2026-11-26).** Evidence only; nothing here changes a ledger row.
 - *Literature* (§1): Annamalai (Haxell's condition made algorithmic), AKS and Davies–Rothvoss–Zhang read in full;
