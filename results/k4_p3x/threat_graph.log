@@ -17,29 +17,18 @@ $ python3 k4/p3/threat_graph.py screen
   free>=2, T bipartite, no flat, but no two-owner completion: lb4-last-block-leader-index-n4m8 n=4 m=8 bases [[4], [6], [7], [3]]
       {"name": "lb4-last-block-leader-index-n4m8", "m": 8, "sets": [[0, 2, 4, 6], [0, 2, 5, 6], [1, 3, 4, 7], [1, 3, 5, 7]], "vals": [[2, 4, 8, 7], [5, 6, 3, 7], [3, 5, 7, 6], [4, 5, 2, 8]]}
 $ python3 k4/p3/threat_graph.py cores --count=60
-  odd cycle in k4_certs_4_n4_1_p3.json.gz (n=4, m=6): cycle [[0, 2, 3]], agents [[0], [0], [0]]
-  odd cycle in k4_certs_4_n4_2_p3.json.gz (n=4, m=8): cycle [[0, 2, 4]], agents [[0], [0], [0]]
-  odd cycle in k4_certs_4_n4_2_p3.json.gz (n=4, m=7): cycle [[0, 1, 2]], agents [[0], [0], [0]]
-  odd cycle in k4_certs_4_n4_3_p3.json.gz (n=4, m=8): cycle [[0, 4, 5]], agents [[0], [0], [0]]
-  odd cycle in k4_certs_4_n4_3_p3.json.gz (n=4, m=10): cycle [[0, 2, 5]], agents [[0], [0], [0]]
-  odd cycle in k4_certs_4_n4_3_p3.json.gz (n=4, m=8): cycle [[0, 1, 7]], agents [[0], [0], [0]]
-  odd cycle in k4_certs_5_n4_3_p3.json.gz (n=5, m=11): cycle [[0, 2, 10]], agents [[0], [0], [0]]
-  odd cycle in k4_certs_5_n4_3_p3.json.gz (n=5, m=10): cycle [[0, 2, 7]], agents [[0], [0], [0]]
-  odd cycle in k4_certs_5_n4_3_p3.json.gz (n=5, m=9): cycle [[0, 6, 7]], agents [[0], [0], [0]]
+  odd cycle in k4_certs_4_n4_2_p3.json.gz (n=4, m=9): cycle [[1, 5, 7]], agents [[1], [1], [1]]
+  odd cycle in k4_certs_4_n4_2_p3.json.gz (n=4, m=9): cycle [[0, 2, 5]], agents [[0], [0], [0]]
+  odd cycle in k4_certs_4_n4_2_p3.json.gz (n=4, m=8): cycle [[0, 2, 6]], agents [[0], [0], [0]]
+  odd cycle in k4_certs_4_n4_3_p3.json.gz (n=4, m=8): cycle [[0, 1, 2]], agents [[0], [0], [0]]
+  odd cycle in k4_certs_6_n4_1_p3.json.gz (n=6, m=10): cycle [[0, 2, 6]], agents [[0], [0], [0]]
   free 1, T bipartite: two owners FAIL: 1
-  free 1, T bipartite: two owners ok: 6
-  free 1, T odd cycle, flat: two owners FAIL: 1
-  free >=2, T bipartite: two owners ok: 284
-  free >=2, T odd cycle, flat: two owners ok: 8
+  free 1, T bipartite: two owners ok: 5
+  free >=2, T bipartite: two owners ok: 289
+  free >=2, T odd cycle, flat: two owners ok: 5
 $ python3 k4/p3/threat_graph.py random --n=6 --count=150
-  odd cycle in rand0 (n=6, m=12): cycle [[3, 5, 6]], agents [[3], [3], [3]]
-  odd cycle in rand3 (n=6, m=13): cycle [[6, 8, 9]], agents [[0], [0], [0]]
-  odd cycle in rand18 (n=6, m=12): cycle [[5, 7, 8]], agents [[0], [0], [0]]
-  odd cycle in rand124 (n=6, m=11): cycle [[6, 8, 10]], agents [[2], [2], [2]]
-  free >=2, T bipartite: two owners ok: 146
-  free >=2, T odd cycle, flat: two owners ok: 4
+  odd cycle in rand58 (n=6, m=12): cycle [[0, 6, 7]], agents [[0], [0], [0]]
+  free >=2, T bipartite: two owners ok: 149
+  free >=2, T odd cycle, flat: two owners ok: 1
 $ python3 k4/p3/threat_graph.py random --n=7 --count=100
-  odd cycle in rand28 (n=7, m=15): cycle [[0, 9, 10]], agents [[1], [1], [1]]
-  odd cycle in rand34 (n=7, m=15): cycle [[6, 7, 9]], agents [[1], [1], [1]]
-  free >=2, T bipartite: two owners ok: 98
-  free >=2, T odd cycle, flat: two owners ok: 2
+  free >=2, T bipartite: two owners ok: 100

@@ -59,11 +59,13 @@ def load(src, opt, rng):
         import p3lib
         return [I for I in p3lib._suite() if I.p() >= 4 and I.n <= int(opt.get('maxn', 8))]
     if src == 'cores':
-        L = []
+        L = []                 # --files=4_n4 keeps the lists whose name contains one of the keys; --per=K profiles per core
         for f in core_lists_p3():
             cs = cores_from(f); rng.shuffle(cs)
+            if opt.get('files') and not any(k in f for k in opt['files'].split(',')): continue
             for m, sets in cs[:int(opt.get('count', 30))]:
-                L.append(Inst(sets, random_types(rng, sets, m), m, os.path.basename(f)))
+                for _ in range(int(opt.get('per', 1))):
+                    L.append(Inst(sets, random_types(rng, sets, m), m, os.path.basename(f)))
         return L
     L = []
     for t in range(int(opt.get('count', 100))):

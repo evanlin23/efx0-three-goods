@@ -2,7 +2,8 @@
 if two free agents o1, o2 have picks that no frozen agent values, then the bases extend to an EFX0 allocation in which
 every agent other than o1, o2 holds at most two goods (SAT; no rotation). Tests every such pair; reports states where
 some uncoupled pair exists but none works, and states where some uncoupled pair fails.
-    python3 k4/p3/claim_x.py SRC [options of k4/p3/dump_rules.py]
+    python3 k4/p3/claim_x.py SRC [--mutual=1] [options of k4/p3/dump_rules.py]
+--mutual=1 tests Claim X' (also: neither owner values the other's pick).
 """
 import sys, os, random, collections, json, itertools
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -22,6 +23,8 @@ if __name__ == '__main__':
         frozen_goods = set().union(*(I.R[x] for x in range(I.n) if fr[x])) if any(fr) else set()
         unc = [o for o in free if not (s.base[o] & frozen_goods)]
         pairs = list(itertools.combinations(unc, 2))
+        if opt.get('mutual'):     # Claim X': the owners' picks are not valued by the other owner either
+            pairs = [(a, b) for a, b in pairs if not (s.base[a] & I.R[b]) and not (s.base[b] & I.R[a])]
         if not pairs: cnt['no uncoupled pair'] += 1; continue
         C = Complete(I); fixed = {g: i for i in range(I.n) for g in s.base[i]}
         res = []

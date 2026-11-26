@@ -1,0 +1,3 @@
+valuers per good: [1, 2, 2, 2, 2, 2, 2, 2]  junk: [0, 2, 6, 7]
+owners 2, 3 (agents 0, 1 at most two goods): False
+any EFX0 allocation keeping the bases: False
