@@ -1,0 +1,4 @@
+$ python3 k4/haxell/ht_lemma_ci.py screen TRIALS=300
+pairs, monotone 5927
+pairs, not monotone 6324
+violations, not monotone 677

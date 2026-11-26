@@ -28,13 +28,17 @@ evidence only (PROMPT.md §5 rule 3).
      times in 12,379 steps with generic moves, once in 2,721 with junk transfers and chains.
 - *What survives: CONN₂* (§4). Every partial EFX₀ allocation reaches a complete one through partial EFX₀ allocations,
   each step a composite of at most two local moves, the pool never growing. It implies TARGET₄ (start from the empty
-  allocation) and mentions no values. **No counterexample** in two independent implementations (Python, C; they agree
-  on 203 instances): ~25 million partial EFX₀ states of screen, suite, special and logged hard instances (n ≤ 5),
-  random core profiles, random instances at k = 3, 4 and general k, and the exhaustive n = 2 value grids (1.5 million
-  instances at k ≤ 4).
-- *The k = 3 / k = 4 contrast*: single-move traps exist at k = 4 and at general k, **never at k = 3** (CONN₁): none in
-  random instances up to n = 5, none in all 472,860 grid instances with n = 2, k ≤ 3, m ≤ 6. At k = 4 every trap
-  found has an agent with four relevant goods holding at least two goods.
+  allocation) and mentions no values. **No counterexample** in two independent implementations (Python and C, which
+  agree on all 203 instances where both run): about 120 million partial EFX₀ states in the C census alone (screen,
+  suite, special and 1,521 logged hard instances with n ≤ 5; random core profiles; random instances at k = 3, 4 and
+  general k up to n = 5), plus the exhaustive n = 2 value grids (2 million instances).
+- *CONN₁ (single moves) fails at every k ≥ 3*: at k = 4 from n = 2, at k = 3 from n = 4 (g834, n = 4, m = 7; REFUTED,
+  §4). On the data, k = 3 traps are much rarer: none with n ≤ 3 (472,860 n = 2 grid instances, 18,600 random n = 3
+  ones), against traps at n = 2 for k = 4. At k = 4 every trap found has an agent with four relevant goods holding at
+  least two goods.
+- *Lemma CI* (§4, written proof): for agent- and good-disjoint, holding-monotone edges a collapse never gives a lower
+  edge a new victim, so the signature falls as in Santa Claus. But such trees are value-monotone, and P1 forbids that.
+  The invariant that makes Haxell's termination free is exactly the monotonicity P1 rules out.
 - *One-shot augmentation is not local* (§3.5, `attempts/k4-haxell-bounded-augmentation.md`): some states need three
   local moves at once before the pool can shrink (already at n = 2, k = 3), and some need four (n = 3, k = 4). So the
   augmentation must be a *sequence* of steps kept inside 𝒫, which is the job of an alternating tree, and no bounded
@@ -43,10 +47,11 @@ evidence only (PROMPT.md §5 rule 3).
   complete EFX₀ allocation from **every** start tested: 4,069 screen, 4,327 suite, 174 special, 21,374 logged hard
   profiles, 19,200 random core profiles (n = 4, 5), at most 5 moves.
 - *Open, and where k ≤ 4 must enter*: a never-stuck lemma for a tree with radius-2 edges (the analogue of Haxell's
-  cover count), plus the collapse invariant of obstruction 2. Neither has a candidate inequality yet (§4).
-- *Next*: prove CONN₁ at n = 2, k ≤ 3 (smallest case of the contrast); characterize the k = 4 traps (an agent with
-  four goods holding a pair); a tree restricted to moves with local envy effect, so that the signature invariant
-  holds by construction, and its stuck count on the data.
+  cover count), plus the collapse invariant for non-monotone edges (obstruction 2; Lemma CI covers only monotone
+  ones). Neither has a candidate inequality yet (§4).
+- *Next*: CONN₂ at n = 2 (smallest case; true on the whole grid) as a written proof; the structure of the k = 4 traps;
+  a signature that also counts collapse-created victims, tested on the data; CONN₂ on the H_t gadgets (too large for
+  the census: needs a reachability search from the serial-dictatorship start instead).
 
 ## 1. Literature (what was read, at which level)
 
@@ -240,6 +245,15 @@ traps) equal (`gstarc_xcheck_*.log`). At larger sizes (up to (n + 1)^m ≤ 3·10
 | random n = 4, m = 8, k = 3 / 4 / 8 | 300 / 300 / 200 | 4,602,714 | 0 / 0 / 0 | 0 | `gstarc_gen_n4m8k*.log` |
 | random n = 5, m = 8, k = 3 / 4 | 150 / 150 | 6,551,264 | 0 / 1 | 0 | `gstarc_gen_n5m8k*.log` |
 | random n = 3, m = 9, k = 3 / 4 | 600 / 600 | 12,671,868 | 0 / 1 | 0 | `gstarc_gen_n3m9k*.log` |
+| random n = 2, m = 7, k = 4 / 7 | 20,000 each | 21,097,405 | 2 / 6 | 0 | `gstarc_gen_n2m7k*.log` |
+| random n = 2, m = 8, k = 4 / 8 | 10,000 each | 31,066,107 | 0 / 1 | 0 | `gstarc_gen_n2m8k*.log` |
+| random n = 3, m = 5–8, k = 3 | 18,000 | 17,375,331 | 0 | 0 | `gstarc_gen_n3m{5,6,7,8}k3.log` |
+| random n = 3, m = 5–8, k = 4 | 18,000 | 14,870,106 | 43 | 0 | `gstarc_gen_n3m{5,6,7,8}k4.log` |
+| random n = 4, m = 7, k = 3 / 4 | 1,000 each | 4,982,469 | **1** / 2 | 0 | `gstarc_gen_n4m7k*.log` |
+
+The k = 3 trap (g834, n = 4, m = 7; agent 0 values goods 0, 5, 6 at 22, 9, 24; agent 1 values 2, 5, 6 at 9, 40, 29;
+agent 2 values 0, 4, 5 at 6, 40, 28; agent 3 values 1, 3, 4 at 11, 20, 21) is the state ({0, 3}, {1, 2}, {5}, {4}) with
+good 6 pooled. Both implementations find it, and `attempts/k4_haxell_trap.py` replays it from the raw definition.
 
 **Exhaustive grids at n = 2** (`ht_n2k3.py` through `gstar.c`): every pair of relevant sets with every good relevant
 to someone (agent 0's goods normalized to 0, …, k₀ − 1), and every value vector from a fixed grid.
@@ -317,13 +331,15 @@ which no complete EFX₀ allocation is reachable in G_r.
 **Conjecture CONN₂ (proof/k4-haxell, CONJECTURE).** In every additive instance in which every agent values at most four
 goods, G₂ has no trap.
 
-**Conjecture CONN₁ at k = 3 (CONJECTURE).** If every agent values at most three goods, G₁ has no trap.
+**CONN₁ at k = 3 (REFUTED, proof/k4-haxell).** "If every agent values at most three goods, G₁ has no trap" is
+false: g834 (n = 4, m = 7, §3.4). No k = 3 trap exists with n = 2 on the value grid, and none was found with n = 3, so
+at k = 3 traps start at n = 4 and are rare (1 of 1,000 random instances there, against 43 of 18,000 at n = 3, k = 4).
 
 **Facts (computational, each with its log).**
 - G₁ has traps at k = 4 (smallest: n = 2, m = 5, `attempts/k4-haxell-single-swap-collapse.md`), and at general k.
 - No trap of G₂ is known: §3.4, the C census below, and the climbs of `ht_climb.py`.
-- No trap of G₁ is known at k ≤ 3: random instances (n = 2–5), and **every** instance with n = 2, m ≤ 6, k ≤ 3 whose
-  values lie in {1, 2, 3, 5, 8, 13} (472,860 instances, `n2_grid_k3.log`). At k = 4 the same kind of grid (values
+- G₁ traps at k = 3 need n ≥ 4 on the data: none with n = 2 on the grid (472,860 instances, `n2_grid_k3.log`), none in
+  random samples with n = 3 (18,600), one in 1,000 random instances with n = 4. At k = 4 the n = 2 grid (values
   {1, 2, 4, 7}, m ≤ 8) has 3,366 instances with traps among 1,540,944, and none with a radius-2 trap.
 - Some states of 𝒫 need three or four local moves at once before the pool can shrink (§3.5), so neither conjecture can
   be proved one augmentation at a time with a jump of two moves.
@@ -340,6 +356,34 @@ goods, G₂ has no trap.
   allocation again), so its general-k form is at least as hard as the EFX conjecture. The k = 4 proof must use k ≤ 4.
   At general k the census also found no G₂ trap (n ≤ 3), so it does not by itself locate where k ≤ 4 enters.
 
+**Lemma CI (collapse invariant; written proof below, checked on 5,927 random pairs, `lemma_ci_screen.log`).** Let S
+be a partial EFX₀ allocation, and e, f local moves (or composites) such that
+- the sets A_e, A_f of agents whose bundles they change are disjoint, and so are the goods they touch;
+- neither lowers the value of any agent it touches (*holding-monotone*);
+- e(S) is a partial EFX₀ allocation.
+
+Then every agent that f makes unhappy from e(S) is one that f makes unhappy from S.
+
+*Proof.* Since e and f touch disjoint agents and goods, f changes the same bundles in the same way from S and from e(S).
+Let i be happy in e(S) and unhappy in f(e(S)), strongly envying a bundle Z of f(e(S)).
+- *Z belongs to an agent of A_e.* Then Z is that agent's bundle in e(S). If i ∉ A_f, i's holding is the same in e(S)
+  and f(e(S)), and i was happy in e(S): contradiction. If i ∈ A_f, then i ∉ A_e, so i's holding in e(S) equals that in
+  S, and in f(e(S)) it equals that in f(S), which is at least that in S by monotonicity of f: again no envy.
+- *Z belongs to an agent outside A_e.* Then Z is also that agent's bundle in f(S). i's holding in f(e(S)) is at least
+  its holding in f(S): equal if i ∉ A_e, and if i ∈ A_e (so i ∉ A_f) it is i's holding in e(S), at least that in S by
+  monotonicity of e, which equals that in f(S). Strong envy only weakens as the holding grows, so i strongly envies Z
+  in f(S).
+
+So i is unhappy in f(S); and i is happy in S because S is a partial EFX₀ allocation. ∎
+
+*Consequence.* For trees whose edges are pairwise agent- and good-disjoint and holding-monotone, a victim-free collapse
+never gives a lower edge a new victim, and Annamalai's signature falls at every iteration, as in Santa Claus. But every
+collapse of such a tree weakly raises every value and keeps the allocation partial EFX₀. By K4.SDC.P1, from GM4-E's
+state X no partial EFX₀ allocation is weakly better for everyone and either better for someone or more complete, so
+such a tree cannot augment X. **The invariant that makes the signature argument free forces the value-monotonicity
+that P1 forbids.** Without monotonicity the invariant fails often (677 of 6,324 random non-monotone pairs; §3.6). A
+Haxell-type proof must therefore use non-monotone edges and prove the collapse invariant for them by another argument.
+
 **What a Haxell-type proof of CONN₂ needs.**
 1. *Edges of radius 2.* A tree whose collapses are composites of at most two local moves (`ht_tree.py MOVES=2`,
    §3.6). The signature argument is unchanged: a collapse at layer t discards the layers from t up and lowers |Y_{t−1}|,
@@ -348,7 +392,8 @@ goods, G₂ has no trap.
 2. *A never-stuck lemma.* When no tree player has an addable edge, the tree's goods and victims must give a
    contradiction. Haxell's version is a cover count, τ(E_S) ≤ (2r − 3)(|S| − 1). The EFX₀ analogue would bound the goods
    that the blocked placements of the root good and the victims' repairs can touch, using |R_i| ≤ 4. No candidate
-   inequality is known. The k = 3 / k = 4 contrast of CONN₁ suggests where it enters: at k = 3 one move always
-   suffices, at k = 4 a repair sometimes has to move with its parent.
+   inequality is known. CONN₁ fails at k = 3 as well (n = 4), so the radius-2 edges are needed for every k ≥ 3, and the
+   difference between k = 3 and k = 4 is one of frequency (traps from n = 2 at k = 4, from n = 4 at k = 3).
+4. *The collapse invariant for non-monotone edges* (Lemma CI covers only monotone ones, which P1 rules out).
 3. *A start.* The serial-dictatorship picks are never traps, and from every one of them on the screen set a sequence
    of victim-free moves completes (§3.1). The empty allocation works for CONN₂ itself.

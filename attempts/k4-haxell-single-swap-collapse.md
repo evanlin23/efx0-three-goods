@@ -39,6 +39,16 @@ also values its private good 0 at 2, and agent 1 its private good 1 at 2.
 So the graph G* of partial EFX₀ allocations under single local moves (pool never growing) has a component with no
 complete allocation, already at n = 2. Any tree whose collapses are single local moves fails if it reaches X.
 
+**Traps exist at k = 3 too, but later** (g834, n = 4, m = 7, found by the C census `k4/haxell/gstar.c` among 1,000 random
+instances with three goods per agent, `results/k4_haxell/gstarc_gen_n4m7k3.log`; confirmed by the Python census):
+agent 0 values goods 0, 5, 6 at 22, 9, 24; agent 1 values 2, 5, 6 at 9, 40, 29; agent 2 values 0, 4, 5 at 6, 40, 28;
+agent 3 values 1, 3, 4 at 11, 20, 21. The state ({0, 3}, {1, 2}, {5}, {4}) with good 6 pooled is partial EFX₀ and a trap
+(it and one other state are its whole component). Agent 1 holds only 9 but values 6 at 29, so every bundle that
+receives 6 with another good is strongly envied by agent 1 or agent 0. Two moves at once (good 6 swaps through the pool with agent 0's
+good 3, and agent 0's good 0 moves to agent 1) leave ({6}, {0, 1, 2}, {5}, {4}) with 3 pooled, from which single moves
+complete; after the swap alone, agent 1 would see {0, 6} minus 0, worth 29 > 9. No k = 3 trap was found with n ≤ 3: every n = 2 instance on a value grid (472,860), and
+random samples at n = 2, 3 (over 40,000).
+
 **The tree reaches such dead ends from serial-dictatorship starts.** C127 (screen set, n = 4, m = 7), order
 (0, 1, 3, 2): the picks are 2, 4, 5, 6. The tree's first two augmentations place goods 0 and 1 with agent 2, both
 victim-free, giving ({2}, {4}, {0, 1, 5}, {6}) with good 3 in the pool. No single-good move keeps EFX₀ there (agents 0,
@@ -53,11 +63,12 @@ G* (a swap or a bundle trade escapes it).
   0 in Model G (`bfs_screen_G.log`). The tree's own choices walk into dead ends that the search avoids;
 - G* traps (`gstar_*.log`): on 5 of 134 screen instances with n ≤ 4, m ≤ 8, 5 of 119 suite instances, 6 of 1,469
   random core profiles with n ≤ 3; on random instances, 9 of 3,000 (n = 2, m = 5, k = 4), 5 of 3,000 (n = 2, m = 5,
-  every good relevant), and **none at k = 3** (6,100 random instances, n = 2, 3). None is a serial-dictatorship start.
+  every good relevant), none at k = 3 with n ≤ 3, and one at k = 3 with n = 4 (g834 above). None is a
+  serial-dictatorship start.
 - **No trap survives composite moves of two local moves** (radius 2), on any of these instances.
 
 **What survives.** Collapsing a branch as one composite move (`k4/haxell/ht_ctree.py`, `k4/haxell.md` §3.3), and the
 statement that G* with composite moves of radius 2 has no trap (`k4/haxell.md` §3.4).
 
-**Reproduce:** `python3 attempts/k4_haxell_trap.py` (raw EFX₀ definition, no shared code): the trap, its two-move
-escape, and the C127 dead end reached from the serial-dictatorship picks.
+**Reproduce:** `python3 attempts/k4_haxell_trap.py` (raw EFX₀ definition, no shared code): the n = 2 trap and the
+k = 3 trap with their two-move escapes, and the C127 dead end reached from the serial-dictatorship picks.

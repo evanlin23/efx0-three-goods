@@ -3,6 +3,7 @@
 1. The n = 2, m = 5 trap: X = ({0,2}, {1,3}), good 4 unallocated, is a partial EFX0 allocation; every single local
    move (move one good, swap two goods, trade two bundles; the pool never growing) leads outside the partial EFX0
    allocations or to the symmetric trap ({0,3}, {1,2}); two simultaneous transfers complete it.
+3. A trap at k = 3 (n = 4, m = 7): ({0,3}, {1,2}, {5}, {4}) with good 6 unallocated; escaped by two moves at once.
 2. The C127 dead end of the literal tree: from the serial-dictatorship picks of the order (0, 1, 3, 2), two
    victim-free transfers (goods 0 and 1 to agent 2) reach a partial EFX0 allocation with good 3 unallocated in which
    no single-good move (of any good, picks included) keeps EFX0; a composite of two transfers completes it.  (The
@@ -61,13 +62,16 @@ def check(name, sets, vals, s):
     print('  states reachable by single EFX0-preserving local moves:', len(cl),
           '; complete among them:', sum(1 for t in cl if -1 not in t))
     assert all(-1 in t for t in cl)
-    esc = set()
+    esc = None
     for t1 in moves(s, n):
         for t2 in moves(t1, n):
-            if -1 not in t2 and happy(R, t2, n):
-                esc.add(t2)
-    print('  complete EFX0 allocations two local moves away:', [show(t, n)[0] for t in sorted(esc)][:4])
-    assert esc
+            if t2.count(-1) <= s.count(-1) and happy(R, t2, n) and t2 not in cl:
+                if any(-1 not in u for u in closure(R, t2, n)):
+                    esc = t2; break
+        if esc:
+            break
+    assert esc, 'no radius-2 escape'
+    print('  two local moves at once reach', show(esc, n), ', from which single moves complete')
 
 
 if __name__ == '__main__':
@@ -91,4 +95,8 @@ if __name__ == '__main__':
            and sum(1 for a, b in zip(t, step2) if a != b) == 2]
     print('  complete EFX0 allocations reached by two single-good moves:', sorted(set(show(t, 4)[0].__repr__() for t in two)))
     assert two
-    print('both reproduced')
+    # 3. a trap at k = 3 (g834 of gen:1000:983:4:7:3): n = 4, m = 7, every agent values three goods
+    sets3 = [[0, 5, 6], [2, 5, 6], [0, 4, 5], [1, 3, 4]]
+    vals3 = [[22, 9, 24], [9, 40, 29], [6, 40, 28], [11, 20, 21]]
+    check('k3-g834', sets3, vals3, (0, 1, 1, 0, 3, 2, -1))
+    print('all reproduced')
