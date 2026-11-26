@@ -389,7 +389,38 @@ found is confirmed by the raw S\* test: 0 violations.
 - Evidence only: the n = 4 failures were found only by an exhaustive ordinal search. Random profiles (11M orders at
   n = 5) and the climbs of `k4/matching/cm_climb.py` missed them (§6).
 
+**The mechanism, in exchange terms** (`k4/matching/n4_twomoves.py`, `results/k4_matching/n4_twomoves.log`: every
+(first move, EX\* exchange) pair that repairs, 57 over the 11 stored starts).
+- *The first move* is always a chain from a dangerous agent whose head takes a junk pair that another dangerous agent
+  also values (57 of 57). That is the shared danger pair of Hall §22 and TTC §14. This one exchange removes two
+  demands, but one slot is still missing (excess 1).
+- *The second exchange.* Its head collects two foreign picks of Y in 35 of the 57, one of them released by the first
+  chain, and one foreign pick in 21. The second chain starts at an agent frozen at B₁ in 35, and at the first chain's
+  head in only 5.
+- Example: instance 0 (coordinator's instance 1). Sets [[0,1,2,5],[1,2,5,6],[3,4,5,6],[3,4,6]], values
+  [[2,10,4,7],[10,3,4,8],[3,5,6,7],[3,2,4]], picks (1, 2, 5, 6), junk {0, 3, 4}.
+  - Agents 2 and 3 share the danger pair {3, 4} (3 + 5 > 6 and 3 + 2 > 4). Agent 1 is the lone holder.
+  - First chain (2, 1): agent 2 takes {3, 4}, and agent 1 takes 5, releasing its pick 2.
+  - Second chain (0, 1): agent 1 takes 1, and agent 0 takes {2, 5} (4 + 7 > 10) and owns.
+  - Agent 0's only improving sets contain both foreign picks 2 and 5. Its four goods are its pick, one junk good and
+    two foreign picks. That is RD5's "two foreign picks" repair (`k4/ksens.md` §6), here at k = 4. One chain can hand
+    its head only the end's base, so it cannot collect two picks.
+
 ## 6. Climbs and reproduction
+
+**Climbs against CM** (`k4/matching/cm_climb.py`; `results/k4_matching/cm_climb_*.log`). The climbs maximize hard
+starts with few CM witnesses (CAP = 10), seeded from the hard rows of §2:
+- 32 runs × 3,000 steps on any instance (LOOSE);
+- 32 × 2,000 on strict cores;
+- 32 × 2,000 in the K4.MC2 class.
+
+No start without a witness was found, although the 11 n = 4 failures exist. So these climbs are weak evidence, as
+AGENTS.md warns. The exhaustive ordinal search is what found the failures.
+
+**The TTC session's 84 non-core counterexamples** (`FILE=results/k4_matching/data/ttc84_oc1_counterexamples.json
+python3 k4/matching/cex_deficiency.py`, `results/k4_matching/cex_deficiency_ttc84.log`).
+- All 84 failing (non-maximum) starts have δ = 2, and the best single move leaves δ = 1.
+- Their maximum-matching starts all satisfy OC₁, with δ = 1 on 240 and δ = 2 on 15.
 
 ```
 python3 k4/matching/exact_check.py screen                    # Lemma M vs brute force (also special, suite, logs, cores:...)
@@ -401,5 +432,9 @@ python3 k4/matching/ex_profile.py results/k4_matching/hard_{special,screen,suite
 python3 k4/matching/cex_deficiency.py                         # PW5, PW4, RD5, RD4, B<, B>, the 39 cores
 python3 k4/matching/explain.py 'SETS' 'VALS' 'PICKS'          # every repairing move of one start, with EX values
 python3 attempts/k4_matching_attempts.py                      # the refuted deficiency bound, by pruning-free brute force
+python3 k4/matching/n4_cex.py; python3 k4/matching/cm2.py n4all; python3 k4/matching/cm2.py k5   # §5
+python3 k4/matching/n4_twomoves.py                            # the two-move repairs of the n = 4 failures
+python3 k4/matching/cm_big.py cores6 2000 40 31               # CM at n = 6 (sampled orders)
+CAP=10 SEEDFILES=... python3 k4/matching/cm_climb.py 32 2000 22 3 6 [MC2]    # climbs (LOOSE=1 for any instance)
 ```
 Each command takes seconds to a minute on 4 CPUs.
