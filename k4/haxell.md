@@ -29,7 +29,8 @@ evidence only (PROMPT.md §5 rule 3).
   - **The sharpest stress test passes**: at the CH-F welfare maxima that strand two goods (kgen-charity; k = 4,
     n = 9 and k = 3, n = 12) W shrinks the pool in two moves (welfare 198 → 197), and W-walks complete. They also
     complete from the stranded states of S(σ, k) and S′(σ, k), σ ≤ 5, n ≤ 40 (§7).
-  - Sampled states on random instances with n = 6–8: every state has a W step and every walk completes (§7).
+  - Sampled states on random instances with n = 6–8, k = 4, 5, ties included (18,687 states): every state has a W
+    step and every walk completes (§7).
   - Why the move class is what it is: without rotations, no fixed radius works (the family CYC_n,
     `attempts/k4-haxell-fixed-radius-measures.md`). With one move instead of two, W fails (the n = 2 trap). Pure
     augmentation fails with rotations too.
@@ -590,5 +591,19 @@ source s₁, which values it at 0, and takes g₀ = 6, which it values at 0. Tha
 stranded states are CKMS stopping states with σ − 1 goods out, default values): for σ = 2–5 and k = 3, 4 (n ≤ 40,
 m ≤ 49), every W-walk from the stranded state completes, one augmentation per step (`wwalk_sprime.log`).
 
-**Random instances with n = 6–8** (`ht_wsample.py`, `wsample_*.log`): see the status block for the totals. Every
-sampled state had a W step, and every walk completed.
+**Random instances with n = 6–8** (`ht_wsample.py`, `wsample_*.log`; 8 start states per instance: the empty
+allocation, serial-dictatorship picks, and random EFX₀-preserving walks from them, up to 30 moves):
+| n, m, k, values | instances | states checked | W step found: placement / + move / + rotation / welfare | walks completed |
+|---|---|---|---|---|
+| 6, 10, 4 | 400 | 3,074 | 2,090 / 765 / 210 / 9 | 3,074 |
+| 6, 11, 5 | 400 | 3,104 | 2,212 / 680 / 210 / 2 | 3,104 |
+| 7, 12, 4 | 300 | 2,359 | 1,756 / 501 / 98 / 4 | 2,359 |
+| 7, 13, 5 | 300 | 2,349 | 1,786 / 457 / 103 / 3 | 2,349 |
+| 8, 14, 4 | 200 | 1,585 | 1,264 / 280 / 41 / 0 | 1,585 |
+| 8, 15, 5 | 200 | 1,588 | 1,267 / 267 / 54 / 0 | 1,588 |
+| 6, 10, 4, values 1–4 (ties) | 300 | 2,281 | 1,674 / 511 / 95 / 1 | 2,281 |
+| 7, 12, 5, values 1–4 (ties) | 300 | 2,347 | 1,790 / 430 / 127 / 0 | 2,347 |
+
+In all, 18,687 states: every one has a W step, and every walk reaches a complete EFX₀ allocation. These are
+sampled states, so this is weaker evidence than the exhaustive checks of §6. Random states rarely need more than a
+placement and one other move.
