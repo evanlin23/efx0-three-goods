@@ -459,3 +459,22 @@ suite case per variant. GM4-C and GM4-D are among the failures. A count of deman
 solve the frozen agents' hitting-set problem (which goods leave the absorber's bundle) and then match those goods to
 the free slots. That is the static covering problem of Corollary TP, i.e. the count of `k4/sdc.md` §30, and nothing
 here makes it local.
+
+## 9. OC₁ fails on a core (B<, reported by the coordinator); independent check
+
+The coordinator reports that OC₁ fails on a strict connected k = 4 core, B< (`k4/oc1_hall.md` §16 on the
+coordinator's branch, not read here; replay `k4/sdc/oc1_core_cex_verify.py` there).
+- Sets [[0,2,3,1],[6,4,5,9],[1,2,3,9],[1,6,7,8],[3,6,9],[1,3,6,9]], values
+  [[6,14,16,12],[4,18,12,28],[28,4,16,21],[16,14,12,6],[28,8,24],[20,30,8,4]].
+- `k4/sdind/verify_blt.py` (`results/k4_sdind/verify_blt.log`) confirms it with this branch's brute force. Order
+  0..5 gives picks (3, 9, 1, 6, –, –). They have no one-absorber completion (8 free ones), and none of the 57 states
+  after one improving chain or ring has one. The 54 chains agree between `de_free.moves` and `sdilib.chains`; the
+  3 rings come from `de_free` only.
+- Agents 4 and 5 get no pick and value only picked goods. Every holder of a good they value must stay alone, so the
+  six junk goods go to agents 4 and 5, which makes two absorbers.
+
+Bearing on this note:
+- AB₁ and PR presuppose a one-absorber completion, so B< is not a counterexample to them.
+- The chain part (§4) is about OC₁, which B< refutes in general. The coordinator states that the K4.MC2 class (no
+  agent with two private goods) is the form that still implies TARGET₄; B<'s agents 1 and 3 have two private goods
+  each. [unverified here: the reduction itself.]

@@ -1,0 +1,4 @@
+picks [3, 9, 1, 6, None, None] junk [0, 2, 4, 5, 7, 8] wanted by [[4, 5], [4, 5], [3, 5], [4, 5], [], []]
+one-absorber completions 0 free completions 8
+states: chains+rings 57 chains (de_free) 54 chains (sdilib) 54 agree True
+states with a one-absorber completion: 0 of 57 time 0 s
