@@ -471,7 +471,7 @@ DYN and CONN2. Each session is asked to test its candidate on PW5, RD5 and kgen 
   completes), and every S and S′ state up to n = 40. It is exhaustive at n = 6 on B< and B>: 710,279 states each,
   none stuck. Nothing in the data uses k ≤ 4, so W is a general-EFX₀ candidate.
 
-### 2026-11-26 23:15 UTC: OC₁^max REFUTED at k = 4, n = 4 (verified)
+### 2026-11-26 23:14 UTC: OC₁^max REFUTED at k = 4, n = 4 (verified)
 - The compute/k4-oc1max-cert session's ordinal CEGAR (n = 4 core list 4_n4_3) found two strict connected MC2-class
   cores with m = 7. In each, a perfect (maximum-matching) SD start has neither a completion at the picks nor one
   after any single move, not even freely.
@@ -491,7 +491,7 @@ DYN and CONN2. Each session is asked to test its candidate on PW5, RD5 and kgen 
   - The certifier tests OC₂^max and the ∃-forms exhaustively at n = 4 and 5.
   - The proof sessions keep their lemmas, which are about given states, and retarget.
 
-### 2026-11-26 23:40 UTC: hourly burst 3
+### 2026-11-26 23:36 UTC: hourly burst 3
 **Status.**
 - OC₁^max is refuted at n = 4: 11 of the 1,002 n = 4 core hypergraphs, all of them perfect starts in the MC2 class.
 - **OC₂^max** (≤ 2 sequential moves from maximum-matching starts) is **certified for every strict profile of all
