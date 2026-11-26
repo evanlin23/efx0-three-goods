@@ -653,7 +653,13 @@ of an order.
 - *Why depth is hard to build* (`fam_depth.py`, `attempts/k4-ksens-depth-composition.md`). Forcing three rounds needs
   RD5's mechanism one level deeper, which means more agents. Every unfrozen agent added is a free slot for one junk
   good, and a single slot already dissolves RD5's obstruction.
-- So among the obstructions found, slots limit depth. That is a heuristic, not a proof.
+- *Data* (`rd5_plus.py`, `rd5_plus.log`). Adding two random agents to RD5 dissolves its obstruction:
+  - in 33 of 40 instances no start needs any chain;
+  - in the other 7, one chain or one round suffices from every start.
+- *Two-round climbs* from these instances (n = 6, k = 5, 6; 40 climb rounds) and from PW starts at k = 8 found no
+  start needing even two rounds (`climb_rd2mx_n6k*.log`, `climb_rd2mx_n5k8.log`).
+- So among the obstructions found, slots limit depth: they need few agents, and extra agents repair them. That is a
+  heuristic, not a proof.
 
 **Evidence base** (all evidence only). Each refutation is checked by two independent programs: SAT (sdclib's EFX₀
 clauses with this note's chain or round encodings) and a brute force or SAT-free enumeration from the definitions.
