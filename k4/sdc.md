@@ -1997,3 +1997,27 @@ Evidence (`k4/sdc/oc1_max_orders.py`):
   The two receivers each take at most one good of D. One chain moves only one pair of D, and two goods of D remain.
 - At k = 4 a danger set has at most three junk goods, and one chain leaves at most one. This is the k − 3 count of
   `k4/ksens.md`, and it is where a proof of OC₁^max has to use k ≤ 4.
+
+**Lemma RED (reduction to perfect starts; coordinator, 2026-11-26, written proof, not refereed).**
+- Setting. Let Y be maximum-matching picks of any instance (strict values), let U ≠ ∅ be the pickless agents, and
+  let S be the agents reachable from U by Y-alternating paths. A path is u, g₁, a₁, g₂, a₂, … with g_i ∈ R_{a_{i−1}}
+  and g_i = Y_{a_i}. Let T be the remaining agents and J the junk.
+- (i) (Lemma MAX) No agent of U ∪ S values a junk good.
+- (ii) Every good valued by an agent of U ∪ S is the pick of an agent of S. It is not junk by (i), so it is some
+  Y_b, and then b is reachable.
+- (iii) Let I′ be the instance with agents T ∪ U and goods {Y_t : t ∈ T} ∪ J, values restricted. The U agents become
+  null agents (they value nothing). Every one-absorber EFX₀ completion of I′ at its picks, or after a move of I′,
+  extends to one of I: S agents keep their single picks, and U agents get what they get in I′. Every constraint that
+  involves S ∪ U holds, because:
+  - S and U agents value only S picks, which are held alone, and removing a singleton's good leaves nothing;
+  - S and U agents value no junk, so they never envy the bundles of U agents;
+  - T agents compare S holders' singletons only, which never violates EFX₀.
+  Every move of I′ is a move of I, and absorber counts are unchanged.
+- In I′ every agent with a relevant good holds a pick (a *perfect start*). So:
+
+  *OC₁ at maximum-matching starts, for every instance with ≤ 4 relevant goods per agent, follows from OC₁ at perfect
+  starts, null agents allowed.*
+- Together with Lemma MAXSD this gives TARGET₄ directly, without the core reduction. It also explains why the
+  TTC session's Hall-deficient climbs are benign. I′ need not be a core, so this route needs the perfect-start form for
+  all instances. `k4/sdc/oc1max_climb.py` with LOOSE=1 tests OC₁^max without the core conditions. The 84 non-core TTC
+  instances already satisfy it (`results/k4_sdc/oc1_max_orders_ttc84.log`).
