@@ -110,6 +110,40 @@ class Inst:
             big += (((L == i) & ~inb).sum(1) >= 2)
         return bool((big <= A).any())
 
+    def completes_bt(self, bases, A=None):
+        """the same question as completes(), by backtracking over the placement of the goods outside the bases
+        (raw EFX0 definition, no enumeration of all n^m allocations); pruning: a pair (i, j) is dead when
+        v_i(X_j) - min_{g in X_j} v_i(g) already exceeds v_i(X_i) plus everything i could still receive"""
+        n, m, V = self.n, self.m, self.V
+        X = [set(b) for b in bases]; inb = set(g for b in bases for g in b)
+        J = [g for g in range(m) if g not in inb]
+        junk = [0] * n
+        def worst(i, j):
+            if not X[j]: return 0
+            vs = [int(V[i, g]) for g in X[j]]
+            return sum(vs) - min(vs)
+        def ok_final():
+            for i in range(n):
+                vi = self.val(i, X[i])
+                for j in range(n):
+                    if j != i and worst(i, j) > vi: return False
+            return True
+        def rec(k, rest_val):
+            # rest_val[i]: value to i of the junk not yet placed
+            for i in range(n):
+                cap = self.val(i, X[i]) + rest_val[i]
+                for j in range(n):
+                    if j != i and worst(i, j) > cap: return False
+            if k == len(J): return ok_final()
+            g = J[k]; nrest = [rest_val[i] - int(V[i, g]) for i in range(n)]
+            for a in range(n):
+                if A is not None and junk[a] == 1 and sum(1 for b in range(n) if junk[b] >= 2) >= A: continue
+                X[a].add(g); junk[a] += 1
+                if rec(k + 1, nrest): X[a].discard(g); junk[a] -= 1; return True
+                X[a].discard(g); junk[a] -= 1
+            return False
+        return rec(0, [sum(int(V[i, g]) for g in J) for i in range(n)])
+
     def dominated(self, Y):
         L = self.efx0_list(); ok = np.ones(len(L), dtype=bool)
         for i, g in enumerate(Y):

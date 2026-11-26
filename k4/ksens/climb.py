@@ -8,6 +8,7 @@ Objectives (minimized; first coordinate 0 = counterexample to the target):
   sdc : the number of distinct serial-dictatorship outcomes that extend (free completion), then minus the number of
         outcomes;
   md  : over every start, the least number of value-dominating complete EFX0 allocations (capped);
+  oc1r1, ocr1, ...: any target with the starts restricted to R1-priority orders (r1_pw.sd_r1);
   oc2, oc2a: 3 minus the most chains any start needs (ocseq.py, at most 3 tried; free, one absorber), then minus the
         number of starts needing that many: 0 = a start that two chains cannot repair (the ladder of k4/ksens.md §4
         predicts none for k <= 6).
@@ -17,7 +18,8 @@ A start where nothing is hard scores (99, 0).
 gen:KIND   random starts from gen.py (default jr)
 seeds:FILE JSON lines [sets, vals] (or log lines containing such a pair); LIFT = add that many new low goods per agent
            (the lift of a k = 4 instance to k = 4 + LIFT)
-mmax, mmin: bounds on the number of goods kept by mutations (default 3n + 2 and 2n: junk-rich)"""
+mmax, mmin: bounds on the number of goods kept by mutations (default 3n + 2 and 2n: junk-rich)
+strict: never accept a worse objective (default: with probability 0.03)"""
 import sys, json, random, time, re, itertools
 import _paths
 import ocsat
@@ -29,6 +31,11 @@ CAP = 20
 def objective(target, sets, vals):
     m = 1 + max(max(s) for s in sets); n = len(sets)
     O = ocsat.OC(sets, vals, m); st = ocsat.starts(sets, vals, m)
+    if target.endswith('r1'):          # R1-priority orders only (LB's Phase 1)
+        from r1_pw import sd_r1
+        st = {}
+        for o in itertools.permutations(range(n)): st.setdefault(tuple(sd_r1(sets, vals, o, m)), o)
+        target = target[:-2]
     try:
         if target in ('oc1', 'oc', 'round1', 'round'):
             A = 1 if target in ('oc1', 'round1') else None; cnt = {}; multi = target.startswith('round')
@@ -52,7 +59,7 @@ def objective(target, sets, vals):
                 Q.close()
             if not worst: return (99, 0), None
             mx = max(c for c, _ in worst)
-            return (3 - mx, -sum(1 for c, _ in worst if c == mx)), max(worst)[1]
+            return (3 - mx, -sum(1 for c, _ in worst if c == mx), -len(worst)), max(worst)[1]
         if target == 'sdc':
             good = [Y for Y in st if O.holds(ocsat.bases_of(Y, n), chain='none')]
             return (len(good), -len(st)), (good[0] if good else None)
@@ -136,7 +143,7 @@ def load_seeds(path):
 
 if __name__ == '__main__':
     target = sys.argv[1]; seed, n, K, steps, rounds = map(int, sys.argv[2:7]); rng = random.Random(seed)
-    kind = 'jr'; seeds = None; L = 0; mmax = 3 * n + 2; mmin = 2 * n
+    kind = 'jr'; seeds = None; L = 0; mmax = 3 * n + 2; mmin = 2 * n; strict = 'strict' in sys.argv[7:]
     for a in sys.argv[7:]:
         if a.startswith('gen:'): kind = a[4:]
         elif a.startswith('seeds:'):
@@ -157,7 +164,7 @@ if __name__ == '__main__':
             mu = mutate(sets, vals, rng, Kr, mmax)
             if mu is None or len(mu[0]) != n or 1 + max(max(x) for x in mu[0]) < mmin: continue
             c2, Y2 = objective(target, *mu)
-            if c2 <= c or rng.random() < 0.03:
+            if c2 <= c or (not strict and rng.random() < 0.03):
                 (sets, vals), c, Y = mu, c2, Y2; best = min(best, c)
                 if c[0] == 0:
                     print('COUNTEREXAMPLE', target, json.dumps((sets, vals)), 'picks', Y, flush=True); break
