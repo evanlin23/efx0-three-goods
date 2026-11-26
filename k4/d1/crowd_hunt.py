@@ -25,7 +25,7 @@ def rand_inst(rng, n=None, m=None):
     m = m or rng.randint(n + 2, n + 5)
     sets, vals = [], []
     for i in range(n):
-        s = rng.choice([2, 3, 4, 4, 4])
+        s = min(m, rng.choice([2, 3, 4, 4, 4]))
         S = sorted(rng.sample(range(m), s))
         if rng.random() < 0.15:
             V = [rng.randint(1, 6) for _ in S]
