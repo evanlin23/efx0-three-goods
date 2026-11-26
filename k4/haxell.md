@@ -477,9 +477,8 @@ n − 1 trades. `gstar_measure` confirms it: CYC₅ is stuck at radius 3 for wel
 CYC₄ is not. The envy count is not stuck on CYC₄–CYC₆, even at radius 2.
 
 **Rotations as moves.** Let a move also rotate the bundles along any cycle of agents. That is the classical
-envy-cycle operation, generalized to any cycle, so it also performs closed chains: the family CHAINₜ, a pooled good
-wanted at the end of a wanting path, completes by one rotation and one placement. With steps of at most two such
-moves (`measure_rot2_*.log`):
+envy-cycle operation, generalized to any cycle, so it also performs closed chains (the family CHAINₜ below completes
+by one rotation and one placement). With steps of at most two such moves (`measure_rot2_*.log`):
 | data | instances | partial EFX₀ states | stuck: AUG | welfare | leximin | envy count | relevance |
 |---|---|---|---|---|---|---|---|
 | screen (n ≤ 4, m ≤ 7) | 109 | 111,591 | 1,660 | **0** | **0** | 212 | 112 |
@@ -492,6 +491,15 @@ moves (`measure_rot2_*.log`):
 | random n = 3, m = 6, k = 3 / 4 | 800 / 800 | 593,535 | 269 / 741 | **0** | **0** | 158 / 100 | 15 / 53 |
 | random n = 3, m = 7, k = 5 | 600 | 509,542 | 556 | **0** | **0** | 66 | 54 |
 | random n = 4, m = 7, k = 4 / 7 | 300 / 300 | 1,453,133 | 4,151 / 5,116 | **0** | **0** | 108 / 6 | 91 / 5,116 |
+
+*Constructions tried against W* (`ht_families.py`, `families.log`: census and stuck states at radius 2 and 3 without
+rotations, and radius 2 with rotations):
+- CYC_n (above): passes with rotations, up to n = 6.
+- CHAINₜ, a wanting path closed by the pooled good: agent 0 values g at 12 and b₀ at 10, agent i values bᵢ₋₁ at 11 and bᵢ
+  at 10, i = 1, …, t. Passes for t = 3, 4, 5, with or without rotations. One rotation and one placement complete it;
+  without rotations, welfare-raising steps lead there.
+- OPENₜ, the same path ending at an absorber z that holds a good only it values (the last agent also values g at 12):
+  passes for t = 2, 3, 4 (n ≤ 6), although the intended completion takes three moves.
 
 *Two moves are needed.* With single moves (rotations included), welfare is stuck on 185 screen states and on the two
 trap states of the n = 2 trap of §3.4 (`gstar_measure.c` with RADIUS = 1), so the radius 2 in W cannot be lowered.
@@ -536,3 +544,12 @@ a good is placed. Envy-cycle rotations alone raise welfare, so a welfare-stuck s
 3. The second move must then repair i: hand i the good g, or move h, or rotate i's bundle into a cycle. The data say
    one of these always works within two moves. The case analysis of which, using |R_i| ≤ 4, is the open step.
 4. The untested sizes are n ≥ 6 for W itself (B<, B> are too large for the current checker) and the large PW cells.
+
+*The smallest case, n = 2, is already not a one-liner.* Write τᵢ(Z) = vᵢ(Z) − min_{z∈Z} vᵢ(z) for |Z| ≥ 2 (0 otherwise),
+so EFX₀ reads v_A(X_A) ≥ τ_A(X_B) and v_B(X_B) ≥ τ_B(X_A). For a pooled g the four obvious one- or two-move
+completions are: g to A; g to B; trade and then g to the new holder of X_B; trade and then g to the new holder of X_A.
+They fail together exactly when τ_B(X_A + g) > v_B(X_B), τ_A(X_B + g) > v_A(X_A), τ_B(X_B + g) > v_B(X_A) and
+τ_A(X_A + g) > v_A(X_B). All four inequalities hold at the n = 2 trap ({0, 2}, {1, 3}), g = 4: 11 > 6, 12 > 5, 12 > 3,
+11 > 4. Its repair is of a fifth kind: g goes to A while A's good 2 goes to B. A proof of W at n = 2 therefore needs
+the moves that take a good from the receiver of g, and the case analysis of when they keep EFX₀. That is the first
+open case.

@@ -1,0 +1,36 @@
+$ python3 k4/haxell/ht_families.py
+CYC_4 | census: 4 5 states 505 complete 4 traps 0 radius2traps 0 minpool -1
+   radius 2 rotations 0: stuck states welfare 1 leximin 1 envy pairs 0 AUG 85
+   radius 3 rotations 0: stuck states welfare 0 leximin 0 envy pairs 0 AUG 30
+   radius 2 rotations 1: stuck states welfare 0 leximin 0 envy pairs 0 AUG 15
+CYC_5 | census: 5 6 states 4056 complete 5 traps 0 radius2traps 0 minpool -1
+   radius 2 rotations 0: stuck states welfare 1 leximin 1 envy pairs 0 AUG 654
+   radius 3 rotations 0: stuck states welfare 1 leximin 1 envy pairs 0 AUG 444
+   radius 2 rotations 1: stuck states welfare 0 leximin 0 envy pairs 0 AUG 210
+CYC_6 | census: 6 7 states 37639 complete 6 traps 0 radius2traps 0 minpool -1
+   radius 2 rotations 0: stuck states welfare 1 leximin 1 envy pairs 0 AUG 4928
+   radius 3 rotations 0: stuck states welfare 1 leximin 1 envy pairs 0 AUG 4333
+   radius 2 rotations 1: stuck states welfare 0 leximin 0 envy pairs 0 AUG 2170
+CHAIN_3 | census: 4 5 states 519 complete 6 traps 0 radius2traps 0 minpool -1
+   radius 2 rotations 0: stuck states welfare 0 leximin 0 envy pairs 0 AUG 61
+   radius 3 rotations 0: stuck states welfare 0 leximin 0 envy pairs 0 AUG 2
+   radius 2 rotations 1: stuck states welfare 0 leximin 0 envy pairs 0 AUG 5
+CHAIN_4 | census: 5 6 states 4140 complete 18 traps 0 radius2traps 0 minpool -1
+   radius 2 rotations 0: stuck states welfare 0 leximin 0 envy pairs 0 AUG 450
+   radius 3 rotations 0: stuck states welfare 0 leximin 0 envy pairs 0 AUG 32
+   radius 2 rotations 1: stuck states welfare 0 leximin 0 envy pairs 0 AUG 30
+CHAIN_5 | census: 6 7 states 38187 complete 72 traps 0 radius2traps 0 minpool -1
+   radius 2 rotations 0: stuck states welfare 0 leximin 0 envy pairs 0 AUG 3607
+   radius 3 rotations 0: stuck states welfare 0 leximin 0 envy pairs 0 AUG 464
+   radius 2 rotations 1: stuck states welfare 0 leximin 0 envy pairs 0 AUG 186
+OPEN_2 | census: 4 5 states 537 complete 12 traps 0 radius2traps 0 minpool -1
+   radius 2 rotations 0: stuck states welfare 0 leximin 0 envy pairs 0 AUG 33
+   radius 3 rotations 0: stuck states welfare 0 leximin 0 envy pairs 0 AUG 0
+   radius 2 rotations 1: stuck states welfare 0 leximin 0 envy pairs 0 AUG 13
+OPEN_3 | census: 5 6 states 4245 complete 42 traps 0 radius2traps 0 minpool -1
+   radius 2 rotations 0: stuck states welfare 0 leximin 0 envy pairs 0 AUG 301
+   radius 3 rotations 0: stuck states welfare 0 leximin 0 envy pairs 0 AUG 11
+   radius 2 rotations 1: stuck states welfare 0 leximin 0 envy pairs 0 AUG 81
+OPEN_4 | census: 6 7 states 38864 complete 174 traps 0 radius2traps 0 minpool -1
+   radius 2 rotations 0: stuck states welfare 0 leximin 0 envy pairs 0 AUG 2739
+   radius 3 rotations 0: stuck states welfare 0 leximin 0 envy pairs 0 AUG 173
