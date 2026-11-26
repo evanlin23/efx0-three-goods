@@ -23,16 +23,21 @@ EFX₀ allocation with strong charity leaves at most $\min\{(k-2)d-1,\ R(d)\}$ g
 cycle number. Also: exact EFX₀ with $O(\sqrt{kn})$ charity; complete EFX₀ for instances whose agent–good graph has two
 or more components with agents; and welfare maxima can strand two goods at $k = 3$ and $k = 4$. (iii) EFX₀ exists for
 monotone valuations when the agent hypergraph is linear and some agent lies on no Berge 3-cycle, which extends the
-girth-4 theorem of Lianeas, Sgouritsa and Sotiriou. (iv) Serial-dictatorship facts that the central conjecture rests
-on, with Lean proofs: serial-dictatorship outcomes are exactly the Pareto-optimal matchings (strict values), some order
+girth-4 theorem of Lianeas, Sgouritsa and Sotiriou. (iv) Serial-dictatorship facts that the campaign's move-based
+conjectures rest on, with Lean proofs: serial-dictatorship outcomes are exactly the Pareto-optimal matchings (strict values), some order
 picks a maximum matching, and at such picks no agent reachable from an unmatched agent by an alternating path values an
 unpicked good. (v) At $k = 3$, in the core case of Draft and Exchange, one improving chain suffices from every order
 whose draft is compatible with the peeling priority. (vi) A complete proof that a reconstruction of the 4-limited
 algorithm of Viswanathan and Mehta, with one necessary correction, gives ordinary EFX (not EFX₀). On the negative side
-we give counterexamples: "one chain from every order" fails on strict $k = 4$ cores; one chain fails at $k = 5$ even
-from maximum-matching starts; one round of disjoint chains fails at $k = 5$; and value-monotone methods can get stuck
-already at $k = 3$. We end with the conjectures that survive, among them OC₁^max (one chain from every
-maximum-matching order), with the evidence for each.
+we give counterexamples, each printed in full:
+- "one chain from every order" fails on strict $k = 4$ cores;
+- the campaign's central conjecture OC₁^max (one move from every maximum-matching order) fails at $k = 4$, on a
+  four-agent core that millions of random tests had missed;
+- one round of disjoint chains fails, at $k = 4$ and with all values positive;
+- value-monotone methods can get stuck already at $k = 3$.
+
+We end with the conjectures that survive, with the evidence for each. Among them are two sequential moves from every
+maximum-matching order (OC₂^max) and its some-order form.
 
 ## Contents
 
@@ -76,6 +81,10 @@ referee's, and they are logged in the repository. Appendix C adds one check by t
 (`paper/campaign/check_instances.py`). It re-verifies every instance printed in this draft from the printed data, so
 transcription errors would show up.
 
+**A caution.** Several statements here passed millions of random tests and were then refuted by a small instance
+found by exhaustive or designed search. The clearest case is OC₁^max (§7.3). Evidence [E] in this draft is therefore
+weak evidence, whatever its size.
+
 ## 1. Introduction
 
 ### 1.1 The problem
@@ -115,16 +124,20 @@ are from a complete EFX₀ allocation. The answers found are these.
 - From some orders, nothing needs to change: the unpicked goods can be handed out.
 - In general the picks have to be repaired, by an **improving chain**: a sequence of agents, each passing its base to
   the next, in which every agent strictly gains.
-- The sharpest surviving conjecture, **OC₁^max** (§11.1), says: from every order whose picks form a maximum matching,
-  the picks need at most one improving move, after which one agent absorbs the leftover goods. It implies TARGET₄.
-  That implication is machine-checked (Corollary 6.4).
+- For most of the campaign the central conjecture was **OC₁^max**: from every order whose picks form a maximum
+  matching, the picks need at most one improving move, after which one agent absorbs the leftover goods. It implies
+  TARGET₄, and that implication is machine-checked (Corollary 6.4). In the campaign's last hour an exhaustive search
+  refuted it on a four-agent core (Proposition 7.4).
+- The candidates now are two sequential moves (OC₂^max) and some-order forms (§11.1). The machine-checked
+  implication applies to them unchanged.
 
 The results below are of four kinds.
 1. *Theorems that hold for every $k$*: the two-agent shape (§3), the charity bounds (§4), the linear-hypergraph theorem
    (§5) and the matching lemmas (§6).
-2. *Counterexamples* (§7). They show which forms of "one chain suffices" are false. They also locate the role of
-   $k \le 4$: after one repair, a frozen agent has at most $k - 3$ unpicked goods left, which is at most one at
-   $k = 4$ (Lemma 7.5).
+2. *Counterexamples* (§7). They show which forms of "one move suffices" are false: from every order, from every
+   maximum-matching order (two dangerous agents sharing one junk pair), and in one round. They also show where
+   $k \le 4$ helps: after one repair a frozen agent has at most $k - 3$ unpicked goods left, which is at most one at
+   $k = 4$ (Lemma 7.6). This count, and the PW family where it is exact, still separates $k = 4$ from $k = 5$.
 3. *Evidence* for the surviving conjectures, collected in the $k$-ladder table (§8).
 4. *Two side results*: one chain suffices at $k = 3$ from orders compatible with the peeling priority (§9), and a
    complete proof of a reconstruction of Viswanathan and Mehta's ordinary-EFX algorithm (§10).
@@ -265,17 +278,23 @@ they allow, and which completion they require.
 | OC₁ | the same with one-absorber completions | `k4/sdc.md` §29 |
 | OC₁($t \ge 0$) | OC₁ with additions allowed as the move | `kgen/n3.md` §1 |
 | OC₁^max | on strict connected $k = 4$ cores, from every **maximum-matching** order: the picks have a one-absorber completion, or one move (addition, chain or ring) gives a state that has one | `k4/sdc.md` §31 |
+| OC₂^max | the same with at most two sequential moves | `k4/sdc.md` §31 |
+| some-order form | *some* maximum-matching order satisfies OC₁ | `k4/sdc.md` §31 |
 | RD, RD₁ | from every order, one round, then a completion (free, resp. one-absorber) | `k4/ksens.md` §6 |
 | RD² | the same with two rounds applied one after the other | `k4/ksens.md` §6 |
 
-Each of OC, OC₁, OC₁^max and RD implies MD for the orders it covers, because every agent on a chain gains. Each
-implies a complete EFX₀ allocation as soon as it holds for one order, hence TARGET$_k$ (for OC₁^max, through Lemma
-6.2 and the reductions of §2.2).
+*Status at the end of the campaign.*
+- Refuted: OC and OC₁ (§7.2), OC₁^max (§7.3), RD and RD₁ (§7.3, §7.5).
+- Conjectures: SD-C, MD, OC₂^max, the some-order form and RD² (§11).
+
+Each of these move forms implies MD for the orders it covers, because every agent on a chain gains. Each implies a
+complete EFX₀ allocation as soon as it holds for one order, hence TARGET$_k$. For the maximum-matching forms this goes
+through Lemma 6.2 and the reductions of §2.2.
 
 ## 3. Two agents
 
 Source: `kgen/n3.md` §9 (branch `claude/kgen-n3`). Refereed against commit `418f876`; §9's mathematics is unchanged at
-the head `78f59e9`, which only adds the literature paragraph.
+the head `419960c`, which only adds the literature paragraph.
 
 **Setting.** Two agents $a$ and $b$, with $a$ picking first, and arbitrary additive values $v_a, v_b \ge 0$ (ties and
 zeros allowed, any number of relevant goods). The pick $y_a$ is $a$'s favourite positively valued good, and $y_b$ is
@@ -597,7 +616,7 @@ independent of the session's two.
 ## 5. Linear hypergraphs
 
 Source: `k4/girth.md` §1–§4 (branch `claude/k4-girth`). Refereed against `5b79844`, with the later additions
-(generalized Lemma SLACK, Proposition HT) against `90c116f`; the proved statements are unchanged at the head `a494e3b`.
+(generalized Lemma SLACK, Proposition HT) against `90c116f`; the proved statements are unchanged at the head `235bca4`.
 
 ### 5.1 The model of Lianeas, Sgouritsa and Sotiriou
 
@@ -752,10 +771,12 @@ remark "Fact F2 also holds for monotone valuations" in `k4/girth.md` is false. N
 
 Sources: `k4/sdc.md` §28 and §31 (coordinator branch `claude/kind-lamport-y8fdme`) and `k4/oc1_hall.md` §19 (branch
 `claude/k4-oc1-hall`). Refereed against `d48084e` and `e2b4701`. Lean: `lean/EFX/OC1Max.lean` on branch
-`formal/k4-oc1max` (head `838fb0e`).
+`formal/k4-oc1max` (head `28f3e1e`).
 
-These three lemmas make the central conjecture OC₁^max imply TARGET₄, and they rule out the mechanism of every known
-counterexample to "one chain from every order" (§7.2). All three are close to known facts about house allocation
+These three lemmas make OC₁^max imply TARGET₄, and they rule out the pickless pigeonhole behind the counterexamples to
+"one chain from every order" of §7.2. OC₁^max was the campaign's central conjecture, and it is itself false
+(Proposition 7.4). The lemmas, and the Lean frame built on them, are parametrized by the move relation, so they apply
+unchanged to the surviving candidates of §11.1, such as two sequential moves. All three are close to known facts about house allocation
 [AS98, ACMM]; the proofs here are short and self-contained, and machine-checked.
 
 **Lemma 6.1 (SDPO; `k4/sdc.md` §28) [R, L].** With strict values (agents may stay unmatched), the SD outcomes over all
@@ -814,26 +835,30 @@ same proof).
 
 ### Consequences
 
-**Corollary 6.4 (OC₁^max implies TARGET₄) [L].** If OC₁^max (§2.5) holds, every 4-limited additive instance has a
-complete EFX₀ allocation.
+**Corollary 6.4 (bounded-move forms imply TARGET₄) [L].** Fix any relation "one step" on states, such as one move,
+or two sequential moves. Suppose that in every strict connected $k = 4$ core, from every maximum-matching SD start,
+the picks or some state reached in one step have a one-absorber EFX₀ completion. Then every 4-limited additive instance
+has a complete EFX₀ allocation. With one move as the step, this is "OC₁^max implies TARGET₄"; its hypothesis is false
+(Proposition 7.4).
 
 *Proof.* By §2.2, it suffices to treat strict connected $k = 4$ cores. By Lemma 6.2 one of their orders picks a
-maximum matching, and OC₁^max gives an EFX₀ completion for it. ∎ (The referee checked Lemmas 6.1–6.2; the corollary
+maximum matching, and the hypothesis gives an EFX₀ completion for it. ∎ (The referee checked Lemmas 6.1–6.2; the corollary
 itself is the machine-checked composition below.)
 
-The Lean statement is `EFX.OC1Max.target4_of_conjOC1max`, with `EFX.OC1Max.ConjOC1max` a hypothesis (a `Prop`), not
-an axiom. It runs through Lemma 6.2 and the machine-checked reductions K4.CORE and K4.TIE.
-`EFX.OC1Max.target4_of_conjOC1maxWith` does the same for any move relation. The Lean model has values in
+The Lean statements are `EFX.OC1Max.target4_of_conjOC1maxWith`, for any move relation, and its one-move instance
+`EFX.OC1Max.target4_of_conjOC1max`. Their hypotheses (`ConjOC1maxWith`, `ConjOC1max`) are `Prop`s, not axioms.
+Both run through Lemma 6.2 and the machine-checked reductions K4.CORE and K4.TIE. The Lean model has values in
 $\mathbb{N}$. The lemmas are `EFX.OC1Max.sdpo` (Lemma 6.1), `EFX.OC1Max.exists_order_maximum` (Lemma 6.2) and
 `EFX.OC1Max.max_no_augment`, `EFX.OC1Max.picks_no_junk` (Lemma 6.3). `lean/EFX/OC1MaxExamples.lean` shows the
 definitions are not vacuous on the MC2 core of §7.2: the failing order there does not pick a maximum matching, and the
 order $3, 4, 0, 1, 2$ picks one with a one-absorber completion. The Lean proof of Lemma 6.2 takes a maximum matching
 of largest total value; a Pareto improvement of it would be a maximum matching of larger total value.
 
-**Why Lemma 6.3 matters.** Every known counterexample to OC and OC₁ "for every order" (§7.2) has the same shape.
-Pickless agents value only picked goods. They freeze the pick holders, which then cannot take junk, and the pickless
-agents are left as the only junk receivers. At a maximum-matching start this pickless pigeonhole cannot form:
-pickless agents freeze only agents that value no junk.
+**What Lemma 6.3 does and does not exclude.** The counterexamples of §7.2 to OC and OC₁ "for every order" share one
+shape. Pickless agents value only picked goods. They freeze the pick holders, which then cannot take junk, and the
+pickless agents are left as the only junk receivers. At a maximum-matching start this pickless pigeonhole cannot form,
+since pickless agents freeze only agents that value no junk. Lemma 6.3 says nothing when every agent picks, and that
+is where OC₁^max fails (Proposition 7.4: two dangerous agents share a junk danger pair).
 
 **Referee report.** `k4/referee/maxsd.md`: SDPO CORRECT (strictness essential), MAXSD CORRECT (also with tie-breaking),
 MAX CORRECT. The referee brute-forced all matchings and all orders on 4,500 strict instances ($n \le 6$) and 2,000
@@ -981,9 +1006,84 @@ The instance is not a core (rule R2 peels agents 2, 3, 4), and two weaker forms 
 So OC₁ "for every instance", as literally stated, is false at $k = 3$. What the conjectures of §11 need is the core
 form.
 
-### 7.3 One chain fails at $k = 5$, even from maximum-matching starts
+### 7.3 One move fails at $k = 4$, even from maximum-matching starts
 
-**Proposition 7.4 (PW5; `k4/ksens.md` §1) [R] †.** The following instance has $n = 5$, $m = 9$, and is 5-limited.
+**Proposition 7.4 (OC₁^max fails; `k4/sdc.md` §31, end; `k4/oc1_hall.md` §22) [V] †.** OC₁^max is false at
+$k = 4$. So are its free-completion form OC^max and OC₁ at perfect starts, the target of Lemma RED (§11.1).
+Instance 1 is a strict connected $k = 4$ core in the MC2 class, with $n = 4$ and $m = 7$:
+
+| agent | goods (value) |
+|---|---|
+| 0 | 0 (2), 1 (10), 2 (4), 5 (7) |
+| 1 | 1 (10), 2 (3), 5 (4), 6 (8) |
+| 2 | 3 (3), 4 (5), 5 (6), 6 (7) |
+| 3 | 3 (3), 4 (2), 6 (4) |
+
+- The order $(0, 3, 2, 1)$ gives the picks 1, 2, 5, 6 to agents 0, 1, 2, 3, and the junk is $\{0, 3, 4\}$.
+- Every agent picks, so $\nu = n = 4$ and this is a maximum-matching (indeed perfect) start.
+- The instance has 14 complete EFX₀ allocations. None contains the picks, or the bases of any state one move
+  (addition, chain or ring) reaches. So there is not even a free completion.
+
+Instance 2 has $n = 4$, $m = 7$ and is also a strict connected MC2-class core:
+
+| agent | goods (value) |
+|---|---|
+| 0 | 0 (2), 4 (3), 5 (10), 6 (6) |
+| 1 | 1 (3), 2 (10), 3 (6), 5 (8) |
+| 2 | 1 (5), 3 (3), 5 (7), 6 (6) |
+| 3 | 2 (4), 4 (3), 6 (2) |
+
+The order $(3, 1, 2, 0)$ gives the picks 4, 5, 6, 2 to agents 0, 1, 2, 3. It has 24 complete EFX₀ allocations, and
+again none completes the picks or any one-move state.
+
+*Mechanism* (`k4/oc1_hall.md` §22). In instance 1, agent 1 is the only unfrozen agent, and it holds its worst good 2.
+Agents 2 and 3 are dangerous and **share the junk danger pair** $\{3, 4\}$: $3 + 5 > 6$ for agent 2 and $3 + 2 > 4$
+for agent 3. There is at most one free slot. Whoever owns the pair must also hold the leftover junk, and then the
+other agent sharing the pair is threatened. Each canonical chain from a dangerous agent fails this way. Instance 2
+has the same structure, with agents 1 and 2 sharing the pair $\{1, 3\}$. These are not the pickless pigeonhole of
+§7.2, which Lemma 6.3 excludes: here every agent picks. The obstruction needs at least two dangerous agents (the
+Hall session's analysis for one dangerous agent, `k4/oc1_hall.md` §21, is not contradicted).
+
+*What survives on these instances.*
+- *Two sequential moves repair both.* In instance 1, the chain $(2, 1)$ is followed by the chain $(0, 1)$.
+- *Other orders work.* Of the maximum-matching pick vectors, 4 of 7 (instance 1) and 4 of 6 (instance 2) complete
+  at the picks, and the rest after one move, except the failing one.
+- *The R1-priority form fails too.* Both failing starts are also produced by R1-priority orders: $(3, 2, 0, 1)$ for
+  instance 1 (the printed order $(0, 3, 2, 1)$ is not R1-priority) and $(3, 1, 2, 0)$ for instance 2.
+- *One round fails too.* No round of vertex-disjoint chains and additions repairs either start, even with the free
+  completion. This is this write-up's own check, with two methods that agree (Appendix C), not independently
+  replayed. So RD and RD₁ fail at $k = 4$ as well; two sequential rounds (RD²) repair both.
+
+*Scope of the search.* The certifier session (`compute/k4-oc1max-cert`) ran an ordinal CEGAR over every strict
+profile of every core hypergraph with $n \le 4$. OC₁^max holds for every profile of all 5 hypergraphs with
+$n = 2$, all 51 with $n = 3$, and 991 of the 1,002 with $n = 4$. It fails on the other 11, listed in
+`results/k4_oc1max/oc1max_cex_n4.json`; instances 1 and 2 are two of them. The certifier's independent checker
+was run for $n = 2$ only (`check_2.log`), so the positive part is [E]. The session also reports that two moves
+(OC₂^max) suffice for every profile of the 11 failing hypergraphs (commit `3dc080c`); the log of that run is not in
+the repository [unverified].
+
+*Verification of the refutation.*
+- Found by the certifier's ordinal CEGAR.
+- Replayed independently by the coordinator, from the raw EFX₀ definition by brute force with no SAT
+  (`k4/sdc/oc1max_cex_verify.py`, `results/k4_sdc/oc1max_cex_verify.log`).
+- Re-analysed by the Hall session (`k4/oc1_hall.md` §22) and brute-forced on all 11 (`brute_verify_cex_n4.log`).
+- Appendix C re-checks both printed instances.
+
+Ledger K4.SDC.OC1MAX is REFUTED. The referee did not check this item.
+
+**A caution on evidence.** Before this, OC₁^max had no failure on:
+- 11,002,996 maximum-matching orders of random strict profiles of all 31,584 core hypergraphs with $n = 5$;
+- 33,082 maximum-matching orders of the known counterexamples to the every-order forms;
+- adversarial climbs up to $n = 8$.
+
+The counterexamples have only $n = 4$ and $m = 7$, and were found by exhaustive search over all strict profiles.
+Random profiles had never produced two dangerous agents sharing one junk danger pair with no free slot. ROUND⁺
+(§7.5) and Conjecture W (§11.5) also fell to exhaustive or designed searches after passing large random tests. On
+this problem, millions of random starts are weak evidence.
+
+### 7.4 One chain fails at $k = 5$: the PW family
+
+**Proposition 7.5 (PW5; `k4/ksens.md` §1) [R] †.** The following instance has $n = 5$, $m = 9$, and is 5-limited.
 Here $p_j = j - 1$ for $j = 1, 2, 3$, $q_1 = 3$, $q_2 = 4$, and the pool is $D = \{5, 6, 7, 8\}$.
 
 | agent | goods (value) |
@@ -996,7 +1096,8 @@ Here $p_j = j - 1$ for $j = 1, 2, 3$, $q_1 = 3$, $q_2 = 4$, and the pool is $D =
 
 From the order $\pi = (x_1, x_2, x_3, w_1, w_2)$, neither the picks nor any state reached by one improving chain or
 one addition has a complete EFX₀ completion, even a free one. Since every agent picks, this is a maximum-matching
-start. Hence OC and OC₁ fail at $k = 5$, and so at every $k \ge 5$; so do OC^max and OC₁^max.
+start. Hence OC and OC₁ fail at $k = 5$, and so at every $k \ge 5$; so do OC^max and OC₁^max. (They fail at
+$k = 4$ already, by Proposition 7.4, through a different mechanism. PW5 matters for the count that follows.)
 
 *Proof.* The picks are $p_1, p_2, p_3, q_1, q_2$, and the junk is $D$. Every $x_j$ is frozen, since both wanters want
 every $p_j$. Every pair of $D$ is worth at least $6 + 7 = 13 > 10$ to every $x_j$, and every single good of $D$ less
@@ -1040,7 +1141,7 @@ relevant goods has at most $k - 1$ junk goods, so at most $k - 3$ are left. At $
 never a danger set (I2). At $k = 5$ two goods are left, still a danger set for the agents sharing the pool, and one
 chain cannot repair a second agent. The general statement is this.
 
-**Lemma 7.5 (PL, pool leftover; `k4/ksens.md`) [R].** Let $Y = \mathrm{SD}(\pi)$ with junk $J$. Let $x$ be an agent
+**Lemma 7.6 (PL, pool leftover; `k4/ksens.md`) [R].** Let $Y = \mathrm{SD}(\pi)$ with junk $J$. Let $x$ be an agent
 with pick $y_x$ and $|R_x| \le k$, and let $H \subseteq J \cap R_x$ with $v_x(H) > v_x(y_x)$ (a junk danger set of
 $x$, used as its improving set). Then:
 - (a) $|H| \ge 2$, and $x$ values at most $k - 3$ goods of $J \setminus H$;
@@ -1055,13 +1156,13 @@ $x$, used as its improving set). Then:
 therefore not worth more than $y_x$, so $|H| \ge 2$. Since $y_x \notin J$, $|J \cap R_x| \le |R_x| - 1 \le k - 1$, which
 leaves at most $k - 3$ goods outside $H$. This proves (a). (b) is (a) with $k = 4$, together with (I2). For (c),
 $|J \cap R_z| \le 3$ and two of these goods lie in $H$; the remaining one is worth at most $v_z(y_z)$ by (I2). (d) is
-Proposition 7.4. ∎
+Proposition 7.5. ∎
 
 PL covers only the old junk $J \setminus H$. Released picks, agents that share only one good with $H$, and danger
 sets that use another agent's pick are not covered; these are the parts a $k = 4$ proof still has to handle
 (`k4/ksens.md`, "What PL does not cover").
 
-**Lemma 7.6 (PWk(a), the PW family at $k \le 4$; `k4/ksens.md` §7) [R′].** In the family PW($f, W, r$), $f$ frozen
+**Lemma 7.7 (PWk(a), the PW family at $k \le 4$; `k4/ksens.md` §7) [R′].** In the family PW($f, W, r$), $f$ frozen
 agents $x_j$ value their pick $p_j$ at $P = 20$ and each good of a shared pool $D$, $|D| = r \le 10$, at less than $P$
 (19, 18, …), and every pair of $D$ above $P$. $W$ wanters $w_i$ each value every $p_j$ above their own $q_i$, with the
 same ranking $p_1 > \dots > p_f$. The order is $x_1, \dots, x_f, w_1, \dots, w_W$. If $r \le 3$, the start needs at
@@ -1092,9 +1193,9 @@ the table is the referee's fix; it needs no absorber. The session applied it, an
 report: `k4/referee/ksens.md` §5 (also Lemma PL: CORRECT). Checks: 60 clean configurations and 3,000 random value
 assignments of the family's shape, all EFX₀.
 
-### 7.4 One round of disjoint chains fails at $k = 5$
+### 7.5 One round of disjoint chains fails at $k = 5$, and for positive values
 
-**Proposition 7.7 (RD5; `k4/ksens.md` §6) [V] †.** The following instance has $n = 4$, $m = 7$, strict values, and
+**Proposition 7.8 (RD5; `k4/ksens.md` §6) [V] †.** The following instance has $n = 4$, $m = 7$, strict values, and
 only agent 0 has five goods.
 
 | agent | goods (value) |
@@ -1119,8 +1220,34 @@ agent 0's goods restores one round.
 A third implementation, `ocseq.py` with rounds, agrees with both on 1,364 start–completion pairs
 (`xcheck_rounds.log`). Log `results/k4_ksens/refute_rd_k5.log`. Not refereed.
 
-Together, Propositions 7.4 and 7.7 show that the one-move and one-round forms are $k \le 4$ statements. Every
-statement of §11.1 must use $k \le 4$ somewhere.
+**Remark (ROUND⁺: one round fails with every value positive; branch `proof/kgen-rounds`, PR #111) [V] †.** RD5+
+is RD5 with $v_0(4) = 23$, all values multiplied by 100, and every zero replaced by 1. So every agent values every
+good: $n = 4$, $m = 7$, and $k = 7$.
+
+| agent | values of goods 0–6 |
+|---|---|
+| 0 | 2600, 5700, 1, 4400, 2300, 3300, 1 |
+| 1 | 1, 1200, 1100, 600, 1, 1, 1 |
+| 2 | 1, 900, 800, 600, 100, 1, 1 |
+| 3 | 3600, 1, 5300, 1, 1, 4700, 400 |
+
+From the order $(0, 3, 1, 2)$, no single round of disjoint chains reaches bases with an EFX₀ completion, free or
+with one absorber. Two rounds repair it. With all values positive, EFX₀ and EFX coincide.
+
+*Verification.* The session's certificate (`kgen/rounds/refute_roundplus.py`) shows the following by raw
+enumeration: every EFX allocation that value-dominates the picks has an agent that would need two foreign picks.
+Two further checkers of the session agree (`rnd.c`, `bruter.py`), and so does the $k$-sensitivity session's SAT
+pipeline. The coordinator replayed a second instance of the same kind ($n = 4$, $m = 7$, order $(2, 1, 3, 0)$;
+`k4/sdc/roundplus_cex_check.py`). Appendix C re-checks RD5+.
+
+This corrects the earlier evidence that with every good valued one round always sufficed (`k4/ksens.md` §8; §8 below).
+
+**Summary of §7.3–§7.5.**
+- One move from every maximum-matching start fails at $k = 4$, when two dangerous agents share a junk pair
+  (Proposition 7.4).
+- In the PW family, one move fails at $k = 5$, while every $k \le 4$ member passes (Proposition 7.5, Lemma 7.7).
+- One round fails at $k = 4$ (§7.3) and at $k = 5$ (Proposition 7.8), and also with all values positive (RD5+).
+- The two-move form OC₂^max and the two-round form RD² have no known counterexample (§11.1, §11.6).
 
 ## 8. The $k$-ladder (mostly evidence)
 
@@ -1134,13 +1261,16 @@ complete EFX₀ completion after the stated repair, from every start of the stat
 | statement | $k \le 2$ | $k = 3$ | $k = 4$ | first failure | smallest counterexample known |
 |---|---|---|---|---|---|
 | no repair: the picks extend | proved (K3.SD2, Lean) | **fails** [V] | fails | $k = 3$ | $n = 2$, $m = 4$ (below) |
-| one chain (OC₁, OC) | (no chain needed) | proved for R1-compatible orders in DE's core case [R] (§9); holds on all cores tested [E]; fails outside cores [V] (§7.2) | holds [E] | **$k = 5$** | RD5, $n = 4$, $m = 7$ [V]; PW5, $n = 5$, $m = 9$ [R] |
-| one chain from maximum-matching starts (OC₁^max) | | | holds [E] | **$k = 5$** | PW5 [R]; RD5 [V] |
-| one chain from R1-priority starts, or from the need-2 neediest-first start | | | holds [E] | $k = 6$ | PWR1-6, NF2-6, $n = 6$, $m = 11$ [V] |
-| one chain from LB₄ʳ's Phase 1 (need-2, R1) | | | holds [E] | none found | |
-| $c$ chains in sequence | $c = 0$ | $c = 1$ [E] | $c = 1$ [E] | $k = 2c + 3$ ($c \le 3$) | PW($c+2$, $c+1$, $2c+2$); $c = 1$ [R], $c = 2, 3$ one SAT encoding [E] |
-| one round of disjoint chains (RD, RD₁) | | | holds [E] | **$k = 5$** | RD5 [V] |
-| two rounds (RD²), also from maximum-matching starts | | | holds [E] | none found | (§11.6) |
+| one move from every order (OC₁, OC) | (no move needed) | proved for R1-compatible orders in DE's core case [R] (§9); holds on all cores tested [E]; fails outside cores [V] (§7.2) | **fails** on strict cores [V] (§7.2, §7.3) | $k = 3$ outside cores, $k = 4$ on cores | $k = 3$: $n = 5$, $m = 9$; $k = 4$: $n = 4$, $m = 7$ (§7.3) [V] |
+| one move from maximum-matching starts (OC₁^max, OC^max) | | | **fails** [V] (§7.3) | **$k = 4$** | $n = 4$, $m = 7$ [V]; at $k = 5$ also PW5 [R] |
+| two sequential moves from maximum-matching starts (OC₂^max) | | | holds [E] | none found | (§11.1) |
+| one move from R1-priority starts | | | **fails** [V] (§7.3; on cores with two private goods already §7.2) | $k = 4$ | $n = 4$, $m = 7$ [V] |
+| one move from the need-2 neediest-first start | | | holds [E] (not the failing start on the §7.3 instances) | $k = 6$ | NF2-6, $n = 6$, $m = 11$ [V] |
+| one move from LB₄ʳ's Phase 1 (need-2, R1) | | | holds [E] | none found | |
+| $c$ moves in sequence, every order | $c = 0$ | $c = 1$ on cores [E] | $c = 1$ fails; $c = 2$ [E] from maximum-matching starts | $k = 2c + 3$ in the PW family ($c \le 3$); $c = 1$ already at $k = 4$ | PW($c+2$, $c+1$, $2c+2$): $c = 1$ [R], $c = 2, 3$ one SAT encoding [E] |
+| one round of disjoint chains (RD, RD₁) | | | **fails** (§7.3; this write-up's check, two methods) | $k = 4$ | $n = 4$, $m = 7$; at $k = 5$ RD5 [V] |
+| one round with all values positive (ROUND⁺; $k = m$) | | | | fails at $n = 4$, $m = 7$ | RD5+ [V] (§7.5) |
+| two rounds (RD²), also from maximum-matching starts | | | holds [E] (repairs the §7.3 instances) | none found | (§11.6) |
 | SD-C (some order, no repair) | proved | holds [E] | holds [E] | none found ($k \le 8$) | |
 | MD (every start value-dominated) | proved for strict values (K3.SD2 with Lemma 6.1) | open (TARGET₃ is the empty matching only) | holds [E] | none found ($k \le 8$) | |
 
@@ -1166,24 +1296,30 @@ Notes on the cells.
   are distinct, and yet the picks have no one-absorber completion †. The instance DT1-5 has $n = 3$, $m = 8$
   (`k4/ksens.md` §3).
 
-**The $k$-dependence in one count** (Lemma 7.5). A frozen agent's junk danger sets live in its at most $k - 1$ junk
+**The $k$-dependence in one count** (Lemma 7.6). A frozen agent's junk danger sets live in its at most $k - 1$ junk
 goods, and a repair spends two of them.
 - $k \le 2$: no danger set, no chain.
 - $k = 3$: a danger pair, one chain, nothing left.
-- $k = 4$: one good left, never a danger set; one chain suffices on all data.
+- $k = 4$: one good left, never a danger set for the repaired agent or for an agent sharing two of its goods
+  (Lemma 7.6 (b), (c)). But two dangerous agents sharing one junk pair defeat one move (Proposition 7.4), and two
+  sequential moves suffice on all data.
 - $k = 5$: two goods left, a danger set for the agents sharing the pool (PW5); or the repair needs two foreign picks
   (RD5).
 
-The $k \le 4$ inputs a proof of OC₁^max can use are these:
-- Lemma 7.5 (b), (c);
-- Lemma 7.6;
+The $k \le 4$ inputs a proof of OC₂^max, or of any bounded-move form, can use are these:
+- Lemma 7.6 (b), (c);
+- Lemma 7.7;
 - the one-agent counts in Theorem DT's (F4) and in DT₁'s step 3 (`k4/sdc.md` §6, §30);
 - RD5's five-good requirement.
 
-**Unrestricted $k$** (`k4/ksens.md` §8, [E]). Lift PW5 to full valuations, with every agent valuing every good
-(strict, positive, $k = m = 9$): one chain still fails, and one round repairs. So PW's mechanism does not need zero
-values. The same lift of RD5 needs only one round. With every good valued, no start within $n \le 5$, $m \le 9$
-needed two rounds (climbs and random profiles). Zero values make the problem harder for rounds, not easier.
+**Unrestricted $k$** (`k4/ksens.md` §8 and `proof/kgen-rounds`). Lift PW5 to full valuations, with every agent valuing
+every good (strict, positive, $k = m = 9$): one chain still fails, and one round repairs [E]. So PW's mechanism does
+not need zero values.
+- The $k$-sensitivity session found that a lift of RD5 needs only one round, and that with every good valued no start
+  within $n \le 5$, $m \le 9$ needed two rounds (climbs and random profiles) [E].
+- That evidence was overturned. RD5+, a different lift of RD5, needs two rounds (§7.5, [V]). It was found by seeded
+  climbs, which the random profiles had missed.
+- So zero values are not what makes the second round necessary. Two rounds suffice on every instance found.
 
 ## 9. Three relevant goods: one chain from R1-compatible orders
 
@@ -1192,7 +1328,8 @@ Source: `k4/k3_oc1.md` §1–§3 (branch `claude/k4-k3-oc1`). Refereed against `
 Draft and Exchange (DE; `paper/k3-simple`, [Lin-k3s]).
 
 TARGET₃ is known. The question here is whether its constructions have the OC₁ shape: one-absorber completions of SD
-picks, after at most one improving chain. A positive answer at $k = 3$ is the base case for OC₁^max at $k = 4$.
+picks, after at most one improving chain. A positive answer at $k = 3$ was meant as the base case for the
+one-move forms at $k = 4$; those are now refuted at $k = 4$ (Proposition 7.4), but OT at $k = 3$ is open.
 
 ### 9.1 Setting
 
@@ -1322,7 +1459,7 @@ agreed.
 ## 10. Ordinary EFX for 4-limited instances: a reconstruction of Viswanathan–Mehta
 
 Source: `k4/vm.md` §1, §2, §8 (branch `claude/k4-vm`). Refereed against `7a78df6`; these sections are unchanged at the
-head `0595a29`.
+head `559eec6`.
 
 **What this is.** Viswanathan and Mehta [VM] announce, in a three-page extended abstract, that *ordinary* EFX
 allocations exist when every agent values at most four goods. The abstract describes the algorithm in about 25 lines
@@ -1459,7 +1596,8 @@ $N_2$.
 ## 11. Open problems and conjectures
 
 Everything in this section is open. Evidence is finite data, and random data can miss rare structures. Several
-conjectures of this campaign survived millions of random starts and then fell to one designed instance (§7.2).
+statements of this campaign survived millions of random starts and then fell to one designed or exhaustively found
+instance (§7.2, §7.3, §7.5, §11.5).
 
 ### 11.0 TARGET₄
 
@@ -1470,32 +1608,57 @@ reductions of §2.2. A minimal counterexample is a strict connected $k = 4$ core
 
 By L1 (PROMPT.md), a counterexample would also refute EFX existence for strictly positive additive valuations.
 
-### 11.1 OC₁^max, and the reduction to perfect starts
+### 11.1 After OC₁^max: two moves, and some-order forms
 
-> **Conjecture 11.1 (OC₁^max; `k4/sdc.md` §31, ledger K4.SDC.OC1MAX) [C].** In every strict connected $k = 4$ core,
-> for every SD order whose picks form a maximum matching: the picks have a one-absorber EFX₀ completion, or one
-> improving move (an addition, a chain or a ring) gives a state that has one.
+OC₁^max (one move from every maximum-matching start) was the campaign's central conjecture until its last hour. It is
+false at $k = 4$ (Proposition 7.4). Two weakenings survive. Both imply TARGET₄.
 
-By Corollary 6.4 (machine-checked), Conjecture 11.1 implies TARGET₄.
+> **Conjecture 11.1 (OC₂^max; `k4/sdc.md` §31) [C].** In every strict connected $k = 4$ core, for every SD order whose
+> picks form a maximum matching: the picks, or the bases after at most two sequential improving moves, have a
+> one-absorber EFX₀ completion.
 
-*Evidence* [E] (`k4/sdc.md` §31, ledger K4.SDC.OC1MAX):
-- every start of the earlier OC₁ data, since those runs tried every order with $n \le 5$: 120,050 starts;
-- all 31,584 core hypergraphs with $n = 5$, three random strict profiles each, every order: 0 failures among
-  11,002,996 maximum-matching orders, of which 176,670 need one move;
-- the known counterexamples to the every-order forms: 0 failures among 33,082 maximum-matching orders. On the 39
-  distinct core counterexamples every maximum-matching order completes at the picks;
-- the Hall session's 2,071 one-absorber-hard maximum-matching starts ($n \le 5$), where the refined form OC₁-ED\*^max
-  holds on all;
-- adversarial climbs on strict cores up to $n = 8$, by the coordinator, the TTC session and the $k$-sensitivity session:
-  no failure.
+> **Conjecture 11.2 (some-order forms; `k4/sdc.md` §31) [C].** In every strict connected $k = 4$ core, *some* SD order
+> whose picks form a maximum matching satisfies OC₁: its picks, or a state one move away, have a one-absorber EFX₀
+> completion.
 
-*Limits.* Conjecture 11.1 is false at $k = 5$ (Proposition 7.4), so a proof must use $k \le 4$, presumably through
-Lemma 7.5. Every failing every-order start known has the pickless pigeonhole that Lemma 6.3 excludes.
+SD-C (Conjecture 11.5) is the zero-move some-order form. OC₂^max implies TARGET₄ by Corollary 6.4, with two
+sequential moves as the step (the Lean frame `ConjOC1maxWith` takes any move relation). Conjecture 11.2 implies it
+directly.
 
-**Lemma 11.2 (RED, reduction to perfect starts; `k4/sdc.md` §31) — written proof, not refereed.** The Hall session
-checked it (`k4/oc1_hall.md` §21). Let $Y$ be maximum-matching picks of any instance with strict values. Let $U \ne
-\emptyset$ be the pickless agents, $S$ the agents reachable from $U$ by $Y$-alternating paths, $T$ the remaining agents,
-and $J$ the junk.
+*Evidence* [E]. All of OC₁^max's evidence is evidence for both, since a start that needs at most one move needs at
+most two. That evidence consists of:
+- every start of the earlier OC₁ data (every order with $n \le 5$; 120,050 starts);
+- 11,002,996 maximum-matching orders of random strict profiles of all 31,584 core hypergraphs with $n = 5$;
+- 33,082 maximum-matching orders of the known counterexamples to the every-order forms;
+- the Hall session's 2,071 one-absorber-hard maximum-matching starts;
+- adversarial climbs on strict cores up to $n = 8$.
+
+In addition:
+- *OC₂^max on the counterexamples.* Two sequential moves repair both instances of Proposition 7.4 (checked in
+  Appendix C). The certifier session reports that two moves suffice for every strict profile of all 11 failing
+  $n = 4$ hypergraphs (commit `3dc080c`; the log of that run is not in the repository) [unverified].
+- *The some-order form on the counterexamples.* On both instances of Proposition 7.4, other maximum-matching orders
+  complete at the picks.
+- *Toward a complete check at $n \le 4$.* By the certifier's ordinal CEGAR, every strict profile of every core
+  hypergraph with $n \le 4$ satisfies OC₁^max, except on the 11 failing hypergraphs (§7.3). On the failing profiles
+  examined there, other maximum-matching orders work (`results/k4_oc1max/diag_cex_n4.log`). So Conjecture 11.2 may
+  hold at all $n \le 4$. No certificate for it has been run, and the OC₁^max certificates for $n = 3, 4$ have not
+  been independently checked.
+
+*Limits and the next test.*
+- In the PW family, two sequential chains fail at $k = 7$ (§8, one SAT encoding [E]). So OC₂^max, like OC₁^max, is at
+  best a $k \le 4$ (or small-$k$) statement.
+- The obstruction of Proposition 7.4 is a junk danger pair shared by two dangerous agents with no free slot. The Hall
+  session notes that $s$ dangerous agents sharing one pair would need about $s - 1$ lifts. So three sharers might
+  defeat two moves, and the instance to search for has $n = 5$ (`k4/oc1_hall.md` §22).
+
+**Lemma 11.3 (RED, reduction to perfect starts; `k4/sdc.md` §31).** Written proof, not refereed; checked by the Hall
+session (`k4/oc1_hall.md` §21). Its allocation part (i)–(ii) and the frame below are machine-checked:
+`EFX.OC1Max.red` and `EFX.OC1Max.target4_of_conjOC1perfWith` in `lean/EFX/OC1Perf.lean`, branch `formal/k4-oc1max`
+at `28f3e1e`.
+
+Let $Y$ be maximum-matching picks of any instance with strict values. Let $U \ne \emptyset$ be the pickless agents,
+$S$ the agents reachable from $U$ by $Y$-alternating paths, $T$ the remaining agents, and $J$ the junk.
 - (i) No agent of $U \cup S$ values a junk good (Lemma 6.3).
 - (ii) Every good valued by an agent of $U \cup S$ is the pick of an agent of $S$.
 - (iii) Let $I'$ be the instance with agents $T \cup U$ and goods $\{Y_t : t \in T\} \cup J$, values restricted. The
@@ -1503,43 +1666,50 @@ and $J$ the junk.
   or after a move of $I'$, extends to one of $I$: the agents of $S$ keep their single picks, and the agents of $U$
   get what they get in $I'$.
 
-*Proof sketch* (from the source). For (ii): a good valued by $u \in U$ is picked, else $u$ could be matched to it; it is
-the pick of some $b$, and $b \in S$. A good valued by $s \in S$ is not junk by (i), so it is a pick $Y_b$, and again
-$b \in S$. For (iii), every EFX₀ constraint involving $S \cup U$ holds in the extension:
-- agents of $S \cup U$ value only picks of $S$, which are held alone, and removing a singleton's good leaves nothing;
-- agents of $S \cup U$ value no junk, so they never envy the bundles of $U$ agents;
-- agents of $T$ compare $S$ holders' singletons only, which never violates EFX₀.
+*Proof sketch* (from the source).
+- For (ii): a good valued by $u \in U$ is picked, else $u$ could be matched to it. It is the pick of some $b$, and
+  $b \in S$. A good valued by $s \in S$ is not junk by (i), so it is a pick $Y_b$, and again $b \in S$.
+- For (iii), every EFX₀ constraint involving $S \cup U$ holds in the extension:
+  - agents of $S \cup U$ value only picks of $S$, which are held alone, and removing a singleton's good leaves
+    nothing;
+  - agents of $S \cup U$ value no junk, so they never envy the bundles of $U$ agents;
+  - agents of $T$ compare $S$ holders' singletons only, which never violates EFX₀.
 
 Every move of $I'$ is a move of $I$, and the absorber counts are the same. ∎
 
-So OC₁ at maximum-matching starts, for every instance with at most four relevant goods per agent, follows from OC₁ at
-**perfect starts** (every agent with a relevant good holds a pick), with null agents allowed and counted as ordinary
-agents in the absorber count. With Lemma 6.2 this would give TARGET₄ without the core reduction. $I'$ need not be a core,
-so this route needs the perfect-start form for all 4-limited instances.
+So statements at maximum-matching starts reduce to the same statements at **perfect starts** (every agent with a
+relevant good holds a pick). Null agents are allowed, and they count as ordinary agents in the absorber count. Since
+every move of $I'$ is a move of $I$, the reduction applies move by move to sequences of moves. That remark is this
+write-up's; the source states one move, and the Lean frame takes any move relation.
+- Its original target, **OC₁ at perfect starts, is false**: instance 1 of Proposition 7.4 is a perfect start.
+- The lemma itself stands, and it transfers OC₂^max to perfect starts. $I'$ need not be a core, so this route needs
+  the perfect-start form for all 4-limited instances.
 
 *What a proof could use* (each refereed, Appendix B, unless marked otherwise):
 - the Hall session's exact condition for one-absorber completability at fixed bases (Lemma 2\*, Corollary 2.1 of
   `k4/oc1_hall.md`);
 - the one-frozen-agent case (Theorem F1₁ there);
-- Lemma 7.5;
+- Lemma 7.6;
 - for one dangerous agent, the proved reduction of the Hall session's Finding D1 to two named obstacles, HEAD and
-  CROWD (`k4/oc1_hall.md` §21; Lemmas D1-chain, D1-red), which is not refereed.
+  CROWD (`k4/oc1_hall.md` §21; not refereed). Proposition 7.4 does not contradict it, since it has two dangerous
+  agents.
 
 ### 11.2 MD and SD-C
 
-> **Conjecture 11.3 (MD; `k4/sdc.md` §28) [C].** In every 4-limited instance, every matching is value-dominated by a
+> **Conjecture 11.4 (MD; `k4/sdc.md` §28) [C].** In every 4-limited instance, every matching is value-dominated by a
 > complete EFX₀ allocation.
 
-> **Conjecture 11.4 (SD-C; `k4/sdc.md` §2) [C].** In every 4-limited instance, some SD order's picks extend to a
+> **Conjecture 11.5 (SD-C; `k4/sdc.md` §2) [C].** In every 4-limited instance, some SD order's picks extend to a
 > complete EFX₀ allocation.
 
 MD contains TARGET₄ (take the empty matching). By Lemma 6.1 it is equivalent, for strict values, to value domination
-of every order's picks. Neither conjecture has a counterexample at any $k \le 8$ tested (§8). For every $k$, both
-contain EFX₀ existence for all additive instances.
+of every order's picks. On the instances of Proposition 7.4 both hold, since two moves repair and other orders
+extend. Neither conjecture has a counterexample at any $k \le 8$ tested (§8). For every $k$, both contain EFX₀
+existence for all additive instances.
 
 ### 11.3 VM1: one move from a Viswanathan–Mehta matching
 
-> **Conjecture 11.5 (VM1; `k4/vm.md` §7.3) [C].** For every 4-limited instance there are:
+> **Conjecture 11.6 (VM1; `k4/vm.md` §7.3) [C].** For every 4-limited instance there are:
 > - a V-M matching $Y$ (Phases I–II of §10.1, some resolution of ties);
 > - at most one move: a pool upgrade, or a two-agent exchange in which $i$, holding a single good, takes any good $z$
 >   of $j$ plus pool goods, both agents gaining and EFX₀ kept;
@@ -1557,16 +1727,22 @@ VM1 implies TARGET₄. Every state of such a run satisfies five invariants, (I1)
 
 The referee checked these invariants (Lemmas SND and TERM; `k4/referee/vm.md` §6).
 - *Evidence* [E]: the screen set 168/168 (157 with no move), the named instances 95/95, random cores with $n = 3$–5
-  (2,700/2,700), and general instances 3,000/3,000.
-- *Robustness at $k = 5$* [E]: VM1 holds at $k = 5$ on PW5, RD5 and both $n = 4$ instances of the two-agent session, and
-  on 2,000 random 5-limited instances. So it is a general-$k$ candidate.
+  (2,700/2,700), and general instances 3,000/3,000. VM1 also holds on PW5, RD5 and both $n = 4$ instances of the
+  two-agent session ($k = 5$), and on 2,000 random 5-limited instances.
+- *Its form fails at larger $k$* [V] (`attempts/k4-vm-vm1-k7.md`, branch `claude/k4-vm`).
+  - One move fails at $k = 7$, on PW(2, 3, 6) with $n = 5$, $m = 11$. Checked by `k4/vm/vm1_verify.py` (no caps) and
+    an independent replay.
+  - Two moves fail at $k = 9$, on PW(3, 3, 8).
+  - In both, the number of moves needed equals the number of frozen agents.
+  - VMX₂ (any number of moves) completes both.
+- So VM1 is at best a small-$k$ statement. At $k = 4$, which is what it is stated for, it is unrefuted.
 - *Limits.* With *narrow* exchanges (the taker must value $z$), VM1 is refuted at $n = 3$, $m = 7$
-  (`attempts/k4-vm-vm1.md`, independent replay). The unproved step is placeability, and P1's state GM4-E (§7.1)
-  shows that (I1), (I3), (I4) alone do not imply it.
+  (`attempts/k4-vm-vm1.md`, independent replay). The unproved step is placeability. P1's state GM4-E (§7.1) shows that
+  (I1), (I3) and (I4) alone do not imply it.
 
 ### 11.4 DYN: LSS's algorithm with dynamic parking
 
-> **Conjecture 11.6 (DYN; `k4/girth.md` §5) [C].** For every 4-limited instance there are a vertex 0 and a labeling
+> **Conjecture 11.7 (DYN; `k4/girth.md` §5) [C].** For every 4-limited instance there are a vertex 0 and a labeling
 > such that LSS's Algorithm 2, with the G1 repair, ends in a state that *dynamic parking* completes.
 >
 > - The G1 repair: an envied agent takes the most valuable subset of its leftovers that beats its bundle and keeps
@@ -1580,35 +1756,80 @@ GM4-E.
 - *Evidence* [E]: every screen and suite instance with 2-cycles, 2,164,809 random strict $n = 4$ core profiles,
   1,239,515 random $n = 5$ profiles, and 1,905,183 random instances with 2-cycles: all complete.
 - *Robustness* [E]: it also survives PW5, RD5, B<, B> and the 39 core counterexamples, so it is not tied to $k = 4$.
+  It has not been reported on the instances of Proposition 7.4.
 - *Variants refuted*: DYN without the G1 repair (`attempts/k4-girth-dyn-plain.md`), and a single sink instead of dynamic
   parking (at $n = 2$).
 
 The linear case of DYN (Conjecture LR-dyn, `k4/girth.md` §4) would give EFX₀ for every linear additive instance at
 every $k$.
 
-### 11.5 W: welfare maxima
+### 11.5 Two statements named W
 
-> **Question 11.7 (W($k$); `kgen/charity.md` §6) [C].** Is there an $f$, independent of $n$, with W($k, f$)? That is:
-> does every $k$-limited instance have a welfare maximum over partial EFX₀ allocations leaving at most $f$ goods out?
+**(a) Conjecture W, the one-step welfare lemma** (`k4/haxell.md` §6, branch `claude/k4-haxell`). The statement: from
+every partial EFX₀ allocation with a nonempty pool, a composite of at most two moves reaches a partial EFX₀ allocation
+with a smaller pool, or with the same pool and strictly larger welfare $\sum_i v_i(X_i)$. A move is one of these:
+- giving one good to another agent (a pooled good may be placed; nothing returns to the pool);
+- swapping the holders of two goods (the pool counts as a holder);
+- rotating the bundles along a cycle of agents.
 
-W($k, f$) implies a charity bound $f(k) \le f$ (§4.4). W(3, 0) and W(4, 0) fail (GM4-G, `w_brute.log`), and W(3, 1)
-and W(4, 1) fail by Proposition 4.5. So $f \ge 2$ is needed at both $k = 3$ and $k = 4$. The S′($\sigma, k$) family is
-the natural test. If it carries welfare-maximal stranded states for every $\sigma$, W($k$) fails for every $f$. The
-$\sigma = 4$, $k = 4$ search (three goods stranded, $n = 20$) was running when this draft was written.
+The pair (pool size, $-$welfare) is well-founded, so W would give TARGET₄. It is not value-monotone: a step may lower
+any agent, which is how it escapes P1's stuck state.
+
+**Conjecture W is false** (`attempts/k4-haxell-conjecture-w.md`) [V] †. The instance has $n = 2$, $m = 7$, $k = 4$:
+
+| agent | goods (value) |
+|---|---|
+| 0 | 0 (40), 1 (10), 2 (11), 3 (12) |
+| 1 | 0 (70), 4 (10), 5 (40), 6 (11) |
+
+The state $(\{1, 2, 3\}, \{4, 5, 6\})$, with good 0 pooled, is partial EFX₀.
+- Good 0 must end up alone, since in a bundle of two or more goods the other agent strongly envies it.
+- So its receiver must give away all three of its other goods, and no composite of two moves improves.
+- Three moves do: swap good 0 with agent 1's good 4 through the pool, then move goods 5 and 6 to agent 0.
+
+The instance was checked by the session's replay (`attempts/k4_haxell_w.py`, from the raw definition) and by this
+write-up's own move search (Appendix C).
+
+**Conjecture 11.8 (W₃ and W^sub; `k4/haxell.md` §6) [C].** What survives:
+- **W₃** (three moves), a candidate for $k \le 4$. It fails at $k = 5$ by the same mechanism (instance W5), since the
+  radius needed grows like $k - 1$.
+- **W^sub** (two moves, where giving a set of goods to one agent counts as one move), a candidate for every $k$. It
+  contains W's moves, so it holds wherever W held. In its general form it contains EFX₀ existence.
+- *Evidence for both* [E]: over 45 million partial EFX₀ states with no stuck state. They include every state of the
+  screen set, the suite, small cores, PW5/RD5, B< and B>, and random instances at $k = 3$–7, plus the CH-F welfare
+  maxima of Proposition 4.5. Of these, 397,633 states were re-checked by an independent implementation
+  (`k4/haxell.md` §6–§7).
+
+**(b) Question W($k$): welfare maxima** (`kgen/charity.md` §6).
+
+> **Question 11.9 [C].** Is there an $f$, independent of $n$, with W($k, f$)? That is: does every $k$-limited instance
+> have a welfare maximum over partial EFX₀ allocations leaving at most $f$ goods out?
+
+- W($k, f$) implies a charity bound $f(k) \le f$ (§4.4).
+- W(3, 0) and W(4, 0) fail (GM4-G, `w_brute.log`), and W(3, 1) and W(4, 1) fail by Proposition 4.5. So $f \ge 2$ is
+  needed at both $k = 3$ and $k = 4$.
+- The S′($\sigma, k$) family is the natural test: if it carries welfare-maximal stranded states for every $\sigma$,
+  W($k$) fails for every $f$. The $\sigma = 4$, $k = 4$ search (three goods stranded, $n = 20$) was running when this
+  draft was written.
 
 At $k = 4$ the only $n$-independent charity bounds proved are those of §4, for instances whose goods have few valuers.
 The open case is connected instances whose unallocated goods all have many valuers (Corollary 4.3).
 
 ### 11.6 RD²: two rounds of disjoint chains
 
-> **Conjecture 11.8 (RD²; `k4/ksens.md` §6–§7) [C].** For every $k$ and every additive instance, from every SD order
+> **Conjecture 11.10 (RD²; `k4/ksens.md` §6–§7) [C].** For every $k$ and every additive instance, from every SD order
 > (or from every maximum-matching order), two rounds of vertex-disjoint improving chains, applied one after the
 > other, reach bases with a one-absorber completion.
 
-One round is false at $k = 5$ (Proposition 7.7). There the first round releases the foreign picks and the second
-collects them, and for this mechanism two rounds suffice however many picks are needed.
-- *Evidence* [E]: climbs at $n \le 6$, $k = 5, 6, 8$ found no start needing three rounds. Within $n \le 5$, $m \le 9$,
-  with every good valued, no start needs even two (§8).
+One round is false in three places:
+- at $k = 4$, on the instances of Proposition 7.4 (this write-up's check, §7.3);
+- at $k = 5$ (RD5, Proposition 7.8);
+- with every value positive (RD5+, §7.5, refuting ROUND⁺).
+
+Two rounds repair all of them. In RD5 the first round releases the foreign picks and the second collects them. For
+this mechanism two rounds suffice however many picks are needed.
+- *Evidence* [E]: climbs at $n \le 6$, $k = 5, 6, 8$ found no start needing three rounds. The ROUND⁺ session's
+  climbs found starts needing exactly two rounds at $n = 4, 5$, never three (`proof/kgen-rounds`).
 - *Strength*: RD² for every $k$ contains EFX₀ existence for all additive instances.
 - *A design to try next*: RD5's mechanism one level deeper, which needs $n \ge 6$.
 
@@ -1617,8 +1838,8 @@ collects them, and for this mechanism two rounds suffice however many picks are 
 - *OC₁ at $k = 3$ for every order* (candidate theorem OT, `k4/k3_oc1.md` §4). The open drafts are those covered by
   neither Theorem 9.4 nor Theorem 9.5: least deficit 2, or exposed agents sharing junk goods.
 - *Conjecture L, the ladder* (`k4/ksens.md` §4): from every order, $\lfloor (k-1)/2 \rfloor$ improving chains suffice.
-  At $k = 4$ it is OC, which is false for some orders (§7.2), so the conjecture needs a restriction of the orders
-  (for instance, maximum-matching orders).
+  At $k = 4$ it predicts one chain, which fails even from maximum-matching starts (Proposition 7.4). So the ladder
+  holds at best for the PW family, where it was computed.
 - *Bounded charity CH($k$) at $k = 4$*: is there an $f(4)$ independent of $n$ and $d$? Theorem 4.1 gives
   $\min\{2d - 1, R(d)\}$.
 
@@ -1689,31 +1910,37 @@ or citations added.
 
 | result here | source (branch) | refereed at | head | cited sections since | report | verdict |
 |---|---|---|---|---|---|---|
-| Fact 3.1, Lemmas 3.2–3.3, Theorem 3.4, Cor. 3.5 | `kgen/n3.md` §9 (`claude/kgen-n3`) | `418f876` | `78f59e9` | unchanged (literature paragraph added) | `kgen_n3.md`, `lit_n2.md` | CORRECT |
+| Fact 3.1, Lemmas 3.2–3.3, Theorem 3.4, Cor. 3.5 | `kgen/n3.md` §9 (`claude/kgen-n3`) | `418f876` | `419960c` | unchanged (literature paragraph added) | `kgen_n3.md`, `lit_n2.md` | CORRECT |
 | Theorem 4.1, Cor. 4.3 | `kgen/charity.md` §8 (`claude/kgen-charity`) | `1e986c6`, `0c85d91` | `0c85d91` | unchanged | `chkd.md` | CORRECT |
 | Theorem 4.2 | `kgen/charity.md` §2–§3 | `78deef1` | `0c85d91` | unchanged (Prop. DU added) | `charity.md` | CORRECT |
 | Prop. 4.4 (DU) | `kgen/charity.md` §3 | `8862555` | `0c85d91` | unchanged | `charity.md` §5, `chf.md` | CORRECT |
 | Prop. 4.5 (CH-F) | `kgen/charity.md` §6, `attempts/kgen-charity-welfare-maxima.md` | `8862555` | `0c85d91` | unchanged | `chf.md` | CORRECT |
-| Theorem 5.1, Cor. 5.2, Lemmas 5.4–5.6 | `k4/girth.md` §3–§4 (`claude/k4-girth`) | `5b79844`, `90c116f` | `a494e3b` | unchanged (a remark on the valuation class added) | `girth.md` | CORRECT (PARK: state $N \ne \emptyset$) |
-| Prop. 5.3 ($H_t$) | `k4/girth.md` §4 | `90c116f` | `a494e3b` | unchanged | `girth.md` §5 | CORRECT ($HH_t$ not rebuilt) |
-| Lemmas 6.1, 6.2 | `k4/sdc.md` §28, §31 (`claude/kind-lamport-y8fdme`) | `d48084e` | `123b396` | unchanged (Lemma RED appended) | `maxsd.md` | CORRECT |
-| Lemma 6.3 | `k4/oc1_hall.md` §19 (`claude/k4-oc1-hall`); `k4/ttc.md` §13 | `e2b4701`; `77bcab1` | `4f2a226` | unchanged | `maxsd.md`, `oc1_hall.md` §6, `ttc_t5.md` | CORRECT |
-| Prop. 7.4 (PW5) | `k4/ksens.md` §1 (`claude/k4-ksens`) | `ceba5c7` | `6308933` | unchanged | `ksens.md` | CORRECT (the aside on one-agent moves is incomplete but not needed) |
-| Lemma 7.5 (PL) | `k4/ksens.md`, status block | `7ec7073` | `6308933` | unchanged | `ksens.md` §5 | CORRECT |
-| Lemma 7.6 (PWk(a)) | `k4/ksens.md` §7 | `7ec7073` | `6308933` | fix applied in the source | `ksens.md` §5 | CORRECT WITH FIXES (applied) |
+| Theorem 5.1, Cor. 5.2, Lemmas 5.4–5.6 | `k4/girth.md` §3–§4 (`claude/k4-girth`) | `5b79844`, `90c116f` | `235bca4` | unchanged (a remark on the valuation class added) | `girth.md` | CORRECT (PARK: state $N \ne \emptyset$) |
+| Prop. 5.3 ($H_t$) | `k4/girth.md` §4 | `90c116f` | `235bca4` | unchanged | `girth.md` §5 | CORRECT ($HH_t$ not rebuilt) |
+| Lemmas 6.1, 6.2 | `k4/sdc.md` §28, §31 (`claude/kind-lamport-y8fdme`) | `d48084e` | `62946e0` | unchanged (Lemma RED and the OC₁^max refutation appended) | `maxsd.md` | CORRECT |
+| Lemma 6.3 | `k4/oc1_hall.md` §19 (`claude/k4-oc1-hall`); `k4/ttc.md` §13 | `e2b4701`; `77bcab1` | `1a40886` | unchanged | `maxsd.md`, `oc1_hall.md` §6, `ttc_t5.md` | CORRECT |
+| Prop. 7.5 (PW5) | `k4/ksens.md` §1 (`claude/k4-ksens`) | `ceba5c7` | `6308933` | unchanged | `ksens.md` | CORRECT (the aside on one-agent moves is incomplete but not needed) |
+| Lemma 7.6 (PL) | `k4/ksens.md`, status block | `7ec7073` | `6308933` | unchanged | `ksens.md` §5 | CORRECT |
+| Lemma 7.7 (PWk(a)) | `k4/ksens.md` §7 | `7ec7073` | `6308933` | fix applied in the source | `ksens.md` §5 | CORRECT WITH FIXES (applied) |
 | Lemmas 9.1, 9.2, Theorems 9.4, 9.5 | `k4/k3_oc1.md` §2–§3 (`claude/k4-k3-oc1`) | `949718a` | `48bcf05` | unchanged (B\*'s statement clarified) | `k3_oc1.md` | CORRECT (R1C: DE's core case) |
 | Lemma 9.3 | `k4/k3_oc1.md` §2 | `949718a` | `48bcf05` | **fix not yet applied in the source**; applied here | `k3_oc1.md` §3 | CORRECT WITH FIXES (applied here) |
-| Theorem 10.1 | `k4/vm.md` §1–§2, §8 (`claude/k4-vm`) | `7a78df6` | `0595a29` | unchanged | `vm.md` | CORRECT (ordinary EFX; the reconstruction) |
+| Theorem 10.1 | `k4/vm.md` §1–§2, §8 (`claude/k4-vm`) | `7a78df6` | `559eec6` | unchanged | `vm.md` | CORRECT (ordinary EFX; the reconstruction) |
 
-**Not refereed, included with their verification status.** These are Propositions 7.1–7.3, 7.7, the Remark in §7.2,
-the $k$-ladder cells marked [V] or [E], Lemma 11.2, and every conjecture of §11.
+**Not refereed, included with their verification status.** These are Propositions 7.1–7.4 and 7.8, the Remarks in
+§7.2 and §7.5 (ROUND⁺), the one-round failure at $k = 4$ in §7.3, the refutation of Conjecture W in §11.5, the
+$k$-ladder cells marked [V] or [E], Lemma 11.3, and every conjecture of §11. Heads were re-checked at about 23:40 UTC
+on 2026-11-26.
 
-**Lean.** On branch `formal/k4-oc1max` at `838fb0e`, this write-up's session ran `lean/check.sh`. The result: CHECK
-PASSED, with 1,246 audited statements and 2,350 theorems, every declaration on `propext`, `Classical.choice` and
-`Quot.sound` only, and the `leanchecker` replay passing. The certificates for `EFX.OC1Max.sdpo`,
-`EFX.OC1Max.exists_order_maximum`, `EFX.OC1Max.max_no_augment`, `EFX.OC1Max.picks_no_junk` and
-`EFX.OC1Max.target4_of_conjOC1max` are in `paper/campaign/lean_check_oc1max.log`. The branch is not yet merged into
-`main`.
+**Lean.** This write-up's session ran `lean/check.sh` on branch `formal/k4-oc1max` twice.
+- At `838fb0e`: CHECK PASSED, with 1,246 audited statements and 2,350 theorems.
+- At `28f3e1e`, which adds `lean/EFX/OC1Perf.lean`: CHECK PASSED, with 1,253 audited statements and 2,358 theorems.
+  The coordinator reports the same.
+
+Both runs have every declaration on `propext`, `Classical.choice` and `Quot.sound` only, and the `leanchecker` replay
+passing. The certificates for `EFX.OC1Max.sdpo`, `EFX.OC1Max.exists_order_maximum`, `EFX.OC1Max.max_no_augment`,
+`EFX.OC1Max.picks_no_junk`, `EFX.OC1Max.target4_of_conjOC1maxWith`, `EFX.OC1Max.red` and
+`EFX.OC1Max.target4_of_conjOC1perfWith` are in `paper/campaign/lean_check_oc1max.log`. The frames are implications;
+their one-move hypotheses are false (Proposition 7.4). The branch is not yet merged into `main`.
 
 ## Appendix B. Other refereed results
 
@@ -1757,7 +1984,7 @@ outside the bases, so this is exact for the free and for the one-absorber comple
 reaches" claim is therefore a check over that list of allocations, with moves as in §2.4: additions, chains whose
 passed bases are nonempty, and rings. Rounds and two sequential chains (RD5 only) are enumerated directly.
 
-*What it checks* (35 checks; all pass, `paper/campaign/check_instances.log`):
+*What it checks* (50 checks; all pass, `paper/campaign/check_instances.log`):
 - **Theorem 3.4**: the construction exactly as transcribed in §3.2, on 40,000 random two-agent starts. These come
   from 20,000 instances with ties, zeros and sparse values, $m \le 12$, in both orders. Every output is a complete
   EFX₀ allocation of shape (A1), (B) or (D).
@@ -1774,9 +2001,22 @@ passed bases are nonempty, and rings. Rounds and two sequential chains (RD5 only
     or a one-move state, even freely. The 12 failing orders and the 50 maximum-matching orders are as stated.
 - **The Remark of §7.2**: no one-absorber completion at the picks or after any addition, chain or ring. A chain that
   passes an empty base repairs it. Under the free completion the picks extend.
-- **Proposition 7.4**: 186 complete EFX₀ allocations, as the referee found. No free completion at the picks or after
+- **Proposition 7.4**, both instances:
+  - each is a strict connected MC2-class core in which every agent picks;
+  - there are 14 (resp. 24) complete EFX₀ allocations, none completing the picks or a one-move state, even freely;
+  - one round fails, by two methods: the backward characterization, and a forward enumeration of every round with
+    every choice of junk sets;
+  - two sequential chains repair, with one absorber;
+  - there are 7 (resp. 6) maximum-matching pick vectors, 4 of them completing at the picks;
+  - some R1-priority order gives the failing picks.
+
+  The two round methods also agree on PW5 (one round repairs, as `k4/ksens.md` found) and on RD5 (it does not).
+- **The ROUND⁺ remark of §7.5** (RD5+): one round fails, by both methods, and two sequential chains repair.
+- **Conjecture W (§11.5)**: the printed state is partial EFX₀. No composite of at most two moves (the move class of
+  §11.5) reaches a better partial EFX₀ allocation, and three moves do.
+- **Proposition 7.5**: 186 complete EFX₀ allocations, as the referee found. No free completion at the picks or after
   any addition, chain or ring. The failing start comes from exactly 12 orders, and $\nu = 5$.
-- **Proposition 7.7**: the picks and the junk; no completion after one move; no completion after one round (free
+- **Proposition 7.8**: the picks and the junk; no completion after one move; no completion after one round (free
   completion, rounds enumerated as sets of disjoint chains and additions); two sequential chains repair with one
   absorber.
 - **§8**: the $k = 3$ "no repair" instance (the picks do not extend; one chain repairs) and DT5 (distinct tops, no
@@ -1784,4 +2024,5 @@ passed bases are nonempty, and rings. Rounds and two sequential chains (RD5 only
 
 While this appendix was written, the check found one inaccuracy in an earlier wording of the Remark of §7.2. That
 wording said the instance needs one chain under the free completion; in fact its picks extend freely. The text has
-been corrected.
+been corrected. The check also produced one new observation, which has not been independently replayed: one round
+does not repair the instances of Proposition 7.4 (§7.3).

@@ -1,4 +1,5 @@
-# lean/check.sh on branch formal/k4-oc1max at 838fb0e, run by the paper/campaign session on 2026-11-26 (excerpt: OC1Max certificates and the summary)
+# lean/check.sh on branch formal/k4-oc1max, run by the paper/campaign session on 2026-11-26 (excerpts: OC1Max/OC1Perf certificates and the summaries)
+## at 838fb0e
 info: EFX/OC1Max.lean:885:0: 'EFX.OC1Max.sdPick_eq_runState' depends on axioms: [propext]
 info: EFX/OC1Max.lean:886:0: 'EFX.OC1Max.sdPick_spec' depends on axioms: [propext, Classical.choice, Quot.sound]
 info: EFX/OC1Max.lean:887:0: 'EFX.OC1Max.isMatching_sdPick' depends on axioms: [propext, Classical.choice, Quot.sound]
@@ -36,4 +37,50 @@ info: EFX/OC1MaxExamples.lean:116:0: 'EFX.OC1Max.Ex.ring_ex' depends on axioms: 
 lake build exit=0 errors=0 warnings=0 sorry-mentions=0 axiom-lines=1246 expected=1246 nonstandard-axiom-lines=0 theorems=2350
 9237 declarations in the EFX library use only propext, Classical.choice, Quot.sound
 CHECK PASSED: 1246 audited statements, 2350 theorems, standard axioms only
+exit=0
+## at 28f3e1e
+info: EFX/OC1Max.lean:885:0: 'EFX.OC1Max.sdPick_eq_runState' depends on axioms: [propext]
+info: EFX/OC1Max.lean:886:0: 'EFX.OC1Max.sdPick_spec' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: EFX/OC1Max.lean:887:0: 'EFX.OC1Max.isMatching_sdPick' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: EFX/OC1Max.lean:888:0: 'EFX.OC1Max.strictVals_of_strict' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: EFX/OC1Max.lean:889:0: 'EFX.OC1Max.exists_cycle' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: EFX/OC1Max.lean:890:0: 'EFX.OC1Max.exists_holds_fav' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: EFX/OC1Max.lean:891:0: 'EFX.OC1Max.exists_order_of_paretoOpt' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: EFX/OC1Max.lean:892:0: 'EFX.OC1Max.eq_sdPick_of_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: EFX/OC1Max.lean:893:0: 'EFX.OC1Max.paretoOpt_sdPick' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: EFX/OC1Max.lean:894:0: 'EFX.OC1Max.sdpo' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: EFX/OC1Max.lean:895:0: 'EFX.OC1Max.exists_max_of_bdd' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: EFX/OC1Max.lean:896:0: 'EFX.OC1Max.card_le_of_paretoImp' depends on axioms: [propext]
+info: EFX/OC1Max.lean:897:0: 'EFX.OC1Max.exists_maximum_paretoOpt' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: EFX/OC1Max.lean:898:0: 'EFX.OC1Max.exists_order_maximum' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: EFX/OC1Max.lean:899:0: 'EFX.OC1Max.exists_altPath' depends on axioms: [propext]
+info: EFX/OC1Max.lean:900:0: 'EFX.OC1Max.augment' depends on axioms: [propext, Quot.sound]
+info: EFX/OC1Max.lean:901:0: 'EFX.OC1Max.max_no_augment' depends on axioms: [propext, Quot.sound]
+info: EFX/OC1Max.lean:902:0: 'EFX.OC1Max.picks_no_augment' depends on axioms: [propext, Quot.sound]
+info: EFX/OC1Max.lean:903:0: 'EFX.OC1Max.mem_junkOf_pickBase' depends on axioms: [propext, Quot.sound]
+info: EFX/OC1Max.lean:904:0: 'EFX.OC1Max.picks_no_junk' depends on axioms: [propext, Quot.sound]
+info: EFX/OC1Max.lean:905:0: 'EFX.OC1Max.core_efx0_of_conjOC1maxWith' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: EFX/OC1Max.lean:906:0: 'EFX.OC1Max.exists_efx0_of_conjOC1maxWith' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: EFX/OC1Max.lean:907:0: 'EFX.OC1Max.target4_of_conjOC1maxWith' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: EFX/OC1Max.lean:908:0: 'EFX.OC1Max.target4_of_conjOC1max' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: EFX/OC1Perf.lean:332:0: 'EFX.OC1Max.exists_start' does not depend on any axioms
+info: EFX/OC1Perf.lean:333:0: 'EFX.OC1Max.red_values' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: EFX/OC1Perf.lean:334:0: 'EFX.OC1Max.red' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: EFX/OC1Perf.lean:335:0: 'EFX.OC1Max.exists_efx0_of_conjOC1perfWith_strict' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: EFX/OC1Perf.lean:336:0: 'EFX.OC1Max.exists_efx0_of_conjOC1perfWith' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: EFX/OC1Perf.lean:337:0: 'EFX.OC1Max.target4_of_conjOC1perfWith' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: EFX/OC1Perf.lean:338:0: 'EFX.OC1Max.target4_of_conjOC1perf' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: EFX/OC1MaxExamples.lean:107:0: 'EFX.OC1Max.Ex.picks_MC2' depends on axioms: [propext, Quot.sound]
+info: EFX/OC1MaxExamples.lean:108:0: 'EFX.OC1Max.Ex.card_picks_MC2' does not depend on any axioms
+info: EFX/OC1MaxExamples.lean:109:0: 'EFX.OC1Max.Ex.isMatching_μ5' depends on axioms: [propext]
+info: EFX/OC1MaxExamples.lean:110:0: 'EFX.OC1Max.Ex.not_maximum_MC2' depends on axioms: [propext, Quot.sound]
+info: EFX/OC1MaxExamples.lean:111:0: 'EFX.OC1Max.Ex.ordM_perm' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: EFX/OC1MaxExamples.lean:112:0: 'EFX.OC1Max.Ex.maximum_ordM' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: EFX/OC1MaxExamples.lean:113:0: 'EFX.OC1Max.Ex.oneAbsorber_ordM' depends on axioms: [propext]
+info: EFX/OC1MaxExamples.lean:114:0: 'EFX.OC1Max.Ex.addition_ex' depends on axioms: [propext]
+info: EFX/OC1MaxExamples.lean:115:0: 'EFX.OC1Max.Ex.chain_ex' depends on axioms: [propext]
+info: EFX/OC1MaxExamples.lean:116:0: 'EFX.OC1Max.Ex.ring_ex' depends on axioms: [propext]
+lake build exit=0 errors=0 warnings=0 sorry-mentions=0 axiom-lines=1253 expected=1253 nonstandard-axiom-lines=0 theorems=2358
+9260 declarations in the EFX library use only propext, Classical.choice, Quot.sound
+CHECK PASSED: 1253 audited statements, 2358 theorems, standard axioms only
 exit=0
