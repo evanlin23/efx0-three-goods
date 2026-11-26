@@ -463,6 +463,9 @@ k = 5, 6) has not found a failure (`climb_round1_*.log`).
 - Order classes (`oc1max_k4_orders.py`):
   - the failing start is reached by an R1-priority order;
   - every neediest-first start (need2, need1 and needall, plain or R1) satisfies OC₁.
+- *Only the "every start" forms fail* (`oc1max_k4_exists.log`). In each instance the failing start is the only
+  maximum-matching start (of 6 to 10) that one chain does not repair, and 4 or 5 of them complete at the picks with
+  one absorber. So "some maximum-matching order works with one chain" and SD-C survive; TARGET₄ needs only those.
 
 *The first instance, by hand.* Goods 0–6; order 0, 3, 2, 1; junk {0, 3, 4}.
 
