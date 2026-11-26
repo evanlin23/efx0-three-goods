@@ -607,3 +607,56 @@ This is Lemma PL (b), (c) at work: after the repair at most r − 2 ≤ 1 pool g
   r − 2s > W − s for s repairs, and s = W (or all of the frozen agents) closes it. Observed: one round repairs every
   PW instance tested (no proof).
 - What one round cannot do is RD5's two-foreign-picks repair (§6).
+
+## 8. The general-k picture (summary)
+
+*Setting.* Additive instances in which every agent values at most k goods. A *start* is the serial-dictatorship picks
+of an order.
+- A *chain* is the improving chain of `k4/sdc.md` §29; a *round* is a set of vertex-disjoint chains applied at once
+  (§6).
+- A *completion* is a complete EFX₀ allocation keeping every base, free or with one absorber.
+- "Holds" at k = 4 means: on all data, never proved.
+
+| statement (from every start of the given kind, unless "some") | k ≤ 2 | k = 3 | k = 4 | first failure | smallest counterexample | checks |
+|---|---|---|---|---|---|---|
+| the picks extend (no chain) | proved (K3.SD2) | **fails** | fails | k = 3 | n = 2, m = 4 (`k3_zero.log`) | SAT, brute force |
+| one chain: OC₁ / OC; also restricted to maximum-matching starts | | holds (data) | holds (data) | **k = 5** | RD5: n = 4, m = 7 (§6); PW5: n = 5, m = 9 (§1, written proof, refereed) | SAT, brute force |
+| one chain from R1-priority starts, or from the need2 neediest-first start | | | holds | **k = 6** | PWR1-6, NF2-6: n = 6, m = 11 (§4) | 2 SAT encodings, SAT-free |
+| one chain from the need2 R1 neediest-first start (LB₄ʳ's Phase 1) | | | holds | none found | | |
+| c chains | c = 0 | c = 1 | c = 1 | k = 2c + 3 (c ≤ 3) | PW(c + 2, c + 1, 2c + 2) (§4) | ocseq |
+| one round of disjoint chains (RD, RD₁) | | | holds | **k = 5** | RD5: n = 4, m = 7 | SAT, brute force over every round |
+| two rounds (RD²), also from maximum-matching starts | | | holds | none found (climbs k = 5, 6, 8; n ≤ 6) | | |
+| SD-C: some order whose picks extend | | holds (LB⁺) | holds | none found (k ≤ 8) | | |
+| MD: every start value-dominated | | | holds | none found (k ≤ 8) | | |
+| conclusions of Theorems DT, DT⁺, Lemma GDT, Theorem DT₁ | | | proved | **k = 5** | DT5: n = 2, m = 6; DT1-5: n = 3, m = 8 (§3) | SAT, brute force |
+
+**The k-dependence in one count** (Lemma PL, top of this note).
+- A frozen agent's junk danger sets live inside its at most k − 1 lower goods.
+- A repair spends two of them, so at most k − 3 are left.
+- Each rung of the ladder:
+  - *k ≤ 2:* the pool has at most one good, so no danger set and no chain (serial dictatorship).
+  - *k = 3:* a pool of two, a danger pair, one chain; nothing is left after it (`k3_zero.log`; LB⁺'s rotation).
+  - *k = 4:* a pool of three; after one repair one good is left, never a danger set. One chain, if the data are right.
+  - *k = 5:* a pool of four; two goods are left and still a danger set for the agents sharing the pool (PW5); or the
+    repair needs two foreign picks (RD5). One chain is not enough.
+  - *Larger k:* the head-only count r − 2c > W − c (Lemma PWk) gives ⌊(k − 1)/2⌋ chains in PW.
+- The k ≤ 4 inputs a proof can use:
+  - Lemma PL (b), (c);
+  - Lemma PWk (a);
+  - the one-agent counts in Theorem DT's (F4) and DT₁'s step 3;
+  - RD5's five-good requirement: pick, shared pair, and two foreign picks.
+
+**What might hold for every k.**
+- MD, SD-C and two rounds (RD²) have no counterexample. Each of them, for every k, contains EFX₀ existence for all
+  additive instances, which is open for n ≥ 4.
+- Conjecture L, ⌊(k − 1)/2⌋ chains, is consistent with every rung computed (k = 2 to 9).
+- *Why depth is hard to build* (`fam_depth.py`, `attempts/k4-ksens-depth-composition.md`). Forcing three rounds needs
+  RD5's mechanism one level deeper, which means more agents. Every unfrozen agent added is a free slot for one junk
+  good, and a single slot already dissolves RD5's obstruction.
+- So among the obstructions found, slots limit depth. That is a heuristic, not a proof.
+
+**Evidence base** (all evidence only). Each refutation is checked by two independent programs: SAT (sdclib's EFX₀
+clauses with this note's chain or round encodings) and a brute force or SAT-free enumeration from the definitions.
+PW5 also has a written proof, refereed by the coordinator (`k4/referee/ksens.md` on the coordinator's branch, not
+read here). Random surveys: 12,000 instances at k = 5–8. Climbs: about 600 rounds over the targets above. Structured
+k = 4 searches: 80,000 instances.
