@@ -24,7 +24,7 @@ import sys, os, itertools, collections, json, random, time
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))
 sys.path.insert(0, HERE)
-from d1lib import (Inst, sd_picks, Start, one_absorber, canonical_chains, pool, minimal_improving, apply_chain,
+from d1lib import (open_records, Inst, sd_picks, Start, one_absorber, canonical_chains, pool, minimal_improving, apply_chain,
                    obstacles, sstar, threat, efx0, frozen)
 
 
@@ -173,8 +173,8 @@ if __name__ == '__main__':
     elif src == 'jsonl':
         seen = set()
         for fn in sys.argv[2:]:
-            for line in open(fn):
-                rec = json.loads(line); key = json.dumps((rec['sets'], rec['vals']))
+            for rec in open_records(fn):
+                key = json.dumps((rec['sets'], rec['vals']))
                 if key in seen: continue
                 seen.add(key); C['instances'] += 1
                 run_instance(rec['sets'], rec['vals'], rec['m'], C)

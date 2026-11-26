@@ -12,7 +12,7 @@ HEAD whose minimal H0 crowds and fails, prints / counts:
 import sys, os, json, collections, itertools
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
-from d1lib import Inst, Start, pool, minimal_improving, apply_chain, obstacles, threat
+from d1lib import open_records, Inst, Start, pool, minimal_improving, apply_chain, obstacles, threat
 
 
 def shape(S, k, Pi):
@@ -29,8 +29,7 @@ def shape(S, k, Pi):
 def main(files):
     C = collections.Counter(); seen = set(); shown = collections.Counter()
     for fn in files:
-        for line in open(fn):
-            rec = json.loads(line)
+        for rec in open_records(fn):
             key = json.dumps((rec['sets'], rec['vals'], rec['picks']))
             if key in seen: continue
             seen.add(key)

@@ -1,0 +1,1176 @@
+$ python3 k4/d1/head_hunt.py h1 201 3000
+0 5000 {'all-HEAD starts': 20}
+1 10000 {'all-HEAD starts': 51}
+2 15000 {'all-HEAD starts': 73}
+3 20000 {'all-HEAD starts': 86}
+4 25000 {'all-HEAD starts': 107, '  hard': 1, '  hard, repaired by some chain': 1}
+4 30000 {'all-HEAD starts': 129, '  hard': 1, '  hard, repaired by some chain': 1}
+5 35000 {'all-HEAD starts': 142, '  hard': 1, '  hard, repaired by some chain': 1}
+6 40000 {'all-HEAD starts': 160, '  hard': 1, '  hard, repaired by some chain': 1}
+7 45000 {'all-HEAD starts': 178, '  hard': 1, '  hard, repaired by some chain': 1}
+8 50000 {'all-HEAD starts': 211, '  hard': 1, '  hard, repaired by some chain': 1}
+9 55000 {'all-HEAD starts': 222, '  hard': 1, '  hard, repaired by some chain': 1}
+10 60000 {'all-HEAD starts': 248, '  hard': 1, '  hard, repaired by some chain': 1}
+11 65000 {'all-HEAD starts': 258, '  hard': 2, '  hard, repaired by some chain': 2}
+11 70000 {'all-HEAD starts': 275, '  hard': 2, '  hard, repaired by some chain': 2}
+12 75000 {'all-HEAD starts': 293, '  hard': 2, '  hard, repaired by some chain': 2}
+13 80000 {'all-HEAD starts': 316, '  hard': 2, '  hard, repaired by some chain': 2}
+14 85000 {'all-HEAD starts': 343, '  hard': 2, '  hard, repaired by some chain': 2}
+15 90000 {'all-HEAD starts': 362, '  hard': 2, '  hard, repaired by some chain': 2}
+16 95000 {'all-HEAD starts': 378, '  hard': 2, '  hard, repaired by some chain': 2}
+17 100000 {'all-HEAD starts': 396, '  hard': 2, '  hard, repaired by some chain': 2}
+17 105000 {'all-HEAD starts': 416, '  hard': 2, '  hard, repaired by some chain': 2}
+18 110000 {'all-HEAD starts': 436, '  hard': 2, '  hard, repaired by some chain': 2}
+19 115000 {'all-HEAD starts': 453, '  hard': 2, '  hard, repaired by some chain': 2}
+20 120000 {'all-HEAD starts': 479, '  hard': 2, '  hard, repaired by some chain': 2}
+21 125000 {'all-HEAD starts': 496, '  hard': 2, '  hard, repaired by some chain': 2}
+22 130000 {'all-HEAD starts': 522, '  hard': 3, '  hard, repaired by some chain': 3}
+23 135000 {'all-HEAD starts': 550, '  hard': 3, '  hard, repaired by some chain': 3}
+24 140000 {'all-HEAD starts': 567, '  hard': 3, '  hard, repaired by some chain': 3}
+24 145000 {'all-HEAD starts': 585, '  hard': 3, '  hard, repaired by some chain': 3}
+25 150000 {'all-HEAD starts': 612, '  hard': 4, '  hard, repaired by some chain': 4}
+26 155000 {'all-HEAD starts': 637, '  hard': 4, '  hard, repaired by some chain': 4}
+27 160000 {'all-HEAD starts': 646, '  hard': 4, '  hard, repaired by some chain': 4}
+28 165000 {'all-HEAD starts': 664, '  hard': 4, '  hard, repaired by some chain': 4}
+29 170000 {'all-HEAD starts': 692, '  hard': 4, '  hard, repaired by some chain': 4}
+30 175000 {'all-HEAD starts': 717, '  hard': 4, '  hard, repaired by some chain': 4}
+31 180000 {'all-HEAD starts': 742, '  hard': 4, '  hard, repaired by some chain': 4}
+31 185000 {'all-HEAD starts': 762, '  hard': 4, '  hard, repaired by some chain': 4}
+32 190000 {'all-HEAD starts': 783, '  hard': 4, '  hard, repaired by some chain': 4}
+33 195000 {'all-HEAD starts': 805, '  hard': 4, '  hard, repaired by some chain': 4}
+34 200000 {'all-HEAD starts': 821, '  hard': 4, '  hard, repaired by some chain': 4}
+35 205000 {'all-HEAD starts': 846, '  hard': 4, '  hard, repaired by some chain': 4}
+36 210000 {'all-HEAD starts': 875, '  hard': 4, '  hard, repaired by some chain': 4}
+37 215000 {'all-HEAD starts': 889, '  hard': 4, '  hard, repaired by some chain': 4}
+38 220000 {'all-HEAD starts': 906, '  hard': 4, '  hard, repaired by some chain': 4}
+38 225000 {'all-HEAD starts': 920, '  hard': 4, '  hard, repaired by some chain': 4}
+39 230000 {'all-HEAD starts': 931, '  hard': 4, '  hard, repaired by some chain': 4}
+40 235000 {'all-HEAD starts': 953, '  hard': 4, '  hard, repaired by some chain': 4}
+41 240000 {'all-HEAD starts': 977, '  hard': 4, '  hard, repaired by some chain': 4}
+42 245000 {'all-HEAD starts': 995, '  hard': 5, '  hard, repaired by some chain': 5}
+43 250000 {'all-HEAD starts': 1022, '  hard': 5, '  hard, repaired by some chain': 5}
+44 255000 {'all-HEAD starts': 1053, '  hard': 5, '  hard, repaired by some chain': 5}
+44 260000 {'all-HEAD starts': 1076, '  hard': 5, '  hard, repaired by some chain': 5}
+45 265000 {'all-HEAD starts': 1095, '  hard': 5, '  hard, repaired by some chain': 5}
+46 270000 {'all-HEAD starts': 1115, '  hard': 5, '  hard, repaired by some chain': 5}
+47 275000 {'all-HEAD starts': 1134, '  hard': 5, '  hard, repaired by some chain': 5}
+48 280000 {'all-HEAD starts': 1147, '  hard': 5, '  hard, repaired by some chain': 5}
+48 285000 {'all-HEAD starts': 1161, '  hard': 5, '  hard, repaired by some chain': 5}
+49 290000 {'all-HEAD starts': 1185, '  hard': 5, '  hard, repaired by some chain': 5}
+50 295000 {'all-HEAD starts': 1211, '  hard': 5, '  hard, repaired by some chain': 5}
+51 300000 {'all-HEAD starts': 1230, '  hard': 5, '  hard, repaired by some chain': 5}
+52 305000 {'all-HEAD starts': 1258, '  hard': 5, '  hard, repaired by some chain': 5}
+53 310000 {'all-HEAD starts': 1284, '  hard': 5, '  hard, repaired by some chain': 5}
+53 315000 {'all-HEAD starts': 1321, '  hard': 5, '  hard, repaired by some chain': 5}
+54 320000 {'all-HEAD starts': 1346, '  hard': 5, '  hard, repaired by some chain': 5}
+55 325000 {'all-HEAD starts': 1372, '  hard': 5, '  hard, repaired by some chain': 5}
+56 330000 {'all-HEAD starts': 1383, '  hard': 5, '  hard, repaired by some chain': 5}
+57 335000 {'all-HEAD starts': 1410, '  hard': 5, '  hard, repaired by some chain': 5}
+58 340000 {'all-HEAD starts': 1442, '  hard': 5, '  hard, repaired by some chain': 5}
+59 345000 {'all-HEAD starts': 1477, '  hard': 5, '  hard, repaired by some chain': 5}
+60 350000 {'all-HEAD starts': 1500, '  hard': 5, '  hard, repaired by some chain': 5}
+60 355000 {'all-HEAD starts': 1514, '  hard': 5, '  hard, repaired by some chain': 5}
+61 360000 {'all-HEAD starts': 1533, '  hard': 5, '  hard, repaired by some chain': 5}
+62 365000 {'all-HEAD starts': 1559, '  hard': 5, '  hard, repaired by some chain': 5}
+63 370000 {'all-HEAD starts': 1579, '  hard': 5, '  hard, repaired by some chain': 5}
+64 375000 {'all-HEAD starts': 1607, '  hard': 5, '  hard, repaired by some chain': 5}
+65 380000 {'all-HEAD starts': 1622, '  hard': 5, '  hard, repaired by some chain': 5}
+65 385000 {'all-HEAD starts': 1641, '  hard': 5, '  hard, repaired by some chain': 5}
+66 390000 {'all-HEAD starts': 1657, '  hard': 5, '  hard, repaired by some chain': 5}
+67 395000 {'all-HEAD starts': 1689, '  hard': 5, '  hard, repaired by some chain': 5}
+68 400000 {'all-HEAD starts': 1707, '  hard': 5, '  hard, repaired by some chain': 5}
+69 405000 {'all-HEAD starts': 1724, '  hard': 5, '  hard, repaired by some chain': 5}
+69 410000 {'all-HEAD starts': 1742, '  hard': 5, '  hard, repaired by some chain': 5}
+70 415000 {'all-HEAD starts': 1759, '  hard': 5, '  hard, repaired by some chain': 5}
+71 420000 {'all-HEAD starts': 1784, '  hard': 5, '  hard, repaired by some chain': 5}
+72 425000 {'all-HEAD starts': 1809, '  hard': 5, '  hard, repaired by some chain': 5}
+73 430000 {'all-HEAD starts': 1830, '  hard': 5, '  hard, repaired by some chain': 5}
+74 435000 {'all-HEAD starts': 1839, '  hard': 5, '  hard, repaired by some chain': 5}
+75 440000 {'all-HEAD starts': 1863, '  hard': 5, '  hard, repaired by some chain': 5}
+76 445000 {'all-HEAD starts': 1883, '  hard': 5, '  hard, repaired by some chain': 5}
+77 450000 {'all-HEAD starts': 1903, '  hard': 5, '  hard, repaired by some chain': 5}
+77 455000 {'all-HEAD starts': 1914, '  hard': 5, '  hard, repaired by some chain': 5}
+78 460000 {'all-HEAD starts': 1948, '  hard': 5, '  hard, repaired by some chain': 5}
+79 465000 {'all-HEAD starts': 1969, '  hard': 5, '  hard, repaired by some chain': 5}
+80 470000 {'all-HEAD starts': 1993, '  hard': 6, '  hard, repaired by some chain': 6}
+81 475000 {'all-HEAD starts': 2021, '  hard': 6, '  hard, repaired by some chain': 6}
+82 480000 {'all-HEAD starts': 2049, '  hard': 6, '  hard, repaired by some chain': 6}
+83 485000 {'all-HEAD starts': 2071, '  hard': 6, '  hard, repaired by some chain': 6}
+83 490000 {'all-HEAD starts': 2094, '  hard': 6, '  hard, repaired by some chain': 6}
+84 495000 {'all-HEAD starts': 2114, '  hard': 6, '  hard, repaired by some chain': 6}
+85 500000 {'all-HEAD starts': 2137, '  hard': 6, '  hard, repaired by some chain': 6}
+86 505000 {'all-HEAD starts': 2167, '  hard': 7, '  hard, repaired by some chain': 7}
+87 510000 {'all-HEAD starts': 2187, '  hard': 7, '  hard, repaired by some chain': 7}
+88 515000 {'all-HEAD starts': 2211, '  hard': 7, '  hard, repaired by some chain': 7}
+89 520000 {'all-HEAD starts': 2234, '  hard': 7, '  hard, repaired by some chain': 7}
+89 525000 {'all-HEAD starts': 2261, '  hard': 7, '  hard, repaired by some chain': 7}
+90 530000 {'all-HEAD starts': 2282, '  hard': 7, '  hard, repaired by some chain': 7}
+91 535000 {'all-HEAD starts': 2295, '  hard': 7, '  hard, repaired by some chain': 7}
+92 540000 {'all-HEAD starts': 2313, '  hard': 7, '  hard, repaired by some chain': 7}
+93 545000 {'all-HEAD starts': 2328, '  hard': 7, '  hard, repaired by some chain': 7}
+94 550000 {'all-HEAD starts': 2346, '  hard': 7, '  hard, repaired by some chain': 7}
+94 555000 {'all-HEAD starts': 2377, '  hard': 7, '  hard, repaired by some chain': 7}
+95 560000 {'all-HEAD starts': 2396, '  hard': 7, '  hard, repaired by some chain': 7}
+96 565000 {'all-HEAD starts': 2425, '  hard': 7, '  hard, repaired by some chain': 7}
+97 570000 {'all-HEAD starts': 2446, '  hard': 7, '  hard, repaired by some chain': 7}
+98 575000 {'all-HEAD starts': 2473, '  hard': 7, '  hard, repaired by some chain': 7}
+99 580000 {'all-HEAD starts': 2501, '  hard': 7, '  hard, repaired by some chain': 7}
+100 585000 {'all-HEAD starts': 2522, '  hard': 7, '  hard, repaired by some chain': 7}
+100 590000 {'all-HEAD starts': 2546, '  hard': 7, '  hard, repaired by some chain': 7}
+101 595000 {'all-HEAD starts': 2564, '  hard': 7, '  hard, repaired by some chain': 7}
+102 600000 {'all-HEAD starts': 2602, '  hard': 7, '  hard, repaired by some chain': 7}
+103 605000 {'all-HEAD starts': 2614, '  hard': 7, '  hard, repaired by some chain': 7}
+104 610000 {'all-HEAD starts': 2629, '  hard': 7, '  hard, repaired by some chain': 7}
+105 615000 {'all-HEAD starts': 2662, '  hard': 7, '  hard, repaired by some chain': 7}
+106 620000 {'all-HEAD starts': 2681, '  hard': 7, '  hard, repaired by some chain': 7}
+107 625000 {'all-HEAD starts': 2707, '  hard': 7, '  hard, repaired by some chain': 7}
+107 630000 {'all-HEAD starts': 2726, '  hard': 7, '  hard, repaired by some chain': 7}
+108 635000 {'all-HEAD starts': 2754, '  hard': 7, '  hard, repaired by some chain': 7}
+109 640000 {'all-HEAD starts': 2776, '  hard': 7, '  hard, repaired by some chain': 7}
+110 645000 {'all-HEAD starts': 2798, '  hard': 7, '  hard, repaired by some chain': 7}
+111 650000 {'all-HEAD starts': 2817, '  hard': 7, '  hard, repaired by some chain': 7}
+112 655000 {'all-HEAD starts': 2849, '  hard': 7, '  hard, repaired by some chain': 7}
+112 660000 {'all-HEAD starts': 2867, '  hard': 8, '  hard, repaired by some chain': 8}
+113 665000 {'all-HEAD starts': 2886, '  hard': 8, '  hard, repaired by some chain': 8}
+114 670000 {'all-HEAD starts': 2920, '  hard': 8, '  hard, repaired by some chain': 8}
+115 675000 {'all-HEAD starts': 2950, '  hard': 8, '  hard, repaired by some chain': 8}
+116 680000 {'all-HEAD starts': 2977, '  hard': 8, '  hard, repaired by some chain': 8}
+117 685000 {'all-HEAD starts': 3003, '  hard': 8, '  hard, repaired by some chain': 8}
+117 690000 {'all-HEAD starts': 3025, '  hard': 8, '  hard, repaired by some chain': 8}
+118 695000 {'all-HEAD starts': 3044, '  hard': 8, '  hard, repaired by some chain': 8}
+119 700000 {'all-HEAD starts': 3065, '  hard': 8, '  hard, repaired by some chain': 8}
+120 705000 {'all-HEAD starts': 3077, '  hard': 8, '  hard, repaired by some chain': 8}
+121 710000 {'all-HEAD starts': 3093, '  hard': 8, '  hard, repaired by some chain': 8}
+122 715000 {'all-HEAD starts': 3120, '  hard': 9, '  hard, repaired by some chain': 9}
+123 720000 {'all-HEAD starts': 3155, '  hard': 9, '  hard, repaired by some chain': 9}
+123 725000 {'all-HEAD starts': 3173, '  hard': 9, '  hard, repaired by some chain': 9}
+124 730000 {'all-HEAD starts': 3197, '  hard': 9, '  hard, repaired by some chain': 9}
+125 735000 {'all-HEAD starts': 3210, '  hard': 9, '  hard, repaired by some chain': 9}
+126 740000 {'all-HEAD starts': 3234, '  hard': 9, '  hard, repaired by some chain': 9}
+127 745000 {'all-HEAD starts': 3247, '  hard': 9, '  hard, repaired by some chain': 9}
+128 750000 {'all-HEAD starts': 3270, '  hard': 9, '  hard, repaired by some chain': 9}
+129 755000 {'all-HEAD starts': 3293, '  hard': 9, '  hard, repaired by some chain': 9}
+129 760000 {'all-HEAD starts': 3312, '  hard': 9, '  hard, repaired by some chain': 9}
+130 765000 {'all-HEAD starts': 3331, '  hard': 9, '  hard, repaired by some chain': 9}
+131 770000 {'all-HEAD starts': 3361, '  hard': 9, '  hard, repaired by some chain': 9}
+132 775000 {'all-HEAD starts': 3379, '  hard': 9, '  hard, repaired by some chain': 9}
+133 780000 {'all-HEAD starts': 3398, '  hard': 9, '  hard, repaired by some chain': 9}
+134 785000 {'all-HEAD starts': 3429, '  hard': 9, '  hard, repaired by some chain': 9}
+135 790000 {'all-HEAD starts': 3448, '  hard': 9, '  hard, repaired by some chain': 9}
+135 795000 {'all-HEAD starts': 3468, '  hard': 9, '  hard, repaired by some chain': 9}
+136 800000 {'all-HEAD starts': 3489, '  hard': 9, '  hard, repaired by some chain': 9}
+137 805000 {'all-HEAD starts': 3500, '  hard': 9, '  hard, repaired by some chain': 9}
+138 810000 {'all-HEAD starts': 3523, '  hard': 10, '  hard, repaired by some chain': 10}
+139 815000 {'all-HEAD starts': 3542, '  hard': 10, '  hard, repaired by some chain': 10}
+140 820000 {'all-HEAD starts': 3566, '  hard': 10, '  hard, repaired by some chain': 10}
+140 825000 {'all-HEAD starts': 3589, '  hard': 10, '  hard, repaired by some chain': 10}
+141 830000 {'all-HEAD starts': 3605, '  hard': 10, '  hard, repaired by some chain': 10}
+142 835000 {'all-HEAD starts': 3624, '  hard': 10, '  hard, repaired by some chain': 10}
+143 840000 {'all-HEAD starts': 3650, '  hard': 10, '  hard, repaired by some chain': 10}
+144 845000 {'all-HEAD starts': 3680, '  hard': 11, '  hard, repaired by some chain': 11}
+145 850000 {'all-HEAD starts': 3698, '  hard': 11, '  hard, repaired by some chain': 11}
+145 855000 {'all-HEAD starts': 3725, '  hard': 11, '  hard, repaired by some chain': 11}
+146 860000 {'all-HEAD starts': 3747, '  hard': 11, '  hard, repaired by some chain': 11}
+147 865000 {'all-HEAD starts': 3768, '  hard': 11, '  hard, repaired by some chain': 11}
+148 870000 {'all-HEAD starts': 3794, '  hard': 11, '  hard, repaired by some chain': 11}
+149 875000 {'all-HEAD starts': 3806, '  hard': 12, '  hard, repaired by some chain': 12}
+150 880000 {'all-HEAD starts': 3833, '  hard': 12, '  hard, repaired by some chain': 12}
+151 885000 {'all-HEAD starts': 3856, '  hard': 12, '  hard, repaired by some chain': 12}
+151 890000 {'all-HEAD starts': 3871, '  hard': 12, '  hard, repaired by some chain': 12}
+152 895000 {'all-HEAD starts': 3890, '  hard': 12, '  hard, repaired by some chain': 12}
+153 900000 {'all-HEAD starts': 3925, '  hard': 12, '  hard, repaired by some chain': 12}
+154 905000 {'all-HEAD starts': 3960, '  hard': 12, '  hard, repaired by some chain': 12}
+155 910000 {'all-HEAD starts': 3977, '  hard': 12, '  hard, repaired by some chain': 12}
+155 915000 {'all-HEAD starts': 3990, '  hard': 12, '  hard, repaired by some chain': 12}
+156 920000 {'all-HEAD starts': 4031, '  hard': 12, '  hard, repaired by some chain': 12}
+157 925000 {'all-HEAD starts': 4055, '  hard': 12, '  hard, repaired by some chain': 12}
+158 930000 {'all-HEAD starts': 4070, '  hard': 12, '  hard, repaired by some chain': 12}
+159 935000 {'all-HEAD starts': 4083, '  hard': 12, '  hard, repaired by some chain': 12}
+160 940000 {'all-HEAD starts': 4108, '  hard': 13, '  hard, repaired by some chain': 13}
+161 945000 {'all-HEAD starts': 4136, '  hard': 14, '  hard, repaired by some chain': 14}
+161 950000 {'all-HEAD starts': 4147, '  hard': 14, '  hard, repaired by some chain': 14}
+162 955000 {'all-HEAD starts': 4180, '  hard': 14, '  hard, repaired by some chain': 14}
+163 960000 {'all-HEAD starts': 4205, '  hard': 14, '  hard, repaired by some chain': 14}
+164 965000 {'all-HEAD starts': 4230, '  hard': 14, '  hard, repaired by some chain': 14}
+165 970000 {'all-HEAD starts': 4260, '  hard': 14, '  hard, repaired by some chain': 14}
+166 975000 {'all-HEAD starts': 4291, '  hard': 14, '  hard, repaired by some chain': 14}
+166 980000 {'all-HEAD starts': 4331, '  hard': 14, '  hard, repaired by some chain': 14}
+167 985000 {'all-HEAD starts': 4352, '  hard': 14, '  hard, repaired by some chain': 14}
+168 990000 {'all-HEAD starts': 4385, '  hard': 14, '  hard, repaired by some chain': 14}
+169 995000 {'all-HEAD starts': 4405, '  hard': 14, '  hard, repaired by some chain': 14}
+170 1000000 {'all-HEAD starts': 4420, '  hard': 14, '  hard, repaired by some chain': 14}
+170 1005000 {'all-HEAD starts': 4440, '  hard': 14, '  hard, repaired by some chain': 14}
+171 1010000 {'all-HEAD starts': 4458, '  hard': 14, '  hard, repaired by some chain': 14}
+172 1015000 {'all-HEAD starts': 4484, '  hard': 14, '  hard, repaired by some chain': 14}
+173 1020000 {'all-HEAD starts': 4509, '  hard': 14, '  hard, repaired by some chain': 14}
+174 1025000 {'all-HEAD starts': 4545, '  hard': 14, '  hard, repaired by some chain': 14}
+175 1030000 {'all-HEAD starts': 4572, '  hard': 14, '  hard, repaired by some chain': 14}
+176 1035000 {'all-HEAD starts': 4600, '  hard': 14, '  hard, repaired by some chain': 14}
+177 1040000 {'all-HEAD starts': 4617, '  hard': 14, '  hard, repaired by some chain': 14}
+177 1045000 {'all-HEAD starts': 4642, '  hard': 14, '  hard, repaired by some chain': 14}
+178 1050000 {'all-HEAD starts': 4658, '  hard': 14, '  hard, repaired by some chain': 14}
+179 1055000 {'all-HEAD starts': 4672, '  hard': 14, '  hard, repaired by some chain': 14}
+180 1060000 {'all-HEAD starts': 4700, '  hard': 14, '  hard, repaired by some chain': 14}
+181 1065000 {'all-HEAD starts': 4722, '  hard': 14, '  hard, repaired by some chain': 14}
+182 1070000 {'all-HEAD starts': 4745, '  hard': 14, '  hard, repaired by some chain': 14}
+182 1075000 {'all-HEAD starts': 4777, '  hard': 14, '  hard, repaired by some chain': 14}
+183 1080000 {'all-HEAD starts': 4799, '  hard': 14, '  hard, repaired by some chain': 14}
+184 1085000 {'all-HEAD starts': 4818, '  hard': 14, '  hard, repaired by some chain': 14}
+185 1090000 {'all-HEAD starts': 4852, '  hard': 14, '  hard, repaired by some chain': 14}
+186 1095000 {'all-HEAD starts': 4874, '  hard': 14, '  hard, repaired by some chain': 14}
+187 1100000 {'all-HEAD starts': 4893, '  hard': 15, '  hard, repaired by some chain': 15}
+188 1105000 {'all-HEAD starts': 4910, '  hard': 15, '  hard, repaired by some chain': 15}
+189 1110000 {'all-HEAD starts': 4933, '  hard': 15, '  hard, repaired by some chain': 15}
+189 1115000 {'all-HEAD starts': 4950, '  hard': 15, '  hard, repaired by some chain': 15}
+190 1120000 {'all-HEAD starts': 4981, '  hard': 15, '  hard, repaired by some chain': 15}
+191 1125000 {'all-HEAD starts': 4996, '  hard': 15, '  hard, repaired by some chain': 15}
+192 1130000 {'all-HEAD starts': 5021, '  hard': 16, '  hard, repaired by some chain': 16}
+193 1135000 {'all-HEAD starts': 5043, '  hard': 16, '  hard, repaired by some chain': 16}
+194 1140000 {'all-HEAD starts': 5062, '  hard': 16, '  hard, repaired by some chain': 16}
+195 1145000 {'all-HEAD starts': 5079, '  hard': 16, '  hard, repaired by some chain': 16}
+195 1150000 {'all-HEAD starts': 5097, '  hard': 16, '  hard, repaired by some chain': 16}
+196 1155000 {'all-HEAD starts': 5115, '  hard': 16, '  hard, repaired by some chain': 16}
+197 1160000 {'all-HEAD starts': 5134, '  hard': 16, '  hard, repaired by some chain': 16}
+198 1165000 {'all-HEAD starts': 5159, '  hard': 16, '  hard, repaired by some chain': 16}
+199 1170000 {'all-HEAD starts': 5175, '  hard': 16, '  hard, repaired by some chain': 16}
+200 1175000 {'all-HEAD starts': 5197, '  hard': 16, '  hard, repaired by some chain': 16}
+201 1180000 {'all-HEAD starts': 5219, '  hard': 16, '  hard, repaired by some chain': 16}
+202 1185000 {'all-HEAD starts': 5239, '  hard': 17, '  hard, repaired by some chain': 17}
+202 1190000 {'all-HEAD starts': 5268, '  hard': 17, '  hard, repaired by some chain': 17}
+203 1195000 {'all-HEAD starts': 5298, '  hard': 17, '  hard, repaired by some chain': 17}
+204 1200000 {'all-HEAD starts': 5315, '  hard': 17, '  hard, repaired by some chain': 17}
+205 1205000 {'all-HEAD starts': 5333, '  hard': 17, '  hard, repaired by some chain': 17}
+205 1210000 {'all-HEAD starts': 5345, '  hard': 17, '  hard, repaired by some chain': 17}
+206 1215000 {'all-HEAD starts': 5361, '  hard': 17, '  hard, repaired by some chain': 17}
+207 1220000 {'all-HEAD starts': 5384, '  hard': 17, '  hard, repaired by some chain': 17}
+208 1225000 {'all-HEAD starts': 5435, '  hard': 17, '  hard, repaired by some chain': 17}
+209 1230000 {'all-HEAD starts': 5456, '  hard': 17, '  hard, repaired by some chain': 17}
+209 1235000 {'all-HEAD starts': 5477, '  hard': 19, '  hard, repaired by some chain': 19}
+210 1240000 {'all-HEAD starts': 5498, '  hard': 19, '  hard, repaired by some chain': 19}
+211 1245000 {'all-HEAD starts': 5530, '  hard': 19, '  hard, repaired by some chain': 19}
+212 1250000 {'all-HEAD starts': 5550, '  hard': 19, '  hard, repaired by some chain': 19}
+213 1255000 {'all-HEAD starts': 5573, '  hard': 19, '  hard, repaired by some chain': 19}
+214 1260000 {'all-HEAD starts': 5580, '  hard': 19, '  hard, repaired by some chain': 19}
+214 1265000 {'all-HEAD starts': 5601, '  hard': 19, '  hard, repaired by some chain': 19}
+215 1270000 {'all-HEAD starts': 5624, '  hard': 19, '  hard, repaired by some chain': 19}
+216 1275000 {'all-HEAD starts': 5647, '  hard': 19, '  hard, repaired by some chain': 19}
+217 1280000 {'all-HEAD starts': 5668, '  hard': 19, '  hard, repaired by some chain': 19}
+218 1285000 {'all-HEAD starts': 5685, '  hard': 19, '  hard, repaired by some chain': 19}
+219 1290000 {'all-HEAD starts': 5716, '  hard': 20, '  hard, repaired by some chain': 20}
+219 1295000 {'all-HEAD starts': 5734, '  hard': 20, '  hard, repaired by some chain': 20}
+220 1300000 {'all-HEAD starts': 5761, '  hard': 20, '  hard, repaired by some chain': 20}
+221 1305000 {'all-HEAD starts': 5781, '  hard': 20, '  hard, repaired by some chain': 20}
+222 1310000 {'all-HEAD starts': 5807, '  hard': 20, '  hard, repaired by some chain': 20}
+223 1315000 {'all-HEAD starts': 5823, '  hard': 20, '  hard, repaired by some chain': 20}
+224 1320000 {'all-HEAD starts': 5852, '  hard': 20, '  hard, repaired by some chain': 20}
+224 1325000 {'all-HEAD starts': 5872, '  hard': 20, '  hard, repaired by some chain': 20}
+225 1330000 {'all-HEAD starts': 5906, '  hard': 20, '  hard, repaired by some chain': 20}
+226 1335000 {'all-HEAD starts': 5923, '  hard': 20, '  hard, repaired by some chain': 20}
+227 1340000 {'all-HEAD starts': 5956, '  hard': 20, '  hard, repaired by some chain': 20}
+228 1345000 {'all-HEAD starts': 5990, '  hard': 20, '  hard, repaired by some chain': 20}
+229 1350000 {'all-HEAD starts': 6011, '  hard': 20, '  hard, repaired by some chain': 20}
+229 1355000 {'all-HEAD starts': 6025, '  hard': 20, '  hard, repaired by some chain': 20}
+230 1360000 {'all-HEAD starts': 6041, '  hard': 20, '  hard, repaired by some chain': 20}
+231 1365000 {'all-HEAD starts': 6064, '  hard': 20, '  hard, repaired by some chain': 20}
+232 1370000 {'all-HEAD starts': 6087, '  hard': 20, '  hard, repaired by some chain': 20}
+233 1375000 {'all-HEAD starts': 6102, '  hard': 20, '  hard, repaired by some chain': 20}
+234 1380000 {'all-HEAD starts': 6117, '  hard': 20, '  hard, repaired by some chain': 20}
+234 1385000 {'all-HEAD starts': 6140, '  hard': 20, '  hard, repaired by some chain': 20}
+235 1390000 {'all-HEAD starts': 6162, '  hard': 20, '  hard, repaired by some chain': 20}
+236 1395000 {'all-HEAD starts': 6180, '  hard': 20, '  hard, repaired by some chain': 20}
+237 1400000 {'all-HEAD starts': 6194, '  hard': 20, '  hard, repaired by some chain': 20}
+238 1405000 {'all-HEAD starts': 6207, '  hard': 20, '  hard, repaired by some chain': 20}
+239 1410000 {'all-HEAD starts': 6231, '  hard': 20, '  hard, repaired by some chain': 20}
+239 1415000 {'all-HEAD starts': 6255, '  hard': 20, '  hard, repaired by some chain': 20}
+240 1420000 {'all-HEAD starts': 6268, '  hard': 20, '  hard, repaired by some chain': 20}
+241 1425000 {'all-HEAD starts': 6287, '  hard': 20, '  hard, repaired by some chain': 20}
+242 1430000 {'all-HEAD starts': 6314, '  hard': 20, '  hard, repaired by some chain': 20}
+243 1435000 {'all-HEAD starts': 6333, '  hard': 20, '  hard, repaired by some chain': 20}
+244 1440000 {'all-HEAD starts': 6365, '  hard': 20, '  hard, repaired by some chain': 20}
+245 1445000 {'all-HEAD starts': 6388, '  hard': 20, '  hard, repaired by some chain': 20}
+245 1450000 {'all-HEAD starts': 6420, '  hard': 20, '  hard, repaired by some chain': 20}
+246 1455000 {'all-HEAD starts': 6441, '  hard': 20, '  hard, repaired by some chain': 20}
+247 1460000 {'all-HEAD starts': 6469, '  hard': 20, '  hard, repaired by some chain': 20}
+248 1465000 {'all-HEAD starts': 6495, '  hard': 20, '  hard, repaired by some chain': 20}
+249 1470000 {'all-HEAD starts': 6509, '  hard': 20, '  hard, repaired by some chain': 20}
+250 1475000 {'all-HEAD starts': 6525, '  hard': 20, '  hard, repaired by some chain': 20}
+251 1480000 {'all-HEAD starts': 6546, '  hard': 20, '  hard, repaired by some chain': 20}
+252 1485000 {'all-HEAD starts': 6554, '  hard': 21, '  hard, repaired by some chain': 21}
+252 1490000 {'all-HEAD starts': 6581, '  hard': 21, '  hard, repaired by some chain': 21}
+253 1495000 {'all-HEAD starts': 6609, '  hard': 21, '  hard, repaired by some chain': 21}
+NO REPAIR [[[0, 1, 5, 7], [3, 4, 6, 7], [0, 2, 5, 7]], [[26, 3, 25, 27], [19, 17, 25, 30], [9, 14, 7, 29]]] (0, 1, 2) (7, 6, 2)
+254 1500000 {'all-HEAD starts': 6631, '  hard': 22, '  hard, repaired by some chain': 21, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+255 1505000 {'all-HEAD starts': 6654, '  hard': 22, '  hard, repaired by some chain': 21, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+256 1510000 {'all-HEAD starts': 6673, '  hard': 22, '  hard, repaired by some chain': 21, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+257 1515000 {'all-HEAD starts': 6700, '  hard': 23, '  hard, repaired by some chain': 22, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+257 1520000 {'all-HEAD starts': 6723, '  hard': 23, '  hard, repaired by some chain': 22, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+258 1525000 {'all-HEAD starts': 6739, '  hard': 23, '  hard, repaired by some chain': 22, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+259 1530000 {'all-HEAD starts': 6757, '  hard': 23, '  hard, repaired by some chain': 22, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+260 1535000 {'all-HEAD starts': 6768, '  hard': 23, '  hard, repaired by some chain': 22, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+261 1540000 {'all-HEAD starts': 6793, '  hard': 23, '  hard, repaired by some chain': 22, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+262 1545000 {'all-HEAD starts': 6813, '  hard': 23, '  hard, repaired by some chain': 22, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+262 1550000 {'all-HEAD starts': 6826, '  hard': 23, '  hard, repaired by some chain': 22, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+263 1555000 {'all-HEAD starts': 6858, '  hard': 23, '  hard, repaired by some chain': 22, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+264 1560000 {'all-HEAD starts': 6876, '  hard': 23, '  hard, repaired by some chain': 22, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+265 1565000 {'all-HEAD starts': 6886, '  hard': 23, '  hard, repaired by some chain': 22, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+266 1570000 {'all-HEAD starts': 6908, '  hard': 23, '  hard, repaired by some chain': 22, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+267 1575000 {'all-HEAD starts': 6927, '  hard': 23, '  hard, repaired by some chain': 22, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+268 1580000 {'all-HEAD starts': 6965, '  hard': 24, '  hard, repaired by some chain': 23, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+269 1585000 {'all-HEAD starts': 6996, '  hard': 24, '  hard, repaired by some chain': 23, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+269 1590000 {'all-HEAD starts': 7018, '  hard': 24, '  hard, repaired by some chain': 23, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+270 1595000 {'all-HEAD starts': 7033, '  hard': 24, '  hard, repaired by some chain': 23, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+271 1600000 {'all-HEAD starts': 7057, '  hard': 24, '  hard, repaired by some chain': 23, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+272 1605000 {'all-HEAD starts': 7074, '  hard': 24, '  hard, repaired by some chain': 23, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+273 1610000 {'all-HEAD starts': 7105, '  hard': 24, '  hard, repaired by some chain': 23, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+274 1615000 {'all-HEAD starts': 7117, '  hard': 24, '  hard, repaired by some chain': 23, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+275 1620000 {'all-HEAD starts': 7140, '  hard': 24, '  hard, repaired by some chain': 23, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+275 1625000 {'all-HEAD starts': 7160, '  hard': 25, '  hard, repaired by some chain': 24, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+276 1630000 {'all-HEAD starts': 7189, '  hard': 25, '  hard, repaired by some chain': 24, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+277 1635000 {'all-HEAD starts': 7213, '  hard': 25, '  hard, repaired by some chain': 24, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+278 1640000 {'all-HEAD starts': 7227, '  hard': 25, '  hard, repaired by some chain': 24, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+279 1645000 {'all-HEAD starts': 7246, '  hard': 26, '  hard, repaired by some chain': 25, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+280 1650000 {'all-HEAD starts': 7278, '  hard': 27, '  hard, repaired by some chain': 26, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+281 1655000 {'all-HEAD starts': 7295, '  hard': 27, '  hard, repaired by some chain': 26, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+282 1660000 {'all-HEAD starts': 7312, '  hard': 27, '  hard, repaired by some chain': 26, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+282 1665000 {'all-HEAD starts': 7338, '  hard': 27, '  hard, repaired by some chain': 26, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+283 1670000 {'all-HEAD starts': 7356, '  hard': 27, '  hard, repaired by some chain': 26, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+284 1675000 {'all-HEAD starts': 7373, '  hard': 27, '  hard, repaired by some chain': 26, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+285 1680000 {'all-HEAD starts': 7398, '  hard': 27, '  hard, repaired by some chain': 26, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+286 1685000 {'all-HEAD starts': 7424, '  hard': 27, '  hard, repaired by some chain': 26, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+287 1690000 {'all-HEAD starts': 7447, '  hard': 27, '  hard, repaired by some chain': 26, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+288 1695000 {'all-HEAD starts': 7470, '  hard': 27, '  hard, repaired by some chain': 26, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+288 1700000 {'all-HEAD starts': 7499, '  hard': 27, '  hard, repaired by some chain': 26, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+289 1705000 {'all-HEAD starts': 7519, '  hard': 27, '  hard, repaired by some chain': 26, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+290 1710000 {'all-HEAD starts': 7540, '  hard': 27, '  hard, repaired by some chain': 26, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+291 1715000 {'all-HEAD starts': 7562, '  hard': 27, '  hard, repaired by some chain': 26, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+292 1720000 {'all-HEAD starts': 7583, '  hard': 28, '  hard, repaired by some chain': 27, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+293 1725000 {'all-HEAD starts': 7593, '  hard': 28, '  hard, repaired by some chain': 27, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+293 1730000 {'all-HEAD starts': 7610, '  hard': 28, '  hard, repaired by some chain': 27, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+294 1735000 {'all-HEAD starts': 7640, '  hard': 28, '  hard, repaired by some chain': 27, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+295 1740000 {'all-HEAD starts': 7671, '  hard': 28, '  hard, repaired by some chain': 27, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+296 1745000 {'all-HEAD starts': 7690, '  hard': 28, '  hard, repaired by some chain': 27, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+297 1750000 {'all-HEAD starts': 7716, '  hard': 30, '  hard, repaired by some chain': 29, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+298 1755000 {'all-HEAD starts': 7735, '  hard': 30, '  hard, repaired by some chain': 29, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+299 1760000 {'all-HEAD starts': 7758, '  hard': 30, '  hard, repaired by some chain': 29, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+300 1765000 {'all-HEAD starts': 7787, '  hard': 30, '  hard, repaired by some chain': 29, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+301 1770000 {'all-HEAD starts': 7825, '  hard': 31, '  hard, repaired by some chain': 30, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+302 1775000 {'all-HEAD starts': 7840, '  hard': 31, '  hard, repaired by some chain': 30, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+302 1780000 {'all-HEAD starts': 7858, '  hard': 31, '  hard, repaired by some chain': 30, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+303 1785000 {'all-HEAD starts': 7886, '  hard': 31, '  hard, repaired by some chain': 30, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+304 1790000 {'all-HEAD starts': 7894, '  hard': 31, '  hard, repaired by some chain': 30, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+305 1795000 {'all-HEAD starts': 7913, '  hard': 31, '  hard, repaired by some chain': 30, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+306 1800000 {'all-HEAD starts': 7933, '  hard': 31, '  hard, repaired by some chain': 30, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+307 1805000 {'all-HEAD starts': 7948, '  hard': 31, '  hard, repaired by some chain': 30, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+307 1810000 {'all-HEAD starts': 7957, '  hard': 31, '  hard, repaired by some chain': 30, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+308 1815000 {'all-HEAD starts': 7992, '  hard': 31, '  hard, repaired by some chain': 30, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+309 1820000 {'all-HEAD starts': 8012, '  hard': 31, '  hard, repaired by some chain': 30, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+310 1825000 {'all-HEAD starts': 8035, '  hard': 31, '  hard, repaired by some chain': 30, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+311 1830000 {'all-HEAD starts': 8059, '  hard': 31, '  hard, repaired by some chain': 30, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+312 1835000 {'all-HEAD starts': 8073, '  hard': 31, '  hard, repaired by some chain': 30, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+313 1840000 {'all-HEAD starts': 8101, '  hard': 31, '  hard, repaired by some chain': 30, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+313 1845000 {'all-HEAD starts': 8125, '  hard': 31, '  hard, repaired by some chain': 30, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+314 1850000 {'all-HEAD starts': 8160, '  hard': 31, '  hard, repaired by some chain': 30, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+315 1855000 {'all-HEAD starts': 8173, '  hard': 31, '  hard, repaired by some chain': 30, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+316 1860000 {'all-HEAD starts': 8192, '  hard': 31, '  hard, repaired by some chain': 30, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+317 1865000 {'all-HEAD starts': 8214, '  hard': 31, '  hard, repaired by some chain': 30, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+318 1870000 {'all-HEAD starts': 8248, '  hard': 31, '  hard, repaired by some chain': 30, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+319 1875000 {'all-HEAD starts': 8275, '  hard': 31, '  hard, repaired by some chain': 30, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+319 1880000 {'all-HEAD starts': 8288, '  hard': 31, '  hard, repaired by some chain': 30, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+320 1885000 {'all-HEAD starts': 8311, '  hard': 31, '  hard, repaired by some chain': 30, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+321 1890000 {'all-HEAD starts': 8337, '  hard': 31, '  hard, repaired by some chain': 30, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+322 1895000 {'all-HEAD starts': 8353, '  hard': 31, '  hard, repaired by some chain': 30, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+323 1900000 {'all-HEAD starts': 8380, '  hard': 31, '  hard, repaired by some chain': 30, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+324 1905000 {'all-HEAD starts': 8413, '  hard': 31, '  hard, repaired by some chain': 30, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+325 1910000 {'all-HEAD starts': 8435, '  hard': 31, '  hard, repaired by some chain': 30, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+325 1915000 {'all-HEAD starts': 8451, '  hard': 31, '  hard, repaired by some chain': 30, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+326 1920000 {'all-HEAD starts': 8466, '  hard': 31, '  hard, repaired by some chain': 30, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+327 1925000 {'all-HEAD starts': 8487, '  hard': 32, '  hard, repaired by some chain': 31, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+328 1930000 {'all-HEAD starts': 8510, '  hard': 32, '  hard, repaired by some chain': 31, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+329 1935000 {'all-HEAD starts': 8524, '  hard': 32, '  hard, repaired by some chain': 31, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+330 1940000 {'all-HEAD starts': 8544, '  hard': 32, '  hard, repaired by some chain': 31, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+330 1945000 {'all-HEAD starts': 8579, '  hard': 32, '  hard, repaired by some chain': 31, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+331 1950000 {'all-HEAD starts': 8596, '  hard': 32, '  hard, repaired by some chain': 31, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+332 1955000 {'all-HEAD starts': 8620, '  hard': 32, '  hard, repaired by some chain': 31, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+333 1960000 {'all-HEAD starts': 8636, '  hard': 33, '  hard, repaired by some chain': 32, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+334 1965000 {'all-HEAD starts': 8663, '  hard': 34, '  hard, repaired by some chain': 33, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+335 1970000 {'all-HEAD starts': 8683, '  hard': 34, '  hard, repaired by some chain': 33, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+335 1975000 {'all-HEAD starts': 8709, '  hard': 34, '  hard, repaired by some chain': 33, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+336 1980000 {'all-HEAD starts': 8729, '  hard': 34, '  hard, repaired by some chain': 33, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+337 1985000 {'all-HEAD starts': 8743, '  hard': 34, '  hard, repaired by some chain': 33, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+338 1990000 {'all-HEAD starts': 8763, '  hard': 34, '  hard, repaired by some chain': 33, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+339 1995000 {'all-HEAD starts': 8790, '  hard': 35, '  hard, repaired by some chain': 34, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+340 2000000 {'all-HEAD starts': 8808, '  hard': 35, '  hard, repaired by some chain': 34, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+340 2005000 {'all-HEAD starts': 8826, '  hard': 35, '  hard, repaired by some chain': 34, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+341 2010000 {'all-HEAD starts': 8854, '  hard': 35, '  hard, repaired by some chain': 34, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+342 2015000 {'all-HEAD starts': 8875, '  hard': 35, '  hard, repaired by some chain': 34, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+343 2020000 {'all-HEAD starts': 8893, '  hard': 35, '  hard, repaired by some chain': 34, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+344 2025000 {'all-HEAD starts': 8914, '  hard': 35, '  hard, repaired by some chain': 34, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+345 2030000 {'all-HEAD starts': 8941, '  hard': 35, '  hard, repaired by some chain': 34, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+346 2035000 {'all-HEAD starts': 8959, '  hard': 35, '  hard, repaired by some chain': 34, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+346 2040000 {'all-HEAD starts': 8977, '  hard': 36, '  hard, repaired by some chain': 35, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+347 2045000 {'all-HEAD starts': 8997, '  hard': 36, '  hard, repaired by some chain': 35, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+348 2050000 {'all-HEAD starts': 9022, '  hard': 36, '  hard, repaired by some chain': 35, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+349 2055000 {'all-HEAD starts': 9040, '  hard': 36, '  hard, repaired by some chain': 35, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+349 2060000 {'all-HEAD starts': 9068, '  hard': 36, '  hard, repaired by some chain': 35, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+350 2065000 {'all-HEAD starts': 9090, '  hard': 36, '  hard, repaired by some chain': 35, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+351 2070000 {'all-HEAD starts': 9122, '  hard': 36, '  hard, repaired by some chain': 35, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+352 2075000 {'all-HEAD starts': 9141, '  hard': 36, '  hard, repaired by some chain': 35, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+353 2080000 {'all-HEAD starts': 9180, '  hard': 36, '  hard, repaired by some chain': 35, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+353 2085000 {'all-HEAD starts': 9193, '  hard': 36, '  hard, repaired by some chain': 35, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+354 2090000 {'all-HEAD starts': 9212, '  hard': 36, '  hard, repaired by some chain': 35, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+355 2095000 {'all-HEAD starts': 9225, '  hard': 36, '  hard, repaired by some chain': 35, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+356 2100000 {'all-HEAD starts': 9255, '  hard': 36, '  hard, repaired by some chain': 35, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+356 2105000 {'all-HEAD starts': 9272, '  hard': 36, '  hard, repaired by some chain': 35, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+357 2110000 {'all-HEAD starts': 9289, '  hard': 36, '  hard, repaired by some chain': 35, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+358 2115000 {'all-HEAD starts': 9323, '  hard': 36, '  hard, repaired by some chain': 35, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+359 2120000 {'all-HEAD starts': 9348, '  hard': 36, '  hard, repaired by some chain': 35, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+360 2125000 {'all-HEAD starts': 9361, '  hard': 36, '  hard, repaired by some chain': 35, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+360 2130000 {'all-HEAD starts': 9384, '  hard': 36, '  hard, repaired by some chain': 35, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+361 2135000 {'all-HEAD starts': 9419, '  hard': 36, '  hard, repaired by some chain': 35, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+362 2140000 {'all-HEAD starts': 9434, '  hard': 36, '  hard, repaired by some chain': 35, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+363 2145000 {'all-HEAD starts': 9460, '  hard': 36, '  hard, repaired by some chain': 35, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+364 2150000 {'all-HEAD starts': 9482, '  hard': 36, '  hard, repaired by some chain': 35, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+365 2155000 {'all-HEAD starts': 9499, '  hard': 36, '  hard, repaired by some chain': 35, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+366 2160000 {'all-HEAD starts': 9522, '  hard': 36, '  hard, repaired by some chain': 35, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+367 2165000 {'all-HEAD starts': 9540, '  hard': 36, '  hard, repaired by some chain': 35, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+368 2170000 {'all-HEAD starts': 9557, '  hard': 36, '  hard, repaired by some chain': 35, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+368 2175000 {'all-HEAD starts': 9576, '  hard': 36, '  hard, repaired by some chain': 35, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+369 2180000 {'all-HEAD starts': 9592, '  hard': 36, '  hard, repaired by some chain': 35, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+370 2185000 {'all-HEAD starts': 9610, '  hard': 36, '  hard, repaired by some chain': 35, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+371 2190000 {'all-HEAD starts': 9627, '  hard': 36, '  hard, repaired by some chain': 35, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+372 2195000 {'all-HEAD starts': 9646, '  hard': 36, '  hard, repaired by some chain': 35, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+373 2200000 {'all-HEAD starts': 9665, '  hard': 36, '  hard, repaired by some chain': 35, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+374 2205000 {'all-HEAD starts': 9680, '  hard': 36, '  hard, repaired by some chain': 35, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+375 2210000 {'all-HEAD starts': 9700, '  hard': 36, '  hard, repaired by some chain': 35, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+375 2215000 {'all-HEAD starts': 9730, '  hard': 36, '  hard, repaired by some chain': 35, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+376 2220000 {'all-HEAD starts': 9746, '  hard': 36, '  hard, repaired by some chain': 35, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+377 2225000 {'all-HEAD starts': 9774, '  hard': 36, '  hard, repaired by some chain': 35, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+378 2230000 {'all-HEAD starts': 9804, '  hard': 36, '  hard, repaired by some chain': 35, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+379 2235000 {'all-HEAD starts': 9821, '  hard': 37, '  hard, repaired by some chain': 36, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+380 2240000 {'all-HEAD starts': 9855, '  hard': 37, '  hard, repaired by some chain': 36, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+381 2245000 {'all-HEAD starts': 9871, '  hard': 37, '  hard, repaired by some chain': 36, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+381 2250000 {'all-HEAD starts': 9892, '  hard': 37, '  hard, repaired by some chain': 36, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+382 2255000 {'all-HEAD starts': 9911, '  hard': 37, '  hard, repaired by some chain': 36, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+383 2260000 {'all-HEAD starts': 9936, '  hard': 37, '  hard, repaired by some chain': 36, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+384 2265000 {'all-HEAD starts': 9948, '  hard': 37, '  hard, repaired by some chain': 36, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+385 2270000 {'all-HEAD starts': 9969, '  hard': 37, '  hard, repaired by some chain': 36, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+386 2275000 {'all-HEAD starts': 9999, '  hard': 37, '  hard, repaired by some chain': 36, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+387 2280000 {'all-HEAD starts': 10022, '  hard': 37, '  hard, repaired by some chain': 36, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+387 2285000 {'all-HEAD starts': 10043, '  hard': 37, '  hard, repaired by some chain': 36, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+388 2290000 {'all-HEAD starts': 10070, '  hard': 37, '  hard, repaired by some chain': 36, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+389 2295000 {'all-HEAD starts': 10098, '  hard': 37, '  hard, repaired by some chain': 36, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+390 2300000 {'all-HEAD starts': 10112, '  hard': 37, '  hard, repaired by some chain': 36, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+391 2305000 {'all-HEAD starts': 10136, '  hard': 38, '  hard, repaired by some chain': 37, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+392 2310000 {'all-HEAD starts': 10158, '  hard': 38, '  hard, repaired by some chain': 37, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+393 2315000 {'all-HEAD starts': 10176, '  hard': 39, '  hard, repaired by some chain': 38, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+393 2320000 {'all-HEAD starts': 10205, '  hard': 39, '  hard, repaired by some chain': 38, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+394 2325000 {'all-HEAD starts': 10224, '  hard': 39, '  hard, repaired by some chain': 38, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+395 2330000 {'all-HEAD starts': 10236, '  hard': 40, '  hard, repaired by some chain': 39, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+396 2335000 {'all-HEAD starts': 10273, '  hard': 40, '  hard, repaired by some chain': 39, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+397 2340000 {'all-HEAD starts': 10284, '  hard': 40, '  hard, repaired by some chain': 39, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+398 2345000 {'all-HEAD starts': 10308, '  hard': 40, '  hard, repaired by some chain': 39, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+399 2350000 {'all-HEAD starts': 10322, '  hard': 40, '  hard, repaired by some chain': 39, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+399 2355000 {'all-HEAD starts': 10339, '  hard': 42, '  hard, repaired by some chain': 41, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+400 2360000 {'all-HEAD starts': 10363, '  hard': 42, '  hard, repaired by some chain': 41, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+401 2365000 {'all-HEAD starts': 10397, '  hard': 44, '  hard, repaired by some chain': 43, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+402 2370000 {'all-HEAD starts': 10413, '  hard': 44, '  hard, repaired by some chain': 43, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+403 2375000 {'all-HEAD starts': 10425, '  hard': 44, '  hard, repaired by some chain': 43, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+403 2380000 {'all-HEAD starts': 10437, '  hard': 44, '  hard, repaired by some chain': 43, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+404 2385000 {'all-HEAD starts': 10457, '  hard': 46, '  hard, repaired by some chain': 45, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+405 2390000 {'all-HEAD starts': 10478, '  hard': 46, '  hard, repaired by some chain': 45, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+406 2395000 {'all-HEAD starts': 10502, '  hard': 46, '  hard, repaired by some chain': 45, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+407 2400000 {'all-HEAD starts': 10521, '  hard': 46, '  hard, repaired by some chain': 45, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+408 2405000 {'all-HEAD starts': 10552, '  hard': 46, '  hard, repaired by some chain': 45, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+408 2410000 {'all-HEAD starts': 10581, '  hard': 46, '  hard, repaired by some chain': 45, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+409 2415000 {'all-HEAD starts': 10608, '  hard': 46, '  hard, repaired by some chain': 45, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+410 2420000 {'all-HEAD starts': 10639, '  hard': 46, '  hard, repaired by some chain': 45, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+411 2425000 {'all-HEAD starts': 10667, '  hard': 46, '  hard, repaired by some chain': 45, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+412 2430000 {'all-HEAD starts': 10691, '  hard': 46, '  hard, repaired by some chain': 45, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+413 2435000 {'all-HEAD starts': 10707, '  hard': 46, '  hard, repaired by some chain': 45, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+414 2440000 {'all-HEAD starts': 10725, '  hard': 46, '  hard, repaired by some chain': 45, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+414 2445000 {'all-HEAD starts': 10743, '  hard': 46, '  hard, repaired by some chain': 45, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+415 2450000 {'all-HEAD starts': 10758, '  hard': 46, '  hard, repaired by some chain': 45, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+416 2455000 {'all-HEAD starts': 10767, '  hard': 46, '  hard, repaired by some chain': 45, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+417 2460000 {'all-HEAD starts': 10783, '  hard': 46, '  hard, repaired by some chain': 45, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+418 2465000 {'all-HEAD starts': 10795, '  hard': 46, '  hard, repaired by some chain': 45, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+419 2470000 {'all-HEAD starts': 10822, '  hard': 46, '  hard, repaired by some chain': 45, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+419 2475000 {'all-HEAD starts': 10846, '  hard': 46, '  hard, repaired by some chain': 45, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+420 2480000 {'all-HEAD starts': 10873, '  hard': 47, '  hard, repaired by some chain': 46, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+421 2485000 {'all-HEAD starts': 10893, '  hard': 47, '  hard, repaired by some chain': 46, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+422 2490000 {'all-HEAD starts': 10902, '  hard': 47, '  hard, repaired by some chain': 46, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+423 2495000 {'all-HEAD starts': 10933, '  hard': 47, '  hard, repaired by some chain': 46, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+424 2500000 {'all-HEAD starts': 10956, '  hard': 47, '  hard, repaired by some chain': 46, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+425 2505000 {'all-HEAD starts': 10986, '  hard': 48, '  hard, repaired by some chain': 47, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+425 2510000 {'all-HEAD starts': 11004, '  hard': 48, '  hard, repaired by some chain': 47, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+426 2515000 {'all-HEAD starts': 11033, '  hard': 48, '  hard, repaired by some chain': 47, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+427 2520000 {'all-HEAD starts': 11044, '  hard': 48, '  hard, repaired by some chain': 47, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+428 2525000 {'all-HEAD starts': 11059, '  hard': 48, '  hard, repaired by some chain': 47, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+429 2530000 {'all-HEAD starts': 11079, '  hard': 48, '  hard, repaired by some chain': 47, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+430 2535000 {'all-HEAD starts': 11085, '  hard': 48, '  hard, repaired by some chain': 47, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+431 2540000 {'all-HEAD starts': 11109, '  hard': 48, '  hard, repaired by some chain': 47, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+431 2545000 {'all-HEAD starts': 11129, '  hard': 48, '  hard, repaired by some chain': 47, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+432 2550000 {'all-HEAD starts': 11166, '  hard': 48, '  hard, repaired by some chain': 47, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+433 2555000 {'all-HEAD starts': 11203, '  hard': 48, '  hard, repaired by some chain': 47, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+434 2560000 {'all-HEAD starts': 11233, '  hard': 48, '  hard, repaired by some chain': 47, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+435 2565000 {'all-HEAD starts': 11247, '  hard': 48, '  hard, repaired by some chain': 47, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+436 2570000 {'all-HEAD starts': 11278, '  hard': 48, '  hard, repaired by some chain': 47, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+436 2575000 {'all-HEAD starts': 11300, '  hard': 49, '  hard, repaired by some chain': 48, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+437 2580000 {'all-HEAD starts': 11316, '  hard': 49, '  hard, repaired by some chain': 48, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+438 2585000 {'all-HEAD starts': 11341, '  hard': 49, '  hard, repaired by some chain': 48, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+439 2590000 {'all-HEAD starts': 11363, '  hard': 49, '  hard, repaired by some chain': 48, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+439 2595000 {'all-HEAD starts': 11377, '  hard': 49, '  hard, repaired by some chain': 48, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+440 2600000 {'all-HEAD starts': 11404, '  hard': 49, '  hard, repaired by some chain': 48, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+441 2605000 {'all-HEAD starts': 11419, '  hard': 49, '  hard, repaired by some chain': 48, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+442 2610000 {'all-HEAD starts': 11440, '  hard': 49, '  hard, repaired by some chain': 48, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+442 2615000 {'all-HEAD starts': 11451, '  hard': 49, '  hard, repaired by some chain': 48, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+443 2620000 {'all-HEAD starts': 11465, '  hard': 49, '  hard, repaired by some chain': 48, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+444 2625000 {'all-HEAD starts': 11478, '  hard': 49, '  hard, repaired by some chain': 48, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+445 2630000 {'all-HEAD starts': 11494, '  hard': 49, '  hard, repaired by some chain': 48, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+446 2635000 {'all-HEAD starts': 11523, '  hard': 49, '  hard, repaired by some chain': 48, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+447 2640000 {'all-HEAD starts': 11545, '  hard': 49, '  hard, repaired by some chain': 48, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+447 2645000 {'all-HEAD starts': 11581, '  hard': 49, '  hard, repaired by some chain': 48, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+448 2650000 {'all-HEAD starts': 11603, '  hard': 49, '  hard, repaired by some chain': 48, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+449 2655000 {'all-HEAD starts': 11633, '  hard': 50, '  hard, repaired by some chain': 49, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+450 2660000 {'all-HEAD starts': 11653, '  hard': 50, '  hard, repaired by some chain': 49, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+451 2665000 {'all-HEAD starts': 11675, '  hard': 50, '  hard, repaired by some chain': 49, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+452 2670000 {'all-HEAD starts': 11691, '  hard': 50, '  hard, repaired by some chain': 49, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+452 2675000 {'all-HEAD starts': 11714, '  hard': 50, '  hard, repaired by some chain': 49, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+453 2680000 {'all-HEAD starts': 11727, '  hard': 50, '  hard, repaired by some chain': 49, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+454 2685000 {'all-HEAD starts': 11762, '  hard': 50, '  hard, repaired by some chain': 49, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+455 2690000 {'all-HEAD starts': 11784, '  hard': 50, '  hard, repaired by some chain': 49, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+456 2695000 {'all-HEAD starts': 11798, '  hard': 50, '  hard, repaired by some chain': 49, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+457 2700000 {'all-HEAD starts': 11820, '  hard': 50, '  hard, repaired by some chain': 49, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+458 2705000 {'all-HEAD starts': 11844, '  hard': 50, '  hard, repaired by some chain': 49, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+458 2710000 {'all-HEAD starts': 11858, '  hard': 50, '  hard, repaired by some chain': 49, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+459 2715000 {'all-HEAD starts': 11882, '  hard': 50, '  hard, repaired by some chain': 49, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+460 2720000 {'all-HEAD starts': 11910, '  hard': 50, '  hard, repaired by some chain': 49, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+461 2725000 {'all-HEAD starts': 11943, '  hard': 50, '  hard, repaired by some chain': 49, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+462 2730000 {'all-HEAD starts': 11965, '  hard': 50, '  hard, repaired by some chain': 49, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+462 2735000 {'all-HEAD starts': 11980, '  hard': 50, '  hard, repaired by some chain': 49, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+463 2740000 {'all-HEAD starts': 12008, '  hard': 50, '  hard, repaired by some chain': 49, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+464 2745000 {'all-HEAD starts': 12028, '  hard': 50, '  hard, repaired by some chain': 49, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+465 2750000 {'all-HEAD starts': 12042, '  hard': 50, '  hard, repaired by some chain': 49, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+466 2755000 {'all-HEAD starts': 12076, '  hard': 50, '  hard, repaired by some chain': 49, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+467 2760000 {'all-HEAD starts': 12098, '  hard': 50, '  hard, repaired by some chain': 49, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+468 2765000 {'all-HEAD starts': 12124, '  hard': 50, '  hard, repaired by some chain': 49, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+469 2770000 {'all-HEAD starts': 12145, '  hard': 50, '  hard, repaired by some chain': 49, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+469 2775000 {'all-HEAD starts': 12161, '  hard': 50, '  hard, repaired by some chain': 49, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+470 2780000 {'all-HEAD starts': 12173, '  hard': 50, '  hard, repaired by some chain': 49, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+471 2785000 {'all-HEAD starts': 12191, '  hard': 50, '  hard, repaired by some chain': 49, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+472 2790000 {'all-HEAD starts': 12208, '  hard': 51, '  hard, repaired by some chain': 50, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+473 2795000 {'all-HEAD starts': 12228, '  hard': 51, '  hard, repaired by some chain': 50, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+474 2800000 {'all-HEAD starts': 12253, '  hard': 51, '  hard, repaired by some chain': 50, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+475 2805000 {'all-HEAD starts': 12273, '  hard': 51, '  hard, repaired by some chain': 50, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+475 2810000 {'all-HEAD starts': 12299, '  hard': 51, '  hard, repaired by some chain': 50, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+476 2815000 {'all-HEAD starts': 12322, '  hard': 51, '  hard, repaired by some chain': 50, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+477 2820000 {'all-HEAD starts': 12342, '  hard': 51, '  hard, repaired by some chain': 50, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+478 2825000 {'all-HEAD starts': 12356, '  hard': 51, '  hard, repaired by some chain': 50, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+479 2830000 {'all-HEAD starts': 12366, '  hard': 51, '  hard, repaired by some chain': 50, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+480 2835000 {'all-HEAD starts': 12385, '  hard': 51, '  hard, repaired by some chain': 50, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+480 2840000 {'all-HEAD starts': 12417, '  hard': 51, '  hard, repaired by some chain': 50, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+481 2845000 {'all-HEAD starts': 12440, '  hard': 51, '  hard, repaired by some chain': 50, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+482 2850000 {'all-HEAD starts': 12459, '  hard': 51, '  hard, repaired by some chain': 50, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+483 2855000 {'all-HEAD starts': 12483, '  hard': 51, '  hard, repaired by some chain': 50, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+483 2860000 {'all-HEAD starts': 12512, '  hard': 52, '  hard, repaired by some chain': 51, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+484 2865000 {'all-HEAD starts': 12539, '  hard': 52, '  hard, repaired by some chain': 51, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+485 2870000 {'all-HEAD starts': 12563, '  hard': 53, '  hard, repaired by some chain': 52, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+485 2875000 {'all-HEAD starts': 12571, '  hard': 53, '  hard, repaired by some chain': 52, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+486 2880000 {'all-HEAD starts': 12588, '  hard': 54, '  hard, repaired by some chain': 53, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+487 2885000 {'all-HEAD starts': 12601, '  hard': 55, '  hard, repaired by some chain': 54, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+488 2890000 {'all-HEAD starts': 12624, '  hard': 55, '  hard, repaired by some chain': 54, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+489 2895000 {'all-HEAD starts': 12653, '  hard': 55, '  hard, repaired by some chain': 54, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+490 2900000 {'all-HEAD starts': 12679, '  hard': 55, '  hard, repaired by some chain': 54, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+490 2905000 {'all-HEAD starts': 12698, '  hard': 55, '  hard, repaired by some chain': 54, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+491 2910000 {'all-HEAD starts': 12712, '  hard': 55, '  hard, repaired by some chain': 54, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+492 2915000 {'all-HEAD starts': 12735, '  hard': 55, '  hard, repaired by some chain': 54, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+493 2920000 {'all-HEAD starts': 12754, '  hard': 55, '  hard, repaired by some chain': 54, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+494 2925000 {'all-HEAD starts': 12770, '  hard': 55, '  hard, repaired by some chain': 54, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+495 2930000 {'all-HEAD starts': 12787, '  hard': 55, '  hard, repaired by some chain': 54, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+495 2935000 {'all-HEAD starts': 12805, '  hard': 55, '  hard, repaired by some chain': 54, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+496 2940000 {'all-HEAD starts': 12835, '  hard': 55, '  hard, repaired by some chain': 54, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+497 2945000 {'all-HEAD starts': 12869, '  hard': 55, '  hard, repaired by some chain': 54, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+497 2950000 {'all-HEAD starts': 12898, '  hard': 56, '  hard, repaired by some chain': 55, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+498 2955000 {'all-HEAD starts': 12921, '  hard': 56, '  hard, repaired by some chain': 55, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+499 2960000 {'all-HEAD starts': 12949, '  hard': 56, '  hard, repaired by some chain': 55, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+500 2965000 {'all-HEAD starts': 12983, '  hard': 56, '  hard, repaired by some chain': 55, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+501 2970000 {'all-HEAD starts': 13004, '  hard': 56, '  hard, repaired by some chain': 55, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+502 2975000 {'all-HEAD starts': 13019, '  hard': 56, '  hard, repaired by some chain': 55, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+502 2980000 {'all-HEAD starts': 13043, '  hard': 56, '  hard, repaired by some chain': 55, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+503 2985000 {'all-HEAD starts': 13069, '  hard': 58, '  hard, repaired by some chain': 57, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+504 2990000 {'all-HEAD starts': 13086, '  hard': 58, '  hard, repaired by some chain': 57, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+505 2995000 {'all-HEAD starts': 13109, '  hard': 58, '  hard, repaired by some chain': 57, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+506 3000000 {'all-HEAD starts': 13144, '  hard': 59, '  hard, repaired by some chain': 58, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+506 3005000 {'all-HEAD starts': 13163, '  hard': 59, '  hard, repaired by some chain': 58, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+507 3010000 {'all-HEAD starts': 13184, '  hard': 59, '  hard, repaired by some chain': 58, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+508 3015000 {'all-HEAD starts': 13212, '  hard': 59, '  hard, repaired by some chain': 58, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+509 3020000 {'all-HEAD starts': 13237, '  hard': 59, '  hard, repaired by some chain': 58, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+510 3025000 {'all-HEAD starts': 13255, '  hard': 59, '  hard, repaired by some chain': 58, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+510 3030000 {'all-HEAD starts': 13279, '  hard': 59, '  hard, repaired by some chain': 58, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+511 3035000 {'all-HEAD starts': 13299, '  hard': 59, '  hard, repaired by some chain': 58, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+512 3040000 {'all-HEAD starts': 13316, '  hard': 59, '  hard, repaired by some chain': 58, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+513 3045000 {'all-HEAD starts': 13341, '  hard': 59, '  hard, repaired by some chain': 58, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+514 3050000 {'all-HEAD starts': 13368, '  hard': 60, '  hard, repaired by some chain': 59, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+515 3055000 {'all-HEAD starts': 13382, '  hard': 60, '  hard, repaired by some chain': 59, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+516 3060000 {'all-HEAD starts': 13405, '  hard': 60, '  hard, repaired by some chain': 59, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+516 3065000 {'all-HEAD starts': 13422, '  hard': 60, '  hard, repaired by some chain': 59, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+517 3070000 {'all-HEAD starts': 13437, '  hard': 60, '  hard, repaired by some chain': 59, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+518 3075000 {'all-HEAD starts': 13447, '  hard': 60, '  hard, repaired by some chain': 59, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+519 3080000 {'all-HEAD starts': 13457, '  hard': 60, '  hard, repaired by some chain': 59, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+520 3085000 {'all-HEAD starts': 13467, '  hard': 60, '  hard, repaired by some chain': 59, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+521 3090000 {'all-HEAD starts': 13491, '  hard': 60, '  hard, repaired by some chain': 59, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+521 3095000 {'all-HEAD starts': 13506, '  hard': 60, '  hard, repaired by some chain': 59, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+522 3100000 {'all-HEAD starts': 13536, '  hard': 60, '  hard, repaired by some chain': 59, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+523 3105000 {'all-HEAD starts': 13556, '  hard': 61, '  hard, repaired by some chain': 60, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+524 3110000 {'all-HEAD starts': 13581, '  hard': 61, '  hard, repaired by some chain': 60, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+525 3115000 {'all-HEAD starts': 13605, '  hard': 61, '  hard, repaired by some chain': 60, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+526 3120000 {'all-HEAD starts': 13624, '  hard': 61, '  hard, repaired by some chain': 60, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+526 3125000 {'all-HEAD starts': 13653, '  hard': 61, '  hard, repaired by some chain': 60, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+527 3130000 {'all-HEAD starts': 13673, '  hard': 61, '  hard, repaired by some chain': 60, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+528 3135000 {'all-HEAD starts': 13699, '  hard': 61, '  hard, repaired by some chain': 60, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+529 3140000 {'all-HEAD starts': 13726, '  hard': 61, '  hard, repaired by some chain': 60, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+530 3145000 {'all-HEAD starts': 13743, '  hard': 61, '  hard, repaired by some chain': 60, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+531 3150000 {'all-HEAD starts': 13759, '  hard': 61, '  hard, repaired by some chain': 60, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+531 3155000 {'all-HEAD starts': 13774, '  hard': 61, '  hard, repaired by some chain': 60, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+532 3160000 {'all-HEAD starts': 13792, '  hard': 61, '  hard, repaired by some chain': 60, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+533 3165000 {'all-HEAD starts': 13823, '  hard': 61, '  hard, repaired by some chain': 60, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+534 3170000 {'all-HEAD starts': 13841, '  hard': 61, '  hard, repaired by some chain': 60, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+535 3175000 {'all-HEAD starts': 13857, '  hard': 61, '  hard, repaired by some chain': 60, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+535 3180000 {'all-HEAD starts': 13878, '  hard': 62, '  hard, repaired by some chain': 61, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+536 3185000 {'all-HEAD starts': 13905, '  hard': 62, '  hard, repaired by some chain': 61, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+537 3190000 {'all-HEAD starts': 13933, '  hard': 62, '  hard, repaired by some chain': 61, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+538 3195000 {'all-HEAD starts': 13956, '  hard': 62, '  hard, repaired by some chain': 61, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+539 3200000 {'all-HEAD starts': 13985, '  hard': 62, '  hard, repaired by some chain': 61, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+540 3205000 {'all-HEAD starts': 14015, '  hard': 62, '  hard, repaired by some chain': 61, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+541 3210000 {'all-HEAD starts': 14036, '  hard': 62, '  hard, repaired by some chain': 61, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+541 3215000 {'all-HEAD starts': 14057, '  hard': 62, '  hard, repaired by some chain': 61, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+542 3220000 {'all-HEAD starts': 14065, '  hard': 62, '  hard, repaired by some chain': 61, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+543 3225000 {'all-HEAD starts': 14085, '  hard': 62, '  hard, repaired by some chain': 61, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+544 3230000 {'all-HEAD starts': 14107, '  hard': 62, '  hard, repaired by some chain': 61, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+545 3235000 {'all-HEAD starts': 14118, '  hard': 62, '  hard, repaired by some chain': 61, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+546 3240000 {'all-HEAD starts': 14142, '  hard': 63, '  hard, repaired by some chain': 62, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+547 3245000 {'all-HEAD starts': 14182, '  hard': 63, '  hard, repaired by some chain': 62, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+548 3250000 {'all-HEAD starts': 14196, '  hard': 65, '  hard, repaired by some chain': 64, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+549 3255000 {'all-HEAD starts': 14208, '  hard': 65, '  hard, repaired by some chain': 64, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+549 3260000 {'all-HEAD starts': 14221, '  hard': 65, '  hard, repaired by some chain': 64, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+550 3265000 {'all-HEAD starts': 14232, '  hard': 65, '  hard, repaired by some chain': 64, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+551 3270000 {'all-HEAD starts': 14255, '  hard': 65, '  hard, repaired by some chain': 64, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+552 3275000 {'all-HEAD starts': 14272, '  hard': 65, '  hard, repaired by some chain': 64, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+553 3280000 {'all-HEAD starts': 14301, '  hard': 65, '  hard, repaired by some chain': 64, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+554 3285000 {'all-HEAD starts': 14325, '  hard': 65, '  hard, repaired by some chain': 64, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+554 3290000 {'all-HEAD starts': 14342, '  hard': 65, '  hard, repaired by some chain': 64, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+555 3295000 {'all-HEAD starts': 14378, '  hard': 65, '  hard, repaired by some chain': 64, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+556 3300000 {'all-HEAD starts': 14392, '  hard': 65, '  hard, repaired by some chain': 64, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+557 3305000 {'all-HEAD starts': 14413, '  hard': 65, '  hard, repaired by some chain': 64, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+558 3310000 {'all-HEAD starts': 14432, '  hard': 65, '  hard, repaired by some chain': 64, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+559 3315000 {'all-HEAD starts': 14442, '  hard': 65, '  hard, repaired by some chain': 64, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+560 3320000 {'all-HEAD starts': 14463, '  hard': 65, '  hard, repaired by some chain': 64, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+560 3325000 {'all-HEAD starts': 14479, '  hard': 65, '  hard, repaired by some chain': 64, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+561 3330000 {'all-HEAD starts': 14506, '  hard': 65, '  hard, repaired by some chain': 64, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+562 3335000 {'all-HEAD starts': 14525, '  hard': 65, '  hard, repaired by some chain': 64, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+563 3340000 {'all-HEAD starts': 14557, '  hard': 66, '  hard, repaired by some chain': 65, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+564 3345000 {'all-HEAD starts': 14581, '  hard': 66, '  hard, repaired by some chain': 65, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+565 3350000 {'all-HEAD starts': 14599, '  hard': 66, '  hard, repaired by some chain': 65, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+565 3355000 {'all-HEAD starts': 14626, '  hard': 66, '  hard, repaired by some chain': 65, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+566 3360000 {'all-HEAD starts': 14656, '  hard': 66, '  hard, repaired by some chain': 65, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+567 3365000 {'all-HEAD starts': 14684, '  hard': 66, '  hard, repaired by some chain': 65, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+568 3370000 {'all-HEAD starts': 14716, '  hard': 67, '  hard, repaired by some chain': 66, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+569 3375000 {'all-HEAD starts': 14736, '  hard': 67, '  hard, repaired by some chain': 66, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+570 3380000 {'all-HEAD starts': 14754, '  hard': 67, '  hard, repaired by some chain': 66, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+571 3385000 {'all-HEAD starts': 14770, '  hard': 67, '  hard, repaired by some chain': 66, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+571 3390000 {'all-HEAD starts': 14789, '  hard': 67, '  hard, repaired by some chain': 66, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+572 3395000 {'all-HEAD starts': 14820, '  hard': 67, '  hard, repaired by some chain': 66, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+573 3400000 {'all-HEAD starts': 14837, '  hard': 67, '  hard, repaired by some chain': 66, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+574 3405000 {'all-HEAD starts': 14856, '  hard': 67, '  hard, repaired by some chain': 66, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+575 3410000 {'all-HEAD starts': 14870, '  hard': 67, '  hard, repaired by some chain': 66, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+576 3415000 {'all-HEAD starts': 14886, '  hard': 68, '  hard, repaired by some chain': 67, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+576 3420000 {'all-HEAD starts': 14900, '  hard': 68, '  hard, repaired by some chain': 67, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+577 3425000 {'all-HEAD starts': 14921, '  hard': 68, '  hard, repaired by some chain': 67, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+578 3430000 {'all-HEAD starts': 14943, '  hard': 68, '  hard, repaired by some chain': 67, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+579 3435000 {'all-HEAD starts': 14967, '  hard': 68, '  hard, repaired by some chain': 67, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+580 3440000 {'all-HEAD starts': 14985, '  hard': 68, '  hard, repaired by some chain': 67, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+581 3445000 {'all-HEAD starts': 15007, '  hard': 68, '  hard, repaired by some chain': 67, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+581 3450000 {'all-HEAD starts': 15022, '  hard': 68, '  hard, repaired by some chain': 67, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+582 3455000 {'all-HEAD starts': 15046, '  hard': 68, '  hard, repaired by some chain': 67, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+583 3460000 {'all-HEAD starts': 15059, '  hard': 68, '  hard, repaired by some chain': 67, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+583 3465000 {'all-HEAD starts': 15079, '  hard': 68, '  hard, repaired by some chain': 67, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+584 3470000 {'all-HEAD starts': 15093, '  hard': 68, '  hard, repaired by some chain': 67, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+585 3475000 {'all-HEAD starts': 15123, '  hard': 68, '  hard, repaired by some chain': 67, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+586 3480000 {'all-HEAD starts': 15144, '  hard': 68, '  hard, repaired by some chain': 67, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+587 3485000 {'all-HEAD starts': 15159, '  hard': 68, '  hard, repaired by some chain': 67, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+587 3490000 {'all-HEAD starts': 15173, '  hard': 68, '  hard, repaired by some chain': 67, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+588 3495000 {'all-HEAD starts': 15189, '  hard': 68, '  hard, repaired by some chain': 67, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+589 3500000 {'all-HEAD starts': 15214, '  hard': 69, '  hard, repaired by some chain': 68, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+590 3505000 {'all-HEAD starts': 15239, '  hard': 69, '  hard, repaired by some chain': 68, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+591 3510000 {'all-HEAD starts': 15259, '  hard': 69, '  hard, repaired by some chain': 68, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+592 3515000 {'all-HEAD starts': 15278, '  hard': 69, '  hard, repaired by some chain': 68, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+593 3520000 {'all-HEAD starts': 15285, '  hard': 69, '  hard, repaired by some chain': 68, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+593 3525000 {'all-HEAD starts': 15312, '  hard': 69, '  hard, repaired by some chain': 68, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+594 3530000 {'all-HEAD starts': 15330, '  hard': 69, '  hard, repaired by some chain': 68, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+595 3535000 {'all-HEAD starts': 15362, '  hard': 71, '  hard, repaired by some chain': 70, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+596 3540000 {'all-HEAD starts': 15395, '  hard': 71, '  hard, repaired by some chain': 70, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+597 3545000 {'all-HEAD starts': 15416, '  hard': 71, '  hard, repaired by some chain': 70, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+597 3550000 {'all-HEAD starts': 15430, '  hard': 71, '  hard, repaired by some chain': 70, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+598 3555000 {'all-HEAD starts': 15450, '  hard': 71, '  hard, repaired by some chain': 70, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+599 3560000 {'all-HEAD starts': 15463, '  hard': 71, '  hard, repaired by some chain': 70, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+600 3565000 {'all-HEAD starts': 15480, '  hard': 71, '  hard, repaired by some chain': 70, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+600 3570000 {'all-HEAD starts': 15511, '  hard': 71, '  hard, repaired by some chain': 70, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+601 3575000 {'all-HEAD starts': 15529, '  hard': 71, '  hard, repaired by some chain': 70, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+602 3580000 {'all-HEAD starts': 15541, '  hard': 71, '  hard, repaired by some chain': 70, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+602 3585000 {'all-HEAD starts': 15571, '  hard': 71, '  hard, repaired by some chain': 70, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+603 3590000 {'all-HEAD starts': 15590, '  hard': 71, '  hard, repaired by some chain': 70, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+604 3595000 {'all-HEAD starts': 15610, '  hard': 71, '  hard, repaired by some chain': 70, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+604 3600000 {'all-HEAD starts': 15636, '  hard': 71, '  hard, repaired by some chain': 70, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+605 3605000 {'all-HEAD starts': 15684, '  hard': 71, '  hard, repaired by some chain': 70, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+606 3610000 {'all-HEAD starts': 15710, '  hard': 71, '  hard, repaired by some chain': 70, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+607 3615000 {'all-HEAD starts': 15732, '  hard': 71, '  hard, repaired by some chain': 70, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+608 3620000 {'all-HEAD starts': 15757, '  hard': 71, '  hard, repaired by some chain': 70, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+609 3625000 {'all-HEAD starts': 15792, '  hard': 71, '  hard, repaired by some chain': 70, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+610 3630000 {'all-HEAD starts': 15807, '  hard': 71, '  hard, repaired by some chain': 70, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+611 3635000 {'all-HEAD starts': 15837, '  hard': 71, '  hard, repaired by some chain': 70, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+611 3640000 {'all-HEAD starts': 15862, '  hard': 72, '  hard, repaired by some chain': 71, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+612 3645000 {'all-HEAD starts': 15879, '  hard': 72, '  hard, repaired by some chain': 71, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+613 3650000 {'all-HEAD starts': 15904, '  hard': 72, '  hard, repaired by some chain': 71, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+614 3655000 {'all-HEAD starts': 15941, '  hard': 72, '  hard, repaired by some chain': 71, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+615 3660000 {'all-HEAD starts': 15966, '  hard': 72, '  hard, repaired by some chain': 71, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+616 3665000 {'all-HEAD starts': 15985, '  hard': 72, '  hard, repaired by some chain': 71, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+617 3670000 {'all-HEAD starts': 16000, '  hard': 72, '  hard, repaired by some chain': 71, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+617 3675000 {'all-HEAD starts': 16020, '  hard': 72, '  hard, repaired by some chain': 71, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+618 3680000 {'all-HEAD starts': 16036, '  hard': 72, '  hard, repaired by some chain': 71, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+619 3685000 {'all-HEAD starts': 16060, '  hard': 73, '  hard, repaired by some chain': 72, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+620 3690000 {'all-HEAD starts': 16100, '  hard': 73, '  hard, repaired by some chain': 72, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+621 3695000 {'all-HEAD starts': 16115, '  hard': 73, '  hard, repaired by some chain': 72, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+621 3700000 {'all-HEAD starts': 16128, '  hard': 73, '  hard, repaired by some chain': 72, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+622 3705000 {'all-HEAD starts': 16157, '  hard': 73, '  hard, repaired by some chain': 72, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+623 3710000 {'all-HEAD starts': 16178, '  hard': 73, '  hard, repaired by some chain': 72, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+624 3715000 {'all-HEAD starts': 16212, '  hard': 73, '  hard, repaired by some chain': 72, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+625 3720000 {'all-HEAD starts': 16226, '  hard': 73, '  hard, repaired by some chain': 72, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+626 3725000 {'all-HEAD starts': 16252, '  hard': 73, '  hard, repaired by some chain': 72, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+626 3730000 {'all-HEAD starts': 16280, '  hard': 73, '  hard, repaired by some chain': 72, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+627 3735000 {'all-HEAD starts': 16306, '  hard': 73, '  hard, repaired by some chain': 72, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+628 3740000 {'all-HEAD starts': 16326, '  hard': 73, '  hard, repaired by some chain': 72, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+629 3745000 {'all-HEAD starts': 16345, '  hard': 73, '  hard, repaired by some chain': 72, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+629 3750000 {'all-HEAD starts': 16368, '  hard': 73, '  hard, repaired by some chain': 72, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+630 3755000 {'all-HEAD starts': 16383, '  hard': 73, '  hard, repaired by some chain': 72, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+631 3760000 {'all-HEAD starts': 16407, '  hard': 73, '  hard, repaired by some chain': 72, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+632 3765000 {'all-HEAD starts': 16429, '  hard': 73, '  hard, repaired by some chain': 72, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+633 3770000 {'all-HEAD starts': 16446, '  hard': 73, '  hard, repaired by some chain': 72, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+634 3775000 {'all-HEAD starts': 16470, '  hard': 73, '  hard, repaired by some chain': 72, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+635 3780000 {'all-HEAD starts': 16492, '  hard': 73, '  hard, repaired by some chain': 72, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+635 3785000 {'all-HEAD starts': 16510, '  hard': 73, '  hard, repaired by some chain': 72, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+636 3790000 {'all-HEAD starts': 16530, '  hard': 73, '  hard, repaired by some chain': 72, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+637 3795000 {'all-HEAD starts': 16547, '  hard': 73, '  hard, repaired by some chain': 72, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+638 3800000 {'all-HEAD starts': 16568, '  hard': 73, '  hard, repaired by some chain': 72, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+639 3805000 {'all-HEAD starts': 16595, '  hard': 73, '  hard, repaired by some chain': 72, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+639 3810000 {'all-HEAD starts': 16612, '  hard': 73, '  hard, repaired by some chain': 72, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+640 3815000 {'all-HEAD starts': 16648, '  hard': 74, '  hard, repaired by some chain': 73, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+641 3820000 {'all-HEAD starts': 16671, '  hard': 74, '  hard, repaired by some chain': 73, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+642 3825000 {'all-HEAD starts': 16693, '  hard': 74, '  hard, repaired by some chain': 73, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+643 3830000 {'all-HEAD starts': 16706, '  hard': 74, '  hard, repaired by some chain': 73, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+644 3835000 {'all-HEAD starts': 16727, '  hard': 74, '  hard, repaired by some chain': 73, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+644 3840000 {'all-HEAD starts': 16748, '  hard': 74, '  hard, repaired by some chain': 73, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+645 3845000 {'all-HEAD starts': 16769, '  hard': 74, '  hard, repaired by some chain': 73, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+646 3850000 {'all-HEAD starts': 16794, '  hard': 74, '  hard, repaired by some chain': 73, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+647 3855000 {'all-HEAD starts': 16824, '  hard': 74, '  hard, repaired by some chain': 73, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+648 3860000 {'all-HEAD starts': 16841, '  hard': 74, '  hard, repaired by some chain': 73, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+649 3865000 {'all-HEAD starts': 16865, '  hard': 74, '  hard, repaired by some chain': 73, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+650 3870000 {'all-HEAD starts': 16890, '  hard': 74, '  hard, repaired by some chain': 73, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+651 3875000 {'all-HEAD starts': 16916, '  hard': 74, '  hard, repaired by some chain': 73, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+652 3880000 {'all-HEAD starts': 16943, '  hard': 74, '  hard, repaired by some chain': 73, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+653 3885000 {'all-HEAD starts': 16965, '  hard': 74, '  hard, repaired by some chain': 73, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+653 3890000 {'all-HEAD starts': 16980, '  hard': 74, '  hard, repaired by some chain': 73, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+654 3895000 {'all-HEAD starts': 17000, '  hard': 74, '  hard, repaired by some chain': 73, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+655 3900000 {'all-HEAD starts': 17020, '  hard': 74, '  hard, repaired by some chain': 73, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+656 3905000 {'all-HEAD starts': 17041, '  hard': 74, '  hard, repaired by some chain': 73, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+657 3910000 {'all-HEAD starts': 17059, '  hard': 74, '  hard, repaired by some chain': 73, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+657 3915000 {'all-HEAD starts': 17081, '  hard': 75, '  hard, repaired by some chain': 74, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+658 3920000 {'all-HEAD starts': 17104, '  hard': 75, '  hard, repaired by some chain': 74, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+659 3925000 {'all-HEAD starts': 17134, '  hard': 75, '  hard, repaired by some chain': 74, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+660 3930000 {'all-HEAD starts': 17169, '  hard': 75, '  hard, repaired by some chain': 74, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+661 3935000 {'all-HEAD starts': 17187, '  hard': 75, '  hard, repaired by some chain': 74, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+662 3940000 {'all-HEAD starts': 17219, '  hard': 75, '  hard, repaired by some chain': 74, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+663 3945000 {'all-HEAD starts': 17243, '  hard': 75, '  hard, repaired by some chain': 74, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+664 3950000 {'all-HEAD starts': 17267, '  hard': 75, '  hard, repaired by some chain': 74, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+664 3955000 {'all-HEAD starts': 17290, '  hard': 75, '  hard, repaired by some chain': 74, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+665 3960000 {'all-HEAD starts': 17316, '  hard': 75, '  hard, repaired by some chain': 74, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+666 3965000 {'all-HEAD starts': 17333, '  hard': 75, '  hard, repaired by some chain': 74, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+667 3970000 {'all-HEAD starts': 17344, '  hard': 75, '  hard, repaired by some chain': 74, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+668 3975000 {'all-HEAD starts': 17364, '  hard': 75, '  hard, repaired by some chain': 74, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+669 3980000 {'all-HEAD starts': 17385, '  hard': 75, '  hard, repaired by some chain': 74, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+670 3985000 {'all-HEAD starts': 17412, '  hard': 75, '  hard, repaired by some chain': 74, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+671 3990000 {'all-HEAD starts': 17430, '  hard': 75, '  hard, repaired by some chain': 74, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+671 3995000 {'all-HEAD starts': 17447, '  hard': 76, '  hard, repaired by some chain': 75, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+672 4000000 {'all-HEAD starts': 17479, '  hard': 76, '  hard, repaired by some chain': 75, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+673 4005000 {'all-HEAD starts': 17497, '  hard': 76, '  hard, repaired by some chain': 75, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+674 4010000 {'all-HEAD starts': 17532, '  hard': 76, '  hard, repaired by some chain': 75, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+675 4015000 {'all-HEAD starts': 17557, '  hard': 76, '  hard, repaired by some chain': 75, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+676 4020000 {'all-HEAD starts': 17578, '  hard': 76, '  hard, repaired by some chain': 75, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+677 4025000 {'all-HEAD starts': 17620, '  hard': 76, '  hard, repaired by some chain': 75, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+678 4030000 {'all-HEAD starts': 17633, '  hard': 76, '  hard, repaired by some chain': 75, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+678 4035000 {'all-HEAD starts': 17647, '  hard': 76, '  hard, repaired by some chain': 75, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+679 4040000 {'all-HEAD starts': 17679, '  hard': 76, '  hard, repaired by some chain': 75, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+680 4045000 {'all-HEAD starts': 17705, '  hard': 76, '  hard, repaired by some chain': 75, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+681 4050000 {'all-HEAD starts': 17738, '  hard': 77, '  hard, repaired by some chain': 76, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+682 4055000 {'all-HEAD starts': 17765, '  hard': 77, '  hard, repaired by some chain': 76, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+683 4060000 {'all-HEAD starts': 17801, '  hard': 77, '  hard, repaired by some chain': 76, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+684 4065000 {'all-HEAD starts': 17824, '  hard': 77, '  hard, repaired by some chain': 76, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+684 4070000 {'all-HEAD starts': 17843, '  hard': 78, '  hard, repaired by some chain': 77, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+685 4075000 {'all-HEAD starts': 17858, '  hard': 78, '  hard, repaired by some chain': 77, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+686 4080000 {'all-HEAD starts': 17878, '  hard': 79, '  hard, repaired by some chain': 78, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+687 4085000 {'all-HEAD starts': 17903, '  hard': 80, '  hard, repaired by some chain': 79, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+688 4090000 {'all-HEAD starts': 17932, '  hard': 81, '  hard, repaired by some chain': 80, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+689 4095000 {'all-HEAD starts': 17942, '  hard': 81, '  hard, repaired by some chain': 80, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+690 4100000 {'all-HEAD starts': 17976, '  hard': 81, '  hard, repaired by some chain': 80, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+690 4105000 {'all-HEAD starts': 17996, '  hard': 81, '  hard, repaired by some chain': 80, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+691 4110000 {'all-HEAD starts': 18026, '  hard': 81, '  hard, repaired by some chain': 80, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+692 4115000 {'all-HEAD starts': 18052, '  hard': 81, '  hard, repaired by some chain': 80, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+693 4120000 {'all-HEAD starts': 18062, '  hard': 81, '  hard, repaired by some chain': 80, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+694 4125000 {'all-HEAD starts': 18078, '  hard': 81, '  hard, repaired by some chain': 80, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+694 4130000 {'all-HEAD starts': 18097, '  hard': 81, '  hard, repaired by some chain': 80, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+695 4135000 {'all-HEAD starts': 18118, '  hard': 81, '  hard, repaired by some chain': 80, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+696 4140000 {'all-HEAD starts': 18158, '  hard': 81, '  hard, repaired by some chain': 80, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+697 4145000 {'all-HEAD starts': 18173, '  hard': 82, '  hard, repaired by some chain': 81, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+698 4150000 {'all-HEAD starts': 18184, '  hard': 82, '  hard, repaired by some chain': 81, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+699 4155000 {'all-HEAD starts': 18210, '  hard': 82, '  hard, repaired by some chain': 81, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+700 4160000 {'all-HEAD starts': 18236, '  hard': 82, '  hard, repaired by some chain': 81, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+701 4165000 {'all-HEAD starts': 18263, '  hard': 82, '  hard, repaired by some chain': 81, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+701 4170000 {'all-HEAD starts': 18282, '  hard': 82, '  hard, repaired by some chain': 81, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+702 4175000 {'all-HEAD starts': 18311, '  hard': 82, '  hard, repaired by some chain': 81, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+703 4180000 {'all-HEAD starts': 18334, '  hard': 82, '  hard, repaired by some chain': 81, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+704 4185000 {'all-HEAD starts': 18358, '  hard': 82, '  hard, repaired by some chain': 81, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+705 4190000 {'all-HEAD starts': 18384, '  hard': 82, '  hard, repaired by some chain': 81, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+706 4195000 {'all-HEAD starts': 18404, '  hard': 82, '  hard, repaired by some chain': 81, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+707 4200000 {'all-HEAD starts': 18437, '  hard': 82, '  hard, repaired by some chain': 81, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+707 4205000 {'all-HEAD starts': 18454, '  hard': 83, '  hard, repaired by some chain': 82, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+708 4210000 {'all-HEAD starts': 18487, '  hard': 84, '  hard, repaired by some chain': 83, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+709 4215000 {'all-HEAD starts': 18510, '  hard': 84, '  hard, repaired by some chain': 83, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+710 4220000 {'all-HEAD starts': 18528, '  hard': 84, '  hard, repaired by some chain': 83, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+711 4225000 {'all-HEAD starts': 18553, '  hard': 85, '  hard, repaired by some chain': 84, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+712 4230000 {'all-HEAD starts': 18579, '  hard': 85, '  hard, repaired by some chain': 84, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+713 4235000 {'all-HEAD starts': 18607, '  hard': 85, '  hard, repaired by some chain': 84, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+713 4240000 {'all-HEAD starts': 18622, '  hard': 85, '  hard, repaired by some chain': 84, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+714 4245000 {'all-HEAD starts': 18653, '  hard': 85, '  hard, repaired by some chain': 84, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+715 4250000 {'all-HEAD starts': 18677, '  hard': 85, '  hard, repaired by some chain': 84, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+716 4255000 {'all-HEAD starts': 18688, '  hard': 85, '  hard, repaired by some chain': 84, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+717 4260000 {'all-HEAD starts': 18712, '  hard': 85, '  hard, repaired by some chain': 84, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+717 4265000 {'all-HEAD starts': 18725, '  hard': 85, '  hard, repaired by some chain': 84, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+718 4270000 {'all-HEAD starts': 18748, '  hard': 85, '  hard, repaired by some chain': 84, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+719 4275000 {'all-HEAD starts': 18766, '  hard': 85, '  hard, repaired by some chain': 84, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+720 4280000 {'all-HEAD starts': 18784, '  hard': 85, '  hard, repaired by some chain': 84, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+721 4285000 {'all-HEAD starts': 18814, '  hard': 85, '  hard, repaired by some chain': 84, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+722 4290000 {'all-HEAD starts': 18828, '  hard': 85, '  hard, repaired by some chain': 84, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+723 4295000 {'all-HEAD starts': 18849, '  hard': 85, '  hard, repaired by some chain': 84, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+723 4300000 {'all-HEAD starts': 18867, '  hard': 85, '  hard, repaired by some chain': 84, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+724 4305000 {'all-HEAD starts': 18886, '  hard': 85, '  hard, repaired by some chain': 84, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+725 4310000 {'all-HEAD starts': 18906, '  hard': 85, '  hard, repaired by some chain': 84, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+726 4315000 {'all-HEAD starts': 18928, '  hard': 85, '  hard, repaired by some chain': 84, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+727 4320000 {'all-HEAD starts': 18945, '  hard': 85, '  hard, repaired by some chain': 84, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+728 4325000 {'all-HEAD starts': 18974, '  hard': 85, '  hard, repaired by some chain': 84, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+729 4330000 {'all-HEAD starts': 19007, '  hard': 85, '  hard, repaired by some chain': 84, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+729 4335000 {'all-HEAD starts': 19022, '  hard': 85, '  hard, repaired by some chain': 84, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+730 4340000 {'all-HEAD starts': 19038, '  hard': 85, '  hard, repaired by some chain': 84, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+731 4345000 {'all-HEAD starts': 19059, '  hard': 85, '  hard, repaired by some chain': 84, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+732 4350000 {'all-HEAD starts': 19075, '  hard': 85, '  hard, repaired by some chain': 84, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+733 4355000 {'all-HEAD starts': 19103, '  hard': 85, '  hard, repaired by some chain': 84, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+734 4360000 {'all-HEAD starts': 19124, '  hard': 85, '  hard, repaired by some chain': 84, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+734 4365000 {'all-HEAD starts': 19154, '  hard': 86, '  hard, repaired by some chain': 85, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+735 4370000 {'all-HEAD starts': 19168, '  hard': 86, '  hard, repaired by some chain': 85, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+736 4375000 {'all-HEAD starts': 19198, '  hard': 86, '  hard, repaired by some chain': 85, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+737 4380000 {'all-HEAD starts': 19217, '  hard': 86, '  hard, repaired by some chain': 85, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+738 4385000 {'all-HEAD starts': 19240, '  hard': 86, '  hard, repaired by some chain': 85, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+739 4390000 {'all-HEAD starts': 19271, '  hard': 87, '  hard, repaired by some chain': 86, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+739 4395000 {'all-HEAD starts': 19296, '  hard': 87, '  hard, repaired by some chain': 86, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+740 4400000 {'all-HEAD starts': 19320, '  hard': 87, '  hard, repaired by some chain': 86, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+741 4405000 {'all-HEAD starts': 19336, '  hard': 87, '  hard, repaired by some chain': 86, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+742 4410000 {'all-HEAD starts': 19356, '  hard': 87, '  hard, repaired by some chain': 86, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+743 4415000 {'all-HEAD starts': 19375, '  hard': 87, '  hard, repaired by some chain': 86, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+744 4420000 {'all-HEAD starts': 19396, '  hard': 88, '  hard, repaired by some chain': 87, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+745 4425000 {'all-HEAD starts': 19405, '  hard': 88, '  hard, repaired by some chain': 87, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+746 4430000 {'all-HEAD starts': 19428, '  hard': 88, '  hard, repaired by some chain': 87, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+746 4435000 {'all-HEAD starts': 19437, '  hard': 88, '  hard, repaired by some chain': 87, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+747 4440000 {'all-HEAD starts': 19466, '  hard': 88, '  hard, repaired by some chain': 87, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+748 4445000 {'all-HEAD starts': 19478, '  hard': 88, '  hard, repaired by some chain': 87, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+749 4450000 {'all-HEAD starts': 19503, '  hard': 88, '  hard, repaired by some chain': 87, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+750 4455000 {'all-HEAD starts': 19529, '  hard': 88, '  hard, repaired by some chain': 87, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+751 4460000 {'all-HEAD starts': 19543, '  hard': 88, '  hard, repaired by some chain': 87, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+751 4465000 {'all-HEAD starts': 19562, '  hard': 88, '  hard, repaired by some chain': 87, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+752 4470000 {'all-HEAD starts': 19574, '  hard': 88, '  hard, repaired by some chain': 87, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+753 4475000 {'all-HEAD starts': 19596, '  hard': 88, '  hard, repaired by some chain': 87, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+754 4480000 {'all-HEAD starts': 19624, '  hard': 88, '  hard, repaired by some chain': 87, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+755 4485000 {'all-HEAD starts': 19645, '  hard': 88, '  hard, repaired by some chain': 87, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+756 4490000 {'all-HEAD starts': 19670, '  hard': 88, '  hard, repaired by some chain': 87, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+757 4495000 {'all-HEAD starts': 19696, '  hard': 88, '  hard, repaired by some chain': 87, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+758 4500000 {'all-HEAD starts': 19724, '  hard': 88, '  hard, repaired by some chain': 87, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+758 4505000 {'all-HEAD starts': 19753, '  hard': 88, '  hard, repaired by some chain': 87, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+759 4510000 {'all-HEAD starts': 19765, '  hard': 88, '  hard, repaired by some chain': 87, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+760 4515000 {'all-HEAD starts': 19780, '  hard': 88, '  hard, repaired by some chain': 87, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+760 4520000 {'all-HEAD starts': 19807, '  hard': 88, '  hard, repaired by some chain': 87, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+761 4525000 {'all-HEAD starts': 19830, '  hard': 88, '  hard, repaired by some chain': 87, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+762 4530000 {'all-HEAD starts': 19856, '  hard': 88, '  hard, repaired by some chain': 87, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+763 4535000 {'all-HEAD starts': 19874, '  hard': 88, '  hard, repaired by some chain': 87, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+764 4540000 {'all-HEAD starts': 19895, '  hard': 88, '  hard, repaired by some chain': 87, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+764 4545000 {'all-HEAD starts': 19915, '  hard': 88, '  hard, repaired by some chain': 87, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+765 4550000 {'all-HEAD starts': 19936, '  hard': 88, '  hard, repaired by some chain': 87, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+766 4555000 {'all-HEAD starts': 19963, '  hard': 88, '  hard, repaired by some chain': 87, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+767 4560000 {'all-HEAD starts': 19991, '  hard': 88, '  hard, repaired by some chain': 87, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+768 4565000 {'all-HEAD starts': 20034, '  hard': 88, '  hard, repaired by some chain': 87, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+768 4570000 {'all-HEAD starts': 20050, '  hard': 88, '  hard, repaired by some chain': 87, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+769 4575000 {'all-HEAD starts': 20073, '  hard': 88, '  hard, repaired by some chain': 87, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+770 4580000 {'all-HEAD starts': 20100, '  hard': 88, '  hard, repaired by some chain': 87, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+771 4585000 {'all-HEAD starts': 20114, '  hard': 88, '  hard, repaired by some chain': 87, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+772 4590000 {'all-HEAD starts': 20130, '  hard': 88, '  hard, repaired by some chain': 87, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+773 4595000 {'all-HEAD starts': 20153, '  hard': 88, '  hard, repaired by some chain': 87, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+773 4600000 {'all-HEAD starts': 20165, '  hard': 88, '  hard, repaired by some chain': 87, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+774 4605000 {'all-HEAD starts': 20183, '  hard': 88, '  hard, repaired by some chain': 87, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+775 4610000 {'all-HEAD starts': 20201, '  hard': 88, '  hard, repaired by some chain': 87, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+776 4615000 {'all-HEAD starts': 20211, '  hard': 89, '  hard, repaired by some chain': 88, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+777 4620000 {'all-HEAD starts': 20234, '  hard': 89, '  hard, repaired by some chain': 88, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+778 4625000 {'all-HEAD starts': 20251, '  hard': 89, '  hard, repaired by some chain': 88, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+779 4630000 {'all-HEAD starts': 20279, '  hard': 89, '  hard, repaired by some chain': 88, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+780 4635000 {'all-HEAD starts': 20294, '  hard': 89, '  hard, repaired by some chain': 88, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+781 4640000 {'all-HEAD starts': 20320, '  hard': 89, '  hard, repaired by some chain': 88, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+782 4645000 {'all-HEAD starts': 20344, '  hard': 89, '  hard, repaired by some chain': 88, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+782 4650000 {'all-HEAD starts': 20358, '  hard': 89, '  hard, repaired by some chain': 88, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+783 4655000 {'all-HEAD starts': 20374, '  hard': 89, '  hard, repaired by some chain': 88, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+784 4660000 {'all-HEAD starts': 20400, '  hard': 89, '  hard, repaired by some chain': 88, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+785 4665000 {'all-HEAD starts': 20432, '  hard': 89, '  hard, repaired by some chain': 88, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+786 4670000 {'all-HEAD starts': 20457, '  hard': 89, '  hard, repaired by some chain': 88, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+787 4675000 {'all-HEAD starts': 20483, '  hard': 89, '  hard, repaired by some chain': 88, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+788 4680000 {'all-HEAD starts': 20505, '  hard': 89, '  hard, repaired by some chain': 88, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+788 4685000 {'all-HEAD starts': 20530, '  hard': 89, '  hard, repaired by some chain': 88, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+789 4690000 {'all-HEAD starts': 20547, '  hard': 89, '  hard, repaired by some chain': 88, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+790 4695000 {'all-HEAD starts': 20566, '  hard': 89, '  hard, repaired by some chain': 88, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+791 4700000 {'all-HEAD starts': 20590, '  hard': 89, '  hard, repaired by some chain': 88, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+792 4705000 {'all-HEAD starts': 20604, '  hard': 89, '  hard, repaired by some chain': 88, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+793 4710000 {'all-HEAD starts': 20621, '  hard': 89, '  hard, repaired by some chain': 88, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+793 4715000 {'all-HEAD starts': 20646, '  hard': 89, '  hard, repaired by some chain': 88, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+794 4720000 {'all-HEAD starts': 20664, '  hard': 89, '  hard, repaired by some chain': 88, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+795 4725000 {'all-HEAD starts': 20689, '  hard': 91, '  hard, repaired by some chain': 90, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+796 4730000 {'all-HEAD starts': 20704, '  hard': 91, '  hard, repaired by some chain': 90, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+797 4735000 {'all-HEAD starts': 20730, '  hard': 91, '  hard, repaired by some chain': 90, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+797 4740000 {'all-HEAD starts': 20748, '  hard': 91, '  hard, repaired by some chain': 90, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+798 4745000 {'all-HEAD starts': 20766, '  hard': 91, '  hard, repaired by some chain': 90, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+799 4750000 {'all-HEAD starts': 20790, '  hard': 91, '  hard, repaired by some chain': 90, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+800 4755000 {'all-HEAD starts': 20822, '  hard': 91, '  hard, repaired by some chain': 90, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+801 4760000 {'all-HEAD starts': 20841, '  hard': 91, '  hard, repaired by some chain': 90, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+802 4765000 {'all-HEAD starts': 20856, '  hard': 91, '  hard, repaired by some chain': 90, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+802 4770000 {'all-HEAD starts': 20879, '  hard': 91, '  hard, repaired by some chain': 90, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+803 4775000 {'all-HEAD starts': 20899, '  hard': 91, '  hard, repaired by some chain': 90, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+804 4780000 {'all-HEAD starts': 20937, '  hard': 91, '  hard, repaired by some chain': 90, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+804 4785000 {'all-HEAD starts': 20961, '  hard': 91, '  hard, repaired by some chain': 90, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+805 4790000 {'all-HEAD starts': 20984, '  hard': 91, '  hard, repaired by some chain': 90, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+806 4795000 {'all-HEAD starts': 21004, '  hard': 91, '  hard, repaired by some chain': 90, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+806 4800000 {'all-HEAD starts': 21034, '  hard': 91, '  hard, repaired by some chain': 90, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+807 4805000 {'all-HEAD starts': 21058, '  hard': 91, '  hard, repaired by some chain': 90, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+808 4810000 {'all-HEAD starts': 21088, '  hard': 91, '  hard, repaired by some chain': 90, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+809 4815000 {'all-HEAD starts': 21100, '  hard': 91, '  hard, repaired by some chain': 90, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+810 4820000 {'all-HEAD starts': 21133, '  hard': 91, '  hard, repaired by some chain': 90, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+811 4825000 {'all-HEAD starts': 21145, '  hard': 91, '  hard, repaired by some chain': 90, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+812 4830000 {'all-HEAD starts': 21168, '  hard': 91, '  hard, repaired by some chain': 90, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+813 4835000 {'all-HEAD starts': 21195, '  hard': 91, '  hard, repaired by some chain': 90, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+814 4840000 {'all-HEAD starts': 21231, '  hard': 91, '  hard, repaired by some chain': 90, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+815 4845000 {'all-HEAD starts': 21252, '  hard': 91, '  hard, repaired by some chain': 90, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+815 4850000 {'all-HEAD starts': 21272, '  hard': 91, '  hard, repaired by some chain': 90, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+816 4855000 {'all-HEAD starts': 21293, '  hard': 91, '  hard, repaired by some chain': 90, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+817 4860000 {'all-HEAD starts': 21314, '  hard': 91, '  hard, repaired by some chain': 90, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+818 4865000 {'all-HEAD starts': 21336, '  hard': 91, '  hard, repaired by some chain': 90, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+819 4870000 {'all-HEAD starts': 21376, '  hard': 91, '  hard, repaired by some chain': 90, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+819 4875000 {'all-HEAD starts': 21399, '  hard': 91, '  hard, repaired by some chain': 90, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+820 4880000 {'all-HEAD starts': 21420, '  hard': 91, '  hard, repaired by some chain': 90, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+821 4885000 {'all-HEAD starts': 21445, '  hard': 91, '  hard, repaired by some chain': 90, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+822 4890000 {'all-HEAD starts': 21466, '  hard': 91, '  hard, repaired by some chain': 90, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+823 4895000 {'all-HEAD starts': 21484, '  hard': 91, '  hard, repaired by some chain': 90, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+823 4900000 {'all-HEAD starts': 21512, '  hard': 91, '  hard, repaired by some chain': 90, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+824 4905000 {'all-HEAD starts': 21530, '  hard': 91, '  hard, repaired by some chain': 90, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+825 4910000 {'all-HEAD starts': 21557, '  hard': 91, '  hard, repaired by some chain': 90, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+826 4915000 {'all-HEAD starts': 21576, '  hard': 91, '  hard, repaired by some chain': 90, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+827 4920000 {'all-HEAD starts': 21599, '  hard': 92, '  hard, repaired by some chain': 91, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+828 4925000 {'all-HEAD starts': 21628, '  hard': 92, '  hard, repaired by some chain': 91, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+828 4930000 {'all-HEAD starts': 21656, '  hard': 93, '  hard, repaired by some chain': 92, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+829 4935000 {'all-HEAD starts': 21678, '  hard': 94, '  hard, repaired by some chain': 93, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+830 4940000 {'all-HEAD starts': 21706, '  hard': 95, '  hard, repaired by some chain': 94, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+831 4945000 {'all-HEAD starts': 21738, '  hard': 96, '  hard, repaired by some chain': 95, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+832 4950000 {'all-HEAD starts': 21750, '  hard': 96, '  hard, repaired by some chain': 95, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+833 4955000 {'all-HEAD starts': 21772, '  hard': 96, '  hard, repaired by some chain': 95, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+834 4960000 {'all-HEAD starts': 21794, '  hard': 96, '  hard, repaired by some chain': 95, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+835 4965000 {'all-HEAD starts': 21824, '  hard': 96, '  hard, repaired by some chain': 95, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+836 4970000 {'all-HEAD starts': 21846, '  hard': 96, '  hard, repaired by some chain': 95, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+836 4975000 {'all-HEAD starts': 21861, '  hard': 96, '  hard, repaired by some chain': 95, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+837 4980000 {'all-HEAD starts': 21876, '  hard': 96, '  hard, repaired by some chain': 95, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+838 4985000 {'all-HEAD starts': 21904, '  hard': 96, '  hard, repaired by some chain': 95, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+839 4990000 {'all-HEAD starts': 21919, '  hard': 96, '  hard, repaired by some chain': 95, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+840 4995000 {'all-HEAD starts': 21950, '  hard': 96, '  hard, repaired by some chain': 95, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+841 5000000 {'all-HEAD starts': 21983, '  hard': 96, '  hard, repaired by some chain': 95, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+842 5005000 {'all-HEAD starts': 22009, '  hard': 96, '  hard, repaired by some chain': 95, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+842 5010000 {'all-HEAD starts': 22026, '  hard': 96, '  hard, repaired by some chain': 95, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+843 5015000 {'all-HEAD starts': 22041, '  hard': 96, '  hard, repaired by some chain': 95, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+844 5020000 {'all-HEAD starts': 22058, '  hard': 96, '  hard, repaired by some chain': 95, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+845 5025000 {'all-HEAD starts': 22073, '  hard': 96, '  hard, repaired by some chain': 95, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+846 5030000 {'all-HEAD starts': 22084, '  hard': 96, '  hard, repaired by some chain': 95, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+847 5035000 {'all-HEAD starts': 22104, '  hard': 96, '  hard, repaired by some chain': 95, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+848 5040000 {'all-HEAD starts': 22120, '  hard': 96, '  hard, repaired by some chain': 95, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+848 5045000 {'all-HEAD starts': 22139, '  hard': 96, '  hard, repaired by some chain': 95, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+849 5050000 {'all-HEAD starts': 22162, '  hard': 96, '  hard, repaired by some chain': 95, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+850 5055000 {'all-HEAD starts': 22182, '  hard': 96, '  hard, repaired by some chain': 95, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+851 5060000 {'all-HEAD starts': 22209, '  hard': 96, '  hard, repaired by some chain': 95, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+852 5065000 {'all-HEAD starts': 22247, '  hard': 96, '  hard, repaired by some chain': 95, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+853 5070000 {'all-HEAD starts': 22275, '  hard': 96, '  hard, repaired by some chain': 95, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+854 5075000 {'all-HEAD starts': 22292, '  hard': 96, '  hard, repaired by some chain': 95, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+855 5080000 {'all-HEAD starts': 22316, '  hard': 96, '  hard, repaired by some chain': 95, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+855 5085000 {'all-HEAD starts': 22333, '  hard': 96, '  hard, repaired by some chain': 95, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+856 5090000 {'all-HEAD starts': 22358, '  hard': 96, '  hard, repaired by some chain': 95, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+857 5095000 {'all-HEAD starts': 22373, '  hard': 96, '  hard, repaired by some chain': 95, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+858 5100000 {'all-HEAD starts': 22389, '  hard': 96, '  hard, repaired by some chain': 95, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+859 5105000 {'all-HEAD starts': 22411, '  hard': 96, '  hard, repaired by some chain': 95, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+860 5110000 {'all-HEAD starts': 22432, '  hard': 96, '  hard, repaired by some chain': 95, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+861 5115000 {'all-HEAD starts': 22449, '  hard': 96, '  hard, repaired by some chain': 95, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+861 5120000 {'all-HEAD starts': 22474, '  hard': 96, '  hard, repaired by some chain': 95, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+862 5125000 {'all-HEAD starts': 22495, '  hard': 96, '  hard, repaired by some chain': 95, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+863 5130000 {'all-HEAD starts': 22517, '  hard': 96, '  hard, repaired by some chain': 95, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+864 5135000 {'all-HEAD starts': 22529, '  hard': 96, '  hard, repaired by some chain': 95, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+865 5140000 {'all-HEAD starts': 22561, '  hard': 96, '  hard, repaired by some chain': 95, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+866 5145000 {'all-HEAD starts': 22580, '  hard': 96, '  hard, repaired by some chain': 95, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+867 5150000 {'all-HEAD starts': 22590, '  hard': 96, '  hard, repaired by some chain': 95, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+867 5155000 {'all-HEAD starts': 22617, '  hard': 96, '  hard, repaired by some chain': 95, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+868 5160000 {'all-HEAD starts': 22638, '  hard': 96, '  hard, repaired by some chain': 95, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+869 5165000 {'all-HEAD starts': 22664, '  hard': 96, '  hard, repaired by some chain': 95, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+870 5170000 {'all-HEAD starts': 22686, '  hard': 96, '  hard, repaired by some chain': 95, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+871 5175000 {'all-HEAD starts': 22712, '  hard': 96, '  hard, repaired by some chain': 95, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+872 5180000 {'all-HEAD starts': 22737, '  hard': 96, '  hard, repaired by some chain': 95, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+873 5185000 {'all-HEAD starts': 22753, '  hard': 96, '  hard, repaired by some chain': 95, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+874 5190000 {'all-HEAD starts': 22773, '  hard': 96, '  hard, repaired by some chain': 95, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+874 5195000 {'all-HEAD starts': 22803, '  hard': 96, '  hard, repaired by some chain': 95, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+875 5200000 {'all-HEAD starts': 22816, '  hard': 96, '  hard, repaired by some chain': 95, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+876 5205000 {'all-HEAD starts': 22835, '  hard': 96, '  hard, repaired by some chain': 95, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+877 5210000 {'all-HEAD starts': 22858, '  hard': 96, '  hard, repaired by some chain': 95, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+878 5215000 {'all-HEAD starts': 22869, '  hard': 96, '  hard, repaired by some chain': 95, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+879 5220000 {'all-HEAD starts': 22882, '  hard': 96, '  hard, repaired by some chain': 95, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+880 5225000 {'all-HEAD starts': 22900, '  hard': 96, '  hard, repaired by some chain': 95, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+880 5230000 {'all-HEAD starts': 22929, '  hard': 96, '  hard, repaired by some chain': 95, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+881 5235000 {'all-HEAD starts': 22964, '  hard': 97, '  hard, repaired by some chain': 96, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+882 5240000 {'all-HEAD starts': 22978, '  hard': 97, '  hard, repaired by some chain': 96, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+883 5245000 {'all-HEAD starts': 22999, '  hard': 98, '  hard, repaired by some chain': 97, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+884 5250000 {'all-HEAD starts': 23033, '  hard': 98, '  hard, repaired by some chain': 97, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+885 5255000 {'all-HEAD starts': 23059, '  hard': 98, '  hard, repaired by some chain': 97, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+886 5260000 {'all-HEAD starts': 23085, '  hard': 98, '  hard, repaired by some chain': 97, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+887 5265000 {'all-HEAD starts': 23101, '  hard': 98, '  hard, repaired by some chain': 97, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+888 5270000 {'all-HEAD starts': 23121, '  hard': 98, '  hard, repaired by some chain': 97, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+888 5275000 {'all-HEAD starts': 23139, '  hard': 98, '  hard, repaired by some chain': 97, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+889 5280000 {'all-HEAD starts': 23162, '  hard': 98, '  hard, repaired by some chain': 97, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+890 5285000 {'all-HEAD starts': 23180, '  hard': 98, '  hard, repaired by some chain': 97, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+891 5290000 {'all-HEAD starts': 23195, '  hard': 98, '  hard, repaired by some chain': 97, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+892 5295000 {'all-HEAD starts': 23214, '  hard': 98, '  hard, repaired by some chain': 97, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+893 5300000 {'all-HEAD starts': 23238, '  hard': 98, '  hard, repaired by some chain': 97, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+894 5305000 {'all-HEAD starts': 23250, '  hard': 98, '  hard, repaired by some chain': 97, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+894 5310000 {'all-HEAD starts': 23274, '  hard': 98, '  hard, repaired by some chain': 97, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+895 5315000 {'all-HEAD starts': 23291, '  hard': 98, '  hard, repaired by some chain': 97, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+896 5320000 {'all-HEAD starts': 23308, '  hard': 98, '  hard, repaired by some chain': 97, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+897 5325000 {'all-HEAD starts': 23328, '  hard': 99, '  hard, repaired by some chain': 98, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+898 5330000 {'all-HEAD starts': 23358, '  hard': 99, '  hard, repaired by some chain': 98, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+899 5335000 {'all-HEAD starts': 23388, '  hard': 99, '  hard, repaired by some chain': 98, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+899 5340000 {'all-HEAD starts': 23407, '  hard': 99, '  hard, repaired by some chain': 98, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+900 5345000 {'all-HEAD starts': 23430, '  hard': 99, '  hard, repaired by some chain': 98, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+901 5350000 {'all-HEAD starts': 23464, '  hard': 100, '  hard, repaired by some chain': 99, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+902 5355000 {'all-HEAD starts': 23477, '  hard': 100, '  hard, repaired by some chain': 99, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+903 5360000 {'all-HEAD starts': 23499, '  hard': 100, '  hard, repaired by some chain': 99, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+904 5365000 {'all-HEAD starts': 23510, '  hard': 101, '  hard, repaired by some chain': 100, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+904 5370000 {'all-HEAD starts': 23531, '  hard': 101, '  hard, repaired by some chain': 100, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+905 5375000 {'all-HEAD starts': 23557, '  hard': 101, '  hard, repaired by some chain': 100, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+906 5380000 {'all-HEAD starts': 23580, '  hard': 101, '  hard, repaired by some chain': 100, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+907 5385000 {'all-HEAD starts': 23621, '  hard': 101, '  hard, repaired by some chain': 100, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+908 5390000 {'all-HEAD starts': 23637, '  hard': 102, '  hard, repaired by some chain': 101, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+909 5395000 {'all-HEAD starts': 23656, '  hard': 102, '  hard, repaired by some chain': 101, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+910 5400000 {'all-HEAD starts': 23688, '  hard': 102, '  hard, repaired by some chain': 101, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+911 5405000 {'all-HEAD starts': 23703, '  hard': 102, '  hard, repaired by some chain': 101, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+911 5410000 {'all-HEAD starts': 23730, '  hard': 103, '  hard, repaired by some chain': 102, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+912 5415000 {'all-HEAD starts': 23751, '  hard': 103, '  hard, repaired by some chain': 102, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+913 5420000 {'all-HEAD starts': 23766, '  hard': 103, '  hard, repaired by some chain': 102, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+914 5425000 {'all-HEAD starts': 23800, '  hard': 103, '  hard, repaired by some chain': 102, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+915 5430000 {'all-HEAD starts': 23805, '  hard': 103, '  hard, repaired by some chain': 102, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+916 5435000 {'all-HEAD starts': 23827, '  hard': 103, '  hard, repaired by some chain': 102, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+917 5440000 {'all-HEAD starts': 23861, '  hard': 103, '  hard, repaired by some chain': 102, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+917 5445000 {'all-HEAD starts': 23891, '  hard': 103, '  hard, repaired by some chain': 102, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+918 5450000 {'all-HEAD starts': 23918, '  hard': 103, '  hard, repaired by some chain': 102, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+919 5455000 {'all-HEAD starts': 23934, '  hard': 103, '  hard, repaired by some chain': 102, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+920 5460000 {'all-HEAD starts': 23951, '  hard': 105, '  hard, repaired by some chain': 104, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+921 5465000 {'all-HEAD starts': 23966, '  hard': 105, '  hard, repaired by some chain': 104, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+922 5470000 {'all-HEAD starts': 23981, '  hard': 105, '  hard, repaired by some chain': 104, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+923 5475000 {'all-HEAD starts': 24000, '  hard': 105, '  hard, repaired by some chain': 104, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+923 5480000 {'all-HEAD starts': 24031, '  hard': 105, '  hard, repaired by some chain': 104, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+924 5485000 {'all-HEAD starts': 24046, '  hard': 105, '  hard, repaired by some chain': 104, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+925 5490000 {'all-HEAD starts': 24071, '  hard': 105, '  hard, repaired by some chain': 104, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+926 5495000 {'all-HEAD starts': 24091, '  hard': 105, '  hard, repaired by some chain': 104, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+927 5500000 {'all-HEAD starts': 24103, '  hard': 105, '  hard, repaired by some chain': 104, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+928 5505000 {'all-HEAD starts': 24126, '  hard': 105, '  hard, repaired by some chain': 104, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+929 5510000 {'all-HEAD starts': 24150, '  hard': 105, '  hard, repaired by some chain': 104, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+929 5515000 {'all-HEAD starts': 24192, '  hard': 105, '  hard, repaired by some chain': 104, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+930 5520000 {'all-HEAD starts': 24206, '  hard': 105, '  hard, repaired by some chain': 104, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+931 5525000 {'all-HEAD starts': 24229, '  hard': 105, '  hard, repaired by some chain': 104, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+932 5530000 {'all-HEAD starts': 24250, '  hard': 105, '  hard, repaired by some chain': 104, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+933 5535000 {'all-HEAD starts': 24274, '  hard': 105, '  hard, repaired by some chain': 104, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+934 5540000 {'all-HEAD starts': 24303, '  hard': 105, '  hard, repaired by some chain': 104, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+935 5545000 {'all-HEAD starts': 24325, '  hard': 105, '  hard, repaired by some chain': 104, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+935 5550000 {'all-HEAD starts': 24337, '  hard': 105, '  hard, repaired by some chain': 104, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+936 5555000 {'all-HEAD starts': 24362, '  hard': 106, '  hard, repaired by some chain': 105, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+937 5560000 {'all-HEAD starts': 24381, '  hard': 106, '  hard, repaired by some chain': 105, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+938 5565000 {'all-HEAD starts': 24401, '  hard': 106, '  hard, repaired by some chain': 105, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+939 5570000 {'all-HEAD starts': 24434, '  hard': 106, '  hard, repaired by some chain': 105, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+940 5575000 {'all-HEAD starts': 24457, '  hard': 106, '  hard, repaired by some chain': 105, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+940 5580000 {'all-HEAD starts': 24475, '  hard': 106, '  hard, repaired by some chain': 105, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+941 5585000 {'all-HEAD starts': 24500, '  hard': 106, '  hard, repaired by some chain': 105, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+942 5590000 {'all-HEAD starts': 24520, '  hard': 106, '  hard, repaired by some chain': 105, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+943 5595000 {'all-HEAD starts': 24539, '  hard': 106, '  hard, repaired by some chain': 105, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+944 5600000 {'all-HEAD starts': 24569, '  hard': 106, '  hard, repaired by some chain': 105, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+945 5605000 {'all-HEAD starts': 24590, '  hard': 106, '  hard, repaired by some chain': 105, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+945 5610000 {'all-HEAD starts': 24621, '  hard': 106, '  hard, repaired by some chain': 105, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+946 5615000 {'all-HEAD starts': 24634, '  hard': 106, '  hard, repaired by some chain': 105, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+947 5620000 {'all-HEAD starts': 24657, '  hard': 106, '  hard, repaired by some chain': 105, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+948 5625000 {'all-HEAD starts': 24679, '  hard': 106, '  hard, repaired by some chain': 105, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+949 5630000 {'all-HEAD starts': 24697, '  hard': 106, '  hard, repaired by some chain': 105, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+950 5635000 {'all-HEAD starts': 24722, '  hard': 106, '  hard, repaired by some chain': 105, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+951 5640000 {'all-HEAD starts': 24738, '  hard': 106, '  hard, repaired by some chain': 105, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+951 5645000 {'all-HEAD starts': 24761, '  hard': 106, '  hard, repaired by some chain': 105, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+952 5650000 {'all-HEAD starts': 24786, '  hard': 107, '  hard, repaired by some chain': 106, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+953 5655000 {'all-HEAD starts': 24807, '  hard': 107, '  hard, repaired by some chain': 106, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+954 5660000 {'all-HEAD starts': 24832, '  hard': 107, '  hard, repaired by some chain': 106, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+955 5665000 {'all-HEAD starts': 24851, '  hard': 107, '  hard, repaired by some chain': 106, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+956 5670000 {'all-HEAD starts': 24866, '  hard': 108, '  hard, repaired by some chain': 107, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+956 5675000 {'all-HEAD starts': 24883, '  hard': 108, '  hard, repaired by some chain': 107, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+957 5680000 {'all-HEAD starts': 24905, '  hard': 108, '  hard, repaired by some chain': 107, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+958 5685000 {'all-HEAD starts': 24927, '  hard': 108, '  hard, repaired by some chain': 107, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+959 5690000 {'all-HEAD starts': 24958, '  hard': 108, '  hard, repaired by some chain': 107, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+960 5695000 {'all-HEAD starts': 24983, '  hard': 108, '  hard, repaired by some chain': 107, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+961 5700000 {'all-HEAD starts': 25001, '  hard': 108, '  hard, repaired by some chain': 107, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+961 5705000 {'all-HEAD starts': 25023, '  hard': 108, '  hard, repaired by some chain': 107, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+962 5710000 {'all-HEAD starts': 25043, '  hard': 108, '  hard, repaired by some chain': 107, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+963 5715000 {'all-HEAD starts': 25062, '  hard': 108, '  hard, repaired by some chain': 107, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+964 5720000 {'all-HEAD starts': 25086, '  hard': 108, '  hard, repaired by some chain': 107, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+965 5725000 {'all-HEAD starts': 25111, '  hard': 108, '  hard, repaired by some chain': 107, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+966 5730000 {'all-HEAD starts': 25121, '  hard': 108, '  hard, repaired by some chain': 107, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+967 5735000 {'all-HEAD starts': 25141, '  hard': 108, '  hard, repaired by some chain': 107, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+967 5740000 {'all-HEAD starts': 25163, '  hard': 108, '  hard, repaired by some chain': 107, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+968 5745000 {'all-HEAD starts': 25188, '  hard': 108, '  hard, repaired by some chain': 107, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+969 5750000 {'all-HEAD starts': 25215, '  hard': 109, '  hard, repaired by some chain': 108, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+970 5755000 {'all-HEAD starts': 25243, '  hard': 109, '  hard, repaired by some chain': 108, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+971 5760000 {'all-HEAD starts': 25258, '  hard': 109, '  hard, repaired by some chain': 108, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+971 5765000 {'all-HEAD starts': 25270, '  hard': 109, '  hard, repaired by some chain': 108, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+972 5770000 {'all-HEAD starts': 25280, '  hard': 109, '  hard, repaired by some chain': 108, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+973 5775000 {'all-HEAD starts': 25299, '  hard': 109, '  hard, repaired by some chain': 108, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+974 5780000 {'all-HEAD starts': 25320, '  hard': 109, '  hard, repaired by some chain': 108, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+975 5785000 {'all-HEAD starts': 25334, '  hard': 109, '  hard, repaired by some chain': 108, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+976 5790000 {'all-HEAD starts': 25365, '  hard': 109, '  hard, repaired by some chain': 108, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+976 5795000 {'all-HEAD starts': 25375, '  hard': 109, '  hard, repaired by some chain': 108, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+977 5800000 {'all-HEAD starts': 25395, '  hard': 109, '  hard, repaired by some chain': 108, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+978 5805000 {'all-HEAD starts': 25415, '  hard': 109, '  hard, repaired by some chain': 108, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+979 5810000 {'all-HEAD starts': 25445, '  hard': 109, '  hard, repaired by some chain': 108, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+980 5815000 {'all-HEAD starts': 25468, '  hard': 109, '  hard, repaired by some chain': 108, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+981 5820000 {'all-HEAD starts': 25492, '  hard': 109, '  hard, repaired by some chain': 108, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+981 5825000 {'all-HEAD starts': 25516, '  hard': 109, '  hard, repaired by some chain': 108, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+982 5830000 {'all-HEAD starts': 25539, '  hard': 109, '  hard, repaired by some chain': 108, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+983 5835000 {'all-HEAD starts': 25563, '  hard': 109, '  hard, repaired by some chain': 108, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+984 5840000 {'all-HEAD starts': 25585, '  hard': 109, '  hard, repaired by some chain': 108, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+985 5845000 {'all-HEAD starts': 25603, '  hard': 109, '  hard, repaired by some chain': 108, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+986 5850000 {'all-HEAD starts': 25632, '  hard': 109, '  hard, repaired by some chain': 108, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+987 5855000 {'all-HEAD starts': 25663, '  hard': 109, '  hard, repaired by some chain': 108, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+987 5860000 {'all-HEAD starts': 25677, '  hard': 109, '  hard, repaired by some chain': 108, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+988 5865000 {'all-HEAD starts': 25695, '  hard': 109, '  hard, repaired by some chain': 108, '  HARD AND NO REPAIR (Finding D1 fails)': 1}
+989 5870000 {'all-HEAD starts': 25718, '  hard': 109, '  hard, repaired by some chain': 108, '  HARD AND NO REPAIR (Finding D1 fails)': 1}

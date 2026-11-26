@@ -9,7 +9,7 @@ Reports separately the all-HEAD starts (every canonical chain has HEAD), where T
 import sys, os, json, itertools, collections
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
-from d1lib import Inst, Start, canonical_chains, pool, sstar, obstacles, minimal_improving, one_absorber
+from d1lib import open_records, Inst, Start, canonical_chains, pool, sstar, obstacles, minimal_improving, one_absorber
 
 
 def hj_repairs(S, k):
@@ -32,8 +32,8 @@ if __name__ == '__main__':
     C = collections.Counter(); seen = set()
     print('$ python3 k4/d1/headjunk_check.py', *sys.argv[1:], flush=True)
     for fn in sys.argv[1:]:
-        for line in open(fn):
-            rec = json.loads(line); key = json.dumps((rec['sets'], rec['vals'], rec['picks']))
+        for rec in open_records(fn):
+            key = json.dumps((rec['sets'], rec['vals'], rec['picks']))
             if key in seen: continue
             seen.add(key)
             I = Inst(rec['sets'], rec['vals'], rec['m']); S = Start(I, tuple(rec['picks']))

@@ -180,3 +180,11 @@ def obstacles(S, path, H0, B2=None):
         Hu = [g for g in H0 if g in I.R[u]]
         if len(Hu) >= 2 and I.val(u, Hu) > pv2[u]: crowded.append(u)
     return head, crowded, F2
+
+
+def open_records(fn):
+    """read a JSONL file of records, plain or gzip-compressed (.gz)"""
+    import gzip, json
+    f = gzip.open(fn, 'rt') if fn.endswith('.gz') else open(fn)
+    for line in f:
+        if line.strip(): yield json.loads(line)
