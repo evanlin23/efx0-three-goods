@@ -34,6 +34,8 @@ angles in flight, and what each established. Ledger rows change only with artifa
 | Induction on agents along the serial-dictatorship order (add the last agent, or remove the first / an unwanted one), with an invariant P found by computation | session_01BYMGecgCGycycqxiyS1n7G | `claude/k4-sd-induct` | `k4/sd_induct.md` |
 | Housing markets / top trading cycles: SD picks as existing tenants, junk as the pool; find the TTC / YRMH-IGYT-type rule that picks the repairing chain, and core-type invariants | session_01BYMGeao2jUMkZBYQ48pDMw | `claude/k4-ttc` | `k4/ttc.md` |
 | General k: bounded charity CH(k): partial EFX₀ with at most f(k) unenvied unallocated goods, f independent of n (relevant-goods analogue of the t − 2 bound for t types) | session_01BYMGeYiET7bXN43NsuXoDR | `claude/kgen-charity` | `kgen/charity.md` |
+| The first open cell (k, p) = (4, 3) (≤ 3 valuers per good): a two-envier dump rule replacing the multigraph proofs' unique-envier step | session_01BYMGea7fswSChnvyCWWWm8 | `claude/k4-p3` | `k4/p3.md` |
+| Choosing the order by an alternating-tree search with a lexicographic, non-value termination measure (Haxell; restricted Santa Claus) | session_01BYMGeYJ6PFyCSZHphgSyXd | `claude/k4-haxell` | `k4/haxell.md` |
 
 The coordinator (this branch, `claude/kind-lamport-y8fdme`) runs an hourly burst: it checks each angle, verifies any
 claimed proof or counterexample independently, integrates verified results here, and works one angle of its own.
@@ -89,3 +91,17 @@ techniques); the synthesized report follows in `reports/`.
 - Context: arXiv 2604.18216 v4 ("EFX Need Not Exist", Nov 2026) gives a monotone (weighted-coverage) counterexample
   with 3 agents and 8 goods. The additive case is untouched, and for monotone valuations the relevant-goods
   threshold lies between 3 and 8.
+
+### 2026-11-26 21:11 UTC: literature report; two more angles
+- Report: `reports/EFX literature from the agent side.md` (about 7,000 words; read levels and [derived]/[spec] tags).
+  No published theorem or cross-field tool closes k = 4. Every ladder (agents, types, relevant goods, monotone
+  excess) stalls at four. The first open structural cell is (k, p) = (4, 3).
+- Ranked directions and their owners:
+  1. matroid-union dual of the fixed-order completion: Hall session;
+  2. (k, p) = (4, 3): new session `claude/k4-p3`;
+  3. non-value termination: new session `claude/k4-haxell`;
+  4. monotone k = 3 threshold: not yet assigned;
+  5. charity bound in k: `claude/kgen-charity`;
+  6. the two possibly free strengthenings (Lianeas girth, Sgouritsa–Sotiriou degree): girth session;
+  7. extend K4.MC7 to β = 5: hunt session;
+  8. reductions for agents with all-equal values and for twin agents: coordinator, later burst.
