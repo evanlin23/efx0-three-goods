@@ -47,8 +47,10 @@ Lemma F₂'s count leaves (`k4/p3.md` §5): a flat leader whose block's terminal
 allocation keeps the four bases at all.
 
 **What would be needed.** A Theorem A₂ hypothesis of LB⁺'s kind: every flat frozen leader with three junk lower goods
-has a terminal in its block other than the two owners, and the owners' views are bounded; otherwise a rotation (in this
-example, along the need chain 1 → 2, giving agent 1 a two-good base, is the natural candidate).
+has a terminal in its block other than the two owners, and the owners' views are bounded; otherwise a rotation. In both
+examples one rotation suffices, even with one owner (`results/k4_p3x/claim_x_rotation.log`): for X the need chain
+0 → 1 → 2 with O = {0} gives ({0, 2, 6, 7}, {1, 3}, {5}, {4}); for X′ the chain 1 → 2 with O = {1} gives
+({2, 3, 4, 6}, {1, 7}, {0, 8}, {5}), both EFX₀ by the raw definition.
 
 Reproduce: `python3 k4/p3/claim_x_cex.py X` and `python3 k4/p3/claim_x_cex.py "X'"` (brute force over all placements of
 the junk, raw definition; `results/k4_p3x/claim_x_cex.log`); `python3 k4/p3/claim_x.py cores --count=10000 --files=4_n4
