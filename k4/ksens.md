@@ -292,7 +292,7 @@ appears depends on which orders are allowed:
 | orders allowed | first failure of OC₁ (and OC) | instance | checks |
 |---|---|---|---|
 | every order | k = 5, n = 5, m = 9 | PW5 (§1) | SAT, full brute force, written proof |
-| neediest first, need = y₁ − y₂ (plain) | k = 5 | PW5 with pool 24..21, pick 40 (`nf_orders.log`) | SAT |
+| neediest first, need = y₁ − y₂ (plain) | k = 5 | PW5 with pool 24..21, pick 40 (`nf_orders.py`, `nf_orders.log`) | SAT |
 | neediest first, need = y₁ − y₂ − y₃ (§9 of `k4/sdc.md`), plain | k = 6, n = 6, m = 11 | NF2-6 | SAT ×2, SAT-free |
 | R1-priority (LB's Phase 1), some R1 order | k = 6, n = 6, m = 11 | PWR1-6 | SAT ×2, SAT-free |
 | R1 neediest first, need = y₁ − y₂ | k = 6, n = 7, m = 12 | NF1R1-6 | SAT ×2, SAT-free |
@@ -316,9 +316,9 @@ Notes on the table:
   - The count of §4 then needs three wanters and a pool of five, so k = 6. With this design k = 5 cannot fail under
     R1, and every k = 5 R1 variant tested holds.
 - *Neediest-first* is value-sensitive. With the default values the wanters are the needier agents, are served first,
-  and the picks extend (`nf_orders.log`). Flattening the wanters' values (p's 200, 199, 198, q 190) or lowering the
+  and the picks extend (`nf_orders.py`, `nf_orders.log`). Flattening the wanters' values (p's 200, 199, 198, q 190) or lowering the
   pool goods to just above half the pick puts the frozen agents first.
-- *need2 with R1 resists the PW designs* (`nf2r1.log`).
+- *need2 with R1 resists the PW designs* (`nf_orders.py 4`, `nf2r1.log`).
   - Adding a first agent z whose pick is a pool good makes every frozen agent "lose a good", so R1 serves them early.
   - But once two of a wanter's picks are gone its need y₁ − y₂ − y₃ turns positive, and it is served before the last
     frozen agent.

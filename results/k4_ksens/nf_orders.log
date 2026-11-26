@@ -1,23 +1,26 @@
-$ neediest-first orders (k4/sdc/nof_var.order) on the k >= 5 counterexamples; OC1 / OC from their picks
-PW5 need2 plain order [3, 4, 0, 1, 2] picks [5, 6, 2, 0, 1] extend (A=1) True OC1 True OC True
-PW5 need2 R1 order [3, 4, 0, 1, 2] picks [5, 6, 2, 0, 1] extend (A=1) True OC1 True OC True
-PW5 need1 plain order [3, 4, 0, 2, 1] picks [5, 6, 2, 0, 1] extend (A=1) True OC1 True OC True
-PW5 need1 R1 order [3, 4, 0, 2, 1] picks [5, 6, 2, 0, 1] extend (A=1) True OC1 True OC True
-PW5 needall plain order [3, 4, 0, 1, 2] picks [5, 6, 2, 0, 1] extend (A=1) True OC1 True OC True
-PW5 needall R1 order [3, 4, 0, 1, 2] picks [5, 6, 2, 0, 1] extend (A=1) True OC1 True OC True
-PWR1-6 need2 plain order [3, 4, 5, 0, 1, 2] picks [6, 7, 8, 0, 1, 2] extend (A=1) True OC1 True OC True
-PWR1-6 need2 R1 order [3, 4, 5, 0, 1, 2] picks [6, 7, 8, 0, 1, 2] extend (A=1) True OC1 True OC True
-PWR1-6 need1 plain order [3, 4, 0, 2, 1, 5] picks [6, 7, 2, 0, 1, 5] extend (A=1) False OC1 True OC True
-PWR1-6 need1 R1 order [3, 4, 0, 2, 1, 5] picks [6, 7, 2, 0, 1, 5] extend (A=1) False OC1 True OC True
-PWR1-6 needall plain order [3, 4, 5, 0, 1, 2] picks [6, 7, 8, 0, 1, 2] extend (A=1) True OC1 True OC True
-PWR1-6 needall R1 order [3, 4, 5, 0, 1, 2] picks [6, 7, 8, 0, 1, 2] extend (A=1) True OC1 True OC True
-PW436 need2 plain order [4, 5, 6, 0, 1, 3, 2] picks [7, 8, 9, 3, 0, 1, 2] extend (A=1) True OC1 True OC True
-PW436 need2 R1 order [4, 5, 6, 0, 1, 3, 2] picks [7, 8, 9, 3, 0, 1, 2] extend (A=1) True OC1 True OC True
-PW436 need1 plain order [4, 5, 6, 0, 3, 1, 2] picks [7, 8, 9, 3, 0, 1, 2] extend (A=1) True OC1 True OC True
-PW436 need1 R1 order [4, 5, 6, 0, 3, 1, 2] picks [7, 8, 9, 3, 0, 1, 2] extend (A=1) True OC1 True OC True
-PW436 needall plain order [4, 5, 6, 0, 1, 2, 3] picks [7, 8, 9, 3, 0, 1, 2] extend (A=1) True OC1 True OC True
-PW436 needall R1 order [4, 5, 6, 0, 1, 2, 3] picks [7, 8, 9, 3, 0, 1, 2] extend (A=1) True OC1 True OC True
-$ tuned values (pool goods just above half the pick, flat wanters): neediest-first orders
+$ part 1: default values
+PW5 [[[0, 5, 6, 7, 8], [1, 5, 6, 7, 8], [2, 5, 6, 7, 8], [0, 1, 2, 3], [0, 1, 2, 4]], [[20, 19, 18, 17, 16], [20, 19, 18, 17, 16], [20, 19, 18, 17, 16], [6, 4, 2, 1], [6, 4, 2, 1]]] k 5
+    need2 plain order [3, 4, 0, 1, 2] picks [5, 6, 2, 0, 1] OC1 True OC True
+    need2 R1 order [3, 4, 0, 1, 2] picks [5, 6, 2, 0, 1] OC1 True OC True
+    need1 plain order [3, 4, 0, 2, 1] picks [5, 6, 2, 0, 1] OC1 True OC True
+    need1 R1 order [3, 4, 0, 2, 1] picks [5, 6, 2, 0, 1] OC1 True OC True
+    needall plain order [3, 4, 0, 1, 2] picks [5, 6, 2, 0, 1] OC1 True OC True
+    needall R1 order [3, 4, 0, 1, 2] picks [5, 6, 2, 0, 1] OC1 True OC True
+PWR1-6 [[[0, 6, 7, 8, 9, 10], [1, 6, 7, 8, 9, 10], [2, 6, 7, 8, 9, 10], [0, 1, 2, 3, 6], [0, 1, 2, 4, 6], [0, 1, 2, 5, 6]], [[40, 38, 36, 34, 32, 30], [40, 38, 36, 34, 32, 30], [40, 38, 36, 34, 32, 30], [12, 8, 4, 2, 3], [12, 8, 4, 2, 3], [12, 8, 4, 2, 3]]] k 6
+    need2 plain order [3, 4, 5, 0, 1, 2] picks [6, 7, 8, 0, 1, 2] OC1 True OC True
+    need2 R1 order [3, 4, 5, 0, 1, 2] picks [6, 7, 8, 0, 1, 2] OC1 True OC True
+    need1 plain order [3, 4, 0, 2, 1, 5] picks [6, 7, 2, 0, 1, 5] OC1 True OC True
+    need1 R1 order [3, 4, 0, 2, 1, 5] picks [6, 7, 2, 0, 1, 5] OC1 True OC True
+    needall plain order [3, 4, 5, 0, 1, 2] picks [6, 7, 8, 0, 1, 2] OC1 True OC True
+    needall R1 order [3, 4, 5, 0, 1, 2] picks [6, 7, 8, 0, 1, 2] OC1 True OC True
+PW436 [[[0, 7, 8, 9, 10, 11, 12], [1, 7, 8, 9, 10, 11, 12], [2, 7, 8, 9, 10, 11, 12], [3, 7, 8, 9, 10, 11, 12], [0, 1, 2, 3, 4], [0, 1, 2, 3, 5], [0, 1, 2, 3, 6]], [[20, 19, 18, 17, 16, 15, 14], [20, 19, 18, 17, 16, 15, 14], [20, 19, 18, 17, 16, 15, 14], [20, 19, 18, 17, 16, 15, 14], [8, 6, 4, 2, 1], [8, 6, 4, 2, 1], [8, 6, 4, 2, 1]]] k 7
+    need2 plain order [4, 5, 6, 0, 1, 3, 2] picks [7, 8, 9, 3, 0, 1, 2] OC1 True OC True
+    need2 R1 order [4, 5, 6, 0, 1, 3, 2] picks [7, 8, 9, 3, 0, 1, 2] OC1 True OC True
+    need1 plain order [4, 5, 6, 0, 3, 1, 2] picks [7, 8, 9, 3, 0, 1, 2] OC1 True OC True
+    need1 R1 order [4, 5, 6, 0, 3, 1, 2] picks [7, 8, 9, 3, 0, 1, 2] OC1 True OC True
+    needall plain order [4, 5, 6, 0, 1, 2, 3] picks [7, 8, 9, 3, 0, 1, 2] OC1 True OC True
+    needall R1 order [4, 5, 6, 0, 1, 2, 3] picks [7, 8, 9, 3, 0, 1, 2] OC1 True OC True
+$ part 2: pool goods just above half the pick
 PW5-nf [[[0, 5, 6, 7, 8], [1, 5, 6, 7, 8], [2, 5, 6, 7, 8], [0, 1, 2, 3], [0, 1, 2, 4]], [[40, 24, 23, 22, 21], [40, 24, 23, 22, 21], [40, 24, 23, 22, 21], [20, 19, 18, 2], [20, 19, 18, 2]]] k 5 | every order: OC1 fails on 1 starts | R1 orders: 0 of 16
     need2 plain order [0, 3, 4, 1, 2] picks [0, 5, 6, 1, 2] OC1 True OC True
     need2 R1 order [0, 3, 4, 1, 2] picks [0, 5, 6, 1, 2] OC1 True OC True
@@ -39,7 +42,7 @@ PWR1-7-nf [[[0, 7, 8, 9, 10, 11], [1, 7, 8, 9, 10, 11], [2, 7, 8, 9, 10, 11], [3
     need1 R1 order [0, 4, 1, 2, 3, 5, 6] picks [0, 7, 2, 3, 1, 5, 6] OC1 False OC False
     needall plain order [4, 5, 6, 0, 1, 2, 3] picks [7, 8, 9, 3, 0, 1, 2] OC1 True OC True
     needall R1 order [4, 5, 6, 0, 1, 2, 3] picks [7, 8, 9, 3, 0, 1, 2] OC1 True OC True
-$ flat wanters (p-values 200, 199, ..., q = 190): neediest-first (need2 = y1 - y2 - y3, as in k4/sdc.md §9)
+$ part 3: flat wanters (200, 199, ..., q = 190)
 PW5-flat [[[0, 5, 6, 7, 8], [1, 5, 6, 7, 8], [2, 5, 6, 7, 8], [0, 1, 2, 3], [0, 1, 2, 4]], [[400, 240, 239, 238, 237], [400, 240, 239, 238, 237], [400, 240, 239, 238, 237], [200, 199, 198, 190], [200, 199, 198, 190]]] k 5
     need2 plain order [0, 1, 3, 4, 2] picks [0, 1, 5, 2, 4] OC1 True OC True
     need2 R1 order [0, 3, 4, 1, 2] picks [0, 5, 6, 1, 2] OC1 True OC True
