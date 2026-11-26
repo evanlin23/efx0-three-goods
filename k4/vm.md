@@ -900,6 +900,34 @@ acyclic extension).
 What a proof needs beyond DE: the count of disjoint upper sets inside the pool. That is ledger item 18's Theorem A₄
 count again, now for blockers rather than for the owner.
 
+### 7.7 Stressing VM1 at k ≥ 5 (coordinator's request 1)
+
+`k4/vm/vm1_fast.py` checks VM1 with early exit. It searches F1 placements with rotation, memoized, from each V-M
+matching and from each state one move away (unrestricted exchanges). Every completion is re-checked with the raw
+EFX₀ definition. A failure is re-checked with 50× larger caps, then by the uncapped `vm1_verify.py`.
+
+| data | instances | VM1 holds | moves needed | log |
+|---|---|---|---|---|
+| unrestricted, n = 3, m = 5–9 (every agent values every good, k = m) | 300 | **300** | 0 | `vm1_full3.log` |
+| unrestricted, n = 4, m = 6–9 | 200 | **200** | 0 | `vm1_full4.log` |
+| unrestricted, n = 4, m = 10 | 60 | **60** | 0 | `vm1_full4m10.log` |
+| PW(f, W, r) grid, f = 2–4, W = 1–3, k = max(r + 1, f + 1) ≤ 9, one instance each | 63 | 61 | 0: 52; 1: 9 | `vm1_pwgrid.log` |
+| long climbs, k = 5, 6, 8, n = 4–6 | see the logs | | | `vm1_climb_k*_long.log` |
+
+**VM1 is refuted at k = 7** (`attempts/k4-vm-vm1-k7.md`):
+- The instance is PW(2, 3, 6)#0, with n = 5 and m = 11.
+- With at most one move nothing completes: 4 matchings and 90 states one move away, checked uncapped and by an
+  independent replay over a superset of the moves.
+- Two moves suffice: both frozen x's trade their picks for sets of the shared pool D.
+- PW(3, 3, 8)#0 (k = 9, n = 6, m = 14) also fails with zero moves; its one- and two-move levels are checked in
+  `vm1_verify_pw338.log`.
+- Every PW instance with k ≤ 6 passes.
+
+So VM1 is not a general-k statement. On the PW family it holds up to k = 6 and fails from k = 7. That fits the
+k-sensitivity session's "c chains fail from k = 2c + 3" shifted by two, i.e. c moves of VM failing from k = 2c + 5
+(one data point). **VMX₂ (any number of moves) is the general-k form**, and it completes both PW failures. At k = 4,
+VM1 is unaffected.
+
 ## 8. Theorem VM: a proof of Viswanathan–Mehta's claim (ordinary EFX), main reading
 
 The abstract asserts the source property ("we are able to prove that ... there will be a source") without proof.
