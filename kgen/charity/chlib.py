@@ -596,3 +596,77 @@ def pm_with_pool(I, minpool, maxiter=100000, log=None):
             for cl in c.clauses:
                 s.add_clause(cl + [-w])
     raise RuntimeError('pm_with_pool: iteration limit')
+
+
+def welfare_max(I, minpool=None, maxpool=None):
+    """Largest total value over partial EFX0 allocations (no charity condition), and the fewest unallocated goods
+    among the allocations with that total.  'Total >= W' is encoded by reachable partial sums over the one-hot
+    variables y[i][S] (sound and complete for integer values).  Returns (W*, least pool, allocation).
+    minpool / maxpool: if given, return instead the largest total among allocations leaving at least minpool / at most
+    maxpool goods out (and the pool size of the witness)."""
+    from pysat.solvers import Cadical153
+    from pysat.card import CardEnc, EncType
+    E = Enc(I, charity=False)
+    tot = sum(max(I.val(i, S) for S in E.y[i]) for i in range(I.n))
+    base = list(E.cl); top0 = E.top
+    pool = [E.x[g][I.n] for g in range(I.m)]
+
+    def solve(W, poolbound=None, atleast=None):
+        cl = list(base); top = [top0]
+
+        def new():
+            top[0] += 1; return top[0]
+        r = {(0, 0): None}                       # None = true
+        prev = {0: None}
+        for i in range(I.n):
+            cur = {}
+            for w in range(0, W + 1):
+                opts = []
+                for S, y in E.y[i].items():
+                    w0 = max(0, w - I.val(i, S))
+                    if w0 in prev:
+                        opts.append((y, prev[w0]))
+                if not opts:
+                    continue
+                v = new(); ts = []
+                for y, pv in opts:
+                    t = new(); ts.append(t)
+                    cl.append([-t, y])
+                    if pv is not None:
+                        cl.append([-t, pv])
+                cl.append([-v] + ts)
+                cur[w] = v
+            prev = cur
+        if W not in prev:
+            return None
+        cl.append([prev[W]])
+        if poolbound is not None:
+            c = CardEnc.atmost(lits=pool, bound=poolbound, top_id=top[0], encoding=EncType.seqcounter)
+            cl += c.clauses; top[0] = max(top[0], c.nv)
+        if atleast is not None:
+            c = CardEnc.atleast(lits=pool, bound=atleast, top_id=top[0], encoding=EncType.seqcounter)
+            cl += c.clauses; top[0] = max(top[0], c.nv)
+        s = Cadical153(bootstrap_with=cl)
+        ok = s.solve(); X = E.decode(s.get_model()) if ok else None
+        s.delete()
+        return X
+    lo, hi, best = 0, tot, None                  # largest W with solve(W) satisfiable
+    while lo <= hi:
+        mid = (lo + hi) // 2
+        X = solve(mid, poolbound=maxpool, atleast=minpool)
+        if X is not None:
+            best = X; lo = sum(I.val(i, X[i]) for i in range(I.n)) + 1
+        else:
+            hi = mid - 1
+    if best is None:
+        return None, None, None
+    W = sum(I.val(i, best[i]) for i in range(I.n))
+    assert efx0(I, best)
+    if minpool is not None or maxpool is not None:
+        return W, len(pool_of(I, best)), best
+    for b in range(0, len(pool_of(I, best)) + 1):
+        X = solve(W, poolbound=b)
+        if X is not None:
+            assert efx0(I, X) and sum(I.val(i, X[i]) for i in range(I.n)) >= W
+            return W, len(pool_of(I, X)), X
+    return W, len(pool_of(I, best)), best
