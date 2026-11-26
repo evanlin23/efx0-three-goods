@@ -27,7 +27,12 @@ and multi-good holders, and the rest to the owner.
 - In them, agents 1 and 3 each have two private goods (allowed, since p + q < s + t). K4.MC2 (CERTIFIED) excludes such
   agents from minimal counterexamples to TARGET₄.
 
-**Agreed targets (with the TTC session, `attempts/k4-ttc-oc1-counterexample.md` on `claude/k4-ttc`).**
+**UPDATE (§18): OC₁ and OC "for every order" also fail inside the K4.MC2 class.** The TTC session's
+n = 5, m = 9 core (verified here) has picks with no completion at all, one-absorber or free, after any one move.
+Every R1-priority order still works. The surviving targets are therefore the R1-priority forms (OC₁ and OC₁-ED\* for
+R1-priority orders, on the K4.MC2 class), together with MD and SD-C.
+
+**Agreed targets before §18 (with the TTC session, `attempts/k4-ttc-oc1-counterexample.md` on `claude/k4-ttc`).**
 
 *Primary.* OC₁, unchanged, on strict connected k = 4 cores in which no agent has two private goods (the K4.MC2
 class). It is open, and it implies TARGET₄. The same holds for its ED form, OC₁-ED\*.
@@ -866,3 +871,50 @@ Here is what happens.
 A lemma would say: in the K4.MC2 class, after an ED chain from k with H₀ a danger set of k, every frozen agent whose
 danger set met H₀ has at most one pool good left. That is the k ≤ 4 lever of §15 again, and the next item to prove
 along with Finding D1.
+
+## 18. OC₁ and OC fail from some orders inside the K4.MC2 class; the count explains why
+
+**The instance** (TTC session, `results/k4_ttc/oc1_mc2_counterexample.json` on `claude/k4-ttc`; checked here, log
+`verify_ttc_mc2_cex.log`).
+- sets [[0,3,6,8],[1,4,7,6],[2,5,8,7],[0,1,2],[0,1,2]], values [[10,6,5,7],[10,6,5,7],[10,6,5,7],[4,3,2],[2,4,3]],
+  n = 5, m = 9.
+- `is_core4` reports no failures, and each agent has at most one private good: a strict connected core in the K4.MC2
+  class.
+- Agent i (i = 0, 1, 2) values its pick y_i at 10, a private good a_i at 6, a shared good b_i at 5, and b_{i−1} at 7.
+  Agents 3 and 4 value only y₀, y₁, y₂.
+
+**What fails.**
+- With order 0, …, 4, the picks are (0, 1, 2, none, none). There is no one-absorber completion (SAT and raw brute
+  force) and **no free completion**.
+- None of the 232 improving moves (additions, chains, rings, |H| ≤ 4) gives either. A free completion needs two moves.
+- Over all 120 plain orders, 12 fail OC₁, and the same 12 fail OC.
+- **Every R1-priority order works**: 108 at the picks, 12 after one move.
+
+**Why, in Lemma 2\*'s terms (multi-bin form, §16).**
+- Each frozen agent i holds its top y_i = 10. Its three junk goods {a_i, b_i, b_{i−1}} = 6, 5, 7 are a *danger
+  triangle*: every pair is worth more than 10. So in any absorbing bundle of three or more goods, at most one of them
+  may sit.
+- The only agents that can receive junk are the two pickless agents 3 and 4. The pick holders are all frozen (3 and 4
+  want every pick), and a frozen agent can take junk only when its wanters are compensated. Pickless agents value no
+  junk, so they cannot be.
+- So the six junk goods go into two bins whose sizes sum to 6. The triangles are {3, 6, 8}, {4, 7, 6} and
+  {5, 8, 7}; each of the six goods is in one or two triangles.
+  - If one bin has at most two goods, the other holds at least four. Since the triangles cover all six goods, some
+    triangle has two goods in the big bin, which threatens that agent. (A bin of exactly two goods is harmless: the
+    strictness clause applies.)
+  - If both bins have three goods, each triangle has three goods split over two bins, so by pigeonhole some bin holds
+    two goods of some agent's triangle and threatens it.
+- One chain cannot fix this. The improving moves give a pick to a pickless agent, which then becomes frozen (the
+  other pickless agent wants it), and they remove at most one triangle's worth of goods. With two bins, the remaining
+  two triangles still collide in the same way.
+
+**What survives.**
+- The statements about given states are unaffected: Lemmas 1, 2, 2\*, 4, Corollary 2.1, Propositions 3 and 5,
+  Theorem F1₁ (one frozen agent), and the multi-bin count.
+- All "for every order" conjectures (OC, OC₁, OC₁-ED\*, Finding S\*) are refuted, even on strict cores of the K4.MC2
+  class, already at n = 5. TARGET₄ is certified there.
+- The R1-priority forms survive on these instances, together with MD (value domination) and SD-C (some order). The
+  pickless agents here come from a plain order that serves the frozen agents first. R1 priority processes them earlier.
+
+A Theorem A₄ for R1-priority orders would have to show that this "two pickless bins against three triangles" pattern
+cannot occur.
