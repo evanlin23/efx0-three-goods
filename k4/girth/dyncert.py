@@ -15,7 +15,14 @@ labelings; the rest of the box is split into disjoint boxes and goes on with all
 is a counterexample candidate: its representative is re-checked with the independent implementation lss.pipeline-style
 code (lss.Run.alg2_safe + lss.park_dynamic_ec) over every labeling.
 
-    python3 k4/girth/dyncert.py N [FILE_GLOB_PART] [--limit=K] [--jobs=J]
+    python3 k4/girth/dyncert.py N [FILE_GLOB_PART] [--limit=K] [--jobs=J] [--family=all|default] [--every=E]
+                                [--timecap=SECONDS]
+--every=E: every E-th core only (a sample spread over the core list); --timecap: stop a core after SECONDS and report
+the coverage reached (status TIMEOUT).
+family=default: only the n default labelings (one per vertex 0, the other agents in increasing order within the
+neighbour block and the rest block), i.e. the choice of vertex 0 is the only freedom.  Every profile in a box that
+waits for labeling number li fails labelings 0..li-1 (they ran identically on the whole box), so "last used < n"
+means: for this core the default orders suffice.
     python3 k4/girth/dyncert.py --selftest      FastRun (used by the covering) against Run: outcome and class
 writes results/k4_girth_dyncert_{N}.log: per core the number of profiles, runs, boxes, and any counterexample.
 """
@@ -249,11 +256,14 @@ class Run:
         return tuple(out)
 
 
-def labelings(C):
-    out = []
+def labelings(C, family='all'):
+    """every labeling of LSS (vertex 0, then its neighbours, then the rest, each block in any order); the n default
+    ones (blocks in increasing agent order, as lss.labels) first, one per vertex 0.  family='default': only those."""
+    per = []
     for z in range(C.n):
         nb = sorted(set().union(*(C.edge[g] for g in C.R[z])) - {z})
         rest = [a for a in range(C.n) if a != z and a not in nb]
+        out = []
         for p in itertools.permutations(nb):
             for q in itertools.permutations(rest):
                 lab = [None] * C.n
@@ -263,9 +273,10 @@ def labelings(C):
                 for t, a in enumerate(q):
                     lab[a] = 1 + len(p) + t
                 out.append(lab)
-    # default orders first (one per vertex 0), then the others
-    return sorted(out, key=lambda L: (0 if all(L[a] < L[b] for a in range(C.n) for b in range(C.n)
-                                               if a < b and L[a] != 0 and L[b] != 0) else 1))
+        per.append(out)
+    if family == 'default':
+        return [o[0] for o in per]
+    return [o[0] for o in per] + [lab for o in per for lab in o[1:]]
 
 
 def lowbit_index(mask):
@@ -277,13 +288,14 @@ def popcount(x):
 
 
 def certify(task):
-    name, sets, m = task
+    name, sets, m, family, timecap = task
     sys.path.insert(0, HERE)
     from sources import domains
     t0 = time.time()
     doms = domains(sets, m)
     C = Core(sets, m, doms)
-    L = labelings(C)
+    L = labelings(C, family)
+    used = [0] * len(L)                                    # profiles certified by labeling number li
     work = [(tuple(C.full), 0)]                            # (box, index of the next labeling to try)
     runs = 0
     cex = []
@@ -291,7 +303,11 @@ def certify(task):
     for D in doms:
         total *= len(D)
     covered = 0
+    timeout = False
     while work:
+        if timecap and runs % 1000 == 0 and time.time() - t0 > timecap:
+            timeout = True
+            break
         box, li = work.pop()
         if any(b == 0 for b in box):
             continue
@@ -310,6 +326,7 @@ def certify(task):
             for x in cls:
                 size *= popcount(x)
             covered += size
+            used[li] += size
         else:
             work.append((cls, li + 1))
         # the rest of the box, split into disjoint boxes, with every labeling still to try from li
@@ -320,11 +337,11 @@ def certify(task):
                 nb = tuple(prefix[:a]) + (rest,) + tuple(box[a + 1:])
                 work.append((nb, li))
     return dict(name=name, profiles=total, covered=covered, runs=runs, cex=cex, time=time.time() - t0,
-                sets=sets, m=m)
+                sets=sets, m=m, used=used, nlab=len(L), family=family, timeout=timeout)
 
 
-def verify_cex(sets, m, rep):
-    """re-check a counterexample candidate with lss.py (independent code), every labeling"""
+def verify_cex(sets, m, rep, family='all'):
+    """re-check a counterexample candidate with lss.py (independent code), every labeling of the family"""
     from sources import domains
     from lss import Inst, Run as LRun, park_dynamic_ec, is_efx0, labels
     doms = domains(sets, m)
@@ -338,6 +355,8 @@ def verify_cex(sets, m, rep):
         for p in itertools.permutations(nb):
             for q in itertools.permutations(rest):
                 labs.append(labels(I, z, p, q))
+    if family == 'default':
+        labs = [labels(I, z) for z in range(I.n)]
     for lab in labs:
         r = LRun(I, lab)
         r.alg2_safe()
@@ -354,18 +373,29 @@ def main():
     part = sys.argv[2] if len(sys.argv) > 2 and not sys.argv[2].startswith('--') else ''
     limit = None
     jobs = mp.cpu_count()
+    family = 'all'
+    timecap = 0
+    every = 1
     for a in sys.argv[2:]:
+        if a.startswith('--timecap='):
+            timecap = float(a[10:])
+        if a.startswith('--every='):
+            every = int(a[8:])
+        if a.startswith('--family='):
+            family = a[9:]
+            assert family in ('all', 'default')
         if a.startswith('--limit='):
             limit = int(a[8:])
         if a.startswith('--jobs='):
             jobs = int(a[7:])
     from sources import cores
-    tasks = [('%s#m%d#%d' % (f, m, idx), sets, m) for f, idx, sets, m in cores(n) if part in f]
+    tasks = [('%s#m%d#%d' % (f, m, idx), sets, m, family, timecap) for f, idx, sets, m in cores(n) if part in f]
+    tasks = tasks[::every]
     if limit:
         tasks = tasks[:limit]
     print('$ python3 k4/girth/dyncert.py', *sys.argv[1:], '(%d cores, %d jobs)' % (len(tasks), jobs), flush=True)
     t0 = time.time()
-    tot = dict(profiles=0, covered=0, runs=0, cex=0, cores=0)
+    tot = dict(profiles=0, covered=0, runs=0, cex=0, cores=0, cores_default_orders_suffice=0)
     with mp.Pool(jobs) as pool:
         for res in pool.imap_unordered(certify, tasks):
             tot['cores'] += 1
@@ -375,10 +405,18 @@ def main():
             ncx = len(res['cex'])
             tot['cex'] += ncx
             status = 'CERTIFIED' if ncx == 0 and res['covered'] == res['profiles'] else 'NOT CERTIFIED'
-            print('%-28s profiles %12d covered %12d runs %8d boxes-without-labeling %d %.1fs %s'
-                  % (res['name'], res['profiles'], res['covered'], res['runs'], ncx, res['time'], status), flush=True)
+            if res['timeout'] and ncx == 0:
+                status = 'TIMEOUT (partial coverage, no counterexample so far)'
+                tot['timeouts'] = tot.get('timeouts', 0) + 1
+            nz = len(res['sets'])
+            last = max([li for li, u in enumerate(res['used']) if u] or [-1])
+            tot['cores_default_orders_suffice'] += ncx == 0 and last < nz and not res['timeout']
+            print('%-28s profiles %12d covered %12d runs %8d boxes-without-labeling %d %.1fs %s | labelings %d, '
+                  'last used #%d, by default orders %d'
+                  % (res['name'], res['profiles'], res['covered'], res['runs'], ncx, res['time'], status, res['nlab'],
+                     last, sum(res['used'][:nz])), flush=True)
             for rep in res['cex'][:3]:
-                I, ok, nl = verify_cex(res['sets'], res['m'], rep)
+                I, ok, nl = verify_cex(res['sets'], res['m'], rep, family)
                 print('   counterexample candidate', I, 'type indices', rep, '| lss.py: %d of %d labelings complete'
                       % (ok, nl), flush=True)
     print('TOTAL', tot, '%.0fs' % (time.time() - t0), flush=True)
