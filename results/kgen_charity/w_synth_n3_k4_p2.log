@@ -1,0 +1,19 @@
+$ python3 kgen/charity/w_synth.py 3 4 2 6 12 600
+sizes (0, 0, 0) m 2: UNSAT after 0 cuts, 0.0 s
+sizes (1, 0, 0) m 3: UNSAT after 2 cuts, 0.0 s
+sizes (1, 1, 0) m 4: UNSAT after 2 cuts, 0.0 s
+sizes (1, 1, 1) m 5: UNSAT after 22 cuts, 0.2 s
+sizes (2, 0, 0) m 4: UNSAT after 2 cuts, 0.0 s
+sizes (2, 1, 0) m 5: UNSAT after 8 cuts, 0.1 s
+sizes (2, 1, 1) m 6: UNSAT after 77 cuts, 1.0 s
+sizes (2, 2, 0) m 6: UNSAT after 21 cuts, 0.2 s
+sizes (2, 2, 1) m 7: UNSAT after 218 cuts, 6.2 s
+sizes (2, 2, 2) m 8: UNSAT after 192 cuts, 7.8 s
+sizes (3, 0, 0) m 5: UNSAT after 1 cuts, 0.0 s
+sizes (3, 1, 0) m 6: UNSAT after 15 cuts, 0.2 s
+sizes (3, 1, 1) m 7: UNSAT after 183 cuts, 5.9 s
+sizes (3, 2, 0) m 7: UNSAT after 22 cuts, 0.3 s
+sizes (3, 2, 1) m 8: UNSAT after 240 cuts, 21.4 s
+sizes (3, 2, 2) m 9: UNSAT after 214 cuts, 13.5 s
+sizes (3, 3, 0) m 8: UNSAT after 32 cuts, 0.7 s
+sizes (3, 3, 1) m 9: UNSAT after 330 cuts, 68.1 s

@@ -304,11 +304,34 @@ with the P1 replay on GM4-E: five Pareto maxima, one leaving one good out):
 - 20,600 random instances with k = 3, n ≤ 5 (`pm_rand_k3.log`, `pm_core_k3.log`, `pm_core_k3_20000.log`): no Pareto
   maximum leaves a good out. S′(2, 3) is a structured instance that random sampling does not produce.
 
-## 6. Open
+## 6. The welfare maximum (Question W)
 
-1. **Question W(k).** Does the welfare maximum over partial EFX₀ allocations, among those with the fewest
-   unallocated goods, leave at most f(k) goods out? It is a robust stopping state (CH6), so CH-A/B/C apply, and W(k)
-   implies CH(k).
+**Definition.** For an instance I let w*(I) be the largest total value Σ_i v_i(X_i) over partial EFX₀ allocations
+X (no charity condition), and p*(I) the fewest unallocated goods among the partial EFX₀ allocations with total
+w*(I). For f ≥ 0:
+
+> **W(k, f).** Every additive instance in which every agent values at most k goods has p*(I) ≤ f.
+
+**W(k)** says W(k, f) holds for some f independent of n. A welfare maximum with p*(I) unallocated goods is a robust
+stopping state (CH6), so it has strong charity and CH-A/B/C apply; W(k, f) implies CH(k) with the same f. W is
+scale-sensitive across agents: rescaling one agent (v_i ↦ λ_i v_i) changes neither EFX₀ nor the Pareto order but
+changes w*, so W over all instances also covers every weighted welfare Σ λ_i v_i.
+
+**Lemma W0 (what a smallest counterexample looks like).** If some instance with n agents has p*(I) ≥ p, then some
+instance with the same n and k has p*(I) ≥ p and a welfare maximum X leaving p*(I) goods out in which (i) every
+unallocated good is valued by some agent, and (ii) every bundle holds at most one good valued by nobody. In particular
+m ≤ nk + n, and the values can be taken in {0} ∪ [1, ∞).
+*Proof.* (i) holds for every such X: a pool good valued by nobody can be added to a source (CH0: a source exists
+since a welfare maximum has an acyclic envy graph), keeping EFX₀ and the total, which leaves fewer goods out.
+(ii) Let X_j hold two goods h, h′ valued by nobody, and delete h′ from the instance. Removing h′ from any EFX₀
+allocation keeps it EFX₀ and keeps its total and (or lowers) its number of unallocated goods; conversely an EFX₀
+allocation Y′ of the smaller instance, after rotating envy cycles (which raises the total), has a source, which can
+take h′. So the largest totals with at most p − 1 goods unallocated agree in the two instances, and X ∖ h′ keeps the
+total w* with p*(I) ≥ p goods out. Repeat. Each agent values at most k goods, so at most nk goods are valued; scaling
+all values by one constant gives the last clause. ∎
+
+### Results
+
    - *f = 0 fails at k = 4 and at k = 3:* on GM4-G the largest total (32) is attained only with one good unallocated,
      complete EFX₀ allocations reach 31; the same holds for GM4-G cut to three goods per agent, a k = 3 instance with
      the hypergraph of S′(2, 3) (`w_brute.py`, `w_brute.log`; `attempts/kgen-charity-welfare-complete.md`). On GM4-E,
@@ -331,13 +354,16 @@ with the P1 replay on GM4-E: five Pareto maxima, one leaving one good out):
      stranded Pareto maximum can be a *supported* point of the EFX₀ value vectors. GM4-G's and GM4-E's are; S′(2, 3)'s
      is not (`welfare_support.py`, LP over all 125 EFX₀ value vectors). So S′ cannot be rescaled into a counterexample.
    - Hill-climbs on values toward a welfare maximum leaving one good out at k = 3, or two at k = 4: `w_climb_*.log`.
-2. **Non-monotone moves.** CH-D and CH-E show that a proof of CH(k), k ≥ 3, must sometimes lower an agent's value.
+
+## 7. Open
+
+1. **Non-monotone moves.** CH-D and CH-E show that a proof of CH(k), k ≥ 3, must sometimes lower an agent's value.
    The two known mechanisms are LB⁺'s rotation (k = 3) and Kaviani–Seddighin–Shahrezaei's virtual values
    (`proofs/pq_bounded.md` §2.1, their rule that may lower actual utilities). A charity version of either, with the
    S′ family as the test case, is the next step.
-3. **Combine CH-B with relevant goods.** In CH-A the only obstacle to an n-independent bound is pool goods with many
+2. **Combine CH-B with relevant goods.** In CH-A the only obstacle to an n-independent bound is pool goods with many
    valuers; in S and S′ every pool good has σ valuers.
-4. **Route (c)** (serial-dictatorship picks plus one absorber, `k4/sdc.md` §29–§30) was not pursued beyond the
+3. **Route (c)** (serial-dictatorship picks plus one absorber, `k4/sdc.md` §29–§30) was not pursued beyond the
    observation that from SD picks every unfrozen agent can take one junk good for free (a two-good bundle {y_a, j}
    with y_a unwanted is strongly envied by nobody, because every agent values j at most its own pick); CKMS runs from
    SD picks behave like runs from the empty allocation (`ch_screen.log`, `ch_ckms.py`).
