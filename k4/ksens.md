@@ -595,9 +595,10 @@ Let W ≥ 1 and r ∈ {2, 3}.
      - It values only q₁ in R, and v_{w₁}(q₁) < v_{w₁}(p₁).
      - In x₂'s two-good bundle {p₂, q₁}, removing a good leaves p₂ or q₁, each worth less than p₁.
      - It values nothing in x₁'s bundle.
-   - *The other wanters w_i:* they value nothing but the p's and their own q_i. Every bundle containing a p besides
-     its holder's own singleton is a two-good bundle {p₁, d₃} or {p₂, q₁}, and removing its other good leaves one p.
-     So EFX₀ toward it is EFX₀ toward a singleton, which always holds.
+   - *The other wanters w_i* exist only when W ≥ 2, and then every p is held as a singleton: {p₁} by w₁, {p_j} by
+     x_j. R contains no p and no q_i of theirs other than w₂'s own q₂. Since they value nothing but the p's and their
+     own q_i, no bundle threatens them. (The two-good bundles {p₁, d₃} and {p₂, q₁} occur only when W = 1, where
+     there is no other wanter.)
 4. *Checks* (`pwk_check.py`, `pwk_check.log`), against the raw EFX₀ definition:
    - the allocation is EFX₀ for every f ≤ 6, W ≤ 5, r ∈ {2, 3} with clean values (60 configurations), and on 8,000
      random value assignments of the whole family;
