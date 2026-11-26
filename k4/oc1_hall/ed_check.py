@@ -7,7 +7,7 @@ At every hard start (no S* completion at the picks) and on the 20 configurations
   ED-OA  : some ED chain leaves a one-absorber completion whose absorber is x_0 or x_t (k4/sdc/f1_owner.absorber_ok);
   CANON  : (Finding C's canonical form) some chain from D whose head also takes no junk and wants its good alone.
 
-    python3 k4/oc1_hall/ed_check.py SRC | list
+    python3 k4/oc1_hall/ed_check.py SRC | list        (R1=1: R1-priority serial dictatorship, k4/sdc/sdc_orders.sd)
 """
 import sys, os, itertools, collections, time, json
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -17,6 +17,8 @@ from sdclib import Enc
 from f1_owner import absorber_ok
 from oc_absorb import extends_A
 from min_frozen import load
+from sdc_orders import sd
+R1 = os.environ.get('R1', '0') == '1'
 import de_free as DF
 DF.CHAIN_ONLY = True
 
@@ -43,7 +45,7 @@ def classify(I, E, P, base):
 
 if __name__ == '__main__':
     src = sys.argv[1]; C = collections.Counter(); t0 = time.time()
-    print('$ python3 k4/oc1_hall/ed_check.py', *sys.argv[1:], flush=True)
+    print('$ python3 k4/oc1_hall/ed_check.py', *sys.argv[1:], '(R1=%d)' % R1, flush=True)
     if src == 'list':
         root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
         for d in json.load(open(os.path.join(root, 'results', 'k4_oc1_hall', 'no_canonical.json'))):
@@ -59,7 +61,7 @@ if __name__ == '__main__':
             if n > 5: continue
             I = Inst(sets, vals, m, name); E = Enc(sets, vals, m); seen = set()
             for od in itertools.permutations(range(n)):
-                Y = picks(I, od)
+                Y = tuple(sd(E, list(od), True)[0]) if R1 else picks(I, od)
                 if Y in seen: continue
                 seen.add(Y); base = base_of_picks(I, Y)
                 if s_star_owners(I, base): continue

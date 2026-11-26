@@ -918,3 +918,13 @@ along with Finding D1.
 
 A Theorem A₄ for R1-priority orders would have to show that this "two pickless bins against three triangles" pattern
 cannot occur.
+
+**OC₁-ED\* for R1-priority orders, on this workstream's data** (`ed_check.py` with `R1=1`, `ed_check_r1.log`).
+- Picks are now those of R1-priority serial dictatorship (`k4/sdc/sdc_orders.sd(..., True)`), every order.
+- On every one-absorber-hard start an ED chain leaves an S\* completion owned by x₀ or x_t: special 15, screen 144,
+  suite 143, logs 1,157, random 240 + 149 + 7. That is **1,855 of 1,855**.
+- The only S\*-hard starts without an ED repair are again lb4-owner-needs-from-base-n4m8. They complete at the picks
+  with a compensated frozen slot.
+- The TTC session's K4.MC2-class core satisfies OC₁ from all 120 R1-priority orders.
+
+So the R1-priority form of OC₁-ED\* survives everything known.
