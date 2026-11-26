@@ -32,6 +32,7 @@ angles in flight, and what each established. Ledger rows change only with artifa
 | k-sensitivity: the smallest k at which SD-C, MD, OC and OC₁ fail (adversarial, k = 5, 6, 8), and what k ≤ 4 buys | session_01BYMGeYRzPvVFuMx5JPLStH | `claude/k4-ksens` | `k4/ksens.md` |
 | General k, first foothold: OC₁ / SD-C for three agents at arbitrary k (a short proof with a polynomial algorithm would be new), then n = 4 | session_01BYMGeadPp24qCxnUuKsLsB | `claude/kgen-n3` | its own note (`kgen/`) |
 | Induction on agents along the serial-dictatorship order (add the last agent, or remove the first / an unwanted one), with an invariant P found by computation | session_01BYMGecgCGycycqxiyS1n7G | `claude/k4-sd-induct` | `k4/sd_induct.md` |
+| Housing markets / top trading cycles: SD picks as existing tenants, junk as the pool; find the TTC / YRMH-IGYT-type rule that picks the repairing chain, and core-type invariants | session_01BYMGeao2jUMkZBYQ48pDMw | `claude/k4-ttc` | `k4/ttc.md` |
 
 The coordinator (this branch, `claude/kind-lamport-y8fdme`) runs an hourly burst: it checks each angle, verifies any
 claimed proof or counterexample independently, integrates verified results here, and works one angle of its own.
@@ -63,3 +64,9 @@ claimed proof or counterexample independently, integrates verified results here,
   is running (`k4/sdc/oc1_bign_climb.py`, `results/k4_sdc/oc1_bign_climb_6_8.log`).
 - Literature survey started (agent-count side, structural side, cross-field techniques); its report will go to
   `reports/`.
+
+### 2026-11-26 20:48 UTC: ninth angle, housing markets
+- SD picks are the Pareto-optimal one-good matchings, and our improving chains are trading paths in a housing
+  market with existing tenants (the picks) and a pool (the junk), with multi-unit demand. The session tests whether a
+  TTC / YRMH-IGYT-type rule picks a repairing chain, where value-based rules fail (`k4/sdc.md` §29). It also asks
+  whether core results, including Konishi–Quint–Wako's nonexistence, explain P1.
