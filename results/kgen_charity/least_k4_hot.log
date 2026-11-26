@@ -1,0 +1,1 @@
+$ python3 kgen/charity/ch_least.py 3 400 3 9 2 4 hot

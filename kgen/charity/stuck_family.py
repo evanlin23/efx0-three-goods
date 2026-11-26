@@ -21,8 +21,12 @@ from chlib import (Inst, efx0, pool_ok, pool_of, u0_moves, envy_graph, sources, 
                    ckms, stuck_report, sat_min_charity)
 
 
-def build(sigma, k):
+def build(sigma, k, own=False):
+    """own=False: S(sigma, k).  own=True: the variant S'(sigma, k) (k >= 3) in which every agent values its own bundle:
+    sources value x_j and x'_j at 2 each and their children at 5; relays value their own good at 4 and their children
+    at 5; parents value a champion's good at 5."""
     p = sigma - 1
+    cv = 5 if own else 2
     goods = collections.OrderedDict()
 
     def good(name):
@@ -50,16 +54,22 @@ def build(sigma, k):
         level = [('y',) + lf for lf in leaves]          # goods held by the current level's agents
         while len(level) > top_arity:
             nxt = []
-            for a in range(0, len(level), k):
-                grp = level[a:a + k]
+            step = k - 1 if own else k                  # a relay values its children (and, if own, its good)
+            for a in range(0, len(level), step):
+                grp = level[a:a + step]
                 rid[0] += 1; zr = ('z', rid[0])
-                agent({gg: 2 for gg in grp}, [zr])
+                d = {gg: cv for gg in grp}
+                if own:
+                    d[zr] = 4
+                agent(d, [zr])
                 nxt.append(zr)
             level = nxt
         return level
     for j in range(sigma):
-        tops = tree([(g, (j - 1) % sigma) for g in range(p)], k - 1)   # s_j reaches the champions of source j-1
-        vals = {gg: 2 for gg in tops}; vals[("x'", j)] = 1
+        tops = tree([(g, (j - 1) % sigma) for g in range(p)], k - 2 if own else k - 1)
+        vals = {gg: cv for gg in tops}; vals[("x'", j)] = 2 if own else 1
+        if own:
+            vals[('x', j)] = 2
         src[j] = agent(vals, [('x', j), ("x'", j)])
     I = Inst(len(v), len(goods), v)
     pool = {goods[('g', g)] for g in range(p)}
