@@ -17,6 +17,7 @@ import networkx as nx
 from multiprocessing import Pool
 HERE = os.path.dirname(os.path.abspath(__file__)); K4 = os.path.dirname(HERE); ROOT = os.path.dirname(K4)
 sys.path.insert(0, K4)
+sys.argv = [a if a.startswith('--') or not os.path.exists(a) else os.path.abspath(a) for a in sys.argv]
 os.chdir(K4)
 import check_mincex_cores4 as CM
 import gamma_orbits as GO
@@ -63,7 +64,7 @@ def check_one(item):
     for r in CERT.get((n, m, h), []):
         gm = nx.algorithms.isomorphism.GraphMatcher(G, CM.graph(r['sets'], r['m']), node_match=lambda a, b: a['c'] == b['c'])
         if not gm.is_isomorphic(): continue
-        if r.get('status') != 'certified': return sets, kinds, None, 'record not certified (%s)' % r.get('status')
+        if r.get('status', 'certified' if 'allocs' in r else None) != 'certified': return sets, kinds, None, 'record not certified (%s)' % r.get('status')
         mp = gm.mapping
         gmap = {g: mp[('g', g)][1] for g in range(m)}
         inv = {mp[('a', a)][1]: a for a in range(n)}
