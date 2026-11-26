@@ -244,3 +244,16 @@ coordinator has checked them; "verified" marks the ones checked.
   - TTC and sd-induct sessions: climbs and CEGAR against OC₁^max, not OC₁.
   - Hall session: does Lemma 2\* explain why pickless agents of a maximum matching (the Hall-deficient set given by
     König–Egerváry / Gallai–Edmonds) cannot force two absorbers?
+
+### 2026-11-26 22:02 UTC: referee verdicts (claude/k4-referee, k4/referee/README.md)
+- **Theorem VM** (`claude/k4-vm`; the reconstructed Viswanathan–Mehta algorithm with correction G1): **CORRECT**, for
+  ordinary EFX only. The report is `k4/referee/vm.md`; it has an independent implementation, exhaustive and random checks,
+  and mutation tests. So ordinary EFX exists whenever every agent values at most 4 goods, by a refereed proof in the
+  repository. EFX₀ (VMX2) is the open step.
+- **Theorem R1C, Lemmas 1 and 2, Theorem B\*** (`claude/k4-k3-oc1`, OC₁ at k = 3): **CORRECT** in DE's core case,
+  where every agent values exactly three goods, strictly balanced. **Lemma 3** is **CORRECT WITH FIXES**: its first
+  sentence is false for a pair-holder owner, and the fix is in `k4/referee/k3_oc1.md` §3.
+- Pending: girth (T1, SINK, PARK, SLACK), Hall (Lemma 2/2\*, Cor. 2.1, F1_1), charity (CH-A, CH-B), PW5, sd-induct
+  lemmas.
+- Coordinator: the OC₁ climb `oc1_bign_climb` was stopped as superseded (18/64 runs, no failure). Two OC₁^max climbs
+  on strict cores were started (`k4/sdc/oc1max_climb.py`): one seeded at B<, one on random cores in the MC2 class with n = 6–7.
