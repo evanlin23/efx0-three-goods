@@ -1,0 +1,5 @@
+$ python3 kgen/charity/cgm_check.py
+values of X: [16, 15, 10] EFX0 True strong charity True pool [6] | max relevant goods per agent 6
+Pareto maximum (no partial EFX0 allocation dominates it): True
+fewest losers over complete EFX0 allocations: 1 (agents [0]), e.g. [[2, 3, 6], [0, 1, 4], [5]] with values [15, 15, 10]
+brute force: 21 complete EFX0 allocations; fewest losers 1

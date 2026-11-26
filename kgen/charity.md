@@ -21,7 +21,7 @@ changed here; the coordinator integrates.
 | W small n | no welfare maximum strands a good for n = 3, k = 3; none strands two for n = 3, k = 3, 4 and n = 4, k = 3 | exhaustive by one implementation (z3 CEGAR over real values, all m ≤ nk + n by Lemma W0) | §6, `w_synth_n*.log` |
 | DU | an instance whose incidence graph has ≥ 2 components with agents has a complete EFX₀ allocation | PROVED (written proof; recipe checked on 2,000 random unions and on copies of the stranded instances) | §3, Prop. DU, `union_dump.log` |
 | CH-KD | every agent values ≤ k goods, every good has ≤ d valuers: some EFX₀ state with strong charity leaves ≤ min{(k − 2)d − 1, R(d)} goods out (|P|! ≤ d^{|P|−1}); at k = 4: ≤ 2, 4, 6, 9 for d = 2, 3, 4, 5 | PROVED (self-contained proof, §8; CH-A, CH-B marked correct by the referee, k4/referee/charity.md) | §8 |
-| OL | from any EFX₀ state with strong charity, some complete EFX₀ allocation leaves at most one agent worse off | CONJECTURE (holds on every stranded state found: S′, CH-F, 20 curated Pareto maxima, CKMS stops, 1,008 random charity states) | §9, `losers.log`, `ol_check.log` |
+| OL | from any EFX₀ state with strong charity, some complete EFX₀ allocation leaves at most one agent worse off | CONJECTURE: PROVED at n = 2 (P1₂, no loser); exhaustive (z3, one implementation) at n = 3, k = 3 and n = 4, k = 3; holds on every stranded state found (S′, CH-F, 20 curated Pareto maxima, CGM's three-agent example, CKMS stops, 1,458 random charity states) | §9, `ol_synth_*.log`, `losers.log`, `ol_check*.log`, `cgm_check.log` |
 | least charity | 0 on every instance tested, k = 3..8, n ≤ 9 | EVIDENCE (this is TARGET_k on random data) | §1, `least_*.log` |
 
 **Conclusion so far.** The rainbow-cycle method works with genuine zeros and gives *exact* EFX₀ with O(√(kn))
@@ -629,6 +629,14 @@ Pareto maximum above it (as in OL0(b)). ∎
 re-read here; the proof above is self-contained].) So P1 holds at n = 2 for every k and fails at n = 4 for k = 3
 (§5); n = 3 is the threshold question, see below. The exact searches agree: no Pareto maximum strands a good at
 n = 2 for k ≤ 6 (`ol_synth_n2_p1.log`).
+
+**The literature's obstruction satisfies OL.** Chaudhury–Garg–Mehlhorn ("EFX exists for three agents", arXiv
+2002.05119, §5, Table 3 and Theorem 21, read) give three agents and seven goods, with agent 1 valuing six of them
+(k = 6), and the partial EFX allocation ({g2, g3, g4}, {g1, g5}, {g6}), g7 unallocated, which no complete EFX
+allocation Pareto-dominates; they use it to argue that Pareto-improving algorithms cannot work. Here (`cgm_check.py`,
+`cgm_check.log`): it is EFX₀ with strong charity and a Pareto maximum (so P1 fails at n = 3 for k = 6), and a complete
+EFX₀ allocation leaves exactly one agent worse off: ({g3, g4, g7}, {g1, g2, g5}, {g6}) with values (15, 15, 10)
+against (16, 15, 10) (brute force over all 3⁷ complete allocations: 21 are EFX₀, the fewest losers is 1).
 
 **OL and the Haxell session's W^sub** (`k4/haxell.md` on `claude/k4-haxell`, read at its burst-2 status). W^sub says:
 from every partial EFX₀ allocation with a nonempty pool, at most two moves (single-good reassignment, swap, rotation
