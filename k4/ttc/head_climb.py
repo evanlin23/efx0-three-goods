@@ -5,16 +5,27 @@ the least number of repairing chains of that kind, then how many orders attain i
 Minimized; 0 = a counterexample to OC1-H (then the plain OC1 count of that start is printed too).  Mutations and
 starts as in k4/sdc/sdc_climb.py (same as k4/sdc/oc_climb.py).
 
-    python3 k4/ttc/head_climb.py SEED N STEPS ROUNDS"""
+    python3 k4/ttc/head_climb.py SEED N STEPS ROUNDS [hd]
+hd: Conjecture OC1-HD instead: only chains whose x_0 is dangerous at the start and whose middle agents x_1..x_{t-1}
+take no junk count (the head may take junk)."""
 import sys, json, random, time, itertools
 import ttclib as T
 from sdc_climb import mutate, start
 
 
+SHAPE = False   # 'hd': count only chains with x_0 dangerous at the start and no junk for x_1..x_{t-1} (OC1-HD)
+
+
+def hd_ok(E, base, b2, path, H, D):
+    return path[0] in D and all(not H.get(i) for i in range(1, len(path) - 1))
+
+
 def counts(E, base):
     head = 0; any1 = 0; memo = {}
+    D = T.dangerous_set(E, base) if SHAPE else None
     for b2, ds in T.DF.moves(E, base, describe=True, all_desc=True).items():
-        heads = set(d[1][-1] for d in ds if d[0] == 'chain' and len(d[1]) > 1)
+        heads = set(d[1][-1] for d in ds if d[0] == 'chain' and len(d[1]) > 1
+                    and (not SHAPE or hd_ok(E, base, b2, d[1], d[2], D)))
         if T.extends_A(E, b2, 1):
             any1 += 1
             if any(T.extends_owner(E, b2, h) for h in heads):
@@ -42,6 +53,7 @@ def objective(sets, vals):
 
 if __name__ == '__main__':
     seed, n, steps, rounds = map(int, sys.argv[1:5]); rng = random.Random(seed); t0 = time.time()
+    SHAPE = 'hd' in sys.argv[5:]
     print('$ python3 k4/ttc/head_climb.py', *sys.argv[1:], flush=True)
     for r in range(rounds):
         sets, vals = start(rng, n); c, Y, cc = objective(sets, vals); best = c

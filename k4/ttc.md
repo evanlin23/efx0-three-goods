@@ -4,7 +4,24 @@ Workstream `proof/k4-ttc` (branch `claude/k4-ttc`, draft PR #101). Code: `k4/ttc
 log); logs: `results/k4_ttc/`. Notation as in `k4/sdc.md` (§2, §28–§30). Everything called evidence below is evidence
 only (PROMPT.md §5 rule 3). This note changes no ledger row; the coordinator integrates.
 
-## Status (end of burst 1)
+## Status (end of burst 2)
+
+**Burst 2 (new):**
+- **Conjecture OC₁-HD** (§10) is a sharper form of OC₁-H that holds on every one of the 2,310 distinct hard starts
+  with n ≤ 5. The repairing chain can be taken to have this shape:
+  - it starts at a *dangerous* agent x₀ (frozen at the picks, valuing junk);
+  - its middle agents take exactly their predecessor's pick (pure want arrows, no junk);
+  - only the head x_t may add junk, and the head absorbs.
+
+  This is LB₄ʳ's improving rotation from a frozen agent to the owner, with the owner allowed to take junk and x₀
+  allowed to take the owner's pick.
+- *Necessary-looking parts of the shape.* Requiring in addition that x₀ take junk only fails on a third of the
+  starts: the repair is then a ring through the head. Requiring the head to take no junk fails on 49 starts.
+- *n = 6–9.* OC₁-H holds on all 103 distinct hard starts found among 2,000 random instances and the 57 logged ones
+  (§8).
+- *Climbs.* Adversarial climbs against OC₁-HD at n = 3, 4, 5 have found nothing so far (in progress, §10).
+
+## Status of burst 1
 
 **Proved (short written proofs, §2):**
 - *Lemma T1:* with unit demand, no trade of TTC or YRMH-IGYT changes the serial-dictatorship picks. So every repair
@@ -304,6 +321,10 @@ description of every improving chain):
   with the mutations of `k4/sdc/oc_climb.py`. Runs: n = 3 (12 rounds × 1,200 steps; 25 × 3,000), n = 4 (8 × 400;
   15 × 1,200). Logs `head_climb_n3*.log`, `head_climb_n4*.log`. **No run goes below one.**
 - The runs of `ttc2.py` record whether the accepted run's head can absorb: 94–100% of the hard starts (table of §5).
+- *n = 6–9* (`head_bign.py`, `head_bign.log`; lazy chain enumeration, stopping at the first head-absorbed repair, 120 s
+  per start): random instances from `k4/sdc/oc1_bign.py`'s generator (2,000, 12 orders each) give 50, 18, 11 and 14
+  distinct hard starts at n = 6, 7, 8, 9; the logged instances with n = 6, 7 (57) give 10. **The head absorbs in
+  every one**, with no timeout. Random instances of this size are easy, so this is weak evidence.
 
 ## 9. What the theory offers as an invariant
 
@@ -333,10 +354,82 @@ description of every improving chain):
   draw, that one-unit consumption is what makes exchange work, matches Lemma T1: every k = 4 repair uses a set demand.
 - *Strategy-proofness* (AS99 Thm 1, Ma, Sönmez–Ünver) concerns incentives and gives nothing for existence.
 
-## 10. Next steps (for the coordinator and for burst 2)
+## 10. The shape of the head-absorbed repair: Conjecture OC₁-HD
 
-1. *OC₁-H at larger n:* run `head_owner.py` on `big:6-9` (needs a lazy chain enumeration, as in
-   `k4/sdc/oc1_bign.py`), and climb at n = 5.
+`chain_shape.py`, `chain_shape.log`.
+- *Features recorded.* For every distinct hard start and every head-absorbed repairing chain (every description of
+  every improving chain with t ≥ 1 whose result has a one-absorber completion with absorber x_t):
+  - D0: x₀ dangerous at the start;
+  - PJ: x₀ takes junk only;
+  - NJH: x₁, …, x_{t−1} take no junk;
+  - NJ: no agent but x₀ takes junk;
+  - UH: the head is unwanted at the start;
+  - M0: x₀'s new bundle is inclusion-minimal improving;
+  - T1: t = 1;
+  - LAST: the head is the last agent of some order giving these picks.
+- *Table.* The number of hard starts having such a chain with each conjunction:
+
+| data | hard starts | D0+NJH | D0+NJH+M0 | D0+NJH+UH | D0+NJ | D0+PJ+NJH | D0+NJH+M0+T1 | LAST |
+|---|---|---|---|---|---|---|---|---|
+| special | 16 | 16 | 16 | 14 | 14 | 11 | 12 | 15 |
+| dichotomy failures | 2 | 2 | 2 | 2 | 2 | 1 | 2 | 2 |
+| screen | 194 | 194 | 190 | 177 | 179 | 121 | 151 | 187 |
+| suite | 196 | 196 | 192 | 179 | 181 | 132 | 152 | 189 |
+| random cores n ≤ 3 | 293 | 293 | 293 | 293 | 293 | 212 | 284 | 293 |
+| random cores n = 4 | 215 | 215 | 215 | 215 | 215 | 180 | 202 | 215 |
+| random cores n = 5 | 30 | 30 | 30 | 30 | 30 | 28 | 28 | 30 |
+| logged hard profiles (n ≤ 5) | 1,364 | 1,364 | 1,364 | 1,342 | 1,347 | 896 | 1,134 | 1,353 |
+| **total** | **2,310** | **2,310** | 2,302 | 2,252 | 2,261 | 1,581 | 1,965 | 2,284 |
+
+**Conjecture OC₁-HD.** For every order π whose picks Y have no one-absorber completion, there are:
+- a *dangerous* agent k (frozen in Y and valuing some junk good);
+- distinct agents k = x₀, x₁, …, x_t (t ≥ 1) such that each x_i with 1 ≤ i < t wants Y_{x_{i−1}} (so x₀, …, x_{t−2}
+  are frozen);
+- sets H₀ ⊆ (J ∪ {Y_{x_t}}) ∩ R_k with v_k(H₀) > v_k(Y_k), and H_t ⊆ J ∖ H₀ with
+  v_{x_t}({Y_{x_{t−1}}} ∪ H_t) > v_{x_t}(Y_{x_t});
+
+such that the following state has a one-absorber completion in which x_t is the absorber:
+- k takes H₀;
+- each x_i (1 ≤ i < t) takes Y_{x_{i−1}};
+- x_t takes {Y_{x_{t−1}}} ∪ H_t;
+- the rest of Y_{x_t} becomes junk.
+
+**What the shape says.**
+- In the housing market of §2, the head x_t (top priority) requests the pick of x_{t−1}, possibly with junk. Each
+  x_i in turn requests the pick it wants. The dangerous agent k makes a *pool request* (its danger set, or part of it
+  with the head's pick). The head then owns the rest of the pool. This is LB⁺'s Theorem B shape (one rotation, then
+  one owner) with the owner at the rotation's end. It is also Draft and Exchange's chain lemma, where the frozen agent
+  takes its pair and passes its top along the wanters, with the k = 3 pair replaced by any danger set and the owner
+  placed at the end.
+- *Compared with LB₄ʳ's improving rotation* (`k4/sdc.md` §29: x₀ frozen, x₁, …, x_{t−1} frozen, no junk for
+  x_i, i ≥ 1), OC₁-HD adds three things:
+  - x₀ must be dangerous, not just frozen;
+  - the head (= owner) may take junk;
+  - x₀ may take the head's pick.
+
+  §29 found that LB₄ʳ's improving rotations with its own output fail from some orders (6 special, 26 screen starts).
+  The table shows where the extra freedom is used. On 49 starts every repair of this shape gives the head junk (D0+NJ
+  fails). On 729 starts every repair of this shape has x₀ take the head's pick (D0+PJ+NJH fails).
+- *What a proof needs, in LB⁺'s format:*
+  - a Theorem A for a prescribed owner o: when do picks have a one-absorber completion with absorber o (the Hall-type
+    count of the `oc1_hall` angle, with the owner fixed);
+  - a Theorem B: if the count fails for every unwanted o, some dangerous agent's rotation to some o repairs it for o.
+
+  The TTC structure suggests the pointer argument for the second part:
+  - each candidate owner o whose count fails points, through its violated condition, to a dangerous agent whose
+    danger set causes the failure;
+  - that agent's pick has a want-path to some owner;
+  - Gale's argument closes it.
+
+**Adversarial climbs** (`head_climb.py … hd`, logs `head_climb_hd_n3.log`, `head_climb_hd_n4.log`,
+`head_climb_hd_n5.log`; in progress at the end of burst 2) minimize the number of OC₁-HD chains at the hardest start.
+None has gone below one.
+
+## 11. Next steps
+
+1. *OC₁-H / OC₁-HD at larger n:* done for random n = 6–9 (`head_bign.py`), but random instances are easy there. An
+   adversarial climb at n = 6–8 in the style of `k4/sdc/oc1_bign_climb.py`, with the head-absorber objective, is
+   still to do.
 2. *A proof route for OC₁-H through Lemma GDT:*
    - after a canonical chain from a dangerous agent, the head's old pick is junk and the head is the absorber;
    - (G5) holds if the head's new base is unwanted;

@@ -1,0 +1,261 @@
+$ python3 k4/ttc/chain_shape.py special
+distinct hard starts 16
+  any                16
+  D0                 16
+  F0                 16
+  PJ                 11
+  NJH                16
+  NJ                 14
+  UH                 15
+  M0                 16
+  T1                 13
+  D0+PJ              11
+  D0+PJ+NJH          11
+  D0+PJ+NJ           11
+  D0+PJ+NJ+UH        11
+  D0+PJ+NJH+UH       11
+  F0+PJ+NJ+UH        11
+  D0+PJ+NJ+UH+M0     11
+  D0+PJ+NJH+UH+M0    11
+  D0+NJH             16
+  D0+NJH+M0          16
+  D0+NJ              14
+  D0+NJ+M0           14
+  D0+NJH+UH          14
+  D0+NJH+M0+UH       14
+  D0+NJH+M0+T1       12
+  D0+NJ+M0+UH        13
+  LAST              15
+  no head-absorbed repairing chain of shape D0+NJ : T3 [[[5, 0, 4, 2], [3, 1, 4], [4, 1, 3, 0]], [[1, 38, 36, 6], [12, 22, 30], [28, 20, 12, 38]]] picks (0, 4, 1)
+  no head-absorbed repairing chain of shape D0+NJ+M0 : T3 [[[5, 0, 4, 2], [3, 1, 4], [4, 1, 3, 0]], [[1, 38, 36, 6], [12, 22, 30], [28, 20, 12, 38]]] picks (0, 4, 1)
+  no head-absorbed repairing chain of shape D0+NJH+UH : T3 [[[5, 0, 4, 2], [3, 1, 4], [4, 1, 3, 0]], [[1, 38, 36, 6], [12, 22, 30], [28, 20, 12, 38]]] picks (0, 4, 1)
+  no head-absorbed repairing chain of shape D0+NJH+M0+UH : T3 [[[5, 0, 4, 2], [3, 1, 4], [4, 1, 3, 0]], [[1, 38, 36, 6], [12, 22, 30], [28, 20, 12, 38]]] picks (0, 4, 1)
+  no head-absorbed repairing chain of shape D0+NJH+M0+T1 : T3 [[[5, 0, 4, 2], [3, 1, 4], [4, 1, 3, 0]], [[1, 38, 36, 6], [12, 22, 30], [28, 20, 12, 38]]] picks (0, 4, 1)
+  no head-absorbed repairing chain of shape D0+NJ+M0+UH : T3 [[[5, 0, 4, 2], [3, 1, 4], [4, 1, 3, 0]], [[1, 38, 36, 6], [12, 22, 30], [28, 20, 12, 38]]] picks (0, 4, 1)
+time 0 s
+$ python3 k4/ttc/chain_shape.py dich
+distinct hard starts 2
+  any                2
+  D0                 2
+  F0                 2
+  PJ                 1
+  NJH                2
+  NJ                 2
+  UH                 2
+  M0                 2
+  T1                 2
+  D0+PJ              1
+  D0+PJ+NJH          1
+  D0+PJ+NJ           1
+  D0+PJ+NJ+UH        1
+  D0+PJ+NJH+UH       1
+  F0+PJ+NJ+UH        1
+  D0+PJ+NJ+UH+M0     1
+  D0+PJ+NJH+UH+M0    1
+  D0+NJH             2
+  D0+NJH+M0          2
+  D0+NJ              2
+  D0+NJ+M0           2
+  D0+NJH+UH          2
+  D0+NJH+M0+UH       2
+  D0+NJH+M0+T1       2
+  D0+NJ+M0+UH        2
+  LAST              2
+time 0 s
+$ python3 k4/ttc/chain_shape.py screen
+distinct hard starts 194
+  any                194
+  D0                 194
+  F0                 194
+  PJ                 126
+  NJH                194
+  NJ                 179
+  UH                 187
+  M0                 194
+  T1                 170
+  D0+PJ              121
+  D0+PJ+NJH          121
+  D0+PJ+NJ           119
+  D0+PJ+NJ+UH        119
+  D0+PJ+NJH+UH       121
+  F0+PJ+NJ+UH        119
+  D0+PJ+NJ+UH+M0     111
+  D0+PJ+NJH+UH+M0    113
+  D0+NJH             194
+  D0+NJH+M0          190
+  D0+NJ              179
+  D0+NJ+M0           171
+  D0+NJH+UH          177
+  D0+NJH+M0+UH       169
+  D0+NJH+M0+T1       151
+  D0+NJ+M0+UH        162
+  LAST              187
+  no head-absorbed repairing chain of shape D0+NJH+M0 : rt4-n5m9-chain [[[0, 2, 4, 7], [1, 4, 7, 8], [3, 6, 8], [5, 6, 7, 8], [5, 6, 7, 8]], [[6, 3, 5, 7], [4, 2, 8, 7], [2, 4, 3], [4, 8, 1, 6], [2, 7, 8, 4]]] picks (7, 1, 6, 8, 5)
+  no head-absorbed repairing chain of shape D0+NJ : adaptive-p1 [[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 6, 8], [2, 3, 4, 8], [2, 7, 8, 4]]] picks (5, 3, 4)
+  no head-absorbed repairing chain of shape D0+NJ+M0 : adaptive-p1 [[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 6, 8], [2, 3, 4, 8], [2, 7, 8, 4]]] picks (5, 3, 4)
+  no head-absorbed repairing chain of shape D0+NJH+UH : adaptive-p1 [[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 6, 8], [2, 3, 4, 8], [2, 7, 8, 4]]] picks (5, 4, 3)
+  no head-absorbed repairing chain of shape D0+NJH+M0+UH : adaptive-p1 [[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 6, 8], [2, 3, 4, 8], [2, 7, 8, 4]]] picks (5, 4, 3)
+  no head-absorbed repairing chain of shape D0+NJH+M0+T1 : adaptive-p1 [[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 6, 8], [2, 3, 4, 8], [2, 7, 8, 4]]] picks (5, 3, 4)
+  no head-absorbed repairing chain of shape D0+NJ+M0+UH : adaptive-p1 [[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 6, 8], [2, 3, 4, 8], [2, 7, 8, 4]]] picks (5, 4, 3)
+time 5 s
+$ python3 k4/ttc/chain_shape.py suite
+distinct hard starts 196
+  any                196
+  D0                 196
+  F0                 196
+  PJ                 137
+  NJH                196
+  NJ                 181
+  UH                 189
+  M0                 196
+  T1                 172
+  D0+PJ              132
+  D0+PJ+NJH          132
+  D0+PJ+NJ           130
+  D0+PJ+NJ+UH        130
+  D0+PJ+NJH+UH       132
+  F0+PJ+NJ+UH        130
+  D0+PJ+NJ+UH+M0     121
+  D0+PJ+NJH+UH+M0    123
+  D0+NJH             196
+  D0+NJH+M0          192
+  D0+NJ              181
+  D0+NJ+M0           172
+  D0+NJH+UH          179
+  D0+NJH+M0+UH       170
+  D0+NJH+M0+T1       152
+  D0+NJ+M0+UH        163
+  LAST              189
+  no head-absorbed repairing chain of shape D0+NJH+M0 : rt4-n5m9-chain [[[0, 2, 4, 7], [1, 4, 7, 8], [3, 6, 8], [5, 6, 7, 8], [5, 6, 7, 8]], [[6, 3, 5, 7], [4, 2, 8, 7], [2, 4, 3], [4, 8, 1, 6], [2, 7, 8, 4]]] picks (7, 1, 6, 8, 5)
+  no head-absorbed repairing chain of shape D0+NJ : adaptive-p1 [[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 6, 8], [2, 3, 4, 8], [2, 7, 8, 4]]] picks (5, 3, 4)
+  no head-absorbed repairing chain of shape D0+NJ+M0 : adaptive-p1 [[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 6, 8], [2, 3, 4, 8], [2, 7, 8, 4]]] picks (5, 3, 4)
+  no head-absorbed repairing chain of shape D0+NJH+UH : adaptive-p1 [[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 6, 8], [2, 3, 4, 8], [2, 7, 8, 4]]] picks (5, 4, 3)
+  no head-absorbed repairing chain of shape D0+NJH+M0+UH : adaptive-p1 [[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 6, 8], [2, 3, 4, 8], [2, 7, 8, 4]]] picks (5, 4, 3)
+  no head-absorbed repairing chain of shape D0+NJH+M0+T1 : adaptive-p1 [[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 6, 8], [2, 3, 4, 8], [2, 7, 8, 4]]] picks (5, 3, 4)
+  no head-absorbed repairing chain of shape D0+NJ+M0+UH : adaptive-p1 [[[0, 1, 4, 5], [2, 3, 4, 5], [2, 3, 4, 5]], [[1, 4, 6, 8], [2, 3, 4, 8], [2, 7, 8, 4]]] picks (5, 4, 3)
+time 16 s
+$ python3 k4/ttc/chain_shape.py core:n3 3000 91
+distinct hard starts 293
+  any                293
+  D0                 293
+  F0                 293
+  PJ                 212
+  NJH                293
+  NJ                 293
+  UH                 293
+  M0                 293
+  T1                 284
+  D0+PJ              212
+  D0+PJ+NJH          212
+  D0+PJ+NJ           212
+  D0+PJ+NJ+UH        212
+  D0+PJ+NJH+UH       212
+  F0+PJ+NJ+UH        212
+  D0+PJ+NJ+UH+M0     212
+  D0+PJ+NJH+UH+M0    212
+  D0+NJH             293
+  D0+NJH+M0          293
+  D0+NJ              293
+  D0+NJ+M0           293
+  D0+NJH+UH          293
+  D0+NJH+M0+UH       293
+  D0+NJH+M0+T1       284
+  D0+NJ+M0+UH        293
+  LAST              293
+  no head-absorbed repairing chain of shape D0+NJH+M0+T1 : r514 [[[0, 2, 3, 4], [1, 2, 3, 4], [1, 3, 4]], [[3, 6, 10, 2], [8, 7, 4, 2], [4, 3, 2]]] picks (2, 1, 3)
+time 5 s
+$ python3 k4/ttc/chain_shape.py core:n4 1500 92
+distinct hard starts 215
+  any                215
+  D0                 215
+  F0                 215
+  PJ                 181
+  NJH                215
+  NJ                 215
+  UH                 215
+  M0                 215
+  T1                 202
+  D0+PJ              180
+  D0+PJ+NJH          180
+  D0+PJ+NJ           180
+  D0+PJ+NJ+UH        180
+  D0+PJ+NJH+UH       180
+  F0+PJ+NJ+UH        180
+  D0+PJ+NJ+UH+M0     180
+  D0+PJ+NJH+UH+M0    180
+  D0+NJH             215
+  D0+NJH+M0          215
+  D0+NJ              215
+  D0+NJ+M0           215
+  D0+NJH+UH          215
+  D0+NJH+M0+UH       215
+  D0+NJH+M0+T1       202
+  D0+NJ+M0+UH        215
+  LAST              215
+  no head-absorbed repairing chain of shape D0+NJH+M0+T1 : r98 [[[0, 2, 5], [1, 3, 4, 5], [2, 3, 4, 5], [3, 4, 5]], [[3, 2, 4], [5, 7, 6, 3], [4, 6, 8, 3], [4, 2, 3]]] picks (5, 3, 2, 4)
+time 8 s
+$ python3 k4/ttc/chain_shape.py core:n5 150 93
+distinct hard starts 30
+  any                30
+  D0                 30
+  F0                 30
+  PJ                 28
+  NJH                30
+  NJ                 30
+  UH                 30
+  M0                 30
+  T1                 28
+  D0+PJ              28
+  D0+PJ+NJH          28
+  D0+PJ+NJ           28
+  D0+PJ+NJ+UH        28
+  D0+PJ+NJH+UH       28
+  F0+PJ+NJ+UH        28
+  D0+PJ+NJ+UH+M0     28
+  D0+PJ+NJH+UH+M0    28
+  D0+NJH             30
+  D0+NJH+M0          30
+  D0+NJ              30
+  D0+NJ+M0           30
+  D0+NJH+UH          30
+  D0+NJH+M0+UH       30
+  D0+NJH+M0+T1       28
+  D0+NJ+M0+UH        30
+  LAST              30
+  no head-absorbed repairing chain of shape D0+NJH+M0+T1 : r41 [[[0, 1, 2], [0, 2, 3, 5], [1, 4, 5, 6], [3, 4, 6], [4, 5, 6]], [[2, 3, 4], [3, 7, 5, 6], [6, 8, 3, 10], [3, 4, 2], [2, 3, 4]]] picks (2, 5, 6, 3, 4)
+time 2 s
+$ python3 k4/ttc/chain_shape.py logs nmax=5
+distinct hard starts 1364
+  any                1364
+  D0                 1364
+  F0                 1364
+  PJ                 900
+  NJH                1364
+  NJ                 1347
+  UH                 1353
+  M0                 1364
+  T1                 1154
+  D0+PJ              896
+  D0+PJ+NJH          896
+  D0+PJ+NJ           895
+  D0+PJ+NJ+UH        895
+  D0+PJ+NJH+UH       896
+  F0+PJ+NJ+UH        895
+  D0+PJ+NJ+UH+M0     895
+  D0+PJ+NJH+UH+M0    896
+  D0+NJH             1364
+  D0+NJH+M0          1364
+  D0+NJ              1347
+  D0+NJ+M0           1346
+  D0+NJH+UH          1342
+  D0+NJH+M0+UH       1341
+  D0+NJH+M0+T1       1134
+  D0+NJ+M0+UH        1335
+  LAST              1353
+  no head-absorbed repairing chain of shape D0+NJ : log554 [[[5, 0, 4, 2], [3, 1, 4], [4, 1, 3, 0]], [[1, 38, 36, 6], [12, 22, 30], [28, 20, 12, 38]]] picks (0, 4, 1)
+  no head-absorbed repairing chain of shape D0+NJ+M0 : log554 [[[5, 0, 4, 2], [3, 1, 4], [4, 1, 3, 0]], [[1, 38, 36, 6], [12, 22, 30], [28, 20, 12, 38]]] picks (0, 4, 1)
+  no head-absorbed repairing chain of shape D0+NJH+UH : log554 [[[5, 0, 4, 2], [3, 1, 4], [4, 1, 3, 0]], [[1, 38, 36, 6], [12, 22, 30], [28, 20, 12, 38]]] picks (0, 4, 1)
+  no head-absorbed repairing chain of shape D0+NJH+M0+UH : log554 [[[5, 0, 4, 2], [3, 1, 4], [4, 1, 3, 0]], [[1, 38, 36, 6], [12, 22, 30], [28, 20, 12, 38]]] picks (0, 4, 1)
+  no head-absorbed repairing chain of shape D0+NJH+M0+T1 : log63 [[[4, 3, 2], [2, 0, 3], [0, 1, 2]], [[5, 15, 17], [7, 21, 23], [15, 43, 57]]] picks (3, 0, 2)
+  no head-absorbed repairing chain of shape D0+NJ+M0+UH : log554 [[[5, 0, 4, 2], [3, 1, 4], [4, 1, 3, 0]], [[1, 38, 36, 6], [12, 22, 30], [28, 20, 12, 38]]] picks (0, 4, 1)
+time 17 s

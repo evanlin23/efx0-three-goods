@@ -358,3 +358,52 @@ def extends_owner(E, base, o):
         for g, h in itertools.combinations(J, 2):
             cl.append([-E.x[g][i], -E.x[h][i]])
     S = Cadical153(bootstrap_with=cl); ok = S.solve(); S.delete(); return ok
+
+
+def iter_chains_path(E, base):
+    """the improving chains of de_free.iter_chains (same moves, generated lazily), yielding (state, path) with
+    path = (x_0, ..., x_t)"""
+    n = E.n; B = bundles(E, base); J = [g for g in range(E.m) if base[g] < 0]
+    v = lambda i, S: val(E, i, S)
+    H_ = DF.HMAX; BM = DF.BMAX
+
+    def subs(xs):
+        for r in range(min(H_, len(xs)) + 1):
+            yield from itertools.combinations(xs, r)
+
+    def ext(path, usedH, assign):
+        x_t = path[-1]
+        pool0 = [g for g in J if g not in usedH and E.v[path[0]].get(g, 0) > 0] + \
+                ([g for g in B[x_t] if E.v[path[0]].get(g, 0) > 0] if len(path) > 1 else [])
+        for H0 in subs(pool0):
+            if not H0:
+                continue
+            newb0 = (list(B[path[0]]) if len(path) == 1 else []) + list(H0)
+            if len(newb0) > BM or v(path[0], newb0) <= v(path[0], B[path[0]]):
+                continue
+            nb = list(base)
+            if len(path) > 1:
+                for g in B[x_t]:
+                    nb[g] = -1
+                for i in range(len(path) - 1, 0, -1):
+                    for g in B[path[i - 1]]:
+                        nb[g] = path[i]
+                    for g in assign[i]:
+                        nb[g] = path[i]
+            for g in H0:
+                nb[g] = path[0]
+            yield tuple(nb), tuple(path)
+        if len(path) >= n or not B[x_t]:
+            return
+        for y in range(n):
+            if y in path:
+                continue
+            free = [g for g in J if g not in usedH and E.v[y].get(g, 0) > 0]
+            for H in subs(free):
+                nby = list(B[x_t]) + list(H)
+                if len(nby) > BM or v(y, nby) <= v(y, B[y]):
+                    continue
+                yield from ext(path + [y], usedH | set(H), {**assign, len(path): H})
+
+    for x in range(n):
+        yield from ext([x], frozenset(), {})
