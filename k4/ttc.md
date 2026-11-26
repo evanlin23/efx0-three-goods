@@ -36,7 +36,7 @@ only (PROMPT.md §5 rule 3). This note changes no ledger row; the coordinator in
 | R1-priority orders, random (`core_climb_mc2_r1_6_7.log`) | MC2, n = 6–7 | 24 × 400 (12 orders) | 0 | 1 |
 | OC₁^max, seeded from the two-private n = 5 core (`core_climb_max_seeded_core.log`) | strict cores, n = 5 | 6 × 300 | 0 | 2 |
 | OC₁^max, seeded from the MC2 counterexample (`core_climb_max_seeded_mc2.log`) | MC2, n = 5 | 6 × 300 | 0 | 2 |
-| OC₁^max, random (`core_climb_max_6_7.log`) | strict cores, n = 6–7 | running | 0 so far | 1 |
+| OC₁^max, random (`core_climb_max_6_7.log`) | strict cores, n = 6–7 | 24 × 300 (12 maximum-matching orders) | 0 | 1 |
 
 *A hand-made attack on OC₁^max* (`max_hand.py`, `max_hand.log`) gives each pickless agent of the MC2 counterexample
 a private fourth good of the lowest value. Then the failing order matches every agent while the yᵢ stay wanted. On
