@@ -731,3 +731,177 @@ def lss_dyn_safe(I, lab, pick='max'):
     r = Run(I, lab, pick)
     r.alg2_safe()
     return r, (park_dynamic(I, r.X, r.U) if is_efx0(I, r.X) else None)
+
+
+def envy_cycles(I, Y, cap=50):
+    """simple cycles of the envy graph (a envies b), as agent lists, at most cap of them"""
+    succ = [[b for b in range(I.n) if b != a and I.val(a, Y[a]) < I.val(a, Y[b])] for a in range(I.n)]
+    out = []
+
+    def dfs(start, a, path, on):
+        for b in succ[a]:
+            if b == start:
+                out.append(list(path))
+                if len(out) >= cap:
+                    return
+            elif b > start and b not in on:
+                on.add(b)
+                path.append(b)
+                dfs(start, b, path, on)
+                path.pop()
+                on.discard(b)
+            if len(out) >= cap:
+                return
+
+    for s in range(I.n):
+        dfs(s, s, [s], {s})
+        if len(out) >= cap:
+            break
+    return out
+
+
+def park_dynamic_ec(I, X, U, budget=200000):
+    """Dynamic parking with envy-cycle rotation: as park_dynamic, and when no agent is non-envied, rotate the bundles
+    along an envy cycle (every agent on it receives the bundle it envies; the bundles are the same sets, so EFX0 is
+    kept and nobody loses).  Depth-first search over the choices.  Returns the allocation or None."""
+    left0 = frozenset(U)
+    count = [0]
+    seen = set()
+
+    def rec(Y, left):
+        if not left:
+            return Y
+        key = (tuple(frozenset(b) for b in Y), left)
+        if key in seen:
+            return None
+        seen.add(key)
+        count[0] += 1
+        if count[0] > budget:
+            return None
+        N = [u for u in range(I.n) if not envied(I, Y, u)]
+        for g in sorted(left, key=lambda h: -len(I.edge[h])):
+            for u in N:
+                Z = [set(b) for b in Y]
+                Z[u].add(g)
+                if is_efx0(I, Z):
+                    res = rec(Z, left - {g})
+                    if res is not None:
+                        return res
+        if not N:
+            for cyc in envy_cycles(I, Y):
+                Z = [set(b) for b in Y]
+                for t, a in enumerate(cyc):
+                    Z[a] = set(Y[cyc[(t + 1) % len(cyc)]])
+                res = rec(Z, left)
+                if res is not None:
+                    return res
+        return None
+
+    res = rec([set(b) for b in X], left0)
+    return [set(b) for b in res] if res is not None else None
+
+
+def find_rotation_safe(I, X, U):
+    """Like find_rotation, for any hypergraph: every F6 candidate (a non-envied r with an envy path to an envied i
+    that i would beat by taking r's goods it values plus U_i) and every envy cycle (F5), keeping the first one that is
+    a Pareto improvement and leaves the partial allocation EFX0 (raw check)."""
+    for i in range(I.n):
+        if not envied(I, X, i):
+            continue
+        Ui = U & I.R[i]
+        for r, path in sorted(_envy_paths_to(I, X, i).items()):
+            hs = frozenset(h for h in X[r] if h in I.R[i])
+            new_i = hs | frozenset(Ui)
+            if I.val(i, new_i) <= I.val(i, X[i]):
+                continue
+            Y = list(X)
+            for t in range(len(path) - 1):
+                Y[path[t]] = X[path[t + 1]]
+            Y[i] = new_i
+            newU = (set(U) | (X[r] - hs)) - Ui
+            if all(I.val(a, Y[a]) >= I.val(a, X[a]) for a in range(I.n)) and is_efx0(I, Y):
+                return Y, newU, ('F6', r, i, tuple(path))
+    for cyc in envy_cycles(I, X):
+        Y = list(X)
+        for t, a in enumerate(cyc):
+            Y[a] = X[cyc[(t + 1) % len(cyc)]]
+        return Y, set(U), ('F5', tuple(cyc))
+    return None
+
+
+def lss_rot_safe(I, lab, pick='max', cap=10000):
+    """Algorithm 2 with the G1 repair, interleaved with find_rotation_safe until none applies (each step a Pareto
+    improvement keeping EFX0)"""
+    r = Run(I, lab, pick)
+    r.alg2_safe()
+    for _ in range(cap):
+        if not is_efx0(I, r.X):
+            break
+        rot = find_rotation_safe(I, r.X, r.U)
+        if rot is None:
+            break
+        r.X, r.U, ev = [frozenset(b) for b in rot[0]], set(rot[1]), rot[2]
+        r.events.append(ev)
+        r.alg2_safe()
+    return r
+
+
+def _alg2_variant(self, mode):
+    """Algorithm 2 variants for the G1 step: mode 'max' = alg2_safe (most valuable improving subset), 'min' = least
+    valuable improving subset that keeps EFX0, 'none' = FixProp3 only (no line 4)."""
+    if mode == 'max':
+        return self.alg2_safe()
+    I = self.I
+    self.fixprop3()
+    if mode == 'none':
+        return
+    stuck = set()
+    while True:
+        cand = [i for i in range(I.n) if i not in stuck and envied(I, self.X, i)
+                and I.val(i, self.U_of(i)) > I.val(i, self.X[i])]
+        if not cand:
+            break
+        i = self._choose(cand, key=lambda a: self.lab[a])
+        Ui = sorted(self.U_of(i))
+        best = None
+        for k in range(1, len(Ui) + 1):
+            for T in itertools.combinations(Ui, k):
+                T = frozenset(T)
+                if I.val(i, T) <= I.val(i, self.X[i]):
+                    continue
+                Y = list(self.X)
+                Y[i] = T
+                if is_efx0(I, Y) and (best is None or I.val(i, T) < I.val(i, best)):
+                    best = T
+        if best is None:
+            stuck.add(i)
+            continue
+        self.U |= self.X[i]
+        self.X[i] = best
+        self.U -= best
+        self.events.append(('A2L4m', i, tuple(sorted(best))))
+        self.fixprop3()
+        stuck = set()
+
+
+Run.alg2_variant = _alg2_variant
+
+
+def pipeline(I, lab, line4='max', rotations=True, cycles=True):
+    """Algorithm 2 (line-4 variant), optional EFX0-checked F5/F6 rotations, then dynamic parking (with envy-cycle
+    rotation if cycles).  Returns (Run, allocation or None)."""
+    r = Run(I, lab)
+    r.alg2_variant(line4)
+    if rotations:
+        for _ in range(10000):
+            if not is_efx0(I, r.X):
+                break
+            rot = find_rotation_safe(I, r.X, r.U)
+            if rot is None:
+                break
+            r.X, r.U = [frozenset(b) for b in rot[0]], set(rot[1])
+            r.events.append(rot[2])
+            r.alg2_variant(line4)
+    if not is_efx0(I, r.X):
+        return r, None
+    return r, (park_dynamic_ec(I, r.X, r.U) if cycles else park_dynamic(I, r.X, r.U))

@@ -400,6 +400,43 @@ vertex 0 with the default and two random labelings, stopping at the first succes
 - 48,000 profiles next to the screen instances (one or two agents' types re-drawn; `k4/girth/dyn_neighbours.py`,
   `results/k4_girth_dyn_neighbours.log`) and the d_stress families (`results/k4_girth_dyn_families.log`): all complete.
 
+**k-robustness** (`k4/girth/dyn_ksens.py`, `results/k4_girth_dyn_ksens.log`; every labeling). DYN survives every
+counterexample to the k = 4 conjectures OC / OC₁ / RD that the coordinator listed: PW5 (k = 5, n = 5, m = 9; 120 of 120
+labelings complete), RD5 (k = 5; 18 of 24), the k = 5 instance with n = 4, m = 8 of `proof/kgen-n3` (22 of 24), B< and
+B> (k = 4 cores, n = 6; 528 of 528 each), and the 39 TTC core counterexamples of `results/k4_sdc/ttc_core_cex_39.json`
+(120 of 120 each). So DYN is not tied to k = 4.
+
+**Envy-cycle rotation and the stuck states.**
+- *Lemma EC* (PROVED; the rotation of L3). In a partial EFX₀ allocation, giving every agent of an envy cycle the bundle
+  of the agent it envies keeps EFX₀ and (3): the bundles are the same sets, and every value weakly rises.
+- *Stuck states* (PROVED, from Lemmas SLACK and EC). Call a state of dynamic parking with envy-cycle rotation (DFS
+  state with leftovers, no good placeable on a currently non-envied agent, and no envy cycle to rotate) *stuck*. Then
+  the envy graph is acyclic, so non-envied agents exist, and every one of them holds at least two goods (one holding
+  ≤ 1 could absorb any leftover by Lemma SLACK, since (3) persists). In data (`k4/girth/dyn_fail_stats.py`,
+  `results/k4_girth_dyn_fail_stats.log`), 180 of the 328 terminal states of failing plain searches had *no*
+  non-envied agent at all (an envy cycle), and all 328 had every non-envied agent holding ≥ 2 goods.
+- *Parking with envy-cycle rotation* (`lss.park_dynamic_ec`) completes all 130 runs on which plain dynamic parking
+  failed in that sample. With it, **every labeling** completes on every screen, suite and k = 5 / OC instance (376
+  instances, 12,424 runs, `results/k4_girth_dynec_sets.log`). On random strict core profiles every labeling completes
+  on all but about 1 run in 2·10⁴ (`results/k4_girth_dynec_{cores4,cores5,random}.log`; counts in the status block), so
+  "every labeling" is false, but the existence form is untouched.
+- *EFX₀-checked F5/F6 rotations* during Algorithm 2 (`lss.find_rotation_safe`, `lss.pipeline`) repair most of those
+  runs: they let a non-envied agent trade up along an envy path when the end of the path gains. The rest all contain
+  a line-4 step giving an envied agent several goods; dropping line 4 repairs them but breaks others (15 of 30,184
+  runs), and the least-valuable-subset line 4 leaves 2 of 30,184. No fixed variant is correct for every labeling.
+
+**Which labelings fail** (`results/k4_girth_dyn_fail_stats.log`; 1,500 random n = 3, 4 core profiles, all 29,338
+labelings, 130 failures without envy-cycle rotation):
+- *never* when (4) fails for some agent (16,031 runs, 0 failures): failures need a state where every agent already
+  prefers its bundle to all its leftovers;
+- mostly when vertex 0 has no private good (121 of 130; 0.77% of such runs), rarely with one (0.09%), never with two;
+- only with ≥ 2 leftover goods;
+- **always with vertex 0 on a 2-cycle** (a pair of agents sharing two goods, vertex 0 one of them): 0 failures in the
+  2,768 runs where vertex 0 is on none, against about 12 expected at the overall rate (0.44%). This is G6's situation
+  (§1.4) and the 2-cycle analogue of Theorem T1's hypothesis. 3-cycles show no such effect (0.46% with, 0.30% without).
+  In these small cores most agents are on both kinds (26,570 and 26,292 of 29,338 runs), so the signal is a
+  restriction, not yet a rule.
+
 No fixed rule found (480 instances: the screen and suite instances with 2-cycles and three random profiles of every
 n = 2, 3 core): vertex 0 = an agent of least degree / greatest degree / agent 0, default labels, complete 463 / 462 /
 468 with the parking search and 457 / 455 / 461 with greedy parking (goods by decreasing number of valuers, first
