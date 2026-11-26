@@ -13,6 +13,7 @@ gadgets listed per configuration (a twin kept, its partner deleted).
 
 Usage: twins4.py explore CONFIG ... [--jobs=J] [--zs=0,1,2]  coverage only (no certificate)
        twins4.py certify CONFIG ... --write=OUT.json.gz [--zs=...]   greedy certificate (k4/check_twins4.py re-checks)
+       twins4.py why CONFIG ... [--show=K]      failing local states for the first K profiles not reduced
        twins4.py list                                       the configuration names
 """
 import sys, time, itertools
@@ -59,6 +60,19 @@ def dbl_config(ke, kf, shared=0):
     return R4.Config('dbl-%s-%s%s' % (ke, kf, '-c%d' % shared if shared else ''), {'e': Re, 'f': Rf}, I, D)
 
 
+def tri_config(k1, k2, k3):
+    """Triangle: agents e1, e2, e3 of kinds Q3/P4/Q4 pairwise sharing a good of degree 2 (g12, g13, g23, interior);
+    their other shared goods are boundary goods (e_i's a_i, and b_i for Q4), private goods interior."""
+    S, I = {}, {'g12', 'g13', 'g23'}
+    for i, k in zip((1, 2, 3), (k1, k2, k3)):
+        gs = ['g%d%d' % tuple(sorted((i, j))) for j in (1, 2, 3) if j != i]
+        rest = {'Q3': ['a%d' % i], 'P4': ['a%d' % i, 'p%d' % i], 'Q4': ['a%d' % i, 'b%d' % i]}[k]
+        S['e%d' % i] = tuple(gs + rest)
+        I |= {g for g in rest if g.startswith('p')}
+    D = {x for R in S.values() for x in R} - I
+    return R4.Config('tri-%s-%s-%s' % (k1, k2, k3), S, I, D)
+
+
 def claw_config():
     S = {'f%d' % i: ('G', 'y%d' % i, 'p%d' % i) for i in (1, 2, 3)}
     return R4.Config('claw', S, {'G', 'p1', 'p2', 'p3'}, {'y1', 'y2', 'y3'})
@@ -87,6 +101,8 @@ _OTHER = {'Q3': 1, 'P4': 1, 'Q4': 2}             # shared goods besides g0, g1
 for _ke, _kf in (('Q3', 'Q3'), ('Q3', 'P4'), ('Q3', 'Q4'), ('P4', 'P4'), ('P4', 'Q4'), ('Q4', 'Q4')):
     for _c in range(min(_OTHER[_ke], _OTHER[_kf]) + 1):
         CONFIGS['dbl-%s-%s%s' % (_ke, _kf, '-c%d' % _c if _c else '')] = (lambda a=_ke, b=_kf, c=_c: dbl_config(a, b, c))
+for _t in itertools.combinations_with_replacement(('Q3', 'P4', 'Q4'), 3):
+    CONFIGS['tri-%s-%s-%s' % _t] = (lambda t=_t: tri_config(*t))
 CONFIGS['claw'] = claw_config
 for _r in (1, 2, 3, 4):
     CONFIGS['star-Q4-%d' % _r] = (lambda r=_r: star_config(r))
@@ -118,12 +134,12 @@ def gadget_menu(cfg, nz, jobs):
     return out
 
 
-def explore(cfg, jobs=4, zs=(0, 1, 2), verbose=True):
+def explore(cfg, jobs=4, zs=(0, 1, 2), verbose=True, copies=False):
     total = int(np.prod(cfg.shape))
     print('configuration %s: agents %s, I = %s, D = %s, %d profiles' % (cfg.name, cfg.S, sorted(cfg.I), sorted(cfg.D),
                                                                        total), flush=True)
     union = np.zeros(cfg.shape, dtype=bool)
-    for red in [R4.Reduction(cfg, 'DEL', {}, set(), source=True)] + copy_gadgets(cfg):
+    for red in [R4.Reduction(cfg, 'DEL', {}, set(), source=True)] + (copy_gadgets(cfg) if copies else []):
         t = time.time()
         ok, _ = R4.run(red, jobs)
         union |= ok
@@ -172,6 +188,39 @@ def certify(cfg, jobs=4, zs=(0, 1, 2), copies=False):
     return union, recs
 
 
+def failing_state(red, prof):
+    """An admissible local state of Y (for profile prof) with no extension under which every agent of S is safe."""
+    cfg = red.cfg
+    for Yb, Ob, src in red.states():
+        adm = R4.adm_array(cfg, red.admissible(Yb, Ob, src))
+        if adm is None or not adm[prof]: continue
+        if not any(all(R4.safe_mask(cfg, s, v)[k] for s, v, k in zip(cfg.agents, R4.views_of(cfg, *X), prof))
+                   for X in red.extensions(Yb, Ob, src)):
+            return Yb, Ob, src
+    return None
+
+
+def why(cfg, jobs=4, zs=(0, 1, 2), nshow=1):
+    """For the first unreduced profiles: the failing state of DEL and of the menu gadget closest to reducing it."""
+    u = explore(cfg, jobs, zs, verbose=False)
+    left = list(zip(*np.nonzero(~u)))
+    print('  %d profiles not reduced' % len(left))
+    menus = [m for nz in zs for m in gadget_menu(cfg, nz, jobs)]
+    for prof in left[:nshow]:
+        print('  profile', {s: cfg.valuation(s, k) for s, k in zip(cfg.agents, prof)})
+        reds = [R4.Reduction(cfg, 'DEL', {}, set(), source=True)]
+        for ok, goods, M in menus[:1]:
+            k = int(ok.sum(1).argmax())
+            reds.append(R4.Reduction(cfg, 'GAD-h%s' % dict(zip(goods, M[k].tolist())),
+                                     {'h': ('fix', {g: int(v) for g, v in zip(goods, M[k])})}, set(goods) - cfg.D,
+                                     source=True))
+        for red in reds:
+            st = failing_state(red, prof)
+            print('    %s: %s' % (red.name, 'no failing state' if st is None else
+                                  "Y: S' %s | outside %s | unenvied %s" % st))
+    return left
+
+
 def main():
     args = [a for a in sys.argv[1:] if not a.startswith('--')]
     opts = dict(a[2:].split('=', 1) for a in sys.argv[1:] if a.startswith('--') and '=' in a)
@@ -194,10 +243,13 @@ def main():
         with gzip.open(opts['write'], 'wt') as f: json.dump(recs, f)
         print('wrote %s: %d records, %d states' % (opts['write'], len(recs), sum(len(r['states']) for r in recs)))
         return
+    if args[0] == 'why':
+        for name in args[1:]: why(CONFIGS[name](), jobs, zs, int(opts.get('show', 1)))
+        return
     if args[0] == 'explore':
         for name in args[1:]:
             cfg = CONFIGS[name]()
-            u = explore(cfg, jobs, zs)
+            u = explore(cfg, jobs, zs, copies='--copies' in sys.argv)
             left = list(zip(*np.nonzero(~u)))
             if 0 < len(left) <= 12:
                 for prof in left: print('    not reduced:', {s: cfg.valuation(s, k) for s, k in zip(cfg.agents, prof)})
