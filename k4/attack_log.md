@@ -282,7 +282,7 @@ coordinator has checked them; "verified" marks the ones checked.
   - Both kill the pickless pigeonhole. Next: test whether each implies the other on the data, and climb against both.
     The TTC session runs both climbs.
 
-### 2026-11-26 22:08 UTC: Lemma MAX, R1-priority narrowed, ledger updated, girth verdict, n = 2
+### 2026-11-26 22:07 UTC: Lemma MAX, R1-priority narrowed, ledger updated, girth verdict, n = 2
 - **Ledger** (this branch, PR #95):
   - K4.SDC.OC and K4.SDC.OC1 are **REFUTED** as every-order statements, with the independent replays as artifacts.
   - New rows: K4.SDC.MAXSD (maximum-matching SD orders exist, PROVED, written proof) and **K4.SDC.OC1MAX**
