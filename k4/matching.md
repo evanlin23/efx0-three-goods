@@ -460,6 +460,7 @@ python3 k4/matching/explain.py 'SETS' 'VALS' 'PICKS'          # every repairing 
 python3 attempts/k4_matching_attempts.py                      # the refuted deficiency bound, by pruning-free brute force
 python3 k4/matching/n4_cex.py; python3 k4/matching/cm2.py n4all; python3 k4/matching/cm2.py k5   # §5
 python3 k4/matching/n4_twomoves.py                            # the two-move repairs of the n = 4 failures
+python3 k4/matching/n4_walk.py 3000 2; python3 k4/matching/n4_profiles.py 3000 7   # walks / random profiles near them
 python3 k4/matching/cm_big.py cores6 2000 40 31               # CM at n = 6 (sampled orders)
 CAP=10 SEEDFILES=... python3 k4/matching/cm_climb.py 32 2000 22 3 6 [MC2]    # climbs (LOOSE=1 for any instance)
 ```
