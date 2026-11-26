@@ -807,12 +807,55 @@ free or one-absorber (`results/k4_oc1max/oc1max_cex_n4.json` there).
 
 **All 11** (`oc1max_cex_n4_ttc.log`):
 - each has a single receiver;
-- in every target, some agent holds the picks of two other agents;
+- in every target, some agent holds the picks of two other agents, and Lemma T6 (below) certifies that one move
+  cannot reach any target;
 - OC₂^max holds;
 - every repairing first move is a chain whose x₀ is dangerous and whose x₁ wants x₀'s pick;
 - every *minimal pointer fixed point* (§11's fixed point, with x₀ taking an inclusion-minimal improving set of junk as
   its new base and nothing from a base) is a good first move: 34 of 34, and one exists in each instance;
 - the second move is a fixed point in none; it is canonical (dangerous x₀, x₁ wants its pick) in 23 of the 34.
+
+### Lemma T6: one move serves unit demands
+
+**Lemma T6.** Let Y be a serial-dictatorship start in which every agent holds exactly one pick (a perfect matching),
+with junk J. Let X be a complete allocation obtained by one improving move of `de_free` (an addition, a chain or a
+ring), followed by any completion that keeps the new bases (free, any number of absorbers). Then:
+- (a) X value-dominates Y: v_i(X_i) ≥ v_i(Y_i) for every agent i;
+- (b) every X_i contains at most two picks of other agents;
+- (c) if X_i contains two picks of other agents, then the move is a chain (x₀, …, x_t), i = x_j for some j ≥ 1, and
+  X_i ∋ Y_{x_t}. Moreover i's step x_j took Y_{x_{j−1}} together with junk H_j ⊆ J ∩ R_i, with
+  v_i(Y_{x_{j−1}}) + v_i(H_j) > v_i(Y_i).
+
+*Proof.*
+- (a) Every agent in the move strictly improves its base; the others keep theirs. The completion only adds goods, and
+  values are nonnegative.
+- (b) and (c): count the other agents' picks an agent can end up with.
+  - *A ring:* each member takes exactly one other base B_{w_s} = {Y_{w_s}} plus junk. No pick is released, and the
+    completion hands out only goods of J.
+  - *An addition:* no base changes hands.
+  - *A chain:*
+    - x₀ takes junk and possibly Y_{x_t}, the only good of B_{x_t};
+    - each x_j (j ≥ 1) takes exactly Y_{x_{j−1}} plus junk;
+    - the only pick that can enter the pool is Y_{x_t}, when x₀ does not take it.
+  - So the completion can hand at most one pick, Y_{x_t}, to anyone. An agent therefore holds two other agents' picks
+    only if it is some x_j with j ≥ 1, holding Y_{x_{j−1}}, and also receives Y_{x_t} from the pool. Its step must have
+    improved its base: v_i(Y_{x_{j−1}} + H_j) > v_i(Y_i). ∎
+
+**Corollary (a certificate that one move fails).** Let 𝒯 be the set of complete EFX₀ allocations that value-dominate
+Y. Suppose every T ∈ 𝒯 has an agent i such that either
+- T_i contains three or more other agents' picks, or
+- T_i contains two, P and Q, with v_i(P) + v_i(J ∩ R_i) ≤ v_i(Y_i) and v_i(Q) + v_i(J ∩ R_i) ≤ v_i(Y_i).
+
+Then no single move followed by any completion gives an EFX₀ allocation. By (a), such an allocation would lie in 𝒯;
+by (b) and (c), it would avoid the blocked agent's configuration.
+
+**All 11 n = 4 counterexamples satisfy the corollary**, and each through a single agent: the agent whose
+improving bundles are complementary across two owners (`oc1max_cex_n4_ttc.log`, "Lemma T6 blocks"). For instance 0,
+this is agent 0, with {g2, g5} in every target and 7 + 2, 4 + 2 ≤ 10.
+
+So, given the list of targets (brute force over the n^m allocations), the failure of OC^max, and hence of OC₁^max,
+has a short human-checkable proof. The obstruction is exactly the tree-shaped exchange: TTC cycles cannot serve a
+demand for two other agents' houses.
 
 ### 14.3 A TTC rule for two moves, and where it stops
 
@@ -848,8 +891,9 @@ pointer fixed point exists, and after it, the bases have a one-absorber completi
   (2, 4), agent 4 takes g0 plus its private pair {g7, g8} (13 > 8), and agent 2 takes agent 4's g1. In (0, 1),
   agent 1 takes g4 plus g2. The repairs are (2, 4) followed by (0, 1) or (0, 3), and (0, 1) or (0, 3) (also
   (0, 1, 2), (0, 3, 2)) followed by a chain through 4.
-- *Unlike n = 4,* some targets here have no agent holding two other agents' picks, so the obstruction to one move is
-  about values, not exchange shape.
+- *Unlike n = 4,* Lemma T6 blocks none of the 41 targets (`oc1max_cex_n5_ttc.log`), and some targets have no agent
+  holding two other agents' picks. Here a single move can reach a target's exchange shape, and the obstruction is
+  about values.
 
 **What survives on all data so far: danger absorption is necessary.**
 - Among OC₁^max failures, every good first move absorbs danger: some agent that is dangerous at the start takes junk

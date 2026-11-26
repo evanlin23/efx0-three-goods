@@ -12,6 +12,7 @@ instance 0 (4_n4_3 #58): sets [[0, 1, 2, 5], [1, 2, 5, 6], [3, 4, 5, 6], [3, 4, 
     target [[2, 5], [1], [0, 6], [3, 4]] utilities [11, 10, 7, 5], picks taken from {0: [1, 2], 1: [0], 2: [3], 3: []}
     target [[2, 5], [1], [3, 4], [0, 6]] utilities [11, 10, 8, 4], picks taken from {0: [1, 2], 1: [0], 2: [], 3: []}
   6 targets; least "most other owners in one bundle" over the targets: 2
+  Lemma T6 blocks 6 of 6 targets (blocking agents [0]): no single move reaches a target (a proof, given the target list)
   two-move repairs (first move, canonical?, repairing second moves, canonical ones):
      ((2, 1), True, [(0, 1), (0, 1)], [(0, 1), (0, 1)])
      ((3, 1), True, [(0, 1, 2), (0, 1, 2)], [(0, 1, 2), (0, 1, 2)])
@@ -28,6 +29,7 @@ instance 1 (4_n4_3 #77): sets [[0, 4, 5, 6], [1, 2, 3, 5], [1, 3, 5, 6], [2, 4, 
     target [[5], [2], [0, 1, 3], [4, 6]] utilities [10, 10, 8, 5], picks taken from {0: [1], 1: [3], 2: [], 3: [0, 2]}
     target [[5], [2], [1, 3], [0, 4, 6]] utilities [10, 10, 8, 5], picks taken from {0: [1], 1: [3], 2: [], 3: [0, 2]}
   4 targets; least "most other owners in one bundle" over the targets: 2
+  Lemma T6 blocks 4 of 4 targets (blocking agents [3]): no single move reaches a target (a proof, given the target list)
   two-move repairs (first move, canonical?, repairing second moves, canonical ones):
      ((1, 0), True, [(1, 2, 3)], [])
      ((1, 0), True, [(1, 2, 3)], [])
@@ -49,6 +51,7 @@ instance 2 (4_pure #20): sets [[0, 1, 2, 6], [1, 2, 5, 6], [3, 4, 5, 6], [3, 4, 
     target [[1, 2], [6], [4, 5], [0, 3]] utilities [9, 7, 11, 10], picks taken from {0: [], 1: [0], 2: [1, 3], 3: [2]}
     target [[6], [1, 2], [4, 5], [0, 3]] utilities [8, 8, 11, 10], picks taken from {0: [], 1: [], 2: [1, 3], 3: [2]}
   6 targets; least "most other owners in one bundle" over the targets: 2
+  Lemma T6 blocks 6 of 6 targets (blocking agents [2]): no single move reaches a target (a proof, given the target list)
   two-move repairs (first move, canonical?, repairing second moves, canonical ones):
      ((0, 1), True, [(2, 3)], [(2, 3)])
      ((0, 1, 3), True, [(2, 3)], [(2, 3)])
@@ -66,6 +69,7 @@ instance 3 (4_pure #21): sets [[0, 1, 2, 6], [1, 2, 4, 5], [3, 4, 5, 6], [3, 4, 
     target [[1, 2], [5], [3, 4], [0, 6]] utilities [11, 7, 8, 8], picks taken from {0: [], 1: [2], 2: [1, 3], 3: [0]}
     target [[6], [1, 2], [3, 4], [0, 5]] utilities [10, 8, 8, 6], picks taken from {0: [], 1: [], 2: [1, 3], 3: [2]}
   5 targets; least "most other owners in one bundle" over the targets: 2
+  Lemma T6 blocks 5 of 5 targets (blocking agents [2]): no single move reaches a target (a proof, given the target list)
   two-move repairs (first move, canonical?, repairing second moves, canonical ones):
      ((0, 2, 1), True, [(2, 3)], [(2, 3)])
      ((0, 2, 1, 3), True, [(2, 3)], [(2, 3)])
@@ -83,6 +87,7 @@ instance 4 (4_pure #23): sets [[0, 1, 4, 5], [1, 3, 5, 6], [2, 3, 4, 6], [2, 4, 
     target [[4], [1, 5], [0, 3], [2, 6]] utilities [10, 13, 10, 9], picks taken from {0: [2], 1: [0, 3], 2: [1], 3: []}
     target [[4], [1, 5], [3], [0, 2, 6]] utilities [10, 13, 10, 9], picks taken from {0: [2], 1: [0, 3], 2: [1], 3: []}
   4 targets; least "most other owners in one bundle" over the targets: 2
+  Lemma T6 blocks 4 of 4 targets (blocking agents [1]): no single move reaches a target (a proof, given the target list)
   two-move repairs (first move, canonical?, repairing second moves, canonical ones):
      ((2, 0), True, [(1, 2, 3)], [(1, 2, 3)])
      ((2, 0), True, [(1, 2, 3)], [(1, 2, 3)])
@@ -104,6 +109,7 @@ instance 5 (4_pure #24): sets [[0, 1, 4, 5], [1, 4, 5, 6], [2, 3, 4, 6], [2, 3, 
     target [[4, 5], [1], [0, 6], [2, 3]] utilities [10, 8, 7, 9], picks taken from {0: [1, 2], 1: [0], 2: [3], 3: []}
     target [[4, 5], [1], [2, 3], [0, 6]] utilities [10, 8, 8, 8], picks taken from {0: [1, 2], 1: [0], 2: [], 3: []}
   6 targets; least "most other owners in one bundle" over the targets: 2
+  Lemma T6 blocks 6 of 6 targets (blocking agents [0]): no single move reaches a target (a proof, given the target list)
   two-move repairs (first move, canonical?, repairing second moves, canonical ones):
      ((2, 1), True, [(0, 1), (0, 1)], [(0, 1), (0, 1)])
      ((3, 1), True, [(0, 1, 2), (0, 1, 2)], [(0, 1, 2), (0, 1, 2)])
@@ -120,6 +126,7 @@ instance 6 (4_pure #26): sets [[0, 2, 3, 6], [1, 2, 4, 5], [1, 4, 5, 6], [3, 4, 
     target [[3, 6], [2], [0, 1, 5], [4]] utilities [13, 8, 8, 10], picks taken from {0: [2, 3], 1: [0], 2: [], 3: [1]}
     target [[3, 6], [2], [1, 5], [0, 4]] utilities [13, 8, 8, 10], picks taken from {0: [2, 3], 1: [0], 2: [], 3: [1]}
   4 targets; least "most other owners in one bundle" over the targets: 2
+  Lemma T6 blocks 4 of 4 targets (blocking agents [0]): no single move reaches a target (a proof, given the target list)
   two-move repairs (first move, canonical?, repairing second moves, canonical ones):
      ((1, 2), True, [(0, 1, 2, 3), (0, 1, 2, 3)], [(0, 1, 2, 3), (0, 1, 2, 3)])
      ((1, 2, 3), True, [(0, 1, 2, 3), (0, 1, 2, 3)], [(0, 1, 2, 3), (0, 1, 2, 3)])
@@ -136,6 +143,7 @@ instance 7 (4_pure #29): sets [[0, 4, 5, 6], [1, 2, 3, 6], [1, 3, 5, 6], [2, 4, 
     target [[6], [2], [0, 1, 3], [4, 5]] utilities [10, 10, 9, 10], picks taken from {0: [1], 1: [3], 2: [], 3: [0, 2]}
     target [[6], [2], [1, 3], [0, 4, 5]] utilities [10, 10, 9, 10], picks taken from {0: [1], 1: [3], 2: [], 3: [0, 2]}
   4 targets; least "most other owners in one bundle" over the targets: 2
+  Lemma T6 blocks 4 of 4 targets (blocking agents [3]): no single move reaches a target (a proof, given the target list)
   two-move repairs (first move, canonical?, repairing second moves, canonical ones):
      ((1, 0), True, [(1, 2, 3)], [])
      ((1, 0), True, [(1, 2, 3)], [])
@@ -157,6 +165,7 @@ instance 8 (4_pure #36): sets [[0, 2, 4, 5], [0, 2, 5, 6], [1, 3, 4, 6], [1, 3, 
     target [[2, 5], [0, 4], [6], [1, 3]] utilities [10, 8, 8, 8], picks taken from {0: [1, 3], 1: [0], 2: [], 3: []}
     target [[2, 5], [0], [4, 6], [1, 3]] utilities [10, 8, 10, 8], picks taken from {0: [1, 3], 1: [0], 2: [], 3: []}
   6 targets; least "most other owners in one bundle" over the targets: 2
+  Lemma T6 blocks 6 of 6 targets (blocking agents [0]): no single move reaches a target (a proof, given the target list)
   two-move repairs (first move, canonical?, repairing second moves, canonical ones):
      ((2, 1), True, [(0, 1, 2, 3), (0, 1, 3), (0, 1, 3)], [(0, 1, 2, 3), (0, 1, 3), (0, 1, 3)])
      ((2, 3), True, [(0, 1), (0, 1)], [(0, 1), (0, 1)])
@@ -185,6 +194,7 @@ instance 9 (4_pure #38): sets [[0, 2, 3, 6], [1, 4, 5, 7], [2, 3, 6, 7], [4, 5, 
     target [[3, 6], [1, 7], [2], [0, 4, 5]] utilities [11, 10, 10, 9], picks taken from {0: [2, 3], 1: [], 2: [0], 3: []}
     target [[3, 6], [4, 5], [1, 2], [0, 7]] utilities [11, 9, 10, 8], picks taken from {0: [2, 3], 1: [], 2: [0], 3: [1]}
   16 targets; least "most other owners in one bundle" over the targets: 2
+  Lemma T6 blocks 16 of 16 targets (blocking agents [0]): no single move reaches a target (a proof, given the target list)
   two-move repairs (first move, canonical?, repairing second moves, canonical ones):
      ((1, 2), True, [(0, 2, 1, 3), (0, 2, 1, 3), (0, 2, 3), (0, 2, 3)], [(0, 2, 1, 3), (0, 2, 1, 3), (0, 2, 3), (0, 2, 3)])
      ((1, 3), True, [(0, 2), (0, 2)], [(0, 2), (0, 2)])
@@ -212,6 +222,7 @@ instance 10 (4_pure #45): sets [[0, 2, 5, 7], [1, 5, 6, 7], [2, 3, 4, 6], [3, 4,
     target [[5, 7], [6], [1, 2], [0, 3, 4]] utilities [13, 10, 10, 8], picks taken from {0: [1, 3], 1: [2], 2: [0], 3: []}
     target [[5, 7], [6], [2], [0, 1, 3, 4]] utilities [13, 10, 10, 8], picks taken from {0: [1, 3], 1: [2], 2: [0], 3: []}
   15 targets; least "most other owners in one bundle" over the targets: 2
+  Lemma T6 blocks 15 of 15 targets (blocking agents [0]): no single move reaches a target (a proof, given the target list)
   two-move repairs (first move, canonical?, repairing second moves, canonical ones):
      ((2, 1), True, [(0, 2, 3), (0, 2, 3)], [(0, 2, 3), (0, 2, 3)])
      ((2, 1), True, [(0, 2, 3), (0, 2, 3)], [(0, 2, 3), (0, 2, 3)])
@@ -223,6 +234,7 @@ instance 10 (4_pure #45): sets [[0, 2, 5, 7], [1, 5, 6, 7], [2, 3, 4, 6], [3, 4,
   OC2^max True; canonical first chains 7; CC2 (some canonical + canonical) True; every canonical first chain finishes canonically True
 instances 11
 CC2 holds 11
+Lemma T6 certifies the failure 11
 OC1^max fails (SAT and brute force) 11
 OC2^max holds 11
 every canonical first chain works 3

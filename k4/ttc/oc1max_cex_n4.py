@@ -82,6 +82,24 @@ def analyse(k, d, C):
     print('  %d targets; least "most other owners in one bundle" over the targets: %s' % (len(tg), min(indeg) if indeg
                                                                                           else None))
     C['least most-owners %s' % (min(indeg) if indeg else None)] += 1
+    # Lemma T6 (k4/ttc.md §14.2): after one move and a completion keeping the new bases, an agent holds the picks of
+    # two other agents only as an internal chain member x_j (j >= 1), whose own step takes one of them plus junk.  A
+    # target is blocked if some agent holds two other picks P, Q (or more) and neither P nor Q plus all the junk the
+    # agent values beats its pick.
+    vj = {i: sum(E.v[i].get(g, 0) for g in J) for i in range(n)}
+    blk = []
+    for X in tg:
+        why = None
+        for i in range(n):
+            P = [g for g in X[i] if g in owner and owner[g] != i]
+            if len(P) >= 3 or (len(P) == 2 and all(E.v[i].get(p, 0) + vj[i] <= E.v[i].get(Y[i], 0) for p in P)):
+                why = i; break
+        blk.append(why)
+    t6 = bool(tg) and all(w is not None for w in blk)
+    print('  Lemma T6 blocks %d of %d targets (blocking agents %s): %s' % (
+        sum(w is not None for w in blk), len(tg), sorted(set(w for w in blk if w is not None)),
+        'no single move reaches a target (a proof, given the target list)' if t6 else 'not a T6 certificate'))
+    C['Lemma T6 certifies the failure'] += t6
     # two moves
     rep = []; can_any = False; can_all = True; firsts = 0
     for b1, p1 in M1.items():
