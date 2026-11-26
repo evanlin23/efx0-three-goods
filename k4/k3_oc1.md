@@ -16,9 +16,10 @@ and `proofs/lb_last_step.md` (LB⁺); Conjecture OC₁ is `k4/sdc.md` §29. Ever
 - **Proved.**
   - Lemma 1 (§2): soundness of the simple completion. LB⁺'s Lemma 1 with one slot per terminal, plus an empty-handed owner left with two goods.
   - Lemma 2 (§2): ω = (m − 2n) + e + ν, where e counts the agents holding nothing and ν the needed goods; no DE trade raises ω.
-  - Lemma 3 (§2): self-service. Exposed terminals serve themselves; every satisfied state completes.
+  - Lemma 3 (§2): self-service. Exposed terminals serve themselves, provided no exposed pair lies inside the owner's base (automatic for terminal owners; referee fix); every satisfied state completes.
+  - Refereed (`k4/referee/k3_oc1.md` on `claude/k4-referee`): Lemmas 1 and 2, Theorems R1C and B\* correct; Lemma 3 correct with the fix above.
   - **Theorem B\* (§3): LB⁺'s rotation for every order.** If a terminal has deficit one and an exposed frozen agent whose removal lowers the hitting number, one DE trade completes. It covers 8,075 of 14,138 exact-hard drafts (n ≤ 6 logs), with no failure on the 11,501 rotations checked.
-  - **Theorem R1C (§3): OC₁ at k = 3 for every order whose draft is R1-compatible**, i.e. whose need order has an R1-priority linear extension (this includes every R1-priority order). The proof is LB⁺ with every slot of size one. The rotation is one DE trade, and the completion has one absorber.
+  - **Theorem R1C (§3): OC₁ at k = 3, in DE's core case (every agent values exactly three strictly balanced goods; dead goods allowed), for every order whose draft is R1-compatible**, i.e. whose need order has an R1-priority linear extension (this includes every R1-priority order). The proof is LB⁺ with every slot of size one. The rotation is one DE trade, and the completion has one absorber.
 - **Conjectured.** **OT (§4), for the ledger's cores.** At k = 3, from the draft of every order, a one-absorber
   completion exists, or one DE trade gives one (**OT₁**). Indeed it exists after every DE trade of least ω (**OT-ω**). No counterexample is known
   to either form. Both imply OC₁ at k = 3.
@@ -145,13 +146,21 @@ or chain was wanted before, by the same agent. ∎
 
 So (a) says e + ν ≤ 2n − m: the agents holding nothing and the wanted goods fit in the slack of L7.
 
-**Lemma 3 (self-service).** If every exposed agent of an owner o is a terminal, (b) holds for o; more generally (b)
-holds when h(E_o ∩ F) ≤ |T ∖ E_o| − [o ∈ T]. In particular every *satisfied* state (every agent holds its top or its
-pair) passes Lemma 1.
+**Lemma 3 (self-service).** Let o be an owner such that no x ∈ E_o has {b_x, c_x} ⊆ base(o). This is automatic when
+o is a terminal, since base(o) has at most one good. If every exposed agent of o is a terminal, (b) holds for o. More
+generally, (b) holds when h(E_o ∩ F) ≤ |T ∖ E_o| − [o ∈ T]. In particular every *satisfied* state (every agent holds
+its top or its pair) passes Lemma 1.
 
-*Proof.* An exposed terminal x takes a good of π_x in its own slot; so H can be one good per exposed terminal plus a
-hitting set of the frozen exposed agents, placed in the other terminals. In a satisfied state every agent outside U
-is a terminal. ∎
+*Proof.* By the hypothesis, π_x ≠ ∅ for every x ∈ E_o. An exposed terminal x takes a good of π_x in its own slot.
+So H can be one good per exposed terminal plus a hitting set of the frozen exposed agents, placed in the other
+terminals: |H| ≤ |E_o ∩ T| + h(E_o ∩ F) ≤ |T| − [o ∈ T]. In a satisfied state every agent outside U is a terminal, so
+a terminal owner works; if T = ∅, every pair holder has E_o = ∅. ∎
+
+*Correction* (referee, `k4/referee/k3_oc1.md` §3 on `claude/k4-referee`). An earlier version stated Lemma 3 without
+the hypothesis on base(o), and that form is false for a pair-holder owner. Smallest case: two agents with the same
+ranking a > b > c and one dead good d; x holds {a}, o holds {b, c}, J = {d}. Then x is an exposed terminal, but o is
+no owner, since X_o = {b, c, d} gives x the value b + c > a. The state still completes by (a). No later claim used
+the defect: the owners of §6 and Theorem B\* are terminals, or hold a pair that no exposed agent shares (B\* (iii)).
 
 ## 3. Theorem R1C: OC₁ for R1-compatible orders (proved)
 
@@ -161,6 +170,10 @@ it values ranked below its pick, since junk is (LB⁺ (I2)) and so are later age
 *R1-compatible* if some linear extension respects R1 priority: whenever an unprocessed agent has lost a good, the
 next agent is such an agent. Then the draft is the Phase 1 output of an LB⁺ run (`proofs/lb_last_step.md` §1, insertion choices
 included).
+
+**Scope.** Theorem R1C, like the rest of this note unless said otherwise, is about DE's core case. Every agent values
+exactly three goods a > b > c with a < b + c, and dead goods are allowed. Agents with fewer goods, and top-heavy
+agents, are outside it. Wherever R1C is cited, read "OC₁ at k = 3, in DE's core case, for every R1-compatible order".
 
 **Theorem R1C.** If the draft of π is R1-compatible, then after LB's upgrades either it has a one-absorber completion
 or it has one after a single DE trade (LB⁺'s rotation: a DE chain, or a ring with one pair arrow, from k* to r).
