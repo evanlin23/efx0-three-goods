@@ -4,3 +4,4 @@ sizes (2, 2, 2) m 7: UNSAT after 253 cuts, 14.1 s
 sizes (3, 2, 1) m 7: UNSAT after 165 cuts, 15.2 s
 sizes (3, 2, 2) m 8: UNSAT after 339 cuts, 86.9 s
 sizes (3, 3, 1) m 8: UNSAT after 321 cuts, 155.6 s
+sizes (3, 3, 2) m 9: UNSAT after 531 cuts, 1013.0 s

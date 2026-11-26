@@ -670,3 +670,47 @@ def welfare_max(I, minpool=None, maxpool=None):
             assert efx0(I, X) and sum(I.val(i, X[i]) for i in range(I.n)) >= W
             return W, len(pool_of(I, X)), X
     return W, len(pool_of(I, best)), best
+
+
+def leximin_max(I):
+    """Leximin maximum over partial EFX0 allocations: maximise the smallest value, then the second smallest, ...;
+    then the fewest unallocated goods.  Level r fixes thresholds t_1 <= ... <= t_r: for each j <= r, at least
+    n - j + 1 agents have value >= t_j (cardinality over per-agent indicators).  Returns (sorted vector, pool, X)."""
+    from pysat.solvers import Cadical153
+    from pysat.card import CardEnc, EncType
+    E = Enc(I, charity=False)
+    pool = [E.x[g][I.n] for g in range(I.m)]
+    levels = sorted(set(I.val(i, S) for i in range(I.n) for S in E.y[i]))
+
+    def feasible(ts, poolbound=None):
+        cl = list(E.cl); top = E.top
+        for j, t in enumerate(ts):
+            ind = []
+            for i in range(I.n):
+                top += 1; z = top; ind.append(z)
+                cl.append([-z] + [y for S, y in E.y[i].items() if I.val(i, S) >= t])
+            c = CardEnc.atleast(lits=ind, bound=I.n - j, top_id=top, encoding=EncType.seqcounter)
+            cl += c.clauses; top = max(top, c.nv)
+        if poolbound is not None:
+            c = CardEnc.atmost(lits=pool, bound=poolbound, top_id=top, encoding=EncType.seqcounter)
+            cl += c.clauses; top = max(top, c.nv)
+        s = Cadical153(bootstrap_with=cl); ok = s.solve()
+        X = E.decode(s.get_model()) if ok else None
+        s.delete()
+        return X
+    ts = []
+    for r in range(I.n):
+        lo, hi = 0, len(levels) - 1                       # largest level index feasible
+        while lo < hi:
+            mid = (lo + hi + 1) // 2
+            if feasible(ts + [levels[mid]]) is not None:
+                lo = mid
+            else:
+                hi = mid - 1
+        ts.append(levels[lo])
+    X = feasible(ts)
+    for b in range(0, I.m + 1):
+        Y = feasible(ts, poolbound=b)
+        if Y is not None:
+            assert efx0(I, Y)
+            return tuple(sorted(I.val(i, Y[i]) for i in range(I.n))), len(pool_of(I, Y)), Y

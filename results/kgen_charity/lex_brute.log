@@ -1,0 +1,4 @@
+$ python3 kgen/charity/lex_brute.py
+GM4-E: leximin maximum (4, 4, 7, 9) with fewest unallocated 1; leximin-best complete EFX0 vector (4, 4, 7, 8)
+GM4-G: leximin maximum (7, 8, 8, 9) with fewest unallocated 1; leximin-best complete EFX0 vector (6, 8, 8, 9)
+GM4-G cut to three goods (k = 3): leximin maximum (7, 8, 8, 9) with fewest unallocated 1; leximin-best complete EFX0 vector (6, 8, 8, 9)

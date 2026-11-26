@@ -19,3 +19,7 @@ restart 4: start score -6 (>= 2 out: 103, < 2 out: 109)
   step 4 score -5 (>= 2 out: 100, < 2 out: 105) 2 s
   step 14 score -2 (>= 2 out: 98, < 2 out: 100) 5 s
   step 25 score -1 (>= 2 out: 89, < 2 out: 90) 7 s
+restart 4 final score -1, 38 s
+restart 5: start score -1 (>= 2 out: 101, < 2 out: 102)
+restart 5 final score -1, 32 s
+best score over restarts 0

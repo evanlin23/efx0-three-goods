@@ -17,6 +17,7 @@ changed here; the coordinator integrates.
 | P1 threshold | P1 (K4.SDC.P1: Pareto maxima are complete) holds for k ≤ 2 and fails at k = 3 (n = 4, m = 7, every agent values exactly 3 goods) | PROVED for k ≤ 2 (CH6 + CH4′); REFUTED at k = 3 (CH-E with σ = 2; brute force over all 5⁷ partial allocations) | §5, `refute_pm_k3.log` |
 | PM(k) | Pareto maxima leave ≤ f(k) goods out | REFUTED for every k ≥ 3 and every f (CH-E) | §5 |
 | W(k, f) | the welfare maximum, among those with the fewest unallocated goods, leaves ≤ f goods out (§6 for the exact statement); W(k, f) ⇒ CH(k) | f = 0 REFUTED at k = 3 (n = 4, m = 7) and k = 4 (GM4-G); **f = 1 REFUTED at k = 3 and k = 4** (CH-F: n = 12, m = 17 and n = 9, m = 14, integer values; each verified by SAT and by MILP); f ≥ 2: §6 | §6, `w_brute.log`, `w_counterexample*.log`, `attempts/kgen-charity-welfare-maxima.md` |
+| L(k, 0) | the leximin maximum (then fewest unallocated) is complete | REFUTED at k = 3 and k = 4 (n = 4, m = 7; brute force); complete on the CH-F and S′ instances | §6, `lex_brute.log`, `lex_check.log` |
 | W small n | no welfare maximum strands a good for n = 3, k = 3; none strands two for n = 3, k = 3, 4 and n = 4, k = 3 | exhaustive by one implementation (z3 CEGAR over real values, all m ≤ nk + n by Lemma W0) | §6, `w_synth_n*.log` |
 | DU | an instance whose incidence graph has ≥ 2 components with agents has a complete EFX₀ allocation | PROVED (written proof; recipe checked on 2,000 random unions and on copies of the stranded instances) | §3, Prop. DU, `union_dump.log` |
 | CH-B′ | k = 4 and every good valued by ≤ d agents: ≤ 2, 4, 6 goods out for d = 2, 3, 4 (3, 4 if R(3) = 3, R(4) = 4 [unverified]) | PROVED (from CH-B, CH-C, the packing inequality) | §7 |
@@ -399,6 +400,14 @@ envy. A proof for general σ would have to organise such asymmetries along the r
 **Larger σ.** Whether S′(σ, k) carries values making its σ − 1 stranded goods a welfare maximum for every σ (which
 would refute W(k) for every f, with Θ(√n) goods) is being tested by the same exact search; σ = 3 succeeds at k = 3 and k = 4 (CH-F), σ = 4 at k = 4
 (three goods stranded, n = 20) is running (`w_synth_family_s4k4.log`).
+
+**Leximin maxima** (the lexicographic selection: maximise the smallest value, then the next, …, then the fewest
+unallocated goods; `chlib.leximin_max`, SAT with nested cardinality thresholds; `lex_check.py`, `lex_check.log`):
+- *L(k, 0) fails at k = 3 and k = 4:* on GM4-E, GM4-G and the k = 3 cut of GM4-G the leximin maximum leaves one
+  good out; the leximin-best complete EFX₀ allocations are strictly below ((4, 4, 7, 8) against (4, 4, 7, 9), and
+  (6, 8, 8, 9) against (7, 8, 8, 9)); brute force over all 5⁷ partial allocations, `lex_brute.py`, `lex_brute.log`.
+- On both CH-F instances and on S′(2..4, 3), S′(2..3, 4) the leximin maximum is complete. So leximin and welfare
+  strand on different instances; whether a leximin maximum can strand two goods is open.
 
 **Earlier data, kept:** the welfare maximum is complete on 166 of the 168 curated k = 4 instances (GM4-G and its copy
 are the exceptions, `w_screen.log`), on 8,400 random instances (`w_rand_*.log`), on the S and S′ families with their
