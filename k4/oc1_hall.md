@@ -99,8 +99,8 @@ Every order is tried, n ≤ 5. Everything called *evidence* is evidence only (PR
 | Finding D1 (§15) | one dangerous agent k: on all 197 one-absorber-hard starts with \|D\| = 1, some ED chain from k with an *inclusion-minimal* improving H₀ leaves an S\* completion owned by k (rule ED-MIN). The swap (t = 1) is enough whenever f = 1, but fails on 19 configurations with f ≥ 2, listed in `d1_swapmin_fails.json` | evidence |
 | **Lemma D1-red, Prop. 3′, Lemma D1-chain** (§21) | D = {k}, hard start. k has a canonical chain (heads hold picks at maximum-matching starts), and every chain end's pool J ∪ B_{x_t} is improving for k (Prop. 3′, Prop. 3 carried to \|D\| = 1). After any canonical chain with an improving H₀, owner k: (G1), (G2) hold; the only agent that can be threatened by the pool is the head x_t, and only if x_{t−1}'s pick has a second wanter (HEAD); the only non-movable holders are those crowded by H₀ (CROWD). With neither, k owns an S\* completion | written proofs (§21); P1–P5 checked at all 197 starts, 0 violations; all 282 chains free of HEAD and CROWD repair |
 | **Lemma D1-C₀, Prop. D1-C′** (§21) | favourites duality: a holder off the chain is admissible for its favourite pool good, so hardness forces an improving set of k avoiding any set of distinct favourites in J. Hence every canonical chain without HEAD repairs with owner k, except in the residual cases C-a (shared favourite), C-b (every such H₀ crowds the head and contains Y_{x_t}) and C-c (a favourite is Y_{x_t}) | written proofs; `d1_crowd.log`: 224 of 227 chains without HEAD covered, 0 violations; the 3 others are C-b, all copies of lb4-n2m5-upgrade (n = 2) |
-| Sub-lemma D1-H(ii) (§21; K4.OCH.D1H) | a longest canonical chain with HEAD (all second wanters are then unfrozen at the picks): the chain itself, or the one through a second wanter, repairs with owner k. With the rows above, this implies Finding D1 outside C-a to C-c | **open**; evidence 14/14 paths; smallest lil-noncore-n3 and log557 (n = 3) |
-| Conjecture D1-LONG (§21) | some *longest* canonical chain from k, with some minimal H₀, repairs with owner k. A longest chain is never in HEAD's case H-i (proved), so only H-ii (a second wanter unfrozen at the picks) and CROWD remain | evidence: 197/197 starts with n ≤ 5, every order (every longest chain: 196; exception log557); 309/309 sampled hard starts at n = 6–8 (SAT); adversarial climbs at n = 4, 5 bottom out at one repairing pair |
+| Sub-lemma D1-H(ii) (§21; K4.OCH.D1H): **REFUTED in canonical form** (D1H-X); replaced by D1-HJ of `proof/k4-d1` (the head may add at most one junk good) | a longest canonical chain with HEAD (all second wanters are then unfrozen at the picks): the chain itself, or the one through a second wanter, repairs with owner k. With the rows above, this implies Finding D1 outside C-a to C-c | **open**; evidence 14/14 paths; smallest lil-noncore-n3 and log557 (n = 3) |
+| Conjecture D1-LONG (§21): **REFUTED in canonical form** (D1H-X, n = 3, m = 8; `attempts/k4-oc1-hall-d1-long.md`); the ED-MIN form of §15, which allows head junk, survives | some *longest* canonical chain from k, with some minimal H₀, repairs with owner k. A longest chain is never in HEAD's case H-i (proved), so only H-ii (a second wanter unfrozen at the picks) and CROWD remain | evidence: 197/197 starts with n ≤ 5, every order (every longest chain: 196; exception log557); 309/309 sampled hard starts at n = 6–8 (SAT); adversarial climbs at n = 4, 5 bottom out at one repairing pair |
 | **OC₁^max, OC₁-ED\*^max, R1-priority forms** (§22) | **refuted at n = 4** (certifier, 11 cores; TTC, an n = 5 core). Every known failure has \|D\| ≥ 2 with a pool danger set shared by two dangerous agents. Two moves repair. OC₂^max is certified for n ≤ 4 (`compute/k4-oc1max-cert`) | analysed here: `oc1max_cex_analysis.log`, `oc2_cases.log` |
 | Lemmas M, EX of `proof/k4-matching` (§23.1) | second reading: M is correct; EX is correct as a sufficient condition but not exact (it cannot compensate the head: lb4-n2m5-upgrade) | read here; `ex_not_exact.log` |
 | **Sub-lemma OC2-LIFT** (§23.3; K4.OCH.LIFT) | with no one-move repair, a canonical first chain from D is followed by a move that removes every DEMAND agent (starts at it or unfreezes it) and completes. The coordinator's literal form, a chain from the DEMAND agent, holds on only 6 of 12 | **open**; evidence 12/12 known failures; smallest 4_n4_3#58 (n = 4, m = 7) |
@@ -1225,7 +1225,7 @@ improving H₀′ on the same chain satisfies it.
   - This is the starting point for a proof: k's pool goods number at most three (|R_k| ≤ 4), so a holder crowded by
     one minimal pair should leave another pair free. That is case (B2) of Theorem F1₁ in miniature.
 
-**Conjecture D1-LONG (K4.OCH.D1LONG; evidence).** At a hard start with D = {k}, some *longest* canonical chain from k,
+**Conjecture D1-LONG (K4.OCH.D1LONG): REFUTED** by D1H-X (below, and `attempts/k4-oc1-hall-d1-long.md`). As first stated: At a hard start with D = {k}, some *longest* canonical chain from k,
 with some minimal improving H₀, leaves an S\* completion owned by k.
 - Data: 197 of 197 starts.
 - Every longest chain works at 196 starts. The exception is log557 (n = 3, m = 6), where the two length-1 chains
@@ -1310,7 +1310,7 @@ The |D| ≥ 2 cases went to `proof/k4-oc1max-multi`.
 n ≥ 3). Take a longest canonical chain P. If P has no HEAD, Proposition D1-C′ repairs, outside C-a to C-c. If P has
 HEAD, then by Remark 2 every second wanter is unfrozen at the picks, and this is the open case:
 
-> **Sub-lemma D1-H(ii) (K4.OCH.D1H, open).** Let P be a longest canonical chain from k whose head is frozen after P.
+> **Sub-lemma D1-H(ii) (K4.OCH.D1H): REFUTED in this canonical form by D1H-X, see below.** Let P be a longest canonical chain from k whose head is frozen after P.
 > So every second wanter w of a is unfrozen at the picks, and is a holder at B′. Then P, or some
 > P_w = (x₀, …, x_{t−1}, w), with a minimal improving H₀, leaves an S\* completion owned by k.
 
@@ -1344,6 +1344,20 @@ wanters of Y_k, both unfrozen at the picks, and all are repaired. This is the f 
 - n = 5: 30 rounds of 3,000 steps; the 13 rounds that stay hard end at 1.
 - n = 6: random starts never reached a hard start with |D| = 1 in 12 rounds, so that run is not informative. The
   sampling at n = 6–8 below covers it.
+
+**D1-LONG and D1-H(ii) are false in canonical form** (counterexample D1H-X, found by `proof/k4-d1`; re-verified by
+`k4/oc1_hall/d1long_cex.py`, `d1long_cex.log`).
+- Data: n = 3, m = 8. Sets [[0,1,5,7],[3,4,6,7],[0,2,5,7]], values [[26,3,25,27],[19,17,25,30],[9,14,7,29]], order
+  (0, 1, 2), picks (7, 6, 2), D = {0}, and agents 1 and 2 both want good 7.
+- Both canonical chains have HEAD for every improving H₀, and no completion is owned by k or by the head. After (0, 2)
+  the off-chain second wanter 1 can own.
+- The ED chain (0, 2), with the head also taking junk good 0 and H₀ = {1, 5}, repairs with owner k:
+  [[1,5,2,4],[6,3],[7,0]].
+- So step 3 of the Reduction of Finding D1 needs the head-junk option of §15's ED-MIN. Finding D1 itself (ED-MIN) is
+  not refuted.
+- The open statement is now D1-HJ (`proof/k4-d1`): at a hard start where every canonical chain from k has HEAD, some
+  chain whose head adds at most one junk good, with a minimal H₀, repairs with owner k. Their data give 59 of 59.
+- The n ≤ 5 data of this note have m ≤ 7 at n = 3, which is why this case never appeared.
 
 **Larger n** (`k4/oc1_hall/d1_big.py`, `d1_big_cores6.log`, `d1_big_n6.log`, `d1_big_n7.log`, `d1_big_n8.log`;
 evidence). These runs use sampled orders, at most 60 per instance. The S\* completion is tested by SAT
@@ -1399,7 +1413,10 @@ must also hold the leftover junk, and then the other agent sharing the pair is t
 | cex1 | 7 | 4 | 2 | 1 (the order above) |
 | cex2 | 6 | 4 | 1 | 1 (the order above) |
 
-- **Both failing orders are also R1-priority orders**, so the R1-priority alternative of §18–§19 is refuted as well.
+- **Both failing starts also arise from R1-priority orders**, so the R1-priority alternative of §18–§19 is refuted as
+  well. The printed order (0, 3, 2, 1) of cex1 is not itself R1-priority (`k4/sdc.md` §2), but the R1-priority order
+  (3, 2, 0, 1) gives the same picks (paper session's correction). The test in `oc1max_cex_analysis.py` asks whether
+  the pick vector arises from some R1-priority order.
 - *Two sequential moves repair both.*
   - cex1: the chain (2, 1), then the chain (0, 1). The second chain starts at the inert dangerous agent 0 and gives
     agent 1 its top good.
@@ -1510,9 +1527,10 @@ Each leaf is a named statement with its status and the session that owns it.
 | 0 | maximum-matching start ⟶ perfect start | Lemma RED (k4/sdc.md §31) with Lemma MAX (§19) | RED: written proof, read here (§22 message, no hole; caveat: null agents count as ordinary agents for the one-absorber shape). MAX: proved | coordinator; this note |
 | 1 | the picks complete | Lemma 1 (slots), Lemma 2\* / Lemma M (exact S\* count) | proved (2\* refereed) | this note; matching |
 | 2 | hard ⟹ D ≠ ∅ | Proposition T0: every unfrozen z has a dangerous agent threatened by J ∪ B_z (cf. Prop. 3′ here) | written proof | k4-oc1max-multi |
-| 3 | \|D\| = 1: **one move** | Lemma D1-chain, Prop. 3′, Lemma D1-red, Remark 2 (a longest chain avoids H-i), Lemma D1-C₀ and Prop. D1-C′ (§21) | proved | this note |
+| 3 | \|D\| = 1: **one move** (an ED chain, the head possibly taking one junk good) | Lemma D1-chain, Prop. 3′, Lemma D1-red, Remark 2 (a longest chain avoids H-i), Lemma D1-C₀ and Prop. D1-C′ (§21) | proved | this note |
 | 3a | \|D\| = 1, CROWD residuals C-a to C-c | D1-C via Lemmas C3 and HC (needs every good relevant) | written proof, not refereed | k4-d1 (PR #113) |
-| 3b | \|D\| = 1, every chain has HEAD | D1-H in all-HEAD form: in the data only n = 3, t = 1, f = 1, two unfrozen wanters (5 starts) | **open** | k4-d1 |
+| 3a′ | \|D\| = 1, CROWD in general | Theorem D1-C: every canonical chain without HEAD has a minimal H₀ that repairs | written proof, not refereed (`k4/d1.md` §3) | k4-d1 |
+| 3b | \|D\| = 1, every canonical chain has HEAD | **D1-HJ**: some chain whose head adds at most one junk good repairs, with owner k. The canonical form (D1-LONG, D1-H(ii)) is refuted by D1H-X | **open**; 59/59 all-HEAD starts in k4-d1's data | k4-d1 |
 | 4 | \|D\| ≥ 2 after a canonical chain | Lemma D-red: the obstacles are HEAD, CROWD and DEMAND | written proof | k4-oc1max-multi |
 | 4a | the head's Θ(z) ⊆ {k} | Corollary TR: no DEMAND, so case 3 applies | written proof | k4-oc1max-multi |
 | 4b | one truly dangerous agent | Lemma KEEP, Corollary KEEP-1 (3,244 of 3,259 starts); KEEP-C (15 starts) open | proof plus open residue | k4-oc1max-multi |
