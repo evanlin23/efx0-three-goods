@@ -4,7 +4,7 @@ Workstream `proof/kgen-charity` (branch `claude/kgen-charity`, draft PR #105). S
 `results/kgen_charity/`. Everything called evidence below is evidence only (PROMPT.md §5 rule 3). No ledger row is
 changed here; the coordinator integrates.
 
-## Status (end of burst 1)
+## Status (end of burst 2)
 
 | item | statement | status | artifact |
 |---|---|---|---|
@@ -14,17 +14,19 @@ changed here; the coordinator integrates.
 | CH-C | at every CKMS stopping state, \|P\| < σ ≤ (k − 2) · min_{g∈P} \|V(g)\| | PROVED | §2, Lemma CH4 |
 | CH-D | for every σ ≥ 2: a k = 3 instance and a state leaving σ − 1 goods out at which no CKMS rule applies under any champion choice (n ≈ 1.5σ²) | PROVED (written proof; checked for σ ≤ 7, k = 3, 4) | §4, `stuck_family.py`, `stuck_family_k*.log` |
 | CH-E | for every σ ≥ 2 and k ≥ 3: a Pareto maximum (P1's hypothesis) leaving σ − 1 goods out, n = O(σ²) | PROVED (written proof; exhaustive check without SAT for σ ≤ 4, SAT for σ ≤ 7) | §5, `refute_pm.py`, `refute_pm_k*.log`, `pm_family_sat.log` |
-| P1 at k = 3 | P1 (K4.SDC.P1) already fails at k = 3: n = 4, m = 7, every agent values exactly 3 goods | REFUTED (CH-E with σ = 2; brute force over all 5⁷ partial allocations) | §5, `refute_pm_k3.log` |
+| P1 threshold | P1 (K4.SDC.P1: Pareto maxima are complete) holds for k ≤ 2 and fails at k = 3 (n = 4, m = 7, every agent values exactly 3 goods) | PROVED for k ≤ 2 (CH6 + CH4′); REFUTED at k = 3 (CH-E with σ = 2; brute force over all 5⁷ partial allocations) | §5, `refute_pm_k3.log` |
 | PM(k) | Pareto maxima leave ≤ f(k) goods out | REFUTED for every k ≥ 3 and every f (CH-E) | §5 |
 | W(k) | the welfare maximum, among those with the fewest unallocated goods, leaves ≤ f(k) out; W(k) ⇒ CH(k) | OPEN: f = 0 is REFUTED at k = 4 by GM4-G (n = 4, m = 7; brute force); complete on 3,400 random instances (k ≤ 7) and on S, S′ (σ ≤ 5) | §6, `w_*.log` |
 | least charity | 0 on every instance tested, k = 3..8, n ≤ 9 | EVIDENCE (this is TARGET_k on random data) | §1, `least_*.log` |
 
-**Conclusion of the burst.** The rainbow-cycle method works with genuine zeros and gives *exact* EFX₀ with
-O(√(kn)) charity (CH-A), and charity < e·d when goods have ≤ d valuers (CH-B, independent of n); both look new. But
-an n-independent f(k) cannot come from CKMS's rules (CH-D) nor from any argument that keeps a Pareto-maximal partial
-EFX₀ allocation (CH-E): both can strand Θ(√n) goods at k = 3, where complete EFX₀ is a theorem. So a proof of
-CH(k) for k ≥ 3 must lower some agent's value along the way, as LB⁺ does at k = 3, or use a potential that is not
-Pareto-monotone (the welfare maximum is the one simple candidate left).
+**Conclusion so far.** The rainbow-cycle method works with genuine zeros and gives *exact* EFX₀ with O(√(kn))
+charity (CH-A), and charity < e·d when goods have ≤ d valuers (CH-B, independent of n and k); both look new, and both
+extend to monotone valuations (CH-M). But an n-independent f(k) cannot come from CKMS's rules (CH-D), nor from any
+argument that only uses Pareto-maximality of a partial EFX₀ allocation (CH-E): both can strand Θ(√n) goods at k = 3,
+where complete EFX₀ is a theorem, and both are complete at k ≤ 2 — so k = 3 is exactly where value-monotone methods
+stop working (CH-E′), not k = 4. A proof of CH(k) for k ≥ 3 must lower some agent's value at some step, as LB⁺ does
+at k = 3, or argue about a special Pareto maximum with exchanges that lower values: the welfare maximum (Question W)
+is the natural one; it strands one good on GM4-G (k = 4) and none on all other data.
 
 ## 0. Statement and conventions
 
@@ -283,6 +285,11 @@ is in `attempts/kgen-charity-pareto-maxima.md`): no partial EFX₀ allocation do
 and each of its 58 complete EFX₀ allocations leaves some agent worse off. K4.SDC.P1's moral ("a value-monotone
 procedure can stop with goods left over") therefore holds at k = 3 as well; LB⁺ is not value-monotone, so there is
 no conflict with TARGET.
+
+**Corollary CH-E′ (the threshold is k = 3).** P1 holds when every agent values at most two goods: a Pareto maximum
+is a robust stopping state (CH6), and stopping states are complete for k ≤ 2 (CH4′). With CH-E: Pareto maxima are
+always complete for k ≤ 2, and for k ≥ 3 they can leave Ω(√n) goods out. The same dichotomy holds for CKMS's
+stopping states (CH4′, CH-D).
 
 Checks: `refute_pm.py` (standalone, no SAT: rebuilds S′ from this description, raw EFX₀, enumerates every
 value-feasible family of relevant parts and every placement of the remaining goods; σ ≤ 4 at k = 3, 4) and the SAT
