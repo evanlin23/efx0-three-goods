@@ -2,11 +2,13 @@
 whether some monotone valuation profile has no EFX0 allocation (monotone/synth.py).
 
 Per hypergraph:
-  1. CEGAR with the rank encoding, V = 2^|R_i| (exact). SAT => decode, verify by brute force with the
-     raw definition, save. UNSAT => the allocations collected form a certificate L: no monotone profile
-     makes every allocation of L fail EFX0.
-  2. Second, independent encoding: the order encoding (pairwise order variables + transitivity) on the
-     clauses of L only must also be UNSAT. Both must agree, else the run aborts.
+  1. CEGAR with the order encoding plus symmetry breaking (sb_clauses). SAT => decode, verify by brute
+     force with the raw definition, save. UNSAT => the allocations collected form a certificate L: no
+     monotone profile obeying the symmetry breaking makes every allocation of L fail EFX0 (hence, by the
+     symmetry argument, every monotone profile has an EFX0 allocation in the orbit of L).
+  2. Both encodings (rank with V = 2^|R_i|, and order) on the clauses of L only, with the same symmetry
+     breaking, must be UNSAT; otherwise the record is marked DISAGREE. monotone/check_cert.py re-checks
+     L independently.
 Writes one JSON line per hypergraph to the output file.
 
 Usage: python3 monotone/run_search.py n m k out.jsonl [--jobs J]
@@ -34,8 +36,30 @@ def build(n, R, enc):
     return pool, clauses, agents
 
 
-def cegar(n, m, R, enc="rank", solver="cadical153", time_limit=None):
+def sb_clauses(n, R, agents):
+    """Symmetry breaking (monotone/threshold.md §3): goods valued by exactly the same agents form a class;
+    permuting a class is a hypergraph automorphism, so WLOG the smallest agent of the class ranks the
+    class's singletons in increasing order of the goods' indices."""
+    m = 1 + max(g for r in R for g in r)
+    classes = {}
+    for g in range(m):
+        key = tuple(i for i in range(n) if g in R[i])
+        classes.setdefault(key, []).append(g)
+    out = []
+    for key, gs in classes.items():
+        if not key:
+            continue
+        a = key[0]
+        ag = agents[a]
+        for g, h in zip(gs, gs[1:]):
+            out.append([ag.lt(ag.local(1 << g), ag.local(1 << h))])
+    return out
+
+
+def cegar(n, m, R, enc="order", solver="cadical153", time_limit=None, sb=True):
     pool, clauses, agents = build(n, R, enc)
+    if sb:
+        clauses.extend(sb_clauses(n, R, agents))
     L = []
     t0 = time.time()
     with Solver(name=solver, bootstrap_with=clauses) as s:
@@ -62,9 +86,11 @@ def cegar(n, m, R, enc="rank", solver="cadical153", time_limit=None):
                 return "TIMEOUT", L, None, time.time() - t0
 
 
-def check_list_unsat(n, m, R, L, enc, solver="cadical153"):
-    """Is 'every allocation in L fails EFX0' unsatisfiable under encoding enc?"""
+def check_list_unsat(n, m, R, L, enc, solver="cadical153", sb=True):
+    """Is 'every allocation in L fails EFX0' (plus symmetry breaking) unsatisfiable under encoding enc?"""
     pool, clauses, agents = build(n, R, enc)
+    if sb:
+        clauses.extend(sb_clauses(n, R, agents))
     for X in L:
         cl = alloc_clause(n, m, agents, X)
         if not cl:
@@ -77,9 +103,9 @@ def check_list_unsat(n, m, R, L, enc, solver="cadical153"):
 def job(args):
     n, m, types, time_limit = args
     R = to_R(types, n)
-    status, L, subs, dt = cegar(n, m, R, "rank", time_limit=time_limit)
+    status, L, subs, dt = cegar(n, m, R, "order", time_limit=time_limit, sb=True)
     rec = {"n": n, "m": m, "types": list(types), "R": R, "deg": [len(r) for r in R],
-           "status": status, "time": round(dt, 2), "cert_size": len(L)}
+           "status": status, "time": round(dt, 2), "cert_size": len(L), "sb": True}
     if status == "SAT":
         ok, info = verify_counterexample(n, m, R, subs)
         rec["verified"] = ok

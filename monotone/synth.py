@@ -116,9 +116,11 @@ class AgentEnc:
     def decode(self, model_set):
         if self.enc == "rank":
             return [sum(1 for t in range(1, self.V) if self.x[S][t] in model_set) for S in range(self.N)]
+        def true(l):
+            return (l in model_set) if l > 0 else (-l not in model_set)
         vals = []
         for S in range(self.N):
-            vals.append(sum(1 for T in range(self.N) if T != S and self.plit(T, S) in model_set))
+            vals.append(sum(1 for T in range(self.N) if T != S and true(self.plit(T, S))))
         return vals
 
 

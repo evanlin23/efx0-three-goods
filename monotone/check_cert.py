@@ -67,6 +67,19 @@ def check(rec):
                         continue
                     clauses.append([-lit(i, a, b), -lit(i, b, c), -lit(i, c, a)])
 
+    if rec.get("sb"):
+        # symmetry breaking used by the search: goods valued by exactly the same agents are
+        # interchangeable (a hypergraph automorphism), so WLOG the least such agent values the
+        # singletons of the class increasingly in the goods' indices (monotone/threshold.md, section 3)
+        cls = {}
+        for g in range(m):
+            cls.setdefault(tuple(a for a in range(n) if g in R[a]), []).append(g)
+        for key, gs in cls.items():
+            if key:
+                a = min(key)
+                for g, h in zip(sorted(gs), sorted(gs)[1:]):
+                    clauses.append([lit(a, 1 << idx[a][g], 1 << idx[a][h])])
+
     def loc(i, goods):
         s = 0
         for g in goods:
