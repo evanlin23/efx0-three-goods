@@ -161,12 +161,17 @@ absorber wants agent 0's pick and is compensated by its own junk).
 
 **Lemma U (an unfrozen first agent makes itself safe with one good; written proof).** Let f be first among the
 agents present (Y_f = a is its top among the goods present), let |R_f| ≤ 4, and let X be a one-absorber completion of
-the others with absorber o. Suppose f is threatened by X_o, and let g be f's most valuable *junk* good in X_o. After
-f takes g:
-1. f is not threatened by any bundle;
-2. f's bundle {a, g} threatens only agents i with v_i(a) > v_i(X_i);
+the others with absorber o. Suppose f is threatened by X_o, and let g be f's most valuable *junk* good in X_o. Suppose
+also that f is *unfrozen at current values*: v_i(a) ≤ v_i(X_i) for every agent i ∉ {f, o}, and
+v_o(a) ≤ v_o(X_o ∖ g). After f takes g:
+1. f is not threatened by any bundle (this part does not need f unfrozen);
+2. f's bundle {a, g} threatens nobody;
 3. among the old agents, only o can become threatened, and only by a two-good bundle {Y_j, g_j} with
    v_o(Y_j) > v_o(X_o ∖ g).
+
+(Without the unfrozen hypothesis, item 2 becomes "threatens only the agents i with v_i(a) > v_i(X_i)". Item 3 then
+fails, because those wanters are old agents. Fix found by the referee, `k4/referee/sd_induct.md` on
+`claude/k4-referee`.)
 
 *Proof.*
 1. Write R_f = {a, b, c, d} with values a ≥ b ≥ c ≥ d (missing goods worth 0). X_o contains at most one good of R_f
@@ -177,9 +182,15 @@ f takes g:
      at most a.
 
    Two-good bundles never threaten f (Lemma F).
-2. Removing g from {a, g} leaves a. Removing a leaves g, worth less than each valuer's pick by (I2).
+2. Removing g from {a, g} leaves a, which is worth at most each agent's value by the hypothesis. Removing a leaves
+   g, which is worth less than each valuer's pick by (I2).
 3. Only o's bundle changed for the others, and it lost a good. o's own value dropped by v_o(g). By Lemma S, o can then
-   be threatened only by (S2)-type bundles, or by f's bundle; for f's bundle the threat needs v_o(a) > v_o(X_o ∖ g). ∎
+   be threatened only by (S2)-type bundles or by f's bundle, and f's bundle is excluded by item 2. ∎
+
+Where Lemma U is used, the hypothesis holds:
+- BOTH-TP: a both agent is wanted by nobody, and X_o ∖ g still contains Y_o.
+- PR-TP: a pick-unfrozen agent, same reason.
+- Proposition PR-step uses only item 1, and states (b) separately.
 
 So inserting an *unfrozen* agent costs one move, unless the absorber's compensation is at stake. `e5_step.py` (from
 every completion, not only reachable ones): the move of Lemma U works in 1,224 of the 1,247 threatened unfrozen
