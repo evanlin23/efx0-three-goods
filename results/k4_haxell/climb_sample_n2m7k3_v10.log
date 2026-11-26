@@ -1,0 +1,1 @@
+$ python3 k4/haxell/ht_climb.py sample 20000 173 2 7 3 VMAX=10

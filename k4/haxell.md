@@ -233,3 +233,50 @@ reach a partial EFX₀ allocation with a smaller pool (all reassignments of d go
 So no bounded-radius *one-step* augmentation lemma holds ("AUG_r" is false for r ≤ 4, even at k = 3), while
 *multi-step* augmentation through radius-2 moves never fails (§3.4). This is the division of labour in Haxell's
 proof: the augmenting structure is a sequence of swaps, each local, organized by the tree.
+
+## 4. What survives, and what a proof would need
+
+**Definitions.** Let 𝒫 be the set of partial EFX₀ allocations of an instance (every agent happy with respect to the
+allocated bundles; the unallocated goods form the pool). A *local move* reassigns one good to another agent (a pooled
+good may be placed, but nothing returns to the pool), swaps the holders of two goods (the pool counts as a holder), or
+trades the bundles of two agents. G_r joins s, t ∈ 𝒫 when a composite of at most r local moves leads from s to t and
+t has no more pooled goods than s (the intermediate states need not be in 𝒫). A *trap of G_r* is a state of 𝒫 from
+which no complete EFX₀ allocation is reachable in G_r.
+
+**Conjecture CONN₂ (proof/k4-haxell, CONJECTURE).** In every additive instance in which every agent values at most four
+goods, G₂ has no trap.
+
+**Conjecture CONN₁ at k = 3 (CONJECTURE).** If every agent values at most three goods, G₁ has no trap.
+
+**Facts (computational, each with its log).**
+- G₁ has traps at k = 4 (smallest: n = 2, m = 5, `attempts/k4-haxell-single-swap-collapse.md`), and at general k.
+- No trap of G₂ is known: §3.4, the C census below, and the climbs of `ht_climb.py`.
+- No trap of G₁ is known at k ≤ 3: random instances (n = 2, 3), and **every** instance with n = 2, m ≤ 6, k ≤ 3 whose
+  values lie in {1, 2, 3, 5, 8, 13} (472,860 instances, `n2_grid_k3.log`).
+- Some states of 𝒫 need more than four goods reassigned before the pool can shrink (§3.5), so neither conjecture can
+  be proved one augmentation at a time with a bounded jump.
+
+**Why CONN₂ is the right "Haxell condition".**
+- *It implies TARGET₄.* The empty allocation lies in 𝒫, so a complete EFX₀ allocation is reachable from it.
+- *It is hereditary in the right sense.* In Haxell's theorem the hypothesis holds for every subset S of players, so
+  every partial matching can be augmented, whatever the earlier augmentations did. CONN₂ says the same of every
+  partial EFX₀ allocation, which is what lets an alternating tree augment greedily without entering a dead end
+  (the failure of §3.2).
+- *It is value-free.* It speaks only of membership in 𝒫. P1's stuck state of GM4-E is in 𝒫 and is not a trap: the
+  path out lowers some agent's value.
+- *It is not implied by anything known.* For general additive instances it would imply EFX₀ existence (the empty
+  allocation again), so its general-k form is at least as hard as the EFX conjecture. The k = 4 proof must use k ≤ 4.
+  At general k the census also found no G₂ trap (n ≤ 3), so it does not by itself locate where k ≤ 4 enters.
+
+**What a Haxell-type proof of CONN₂ needs.**
+1. *Edges of radius 2.* A tree whose collapses are composites of at most two local moves (`ht_tree.py MOVES=2`,
+   §3.6). The signature argument is unchanged: a collapse at layer t discards the layers from t up and lowers |Y_{t−1}|,
+   provided the collapsed composite creates no victim for a lower edge (the invariant AKS get from disjointness, here
+   to be proved or enforced).
+2. *A never-stuck lemma.* When no tree player has an addable edge, the tree's goods and victims must give a
+   contradiction. Haxell's version is a cover count, τ(E_S) ≤ (2r − 3)(|S| − 1). The EFX₀ analogue would bound the goods
+   that the blocked placements of the root good and the victims' repairs can touch, using |R_i| ≤ 4. No candidate
+   inequality is known. The k = 3 / k = 4 contrast of CONN₁ suggests where it enters: at k = 3 one move always
+   suffices, at k = 4 a repair sometimes has to move with its parent.
+3. *A start.* The serial-dictatorship picks are never traps, and from every one of them on the screen set a sequence
+   of victim-free moves completes (§3.1). The empty allocation works for CONN₂ itself.

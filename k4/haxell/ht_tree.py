@@ -32,12 +32,18 @@ agent happy, so at most |J| augmentations.
     python3 k4/haxell/ht_tree.py SRC [MOVES=TC] [NMAX=4] [ABS=last|all] [ITMAX=400] [MODEL=A|G]"""
 import sys, os, json, itertools, collections, time
 from ht_lib import (Inst, happy_vec, start_state, apply, chain_moves, transfer_moves, rebase_moves, touched,
-                    instances)
+                    instances, generic_moves)
 
 INF = float('inf')
 
 
 def catalogue(I, st, kinds):
+    if '2' in kinds:          # generic local moves of G* and their composites of two (radius 2)
+        yield from generic_moves(I, st, 2)
+        return
+    if '1' in kinds:          # generic local moves of G*
+        yield from generic_moves(I, st, 1)
+        return
     if 'T' in kinds:
         yield from transfer_moves(I, st)
     if 'C' in kinds:

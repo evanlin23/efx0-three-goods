@@ -117,6 +117,10 @@ def apply(I, st, mv):
                     own[g] = path[i]; isb[g] = True
         for g in H.get(0, ()):
             own[g] = path[0]; isb[g] = True
+    elif mv[0] == 'R':
+        # a relative reassignment: ('R', ((g, b), ...)) gives each listed good g to agent b (generic moves of G*)
+        for g, b in mv[1]:
+            own[g] = b
     elif mv[0] == 'D':
         _, a, H, dest = mv
         B = bases(I, st)
@@ -195,6 +199,40 @@ def rebase_moves(I, st, agent=None, dests=None):
                 continue
             for d in (dests if B[a] else [a]):
                 yield ('D', a, H, d)
+
+
+def generic_moves(I, st, radius=1):
+    """the generic local moves of G* (k4/haxell/ht_gstar.py) as relative reassignments: move one good to another
+    agent (a pooled good is placed), swap two goods of different holders (the pool counts as a holder, so the pool
+    never grows), trade two bundles; with radius 2 also every composite of two such moves"""
+    own = st[0]
+    def one(o):
+        n, m = I.n, I.m
+        for g in range(m):
+            for b in range(n):
+                if b != o[g]:
+                    yield ((g, b),)
+        for g, h in itertools.combinations(range(m), 2):
+            if o[g] != o[h]:
+                yield ((g, o[h]), (h, o[g]))
+        for a, b in itertools.combinations(range(n), 2):
+            yield tuple((g, b if o[g] == a else a) for g in range(m) if o[g] in (a, b))
+    seen = set()
+    for r1 in one(own):
+        key = tuple(sorted(r1))
+        if key not in seen:
+            seen.add(key); yield ('R', key)
+        if radius >= 2:
+            o1 = list(own)
+            for g, b in r1:
+                o1[g] = b
+            for r2 in one(o1):
+                o2 = list(o1)
+                for g, b in r2:
+                    o2[g] = b
+                ch = tuple((g, o2[g]) for g in range(I.m) if o2[g] != own[g])
+                if ch and ch not in seen and sum(1 for x in o2 if x < 0) <= sum(1 for x in own if x < 0):
+                    seen.add(ch); yield ('R', ch)
 
 
 def touched(I, st, mv):
