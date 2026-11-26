@@ -1415,3 +1415,12 @@ must also hold the leftover junk, and then the other agent sharing the pair is t
   - This bears on Sub-lemma D1-H(ii), and has been forwarded to `proof/k4-d1`.
 - *Lemma D-red* (theirs) carries Lemma D1-red to any |D|. The only new obstacle is DEMAND: another dangerous agent,
   still frozen, threatened by the pool.
+- *An n = 5 strict-core counterexample to OC₁^max* (TTC session).
+  - Data: sets [[0,4,5,6],[2,3,4,6],[0,1,5,6],[2,4,5,6],[0,1,7,8]], values [[3,2,10,6],[4,1,6,8],[2,8,5,4],[5,4,8,2],[7,8,2,4]],
+    order (1, 3, 4, 2, 0), picks (4, 6, 0, 5, 1), perfect.
+  - It lies outside the K4.MC2 class: agent 4 has the private pair {7, 8}.
+  - The mechanism is the same. D = {1, 3, 4}. Agents 1 and 3 share the *pool* pair {2, 4}, junk good 2 plus the chain
+    end's released pick 4 (4 + 6 > 8 and 5 + 4 > 8). Agent 4 is inert.
+  - Every canonical chain from 1 or 3, with H₀ = {2, 4}, leaves the other sharer frozen and threatened (DEMAND), with
+    no HEAD and no CROWD.
+  - So the shared pair need not be pure junk: it can contain B_{x_t}.
