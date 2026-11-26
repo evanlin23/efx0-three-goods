@@ -33,6 +33,10 @@ def summary(V):
 
 
 def report_fail(V, s, tag):
+    fp = os.environ.get('FAILS')
+    if fp:
+        with open(fp, 'a') as f:
+            f.write(json.dumps({'tag': tag, 'vals': V, 'picks': list(s['picks']), 'order': list(s['order'])}) + '\n')
     print('FAIL', tag, 'vals', json.dumps(V), 'picks', list(s['picks']), 'order', list(s['order']),
           'rnd1', s['rnd1'], 'rndf', s['rndf'], 'md', s['md'], flush=True)
 
