@@ -21,6 +21,9 @@ Verdicts: CORRECT / CORRECT WITH FIXES / GAP / WRONG.
 | 8 | K4.SDC.MAXSD and Lemma SDPO (`k4/sdc.md` §28, §31); Lemma MAX (`k4/oc1_hall.md` §19) | coordinator, `claude/k4-oc1-hall` | `maxsd.md` | **CORRECT** (SDPO needs strict values; MAXSD also holds with tie-breaking) |
 | 9 | Proposition CH-F (W(3, 1), W(4, 1) false); Proposition DU | `claude/kgen-charity` | `chf.md`, `charity.md` §5 | **CORRECT** (independent exact check, no SAT/MILP) |
 | 10 | Lemmas SND, TERM; VM1 invariant (I1)–(I5) (`k4/vm.md` §7, §7.3) | `claude/k4-vm` | `vm.md` §6 | **CORRECT** ((I3) is about allocated goods) |
+| 11 | Lemma PL, Lemma PWk(a) (`k4/ksens.md`, `7ec7073`) | `claude/k4-ksens` | `ksens.md` §5 | PL **CORRECT**; PWk(a) **CORRECT WITH FIXES** (the proof's W = 1 completion needs the clean values; fix given) |
+| 12 | Lemma T5 (`k4/ttc.md` §13) | `claude/k4-ttc` | `ttc_t5.md` | **CORRECT**, the same as Lemma MAX |
+| – | Literature: EFX₀ for n = 2 | – | `lit_n2.md` | Plaut–Roughgarden Thm 4.3 (EFX₀, monotone) covers existence; not `kgen/n3.md` Theorem 2 (picks kept / one chain) |
 
 **Checked in passing** (newer PROVED items seen at the 22:15 UTC heads; short checks, recorded as addenda in the
 reports):

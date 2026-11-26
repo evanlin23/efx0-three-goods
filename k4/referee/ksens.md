@@ -65,3 +65,49 @@ computation, not re-run here.
 - PW5: CORRECT. "OC and OC₁ fail for every k ≥ 5" can be recorded as REFUTED-with-artifact. The artifacts are the
   written proof (§1) and two independent exhaustive checks (the session's and `pw5_ref.py`).
 - Optional tightening: the t = 0 aside of the proof (§1 above).
+
+## 5. Addendum (coordinator's third queue): Lemma PL and Lemma PWk(a) (`7ec7073`)
+
+### Lemma PL: CORRECT
+
+- (a): a junk good is worth at most the pick (I2), so |H| ≥ 2. Since y_x ∉ J, |J ∩ R_x| ≤ |R_x| − 1 ≤ k − 1, which
+  leaves at most k − 3 goods.
+- (b), (c): with |R| ≤ 4 at most one junk good is left outside H, and it is worth at most the pick, so no subset of
+  J ∖ H is a danger set against a holding worth at least the pick.
+  - In (c), z needs a pick, which the statement says.
+  - The "in particular" for a shared pool follows because every z with J ∩ R_z = J ∩ R_x values all of H.
+- (d) is PW5 (§1–§4 above).
+- The statement is careful to cover only the *old* junk J ∖ H, and its "What PL does not cover" list is accurate:
+  released picks, agents sharing one good with H, and danger sets that use another agent's pick.
+
+### Lemma PWk(a): CORRECT WITH FIXES (the written family does not fix the wanters' values that the proof uses)
+
+**The chain** x₁ → w₁ is a valid §29 chain. H₀ is a pair of D (worth > P), w₁ gains p₁, and q₁ is released.
+
+**The completion.**
+- **W ≥ 2** (absorber w₂): the case analysis is right, and in my tests it does not depend on the values.
+- **W = 1, f ≥ 2, r = 3.** The proof needs v_{w₁}(p₂) + v_{w₁}(q₁) ≤ v_{w₁}(p₁).
+  - Absorber x₂ holds {p₂, d₃, q₁}, and w₁ sees {p₂, q₁} after removing d₃.
+  - This holds for the clean values of `fam_ladder.clean` (2f − 2 + 1 < 2f), but §7's description of the family
+    ("each values every p_j above its own good q_i … same ranking") does not imply it.
+  - With other values of that shape, the proof's completion fails: 15 of 300 random cases, all with W = 1 and r = 3,
+    e.g. f = 2 with wanter values (p₁, p₂, q₁) = (12, 8, 5).
+
+**Fix** (either one).
+- State the wanter values (or the inequality) in the lemma.
+- Or use, for W = 1 and f ≥ 2, the completion q₁ → x₂, d₃ → w₁. It needs no absorber.
+  - {p₂, q₁} leaves w₁ at most max(p₂, q₁) < p₁.
+  - {p₁, d₃}: x₁ sees p₁ = P < v(H) or d₃, and the other x's see only d₃ < P.
+  - This completion is EFX₀ on 3,000 random value assignments of the described shape (f ≤ 6, W ≤ 5, r ∈ {2, 3};
+    `pwk_ref.py fix`).
+
+With the fix, (a) holds for the whole family as described.
+
+**Checks** (`k4/referee/pwk_ref.py`, log `results/k4_referee/pwk_ref.log`):
+- clean family, f ≤ 6, W ≤ 5, r ∈ {2, 3}: the proof's completion is EFX₀ on all 60 configurations;
+- brute-force OC₁ (picks or one chain, one absorber) on the clean family with f ≤ 3, W ≤ 3, r ≤ 3: all 32 pass;
+- arbitrary values of the described shape: OC₁ holds on all 300 cases (only the written completion fails, as above).
+
+Scope: "PW never breaks OC₁ at k ≤ 4" is (a) with f ≤ 3 and r ≤ 3, since k = max(r + 1, f + 1). (a) is about the
+family for every f, which for f ≥ 4 has k ≥ 5. W = 0 (no frozen agent) is not covered by the proof's chain, but there
+the picks complete directly.
