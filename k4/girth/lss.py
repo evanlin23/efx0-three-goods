@@ -463,3 +463,172 @@ def flex2(I, lab, pick='max'):
     r.alg2()
     good = [s for s in range(I.n) if not envied(I, r.X, s) and is_efx0(I, complete_safe_sink(I, r.X, r.U, s))]
     return r, good
+
+
+# ---------------------------------------------------------------- LSS + rotations + parking (k4/girth.md, section 4)
+
+def _envy_paths_to(I, X, i):
+    """for an envied agent i: dict source -> path [r = r_q, ..., r_0 = i] along envy arcs (BFS, shortest)"""
+    prev = {i: None}
+    order = [i]
+    out = {}
+    while order:
+        a = order.pop(0)
+        for k in enviers(I, X, a):
+            if k not in prev:
+                prev[k] = a
+                order.append(k)
+                if not envied(I, X, k):
+                    path = [k]
+                    while path[-1] != i:
+                        path.append(prev[path[-1]])
+                    out[k] = path
+    return out
+
+
+def find_rotation(I, X, U):
+    """an F5 (envy cycle) or F6 rotation (k4/girth.md, section 4) that is a Pareto improvement, as new bundles X'
+    (list) and new unallocated set; None if there is none.  Linear hypergraphs."""
+    # F6: source r with an envy path to envied i, r dangerous for i
+    for i in range(I.n):
+        if not envied(I, X, i):
+            continue
+        Ui = U & I.R[i]
+        for r, path in sorted(_envy_paths_to(I, X, i).items()):
+            if I.val(i, X[r] | Ui) > I.val(i, X[i]):
+                hs = [h for h in X[r] if h in I.R[i]]
+                Y = list(X)
+                newU = set(U)
+                for t in range(len(path) - 1):          # path[t] envies path[t+1]
+                    Y[path[t]] = X[path[t + 1]]
+                newU |= X[r] - set(hs)
+                Y[i] = frozenset(hs) | frozenset(Ui)
+                newU -= Ui
+                return Y, newU, ('F6', r, i, tuple(path))
+    # F5: an envy cycle (DFS over the envy graph)
+    succ = [[k for k in range(I.n) if k != a and I.val(a, X[a]) < I.val(a, X[k])] for a in range(I.n)]
+    color = [0] * I.n
+    stack = []
+
+    def dfs(a):
+        color[a] = 1
+        stack.append(a)
+        for k in succ[a]:
+            if color[k] == 1:
+                return stack[stack.index(k):]
+            if color[k] == 0:
+                c = dfs(k)
+                if c:
+                    return c
+        color[a] = 2
+        stack.pop()
+        return None
+
+    for a in range(I.n):
+        if color[a] == 0:
+            cyc = dfs(a)
+            if cyc:
+                Y = list(X)
+                for t, b in enumerate(cyc):
+                    Y[b] = X[cyc[(t + 1) % len(cyc)]]
+                return Y, set(U), ('F5', tuple(cyc))
+    return None
+
+
+def lss_rot(I, lab, pick='max', cap=10000):
+    """LSS's Algorithm 2, then repeatedly: an F5/F6 rotation followed by FixProp3 and Algorithm 2's loop, until none
+    applies.  Values never decrease (each step is a Pareto improvement), so it stops.  Returns the Run."""
+    r = Run(I, lab, pick)
+    r.alg2()
+    for _ in range(cap):
+        rot = find_rotation(I, r.X, r.U)
+        if rot is None:
+            break
+        r.X, r.U, ev = rot[0], rot[1], rot[2]
+        r.events.append(ev)
+        r._after(ev[0], None, ev)
+        r.alg2_resume()
+    return r
+
+
+def _alg2_resume(self):
+    """FixProp3, then Algorithm 2's loop, from the current state"""
+    I = self.I
+    self.fixprop3()
+    while True:
+        cand = [i for i in range(I.n) if envied(I, self.X, i) and I.val(i, self.U_of(i)) > I.val(i, self.X[i])]
+        if not cand:
+            break
+        i = self._choose(cand, key=lambda a: self.lab[a])
+        new = frozenset(self.U_of(i))
+        self.U |= self.X[i]
+        self.X[i] = new
+        self.U -= new
+        self.events.append(('A2L4', i, tuple(sorted(new))))
+        self._after('A2L4', i, tuple(sorted(new)))
+        self.fixprop3()
+
+
+Run.alg2_resume = _alg2_resume
+
+
+def park_slack_state(I, X, U):
+    """PARK + SLACK completion of a state (bundles X, unallocated U); exhaustive over the choices for the goods
+    whose valuers are all envied; goods with a non-envied valuer are oriented to one first.  None if impossible."""
+    X = [frozenset(b) for b in X]
+    env = [i for i in range(I.n) if envied(I, X, i)]
+    N = [u for u in range(I.n) if u not in env]
+    S = {i: {u for u in N if I.val(i, X[u] | (U & I.R[i])) <= I.val(i, X[i])} for i in env}
+    Y = [set(b) for b in X]
+    L = []
+    for e in sorted(U):
+        nb = [j for j in sorted(I.edge[e]) if j not in env]
+        if nb:
+            Y[nb[0]].add(e)
+        elif I.edge[e]:
+            L.append(e)
+        elif N:
+            Y[N[0]].add(e)
+    opts = []
+    for e in L:
+        common = set(N)
+        for i in I.edge[e]:
+            common &= S[i]
+        opts.append([('park', u) for u in sorted(common)] + [('slack', u) for u in N if len(Y[u]) == 1])
+    for choice in itertools.product(*opts):
+        slack = [u for k, u in choice if k == 'slack']
+        if len(set(slack)) < len(slack) or set(slack) & {u for k, u in choice if k == 'park'}:
+            continue
+        Z = [set(b) for b in Y]
+        for e, (k, u) in zip(L, choice):
+            Z[u].add(e)
+        if is_efx0(I, Z):
+            return Z
+    return None
+
+
+def park_any_state(I, X, U, limit=200000):
+    """Completion by parking only: orient goods with a non-envied valuer to one; every other leftover good goes to some
+    non-envied agent (exhaustive over the choices, raw EFX0 check).  None if impossible (or over `limit` choices)."""
+    X = [frozenset(b) for b in X]
+    env = {i for i in range(I.n) if envied(I, X, i)}
+    N = [u for u in range(I.n) if u not in env]
+    if not N:
+        return None
+    Y = [set(b) for b in X]
+    L = []
+    for e in sorted(U):
+        nb = [j for j in sorted(I.edge[e]) if j not in env]
+        if nb:
+            Y[nb[0]].add(e)
+        else:
+            L.append(e)
+    if len(N) ** len(L) > limit:
+        return None
+    for choice in itertools.product(N, repeat=len(L)):
+        Z = [set(b) for b in Y]
+        for e, u in zip(L, choice):
+            Z[u].add(e)
+        if is_efx0(I, Z):
+            return Z
+    return None

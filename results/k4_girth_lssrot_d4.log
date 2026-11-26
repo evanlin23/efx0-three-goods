@@ -1,0 +1,7 @@
+$ python3 k4/girth/lssrot_linear.py 31 1300 4
+{'instances': 1000, 'runs': 41520, 'rotations': 309}
+{'instances': 2000, 'runs': 83000, 'rotations': 616}
+{'instances': 3000, 'runs': 124444, 'rotations': 992}
+{'instances': 4000, 'runs': 165396, 'rotations': 1255}
+{'instances': 5000, 'runs': 206432, 'rotations': 1537}
+{'instances': 6000, 'runs': 246644, 'rotations': 1856}

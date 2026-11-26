@@ -1,0 +1,2 @@
+$ python3 k4/girth/lsflex_linear.py 23 1300 6
+{'instances': 2000, 'runs': 20973, 'runs failing (default labels)': 1, '  ... repaired by relabeling, same vertex 0': 1}
