@@ -10,6 +10,7 @@ changed here; the coordinator integrates.
 |---|---|---|---|
 | CH-A | every additive instance with ≤ k relevant goods per agent has a partial EFX₀ allocation with strong charity and \|P\|(\|P\| − 1) ≤ e(k − 2)n, so \|P\| ≤ 1 + √(e(k − 2)n); \|P\| = 0 for k ≤ 2 | PROVED (written proof, §3; lemmas asserted on every stopping state computed) | §2–§3, `chlib.py` |
 | CH-B | if every good is valued by at most d agents (any k, any n), the same with \|P\| < e·d | PROVED (written proof, §3) | §3 |
+| CH-M | CH-A (with k − 1 for k − 2) and CH-B for monotone valuations, R_i the support of v_i | PROVED (written proof only) | §3, Remark CH-M |
 | CH-C | at every CKMS stopping state, \|P\| < σ ≤ (k − 2) · min_{g∈P} \|V(g)\| | PROVED | §2, Lemma CH4 |
 | CH-D | for every σ ≥ 2: a k = 3 instance and a state leaving σ − 1 goods out at which no CKMS rule applies under any champion choice (n ≈ 1.5σ²) | PROVED (written proof; checked for σ ≤ 7, k = 3, 4) | §4, `stuck_family.py`, `stuck_family_k*.log` |
 | CH-E | for every σ ≥ 2 and k ≥ 3: a Pareto maximum (P1's hypothesis) leaving σ − 1 goods out, n = O(σ²) | PROVED (written proof; exhaustive check without SAT for σ ≤ 4, SAT for σ ≤ 7) | §5, `refute_pm.py`, `refute_pm_k*.log`, `pm_family_sat.log` |
@@ -91,8 +92,7 @@ A *stopping state* (for a fixed champion selection c(s, g)) is an EFX₀ state w
 selected champions) applies. A *robust stopping state* is one where U2 applies for no selection.
 
 **Lemma CH0 (envied bundles cannot grow).** If w envies X_i, then w strongly envies X_i ∪ {g} for every good g.
-*Proof.* Let h be w's least valued good of X_i ∪ {g}. If h = g, then (X_i ∪ g) ∖ h = X_i, which w envies. Otherwise
-v_w(h) < v_w(g) — or v_w(h) = v_w(g) and we may take h = g — and v_w((X_i ∪ g) ∖ h) ≥ v_w(X_i) > v_w(X_w). ∎
+*Proof.* Removing g from X_i ∪ {g} leaves X_i, which w envies. ∎
 So U0 can only add to sources.
 
 **Lemma CH1 (locality of U0).** Let X be EFX₀ with weak charity, s a source, g ∈ P.
@@ -154,8 +154,8 @@ The same holds for a welfare maximum with the fewest unallocated goods.
 ## 3. Exact charity from the rainbow cycle number (Theorems CH-A, CH-B)
 
 **Proposition CH-R.** At a stopping state, fix for each agent a an assigned source σ(a) with a ∈ C(σ(a)) (any
-choice). Let Q_g = {c(s, g) : s ∈ S} and build the |P|-partite digraph Γ with parts V_g = {g} × σ(Q_g) and an edge
-(g, s₁) → (h, s₂) iff σ(c(s₂, g)) = s₁. Then every vertex of V_h has an in-neighbour in V_g for every g ≠ h, and Γ has
+choice). Let Q_g = {c(s, g) : s ∈ S} and build the |P|-partite digraph Γ with parts V_g = {g} × σ(Q_g) and, for
+g ≠ h, an edge (g, s₁) → (h, s₂) iff σ(c(s₂, g)) = s₁. Then every vertex of V_h has an in-neighbour in V_g for every g ≠ h, and Γ has
 no rainbow cycle. So by Sivashankar's Theorem 3, with p = |P| and n_g = |V_g| ≤ |Q_g| ≤ |V(g)|,
 
     (p − 1)! · Σ_g n_g ≤ Π_g n_g.
@@ -184,6 +184,21 @@ Together with CKMS: |P| ≤ min{σ − 1, (k − 2) min_g |V(g)| − 1, 1/2 + �
 For exact EFX the best general charity is n − 2 (BCFF, Mahara, as recorded in the survey); CH-A is sublinear for
 k = o(n), and CH-B is n-independent. Neither statement was found in the surveyed literature; the
 rainbow-cycle line states its results for (1 − ε)-EFX only, because without sparsity "valuable" needs ε > 0.
+
+**Remark CH-M (monotone valuations; written proof, not machine-checked).** CKMS's rules and Theorem 8 are stated for
+normalized monotone valuations. Call R_i the *support* of v_i if v_i(S) = v_i(S ∩ R_i) for every S, and read
+"t values h" as h ∈ R_t. Then CH0–CH2, CH5, CH6, CH-R and CH-B hold verbatim with V(g) = {i : g ∈ R_i}; CH3 holds
+without its clause "R_t meets X_t"; and CH4, CH-A and CH-C hold with k − 1 in place of k − 2 (and "complete for
+k ≤ 1"). In CH1, a good outside R_t changes no value of t, which replaces "v_t(g) > 0"; weak charity
+v_t({g}) ≤ v_t(P) ≤ v_t(X_t) follows from strong charity by monotonicity. The only step that uses additivity is
+"t values a good of its own bundle" in CH3: with complements v_t({g}) can be 0, so a champion may hold nothing it
+values, which costs one in the count μ_t ≤ |R_t| − 1.
+
+**Algorithmic remark.** CH-A and CH-B are existence statements about every stopping state. CKMS's algorithm reaches
+a stopping state in pseudo-polynomial time if U2 is applied whenever *some* rainbow cycle exists; finding one is a
+colourful-cycle problem, and CKMS's own Lemma 6 only guarantees one when |P| ≥ σ. For CH-B, Sivashankar's Lemma 4
+finds a rainbow cycle in expected O(p²) time once p > e·d, which gives a randomized pseudo-polynomial algorithm with
+charity ⌈ed⌉; for CH-A, whose parts have unequal sizes, the running time is not analysed here.
 
 ## 4. The method cannot do better: stopping states with Θ(√n) goods out at k = 3 (Proposition CH-D)
 
