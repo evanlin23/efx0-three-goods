@@ -13,7 +13,10 @@ UNSAT of the outer problem proves that no real valuation makes X (with these siz
 Every bundle may be assumed to hold at most one good worthless to everyone (kgen/charity.md §6, the reduction there),
 and no unallocated good is worthless to everyone (it could be added to a source).
 
-    python3 kgen/charity/w_synth.py N K P SIZEMAX MMAX [TLIM]
+    python3 kgen/charity/w_synth.py N K P SIZEMAX MMAX [TLIM [Q]]
+Q (default P): the number of goods the stranded state leaves out; it must beat every allocation leaving <= P - 1 out.
+A welfare maximum leaving p* >= P goods out is found with Q = p*; since p* < number of sources <= N, the values
+Q = P, ..., N - 1 cover every case.
 enumerates every nonincreasing size vector with entries in 0..SIZEMAX and sum + P <= MMAX; vectors with an empty
 bundle or fewer than P + 1 bundles of size >= 2 are skipped (an envied agent holds a good; there are >= P + 1 sources
 and each holds >= 2 goods: CKMS Theorem 8 and Lemmas CH0, CH2, valid at a welfare maximum by CH6)."""
@@ -41,10 +44,13 @@ def efx0_frac(V, Y):
     return True
 
 
-def run(n, k, p, sizes, tlim=600, fixed=None, vmax=None):
-    """fixed = (B, P, m, support): a given stranded state and the relevant sets (values free on them, 0 elsewhere)."""
+def run(n, k, p, sizes, tlim=600, fixed=None, vmax=None, q=None):
+    """fixed = (B, P, m, support): a given stranded state and the relevant sets (values free on them, 0 elsewhere).
+    q: the number of goods the state X leaves out (default p); X must beat every EFX0 allocation leaving <= p - 1 out."""
+    if q is None:
+        q = p
     if fixed is None:
-        B, P, m = bundles(sizes, p)
+        B, P, m = bundles(sizes, q)
     else:
         B, P, m, support = fixed
     mk = (lambda nm: z3.Int(nm)) if vmax else (lambda nm: z3.Real(nm))
@@ -78,7 +84,7 @@ def run(n, k, p, sizes, tlim=600, fixed=None, vmax=None):
             C = B[j] + [g]
             S.add(z3.Or([val(i, [h2 for h2 in C if h2 != h]) > val(i, B[i]) for i in range(n) if i != j for h in C]))
     src = [z3.And([val(i, B[j]) <= val(i, B[i]) for i in range(n) if i != j]) for j in range(n)]
-    S.add(z3.PbGe([(src[j], 1) for j in range(n)], p + 1))
+    S.add(z3.PbGe([(src[j], 1) for j in range(n)], len(P) + 1))
     for j in range(n):                                     # a source holds >= 2 goods (CH2), an envied agent >= 1
         if len(B[j]) < 2:
             S.add(z3.Not(src[j]))
@@ -135,20 +141,21 @@ def run(n, k, p, sizes, tlim=600, fixed=None, vmax=None):
 
 if __name__ == '__main__':
     N, K, P, SMAX, MMAX = map(int, sys.argv[1:6]); TLIM = int(sys.argv[6]) if len(sys.argv) > 6 else 600
+    Q = int(sys.argv[7]) if len(sys.argv) > 7 else P
     print('$ python3 kgen/charity/w_synth.py', *sys.argv[1:], flush=True)
     cnt = {}
     for sizes in itertools.product(range(SMAX + 1), repeat=N):
-        if list(sizes) != sorted(sizes, reverse=True) or sum(sizes) + P > MMAX:
+        if list(sizes) != sorted(sizes, reverse=True) or sum(sizes) + Q > MMAX:
             continue
-        if min(sizes) < 1 or sum(1 for x in sizes if x >= 2) < P + 1:   # CH0/CH2 + CKMS: pruned, cannot strand P
+        if min(sizes) < 1 or sum(1 for x in sizes if x >= 2) < Q + 1:   # CH0/CH2 + CKMS: pruned, cannot strand Q
             cnt['pruned'] = cnt.get('pruned', 0) + 1
             continue
-        res, cuts, dt, V = run(N, K, P, list(sizes), TLIM)
+        res, cuts, dt, V = run(N, K, P, list(sizes), TLIM, q=Q)
         cnt[res] = cnt.get(res, 0) + 1
-        print('sizes %s m %d: %s after %d cuts, %.1f s' % (sizes, sum(sizes) + P, res, cuts, dt), flush=True)
+        print('sizes %s m %d: %s after %d cuts, %.1f s' % (sizes, sum(sizes) + Q, res, cuts, dt), flush=True)
         if res == 'FOUND':
             print('  COUNTEREXAMPLE values', [{g: str(x) for g, x in enumerate(row) if x} for row in V], flush=True)
-            m = sum(sizes) + P
+            m = sum(sizes) + Q
             if (N + 1) ** m <= 2_000_000:                   # independent brute force over all partial allocations
                 best = None
                 for asg in itertools.product(range(N + 1), repeat=m):
@@ -158,7 +165,7 @@ if __name__ == '__main__':
                     if efx0_frac(V, Y):
                         w = sum(V[i][g] for i in range(N) for g in Y[i])
                         best = w if best is None or w > best else best
-                B, Pl, _ = bundles(list(sizes), P)
+                B, Pl, _ = bundles(list(sizes), Q)
                 wX = sum(V[i][g] for i in range(N) for g in B[i])
                 print('  brute force: best welfare with <= %d unallocated %s < %s: %s' % (P - 1, best, wX,
                                                                                        best is None or best < wX))

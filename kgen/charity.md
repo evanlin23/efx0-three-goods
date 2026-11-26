@@ -16,7 +16,9 @@ changed here; the coordinator integrates.
 | CH-E | for every σ ≥ 2 and k ≥ 3: a Pareto maximum (P1's hypothesis) leaving σ − 1 goods out, n = O(σ²) | PROVED (written proof; exhaustive check without SAT for σ ≤ 4, SAT for σ ≤ 7) | §5, `refute_pm.py`, `refute_pm_k*.log`, `pm_family_sat.log` |
 | P1 threshold | P1 (K4.SDC.P1: Pareto maxima are complete) holds for k ≤ 2 and fails at k = 3 (n = 4, m = 7, every agent values exactly 3 goods) | PROVED for k ≤ 2 (CH6 + CH4′); REFUTED at k = 3 (CH-E with σ = 2; brute force over all 5⁷ partial allocations) | §5, `refute_pm_k3.log` |
 | PM(k) | Pareto maxima leave ≤ f(k) goods out | REFUTED for every k ≥ 3 and every f (CH-E) | §5 |
-| W(k) | the welfare maximum, among those with the fewest unallocated goods, leaves ≤ f(k) out; W(k) ⇒ CH(k) | OPEN for f ≥ 1. f = 0 is REFUTED at k = 3 (GM4-G cut to three goods, n = 4, m = 7) and at k = 4 (GM4-G); brute force | §6, `w_brute.log`, `attempts/kgen-charity-welfare-complete.md` |
+| W(k, f) | the welfare maximum, among those with the fewest unallocated goods, leaves ≤ f goods out (§6 for the exact statement); W(k, f) ⇒ CH(k) | f = 0 REFUTED at k = 3 (n = 4, m = 7) and k = 4 (GM4-G); **f = 1 REFUTED at k = 4** (CH-F: n = 9, m = 14, integer values ≤ 40; verified by SAT and by MILP); f = 1 at k = 3: see §6 | §6, `w_brute.log`, `w_counterexample.log`, `attempts/kgen-charity-welfare-maxima.md` |
+| W small n | no welfare maximum strands a good for n = 3, k = 3; none strands two for n = 3, k = 3, 4 and n = 4, k = 3 | exhaustive by one implementation (z3 CEGAR over real values, all m ≤ nk + n by Lemma W0) | §6, `w_synth_n*.log` |
+| DU | an instance whose incidence graph has ≥ 2 components with agents has a complete EFX₀ allocation | PROVED (written proof; recipe checked on 2,000 random unions and on copies of the stranded instances) | §3, Prop. DU, `union_dump.log` |
 | least charity | 0 on every instance tested, k = 3..8, n ≤ 9 | EVIDENCE (this is TARGET_k on random data) | §1, `least_*.log` |
 
 **Conclusion so far.** The rainbow-cycle method works with genuine zeros and gives *exact* EFX₀ with O(√(kn))
@@ -203,6 +205,25 @@ colourful-cycle problem, and CKMS's own Lemma 6 only guarantees one when |P| ≥
 finds a rainbow cycle in expected O(p²) time once p > e·d, which gives a randomized pseudo-polynomial algorithm with
 charity ⌈ed⌉; for CH-A, whose parts have unequal sizes, the running time is not analysed here.
 
+**Proposition DU (disjoint unions are always completable; written proof, checked).** If the incidence graph
+(agents and goods, an edge i–g when g ∈ R_i) has at least two connected components that contain agents, the instance
+has a complete EFX₀ allocation. (Additive valuations; also monotone ones with R_i the support, as in CH-M.)
+*Proof.* Let I_1, …, I_c (c ≥ 2) be the components with agents and J the goods valued by nobody. In each I_r take a
+CKMS stopping state X^r: EFX₀ inside I_r, strong charity v_a(P_r) ≤ v_a(X^r_a), an acyclic envy graph and so a
+source s_r. Give P_r to s_{r+1} (indices mod c) and J to s_1. Let a ∈ I_r look at the bundle B of agent b.
+- b ∈ I_r: B = X^r_b ∪ E with E worthless to a, and E ≠ ∅ only if b is a source of I_r. Removing h ∈ E leaves
+  v_a(X^r_b) ≤ v_a(X^r_a) (b unenvied); removing h ∈ X^r_b leaves v_a(X^r_b ∖ h) ≤ v_a(X^r_a) (EFX₀ in I_r).
+- b ∉ I_r: a values at most the goods of P_r in B, and v_a(P_r) ≤ v_a(X^r_a) by strong charity.
+Received goods are worthless to their receiver, so no agent's own value changes. ∎
+
+So a counterexample to EFX₀ — and any family of instances that needs many unallocated goods in CH(k) — must be
+connected: unenvied pools of different components absorb each other. With CH1 this is the global form of the
+local fact that a pool good conflicts only with sources whose bundles hold a good valued by one of its valuers.
+`union_dump.py` builds the allocation of the proof and checks it with the raw definition on 2,000 random unions of
+2–4 instances and on 2–3 copies of GM4-E, GM4-G, S(3, 3), S′(3, 3) taken with their stranded states
+(`union_dump.log`). Two copies of GM4-G, whose welfare maximum strands a good, have a complete welfare maximum
+(`w_union.log`). Not found in the surveyed literature.
+
 ## 4. The method cannot do better: stopping states with Θ(√n) goods out at k = 3 (Proposition CH-D)
 
 **Construction S(σ, k)** (σ ≥ 2, k ≥ 3; `stuck_family.py`). Pool goods g_1, …, g_{σ−1}.
@@ -332,28 +353,51 @@ all values by one constant gives the last clause. ∎
 
 ### Results
 
-   - *f = 0 fails at k = 4 and at k = 3:* on GM4-G the largest total (32) is attained only with one good unallocated,
-     complete EFX₀ allocations reach 31; the same holds for GM4-G cut to three goods per agent, a k = 3 instance with
-     the hypergraph of S′(2, 3) (`w_brute.py`, `w_brute.log`; `attempts/kgen-charity-welfare-complete.md`). On GM4-E,
-     which K4.SDC.P1 lists as total-value-stuck, the largest total is tied with complete allocations. With these
-     values S′(σ, 3) for σ = 3, 4 does not strand: its relays allow large welfare gains.
-   - *Data:* the welfare maximum is complete on 166 of the 168 curated k = 4 instances (the exceptions are GM4-G and
-     its copy, `w_screen.log`), on 5,000 random k ≤ 3 instances (3,000 with every agent valuing exactly three goods),
-     3,000 random k ≤ 4 instances (n ≤ 7) and 400 random general instances with up to 7 relevant goods
-     (`w_rand_*.log`), and on S(σ, 3), S′(σ, 3) for σ ≤ 5 with their default values (`w_family.log`).
-   - *S′ with GM4-G's values* (`w_family_vals.py`, `w_family_vals.log`): for σ = 2 the stranded state is the welfare
-     maximum (another k = 3 counterexample to f = 0); for σ = 3, 4 at k = 3 and k = 4 it is still a Pareto maximum
-     but the welfare maximum is complete and 10 to 37 above it. With two or more champions per source, a source can
-     give up its own goods for a child's good while another absorbs a child's good as a third good, without creating
-     strong envy. So this family does not scale for W.
-   - *Value hill-climbs* toward a welfare maximum leaving one good out at k = 3 (from S′(2, 3) and from random
-     hypergraphs with n = 4, 5) or two at k = 4 (from S′(3, 4) and a random n = 6 hypergraph) all stall at score 0:
-     ties between a stranding state and a complete one, never a strict gap (`w_climb_*.log`, 3,000 steps or stopped
-     on the plateau).
-   - *Rescaling:* v_i ↦ λ_i v_i changes neither EFX₀ nor the Pareto order, so W over all instances asks whether a
-     stranded Pareto maximum can be a *supported* point of the EFX₀ value vectors. GM4-G's and GM4-E's are; S′(2, 3)'s
-     is not (`welfare_support.py`, LP over all 125 EFX₀ value vectors). So S′ cannot be rescaled into a counterexample.
-   - Hill-climbs on values toward a welfare maximum leaving one good out at k = 3, or two at k = 4: `w_climb_*.log`.
+**W(k, 0) is false at k = 3 and k = 4.** On GM4-G the largest total (32) is attained only with one good unallocated,
+complete EFX₀ allocations reach 31; the same holds for GM4-G cut to three goods per agent, a k = 3 instance with the
+hypergraph of S′(2, 3) (`w_brute.py`, no SAT, `w_brute.log`). On GM4-E, which K4.SDC.P1 lists as total-value-stuck,
+the largest total is tied with complete allocations.
+
+**Proposition CH-F (W(4, 1) is false).** S′(3, 4)'s hypergraph (n = 9, m = 14, every agent valuing at most four
+goods) with integer values ≤ 40 has its stranded state (two goods out, total 198) as its only welfare maximum: every
+EFX₀ allocation leaving at most one good out has total ≤ 197. Values and table: `w_counterexample.py`,
+`attempts/kgen-charity-welfare-maxima.md`. *Checks:* the state by the raw definitions; the two maxima (198 overall,
+197 with ≤ 1 out) by the SAT welfare maximiser `chlib.welfare_max` and by a separately written MILP (scipy, HiGHS),
+which agree (`w_counterexample.log`); the values were found by the exact z3 search `w_synth_family.py` (real values
+first, then integers ≤ 40). So W(4) needs f ≥ 2.
+
+**Exact search for small n** (`w_synth.py`, z3 CEGAR over *real* values: an outer problem chooses valuations that make
+a stranded state of given bundle sizes EFX₀ with strong charity, a robust stopping state (CH6: no good can be added,
+≥ q + 1 sources, sources hold ≥ 2 goods) and strictly heavier than every allocation found so far that leaves fewer
+than p goods out; an inner problem looks for a new such allocation; UNSAT of the outer problem rules the sizes out).
+By Lemma W0 the sizes with m ≤ nk + n cover every instance, and since a welfare maximum leaves fewer goods out than it
+has sources, stranded counts q = p, …, n − 1 cover every welfare maximum leaving ≥ p out. Single implementation;
+the FOUND cases are re-checked by brute force or, for CH-F, by SAT and MILP.
+
+| n | k | strands ≥ p | stranded counts q searched | result | log |
+|---|---|---|---|---|---|
+| 3 | 3 | 1 | 1, 2 | none (UNSAT for every size vector) | `w_synth_n3_k3_p1.log`, `w_synth_n3_k3_p1_q2.log` |
+| 3 | 3 | 2 | 2 | none | `w_synth_n3_k3_p2.log` |
+| 3 | 4 | 2 | 2 | none | `w_synth_n3_k4_p2.log` |
+| 3 | 4 | 1 | 1 | (running) | `w_synth_n3_k4_p1.log` |
+| 4 | 3 | 1 | — | exists (the cut of GM4-G) | `w_brute.log` |
+| 4 | 3 | 2 | 2, 3 | none for q = 2; q = 3 (running) | `w_synth_n4_k3_p2*.log` |
+| 4 | 4 | 2 | 2 | partial (slow: about 80 s per size vector) | `w_synth_n4_k4_p2.log` |
+
+So the smallest welfare maximum stranding a good at k = 3 has n = 4, and the smallest stranding two at k = 4 has
+5 ≤ n ≤ 9 (n = 4 pending).
+
+**Larger σ.** Whether S′(σ, k) carries values making its σ − 1 stranded goods a welfare maximum for every σ (which
+would refute W(k) for every f, with Θ(√n) goods) is being tested by the same exact search: S′(3, 3) (k = 3, with
+relays) and S′(4, 4) (`w_synth_family_s*.log`).
+
+**Earlier data, kept:** the welfare maximum is complete on 166 of the 168 curated k = 4 instances (GM4-G and its copy
+are the exceptions, `w_screen.log`), on 8,400 random instances (`w_rand_*.log`), on the S and S′ families with their
+default values (`w_family.log`) and with GM4-G's values for σ ≥ 3 (`w_family_vals.log`); on the coordinator's n = 6
+core B< (OC₁ fails there) the welfare maximum is complete, 164 against 158 with one good out, and no Pareto maximum
+strands a good (`w_Bless.log`); two disjoint copies of GM4-G have a complete welfare maximum (Proposition DU,
+`w_union.log`); value hill-climbs stall at ties (`w_climb*.log`); S′(2, 3)'s default stranded state is not a
+supported point, so no rescaling of it is a counterexample (`welfare_support.log`).
 
 ## 7. Open
 

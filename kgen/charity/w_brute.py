@@ -1,5 +1,5 @@
 """Brute-force check of the welfare maxima of GM4-G, GM4-G cut to three goods per agent, GM4-E and S'(2, 3) (kgen/charity.md §6,
-attempts/kgen-charity-welfare-complete.md): enumerate all (n + 1)^m partial allocations, keep the EFX0 ones (raw
+attempts/kgen-charity-welfare-maxima.md): enumerate all (n + 1)^m partial allocations, keep the EFX0 ones (raw
 definition, refute_pm.efx0), and report the largest total value, the (value vector, unallocated count) pairs attaining
 it, and the largest total of a complete EFX0 allocation.  Standalone: no SAT.
 
