@@ -442,7 +442,7 @@ DYN and CONN2. Each session is asked to test its candidate on PW5, RD5 and kgen 
 - **Haxell**: Conjecture W, at most 2-move composites (reassignment, swap, rotation along any cycle) decreasing (|pool|, −welfare). No stuck state on ~5.8M partial EFX₀ states, including every counterexample, at k = 3, 4, 5, 7 and with every good relevant. Rotations are necessary (family CYC_n). W implies TARGET₄, and its general form implies EFX₀ existence. Asked to test the CH-F and S′ stranded states.
 - **Lean** (formal/k4-oc1max, draft PR #109): SDPO (both inclusions), MAXSD, Lemma MAX, the §29 moves, OneAbsorber, ConjOC1max and target4_of_conjOC1max are machine-checked (session's report; the coordinator's independent re-run of lean/check.sh is in progress). Next: ConjOC1perf ⟹ TARGET₄ via RED.
 
-### 2026-11-26 23:13 UTC: Lean frame verified independently; ROUND⁺ refuted; VM1 bounded; n = 6 sweep; W stress
+### 2026-11-26 23:12 UTC: Lean frame verified independently; ROUND⁺ refuted; VM1 bounded; n = 6 sweep; W stress
 - **Lean** (formal/k4-oc1max, PR #109, head 28f3e1e). The coordinator re-ran `lean/check.sh` independently in a
   fresh worktree: **CHECK PASSED**, 1,253 audited statements, 2,358 theorems, standard axioms only, 0 sorry, 0
   warnings. Machine-checked:
