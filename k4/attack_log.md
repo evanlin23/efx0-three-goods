@@ -281,3 +281,29 @@ coordinator has checked them; "verified" marks the ones checked.
     MC2 failures of the TTC climb.
   - Both kill the pickless pigeonhole. Next: test whether each implies the other on the data, and climb against both.
     The TTC session runs both climbs.
+
+### 2026-11-26 22:08 UTC: Lemma MAX, R1-priority narrowed, ledger updated, girth verdict, n = 2
+- **Ledger** (this branch, PR #95):
+  - K4.SDC.OC and K4.SDC.OC1 are **REFUTED** as every-order statements, with the independent replays as artifacts.
+  - New rows: K4.SDC.MAXSD (maximum-matching SD orders exist, PROVED, written proof) and **K4.SDC.OC1MAX**
+    (CONJECTURE).
+  - `k4/sdc.md` §31 has the instances, the mechanism and the evidence. Open item 30 is updated.
+- **Hall session, Lemma MAX** (`k4/oc1_hall.md` §19). At a maximum-matching start, no agent reachable from a pickless
+  agent by an alternating path values a junk good; otherwise there is an augmenting path. Checked by the coordinator;
+  it is immediate. So the pickless-wanter pigeonhole of every known counterexample cannot form.
+  - OC1-ED\*^max holds on all 2,071 one-absorber-hard maximum-matching starts.
+  - The R1-priority and maximum-matching order classes are incomparable on 6,617 instances.
+  - OC1-ED\*^max is now the central conjecture in the Hall header.
+- **TTC session.** R1-priority OC₁ **fails** on the three two-private cores (the n = 5 hand core, B<, B>), so form (B)
+  survives only inside the MC2 class. OC₁^max survives on all 41 core counterexamples; every failing order matches
+  ν − 2 agents. All R1, max and seeded climbs report no failure. Written up in `attempts/k4-ttc-oc-every-order.md`.
+- **Referee, item 3** (`claude/k4-girth`): Theorem T1 and Lemmas SINK, PARK, SLACK are **CORRECT**.
+  - T1: EFX₀ for linear hypergraphs with an agent on no Berge 3-cycle, extending LSS's girth ≥ 4.
+  - Small fixes: PARK needs N ≠ ∅ when some good is valued by nobody; Fact F2's "monotone" remark is false and is
+    unused.
+- **kgen-n3** (PR #97, `kgen/n3.md` §8–§10).
+  - Conjectures K'' and K''' are refuted.
+  - New Theorem 2 (two agents, every k, zeros included: the OC₁ shapes from either order) is proved except Lemma T.
+    Lemma T: among allocations keeping both tops with no strong envy by b, every maximizer of v_a is EFX₀. It holds
+    on 8,095 instances.
+  - At n = 3, "every maximizer" fails, while "some maximizer" (Conjecture T₃) holds on all 2,880 starts per role.
