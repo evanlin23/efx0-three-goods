@@ -369,7 +369,8 @@ When |D_i| ≤ 2, the family is always a matroid. At k = 3 every frozen agent ha
 - The derivation above was not checked against the repository's code (`k4/sdc/sdclib.py`), and in particular not against:
   - the strictness clause (the absorber's bundle may equal a danger set);
   - whether slots of "unwanted" agents can always be modelled as independent unit slots;
-  - frozen agents whose danger sets include the absorber's own pick.
+  - frozen agents whose danger sets include the absorber's own pick;
+  - frozen agents that themselves receive a junk good in a free slot. Their holding value rises and their danger family shrinks ("An agent's danger sets shrink when it receives goods of its own", `k4/sdc.md` §2), which couples M_T and M_abs. The derivation assumes frozen agents' holdings are fixed, or that this coupling is handled by branching.
 - The Aharoni–Berger matroid–complex theorem and the matroid union theorem were not read this session.
 
 ## Q6. Computational and logical methods (SAT/SMT/QBF, counterexample-guided synthesis, PLS, potentials)
@@ -465,7 +466,7 @@ When |D_i| ≤ 2, the family is always a matroid. At k = 3 every frozen agent ha
   1. a minimal counterexample contains no reducible configuration;
   2. charge counting shows every admissible structure contains one.
 - The repository already has step 1 in large part: peeling R1, R2 and L3, K4.CORE, components (L6) and the counting L4/L7.
-- A discharging step would assign charge deg(g) − 2 to goods and 4 − |R_i| to agents, and show that a core with no reducible configuration violates Σ charge = Σ_g (deg g − 2) − Σ_i (|R_i| − 4)... For cores this ties to m ≤ 2n₃ + 3n₄ (L4).
+- A discharging step would put initial charges on goods (for example deg(g) − 2) and on agents. It would use the double count Σ_g deg(g) = Σ_i |R_i|, the identity behind L4's m ≤ 2n₃ + 3n₄. Redistribution rules would then show that a core with no reducible configuration has impossible total charge.
 - This is useful only once a catalogue of reducible configurations at k = 4 exists, for example "an agent whose 4 goods include a private pair" or "a good valued by exactly 2 agents adjacent to a 3-good agent".
 
 **LLL and discrepancy: do not fit (speculation)**

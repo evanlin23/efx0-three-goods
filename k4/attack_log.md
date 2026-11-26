@@ -33,6 +33,7 @@ angles in flight, and what each established. Ledger rows change only with artifa
 | General k, first foothold: OC₁ / SD-C for three agents at arbitrary k (a short proof with a polynomial algorithm would be new), then n = 4 | session_01BYMGeadPp24qCxnUuKsLsB | `claude/kgen-n3` | its own note (`kgen/`) |
 | Induction on agents along the serial-dictatorship order (add the last agent, or remove the first / an unwanted one), with an invariant P found by computation | session_01BYMGecgCGycycqxiyS1n7G | `claude/k4-sd-induct` | `k4/sd_induct.md` |
 | Housing markets / top trading cycles: SD picks as existing tenants, junk as the pool; find the TTC / YRMH-IGYT-type rule that picks the repairing chain, and core-type invariants | session_01BYMGeao2jUMkZBYQ48pDMw | `claude/k4-ttc` | `k4/ttc.md` |
+| General k: bounded charity CH(k): partial EFX₀ with at most f(k) unenvied unallocated goods, f independent of n (relevant-goods analogue of the t − 2 bound for t types) | session_01BYMGeYiET7bXN43NsuXoDR | `claude/kgen-charity` | `kgen/charity.md` |
 
 The coordinator (this branch, `claude/kind-lamport-y8fdme`) runs an hourly burst: it checks each angle, verifies any
 claimed proof or counterexample independently, integrates verified results here, and works one angle of its own.
@@ -70,3 +71,21 @@ claimed proof or counterexample independently, integrates verified results here,
   market with existing tenants (the picks) and a pool (the junk), with multi-unit demand. The session tests whether a
   TTC / YRMH-IGYT-type rule picks a repairing chain, where value-based rules fail (`k4/sdc.md` §29). It also asks
   whether core results, including Konishi–Quint–Wako's nonexistence, explain P1.
+
+### 2026-11-26 20:56 UTC: literature survey results, two follow-ups
+Notes in `research_notes/EFX literature from the agent side/` (agent-count side, structural side, cross-field
+techniques); the synthesized report follows in `reports/`.
+- New angle: bounded charity CH(k), from the agent-count survey. With t valuation types the charity bound is t − 2,
+  independent of n, and nobody has tried the relevant-goods analogue.
+- Hunt session: target the uncovered window 5 ≤ β ≤ 2n − 4 for k = 4 cores. Mahara covers β ≥ 2n − 3 and K4.MC7
+  covers β ≤ 4, so first certify β = 5 for all values. A counterexample lifts to every larger n with the same excess
+  (arXiv 2604.18216 v4, Lemma 3.5).
+- Hall session: the cross-field survey's derivation is that, for a fixed order and owner, the one-absorber completion
+  may be a matroid partition problem, with an exact Rado-type condition. The exceptions are overlapping D_i and one
+  explicit non-matroid configuration that exists only at k = 4.
+- Girth session: Lianeas–Sgouritsa–Sotiriou may need girth ≥ 4 only in Lemma 3.4. The multigraph proofs use their
+  graph hypotheses mainly in the "dump on the unique envier" step, and a two-envier dump rule is what goods with
+  three valuers need.
+- Context: arXiv 2604.18216 v4 ("EFX Need Not Exist", Nov 2026) gives a monotone (weighted-coverage) counterexample
+  with 3 agents and 8 goods. The additive case is untouched, and for monotone valuations the relevant-goods
+  threshold lies between 3 and 8.
