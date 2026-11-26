@@ -33,6 +33,7 @@ Every order is tried, n ≤ 5. Everything called *evidence* is evidence only (PR
 | Finding F1W | f = 1, several wanters: hard starts occur only at n = 3 in the data (n − 2 = 1 slot). For n ≥ 4, the picks have an S\* completion with a wanter as owner on 219 of 220 starts | evidence (§5) |
 | Conjecture F1W (K4.OCH.F1W) | f = 1, several wanters, n ≥ 4: if some owner o ≠ x needs at most one of x's junk goods kept out (τ(o) ≤ 1), the picks have an S\* completion. With n ≥ 3, τ(o) ≥ 2 for every o only if x's three lower goods are junk and every pair of them beats a, and then a swap is needed (red-b1) | evidence (§11): 0 failures in 1,243 starts with τ ≤ 1 at n = 4–8, 319 of them with τ = 1 (τ = 0 is Proposition 3) |
 | Finding M (§12) | the coordinator's matroid-partition form (a transversal matroid of slots, one matroid per frozen agent, Rado's condition) is a valid sufficient condition, and Rado's condition equals the model when the D_i are disjoint and all matroids. It is **not exact**, because of (i) overlapping D_i (19% of owner tests), (ii) non-matroid {xy, xz} agents, and (iii) even with disjoint matroids, the strictness clause (150 tests) and exposure that depends on H (25 tests). Lemma 2's count, which has both, is exact | evidence: 20,648 owner tests |
+| Finding C (§13) | outside canonical chains, only 20 configurations are left. Every hard start of every data set (n ≤ 5) has a canonical repair from a dangerous agent with owner k or end, except 20 distinct configurations (n = 3–5, smallest T3), listed in `no_canonical.json`. Each of those has a repair from D with owner k or end and exactly one non-canonical step: one middle agent takes its predecessor's good together with junk (17), or k just adds junk to its base (3) | evidence |
 | refuted | the GDT shape (frozen agents take nothing, owner unfrozen) is too narrow for OC₁: 9 distinct screen starts have no repair in it | `attempts/k4-oc1-hall-gdt-shape.md` |
 | refuted | canonical chains only (each middle agent wants its predecessor's pick, no middle junk): 15 of 234 screen hard starts have no canonical repair (e.g. adaptive-p1, where the middle agent gains only with a junk good) | `attempts/k4-oc1-hall-canonical-chains.md` |
 | refuted | a single culprit (LB⁺'s bad case: some owner fails only because of one frozen agent): false at about 30% of the hard starts | `attempts/k4-oc1-hall-single-culprit.md` |
@@ -604,3 +605,32 @@ Uses of the matroid form:
 - *A polynomial sufficient test* when the D_i are disjoint matroids (matroid partition), for runs at large n.
 - *A clean sub-statement for a proof*: if RADO holds for some owner, the picks complete. Then the chain lemma only
   has to handle starts where every owner has a Rado violator S. On the data these are 230 + 627 + 2,015 starts.
+
+## 13. Frozen slots are not needed; the configurations beyond canonical chains
+
+These are the coordinator's steps 1 and 3 (`k4/oc1_hall/frozen_slots.py`, `frozen_slots.log`;
+`k4/oc1_hall/no_canonical_list.py`, `no_canonical_list.log`, `no_canonical.json`).
+
+**Frozen slots.** Lemma 2\* already allows a frozen owner. What S\* excludes is a frozen agent taking a (compensated)
+junk good.
+- Starts whose picks have a one-absorber completion (SAT) but no S\* completion: 368 (special 1, screen 40, suite 37,
+  logs 106, random 143 + 40 + 1).
+- On every one of them, one chain restores S\*, and a chain of Finding B's form does: x₀ dangerous, owner k or end.
+
+So extending the invariant to compensated frozen slots is not needed for OC₁. These starts are simply hard starts for
+S\*, and the chain lemma covers them. Keeping S\* keeps the invariant exactly Lemma 2\*.
+
+**The configurations beyond canonical chains (Finding C).** Over every data set (n ≤ 5, every order), deduplicated:
+- every hard start has a canonical repair from a dangerous agent with owner k or end (`greedy_rules.py`: middle
+  agents want their predecessor's pick and take no junk; any improving H₀), except **20 configurations**;
+- by size: 9 with n = 3, 9 with n = 4, 2 with n = 5;
+- they are all known adversarial instances: T3, Q2, adaptive-p1/p3, nsw-strict-n4m8/m9, lb4-owner-needs-from-base,
+  c4one-one-rotation-m8/m9, and others;
+- each has a repair from D with owner x₀ or end and **exactly one non-canonical step**:
+  - in 17, one middle agent takes its predecessor's good *together with* junk, without wanting the good alone;
+  - in 3, a t = 0 repair also exists: k keeps its pick, adds junk and owns.
+- The smallest is T3: n = 3, m = 6, picks (0, 4, 1), frozen {0, 1}, both dangerous. Every repair passes through both
+  frozen agents with a junk-assisted middle step.
+
+So a proof of the chain lemma can restrict to canonical chains from D, plus one junk-assisted middle step. The
+canonical part is what Theorem F1₁ handles at f = 1.
