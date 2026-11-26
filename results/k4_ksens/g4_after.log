@@ -1,6 +1,7 @@
 $ python3 k4/ksens/g4_after.py ../../results/k4_ksens/seeds_k4_hard.txt 5
+progress 0 {} 0 s
+progress 200 {'instances': 187, 'hard starts': 240, '... with a repairing state leaving no dangerous frozen agent': 240} 2 s
 ... with a repairing state leaving no dangerous frozen agent 349
 hard starts 349
-hard starts repaired by one chain 349
 instances 368
-time 14 s
+time 3 s

@@ -69,6 +69,8 @@ Details:
   - Both are checked by SAT and brute force; OC₁ still holds on both instances. At k = 4, DT₁ held on all 1,022 swaps
     tested.
 - **k = 4 itself** (§5): no counterexample to OC₁.
+  - Lemma candidate (K4-G4) (§2): from every hard start, some repairing chain leaves no dangerous frozen agent. It
+    holds on all 349 curated and 1,392 PW-design hard starts; PW5 breaks it at k = 5.
   - A structured search over the PW design space at k = 4 (`pw4_search.py`): 60,000 instances with n ≤ 8, 178,308
     starts, 28,175 of them needing a chain, no failure.
   - Climbs at n = 5, 6 bottom out at exactly one repairing state, as the k = 4 climbs of `k4/sdc.md` did.
@@ -192,9 +194,11 @@ when it values the junk above its base.
 > At k = 4, from every start whose picks have no one-absorber completion, some state reached by one improving chain
 > has a one-absorber completion and leaves no dangerous frozen agent.
 
-- *Evidence:* it holds on all 349 hard starts of the curated k = 4 set (`seeds_k4_hard.txt`: the DE4 screen set with
-  the GM4 family, T3, Q2 and the logged climb results; `g4_after.log`). The PW-design instances are in
-  `g4_after_pw4.log`.
+- *Evidence:* it holds on every hard start tested.
+  - All 349 hard starts of the curated k = 4 set (`seeds_k4_hard.txt`: the DE4 screen set with the GM4 family, T3,
+    Q2 and the logged climb results; `g4_after.log`).
+  - All 1,392 hard starts of 1,730 PW-design k = 4 instances with n ≤ 6 (`seeds_pw4.txt`, `g4_after_pw4_n6.log`;
+    the n ≤ 5 part alone, 1,175 starts, in `g4_after_pw4.log`).
 - *At k = 5* PW5 has no repairing chain at all.
 - *Why it helps.* (K4-G4) is the hypothesis (G4) of Lemma GDT, without the owner's good, after the chain. A proof of
   OC₁ through GDT needs it, and the leftover count above is its mechanism in the shared-pool case.

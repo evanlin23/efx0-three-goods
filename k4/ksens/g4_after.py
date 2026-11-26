@@ -26,7 +26,8 @@ if __name__ == '__main__':
     path = sys.argv[1]; NMAX = int(sys.argv[2]) if len(sys.argv) > 2 else 4
     C = collections.Counter(); t0 = time.time(); seen = set()
     print('$ python3 k4/ksens/g4_after.py', *sys.argv[1:], flush=True)
-    for sets, vals in load_seeds(path):
+    for idx, (sets, vals) in enumerate(load_seeds(path)):
+        if idx % 200 == 0: print('progress', idx, dict(C), '%.0f s' % (time.time() - t0), flush=True)
         key = json.dumps((sets, vals))
         if key in seen or not (2 <= len(sets) <= NMAX) or max(map(len, sets)) > 4: continue
         seen.add(key); m = 1 + max(max(s) for s in sets); n = len(sets); O = ocsat.OC(sets, vals, m)
@@ -36,14 +37,15 @@ if __name__ == '__main__':
             if O.holds(b, chain='none', A=1): continue
             C['hard starts'] += 1
             L, _ = kchains.reach(O, b, 10 ** 6)
-            rep = [s for s in L if O.holds(s, chain='none', A=1)]
-            C['hard starts repaired by one chain'] += bool(rep)
-            clean = [s for s in rep if not dangerous_frozen(sets, vals, m, s)]
-            C['... with a repairing state leaving no dangerous frozen agent'] += bool(clean)
-            if rep and not clean and C['shown'] < 5:
-                C['shown'] += 1
-                print('NO CLEAN REPAIR', json.dumps((sets, vals)), 'picks', Y, 'repairing states', len(rep),
-                      'e.g.', rep[0], 'dangerous frozen', dangerous_frozen(sets, vals, m, rep[0]), flush=True)
+            # cheap test first, SAT only on states leaving no dangerous frozen agent, stop at the first success
+            clean = next((s for s in L if not dangerous_frozen(sets, vals, m, s) and O.holds(s, chain='none', A=1)), None)
+            C['... with a repairing state leaving no dangerous frozen agent'] += clean is not None
+            if clean is None:
+                rep = O.holds(b, chain='need', A=1)
+                C['NO CLEAN REPAIR (repaired by one chain: %s)' % rep] += 1
+                if C['shown'] < 5:
+                    C['shown'] += 1
+                    print('NO CLEAN REPAIR', json.dumps((sets, vals)), 'picks', Y, 'OC1 holds', rep, flush=True)
         O.close()
     for k in sorted(C): print(k, C[k])
     print('time %.0f s' % (time.time() - t0))
