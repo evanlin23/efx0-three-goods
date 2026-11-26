@@ -1001,3 +1001,29 @@ k's want-chains consist of pick holders and end at an unfrozen pick holder: exac
 - (iii) On the data neither form fails anywhere, so neither is weaker on the data. OC₁-ED\*^max is taken as central
   because its class always exists, Lemma MAX explains the known counterexamples, and on the 39 core counterexamples
   its starts complete at the picks.
+
+## 20. The coordinator's receiver count for OC₁^max with ν = n: the inequality fails on data
+
+**The sketch** (coordinator). Consider a maximum-matching start with ν = n, t frozen agents with junk danger
+*triangles*, and r receivers (unfrozen pick holders).
+- A failure needs about r ≤ 2t at the picks, and r < 2t − 1 after one chain.
+- A slot count at k = 4 (shared triangle goods carried by receivers; at least two wanters per frozen pick; a wanter
+  keeps at most one triangle slot) would force r ≥ 2t, leaving no room.
+
+**Test** (`k4/oc1_hall/receivers_count.py`, `receivers_count.log`). At all 2,071 one-absorber-hard maximum-matching
+starts, compute t₂ (frozen agents with a junk danger triangle), t₁ (other dangerous agents) and r.
+
+| | starts |
+|---|---|
+| t₂ ≥ 1 | 82 |
+| **r < 2t₂** | **26** |
+
+The 26 have (t₂, t₁, r) = (1, 0, 1), (1, 1, 1), (2, 0, 2) or (2, 0, 3).
+- Smallest: hall-local3, n = 3. Sets [[0,1,2,3],[2,4,5,6],[3,4,5,6]], values [[3,2,10,6],[8,2,3,4],[7,3,5,6]], order
+  (1, 2, 0), picks (0, 2, 3), frozen {1, 2}, t₂ = 1, r = 1. Also ls-exchange-no-keep-n3m6.
+- Every one of the 26 is repaired by an ED chain (§19).
+
+So the inequality r ≥ 2t that the slot count would force is false at k = 4. Its premises fail in general: triangle
+goods can be shared with frozen agents or with the frozen agent's wanters, and frozen picks can have a single
+wanter. The regime r < 2t occurs, and one chain still repairs it. A counting proof of OC₁^max must credit what the
+chain itself absorbs: the triangle pair H₀ goes to x₀, which owns. Counting receivers alone is not enough.
