@@ -1,0 +1,1 @@
+$ python3 k4/haxell/gstar_measure_run.py genskew:400:213:3:9:6 NMAX=3 MMAX=9 RADIUS=2 ROT=1

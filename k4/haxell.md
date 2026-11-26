@@ -561,7 +561,11 @@ the counterexample; `measure_*genskew*.log`, welfare / leximin stuck states):
 | n = 3, m = 8, k = 4 (1,500) | 3,853,984 | **188 / 168** | 0 / 0 | 0 / 0 |
 | n = 4, m = 7, k = 4 (300) | 824,660 | 0 / 0 | | |
 
-So W fails at n = 3 as well, and both repaired forms survive wherever it fails.
+| n = 2, m = 9, k = 5 (3,000) | 11,497,172 | 933 / 933 | | 0 / 0 |
+| n = 3, m = 8, k = 5 (800) | 1,853,763 | 149 / 125 | | 0 / 0 |
+
+So W fails at n = 3 and at k = 5 as well. W₃ survives wherever it was run at k = 4, and W^sub survives wherever W
+fails, at k = 4 and k = 5. (W₃ is not run at k = 5, where W5 already refutes it.)
 
 The rest of this paragraph and the evidence above apply to both forms.
 
