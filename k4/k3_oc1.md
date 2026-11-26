@@ -5,7 +5,7 @@ the hard starts, one per line, readable by every analysis script). Notation: `pa
 and `proofs/lb_last_step.md` (LB⁺); Conjecture OC₁ is `k4/sdc.md` §29. Everything called evidence is evidence only
 (PROMPT.md §5 rule 3).
 
-## Status (end of burst 1)
+## Status (end of burst 2)
 
 - **Proved.**
   - Lemma 1 (§2): soundness of the simple completion. LB⁺'s Lemma 1 with one slot per terminal, plus an empty-handed owner left with two goods.
@@ -14,7 +14,7 @@ and `proofs/lb_last_step.md` (LB⁺); Conjecture OC₁ is `k4/sdc.md` §29. Ever
   - **Theorem R1C (§3): OC₁ at k = 3 for every order whose draft is R1-compatible**, i.e. whose need order has an R1-priority linear extension (this includes every R1-priority order). The proof is LB⁺ with every slot of size one. The rotation is one DE trade, and the completion has one absorber.
 - **Conjectured (no counterexample in any test).** **Theorem candidate OT (§4).** At k = 3, from the draft of every order, the simple completion exists, or it exists after every DE trade (chain or ring) of largest total score. The same holds after every trade of least ω. OT implies OC₁ at k = 3.
   - Exhaustive tests: every connected core with 3 ≤ n ≤ 5 (339 hypergraphs), every ranking profile, every order: 273,724,272 starts. Also n = 4 with one dead good.
-  - Sampled tests: n = 6 cores (11 million starts), random instances with n ≤ 10, and the binary-tree family of `paper/k3-simple` Appendix C up to n = 28.
+  - Sampled tests: n = 6 cores (11 million starts), random instances with n ≤ 10, and the binary-tree family of `paper/k3-simple` Appendix C up to n = 45 (draft deficits up to 7, owner still needed after the trade).
   - OC₁ itself was also checked directly, with general chains and the exhaustive one-absorber completion, for every core with n ≤ 4 and with n = 5, m = 9.
   - On all data no max-score trade is a length-zero DE chain (a free x dropping its top for its pair, which is not a §29 chain; `k0check.py`). So the max-score trade is always an improving chain, and OT's data are OC₁ data.
 - **Refuted proof routes** (§5):
@@ -24,7 +24,13 @@ and `proofs/lb_last_step.md` (LB⁺); Conjecture OC₁ is `k4/sdc.md` §29. Ever
   - the reverse-lexicographic rule.
   - The score sum and ω are the quantities that work.
 - **Open.** A proof of OT, or of OC₁, for drafts that are not R1-compatible. These are most hard drafts: 13,961 of 18,569. The gap is precise (§6): exposed fresh agents whose need chains meet at one terminal through "cross needs" (R1 violations), and one trade must repair several of them at once (DE's worked example needs two pair arrows).
-- **Next.** The k = 4 analogues of Lemmas 1–3, Theorem R1C and the selection rules (§7). Then a proof of OT for one terminal (|T| = 1 covers all hard starts at n = 4 and 54% at n = 5).
+- **Lifting to k = 4 (§7, `attempts/k4-k3oc1-de-trades.md`).**
+  - Lemma 1's soundness, Lemma 2's monotonicity and Lemma 3 lift; for Lemma 3, take the exposed terminal's best junk good.
+  - The **first k = 3 fact that fails** is (DE-a): only an agent giving up its top gains from junk. At k = 4 a b-holder gains from {c, d} when c + d > b. On nsw-local-n3m5 (n = 3, m = 5) every repairing chain needs this.
+  - The second is (DE-b), the trade keeping validity. On T3 (n = 3, m = 6) every repairing chain leaves a wanted good in a two-good bundle, and the completion compensates the wanter with junk.
+  - **Repair:** chains with t ≥ 1 in which any agent may take junk, plus compensable validity. One such chain repairs every hard start of the special, screen and suite sets (n ≤ 5, every order).
+  - The k = 3 selection rule does not lift: max score works on 162 of 194 screen picks. It already fails at k = 3 outside DE's narrow trades.
+- **Next.** A proof of OT for one terminal (|T| = 1 covers all hard starts at n = 4 and 54% at n = 5), and the group-killing structure of §6 as a counting lemma.
 
 ## 1. Setting and the computation
 
@@ -186,3 +192,35 @@ themselves, Lemma 3). In DE's worked example one ring with two pair arrows does 
 
 A proof of OT must therefore show that the best trade (largest score, or least ω) realizes all these releases at
 once.
+
+## 7. Lifting to k = 4
+
+The k = 3 facts used, and their k = 4 replacements (agents value up to four goods a > b > c > d; `k4/k3oc1/lift4.py`
+on the k = 4 data, every order, n ≤ 5):
+
+| k = 3 fact | used in | k = 4 replacement | holds at k = 4? |
+|---|---|---|---|
+| a bundle of ≤ 2 unwanted goods threatens nobody (Theorem 1′) | Lemma 1 | same, with "wanted" = valued above one's own base | yes (`k4/sdc.md` §30 (F2′)) |
+| the owner's bundle threatens only top-holders, through their pair {b, c} | Lemma 1, exposure | danger sets: subsets of R_i ∖ B_i of up to three goods worth more than B_i; b-holders are threatened by {c, d} | the notion lifts; the sets are bigger |
+| an exposed terminal serves itself with one good of its pair | Lemma 3 | an exposed terminal takes its best junk good: then the rest of R_x in the owner's bundle is two goods below a and that good | yes |
+| a trade never raises the set of wanted goods (Lemma stay) | Lemma 2 | same: values only rise along an improving chain | yes |
+| blockers of a terminal o all share y_o, so one pair arrow out of o kills every one of them for every other owner | §6 | a blocker can have several danger sets, some inside J | no: one move need not kill a blocker |
+| **(DE-a)** only an agent giving up its top gains from junk (a b-holder ranks every junk good below b, and only c is below b) | DE trades, OT | b-holders gain from {c, d} when c + d > b | **no: first failure, nsw-local-n3m5** |
+| **(DE-b)** the repairing trade keeps every wanted good alone | DE trades, Lemma 1 after the trade | compensable validity: a wanted good may sit in a bundle if its wanters are compensated by junk | **no: T3**; the compensable form holds on all data |
+| max-score / least-ω DE trade repairs | OT | max rank-score chain in the repaired class | no (162 of 194 screen picks; also false at k = 3 outside DE trades) |
+
+Counts (hard starts = starts whose picks have no one-absorber completion; not repaired by one chain of the class):
+
+| class of chains | special (69 hard) | screen (662) | suite (797) |
+|---|---|---|---|
+| every improving chain (OC₁) | 0 | 0 | 0 |
+| (DE-a) and (DE-b) | 1 | 66 | 45 |
+| (DE-a) and compensable validity | 0 | 57 | 36 |
+| t ≥ 1, any agent may take junk, compensable validity | 0 | 0 | 0 |
+
+So the repaired structure for k = 4 is a single improving chain in which every agent gives its base to the next one
+and may add junk, followed by a one-absorber completion in which an agent whose wanted good sits in a bundle of two or
+more goods is compensated by one junk good. At k = 3 these compensations are exactly LB's upgrades, and the data say OT
+never needs them after a DE trade. The k = 4 completion problem therefore has two kinds of one-good slots: the
+terminals' slots, and the compensation slots of agents that want a good in a two-good bundle. A k = 4 proof must count
+both kinds. This is the "service count" that `k4/sdc.md` §30 names as the missing ingredient.
