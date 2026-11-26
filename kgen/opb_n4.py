@@ -1,4 +1,4 @@
-"""The n = 4 counterexamples to OC1 (attempts/kgen-n4-oc1.md) seen through "one pick per bundle" (kgen/n3.md §14).
+"""The n = 4 counterexamples to OC1 (attempts/kgen-n4-oc1.md, and the k = 4 instance of the OC1^max refutation) seen through "one pick per bundle" (kgen/n3.md §14).
 For each failing order: the EFX0 allocations with exactly one pick per bundle, the permutation sigma (agent i holds
 the pick of agent sigma(i)), its cycle type, whether every non-trivial cycle is an improving ring (each agent values
 its new pick plus its unpicked goods above its own pick), and how many fixed agents hold two or more goods besides
@@ -8,7 +8,10 @@ their pick.  A permutation with c non-trivial cycles is c disjoint rings, i.e. c
 import itertools, collections
 
 INST = [([[34, 0, 0, 0, 38, 35, 37, 33], [0, 10, 5, 0, 0, 4, 2, 0], [0, 2, 0, 0, 3, 0, 1, 0], [52, 54, 53, 4, 0, 0, 0, 51]], (0, 3, 1, 2)),
-        ([[0, 155, 1, 0, 0, 155, 0], [0, 75, 2, 74, 0, 74, 77], [0, 0, 0, 2, 133, 0, 134], [1, 4, 0, 2, 0, 0, 0]], (0, 2, 1, 3))]
+        ([[0, 155, 1, 0, 0, 155, 0], [0, 75, 2, 74, 0, 74, 77], [0, 0, 0, 2, 133, 0, 134], [1, 4, 0, 2, 0, 0, 0]], (0, 2, 1, 3)),
+        # the k = 4 instance behind the OC1^max refutation, as sent by the coordinator (2026-11-26): sets
+        # [[0,1,2,5],[1,2,5,6],[3,4,5,6],[3,4,6]], values [[2,10,4,7],[10,3,4,8],[3,5,6,7],[3,2,4]], order (0,3,2,1)
+        ([[2, 10, 4, 0, 0, 7, 0], [0, 10, 3, 0, 0, 4, 8], [0, 0, 0, 3, 5, 6, 7], [0, 0, 0, 3, 2, 0, 4]], (0, 3, 2, 1))]
 
 
 def picks(v, order):
@@ -56,7 +59,7 @@ if __name__ == '__main__':
             fixed_big = sum(1 for c in cyc if len(c) == 1 for i in c if len(X[i] - {y[i]}) >= 2)
             zero_out = sum(1 for c in nontriv for i in c if any(v[i][g] == 0 for g in X[i] - P))
             typ = '+'.join(str(len(c)) for c in sorted(cyc, key=len, reverse=True))
-            key = 'one pick per bundle, cycle type %s, rings improving: %s, fixed agents with 2+ extra goods: %d' % (typ, gains, fixed_big)
+            key = 'one pick per bundle, cycle type %s, every moved agent gains (v_i(X_i) > v_i(y_i)): %s, fixed agents with 2+ extra goods: %d' % (typ, gains, fixed_big)
             C[key] += 1; ex.setdefault(key, [sorted(b) for b in X])
         print('instance', v, 'order', o, 'picks', y)
         for k in sorted(C): print('  %5d  %s' % (C[k], k), '  e.g.', ex.get(k, ''))
