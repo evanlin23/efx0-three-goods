@@ -239,3 +239,50 @@ def s_star_deficits(I, base, owners=None):
     for o in (owners if owners is not None else range(I.n)):
         out[o] = deficit(I, base, o, holders, frozen_like)
     return out
+
+
+# ----------------------------------------------------------------------------------------------- Lemma 2, constructively
+def robust_in(I, i, Xi, Rp):
+    """Xi robust inside the relevant set Rp: v_i(Xi) >= v_i(Rp - Xi)"""
+    return I.val(i, Xi) >= I.val(i, [g for g in Rp if g not in Xi])
+
+
+def lemma2_build(I, base, o, H, phi, holders, maxit=1000):
+    """the (<=) construction of Lemma 2: phi maps exposed holders to goods of H; the other goods of H go to unexposed
+    holders; then Theorem DT's moves (m1), (m2) for the remaining holders, with goods from L = J - H.  Returns the
+    allocation (or None if a step is impossible; that would refute the lemma under its hypotheses)."""
+    B = bundles_of(I, base); J = [g for g in range(I.m) if base[g] < 0]
+    hs = [h for h in holders if h != o]
+    X = [list(b) for b in B]
+    W_o = B[o] + J
+    WoH = [g for g in W_o if g not in H]
+    pv = [I.val(i, B[i]) for i in range(I.n)]
+    exposed = [u for u in hs if threatened(I, u, pv[u], WoH)]
+    used = set()
+    for u, g in phi.items(): X[u].append(g); used.add(g)
+    free = [u for u in hs if u not in exposed and u not in phi]
+    for g in H:
+        if g in used: continue
+        if not free: return None
+        X[free.pop()].append(g); used.add(g)
+    movers = [u for u in exposed if u not in phi]
+    L = [g for g in J if g not in H]
+    m = {}
+    for it in range(maxit):
+        Xo = B[o] + L
+        bad = [u for u in movers if threatened(I, u, pv[u] + I.v[u].get(m.get(u), 0), Xo)]
+        if not bad: break
+        u = bad[0]; t = pv[u] + I.v[u].get(m.get(u), 0)
+        # a danger set: (Xo - h) & R_u for a threatening h
+        h = min(Xo, key=lambda g: I.v[u].get(g, 0))
+        T = [g for g in Xo if g != h and g in I.R[u]]
+        cand = [g for g in T if g in L]
+        if not cand: return None
+        g = max(cand, key=lambda q: I.key[u][q])
+        if u in m: L.append(m[u])
+        m[u] = g; L.remove(g)
+    else:
+        return None
+    for u, g in m.items(): X[u].append(g)
+    X[o] = X[o] + L
+    return X

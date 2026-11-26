@@ -16,20 +16,29 @@ Code: `k4/oc1_hall/` (`ohlib.py` is shared). Logs: `results/k4_oc1_hall/`. Every
 
 Every order is tried, n ≤ 5. Everything called *evidence* is evidence only (PROMPT.md §5 rule 3).
 
-## Status (end of burst 1)
+## Status (end of burst 2)
 
 | | statement | status |
 |---|---|---|
 | Lemma 1 | slot form of the one-absorber completion at SD picks: conditions (S1), (S2) | written proof; agrees with SAT on all 14,461 distinct starts, and with raw brute force on special and screen |
+| Lemma 2 | slot count: under (G1), (G2), (G5′), (H3), an S\* completion with owner o exists iff some kept-out set H satisfies (H1) and \|H\| + θ(H) − ν(H) ≤ \|N₁\| | written proof (§4); the count agrees with the raw S\* enumeration on 31,459 owner tests; the (⇐) construction, run literally, is EFX₀ in all 312,502 cases (picks and post-chain states) |
+| Prop. 3 (T2⁺) | f = 1: if some o ≠ x has v_x((J ∪ {Y_o}) ∩ R_x) ≤ p_x, the picks have an S\* completion with owner o | written proof (§5) |
+| **Theorem F1₁** | f = 1, exactly one wanter, n ≥ 3: the picks or one swap x → w have an S\* completion. This covers the open sub-case "x improves only with three goods" of `k4/sdc.md` §30 | written proof (§5); the proof run literally succeeds on all 3,329 such starts |
 | Finding S\* | OC₁ holds with the narrower completion S\*: one owner (any agent); one junk good each for single-good holders that are not frozen; nothing for frozen agents and multi-good holders | evidence: 0 failures on 14,461 distinct starts |
 | Finding B | at every hard start (no S\* completion), some repairing chain starts at a dangerous frozen agent k, and after it k owns: all but 1 of the 2,676 hard starts. In that one start (§29's dichotomy instance) the chain end owns | evidence |
-| Finding F1 | f = 1 (one frozen agent x): at every hard start, some swap x → w with an *inclusion-minimal* improving set H₀ ⊆ J ∪ {Y_w} repairs with x as owner, also when \|W_x\| = 2 and when \|H₀\| = 3 | evidence: all 100 f = 1 hard starts |
-| Lemma 2 | slot count: under (G1), (G2), (G5′), (H3), an S\* completion with owner o exists iff some kept-out set H meets the frozen agents' demands and \|H\| + θ(H) − ν(H) ≤ \|N₁\| | written proof (§4); the count agrees with the raw S\* enumeration on all 31,459 unfrozen-owner tests |
+| Finding F1 | f = 1: at every hard start, some swap x → w with an *inclusion-minimal* improving set H₀ ⊆ J ∪ {Y_w} repairs with x as owner, also when \|W_x\| = 2 | evidence: all 100 f = 1 hard starts |
+| Finding F1W | f = 1, several wanters: hard starts occur only at n = 3 in the data (n − 2 = 1 slot). For n ≥ 4, the picks have an S\* completion with a wanter as owner on 219 of 220 starts | evidence (§5) |
 | refuted | the GDT shape (frozen agents take nothing, owner unfrozen) is too narrow for OC₁: 9 distinct screen starts have no repair in it | `oc1_shapes_screen.log` |
+| refuted | canonical chains only (each middle agent wants its predecessor's pick, no middle junk): 15 of 234 screen hard starts have no canonical repair (e.g. adaptive-p1, where the middle agent gains only with a junk good) | `greedy_rules.log` |
 
-Next: (1) a Theorem A₄-type count for some owner at the picks, with the deficit traced to one dangerous agent; (2) the
-chain lemma: from that agent to the owner, after which k or the end owns (Theorem B₄ form); (3) the f = 1 theorem
-(several wanters; three-good improvements) via Lemma 2 with owner x.
+**Scope remark.** OC₁ is used for TARGET₄ only on cores, and k = 4 cores with n ≤ 5 are certified already (ledger
+K4.R5c, K4.R5d, K4.R5p). So a proof of OC₁ for n ≥ 6 implies TARGET₄, and the exceptions at n = 2, 3 (where only a
+frozen owner works, §5) do not matter for TARGET₄. The data, however, all have n ≤ 5.
+
+Next:
+1. f = 1 with several wanters, n ≥ 4: the picks with a wanter as owner (Lemma 2).
+2. A Theorem A₄-type count tracing the deficit to one dangerous agent.
+3. The chain lemma: k owns (Theorem B form), or the end owns (Theorem B₄ form).
 
 ## 1. Lemma 1: the slot form at serial-dictatorship picks
 
@@ -193,3 +202,94 @@ Now check EFX₀.
    - A deficit of 3 occurs, for example, when n = 3 and two agents are frozen, so that no holder is left.
    - So one chain must sometimes recover three slots. It does so by unfreezing: in red-key-without-t0 (screen), the
      chain 1 → 2 gives agent 2 its top, and agent 2 then stops wanting agent 0's pick.
+
+## 5. One frozen agent (f = 1)
+
+**Setting.** Y = SD(π) has exactly one frozen agent x. Let a = Y_x, L_x = R_x ∖ {a} (at most three goods), W the
+wanters of a, and for o ≠ x let D_o = (J ∪ {Y_o}) ∩ R_x, the goods of x that X_o would contain if no junk were kept
+out. Facts used throughout:
+- (f1) x holds its top a. Every w ∈ W ranks a first and Y_w second. Every other agent i ∉ W ∪ {x} holds its top.
+  - A good i prefers to Y_i would be a pick wanted by i, and only a is wanted.
+  - By (I2), junk ranks below the pick.
+  - A wanter with no pick values only a.
+- (f2) Every agent other than x is unfrozen, so every agent other than x and the owner is a holder (N₁ = N ∖ {x, o}).
+- (f3) No junk good and no pick other than a is wanted. So (G2) holds, and (G5′) holds for every owner o ≠ x.
+
+**Proposition 3 (T2⁺, K4.OCH.T2).** If v_x(D_o) ≤ p_x for some o ≠ x, then the picks have an S\*
+completion with owner o.
+
+*Proof.* Lemma 2 with H = ∅ and Q = {x}.
+- (G1): x is a singleton.
+- (G2), (G5′): by (f3).
+- (H3): B_o is a single good.
+- (H1): X_o ∩ R_x ⊆ D_o is worth at most p_x, so x is not threatened.
+- (H2): θ(∅) ≤ |N₁|. ∎
+
+When x values no junk at all, Proposition 3 applies to any wanter w (D_w ⊆ {Y_w}, worth less than a), so it contains
+DT⁺ for f = 1. Write I(w) = D_w = (J ∪ {Y_w}) ∩ R_x. An *improving set* is H₀ ⊆ I(w) with v_x(H₀) > p_x. The
+*swap* (w, H₀) gives a to w and H₀ to x, and makes Y_w ∖ H₀ junk.
+
+**Theorem F1₁ (K4.OCH.F1W1).** Let Y have exactly one frozen agent x, exactly one wanter w, and n ≥ 3. Then the picks
+have an S\* completion, or the swap (w, H₀) has one for some improving set H₀ ⊆ I(w).
+
+*Proof.* If Proposition 3 applies, we are done. Otherwise v_x(D_o) > p_x for every o ≠ x, so x has an improving set
+inside I(w).
+
+**(B2) Some improving pair H₀ ⊆ I(w).** This is Theorem DT₁ (`k4/sdc.md` §30): after the swap nobody is frozen, and
+Lemma GDT applies with any owner o ∉ {x, w}. That completion has the S\* shape.
+
+**(B3) No improving pair.** Then every pair inside I(w) is worth at most p_x, while I(w) is worth more. So
+I(w) = L_x = {b, c, d} with v_x(b) + v_x(c) ≤ p_x < v_x(b) + v_x(c) + v_x(d).
+- Y_w ∉ L_x. Otherwise pick o ∉ {x, w} (n ≥ 3). Then D_o = L_x ∖ {Y_w}: Y_o ∉ R_x, because R_x = {a} ∪ L_x and
+  L_x ⊆ J ∪ {Y_w}. That pair is worth at most p_x, and Proposition 3 would apply.
+- So L_x ⊆ J. Call agent i ≠ x *crowded* if the bundle L_x threatens i at p_i: v_i(L_x ∖ h) > p_i for some h ∈ L_x.
+  Then L_x ∖ h holds exactly two goods of R_i, since each junk good is worth less than p_i to i by (I2). Call them i's
+  *danger pair* in L_x.
+
+*(B3a) No agent is crowded.* Take the swap (w, L_x) with owner w: w holds a, x holds L_x, and Y_w becomes junk. Apply
+Lemma 2 with H = ∅ and Q = {x}.
+- (G1): the bundle L_x threatens nobody at the base values. Nobody is crowded, and w's value only rose.
+- (G2): Y_w is unwanted by (f3), and x now holds L_x, worth more than a > Y_w.
+- (G5′): a is wanted by nobody else (one wanter), and x is not in N₁.
+- (H3): B_w = {a} is one good.
+- (H1): X_w ∩ R_x = {a}, and v_x(a) < v_x(L_x).
+- (H2): θ ≤ |N₁|.
+
+*(B3b) Some agent i is crowded,* with danger pair {g, g′} ⊆ L_x, where g is the one i ranks higher. Keep the picks.
+Choose an owner o ∉ {x, i} (n ≥ 3; o is unfrozen by (f2)). Apply Lemma 2 with H = {g} and Q = {x}.
+- (H1): X_o ∩ R_x ⊆ D_o ∖ {g} = L_x ∖ {g}, a pair worth at most p_x, so x is safe.
+- i with g is robust inside R′_i = {Y_i} ∪ (W_o ∩ R_i):
+  - Y_i is the top of R′_i: junk by (I2), and Y_o by (f3).
+  - |R′_i| ≤ 4, and g is not the lowest good of R′_i, since i ranks g above g′ ∈ R′_i.
+  - So {Y_i, g} is robust by DT's (F4). Hence i is not threatened by W_o ∖ {g} at p_i + v_i(g).
+- (H2):
+  - If i is exposed, ν({g}) = 1 and θ ≤ |N₁|, so 1 + θ − 1 ≤ |N₁|.
+  - If not, θ ≤ |N₁| − 1, since i ∈ N₁ is unexposed, and 1 + θ ≤ |N₁|. Lemma 2 then puts g in an unexposed slot.
+- The other hypotheses hold as in Proposition 3. ∎
+
+*Remarks.*
+1. **The duality in (B3).** The agent that blocks the swap (crowded by x's three goods) is the agent that unblocks
+   the picks: its own slot keeps one of x's goods out of the owner's bundle.
+2. **n = 2** is excluded: there N₁ = ∅ at the picks, and the only possible owners after the swap are x and w. The data
+   have n = 2 starts where only a frozen owner works (lb4-n2m5-upgrade, picks (3, 4): x owns at the picks). For
+   TARGET₄ this case is not needed (scope remark).
+
+*Check* (`k4/oc1_hall/f1w1_check.py`, `f1w1_check.log`). The proof's case split runs literally. Each case ends in
+Lemma 2's construction (`ohlib.lemma2_build`: matched goods, the rest of H, then DT's moves), and the result is checked
+with the raw EFX₀ definition and the S\* shape. Over all 3,329 starts with f = 1, one wanter and n ≥ 3 (every data
+set): case A 2,098, B2 1,157, B3a 58, B3b 16, and 0 failures.
+
+**Several wanters** (`k4/oc1_hall/f1_mech.py`, `f1_mech.log`; evidence).
+- Mechanisms that cover every f = 1 start with n ≥ 4: Proposition 3, Lemma 2 at the picks with an unfrozen owner, or a
+  swap with owner x or an owner outside {x, w}.
+- The only f = 1 starts these miss:
+  - n = 2: lb4-n2m5-upgrade and its logged copy;
+  - n = 3 with two wanters: c4-owner-last-n3m8, c4x-n3m6-ef-bases and their logged copies. There n − 2 = 1 slot, and
+    only a frozen owner works: x at the picks, or w after the swap.
+- With several wanters and n ≥ 4 (220 starts), the picks have an S\* completion with an unfrozen owner on all but 1,
+  and a wanter can own whenever an unfrozen owner can.
+
+**Lemma 2's construction, run literally** (`k4/oc1_hall/lemma2_check.py`, `lemma2_check.log`). At every state
+reached (picks, and every state one improving chain reaches) and every owner o:
+- whenever (G1), (G2), (G5′), (H3) hold and the least count of `ohlib.deficit` is at most |N₁|, `ohlib.lemma2_build`
+  is run and its output checked: 312,502 constructions, all EFX₀, all keeping the bases, 0 failures.
