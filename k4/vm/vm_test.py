@@ -78,7 +78,7 @@ def one(args):
 
 
 def items_for(src):
-    if src in ('screen', 'suite', 'special', 'logs'):
+    if src in ('screen', 'suite', 'special', 'logs', 'k5'):
         return getattr(data, src)()
     if src.startswith('cores:'):
         _, K, N, seed = src.split(':')

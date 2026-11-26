@@ -722,6 +722,88 @@ The proof target sharpens to:
   agent a slot by P1′);
 - (ii) when it fails, either an unfreezing placement or one rotation restores it.
 
+### 7.5 The repair classes, Lemma EXT, and VM1 at k = 5 (coordinator's requests)
+
+**Classification** (`vm_classify.py`, SAT with sdclib's exact EFX₀ encoding). Each instance gets the simplest repair
+that some V-M matching Y needs:
+- *HDT*: Proposition HDT applies;
+- *absorbers*: Y extends to an EFX₀ allocation in which every agent frozen at Y keeps a single good, with several
+  absorbers;
+- *unfreezing*: Y extends, but every extension gives goods to some agent that is frozen at Y;
+- *rotation*: Y extends to no EFX₀ allocation, yet F1 placements with rotation complete it;
+- *one move*: only VM1's single move helps.
+
+| class | screen (168) | named (95) | k = 5 set (6) |
+|---|---|---|---|
+| HDT | 115 | 23 | 2 (PW4, kgen-n4-ties) |
+| absorbers | 20 | 70 (B<, B>, `lb4-owner-needs-from-base-n4m8`, most of TTC) | 1 (kgen-n4-strict) |
+| unfreezing | 12 | 0 | 0 |
+| rotation | 10 | 2 (T3, the n = 3 VMX counterexample) | 2 (RD4, RD5) |
+| one move | 11 | 0 | 1 (PW5) |
+| none (would refute VM1) | **0** | **0** | **0** |
+
+Logs: `vm_classify_{screen,named,k5}.log`.
+
+**Lemma EXT (proved).** Let Y be a one-good matching and X ⊇ Y a complete EFX₀ allocation. Put k → j (k ≠ j) when
+θ_k(X_j) > v_k(Y_k), where θ_k(B) = v_k(B) − min_{h∈B} v_k(h). If this digraph is acyclic, F1 placements without
+rotation reach X: fill the bundles X_j ∖ Y_j in a topological order, one good at a time.
+
+*Proof.* Suppose g joins j's current bundle X′_j, with Y_j ⊆ X′_j ⊆ X′_j ∪ {g} ⊆ X_j. Take any agent k ≠ j.
+- If k's bundle is already complete, k sees θ_k(X′_j ∪ {g}) ≤ θ_k(X_j) ≤ v_k(X_k). The threat is monotone under
+  inclusion: removing a good from B lowers v_k(B) by at least the change in the minimum.
+- If k's bundle is not complete, then k comes after j in the order, so k ↛ j. Hence
+  θ_k(X′_j ∪ {g}) ≤ θ_k(X_j) ≤ v_k(Y_k) ≤ v_k(X′_k).
+
+No other bundle changes. ∎
+
+**On the data, every extension class is covered by Lemma EXT** (`vm_prec.py`). In every instance of the classes HDT,
+absorbers and unfreezing, some V-M matching has an extension with an acyclic precedence digraph:
+- 147 of 147 on the screen set;
+- 93 of 93 on the named set.
+
+So for these classes VM1's no-move completion follows from two facts. Their proof status is:
+- (E) some V-M matching extends to an EFX₀ allocation. This is SD-C restricted to rank-greedy orders, and it is
+  open: it fails on 21 of 168 screen instances.
+- (A) some extension is acyclic in the sense above. This is open too, and holds on all data.
+
+**The rotation class is a ring.** In T3, from ({0}, {4}, {1}):
+1. good 3 goes to agent 2 and good 2 to agent 1;
+2. that closes the envy cycle 0 → {4, 2}, 1 → {1, 3}, 2 → {0};
+3. rotating it gives ({4, 2}, {1, 3}, {0}), and good 5 then goes to agent 2.
+
+The same happens in the n = 3 VMX counterexample and in RD4 and RD5. These are OC's ring moves (k4/sdc.md §29),
+performed implicitly by placements and one rotation.
+
+**The one-move class is a chain.**
+- An upgrade is a chain with t = 0: the agent takes pool goods worth more than its pick. For example, agent 0 of
+  `c4-exposure-nonleader-n3m5` trades {3} for {0, 1}.
+- An exchange is a chain with t = 1. In PW5, agents x₁ and x₂ take pairs of the shared pool D and release p₁ and p₂
+  to the w's.
+
+So VM1 reads as: from a V-M matching, at most one chain, any number of rings (as rotations), and a free completion
+with several absorbers. **What is proved:** P0, P1′, Proposition HDT, Lemma EXT, and Lemmas SND and TERM. **What is
+open:**
+- (E) and (A) for the extension classes;
+- that one ring suffices in the rotation class;
+- that one chain suffices in the one-move class.
+
+**VM1 at k = 5.** The code generalizes: Phase II runs one matching per rank up to max |R_i|, and the move sets are
+unbounded. The k = 4 results are unchanged (re-run on the screen set). On the k-sensitivity session's instances
+(`k4/ksens.md` on `claude/k4-ksens`) and the general-k session's n = 4 counterexamples (`attempts/kgen-n4-oc1.md` on
+`claude/kgen-n3`) the results are:
+
+| instance | n, m, k | ν, V-M sizes | fewest moves to a placeable state | VMX₂'s first run |
+|---|---|---|---|---|
+| PW5 | 5, 9, 5 | 5; 5 | **1** | EFX₀ |
+| PW4 | 5, 8, 4 | 5; 5 | 0 | EFX₀ |
+| RD5 | 4, 7, 5 | 4; 3 and 4 | 0 (rotation) | EFX₀ |
+| RD4 | 4, 7, 4 | 4; 3 and 4 | 0 (rotation) | EFX₀ |
+| kgen-n4-strict | 4, 8, 5 | 4; 4 | 0 | EFX₀ |
+| kgen-n4-ties | 4, 7, 5 | 4; 4 | 0 | EFX₀ |
+
+Logs: `vm1_k5.log`, `vm1_k5_detail.log`, `vmx2_k5.log`; every output was re-checked with the raw EFX₀ definition.
+OC₁ (and OC₁^max) fail on PW5 and RD5, and VM1 survives both. Random 5-limited instances: `vm1_gen_k5.log`.
+
 ## 8. Theorem VM: a proof of Viswanathan–Mehta's claim (ordinary EFX), main reading
 
 The abstract asserts the source property ("we are able to prove that ... there will be a source") without proof.

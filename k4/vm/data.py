@@ -131,7 +131,7 @@ def random_general(N, seed, nmin=2, nmax=6, mmax=10, vmax=20, ties=False, kmax=4
         n = rng.randint(nmin, nmax); m = rng.randint(n, mmax)
         sets = []; vals = []
         for i in range(n):
-            k = min(kmax, rng.choice([1, 2, 3, 4, 4, 4, 3, 3]))
+            k = min(kmax, rng.choice([1, 2, 3, 4, 4, 4, 3, 3] + ([5, 5, 5] if kmax >= 5 else [])))
             S = rng.sample(range(m), min(k, m))
             V = [rng.randint(1, vmax) for _ in S] if ties else rng.sample(range(1, vmax + 1), len(S))
             sets.append(S); vals.append(V)
@@ -157,4 +157,28 @@ def named(ext):
         out.append((fn[:-5], x['sets'], x['vals'], x.get('m') or 1 + max(max(s) for s in x['sets'])))
     out.append(('vmx-cex-n3', [[0, 1, 2, 5], [1, 3, 4, 5], [2, 3, 4, 5]], [[4, 3, 2, 8], [4, 7, 2, 8], [4, 8, 3, 10]], 6))
     out.append(('vmx-cex-n4', [[0, 1, 2, 6], [1, 2, 5, 7], [3, 4, 5, 6], [3, 4, 7]], [[2, 7, 4, 8], [4, 2, 8, 7], [6, 3, 10, 2], [3, 2, 4]], 8))
+    return out
+
+
+def _dense(rows):
+    sets = [[g for g, x in enumerate(r) if x > 0] for r in rows]
+    vals = [[x for x in r if x > 0] for r in rows]
+    return sets, vals, len(rows[0])
+
+
+def k5():
+    """the k = 5 instances of the k-sensitivity session (k4/ksens.md on claude/k4-ksens: PW5 and its k = 4 version,
+    RD5 and its k = 4 version, sections 1 and 6) and the general-k session's n = 4 OC1 counterexamples
+    (attempts/kgen-n4-oc1.md on claude/kgen-n3: the strict one with m = 8 and the one with ties, m = 7)"""
+    out = [('PW5', [[0, 5, 6, 7, 8], [1, 5, 6, 7, 8], [2, 5, 6, 7, 8], [0, 1, 2, 3], [0, 1, 2, 4]],
+            [[10, 9, 8, 7, 6]] * 3 + [[6, 4, 2, 1], [6, 4, 2, 1]], 9),
+           ('PW4', [[0, 5, 6, 7], [1, 5, 6, 7], [2, 5, 6, 7], [0, 1, 2, 3], [0, 1, 2, 4]],
+            [[10, 9, 8, 7]] * 3 + [[6, 4, 2, 1], [6, 4, 2, 1]], 8),
+           ('RD5', [[0, 3, 4, 5, 1], [1, 2, 3], [1, 3, 4, 2], [0, 2, 6, 5]],
+            [[26, 44, 24, 33, 57], [12, 11, 6], [9, 6, 1, 8], [36, 53, 4, 47]], 7),
+           ('RD4', [[0, 3, 5, 1], [1, 2, 3], [1, 3, 4, 2], [0, 2, 6, 5]],
+            [[26, 44, 33, 57], [12, 11, 6], [9, 6, 1, 8], [36, 53, 4, 47]], 7)]
+    s1, v1, m1 = _dense([[34, 0, 0, 0, 38, 35, 37, 33], [0, 10, 5, 0, 0, 4, 2, 0], [0, 2, 0, 0, 3, 0, 1, 0], [52, 54, 53, 4, 0, 0, 0, 51]])
+    s2, v2, m2 = _dense([[0, 155, 1, 0, 0, 155, 0], [0, 75, 2, 74, 0, 74, 77], [0, 0, 0, 2, 133, 0, 134], [1, 4, 0, 2, 0, 0, 0]])
+    out += [('kgen-n4-strict', s1, v1, m1), ('kgen-n4-ties', s2, v2, m2)]
     return out

@@ -174,7 +174,7 @@ def vm_run(I, ch, rank='G', aout='matched', n1a=True, junk='L3', record=False, s
     Nr = set(range(n)) - (A if aout == 'all' else MA)
     # Phase II
     Nk = {}
-    for k in (1, 2, 3, 4):
+    for k in range(1, 1 + max([len(S) for S in I.sets] + [4])):
         Mk = matching_step(I, ch, Nr, avail, k, rank, 'II.%d' % k, X, owner, log)
         Nk[k] = Mk; Nr -= Mk
     flags['A'] = sorted(A); flags['MA'] = sorted(MA); flags['Nr'] = sorted(Nr)
@@ -295,10 +295,10 @@ def vm0_run(I, ch, f2=True, rot=False, order='choice', base=None, record=False, 
         A = set(i for i in range(n) if strong(i)); owner = {}
         MA = matching_step(I, ch, A, avail, 1, 'G', 'I', X, owner, log)
         Nr = set(range(n)) - MA; Nk = {}
-        for k in (1, 2, 3, 4):
+        for k in range(1, 1 + max([len(S) for S in I.sets] + [4])):
             Nk[k] = matching_step(I, ch, Nr, avail, k, 'G', 'II.%d' % k, X, owner, log); Nr -= Nk[k]
     else:
-        Nk = {k: set() for k in (1, 2, 3, 4)}
+        Nk = {k: set() for k in range(1, 1 + max([len(S) for S in I.sets] + [4]))}
         for i, g in enumerate(base):
             if g is not None:
                 X[i].append(g); avail.discard(g); log.append(('base', i, g))
@@ -396,7 +396,7 @@ def upgrades(I, X, pool):
             continue
         y = X[i][0]; vy = I.v[i].get(y, 0)
         mine = [g for g in P if g in I.v[i]]
-        for r in range(1, min(4, len(mine)) + 1):
+        for r in range(1, len(mine) + 1):
             for S in itertools.combinations(mine, r):
                 if I.val(i, S) <= vy:
                     continue
@@ -478,7 +478,7 @@ def exchanges(I, X, pool):
                 Bj = [h for h in X[j] if h != z] + [y]
                 if I.val(j, Bj) <= I.val(j, X[j]):
                     continue
-                for r in range(0, min(3, len(mine)) + 1):
+                for r in range(0, len(mine) + 1):
                     for S in itertools.combinations(mine, r):
                         Bi = [z] + list(S)
                         if I.val(i, Bi) <= vy:
