@@ -1964,7 +1964,7 @@ pickless agent by an alternating path values a junk good.
 - So the pickless agents cannot be the wanters that freeze a dangerous agent, which is the configuration of every
   counterexample above.
 
-**Conjecture OC₁^max** (K4.SDC.OC1MAX). In every strict connected k = 4 core, for every SD order whose picks form a
+**Conjecture OC₁^max** (K4.SDC.OC1MAX; **REFUTED at k = 4, n = 4**, see the end of this section). In every strict connected k = 4 core, for every SD order whose picks form a
 maximum matching: the picks have a one-absorber completion, or one improving move (an addition, a chain or a ring)
 gives bases that have one.
 - With Lemma MAXSD it implies TARGET₄, through the core reduction.
@@ -2021,3 +2021,23 @@ Evidence (`k4/sdc/oc1_max_orders.py`):
   TTC session's Hall-deficient climbs are benign. I′ need not be a core, so this route needs the perfect-start form for
   all instances. `k4/sdc/oc1max_climb.py` with LOOSE=1 tests OC₁^max without the core conditions. The 84 non-core TTC
   instances already satisfy it (`results/k4_sdc/oc1_max_orders_ttc84.log`).
+
+**OC₁^max is false at k = 4** (2026-11-26 23:15; `k4/sdc/oc1max_cex_verify.py`, `results/k4_sdc/oc1max_cex_verify.log`).
+The ordinal CEGAR of the compute/k4-oc1max-cert session found two failures on the n = 4 core list 4_n4_3. Random
+profiles had missed them. The coordinator replayed both independently.
+- **Instance 1** (idx 58).
+  - sets [[0,1,2,5],[1,2,5,6],[3,4,5,6],[3,4,6]]; vals [[2,10,4,7],[10,3,4,8],[3,5,6,7],[3,2,4]].
+  - A strict connected MC2-class core with m = 7.
+  - The order (0,3,2,1) gives picks (1,2,5,6): every agent picks, so ν = n = 4.
+  - Agent 1, last, is left with its worst good 2 (worth 3), and it values agent 0's pick at 10.
+  - The instance has 14 EFX₀ allocations. None contains the picks or any of the 15 one-move states.
+- **Instance 2** (idx 77). sets [[0,4,5,6],[1,2,3,5],[1,3,5,6],[2,4,6]], vals [[2,3,10,6],[3,10,6,8],[5,3,7,6],[4,3,2]],
+  order (3,1,2,0), picks (4,5,6,2). It has 24 EFX₀ allocations, and none extends the picks or any one-move state.
+- So OC₁^max, OC^max (free completion) and OC₁ at perfect starts are all false at k = 4.
+- **What survives on these instances.**
+  - Two sequential moves repair both: 8 and 12 two-move states respectively have one-absorber completions.
+  - The other maximum-matching orders complete at the picks: 4 of 7 and 4 of 6 pick vectors.
+  - So the candidates are OC₂^max (at most two sequential moves from every maximum-matching start) and the ∃-forms
+    (some maximum-matching order satisfies OC₁; SD-C).
+  - The Lean frames (K4.SDC.OC1MAX.LEAN, OC1PERF.LEAN) are implications and stay valid. They are parametrized by
+    the move relation (ConjOC1maxWith), so a two-move relation fits them directly.
