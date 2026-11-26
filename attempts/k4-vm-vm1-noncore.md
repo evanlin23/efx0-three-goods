@@ -4,12 +4,11 @@ Workstream proof/k4-vm (`k4/vm.md` §7.3, §7.7). Conjecture VM1 was stated in �
 from some V-M matching, at most one move (a pool upgrade or an unrestricted two-agent exchange), then EFX₀-safe
 placements with envy-cycle rotation, give a complete EFX₀ allocation.
 
-**That form is false, already at k = 4.** Every counterexample found lies outside the k = 4 cores. The cores are the
-instances that matter for TARGET₄, by K4.CORE (LEDGER.md, PROVED in Lean). VM1 *restricted to connected k = 4 cores*
-is not refuted:
-- the 2,700 random cores of §7.3;
-- the core-checked climbs at n = 3–5 (`vm1f_climb{3,4,5}.log`);
-- the screen and named sets.
+**That form is false, already at k = 4.** The counterexamples in this file lie outside the k = 4 cores, which are the
+instances that matter for TARGET₄ (K4.CORE, LEDGER.md, PROVED in Lean).
+
+**Update:** walking from K4-cut toward the cores found failing *cores* too (`attempts/k4-vm-vm1-core.md`). VM1 is
+refuted on connected k = 4 cores as well. This file keeps the non-core instances, which came first.
 
 ## How it was found
 
@@ -67,13 +66,13 @@ K5 and K4-cut complete the same way: agent 4 upgrades, agent 0 takes good 6 and 
 DE's chains of length 0 (an upgrade), chains of length 1 (a worthless-z exchange) and 2-rings (a valued-z exchange),
 as in the dictionary of `k4/vm.md` §7.8. **A chain of length 2 is not one VM1 move.**
 
-In a core this chain may not arise. Agents 1 and 3 here (and agent 3 of K4-cut, which is not strictly balanced) are
-exactly what rules R1 and R2 peel. That is an explanation, not a proof.
+Agents 1 and 3 here, and agent 3 of K4-cut (which is not strictly balanced), are what rules R1 and R2 peel. The
+chain still arises in cores, though: see `attempts/k4-vm-vm1-core.md`.
 
 **What survives:**
 - VMX₂ (any number of moves) completes all three instances (two moves);
-- VM1 on connected k = 4 cores is unrefuted. With K4.CORE it would still give TARGET₄;
-- the natural general form allows one DE trade, chains of any length included (tested in `k4/vm.md` §7.7).
+- the natural general form allows one DE trade, chains of any length included. That is Conjecture VM1-chain
+  (`k4/vm.md` §7.7), and it completes all three, and the failing cores of `attempts/k4-vm-vm1-core.md`.
 
 At k = 5, K5 refutes VM1 for general instances: it is a random instance, not from the PW family.
 

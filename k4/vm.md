@@ -4,38 +4,44 @@ Branch `claude/k4-vm`, draft PR "[proof/k4-vm] From 4-limited EFX to EFX₀". Co
 Everything called evidence below is evidence only (PROMPT.md §5 rule 3). Nothing here changes a ledger row; the
 coordinator integrates.
 
-## Status (burst 5: VM1 stressed at k ≥ 5, refuted outside the cores; the ring is one move)
+## Status (burst 5: VM1 refuted at k = 4 on cores; one DE chain repairs it; the ring is one move)
 
-- **VM1 for every 4-limited instance is REFUTED, but only outside the cores** (`attempts/k4-vm-vm1-noncore.md`).
-  - Smallest counterexample: n = 5, m = 8, uncapped and by independent replay. Two of its agents value a single good.
-  - A variant with n = 5, m = 9 fails `is_core4` only by one agent's strict balance.
-  - **VM1 on connected k = 4 cores is unrefuted**, and with K4.CORE it still gives TARGET₄. From now on VM1 means VM1
-    on cores (§7.3).
-- **VM1 fails at k = 5** on a random instance (K5, n = 5, m = 9).
-- **VM1 fails at k = 6** in the PW family: 11 of 720 grid instances. The smallest is PW(2, 3, 5)#2, with n = 5,
-  m = 10 (`attempts/k4-vm-vm1-k6.md`). All failures are re-verified uncapped, and each needs two moves.
-- **VM2 fails at k = 9** (PW(3, 3, 8), which needs exactly three moves; independent replay).
+- **Conjecture VM1 is REFUTED at k = 4, on connected k = 4 cores** (`attempts/k4-vm-vm1-core.md`).
+  - Five failing cores were found, each verified by `is_core4`, by uncapped `vm1_verify.py`, and by an independent
+    replay with its own core check.
+  - The smallest, C0, has n = 5 and m = 8. It has one V-M matching and one state one move away, and neither completes.
+    Two moves suffice.
+  - It was found by walking from a non-core failure (`attempts/k4-vm-vm1-noncore.md`; the smallest there has n = 5,
+    m = 8) toward the cores.
+- **VM1 also fails at k = 5 and k = 6.**
+  - k = 5: a random instance, K5.
+  - k = 6: PW, 11 of 720 grid instances, smallest n = 5, m = 10 (`attempts/k4-vm-vm1-k6.md`).
+  - k = 9: VM2 fails too; PW(3, 3, 8) needs exactly three moves.
 - **No failure in:**
   - 1,080 PW instances at k ≤ 5;
-  - 560 unrestricted instances (k = m ≤ 10);
-  - the climbs at k = 5 (n = 4, 5, 6) and k = 6 (n = 4), and the non-core-checked climbs at k = 4.
-  - "c moves fail from k = 2c + 5" is refuted (§7.7).
-- **One DE chain repairs it.** VM1-chain (one VM1 move or one chain of DE's Lemma chain, then placement) completes 19
-  of the 20 VM1 failures: all at k ≤ 7, cores or not. The exception is PW(3, 3, 8) at k = 9.
+  - 560 unrestricted instances;
+  - the climbs at k = 5, 6, 8 (§7.7).
+  - "c moves fail from k = 2c + 5" is refuted.
+- **The repair is one DE chain.**
+  - Every VM1 failure here completes with a chain of DE's Lemma chain of length 2 (x takes a pool set, j₁ takes x's
+    good, j₂ takes j₁'s), which is not one VM1 move.
+  - **Conjecture VM1-chain** is one VM1 move *or one DE chain*, then placement. It completes all 25 VM1 failures except
+    PW(3, 3, 8) at k = 9, and 315 of 315 instances of a fresh PW grid up to k = 9.
+  - It still holds with placement *without rotation* (VM1-chain-plain).
+  - **The proof target at k = 4 is now VM1-chain on cores** (§7.7, §7.8).
 - **VMX₂** (any number of moves) completes every failure found.
 - **Request 3, the ring** (§7.8):
   - The rotation class collapses into the one-move class.
-  - **VM1-plain** (one move applied to the V-M matching itself, then placement *with no rotation*) holds on every
-    k ≤ 5 data set: 8,057 instances, including DE's ring-size tree family. The exceptions are PW at k = 6 and
-    the non-core K4-min.
   - Proved:
-    - Lemma RS: at a placement state every envy cycle has a pair arrow, and a pair arrow carries at most 2 pool goods
+    - Lemma RS: every envy cycle at a placement state has a pair arrow, and a pair arrow carries at most 2 pool goods
       (3 from an empty-handed holder); DE's is 1.
     - Lemma RX: a 2-ring with a want arrow is one valued-z exchange.
     - Lemma MS: the size bounds of the one move.
-    - Lemma EXT′: Lemma EXT from any start state.
-  - Not proved: that one move suffices. That needs a k = 4 finishing test (DE's Lemma test has no analogue here yet)
-    and an argument for why V-M's matching needs only one trade.
+    - Lemma EXT′.
+  - The DE dictionary is: upgrade = chain of length 0; worthless-z exchange = chain of length 1; valued-z exchange =
+    2-ring. The missing trade was the chain of length 2.
+  - Not proved: that one DE trade suffices. That needs a k = 4 finishing test, which DE's Lemma test has no analogue
+    for yet.
 
 ## Status (burst 4: repair classes, Lemma EXT, k = 5)
 
@@ -686,15 +692,14 @@ figures for it.
 such that placing each good on some agent whose bundle stays EFX₀-unenvied, rotating envy cycles before each
 placement, ends with a complete EFX₀ allocation. VM1 ⟹ VMX₂ ⟹ TARGET₄.
 
-> **Correction (burst 5): this form, for every 4-limited instance, is REFUTED** (`attempts/k4-vm-vm1-noncore.md`,
-> uncapped and by independent replay). The smallest counterexample found has n = 5, m = 8. It is not a k = 4 core:
-> two of its agents value a single good. A variant with n = 5, m = 9 fails `is_core4` only by one agent's strict
-> balance. In all of them the completion is a DE chain of length 2, which is not one VM1 move.
+> **Correction (burst 5): VM1 is REFUTED, also on connected k = 4 cores.**
+> - Outside the cores: `attempts/k4-vm-vm1-noncore.md`, smallest n = 5, m = 8.
+> - On cores: `attempts/k4-vm-vm1-core.md`, smallest C0, n = 5, m = 8.
 >
-> **VM1 restricted to connected k = 4 cores is not refuted**: 2,700 random cores, the core-checked climbs, the screen
-> and named sets. With K4.CORE (LEDGER.md, PROVED) it still gives TARGET₄. So from here on **VM1 means VM1 on cores**.
-> The general form that survives every failure up to k = 7 is **VM1-chain**: one move *or one DE chain*, then
-> placement (§7.7).
+> Both were checked uncapped and by independent replays; the core replay has its own IsCore4 check. In every failure
+> the completion is a DE chain of length 2 (x takes a pool set, j₁ takes x's good, j₂ takes j₁'s), which is not one VM1
+> move. The surviving form is **VM1-chain**: one VM1 move *or one DE chain*, then placement (§7.7). With K4.CORE,
+> VM1-chain on cores would give TARGET₄.
 
 **Invariant and proof target.** Every state of a VMX₂ run satisfies the following, all proved (Lemmas SND, TERM, and
 EFX₀ itself):
@@ -1017,9 +1022,24 @@ caps. A grid pass of VM1-chain up to k = 9 is in `vm1_chain_pwgrid9.log`.
   at c = 1 by k = 6.
 - The number of moves needed is not the number f of frozen agents: it is 2 at f = 2 (k = 7), 3 at f = 3 (k = 9), and
   2 at both f = 2 and f = 4 (k = 6).
-- **VM1-chain** survives every failure found up to k = 7.
+- **VM1 fails on k = 4 cores too** (`attempts/k4-vm-vm1-core.md`): five cores found by walking from K4-cut toward the
+  cores (`vm1_core_repair.py`). The smallest, C0, has n = 5 and m = 8. All five complete with one DE chain
+  (`vm1_chain_cores.log`).
+- **VM1-chain** survives every failure found up to k = 7, and a fresh PW grid up to k = 9 (`vm1_chain_pwgrid9.log`:
+  315 instances, 311 need no chain, 4 need one). With placement *without rotation* it also completes every failure
+  except PW(3, 3, 8), and every screen, named and k5 instance (`vm1_chain_plain.log`).
 - **VMX₂** (any number of moves) completes every failure found, at every k.
-- **VM1 on k = 4 cores is unrefuted.**
+
+**Conjecture VM1-chain (connected k = 4 cores, evidence only).** In every connected k = 4 core, the following give a
+complete EFX₀ allocation:
+- some V-M matching;
+- one trade, which is either a VM1 move (a pool upgrade, or an unrestricted two-agent exchange) or a chain of DE's
+  Lemma chain (x upgrades to a pool set, then agents holding single goods each take the good just released, which
+  they want);
+- then F1 placements, with or without rotation.
+
+With K4.CORE it gives TARGET₄. At general k it fails at k = 9 within the caps (PW(3, 3, 8)), where three VM moves are
+needed.
 
 ### 7.8 The ring is one move, and rotation is not needed (coordinator's request 3)
 
@@ -1151,21 +1171,19 @@ precedence digraph.
 | chain of length 0: x takes its pair {b_x, c_x} from the leftovers, a_x is left over | upgrade, \|S\| = 2 or 3 |
 | chain of length 1: x takes its pair, j₁ takes a_x, j₁'s good is left over | exchange with z worthless to i: i takes S and parks z, j takes y_i |
 | ring with one want and one pair arrow, pair {y, h} | exchange with z valued: i takes z + S (\|S\| = 1 or 2), j takes y_i (Lemma RX) |
-| chain of length ≥ 2 (j₂ takes j₁'s good, …) | **not one VM1 move**; needed outside the cores (K4-min, `attempts/k4-vm-vm1-noncore.md`); VM1-chain allows it |
+| chain of length ≥ 2 (j₂ takes j₁'s good, …) | **not one VM1 move**; needed, on cores too (C0, `attempts/k4-vm-vm1-core.md`); VM1-chain allows it |
 | no ring of want arrows from a chain: Lemma chain finds one if it exists | none can exist at a placement state: RS(c) |
 | finishing test: o can finish iff \|H_o\| ≤ \|F\| − 1 (Lemma test) | **missing**; P1′ and HDT give one direction |
-| Improvement Lemma plus a potential: up to 4n trades | VM1-plain: one move (evidence only) |
+| Improvement Lemma plus a potential: up to 4n trades | VM1-chain(-plain): one trade (evidence only) |
 
-**Conjecture VM1-plain (connected k = 4 cores, evidence only).** In every connected k = 4 core, the following give a
-complete EFX₀ allocation:
-- some V-M matching;
-- at most one move (an upgrade or an unrestricted exchange) applied to the matching itself;
-- then F1 placements without rotation, with junk going to an unenvied agent.
+**VM1-plain is refuted** with VM1, on cores too (C0, `attempts/k4-vm-vm1-core.md`): it implies VM1. The surviving
+form is **VM1-chain-plain**, and it is evidence only:
+- from some V-M matching, one VM1 move or one DE chain applied to the matching itself;
+- then F1 placements *without rotation*.
 
-It implies VM1 on cores, and with K4.CORE it gives TARGET₄. Rotation and rings are then not part of the statement.
-
-Outside the cores it is false, as VM1 is (K4-min, n = 5, m = 8). The data rows above that are not cores (named,
-general) all passed.
+It completes every VM1 failure found except PW(3, 3, 8) at k = 9, and every screen, named and k5 instance
+(`vm1_chain_plain.log`). On connected k = 4 cores it would give TARGET₄. Rotation and rings are not part of the
+statement.
 
 **What a proof needs beyond DE.**
 1. *A finishing test at k = 4*: an exact condition for a V-M matching, or a state one move from it, to extend. DE's
@@ -1176,7 +1194,7 @@ general) all passed.
 2. *Why one trade is enough.* DE needs many, and the DE tree family shows rings with many pair arrows from DE's
    draft. VM1-plain's one move must come from V-M's freedom in choosing the matching: Lemma S and PO (want arrows go
    down in st), and P0 (no pool good is wanted).
-3. *k ≤ 5 must be used.* VM1-plain fails at k = 6 (PW(4, 3, 5)#1). The bounds of RS(b) and MS grow with k (up to
+3. *k must be used.* VM1 fails at k = 6 on PW, and VM1-chain at k = 9 (PW(3, 3, 8)). The bounds of RS(b) and MS grow with k (up to
    k − 2 and k − 1 pool goods per arrow and move), and in PW the D-goods outnumber what one freed agent can absorb.
    That is the likely place where k enters (a guess).
 

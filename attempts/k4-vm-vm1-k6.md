@@ -74,8 +74,9 @@ with f = 4, and 2 with f = 2.
 
 **What survives:**
 - VMX₂ (any number of moves) completes every failing instance, with two moves each (`vm1_verify_k6_all.log`);
-- VM1 is unrefuted at k ≤ 5, including the 1,080 PW instances above and every k = 5 set in `k4/vm.md` §7.7;
-- VM1 at k = 4 is unaffected (§7.3–§7.5).
+- on the PW family, VM1 has no failure at k ≤ 5 (the 1,080 instances above). But VM1 was later refuted at k = 5 on a
+  random instance and at k = 4, on cores too (`attempts/k4-vm-vm1-noncore.md`, `attempts/k4-vm-vm1-core.md`);
+- VM1-chain (one VM1 move or one DE chain) completes all 12 k = 6 failures here (`results/k4_vm/vm1_chain_failures.log`).
 
 The guess in `attempts/k4-vm-vm1-k7.md` that c moves fail from k = 2c + 5 is wrong for c = 1.
 

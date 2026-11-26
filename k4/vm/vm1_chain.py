@@ -5,7 +5,9 @@ some V-M matching Y, at most ONE trade, then F1 placements with rotation (vm1_fa
   wishes, an agent j holding a single good y_j that it values below the released good g takes g, releasing y_j.
 Only the state after the whole chain must be EFX0 (as in DE, where a chain is applied at once).
 Reports per instance: 'VM1' (no trade or one VM1 move suffices), 'chain', or FAIL.  EVIDENCE only.
-    python3 k4/vm/vm1_chain.py SOURCE        (a vm_test source, or json:FILE with one JSON instance per line)"""
+--plain: placements WITHOUT rotation after the trade (vm1_plain.completes_norot), i.e. VM1-chain-plain; then 'VM1'
+means VM1-plain.
+    python3 k4/vm/vm1_chain.py SOURCE [--plain]   (a vm_test source, or json:FILE with one JSON instance per line)"""
 import sys, os, json, time, itertools, collections, multiprocessing as mp
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import vmlib as V
@@ -13,6 +15,7 @@ import vm1_fast as F
 from vm_test import items_for
 
 CAP = 2000
+PLAIN = ['--plain' in sys.argv]
 
 
 def matchings(I):
@@ -55,6 +58,18 @@ def chains(I, Y):
 def one(args):
     name, sets, vals, m = args
     I = V.Inst(sets, vals, m); t = time.time()
+    if PLAIN[0]:
+        import vm1_plain as Q
+        memo = {}
+        lev = Q.one((name, sets, vals, m))[3]
+        V.FREE_Z[0] = True
+        if lev in ('plain', 'move'):
+            return name, I.n, I.m, 'VM1', None, time.time() - t
+        for Y in matchings(I):
+            for X, pool in chains(I, Y):
+                if Q.completes_norot(I, [list(b) for b in X], memo):
+                    return name, I.n, I.m, 'chain', X, time.time() - t
+        return name, I.n, I.m, 'FAIL', json.dumps({'sets': sets, 'vals': vals, 'm': m}), time.time() - t
     if F.vm1(I, CAP) is not None or F.vm1(I, 50 * CAP) is not None:
         return name, I.n, I.m, 'VM1', None, time.time() - t
     for Y in matchings(I):
@@ -79,7 +94,7 @@ def items(src):
 
 
 if __name__ == '__main__':
-    src = sys.argv[1]; print('$ python3 k4/vm/vm1_chain.py', src); t0 = time.time()
+    src = sys.argv[1]; print('$ python3 k4/vm/vm1_chain.py', ' '.join(sys.argv[1:])); t0 = time.time()
     C = collections.Counter()
     with mp.Pool(os.cpu_count()) as pool:
         for name, n, m, lev, info, dt in pool.imap_unordered(one, items(src), chunksize=1):

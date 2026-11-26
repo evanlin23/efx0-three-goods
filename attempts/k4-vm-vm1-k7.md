@@ -62,8 +62,9 @@ wanters 3, 4, 5 with q_i = i.
 - On both instances in this file the least number of moves is f, the number of frozen agents: one move frees only
   one x, and only the x's can absorb D. That is not general: the k = 6 instance needs 2 moves with f = 4.
 
-**What survives:** VMX₂ (any number of moves) completes both instances. VM1 is unrefuted at k ≤ 5, and at k = 4 in
-particular (`k4/vm.md` §7.3–§7.5).
+**What survives:** VMX₂ (any number of moves) completes both instances. VM1-chain (one VM1 move or one DE chain)
+completes PW(2, 3, 6)#0 but not PW(3, 3, 8)#0 within its caps (`results/k4_vm/vm1_chain_failures.log`). VM1 itself was
+later refuted at k = 4 too (`attempts/k4-vm-vm1-core.md`).
 
 Reproduce:
 - `python3 attempts/k4_vm_vm1_pw.py`: an independent replay from the definitions, sharing no code with `k4/vm/`;
