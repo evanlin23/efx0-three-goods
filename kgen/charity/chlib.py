@@ -64,20 +64,23 @@ def rand_inst(rng, n, m, kmin, kmax, vmax=100, cover=True):
 
 
 def rand_hot(rng, n, m, k, hot, vmax=100):
-    """Contested instances: a few 'hot' goods valued by many agents (unbounded good degree), the rest sparse."""
-    m = min(m, hot + n * (k - 1))
-    while True:
-        v = []
-        for i in range(n):
-            d = rng.randint(2, min(k, m))
-            nh = min(d, rng.randint(1, max(1, d - 1)))
-            S = set(rng.sample(range(hot), min(nh, hot)))
-            while len(S) < d:
-                S.add(rng.randrange(m))
-            v.append({g: rng.randint(1, vmax) for g in S})
-        I = Inst(n, m, v)
-        if all(I.V[g] for g in range(m)):
-            return I
+    """Contested instances: goods 0..hot-1 are 'hot' (each agent values between 1 and d-1 of them, so they have many
+    valuers); every other good is given to an agent with spare capacity, then spare capacity is filled at random.
+    m is capped at what the capacities can cover."""
+    d = [rng.randint(2, k) for _ in range(n)]
+    nh = [min(hot, rng.randint(1, di - 1)) for di in d]
+    cap = [di - h for di, h in zip(d, nh)]
+    m = max(hot, min(m, hot + sum(cap)))
+    S = [set(rng.sample(range(hot), h)) for h in nh]
+    rest = list(range(hot, m)); rng.shuffle(rest)
+    for g in rest:
+        i = rng.choice([i for i in range(n) if cap[i] > 0]); S[i].add(g); cap[i] -= 1
+    for i in range(n):
+        free = [g for g in range(hot, m) if g not in S[i]]
+        rng.shuffle(free)
+        S[i] |= set(free[:cap[i]])
+    return Inst(n, m, [{g: rng.randint(1, vmax) for g in Si} for Si in S])
+
 
 # ----------------------------------------------------------------------------------------------- raw checks
 

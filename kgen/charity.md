@@ -8,18 +8,22 @@ changed here; the coordinator integrates.
 
 | item | statement | status | artifact |
 |---|---|---|---|
-| CH-A | every additive instance with ≤ k relevant goods per agent has a partial EFX₀ allocation with strong charity and \|P\|(\|P\| − 1) ≤ e(k − 2)n, i.e. \|P\| ≤ 1 + √(e(k−2)n); \|P\| = 0 for k ≤ 2 | PROVED (written proof, §3; lemmas checked on every stopping state computed) | §3, `chlib.py`, `ch_screen.log` |
-| CH-B | if every good is valued by at most d agents (any k), the same with \|P\| < e·d, independent of n and k | PROVED (written proof, §3) | §3 |
-| CH-C | at every CKMS stopping state, \|P\| < σ ≤ (k − 2) · min_{g∈P} \|V(g)\| (σ = number of sources, V(g) = valuers of g) | PROVED | §2, Lemma CH4 |
-| CH-D | for every σ ≥ 2 there is an instance with k = 3 and a state with σ − 1 unallocated goods at which no CKMS rule applies under any choice of champion (n ≈ 1.5σ²) | PROVED (construction checked by the raw definitions for σ ≤ 7, k = 3, 4) | §4, `stuck_family.py`, `stuck_family_k*.log` |
-| consequence | CKMS's rules (and so the rainbow-cycle reduction) cannot give charity independent of n, even at k = 3, where complete EFX₀ is a theorem: CH-A is tight up to a constant factor for the method | PROVED (from CH-D) | §4 |
-| PM(k) | every Pareto maximum (P1's hypothesis) leaves at most f(k) goods out; PM(k) ⇒ CH(k) | CONJECTURE (f(4) ≥ 1 by GM4-E) | §5, `pm_*.log` |
-| least charity | 0 on every instance tested, k = 3..8 | EVIDENCE (this is TARGET_k on random data) | §1, `least_*.log` |
+| CH-A | every additive instance with ≤ k relevant goods per agent has a partial EFX₀ allocation with strong charity and \|P\|(\|P\| − 1) ≤ e(k − 2)n, so \|P\| ≤ 1 + √(e(k − 2)n); \|P\| = 0 for k ≤ 2 | PROVED (written proof, §3; lemmas asserted on every stopping state computed) | §2–§3, `chlib.py` |
+| CH-B | if every good is valued by at most d agents (any k, any n), the same with \|P\| < e·d | PROVED (written proof, §3) | §3 |
+| CH-C | at every CKMS stopping state, \|P\| < σ ≤ (k − 2) · min_{g∈P} \|V(g)\| | PROVED | §2, Lemma CH4 |
+| CH-D | for every σ ≥ 2: a k = 3 instance and a state leaving σ − 1 goods out at which no CKMS rule applies under any champion choice (n ≈ 1.5σ²) | PROVED (written proof; checked for σ ≤ 7, k = 3, 4) | §4, `stuck_family.py`, `stuck_family_k*.log` |
+| CH-E | for every σ ≥ 2 and k ≥ 3: a Pareto maximum (P1's hypothesis) leaving σ − 1 goods out, n = O(σ²) | PROVED (written proof; exhaustive check without SAT for σ ≤ 4, SAT for σ ≤ 7) | §5, `refute_pm.py`, `refute_pm_k*.log`, `pm_family_sat.log` |
+| P1 at k = 3 | P1 (K4.SDC.P1) already fails at k = 3: n = 4, m = 7, every agent values exactly 3 goods | REFUTED (CH-E with σ = 2; brute force over all 5⁷ partial allocations) | §5, `refute_pm_k3.log` |
+| PM(k) | Pareto maxima leave ≤ f(k) goods out | REFUTED for every k ≥ 3 and every f (CH-E) | §5 |
+| W(k) | the welfare maximum with fewest unallocated goods leaves ≤ f(k) out | OPEN (not refuted by S′; f(4) ≥ 1 by GM4) | §6 |
+| least charity | 0 on every instance tested, k = 3..8, n ≤ 9 | EVIDENCE (this is TARGET_k on random data) | §1, `least_*.log` |
 
-So route (b) of the brief is settled in both directions: the rainbow-cycle method works with genuine zeros and gives
-exact EFX₀ with O(√(kn)) charity, but no better, because its stopping states can leave Θ(√n) goods out at k = 3. An
-n-independent f(k) needs moves outside CKMS's U0/U1/U2: for instance a global potential (Pareto maxima, §5), which
-the data do not refute.
+**Conclusion of the burst.** The rainbow-cycle method works with genuine zeros and gives *exact* EFX₀ with
+O(√(kn)) charity (CH-A), and charity < e·d when goods have ≤ d valuers (CH-B, independent of n); both look new. But
+an n-independent f(k) cannot come from CKMS's rules (CH-D) nor from any argument that keeps a Pareto-maximal partial
+EFX₀ allocation (CH-E): both can strand Θ(√n) goods at k = 3, where complete EFX₀ is a theorem. So a proof of
+CH(k) for k ≥ 3 must lower some agent's value along the way, as LB⁺ does at k = 3, or use a potential that is not
+Pareto-monotone (the welfare maximum is the one simple candidate left).
 
 ## 0. Statement and conventions
 
@@ -50,19 +54,33 @@ agent_count_side.md` §4 covers the rest):
 
 ## 1. Kill-or-confirm data
 
-- **Least charity** (`ch_least.py`, SAT with a cardinality bound on the pool; encoding checked against the raw
-  definitions on 36,000 fixed assignments, `enc_check.log`, 0 mismatches): 0 on every instance, see the table in the
-  status block. This is the expected answer (EFX₀ is believed to exist), not information about CH(k).
-- **Where CKMS's rules stop** (`ch_ckms.py`, `ch_screen.py`; exact rules U0/U1/U2 from the empty allocation and from
-  serial-dictatorship picks, random tie-breaks; a nonzero stop is then continued with *every* champion choice, the
-  "robust" stop):
-  - random instances, k = 3, 4, 6, 8, n ≤ 6: essentially always 0 (one robust stop with one good out in 4,000 runs);
-  - the 168 curated k = 4 instances (the DE4 screen set): robust stops with one good out on 28 instances (GM4, ls-*,
-    hall-bt4, …, including n = 2 and n = 3 instances), never two (`ch_screen.log`, 6,720 runs).
-  - So CKMS's own potential (welfare) already strands goods at k = 4, which is P1's phenomenon (K4.SDC.P1).
-- **Structure of the stops** (checked on every stop by `chlib.stuck_report`): every source holds ≥ 2 goods, every
-  champion values the pool good and a good of the source's bundle, and is not reachable from that source
-  (Lemmas CH1–CH4 below). The pool goods are the ones every source's champions reach from elsewhere.
+- **Least charity** (`ch_least.py`: SAT with a cardinality bound on the pool; the encoding is checked against the raw
+  definitions on 36,000 fixed assignments, `enc_check.log`, 0 mismatches; every witness is re-checked by the raw
+  definitions). 2,800 random instances, least charity 0 on every one:
+
+  | log | instances | n | relevant goods per agent | values |
+  |---|---|---|---|---|
+  | `least_k4.log`, `least_k4_small.log` | 600 + 600 | 3–9 | 3–4 | 1..100; 1..6 (ties) |
+  | `least_k4_hot.log` | 400 | 3–9 | 2–4, a few goods valued by many agents | 1..100 |
+  | `least_k6.log`, `least_k6_small.log` | 400 + 400 | 3–8 | 3–6 | 1..100; 1..6 |
+  | `least_k8.log`, `least_k8_hot.log` | 200 + 200 | 3–7 | 4–8; 2–8 with hot goods | 1..100 |
+
+  This is the expected answer (EFX₀ is believed to exist), not information about CH(k): the least charity is 0
+  exactly when a complete EFX₀ allocation exists.
+- **Where CKMS's rules stop** (`ch_ckms.py`, `ch_screen.py`): the exact rules U0/U1/U2, from the empty allocation and
+  from random serial-dictatorship picks, random tie-breaks; a nonzero stop is then continued with *every* champion
+  option (the "robust" stop).
+  - Random instances (`ckms_rand_k{3,4,6,8}.log`, `ckms_hot_k4.log`; 2,000 instances, n = 2–7, 10 runs each):
+    20,000 runs, 13 stop with one good out under their tie-break, 1 under every option (k = 8, n = 5). Every
+    instance with a nonzero stop has least charity 0.
+  - The 168 curated k = 4 instances (the DE4 screen set, `ch_screen.log`, 40 runs each): 101 runs on 28 instances stop
+    with one good out, 68 of them robustly (GM4-*, ls-*, hall-bt4, …, down to n = 2); never two.
+  - So CKMS's own potential (welfare, increased locally) strands goods on hard k = 4 instances, which is P1's
+    phenomenon. §4 and §5 show that this is not a small-n accident: both the local rules and Pareto maxima can
+    strand Θ(√n) goods at k = 3.
+- **Structure of the stops** (asserted on every stop by `chlib.stuck_report`): every source holds ≥ 2 goods, every
+  champion values the pool good and a good of the source's bundle and is not reachable from that source, and
+  σ ≤ Σ_{t∈V(g)} μ_t (Lemmas CH1–CH4 below).
 
 ## 2. Lemmas on stopping states
 
@@ -206,25 +224,76 @@ options, and a run of CKMS with all options that makes no move (`stuck_family_k3
   charge is tight: there each pool good has σ valuers, one per source, and σ ≤ (k − 2)|V(g)| holds with equality.
   (`attempts/kgen-charity-local-rules.md`.)
 
-## 5. Global potential: Pareto maxima (Question PM)
+## 5. Global potential: Pareto maxima strand Θ(√n) goods too (Proposition CH-E); P1 fails at k = 3
 
-**Conjecture PM(k).** Every Pareto maximum (an EFX₀ state that no EFX₀ state Pareto-dominates and that allocates the
-most goods for its value vector; the hypothesis of K4.SDC.P1) leaves at most f(k) goods out.
+A *Pareto maximum* is an EFX₀ state that no EFX₀ state Pareto-dominates and that allocates the most goods among the
+states with its value vector (the hypothesis of K4.SDC.P1). By CH6 it is a robust stopping state with strong
+charity, so CH1–CH5 apply; Pareto maxima exist in every instance. **PM(k)**: every Pareto maximum leaves at most f(k)
+goods out (it would imply CH(k)); P1 is PM with f = 0.
 
-PM(k) implies CH(k) with the same f (a Pareto maximum exists and has strong charity by CH6). P1 is PM with f = 0;
-it is refuted at k = 4 (GM4-E), so f(4) ≥ 1 if PM(4) holds.
+**Lemma PM1 (holders pay).** At a Pareto maximum, let (Z, t) be a champion option of X_a ∪ P′ for any agent a ≠ t and
+any P′ ⊆ P, i.e. t envies Z, nobody envies Z ∖ h. Then a values some good of Z ∩ X_a, unless Z ⊆ P.
+*Proof.* Otherwise let t take Z, let a keep X_a ∖ Z, and return X_t to the pool. t strictly gains, a loses nothing
+(Z ∩ X_a is worth 0 to it), the others keep their bundles. Nobody envies Z ∖ h for any h, so nobody strongly envies
+Z; a's bundle only shrank; every value is at least what it was. So the new state is EFX₀ and Pareto-dominates X. ∎
+This is what kills the stalls S(σ, k) of §4, where the champion of X_{s_j} ∪ g uses x_j, worth 0 to s_j.
 
-Data (`pm_search.py`, exact per instance: `chlib.pm_with_pool` runs a CEGAR over Pareto maxima; it agrees with the
-P1 replay on GM4-E: five Pareto maxima, one leaves one good out, none leaves two):
-- the 168 curated k = 4 instances: 20 have a Pareto maximum leaving one good out (`pm_screen_1.log`), none has one
-  leaving two (`pm_screen_2.log`);
-- random instances with k = 3, n ≤ 5 (600, `pm_rand_k3.log`, `pm_core_k3.log`): no Pareto maximum leaves a good out;
-- the families S(2..4, 3) of §4: (see `pm_family_1.log`).
+**Construction S′(σ, k)** (σ ≥ 2, k ≥ 3): S(σ, k) with every agent valuing its own bundle. Source s_j holds
+{x_j, x′_j}, values each at 2 and its ≤ k − 2 children at 5; a relay holds {z}, values z at 4 and its ≤ k − 1
+children at 5; champion c(g, j) holds {y_{g,j}} and values y_{g,j} at 10, x_j at 6 and g at 6; the champions
+c(·, j − 1) are the leaves of s_j's tree; the pool is g_1, …, g_{σ−1}. Every agent values at most k goods.
+
+**Proposition CH-E.** The state X of S′(σ, k) is EFX₀ with strong charity, leaves σ − 1 goods out, and is a Pareto
+maximum.
+*Proof.* EFX₀ and charity as in CH-D (the only two-good bundles are the sources'; champions see 6 ≤ 10 there; parents
+envy only singletons). Let Y be EFX₀ with v_a(Y_a) ≥ v_a(X_a) =: u_a for all a. Call a *displaced* if it does not
+hold its own goods (y for a champion, z for a relay, both x_j and x′_j for a source).
+1. *A displaced relay or source holds a child's good.* Its own goods are worth ≤ 4 and it loses part of them, so it
+   needs a good worth 5, and the only ones it values are its children's. That child is then displaced.
+2. *A displaced champion c(g, i) holds x_i and g* (10 needs 6 + 6), so s_i is displaced.
+3. Following 1 down s_i's tree from a displaced s_i reaches a displaced leaf, a champion c(g, i − 1), which by 2
+   holds a pool good and displaces s_{i−1}. If anyone is displaced, then some source is (from a displaced relay go
+   down its tree by 1 to a displaced champion c(g, i), and use 2). By 3 the set of displaced sources is closed under
+   i ↦ i − 1, so all σ sources are displaced, and the σ leaves c(·, i − 1) reached are distinct champions holding
+   σ distinct pool goods. There are σ − 1.
+So nobody is displaced, every agent holds its own goods, and every good it values that is not its own is either
+someone else's own good or (champions only) a pool good g. A champion c(g, j) holding g as well: its parent values
+y_{g,j} at 5, holds its own goods worth 4 and nothing else it values, and sees {y_{g,j}, g} minus g worth 5 > 4. So
+v(Y) = u. Finally no pool good can be added at equal values: to a source, c(g, j) sees x_j and g (12 > 10 after
+removing x′_j); to a relay or champion a, a's parent sees a's own good, worth 5 > 4, after removing g. ∎
+
+So **PM(k) fails for every k ≥ 3 and every f**: with n = O(σ²) agents a Pareto maximum leaves σ − 1 = Ω(√n) goods
+out. With σ = 2 it is a **refutation of P1 at k = 3** (n = 4, m = 7, every agent values exactly three goods; the table
+is in `attempts/kgen-charity-pareto-maxima.md`): no partial EFX₀ allocation dominates it (brute force over all 5⁷),
+and each of its 58 complete EFX₀ allocations leaves some agent worse off. K4.SDC.P1's moral ("a value-monotone
+procedure can stop with goods left over") therefore holds at k = 3 as well; LB⁺ is not value-monotone, so there is
+no conflict with TARGET.
+
+Checks: `refute_pm.py` (standalone, no SAT: rebuilds S′ from this description, raw EFX₀, enumerates every
+value-feasible family of relevant parts and every placement of the remaining goods; σ ≤ 4 at k = 3, 4) and the SAT
+test `chlib.improve` for σ ≤ 7 (`pm_family_sat.log`). On S′(2, 3) the welfare maximum and the leximin maximum over
+partial EFX₀ allocations are complete (§6, Question W).
+
+Data on curated and random instances (`pm_search.py`, exact per instance by a CEGAR over Pareto maxima, which agrees
+with the P1 replay on GM4-E: five Pareto maxima, one leaving one good out):
+- the 168 curated k = 4 instances: 20 have a Pareto maximum leaving one good out, none leaving two
+  (`pm_screen_1.log`, `pm_screen_2.log`);
+- 20,600 random instances with k = 3, n ≤ 5 (`pm_rand_k3.log`, `pm_core_k3.log`, `pm_core_k3_20000.log`): no Pareto
+  maximum leaves a good out. S′(2, 3) is a structured instance that random sampling does not produce.
 
 ## 6. Open
 
-1. PM(4) with f(4) = 1, or a Pareto maximum leaving two goods out at k = 4. The structure lemmas CH1–CH5 apply
-   (CH6); the data say the global condition kills the S(σ, k) states. Which Pareto improvement kills them is the
-   first thing to understand.
-2. P1 at k = 3 (PM(3) with f = 0): no counterexample in the data. It would be a value-monotone proof of TARGET.
-3. Combine CH-B with relevant goods: high-degree pool goods are the only obstacle to an n-independent bound in CH-A.
+1. **Question W(k).** Does the welfare maximum over partial EFX₀ allocations, with the fewest unallocated goods,
+   leave at most f(k) goods out? It is a robust stopping state (CH6), so CH-A/B/C apply. f(4) ≥ 1 (total-value maxima
+   are stuck on GM4-C/D/E/G/Q, K4.SDC.P1); on S′(2, 3) it is complete. Welfare is scale-dependent, so a family like
+   S′ would have to make the stranded state also the heaviest one.
+2. **Non-monotone moves.** CH-D and CH-E show that a proof of CH(k), k ≥ 3, must sometimes lower an agent's value.
+   The two known mechanisms are LB⁺'s rotation (k = 3) and Kaviani–Seddighin–Shahrezaei's virtual values
+   (`proofs/pq_bounded.md` §2.1, their rule that may lower actual utilities). A charity version of either, with the
+   S′ family as the test case, is the next step.
+3. **Combine CH-B with relevant goods.** In CH-A the only obstacle to an n-independent bound is pool goods with many
+   valuers; in S and S′ every pool good has σ valuers.
+4. **Route (c)** (serial-dictatorship picks plus one absorber, `k4/sdc.md` §29–§30) was not pursued beyond the
+   observation that from SD picks every unfrozen agent can take one junk good for free (a two-good bundle {y_a, j}
+   with y_a unwanted is strongly envied by nobody, because every agent values j at most its own pick); CKMS runs from
+   SD picks behave like runs from the empty allocation (`ch_screen.log`, `ch_ckms.py`).
