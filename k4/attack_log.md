@@ -572,3 +572,40 @@ before any proof effort: DYN, W₃/W^sub, VM1, RD², OL and OC₂^max.
   - VM1-plain (one move, then F1 placement with no rotation) holds on every k ≤ 5 instance tested, including DE's
     ring-size tree family.
   - Proved: (RS) the shape of envy cycles, (RX) and (MS).
+
+### 2026-11-26 23:42 UTC: OC₂^max case tree (Hall, §23); D1-H refuted, D1-HJ open; OC2-LIFT stated
+- **Hall (integrator), `k4/oc1_hall.md` §23.** The case tree for OC₂^max has 15 leaves:
+
+  | leaf | case | status |
+  |---|---|---|
+  | 0 | reduction to perfect starts (RED + MAX) | refereed |
+  | 1 | the picks complete (Lemma 1, 2\*, M) | proved |
+  | 2 | a hard start has D ≠ ∅ (T0) | proved |
+  | 3 | \|D\| = 1, one move | proved, apart from 3a and 3b |
+  | 3a | crowding residuals | D1-C, written by proof/k4-d1 |
+  | 3b | all-HEAD starts (D1-HJ) | OPEN |
+  | 4 | \|D\| ≥ 2 (D-red) | proved |
+  | 4a | TR | proved |
+  | 4b | KEEP | proved; KEEP-C open |
+  | 4c | SET/OWN | proved |
+  | 4d | SLOT | OPEN |
+  | 4e | RING | OPEN |
+  | 4f | disjoint danger sets need one move | UNVERIFIED |
+  | 5 | **the second move, Sub-lemma OC2-LIFT** | OPEN |
+  | 6 | three moves | the certifier's search |
+
+  - OC2-LIFT: at a hard perfect start with no one-move repair, some canonical chain P₁ from k ∈ D is followed by a
+    move P₂ that either starts at, or unfreezes (by lifting its wanters), every DEMAND agent of P₁, and the result has
+    a one-absorber completion.
+  - OC2-LIFT holds on 12/12: the 11 n = 4 failures and the TTC n = 5 core. The literal "P₂ starts at the DEMAND
+    agent" form fails on 6 of the 12.
+  - Second reading of the matching session's lemmas: Lemma M is CORRECT and equivalent to Lemma 2\*. Lemma EX is
+    CORRECT as a sufficient condition but not exact (lb4-n2m5-upgrade); the matching session has been told.
+- **proof/k4-d1**:
+  - D1-H and D1-LONG are REFUTED for canonical chains. D1H-X: n = 3, m = 8. The coordinator checked it: the picks
+    have no one-absorber completion and one move repairs.
+  - The surviving leaf is D1-HJ: the head may add at most one junk good. Evidence 59/59.
+- **Coordinator**: OC₂^max random spot-check at n = 5 (`k4/sdc/oc2max_lists.py`, `results/k4_sdc/oc2max_lists_n5.log`)
+  covered all 31,584 hypergraphs × 3 profiles with 0 failures, but random profiles never hit a two-move start, so it
+  is weak evidence. The certifier's exhaustive n = 5 run is the real test.
+- **Paper** (PR #110): revised for the refutations; its checker passes 50/50.
