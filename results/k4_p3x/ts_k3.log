@@ -1,0 +1,4 @@
+$ python3 k4/p3/ts_k3.py --per=20
+  ('B=1', 0): 5020
+  ('B=2', 0): 5020
+one-owner, one-rotation failures (must be 0 by LB+): 0
