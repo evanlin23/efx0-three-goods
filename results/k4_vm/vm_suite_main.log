@@ -1,0 +1,31 @@
+$ python3 k4/vm/vm_test.py suite --limit=2000 --samples=200
+== rank=G aout=matched n1a=Y
+  instances                    164
+  exhaustive                   156
+  runs                         31081
+  runs stuck                   0
+  runs not EFX                 0
+  runs EFX but not EFX0        27889
+  runs claim_outside           0
+  inst: some run stuck         0
+  inst: some run not EFX       0
+  inst: every run EFX          164
+  inst: some run EFX0          89
+  inst: every run EFX0         24
+  zero-good EFX0 violations (envier group, holder group, phase that placed the zero good): count
+    ('N4', 'N1', 'III.efx')                  217061
+    ('N3', 'A', 'III.efx')                   15827
+    ('N2', 'A', 'III.efx')                   13269
+    ('N2r', 'A', 'III.efx')                  6456
+    ('N3', 'N1', 'III.efx')                  4883
+    ('Nr', 'N1', 'III.efx')                  3843
+    ('Nr', 'A', 'III.efx')                   3581
+    ('N4', 'A', 'III.efx')                   2444
+    ('N1', 'N1', 'II.1')                     1933
+    ('N1', 'N1', 'III.efx')                  1308
+    ('N2', 'N1', 'III.efx')                  1165
+    ('Nr', 'N2r', 'III.2-3')                 1118
+  example notefx0: induct-b-r0-pot-minvw (n=2, m=4) [[1, 0], [[2, 0, 3], [1]], [[1, 0, 0]], {"0": "N2r", "1": "N1"}]
+  example notefx0: c4x-n2m5-frozen (n=2, m=5) [[0, 0, 0], [[4, 0, 2], [3, 1]], [[1, 0, 0]], {"0": "N1", "1": "N1"}]
+  example notefx0: induct-v-pot-env-util (n=2, m=5) [[0, 0, 0, 0, 0], [[0, 2, 3, 4], [1]], [[1, 0, 0]], {"0": "A", "1": "A"}]
+time 6 s
