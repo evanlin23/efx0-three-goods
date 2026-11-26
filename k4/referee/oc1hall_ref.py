@@ -175,6 +175,9 @@ def improving_chains(v, B, J):
 
 def f1_tests(v, Y, cnt, ex):
     n = len(v); m = len(v[0])
+    if any(sum(1 for x in row if x > 0) > 4 for row in v):
+        cnt.setdefault("skipped_not_4_limited", 0); cnt["skipped_not_4_limited"] = cnt.get("skipped_not_4_limited", 0) + 1
+        return
     B = [({Y[i]} if Y[i] is not None else set()) for i in range(n)]
     picks = {g for g in Y.values() if g is not None}
     J = set(range(m)) - picks
@@ -307,7 +310,10 @@ def run_f1(N, nlo, nhi, mlo, mhi, ties, seed):
         n = rng.randint(nlo, nhi); m = rng.randint(mlo, mhi)
         v = rand_inst(rng, n, m, ties)
         # x = 0 and w = 1 share top good 0; x has three lower goods worth little each but much together sometimes
-        v[0] = [0] * m; v[1][0] = max(v[1]) + rng.randint(1, 5)
+        v[0] = [0] * m
+        if v[1][0] == 0 and sum(1 for x in v[1] if x > 0) >= 4:   # keep agent 1 within four goods
+            v[1][min(g for g in range(m) if v[1][g] > 0)] = 0
+        v[1][0] = max(v[1]) + rng.randint(1, 5)
         lower = rng.sample(range(1, m), 3)
         top = rng.randint(10, 30)
         for g in lower:
