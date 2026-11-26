@@ -7,7 +7,8 @@ At the end, every instance whose sampled fraction is 0 gets a DFS over VMX2's ch
 success.  EVIDENCE only.
     python3 k4/vm/vmx2_climb.py N STARTS STEPS SEED [--R=60] [--cap=20000] [--obj=vmx2|vm1]
 --obj=vm1 minimizes Conjecture VM1's margin instead: (some V-M matching completes by placement alone, fraction of
-the states within one move from which some placement order completes); (0, 0.0) would refute VM1."""
+the states within one move from which some placement order completes); (0, 0.0) would refute VM1.
+--freez=1: exchanges may hand the taker a good it values at 0."""
 import sys, os, json, random, time, multiprocessing as mp
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import vmlib as V
@@ -96,7 +97,8 @@ def mutate(sets, vals, rng):
 
 
 def climb(args):
-    N, steps, seed, R, cap = args
+    N, steps, seed, R, cap, fz = args
+    V.FREE_Z[0] = fz
     rng = random.Random(seed)
     while True:
         sets = rng.choice(data.cores(CORE_KEY[N])); vals = data.random_core_profile(sets, rng)
@@ -129,9 +131,10 @@ if __name__ == '__main__':
     N, starts, steps, seed = map(int, sys.argv[1:5])
     opt = dict(a[2:].split('=') for a in sys.argv[5:] if a.startswith('--'))
     R = int(opt.get('R', 60)); cap = int(opt.get('cap', 20000)); OBJ[0] = opt.get('obj', 'vmx2')
+    fz = opt.get('freez') == '1'
     print('$ python3 k4/vm/vmx2_climb.py', ' '.join(sys.argv[1:])); t0 = time.time(); res = []
     with mp.Pool(os.cpu_count()) as pool:
-        for r in pool.imap_unordered(climb, [(N, steps, seed * 1000 + s, R, cap) for s in range(starts)]):
+        for r in pool.imap_unordered(climb, [(N, steps, seed * 1000 + s, R, cap, fz) for s in range(starts)]):
             res.append(r)
     res.sort(key=lambda r: r[4])
     print('climbs', len(res), '; mutations tried (core-checked)', sum(r[5] for r in res), '; kept', sum(r[6] for r in res))

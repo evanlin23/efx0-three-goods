@@ -456,6 +456,9 @@ def vm6_run(I, ch, rot=True, upg='choice', base=None, record=False):
     return X, fl
 
 
+FREE_Z = [False]      # True: an exchange may hand i a good z it values at 0 (k4/vm.md section 7.3); default as logged
+
+
 def exchanges(I, X, pool):
     """F6x moves: (i, j, z, P) with X_i = {y} a single good, z in X_j (j != i), P a subset of the pool: i gets
     {z} + P, j gets X_j - z + y; both strictly gain; the new state is EFX0.  Also the pool-only upgrades (j = None)."""
@@ -470,7 +473,7 @@ def exchanges(I, X, pool):
             if j == i or y not in I.v[j]:
                 continue
             for z in X[j]:
-                if z not in I.v[i]:
+                if z not in I.v[i] and not FREE_Z[0]:
                     continue
                 Bj = [h for h in X[j] if h != z] + [y]
                 if I.val(j, Bj) <= I.val(j, X[j]):

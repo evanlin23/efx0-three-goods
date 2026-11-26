@@ -570,15 +570,30 @@ It explores every Phase-A state Z (capped) and, for each, every Phase-B run (cap
 | named (B<, B>, SPECIAL, TTC 84+2, the two VMX counterexamples), at most 1 move | 95 | **95** | 0 moves: 95 | 94 | `vm1_named.log` |
 | cores n = 3 (at most 1 move) | 1,500 | **1,500** | 0 moves: 1,495; 1 move: 5 | | `vm1_cores3.log` |
 | cores n = 4 (at most 1 move) | 800 | **800** | 0 moves: 800 | 798 | `vm1_cores4.log` |
-| cores n = 5, general (at most 1 move) | running at the end of this burst | | | | `vm1_cores5.log`, `vm1_gen.log` |
+| cores n = 5 (at most 1 move) | 400 | **400** | 0 moves: 400 | 283 | `vm1_cores5.log` |
+| general, n ≤ 6, m ≤ 10 (at most 1 move) | 3,000 | **3,000** | 0 moves: 2,998; 1 move: 2 | 2,923 | `vm1_gen.log` |
 
 Valuer-only placement (a good goes only to an agent that values it) is refuted: on the screen set it finds an EFX₀
 run on 117 of 168, smallest failure n = 2, m = 5 (`x2-val` in `vm6_test.py`). Junk-like placement on agents who do
 not value the good is essential.
 
+All runs above use narrow exchanges (the good z handed to i must be valued by i).
+
+**With narrow exchanges VM1 is false** (`attempts/k4-vm-vm1.md`, independent replay). Climbs against VM1
+(`vmx2_climb.py --obj=vm1`, is_core4 after every mutation) found strict connected cores where no state within one
+narrow move completes:
+- n = 3, m = 7;
+- n = 4, m = 7.
+
+Both need two narrow moves, but **one unrestricted exchange** completes each: there, i may take a good z it values at
+0, as when agent 2 gives its top to agent 1 and takes agent 1's good 6 plus pool goods. So VM1 is stated with
+unrestricted exchanges (`vmlib.FREE_Z`). The figures in the table, all with narrow exchanges, are therefore also
+figures for it.
+
 **Conjecture VM1 (evidence only).** For every 4-limited instance there are:
 - a V-M matching Y (Phases I–II, some resolution of the ties);
-- at most one move (a pool upgrade or a two-agent exchange with pool goods, both agents gaining, EFX₀ kept);
+- at most one move: a pool upgrade, or a two-agent exchange (i, holding a single good, takes any good z of j plus
+  pool goods), with both agents gaining and EFX₀ kept;
 - an order of the remaining goods;
 
 such that placing each good on some agent whose bundle stays EFX₀-unenvied, rotating envy cycles before each

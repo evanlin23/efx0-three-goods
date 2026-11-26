@@ -4,7 +4,8 @@ rotation, no moves.  For every state Z reachable in Phase A (BFS, capped), compu
 (DFS, capped): some run completes EFX0 ("B-some") / every run completes ("B-every").  Reports per instance whether
 some Z is B-some (= two-phase VMX2) and whether some Z is B-every, and features of the B-every states.
 EVIDENCE only.
-    python3 k4/vm/vmx2_phases.py SOURCE [--zcap=N] [--bcap=N] [--maxdepth=D]   (D = 1: Conjecture VM1)"""
+    python3 k4/vm/vmx2_phases.py SOURCE [--zcap=N] [--bcap=N] [--maxdepth=D]   (D = 1: Conjecture VM1)
+    --freez=1: exchanges may hand the taker a good it values at 0"""
 import sys, os, json, collections, time, multiprocessing as mp
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import vmlib as V
@@ -47,7 +48,8 @@ def phase_b(I, X0, pool0, cap):
 
 
 def one(args):
-    name, sets, vals, m, zcap, bcap, maxd = args
+    name, sets, vals, m, zcap, bcap, maxd, fz = args
+    V.FREE_Z[0] = fz
     I = V.Inst(sets, vals, m)
     starts = []
     for ch, r in V.all_runs(V.vm_run, I, stop='II'):
@@ -84,10 +86,11 @@ if __name__ == '__main__':
     src = sys.argv[1]
     opt = dict(a[2:].split('=') for a in sys.argv[2:] if a.startswith('--'))
     zcap = int(opt.get('zcap', 400)); bcap = int(opt.get('bcap', 3000)); maxd = int(opt.get('maxdepth', 99))
+    if opt.get('freez') == '1': V.FREE_Z[0] = True
     print('$ python3 k4/vm/vmx2_phases.py', ' '.join(sys.argv[1:]))
     C = collections.Counter(); F = collections.Counter(); D = collections.Counter(); DS = collections.Counter(); bad = []; t0 = time.time()
     with mp.Pool(os.cpu_count()) as pool:
-        for name, n, m, bs, be, de, k, feats, ds in pool.imap_unordered(one, [(a, b, c, d, zcap, bcap, maxd) for a, b, c, d in items_for(src)], chunksize=2):
+        for name, n, m, bs, be, de, k, feats, ds in pool.imap_unordered(one, [(a, b, c, d, zcap, bcap, maxd, V.FREE_Z[0]) for a, b, c, d in items_for(src)], chunksize=2):
             C['instances'] += 1; C['some Z is B-some (two-phase VMX2)'] += bs; C['some Z is B-every'] += be
             C['Phase-A states explored'] += k
             if be: D[de] += 1
