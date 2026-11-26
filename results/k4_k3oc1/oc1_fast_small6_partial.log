@@ -1,0 +1,4 @@
+core 220 {'hypergraphs': 56, 'profiles': 2612736, 'distinct drafts': 13644082, 'hard': 87756, 'MAX-SCORE FAILS': 96} 537 s
+core 221 {'hypergraphs': 56, 'profiles': 2612736, 'distinct drafts': 13644784, 'hard': 76208, 'MAX-SCORE FAILS': 352} 536 s
+core 226 {'hypergraphs': 57, 'profiles': 2659392, 'distinct drafts': 13743706, 'hard': 76688, 'MAX-SCORE FAILS': 352} 539 s
+core 223 {'hypergraphs': 56, 'profiles': 2612736, 'distinct drafts': 13583184, 'hard': 84088, 'MAX-SCORE FAILS': 112} 533 s

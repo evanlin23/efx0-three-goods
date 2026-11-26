@@ -1,13 +1,14 @@
 """OT at k = 3, exhaustive over profiles, with the distinct drafts of a profile enumerated directly: serial
 dictatorship over every order, merged by (agents processed, their picks) -- the drafts of all n! orders without
 running n! orders.  For each draft failing the simple test (lbtest.lb_simple): is there a DE trade after which it
-passes, and does every max-score DE trade pass?  Shard by core index for parallel runs.
+passes?  Does every max-score DE trade, and every least-omega DE trade, pass the simple test (and if not, the exact
+test lbtest.lb2)?  Shard by core index for parallel runs.
     python3 k4/k3oc1/oc1_fast.py SOURCE SHARD NSHARDS [dead=D]"""
 import sys, os, json, itertools, collections, time
 HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
 from k3lib import base_of
 from de_moves import de_trades
-from lbtest import lb_simple
+from lbtest import lb_simple, lb2, parts
 from rules import score
 from oc1_k3 import hypergraphs, profiles
 
@@ -47,10 +48,14 @@ if __name__ == '__main__':
                 if not any(ok):
                     C['NO DE TRADE REPAIRS'] += 1
                     print('NODE', json.dumps([list(r) for r in rk]), m2, 'picks', Y, flush=True); continue
-                best = max(score(rk, nb) for nb, d in mv)
-                if not all(o for o, (nb, d) in zip(ok, mv) if score(rk, nb) == best):
-                    C['MAX-SCORE FAILS'] += 1
-                    print('MAXFAIL', json.dumps([list(r) for r in rk]), m2, 'picks', Y, flush=True)
+                sc = [score(rk, nb) for nb, d in mv]; om = [(lambda P: len(P[1]) - len(P[5]))(parts(rk, m2, nb)) for nb, d in mv]
+                for rule, keys in (('max score', sc), ('least omega', [-w for w in om])):
+                    sel = [i for i, k in enumerate(keys) if k == max(keys)]
+                    if all(ok[i] for i in sel): continue
+                    C[rule + ': fails the simple test'] += 1
+                    if not all(lb2(rk, m2, mv[i][0]) for i in sel):
+                        C[rule + ': FAILS THE EXACT TEST'] += 1
+                        print('RULEFAIL', rule, json.dumps([list(r) for r in rk]), m2, 'picks', Y, flush=True)
         print('core', ci, dict(C), '%.0f s' % (time.time() - t0), flush=True)
     for k in sorted(C): print(k, C[k])
     print('time %.0f s' % (time.time() - t0))

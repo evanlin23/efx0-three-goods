@@ -233,7 +233,8 @@ total score is 3n + |U| − Σ_i |N_i|, where N_i is the set of goods agent i wa
   - **What works.** The exact test completes it: pair holder 1 takes good 2, which puts no exposed pair in its
     bundle, and agent 3 owns {6, 8}. The least-ω trade (0, 3) passes Lemma 1 itself.
   - **On all such drafts:** every max-score trade passes the exact test, and every least-ω trade passes Lemma 1
-    (816 of 816 so far; the run is in progress).
+    (912 of 912 on the first 225 of the 2,856 cores with n = 6, m ≤ 9, every profile; `maxfail_post_small6_partial.log`,
+    `oc1_fast_small6_partial.*`). A rerun checking both rules on every hard draft is in progress.
 - *Lexicographic rules.* Maximizing the score vector read from the last agent backwards fails on 293 of 17,751 hard
   starts; from the first agent, 884 (`rules2.py`).
 - *Naive induction on the last agent* (`induct_last.py`). If I − ℓ's draft passes Lemma 1, the repairing trade of I
