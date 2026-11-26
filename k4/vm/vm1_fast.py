@@ -74,6 +74,10 @@ if __name__ == '__main__':
             if rechecked: C['needed the larger cap'] += 1
             if d is None: fails.append((n, m, name, sets, vals))
     for k in sorted(C): print('%-30s %d' % (k, C[k]))
+    if fails:
+        print('failing configurations:', dict(collections.Counter(name.split('#')[0] for n, m, name, sets, vals in fails)))
     for n, m, name, sets, vals in sorted(fails)[:5]:
         print('  FAIL %s n=%d m=%d %s' % (name, n, m, json.dumps({'sets': sets, 'vals': vals, 'm': m})))
+    if len(fails) > 5:
+        print('  (and %d more: %s)' % (len(fails) - 5, ', '.join(f[2] for f in sorted(fails)[5:])))
     print('slowest %.1f s; time %.0f s' % (tmax, time.time() - t0))

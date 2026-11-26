@@ -653,6 +653,16 @@ figures for it.
 such that placing each good on some agent whose bundle stays EFX₀-unenvied, rotating envy cycles before each
 placement, ends with a complete EFX₀ allocation. VM1 ⟹ VMX₂ ⟹ TARGET₄.
 
+> **Correction (burst 5): this form, for every 4-limited instance, is REFUTED** (`attempts/k4-vm-vm1-noncore.md`,
+> uncapped and by independent replay). The smallest counterexample found has n = 5, m = 8. It is not a k = 4 core:
+> two of its agents value a single good. A variant with n = 5, m = 9 fails `is_core4` only by one agent's strict
+> balance. In all of them the completion is a DE chain of length 2, which is not one VM1 move.
+>
+> **VM1 restricted to connected k = 4 cores is not refuted**: 2,700 random cores, the core-checked climbs, the screen
+> and named sets. With K4.CORE (LEDGER.md, PROVED) it still gives TARGET₄. So from here on **VM1 means VM1 on cores**.
+> The general form that survives every failure up to k = 7 is **VM1-chain**: one move *or one DE chain*, then
+> placement (§7.7).
+
 **Invariant and proof target.** Every state of a VMX₂ run satisfies the following, all proved (Lemmas SND, TERM, and
 EFX₀ itself):
 - (I1) it is a partial EFX₀ allocation;
@@ -871,10 +881,12 @@ instances (10 screen, T3, the n = 3 VMX counterexample, RD4, RD5):
 - the least number of rotations on a successful run is exactly **one**: a 2-cycle in 13 and a 3-cycle in T3;
 - each rotated cycle has exactly **one want arrow**: the taker takes a frozen agent's single pick, which it prefers
   to its own pick;
-- the other arrows (one, or two in T3) are **pair arrows**: the taker takes a pick plus pool goods that the earlier
-  placements put there, and it values every one of those pool goods.
+- the other arrows (one, or two in T3) are **pair arrows**: the taker takes the holder's pick (if it has one) plus
+  pool goods that the earlier placements put there, and it values every good it takes (forced by EFX₀, Lemma RS in
+  §7.8).
 
-The number of pool goods on a pair arrow is 1 (6 instances), 2 (7) or 3 (1).
+The number of pool goods on a pair arrow is 1 (6 instances), 2 (7) or 3 (1). The 3 occurs only where the holder has
+no pick (`c4x-n4m7-frozen-slots-some`, from ({6}, {5}, {4}, ∅)), as Lemma RS(b) requires.
 
 **Comparison with DE's ring lemma at k = 3** (`paper/k3-simple/long.tex`, Theorem `improve` and Lemma `ring`, read
 for this). There, if no free agent can finish, every free agent has at least as many blockers with distinct leftover
@@ -915,12 +927,16 @@ EFX₀ definition. A failure is re-checked with 50× larger caps, then by the un
 | long climbs, k = 5, 6, 8, n = 4–6 | see the logs | | | `vm1_climb_k*_long.log` |
 
 **VM1 is refuted at k = 6** (`attempts/k4-vm-vm1-k6.md`):
-- The instance is PW(4, 3, 5)#1, with n = 7 and m = 12. It was found on the second pass over the grid, with three
-  instances per configuration up to k = 6 (`vm1_plain_big.log`, last source). PW(4, 3, 5)#0 passes.
-- With at most one move nothing completes: 4 matchings and 112 states one move away. This was checked uncapped
-  (`vm1_verify_pw435_1.log`) and by an independent replay over a superset of the moves (`attempts/k4_vm_vm1_pw435.py`).
-- Two moves suffice: x₁ and x₃ each trade their pick for two goods of D, and the fifth D-good is parked on a wanter
-  that does not value it.
+- The PW grid at k ≤ 6, with 20 instances per configuration (`vm1_pwgrid_k6_T20.log`), has **11 failures in 720**. All
+  have r = 5 and W = 3: PW(2, 3, 5) fails 5 of 20 times, PW(3, 3, 5) 5 of 20, and PW(4, 3, 5) 1 of 20. All 11 were
+  re-verified uncapped (`vm1_verify_k6_all.log`), and each needs exactly two moves.
+- The smallest is **PW(2, 3, 5)#2, with n = 5 and m = 10**. It has a single V-M matching. Neither the matching nor any
+  of the 12 states one move away completes. This was checked uncapped (`vm1_verify_pw235_2.log`) and by an independent
+  replay over a superset of the moves (`attempts/k4_vm_vm1_pw235.py`). Two moves suffice.
+- The first one found was PW(4, 3, 5)#1 (n = 7, m = 12, in `vm1_plain_big.log`), verified the same way: 112 one-move
+  states, `vm1_verify_pw435_1.log` and `attempts/k4_vm_vm1_pw435.py`.
+- At k ≤ 5 the PW family gives no failure: **1,080 of 1,080** at 40 instances per configuration
+  (`vm1_pwgrid_k5_T40.log`); 1,039 need no move and 41 need one.
 
 **Earlier failures at k = 7 and k = 9** (`attempts/k4-vm-vm1-k7.md`):
 - PW(2, 3, 6)#0 (k = 7, n = 5, m = 11):
@@ -935,11 +951,201 @@ EFX₀ definition. A failure is re-checked with 50× larger caps, then by the un
   - **three moves suffice**, all three frozen x's trading their picks for sets of D, e.g. ({6, 7}, {8, 9, 10},
     {13, 11, 4, 3}, {2}, {0}, {5, 12, 1}).
 
-So VM1 is not a general-k statement: on the PW family it fails from k = 6. The guess "c moves fail from
-k = 2c + 5" (k-sensitivity's 2c + 3 shifted by two) fits k = 7 and 9 but is refuted at c = 1 by k = 6. The number of
-moves needed is not the number f of frozen agents either: it is 2 at f = 2 (k = 7), 3 at f = 3 (k = 9), and 2 at
-f = 4 (k = 6). **VMX₂ (any number of moves) is the general-k form**, and it completes all three PW failures. VM1 at
-k ≤ 5 is unrefuted (more below), and VM1 at k = 4 is unaffected.
+**VM1 also fails at k = 5, and at k = 4 outside the cores** (`attempts/k4-vm-vm1-noncore.md`):
+- The k = 6 general climb `vm1_climb_k.py 5 6 16 200 56` (no core requirement) reached margin 0 on **K5** (n = 5,
+  m = 9, three agents with 5 goods). K5 is a random instance, not a PW instance.
+- Uncapped, it has one V-M matching and one state one move away, and neither completes (`vm1_verify_climb_k5.log`).
+  Two moves suffice.
+- Shrinking it (`vm1_shrink.py`) gives 4-limited non-core failures: K4-min (n = 5, m = 8) and K4-cut (n = 5, m = 9,
+  failing `is_core4` only by one agent's strict balance).
+- All three are confirmed by the independent replay `attempts/k4_vm_vm1_noncore.py`.
+- Climbs without the core check at k = 4 (`vm1_climb_k4gen_n{3,4,5}.log`, 16 × 150 steps each) found nothing, so
+  such instances are rare.
+
+**The repair: one DE chain** (`vm1_chain.py`). VM1-chain allows, in place of the one VM1 move, one *chain* in the
+sense of DE's Lemma chain:
+- an agent x holding a single good upgrades to a pool set and releases its good;
+- then, any number of times, an agent holding a single good that it values below the released good takes it and
+  releases its own;
+- only the final state must be EFX₀.
+
+On the 20 VM1 failures collected in `vm1_failures.jsonl`, **19 complete with one chain** (`vm1_chain_failures.log`):
+- the three non-core k = 4 instances, K4-cut's two sibling cuts, and K5;
+- all 11 PW failures of the k = 6 grid, and PW(4, 3, 5)#1;
+- PW(2, 3, 6)#0 at k = 7.
+
+The exception is PW(3, 3, 8)#0 (k = 9), which needs three VM moves and does not complete with one chain within the
+caps. A grid pass of VM1-chain up to k = 9 is in `vm1_chain_pwgrid9.log`.
+
+**Summary of §7.7.**
+- VM1 is not a general-k statement. It fails at k = 6 on PW, and at k = 5 and at k = 4 outside the cores on K5 and
+  its cuts.
+- The guess "c moves fail from k = 2c + 5" (k-sensitivity's 2c + 3 shifted by two) fits k = 7 and 9 but is refuted
+  at c = 1 by k = 6.
+- The number of moves needed is not the number f of frozen agents: it is 2 at f = 2 (k = 7), 3 at f = 3 (k = 9), and
+  2 at both f = 2 and f = 4 (k = 6).
+- **VM1-chain** survives every failure found up to k = 7.
+- **VMX₂** (any number of moves) completes every failure found, at every k.
+- **VM1 on k = 4 cores is unrefuted.**
+
+### 7.8 The ring is one move, and rotation is not needed (coordinator's request 3)
+
+The request was to prove that the rotation class needs one ring, modelled on DE's ring lemma at k = 3. The result is
+a reduction plus three structural lemmas, but not a proof. **The rotation class collapses into the one-move class,
+and on every k ≤ 5 instance tested, no rotation is needed at all.** What remains is DE's Improvement Lemma with a
+bound of one trade, and its missing ingredient is a finishing test at k = 4.
+
+**Data.**
+1. *The ring can be done first* (`vm_ring_first.py`, `vm_ring_first.log`). On all 14 rotation-class instances there
+   is a V-M matching Y from which the following works:
+   - place only the ring's pool goods (on the holders of the pair arrows);
+   - rotate the ring once;
+   - then F1 placements *without rotation* complete.
+
+   The least such ring has exactly one want arrow (13 two-rings; T3 is a three-ring).
+2. *One move, then no rotation* (`vm1_plain.py`). Write VM1-plain for: from some V-M matching Y, at most one move
+   (an upgrade or an unrestricted exchange) applied to Y itself, then F1 placements without any rotation.
+   - The junk must go to an agent nobody envies, so L3 needs no rotation either.
+   - Every completion is re-checked with the raw EFX₀ test.
+   - A third level, one ring trade in the form of item 1, was never needed.
+
+| data | instances | no move | one move | fail | log |
+|---|---|---|---|---|---|
+| screen | 168 | 147 | 21 | 0 | `vm1_plain.log` |
+| named | 95 | 93 | 2 | 0 | `vm1_plain.log` |
+| k5 (PW5, PW4, RD5, RD4, kgen n = 4) | 6 | 3 | 3 | 0 | `vm1_plain.log` |
+| random strict cores n = 3 / 4 / 5 | 1,500 / 800 / 400 | 1,486 / 797 / 400 | 14 / 3 / 0 | 0 | `vm1_plain_big.log` |
+| random general, k = 4 | 3,000 | 2,985 | 15 | 0 | `vm1_plain_big.log` |
+| random general, k = 5 | 2,000 | 1,991 | 9 | 0 | `vm1_plain_big.log` |
+| DE's ring-size trees (below), depth ≤ 2 | 88 | 88 | 0 | 0 | `vm1_detrees.log` |
+| PW grid up to k = 6, three per configuration | 108 | 103 | 4 | **1** | `vm1_plain_big.log` |
+
+The one failure is PW(4, 3, 5)#1 at k = 6, where VM1 with rotation fails too (§7.7). Every rotation-class instance,
+T3 included, completes with one move followed by placement without rotation.
+
+The completing moves (`vm1_plain_moves.py`, `vm1_plain_moves.log`, the 26 instances that need a move):
+
+| move | the 12 one-move instances | the 14 rotation-class instances |
+|---|---|---|
+| upgrade, \|S\| = 2 or 3 | 12 | 7 |
+| exchange, z valued by the taker, \|S\| = 1 or 2 | 1 | 12 |
+| exchange, z worthless to the taker, \|S\| = 2 or 3 | 10 | 5 |
+
+An instance is counted once for each kind of move that completes it. The sizes are exactly those Lemma MS allows.
+
+**DE's ring-size family** (`paper/k3-simple/long.tex`, Appendix "How Large Must a Ring Be?", read for this; built by
+`data.de_trees(k, d)`). There are k free agents. Each roots a binary tree of depth d whose agents want their
+children's goods, and the leaves of the next tree are blockers holding their tops. DE's appendix says that from DE's
+draft every cycle has k pair arrows and that no free agent can finish when k ≤ 2^d (stated there with the proofs
+omitted and a Lean check mentioned; I have not checked either). k = 2, d = 1 is DE's worked example, n = 6, m = 10.
+DE's m = 8 instance from the same appendix is `data.de_m8()`.
+- From V-M's matchings, every one of them (k ≤ 4, d ≤ 2, both leftover forms, values (4, 3, 2) and 10 random strictly
+  balanced profiles each) completes with **no move**, and so does DE-m8.
+- V-M's Phase II lets a tree agent and its parent compete for the same top, and some resolutions avoid DE's draft.
+
+So the "one" in VM1-plain is about V-M's starting matchings, not a bound on trades in general.
+
+**Lemma RS (the shape of an envy cycle; proved).** Let Y be a V-M matching and X a *placement state* from Y, reached
+by F1 placements without rotation, so X_j = Y_j ∪ P_j with disjoint sets P_j of pool goods (X is EFX₀ by Lemma SND).
+Let c ≠ d with c envying X_d (an arrow c → d: c would take X_d).
+- (a) *Want arrow.* If P_d = ∅, then d holds a pick y_d, and st(d) < st(c).
+- (b) *Pair arrow.* If P_d ≠ ∅, then c values every good of X_d, c holds a pick y_c, and |X_d| ≤ 3. So |P_d| ≤ 2 if
+  d holds a pick, and |P_d| ≤ 3 if it holds none.
+- (c) Every envy cycle of X contains a pair arrow.
+
+*Proof.*
+- (a) v_c(X_d) > v_c(X_c) ≥ 0, so Y_d = {y_d}, and v_c(y_d) > v_c(X_c) ≥ v_c(Y_c).
+  - If c holds a pick, it ranks y_d above it: y_d = r_c(j) with j < st(c). By Lemma S that good went to an agent
+    with st ≤ j, namely d.
+  - If c holds none, st(c) = ∞, while st(d) is finite.
+- (b) |X_d| ≥ 2 and X is EFX₀. So for every h ∈ X_d, v_c(X_d ∖ h) ≤ v_c(X_c) < v_c(X_d), hence v_c(h) > 0.
+  - So c values a pool good. By Lemma S an agent without a pick has all of R_c assigned, so c holds a pick y_c.
+  - c values y_c, and y_c ∉ X_d. So X_d ∪ {y_c} ⊆ R_c, and |R_c| ≤ 4.
+- (c) By (a), st strictly decreases along want arrows, which is impossible all the way around a cycle. ∎
+
+At k = 3, (b) gives |P_d| ≤ 1 for a holder with a pick: exactly DE's pair arrows {y_t, h_{t+1}}. (c) is why no ring
+of want arrows can appear at a V-M start (DE's chains can run into one, Lemma chain). In general (b) gives
+|P_d| ≤ k − 2.
+
+**Lemma RX (a two-ring with a want arrow is one exchange; proved).** In a placement state X from Y, suppose:
+- every agent except a and b holds its pick;
+- X_a = {y_a}, and X_b = {y_b} ∪ S with S ≠ ∅;
+- b envies X_a and a envies X_b.
+
+Rotating this cycle gives Z with Z_a = {y_b} ∪ S, Z_b = {y_a}, and Z_h = Y_h otherwise. Z is also the result of the
+F6x exchange applied to Y with i = a, j = b, z = y_b and the pool set S. That exchange passes every test of
+`vmlib.exchanges`, and z is valued by the taker.
+
+*Proof.*
+- a gains: v_a({y_b} ∪ S) > v_a(y_a), which is a's envy.
+- b gains: v_b(y_a) > v_b(X_b) ≥ v_b(y_b), and y_a ∈ R_b.
+- S ⊆ pool ∩ R_a, and a values z = y_b, both by RS(b).
+- Z is EFX₀ by Lemma SND (a rotation of an EFX₀ state). ∎
+
+So the 2-ring shape of the rotation class (13 of its 14 least rings) lies inside the one-move class, as a valued-z
+exchange. T3's 3-ring is not a single exchange, but T3 also completes by one move (an upgrade, or a worthless-z
+exchange).
+
+**Lemma MS (the size of the one move at a V-M matching, k = 4; proved).** For a move applied to a V-M matching Y:
+- (a) an upgrade of i to a pool set S has 2 ≤ |S| ≤ 3;
+- (b) an exchange in which i takes j's pick z, valued by i, plus S has 1 ≤ |S| ≤ 2;
+- (c) an exchange in which z is worthless to i has 2 ≤ |S| ≤ 3.
+
+*Proof.*
+- Lower bounds.
+  - By P0 each pool good is worth at most v_i(y_i) to i, so (a) and (c), which need v_i(S) > v_i(y_i), need two
+    goods.
+  - In (b), S = ∅ would be a swap in which i prefers z to y_i and j prefers y_i to its pick z, an improving trading
+    cycle of the one-good matching. That contradicts Lemma PO.
+- Upper bounds: S ⊆ R_i ∖ {y_i}, and in (b) also z ∈ R_i ∖ S, with |R_i| ≤ 4. ∎
+
+**Lemma EXT′ (proved).** Lemma EXT holds with any partial EFX₀ start state Z in place of the matching Y:
+- if X ⊇ Z (bundle by bundle) is a complete EFX₀ allocation;
+- and the digraph with k → j when θ_k(X_j) > v_k(Z_k) is acyclic;
+
+then F1 placements without rotation reach X from Z.
+
+*Proof.* EXT's proof verbatim. Its first bullet uses only that X is EFX₀. Its second uses only
+v_k(Z_k) ≤ v_k(X′_k) for Z_k ⊆ X′_k. ∎
+
+So VM1-plain follows if some V-M matching, or some state one move from one, has an extension with an acyclic
+precedence digraph.
+
+**The DE dictionary.**
+
+| DE (k = 3, `paper/k3-simple`) | here (k = 4, from a V-M matching) |
+|---|---|
+| chain of length 0: x takes its pair {b_x, c_x} from the leftovers, a_x is left over | upgrade, \|S\| = 2 or 3 |
+| chain of length 1: x takes its pair, j₁ takes a_x, j₁'s good is left over | exchange with z worthless to i: i takes S and parks z, j takes y_i |
+| ring with one want and one pair arrow, pair {y, h} | exchange with z valued: i takes z + S (\|S\| = 1 or 2), j takes y_i (Lemma RX) |
+| chain of length ≥ 2 (j₂ takes j₁'s good, …) | **not one VM1 move**; needed outside the cores (K4-min, `attempts/k4-vm-vm1-noncore.md`); VM1-chain allows it |
+| no ring of want arrows from a chain: Lemma chain finds one if it exists | none can exist at a placement state: RS(c) |
+| finishing test: o can finish iff \|H_o\| ≤ \|F\| − 1 (Lemma test) | **missing**; P1′ and HDT give one direction |
+| Improvement Lemma plus a potential: up to 4n trades | VM1-plain: one move (evidence only) |
+
+**Conjecture VM1-plain (connected k = 4 cores, evidence only).** In every connected k = 4 core, the following give a
+complete EFX₀ allocation:
+- some V-M matching;
+- at most one move (an upgrade or an unrestricted exchange) applied to the matching itself;
+- then F1 placements without rotation, with junk going to an unenvied agent.
+
+It implies VM1 on cores, and with K4.CORE it gives TARGET₄. Rotation and rings are then not part of the statement.
+
+Outside the cores it is false, as VM1 is (K4-min, n = 5, m = 8). The data rows above that are not cores (named,
+general) all passed.
+
+**What a proof needs beyond DE.**
+1. *A finishing test at k = 4*: an exact condition for a V-M matching, or a state one move from it, to extend. DE's
+   test is exact because a blocker's pair contains exactly one leftover good. Here a pair arrow carries up to two pool
+   goods (three from an empty-handed holder, RS(b)), so a blocker's demand is an upper set of the pool rather than a
+   single good. The count "|H_o| ≥ |F| distinct leftover goods" becomes a count of disjoint upper sets: ledger item
+   18's Theorem A₄ count again, now for blockers.
+2. *Why one trade is enough.* DE needs many, and the DE tree family shows rings with many pair arrows from DE's
+   draft. VM1-plain's one move must come from V-M's freedom in choosing the matching: Lemma S and PO (want arrows go
+   down in st), and P0 (no pool good is wanted).
+3. *k ≤ 5 must be used.* VM1-plain fails at k = 6 (PW(4, 3, 5)#1). The bounds of RS(b) and MS grow with k (up to
+   k − 2 and k − 1 pool goods per arrow and move), and in PW the D-goods outnumber what one freed agent can absorb.
+   That is the likely place where k enters (a guess).
 
 ## 8. Theorem VM: a proof of Viswanathan–Mehta's claim (ordinary EFX), main reading
 
