@@ -16,7 +16,7 @@ Code: `k4/oc1_hall/` (`ohlib.py` is shared). Logs: `results/k4_oc1_hall/`. Every
 
 Every order is tried, n ≤ 5. Everything called *evidence* is evidence only (PROMPT.md §5 rule 3).
 
-## Status (end of burst 2)
+## Status (end of burst 3)
 
 | | statement | status |
 |---|---|---|
@@ -37,10 +37,22 @@ Every order is tried, n ≤ 5. Everything called *evidence* is evidence only (PR
 K4.R5c, K4.R5d, K4.R5p). So a proof of OC₁ for n ≥ 6 implies TARGET₄, and the exceptions at n = 2, 3 (where only a
 frozen owner works, §5) do not matter for TARGET₄. The data, however, all have n ≤ 5.
 
+**The statement that remains** (evidence for it: Findings S\* and B, in the language of Corollary 2.1):
+
+> **Conjecture OC₁ᴴ (K4.OCH.OC1H).** For every serial-dictatorship order, either:
+> - some agent o has, at the picks, a transversal of the demands with a system of distinct admissible holders
+>   (Lemma 2\*); or
+> - some improving chain starting at a dangerous frozen agent k reaches a state where k, or the chain's end, has one.
+
+By Lemma 2\* this implies OC₁ (with the S\* shape), hence MD and TARGET₄.
+
 Next:
-1. f = 1 with several wanters, n ≥ 4: the picks with a wanter as owner (Corollary 2.1, with helpers).
-2. A Theorem A₄-type count tracing the deficit to one dangerous agent.
-3. The chain lemma: k owns (Theorem B form), or the end owns (Theorem B₄ form).
+1. f = 1 with several wanters, n ≥ 4: the picks with a wanter as owner (Corollary 2.1, with helpers). One n = 4 start
+   (red-b1-blocked-improvement) needs the swap, because x needs two goods kept out and only one admissible holder
+   exists.
+2. f = 2 (§8): the chain removes both demands, by passing through the other frozen agent or by unfreezing it. A count
+   for "after the chain" needs Lemma Ωʳ's unfreezing term inside Corollary 2.1.
+3. The chain lemma in general.
 
 ## 1. Lemma 1: the slot form at serial-dictatorship picks
 
@@ -420,3 +432,31 @@ helper at the picks") is the pattern to generalize.
 The share of hard starts falls with n (1.8% at n = 6 cores, 0.3% at n = 10), as the slot count predicts: more holders
 are unexposed. Sampled orders and random profiles are evidence only. Failures elsewhere in this project occurred in 1
 of 23,000 profiles.
+
+## 8. Two frozen agents (evidence)
+
+`k4/oc1_hall/f2_study.py`, `f2_study.log`. The hard starts with exactly two frozen agents x, y:
+- 93 screen, 524 logs, 388 random n ≤ 3, 49 random n = 4;
+- none in the 150 random n = 5 profiles.
+
+| | screen | logs | random n ≤ 3 | random n = 4 |
+|---|---|---|---|---|
+| hard f = 2 starts | 93 | 524 | 388 | 49 |
+| x, y independent / one wants the other's pick | 58 / 35 | 287 / 237 | 202 / 186 | 38 / 11 |
+| both dangerous (\|D\| = 2) | 85 | 478 | 358 | 46 |
+| some unfrozen owner has a single culprit | 3 | 12 | 0 | 19 |
+| some owner-k repair passes through the other frozen agent | 53 | 311 | 262 | 38 |
+| some owner-k repair unfreezes the other off the chain | 23 | 261 | 237 | 34 |
+| some owner-k repair leaves the other frozen | 54 | 173 | 212 | 33 |
+| some canonical owner-k repair | 79 | 507 | 388 | 48 |
+
+- With n = 3 and two frozen agents there is no holder, so the deficit is the whole demand. A single culprit then
+  means that one frozen agent has no demand at all, which almost never happens at a hard start. Every repair must
+  remove both demands at once.
+- The three mechanisms are about equally common. The chain absorbs k's demand (k owns). The other frozen agent's
+  demand is then:
+  - removed by the chain (it is on the chain and now holds what it wanted), or
+  - removed by unfreezing (its wanter is on the chain and improved), or
+  - met by the slots, which the chain may have freed (Lemma Ωʳ's f-term).
+- So a count for the chain lemma at f = 2 must combine Corollary 2.1 with the unfreezing term of Lemma Ωʳ
+  (`k4/sdc.md` §26): u = the number of agents off the chain that were frozen before and are not after.
