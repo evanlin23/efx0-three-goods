@@ -21,6 +21,7 @@ changed here; the coordinator integrates.
 | W small n | no welfare maximum strands a good for n = 3, k = 3; none strands two for n = 3, k = 3, 4 and n = 4, k = 3 | exhaustive by one implementation (z3 CEGAR over real values, all m ≤ nk + n by Lemma W0) | §6, `w_synth_n*.log` |
 | DU | an instance whose incidence graph has ≥ 2 components with agents has a complete EFX₀ allocation | PROVED (written proof; recipe checked on 2,000 random unions and on copies of the stranded instances) | §3, Prop. DU, `union_dump.log` |
 | CH-KD | every agent values ≤ k goods, every good has ≤ d valuers: some EFX₀ state with strong charity leaves ≤ min{(k − 2)d − 1, R(d)} goods out (|P|! ≤ d^{|P|−1}); at k = 4: ≤ 2, 4, 6, 9 for d = 2, 3, 4, 5 | PROVED (self-contained proof, §8; CH-A, CH-B marked correct by the referee, k4/referee/charity.md) | §8 |
+| OL | from any EFX₀ state with strong charity, some complete EFX₀ allocation leaves at most one agent worse off | CONJECTURE (holds on every stranded state found: S′, CH-F, 20 curated Pareto maxima, CKMS stops, 1,008 random charity states) | §9, `losers.log`, `ol_check.log` |
 | least charity | 0 on every instance tested, k = 3..8, n ≤ 9 | EVIDENCE (this is TARGET_k on random data) | §1, `least_*.log` |
 
 **Conclusion so far.** The rainbow-cycle method works with genuine zeros and gives *exact* EFX₀ with O(√(kn))
@@ -546,7 +547,46 @@ p < ed. This is part 3; R(d) is by definition the largest p for which such a dig
 - [KS] M. Kirchweger, S. Szeider, on computing small rainbow cycle numbers with SAT modulo symmetries: R(3) = 3,
   R(4) = 4 — [unverified], known only through [Siv], p. 2.
 
-## 9. Open
+## 9. The many-valuers case: one loser suffices on every stranded state found (Conjecture OL)
+
+In every construction above (S, S′, CH-F) each unallocated good has σ valuers, one per source, which is the case left
+open by CH-KD. The question is what *non-monotone* move repairs these states. Computation (`losers.py`, SAT: the
+largest number of agents keeping their value over complete EFX₀ allocations) gives a uniform answer:
+
+| stranded states | stranded goods | fewest agents worse off in a complete EFX₀ allocation | log |
+|---|---|---|---|
+| S(σ, 3), σ = 2..5 (robust CKMS stops, not Pareto maxima) | σ − 1 | 0 | `losers.log` |
+| S′(σ, 3), σ = 2..5; S′(σ, 4), σ = 2..4 (Pareto maxima) | σ − 1 | 1, always a champion | `losers.log` |
+| CH-F k = 3 and k = 4 (welfare maxima) | 2 | 1, a champion | `losers.log` |
+| the 20 Pareto maxima with a pool on the curated k = 4 instances | 1 | 1 | `ol_check.log` |
+| 15 robust CKMS stops with a pool, 1,008 random EFX₀ states with strong charity (curated instances) | ≥ 1 | 0 or 1 | `ol_check.log` |
+
+**Conjecture OL (one loser).** If X is an EFX₀ state with strong charity in an instance with at most k relevant goods
+per agent (k ≤ 4 at least), some complete EFX₀ allocation leaves at most one agent worse off than in X.
+
+OL with X = a Pareto maximum contains TARGET_k, so it is not easier than TARGET₄. Its interest is the shape it
+prescribes for a proof: whatever is stranded, one agent's sacrifice repairs it, however many goods are out (σ − 1 in
+S′(5, 3)). In S′(4, 4) the repair is a single move: the loser c(g₀, j₂) drops its good y and takes all three pool
+goods (worth 6 to it, against 10); its parent relay takes y; the source above takes the relay's good as an extra.
+Nobody strongly envies the loser's new bundle because the pool was unenvied — Proposition DU's dumping, inside one
+component, paid for by one agent.
+
+**Lemma AB (one-loser absorption along an envy path).** Let X be EFX₀ with strong charity and pool P, and let
+s = u_0 → u_1 → ⋯ → u_r = a (r ≥ 1) be an envy path from a source s. Let Y give X_{u_0} ∪ X_{u_1} to u_0, X_{u_{i+1}} to
+u_i (0 < i < r) and P to a, everything else unchanged. Then Y allocates every good, every agent but a is weakly better
+off (u_0, …, u_{r−1} strictly), and Y is EFX₀ iff (i) a strongly envies no bundle of Y and (ii) nobody strongly
+envies X_{u_0} ∪ X_{u_1}.
+*Proof.* Every bundle of Y other than Y_{u_0} and Y_a is a bundle of X, and every agent other than a values its Y-bundle
+at least as much as its X-bundle, so their EFX₀ conditions toward old bundles carry over. Toward Y_a = P:
+v_i(P ∖ h) ≤ v_i(P) ≤ v_i(X_i) by strong charity. The rest is (i) and (ii). ∎
+
+AB moves are not the general mechanism (`ab_check.py`, `ab_check.log`): some AB move completes S′(σ, 3) for σ = 3..5,
+S′(σ, 4) for σ = 4, 5 and CH-F k = 3, but none completes S′(2, ·), S′(3, 4), CH-F k = 4, any of the 20 curated Pareto
+maxima or the 14 CKMS stops; the one-loser completions there move goods off the path as well. A proof of OL, or of a
+charity form of it (one loser per round that strictly shrinks the pool, keeping strong charity), needs the general
+one-loser repair, which is the open step.
+
+## 10. Open
 
 1. **Non-monotone moves.** CH-D and CH-E show that a proof of CH(k), k ≥ 3, must sometimes lower an agent's value.
    The two known mechanisms are LB⁺'s rotation (k = 3) and Kaviani–Seddighin–Shahrezaei's virtual values
