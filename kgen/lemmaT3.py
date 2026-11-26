@@ -74,6 +74,14 @@ if __name__ == '__main__':
                 best = max(sum(v[z][g] for g in X[z]) for X in F)
                 arg = [X for X in F if sum(v[z][g] for g in X[z]) == best]
                 okk = all(satisfied(v, X, z) for X in arg); C['%s %s: every maximizer EFX0' % (kind, role)] += okk
+                C['%s %s: some maximizer EFX0' % (kind, role)] += any(satisfied(v, X, z) for X in arg)
+                others = [i for i in o if i != z]
+                key2 = lambda X: tuple(sum(v[i][g] for g in X[i]) for i in others)
+                b2 = max(key2(X) for X in arg)
+                C['%s %s: maximizer, then others lexicographically in picking order, EFX0' % (kind, role)] += all(satisfied(v, X, z) for X in arg if key2(X) == b2)
+                key3 = lambda X: -sum(1 for i in others for g in X[i] if v[z][g] == 0)
+                b3 = max(key3(X) for X in arg)
+                C['%s %s: maximizer, then fewest z-worthless goods with the others, EFX0' % (kind, role)] += all(satisfied(v, X, z) for X in arg if key3(X) == b3)
                 if not okk and shown[(kind, role)] < 2:
                     shown[(kind, role)] += 1
                     bad = [X for X in arg if not satisfied(v, X, z)][0]
