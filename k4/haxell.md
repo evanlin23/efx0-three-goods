@@ -549,8 +549,10 @@ k − 1. That is a place where k really enters. Two repaired forms:
 - **W₃ (three moves; candidate for k ≤ 4).** No stuck state where W had none, and on the n = 2 grid with k ≤ 4 see
   `n2w_grid_k4_r3.log`. It fails at k = 5 (W5).
 - **W^sub (two moves, giving a set of goods to one agent counting as one move; candidate for every k).** It contains
-  W's moves, so it holds wherever W held. It repairs W4 and W5, and on the n = 2 grid with k ≤ 4 see
-  `n2w_grid_k4_sub.log`.
+  W's moves, so it holds wherever W held. It repairs W4 and W5. **On the whole n = 2 grid with k ≤ 4 and values
+  {1, 2, 4, 7} (1,540,944 instances, 470,500,040 partial EFX₀ states) it has no stuck state, for welfare or for
+  leximin** (`n2w_grid_k4_sub.log`). Pool-shrinking alone (φ0) fails at 48 states of 36 instances: the welfare
+  steps are needed.
 
 *Skewed random instances* (`genskew`, one or two goods valued 30–90 by several agents, the rest 1–15: the shape of
 the counterexample; `measure_*genskew*.log`, welfare / leximin stuck states):

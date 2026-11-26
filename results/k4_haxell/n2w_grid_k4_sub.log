@@ -1,2 +1,13 @@
 $ python3 k4/haxell/ht_n2w.py K=4 VALS=1,2,4,7 MARGS=2,1,-1,1
 instances 1540944
+instances 1540944
+instances with a stuck state phi0 36
+instances with a stuck state phi1 0
+instances with a stuck state phi2 0
+instances with a stuck state phi5 24
+partial EFX0 states 470500040
+stuck states phi0 48
+stuck states phi1 0
+stuck states phi2 0
+stuck states phi5 24
+time 1100 s

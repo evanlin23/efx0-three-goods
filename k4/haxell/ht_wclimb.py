@@ -77,7 +77,8 @@ def climber(args):
                 since = 0
             V, sc = W, sw
             if sc == (0, 0):
-                found.append((line(V, n, m), ' '.join(w))); V = rand_inst(rng, n, m, k, vmax); sc, _ = score(V)
+                found.append((line(V, n, m), ' '.join(w))); best_overall = (sc, line(V, n, m))
+                V = rand_inst(rng, n, m, k, vmax); sc, _ = score(V)
         since += 1
         if best_overall is None or sc < best_overall[0]:
             best_overall = (sc, line(V, n, m))
