@@ -23,6 +23,7 @@ Every order is tried, n ≤ 5. Everything called *evidence* is evidence only (PR
 | Lemma 1 | slot form of the one-absorber completion at SD picks: conditions (S1), (S2) | written proof; agrees with SAT on all 14,461 distinct starts, and with raw brute force on special and screen |
 | Lemma 2 | slot count: under (G1), (G2), (G5′), (H3), an S\* completion with owner o exists iff some kept-out set H satisfies (H1) and \|H\| + θ(H) − ν(H) ≤ \|N₁\| | written proof (§4). Check (`lemma2_true_check.log`): H ranges over transversals of the demands only, at the picks and at every post-chain state (n ≤ 4). The count agrees with the raw S\* enumeration on all 248,341 owner tests. The (⇐) construction, with DT's moves actually used in 73,410 cases, is EFX₀ every time |
 | Lemma 2\* | the same with (G5′), (H3) dropped: exposed holders that are not movable (they want a good of B_o, or have a danger set inside B_o) must be compensated, i.e. matched to a good of H | written proof (§6); `lemma2star_true_check.log`: 330,992 owner tests (frozen and multi-good owners included), 0 mismatches, DT's moves used in 76,395 |
+| Prop. 5 (small ω) | at the picks, if some unfrozen o has ω_o = \|J\| − \|N₁(o)\| ≤ 1, the picks have an S\* completion with owner o; so every hard start has ω_o ≥ 2 for every unfrozen o | written proof (§9); 14,756 owner tests with ω ≤ 1, 0 failures |
 | Cor. 2.1, Lemma 4 | (H2) is Hall's condition for a system of distinct admissible holders of H, so C(B, o) = a transversal of the demands with an SDR into the slots; robust helpers always suffice | written proofs (§6) |
 | Prop. 3 (T2⁺) | f = 1: if some o ≠ x has v_x((J ∪ {Y_o}) ∩ R_x) ≤ p_x, the picks have an S\* completion with owner o | written proof (§5) |
 | **Theorem F1₁** | f = 1, exactly one wanter, n ≥ 3: the picks or one swap x → w have an S\* completion. This covers the open sub-case "x improves only with three goods" of `k4/sdc.md` §30 | written proof (§5); the proof run literally succeeds on all 3,329 such starts |
@@ -466,3 +467,29 @@ of 23,000 profiles.
   - met by the slots, which the chain may have freed (Lemma Ωʳ's f-term).
 - So a count for the chain lemma at f = 2 must combine Corollary 2.1 with the unfreezing term of Lemma Ωʳ
   (`k4/sdc.md` §26): u = the number of agents off the chain that were frozen before and are not after.
+
+## 9. Small excess: Proposition 5
+
+**Proposition 5 (K4.OCH.OMEGA).** Let Y = SD(π), o an unfrozen agent, N₁(o) the unfrozen agents other than o, and
+ω_o = |J| − |N₁(o)|. If ω_o ≤ 1, the picks have an S\* completion with owner o.
+
+*Proof.* Give every junk good but at most one to distinct agents of N₁(o), one each, and the rest to o. Then
+X_o = {Y_o} or {Y_o, g} with g ∈ J.
+- A bundle of at most two goods threatens i only if i values one of its goods above t_i ≥ p_i (Lemma 1).
+- Y_o is unwanted (o is unfrozen), and junk is unwanted by (I2).
+- The same holds for the holders' bundles {Y_j, z}.
+- Frozen agents take nothing and are singletons. ∎
+
+This is the S\* form of LB₄ʳ's `EFX.LB4R.output_none_of_omega`. Two consequences:
+- **Hard starts are dense.** At a hard start every unfrozen owner has ω_o ≥ 2. With f frozen agents and every agent
+  holding a pick, that reads |J| ≥ n − f + 1, i.e. m ≥ 2n − f + 1.
+  - Since Σ_i |R_i| ≥ 2m − (number of private goods) in a core, a hard start with small f needs nearly every agent to
+    have four goods.
+  - In the data, the least ω over unfrozen owners at the hard starts runs from 2 to 8 (`omega_sstar.log`; e.g. screen
+    2: 30, 3: 112, 4: 57, 5: 27, 6: 6, 7: 2).
+- **The chain must beat a large excess.** Unlike LB⁺ at k = 3, where the bad case has excess one, one chain here
+  must overcome ω up to 8. It does so by moving junk into the chain agents' new bases, H₀ and the H_i, and into k's
+  owned bundle, which Lemma 2's count then accepts.
+
+*Check* (`k4/oc1_hall/omega_sstar.py`, `omega_sstar.log`). On every distinct start of every data set, every
+unfrozen owner with ω_o ≤ 1 passes the raw S\* enumeration: 14,756 owner tests, 0 failures.
