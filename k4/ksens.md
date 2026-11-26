@@ -551,8 +551,9 @@ is OC₁ restricted to such starts; maximum-matching orders always exist.
 subsets) of D. A single good of D is never one.
 
 **Lemma PWk.**
-- **(a) [proved]** If r ≤ 3, one chain repairs the start (one-absorber completion), for every f and W. In particular
-  PW never breaks OC₁ at k ≤ 4.
+- **(a) [proved; referee: correct with fixes, applied]** If r ≤ 3, at most one chain repairs the start, with a
+  completion that has at most one absorber, for every f and W (W = 0 needs no chain). In particular PW never breaks
+  OC₁ at k ≤ 4, where r ≤ 3 and f ≤ 3.
 - **(b) [computed for f ≤ 5, W ≤ 4, r ≤ 8 (`pw_grid.py`, `pw_grid.log`); proved for (3, 2, 4) in §1]** One chain
   fails (no completion, free or one-absorber) exactly when
   > W ≥ 2 and W + 2 ≤ r ≤ min(W + f − 1, 2f − 1).
@@ -561,25 +562,50 @@ subsets) of D. A single good of D is never one.
 - **(c) Consequence for k.** (b) needs r ≥ W + 2 ≥ 4, i.e. k ≥ 5. Since PW5 is k-limited for every k ≥ 5, one chain
   fails at every k ≥ 5 and never at k ≤ 4 within the family.
 
-*Proof of (a).* If r ≤ 1, D holds at most one good, which is never a danger set, and the junk can go to an absorber.
-Let r ∈ {2, 3}.
+*Proof of (a)* (corrected after the referee, `k4/referee/ksens.md` §5 on branch `claude/k4-referee`; the earlier
+W = 1 completion needed v_{w₁}(p₂) + v_{w₁}(q₁) ≤ v_{w₁}(p₁), which the family does not guarantee).
+- *W = 0.* Nobody wants a pick, so no agent is frozen. With r ≤ 3 every agent has at most four goods, and Theorem DT⁺
+  (`k4/sdc.md` §6) completes the picks with one owner and no chain.
+- *W ≥ 1, r ≤ 1.* D holds at most one good, which is never a danger set; it goes to w₁, giving the two-good bundle
+  {q₁, d}, and the picks extend.
+
+Let W ≥ 1 and r ∈ {2, 3}.
 1. *The chain:* x₁ → w₁. x₁ takes two goods d₁, d₂ of D (worth more than P, so it gains). w₁ takes p₁ (it values p₁
    above q₁, so it gains), and q₁ is released.
 2. *The completion:*
    - x₁ gets {d₁, d₂}, w₁ gets {p₁};
    - x_j gets {p_j} for j ≥ 2, and w_i gets {q_i} for i ≥ 2;
-   - the leftover d₃ (when r = 3) and q₁ go to w₂ if W ≥ 2, otherwise to x₂ (and to x₁ when f = W = 1).
-3. *It is EFX₀* (one absorber). Write R for the absorber's bundle.
-   - *An x_j (j ≥ 2), worth P:* x₁'s bundle is two goods, and removing either leaves one pool good, worth less than P.
-     R contains at most one good x_j values, d₃, which is worth less than P. Every other bundle is a singleton.
-   - *x₁, worth more than P:* likewise. It values at most d₃ in R and nothing in the singletons {p_j}.
-   - *w₁, holding p₁ (its top):* it values only q₁ in R (worth 1 < v(p₁)) and nothing in x₁'s bundle.
-   - *The other wanters:* the bundles they could see contain p's only as singletons, and they value nothing else in
-     the others' bundles.
-   - *When W = 1 and x₂ absorbs:* w₁ holds its top p₁ and sees x₂'s bundle minus d₃ worth v(p₂) + 1 < v(p₁); every x
-     sees at most d₃ in it.
-   - `pwk_check.py` checks this allocation against the raw EFX₀ definition for every f ≤ 6, W ≤ 5, r ∈ {2, 3}:
-     60 configurations, all EFX₀ (`pwk_check.log`). ∎
+   - the leftovers q₁ and (when r = 3) d₃ go as follows:
+
+     | case | q₁ goes to | d₃ goes to | absorber |
+     |---|---|---|---|
+     | W ≥ 2 | w₂ | w₂ | w₂, bundle R = {q₂, q₁, d₃} |
+     | W = 1, f ≥ 2 | x₂, bundle {p₂, q₁} | w₁, bundle {p₁, d₃} | none |
+     | W = 1, f = 1 | x₁ | x₁ | x₁ (two agents only) |
+
+3. *It is EFX₀.*
+   - *An x_j (j ≥ 2), worth P* (x₂ with q₁ is worth the same P, since q₁ is worthless to it).
+     - x₁'s bundle has two goods; removing either leaves one pool good, worth less than P.
+     - R, and w₁'s bundle {p₁, d₃}, contain at most one good x_j values (d₃), worth less than P.
+     - x₂'s bundle {p₂, q₁} contains no good x_j values.
+     - Every other bundle is a singleton.
+   - *x₁, worth more than P:* it values at most d₃ in R or in {p₁, d₃}, since p₁ is now worth less to it than its
+     pair. It values nothing in the other bundles.
+   - *w₁, holding p₁ (its top among the picks):*
+     - It values only q₁ in R, and v_{w₁}(q₁) < v_{w₁}(p₁).
+     - In x₂'s two-good bundle {p₂, q₁}, removing a good leaves p₂ or q₁, each worth less than p₁.
+     - It values nothing in x₁'s bundle.
+   - *The other wanters w_i:* they value nothing but the p's and their own q_i. Every bundle containing a p besides
+     its holder's own singleton is a two-good bundle {p₁, d₃} or {p₂, q₁}, and removing its other good leaves one p.
+     So EFX₀ toward it is EFX₀ toward a singleton, which always holds.
+4. *Checks* (`pwk_check.py`, `pwk_check.log`), against the raw EFX₀ definition:
+   - the allocation is EFX₀ for every f ≤ 6, W ≤ 5, r ∈ {2, 3} with clean values (60 configurations), and on 8,000
+     random value assignments of the whole family;
+   - on the referee's instance (wanter values 12, 8, 5) the earlier completion fails and this one is EFX₀;
+   - W = 0 completes at the picks on all 305 starts tested. ∎
+
+*Scope.* At k ≤ 4 the family has r ≤ 3 (each x values its pick and the pool) and f ≤ 3 (each wanter values the f
+picks and q), so (a) covers every PW instance with at most four goods per agent. (a) itself holds for every f.
 
 This is Lemma PL (b), (c) at work: after the repair at most r − 2 ≤ 1 pool good is left, and it threatens nobody.
 
