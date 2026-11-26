@@ -28,6 +28,7 @@ angles in flight, and what each established. Ledger rows change only with artifa
 | Extend the girth-≥4 hypergraph theorem (Lianeas–Sgouritsa–Sotiriou) to degree-4 hypergraphs with short cycles | session_01BYMGeahqCXt4wer7YeYLty | `claude/k4-girth` | `k4/girth.md` |
 | Prove OC₁ at k = 3 with Draft and Exchange's machinery, then lift lemma by lemma to k = 4 | session_01BYMGeZVgBaajhpdHdJtKm2 | `claude/k4-k3-oc1` | `k4/k3_oc1.md` |
 | Reconstruct Viswanathan–Mehta's 4-limited EFX algorithm and make it EFX₀ | session_01BYMGebcnNSpPp9qEyjfvuV | `claude/k4-vm` | `k4/vm.md` |
+| k-sensitivity: the smallest k at which SD-C, MD, OC and OC₁ fail (adversarial, k = 5, 6, 8), and what k ≤ 4 buys | session_01BYMGeYRzPvVFuMx5JPLStH | `claude/k4-ksens` | `k4/ksens.md` |
 
 The coordinator (this branch, `claude/kind-lamport-y8fdme`) runs an hourly burst: it checks each angle, verifies any
 claimed proof or counterexample independently, integrates verified results here, and works one angle of its own.
@@ -37,3 +38,10 @@ claimed proof or counterexample independently, integrates verified results here,
 ### 2026-11-26 20:35 UTC: campaign started
 - Five angle sessions launched from `claude/kind-lamport-y8fdme` (commit `26e79d2`).
 - Hourly coordinator burst scheduled (trigger `trig_016DHmg4n61QCy2RopwumejP`, minute 34).
+
+### 2026-11-26 20:37 UTC: sixth angle, k-sensitivity
+- Why: SD-C and OC₁ hold at k ≤ 8 on random data. If either held for every k, a proof would settle EFX₀ for all
+  additive instances, so a k = 4 proof must use k ≤ 4 somewhere. The session looks for the smallest k where each
+  conjecture fails, adversarially, and for the property of k ≤ 4 that the failure shows a proof needs.
+- Coordinator's own run: `k4/sdc/oc1_bign.py`, OC₁ beyond n = 5 (2,000 random instances, n = 6–9, 12 orders each),
+  log `results/k4_sdc/oc1_bign_6_9.log` (in progress).
