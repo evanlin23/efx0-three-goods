@@ -1,3 +1,15 @@
 [[0, 0, 2701, 1876, 696, 832, 0, 0], [0, 0, 1141, 899, 0, 0, 422, 892], [0, 0, 1508, 0, 0, 906, 586, 849], [39, 506, 1128, 0, 679, 0, 0, 0], [0, 0, 2681, 1954, 638, 824, 0, 0]] order (3, 1, 2, 0, 4) k 4 worthless goods []
    zero version      : sdc oc1 True | brute oc1 True round True two rounds None md True
    worthless deleted : sdc oc1 True | brute oc1 True round True md True
+[[0, 0, 0, 2601, 0, 1137, 904, 0, 0, 1484], [0, 2009, 0, 2502, 1962, 0, 0, 1429, 0, 0], [1454, 496, 1024, 0, 0, 0, 0, 0, 208, 0], [1110, 446, 0, 922, 79, 0, 0, 0, 0, 0], [0, 2401, 0, 0, 1467, 1392, 0, 0, 0, 1458]] order (0, 1, 2, 4, 3) k 4 worthless goods []
+   zero version      : sdc oc1 True | brute oc1 True round True two rounds None md True
+   worthless deleted : sdc oc1 True | brute oc1 True round True md True
+[[0, 2030, 0, 0, 1714, 1395, 1806], [0, 2461, 0, 0, 1674, 1357, 1802], [1025, 0, 35, 818, 0, 0, 934], [1090, 901, 0, 154, 0, 0, 517]] order (0, 1, 2, 3) k 4 worthless goods []
+   zero version      : sdc oc1 False | brute oc1 False round False two rounds True md True
+   worthless deleted : sdc oc1 False | brute oc1 False round False md True
+[[0, 2030, 0, 0, 1714, 1395, 1806], [0, 2461, 0, 0, 1674, 1357, 1802], [1025, 0, 35, 818, 0, 0, 934], [1090, 901, 0, 154, 0, 0, 517]] order (1, 0, 2, 3) k 4 worthless goods []
+   zero version      : sdc oc1 False | brute oc1 False round False two rounds True md True
+   worthless deleted : sdc oc1 False | brute oc1 False round False md True
+[[2218, 2287, 2035, 2837, 0, 0, 0, 0], [2217, 2890, 2035, 2287, 0, 0, 0, 0], [2121, 0, 0, 2938, 0, 2011, 380, 0], [0, 2009, 0, 0, 349, 835, 1177, 0], [0, 1566, 1249, 1612, 0, 0, 0, 1212]] order (3, 4, 2, 1, 0) k 4 worthless goods []
+   zero version      : sdc oc1 True | brute oc1 True round True two rounds None md True
+   worthless deleted : sdc oc1 True | brute oc1 True round True md True

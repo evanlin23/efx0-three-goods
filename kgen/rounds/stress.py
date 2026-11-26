@@ -56,6 +56,8 @@ def is_core(Z):
 
 
 def valid(V):
+    if KEPS and KIPRIME:
+        return is_iprime([[x if x > 5 else 0 for x in row] for row in V])
     if KEPS and KCORE:
         return is_core([[x if x > 5 else 0 for x in row] for row in V])
     if KEPS and KCOVER:
@@ -63,11 +65,26 @@ def valid(V):
     return True
 
 
+# KEPS3="0,2": these agents keep only 3 real goods (with KIPRIME, the agents of Lemma RED's I' that lost an S pick)
+KEPS3 = set(int(x) for x in os.environ.get("KEPS3", "").split(',') if x)
+KIPRIME = os.environ.get("KIPRIME", "0") == "1"   # zero version: every agent with 4 relevant goods strictly balanced,
+                                                  # agents with 3 may be top-heavy; every good relevant to someone
+
+
+def is_iprime(Z):
+    n, m = len(Z), len(Z[0])
+    if not all(any(Z[i][g] > 0 for i in range(n)) for g in range(m)): return False
+    for i in range(n):
+        vs = sorted((x for x in Z[i] if x > 0), reverse=True)
+        if len(vs) == 4 and not vs[0] < sum(vs[1:]): return False
+    return True
+
+
 def twin(V):
     for i, j in TWINS: V[j] = list(V[i])
     if KEPS:
-        for row in V:
-            big = sorted(range(len(row)), key=lambda g: -row[g])[:KEPS]
+        for ii, row in enumerate(V):
+            big = sorted(range(len(row)), key=lambda g: -row[g])[:(3 if ii in KEPS3 else KEPS)]
             for g in range(len(row)):
                 if g not in big: row[g] = max(1, min(5, row[g]))
                 elif row[g] <= 5: row[g] = 6
