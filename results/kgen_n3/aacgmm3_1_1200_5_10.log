@@ -1,0 +1,21 @@
+$ python3 kgen/aacgmm3.py 1 1200 5 10
+NO ROLE ASSIGNMENT GIVES OC1 [[88, 0, 0, 0, 0, 0], [0, 0, 0, 0, 93, 0], [13, 0, 2, 0, 46, 0]] order (0, 1, 2) picks [0, 4, 2] outputs {'012': [[1, 2, 3, 5], [4], [0]], '021': [[1, 2, 3, 5], [4], [0]], '102': [[0, 1, 2, 3], [5], [4]], '120': [[0, 1, 2, 3], [5], [4]], '201': [[0], [1, 2, 3, 5], [4]], '210': [[1, 2, 3, 5], [4], [0]]}
+NO ROLE ASSIGNMENT GIVES OC1 [[88, 0, 0, 0, 0, 0], [0, 0, 0, 0, 93, 0], [13, 0, 2, 0, 46, 0]] order (1, 0, 2) picks [0, 4, 2] outputs {'012': [[1, 2, 3, 5], [4], [0]], '021': [[1, 2, 3, 5], [4], [0]], '102': [[0, 1, 2, 3], [5], [4]], '120': [[0, 1, 2, 3], [5], [4]], '201': [[0], [1, 2, 3, 5], [4]], '210': [[1, 2, 3, 5], [4], [0]]}
+NO ROLE ASSIGNMENT GIVES OC1 [[45, 0, 0, 0, 53, 0, 0, 91], [0, 21, 0, 0, 35, 0, 24, 82], [58, 0, 0, 0, 47, 38, 0, 0]] order (0, 1, 2) picks [7, 4, 0] outputs {'012': [[4], [7], [0, 1, 2, 3, 5, 6]], '021': [[4], [7], [0, 1, 2, 3, 5, 6]], '102': [[7], [1, 2, 3, 5, 6], [0, 4]], '120': [[7], [1, 2, 3, 5, 6], [0, 4]], '201': [[4, 5], [7], [0, 1, 2, 3, 6]], '210': [[4, 5], [7], [0, 1, 2, 3, 6]]}
+2385 general: output for some role assignment is OC1-reachable
+1697 general: output with roles = order is OC1-reachable
+831 general: picks all kept by the output (roles = order)
+2400 general: starts
+2382 ident: output for some role assignment is OC1-reachable
+2008 ident: output with roles = order is OC1-reachable
+211 ident: picks all kept by the output (roles = order)
+2400 ident: starts
+128 iterations max
+2379 zeros: output for some role assignment is OC1-reachable
+1682 zeros: output with roles = order is OC1-reachable
+1502 zeros: picks all kept by the output (roles = order)
+2400 zeros: starts
+
+real	0m1.743s
+user	0m1.702s
+sys	0m0.008s
