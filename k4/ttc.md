@@ -4,27 +4,30 @@ Workstream `proof/k4-ttc` (branch `claude/k4-ttc`, draft PR #101). Code: `k4/ttc
 log); logs: `results/k4_ttc/`. Notation as in `k4/sdc.md` (§2, §28–§30). Everything called evidence below is evidence
 only (PROMPT.md §5 rule 3). This note changes no ledger row; the coordinator integrates.
 
-## Status (burst 4): OC₁ as stated fails off the cores; on cores it is open
+## Status (burst 4): OC₁ is refuted on a strict connected k = 4 core
 
-**OC₁ as literally stated fails** (`attempts/k4-ttc-oc1-counterexample.md`, §13). The statement is "every instance
-with at most four relevant goods per agent" (`k4/sdc.md` §29).
-- *Instances:* n = 6, m = 10 at k = 4 (84 instances from a climb), and a strict, balanced n = 5, m = 9 family in
-  which every agent has three goods, so k = 3.
-- *Checks:* SAT (the repository's test) and an independent brute-force replay (`refute_oc1.py`) agree.
-- *Obstruction:* a count. Every agent holding a pick is frozen, wanted by two pickless agents. The frozen agents' junk
-  danger sets are three disjoint pairs, so the junk needs two absorbers, and no addition, chain or ring changes that.
+**Conjecture OC₁ fails on a strict connected k = 4 core** (`attempts/k4-ttc-oc1-counterexample.md`, §13).
+- *The core:* n = 5, m = 9, three 4-good agents, so in K4.MC0's class for a minimal counterexample to TARGET₄. The 4-good
+  agents value {yᵢ, yᵢ₊₁, aᵢ, bᵢ} at (10, 3, 6, 5), with aᵢ, bᵢ private. Two 3-good agents value {y₀, y₁, y₂} at
+  (4, 3, 2) and (2, 4, 3).
+- *The failing order:* order (0, 1, 2, 3, 4), and also the R1-priority order (0, 2, 1, 3, 4). Its picks
+  (y₀, y₁, y₂, none, none) have no one-absorber completion, and none of the 62 improving moves gives one.
+- *The count:* the three frozen agents have disjoint private danger pairs, so six junk goods must fit into two
+  unfrozen agents. One absorber plus one slot holds only four.
+- *Checks:*
+  - SAT (the repository's test) and an independent brute-force replay (`refute_oc1.py`) agree;
+  - the core conditions are checked by `is_core4` and by hand.
+- *Not affected:* OC (free completion: the picks extend with both pickless agents absorbing), MD, SD-C and TARGET₄.
+- *Refuted with it:* every one-absorber statement, namely OC₁-H, OC₁-E and OC₁-ED below, and the Hall session's
+  OC₁-ED\* and Finding S\*.
+- *Why the data missed it:* the OC₁ data at n = 5 used only cores with one or two 4-good agents.
 
-**None of these instances is a core** (`is_core4`):
-- the n = 6 ones have top-heavy agents (R1) and ties;
-- in the n = 5 family, R2 applies (two private goods worth at least the pick).
+**Earlier in burst 4.** 84 non-core counterexamples at n = 6, m = 10, and a k = 3 family (n = 5, m = 9; R2-peelable).
+They led to the core above.
 
-**OC₁ on strict connected cores, the form that implies TARGET₄, is not refuted.** Neither are OC (free completion),
-MD, SD-C or TARGET₄. The same scope applies to OC₁-E and OC₁-ED below, and to the Hall session's OC₁-ED\* and Finding
-S\*: refuted for arbitrary instances, open on cores.
-
-**Running:**
-- a climb inside strict cores (`core_climb.py`), testing whether the pigeonhole survives the core conditions;
-- climbs against OC₁ᵖ, a variant in which absorbers are counted only among agents holding a pick (`oc1p_climb.py`).
+**Running or next:**
+- OC₁ on random profiles of the n = 5 cores with three, four and five 4-good agents;
+- the core climb (`core_climb.py`).
 
 ## Status at the end of burst 3 (OC₁-E and OC₁-ED are refuted with OC₁ in burst 4)
 
@@ -555,12 +558,11 @@ unwanted agent, because the want graph is acyclic and points backwards in π. Ga
   These are the cases a k = 4 proof must handle beyond the TTC pointer argument. They are exactly where OC₁-ED's
   extra freedom is used: the head takes junk, or the head is frozen (§10's D0+NJ and D0+NJH+UH columns).
 
-## 13. OC₁ as stated fails off the cores
+## 13. OC₁ is refuted, also on cores
 
-`attempts/k4-ttc-oc1-counterexample.md` has the instances, the counting argument, the replays and the scope.
-- *Scope:* none of the instances is a core (R1, R2 or ties; `k4/c4_verify_H/hcore.py`). On strict connected cores OC₁
-  is open, and that is the form TARGET₄ needs.
-- *Below:* the n = 6 climb instances.
+`attempts/k4-ttc-oc1-counterexample.md` has the core counterexample (n = 5, m = 9), the counting argument, the
+replays and the history. What follows is about the first, non-core instances at n = 6 found by the climb. The core
+was built by hand from their counting argument (`oc1_core_candidate.json`, `refute_oc1_core.log`).
 - *Found by:* `head_bign_climb.py … ends seeded`, a climb on values and incidences started from the OC₁-H
   counterexample with the OC₁-ED objective. When a start had no OC₁-ED chain, the climb also checked plain OC₁ and
   found it false.
@@ -573,9 +575,11 @@ unwanted agent, because the want graph is acyclic and points backwards in π. Ga
   one agent *holding a pick* absorbs (the two pickless agents absorb).
 
 Consequences for this note:
-- OC₁-E and OC₁-ED (§8, §10) fail with OC₁ on these non-core instances. On cores they stay open.
-- The pointer argument of §11 concerns one-absorber completions, so it has the same scope.
-- The k = 3 observations of §10 and §11 were made on cores and are unaffected.
+- OC₁-E and OC₁-ED (§8, §10) are refuted with OC₁, also on cores.
+- The pointer argument of §11 concerns one-absorber completions, so it fails with them.
+- The k = 3 observations of §10 and §11 were made on k = 3 cores and are unaffected.
+- Whether OC₁ holds on all k = 3 cores is not settled by this counterexample: it has 4-good agents, and the k = 3
+  family is not a core.
 
 What survives, as targets:
 - **OC** (free completion; `k4/sdc.md` §29).
