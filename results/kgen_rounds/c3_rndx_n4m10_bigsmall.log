@@ -1,0 +1,1 @@
+$ python3 kgen/rounds/stress.py climb 4 10 4000 10 c3xn4m10bigsmall bigsmall ties
