@@ -48,3 +48,6 @@ python3 head_bign_climb.py 12 400 10 31 6 8 ends > $L/head_bign_climb_ends_6_8.l
 python3 hd_fail_check.py > $L/hd_fail_check.log
 (python3 refute_head.py 0; python3 refute_head.py 1) > $L/refute_head.log
 python3 pointer.py special > $L/pointer.log; for a in dich screen suite 'core:n3 3000 91' 'core:n4 1500 92' 'core:n5 150 93' 'logs nmax=5' 'k3:5 3000 32'; do python3 pointer.py $a >> $L/pointer.log; done
+python3 head_bign_climb.py 6 300 10 41 6 6 ends seeded > $L/head_bign_climb_ends_seeded.log
+python3 oc1_false_check.py > $L/oc1_false_check.log
+(python3 refute_oc1.py; for i in 0 10 20 40 60 83; do python3 refute_oc1.py ../../results/k4_ttc/oc1_counterexamples.json $i | grep -E '^order|^1\.|^2\.|moves after|OC1 FAILS'; done) > $L/refute_oc1.log

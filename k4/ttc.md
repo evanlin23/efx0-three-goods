@@ -4,7 +4,29 @@ Workstream `proof/k4-ttc` (branch `claude/k4-ttc`, draft PR #101). Code: `k4/ttc
 log); logs: `results/k4_ttc/`. Notation as in `k4/sdc.md` (§2, §28–§30). Everything called evidence below is evidence
 only (PROMPT.md §5 rule 3). This note changes no ledger row; the coordinator integrates.
 
-## Status (end of burst 3)
+## Status (burst 4): OC₁ is refuted at k = 4
+
+**Conjecture OC₁ fails** at n = 6, m = 10 (`attempts/k4-ttc-oc1-counterexample.md`, §13). For the identity order:
+- the picks (3, 9, 1, 6, none, none) have no one-absorber completion;
+- none of the 97 improving moves (additions, chains, rings) gives bases with one.
+
+How it was checked:
+- *SAT*, by the repository's test (`oc_absorb.extends_A` over de_free's moves);
+- *brute force*, by `refute_oc1.py`, independent from the definitions;
+- on 7 of the 84 instances the climb found (`results/k4_ttc/oc1_counterexamples.json`).
+
+The obstruction is a count:
+- the four agents holding picks are frozen, wanted by the two pickless agents;
+- their junk danger sets are three disjoint pairs, so the six junk goods need two absorbers;
+- every free completion uses both pickless agents as absorbers.
+
+**Not affected:** OC (free completion; it holds here with zero chains), MD, SD-C, TARGET₄. **Also refuted:** every
+one-absorber statement built on OC₁, namely OC₁-E and OC₁-ED below and a single-owner Hall count.
+
+**Candidate repair, OC₁ᵖ:** count only absorbers that hold a pick. All 84 instances satisfy it with zero chains.
+It is untested adversarially.
+
+## Status at the end of burst 3 (OC₁-E and OC₁-ED are refuted with OC₁ in burst 4)
 
 **Refuted in burst 3.** Conjectures OC₁-H (the chain's head absorbs) and OC₁-HD (the same with the dangerous-rotation
 shape) fail at n = 6, m = 10 (`attempts/k4-ttc-head-owner.md`).
@@ -532,6 +554,31 @@ unwanted agent, because the want graph is acyclic and points backwards in π. Ga
 
   These are the cases a k = 4 proof must handle beyond the TTC pointer argument. They are exactly where OC₁-ED's
   extra freedom is used: the head takes junk, or the head is frozen (§10's D0+NJ and D0+NJH+UH columns).
+
+## 13. OC₁ is refuted at k = 4
+
+`attempts/k4-ttc-oc1-counterexample.md` has the instance, the counting argument and the replays.
+- *Found by:* `head_bign_climb.py … ends seeded`, a climb on values and incidences started from the OC₁-H
+  counterexample with the OC₁-ED objective. When a start had no OC₁-ED chain, the climb also checked plain OC₁ and
+  found it false.
+- *Instances:* 84 distinct instances (`oc1_counterexamples.json`), all at n = 6, m = 10, all with two agents without a
+  pick.
+- *Checks:*
+  - SAT recheck: all 84 (`oc1_false_check.py`, `oc1_false_check.log`);
+  - independent brute-force replay: 7 of them (`refute_oc1.py`, `refute_oc1.log`).
+- *What still holds there:* every one of the 84 has a free completion of the picks, and a completion in which at most
+  one agent *holding a pick* absorbs (the two pickless agents absorb).
+
+Consequences for this note:
+- OC₁-E and OC₁-ED (§8, §10) are refuted with OC₁. They were tested only on starts where OC₁ holds, and OC₁ fails here.
+- The pointer argument of §11 is a statement about one-absorber completions, so it inherits the counterexample.
+- The k = 3 observations (§10, §11) are unaffected.
+
+What survives, as targets:
+- **OC** (free completion; `k4/sdc.md` §29).
+- **OC₁ᵖ:** OC₁ with absorbers counted only among agents holding a pick. A k = 4 analogue of Draft and Exchange's rule
+  that a free agent holding nothing can always finish.
+- **MDP∃** (§7), which is about free completions.
 
 ## 12. Next steps
 

@@ -440,3 +440,28 @@ def iter_chains_path(E, base):
 
     for x in range(n):
         yield from ext([x], frozenset(), {})
+
+
+def extends_A_pickless(E, base, A):
+    """one-absorber completion in which agents with an empty base are not counted: at most A agents with a nonempty
+    base receive two or more junk goods; agents without a base receive any number"""
+    from pysat.solvers import Cadical153
+    from pysat.card import CardEnc, EncType
+    cl = list(E.cl); top = E.top
+    J = [g for g in range(E.m) if base[g] < 0]
+    has = set(base[g] for g in range(E.m) if base[g] >= 0)
+    for g in range(E.m):
+        cl.append([-E.x[g][E.n]])
+        if base[g] >= 0:
+            cl.append([E.x[g][base[g]]])
+    bigs = []
+    for i in range(E.n):
+        if i not in has:
+            continue
+        top += 1; b = top; bigs.append(b)
+        for g, h in itertools.combinations(J, 2):
+            cl.append([-E.x[g][i], -E.x[h][i], b])
+    enc = CardEnc.atmost(lits=bigs, bound=A, top_id=top, encoding=EncType.seqcounter) if bigs else None
+    if enc:
+        cl.extend(enc.clauses)
+    S = Cadical153(bootstrap_with=cl); ok = S.solve(); S.delete(); return ok
