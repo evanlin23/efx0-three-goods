@@ -490,3 +490,56 @@ DYN and CONN2. Each session is asked to test its candidate on PW5, RD5 and kgen 
 - **Action**: every proof session working on OC₁^max is redirected.
   - The certifier tests OC₂^max and the ∃-forms exhaustively at n = 4 and 5.
   - The proof sessions keep their lemmas, which are about given states, and retarget.
+
+### 2026-11-26 23:40 UTC: hourly burst 3
+**Status.**
+- OC₁^max is refuted at n = 4: 11 of the 1,002 n = 4 core hypergraphs, all of them perfect starts in the MC2 class.
+- **OC₂^max** (≤ 2 sequential moves from maximum-matching starts) is **certified for every strict profile of all
+  n = 4 cores** (compute/k4-oc1max-cert, PR #114, with an independent checker).
+  - The coordinator's own check of the 11 failing instances (`k4/sdc/oc2max_cex_check.py`): every maximum-matching
+    order needs ≤ 2 moves.
+  - New ledger row K4.SDC.OC2MAX (CONJECTURE; the certified n ≤ 4 row comes with PR #114).
+  - n = 5 is running. A targeted three-move search is running at n = 5–7 (sd-induct). The ∃-order form is next for
+    the certifier.
+- The Lean frames are parametrized by the move relation, so OC₂^max ⟹ TARGET₄ is a direct instance. The Lean session
+  is adding it, plus a machine-checked refutation of OC₁^max.
+
+**Mechanism of the n = 4 failures** (TTC §14, Hall §22, certifier diagnostics):
+- a starved last picker that wants every other pick and is the lone receiver;
+- two dangerous agents sharing one junk danger pair (|D| ≥ 2);
+- every target allocation gives some agent a bundle pieced from two owners' picks. That is a tree exchange, which no
+  single chain or ring performs. Two canonical chains split it.
+- R1-priority orders fail as well. Other maximum-matching orders of the same profiles work (the ∃-order form survives).
+
+**Per angle:**
+- **Hall**: integrator of the OC₂^max proof plan (case tree with owners). Second reader of Lemmas M and EX.
+- **proof/k4-d1**: proving D1-C and H(ii).
+- **proof/k4-oc1max-multi** (PR #115): Lemma D-red (new obstacle DEMAND), Prop. T0, Lemma KEEP, Lemma SET, all
+  written and not refereed. Its census: 85% of hard |D| ≥ 2 starts are repaired by a KEEP or D-red chain. Sub-lemmas
+  SLOT and RING are open. Next: the second move for DEMAND.
+- **proof/k4-matching** (PR #116): Lemma M (S* completability is an exact slot-graph matching condition) and Lemma
+  EX (an exact one-chain exchange criterion, any owner, any |D|), both written. "Deficiency ≤ 1" is false. Its
+  Conjecture CM must fail on the n = 4 starts; it is being calibrated there, then extended to two chains (CM₂).
+- **TTC**: the mechanism above. Its canonical rule FP+1 holds on the 11 and on 97 walk failures. An n = 5 OC₁^max
+  failure outside MC2 needs first moves of kind (B), so the rule is being extended. Next: a hand-built three-owner
+  tree.
+- **kgen-rounds** (PR #111): ROUND⁺ refuted (n = 4, m = 7, also with two valuation types). Lemma R1, the
+  starved-agent certificate, covers all 61 failures. Two rounds repair everything. One round also fails at k = 4 on
+  the n = 4 instances (coordinator's check).
+- **Haxell**: W as stated (≤ 2 single-good moves) is refuted at n = 2, m = 7. W₃ (k ≤ 4) and W^sub (set moves,
+  k-independent) survive. Exhaustive n = 2 and n = 3 grids are next.
+- **VM**: VM1 is refuted at k = 7 and also at k = 6 (PW(4,3,5)#1). VMX₂ survives. Asked for exhaustive n ≤ 4 checks
+  of VM1 at k = 4.
+- **girth**: DYN plus envy-cycle rotation clears all 376 curated stuck cases, and every random failure completes under
+  another labeling. Asked for an exhaustive ∃-labeling check at n ≤ 4.
+- **p3**: all 11 failures are repaired by two moves, and OC₁^max holds on multigraph cores with n ≤ 4 (certificate
+  pending). Every good in a shared junk danger pair has 3 valuers. Next: certify p ≤ 2 at n = 5 and try a proof.
+- **kgen-n3**: OPB₃ is satisfiable. AACGMM with the picks carried breaks in its PR start; a repaired PR step is next.
+- **kgen-charity**: Conjecture OL (one loser). Asked for an exhaustive small-n check, then n = 2 and n = 3 proofs.
+- **referee**: 14 items done, PR #108 ready. New queue: Lemmas M, EX, D-red, T0, KEEP, SET, D1 lemmas, R1, Prop. H,
+  Lemma EC, and spot-checks of the certificates.
+- **paper** (PR #110): draft complete, being updated for this hour's refutations.
+- **monotone-k, twins, hunt, Lean, k3-oc1**: running (twins: configuration dbl-P4-P4 reduced for all 82,944 types).
+
+**Cross-cutting lesson.** Every surviving conjecture now goes through an exhaustive ordinal or grid check at n ≤ 4
+before any proof effort: DYN, W₃/W^sub, VM1, RD², OL and OC₂^max.
