@@ -19,7 +19,7 @@ and `proofs/lb_last_step.md` (LB⁺); Conjecture OC₁ is `k4/sdc.md` §29. Ever
   - Either form implies OC₁ at k = 3.
   - **Refuted:** max score with the simple completion. On n = 6, m = 9 the max-score trade needs a pair holder to absorb one junk good (§5).
   - Exhaustive tests: every connected core with 3 ≤ n ≤ 5 (339 hypergraphs), every ranking profile, every order: 273,724,272 starts. Also n = 4 with one dead good.
-  - Exhaustive at n = 6, m ∈ {10, 11}: all 236 connected cores, every profile, and the drafts of all 720 orders, enumerated as distinct drafts (`oc1_fast.py`, `oc1_fast_certs6_*.log`): 11,010,816 profiles, 37,318,272 distinct drafts, 888,292 hard, no failure.
+  - Exhaustive at n = 6, m ∈ {10, 11}: all 236 connected cores, every profile, and the drafts of all 720 orders, enumerated as distinct drafts (`oc1_fast.py`, `oc1_fast_certs6_*.log`): 11,010,816 profiles, 37,318,272 distinct drafts, 888,292 hard. No failure of either rule; here even the max-score trade passes Lemma 1.
   - Sampled tests: n = 6 cores with m ≤ 9 (6 million starts), random instances with n ≤ 10, and the binary-tree family of `paper/k3-simple` Appendix C up to n = 45 (draft deficits up to 7, owner still needed after the trade).
   - OC₁ itself was also checked directly, with general chains and the exhaustive one-absorber completion, for every core with n ≤ 4 and with n = 5, m = 9.
   - On all data no max-score trade is a length-zero DE chain (a free x dropping its top for its pair, which is not a §29 chain; `k0check.py`). So the max-score trade is always an improving chain, and OT's data are OC₁ data.
