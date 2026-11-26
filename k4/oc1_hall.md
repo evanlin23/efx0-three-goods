@@ -1374,8 +1374,9 @@ wanters of Y_k, both unfrozen at the picks, and all are repaired. This is the f 
   - Y_z goes to z, whose slot {a, Y_z} is safe since v(J ∩ R_z) < 2p_z < v(a) + p_z. Otherwise it goes to a second
     wanter, unfrozen at the picks by Remark 2 and therefore unexposed.
 - For |D| = 1 the argument is complete: the frozen agents other than k value no junk.
-- For |D| ≥ 2 it also needs the other dangerous agents, including dangerous middle agents, to be unthreatened by J
-  at their B′ values. That condition has been asked of its authors.
+- For |D| ≥ 2 the hypothesis D_T = {k} gives it: every other dangerous agent, including a dangerous middle agent, is
+  unthreatened by J at its pick value, hence also after the chain. Its authors have now made this explicit in
+  `k4/oc1max_multi.md` §3.
 - It applies at 15 of the 197 starts of §21. D1H-X lies outside it: J threatens both heads, and each ends frozen.
 
 **Larger n** (`k4/oc1_hall/d1_big.py`, `d1_big_cores6.log`, `d1_big_n6.log`, `d1_big_n7.log`, `d1_big_n8.log`;
@@ -1555,12 +1556,12 @@ Each leaf is a named statement with its status and the session that owns it.
 | 3b | \|D\| = 1, every canonical chain has HEAD | **D1-HJ**: some chain whose head adds at most one junk good repairs, with owner k. The canonical form (D1-LONG, D1-H(ii)) is refuted by D1H-X | **open**; 59/59 all-HEAD starts in k4-d1's data | k4-d1 |
 | 4 | \|D\| ≥ 2 after a canonical chain | Lemma D-red: the obstacles are HEAD, CROWD and DEMAND | written proof | k4-oc1max-multi |
 | 4a | the head's Θ(z) ⊆ {k} | Corollary TR: no DEMAND, so case 3 applies | written proof | k4-oc1max-multi |
-| 4b | one truly dangerous agent | Lemma KEEP, Corollary KEEP-1 (3,244 of 3,259 starts); KEEP-C (15 starts) open | proof plus open residue | k4-oc1max-multi |
+| 4b | one truly dangerous agent | Theorem U (2,880 starts outright), Lemma KEEP, Corollary KEEP-1; KEEP-C (8 starts) open | proof plus open residue | k4-oc1max-multi |
 | 4c | k takes a shared junk pair | Lemmas SET and OWN (the PWk(a) overlap step and its owner) | written proofs | k4-oc1max-multi |
-| 4d | several truly dangerous agents, or DEMAND with none | SLOT (701 starts) | **open** | k4-oc1max-multi |
-| 4e | the head is a second dangerous agent | RING (76 starts, smallest T3) | **open** | k4-oc1max-multi |
-| 4f | disjoint danger sets: one move | "one chain repairs" when no two dangerous agents share a pool danger set | **unverified**: all 8,383 hard \|D\| ≥ 2 starts of their data are repaired by one move, but nobody has checked whether the absence of sharing is what makes one move enough; requested from k4-oc1max-multi | k4-oc1max-multi |
-| 5 | **no one-move repair**: the second move | Sub-lemma OC2-LIFT (below) | **open**; evidence on all 12 known instances | integrator (this note); proofs welcome from k4-oc1max-multi and matching |
+| 4d | several truly dangerous agents, or DEMAND with none | SLOT (581 starts) | **open** | k4-oc1max-multi |
+| 4e | the head is a second dangerous agent | Lemma RING-red (rings with owner k) proves 151 starts, T3 with order (0, 1, 2) among them; RING (45 starts) is open | proof plus open residue | k4-oc1max-multi |
+| 4f | disjoint danger sets: one move | "one chain repairs" when no two dangerous agents share a pool danger set | **unverified**: all 8,383 hard \|D\| ≥ 2 starts of their data are repaired by one move, but nobody has checked whether the absence of sharing is what makes one move enough. The census split by sharing is running in k4-oc1max-multi | k4-oc1max-multi |
+| 5 | **no one-move repair**: the second move | Sub-lemma OC2-LIFT (below) | **open**; evidence on all 12 known instances. They all have one unfrozen pick holder, and the obstacles of their canonical chains are only DEMAND and CROWD, never HEAD. At n = 4, D_T = the two sharers; at the TTC core, D_T = ∅ (k4-oc1max-multi's `cex_check.log`) | k4-oc1max-multi (working on it); matching (EX\*) |
 | 6 | three moves needed? | three sharers of one pool pair with no slots | being searched (n = 5–7) | compute/k4-oc1max-cert |
 
 ### 23.3 The single sub-lemma the second move needs
