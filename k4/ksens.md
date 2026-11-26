@@ -14,24 +14,43 @@ agent on it strictly gains), and a *completion* keeps every base. Random and cli
   - The same family at k = 4 (pool of three goods) satisfies OC₁, and the proof shows why. After one repair a frozen
     agent's pool has k − 3 goods left, which is 1 at k = 4 and fits the one free slot the order always leaves; at
     k = 5 two are left (§2).
-  - MD and SD-C hold on PW5.
-- **Theorem DT's conclusion is false at k = 5** (§3): with distinct tops, n = 2, m = 6, the picks have no
-  one-absorber completion. The only step of DT that uses k ≤ 4 is (F4), and this is where it breaks. OC₁ survives
-  there with a chain of length 0.
-- **Tools.** `k4/ksens/ocsat.py` decides SD-C, MD, OC and OC₁ for one start with one SAT call each. The chain is
-  encoded in SAT, with no bound on set sizes, for any k. `k4/ksens/brute.py` is an independent brute force from the
-  definitions (numpy, no SAT).
+  - MD and SD-C hold on PW5. PW5 needs exactly two chains.
+- **A ladder** (§4). In the PW family, c chains are needed exactly when k ≥ 2c + 3, so c chains suffice in the
+  family iff k ≤ 2c + 2.
+  - c = 0 is serial dictatorship: no chain needed for k ≤ 2, LB⁺'s rotation needed at k = 3.
+  - c = 1 is OC at k = 4.
+  - c = 2 (PW(4, 3, 6) at k = 7): running.
+
+  One *round* of vertex-disjoint chains, followed by a one-absorber completion, repairs every PW and POOL instance
+  tested, k = 5–10. That variant survives this obstruction at every k.
+- **The k ≤ 4 steps of the proved lemmas are sharp** (§3).
+  - Theorem DT's conclusion fails at k = 5 (n = 2, m = 6, distinct tops: no one-absorber completion).
+  - Theorem DT₁'s conclusion fails at k = 5 (n = 3, m = 8: hypothesis (G3) of Lemma GDT fails after the swap).
+  - Both are checked by SAT and brute force; OC₁ still holds on both instances. At k = 4, DT₁ held on all 1,022 swaps
+    tested.
+- **k = 4 itself** (§5): no counterexample to OC₁.
+  - PW-shaped generators and climbs at n = 5, 6 bottom out at exactly one repairing state, as the k = 4 climbs of
+    `k4/sdc.md` did.
+  - Two copies of the k = 4 instance that refutes the strict dichotomy (n = 6) satisfy OC₁: one copy's absorber takes
+    the other's danger-free junk (`attempts/k4-ksens-union.md`).
+- **Tools.**
+  - `k4/ksens/ocsat.py` decides SD-C, MD, OC and OC₁ for one start with one SAT call each, at any k. The chain (or a
+    round of disjoint chains) is encoded in SAT, with no bound on set sizes. `k4/ksens/kchains.py` gives the least
+    number of chains by breadth-first search.
+  - `k4/ksens/brute.py` is an independent brute force from the definitions (numpy, no SAT).
   - ocsat agrees with k4/sdc's enumerative chains on 1,758 starts (exact repairing-state counts included).
-  - ocsat agrees with brute.py on 296 starts, PW5, its k = 4 version and the §3 instance included
-    (`xcheck_brute_*.log`, `refute_oc_k5.log`, `dt_k5.log`; 0 mismatches).
+  - ocsat agrees with brute.py on 296 starts, PW5, its k = 4 version and the §3 instances included
+    (`xcheck_brute_*.log`, `refute_oc_k5.log`, `refute_dt_k5.log`; 0 mismatches).
 - **Random junk-rich surveys** (`survey_*.log`): no failure of any of the four conjectures.
   - n = 4, k = 5, 6, 8: 4,800 instances;
-  - n = 5, k = 5, 6: 7,200 instances, about 87,000 starts.
+  - n = 5, k = 5, 6: 7,200 instances, about 87,000 starts;
+  - PW-shaped, n = 5, k = 4: 600 instances.
 
-  Random sampling does not find PW-type structure, which needs every pair of a shared pool to be dangerous for
-  every frozen agent.
-- **Next:** how many chains the PW family needs as k grows (does any fixed number of chains fail at some k?); MD and
-  SD-C at larger k; Lemma GDT and Theorem DT₁ at k = 5.
+  Random sampling misses PW-type structure, which needs every pair of a shared pool to be dangerous for every frozen
+  agent.
+- **Not found at any k: a failure of MD or SD-C.** Both hold on every PW instance; climbs for them at larger k are
+  next. MD at every k contains EFX₀ existence for all additive instances, so a proof of MD must use k ≤ 4 or solve
+  that problem.
 
 ## 1. OC and OC₁ fail at k = 5: the instance PW5
 
@@ -126,5 +145,76 @@ agent 1 values goods 1 (100), 2, 3, 4, 5 (94, 93, 92, 91). The tops are distinct
   k ≤ 4 only in (F4): {a, g} is robust for every g except the exception d. At k = 5, {a, b} is not robust once
   c + d + e > a + b.
 
-So at k = 5 even distinct tops need a chain under one absorber. Theorem DT⁺, Lemma GDT (whose proof runs DT's moves)
-and Theorem DT₁ (step 3: "at most one other good, since |R_x| ≤ 4") are k = 4 statements by construction.
+So at k = 5 even distinct tops need a chain under one absorber. The same instance refutes Theorem DT⁺ and Lemma GDT
+at k = 5: with no pair holders and no frozen agent, GDT's conclusion is DT's. GDT's proof runs DT's moves, so it uses
+(F4) as well.
+
+**Theorem DT₁ at k = 5** (`k4/ksens/dt1_k5.py`, `dt1_k5.log`; replay `refute_dt_k5.py`, `refute_dt_k5.log`).
+DT₁'s proof uses k ≤ 4 in step 3: R_x ∖ H₀ is a_x (now w's base) and at most one other good, which gives GDT's
+(G3). At k = 5 there can be two other goods, both in the junk, worth more together than H₀.
+- *Instance DT1-5:* agent 0 values goods 1, 2, 3, 6, 7 at 33, 19, 27, 18, 28; agent 1 values 0, 1, 2, 4, 7 at 22, 32,
+  14, 26, 28; agent 2 values 2, 3, 4, 5, 7 at 6, 5, 9, 14, 10.
+- *Setting.* Order (0, 1, 2) gives picks 1, 7, 5. The only want is agent 1 for good 1, so x = 0 is the only frozen
+  agent and w = 1 its only wanter. x values H₀ = {3, 6} at 45 > 33.
+- *After the swap* the bases are {3, 6}, {1}, {5} and the junk is {0, 2, 4, 7}. x's other goods 2 and 7 are worth
+  47 > 45.
+- GDT's completion with owner 2 does not exist (SAT; brute force: 0 allocations). 17 EFX₀ completions of the swapped
+  state exist, all of which give x a junk good. So OC₁ survives; DT₁'s shape does not.
+- *Frequency* (random n = 3, 4, five goods per agent): the conclusion fails for every owner in 73 of 2,580 swaps.
+  With four goods per agent it held on all 1,022 swaps, as the proof says.
+
+## 4. How many chains: a ladder in k
+
+`k4/ksens/kchains.py` gives the least number of improving chains (applied one after another, each from the current
+bases) after which the start extends. Breadth-first search: the states of each level are listed by SAT
+(`kchains.reach`), the last level is tested with one SAT call per state. On PW5 it lists the same 537 one-chain
+states as the brute force.
+
+| instance (`fam_ladder.py`, clean values) | k | n | least chains (free / one absorber) |
+|---|---|---|---|
+| PW(3, 2, 4) = PW5 | 5 | 5 | 2 / 2 |
+| PW(4, 2, 4) | 5 | 6 | 2 / 2 |
+| PW(3, 3, 5) | 6 | 6 | 2 / 2 |
+| PW(4, 3, 5) | 6 | 7 | 2 / 2 |
+| PW(4, 3, 6) | 7 | 7 | running (> 1 confirmed) |
+
+*The count behind it.* In PW(f, W, r) every frozen agent values the whole pool (r = k − 1 goods), and the W
+wanters each want every frozen pick.
+- While some frozen agent stays unrepaired, each chain can repair only its head x₀. Each repair costs two pool goods
+  and uses up one wanter, which then holds a pick the other wanters want.
+- After c chains, r − 2c pool goods are left, and only the W − c unused wanters can take one each.
+- So c chains fail when r − 2c > W − c ≥ 1, i.e. when k − 1 − 2c ≥ 2: **k ≥ 2c + 3.** With c = 1 that is k ≥ 5.
+- The bound is attained by PW(c + 2, c + 1, 2c + 2).
+
+This matches what is known at the bottom of the ladder.
+- c = 0 (the picks of every order extend) holds for k ≤ 2 (serial dictatorship, K3.SD2) and fails at k = 3, where
+  LB⁺ needs its rotation.
+- c = 1 is OC, which holds on all k = 4 data and fails at k = 5 (§1).
+
+The c = 2 rung, "two chains suffice for k ≤ 6", is a prediction for which only the PW family is evidence. A proof of
+OC₁ at k = 4 is the c = 1 rung. It must use **pool leftover ≤ 1**: after a repair consumes a danger pair, the
+frozen agent's pool has at most k − 3 = 1 good left, and that good fits one slot.
+
+**One round of disjoint chains** (`ocsat.OC.holds(..., multi=True)`: any number of vertex-disjoint chains at once,
+each x₀ taking only from its own chain's end; `k4/ksens/round_pw.py`, `round_pw.log`). Every PW and POOL instance
+tested is repaired by one round followed by a one-absorber completion:
+- 90 PW instances with k = 5–9;
+- POOL(4, 7) and POOL(5, 9) (k = 8, 10).
+
+In PW the repairs are independent: each takes a fresh frozen agent and a fresh wanter. So "one round of disjoint
+chains, then one absorber" is not refuted by this mechanism at any k. A climb against it (`climb.py round1`, n = 4, 5,
+k = 5, 6) has not found a failure (`climb_round1_*.log`).
+
+## 5. k = 4
+
+- *PW-shaped instances at k = 4* (`gen.py pw`: frozen agents sharing a pool of three or four, wanters of random
+  subsets of their picks, extra agents): no failure of OC₁ (`survey_pw_n5k4.log`, 600 instances at n = 5).
+- *Climbs against OC₁* from those starts, n = 5 (40 rounds) and n = 6 (30 rounds, all 720 orders per evaluation)
+  (`climb_oc1_n5k4_pw.log`, `climb_oc1_n6k4_pw.log`). They bottom out at exactly one repairing state, as the k = 4
+  climbs of `k4/sdc.md` §29 did.
+- *Disjoint unions* (`attempts/k4-ksens-union.md`). Two copies of the dichotomy counterexample K4.SDC.DICH need two
+  absorbers if each copy keeps its own junk. They do not: one copy's absorber takes the other copy's junk that holds
+  no danger set, and OC₁ holds (n = 6).
+- *Complete want* (`attempts/k4-ksens-complete-want.md`, `fam_cw.py`). Every frozen pick stays wanted after a chain,
+  yet the chain can dump the last frozen pick on a wanter as that wanter's one junk good, which satisfies it. OC₁
+  holds on all 240 instances, k = 5–8.

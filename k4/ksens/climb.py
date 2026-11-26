@@ -4,6 +4,7 @@ Objectives (minimized; first coordinate 0 = counterexample to the target):
   oc1 : over the starts whose picks have no one-absorber completion, the least number of states one improving chain
         reaches that have one (ocsat.OC.count, capped), then minus the number of such hard starts;
   oc  : the same with the free completion;
+  round1, round: the same with one round of vertex-disjoint chains (ocsat multi) instead of one chain;
   sdc : the number of distinct serial-dictatorship outcomes that extend (free completion), then minus the number of
         outcomes;
   md  : over every start, the least number of value-dominating complete EFX0 allocations (capped).
@@ -26,12 +27,12 @@ def objective(target, sets, vals):
     m = 1 + max(max(s) for s in sets); n = len(sets)
     O = ocsat.OC(sets, vals, m); st = ocsat.starts(sets, vals, m)
     try:
-        if target in ('oc1', 'oc'):
-            A = 1 if target == 'oc1' else None; cnt = {}
+        if target in ('oc1', 'oc', 'round1', 'round'):
+            A = 1 if target in ('oc1', 'round1') else None; cnt = {}; multi = target.startswith('round')
             for Y in st:
                 b = ocsat.bases_of(Y, n)
                 if O.holds(b, chain='none', A=A): continue
-                cnt[Y] = O.count(b, chain='need', A=A, cap=CAP)
+                cnt[Y] = O.count(b, chain='need', A=A, cap=CAP, multi=multi)
             if not cnt: return (99, 0), None
             lo = min(cnt.values())
             return (lo, -len(cnt)), min(cnt, key=cnt.get)

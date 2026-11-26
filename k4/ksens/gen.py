@@ -63,4 +63,27 @@ def gen(kind, rng, n, K):
             lo = rng.sample(range(1, min(V)), k - len(h))
             sets.append(S); vals.append(V + lo)
         return finish(sets, vals)
+    if kind == 'pw':
+        # PW-shaped (k4/ksens.md §1): f frozen agents, each valuing its pick p_j and K-1 goods of a pool (shared with
+        # the other frozen agents, plus some private goods), W wanters valuing a random set of the p's above their q;
+        # the remaining agents (if any) random.  Values: pool goods above half the pick, perturbed.
+        f = rng.randint(2, max(2, n - 2)); W = rng.randint(1, max(1, n - f))
+        npool = rng.randint(K - 1, K + 1); pool = list(range(f + W, f + W + npool)); nxt = f + W + npool
+        sets, vals = [], []
+        for j in range(f):
+            own = rng.sample(pool, min(K - 1, npool))
+            if rng.random() < 0.3 and own:
+                own[rng.randrange(len(own))] = nxt; nxt += 1
+            top = rng.randint(18, 24)
+            V = [top] + [rng.randint(top // 2 + 1, top - 1) for _ in own]
+            if not distinct(V): V = [top] + rng.sample(range(top // 2 + 1, top), len(own))
+            sets.append([j] + own); vals.append(V)
+        for i in range(W):
+            ps = rng.sample(range(f), rng.randint(1, min(f, K - 1)))
+            V = rng.sample(range(3, 15), len(ps)) + [rng.randint(1, 2)]
+            sets.append(ps + [f + i]); vals.append(V)
+        while len(sets) < n:
+            k = rng.randint(2, K); S = rng.sample(range(nxt + 2), k)
+            sets.append(S); vals.append(rng.sample(range(1, 25), k))
+        return finish(sets, vals)
     raise ValueError(kind)

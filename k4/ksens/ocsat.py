@@ -71,7 +71,7 @@ class OC:
         self.S.delete()
 
     # ------------------------------------------------------------------ per-start clause group
-    def group(self, base, chain='any', A=None, md=False):
+    def group(self, base, chain='any', A=None, md=False, multi=False):
         """add the clauses of one question under a fresh activation literal; returns (act, nb) with nb[(g, i)] the
         new-base variables.  base: list of goods per agent (the start).  chain: 'none' | 'any' | 'need' (exactly one
         chain, possibly t = 0).  A: None (free completion) or the absorber bound.  md: add value domination of the
@@ -106,7 +106,19 @@ class OC:
             add([-on[i], st[i]] + pred); add([-on[i], en[i]] + succ)
             add([-on[i]] + pos[i]); add([-st[i], pos[i][0]])
             for a, b in itertools.combinations(pos[i], 2): add([-a, -b])
-        for a, b in itertools.combinations(st, 2): add([-a, -b])
+        if not multi:
+            for a, b in itertools.combinations(st, 2): add([-a, -b])
+            root = None
+        else:      # root[i][a]: agent i lies on the chain that starts at a
+            root = [[self.new() for a in range(n)] for i in range(n)]
+            for i in range(n):
+                add([-st[i], root[i][i]])
+                add([-on[i]] + root[i])
+                for a, b in itertools.combinations(root[i], 2): add([-a, -b])
+                for a in range(n):
+                    add([-root[i][a], on[i]]); add([-root[i][a], st[a]])
+                    for j in range(n):
+                        if j != i: add([-s[i][j], -root[i][a], root[j][a]])
         if chain == 'none':
             for i in range(n): add([-on[i]])
         elif chain == 'need':
@@ -125,6 +137,7 @@ class OC:
                     add([-s[j][i], l])
                     if g in R[i]:
                         add([-l, s[j][i], st[i]]); add([-l, s[j][i], en[j]]); add([-l, s[j][i], -st[j]])
+                        if root is not None: add([-l, s[j][i], root[j][i]])
                     else:
                         add([-l, s[j][i]])
         # improvement of every chain agent
@@ -168,8 +181,8 @@ class OC:
     def retire(self, act):
         self.S.add_clause([-act])
 
-    def holds(self, base, chain='any', A=None, md=False, model=False):
-        act, nb = self.group(base, chain, A, md)
+    def holds(self, base, chain='any', A=None, md=False, model=False, multi=False):
+        act, nb = self.group(base, chain, A, md, multi)
         self.calls += 1
         ok = self.S.solve(assumptions=[act])
         res = ok
@@ -181,9 +194,10 @@ class OC:
         self.retire(act)
         return res
 
-    def count(self, base, chain='need', A=None, cap=20):
-        """number of distinct new-base vectors (states one chain reaches) that have a completion, up to cap"""
-        act, nb = self.group(base, chain, A)
+    def count(self, base, chain='need', A=None, cap=20, multi=False):
+        """number of distinct new-base vectors (states one chain, or one round with multi, reaches) that have a
+        completion, up to cap"""
+        act, nb = self.group(base, chain, A, multi=multi)
         keys = sorted(nb); lits = [nb[k] for k in keys]; c = 0
         while c < cap:
             self.calls += 1
