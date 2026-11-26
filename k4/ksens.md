@@ -15,10 +15,11 @@ agent on it strictly gains), and a *completion* keeps every base. Random and cli
     agent's pool has k − 3 goods left, which is 1 at k = 4 and fits the one free slot the order always leaves; at
     k = 5 two are left (§2).
   - MD and SD-C hold on PW5. PW5 needs exactly two chains.
-  - **The failing order is not R1-priority.** OC₁ restricted to R1-priority orders (LB's Phase 1) holds on every PW
-    instance at k = 5, 6. It fails at k = 7 (PW(4, 3, 6), checked by both SAT encodings and by a SAT-free
-    enumeration of the 29,683 one-chain states, `refute_oc1_r1_k7.log`). A k = 4 proof that uses only R1 orders, or
-    one well-chosen order, is not refuted by PW below k = 7 (§4).
+  - **The failing order is not R1-priority.** The other order classes fail later (§4, "Which orders"):
+    - R1-priority orders (LB's Phase 1) and the neediest-first order of `k4/sdc.md` §9 first fail at k = 6;
+    - some order (SD-C) never does.
+
+    Each k = 6 case is checked by two SAT encodings and by a SAT-free enumeration of all one-chain states.
 - **A ladder** (§4). The least number of improving chains the PW family needs is exactly ⌊(k − 1)/2⌋, computed by
   a second SAT encoding (`ocseq.py`) for k = 5–9:
 
@@ -228,32 +229,53 @@ improving chains.
 - k = 3: evidence only (`k4/sdc.md` §29, at k = 3 no start needs more than one chain).
 - k = 4: OC, evidence only.
 - Tight (some start needs that many) for k = 3, 4 by the data and for k = 5–9 by PW.
-- Its upper side at k = 5, 6 ("two chains suffice") is under test: `climb.py oc2`, from PW starts.
+- Its upper side at k = 5, 6 ("two chains suffice"): climbs from PW starts (`climb.py oc2`, n = 5 at k = 5 and n = 6
+  at k = 6, 50 rounds) found no start needing three chains.
 
 A proof of OC₁ at k = 4 is the c = 1 rung. It must use **pool leftover ≤ 1**: after a repair consumes a danger pair,
 the frozen agent's pool has at most k − 3 = 1 good left, and that good fits one slot.
 
-**Which orders.** OC and OC₁ quantify over every order; TARGET needs one.
-- *Every order fails at k = 5.* In PW5 the failing order serves the three frozen agents before the wanters. It is
-  not R1-priority: after x₁ takes p₁, the wanters have lost a good, and R1 serves them next.
-- *R1 orders* (`k4/ksens/r1_pw.py`, `r1_pw.log`). OC₁ holds on every R1-priority start of PW(3, 2, 4), PW(4, 2, 4)
-  and PW(3, 3, 5), clean and random values (k = 5, 6).
-- *It fails at k = 7.* On PW(4, 3, 6), 6 of the 198 R1-priority starts fail. Example: service order (x₁, w₁, x₂, x₃,
-  x₄, w₂, w₃).
-  - w₁ takes p₂, and x₂ (having lost p₂) takes a pool good.
-  - That leaves three frozen agents (x₁, x₃, x₄; w₁ is frozen too) sharing the five other pool goods, with two slots
-    (w₃, and x₂'s two-good bundle).
-  - R1 costs PW two pool goods.
-  - Checks (`refute_oc1_r1_k7.py`, `refute_oc1_r1_k7.log`): ocsat and ocseq say no one-chain repair and a two-chain
-    one; brute.py independently enumerates the 29,683 one-chain states and finds no completion of any of them.
-    The completions are decided by backtracking from the raw definition, validated against the full enumeration on
-    PW5.
-- *Some order* (SD-C, zero chains): holds on every PW instance.
-- So for a k = 4 proof:
-  - "from every order, one chain" is a k ≤ 4 statement with a k = 5 counterexample;
-  - "from every R1 order" has its first known counterexample at k = 7;
-  - "from some order" (SD-C) has none.
-- Climbs against OC₁ on R1 orders at k = 5, 6 (`climb.py oc1r1`, from PW starts) are running.
+**Which orders.** OC and OC₁ quantify over every order; TARGET needs only one good order. Where the failure first
+appears depends on which orders are allowed:
+
+| orders allowed | first failure of OC₁ (and OC) | instance | checks |
+|---|---|---|---|
+| every order | k = 5, n = 5, m = 9 | PW5 (§1) | SAT, full brute force, written proof |
+| neediest first, need = y₁ − y₂ (plain) | k = 5 | PW5 with pool 24..21, pick 40 (`nf_orders.log`) | SAT |
+| neediest first, need = y₁ − y₂ − y₃ (§9 of `k4/sdc.md`), plain | k = 6, n = 6, m = 11 | NF2-6 | SAT ×2, SAT-free |
+| R1-priority (LB's Phase 1), some R1 order | k = 6, n = 6, m = 11 | PWR1-6 | SAT ×2, SAT-free |
+| R1 neediest first, need = y₁ − y₂ | k = 6, n = 7, m = 12 | NF1R1-6 | SAT ×2, SAT-free |
+| R1 neediest first, need = y₁ − y₂ − y₃; "needall" | none found | | |
+| some order (SD-C: zero chains) | none found | | |
+
+Notes on the table:
+- *The checks* (`refute_oc1_r1.py`, `refute_oc1_r1.log`). "SAT ×2" means ocsat and ocseq: no one-chain repair, and
+  a two-chain repair exists. "SAT-free" means brute.py enumerates every one-chain state (2,514 to 29,683 per case)
+  and finds no completion of any, by backtracking against the raw definition. The backtracking was validated against
+  the full enumeration on PW5 (38,286 comparisons).
+- *Why R1 costs a pool good.* In PW5's failing order the three frozen agents are served before the wanters. R1
+  serves a wanter as soon as it has lost a good. In the R1 runs:
+  - the first wanter takes a second frozen pick (and is frozen itself);
+  - the frozen agent that lost it takes a pool good;
+  - the other frozen agents, having lost that pool good, are served before the remaining wanters.
+
+  That costs one pool good, and the displaced agent's two-good bundle is a new slot.
+  - PWR1-6 removes that slot: the wanters value the displaced pool good slightly above their own good, so its holder
+    is frozen too.
+  - The count of §4 then needs three wanters and a pool of five, so k = 6. With this design k = 5 cannot fail under
+    R1, and every k = 5 R1 variant tested holds.
+- *Neediest-first* is value-sensitive. With the default values the wanters are the needier agents, are served first,
+  and the picks extend (`nf_orders.log`). Flattening the wanters' values (p's 200, 199, 198, q 190) or lowering the
+  pool goods to just above half the pick puts the frozen agents first.
+- Climbs against OC₁ on R1 orders at k = 5 (`climb.py oc1r1`, n = 5, 30 rounds from PW starts): no failure.
+
+So for a k = 4 proof:
+- "from every order, one chain" has a k = 5 counterexample;
+- "from every R1 order" and "from the neediest-first order" have k = 6 counterexamples;
+- "from some order" (SD-C) has none.
+
+A proof that fixes the order cleverly is not refuted at any k by this mechanism; the k ≤ 4 property it would use is
+still pool leftover ≤ 1 (§2).
 
 **One round of disjoint chains** (`ocsat.OC.holds(..., multi=True)`: any number of vertex-disjoint chains at once,
 each x₀ taking only from its own chain's end; `k4/ksens/round_pw.py`, `round_pw.log`). Every PW and POOL instance

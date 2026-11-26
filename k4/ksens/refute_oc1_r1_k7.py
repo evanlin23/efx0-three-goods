@@ -1,4 +1,4 @@
-"""OC1 (and OC) restricted to R1-priority orders fail at k = 7 (k4/ksens.md §4): PW(4, 3, 6) with clean values,
+"""(Superseded by refute_oc1_r1.py, which includes this case as PW436.)  OC1 (and OC) restricted to R1-priority orders fail at k = 7 (k4/ksens.md §4): PW(4, 3, 6) with clean values,
 the R1-priority service order (x_1, w_1, x_2, x_3, x_4, w_2, w_3).  Checks, from the picks:
   1. ocsat.py (one chain encoded in SAT) and ocseq.py (a separately written encoding of c chains), both on sdclib's
      EFX0 clauses;
