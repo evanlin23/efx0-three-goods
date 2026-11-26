@@ -4,21 +4,38 @@ Branch `claude/k4-vm`, draft PR "[proof/k4-vm] From 4-limited EFX to EFX₀". Co
 Everything called evidence below is evidence only (PROMPT.md §5 rule 3). Nothing here changes a ledger row; the
 coordinator integrates.
 
-## Status (burst 2, in progress; burst 1 below it)
+## Status (end of burst 2; burst 1 below it)
 
-- **Burst 2: EFX₀ repairs of V-M, killed or confirmed by computation** (§6, §7).
-  - F1 (EFX₀ graph over all agents), F2 (EFX₀-safe Phase III), F3 (L3 junk) and rotation complete V-M's matching
-    wherever it extends, on screen, logs, SPECIAL and cores n = 3 and n = 5.
-  - **The completion conjecture VC is REFUTED** at n = 4, m = 8 (`attempts/k4-vm-completion.md`, independent
-    replay). V-M's Phase III order hands a good to the wrong agent.
-  - Adding **exchange moves (F6x)** gives a run that ends EFX₀ on all 168 screen instances. But the two natural
-    deterministic rules fail: "move only when stuck" on 2 instances, "move whenever possible" on 5 (smallest n = 3,
-    m = 6).
-  - **Proved** (§7): every run of the repaired procedure VMˣ keeps a partial EFX₀ allocation (Lemma SND) and stops
-    after at most m placements and 15n value-raising moves (Lemma TERM).
-  - The open part is **Conjecture VMX**: some run never gets stuck. VMX implies TARGET₄ and, for V-M's matchings,
-    Conjecture MD. Its runs are value-monotone, so P1 (K4.SDC.P1) explains why the choice of path matters.
-  - Pending: F5 (strip and refill), the fair order, F6x beyond the screen set.
+- **PROVED: Theorem VM (§8).** Viswanathan–Mehta's algorithm, as reconstructed (§2, main reading), returns a complete
+  *ordinary* EFX allocation on every 4-limited instance, for every resolution of its choices.
+  - The abstract's unproved step ("there will be a source in the EFX graph") is proved: the EFX graph is acyclic and
+    its directed paths have at most two edges.
+  - The literal text needs one correction (G1: remove only the *matched* Phase-I agents). Without it, it fails at
+    n = 2, m = 2 (§4.2).
+  - Written proof, not refereed. Every step is asserted on 253,151 runs by `vm_thm_check.py`.
+- **EFX₀: where V-M breaks.** Exactly at the steps where the proof of Theorem VM dismisses non-valuers.
+  - Three stages fail (§5): the rank-greedy matching (S1), Phase III's order (S2) and the EFX graph (S3).
+  - The matching stage fails even for 3-limited instances (n = 3, m = 5). The cause is the upper-set trade that
+    LB⁺'s upgrades perform, which a rank-greedy matching cannot express.
+- **Repairs, killed or confirmed (§6), each refutation with an independent replay in `attempts/k4-vm-*.md`:**
+  - F1–F3 + rotation (EFX₀-safe placement): complete V-M's matching on 17,120 of the 17,121 instances where it
+    extends. The exception is `core4:1615`, so **Conjecture VC is REFUTED** at n = 4, m = 8.
+  - F1 alone, in an arbitrary order, fails even with distinct tops (n = 2, m = 5).
+  - F5 (strip zero goods and refill) is no better than F1–F3 + rotation.
+  - Canonical starts fail:
+    - fair (leximin-rank) SD outcomes at n = 3, m = 5;
+    - starting from every SD outcome at n = 4, m = 7, needing a three-agent cycle.
+  - **F6x (pool upgrades and two-agent exchanges, as choice points): some run is EFX₀ on every instance tested**
+    (§6.4). That is **Conjecture VMX**, which implies TARGET₄ (§7).
+  - Every deterministic rule for F6x fails. The fully deterministic lookahead algorithm VM-LL fails at n = 2, m = 5,
+    in about 0.05–1% of instances.
+- **PROVED (§7):** Lemma SND (every VMˣ state is partial EFX₀) and Lemma TERM (at most m placements and 15n moves per
+  run). VMˣ is a sound, polynomial-per-run nondeterministic procedure. VMX is the claim that some run never gets
+  stuck. Its runs never lower a value, which is why P1 (K4.SDC.P1) makes the choice of path essential.
+- **For the coordinator** (no ledger edits here):
+  - proposed rows: Theorem VM (PROVED, written); VC (REFUTED); VMX (CONJECTURE, evidence); VM-LL (REFUTED);
+  - `proofs/citations.md` item 2 can now say that the abstract was re-read via pdftotext, and that its algorithm, with
+    G1 corrected, has a complete proof here.
 
 ## Status (end of burst 1)
 
@@ -383,13 +400,48 @@ one-good lookahead is not enough either. This is
 P1's lesson (K4.SDC.P1) inside V-M's frame. Every step of F1–F6x is value-monotone (nobody loses), so a run can walk
 into a stuck partial EFX₀ allocation, and only the choice of path avoids it.
 
-### 6.3 F5 (strip and refill) and the fair order
+### 6.3 F5 (strip and refill), canonical SD starts, arbitrary starts, and k = 3
 
-PENDING (`vm_strip_*.log`, `vm0_fair_*.log`).
+All of these are refuted. The details, with independent replays, are in `attempts/k4-vm-orders.md`,
+`attempts/k4-vm-every-start.md` and `attempts/k4-vm-skeleton.md`.
 
-### 6.4 F6x choice beyond the screen set
+- **F5, strip and refill** (`vm_strip_screen.log`).
+  - The only repair whose steps lower values. With rotation it succeeds on 154 of 168, no better than F1–F3 with
+    rotation.
+  - It fails on the same matching-stage instances, smallest n = 3, m = 5. Stripping removes harmful goods but never
+    turns a top into an upper set.
+- **Canonical SD outcomes** (`vm0_fair_screen.log`). The repair succeeds from some selected outcome on:
+  - 165 of 168 for leximin on ranks (fair);
+  - 162 for rank-maximal;
+  - 154 for V-M's own matchings.
 
-PENDING (`vm6_*.log`).
+  The smallest fair failure is `induct-g-r2` (n = 3, m = 5). There the extending outcomes are exactly those in which
+  the agent owning a private upper set picks last, and no rank-vector rule can see that.
+- **Every SD outcome as a start** (`vm0_sd_screen.log`, `vm6_sd_*.log`). Some outcome completes on all 168. But:
+  - 24 outcomes extend yet do not complete under F1–F3 with rotation (the GM4 family among them);
+  - VMˣ (with exchanges) from the SD outcome (2, 6, 4, 5) of `r4253` (n = 4, m = 7) has no EFX₀ run, although 8
+    EFX₀ allocations value-dominate it. They all need a three-agent cycle.
+- **k = 3.** V-M's matching is not a sound base even for 3-limited instances, where TARGET is proved. On random
+  general 3-limited instances it fails on 7 of 4,000 (`vm0_gen3lim.log`) and 50 of 20,000 (`vm_smallest_gen3lim.log`),
+  smallest n = 3, m = 5. In that instance a balanced agent must trade its uncontested top for the pair worth more,
+  LB⁺'s upgrade. VMˣ with free choices succeeds on all 4,000 (`vm6_gen3lim.log`).
+
+### 6.4 F6x with choices (VMX) beyond the screen set
+
+| source | instances | some run EFX₀ | every run EFX₀ | first run (all ties by index) EFX₀ | log |
+|---|---|---|---|---|---|
+| screen | 168 | **168** | 64 | | `vm6_screen.log` |
+| logged hard profiles | 42 | **42** | | 40 | `vm6_logs.log` |
+| SPECIAL | 4 | **4** | | 4 | `vm6_special.log` |
+| cores n = 3 (random strict profiles) | 1,500 | **1,500** | 1,094 | 1,485 | `vm6_cores3.log` |
+| cores n = 4 | 800 | **800** | 665 | 797 | `vm6_cores4.log` |
+| general, n ≤ 6, m ≤ 10, junk | 3,000 | **3,000** | 2,838 | 2,996 | `vm6_gen.log` |
+| general 3-limited | 4,000 | **4,000** | | | `vm6_gen3lim.log` |
+| suite (n ≤ 26; DFS capped at 150 runs, then 30 samples) | see `vm6_suite.log` | | | | |
+
+No counterexample to VMX is known. Choice is essential: "every run" fails on 5–30% of the hard sets, and the first
+run fails already at n = 2, m = 5. The F6x lazy variant fails on 2 of 168 screen instances and on none of the
+random sets.
 
 ## 7. Proved: soundness and termination of the repaired procedure
 
@@ -431,3 +483,101 @@ VMX implies TARGET₄ (Lemma SND). It also implies, for the V-M matching the run
 Conjecture MD (K4.SDC.MD, `k4/sdc.md` §28): the final allocation value-dominates the start, because no step lowers a
 value. VMX is a *path* statement. Its runs are Pareto-monotone, so by P1 they can be trapped, and VMX says that some
 path avoids every trap.
+
+## 8. Theorem VM: a proof of Viswanathan–Mehta's claim (ordinary EFX), main reading
+
+The abstract asserts the source property ("we are able to prove that ... there will be a source") without proof.
+Here is a complete proof for the reconstruction of §2 under the main reading (rank = G, aout = matched, n1a = Y).
+Values are nonnegative and additive, ties are allowed, and rankings break ties by good index.
+
+**Theorem VM.** If every agent values at most four goods, every run of VM (any resolution of its choice points) ends
+with a complete EFX allocation. At every EFX-graph step the graph G_efx(j, S, X) is acyclic, every directed path in it
+has at most two edges, and so it has a source.
+
+Notation:
+- st(i): 0 for the Phase-I winners W, k for i ∈ N_k, ∞ for the agents left in N^r;
+- r_i(k): i's k-th ranked good;
+- for i ∈ W ∪ N₁: a_i = r_i(1) and L_i = R_i ∖ {a_i}, so |L_i| ≤ 3;
+- S = N₁ ∪ N₂ʳ ∪ W.
+
+**Fact 0.** For ordinary EFX only X_j ∩ R_i matters: i EFX-envies B iff |B ∩ R_i| ≥ 2 and
+v_i(B ∩ R_i) − min_{h ∈ B ∩ R_i} v_i(h) > v_i(X_i).
+
+*Proof.* Removing a good h with v_i(h) > 0 leaves v_i(B ∩ R_i) − v_i(h). The worst case is the least such h. If
+B ∩ R_i is a single good, its removal leaves 0. ∎
+
+**Lemma S′ (saturation in Phase III).** After step (a) every N₃ agent's r(4) is assigned. After (b) every N₂ agent's
+r(3) is assigned. After (c) every agent of N₂ ∖ N₂ʳ has its r(4) assigned. The proof is the one of Lemma S (§2.1): a
+maximum matching in G_k gives every claimed good to some claimant.
+
+*Step 1 (Phase II).* All bundles have at most one good, so the allocation is EFX by Fact 0.
+
+*Step 2 (Phase III keeps EFX).* In each of (a), (b), (c), a bundle {y_s} with y_s = r_s(st(s)) becomes {y_s, g}, where
+g = r_s(3) or r_s(4) was unassigned. By Fact 0, an agent i ≠ s EFX-envies {y_s, g} only if it values both goods and
+max(v_i(y_s), v_i(g)) > v_i(X_i). That never happens:
+- *i ∈ W ∪ N₁.* v_i(X_i) ≥ v_i(a_i), which is at least every single good.
+- *i ∈ N₄ ∪ N^r.* By Lemma S all of R_i was assigned after Phase II, and g was not.
+- *i ∈ N₃.* By Lemma S, r_i(1) and r_i(2) are held by agents with st ≤ 2.
+  - In (a), y_s is held by s, and st(s) = 3, so y_s ∉ {r_i(1), r_i(2)}. Also y_s ≠ r_i(3), which i holds. Hence a
+    valued y_s is r_i(4). Likewise a valued g (unassigned) is r_i(4). They cannot both be, since y_s ≠ g.
+  - In (b) and (c), r_i(4) is already assigned (S′), so i does not value g at all.
+- *i ∈ N₂.* r_i(1) is held by an agent with st ≤ 1. y_s is held by s with st(s) ≥ 2, so y_s ≠ r_i(1), and y_s ≠ r_i(2)
+  since i holds that. Also g ∉ {r_i(1), r_i(2)}, because both are assigned. So both goods lie in {r_i(3), r_i(4)}, and
+  max(v_i(y_s), v_i(g)) ≤ v_i(r_i(3)) ≤ v_i(r_i(2)) ≤ v_i(X_i).
+
+Every other bundle is unchanged, and the receivers' values only rise.
+
+*Step 3 (the abstract's claim, "the only agents that may have valued objects not yet assigned are in N_1 and
+N_2^r").* After Phase III every agent valuing an unassigned good is in S. Go through the other groups:
+- N₄ ∪ N^r: by Lemma S, all their goods are assigned.
+- N₃: r(1) and r(2) are assigned, r(3) is held, and r(4) is assigned by S′.
+- N₂ ∖ N₂ʳ: r(1) is assigned, r(2) is held, and r(3) and r(4) are assigned by S′.
+- Unmatched A-agents entered Phase II, so they lie in one of these groups.
+
+The set of unassigned goods only shrinks afterwards, so the claim persists through the EFX-graph steps.
+
+*Step 4 (bundles in S).* A good placed by an EFX-graph step goes to a node, that is, to a valuer. Before those steps:
+- an agent of W ∪ N₁ holds {a_i};
+- an agent of N₂ʳ holds {r_i(2), r_i(3)}.
+
+So X_i ⊆ R_i for every i ∈ S throughout.
+
+*Step 5 (out-edges).* Fix j, and let B = X_{i′} ∪ {j} for a node i′ ≠ i.
+- **(i) W has no out-edges.** Take i ∈ W. Then a_i ∈ X_i, so a_i ∉ B, and B ∩ R_i ⊆ L_i. For T ⊆ L_i,
+  v_i(T) − min_T ≤ v_i(r_i(2)) + v_i(r_i(3)) < v_i(a_i) ≤ v_i(X_i), since i ∈ A.
+- **(ii) N₁ out-edges.** If i ∈ N₁ has an edge i → i′, then |R_i| = 4, X_i = {a_i}, and B ⊇ L_i, so |X_{i′}| ≥ 2.
+  Indeed, T = B ∩ R_i ⊆ R_i ∖ X_i ⊆ L_i. If |T| ≤ 2, then v_i(T) − min_T is at most one good's value, which is at
+  most v_i(a_i) ≤ v_i(X_i). So T = L_i has three goods and X_i ∩ L_i = ∅. Since j ∈ T, the other two goods of T lie in
+  X_{i′}.
+- **(iii) An N₁ agent with at least two goods has no out-edge.** This follows from (ii).
+- **(iv) N₂ʳ out-edges go to W.** Let i ∈ N₂ʳ have an edge i → i′. Then T = B ∩ R_i ⊆ R_i ∖ X_i ⊆ {r_i(1), r_i(4)}.
+  EFX-envy needs T = {r_i(1), r_i(4)} and v_i(r_i(1)) > v_i(X_i) ≥ v_i(r_i(2)) + v_i(r_i(3)), so i ∈ A. Being in N₂,
+  i lost r_i(1) in Phase I to another agent of A, which belongs to W. Since r_i(1) ≠ j (it is assigned),
+  r_i(1) ∈ X_{i′}, so i′ is that agent of W.
+
+Now follow a directed path from each kind of start:
+- from W: it stops at once, by (i);
+- from N₁: it goes to an agent holding at least two goods, which is in N₁ (stop, by (iii)), in W (stop), or in N₂ʳ;
+- from N₂ʳ: it goes to W and stops.
+
+So every path has at most two edges, and there is no cycle. The node set is nonempty: j is valued by someone, hence
+by an agent of S (Step 3). A finite acyclic digraph with at least one node has a source.
+
+*Step 6 (adding j to a source keeps EFX).* Let s be a source.
+- Every valuer of j is a node (Step 3), and none of them EFX-envies X_s ∪ {j}, since s has no in-edge.
+- For a non-valuer i, (X_s ∪ {j}) ∩ R_i = X_s ∩ R_i, so by Fact 0 nothing changes for i.
+- The other bundles are unchanged, and s gains.
+
+*Step 7 (junk).* A good valued by nobody changes no X_j ∩ R_i, so by Fact 0 giving it to anyone keeps EFX. ∎
+
+**Remarks.**
+- The bound "two edges" is attained (`results/k4_vm/vm_thm_check_*.log`).
+- `k4/vm/vm_thm_check.py` re-runs the phases and asserts Steps 2, 3, 4 and 5 on every run. No assertion failed on the
+  screen set (10,222 runs), on 5,000 general instances (120,551 runs) or on 5,000 general instances with ties
+  (122,378 runs).
+- The proof also shows **exactly where EFX₀ breaks**: Fact 0 has no analogue for EFX₀. In Step 2 the non-valuers are
+  dismissed because they "do not value g", and in Step 6 because "nothing changes for i". Under EFX₀ these are the
+  agents that envy {y_s} or X_s and see a good worthless to them added (§5.1).
+- Both conventions that differ from the literal text are needed:
+  - aout = matched: otherwise the n = 2 failure of §4.2;
+  - n1a = Y: otherwise the goods valued only by W have no node.

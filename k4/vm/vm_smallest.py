@@ -18,7 +18,7 @@ def one(it):
         if not isinstance(res, V.Stuck) and completable(E, res[0]):
             ext = True; break
     anyz = any(not isinstance(r, V.Stuck) and V.is_efx0(I, r[0]) for ch, r in V.all_runs(V.vm_run, I, limit=3000))
-    lit = any(not isinstance(r, V.Stuck) and not V.is_efx(I, r[0]) for ch, r in V.all_runs(V.vm_run, I, limit=3000, aout='all'))
+    lit = False if os.environ.get('NOLIT') else any(not isinstance(r, V.Stuck) and not V.is_efx(I, r[0]) for ch, r in V.all_runs(V.vm_run, I, limit=3000, aout='all'))
     size = (I.n, I.m, sum(len(s) for s in sets))
     return name, sets, vals, m, size, (not ext), (ext and not anyz), lit
 

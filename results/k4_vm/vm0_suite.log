@@ -1,1 +1,1 @@
-$ python3 k4/vm/vm0_test.py suite --variants=f2,f2rot
+$ python3 k4/vm/vm0_test.py suite --variants=f2,f2rot --limit=150 --samples=30

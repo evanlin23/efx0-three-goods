@@ -123,7 +123,7 @@ def random_cores(key, N, seed):
     return out
 
 
-def random_general(N, seed, nmin=2, nmax=6, mmax=10, vmax=20, ties=False):
+def random_general(N, seed, nmin=2, nmax=6, mmax=10, vmax=20, ties=False, kmax=4):
     """general 4-limited instances: each agent values 1..4 random goods with random integer values in 1..vmax
     (distinct within an agent unless ties), some goods valued by nobody"""
     rng = random.Random(seed); out = []
@@ -131,7 +131,7 @@ def random_general(N, seed, nmin=2, nmax=6, mmax=10, vmax=20, ties=False):
         n = rng.randint(nmin, nmax); m = rng.randint(n, mmax)
         sets = []; vals = []
         for i in range(n):
-            k = rng.choice([1, 2, 3, 4, 4, 4, 3, 3])
+            k = min(kmax, rng.choice([1, 2, 3, 4, 4, 4, 3, 3]))
             S = rng.sample(range(m), min(k, m))
             V = [rng.randint(1, vmax) for _ in S] if ties else rng.sample(range(1, vmax + 1), len(S))
             sets.append(S); vals.append(V)

@@ -45,3 +45,26 @@ Reproduce:
 What survives: SD-C (K4.SDC) does not claim that every order works. This instance has other SD orders whose picks
 extend, e.g. agents 1 and 2 first. So the repair must change the order or let agents take upper sets (`k4/vm.md` §6,
 F4).
+
+## The same at k = 3 (n = 3, m = 5)
+
+V-M's matching is not a sound base even when every agent values at most three goods, the case where TARGET is proved
+(LB⁺). On random general 3-limited instances, 7 of 4,000 with n ≤ 6, m ≤ 10 have no extending V-M matching
+(`results/k4_vm/vm0_gen3lim.log`), and 50 of 20,000 with n ≤ 4, m ≤ 7 (`vm_smallest_gen3lim.log`). The smallest has
+n = 3, m = 5; good 1 is valued by nobody.
+
+| agent | ranking (good: value) |
+|---|---|
+| 0 | 2: 10 > 0: 5 > 3: 2 (top-heavy: 10 > 7) |
+| 1 | 0: 15 > 3: 12 > 4: 11 |
+| 2 | 2: 20 > 0: 11 > 3: 8 (top-heavy: 20 > 19) |
+
+V-M, step by step:
+- Phase I gives good 2 to agent 0 or agent 2.
+- Phase II step 1 gives agent 1 its top, good 0.
+- The losing top-heavy agent finds its 2nd choice (0) gone and takes its 3rd (3).
+
+The four EFX₀ allocations are ({0,1}, {3,4}, {2}), ({0}, {1,3,4}, {2}), ({2}, {1,3,4}, {0}) and ({2}, {3,4}, {0,1}).
+In none of them does agent 1 hold good 0. It takes the upper set {3, 4} (23 > 15), and the losing top-heavy agent
+gets good 0. That is LB⁺'s upgrade situation, which V-M's rank-greedy matching cannot express. VMˣ with free choices
+(F6x) gets the upgrade and succeeds on all 4,000 (`vm6_gen3lim.log`).

@@ -1,1 +1,12 @@
 $ python3 k4/vm/vm0_test.py gen:10000:15:6:10:4:ties --variants=f2,f2rot
+S1 passes (some V-M matching extends)              9980
+f2: S1 fails, some run EFX0                        5
+f2: S1 passes, no run EFX0                         0
+f2: every run EFX0                                 9477
+f2: some run EFX0                                  9985
+f2rot: S1 fails, some run EFX0                     18
+f2rot: S1 passes, no run EFX0                      0
+f2rot: every run EFX0                              9493
+f2rot: some run EFX0                               9998
+instances                                          10000
+time 442 s

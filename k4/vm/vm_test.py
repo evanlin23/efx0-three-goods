@@ -3,7 +3,7 @@ choice points (DFS up to --limit runs per instance and reading, then --samples r
 against ordinary EFX and EFX0 (raw definitions).  EVIDENCE only.
 
     python3 k4/vm/vm_test.py SOURCE [--limit=N] [--samples=N] [--readings=all|main] [--show=K] [--jobs=J]
-SOURCE: screen | suite | special | logs | cores:K:N:SEED (K = 3..6 agents) | gen:N:SEED[:nmax:mmax:vmax[:ties]]
+SOURCE: screen | suite | special | logs | cores:K:N:SEED (K = 3..6 agents) | gen:N:SEED[:nmax:mmax:vmax[:ties|noties[:kmax]]]
 """
 import sys, os, json, collections, random, time, zlib, multiprocessing as mp
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -90,6 +90,7 @@ def items_for(src):
         if len(p) > 4: kw['mmax'] = int(p[4])
         if len(p) > 5: kw['vmax'] = int(p[5])
         if len(p) > 6: kw['ties'] = p[6] == 'ties'
+        if len(p) > 7: kw['kmax'] = int(p[7])
         return data.random_general(int(p[1]), int(p[2]), **kw)
     raise SystemExit('unknown source ' + src)
 

@@ -1,0 +1,9 @@
+$ python3 k4/vm/vm6_test.py gen:4000:71:6:10:20:noties:3 --variants=x-choice --limit=500 --samples=50
+instances                            4000
+x-choice: every run EFX0             3936
+x-choice: first run (all choices 0) EFX0 4000
+x-choice: runs                       372744
+x-choice: runs EFX0                  372497
+x-choice: some run EFX0              4000
+  stuck kind ('x-choice', 'no_safe') 247
+time 77 s
