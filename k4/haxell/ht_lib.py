@@ -285,6 +285,27 @@ def instances(src):
     if src in ('ext', 'ttc', 'bcore', 'pwgrid'):
         import ext_instances as X
         return {'ext': X.named, 'ttc': X.ttc, 'bcore': X.bcore, 'pwgrid': X.pw_grid}[src]()
+    if src.startswith('genskew:'):
+        # genskew:N:SEED:n:m:k  random instances shaped like the W counterexample: one or two 'big' goods valued by
+        # several agents far above the rest (values 30..90), every other value 1..15
+        _, N, seed, n, m, k = src.split(':')
+        N, n, m, k = int(N), int(n), int(m), int(k)
+        if n * min(k, m) < m:
+            raise ValueError('genskew: n agents with k goods each cannot cover m goods')
+        rng = random.Random(int(seed)); items = []
+        while len(items) < N:
+            big = rng.sample(range(m), rng.choice([1, 1, 2]))
+            sets = []
+            for _ in range(n):
+                s0 = set(rng.sample(big, rng.randint(1, len(big))) if rng.random() < 0.8 else [])
+                rest = [g for g in range(m) if g not in s0]
+                s0 |= set(rng.sample(rest, min(k, m) - len(s0)))
+                sets.append(sorted(s0))
+            if len(set().union(*map(set, sets))) < m:
+                continue
+            vals = [[rng.randint(30, 90) if g in big else rng.randint(1, 15) for g in st] for st in sets]
+            items.append(('s%d' % len(items), sets, vals, m))
+        return items
     if src.startswith('gent:'):
         # gent:N:SEED:n:m:k:VMAX  random instances with values drawn with replacement from 1..VMAX (ties allowed)
         _, N, seed, n, m, k, vmax = src.split(':')

@@ -552,6 +552,17 @@ k − 1. That is a place where k really enters. Two repaired forms:
   W's moves, so it holds wherever W held. It repairs W4 and W5, and on the n = 2 grid with k ≤ 4 see
   `n2w_grid_k4_sub.log`.
 
+*Skewed random instances* (`genskew`, one or two goods valued 30–90 by several agents, the rest 1–15: the shape of
+the counterexample; `measure_*genskew*.log`, welfare / leximin stuck states):
+| data | partial EFX₀ states | W | W₃ | W^sub |
+|---|---|---|---|---|
+| n = 2, m = 7, k = 4 (3,000 instances) | 1,422,857 | 1,264 / 1,264 | 0 / 0 | 0 / 0 |
+| n = 3, m = 7, k = 4 (3,000) | 2,842,370 | 0 / 0 | | |
+| n = 3, m = 8, k = 4 (1,500) | 3,853,984 | **188 / 168** | 0 / 0 | 0 / 0 |
+| n = 4, m = 7, k = 4 (300) | 824,660 | 0 / 0 | | |
+
+So W fails at n = 3 as well, and both repaired forms survive wherever it fails.
+
 The rest of this paragraph and the evidence above apply to both forms.
 
 *Consequences.* (|pool|, −welfare) strictly decreases and takes finitely many values. So from the empty allocation a

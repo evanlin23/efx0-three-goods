@@ -2,7 +2,7 @@
 with a nonempty pool from which no step of at most two local moves lowers (|pool|, phi).
 
     cc -O2 -o k4/haxell/gstar_measure k4/haxell/gstar_measure.c
-    python3 k4/haxell/gstar_measure_run.py SRC [NMAX=4] [MMAX=7] [MAXSTATES=400000] [RADIUS=2|3] [ROT=0|1]"""
+    python3 k4/haxell/gstar_measure_run.py SRC [NMAX=4] [MMAX=7] [MAXSTATES=400000] [RADIUS=2|3] [ROT=0|1] [ONLY=-1] [SUB=0|1]"""
 import sys, os, subprocess, collections, json, time
 import multiprocessing as mpc
 from ht_lib import Inst, instances, bundles
@@ -11,11 +11,13 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 NPHI = 19
 RADIUS = '2'
 ROT = '0'
+ONLY = '-1'
+SUB = '0'
 
 
 def run(item):
     name, sets, vals, m = item
-    out = subprocess.run([os.path.join(HERE, 'gstar_measure'), RADIUS, ROT], input=line(sets, vals, m) + '\n',
+    out = subprocess.run([os.path.join(HERE, 'gstar_measure'), RADIUS, ROT, ONLY, SUB], input=line(sets, vals, m) + '\n',
                          capture_output=True, text=True).stdout.split()
     d = {out[2 * K + 4]: int(out[2 * K + 5]) for K in range(NPHI)}
     ex = None
@@ -29,7 +31,7 @@ if __name__ == '__main__':
     args = dict(a.split('=') for a in sys.argv[2:] if '=' in a)
     src = sys.argv[1]; nmax = int(args.get('NMAX', '4')); mmax = int(args.get('MMAX', '7'))
     maxst = int(args.get('MAXSTATES', '400000'))
-    RADIUS = args.get('RADIUS', '2'); ROT = args.get('ROT', '0')
+    RADIUS = args.get('RADIUS', '2'); ROT = args.get('ROT', '0'); ONLY = args.get('ONLY', '-1'); SUB = args.get('SUB', '0')
     print('$ python3 k4/haxell/gstar_measure_run.py', *sys.argv[1:], flush=True)
     t0 = time.time(); C = collections.Counter(); W = collections.Counter(); exs = {}
     items = [it for it in instances(src) if len(it[1]) <= nmax and it[3] <= mmax and (len(it[1]) + 1) ** it[3] <= maxst]
